@@ -162,7 +162,7 @@ register_vb_function (Workbook         *opt_workbook,
 
 	/* FIXME: we need per workbook names */
 	fndef = function_add_nodes (cat, name, "", NULL, NULL,
-				    generic_marshaller);
+				    generic_marshaller, NULL);
 	function_def_set_user_data (fndef, wd);
 }
 
