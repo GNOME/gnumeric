@@ -316,8 +316,16 @@ close_cmd (GtkWidget *widget, Workbook *wb)
 {
 	if (workbook_can_close (wb))
 		workbook_destroy (wb);
-		
-		
+}
+
+static int
+workbook_delete_event (GtkWidget *widget, GdkEvent *event, Workbook *wb)
+{
+	if (workbook_can_close (wb)){
+		workbook_destroy (wb);
+		return TRUE;
+	} else
+		return FALSE;
 }
 
 static void
@@ -1093,7 +1101,7 @@ workbook_new (void)
 	/* delete_event */
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "delete_event",
-		GTK_SIGNAL_FUNC (workbook_can_close), wb);
+		GTK_SIGNAL_FUNC (workbook_delete_event), wb);
 	
 	/* Set the default operation to be performed over selections */
 	workbook_set_auto_expr (wb, "SUM", "SUM(SELECTION())");
