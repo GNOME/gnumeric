@@ -299,20 +299,27 @@ parse_string_as_value (ExprTree *str)
 	return FALSE;
 }
 
+/**
+ * parse_string_as_value_or_name :
+ * @str : An expression with oper constant, whose value is a string.
+ *
+ * Check to see if a string is a name
+ * if it is not check to see if it can be parsed as a value
+ */
 static ExprTree *
 parse_string_as_value_or_name (ExprTree *str)
 {
 	NamedExpression *expr_name;
 
-	if (parse_string_as_value (str));
-		return str;
-
 	expr_name = expr_name_lookup (parser_pos, str->constant.value->v_str.val->str);
-	if (expr_name == NULL)
-		return str;
+	if (expr_name != NULL) {
+		unregister_allocation (str); expr_tree_unref (str);
+		return register_expr_allocation (expr_tree_new_name (expr_name));
+	}
 
-	unregister_allocation (str); expr_tree_unref (str);
-	return register_expr_allocation (expr_tree_new_name (expr_name));
+	/* NOTE : parse_string_as_value modifies str in place */
+	parse_string_as_value (str);
+	return str;
 }
 
 static int

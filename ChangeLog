@@ -1,5 +1,13 @@
 2000-07-26  Jody Goldberg <jgoldberg@home.com>
 
+	* src/parser.y (parse_string_as_value_or_name) : Check for names
+	  before values.
+
+	* configure.in : Update bonobo requirement to reflect release of 0.16
+	README : Ditto.
+
+2000-07-26  Jody Goldberg <jgoldberg@home.com>
+
 	* src/print-cell.c (print_cell) : resync with cell-draw.
 
 2000-07-25  Jody Goldberg <jgoldberg@home.com>

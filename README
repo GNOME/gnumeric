@@ -38,7 +38,7 @@ You need:
 	NOTE : gnome-xml is also known as libxml
 
 Optionally:
-	bonobo == 0.16 (Still in CVS)
+	bonobo == 0.16
 
 Notes regarding plugins
 -----------------------
