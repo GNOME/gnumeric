@@ -164,7 +164,7 @@ msgstr "Hеможливо знайти об'╓кт коду Python"
 
 #: plugins/python/python.c:254
 msgid "object must be callable"
-msgstr ""
+msgstr "об'╓кт мусить викликатися"
 
 #: plugins/python/python.c:258
 msgid "Python"
@@ -433,7 +433,7 @@ msgstr "Встановлення висоти стовпчика %s"
 
 #: src/corba-args.c:33
 msgid "Could not initialize the Gnumeric Workbook factory"
-msgstr ""
+msgstr "Неможливо ╕н╕ц╕ал╕зувати Gnumeric Workbook factory"
 
 #: src/dates.c:14
 msgid "*Sun"
@@ -600,17 +600,17 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:78
 #: src/dialogs/dialog-analysis-tools.c:464
 msgid "Correlation"
-msgstr ""
+msgstr "Кореляц╕я"
 
 #: src/dialogs/dialog-analysis-tools.c:80
 #: src/dialogs/dialog-analysis-tools.c:545
 msgid "Covariance"
-msgstr ""
+msgstr "Ковариц╕я"
 
 #: src/dialogs/dialog-analysis-tools.c:82
 #: src/dialogs/dialog-analysis-tools.c:733
 msgid "Descriptive Statistics"
-msgstr ""
+msgstr "Описова статистика"
 
 #: src/dialogs/dialog-analysis-tools.c:84
 #: src/dialogs/dialog-analysis-tools.c:1260
@@ -625,7 +625,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:88
 #: src/dialogs/dialog-analysis-tools.c:1405
 msgid "Random Number Generation"
-msgstr ""
+msgstr "Генерац╕я випадкових чисел"
 
 #: src/dialogs/dialog-analysis-tools.c:90
 #: src/dialogs/dialog-analysis-tools.c:1814
@@ -638,7 +638,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:92
 #: src/dialogs/dialog-analysis-tools.c:1602
 msgid "Regression"
-msgstr ""
+msgstr "Регрес╕я"
 
 #: src/dialogs/dialog-analysis-tools.c:94
 #: src/dialogs/dialog-analysis-tools.c:622
@@ -669,20 +669,20 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1374
 #: src/dialogs/dialog-analysis-tools.c:1553
 msgid "Discrete"
-msgstr ""
+msgstr "Дискретне"
 
 #: src/dialogs/dialog-analysis-tools.c:110
 #: src/dialogs/dialog-analysis-tools.c:1371
 #: src/dialogs/dialog-analysis-tools.c:1543
 #: src/widgets/widget-font-selector.c:125
 msgid "Normal"
-msgstr ""
+msgstr "Нормальне"
 
 #: src/dialogs/dialog-analysis-tools.c:111
 #: src/dialogs/dialog-analysis-tools.c:1368
 #: src/dialogs/dialog-analysis-tools.c:1549
 msgid "Bernoulli"
-msgstr ""
+msgstr "Бернул╕"
 
 #: src/dialogs/dialog-analysis-tools.c:112
 #: src/dialogs/dialog-analysis-tools.c:1365
@@ -704,7 +704,7 @@ msgstr "0.95"
 
 #: src/dialogs/dialog-analysis-tools.c:163
 msgid "Kth Largest:"
-msgstr ""
+msgstr "К-те найб╕льше:"
 
 #: src/dialogs/dialog-analysis-tools.c:164
 #: src/dialogs/dialog-analysis-tools.c:166
@@ -713,15 +713,15 @@ msgstr "1"
 
 #: src/dialogs/dialog-analysis-tools.c:165
 msgid "Kth Smallest:"
-msgstr ""
+msgstr "К-те найменше:"
 
 #: src/dialogs/dialog-analysis-tools.c:171
 msgid "Labels in First Row"
-msgstr ""
+msgstr "Познички в першому рядку"
 
 #: src/dialogs/dialog-analysis-tools.c:177
 msgid "Labels"
-msgstr ""
+msgstr "Позначки"
 
 #: src/dialogs/dialog-analysis-tools.c:183
 msgid "Force Intercept to Be Zero"
@@ -741,11 +741,11 @@ msgstr "Рядки"
 
 #: src/dialogs/dialog-analysis-tools.c:278
 msgid "Periodic"
-msgstr ""
+msgstr "Пер╕одично"
 
 #: src/dialogs/dialog-analysis-tools.c:279
 msgid "Random"
-msgstr ""
+msgstr "Випадково"
 
 #: src/dialogs/dialog-analysis-tools.c:368
 msgid "You should introduce a valid cell range in 'Into a Range:'"
@@ -811,7 +811,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:646
 msgid "Period:"
-msgstr ""
+msgstr "Пер╕од:"
 
 #: src/dialogs/dialog-analysis-tools.c:649
 msgid "Number of Samples:"
@@ -856,7 +856,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1911
 #: src/dialogs/dialog-analysis-tools.c:1998
 msgid "Alpha:"
-msgstr ""
+msgstr "Альфа:"
 
 #: src/dialogs/dialog-analysis-tools.c:886
 #: src/dialogs/dialog-analysis-tools.c:997
@@ -882,7 +882,7 @@ msgstr "К╕льк╕сть зм╕нних:"
 
 #: src/dialogs/dialog-analysis-tools.c:1419
 msgid "Number of Random Numbers:"
-msgstr ""
+msgstr "К╕льк╕сть випадкових чисел:"
 
 #: src/dialogs/dialog-analysis-tools.c:1430
 msgid "Parameters:"
@@ -894,11 +894,11 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1448
 msgid "Between:"
-msgstr ""
+msgstr "М╕ж:"
 
 #: src/dialogs/dialog-analysis-tools.c:1451
 msgid "And:"
-msgstr ""
+msgstr "Та:"
 
 #: src/dialogs/dialog-analysis-tools.c:1456
 msgid "Mean = "
@@ -910,7 +910,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1462
 msgid "Lambda"
-msgstr ""
+msgstr "Лямбда"
 
 #: src/dialogs/dialog-analysis-tools.c:1466
 msgid "p Value"
@@ -962,11 +962,11 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2073
 msgid "Data Analysis"
-msgstr ""
+msgstr "Анал╕з даних"
 
 #: src/dialogs/dialog-analysis-tools.c:2081
 msgid "Analysis Tools"
-msgstr ""
+msgstr "Засоби анал╕зу"
 
 #: src/dialogs/dialog-cell-comment.c:25
 msgid "Cell comment"
@@ -990,11 +990,11 @@ msgstr "Формат ком╕рки"
 
 #: src/dialogs/dialog-cell-sort.c:138
 msgid "Ascending"
-msgstr ""
+msgstr "Зростаючий"
 
 #: src/dialogs/dialog-cell-sort.c:141
 msgid "Descending"
-msgstr ""
+msgstr "Спадаючий"
 
 #: src/dialogs/dialog-cell-sort.c:454
 msgid "At least one clause is required."
@@ -1010,7 +1010,7 @@ msgstr ""
 
 #: src/dialogs/dialog-cell-sort.c:595
 msgid "sort"
-msgstr ""
+msgstr "сортувати"
 
 #: src/dialogs/dialog-cell-sort.c:655
 msgid "then by"
@@ -1018,7 +1018,7 @@ msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:655
 msgid "Sort by"
-msgstr ""
+msgstr "Сортувати за"
 
 #: src/dialogs/dialog-cell-sort.c:690
 msgid "Column must be within range"
@@ -1038,7 +1038,7 @@ msgstr ""
 
 #: src/dialogs/dialog-delete-cells.c:85
 msgid "delete cells"
-msgstr ""
+msgstr "видалити ком╕рки"
 
 #: src/dialogs/dialog-function-select.c:188
 msgid "Formula Selection"
@@ -1088,17 +1088,17 @@ msgstr ""
 #: src/dialogs/dialog-goal-seek.c:204
 #, c-format
 msgid "Target value:   %12.2f"
-msgstr ""
+msgstr "Ц╕льове значення:  %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:207
 #, c-format
 msgid "Current value:  %12.2f"
-msgstr ""
+msgstr "Поточне значення:  %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:210
 #, c-format
 msgid "Solution:       %12.2f"
-msgstr ""
+msgstr "Р╕шення:       %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:213
 msgid "Goal Seek Report"
@@ -1162,11 +1162,11 @@ msgstr ""
 
 #: src/dialogs/dialog-insert-cells.c:85
 msgid "insert cells"
-msgstr ""
+msgstr "ставити ком╕рки"
 
 #: src/dialogs/dialog-paste-special.c:20 src/dialogs/dialog-solver.c:35
 msgid "All"
-msgstr ""
+msgstr "Вс╕"
 
 #: src/dialogs/dialog-paste-special.c:21 src/dialogs/dialog-solver.c:36
 msgid "Formulas"
@@ -1184,7 +1184,7 @@ msgstr "Формати"
 #: src/dialogs/cell-format.glade.h:77 src/dialogs/dialog-paste-special.c:28
 #: src/widgets/widget-color-combo.c:128
 msgid "None"
-msgstr ""
+msgstr "Нема╓"
 
 #: src/dialogs/dialog-paste-special.c:29
 msgid "Add "
@@ -1208,27 +1208,27 @@ msgstr ""
 
 #: src/dialogs/dialog-paste-special.c:69
 msgid "Paste type"
-msgstr ""
+msgstr "Вставити тип"
 
 #: src/dialogs/dialog-paste-special.c:73
 msgid "Operation"
-msgstr ""
+msgstr "Операц╕я"
 
 #: src/dialogs/dialog-paste-special.c:105
 msgid "Transpose"
-msgstr ""
+msgstr "Перем╕стити"
 
 #: src/dialogs/dialog-printer.c:70
 msgid "active sheet"
-msgstr ""
+msgstr "активний аркуш"
 
 #: src/dialogs/dialog-printer.c:82
 msgid "all sheets"
-msgstr ""
+msgstr "вс╕ аркуш╕"
 
 #: src/dialogs/dialog-printer.c:94
 msgid "selection"
-msgstr ""
+msgstr "виб╕р"
 
 #: src/dialogs/dialog-printer.c:129
 msgid "Select Printer"
@@ -1260,7 +1260,7 @@ msgstr ""
 
 #: src/dialogs/dialog-solver.c:50
 msgid "Tangent"
-msgstr ""
+msgstr "Тангенс"
 
 #: src/dialogs/dialog-solver.c:51
 msgid "Quadratic"
@@ -1527,7 +1527,7 @@ msgstr ""
 
 #: src/dialogs/print.glade.h:24
 msgid "He_ader:"
-msgstr ""
+msgstr "Заголовок:"
 
 #: src/dialogs/print.glade.h:25
 msgid "_Bottom:"
@@ -1535,7 +1535,7 @@ msgstr ""
 
 #: src/dialogs/print.glade.h:26
 msgid "_Footer"
-msgstr ""
+msgstr "Зноска"
 
 #: src/dialogs/print.glade.h:27
 msgid "Center on page"
@@ -1563,7 +1563,7 @@ msgstr "Розм╕р паперу:"
 
 #: src/dialogs/print.glade.h:36
 msgid "Margins"
-msgstr ""
+msgstr "В╕дступи"
 
 #: src/dialogs/print.glade.h:37 src/dialogs/print.glade.h:42
 msgid "sample goes here"
@@ -1571,23 +1571,23 @@ msgstr ""
 
 #: src/dialogs/print.glade.h:38
 msgid "Header"
-msgstr ""
+msgstr "Заголовок"
 
 #: src/dialogs/print.glade.h:39
 msgid "Customize _header"
-msgstr ""
+msgstr "Налагодити заголовок"
 
 #: src/dialogs/print.glade.h:40
 msgid "Customize _footer"
-msgstr ""
+msgstr "Налагодити зноску"
 
 #: src/dialogs/print.glade.h:41
 msgid "Footer:"
-msgstr ""
+msgstr "Зноска:"
 
 #: src/dialogs/print.glade.h:46
 msgid "Headers and footers"
-msgstr ""
+msgstr "Заголовки та зноски"
 
 #: src/dialogs/print.glade.h:47
 msgid "Print _area:"
@@ -1619,11 +1619,11 @@ msgstr "Коментар╕"
 
 #: src/dialogs/print.glade.h:54
 msgid "_Grid lines"
-msgstr ""
+msgstr "Л╕н╕╖ с╕тки"
 
 #: src/dialogs/print.glade.h:55
 msgid "_Black and white"
-msgstr ""
+msgstr "Чорне ╕ б╕ле"
 
 #: src/dialogs/print.glade.h:56
 msgid "Page order"
@@ -1695,7 +1695,7 @@ msgstr "Ключов╕ слова"
 
 #: src/dialogs/summary.glade.h:11
 msgid "Manager"
-msgstr ""
+msgstr "Менеджер"
 
 #: src/dialogs/summary.glade.h:12
 msgid "Document Summary Information\n"
