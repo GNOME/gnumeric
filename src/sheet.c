@@ -3653,6 +3653,17 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 	return FALSE;
 }
 
+/**
+ * sheet_move_range :
+ * @wbc :
+ * @rinfo :
+ * @reloc_storage : optionally NULL.
+ *
+ * Move a range as specified in @rinfo report warnings to @wbc.
+ * if @reloc_storage is non NULL, invalidate references to the
+ * target region that are being cleared, and store the undo information
+ * in @reloc_storage.  If it is NULL do NOT INVALIDATE.
+ **/
 void
 sheet_move_range (WorkbookControl *wbc,
 		  ExprRelocateInfo const *rinfo,
@@ -3679,49 +3690,51 @@ sheet_move_range (WorkbookControl *wbc,
 	 * to from the src range are adjusted because they will point into
 	 * the destinatin.
 	 */
-	*reloc_storage = NULL;
-	if (!out_of_range) {
-		GSList *invalid;
-		ExprRelocateInfo reloc_info;
+	if (reloc_storage != NULL) {
+		*reloc_storage = NULL;
+		if (!out_of_range) {
+			GSList *invalid;
+			ExprRelocateInfo reloc_info;
 
-		/*
-		 * We need to be careful about invalidating references to the old
-		 * content of the destination region.  We only invalidate references
-		 * to regions that are actually lost.  However, this care is
-		 * only necessary if the source and target sheets are the same.
-		 *
-		 * Handle dst cells being pasted over
-		 */
-		if (rinfo->origin_sheet == rinfo->target_sheet &&
-		    range_overlap (&rinfo->origin, &dst))
-			invalid = range_split_ranges (&rinfo->origin, &dst);
-		else
-			invalid = g_slist_append (NULL, range_dup (&dst));
+			/*
+			 * We need to be careful about invalidating references to the old
+			 * content of the destination region.  We only invalidate references
+			 * to regions that are actually lost.  However, this care is
+			 * only necessary if the source and target sheets are the same.
+			 *
+			 * Handle dst cells being pasted over
+			 */
+			if (rinfo->origin_sheet == rinfo->target_sheet &&
+			    range_overlap (&rinfo->origin, &dst))
+				invalid = range_split_ranges (&rinfo->origin, &dst);
+			else
+				invalid = g_slist_append (NULL, range_dup (&dst));
 
-		reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;;
-		reloc_info.col_offset = SHEET_MAX_COLS; /* send to infinity */
-		reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
+			reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;;
+			reloc_info.col_offset = SHEET_MAX_COLS; /* send to infinity */
+			reloc_info.row_offset = SHEET_MAX_ROWS; /*   to force invalidation */
 
-		while (invalid) {
-			Range *r = invalid->data;
-			invalid = g_slist_remove (invalid, r);
-			if (!range_overlap (r, &rinfo->origin)) {
-				reloc_info.origin = *r;
-				*reloc_storage = g_slist_concat (*reloc_storage,
-					workbook_expr_relocate (rinfo->target_sheet->workbook, &reloc_info));
+			while (invalid) {
+				Range *r = invalid->data;
+				invalid = g_slist_remove (invalid, r);
+				if (!range_overlap (r, &rinfo->origin)) {
+					reloc_info.origin = *r;
+					*reloc_storage = g_slist_concat (*reloc_storage,
+						workbook_expr_relocate (rinfo->target_sheet->workbook, &reloc_info));
+				}
+				g_free (r);
 			}
-			g_free (r);
+
+			/*
+			 * DO NOT handle src cells moving out the bounds.
+			 * that is handled elsewhere.
+			 */
 		}
 
-		/*
-		 * DO NOT handle src cells moving out the bounds.
-		 * that is handled elsewhere.
-		 */
+		/* 2. Fix references to and from the cells which are moving */
+		*reloc_storage = g_slist_concat (*reloc_storage,
+			workbook_expr_relocate (rinfo->origin_sheet->workbook, rinfo));
 	}
-
-	/* 2. Fix references to and from the cells which are moving */
-	*reloc_storage = g_slist_concat (*reloc_storage,
-		workbook_expr_relocate (rinfo->origin_sheet->workbook, rinfo));
 
 	/* 3. Collect the cells */
 	sheet_foreach_cell_in_range (rinfo->origin_sheet, TRUE,

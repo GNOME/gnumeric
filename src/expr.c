@@ -1168,12 +1168,9 @@ expr_tree_as_string (ExprTree const *expr, ParsePos const *pp)
 
 typedef enum {
 	CELLREF_NO_RELOCATE,
+	CELLREF_RELOCATE_FROM_IN,
+	CELLREF_RELOCATE_FROM_OUT,
 	CELLREF_RELOCATE_ERR,
-	CELLREF_RELOCATE,
-
-	/* Both ends of the range must be treated as if they are inside the range */
-	CELLREF_RELOCATE_FORCE_TO_IN,
-	CELLREF_RELOCATE_FORCE_FROM_IN
 } CellRefRelocate;
 
 /*
@@ -1184,8 +1181,7 @@ typedef enum {
  * range changes when it should not.
  */
 static CellRefRelocate
-cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
-		  gboolean force_to_inside, gboolean force_from_inside)
+cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo)
 {
 	/* For row or column refs
 	 * Ref	From	To
@@ -1209,18 +1205,10 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 	 */
 	int col = cellref_get_abs_col (ref, &rinfo->pos);
 	int row = cellref_get_abs_row (ref, &rinfo->pos);
-
-	Sheet * ref_sheet = (ref->sheet != NULL) ? ref->sheet : rinfo->pos.sheet;
-
-	/* Inside is based on the current location of the reference.
-	 * Hence we need to use the ORIGIN_sheet rather than the target.
-	 */
-	gboolean const to_inside = force_to_inside ||
-		((rinfo->origin_sheet == ref_sheet) &&
-		range_contains (&rinfo->origin, col, row));
-	gboolean const from_inside = force_from_inside ||
-		((rinfo->origin_sheet == rinfo->pos.sheet) &&
-		range_contains (&rinfo->origin, rinfo->pos.eval.col, rinfo->pos.eval.row));
+	gboolean to_inside, from_inside;
+	Sheet *ref_sheet = ref->sheet;
+	if (ref_sheet == NULL)
+		ref_sheet = rinfo->pos.sheet;
 
 	/* fprintf (stderr, "%s\n", cellref_name (ref, &rinfo->pos, FALSE)); */
 
@@ -1228,6 +1216,14 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 	if (col < 0 || col >= SHEET_MAX_COLS ||
 	    row < 0 || row >= SHEET_MAX_ROWS)
 		return CELLREF_RELOCATE_ERR;
+
+	/* Inside is based on the current location of the reference.
+	 * Hence we need to use the ORIGIN_sheet rather than the target.
+	 */
+	to_inside = (rinfo->origin_sheet == ref_sheet) &&
+		range_contains (&rinfo->origin, col, row);
+	from_inside = (rinfo->origin_sheet == rinfo->pos.sheet) &&
+		range_contains (&rinfo->origin, rinfo->pos.eval.col, rinfo->pos.eval.row);
 
 	/* Case (a) */
 	if (!from_inside && !to_inside)
@@ -1268,45 +1264,36 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 	if (ref->row_relative)
 		row -= rinfo->pos.eval.row;
 
-	if (ref->sheet != ref_sheet) {
-		ref->sheet = ref_sheet;
-		ref->col = col;
-		ref->row = row;
-		return CELLREF_RELOCATE;
-	} else if (ref->col != col) {
-		ref->col = col;
-		if (ref->row != row) {
-			ref->row = row;
-			return CELLREF_RELOCATE;
-		}
-		/* FIXME : We should only do this if the start ? end ?
-		 * col is included in the translation region (figure this out
-		 * in relation to abs/rel references)
-		 * Using offset == 0 would relocates too much.  If you cut B2
-		 * and paste it into B3 the source region A1:B2 will resize to
-		 * A1:B3 even though it should not.  This is correct for
-		 * insert/delete row/col but not when dealing with cut & paste.
-		 * To work around the problem I added a kludge to only do it if
-		 * the target range is an entire row/col.  This gives the
-		 * desired behavior most of the time.  However, it is probably
-		 * not absolutely correct.
-		 */
-		if (rinfo->row_offset == 0 &&
-		    rinfo->origin.start.row == 0 && rinfo->origin.end.row >= SHEET_MAX_ROWS-1)
-			return from_inside ? CELLREF_RELOCATE_FORCE_FROM_IN
-					   : CELLREF_RELOCATE_FORCE_TO_IN;
-		return CELLREF_RELOCATE;
-	} else if (ref->row != row) {
-		ref->row = row;
-		/* FIXME : As above */
-		if (rinfo->col_offset == 0 &&
-		    rinfo->origin.start.col == 0 && rinfo->origin.end.col >= SHEET_MAX_COLS-1)
-			return from_inside ? CELLREF_RELOCATE_FORCE_FROM_IN
-					   : CELLREF_RELOCATE_FORCE_TO_IN;
-		return CELLREF_RELOCATE;
-	}
+	if (ref->sheet == ref_sheet && ref->col == col && ref->row == row)
+		return CELLREF_NO_RELOCATE;
 
-	return CELLREF_NO_RELOCATE;
+	ref->sheet = ref_sheet;
+	ref->col = col;
+	ref->row = row;
+	return from_inside ? CELLREF_RELOCATE_FROM_IN : CELLREF_RELOCATE_FROM_OUT;
+}
+
+/**
+ * A utility routine that assumes @ref is from the origin sheet but is not
+ * contained by the origin range, and did not require relocation.  However,
+ * @ref is part of a range whose opposing corned DID require relocation.
+ * So we check to see if the range should be extended using the heuristic
+ * that if movement is in only 1 dimension, and that for @ref that col/row is
+ * into the target range then we want to adjust the range.
+ */
+static gboolean
+cellref_shift (CellRef const *ref, ExprRelocateInfo const *rinfo)
+{
+	if (rinfo->col_offset == 0) {
+		int const col = cellref_get_abs_col (ref, &rinfo->pos);
+		return  col < rinfo->origin.start.col ||
+			col > rinfo->origin.end.col;
+	} else if (rinfo->row_offset == 0) {
+		int const row = cellref_get_abs_row (ref, &rinfo->pos);
+		return  row < rinfo->origin.start.row ||
+			row > rinfo->origin.end.row;
+	}
+	return TRUE;
 }
 
 static ExprTree *
@@ -1314,34 +1301,33 @@ cellrange_relocate (Value const *v, ExprRelocateInfo const *rinfo)
 {
 	/*
 	 * If either end is an error then the whole range is an error.
-	 * If both ends need relocation relocate
+	 * If both ends need to relocate -> relocate
+	 * If either end is relcated from inside the range -> relocate
+	 * 	otherwise we can end up with invalid references
+	 * If only 1 end needs relocation, relocate only if movement is 
+	 *	in only 1 dimension, and the 
 	 * otherwise remain static
 	 */
 	CellRef ref_a = v->v_range.cell.a;
 	CellRef ref_b = v->v_range.cell.b;
-	int needs_reloc = 0;
+	int needs = 0;
 
-	switch (cellref_relocate (&ref_a, rinfo, FALSE, FALSE)) {
-	case CELLREF_NO_RELOCATE :
-		break;
-	case CELLREF_RELOCATE_ERR :
-		return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
-	case CELLREF_RELOCATE :			needs_reloc++; break;
-	case CELLREF_RELOCATE_FORCE_TO_IN :	needs_reloc += 0x10;  break;
-	case CELLREF_RELOCATE_FORCE_FROM_IN :	needs_reloc += 0x100; break;
+	switch (cellref_relocate (&ref_a, rinfo)) {
+	case CELLREF_NO_RELOCATE :	break;
+	case CELLREF_RELOCATE_FROM_IN :  needs = 0x4;	break;
+	case CELLREF_RELOCATE_FROM_OUT : needs = 0x1;	break;
+	case CELLREF_RELOCATE_ERR : return expr_tree_new_constant (
+		value_new_error (NULL, gnumeric_err_REF));
 	}
-	switch (cellref_relocate (&ref_b, rinfo, FALSE, FALSE)) {
-	case CELLREF_NO_RELOCATE :
-		break;
-	case CELLREF_RELOCATE_ERR :
-		return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
-	case CELLREF_RELOCATE :			needs_reloc++; break;
-	case CELLREF_RELOCATE_FORCE_TO_IN :	needs_reloc += 0x20;  break;
-	case CELLREF_RELOCATE_FORCE_FROM_IN :	needs_reloc += 0x200; break;
+	switch (cellref_relocate (&ref_b, rinfo)) {
+	case CELLREF_NO_RELOCATE :	break;
+	case CELLREF_RELOCATE_FROM_IN :  needs = 0x4;	break;
+	case CELLREF_RELOCATE_FROM_OUT : needs |= 0x2;	break;
+	case CELLREF_RELOCATE_ERR : return expr_tree_new_constant (
+		value_new_error (NULL, gnumeric_err_REF));
 	}
 
-	/* Only relocate if both ends of the range need relocation */
-	if (needs_reloc >= 2) {
+	if (needs != 0) {
 		Value *res;
 		Sheet const *sheet_a = ref_a.sheet;
 		Sheet const *sheet_b = ref_b.sheet;
@@ -1351,27 +1337,17 @@ cellrange_relocate (Value const *v, ExprRelocateInfo const *rinfo)
 		if (sheet_b == NULL)
 			sheet_b = rinfo->pos.sheet;
 
-#if 0
-		/* Force only happens when inserting row/col
-		 * we want to deform the region
-		 */
-		switch (needs_reloc) {
-		case 2 : break;
-		case 0x10  : cellref_relocate (&ref_b, rinfo, TRUE, FALSE); break;
-		case 0x20  : cellref_relocate (&ref_a, rinfo, TRUE, FALSE); break;
-		case 0x100 : cellref_relocate (&ref_b, rinfo, FALSE, TRUE); break;
-		case 0x200 : cellref_relocate (&ref_a, rinfo, FALSE, TRUE); break;
-		default : g_warning ("Unexpected relocation type 0x%x", needs_reloc);
-		};
-#endif
-
 		/* Dont allow creation of 3D references */
-		if (sheet_a == sheet_b)
+		if (sheet_a == sheet_b) {
+			if ((needs == 0x1 && cellref_shift (&ref_b, rinfo)) ||
+			    (needs == 0x2 && cellref_shift (&ref_a, rinfo)))
+				return NULL;
 			res = value_new_cellrange (&ref_a, &ref_b,
 						   rinfo->pos.eval.col,
 						   rinfo->pos.eval.row);
-		else
+		} else
 			res = value_new_error (NULL, gnumeric_err_REF);
+
 		return expr_tree_new_constant (res);
 	}
 
@@ -1532,15 +1508,14 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 		case EXPR_REWRITE_RELOCATE : {
 			CellRef res = expr->var.ref; /* Copy */
 
-			switch (cellref_relocate (&res, &rwinfo->u.relocate, FALSE, FALSE)) {
+			switch (cellref_relocate (&res, &rwinfo->u.relocate)) {
 			case CELLREF_NO_RELOCATE :
 				return NULL;
+			case CELLREF_RELOCATE_FROM_IN :
+			case CELLREF_RELOCATE_FROM_OUT :
+				return expr_tree_new_var (&res);
 			case CELLREF_RELOCATE_ERR :
 				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
-			case CELLREF_RELOCATE :
-			case CELLREF_RELOCATE_FORCE_TO_IN :
-			case CELLREF_RELOCATE_FORCE_FROM_IN :
-				return expr_tree_new_var (&res);
 			}
 		}
 		}

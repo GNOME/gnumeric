@@ -1,6 +1,5 @@
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-I$(includedir)				 	\
 	-I$(top_srcdir)					\
 	$(GNUMERIC_CFLAGS)
 

@@ -261,9 +261,8 @@ cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
 	}
 }
 
-
 /**************************************************************************/
-#undef ENABLE_MICRO_HASH
+#define ENABLE_MICRO_HASH
 #ifdef ENABLE_MICRO_HASH
 typedef struct {
 	gint     num_buckets;
@@ -480,7 +479,7 @@ typedef struct {
 /*
  *  A DependencySingle stores a list of dependents that rely
  * on the cell at @pos.
- * 
+ *
  * A change in this cell will trigger a recomputation on the
  * cells listed in deps.
  */
@@ -597,7 +596,7 @@ add_range_dep (DependencyContainer *deps, Dependent *dep,
 	for ( ; i <= end; i++) {
 		/* Look it up */
 		DependencyRange *result;
-		
+
 		if (deps->range_hash [i] == NULL) {
 			deps->range_hash [i] =
 				g_hash_table_new (deprange_hash_func,
@@ -1019,7 +1018,7 @@ cb_search_rangedeps (gpointer key, gpointer value, gpointer closure)
 	/* No intersection is the common case */
 	if (range_contains (range, c->col, c->row)) {
 		DepFunc	 func = c->func;
-		dep_collection_foreach_dep (deprange->deps, dep, 
+		dep_collection_foreach_dep (deprange->deps, dep,
 			(func) (dep, c->user););
 	}
 }
@@ -1174,7 +1173,7 @@ invalidate_refs (Dependent *dep, ExprRewriteInfo const *rwinfo)
 	ExprTree *newtree = expr_rewrite (dep->expression, rwinfo);
 
 	/* We are told this dependent depends on this region, hence if newtree
-	 * is null then either 
+	 * is null then either
 	 * 1) we did not depend on it ( ie. serious breakage )
 	 * 2j we had a duplicate reference and we have already removed it.
 	 * 3) We depended on things via a name which will be invalidated elsewhere
@@ -1291,7 +1290,7 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 	}
 
 	if (deps->names) {
-		g_hash_table_foreach (deps->names, 
+		g_hash_table_foreach (deps->names,
 			cb_name_invalidate_sheet, (gpointer)rwinfo);
 		g_hash_table_destroy (deps->names);
 		deps->names = NULL;
@@ -1369,7 +1368,7 @@ dependent_eval (Dependent *dep)
 
 /**
  * workbook_recalc :
- * @wb : 
+ * @wb :
  *
  * Computes all dependents in @wb that have been flags as requiring
  * recomputation.

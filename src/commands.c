@@ -2282,7 +2282,6 @@ cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT (cmd);
 	ExprRelocateInfo reverse;
-	GSList *tmp = NULL;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->paste_content != NULL, TRUE);
@@ -2296,9 +2295,8 @@ cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	reverse.col_offset = -me->info.col_offset;
 	reverse.row_offset = -me->info.row_offset;
 
-	/* Move things back, and throw away the undo info */
-	sheet_move_range (wbc, &reverse, &tmp);
-	workbook_expr_unrelocate_free (tmp);
+	/* Move things back being careful NOT to invalidate the src region */
+	sheet_move_range (wbc, &reverse, NULL);
 
 	/* Restore the original row heights */
 	colrow_set_states (me->info.target_sheet, FALSE,

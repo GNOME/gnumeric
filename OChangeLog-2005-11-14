@@ -1,5 +1,27 @@
 2002-01-25  Jody Goldberg <jody@gnome.org>
 
+	* src/main.c (main) : lock the encoding to be utf-8.
+
+	* src/eval.c : enable the micro hash by default.
+
+	* src/expr.c (cellref_relocate) : simplify and remove the force
+	  arguments.  Flag invalidations from inside vs to inside. From takes
+	  precendence.
+	(cellref_shift) : new.
+	(cellrange_relocate) : simplfy and try a different tack on how to
+	  handle corners with different sets of relocation needs.
+
+	* src/commands.c (cmd_paste_cut_undo) : pass NULL for the
+	  reloc_storage to disable invalidation.
+
+	* src/sheet.c (sheet_move_range) : document.
+	  Make the reloc_storage optional.  If it is not specified do NOT
+	  invalidate references to the dst region that are being
+	  invalidated.  Since this routine is only used for cut redo/undo
+	  and undo really should not be invalidating we use that as a flag.
+
+2002-01-25  Jody Goldberg <jody@gnome.org>
+
 	* src/Makefile.am : register the marshaller as BUILT sources.
 
 2002-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
