@@ -1,3 +1,15 @@
+1999-12-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (sheet_selection_cut) : Fix Typo.
+
+	* src/item-bar.c (item_bar_start_resize) : Don't bother setting the
+	  location of the line here.  Instead we set the correctly zoomed
+	  bounds of the static-dimension.
+	(item_bar_end_resize) : Clear the saved points.
+	(item_bar_init) : Init the guide and points to NULL;
+	(item_bar_event) : No need to call canvas to world.  We zoom manually.
+	(item_bar_get_line_points) : Delete.
+
 1999-12-19  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/ranges.h (range_overlap): macroify.
@@ -13,7 +25,7 @@
 	* configure.in: bump version to 0.46.
 
 	* src/dialogs/dialog-printer-setup.c (fill_hf): use print_hf_same,
-	since pointer comparison duff; since item is copied.
+	  since pointer comparison duff; since item is copied.
 
 	* src/print-info.c (print_hf_same): implement.
 	(print_hf_register): update to use it.
@@ -21,11 +33,12 @@
 1999-12-18  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/dialogs/dialog-printer-setup.c (do_setup_hf): Grab the
-	header & footer pointer from the sheet's print info if available.
+	  header & footer pointer from the sheet's print info if available.
 	(do_setup_hf_menus): only setup the dialog if non-null.
 
 	* src/print-info.c (print_info_new): kill load_formats.
-	init hf_formats. (print_init, print_shutdown): implement.
+	  init hf_formats.
+	(print_init, print_shutdown): implement.
 
 	* src/main.c (gnumeric_main): add print_init / shutdown.
 
