@@ -260,6 +260,7 @@
 	    <menuitem name="EditSearch" verb=""
 		_label="Search..."
 		_tip="Search for some text"
+		pixtype="stock" pixname="Gnumeric_Search"
 		accel="F7"/>
 
 	    <menuitem name="EditSearchReplace" verb=""

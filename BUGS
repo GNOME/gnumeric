@@ -26,8 +26,6 @@ Long term breakage
 
 - Consistent capitalization of labels.
 
-- Need to figure out pixmaps for Search.
-
 - can_try_save_to uses access().  That's bogus in a number of ways: (a) it
   checks the wrong permissions in the set[gu]id case.  (b) It reports the
   wrong result if the path is not readable.  The Right Way to do this, is

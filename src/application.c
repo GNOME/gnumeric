@@ -49,6 +49,7 @@
 
 #include "pixmaps/16_save.xpm"
 #include "pixmaps/16_save_as.xpm"
+#include "pixmaps/16_search.xpm"
 #include "pixmaps/16_search_and_replace.xpm"
 #include "pixmaps/16_cut.xpm"
 #include "pixmaps/16_copy.xpm"
@@ -140,6 +141,7 @@ application_init (void)
 	} const entry_names [] = {
 		{ 16, 16, "Menu_Gnumeric_Save", i16_save_xpm },
 		{ 16, 16, "Menu_Gnumeric_SaveAs", i16_save_as_xpm },
+		{ 16, 16, "Menu_Gnumeric_Search", i16_search },
 		{ 16, 16, "Menu_Gnumeric_SearchAndReplace", i16_search_and_replace },
 		{ 16, 16, "Menu_Gnumeric_PrintPreview", menu_print_preview_xpm },
 		{ 16, 16, "Menu_Gnumeric_InsertShapedComponent", i16_insert_shaped_object_xpm },

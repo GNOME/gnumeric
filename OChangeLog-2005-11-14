@@ -1,3 +1,10 @@
+2001-10-18  Morten Welinder  <terra@diku.dk>
+
+	* src/pixmaps/16_search.xpm: new file (derived from from Evolution).
+	* src/application.c (application_init): Add search pixmap.
+	* src/workbook-control-gui.c (workbook_menu_edit): Ditto.
+	* src/GNOME_Gnumeric.xml: Ditto.
+
 2001-10-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-bar.c (ib_draw_cell) : add some protection in case of bad
