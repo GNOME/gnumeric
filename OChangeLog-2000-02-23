@@ -1,5 +1,10 @@
 1999-01-07  Nat Friedman  <nat@nat.org>
 
+	* src/workbook.c: Use GNOMEUIINFO_MENU_ABOUT_ITEM and the new
+ 	GNOMEUIINFO_MENU trees.
+
+1999-01-07  Nat Friedman  <nat@nat.org>
+
 	* src/workbook.c: Pass the menu item description to
  	GNOMEUIINFO_MENU_NEW_ITEM.
 
