@@ -49,8 +49,8 @@ struct _GogPlot {
 
 	GogAxis		*axis[GOG_AXIS_TYPES];
 
-	/* Usually a copy from the class but its here to allow a GogPlotType to
-	 * override a things without requiring a completely new class */
+	/* Usually a copy from the class but it's here to allow a GogPlotType to
+	 * override things without requiring a completely new class */
 	GogPlotDesc	desc;
 };
 
