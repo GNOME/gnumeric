@@ -7,6 +7,8 @@ Jody:
 	* Use SAX exporter by default.
 	* Enable 'popup-menu' binding support
 	* Add tooltip for object resizing
+	* Misc ancient array formula parsing and entry problems
+	* Jump to lp_solve 5.0
 
 Morten:
 	* Add Ctrl-5 for strike-through.

@@ -10,6 +10,11 @@
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
+  <property name="decorated">True</property>
+  <property name="skip_taskbar_hint">False</property>
+  <property name="skip_pager_hint">False</property>
+  <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+  <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
   <property name="has_separator">True</property>
 
   <child internal-child="vbox">
@@ -31,6 +36,7 @@
 	      <property name="label">gtk-help</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
 	      <property name="response_id">0</property>
 	    </widget>
 	  </child>
@@ -43,6 +49,7 @@
 	      <property name="label">gtk-cancel</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
 	      <property name="response_id">0</property>
 	    </widget>
 	  </child>
@@ -55,6 +62,7 @@
 	      <property name="label">gtk-close</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
 	      <property name="response_id">0</property>
 	    </widget>
 	  </child>
@@ -68,6 +76,7 @@
 	      <property name="label" translatable="yes">Solve</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
+	      <property name="focus_on_click">True</property>
 	      <property name="response_id">0</property>
 	    </widget>
 	  </child>
@@ -136,6 +145,7 @@
 		      <property name="label" translatable="yes">_Max</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="focus_on_click">True</property>
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
@@ -154,6 +164,7 @@
 		      <property name="label" translatable="yes">M_in</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="focus_on_click">True</property>
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
@@ -204,8 +215,8 @@
 	      <child>
 		<widget class="GtkLabel" id="label1">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Equal To:</property>
-		  <property name="use_underline">False</property>
+		  <property name="label" translatable="yes">_Equal To:</property>
+		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
@@ -268,6 +279,7 @@
 		  <property name="label" translatable="yes">_Linear Model (LP/MILP)</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <property name="focus_on_click">True</property>
 		  <property name="active">True</property>
 		  <property name="inconsistent">False</property>
 		  <property name="draw_indicator">True</property>
@@ -289,6 +301,7 @@
 		  <property name="label" translatable="yes">_Quadratic Model (QP/MIQP)</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <property name="focus_on_click">True</property>
 		  <property name="active">False</property>
 		  <property name="inconsistent">False</property>
 		  <property name="draw_indicator">True</property>
@@ -311,6 +324,7 @@
 		  <property name="label" translatable="yes">Assume _Non-Negative</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <property name="focus_on_click">True</property>
 		  <property name="active">True</property>
 		  <property name="inconsistent">False</property>
 		  <property name="draw_indicator">True</property>
@@ -332,6 +346,7 @@
 		  <property name="label" translatable="yes">Assume _Integer (Discrete)</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <property name="focus_on_click">True</property>
 		  <property name="active">False</property>
 		  <property name="inconsistent">False</property>
 		  <property name="draw_indicator">True</property>
@@ -362,8 +377,8 @@
 	      <child>
 		<widget class="GtkLabel" id="label21">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Algorithm:</property>
-		  <property name="use_underline">False</property>
+		  <property name="label" translatable="yes">_Algorithm:</property>
+		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
@@ -429,7 +444,7 @@
 		      <property name="shadow_type">GTK_SHADOW_NONE</property>
 		      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
-			 <child>
+		      <child>
 			<widget class="GtkTreeView" id="constraint_list">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
@@ -438,7 +453,7 @@
 			  <property name="reorderable">False</property>
 			  <property name="enable_search">True</property>
 			</widget>
-			  </child>
+		      </child>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -461,6 +476,7 @@
 			  <property name="label" translatable="yes">_Add</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_HALF</property>
+			  <property name="focus_on_click">True</property>
 			</widget>
 		      </child>
 
@@ -471,6 +487,7 @@
 			  <property name="label" translatable="yes">_Change</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
+			  <property name="focus_on_click">True</property>
 			</widget>
 		      </child>
 
@@ -481,6 +498,7 @@
 			  <property name="label" translatable="yes">_Delete</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
+			  <property name="focus_on_click">True</property>
 			</widget>
 		      </child>
 		    </widget>
@@ -688,6 +706,7 @@ Bool
 		  <property name="label" translatable="yes">Automatic _Scaling</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <property name="focus_on_click">True</property>
 		  <property name="active">False</property>
 		  <property name="inconsistent">False</property>
 		  <property name="draw_indicator">True</property>
@@ -705,8 +724,8 @@ Bool
 	      <child>
 		<widget class="GtkLabel" id="label20">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Max Time (sec.):</property>
-		  <property name="use_underline">False</property>
+		  <property name="label" translatable="yes">Max _Time (sec.):</property>
+		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
@@ -715,6 +734,7 @@ Bool
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">max_time_entry</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>
@@ -730,8 +750,8 @@ Bool
 		<widget class="GtkLabel" id="label19">
 		  <property name="width_request">154</property>
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Max Iterations:</property>
-		  <property name="use_underline">False</property>
+		  <property name="label" translatable="yes">Max _Iterations:</property>
+		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
 		  <property name="wrap">False</property>
@@ -740,6 +760,7 @@ Bool
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
+		  <property name="mnemonic_widget">max_iter_entry</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>
@@ -796,6 +817,7 @@ Bool
 		      <property name="label" translatable="yes">_Answer</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="focus_on_click">True</property>
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
@@ -814,6 +836,7 @@ Bool
 		      <property name="label" translatable="yes">_Sensitivity</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="focus_on_click">True</property>
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
@@ -832,6 +855,7 @@ Bool
 		      <property name="label" translatable="yes">_Limits</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="focus_on_click">True</property>
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
@@ -850,6 +874,7 @@ Bool
 		      <property name="label" translatable="yes">_Performance</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="focus_on_click">True</property>
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
@@ -868,6 +893,7 @@ Bool
 		      <property name="label" translatable="yes">P_rogram</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="focus_on_click">True</property>
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
@@ -925,6 +951,7 @@ Bool
 		  <property name="label" translatable="yes">_Do not create scenarios</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <property name="focus_on_click">True</property>
 		  <property name="active">False</property>
 		  <property name="inconsistent">False</property>
 		  <property name="draw_indicator">True</property>
@@ -943,6 +970,7 @@ Bool
 		  <property name="label" translatable="yes">_Create a scenario if the optimal solution is found</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		  <property name="focus_on_click">True</property>
 		  <property name="active">False</property>
 		  <property name="inconsistent">False</property>
 		  <property name="draw_indicator">True</property>

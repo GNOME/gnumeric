@@ -1913,7 +1913,7 @@ TOGGLE_HANDLER (outline_symbols_right,{
 
 static /* const 142334 */ GtkToggleActionEntry toggle_actions[] = {
 	{ "SheetDisplayOutlines", NULL, N_("Display _Outlines"),
-		NULL, N_("Toggle whether or not to display outline groups"),
+		"<control>8", N_("Toggle whether or not to display outline groups"),
 		G_CALLBACK (cb_sheet_pref_display_outlines) },
 	{ "SheetOutlineBelow", NULL, N_("Outlines _Below"),
 		NULL, N_("Toggle whether to display row outlines on top or bottom"),
@@ -1972,21 +1972,21 @@ static /* const 142334 */ GtkToggleActionEntry toggle_actions[] = {
 
 static /* const 142334 */ GtkToggleActionEntry font_toggle_actions[] = {
 	{ "FontBold", GTK_STOCK_BOLD,
-		N_("_Bold"), "<control>B",
+		N_("_Bold"), "<control>B",	/* ALSO "<control>2" */
 		N_("Bold"), G_CALLBACK (cb_font_bold), FALSE },
 	{ "FontItalic", GTK_STOCK_ITALIC,
-		N_("_Italic"), "<control>i",
+		N_("_Italic"), "<control>i",	/* ALSO "<control>3" */
 		N_("Italic"), G_CALLBACK (cb_font_italic), FALSE },
 	{ "FontUnderline", GTK_STOCK_UNDERLINE,
-		N_("_Underline"), "<control>u",
+		N_("_Underline"), "<control>u",	/* ALSO "<control>4" */
 		N_("Underline"), G_CALLBACK (cb_font_underline), FALSE },
-#warning "Add double underline icon"
-	{ "FontDoubleUnderline", GTK_STOCK_UNDERLINE,
-		N_("_Underline"), "<control><shift>d",
-		N_("Underline"), G_CALLBACK (cb_font_double_underline), FALSE },
 	{ "FontStrikeThrough", GTK_STOCK_UNDERLINE,
 		N_("_Strike Through"), "<control>5",
 		N_("Strike Through"), G_CALLBACK (cb_font_strikethrough), FALSE },
+#warning "Add double underline icon"
+	{ "FontDoubleUnderline", GTK_STOCK_UNDERLINE,
+		N_("_Double Underline"), "<control><shift>d",
+		N_("Double Underline"), G_CALLBACK (cb_font_double_underline), FALSE },
 };
 
 void wbcg_register_actions (WorkbookControlGUI *wbcg,
