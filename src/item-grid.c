@@ -370,6 +370,9 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 
 	/* 2. the grids */
 	if (sheet->show_grid) {
+#if 0
+		fprintf (stderr, "paint : %s%d:", col_name(paint_col), paint_row+1);
+#endif
 		col = paint_col;
 		x_paint = -diff_x;
 		gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
@@ -391,6 +394,9 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 			}
 		}
+#if 0
+		fprintf (stderr, "%s%d\n", col_name(col-1), row);
+#endif
 	}
 
 	gdk_gc_set_function (item_grid->gc, GDK_COPY);
@@ -831,12 +837,6 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 	 */
 	sheet_accept_pending_input (sheet);
 
-	if (!(event->button.state & GDK_SHIFT_MASK)) {
-		sheet_make_cell_visible (sheet, col, row);
-		/* Handle the selection localy */
-		sheet_cursor_move (sheet, col, row, FALSE, FALSE);
-	}
-
 	if (!(event->button.state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 		sheet_selection_reset_only (sheet);
 
@@ -844,8 +844,10 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 
 	if ((event->button.state & GDK_SHIFT_MASK) && sheet->selections)
 		sheet_selection_extend_to (sheet, col, row);
-	else
+	else {
 		sheet_selection_add (sheet, col, row);
+		sheet_make_cell_visible (sheet, col, row);
+	}
 
 	gnome_canvas_item_grab (item,
 				GDK_POINTER_MOTION_MASK |

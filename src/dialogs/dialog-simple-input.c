@@ -31,6 +31,7 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog1"));
 	if (dialog == NULL){
 		g_warning ("Can not find the `dialog1' widget in %s", glade_file);
+		gtk_object_destroy (GTK_OBJECT (gui));
 		return FALSE;
 	}
 
@@ -49,6 +50,7 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 		res = FALSE;
 		break;
 	case -1:		/* window manager close */
+		gtk_object_destroy (GTK_OBJECT (gui));
 		return FALSE;
 
 	default:
@@ -77,6 +79,7 @@ dialog_get_sheet_name (Workbook *wb, const char *current)
 	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog"));
 	if (dialog == NULL){
 		g_warning ("Can not find the `dialog' widget in sheet-rename.glade");
+		gtk_object_destroy (GTK_OBJECT (gui));
 		return NULL;
 	}
 
@@ -90,6 +93,7 @@ dialog_get_sheet_name (Workbook *wb, const char *current)
 	case 1:			/* cancel */
 		break;
 	case -1:		/* window manager close */
+		gtk_object_destroy (GTK_OBJECT (gui));
 		return NULL;
 
 	default:

@@ -20,8 +20,6 @@
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
-static void item_cursor_request_redraw (ItemCursor *item_cursor);
-
 #define AUTO_HANDLE_SPACE	4
 #define CLIP_SAFETY_MARGIN      (AUTO_HANDLE_SPACE + 5)
 #define IS_LITTLE_SQUARE(item,x,y) \
@@ -40,8 +38,10 @@ enum {
 static int
 item_cursor_animation_callback (ItemCursor *item_cursor)
 {
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
+
 	item_cursor->state = !item_cursor->state;
-	item_cursor_request_redraw (item_cursor);
+	gnome_canvas_item_request_update (item);
 	return TRUE;
 }
 
@@ -124,21 +124,28 @@ item_cursor_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+item_cursor_request_redraw (ItemCursor *item_cursor)
 {
-	if (GNOME_CANVAS_ITEM_CLASS(item_cursor_parent_class)->update)
-		(*GNOME_CANVAS_ITEM_CLASS(item_cursor_parent_class)->update)(item, affine, clip_path, flags);
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_cursor)->canvas;
+	int const x = item_cursor->cached_x;
+	int const y = item_cursor->cached_y;
+	int const w = item_cursor->cached_w;
+	int const h = item_cursor->cached_h;
+
+	gnome_canvas_request_redraw (canvas, x - 2, y - 2, x + 2, y + h + 2);
+	gnome_canvas_request_redraw (canvas, x - 2, y - 2, x + w + 2, y + 2);
+	gnome_canvas_request_redraw (canvas, x + w - 2, y - 2, x + w + 5, y + h + 5);
+	gnome_canvas_request_redraw (canvas, x - 2, y + h - 2, x + w + 5, y + h + 5);
 }
 
-/*
- * Returns the bounding box cordinates for box delimited by the cursor
- */
 static void
-item_cursor_get_pixel_coords (ItemCursor *item_cursor, int *x, int *y, int *w, int *h)
+item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
-	GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
-	Sheet *sheet = item_cursor->sheet;
+	ItemCursor    *item_cursor = ITEM_CURSOR (item);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
+	Sheet         *sheet = item_cursor->sheet;
+
+	int x, y, w, h, extra;
 
 	/* Clip the bounds of the cursor to the visible region of cells */
 	int const left = MAX (gsheet->col.first-1, item_cursor->pos.start.col);
@@ -146,27 +153,19 @@ item_cursor_get_pixel_coords (ItemCursor *item_cursor, int *x, int *y, int *w, i
 	int const top = MAX (gsheet->row.first-1, item_cursor->pos.start.row);
 	int const bottom = MIN (gsheet->row.last_visible, item_cursor->pos.end.row);
 
-	*x = gsheet->col_offset.first +
+	/* Erase the old cursor */
+	item_cursor_request_redraw (item_cursor);
+
+	item_cursor->cached_x = x =
+	    gsheet->col_offset.first +
 	    sheet_col_get_distance_pixels (sheet, gsheet->col.first, left);
-	*y = gsheet->row_offset.first +
+	item_cursor->cached_y = y =
+	    gsheet->row_offset.first +
 	    sheet_row_get_distance_pixels (sheet, gsheet->row.first, top);
-
-	*w = sheet_col_get_distance_pixels (sheet, left, right+1);
-	*h = sheet_row_get_distance_pixels (sheet, top, bottom+1);
-}
-
-static void
-item_cursor_configure_bounds (ItemCursor *item_cursor)
-{
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
-	int x, y, w, h, extra;
-
-	item_cursor_get_pixel_coords (item_cursor, &x, &y, &w, &h);
-
-	item_cursor->cached_x = x;
-	item_cursor->cached_y = y;
-	item_cursor->cached_w = w;
-	item_cursor->cached_h = h;
+	item_cursor->cached_w = w =
+	    sheet_col_get_distance_pixels (sheet, left, right+1);
+	item_cursor->cached_h = h =
+	    sheet_row_get_distance_pixels (sheet, top, bottom+1);
 
 	item->x1 = x - 1;
 	item->y1 = y - 1;
@@ -179,6 +178,15 @@ item_cursor_configure_bounds (ItemCursor *item_cursor)
 	item->y2 = y + h + 2 + extra;
 
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
+
+	/* Draw the new cursor */
+	item_cursor_request_redraw (item_cursor);
+
+#if 0
+	fprintf (stderr, "update %d,%d %d,%d\n", x, y, w,h);
+#endif
+	if (GNOME_CANVAS_ITEM_CLASS(item_cursor_parent_class)->update)
+		(*GNOME_CANVAS_ITEM_CLASS(item_cursor_parent_class)->update)(item, affine, clip_path, flags);
 }
 
 /*
@@ -194,8 +202,7 @@ static void
 item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
-	int xd, yd, dx0, dy0, dx1, dy1;
-	int cursor_width, cursor_height, w, h;
+	int dx0, dy0, dx1, dy1;
 	GdkPoint points [40];
 	int draw_external, draw_internal, draw_handle;
 	int draw_stippled, draw_center, draw_thick;
@@ -203,28 +210,22 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	GdkColor *fore = NULL, *back = NULL;
 	GdkRectangle clip_rect;
 	
+	int const xd = item_cursor->cached_x;
+	int const yd = item_cursor->cached_y;
+	int const w = item_cursor->cached_w;
+	int const h = item_cursor->cached_h;
+
+#if 0
+	fprintf (stderr, "draw %d,%d %d,%d\n", xd, yd, w,h);
+#endif
 	if (!item_cursor->visible)
 		return;
-
-	item_cursor_get_pixel_coords (item_cursor, &xd, &yd,
-				      &cursor_width, &cursor_height);
-
-	w = cursor_width;
-	h = cursor_height;
-
-	/* determine if we need to recompute the bounding box */
-	if (xd != item_cursor->cached_x ||
-	    yd != item_cursor->cached_y ||
-	    w  != item_cursor->cached_w ||
-	    h  != item_cursor->cached_h){
-		item_cursor_configure_bounds (item_cursor);
-	}
 
 	/* Top left and bottom right corner of cursor, in pixmap coordinates */
 	dx0 = xd - x;
 	dy0 = yd - y;
-	dx1 = dx0 + cursor_width;
-	dy1 = dy0 + cursor_height;
+	dx1 = dx0 + w;
+	dy1 = dy0 + h;
 	
 	draw_external = 0;
 	draw_internal = 0;
@@ -411,19 +412,6 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	}
 }
 
-static void
-item_cursor_request_redraw (ItemCursor *item_cursor)
-{
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_cursor)->canvas;
-	int x, y, w, h;
-	item_cursor_get_pixel_coords (item_cursor, &x, &y, &w, &h);
-
-	gnome_canvas_request_redraw (canvas, x - 2, y - 2, x + 2, y + h + 2);
-	gnome_canvas_request_redraw (canvas, x - 2, y - 2, x + w + 2, y + 2);
-	gnome_canvas_request_redraw (canvas, x + w - 2, y - 2, x + w + 5, y + h + 5);
-	gnome_canvas_request_redraw (canvas, x - 2, y + h - 2, x + w + 5, y + h + 5);
-}
-
 void
 item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, int end_col, int end_row)
 {
@@ -437,17 +425,17 @@ item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, i
 	g_return_if_fail (end_row < SHEET_MAX_ROWS);
 	g_return_if_fail (IS_ITEM_CURSOR (item_cursor));
 
+	/* Redraw the old area */
 	item = GNOME_CANVAS_ITEM (item_cursor);
-	item_cursor_request_redraw (item_cursor);
 
+	/* Move to the new area */
 	item_cursor->pos.start.col = start_col;
 	item_cursor->pos.end.col   = end_col;
 	item_cursor->pos.start.row = start_row;
 	item_cursor->pos.end.row   = end_row;
 
-	item_cursor_request_redraw (item_cursor);
-
-	item_cursor_configure_bounds (item_cursor);
+	/* Request an update */
+	gnome_canvas_item_request_update (item);
 }
 
 /**
@@ -463,8 +451,8 @@ item_cursor_reposition (ItemCursor *item_cursor)
 
 	g_return_if_fail (item != NULL);
 
-	item_cursor_request_redraw (item_cursor);
-	item_cursor_configure_bounds (item_cursor);
+	/* Request an update */
+	gnome_canvas_item_request_update (item);
 }
 
 static double
@@ -763,7 +751,7 @@ item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
 }
 
 void
-item_cursor_set_visibility (ItemCursor *item_cursor, int visible)
+item_cursor_set_visibility (ItemCursor *item_cursor, gboolean visible)
 {
 	g_return_if_fail (IS_ITEM_CURSOR (item_cursor));
 
@@ -771,7 +759,7 @@ item_cursor_set_visibility (ItemCursor *item_cursor, int visible)
 		return;
 
 	item_cursor->visible = visible;
-	item_cursor_request_redraw (item_cursor);
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (item_cursor));
 }
 
 void
@@ -1094,4 +1082,3 @@ item_cursor_get_type (void)
 
 	return item_cursor_type;
 }
-

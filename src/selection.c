@@ -77,7 +77,7 @@ sheet_selection_changed_hook (Sheet *sheet)
  * @base_{col,row} : stationary corner of the newly selected range.
  * @move_{col,row} : moving corner of the newly selected range.
  *
- * Prepends a new range to the selection list.
+ * Prepends a range to the selection list and set the edit cursor.
  */
 void
 sheet_selection_add_range (Sheet *sheet,
@@ -90,32 +90,21 @@ sheet_selection_add_range (Sheet *sheet,
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
+	/* Create and prepend new selection */
 	ss = g_new0 (SheetSelection, 1);
-
-	sheet->cursor.edit_pos.col = edit_col;
-	sheet->cursor.edit_pos.row = edit_row;
-	sheet->cursor.base_corner.col = base_col;
-	sheet->cursor.base_corner.row = base_row;
-	sheet->cursor.move_corner.col = move_col;
-	sheet->cursor.move_corner.row = move_row;
-
 	ss->user.start.col = MIN (base_col, move_col);
 	ss->user.start.row = MIN (base_row, move_row);
 	ss->user.end.col   = MAX (base_col, move_col);
 	ss->user.end.row   = MAX (base_row, move_row);
-
 	sheet->selections = g_list_prepend (sheet->selections, ss);
 
-	sheet_accept_pending_input (sheet);
-	sheet_load_cell_val (sheet);
-
+	/* Set the selection parameters, and redraw the old edit cursor */
 	sheet_cursor_set (sheet,
-			  sheet->cursor.edit_pos.col,
-			  sheet->cursor.edit_pos.row,
-			  ss->user.start.col,
-			  ss->user.start.row,
-			  ss->user.end.col,
-			  ss->user.end.row);
+			  edit_col, edit_row,
+			  base_col, base_row,
+			  move_col, move_row);
+
+	/* Redraw the newly added range so that it get shown as selected */
 	sheet_redraw_range (sheet, &ss->user);
 	sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
 

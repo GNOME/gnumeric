@@ -33,10 +33,10 @@ typedef struct {
 	 * (ie, when the user uses the cursor keys
 	 * to select a cell for an expression).
 	 */
-	int           selecting_cell;
-	int           sel_cursor_pos;
-	int           sel_text_len;
-	ItemCursor    *selection;
+	gboolean	selecting_cell;
+	int		sel_cursor_pos;
+	int             sel_text_len;
+	ItemCursor     *selection;
 
 	/*
 	 * The column and row bars

@@ -1,7 +1,28 @@
+2000-02-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c : Switch to a quartic approved delayed update
+	  model.  Do not change the bounding box while drawing.
+
+	* src/selection.c (sheet_selection_add_range) : Do NOT directly change
+	  the edit/move/base characteristics of the sheet sheet_cursor_set handles
+	  that.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges) : Use
+	  item_cursor_reposition rather than pretending that the cursor moved.
+
+	* src/item-grid.c (item_grid_button_1) : Don't call both
+	  sheet_cursor_move and sheet_selection_add.  The former was moving
+	  the edit cursor without redrawing it.
+
 2000-02-20  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-object-container.c (sheet_object_container_realize): pass
 	UI handler in straight.
+
+2000-02-19  Mike Kestner  <mkestner@ameritech.net>
+
+	*src/dialogs/dialog-simple-input.c (dialog_get_number): Fixed leaks.
+	(dialog_get_sheet_name): Fixed leaks.
 
 2000-02-19  Jody Goldberg <jgoldberg@home.com>
 

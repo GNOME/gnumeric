@@ -1074,9 +1074,7 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 	sheet_view_scrollbar_config (gsheet->sheet_view);
 
 	/* Force the cursor to update its bounds relative to the new visible region */
-	item_cursor_set_bounds (ic,
-				ic->pos.start.col, ic->pos.start.row,
-				ic->pos.end.col,   ic->pos.end.row);
+	item_cursor_reposition (gsheet->item_cursor);
 }
 
 static int

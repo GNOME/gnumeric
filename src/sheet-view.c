@@ -301,7 +301,7 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, She
 	Sheet *sheet = sheet_view->sheet;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 
-	/* Ensure that col row exists, ignore result */
+	/* Ensure that the col exists, ignore result */
 	sheet_col_fetch (sheet, col);
 
 	if (modifiers){

@@ -2110,6 +2110,13 @@ sheet_cursor_set (Sheet *sheet,
 
 	sheet_accept_pending_input (sheet);
 
+	/* Redraw the old edit cell */
+	sheet_redraw_cell_region (sheet,
+				  sheet->cursor.edit_pos.col,
+				  sheet->cursor.edit_pos.row,
+				  sheet->cursor.edit_pos.col,
+				  sheet->cursor.edit_pos.row);
+
 	sheet->cursor.edit_pos.col = edit_col;
 	sheet->cursor.edit_pos.row = edit_row;
 	sheet->cursor.base_corner.col = base_col;

@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_ITEM_CURSOR_H
 #define GNUMERIC_ITEM_CURSOR_H
 
-#include "sheet.h"
+#include "gnumeric.h"
 #include "item-grid.h"
 
 #define ITEM_CURSOR(obj)          (GTK_CHECK_CAST((obj), item_cursor_get_type (), ItemCursor))
@@ -65,14 +65,15 @@ typedef struct {
 	GnomeCanvasItemClass parent_class;
 } ItemCursorClass;
 
-void item_cursor_set_bounds     (ItemCursor *item_cursor,
-				 int start_col, int start_row,
-				 int end_col, int end_row);
+void          item_cursor_set_bounds (ItemCursor *item_cursor,
+				      int start_col, int start_row,
+				      int end_col, int end_row);
+
 void item_cursor_set_spin_base  (ItemCursor *item_cursor,
 				 int col, int row);
 
 void item_cursor_set_visibility (ItemCursor *item_cursor,
-				 int visible);
-void item_cursor_reposition      (ItemCursor *item_cursor);
+				 gboolean const visible);
+void item_cursor_reposition     (ItemCursor *item_cursor);
 
 #endif /* GNUMERIC_ITEM_CURSOR_H */
