@@ -3331,7 +3331,7 @@ msgstr "Дисперсионный анализ: двухфакторный"
 
 #: src/dialogs/anova-two.glade.h:7
 msgid "Number of Rows _Per Sample:"
-msgstr "Число строк на образц:"
+msgstr "Число строк на образец:"
 
 #: src/dialogs/autocorrect.glade.h:1
 msgid "Auto Correct"
@@ -4456,11 +4456,11 @@ msgstr "Выбранные входные области должны иметь одинаковый размер!"
 
 #: src/dialogs/dialog-analysis-tools.c:606
 msgid "Could not create the Correlation Tool dialog."
-msgstr "Невозможно создать диалог рассчёта корреляции."
+msgstr "Невозможно создать диалог расчёта корреляции."
 
 #: src/dialogs/dialog-analysis-tools.c:722
 msgid "Could not create the Covariance Tool dialog."
-msgstr "Невозможно создать диалог рассчёта ковариации."
+msgstr "Невозможно создать диалог расчёта ковариации."
 
 #: src/dialogs/dialog-analysis-tools.c:958
 msgid "Could not create the Descriptive Statistics Tool dialog."
@@ -4468,7 +4468,7 @@ msgstr "Невозможно создать диалог описательной статистики."
 
 #: src/dialogs/dialog-analysis-tools.c:1062
 msgid "Could not create the Rank and  Percentile Tools dialog."
-msgstr "Невозможно создать диалог рассчёта рангов и процентилей."
+msgstr "Невозможно создать диалог расчёта рангов и процентилей."
 
 #: src/dialogs/dialog-analysis-tools.c:1155
 msgid ""
@@ -4680,7 +4680,7 @@ msgstr "Переменная Y:"
 
 #: src/dialogs/dialog-analysis-tools.c:2776
 msgid "Could not create the Regression Tool dialog."
-msgstr "Невозможно создать диалог рассчёта регрессии."
+msgstr "Невозможно создать диалог расчёта регрессии."
 
 #: src/dialogs/dialog-analysis-tools.c:2947
 msgid "Could not create the Exponential Smoothing Tool dialog."
@@ -4708,7 +4708,7 @@ msgstr "Двоичный диапазон:"
 
 #: src/dialogs/dialog-analysis-tools.c:3581
 msgid "Could not create the Histogram Tool dialog."
-msgstr "Невозможно создать диалог рассчёта гистограммы."
+msgstr "Невозможно создать диалог расчёта гистограммы."
 
 #: src/dialogs/dialog-analysis-tools.c:3755
 msgid "Could not create the ANOVA (single factor) tool dialog."
@@ -9545,7 +9545,7 @@ msgstr ""
 "Если @method = true (истина), используется европейский способ.  В этом "
 "случае, если в месяце 31 день, считается что их 30.\n"
 "Если @method = false (ложь) или опущен, используется американский способ "
-"US.  Это нечто вроде промышленого стандарта.\n"
+"US.  Это нечто вроде промышленного стандарта.\n"
 "Заметьте, что Gnumeric будет выполнять преобразование строк в "
 "последовательные номера, поэтому вы можете вводить дату как строку.\n"
 "Эта функция совместима с Excel.\n"
@@ -15279,7 +15279,7 @@ msgstr ""
 "обоих концов набора.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
-"Допутим, что ячейки A1,A2...A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1. "
+"Допустим, что ячейки A1,A2...A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1. "
 "Тогда\n"
 "TRIMMEAN(A1:A5,0.2) равняется 23.2.\n"
 "\n"
@@ -17873,7 +17873,7 @@ msgstr ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
 "@DESCRIPTION=TEXT возвращает @value как строку указанного формата.\n"
-"Эта функия совместима с Excel.\n"
+"Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
 "TEXT(3.223,\"$0.00\") равняется \"$3.22\".\n"
 "TEXT(date(1999,4,15),\"mmmm, dd, yy\") равняется \"Апрель, 15, 99\".\n"
@@ -18974,7 +18974,7 @@ msgstr "Ширина рамки"
 
 #: src/sheet-object-graphic.c:866 src/sheet-object-graphic.c:872
 msgid "Transparent"
-msgstr "Прозначный"
+msgstr "Прозрачный"
 
 #: src/sheet-object-widget.c:724
 msgid "Scrollbar Configure"
@@ -19685,7 +19685,7 @@ msgstr ""
 
 #: src/tools/solver/reports-write.c:768
 msgid "Computing Time"
-msgstr "Время рассчёта"
+msgstr "Время расчёта"
 
 #: src/tools/solver/reports-write.c:769
 msgid "System Information"
