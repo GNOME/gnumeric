@@ -1,3 +1,9 @@
+1999-07-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* html.c: Split the code in manageable chunks.
+
+	* html.c: Removed useless pieces of code.
+
 07/07/99 (rasca)
 	- added first latex export code
 	- minor code clean ups

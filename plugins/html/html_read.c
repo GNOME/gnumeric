@@ -55,6 +55,96 @@ html_fprintf (FILE *fp, const char *s)
 	return len;
 }
 
+static void
+html_write_cell32 (FILE *fp, Cell *cell)
+{
+	Style *style;
+	unsigned char r,g,b;
+
+	if (!cell) {
+		fprintf (fp, "\t<TD?>\n");
+		return;
+	} 
+
+	style = cell->style;
+	fprintf (fp, "\t<TD");
+	if (style->halign & HALIGN_RIGHT)
+		fprintf (fp, " align=right");
+	if (style->halign & HALIGN_CENTER)
+		fprintf (fp, " align=center");
+	if (style->valign & VALIGN_TOP)
+		fprintf (fp, " valign=top");
+	r = style->back_color->color.red >> 8;
+	g = style->back_color->color.green >> 8;
+	b = style->back_color->color.blue >> 8;
+	if (r != 255 || g != 255 || b != 255)
+		fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
+	fprintf (fp, ">");
+	r = style->fore_color->color.red >> 8;
+	g = style->fore_color->color.green >> 8;
+	b = style->fore_color->color.blue >> 8;
+	if (r != 0 || g != 0 || b != 0)
+		fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
+			 r, g, b);
+	if (style->font->is_bold)
+		fprintf (fp, "<B>");
+	if (style->font->is_italic)
+		fprintf (fp, "<I>");
+	html_fprintf (fp, cell->text->str);
+	if (style->font->is_bold)
+		fprintf (fp, "</B>");
+	if (style->font->is_italic)
+		fprintf (fp, "</I>");
+	if (r != 0 || g != 0 || b != 0)
+		fprintf (fp, "</FONT>");
+	fprintf (fp, "\n");
+}
+
+static void
+html_write_cell40 (FILE *fp, Cell *cell)
+{
+	Style *style;
+	unsigned char r,g,b;
+
+	if (!cell) {
+		fprintf (fp, "\t<TD?>\n");
+		return;
+	}
+	
+	style = cell->style;
+	fprintf (fp, "\t<TD");
+	if (style->halign & HALIGN_RIGHT)
+		fprintf (fp, " halign=right");
+	if (style->halign & HALIGN_CENTER)
+		fprintf (fp, " halign=center");
+	if (style->valign & VALIGN_TOP)
+		fprintf (fp, " valign=top");
+	r = style->back_color->color.red >> 8;
+	g = style->back_color->color.green >> 8;
+	b = style->back_color->color.blue >> 8;
+	if (r != 255 || g != 255 || b != 255)
+		fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
+	fprintf (fp, ">");
+	r = style->fore_color->color.red >> 8;
+	g = style->fore_color->color.green >> 8;
+	b = style->fore_color->color.blue >> 8;
+	if (r != 0 || g != 0 || b != 0)
+		fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
+			 r, g, b);
+	if (style->font->is_bold)
+		fprintf (fp, "<B>");
+	if (style->font->italic)
+		fprintf (fp, "<I>");
+	html_fprintf (fp, cell->text->str);
+	if (style->font->is_bold)
+		fprintf (fp, "</B>");
+	if (style->font->is_italic)
+		fprintf (fp, "</I>");
+	if (r != 0 || g != 0 || b != 0)
+		fprintf (fp, "</FONT>");
+	fprintf (fp, "\n");
+}
+
 /*
  * write every sheet of the workbook to a html 3.2 table
  */
@@ -65,7 +155,6 @@ html_write_wb_html32 (Workbook *wb, const char *filename)
 	GList *sheet_list;
 	Sheet *sheet;
 	Cell *cell;
-	Style *style;
 	int row, col;
 	unsigned char r,g,b;
 
@@ -88,49 +177,7 @@ html_write_wb_html32 (Workbook *wb, const char *filename)
 			fprintf (fp, "<TR>\n");
 			for (col = 0; col < (sheet->max_col_used+1); col++) {
 				cell = sheet_cell_get (sheet, col, row);
-				if (!cell) {
-					fprintf (fp, "\t<TD?>\n");
-				} else {
-					style = cell->style;
-					if (!style) {
-						/* is this case posible? */
-						fprintf (fp, "\t<TD>");
-						html_fprintf (fp, cell->text->str);
-						fprintf (fp, "\n");
-					} else {
-						fprintf (fp, "\t<TD");
-						if (style->halign & HALIGN_RIGHT)
-							fprintf (fp, " align=right");
-						if (style->halign & HALIGN_CENTER)
-							fprintf (fp, " align=center");
-						if (style->valign & VALIGN_TOP)
-							fprintf (fp, " valign=top");
-						r = style->back_color->color.red >> 8;
-						g = style->back_color->color.green >> 8;
-						b = style->back_color->color.blue >> 8;
-						if (r != 255 || g != 255 || b != 255)
-							fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
-						fprintf (fp, ">");
-						r = style->fore_color->color.red >> 8;
-						g = style->fore_color->color.green >> 8;
-						b = style->fore_color->color.blue >> 8;
-						if (r != 0 || g != 0 || b != 0)
-							fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
-									r, g, b);
-						if (style->font->hint_is_bold)
-							fprintf (fp, "<B>");
-						if (style->font->hint_is_italic)
-							fprintf (fp, "<I>");
-						html_fprintf (fp, cell->text->str);
-						if (style->font->hint_is_bold)
-							fprintf (fp, "</B>");
-						if (style->font->hint_is_italic)
-							fprintf (fp, "</I>");
-						if (r != 0 || g != 0 || b != 0)
-							fprintf (fp, "</FONT>");
-						fprintf (fp, "\n");
-					}
-				}
+				html_write_cell32 (fp, cell);
 			}
 			fprintf (fp, "</TR>\n");
 		}
@@ -152,9 +199,7 @@ html_write_wb_html40 (Workbook *wb, const char *filename)
 	GList *sheet_list;
 	Sheet *sheet;
 	Cell *cell;
-	Style *style;
 	int row, col;
-	unsigned char r,g,b;
 
 	g_return_val_if_fail (wb != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
@@ -175,49 +220,7 @@ html_write_wb_html40 (Workbook *wb, const char *filename)
 			fprintf (fp, "<TR>\n");
 			for (col = 0; col < (sheet->max_col_used+1); col++) {
 				cell = sheet_cell_get (sheet, col, row);
-				if (!cell) {
-					fprintf (fp, "\t<TD?>\n");
-				} else {
-					style = cell->style;
-					if (!style) {
-						/* is this case posible? */
-						fprintf (fp, "\t<TD>");
-						html_fprintf (fp, cell->text->str);
-						fprintf (fp, "\n");
-					} else {
-						fprintf (fp, "\t<TD");
-						if (style->halign & HALIGN_RIGHT)
-							fprintf (fp, " halign=right");
-						if (style->halign & HALIGN_CENTER)
-							fprintf (fp, " halign=center");
-						if (style->valign & VALIGN_TOP)
-							fprintf (fp, " valign=top");
-						r = style->back_color->color.red >> 8;
-						g = style->back_color->color.green >> 8;
-						b = style->back_color->color.blue >> 8;
-						if (r != 255 || g != 255 || b != 255)
-							fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
-						fprintf (fp, ">");
-						r = style->fore_color->color.red >> 8;
-						g = style->fore_color->color.green >> 8;
-						b = style->fore_color->color.blue >> 8;
-						if (r != 0 || g != 0 || b != 0)
-							fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
-									r, g, b);
-						if (style->font->hint_is_bold)
-							fprintf (fp, "<B>");
-						if (style->font->hint_is_italic)
-							fprintf (fp, "<I>");
-						html_fprintf (fp, cell->text->str);
-						if (style->font->hint_is_bold)
-							fprintf (fp, "</B>");
-						if (style->font->hint_is_italic)
-							fprintf (fp, "</I>");
-						if (r != 0 || g != 0 || b != 0)
-							fprintf (fp, "</FONT>");
-						fprintf (fp, "\n");
-					}
-				}
+				html_write_cell40 (fp, cell);
 			}
 			fprintf (fp, "</TR>\n");
 		}
