@@ -33,7 +33,10 @@
 
 #define EXCEL_DEBUG 0
 
+typedef struct _XF       XF;
+typedef struct _FONTS    FONTS;
 typedef struct _SHEET    SHEET;
+typedef struct _PALETTE  PALETTE;
 typedef struct _WORKBOOK WORKBOOK;
 
 struct _SHEET {
@@ -47,6 +50,8 @@ struct _WORKBOOK {
 	Workbook      *gnum_wb;
 	GPtrArray     *sheets;
 	eBiff_version  ver;
+	PALETTE       *pal;
+	FONTS         *fonts;
 };
 
 /**
@@ -60,12 +65,13 @@ biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver, gboolean write_len)
 #define BLK_LEN 16
 
 	guint8 data[BLK_LEN];
-	guint32 lpi, lpo, len, ans ;
+	guint32 chunks, pos, lpc, lp, len, ans;
 
 	g_return_if_fail (bp);
 	g_return_if_fail (txt);
 
 	len = strlen (txt);
+/*	printf ("Write '%s' len = %d\n", txt, len); */
 	if (ver >= eBiffV8) { /* Write header & word length*/
 		data[0] = 0;
 		if (write_len) {
@@ -87,11 +93,22 @@ biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver, gboolean write_len)
 	}
 
 	/* An attempt at efficiency */
-	for (lpo=0;lpo<(len+BLK_LEN-1)/BLK_LEN;lpo++) {
-		guint cpy = (len-lpo*BLK_LEN)%BLK_LEN;
-		for (lpi=0;lpi<cpy;lpi++)
-			data[lpi]=*txt++;
-		ms_biff_put_var_write (bp, data, cpy);
+	chunks = len/BLK_LEN;
+	pos    = 0;
+	for (lpc=0;lpc<chunks;lpc++) {
+		for (lp=0;lp<BLK_LEN;lp++,pos++)
+			data[lp] = txt[pos];
+/*		data[BLK_LEN] = '\0';
+		printf ("Writing chunk '%s'\n", data); */
+		ms_biff_put_var_write (bp, data, BLK_LEN);
+	}
+	len = len-pos;
+	if (len > 0) {
+	        for (lp=0;lp<len;lp++,pos++)
+			data[lp] = txt[pos];
+/*		data[lp] = '\0';
+		printf ("Writing chunk '%s'\n", data); */
+		ms_biff_put_var_write (bp, data, lp);
 	}
 /* ans is the length but do we need it ? */
 #undef BLK_LEN
@@ -164,6 +181,34 @@ biff_eof_write (BIFF_PUT *bp)
 	ms_biff_put_len_commit (bp);
 }
 
+static void
+write_magic_interface (BIFF_PUT *bp, eBiff_version ver)
+{
+  guint8 *data;
+  if (ver >= eBiffV8) {
+    ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 0);
+    ms_biff_put_len_commit (bp);
+    data = ms_biff_put_len_next (bp, BIFF_MMS, 2);
+    BIFF_SET_GUINT16(data, 0);
+    ms_biff_put_len_commit (bp);
+    ms_biff_put_len_next (bp, 0xbf, 0);
+    ms_biff_put_len_commit (bp);
+    ms_biff_put_len_next (bp, 0xc0, 0);
+    ms_biff_put_len_commit (bp);
+    ms_biff_put_len_next (bp, BIFF_INTERFACEEND, 0);
+    ms_biff_put_len_commit (bp);
+  }
+}
+
+/* See: S59E1A.HTM */
+static void
+write_constants (BIFF_PUT *bp, eBiff_version ver)
+{
+  ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
+  biff_put_text (bp, "the Free Software Foundation", ver, TRUE);
+  ms_biff_put_var_commit (bp);
+}
+
 /**
  * Returns stream position of start.
  * See: S59D61.HTM
@@ -224,8 +269,170 @@ biff_boundsheet_write_last (MS_OLE_STREAM *s, guint32 pos,
 	s->lseek (s, oldpos, MS_OLE_SEEK_SET);
 }
 
+struct _PALETTE {
+	GHashTable *col_to_idx;
+};
+
+#define PALETTE_WHITE 0
+#define PALETTE_BLACK 1
+
+static PALETTE *
+write_palette (BIFF_PUT *bp, WORKBOOK *wb)
+{
+	PALETTE *pal = g_new (PALETTE, 1);
+	guint8  r,g,b, data[16];
+	guint32 num;
+	pal->col_to_idx = g_hash_table_new (g_direct_hash,
+					    g_direct_equal);
+	/* FIXME: should scan styles for colors and write intelligently. */
+	ms_biff_put_var_next (bp, BIFF_PALETTE);
+	
+	BIFF_SET_GUINT16 (data, 2); /* Entries */
+
+	r = g = b = 0xff;
+	num = (r<<16) + (g<<8) + (b<<0);
+	BIFF_SET_GUINT32 (data+2+PALETTE_WHITE*4, num);
+	
+	r = g = b = 0x00;
+	num = (r<<16) + (g<<8) + (b<<0);
+	BIFF_SET_GUINT32 (data+2+PALETTE_BLACK*4, num);	
+
+	ms_biff_put_var_write  (bp, data, 10);
+
+	ms_biff_put_var_commit (bp);
+
+	return pal;
+}
+
+/* To be used ... */
+static guint32
+palette_lookup (PALETTE *pal, StyleColor *col)
+{
+	return PALETTE_WHITE;
+}
+
 static void
-write_value (BIFF_PUT *bp, Value *v, eBiff_version ver, guint32 col, guint32 row, guint16 xf)
+palette_free (PALETTE *pal)
+{
+	if (pal) {
+		/* Leak need to free indexes too */
+		g_hash_table_destroy (pal->col_to_idx);
+		g_free (pal);
+	}
+}
+
+struct _FONTS {
+	GHashTable *StyleFont_to_idx;
+};
+
+/* See S59D8C.HTM */
+static FONTS *
+write_fonts (BIFF_PUT *bp, WORKBOOK *wb)
+{
+	FONTS *fonts = g_new (FONTS, 1);
+	guint8 data[64];
+
+	fonts->StyleFont_to_idx = g_hash_table_new (g_direct_hash,
+						    g_direct_equal);
+	/* Kludge for now ... */
+	ms_biff_put_var_next (bp, BIFF_FONT);
+
+	BIFF_SET_GUINT16(data + 0, 12*20); /* 12 point */
+	BIFF_SET_GUINT16(data + 2, (0<<1) + (0<<3)); /* italic, struck */
+	BIFF_SET_GUINT16(data + 4, PALETTE_BLACK);
+	BIFF_SET_GUINT16(data + 6, 0x190); /* Normal boldness */
+	BIFF_SET_GUINT16(data + 8, 0); /* 0: Normal, 1; Super, 2: Sub script*/
+	BIFF_SET_GUINT16(data +10, 0); /* No underline */
+	BIFF_SET_GUINT16(data +12, 0); /* ? */
+	ms_biff_put_var_write (bp, data, 14);
+
+	biff_put_text (bp, "Arial", eBiffV7, TRUE);
+
+	ms_biff_put_var_commit (bp);
+
+	return fonts;
+}
+
+static guint32
+fonts_get_index (FONTS *fonts, StyleFont *sf)
+{
+	return 0;
+}
+
+static void
+fonts_free (FONTS *fonts)
+{
+	if (fonts) {
+		g_free (fonts->StyleFont_to_idx);
+		g_free (fonts);
+	}
+}
+
+#define XF_MAGIC 0
+
+/* See S59E1E.HTM */
+static void
+write_xf_record (BIFF_PUT *bp, Style *style, eBiff_version ver)
+{
+	guint8 data[256];
+	int lp;
+
+	for (lp=0;lp<250;lp++)
+		data[lp] = 0;
+
+	if (ver >= eBiffV8)
+		ms_biff_put_var_next (bp, BIFF_XF);
+	else
+		ms_biff_put_var_next (bp, BIFF_XF_OLD);
+
+	if (ver >= eBiffV8) {
+		BIFF_SET_GUINT16(data+18, (PALETTE_WHITE<<7) + PALETTE_WHITE);
+		ms_biff_put_var_write (bp, data, 24);
+	} else {
+		BIFF_SET_GUINT16(data+8,  (PALETTE_WHITE<<7) + PALETTE_WHITE);
+		ms_biff_put_var_write (bp, data, 20);
+	}
+	ms_biff_put_var_commit (bp);
+}
+
+struct _XF {
+	GHashTable *Style_to_idx;
+};
+
+static XF *
+write_xf (BIFF_PUT *bp, WORKBOOK *wb)
+{
+	int lp;
+	/* FIXME: Scan through all the Styles... */
+	XF *xf = g_new (XF, 1);
+	xf->Style_to_idx = g_hash_table_new (g_direct_hash,
+					    g_direct_equal);
+	/* Need at least 16 apparently */
+	for (lp=0;lp<16;lp++)
+		write_xf_record (bp, NULL, wb->ver);
+	return xf;
+}
+
+static guint32
+xf_lookup (XF *xf, Style *style)
+{
+	/* Fixme: Hash table lookup */
+	return XF_MAGIC;
+}
+
+static void
+xf_free (XF *xf)
+{
+	if (xf) {
+		/* Another leak */
+		g_hash_table_destroy (xf->Style_to_idx);
+		g_free (xf);
+	}
+}
+
+static void
+write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
+	     guint32 col, guint32 row, guint16 xf)
 {
 	switch (v->type) {
 
@@ -303,6 +510,7 @@ typedef struct {
 	SHEET    *sheet;
 	BIFF_PUT *bp;
 } CellArgs;
+
 static void
 write_cell (gpointer key, Cell *cell, CellArgs *a)
 {
@@ -312,14 +520,14 @@ write_cell (gpointer key, Cell *cell, CellArgs *a)
 	g_return_if_fail (cell);
 
 	if (cell->parsed_node)
-#if EXCEL_DEBUG > 0
+#if EXCEL_DEBUG > 1
 		printf ("FIXME: Skipping function\n");
 #else
 ;
 #endif
 	else if (cell->value)
 		write_value (bp, cell->value, a->sheet->wb->ver,
-			     cell->col->pos, cell->row->pos, 0);
+			     cell->col->pos, cell->row->pos, XF_MAGIC);
 }
 
 static void
@@ -380,6 +588,11 @@ write_workbook (BIFF_PUT *bp, Workbook *gwb, eBiff_version ver)
 	/* Workbook */
 	biff_bof_write (bp, ver, eBiffTWorkbook);
 
+	write_magic_interface (bp, ver);
+	write_constants (bp, ver);
+	wb->pal   = write_palette (bp, wb);
+	wb->fonts = write_fonts (bp, wb);
+
 	for (lp=0;lp<wb->sheets->len;lp++) {
 		s = g_ptr_array_index (wb->sheets, lp);
 	        s->boundsheetPos = biff_boundsheet_write_first (bp, eBiffTWorksheet,
@@ -401,6 +614,9 @@ write_workbook (BIFF_PUT *bp, Workbook *gwb, eBiff_version ver)
 					    s->streamPos);
 	}
 	/* End Finalised workbook */
+
+	fonts_free (wb->fonts);
+	palette_free (wb->pal);
 }
 
 int

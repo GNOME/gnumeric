@@ -508,10 +508,10 @@ biff_font_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY *q)
 
 	fd->height = BIFF_GETWORD (q->data + 0);
 	data = BIFF_GETWORD (q->data + 2);
-	fd->italic = (data & 0x2) == 0x2;
+	fd->italic     = (data & 0x2) == 0x2;
 	fd->struck_out = (data & 0x8) == 0x8;
-	fd->color_idx = BIFF_GETWORD (q->data + 4);
-	fd->boldness = BIFF_GETWORD (q->data + 6);
+	fd->color_idx  = BIFF_GETWORD (q->data + 4);
+	fd->boldness   = BIFF_GETWORD (q->data + 6);
 	data = BIFF_GETWORD (q->data + 8);
 	switch (data){
 	case 0:
@@ -549,7 +549,7 @@ biff_font_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY *q)
 
 #if EXCEL_DEBUG > 0
 		printf ("Insert font '%s' size %d pts\n",
-			fd->fontname, fd->height * 20);
+			fd->fontname, fd->height / 20);
 #endif
 	fd->style_font = 0 ;
         fd->index = g_hash_table_size (wb->font_data) ;

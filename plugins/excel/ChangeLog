@@ -1,3 +1,10 @@
+1999-05-28  Michael Meeks  <michael@imaginator.com>
+
+	* ms-excel-write.c: Minimal Pallete / XF writing.
+	Basic font writing.
+	(biff_put_text): Horrendous bug fixed.
+	(write_magic_interface): Magic...
+
 1999-05-26  Michael Meeks  <michael@imaginator.com>
 
 	* biff-types.h: Fleshed out defines, now the 'compatible'
