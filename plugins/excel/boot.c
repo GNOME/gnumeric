@@ -207,6 +207,12 @@ excel95_file_save (GnumFileSaver const *fs, IOContext *context,
 }
 
 
+void
+plugin_init (void)
+{
+	ms_excel_read_init ();
+}
+
 /*
  * Cleanup allocations made by this plugin.
  * (Called right before we are unloaded.)

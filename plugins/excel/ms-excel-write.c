@@ -1273,7 +1273,7 @@ static void
 formats_put_magic (ExcelWorkbook *wb)
 {
 	int i;
-	char *fmt;
+	char const *fmt;
 
 	for (i = 0; i < EXCEL_BUILTIN_FORMAT_LEN; i++) {
 		fmt = excel_builtin_formats[i];

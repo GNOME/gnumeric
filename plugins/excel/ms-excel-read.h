@@ -125,5 +125,6 @@ void          ms_excel_unexpected_biff (BiffQuery *q,
 					int debug_level);
 
 void ms_excel_read_cleanup (void);
+void ms_excel_read_init (void);
 
 #endif

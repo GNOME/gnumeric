@@ -47,7 +47,7 @@ typedef struct {
 extern  EXCEL_PALETTE_ENTRY const excel_default_palette[];
 #define EXCEL_DEF_PAL_LEN   56
 
-extern  char *excel_builtin_formats[];
+extern  char const *excel_builtin_formats[];
 #define EXCEL_BUILTIN_FORMAT_LEN 0x32
 
 typedef struct

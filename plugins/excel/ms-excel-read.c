@@ -30,6 +30,7 @@
 #include "cell.h"
 #include "sheet-merge.h"
 #include "format.h"
+#include "formats.h"
 #include "eval.h"
 #include "value.h"
 #include "gutils.h"
@@ -689,7 +690,7 @@ biff_font_data_destroy (gpointer key, BiffFontData *fd, gpointer userdata)
 	return 1;
 }
 
-char *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
+char const *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x00 */	"General",
 /* 0x01 */	"0",
 /* 0x02 */	"0.00",
@@ -704,15 +705,15 @@ char *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x0b */	"0.00E+00",
 /* 0x0c */	"# ?/?",
 /* 0x0d */	"# ?" "?/?" "?",  /* Don't accidentally use trigraph.  */
-/* 0x0e */	"m/d/yy",
-/* 0x0f */	"d-mmm-yy",
-/* 0x10 */	"d-mmm",
-/* 0x11 */	"mmm-yy",
+/* 0x0e 	"m/d/yy" */ NULL,	/* locale specific, set in */
+/* 0x0f 	"d-mmm-yy", */ NULL,	/* ms_excel_read_init */
+/* 0x10 	"d-mmm", */ NULL,
+/* 0x11 */ 	"mmm-yy",
 /* 0x12 */	"h:mm AM/PM",
 /* 0x13 */	"h:mm:ss AM/PM",
 /* 0x14 */	"h:mm",
 /* 0x15 */	"h:mm:ss",
-/* 0x16 */	"m/d/yy h:mm",
+/* 0x16 	"m/d/yy h:mm", */ NULL,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0, /* 0x17-0x24 reserved for intl versions */
 /* 0x25 */	"#,##0_);(#,##0)",
 /* 0x26 */	"#,##0_);[Red](#,##0)",
@@ -732,9 +733,9 @@ char *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 StyleFormat *
 biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx)
 {
-	char *ans = NULL;
-	BiffFormatData *d = g_hash_table_lookup (wb->format_data,
-						 &idx);
+	char const *ans = NULL;
+	BiffFormatData const *d = g_hash_table_lookup (wb->format_data, &idx);
+
 	if (d)
 		ans = d->name;
 	else if (idx <= 0x31) {
@@ -4451,6 +4452,15 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	gnumeric_io_error_read (context, _("Unable to locate valid MS Excel workbook"));
 }
 
+
+void
+ms_excel_read_init (void)
+{
+	excel_builtin_formats [0x0e] = cell_formats [FMT_DATE][0];
+	excel_builtin_formats [0x0f] = cell_formats [FMT_DATE][2];
+	excel_builtin_formats [0x10] = cell_formats [FMT_DATE][4];
+	excel_builtin_formats [0x16] = cell_formats [FMT_DATE][20];
+}
 
 void
 ms_excel_read_cleanup (void)

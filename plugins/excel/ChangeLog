@@ -1,3 +1,12 @@
+2001-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (formats_put_magic) : const.
+
+	* ms-excel-read.c (ms_excel_read_init) : new function to init the
+	  locale specific date format.
+
+	* boot.c (plugin_init) : new function.
+
 2001-06-27  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.66
