@@ -32,7 +32,7 @@ static GnomeCanvasItem *item_cursor_parent_class;
 /* The argument we take */
 enum {
 	ARG_0,
-	ARG_SHEETVIEW,		/* The SheetControlGUI * argument */
+	ARG_SHEET_CONTROL_GUI,	/* The SheetControlGUI * argument */
 	ARG_ITEM_GRID,		/* The ItemGrid * argument */
 	ARG_STYLE,              /* The style type */
 	ARG_COLOR,              /* The optional color */
@@ -151,7 +151,7 @@ item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, in
 {
 	ItemCursor    *item_cursor = ITEM_CURSOR (item);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
-	Sheet         *sheet = item_cursor->sheet_view->sheet;
+	Sheet         *sheet = item_cursor->scg->sheet;
 
 	int x, y, w, h, extra;
 
@@ -587,7 +587,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		new_item = gnome_canvas_item_new (
 			GNOME_CANVAS_GROUP (canvas->root),
 			item_cursor_get_type (),
-			"ItemCursor::SheetControlGUI", ic->sheet_view,
+			"ItemCursor::SheetControlGUI", ic->scg,
 			"ItemCursor::Grid",  ic->item_grid,
 			"ItemCursor::Style", style,
 			NULL);
@@ -656,7 +656,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_2BUTTON_PRESS: {
-		Sheet *sheet = ic->sheet_view->sheet;
+		Sheet *sheet = ic->scg->sheet;
 		int final_col = ic->pos.end.col;
 		int final_row = ic->pos.end.col;
 
@@ -673,7 +673,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
-		workbook_finish_editing (ic->sheet_view->wbcg, TRUE);
+		workbook_finish_editing (ic->scg->wbcg, TRUE);
 
 		if (sheet_is_region_empty (sheet, &ic->pos))
 			return TRUE;
@@ -715,7 +715,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 
 		/* fill the row/column */
-		cmd_autofill (WORKBOOK_CONTROL (ic->sheet_view->wbcg), sheet,
+		cmd_autofill (WORKBOOK_CONTROL (ic->scg->wbcg), sheet,
 			      ic->pos.start.col,    ic->pos.start.row,
 			      ic->pos.end.col - ic->pos.start.col + 1,
 			      ic->pos.end.row - ic->pos.start.row + 1,
@@ -763,12 +763,12 @@ item_cursor_target_region_ok (ItemCursor *ic)
 	int v;
 	GtkWidget	*message;
 	GnomeCanvasItem *gci = GNOME_CANVAS_ITEM (ic);
-	SheetControlGUI	*sheet_view = ic->sheet_view;
+	SheetControlGUI	*scg = ic->scg;
 
 	g_return_val_if_fail (gci != NULL, FALSE);
 	g_return_val_if_fail (gci->canvas != NULL, FALSE);
 
-	if (sheet_is_region_empty_or_selected (sheet_view->sheet, &ic->pos))
+	if (sheet_is_region_empty_or_selected (scg->sheet, &ic->pos))
 		return TRUE;
 
 	message = gnome_message_box_new (
@@ -779,7 +779,7 @@ item_cursor_target_region_ok (ItemCursor *ic)
 		GNOME_STOCK_BUTTON_YES,
 		GNOME_STOCK_BUTTON_NO,
 		NULL);
-	v = gnumeric_dialog_run (sheet_view->wbcg, GNOME_DIALOG (message));
+	v = gnumeric_dialog_run (scg->wbcg, GNOME_DIALOG (message));
 
 	if (v == 0)
 		return TRUE;
@@ -811,37 +811,37 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 
 	g_return_if_fail (item_cursor != NULL);
 
-	sheet = item_cursor->sheet_view->sheet;
+	sheet = item_cursor->scg->sheet;
 
 	switch (action) {
 	case ACTION_COPY_CELLS:
-		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet))
+		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->scg->wbcg), sheet))
 			break;
-		cmd_paste (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg),
+		cmd_paste (WORKBOOK_CONTROL (item_cursor->scg->wbcg),
 			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_ALL_TYPES),
 			   time);
 		break;
 
 	case ACTION_MOVE_CELLS:
-		if (!sheet_selection_cut (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet))
+		if (!sheet_selection_cut (WORKBOOK_CONTROL (item_cursor->scg->wbcg), sheet))
 			break;
-		cmd_paste (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg),
+		cmd_paste (WORKBOOK_CONTROL (item_cursor->scg->wbcg),
 			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_ALL_TYPES),
 			   time);
 		break;
 
 	case ACTION_COPY_FORMATS:
-		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet))
+		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->scg->wbcg), sheet))
 			break;
-		cmd_paste (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg),
+		cmd_paste (WORKBOOK_CONTROL (item_cursor->scg->wbcg),
 			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_FORMATS),
 			   time);
 		break;
 
 	case ACTION_COPY_VALUES:
-		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet))
+		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->scg->wbcg), sheet))
 			break;
-		cmd_paste (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg),
+		cmd_paste (WORKBOOK_CONTROL (item_cursor->scg->wbcg),
 			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_AS_VALUES),
 			   time);
 		break;
@@ -916,7 +916,7 @@ static void
 item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 {
 	/* Only do the operation if something moved */
-	Sheet const *sheet = ic->sheet_view->sheet;
+	Sheet const *sheet = ic->scg->sheet;
 	Range const *target = selection_first_range (sheet, FALSE);
 
 	if (target == NULL || range_equal (target, &ic->pos)) {
@@ -1011,7 +1011,7 @@ item_cursor_tip_setlabel (ItemCursor *item_cursor)
 #endif
 
 static gboolean
-cb_move_cursor (SheetControlGUI *sheet_view, int col, int row, gpointer user_data)
+cb_move_cursor (SheetControlGUI *scg, int col, int row, gpointer user_data)
 {
 	ItemCursor *item_cursor = user_data;
 	int const w = (item_cursor->pos.end.col - item_cursor->pos.start.col);
@@ -1077,14 +1077,14 @@ item_cursor_handle_motion (ItemCursor *item_cursor, GdkEvent *event,
 		else if (y >= top + height)
 			dy = y - height - top;
 
-		if (sheet_view_start_sliding (item_cursor->sheet_view,
+		if (sheet_view_start_sliding (item_cursor->scg,
 					      slide_handler, item_cursor,
 					      col, row, dx, dy))
 			return;
 	}
-	sheet_view_stop_sliding (item_cursor->sheet_view);
+	sheet_view_stop_sliding (item_cursor->scg);
 
-	(*slide_handler) (item_cursor->sheet_view, col, row, item_cursor);
+	(*slide_handler) (item_cursor->scg, col, row, item_cursor);
 }
 
 static gint
@@ -1094,7 +1094,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
-		sheet_view_stop_sliding (item_cursor->sheet_view);
+		sheet_view_stop_sliding (item_cursor->scg);
 
 		gnome_canvas_item_ungrab (item, event->button.time);
 		item_cursor_do_drop (item_cursor, (GdkEventButton *) event);
@@ -1116,7 +1116,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static gboolean
-cb_autofill_scroll (SheetControlGUI *sheet_view, int col, int row, gpointer user_data)
+cb_autofill_scroll (SheetControlGUI *scg, int col, int row, gpointer user_data)
 {
 	ItemCursor *item_cursor = user_data;
 	int bottom = item_cursor->base_row + item_cursor->base_rows;
@@ -1153,8 +1153,8 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 	switch (event->type){
 
 	case GDK_BUTTON_RELEASE: {
-		Sheet *sheet = item_cursor->sheet_view->sheet;
-		sheet_view_stop_sliding (item_cursor->sheet_view);
+		Sheet *sheet = item_cursor->scg->sheet;
+		sheet_view_stop_sliding (item_cursor->scg);
 
 		/*
 		 * We flush after the ungrab, to have the ungrab take
@@ -1165,8 +1165,8 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
-		workbook_finish_editing (item_cursor->sheet_view->wbcg, TRUE);
-		cmd_autofill (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet,
+		workbook_finish_editing (item_cursor->scg->wbcg, TRUE);
+		cmd_autofill (WORKBOOK_CONTROL (item_cursor->scg->wbcg), sheet,
 			      item_cursor->base_col,    item_cursor->base_row,
 			      item_cursor->base_cols+1, item_cursor->base_rows+1,
 			      item_cursor->pos.end.col, item_cursor->pos.end.row);
@@ -1259,8 +1259,8 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_cursor = ITEM_CURSOR (o);
 
 	switch (arg_id){
-	case ARG_SHEETVIEW:
-		item_cursor->sheet_view = GTK_VALUE_POINTER (*arg);
+	case ARG_SHEET_CONTROL_GUI:
+		item_cursor->scg = GTK_VALUE_POINTER (*arg);
 		break;
 	case ARG_ITEM_GRID:
 		item_cursor->item_grid = GTK_VALUE_POINTER (*arg);
@@ -1297,7 +1297,7 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 	item_class = (GnomeCanvasItemClass *) item_cursor_class;
 
 	gtk_object_add_arg_type ("ItemCursor::SheetControlGUI", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_SHEETVIEW);
+				 GTK_ARG_WRITABLE, ARG_SHEET_CONTROL_GUI);
 	gtk_object_add_arg_type ("ItemCursor::Grid", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_ITEM_GRID);
 	gtk_object_add_arg_type ("ItemCursor::Style", GTK_TYPE_INT,

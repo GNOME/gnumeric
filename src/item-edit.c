@@ -94,14 +94,14 @@ point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 	scan = cursor_pos;
 	scan_at (text, &scan);
 
-	if ((v = range_parse (item_edit->sheet_view->sheet, &text [scan], FALSE)) != NULL)
+	if ((v = range_parse (item_edit->scg->sheet, &text [scan], FALSE)) != NULL)
 		return setup_range_from_value (range, v);
 
 	if (scan == cursor_pos && scan > 0)
 		scan--;
 	scan_at (text, &scan);
 
-	if ((v = range_parse (item_edit->sheet_view->sheet, &text [scan], FALSE)) != NULL)
+	if ((v = range_parse (item_edit->scg->sheet, &text [scan], FALSE)) != NULL)
 		return setup_range_from_value (range, v);
 
 	return FALSE;
@@ -116,7 +116,7 @@ entry_create_feedback_range (ItemEdit *item_edit, Range *range)
 		item_edit->feedback_cursor = gnome_canvas_item_new (
 			GNOME_CANVAS_GROUP (item->canvas->root),
 			item_cursor_get_type (),
-			"SheetControlGUI",  item_edit->sheet_view,
+			"SheetControlGUI",  item_edit->scg,
 			"Grid",   item_edit->item_grid,
 			"Style",  ITEM_CURSOR_BLOCK,
 			"Color",  "red",
@@ -188,7 +188,7 @@ item_edit_draw_text (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *style
 	}
 
 	if (text_length > 0){
-		if (workbook_auto_completing (item_edit->sheet_view->wbcg)){
+		if (workbook_auto_completing (item_edit->scg->wbcg)){
 			gdk_draw_rectangle (
 				drawable, style->black_gc, TRUE,
 				x, y - font->ascent,
@@ -207,7 +207,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 {
 	GtkWidget *canvas   = GTK_WIDGET (item->canvas);
 	ItemEdit *item_edit = ITEM_EDIT (item);
-	ColRowInfo const * const ci = sheet_col_get_info (item_edit->sheet_view->sheet, item_edit->col);
+	ColRowInfo const * const ci = sheet_col_get_info (item_edit->scg->sheet, item_edit->col);
 	int const left_pos = ((int)item->x1) + ci->margin_a - x;
 
 	/* NOTE : This does not handle vertical alignment yet so there may be some
@@ -232,7 +232,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		(int)(item->y2-item->y1));
 
 	/* Make a number of tests for auto-completion */
-	text = workbook_edit_get_display_text (item_edit->sheet_view->wbcg);
+	text = workbook_edit_get_display_text (item_edit->scg->wbcg);
 
 	for (ptr = item_edit->text_offsets; ptr != NULL; ptr = ptr->next){
 		int const text_end = GPOINTER_TO_INT (ptr->data);
@@ -280,9 +280,9 @@ static void
 recalc_spans (GnomeCanvasItem *item)
 {
 	ItemEdit *item_edit = ITEM_EDIT (item);
-	Sheet    *sheet     = item_edit->sheet_view->sheet;
+	Sheet    *sheet     = item_edit->scg->sheet;
 	GdkFont  *font      = item_edit->font;
-	const char *start = workbook_edit_get_display_text (item_edit->sheet_view->wbcg);
+	const char *start = workbook_edit_get_display_text (item_edit->scg->wbcg);
 	const char *text  = start;
 
 	GSList	*text_offsets = NULL;
@@ -421,7 +421,7 @@ item_edit_init (ItemEdit *item_edit)
 
 	item_edit->col_span = 1;
 	item_edit->lines = 1;
-	item_edit->sheet_view = NULL;
+	item_edit->scg = NULL;
 	item_edit->col = -1;
 	item_edit->row = -1;
 	item_edit->font = NULL;
@@ -492,9 +492,9 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	g_return_if_fail (item_edit->item_grid == NULL);
 
 	item_edit->item_grid = GTK_VALUE_POINTER (*arg);
-	item_edit->sheet_view = item_edit->item_grid->sheet_view;
-	sheet = item_edit->sheet_view->sheet;
-	item_edit->entry = GTK_ENTRY (workbook_get_entry (item_edit->sheet_view->wbcg));
+	item_edit->scg = item_edit->item_grid->scg;
+	sheet = item_edit->scg->sheet;
+	item_edit->entry = GTK_ENTRY (workbook_get_entry (item_edit->scg->wbcg));
 	item_edit->col = sheet->cursor.edit_pos.col;
 	item_edit->row = sheet->cursor.edit_pos.row;
 

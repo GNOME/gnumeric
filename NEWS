@@ -1,5 +1,11 @@
 Gnumeric 0.60
 
+Jody:
+	* Initial work on supporting merged cells.
+
+Jon Kåre:
+	* Improve XL export of non-builtin functions.
+
 --------------------------------------------------------------------------
 Gnumeric 0.59
 

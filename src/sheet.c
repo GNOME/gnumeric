@@ -3,7 +3,7 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
- *
+ *  Jody Goldberg (jgoldbeg@home.com)
  */
 #include <config.h>
 #include <ctype.h>
@@ -85,15 +85,13 @@ sheet_redraw_headers (Sheet const *sheet,
 }
 
 static guint
-cell_hash (gconstpointer key)
+cellpos_hash (CellPos const *key)
 {
-	CellPos const *pos = key;
-
-	return (pos->row << 8) | pos->col;
+	return (key->row << 8) | key->col;
 }
 
 static gint
-cell_compare (CellPos const * a, CellPos const * b)
+cellpos_cmp (CellPos const * a, CellPos const * b)
 {
 	return (a->row == b->row && a->col == b->col);
 }
@@ -213,10 +211,23 @@ sheet_new (Workbook *wb, const char *name)
 			      COLROW_SEGMENT_INDEX (SHEET_MAX_ROWS-1)+1);
 	sheet->print_info = print_info_new ();
 
-	sheet->merged_regions	= NULL;
-	sheet->deps		= dependency_data_new ();
-	sheet->cell_hash	= g_hash_table_new (&cell_hash,
-					    (GCompareFunc)&cell_compare);
+	sheet->list_merged = NULL;
+	sheet->hash_merged = g_hash_table_new ((GHashFunc)&cellpos_hash,
+					       (GCompareFunc)&cellpos_cmp);
+#if 0
+	{
+		/* some quick tests for merged cell support */
+		Range r1 = { { 3,3 }, { 5,5 } };
+		Range r2 = { { 7,4 }, { 9,6 } };
+		Range r3 = { { 11,3 }, { 13,5 } };
+		sheet_region_merge (NULL, sheet, &r1);
+		sheet_region_merge (NULL, sheet, &r2);
+		sheet_region_merge (NULL, sheet, &r3);
+	}
+#endif
+	sheet->deps	 = dependency_data_new ();
+	sheet->cell_hash = g_hash_table_new ((GHashFunc)&cellpos_hash,
+					     (GCompareFunc)&cellpos_cmp);
 
 	mstyle = mstyle_new_default ();
 	sheet_style_attach (sheet, sheet_get_full_range (), mstyle);
@@ -227,10 +238,6 @@ sheet_new (Workbook *wb, const char *name)
 
 	/* Force the zoom change inorder to initialize things */
 	sheet_set_zoom_factor (sheet, 1.0, TRUE, TRUE);
-
-#if 0
-	sheet_corba_setup (sheet);
-#endif
 
 	sheet->pristine = TRUE;
 	sheet->modified = FALSE;
@@ -357,6 +364,11 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 	else if (resize)
 		rendered_value_calc_size (cell);
 
+	if (sheet_region_is_merge_cell (cell->base.sheet, &cell->pos)) {
+		sheet_redraw_cell (cell);
+		return;
+	}
+
 	/* Calculate the span of the cell */
 	cell_calc_span (cell, &left, &right);
 	min_col = left;
@@ -368,8 +380,8 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 		Cell const * const other = span->cell;
 		int other_left, other_right;
 
+		/* The existing span belonged to this cell */
 		if (cell == other) {
-			/* The existing span belonged to this cell */
 			if (left != span->left || right != span->right) {
 				cell_unregister_span (cell);
 				cell_register_span (cell, left, right);
@@ -922,6 +934,7 @@ sheet_get_extent_cb (gpointer ignored, gpointer value, gpointer data)
 		if (cell->pos.row > range->end.row)
 			range->end.row = cell->pos.row;
 
+		/* FIXME : check for merged cells too */
 		span = row_span_get (cell->row_info, cell->pos.col);
 		tmp = (span != NULL) ? span->left : cell->pos.col;
 		if (tmp < range->start.col)
@@ -1341,6 +1354,8 @@ sheet_redraw_cell_region (Sheet const *sheet,
 		}
 	}
 
+	/* FIXME : expand the rectangle to contain any merged regions */
+
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetControlGUI *sheet_view = l->data;
 
@@ -1377,8 +1392,20 @@ sheet_redraw_cell (Cell const *cell)
 {
 	CellSpanInfo const * span;
 	int start_col, end_col;
+	Range const *merged;
 
 	g_return_if_fail (cell != NULL);
+
+	merged = sheet_region_is_merge_cell (cell->base.sheet, &cell->pos);
+	if (merged != NULL) {
+		GList *l;
+		for (l = cell->base.sheet->sheet_views; l; l = l->next)
+			sheet_view_redraw_cell_region (l->data,
+						       merged->start.col,
+						       merged->start.row,
+						       merged->end.col,
+						       merged->end.row);
+	}
 
 	start_col = end_col = cell->pos.col;
 	span = row_span_get (cell->row_info, start_col);
@@ -3906,33 +3933,129 @@ sheet_duplicate	(Sheet const *src)
 	return dst;
 }
 
+/***********************************************************************************/
+
+static gint
+range_row_cmp (Range const *a, Range const *b)
+{
+	int tmp = b->start.row - a->start.row;
+	if (tmp == 0)
+		tmp = a->start.col - b->start.col; /* YES I DO MEAN a - b */
+	return tmp;
+}
+
 /**
- * sheet_merge_region :
+ * sheet_region_merge :
+ *
+ * @cc : command context
+ * @sheet : the sheet which will contain the region
+ * @src : The region to merge
  *
  * Add a range to the list of merge targets.  Checks for array spliting
+ * returns TRUE if there was an error.
  */
-void
-sheet_merge_region (WorkbookControl *ctxt, Sheet *s, Range const *r)
+gboolean
+sheet_region_merge (CommandContext *cc, Sheet *sheet, Range const *range)
 {
+	GSList *test;
+	Range  *r_copy;
+
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (range != NULL, TRUE);
+
+	if (sheet_range_splits_array (sheet, range)) {
+		gnumeric_error_splits_array (cc, _("Merge"));
+		return TRUE;
+	}
+
+	test = sheet_region_get_merged (sheet, range);
+	if (test != NULL) {
+		gnumeric_error_invalid (cc,
+			_("There is already a merged region that intersects"),
+			range_name (range));
+		g_slist_free (test);
+		return TRUE;
+	}
+
+	r_copy = range_copy (range);
+	g_hash_table_insert (sheet->hash_merged, &r_copy->start, r_copy);
+
+	/* Store in order from bottom to top then LEFT TO RIGHT (by start coord) */
+	sheet->list_merged = g_slist_insert_sorted (sheet->list_merged, r_copy,
+						    (GCompareFunc)range_row_cmp);
+
+	return FALSE;
 }
 
 /**
- * sheet_unnmerge_region :
+ * sheet_region_unmerge :
+ *
+ * @cc    : command context
+ * @sheet : the sheet which will contain the region
+ * @range     : The region
  *
  * Remove a merged range.
+ * returns TRUE if there was an error.
  */
-void
-sheet_unnmerge_region (WorkbookControl *ctxt, Sheet *s, Range const *r)
+gboolean
+sheet_region_unmerge (CommandContext *cc, Sheet *sheet, Range const *range)
 {
+	Range *r_copy;
+
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (range != NULL, TRUE);
+
+	r_copy = g_hash_table_lookup (sheet->hash_merged, &range->start);
+
+	g_return_val_if_fail (r_copy != NULL, TRUE);
+	g_return_val_if_fail (range_equal (range, r_copy), TRUE);
+
+	g_hash_table_remove (sheet->hash_merged, &r_copy->start);
+	sheet->list_merged = g_slist_remove (sheet->list_merged, r_copy);
+	g_free (r_copy);
+
+	return FALSE;
 }
 
 /**
- * sheet_get_merged_regions :
+ * sheet_region_get_merged :
  *
+ * Returns a list of the merged regions that overlap the target region.
+ * The list is ordered from top to bottom and RIGHT TO LEFT (by start coord).
  * Caller is responsible for freeing the list, but not the content.
  */
 GSList *
-sheet_get_merged_regions (Sheet *sheet, Range const *r)
+sheet_region_get_merged (Sheet *sheet, Range const *range)
 {
-	return NULL;
+	GSList *ptr, *res = NULL;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (range != NULL, NULL);
+
+	for (ptr = sheet->list_merged ; ptr != NULL ; ptr = ptr->next) {
+		Range * const test = ptr->data;
+
+		if (range_overlap (range, test))
+			res = g_slist_prepend (res, test);
+	}
+
+	return res;
+}
+
+/**
+ * sheet_region_is_merge_cell :
+ *
+ * @sheet :
+ * @pos : cellpos if top left corner
+ *
+ * Returns a Range pointer if the @pos is the topleft of a merged region.
+ * The pointer should NOT be freed by the caller.
+ */
+Range const *
+sheet_region_is_merge_cell (Sheet const *sheet, CellPos const *pos)
+{
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (pos != NULL, NULL);
+
+	return g_hash_table_lookup (sheet->hash_merged, pos);
 }

@@ -140,7 +140,7 @@ cell_split_text (GdkFont *font, char const *text, int const width)
  */
 void
 cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
-	   GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
+	   GdkGC *gc, GdkDrawable *drawable, int x1, int y1, int width, int height)
 {
 	StyleFont    *style_font;
 	GdkFont      *font;
@@ -149,15 +149,12 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	Sheet const * const sheet = cell->base.sheet;
 	ColRowInfo const * const ci = cell->col_info;
 	ColRowInfo const * const ri = cell->row_info;
-	int start_col, end_col;
-	int width, height;
 	int text_base;
 	int font_height;
 	StyleHAlignFlags halign;
 	StyleVAlignFlags valign;
 	int num_lines = 0;
 	int line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
-	gboolean is_single_line;
 	char const *text;
 	StyleColor   *fore;
 	int cell_width_pixel;
@@ -168,7 +165,9 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	 * Don't print zeros if they should be ignored.
 	 */
 	if (sheet &&
-	    (!sheet->display_formulas && !sheet->display_zero && cell_is_zero (cell)))
+	    (!sheet->display_formulas &&
+	     !sheet->display_zero &&
+	     cell_is_zero (cell)))
 		return;
 
 	g_return_if_fail (cell->rendered_value);
@@ -181,21 +180,24 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	} else
 		text = cell->rendered_value->rendered_text->str;
 
-	if (spaninfo != NULL) {
-		start_col = spaninfo->left;
-		end_col = spaninfo->right;
-	} else
-		start_col = end_col = cell->pos.col;
-
 	/* Get the sizes exclusive of margins and grids */
-	width  = ci->size_pixels - (ci->margin_b + ci->margin_a + 1);
-	height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
+	if (width < 0)
+		width  = ci->size_pixels - (ci->margin_b + ci->margin_a + 1);
+	if (height < 0)
+		height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
 
 	style_font = sheet_view_get_style_font (sheet, mstyle);
 
 	font = style_font_gdk_font (style_font);
 	font_height = style_font_get_height (style_font);
 	valign = mstyle_get_align_v (mstyle);
+
+	/* This rectangle has the whole area used by this cell
+	 * excluding the surrounding grid lines and margins */
+	rect.x = x1 + 1 + ci->margin_a;
+	rect.y = y1 + 1 + ri->margin_a;
+	rect.width = width;
+	rect.height = height;
 
 	switch (valign) {
 	default:
@@ -204,69 +206,50 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	case VALIGN_JUSTIFY:
 	case VALIGN_TOP:
 		/*
-		 * y1 == top grid line.
-		 * add top margin
+		 * rect.y == first pixel past margin
 		 * add font ascent
 		 */
-		text_base = y1 + font->ascent + ri->margin_a;
+		text_base = rect.y + font->ascent;
 		break;
 
 	case VALIGN_CENTER:
-		text_base = y1 + font->ascent + ri->margin_a +
+		text_base = rect.y + font->ascent +
 		    (height - font_height) / 2;
 		break;
 
 	case VALIGN_BOTTOM:
 		/*
-		 * y1 + ri->size_pixels == bottom grid line.
-		 * subtract bottom margin
+		 * rect.y == first pixel past margin
+		 * add height == first pixel in lower margin
 		 * subtract font descent
 		 */
-		text_base = y1 + ri->size_pixels - font->descent - ri->margin_b;
+		text_base = rect.y + height - font->descent;
 		break;
 	}
 
-	halign = cell_default_halign (cell, mstyle);
-
-	is_single_line = (halign != HALIGN_JUSTIFY &&
-			  valign != VALIGN_JUSTIFY &&
-			  !mstyle_get_fit_in_cell (mstyle));
-
-	/* This rectangle has the whole area used by this cell
-	 * including the surrounding grid lines */
-	rect.x = x1;
-	rect.y = y1;
-	rect.width  = ci->size_pixels + 1;
-	rect.height = ri->size_pixels + 1;
-
-	/*
-	 * x1, y1 are relative to this cell origin, but the cell might be using
-	 * columns to the left (if it is set to right justify or center justify)
-	 * compute the pixel difference
-	 * NOTE : If sheet is null than center across selection will not work
-	 * currently this is only applicable to the preview-grid (preview-grid.c)
-	 */
-	if (sheet && start_col != cell->pos.col) {
-		int const offset =
-		    sheet_col_get_distance_pixels (sheet,
-						   start_col, cell->pos.col);
-		rect.x     -= offset;
-		rect.width += offset;
-	}
-	if (sheet && end_col != cell->pos.col) {
-		int const offset =
-		    sheet_col_get_distance_pixels (sheet,
-						   cell->pos.col+1, end_col+1);
-		rect.width += offset;
+	if (spaninfo != NULL && sheet != NULL) {
+		/* x1, y1 are relative to this cell origin, but the cell
+		 * might be using columns to the left (if it is set to right
+		 * justify or center justify) compute the pixel difference
+		 *
+		 * NOTE : If sheet is null than center across selection will not
+		 * work currently this is only applicable to the preview-grid
+		 * (preview-grid.c)
+		 */
+		if (spaninfo->left != cell->pos.col) {
+			int offset = sheet_col_get_distance_pixels (sheet,
+				spaninfo->left, cell->pos.col);
+			rect.x     -= offset;
+			rect.width += offset;
+		}
+		if (spaninfo->right != cell->pos.col)
+			rect.width += sheet_col_get_distance_pixels (sheet,
+				cell->pos.col+1, spaninfo->right+1);
 	}
 
 	/* Do not allow text to impinge upon the grid lines or margins
-	 * FIXME : Should use margins from start_col and end_col
+	 * FIXME : Should use margins from spaninfo->left and spaninfo->right
 	 */
-	rect.x += 1 + ci->margin_a;
-	rect.y += 1 + ri->margin_a;
-	rect.width -= 2 + ci->margin_a + ci->margin_b;
-	rect.height -= 2 + ri->margin_a + ri->margin_b;
 	gdk_gc_set_clip_rectangle (gc, &rect);
 
 	/* Set the font colour */
@@ -298,14 +281,15 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	/* if a number overflows, do special drawing */
 	if (width < cell_width_pixel && cell_is_number (cell) &&
 	    sheet && !sheet->display_formulas) {
-		draw_overflow (drawable, gc, font,
-			       x1 + ci->margin_a + 1,
+		draw_overflow (drawable, gc, font, rect.x,
 			       text_base, width, line_offset, num_lines);
 		style_font_unref (style_font);
 		return;
 	}
 
-	if (is_single_line) {
+	halign = cell_default_halign (cell, mstyle);
+	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
+	    !mstyle_get_fit_in_cell (mstyle)) {
 		int total, len = cell_width_pixel;
 
 		switch (halign) {
@@ -314,24 +298,21 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 			/* fall through */
 
 		case HALIGN_LEFT:
-			x1 += 1 + ci->margin_a;
+			x1 = rect.x;
 			break;
 
 		case HALIGN_RIGHT:
-			x1 += ci->size_pixels - ci->margin_b - cell_width_pixel;
+			x1 = rect.x + rect.width - cell_width_pixel;
 			break;
 
 		case HALIGN_CENTER:
-			x1 += 1 + ci->margin_a + (width - cell_width_pixel) / 2;
-			break;
-
 		case HALIGN_CENTER_ACROSS_SELECTION:
 			x1 = rect.x + (rect.width - cell_width_pixel) / 2;
 			break;
 
 		default:
 			g_warning ("Single-line justification style not supported\n");
-			x1 += 1 + ci->margin_a;
+			x1 = rect.x;
 		}
 
 		total = 0;

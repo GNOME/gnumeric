@@ -351,6 +351,7 @@ CurrencySymbol const currency_symbols[] =
 	{N_("[$SEK]"), N_("Swedish krona") },
 	{N_("[$SGD]"), N_("Singapore dollar") },
 	{N_("[$SHP]"), N_("St.Helena pound") },
+	{N_("[$SIT]"), N_("Slovenia tolar") },
 	{N_("[$SLL]"), N_("Sierra Leone leone") },
 	{N_("[$SOS]"), N_("Somali shilling") },
 	{N_("[$SRG]"), N_("Suriname guilder") },

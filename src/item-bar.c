@@ -88,7 +88,7 @@ void
 item_bar_fonts_init (ItemBar *item_bar)
 {
 	double const zoom_factor =
-		item_bar->sheet_view->sheet->last_zoom_factor_used;
+		item_bar->scg->sheet->last_zoom_factor_used;
 	double const res  = application_dpi_to_pixels ();
 	StyleFont * const normal_font =
 		style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
@@ -219,8 +219,8 @@ static void
 item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ItemBar const * const item_bar = ITEM_BAR (item);
-	Sheet   const * const sheet = item_bar->sheet_view->sheet;
-	GnumericSheet const * const gsheet = GNUMERIC_SHEET (item_bar->sheet_view->canvas);
+	Sheet   const * const sheet = item_bar->scg->sheet;
+	GnumericSheet const * const gsheet = GNUMERIC_SHEET (item_bar->scg->canvas);
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 	int pixels;
 	GdkRectangle rect;
@@ -336,7 +336,7 @@ is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_ele
 	int i, total;
 
 	total = 0;
-	sheet = item_bar->sheet_view->sheet;
+	sheet = item_bar->scg->sheet;
 
 	for (i = item_bar->first_element; total < pos; i++){
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
@@ -388,7 +388,7 @@ set_cursor (ItemBar *item_bar, int pos)
 static void
 item_bar_start_resize (ItemBar *bar)
 {
-	Sheet const * const sheet = bar->sheet_view->sheet;
+	Sheet const * const sheet = bar->scg->sheet;
 #if 0
 	/*
 	 * handle the zoom from the item-grid canvas, the resolution scaling is
@@ -398,7 +398,7 @@ item_bar_start_resize (ItemBar *bar)
 							 GTK_ORIENTATION_VERTICAL);
 #endif
 	double const zoom = sheet->last_zoom_factor_used; /* * res / 72.; */
-	GnumericSheet const * const gsheet = GNUMERIC_SHEET (bar->sheet_view->canvas);
+	GnumericSheet const * const gsheet = GNUMERIC_SHEET (bar->scg->canvas);
 	GnomeCanvas const * const canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup * const group = GNOME_CANVAS_GROUP (canvas->root);
 	GnomeCanvasPoints * const points =
@@ -451,7 +451,7 @@ get_element_from_pixel (ItemBar *item_bar, int pos)
 	int i, total;
 
 	total = 0;
-	sheet = item_bar->sheet_view->sheet;
+	sheet = item_bar->scg->sheet;
 	for (i = item_bar->first_element; total < pos; i++){
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
 			if (i >= SHEET_MAX_ROWS)
@@ -516,7 +516,7 @@ item_bar_end_resize (ItemBar *item_bar, int new_size)
 }
 
 static gboolean
-cb_extend_selection (SheetControlGUI *sheet_view, int col, int row, gpointer user_data)
+cb_extend_selection (SheetControlGUI *scg, int col, int row, gpointer user_data)
 {
 	ItemBar * const item_bar = user_data;
 	gboolean const is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
@@ -532,8 +532,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	ColRowInfo *cri;
 	GnomeCanvas * const canvas = item->canvas;
 	ItemBar * const item_bar = ITEM_BAR (item);
-	Sheet   * const sheet = item_bar->sheet_view->sheet;
-	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->sheet_view->canvas);
+	Sheet   * const sheet = item_bar->scg->sheet;
+	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->scg->canvas);
 	gboolean const is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
 #if 0
 	/*
@@ -633,11 +633,11 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						dx = x - width - left;
 				}
 
-				sheet_view_start_sliding (item_bar->sheet_view,
+				sheet_view_start_sliding (item_bar->scg,
 							  &cb_extend_selection, item_bar,
 							  col, row, dx, dy);
 			} else
-				sheet_view_stop_sliding (item_bar->sheet_view);
+				sheet_view_stop_sliding (item_bar->scg);
 
 			set_cursor (item_bar, pos);
 		} else
@@ -673,8 +673,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						 item_bar_signals [SELECTION_CHANGED],
 						 element, e->button.state | GDK_BUTTON1_MASK);
 
-			item_grid_popup_menu (item_bar->sheet_view, &e->button,
-					      !is_vertical, is_vertical);
+			scg_context_menu (item_bar->scg, &e->button,
+					  !is_vertical, is_vertical);
 		} else if (cri) {
 			/*
 			 * Record the important bits.
@@ -728,7 +728,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button > 3)
 			return FALSE;
 
-		sheet_view_stop_sliding (item_bar->sheet_view);
+		sheet_view_stop_sliding (item_bar->scg);
 
 		if (item_bar->start_selection >= 0) {
 			needs_ungrab = TRUE;
@@ -793,7 +793,7 @@ item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_SHEET_CONTROL_GUI:
-		item_bar->sheet_view = GTK_VALUE_POINTER (*arg);
+		item_bar->scg = GTK_VALUE_POINTER (*arg);
 		break;
 	case ARG_ORIENTATION:
 		item_bar->orientation = GTK_VALUE_INT (*arg);

@@ -296,12 +296,11 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	GnomeFont *print_font = style_font->font;
 	double const font_descent = gnome_font_get_descender (print_font);
 	double const font_ascent = gnome_font_get_ascender (print_font);
-	double clip_x, clip_width, clip_y, clip_height;
+	double rect_x, rect_width, rect_y, rect_height;
 
 	Sheet const *sheet = cell->base.sheet;
 	ColRowInfo const *ci = cell->col_info;
 	ColRowInfo const *ri = cell->row_info;
-	int start_col, end_col;
 	double width, height;
 	double text_base;
 	double font_height;
@@ -309,7 +308,6 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	StyleVAlignFlags valign;
 	int num_lines = 0;
 	double line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
-	gboolean is_single_line;
 	char const *text;
 	StyleColor *fore;
 	double cell_width_pts;
@@ -331,15 +329,11 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	} else
 		text = cell->rendered_value->rendered_text->str;
 
-	if (spaninfo != NULL) {
-		start_col = spaninfo->left;
-		end_col = spaninfo->right;
-	} else
-		start_col = end_col = cell->pos.col;
-
 	/* Get the sizes exclusive of margins and grids */
-	width  = ci->size_pts - (ci->margin_b + ci->margin_a + 1.);
-	height = ri->size_pts - (ri->margin_b + ri->margin_a + 1.);
+	if (width < 0)
+		width  = ci->size_pts - (ci->margin_b + ci->margin_a + 1.);
+	if (height < 0)
+		height = ri->size_pts - (ri->margin_b + ri->margin_a + 1.);
 
 	font_height = style_font->size;
 	valign = mstyle_get_align_v (mstyle);
@@ -351,70 +345,61 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	case VALIGN_JUSTIFY:
 	case VALIGN_TOP:
 		/*
-		 * y1 == top grid line.
-		 * add top margin
+		 * rect.y == first pixel past margin
 		 * add font ascent
 		 */
-		text_base = y1 - font_ascent - ri->margin_a;
+		text_base = rect_y - font_ascent;
 		break;
 
 	case VALIGN_CENTER:
-		text_base = y1 - font_ascent - ri->margin_a -
+		text_base = rect_y - font_ascent -
 		    (height - font_height) / 2;
 		break;
 
 	case VALIGN_BOTTOM:
 		/*
-		 * y1 + row->size_pts == bottom grid line.
-		 * subtract bottom margin
+		 * rect.y == first pixel past margin
+		 * add height == first pixel in lower margin
 		 * subtract font descent
 		 */
-		text_base = y1 - ri->size_pts + font_descent + ri->margin_b;
+		text_base = rect_y - height + font_descent;
 		break;
 	}
 
-	halign = cell_default_halign (cell, mstyle);
-
-	is_single_line = (halign != HALIGN_JUSTIFY &&
-			  valign != VALIGN_JUSTIFY &&
-			  !mstyle_get_fit_in_cell (mstyle));
-
 	/* This rectangle has the whole area used by this cell
-	 * including the surrounding grid lines */
-	clip_x = x1;
-	clip_y = y1;
-	clip_width  = ci->size_pts + 1;
-	clip_height = ri->size_pts + 1;
+	 * excluding the surrounding grid lines and margins */
+	rect_x = x1 + 1 + ci->margin_a;
+	rect_y = y1 - 1 - ri->margin_a;
+	rect_width = width;
+	rect_height = height;
 
-	/*
-	 * x1, y1 are relative to this cell origin, but the cell might be using
-	 * columns to the left (if it is set to right justify or center justify)
-	 * compute the difference in pts.
-	 */
-	if (start_col != cell->pos.col) {
-		int const offset =
-		    sheet_col_get_distance_pts (sheet, start_col, cell->pos.col);
-		clip_x     -= offset;
-		clip_width += offset;
-	}
-	if (end_col != cell->pos.col) {
-		int const offset =
-		    sheet_col_get_distance_pts (sheet, cell->pos.col+1, end_col+1);
-		clip_width += offset;
+	if (spaninfo != NULL) {
+		/* x1, y1 are relative to this cell origin, but the cell might
+		 * be using columns to the left (if it is set to right justify
+		 * or center justify) compute the difference in pts.
+		 */
+		if (spaninfo->left != cell->pos.col) {
+			int offset = sheet_col_get_distance_pts (sheet,
+				spaninfo->left, cell->pos.col);
+			rect_x     -= offset;
+			rect_width += offset;
+		}
+		if (spaninfo->right != cell->pos.col)
+			rect_width += sheet_col_get_distance_pts (sheet,
+				cell->pos.col+1, spaninfo->right+1);
 	}
 
 	/* Do not allow text to impinge upon the grid lines or margins
-	 * FIXME : Should use margins from start_col and end_col
+	 * FIXME : Should use margins from spaninfo->left and spaninfo->right
 	 *
 	 * NOTE : postscript clip paths exclude the border, gdk includes it.
 	 */
-	clip_x += ci->margin_a;
-	clip_y -= ri->margin_a;
-	clip_width -= ci->margin_a + ci->margin_b;
-	clip_height -= ri->margin_a + ri->margin_b;
 	gnome_print_gsave (context);
-	print_make_rectangle_path (context, clip_x, clip_y - clip_height,
-				   clip_x + clip_width, clip_y);
+	print_make_rectangle_path (context,
+				   rect_x - 1.,
+				   rect_y - rect_height - 1.,
+				   rect_x + rect_width + 1.,
+				   rect_y + 1.);
 	gnome_print_clip (context);
 
 	/* Set the font colour */
@@ -448,15 +433,16 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	/* if a number overflows, do special drawing */
 	if (width < cell_width_pts && cell_is_number (cell) &&
 	    sheet && !sheet->display_formulas) {
-		print_overflow (context, print_font,
-				x1 + ci->margin_a + 1,
+		print_overflow (context, print_font, rect_x,
 				text_base, width, line_offset, num_lines);
 		style_font_unref (style_font);
 		gnome_print_grestore (context);
 		return;
 	}
 
-	if (is_single_line) {
+	halign = cell_default_halign (cell, mstyle);
+	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
+	    !mstyle_get_fit_in_cell (mstyle)) {
 		double total, len = cell_width_pts;
 
 		switch (halign) {
@@ -465,24 +451,21 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 			/* fall through */
 
 		case HALIGN_LEFT:
-			x1 += 1 + ci->margin_a;
+			x1 = rect_x;
 			break;
 
 		case HALIGN_RIGHT:
-			x1 += ci->size_pts - ci->margin_b - cell_width_pts;
+			x1 = rect_x + rect_width - cell_width_pts;
 			break;
 
 		case HALIGN_CENTER:
-			x1 += 1 + ci->margin_a + (width - cell_width_pts) / 2;
-			break;
-
 		case HALIGN_CENTER_ACROSS_SELECTION:
-			x1 = clip_x + (clip_width - cell_width_pts) / 2;
+			x1 = rect_x + (rect_width - cell_width_pts) / 2;
 			break;
 
 		default:
 			g_warning ("Single-line justitfication style not supported\n");
-			x1 += 1 + ci->margin_a;
+			x1 = rect_x;
 			break;
 		}
 

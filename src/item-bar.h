@@ -9,7 +9,8 @@
 
 struct _ItemBar {
 	GnomeCanvasItem  canvas_item;
-	SheetControlGUI       *sheet_view;
+
+	SheetControlGUI *scg;
 	int              first_element;
 	GtkOrientation   orientation;	/* horizontal, vertical */
 	GdkGC           *gc;		/* Draw gc */

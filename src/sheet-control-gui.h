@@ -49,6 +49,10 @@ struct _SheetControlGUI {
 	int        sliding_x, sliding_y;
 };
 
+typedef struct {
+	GtkTableClass parent_class;
+} SheetControlGUIClass;
+
 GtkType          sheet_view_get_type              (void);
 GtkWidget       *sheet_view_new                   (Sheet *sheet);
 
@@ -93,11 +97,9 @@ gboolean sheet_view_start_sliding (SheetControlGUI *scg,
 				   int col, int row, int dx, int dy);
 void sheet_view_stop_sliding (SheetControlGUI *scg);
 
-void scg_visible_spans_regen (SheetControlGUI *scg);
-
-typedef struct {
-	GtkTableClass parent_class;
-} SheetControlGUIClass;
+void scg_visible_spans_regen	(SheetControlGUI *scg);
+void scg_context_menu		(SheetControlGUI *scg, GdkEventButton *event,
+				 gboolean is_col, gboolean is_row);
 
 /*
  * These actually belong in sheet.h, but the structure dependency

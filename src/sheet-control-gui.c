@@ -25,6 +25,8 @@
 #include "cellspan.h"
 #include "cmd-edit.h"
 #include "commands.h"
+#include "clipboard.h"
+#include "dialogs.h"
 
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
@@ -1088,6 +1090,165 @@ sheet_view_insert_object (SheetControlGUI *scg, BonoboObjectClient *object)
 }
 #endif
 #endif
+
+/***************************************************************************/
+
+enum {
+	CONTEXT_CUT	= 1,
+	CONTEXT_COPY,
+	CONTEXT_PASTE,
+	CONTEXT_PASTE_SPECIAL,
+	CONTEXT_INSERT,
+	CONTEXT_DELETE,
+	CONTEXT_CLEAR_CONTENT,
+	CONTEXT_FORMAT_CELL,
+	CONTEXT_COL_WIDTH,
+	CONTEXT_COL_HIDE,
+	CONTEXT_COL_UNHIDE,
+	CONTEXT_ROW_HEIGHT,
+	CONTEXT_ROW_HIDE,
+	CONTEXT_ROW_UNHIDE
+};
+static gboolean
+context_menu_hander (GnumericPopupMenuElement const *element,
+		     gpointer user_data)
+{
+	SheetControlGUI *sheet_view = user_data;
+	Sheet *sheet = sheet_view->sheet;
+	WorkbookControlGUI *wbcg = sheet_view->wbcg;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+
+	g_return_val_if_fail (element != NULL, TRUE);
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	switch (element->index) {
+	case CONTEXT_CUT :
+		sheet_selection_cut (wbc, sheet);
+		break;
+	case CONTEXT_COPY :
+		sheet_selection_copy (wbc, sheet);
+		break;
+	case CONTEXT_PASTE :
+		cmd_paste_to_selection (wbc, sheet, PASTE_DEFAULT);
+		break;
+	case CONTEXT_PASTE_SPECIAL : {
+		int flags = dialog_paste_special (wbcg);
+		if (flags != 0)
+			cmd_paste_to_selection (wbc, sheet, flags);
+		break;
+	}
+	case CONTEXT_INSERT :
+		dialog_insert_cells (wbcg, sheet);
+		break;
+	case CONTEXT_DELETE :
+		dialog_delete_cells (wbcg, sheet);
+		break;
+	case CONTEXT_CLEAR_CONTENT :
+		cmd_clear_selection (wbc, sheet, CLEAR_VALUES);
+		break;
+	case CONTEXT_FORMAT_CELL :
+		dialog_cell_format (wbcg, sheet, FD_CURRENT);
+		break;
+	case CONTEXT_COL_WIDTH :
+		sheet_dialog_set_column_width (NULL, wbcg);
+		break;
+	case CONTEXT_COL_HIDE :
+		cmd_hide_selection_rows_cols (wbc, sheet, TRUE, FALSE);
+		break;
+	case CONTEXT_COL_UNHIDE :
+		cmd_hide_selection_rows_cols (wbc, sheet, TRUE, TRUE);
+		break;
+	case CONTEXT_ROW_HEIGHT :
+		sheet_dialog_set_row_height (NULL, wbcg);
+		break;
+	case CONTEXT_ROW_HIDE :
+		cmd_hide_selection_rows_cols (wbc, sheet, FALSE, FALSE);
+		break;
+	case CONTEXT_ROW_UNHIDE :
+		cmd_hide_selection_rows_cols (wbc, sheet, FALSE, TRUE);
+		break;
+	default :
+		break;
+	};
+	return TRUE;
+}
+
+void
+scg_context_menu (SheetControlGUI *sheet_view, GdkEventButton *event,
+		  gboolean is_col, gboolean is_row)
+{
+	enum {
+		CONTEXT_IGNORE_FOR_ROWS = 1,
+		CONTEXT_IGNORE_FOR_COLS = 2
+	};
+	enum {
+		CONTEXT_ENABLE_PASTE_SPECIAL = 1,
+	};
+
+	static GnumericPopupMenuElement const popup_elements[] = {
+		{ N_("Cu_t"),           GNOME_STOCK_MENU_CUT,
+		    0, 0, CONTEXT_CUT },
+		{ N_("_Copy"),          GNOME_STOCK_MENU_COPY,
+		    0, 0, CONTEXT_COPY },
+		{ N_("_Paste"),         GNOME_STOCK_MENU_PASTE,
+		    0, 0, CONTEXT_PASTE },
+		{ N_("Paste _Special"),	NULL,
+		    0, CONTEXT_ENABLE_PASTE_SPECIAL, CONTEXT_PASTE_SPECIAL },
+
+		{ "", NULL, 0, 0, 0 },
+
+		{ N_("_Insert..."),	NULL,
+		    0, 0, CONTEXT_INSERT },
+		{ N_("_Delete..."),	NULL,
+		    0, 0, CONTEXT_DELETE },
+		{ N_("Clear Co_ntents"),NULL,
+		    0, 0, CONTEXT_CLEAR_CONTENT },
+
+		{ "", NULL, 0, 0, 0 },
+
+		{ N_("_Format Cells..."),GNOME_STOCK_MENU_PREF,
+		    0, 0, CONTEXT_FORMAT_CELL },
+
+		/* Column specific (Note some labels duplicate row labels) */
+		{ N_("Column _Width..."),NULL,
+		    CONTEXT_IGNORE_FOR_COLS, 0, CONTEXT_COL_WIDTH },
+		{ N_("_Hide"),		 NULL,
+		    CONTEXT_IGNORE_FOR_COLS, 0, CONTEXT_COL_HIDE },
+		{ N_("_Unhide"),	 NULL,
+		    CONTEXT_IGNORE_FOR_COLS, 0, CONTEXT_COL_UNHIDE },
+
+		/* Row specific (Note some labels duplicate col labels) */
+		{ N_("_Row Height..."),	 NULL,
+		    CONTEXT_IGNORE_FOR_ROWS, 0, CONTEXT_ROW_HEIGHT },
+		{ N_("_Hide"),		 NULL,
+		    CONTEXT_IGNORE_FOR_ROWS, 0, CONTEXT_ROW_HIDE },
+		{ N_("_Unhide"),	 NULL,
+		    CONTEXT_IGNORE_FOR_ROWS, 0, CONTEXT_ROW_UNHIDE },
+
+		{ NULL, NULL, 0, 0, 0 },
+	};
+
+	/* row and column specific operations */
+	int const display_filter =
+		(is_col ? CONTEXT_IGNORE_FOR_COLS : 0) |
+		(is_row ? CONTEXT_IGNORE_FOR_ROWS : 0);
+
+	/*
+	 * Paste special does not apply to cut cells.  Enable
+	 * when there is nothing in the local clipboard, or when
+	 * the clipboard has the results of a copy.
+	 */
+	int const sensitivity_filter =
+	    (application_clipboard_is_empty () ||
+	    (application_clipboard_contents_get () != NULL))
+	? CONTEXT_ENABLE_PASTE_SPECIAL : 0;
+
+	gnumeric_create_popup_menu (popup_elements, &context_menu_hander,
+				    sheet_view, display_filter,
+				    sensitivity_filter, event);
+}
+
+/***************************************************************************/
 
 void
 scg_visible_spans_regen (SheetControlGUI *scg)

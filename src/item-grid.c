@@ -1,42 +1,40 @@
 /*
- * The Grid Gnome Canvas Item: Implements the grid and
- * spreadsheet information display.
+ * item-grid.c : A canvas item that is responsible for drawing gridlines and
+ *     cell content.  One item per sheet displays all the cells.
  *
- * Author:
+ * Authors:
  *     Miguel de Icaza (miguel@kernel.org)
+ *     Jody Goldberg (jgoldberg@home.com)
  */
 #include <config.h>
 
 #include "item-grid.h"
-#include "item-debug.h"
 #include "gnumeric-sheet.h"
-#include "sheet-control-gui.h"
-#include "item-debug.h"
-#include "color.h"
-#include "dialogs.h"
-#include "gnumeric-util.h"
-#include "clipboard.h"
-#include "selection.h"
-#include "main.h"
-#include "border.h"
-#include "application.h"
-#include "workbook-cmd-format.h"
 #include "workbook-edit.h"
+#include "workbook-control.h"
 #include "workbook-control-gui-priv.h"
+#include "sheet-control-gui.h"
+#include "sheet.h"
 #include "sheet-object.h"
-#include "pattern.h"
-#include "workbook-view.h"
-#include "workbook.h"
 #include "cell.h"
 #include "cell-draw.h"
 #include "cellspan.h"
-#include "commands.h"
+#include "ranges.h"
+#include "selection.h"
 #include "parse-util.h"
-#include "cmd-edit.h"
-
+#include "mstyle.h"
+#include "border.h"
+#include "color.h"
+#include "pattern.h"
 #include <gal/widgets/e-cursors.h>
+#include "gnumeric-type-util.h"
 
 #undef PAINT_DEBUG
+#if 0
+#define MERGE_DEBUG(range, str) do { range_dump (range); fprintf (stderr, str); } while (0)
+#else
+#define MERGE_DEBUG(range, str)
+#endif
 
 static GnomeCanvasItemClass *item_grid_parent_class;
 
@@ -177,6 +175,96 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 				   x, y, x + w, y + h, NULL, NULL);
 }
 
+/**
+ * item_grid_draw_merged_range:
+ *
+ * Handle the special drawin requirements for a 'merged cell'.
+ * First draw the entire range (clipped to the visible region) then redraw any
+ * segments that are selected.
+ */
+static void
+item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
+			     int start_x, int start_y,
+			     Range const *view, Range const *range)
+{
+	int l, r, t, b, tmp;
+	Sheet  *sheet  = grid->scg->sheet;
+	GdkGC  * const gc = grid->empty_gc;
+	Cell const *cell = sheet_cell_get (sheet, range->start.col, range->start.row);
+	MStyle *mstyle = sheet_style_compute (sheet, range->start.col, range->start.row);
+	gboolean const no_background = !gnumeric_background_set_gc (mstyle, gc,
+			grid->canvas_item.canvas, FALSE);
+
+	l = r = start_x;
+	if (view->start.col <= range->start.col) {
+		l += sheet_col_get_distance_pixels (sheet,
+			view->start.col, range->start.col);
+		if (no_background)
+			l++;
+	}
+	if (range->end.col <= (tmp = view->end.col)) {
+		tmp = range->end.col;
+		if (no_background)
+			r--;
+	}
+	r += sheet_col_get_distance_pixels (sheet, view->start.col, tmp+1);
+
+	t = b = start_y;
+	if (view->start.row <= range->start.row) {
+		t += sheet_row_get_distance_pixels (sheet,
+			view->start.row, range->start.row);
+		if (no_background)
+			t++;
+	}
+	if (range->end.row <= (tmp = view->end.row)) {
+		tmp = range->end.row;
+		if (no_background)
+			b--;
+	}
+	b += sheet_row_get_distance_pixels (sheet, view->start.row, tmp+1);
+
+	/* Remember X excludes the far pixels */
+	gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
+
+	if (sheet->cursor.edit_pos.col != range->start.col ||
+	    sheet->cursor.edit_pos.row != range->start.row) {
+	}
+
+	if (cell != NULL) {
+		ColRowInfo const * const ri = cell->row_info;
+		ColRowInfo const * const ci = cell->col_info;
+
+		if (range->start.col < view->start.col) {
+			l -= sheet_col_get_distance_pixels (sheet,
+				range->start.col, view->start.col);
+		} else if (no_background)
+			l--;
+
+		if (view->end.col < range->end.col)
+			r += sheet_col_get_distance_pixels (sheet,
+				view->end.col+1, range->end.col+1);
+		else if (no_background)
+			r++;
+		if (range->start.row < view->start.row)
+			t -= sheet_row_get_distance_pixels (sheet,
+				range->start.row, view->start.row);
+		else if (no_background)
+			t--;
+		if (view->end.row < range->end.row)
+			b += sheet_row_get_distance_pixels (sheet,
+				view->end.row+1, range->end.row+1);
+		else if (no_background)
+			b++;
+
+		cell_draw (cell, mstyle, NULL, grid->gc, drawable,
+			   l, t,
+			   r - l - ci->margin_b - ci->margin_a,
+			   b - t - ri->margin_b - ri->margin_a);
+	}
+
+	mstyle_unref (mstyle);
+}
+
 static MStyle *
 item_grid_draw_background (GdkDrawable *drawable, ItemGrid *item_grid,
 			   ColRowInfo const * const ci, ColRowInfo const * const ri,
@@ -184,7 +272,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *item_grid,
 			   int col, int row, int x, int y,
 			   gboolean const extended_left)
 {
-	Sheet  *sheet  = item_grid->sheet_view->sheet;
+	Sheet  *sheet  = item_grid->scg->sheet;
 	MStyle *mstyle = sheet_style_compute (sheet, col, row);
 	GdkGC  * const gc     = item_grid->empty_gc;
 	int const w    = ci->size_pixels;
@@ -208,16 +296,25 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *item_grid,
 	return mstyle;
 }
 
+static gint
+merged_col_cmp (Range const *a, Range const *b)
+{
+	return a->start.col - b->start.col;
+}
+
 static void
 item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	GnomeCanvas *canvas = item->canvas;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
-	Sheet *sheet = gsheet->sheet_view->sheet;
-	Cell const * const edit_cell = gsheet->sheet_view->wbcg->editing_cell;
+	Sheet *sheet = gsheet->scg->sheet;
+	Cell const * const edit_cell = gsheet->scg->wbcg->editing_cell;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	GdkGC *grid_gc = item_grid->grid_gc;
-	int col, row;
+	int col, row, end_col, end_row;
+	GSList *merged_active, *merged_active_seen, *merged_unused, *merged_used, *ptr, **lag;
+	gboolean first_row;
+	Range view;
 
 	int x_paint, y_paint;
 	int const paint_col = gnumeric_sheet_find_col (gsheet, x, &x_paint);
@@ -238,37 +335,44 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			    0, 0, width, height);
 
 	/* 2. the grids */
-	if (sheet->show_grid) {
 #ifdef PAINT_DEBUG
-		fprintf (stderr, "paint : %s%d:", col_name(paint_col), paint_row+1);
+	fprintf (stderr, "paint : %s%d:", col_name(paint_col), paint_row+1);
 #endif
-		col = paint_col;
-		x_paint = -diff_x;
+	end_col = paint_col;
+	x_paint = -diff_x;
+	if (sheet->show_grid)
 		gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
-		while (x_paint < end_x && col < SHEET_MAX_COLS) {
-			ColRowInfo const * const ci = sheet_col_get_info (sheet, col++);
-			if (ci->visible) {
-				x_paint += ci->size_pixels;
+	while (x_paint < end_x && end_col < SHEET_MAX_COLS) {
+		ColRowInfo const * const ci = sheet_col_get_info (sheet, end_col++);
+		if (ci->visible) {
+			x_paint += ci->size_pixels;
+			if (sheet->show_grid)
 				gdk_draw_line (drawable, grid_gc, x_paint, 0, x_paint, height);
-			}
 		}
-
-		row = paint_row;
-		y_paint = -diff_y;
-		gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
-		while (y_paint < end_y && row < SHEET_MAX_ROWS) {
-			ColRowInfo const * const ri = sheet_row_get_info (sheet, row++);
-			if (ri->visible) {
-				y_paint += ri->size_pixels;
-				gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
-			}
-		}
-#ifdef PAINT_DEBUG
-		fprintf (stderr, "%s%d\n", col_name(col-1), row);
-#endif
 	}
 
+	end_row = paint_row;
+	y_paint = -diff_y;
+	if (sheet->show_grid)
+		gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
+	while (y_paint < end_y && end_row < SHEET_MAX_ROWS) {
+		ColRowInfo const * const ri = sheet_row_get_info (sheet, end_row++);
+		if (ri->visible) {
+			y_paint += ri->size_pixels;
+			if (sheet->show_grid)
+				gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
+		}
+	}
+#ifdef PAINT_DEBUG
+	fprintf (stderr, "%s%d\n", col_name(end_col-1), end_row);
+#endif
+
 	gdk_gc_set_function (item_grid->gc, GDK_COPY);
+
+	first_row = TRUE;
+	merged_active = merged_active_seen = merged_used = NULL;
+	merged_unused = sheet_region_get_merged (sheet,
+		range_init (&view, paint_col, paint_row, end_col-1, end_row-1));
 
 	row = paint_row;
 	for (y_paint = -diff_y; y_paint < end_y && row < SHEET_MAX_ROWS; ++row) {
@@ -277,13 +381,78 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			continue;
 
 		col = paint_col;
+		x_paint = -diff_x;
+
+		/* Restore the set of ranges seen, but still active ranges.
+		 * Reinverting to maintain the original order */
+		g_return_if_fail (merged_active == NULL);
+
+		while (merged_active_seen != NULL) {
+			GSList *tmp = merged_active_seen->next;
+			merged_active_seen->next = merged_active;
+			merged_active = merged_active_seen;
+			merged_active_seen = tmp;
+			MERGE_DEBUG (merged_active->data, " : seen -> active\n");
+		}
+
+		/* look for merges that start on this row, on the first painted row
+		 * also check for merges that start above. */
+		lag = &merged_unused;
+		for (ptr = merged_unused; ptr != NULL; ) {
+			Range * const r = ptr->data;
+
+			if ((r->start.row == row) ||
+			    (first_row && r->start.row < row)) {
+				GSList *tmp = ptr;
+				ptr = *lag = tmp->next;
+				g_slist_free_1 (tmp);
+				merged_active = g_slist_insert_sorted (merged_active, r,
+							(GCompareFunc)merged_col_cmp);
+				MERGE_DEBUG (r, " : unused -> active\n");
+
+				view.start.row = row;
+				view.start.col = col;
+				item_grid_draw_merged_range (drawable, item_grid,
+							     x_paint, y_paint,
+							     &view, r);
+			} else {
+				lag = &(ptr->next);
+				ptr = ptr->next;
+			}
+		}
+
+		first_row = FALSE;
+
 		/* DO NOT increment the column here, spanning cols are different */
-		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ) {
+		while (x_paint < end_x && col < SHEET_MAX_COLS) {
 			CellSpanInfo const * span;
 			ColRowInfo const * ci = sheet_col_get_info (sheet, col);
 			if (!ci->visible) {
 				++col;
 				continue;
+			}
+
+			/* Skip any merged regions */
+			if (merged_active) {
+				Range *r = merged_active->data;
+				if (r->start.col <= col) {
+					x_paint += sheet_col_get_distance_pixels (
+						sheet, col, r->end.col+1);
+					col = r->end.col + 1;
+
+					ptr = merged_active;
+					merged_active = merged_active->next;
+					if (r->end.row == row) {
+						ptr->next = merged_used;
+						merged_used = ptr;
+						MERGE_DEBUG (r, " : active -> used\n");
+					} else {
+						ptr->next = merged_active_seen;
+						merged_active_seen = ptr;
+						MERGE_DEBUG (r, " : active -> seen\n");
+					}
+					continue;
+				}
 			}
 
 			/* Is this the start of a span?
@@ -302,7 +471,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				if (!cell_is_blank (cell) && cell != edit_cell)
 					cell_draw (cell, mstyle, NULL,
 						   item_grid->gc, drawable,
-						   x_paint, y_paint);
+						   x_paint, y_paint, -1, -1);
 				mstyle_unref (mstyle);
 
 				/* Increment the column */
@@ -342,18 +511,26 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				if (real_style == NULL) {
 					real_style = sheet_style_compute (sheet, real_col, ri->pos);
 					real_x = x_paint +
-					    sheet_col_get_distance_pixels (cell->base.sheet,
-									   col, cell->pos.col);
+					    sheet_col_get_distance_pixels (sheet, col, cell->pos.col);
 				}
 
 				if (is_visible && cell != edit_cell)
 					cell_draw (cell, real_style, span,
-						   item_grid->gc, drawable, real_x, y_paint);
+						   item_grid->gc, drawable,
+						   real_x, y_paint, -1, -1);
 				mstyle_unref (real_style);
 			}
 		}
 		y_paint += ri->size_pixels;
 	}
+
+	if (merged_used) /* ranges whose bottons are in the view */
+		g_slist_free (merged_used);
+	if (merged_active_seen) /* ranges whose bottons are below the view */
+		g_slist_free (merged_active_seen);
+
+	g_return_if_fail (merged_unused == NULL);
+	g_return_if_fail (merged_active == NULL);
 }
 
 static double
@@ -362,169 +539,6 @@ item_grid_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 {
 	*actual_item = item;
 	return 0.0;
-}
-
-static void
-item_grid_translate (GnomeCanvasItem *item, double dx, double dy)
-{
-	printf ("item_grid_translate %g, %g\n", dx, dy);
-}
-
-/***************************************************************************/
-
-enum {
-	CONTEXT_CUT	= 1,
-	CONTEXT_COPY,
-	CONTEXT_PASTE,
-	CONTEXT_PASTE_SPECIAL,
-	CONTEXT_INSERT,
-	CONTEXT_DELETE,
-	CONTEXT_CLEAR_CONTENT,
-	CONTEXT_FORMAT_CELL,
-	CONTEXT_COL_WIDTH,
-	CONTEXT_COL_HIDE,
-	CONTEXT_COL_UNHIDE,
-	CONTEXT_ROW_HEIGHT,
-	CONTEXT_ROW_HIDE,
-	CONTEXT_ROW_UNHIDE
-};
-static gboolean
-context_menu_hander (GnumericPopupMenuElement const *element,
-		     gpointer user_data)
-{
-	SheetControlGUI *sheet_view = user_data;
-	Sheet *sheet = sheet_view->sheet;
-	WorkbookControlGUI *wbcg = sheet_view->wbcg;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-
-	g_return_val_if_fail (element != NULL, TRUE);
-	g_return_val_if_fail (sheet != NULL, TRUE);
-
-	switch (element->index) {
-	case CONTEXT_CUT :
-		sheet_selection_cut (wbc, sheet);
-		break;
-	case CONTEXT_COPY :
-		sheet_selection_copy (wbc, sheet);
-		break;
-	case CONTEXT_PASTE :
-		cmd_paste_to_selection (wbc, sheet, PASTE_DEFAULT);
-		break;
-	case CONTEXT_PASTE_SPECIAL : {
-		int flags = dialog_paste_special (wbcg);
-		if (flags != 0)
-			cmd_paste_to_selection (wbc, sheet, flags);
-		break;
-	}
-	case CONTEXT_INSERT :
-		dialog_insert_cells (wbcg, sheet);
-		break;
-	case CONTEXT_DELETE :
-		dialog_delete_cells (wbcg, sheet);
-		break;
-	case CONTEXT_CLEAR_CONTENT :
-		cmd_clear_selection (wbc, sheet, CLEAR_VALUES);
-		break;
-	case CONTEXT_FORMAT_CELL :
-		dialog_cell_format (wbcg, sheet, FD_CURRENT);
-		break;
-	case CONTEXT_COL_WIDTH :
-		sheet_dialog_set_column_width (NULL, wbcg);
-		break;
-	case CONTEXT_COL_HIDE :
-		cmd_hide_selection_rows_cols (wbc, sheet, TRUE, FALSE);
-		break;
-	case CONTEXT_COL_UNHIDE :
-		cmd_hide_selection_rows_cols (wbc, sheet, TRUE, TRUE);
-		break;
-	case CONTEXT_ROW_HEIGHT :
-		sheet_dialog_set_row_height (NULL, wbcg);
-		break;
-	case CONTEXT_ROW_HIDE :
-		cmd_hide_selection_rows_cols (wbc, sheet, FALSE, FALSE);
-		break;
-	case CONTEXT_ROW_UNHIDE :
-		cmd_hide_selection_rows_cols (wbc, sheet, FALSE, TRUE);
-		break;
-	default :
-		break;
-	};
-	return TRUE;
-}
-
-void
-item_grid_popup_menu (SheetControlGUI *sheet_view, GdkEventButton *event,
-		      gboolean is_col, gboolean is_row)
-{
-	enum {
-		CONTEXT_IGNORE_FOR_ROWS = 1,
-		CONTEXT_IGNORE_FOR_COLS = 2
-	};
-	enum {
-		CONTEXT_ENABLE_PASTE_SPECIAL = 1,
-	};
-
-	static GnumericPopupMenuElement const popup_elements[] = {
-		{ N_("Cu_t"),           GNOME_STOCK_MENU_CUT,
-		    0, 0, CONTEXT_CUT },
-		{ N_("_Copy"),          GNOME_STOCK_MENU_COPY,
-		    0, 0, CONTEXT_COPY },
-		{ N_("_Paste"),         GNOME_STOCK_MENU_PASTE,
-		    0, 0, CONTEXT_PASTE },
-		{ N_("Paste _Special"),	NULL,
-		    0, CONTEXT_ENABLE_PASTE_SPECIAL, CONTEXT_PASTE_SPECIAL },
-
-		{ "", NULL, 0, 0, 0 },
-
-		{ N_("_Insert..."),	NULL,
-		    0, 0, CONTEXT_INSERT },
-		{ N_("_Delete..."),	NULL,
-		    0, 0, CONTEXT_DELETE },
-		{ N_("Clear Co_ntents"),NULL,
-		    0, 0, CONTEXT_CLEAR_CONTENT },
-
-		{ "", NULL, 0, 0, 0 },
-
-		{ N_("_Format Cells..."),GNOME_STOCK_MENU_PREF,
-		    0, 0, CONTEXT_FORMAT_CELL },
-
-		/* Column specific (Note some labels duplicate row labels) */
-		{ N_("Column _Width..."),NULL,
-		    CONTEXT_IGNORE_FOR_COLS, 0, CONTEXT_COL_WIDTH },
-		{ N_("_Hide"),		 NULL,
-		    CONTEXT_IGNORE_FOR_COLS, 0, CONTEXT_COL_HIDE },
-		{ N_("_Unhide"),	 NULL,
-		    CONTEXT_IGNORE_FOR_COLS, 0, CONTEXT_COL_UNHIDE },
-
-		/* Row specific (Note some labels duplicate col labels) */
-		{ N_("_Row Height..."),	 NULL,
-		    CONTEXT_IGNORE_FOR_ROWS, 0, CONTEXT_ROW_HEIGHT },
-		{ N_("_Hide"),		 NULL,
-		    CONTEXT_IGNORE_FOR_ROWS, 0, CONTEXT_ROW_HIDE },
-		{ N_("_Unhide"),	 NULL,
-		    CONTEXT_IGNORE_FOR_ROWS, 0, CONTEXT_ROW_UNHIDE },
-
-		{ NULL, NULL, 0, 0, 0 },
-	};
-
-	/* row and column specific operations */
-	int const display_filter =
-		(is_col ? CONTEXT_IGNORE_FOR_COLS : 0) |
-		(is_row ? CONTEXT_IGNORE_FOR_ROWS : 0);
-
-	/*
-	 * Paste special does not apply to cut cells.  Enable
-	 * when there is nothing in the local clipboard, or when
-	 * the clipboard has the results of a copy.
-	 */
-	int const sensitivity_filter =
-	    (application_clipboard_is_empty () ||
-	    (application_clipboard_contents_get () != NULL))
-	? CONTEXT_ENABLE_PASTE_SPECIAL : 0;
-
-	gnumeric_create_popup_menu (popup_elements, &context_menu_hander,
-				    sheet_view, display_filter,
-				    sensitivity_filter, event);
 }
 
 /***************************************************************************/
@@ -551,10 +565,10 @@ item_grid_button_1 (Sheet *sheet, GdkEventButton *event,
 	 * ends the edit.
 	 */
 	if (sheet->current_object != NULL) {
-		if (!workbook_edit_has_guru (gsheet->sheet_view->wbcg))
+		if (!workbook_edit_has_guru (gsheet->scg->wbcg))
 			sheet_mode_edit	(sheet);
 	} else
-		wb_control_gui_focus_cur_sheet (gsheet->sheet_view->wbcg);
+		wb_control_gui_focus_cur_sheet (gsheet->scg->wbcg);
 
 	/*
 	 * If we were already selecting a range of cells for a formula,
@@ -579,11 +593,11 @@ item_grid_button_1 (Sheet *sheet, GdkEventButton *event,
 	}
 
 	/* While a guru is up ignore clicks */
-	if (workbook_edit_has_guru (gsheet->sheet_view->wbcg))
+	if (workbook_edit_has_guru (gsheet->scg->wbcg))
 		return 1;
 
 	/* This was a regular click on a cell on the spreadsheet.  Select it. */
-	workbook_finish_editing (gsheet->sheet_view->wbcg, TRUE);
+	workbook_finish_editing (gsheet->scg->wbcg, TRUE);
 
 	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 		sheet_selection_reset_only (sheet);
@@ -629,15 +643,15 @@ drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
  */
 
 static gboolean
-cb_extend_cell_range (SheetControlGUI *sheet_view, int col, int row, gpointer ignored)
+cb_extend_cell_range (SheetControlGUI *scg, int col, int row, gpointer ignored)
 {
-	sheet_selection_extend_to (sheet_view->sheet, col, row);
+	sheet_selection_extend_to (scg->sheet, col, row);
 	return TRUE;
 }
 static gboolean
-cb_extend_expr_range (SheetControlGUI *sheet_view, int col, int row, gpointer ignored)
+cb_extend_expr_range (SheetControlGUI *scg, int col, int row, gpointer ignored)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->canvas);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
 	gnumeric_sheet_selection_extend (gsheet, col, row);
 	return TRUE;
 }
@@ -648,7 +662,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	GnomeCanvas *canvas = item->canvas;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
-	Sheet *sheet = item_grid->sheet_view->sheet;
+	Sheet *sheet = item_grid->scg->sheet;
 	int col, row, x, y, left, top;
 	int width, height;
 
@@ -670,7 +684,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		switch (event->button.button) {
 		case 1 :
-			sheet_view_stop_sliding (item_grid->sheet_view);
+			sheet_view_stop_sliding (item_grid->scg);
 
 			if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				sheet_make_cell_visible (sheet, sheet->cursor.edit_pos.col,
@@ -679,7 +693,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			/* FIXME : when selection moves into the view we will need to do
 			 * this for all the sibling controls */
 			wb_control_selection_descr_set (
-				WORKBOOK_CONTROL (gsheet->sheet_view->wbcg),
+				WORKBOOK_CONTROL (gsheet->scg->wbcg),
 				cell_pos_name (&sheet->cursor.edit_pos));
 
 			item_grid->selecting = ITEM_GRID_NO_SELECTION;
@@ -742,14 +756,14 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			else if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				slide_handler = &cb_extend_expr_range;
 
-			if (sheet_view_start_sliding (item_grid->sheet_view,
+			if (sheet_view_start_sliding (item_grid->scg,
 						      slide_handler, NULL,
 						      col, row, dx, dy))
 
 				return TRUE;
 		}
 
-		sheet_view_stop_sliding (item_grid->sheet_view);
+		sheet_view_stop_sliding (item_grid->scg);
 
 		if (item_grid->selecting == ITEM_GRID_NO_SELECTION)
 			return 1;
@@ -768,14 +782,14 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		return TRUE;
 
 	case GDK_BUTTON_PRESS:
-		sheet_view_stop_sliding (item_grid->sheet_view);
+		sheet_view_stop_sliding (item_grid->scg);
 
 		gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
 		col = gnumeric_sheet_find_col (gsheet, x, NULL);
 		row = gnumeric_sheet_find_row (gsheet, y, NULL);
 
 		/* While a guru is up ignore clicks */
-		if (workbook_edit_has_guru (gsheet->sheet_view->wbcg) && event->button.button != 1)
+		if (workbook_edit_has_guru (gsheet->scg->wbcg) && event->button.button != 1)
 			return TRUE;
 
 		switch (event->button.button){
@@ -789,8 +803,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			return TRUE;
 
 		case 3:
-			item_grid_popup_menu (item_grid->sheet_view,
-					      &event->button, FALSE, FALSE);
+			scg_context_menu (item_grid->scg,
+					  &event->button, FALSE, FALSE);
 			return TRUE;
 
 		default :
@@ -831,7 +845,7 @@ item_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_SHEET_CONTROL_GUI:
-		item_grid->sheet_view = GTK_VALUE_POINTER (*arg);
+		item_grid->scg = GTK_VALUE_POINTER (*arg);
 		break;
 	}
 }
@@ -862,29 +876,9 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 	item_class->unrealize   = item_grid_unrealize;
 	item_class->draw        = item_grid_draw;
 	item_class->point       = item_grid_point;
-	item_class->translate   = item_grid_translate;
 	item_class->event       = item_grid_event;
 }
 
-GtkType
-item_grid_get_type (void)
-{
-	static GtkType item_grid_type = 0;
-
-	if (!item_grid_type) {
-		GtkTypeInfo item_grid_info = {
-			"ItemGrid",
-			sizeof (ItemGrid),
-			sizeof (ItemGridClass),
-			(GtkClassInitFunc) item_grid_class_init,
-			(GtkObjectInitFunc) item_grid_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		item_grid_type = gtk_type_unique (gnome_canvas_item_get_type (), &item_grid_info);
-	}
-
-	return item_grid_type;
-}
+GNUMERIC_MAKE_TYPE_WITH_CLASS (item_grid, "ItemGrid", ItemGrid, ItemGridClass,
+			       item_grid_class_init, item_grid_init,
+			       gnome_canvas_item_get_type ())

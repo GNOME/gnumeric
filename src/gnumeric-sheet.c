@@ -44,7 +44,7 @@ gnumeric_sheet_destroy (GtkObject *object)
 }
 
 static GnumericSheet *
-gnumeric_sheet_create (SheetControlGUI *sheet_view)
+gnumeric_sheet_create (SheetControlGUI *scg)
 {
 	GnumericSheet *gsheet;
 	GnomeCanvas   *canvas;
@@ -52,7 +52,7 @@ gnumeric_sheet_create (SheetControlGUI *sheet_view)
 	gsheet = gtk_type_new (gnumeric_sheet_get_type ());
 	canvas = GNOME_CANVAS (gsheet);
 
-	gsheet->sheet_view = sheet_view;
+	gsheet->scg = scg;
 	gsheet->row.first = gsheet->row.last_full = gsheet->row.last_visible = 0;
 	gsheet->col.first = gsheet->col.last_full = gsheet->col.last_visible = 0;
 	gsheet->row_offset.first = gsheet->row_offset.last_full = gsheet->row_offset.last_visible = 0;
@@ -75,7 +75,7 @@ gnumeric_sheet_create (SheetControlGUI *sheet_view)
 static void
 move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 {
-	Sheet *sheet = gsheet->sheet_view->sheet;
+	Sheet *sheet = gsheet->scg->sheet;
 
 	/*
 	 * Please note that the order here is important, as
@@ -93,7 +93,7 @@ move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 		sheet_selection_reset_only (sheet);
 
 	/* Set the cursor BEFORE making it visible to decrease flicker */
-	workbook_finish_editing (gsheet->sheet_view->wbcg, TRUE);
+	workbook_finish_editing (gsheet->scg->wbcg, TRUE);
 	sheet_cursor_set (sheet, col, row, col, row, col, row);
 	sheet_make_cell_visible (sheet, col, row);
 
@@ -140,7 +140,7 @@ static void
 move_cursor_horizontal (GnumericSheet *gsheet, int count,
 			gboolean jump_to_boundaries)
 {
-	Sheet *sheet = gsheet->sheet_view->sheet;
+	Sheet *sheet = gsheet->scg->sheet;
 	int const new_col =
 	    sheet_find_boundary_horizontal (sheet,
 					    sheet->cursor.edit_pos.col,
@@ -153,7 +153,7 @@ static void
 move_horizontal_selection (GnumericSheet *gsheet,
 			   int count, gboolean jump_to_boundaries)
 {
-	sheet_selection_extend (gsheet->sheet_view->sheet,
+	sheet_selection_extend (gsheet->scg->sheet,
 				count, jump_to_boundaries, TRUE);
 }
 
@@ -171,7 +171,7 @@ static void
 move_cursor_vertical (GnumericSheet *gsheet, int count,
 		      gboolean jump_to_boundaries)
 {
-	Sheet *sheet = gsheet->sheet_view->sheet;
+	Sheet *sheet = gsheet->scg->sheet;
 	int const new_row =
 	    sheet_find_boundary_vertical (sheet,
 					  sheet->cursor.edit_pos.col,
@@ -184,7 +184,7 @@ static void
 move_vertical_selection (GnumericSheet *gsheet,
 			 int count, gboolean jump_to_boundaries)
 {
-	sheet_selection_extend (gsheet->sheet_view->sheet,
+	sheet_selection_extend (gsheet->scg->sheet,
 				count, jump_to_boundaries, FALSE);
 }
 
@@ -204,7 +204,7 @@ gnumeric_sheet_can_select_expr_range (GnumericSheet *gsheet)
 	g_return_val_if_fail (gsheet != NULL, FALSE);
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), FALSE);
 
-	wbcg = gsheet->sheet_view->wbcg;
+	wbcg = gsheet->scg->wbcg;
 	if (workbook_edit_entry_redirect_p (wbcg))
 		return TRUE;
 
@@ -220,7 +220,7 @@ gnumeric_sheet_can_select_expr_range (GnumericSheet *gsheet)
 static void
 selection_remove_selection_string (GnumericSheet *gsheet)
 {
-	WorkbookControlGUI const *wbcg = gsheet->sheet_view->wbcg;
+	WorkbookControlGUI const *wbcg = gsheet->scg->wbcg;
 
 	if (gsheet->sel_text_len <= 0)
 		return;
@@ -235,8 +235,8 @@ static void
 selection_insert_selection_string (GnumericSheet *gsheet)
 {
 	ItemCursor *sel = gsheet->sel_cursor;
-	Sheet const *sheet = gsheet->sheet_view->sheet;
-	WorkbookControlGUI const *wbcg = gsheet->sheet_view->wbcg;
+	Sheet const *sheet = gsheet->scg->sheet;
+	WorkbookControlGUI const *wbcg = gsheet->scg->wbcg;
 	GtkEditable *editable = GTK_EDITABLE (workbook_get_entry_logical (wbcg));
 	gboolean const inter_sheet = (sheet != wbcg->editing_sheet);
 	char *buffer;
@@ -288,8 +288,8 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
-	Sheet *sheet = gsheet->sheet_view->sheet;
-	WorkbookControlGUI *wbcg = gsheet->sheet_view->wbcg;
+	Sheet *sheet = gsheet->scg->sheet;
+	WorkbookControlGUI *wbcg = gsheet->scg->wbcg;
 
 	g_return_if_fail (gsheet->selecting_cell == FALSE);
 
@@ -303,7 +303,7 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 	gsheet->sel_cursor = ITEM_CURSOR (gnome_canvas_item_new (
 		group,
 		item_cursor_get_type (),
-		"SheetControlGUI", gsheet->sheet_view,
+		"SheetControlGUI", gsheet->scg,
 		"Grid",  gsheet->item_grid,
 		"Style", ITEM_CURSOR_ANTED, NULL));
 	item_cursor_set_spin_base (gsheet->sel_cursor, col, row);
@@ -320,7 +320,7 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 static void
 start_cell_selection (GnumericSheet *gsheet)
 {
-	Sheet *sheet = gsheet->sheet_view->sheet;
+	Sheet *sheet = gsheet->scg->sheet;
 
 	start_cell_selection_at (gsheet, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row);
 }
@@ -463,7 +463,7 @@ selection_cursor_move_horizontal (GnumericSheet *gsheet, int dir, gboolean jump_
 		start_cell_selection (gsheet);
 
 	ic = gsheet->sel_cursor;
-	ic->base_col = sheet_find_boundary_horizontal (gsheet->sheet_view->sheet,
+	ic->base_col = sheet_find_boundary_horizontal (gsheet->scg->sheet,
 						       ic->base_col, ic->base_row,
 						       dir, jump_to_boundaries);
 
@@ -490,7 +490,7 @@ selection_cursor_move_vertical (GnumericSheet *gsheet, int dir, gboolean jump_to
 		start_cell_selection (gsheet);
 
 	ic = gsheet->sel_cursor;
-	ic->base_row = sheet_find_boundary_vertical (gsheet->sheet_view->sheet,
+	ic->base_row = sheet_find_boundary_vertical (gsheet->scg->sheet,
 						     ic->base_col, ic->base_row,
 						     dir, jump_to_boundaries);
 
@@ -525,17 +525,17 @@ selection_expand_horizontal (GnumericSheet *gsheet, int n, gboolean jump_to_boun
 
 	if (ic->base_col < end_col)
 		end_col =
-		    sheet_find_boundary_horizontal (gsheet->sheet_view->sheet,
+		    sheet_find_boundary_horizontal (gsheet->scg->sheet,
 						    end_col, ic->pos.end.row,
 						    n, jump_to_boundaries);
 	else if (ic->base_col > start_col || n < 0)
 		start_col =
-		    sheet_find_boundary_horizontal (gsheet->sheet_view->sheet,
+		    sheet_find_boundary_horizontal (gsheet->scg->sheet,
 						    start_col, ic->pos.start.row,
 						    n, jump_to_boundaries);
 	else
 		end_col =
-		    sheet_find_boundary_horizontal (gsheet->sheet_view->sheet,
+		    sheet_find_boundary_horizontal (gsheet->scg->sheet,
 						    end_col,  ic->pos.end.row,
 						    n, jump_to_boundaries);
 
@@ -576,17 +576,17 @@ selection_expand_vertical (GnumericSheet *gsheet, int n, gboolean jump_to_bounda
 
 	if (ic->base_row < end_row)
 		end_row =
-		    sheet_find_boundary_vertical (gsheet->sheet_view->sheet,
+		    sheet_find_boundary_vertical (gsheet->scg->sheet,
 						  ic->pos.end.col, end_row,
 						  n, jump_to_boundaries);
 	else if (ic->base_row > start_row || n < 0)
 		start_row =
-		    sheet_find_boundary_vertical (gsheet->sheet_view->sheet,
+		    sheet_find_boundary_vertical (gsheet->scg->sheet,
 						  ic->pos.start.col, start_row,
 						  n, jump_to_boundaries);
 	else
 		end_row =
-		    sheet_find_boundary_vertical (gsheet->sheet_view->sheet,
+		    sheet_find_boundary_vertical (gsheet->scg->sheet,
 						  ic->pos.end.col,  end_row,
 						  n, jump_to_boundaries);
 
@@ -614,8 +614,8 @@ selection_expand_vertical (GnumericSheet *gsheet, int n, gboolean jump_to_bounda
 static gint
 gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 {
-	Sheet *sheet = gsheet->sheet_view->sheet;
-	WorkbookControlGUI *wbcg = gsheet->sheet_view->wbcg;
+	Sheet *sheet = gsheet->scg->sheet;
+	WorkbookControlGUI *wbcg = gsheet->scg->wbcg;
 	void (*movefn_horizontal) (GnumericSheet *, int, gboolean);
 	void (*movefn_vertical)   (GnumericSheet *, int, gboolean);
 	gboolean const select_expr_range = gnumeric_sheet_can_select_expr_range (gsheet);
@@ -793,7 +793,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 static gint
 gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 {
-	Sheet *sheet = gsheet->sheet_view->sheet;
+	Sheet *sheet = gsheet->scg->sheet;
 
 	switch (event->keyval) {
 	case GDK_Escape:
@@ -817,7 +817,7 @@ static gint
 gnumeric_sheet_key_press (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
-	Sheet *sheet = gsheet->sheet_view->sheet;
+	Sheet *sheet = gsheet->scg->sheet;
 
 	if (sheet->current_object != NULL ||
 	    sheet->new_object != NULL)
@@ -829,7 +829,7 @@ static gint
 gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
-	Sheet *sheet = gsheet->sheet_view->sheet;
+	Sheet *sheet = gsheet->scg->sheet;
 
 	/*
 	 * The status_region normally displays the current edit_pos
@@ -841,7 +841,7 @@ gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 	if (sheet->current_object == NULL &&
 	    (event->keyval == GDK_Shift_L || event->keyval == GDK_Shift_R))
 		wb_control_selection_descr_set (
-			WORKBOOK_CONTROL (gsheet->sheet_view->wbcg),
+			WORKBOOK_CONTROL (gsheet->scg->wbcg),
 			cell_pos_name (&sheet->cursor.edit_pos));
 
 	return FALSE;
@@ -874,10 +874,10 @@ gnumeric_sheet_drag_data_get (GtkWidget *widget,
 {
 #if 0
 	BonoboMoniker *moniker;
-	Sheet *sheet = GNUMERIC_SHEET (widget)->sheet_view->sheet;
+	Sheet *sheet = GNUMERIC_SHEET (widget)->scg->sheet;
 	Workbook *wb = sheet->workbook;
 	char *s;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (gsheet->sheet_view->wbcg);
+	WorkbookControl *wbc = WORKBOOK_CONTROL (gsheet->scg->wbcg);
 
 	if (wb->filename == NULL)
 		workbook_save (wbc, wb);
@@ -913,7 +913,7 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 				  GnumericSheet    *gsheet)
 {
 	GList *names, *tmp_list;
-	WorkbookControl *wbc = WORKBOOK_CONTROL (gsheet->sheet_view->wbcg);
+	WorkbookControl *wbc = WORKBOOK_CONTROL (gsheet->scg->wbcg);
 
 	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
 
@@ -924,7 +924,7 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 #ifdef ENABLE_BONOBO
 			/* If it wasn't a workbook, see if we have a control for it */
 			SheetObject *so = sheet_object_container_new_file (
-				gsheet->sheet_view->sheet, tmp_list->data);
+				gsheet->scg->sheet, tmp_list->data);
 			if (so != NULL)
 				sheet_mode_create_object (so);
 #endif
@@ -933,7 +933,7 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 }
 
 GtkWidget *
-gnumeric_sheet_new (SheetControlGUI *sheet_view, ItemBar *colbar, ItemBar *rowbar)
+gnumeric_sheet_new (SheetControlGUI *scg, ItemBar *colbar, ItemBar *rowbar)
 {
 	GnomeCanvasItem *item;
 	GnumericSheet *gsheet;
@@ -947,17 +947,16 @@ gnumeric_sheet_new (SheetControlGUI *sheet_view, ItemBar *colbar, ItemBar *rowba
 	};
 	static gint n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
 
-	g_return_val_if_fail (sheet_view  != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (sheet_view), NULL);
+	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
 	g_return_val_if_fail (colbar != NULL, NULL);
 	g_return_val_if_fail (rowbar != NULL, NULL);
 	g_return_val_if_fail (IS_ITEM_BAR (colbar), NULL);
 	g_return_val_if_fail (IS_ITEM_BAR (rowbar), NULL);
 
-	sheet = sheet_view->sheet;
+	sheet = scg->sheet;
 	workbook = sheet->workbook;
 
-	gsheet = gnumeric_sheet_create (sheet_view);
+	gsheet = gnumeric_sheet_create (scg);
 
 	/* FIXME: figure out some real size for the canvas scrolling region */
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (gsheet), 0, 0,
@@ -973,14 +972,14 @@ gnumeric_sheet_new (SheetControlGUI *sheet_view, ItemBar *colbar, ItemBar *rowba
 	/* The grid */
 	item = gnome_canvas_item_new (gsheet_group,
 				      item_grid_get_type (),
-				      "ItemGrid::SheetControlGUI", sheet_view,
+				      "ItemGrid::SheetControlGUI", scg,
 				      NULL);
 	gsheet->item_grid = ITEM_GRID (item);
 
 	/* The cursor */
 	item = gnome_canvas_item_new (gsheet_group,
 				      item_cursor_get_type (),
-				      "ItemCursor::SheetControlGUI", sheet_view,
+				      "ItemCursor::SheetControlGUI", scg,
 				      "ItemCursor::Grid", gsheet->item_grid,
 				      NULL);
 	gsheet->item_cursor = ITEM_CURSOR (item);
@@ -1080,7 +1079,7 @@ void
 gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet,
 				       gboolean const full_recompute)
 {
-	Sheet const * const sheet = gsheet->sheet_view->sheet;
+	Sheet const * const sheet = gsheet->scg->sheet;
 	GnomeCanvas   *canvas = GNOME_CANVAS (gsheet);
 	int pixels, col, row, width, height;
 
@@ -1169,7 +1168,7 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet,
 	}
 
 	/* Update the scrollbar sizes */
-	sheet_view_scrollbar_config (gsheet->sheet_view);
+	sheet_view_scrollbar_config (gsheet->scg);
 
 	/* Force the cursor to update its bounds relative to the new visible region */
 	item_cursor_reposition (gsheet->item_cursor);
@@ -1188,7 +1187,7 @@ gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_first_row)
 	g_return_val_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS, 0);
 
 	rowc = GNOME_CANVAS_ITEM (gsheet->rowbar)->canvas;
-	sheet = gsheet->sheet_view->sheet;
+	sheet = gsheet->scg->sheet;
 	row_distance = gsheet->row_offset.first +=
 	    sheet_row_get_distance_pixels (sheet, gsheet->row.first, new_first_row);
 	gsheet->row.first = new_first_row;
@@ -1234,7 +1233,7 @@ gnumeric_sheet_bar_set_left_col (GnumericSheet *gsheet, int new_first_col)
 	g_return_val_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS, 0);
 
 	colc = GNOME_CANVAS_ITEM (gsheet->colbar)->canvas;
-	sheet = gsheet->sheet_view->sheet;
+	sheet = gsheet->scg->sheet;
 
 	col_distance = gsheet->col_offset.first +=
 	    sheet_col_get_distance_pixels (sheet, gsheet->col.first, new_first_col);
@@ -1299,7 +1298,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 	g_return_if_fail (col < SHEET_MAX_COLS);
 	g_return_if_fail (row < SHEET_MAX_ROWS);
 
-	sheet = gsheet->sheet_view->sheet;
+	sheet = gsheet->scg->sheet;
 	canvas = GNOME_CANVAS (gsheet);
 
 	/* Find the new gsheet->col.first */
@@ -1445,7 +1444,7 @@ gnumeric_sheet_get_type (void)
 int
 gnumeric_sheet_find_col (GnumericSheet *gsheet, int x, int *col_origin)
 {
-	Sheet *sheet = gsheet->sheet_view->sheet;
+	Sheet *sheet = gsheet->scg->sheet;
 	int col   = gsheet->col.first;
 	int pixel = gsheet->col_offset.first;
 
@@ -1489,7 +1488,7 @@ gnumeric_sheet_find_col (GnumericSheet *gsheet, int x, int *col_origin)
 int
 gnumeric_sheet_find_row (GnumericSheet *gsheet, int y, int *row_origin)
 {
-	Sheet *sheet = gsheet->sheet_view->sheet;
+	Sheet *sheet = gsheet->scg->sheet;
 	int row   = gsheet->row.first;
 	int pixel = gsheet->row_offset.first;
 

@@ -10,13 +10,13 @@
 struct _ItemEdit {
 	GnomeCanvasItem canvas_item;
 
+	SheetControlGUI *scg;
+	ItemGrid   	*item_grid;
+	GtkEntry   	*entry;		/* Utility pointer to the workbook entry */
+
 	guint      signal_changed;	/* ::changed signal in the GtkEntry */
 	guint      signal_key_press;	/* ::key-press-event signal in the GtkWidget */
 	guint      signal_button_press;	/* ::button-press-event signal in the GtkWidget */
-
-	ItemGrid   *item_grid;
-	SheetControlGUI  *sheet_view;
-	GtkEntry   *entry;		/* Utility pointer to the workbook entry */
 
 	/* Where are we */
 	int         col, row, col_span, lines, ignore_lines;

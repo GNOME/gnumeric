@@ -6,6 +6,6 @@
 #include "cellspan.h"
 
 void cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
-		GdkGC *gc, GdkDrawable *drawable, int x, int y);
+		GdkGC *gc, GdkDrawable *drawable, int x, int y, int height, int width);
 
 #endif /* GNUMERIC_CELL_DRAW_H */

@@ -19,9 +19,9 @@ typedef enum {
 struct _ItemCursor {
 	GnomeCanvasItem canvas_item;
 
-	SheetControlGUI    *sheet_view;
-	ItemGrid *item_grid;	/* A copy of our "parent" grid */
-	Range     pos;
+	SheetControlGUI *scg;
+	ItemGrid	*item_grid;	/* A copy of our "parent" grid */
+	Range     	 pos;
 
 	/* Offset of dragging cell from top left of pos */
 	int col_delta, row_delta;

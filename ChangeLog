@@ -1,3 +1,50 @@
+2000-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_region_is_merge_cell) :
+	(sheet_region_get_merged) : 
+	(sheet_region_unmerge) :
+	(sheet_region_merge) : implement.
+
+2000-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw_merged_range) : new function.
+	  This may be clearer if we draw the grid lines after the background.
+	  It does not support borders or selection yet.
+	(item_grid_draw) : Use it.
+
+2000-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cellspan.c (cell_is_empty) : new utility function.
+	  span calculation is now rather inefficent.  We could be smarter if
+	  we had a better representation of spans.  For now adding support for
+	  merged cells here would be enough.
+	(cell_calc_span) : Use it.
+
+	* src/cell-draw.c (cell_draw) : decrease dependence on
+	  Cell::{col,row})_info::size_pixels.  This is not accurate for merged
+	  cells.  More work is needed.  I have not converted the multiline
+	  formating yet.  The signature of this function sucks.
+	  We should pass in either span or width height, not both.
+
+	* src/print-cell.c (print_cell) : Stay consistent with cell_draw.
+	  NOTE : I have not ported over the merged cell support.  It seems
+	  pointless until it is working completely for drawing.
+
+2000-11-19  Jody Goldberg <jgoldberg@home.com>
+
+	* s/sheet_view/scg/
+
+	* src/formats.c (currency_symbols) : Add the slovenian tolar.
+
+2000-11-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c (scg_context_menu) : renamed from
+	  item_grid_popoup_menu and moved here where it makes more sense.
+
+	* src/sheet.c (sheet_merge_region) : implement.
+	(sheet_unnmerge_region) : Ditto.
+	(sheet_get_merged_regions) : Ditto.
+
 2000-11-18  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Bump to 0.60 post release

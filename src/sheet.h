@@ -81,7 +81,8 @@ struct _Sheet {
 
 	DependencyData  *deps;
 
-	GSList		 *merged_regions;
+	GSList		 *list_merged;
+	GHashTable	 *hash_merged;
 	SheetPrivate     *priv;
 	PrintInformation *print_info;
 };
@@ -300,12 +301,6 @@ void sheet_regen_adjacent_spans (Sheet *sheet,
 SpanCalcFlags required_updates_for_style (MStyle *style);
 
 /*
- * Hooks for CORBA bootstrap: they create the
- */
-void sheet_corba_setup       (Sheet *);
-void sheet_corba_shutdown    (Sheet *);
-
-/*
  * Commands
  * These have undo/redo capabilities
  * and will route error messages to the caller appropriately.
@@ -335,10 +330,11 @@ void  sheet_clear_region (WorkbookControl *context,
 			  int end_col, int end_row,
 			  int clear_flags);
 
-void 	sheet_merge_region       (WorkbookControl *ctxt,
-			          Sheet *sheet, Range const *r);
-void 	sheet_unnmerge_region    (WorkbookControl *ctxt,
-			          Sheet *sheet, Range const *r);
-GSList *sheet_get_merged_regions (Sheet *sheet, Range const *r);
+gboolean     sheet_region_merge		(CommandContext *cc,
+					 Sheet *sheet, Range const *r);
+gboolean     sheet_region_unmerge	(CommandContext *cc,
+					 Sheet *sheet, Range const *r);
+GSList      *sheet_region_get_merged	(Sheet *sheet, Range const *r);
+Range const *sheet_region_is_merge_cell (Sheet const *sheet, CellPos const *pos);
 
 #endif /* GNUMERIC_SHEET_H */

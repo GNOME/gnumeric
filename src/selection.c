@@ -620,7 +620,7 @@ sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
 /**
  * selection_get_ranges:
  * @sheet: the sheet.
- * @allow_intersection : Divide the selection into nonoverlappign subranges.
+ * @allow_intersection : Divide the selection into nonoverlapping subranges.
  */
 GSList *
 selection_get_ranges (Sheet *sheet, gboolean const allow_intersection)

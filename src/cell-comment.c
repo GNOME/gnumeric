@@ -119,11 +119,11 @@ cell_comment_realize (Cell *cell)
 
 	sheet_cell_comment_link (cell);
 	for (l = cell->base.sheet->sheet_views; l; l = l->next){
-		SheetControlGUI *sheet_view = SHEET_CONTROL_GUI (l->data);
+		SheetControlGUI *scg = SHEET_CONTROL_GUI (l->data);
 		GnomeCanvasItem *o;
 
 		o = sheet_view_comment_create_marker (
-			sheet_view,
+			scg,
 			cell->pos.col, cell->pos.row);
 		gtk_object_ref (GTK_OBJECT (o));
 
@@ -209,9 +209,9 @@ cell_comment_reposition (Cell *cell)
 	/* FIXME : This should use the sheet_view list */
 	for (l = cell->comment->realized_list; l; l = l->next){
 		GnomeCanvasItem *o = l->data;
-		SheetControlGUI *sheet_view = GNUMERIC_SHEET (o->canvas)->sheet_view;
+		SheetControlGUI *scg = GNUMERIC_SHEET (o->canvas)->scg;
 
-		sheet_view_comment_relocate (sheet_view, cell->pos.col, cell->pos.row, o);
+		sheet_view_comment_relocate (scg, cell->pos.col, cell->pos.row, o);
 	}
 }
 

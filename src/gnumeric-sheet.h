@@ -14,7 +14,7 @@
 struct _GnumericSheet {
 	GnomeCanvas   canvas;
 
-	SheetControlGUI     *sheet_view;
+	SheetControlGUI *scg;
 
 	struct {
 		int first, last_full, last_visible;

@@ -16,7 +16,7 @@ typedef enum {
 struct _ItemGrid {
 	GnomeCanvasItem canvas_item;
 
-	SheetControlGUI *sheet_view;
+	SheetControlGUI *scg;
 
 	ItemGridSelectionType selecting;
 
@@ -33,9 +33,6 @@ struct _ItemGrid {
 };
 
 GtkType item_grid_get_type (void);
-void    item_grid_popup_menu (SheetControlGUI *sheet_view, GdkEventButton *event,
-			      gboolean is_col,
-			      gboolean is_row);
 
 void    item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 			       int x, int y, int w, int h,

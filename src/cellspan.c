@@ -146,6 +146,33 @@ cell_contents_fit_inside_column (const Cell *cell)
 	return (tmp <= COL_INTERNAL_WIDTH (cell->col_info));
 }
 
+/**
+ * cell_is_empty :
+ *
+ * Utility to ensure that a cell is completly empty.
+ *    - no spans
+ *    - no merged regions
+ *    - no content
+ *
+ * returns TRUE if the cell is empty.
+ */
+static inline gboolean
+cell_is_empty (Cell const * cell, int col, ColRowInfo const *ri)
+{
+	CellSpanInfo const *span = row_span_get (ri, col);
+
+	if (span != NULL && span->cell != cell)
+	    return FALSE;
+
+	if (!cell_is_blank (sheet_cell_get (cell->base.sheet, col, ri->pos)))
+	    return FALSE;
+
+	/* FIXME : ensure that there are no merged cells checking for the upper
+	 * left is inexpensive,  checking for impinging on other areas is not.
+	 */
+	return TRUE;
+}
+
 /*
  * cell_calc_span:
  * @cell:   The cell we will examine
@@ -162,19 +189,26 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	int row, pos, margin;
 	int cell_width_pixel;
 	MStyle *mstyle;
+	ColRowInfo const *ri;
 
 	g_return_if_fail (cell != NULL);
 
 	sheet = cell->base.sheet;
+	ri = cell->row_info;
+
         /*
-	 * If the cell is a number, or the text fits inside the column, or the
-	 * alignment modes are set to "justify", then we report only one
-	 * column is used.
+	 * Report only one column is used if
+	 * 	- cell is a number
+	 * 	- Cell is the top left of a merged cell
+	 * 	- the text fits inside column (for non center across selection)
+	 * 	- the alignment mode are set to "justify"
 	 */
-	if (cell_is_number (cell) &&
-	    sheet != NULL && !sheet->display_formulas) {
-		*col1 = *col2 = cell->pos.col;
-		return;
+	if (sheet != NULL) {
+		if (sheet_region_is_merge_cell (sheet, &cell->pos) ||
+		    (!sheet->display_formulas && cell_is_number (cell))) {
+			*col1 = *col2 = cell->pos.col;
+			return;
+		}
 	}
 
 	mstyle = cell_get_mstyle (cell);
@@ -206,9 +240,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 			ColRowInfo *ci = sheet_col_get_info (sheet, pos);
 
 			if (ci->visible) {
-				Cell *sibling =sheet_cell_get (sheet, pos, row);
-
-				if (!cell_is_blank (sibling))
+				if (!cell_is_empty (cell, pos, ri))
 					return;
 
 				/* The space consumed is:
@@ -233,9 +265,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 			ColRowInfo *ci = sheet_col_get_info (sheet, pos);
 
 			if (ci->visible) {
-				Cell *sibling =sheet_cell_get (sheet, pos, row);
-
-				if (!cell_is_blank (sibling))
+				if (!cell_is_empty (cell, pos, ri))
 					return;
 
 				/* The space consumed is:
@@ -251,62 +281,55 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		return;
 
 	case HALIGN_CENTER: {
-		int left_left, left_right;
+		int remain_left, remain_right;
 		int margin_a, margin_b;
 
 		*col1 = *col2 = cell->pos.col;
 		left = cell_width_pixel -  COL_INTERNAL_WIDTH (cell->col_info);
 
-		left_left  = left / 2 + (left % 2);
-		left_right = left / 2;
+		remain_left  = left / 2 + (left % 2);
+		remain_right = left / 2;
 		margin_a = cell->col_info->margin_a;
 		margin_b = cell->col_info->margin_b;
 
-		for (; left_left > 0 || left_right > 0;){
+		for (; remain_left > 0 || remain_right > 0;){
 			ColRowInfo *ci;
-			Cell *left_sibling, *right_sibling;
 
 			if (*col1 - 1 >= 0){
 				ci = sheet_col_get_info (sheet, *col1 - 1);
 
 				if (ci->visible) {
-					left_sibling = sheet_cell_get (sheet, *col1 - 1, row);
-
-					if (!cell_is_blank (left_sibling))
-						left_left = 0;
-					else {
-						left_left -= COL_INTERNAL_WIDTH (ci) +
+					if (cell_is_empty (cell, *col1 - 1, ri)) {
+						remain_left -= COL_INTERNAL_WIDTH (ci) +
 							margin_a + ci->margin_b;
 						margin_a = ci->margin_a;
 						(*col1)--;
-					}
+					} else
+						remain_left = 0;
 				} else {
 					margin_a = ci->margin_a;
 					(*col1)--;
 				}
 			} else
-				left_left = 0;
+				remain_left = 0;
 
 			if (*col2 + 1 < SHEET_MAX_COLS-1){
 				ci = sheet_col_get_info (sheet, *col2 + 1);
 
 				if (ci->visible) {
-					right_sibling = sheet_cell_get (sheet, *col2 + 1, row);
-
-					if (!cell_is_blank (right_sibling))
-						left_right = 0;
-					else {
-						left_right -= COL_INTERNAL_WIDTH (ci) +
+					if (cell_is_empty (cell, *col2 + 1, ri)) {
+						remain_right -= COL_INTERNAL_WIDTH (ci) +
 							margin_b + ci->margin_a;
 						margin_b = ci->margin_b;
 						(*col2)++;
-					}
+					} else
+						remain_right = 0;
 				} else {
 					margin_b = ci->margin_b;
 					(*col2)++;
 				}
 			} else
-				left_right = 0;
+				remain_right = 0;
 
 		} /* for */
 		break;
@@ -315,7 +338,6 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	case HALIGN_CENTER_ACROSS_SELECTION:
 	{
 		ColRowInfo const *ci;
-		ColRowInfo const *ri = cell->row_info;
 		int const row = ri->pos;
 		int left = cell->pos.col, right = left;
 		int tmp;
@@ -326,8 +348,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 			if (tmp >= 0) {
 				ci = sheet_col_get_info (sheet, tmp);
 				if (ci->visible) {
-					if (cell_is_blank (sheet_cell_get (sheet, tmp, row)) &&
-					    NULL == row_span_get (ri, tmp)) {
+					if (cell_is_empty (cell, tmp, ri)) {
 						MStyle * const mstyle =
 						    sheet_style_compute (cell->base.sheet, tmp, row);
 						gboolean const res =
@@ -349,7 +370,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 			if (tmp < SHEET_MAX_COLS) {
 				ci = sheet_col_get_info (sheet, tmp);
 				if (ci->visible) {
-					if (cell_is_blank (sheet_cell_get (sheet, tmp, row))) {
+					if (cell_is_empty (cell, tmp, ri)) {
 						MStyle * const mstyle =
 						    sheet_style_compute (cell->base.sheet, tmp, row);
 						gboolean const res =

@@ -8,12 +8,16 @@ Release Critical
 - new wb_controls do not display 
     : selection string
 
+- we leak merged regions on exit
+
 Long term breakage
 ------------------
+
 - Look into ability to identify versions of gnumeric xml that are newer than we
   are.  Ask DV about name spaces.
 
 - Entering "=1e11111" yields "Syntax Error", not "overflow".
+  In general parsing needs better error messages.
 
 - Why does the number matching bother comparing against formats that are
   covered by 'General' ?
