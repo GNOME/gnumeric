@@ -1,5 +1,9 @@
 2000-02-05  JP Rosevear  <jpr@arcavia.com>
 
+	* src/commands.h : Fix typo
+	
+2000-02-05  JP Rosevear  <jpr@arcavia.com>
+
 	* doc/pref-attributes.txt : Start sorting excel attributes into
 	application, workbook and sheet categories.
 

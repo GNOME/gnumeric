@@ -45,4 +45,6 @@ gboolean cmd_clear_selection (CommandContext *context, Sheet *sheet, int const c
 gboolean cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
 				       gboolean const is_cols, gboolean const visible);
 
-#endif /* GNUMERIC_COMMAND_CONTEXT_H */
+#endif /* GNUMERIC_COMMAND_H */
+
+
