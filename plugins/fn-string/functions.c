@@ -107,7 +107,7 @@ static char const *help_unichar = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "UNICHAR(65) equals A.\n"
-	   "UNICHAR(960) equals a small greek pi.\n"
+	   "UNICHAR(960) equals a small Greek pi.\n"
 	   "\n"
 	   "@SEEALSO=CHAR,UNICODE,CODE")
 };
