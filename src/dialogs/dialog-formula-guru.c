@@ -220,12 +220,11 @@ formula_guru_set_rolled_state (FormulaGuruState *state, gboolean is_rolled)
 static gboolean
 cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, ArgumentState *as)
 {
+	ArgumentState *tmp;
 	FormulaGuruState *state = as->state;
-#if 0
 	GtkViewport *view = GTK_VIEWPORT (as->state->arg_view);
 	GtkAdjustment *va = view->vadjustment;
 	gboolean scrolled = FALSE;
-#endif
 	int i, lim;
 
 	if (state->var_args) {
@@ -241,17 +240,14 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 				lim = MAX_ARGS_DISPLAYED;
 
 			for (; i >= lim ; --i) {
-				ArgumentState *tmp = g_ptr_array_index (state->args, i);
+				tmp = g_ptr_array_index (state->args, i);
 
 				gtk_container_remove (GTK_CONTAINER (state->arg_table),
 						      GTK_WIDGET (tmp->name_label));
-				gtk_widget_destroy (GTK_WIDGET (tmp->name_label));
 				gtk_container_remove (GTK_CONTAINER (state->arg_table),
 						      GTK_WIDGET (tmp->entry));
-				gtk_widget_destroy (GTK_WIDGET (tmp->entry));
 				gtk_container_remove (GTK_CONTAINER (state->arg_table),
 						      GTK_WIDGET (tmp->type_label));
-				gtk_widget_destroy (GTK_WIDGET (tmp->type_label));
 				formula_guru_arg_delete (state, i);
 			}
 
@@ -259,8 +255,6 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 		}
 	}
 
-#if 0
-	/* FIXME : this is not working */
 	/* Do we want to scroll */
 	if (as->index > 0) {
 		ArgumentState *tmp = g_ptr_array_index (state->args, as->index-1);
@@ -290,8 +284,7 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 	}
 
 	if (scrolled)
-		gtk_adjustment_changed (va);
-#endif
+		gtk_adjustment_value_changed (va);
 
 	state->cur_arg = as;
 	workbook_set_entry (state->wb, as->entry);
@@ -548,16 +541,6 @@ formula_guru_set_scrollwin_size (FormulaGuruState *state)
 		gtk_widget_size_request (state->arg_table,
 					 &state->arg_requisition);
 	}
-
-#if 0
-	GtkViewport *view = GTK_VIEWPORT (state->arg_view);
-	GtkAdjustment *va = view->vadjustment;
-
-	/* This is not working either */
-	va->step_increment = state->arg_requisition.height;
-	va->page_increment = (MAX_ARGS_DISPLAYED-1) * va->step_increment;
-	gtk_adjustment_changed (va);
-#endif
 
 	height = state->arg_requisition.height +
 		2 * GTK_CONTAINER (scrollwin)->border_width;

@@ -1,3 +1,9 @@
+2000-06-20  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-function-wizard.c (cb_formula_guru_entry_focus_in) : Enable
+	  autoscrolling.  Remove the gtk_widget_destroy calls, they appear to
+	  generate warnings.
+
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.56
