@@ -207,7 +207,9 @@
 	<term>&amp;[DATE]</term>
 	<listitem>
 	  <para>
-	    Current date.
+	    Current date in format dd-mmm-yyyy. 
+            The format can be changed by specifying the desired format in the opcode: 
+            <literal>&amp;[DATE:yyyy/mm/dd]</literal>.
 	  </para>
 	</listitem>
       </varlistentry>
@@ -215,7 +217,28 @@
 	<term>&amp;[TIME]</term>
 	<listitem>
 	  <para>
-	    Current time.
+	    Current time in format hh:mm.  
+            The format can be changed by specifying the desired format in the opcode: 
+            <literal>&amp;[TIME:hh:mm:ss]</literal>.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[FILE]</term>
+	<listitem>
+	  <para>
+	    The basename of the file. For the file <literal>/home/jdoe/file.gnumeric</literal>, 
+            this opcode prints <literal>file.gnumeric</literal>.
+	  </para>
+	</listitem>
+      </varlistentry>
+      <varlistentry>
+	<term>&amp;[PATH]</term>
+	<listitem>
+	  <para>
+	    The path of the file excluding the basename. 
+            For the file <literal>/home/jdoe/file.gnumeric</literal>, this opcode prints 
+            <literal>/home/jdoe/</literal>.
 	  </para>
 	</listitem>
       </varlistentry>
@@ -248,13 +271,12 @@
       <title>WARNING</title>
 
       <para>
-        Note that the rows and columns must be entered as ranges of
-        cells. That is, if you want to have first row repeated, you
-        must enter <literal>A1:IV1</literal>, not just
+        Note that the rows and columns must be entered as ranges. 
+        That is, if you want to have first row repeated, you
+        must enter <literal>1:1</literal>, not just
         <literal>1</literal>. Similarly, to have column
         <literal>A</literal> repeated, you must enter
-        <literal>A1:A65536</literal>. The Gnumeric developers are
-        working on this shortcoming.
+        <literal>A:A</literal>.
       </para>
     </warning>
 

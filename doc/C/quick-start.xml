@@ -11,7 +11,7 @@
   <para>
     Unfortunately, this manual cannot teach you the very basics of
     interacting with a modern computer. If you have never used
-    computers, don't know what the names of the hardware components
+    computers, don't know the names of the hardware components
     (the pieces you can touch) or don't know the names of the elements
     you see on the screen (like windows or the mouse pointer), you
     will probably want to get some basic advice from someone you know
@@ -56,11 +56,11 @@
     has an icon which looks like the outline of a foot. If you click
     on this menu name, a menu will appear. Drag the cursor down to the
     <guisubmenu>Office</guisubmenu> sub-menu name, and a submenu will
-    appear. Drag the cursor into the submenu and then release on the
-    entry which reads "Gnumeric Spreadsheet." This will start the
-    program and the main window of <application>Gnumeric</application>
-    will appear as shown in <xref linkend="fig-gnumeric-first-start"
-    />
+    appear. Drag the cursor into the submenu and then release the
+    mouse button when the cursor is on the entry which reads "Gnumeric
+    Spreadsheet." This will start the program and the main window of
+    <application>Gnumeric</application> will appear as shown in <xref
+    linkend="fig-gnumeric-first-start" />
   </para>
 
   <figure id="fig-gnumeric-first-start">
@@ -83,8 +83,19 @@
   <para>
     If you use GNOME as part of a distribution, the "Application" menu
     may have a different name. In that case you should hunt around the
-    menus until you find something named "Gnumeric" and then click on
-    that menu entry.
+    menus until you find something named "Gnumeric" with the 
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata fileref="figures/gnumeric-icon.png" 
+              format="PNG" />
+        </imageobject>
+        <textobject>
+          <para>
+            This image depicts the menu icon of Gnumeric.
+          </para>
+        </textobject>
+      </inlinemediaobject>
+    icon and then click on that menu entry.
   </para>
 
   <para>
@@ -107,8 +118,8 @@
   <para>
     If you are still stuck, ask a friend or someone who knows your
     machine. Unfortunately, getting started is often the hardest part
-    but it is the one place a manual such as this one cannot really
-    help. 
+    of learning to use a new program but it is also the one place a
+    manual such as this one cannot really help.
   </para>
 
   <para>
@@ -149,7 +160,7 @@
     are entered into one or several sheets. The data may be entered by
     hand or imported from external files. The formulas are generally
     entered by hand, possibly with the help of various tools. The data
-    may be formatted to appear in particular ways and clarify the
+    may be formatted to appear in particular ways and to clarify the
     structure of the data in the worksheet. A user may also create
     several graphical plots. Certain parts of the spreadsheets may be
     printed out as tables. The work is then usually saved into a file
@@ -161,11 +172,11 @@
     <para>
       The terminology can be confusing. A spreadsheet file contains a
       workbook and possibly some other information about the
-      file. (Because the workbook is by far more important, files are
-      often called workbooks.) A workbook contains one or more
-      worksheets. Each worksheet contains a number of cells usually
-      simply divided into a two dimensional grid area made up of
-      columns and rows.
+      file. (Because the workbook is far more important than the extra
+      information, files are often called workbooks.) A workbook
+      contains one or more worksheets. Each worksheet contains a lare
+      number of cells usually arranged into a two dimensional grid
+      made up of columns and rows.
     </para>
   </note>
 
@@ -190,10 +201,11 @@
     <para>
       The menus provide the simplest way to get to all of the commands
       provided by <application>Gnumeric</application>. These menus
-      work like for any GNOME application: clicking on the menu name
-      causes it to open a list of menu entries, dragging down and
-      releasing (or clicking again) on a menu entry causes that
-      command to be exectuted. For further information, see <xref
+      work like those in any GNOME application: clicking on the menu
+      name causes a menu to open, dragging the mouse cursor onto the
+      menu and then releasing the mouse button (or clicking again)
+      while the cursor is above a menu entry causes that command to be
+      exectuted. For further information, see <xref
       linkend="sect-gui-menus"/>.
     </para>
   </sect2>
@@ -202,9 +214,10 @@
     <title>Using Toolbar Button Commands</title>
     <para>
       The buttons on the toolbars are quite simple to use. Simply
-      pressing one of the buttons will perform the command, either
-      directly or by opening a dialog window. For further information,
-      see <xref linkend="sect-gui-toolbars"/>.
+      placing the mouse cursor above one of the buttons and pressing
+      the left mouse button will perform the command, either directly
+      or by opening a dialog window. For further information, see
+      <xref linkend="sect-gui-toolbars"/>.
     </para>
   </sect2>
 
@@ -265,32 +278,35 @@
       <application>Gnumeric</application> manipulates, and a
       representation, which is what is actually shown. Understanding
       this distinction is complicated and make take the new user some
-      time but this also contributes to the usefulness of spreadsheets
-      in general.
+      time. This distinction is one of the reasons spreadsheets are so
+      useful.
     </para>
 
     <para>
       The cells of the spreadsheet are contained in the cell grid
       area. The cell grid area is the area with a white background and
-      grey grid lines. The grid lines separate this area into
-      separate cells. Each cell has a unique reference name which is
-      the combination of the letters of the name of the column and the
+      grey grid lines. The grid lines separate this area into separate
+      cells. Each cell has a unique reference name which is the
+      combination of the letters of the name of the column and the
       number of the row. For instance, the top, leftmost cell is the
       cell named "A1" and the cell two over to the right and four rows
-      down is named "C4." Each of these cells can contain one datum.
+      down is named "C4" because it is in the column labelled "C" and
+      in the fourth row. Each of these cells can contain only one
+      single datum.
     </para>
 
     <para>
-      The data elements contained in any cell will have values of one
-      of five types: text strings, number values, formulas, boolean
-      values or error values. These five types of data values can then
-      have various display formats so that, for instance, number
-      values can represent numbers, currency, dates or times. Text
-      strings are sequences of characters and punctuation marks and
-      could, for example, contain textual information such as peoples
-      names. Number values are simply numbers but may be input and
-      displayed in various formats including decimal numbers, dates,
-      times, and scientific notation. Formulas are instructions to
+      The datum contained in any cell will have one of five types: a
+      text string type, a number type, a formula type, a boolean type
+      or an error type. These five types of data values can then have
+      various display formats so that, for instance, a number value
+      can be displayed as a number, a monetary amount, a date or a
+      time. Text strings are sequences of characters and punctuation
+      marks and could, for example, contain textual information such
+      as peoples names. Number values are simply numbers but may be
+      input and displayed in various formats including decimal
+      numbers, dates, times, and numbers in scientific
+      notation. Formulas are instructions to
       <application>Gnumeric</application> to calculate a result. The
       power of spreadsheets comes from these formulas because the
       results of the calculation can depend on the contents of other
@@ -300,7 +316,7 @@
     </para>
 
     <para>
-      For more information on the types of data usable in
+      For more advanced information on the types of data usable in
       <application>Gnumeric</application>, see <xref
       linkend="sect-data-types"/>.
     </para>
@@ -308,7 +324,7 @@
   </sect2>
 
   <sect2>
-    <title>Putting Data into the spreadsheet</title>
+    <title>Putting Data into the Spreadsheet</title>
 
     <para>
       In order to enter data into the spreadsheet, the user must first
@@ -331,9 +347,10 @@
         In order to enter data into
         <application>Gnumeric</application> the selection box must be
         placed over the appropriate cell. The selection box appears on
-        the cell grid as a double line rectangle with a small grey
-        square in the lower right corner. By default the selection box
-        surrounds the top, leftmost cell in the cell grid area.
+        the cell grid as a double lined rectangle with a small grey
+        square in the lower right corner of the box. By default the
+        selection box surrounds the top, leftmost cell in the cell
+        grid area.
       </para>
 
       <para>
@@ -377,7 +394,7 @@
       <para>
         In order to enter data into a selected cell, one can simply
         start typing. The characters will then become part of the
-        spreadsheet when the selection is changed by typing the
+        spreadsheet when the selection is changed either by typing the
         <keycap>Enter</keycap> key, which moves the selection down one
         cell, by typing the <keycap>Tab</keycap> key, which moves the
         selection one cell to the right, or by selecting any other
@@ -392,8 +409,8 @@
         cell "D3" and, if the cells to the right are empty, would span
         into those cells so that the whole entry is visible. The
         selection box moves when the <keycap>Enter</keycap> key is
-        typed so that it is below in cell "D4", ready for the input of
-        more data.
+        typed and will therefore appear afterwards in cell "D4", ready
+        for the input of more data.
       </para>
 
       <note>
@@ -406,16 +423,20 @@
 
       <para>
         Mistakes which are made during data entry can be corrected by
-        using the <keycap>Backspace</keycap> key, the arrow keys to
-        navigate backwards and forwards and the
-        <keycap>Delete</keycap> key. The mouse can be used in the text
-        entry area but not in the cell area directly.
+        using the <keycap>Backspace</keycap> key or the
+        <keycap>Delete</keycap> key. Finer control can be obtained if
+        the cursor is moved to the text entry area by clicking in the
+        box to the right of the equals (=) sign with the
+        mouse. Editing in the text entry area enables the arrow keys
+        to navigate backwards and forwards within the text being
+        entered and also enables the mouse to be used to move the
+        cursor.
       </para>
 
       <para>
         The contents of a cell can be changed simply by selecting the
         cell again and either typing the new contents or editing the
-        current contents of the cells.
+        existing contents of the cells.
       </para>
 
       <note>
@@ -449,13 +470,15 @@
       </para>
 
       <para>
-        <application>Gnumeric</application> usually figures out what
-        the data is meant to be but occasionally the user will have to
+        <application>Gnumeric</application> usually figures out
+        correctly both the type and the appropriate display format for
+        the data being entered. Occasionally, the user will have to
         force <application>Gnumeric</application> to consider the data
         to be a different data type than
         <application>Gnumeric</application> would guess by
         default. The details of this process is explained in greater
-        detail in the extended chapter on data, <xref linkend="chapter-data" />. 
+        detail in the extended chapter on data, <xref
+        linkend="chapter-data" />.
       </para>
 
     </sect3>
@@ -589,8 +612,8 @@
       <para>
         Formulas can be quite complex since the power of spreadsheets
         comes from these formulas. A simple example of the use of a
-        formula is as follows: First select cell B2 and input the
-        value "3" into that cell. Secondly, select cell D4 and input
+        formula is as follows: first, select cell B2 and input the
+        value "3" into that cell. Second, select cell D4 and input
         (without the quotes) "=B2+2" and then type the
         <keycap>Enter</keycap> key. Cell D4 should display the value
         "5". If the value of cell B2 is changed from "3" to "100",
@@ -663,8 +686,8 @@
          linkend="sect-data-formulas" /> later in this manual. For a
          list of the functions available, see the function reference
          appendix, <xref linkend="function-reference" />, or click on
-         the button with the symbol "f(x)" on it for an organized list
-         of functions.
+         the toolbar button with the symbol "f(x)" on it for an
+         organized list of functions.
       </para>
 
     </sect3>
@@ -1070,7 +1093,7 @@
     <warning>
       <para>
         Deleting sheets cannot be retrieved through the "Undo"
-        mechanism and is therefore an irreversible operations. Be
+        mechanism and is therefore an irreversible operation. Be
         careful!
       </para>
     </warning>
@@ -1319,9 +1342,9 @@
   <note>
     <para>
       Any files which are saved by <application>Gnumeric</application>
-      must be deleted by the user. The GNOME file manager
+      must be deleted by the user. Either the GNOME file manager
       <application>Nautilus</application> or the shell tool
-      <command>rm</command>. 
+      <command>rm</command> can be used to delete the files. 
     </para>
   </note>
 

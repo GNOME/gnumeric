@@ -26,7 +26,7 @@
     <para>
       If the information being entered into
       <application>Gnumeric</application> cannot be interpreted
-      correclty, <application>Gnumeric</application> will display an
+      correctly, <application>Gnumeric</application> will display an
       error message. The user may then be forced to edit the data
       before continuing. For example, a formula may be mathematically
       incorrect if the user has two operators in a row (e.g. =3+*4)

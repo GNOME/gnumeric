@@ -26,6 +26,7 @@ entities =  about-authors.xml \
      data-insert.xml \
      data-entry.xml \
      data-entry-advanced.xml \
+     data-entry-external.xml \
      data-format.xml \
      data-modify.xml \
      data-generate.xml \

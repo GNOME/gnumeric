@@ -1,5 +1,5 @@
 <sect1 id="sect-gui-other-elements">
-  <title>The Elements of the Gnumeric Worksheet.</title>
+  <title>The Elements of the Gnumeric Worksheet</title>
   
   <para>
     The Gnumeric worksheet is made up of three elements which are
@@ -17,7 +17,7 @@
 
 
 <sect1 id="data-entry">
-  <title>Data Entry Area.</title>
+  <title>Data Entry Area</title>
   
   <para>Immediately above the grid of cells is the data entry
     area as shown in <xref linkend="worksheet-data-1" />.</para>
@@ -44,7 +44,7 @@
   
 
     <sect2>
-      <title>Current Cell Indicator.</title>
+      <title>Current Cell Indicator</title>
 	  
       <para>
         On the far left of the Data Entry area is the current cell
@@ -95,7 +95,7 @@
     </sect2>
     
     <sect2>
-      <title>The <guibutton>Cancel</guibutton> Button.</title>
+      <title>The <guibutton>Cancel</guibutton> Button</title>
       
     <para>
       The Cancel button 
@@ -126,7 +126,7 @@
   
 	
     <sect2>
-      <title>The <guibutton>Confirm</guibutton> Button.</title>
+      <title>The <guibutton>Confirm</guibutton> Button</title>
       
       <para>The confirm button
       <guibutton>
@@ -146,8 +146,8 @@
     </sect2>
 	
 	
-	<sect2>
-      <title>The <guibutton>Equals</guibutton> Button.</title>
+    <sect2>
+      <title>The <guibutton>Equals</guibutton> Button</title>
       
       <para>The equals button 
 		<guibutton>
@@ -242,7 +242,7 @@
 	
 
   <sect2 id="col-row-headers">
-    <title>The Column and Row Headers.</title>
+    <title>The Column and Row Headers</title>
 
     <para>
       The sheet is bordered by column headers on the top and row

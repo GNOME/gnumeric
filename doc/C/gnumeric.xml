@@ -4,7 +4,7 @@
   <!ENTITY app "Gnumeric">
   <!ENTITY appversion "1.2">
   <!ENTITY manrevision "1.2">
-  <!ENTITY date "June 2003">
+  <!ENTITY date "September 2003">
   <!ENTITY file-format-open "Excel 95/97/2000, gnumeric XML, HTML, 
            comma separated CSV, Applix,  Lotus 1-2-3, GNU oleo">
 
@@ -27,6 +27,7 @@
   <!ENTITY data-types           SYSTEM "data-types.xml">
   <!ENTITY data-entry           SYSTEM "data-entry.xml">
   <!ENTITY data-entry-adv       SYSTEM "data-entry-advanced.xml">
+  <!ENTITY data-entry-extern    SYSTEM "data-entry-external.xml">
   <!ENTITY data-selections      SYSTEM "data-selections.xml">
   <!ENTITY data-move-copy       SYSTEM "data-move-copy.xml">
   <!ENTITY data-delete          SYSTEM "data-delete.xml">
@@ -44,8 +45,6 @@
   <!ENTITY graphics-plots       SYSTEM "graphics-plots.xml">
   <!ENTITY graphics-images      SYSTEM "graphics-images.xml">
   <!ENTITY graphics-drawings    SYSTEM "graphics-drawings.xml">
-
-  <!ENTITY datasource           SYSTEM "datasource.xml">
 
   <!ENTITY files-overview       SYSTEM "files-overview.xml">
   <!ENTITY files-opening        SYSTEM "files-opening.xml">
@@ -362,7 +361,7 @@
       <application>Gnumeric</application> in particular. The chapter
       attempts to help new users get started with
       <application>Gnumeric</application> and provides background for
-      the more detailled explanations in the rest of the manual.
+      the more detailled explanations given in the rest of the manual.
     </para>
 
     &quick-start;
@@ -419,6 +418,7 @@
     &data-types;
     &data-entry;
     &data-entry-adv;
+    &data-entry-extern;
     &data-selections;
     &data-move-copy;
     &data-delete;
@@ -452,19 +452,6 @@
   </chapter>
 
 
-
-  <chapter id="chapter-datasource">
-    <title>Using External Data</title>
-
-    <para>
-      This chapter explains how to access and use data which are
-      stored outside of <application>Gnumeric</application>, usually
-      in databases.
-    </para>
-
-    &datasource;
-
-  </chapter>
 
 
 

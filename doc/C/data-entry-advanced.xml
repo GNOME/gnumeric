@@ -354,27 +354,6 @@
 
 
 
-
-  <sect2 id="sect-dataentryadv-external">
-    <title>Obtaining Data from External Sources</title>
-
-      <para>
-        Data are commonly obtained from external sources such as other
-        spreadsheeets or other applications. Data can be obtained from
-        other <application>Gnumeric</application> workbooks or other
-        applications using the mouse to copy data and paste them into
-        a worksheet as is explained in <xref
-        linkend="sect-movecopy-xclipboard" />. Data can also be
-        imported from external files as is explained in <xref
-        linkend="sect-files-openimport" /> and then copied and
-        pasted into the current worksheet with the copy and paste
-        commands as explained in <xref
-        linkend="sect-movecopy-cutandpaste" />.
-      </para>
-
-    </sect2>
-
-
   <sect2 id="sect-dataentryadv-templates">
     <title>Using a Format Template</title>
 

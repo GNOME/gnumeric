@@ -1,3 +1,12 @@
+2003-09-15 Adrian Custer <acuster@gnome.org>
+
+	* datasource.xml: remove as separate chapter, add to data chapter.
+	* data-entry-external.xml: Added.
+	* printing.xml: Added patch from Andreas for headers/footers.
+	* figures/gnumeric-icon.png: Added the icon.
+	* figures/gnumeric-power-example.png: Updated.
+	* figures/gnumeric-empty.png: Updated.
+
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.0

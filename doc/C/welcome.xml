@@ -128,7 +128,7 @@
       <mediaobject>
         <imageobject>
           <imagedata fileref="figures/gnumeric-power-example.png" 
-              format="PNG" scale="100" />
+              format="PNG"/>
         </imageobject>
         <textobject>
           <phrase>An image of <application>Gnumeric</application>
@@ -182,11 +182,13 @@
       </para>
       <para>
         This version of <application>Gnumeric</application> includes
-        numerous new functions and statistical routines imported from
-        the <application><ulink type="http"
+        all of the functions from the North American edition of
+        Microsoft Excel 2000 (TM). This version also includes numerous
+        new functions and statistical routines imported from the
+        <application><ulink type="http"
         url="http://www.r-project.org/">R</ulink></application>
-        statistical language, from the <ulink
-        type="http" url="http://www.gnu.org/software/gsl/">GNU Scientific
+        statistical language, from the <ulink type="http"
+        url="http://www.gnu.org/software/gsl/">GNU Scientific
         Library</ulink>, and from other sources. The random number
         generation has been updated.
       </para>
@@ -233,3 +235,34 @@
   the source code distribution.
 
 </para>
+
+<para>
+  <guilabel>Known Issues in the Gnumeric 1.2 release:</guilabel>
+</para>
+        
+<para>
+
+  <itemizedlist>
+
+    <listitem>
+      <para>
+        <guilabel>Issue 1:</guilabel>
+      </para>
+      <para>
+        Description...
+      </para>
+    </listitem>
+
+    <listitem>
+      <para>
+        <guilabel>Issue 2:</guilabel>
+      </para>
+      <para>
+        Description...
+      </para>
+    </listitem>
+
+  </itemizedlist>
+
+</para>
+        
