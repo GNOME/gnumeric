@@ -569,7 +569,7 @@ Range *
 range_copy (const Range *a)
 {
 	Range *r = g_new (Range, 1);
-	memcpy (r, a, sizeof (Range));
+	*r = *a;
 	return r;
 }
 

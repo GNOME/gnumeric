@@ -1653,6 +1653,7 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 
 	cell_freeze_redraws ();
 	
+	mstyle_ref (state->result);
 	sheet_selection_apply_style (state->sheet, state->result);
 
 	if (mstyle_is_element_set (state->result, MSTYLE_FONT_SIZE))        
@@ -1664,6 +1665,7 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	sheet_selection_set_border (state->sheet, borders);
 
 	cell_thaw_redraws ();
+	mstyle_unref (state->result);
 
 	/* Get a fresh style to accumulate results in */
 	state->result = mstyle_new ();
@@ -1890,6 +1892,8 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, GladeXML  *gui, gboolean is_multi
 	/* Bring up the dialog, and run it until someone hits ok or cancel */
 	while ((res = gnome_dialog_run (GNOME_DIALOG (dialog))) > 0)
 		;
+
+	mstyle_unref (state.result);
 }
 
 /* Wrapper to ensure the libglade object gets removed on error */

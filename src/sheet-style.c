@@ -623,7 +623,7 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 		g_list_free (style_list);
 	}
 
-	range_fragment_free (simple);
+/*	range_fragment_free (simple);*/
 	g_list_free (overlap_list);
 
 	return TRUE;
@@ -632,9 +632,14 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 /**
  * sheet_selection_get_unique_style:
  * @sheet: the sheet.
+ * @borders: An array [STYLE_BORDER_EDGE_MAX]
  *
  * Return a merged list of styles for the selection,
  * if a style is not unique then we get MSTYLE_ELEMENT_CONFLICT.
+ * the borders array is used due to the rather intricate nature
+ * of border setting. This causes a lot of the complexity in this
+ * routine. Essentialy it is neccessary to check adjacent cells for
+ * borders.
  *
  * Return value: the merged list; free this.
  **/
@@ -984,17 +989,31 @@ do_apply_border (Sheet *sheet, const Range *r,
 
 	if (borders && borders [idx]) {
 		style_border_ref (borders [idx]);
-
+		
 		mstyle = mstyle_new ();
 		mstyle_set_border (mstyle, t, borders [idx]);
 		sheet_style_attach (sheet, *r, mstyle);
 	}
 }
 
+static void
+do_blank_border (Sheet *sheet, const Range *r,
+		 MStyleElementType t)
+{
+	MStyle *mstyle;
+
+	mstyle = mstyle_new ();
+	mstyle_set_border (mstyle, t,
+			   style_border_ref (style_border_none ()));
+	sheet_style_attach (sheet, *r, mstyle);
+}
+
 /*
  * Apply borders round the edge of a range.
  * ignore special corner cases; these are made by
  * an implicit StyleRegion overlap at present.
+ *
+ * 'Outer' borders are cleared if they have been set.
  *
  */
 static gboolean
@@ -1012,6 +1031,13 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 	do_apply_border (sheet, &r,
 			 MSTYLE_BORDER_TOP,
 			 STYLE_BORDER_TOP, borders);
+	/* 1.2 The top outer */
+	if (borders [STYLE_BORDER_TOP]) {
+		r.start.row--;
+		r.end.row = r.start.row;
+		if (r.start.row >= 0)
+			do_blank_border (sheet, &r, MSTYLE_BORDER_BOTTOM);
+	}
 
 	/* 2.1 The bottom inner */
 	r = *range;
@@ -1019,6 +1045,13 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 	do_apply_border (sheet, &r,
 			 MSTYLE_BORDER_BOTTOM,
 			 STYLE_BORDER_BOTTOM, borders);
+	/* 2.2 The bottom outer */
+	if (borders [STYLE_BORDER_BOTTOM]) {
+		r.start.row++;
+		r.end.row = r.start.row;
+		if (r.start.row < SHEET_MAX_ROWS)
+			do_blank_border (sheet, &r, MSTYLE_BORDER_TOP);
+	}
 
 	/* 3.1 The left inner */
 	r = *range;
@@ -1026,7 +1059,13 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 	do_apply_border (sheet, &r,
 			 MSTYLE_BORDER_LEFT,
 			 STYLE_BORDER_LEFT, borders);
-
+	/* 3.2 The left outer */
+	if (borders [STYLE_BORDER_LEFT]) {
+		r.start.col--;
+		r.end.col = r.start.col;
+		if (r.start.col >= 0)
+			do_blank_border (sheet, &r, MSTYLE_BORDER_RIGHT);
+	}
 
 	/* 4.1 The right inner */
 	r = *range;
@@ -1034,6 +1073,14 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 	do_apply_border (sheet, &r,
 			 MSTYLE_BORDER_RIGHT,
 			 STYLE_BORDER_RIGHT, borders);
+	/* 4.2 The right outer */
+	if (borders [STYLE_BORDER_RIGHT]) {
+		r.start.col++;
+		r.end.col = r.start.col;
+		if (r.start.col < SHEET_MAX_COLS)
+			do_blank_border (sheet, &r, MSTYLE_BORDER_LEFT);
+	}
+
 
 	/* 5.1 The horizontal interior top */
 	r = *range;
