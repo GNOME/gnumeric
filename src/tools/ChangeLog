@@ -1,5 +1,9 @@
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* analysis-tools.[hc] : make regrssion tool undoable
+
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* analysis-tools.c : make histogram undoable
 	* analysis-tools.h : include the analysis-tools.c specific
 	  header info (rather than putting that into tools.h)

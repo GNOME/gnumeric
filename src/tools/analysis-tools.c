@@ -2108,13 +2108,21 @@ analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs,
  *
  **/
 
-RegressionResult
-regression_tool (WorkbookControl *wbc, Sheet *sheet,
-		 GSList *x_input, Value *y_input,
-		 group_by_t group_by, gnum_float alpha,
-		 data_analysis_output_t *dao, int intercept)
+static gboolean
+analysis_tool_regression_engine_last_check (data_analysis_output_t *dao, 
+					    analysis_tools_data_regression_t *info)
 {
-	GSList       *x_input_range = NULL;
+	/* FIXME: code from ...engine_run that may lead to error               */
+	/* messages and no dao output should be moved here.                    */
+	/* data can be transported from here to ..._run via the result pointer */
+	return FALSE;
+}
+
+
+static gboolean
+analysis_tool_regression_engine_run (data_analysis_output_t *dao, 
+				     analysis_tools_data_regression_t *info)
+{
 	GSList       *missing       = NULL;
 	GPtrArray    *x_data        = NULL;
 	data_set_t   *y_data        = NULL;
@@ -2130,26 +2138,20 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	int          cor_err        = 0;
 
 
-	/* read the data and check for consistency */
-	x_input_range = x_input;
-	prepare_input_range (&x_input_range, group_by);
-	if (!check_input_range_list_homogeneity (x_input_range)) {
-		range_list_destroy (x_input_range);
-		value_release (y_input);
-		return REG_invalid_dimensions;
-	}
-	x_data = new_data_set_list (x_input_range, group_by,
-				  FALSE, dao->labels_flag, sheet);
+	/* read the data */
+	x_data = new_data_set_list (info->input, info->group_by,
+				  FALSE, info->labels, dao->sheet);
 	xdim = x_data->len;
-	y_data = new_data_set (y_input, FALSE, dao->labels_flag,
-			       _("Y Variable"), 0, sheet);
+	y_data = new_data_set (info->y_input, FALSE, info->labels,
+			       _("Y Variable"), 0, dao->sheet);
 
 	if (y_data->data->len != ((data_set_t *)g_ptr_array_index (x_data, 0))->data->len) {
 		destroy_data_set (y_data);
 		destroy_data_set_list (x_data);
-		range_list_destroy (x_input_range);
-		value_release (y_input);
-		return REG_invalid_dimensions;
+		gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+				 _("There must be an equal number of entries "
+				   "for each variable in the regression."));
+		return TRUE;
 	}
 
 	/* create a list of all missing or incomplete observations */
@@ -2191,20 +2193,55 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	regerr = linear_regression (xss, xdim,
 				    (gnum_float *)(y_data->data->data),
 				    y_data->data->len,
-				    intercept, res, regression_stat);
+				    info->intercept, res, regression_stat);
 
 	if (regerr != REG_ok && regerr != REG_near_singular_good) {
 		regression_stat_destroy (regression_stat);
 		destroy_data_set (y_data);
 		destroy_data_set_list (x_data);
-		range_list_destroy (x_input_range);
-		value_release (y_input);
 		g_free (xss);
 		g_free (res);
-		return regerr;
+		switch (regerr) {
+		case REG_not_enough_data:
+			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+					 _("There are too few data points to conduct this "
+					   "regression.\nThere must be at least as many "
+					   "data points as free variables."));
+			break;
+			
+		case REG_near_singular_bad:
+			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+					 _("Two or more of the independent variables "
+					   "are nearly linear\ndependent.  All numerical "
+					   "precision was lost in the computation."));
+                break;
+		
+		case REG_singular:
+			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+					 _("Two or more of the independent variables "
+					   "are linearly\ndependent, and the regression "
+					   "cannot be calculated.\n\nRemove one of these\n"
+					   "variables and try the regression again."));
+			break;
+			
+		case REG_invalid_data:
+		case REG_invalid_dimensions:
+			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+					 _("There must be an equal number of entries "
+					   "for each variable in the regression."));
+			break;
+		default:
+			break;
+		}
+
+		return TRUE;
 	}
 
-	dao_prepare_output (wbc, dao, _("Regression"));
+
+/* FIXME: virtually all the code above needs to be moved from here into  */
+/*        analysis_tool_regression_engine_last_check                     */
+/*        we have to figure out which data we have to trnasfer from      */
+/*        to here */
 
         set_cell_text_col (dao, 0, 0, _("/SUMMARY OUTPUT"
 					"/"
@@ -2243,8 +2280,8 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 				  GNUM_FORMAT_f,
 				  GNUM_FORMAT_f);
 	text = g_strdup_printf (format,
-				(1.0 - alpha) * 100,
-				(1.0 - alpha) * 100);
+				(1.0 - info->alpha) * 100,
+				(1.0 - info->alpha) * 100);
 	g_free (format);
         set_cell_text_row (dao, 1, 15, text);
 	dao_set_italic (dao, 1, 15, 6, 15);
@@ -2309,19 +2346,19 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	/* Intercept / Coefficient */
 	dao_set_cell_float (dao, 1, 16, res[0]);
 
-	if (!intercept)
+	if (!info->intercept)
 		for (i = 2; i <= 6; i++)
 			dao_set_cell_na (dao, i, 16);
 
 	/* i==-1 is for intercept, i==0... is for slopes.  */
-	for (i = -intercept; i < xdim; i++) {
+	for (i = -info->intercept; i < xdim; i++) {
 		gnum_float this_res = res[i + 1];
 		/*
 		 * With no intercept se[0] is for the first slope variable;
 		 * with intercept, se[1] is the first slope se
 		 */
-		gnum_float this_se = regression_stat->se[intercept + i];
-		gnum_float this_tval = regression_stat->t[intercept + i];
+		gnum_float this_se = regression_stat->se[info->intercept + i];
+		gnum_float this_tval = regression_stat->t[info->intercept + i];
 		gnum_float t, P;
 
 		/* Coefficient */
@@ -2341,7 +2378,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 
 		t = (this_se == 0)
 			? 0
-			: qt (alpha / 2, regression_stat->df_resid,
+			: qt (info->alpha / 2, regression_stat->df_resid,
 			      FALSE, FALSE);
 
 		/* Lower 95% */
@@ -2352,19 +2389,56 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	}
 
 	regression_stat_destroy (regression_stat);
-	dao_autofit_columns (dao);
 	destroy_data_set (y_data);
 	destroy_data_set_list (x_data);
-	range_list_destroy (x_input_range);
-	value_release (y_input);
 	g_free (xss);
 	g_free (res);
-
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (dao->sheet);
-
-	return regerr;
+	
+	if (regerr == REG_near_singular_good) 
+	        gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+				 _("Two or more of the independent variables "
+				   "are nearly linear\ndependent.  Treat the "
+				   "regression result with great care!"));
+		
+	return FALSE;
 }
+
+gboolean 
+analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs, 
+			    analysis_tool_engine_t selector, gpointer result)
+{
+	analysis_tools_data_regression_t *info = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Regression (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO:
+		prepare_input_range (&info->input, info->group_by);
+		if (!check_input_range_list_homogeneity (info->input)) {
+			info->err = analysis_tools_REG_invalid_dimensions;
+			return TRUE;
+		}
+		dao_adjust (dao, 7, 17 + g_slist_length (info->input));
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		value_release (info->y_input);
+		info->y_input = NULL;
+		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return analysis_tool_regression_engine_last_check (dao, specs);
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Regression"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Regression"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_regression_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
+}
+
 
 
 /************* Moving Average Tool *****************************************

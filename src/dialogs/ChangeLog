@@ -1,5 +1,11 @@
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dao-gui-utils.c (parse_output) : fix typos (use the intended
+	  buttons)
+	* dialog-analysis-tools.c : make regression tool undoable
+
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dao-gui-utils.c : include tools.h rather than 
 	  analysis-tools.h
 	* dialog-advanced-filter.c : correct comment

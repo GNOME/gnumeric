@@ -13,12 +13,6 @@
 /*******************************************************************/
 /* Section 2: not undoable tools                                   */
 
-RegressionResult
-regression_tool           (WorkbookControl *context, Sheet *sheet,
-			   GSList *x_input, Value *y_input,
-			   group_by_t group_by,
-			   gnum_float alpha, data_analysis_output_t *dao,
-			   int intercept);
 /*******************************************************************/
 /* Section 3: Undoable tools and their data structures             */
 
@@ -27,7 +21,8 @@ typedef enum {
 	analysis_tools_missing_data,
 	analysis_tools_too_few_cols,
 	analysis_tools_too_few_rows,
-	analysis_tools_replication_invalid
+	analysis_tools_replication_invalid,
+	analysis_tools_REG_invalid_dimensions
 } analysis_tools_error_code_t;
 
 
@@ -146,6 +141,20 @@ gboolean analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer spe
 				       analysis_tool_engine_t selector, gpointer result);
 
 
+/****************  Regression  ********************/
+
+typedef struct {
+	ANALYSIS_TOOLS_DATA_GENERIC;
+	Value      *y_input;
+	gnum_float alpha;
+	gint       intercept;
+	
+} analysis_tools_data_regression_t;
+
+gboolean analysis_tool_regression_engine (data_analysis_output_t *dao, gpointer specs, 
+					   analysis_tool_engine_t selector, gpointer result);
+
+
 /********************************************************************/
 /* Subsection 3c: Undoable Tools using the second common generic    */
 /*                data struct augmented with some simple fields     */
@@ -245,5 +254,7 @@ typedef struct {
 
 gboolean analysis_tool_histogram_engine (data_analysis_output_t *dao, gpointer specs, 
 					   analysis_tool_engine_t selector, gpointer result);
+
+
 
 #endif

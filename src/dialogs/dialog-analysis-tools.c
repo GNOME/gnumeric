@@ -1921,83 +1921,65 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 static void
 regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
 {
-	data_analysis_output_t  dao;
-	GSList *x_input;
-	Value  *y_input;
+	data_analysis_output_t  *dao;
+	analysis_tools_data_regression_t  *data;
+
 	GtkWidget *w;
-	int intercept_flag, err;
+	gint err;
 	gnum_float confidence;
-	RegressionResult regerr;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
 
-	x_input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
-	y_input = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet);
+	data = g_new0 (analysis_tools_data_regression_t, 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
 
-        parse_output ((GenericToolState *)state, &dao);
+	data->wbcg = state->wbcg;
+
+	data->input = gnm_expr_entry_parse_as_list (
+		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	data->y_input = gnm_expr_entry_parse_as_value
+		(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet);
+	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	err = entry_to_float (GTK_ENTRY (state->confidence_entry), &confidence, TRUE);
+	data->alpha = 1 - confidence;
 
 	w = glade_xml_get_widget (state->gui, "intercept-button");
-	intercept_flag = 1 - gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->intercept = 1 - gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	regerr = regression_tool
-		(WORKBOOK_CONTROL (state->wbcg), state->sheet,
-		 x_input, y_input,
-		 gnumeric_glade_group_value (state->gui, grouped_by_group),
-		 1 - confidence, &dao, intercept_flag);
+	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+			       dao, data, analysis_tool_regression_engine)) {
+		char *text;
 
-	switch (regerr) {
-	case REG_ok:
-		gtk_widget_destroy (state->dialog);
-		break;
-
-	case REG_near_singular_good:
-		gtk_widget_destroy (state->dialog);
-	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-				 _("Two or more of the independent variables "
-				   "are nearly linear\ndependent.  Treat the "
-				   "regression result with great care!"));
-		break;
-
-	case REG_not_enough_data:
-	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-			      _("There are too few data points to conduct this "
-				"regression.\nThere must be at least as many "
-				"data points as free variables."));
-		break;
-
-	case REG_near_singular_bad:
-	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-				 _("Two or more of the independent variables "
-				   "are nearly linear\ndependent.  All numerical "
-				   "precision was lost in the computation."));
-                break;
-
-	case REG_singular:
-	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-			      _("Two or more of the independent variables "
-				"are linearly\ndependent, and the regression "
-				"cannot be calculated.\n\nRemove one of these\n"
-				"variables and try the regression again."));
-                break;
-
-	case REG_invalid_data:
-	case REG_invalid_dimensions:
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+		switch ( data->err) {
+		case  analysis_tools_REG_invalid_dimensions:
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry),
 			      _("There must be an equal number of entries "
 				"for each variable in the regression."));
-                break;
+			break;
+		default:
+			text = g_strdup_printf (
+				_("An unexpected error has occurred: %d."), data->err);
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry), text);
+			g_free (text);
+			break;
+		}
+		if (data->input)
+			range_list_destroy (data->input);
+		if (data->y_input)
+			value_release (data->y_input);
+		g_free (dao);
+		g_free (data);
+		
+	} else
+		gtk_widget_destroy (state->dialog);
 
-	default:
-		break;
-	}
 }
 
 /**

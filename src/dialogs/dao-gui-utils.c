@@ -192,15 +192,15 @@ parse_output (GenericToolState *state, data_analysis_output_t *dao)
 
 	if (state->clear_outputrange_button != NULL) 
 		dao->clear_outputrange = gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (button));
+			GTK_TOGGLE_BUTTON (state->clear_outputrange_button));
 
 	if (state->retain_format_button != NULL)
 		dao->retain_format = gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (button));
+			GTK_TOGGLE_BUTTON (state->retain_format_button));
 
 	if (state->retain_comments_button != NULL)
 		dao->retain_comments = gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (button));
+			GTK_TOGGLE_BUTTON (state->retain_comments_button));
 
 	return dao;
 }

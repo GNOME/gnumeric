@@ -4376,6 +4376,11 @@ cmd_analysis_tool_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		break;
 	case RangeOutput:
 	default:
+		sheet_clear_region (wbc, me->dao->sheet,
+				    me->old_range.start.col, me->old_range.start.row,
+				    me->old_range.end.col, me->old_range.end.row,
+				    CLEAR_COMMENTS | CLEAR_FORMATS | CLEAR_NOCHECKARRAY | 
+				    CLEAR_RECALC_DEPS | CLEAR_VALUES | CLEAR_MERGES);
 		clipboard_paste_region (wbc, paste_target_init (&pt, me->dao->sheet, 
 								&me->old_range, PASTE_ALL_TYPES),
 					me->old_content);
