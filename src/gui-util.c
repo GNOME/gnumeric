@@ -1412,9 +1412,11 @@ gdk_cursor_new_from_pixbuf (GdkDisplay *display,
   screen = gdk_display_get_default_screen (display);
   pixmap = gdk_bitmap_create_from_data (gdk_screen_get_root_window (screen), 
 					data, width, height);
- 
+  g_free (data);
+
   mask = gdk_bitmap_create_from_data (gdk_screen_get_root_window (screen),
 				      mask_data, width, height);
+  g_free (mask_data);
    
   cursor = gdk_cursor_new_from_pixmap (pixmap, mask, &fg, &bg, x, y);
    

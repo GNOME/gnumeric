@@ -1,5 +1,8 @@
 2003-06-25  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.c (gdk_cursor_new_from_pixbuf): Please leaks in
+	stolen code...
+
 	* src/expr.c (do_expr_as_string): Make this produce "(-2)^2", not
 	"-2^2", to cut down on surprises.  Fix old bug in other
 	()-insertion.
