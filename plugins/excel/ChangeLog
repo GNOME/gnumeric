@@ -1,3 +1,14 @@
+2001-02-06  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_default_col_width) : Init and cache
+	  the default column width here directly.
+	(ms_excel_read_colinfo) : Use the font associated with the specified
+	  xf record to calculate the width.
+	(get_base_char_width) : delete.
+	(init_base_char_width_for_read) : rename base_char_width_for_read.
+	(base_char_width_for_read) : take the xf index as an argument and
+	  return rather than caching the results.
+
 2001-01-30  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-write.c (new_sheet) : adjust semantics of get extent.

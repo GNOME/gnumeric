@@ -2754,16 +2754,16 @@ ms_excel_externname (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 }
 
 /**
- * init_base_char_width_for_read:
+ * base_char_width_for_read:
  * @sheet	the Excel sheet
  *
  * Measures base character width for column sizing.
  */
-static void
-init_base_char_width_for_read (ExcelSheet *sheet)
+static double
+base_char_width_for_read (ExcelSheet *sheet,
+			  int xf_index, gboolean is_default)
 {
-	/* Use the 'Normal' Style which is by definition the 0th */
-	BiffXFData const *xf = ms_excel_get_xf (sheet, 0);
+	BiffXFData const *xf = ms_excel_get_xf (sheet, xf_index);
 	BiffFontData const *fd = (xf != NULL)
 		? ms_excel_get_font (sheet, xf->font_idx)
 		: NULL;
@@ -2771,33 +2771,7 @@ init_base_char_width_for_read (ExcelSheet *sheet)
 	char const * name = (fd != NULL) ? fd->fontname : "Arial";
 	double const size = (fd != NULL) ? fd->height : 20.* 10.;
 
-	sheet->base_char_width =
-		lookup_font_base_char_width_new (name, size, FALSE);
-	sheet->base_char_width_default =
-		lookup_font_base_char_width_new (name, size, TRUE);
-}
-
-/**
- * get_base_char_width:
- * @sheet	the Excel sheet
- *
- * Returns base character width for column sizing. Uses cached value
- * if font alrady measured. Otherwise measure font.
- *
- * Excel uses the character width of the font in the "Normal" style.
- * The char width is based on the font in the "Normal" style.
- * This style is actually common to all sheets in the
- * workbook, but I find it more robust to treat it as a sheet
- * attribute.
- */
-static double
-get_base_char_width (ExcelSheet *sheet, gboolean const is_default)
-{
-	if (sheet->base_char_width <= 0)
-		init_base_char_width_for_read (sheet);
-
-	return is_default
-		? sheet->base_char_width_default : sheet->base_char_width;
+	return lookup_font_base_char_width_new (name, size, is_default);
 }
 
 /**
@@ -2911,14 +2885,6 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 	int const outline_level = (options >> 8) & 0x7;
 #endif
 
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 1) {
-		printf ("Column Formatting from col %d to %d of width "
-			"%f characters\n", firstcol, lastcol, width/256.0);
-		printf ("Options %hd, default style %hd from col %d to %d\n",
-			options, xf, firstcol, lastcol);
-	}
-#endif
 	g_return_if_fail (firstcol < SHEET_MAX_COLS);
 
 	if (width != 0) {
@@ -2926,11 +2892,21 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 		 * NOTE : These measurements do NOT correspond to what is
 		 * shown to the user
 		 */
-		col_width = get_base_char_width (sheet, FALSE) * width / 256;
+		col_width = base_char_width_for_read (sheet, xf, FALSE) *
+			width / 256;
 	} else
 		/* Columns are of default width */
 		col_width = sheet->gnum_sheet->cols.default_style.size_pts;
 
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 1) {
+		printf ("Column Formatting from col %d to %d of width "
+			"%f characters (%f pts)\n", firstcol, lastcol,
+			width/256.0, col_width);
+		printf ("Options %hd, default style %hd from col %d to %d\n",
+			options, xf, firstcol, lastcol);
+	}
+#endif
 	/* NOTE : seems like this is inclusive firstcol, inclusive lastcol */
 	if (lastcol >= SHEET_MAX_COLS)
 		lastcol = SHEET_MAX_COLS-1;
@@ -3310,8 +3286,13 @@ static void
 ms_excel_read_default_col_width (BiffQuery *q, ExcelSheet *sheet)
 {
 	const guint16 width = MS_OLE_GET_GUINT16(q->data);
-	double const char_width = get_base_char_width (sheet, TRUE);
 	double col_width;
+	double char_width;
+
+	/* Use the 'Normal' Style which is by definition the 0th */
+	if (sheet->base_char_width_default <= 0)
+		sheet->base_char_width_default =
+			base_char_width_for_read (sheet, 0, TRUE);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 0)
