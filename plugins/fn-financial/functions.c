@@ -107,7 +107,12 @@ calculate_pvifa (gnum_float rate, gnum_float nper)
 static gnum_float
 calculate_fvifa (gnum_float rate, gnum_float nper)
 {
-	return ((powgnum (1 + rate, nper) - 1) / rate);
+	/* Removable singularity at rate == 0.  */
+	if (rate == 0)
+		return nper;
+	else
+		/* FIXME: this sucks for very small rates.  */
+		return (powgnum (1 + rate, nper) - 1) / rate;
 }
 
 
@@ -1715,10 +1720,6 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 	pmt  = value_get_as_float (argv[2]);
 	fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
 	type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
-
-	/* Special case for which we cannot calculate pvif and/or fvifa.  */
-	if (rate == 0)
-		return value_new_float (-nper * pmt);
 
 	/* Calculate the PVIF and FVIFA */
 	pvif  = calculate_pvif (rate, nper);

@@ -1,3 +1,8 @@
+2002-11-24  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (calculate_fvifa): Handle rate==0 here.
+	(gnumeric_pv): Remove special case.
+
 2002-11-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.12
