@@ -1,3 +1,9 @@
+2002-10-09  Jody Goldberg <jody@gnome.org>
+
+	* options.c (opt_time_switch) : fix warning and make marginally more
+	  robust.
+	(opt_on_options) : ditto.
+
 2002-10-08  Jody Goldberg <jody@gnome.org>
 
 	From: Hal Ashburner <hal_ashburner@yahoo.co.uk>

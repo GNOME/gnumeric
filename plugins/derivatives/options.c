@@ -1372,7 +1372,7 @@ opt_time_switch(FunctionEvalInfo *ei, Value *argv[])
 
 	gnum_float gfresult;
 	gnum_float sum, d;
-	int i, n, Z;
+	int i, n, Z = 0;
 
 	n = t / dt;
 	sum = 0;
@@ -1380,15 +1380,18 @@ opt_time_switch(FunctionEvalInfo *ei, Value *argv[])
 		Z = 1;
 	else if(!strcmp(call_put_flag , "p"))
 		Z = -1;
-	else gfresult = -123;
+	else
+		gfresult = -123;
 
-	for (i = 1; i!=n;++i) {
-		d = (loggnum(s / x) + (b - pow(v , 2) / 2) * i * dt) / (v * sqrtgnum(i * dt));
-		sum = sum + calc_N(Z * d) * dt;
+	if (Z != 0) {
+		for (i = 1; i < n; ++i) {
+			d = (loggnum(s / x) + (b - pow(v , 2) / 2) * i * dt) / (v * sqrtgnum(i * dt));
+			sum = sum + calc_N(Z * d) * dt;
+		}
+		gfresult = a * expgnum (-r * t) * sum + dt * a * expgnum(-r * t) * m;
 	}
-	gfresult = a * expgnum(-r * t) * sum + dt * a * expgnum(-r * t) * m;
 	g_free (call_put_flag);
-	return value_new_float(gfresult);
+	return value_new_float (gfresult);
 
 }
 
@@ -1556,8 +1559,6 @@ opt_on_options(FunctionEvalInfo *ei, Value *argv[])
 
 	gnum_float gfresult;
 
-
-
 	gnum_float y1, y2, z1, z2;
 	gnum_float I, rho;
 	char const *call_put_flag;
@@ -1576,18 +1577,22 @@ opt_on_options(FunctionEvalInfo *ei, Value *argv[])
 	z1 = (loggnum(s / x1) + (b + pow(v , 2) / 2) * t2) / (v * sqrtgnum(t2));
 	z2 = z1 - v * sqrtgnum(t2);
 
-	if (!strcmp(type_flag , "cc"))
-		gfresult = s * expgnum((b - r) * t2) * cum_biv_norm_dist1(z1, y1, rho) - x1 * expgnum(-r * t2) * cum_biv_norm_dist1(z2, y2, rho) - x2 * expgnum(-r * t1) * calc_N(y2);
-	else if(!strcmp(type_flag , "pc"))
-		gfresult = x1 * expgnum(-r * t2) * cum_biv_norm_dist1(z2, -y2, -rho) - s * expgnum((b - r) * t2) * cum_biv_norm_dist1(z1, -y1, -rho) + x2 * expgnum(-r * t1) * calc_N(-y2);
-	else if(!strcmp(type_flag , "cp"))
-		gfresult = x1 * expgnum(-r * t2) * cum_biv_norm_dist1(-z2, -y2, rho) - s * expgnum((b - r) * t2) * cum_biv_norm_dist1(-z1, -y1, rho) - x2 * expgnum(-r * t1) * calc_N(-y2);
-	else if(!strcmp(type_flag , "pp"))
-		gfresult = s * expgnum((b - r) * t2) * cum_biv_norm_dist1(-z1, y1, -rho) - x1 * expgnum(-r * t2) * cum_biv_norm_dist1(-z2, y2, -rho) + expgnum(-r * t1) * x2 * calc_N(y2);
-	else
-		;
-
-	g_free (type_flag);
+	if (!strcmp (type_flag , "cc"))
+		gfresult = s * expgnum((b - r) * t2) * cum_biv_norm_dist1(z1, y1, rho) -
+			x1 * expgnum(-r * t2) * cum_biv_norm_dist1(z2, y2, rho) - x2 * expgnum(-r * t1) * calc_N(y2);
+	else if (!strcmp (type_flag , "pc"))
+		gfresult = x1 * expgnum(-r * t2) * cum_biv_norm_dist1(z2, -y2, -rho) -
+			s * expgnum((b - r) * t2) * cum_biv_norm_dist1(z1, -y1, -rho) + x2 * expgnum(-r * t1) * calc_N(-y2);
+	else if (!strcmp (type_flag , "cp"))
+		gfresult = x1 * expgnum(-r * t2) * cum_biv_norm_dist1(-z2, -y2, rho) -
+			s * expgnum((b - r) * t2) * cum_biv_norm_dist1(-z1, -y1, rho) - x2 * expgnum(-r * t1) * calc_N(-y2);
+	else if (!strcmp (type_flag , "pp"))
+		gfresult = s * expgnum((b - r) * t2) * cum_biv_norm_dist1(-z1, y1, -rho) -
+			x1 * expgnum(-r * t2) * cum_biv_norm_dist1(-z2, y2, -rho) + expgnum(-r * t1) * x2 * calc_N(y2);
+	else {
+		g_free (type_flag);
+		return value_new_error(ei->pos, gnumeric_err_VALUE);
+	}
 	return value_new_float(gfresult);
 }
 
