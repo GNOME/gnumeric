@@ -1,3 +1,10 @@
+2003-07-01  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+	(committed by Andreas J. Guelzow <aguelzow@taliesin.ca>)
+
+	* cell_format.glade : HIG fixes
+	* dialog-cell-format.c (fmt_dialog_init_validation_expr_entry):
+	  fix widget position in validation GtkTable.
+
 2003-06-30  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 	(committed by Andreas J. Guelzow <aguelzow@taliesin.ca>)
 

@@ -119,7 +119,6 @@ struct  _NumberFormatSelector {
 		GtkTextView	*preview;
 		GtkWidget	*preview_box;
 		GtkTextBuffer	*preview_buffer;
-		GtkTextTag	*preview_tag;
 
 		GtkWidget	*widget[F_MAX_WIDGET];
 		GtkWidget	*menu;
@@ -229,7 +228,6 @@ draw_format_preview (NumberFormatSelector *nfs, gboolean regen_format)
 	gchar		*preview;
 	StyleFormat	*sf = NULL;
 	StyleColor	*c = NULL;
-	GtkTextIter	start, end;
 
 	if (regen_format)
 		generate_format (nfs);
@@ -253,15 +251,14 @@ draw_format_preview (NumberFormatSelector *nfs, gboolean regen_format)
 
 	gtk_text_buffer_set_text (nfs->format.preview_buffer, preview, -1);
 	if (c != NULL) {
-		g_object_set (G_OBJECT (nfs->format.preview_tag),
-					"foreground-gdk", &(c->color),
-					"foreground-set", TRUE,
-					NULL);
-		gtk_text_buffer_get_bounds (nfs->format.preview_buffer, &start, &end);
-		gtk_text_buffer_apply_tag_by_name (nfs->format.preview_buffer,
-						   "fg", &start, &end);
-		
+		gtk_widget_modify_text (GTK_WIDGET(nfs->format.preview), 
+					GTK_STATE_NORMAL, &(c->color));
 		style_color_unref (c);
+	} else {
+		GdkColor color;
+		gdk_color_parse ("black", &color);
+		gtk_widget_modify_text (GTK_WIDGET(nfs->format.preview), 
+					GTK_STATE_NORMAL, &color);	
 	}
 
 	g_free (preview);
@@ -919,9 +916,6 @@ nfs_init (NumberFormatSelector *nfs)
 		pango_font_metrics_unref (metrics);
 	}
 	nfs->format.preview_buffer = gtk_text_view_get_buffer (nfs->format.preview);
-	nfs->format.preview_tag = gtk_text_buffer_create_tag (nfs->format.preview_buffer, "fg",
-							      "foreground-set", FALSE,
-							      NULL);
 
 	nfs->format.menu = glade_xml_get_widget (nfs->gui, "format_menu");
 	populate_menu (nfs);
