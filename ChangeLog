@@ -1,3 +1,10 @@
+2002-08-28  Jody Goldberg <jody@gnome.org>
+
+	* src/print.c (print_range_down_then_right) : fix fence post error.
+	  repeated cols/rows are part of the region if they start _on_ the
+	  coordinate, not just before.
+	(print_range_right_then_down) : ditto.
+
 2002-09-17  Morten Welinder  <terra@diku.dk>
 
 	* src/goal-seek.c (goal_seek_newton): Back-port step-size fix from

@@ -467,7 +467,7 @@ write_ref (PolishData *pd, const CellRef *ref)
 static void
 write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
 {
-	ExprList *args     = tree->func.arg_list;
+	ExprList *args;
 	gint     num_args = 0;
 	gboolean prompt   = 0;
 	gboolean cmdequiv = 0;
@@ -488,9 +488,15 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
 		}
 	}
 
-	for (; args ; args = args->next) {
+	for (args = tree->func.arg_list ; args != NULL; ) {
 		write_node (pd, args->data, 0);
 		num_args++;
+		args = args->next;
+		if (args != NULL && num_args == fce->u.std.fd->num_args) {
+			gnm_io_warning (pd->sheet->wb->io_context, 
+				_("Too many arguments for function, MS Excel expects exactly %d and we have more"),
+				fce->u.std.fd->num_args);
+		}
 	}
 
 #if FORMULA_DEBUG > 1
@@ -498,13 +504,23 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
 		name, fce->u.std.idx, fce->u.std.fd->num_args);
 #endif
 
-	g_assert (num_args < 128);
+	if (num_args >= 128) {
+		g_warning ("Too many args for XL, it can only handle 128");
+		num_args = 128;
+	}
+
 	if (fce->type == CACHE_STD) {
 		if (fce->u.std.fd->num_args < 0) {
 			push_guint8  (pd, FORMULA_PTG_FUNC_VAR);
 			push_guint8  (pd, num_args | (prompt&0x80));
 			push_guint16 (pd, fce->u.std.idx | (cmdequiv&0x8000));
 		} else {
+			/* If XL requires more arguments than we do
+			 * pad the remainder with missing args
+			 */
+			while (num_args++ < fce->u.std.fd->num_args)
+				push_guint8 (pd, FORMULA_PTG_MISSARG);
+
 			push_guint8  (pd, FORMULA_PTG_FUNC);
 			push_guint16 (pd, fce->u.std.idx);
 		}

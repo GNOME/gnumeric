@@ -13,6 +13,8 @@ Jody:
 	* Add warning dialog when we can't activate guppi.
 	* Backport fix for sheet object ref count error.
 	* Allow format dialog to grow (debian 159949)
+	* Backport xls export fix to handle differing numbers of argument
+	* Backport fix for off by 1 error in repeated col/row printing
 
 Morten:
 	* Fix goal seek (and thus functions like XIRR.)

@@ -1,3 +1,8 @@
+2002-10-05  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (write_funcall) : back port some fixes for
+	  handling missing arguments.
+
 2002-09-15  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (FormulaFuncData) : DateDif takes 3 arguments
