@@ -30,10 +30,10 @@
 #include "sheet-merge.h"
 #include "sheet-control-gui-priv.h"
 #include "dialogs.h"
+#include "gui-util.h"
 
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gal/widgets/e-cursors.h>
 #include <libfoocanvas/foo-canvas-polygon.h>
 
 struct _CellComment {
@@ -158,7 +158,7 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 		break;
 
 	case GDK_ENTER_NOTIFY:
-		e_cursor_set_widget (view->canvas, E_CURSOR_ARROW);
+		gnm_cursor_set_widget (view->canvas, GNM_CURSOR_ARROW);
 		scg_comment_select (scg, cc);
 		break;
 

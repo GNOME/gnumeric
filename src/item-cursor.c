@@ -31,7 +31,7 @@
 #include "commands.h"
 #include "ranges.h"
 #include "parse-util.h"
-#include <gal/widgets/e-cursors.h>
+#include "gui-util.h"
 #include <gsf/gsf-impl-utils.h>
 #define GNUMERIC_ITEM "CURSOR"
 #include "item-debug.h"
@@ -599,11 +599,11 @@ item_cursor_set_cursor (FooCanvas *canvas, ItemCursor *ic, int x, int y)
 	int cursor;
 
 	if (item_cursor_in_drag_handle (ic, x, y))
-		cursor = E_CURSOR_THIN_CROSS;
+		cursor = GNM_CURSOR_THIN_CROSS;
 	else
-		cursor = E_CURSOR_ARROW;
+		cursor = GNM_CURSOR_ARROW;
 
-	e_cursor_set_widget (canvas, cursor);
+	gnm_cursor_set_widget (GTK_WIDGET (canvas), cursor);
 }
 
 static Value *

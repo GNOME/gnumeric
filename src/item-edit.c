@@ -40,7 +40,6 @@
 #include <gtk/gtkentry.h>
 #include <libfoocanvas/foo-canvas.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gal/widgets/e-cursors.h>
 #include <string.h>
 
 static FooCanvasItemClass *parent_class;
@@ -198,7 +197,7 @@ item_edit_event (FooCanvasItem *item, GdkEvent *event)
 	/* FIXME : Handle mouse events here */
 	switch (event->type){
 	case GDK_ENTER_NOTIFY:
-		e_cursor_set_widget (item->canvas, E_CURSOR_XTERM);
+		gnm_cursor_set_widget (GTK_WIDGET (item->canvas), GNM_CURSOR_XTERM);
 		return TRUE;
 	default :
 		break;

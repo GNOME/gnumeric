@@ -49,7 +49,6 @@
  * case */
 extern gboolean EmbeddableGridFactory_init (void);
 #endif
-#include <gal/widgets/e-cursors.h>
 #include <glade/glade.h>
 
 #ifdef WITH_BONOBO
@@ -127,7 +126,7 @@ gnm_common_init (void)
 	gnumeric_color_init ();
 	format_color_init ();
 	format_match_init ();
-	e_cursors_init ();
+	/* e_cursors_init (); */
 	functions_init ();
 	print_init ();
 	autofill_init ();
@@ -168,7 +167,7 @@ gnm_shutdown (void)
 	plugins_shutdown ();
 	print_shutdown ();
 	functions_shutdown ();
-	e_cursors_shutdown ();
+	/* e_cursors_shutdown (); */
 	format_match_finish ();
 	format_color_shutdown ();
 	gnumeric_color_shutdown ();

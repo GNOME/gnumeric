@@ -44,7 +44,6 @@
 #include <gtk/gtkdnd.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtklabel.h>
-#include <gal/widgets/e-cursors.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 #include <string.h>
@@ -1076,7 +1075,7 @@ cb_cursor_motion (ItemGrid *ig)
 
 	old_link = ig->cur_link;
 	ig->cur_link = sheet_hlink_find (sheet, &pos);
-	cursor = (NULL == ig->cur_link) ? E_CURSOR_FAT_CROSS : E_CURSOR_PRESS;
+	cursor = (NULL == ig->cur_link) ? GNM_CURSOR_FAT_CROSS : GNM_CURSOR_PRESS;
 
 	ig->cursor_timer = 0;
 	if (gcanvas->pane->cursor_type != cursor) {

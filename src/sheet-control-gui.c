@@ -45,7 +45,6 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gal/widgets/e-cursors.h>
 
 #include <string.h>
 
@@ -2236,16 +2235,15 @@ scg_set_display_cursor (SheetControlGUI *scg)
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	if (scg->new_object != NULL)
-		cursor = E_CURSOR_THIN_CROSS;
+		cursor = GNM_CURSOR_THIN_CROSS;
 	else if (scg->current_object != NULL)
-		cursor = E_CURSOR_ARROW;
+		cursor = GNM_CURSOR_ARROW;
 
-#warning "FIXME: e_cursor_set_widget is not MULTIHEAD safe."
 	SCG_FOREACH_PANE (scg, pane, {
 		int c = cursor;
 		if (c < 0)
 			c = pane->cursor_type;
-		e_cursor_set_widget (pane->gcanvas, c);});
+		gnm_cursor_set_widget (GTK_WIDGET (pane->gcanvas), c);});
 }
 
 void

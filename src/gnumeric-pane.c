@@ -29,7 +29,6 @@
 
 #include <libfoocanvas/foo-canvas-line.h>
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
-#include <gal/widgets/e-cursors.h>
 #include <math.h>
 #define GNUMERIC_ITEM "GnmPane"
 #include "item-debug.h"
@@ -144,7 +143,7 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 			sheet_object_new_view (ptr->data, SHEET_CONTROL (scg),
 					       (gpointer)pane);
 	}
-	pane->cursor_type = E_CURSOR_FAT_CROSS;
+	pane->cursor_type = GNM_CURSOR_FAT_CROSS;
 }
 
 void
@@ -578,7 +577,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY: {
 		gpointer p = g_object_get_data (G_OBJECT (ctrl_pt), "cursor");
-		e_cursor_set_widget (ctrl_pt->canvas, GPOINTER_TO_UINT (p));
+		gnm_cursor_set_widget (GTK_WIDGET (ctrl_pt->canvas), GPOINTER_TO_UINT (p));
 		if (pane->control_points [8] != ctrl_pt)
 			foo_canvas_item_set (ctrl_pt,
 				"fill_color",    "green",
@@ -678,7 +677,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
  **/
 static FooCanvasItem *
 new_control_point (GObject *so_view, int idx, double x, double y,
-		   ECursorType ct)
+		   GnmCursorType ct)
 {
 	FooCanvasItem *item, *so_view_item = FOO_CANVAS_ITEM (so_view);
 	GnmCanvas *gcanvas = GNM_CANVAS (so_view_item->canvas);
@@ -709,7 +708,7 @@ new_control_point (GObject *so_view, int idx, double x, double y,
  */
 static void
 set_item_x_y (GnumericPane *pane, GObject *so_view, int idx,
-	      double x, double y, ECursorType ct, gboolean visible)
+	      double x, double y, GnmCursorType ct, gboolean visible)
 {
 	if (pane->control_points [idx] == NULL)
 		pane->control_points [idx] = new_control_point (
@@ -768,7 +767,7 @@ set_acetate_coords (GnumericPane *pane, GObject *so_view,
 		g_object_set_data (G_OBJECT (item), "index",
 			GINT_TO_POINTER (8));
 		g_object_set_data (G_OBJECT (item), "cursor",
-			GINT_TO_POINTER (E_CURSOR_MOVE));
+			GINT_TO_POINTER (GNM_CURSOR_MOVE));
 
 		pane->control_points [8] = item;
 	}
@@ -795,21 +794,21 @@ gnm_pane_object_set_bounds (GnumericPane *pane, SheetObject *so,
 	set_acetate_coords (pane, so_view_obj, l, t, r, b);
 
 	set_item_x_y (pane, so_view_obj, 0, l, t,
-		      E_CURSOR_SIZE_TL, TRUE);
+		      GNM_CURSOR_SIZE_TL, TRUE);
 	set_item_x_y (pane, so_view_obj, 1, (l + r) / 2, t,
-		      E_CURSOR_SIZE_Y, fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
+		      GNM_CURSOR_SIZE_Y, fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (pane, so_view_obj, 2, r, t,
-		      E_CURSOR_SIZE_TR, TRUE);
+		      GNM_CURSOR_SIZE_TR, TRUE);
 	set_item_x_y (pane, so_view_obj, 3, l, (t + b) / 2,
-		      E_CURSOR_SIZE_X, fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
+		      GNM_CURSOR_SIZE_X, fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (pane, so_view_obj, 4, r, (t + b) / 2,
-		      E_CURSOR_SIZE_X, fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
+		      GNM_CURSOR_SIZE_X, fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (pane, so_view_obj, 5, l, b,
-		      E_CURSOR_SIZE_TR, TRUE);
+		      GNM_CURSOR_SIZE_TR, TRUE);
 	set_item_x_y (pane, so_view_obj, 6, (l + r) / 2, b,
-		      E_CURSOR_SIZE_Y, fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
+		      GNM_CURSOR_SIZE_Y, fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (pane, so_view_obj, 7, r, b,
-		      E_CURSOR_SIZE_TL, TRUE);
+		      GNM_CURSOR_SIZE_TL, TRUE);
 }
 
 static int
@@ -820,9 +819,9 @@ cb_sheet_object_canvas_event (FooCanvasItem *item, GdkEvent *event,
 
 	switch (event->type) {
 	case GDK_ENTER_NOTIFY:
-		e_cursor_set_widget (item->canvas,
+		gnm_cursor_set_widget (GTK_WIDGET (item->canvas),
 			(so->type == SHEET_OBJECT_ACTION_STATIC)
-			? E_CURSOR_ARROW : E_CURSOR_PRESS);
+			? GNM_CURSOR_ARROW : GNM_CURSOR_PRESS);
 		break;
 
 	case GDK_BUTTON_PRESS: {

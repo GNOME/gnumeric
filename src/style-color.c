@@ -8,9 +8,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "style-color.h"
-
 #include <gtk/gtk.h>
-#include <gal/widgets/e-colors.h>
 
 /* Public _unallocated_ colours, i.e., no valid .pixel.  */
 GdkColor gs_black      = { 0, 0x0000, 0x0000, 0x0000 };    /* "Black" */
@@ -225,7 +223,10 @@ gnumeric_color_init (void)
 	 * Make sure we can see bogus attempt at getting the pixel
 	 * value.  This is, by nature, not multi-head safe.
 	 */
-	e_color_alloc_name (NULL, "cyan", &error);
+	gdk_color_parse ("cyan", &error);
+	gdk_rgb_find_color (gdk_screen_get_default_colormap (gdk_screen_get_default ()),
+			    &error);
+
 	gs_black.pixel = error.pixel;
 	gs_white.pixel = error.pixel;
 	gs_yellow.pixel =  error.pixel;
