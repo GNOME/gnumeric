@@ -6,11 +6,12 @@
 # Yukihiro Nakai <nakai@gnome.gr.jp>, 2000-2001.
 # Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2001.
 # 
+#, no-wrap
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.99.1\n"
-"POT-Creation-Date: 2002-01-06 14:06-0500\n"
-"PO-Revision-Date: 2001-12-29 17:16+0900\n"
+"Project-Id-Version: gnumeric 1.0.2\n"
+"POT-Creation-Date: 2002-01-07 23:12+0900\n"
+"PO-Revision-Date: 2002-01-07 22:25+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -195,28 +196,24 @@ msgid " Unknown formula"
 msgstr "不明な公式"
 
 #: plugins/excel/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports/Exports MS Excel (tm) files"
-msgstr "Microsoft (R) Excel ファイルのインポート/エキスポート"
+msgstr "MS Excel (tm) ファイルのインポート/エキスポート"
 
 #: plugins/excel/plugin.xml.in.h:2
 msgid "MS Excel (tm)"
-msgstr ""
+msgstr "MS Excel (tm)"
 
 #: plugins/excel/plugin.xml.in.h:3
-#, fuzzy
 msgid "MS Excel (tm) (*.xls)"
-msgstr "Microsoft (R) Excel (*.xls)"
+msgstr "MS Excel (tm) (*.xls)"
 
 #: plugins/excel/plugin.xml.in.h:4
-#, fuzzy
 msgid "MS Excel (tm) 95 file format"
-msgstr "Excel (R) 95 ファイル形式"
+msgstr "MS Excel (tm) 95 ファイル形式"
 
 #: plugins/excel/plugin.xml.in.h:5
-#, fuzzy
 msgid "MS Excel (tm) 97 file format"
-msgstr "Excel (R) 97 ファイル形式"
+msgstr "MS Excel (tm) 97 ファイル形式"
 
 #: plugins/gb/plugin.c:138
 msgid "Unknown GB error"
@@ -1291,9 +1288,8 @@ msgid "Edit a formula in the current cell"
 msgstr "現在のセルの関数を編集します"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2494
-#, fuzzy
 msgid "Edit descriptive information"
-msgstr "その他の情報"
+msgstr "情報の編集"
 
 #: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2695
 msgid "Edit sheet and workbook names"
@@ -1458,9 +1454,8 @@ msgid "Inserts a Bonobo object"
 msgstr "Bonobo オブジェクトを挿入します"
 
 #: src/GNOME_Gnumeric.xml.h:110
-#, fuzzy
 msgid "Inserts a Shaped Bonobo object"
-msgstr "Bonobo オブジェクトを挿入します"
+msgstr "矩形 Bonobo オブジェクトを挿入します"
 
 #: src/GNOME_Gnumeric.xml.h:111
 msgid "Invoke the graph guru to create a graph"
@@ -1604,9 +1599,8 @@ msgid "P_aste Special..."
 msgstr "特殊貼り付け(_A)..."
 
 #: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2493
-#, fuzzy
 msgid "P_roperties..."
-msgstr "プロパティ..."
+msgstr "プロパティ(_R)..."
 
 #: src/GNOME_Gnumeric.xml.h:146 src/cmd-edit.c:344
 #: src/workbook-control-gui.c:2980
@@ -2034,9 +2028,8 @@ msgid "_Goto cell..."
 msgstr "セルに移動(_G)..."
 
 #: src/GNOME_Gnumeric.xml.h:246
-#, fuzzy
 msgid "_Graph..."
-msgstr "グラフ(_G)"
+msgstr "グラフ(_G)..."
 
 #: src/GNOME_Gnumeric.xml.h:247
 msgid "_Group"
@@ -2082,9 +2075,8 @@ msgid "_New"
 msgstr "新規(_N)"
 
 #: src/GNOME_Gnumeric.xml.h:257
-#, fuzzy
 msgid "_Object..."
-msgstr "オブジェクト(_O)"
+msgstr "オブジェクト(_O)..."
 
 #: src/GNOME_Gnumeric.xml.h:258
 msgid "_Open..."
@@ -2136,9 +2128,8 @@ msgid "_Select"
 msgstr "選択(_S)"
 
 #: src/GNOME_Gnumeric.xml.h:268
-#, fuzzy
 msgid "_Shaped Object"
-msgstr "オブジェクト(_O)"
+msgstr "矩形オブジェクト(_S)"
 
 #: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2707
 #: src/workbook-control-gui.c:2822
@@ -2461,14 +2452,12 @@ msgid "Total"
 msgstr "合計"
 
 #: src/analysis-tools.c:3249
-#, fuzzy
 msgid "/Count/Sum/Average/Variance"
-msgstr "/Groups/Count/Sum/Average/Variance"
+msgstr "/Count/Sum/Average/Variance"
 
 #: src/analysis-tools.c:3259
-#, fuzzy
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
-msgstr "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
+msgstr "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 
 #: src/analysis-tools.c:3649
 msgid "More"
@@ -4446,20 +4435,24 @@ msgid ""
 "The probability input range contains a non-numeric value.\n"
 "All probabilities must be non-negative numbers."
 msgstr ""
+"確率範囲に入力された値は数値ではないようです。\n"
+"確率は全て正の数値にして下さい。"
 
 #: src/dialogs/dialog-analysis-tools.c:2851
 msgid "The probabilities may not all be 0!"
-msgstr ""
+msgstr "確率は全て 0 かもしれません！"
 
 #: src/dialogs/dialog-analysis-tools.c:2855
 msgid ""
 "The probability input range contains a negative number.\n"
 "All probabilities must be non-negative!"
 msgstr ""
+"確率範囲に入力された数値は負の数です。\n"
+"確率は全て正の数にして下さい！"
 
 #: src/dialogs/dialog-analysis-tools.c:2860
 msgid "None of the values in the value range may be empty!"
-msgstr ""
+msgstr "範囲に入力された値が全て空かもしれません！"
 
 #: src/dialogs/dialog-analysis-tools.c:3026
 msgid "Could not create the Random Tool dialog."
@@ -4555,6 +4548,8 @@ msgid ""
 "One of the factor combinations does not contain\n"
 "any observations!"
 msgstr ""
+"配置の組み合わせの一つに\n"
+"何も記録がありません！"
 
 #: src/dialogs/dialog-analysis-tools.c:4318
 msgid "Could not create the ANOVA (two factor) tool dialog."
@@ -5826,9 +5821,8 @@ msgid "Input _Labels"
 msgstr "ラベルの入力(_L)"
 
 #: src/dialogs/histogram.glade.h:10
-#, fuzzy
 msgid "Per_centages"
-msgstr "パーセント(_P)"
+msgstr "パーセント(_C)"
 
 #: src/dialogs/histogram.glade.h:12
 msgid "_Bin Labels"
@@ -8679,6 +8673,16 @@ msgid ""
 "\n"
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 msgstr ""
+"@FUNCTION=UNIX2DATE\n"
+"@SYNTAX=UNIX2DATE(UNIX時刻)\n"
+"@DESCRIPTION=UNIX2DATE 関数は UNIX 時刻をスプレッドシートの日付と時刻に換算し"
+"ます。\n"
+"\n"
+"\"UNIX 時刻\"は 1970年1月1日 からカウントした秒数です。\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, DATE2UNIX"
 
 #: src/functions/fn-date.c:127
 msgid ""
@@ -8693,6 +8697,16 @@ msgid ""
 "\n"
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 msgstr ""
+"@FUNCTION=DATE2UNIX\n"
+"@SYNTAX=DATE2UNIX(シリアル)\n"
+"@DESCRIPTION=DATE2UNIX 関数はスプレッドシートの日付と時刻を UNIX 時刻に換算し"
+"ます。\n"
+"\n"
+"\"UNIX 時刻\"は 1970年1月1日 からカウントした秒数です。\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, UNIX2DATE"
 
 #: src/functions/fn-date.c:158
 msgid ""
@@ -9026,7 +9040,6 @@ msgstr ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:716
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number[, method])\n"
@@ -9048,16 +9061,21 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=WEEKDAY\n"
-"@SYNTAX=WEEKDAY (シリアル値)\n"
+"@SYNTAX=WEEKDAY (シリアル値[, 種類])\n"
 "@DESCRIPTION=WEEKDAY 関数はシリアル値から曜日に変換します。\n"
 "\n"
-"この関数は0-6の数字を返します。土曜日が0で日曜日が1です。\n"
+"この関数は曜日を表す整数値 0-6 を返します。\n"
+"@種類 は戻り値の種類です。\n"
+"\n"
+"@種類 = 1: 日曜日が 1, 月曜日が 2,...\n"
+"@種類 = 2: 月曜日が 1, 火曜日が 2,...\n"
+"@種類 = 3: 月曜日が 0, 火曜日が 1,...\n"
 "\n"
 "Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列として"
 "入力できます。\n"
 "この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
-"WEEKDAY(\"10/24/1968\") = 5(木曜日) です。\n"
+"WEEKDAY(\"10/24/1968\") = 5 (木曜日) です。\n"
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 
@@ -12685,6 +12703,16 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=GETENV\n"
+"@SYNTAX=GETENV(文字列)\n"
+"@DESCRIPTION=GETENV 関数は @文字列 で指定された環境変数に対する値を返しま"
+"す。\n"
+"\n"
+"@文字列 で指定された変数が存在しない場合、#N/A! が返されます。 環境変数の名前"
+"は大小文字を区別しないことに注意して下さい。\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-information.c:1011
 msgid "Information"
@@ -14365,7 +14393,6 @@ msgstr ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1680
-#, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -14382,7 +14409,7 @@ msgstr ""
 "@SYNTAX=PI()\n"
 "@DESCRIPTION=PI 関数は円周率の値を返します。\n"
 "この関数には引数はありません。\n"
-"この関数は Excel 互換です。\n"
+"この関数は Excel 互換で、もっとも良い精度で返します。\n"
 "@EXAMPLES=\n"
 "PI() = 3.141593 です。\n"
 "\n"
@@ -16962,7 +16989,6 @@ msgstr ""
 "@SEEALSO=STDEVA,STDEVP"
 
 #: src/functions/fn-stat.c:3036
-#, fuzzy
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -16985,10 +17011,14 @@ msgstr ""
 "@SYNTAX=PERCENTRANK(配列,x[,有効桁数])\n"
 "@DESCRIPTION=PERCENTRANK 関数はデータの集まりの中でその相対的な位置 (百分位序"
 "列) を返します。@配列 は数値範囲を、@x は百分位序列をつけたい位置を、オプショ"
-"ンである @有効桁数 は計算結果の百分率の有効桁数をそれぞれ表します。\n"
+"ンである @有効桁数 は計算結果の百分率の有効桁数をそれぞれ表します。@有効桁数 "
+"が指定されたなかった場合、PERCENTRANK は有効桁数を 3桁とします。\n"
 "@配列 にデータが含まれていない場合は PERCENTRANK 関数は #NUM! エラーを返しま"
-"す。@有効桁数 が 1 未満の場合は PERCENTRANK 関数は #NUM! エラーを返します。"
-"@x が @配列の中の数値に一致しなかったり、@x が 1 より大きい場合は "
+"す。\n"
+"@有効桁数 が 1 未満の場合は PERCENTRANK 関数は #NUM! エラーを返します。\n"
+"@x が @配列 の最大値を超えるか、最小値よりも小さい場合、PERCENTRANK 関数は "
+"#NUM エラーを返します。\n"
+"@x が @配列 の中の数値に一致しなかったり、@x が 1 より大きい場合、"
 "PERCENTRANK 関数はその範囲の両側の値から順位が計算されます。\n"
 "@EXAMPLES=\n"
 "\n"
@@ -18313,11 +18343,11 @@ msgstr "oleファイルの読込中に矛盾がないかのチェックを有効にする"
 
 #: src/main.c:106
 msgid "Specify the size and location of the initial window"
-msgstr ""
+msgstr "指定したサイズと位置でウィンドウを起動する"
 
 #: src/main.c:106
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
-msgstr ""
+msgstr "幅x高さ+X座標+Y座標"
 
 #: src/main.c:110
 msgid "Exit immediately after loading the selected books (useful for testing)."
@@ -19001,9 +19031,9 @@ msgid "Transparent"
 msgstr "透明にする"
 
 #: src/sheet-object-widget.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "CheckBox %d"
-msgstr "チェックボックス"
+msgstr "チェックボックス %d"
 
 #: src/sheet-object-widget.c:791
 msgid "Checkbox Configure"
@@ -19854,45 +19884,3 @@ msgstr "Gnumeric XML ファイル形式"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME スプレッドシート"
-
-#~ msgid "Su_mmary..."
-#~ msgstr "要約(_M)..."
-
-#~ msgid "Summary information"
-#~ msgstr "要約の情報を表示します"
-
-#~ msgid "_Define"
-#~ msgstr "名前を定義(_D)"
-
-#~ msgid "ANOVA"
-#~ msgstr "分散解析"
-
-#~ msgid "Source of Variation"
-#~ msgstr "変化量のソース"
-
-#~ msgid "Interaction"
-#~ msgstr "相互作用"
-
-#~ msgid "Within"
-#~ msgstr "含む"
-
-#~ msgid "Microsoft(R) Excel"
-#~ msgstr "Microsoft (R) Excel"
-
-#~ msgid "Decrease the precision of the selected cells"
-#~ msgstr "選択されたセルの精度を落します"
-
-#~ msgid "Format the selected cells as money"
-#~ msgstr "選択したセルを金額の書式に設定します"
-
-#~ msgid "Format the selected cells as percentages"
-#~ msgstr "選択したセルを百分率 (%) の書式に設定します"
-
-#~ msgid "Includes a thousands separator in the selected cells"
-#~ msgstr "選択されたセルに千単位で区切りを挿入します"
-
-#~ msgid "Increase the precision of the selected cells"
-#~ msgstr "選択されたセルの精度を上げます"
-
-#~ msgid "Add another sheet"
-#~ msgstr "別のシートを加える"

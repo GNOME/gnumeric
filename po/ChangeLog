@@ -1,3 +1,7 @@
+2002-01-07  Takeshi Aihana <aihana@gnome.gr.jp>
+
+	* ja.po: Updated Japanese translation.
+
 2002-01-06  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.1
@@ -10,7 +14,7 @@
 2002-01-06  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation, and made some changes.
-	Thanks to Jörgen Tegnér <jorgen.tegner@telia.com> for his suggestions.
+	Thanks to J-Aörgen Tegnér <jorgen.tegner@telia.com> for his suggestions.$)B
 
 2002-01-06  Duarte Loreto <happyguy_pt@hotmail.com>
 
@@ -42,7 +46,7 @@
 
 	* sv.po: Updated Swedish translation, and also fixed some errors.
 	Thanks to Tommy Pettersson <ptp@lysator.liu.se> for his continued
-	review and to Göran Uddeborg <goeran@uddeborg.pp.se> for suggestions.
+	review and to G-Aöran Uddeborg <goeran@uddeborg.pp.se> for suggestions.$)B
 
 2002-01-02  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
@@ -91,14 +95,14 @@
 	* zh_TW.po: Updated traditional Chinese translation a bit, and
 	revert back to native encoding instead of UTF-8.
 
-2001-12-30  Tõivo Leedjärv  <leedjarv@interest.ee>
+2001-12-30  T-Aõivo Leedjärv  <leedjarv@interest.ee>$)B
 
 	* et.po: Updated Estonian translation
 	by Ain Vagula <ain@riiska.ee>
 
 2001-12-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokm-Aål) translation.$)B
 
 2001-12-30  Christian Rose  <menthos@menthos.com>
 
