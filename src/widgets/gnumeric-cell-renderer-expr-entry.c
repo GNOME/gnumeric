@@ -16,8 +16,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
@@ -140,10 +138,10 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
   gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
   
   gtk_widget_show_all (GTK_WIDGET (gentry));
-  gtk_signal_connect (GTK_OBJECT (gentry),
-		      "editing_done",
-		      G_CALLBACK (gnumeric_cell_renderer_expr_entry_editing_done),
-		      celltext);
+  g_signal_connect (gentry,
+		    "editing_done",
+		    G_CALLBACK (gnumeric_cell_renderer_expr_entry_editing_done),
+		    celltext);
 
   wbcg_set_entry (celltext->wbcg, gentry);
   

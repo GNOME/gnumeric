@@ -1,3 +1,9 @@
+2003-08-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-cell-renderer-expr-entry.c: do not use depreciated gtk
+	(gnumeric_cell_renderer_expr_entry_start_editing): use g_signal_connect
+	  rather than gtk_signal_connect.
+	
 2003-07-28  Jody Goldberg <jody@gnome.org>
 
 	* widget-format-selector.c (funny_currency_order) : kludge even more
