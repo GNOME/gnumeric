@@ -23,7 +23,6 @@ typedef struct {
 	GtkWidget       *preview_button;
 	GnomeCanvas     *preview_canvas;
 	GnomeCanvasItem *preview_color_item;
-	GdkImlibImage   *preview_image;
 
 	GtkWidget       *color_table;
 

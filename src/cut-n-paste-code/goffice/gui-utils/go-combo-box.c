@@ -229,6 +229,16 @@ gtk_combo_box_button_press (GtkWidget *widget, GdkEventButton *event, GtkComboBo
 }
 
 static void
+cb_state_change (GtkWidget *widget, GtkStateType old_state, GtkComboBox *combo_box)
+{
+	GtkStateType const new_state = GTK_WIDGET_STATE(widget);
+	gtk_widget_set_state ((combo_box->priv->display_widget != widget)
+			      ? combo_box->priv->display_widget
+			      : combo_box->priv->arrow_button, 
+			      new_state);
+}
+
+static void
 gtk_combo_box_init (GtkComboBox *combo_box)
 {
 	GtkWidget *arrow, *event_box;
@@ -248,6 +258,10 @@ gtk_combo_box_init (GtkComboBox *combo_box)
 		GTK_OBJECT (combo_box->priv->arrow_button), "toggled",
 		GTK_SIGNAL_FUNC (gtk_combo_toggle_pressed), combo_box);
 	gtk_widget_show_all (combo_box->priv->arrow_button);
+
+	gtk_signal_connect (
+		GTK_OBJECT (combo_box->priv->arrow_button), "state-changed",
+		GTK_SIGNAL_FUNC (cb_state_change), combo_box);
 
 	/*
 	 * The pop-down container
@@ -315,11 +329,16 @@ gtk_combo_box_set_display (GtkComboBox *combo_box, GtkWidget *display_widget)
 	g_return_if_fail (display_widget != NULL);
 	g_return_if_fail (GTK_IS_WIDGET (display_widget));
 
-	if (combo_box->priv->display_widget){
-		if (combo_box->priv->display_widget != display_widget)
-			gtk_container_remove (GTK_CONTAINER (combo_box),
-					      combo_box->priv->display_widget);
-	}
+	if (combo_box->priv->display_widget &&
+	    combo_box->priv->display_widget != display_widget)
+		gtk_container_remove (GTK_CONTAINER (combo_box),
+				      combo_box->priv->display_widget);
+
+	combo_box->priv->display_widget = display_widget;
+
+	gtk_signal_connect (
+		GTK_OBJECT (display_widget), "state-changed",
+		GTK_SIGNAL_FUNC (cb_state_change), combo_box);
 
 	gtk_box_pack_start (GTK_BOX (combo_box), display_widget, TRUE, TRUE, 0);
 }
@@ -336,7 +355,7 @@ gtk_combo_box_construct (GtkComboBox *combo_box, GtkWidget *display_widget, GtkW
 	GTK_BOX (combo_box)->homogeneous = FALSE;
 
 	combo_box->priv->pop_down_widget = pop_down_widget;
-	combo_box->priv->display_widget = display_widget;
+	combo_box->priv->display_widget = NULL;
 
 	/*
 	 * Finish setup
