@@ -148,7 +148,6 @@ func_struct_t functions[] = {
 	{ 1, 0xFF, "AAFEND", NORMAL, 0 }
 };
 
-
 /* Copied wholesale from Excel code */
 typedef GList    ParseList;
 
@@ -191,7 +190,6 @@ parse_list_last_n (ParseList **list, gint n)
 		l = g_list_prepend (l, parse_list_pop(list));
 	return l;
 }
-
 
 static void
 parse_list_free (ParseList **list)
