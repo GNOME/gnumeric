@@ -2,7 +2,9 @@
 
 	* dialog-stf.c (stf_dialog): Make sure we hold a ref to the window
 	so it doesn't disappear underneath us.
-	(stf_dialog_attach_page_signals): Hook up a destroy signal.
+	(stf_dialog_window_delete): New function.
+	(stf_dialog_attach_page_signals): Hook up the window's
+	delete_event signal.
 
 2003-05-12  Jody Goldberg <jody@gnome.org>
 

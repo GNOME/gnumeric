@@ -302,6 +302,24 @@ stf_dialog_druid_cancel (G_GNUC_UNUSED GnomeDruid *druid,
 }
 
 /**
+ * stf_dialog_window_delete
+ * @druid : a druid
+ * @data : mother struct
+ *
+ * Stops the druid and indicates the user has cancelled
+ *
+ **/
+static gboolean
+stf_dialog_window_delete (G_GNUC_UNUSED GtkWindow *w,
+			  G_GNUC_UNUSED GdkEventKey *event,
+			  DruidPageData_t *data)
+{
+	data->canceled = TRUE;
+	gtk_main_quit ();
+	return TRUE;
+}
+
+/**
  * stf_dialog_check_escape
  * @druid : a druid
  * @event : the event
@@ -429,15 +447,16 @@ stf_dialog_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->druid),
 		"cancel",
 		G_CALLBACK (stf_dialog_druid_cancel), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->druid),
-		"destroy",
-		G_CALLBACK (stf_dialog_druid_cancel), pagedata);
 
 	/* And for the surrounding window */
 
 	g_signal_connect (G_OBJECT (pagedata->window),
 		"key_press_event",
 		G_CALLBACK (stf_dialog_check_escape), pagedata);
+
+	g_signal_connect (G_OBJECT (pagedata->window),
+		"delete_event",
+		G_CALLBACK (stf_dialog_window_delete), pagedata);
 }
 
 /**
