@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-08 00:41+0200\n"
-"PO-Revision-Date: 2003-09-08 00:39+0200\n"
+"POT-Creation-Date: 2003-09-08 15:03+0200\n"
+"PO-Revision-Date: 2003-09-08 15:07+0200\n"
 "Last-Translator: Слободан Средојевић <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -4896,8 +4896,7 @@ msgstr "%s верзија %s"
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:208
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:104
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
 msgid "Automatic"
@@ -9527,6 +9526,7 @@ msgid "x,a,b"
 msgstr "x,a,b"
 
 #: plugins/fn-stat/functions.c:5955
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:230
 msgid "x"
 msgstr "x"
 
@@ -11782,7 +11782,7 @@ msgid "Filter data with given criteria"
 msgstr "Филтрирај податке са задатим критеријумом"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:739
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -11977,7 +11977,7 @@ msgid "Jump to a specified cell"
 msgstr "Скочи до одређеног поља"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:237
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:243
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Ознака"
@@ -13482,7 +13482,7 @@ msgstr "Легенда"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:165
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Наслов"
 
@@ -13652,191 +13652,134 @@ msgid "<b>Outline</b>"
 msgstr "<b>Издвојено</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
-msgid "Asterisk"
-msgstr "Звездица"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Brightness"
 msgstr "Осветљење"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Butterfly"
-msgstr "Лептир"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
 msgid "C_olor:"
 msgstr "Б_оја:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
-msgid "Circle"
-msgstr "Круг"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
-msgid "Cross"
-msgstr "Крст"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
-msgid "Diamond"
-msgstr "Ромб"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Fill from start color to end color"
 msgstr "Испуни од почетне боје до завршне боје"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 msgid "Fill from start colour to a darker/lighter version of that color"
 msgstr ""
 "Испуни од почетне боје до тамније/светлије нијансе те боје завршне боје"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "Gradient"
 msgstr "Нијанса"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
-msgid "Half bar"
-msgstr "Полутрака"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-msgid "Hourglass"
-msgstr "Часовник"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
 msgid "Image"
 msgstr "Слика"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 #: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-cell-format.c:72
 #: src/dialogs/dialog-paste-special.c:48 src/tools/solver/reports-write.c:722
 msgid "None"
 msgstr "Ништа"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
 #: src/dialogs/dialog-cell-format.c:2280
 msgid "Pattern"
 msgstr "Образац"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
 msgid "Si_ze:"
 msgstr "Ве_личина:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-msgid "Square"
-msgstr "Квадрат"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
 msgid "T_ype:"
 msgstr "Вр_ста:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-msgid "Triangle down"
-msgstr "Троугао доле"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
-msgid "Triangle left"
-msgstr "Троугао лево"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
-msgid "Triangle right"
-msgstr "Троугао десно"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
-msgid "Triangle up"
-msgstr "Троугао горе"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:127
-msgid "X"
-msgstr "X"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 msgid "_Background:"
 msgstr "_Позадина:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
 msgid "_Direction:"
 msgstr "П_равац:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
 msgid "_End:"
 msgstr "_Крај:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
 msgid "_Fill color:"
 msgstr "Боја за поп_уњавање:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:34
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 msgid "_Fit:"
 msgstr "Уклоп_и:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:35
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 msgid "_Foreground:"
 msgstr "_Боја:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:36
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
 msgid "_Outline color:"
 msgstr "Боја _издвојеног:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:37
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
 msgid "_Pattern:"
 msgstr "Об_разац:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:38
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
 msgid "_Select..."
 msgstr "И_забери..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:39
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
 msgid "_Shape:"
 msgstr "_Облик:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:40
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
 msgid "_Size:"
 msgstr "_Величина:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:41
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
 msgid "_Start:"
 msgstr "П_очни:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:42
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
 #: src/dialogs/solver.glade.h:42
 msgid "_Type:"
 msgstr "Вр_ста:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:43
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
 msgid "_brighter"
 msgstr "_светлије"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:44
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
 msgid "_darker"
 msgstr "_тамније"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:45
-msgid "bar"
-msgstr "трака"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:46
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 msgid "pts"
 msgstr "штампарских тачака"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:47
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
 msgid "stretched"
 msgstr "развучено"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:48
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
 msgid "wallpaper"
 msgstr "позадинска слика"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:169
 #: src/widgets/preview-file-selection.c:167
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:452
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Изаберите слику"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:787
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Стил"
@@ -14248,6 +14191,10 @@ msgstr "Систем за исцртавање прстена"
 msgid "XYPlot"
 msgstr "XYисцртавање"
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:127
+msgid "X"
+msgstr "X"
+
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:129
 msgid "Y"
 msgstr "Y"
@@ -14320,6 +14267,183 @@ msgstr "Укључене врсте разбацаног исцртавања"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
 msgid "XY Charts"
 msgstr "XY графикони"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:222
+msgid "none"
+msgstr "ништа"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:223
+msgid "square"
+msgstr "квадрат"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:224
+msgid "diamond"
+msgstr "ромб"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:225
+msgid "triangle down"
+msgstr "троугао доле"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:226
+msgid "triangle up"
+msgstr "троугао горе"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:227
+msgid "triangle right"
+msgstr "троугао десно"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:228
+msgid "triangle left"
+msgstr "троугао лево"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:229
+msgid "circle"
+msgstr "круг"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:231
+msgid "cross"
+msgstr "крст"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:232
+msgid "asterisk"
+msgstr "звездица"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:233
+msgid "bar"
+msgstr "трака"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:234
+msgid "half bar"
+msgstr "полутрака"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:235
+msgid "butterfly"
+msgstr "лептир"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:236
+msgid "hourglass"
+msgstr "часовник"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:192
+#: src/dialogs/cell-format.glade.h:71
+msgid "Solid"
+msgstr "Пун"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:193
+#: src/dialogs/cell-format.glade.h:12
+#, no-c-format
+msgid "75% Grey"
+msgstr "75% сиво"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:194
+#: src/dialogs/cell-format.glade.h:8
+#, no-c-format
+msgid "50% Grey"
+msgstr "50% сиво"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:195
+#: src/dialogs/cell-format.glade.h:6
+#, no-c-format
+msgid "25% Grey"
+msgstr "25% сиво"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:196
+#: src/dialogs/cell-format.glade.h:4
+#, no-c-format
+msgid "12.5% Grey"
+msgstr "12.5% сиво"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:197
+#: src/dialogs/cell-format.glade.h:10
+#, no-c-format
+msgid "6.25% Grey"
+msgstr "6.25% сиво"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:198
+#: src/dialogs/cell-format.glade.h:47
+msgid "Horizontal Stripe"
+msgstr "Хоризонтална пруга"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:199
+#: src/dialogs/cell-format.glade.h:92
+msgid "Vertical Stripe"
+msgstr "Усправна пруга"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:200
+#: src/dialogs/cell-format.glade.h:66
+msgid "Reverse Diagonal Stripe"
+msgstr "Обрнута дијагонална пруга"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:201
+#: src/dialogs/cell-format.glade.h:42
+msgid "Diagonal Stripe"
+msgstr "Дијагонална пруга"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:202
+#: src/dialogs/cell-format.glade.h:41
+msgid "Diagonal Crosshatch"
+msgstr "Дијагонални нишан"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:203
+#: src/dialogs/cell-format.glade.h:80
+msgid "Thick Diagonal Crosshatch"
+msgstr "Дебели дијагонални нишан"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:204
+#: src/dialogs/cell-format.glade.h:84
+msgid "Thin Horizontal Stripe"
+msgstr "Танка хоризонтална пруга"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:205
+#: src/dialogs/cell-format.glade.h:86
+msgid "Thin Vertical Stripe"
+msgstr "Танка усправна пруга"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:206
+#: src/dialogs/cell-format.glade.h:85
+msgid "Thin Reverse Diagonal Stripe"
+msgstr "Танка обрнута дијагонална пруга"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "Танки дијагонални нишан"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
+#: src/dialogs/cell-format.glade.h:83
+msgid "Thin Horizontal Crosshatch"
+msgstr "Танки хоризонтални нишан"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
+#: src/dialogs/cell-format.glade.h:44
+msgid "Foreground Solid"
+msgstr "Боја исцртавања"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:211
+#: src/dialogs/cell-format.glade.h:70
+msgid "Small Circles"
+msgstr "Мали кругови"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:212
+#: src/dialogs/cell-format.glade.h:68
+msgid "Semi Circles"
+msgstr "Полу кругови"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:213
+#: src/dialogs/cell-format.glade.h:79
+msgid "Thatch"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:214
+#: src/dialogs/cell-format.glade.h:57
+msgid "Large Circles"
+msgstr "Велики кругови"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:215
+#: src/dialogs/cell-format.glade.h:32
+msgid "Bricks"
+msgstr "Цигле"
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -14955,32 +15079,7 @@ msgstr "Напомена за поље"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "    "
-msgstr ""
-
-#: src/dialogs/cell-format.glade.h:4
-#, no-c-format
-msgid "12.5% Grey"
-msgstr "12.5% сиво"
-
-#: src/dialogs/cell-format.glade.h:6
-#, no-c-format
-msgid "25% Grey"
-msgstr "25% сиво"
-
-#: src/dialogs/cell-format.glade.h:8
-#, no-c-format
-msgid "50% Grey"
-msgstr "50% сиво"
-
-#: src/dialogs/cell-format.glade.h:10
-#, no-c-format
-msgid "6.25% Grey"
-msgstr "6.25% сиво"
-
-#: src/dialogs/cell-format.glade.h:12
-#, no-c-format
-msgid "75% Grey"
-msgstr "75% сиво"
+msgstr "    "
 
 #: src/dialogs/cell-format.glade.h:13
 msgid "<b>Background</b>"
@@ -15046,10 +15145,6 @@ msgstr "Било која вредност     (без провере испра
 msgid "Border"
 msgstr "Граница"
 
-#: src/dialogs/cell-format.glade.h:32
-msgid "Bricks"
-msgstr "Цигле"
-
 #: src/dialogs/cell-format.glade.h:33
 msgid "Ce_nter"
 msgstr "Це_нтрирај"
@@ -15083,18 +15178,6 @@ msgstr "Датум"
 msgid "Diagonal"
 msgstr "Дијагонални"
 
-#: src/dialogs/cell-format.glade.h:41
-msgid "Diagonal Crosshatch"
-msgstr ""
-
-#: src/dialogs/cell-format.glade.h:42
-msgid "Diagonal Stripe"
-msgstr "Дијагонална пруга"
-
-#: src/dialogs/cell-format.glade.h:44
-msgid "Foreground Solid"
-msgstr "Боја исцртавања"
-
 #: src/dialogs/cell-format.glade.h:45 src/dialogs/dialog-cell-format.c:2202
 msgid "Format Cells"
 msgstr "Форматирај поља"
@@ -15102,10 +15185,6 @@ msgstr "Форматирај поља"
 #: src/dialogs/cell-format.glade.h:46
 msgid "Hi_de"
 msgstr "_Сакриј"
-
-#: src/dialogs/cell-format.glade.h:47
-msgid "Horizontal Stripe"
-msgstr "Хоризонтална пруга"
 
 #: src/dialogs/cell-format.glade.h:48
 msgid "I_n-cell dropdown"
@@ -15143,10 +15222,6 @@ msgstr "Унутар усправне"
 msgid "J_ustify"
 msgstr "Сложи _редове"
 
-#: src/dialogs/cell-format.glade.h:57
-msgid "Large Circles"
-msgstr "Велики кругови"
-
 #: src/dialogs/cell-format.glade.h:58 src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "Лево"
@@ -15177,29 +15252,13 @@ msgstr "Заштита"
 msgid "Reverse Diagonal"
 msgstr "Обрнуто дијагонално"
 
-#: src/dialogs/cell-format.glade.h:66
-msgid "Reverse Diagonal Stripe"
-msgstr "Обрнута дијагонална пруга"
-
 #: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "Десно"
 
-#: src/dialogs/cell-format.glade.h:68
-msgid "Semi Circles"
-msgstr "Полу кругови"
-
 #: src/dialogs/cell-format.glade.h:69
 msgid "Shrin_k to fit"
 msgstr "Уд_еси да стане"
-
-#: src/dialogs/cell-format.glade.h:70
-msgid "Small Circles"
-msgstr "Мали кругови"
-
-#: src/dialogs/cell-format.glade.h:71
-msgid "Solid"
-msgstr "Пун"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Stop            (never allow invalid input)"
@@ -15229,37 +15288,9 @@ msgstr "_Врх"
 msgid "Text length"
 msgstr "_Дужина текста"
 
-#: src/dialogs/cell-format.glade.h:79
-msgid "Thatch"
-msgstr ""
-
-#: src/dialogs/cell-format.glade.h:80
-msgid "Thick Diagonal Crosshatch"
-msgstr "Дебели дијагонални нишан"
-
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "Танки дијагонални нишан"
-
 #: src/dialogs/cell-format.glade.h:82
 msgid "Thin Diagonal Stripe"
 msgstr "Танка дијагонална пруга"
-
-#: src/dialogs/cell-format.glade.h:83
-msgid "Thin Horizontal Crosshatch"
-msgstr "Танки хоризонтални нишан"
-
-#: src/dialogs/cell-format.glade.h:84
-msgid "Thin Horizontal Stripe"
-msgstr "Танка хоризонтална пруга"
-
-#: src/dialogs/cell-format.glade.h:85
-msgid "Thin Reverse Diagonal Stripe"
-msgstr "Танка обрнута дијагонална пруга"
-
-#: src/dialogs/cell-format.glade.h:86
-msgid "Thin Vertical Stripe"
-msgstr "Танка усправна пруга"
 
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 msgid "Time"
@@ -15276,10 +15307,6 @@ msgstr "Подвучено:"
 #: src/dialogs/cell-format.glade.h:91
 msgid "Validation"
 msgstr "Провера исправности"
-
-#: src/dialogs/cell-format.glade.h:92
-msgid "Vertical Stripe"
-msgstr "Усправна пруга"
 
 #: src/dialogs/cell-format.glade.h:93
 msgid "Warning     (accept/discard invalid input)"
@@ -15371,7 +15398,7 @@ msgstr "Опсег:"
 
 #: src/dialogs/cell-sort.glade.h:5
 msgid "Sort range has a _header"
-msgstr ""
+msgstr "Опсег за уређивање садржи _заглавље"
 
 #: src/dialogs/cell-sort.glade.h:6
 msgid "Sort..."
@@ -15407,11 +15434,11 @@ msgstr "Групиши/Распусти"
 
 #: src/dialogs/consolidate.glade.h:1
 msgid "AVERAGE"
-msgstr ""
+msgstr "ПРОСЕК"
 
 #: src/dialogs/consolidate.glade.h:3
 msgid "COUNT"
-msgstr ""
+msgstr "БРОЈ"
 
 #: src/dialogs/consolidate.glade.h:4
 msgid "C_opy labels"
@@ -15669,7 +15696,7 @@ msgstr "Lutz Muller, SheetObject унапређења"
 
 #: src/dialogs/dialog-about.c:76
 msgid "Federico M. Quintero, canvas support."
-msgstr ""
+msgstr "Federico M. Quintero, подршка за canvas."
 
 #: src/dialogs/dialog-about.c:77
 msgid "Mark Probst, Guile support."
@@ -15677,7 +15704,7 @@ msgstr "Mark Probst, Гаил подршка."
 
 #: src/dialogs/dialog-about.c:78
 msgid "Rasca, HTML, troff, LaTeX exporters."
-msgstr ""
+msgstr "Rasca, HTML, troff, LaTeX извозници."
 
 #: src/dialogs/dialog-about.c:79
 msgid "Vincent Renardias, original CSV support, French localization."
@@ -15867,7 +15894,7 @@ msgstr "Не могу да направим прозорче за алатку �
 
 #: src/dialogs/dialog-analysis-tools.c:2218
 msgid "Could not create the Exponential Smoothing Tool dialog."
-msgstr ""
+msgstr "Не могу да направим прозорче за алатку „Експоненцијално углађивање“."
 
 #: src/dialogs/dialog-analysis-tools.c:2359
 msgid "Could not create the Moving Average Tool dialog."
@@ -15875,7 +15902,7 @@ msgstr "Не могу да направим прозорче за алатку �
 
 #: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
-msgstr "Бинарни _опсег:"
+msgstr "Бин _опсег:"
 
 #: src/dialogs/dialog-analysis-tools.c:2585
 msgid "Could not create the Histogram Tool dialog."
@@ -17950,7 +17977,7 @@ msgstr "Десни од_ељак:"
 
 #: src/dialogs/histogram.glade.h:2
 msgid "Bin _Labels"
-msgstr "Бинарне _ознаке:"
+msgstr "Бин _ознаке:"
 
 #: src/dialogs/histogram.glade.h:4
 msgid "C_umulative Percentages"
@@ -18010,11 +18037,11 @@ msgstr "Аут_оматски уклопи колоне"
 
 #: src/dialogs/histogram.glade.h:20
 msgid "_Bins"
-msgstr "_Бинарни"
+msgstr "_Бин"
 
 #: src/dialogs/histogram.glade.h:21
 msgid "_Calculated Bins"
-msgstr "_Израчунати бинарни"
+msgstr "_Израчунати бин"
 
 #: src/dialogs/histogram.glade.h:22
 msgid "_Chart Output"
@@ -18034,7 +18061,7 @@ msgstr "Пр_оценти"
 
 #: src/dialogs/histogram.glade.h:29
 msgid "_Predetermined Bins"
-msgstr "_Предодређени бинарни"
+msgstr "_Предодређени бин"
 
 #: src/dialogs/hyperlink.glade.h:2
 msgid "<small>Optional</small>"
@@ -21340,7 +21367,7 @@ msgstr "Колона %i"
 #: src/tools/analysis-tools.c:222
 #, c-format
 msgid "Bin %i"
-msgstr ""
+msgstr "Бин %i"
 
 #: src/tools/analysis-tools.c:226
 #, c-format
