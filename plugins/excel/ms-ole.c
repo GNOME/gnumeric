@@ -162,7 +162,7 @@ pps_get_text (BYTE *ptr, int length)
 	if (!length) 
 		return 0 ;
 	
-	ans = (char *)malloc(sizeof(char)*length+1) ;
+	ans = (char *)g_malloc (sizeof(char) * length + 1);
 	
 	skip = (ptr[0] < 0x30) ; /* Magic unicode number */
 	if (skip)
@@ -381,8 +381,8 @@ ms_ole_create (const char *name)
 	if (!f->mem)
 	{
 		printf ("Serious error mapping file to %d bytes\n", BB_BLOCK_SIZE*init_blocks) ;
-		close(file) ;
-		free(f) ;
+		close (file) ;
+		g_free (f) ;
 		return 0 ;
 	}
 	/**
@@ -534,11 +534,15 @@ ms_ole_destroy (MS_OLE *f)
 	{
 		munmap (f->mem, f->length) ;
 		close (f->file_descriptor) ;
-		free (f) ;
-
+		
 		if (f->header.root_list)
 			g_free (f->header.root_list);
-		
+		if (f->header.sbd_list)
+			g_free (f->header.sbd_list);
+		if (f->header.sbf_list)
+			g_free (f->header.sbd_list);
+		g_free (f) ;
+
 		printf ("Closing file\n") ;
 	}
 	else
@@ -660,7 +664,7 @@ next_free_sb (MS_OLE *f)
 		SET_GUINT32(GET_BB_CHAIN_PTR(f, end_sbf), new_sbf) ;
 		SET_GUINT32(GET_BB_CHAIN_PTR(f, new_sbf), END_OF_CHAIN) ;
 		g_assert (NEXT_BB(f, end_sbf) == new_sbf) ;
-		free (f->header.sbf_list) ;
+		g_free (f->header.sbf_list) ;
 		read_sbf_list(f) ;
 		g_assert (oldnum+1 == f->header.number_of_sbf_blocks) ;
 		/* Append the new block to the end of the SBF(ile) */
@@ -676,7 +680,7 @@ next_free_sb (MS_OLE *f)
 
 		SET_GUINT32(GET_BB_CHAIN_PTR(f, end_sbd), new_sbd) ;
 		SET_GUINT32(GET_BB_CHAIN_PTR(f, new_sbd), END_OF_CHAIN) ;
-		free (f->header.sbd_list) ;
+		g_free (f->header.sbd_list) ;
 		read_sbd_list(f) ;
 		g_assert (oldnum+1 == f->header.number_of_sbd_blocks) ;
 
@@ -750,8 +754,8 @@ free_allocation (MS_OLE *f, guint32 startblock, gboolean is_big_block_stream)
 					SET_GUINT32(GET_SBD_CHAIN_PTR(f,cur), UNUSED_BLOCK) ;
 				cur++ ;
 			}
-			free (f->header.sbf_list) ;
-			free (f->header.sbd_list) ;
+			g_free (f->header.sbf_list) ;
+			g_free (f->header.sbd_list) ;
 			read_sbf_list(f) ;
 			read_sbd_list(f) ;
 			printf ("After free_alloc\n") ;
@@ -1158,7 +1162,7 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 /*	    s->block == END_OF_CHAIN) */
 	{
 		printf ("Bad file block record\n") ;
-		free (s) ;
+		g_free (s) ;
 		return 0 ;
 	}
 
@@ -1218,7 +1222,7 @@ void
 ms_ole_stream_close (MS_OLE_STREAM *s)
 {
 /* No caches to write, nothing */
-	free (s) ;
+	g_free (s) ;
 }
 
 /* You probably arn't too interested in the root directory anyway
@@ -1242,7 +1246,7 @@ static void
 directory_setup (MS_OLE_DIRECTORY *d)
 {
 	printf ("Setup pps = %d\n", d->pps) ;
-	free (d->name) ;
+	g_free (d->name) ;
 	d->name   = PPS_NAME(d->file, d->pps) ;
 	d->type   = PPS_GET_TYPE(d->file, d->pps) ;
 	d->length = PPS_GET_SIZE(d->file, d->pps) ;
@@ -1431,7 +1435,7 @@ void
 ms_ole_directory_destroy (MS_OLE_DIRECTORY *d)
 {
 	if (d)
-		free (d) ;
+		g_free (d) ;
 }
 
 /* Organise & if neccessary copy the blocks... */
@@ -1473,7 +1477,7 @@ ms_biff_query_copy (const BIFF_QUERY *p)
 	memcpy (bf, p, sizeof (BIFF_QUERY)) ;
 	if (p->data_malloced)
 	{
-		bf->data = (guint8 *)malloc (p->length) ;
+		bf->data = (guint8 *)g_malloc (p->length) ;
 		memcpy (bf->data, p->data, p->length) ;
 	}
 	return bf ;
@@ -1497,7 +1501,7 @@ ms_biff_query_next (BIFF_QUERY *bq)
 	if (bq->data_malloced)
 	{
 		bq->data_malloced = 0 ;
-		free (bq->data) ;
+		g_free (bq->data) ;
 	}
 
 	if (!bq->pos->read_copy (bq->pos, array, 4))
@@ -1525,7 +1529,7 @@ ms_biff_query_destroy (BIFF_QUERY *bq)
 	if (bq)
 	{
 		if (bq->data_malloced)
-			free (bq->data) ;
-		free (bq) ;
+			g_free (bq->data) ;
+		g_free (bq) ;
 	}
 }

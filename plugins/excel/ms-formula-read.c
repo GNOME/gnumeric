@@ -53,7 +53,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
  **/
 static CellRef *getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow)
 {
-  CellRef *cr = (CellRef *)malloc(sizeof(CellRef)) ;
+  CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
   cr->col          = col ;
   cr->row          = (gbitrw & 0x3fff) ;
   cr->row_relative = (gbitrw & 0x8000)==0x8000 ;
@@ -72,7 +72,7 @@ static CellRef *getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curco
  **/
 static CellRef *getRefV8(MS_EXCEL_SHEET *sheet, WORD row, WORD gbitcl, int curcol, int currow)
 {
-  CellRef *cr = (CellRef *)malloc(sizeof(CellRef)) ;
+  CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
   cr->row          = row ;
   cr->col          = (gbitcl & 0x3fff) ;
   cr->row_relative = (gbitcl & 0x8000)==0x8000 ;
@@ -94,7 +94,7 @@ typedef struct _PARSE_DATA
 
 static PARSE_DATA *parse_data_new (char *buffer, int precedence)
 {
-  PARSE_DATA *ans = (PARSE_DATA *)malloc(sizeof(PARSE_DATA)) ;
+  PARSE_DATA *ans = (PARSE_DATA *)g_malloc(sizeof(PARSE_DATA)) ;
   ans->name = buffer ;
   ans->precedence = precedence ;
   return ans ;
@@ -103,8 +103,8 @@ static PARSE_DATA *parse_data_new (char *buffer, int precedence)
 static void parse_data_free (PARSE_DATA *ptr)
 {
   if (ptr->name)
-    free (ptr->name) ;
-  free (ptr) ;
+    g_free (ptr->name) ;
+  g_free (ptr) ;
 }
 
 typedef struct _PARSE_LIST
@@ -115,7 +115,7 @@ typedef struct _PARSE_LIST
 
 static PARSE_LIST *parse_list_new ()
 {
-  PARSE_LIST *ans = (PARSE_LIST *)malloc (sizeof(PARSE_LIST)) ;
+  PARSE_LIST *ans = (PARSE_LIST *)g_malloc (sizeof(PARSE_LIST)) ;
   ans->data   = 0 ;
   ans->length = 0 ;
   return ans ;
@@ -212,7 +212,7 @@ static char *parse_list_to_equation (PARSE_LIST *list)
       if (!pd->name)
 	return "No data in stack entry" ;
 
-      formula = (char *)malloc(strlen(pd->name)+2) ;
+      formula = (char *)g_malloc(strlen(pd->name)+2) ;
       if (!formula)
 	return "Out of memory" ;
 
@@ -320,7 +320,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	    buffer = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row) ;
 	    parse_list_push_raw(stack, buffer, NO_PRECEDENCE) ;
 	    printf ("%s\n", buffer) ;
-	    free (ref) ;
+	    g_free (ref) ;
 	  }
 	  break ;
 	case FORMULA_PTG_AREA:
@@ -341,14 +341,14 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 		ptg_length = 6 ;
 	      }
 	    strcpy (buffer, (ptr = cellref_name (first, sheet->gnum_sheet, fn_col, fn_row))) ;
-	    free (ptr) ;
+	    g_free (ptr) ;
 	    strcat (buffer, ":") ;
 	    strcat (buffer, (ptr=cellref_name (last, sheet->gnum_sheet, fn_col, fn_row))) ;
-	    free (ptr) ;
+	    g_free (ptr) ;
 	    parse_list_push_raw(stack, strdup (buffer), NO_PRECEDENCE) ;
 	    printf ("%s\n", buffer) ;
-	    free (first) ;
-	    free (last) ;
+	    g_free (first) ;
+	    g_free (last) ;
 	  }
 	  break ;
 	case FORMULA_PTG_FUNC_VAR:
@@ -406,7 +406,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	case FORMULA_PTG_STR:
 	{ /* FIXME: Len should only be a byte but seems to be a word ! */
 		guint32 len = BIFF_GETWORD(cur) ;
-		char *str = (char *)malloc(len+1) ;
+		char *str = (char *)g_malloc(len+1) ;
 		guint32 lp ;
 		for (lp=0;lp<len;lp++)
 			str[lp] = BIFF_GETBYTE(cur+2+lp) ;

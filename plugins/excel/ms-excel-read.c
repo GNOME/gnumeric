@@ -46,7 +46,7 @@ biff_get_text (BYTE * ptr, int length)
 	if (!length)
 		return 0;
 
-	ans = (char *) malloc (sizeof (char) * length + 1);
+	ans = (char *) g_malloc (sizeof (char) * length + 1);
 
 	unicode = (ptr[0] == 0x1);	/*
 					 * Magic unicode number 
@@ -171,13 +171,13 @@ ms_biff_bof_data_new (BIFF_QUERY * q)
 static void
 ms_biff_bof_data_destroy (BIFF_BOF_DATA * data)
 {
-	free (data);
+	g_free (data);
 }
 
 static BIFF_BOUNDSHEET_DATA *
 biff_boundsheet_data_new (BIFF_QUERY * q, eBiff_version ver)
 {
-	BIFF_BOUNDSHEET_DATA *ans = (BIFF_BOUNDSHEET_DATA *) malloc (sizeof (BIFF_BOUNDSHEET_DATA));
+	BIFF_BOUNDSHEET_DATA *ans = (BIFF_BOUNDSHEET_DATA *) g_malloc (sizeof (BIFF_BOUNDSHEET_DATA));
 
 	if (ver != eBiffV5 &&	/*
 				 * Testing seems to indicate that Biff5 is compatibile with Biff7 here. 
@@ -239,8 +239,8 @@ biff_boundsheet_data_new (BIFF_QUERY * q, eBiff_version ver)
 static void
 biff_boundsheet_data_destroy (BIFF_BOUNDSHEET_DATA * d)
 {
-	free (d->name);
-	free (d);
+	g_free (d->name);
+	g_free (d);
 }
 
 /**
@@ -249,7 +249,7 @@ biff_boundsheet_data_destroy (BIFF_BOUNDSHEET_DATA * d)
 static BIFF_FONT_DATA *
 biff_font_data_new (BIFF_QUERY * q)
 {
-	BIFF_FONT_DATA *fd = (BIFF_FONT_DATA *) malloc (sizeof (BIFF_FONT_DATA));
+	BIFF_FONT_DATA *fd = (BIFF_FONT_DATA *) g_malloc (sizeof (BIFF_FONT_DATA));
 	WORD data;
 
 	fd->height = BIFF_GETWORD (q->data + 0);
@@ -303,8 +303,8 @@ biff_font_data_new (BIFF_QUERY * q)
 static void
 biff_font_data_destroy (BIFF_FONT_DATA * p)
 {
-	free (p->fontname);
-	free (p);
+	g_free (p->fontname);
+	g_free (p);
 }
 
 static MS_EXCEL_PALETTE *
@@ -313,12 +313,12 @@ ms_excel_palette_new (BIFF_QUERY * q)
 	int lp, len;
 	MS_EXCEL_PALETTE *pal;
 
-	pal = (MS_EXCEL_PALETTE *) malloc (sizeof (MS_EXCEL_PALETTE));
+	pal = (MS_EXCEL_PALETTE *) g_malloc (sizeof (MS_EXCEL_PALETTE));
 	len = BIFF_GETWORD (q->data);
 	pal->length = len;
-	pal->red = (int *) malloc (sizeof (int) * len);
-	pal->green = (int *) malloc (sizeof (int) * len);
-	pal->blue = (int *) malloc (sizeof (int) * len);
+	pal->red = (int *) g_malloc (sizeof (int) * len);
+	pal->green = (int *) g_malloc (sizeof (int) * len);
+	pal->blue = (int *) g_malloc (sizeof (int) * len);
 
 	printf ("New palette with %d entries\n", len);
 	for (lp = 0; lp < len; lp++) {
@@ -335,10 +335,10 @@ ms_excel_palette_new (BIFF_QUERY * q)
 static void
 ms_excel_palette_destroy (MS_EXCEL_PALETTE * pal)
 {
-	free (pal->red);
-	free (pal->green);
-	free (pal->blue);
-	free (pal);
+	g_free (pal->red);
+	g_free (pal->green);
+	g_free (pal->blue);
+	g_free (pal);
 }
 
 typedef struct _BIFF_XF_DATA {
@@ -584,7 +584,7 @@ biff_xf_map_border (int b)
 static BIFF_XF_DATA *
 biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 {
-	BIFF_XF_DATA *xf = (BIFF_XF_DATA *) malloc (sizeof (BIFF_XF_DATA));
+	BIFF_XF_DATA *xf = (BIFF_XF_DATA *) g_malloc (sizeof (BIFF_XF_DATA));
 	LONG data, subdata;
 
 	xf->font_idx = BIFF_GETWORD (q->data);
@@ -780,13 +780,13 @@ biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 static void
 biff_xf_data_destroy (BIFF_XF_DATA * d)
 {
-	free (d);
+	g_free (d);
 }
 
 static MS_EXCEL_SHEET *
 ms_excel_sheet_new (MS_EXCEL_WORKBOOK * wb, eBiff_version ver, char *name)
 {
-	MS_EXCEL_SHEET *ans = (MS_EXCEL_SHEET *) malloc (sizeof (MS_EXCEL_SHEET));
+	MS_EXCEL_SHEET *ans = (MS_EXCEL_SHEET *) g_malloc (sizeof (MS_EXCEL_SHEET));
 
 	ans->gnum_sheet = sheet_new (wb->gnum_wb, name);
 	ans->wb = wb;
@@ -800,7 +800,7 @@ ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx, int col, int row, char
 {
 	Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
 
-	cell_set_text_simple (cell, text);
+	cell_set_text (cell, text);
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
 }
 
@@ -810,19 +810,19 @@ ms_excel_sheet_destroy (MS_EXCEL_SHEET * sheet)
 	GList *ptr = g_list_first (sheet->array_formulae);
 
 	while (ptr) {
-		free (ptr->data);
+		g_free (ptr->data);
 		ptr = ptr->next;
 	}
 	g_list_free (sheet->array_formulae);
 
 	sheet_destroy (sheet->gnum_sheet);
-	free (sheet);
+	g_free (sheet);
 }
 
 static MS_EXCEL_WORKBOOK *
 ms_excel_workbook_new ()
 {
-	MS_EXCEL_WORKBOOK *ans = (MS_EXCEL_WORKBOOK *) malloc (sizeof (MS_EXCEL_WORKBOOK));
+	MS_EXCEL_WORKBOOK *ans = (MS_EXCEL_WORKBOOK *) g_malloc (sizeof (MS_EXCEL_WORKBOOK));
 
 	ans->gnum_wb = NULL;
 	ans->boundsheet_data = NULL;
@@ -878,7 +878,7 @@ ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 	if (wb->palette)
 		ms_excel_palette_destroy (wb->palette);
 
-	free (wb);
+	g_free (wb);
 }
 
 /**
@@ -1040,12 +1040,16 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		ms_excel_parse_formula (sheet, q, EX_GETCOL (q), EX_GETROW (q));
 		break;
 
-	case BIFF_STRING_REF:
+	case BIFF_STRING_REF: {
+		char *str;
 
-		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
-				       biff_get_global_string(sheet, BIFF_GETLONG(q->data + 6)));
+		str = biff_get_global_string (sheet, BIFF_GETLONG (q->data + 6));
+					      
+		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), str);
+		g_free (str);
                 break;
-		
+	}
+	
 	default:
 		printf ("Unrecognised opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
 		break;
@@ -1078,6 +1082,7 @@ ms_excel_read_sheet (BIFF_QUERY * q, MS_EXCEL_WORKBOOK * wb,
 			break;
 		}
 	}
+	ms_excel_sheet_destroy (sheet);
 	printf ("Error, hit end without EOF\n");
 	return;
 }
@@ -1127,6 +1132,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 	xmlNodePtr child;
 
 	if (1) {
+		MS_OLE_STREAM *stream;
 		BIFF_QUERY *q;
 		BIFF_BOF_DATA *ver = 0;
 
@@ -1140,7 +1146,8 @@ ms_excelReadWorkbook (MS_OLE * file)
 			printf ("--------- BIFF Usage Chart ----------\n");
 			for (lp = 0; lp < 256; lp++)
 				freq[lp] = 0;
-			q = ms_biff_query_new (find_workbook (file));
+			stream = find_workbook (file);
+			q = ms_biff_query_new (stream);
 			while (ms_biff_query_next (q))
 				freq[q->ls_op]++;
 			for (lp = 0; lp < 256; lp++)
@@ -1148,12 +1155,14 @@ ms_excelReadWorkbook (MS_OLE * file)
 					printf ("Opcode 0x%x : %d\n", lp, freq[lp]);
 			printf ("--------- End  Usage Chart ----------\n");
 			ms_biff_query_destroy (q);
+			ms_ole_stream_close (stream);
 		}
 
 		/*
 		 * Find that book file 
 		 */
-		q = ms_biff_query_new (find_workbook (file));
+		stream = find_workbook (file);
+		q = ms_biff_query_new (stream);
 
 		while (ms_biff_query_next (q)) {
 			switch (q->ls_op) {
@@ -1239,7 +1248,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 				}
 				break;
 			case BIFF_STRINGS:
-				wb->global_strings= malloc(q->length-8);
+				wb->global_strings= g_malloc(q->length-8);
 				memcpy(wb->global_strings, q->data+8, q->length-8);
 				wb->global_string_max= BIFF_GETLONG(q->data+4);
 				printf("There are apparently %d strings\n",
@@ -1257,6 +1266,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 		ms_biff_query_destroy (q);
 		if (ver)
 			ms_biff_bof_data_destroy (ver);
+		ms_ole_stream_close (stream);
 	}
 	if (wb) {
 		workbook_recalc (wb->gnum_wb);
