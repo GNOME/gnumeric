@@ -2,6 +2,9 @@
 
 	* src/clipboard.c (x_selection_handler) : Add some preconditions to
 	  make code more robust.
+	(x_selection_to_cell_region) : Do not use ',' or ';' as seperators if
+	  the current locale uses them as decimal points.
+	(new_node) : Use g_strndup.
 
 	* src/application.c (application_clipboard_clear) : Release ownership
 	  of the selection when the clipboard is cleared.
