@@ -876,11 +876,11 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	state->old_order  = NULL;
 	state->initial_colors_set = FALSE; 
 	state->image_padlock =  gtk_widget_render_icon (state->dialog,
-                                             "Gnumeric_Padlock",
+                                             "Gnumeric_Protection_Yes",
                                              GTK_ICON_SIZE_LARGE_TOOLBAR,
                                              "Gnumeric-Sheet-Manger");
 	state->image_padlock_no =  gtk_widget_render_icon (state->dialog,
-                                             "Gnumeric_PadlockNo",
+                                             "Gnumeric_Protection_No",
                                              GTK_ICON_SIZE_LARGE_TOOLBAR,
                                              "Gnumeric-Sheet-Manger");
 

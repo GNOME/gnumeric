@@ -593,8 +593,8 @@ gnumeric_application_setup_icons (void)
 		{ gnm_object_radiobutton_24,		NULL,				"Gnumeric_ObjectRadiobutton" },
 		{ gnm_object_scrollbar_24,		NULL,				"Gnumeric_ObjectScrollbar" },
 
-		{ gnm_padlock,		                NULL,				"Gnumeric_Padlock" },
-		{ gnm_padlock_no,       		NULL,				"Gnumeric_PadlockNo" },
+		{ gnm_protection_yes,	                NULL,				"Gnumeric_Protection_Yes" },
+		{ gnm_protection_no,       		NULL,				"Gnumeric_Protection_No" },
 
 		{ gnm_link_add_24,			gnm_link_add_16,		"Gnumeric_Link_Add" },
 		{ NULL,					gnm_link_delete_16,		"Gnumeric_Link_Delete" },

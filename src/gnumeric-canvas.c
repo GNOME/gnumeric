@@ -612,31 +612,6 @@ gnm_canvas_preedit_changed_cb (GtkIMContext *context, GnumericCanvas *gcanvas)
 	g_free (preedit_string);
 }
 
-static gboolean
-gnm_canvas_retrieve_surrounding_cb (GtkIMContext *context, GnumericCanvas *gcanvas)
-{
-#if 0
-	gtk_im_context_set_surrounding (context,
-		entry->text,
-		entry->n_bytes,
-		g_utf8_offset_to_pointer (entry->text, entry->current_pos) - entry->text);
-
-#endif
-	return FALSE;
-}
-
-static gboolean
-gnm_canvas_delete_surrounding_cb (GtkIMContext *slave, gint offset, gint n_chars, GnumericCanvas *gcanvas)
-{
-#if 0
-	gtk_editable_delete_text (GTK_EDITABLE (entry),
-		entry->current_pos + offset,
-		entry->current_pos + offset + n_chars);
-#endif
-	return TRUE;
-}
-
-
 static void
 gnm_canvas_init (GnumericCanvas *gcanvas)
 {
@@ -664,8 +639,6 @@ gnm_canvas_init (GnumericCanvas *gcanvas)
 		G_CALLBACK (gnm_canvas_preedit_changed_cb), gcanvas);
 	g_signal_connect (G_OBJECT (gcanvas->im_context), "retrieve_surrounding",
 		G_CALLBACK (gnm_canvas_retrieve_surrounding_cb), gcanvas);
-	g_signal_connect (G_OBJECT (gcanvas->im_context), "delete_surrounding",
-		G_CALLBACK (gnm_canvas_delete_surrounding_cb), gcanvas);
 
 
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);

@@ -25,6 +25,9 @@
 
 #include <gui-util.h>
 #include <hlink.h>
+#include <sheet-control.h>
+#include <sheet-view.h>
+#include <sheet-style.h>
 #include <workbook-edit.h>
 #include <gnumeric-i18n.h>
 
@@ -232,9 +235,12 @@ dialog_hyperlink_init (HyperlinkState *state)
 #define GLADE_FILE "hyperlink.glade"
 #define DIALOG_KEY "hyperlink-dialog"
 void
-dialog_hyperlink (WorkbookControlGUI *wbcg, GnmHLink *link)
+dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 {
 	HyperlinkState* state;
+	GnmHLink	*link = NULL;
+	Sheet		*sheet;
+	GList		*ptr;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -261,6 +267,11 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, GnmHLink *link)
 
         state->dialog = glade_xml_get_widget (state->gui, "hyperlink-dialog");
 
+	sheet = sc_sheet (sc);
+	for (ptr = sc_view (sc)->selections; ptr != NULL; ptr = ptr->next)
+		if (NULL != (link = sheet_style_region_contains_link (sheet, ptr->data)))
+			break;
+	
 	state->link = NULL;
 	if (link != NULL)
 		last_link_type = G_OBJECT_TYPE (link);

@@ -1320,8 +1320,6 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	Sheet		*sheet = sc->sheet;
 	WorkbookControlGUI *wbcg = scg->wbcg;
 	WorkbookControl *wbc = sc->wbc;
-	GnmHLink	*link = NULL;
-	GList		*l;
 
 	g_return_val_if_fail (element != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
@@ -1377,12 +1375,8 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		break;
 
 	case CONTEXT_HYPERLINK_EDIT:
-		for (l = sc->view->selections; l != NULL; l = l->next)
-			if (NULL != (link = sheet_style_region_contains_link (sheet, l->data)))
-				break;
-		/* fall through */
 	case CONTEXT_HYPERLINK_ADD:
-		dialog_hyperlink (wbcg, link);
+		dialog_hyperlink (wbcg, sc);
 		break;
 
 	case CONTEXT_HYPERLINK_REMOVE: {

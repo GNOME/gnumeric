@@ -2966,6 +2966,7 @@ cb_insert_image (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_insert_hyperlink (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
+	dialog_hyperlink (wbcg, SHEET_CONTROL (wbcg_cur_scg (wbcg)));
 }
 
 static void

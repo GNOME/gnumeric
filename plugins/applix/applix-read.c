@@ -414,8 +414,8 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 		/* Allocate the new style */
 		style = mstyle_new_default ();
 
-		mstyle_set_content_hidden (style, is_protected);
-		mstyle_set_content_locked (style, is_invisible);
+		mstyle_set_content_locked (style, is_protected);
+		mstyle_set_content_hidden (style, is_invisible);
 
 		if (sep[1] == '\'')
 			sep += 2;

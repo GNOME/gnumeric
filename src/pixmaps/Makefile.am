@@ -68,8 +68,8 @@ IMAGES = @STRIP_BEGIN@ 						\
 	border_top_n_double_bottom.xpm	\
 	border_top_n_thick_bottom.xpm	\
 	\
-	padlock.xpm			\
-	padlock_no.xpm			\
+	protection_no_24.png 		\
+	protection_yes_24.png 		\
 	\
 	link_add_16.png 		link_add_24.png		\
 	link_delete_16.png 					\
@@ -170,8 +170,8 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_border_top_n_double_bottom		$(srcdir)/border_top_n_double_bottom.xpm	\
 	gnm_border_top_n_thick_bottom		$(srcdir)/border_top_n_thick_bottom.xpm		\
 	\
-	gnm_padlock				$(srcdir)/padlock.xpm				\
-	gnm_padlock_no				$(srcdir)/padlock_no.xpm			\
+	gnm_protection_no			$(srcdir)/protection_no_24.png 			\
+	gnm_protection_yes			$(srcdir)/protection_yes_24.png 		\
 	\
 	gnm_link_add_16				$(srcdir)/link_add_16.png			\
 	gnm_link_add_24				$(srcdir)/link_add_24.png			\

@@ -29,7 +29,7 @@ Release Critical
 
 1) graphs
 2) stf
-3) finish hlink
+3) finish hlink dialog
 4) finish support for h/v only splits
 5) zip based format
 5.1) move existing code into plugin
@@ -48,6 +48,7 @@ Release Critical
 16) some handling of external references
 17) fix highlighting of completion code
 18) look into using the default gtk font rather than our own
+19) audit all of the import plugins to do utf8 conversions
 
 Pending Patches
 ---------------

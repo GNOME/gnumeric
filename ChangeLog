@@ -1,3 +1,17 @@
+2002-10-01  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_insert_hyperlink) : hook up the
+	  hyperlink dialog.
+
+	* src/sheet-control-gui.c (context_menu_handler) : adjust to new
+	  calling convention for dialog_hyperlink.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* src/application.c (gnumeric_application_setup_icons) : add the new
+	  icons.
+	* src/pixmaps/Makefile.am : add the new protection icons
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	Patch from : dorami@bu.iij4u.or.jp
