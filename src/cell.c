@@ -86,7 +86,7 @@ cell_set_formula (Cell *cell, const char *text)
 				      &error_msg);
 	cell_cleanout (cell);
 
-	if (new_expr == NULL){
+	if (new_expr == NULL) {
 		cell_set_rendered_text (cell, error_msg);
 		cell->entered_text = string_get (text);
 		/* FIXME: Supply a proper position?  */
@@ -97,10 +97,18 @@ cell_set_formula (Cell *cell, const char *text)
 	if (desired_format)
 		cell_set_format (cell, desired_format);
 
-	if (new_expr->oper == OPER_ARRAY){
+	if (new_expr->oper == OPER_ARRAY) {
 		/* The corner sets up the entire array block */
 		if (new_expr->u.array.x != 0 || new_expr->u.array.y != 0) {
 			expr_tree_unref (new_expr);
+			/*
+			 *   Reading an xml stream the terminal node may be
+			 * very late in the stream & this value needed for
+			 * the premature recomputation that occurs, hence
+			 * zero it.
+			 */
+			if (!cell->value)
+				cell->value = value_new_int (0);
 			return;
 		}
 

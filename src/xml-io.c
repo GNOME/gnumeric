@@ -247,6 +247,7 @@ xml_set_gnome_canvas_points (xmlNodePtr node, const char *name,
 {
 	xmlNodePtr child;
 	char *str, *base;
+	xmlChar *tstr;
 	int i;
 
 	if (val == NULL)
@@ -272,7 +273,10 @@ xml_set_gnome_canvas_points (xmlNodePtr node, const char *name,
 		}
 		child = child->next;
 	}
-	xmlNewChild (node, NULL, name, xmlEncodeEntities(node->doc, base));
+	xmlNewChild (node, NULL, name,
+		     (tstr = xmlEncodeEntitiesReentrant (node->doc, base)));
+	if (tstr)
+		free (tstr);
 	g_free (base);
 }
 
@@ -423,6 +427,7 @@ xml_set_print_unit (xmlNodePtr node, const char *name,
 {
 	xmlNodePtr  child;
 	char       *txt = "points";
+	xmlChar    *tstr;
 
 	if (pu == NULL || name == NULL)
 		return;
@@ -443,10 +448,14 @@ xml_set_print_unit (xmlNodePtr node, const char *name,
 	}
 
 	child = xmlNewChild (node, NULL, "PrintUnit",
-			     xmlEncodeEntities(node->doc, name));
+			     (tstr = xmlEncodeEntitiesReentrant (node->doc, name)));
+	if (tstr)
+		free (tstr);
 	xml_set_value_double (child, "Points", pu->points);
 	xml_set_value (child, "PrefUnit",
-		       xmlEncodeEntities (node->doc, txt));
+		       (tstr = xmlEncodeEntitiesReentrant (node->doc, txt)));
+	if (tstr)
+		free (tstr);
 }
 
 static void
@@ -669,7 +678,8 @@ static xmlNodePtr
 xml_write_style (parse_xml_context_t *ctxt,
 		 MStyle *style)
 {
-	xmlNodePtr cur, child;
+	xmlNodePtr  cur, child;
+	xmlChar    *tstr;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Style", NULL);
 	
@@ -711,7 +721,9 @@ xml_write_style (parse_xml_context_t *ctxt,
 			fontname = "Helvetica";
 
 		child = xmlNewChild (cur, ctxt->ns, "Font", 
-				     xmlEncodeEntities(ctxt->doc, fontname));
+				     (tstr = xmlEncodeEntitiesReentrant (ctxt->doc, fontname)));
+		if (tstr)
+			free (tstr);
 		if (mstyle_is_element_set (style, MSTYLE_FONT_SIZE))
 			xml_set_value_double (child, "Unit",
 					      mstyle_get_font_size (style));
@@ -734,6 +746,7 @@ static xmlNodePtr
 xml_write_names (parse_xml_context_t *ctxt, GList *names)
 {
 	xmlNodePtr  cur;
+	xmlChar    *tstr;
 
 	if (!names)
 		return NULL;
@@ -749,11 +762,15 @@ xml_write_names (parse_xml_context_t *ctxt, GList *names)
 
 		tmp = xmlNewDocNode (ctxt->doc, ctxt->ns, "Name", NULL);
 		xmlNewChild (tmp, ctxt->ns, "name",
-			     xmlEncodeEntities (ctxt->doc, expr_name->name->str));
+			     (tstr = xmlEncodeEntitiesReentrant (ctxt->doc, expr_name->name->str)));
+		if (tstr)
+			free (tstr);
 
 		text = expr_name_value (expr_name);
 		xmlNewChild (tmp, ctxt->ns, "value",
-			     xmlEncodeEntities (ctxt->doc, text));
+			     (tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text)));
+		if (tstr)
+			free (tstr);
 		g_free (text);
 
 		xmlAddChild (cur, tmp);
@@ -808,6 +825,7 @@ static xmlNodePtr
 xml_write_summary (parse_xml_context_t *ctxt, SummaryInfo *summary_info)
 {
 	GList *items, *m;
+	xmlChar   *tstr;
 	xmlNodePtr cur;
 
 	if (!summary_info)
@@ -828,19 +846,25 @@ xml_write_summary (parse_xml_context_t *ctxt, SummaryInfo *summary_info)
 
 			tmp = xmlNewDocNode (ctxt->doc, ctxt->ns, "Item", NULL);
 			xmlNewChild (tmp, ctxt->ns, "name",
-				     xmlEncodeEntities (ctxt->doc, sit->name));
+				     (tstr = xmlEncodeEntitiesReentrant (ctxt->doc, sit->name)));
+			if (tstr)
+				free (tstr);
 
 			if (sit->type == SUMMARY_INT) {
 
 				text = g_strdup_printf ("%d", sit->v.i);
 				xmlNewChild (tmp, ctxt->ns, "val-int",
-					     xmlEncodeEntities (ctxt->doc, text));
+					     (tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text)));
+				if (tstr)
+					free (tstr);
 
 			} else {
 
 				text = summary_item_as_text (sit);
 				xmlNewChild (tmp, ctxt->ns, "val-string",
-					     xmlEncodeEntities (ctxt->doc, text));
+					     (tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text)));
+				if (tstr)
+					free (tstr);
 
 			}
 			g_free (text);
@@ -906,17 +930,24 @@ xml_set_print_hf (xmlNodePtr node, const char *name,
 		  const PrintHF * const hf)
 {
 	xmlNodePtr  child;
+	xmlChar    *tstr;
 
 	if (hf == NULL || name == NULL)
 		return;
 
 	child = xmlNewChild (node, NULL, name, NULL);
 	xml_set_value (child, "Left",
-		       xmlEncodeEntities (node->doc, hf->left_format));
+		       (tstr = xmlEncodeEntitiesReentrant (node->doc, hf->left_format)));
+	if (tstr)
+		free (tstr);
 	xml_set_value (child, "Middle",
-		       xmlEncodeEntities (node->doc, hf->middle_format));
+		       (tstr = xmlEncodeEntitiesReentrant (node->doc, hf->middle_format)));
+	if (tstr)
+		free (tstr);
 	xml_set_value (child, "Right",
-		       xmlEncodeEntities (node->doc, hf->right_format));
+		       (tstr = xmlEncodeEntitiesReentrant (node->doc, hf->right_format)));
+	if (tstr)
+		free (tstr);
 }
 
 static void
@@ -1354,29 +1385,40 @@ xml_read_colrow_info (parse_xml_context_t *ctxt, xmlNodePtr tree, ColRowInfo *re
 static xmlNodePtr
 xml_write_sheet_object (parse_xml_context_t *ctxt, SheetObject *object)
 {
-	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (object);
+	SheetObjectGraphic *sog;
 	xmlNodePtr cur = NULL;
 
-	switch (sog->type){
-	case SHEET_OBJECT_BOX:{
-			SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
-
-			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Rectangle", NULL);
-			if (sof->fill_color != NULL)
-				xml_set_value_string (cur, "FillColor", sof->fill_color);
-			xml_set_value_int (cur, "Pattern", sof->pattern);
-			break;
+	if (!IS_SHEET_GRAPHIC_OBJECT (object)) {
+		static gboolean warned = FALSE;
+		if (!warned) {
+			g_warning ("Discarding non-graphic embedded objects");
+			warned = TRUE;
 		}
+		return NULL;
+	}
 
-	case SHEET_OBJECT_OVAL:{
-			SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
+	sog = SHEET_OBJECT_GRAPHIC (object);
 
-			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Ellipse", NULL);
-			if (sof->fill_color != NULL)
-				xml_set_value_string (cur, "FillColor", sof->fill_color);
-			xml_set_value_int (cur, "Pattern", sof->pattern);
-			break;
-		}
+	switch (sog->type) {
+	case SHEET_OBJECT_BOX: {
+		SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
+		
+		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Rectangle", NULL);
+		if (sof->fill_color != NULL)
+			xml_set_value_string (cur, "FillColor", sof->fill_color);
+		xml_set_value_int (cur, "Pattern", sof->pattern);
+		break;
+	}
+
+	case SHEET_OBJECT_OVAL: {
+		SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
+		
+		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Ellipse", NULL);
+		if (sof->fill_color != NULL)
+			xml_set_value_string (cur, "FillColor", sof->fill_color);
+		xml_set_value_int (cur, "Pattern", sof->pattern);
+		break;
+	}
 
 	case SHEET_OBJECT_ARROW:
 		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Arrow", NULL);
@@ -1389,7 +1431,7 @@ xml_write_sheet_object (parse_xml_context_t *ctxt, SheetObject *object)
 	default :
 		cur = NULL;
 	}
-	if (cur == NULL)
+	if (!cur)
 		return NULL;
 	
 	xml_set_gnome_canvas_points (cur, "Points", object->bbox_points);
@@ -1459,7 +1501,8 @@ static xmlNodePtr
 xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
 {
 	xmlNodePtr cur;
-	char *text;
+	char      *text;
+	xmlChar   *tstr;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xml_set_value_int (cur, "Col", cell->col->pos);
@@ -1468,13 +1511,17 @@ xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
 
 	text = cell_get_content (cell);
 	xmlNewChild (cur, ctxt->ns, "Content",
-		     xmlEncodeEntities(ctxt->doc, text));
+		     (tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text)));
+	if (tstr)
+		free (tstr);
 	g_free (text);
 
  	text = cell_get_comment(cell);
  	if (text) {
 		xmlNewChild(cur, ctxt->ns, "Comment", 
-			    xmlEncodeEntities(ctxt->doc, text));
+			    (tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text)));
+	if (tstr)
+		free (tstr);
 		g_free(text);
  	}
 
@@ -1570,7 +1617,7 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	if (content != NULL) {
 		char *p = content + strlen (content);
 
-		while (p > content){
+		while (p > content) {
 			p--;
 			if (*p != ' ' && *p != '\n')
 				break;
@@ -1583,7 +1630,7 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		 */
 		if (ret->parsed_node == NULL ||
 		    OPER_ARRAY != ret->parsed_node->oper)
-		cell_set_text_simple (ret, content);
+			cell_set_text_simple (ret, content);
 		free (content);
 	} else
 		cell_set_text_simple (ret, "");
@@ -1641,7 +1688,8 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	xmlNodePtr styles;
 	GList     *style_regions;
 
-	char str[50];
+	char     str[50];
+	xmlChar *tstr;
 
 	/*
 	 * General informations about the Sheet.
@@ -1650,7 +1698,9 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	if (cur == NULL)
 		return NULL;
 	xmlNewChild (cur, ctxt->ns, "Name", 
-	             xmlEncodeEntities(ctxt->doc, sheet->name));
+	             (tstr = xmlEncodeEntitiesReentrant (ctxt->doc, sheet->name)));
+	if (tstr)
+		free (tstr);
 	sprintf (str, "%d", sheet->cols.max_used);
 	xmlNewChild (cur, ctxt->ns, "MaxCol", str);
 	sprintf (str, "%d", sheet->rows.max_used);

@@ -1,3 +1,13 @@
+1999-11-14  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/cell.c (cell_set_formula): Fixup for premature array formulae.
+
+	* src/xml-io.c (xml_set_gnome_canvas_points ,xml_write_names),
+	(xml_write_summary, xml_set_print_hf, xml_set_print_unit),
+	(xml_write_style, xml_write_summary, xml_write_cell),
+	(xml_sheet_write): Update to new xml reenterency API.
+	(xml_write_sheet_object): Add warning and check to quiet debug.
+
 1999-11-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_write_style) : Save PatternColor.
