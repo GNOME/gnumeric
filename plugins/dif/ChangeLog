@@ -1,3 +1,9 @@
+2000-11-12  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* dif.c
+	(dif_write_workbook): Don't use sheet->rows and sheet->cols, instead
+	use sheet_get_extent.
+
 2000-10-29  Jody Goldberg <jgoldberg@home.com>
 
 	* dif.c : Adjust to the signature changes for reading views

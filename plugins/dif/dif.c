@@ -325,7 +325,6 @@ dif_write_workbook (IOContext *context,
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 	GList *sheet_list;
-	Sheet *sheet;
 	Cell *cell;
 	int row, col, rc=0;
 	char *workstring;
@@ -343,17 +342,18 @@ dif_write_workbook (IOContext *context,
 	sheet_list = workbook_sheets (wb);
 
 	if (sheet_list) {
-		sheet = sheet_list->data;
-
+		Sheet *sheet = sheet_list->data;
+		Range r = sheet_get_extent (sheet);
+		
 		/*
 		 * Write out the standard headers
 		 */
 		fputs ("TABLE\n0,1\n\"GNUMERIC\"\nVECTORS\n0,", f);
-		workstring = g_strdup_printf("%d", sheet->rows.max_used);
+		workstring = g_strdup_printf("%d", r.end.row);
 		fputs (workstring, f);
 		g_free(workstring);
 		fputs ("\n\"\"\nTUPLES\n0,", f);
-		workstring = g_strdup_printf("%d", sheet->cols.max_used);
+		workstring = g_strdup_printf("%d", r.end.col);
 		fputs (workstring, f);
 		g_free(workstring);
 		fputs ("\n\"\"\nDATA\n0,0\n\"\"\n", f);
@@ -361,11 +361,11 @@ dif_write_workbook (IOContext *context,
 		/*
 		 * Process all cells
 		 */
-		for (row = 0; row <= sheet->rows.max_used; row++) {
+		for (row = r.start.row; row <= r.end.row; row++) {
 
 			fputs ("-1,0\nBOT\n", f);
 
-			for (col = 0; col <= sheet->cols.max_used; col++) {
+			for (col = r.start.col; col <= r.end.col; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				rc = dif_write_cell (f, cell);
 				if (rc)
