@@ -1,3 +1,7 @@
+2000-07-13  Michael Meeks  <michael@helixcode.com>
+
+	* src/main.c (gnumeric_main): remove bonobo_shutdown.
+
 2000-07-12 Jody Goldberg <jgoldberg@home.com>
 	For : Matt Bissiri <bissiri@eecs.umich.edu>
 

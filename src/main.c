@@ -235,11 +235,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	global_gnome_font_shutdown ();
 
 	gnome_config_drop_all ();
-
-#ifdef ENABLE_BONOBO
-	bonobo_shutdown ();
-#endif
-
 }
 
 #ifdef HAVE_GUILE
