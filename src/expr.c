@@ -24,6 +24,7 @@
 #include "workbook.h"
 #include "gutils.h"
 #include "parse-util.h"
+#include "mathfunc.h"
 
 #include <math.h>
 #include <string.h>
@@ -689,11 +690,14 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 				if (ia == 0 && ib <= 0)
 					return value_new_error (pos, gnumeric_err_NUM);
 				dres = powgnum ((gnum_float)ia, (gnum_float)ib);
+				if (!finitegnum (dres))
+					return value_new_error (pos, gnumeric_err_NUM);
+
 				ires = (int)dres;
 				if (dres == ires)
 					return value_new_int (ires);
 				else
-					return value_new_float ((gnum_float) dres);
+					return value_new_float (dres);
 
 			default:
 				abort ();
@@ -720,11 +724,17 @@ expr_eval_real (GnmExpr const *expr, EvalPos const *pos,
 						       gnumeric_err_DIV0)
 				    : value_new_float (va / vb);
 
-			case GNM_EXPR_OP_EXP:
+			case GNM_EXPR_OP_EXP: {
+				gnum_float res;
 				if ((va == 0 && vb <= 0) ||
 				    (va < 0 && vb != (int)vb))
 					return value_new_error (pos, gnumeric_err_NUM);
-				return value_new_float (powgnum (va, vb));
+
+				res = powgnum (va, vb);
+				return finitegnum (res)
+					? value_new_float (res)
+					: value_new_error (pos, gnumeric_err_NUM);
+			}
 
 			default:
 				break;
