@@ -55,6 +55,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtktogglebutton.h>
+#include <gtk/gtkspinbutton.h>
 #include <gtk/gtklabel.h>
 
 /**********************************************/
@@ -102,6 +103,7 @@ typedef struct {
 	GtkWidget *mean_stats_button;
 	GtkWidget *kth_largest_button;
 	GtkWidget *kth_smallest_button;
+	GtkWidget *ss_button;
 	GtkWidget *c_entry;
 	GtkWidget *l_entry;
 	GtkWidget *s_entry;
@@ -934,14 +936,6 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 /*  Begin of descriptive statistics tool code */
 /**********************************************/
 
-static const char *stats_group[] = {
-	"summary_stats_button",
-	"mean_stats_button",
-	"kth_largest_button",
-	"kth_smallest_button",
-	0
-};
-
 /**
  * cb_desc_stat_tool_ok_clicked:
  * @button:
@@ -978,7 +972,9 @@ cb_desc_stat_tool_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		GTK_TOGGLE_BUTTON (state->kth_smallest_button));
 
 	if (data->confidence_level == 1)
-		err = entry_to_float (GTK_ENTRY (state->c_entry), &data->c_level, TRUE);
+		data->c_level = gtk_spin_button_get_value 
+			(GTK_SPIN_BUTTON (state->c_entry));
+
 	if (data->kth_largest == 1)
 		err = entry_to_int (GTK_ENTRY (state->l_entry), &data->k_largest, TRUE);
 	if (data->kth_smallest == 1)
@@ -1006,35 +1002,96 @@ static void
 desc_stat_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				      DescriptiveStatState *state)
 {
-	gboolean ready  = FALSE;
-	int j, an_int;
-	gnm_float a_float;
+	gboolean stats_button, ci_button, largest_button, smallest_button;
         GSList *input_range;
-	gboolean output_ready = gnm_dao_is_ready (GNM_DAO (state->base.gdao));
 
+	/* Part 1: set the buttons on the statistics page. */
+
+	stats_button = gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (state->summary_stats_button));
+	gtk_widget_set_sensitive (state->ss_button, stats_button);
+
+	ci_button = gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (state->mean_stats_button));
+	gtk_widget_set_sensitive (state->c_entry, ci_button);
+
+	largest_button = gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (state->kth_largest_button));
+	gtk_widget_set_sensitive (state->l_entry, largest_button);
+
+	smallest_button = gtk_toggle_button_get_active 
+		(GTK_TOGGLE_BUTTON (state->kth_smallest_button));
+	gtk_widget_set_sensitive (state->s_entry, smallest_button);
+
+	/* Part 2: set the okay button */
+
+	/* Checking Input Page */
         input_range = gnm_expr_entry_parse_as_list (
-		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	j = gnumeric_glade_group_value (state->base.gui, stats_group);
+		GNM_EXPR_ENTRY (state->base.input_entry),
+		state->base.sheet);
+	if (input_range == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The input range is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	} else
+		range_list_destroy (input_range);
 
-	ready = ((input_range != NULL) &&
-                 (j > -1) &&
-		 (gtk_toggle_button_get_active (
-			 GTK_TOGGLE_BUTTON (state->mean_stats_button)) == 0 ||
-			 (0 == entry_to_float (GTK_ENTRY (state->c_entry), &a_float, FALSE) &&
-				 a_float > 0 && a_float < 1)) &&
-		 (gtk_toggle_button_get_active (
-			 GTK_TOGGLE_BUTTON (state->kth_largest_button)) == 0 ||
-			 (0 == entry_to_int (GTK_ENTRY (state->l_entry), &an_int, FALSE) &&
-				 an_int > 0)) &&
-		 (gtk_toggle_button_get_active (
-			 GTK_TOGGLE_BUTTON (state->kth_smallest_button)) == 0 ||
-			 (0 == entry_to_int (GTK_ENTRY (state->s_entry), &an_int, FALSE) &&
-				 an_int > 0)) &&
-                 output_ready);
+	/* Checking Statistics Page */
+	if (!(stats_button || ci_button || largest_button || smallest_button)) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("No statistics is selected."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;		
+	} 
 
-        if (input_range != NULL) range_list_destroy (input_range);
+	if (ci_button) {
+		gdouble c_level = gtk_spin_button_get_value 
+			(GTK_SPIN_BUTTON (state->c_entry));
+		if (!(c_level > 0 && c_level <1)) {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("The confidence level should be "
+					      "between 0 and 1."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+			return;
+		}
+	}
 
-	gtk_widget_set_sensitive (state->base.ok_button, ready);
+	if (largest_button) {
+		int k;
+		if ((0 != entry_to_int (GTK_ENTRY (state->l_entry), &k, FALSE))
+		    || !(k >0)) {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("K must be a positive integer."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+		}
+	}
+
+	if (smallest_button) {
+		int k;
+		if ((0 != entry_to_int (GTK_ENTRY (state->s_entry), &k, FALSE))
+		    || !(k >0)) {
+			gtk_label_set_text (GTK_LABEL (state->base.warning),
+					    _("K must be a positive integer."));
+			gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+		}
+	}
+	
+	/* Checking Output Page */
+	if (!gnm_dao_is_ready (GNM_DAO (state->base.gdao))) {
+		gtk_label_set_text (GTK_LABEL (state->base.warning),
+				    _("The output specification "
+				      "is invalid."));
+		gtk_widget_set_sensitive (state->base.ok_button, FALSE);
+		return;
+	}
+
+	gtk_label_set_text (GTK_LABEL (state->base.warning), "");
+	gtk_widget_set_sensitive (state->base.ok_button, TRUE);
+
+	return;
 }
 
 
@@ -1075,6 +1132,8 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state->summary_stats_button  = glade_xml_get_widget
 	        (state->base.gui, "summary_stats_button");
+	state->ss_button  = glade_xml_get_widget
+	        (state->base.gui, "ss_button");
 	state->mean_stats_button  = glade_xml_get_widget
 	        (state->base.gui, "mean_stats_button");
 	state->kth_largest_button  = glade_xml_get_widget

@@ -1,3 +1,10 @@
+2003-12-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (desc_stat_tool_update_sensitivity_cb):
+	  disable entry fields that do not currently apply and store
+	  warning messages in warning label
+	* descriptive-stats.glade: HIGify and add warning field
+
 2003-12-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (anova_single_tool_update_sensitivity_cb):
