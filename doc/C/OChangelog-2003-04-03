@@ -1,3 +1,8 @@
+2002-01-10  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* editing.sgml: I changed id of a table in  number-format.sgml but
+	forgot to change <xref> here. Fixing. 
+
 2002-01-09  Alexander Kirillov  <kirillov@math.sunysb.edu>
 
 	* number-format.sgml: complete rewrite

@@ -67,11 +67,12 @@
   <title>Dates and Numbers</title>
 
   <para>
-    When you begin entering a number, Gnumeric will attempt to match
-    the data you enter with existing formats for numbered data. If it
-    matches a data format, Gnumeric will automatically convert the
-    entered data into the appropriate serial number, displaying it in
-    an appropriate format.
+    When you begin entering a number,
+    <application>Gnumeric</application> will attempt to match the data
+    you enter with existing formats for numbered data. If it matches a
+    data format, <application>Gnumeric</application> will
+    automatically convert the entered data into the appropriate serial
+    number, displaying it in an appropriate format.
   </para>
 
   <para>
@@ -79,8 +80,9 @@
     autofilled (see <xref linkend="autofill"> for more information)
     properly. </para>
 
-  <para>See <xref linkend="number-format-date-time-examples"> for some examples of 
-      the many date and time formats that are accepted by Gnumeric.</para>
+  <para>See <xref linkend="number-format-date-examples"> for some examples of 
+	the many date and time formats that are accepted by
+	<application>Gnumeric</application>. </para>
 
   </sect2>
 
