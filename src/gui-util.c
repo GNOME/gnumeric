@@ -31,6 +31,7 @@
 #	include <bonobo.h>
 #endif
 
+#include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-help.h>
 
 gboolean

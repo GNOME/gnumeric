@@ -4,8 +4,12 @@
 #include "workbook-control-gui.h"
 #include "error-info.h"
 #include "gutils.h"
-#include <libgnomeui/libgnomeui.h>
+#include <gtk/gtk.h>
 #include <glade/glade-xml.h>
+
+#if 1 /* go away when we switch to eggmenu */
+#include <libgnomeui/libgnomeui.h>
+#endif
 
 gboolean   gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
                                             const gchar *message,

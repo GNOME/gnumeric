@@ -1,3 +1,8 @@
+2002-11-02  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (workbook_control_gui_ctor_class) :
+	  Use gtk_window_set_default_icon_list directly.
+
 2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* acconfig.h: obsoleted.
@@ -20,6 +25,11 @@
 	* src/xml-io.c: Casts and type changes to fix signedness.
 
 2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* src/item-grid.c (item_grid_realize) : move setting the background
+	  to white from here.
+	* src/gnumeric-canvas.c (gnm_canvas_realize) : to here where it makes
+	  more sense.
 
 	* src/xml-io.c (xml_write_style) : simplify handling of validation.
 

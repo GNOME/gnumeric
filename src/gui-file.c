@@ -22,12 +22,12 @@
 #include "workbook-priv.h"
 #include "gnumeric-gconf.h"
 
-#include <libgnome/gnome-util.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/stat.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/stat.h>
 
 static gint
 file_opener_description_cmp (gconstpointer a, gconstpointer b)
@@ -198,7 +198,7 @@ can_try_save_to (WorkbookControlGUI *wbcg, char const *name)
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		result = FALSE;
-	} else if (g_file_exists (name)) {
+	} else if (g_file_test (name, G_FILE_TEST_EXISTS)) {
 		msg = g_strdup_printf (
 		      _("Workbook %s already exists.\n"
 		      "Do you want to save over it?"), name);

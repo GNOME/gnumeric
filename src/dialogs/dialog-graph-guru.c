@@ -39,6 +39,10 @@
 
 #include <gal/util/e-xml-utils.h>
 #include <libxml/parser.h>
+#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/gnome-canvas-pixbuf.h>
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <gdk/gdkkeysyms.h>
 
 #define CONFIG_GURU		GNOME_Gnumeric_Graph_v2_ConfigGuru
 #define CONFIG_GURU1(suffix)	GNOME_Gnumeric_Graph_v2_ConfigGuru_ ## suffix

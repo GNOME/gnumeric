@@ -89,8 +89,6 @@
 	  <property name="show_border">True</property>
 	  <property name="tab_pos">GTK_POS_TOP</property>
 	  <property name="scrollable">True</property>
-	  <property name="tab_hborder">2</property>
-	  <property name="tab_vborder">2</property>
 	  <property name="enable_popup">False</property>
 
 	  <child>
@@ -1213,51 +1211,139 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkFrame" id="frame4">
+		<widget class="GtkAlignment" id="alignment54">
 		  <property name="visible">True</property>
-		  <property name="label_xalign">0</property>
-		  <property name="label_yalign">0.5</property>
-		  <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0</property>
+		  <property name="xscale">0</property>
+		  <property name="yscale">0</property>
 
 		  <child>
-		    <widget class="GtkLabel" id="label30">
+		    <widget class="GtkFrame" id="frame4">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Unfinished</property>
-		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_CENTER</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		    </widget>
-		  </child>
+		      <property name="label_xalign">0</property>
+		      <property name="label_yalign">0.5</property>
+		      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
 
-		  <child>
-		    <widget class="GtkLabel" id="label53">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Orientation</property>
-		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_LEFT</property>
-		      <property name="wrap">False</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
+		      <child>
+			<widget class="GtkVBox" id="vbox53">
+			  <property name="border_width">6</property>
+			  <property name="visible">True</property>
+			  <property name="homogeneous">False</property>
+			  <property name="spacing">0</property>
+
+			  <child>
+			    <widget class="GtkScrolledWindow" id="scrolledwindow16">
+			      <property name="width_request">140</property>
+			      <property name="height_request">210</property>
+			      <property name="visible">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="hscrollbar_policy">GTK_POLICY_NEVER</property>
+			      <property name="vscrollbar_policy">GTK_POLICY_NEVER</property>
+			      <property name="shadow_type">GTK_SHADOW_IN</property>
+			      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+
+			      <child>
+				<widget class="GnomeCanvas" id="rotate_canvas">
+				  <property name="visible">True</property>
+				  <property name="can_focus">True</property>
+				  <property name="anti_aliased">False</property>
+				  <property name="scroll_x1">0</property>
+				  <property name="scroll_y1">0</property>
+				  <property name="scroll_x2">100</property>
+				  <property name="scroll_y2">200</property>
+				  <property name="pixels_per_unit">1</property>
+				</widget>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkHBox" id="hbox39">
+			      <property name="visible">True</property>
+			      <property name="homogeneous">False</property>
+			      <property name="spacing">0</property>
+
+			      <child>
+				<widget class="GtkSpinButton" id="rotate_spinner">
+				  <property name="visible">True</property>
+				  <property name="can_focus">True</property>
+				  <property name="climb_rate">1</property>
+				  <property name="digits">0</property>
+				  <property name="numeric">True</property>
+				  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+				  <property name="snap_to_ticks">False</property>
+				  <property name="wrap">False</property>
+				  <property name="adjustment">0 -90 90 1 5 5</property>
+				</widget>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">False</property>
+				  <property name="fill">True</property>
+				</packing>
+			      </child>
+
+			      <child>
+				<widget class="GtkLabel" id="label62">
+				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">_Degrees</property>
+				  <property name="use_underline">True</property>
+				  <property name="use_markup">False</property>
+				  <property name="justify">GTK_JUSTIFY_LEFT</property>
+				  <property name="wrap">False</property>
+				  <property name="selectable">False</property>
+				  <property name="xalign">0.5</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">5</property>
+				  <property name="ypad">0</property>
+				  <property name="mnemonic_widget">rotate_spinner</property>
+				</widget>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">False</property>
+				  <property name="fill">False</property>
+				</packing>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="padding">4</property>
+			      <property name="expand">False</property>
+			      <property name="fill">True</property>
+			    </packing>
+			  </child>
+			</widget>
+		      </child>
+
+		      <child>
+			<widget class="GtkLabel" id="label53">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Orientation</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">False</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+			<packing>
+			  <property name="type">label_item</property>
+			</packing>
+		      </child>
 		    </widget>
-		    <packing>
-		      <property name="type">label_item</property>
-		    </packing>
 		  </child>
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
-		  <property name="expand">True</property>
-		  <property name="fill">True</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
 		</packing>
 	      </child>
 	    </widget>
@@ -3754,20 +3840,20 @@
 			      <property name="visible">True</property>
 
 			      <child>
-				<widget class="GtkMenuItem" id="min_&amp;amp;amp;lt;=_val_&amp;amp;amp;lt;=_max_________(between)1">
+				<widget class="GtkMenuItem" id="min_&amp;amp;amp;amp;amp;amp;amp;lt;=_val_&amp;amp;amp;amp;amp;amp;amp;lt;=_max_________(between)1">
 				  <property name="visible">True</property>
 				  <property name="label" translatable="yes">min &lt;= val &lt;= max         (between)</property>
 				  <property name="use_underline">True</property>
-				  <signal name="activate" handler="on_min_&amp;amp;amp;lt;=_val_&amp;amp;amp;lt;=_max_________(between)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
+				  <signal name="activate" handler="on_min_&amp;amp;amp;amp;amp;amp;amp;lt;=_val_&amp;amp;amp;amp;amp;amp;amp;lt;=_max_________(between)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="val_&amp;amp;amp;lt;=_min_||_max_&amp;amp;amp;lt;=_val_(not_between)1">
+				<widget class="GtkMenuItem" id="val_&amp;amp;amp;amp;amp;amp;amp;lt;=_min_||_max_&amp;amp;amp;amp;amp;amp;amp;lt;=_val_(not_between)1">
 				  <property name="visible">True</property>
 				  <property name="label" translatable="yes">val &lt;= min || max &lt;= val (not between)</property>
 				  <property name="use_underline">True</property>
-				  <signal name="activate" handler="on_val_&amp;amp;amp;lt;=_min_||_max_&amp;amp;amp;lt;=_val_(not_between)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
+				  <signal name="activate" handler="on_val_&amp;amp;amp;amp;amp;amp;amp;lt;=_min_||_max_&amp;amp;amp;amp;amp;amp;amp;lt;=_val_(not_between)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
 				</widget>
 			      </child>
 
@@ -3781,47 +3867,47 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="val_&amp;amp;amp;lt;&amp;amp;amp;gt;_bound__________________(not_equal_to)1">
+				<widget class="GtkMenuItem" id="val_&amp;amp;amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;amp;amp;gt;_bound__________________(not_equal_to)1">
 				  <property name="visible">True</property>
 				  <property name="label" translatable="yes">val &lt;&gt; bound                  (not equal to)</property>
 				  <property name="use_underline">True</property>
-				  <signal name="activate" handler="on_val_&amp;amp;amp;lt;&amp;amp;amp;gt;_bound__________________(not_equal_to)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
+				  <signal name="activate" handler="on_val_&amp;amp;amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;amp;amp;gt;_bound__________________(not_equal_to)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="val__&amp;amp;amp;gt;__bound__________________(greater_than)1">
+				<widget class="GtkMenuItem" id="val__&amp;amp;amp;amp;amp;amp;amp;gt;__bound__________________(greater_than)1">
 				  <property name="visible">True</property>
 				  <property name="label" translatable="yes">val  &gt;  bound                  (greater than)</property>
 				  <property name="use_underline">True</property>
-				  <signal name="activate" handler="on_val__&amp;amp;amp;gt;__bound__________________(greater_than)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
+				  <signal name="activate" handler="on_val__&amp;amp;amp;amp;amp;amp;amp;gt;__bound__________________(greater_than)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="val__&amp;amp;amp;lt;__bound__________________(less_than)1">
+				<widget class="GtkMenuItem" id="val__&amp;amp;amp;amp;amp;amp;amp;lt;__bound__________________(less_than)1">
 				  <property name="visible">True</property>
 				  <property name="label" translatable="yes">val  &lt;  bound                  (less than)</property>
 				  <property name="use_underline">True</property>
-				  <signal name="activate" handler="on_val__&amp;amp;amp;lt;__bound__________________(less_than)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
+				  <signal name="activate" handler="on_val__&amp;amp;amp;amp;amp;amp;amp;lt;__bound__________________(less_than)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="val_&amp;amp;amp;gt;=_bound__________________(greater_than_or_equal)1">
+				<widget class="GtkMenuItem" id="val_&amp;amp;amp;amp;amp;amp;amp;gt;=_bound__________________(greater_than_or_equal)1">
 				  <property name="visible">True</property>
 				  <property name="label" translatable="yes">val &gt;= bound                  (greater than or equal)</property>
 				  <property name="use_underline">True</property>
-				  <signal name="activate" handler="on_val_&amp;amp;amp;gt;=_bound__________________(greater_than_or_equal)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
+				  <signal name="activate" handler="on_val_&amp;amp;amp;amp;amp;amp;amp;gt;=_bound__________________(greater_than_or_equal)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
 				</widget>
 			      </child>
 
 			      <child>
-				<widget class="GtkMenuItem" id="val_&amp;amp;amp;lt;=_bound__________________(less_than_or_equal)1">
+				<widget class="GtkMenuItem" id="val_&amp;amp;amp;amp;amp;amp;amp;lt;=_bound__________________(less_than_or_equal)1">
 				  <property name="visible">True</property>
 				  <property name="label" translatable="yes">val &lt;= bound                  (less than or equal)</property>
 				  <property name="use_underline">True</property>
-				  <signal name="activate" handler="on_val_&amp;amp;amp;lt;=_bound__________________(less_than_or_equal)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
+				  <signal name="activate" handler="on_val_&amp;amp;amp;amp;amp;amp;amp;lt;=_bound__________________(less_than_or_equal)1_activate" last_modification_time="Mon, 07 Oct 2002 18:52:26 GMT"/>
 				</widget>
 			      </child>
 			    </widget>

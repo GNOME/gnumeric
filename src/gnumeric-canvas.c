@@ -480,13 +480,22 @@ gnm_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 }
 
 static void
-gnm_canvas_realize (GtkWidget *widget)
+gnm_canvas_realize (GtkWidget *w)
 {
-	if (GTK_WIDGET_CLASS (gcanvas_parent_class)->realize)
-		(*GTK_WIDGET_CLASS (gcanvas_parent_class)->realize)(widget);
+	GtkStyle  *style;
 
-	gtk_im_context_set_client_window (GNM_CANVAS (widget)->im_context,
-		gtk_widget_get_toplevel (widget)->window);
+	if (GTK_WIDGET_CLASS (gcanvas_parent_class)->realize)
+		(*GTK_WIDGET_CLASS (gcanvas_parent_class)->realize) (w);
+
+	/* Set the default background color of the canvas itself to white.
+	 * This makes the redraws when the canvas scrolls flicker less. */
+	style = gtk_style_copy (w->style);
+	style->bg [GTK_STATE_NORMAL] = gs_white;
+	gtk_widget_set_style (w, style);
+	gtk_style_unref (style);
+
+	gtk_im_context_set_client_window (GNM_CANVAS (w)->im_context,
+		gtk_widget_get_toplevel (w)->window);
 }
 
 static void

@@ -64,7 +64,6 @@
 #include "gui-file.h"
 #include "search.h"
 #include "error-info.h"
-#include "pixmaps/equal-sign.xpm"
 #include "gui-util.h"
 #include "widgets/widget-editable-label.h"
 #include "widgets/gnumeric-combo-text.h"
@@ -89,12 +88,7 @@
 
 #include <libgnomevfs/gnome-vfs-uri.h>
 
-#include <stdarg.h>
-#include <stdio.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/mman.h>
+#include <string.h>
 
 #define WBCG_CLASS(o) WORKBOOK_CONTROL_GUI_CLASS (G_OBJECT_GET_CLASS (o))
 #define WBCG_VIRTUAL_FULL(func, handle, arglist, call)		\
@@ -4138,7 +4132,7 @@ edit_area_button (WorkbookControlGUI *wbcg, gboolean sensitive,
 static void
 workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 {
-	GtkWidget *pix, *box, *box2;
+	GtkWidget *box, *box2;
 	GtkEntry *entry;
 
 	wbcg->selection_descriptor     = gtk_entry_new ();
@@ -4157,9 +4151,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 		G_CALLBACK (cb_accept_input), GTK_STOCK_OK);
 
 	/* Auto function */
-	wbcg->func_button	= gtk_button_new ();
-	pix = gnome_pixmap_new_from_xpm_d (equal_sign_xpm);
-	gtk_container_add (GTK_CONTAINER (wbcg->func_button), pix);
+	wbcg->func_button	= gtk_button_new_from_stock ("gnm_equal");
 	GTK_WIDGET_UNSET_FLAGS (wbcg->func_button, GTK_CAN_FOCUS);
 	g_signal_connect (G_OBJECT (wbcg->func_button),
 		"clicked",
@@ -5127,10 +5119,11 @@ workbook_control_gui_ctor_class (GObjectClass *object_class)
 	wbcg_class->set_transient        = wbcg_set_transient_for;
 
 	{
-		char *iconfile = g_strconcat (GNUMERIC_ICONDIR, G_DIR_SEPARATOR_S,
-					      "gnome-gnumeric.png", NULL);
-		gnome_window_icon_set_default_from_file (iconfile);
-		g_free (iconfile);
+		GdkPixbuf *icon = gnumeric_load_pixbuf ("gnome-gnumeric.png");
+		GList *icon_list = g_list_prepend (NULL, icon);
+		gtk_window_set_default_icon_list (icon_list);
+		g_list_free (icon_list);
+		g_object_unref (G_OBJECT (icon));
 	}
 }
 

@@ -1,3 +1,14 @@
+2002-11-02  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (cb_validation_error_action_deactivate) : use
+	  gnumeric_load_pixbuf instead of something in libgnomeui.
+
+2002-11-02  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (cb_rotate_canvas_realize) : new.
+	(cb_rotate_changed) : new.
+	(fmt_dialog_init_align_page) : start initializing the rotation entry.
+
 2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* dialog-search.c (lazy_list_new, lazy_list_set_rows):  Made static.

@@ -27,7 +27,6 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 
-
 #include "func.h"
 #include "numbers.h"
 #include "mathfunc.h"
@@ -36,7 +35,7 @@
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
 
-#include <libgnome/gnome-i18n.h>
+#include <gnumeric-i18n.h>
 #include <math.h>
 #include <string.h>
 

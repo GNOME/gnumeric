@@ -327,7 +327,7 @@ file_provider (GBRunEvalContext *ec,
 {
 	GBLexerStream *ret = NULL;
 
-	if (g_file_exists (name))
+	if (g_file_test (name, G_FILE_TEST_EXISTS))
 		ret = file_to_stream (name);
 
 	else {
@@ -335,7 +335,7 @@ file_provider (GBRunEvalContext *ec,
 
 		fname = g_strdup_printf ("%s/%s", g_get_home_dir (), name);
 
-		if (g_file_exists (fname))
+		if (g_file_test ((fname), G_FILE_TEST_EXISTS))
 			ret = file_to_stream (fname);
 		else
 			g_warning ("Error opening '%s'", fname);
@@ -375,7 +375,7 @@ plugin_init_general (ErrorInfo **err)
 	ms_excel_read_gb = (MsExcelReadGbFn) read_ole2_gb;
 
 	proj_name = g_strdup_printf ("%s/gnumeric.gbp", g_get_home_dir ());
-	if (g_file_exists (proj_name)) {
+	if (g_file_test (projname, G_FILE_TEST_EXISTS)) {
 		proj_stream = file_to_stream (proj_name);
 		if (!read_gb (NULL, NULL, proj_stream, file_provider, NULL)) {
 			*err = error_info_new_printf (_("Error in project '%s'"), proj_name);

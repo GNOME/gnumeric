@@ -52,10 +52,14 @@
 #include <workbook-edit.h>
 #include <workbook-view.h>
 #include <commands.h>
+#include <mathfunc.h>
 #include <widgets/gnumeric-expr-entry.h>
 
-#include <libgnome/gnome-util.h>
+#include <libart_lgpl/art_alphagamma.h>
+#include <libart_lgpl/art_pixbuf.h>
+#include <libart_lgpl/art_rgb_pixbuf_affine.h>
 #include <glade/glade.h>
+#include <pango/pangoft2.h>
 #include <gal/widgets/widget-color-combo.h>
 
 /* The order corresponds to border_preset_buttons */
@@ -160,6 +164,13 @@ typedef struct _FormatState
 		GtkSpinButton	*indent_button;
 		GtkWidget	*indent_label;
 		int		 indent;
+
+		GtkSpinButton	*rotate_spinner;
+		GnomeCanvasItem *rotate_marks[13];
+		GnomeCanvasItem *line;
+		GnomeCanvasItem *text;
+		int		 rot_width, rot_height;
+		int		 rotation;
 	} align;
 	struct {
 		FontSelector	*selector;
@@ -283,7 +294,7 @@ cb_toggle_changed (GtkToggleButton *button, PatternPicker *picker)
 	    picker->current_pattern != button) {
 		gtk_toggle_button_set_active (picker->current_pattern, FALSE);
 		picker->current_pattern = button;
-		picker->cur_index = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (button), "index"));
+		picker->cur_index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "index"));
 		if (picker->draw_preview)
 			picker->draw_preview (picker->state);
 	}
@@ -320,8 +331,8 @@ setup_pattern_button (GladeXML  *gui,
 		g_signal_connect (G_OBJECT (button),
 			"toggled",
 			G_CALLBACK (cb_toggle_changed), picker);
-		gtk_object_set_data (GTK_OBJECT (button), "index",
-				     GINT_TO_POINTER (index));
+		g_object_set_data (G_OBJECT (button), "index",
+				   GINT_TO_POINTER (index));
 
 		/* Set the state AFTER the signal to get things redrawn correctly */
 		if (index == select_index) {
@@ -808,12 +819,11 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
  * formating radio buttons and the widgets required for each mode.
  */
 static void
-cb_format_class_changed (GtkObject *obj, FormatState *state)
+cb_format_class_changed (GtkToggleButton *button, FormatState *state)
 {
-	GtkToggleButton *button = GTK_TOGGLE_BUTTON (obj);
 	if (gtk_toggle_button_get_active (button))
-		fmt_dialog_enable_widgets (state,
-			GPOINTER_TO_INT (gtk_object_get_data (obj, "index")));
+		fmt_dialog_enable_widgets (state, GPOINTER_TO_INT (
+			g_object_get_data (G_OBJECT (button), "index")));
 }
 
 static void
@@ -1056,7 +1066,7 @@ fmt_dialog_init_format_page (FormatState *state)
 			_((gchar *)currency_symbols[state->format.currency_index].description),
 			GNM_COMBO_TEXT_FROM_TOP);
 
-		g_signal_connect (GTK_OBJECT (combo),
+		g_signal_connect (G_OBJECT (combo),
 			"entry_changed",
 			G_CALLBACK (cb_format_currency_select), state);
 	}
@@ -1074,12 +1084,12 @@ fmt_dialog_init_format_page (FormatState *state)
 		tmp = glade_xml_get_widget (state->gui, name);
 		if (tmp == NULL)
 			continue;
-		gtk_object_set_data (GTK_OBJECT (tmp), "index",
-				     GINT_TO_POINTER (i));
+		g_object_set_data (G_OBJECT (tmp), "index",
+				   GINT_TO_POINTER (i));
 
 		if (i == page) {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp), TRUE);
-			cb_format_class_changed (GTK_OBJECT (tmp), state);
+			cb_format_class_changed (GTK_TOGGLE_BUTTON (tmp), state);
 		}
 
 		g_signal_connect (G_OBJECT (tmp),
@@ -1114,8 +1124,8 @@ cb_align_h_toggle (GtkToggleButton *button, FormatState *state)
 
 	if (state->enable_edit) {
 		StyleHAlignFlags const new_h =
-			GPOINTER_TO_INT (gtk_object_get_data (
-				GTK_OBJECT (button), "align"));
+			GPOINTER_TO_INT (g_object_get_data (
+				G_OBJECT (button), "align"));
 		gboolean const supports_indent =
 			(new_h == HALIGN_LEFT || new_h == HALIGN_RIGHT);
 		mstyle_set_align_h (state->result, new_h);
@@ -1137,8 +1147,8 @@ cb_align_v_toggle (GtkToggleButton *button, FormatState *state)
 	if (state->enable_edit) {
 		mstyle_set_align_v (
 			state->result,
-			GPOINTER_TO_INT (gtk_object_get_data (
-			GTK_OBJECT (button), "align")));
+			GPOINTER_TO_INT (g_object_get_data (
+			G_OBJECT (button), "align")));
 		fmt_dialog_changed (state);
 	}
 }
@@ -1163,12 +1173,160 @@ fmt_dialog_init_align_radio (char const * const name,
 	if (tmp != NULL) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
 					      val == target);
-		gtk_object_set_data (GTK_OBJECT (tmp), "align",
+		g_object_set_data (G_OBJECT (tmp), "align",
 				     GINT_TO_POINTER (val));
 		g_signal_connect (G_OBJECT (tmp),
 			"toggled",
 			handler, state);
 	}
+}
+
+static void
+cb_rotate_changed (GtkEditable *editable, FormatState *state)
+{
+	double res[6], trans[6];
+	char const *colour;
+	int i;
+
+	if (editable != NULL && state->enable_edit) {
+		GtkSpinButton *sb = GTK_SPIN_BUTTON (editable);
+		int val = gtk_spin_button_get_value_as_int (sb);
+
+		if (state->align.rotation != val) {
+			state->align.rotation = val;
+			/* mstyle_set_indent (state->result, val); */
+			fmt_dialog_changed (state);
+		}
+	}
+
+	for (i = 0 ; i <= 12 ; i++)
+		if (state->align.rotate_marks [i] != NULL) {
+			colour = (state->align.rotation == (i-6)*15) ? "green" : "black";
+			gnome_canvas_item_set (state->align.rotate_marks [i],
+					       "fill_color",	colour,
+					       NULL);
+		}
+	if (state->align.line != NULL) {
+		GnomeCanvasPoints *points = gnome_canvas_points_new (2);
+		double rad = state->align.rotation * M_PIgnum / 180.;
+		points->coords [0] =  15 + cos (rad) * state->align.rot_width;
+		points->coords [1] = 100 - sin (rad) * state->align.rot_width;
+		points->coords [2] =  15 + cos (rad) * 72.;
+		points->coords [3] = 100 - sin (rad) * 72.;
+		gnome_canvas_item_set (state->align.line,
+				       "points", points,
+				       NULL);
+		gnome_canvas_points_free (points);
+	}
+
+	art_affine_translate (trans, 0., -state->align.rot_height/2);
+	art_affine_rotate (res, -state->align.rotation);
+	art_affine_multiply (res, trans, res);
+	art_affine_translate (trans, 15., 100.);
+	art_affine_multiply (res, res, trans);
+	gnome_canvas_item_affine_absolute (state->align.text, res);
+}
+
+static void
+cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
+{
+	GnomeCanvasItem *item;
+	GnomeCanvasGroup  *group;
+	double rad, x, y, size;
+	int i, bx, by;
+	gint w, h;
+	GdkPixbuf *pixbuf;
+	FT_Bitmap ft_bitmap;
+	PangoLayout *layout;
+	PangoContext *context;
+	PangoAttrList	*attrs;
+	PangoAttribute  *attr;
+	guint8 const *ps;
+	guint8 *pd;
+
+	GtkStyle  *style = gtk_style_copy (GTK_WIDGET (canvas)->style);
+	style->bg [GTK_STATE_NORMAL] = gs_white;
+	gtk_widget_set_style (GTK_WIDGET (canvas), style);
+	gtk_style_unref (style);
+
+	gnome_canvas_set_scroll_region (canvas, 0, 0, 100, 200);
+	gnome_canvas_scroll_to (canvas, 0, 0);
+
+	group = GNOME_CANVAS_GROUP (gnome_canvas_root (canvas));
+	for (i = 0 ; i <= 12 ; i++) {
+		rad = (i-6) * M_PIgnum / 12.;
+		x = 15 + cos (rad) * 80.;
+		y = 100 - sin (rad) * 80.;
+		size = (i % 3) ? 3 : 4;
+		item = gnome_canvas_item_new (group,
+			GNOME_TYPE_CANVAS_ELLIPSE,
+			"x1", x-size,	"y1", y-size,
+			"x2", x+size,	"y2", y+size,
+			"width_pixels", (int) 1,
+			"outline_color","black",
+			"fill_color",	"black",
+			NULL);
+		state->align.rotate_marks [i] = item;
+	}
+	state->align.line = gnome_canvas_item_new (group,
+		GNOME_TYPE_CANVAS_LINE,
+		"fill_color",	"black",
+		"width_units",	2.,
+		NULL);
+	state->align.text = gnome_canvas_item_new (group,
+		GNOME_TYPE_CANVAS_PIXBUF,
+		NULL);
+
+	context = pango_ft2_get_context (
+		application_display_dpi_get (TRUE),
+		application_display_dpi_get (FALSE));
+	layout = pango_layout_new (context);
+	pango_layout_set_font_description (layout, 
+		pango_context_get_font_description (gnumeric_default_font->pango.context));
+	pango_layout_set_text (layout, _("Text"), -1);
+ 	attrs = pango_attr_list_new ();
+	pango_layout_set_attributes (layout, attrs);
+	attr = pango_attr_scale_new (1.3);
+	attr->start_index = 0;
+	attr->end_index = -1;
+	pango_attr_list_insert (attrs, attr);
+
+	pango_layout_get_pixel_size (layout, &w, &h);
+
+	if (w == 0 || h == 0)
+		return;
+	ft_bitmap.rows         = h;
+	ft_bitmap.width        = w;
+	ft_bitmap.pitch        = (w+3) & ~3;
+	ft_bitmap.buffer       = g_malloc0 (ft_bitmap.rows * ft_bitmap.pitch);
+	ft_bitmap.num_grays    = 256;
+	ft_bitmap.pixel_mode   = ft_pixel_mode_grays;
+	ft_bitmap.palette_mode = 0;
+	ft_bitmap.palette      = NULL;
+
+	pango_ft2_render_layout (&ft_bitmap, layout, 0, 0);
+
+	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
+				     ft_bitmap.width, ft_bitmap.rows);
+	for (by = 0; by < ft_bitmap.rows; by++) {
+	        pd = gdk_pixbuf_get_pixels (pixbuf)
+			+ by * gdk_pixbuf_get_rowstride (pixbuf);
+		ps = ft_bitmap.buffer + by * ft_bitmap.pitch;
+		for (bx = 0; bx < ft_bitmap.width; bx++) {
+			*pd++ = 0;
+		        *pd++ = 0;
+			*pd++ = 0;
+			*pd++ = *ps++;
+		}
+	}
+
+	gnome_canvas_item_set (state->align.text,
+		"pixbuf",	pixbuf,
+		NULL);
+	g_object_unref (G_OBJECT (pixbuf));
+	state->align.rot_width  = w;
+	state->align.rot_height = h;
+	cb_rotate_changed (NULL, state);
 }
 
 static void
@@ -1229,9 +1387,9 @@ fmt_dialog_init_align_page (FormatState *state)
 	w = glade_xml_get_widget (state->gui, "align_wrap");
 	state->align.wrap = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), wrap);
-	g_signal_connect (GTK_OBJECT (w), "toggled",
-			    G_CALLBACK (cb_align_wrap_toggle),
-			    state);
+	g_signal_connect (G_OBJECT (w),
+		"toggled",
+		G_CALLBACK (cb_align_wrap_toggle), state);
 
 	if (mstyle_is_element_conflict (state->style, MSTYLE_ALIGN_V) &&
 	    (h != HALIGN_LEFT && h != HALIGN_RIGHT))
@@ -1250,14 +1408,31 @@ fmt_dialog_init_align_page (FormatState *state)
 				  (h == HALIGN_LEFT || h == HALIGN_RIGHT));
 
 	/* Catch changes to the spin box */
-	g_signal_connect (GTK_OBJECT (w), "changed",
-			    G_CALLBACK (cb_indent_changed),
-			    state);
+	g_signal_connect (G_OBJECT (w),
+		"changed",
+		G_CALLBACK (cb_indent_changed), state);
 
 	/* Catch <return> in the spin box */
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (w));
+
+	/* setup the rotation canvas */
+	state->align.rotation = 0;
+	memset (state->align.rotate_marks, 0,
+		sizeof (state->align.rotate_marks));
+	w = glade_xml_get_widget (state->gui, "rotate_spinner");
+	state->align.rotate_spinner = GTK_SPIN_BUTTON (w);
+	g_signal_connect (G_OBJECT (w),
+		"changed",
+		G_CALLBACK (cb_rotate_changed), state);
+
+	w = glade_xml_get_widget (state->gui, "rotate_canvas");
+	g_signal_connect (G_OBJECT (w),
+		"realize",
+		G_CALLBACK (cb_rotate_canvas_realize), state);
+	gtk_spin_button_set_value (state->align.rotate_spinner,
+				   state->align.rotation);
 }
 
 /*****************************************************************************/
@@ -1411,7 +1586,7 @@ fmt_dialog_init_font_page (FormatState *state)
 		uline_str = "";
 	gnm_combo_text_set_text	(GNM_COMBO_TEXT (uline), uline_str,
 		GNM_COMBO_TEXT_FROM_TOP);
-	g_signal_connect (GTK_OBJECT (uline),
+	g_signal_connect (G_OBJECT (uline),
 		"entry_changed",
 		G_CALLBACK (cb_font_underline_changed), state);
 	gtk_widget_show_all (uline);
@@ -1423,7 +1598,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (strike), strikethrough);
 	font_selector_set_strike (state->font.selector, strikethrough);
 
-	g_signal_connect (GTK_OBJECT (strike),
+	g_signal_connect (G_OBJECT (strike),
 		"toggled",
 		G_CALLBACK (cb_font_strike_toggle), state);
 
@@ -1432,7 +1607,7 @@ fmt_dialog_init_font_page (FormatState *state)
 			state->font.selector,
 			style_color_ref (mstyle_get_color (state->style, MSTYLE_COLOR_FORE)));
 
-	g_signal_connect (GTK_OBJECT (font_widget),
+	g_signal_connect (G_OBJECT (font_widget),
 		"font_changed",
 		G_CALLBACK (cb_font_changed), state);
 }
@@ -1512,12 +1687,12 @@ fmt_dialog_init_background_page (FormatState *state)
 	state->back.canvas =
 		GNOME_CANVAS (glade_xml_get_widget (state->gui, "back_sample"));
 
-	/*
-	 * Set the scrolling region to the width&height of the canvas, the
-	 * -1 is to hide the 1 pixel (invisible, but drawn white) gridline.
-	 */
-	gtk_object_get (GTK_OBJECT (state->back.canvas), "width", &w,
-			"height", &h, NULL);
+	/* Set the scrolling region to the width&height of the canvas, the
+	 * -1 is to hide the 1 pixel (invisible, but drawn white) gridline. */
+	g_object_get (G_OBJECT (state->back.canvas),
+		"width",  &w,
+		"height", &h,
+		NULL);
 	gnome_canvas_set_scroll_region (state->back.canvas, -1, -1, w, h);
 
 	state->back.grid = PREVIEW_GRID (gnome_canvas_item_new (
@@ -1527,8 +1702,8 @@ fmt_dialog_init_background_page (FormatState *state)
 		"DefaultColWidth", w,
 		"DefaultRowHeight", h,
 		NULL));
-	g_signal_connect (
-		GTK_OBJECT (state->back.grid), "get_cell_style",
+	g_signal_connect (G_OBJECT (state->back.grid),
+		"get_cell_style",
 		G_CALLBACK (cb_pattern_preview_get_cell_style), state->back.style);
 }
 
@@ -1803,9 +1978,9 @@ draw_border_preview (FormatState *state)
 			GNOME_CANVAS (glade_xml_get_widget (state->gui, "border_sample"));
 		group = GNOME_CANVAS_GROUP (gnome_canvas_root (state->border.canvas));
 
-		g_signal_connect (GTK_OBJECT (state->border.canvas),
-				    "button-press-event", G_CALLBACK (border_event),
-				    state);
+		g_signal_connect (G_OBJECT (state->border.canvas),
+			"button-press-event",
+			G_CALLBACK (border_event), state);
 
 		state->border.back = gnome_canvas_item_new (group,
 			GNOME_TYPE_CANVAS_RECT,
@@ -1998,9 +2173,9 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 	gtk_toggle_button_set_active (state->border.edge[i].button,
 				      state->border.edge[i].is_selected);
 
-	g_signal_connect (GTK_OBJECT (button), "toggled",
-			    G_CALLBACK (cb_border_toggle),
-			    &state->border.edge[i]);
+	g_signal_connect (G_OBJECT (button),
+		"toggled",
+		G_CALLBACK (cb_border_toggle), &state->border.edge[i]);
 
 	if ((i == STYLE_BORDER_HORIZ && !(state->selection_mask & 0xa)) ||
 	    (i == STYLE_BORDER_VERT  && !(state->selection_mask & 0xc)))
@@ -2051,18 +2226,18 @@ fmt_dialog_init_protection_page (FormatState *state)
 	w = glade_xml_get_widget (state->gui, "protection_locked");
 	state->protection.locked = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
-	g_signal_connect (GTK_OBJECT (w),
-		"toggled", G_CALLBACK (cb_protection_locked_toggle),
-		state);
+	g_signal_connect (G_OBJECT (w),
+		"toggled",
+		G_CALLBACK (cb_protection_locked_toggle), state);
 
 	flag = mstyle_is_element_conflict (state->style, MSTYLE_CONTENT_HIDDEN)
 		? FALSE : mstyle_get_content_hidden (state->style);
 	w = glade_xml_get_widget (state->gui, "protection_hidden");
 	state->protection.hidden = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
-	g_signal_connect (GTK_OBJECT (w),
-		"toggled", G_CALLBACK (cb_protection_hidden_toggle),
-		state);
+	g_signal_connect (G_OBJECT (w),
+		"toggled",
+		G_CALLBACK (cb_protection_hidden_toggle), state);
 
 	state->protection.sheet_protected_changed = FALSE;
 	flag = wb_control_view (WORKBOOK_CONTROL (state->wbcg))->is_protected;
@@ -2161,10 +2336,10 @@ cb_validation_error_action_deactivate (GtkMenuShell *ignored, FormatState *state
 		}
 
 	     	if (s != NULL) {
-			char *sfile = gnome_pixmap_file (s);
-			g_return_if_fail (sfile != NULL);
-			gtk_image_set_from_file (state->validation.error.image, sfile);
-			g_free (sfile);
+			GdkPixbuf *pixbuf = gnumeric_load_pixbuf (s);
+			g_return_if_fail (pixbuf != NULL);
+			gtk_image_set_from_pixbuf (state->validation.error.image, pixbuf);
+			g_object_ref (G_OBJECT (pixbuf));
 		}
 		gtk_widget_show (GTK_WIDGET (state->validation.error.image));
 	} else
@@ -2264,7 +2439,8 @@ fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (entry->entry));
 	gnm_expr_entry_set_scg (entry->entry, wbcg_cur_scg (state->wbcg));
-	g_signal_connect (GTK_OBJECT (entry->entry), "changed",
+	g_signal_connect (G_OBJECT (entry->entry),
+		"changed",
 		G_CALLBACK (cb_validation_changed), state);
 	gnm_expr_entry_set_flags (entry->entry, flags, flags | GNUM_EE_SINGLE_RANGE);
 }
@@ -2302,26 +2478,26 @@ fmt_dialog_init_validation_page (FormatState *state)
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (state->validation.error.title));
 
-	g_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.constraint_type)),
+	g_signal_connect (G_OBJECT (gtk_option_menu_get_menu (state->validation.constraint_type)),
 		"deactivate",
 		G_CALLBACK (cb_validation_sensitivity), state);
-	g_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.op)),
+	g_signal_connect (G_OBJECT (gtk_option_menu_get_menu (state->validation.op)),
 		"deactivate",
 		G_CALLBACK (cb_validation_sensitivity), state);
-	g_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.error.action)),
+	g_signal_connect (G_OBJECT (gtk_option_menu_get_menu (state->validation.error.action)),
 		"deactivate",
 		G_CALLBACK (cb_validation_error_action_deactivate), state);
 
 	fmt_dialog_init_validation_expr_entry (state, &state->validation.expr0, "validation_expr0_name", 0);
 	fmt_dialog_init_validation_expr_entry (state, &state->validation.expr1, "validation_expr1_name", 1);
 
-	g_signal_connect (GTK_OBJECT (state->validation.allow_blank),
+	g_signal_connect (G_OBJECT (state->validation.allow_blank),
 		"toggled",
 		G_CALLBACK (cb_validation_rebuild), state);
-	g_signal_connect (GTK_OBJECT (state->validation.use_dropdown),
+	g_signal_connect (G_OBJECT (state->validation.use_dropdown),
 		"toggled",
 		G_CALLBACK (cb_validation_rebuild), state);
-	g_signal_connect (GTK_OBJECT (state->validation.error.title),
+	g_signal_connect (G_OBJECT (state->validation.error.title),
 		"changed",
 		G_CALLBACK (cb_validation_rebuild), state);
 	g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (state->validation.error.msg)),
@@ -2399,8 +2575,9 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (state->input_msg.msg));
 
-	g_signal_connect (GTK_OBJECT (state->input_msg.flag), "toggled",
-			    G_CALLBACK (cb_input_msg_flag_toggled), state);
+	g_signal_connect (G_OBJECT (state->input_msg.flag),
+		"toggled",
+		G_CALLBACK (cb_input_msg_flag_toggled), state);
 
 	/* Initialize */
 	cb_input_msg_flag_toggled (state->input_msg.flag, state);
@@ -2492,34 +2669,28 @@ cb_fmt_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 
 /* Set initial focus */
 static void
-set_initial_focus (FormatState *state)
+set_initial_focus (FormatState *s)
 {
 	GtkWidget *focus_widget = NULL, *pagew;
 	gchar const *name;
 
-	pagew = gtk_notebook_get_nth_page (state->notebook, fmt_dialog_page);
+	pagew = gtk_notebook_get_nth_page (s->notebook, fmt_dialog_page);
 	name = gtk_widget_get_name (pagew);
 
-	if (strcmp (name, "number_box") == 0) {
-		focus_widget
-			= glade_xml_get_widget (state->gui, "format_general");
-	} else if (strcmp (name, "alignment_box") == 0) {
-		focus_widget
-			= glade_xml_get_widget (state->gui, "halign_left");
-	} else if (strcmp (name, "font_box") == 0) {
-		focus_widget
-			= GTK_WIDGET (state->font.selector->font_size_entry);
-	} else if (strcmp (name, "border_box") == 0) {
-		focus_widget
-			= glade_xml_get_widget (state->gui, "outline_border");
-	} else if (strcmp (name, "background_box") == 0) {
-		focus_widget
-			= glade_xml_get_widget (state->gui, "back_color_auto");
-	} else if (strcmp (name, "protection_box") == 0) {
-		focus_widget = GTK_WIDGET (state->protection.locked);
-	} else {
+	if (strcmp (name, "number_box") == 0)
+		focus_widget = glade_xml_get_widget (s->gui, "format_general");
+	else if (strcmp (name, "alignment_box") == 0)
+	      focus_widget = glade_xml_get_widget (s->gui, "halign_left");
+	else if (strcmp (name, "font_box") == 0)
+	      focus_widget = GTK_WIDGET (s->font.selector->font_size_entry);
+	else if (strcmp (name, "border_box") == 0)
+	      focus_widget = glade_xml_get_widget (s->gui, "outline_border");
+	else if (strcmp (name, "background_box") == 0)
+	      focus_widget = glade_xml_get_widget (s->gui, "back_color_auto");
+	else if (strcmp (name, "protection_box") == 0)
+	      focus_widget = GTK_WIDGET (s->protection.locked);
+	else
 		focus_widget = NULL;
-	}
 
 	if (focus_widget
 	    && GTK_WIDGET_CAN_FOCUS (focus_widget)
@@ -2629,14 +2800,12 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		pageno = fmt_dialog_page;
 	gtk_notebook_set_page (state->notebook, pageno);
 
-	page_signal = g_signal_connect (
-		GTK_OBJECT (state->notebook),
-		"switch_page", G_CALLBACK (cb_page_select),
-		NULL);
-	g_signal_connect (
-		GTK_OBJECT (state->notebook),
-		"destroy", G_CALLBACK (cb_notebook_destroy),
-		GINT_TO_POINTER (page_signal));
+	page_signal = g_signal_connect (G_OBJECT (state->notebook),
+		"switch_page",
+		G_CALLBACK (cb_page_select), NULL);
+	g_signal_connect (G_OBJECT (state->notebook),
+		"destroy",
+		G_CALLBACK (cb_notebook_destroy), GINT_TO_POINTER (page_signal));
 
 	fmt_dialog_init_format_page (state);
 	fmt_dialog_init_align_page (state);
@@ -2737,9 +2906,9 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		tmp = init_button_image (state->gui, name);
 		if (tmp != NULL) {
 			state->border.preset[i] = GTK_BUTTON (tmp);
-			g_signal_connect (GTK_OBJECT (tmp), "clicked",
-					    G_CALLBACK (cb_border_preset_clicked),
-					    state);
+			g_signal_connect (G_OBJECT (tmp),
+				"clicked",
+				G_CALLBACK (cb_border_preset_clicked), state);
 			if (i == BORDER_PRESET_INSIDE && state->selection_mask != 0x8)
 				gtk_widget_hide (tmp);
 		}
