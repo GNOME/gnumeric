@@ -19,16 +19,17 @@ typedef enum {
 #ifdef ENABLE_BONOBO
 void     dialog_graph_guru	(WorkbookControlGUI *wbcg);
 #endif
-void     dialog_formula_guru	(WorkbookControlGUI *wbcg);
-void     dialog_plugin_manager  (WorkbookControlGUI *wbcg);
-void   	 dialog_goto_cell       (WorkbookControlGUI *wbcg);
-void   	 dialog_cell_format     (WorkbookControlGUI *wbcg, Sheet *sheet,
-				 FormatDialogPosition_t pageno);
-int    	 dialog_paste_special   (WorkbookControlGUI *wbcg);
-void   	 dialog_insert_cells    (WorkbookControlGUI *wbcg, Sheet *sheet);
-void   	 dialog_delete_cells    (WorkbookControlGUI *wbcg, Sheet *sheet);
-void   	 dialog_zoom            (WorkbookControlGUI *wbcg, Sheet *sheet);
-char   	*dialog_query_load_file (WorkbookControlGUI *wbcg);
+void	   dialog_formula_guru	(WorkbookControlGUI *wbcg);
+void	   dialog_plugin_manager  (WorkbookControlGUI *wbcg);
+void	   dialog_goto_cell       (WorkbookControlGUI *wbcg);
+GtkWidget* dialog_cell_number_fmt (WorkbookControlGUI *wbcg, Value *sample_val);
+void	   dialog_cell_format     (WorkbookControlGUI *wbcg, Sheet *sheet,
+				   FormatDialogPosition_t pageno);
+int	   dialog_paste_special   (WorkbookControlGUI *wbcg);
+void	   dialog_insert_cells    (WorkbookControlGUI *wbcg, Sheet *sheet);
+void	   dialog_delete_cells    (WorkbookControlGUI *wbcg, Sheet *sheet);
+void	   dialog_zoom            (WorkbookControlGUI *wbcg, Sheet *sheet);
+char	  *dialog_query_load_file (WorkbookControlGUI *wbcg);
 void   	 dialog_about           (WorkbookControlGUI *wbcg);
 void   	 dialog_define_names    (WorkbookControlGUI *wbcg);
 void   	 dialog_cell_comment    (WorkbookControlGUI *wbcg,

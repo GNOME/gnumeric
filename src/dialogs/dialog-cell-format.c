@@ -135,6 +135,9 @@ typedef struct _FormatState
 		ColorPicker	 back_color, pattern_color;
 		PatternPicker	 pattern;
 	} back;
+
+	void (*dialog_changed) (gpointer user_data);
+	gpointer	dialog_changed_user_data;
 } FormatState;
 
 /*****************************************************************************/
@@ -148,8 +151,12 @@ static void
 fmt_dialog_changed (FormatState *state)
 {
 	/* Catch all the pseudo-events that take place while initializing */
-	if (state->enable_edit)
-		gnome_property_box_changed (state->dialog);
+	if (state->enable_edit) {
+		if (state->dialog_changed)
+			state->dialog_changed (state->dialog_changed_user_data);
+		else
+			gnome_property_box_changed (state->dialog);
+	}
 }
 
 /* Default to the 'Format' page but remember which page we were on between
@@ -1937,7 +1944,7 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 
 /* Handler for destroy */
 static gboolean
-cb_fmt_dialog_dialog_destroy (GtkObject *w, FormatState *state)
+cb_fmt_dialog_dialog_destroy (GtkObject *unused, FormatState *state)
 {
 	g_free ((char *)state->format.spec);
 	mstyle_unref (state->style);
@@ -2280,6 +2287,8 @@ dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition
 	state->style		= mstyle;
 	state->result		= mstyle_new ();
 	state->selection_mask	= 0;
+	state->dialog_changed	= NULL;
+	state->dialog_changed_user_data = NULL;
 
 	(void) selection_foreach_range (sheet, TRUE,
 					&fmt_dialog_selection_type,
@@ -2287,6 +2296,41 @@ dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition
 	state->selection_mask	= 1 << state->selection_mask;
 
 	fmt_dialog_impl (state, borders, pageno);
+}
+
+GtkWidget *
+dialog_cell_number_fmt (WorkbookControlGUI *wbcg, Value *sample_val)
+{
+	GladeXML     *gui;
+	FormatState  *state;
+	GtkWidget    *res;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
+
+	gui = gnumeric_glade_xml_new (wbcg, "cell-format.glade");
+        if (gui == NULL)
+                return NULL;
+
+	/* Initialize */
+	state = g_new (FormatState, 1);
+	state->wbcg		= wbcg;
+	state->gui		= NULL;
+	state->sheet		= NULL;
+	state->value		= sample_val;
+	state->style		= mstyle_new (); /* FIXME : this should be passed in */
+	state->result		= mstyle_new ();
+	state->selection_mask	= 0;
+	state->dialog_changed	= NULL;		/* FIXME : These should be passed in */
+	state->dialog_changed_user_data = NULL;
+
+	fmt_dialog_init_format_page (state);
+
+	res = glade_xml_get_widget (state->gui, "number_box");
+	gtk_signal_connect (GTK_OBJECT (res), "destroy",
+			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_destroy),
+			    state);
+
+	return res;
 }
 
 /*

@@ -1,3 +1,9 @@
+2000-12-19  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-cell-format.c (fmt_dialog_changed) : optionally virtualize.
+	(dialog_cell_number_fmt) : new entry point to get justthe number
+	  format page.
+
 2000-12-17 Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.61
