@@ -40,6 +40,7 @@ Joshua R. Odom:
 
 Morten:
 	Fix DATE2UNIX.  (Bug 70814.)
+	Fix compiler warnings.  (Well, fix the bugs they pointed out.)
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.3
