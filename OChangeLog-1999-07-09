@@ -1,3 +1,14 @@
+1998-10-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (cell_modified): New function, used to tag a modified
+	cell in a sheet.
+
+	* src/fn-math.c (gnumeric_average): Display error on division by
+	zero.  Make the code not depend on the types returned by
+	gnumeric_sum and gnumeric_count.
+	(callback_function_sum): Keep sum as integers as long as
+	possible instead of using floating point all the time.
+
 1998-10-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/fn-math.c (callback_function_sum): Do not try to be smart

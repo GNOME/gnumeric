@@ -335,18 +335,27 @@ gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_ro
 {
 	Value *result;
 	Value *sum, *count;
-
+	double c;
+	
 	sum = gnumeric_sum (tsheet, expr_node_list, eval_col, eval_row, error_string);
 	if (!sum)
 		return NULL;
 	
 	count = gnumeric_count (tsheet, expr_node_list, eval_col, eval_row, error_string);
-	if (!count || (count && count->v.v_int == 0)){
+	if (!count){
 		value_release (sum);
 		return NULL;
 	}
 
-	result = value_float (sum->v.v_float / count->v.v_int);
+	c = value_gets_as_double (count->v);
+	
+	if (c == 0.0){
+		*error_string = "Division by zero";
+		value_release (sum);
+		return NULL;
+	}
+	
+	result = value_float (value_get_as_double (sum->v) / c);
 
 	value_release (count);
 	value_release (sum);
@@ -995,11 +1004,23 @@ callback_function_sum (Sheet *sheet, Value *value, char **error_string, void *cl
 
 	switch (value->type){
 	case VALUE_INTEGER:
-		result->v.v_float += value->v.v_int;
+		if (result->type == VALUE_INTEGER)
+			result->v.v_int += value->v.v_int;
+		else
+			result->v.v_float += value->v.v_int;
 		break;
 		
 	case VALUE_FLOAT:
-		result->v.v_float += value->v.v_float;
+		if (result->type == VALUE_FLOAT)
+			result->v.v_float += value->v.v_float;
+		else {
+			double v = result->v.v_int;
+
+			/* cast to float */
+			
+			result->type = VALUE_FLOAT;
+			result->v.v_float = v + value->v.v_float;
+		}
 		break;
 		
 	default:
@@ -1016,8 +1037,8 @@ gnumeric_sum (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 	Sheet *sheet = (Sheet *) tsheet;
 
 	result = g_new (Value, 1);
-	result->type = VALUE_FLOAT;
-	result->v.v_float = 0.0;
+	result->type = VALUE_INTEGER;
+	result->v.v_int = 0;
 	
 	function_iterate_argument_values (sheet, callback_function_sum, result, expr_node_list,
 					  eval_col, eval_row, error_string);

@@ -1,6 +1,6 @@
 SUBDIRS = intl po macros src plugins
 
-EXTRA_DIST = gnumeric.desktop README
+EXTRA_DIST = gnumeric.desktop README HACKING
 
 dist-hook:
 	mkdir $(distdir)/samples

@@ -25,6 +25,12 @@ cell_formula_changed (Cell *cell)
 	cell_queue_recalc (cell);
 }
 
+static inline void
+cell_modified (Cell *cell)
+{
+	cell->sheet->modified = TRUE;
+}
+
 void
 cell_set_formula (Cell *cell, char *text)
 {
@@ -34,6 +40,7 @@ cell_set_formula (Cell *cell, char *text)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
+	cell_modified (cell);
 	cell->parsed_node = expr_parse_string (&text [1],
 					       cell->col->pos,
 					       cell->row->pos,
@@ -75,6 +82,8 @@ cell_set_alignment (Cell *cell, int halign, int valign, int orient, int auto_ret
 	    (cell->style->orientation == orient))
 		return;
 
+	cell_modified (cell);
+
 	cell_queue_redraw (cell);
 	
 	cell->style->halign = halign;
@@ -95,6 +104,8 @@ cell_set_halign (Cell *cell, StyleHAlignFlags halign)
 	if (((unsigned int)cell->style->halign) == ((unsigned int) halign))
 		return;
 
+	cell_modified (cell);
+
 	cell_queue_redraw (cell);
 	cell->style->halign = halign;
 
@@ -107,6 +118,8 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (style_font != NULL);
+
+	cell_modified (cell);
 
 	cell_queue_redraw (cell);
 	
@@ -140,6 +153,8 @@ cell_set_style (Cell *cell, Style *reference_style)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (reference_style != NULL);
 
+	cell_modified (cell);
+
 	cell_queue_redraw (cell);
 	style_destroy (cell->style);
 	cell->style = style_duplicate (reference_style);
@@ -153,6 +168,8 @@ void
 cell_set_foreground (Cell *cell, gushort red, gushort green, gushort blue)
 {
 	g_return_if_fail (cell != NULL);
+
+	cell_modified (cell);
 	
 	if (cell->style->valid_flags & STYLE_FORE_COLOR)
 		style_color_unref (cell->style->fore_color);
@@ -168,6 +185,8 @@ cell_set_background (Cell *cell, gushort red, gushort green, gushort blue)
 {
 	g_return_if_fail (cell != NULL);
 	
+	cell_modified (cell);
+
 	if (cell->style->valid_flags & STYLE_BACK_COLOR)
 		style_color_unref (cell->style->back_color);
 
@@ -182,6 +201,8 @@ void
 cell_set_pattern (Cell *cell, int pattern)
 {
 	g_return_if_fail (cell != NULL);
+
+	cell_modified (cell);
 
 	cell->style->valid_flags |= STYLE_PATTERN;
 	cell->style->pattern = pattern;
@@ -203,6 +224,8 @@ cell_set_rendered_text (Cell *cell, char *rendered_text)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (rendered_text != NULL);
 	
+	cell_modified (cell);
+
 	if (cell->text)
 		string_unref (cell->text);
 
@@ -257,6 +280,8 @@ cell_set_text_simple (Cell *cell, char *text)
 	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
+
+	cell_modified (cell);
 
 	/* The value entered */
 	if (cell->entered_text)
@@ -408,6 +433,8 @@ cell_destroy (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
+	cell_modified (cell);
+
 	if (cell->parsed_node){
 		expr_tree_unref (cell->parsed_node);
 	}
@@ -494,6 +521,7 @@ cell_set_format_simple (Cell *cell, char *format)
 		return;
 
 	/* Change the format */
+	cell_modified (cell);
 	style_format_unref (cell->style->format);
 	cell->style->format = style_format_new (format);
 	cell->flags |= CELL_FORMAT_SET;
@@ -515,6 +543,7 @@ cell_set_format (Cell *cell, char *format)
 	if (strcmp (format, cell->style->format->format) == 0)
 		return;
 
+	cell_modified (cell);
 	cell_queue_redraw (cell);
 	
 	/* Change the format */
@@ -534,6 +563,8 @@ cell_set_comment (Cell *cell, char *str)
 	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (str != NULL);
+
+	cell_modified (cell);
 
 	if (cell->comment){
 		string_unref (cell->comment);
@@ -566,6 +597,8 @@ cell_formula_relocate (Cell *cell, int target_col, int target_row)
 	g_return_if_fail (cell->entered_text);
 	g_return_if_fail (cell->parsed_node);
 	
+	cell_modified (cell);
+
 	string_unref (cell->entered_text);
 	
 	text = expr_decode_tree (cell->parsed_node, target_col, target_row);
@@ -589,6 +622,8 @@ cell_make_value (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->parsed_node != NULL);
+
+	cell_modified (cell);
 
 	expr_tree_unref (cell->parsed_node);
 	cell->parsed_node = NULL;

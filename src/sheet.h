@@ -122,6 +122,8 @@ typedef struct {
 	Cell      *editing_cell;
 	int        editing;
 	
+	gboolean   modified;
+	
 	/* For walking trough a selection */
 	struct {
 		SheetSelection *current;
