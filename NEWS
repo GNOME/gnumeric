@@ -1,7 +1,7 @@
 Gnumeric 1.1.6
 
 Andreas:
-	* Fix html import
+	* Fix and improve html import
 
 Jody:
 	* Have the stf dialog use the default font.

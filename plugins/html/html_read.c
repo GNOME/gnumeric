@@ -9,7 +9,8 @@
  * EMail: jody@gnome.org
  *
  * Contributors :
- *   Almer. S. Tigelaar <almer1@dds.nl>
+ *   Almer S. Tigelaar <almer1@dds.nl>
+ *   Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +31,7 @@
 #include <gnumeric.h>
 #include "html.h"
 
+#include <sheet-object-cell-comment.h>
 #include <workbook-view.h>
 #include <workbook.h>
 #include <sheet.h>
@@ -61,8 +63,8 @@ html_get_sheet (char const *name, Workbook *wb)
 }
 
 static void
-html_read_content (htmlNodePtr cur, xmlBufferPtr buf, MStyle *mstyle, gboolean first, 
-		   htmlDocPtr doc)
+html_read_content (htmlNodePtr cur, xmlBufferPtr buf, MStyle *mstyle, xmlBufferPtr a_buf, 
+		   gboolean first, htmlDocPtr doc)
 {
 	htmlNodePtr ptr;
 
@@ -77,8 +79,18 @@ html_read_content (htmlNodePtr cur, xmlBufferPtr buf, MStyle *mstyle, gboolean f
 				if (xmlStrEqual (ptr->name, "b"))
 					mstyle_set_font_bold (mstyle, TRUE);
 			}
-			html_read_content (ptr, buf, mstyle, first && (ptr == cur->children), doc);
+			if (xmlStrEqual (ptr->name, "a")) {
+				xmlAttrPtr   props;
+				props = ptr->properties;
+				while (props) {
+					if (xmlStrEqual (props->name, "href") && props->children)
+						htmlNodeDump (a_buf, doc, props->children);
+					props = props->next;
+				}
+			}
+			html_read_content (ptr, buf, mstyle, a_buf, first, doc);
 		}
+		first = FALSE;
 	}
 }
 
@@ -90,7 +102,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 	
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (xmlStrEqual (ptr->name, "td") || xmlStrEqual (ptr->name, "th")) {
-			xmlBufferPtr buf;
+			xmlBufferPtr buf, a_buf;
 			xmlAttrPtr   props;
 			int colspan = 1;
 			int rowspan = 1;
@@ -121,11 +133,13 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 
 			/* Let's figure out the content of the cell */
 			buf = xmlBufferCreate ();
+			a_buf = xmlBufferCreate ();
+
 			mstyle = mstyle_new_default ();
 			if (xmlStrEqual (ptr->name, "th"))
 				mstyle_set_font_bold (mstyle, TRUE);
 
-			html_read_content (ptr, buf, mstyle, TRUE, doc);
+			html_read_content (ptr, buf, mstyle, a_buf, TRUE, doc);
 
 			if (buf->use > 0) {
 				char *name;
@@ -137,7 +151,15 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 				cell_set_text (cell, name);
 				g_free (name);
 			}
+			if (a_buf->use > 0) {
+				char *name;
+
+				name = g_strndup (a_buf->content, a_buf->use);
+				cell_set_comment (sheet, &pos, NULL, name);
+				g_free (name);
+			}
 			xmlBufferFree (buf);
+			xmlBufferFree (a_buf);
 
 			/* If necessary create the merge */
 			if (colspan > 1 || rowspan > 1) {
