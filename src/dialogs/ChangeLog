@@ -1,3 +1,10 @@
+2003-05-19  Jody Goldberg <jody@gnome.org>
+
+	* dialog-random-generator.c (dialog_random_tool_init) : no need to
+	  register the guru again,  dialog_tool_init already did it.
+
+	* cell-sort.glade : fix radio group for direction
+
 2003-05-19  Morten Welinder  <terra@gnome.org>
 
 	* dialog-random-generator.c (dialog_random_realized): Use

@@ -125,7 +125,7 @@ ifdef([GNOME_COMPILE_WARNINGS],
 )
 set_more_warnings=yes
 if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
-	for option in -Wsign-promo -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings; do
+	for option in -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])
@@ -718,6 +718,14 @@ src/cut-n-paste-code/egg/toolbar/Makefile
 src/cut-n-paste-code/foocanvas/Makefile
 src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
 src/cut-n-paste-code/pcre/Makefile
+src/cut-n-paste-code/goffice/Makefile
+src/cut-n-paste-code/goffice/utils/Makefile
+src/cut-n-paste-code/goffice/graph/Makefile
+src/cut-n-paste-code/goffice/graph/tests/Makefile
+src/cut-n-paste-code/goffice/graph/plugins/Makefile
+src/cut-n-paste-code/goffice/graph/plugins/plot_pie/Makefile
+src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/Makefile
+src/cut-n-paste-code/goffice/graph/plugins/plot_xy/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile
@@ -771,14 +779,6 @@ templates/english/Makefile
 templates/autoformat/Makefile
 stamp.h
 ])
-dnl src/cut-n-paste-code/goffice/Makefile
-dnl src/cut-n-paste-code/goffice/utils/Makefile
-dnl src/cut-n-paste-code/goffice/graph/Makefile
-dnl src/cut-n-paste-code/goffice/graph/tests/Makefile
-dnl src/cut-n-paste-code/goffice/graph/plugins/Makefile
-dnl src/cut-n-paste-code/goffice/graph/plugins/plot_pie/Makefile
-dnl src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/Makefile
-dnl src/cut-n-paste-code/goffice/graph/plugins/plot_xy/Makefile
 
 echo "
 

@@ -1001,6 +1001,8 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 	if (i >= 0) {
 		gtk_notebook_set_current_page (wbcg->notebook, i);
 		zoom_changed (wbcg, sheet);
+		if (wbcg->rangesel == NULL)
+			gnm_expr_entry_set_scg (wbcg->edit_line.entry, scg);
 	}
 }
 

@@ -813,7 +813,6 @@ dialog_random_tool_init (RandomToolState *state)
  	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->par1_expr_entry));
 
-
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->par1_entry));
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
@@ -823,7 +822,6 @@ dialog_random_tool_init (RandomToolState *state)
 	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->count_entry));
 
-	wbcg_edit_attach_guru (state->base.wbcg, state->base.dialog);
 	g_signal_connect (G_OBJECT (state->base.dialog),
 		"realize",
 		G_CALLBACK (dialog_random_realized), state);
@@ -854,8 +852,6 @@ dialog_random_tool_init (RandomToolState *state)
 	}
 
 	random_tool_update_sensitivity_cb (NULL, state);
-
-	return;
 }
 
 
@@ -900,7 +896,3 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
         return 0;
 }
-/**********************************************/
-/*  End of random tool code */
-/**********************************************/
-

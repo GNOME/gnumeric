@@ -1,3 +1,11 @@
+2003-05-19  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_sheet_focus) : set the scg earlier
+	  as soon as the sheet gets focus.
+
+	* configure.in : remove -Wsign-promo according to gcc-3.3 it is only
+	  valid for C++ now.
+
 2003-05-19  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (workbook_create_standard_toolbar):

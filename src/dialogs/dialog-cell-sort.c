@@ -598,8 +598,8 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 
 static void
 cb_toggled_descending (G_GNUC_UNUSED GtkCellRendererToggle *cell,
-	 gchar                 *path_string,
-	 gpointer               data)
+		       gchar                 *path_string,
+		       gpointer               data)
 {
 	SortFlowState *state = data;
 	GtkTreeModel *model = GTK_TREE_MODEL (state->model);
@@ -639,13 +639,6 @@ cb_toggled_case_sensitive (GtkCellRendererToggle *cell,
 	toggled (cell, path_string, data, ITEM_CASE_SENSITIVE);
 }
 
-/**
- * dialog_init:
- * @state:
- *
- * Create the dialog (guru).
- *
- **/
 static gboolean
 dialog_init (SortFlowState *state)
 {
