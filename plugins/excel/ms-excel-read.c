@@ -3745,7 +3745,7 @@ excel_read_GUTS (BiffQuery *q, ExcelReadSheet *esheet)
 
 #if 0
 /* Status as of September 2004: we cannot use this information in a reasonable
-   way yetyet, as the current (2.8) gnome-print API is problematic:
+   way yet, as the current (2.8) gnome-print API is problematic:
    "the printinfo has a gp printconfig which stores the settings [but] when we
    set a printer it overrides the previous settings with the printer defaults"
 
