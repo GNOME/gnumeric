@@ -2003,6 +2003,9 @@ cmd_sort_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdSort *me = CMD_SORT (cmd);
 	g_return_val_if_fail (me != NULL, TRUE);
 
+	me->data->sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
+						   me->cmd.sheet);
+
 	if (!me->inv) {
 		me->inv = sort_permute_invert (me->perm, sort_data_length (me->data));
 	}
@@ -2017,6 +2020,9 @@ cmd_sort_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdSort *me = CMD_SORT (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
+
+	me->data->sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
+						   me->cmd.sheet);
 
 	/* Check for locks */
 	if (cmd_cell_range_is_locked_effective

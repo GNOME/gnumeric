@@ -1,3 +1,7 @@
+2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-sheet-order.c (cb_delete_sheets): deleted (was unused)
+
 2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dao-gui-utils.c (parse_output): also set sheet_idx

@@ -514,15 +514,6 @@ cb_cancel_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 	    gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
-static void
-cb_delete_sheets (gpointer data, G_GNUC_UNUSED gpointer dummy)
-{
-	Sheet *sheet = data;
-
-	sheet->pristine = FALSE;
-	workbook_sheet_delete (sheet);
-}
-
 static gboolean
 sheet_order_gdk_color_equal (GdkColor *color_a, GdkColor *color_b)
 {
