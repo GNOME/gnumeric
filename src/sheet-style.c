@@ -388,6 +388,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 			/*
 			 * This inner loop gets called a lot !
 			 */
+			/* FIXME: this needs to be range_contains */
 			if (range_equal (&sra->range, &srb->range)) {
 				StyleRegion *master, *slave;
 

@@ -2245,7 +2245,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				"cell-format.glade");
+				      "cell-format.glade");
         if (gui == NULL)
                 return;
 

@@ -122,7 +122,7 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 	
 	view_frame = bonobo_client_site_new_view (
 		SHEET_OBJECT_BONOBO (so)->client_site,
-		sheet_view->sheet->workbook->uih->top_level_uih);
+		bonobo_object_corba_objref (BONOBO_OBJECT (sheet_view->sheet->workbook->uih)));
 		
 	gtk_signal_connect (GTK_OBJECT (view_frame), "user_activate",
 			    GTK_SIGNAL_FUNC (user_activation_request_cb), so);

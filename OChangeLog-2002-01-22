@@ -1,3 +1,8 @@
+2000-05-05  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object-container.c (sheet_object_container_realize): fix
+	no brainer bug stopping menu's merging.
+
 2000-05-04  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-style.c (sheet_style_delete_colrow): don't shrink.
