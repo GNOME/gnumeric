@@ -19,6 +19,8 @@
 #define M_LN10gnum (loggnum (10))
 #define M_SQRT2gnum (sqrtgnum (2))
 
+extern gnm_float gnm_nan;
+
 /* ------------------------------------------------------------------------- */
 
 gnm_float gnumeric_add_epsilon (gnm_float x);
@@ -162,5 +164,11 @@ gnm_float     fact   (int n);
 
 void continued_fraction (gnm_float val, int max_denom, int *res_num, int *res_denom);
 void stern_brocot (float val, int max_denom, int *res_num, int *res_denom);
+
+/* ------------------------------------------------------------------------- */
+
+void mathfunc_init (void);
+
+/* ------------------------------------------------------------------------- */
 
 #endif

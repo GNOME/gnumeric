@@ -59,8 +59,7 @@
 #define M_2PIgnum       (2 * M_PIgnum)
 #define	M_Egnum         GNM_const(2.718281828459045235360287471352662497757247)
 
-/* Any better idea for a quick hack?  */
-#define ML_NAN (-HUGE_VAL * 0.0)
+#define ML_NAN gnm_nan
 #define ML_NEGINF (-HUGE_VAL)
 #define ML_POSINF (HUGE_VAL)
 #define ML_UNDERFLOW (GNUM_EPSILON * GNUM_EPSILON)
@@ -84,6 +83,20 @@
 static void pnorm_both (gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboolean log_p);
 
 /* MW ---------------------------------------------------------------------- */
+
+gnm_float gnm_nan;
+
+void
+mathfunc_init (void)
+{
+	gnm_nan = -HUGE_VAL * 0.0;
+	if (isnangnum (gnm_nan))
+		return;
+
+	/* FIXME: Try other methods.  */
+
+	g_assert (isnangnum (gnm_nan));
+}
 
 /*
  * In preparation for truncation, make the value a tiny bit larger (seen

@@ -1,3 +1,9 @@
+2003-04-29  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (mathfunc_init): New function.
+
+	* src/libgnumeric.c (gnm_common_init): Call mathfunc_init.
+
 2003-04-28  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : I'm a lazy bugger and will just commit the

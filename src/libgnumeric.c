@@ -40,6 +40,7 @@
 #include "rendered-value.h"
 #include "gnumeric-gconf.h"
 #include "plugin-service.h"
+#include "mathfunc.h"
 
 #include <locale.h>
 #ifdef WITH_BONOBO
@@ -108,6 +109,7 @@ extern char *gnumeric_data_dir;
 void
 gnm_common_init (void)
 {
+	mathfunc_init ();
 	g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
 	plugin_services_init ();
 #ifdef NEW_GRAPHS
