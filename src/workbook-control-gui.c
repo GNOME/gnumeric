@@ -1704,21 +1704,10 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 		const char *old_text = va_arg (pvar, const char *);
 		const char *new_text = va_arg (pvar, const char *);
 		char *pos_name;
-		ParsePos pp;
-		CellRef cr;
 
 		Sheet *sheet = cell->base.sheet;
 		int col = cell->pos.col;
 		int row = cell->pos.row;
-
-		cr.sheet = sheet;
-		cr.col = col;
-		cr.row = row;
-		cr.col_relative = 0;
-		cr.row_relative = 0;
-		pp.sheet = sheet;
-		pp.wb = sheet->workbook;
-		pp.eval = cell->pos;
 
 		WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
 			wb_view_sheet_focus (view, sheet);
@@ -1726,7 +1715,33 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 		sheet_selection_set (sheet, col, row, col, row, col, row);
 		sheet_make_cell_visible (sheet, col, row);
 
-		pos_name = cellref_name (&cr, &pp, FALSE);
+		pos_name = g_strconcat (sheet->name_unquoted, "!",
+					cell_name (cell), NULL);
+		res = dialog_search_replace_query (wbcg, sr, pos_name,
+						   old_text, new_text);
+		g_free (pos_name);
+		break;
+	}
+
+	case SRQ_querycommment: {
+		Sheet *sheet = va_arg (pvar, Sheet *);
+		CellPos *cp = va_arg (pvar, CellPos *);
+		const char *old_text = va_arg (pvar, const char *);
+		const char *new_text = va_arg (pvar, const char *);
+		char *pos_name;
+
+		int col = cp->col;
+		int row = cp->row;
+
+		WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
+			wb_view_sheet_focus (view, sheet);
+		});
+		sheet_selection_set (sheet, col, row, col, row, col, row);
+		sheet_make_cell_visible (sheet, col, row);
+
+		pos_name = g_strdup_printf (_("Comment in cell %s!%s"),
+					    sheet->name_unquoted,
+					    cell_pos_name (cp));
 		res = dialog_search_replace_query (wbcg, sr, pos_name,
 						   old_text, new_text);
 		g_free (pos_name);

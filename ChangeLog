@@ -1,3 +1,13 @@
+2001-10-02  Morten Welinder  <terra@diku.dk>
+
+	* src/commands.c (cmd_search_replace_do_cell): Implement querying
+ 	for cell comments.
+
+	* src/search.h (SearchReplaceQuery): Add SRQ_querycommment.
+
+	* src/workbook-control-gui.c (cb_edit_search_replace_query):
+ 	implement SRQ_querycommment.
+
 2001-10-02  Jakub Steiner <jimmac@ximian.com>
 
 	* gnome-gnumeric.png: less detail so it looks better scaled down

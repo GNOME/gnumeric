@@ -3509,8 +3509,18 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 			char *new_text = search_replace_string (sr, old_text);
 			if (new_text) {
 				gboolean doit = TRUE;
-				if (sr->query) {
-					/* FIXME. */
+				if (sr->query && sr->query_func) {
+					int res = sr->query_func (SRQ_querycommment,
+								  sr,
+								  ep->sheet,
+								  &ep->eval,
+								  old_text,
+								  new_text);
+					if (res == -1) {
+						g_free (new_text);
+						return TRUE;
+					}
+					doit = (res == 0);
 				}
 
 				if (doit) {
