@@ -8,6 +8,10 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+- Figure out what to do in src/style.c now that gnome-print installs a
+  fontmap2 file.
+
+
 Long term breakage
 ------------------
 
