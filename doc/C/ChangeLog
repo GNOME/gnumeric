@@ -1,5 +1,14 @@
 2004-09-30  Adrian Custer <acuster@gnome.org>
 
+	* NEWS: Clean the last of the curft. The docs, figures/ directory
+	        and figures/Makefile.am are now in sync.
+
+	* figures/pointer_hand_closed: Deleted
+	* figures/pointer_hand_open: Deleted
+	* figures/Makefile.am: remove the files above
+	
+2004-09-30  Adrian Custer <acuster@gnome.org>
+
 	* NEWS: Rewrite of the 'Text Import' section of the 'Working with
 	        Files' chapter. 
 	* NEWS: Cleaned up the figures/ dir. Now only images in the text

@@ -269,9 +269,7 @@ EXTRA_DIST = \
      pointer_double_horizontal_arrow.png \
      pointer_double_vertical_arrow.png \
      pointer_four_way_arrow.png \
-     pointer_hand_closed.png \
      pointer_hand_left.png \
-     pointer_hand_open.png \
      pointer_left.png \
      pointer_resize_multiple.png \
      pointer_right.png \
@@ -290,7 +288,7 @@ EXTRA_DIST = \
      print-preview-back.png \
      print-preview-first.png \
      print-preview-fit.png \
-     print-preview-fitonetoone.png \ 
+     print-preview-fitonetoone.png \
      print-preview-last.png \
      print-preview-next.png \
      print-preview-zoomin.png \
