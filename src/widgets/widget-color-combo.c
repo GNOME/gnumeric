@@ -82,7 +82,7 @@ color_clicked (GtkWidget *button, ColorCombo *combo)
 	gtk_combo_box_popup_hide (GTK_COMBO_BOX (combo));
 }
 
-GtkWidget *
+static GtkWidget *
 color_table_setup (ColorCombo *cc, gboolean no_color, int ncols, int nrows, char **color_names)
 {
 	GtkWidget *label;
@@ -105,8 +105,11 @@ color_table_setup (ColorCombo *cc, gboolean no_color, int ncols, int nrows, char
 
 			pos = row * ncols + col;
 
-			if (color_names [pos] == NULL)
+			if (color_names [pos] == NULL) {
+				/* Break out of two for-loops.  */
+				row = nrows;
 				break;
+			}
 
 			button = gtk_button_new ();
 			gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
@@ -161,7 +164,7 @@ emit_change (GtkWidget *button, ColorCombo *cc)
 		GTK_OBJECT (cc), color_combo_signals [CHANGED], color, cc->last_index);
 }
 
-void
+static void
 color_combo_construct (ColorCombo *cc, char **icon, gboolean no_color,
 		       int ncols, int nrows, char **color_names)
 {

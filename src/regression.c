@@ -145,6 +145,7 @@ exponential_regression (const float_t *xs, const float_t *ys, int n,
 	float_t *log_ys;
 	int result;
 	int i;
+	int dim = 1;
 
 	log_ys = g_new (float_t, n);
 	for (i = 0; i < n; i++)
@@ -156,19 +157,19 @@ exponential_regression (const float_t *xs, const float_t *ys, int n,
 		}
 
 	if (affine) {
-		const float_t *xss[2];
+		const float_t *xss[dim + 1];
 
 		xss[0] = NULL;  /* Substitute for 1-vector.  */
 		xss[1] = xs;
 
-		result = general_linear_regression (xss, 2, log_ys, n, res);
+		result = general_linear_regression (xss, dim + 1, log_ys, n, res);
 	} else {
 		res[0] = 0;
-		result = general_linear_regression (&xs, 1, log_ys, n, res + 1);
+		result = general_linear_regression (&xs, dim, log_ys, n, res + 1);
 	}
 
 	if (result == 0)
-		for (i = 0; i < n; i++)
+		for (i = 0; i < dim + 1; i++)
 			res[i] = exp (res[i]);
 
  out:

@@ -1,7 +1,14 @@
+1999-09-23  Morten Welinder  <terra@diku.dk>
+
+	* src/regression.c (exponential_regression): Fix thingo.
+
+	* src/widgets/widget-color-combo.c (color_table_setup): Static.
+	(color_combo_construct): Static.
+	(color_table_setup): really break out.
+
 1999-09-23  Rodrigo Stulzer Lopes <rodrigo@conectiva.com.br>
 
 	* configure.in: add pt_BR to ALL_LINGUAS
-
 
 1999-09-23  Miguel de Icaza  <miguel@gnu.org>
 
