@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-06-28 03:18+0200\n"
-"PO-Revision-Date: 2002-06-28 03:19+0200\n"
+"POT-Creation-Date: 2002-07-08 11:18+0200\n"
+"PO-Revision-Date: 2002-07-08 11:19+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -482,7 +482,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
 #: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4579
-#: plugins/mps/mps.c:630 src/xml-io.c:3342
+#: plugins/mps/mps.c:639 src/xml-io.c:3342
 msgid "Reading file..."
 msgstr "Läser fil..."
 
@@ -1641,24 +1641,54 @@ msgid ""
 "An ISO 8601 week starts on Monday. Weeks are numbered from 1. A week "
 "including days from two different years is assigned to the year which "
 "includes the most days. This means that Dec 31 could be in week 1 of the "
-"following year, and Jan 1 could be in week 52 or 53 of the previous year.\n"
+"following year, and Jan 1 could be in week 52 or 53 of the previous year. "
+"ISOWEEKNUM returns the week number, while ISOYEAR returns the year the week "
+"is assigned to.\n"
 "@EXAMPLES=\n"
 "If A1 contains 12/21/00 then ISOWEEKNUM(A1)=51\n"
-"@SEEALSO=WEEKNUM"
+"@SEEALSO=WEEKNUM, ISOYEAR"
 msgstr ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (datum)\n"
 "@DESCRIPTION=ISOWEEKNUM returnerar ISO 8601-veckonumret för @datum.\n"
 "Returnerar #NUM! om datumet är ogiltigt.\n"
 "En ISO 8601-vecka börjar på en måndag. Veckor numreras från 1. En vecka som "
-"innehåller dagar från två olika år tilldelas det år som har flest dagar i "
-"veckan. Detta innebär att 31 december kan tillhöra vecka 1 nästföljande år, "
-"och 1 januari kan tillhöra vecka 52 eller 53 i föregående år.\n"
+"innehåller dagar från två olika år tilldelas det år som har flest dagar. "
+"Detta innebär att 31 december kan tillhöra vecka 1 nästföljande år, och 1 "
+"januari kan tillhöra vecka 52 eller 53 i föregående år.\n"
 "@EXAMPLES=\n"
 "Om A1 innehåller 12/21/00 är ISOWEEKNUM(A1)=51\n"
-"@SEEALSO=WEEKNUM"
+"@SEEALSO=WEEKNUM, ISOYEAR"
 
-#: plugins/fn-date/functions.c:1199
+#: plugins/fn-date/functions.c:1200
+msgid ""
+"@FUNCTION=ISOYEAR\n"
+"@SYNTAX=ISOYEAR (date)\n"
+"@DESCRIPTION=ISOYEAR returns the year of the ISO 8601 week number of @date.\n"
+"Returns #NUM! if date is invalid.\n"
+"An ISO 8601 week starts on Monday. Weeks are numbered from 1. A week "
+"including days from two different years is assigned to the year which "
+"includes the most days. This means that Dec 31 could be in week 1 of the "
+"following year, and Jan 1 could be in week 52 or 53 of the previous year. "
+"ISOYEAR returns the year the week is assigned to, while ISOWEEKNUM returns "
+"the week number.\n"
+"@EXAMPLES=\n"
+"If A1 contains 12/31/2001 then ISOYEAR(A1)=2002\n"
+"@SEEALSO=ISOWEEKNUM"
+msgstr ""
+"@FUNCTION=ISOYEAR\n"
+"@SYNTAX=ISOYEAR (datum)\n"
+"@DESCRIPTION=ISOYEAR returnerar ISO 8601-veckonumret för @datum.\n"
+"Returnerar #NUM! om datumet är ogiltigt.\n"
+"En ISO 8601-vecka börjar på en måndag. Veckor numreras från 1. En vecka som "
+"innehåller dagar från två olika år tilldelas det år som har flest dagar. "
+"Detta innebär att 31 december kan tillhöra vecka 1 nästföljande år, och 1 "
+"januari kan tillhöra vecka 52 eller 53 i föregående år.\n"
+"@EXAMPLES=\n"
+"Om A1 innehåller 12/31/00 är ISOYEAR(A1)=2002\n"
+"@SEEALSO=ISOWEEKNUM"
+
+#: plugins/fn-date/functions.c:1255
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -2125,404 +2155,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-eng/functions.c:600
-msgid ""
-"@FUNCTION=COMPLEX\n"
-"@SYNTAX=COMPLEX(real,im[,suffix])\n"
-"@DESCRIPTION=COMPLEX returns a complex number of the form x + yi. @real is "
-"the real and @im is the imaginary coefficient of the complex number.  "
-"@suffix is the suffix for the imaginary coefficient.  If it is omitted, "
-"COMPLEX uses 'i' by default.\n"
-"If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! error.\n"
-"This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"COMPLEX(1,-1) equals 1-i.\n"
-"\n"
-"@SEEALSO="
-msgstr ""
-"@FUNCTION=COMPLEX\n"
-"@SYNTAX=COMPLEX(real;im[;suffix])\n"
-"@DESCRIPTION=COMPLEX returnerar ett komplext tal på formen x + yi. @real är "
-"realdelen och @im är imaginärdelen.  @suffix är suffixet som ska användas "
-"för imaginärdelen.  Om det inte anges används \"i\".\n"
-"Om @suffix varken är \"i\" eller \"j\", returneras felvärdet #VÄRDE!.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"COMPLEX(1,-1) är lika med 1-i.\n"
-"\n"
-"@SEEALSO="
-
-#: plugins/fn-eng/functions.c:639
-msgid ""
-"@FUNCTION=IMAGINARY\n"
-"@SYNTAX=IMAGINARY(inumber)\n"
-"@DESCRIPTION=IMAGINARY returns the imaginary coefficient of a complex "
-"number.\n"
-"This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"IMAGINARY(\"132-j\") equals -1.\n"
-"\n"
-"@SEEALSO=IMREAL"
-msgstr ""
-"@FUNCTION=IMAGINARY\n"
-"@SYNTAX=IMAGINARY(ital)\n"
-"@DESCRIPTION=IMAGINARY returnerar imaginärdelens koefficient för ett "
-"komplext tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMAGINARY(\"132-j\") är lika med -1.\n"
-"\n"
-"@SEEALSO=IMREAL"
-
-#: plugins/fn-eng/functions.c:670
-msgid ""
-"@FUNCTION=IMREAL\n"
-"@SYNTAX=IMREAL(inumber)\n"
-"@DESCRIPTION=IMREAL returns the real coefficient of a complex number.\n"
-"This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"imreal(\"132-j\") equals 132.\n"
-"\n"
-"@SEEALSO=IMAGINARY"
-msgstr ""
-"@FUNCTION=IMREAL\n"
-"@SYNTAX=IMREAL(i)\n"
-"@DESCRIPTION=IMREAL returnerar realdelens koefficient för ett komplext tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"imreal(\"132-j\") är lika med 132.\n"
-"\n"
-"@SEEALSO=IMAGINARY"
-
-#: plugins/fn-eng/functions.c:701
-msgid ""
-"@FUNCTION=IMABS\n"
-"@SYNTAX=IMABS(inumber)\n"
-"@DESCRIPTION=IMABS returns the absolute value of a complex number.\n"
-"This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"IMABS(\"2-j\") equals 2.23606798.\n"
-"\n"
-"@SEEALSO=IMAGINARY,IMREAL"
-msgstr ""
-"@FUNCTION=IMABS\n"
-"@SYNTAX=IMABS(ital)\n"
-"@DESCRIPTION=IMABS returnerar absolutbeloppet av ett komplext tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMABS(\"2-j\") är lika med 2,23606798.\n"
-"\n"
-"@SEEALSO=IMAGINARY,IMREAL"
-
-#: plugins/fn-eng/functions.c:732
-msgid ""
-"@FUNCTION=IMCONJUGATE\n"
-"@SYNTAX=IMCONJUGATE(inumber)\n"
-"@DESCRIPTION=IMCONJUGATE returns the complex conjugate of a complex number.\n"
-"This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"IMCONJUGATE(\"1-j\") equals 1+j.\n"
-"\n"
-"@SEEALSO=IMAGINARY,IMREAL"
-msgstr ""
-"@FUNCTION=IMCONJUGATE\n"
-"@SYNTAX=IMCONJUGATE(ital)\n"
-"@DESCRIPTION=IMCONJUGATE returnerar komplexkonjugatet för ett komplext tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMCONJUGATE(\"1-j\") är lika med 1+j.\n"
-"\n"
-"@SEEALSO=IMAGINARY,IMREAL"
-
-#: plugins/fn-eng/functions.c:763
-msgid ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS returns the cosine of a complex number.\n"
-"This function is Excel compatible.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") equals 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
-msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(ital)\n"
-"@DESCRIPTION=IMCOS returnerar cosinus för ett komplext tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") är lika med 0,833730-0,988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
-
-#: plugins/fn-eng/functions.c:791
-msgid ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(inumber)\n"
-"@DESCRIPTION=IMTAN returns the tangent of a complex number.\n"
-"This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
-msgstr ""
-"@FUNCTION=IMTAN\n"
-"@SYNTAX=IMTAN(ital)\n"
-"@DESCRIPTION=IMTAN returnerar tangens för ett komplext tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=IMSIN,IMCOS"
-
-#: plugins/fn-eng/functions.c:818
-msgid ""
-"@FUNCTION=IMEXP\n"
-"@SYNTAX=IMEXP(inumber)\n"
-"@DESCRIPTION=IMEXP returns the exponential of a complex number.\n"
-"This function is Excel compatible.\n"
-"@EXAMPLES=\n"
-"IMEXP(\"2-j\") equals 3.992324-6.217676j.\n"
-"\n"
-"@SEEALSO=IMLN"
-msgstr ""
-"@FUNCTION=IMEXP\n"
-"@SYNTAX=IMEXP(ital)\n"
-"@DESCRIPTION=IMEXP returnerar exponentialen av ett komplext tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMEXP(\"2-j\") är lika med 3,992324-6,217676j.\n"
-"\n"
-"@SEEALSO=IMLN"
-
-#: plugins/fn-eng/functions.c:846
-msgid ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(inumber)\n"
-"@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number.\n"
-"This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") equals -0.463647609.\n"
-"\n"
-"@SEEALSO="
-msgstr ""
-"@FUNCTION=IMARGUMENT\n"
-"@SYNTAX=IMARGUMENT(ital)\n"
-"@DESCRIPTION=IMARGUMENT returnerar argumentet (theta) för ett komplext tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") är lika med -0,463647609.\n"
-"\n"
-"@SEEALSO="
-
-#: plugins/fn-eng/functions.c:873
-msgid ""
-"@FUNCTION=IMLN\n"
-"@SYNTAX=IMLN(inumber)\n"
-"@DESCRIPTION=IMLN returns the natural logarithm of a complex number. (The "
-"result will have an imaginary part between -pi and +pi.  The natural "
-"logarithm is not uniquely defined on complex numbers. You may need to add or "
-"subtract an even multiple of pi to the imaginary part.)\n"
-"This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"IMLN(\"3-j\") equals 1.15129-0.32175j.\n"
-"\n"
-"@SEEALSO=IMEXP,IMLOG2,IMLOG10"
-msgstr ""
-"@FUNCTION=IMLN\n"
-"@SYNTAX=IMLN(ital)\n"
-"@DESCRIPTION=IMLN returnerar den naturliga logaritmen för ett komplext tal "
-"(resultatet har en imaginärdel mellan -pi och +pi. Den naturliga logaritmen "
-"är inte entydigt definierad för komplexa tal, och därför kan du behöva "
-"addera eller subtrahera en jämn multipel av pi på imaginärdelen).\n"
-"Denna funtion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMLN(\"3-j\") är lika med 1,15129-0,32175j.\n"
-"\n"
-"@SEEALSO=IMEXP,IMLOG2,IMLOG10"
-
-#: plugins/fn-eng/functions.c:905
-msgid ""
-"@FUNCTION=IMLOG2\n"
-"@SYNTAX=IMLOG2(inumber)\n"
-"@DESCRIPTION=IMLOG2 returns the logarithm of a complex number in base 2.\n"
-"This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"IMLOG2(\"3-j\") equals 1.66096-0.46419j.\n"
-"\n"
-"@SEEALSO=IMLN,IMLOG10"
-msgstr ""
-"@FUNCTION=IMLOG2\n"
-"@SYNTAX=IMLOG2(ital)\n"
-"@DESCRIPTION=IMLOG2 returnerar logaritmen i basen 2 för ett komplext tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMLOG2(\"3-j\") är lika med 1,66096-0,46419j.\n"
-"\n"
-"@SEEALSO=IMLN,IMLOG10"
-
-#: plugins/fn-eng/functions.c:934
-msgid ""
-"@FUNCTION=IMLOG10\n"
-"@SYNTAX=IMLOG10(inumber)\n"
-"@DESCRIPTION=IMLOG10 returns the logarithm of a complex number in base 10.\n"
-"This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"IMLOG10(\"3-j\") equals 0.5-0.13973j.\n"
-"\n"
-"@SEEALSO=IMLN,IMLOG2"
-msgstr ""
-"@FUNCTION=IMLOG10\n"
-"@SYNTAX=IMLOG10(ital)\n"
-"@DESCRIPTION=IMLOG10 returnerar logaritmen i basen 10 för ett komplext tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMLOG10(\"3-j\") är lika med 0,5-0,13973j.\n"
-"\n"
-"@SEEALSO=IMLN,IMLOG2"
-
-#: plugins/fn-eng/functions.c:963
-msgid ""
-"@FUNCTION=IMPOWER\n"
-"@SYNTAX=IMPOWER(inumber,number)\n"
-"@DESCRIPTION=IMPOWER returns a complex number raised to a power.  @inumber "
-"is the complex number to be raised to a power and @number is the power to "
-"which you want to raise the complex number.\n"
-"This function is Excel compatible.\n"
-"@EXAMPLES=\n"
-"IMPOWER(\"4-j\",2) equals 15-8j.\n"
-"\n"
-"@SEEALSO=IMSQRT"
-msgstr ""
-"@FUNCTION=IMPOWER\n"
-"@SYNTAX=IMPOWER(ital;tal)\n"
-"@DESCRIPTION=IMPOWER returnerar ett komplext tal upphöjt med en exponent. "
-"@ital är det komplexa talet som ska upphöjas och @tal är exponenten med "
-"vilken det komplexa talet ska upphöjas.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMPOWER(\"4-j\";2) är lika med 15-8j.\n"
-"\n"
-"@SEEALSO=IMSQRT"
-
-#: plugins/fn-eng/functions.c:999
-msgid ""
-"@FUNCTION=IMDIV\n"
-"@SYNTAX=IMDIV(inumber,inumber)\n"
-"@DESCRIPTION=IMDIV returns the quotient of two complex numbers.\n"
-"This function is Excel compatible.\n"
-"@EXAMPLES=\n"
-"IMDIV(\"2-j\",\"2+j\") equals 0.6-0.8j.\n"
-"\n"
-"@SEEALSO=IMPRODUCT"
-msgstr ""
-"@FUNCTION=IMDIV\n"
-"@SYNTAX=IMDIV(ital;ital)\n"
-"@DESCRIPTION=IMDIV returnerar kvoten av två komplexa tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMDIV(\"2-j\";\"2+j\") är lika med 0,6-0,8j.\n"
-"\n"
-"@SEEALSO=IMPRODUCT"
-
-#: plugins/fn-eng/functions.c:1033
-msgid ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN returns the sine of a complex number.\n"
-"This function is Excel compatible.\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") equals 1.29846+0.63496j.\n"
-"\n"
-"@SEEALSO=IMCOS,IMTAN"
-msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(ital)\n"
-"@DESCRIPTION=IMSIN returnerar sinus för ett komplext tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") är lika med 1,29846+0,63496j.\n"
-"\n"
-"@SEEALSO=IMCOS,IMTAN"
-
-#: plugins/fn-eng/functions.c:1061
-msgid ""
-"@FUNCTION=IMSQRT\n"
-"@SYNTAX=IMSQRT(inumber)\n"
-"@DESCRIPTION=IMSQRT returns the square root of a complex number.\n"
-"This function is Excel compatible.\n"
-"@EXAMPLES=\n"
-"IMSQRT(\"1+j\") equals 1.09868+0.4550899j.\n"
-"\n"
-"@SEEALSO=IMPOWER"
-msgstr ""
-"@FUNCTION=IMSQRT\n"
-"@SYNTAX=IMSQRT(ital)\n"
-"@DESCRIPTION=IMSQRT returnerar kvadratroten av ett komplext tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMSQRT(\"1+j\") är lika med 1,09868+0,4550899j.\n"
-"\n"
-"@SEEALSO=IMPOWER"
-
-#: plugins/fn-eng/functions.c:1089
-msgid ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(inumber,inumber)\n"
-"@DESCRIPTION=IMSUB returns the difference of two complex numbers.\n"
-"This function is Excel compatible.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") equals 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
-msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(ital;ital)\n"
-"@DESCRIPTION=IMSUB returnerar skillnaden mellan två komplexa tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\";\"2+j\") är lika med 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
-
-#: plugins/fn-eng/functions.c:1120
-msgid ""
-"@FUNCTION=IMPRODUCT\n"
-"@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
-"@DESCRIPTION=IMPRODUCT returns the product of given complex numbers.\n"
-"This function is Excel compatible.\n"
-"@EXAMPLES=\n"
-"IMPRODUCT(\"2-j\",\"4-2j\") equals 6-8j.\n"
-"\n"
-"@SEEALSO=IMDIV"
-msgstr ""
-"@FUNCTION=IMPRODUCT\n"
-"@SYNTAX=IMPRODUCT(ital1[;ital2;...])\n"
-"@DESCRIPTION=IMPRODUCT returnerar produkten av de givna komplexa talen.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMPRODUCT(\"2-j\";\"4-2j\") är lika med 6-8j.\n"
-"\n"
-"@SEEALSO=IMDIV"
-
-#: plugins/fn-eng/functions.c:1190
-msgid ""
-"@FUNCTION=IMSUM\n"
-"@SYNTAX=IMSUM(inumber,inumber)\n"
-"@DESCRIPTION=IMSUM returns the sum of two complex numbers.\n"
-"This function is Excel compatible.\n"
-"@EXAMPLES=\n"
-"IMSUM(\"2-4j\",\"9-j\") equals 11-5j.\n"
-"\n"
-"@SEEALSO=IMSUB"
-msgstr ""
-"@FUNCTION=IMSUM\n"
-"@SYNTAX=IMSUM(ital;ital)\n"
-"@DESCRIPTION=IMSUM returnerar summan av två komplexa tal.\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"IMSUM(\"2-4j\",\"9-j\") är lika med 11-5j.\n"
-"\n"
-"@SEEALSO=IMSUB"
-
-#: plugins/fn-eng/functions.c:1224
+#: plugins/fn-eng/functions.c:567
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -2729,7 +2362,7 @@ msgstr ""
 "CONVERT(7.9,\"cal\",\"J\") är lika med 33,07567.\n"
 "@SEEALSO="
 
-#: plugins/fn-eng/functions.c:1625
+#: plugins/fn-eng/functions.c:968
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -2769,7 +2402,7 @@ msgstr ""
 "medelvärdet.\n"
 "@SEEALSO=ERFC"
 
-#: plugins/fn-eng/functions.c:1671
+#: plugins/fn-eng/functions.c:1014
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -2793,7 +2426,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERF"
 
-#: plugins/fn-eng/functions.c:1701
+#: plugins/fn-eng/functions.c:1044
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -2819,11 +2452,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: plugins/fn-eng/functions.c:1746 plugins/fn-eng/functions.c:1800
+#: plugins/fn-eng/functions.c:1089 plugins/fn-eng/functions.c:1143
 msgid "Impossible"
 msgstr "Omöjligt"
 
-#: plugins/fn-eng/functions.c:1757
+#: plugins/fn-eng/functions.c:1100
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -2861,7 +2494,7 @@ msgstr "Funktioner för komplexa tal, baskonvertering, med mera"
 
 # FIXME: rate!=hastighet här. Vad är par?
 #
-#: plugins/fn-financial/functions.c:365
+#: plugins/fn-financial/functions.c:397
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -2920,7 +2553,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINTM"
 
-#: plugins/fn-financial/functions.c:457
+#: plugins/fn-financial/functions.c:489
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -2970,7 +2603,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINT"
 
-#: plugins/fn-financial/functions.c:510
+#: plugins/fn-financial/functions.c:542
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -3027,7 +2660,7 @@ msgstr ""
 "7,68%\n"
 "@SEEALSO=RECEIVED, DATE"
 
-#: plugins/fn-financial/functions.c:571
+#: plugins/fn-financial/functions.c:603
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -3074,7 +2707,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTRATE"
 
-#: plugins/fn-financial/functions.c:626
+#: plugins/fn-financial/functions.c:658
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -3123,7 +2756,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEMAT"
 
-#: plugins/fn-financial/functions.c:678
+#: plugins/fn-financial/functions.c:710
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -3172,7 +2805,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEDISC"
 
-#: plugins/fn-financial/functions.c:737
+#: plugins/fn-financial/functions.c:769
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -3218,7 +2851,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:788
+#: plugins/fn-financial/functions.c:820
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -3262,11 +2895,11 @@ msgstr ""
 "effektiva räntan som du kommer att betala på ditt lån.\n"
 "@SEEALSO=NOMINAL"
 
-#: plugins/fn-financial/functions.c:827
+#: plugins/fn-financial/functions.c:859
 msgid "effect - domain error"
 msgstr "effect - domänfel"
 
-#: plugins/fn-financial/functions.c:835
+#: plugins/fn-financial/functions.c:867
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -3298,11 +2931,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EFFECT"
 
-#: plugins/fn-financial/functions.c:865
+#: plugins/fn-financial/functions.c:897
 msgid "nominal - domain error"
 msgstr "nominal - domänfel"
 
-#: plugins/fn-financial/functions.c:874
+#: plugins/fn-financial/functions.c:906
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -3320,7 +2953,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: plugins/fn-financial/functions.c:908
+#: plugins/fn-financial/functions.c:940
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -3346,7 +2979,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
 
-#: plugins/fn-financial/functions.c:964
+#: plugins/fn-financial/functions.c:996
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -3374,7 +3007,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SLN,SYD"
 
-#: plugins/fn-financial/functions.c:1012
+#: plugins/fn-financial/functions.c:1044
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -3418,11 +3051,11 @@ msgstr ""
 "Detta kommer att returnera det årliga värdeminskningsvärdet 9300 kr.\n"
 "@SEEALSO=SYD"
 
-#: plugins/fn-financial/functions.c:1056
+#: plugins/fn-financial/functions.c:1088
 msgid "sln - domain error"
 msgstr "sln - domänfel"
 
-#: plugins/fn-financial/functions.c:1064
+#: plugins/fn-financial/functions.c:1096
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -3469,11 +3102,11 @@ msgstr ""
 "=SYD(50000; 2000; 3; 2), vilket resulterar i 16000.\n"
 "@SEEALSO=SLN"
 
-#: plugins/fn-financial/functions.c:1110
+#: plugins/fn-financial/functions.c:1142
 msgid "syd - domain error"
 msgstr "syd - domänfel"
 
-#: plugins/fn-financial/functions.c:1120
+#: plugins/fn-financial/functions.c:1152
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -3498,7 +3131,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARFR"
 
-#: plugins/fn-financial/functions.c:1164
+#: plugins/fn-financial/functions.c:1196
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -3520,7 +3153,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARDE"
 
-#: plugins/fn-financial/functions.c:1206
+#: plugins/fn-financial/functions.c:1238
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -3538,7 +3171,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: plugins/fn-financial/functions.c:1266
+#: plugins/fn-financial/functions.c:1298
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -3564,7 +3197,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
-#: plugins/fn-financial/functions.c:1311
+#: plugins/fn-financial/functions.c:1343
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -3592,7 +3225,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: plugins/fn-financial/functions.c:1352
+#: plugins/fn-financial/functions.c:1384
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -3619,7 +3252,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: plugins/fn-financial/functions.c:1393
+#: plugins/fn-financial/functions.c:1425
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -3635,7 +3268,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: plugins/fn-financial/functions.c:1501
+#: plugins/fn-financial/functions.c:1533
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -3671,7 +3304,7 @@ msgstr ""
 "IRR(A1:A8) lika med 0,04375. \n"
 "@SEEALSO=FV,NPV,PV"
 
-#: plugins/fn-financial/functions.c:1624
+#: plugins/fn-financial/functions.c:1656
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -3695,7 +3328,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: plugins/fn-financial/functions.c:1671
+#: plugins/fn-financial/functions.c:1703
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -3719,7 +3352,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: plugins/fn-financial/functions.c:1725
+#: plugins/fn-financial/functions.c:1757
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -3745,7 +3378,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: plugins/fn-financial/functions.c:1785
+#: plugins/fn-financial/functions.c:1817
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -3788,7 +3421,7 @@ msgstr ""
 "XIRR(A1:A5;B1:B5) lika med 0,224838. \n"
 "@SEEALSO=IRR,XNPV"
 
-#: plugins/fn-financial/functions.c:1892
+#: plugins/fn-financial/functions.c:1924
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -3813,7 +3446,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: plugins/fn-financial/functions.c:1931
+#: plugins/fn-financial/functions.c:1963
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -3842,7 +3475,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: plugins/fn-financial/functions.c:1969
+#: plugins/fn-financial/functions.c:2001
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -3870,7 +3503,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: plugins/fn-financial/functions.c:2016
+#: plugins/fn-financial/functions.c:2048
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -3898,7 +3531,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 
-#: plugins/fn-financial/functions.c:2065
+#: plugins/fn-financial/functions.c:2097
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -3931,14 +3564,61 @@ msgstr ""
 "motsvarar alltså att pengarna har fördubblats precis för det 12:e året.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: plugins/fn-financial/functions.c:2114
+#: plugins/fn-financial/functions.c:2146
+#, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
-"@SYNTAX=DURATION(rate,pv,fv)\n"
-"@DESCRIPTION=DURATION calculates number of periods needed for an investment "
-"to attain a desired value. This function is similar to FV and PV with a "
-"difference that we do not need give the direction of cash flows e.g. -100 "
-"for a cash outflow and +100 for a cash inflow.\n"
+"@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
+"@DESCRIPTION=DURATION calucates .@settlement is the settlement date of the "
+"security. @maturity is the maturity date of the security. @issue is the "
+"issue date of the security. @rate is the interest rate set to the security. "
+"@pr is the price per $100 face value of the security. @basis is the type of "
+"day counting system you want to use:\n"
+"\n"
+"0  US 30/360\n"
+"1  actual days/actual days\n"
+"2  actual days/360\n"
+"3  actual days/365\n"
+"4  European 30/360\n"
+"\n"
+"If @frequency is other than 1, 2, or 4, DURATION returns #NUM! error. If "
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=YIELDMAT\n"
+"@SYNTAX=YIELDMAT(avräkning;mognad;start;räntesats;pr[;bas])\n"
+"@DESCRIPTION=YIELDMAT beräknar den årliga avkastningen av en säkerhet för "
+"vilken ränta betalas på mognadsdatum. @avräkning är avräkningsdatumet för "
+"säkerheten. @mognad är mognadsdatumet för säkerheten. @start är startdatumet "
+"för säkerheten. @räntesats är räntesatsen som är angiven för säkerheten. @pr "
+"är priset per $100 värde av säkerheten. @bas är den typ av "
+"dagsräkningssystem som du vill använda:\n"
+"\n"
+"0  Amerikanskt 30/360\n"
+"1  verkliga dagar/verkliga dagar\n"
+"2  verkliga dagar/360\n"
+"3  verkliga dagar/365\n"
+"4  Europeiskt 30/360\n"
+"\n"
+"Om @frekvens är en annan än 1, 2 eller 4 returnerar YIELDDISC felvärdet "
+"#NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är "
+"mellan 1 och 4 returnerar YIELDDISC felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+
+#: plugins/fn-financial/functions.c:2209
+#, fuzzy
+msgid ""
+"@FUNCTION=G_DURATION\n"
+"@SYNTAX=G_DURATION(rate,pv,fv)\n"
+"@DESCRIPTION=G_DURATION calculates number of periods needed for an "
+"investment to attain a desired value. This function is similar to FV and PV "
+"with a difference that we do not need give the direction of cash flows e.g. -"
+"100 for a cash outflow and +100 for a cash inflow.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PPMT,PV,FV"
@@ -3953,7 +3633,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: plugins/fn-financial/functions.c:2151
+#: plugins/fn-financial/functions.c:2246
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -3980,7 +3660,7 @@ msgstr ""
 "FVSCHEDULE(3000;A1:A5) lika med 4942,7911611.\n"
 "@SEEALSO=PV,FV"
 
-#: plugins/fn-financial/functions.c:2195
+#: plugins/fn-financial/functions.c:2290
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -4028,7 +3708,7 @@ msgstr ""
 "EURO(\"DEM\") returnerar 1,95583.\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2282
+#: plugins/fn-financial/functions.c:2377
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
@@ -4072,7 +3752,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2372
+#: plugins/fn-financial/functions.c:2452
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
@@ -4115,7 +3795,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2462
+#: plugins/fn-financial/functions.c:2587
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -4159,7 +3839,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2498
+#: plugins/fn-financial/functions.c:2645
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -4205,7 +3885,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2535
+#: plugins/fn-financial/functions.c:2707
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -4253,7 +3933,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2638
+#: plugins/fn-financial/functions.c:2812
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -4299,7 +3979,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2675
+#: plugins/fn-financial/functions.c:2849
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -4346,7 +4026,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2712
+#: plugins/fn-financial/functions.c:2915
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -4392,7 +4072,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2749
+#: plugins/fn-financial/functions.c:2981
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -4434,7 +4114,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2783
+#: plugins/fn-financial/functions.c:3042
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -4477,7 +4157,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2817
+#: plugins/fn-financial/functions.c:3102
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -4539,7 +4219,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2859
+#: plugins/fn-financial/functions.c:3144
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -4603,7 +4283,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2902
+#: plugins/fn-financial/functions.c:3187
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -4665,7 +4345,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2944
+#: plugins/fn-financial/functions.c:3229
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -4725,7 +4405,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:2985
+#: plugins/fn-financial/functions.c:3270
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -4785,7 +4465,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3026
+#: plugins/fn-financial/functions.c:3311
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -4841,7 +4521,7 @@ msgstr ""
 "COUPNUM (DATE(2002;11;29);DATE(2004;2;29);4;0;FALSE) = 5\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3066
+#: plugins/fn-financial/functions.c:3351
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -4859,7 +4539,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3086
+#: plugins/fn-financial/functions.c:3393
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -4877,7 +4557,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3106
+#: plugins/fn-financial/functions.c:3435
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -4895,7 +4575,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-financial/functions.c:3127
+#: plugins/fn-financial/functions.c:3483
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -5719,8 +5399,7 @@ msgstr ""
 msgid "number,number,"
 msgstr "tal;tal;"
 
-#: plugins/fn-logical/functions.c:356 plugins/fn-logical/functions.c:358
-#: plugins/fn-logical/functions.c:359 plugins/fn-math/functions.c:3218
+#: plugins/fn-logical/functions.c:356 plugins/fn-math/functions.c:3218
 #: plugins/fn-math/functions.c:3219 plugins/fn-math/functions.c:3220
 #: plugins/fn-math/functions.c:3221 plugins/fn-math/functions.c:3222
 #: plugins/fn-math/functions.c:3223 plugins/fn-math/functions.c:3224
@@ -11426,28 +11105,28 @@ msgstr "Lotus 123"
 msgid "Lotus 123 (*.wk1)"
 msgstr "Lotus 123 (*.wk1)"
 
-#: plugins/mps/mps.c:178
+#: plugins/mps/mps.c:187
 msgid "Program Name"
 msgstr "Programnamn"
 
 #. Print 'Status'.
-#: plugins/mps/mps.c:184
+#: plugins/mps/mps.c:193
 msgid "Feasible"
 msgstr "Möjligt"
 
-#: plugins/mps/mps.c:218
+#: plugins/mps/mps.c:227
 msgid "Objective Value"
 msgstr "Objektivvärde"
 
-#: plugins/mps/mps.c:224
+#: plugins/mps/mps.c:233
 msgid "Objective function:"
 msgstr "Objektivfunktion:"
 
-#: plugins/mps/mps.c:231
+#: plugins/mps/mps.c:240
 msgid "Constraints:"
 msgstr "Bivillkor:"
 
-#: plugins/mps/mps.c:242 src/dialogs/dialog-formula-guru.c:808
+#: plugins/mps/mps.c:251 src/dialogs/dialog-formula-guru.c:808
 #: src/dialogs/dialog-function-select.c:333
 #: src/dialogs/dialog-function-select.c:355
 #: src/dialogs/dialog-plugin-manager.c:709
@@ -11460,7 +11139,7 @@ msgstr "Bivillkor:"
 msgid "Name"
 msgstr "Namn"
 
-#: plugins/mps/mps.c:269 src/dialogs/dialog-plugin-manager.c:714
+#: plugins/mps/mps.c:278 src/dialogs/dialog-plugin-manager.c:714
 #: src/dialogs/dialog-preferences.c:510 src/tools/solver/reports-write.c:321
 #: src/tools/solver/reports-write.c:367 src/tools/solver/reports-write.c:479
 #: src/tools/solver/reports-write.c:486
@@ -11470,45 +11149,49 @@ msgstr "Värde"
 #.
 #. * Fill in the labels of `General Info' section.
 #.
-#: plugins/mps/mps.c:270 src/dialogs/dialog-formula-guru.c:812
+#: plugins/mps/mps.c:279 src/dialogs/dialog-formula-guru.c:812
 #: src/tools/solver/reports-write.c:602
 msgid "Type"
 msgstr "Typ"
 
-#: plugins/mps/mps.c:271
+#: plugins/mps/mps.c:280
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:272 src/tools/solver/reports-write.c:217
+#: plugins/mps/mps.c:281 src/tools/solver/reports-write.c:217
 msgid "Slack"
 msgstr "Spelrum"
 
-#: plugins/mps/mps.c:273 src/tools/solver/reports-write.c:216
+#: plugins/mps/mps.c:282 src/tools/solver/reports-write.c:216
 #: src/tools/solver/reports-write.c:603
 msgid "Status"
 msgstr "Status"
 
-#: plugins/mps/mps.c:735
+#: plugins/mps/mps.c:744
 msgid "Error while reading MPS file."
 msgstr "Fel vid läsning av MPS-fil."
 
-#: plugins/mps/parser.c:523
+#: plugins/mps/parser.c:548
 msgid "Problem name was not defined in the file."
 msgstr "Problemnamnet angavs inte i filen."
 
-#: plugins/mps/parser.c:528
+#: plugins/mps/parser.c:553
 msgid "Invalid ROWS section in the file."
 msgstr "Ogiltigt ROWS-asvnitt i filen."
 
-#: plugins/mps/parser.c:533
+#: plugins/mps/parser.c:558
 msgid "Invalid COLUMNS section in the file."
 msgstr "Ogiltigt COLUMNS-avsnitt i filen."
 
-#: plugins/mps/parser.c:538
+#: plugins/mps/parser.c:563
 msgid "Invalid RHS section in the file."
 msgstr "Ogiltigt RHS-avsnitt i filen."
 
-#: plugins/mps/parser.c:543
+#: plugins/mps/parser.c:568
+msgid "Invalid RANGES section in the file."
+msgstr "Ogiltigt RANGES-avsnitt i filen."
+
+#: plugins/mps/parser.c:573
 msgid "Invalid BOUNDS section in the file."
 msgstr "Ogiltigt BOUNDS-avsnitt i filen."
 
@@ -22257,6 +21940,392 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 #: src/xml-io.c:3441
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid ""
+#~ "@FUNCTION=COMPLEX\n"
+#~ "@SYNTAX=COMPLEX(real,im[,suffix])\n"
+#~ "@DESCRIPTION=COMPLEX returns a complex number of the form x + yi. @real "
+#~ "is the real and @im is the imaginary coefficient of the complex number.  "
+#~ "@suffix is the suffix for the imaginary coefficient.  If it is omitted, "
+#~ "COMPLEX uses 'i' by default.\n"
+#~ "If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! error.\n"
+#~ "This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "COMPLEX(1,-1) equals 1-i.\n"
+#~ "\n"
+#~ "@SEEALSO="
+#~ msgstr ""
+#~ "@FUNCTION=COMPLEX\n"
+#~ "@SYNTAX=COMPLEX(real;im[;suffix])\n"
+#~ "@DESCRIPTION=COMPLEX returnerar ett komplext tal på formen x + yi. @real "
+#~ "är realdelen och @im är imaginärdelen.  @suffix är suffixet som ska "
+#~ "användas för imaginärdelen.  Om det inte anges används \"i\".\n"
+#~ "Om @suffix varken är \"i\" eller \"j\", returneras felvärdet #VÄRDE!.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "COMPLEX(1,-1) är lika med 1-i.\n"
+#~ "\n"
+#~ "@SEEALSO="
+
+#~ msgid ""
+#~ "@FUNCTION=IMAGINARY\n"
+#~ "@SYNTAX=IMAGINARY(inumber)\n"
+#~ "@DESCRIPTION=IMAGINARY returns the imaginary coefficient of a complex "
+#~ "number.\n"
+#~ "This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "IMAGINARY(\"132-j\") equals -1.\n"
+#~ "\n"
+#~ "@SEEALSO=IMREAL"
+#~ msgstr ""
+#~ "@FUNCTION=IMAGINARY\n"
+#~ "@SYNTAX=IMAGINARY(ital)\n"
+#~ "@DESCRIPTION=IMAGINARY returnerar imaginärdelens koefficient för ett "
+#~ "komplext tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMAGINARY(\"132-j\") är lika med -1.\n"
+#~ "\n"
+#~ "@SEEALSO=IMREAL"
+
+#~ msgid ""
+#~ "@FUNCTION=IMREAL\n"
+#~ "@SYNTAX=IMREAL(inumber)\n"
+#~ "@DESCRIPTION=IMREAL returns the real coefficient of a complex number.\n"
+#~ "This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "imreal(\"132-j\") equals 132.\n"
+#~ "\n"
+#~ "@SEEALSO=IMAGINARY"
+#~ msgstr ""
+#~ "@FUNCTION=IMREAL\n"
+#~ "@SYNTAX=IMREAL(i)\n"
+#~ "@DESCRIPTION=IMREAL returnerar realdelens koefficient för ett komplext "
+#~ "tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "imreal(\"132-j\") är lika med 132.\n"
+#~ "\n"
+#~ "@SEEALSO=IMAGINARY"
+
+#~ msgid ""
+#~ "@FUNCTION=IMABS\n"
+#~ "@SYNTAX=IMABS(inumber)\n"
+#~ "@DESCRIPTION=IMABS returns the absolute value of a complex number.\n"
+#~ "This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "IMABS(\"2-j\") equals 2.23606798.\n"
+#~ "\n"
+#~ "@SEEALSO=IMAGINARY,IMREAL"
+#~ msgstr ""
+#~ "@FUNCTION=IMABS\n"
+#~ "@SYNTAX=IMABS(ital)\n"
+#~ "@DESCRIPTION=IMABS returnerar absolutbeloppet av ett komplext tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMABS(\"2-j\") är lika med 2,23606798.\n"
+#~ "\n"
+#~ "@SEEALSO=IMAGINARY,IMREAL"
+
+#~ msgid ""
+#~ "@FUNCTION=IMCONJUGATE\n"
+#~ "@SYNTAX=IMCONJUGATE(inumber)\n"
+#~ "@DESCRIPTION=IMCONJUGATE returns the complex conjugate of a complex "
+#~ "number.\n"
+#~ "This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "IMCONJUGATE(\"1-j\") equals 1+j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMAGINARY,IMREAL"
+#~ msgstr ""
+#~ "@FUNCTION=IMCONJUGATE\n"
+#~ "@SYNTAX=IMCONJUGATE(ital)\n"
+#~ "@DESCRIPTION=IMCONJUGATE returnerar komplexkonjugatet för ett komplext "
+#~ "tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMCONJUGATE(\"1-j\") är lika med 1+j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMAGINARY,IMREAL"
+
+#~ msgid ""
+#~ "@FUNCTION=IMCOS\n"
+#~ "@SYNTAX=IMCOS(inumber)\n"
+#~ "@DESCRIPTION=IMCOS returns the cosine of a complex number.\n"
+#~ "This function is Excel compatible.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMCOS(\"1+j\") equals 0.833730-0.988898j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMSIN,IMTAN"
+#~ msgstr ""
+#~ "@FUNCTION=IMCOS\n"
+#~ "@SYNTAX=IMCOS(ital)\n"
+#~ "@DESCRIPTION=IMCOS returnerar cosinus för ett komplext tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMCOS(\"1+j\") är lika med 0,833730-0,988898j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMSIN,IMTAN"
+
+#~ msgid ""
+#~ "@FUNCTION=IMTAN\n"
+#~ "@SYNTAX=IMTAN(inumber)\n"
+#~ "@DESCRIPTION=IMTAN returns the tangent of a complex number.\n"
+#~ "This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=IMSIN,IMCOS"
+#~ msgstr ""
+#~ "@FUNCTION=IMTAN\n"
+#~ "@SYNTAX=IMTAN(ital)\n"
+#~ "@DESCRIPTION=IMTAN returnerar tangens för ett komplext tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "\n"
+#~ "@SEEALSO=IMSIN,IMCOS"
+
+#~ msgid ""
+#~ "@FUNCTION=IMEXP\n"
+#~ "@SYNTAX=IMEXP(inumber)\n"
+#~ "@DESCRIPTION=IMEXP returns the exponential of a complex number.\n"
+#~ "This function is Excel compatible.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMEXP(\"2-j\") equals 3.992324-6.217676j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMLN"
+#~ msgstr ""
+#~ "@FUNCTION=IMEXP\n"
+#~ "@SYNTAX=IMEXP(ital)\n"
+#~ "@DESCRIPTION=IMEXP returnerar exponentialen av ett komplext tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMEXP(\"2-j\") är lika med 3,992324-6,217676j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMLN"
+
+#~ msgid ""
+#~ "@FUNCTION=IMARGUMENT\n"
+#~ "@SYNTAX=IMARGUMENT(inumber)\n"
+#~ "@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number.\n"
+#~ "This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "IMARGUMENT(\"2-j\") equals -0.463647609.\n"
+#~ "\n"
+#~ "@SEEALSO="
+#~ msgstr ""
+#~ "@FUNCTION=IMARGUMENT\n"
+#~ "@SYNTAX=IMARGUMENT(ital)\n"
+#~ "@DESCRIPTION=IMARGUMENT returnerar argumentet (theta) för ett komplext "
+#~ "tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMARGUMENT(\"2-j\") är lika med -0,463647609.\n"
+#~ "\n"
+#~ "@SEEALSO="
+
+#~ msgid ""
+#~ "@FUNCTION=IMLN\n"
+#~ "@SYNTAX=IMLN(inumber)\n"
+#~ "@DESCRIPTION=IMLN returns the natural logarithm of a complex number. (The "
+#~ "result will have an imaginary part between -pi and +pi.  The natural "
+#~ "logarithm is not uniquely defined on complex numbers. You may need to add "
+#~ "or subtract an even multiple of pi to the imaginary part.)\n"
+#~ "This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "IMLN(\"3-j\") equals 1.15129-0.32175j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
+#~ msgstr ""
+#~ "@FUNCTION=IMLN\n"
+#~ "@SYNTAX=IMLN(ital)\n"
+#~ "@DESCRIPTION=IMLN returnerar den naturliga logaritmen för ett komplext "
+#~ "tal (resultatet har en imaginärdel mellan -pi och +pi. Den naturliga "
+#~ "logaritmen är inte entydigt definierad för komplexa tal, och därför kan "
+#~ "du behöva addera eller subtrahera en jämn multipel av pi på "
+#~ "imaginärdelen).\n"
+#~ "Denna funtion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMLN(\"3-j\") är lika med 1,15129-0,32175j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
+
+#~ msgid ""
+#~ "@FUNCTION=IMLOG2\n"
+#~ "@SYNTAX=IMLOG2(inumber)\n"
+#~ "@DESCRIPTION=IMLOG2 returns the logarithm of a complex number in base 2.\n"
+#~ "This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "IMLOG2(\"3-j\") equals 1.66096-0.46419j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMLN,IMLOG10"
+#~ msgstr ""
+#~ "@FUNCTION=IMLOG2\n"
+#~ "@SYNTAX=IMLOG2(ital)\n"
+#~ "@DESCRIPTION=IMLOG2 returnerar logaritmen i basen 2 för ett komplext "
+#~ "tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMLOG2(\"3-j\") är lika med 1,66096-0,46419j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMLN,IMLOG10"
+
+#~ msgid ""
+#~ "@FUNCTION=IMLOG10\n"
+#~ "@SYNTAX=IMLOG10(inumber)\n"
+#~ "@DESCRIPTION=IMLOG10 returns the logarithm of a complex number in base "
+#~ "10.\n"
+#~ "This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "IMLOG10(\"3-j\") equals 0.5-0.13973j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMLN,IMLOG2"
+#~ msgstr ""
+#~ "@FUNCTION=IMLOG10\n"
+#~ "@SYNTAX=IMLOG10(ital)\n"
+#~ "@DESCRIPTION=IMLOG10 returnerar logaritmen i basen 10 för ett komplext "
+#~ "tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMLOG10(\"3-j\") är lika med 0,5-0,13973j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMLN,IMLOG2"
+
+#~ msgid ""
+#~ "@FUNCTION=IMPOWER\n"
+#~ "@SYNTAX=IMPOWER(inumber,number)\n"
+#~ "@DESCRIPTION=IMPOWER returns a complex number raised to a power.  "
+#~ "@inumber is the complex number to be raised to a power and @number is the "
+#~ "power to which you want to raise the complex number.\n"
+#~ "This function is Excel compatible.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMPOWER(\"4-j\",2) equals 15-8j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMSQRT"
+#~ msgstr ""
+#~ "@FUNCTION=IMPOWER\n"
+#~ "@SYNTAX=IMPOWER(ital;tal)\n"
+#~ "@DESCRIPTION=IMPOWER returnerar ett komplext tal upphöjt med en exponent. "
+#~ "@ital är det komplexa talet som ska upphöjas och @tal är exponenten med "
+#~ "vilken det komplexa talet ska upphöjas.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMPOWER(\"4-j\";2) är lika med 15-8j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMSQRT"
+
+#~ msgid ""
+#~ "@FUNCTION=IMDIV\n"
+#~ "@SYNTAX=IMDIV(inumber,inumber)\n"
+#~ "@DESCRIPTION=IMDIV returns the quotient of two complex numbers.\n"
+#~ "This function is Excel compatible.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMDIV(\"2-j\",\"2+j\") equals 0.6-0.8j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMPRODUCT"
+#~ msgstr ""
+#~ "@FUNCTION=IMDIV\n"
+#~ "@SYNTAX=IMDIV(ital;ital)\n"
+#~ "@DESCRIPTION=IMDIV returnerar kvoten av två komplexa tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMDIV(\"2-j\";\"2+j\") är lika med 0,6-0,8j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMPRODUCT"
+
+#~ msgid ""
+#~ "@FUNCTION=IMSIN\n"
+#~ "@SYNTAX=IMSIN(inumber)\n"
+#~ "@DESCRIPTION=IMSIN returns the sine of a complex number.\n"
+#~ "This function is Excel compatible.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMSIN(\"1+j\") equals 1.29846+0.63496j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMCOS,IMTAN"
+#~ msgstr ""
+#~ "@FUNCTION=IMSIN\n"
+#~ "@SYNTAX=IMSIN(ital)\n"
+#~ "@DESCRIPTION=IMSIN returnerar sinus för ett komplext tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMSIN(\"1+j\") är lika med 1,29846+0,63496j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMCOS,IMTAN"
+
+#~ msgid ""
+#~ "@FUNCTION=IMSQRT\n"
+#~ "@SYNTAX=IMSQRT(inumber)\n"
+#~ "@DESCRIPTION=IMSQRT returns the square root of a complex number.\n"
+#~ "This function is Excel compatible.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMSQRT(\"1+j\") equals 1.09868+0.4550899j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMPOWER"
+#~ msgstr ""
+#~ "@FUNCTION=IMSQRT\n"
+#~ "@SYNTAX=IMSQRT(ital)\n"
+#~ "@DESCRIPTION=IMSQRT returnerar kvadratroten av ett komplext tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMSQRT(\"1+j\") är lika med 1,09868+0,4550899j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMPOWER"
+
+#~ msgid ""
+#~ "@FUNCTION=IMSUB\n"
+#~ "@SYNTAX=IMSUB(inumber,inumber)\n"
+#~ "@DESCRIPTION=IMSUB returns the difference of two complex numbers.\n"
+#~ "This function is Excel compatible.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMSUB(\"3-j\",\"2+j\") equals 1-2j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMSUM"
+#~ msgstr ""
+#~ "@FUNCTION=IMSUB\n"
+#~ "@SYNTAX=IMSUB(ital;ital)\n"
+#~ "@DESCRIPTION=IMSUB returnerar skillnaden mellan två komplexa tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMSUB(\"3-j\";\"2+j\") är lika med 1-2j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMSUM"
+
+#~ msgid ""
+#~ "@FUNCTION=IMPRODUCT\n"
+#~ "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
+#~ "@DESCRIPTION=IMPRODUCT returns the product of given complex numbers.\n"
+#~ "This function is Excel compatible.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMPRODUCT(\"2-j\",\"4-2j\") equals 6-8j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMDIV"
+#~ msgstr ""
+#~ "@FUNCTION=IMPRODUCT\n"
+#~ "@SYNTAX=IMPRODUCT(ital1[;ital2;...])\n"
+#~ "@DESCRIPTION=IMPRODUCT returnerar produkten av de givna komplexa talen.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMPRODUCT(\"2-j\";\"4-2j\") är lika med 6-8j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMDIV"
+
+#~ msgid ""
+#~ "@FUNCTION=IMSUM\n"
+#~ "@SYNTAX=IMSUM(inumber,inumber)\n"
+#~ "@DESCRIPTION=IMSUM returns the sum of two complex numbers.\n"
+#~ "This function is Excel compatible.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMSUM(\"2-4j\",\"9-j\") equals 11-5j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMSUB"
+#~ msgstr ""
+#~ "@FUNCTION=IMSUM\n"
+#~ "@SYNTAX=IMSUM(ital;ital)\n"
+#~ "@DESCRIPTION=IMSUM returnerar summan av två komplexa tal.\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "IMSUM(\"2-4j\",\"9-j\") är lika med 11-5j.\n"
+#~ "\n"
+#~ "@SEEALSO=IMSUB"
 
 #~ msgid "Could not create the Fourier Analyis Tool dialog."
 #~ msgstr "Kunde inte skapa dialogen för fourieranalysverktyget."
