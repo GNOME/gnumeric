@@ -1,3 +1,8 @@
+2000-05-25  ERDI Gergo  <cactus@cactus.rulez.org>
+
+	* src/dialogs/dialog-printer-setup.c: The small page icon reflects
+	the actual margin values
+
 2000-05-25  Valek Filippov  <frob@df.ru>
 
 	* src/dialog/print.glade.h: insert /* xgettext: no-c-format */

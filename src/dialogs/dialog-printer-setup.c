@@ -25,14 +25,7 @@
 #define PAGE_Y (PREVIEW_Y - PREVIEW_MARGIN_Y)
 
 typedef struct {
-	UnitName   unit;
-	double     value;
-	GtkSpinButton *spin;
-	GtkAdjustment *adj;
-} UnitInfo;
-
-typedef struct {
-	/* THe Canvas object */
+	/* The Canvas object */
 	GtkWidget        *canvas;
 
 	/* Objects in the Preview Canvas */
@@ -42,6 +35,27 @@ typedef struct {
 	int offset_x, offset_y;	/* For centering the small page preview */
 	double scale;
 } PreviewInfo;
+
+typedef enum {
+	MARGIN_LEFT,
+	MARGIN_RIGHT,
+	MARGIN_TOP,
+	MARGIN_BOTTOM,
+	MARGIN_HEADER,
+	MARGIN_FOOTER
+} MarginOrientation;
+
+typedef struct {
+	UnitName   unit;
+	double     value;
+	GtkSpinButton *spin;
+	GtkAdjustment *adj;
+
+	GnomeCanvasItem *line;
+	MarginOrientation orientation;
+	double bound_x1, bound_y1, bound_x2, bound_y2;
+	PreviewInfo *pi;
+} UnitInfo;
 
 typedef struct {
 	Sheet            *sheet;
@@ -93,7 +107,9 @@ preview_page_destroy (dialog_print_info_t *dpi)
 }
 
 static void
-make_line (GnomeCanvasGroup *g, double x1, double y1, double x2, double y2)
+move_line (GnomeCanvasItem *item,
+	   double x1, double y1,
+	   double x2, double y2)
 {
 	GnomeCanvasPoints *points;
 
@@ -102,13 +118,107 @@ make_line (GnomeCanvasGroup *g, double x1, double y1, double x2, double y2)
 	points->coords [1] = y1;
 	points->coords [2] = x2;
 	points->coords [3] = y2;
-	gnome_canvas_item_new (
+
+	gnome_canvas_item_set (item,
+			       "points", points,
+			       NULL);
+	gnome_canvas_points_unref (points);
+}
+
+static GnomeCanvasItem *
+make_line (GnomeCanvasGroup *g, double x1, double y1, double x2, double y2)
+{
+	GnomeCanvasPoints *points;
+	GnomeCanvasItem *item;
+
+	points = gnome_canvas_points_new (2);
+	points->coords [0] = x1;
+	points->coords [1] = y1;
+	points->coords [2] = x2;
+	points->coords [3] = y2;
+
+	item = gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (g), gnome_canvas_line_get_type (),
 		"points", points,
 		"width_pixels", 1,
 		"fill_color",   "gray",
 		NULL);
 	gnome_canvas_points_unref (points);
+
+	return item;
+}
+
+static void
+draw_margin (UnitInfo *uinfo)
+{
+	double x1, y1, x2, y2;
+	double val = unit_convert (uinfo->value,
+				   uinfo->unit, UNIT_POINTS);
+
+	x1 = uinfo->bound_x1;
+	y1 = uinfo->bound_y1;
+	x2 = uinfo->bound_x2;
+	y2 = uinfo->bound_y2;
+
+	switch (uinfo->orientation)
+	{
+	case MARGIN_LEFT:
+		x1 += uinfo->pi->scale * val;
+		if (x1 < x2)
+			x2 = x1;
+		else
+			x1 = x2;
+		break;
+	case MARGIN_RIGHT:
+		x2 -= uinfo->pi->scale * val;
+		if (x2 < x1)
+			x2 = x1;
+		else
+			x1 = x2;
+		break;
+	case MARGIN_TOP:
+		y1 += uinfo->pi->scale * val;
+		if (y1 < y2)
+			y2 = y1;
+		else
+			y1 = y2;
+		break;
+	case MARGIN_BOTTOM:
+		y2 -= uinfo->pi->scale * val;
+		if (y2 < y1)
+			y2 = y1;
+		else
+			y1 = y2;
+		break;
+	case MARGIN_HEADER:
+	case MARGIN_FOOTER:
+#warning FIXME: proper rendering of headers/footers
+		y1 = y2;
+	}
+
+	move_line (uinfo->line, x1, y1, x2, y2);
+}
+	     
+
+static void
+create_margin (dialog_print_info_t *dpi,
+	       UnitInfo *uinfo,
+	       MarginOrientation orientation,
+	       double x1, double y1,
+	       double x2, double y2)
+{
+	GnomeCanvasGroup *g = GNOME_CANVAS_GROUP (dpi->preview.group);
+	PreviewInfo *pi = &dpi->preview;
+
+	uinfo->pi = &dpi->preview;
+	uinfo->line = make_line (g, x1 + 8, y1, x1 + 8, y2);
+	uinfo->orientation = orientation;
+	uinfo->bound_x1 = x1;
+	uinfo->bound_y1 = y1;
+	uinfo->bound_x2 = x2;
+	uinfo->bound_y2 = y2;
+	
+	draw_margin (uinfo);
 }
 
 static void
@@ -117,14 +227,21 @@ draw_margins (dialog_print_info_t *dpi, double x1, double y1, double x2, double 
 	GnomeCanvasGroup *g = GNOME_CANVAS_GROUP (dpi->preview.group);
 
 	/* Margins */
-	make_line (g, x1 + 8, y1, x1 + 8, y2);
-	make_line (g, x2 - 8, y1, x2 - 8, y2);
-	make_line (g, x1, y1 + 8, x2, y1 + 8);
-	make_line (g, x1, y2 - 8, x2, y2 - 8);
+	create_margin (dpi, &dpi->margins.left, MARGIN_LEFT,
+		       x1, y1, x2, y2);
+	create_margin (dpi, &dpi->margins.right, MARGIN_RIGHT,
+		       x1, y1, x2, y2);
+	create_margin (dpi, &dpi->margins.top, MARGIN_TOP,
+		       x1, y1, x2, y2);
+	create_margin (dpi, &dpi->margins.bottom, MARGIN_BOTTOM,
+		       x1, y1, x2, y2);
 
 	/* Headers & footers */
-	make_line (g, x1, y1 + 13, x2, y1 + 13);
-	make_line (g, x1, y2 - 13, x2, y2 - 13);
+	dpi->margins.header.line = make_line (g, x1, y1 + 13, x2, y1 + 13);
+	dpi->margins.header.orientation = MARGIN_TOP;
+	dpi->margins.footer.line = make_line (g, x1, y2 - 13, x2, y2 - 13);
+	dpi->margins.footer.orientation = MARGIN_TOP;
+
 }
 
 static void
@@ -266,6 +383,9 @@ static void
 unit_changed (GtkSpinButton *spin_button, UnitInfo *target)
 {
 	target->value = target->adj->value;
+
+	/* Adjust the display to the current values */
+	draw_margin (target);
 }
 
 static void
