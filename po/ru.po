@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.35\n"
-"POT-Creation-Date: 1999-11-17 19:06-0600\n"
+"POT-Creation-Date: 1999-11-18 07:46-0600\n"
 "PO-Revision-Date: 1999-04-19 14:42-0600\n"
 "Last-Translator: Valek Filippov <val@comptek.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -55,15 +55,15 @@ msgstr "Неизвестная ошибка в выражении"
 msgid "Imported %s"
 msgstr "Сортировка"
 
-#: plugins/ff-csv/csv-io.c:256
+#: plugins/ff-csv/csv-io.c:266
 msgid "Comma Separated Value (CSV) import"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:259
+#: plugins/ff-csv/csv-io.c:269
 msgid "Comma Separated Value format (*.csv)"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:262
+#: plugins/ff-csv/csv-io.c:272
 msgid "Comma Separated Value (CSV) module"
 msgstr ""
 

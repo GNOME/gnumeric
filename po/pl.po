@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 1999-11-17 19:06-0600\n"
+"POT-Creation-Date: 1999-11-18 07:46-0600\n"
 "PO-Revision-Date: 1999-09-17 04:25+0200\n"
 "Last-Translator: GNOME PL Team\n"
 "Language-Team: Polish <gnomepl@pandora.info.bielsko.pl>\n"
@@ -51,16 +51,16 @@ msgstr " Nieznana formu³a"
 msgid "Imported %s"
 msgstr "Zaimportowano %s"
 
-#: plugins/ff-csv/csv-io.c:256
+#: plugins/ff-csv/csv-io.c:266
 msgid "Comma Separated Value (CSV) import"
 msgstr "Import pliku o polach oddzielonych przecinkami (CSV)"
 
-#: plugins/ff-csv/csv-io.c:259
+#: plugins/ff-csv/csv-io.c:269
 #, fuzzy
 msgid "Comma Separated Value format (*.csv)"
 msgstr "Import pliku o polach oddzielonych przecinkami (CSV)"
 
-#: plugins/ff-csv/csv-io.c:262
+#: plugins/ff-csv/csv-io.c:272
 msgid "Comma Separated Value (CSV) module"
 msgstr "Modu³ o polach oddzielonych przecinkami (CSV)"
 

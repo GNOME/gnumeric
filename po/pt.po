@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 1999-11-17 19:06-0600\n"
+"POT-Creation-Date: 1999-11-18 07:46-0600\n"
 "PO-Revision-Date: 1998-10-03 17:59+01:00\n"
 "Last-Translator: Nuno Ferreira <nmrf@rnl.ist.utl.pt>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -56,15 +56,15 @@ msgstr "Erro de avaliação desconhecido"
 msgid "Imported %s"
 msgstr "F_ormatar"
 
-#: plugins/ff-csv/csv-io.c:256
+#: plugins/ff-csv/csv-io.c:266
 msgid "Comma Separated Value (CSV) import"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:259
+#: plugins/ff-csv/csv-io.c:269
 msgid "Comma Separated Value format (*.csv)"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:262
+#: plugins/ff-csv/csv-io.c:272
 msgid "Comma Separated Value (CSV) module"
 msgstr ""
 

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-11-17 19:06-0600\n"
+"POT-Creation-Date: 1999-11-18 07:46-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,16 +55,16 @@ msgstr "Tundmatu valem"
 msgid "Imported %s"
 msgstr "Loetud %s"
 
-#: plugins/ff-csv/csv-io.c:256
+#: plugins/ff-csv/csv-io.c:266
 msgid "Comma Separated Value (CSV) import"
 msgstr "Komaga eraldatud väljade (CSV) lugemine"
 
-#: plugins/ff-csv/csv-io.c:259
+#: plugins/ff-csv/csv-io.c:269
 #, fuzzy
 msgid "Comma Separated Value format (*.csv)"
 msgstr "Komaga eraldatud väljade (CSV) lugemine"
 
-#: plugins/ff-csv/csv-io.c:262
+#: plugins/ff-csv/csv-io.c:272
 msgid "Comma Separated Value (CSV) module"
 msgstr "Komaga eraldatud väljade (CSV) moodul"
 

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNUMeric\n"
-"POT-Creation-Date: 1999-11-17 19:06-0600\n"
+"POT-Creation-Date: 1999-11-18 07:46-0600\n"
 "PO-Revision-Date: 1999-04-09 16:14-0300\n"
 "Last-Translator: Elvis Pfützenreuter <epx@netville.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -51,15 +51,15 @@ msgstr ""
 msgid "Imported %s"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:256
+#: plugins/ff-csv/csv-io.c:266
 msgid "Comma Separated Value (CSV) import"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:259
+#: plugins/ff-csv/csv-io.c:269
 msgid "Comma Separated Value format (*.csv)"
 msgstr ""
 
-#: plugins/ff-csv/csv-io.c:262
+#: plugins/ff-csv/csv-io.c:272
 msgid "Comma Separated Value (CSV) module"
 msgstr ""
 
