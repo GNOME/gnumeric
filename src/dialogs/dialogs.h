@@ -93,6 +93,8 @@ void   	 dialog_goal_seek       (Workbook  *wb, Sheet *sheet);
 void   	 dialog_solver          (Workbook  *wb, Sheet *sheet);
 void   	 dialog_printer_setup   (Workbook  *wb, Sheet *sheet);
 void   	 dialog_summary_update  (Workbook  *wb, SummaryInfo *sin);
+void   	 dialog_autosave        (Workbook  *wb);
+gint     dialog_autosave_callback (gpointer *data);
 void     dialog_data_analysis   (Workbook *wb, Sheet *sheet);
 char   	*dialog_get_sheet_name  (Workbook *wb, const char *name);
 gboolean dialog_get_number      (Workbook *wb,

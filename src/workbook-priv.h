@@ -117,6 +117,11 @@ struct _Workbook {
 	gboolean   display_formulas; 
 
 	WorkbookPrivate *priv;
+
+        gboolean   autosave;
+        gboolean   autosave_prompt;
+        gint       autosave_minutes;
+        gint       autosave_timer;
 };
 
 typedef struct {

@@ -1,3 +1,17 @@
+2000-01-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialogs/dialog-autosave.c: Implemented ``Auto Save'' tool.
+
+	* src/dialogs/autosave.glade: New file.
+
+	* src/dialogs/autosave-prompt.glade: New file.
+
+	* src/workbook.c: Added Autosave tool.
+	
+	* src/workbook.h: Added autosave paramters to the Workbook struct.
+
+	* src/dialog-solver: Fixed a constraint delete bug.
+
 2000-01-13  Daniel Veillard <Daniel.Veillard@w3.org>
 
 	* src/xml-io.c (gnumeric_xml_write_sheet, gnumeric_xml_write_workbook,

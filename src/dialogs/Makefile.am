@@ -17,6 +17,7 @@ noinst_LIBRARIES = libdialogs.a
 
 libdialogs_a_SOURCES =				\
 	dialog-analysis-tools.c			\
+	dialog-autosave.c			\
 	dialog-cell-comment.c			\
 	dialog-cell-format.c			\
 	dialog-cell-sort.c			\
@@ -43,6 +44,8 @@ libdialogs_a_SOURCES =				\
 
 gladedir   = $(datadir)/gnumeric/glade
 glade_DATA = 				\
+	autosave.glade			\
+	autosave-prompt.glade		\
 	col-width.glade			\
 	font-sel.glade			\
 	hf-config.glade			\

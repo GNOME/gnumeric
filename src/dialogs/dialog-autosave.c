@@ -1,0 +1,145 @@
+/*
+ * dialog-autosave.c:
+ *
+ * Author:
+ *        Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *
+ * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi>
+ **/
+#include <config.h>
+#include <gnome.h>
+#include <glade/glade.h>
+#include "gnumeric.h"
+#include "gnumeric-util.h"
+#include "gnumeric-sheet.h"
+#include "dialogs.h"
+
+
+static void
+autosave_on_off_toggled(GtkWidget *widget, Workbook *wb)
+{
+        wb->autosave = GTK_TOGGLE_BUTTON (widget)->active;
+}
+
+static void
+prompt_on_off_toggled(GtkWidget *widget, Workbook *wb)
+{
+        wb->autosave_prompt = GTK_TOGGLE_BUTTON (widget)->active;
+}
+
+gint
+dialog_autosave_callback (gpointer *data)
+{
+        Workbook *wb = (Workbook *) data;
+
+	if (wb->autosave) {
+	        if (wb->autosave_prompt) {
+		        GladeXML  *gui = 
+			        glade_xml_new (GNUMERIC_GLADEDIR
+					       "/autosave-prompt.glade", NULL);
+			GtkWidget *dia;
+			gint      v;
+
+			dia = glade_xml_get_widget (gui, "AutoSavePrompt");
+			if (!dia) {
+			        printf("Corrupt file autosave-prompt.glade\n");
+				return 0;
+			}
+			gnome_dialog_set_parent (GNOME_DIALOG (dia),
+						 GTK_WINDOW (wb->toplevel));
+
+			v = gnome_dialog_run (GNOME_DIALOG (dia));
+			if (v != -1)
+			        gtk_object_destroy (GTK_OBJECT (dia));
+			gtk_object_unref (GTK_OBJECT (gui));
+			
+			if (v != 0)
+			        goto out;
+		}
+		workbook_save (wb);
+	}
+out:
+	wb->autosave_timer = gtk_timeout_add(wb->autosave_minutes*60000,
+					     dialog_autosave_callback, wb);
+
+	return 0;
+}
+
+void
+dialog_autosave (Workbook *wb)
+{
+	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/autosave.glade",
+					NULL);
+	GtkWidget *dia;
+	GtkWidget *autosave_on_off; 
+	GtkWidget *minutes;
+	GtkWidget *prompt_on_off;
+	gchar     *buf[20];
+	gint      v, old_autosave, old_prompt, old_minutes;
+
+	old_autosave = wb->autosave;
+	old_prompt = wb->autosave_prompt;
+	old_minutes = wb->autosave_minutes;
+
+	gtk_timeout_remove (wb->autosave_timer);
+
+	if (!gui) {
+		printf ("Could not find autosave.glade\n");
+		return;
+	}
+	
+	dia = glade_xml_get_widget (gui, "AutoSave");
+	if (!dia) {
+		printf ("Corrupt file autosave.glade\n");
+		return;
+	}
+
+	gnome_dialog_set_parent (GNOME_DIALOG (dia),
+				 GTK_WINDOW (wb->toplevel));
+
+	autosave_on_off = glade_xml_get_widget (gui, "autosave_on_off");
+
+        if (wb->autosave)
+	        gtk_toggle_button_set_active (autosave_on_off, wb->autosave);
+	gtk_signal_connect (GTK_OBJECT (autosave_on_off), "toggled",
+			    GTK_SIGNAL_FUNC (autosave_on_off_toggled), wb);
+	prompt_on_off = glade_xml_get_widget (gui, "prompt_on_off");
+	if (wb->autosave_prompt)
+	        gtk_toggle_button_set_active (prompt_on_off,
+					      wb->autosave_prompt);
+	gtk_signal_connect (GTK_OBJECT (prompt_on_off), "toggled",
+			    GTK_SIGNAL_FUNC (prompt_on_off_toggled), wb);
+
+	minutes = glade_xml_get_widget (gui, "minutes");
+	sprintf(buf, "%d", wb->autosave_minutes);
+	gtk_entry_set_text (GTK_ENTRY (minutes), buf);
+
+loop:	
+	v = gnome_dialog_run (GNOME_DIALOG (dia));
+
+	if (v == 0) {
+		gchar *txt;
+
+		txt = gtk_entry_get_text (GTK_ENTRY (minutes));
+		wb->autosave_minutes = atoi(txt);
+		if (wb->autosave_minutes <= 0) {
+		        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+					 _("You should introduce a proper "
+					   "number of minutes in the entry."));
+			gtk_widget_grab_focus (minutes);
+			goto loop;
+		}
+		wb->autosave_timer = 
+		        gtk_timeout_add(wb->autosave_minutes*60000,
+					dialog_autosave_callback, wb);
+	} else {
+	        wb->autosave = old_autosave;
+	        wb->autosave_prompt = old_prompt;
+		wb->autosave_minutes = old_minutes;
+	}
+
+	if (v != -1)
+		gtk_object_destroy (GTK_OBJECT (dia));
+
+	gtk_object_unref (GTK_OBJECT (gui));
+}

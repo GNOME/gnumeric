@@ -24,6 +24,10 @@ Ariel:
 	* Improvements on VALUE_BOOL management on the guile plugin.
 	* Bug fixes.
 
+Jukka:
+	* Implemented `AutoSave' tool.
+	* Some minor improvements to the Solver tool.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.47

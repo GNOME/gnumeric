@@ -20,8 +20,8 @@
 /* Different constraint types */
 static const char *constraint_strs[] = {
         N_("<="),
-/*	N_("="),
-	N_(">="),
+/*	N_(">="),
+	N_("="),
 	N_("int"),
 	N_("bool"), */
 	NULL
@@ -179,7 +179,7 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 }
 
 
-static void
+static int
 add_constraint(constraint_dialog_t *constraint_dialog,
 	       int lhs_col, int lhs_row, int rhs_col, int rhs_row,
 	       char *type_str)
@@ -187,19 +187,30 @@ add_constraint(constraint_dialog_t *constraint_dialog,
 	SolverConstraint *constraint;
 	char             constraint_buf[512];
 	char             *constraint_str[2] = { constraint_buf, NULL };
+	gint             row;
 
 	sprintf(constraint_buf, "%s %s ", 
 		cell_name (lhs_col, lhs_row),
 		type_str);
 	strcat(constraint_buf, cell_name(rhs_col, rhs_row));
 
-	gtk_clist_append (constraint_dialog->clist, constraint_str);
 	constraint = g_new (SolverConstraint, 1);
-	constraint->lhs = sheet_cell_fetch (constraint_dialog->sheet,
-					    lhs_col, lhs_row);
-	constraint->rhs = sheet_cell_fetch (constraint_dialog->sheet,
-					    rhs_col, rhs_row);
+	constraint->lhs = sheet_cell_get (constraint_dialog->sheet,
+					  lhs_col, lhs_row);
+	if (constraint->lhs == NULL) {
+	cell_error:
+ 	        gnumeric_notice (constraint_dialog->wb,
+				 GNOME_MESSAGE_BOX_ERROR,
+				 _("You gave a cell reference that contain "
+				   "no data."));
+	        return 1;
+	}
+	constraint->rhs = sheet_cell_get (constraint_dialog->sheet,
+					  rhs_col, rhs_row);
+	if (constraint->rhs == NULL)
+	        goto cell_error;
 
+	row = gtk_clist_append (constraint_dialog->clist, constraint_str);
 	constraint->type = g_malloc (strlen (type_str) + 1);
 	strcpy (constraint->type, type_str);
 	constraint->str = g_malloc (strlen (constraint_buf)+1);
@@ -207,6 +218,10 @@ add_constraint(constraint_dialog_t *constraint_dialog,
 	constraint_dialog->constraints = 
 	        g_slist_append(constraint_dialog->constraints,
 			       (gpointer) constraint);
+	gtk_clist_set_row_data (constraint_dialog->clist, row, 
+				(gpointer) constraint);
+
+	return 0;
 }
 
 /* 'Constraint Add' button clicked */
@@ -294,8 +309,10 @@ add_dialog:
 
 	type_str = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(type_entry)->entry));
 
-	add_constraint(constraint_dialog, lhs_col, lhs_row, rhs_col, rhs_row,
-		       type_str);
+	if (add_constraint(constraint_dialog, lhs_col,
+			   lhs_row, rhs_col, rhs_row,
+			   type_str))
+	        goto add_dialog;
 
 	gtk_entry_set_text (GTK_ENTRY (lhs_entry), "");
 	gtk_entry_set_text (GTK_ENTRY (rhs_entry), "");

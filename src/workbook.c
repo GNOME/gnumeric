@@ -136,6 +136,12 @@ summary_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+autosave_cmd (GtkWidget *widget, Workbook *wb)
+{
+	dialog_autosave (wb);
+}
+
+static void
 plugins_cmd (GtkWidget *widget, Workbook *wb)
 {
 	GtkWidget *pm = plugin_manager_new (wb);
@@ -1139,6 +1145,8 @@ static GnomeUIInfo workbook_menu_format [] = {
 
 /* Tools menu */
 static GnomeUIInfo workbook_menu_tools [] = {
+	{ GNOME_APP_UI_ITEM, N_("_Auto Save..."), N_("Auto Save"),
+	  autosave_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Sort..."),
 	  N_("Sort the selected cells"), sort_cells_cmd },
 	GNOMEUIINFO_SEPARATOR,
@@ -2043,6 +2051,13 @@ workbook_new (void)
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->table     = gtk_table_new (0, 0, 0);
 	wb->display_formulas = FALSE;
+	wb->autosave = FALSE;
+	wb->autosave_prompt = TRUE;
+	wb->autosave_minutes = 15;
+
+	wb->autosave_timer = 
+	        gtk_timeout_add(wb->autosave_minutes*60000, 
+				dialog_autosave_callback, wb);
 
 	gtk_window_set_policy (GTK_WINDOW (wb->toplevel), 1, 1, 0);
 	sx = MAX (gdk_screen_width  () - 64, 400);
