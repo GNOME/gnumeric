@@ -12,8 +12,8 @@ gladedir = $(goffice_graph_piedir)
 goffice_graph_pie_LTLIBRARIES = pie.la
 pie_la_LDFLAGS = -module -avoid-version
 pie_la_SOURCES = \
-	gog-pie-plot.c		\
-	gog-pie-plot.h		\
+	gog-pie.c		\
+	gog-pie.h		\
 	gog-pie-prefs.c
 
 xml_in_files = plugin.xml.in plot-types.xml.in

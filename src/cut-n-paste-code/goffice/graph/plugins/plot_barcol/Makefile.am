@@ -12,16 +12,16 @@ gladedir = $(goffice_graph_barcoldir)
 goffice_graph_barcol_LTLIBRARIES = barcol.la
 barcol_la_LDFLAGS = -module -avoid-version
 barcol_la_SOURCES = \
-	gog-barcol-plot.c		\
-	gog-barcol-plot.h		\
-	gog-barcol-plot-pref.c
+	gog-barcol.c		\
+	gog-barcol.h		\
+	gog-barcol-prefs.c
 
 xml_in_files = plugin.xml.in plot-types.xml.in
-xml_DATA = $(xml_in_files:.xml.in=.xml) gog-barcol-plot-pref.glade
+xml_DATA = $(xml_in_files:.xml.in=.xml) gog-barcol-prefs.glade
 
 @INTLTOOL_XML_RULE@
 
-glade_DATA = gog-barcol-plot-pref.glade
+glade_DATA = gog-barcol-prefs.glade
 
 # do not use the intl-tool stuff to merge the text back
 # its simpler to just use gettext directly

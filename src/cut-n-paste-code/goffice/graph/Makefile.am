@@ -58,8 +58,9 @@ libgoffice_graph_a_SOURCES = \
 	gog-control-foocanvas.c		\
 	gog-control-foocanvas.h		\
 	\
-	art_rgba_svp.c			\
-	art_rgba_svp.h
+	art_rgba_svp.h			\
+	art_rgba_svp.c
+
 
 gnumeric_glade_DATA = \
 	gog-guru.glade

@@ -1,0 +1,86 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * go-data-impl.h : 
+ *
+ * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
+#ifndef GO_DATA_IMPL_H
+#define GO_DATA_IMPL_H
+
+#include <goffice/graph/goffice-graph.h>
+#include <goffice/graph/go-data.h>
+#include <glib-object.h>
+
+G_BEGIN_DECLS
+
+typedef enum {
+	GO_DATA_CACHE_IS_VALID =	1 << 0,
+	GO_DATA_IS_EDITABLE =		1 << 1,
+	GO_DATA_VECTOR_LEN_CACHED =	1 << 2
+} GODataFlags;
+
+struct _GOData {
+	GObject		base;
+	gint32		flags; /* dunno what to do with these yet */
+};
+typedef struct {
+	GObjectClass base;
+
+	gboolean (*eq)     (GOData const *a, GOData const *b);
+	char    *(*as_str) (GOData const *dat);
+
+	/* signals */
+	void (*changed)	(GOData *dat);
+} GODataClass;
+
+struct _GODataScalar {
+	GOData base;
+};
+
+typedef struct {
+	GODataClass base;
+	double       (*get_value)  (GODataScalar *scalar);
+	char const  *(*get_str)	   (GODataScalar *scalar);
+/*	PangoLayout *(get_fmt_str) (GODataScalar *scalar); */
+} GODataScalarClass;
+
+/* protected */
+void go_data_scalar_emit_changed (GODataScalar *dat);
+
+struct _GODataVector {
+	GOData base;
+
+	int len;	/* negative if dirty, includes missing values */
+	double *values;	/* NULL = inititialized/unsupported, nan = missing */
+	double minimum, maximum;
+};
+typedef struct {
+	GODataClass base;
+
+	void	     (*load_len)    (GODataVector *vec);
+	void	     (*load_values) (GODataVector *vec);
+	double       (*get_value)   (GODataVector *vec, unsigned i);
+	char const  *(*get_str)	    (GODataVector *vec, unsigned i);
+/*	PangoLayout *(get_fmt_str)  (GODataVector *vec, unsigned i); */
+} GODataVectorClass;
+
+/* protected */
+void go_data_vector_emit_changed (GODataVector *dat);
+
+G_END_DECLS
+
+#endif /* GO_DATA_IMPL_H */

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<plugin id="GOffice_plot_barcol">
+	<information>
+		<_name>Plotting Pie Charts</_name>
+		<_description>Pie Chart handling</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="barcol.la"/>
+	</loader>
+	<services>
+		<service type="plot_engine" id="GogBarColPlot">
+			<information>
+				<_description>Bar/Column plotting engine</_description>
+			</information>
+		</service>
+		<service type="plot_type" id="barcol">
+			<file>plot-types.xml</file>
+			<information>
+				<_description>Bar/Column plotting engine</_description>
+			</information>
+		</service>
+	</services>
+</plugin>

@@ -1,0 +1,461 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * go-graph.c :
+ *
+ * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
+
+#include <gnumeric-config.h>
+#include <goffice/graph/gog-graph-impl.h>
+#include <goffice/graph/gog-chart-impl.h>
+#include <goffice/graph/gog-view.h>
+#include <goffice/graph/gog-renderer.h>
+#include <goffice/graph/gog-style.h>
+#include <goffice/graph/go-data.h>
+
+#include <gsf/gsf-impl-utils.h>
+#include <src/gnumeric-i18n.h>
+#include <string.h>
+#include <stdlib.h>
+
+enum {
+	GRAPH_PROP_0,
+	GRAPH_PROP_PADDING_PTS
+};
+
+enum {
+	GRAPH_ADD_DATA,
+	GRAPH_REMOVE_DATA,
+	GRAPH_LAST_SIGNAL
+};
+static gulong gog_graph_signals [GRAPH_LAST_SIGNAL] = { 0, };
+static GObjectClass *parent_klass;
+static GogViewClass *gview_parent_klass;
+
+static void
+gog_graph_set_property (GObject *obj, guint param_id,
+			GValue const *value, GParamSpec *pspec)
+{
+	GogGraph *graph = GOG_GRAPH (obj);
+
+	switch (param_id) {
+	case GRAPH_PROP_PADDING_PTS :
+		graph->padding_pts = g_value_get_double (value);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+	g_warning ("size changed");
+	gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
+}
+
+static void
+gog_graph_get_property (GObject *obj, guint param_id,
+			GValue *value, GParamSpec *pspec)
+{
+	GogGraph *graph = GOG_GRAPH (obj);
+
+	switch (param_id) {
+	case GRAPH_PROP_PADDING_PTS :
+		g_value_set_double (value, graph->padding_pts);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
+gog_graph_finalize (GObject *obj)
+{
+	GogGraph *graph = GOG_GRAPH (obj);
+	GSList *tmp;
+
+	tmp = graph->data;
+	graph->data = NULL;
+	g_slist_foreach (tmp, (GFunc) g_object_unref, NULL);
+	g_slist_free (tmp);
+
+	if (graph->idle_handler != 0) {
+		g_source_remove (graph->idle_handler);
+		graph->idle_handler = 0;
+	}
+
+	(parent_klass->finalize) (obj);
+}
+
+static char const *
+gog_graph_type_name (GogObject const *gobj)
+{
+	return "Graph";
+}
+
+static void
+role_chart_post_add (GogObject *graph, GogObject *chart)
+{
+	gog_chart_set_position (GOG_CHART (chart),
+		0, GOG_GRAPH (graph)->num_rows, 1, 1);
+}
+
+static void
+role_chart_pre_remove (GogObject *parent, GogObject *child)
+{
+	GogGraph *graph = GOG_GRAPH (parent);
+	GogChart *chart = GOG_CHART (child);
+
+	if (((chart->x + chart->cols) >= graph->num_cols) ||
+	    ((chart->y + chart->rows) >= graph->num_rows)) {
+		GSList *ptr;
+		for (ptr = parent->children ; ptr != NULL ; ptr = ptr->next)
+			if (IS_GOG_CHART (ptr->data)) {
+#warning TODO
+			}
+	}
+}
+
+static gpointer
+gog_graph_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
+{
+	return gog_style_editor	(gobj, cc, GOG_STYLE_OUTLINE | GOG_STYLE_FILL);
+}
+
+static void
+gog_graph_update (GogObject *obj)
+{
+	GogGraph *graph = GOG_GRAPH (obj);
+	if (graph->idle_handler != 0) {
+		g_source_remove (graph->idle_handler);
+		graph->idle_handler = 0;
+	}
+}
+
+static void
+gog_graph_class_init (GogGraphClass *klass)
+{
+	GObjectClass *gobject_klass   = (GObjectClass *) klass;
+	GogObjectClass *gog_klass = (GogObjectClass *) klass;
+
+	static GogObjectRole const roles[] = {
+		{ N_("Chart"), "GogChart",
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, FALSE,
+		  NULL, NULL, NULL, role_chart_post_add, role_chart_pre_remove, NULL },
+	};
+
+	parent_klass = g_type_class_peek_parent (klass);
+	gobject_klass->set_property = gog_graph_set_property;
+	gobject_klass->get_property = gog_graph_get_property;
+	gobject_klass->finalize	    = gog_graph_finalize;
+
+	gog_klass->update	= gog_graph_update;
+	gog_klass->editor	= gog_graph_editor;
+	gog_klass->type_name	= gog_graph_type_name;
+	gog_klass->view_type	= gog_graph_view_get_type ();
+	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
+
+	gog_graph_signals [GRAPH_ADD_DATA] = g_signal_new ("add_data",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GogGraphClass, add_data),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE,
+		1, G_TYPE_OBJECT);
+
+	gog_graph_signals [GRAPH_REMOVE_DATA] = g_signal_new ("remove_data",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GogGraphClass, remove_data),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE,
+		1, G_TYPE_OBJECT);
+
+	g_object_class_install_property (gobject_klass, GRAPH_PROP_PADDING_PTS,
+		g_param_spec_double ("padding_pts", "Padding Pts",
+			"# of pts seperating charts in the grid.",
+			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
+}
+
+static void
+gog_graph_init (GogGraph *graph)
+{
+	graph->data = NULL;
+	graph->num_cols = graph->num_rows = 0;
+	graph->idle_handler = 0;
+
+	/* Cheat and assign a name here, graphs will not parents
+	 * until we support graphs in graphs */
+	graph->base.base.name = g_strdup ("Graph");
+}
+
+GSF_CLASS (GogGraph, gog_graph,
+	   gog_graph_class_init, gog_graph_init,
+	   GOG_STYLED_OBJECT_TYPE)
+
+unsigned
+gog_graph_num_cols (GogGraph const *graph)
+{
+	g_return_val_if_fail (IS_GOG_GRAPH (graph), 1);
+	return graph->num_cols;
+}
+
+unsigned
+gog_graph_num_rows (GogGraph const *graph)
+{
+	g_return_val_if_fail (IS_GOG_GRAPH (graph), 1);
+	return graph->num_rows;
+}
+
+GogTheme *
+gog_graph_get_theme (GogGraph const *graph)
+{
+	g_return_val_if_fail (GOG_GRAPH (graph) != NULL, NULL);
+	return graph->theme;
+}
+
+/**
+ * gog_graph_get_data :
+ * @graph : #GogGraph
+ *
+ * Returns a list of the GOData objects that are data to the graph.
+ * The caller should _not_ modify or free the list.
+ **/
+GSList *
+gog_graph_get_data (GogGraph const *graph)
+{
+	g_return_val_if_fail (GOG_GRAPH (graph) != NULL, NULL);
+	return graph->data;
+}
+
+/**
+ * gog_graph_ref_data :
+ * @graph : #GogGraph
+ * @dat : #GOData
+ *
+ * If @dat or something equivalent to it already exists in the graph use that.
+ * Otherwaise use @dat.  Adds a gobject ref to the target and increments a
+ * count of the number of refs made from this #GogGraph.
+ **/
+GOData *
+gog_graph_ref_data (GogGraph *graph, GOData *dat)
+{
+	GObject *g_obj;
+	gpointer res;
+	unsigned count;
+
+	if (dat == NULL)
+		return NULL;
+
+	g_return_val_if_fail (GOG_GRAPH (graph) != NULL, dat);
+	g_return_val_if_fail (GO_DATA (dat) != NULL, dat);
+
+	/* Does it already exist in the graph ? */
+	g_obj = G_OBJECT (graph);
+	res = g_object_get_qdata (g_obj, (GQuark)dat);
+	if (res == NULL) {
+
+		/* is there something like it already */
+		GSList *existing = graph->data; 
+		for (; existing != NULL ; existing = existing->next)
+			if (go_data_eq (dat, existing->data))
+				break;
+
+		if (existing == NULL) {
+			g_signal_emit (g_obj, gog_graph_signals [GRAPH_ADD_DATA], 0, dat);
+			graph->data = g_slist_prepend (graph->data, dat);
+			g_object_ref (dat);
+		} else {
+			dat = existing->data;
+			res = g_object_get_qdata (g_obj, (GQuark)dat);
+		}
+	}
+
+	count = GPOINTER_TO_UINT (res) + 1;
+	g_object_set_qdata (g_obj, (GQuark)dat, GUINT_TO_POINTER (count));
+	g_object_ref (dat);
+	return dat;
+}
+
+/**
+ * gog_graph_unref_data :
+ * @graph : #GogGraph
+ * @dat : #GOData
+ *
+ **/
+void
+gog_graph_unref_data (GogGraph *graph, GOData *dat)
+{
+	GObject *g_obj;
+	gpointer res;
+	unsigned count;
+
+	if (dat == NULL)
+		return;
+
+	g_return_if_fail (GO_DATA (dat) != NULL);
+
+	g_object_unref (dat);
+
+	if (graph == NULL)
+		return;
+
+	g_return_if_fail (GOG_GRAPH (graph) != NULL);
+
+	/* once we've been destroyed the list is gone */
+	if (graph->data == NULL)
+		return;
+
+	g_obj = G_OBJECT (graph);
+	res = g_object_get_qdata (g_obj, (GQuark)dat);
+
+	g_return_if_fail (res != NULL);
+
+	count = GPOINTER_TO_UINT (res);
+	if (count-- <= 1) {
+		/* signal before removing in case that unrefs */
+		g_signal_emit (G_OBJECT (graph),
+			gog_graph_signals [GRAPH_REMOVE_DATA], 0, dat);
+		graph->data = g_slist_remove (graph->data, dat);
+		g_object_unref (dat);
+		g_object_set_qdata (g_obj, (GQuark)dat, NULL);
+	} else
+		/* store the decremented count */
+		g_object_set_qdata (g_obj, (GQuark)dat, GUINT_TO_POINTER (count));
+}
+
+static gboolean
+cb_graph_idle (GogGraph *graph)
+{
+	gog_object_update (GOG_OBJECT (graph));
+	graph->idle_handler = 0;
+	return FALSE;
+}
+
+gboolean
+gog_graph_request_update (GogGraph *graph)
+{
+	/* people may try to queue an update during destruction */
+	if (G_OBJECT (graph)->ref_count <= 0)
+		return FALSE;
+
+	g_return_val_if_fail (GOG_GRAPH (graph) != NULL, FALSE);
+
+	if (graph->idle_handler == 0) { /* higher priority than canvas */
+		graph->idle_handler = g_idle_add_full (G_PRIORITY_HIGH_IDLE,
+			(GSourceFunc) cb_graph_idle, graph, NULL);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/************************************************************************/
+
+typedef GogView		GogGraphView;
+typedef GogViewClass	GogGraphViewClass;
+
+#define GOG_GRAPH_VIEW_TYPE	(gog_graph_view_get_type ())
+#define GOG_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRAPH_VIEW_TYPE, GogGraphView))
+#define IS_GOG_GRAPH_VIEW(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRAPH_VIEW_TYPE))
+
+enum {
+	GRAPH_VIEW_PROP_0,
+	GRAPH_VIEW_PROP_RENDERER
+};
+
+static void
+gog_graph_view_set_property (GObject *gobject, guint param_id,
+			     GValue const *value, GParamSpec *pspec)
+{
+	GogView *view = GOG_VIEW (gobject);
+
+	switch (param_id) {
+	case GRAPH_VIEW_PROP_RENDERER:
+		g_return_if_fail (view->renderer == NULL);
+		view->renderer = GOG_RENDERER (g_value_get_object (value));
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, param_id, pspec);
+		return; /* NOTE : RETURN */
+	}
+}
+
+static void
+gog_graph_view_size_request (GogView *view, GogViewRequisition *req)
+{
+	req->w = req->h = 0.;
+}
+
+static void
+gog_graph_view_size_allocate (GogView *view, GogViewAllocation const *a)
+{
+	GSList *ptr;
+	double dh, dw;
+	unsigned x, y, rows, cols;
+	GogView *child;
+	GogGraph *graph = GOG_GRAPH (view->model);
+	GogViewAllocation res;
+	double outline = gog_renderer_outline_size (view->renderer,
+						    graph->base.style);
+
+	dw = (a->w - 2.*outline) / gog_graph_num_cols (graph);
+	dh = (a->h - 2.*outline) / gog_graph_num_rows (graph);
+	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
+		child = ptr->data;
+		if (child->model->position == GOG_POSITION_SPECIAL) {
+			gog_chart_get_position (GOG_CHART (child->model),
+				&x, &y, &rows, &cols);
+			res.x = a->x + outline + x * dw;
+			res.y = a->y + outline + y * dh;
+			res.w = cols * dw;
+			res.h = rows * dh;
+			gog_view_size_allocate (child, &res);
+		}
+	}
+}
+
+static void
+gog_graph_view_render (GogView *view, GogViewAllocation const *bbox)
+{
+	GogGraph *graph = GOG_GRAPH (view->model);
+	gog_renderer_push_style (view->renderer, graph->base.style);
+	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
+	gog_renderer_pop_style (view->renderer);
+	(gview_parent_klass->render) (view, bbox);
+}
+
+static void
+gog_graph_view_class_init (GogGraphViewClass *gview_klass)
+{
+	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
+	GObjectClass *gobject_klass = (GObjectClass *) view_klass;
+
+	gview_parent_klass = g_type_class_peek_parent (gview_klass);
+	gobject_klass->set_property = gog_graph_view_set_property;
+	view_klass->size_request    = gog_graph_view_size_request;
+	view_klass->size_allocate   = gog_graph_view_size_allocate;
+	view_klass->render	    = gog_graph_view_render;
+
+	g_object_class_install_property (gobject_klass, GRAPH_VIEW_PROP_RENDERER,
+		g_param_spec_object ("renderer", "renderer",
+			"the renderer for this view",
+			GOG_RENDERER_TYPE, G_PARAM_WRITABLE));
+}
+
+GSF_CLASS (GogGraphView, gog_graph_view,
+	   gog_graph_view_class_init, NULL,
+	   GOG_VIEW_TYPE)

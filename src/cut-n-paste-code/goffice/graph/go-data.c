@@ -1,0 +1,230 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * go-data.c :
+ *
+ * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
+
+#include <gnumeric-config.h>
+#include <goffice/graph/go-data.h>
+#include <goffice/graph/go-data-impl.h>
+
+#include <gsf/gsf-impl-utils.h>
+#include <src/gnumeric-i18n.h>
+#include <string.h>
+#include <src/mathfunc.h>
+
+#define GO_DATA_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_TYPE, GODataClass))
+#define IS_GO_DATA_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_DATA_TYPE))
+#define GO_DATA_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_DATA_TYPE, GODataClass))
+
+enum {
+	CHANGED,
+	LAST_SIGNAL
+};
+
+static gulong go_data_signals [LAST_SIGNAL] = { 0, };
+
+static void
+go_data_init (GOData *data)
+{
+	data->flags = 0;
+}
+
+static void
+go_data_class_init (GObjectClass *klass)
+{
+	go_data_signals [CHANGED] = g_signal_new ("changed",
+		G_TYPE_FROM_CLASS (klass),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GODataClass, changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+}
+
+GSF_CLASS_ABSTRACT (GOData, go_data,
+		    go_data_class_init, go_data_init,
+		    G_TYPE_OBJECT)
+
+/**
+ * go_data_eq :
+ * @a : #GOData
+ * @b : #GOData
+ *
+ * Returns TRUE if @a and @b are the same
+ **/
+gboolean
+go_data_eq (GOData const *a, GOData const *b)
+{
+	if (a == b)
+		return TRUE;
+	else {
+		GODataClass *a_klass = GO_DATA_GET_CLASS (a);
+		GODataClass *b_klass = GO_DATA_GET_CLASS (b);
+
+		g_return_val_if_fail (a_klass != NULL, FALSE);
+		g_return_val_if_fail (a_klass->eq != NULL, FALSE);
+
+		if (a_klass != b_klass)
+			return FALSE;
+
+		return (*a_klass->eq) (a, b);
+	}
+}
+
+/**
+ * go_data_as_str :
+ * @dat : #GOData
+ *
+ * Return a string representation of the data source that the caller is
+ * responsible for freeing
+ *
+ * NOTE : This is the _source_ not the content.
+ **/
+char *
+go_data_as_str (GOData const *dat)
+{
+	GODataClass const *klass = GO_DATA_GET_CLASS (dat);
+	g_return_val_if_fail (klass != NULL, NULL);
+	return (*klass->as_str) (dat);
+}
+
+/*************************************************************************/
+
+#define GO_DATA_SCALAR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_SCALAR_TYPE, GODataScalarClass))
+#define IS_GO_DATA_SCALAR_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_DATA_SCALAR_TYPE))
+#define GO_DATA_SCALAR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_DATA_SCALAR_TYPE, GODataScalarClass))
+
+GSF_CLASS_ABSTRACT (GODataScalar, go_data_scalar,
+		    NULL, NULL,
+		    GO_DATA_TYPE)
+
+double
+go_data_scalar_get_value (GODataScalar *scalar)
+{
+	GODataScalarClass const *klass = GO_DATA_SCALAR_GET_CLASS (scalar);
+	g_return_val_if_fail (klass != NULL, 0.); /* TODO : make this a nan */
+	return (*klass->get_value) (scalar);
+}
+
+char const *
+go_data_scalar_get_str (GODataScalar *scalar)
+{
+	GODataScalarClass const *klass = GO_DATA_SCALAR_GET_CLASS (scalar);
+	g_return_val_if_fail (klass != NULL, NULL);
+	return (*klass->get_str) (scalar);
+}
+
+void
+go_data_scalar_emit_changed (GODataScalar *data)
+{
+	g_return_if_fail (GO_DATA_SCALAR (data) != NULL);
+
+	g_signal_emit (G_OBJECT (data), go_data_signals [CHANGED], 0);
+}
+
+/*************************************************************************/
+
+#define GO_DATA_VECTOR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_VECTOR_TYPE, GODataVectorClass))
+#define IS_GO_DATA_VECTOR_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_DATA_VECTOR_TYPE))
+#define GO_DATA_VECTOR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_DATA_VECTOR_TYPE, GODataVectorClass))
+
+GSF_CLASS_ABSTRACT (GODataVector, go_data_vector,
+		    NULL, NULL,
+		    GO_DATA_TYPE)
+
+int
+go_data_vector_get_len (GODataVector *vec)
+{
+	if (! (vec->base.flags & GO_DATA_VECTOR_LEN_CACHED)) {
+		GODataVectorClass const *klass = GO_DATA_VECTOR_GET_CLASS (vec);
+
+		g_return_val_if_fail (klass != NULL, 0);
+
+		(*klass->load_len) (vec);
+
+		g_return_val_if_fail (vec->base.flags & GO_DATA_VECTOR_LEN_CACHED, 0);
+	}
+
+	return vec->len;
+}
+
+double *
+go_data_vector_get_values (GODataVector *vec)
+{
+	if (! (vec->base.flags & GO_DATA_CACHE_IS_VALID)) {
+		GODataVectorClass const *klass = GO_DATA_VECTOR_GET_CLASS (vec);
+
+		g_return_val_if_fail (klass != NULL, NULL);
+
+		(*klass->load_values) (vec);
+
+		g_return_val_if_fail (vec->base.flags & GO_DATA_CACHE_IS_VALID, NULL);
+	}
+
+	return vec->values;
+}
+
+double
+go_data_vector_get_value (GODataVector *vec, unsigned i)
+{
+	if (! (vec->base.flags & GO_DATA_CACHE_IS_VALID)) {
+		GODataVectorClass const *klass = GO_DATA_VECTOR_GET_CLASS (vec);
+		g_return_val_if_fail (klass != NULL, gnm_nan);
+		return (*klass->get_value) (vec, i);
+	}
+
+	g_return_val_if_fail ((int)i < vec->len, gnm_nan);
+	return vec->values [i];
+}
+
+char const *
+go_data_vector_get_str (GODataVector *vec, unsigned i)
+{
+	GODataVectorClass const *klass = GO_DATA_VECTOR_GET_CLASS (vec);
+	g_return_val_if_fail (klass != NULL, NULL);
+	return (*klass->get_str) (vec, i);
+}
+
+void
+go_data_vector_get_minmax (GODataVector *vec, double *min, double *max)
+{
+	if (! (vec->base.flags & GO_DATA_CACHE_IS_VALID)) {
+		GODataVectorClass const *klass = GO_DATA_VECTOR_GET_CLASS (vec);
+
+		g_return_if_fail (klass != NULL);
+
+		(*klass->load_values) (vec);
+
+		g_return_if_fail (vec->base.flags & GO_DATA_CACHE_IS_VALID);
+	}
+
+	if (min != NULL)
+		*min = vec->minimum;
+	if (max != NULL)
+		*max = vec->maximum;
+}
+
+void
+go_data_vector_emit_changed (GODataVector *data)
+{
+	g_return_if_fail (GO_DATA_VECTOR (data) != NULL);
+
+	data->base.flags &= ~(GO_DATA_CACHE_IS_VALID | GO_DATA_VECTOR_LEN_CACHED);
+	g_signal_emit (G_OBJECT (data), go_data_signals [CHANGED], 0);
+}
