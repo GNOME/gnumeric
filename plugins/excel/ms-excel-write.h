@@ -28,6 +28,7 @@ typedef struct _Palette  Palette;
 struct _ExcelFont {
 	StyleFont  *style_font;
 	guint32    color;
+	gboolean  is_auto;
 	StyleUnderlineType underline;
 	gboolean  strikethrough;
 };
@@ -96,10 +97,14 @@ typedef enum {
 #define FONT_SKIP 4
 #define FONT_MAGIC 0
 #define FORMAT_MAGIC 0
-#define PALETTE_BLACK 0
-#define PALETTE_ALSO_BLACK 8
-#define PALETTE_WHITE 1
-#define FILL_MAGIC 0
+#define PALETTE_BLACK 8
+#define PALETTE_WHITE 9
+#define PALETTE_AUTO_PATTERN 64
+#define PALETTE_AUTO_BACK 65
+#define PALETTE_AUTO_FONT 127
+#define FILL_NONE 0
+#define FILL_SOLID 1
+#define FILL_MAGIC FILL_NONE
 #define BORDER_MAGIC STYLE_BORDER_NONE
 
 extern int

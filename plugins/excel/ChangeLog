@@ -1,3 +1,44 @@
+2002-02-19  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (ms_excel_palette_get): Update documentation.
+	(ms_excel_get_style_from_xf): Remove case 0.
+	(biff_xf_data_new): Save difference bits. We don't use them yet,
+	though. Documentation is wrong, background color is one bit more
+	than documented
+
+	* ms-excel-write.h (struct _ExcelFont): Add is_auto member.
+	(PALETTE_BLACK): Change from 0 to 8.
+	(PALETTE_WHITE): Change from 1 to 9.
+	(PALETTE_AUTO_PATTERN, PALETTE_AUTO_BACK, PALETTE_AUTO_FONT,
+	FILL_NONE, FILL_SOLID): Define
+
+	* ms-excel-write.c (write_window2): Write grid / auto pattern
+	color.
+	(style_color_to_int): Rename to style_color_to_rgb888.
+	(palette_put_defaults): Call index 8 'PALETTE_BLACK'. Mark both
+	black and white as in use.
+	(palette_get_index): Return 8 (PALETTE_BLACK) for black, and 9
+	(PALETTE_WHITE) for white.
+	(put_color): Call style_color_to_rgb888 with new name.
+	(excel_font_new): Call style_color_to_rgb888 with new name. Save
+	is_auto flag.
+	(excel_font_hash): Include is_auto in hash func, and shift flags
+	so they don't just cancel each other.
+	(excel_font_equal): Include is_auto in comparison.
+	(write_font): Store as auto color when appropriate.
+	(fixup_fill_colors): Simplify and merge into build_xf_data.
+	(style_color_to_pal_index): New function. Return Excel color
+	index, possibly auto, for a style color.
+	(get_xf_differences): We have discovered that background color is
+	stored with 1 bit more than documented. Use this to improve test
+	for pattern difference between XF and parent style. Locking: XL
+	default is on, so we're different if locking is off.
+	(build_xf_data): Store as auto color where appropriate. Use
+	style_color_to_pal_index.
+	(write_xf_record): Documentation is wrong - there is no fSxButton
+	bit. The bg color uses the bit, making bg field 7 bits wide. Don't
+	store data for borders which aren't there.
+
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.0

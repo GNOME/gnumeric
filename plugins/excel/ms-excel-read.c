@@ -992,16 +992,13 @@ ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 	 *
 	 * The color index field seems to use
 	 *	8-63 = Palette index 0-55
-	 *
-	 *	0   = black?
-	 *	1   = white?
 	 *	64  = auto pattern, auto border
 	 *      65  = auto background
 	 *      127 = auto font
 	 *
-	 *      65 is always white, and 127 always black. 64 is black if the
-	 *      fDefaultHdr flag in WINDOW2 is unset, otherwise it's the
-	 *      grid color from WINDOW2.
+	 *      65 is always white, and 127 always black. 64 is black
+	 *      if the fDefaultHdr flag in WINDOW2 is unset, otherwise it's
+	 *      the grid color from WINDOW2.
 	 */
 
 	d (4, printf ("Color Index %d\n", idx););
@@ -1213,9 +1210,6 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 						   font_index);
 
 	switch (back_index) {
-	case 0:
-		back_color = style_color_white ();
-		break;
 	case 64:
 		back_color = sheet_style_get_auto_pattern_color
 			(esheet->gnum_sheet);
@@ -1529,6 +1523,8 @@ biff_xf_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 	} else
 		xf->indent = 0;
 
+	xf->differences = data & 0xFC00;
+
 	if (ver >= MS_BIFF_V8) { /* Very different */
 		int has_diagonals, diagonal_style;
 		data = MS_OLE_GET_GUINT16 (q->data + 10);
@@ -1584,7 +1580,9 @@ biff_xf_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 	} else { /* Biff 7 */
 		data = MS_OLE_GET_GUINT16 (q->data + 8);
 		xf->pat_foregnd_col = (data & 0x007f);
-		xf->pat_backgnd_col = (data & 0x1f80) >> 7;
+		/* Documentation is wrong, background color is one bit more
+		 * than documented */
+		xf->pat_backgnd_col = (data & 0x3f80) >> 7;
 
 		data = MS_OLE_GET_GUINT16 (q->data + 10);
 		xf->fill_pattern_idx =

@@ -72,6 +72,10 @@
 #define N_ELEMENTS_BETWEEN_PROGRESS_UPDATES   20
 
 static excel_iconv_t current_workbook_iconv = NULL;
+
+static guint style_color_to_rgb888 (const StyleColor *c);
+static gint  palette_get_index (ExcelWorkbook *wb, guint c);
+
 /**
  *  This function writes simple strings...
  *  FIXME: see S59D47.HTM for full description
@@ -418,6 +422,9 @@ write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 	guint8 *data;
 	CellPos top_left;
 	Sheet *sheet = esheet->gnum_sheet;
+	StyleColor *sheet_auto   = sheet_style_get_auto_pattern_color (sheet);
+	StyleColor *default_auto = style_color_auto_pattern ();
+	guint32 biff_pat_col = 0x40;	/* default grid color index == auto */
 
 	if (sheet->display_formulas)
 		options |= 0x0001;
@@ -432,6 +439,15 @@ write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 		top_left = sheet->initial_top_left;	/* belongs in sheetView */
 	if (!sheet->hide_zero)
 		options |= 0x0010;
+	/* Grid / auto pattern color */
+	if (!style_color_equal (sheet_auto, default_auto)) {
+		biff_pat_col = style_color_to_rgb888 (sheet_auto);
+		if (ver > MS_BIFF_V7) {
+			biff_pat_col = palette_get_index (esheet->wb,
+							  biff_pat_col);
+		}
+		options &= ~0x0020;
+	}
 	if (sheet == wb_view_cur_sheet (esheet->wb->gnum_wb_view))
 		options |= 0x600; /* assume selected if it is current */
 
@@ -441,20 +457,22 @@ write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 		MS_OLE_SET_GUINT16 (data +  0, options);
 		MS_OLE_SET_GUINT16 (data +  2, top_left.row);
 		MS_OLE_SET_GUINT16 (data +  4, top_left.col);
-		MS_OLE_SET_GUINT32 (data +  6, 0x40);	/* grid color index (0x40 == auto) */
+		MS_OLE_SET_GUINT32 (data +  6, biff_pat_col);
 	} else {
 		data = ms_biff_put_len_next (bp, 0x200|BIFF_WINDOW2, 18);
 
 		MS_OLE_SET_GUINT16 (data +  0, options);
 		MS_OLE_SET_GUINT16 (data +  2, top_left.row);
 		MS_OLE_SET_GUINT16 (data +  4, top_left.col);
-		MS_OLE_SET_GUINT32 (data +  6, 0x40);	/* grid color index (0x40 == auto) */
+		MS_OLE_SET_GUINT32 (data +  6, biff_pat_col);
 		MS_OLE_SET_GUINT16 (data + 10, 0x1);	/* print preview 100% */
 		MS_OLE_SET_GUINT16 (data + 12, 0x0);	/* FIXME : why 0? */
 		MS_OLE_SET_GUINT32 (data + 14, 0x0);	/* reserved 0 */
 	}
 	ms_biff_put_commit (bp);
 
+	style_color_unref (sheet_auto);
+	style_color_unref (default_auto);
 	return (options & 0x0008);
 }
 
@@ -717,7 +735,7 @@ palette_color_to_int (const EXCEL_PALETTE_ENTRY *c)
  * Convert StyleColor to guint representation used in BIFF file
  **/
 static guint
-style_color_to_int (const StyleColor *c)
+style_color_to_rgb888 (const StyleColor *c)
 {
 	return ((c->blue & 0xff00) << 8) + (c->green & 0xff00) + (c->red >> 8);
 
@@ -742,7 +760,7 @@ log_put_color (guint c, gboolean was_added, gint index, const char *tmpl)
 /**
  * Put Excel default colors to palette table
  *
- * Ensure that black with index 8 can't be swapped out.
+ * Ensure that black and white can't be swapped out.
  **/
 static void
 palette_put_defaults (ExcelWorkbook *wb)
@@ -758,8 +776,10 @@ palette_put_defaults (ExcelWorkbook *wb)
 				   GUINT_TO_POINTER (num), FALSE,
 				   (AfterPutFunc) log_put_color,
 				   "Default color %d - 0x%6.6x\n");
-		wb->pal->entry_in_use[i] =
-			(i == PALETTE_ALSO_BLACK) ? TRUE : FALSE;
+		if ((i == PALETTE_BLACK) || (i == PALETTE_WHITE))
+			wb->pal->entry_in_use[i] = TRUE;
+		else
+			wb->pal->entry_in_use[i] = FALSE;
 	}
 }
 
@@ -810,15 +830,15 @@ palette_get_index (ExcelWorkbook *wb, guint c)
 	TwoWayTable *twt = wb->pal->two_way_table;
 
 	if (c == 0) {
-		idx = 0;
+		idx = PALETTE_BLACK;
 	} else if (c == 0xffffff) {
-		idx = 1;
+		idx = PALETTE_WHITE;
 	} else {
 		idx = two_way_table_key_to_idx (twt, (gconstpointer) c);
 		if (idx < EXCEL_DEF_PAL_LEN) {
 			idx += 8;
 		} else {
-			idx = 0;
+			idx = PALETTE_BLACK;
 		}
 	}
 
@@ -832,7 +852,7 @@ static void
 put_color (ExcelWorkbook *wb, const StyleColor *c)
 {
 	TwoWayTable *twt = wb->pal->two_way_table;
-	gpointer pc = GUINT_TO_POINTER (style_color_to_int (c));
+	gpointer pc = GUINT_TO_POINTER (style_color_to_rgb888 (c));
 	gint idx;
 
 	two_way_table_put (twt, pc, TRUE,
@@ -999,7 +1019,8 @@ excel_font_new (MStyle *st)
 	f = g_new (ExcelFont, 1);
 	f->style_font = mstyle_get_font (st, 1.0);
 	c = mstyle_get_color (st, MSTYLE_COLOR_FORE);
-	f->color = style_color_to_int (c);
+	f->color = style_color_to_rgb888 (c);
+	f->is_auto = c->is_auto;
 	f->underline     = mstyle_get_font_uline (st);
 	f->strikethrough = mstyle_get_font_strike (st);
 
@@ -1032,7 +1053,8 @@ excel_font_hash (gconstpointer f)
 
 	if (f)
 		res = style_font_hash_func (font->style_font) ^ font->color
-			^ font->underline ^ font->strikethrough;
+			^ font->is_auto ^ (font->underline << 1)
+			^ (font->strikethrough << 2);
 
 	return res;
 }
@@ -1058,6 +1080,7 @@ excel_font_equal (gconstpointer a, gconstpointer b)
 		const ExcelFont *fb  = (const ExcelFont *) b;
 		res = style_font_equal (fa->style_font, fb->style_font)
 			&& (fa->color == fb->color)
+			&& (fa->is_auto == fb->is_auto)
 			&& (fa->underline == fb->underline)
 			&& (fa->strikethrough == fb->strikethrough);
 	}
@@ -1185,7 +1208,7 @@ write_font (BiffPut *bp, ExcelWorkbook *wb, const ExcelFont *f)
 	StyleFont  *sf  = f->style_font;
 	guint32 size_pts  = sf->size_pts * 20;
 	guint16 grbit = 0;
-	guint16 color = palette_get_index (wb, f->color);
+	guint16 color;
 
 	guint16 boldstyle = 0x190; /* Normal boldness */
 	guint16 subsuper  = 0;   /* 0: Normal, 1; Super, 2: Sub script*/
@@ -1195,6 +1218,9 @@ write_font (BiffPut *bp, ExcelWorkbook *wb, const ExcelFont *f)
 	guint8  charset   = 0;	 /* Seems OK. */
 	char    *font_name = sf->font_name;
 
+	color = f->is_auto
+		? PALETTE_AUTO_FONT
+		: palette_get_index (wb, f->color);
 	d (1, printf ("Writing font %s, color idx %u\n",
 		      excel_font_to_string (f), color););
 
@@ -1896,76 +1922,34 @@ border_type_to_excel (StyleBorderType btype, MsBiffVersion ver)
 }
 
 /**
- * fixup_fill_colors
- * @xfd  XF data
+ * style_color_to_pal_index
+ * @color color
+ * @wb    workbook
+ * @auto_back     Auto colors to compare against.
+ * @auto_font
  *
- * Do yucky stuff with fill foreground and background colors
- *
- * Solid fill patterns seem to reverse the meaning of foreground and
- * background
- *
- * FIXME:
- * Import side code does not flip colors if xfd->pat_foregnd_col == 0.
- *
- * This table shows import side behaviour when fill pattern is 1:
- *
- * bg(file) fg(file)    bg(internal) fg(internal)
- *  == 0     == 0         0            0
- *  == 0     != 0         fg(file)     0
- *  != 0     == 0         bg(file)     0
- *  != 0     != 0         fg(file)     bg(file)
- *
- * We can see from the table that bg(internal) is 0 only if fg(internal)
- * is also 0 .
- *
- * For export, the following two cases are obvious
- *  bg(internal)  fg(internal)     bg(file)  fg(file)
- *     == 0           == 0            0         0
- *     != 0           != 0        fg(internal)  bg(internal)
- * This one looks like we can choose, but testing with Excel showed that we
- * do have to reverse colors:
- *  bg(internal)  fg(internal)
- *     != 0           == 0
- *
- * Finally,  we have to do something special for bg(internal) == 0. In
- * this situation, I have seen Excel flip colors, but use 8 rather than 0
- * for black, i.e. fg(file) = 8, bg(file) = fg(internal). This is what
- * we'll do, although I don't know if Excel always does.
- *
- * This makes us compatible with our own import code.  The import
- * side test can't be correct, though. Excel displays fg(file) = 0,
- * bg(file) = 1 as black (=0) background. Gnumeric displays background
- * as white, since fg(file) = 0.  But I'll leave this ugliness in for
- * now.
- *
- * 2000-06-21 Jon Kåre Hellan
- * A user reported that Excel wouldn't open the cell format dialog of cells
- * exported from Gnumeric. This was due to our handling of black.
- * We exported cells with black pattern foreground and white background,
- * unless something else had been explicitly selected. We used fg/bg 0/1
- * (PALETTE_BLACK/PALETTE_WHITE). Exporting border colors as palette index 0
- * resulted in the same problem. Excel renders the cells as we intend, but
- * refuses to open the cell format dialog.
- *
- * Excel apparently wants 8 (PALETTE_ALSO_BLACK) for black in foreground and
- * border. (Of course - most of the time it uses autocolors.) On the other
- * hand, cell format dialog can't be shown when 8 is used for background.
- * For fonts, it looks like Excel doesn't care.
- **/
-static void
-fixup_fill_colors (BiffXFData *xfd)
+ * Return Excel color index, possibly auto, for a style color.
+ * The auto colors are passed in by caller to avoid having to ref and unref
+ * the same autocolors over and over.
+ */
+static guint8
+style_color_to_pal_index (StyleColor *color, ExcelWorkbook *wb,
+			  StyleColor *auto_back, StyleColor *auto_font)
 {
-	guint8 c;
+	guint rgb888;
+	guint8 idx;
+	
+	if (color->is_auto) {
+		if (color == auto_back)
+			idx = PALETTE_AUTO_BACK;
+		else if (color == auto_font)
+				idx = PALETTE_AUTO_FONT;
+		else
+			idx = PALETTE_AUTO_PATTERN;
+	} else 
+		idx = palette_get_index	(wb, style_color_to_rgb888 (color));
 
-	if ((xfd->fill_pattern_idx == 1)
-	    && ((xfd->pat_foregnd_col != PALETTE_BLACK)
-		|| (xfd->pat_backgnd_col != PALETTE_BLACK))) {
-		c = xfd->pat_backgnd_col;
-		xfd->pat_backgnd_col = xfd->pat_foregnd_col;
-		xfd->pat_foregnd_col = c;
-	}
-	if (xfd->pat_foregnd_col == PALETTE_BLACK)
-		xfd->pat_foregnd_col = PALETTE_ALSO_BLACK;
+	return idx;
 }
 
 /**
@@ -2004,11 +1988,11 @@ get_xf_differences (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *parentst)
 			break;
 		}
 	}
-	if (xfd->pat_foregnd_col != PALETTE_BLACK
-	    || xfd->pat_backgnd_col != PALETTE_WHITE
+	if (xfd->pat_foregnd_col != PALETTE_AUTO_PATTERN
+	    || (xfd->pat_backgnd_col) != PALETTE_AUTO_BACK
 	    || xfd->fill_pattern_idx != FILL_MAGIC)
 		xfd->differences |= 1 << MS_BIFF_D_FILL_BIT;
-	if (xfd->hidden || xfd->locked)
+	if (xfd->hidden || !xfd->locked)
 		xfd->differences |= 1 << MS_BIFF_D_LOCK_BIT;
 }
 
@@ -2063,9 +2047,6 @@ log_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, int idx)
  * - hidden and locked - not yet in gnumeric.
  *
  * Apart from font, the style elements we retrieve do *not* need to be unrefed.
- *
- * FIXME:
- * It may be possible to recognize auto contrast for a few simple cases.
  **/
 static void
 build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
@@ -2075,9 +2056,10 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 	int pat;
 	StyleColor *pattern_color;
 	StyleColor *back_color;
+	StyleColor *auto_back = style_color_auto_back ();
+	StyleColor *auto_font = style_color_auto_font ();
 	guint pattern_pal_color;
 	guint back_pal_color;
-	gint c;
 	int i;
 
 	memset (xfd, 0, sizeof *xfd);
@@ -2106,15 +2088,12 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 		b = mstyle_get_border (st, MSTYLE_BORDER_TOP + i);
 		if (b) {
 			xfd->border_type[i] = b->line_type;
-			if (b->color) {
-				c = palette_get_index (
-					wb, style_color_to_int (b->color));
-				/* Excel doesn't want index 0 for black in
-				 * borders */
-				if (c == PALETTE_BLACK)
-					c = PALETTE_ALSO_BLACK;
-				xfd->border_color[i] = c;
-			}
+			xfd->border_color[i]
+				= b->color
+				? style_color_to_pal_index (b->color, wb,
+							    auto_back,
+							    auto_font)
+				: PALETTE_AUTO_PATTERN;
 		}
 	}
 
@@ -2123,23 +2102,28 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 
 	pattern_color = mstyle_get_color (st, MSTYLE_COLOR_PATTERN);
 	back_color   = mstyle_get_color (st, MSTYLE_COLOR_BACK);
-	if (pattern_color) {
-		pattern_pal_color = style_color_to_int (pattern_color);
-	} else {
-		pattern_pal_color = PALETTE_BLACK;
-	}
-	if (back_color) {
-		back_pal_color = style_color_to_int (back_color);
-	} else {
-		back_pal_color = PALETTE_WHITE;
-	}
-	xfd->pat_backgnd_col = palette_get_index (wb, back_pal_color);
-	xfd->pat_foregnd_col = palette_get_index (wb, pattern_pal_color);
+	xfd->pat_foregnd_col
+		= pattern_color
+		? style_color_to_pal_index (pattern_color, wb, auto_back,
+					    auto_font)
+		: PALETTE_AUTO_PATTERN;
+	xfd->pat_backgnd_col
+		= back_color
+		? style_color_to_pal_index (back_color, wb, auto_back,
+					    auto_font)
+		: PALETTE_AUTO_BACK;
 
 	/* Solid patterns seem to reverse the meaning */
-	fixup_fill_colors (xfd);
+ 	if (xfd->fill_pattern_idx == FILL_SOLID) {
+		guint8 c = xfd->pat_backgnd_col;
+		xfd->pat_backgnd_col = xfd->pat_foregnd_col;
+		xfd->pat_foregnd_col = c;
+	}
 
 	get_xf_differences (wb, xfd, wb->xf->default_style);
+
+	style_color_unref (auto_font);
+	style_color_unref (auto_back);
 }
 
 /**
@@ -2224,6 +2208,7 @@ write_xf_record (BiffPut *bp, ExcelWorkbook *wb, BiffXFData *xfd)
 	guint8 data[256];
 	guint16 itmp;
 	int lp;
+	int btype;
 
 	for (lp = 0; lp < 250; lp++)
 		data[lp] = 0;
@@ -2261,36 +2246,46 @@ write_xf_record (BiffPut *bp, ExcelWorkbook *wb, BiffXFData *xfd)
 		itmp |= xfd->differences & 0xFC00; /* Difference bits */
 		MS_OLE_SET_GUINT16(data+6, itmp);
 
-		itmp = 1 << 13; /* fSxButton bit - apparently always set */
+		/* Documentation is wrong - there is no fSxButton bit.
+		 * The bg color uses the bit */
+		itmp = 0;
 		/* Fill pattern foreground color */
 		itmp |= xfd->pat_foregnd_col & 0x7f;
 		/* Fill pattern background color */
-		itmp |= (xfd->pat_backgnd_col << 7) & 0x1f80;
+		itmp |= (xfd->pat_backgnd_col << 7) & 0x3f80;
 		MS_OLE_SET_GUINT16(data+8, itmp);
 
 		itmp  = xfd->fill_pattern_idx & 0x3f;
 
 		/* Borders */
-		itmp |= (border_type_to_excel (xfd->border_type[STYLE_BOTTOM],
-					       wb->ver)
-			  << 6) & 0x1c0;
-		itmp |= (xfd->border_color[STYLE_BOTTOM] << 9) & 0xfe00;
+		btype = xfd->border_type[STYLE_BOTTOM];
+		if (btype != STYLE_BORDER_NONE) {
+			itmp |= (border_type_to_excel (btype, wb->ver) << 6)
+				& 0x1c0;
+			itmp |= (xfd->border_color[STYLE_BOTTOM] << 9)
+				& 0xfe00;
+		}
 		MS_OLE_SET_GUINT16(data+10, itmp);
 
-		itmp  = border_type_to_excel (xfd->border_type[STYLE_TOP],
-					      wb->ver)
-			& 0x7;
+		itmp  = 0;
+		btype = xfd->border_type[STYLE_TOP];
+		if (btype != STYLE_BORDER_NONE) {
+			itmp |= border_type_to_excel (btype, wb->ver) & 0x7;
+			itmp |= (xfd->border_color[STYLE_TOP] << 9) & 0xfe00;
+		}
 		itmp |= (border_type_to_excel (xfd->border_type[STYLE_LEFT],
 					       wb->ver)
 			 << 3) & 0x38;
 		itmp |= (border_type_to_excel (xfd->border_type[STYLE_RIGHT],
 					       wb->ver)
 			 << 6) & 0x1c0;
-		itmp |= (xfd->border_color[STYLE_TOP] << 9) & 0xfe00;
 		MS_OLE_SET_GUINT16(data+12, itmp);
 
-		itmp  = xfd->border_color[STYLE_LEFT] & 0x7f;
-		itmp |= (xfd->border_color[STYLE_RIGHT] << 7) & 0x3f80;
+		itmp  = 0;
+		if (xfd->border_type[STYLE_LEFT] != STYLE_BORDER_NONE)
+			itmp  |= xfd->border_color[STYLE_LEFT] & 0x7f;
+		if (xfd->border_type[STYLE_RIGHT] != STYLE_BORDER_NONE)
+			itmp |= (xfd->border_color[STYLE_RIGHT] << 7) & 0x3f80;
 		MS_OLE_SET_GUINT16(data+14, itmp);
 
 		ms_biff_put_var_write (bp, data, 16);
