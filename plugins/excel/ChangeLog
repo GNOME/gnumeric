@@ -1,3 +1,8 @@
+2000-05-05  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-formula-read.c (ms_excel_parse_formula) : Improve warning when we
+	  encounter unknown ptgAttr flags.
+
 2000-05-03  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c : Include eval.h to suppress warning.

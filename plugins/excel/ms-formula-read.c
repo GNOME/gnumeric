@@ -1155,7 +1155,13 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			guint8  grbit = MS_OLE_GET_GUINT8(cur) ;
 			guint16 w     = MS_OLE_GET_GUINT16(cur+1) ;
 			ptg_length = 3 ;
-			if (grbit & 0x01) {
+			if (grbit == 0x00) {
+				static gboolean need_warn = TRUE;
+				if (need_warn) {
+					printf ("pgtAttr grbits == 0 ??  What is this, it is not documented.\n") ;
+					need_warn = FALSE;
+				}
+			} else if (grbit & 0x01) {
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 0) {
 					printf ("A volatile function: so what\n") ;
@@ -1237,7 +1243,10 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 				;
 #endif
 			} else {
-				printf ("Unknown PTG Attr 0x%x 0x%x\n", grbit, w) ;
+				if (sheet && sheet->gnum_sheet && sheet->gnum_sheet->name_unquoted)
+					printf ("%s!", sheet->gnum_sheet->name_unquoted);
+				printf ("%s%d : Unknown PTG Attr gr = 0x%x, w = 0x%x ptg = 0x%x\n",
+					col_name(fn_col), fn_row+1, grbit, w, ptg) ;
 				error = TRUE ;
 			}
 		}
