@@ -258,7 +258,7 @@ value_area_foreach (Value const *v, EvalPos const *ep,
 	int x, y;
 	Value *tmp;
 
-	g_return_val_if_fail (callback != NULL, FALSE);
+	g_return_val_if_fail (callback != NULL, NULL);
 
         if (v->type == VALUE_CELLRANGE) {
 		WrapperClosure wrap;

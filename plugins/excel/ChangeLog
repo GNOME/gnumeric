@@ -1,3 +1,8 @@
+2002-12-30  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (excel_formula_shared): Return NULL on failure,
+	not FALSE.
+
 2002-12-25  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_state_new) : register sheets with

@@ -1,3 +1,15 @@
+2002-12-30  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet-style.c (cell_tile_style_new): Don't use res
+	uninitialized, even if we compile with no checks.
+
+	* src/gui-util.c (gnumeric_dialog_raise_if_exists): Return NULL on
+	failure, not FALSE.
+	* src/ranges.c (range_init_value): Ditto.
+	* src/sheet-object-widget.c (sheet_widget_scrollbar_get_ref,
+	sheet_widget_checkbox_get_ref): Ditto.
+	* src/value-sheet.c (value_area_foreach): Ditto.
+
 2002-12-29  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=64969

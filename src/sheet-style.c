@@ -306,6 +306,7 @@ cell_tile_style_new (MStyle *style, CellTileType t)
 	case TILE_MATRIX : res = (CellTile *)g_new (CellTileStyleMatrix, 1);
 			   break;
 	default : g_return_val_if_fail (FALSE, NULL);
+		return NULL;
 	};
 
 	*((CellTileType *)&(res->type)) = t;

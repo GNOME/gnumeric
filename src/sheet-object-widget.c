@@ -573,8 +573,8 @@ sheet_widget_scrollbar_get_ref (SheetWidgetScrollbar const *swb,
 	*res = target->v_range.cell.a;
 	value_release (target);
 
-	g_return_val_if_fail (!res->col_relative, FALSE);
-	g_return_val_if_fail (!res->row_relative, FALSE);
+	g_return_val_if_fail (!res->col_relative, NULL);
+	g_return_val_if_fail (!res->row_relative, NULL);
 
 	if (force_sheet && res->sheet == NULL)
 		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swb));
@@ -1089,8 +1089,8 @@ sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc,
 	*res = target->v_range.cell.a;
 	value_release (target);
 
-	g_return_val_if_fail (!res->col_relative, FALSE);
-	g_return_val_if_fail (!res->row_relative, FALSE);
+	g_return_val_if_fail (!res->col_relative, NULL);
+	g_return_val_if_fail (!res->row_relative, NULL);
 
 	if (force_sheet && res->sheet == NULL)
 		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swc));

@@ -938,6 +938,9 @@ format_remove_decimal (StyleFormat const *fmt)
 	case FMT_SPECIAL:
 		/* Nothing to remove for these formats ! */
 		return NULL;
+	case FMT_UNKNOWN:
+	case FNM_GENERAL:
+		; /* Nothing.  */
 	}
 
 	/* Use the old code for more special formats to try to add a
@@ -1011,6 +1014,9 @@ format_add_decimal (StyleFormat const *fmt)
 	case FMT_SPECIAL:
 		/* Nothing to add for these formats ! */
 		return NULL;
+	case FMT_UNKNOWN:
+	case FNM_GENERAL:
+		; /* Nothing.  */
 	}
 
 	/* Use the old code for more special formats to try to add a

@@ -57,7 +57,7 @@ Range *
 range_init_value (Range *range, Value const *v)
 {
 	g_return_val_if_fail (range != NULL && v != NULL &&
-			      v->type == VALUE_CELLRANGE, FALSE);
+			      v->type == VALUE_CELLRANGE, NULL);
 
 	return range_init_rangeref (range, &v->v_range.cell);
 }

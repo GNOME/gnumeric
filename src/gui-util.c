@@ -455,8 +455,8 @@ gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, const char *key)
 {
 	KeyedDialogContext *ctxt;
 
-	g_return_val_if_fail (wbcg != NULL, FALSE);
-	g_return_val_if_fail (key != NULL, FALSE);
+	g_return_val_if_fail (wbcg != NULL, NULL);
+	g_return_val_if_fail (key != NULL, NULL);
 
 	/* Ensure we only pop up one copy per workbook */
 	ctxt = g_object_get_data (G_OBJECT (wbcg), key);

@@ -14,6 +14,7 @@ Jon Kåre:
 
 Morten:
 	* Fix crash when no undo information is wanted.
+	* Clean up NULL/FALSE confusion all over.
 
 Nicolas Peninguy:
 	* Move the generation of the standard formats into StyleFormat

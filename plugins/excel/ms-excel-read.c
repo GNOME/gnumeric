@@ -2098,7 +2098,7 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, Cell *cell)
 
 	g_hash_table_insert (esheet->shared_formulae, &sf->key, sf);
 
-	g_return_val_if_fail (expr != NULL, FALSE);
+	g_return_val_if_fail (expr != NULL, NULL);
 
 	if (is_array)
 		cell_set_array_formula (esheet->sheet,
