@@ -1672,8 +1672,6 @@ BC_R(vector_details)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *ser
 	GnmGraphVectorType type;
 	guint16 e_type = MS_OLE_GET_GUINT16 (q->data + type_offset);
 
-	g_return_if_fail (e_type < MS_VECTOR_TYPE_MAX);
-
 	switch (e_type) {
 	case 0 : type = GNM_VECTOR_DATE; break;
 	case 1 : type = GNM_VECTOR_SCALAR; break;
