@@ -1500,12 +1500,13 @@ static char *help_product = {
 	   "@DESCRIPTION="
 	   "PRODUCT returns the product of all the values and cells "
 	   "referenced in the argument list. "
-	   "This function is Excel compatible. "
+	   "This function is Excel compatible.  In particular, this means "
+	   "that if all cells are empty, the result will be 0."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "PRODUCT(2,5,9) equals 90.\n"
 	   "\n"
-	   "@SEEALSO=SUM, COUNT")
+	   "@SEEALSO=SUM, COUNT, G_PRODUCT")
 };
 
 static int
@@ -1518,12 +1519,37 @@ range_bogusproduct (const float_t *xs, int n, float_t *res)
 		return range_product (xs, n, res);
 }
 
-
 static Value *
 gnumeric_product (FunctionEvalInfo *ei, GList *nodes)
 {
 	return float_range_function (nodes, ei,
 				     range_bogusproduct,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE);
+}
+
+
+static char *help_g_product = {
+	N_("@FUNCTION=G_PRODUCT\n"
+	   "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "PRODUCT returns the product of all the values and cells "
+	   "referenced in the argument list.  Empty cells are ignored "
+	   "and the empty product in 1."
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "G_PRODUCT(2,5,9) equals 90.\n"
+	   "\n"
+	   "@SEEALSO=SUM, COUNT")
+};
+
+static Value *
+gnumeric_g_product (FunctionEvalInfo *ei, GList *nodes)
+{
+	return float_range_function (nodes, ei,
+				     range_product,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
@@ -3404,6 +3430,8 @@ math_functions_init (void)
 			    "x,y",       &help_power,    gnumeric_power);
 	function_add_nodes (cat, "product", 0,
 			    "number",    &help_product,  gnumeric_product);
+	function_add_nodes (cat, "g_product", 0,
+			    "number",    &help_g_product,  gnumeric_g_product);
 	function_add_args  (cat, "quotient" , "ff",
 			    "num,den",   &help_quotient, gnumeric_quotient);
 	function_add_args  (cat, "radians", "f",

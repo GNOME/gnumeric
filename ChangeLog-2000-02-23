@@ -6,6 +6,7 @@
 
 	* src/functions/fn-math.c (range_bogusproduct): New function.
 	(gnumeric_product): Use it.
+	(gnumeric_g_product): New function.
 
 2000-01-14  Morten Welinder  <terra@diku.dk>
 

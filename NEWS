@@ -12,6 +12,8 @@ Jody:
 
 Morten:
 	* Revamp the memory handling of the parser.
+	* Fixed goal seek's behaviour on cancel and failure.
+	* Bogotised PRODUCT and introduced G_PRODUCT.
 
 Jon:
 	* Found xml io font size loading bug.
