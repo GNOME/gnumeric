@@ -315,7 +315,7 @@ print_info_new (void)
 static void
 save_margin (const char *prefix, PrintUnit *p)
 {
-	char *x = g_strconcat (prefix, "_units");
+	char *x = g_strconcat (prefix, "_units", NULL);
 	
 	gnome_config_set_float (prefix, p->points);
 	gnome_config_set_string (x, unit_name_get_name (p->desired_display));

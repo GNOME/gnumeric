@@ -757,6 +757,7 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 		gtk_signal_connect (GTK_OBJECT (w), "clicked",
 				    GTK_SIGNAL_FUNC (do_print_preview_cb), dpi);
 		g_free (print);
+		g_free (preview);
 	}
 
 	/*

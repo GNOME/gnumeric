@@ -1,3 +1,11 @@
+1999-09-07  Morten Welinder  <terra@diku.dk>
+
+	* src/print-info.c (save_margin): Terminate the set of strings to
+ 	concatenate.
+
+	* src/dialogs/dialog-printer-setup.c (do_setup_main_dialog): Plug
+ 	leak.
+
 1999-09-07  Michael Meeks  <michael@imaginator.com>
 
 	* src/pixmaps.h: Added button.xpm
