@@ -10,6 +10,8 @@
 	(clipboard_export_cell_region) : Delete.
 	(find_local_workbook_with_selection) : Delete.
 	(workbook_selection_locator) : Delete.
+	(x_selection_handler) : We need to clear the region when we paste a
+	  region that was marked for cut rather than copy.
 
 	* ./src/item-grid.c (item_grid_popup_menu) : Always enable paste,
 	  only enable paste special when we have a local cut.  This matches

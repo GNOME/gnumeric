@@ -404,6 +404,9 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 	CellRegion *clipboard = application_clipboard_contents_get ();
 	char *rendered_selection;
 
+	/* If the region was marked for a cut we need to copy it for pasting
+	 * then clear it
+	 */
 	if (clipboard == NULL) {
 		Sheet *sheet = application_clipboard_sheet_get ();
 		Range const *a = application_clipboard_area_get ();
@@ -412,6 +415,12 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 		    clipboard_copy_cell_range (sheet,
 					       a->start.col, a->start.row,
 					       a->end.col,   a->end.row);
+
+		/* Clear the region that was pasted into another application */
+		sheet_clear_region (workbook_command_context_gui (sheet->workbook),
+				    sheet,
+				    a->start.col, a->start.row,
+				    a->end.col,   a->end.row, FALSE);
 	}
 
 	g_return_if_fail (clipboard != NULL);
@@ -423,8 +432,10 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 		rendered_selection, strlen (rendered_selection));
 	g_free (rendered_selection);
 
-	if (content_needs_free)
+	if (content_needs_free) {
 		clipboard_release (clipboard);
+		application_clipboard_clear ();
+	}
 }
 
 /**
