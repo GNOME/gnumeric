@@ -14,6 +14,7 @@
 #include "color.h"
 #include "dialogs.h"
 #include "cursors.h"
+#include "gnome-util.h"
 
 static GnomeCanvasItem *item_grid_parent_class;
 
@@ -586,7 +587,7 @@ item_grid_popup_menu (ItemGrid *item_grid, GdkEvent *event, int col, int row)
 
 	menu = create_popup_menu (item_grid, show_paste);
 
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, event->button.time);
+	gnumeric_popup_menu (GTK_MENU (menu), (GdkEventButton *) event);
 }
 
 static int

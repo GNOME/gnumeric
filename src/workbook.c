@@ -1194,28 +1194,26 @@ change_auto_expr (GtkWidget *item, Workbook *wb)
 static void
 change_auto_expr_menu (GtkWidget *widget, GdkEventButton *event, Workbook *wb)
 {
-	static GtkWidget *menu;
-
-	if (!menu){
-		GtkWidget *item;
-		int i;
+	GtkWidget *menu;
+	GtkWidget *item;
+	int i;
 		
-		menu = gtk_menu_new ();
+	menu = gtk_menu_new ();
 
-		for (i = 0; quick_compute_routines [i].displayed_name; i++){
-			item = gtk_menu_item_new_with_label (
-				_(quick_compute_routines [i].displayed_name));
-			gtk_menu_append (GTK_MENU (menu), item);
-			gtk_widget_show (item);
-			gtk_signal_connect (GTK_OBJECT (item), "activate",
-					    GTK_SIGNAL_FUNC(change_auto_expr), wb);
-			gtk_object_set_data (GTK_OBJECT (item), "expr",
-					     quick_compute_routines [i].function);
-			gtk_object_set_data (GTK_OBJECT (item), "name",
-					     _(quick_compute_routines [i].displayed_name));
-		}
+	for (i = 0; quick_compute_routines [i].displayed_name; i++){
+		item = gtk_menu_item_new_with_label (
+			_(quick_compute_routines [i].displayed_name));
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_widget_show (item);
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    GTK_SIGNAL_FUNC(change_auto_expr), wb);
+		gtk_object_set_data (GTK_OBJECT (item), "expr",
+				     quick_compute_routines [i].function);
+		gtk_object_set_data (GTK_OBJECT (item), "name",
+				     _(quick_compute_routines [i].displayed_name));
 	}
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, 0, NULL, event->button, event->time);
+
+	gnumeric_popup_menu (GTK_MENU (menu), event);
 }
 
 /*
