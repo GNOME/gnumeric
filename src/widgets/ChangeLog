@@ -1,0 +1,4 @@
+2000-03-24  Jody Goldberg <jgoldberg@home.com>
+
+	* gtk-combo-text.c (gtk_combo_text_select_item) : New function.
+

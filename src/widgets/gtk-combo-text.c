@@ -80,6 +80,12 @@ gtk_combo_text_new ()
 }
 
 void
+gtk_combo_text_select_item (GtkComboText *combo_text, int elem)
+{
+	gtk_list_select_item (GTK_LIST(combo_text->list), elem);
+}
+
+void
 gtk_combo_text_add_item (GtkComboText *combo_text,
 			 const gchar *item,
 			 const gchar *value)

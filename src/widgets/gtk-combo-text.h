@@ -16,6 +16,7 @@ struct _GtkComboText {
 
 	GtkWidget *entry;
 	GtkWidget *list;
+	GtkWidget *scrolled_window;
 };
 
 struct _GtkComboTextClass {
@@ -27,8 +28,10 @@ GtkType    gtk_combo_text_get_type  (void);
 void       gtk_combo_text_construct (GtkComboText *combo_text);
 GtkWidget *gtk_combo_text_new();
 
-void       gtk_combo_text_add_item  (GtkComboText *combo_text,
-				     const gchar *item,
-				     const gchar *value);
+void       gtk_combo_text_select_item (GtkComboText *combo_text,
+				       int elem);
+void       gtk_combo_text_add_item    (GtkComboText *combo_text,
+				       const gchar *item,
+				       const gchar *value);
 
 #endif
