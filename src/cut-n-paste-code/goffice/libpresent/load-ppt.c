@@ -201,23 +201,29 @@ dump_shape (GodShape *shape, int depth)
 {
 	GodAnchor *anchor;
 	int i, count;
+	const char *text;
 	if (shape == NULL)
 		return;
 
+	for (i = 0; i < depth; i++) {
+		g_print ("\t");
+	}
 	anchor = god_shape_get_anchor(shape);
 	if (anchor) {
 		GoRect rect;
 		god_anchor_get_rect (anchor,
 				     &rect);
-		for (i = 0; i < depth; i++) {
-			g_print ("\t");
-		}
-		g_print ("%f, %f - %f, %f\n",
+		g_print ("%f, %f - %f, %f",
 			 GO_UN_TO_IN ((double)rect.top),
 			 GO_UN_TO_IN ((double)rect.left),
 			 GO_UN_TO_IN ((double)rect.bottom),
 			 GO_UN_TO_IN ((double)rect.right));
 	}
+	text = god_shape_get_text (shape);
+	if (text) {
+		g_print (" %s", text);
+	}
+	g_print ("\n");
 	count = god_shape_get_child_count (shape);
 	for (i = 0; i < count; i++) {
 		GodShape *child;
@@ -314,6 +320,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 		break;
 	}
 }
+
 static void
 start_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 {

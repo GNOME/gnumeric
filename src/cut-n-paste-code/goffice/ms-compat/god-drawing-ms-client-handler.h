@@ -41,6 +41,10 @@ typedef struct {
 	GodTextModel *(*handle_client_text)   (GodDrawingMsClientHandler *handler, const guint8 *data, GsfInput *input, gsf_off_t length, GError **err);
 	GodAnchor    *(*handle_client_anchor) (GodDrawingMsClientHandler *handler, const guint8 *data, GsfInput *input, gsf_off_t length, GError **err);
 	GObject      *(*handle_client_data)   (GodDrawingMsClientHandler *handler, const guint8 *data, GsfInput *input, gsf_off_t length, GError **err);
+
+	guint client_text_read_data : 1;
+	guint client_anchor_read_data : 1;
+	guint client_data_read_data : 1;
 } GodDrawingMsClientHandlerClass;
 
 GType         god_drawing_ms_client_handler_get_type              (void);

@@ -114,7 +114,7 @@ static const GOMSParserRecordType types[] =
 	{	EscherSpgr,			"EscherSpgr",			FALSE,	FALSE,	-1,	-1	},
 	{	EscherSp,			"EscherSp",			FALSE,	TRUE,	-1,	-1	},
 	{	EscherTextbox,			"EscherTextbox",		FALSE,	FALSE,	-1,	-1	},
-	{	EscherClientTextbox,		"EscherClientTextbox",		TRUE,	FALSE,	-1,	-1	},
+	{	EscherClientTextbox,		"EscherClientTextbox",		FALSE,	FALSE,	-1,	-1	},
 	{	EscherAnchor,			"EscherAnchor",			FALSE,	FALSE,	-1,	-1	},
 	{	EscherChildAnchor,		"EscherChildAnchor",		FALSE,	FALSE,	-1,	-1	},
 	{	EscherClientAnchor,		"EscherClientAnchor",		FALSE,	FALSE,	-1,	-1	},
@@ -154,6 +154,7 @@ typedef struct {
 typedef struct {
 	GodPropertyTable *prop_table;
 	GodAnchor *anchor;
+	GodTextModel *text_model;
 	ShapeDetails sp;
 } ShapeParseState;
 
@@ -193,6 +194,26 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 
 			if (cb_data->handler) {
 				parse_state->anchor = god_drawing_ms_client_handler_handle_client_anchor
+					(cb_data->handler,
+					 input,
+					 record->length,
+					 err);
+			}
+		}
+		break;
+	case EscherClientTextbox:
+		{
+			ShapeParseState *parse_state;
+			ParseCallbackData *cb_data = user_data;
+
+			ERROR (STACK_TOP && STACK_TOP->opcode == EscherSpContainer, "Placement Error");
+
+			parse_state = STACK_TOP->parse_state;
+
+			ERROR (parse_state->text_model == NULL, "Placement Error");
+
+			if (cb_data->handler) {
+				parse_state->text_model = god_drawing_ms_client_handler_handle_client_text
 					(cb_data->handler,
 					 input,
 					 record->length,
@@ -361,6 +382,10 @@ end_container (GSList *stack, GsfInput *input, GError **err, gpointer user_data)
 			if (parse_state->anchor) {
 				god_shape_set_anchor (shape, parse_state->anchor);
 				g_object_unref (parse_state->anchor);
+			}
+			if (parse_state->text_model) {
+				god_shape_set_text_model (shape, parse_state->text_model);
+				g_object_unref (parse_state->text_model);
 			}
 			if (parse_state->sp.is_group) {
 				ShapeGroupParseState *parent_state = STACK_SECOND->parse_state;

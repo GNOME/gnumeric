@@ -112,12 +112,12 @@ go_ms_parser_read (GsfInput   *input,
 
 			gsf_input_seek (input, position, G_SEEK_SET);
 		} else {
-			if (type->do_read) {
-				data = gsf_input_read (input, record.length, NULL);
-				ERROR (record.length == 0 || data, "Length Error");
-			}
-
 			if (callbacks && callbacks->handle_atom) {
+				if (type->do_read) {
+					data = gsf_input_read (input, record.length, NULL);
+					ERROR (record.length == 0 || data, "Length Error");
+				}
+
 				callbacks->handle_atom (&record, stack, data, input, err, user_data);
 			}
 

@@ -26,11 +26,13 @@
 
 #include <gnumeric-config.h>
 #include "libpresent/god-drawing-ms-client-handler-ppt.h"
+#include "ppt-types.h"
 #include <utils/go-units.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
+#include <ms-compat/go-ms-parser.h>
 
 #define CVS_VERSION "$Id$"
 #define ERROR_STRING(cond,str) G_STRLOC "\n<" CVS_VERSION ">\n" str " (" #cond ")"
@@ -62,6 +64,11 @@ struct GodDrawingMsClientHandlerPptPrivate_ {
 	int dummy;
 };
 
+static const GOMSParserRecordType types[] =
+{
+	{	TextCharsAtom,			"TextCharsAtom",		FALSE,	TRUE,	-1,	-1	},
+};
+
 GodDrawingMsClientHandler *
 god_drawing_ms_client_handler_ppt_new (void)
 {
@@ -88,7 +95,30 @@ god_drawing_ms_client_handler_ppt_finalize (GObject *object)
 	handler->priv = NULL;
 }
 
-#if 0
+typedef struct {
+	char *text;
+} TextParseState;
+
+static void
+handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInput *input, GError **err, gpointer user_data)
+{
+	TextParseState *parse_state = user_data;
+	switch (record->opcode) {
+	case TextCharsAtom:
+		{
+			ERROR (stack == NULL, "TextCharsAtom is root only inside ClientTextbox.");
+			ERROR (parse_state->text == NULL, "Only one text per ClientTextbox.");
+			
+			parse_state->text = g_utf16_to_utf8 ((gunichar2 *) data, record->length / 2, NULL, NULL, NULL);
+		}
+		break;
+	}
+}
+
+static GOMSParserCallbacks callbacks = { handle_atom,
+					 NULL,
+					 NULL };
+
 static GodTextModel *
 god_drawing_ms_client_handler_ppt_handle_client_text    (GodDrawingMsClientHandler *handler,
 							 const guint8              *data,
@@ -96,9 +126,25 @@ god_drawing_ms_client_handler_ppt_handle_client_text    (GodDrawingMsClientHandl
 							 gsf_off_t                  length,
 							 GError                   **err)
 {
+	TextParseState parse_state;
+
+	parse_state.text = NULL;
+	go_ms_parser_read (input,
+			   length,
+			   types,
+			   (sizeof (types) / sizeof (types[0])),
+			   &callbacks,
+			   &parse_state,
+			   NULL);
+
+	if (parse_state.text) {
+		GodTextModel *text_model = god_text_model_new ();
+		god_text_model_set_text (text_model, parse_state.text);
+		g_free (parse_state.text);
+		return text_model;
+	}
 	return NULL;
 }
-#endif
 
 static GodAnchor *
 god_drawing_ms_client_handler_ppt_handle_client_anchor    (GodDrawingMsClientHandler *handler,
@@ -142,21 +188,23 @@ god_drawing_ms_client_handler_ppt_class_init (GodDrawingMsClientHandlerPptClass 
 	GObjectClass *object_class;
 	GodDrawingMsClientHandlerClass *handler_class;
 
-	object_class                        = (GObjectClass *) class;
-	handler_class                       = (GodDrawingMsClientHandlerClass *) class;
+	object_class                         = (GObjectClass *) class;
+	handler_class                        = (GodDrawingMsClientHandlerClass *) class;
 
-	domain                              = g_quark_from_static_string ("GodDrawingMsClientHandlerPpt");
-	code                                = 1;
+	domain                               = g_quark_from_static_string ("GodDrawingMsClientHandlerPpt");
+	code                                 = 1;
 
-	parent_class                        = g_type_class_peek_parent (class);
+	parent_class                         = g_type_class_peek_parent (class);
 
-	object_class->finalize              = god_drawing_ms_client_handler_ppt_finalize;
+	object_class->finalize               = god_drawing_ms_client_handler_ppt_finalize;
 
-	handler_class->handle_client_anchor = god_drawing_ms_client_handler_ppt_handle_client_anchor;
+	handler_class->handle_client_text    = god_drawing_ms_client_handler_ppt_handle_client_text;
+	handler_class->handle_client_anchor  = god_drawing_ms_client_handler_ppt_handle_client_anchor;
 #if 0
-	handler_class->handle_client_text   = god_drawing_ms_client_handler_ppt_handle_client_text;
-	handler_class->handle_client_data   = god_drawing_ms_client_handler_ppt_handle_client_data;
+	handler_class->handle_client_data    = god_drawing_ms_client_handler_ppt_handle_client_data;
 #endif
+
+	handler_class->client_text_read_data = FALSE;
 }
 
 GSF_CLASS (GodDrawingMsClientHandlerPpt, god_drawing_ms_client_handler_ppt,

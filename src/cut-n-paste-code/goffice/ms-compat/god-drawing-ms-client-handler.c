@@ -43,7 +43,9 @@ god_drawing_ms_client_handler_handle_client_text    (GodDrawingMsClientHandler *
 						     GError                    **err)
 {
 	if (GOD_DRAWING_MS_CLIENT_HANDLER_GET_CLASS (handler)->handle_client_text) {
-		const guint8 *data = gsf_input_read (input, length, NULL);
+		const guint8 *data = NULL;
+		if (GOD_DRAWING_MS_CLIENT_HANDLER_GET_CLASS (handler)->client_text_read_data)
+			data = gsf_input_read (input, length, NULL);
 		return GOD_DRAWING_MS_CLIENT_HANDLER_GET_CLASS (handler)->handle_client_text (handler,
 											      data,
 											      input,
@@ -61,7 +63,9 @@ god_drawing_ms_client_handler_handle_client_anchor    (GodDrawingMsClientHandler
 						       GError                    **err)
 {
 	if (GOD_DRAWING_MS_CLIENT_HANDLER_GET_CLASS (handler)->handle_client_anchor) {
-		const guint8 *data = gsf_input_read (input, length, NULL);
+		const guint8 *data = NULL;
+		if (GOD_DRAWING_MS_CLIENT_HANDLER_GET_CLASS (handler)->client_anchor_read_data)
+			data = gsf_input_read (input, length, NULL);
 		return GOD_DRAWING_MS_CLIENT_HANDLER_GET_CLASS (handler)->handle_client_anchor (handler,
 												data,
 												input,
@@ -79,7 +83,9 @@ god_drawing_ms_client_handler_handle_client_data    (GodDrawingMsClientHandler *
 						     GError                    **err)
 {
 	if (GOD_DRAWING_MS_CLIENT_HANDLER_GET_CLASS (handler)->handle_client_data) {
-		const guint8 *data = gsf_input_read (input, length, NULL);
+		const guint8 *data = NULL;
+		if (GOD_DRAWING_MS_CLIENT_HANDLER_GET_CLASS (handler)->client_data_read_data)
+			data = gsf_input_read (input, length, NULL);
 		return GOD_DRAWING_MS_CLIENT_HANDLER_GET_CLASS (handler)->handle_client_data (handler,
 											      data,
 											      input,
@@ -111,11 +117,15 @@ god_drawing_ms_client_handler_class_init (GodDrawingMsClientHandlerClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class                = (GObjectClass *) class;
+	object_class                   = (GObjectClass *) class;
 
-	parent_class                = g_type_class_peek_parent (class);
+	parent_class                   = g_type_class_peek_parent (class);
 
-	object_class->finalize      = god_drawing_ms_client_handler_finalize;
+	object_class->finalize         = god_drawing_ms_client_handler_finalize;
+
+	class->client_text_read_data   = TRUE;
+	class->client_anchor_read_data = TRUE;
+	class->client_data_read_data   = TRUE;
 }
 
 GSF_CLASS (GodDrawingMsClientHandler, god_drawing_ms_client_handler,
