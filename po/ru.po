@@ -5,9 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-06-25 19:48-0400\n"
-"PO-Revision-Date: 2003-06-23 00:12+0400\n"
+"POT-Creation-Date: 2003-06-26 19:03+0400\n"
+"PO-Revision-Date: 2003-06-28 02:42+0400\n"
 "Last-Translator: Dmitry G. Mastrukov <dmitry@taurussoft.org>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2500,7 +2499,6 @@ msgstr ""
 "@SEEALSO=DATE"
 
 #: plugins/fn-date/functions.c:219
-#, fuzzy
 msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
@@ -2528,18 +2526,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
-"@DESCRIPTION=DATEDIF возвращает разницу между двумя датами. @interval может "
-"быть одним из шести возможных значений: \"y\", \"m\", \"d\", \"ym\", \"md\" "
-"и \"yd\".\n"
-"Выбор одного из первых трех параметров будет возвращать число полных лет, "
-"месяцев или дней соответственно между двумя указанными датами.\n"
-"\"ym\" будет возвращать число полных месяцев между датами, не включая "
-"разницу в годах.\n"
-"\"md\" будет возвращать число полных дней между двумя датами, не включая "
-"разницу в месяцах.\n"
-"\"yd\" будет возвращать число полных дней между двумя датами, не включая "
-"разницу в годах.\n"
-"Эта функция совместима с Excel.\n"
+"@DESCRIPTION=DATEDIF возвращает разницу между двумя датами. @interval может быть одним из шести возможных значений: \"y\", \"m\", \"d\", \"ym\", \"md\" и \"yd\".\n"
+"\n"
+"Выбор одного из первых трех параметров будет возвращать число полных лет, месяцев или дней соответственно между двумя указанными датами.\n"
+"\n"
+"\"ym\" будет возвращать число полных месяцев между датами, не включая разницу в годах.\n"
+"\"md\" будет возвращать число полных дней между двумя датами, не включая разницу в месяцах.\n"
+"\"yd\" будет возвращать число полных дней между двумя датами, не включая разницу в годах.\n"
+"\n"
+"* Эта функция совместима с Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\\\"y\\\") равняется 3.\n"
 "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\\\"d\\\") равняется 1191.\n"
@@ -2695,7 +2691,6 @@ msgstr ""
 "@SEEALSO=HOUR,MINUTE"
 
 #: plugins/fn-date/functions.c:526
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (date)\n"
@@ -2713,11 +2708,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (последовательный номер)\n"
-"@DESCRIPTION=Превращает последовательный номер в час.  Час возвращается как "
-"целое в диапазоне от 0 (12:00 A.M.) до 23 (11:00 P.M.).\n"
+"@DESCRIPTION=Превращает последовательный номер в час.  Час возвращается как целое в диапазоне от 0 (12:00 A.M.) до 23 (11:00 P.M.).\n"
 "\n"
-"* Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки  "
-"в серийный номер, так что Вы можете вводить дату в виде строки.\n"
+"* Учтите, что Gnumeric будет выполнять преобразование обычной строки в серийный номер, так что можно вводить дату в виде строки.\n"
 "* Эта функция совместима с Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -2726,7 +2719,6 @@ msgstr ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
 #: plugins/fn-date/functions.c:555
-#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (date)\n"
@@ -2744,11 +2736,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (последовательный номер)\n"
-"@DESCRIPTION=Превращает последовательный номер в минуты.  Минуты "
-"возвращаются как целое в диапазоне от 0 до 59.\n"
+"@DESCRIPTION=Превращает последовательный номер в минуты.  Минуты возвращаются как целое в диапазоне от 0 до 59.\n"
 "\n"
-"* Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки "
-"в серийный номер, так что Вы можете вводить дату в виде строки.\n"
+"* Учтите, что Gnumeric будет выполнять преобразование обычной строки в серийный номер, так что можно вводить дату в виде строки.\n"
 "* Эта функция совместима с Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -2757,7 +2747,6 @@ msgstr ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
 #: plugins/fn-date/functions.c:585
-#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (date)\n"
@@ -2775,11 +2764,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (последовательный номер)\n"
-"@DESCRIPTION=Превращает последовательный номер в секунды.  Секунды "
-"возвращаются как целое в диапазоне от 0 до 59.\n"
+"@DESCRIPTION=Превращает последовательный номер в секунды.  Секунды возвращаются как целое в диапазоне от 0 до 59.\n"
 "\n"
-"* Учтите, что Gnumeric будет выполнять за вас преобразование обычной строки "
-"в серийный номер, так что вы можете вводить дату в виде строки.\n"
+"* Учтите, что Gnumeric будет выполнять за вас преобразование обычной строки в серийный номер, так что вы можете вводить дату в виде строки.\n"
 "* Эта функция совместима с Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -2788,7 +2775,6 @@ msgstr ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
 #: plugins/fn-date/functions.c:615
-#, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (date)\n"
@@ -2807,8 +2793,7 @@ msgstr ""
 "@SYNTAX=YEAR (последовательный номер)\n"
 "@DESCRIPTION=Превращает последовательный номер в год.\n"
 "\n"
-"* Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки "
-"в сериал номер, так что Вы можете вводить дату в виде строки.\n"
+"* Учтите, что Gnumeric будет выполнять преобразование обычной строки в сериал номер, так что можно вводить дату в виде строки.\n"
 "* Эта функция совместима с Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -2817,7 +2802,6 @@ msgstr ""
 "@SEEALSO=DAY, MONTH, NOW, TIME"
 
 #: plugins/fn-date/functions.c:646
-#, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (date)\n"
@@ -2836,8 +2820,7 @@ msgstr ""
 "@SYNTAX=MONTH (последовательный номер)\n"
 "@DESCRIPTION=Превращает последовательный номер в месяц.\n"
 "\n"
-"* Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки "
-"в серийный номер, так что Вы можете вводить дату в виде строки.\n"
+"* Учтите, что Gnumeric будет выполнять преобразование обычной строки в серийный номер, так что можно вводить дату в виде строки.\n"
 "* Эта функция совместима с Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -2846,7 +2829,6 @@ msgstr ""
 "@SEEALSO=DAY, NOW, TIME, YEAR"
 
 #: plugins/fn-date/functions.c:677
-#, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (date)\n"
@@ -2865,8 +2847,8 @@ msgstr ""
 "@SYNTAX=DAY (последовательный номер)\n"
 "@DESCRIPTION=Превращает последовательный номер в день месяца.\n"
 "\n"
-"* Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки "
-"в серийный номер, так что Вы можете вводить дату в виде строки.\n"
+"* Учтите, что Gnumeric будет выполнять преобразование обычной строки в "
+"серийный номер, так что можно вводить дату в виде строки.\n"
 "* Эта функция совместима с Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -2875,7 +2857,6 @@ msgstr ""
 "@SEEALSO=NOW, MONTH, TIME, YEAR"
 
 #: plugins/fn-date/functions.c:708
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (date[, method])\n"
@@ -2904,12 +2885,11 @@ msgstr ""
 "Эта функция возвращает целое в диапазоне отражающее день недели.\n"
 "@метод указывает систему отсчёта. По умолчанию @метод = 1.\n"
 "\n"
-"  Для @метода=1: воскресенье = 1, понедельник = 2 и т.д.\n"
-"  Для @метода=2: понедельник = 1, вторник = 2 и т.д.\n"
-"  Для @метода=3: понедельник = 0, вторник = 1 и т.д.\n"
+"  Если @метод=1: воскресенье = 1, понедельник = 2 и т.д.\n"
+"  Если @метод=2: понедельник = 1, вторник = 2 и т.д.\n"
+"  Если @метод=3: понедельник = 0, вторник = 1 и т.д.\n"
 "\n"
-"* Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки "
-"в серийный номер, так что Вы можете вводить дату в виде строки.\n"
+"* Учтите, что Gnumeric будет выполнять преобразование обычной строки в серийный номер, так что можно вводить дату в виде строки.\n"
 "* Эта функция совместима с Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3030,7 +3010,6 @@ msgid "Unimplemented"
 msgstr "Не реализовано"
 
 #: plugins/fn-date/functions.c:974
-#, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -3141,7 +3120,6 @@ msgid "date_str"
 msgstr "строка даты"
 
 #: plugins/fn-date/functions.c:1254
-#, fuzzy
 msgid "date1,date2,interval"
 msgstr "дата1, дата2, интервал"
 
@@ -3159,9 +3137,8 @@ msgid "date1,date2,method"
 msgstr "дата1, дата2, метод"
 
 #: plugins/fn-date/functions.c:1266
-#, fuzzy
 msgid "date,months"
-msgstr "начальная дата, месяцы"
+msgstr "дата, месяцы"
 
 #: plugins/fn-date/functions.c:1270
 msgid "start_date,months"
@@ -3585,11 +3562,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
-"@DESCRIPTION=Функция BESSELI возвращает значение функции Neumann, Вебера или "
-"Бесселя.\n"
+"@DESCRIPTION=Функция BESSELI возвращает значение функции Неймана, Вебера или Бесселя.\n"
 "\n"
-" @x - область выполнения функции. @y - порядок функции Бесселя, если не "
-"целое, дробная часть отбрасывается.\n"
+" @x - область выполнения функции. @y - порядок функции Бесселя, если не целое, дробная часть отбрасывается.\n"
 "\n"
 "* Если @x или @y не являются числами, возвращается ошибка #VALUE!.\n"
 "* Если @y < 0, возвращается ошибка #NUM!.\n"
@@ -3601,7 +3576,6 @@ msgstr ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: plugins/fn-eng/functions.c:456
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -3620,11 +3594,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
-"@DESCRIPTION=Функция BESSELK возвращает значение функции Neumann, Вебера или "
-"Бесселя. @x - область выполнения функции. @y - порядок функции Бесселя, если "
-"не целое, то дробная часть отбрасывается.\n"
+"@DESCRIPTION=Функция BESSELK возвращает значение функции Неймана, Вебера или Бесселя. @x - область выполнения функции. @y - порядок функции Бесселя, если не целое, то дробная часть отбрасывается.\n"
 "\n"
-"* Если @x или @n не являются числами, возвращается ошибка #VALUE!.\n"
+"* Если @x или @y не являются числами, возвращается ошибка #VALUE!.\n"
 "* Если y < 0, возвращается ошибка #NUM!.\n"
 "* Эта функция совместима с Excel.\n"
 "\n"
@@ -3634,7 +3606,6 @@ msgstr ""
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
 #: plugins/fn-eng/functions.c:493
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -3653,9 +3624,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
-"@DESCRIPTION=Функция BESSELJ возвращает значение функции Бесселя с областью "
-"выполнения @x. @y - порядок функции Бесселя, если не целое, то дробная часть "
-"отбрасывается.\n"
+"@DESCRIPTION=Функция BESSELJ возвращает значение функции Бесселя с областью выполнения @x. @y - порядок функции Бесселя, если не целое, то дробная часть отбрасывается.\n"
 "\n"
 "* Если @x или @y не являются числами, возвращается ошибка #VALUE!.\n"
 "* Если @y < 0, возвращается ошибка #NUM!.\n"
@@ -3667,7 +3636,6 @@ msgstr ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: plugins/fn-eng/functions.c:529
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -3688,11 +3656,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
-"@DESCRIPTION=Функция BESSELY возвращает значение функции Neumann, Вебера или "
-"Бесселя.\n"
+"@DESCRIPTION=Функция BESSELY возвращает значение функции Неймана, Вебера или Бесселя.\n"
 "\n"
-"@x - область выполнения функции. @y - порядок функции Бесселя, если не "
-"целое, то дробная часть отбрасывается.\n"
+"@x - область выполнения функции. @y - порядок функции Бесселя, если не целое, то дробная часть отбрасывается.\n"
 "\n"
 "* Если @x или @y не являются числами, возвращается ошибка #VALUE!.\n"
 "* Если @y < 0, возвращается ошибка #NUM!.\n"
@@ -3953,7 +3919,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-eng/functions.c:1030
-#, fuzzy
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -3973,17 +3938,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
-"@DESCRIPTION=Функция ERFC возвращает комплиментарную функцию ошибки, "
-"определяемую как 1 - erf(@x). erfc(@x) для аргументов больших чем 0.5 "
-"вычисляется более точно чем erf(@x).\n"
-"Если @x не является числом, возвращается ошибка #VALUE!.\n"
+"@DESCRIPTION=Функция ERFC возвращает комплиментарную функцию ошибки, определяемую как\n"
+"\n"
+"    1 - erf(@x).\n"
+"\n"
+"erfc(@x) для аргументов больших чем 0.5 вычисляется более точно чем erf(@x).\n"
+"\n"
+"* Если @x не является числом, возвращается ошибка #VALUE!.\n"
 "@EXAMPLES=\n"
 "ERFC(6) равняется 2.15197367e-17.\n"
 "\n"
 "@SEEALSO=ERF"
 
 #: plugins/fn-eng/functions.c:1060
-#, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -4001,11 +3968,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
-"@DESCRIPTION=Функция DELTA проверяет числовое равенство двух аргументов, "
-"возвращая 1 в случае равенства.\n"
+"@DESCRIPTION=Функция DELTA проверяет числовое равенство двух аргументов, возвращая 1 в случае равенства.\n"
 "\n"
-"* @y - необязательный аргумент, по умолчанию равен 0. * Если любой из "
-"аргументов не является числом, возвращается ошибка #VALUE!.\n"
+"* @y - необязательный аргумент, по умолчанию равен 0.\n"
+"* Если любой из аргументов не является числом, возвращается ошибка #VALUE!.\n"
 "* Эта функция совместима с Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -4291,8 +4257,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
+"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
 "\n"
 "0 US 30/360\n"
 "1 действительные дни/действительные дни\n"
@@ -4300,11 +4265,7 @@ msgstr ""
 "3 действительные дни/365\n"
 "4 Европейская 30/360\n"
 "\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
+"Если @basis пропущено, используется US 30/360. Если дата @settlement (соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку #NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если дата @settlement после даты @maturity или они одинаковы, DISC возвращает ошибку #NUM!.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -4992,7 +4953,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-financial/functions.c:2021
-#, fuzzy
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -5013,17 +4973,6 @@ msgid ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
-"@FUNCTION=PV\n"
-"@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
-"@DESCRIPTION=Функция PV вычисляет текущее значение вклада. Она основана на "
-"периодических постоянных платежах и постоянной процентной ставке. @rate - "
-"процентная ставка, @nper - число периодов, @pmt - выплата за каждый период, "
-"@fv - будущее значение и @type - когда выполняется платеж. Если @type = 1, "
-"то платеж выполняется в начале периода. Если @type = 0, платеж выполняется в "
-"конце каждого периода.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=FV"
 
 #: plugins/fn-financial/functions.c:2070
 #, fuzzy
@@ -5065,7 +5014,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2124
-#, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
@@ -5091,25 +5039,6 @@ msgid ""
 "\n"
 "@SEEALSO=G_DURATION,MDURATION"
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2180
 #, fuzzy
@@ -5140,7 +5069,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2221
-#, fuzzy
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -5155,21 +5083,8 @@ msgid ""
 "FVSCHEDULE(3000,A1:A5) equals 4942.7911611.\n"
 "@SEEALSO=PV,FV"
 msgstr ""
-"@FUNCTION=AVERAGE\n"
-"@SYNTAX=AVERAGE(value1, value2,...)\n"
-"@DESCRIPTION=AVERAGE вычисляет среднее всех значений и ячеек указанных в "
-"списке аргументов.  Это равносильно сумме аргументов деленной на их "
-"количество.\n"
-"Эта функция совместима с Excel.\n"
-"@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ..., A5 содержит числа 11.4, 17.3, 21.3, 25.9 и "
-"40.1. Тогда\n"
-"AVERAGE(A1:A5) равняется 23.2.\n"
-"\n"
-"@SEEALSO=SUM, COUNT"
 
 #: plugins/fn-financial/functions.c:2265
-#, fuzzy
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -5201,22 +5116,26 @@ msgid ""
 msgstr ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(валюта)\n"
-"@DESCRIPTION=EURO конвертирует один Евро в заданную национальную валюту в "
-"европейских денежных единицах.  Валюта должна быть одна из следующих:\n"
+"@DESCRIPTION=EURO конвертирует один Евро в заданную национальную валюту в европейских денежных единицах.\n"
+"\n"
+"Валюта должна быть одна из следующих:\n"
+"\n"
 "    ATS     (Австрия)\n"
 "    BEF     (Бельгия)\n"
 "    DEM     (Германия)\n"
 "    ESP     (Испания)\n"
+"    EUR     (Евро)\n"
 "    FIM     (Финляндия)\n"
 "    FRF     (Франция)\n"
+"    GRD     (Греция)\n"
 "    IEP     (Ирландия)\n"
 "    ITL     (Италия)\n"
 "    LUF     (Люксембург)\n"
 "    NLG     (Нидерланды)\n"
 "    PTE     (Португалия)\n"
 "\n"
-"Если заданная валюта отличается от одной из приведенных выше, EURO "
-"возвращает ошибку #NUM!.\n"
+"Если заданная валюта отличается от одной из приведенных выше, EURO возвращает ошибку #NUM!.\n"
+"\n"
 "@EXAMPLES=\n"
 "EURO(\"DEM\") возвращает 1.95583.\n"
 "@SEEALSO="
@@ -5275,7 +5194,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2421
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
@@ -5300,28 +5218,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2486
-#, fuzzy
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
@@ -5346,28 +5244,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2607
-#, fuzzy
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -5393,28 +5271,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2659
-#, fuzzy
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -5441,28 +5299,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2713
-#, fuzzy
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -5490,28 +5328,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2804
-#, fuzzy
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -5538,28 +5356,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2842
-#, fuzzy
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -5586,28 +5384,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2900
-#, fuzzy
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -5634,28 +5412,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2958
-#, fuzzy
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -5680,28 +5438,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3012
-#, fuzzy
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -5726,28 +5464,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3065
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -5781,28 +5499,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3110
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -5837,28 +5535,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3156
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -5892,28 +5570,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3201
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -5946,28 +5604,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3247
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -6000,28 +5638,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3294
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -6052,25 +5670,6 @@ msgid ""
 "COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 5\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3335
 msgid ""
@@ -6113,7 +5712,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-financial/functions.c:3435
-#, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -6139,25 +5737,6 @@ msgid ""
 "\n"
 "@SEEALSO=DURATION,G_DURATION"
 msgstr ""
-"@FUNCTION=DISC\n"
-"@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
-"@DESCRIPTION=Функция DISC вычисляет и возвращает величину скидки для ценных "
-"бумаг. @basis - тип системы учета дней, который вы хотите использовать:\n"
-"\n"
-"0 US 30/360\n"
-"1 действительные дни/действительные дни\n"
-"2 действительные дни/360\n"
-"3 действительные дни/365\n"
-"4 Европейская 30/360\n"
-"\n"
-"Если @basis пропущено, используется US 30/360. Если дата @settlement "
-"(соглашения) или @maturity (погашения) неправильная, DISC возвращает ошибку "
-"#NUM!. Если @basis < 0 или @basis > 4, DISC возвращает ошибку #NUM!. Если "
-"дата @settlement после даты @maturity или они одинаковы, DISC возвращает "
-"ошибку #NUM!.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3493
 #, fuzzy
@@ -6180,14 +5759,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
-"@DESCRIPTION=VDB вычисляет амортизацию имущества за данный период или "
-"частичный период используя метод двойного процента со снижающегося остатка.\n"
+"@DESCRIPTION=VDB вычисляет амортизацию имущества за данный период или частичный период используя метод двойного процента со снижающегося остатка.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DB"
 
 #: plugins/fn-financial/plugin.xml.in.h:1
-#, fuzzy
 msgid "Finance"
 msgstr "Финансовые"
 
@@ -6398,7 +5975,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1409
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
@@ -6421,15 +5997,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
-"@DESCRIPTION=ERROR.TYPE возвращает номер ошибки соответствующий данному "
-"значению ошибки. Номера для ошибок следующие:\n"
+"@DESCRIPTION=ERROR.TYPE возвращает номер ошибки соответствующий данному значению ошибки. Номера для ошибок следующие:\n"
 "\n"
-"#DIV/0!    2\n"
-"#VALUE!    3\n"
-"#REF!      4\n"
-"#NAME!     5\n"
-"#NUM!      6\n"
-"#NA!       7\n"
+"   #DIV/0!    2\n"
+"   #VALUE!    3\n"
+"   #REF!      4\n"
+"   #NAME!     5\n"
+"   #NUM!      6\n"
+"   #NA!       7\n"
 "\n"
 "* Эта функция совместима с Excel\n"
 "\n"
@@ -6585,7 +6160,6 @@ msgstr ""
 "@SEEALSO=ISTEXT"
 
 #: plugins/fn-info/functions.c:1607
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -6600,9 +6174,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
-"@DESCRIPTION=ISNUMBER Возвращает TRUE (истина) если значение является "
-"числом.\n"
-"Эта функция совместима с Excel.\n"
+"@DESCRIPTION=ISNUMBER Возвращает TRUE (истина) если значение является числом.\n"
+"\n"
+"* Эта функция совместима с Excel.\n"
+"\n"
 "@EXAMPLES=\n"
 "ISNUMBER(\"text\") равняется FALSE (ЛОЖЬ).\n"
 "\n"
@@ -6810,7 +6385,6 @@ msgid "Information Functions"
 msgstr "Информационные функции"
 
 #: plugins/fn-logical/functions.c:44
-#, fuzzy
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -6889,7 +6463,6 @@ msgid "Type Mismatch"
 msgstr "Несоответствие типов"
 
 #: plugins/fn-logical/functions.c:134
-#, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -6912,15 +6485,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
-"@DESCRIPTION=OR реализует функцию \"логическое ИЛИ\": результат ИСТИНА "
-"(TRUE) если любой из аргументов является ИСТИНОЙ.\n"
+"@DESCRIPTION=OR реализует функцию \"логическое ИЛИ\": результат ИСТИНА (TRUE) если любой из аргументов является ИСТИНОЙ.\n"
 "\n"
-"@b1..@bN - выражения, значения которых можно вычислить как ИСТИНА или ЛОЖЬ "
-"(FALSE). Если это целое или дробное число равное 0, то оно считается ЛОЖЬЮ в "
-"любом другом случае это ИСТИНА.\n"
+"@b1..@bN - выражения, значения которых можно вычислить как ИСТИНА или ЛОЖЬ (FALSE). Если это целое или дробное число равное 0, то оно считается ЛОЖЬЮ в любом другом случае это ИСТИНА.\n"
 "\n"
-"* Если выражение содержит строку или пустую ячейку, его значение "
-"игнорируется.\n"
+"* Если выражение содержит строку или пустую ячейку, его значение игнорируется.\n"
 "* Если не предоставлено логических значений, возвращается ошибка #VALUE!.\n"
 "* Эта функция совместима с Excel.\n"
 "\n"
@@ -6931,7 +6500,6 @@ msgstr ""
 "@SEEALSO=AND, NOT"
 
 #: plugins/fn-logical/functions.c:193
-#, fuzzy
 msgid ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
@@ -6952,15 +6520,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
-"@DESCRIPTION=OR реализует функцию \"логическое ИЛИ\": результат ИСТИНА "
-"(TRUE) если любой из аргументов является ИСТИНОЙ.\n"
+"@DESCRIPTION=OR реализует функцию \"логическое ИЛИ\": результат ИСТИНА (TRUE) если любой из аргументов является ИСТИНОЙ.\n"
 "\n"
-"@b1..@bN - выражения, значения которых можно вычислить как ИСТИНА или ЛОЖЬ "
-"(FALSE).  Если это целое или дробное число равное 0, то оно считается ЛОЖЬЮ "
-"в любом другом случае это ИСТИНА.\n"
+"@b1..@bN - выражения, значения которых можно вычислить как ИСТИНА или ЛОЖЬ (FALSE).  Если это целое или дробное число равное 0, то оно считается ЛОЖЬЮ в любом другом случае это ИСТИНА.\n"
 "\n"
-"* Если выражение содержит строку или пустую ячейку, его значение "
-"игнорируется.\n"
+"* Если выражение содержит строку или пустую ячейку, его значение игнорируется.\n"
 "* Если не предоставлено логических значений, возвращается ошибка #VALUE!.\n"
 "* Эта функция совместима с Excel.\n"
 "\n"
@@ -7102,12 +6666,10 @@ msgid "Functions for manipulating truth values"
 msgstr "Функции для работы с логическими значениями"
 
 #: plugins/fn-logical/plugin.xml.in.h:2
-#, fuzzy
 msgid "Logic"
 msgstr "Логические"
 
 #: plugins/fn-logical/plugin.xml.in.h:3
-#, fuzzy
 msgid "Logic Functions"
 msgstr "Логические функции"
 
@@ -7142,16 +6704,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
-"@DESCRIPTION=Функция ADDRESS возвращает для заданных строки и столбца адрес "
-"ячейки в виде текста.\n"
-"Если @abs_num = 1 или опущено, ADDRESS возвращает абсолютную ссылку. Если "
-"@abs_num =2, ADDRESS возвращает абсолютную строку и относительный столбец. "
-"Если @abs_num = 3, ADDRESS возвращает относительную строку и абсолютный "
-"столбец. Если @abs_num = 4, ADDRESS возвращает относительную ссылку. Если "
-"@abs_num > 4, ADDRESS ошибку #NUM!.\n"
-"@a1 - логическое значение, указывающее стиль ссылки. Если @a1 имеет значение "
-"TRUE или опущено, ADDRESS возвращает ссылки в стиле A1, т.е. $D$4. В "
-"противном случае ADDRESS возвращает ссылки в стиле R1C1, т.е. R4C4.\n"
+"@DESCRIPTION=Функция ADDRESS возвращает для заданных строки и столбца адрес ячейки в виде текста.\n"
+"\n"
+"Если @abs_num = 1 или опущено, ADDRESS возвращает абсолютную ссылку. Если @abs_num =2, ADDRESS возвращает абсолютную строку и относительный столбец. Если @abs_num = 3, ADDRESS возвращает относительную строку и абсолютный столбец. Если @abs_num = 4, ADDRESS возвращает относительную ссылку. Если @abs_num > 4, ADDRESS ошибку #NUM!.\n"
+"@a1 - логическое значение, указывающее стиль ссылки. Если @a1 имеет значение TRUE или опущено, ADDRESS возвращает ссылки в стиле A1, т.е. $D$4. В противном случае ADDRESS возвращает ссылки в стиле R1C1, т.е. R4C4.\n"
 "@text указывает название книги используемое как внешняя ссылка.\n"
 "Если @row_num < 1 или @col_num < 1, ADDRESS возвращает ошибку #NUM!.\n"
 "@EXAMPLES=\n"
@@ -7162,7 +6718,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-lookup/functions.c:431
-#, fuzzy
 msgid ""
 "@FUNCTION=AREAS\n"
 "@SYNTAX=AREAS(reference)\n"
@@ -7173,14 +6728,6 @@ msgid ""
 "\n"
 "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
 msgstr ""
-"@FUNCTION=CHAR\n"
-"@SYNTAX=CHAR(x)\n"
-"@DESCRIPTION=Возвращает символ представляемый ASCII-кодом @x.\n"
-"\n"
-"@EXAMPLES=\n"
-"CHAR(65) равняется A.\n"
-"\n"
-"@SEEALSO=CODE"
 
 #: plugins/fn-lookup/functions.c:505
 msgid ""
@@ -7292,7 +6839,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-lookup/functions.c:797
-#, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -7310,10 +6856,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text, [format])\n"
-"@DESCRIPTION=Функция INDIRECT возвращает содержимое ячейки указанной строкой "
-"@ref_text. Строка определяет ссылку на ячейку в формате A1 или R1C1. Формат "
-"устанавливается логическим значением @format и по умолчанию равен ранее "
-"использовавшемуся.\n"
+"@DESCRIPTION=Функция INDIRECT возвращает содержимое ячейки указанной строкой @ref_text. Строка определяет ссылку на ячейку в формате A1 или R1C1. Формат устанавливается логическим значением @format и по умолчанию равен A1..\n"
 "\n"
 "* Если @ref_text не является правильной ссылкой возвращается ошибка #REF!\n"
 "@EXAMPLES=\n"
@@ -7341,7 +6884,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-lookup/functions.c:907
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -7358,12 +6900,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
-"@DESCRIPTION=Функция COLUMN возвращает массив номеров столбцов в ссылке или "
-"номер столбца ячейки, в которой содержится функция, если параметр @reference "
-"не задан.\n"
-"\n"
-"* Если @reference не является массивом, ссылкой или диапазоном, COLUMN "
-"возвращает ошибку #VALUE!.\n"
+"@DESCRIPTION=Функция COLUMN возвращает номер столбца текущей ячейки. Если задан параметр @reference, возвращается массив номеров столбцов всех ячеек @reference.\n"
+"* Если @reference не является массивом, ссылкой или диапазоном, COLUMN возвращает ошибку #VALUE!.\n"
 "\n"
 "@EXAMPLES=\n"
 "COLUMN() в ячейке E1 возвращает 5.\n"
@@ -7414,7 +6952,6 @@ msgstr ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 
 #: plugins/fn-lookup/functions.c:1019
-#, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -7431,13 +6968,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
-"@DESCRIPTION=Функция OFFSET возвращает диапазон ячеек. Диапазон начинается "
-"со смещением (@col,@row) от @range, и имеет высоту @height и ширину @width.\n"
+"@DESCRIPTION=Функция OFFSET возвращает диапазон ячеек. Диапазон начинается со смещением (@col,@row) от @range, и имеет высоту @height и ширину @width.\n"
 "\n"
-"* Если @range не является диапазоном или ссылкой, OFFSET возвращает ошибку "
-"#VALUE!.\n"
-"* Если высота или ширина не указаны, используются соответствующие значения "
-"ссылки.\n"
+"* Если @range не является диапазоном или ссылкой, OFFSET возвращает ошибку #VALUE!.\n"
+"* Если высота или ширина не указаны, используются соответствующие значения ссылки.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7472,7 +7006,6 @@ msgstr ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
 #: plugins/fn-lookup/functions.c:1130
-#, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -7489,11 +7022,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(ссылка)\n"
-"@DESCRIPTION=Функция ROWS возвращает число строк в области или ссылке на "
-"массив.\n"
+"@DESCRIPTION=Функция ROWS возвращает число строк в области или ссылке на массив.\n"
 "\n"
-"* Если @ссылка не является массивом или диапазоном, возвращается ошибка "
-"#VALUE!.\n"
+"* Если @ссылка не является массивом или диапазоном, возвращается ошибка #VALUE!.\n"
 "\n"
 "@EXAMPLES=\n"
 "ROWS(H7:I13) равняется 7.\n"
@@ -7598,7 +7129,6 @@ msgid "Lookup Functions"
 msgstr "Функции поиска"
 
 #: plugins/fn-math/functions.c:141
-#, fuzzy
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -7616,8 +7146,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
-"@DESCRIPTION=Функция GCD возвращает наибольший общий делитель данных "
-"чисел. \n"
+"@DESCRIPTION=Функция GCD возвращает наибольший общий делитель данных чисел. \n"
 "\n"
 "* Если любой из аргументов меньше нуля, GCD возвращает ошибку #NUM!.\n"
 "* Если любой из аргументов не целое, дробная часть отбрасывается.\n"
@@ -7844,7 +7373,6 @@ msgstr ""
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:424
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -7863,11 +7391,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=Функция ATANH(х) вычисляет обратный гиперболический тангенс @x; "
-"гиперболический тангенс этой величины равен @x.\n"
+"@DESCRIPTION=Функция ATANH(х) вычисляет обратный гиперболический тангенс @x; гиперболический тангенс этой величины равен @x.\n"
 "\n"
-"* Если абсолютное значение @x больше чем 1.0,  ATANH возвращает ошибку "
-"#NUM!.\n"
+"* Если абсолютное значение @x больше чем 1.0,  ATANH возвращает ошибку #NUM!.\n"
 "* Эта функция совместима с Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -8184,7 +7710,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-math/functions.c:917
-#, fuzzy
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -8197,14 +7722,6 @@ msgid ""
 "\n"
 "@SEEALSO=BETALN,GAMMA"
 msgstr ""
-"@FUNCTION=ISPMT\n"
-"@SYNTAX=ISPMT(rate,per,nper,pv)\n"
-"@DESCRIPTION=Функция ISPMT возвращает процентную ставку для заданного "
-"периода.\n"
-"Если @per < 1 или @per > @nper, ISPMT возвращает ошибку #NUM!\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=PV"
 
 #: plugins/fn-math/functions.c:944
 msgid ""
@@ -8449,7 +7966,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG"
 
 #: plugins/fn-math/functions.c:1217
-#, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -9353,7 +8869,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-math/functions.c:2695
-#, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -9565,12 +9080,10 @@ msgstr "Математические функции"
 
 #. *************************************************************************
 #: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:124
-#, fuzzy
 msgid "Mathematics"
-msgstr "Совпадения"
+msgstr "Математические"
 
 #: plugins/fn-random/functions.c:49
-#, fuzzy
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -9734,7 +9247,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:350
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -9987,7 +9499,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:780
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDLOG\n"
 "@SYNTAX=RANDLOG(p)\n"
@@ -10000,17 +9511,16 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
-"@FUNCTION=RANDBERNOULLI\n"
-"@SYNTAX=RANDBERNOULLI(p)\n"
-"@DESCRIPTION=Функция RANDBERNOULLI возвращает Бернулли-распределенное "
-"случайное число.\n"
+"@FUNCTION=RANDBLOG\n"
+"@SYNTAX=RANDLOG(p)\n"
+"@DESCRIPTION=Функция RANDLOG возвращает логарифмически распределенное случайное число.\n"
 "\n"
-"* Если @p < 0 или @p > 1, RANDBERNOULLI возвращает ошибку #NUM!.\n"
+"* Если @p < 0 или @p > 1, RANDLЩП возвращает ошибку #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
-"RANDBERNOULLI(0.5).\n"
+"RANDLЩП(0.72).\n"
 "\n"
-"@SEEALSO=RAND,RANDBETWEEN"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:808
 msgid ""
@@ -10284,7 +9794,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
 
 #: plugins/fn-stat/functions.c:221
-#, fuzzy
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -10603,7 +10112,6 @@ msgstr ""
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
 #: plugins/fn-stat/functions.c:632
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stddev)\n"
@@ -10637,7 +10145,6 @@ msgstr ""
 "@SEEALSO=NORMDIST"
 
 #: plugins/fn-stat/functions.c:672
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stddev)\n"
@@ -10886,7 +10393,6 @@ msgstr ""
 "@SEEALSO=SUM, COUNT"
 
 #: plugins/fn-stat/functions.c:952
-#, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -10918,7 +10424,6 @@ msgstr ""
 "@SEEALSO=MAX,ABS"
 
 #: plugins/fn-stat/functions.c:994
-#, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -10950,7 +10455,6 @@ msgstr ""
 "@SEEALSO=MIN,ABS"
 
 #: plugins/fn-stat/functions.c:1036
-#, fuzzy
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -11260,7 +10764,6 @@ msgstr ""
 "@SEEALSO=CHIDIST,CHIINV"
 
 #: plugins/fn-stat/functions.c:1514
-#, fuzzy
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -11296,7 +10799,6 @@ msgstr ""
 "@SEEALSO=BETAINV"
 
 #: plugins/fn-stat/functions.c:1555
-#, fuzzy
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -11468,7 +10970,6 @@ msgstr ""
 "@SEEALSO=FDIST"
 
 #: plugins/fn-stat/functions.c:1882
-#, fuzzy
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -11523,7 +11024,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-stat/functions.c:1968
-#, fuzzy
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -11543,23 +11043,6 @@ msgid ""
 "\n"
 "@SEEALSO=BINOMDIST"
 msgstr ""
-"@FUNCTION=BINOMDIST\n"
-"@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
-"@DESCRIPTION=Функция BINOMDIST возвращает биномиальное распределение. @n -- "
-"число успехов, @trials -- общее число независимых испытаний, @p -- "
-"вероятность успеха в испытании, @cumulative описывает будет ли возвращаться "
-"сумма биномиальной функции от 0 до @n.\n"
-"\n"
-"* Если @n или @trials не целые, дробная часть отбрасывается.\n"
-"* Если @n < 0 или @trials < 0, BINOMDIST возвращает ошибку #NUM!.\n"
-"* Если @n > @trials BINOMDIST возвращает ошибку #NUM!.\n"
-"* Если @p < 0 или @p > 1, BINOMDIST возвращает ошибку #NUM!.\n"
-"* Эта функция совместима с Excel.\n"
-"\n"
-"@EXAMPLES=\n"
-"BINOMDIST(3,5,0.8,0) равняется 0.2048.\n"
-"\n"
-"@SEEALSO=POISSON"
 
 #: plugins/fn-stat/functions.c:2008
 msgid ""
@@ -11660,7 +11143,6 @@ msgstr ""
 "@SEEALSO=AVERAGE"
 
 #: plugins/fn-stat/functions.c:2123
-#, fuzzy
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stddev)\n"
@@ -11733,7 +11215,6 @@ msgstr ""
 "@SEEALSO=POISSON"
 
 #: plugins/fn-stat/functions.c:2207
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stddev,cumulative)\n"
@@ -11765,7 +11246,6 @@ msgstr ""
 "@SEEALSO=POISSON"
 
 #: plugins/fn-stat/functions.c:2252
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stddev)\n"
@@ -11798,7 +11278,6 @@ msgstr ""
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
 #: plugins/fn-stat/functions.c:2290
-#, fuzzy
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -11934,7 +11413,6 @@ msgstr ""
 "@SEEALSO=STDEV"
 
 #: plugins/fn-stat/functions.c:2426
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -12049,7 +11527,6 @@ msgstr ""
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
 #: plugins/fn-stat/functions.c:2559
-#, fuzzy
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -12084,7 +11561,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
 #: plugins/fn-stat/functions.c:2593
-#, fuzzy
 msgid ""
 "@FUNCTION=SSMEDIAN\n"
 "@SYNTAX=SSMEDIAN(array[,interval)]\n"
@@ -12105,21 +11581,6 @@ msgid ""
 "\n"
 "@SEEALSO=MEDIAN"
 msgstr ""
-"@FUNCTION=PERCENTILE\n"
-"@SYNTAX=PERCENTILE(array,k)\n"
-"@DESCRIPTION=Функция PERCENTILE возвращает 100*@k-ый процентиль заданного "
-"набора данных (то есть число x такое, что фракция @k из данных меньше чем "
-"x).\n"
-"* Если @array пуст, PERCENTILE возвращает ошибку #NUM!.\n"
-"* Если @k < 0 или @k > 1, PERCENTILE возвращает ошибку #NUM!.\n"
-"* Эта функция совместима с Excel.\n"
-"\n"
-"@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ... A5 содержат числа 11.4, 17.3, 21.3, 25.9 и "
-"40.1. Тогда\n"
-"PERCENTILE(A1:A5,0.42) равняется 20.02.\n"
-"\n"
-"@SEEALSO=QUARTILE"
 
 #: plugins/fn-stat/functions.c:2696
 msgid ""
@@ -12428,7 +11889,6 @@ msgstr ""
 "@SEEALSO=VAR,VARPA"
 
 #: plugins/fn-stat/functions.c:3286
-#, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -12850,7 +12310,6 @@ msgstr ""
 "@SEEALSO=LOGEST,TREND"
 
 #: plugins/fn-stat/functions.c:4173
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -12884,30 +12343,6 @@ msgid ""
 "\n"
 "@SEEALSO=LOGFIT,LINEST,LOGEST"
 msgstr ""
-"@FUNCTION=LOGEST\n"
-"@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
-"@DESCRIPTION=Функция LOGEST применяет метод наименьших квадратов для "
-"вычисления экспоненциальной кривой вида y = b * m{1}^x{1} * m{2}^x{2}... по "
-"вашим данным.\n"
-"Если @known_x' не указано, используется массив {1, 2, 3, ...}. LOGEST "
-"возвращает массив { m{n},m{n-1}, ...,m{1},b }.\n"
-"Если @known_y и @known_x имеют неравное число точек данных, LOGEST "
-"возвращает ошибку #NUM!.\n"
-"Если @const имеет значение ЛОЖЬ (FALSE), кривая будет проходить через точку "
-"(0,1), то есть b = 1. По умолчанию ИСТИНА (TRUE).\n"
-"Если @stat имеет значение TRUE, будет возвращена дополнительная "
-"статистическая информация. Дополнительная статистическая информация "
-"представляет собой коэффициенты линии регрессии записанные ниже в виде "
-"массива, состоящего из четырех строк. В первой строке представлены значения "
-"стандартной ошибки для коэффициентов m1, (m2, ...), b. Вторая строка "
-"содержит квадрат коэффициента регрессии и стандартную ошибку ожидаемого "
-"значения y. Третья строка содержит наблюдаемое значение F и число степеней "
-"свободы. Последняя строка содержит сумму квадратов регрессии и сумму "
-"квадратов остатков.\n"
-"По умолчанию @stat имеет значение ЛОЖЬ (FALSE).\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=LOGEST,GROWTH,TREND"
 
 #: plugins/fn-stat/functions.c:4449
 msgid ""
@@ -12943,7 +12378,6 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-stat/functions.c:4549
-#, fuzzy
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
@@ -12988,7 +12422,6 @@ msgstr ""
 "@SEEALSO=LINEST"
 
 #: plugins/fn-stat/functions.c:4664
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -13018,31 +12451,6 @@ msgid ""
 "\n"
 "@SEEALSO=GROWTH,TREND"
 msgstr ""
-"@FUNCTION=LINEST\n"
-"@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
-"@DESCRIPTION=Функция LINEST вычисляет линию методом наименьших квадратов, "
-"которая наилучшим образом аппроксимирует данные заданные в @known_y's. "
-"@known_x's содержит соответствующие значения x, где y=mx+b.\n"
-"LINEST возвращает массив содержащий 2 столбца и одну строку. Наклон (m) "
-"линии регрессии y=mx+b возвращается в первом столбце, а пересечение с осью y "
-"(b) во втором.\n"
-"Если @known_y's и @known_x's имеют не одинаковое число данных, LINEST "
-"возвращает ошибку #NUM!.\n"
-"Если @const имеет значение FALSE, линия будет проведена через центр "
-"координат, т.е. b будет равно 0. По умолчанию @const имеет значение TRUE.\n"
-"Если @stat имеет значение TRUE, будет возвращена дополнительная "
-"статистическая информация, записанная под коэффициентами линии регрессии в "
-"результирующем массиве. Дополнительная статистическая информация содержит 4 "
-"строки данных. Первая строка содержит значения стандартного отклонения для "
-"коэффициентов m1, (m2, ...), b. Вторая строка содержит квадрат регрессии и "
-"стандартное отклонение для оценки y. Третья строка содержит наблюдаемое "
-"значение F и степень свободы. Последняя строка содержит сумму квадратов "
-"регрессии и сумму квадратов остатков.\n"
-"* По умолчанию @stat имеет значение FALSE.\n"
-"\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=LOGEST,TREND"
 
 #: plugins/fn-stat/functions.c:4916
 msgid ""
@@ -13569,7 +12977,6 @@ msgstr ""
 "@SEEALSO=CODE"
 
 #: plugins/fn-string/functions.c:102
-#, fuzzy
 msgid ""
 "@FUNCTION=UNICHAR\n"
 "@SYNTAX=UNICHAR(x)\n"
@@ -13590,7 +12997,7 @@ msgstr ""
 "UNICHAR(65) равняется A.\n"
 "UNICHAR(8232) равняется символу ошибки возврата каретки.\n"
 "\n"
-"@SEEALSO=CODE"
+"@SEEALSO=CHAR,UNICODE,CODE"
 
 #: plugins/fn-string/functions.c:134
 msgid ""
@@ -13667,7 +13074,6 @@ msgstr ""
 "@SEEALSO=LEN, SEARCH"
 
 #: plugins/fn-string/functions.c:230
-#, fuzzy
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -13820,7 +13226,6 @@ msgstr ""
 "@SEEALSO=LOWER"
 
 #: plugins/fn-string/functions.c:421
-#, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -14163,7 +13568,6 @@ msgstr ""
 "@SEEALSO=FIXED, TEXT, VALUE"
 
 #: plugins/fn-string/functions.c:1058
-#, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(search_string,text[,start_num])\n"
@@ -14353,9 +13757,8 @@ msgid "Format: readDBTable(dsn,user,password,table)"
 msgstr "Формат: readDBTable(dsn,пользователь,пароль,таблица)"
 
 #: plugins/gda/plugin.xml.in.h:2
-#, fuzzy
 msgid "Database functions for retrieval of data from a database."
-msgstr "Функции баз данных предоставляют возможность получения данных из баз"
+msgstr "Функции баз данных предоставляют возможность получения данных из баз."
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
@@ -14434,13 +13837,12 @@ msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
 #: plugins/html/plugin.xml.in.h:9
-#, fuzzy
 msgid "XHTML (*.html)"
-msgstr "XHTML (*.xhtml)"
+msgstr "XHTML (*.html)"
 
 #: plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
-msgstr ""
+msgstr "Блок XHTML для экспорта в буфер обмена"
 
 #: plugins/lotus-123/boot.c:61
 msgid "Error while reading lotus workbook."
@@ -14578,11 +13980,10 @@ msgstr ""
 
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -14596,12 +13997,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=Функция NT_MU (мю-функция Мёбиуса) возвращает 0, если @n "
-"делится на квадрат простого числа.\n"
+"@DESCRIPTION=Функция NT_MU (мю-функция Мёбиуса) возвращает 0,\n"
+"если @n делится на квадрат простого числа.\n"
 "В противном случае она возвращает:\n"
-"-1 , если @n имеет нечетное число различных простых делителей.\n"
-"1 , если @n имеет четное число различных простых делителей.\n"
-"Если @n = 1, возвращается 1\n"
+"\n"
+"    -1 , если @n имеет нечетное число различных простых делителей.\n"
+"     1 , если @n имеет четное число различных простых делителей.\n"
+"\n"
+"* Если @n = 1, возвращается 1.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
@@ -14789,7 +14192,6 @@ msgid "Number Theory"
 msgstr "Теория чисел"
 
 #: plugins/numtheory/plugin.xml.in.h:3
-#, fuzzy
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also holds "
 "some simple bitwise operations."
@@ -14824,14 +14226,12 @@ msgid "Unable to parse '%s' because '%s'"
 msgstr "Не удалось проанализировать \"%s\" так как \"%s\""
 
 #: plugins/openoffice/openoffice-read.c:496
-#, fuzzy
 msgid "Invalid array expression does not specify number of columns."
-msgstr "Недопустимое обозначение массива, не указано число столбцов"
+msgstr "Недопустимое обозначение массива, не указано число столбцов."
 
 #: plugins/openoffice/openoffice-read.c:499
-#, fuzzy
 msgid "Invalid array expression does not specify number of rows."
-msgstr "Недопустимое обозначение массива, не указано число строк"
+msgstr "Недопустимое обозначение массива, не указано число строк."
 
 #: plugins/openoffice/openoffice-read.c:747
 #, c-format
@@ -15137,7 +14537,7 @@ msgid "Hello World"
 msgstr "Здравствуй, мир!"
 
 #: plugins/uihello/uihello.c:24
-#, fuzzy, c-format
+#, c-format
 msgid "This is message from the \"%s\" plugin."
 msgstr "Это сообщение от дополнения \"%s\"."
 
@@ -15264,14 +14664,12 @@ msgid "Maximum Length of Recently Used Functions List"
 msgstr "Максимальная длина списка использовавшихся функций"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
-#, fuzzy
 msgid "Page Footer"
-msgstr "Порядок страниц"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
-#, fuzzy
 msgid "Page Header"
-msgstr "Порядок страниц"
+msgstr "Заголовок страницы"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:19
 msgid "Print Config"
@@ -15347,7 +14745,7 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:32
 msgid "This list contains all extra directories containing plugins."
-msgstr ""
+msgstr "Этот список содержит все дополнительные каталоги дополнений."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:33
 msgid "This list contains all known plugins."
@@ -15361,7 +14759,7 @@ msgstr ""
 msgid ""
 "This list contains all plugins that are supposed to be automatically "
 "activated."
-msgstr ""
+msgstr "Этот список содержит все дополнения, которые должны включаться автоматически."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:36
 msgid ""
@@ -15516,7 +14914,6 @@ msgid "Sort is Case-Sensitive"
 msgstr "Сортировка чувствительна к регистру"
 
 #: schemas/gnumeric-general.schemas.in.h:31
-#, fuzzy
 msgid "Sorting Preserves Formats"
 msgstr "Сохранять форматирование при сортировке"
 
@@ -15560,7 +14957,7 @@ msgid ""
 "This integer (between 0 and 9) specifies the amount of compression performed "
 "by Gnumeric when saving files in the default file format. 0 is no "
 "compression while 9 is maximum compression."
-msgstr ""
+msgstr "Это число (между 0 и 9) указывает степень сжатия используемую gnumeric при сохранении файлов в исходном формате. 0 -- без компресии, 9 -- максимальное сжатие."
 
 #: schemas/gnumeric-general.schemas.in.h:41
 msgid ""
@@ -15836,9 +15233,8 @@ msgid "Combo Box"
 msgstr "Комбо"
 
 #: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3789
-#, fuzzy
 msgid "Comparing two population means for two paired samples: t-test"
-msgstr "Сравнение дисперсий двух выборок"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3793
 msgid ""
@@ -16048,7 +15444,7 @@ msgstr "_Формат"
 
 #: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:3466
 msgid "Fill according to a linear or exponential series"
-msgstr ""
+msgstr "Заполнить в соответствии с линейными или экспоненциальными последовательностями"
 
 #: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:3949
 msgid "Filter data with given criteria"
@@ -16643,9 +16039,8 @@ msgstr "Разделение объединенного массива ячее�
 msgid "Statistical Anal_ysis"
 msgstr "Статистический анализ"
 
-#: src/GNOME_Gnumeric.xml.h:233 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:4061 src/workbook-control-gui.c:4833
-#: src/workbook-view.c:516
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:4061
+#: src/workbook-control-gui.c:4833 src/workbook-view.c:516
 msgid "Sum"
 msgstr "Сумма"
 
@@ -16712,12 +16107,10 @@ msgid "Undo the last action"
 msgstr "Откат последней операции"
 
 #: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3792
-#, fuzzy
 msgid "Unpaired Samples, _Equal Variances: T-Test"
 msgstr "Неравные выборки, равные дисперсии: T-тест"
 
 #: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:3797
-#, fuzzy
 msgid "Unpaired Samples, _Unequal Variances: T-Test"
 msgstr "Неравные выборки, неравные дисперсии: T-тест"
 
@@ -17697,9 +17090,8 @@ msgstr "Подпись"
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:115
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:130
-#, fuzzy
 msgid "Title"
-msgstr "Заголовок:"
+msgstr "Заголовок"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
 msgid "H"
@@ -17734,7 +17126,6 @@ msgid "Configure Graph"
 msgstr "Настройть график"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1081
-#, fuzzy
 msgid "_Plot Type"
 msgstr "Тип графика"
 
@@ -17762,9 +17153,8 @@ msgid "TODO : Unfinished"
 msgstr "TODO: Незаконченные"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
-#: src/dialogs/autocorrect.glade.h:12 src/dialogs/consolidate.glade.h:26
-#: src/dialogs/dialog-stf.glade.h:60 src/dialogs/names.glade.h:6
-#: src/dialogs/solver.glade.h:27
+#: src/dialogs/autocorrect.glade.h:12 src/dialogs/dialog-stf.glade.h:60
+#: src/dialogs/names.glade.h:6 src/dialogs/solver.glade.h:27
 msgid "_Add"
 msgstr "Добавить"
 
@@ -17796,9 +17186,8 @@ msgid "_Top"
 msgstr "Вверх"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:111
-#, fuzzy
 msgid "_Text:"
-msgstr "Текстовый"
+msgstr "Текст:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
 msgid "Plot Engine"
@@ -17810,7 +17199,7 @@ msgstr "Тип графика"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:319
 msgid "Chart Theme"
-msgstr ""
+msgstr "Тема диаграммы"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:160
 msgid "Series"
@@ -17844,8 +17233,8 @@ msgstr "Стиль"
 #: src/dialogs/scenario-manager.glade.h:1 src/dialogs/search-replace.glade.h:1
 #: src/dialogs/so-checkbox.glade.h:1 src/dialogs/so-frame.glade.h:1
 #: src/dialogs/solver.glade.h:1 src/dialogs/summary.glade.h:1
-#: src/dialogs/variance-tests.glade.h:1 src/dialogs/view.glade.h:1
-#: src/dialogs/workbook-attr.glade.h:1
+#: src/dialogs/tabulate.glade.h:1 src/dialogs/variance-tests.glade.h:1
+#: src/dialogs/view.glade.h:1 src/dialogs/workbook-attr.glade.h:1
 msgid "*"
 msgstr "*"
 
@@ -17989,13 +17378,13 @@ msgstr "Перекрывание:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:259
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:193
-#: src/dialogs/consolidate.glade.h:12
+#: src/dialogs/consolidate.glade.h:10
 msgid "Labels"
 msgstr "Метки"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:261
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
-#: src/dialogs/consolidate.glade.h:23
+#: src/dialogs/consolidate.glade.h:22
 msgid "Values"
 msgstr "Значения"
 
@@ -18853,7 +18242,7 @@ msgstr "75% серого"
 
 #: src/dialogs/cell-format.glade.h:12
 msgid "<span weight=\"bold\">Criteria</span>"
-msgstr ""
+msgstr "<span weight=\\\"bold\\\">Критерий</span>"
 
 #: src/dialogs/cell-format.glade.h:13
 msgid "Act_ion:"
@@ -19275,13 +18664,12 @@ msgid "Group/Ungroup"
 msgstr "Сгруппировать/Разгруппировать"
 
 #: src/dialogs/consolidate.glade.h:1
-msgid "Add the entered area to the list of source areas"
-msgstr "Добавить введенную область к списку областей источников"
+msgid "AVERAGE"
+msgstr ""
 
-#: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:248
-#: src/workbook-control-gui.c:4836
-msgid "Average"
-msgstr "Среднее"
+#: src/dialogs/consolidate.glade.h:2
+msgid "COUNT"
+msgstr ""
 
 #: src/dialogs/consolidate.glade.h:3
 msgid "C_opy labels"
@@ -19291,66 +18679,55 @@ msgstr "Скопировать метки"
 msgid "Clear the list of source areas"
 msgstr "Очистить список областей источников"
 
-#: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:264
-#: src/workbook-control-gui.c:4837
-msgid "Count"
-msgstr "Количество"
-
-#: src/dialogs/consolidate.glade.h:6
-msgid "D_elete"
-msgstr "Удалить"
-
-#: src/dialogs/consolidate.glade.h:7
+#: src/dialogs/consolidate.glade.h:5
 msgid "Data consolidation"
 msgstr "Консолидация данных"
 
-#: src/dialogs/consolidate.glade.h:8
+#: src/dialogs/consolidate.glade.h:6
 msgid "Delete the currently selected source area"
 msgstr "Удалить выбранную область источника"
 
-#: src/dialogs/consolidate.glade.h:9
+#: src/dialogs/consolidate.glade.h:7
 msgid "Formulas"
 msgstr "Формулы"
 
-#: src/dialogs/consolidate.glade.h:10
+#: src/dialogs/consolidate.glade.h:8
 msgid "In _left column"
 msgstr "В левый столбец"
 
-#: src/dialogs/consolidate.glade.h:11
+#: src/dialogs/consolidate.glade.h:9
 msgid "In _top row"
 msgstr "В верхнюю строку"
 
-#: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:248
-#: src/tools/simulation.c:256 src/workbook-control-gui.c:4835
-msgid "Max"
-msgstr "Макс"
+#: src/dialogs/consolidate.glade.h:11
+msgid "MAX"
+msgstr "МАКС"
 
-#: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:248
-#: src/tools/simulation.c:254 src/workbook-control-gui.c:4834
-msgid "Min"
-msgstr "Мин"
+#: src/dialogs/consolidate.glade.h:12
+msgid "MIN"
+msgstr "МИН"
+
+#: src/dialogs/consolidate.glade.h:13
+msgid "PRODUCT"
+msgstr ""
+
+#: src/dialogs/consolidate.glade.h:14
+msgid "STDEV"
+msgstr "СТНД.ОТКЛ"
 
 #: src/dialogs/consolidate.glade.h:15
-msgid "Product"
-msgstr "Произведение"
+msgid "STDEVP"
+msgstr ""
 
 #: src/dialogs/consolidate.glade.h:16
-msgid "Source areas"
-msgstr "Области источников"
+msgid "SUM"
+msgstr "ИТОГО"
 
 #: src/dialogs/consolidate.glade.h:17
-msgid "Stdev (sample)"
-msgstr "Ст.откл. (выборка)"
-
-#: src/dialogs/consolidate.glade.h:18
-msgid "Stdevp (population)"
-msgstr "Ст.откл. (совокупность)"
-
-#: src/dialogs/consolidate.glade.h:20
 msgid "The function to use when consolidating"
 msgstr "Функция используемая при консолидировании"
 
-#: src/dialogs/consolidate.glade.h:21
+#: src/dialogs/consolidate.glade.h:18
 msgid ""
 "The left column contains labels, these will not be consolidated, but used as "
 "key for comparison"
@@ -19358,7 +18735,7 @@ msgstr ""
 "Левый столбец содержит метки, которые не будут консолидированы, но будут "
 "использоваться как ключи для сравнения"
 
-#: src/dialogs/consolidate.glade.h:22
+#: src/dialogs/consolidate.glade.h:19
 msgid ""
 "The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
@@ -19366,29 +18743,29 @@ msgstr ""
 "Верхняя строка содержит метки, которые не будут консолидированы, но будут "
 "использоваться как ключи для сравнения"
 
-#: src/dialogs/consolidate.glade.h:24
-msgid "Var (sample)"
-msgstr "Отклонение (выборка)"
+#: src/dialogs/consolidate.glade.h:20
+msgid "VAR"
+msgstr ""
 
-#: src/dialogs/consolidate.glade.h:25
-msgid "Varp (population)"
-msgstr "Отклонение (совокупность)"
+#: src/dialogs/consolidate.glade.h:21
+msgid "VARP"
+msgstr ""
 
-#: src/dialogs/consolidate.glade.h:27 src/dialogs/dialog-stf.glade.h:62
-msgid "_Clear"
-msgstr "Очистить"
-
-#: src/dialogs/consolidate.glade.h:28
+#: src/dialogs/consolidate.glade.h:23
 msgid "_Destination:"
 msgstr "Назначение:"
 
-#: src/dialogs/consolidate.glade.h:29
+#: src/dialogs/consolidate.glade.h:24
 msgid "_Function:"
 msgstr "Функция:"
 
-#: src/dialogs/consolidate.glade.h:30
+#: src/dialogs/consolidate.glade.h:25
 msgid "_Put:"
 msgstr "Поместить:"
+
+#: src/dialogs/consolidate.glade.h:26
+msgid "_Source areas:"
+msgstr "Области источников:"
 
 #: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:784
 #: src/tools/analysis-tools.c:787
@@ -19511,15 +18888,13 @@ msgstr "John Gotts, пакеты rpm."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:64
-#, fuzzy
-msgid "Andreas J. Gülzow, Gnumeric hacker."
+msgid "Andreas J. Glzow, Gnumeric hacker."
 msgstr "Andreas J. Guelzow, программист Gnumeric."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:67
-#, fuzzy
-msgid "Jon Kåre Hellan, Gnumeric hacker."
+msgid "Jon Kre Hellan, Gnumeric hacker."
 msgstr "Jon K Hellan, программист Gnumeric."
 
 #: src/dialogs/dialog-about.c:68
@@ -20009,7 +19384,12 @@ msgid ""
 "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 
-#: src/dialogs/dialog-consolidate.c:141
+#: src/dialogs/dialog-consolidate.c:203
+#, c-format
+msgid "Specification %s does not define a region"
+msgstr ""
+
+#: src/dialogs/dialog-consolidate.c:212
 #, c-format
 msgid "Source region %s overlaps with the destination region"
 msgstr "Область источника %s перекрывается с областью назначения"
@@ -20099,7 +19479,7 @@ msgstr "Уровень рабочей книги"
 #. * Fill in the labels of `Target Cell' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:391
-#: src/dialogs/tabulate.glade.h:1 src/tools/solver/reports-write.c:80
+#: src/dialogs/tabulate.glade.h:2 src/tools/solver/reports-write.c:80
 #: src/tools/solver/reports-write.c:102 src/tools/solver/reports-write.c:129
 #: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
 #: src/tools/solver/reports-write.c:394 src/tools/solver/reports-write.c:401
@@ -20141,9 +19521,8 @@ msgid "Prepare an email"
 msgstr "Подготовить сообщение"
 
 #: src/dialogs/dialog-hyperlink.c:203
-#, fuzzy
 msgid "_Web Link"
-msgstr "Вставить ссылку"
+msgstr ""
 
 #: src/dialogs/dialog-hyperlink.c:205
 msgid "Browse to the specified URL"
@@ -20231,9 +19610,8 @@ msgid "Formats"
 msgstr "Форматы"
 
 #: src/dialogs/dialog-paste-special.c:49
-#, fuzzy
 msgid "Add"
-msgstr "Добавить "
+msgstr "Добавить"
 
 #: src/dialogs/dialog-paste-special.c:50
 msgid "Subtract"
@@ -20281,7 +19659,7 @@ msgstr "Неизвестное дополнение"
 
 #: src/dialogs/dialog-plugin-manager.c:391
 msgid "Plugin services"
-msgstr ""
+msgstr "Сервисы дополнения"
 
 #: src/dialogs/dialog-plugin-manager.c:452
 msgid "Errors while activating plugins"
@@ -20501,11 +19879,11 @@ msgstr ""
 
 #: src/dialogs/dialog-random-generator.c:131
 msgid "nu_1 Value:"
-msgstr ""
+msgstr "Значение ню1:"
 
 #: src/dialogs/dialog-random-generator.c:131
 msgid "nu_2 Value:"
-msgstr ""
+msgstr "Значение ню2:"
 
 #: src/dialogs/dialog-random-generator.c:133
 msgid "Gamma"
@@ -20590,7 +19968,7 @@ msgstr "Лямбда:"
 
 #: src/dialogs/dialog-random-generator.c:162
 msgid "Rayleigh"
-msgstr ""
+msgstr "Рэлея:"
 
 #: src/dialogs/dialog-random-generator.c:162
 #: src/dialogs/dialog-random-generator.c:164
@@ -20729,7 +20107,7 @@ msgstr "Нельзя удалить все таблицы в рабочей кн
 
 #: src/dialogs/dialog-sheet-order.c:868
 msgid "The sheet order has changed. Do you want to update the list?"
-msgstr ""
+msgstr "Порядок таблиц был изменён. Хотите обновить лист?"
 
 #: src/dialogs/dialog-shuffle.c:73
 msgid "The input range is invalid."
@@ -20774,6 +20152,20 @@ msgstr ""
 #: src/dialogs/dialog-simulation.c:247
 msgid "Variable"
 msgstr "Переменная"
+
+#: src/dialogs/dialog-simulation.c:248 src/tools/simulation.c:254
+#: src/workbook-control-gui.c:4834
+msgid "Min"
+msgstr "Мин"
+
+#: src/dialogs/dialog-simulation.c:248 src/workbook-control-gui.c:4836
+msgid "Average"
+msgstr "Среднее"
+
+#: src/dialogs/dialog-simulation.c:248 src/tools/simulation.c:256
+#: src/workbook-control-gui.c:4835
+msgid "Max"
+msgstr "Макс"
 
 #: src/dialogs/dialog-simulation.c:327
 msgid "Invalid variable range was given"
@@ -20846,7 +20238,7 @@ msgstr ""
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
-msgstr ""
+msgstr "Достигнуто максимальное число итераций. Оптимальное значение не может быть найдено."
 
 #: src/dialogs/dialog-solver.c:834
 msgid "Optimal solution created by solver.\n"
@@ -21144,9 +20536,8 @@ msgid "Columns"
 msgstr "Столбцы"
 
 #: src/dialogs/dialog-stf.glade.h:18
-#, fuzzy
 msgid "Custom separator, this can be any character."
-msgstr "Другой разделитель, может быть любым символом"
+msgstr "Другой разделитель, может быть любым символом."
 
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "Define the width of each column manually."
@@ -21169,19 +20560,16 @@ msgid "End"
 msgstr "Конец"
 
 #: src/dialogs/dialog-stf.glade.h:24
-#, fuzzy
 msgid "F_inish"
-msgstr "Двоичные"
+msgstr "Закончить"
 
 #: src/dialogs/dialog-stf.glade.h:25
-#, fuzzy
 msgid "Fixed"
-msgstr "Файл/"
+msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:26
-#, fuzzy
 msgid "Format"
-msgstr "_Формат"
+msgstr "Формат"
 
 #: src/dialogs/dialog-stf.glade.h:27
 msgid "Fr_om line:"
@@ -21193,16 +20581,15 @@ msgstr "Дефис (-)"
 
 #: src/dialogs/dialog-stf.glade.h:29
 msgid "Line breaks:"
-msgstr ""
+msgstr "Переносы строк:"
 
 #: src/dialogs/dialog-stf.glade.h:30
 msgid "Lines to import"
 msgstr "Строки для импортирования"
 
 #: src/dialogs/dialog-stf.glade.h:31
-#, fuzzy
 msgid "Main"
-msgstr "Мин"
+msgstr "Главное"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid "Number of lines to import"
@@ -21222,7 +20609,7 @@ msgstr "Исходный тип данных:"
 
 #: src/dialogs/dialog-stf.glade.h:37
 msgid "Overall formatting"
-msgstr ""
+msgstr "Общее форматирование"
 
 #: src/dialogs/dialog-stf.glade.h:38
 msgid "P_ipe (|)"
@@ -21278,12 +20665,11 @@ msgstr "Косая черта (/)"
 
 #: src/dialogs/dialog-stf.glade.h:50
 msgid "Source Format"
-msgstr ""
+msgstr "Формат источника"
 
 #: src/dialogs/dialog-stf.glade.h:51
-#, fuzzy
 msgid "Source Locale:"
-msgstr "Области источников"
+msgstr "Локаль источника:"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "Ta_b"
@@ -21294,9 +20680,8 @@ msgid "Te_xt indicator: "
 msgstr "Индикатор текста:"
 
 #: src/dialogs/dialog-stf.glade.h:54
-#, fuzzy
 msgid "Text indicator"
-msgstr "Индикатор текста:"
+msgstr "Индикатор текста"
 
 #: src/dialogs/dialog-stf.glade.h:55
 msgid "The carriage return character (ASCII code 13) breaks lines"
@@ -21328,18 +20713,21 @@ msgstr "Отсечка:"
 msgid "_Adjacent text indicators escaped"
 msgstr "Последовательные индикаторы текста удаляются"
 
+#: src/dialogs/dialog-stf.glade.h:62
+msgid "_Clear"
+msgstr "Очистить"
+
 #: src/dialogs/dialog-stf.glade.h:63
 msgid "_Colon (:)"
 msgstr "Двоеточие (:)"
 
 #: src/dialogs/dialog-stf.glade.h:64
-#, fuzzy
 msgid "_Fixed width"
 msgstr "Фиксированная ширина"
 
 #: src/dialogs/dialog-stf.glade.h:65
 msgid "_Macintosh (CR)"
-msgstr ""
+msgstr "Macintosh (CR)"
 
 #: src/dialogs/dialog-stf.glade.h:67
 msgid "_Separated"
@@ -21351,15 +20739,15 @@ msgstr "До строки:"
 
 #: src/dialogs/dialog-stf.glade.h:69
 msgid "_Unix (LF)"
-msgstr ""
+msgstr "Unix (LF)"
 
 #: src/dialogs/dialog-stf.glade.h:70
 msgid "_Windows (CR+LF)"
-msgstr ""
+msgstr "Windows (CR+LF)"
 
 #: src/dialogs/dialog-stf.glade.h:72
 msgid "dialog1"
-msgstr ""
+msgstr "диалог1"
 
 #: src/dialogs/dialog-tabulate.c:146
 msgid "Tabulation"
@@ -21415,7 +20803,7 @@ msgstr ""
 #: src/dialogs/dialog-view.c:93
 #, c-format
 msgid "Display \"%s\" could not be opened."
-msgstr ""
+msgstr "Невозможно открыть дисплей \"%s\"."
 
 #: src/dialogs/dialog-view.c:164
 msgid "This screen"
@@ -21555,14 +20943,12 @@ msgid "Size:"
 msgstr "Размер:"
 
 #: src/dialogs/format-selector.glade.h:2
-#, fuzzy
 msgid "<b>Preview</b>"
-msgstr "Просмотр"
+msgstr "<b>Просмотр</b>"
 
 #: src/dialogs/format-selector.glade.h:3
-#, fuzzy
 msgid "Ca_tegories:"
-msgstr "Категория:"
+msgstr "Категории:"
 
 #: src/dialogs/format-selector.glade.h:4
 msgid "Deci_mal places:"
@@ -21589,32 +20975,28 @@ msgid "Display numeric values with a fixed number of decimals."
 msgstr ""
 
 #: src/dialogs/format-selector.glade.h:10
-#, fuzzy
 msgid "Display times of day."
-msgstr "Показать _структуру"
+msgstr "Показать время суток."
 
 #: src/dialogs/format-selector.glade.h:11
 msgid "Display values as closest fractional approximation."
 msgstr ""
 
 #: src/dialogs/format-selector.glade.h:12
-#, fuzzy
 msgid "Display values as percentages."
-msgstr "Показывать значение точно так как оно было введено"
+msgstr "Показывать значение как проценты."
 
 #: src/dialogs/format-selector.glade.h:13
 msgid "Display values with power-of-ten scaling."
 msgstr ""
 
 #: src/dialogs/format-selector.glade.h:14
-#, fuzzy
 msgid "Format c_ode:"
-msgstr "Формат:"
+msgstr "Код формата:"
 
 #: src/dialogs/format-selector.glade.h:15
-#, fuzzy
 msgid "Negative number _format:"
-msgstr "Формат отрицательного числа"
+msgstr "Формат отрицательного числа:"
 
 #: src/dialogs/format-selector.glade.h:16
 msgid "S_ymbol:"
@@ -21622,7 +21004,7 @@ msgstr "Символ:"
 
 #: src/dialogs/format-selector.glade.h:17
 msgid "Select an appropriate format automatically."
-msgstr ""
+msgstr "Выбрать подходящий формат автоматически."
 
 #: src/dialogs/format-selector.glade.h:18
 msgid "Specify an XL-style format directly"
@@ -21873,7 +21255,6 @@ msgid "Testing the Difference of 2 Means"
 msgstr "Проверка различия двух средних"
 
 #: src/dialogs/mean-tests.glade.h:14
-#, fuzzy
 msgid "Variable _1 Population Variance:"
 msgstr "Дисперсия выборки переменной 1:"
 
@@ -21882,7 +21263,6 @@ msgid "Variable _1 Range:"
 msgstr "Диапазон переменной 1:"
 
 #: src/dialogs/mean-tests.glade.h:16
-#, fuzzy
 msgid "Variable _2 Population Variance:"
 msgstr "Дисперсия выборки переменной 2:"
 
@@ -21907,7 +21287,6 @@ msgid "_Paired"
 msgstr "Парные"
 
 #: src/dialogs/mean-tests.glade.h:26
-#, fuzzy
 msgid "_Population Variances are:"
 msgstr "Дисперсии выборок:"
 
@@ -22088,9 +21467,8 @@ msgid "Apply _to:"
 msgstr "Применить к:"
 
 #: src/dialogs/print.glade.h:5
-#, fuzzy
 msgid "Apply to _all sheets of this workbook."
-msgstr "Применить ко всем листам."
+msgstr "Применить ко всем листам в книге."
 
 #: src/dialogs/print.glade.h:6
 msgid "Center on page"
@@ -22138,7 +21516,7 @@ msgstr "Озаглавливание строк и столбцов"
 
 #: src/dialogs/print.glade.h:19
 msgid "Save as Default Settings"
-msgstr ""
+msgstr "Сохранить в качестве настроек по умолчанию"
 
 #: src/dialogs/print.glade.h:20
 msgid "Scale"
@@ -22343,7 +21721,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Разное</span>"
 
 #: src/dialogs/search-replace.glade.h:4
 msgid "<span weight=\"bold\">Search Text Type</span>"
@@ -23014,48 +22392,48 @@ msgstr "Менеджер:"
 msgid "_Title:"
 msgstr "Заголовок:"
 
-#: src/dialogs/tabulate.glade.h:2
+#: src/dialogs/tabulate.glade.h:3
 msgid "Dependency cells"
 msgstr ""
 
-#: src/dialogs/tabulate.glade.h:3
+#: src/dialogs/tabulate.glade.h:4
 msgid "Make one long list of coordinates and values"
 msgstr "Сделать один длинный лист координат и значений"
 
-#: src/dialogs/tabulate.glade.h:4
+#: src/dialogs/tabulate.glade.h:5
 msgid "Maximum"
 msgstr "Максимум"
 
-#: src/dialogs/tabulate.glade.h:5
+#: src/dialogs/tabulate.glade.h:6
 msgid "Minimum"
 msgstr "Минимум"
 
-#: src/dialogs/tabulate.glade.h:6 src/tools/simulation.c:258
+#: src/dialogs/tabulate.glade.h:7 src/tools/simulation.c:258
 msgid "Mode"
 msgstr "Режим"
 
-#: src/dialogs/tabulate.glade.h:7
+#: src/dialogs/tabulate.glade.h:8
 msgid "Result cell"
 msgstr ""
 
-#: src/dialogs/tabulate.glade.h:8
+#: src/dialogs/tabulate.glade.h:9
 msgid "Step"
 msgstr "Шаг"
 
-#: src/dialogs/tabulate.glade.h:9
+#: src/dialogs/tabulate.glade.h:10
 msgid "Tabulate Dependency"
 msgstr "Табулировать зависимость"
 
-#: src/dialogs/tabulate.glade.h:10
+#: src/dialogs/tabulate.glade.h:11
 msgid ""
 "Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
 
-#: src/dialogs/tabulate.glade.h:11
+#: src/dialogs/tabulate.glade.h:12
 msgid "_Coordinate"
 msgstr "Координата"
 
-#: src/dialogs/tabulate.glade.h:12
+#: src/dialogs/tabulate.glade.h:13
 msgid "_Visual"
 msgstr "Видимое"
 
@@ -23065,7 +22443,7 @@ msgstr ""
 
 #: src/dialogs/variance-tests.glade.h:4
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Параметры</span>"
 
 #: src/dialogs/variance-tests.glade.h:5
 msgid "<span weight=\"bold\">Output</span>"
@@ -23245,7 +22623,7 @@ msgstr ""
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
-"Вы можете выключить эту возможность исправив соответствующий файл plugin.xml."
+"можно выключить эту возможность исправив соответствующий файл plugin.xml."
 
 #: src/format-template.c:467
 msgid "Error while trying to load autoformat template"
@@ -23260,7 +22638,6 @@ msgid "Is not an autoformat template file"
 msgstr "Не является файлом шаблона автоформата"
 
 #: src/format-template.c:493
-#, fuzzy
 msgid "Invalid xml file. Tree is empty?"
 msgstr "Испорченный файл XML. Дерево пусто?"
 
@@ -23984,7 +23361,6 @@ msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr ""
 
 #: src/formats.c:535
-#, fuzzy
 msgid "Palladium, Ounces"
 msgstr "Палладиевая унция"
 
@@ -24073,7 +23449,6 @@ msgstr ""
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 
 #: src/func-builtin.c:103
-#, fuzzy
 msgid ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
@@ -24085,7 +23460,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
-"@DESCRIPTION=Возвращает номер версии gnumeric как строку.\n"
+"@DESCRIPTION=Возвращает строку содержащую номер версии gnumeric.\n"
 "@EXAMPLES=\n"
 "GNUMERIC_VERSION().\n"
 "\n"
@@ -24161,9 +23536,8 @@ msgid "Format as alternative Number"
 msgstr "Формат - альтернативное число"
 
 #: src/gui-clipboard.c:114
-#, fuzzy
 msgid "clipboard"
-msgstr "Буфер обмена"
+msgstr "буфер обмена"
 
 #: src/gui-clipboard.c:122
 msgid "Parse error while trying to parse data into cellregion"
@@ -24406,7 +23780,6 @@ msgstr ""
 "Выйти немедленно после загрузки выбранных книг (полезно для тестирования)."
 
 #: src/main-application.c:112
-#, fuzzy
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -24419,7 +23792,7 @@ msgid ""
 "\n"
 "-- The Gnumeric Team."
 msgstr ""
-"Благодарим вас за использование Gnumeric\n"
+"Благодарим за использование Gnumeric!\n"
 "\n"
 "Версия Gnumeric, которую вы используете очень стара.\n"
 "Скорее всего к настоящему моменту существует более новая версия,\n"
@@ -25139,9 +24512,8 @@ msgid "Error while trying to parse data into sheet"
 msgstr "Ошибка при попытке проанализировать данные на листе"
 
 #: src/stf.c:352
-#, fuzzy
 msgid "That file is not in the given encoding."
-msgstr "Заданное имя файла не допустимо для текущей кодировки."
+msgstr "Этот файл не в указанной кодировке."
 
 #: src/stf.c:369
 msgid "Parse error while trying to parse data into sheet"
@@ -25359,7 +24731,6 @@ msgstr ""
 "Должно быть хотя бы столько же сколько свободных переменных."
 
 #: src/tools/analysis-tools.c:2219
-#, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  All numerical precision was lost in the computation."
@@ -25415,13 +24786,12 @@ msgid ""
 msgstr ""
 
 #: src/tools/analysis-tools.c:2409
-#, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linearly\n"
 "dependent.  Treat the regression result with great care!"
 msgstr ""
 "Две или более независимых переменных почти линейно\n"
-"зависимы. Относитесь к результатам регрессии скептически."
+"зависимы. Отнеситесь к результатам регрессии скептически."
 
 #: src/tools/analysis-tools.c:2424
 #, c-format
@@ -25718,6 +25088,10 @@ msgstr ""
 msgid "Range"
 msgstr "Диапазон"
 
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4837
+msgid "Count"
+msgstr "Количество"
+
 #: src/tools/simulation.c:265
 msgid "Confidence (95 %)"
 msgstr "Доверительный уровень (95 %)"
@@ -25890,7 +25264,6 @@ msgid "Performance Report"
 msgstr "Отчёт о производительности"
 
 #: src/tools/solver/reports-write.c:520
-#, fuzzy
 msgid "Number of Iterations"
 msgstr "Число итераций"
 
@@ -25934,12 +25307,10 @@ msgid "Variables"
 msgstr "Переменные"
 
 #: src/tools/solver/reports-write.c:573
-#, fuzzy
 msgid "Integer Constraints"
 msgstr "Целочисленные ограничения"
 
 #: src/tools/solver/reports-write.c:574
-#, fuzzy
 msgid "Boolean Constraints"
 msgstr "Логические ограничения"
 
@@ -26215,7 +25586,7 @@ msgstr "черный"
 
 #: src/widgets/color-palette.c:559
 msgid "light brown"
-msgstr "светлокоричневый"
+msgstr "светло-коричневый"
 
 #: src/widgets/color-palette.c:560
 msgid "brown gold"
@@ -26223,7 +25594,7 @@ msgstr "золотисто коричневый"
 
 #: src/widgets/color-palette.c:561
 msgid "dark green #2"
-msgstr "тёмнозелёный #2"
+msgstr "тёмно-зелёный #2"
 
 #: src/widgets/color-palette.c:562
 msgid "navy"
@@ -26231,7 +25602,7 @@ msgstr ""
 
 #: src/widgets/color-palette.c:563 src/widgets/color-palette.c:619
 msgid "dark blue"
-msgstr "тёмносиний"
+msgstr "тёмно-синий"
 
 #: src/widgets/color-palette.c:564
 msgid "purple #2"
@@ -26243,7 +25614,7 @@ msgstr "очень темный серый"
 
 #: src/widgets/color-palette.c:568 src/widgets/color-palette.c:624
 msgid "dark red"
-msgstr "тёмнокрасный"
+msgstr "тёмно-красный"
 
 #: src/widgets/color-palette.c:569
 msgid "red-orange"
@@ -26255,7 +25626,7 @@ msgstr "золотистый"
 
 #: src/widgets/color-palette.c:571
 msgid "dark green"
-msgstr "тёмнозелёный"
+msgstr "тёмно-зелёный"
 
 #: src/widgets/color-palette.c:572 src/widgets/color-palette.c:625
 msgid "dull blue"
@@ -26270,9 +25641,8 @@ msgid "dull purple"
 msgstr ""
 
 #: src/widgets/color-palette.c:575
-#, fuzzy
 msgid "dark gray"
-msgstr "тёмносерый"
+msgstr "тёмно-серый"
 
 #: src/widgets/color-palette.c:578
 msgid "red"
@@ -26335,7 +25705,6 @@ msgid "red purple"
 msgstr ""
 
 #: src/widgets/color-palette.c:595
-#, fuzzy
 msgid "light gray"
 msgstr "светло-зелёный"
 
@@ -26365,7 +25734,7 @@ msgstr "светло-синий"
 
 #: src/widgets/color-palette.c:604 src/widgets/color-palette.c:617
 msgid "light purple"
-msgstr ""
+msgstr "светло-пурпурный"
 
 #: src/widgets/color-palette.c:605
 msgid "white"
@@ -26817,27 +26186,22 @@ msgid "Bold italic"
 msgstr "Полужирный наклонный"
 
 #: src/widgets/widget-format-selector.c:61
-#, fuzzy
 msgid "Currency"
 msgstr "Денежный"
 
 #: src/widgets/widget-format-selector.c:62
-#, fuzzy
 msgid "Accounting"
 msgstr "Бухгалтерский"
 
 #: src/widgets/widget-format-selector.c:66
-#, fuzzy
 msgid "Fraction"
 msgstr "Дробный"
 
 #: src/widgets/widget-format-selector.c:67
-#, fuzzy
 msgid "Scientific"
 msgstr "Научный"
 
 #: src/widgets/widget-format-selector.c:69
-#, fuzzy
 msgid "Special"
 msgstr "Специальный"
 
@@ -26850,37 +26214,32 @@ msgid "Number Formats"
 msgstr "Числовые форматы"
 
 #: src/widgets/widget-locale-selector.c:64
-#, fuzzy
 msgid "Western Europe"
-msgstr "Западная"
+msgstr "Западно-Европейская"
 
 #: src/widgets/widget-locale-selector.c:65
-#, fuzzy
 msgid "Eastern Europe"
-msgstr "Центральноевропейская"
+msgstr "Восточно-Европейская"
 
 #: src/widgets/widget-locale-selector.c:66
 msgid "North America"
-msgstr ""
+msgstr "Северо-Американская"
 
 #: src/widgets/widget-locale-selector.c:67
 msgid "South & Central America"
-msgstr ""
+msgstr "Южно- и Центрально-Американская"
 
 #: src/widgets/widget-locale-selector.c:68
-#, fuzzy
 msgid "Asia"
-msgstr "сигма"
+msgstr "Азиатская"
 
 #: src/widgets/widget-locale-selector.c:69
-#, fuzzy
 msgid "Africa"
-msgstr "Арабская"
+msgstr "Африканская"
 
 #: src/widgets/widget-locale-selector.c:70
-#, fuzzy
 msgid "Australia"
-msgstr "Австралийский доллар"
+msgstr "Австралийская"
 
 #.
 #. * The format here is "Country/Language (locale)" or just
@@ -26892,115 +26251,103 @@ msgstr "Австралийский доллар"
 #.
 #: src/widgets/widget-locale-selector.c:102
 msgid "United States/English (C)"
-msgstr ""
+msgstr "США/Английский (С)"
 
 #: src/widgets/widget-locale-selector.c:103
-#, fuzzy
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "Южноафриканский рэнд"
+msgstr "Южноафриканский африкаанс (af_ZA)"
 
 #: src/widgets/widget-locale-selector.c:104
 msgid "Ethiopia/Amharic (am_ET)"
-msgstr ""
+msgstr "Эфиопия/Амхарик (am_ET)"
 
 #: src/widgets/widget-locale-selector.c:105
 msgid "United Arab Emirates (ar_AE)"
-msgstr ""
+msgstr "Объединённые Арабские Эмираты (ar_AE)"
 
 #: src/widgets/widget-locale-selector.c:106
-#, fuzzy
 msgid "Bahrain (ar_BH)"
-msgstr "Бахрейнский динар"
+msgstr "Бахрейнс (ar_BH)"
 
 #: src/widgets/widget-locale-selector.c:107
 msgid "Algeria (ar_DZ)"
-msgstr ""
+msgstr "Алжир (ar_DZ)"
 
 #: src/widgets/widget-locale-selector.c:108
 msgid "Egypt (ar_EG)"
-msgstr ""
+msgstr "Египет (ar_EG)"
 
 #: src/widgets/widget-locale-selector.c:109
 msgid "India/Arabic (ar_IN)"
-msgstr ""
+msgstr "Индия/Арабский (ar_IN)"
 
 #: src/widgets/widget-locale-selector.c:110
 msgid "Iraq (ar_IQ)"
-msgstr ""
+msgstr "Ирак (ar_IQ)"
 
 #: src/widgets/widget-locale-selector.c:111
-#, fuzzy
 msgid "Jordan (ar_JO)"
-msgstr "Иорданский динар"
+msgstr "Иордания (ar_JO)"
 
 #: src/widgets/widget-locale-selector.c:112
-#, fuzzy
 msgid "Kuwait (ar_KW)"
-msgstr "Кувейтский динар"
+msgstr "Кувейт (ar_KW)"
 
 #: src/widgets/widget-locale-selector.c:113
 msgid "Lebanon (ar_LB)"
-msgstr ""
+msgstr "Лебанон (ar_LB)"
 
 #: src/widgets/widget-locale-selector.c:114
-#, fuzzy
 msgid "Libya (ar_LY)"
-msgstr "Ливийский динар"
+msgstr "Ливия (ar_LY)"
 
 #: src/widgets/widget-locale-selector.c:115
 msgid "Morocco (ar_MA)"
-msgstr ""
+msgstr "Марокко (ar_MA)"
 
 #: src/widgets/widget-locale-selector.c:116
 msgid "Oman (ar_OM)"
-msgstr ""
+msgstr "Оман (ar_OM)"
 
 #: src/widgets/widget-locale-selector.c:117
 msgid "Qatar (ar_QA)"
-msgstr ""
+msgstr "Катар (ar_QA)"
 
 #: src/widgets/widget-locale-selector.c:118
-#, fuzzy
 msgid "Saudi Arabia (ar_SA)"
-msgstr "Риал Саудовской Аравии"
+msgstr "Саудовская Аравия (ar_SA)"
 
 #: src/widgets/widget-locale-selector.c:119
-#, fuzzy
 msgid "Sudan (ar_SD)"
-msgstr "Суданский динар"
+msgstr "Судан (ar_SD)"
 
 #: src/widgets/widget-locale-selector.c:120
 msgid "Syria (ar_SY)"
-msgstr ""
+msgstr "Сирия (ar_SY)"
 
 #: src/widgets/widget-locale-selector.c:121
-#, fuzzy
 msgid "Tunisia (ar_TN)"
-msgstr "Тунисский динар"
+msgstr "Тунисс (ar_TN)"
 
 #: src/widgets/widget-locale-selector.c:122
 msgid "Yemen (ar_YE)"
-msgstr ""
+msgstr "Йемен (ar_YE)"
 
 #: src/widgets/widget-locale-selector.c:123
-#, fuzzy
 msgid "Azerbaijan (az_AZ)"
-msgstr "Азербайджанский манат"
+msgstr "Азербайджан (az_AZ)"
 
 #: src/widgets/widget-locale-selector.c:124
-#, fuzzy
 msgid "Belarus (be_BY)"
-msgstr "Белорусский рубль"
+msgstr "Белоруссия (be_BY)"
 
 #: src/widgets/widget-locale-selector.c:125
-#, fuzzy
 msgid "Bulgaria (bg_BG)"
-msgstr "Болгарский лев"
+msgstr "Болгария (bg_BG)"
 
 #: src/widgets/widget-locale-selector.c:126
-#, fuzzy
 msgid "Bangladesh (bn_BD)"
-msgstr "Бангладешский така"
+msgstr "Бангладеш (bn_BD)"
 
 #: src/widgets/widget-locale-selector.c:127
 msgid "India/Bengali (bn_IN)"
@@ -27019,59 +26366,56 @@ msgid "Spain/Catalan (ca_ES)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:131
-#, fuzzy
 msgid "Czech Republic (cs_CZ)"
-msgstr "Чешская крона"
+msgstr "Чешская республика (cs_CZ)"
 
 #: src/widgets/widget-locale-selector.c:132
 msgid "Great Britain/Welsh (cy_GB)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:133
-#, fuzzy
 msgid "Denmark (da_DK)"
-msgstr "Датская крона"
+msgstr "Дания (da_DK)"
 
 #: src/widgets/widget-locale-selector.c:134
 msgid "Austria (de_AT)"
-msgstr ""
+msgstr "Австрия (de_AT)"
 
 #: src/widgets/widget-locale-selector.c:135
 msgid "Belgium/German (de_BE)"
-msgstr ""
+msgstr "Бельгия/Немецкий (de_BE)"
 
 #: src/widgets/widget-locale-selector.c:136
-#, fuzzy
 msgid "Switzerland/German (de_CH)"
-msgstr "Щвейцарский франк"
+msgstr "Щвейцария/Немецкий (de_CH)"
 
 #: src/widgets/widget-locale-selector.c:137
 msgid "Germany (de_DE)"
-msgstr ""
+msgstr "Германия (de_DE)"
 
 #: src/widgets/widget-locale-selector.c:138
 msgid "Luxembourg/German (de_LU)"
-msgstr ""
+msgstr "Люксембург/Немецкий (de_LU)"
 
 #: src/widgets/widget-locale-selector.c:139
 msgid "Greece (el_GR)"
-msgstr ""
+msgstr "Греция (el_GR)"
 
 #: src/widgets/widget-locale-selector.c:140
 msgid "Australia (en_AU)"
-msgstr ""
+msgstr "Австралия (en_AU)"
 
 #: src/widgets/widget-locale-selector.c:141
 msgid "Botswana (en_BW)"
-msgstr ""
+msgstr "Ботсвана (en_BW)"
 
 #: src/widgets/widget-locale-selector.c:142
 msgid "Canada/English (en_CA)"
-msgstr ""
+msgstr "Канада/Английский (en_CA)"
 
 #: src/widgets/widget-locale-selector.c:143
 msgid "Great Britain (en_GB)"
-msgstr ""
+msgstr "Великобритания (en_GB)"
 
 #: src/widgets/widget-locale-selector.c:144
 msgid "Hong Kong/English (en_HK)"
@@ -27079,151 +26423,135 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:145
 msgid "Ireland (en_IE)"
-msgstr ""
+msgstr "Ирландия (en_IE)"
 
 #: src/widgets/widget-locale-selector.c:146
-#, fuzzy
 msgid "India/English (en_IN)"
-msgstr "Английская (ASCII)"
+msgstr "Индия/Английский (en_IN)"
 
 #: src/widgets/widget-locale-selector.c:147
-#, fuzzy
 msgid "New Zealand (en_NZ)"
-msgstr "Новозеландский доллары"
+msgstr "Новозеландсия (en_NZ)"
 
 #: src/widgets/widget-locale-selector.c:148
-#, fuzzy
 msgid "Philippines (en_PH)"
-msgstr "Филиппинский песо"
+msgstr "Филиппины (en_PH)"
 
 #: src/widgets/widget-locale-selector.c:149
 msgid "Singapore/English (en_SG)"
-msgstr ""
+msgstr "Сингапур/Английский (en_SG)"
 
 #: src/widgets/widget-locale-selector.c:150
 msgid "United States/English (en_US)"
-msgstr ""
+msgstr "США/Английский (en_US)"
 
 #: src/widgets/widget-locale-selector.c:151
-#, fuzzy
 msgid "South Africa/English (en_ZA)"
-msgstr "Южноафриканский рэнд"
+msgstr "Южная Африка/Английский (en_ZA)"
 
 #: src/widgets/widget-locale-selector.c:152
 msgid "Zimbabwe (en_ZW)"
-msgstr ""
+msgstr "Зимбабве (en_ZW)"
 
 #: src/widgets/widget-locale-selector.c:153
 msgid "Esperanto (eo_EO)"
-msgstr ""
+msgstr "Эсперанто (eo_EO)"
 
 #: src/widgets/widget-locale-selector.c:154
-#, fuzzy
 msgid "Argentina (es_AR)"
-msgstr "Аргентинский песо"
+msgstr "Аргентина (es_AR)"
 
 #: src/widgets/widget-locale-selector.c:155
 msgid "Bolivia (es_BO)"
-msgstr ""
+msgstr "Боливия (es_BO)"
 
 #: src/widgets/widget-locale-selector.c:156
-#, fuzzy
 msgid "Chile (es_CL)"
-msgstr "Чилийское песо"
+msgstr "Чили (es_CL)"
 
 #: src/widgets/widget-locale-selector.c:157
-#, fuzzy
 msgid "Colombia (es_CO)"
-msgstr "Колумбийский песо"
+msgstr "Колумбия (es_CO)"
 
 #: src/widgets/widget-locale-selector.c:158
-#, fuzzy
 msgid "Costa Rica (es_CR)"
-msgstr "Коста-Риканский колон"
+msgstr "Коста-Рика (es_CR)"
 
 #: src/widgets/widget-locale-selector.c:159
-#, fuzzy
 msgid "Dominican Republic (es_DO)"
-msgstr "Доминиканский песо"
+msgstr "Доминиканская Республика (es_DO)"
 
 #: src/widgets/widget-locale-selector.c:160
 msgid "Ecuador (es_EC)"
-msgstr ""
+msgstr "Эквадор (es_EC)"
 
 #: src/widgets/widget-locale-selector.c:161
-#, fuzzy
 msgid "Spain (es_ES)"
-msgstr "Выборка (%s)"
+msgstr "Испания (es_ES)"
 
 #: src/widgets/widget-locale-selector.c:162
-#, fuzzy
 msgid "Guatemala (es_GT)"
-msgstr "Гватемальский кветцаль"
+msgstr "Гватемала (es_GT)"
 
 #: src/widgets/widget-locale-selector.c:163
-#, fuzzy
 msgid "Honduras (es_HN)"
-msgstr "Гондурасский лемпир"
+msgstr "Гондурас (es_HN)"
 
 #: src/widgets/widget-locale-selector.c:164
-#, fuzzy
 msgid "Mexico (es_MX)"
-msgstr "Мексиканский песо"
+msgstr "Мексика (es_MX)"
 
 #: src/widgets/widget-locale-selector.c:165
 msgid "Nicaragua (es_NI)"
-msgstr ""
+msgstr "Никарагуа (es_NI)"
 
 #: src/widgets/widget-locale-selector.c:166
 msgid "Panama (es_PA)"
-msgstr ""
+msgstr "Панама (es_PA)"
 
 #: src/widgets/widget-locale-selector.c:167
 msgid "Peru (es_PE)"
-msgstr ""
+msgstr "Перу (es_PE)"
 
 #: src/widgets/widget-locale-selector.c:168
 msgid "Puerto Rico (es_PR)"
-msgstr ""
+msgstr "Пуэрто-Рико (es_PR)"
 
 #: src/widgets/widget-locale-selector.c:169
 msgid "Paraguay (es_PY)"
-msgstr ""
+msgstr "Парагвай (es_PY)"
 
 #: src/widgets/widget-locale-selector.c:170
-#, fuzzy
 msgid "El Salvador (es_SV)"
-msgstr "Сальвадорский колон"
+msgstr "Сальвадор (es_SV)"
 
 #: src/widgets/widget-locale-selector.c:171
 msgid "United States/Spanish (es_US)"
-msgstr ""
+msgstr "США/Испанский (es_US)"
 
 #: src/widgets/widget-locale-selector.c:172
-#, fuzzy
 msgid "Uruguay (es_UY)"
-msgstr "Уругвайский песо"
+msgstr "Уругвай (es_UY)"
 
 #: src/widgets/widget-locale-selector.c:173
-#, fuzzy
 msgid "Venezuela (es_VE)"
-msgstr "Венесуэльский боливар"
+msgstr "Венесуэла (es_VE)"
 
 #: src/widgets/widget-locale-selector.c:174
 msgid "Estonia (et_EE)"
-msgstr ""
+msgstr "Эстония (et_EE)"
 
 #: src/widgets/widget-locale-selector.c:175
 msgid "spain/Basque (eu_ES)"
-msgstr ""
+msgstr "Испания/Баскский (eu_ES)"
 
 #: src/widgets/widget-locale-selector.c:176
 msgid "Iran (fa_IR)"
-msgstr ""
+msgstr "Иран (fa_IR)"
 
 #: src/widgets/widget-locale-selector.c:177
 msgid "Finland/Finnish (fi_FI)"
-msgstr ""
+msgstr "Финляндия/Финский (fi_FI)"
 
 #: src/widgets/widget-locale-selector.c:178
 msgid "Faroe Islands (fo_FO)"
@@ -27231,24 +26559,23 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:179
 msgid "Belgium/French (fr_BE)"
-msgstr ""
+msgstr "Бельгия/Французский (fr_BE)"
 
 #: src/widgets/widget-locale-selector.c:180
 msgid "Canada/French (fr_CA)"
-msgstr ""
+msgstr "Канада/Французский (fr_CA)"
 
 #: src/widgets/widget-locale-selector.c:181
-#, fuzzy
 msgid "Switzerland/French (fr_CH)"
-msgstr "Щвейцарский франк"
+msgstr "Щвейцария/Французский (fr_CH)"
 
 #: src/widgets/widget-locale-selector.c:182
 msgid "France (fr_FR)"
-msgstr ""
+msgstr "Франция (fr_FR)"
 
 #: src/widgets/widget-locale-selector.c:183
 msgid "Ireland/Gaelic (ga_IE)"
-msgstr ""
+msgstr "Ирландия/Гальский (ga_IE)"
 
 #: src/widgets/widget-locale-selector.c:184
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
@@ -27264,33 +26591,31 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:187
 msgid "India/Hindu (hi_IN)"
-msgstr ""
+msgstr "Индия/Хинди (hi_IN)"
 
 #: src/widgets/widget-locale-selector.c:188
 msgid "Croatia (hr_HR)"
-msgstr ""
+msgstr "Хорватия (hr_HR)"
 
 #: src/widgets/widget-locale-selector.c:189
 msgid "Hungary (hu_HU)"
-msgstr ""
+msgstr "Венгрия (hu_HU)"
 
 #: src/widgets/widget-locale-selector.c:190
-#, fuzzy
 msgid "Armenia (hy_AM)"
-msgstr "Армянская (ARMSCII-8)"
+msgstr "Армения (hy_AM)"
 
 #: src/widgets/widget-locale-selector.c:191
 msgid "(i18n)"
-msgstr ""
+msgstr "(i18n)"
 
 #: src/widgets/widget-locale-selector.c:192
-#, fuzzy
 msgid "Indonesia (id_ID)"
-msgstr "Индонезийская рупия"
+msgstr "Индонезия (id_ID)"
 
 #: src/widgets/widget-locale-selector.c:193
 msgid "Iceland (is_IS)"
-msgstr ""
+msgstr "Исландия (is_IS)"
 
 #: src/widgets/widget-locale-selector.c:194
 msgid "(iso14651_t1)"
@@ -27298,48 +26623,43 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:195
 msgid "Switzerland/Italian (it_CH)"
-msgstr ""
+msgstr "Швейцария/Итальянский (it_CH)"
 
 #: src/widgets/widget-locale-selector.c:196
 msgid "Italy (it_IT)"
-msgstr ""
+msgstr "Италия (it_IT)"
 
 #: src/widgets/widget-locale-selector.c:197
 msgid "Israel/Hebrew (iw_IL)"
-msgstr ""
+msgstr "Израиль/Иврит (iw_IL)"
 
 #: src/widgets/widget-locale-selector.c:198
-#, fuzzy
 msgid "Japan (ja_JP)"
-msgstr "Японская (EUC-JP)"
+msgstr "Япония (ja_JP)"
 
 #: src/widgets/widget-locale-selector.c:199
-#, fuzzy
 msgid "Georgia (ka_GE)"
-msgstr "Грузинская (GEOSTD8)"
+msgstr "Грузия (ka_GE)"
 
 #: src/widgets/widget-locale-selector.c:200
 msgid "Greenland (kl_GL)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:201
-#, fuzzy
 msgid "Korea (ko_KR)"
-msgstr "Корейская (EUC-KR)"
+msgstr "Корея (ko_KR)"
 
 #: src/widgets/widget-locale-selector.c:202
 msgid "Great Britain/Cornish (kw_GB)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:203
-#, fuzzy
 msgid "Lithuania (lt_LT)"
-msgstr "Литовский лит"
+msgstr "Литва (lt_LT)"
 
 #: src/widgets/widget-locale-selector.c:204
-#, fuzzy
 msgid "Latvia (lv_LV)"
-msgstr "Латвийский лат"
+msgstr "Латвия (lv_LV)"
 
 #: src/widgets/widget-locale-selector.c:205
 msgid "New Zealand/Maori (mi_NZ)"
@@ -27347,7 +26667,7 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:206
 msgid "Macedonia (mk_MK)"
-msgstr ""
+msgstr "Македония (mk_MK)"
 
 #: src/widgets/widget-locale-selector.c:207
 msgid "India/Marathi (mr_IN)"
@@ -27355,11 +26675,11 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:208
 msgid "Malaysia (ms_MY)"
-msgstr ""
+msgstr "Малайзия (ms_MY)"
 
 #: src/widgets/widget-locale-selector.c:209
 msgid "Malta (mt_MT)"
-msgstr ""
+msgstr "Мальта (mt_MT)"
 
 #: src/widgets/widget-locale-selector.c:210
 msgid "Belgium/Flemish (nl_BE)"
@@ -27367,7 +26687,7 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:211
 msgid "The Netherlands (nl_NL)"
-msgstr ""
+msgstr "Голандия (nl_NL)"
 
 #: src/widgets/widget-locale-selector.c:212
 msgid "Norway/Nynorsk (nn_NO)"
@@ -27383,29 +26703,27 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:215
 msgid "Poland (pl_PL)"
-msgstr ""
+msgstr "Польша (pl_PL)"
 
 #: src/widgets/widget-locale-selector.c:216
 msgid "Brazil (pt_BR)"
-msgstr ""
+msgstr "Бразилия (pt_BR)"
 
 #: src/widgets/widget-locale-selector.c:217
 msgid "Portugal (pt_PT)"
-msgstr ""
+msgstr "Португалия (pt_PT)"
 
 #: src/widgets/widget-locale-selector.c:218
 msgid "Romania (ro_RO)"
-msgstr ""
+msgstr "Румыния (ro_RO)"
 
 #: src/widgets/widget-locale-selector.c:219
-#, fuzzy
 msgid "Russia (ru_RU)"
-msgstr "Русская (CP-866)"
+msgstr "Россия (ru_RU)"
 
 #: src/widgets/widget-locale-selector.c:220
-#, fuzzy
 msgid "Ukraine/Russian (ru_UA)"
-msgstr "Украинская (KOI8-U)"
+msgstr "Украина/Русский (ru_UA)"
 
 #: src/widgets/widget-locale-selector.c:221
 msgid "Norway/Saami (se_NO)"
@@ -27413,30 +26731,27 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:222
 msgid "Slovakia (sk_SK)"
-msgstr ""
+msgstr "Словакия (sk_SK)"
 
 #: src/widgets/widget-locale-selector.c:223
-#, fuzzy
 msgid "Slovenia (sl_SI)"
-msgstr "Словенский толар"
+msgstr "Словения (sl_SI)"
 
 #: src/widgets/widget-locale-selector.c:224
-#, fuzzy
 msgid "Albania (sq_AL)"
-msgstr "Албанский леке"
+msgstr "Албания (sq_AL)"
 
 #: src/widgets/widget-locale-selector.c:225
-#, fuzzy
 msgid "Yugoslavia (sr_YU)"
-msgstr "Югославский новый динар"
+msgstr "Югославия (sr_YU)"
 
 #: src/widgets/widget-locale-selector.c:226
 msgid "Finland/Swedish (sv_FI)"
-msgstr ""
+msgstr "Финляндия/Шведский (sv_FI)"
 
 #: src/widgets/widget-locale-selector.c:227
 msgid "Sweden (sv_SE)"
-msgstr ""
+msgstr "Швеция (sv_SE)"
 
 #: src/widgets/widget-locale-selector.c:228
 msgid "India/Tamil (ta_IN)"
@@ -27447,14 +26762,12 @@ msgid "India/Telugu (te_IN)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:230
-#, fuzzy
 msgid "Tajikistan (tg_TJ)"
-msgstr "Таджикистанский рубль"
+msgstr "Таджикистан (tg_TJ)"
 
 #: src/widgets/widget-locale-selector.c:231
-#, fuzzy
 msgid "Thailand (th_TH)"
-msgstr "Тайский бахт"
+msgstr "Таиланд (th_TH)"
 
 #: src/widgets/widget-locale-selector.c:232
 msgid "Eritrea (ti_ER)"
@@ -27470,31 +26783,27 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:235
 msgid "Turkey (tr_TR)"
-msgstr ""
+msgstr "Турция (tr_TR)"
 
 #: src/widgets/widget-locale-selector.c:236
 msgid "Russia/Tatar (tt_RU)"
-msgstr ""
+msgstr "Россия/Татарский (tt_RU)"
 
 #: src/widgets/widget-locale-selector.c:237
-#, fuzzy
 msgid "Ukraine (uk_UA)"
-msgstr "Украинская (KOI8-U)"
+msgstr "Украина (uk_UA)"
 
 #: src/widgets/widget-locale-selector.c:238
-#, fuzzy
 msgid "Pakistan (ur_PK)"
-msgstr "Пакистанская рупия"
+msgstr "Пакистан (ur_PK)"
 
 #: src/widgets/widget-locale-selector.c:239
-#, fuzzy
 msgid "Uzbekistan (uz_UZ)"
-msgstr "Узбекский сум"
+msgstr "Узбекистан (uz_UZ)"
 
 #: src/widgets/widget-locale-selector.c:240
-#, fuzzy
 msgid "Vietnam (vi_VN)"
-msgstr "Вьетнамская (TCVN)"
+msgstr "Вьетнам (vi_VN)"
 
 #: src/widgets/widget-locale-selector.c:241
 msgid "Belgium/Walloon (wa_BE)"
@@ -27506,7 +26815,7 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:243
 msgid "China (zh_CN)"
-msgstr ""
+msgstr "Китай (zh_CN)"
 
 #: src/widgets/widget-locale-selector.c:244
 msgid "Hong Kong/Chinese (zh_HK)"
@@ -27514,16 +26823,15 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:245
 msgid "Singapore/Chinese (zh_SG)"
-msgstr ""
+msgstr "Сингапур/Китайский (zh_SG)"
 
 #: src/widgets/widget-locale-selector.c:246
 msgid "Taiwan (zh_TW)"
-msgstr ""
+msgstr "Тайвань (zh_TW)"
 
 #: src/widgets/widget-locale-selector.c:435
-#, fuzzy
 msgid "Current Locale: "
-msgstr "Текущее значение:"
+msgstr "Текущая локаль:"
 
 #: src/workbook-cmd-format.c:49
 msgid "Add Borders"
@@ -27979,11 +27287,56 @@ msgstr "Ошибка при сохранении файла"
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
 
-#~ msgid "serial_number,months"
-#~ msgstr "последовательный номер, месяцы"
+#~ msgid "Add the entered area to the list of source areas"
+#~ msgstr "Добавить введенную область к списку областей источников"
+
+#~ msgid "D_elete"
+#~ msgstr "Удалить"
+
+#~ msgid "Product"
+#~ msgstr "Произведение"
+
+#~ msgid "Stdev (sample)"
+#~ msgstr "Ст.откл. (выборка)"
+
+#~ msgid "Stdevp (population)"
+#~ msgstr "Ст.откл. (совокупность)"
+
+#~ msgid "Var (sample)"
+#~ msgstr "Отклонение (выборка)"
+
+#~ msgid "Varp (population)"
+#~ msgstr "Отклонение (совокупность)"
+
+#~ msgid "Column formatting"
+#~ msgstr "Форматирование столбца"
+
+#~ msgid "Data type and number of lines"
+#~ msgstr "Тип данных и число строк"
+
+#~ msgid "Fixed width customization"
+#~ msgstr "Настройка фиксированной ширины"
+
+#~ msgid "Importing structured text"
+#~ msgstr "Импортирование структурированного текста"
+
+#~ msgid "Separation customization"
+#~ msgstr "Настройка разделения"
+
+#~ msgid ";[Red]"
+#~ msgstr ";[Red]"
+
+#~ msgid "_);("
+#~ msgstr "_);("
+
+#~ msgid "_);[Red]("
+#~ msgstr "_);[Red]("
 
 #~ msgid "Maths / Trig."
 #~ msgstr "Матем. / Триг."
+
+#~ msgid "serial_number,months"
+#~ msgstr "последовательный номер, месяцы"
 
 #~ msgid "Graph Guru"
 #~ msgstr "Помощник по графикам"
@@ -28028,23 +27381,11 @@ msgstr "Формат файла Gnumeric XML"
 #~ msgid "_URL"
 #~ msgstr "URL"
 
-#~ msgid "Column formatting"
-#~ msgstr "Форматирование столбца"
-
 #~ msgid "Customize the columns using the buttons or the mouse"
 #~ msgstr "Настройка столбцов с использованием кнопок или мыши"
 
-#~ msgid "Data type and number of lines"
-#~ msgstr "Тип данных и число строк"
-
-#~ msgid "Fixed width customization"
-#~ msgstr "Настройка фиксированной ширины"
-
 #~ msgid "Formatting for the selected column"
 #~ msgstr "Форматирование для выбранных столбцов"
-
-#~ msgid "Importing structured text"
-#~ msgstr "Импортирование структурированного текста"
 
 #~ msgid "Misc"
 #~ msgstr "Разное"
@@ -28054,9 +27395,9 @@ msgstr "Формат файла Gnumeric XML"
 #~ "the left or in the example to select a column. You can then enter a "
 #~ "custom format or select one from the list on the right."
 #~ msgstr ""
-#~ "Выбор формата для каждого столбца. Вы можете щелкнуть в списке столбцов "
-#~ "слева или в просмотре для выбора столбца. Затем вы можете ввести "
-#~ "собственный формат или выбрать один из имеющихся в списке справа."
+#~ "Выбор формата для каждого столбца. можно щелкнуть в списке столбцов слева "
+#~ "или в просмотре для выбора столбца. Затем вы можете ввести собственный "
+#~ "формат или выбрать один из имеющихся в списке справа."
 
 #~ msgid ""
 #~ "Select the separators that appear in the text (you can choose multiple "
@@ -28068,17 +27409,5 @@ msgstr "Формат файла Gnumeric XML"
 #~ msgid "Select the structure of the text that most closely matches the data."
 #~ msgstr "Выберите структуру текста наиболее точно соответствующую данным."
 
-#~ msgid "Separation customization"
-#~ msgstr "Настройка разделения"
-
 #~ msgid "Unknown _Pop. Var. are:"
 #~ msgstr "Неизвестная дисперсия выборки:"
-
-#~ msgid ";[Red]"
-#~ msgstr ";[Red]"
-
-#~ msgid "_);("
-#~ msgstr "_);("
-
-#~ msgid "_);[Red]("
-#~ msgstr "_);[Red]("
