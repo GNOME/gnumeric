@@ -596,10 +596,7 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 	rate = value_get_as_float (argv[3]);
 	par = value_get_as_float (argv[4]);
 	freq = value_get_as_float (argv[5]);
-	if (argv[6] == NULL)
-	        basis = 0;
-	else
-	        basis = value_get_as_int (argv[6]);
+	basis = argv[6] ? value_get_as_int (argv[6]) : 0;
 
 	a = days_monthly_basis (argv[0], argv[2], basis);
 	d = annual_year_basis (argv[0], basis);
@@ -970,10 +967,10 @@ gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 	nper = value_get_as_int (argv[1]);
 
 	/* Rate or number of periods cannot be negative */
-	if ((rate < 0) || (nper <= 0))
+	if (rate < 0 || nper <= 0)
 		return value_new_error (ei->pos, _("effect - domain error"));
 
-        return value_new_float ( pow ( (1 + rate/nper) , nper) - 1 );
+        return value_new_float (pow ((1 + rate / nper), nper) - 1);
 }
 
 /***************************************************************************/
@@ -1011,7 +1008,7 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 	if (rate < 0 || nper <= 0)
 		return value_new_error (ei->pos, _("nominal - domain error"));
 
-        return value_new_float ( nper * ( pow ( 1 + rate, 1.0/nper ) - 1 ) );
+        return value_new_float (nper * (pow (1 + rate, 1.0 / nper ) - 1 ));
 
 }
 
@@ -1044,7 +1041,7 @@ gnumeric_ispmt (FunctionEvalInfo *ei, Value **argv)
 	if (per < 1 || per > nper)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	tmp = - pv * rate;
+	tmp = -pv * rate;
 
 	return value_new_float (tmp - (tmp / nper * per));
 }
@@ -1082,12 +1079,13 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 	period = value_get_as_float (argv[3]);
 	month = argv[4] ? value_get_as_float (argv[4]) : 12;
 
-	if (cost == 0 || life <= 0)
+	/* The third disjunct is a bit of a guess -- MW.  */
+	if (cost == 0 || life <= 0 || salvage / cost < 0)
 	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	rate = 1 - pow ((salvage / cost), (1 / life));
 	rate *= 1000;
-	rate = floor(rate+0.5) / 1000;
+	rate = floor (rate+0.5) / 1000;
 
 	total = cost * rate * month / 12;
 
@@ -1291,13 +1289,13 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 
 	tmp = fraction;
 	/* Count digits in fraction */
-	for (n=0; tmp; n++)
+	for (n = 0; tmp; n++)
 	        tmp /= 10;
 
 	floored = floor (fractional_dollar);
 	rest = fractional_dollar - floored;
 
-	return value_new_float (floored + ((gnum_float) rest * pow (10,n) /
+	return value_new_float (floored + ((gnum_float) rest * pow (10, n) /
 					   fraction));
 }
 
@@ -1333,13 +1331,13 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 
 	/* Count digits in fraction */
 	tmp = fraction;
-	for (n=0; tmp; n++)
+	for (n = 0; tmp; n++)
 	        tmp /= 10;
 
 	floored = floor (fractional_dollar);
 	rest = fractional_dollar - floored;
 
-	return value_new_float (floored + ((gnum_float) (rest*fraction) /
+	return value_new_float (floored + ((gnum_float) (rest * fraction) /
 					   pow (10, n)));
 }
 
@@ -2612,23 +2610,15 @@ static char *help_coupdaybs = {
 static Value *
 gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
 {
-        GDate   *settlement;
-        GDate   *maturity;
-        int     freq, basis;
-        int     days;
-
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-	if (argv[1]->type == VALUE_ERROR)
-		return value_duplicate (argv[1]);
+        GDate *settlement;
+        GDate *maturity;
+        int freq, basis;
+        int days;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity = datetime_value_to_g (argv[1]);
         freq = value_get_as_int (argv[2]);
-	if (argv[3] != NULL)
-	        basis = value_get_as_int (argv[3]);
-	else
-	        basis = 0;
+	basis = argv[3] ? value_get_as_int (argv[3]) : 0;
 
         if (settlement == NULL || maturity == NULL)
                 return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -2667,18 +2657,10 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
         int freq, basis;
         gnum_float days;
 
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-	if (argv[1]->type == VALUE_ERROR)
-		return value_duplicate (argv[1]);
-
         settlement = datetime_value_to_g (argv[0]);
         maturity = datetime_value_to_g (argv[1]);
         freq = value_get_as_int (argv[2]);
-	if (argv[3] != NULL)
-	        basis = value_get_as_int (argv[3]);
-	else
-	        basis = 0;
+	basis = argv[3] ? value_get_as_int (argv[3]) : 0;
 
         if (settlement == NULL || maturity == NULL)
                 return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -2737,18 +2719,10 @@ gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
         int     freq, basis;
 	Value   *v;
 
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-	if (argv[1]->type == VALUE_ERROR)
-		return value_duplicate (argv[1]);
-
         settlement = datetime_value_to_g (argv[0]);
         maturity = datetime_value_to_g (argv[1]);
         freq = value_get_as_int (argv[2]);
-	if (argv[3] != NULL)
-	        basis = value_get_as_int (argv[3]);
-	else
-	        basis = 0;
+	basis = argv[3] ? value_get_as_int (argv[3]) : 0;
 
         if (settlement == NULL || maturity == NULL)
                 return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -2804,18 +2778,10 @@ gnumeric_coupnum (FunctionEvalInfo *ei, Value **argv)
         int freq, basis;
         gnum_float n;
 
-	if (argv[0]->type == VALUE_ERROR)
-		return value_duplicate (argv[0]);
-	if (argv[1]->type == VALUE_ERROR)
-		return value_duplicate (argv[1]);
-
         settlement = datetime_value_to_g (argv[0]);
         maturity = datetime_value_to_g (argv[1]);
         freq = value_get_as_int (argv[2]);
-	if (argv[3] != NULL)
-	        basis = value_get_as_int (argv[3]);
-	else
-	        basis = 0;
+	basis = argv[3] ? value_get_as_int (argv[3]) : 0;
 
         if (settlement == NULL || maturity == NULL)
                 return value_new_error (ei->pos, gnumeric_err_VALUE);

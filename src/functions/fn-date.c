@@ -214,7 +214,7 @@ gnumeric_datedif (FunctionEvalInfo *ei, Value **argv)
 
 	date1 = floor (value_get_as_float (argv [0]));
 	date2 = floor (value_get_as_float (argv [1]));
-	opt = argv [2]->v_str.val->str;
+	opt = value_peek_string (argv[2]);
 
 	if (date1 > date2) {
 		return value_new_error (ei->pos, gnumeric_err_NUM);

@@ -126,9 +126,9 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 		int thisdigit;
 		thisdigit = fmod (v + 0.5, dest_base);
 		v = floor ((v + 0.5) / dest_base);
-		buffer [digit] = thisdigit ["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+		buffer[digit] = thisdigit["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 	}
-	buffer [max] = 0;
+	buffer[max] = 0;
 	return value_new_string (buffer);
 }
 
@@ -543,13 +543,13 @@ gnumeric_besselj (FunctionEvalInfo *ei, Value **argv)
 {
 	int x, y;
 
-	x = value_get_as_int (argv [0]);
-	y = value_get_as_int (argv [1]);
+	x = value_get_as_int (argv[0]);
+	y = value_get_as_int (argv[1]);
 
 	if (y < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (jn (y, value_get_as_float (argv [0])));
+	return value_new_float (jn (y, value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -585,10 +585,10 @@ gnumeric_bessely (FunctionEvalInfo *ei, Value **argv)
 	    argv[1]->type != VALUE_FLOAT)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	if ((y = value_get_as_int (argv [1])) < 0)
+	if ((y = value_get_as_int (argv[1])) < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (yn (y, value_get_as_float (argv [0])));
+	return value_new_float (yn (y, value_get_as_float (argv[0])));
 }
 
 /* Converts a complex number string into its coefficients.  Returns 0 if ok,
@@ -650,19 +650,14 @@ static Value *
 gnumeric_complex (FunctionEvalInfo *ei, Value **argv)
 {
 	complex_t c;
-	char *suffix;
+	const char *suffix;
 
 	complex_init (&c,
 		      value_get_as_float (argv[0]),
 		      value_get_as_float (argv[1]));
+	suffix = argv[2] ? value_peek_string (argv[2]) : "i";
 
-	if (argv[2] == NULL)
-	        suffix = "i";
-	else
-	        suffix = argv[2]->v_str.val->str;
-
-	if (strcmp(suffix, "i") != 0 &&
-	    strcmp(suffix, "j") != 0)
+	if (strcmp (suffix, "i") != 0 && strcmp (suffix, "j") != 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_complex (&c, *suffix);
@@ -690,10 +685,10 @@ gnumeric_imaginary (FunctionEvalInfo *ei, Value **argv)
 	complex_t c;
 	char imunit;
 
-	if (VALUE_IS_NUMBER (argv [0]))
+	if (VALUE_IS_NUMBER (argv[0]))
 	        return value_new_float (0.0);
 
-	if (value_get_as_complex (argv [0], &c, &imunit))
+	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (c.im);
@@ -721,10 +716,10 @@ gnumeric_imreal (FunctionEvalInfo *ei, Value **argv)
 	complex_t c;
 	char imunit;
 
-	if (VALUE_IS_NUMBER (argv [0]))
-		return value_duplicate (argv [0]);
+	if (VALUE_IS_NUMBER (argv[0]))
+		return value_duplicate (argv[0]);
 
-	if (value_get_as_complex (argv [0], &c, &imunit))
+	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (c.re);
@@ -752,10 +747,10 @@ gnumeric_imabs (FunctionEvalInfo *ei, Value **argv)
 	complex_t c;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &c, &imunit))
+	if (value_get_as_complex (argv[0], &c, &imunit))
 	  return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	if (argv [0]->type != VALUE_STRING)
+	if (argv[0]->type != VALUE_STRING)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (complex_mod (&c));
@@ -813,7 +808,7 @@ gnumeric_imcos (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &c, &imunit))
+	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_cos (&res, &c);
@@ -840,7 +835,7 @@ gnumeric_imtan (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &c, &imunit))
+	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_tan (&res, &c);
@@ -868,7 +863,7 @@ gnumeric_imexp (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &c, &imunit))
+	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_exp (&res, &c);
@@ -896,7 +891,7 @@ gnumeric_imargument (FunctionEvalInfo *ei, Value **argv)
 	complex_t c;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &c, &imunit))
+	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	return value_new_float (complex_angle (&c));
@@ -909,7 +904,7 @@ static char *help_imln = {
 	   "@SYNTAX=IMLN(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMLN returns the natural logarithm of a complex number. (The "
-	   "result will have an imaginary part between -pi an +pi.  The "
+	   "result will have an imaginary part between -pi and +pi.  The "
 	   "natural logarithm is not uniquely defined on complex numbers. "
 	   "You may need to add or subtract an even multiple of pi to the "
 	   "imaginary part.)\n"
@@ -927,7 +922,7 @@ gnumeric_imln (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &c, &imunit))
+	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_ln (&res, &c);
@@ -955,7 +950,7 @@ gnumeric_imlog2 (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &c, &imunit))
+	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_ln (&res, &c);
@@ -985,7 +980,7 @@ gnumeric_imlog10 (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &c, &imunit))
+	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_ln (&res, &c);
@@ -1017,10 +1012,10 @@ gnumeric_impower (FunctionEvalInfo *ei, Value **argv)
 	complex_t a, b, res;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &a, &imunit))
+	if (value_get_as_complex (argv[0], &a, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	if (value_get_as_complex (argv [1], &b, &imunit))
+	if (value_get_as_complex (argv[1], &b, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (complex_real_p (&a) && a.re <= 0  && !complex_real_p (&b))
@@ -1051,10 +1046,10 @@ gnumeric_imdiv (FunctionEvalInfo *ei, Value **argv)
 	complex_t a, b, res;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &a, &imunit))
+	if (value_get_as_complex (argv[0], &a, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	if (value_get_as_complex (argv [1], &b, &imunit))
+	if (value_get_as_complex (argv[1], &b, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (complex_zero_p (&b))
@@ -1085,7 +1080,7 @@ gnumeric_imsin (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &c, &imunit))
+	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_sin (&res, &c);
@@ -1113,7 +1108,7 @@ gnumeric_imsqrt (FunctionEvalInfo *ei, Value **argv)
 	complex_t c, res;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &c, &imunit))
+	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_sqrt (&res, &c);
@@ -1141,10 +1136,10 @@ gnumeric_imsub (FunctionEvalInfo *ei, Value **argv)
 	complex_t a, b, res;
 	char imunit;
 
-	if (value_get_as_complex (argv [0], &a, &imunit))
+	if (value_get_as_complex (argv[0], &a, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	if (value_get_as_complex (argv [1], &b, &imunit))
+	if (value_get_as_complex (argv[1], &b, &imunit))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	complex_sub (&res, &a, &b);
@@ -1357,36 +1352,37 @@ static char *help_convert = {
 };
 
 typedef struct {
-        char          *str;
-         gnum_float c;
+        char *str;
+	gnum_float c;
 } eng_convert_unit_t;
 
 
 static gnum_float
-get_constant_of_unit(eng_convert_unit_t units[],
-		     eng_convert_unit_t prefixes[],
-		     char *unit_name, gnum_float *c, gnum_float *prefix)
+get_constant_of_unit(const eng_convert_unit_t units[],
+		     const eng_convert_unit_t prefixes[],
+		     const char *unit_name,
+		     gnum_float *c, gnum_float *prefix)
 {
-        int     i;
+        int i;
 
 	*prefix = 1;
-	for (i=0; units[i].str != NULL; i++)
-	        if (strcmp(unit_name, units[i].str) == 0) {
+	for (i = 0; units[i].str != NULL; i++)
+	        if (strcmp (unit_name, units[i].str) == 0) {
 		        *c = units[i].c;
 			return 1;
 		}
 
 	if (prefixes != NULL)
-	        for (i=0; prefixes[i].str != NULL; i++)
-		        if (strncmp(unit_name, prefixes[i].str, 1) == 0) {
+	        for (i = 0; prefixes[i].str != NULL; i++)
+		        if (strncmp (unit_name, prefixes[i].str, 1) == 0) {
 			        *prefix = prefixes[i].c;
 				unit_name++;
 				break;
 			}
 
-	for (i = 0; units [i].str != NULL; i++)
-	        if (strcmp (unit_name, units [i].str) == 0) {
-		        *c = units [i].c;
+	for (i = 0; units[i].str != NULL; i++)
+	        if (strcmp (unit_name, units[i].str) == 0) {
+		        *c = units[i].c;
 			return 1;
 		}
 
@@ -1394,9 +1390,9 @@ get_constant_of_unit(eng_convert_unit_t units[],
 }
 
 static Value *
-convert (eng_convert_unit_t units[],
-	 eng_convert_unit_t prefixes[],
-	 char *from_unit, char *to_unit,
+convert (const eng_convert_unit_t units[],
+	 const eng_convert_unit_t prefixes[],
+	 const char *from_unit, const char *to_unit,
 	 gnum_float n, Value **v, const EvalPos *ep)
 {
         gnum_float from_c, from_prefix, to_c, to_prefix;
@@ -1408,10 +1404,10 @@ convert (eng_convert_unit_t units[],
 					   to_unit, &to_c, &to_prefix))
 			return value_new_error (ep, gnumeric_err_NUM);
 
-	        if ( (from_c == 0) || (to_prefix == 0) )
+	        if (from_c == 0 || to_prefix == 0)
 	                return value_new_error (ep, gnumeric_err_NUM);
 
-		*v = value_new_float (((n*from_prefix) / from_c) *
+		*v = value_new_float (((n * from_prefix) / from_c) *
 				 to_c / to_prefix);
 		return *v;
 	}
@@ -1468,7 +1464,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	#define one_T_to_ga     10000
 
 	/* Temperature constants */
-	#define one_C_to_K      274.15
+	#define C_K_offset      273.15
 
 	/* Liquid measure constants */
 	#define one_tsp_to_tbs  0.33333333333
@@ -1497,7 +1493,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	#define femto  1e-15
 	#define atto   1e-18
 
-	static eng_convert_unit_t weight_units[] = {
+	static const eng_convert_unit_t weight_units[] = {
 	        { "g",    1.0 },
 		{ "sg",   one_g_to_sg, },
 		{ "lbm",  one_g_to_lbm },
@@ -1506,7 +1502,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 		{ NULL,   0.0 }
 	};
 
-	static eng_convert_unit_t distance_units[] = {
+	static const eng_convert_unit_t distance_units[] = {
 	        { "m",    1.0 },
 		{ "mi",   one_m_to_mi },
 		{ "Nmi",  one_m_to_Nmi },
@@ -1518,7 +1514,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 		{ NULL,   0.0 }
 	};
 
-	static eng_convert_unit_t time_units[] = {
+	static const eng_convert_unit_t time_units[] = {
 	        { "yr",   1.0 },
 		{ "day",  one_yr_to_day },
 		{ "hr",   one_yr_to_hr },
@@ -1527,21 +1523,21 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 		{ NULL,   0.0 }
 	};
 
-	static eng_convert_unit_t pressure_units[] = {
+	static const eng_convert_unit_t pressure_units[] = {
 	        { "Pa",   1.0 },
 		{ "atm",  one_Pa_to_atm },
 		{ "mmHg", one_Pa_to_mmHg },
 		{ NULL,   0.0 }
 	};
 
-	static eng_convert_unit_t force_units[] = {
+	static const eng_convert_unit_t force_units[] = {
 	        { "N",    1.0 },
 		{ "dyn",  one_N_to_dyn },
 		{ "lbf",  one_N_to_lbf },
 		{ NULL,   0.0 }
 	};
 
-	static eng_convert_unit_t energy_units[] = {
+	static const eng_convert_unit_t energy_units[] = {
 	        { "J",    1.0 },
 		{ "e",    one_J_to_e },
 		{ "c",    one_J_to_c },
@@ -1554,19 +1550,19 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 		{ NULL,   0.0 }
 	};
 
-	static eng_convert_unit_t power_units[] = {
+	static const eng_convert_unit_t power_units[] = {
 	        { "HP",   1.0 },
 		{ "W",    one_HP_to_W },
 		{ NULL,   0.0 }
 	};
 
-	static eng_convert_unit_t magnetism_units[] = {
+	static const eng_convert_unit_t magnetism_units[] = {
 	        { "T",    1.0 },
 		{ "ga",   one_T_to_ga },
 		{ NULL,   0.0 }
 	};
 
-	static eng_convert_unit_t liquid_units[] = {
+	static const eng_convert_unit_t liquid_units[] = {
 	        { "tsp",  1.0 },
 		{ "tbs",  one_tsp_to_tbs },
 		{ "oz",   one_tsp_to_oz },
@@ -1578,7 +1574,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 		{ NULL,   0.0 }
 	};
 
-	static eng_convert_unit_t prefixes[] = {
+	static const eng_convert_unit_t prefixes[] = {
 	        { "E", exa },
 	        { "P", peta },
 	        { "T", tera },
@@ -1599,56 +1595,56 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	};
 
 	gnum_float n;
-	char    *from_unit, *to_unit;
-	Value   *v;
+	const char *from_unit, *to_unit;
+	Value *v;
 
-	n = value_get_as_float (argv [0]);
-	from_unit = argv [1]->v_str.val->str;
-	to_unit = argv [2]->v_str.val->str;
+	n = value_get_as_float (argv[0]);
+	from_unit = value_peek_string (argv[1]);
+	to_unit = value_peek_string (argv[2]);
 
-	if (strcmp(from_unit, "C") == 0 && strcmp(to_unit, "F") == 0)
-	        return value_new_float (1.8*n+32);
-	else if (strcmp(from_unit, "F") == 0 && strcmp(to_unit, "C") == 0)
-	        return value_new_float ((n-32)/1.8);
-	else if (strcmp(from_unit, "F") == 0 && strcmp(to_unit, "F") == 0)
+	if (strcmp (from_unit, "C") == 0 && strcmp (to_unit, "F") == 0)
+	        return value_new_float (1.8 * n + 32);
+	else if (strcmp (from_unit, "F") == 0 && strcmp (to_unit, "C") == 0)
+	        return value_new_float ((n - 32) / 1.8);
+	else if (strcmp (from_unit, "F") == 0 && strcmp (to_unit, "F") == 0)
 	        return value_new_float (n);
-	else if (strcmp(from_unit, "F") == 0 && strcmp(to_unit, "K") == 0)
-	        return value_new_float ((n-32)/1.8 + one_C_to_K-1);
-	else if (strcmp(from_unit, "K") == 0 && strcmp(to_unit, "F") == 0)
-	        return value_new_float (1.8*(n-one_C_to_K+1)+32);
-	else if (strcmp(from_unit, "C") == 0 && strcmp(to_unit, "K") == 0)
-	        return value_new_float (n + one_C_to_K-1);
-	else if (strcmp(from_unit, "K") == 0 && strcmp(to_unit, "C") == 0)
-	        return value_new_float (n - one_C_to_K+1);
+	else if (strcmp (from_unit, "F") == 0 && strcmp (to_unit, "K") == 0)
+	        return value_new_float ((n - 32) / 1.8 + C_K_offset);
+	else if (strcmp (from_unit, "K") == 0 && strcmp (to_unit, "F") == 0)
+	        return value_new_float (1.8 * (n - C_K_offset) + 32);
+	else if (strcmp (from_unit, "C") == 0 && strcmp (to_unit, "K") == 0)
+	        return value_new_float (n + C_K_offset);
+	else if (strcmp (from_unit, "K") == 0 && strcmp (to_unit, "C") == 0)
+	        return value_new_float (n - C_K_offset);
 
-	if (convert(weight_units, prefixes, from_unit, to_unit, n, &v,
+	if (convert (weight_units, prefixes, from_unit, to_unit, n, &v,
 		    ei->pos))
 	        return v;
-	if (convert(distance_units, prefixes, from_unit, to_unit, n, &v,
+	if (convert (distance_units, prefixes, from_unit, to_unit, n, &v,
 		    ei->pos))
 	        return v;
-	if (convert(time_units, NULL, from_unit, to_unit, n, &v,
+	if (convert (time_units, NULL, from_unit, to_unit, n, &v,
 		    ei->pos))
 	        return v;
-	if (convert(pressure_units, prefixes, from_unit, to_unit, n, &v,
+	if (convert (pressure_units, prefixes, from_unit, to_unit, n, &v,
 		    ei->pos))
 	        return v;
-	if (convert(force_units, prefixes, from_unit, to_unit, n, &v,
+	if (convert (force_units, prefixes, from_unit, to_unit, n, &v,
 		    ei->pos))
 	        return v;
-	if (convert(energy_units, prefixes, from_unit, to_unit, n, &v,
+	if (convert (energy_units, prefixes, from_unit, to_unit, n, &v,
 		    ei->pos))
 	        return v;
-	if (convert(power_units, prefixes, from_unit, to_unit, n, &v,
+	if (convert (power_units, prefixes, from_unit, to_unit, n, &v,
 		    ei->pos))
 	        return v;
-	if (convert(magnetism_units, prefixes, from_unit, to_unit, n, &v,
+	if (convert (magnetism_units, prefixes, from_unit, to_unit, n, &v,
 		    ei->pos))
 	        return v;
-	if (convert(liquid_units, prefixes, from_unit, to_unit, n, &v,
+	if (convert (liquid_units, prefixes, from_unit, to_unit, n, &v,
 		    ei->pos))
 	        return v;
-	if (convert(magnetism_units, prefixes, from_unit, to_unit, n, &v,
+	if (convert (magnetism_units, prefixes, from_unit, to_unit, n, &v,
 		    ei->pos))
 	        return v;
 
@@ -1690,14 +1686,13 @@ gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
 {
 	gnum_float ans, lower, upper=0.0;
 
-	lower = value_get_as_float (argv [0]);
+	lower = value_get_as_float (argv[0]);
 	ans = erf(lower);
 
-	if (argv [1])
-	  {
-	    upper = value_get_as_float (argv [1]);
-	    ans = erf(upper) - ans;
-	  }
+	if (argv[1]) {
+		upper = value_get_as_float (argv[1]);
+		ans = erf (upper) - ans;
+	}
 
 	return value_new_float (ans);
 }
@@ -1709,9 +1704,9 @@ static char *help_erfc = {
 	   "@SYNTAX=ERFC(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ERFC function returns the complimentary "
+	   "The ERFC function returns the complementary "
 	   "error function, defined as 1 - erf(x). "
-	   "erfc(x) is calculated more accurately than erf(x) for "
+	   "erfc(x) is calculated more accurately than 1 - erf(x) for "
 	   "arguments larger than about 0.5."
 	   "\n"
 	   "If @x is not numeric a #VALUE! error is returned.  "
@@ -1727,7 +1722,7 @@ gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
 {
 	gnum_float x;
 
-	x=value_get_as_float (argv [0]);
+	x = value_get_as_float (argv[0]);
 
 	return value_new_float (erfc (x));
 }
@@ -1739,8 +1734,8 @@ static char *help_delta = {
 	   "@SYNTAX=DELTA(x[,y])\n"
 
 	   "@DESCRIPTION="
-	   "DELTA function test for numerical equivilance of two "
-	   "arguments returning 1 in equality "
+	   "The DELTA function tests for numerical equivalence of two "
+	   "arguments returning 1 in case of equality.  "
 	   "@y is optional, and defaults to 0."
 	   "\n"
 	   "If either argument is non-numeric returns a #VALUE! error. "
@@ -1760,9 +1755,9 @@ gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
 	gboolean ans = FALSE;
 	Value *vx, *vy;
 
-	vx = argv [0];
-	if (argv [1])
-		vy = argv [1];
+	vx = argv[0];
+	if (argv[1])
+		vy = argv[1];
 	else
 		vy = value_new_int (0);
 
@@ -1774,15 +1769,15 @@ gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
 		break;
 	case VALUE_EMPTY:
 	case VALUE_INTEGER:
-		ans = value_get_as_int(vx) == value_get_as_int(vy);
+		ans = value_get_as_int (vx) == value_get_as_int (vy);
 		break;
 	case VALUE_FLOAT:
-		ans = value_get_as_float(vx) == value_get_as_float(vy);
+		ans = value_get_as_float (vx) == value_get_as_float (vy);
 		break;
 	default:
 		err = value_new_error (ei->pos, _("Impossible"));
 	}
-	if (!argv [1])
+	if (!argv[1])
 		value_release (vy);
 
 	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);
@@ -1814,9 +1809,9 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 	gboolean ans = FALSE;
 	Value *vx, *vy;
 
-	vx = argv [0];
-	if (argv [1])
-		vy = argv [1];
+	vx = argv[0];
+	if (argv[1])
+		vy = argv[1];
 	else
 		vy = value_new_int (0);
 
@@ -1828,16 +1823,16 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 		break;
 	case VALUE_EMPTY:
 	case VALUE_INTEGER:
-		ans = value_get_as_int(vx) >= value_get_as_int(vy);
+		ans = value_get_as_int (vx) >= value_get_as_int (vy);
 		break;
 	case VALUE_FLOAT:
-		ans = value_get_as_float(vx) >= value_get_as_float(vy);
+		ans = value_get_as_float (vx) >= value_get_as_float (vy);
 		break;
 	default:
 		err = value_new_error (ei->pos, _("Impossible"));
 	}
 
-	if (!argv [1])
+	if (!argv[1])
 		value_release (vy);
 	return (err != NULL) ? err : value_new_int (ans ? 1 : 0);
 }

@@ -166,7 +166,7 @@ retrieve_format_info (Sheet *sheet, int col, int row)
 static Value *
 gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 {
-	char *info_type = argv [0]->v_str.val->str;
+	const char *info_type = value_peek_string (argv[0]);
 	CellRef ref = argv [1]->v_range.cell.a;
 	
 	if (!g_strcasecmp(info_type, "address")) {
@@ -309,7 +309,7 @@ static char *help_info = {
 static Value *
 gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 {
-	char const * const info_type = argv [0]->v_str.val->str;
+	char const * const info_type = value_peek_string (argv[0]);
 	if (!g_strcasecmp (info_type, "directory")) {
 		/* Path of the current directory or folder.  */
 		return value_new_error (ei->pos, _("Unimplemented"));
@@ -583,10 +583,7 @@ static char *help_error = {
 static Value *
 gnumeric_error (FunctionEvalInfo *ei, Value *argv[])
 {
-	if (argv [0]->type != VALUE_STRING)
-		return value_new_error (ei->pos, _("Type mismatch"));
-
-	return value_new_error (ei->pos, argv [0]->v_str.val->str);
+	return value_new_error (ei->pos, value_peek_string (argv[0]));
 }
 
 /***************************************************************************/
@@ -847,7 +844,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 	if (argv[0]->type != VALUE_STRING)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	str = argv[0]->v_str.val->str;
+	str = value_peek_string (argv[0]);
 	if (NULL != (v = format_match (str, NULL, NULL)))
 		return v;
 	return value_new_float (0);

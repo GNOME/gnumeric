@@ -1,3 +1,22 @@
+2001-05-29  Morten Welinder  <terra@diku.dk>
+
+	* fn-information.c (gnumeric_cell, gnumeric_info, gnumeric_error,
+ 	gnumeric_n): Use value_peek_string.
+
+	* fn-financial.c (gnumeric_coupdaybs, gnumeric_coupdays,
+ 	gnumeric_coupncd, gnumeric_coupnum): Remove mysterious and
+ 	unnecessary references to VALUE_ERROR.
+	(gnumeric_db): Improve error checking.
+
+	* fn-eng.c (gnumeric_complex): Fix using value_peek_string.
+	(gnumeric_convert): Get rid of one_C_to_K and introduce
+ 	C_K_offset.  Fix using value_peek_string.
+	(get_constant_of_unit): Constify.
+	(convert): Constify.
+	(help_erfc): complement, not compliment, :-)
+
+	* fn-date.c (gnumeric_datedif): Use value_peek_string.
+
 2001-05-29  Jody Goldberg <jgoldberg@home.com>
 
 	* fn-stat.c (gnumeric_mode) : Handle errors.

@@ -16,6 +16,7 @@ Juan Pablo Mendoza:
 
 Morten:
 	* Fix PV.
+	* Applied some much-needed TLC to fn-financial.c and fn-eng.c.
 
 Zbigniew:
 	* More work on plugin system.
