@@ -6,7 +6,7 @@ Jody:
 	* Support non-assisted CSV export for ssconvert
 
 Rodrigo:
-	* Bumped requirement to libgda/libgnomedb 1.0.1
+	* Bump requirement to libgda/libgnomedb 1.0.1
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.1
