@@ -383,7 +383,9 @@ micro_hash_remove (MicroHash *hash_table, gpointer key)
 
 	for (; *head != NULL ; head = &((*head)->next))
 		if ((*head)->data == key) {
-			*head = (*head)->next;
+			GSList *next = (*head)->next;
+			g_slist_free_1 (*head);
+			*head = next;
 			hash_table->num_elements--;
 			MICRO_HASH_RESIZE (hash_table);
 			return;

@@ -1,3 +1,7 @@
+2002-09-19  Morten Welinder  <terra@diku.dk>
+
+	* src/dependent.c (micro_hash_remove): Plug leak.
+
 2002-09-17  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/plugin-loader-module.c
