@@ -207,6 +207,8 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int column, int modifiers, 
 {	
 	Sheet *sheet = sheet_view->sheet;
 	
+	sheet_col_get (sheet, column);
+	
 	if (modifiers){
 		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
 			SheetSelection *ss = sheet->selections->data;
@@ -258,6 +260,8 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, She
 {
 	Sheet *sheet = sheet_view->sheet;
 
+	sheet_row_get (sheet, row);
+	
 	if (modifiers){
 		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
 			SheetSelection *ss = sheet->selections->data;
@@ -296,7 +300,7 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *
 		for (l = sheet->rows_info; l; l = l->next){
 			ColRowInfo *ri = l->data;
 			
-			if (sheet_col_selection_type (sheet, ri->pos) == ITEM_BAR_FULL_SELECTION)
+			if (sheet_row_selection_type (sheet, ri->pos) == ITEM_BAR_FULL_SELECTION)
 					sheet_row_set_height (sheet, ri->pos, height, TRUE);
 			
 		}
