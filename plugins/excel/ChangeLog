@@ -1,5 +1,36 @@
 2001-09-26  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-escher.c (ms_escher_parse) : call ms_escher_header_release.
+	(ms_escher_read_container) : ditto.
+	(ms_escher_header_release) : new to handle attrs.
+	(ms_escher_header_add_attr) : ditto.
+	(ms_escher_read_ClientData) : pass the attributes to the object
+	  and move the blip handing to the container.
+
+	* ms-obj.c (ms_object_attr_new_flag) : new.
+	(ms_object_attr_new_int) : new.
+	(ms_object_attr_new_ptr) : new.
+	(ms_object_attr_destroy) : new.
+	(ms_object_attr_bag_new) : ditto.
+	(ms_object_attr_bag_destroy) : ditto.
+	(ms_object_attr_bag_insert) : ditto.
+	(ms_object_attr_bag_lookup) : ditto.
+
+	* ms-excel-read.c (ms_excel_read_workbook) : interface change to
+	  ms_read_OBJ.
+	(ms_excel_read_sheet) : ditto.
+	(ms_sheet_create_obj) : move the blip handing from escher to here.
+
+2001-09-26  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (ms_read_OBJ) : Init the inversion flags.
+
+	* ms-escher.c (ms_escher_read_Sp) : store the inversion flags.
+	(ms_escher_read_ClientData) : copy the inversion flags.
+	(ms_escher_init_heade) : init the inversion flags.
+
+2001-09-26  Jody Goldberg <jgoldberg@home.com>
+
 	* ms-excel-xf.h (_BiffXFData) : locked and hidden are booleans.
 	* ms-excel-read.c (biff_xf_data_new) : read them that way.
 	(ms_excel_get_style_from_xf) : store the protection flags.

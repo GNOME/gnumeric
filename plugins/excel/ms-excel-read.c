@@ -2039,7 +2039,7 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 		int const pos  = MS_OLE_GET_GUINT16 (raw_anchor);
 		int const nths = MS_OLE_GET_GUINT16 (raw_anchor + 2);
 
-		d (1, {
+		d (2, {
 			printf ("%d/%d cell %s from ",
 				nths, (i & 1) ? 256 : 1024,
 				(i & 1) ? "heights" : "widths");
@@ -2073,20 +2073,22 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	float offsets[4];
 	Range range;
 	ExcelSheet *esheet;
+	MSObjAttr *anchor;
 
 	if (obj == NULL)
 		return TRUE;
 
 	g_return_val_if_fail (container != NULL, TRUE);
-	if (!obj->anchor_set) {
-		printf ("MISSING anchor for obj 0x%p\n", obj);
+	esheet = (ExcelSheet *)container;
+
+	anchor = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_ANCHOR);
+	if (anchor == NULL) {
+		printf ("MISSING anchor for obj %p\n", obj);
 		return TRUE;
 	}
 
-	esheet = (ExcelSheet *)container;
-
 	if (ms_sheet_obj_anchor_to_pos (esheet->gnum_sheet, container->ver,
-					obj->raw_anchor, &range, offsets))
+					anchor->v.v_ptr, &range, offsets))
 		return TRUE;
 
 	if (obj->gnum_obj != NULL) {
@@ -2096,10 +2098,15 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
 			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
 		};
+		MSObjAttr *flip_h = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_H);
+		MSObjAttr *flip_v = ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_V);
+		SheetObjectDirection direction =
+			((flip_h == NULL) ? SO_DIR_RIGHT : 0) |
+			((flip_v == NULL) ? SO_DIR_DOWN : 0);
 		SheetObjectAnchor anchor;
 		sheet_object_anchor_init (&anchor, &range,
 					  offsets, anchor_types,
-					  SO_DIR_DOWN_RIGHT);
+					  direction);
 		sheet_object_anchor_set (SHEET_OBJECT (obj->gnum_obj),
 					 &anchor);
 		sheet_object_set_sheet (SHEET_OBJECT (obj->gnum_obj),
@@ -2125,36 +2132,83 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	sheet = esheet->gnum_sheet;
 
 	switch (obj->excel_type) {
-	case 0x01: so = sheet_object_line_new (FALSE); break; /* Line */
-	case 0x02: so = sheet_object_box_new (FALSE);  break; /* Box */
-	case 0x03: so = sheet_object_box_new (TRUE);   break; /* Oval */
+	case 0x01: { /* Line */
+		MSObjAttr *is_arrow = ms_object_attr_bag_lookup (obj->attrs,
+			MS_OBJ_ATTR_ARROW_END);
+		so = sheet_object_line_new (is_arrow != NULL); break;
+		break;
+	}
+	case 0x02:
+	case 0x03: { /* Box or Oval */
+		so = sheet_object_box_new (obj->excel_type == 3);
+		if (NULL == ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
+			sheet_object_graphic_fill_color_set (so, NULL);
+		break;
+	}
+
 	case 0x05: { /* Chart */
 #ifdef ENABLE_BONOBO
-		   so = SHEET_OBJECT (gnm_graph_new (sheet->workbook));
+		so = SHEET_OBJECT (gnm_graph_new (sheet->workbook));
 #else
-		   so = sheet_object_box_new (FALSE);  /* placeholder */
-		   if (esheet->wb->warn_unsupported_graphs) {
-			   /* TODO : Use IOContext when available */
-			   esheet->wb->warn_unsupported_graphs = FALSE;
-			   g_warning ("Images are not supported in non-bonobo version");
-		   }
+		so = sheet_object_box_new (FALSE);  /* placeholder */
+		if (esheet->wb->warn_unsupported_graphs) {
+			/* TODO : Use IOContext when available */
+			esheet->wb->warn_unsupported_graphs = FALSE;
+			g_warning ("Images are not supported in non-bonobo version");
+		}
 #endif
-		   break;
+		break;
 	}
 	case 0x06: so = sheet_widget_label_new (sheet);    break; /* TextBox */
 	case 0x07: so = sheet_widget_button_new (sheet);   break; /* Button */
 	case 0x08: { /* Picture */
 #ifdef ENABLE_BONOBO
-		   so = sheet_object_container_new (sheet->workbook);
+		MSObjAttr *blip_id = ms_object_attr_bag_lookup (obj->attrs,
+			MS_OBJ_ATTR_BLIP_ID);
+
+		if (blip_id != NULL) {
+			MSEscherBlip const *blip =
+				ms_container_get_blip (container, blip_id->v.v_int);
+
+			if (blip != NULL) {
+				SheetObjectBonobo *sob;
+
+				so = sheet_object_container_new (sheet->workbook);
+				sob = SHEET_OBJECT_BONOBO (so);
+
+				if (sheet_object_bonobo_set_object_iid (sob, blip->obj_id)) {
+					CORBA_Environment ev;
+
+					CORBA_exception_init (&ev);
+					sheet_object_bonobo_load_persist_stream (
+						sob, blip->stream, &ev);
+					if (ev._major != CORBA_NO_EXCEPTION) {
+						g_warning ("Failed to load '%s' from "
+							   "stream: %s", blip->obj_id,
+							   bonobo_exception_get_text (&ev));
+						gtk_object_unref (GTK_OBJECT (so));
+						so = NULL;
+					}
+					CORBA_exception_free (&ev);
+				} else {
+					g_warning ("Could not set object iid '%s'!",
+						   blip->obj_id);
+					gtk_object_unref (GTK_OBJECT (so));
+					so = NULL;
+				}
+			}
+		}
 #else
-		   so = sheet_object_box_new (FALSE);  /* placeholder */
-		   if (esheet->wb->warn_unsupported_images) {
-			   /* TODO : Use IOContext when available */
-			   esheet->wb->warn_unsupported_graphs = FALSE;
-			   g_warning ("Images are not supported in non-bonobo version");
-		   }
+		if (esheet->wb->warn_unsupported_images) {
+			/* TODO : Use IOContext when available */
+			esheet->wb->warn_unsupported_images = FALSE;
+			g_warning ("Images are not supported in non-bonobo version");
+		}
 #endif
-		   break;
+		/* replace blips we don't know how to handle with rectangles */
+		if (so == NULL)
+			so = sheet_object_box_new (FALSE);  /* placeholder */
+		break;
 	}
 	case 0x0B: so = sheet_widget_checkbox_new (sheet); break; /* CheckBox*/
 	case 0x0C: so = sheet_widget_radio_button_new (sheet); break; /* OptionButton */
@@ -3700,7 +3754,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			ms_read_OBJ (q, sheet_container (esheet));
+			ms_read_OBJ (q, sheet_container (esheet), NULL);
 			break;
 
 		case BIFF_SAVERECALC:
@@ -4393,7 +4447,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			ms_read_OBJ (q, &wb->container);
+			ms_read_OBJ (q, &wb->container, NULL);
 			break;
 
 		case BIFF_SCL:

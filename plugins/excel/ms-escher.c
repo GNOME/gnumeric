@@ -1,14 +1,25 @@
-/**
+/*
  * ms-escher.c: MS Office drawing layer support
  *
- * Author:
- *    Jody Goldberg (jgoldberg@home.com)
- *    Michael Meeks (michael@nuclecu.unam.mx)
+ * Copyright (C) 2000-2001
+ *	Jody Goldberg (jgoldberg@home.com)
+ *	Michael Meeks (mmeeks@gnu.org)
  *
- * (C) 1998, 1999, 2000 Jody Goldberg, Michael Meeks
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
  *
- * See S59FD6.HTM for an overview...
- **/
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
 
 #include <stdio.h>
 
@@ -51,12 +62,34 @@ typedef struct _MSEscherHeader
 	gint32	offset;
 	struct _MSEscherHeader *container;
 
-	/* TODO : decide were to put these cause they dont belong here */
-	gboolean     anchor_set;
-	guint8	raw_anchor[MS_ANCHOR_SIZE];
-	int blip_id;
+	MSObjAttrBag *attrs;
 } MSEscherHeader;
 #define common_header_len 8
+
+/* NOTE : this does not init h->container or h->offset */
+static void
+ms_escher_header_init (MSEscherHeader *h)
+{
+	h->ver = h->instance = h->fbt = h->len = 0;
+	h->attrs = NULL;
+}
+
+static void
+ms_escher_header_release (MSEscherHeader *h)
+{
+	if (h->attrs != NULL) {
+		ms_object_attr_bag_destroy (h->attrs);
+		h->attrs = NULL;
+	}
+}
+
+static void
+ms_escher_header_add_attr (MSEscherHeader *h, MSObjAttr *attr)
+{
+	if (h->attrs == NULL)
+		h->attrs = ms_object_attr_bag_new ();
+	ms_object_attr_bag_insert (h->attrs, attr);
+}
 
 static MSEscherBlip *
 ms_escher_blip_new (guint8 const *data, guint32 len, char const *repoid)
@@ -66,7 +99,7 @@ ms_escher_blip_new (guint8 const *data, guint32 len, char const *repoid)
 #ifdef ENABLE_BONOBO
 	blip->stream   = bonobo_stream_mem_create (data, len, TRUE, FALSE);
 #else
-	guint8 *mem      = g_malloc (len);
+	guint8 *mem = g_malloc (len);
 	memcpy (mem, data, len);
 	blip->raw_data = mem;
 #endif
@@ -614,25 +647,31 @@ ms_escher_read_Sp (MSEscherState * state, MSEscherHeader * h)
 				    common_header_len, &needs_free);
 
 	if (data != NULL) {
-	    guint32 const spid  = MS_OLE_GET_GUINT32 (data+0);
-	    guint32 const flags = MS_OLE_GET_GUINT32 (data+4);
+		guint32 const spid  = MS_OLE_GET_GUINT32 (data+0);
+		guint32 const flags = MS_OLE_GET_GUINT32 (data+4);
 #ifndef NO_DEBUG_EXCEL
-	    if (ms_excel_escher_debug > 0)
-		    printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n",
-			    spid, h->instance,
-			    (flags&0x01) ? " Group": "",
-			    (flags&0x02) ? " Child": "",
-			    (flags&0x04) ? " Patriarch": "",
-			    (flags&0x08) ? " Deleted": "",
-			    (flags&0x10) ? " OleShape": "",
-			    (flags&0x20) ? " HaveMaster": "",
-			    (flags&0x40) ? " FlipH": "",
-			    (flags&0x80) ? " FlipV": "",
-			    (flags&0x100) ? " Connector":"",
-			    (flags&0x200) ? " HasAnchor": "",
-			    (flags&0x400) ? " TypeProp": ""
-			   );
+		if (ms_excel_escher_debug > 0)
+			printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n",
+				spid, h->instance,
+				(flags&0x01) ? " Group": "",
+				(flags&0x02) ? " Child": "",
+				(flags&0x04) ? " Patriarch": "",
+				(flags&0x08) ? " Deleted": "",
+				(flags&0x10) ? " OleShape": "",
+				(flags&0x20) ? " HaveMaster": "",
+				(flags&0x40) ? " FlipH": "",
+				(flags&0x80) ? " FlipV": "",
+				(flags&0x100) ? " Connector":"",
+				(flags&0x200) ? " HasAnchor": "",
+				(flags&0x400) ? " TypeProp": ""
+			       );
 #endif
+		if (flags & 0x40)
+			ms_escher_header_add_attr (h,
+				ms_object_attr_new_flag (MS_OBJ_ATTR_FLIP_H));
+		if (flags & 0x80)
+			ms_escher_header_add_attr (h,
+				ms_object_attr_new_flag (MS_OBJ_ATTR_FLIP_V));
 	} else
 		return TRUE;
 
@@ -670,15 +709,19 @@ ms_escher_read_ClientAnchor (MSEscherState *state, MSEscherHeader *h)
 	gboolean needs_free;
 	guint8 const *data;
 
-	g_return_val_if_fail (!h->anchor_set, TRUE);
 	g_return_val_if_fail (state != NULL, TRUE);
 	g_return_val_if_fail (state->container != NULL, TRUE);
 
 	data = ms_escher_get_data (state, h->offset, MS_ANCHOR_SIZE,
 				   common_header_len, &needs_free);
 	if (data) {
-		h->anchor_set = TRUE;
-		memcpy (h->raw_anchor, data, MS_ANCHOR_SIZE);
+		guint8 *anchor = g_malloc (MS_ANCHOR_SIZE);
+		memcpy (anchor, data, MS_ANCHOR_SIZE);
+
+		ms_escher_header_add_attr (h, 
+			ms_object_attr_new_ptr (MS_OBJ_ATTR_ANCHOR,
+						anchor));
+
 		if (needs_free)
 			g_free ((guint8 *)data);
 		return FALSE;
@@ -1204,10 +1247,14 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 257 : name = "fixed16_16 cropFromBottom"; break;
 		case 258 : name = "fixed16_16 cropFromLeft"; break;
 		case 259 : name = "fixed16_16 cropFromRight"; break;
+
 		/* NULL : Blip to display */
-		case 260 : name = "Blip * pib";
-			   h->blip_id = (int)val - 1;
+		case 260 : ms_escher_header_add_attr (h, 
+				ms_object_attr_new_int (MS_OBJ_ATTR_BLIP_ID,
+				(int)val - 1));
+			   name = "Blip * pib";
 			   break;
+
 		/* NULL : Blip file name */
 		case 261 : name = "wchar * pibName"; break;
 		/* What are BlipFlags ? */
@@ -1299,7 +1346,8 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* Solid : Type of fill */
 		case 384 : name = "FillType fillType"; break;
 		/* white : Foreground color */
-		case 385 : name = "Colour fillColor"; break;
+		case 385 :
+			   name = "Colour fillColor"; break;
 		/* 1<<16 : Fixed 16.16 */
 		case 386 : name = "long fillOpacity"; break;
 		/* white : Background color */
@@ -1365,7 +1413,18 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* FALSE : Use the large rect? */
 		case 446 : name = "bool fillUseRect"; break;
 		/* FALSE : Hit test a shape as though filled */
-		case 447 : name = "bool fNoFillHitTest"; break;
+		case 447 :
+			/* NOTE : This test is somewhat questionable.
+			 * The docs say this is a bool but I have seen
+			 * 0x110000	not filled
+			 * 0x110010	filled
+			 * 0x010000	filled
+			 */
+			if (val & 0x10)
+				ms_escher_header_add_attr (h, 
+					ms_object_attr_new_flag (MS_OBJ_ATTR_FILLED));
+			name = "bool fNoFillHitTest";
+			break;
 
 	/* LineStyle */
 		/* black : Color of line */
@@ -1401,9 +1460,15 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* NULL : As Win32 ExtCreatePen */
 		case 463 : name = "IMsoArray lineDashStyle"; break;
 		/* NoEnd : Arrow at start */
-		case 464 : name = "LineEndStyle lineStartArrowhead"; break;
+		case 464 : ms_escher_header_add_attr (h, 
+				ms_object_attr_new_flag (MS_OBJ_ATTR_ARROW_START));
+			   name = "LineEndStyle lineStartArrowhead";
+			   break;
 		/* NoEnd : Arrow at end */
-		case 465 : name = "LineEndStyle lineEndArrowhead"; break;
+		case 465 : ms_escher_header_add_attr (h, 
+				ms_object_attr_new_flag (MS_OBJ_ATTR_ARROW_END));
+			   name = "LineEndStyle lineEndArrowhead";
+			   break;
 		/* MediumWidthArrow : Arrow at start */
 		case 466 : name = "ArrowWidth lineStartArrowWidth"; break;
 		/* MediumLenArrow : Arrow at end */
@@ -1745,7 +1810,6 @@ static gboolean
 ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 {
 	guint16 opcode;
-	MSObj  *obj;
 	int has_next_record;
 
 	g_return_val_if_fail (h->len == common_header_len, TRUE);
@@ -1758,68 +1822,14 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 	has_next_record = ms_biff_query_next (state->q);
 	g_return_val_if_fail (has_next_record, TRUE);
 
-	obj = ms_read_OBJ (state->q, state->container);
-
-	if (obj == NULL)
-		return FALSE;
-
-	/* We should have an anchor set by now */
-	g_return_val_if_fail (h->anchor_set, FALSE);
-	g_return_val_if_fail (!obj->anchor_set, FALSE);
-
-	memcpy (obj->raw_anchor, h->raw_anchor, MS_ANCHOR_SIZE);
-	obj->anchor_set = TRUE;
-
-	/* FIXME : I do not like having this here.
-	 * If we ever want to split the escher handling out this is too
-	 * gnumeric specific
-	 */
-#ifdef ENABLE_BONOBO
-	if (h->blip_id >= 0) {
-		SheetObjectBonobo *sob = SHEET_OBJECT_BONOBO (obj->gnum_obj);
-		MSEscherBlip const *blip = ms_container_get_blip (
-			state->container, h->blip_id);
-
-		g_return_val_if_fail (sob != NULL, FALSE);
-
-		/* replace blips we don't know how to handle with rectangles */
-		if (blip == NULL) {
-			gtk_object_unref (obj->gnum_obj);
-			obj->gnum_obj = GTK_OBJECT (sheet_object_box_new (FALSE));
-		} else {
-			if (!sheet_object_bonobo_set_object_iid (sob, blip->obj_id)) {
-				g_warning ("Could not set object iid '%s'!",
-					   blip->obj_id);
-			} else {
-				CORBA_Environment ev;
-
-				CORBA_exception_init (&ev);
-				sheet_object_bonobo_load_persist_stream (
-							sob, blip->stream, &ev);
-				if (BONOBO_EX (&ev)) {
-					g_warning ("Failed to load '%s' from "
-						   "stream: %s", blip->obj_id,
-						   bonobo_exception_get_text (&ev));
-				}
-				CORBA_exception_free (&ev);
-			}
-		}
-	}
-#endif
+	/* The object takes responsibility for the attributes */
+	ms_read_OBJ (state->q, state->container, h->attrs);
+	h->attrs = NULL;
 
 	return FALSE;
 }
 
 /****************************************************************************/
-
-/* NOTE : this does not init h->container or h->offset */
-static void
-ms_escher_init_header(MSEscherHeader *h)
-{
-	h->ver = h->instance = h->fbt = h->len = 0;
-	h->anchor_set = FALSE;
-	h->blip_id = -1;
-}
 
 static gboolean
 ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
@@ -1827,7 +1837,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 {
 	MSEscherHeader h;
 
-	ms_escher_init_header (&h);
+	ms_escher_header_init (&h);
 	h.container = container;
 
 	/* Skip the common header */
@@ -1844,8 +1854,10 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 			ms_escher_get_data (state, h.offset, common_header_len,
 					    0, &needs_free);
 
-		if (!data)
+		if (!data) {
+			ms_escher_header_release (&h);
 			return TRUE;
+		}
 
 		tmp	= MS_OLE_GET_GUINT16 (data + 0);
 		h.fbt	= MS_OLE_GET_GUINT16 (data + 2);
@@ -1871,6 +1883,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 		 * the PRECEDING record length was invalid.  Check that it included the header */
 		if ((h.fbt & (~0x1ff)) != 0xf000) {
 			printf ("EXCEL : Invalid fbt = 0x%x\n", h.fbt);
+			ms_escher_header_release (&h);
 			return TRUE;
 		}
 
@@ -1926,6 +1939,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 				printf ("}; /* %s */\n", fbt_name);
 #endif
 			if (res) {
+				ms_escher_header_release (&h);
 				printf ("ERROR : %s;\n", fbt_name);
 				return TRUE;
 			}
@@ -1935,6 +1949,8 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 
 		h.offset += h.len;
 	} while (h.offset < (container->offset + container->len));
+
+	ms_escher_header_release (&h);
 	return FALSE;
 }
 
@@ -1974,7 +1990,7 @@ ms_escher_parse (BiffQuery *q, MSContainer *container)
 	state.start_offset = 0;
 	state.end_offset   = q->length;
 
-	ms_escher_init_header (&fake_header);
+	ms_escher_header_init (&fake_header);
 	fake_header.container = NULL;
 	fake_header.offset = 0;
 
@@ -1989,4 +2005,5 @@ ms_escher_parse (BiffQuery *q, MSContainer *container)
 	if (ms_excel_escher_debug > 0)
 		printf ("}; /* Escher '%s'*/\n", drawing_record_name);
 #endif
+	ms_escher_header_release (&fake_header);
 }

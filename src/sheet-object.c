@@ -861,9 +861,9 @@ sheet_object_direction_set (SheetObject *so, gdouble *coords)
 	so->anchor.direction = SO_DIR_NONE_MASK;
 	
 	if (coords [1] < coords [3])
-		so->anchor.direction |= SO_DIR_DOWN_MASK;
-	if (coords [0] > coords [2])
-		so->anchor.direction |= SO_DIR_LEFT_MASK;
+		so->anchor.direction |= SO_DIR_DOWN;
+	if (coords [0] < coords [2])
+		so->anchor.direction |= SO_DIR_RIGHT;
 	
 }
 

@@ -212,8 +212,6 @@ xml_node_get_cstr (xmlNodePtr node, char const *name)
 {
 	return name ? xmlGetProp (node, name) : xmlNodeGetContent (node);
 }
-
-/* Set a string value for a node carried as an attibute */
 void
 xml_node_set_cstr (xmlNodePtr node, char const *name, char const *val)
 {
@@ -223,7 +221,6 @@ xml_node_set_cstr (xmlNodePtr node, char const *name, char const *val)
 		xmlNodeSetContent (node, val);
 }
 
-/* Get an integer value for a node carried as an attibute */
 gboolean
 xml_node_get_int (xmlNodePtr node, char const *name, int *val)
 {
@@ -238,8 +235,6 @@ xml_node_get_int (xmlNodePtr node, char const *name, int *val)
 
 	return (res == 1);
 }
-
-/* Set an integer value for a node carried as an attibute */
 void
 xml_node_set_int (xmlNodePtr node, char const *name, int val)
 {
@@ -248,7 +243,6 @@ xml_node_set_int (xmlNodePtr node, char const *name, int val)
 	xml_node_set_cstr (node, name, str);
 }
 
-/* Get a double value for a node carried as an attibute */
 gboolean
 xml_node_get_double (xmlNodePtr node, char const *name, double *val)
 {
@@ -263,11 +257,6 @@ xml_node_get_double (xmlNodePtr node, char const *name, double *val)
 
 	return (res == 1);
 }
-
-/*
- * Set a double value for a node either carried as an attibute or as
- * the content of a child.
- */
 void
 xml_node_set_double (xmlNodePtr node, char const *name, double val,
 		     int precision)
@@ -282,6 +271,29 @@ xml_node_set_double (xmlNodePtr node, char const *name, double val,
 	else
 		snprintf (str, 100 + DBL_DIG, "%f", val);
 
+	xml_node_set_cstr (node, name, str);
+}
+
+StyleColor *
+xml_node_get_color (xmlNodePtr node, char const *name)
+{
+	StyleColor *res = NULL;
+	xmlChar *color;
+	int red, green, blue;
+
+	color = xmlGetProp (node, name);
+	if (color == NULL)
+		return 0;
+	if (sscanf (color, "%X:%X:%X", &red, &green, &blue) == 3)
+		res = style_color_new (red, green, blue);
+	xmlFree (color);
+	return res;
+}
+void
+xml_node_set_color (xmlNodePtr node, char const *name, StyleColor const *val)
+{
+	char str[4 * sizeof (val->color)];
+	sprintf (str, "%X:%X:%X", val->color.red, val->color.green, val->color.blue);
 	xml_node_set_cstr (node, name, str);
 }
 
@@ -444,74 +456,6 @@ xml_write_selection_info (XmlParseContext *ctxt, Sheet const *sheet, xmlNodePtr 
 }
 
 /*
- * Get a color value for a node either carried as an attibute or as
- * the content of a child.
- *
- * TODO PBM: at parse time one doesn't have yet a widget, so we have
- *           to retrieve the default colormap, but this may be a bad
- *           option ...
- */
-static int
-xml_get_color_value (xmlNodePtr node, char const *name, StyleColor **color)
-{
-	char *ret;
-	int red, green, blue;
-
-	ret = xmlGetProp (node, name);
-	if (ret == NULL) return 0;
-	if (sscanf (ret, "%X:%X:%X", &red, &green, &blue) == 3){
-		*color = style_color_new (red, green, blue);
-		g_free (ret);
-		return 1;
-	}
-	xmlFree (ret);
-	return 0;
-}
-
-GdkColor *
-xml_node_get_gdkcolor (xmlNodePtr node, char const *name)
-{
-	GdkColor   *color;
-	StyleColor *style_color;
-
-	if (xml_get_color_value (node, name, &style_color)) {
-		color = g_new0 (GdkColor, 1);
-		color->red   = style_color->color.red;
-		color->green = style_color->color.green;
-		color->blue  = style_color->color.blue;
-		e_color_alloc_gdk (color);
-		style_color_unref (style_color);
-		return (color);
-	} else
-		return NULL;
-}
-
-/*
- * Set a color value for a node either carried as an attibute or as
- * the content of a child.
- */
-static void
-xml_node_set_color (xmlNodePtr node, char const *name, StyleColor *val)
-{
-	char str[4 * sizeof (val->color)];
-	sprintf (str, "%X:%X:%X", val->color.red, val->color.green, val->color.blue);
-	xml_node_set_cstr (node, name, str);
-}
-
-void
-xml_node_set_gdkcolor (xmlNodePtr node, char const *name, const GdkColor *color)
-{
-	StyleColor *style_color;
-
-	if (!color)
-		return;
-
-	style_color = style_color_new (color->red, color->green, color->blue);
-	xml_node_set_color (node, name, style_color);
-	style_color_unref (style_color);
-}
-
-/*
  * Create an XML subtree of doc equivalent to the given StyleBorder.
  */
 static char const *StyleSideNames[6] =
@@ -584,7 +528,7 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, MStyle *mstyle)
 			StyleBorder    *border;
 			xml_node_get_int (side, "Style", &t);
 			if (t != STYLE_BORDER_NONE)
-				xml_get_color_value (side, "Color", &color);
+				color = xml_node_get_color (side, "Color");
 			border = style_border_fetch ((StyleBorderType)t, color,
 						     style_border_get_orientation (i));
 			mstyle_set_border (mstyle, i, border);
@@ -1363,13 +1307,13 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (xml_node_get_int (tree, "Indent", &val))
 		mstyle_set_indent (mstyle, val);
 
-	if (xml_get_color_value (tree, "Fore", &c))
+	if ((c = xml_node_get_color (tree, "Fore")) != NULL)
 		mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, c);
 
-	if (xml_get_color_value (tree, "Back", &c))
+	if ((c = xml_node_get_color (tree, "Back")) != NULL)
 		mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, c);
 
-	if (xml_get_color_value (tree, "PatternColor", &c))
+	if ((c = xml_node_get_color (tree, "PatternColor")) != NULL)
 		mstyle_set_color (mstyle, MSTYLE_COLOR_PATTERN, c);
 
 	prop = xmlGetProp (tree, "Format");

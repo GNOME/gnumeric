@@ -18,6 +18,7 @@ Jody:
 	* Enable XL import for graphs.
 	* Import/Export/Edit Hidden/Locked attributes.
 	* Parse using the assigned fmt before checking the builtins.
+	* Enable basic attributes when importing shapes from XL.
 	* Add simple bucketing of range dependencies.
 	* Add minor formating extension.
 	* Some simple recalc tuning speeds things up by a factor of 2.
@@ -30,6 +31,7 @@ Jody:
 	* Improve INDIRECT.
 	* Sort the function names for the index generator.
 	* Fix handling of mixed mode references.
+	* Convert lines/arrows/boxes/ovals to StyleColor.
 	* Correct sensitivity of menus & toolbars.
 	* Some initial guess work on how to import conditional XL formats.
 	* bump bonobo req to 1.0.8 to fix the memory problem.

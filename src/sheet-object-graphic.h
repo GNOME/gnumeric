@@ -11,6 +11,8 @@ GtkType sheet_object_graphic_get_type (void);
 #define SHEET_OBJECT_GRAPHIC(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_GRAPHIC_TYPE, SheetObjectGraphic))
 #define IS_SHEET_OBJECT_GRAPHIC(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_GRAPHIC_TYPE))
 
+void sheet_object_graphic_fill_color_set (SheetObject *so, StyleColor *color);
+
 GtkType sheet_object_filled_get_type (void);
 #define SHEET_OBJECT_FILLED_TYPE     (sheet_object_filled_get_type ())
 #define SHEET_OBJECT_FILLED(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_FILLED_TYPE, SheetObjectFilled))

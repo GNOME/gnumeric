@@ -100,9 +100,8 @@ style_color_grid (void)
 StyleColor *
 style_color_ref (StyleColor *sc)
 {
-	g_return_val_if_fail (sc != NULL, NULL);
-
-	sc->ref_count++;
+	if (sc != NULL)
+		sc->ref_count++;
 
 	return sc;
 }
@@ -110,7 +109,9 @@ style_color_ref (StyleColor *sc)
 void
 style_color_unref (StyleColor *sc)
 {
-	g_return_if_fail (sc != NULL);
+	if (sc == NULL)
+		return;
+
 	g_return_if_fail (sc->ref_count > 0);
 
 	sc->ref_count--;

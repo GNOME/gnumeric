@@ -5,13 +5,13 @@
 #include <gdk/gdktypes.h>
 
 struct _StyleColor {
-	int      ref_count;
 	GdkColor color;
 	GdkColor selected_color;
-	char     *name;
 	gushort  red;
 	gushort  green;
 	gushort  blue;
+	char     *name;
+	int      ref_count;
 };
 
 /* Colors used by any GnumericSheet item */

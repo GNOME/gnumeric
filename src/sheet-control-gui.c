@@ -1995,12 +1995,12 @@ scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
 		direction = SO_DIR_DOWN_RIGHT;
 
 	gnome_canvas_c2w (canvas,
-		pixels [direction & SO_DIR_LEFT_MASK  ? 2 : 0],
-		pixels [direction & SO_DIR_DOWN_MASK  ? 1 : 3],
+		pixels [direction & SO_DIR_H_MASK  ? 0 : 2],
+		pixels [direction & SO_DIR_V_MASK  ? 1 : 3],
 		coords +0, coords + 1);
 	gnome_canvas_c2w (canvas,
-		pixels [direction & SO_DIR_LEFT_MASK  ? 0 : 2],
-		pixels [direction & SO_DIR_DOWN_MASK  ? 3 : 1],
+		pixels [direction & SO_DIR_H_MASK  ? 2 : 0],
+		pixels [direction & SO_DIR_V_MASK  ? 3 : 1],
 		coords +2, coords + 3);
 }
 

@@ -1,3 +1,33 @@
+2001-09-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_fill_color_set) :
+	  Use StyleColors and make public.
+	(sheet_object_graphic_destroy) : unref the fill colour.
+	(sheet_object_graphic_new_view) : translate from stylecolor to gdk.
+	(sheet_object_graphic_read_xml) : use style colors.
+	(sheet_object_graphic_write_xml) : use style colors.
+	(sheet_object_graphic_clone) : reference the fill colour.
+	(sheet_object_graphic_print) : use style colour.
+	(cb_dialog_graphic_clicked) : ditto.
+	(cb_dialog_filled_clicked) : ditto.
+	(sheet_object_graphic_user_config) : ditto.
+	(sheet_object_filled_user_config) : ditto.
+
+	* src/style-color.c (style_color_ref) : NULL is ok.
+	(style_color_unref) : ditto.
+
+	* src/xml-io.c (xml_node_get_color) : rename and tidy up.
+	(xml_node_get_gdkcolor) : delete.
+	(xml_node_set_gdkcolor) : delete.
+	(xml_read_style_border) : changes to get_color.
+	(xml_read_style) : ditto.
+
+2001-09-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (cb_obj_create_motion) : use down&right vs down&left.
+	* src/sheet-control-gui.c (scg_object_view_position) : ditto.
+	* src/sheet-object.c (sheet_object_direction_set) : ditto.
+
 2001-09-26  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric.xsd : The style flags are not required, it will eventually

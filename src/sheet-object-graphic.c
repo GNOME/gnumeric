@@ -18,6 +18,7 @@
 #include "gnumeric-canvas.h"
 #include "str.h"
 #include "gui-util.h"
+#include "style-color.h"
 #include "sheet-object-graphic.h"
 #include "sheet-object-impl.h"
 
@@ -38,7 +39,7 @@ typedef enum {
 
 typedef struct {
 	SheetObject  sheet_object;
-	GdkColor    *fill_color;
+	StyleColor  *fill_color;
 	double       width;
 	double       a, b, c;
 	SheetObjectGraphicType type;
@@ -48,17 +49,27 @@ typedef struct {
 } SheetObjectGraphicClass;
 static SheetObjectClass *sheet_object_graphic_parent_class;
 
-static void
-sheet_object_graphic_fill_color_set (SheetObjectGraphic *sog,
-				     GdkColor *color)
+/**
+ * sheet_object_graphic_fill_color_set :
+ * @so :
+ * @color : 
+ *
+ * Absorb the colour reference.
+ */
+void
+sheet_object_graphic_fill_color_set (SheetObject *so, StyleColor *color)
 {
-	SheetObject *so = SHEET_OBJECT (sog);
+	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
+	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
 	GList *l;
 
+	g_return_if_fail (sog != NULL);
+
+	style_color_unref (sog->fill_color);
 	sog->fill_color = color;
 
 	for (l = so->realized_list; l; l = l->next)
-		gnome_canvas_item_set (l->data, "fill_color_gdk", color, NULL);
+		gnome_canvas_item_set (l->data, "fill_color_gdk", gdk, NULL);
 }
 
 static void
@@ -106,6 +117,7 @@ sheet_object_graphic_destroy (GtkObject *object)
 	SheetObjectGraphic *sog;
 	
 	sog = SHEET_OBJECT_GRAPHIC (object);
+	style_color_unref (sog->fill_color);
 
 	GTK_OBJECT_CLASS (sheet_object_graphic_parent_class)->destroy (object);
 }
@@ -117,16 +129,19 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 	GnumericCanvas *gcanvas = scg_pane (scg, 0);
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	GnomeCanvasItem *item = NULL;
+	GdkColor *fill_color;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
+
+	fill_color = (sog->fill_color != NULL) ? &sog->fill_color->color : NULL;
 
 	switch (sog->type) {
 	case SHEET_OBJECT_LINE:
 		item = gnome_canvas_item_new (
 			gcanvas->object_group,
 			gnome_canvas_line_get_type (),
-			"fill_color_gdk", sog->fill_color,
+			"fill_color_gdk", fill_color,
 			"width_units", sog->width,
 			NULL);
 		break;
@@ -135,7 +150,7 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 		item = gnome_canvas_item_new (
 			gcanvas->object_group,
 			gnome_canvas_line_get_type (),
-			"fill_color_gdk", sog->fill_color,
+			"fill_color_gdk", fill_color,
 			"width_units", sog->width,
 			"arrow_shape_a", sog->a,
 			"arrow_shape_b", sog->b,
@@ -172,13 +187,12 @@ sheet_object_graphic_read_xml (SheetObject *so,
 	SheetObjectGraphic *sog;
 	double width, a, b, c;
 	int tmp = 0;
-	GdkColor *color = NULL;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPHIC (so), TRUE);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
-	color = xml_node_get_gdkcolor (tree, "FillColor");
-	sheet_object_graphic_fill_color_set (sog, color);
+	sheet_object_graphic_fill_color_set (so, 
+		xml_node_get_color (tree, "FillColor"));
 
 	if (xml_node_get_int (tree, "Type", &tmp))
 		sog->type = tmp;
@@ -203,7 +217,8 @@ sheet_object_graphic_write_xml (SheetObject const *so,
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPHIC (so), TRUE);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
-	xml_node_set_gdkcolor (tree, "FillColor", sog->fill_color);
+	if (sog->fill_color)
+		xml_node_set_color (tree, "FillColor", sog->fill_color);
 	xml_node_set_int (tree, "Type", sog->type);
 	xml_node_set_double (tree, "Width", sog->width, -1);
 
@@ -229,7 +244,7 @@ sheet_object_graphic_clone (SheetObject const *so, Sheet *sheet)
 
 	new_sog->type  = sog->type;
 	new_sog->width = sog->width;
-	new_sog->fill_color = sog->fill_color;
+	new_sog->fill_color = style_color_ref (sog->fill_color);
 	new_sog->a = sog->a;
 	new_sog->b = sog->b;
 	new_sog->c = sog->c;
@@ -337,7 +352,7 @@ typedef struct
 	GtkWidget *fill_color_combo;
 	GtkObject *adj_width;
 	GtkObject *adj_a, *adj_b, *adj_c; /* Only for arrows */
-	GdkColor *fill_color;
+	StyleColor *fill_color;
 	double width;
 	double a, b, c;                   /* Only for arrows */
 } DialogGraphicData;
@@ -354,16 +369,20 @@ static void
 cb_dialog_graphic_clicked (GnomeDialog *dialog, int button,
 			   DialogGraphicData *data)
 {
-	GdkColor *color;
+	SheetObject *so = SHEET_OBJECT (data->sog);
+	GdkColor *gdk;
 
 	switch (button) {
 	case 0: /* Ok */
 	case 1: /* Apply */
-		color = color_combo_get_color (
-				COLOR_COMBO (data->fill_color_combo));
-		sheet_object_graphic_fill_color_set (data->sog, color);
 		sheet_object_graphic_width_set (data->sog,
 				GTK_ADJUSTMENT (data->adj_width)->value);
+
+		gdk = color_combo_get_color (
+			COLOR_COMBO (data->fill_color_combo));
+		sheet_object_graphic_fill_color_set (so,
+			style_color_new (gdk->red, gdk->green, gdk->blue));
+
 		if (data->sog->type == SHEET_OBJECT_ARROW)
 			sheet_object_graphic_abc_set (data->sog, 
 				GTK_ADJUSTMENT (data->adj_a)->value,
@@ -372,15 +391,18 @@ cb_dialog_graphic_clicked (GnomeDialog *dialog, int button,
 		if (button == 0)
 			gnome_dialog_close (dialog);
 		break;
+
 	case 2: /* Cancel */
-		sheet_object_graphic_fill_color_set (data->sog,
-						     data->fill_color);
 		sheet_object_graphic_width_set (data->sog, data->width);
+		sheet_object_graphic_fill_color_set (so,
+			data->fill_color);
+
 		if (data->sog->type == SHEET_OBJECT_ARROW)
-			sheet_object_graphic_abc_set (data->sog, data->a,
-						      data->b, data->c);
+			sheet_object_graphic_abc_set (data->sog,
+				data->a, data->b, data->c);
 		gnome_dialog_close (dialog);
 		break;
+
 	default:
 		g_warning ("Unhandled button %i.", button);
 		break;
@@ -433,25 +455,19 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 	table = gtk_table_new (3, 5, FALSE);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 10);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 10);
-	gtk_widget_show (table);
 	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (dialog)->vbox), table);
 
 	label = gtk_label_new (_("Color"));
-	gtk_widget_show (label);
 	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 0, 1);
 	label = gtk_label_new (_("Border width"));
-	gtk_widget_show (label);
 	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 1, 2);
 
 	if (sog->type == SHEET_OBJECT_ARROW) {
 		label = gtk_label_new (_("Arrow shape a"));
-		gtk_widget_show (label);
 		gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 2,3);
 		label = gtk_label_new (_("Arrow shape b"));
-		gtk_widget_show (label);
 		gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 3,4);
 		label = gtk_label_new (_("Arrow shape c"));
-		gtk_widget_show (label);
 		gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 4,5);
 	}
 
@@ -460,7 +476,6 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 
 	if (sog->type == SHEET_OBJECT_ARROW) {
 		data->canvas = gnome_canvas_new ();
-		gtk_widget_show (data->canvas);
 		gtk_table_attach_defaults (GTK_TABLE (table), data->canvas,
 					   2, 3, 2, 5);
 	}
@@ -468,8 +483,8 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 	data->fill_color_combo = color_combo_new (NULL, _("Transparent"), NULL,
 					color_group_fetch ("color", so));
 	color_combo_set_color (COLOR_COMBO (data->fill_color_combo), 
-			       sog->fill_color);
-	data->fill_color = sog->fill_color;
+			       sog->fill_color ? &sog->fill_color->color : NULL);
+	data->fill_color = style_color_ref (sog->fill_color);
 	
 	data->adj_width = gtk_adjustment_new ((float) sog->width, 1.0,
 					      100.0, 1.0, 5.0, 1.0);
@@ -494,22 +509,16 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 		gtk_tooltips_set_tip (tooltips, spin_c, _("Distance of "
 				      "trailing point from outside edge of "
 				      "shaft"), NULL);
-		gtk_widget_show (spin_a);
-		gtk_widget_show (spin_b);
-		gtk_widget_show (spin_c);
 		gtk_table_attach_defaults (GTK_TABLE (table), spin_a, 1, 2,2,3);
 		gtk_table_attach_defaults (GTK_TABLE (table), spin_b, 1, 2,3,4);
 		gtk_table_attach_defaults (GTK_TABLE (table), spin_c, 1, 2,4,5);
 	}
 
-	gtk_widget_show (data->fill_color_combo);
-	gtk_widget_show (spin);
-
 	gtk_table_attach_defaults (GTK_TABLE (table),
 				   data->fill_color_combo, 1, 3, 0, 1);
 	gtk_table_attach_defaults (GTK_TABLE (table), spin, 1, 3, 1, 2);
 
-	gtk_widget_show (dialog);
+	gtk_widget_show_all (dialog);
 
 	if (sog->type == SHEET_OBJECT_ARROW) {
 		points = gnome_canvas_points_new (2);
@@ -581,8 +590,7 @@ sheet_object_graphic_init (GtkObject *obj)
 	SheetObject *so;
 	
 	sog = SHEET_OBJECT_GRAPHIC (obj);
-	sog->fill_color = g_new (GdkColor, 1);
-	e_color_alloc_name ("black", sog->fill_color);
+	sog->fill_color = style_color_new_name ("black");
 	sog->width = 1.0;
 	sog->a = 8.0;
 	sog->b = 10.0;
@@ -608,7 +616,7 @@ E_MAKE_TYPE (sheet_object_graphic, "SheetObjectGraphic", SheetObjectGraphic,
 typedef struct {
 	SheetObjectGraphic sheet_object_graphic;
 
-	GdkColor *outline_color;
+	StyleColor *outline_color;
 } SheetObjectFilled;
 
 typedef struct {
@@ -617,16 +625,20 @@ typedef struct {
 
 static SheetObjectGraphicClass *sheet_object_filled_parent_class;
 
-static void
-sheet_object_filled_outline_color_set (SheetObjectFilled *sof, GdkColor *color)
+void
+sheet_object_filled_outline_color_set (SheetObject *so, StyleColor *color)
 {
-	SheetObject *so = SHEET_OBJECT (sof);
+	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
+	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
 	GList *l;
 
+	g_return_if_fail (sof != NULL);
+
+	style_color_unref (sof->outline_color);
 	sof->outline_color = color;
+
 	for (l = so->realized_list; l; l = l->next)
-		gnome_canvas_item_set (l->data, "outline_color_gdk", color,
-				       NULL);
+		gnome_canvas_item_set (l->data, "outline_color_gdk", gdk, NULL);
 }
 
 SheetObject *
@@ -649,6 +661,7 @@ sheet_object_filled_destroy (GtkObject *object)
 	SheetObjectFilled *sof;
 	
 	sof = SHEET_OBJECT_FILLED (object);
+	style_color_unref (sof->outline_color);
 
 	GTK_OBJECT_CLASS (sheet_object_filled_parent_class)->destroy (object);
 }
@@ -677,20 +690,25 @@ sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *scg)
 	SheetObjectGraphic *sog;
 	SheetObjectFilled  *sof;
 	GnomeCanvasItem *item;
+	GdkColor *fill_color, *outline_color;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), NULL);
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
 	sof = SHEET_OBJECT_FILLED (so);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
+	fill_color = (sog->fill_color != NULL) ? &sog->fill_color->color : NULL;
+	outline_color = (sof->outline_color != NULL) ? &sof->outline_color->color : NULL;
+
 	item = gnome_canvas_item_new (
 		gcanvas->object_group,
 		(sog->type == SHEET_OBJECT_OVAL) ?
 					gnome_canvas_ellipse_get_type () : 
 					gnome_canvas_rect_get_type (),
-		"fill_color_gdk", sog->fill_color,
-		"outline_color_gdk", sof->outline_color,
-		"width_units", sog->width, NULL);
+		"fill_color_gdk",	fill_color,
+		"outline_color_gdk",	outline_color,
+		"width_units",		sog->width,
+		NULL);
 
 	scg_object_register (so, item);
 	return GTK_OBJECT (item);
@@ -701,13 +719,12 @@ sheet_object_filled_read_xml (SheetObject *so,
 			      XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObjectFilled *sof;
-	GdkColor *color = NULL;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), TRUE);
 	sof = SHEET_OBJECT_FILLED (so);
 
-	color = xml_node_get_gdkcolor (tree, "OutlineColor");
-	sheet_object_filled_outline_color_set (sof, color);
+	sheet_object_filled_outline_color_set (so, 
+		xml_node_get_color (tree, "OutlineColor"));
 
 	return sheet_object_graphic_read_xml (so, ctxt, tree);
 }
@@ -721,7 +738,8 @@ sheet_object_filled_write_xml (SheetObject const *so,
 	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), TRUE);
 	sof = SHEET_OBJECT_FILLED (so);
 
-	xml_node_set_gdkcolor (tree, "OutlineColor", sof->outline_color);
+	if (sof->outline_color)
+		xml_node_set_color (tree, "OutlineColor", sof->outline_color);
 
 	return sheet_object_graphic_write_xml (so, ctxt, tree);
 }
@@ -750,8 +768,8 @@ typedef struct
 	GtkWidget *fill_color_combo;
 	GtkWidget *outline_color_combo;
 	GtkObject *adj_width;
-	GdkColor *outline_color;
-	GdkColor *fill_color;
+	StyleColor *outline_color;
+	StyleColor *fill_color;
 	double width;
 } DialogFilledData;
 
@@ -768,29 +786,38 @@ cb_dialog_filled_clicked (GnomeDialog *dialog, int button,
 			  DialogFilledData *data)
 {
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (data->sof);
-	GdkColor *color;
-
+	SheetObject *so = SHEET_OBJECT (data->sof);
+	GdkColor *gdk;
+		
 	switch (button) {
 	case 0: /* Ok */
 	case 1: /* Apply */
-		color = color_combo_get_color (
-				COLOR_COMBO (data->outline_color_combo));
-		sheet_object_filled_outline_color_set (data->sof, color);
-		color = color_combo_get_color (
-				COLOR_COMBO (data->fill_color_combo));
-		sheet_object_graphic_fill_color_set (sog, color);
 		sheet_object_graphic_width_set (sog, 
-				GTK_ADJUSTMENT (data->adj_width)->value);
+			GTK_ADJUSTMENT (data->adj_width)->value);
+
+		gdk = color_combo_get_color (
+			COLOR_COMBO (data->fill_color_combo));
+		sheet_object_graphic_fill_color_set (so,
+			style_color_new (gdk->red, gdk->green, gdk->blue));
+
+		gdk = color_combo_get_color (
+			COLOR_COMBO (data->outline_color_combo));
+		sheet_object_filled_outline_color_set (so,
+			style_color_new (gdk->red, gdk->green, gdk->blue));
+
 		if (button == 0)
 			gnome_dialog_close (dialog);
 		break;
+
 	case 2: /* Cancel */
-		sheet_object_graphic_fill_color_set (sog, data->fill_color);
 		sheet_object_graphic_width_set (sog, data->width);
-		sheet_object_filled_outline_color_set (data->sof, 
-						       data->outline_color);
+		sheet_object_graphic_fill_color_set (so,
+			data->fill_color);
+		sheet_object_filled_outline_color_set (so,
+			data->outline_color);
 		gnome_dialog_close (dialog);
 		break;
+
 	default:
 		g_warning ("Unhandled button %i.", button);
 		break;
@@ -824,16 +851,12 @@ sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
 	table = gtk_table_new (2, 3, FALSE);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 10);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 10);
-	gtk_widget_show (table);
 	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (dialog)->vbox), table);
 	label = gtk_label_new (_("Outline color"));
-	gtk_widget_show (label);
 	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 0, 1);
 	label = gtk_label_new (_("Fill color"));
-	gtk_widget_show (label);
 	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 1, 2);
 	label = gtk_label_new (_("Border width"));
-	gtk_widget_show (label);
 	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 2, 3);
 
 	data = g_new0 (DialogFilledData, 1);
@@ -842,23 +865,19 @@ sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
 	data->outline_color_combo = color_combo_new (NULL, _("Transparent"),
 				NULL, color_group_fetch ("outline_color", so));
 	color_combo_set_color (COLOR_COMBO (data->outline_color_combo),
-			       sof->outline_color);
-	data->outline_color = sof->outline_color;
+			       sof->outline_color ? &sof->outline_color->color : NULL);
+	data->outline_color = style_color_ref (sof->outline_color);
 
 	data->fill_color_combo = color_combo_new (NULL, _("Transparent"),
 				NULL, color_group_fetch ("fill_color", so));
 	color_combo_set_color (COLOR_COMBO (data->fill_color_combo), 
-			       sog->fill_color);
-	data->fill_color = sog->fill_color;
+			       sog->fill_color ? &sog->fill_color->color : NULL);
+	data->fill_color = style_color_ref (sog->fill_color);
 	
 	data->adj_width = gtk_adjustment_new ((float) sog->width, 1.0,
 					      100.0, 1.0, 5.0, 1.0);
 	spin = gtk_spin_button_new (GTK_ADJUSTMENT (data->adj_width), 1, 0);
 	data->width = sog->width;
-
-	gtk_widget_show (data->fill_color_combo);
-	gtk_widget_show (data->outline_color_combo);
-	gtk_widget_show (spin);
 
 	gtk_table_attach_defaults (GTK_TABLE (table),
 				   data->outline_color_combo, 1, 2, 0, 1);
@@ -871,7 +890,7 @@ sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
 	gtk_signal_connect (GTK_OBJECT (dialog), "close",
 			    GTK_SIGNAL_FUNC (cb_dialog_filled_close), data);
 
-	gtk_widget_show (dialog);
+	gtk_widget_show_all (dialog);
 }
 
 static void
@@ -1036,9 +1055,9 @@ sheet_object_filled_init (GtkObject *obj)
 	SheetObjectFilled *sof;
 	
 	sof = SHEET_OBJECT_FILLED (obj);
-	sof->outline_color = g_new (GdkColor, 1);
-	e_color_alloc_name ("black", sof->outline_color);
-	e_color_alloc_name ("white", sof->sheet_object_graphic.fill_color);
+	sof->outline_color = style_color_new_name ("black");
+	sheet_object_graphic_fill_color_set (SHEET_OBJECT (sof),
+		style_color_new_name ("white"));
 }
 
 E_MAKE_TYPE (sheet_object_filled, "SheetObjectFilled", SheetObjectFilled,

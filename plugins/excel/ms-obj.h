@@ -8,7 +8,7 @@
  *    Michael Meeks (michael@ximian.com)
  *    Jody Goldberg (jgoldberg@home.com)
  *
- * (C) 1998, 1999, 2000 Michael Meeks, Jody Goldberg
+ * (C) 1998-2001 Michael Meeks, Jody Goldberg
  **/
 
 #include "config.h"
@@ -16,22 +16,61 @@
 
 #define MS_ANCHOR_SIZE	18
 
+typedef enum {
+    /* Flags */
+	MS_OBJ_ATTR_FLIP_H,
+	MS_OBJ_ATTR_FLIP_V,
+	MS_OBJ_ATTR_FILLED,
+
+	/* will be enums when we support multiple arrow shapes */
+	MS_OBJ_ATTR_ARROW_START,
+	MS_OBJ_ATTR_ARROW_END,
+	
+    /* Integers & Enums */
+	MS_OBJ_ATTR_BLIP_ID,
+
+    /* Ptrs */
+	MS_OBJ_ATTR_NEEDS_FREE_MASK = 0x1000,
+	MS_OBJ_ATTR_ANCHOR
+} MSObjAttrID;
+
+typedef struct {
+	MSObjAttrID const id;
+	union {
+		gboolean v_boolean;
+		int	 v_int;
+		gpointer v_ptr;
+	} v;
+} MSObjAttr;
+
+MSObjAttr    *ms_object_attr_new_flag    (MSObjAttrID id);
+MSObjAttr    *ms_object_attr_new_int     (MSObjAttrID id, int val);
+MSObjAttr    *ms_object_attr_new_ptr     (MSObjAttrID id, gpointer val);
+void	      ms_object_attr_destroy     (MSObjAttr *attr);
+
+typedef GHashTable MSObjAttrBag;
+MSObjAttrBag *ms_object_attr_bag_new     (void);
+void          ms_object_attr_bag_destroy (MSObjAttrBag *attrs);
+void	      ms_object_attr_bag_insert  (MSObjAttrBag *attrs,
+					  MSObjAttr *attr);
+MSObjAttr    *ms_object_attr_bag_lookup  (MSObjAttrBag *attrs,
+					  MSObjAttrID id);
+
 struct _MSObj
 {
-	/* In pixels */
-	guint8	raw_anchor [MS_ANCHOR_SIZE];
-	gboolean anchor_set;
-
 	int id;
 
 	/* Type specific parameters */
 	GtkObject	*gnum_obj;
 	int		 excel_type;
 	char const	*excel_type_name;
+
+	GHashTable	*attrs;
 };
 
-MSObj *ms_read_OBJ    (BiffQuery *q, MSContainer *container);
-void   ms_destroy_OBJ (MSObj *obj);
-char  *ms_read_TXO    (BiffQuery *q);
+void  ms_read_OBJ   (BiffQuery *q, MSContainer *container,
+		     GHashTable *attrs);
+void  ms_obj_delete (MSObj *obj);
+char *ms_read_TXO   (BiffQuery *q);
 
 #endif /* GNUMERIC_MS_OBJ_H */

@@ -47,7 +47,7 @@ ms_container_finalize (MSContainer *container)
 	if (container->obj_queue != NULL) {
 		GList *l;
 		for (l = container->obj_queue; l != NULL; l = l->next)
-			ms_destroy_OBJ (l->data);
+			ms_obj_delete (l->data);
 
 		g_list_free (container->obj_queue);
 		container->obj_queue = NULL;

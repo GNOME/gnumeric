@@ -23,14 +23,16 @@ typedef enum {
 
 typedef enum {
 	SO_DIR_UNKNOWN    = 0xFF,
-	SO_DIR_UP_RIGHT   = 0x00,
-	SO_DIR_UP_LEFT    = 0x01,
-	SO_DIR_DOWN_RIGHT = 0x10,
-	SO_DIR_DOWN_LEFT  = 0x11,
+	SO_DIR_UP_LEFT    = 0x00,
+	SO_DIR_UP_RIGHT   = 0x01,
+	SO_DIR_DOWN_LEFT  = 0x10,
+	SO_DIR_DOWN_RIGHT = 0x11,
 
 	SO_DIR_NONE_MASK  = 0x00,
-	SO_DIR_LEFT_MASK  = 0x01,
-	SO_DIR_DOWN_MASK  = 0x10,
+	SO_DIR_H_MASK 	  = 0x01,
+	SO_DIR_RIGHT	  = 0x01,
+	SO_DIR_V_MASK	  = 0x10,
+	SO_DIR_DOWN  	  = 0x10,
 } SheetObjectDirection;
 
 struct _SheetObjectAnchor {

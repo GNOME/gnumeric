@@ -1,12 +1,27 @@
-/**
+/* vim: set sw=8: */
+
+/*
  * ms-obj.c: MS Excel Object support for Gnumeric
  *
- * Author:
- *    Jody Goldberg (jgoldberg@home.com)
- *    Michael Meeks (mmeeks@gnu.org)
+ * Copyright (C) 2000-2001
+ *	Jody Goldberg (jgoldberg@home.com)
+ *	Michael Meeks (mmeeks@gnu.org)
  *
- * (C) 1998-2001 Jody Goldberg, Michael Meeks
- **/
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
 
 #include <config.h>
 
@@ -38,13 +53,115 @@
 #define GR_CHECKBOX_FORMULA   0x14
 #define GR_COMMON_OBJ_DATA    0x15
 
+MSObjAttr *
+ms_object_attr_new_flag (MSObjAttrID id)
+{
+	MSObjAttr *res = g_new (MSObjAttr, 1);
+
+	/* be anal about constness */
+	*((MSObjAttrID *)&(res->id)) = id;
+	res->v.v_ptr = NULL;
+	return res;
+}
+
+MSObjAttr *
+ms_object_attr_new_int (MSObjAttrID id, int val)
+{
+	MSObjAttr *res = g_new (MSObjAttr, 1);
+
+	g_return_val_if_fail (!(id & MS_OBJ_ATTR_NEEDS_FREE_MASK), NULL);
+
+	/* be anal about constness */
+	*((MSObjAttrID *)&(res->id)) = id;
+	res->v.v_int = val;
+	return res;
+}
+MSObjAttr *
+ms_object_attr_new_ptr (MSObjAttrID id, gpointer val)
+{
+	MSObjAttr *res = g_new (MSObjAttr, 1);
+
+	g_return_val_if_fail ((id & MS_OBJ_ATTR_NEEDS_FREE_MASK), NULL);
+
+	/* be anal about constness */
+	*((MSObjAttrID *)&(res->id)) = id;
+	res->v.v_ptr = val;
+	return res;
+}
+
 void
-ms_destroy_OBJ (MSObj *obj)
+ms_object_attr_destroy (MSObjAttr *attr)
+{
+	if (attr != NULL) {
+		if ((attr->id & MS_OBJ_ATTR_NEEDS_FREE_MASK) &&
+		    attr->v.v_ptr != NULL) {
+			g_free (attr->v.v_ptr);
+		}
+		g_free (attr);
+	}
+}
+
+static guint
+cb_ms_obj_attr_hash (gconstpointer key)
+{
+	return ((MSObjAttr const *)key)->id;
+}
+
+static gint
+cb_ms_obj_attr_cmp (gconstpointer a, gconstpointer b)
+{
+	return ((MSObjAttr const *)a)->id == ((MSObjAttr const *)b)->id;
+}
+
+MSObjAttrBag *
+ms_object_attr_bag_new (void)
+{
+	return g_hash_table_new (cb_ms_obj_attr_hash, cb_ms_obj_attr_cmp);
+}
+
+static void
+cb_ms_object_attr_destroy (gpointer key, gpointer value, gpointer ignored)
+{
+	ms_object_attr_destroy (value);
+}
+void
+ms_object_attr_bag_destroy (MSObjAttrBag *attrs)
+{
+	if (attrs != NULL) {
+		g_hash_table_foreach (attrs, cb_ms_object_attr_destroy, NULL);
+		g_hash_table_destroy (attrs);
+	}
+}
+
+
+void
+ms_object_attr_bag_insert (MSObjAttrBag *attrs, MSObjAttr *attr)
+{
+	g_return_if_fail (!g_hash_table_lookup (attrs, attr));
+	g_hash_table_insert (attrs, attr, attr);
+}
+
+MSObjAttr *
+ms_object_attr_bag_lookup (MSObjAttrBag *attrs, MSObjAttrID id)
+{
+	MSObjAttr attr;
+	*((MSObjAttrID *)&(attr.id)) = id;
+	return g_hash_table_lookup (attrs, &attr);
+}
+
+/********************************************************************************/
+
+void
+ms_obj_delete (MSObj *obj)
 {
 	if (obj) {
 		if (obj->gnum_obj) {
 			gtk_object_unref (obj->gnum_obj);
 			obj->gnum_obj = NULL;
+		}
+		if (obj->attrs) {
+			ms_object_attr_bag_destroy (obj->attrs);
+			obj->attrs = NULL;
 		}
 		g_free (obj);
 	}
@@ -156,11 +273,15 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	guint32 const numObjects = MS_OLE_GET_GUINT16(q->data);
 	guint16 const flags = MS_OLE_GET_GUINT16(q->data+8);
 #endif
+	guint8 *anchor = g_malloc (MS_ANCHOR_SIZE);
+	memcpy (anchor, q->data+8, MS_ANCHOR_SIZE);
+	if (obj->attrs == NULL)
+		obj->attrs = ms_object_attr_bag_new ();
+	ms_object_attr_bag_insert (obj->attrs,
+		ms_object_attr_new_ptr (MS_OBJ_ATTR_ANCHOR, anchor));
+
 	obj->excel_type = MS_OLE_GET_GUINT16(q->data + 4);
 	obj->id         = MS_OLE_GET_GUINT32(q->data + 6);
-
-	memcpy (obj->raw_anchor, q->data+8, MS_ANCHOR_SIZE);
-	obj->anchor_set = TRUE;
 
 	return TRUE;
 }
@@ -327,6 +448,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			if (ms_excel_object_debug == 0)
 				break;
 
+			printf ("OBJECT TYPE = %d\n", obj->excel_type);
 			if (options&0x0001)
 				printf ("Locked;\n");
 			if (options&0x0010)
@@ -404,8 +526,14 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	return FALSE;
 }
 
-MSObj *
-ms_read_OBJ (BiffQuery *q, MSContainer *container)
+/**
+ * ms_read_OBJ :
+ * @q : The biff record to start with.
+ * @container : The object's container
+ * @attrs : an OPTIONAL hash of object attributes.
+ */
+void
+ms_read_OBJ (BiffQuery *q, MSContainer *container, GHashTable *attrs)
 {
 	static char const * const object_type_names[] =
 	{
@@ -442,8 +570,8 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 	obj->excel_type = (unsigned)-1; /* Set to undefined */
 	obj->excel_type_name = NULL;
 	obj->id = -1;
-	obj->anchor_set = FALSE;
 	obj->gnum_obj = NULL;
+	obj->attrs = attrs;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0)
@@ -458,8 +586,8 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 		if (ms_excel_object_debug > 0)
 			printf ("}; /* OBJ error 1 */\n");
 #endif
-		ms_destroy_OBJ (obj);
-		return NULL;
+		ms_obj_delete (obj);
+		return;
 	}
 
 	obj->excel_type_name = NULL;
@@ -477,15 +605,15 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 
 	obj->gnum_obj = (*container->vtbl->create_obj) (container, obj);
 	if (obj->gnum_obj == NULL) {
-		ms_destroy_OBJ (obj);
-		return NULL;
+		ms_obj_delete (obj);
+		return;
 	}
 
 	/* Chart, There should be a BOF next */
 	if (obj->excel_type == 0x5) {
 		if (ms_excel_read_chart (q, container, obj->gnum_obj)) {
-			ms_destroy_OBJ (obj);
-			return NULL;
+			ms_obj_delete (obj);
+			return;
 		}
 	}
 
@@ -493,6 +621,4 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 	printf ("Registered object 0x%p\n", obj);
 #endif
 	ms_container_add_obj (container, obj);
-
-	return obj;
 }

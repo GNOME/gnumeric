@@ -651,10 +651,10 @@ cb_obj_create_motion (GnumericCanvas *gcanvas, GdkEventMotion *event,
 		if (so->anchor.direction != SO_DIR_UNKNOWN)
 		{
 			so->anchor.direction = SO_DIR_NONE_MASK;
-			if (event->x < closure->x)
-				so->anchor.direction |= SO_DIR_LEFT_MASK;
+			if (event->x > closure->x)
+				so->anchor.direction |= SO_DIR_RIGHT;
 			if (event->y > closure->y)
-				so->anchor.direction |= SO_DIR_DOWN_MASK;
+				so->anchor.direction |= SO_DIR_DOWN;
 		}
 
 		scg_object_calc_position (closure->scg, so, points);
