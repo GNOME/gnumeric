@@ -126,9 +126,6 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 	gboolean    allocated_msg = FALSE;
 	ValidationStatus result;
 
-	if (showed_dialog != NULL)
-		*showed_dialog = FALSE;
-
 	v = mstyle_get_validation (mstyle);
 	if (v == NULL)
 		return VALIDATION_STATUS_VALID;
