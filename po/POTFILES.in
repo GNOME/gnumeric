@@ -70,6 +70,7 @@ plugins/openoffice/openoffice-write.c
 plugins/openoffice/plugin.xml.in
 plugins/paradox/paradox.c
 plugins/paradox/plugin.xml.in
+plugins/perl/ext/Gnumeric.xs
 plugins/perl/plugin.xml.in
 plugins/plan-perfect/pln.c
 plugins/plan-perfect/plugin.xml.in

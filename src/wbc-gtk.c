@@ -1034,7 +1034,7 @@ regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
 			if (count > 1)
 				g_string_append_printf (label, ":%d", k++);
 			else {
-#warning "What if basename ends in :number here?  Add a space?"
+				/* warning "What if basename ends in :number here?  Add a space?"  */
 			}
 
 			entry.name = name = g_strdup_printf ("WindowListEntry%d", i);
