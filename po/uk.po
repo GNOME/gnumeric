@@ -155,9 +155,8 @@ msgid "GNU Oleo import plugin"
 msgstr "Доповнення ╕мпорту GNU Oleo"
 
 #: plugins/python/python.c:104
-#, fuzzy
 msgid "Python exception"
-msgstr "Доповнення Python"
+msgstr "Виключення Python"
 
 #: plugins/python/python.c:171
 msgid "Unable to lookup Python code object."
@@ -168,9 +167,8 @@ msgid "object must be callable"
 msgstr ""
 
 #: plugins/python/python.c:258
-#, fuzzy
 msgid "Python"
-msgstr "Доповнення Python"
+msgstr "Python"
 
 #: plugins/python/python.c:302
 msgid "Python Plugin"
@@ -238,7 +236,7 @@ msgstr "Tom Dyas, П╕дтримка доповнень."
 
 #: src/about.c:27
 msgid "Jody Goldberg, Excel hacker."
-msgstr ""
+msgstr "Jody Goldberg, хек Excel."
 
 #: src/about.c:28
 msgid "Ross Ihaka, special functions."
@@ -250,15 +248,15 @@ msgstr "Jukka-Pekka Iivonen, численн╕ функц╕╖ та засоби."
 
 #: src/about.c:30
 msgid "Jakub Jelinek, Gnumeric hacker."
-msgstr ""
+msgstr "Jakub Jelinek, хек Gnumeric."
 
 #: src/about.c:31
 msgid "Jon K Hellan, Excel hacker."
-msgstr ""
+msgstr "Jon K Hellan, хек Excel."
 
 #: src/about.c:32
 msgid "Chris Lahey, Number format engine."
-msgstr ""
+msgstr "Chris Lahey, обробка числових формат╕в."
 
 #: src/about.c:33
 msgid "Adrian Likins, Documentation, debugging."
@@ -270,7 +268,7 @@ msgstr "Takashi Matsuda, доповнення простого тексту."
 
 #: src/about.c:35
 msgid "Federico Mena, Canvas support."
-msgstr ""
+msgstr "Federico Mena, п╕дтримка GnomeCanvas."
 
 #: src/about.c:36
 msgid "Michael Meeks, Excel and OLE2 importing."
@@ -294,7 +292,7 @@ msgstr "Ariel Rios, п╕дтримка Guile."
 
 #: src/about.c:41
 msgid "Bruno Unna, Excel bits."
-msgstr ""
+msgstr "Bruno Unna, код Excel."
 
 #: src/about.c:42
 msgid "Daniel Veillard, XML support."
@@ -306,7 +304,7 @@ msgstr "Vladimir Vuksan, ф╕нансов╕ функц╕╖."
 
 #: src/about.c:44
 msgid "Morten Welinder, Gnumeric hacker."
-msgstr ""
+msgstr "Morten Welinder, хек Gnumeric."
 
 #: src/about.c:58
 msgid "Gnumeric"
@@ -331,17 +329,17 @@ msgstr "ПОМИЛКА"
 #. Until the value is recomputed, we put in this value.
 #: src/cell.c:102
 msgid "Pending recomputation"
-msgstr ""
+msgstr "Проводиться перерахунок"
 
 #. Until the value is recomputed, we put in this value.
 #: src/cell.c:602
 msgid "Circular reference"
-msgstr ""
+msgstr "Цикл╕чне посилання"
 
 #: src/commands.c:395
 #, c-format
 msgid "Typing \"%s%s\" in %s"
-msgstr ""
+msgstr "Наб╕р \"%s%s\" в %s"
 
 #: src/commands.c:585
 #, c-format
@@ -386,14 +384,13 @@ msgstr "Видалення стовпчика %d"
 
 #. TODO : Something more descriptive ? maybe the range name
 #: src/commands.c:761
-#, fuzzy
 msgid "Clear"
 msgstr "Очистити"
 
 #. FIXME : improve on this
 #: src/commands.c:871
 msgid "Moving cells"
-msgstr ""
+msgstr "Перем╕щення ком╕рок"
 
 #: src/commands.c:1015
 #, c-format
@@ -785,7 +782,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1904
 #: src/dialogs/dialog-analysis-tools.c:1993
 msgid "Input:"
-msgstr ""
+msgstr "Вв╕д:"
 
 #: src/dialogs/dialog-analysis-tools.c:474
 #: src/dialogs/dialog-analysis-tools.c:555
@@ -1503,7 +1500,7 @@ msgstr ""
 
 #: src/dialogs/print.glade.h:18
 msgid "Fi_rst page number:"
-msgstr ""
+msgstr "Номер першо╖ стор╕нки:"
 
 #: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
 #: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
@@ -1562,7 +1559,7 @@ msgstr ""
 
 #: src/dialogs/print.glade.h:32
 msgid "Paper _size:"
-msgstr ""
+msgstr "Розм╕р паперу:"
 
 #: src/dialogs/print.glade.h:36
 msgid "Margins"
@@ -1781,11 +1778,11 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:22
 msgid "_Use Separator for 1000's"
-msgstr ""
+msgstr "Використовувати розд╕лювач для тисяч:"
 
 #: src/dialogs/cell-format.glade.h:23
 msgid "S_ymbol:"
-msgstr ""
+msgstr "Символ:"
 
 #: src/dialogs/cell-format.glade.h:24
 msgid "\n"
@@ -1982,7 +1979,7 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:84
 msgid "C_olor"
-msgstr ""
+msgstr "Кол╕р"
 
 #: src/dialogs/cell-format.glade.h:85
 msgid "Pick a Background color"
@@ -2262,7 +2259,7 @@ msgstr "Формат файлу:"
 
 #: src/file.c:499
 msgid "Save workbook as"
-msgstr ""
+msgstr "Зберегти книгу як"
 
 #: src/file.c:543
 msgid "Sorry, there are no file savers loaded, I cannot save"
@@ -2762,7 +2759,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-eng.c:288
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -2773,14 +2769,6 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-eng.c:311
 msgid ""
@@ -2841,7 +2829,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-eng.c:415
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -2852,14 +2839,6 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-eng.c:438
 msgid ""
@@ -2938,7 +2917,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-eng.c:675
-#, fuzzy
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -2949,17 +2927,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMREAL"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMAGINARY\n"
+"@SYNTAX=IMAGINARY(inumber)\n"
+"@DESCRIPTION=IMAGINARY поверта╓ уявний коф╕ц╕╓нт комплексного числа. Ця "
+"функц╕я сум╕сна з Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
+"IMAGINARY(\"132-j\") дор╕вню╓ -1.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=IMREAL"
 
 #: src/functions/fn-eng.c:706
-#, fuzzy
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -2970,17 +2947,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMAGINARY"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMREAL\n"
+"@SYNTAX=IMREAL(inumber)\n"
+"@DESCRIPTION=IMREAL поверта╓ д╕йсний коф╕ц╕╓нт комплексного числа. Ця "
+"функц╕я ╓ сум╕сною з Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
+"imreal(\"132-j\") дор╕вню╓ 132.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=IMAGINARY"
 
 #: src/functions/fn-eng.c:737
-#, fuzzy
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
@@ -2991,17 +2967,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMABS\n"
+"@SYNTAX=IMABS(inumber)\n"
+"@DESCRIPTION=IMABS поверта╓ абсолютне значення комплексного числа. Ця "
+"функц╕я ╓ сум╕сною з Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
+"IMABS(\"2-j\") дор╕вню╓ 2.23606798.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/functions/fn-eng.c:768
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -3012,17 +2987,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-eng.c:799
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
@@ -3033,17 +2999,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMCOS\n"
+"@SYNTAX=IMCOS(inumber)\n"
+"@DESCRIPTION=IMCOS поверта╓ косинус комплесного числа. Ця функц╕я ╓ "
+"сум╕сною з Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
+"IMCOS(\"1+j\") дор╕вню╓ 0.833730-0.988898j.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=IMSIN,IMTAN"
 
 #: src/functions/fn-eng.c:827
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -3053,17 +3018,15 @@ msgid ""
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(inumber)\n"
+"@DESCRIPTION=IMTAN поверта╓ тангенс комплексного числа. Ця функц╕я ╓ "
+"сум╕сною з Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-eng.c:854
-#, fuzzy
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
@@ -3074,17 +3037,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMLN"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMEXP\n"
+"@SYNTAX=IMEXP(inumber)\n"
+"@DESCRIPTION=IMEXP поверта╓ експоненту комплексного числа. Ця функц╕я ╓ "
+"сум╕сною з Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
+"IMEXP(\"2-j\") дор╕вню╓ 3.992324-6.217676j.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=IMLN"
 
 #: src/functions/fn-eng.c:882
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -3095,12 +3057,12 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMARGUMENT\n"
+"@SYNTAX=IMARGUMENT(inumber)\n"
+"@DESCRIPTION=IMARGUMENT поверта╓ тета-аргумент комплексного числа. Ця "
+"функц╕я сум╕сна з Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
+"IMARGUMENT(\"2-j\") дор╕вню╓ -0.463647609.\n"
 "\n"
 "@SEEALSO="
 
@@ -3120,7 +3082,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-eng.c:941
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -3131,17 +3092,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMLN,IMLOG10"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-eng.c:971
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -3152,14 +3104,6 @@ msgid ""
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-eng.c:1001
 msgid ""
@@ -3176,7 +3120,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-eng.c:1037
-#, fuzzy
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
@@ -3187,17 +3130,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMPRODUCT"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMDIV\n"
+"@SYNTAX=IMDIV(inumber,inumber)\n"
+"@DESCRIPTION=IMDIV поверта╓ частку в╕д д╕лення двох комплексних чисел. Ця "
+"функц╕я сум╕сна Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
+"IMDIV(\"2-j\",\"2+j\") равняется 0.6-0.8j.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=IMPRODUCT"
 
 #: src/functions/fn-eng.c:1071
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -3208,17 +3150,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMSIN\n"
+"@SYNTAX=IMSIN(inumber)\n"
+"@DESCRIPTION=IMSIN поверта╓ синус комплексного числа. Ця функц╕я ╓ "
+"сум╕сною з Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
+"IMSIN(\"1+j\") дор╕вню╓ 1.29846+0.63496j.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=IMCOS,IMTAN"
 
 #: src/functions/fn-eng.c:1099
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -3229,17 +3170,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMPOWER"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMSQRT\n"
+"@SYNTAX=IMSQRT(inumber)\n"
+"@DESCRIPTION=IMSQRT поверта╓ квадратний кор╕нь комплесного числа. Ця "
+"функц╕я ╓ сум╕сною з Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
+"IMSQRT(\"1+j\") дор╕вню╓ 1.09868+0.4550899j.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=IMPOWER"
 
 #: src/functions/fn-eng.c:1127
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
@@ -3250,17 +3190,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMSUM"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMSUB\n"
+"@SYNTAX=IMSUB(inumber,inumber)\n"
+"@DESCRIPTION=IMSUB поверта╓ р╕зницю двох комплексних чисел. Ця функц╕я ╓ "
+"сум╕сною з Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
+"IMSUB(\"3-j\",\"2+j\") дор╕вню╓ 1-2j.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=IMSUM"
 
 #: src/functions/fn-eng.c:1158
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -3271,17 +3210,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMDIV"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMPRODUCT\n"
+"@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
+"@DESCRIPTION=IMPRODUCT поверта╓ добуток заданих комплексних чисел. "
+"Ця функц╕я сум╕сна з Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
+"IMPRODUCT(\"2-j\",\"4-2j\") равняется 6-8j.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=IMDIV"
 
 #: src/functions/fn-eng.c:1228
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
@@ -3292,14 +3230,14 @@ msgid ""
 "\n"
 "@SEEALSO=IMSUB"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
+"@FUNCTION=IMSUM\n"
+"@SYNTAX=IMSUM(inumber,inumber)\n"
+"@DESCRIPTION=IMSUM поверта╓ суму двох комлексних чисел. Ця функц╕я ╓ "
+"сум╕сною з Excel. \n"
 "@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
+"IMSUM(\"2-4j\",\"9-j\") дор╕вню╓ 11-5j.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=IMSUB"
 
 #: src/functions/fn-eng.c:1262
 msgid ""
@@ -4818,7 +4756,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:364
-#, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -4829,14 +4766,6 @@ msgid ""
 "ASINH(0.5) equals 0.481212. ASINH(1.0) equals 0.881374.\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:388
 msgid ""
@@ -4878,7 +4807,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:471
-#, fuzzy
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -4888,14 +4816,6 @@ msgid ""
 "CEIL(0.4) equals 1. CEIL(-1.1) equals -1. CEIL(-2.9) equals -2.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:495
 msgid ""
@@ -4974,7 +4894,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:823
-#, fuzzy
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -4985,14 +4904,6 @@ msgid ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:845
 msgid ""
@@ -5028,7 +4939,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-math.c:917
-#, fuzzy
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -5042,17 +4952,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:967
-#, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -5065,14 +4966,6 @@ msgid ""
 "\n"
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1003
 msgid ""
@@ -5115,7 +5008,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1095
-#, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -5127,14 +5019,6 @@ msgid ""
 "\n"
 "@SEEALSO=EXP"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1127
 msgid ""
@@ -5199,7 +5083,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1273
-#, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -5210,14 +5093,6 @@ msgid ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1296
 msgid ""
@@ -5233,7 +5108,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1319
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -5245,14 +5119,6 @@ msgid ""
 "\n"
 "@SEEALSO=POW"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1347
 msgid ""
@@ -5338,7 +5204,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1561
-#, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -5349,14 +5214,6 @@ msgid ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1584
 msgid ""
@@ -5372,7 +5229,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1607
-#, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -5384,14 +5240,6 @@ msgid ""
 "\n"
 "@SEEALSO=SQRTPI"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1631
 msgid ""
@@ -5998,7 +5846,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:624
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -6011,14 +5858,6 @@ msgid ""
 "\n"
 "@SEEALSO=FISHER"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=FACT раху╓ фактор╕ал @x, тобто @x! Ця функц╕я сум╕сна з Excel.\n"
-"@EXAMPLES=\n"
-"FACT(3) equals 6.\n"
-"FACT(9) equals 362880.\n"
-"\n"
-"@SEEALSO="
 
 #: src/functions/fn-stat.c:652
 msgid ""
@@ -7185,7 +7024,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-string.c:164
-#, fuzzy
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -7195,13 +7033,6 @@ msgid ""
 "\n"
 "@SEEALSO=UPPER"
 msgstr ""
-"@FUNCTION=REPT\n"
-"@SYNTAX=REPT(рядок,к╕льк╕сть)\n"
-"@DESCRIPTION=REPT поверта╓ @к╕льк╕сть раз повторений @рядок.\n"
-"@EXAMPLES=\n"
-"REPT(\".\",3) equals \"...\".\n"
-"\n"
-"@SEEALSO=CONCATENATE"
 
 #: src/functions/fn-string.c:198
 msgid ""
@@ -7779,19 +7610,19 @@ msgstr ""
 
 #: src/item-cursor.c:668 src/workbook.c:1234
 msgid "Copy"
-msgstr ""
+msgstr "Скоп╕ювати"
 
 #: src/item-cursor.c:669 src/print-preview.c:538
 msgid "Move"
-msgstr ""
+msgstr "Перем╕стити"
 
 #: src/item-cursor.c:670
 msgid "Copy formats"
-msgstr ""
+msgstr "Скоп╕ювати формати"
 
 #: src/item-cursor.c:671
 msgid "Copy values"
-msgstr ""
+msgstr "Скоп╕ювати значення"
 
 #: src/item-cursor.c:672
 msgid "Shift cells down and copy"
@@ -7811,15 +7642,15 @@ msgstr ""
 
 #: src/item-grid.c:621
 msgid "Cu_t"
-msgstr ""
+msgstr "Вир╕зати"
 
 #: src/item-grid.c:623
 msgid "_Copy"
-msgstr ""
+msgstr "Скоп╕ювати"
 
 #: src/item-grid.c:625
 msgid "_Paste"
-msgstr ""
+msgstr "Вставити"
 
 #: src/item-grid.c:627
 msgid "Paste _Special"
@@ -7827,15 +7658,15 @@ msgstr ""
 
 #: src/item-grid.c:632
 msgid "_Insert..."
-msgstr ""
+msgstr "Встивити..."
 
 #: src/item-grid.c:634 src/workbook.c:1052
 msgid "_Delete..."
-msgstr ""
+msgstr "Видалити..."
 
 #: src/item-grid.c:636
 msgid "Clear Co_ntents"
-msgstr ""
+msgstr "Очистити вм╕ст"
 
 #: src/item-grid.c:641
 msgid "_Format Cells..."
@@ -8112,15 +7943,15 @@ msgstr "Зменшу╓ стор╕нку"
 #: src/print-preview.c:559
 #, c-format
 msgid "Preview for %s in %s"
-msgstr ""
+msgstr "Попередн╕й перегляд %s в %s"
 
 #: src/print-preview.c:560
 msgid "the sheet"
-msgstr ""
+msgstr "аркуша"
 
 #: src/print-preview.c:561
 msgid "the workbook"
-msgstr ""
+msgstr "книги"
 
 #: src/print.c:515 src/workbook.c:1587
 msgid "Selection must be a single range"
@@ -8300,7 +8131,7 @@ msgstr ""
 
 #: src/workbook-format-toolbar.c:283
 msgid "Percent"
-msgstr ""
+msgstr "В╕дсоток"
 
 #: src/workbook-format-toolbar.c:283
 msgid "Sets the format of the selected cells to percentage"
@@ -8349,11 +8180,11 @@ msgstr "Попередження"
 #: src/workbook.c:539
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
-msgstr ""
+msgstr "Книга %s м╕стить незбережен╕ зм╕ни, зберегти ╖╖?"
 
 #: src/workbook.c:542
 msgid "Workbook has unsaved changes, save them?"
-msgstr ""
+msgstr "Книга м╕стить незбережен╕ зм╕ни, зберегти ╖╖?"
 
 #: src/workbook.c:757
 msgid "Insert cols"
@@ -8365,7 +8196,7 @@ msgstr "Вставити рядки"
 
 #: src/workbook.c:980
 msgid "_New"
-msgstr ""
+msgstr "Нова"
 
 #: src/workbook.c:980
 msgid "Create a new spreadsheet"
@@ -8389,11 +8220,11 @@ msgstr ""
 
 #: src/workbook.c:995
 msgid "Plu_g-ins..."
-msgstr ""
+msgstr "Доповнення..."
 
 #: src/workbook.c:995
 msgid "Gnumeric plugins"
-msgstr ""
+msgstr "Доповнення до Gnumeric"
 
 #: src/workbook.c:1002 src/workbook.c:1225
 msgid "Print pre_view"
@@ -8440,9 +8271,8 @@ msgid "Clear the selected cell(s)"
 msgstr "Очистити вибран╕ ком╕рки"
 
 #: src/workbook.c:1054
-#, fuzzy
 msgid "De_lete Sheet"
-msgstr "Новий аркуш"
+msgstr "Видалити аркуш"
 
 #: src/workbook.c:1059
 msgid "_Select All"
@@ -8601,14 +8431,12 @@ msgid "Auto Correct"
 msgstr ""
 
 #: src/workbook.c:1167
-#, fuzzy
 msgid "_Auto Save..."
-msgstr "Перейти на ком╕рку..."
+msgstr "Автозбереження..."
 
 #: src/workbook.c:1167
-#, fuzzy
 msgid "Auto Save"
-msgstr "Зберегти"
+msgstr "Автозбереження"
 
 #: src/workbook.c:1170
 msgid "_Goal Seek..."
@@ -8628,7 +8456,7 @@ msgstr "_Сортувати..."
 
 #: src/workbook.c:1180
 msgid "Sort the selected cells"
-msgstr ""
+msgstr "Посортувати вибран╕ ком╕рки"
 
 #: src/workbook.c:1196
 msgid "_Insert"
@@ -8643,9 +8471,8 @@ msgid "_Tools"
 msgstr "╤нструменти"
 
 #: src/workbook.c:1199
-#, fuzzy
 msgid "_Data"
-msgstr "_Дата"
+msgstr "_Дан╕"
 
 #: src/workbook.c:1210
 msgid "New"
@@ -8661,7 +8488,7 @@ msgstr "В╕дкрити"
 
 #: src/workbook.c:1213
 msgid "Opens an existing workbook"
-msgstr ""
+msgstr "В╕дкрива╓ ╕снуючу книгу"
 
 #: src/workbook.c:1216
 msgid "Save"
@@ -8669,31 +8496,31 @@ msgstr "Зберегти"
 
 #: src/workbook.c:1216
 msgid "Saves the workbook"
-msgstr ""
+msgstr "Збер╕га╓ книгу"
 
 #: src/workbook.c:1222
 msgid "Prints the workbook"
-msgstr ""
+msgstr "Друку╓ книгу"
 
 #: src/workbook.c:1231
 msgid "Cut"
-msgstr ""
+msgstr "Вир╕зати"
 
 #: src/workbook.c:1231
 msgid "Cuts the selection to the clipboard"
-msgstr ""
+msgstr "Вир╕за╓ виб╕р у буфер обм╕ну"
 
 #: src/workbook.c:1234
 msgid "Copies the selection to the clipboard"
-msgstr ""
+msgstr "Коп╕ю╓ виб╕р у буфер обм╕ну"
 
 #: src/workbook.c:1237
 msgid "Paste"
-msgstr ""
+msgstr "Вставити"
 
 #: src/workbook.c:1237
 msgid "Pastes the clipboard"
-msgstr ""
+msgstr "Встивля╓ буфер обм╕ну"
 
 #: src/workbook.c:1244
 msgid "Graphic"
@@ -8713,7 +8540,7 @@ msgstr ""
 
 #: src/workbook.c:1252
 msgid "Creates a button"
-msgstr ""
+msgstr "Створю╓ кнопку"
 
 #: src/workbook.c:1255
 msgid "Checkbox"
@@ -8741,7 +8568,7 @@ msgstr "Прямокутник"
 
 #: src/workbook.c:1268
 msgid "Creates a rectangle object"
-msgstr ""
+msgstr "Створю╓ прямокутник"
 
 #: src/workbook.c:1271
 msgid "Ellipse"
@@ -8749,7 +8576,7 @@ msgstr "Ел╕пс"
 
 #: src/workbook.c:1271
 msgid "Creates an ellipse object"
-msgstr ""
+msgstr "Створю╓ ел╕пс"
 
 #: src/workbook.c:1483
 msgid "You should introduce a valid cell name"
