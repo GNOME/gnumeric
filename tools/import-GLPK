@@ -1,3 +1,4 @@
+#!/usr/local/bin/perl -w
 #
 # import-GLPK: Use this Perl script to import GLPK into Gnumeric.
 #              Tested with glpk 3.2.
@@ -23,11 +24,11 @@
 # Check the command line arguments.
 #
 
-$glpk_path = @ARGV[0];
-$dest_path = @ARGV[1];
+my $glpk_path = $ARGV[0];
+my $dest_path = $ARGV[1];
 
 # Check paths.
-if ($glpk_path eq "" || $dest_path eq "") {
+if (!defined ($glpk_path) || !defined ($dest_path)) {
     print "Usage: import-GLPK <glpk-path> <destination-path>\n";
     print "Both paths should be directories.\n\n";
     exit;
@@ -70,12 +71,11 @@ for ($i = 0; $files[$i] ne "@"; $i++) {
 #
 
 # Add these Gnumeric headers
-$x=0;
-
-$gnumeric_inc[$x++] = "gnumeric.h";
-$gnumeric_inc[$x++] = "numbers.h";
-$gnumeric_inc[$x++] = "@";
-
+my @gnumeric_inc =
+    ("gnumeric-config.h",
+     "gnumeric.h",
+     "numbers.h",
+     "@");
 
 # Select these sources to be imported into Gnumeric
 $x=0;
@@ -158,18 +158,18 @@ $src[$x++] = "@";
 #
 
 for ($i = 0; $src[$i] ne "@"; $i++) {
-    open in, "$glpk_path/$src[$i]";
-    open outfile, ">$dest_path/$src[$i]";
+    open IN, "$glpk_path/$src[$i]";
+    open OUTFILE, ">$dest_path/$src[$i]";
     $flag = 0;
 
-    while (<in>) {
+    while (<IN>) {
 
 	# Crude footprint optimizations: FIXME for new versions
 	if (/\-\- u_solve \-/) {
-	    print outfile " */\n";    # Cut the glpmat1.c file here
+	    print OUTFILE " */\n";    # Cut the glpmat1.c file here
 	    last;
 	} elsif (/\-\- prepro_row \-/) {
-	    print outfile " */\n";    # Cut the glplp.c file here
+	    print OUTFILE " */\n";    # Cut the glplp.c file here
 	    last;
 	} elsif (/(.*)/) {
 	    # Filtering
@@ -180,27 +180,27 @@ for ($i = 0; $src[$i] ne "@"; $i++) {
 	    while ($line =~s/double/gnum_float/) {}
 
 	    # Use sqrtgnum instead of sqrt
-	    while ($line =~s/sqrt\(/sqrtgnum \(/) {}
+	    while ($line =~s/sqrt\s*\(/sqrtgnum \(/) {}
 
 	    # Use g_malloc instead of malloc
-	    while ($line =~s/[^u]malloc\(/g_malloc \(/) {}
+	    while ($line =~s/[^u]malloc\s*\(/g_malloc \(/) {}
 
 	    # Use g_free instead of free
-	    while ($line =~s/[^u]free\(/g_free \(/) {}
+	    while ($line =~s/[^u]free\s*\(/g_free \(/) {}
 
-	    print outfile "$line\n";
+	    print OUTFILE "$line\n";
 
 	    # Add Gnumeric headers
-	    if ($flag && $line=~/\#define _(\w+)_H/) {
+	    if ($flag && $line=~/\#\s*define\s*_(\w+)_H/) {
 		if ($1 eq $header_name) {
-		    print outfile "\n";
+		    print OUTFILE "\n";
 		    for ($t = 0; $gnumeric_inc[$t] ne "@"; $t++) {
-			print outfile "\#include \"$gnumeric_inc[$t]\"\n";
+			print OUTFILE "\#include \"$gnumeric_inc[$t]\"\n";
 		    }
 		    $flag = 0;
 		    $header_name = "";
 		}
-	    } elsif ($line =~/\#ifndef _(\w+)_H/) {
+	    } elsif ($line =~/\#\s*ifndef\s*_(\w+)_H/) {
 		$flag = 1;
 		$header_name = $1;
 	    } else {
@@ -210,8 +210,8 @@ for ($i = 0; $src[$i] ne "@"; $i++) {
 	}
     }
 
-    close outfile;
-    close in;
+    close OUTFILE;
+    close IN;
 }
 
 #
@@ -219,46 +219,46 @@ for ($i = 0; $src[$i] ne "@"; $i++) {
 #
 
 # glpk/Makefile.am
-open outfile, ">$dest_path/Makefile.am";
-print outfile "SUBDIRS = source\n\n";
-print outfile "INCLUDES =\t\t\t\t\t\t\\\n";
-print outfile "\t-DGNOMELOCALEDIR=\\\"\"\$(datadir)/locale\"\\\"\t\\\n";
-print outfile "\t-I\$(top_srcdir)\t\t\t\t\t\\\n";
-print outfile "\t-I\$(top_srcdir)/src\t\t\t\t\\\n";
-print outfile "\t-I\$(top_srcdir)/src/tools\t\t\t\\\n";
-print outfile "\t-I\$(top_srcdir)/src/tools/solver\t\t\\\n";
-print outfile "\t-I\$(top_srcdir)/src/tools/solver/glpk/include\t\\\n";
-print outfile "\t\$(GNUMERIC_CFLAGS)\n\n";
-print outfile "noinst_LIBRARIES =\n\n";
-close outfile;
+open OUTFILE, ">$dest_path/Makefile.am";
+print OUTFILE "SUBDIRS = source\n\n";
+print OUTFILE "INCLUDES =\t\t\t\t\t\t\\\n";
+print OUTFILE "\t-DGNOMELOCALEDIR=\\\"\"\$(datadir)/locale\"\\\"\t\\\n";
+print OUTFILE "\t-I\$(top_srcdir)\t\t\t\t\t\\\n";
+print OUTFILE "\t-I\$(top_srcdir)/src\t\t\t\t\\\n";
+print OUTFILE "\t-I\$(top_srcdir)/src/tools\t\t\t\\\n";
+print OUTFILE "\t-I\$(top_srcdir)/src/tools/solver\t\t\\\n";
+print OUTFILE "\t-I\$(top_srcdir)/src/tools/solver/glpk/include\t\\\n";
+print OUTFILE "\t\$(GNUMERIC_CFLAGS)\n\n";
+print OUTFILE "noinst_LIBRARIES =\n\n";
+close OUTFILE;
 
 # glpk/source/Makefile.am
-open outfile, ">$dest_path/source/Makefile.am";
-print outfile "SUBDIRS = \n\n";
-print outfile "INCLUDES =\t\t\t\t\t\t\\\n";
-print outfile "\t-DGNOMELOCALEDIR=\\\"\"\$(datadir)/locale\"\\\"\t\\\n";
-print outfile "\t-I\$(top_srcdir)\t\t\t\t\t\\\n";
-print outfile "\t-I\$(top_srcdir)/src\t\t\t\t\\\n";
-print outfile "\t-I\$(top_srcdir)/src/tools\t\t\t\\\n";
-print outfile "\t-I\$(top_srcdir)/src/tools/solver\t\t\\\n";
-print outfile "\t-I\$(top_srcdir)/src/tools/solver/glpk/include\t\\\n";
-print outfile "\t\$(GNUMERIC_CFLAGS)\n\n";
-print outfile "noinst_LIBRARIES = libglpk.a\n\n";
-print outfile "libglpk_a_SOURCES =\t\t\t\t\t\\\n";
+open OUTFILE, ">$dest_path/source/Makefile.am";
+print OUTFILE "SUBDIRS = \n\n";
+print OUTFILE "INCLUDES =\t\t\t\t\t\t\\\n";
+print OUTFILE "\t-DGNOMELOCALEDIR=\\\"\"\$(datadir)/locale\"\\\"\t\\\n";
+print OUTFILE "\t-I\$(top_srcdir)\t\t\t\t\t\\\n";
+print OUTFILE "\t-I\$(top_srcdir)/src\t\t\t\t\\\n";
+print OUTFILE "\t-I\$(top_srcdir)/src/tools\t\t\t\\\n";
+print OUTFILE "\t-I\$(top_srcdir)/src/tools/solver\t\t\\\n";
+print OUTFILE "\t-I\$(top_srcdir)/src/tools/solver/glpk/include\t\\\n";
+print OUTFILE "\t\$(GNUMERIC_CFLAGS)\n\n";
+print OUTFILE "noinst_LIBRARIES = libglpk.a\n\n";
+print OUTFILE "libglpk_a_SOURCES =\t\t\t\t\t\\\n";
 for ($i = 0; $src[$i] ne "@"; $i++) {
     $name = $src[$i];
     if ($name=~/include\//) {
 	next;
     }
     $name =~s/source\///;
-    print outfile "\t$name\t\t\t\t";
+    print OUTFILE "\t$name\t\t\t\t";
     if ($src[$i + 1] eq "@") {
-	print outfile "\n";
+	print OUTFILE "\n";
     } else {
-	print outfile "\\\n";
+	print OUTFILE "\\\n";
     }
 }
-print outfile "\t\n";
-print outfile "\t\n";
-print outfile "\t\n";
-close outfile;
+print OUTFILE "\t\n";
+print OUTFILE "\t\n";
+print OUTFILE "\t\n";
+close OUTFILE;
