@@ -102,7 +102,6 @@ src/dialogs/dialog-stf-preview.c
 src/dialogs/dialog-stf-preview.h
 src/dialogs/dialog-stf.c
 src/dialogs/dialog-stf.glade
-src/dialogs/dialog-validate.c
 src/dialogs/dialog-workbook-attr.c
 src/dialogs/dialog-zoom.c
 src/dialogs/dialog-zoom.glade
@@ -131,7 +130,6 @@ src/dialogs/sheet-rename.glade
 src/dialogs/solver-options.glade
 src/dialogs/solver.glade
 src/dialogs/summary.glade
-src/dialogs/validate.glade
 src/dialogs/variance-tests.glade
 src/dialogs/workbook-attr.glade
 src/embeddable-grid.c

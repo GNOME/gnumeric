@@ -1,3 +1,7 @@
+2001-10-15  Jon K Hellan  <hellan@acm.org>
+
+	* POTFILES.in: Remove validate.glade and dialog-validate.c
+
 2001-10-14  Valek Filippov  <frob@df.ru>
 
 	* ru.po: updated russian translation.
