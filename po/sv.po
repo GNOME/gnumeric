@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-06-17 15:51+0200\n"
-"PO-Revision-Date: 2002-06-17 15:55+0200\n"
+"POT-Creation-Date: 2002-06-18 14:37+0200\n"
+"PO-Revision-Date: 2002-06-18 14:38+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -11546,7 +11546,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Moebius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -13610,393 +13610,406 @@ msgstr "Skulle delat vektorn %s"
 msgid "Would split an array"
 msgstr "Skulle delat en vektor"
 
-#: src/commands.c:225
+#: src/commands.c:226
 #, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
 msgstr "%s är låst. Ta bort skyddet på arbetsboken för att tillåta redigering."
 
-#: src/commands.c:226
+#: src/commands.c:227
 #, c-format
 msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr "%s är låst. Ta bort skyddet på bladet för att tillåta redigering."
 
-#: src/commands.c:351
+#: src/commands.c:380
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:779 src/commands.c:889
+#: src/commands.c:808 src/commands.c:918 src/commands.c:923
 msgid "Set Text"
 msgstr "Ställ in text"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: src/commands.c:818
+#: src/commands.c:847
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Inmatning av \"%s%s\" i %s"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: src/commands.c:994
+#: src/commands.c:1028
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Inmatning av \"%s%s\""
 
-#: src/commands.c:1246
+#: src/commands.c:1146 src/commands.c:1153 src/sheet.c:3528
+msgid "Delete Columns"
+msgstr "Ta bort kolumner"
+
+#: src/commands.c:1146 src/commands.c:1153 src/sheet.c:3640
+msgid "Delete Rows"
+msgstr "Ta bort rader"
+
+#: src/commands.c:1294
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Infogning av %d kolumner före %s"
 
-#: src/commands.c:1247
+#: src/commands.c:1295
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Infogning av %d kolumner före %s"
 
-#: src/commands.c:1262
+#: src/commands.c:1310
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Infogning av %d rader före %s"
 
-#: src/commands.c:1263
+#: src/commands.c:1311
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Infogning av %d rad före %s"
 
-#: src/commands.c:1274
+#: src/commands.c:1322
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Borttagning av kolumnerna %s"
 
-#: src/commands.c:1275
+#: src/commands.c:1323
 #, c-format
 msgid "Deleting column %s"
 msgstr "Borttagning av kolumn %s"
 
-#: src/commands.c:1285
+#: src/commands.c:1333
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Borttagning av raderna %s"
 
-#: src/commands.c:1286
+#: src/commands.c:1334
 #, c-format
 msgid "Deleting row %s"
 msgstr "Borttagning av rad %s"
 
-#: src/commands.c:1360
-msgid "Undo Clear"
-msgstr "Ångra töm"
+#. Check for locked cells
+#: src/commands.c:1408 src/commands.c:1412 src/sheet.c:3066
+msgid "Clear"
+msgstr "Töm"
 
-#: src/commands.c:1434
+#: src/commands.c:1486
 msgid "contents"
 msgstr "innehåll"
 
-#: src/commands.c:1436
+#: src/commands.c:1488
 msgid "formats"
 msgstr "format"
 
-#: src/commands.c:1438
+#: src/commands.c:1490
 msgid "comments"
 msgstr "kommentarer"
 
-#: src/commands.c:1454
+#: src/commands.c:1506
 msgid "all"
 msgstr "alla"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: src/commands.c:1461
+#: src/commands.c:1513
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Tömmande av %s i %s"
 
-#: src/commands.c:1656
+#: src/commands.c:1586
+msgid "Changing Format"
+msgstr "Byter format"
+
+#: src/commands.c:1713
 #, c-format
 msgid "Changing format of %s"
 msgstr "Byter format på %s"
 
-#: src/commands.c:1767
+#: src/commands.c:1824
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Autopassar kolumn %s"
 
-#: src/commands.c:1768
+#: src/commands.c:1825
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Autopassar rad %s"
 
-#: src/commands.c:1771
+#: src/commands.c:1828
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Ställer in bredden på kolumn %s till %d bildpunkter"
 
-#: src/commands.c:1773
+#: src/commands.c:1830
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Ställer in höjd på rad %s till %d bildpunkter"
 
-#: src/commands.c:1776
+#: src/commands.c:1833
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Ställer in bredden på kolumn %s till standardbredd"
 
-#: src/commands.c:1779
+#: src/commands.c:1836
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Ställer in höjd på rad %s till standardhöjd"
 
-#: src/commands.c:1783 src/commands.c:1784
+#: src/commands.c:1840 src/commands.c:1841
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Autopassar kolumner %s"
 
-#: src/commands.c:1787
+#: src/commands.c:1844
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Ställer in bredd på kolumner %s till %d bildpunkter"
 
-#: src/commands.c:1789
+#: src/commands.c:1846
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Ställer in höjd på rader %s till %d bildpunkter"
 
-#: src/commands.c:1793
+#: src/commands.c:1850
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Ställer in bredd på kolumner %s till standardbredden"
 
-#: src/commands.c:1795
+#: src/commands.c:1852
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Ställer in höjd på rader %s till standardhöjden"
 
-#: src/commands.c:1878
+#: src/commands.c:1935
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorterar %s"
 
-#: src/commands.c:2006
+#: src/commands.c:2063
 msgid "Unhide columns"
 msgstr "Visa kolumner"
 
-#: src/commands.c:2006
+#: src/commands.c:2063
 msgid "Hide columns"
 msgstr "Dölj kolumner"
 
-#: src/commands.c:2007
+#: src/commands.c:2064
 msgid "Unhide rows"
 msgstr "Visa rader"
 
-#: src/commands.c:2007
+#: src/commands.c:2064
 msgid "Hide rows"
 msgstr "Dölj rader"
 
-#: src/commands.c:2088
+#: src/commands.c:2145
 msgid "Expand columns"
 msgstr "Fäll ut kolumner"
 
-#: src/commands.c:2088
+#: src/commands.c:2145
 msgid "Collapse columns"
 msgstr "Fäll ihop kolumner"
 
-#: src/commands.c:2089
+#: src/commands.c:2146
 msgid "Expand rows"
 msgstr "Fäll ut rader"
 
-#: src/commands.c:2089
+#: src/commands.c:2146
 msgid "Collapse rows"
 msgstr "Fäll ihop rader"
 
-#: src/commands.c:2158
+#: src/commands.c:2215
 msgid "Those columns are already grouped"
 msgstr "Dessa kolumner är redan grupperade"
 
-#: src/commands.c:2159
+#: src/commands.c:2216
 msgid "Those rows are already grouped"
 msgstr "Dessa rader är redan grupperade"
 
-#: src/commands.c:2162
+#: src/commands.c:2219
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "De kolumnerna är inte grupperade, du kan inte ogruppera dem"
 
-#: src/commands.c:2163
+#: src/commands.c:2220
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "De raderna är inte grupperade, du kan inte ogruppera dem"
 
-#: src/commands.c:2174
+#: src/commands.c:2231
 #, c-format
 msgid "Group columns %s"
 msgstr "Gruppera kolumner %s"
 
-#: src/commands.c:2174
+#: src/commands.c:2231
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Ogruppera kolumner %s"
 
-#: src/commands.c:2176
+#: src/commands.c:2233
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Gruppera rader %d:%d"
 
-#: src/commands.c:2176
+#: src/commands.c:2233
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Ogruppera rader %d:%d"
 
-#: src/commands.c:2383
+#: src/commands.c:2440
 #, c-format
 msgid "Moving %s"
 msgstr "Flyttar %s"
 
-#: src/commands.c:2392 src/commands.c:2601
+#: src/commands.c:2449 src/commands.c:2658
 msgid "is beyond sheet boundaries"
 msgstr "är utanför bladets gränser"
 
 #. FIXME?
-#: src/commands.c:2545
+#: src/commands.c:2602
 #, c-format
 msgid "Pasting into %s"
 msgstr "Klistrar in i %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2774 src/commands.c:2775 src/workbook-control-gui.c:2014
+#: src/commands.c:2831 src/commands.c:2832 src/workbook-control-gui.c:2014
 msgid "Autofill"
 msgstr "Autofyllning"
 
 #. Changed in initial redo.
-#: src/commands.c:2798
+#: src/commands.c:2855
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofyllning av %s"
 
-#: src/commands.c:2951
+#: src/commands.c:3008
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatering av %s"
 
-#: src/commands.c:3061
+#: src/commands.c:3118
 #, c-format
 msgid "Unmerging %s"
 msgstr "Splittring av %s"
 
-#: src/commands.c:3199
+#: src/commands.c:3256
 #, c-format
 msgid "Merging %s"
 msgstr "Sammanslagning av %s"
 
 #. Corrected below.
-#: src/commands.c:3577 src/dialogs/search-replace.glade.h:20
+#: src/commands.c:3634 src/dialogs/search-replace.glade.h:20
 msgid "Search and Replace"
 msgstr "Sök och ersätt"
 
-#: src/commands.c:3673
+#: src/commands.c:3730
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Inställning av standardbredd på kolumner till %.2f punkter"
 
-#: src/commands.c:3674
+#: src/commands.c:3731
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Inställning av standardhöjd på rader till %.2f punkter"
 
 #. Changed in initial redo.
-#: src/commands.c:3759
+#: src/commands.c:3816
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Konsolidation till %s!%s"
 
-#: src/commands.c:3876
+#: src/commands.c:3933
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Inzoomning av %s till %.0f%%"
 
-#: src/commands.c:3945
+#: src/commands.c:4002
 msgid "Insert object"
 msgstr "Infogning av objekt"
 
-#: src/commands.c:4003
+#: src/commands.c:4060
 msgid "Delete object"
 msgstr "Borttagning av objekt"
 
-#: src/commands.c:4084
+#: src/commands.c:4141
 msgid "Resize object"
 msgstr "Storleksändring av objekt"
 
-#: src/commands.c:4084
+#: src/commands.c:4141
 msgid "Move object"
 msgstr "Flyttning av objekt"
 
-#: src/commands.c:4325
+#: src/commands.c:4382
 msgid "Renaming Sheets"
 msgstr "Namnbyte på blad"
 
-#: src/commands.c:4328
+#: src/commands.c:4385
 msgid "Reordering Sheets"
 msgstr "Ändring av ordning av blad"
 
-#: src/commands.c:4333
+#: src/commands.c:4390
 msgid "Adding a sheet"
 msgstr "Tillägg av nytt blad"
 
-#: src/commands.c:4336
+#: src/commands.c:4393
 #, c-format
 msgid "Adding sheet '%s'"
 msgstr "Tillägg av bladet \"%s\""
 
-#: src/commands.c:4340
+#: src/commands.c:4397
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Namnbyte på bladet \"%s\" till \"%s\""
 
-#: src/commands.c:4345
+#: src/commands.c:4402
 msgid "Changing Tab Colors"
 msgstr "Färgbyte på flikar"
 
-#: src/commands.c:4348
+#: src/commands.c:4405
 msgid "Changing Sheet Protection"
 msgstr "Ändrar bladskydd"
 
-#: src/commands.c:4351
+#: src/commands.c:4408
 msgid "Reorganizing Sheets"
 msgstr "Ändring av ordning av blad"
 
-#: src/commands.c:4480
+#: src/commands.c:4537
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Tömning av kommentar för %s"
 
-#: src/commands.c:4481
+#: src/commands.c:4538
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Sättande av kommentar till %s"
 
-#: src/commands.c:4848
+#: src/commands.c:4905
 #, c-format
 msgid "Merging data into %s"
 msgstr "Sammanslagning av data i %s"
 
-#: src/commands.c:4951
+#: src/commands.c:5008
 msgid "Changing summary info"
 msgstr "Ändrar sammanfattningsinformation"
 
-#: src/commands.c:5042
+#: src/commands.c:5099
 msgid "Raise object"
 msgstr "Höj objekt"
 
-#: src/commands.c:5045
+#: src/commands.c:5102
 msgid "Lower object"
 msgstr "Sänk objekt"
 
-#: src/commands.c:5048
+#: src/commands.c:5105
 msgid "Raise object to top"
 msgstr "Höj objektet överst"
 
-#: src/commands.c:5051
+#: src/commands.c:5108
 msgid "Lower object to bottom"
 msgstr "Sänk objektet nederst"
 
-#: src/commands.c:5169
+#: src/commands.c:5226
 #, c-format
 msgid "Print Setup For %s"
 msgstr "Utskriftskonfiguration för %s"
 
-#: src/commands.c:5171
+#: src/commands.c:5228
 msgid "Print Setup For All Sheets"
 msgstr "Utskriftskonfiguration för alla blad"
 
@@ -20691,25 +20704,13 @@ msgstr "kan inte operera på sammanslagna celler"
 msgid "cannot operate on array formulae"
 msgstr "kan inte operera på vektorformler"
 
-#: src/sheet.c:3066
-msgid "Clear"
-msgstr "Töm"
-
 #: src/sheet.c:3470
 msgid "Insert Columns"
 msgstr "Infoga kolumner"
 
-#: src/sheet.c:3528
-msgid "Delete Columns"
-msgstr "Ta bort kolumner"
-
 #: src/sheet.c:3582
 msgid "Insert Rows"
 msgstr "Infoga rader"
-
-#: src/sheet.c:3640
-msgid "Delete Rows"
-msgstr "Ta bort rader"
 
 #: src/stf-parse.c:37
 #, c-format
@@ -22280,6 +22281,9 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 #: src/xml-io.c:3433
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "Undo Clear"
+#~ msgstr "Ångra töm"
 
 #~ msgid "Assume that all variables are integers."
 #~ msgstr "Antag att alla variabler är heltal."
