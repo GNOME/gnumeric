@@ -1177,13 +1177,15 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 			edge_list [i] = NULL;
 	}
 	/* 4.2 Create region list for middle */
-	middle_list = sheet_get_region_list_for_range (all_list, &middle);
+	/* Hack for now should be &middle */
+	middle_list = sheet_get_region_list_for_range (all_list, range);
 
 	/*
 	 * Fragment ranges into fully overlapping ones discarding
 	 * overlaps outside the selection.
 	 */
-	frags = range_fragment_list_clip (middle_list, &middle);
+	/* Hack for now should be &middle */
+	frags = range_fragment_list_clip (middle_list, range);
 	for (l = frags; l; l = g_list_next (l)) {
 		Range  *r   = l->data;
 		MStyle *tmp = sheet_mstyle_compute_from_list (middle_list,
