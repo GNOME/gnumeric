@@ -788,10 +788,10 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 		break;
 
 	case HALIGN_JUSTIFY:
-		*halign = GNOME_Gnumeric_Sheet_HALIGN_JUSTIFY:
+		*halign = GNOME_Gnumeric_Sheet_HALIGN_JUSTIFY;
 		break;
 		
-	case HALIGN_CENTER_ACROSS_SELECTION;
+	case HALIGN_CENTER_ACROSS_SELECTION:
 		*halign = GNOME_Gnumeric_Sheet_HALIGN_CENTER_ACROSS_SELECTION;
 		break;
 
