@@ -711,6 +711,7 @@ compute_value (const char *s, const regmatch_t *mp,
 	gboolean percentify = FALSE;
 	gboolean is_number  = FALSE;
 	gboolean is_pm      = FALSE;
+	gboolean is_explicit_am = FALSE;
 	int idx = 1, i;
 	int month, day, year, year_short;
 	int hours, minutes;
@@ -843,6 +844,8 @@ compute_value (const char *s, const regmatch_t *mp,
 		case MATCH_AMPM:
 			if (tolower ((unsigned char) *str) == 'p')
 				is_pm = TRUE;
+			else
+				is_explicit_am = TRUE;
 			idx++;
 			break;
 
@@ -952,8 +955,11 @@ compute_value (const char *s, const regmatch_t *mp,
 	if (hours == -1)
 		hours = 0;
 
-	if (is_pm && hours < 12)
-		hours += 12;
+	if (is_pm) {
+		if (hours < 12)
+			hours += 12;
+	} else if (is_explicit_am && hours == 12)
+		hours = 0;
 
 	if (hours < 0 || hours > 23)
 		return FALSE;
