@@ -1,3 +1,7 @@
+2000-05-01  Michael Meeks  <michael@helixcode.com>
+
+	* config.h: Remove redundant file.
+
 2000-04-08  Jon K Hellan  <hellan@acm.org>
 
 	* lotus.c (attach_sheet): Remove \n from sheet name. Gettextize
