@@ -14,8 +14,8 @@ typedef guint32 LONG ;
 typedef guint64 DLONG ;
 
 #define BIFF_GETBYTE(p) (*((const BYTE *)(p)+0))
-#define BIFF_GETWORD(p) (*((const BYTE *)(p)+0) | (*((const BYTE *)(p)+1)<<8))
-#define BIFF_GETLONG(p) (*((const BYTE *)(p)+0) | \
+#define BIFF_GETWORD(p) (guint16)(*((const BYTE *)(p)+0) | (*((const BYTE *)(p)+1)<<8))
+#define BIFF_GETLONG(p) (guint32)(*((const BYTE *)(p)+0) | \
                         (*((const BYTE *)(p)+1)<<8) | \
                         (*((const BYTE *)(p)+2)<<16) | \
                         (*((const BYTE *)(p)+3)<<24))
@@ -37,7 +37,7 @@ typedef struct _BIFF_QUERY
 	guint8  ms_op;
 	guint8  ls_op;
 	guint16 opcode;
-	gint32  length;        /* NB. can be extended by a continue opcode */
+	guint32 length;        /* NB. can be extended by a continue opcode */
 	guint8  *data;
 	guint32 streamPos;
 	int     data_malloced; /* is *data a copy ? */

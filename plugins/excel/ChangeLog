@@ -1,3 +1,12 @@
+1999-04-19  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
+	* ms-biff.h (_BIFF_QUERY): Set length to guint32
+	(BIFF_GETLONG): Added various casts.
+
+	* ms-ole.c (ms_ole_read_ptr_bb, ms_ole_read_ptr_sb):
+	Re-enabled, and fixed silly bug.
+	(dump): the 'int' type behaves very strangely.
+
 1999-04-18  Michael Meeks  <michael@edenproject.org>
 
 	* ms-ole.c: Rather important fixes. How did it ever

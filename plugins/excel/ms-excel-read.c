@@ -2164,10 +2164,10 @@ ms_excelReadWorkbook (MS_OLE * file)
 				guint32 length, k, tot_len ;
 				BYTE *tmp ;
 
-				if (EXCEL_DEBUG>4) {
+//				if (EXCEL_DEBUG>4) {
 					printf ("SST\n") ;
 					dump (q->data, q->length) ;
-				}
+//				}
 				wb->global_string_max = BIFF_GETLONG(q->data+4);
 				wb->global_strings = g_new (char *, wb->global_string_max) ;
 
@@ -2190,6 +2190,8 @@ ms_excelReadWorkbook (MS_OLE * file)
 						*/
 						printf ("FIXME: Serious SST overrun lost %d of %d strings!\n",
 							wb->global_string_max - k, wb->global_string_max) ;
+						printf ("Last string was '%s' 0x%x > 0x%x\n",
+							wb->global_strings[k-1], tot_len, q->length);
 						break ;
 					}
 				}

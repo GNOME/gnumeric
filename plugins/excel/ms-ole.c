@@ -152,7 +152,7 @@ get_block (MS_OLE_STREAM *s)
 static void
 set_block (MS_OLE_STREAM *s, BBPtr block)
 {
-	int lp;
+	guint lp;
 	if (!s || !s->blocks) return;
 	g_assert (0);
 	for (lp=0;lp<s->blocks->len;lp++)
@@ -175,7 +175,7 @@ get_offset (MS_OLE_STREAM *s)
 static void
 set_offset (MS_OLE_STREAM *s, guint32 offset)
 {
-	int lp;
+	guint lp;
 	guint32 block=get_block(s);
 	g_assert (0);
 	if (!s || !s->blocks) return;
@@ -191,17 +191,21 @@ set_offset (MS_OLE_STREAM *s, guint32 offset)
 void
 dump (guint8 *ptr, guint32 len)
 {
-	int lp,lp2;
-#define OFF (lp2+(lp<<4))
-#define OK (len-OFF>0)
+	guint32 lp,lp2;
+	guint32 off;
+
 	for (lp = 0;lp<(len+15)/16;lp++)
 	{
 		printf ("%8x  |  ", lp*16);
-		for (lp2=0;lp2<16;lp2++)
-			OK?printf("%2x ", ptr[OFF]):printf("XX ");
+		for (lp2=0;lp2<16;lp2++) {
+			off = lp2 + (lp<<4);
+			off<len?printf("%2x ", ptr[off]):printf("XX ");
+		}
 		printf ("  |  ");
-		for (lp2=0;lp2<16;lp2++)
-			printf ("%c", OK?(ptr[OFF]>'!'&&ptr[OFF]<127?ptr[OFF]:'.'):'*');
+		for (lp2=0;lp2<16;lp2++) {
+			off = lp2 + (lp<<4);
+			printf ("%c", off<len?(ptr[off]>'!'&&ptr[off]<127?ptr[off]:'.'):'*');
+		}
 		printf ("\n");
 	}
 #undef OFF
@@ -838,8 +842,10 @@ ms_ole_lseek (MS_OLE_STREAM *s, gint32 bytes, ms_ole_seek_t type)
 		s->position = bytes;
 	else
 		s->position+= bytes;
-	if (s->position>=s->size)
+	if (s->position>=s->size) {
 		s->position = s->size;
+		printf ("Truncated seek\n");
+	}
 }
 
 static guint8*
@@ -847,9 +853,8 @@ ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
 {
 	int blockidx = s->position/BB_BLOCK_SIZE;
 	int blklen;
+	guint32 len=length;
 	guint8 *ans;
-
-	return 0;
 
 	if (!s->blocks || blockidx>=s->blocks->len) {
 		printf ("Reading from NULL file\n");
@@ -857,8 +862,8 @@ ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
 	}
 
 	blklen = BB_BLOCK_SIZE - s->position%BB_BLOCK_SIZE;
-	while (length>blklen) {
-		length-=blklen;
+	while (len>blklen) {
+		len-=blklen;
 		blklen = BB_BLOCK_SIZE;
 		if (g_array_index (s->blocks, BBPtr, blockidx)+1
 		    != g_array_index (s->blocks, BBPtr, blockidx+1))
@@ -870,7 +875,8 @@ ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
 		blockidx++;
 	}
 	/* Straight map, simply return a pointer */
-	ans = GET_BB_START_PTR(s->file, get_block(s)) + get_offset(s);
+	ans = GET_BB_START_PTR(s->file, g_array_index (s->blocks, BBPtr, s->position/BB_BLOCK_SIZE))
+		+ s->position%BB_BLOCK_SIZE;
 	ms_ole_lseek (s, length, MS_OLE_SEEK_CUR);
 	return ans;
 }
@@ -880,9 +886,8 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
 {
 	int blockidx = s->position/SB_BLOCK_SIZE;
 	int blklen;
+	guint32 len=length;
 	guint8 *ans;
-
-	return 0;
 
 	if (!s->blocks || blockidx>=s->blocks->len) {
 		printf ("Reading from NULL file\n");
@@ -890,8 +895,8 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
 	}
 
 	blklen = SB_BLOCK_SIZE - s->position%SB_BLOCK_SIZE;
-	while (length>blklen) {
-		length-=blklen;
+	while (len>blklen) {
+		len-=blklen;
 		blklen = SB_BLOCK_SIZE;
 		if (g_array_index (s->blocks, BBPtr, blockidx)+1
 		    != g_array_index (s->blocks, BBPtr, blockidx+1))
@@ -903,7 +908,8 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
 		blockidx++;
 	}
 	/* Straight map, simply return a pointer */
-	ans = GET_SB_START_PTR(s->file, get_block(s)) + get_offset(s);
+	ans = GET_SB_START_PTR(s->file, g_array_index (s->blocks, BBPtr, s->position/SB_BLOCK_SIZE))
+		+ s->position%SB_BLOCK_SIZE;
 	ms_ole_lseek (s, length, MS_OLE_SEEK_CUR);
 	return ans;
 }
@@ -1473,15 +1479,13 @@ ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
 {
 	GArray *contin;
 	guint8  tmp[4];
-	guint32 lp;
+	guint32 lp, total_len;
 	guint8 *d;
 	typedef struct {
 		guint8 *data;
 		guint32 length;
 	} chunk_t;
 	chunk_t chunk;
-
-	printf ("MERGE CONTINUE...\n");
 
 	contin = g_array_new (0,1,sizeof(chunk_t));
 
@@ -1493,6 +1497,7 @@ ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
 		chunk.data = g_new (guint8, bq->length);
 		memcpy (chunk.data, bq->data, bq->length);
 	}
+	total_len = chunk.length;
 	g_array_append_val (contin, chunk);
 
 	/* Subsequent continue blocks */
@@ -1503,30 +1508,33 @@ ms_biff_merge_continues (BIFF_QUERY *bq, guint32 len)
 		chunk.data = g_new (guint8, chunk.length);
 		if (!bq->pos->read_copy (bq->pos, chunk.data, chunk.length))
 			return 0;
+		printf ("Read raw : 0x%x -> 0x%x\n", chunk.data[0],
+			chunk.data[chunk.length-1]);
 		tmp[0] = 0; tmp[1] = 0; tmp[2] = 0; tmp[3] = 0;
 		bq->pos->read_copy (bq->pos, tmp, 4);			
-		g_array_append_val (contin, chunk);
 		chunk.length = BIFF_GETWORD (tmp+2);
+		total_len   += chunk.length;
+		g_array_append_val (contin, chunk);
 	} while ((BIFF_GETWORD(tmp) & 0xff) == BIFF_CONTINUE);
 	bq->pos->lseek (bq->pos, -4, MS_OLE_SEEK_CUR); /* back back off */
 
-	len = 0;
-	for (lp=0;lp<contin->len;lp++)
-		len+=g_array_index (contin, chunk_t, lp).length;
-	bq->data = g_malloc (len);
+	bq->data = g_malloc (total_len);
 	if (!bq->data)
 		return 0;
-	bq->length = len;
+	bq->length = total_len;
 	d = bq->data;
 	bq->data_malloced = 1;
 	for (lp=0;lp<contin->len;lp++) {
 		chunk = g_array_index (contin, chunk_t, lp);
+		printf ("Copying block stats with 0x%x ends with 0x%x len 0x%x\n",
+			chunk.data[0], chunk.data[chunk.length-1], chunk.length);
+		g_assert ((d-bq->data)+chunk.length<=total_len);
 		memcpy (d, chunk.data, chunk.length);
 		d+=chunk.length;
 		if (lp) g_free (chunk.data); /* FIXME: Why ? */
 	}
 	g_array_free (contin, 1);
-		
+	printf ("MERGE %d CONTINUES... len 0x%x\n", contin->len, len);
 #if OLE_DEBUG > 2
 	printf ("Biff read code 0x%x, length %d\n", bq->opcode, bq->length);
 	dump_biff (bq);
@@ -1570,7 +1578,7 @@ ms_biff_query_next (BIFF_QUERY *bq)
 	if (ans &&
 	    bq->pos->read_copy (bq->pos, tmp, 4)) {
 		if ((BIFF_GETWORD(tmp) & 0xff) == BIFF_CONTINUE)
-			return ms_biff_merge_continues (bq, BIFF_GETWORD(tmp+2));
+;//			return ms_biff_merge_continues (bq, BIFF_GETWORD(tmp+2));
 		bq->pos->lseek (bq->pos, -4, MS_OLE_SEEK_CUR); /* back back off */
 #if OLE_DEBUG > 4
 		printf ("Backed off\n");

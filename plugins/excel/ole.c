@@ -343,6 +343,31 @@ int main (int argc, char **argv)
 				printf ("Need a stream name\n");
 				return 0;
 			}
+		} else if (g_strcasecmp(ptr, "biffraw")==0) {
+			MS_OLE_DIRECTORY *dir;
+			ptr = strtok (NULL, delim);
+			if ((dir = get_file_handle (ole, ptr)))
+			{
+				MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
+				BIFF_QUERY *q = ms_biff_query_new (stream);
+				guint8 data[4], *buffer;
+
+				buffer = g_new (guint8, 65550);
+				while (stream->read_copy (stream, data, 4)) {
+					guint32 len=BIFF_GETWORD(data+2);
+					printf ("Opcode 0x%3x : %15s, length 0x%x (=%d)\n",
+						BIFF_GETWORD(data), get_biff_opcode_name (BIFF_GETWORD(data)),
+						len, len);
+					stream->read_copy (stream, buffer, len);
+					dump (buffer, len);
+					buffer[0]=0;
+					buffer[len-1]=0;
+				}
+				ms_ole_stream_close (stream);
+			} else {
+				printf ("Need a stream name\n");
+				return 0;
+			}
 		} else if (g_strcasecmp(ptr, "draw")==0) { /* Assume its in a BIFF file */
 			MS_OLE_DIRECTORY *dir;
 			ptr = strtok (NULL, delim);

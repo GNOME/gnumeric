@@ -105,7 +105,8 @@ esh_header_contained (ESH_HEADER *h)
 {
 	if (h->length_left<ESH_HEADER_LEN)
 		return NULL;
-
+	g_assert (h->data[h->length_left-1] == /* Check that pointer */
+		  h->data[h->length_left-1]);
 	return esh_header_new (h->data+ESH_HEADER_LEN,
 			       h->length-ESH_HEADER_LEN);
 }
