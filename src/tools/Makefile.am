@@ -22,6 +22,8 @@ libtools_a_SOURCES =					\
 	random-generator.h				\
 	dao.c						\
 	dao.h						\
+	data-shuffling.c				\
+	data-shuffling.h				\
 	auto-correct.c					\
 	auto-correct.h					\
 	filter.h					\
