@@ -87,6 +87,11 @@ typedef GnmExpr const *(*GnmParseFunctionHandler) (const char *name,
 						   GnmExprList *args,
 						   gpointer userdata);
 
+typedef void (*GnmParseExprNameHandler) (GString *target,
+					 const ParsePos *pp,
+					 const GnmExprName *name,
+					 const GnmExprConventions *convs);
+
 struct _GnmExprConventions {
 #if 0
 	/* Not yet.  */
@@ -133,6 +138,14 @@ struct _GnmExprConventions {
 
 	/* Called for unknown functions if non-NULL.  */
 	GnmParseFunctionHandler unknown_function_handler;
+
+	/* ----------------------------------------------------------------- */
+
+	/* Called to make strings of names.  */
+	GnmParseExprNameHandler expr_name_handler;
+
+	/* Used to separate sheet from name when both are needed.  */
+	const char *output_sheet_name_sep;
 };
 
 GnmExprConventions *gnm_expr_conventions_new (void);

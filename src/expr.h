@@ -67,7 +67,7 @@ gboolean  gnm_expr_is_rangeref 	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_err 	     (GnmExpr const *expr, char const *err);
 gboolean  gnm_expr_equal	     (GnmExpr const *a, GnmExpr const *b);
 char	 *gnm_expr_as_string	     (GnmExpr const *expr, ParsePos const *fp,
-				      GnmExprConventions const *fmt);
+				      const GnmExprConventions *fmt);
 void	  gnm_expr_get_boundingbox   (GnmExpr const *expr, Range *bound);
 GSList	 *gnm_expr_referenced_sheets (GnmExpr const *expr);
 gboolean  gnm_expr_containts_subtotal(GnmExpr const *expr);

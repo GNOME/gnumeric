@@ -34,6 +34,10 @@
 #include "expr.h"
 #include "number-match.h"
 #include "format.h"
+#include "expr-name.h"
+#include "str.h"
+/* For def_expr_name_handler: */
+#include "expr-impl.h"
 
 #include <errno.h>
 #include <stdlib.h>
@@ -965,10 +969,47 @@ gnm_1_0_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 
 /* ------------------------------------------------------------------------- */
 
+static void
+def_expr_name_handler (GString *target,
+		       const ParsePos *pp,
+		       const GnmExprName *name,
+		       const GnmExprConventions *conv)
+{
+	const GnmNamedExpr *thename = name->name;
+
+	if (!thename->active) {
+		g_string_append (target, gnumeric_err_REF);
+		return;
+	}
+
+	if (name->optional_scope != NULL) {
+		if (name->optional_scope->workbook != pp->wb) {
+			g_string_append_c (target, '[');
+			g_string_append (target, name->optional_wb_scope->filename);
+			g_string_append_c (target, ']');
+		} else {
+			g_string_append (target, name->optional_scope->name_quoted);
+			g_string_append (target, conv->output_sheet_name_sep);
+		}
+	} else if (pp->sheet != NULL &&
+		   thename->pos.sheet != NULL &&
+		   thename->pos.sheet != pp->sheet) {
+		g_string_append (target, thename->pos.sheet->name_quoted);
+		g_string_append (target, conv->output_sheet_name_sep);
+	}
+	
+	g_string_append (target, thename->name->str);
+}
+
+/* ------------------------------------------------------------------------- */
+
 GnmExprConventions *
 gnm_expr_conventions_new (void)
 {
 	GnmExprConventions *res = g_new0 (GnmExprConventions, 1);
+
+	res->expr_name_handler = def_expr_name_handler;
+	res->output_sheet_name_sep = "!";
 	return res;
 }
 

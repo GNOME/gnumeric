@@ -1114,7 +1114,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 static void
 gnm_expr_list_as_string (GString *target,
 			 GnmExprList const *list, ParsePos const *pp,
-			 GnmExprConventions const *fmt);
+			 const GnmExprConventions *fmt);
 
 
 /*
@@ -1126,7 +1126,7 @@ gnm_expr_list_as_string (GString *target,
  */
 static void
 do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
-		   int paren_level, GnmExprConventions const *fmt)
+		   int paren_level, const GnmExprConventions *conv)
 {
 	static struct {
 		const char name[4];
@@ -1170,10 +1170,10 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 
 		if (need_par) g_string_append_c (target, '(');
 		do_expr_as_string (target, expr->binary.value_a, pp,
-				   prec - operations[op].assoc_left, fmt);
+				   prec - operations[op].assoc_left, conv);
 		g_string_append (target, opname);
 		do_expr_as_string (target, expr->binary.value_b, pp,
-				   prec - operations[op].assoc_right, fmt);
+				   prec - operations[op].assoc_right, conv);
 		if (need_par) g_string_append_c (target, ')');
 		return;
 	}
@@ -1186,7 +1186,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 
 		if (need_par) g_string_append_c (target, '(');
 		if (is_prefix) g_string_append (target, opname);
-		do_expr_as_string (target, expr->unary.value, pp, prec, fmt);
+		do_expr_as_string (target, expr->unary.value, pp, prec, conv);
 		if (!is_prefix) g_string_append (target, opname);
 		if (need_par) g_string_append_c (target, ')');
 		return;
@@ -1197,32 +1197,13 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 		const char *name = gnm_func_get_name (expr->func.func);
 
 		g_string_append (target, name);
-		gnm_expr_list_as_string (target, arg_list, pp, fmt);
+		/* FIXME: possibly a space here.  */
+		gnm_expr_list_as_string (target, arg_list, pp, conv);
 		return;
 	}
 
 	case GNM_EXPR_OP_NAME:
-		if (!expr->name.name->active) {
-			g_string_append (target, gnumeric_err_REF);
-			return;
-		}
-		if (expr->name.optional_scope != NULL) {
-			if (expr->name.optional_scope->workbook != pp->wb) {
-				g_string_append_c (target, '[');
-				g_string_append (target, expr->name.optional_wb_scope->filename);
-				g_string_append_c (target, ']');
-			} else {
-				g_string_append (target, expr->name.optional_scope->name_quoted);
-				g_string_append_c (target, '!');
-			}
-		} else if (pp->sheet != NULL &&
-			   expr->name.name->pos.sheet != NULL &&
-			   expr->name.name->pos.sheet != pp->sheet) {
-			g_string_append (target, expr->name.name->pos.sheet->name_quoted);
-			g_string_append_c (target, '!');
-		}
-
-		g_string_append (target, expr->name.name->name->str);
+		conv->expr_name_handler (target, pp, &expr->name, conv);
 		return;
 
 	case GNM_EXPR_OP_CELLREF: {
@@ -1279,29 +1260,29 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 				do_expr_as_string (
 					target,
 					corner->base.expression->array.corner.expr,
-					&tmp_pos, 0, fmt);
+					&tmp_pos, 0, conv);
 			} else
-				g_string_append (target, "<ERROR>");
+				break;
 		} else
 			do_expr_as_string (
 				target,
-				expr->array.corner.expr, pp, 0, fmt);
+				expr->array.corner.expr, pp, 0, conv);
 		return;
         }
 
 	case GNM_EXPR_OP_SET: {
-		gnm_expr_list_as_string (target, expr->set.set, pp, fmt);
+		gnm_expr_list_as_string (target, expr->set.set, pp, conv);
 		return;
 	}
 	};
 
 	g_assert_not_reached ();
-	g_string_append_c (target, '?');
+	g_string_append (target, "<ERROR>");
 }
 
 char *
 gnm_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
-		    GnmExprConventions const *fmt)
+		    const GnmExprConventions *fmt)
 {
 	GString *res;
 	g_return_val_if_fail (expr != NULL, NULL);
@@ -2160,7 +2141,7 @@ gnm_expr_list_eq (GnmExprList const *la, GnmExprList const *lb)
 static void
 gnm_expr_list_as_string (GString *target,
 			 GnmExprList const *list, ParsePos const *pp,
-			 GnmExprConventions const *fmt)
+			 const GnmExprConventions *fmt)
 {
 	GnmExprList const *l;
 	char sep = format_get_arg_sep ();

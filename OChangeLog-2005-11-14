@@ -1,5 +1,17 @@
 2002-12-13  Morten Welinder  <terra@diku.dk>
 
+	* src/parse-util.h (struct _GnmExprConventions): New members
+	expr_name_handler and output_sheet_name_sep.
+
+	* src/expr.c (do_expr_as_string): Use new expr_name_handler is
+	conventions.
+
+	* src/parse-util.c (def_expr_name_handler): New function, mostly
+	extracted from do_expr_as_string.
+	(gnm_expr_conventions_new): Attach def_expr_name_handler.
+
+2002-12-13  Morten Welinder  <terra@diku.dk>
+
 	* src/gutils.c (gnm_strescape): Rename from gnumeric_strescape and
 	take GString accumulator argument.  All callers changed.
 
