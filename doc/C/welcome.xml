@@ -109,7 +109,10 @@
 	<emphasis role="bold">Accuracy :</emphasis>
       </para>
       <para>
-	<ulink type="http" url="http://www.csdassn.org/software_reports.cfm">report</ulink>
+        Calculating the correct answer is important, and <application>Gnumeric</application> 
+	has worked hard to surpass the competition.  Recent
+	<ulink type="http" url="http://www.csdassn.org/software_reports.cfm">reports</ulink>
+	indicate that it has done so.
       </para>
     </listitem>
 
@@ -279,22 +282,6 @@
 
     <listitem>
       <para>
-        <emphasis role="bold">GTK+ Port</emphasis>
-      </para>
-      <para>
-        One of the principal aims of this developers series is to make
-        <application>Gnumeric</application> work using only the GTK+
-        libraries. These libraries, following their 2.4.0 release,
-        have all the functionality needed for the core of
-        <application>Gnumeric</application>. This work will remove all
-        dependencies in the core code on GNOME libraries although a
-        version with the more complete features included in GNOME will
-        still exist.
-      </para>
-    </listitem>
-
-    <listitem>
-      <para>
         <emphasis role="bold">The Port to Microsoft Operating Systems</emphasis>
       </para>
       <para>
@@ -324,7 +311,12 @@
       </para>
       <para>
         The graphical system is improving rapidly with new types of
-        graphs, such as radar plots, and new functionality.
+        graphs, such as radar plots.  There is now support for error bars
+	and additional styles.  The plots also look significantly sharper on
+	screen, and off thanks to some pixel tuning.  The axes now support
+	various mappings (logarithmic, inverse), and there are a wider
+	selection of markers.  There is also support for formatting individual
+	points in a plot.
       </para>
     </listitem>
 
@@ -349,19 +341,22 @@
         documents. The <application>Gnumeric</application> team spends
         a considerable effort reverse engineering that file format to
         ensure that <application>Gnumeric</application> can read and
-        write files in that format.
+	write files in that format.  This release now supports all forms of
+	'array formula' and adds export support for charts, rich text, and images.
+	More compatibility accelerator keys were added to simplify transition,
+	and improve the finger feel.  There is better support for hyperlinks.
       </para>
     </listitem>
 
-</itemizedlist>
-
-</para>
-
-
-<!--
-
-<para>
-  <itemizedlist>
+    <listitem>
+      <para>
+        <emphasis role="bold">Printing</emphasis>
+      </para>
+      <para>
+	Using <application>Pango</application> throught the printing subsystem
+	improves the consistency between on screen and resulting paper.
+      </para>
+    </listitem>
 
     <listitem>
       <para>
@@ -369,7 +364,7 @@
       </para>
       <para>
         This version of <application>Gnumeric</application> includes
-        450 sheet functions including all of the functions from the
+        470 sheet functions including all of the functions from the
         North American edition of Microsoft Excel 2000 (TM). This
         version also includes numerous new functions and statistical
         routines imported from the <application><ulink type="http"
@@ -386,10 +381,48 @@
         expanded to include Black-Scholes (and sensitivities), Garman
         Kohlhagen, Merton Jump Diffusion process, Bjerksund and
         Stensland (American options), Forward Starts, Simple and
-        Complex Choosers. The solver has been improved with new linear
-        and quadratic programming routines.
+        Complex Choosers, Exchange Options, options on future spreads,
+	and most favourable state payouts. The solver has been improved with
+	new linear and quadratic programming routines.  There were improvements
+	in the T-Test, Z-Test, and F-Test.  More accuracy for GEOMDIST,
+	BINOMDIST, BETADIST, BETAINV, FINV, CAUCHY, FDIST, FTEST, HYPGEOMDIST,
+	ERF, FISHER, EFFECT, NOMINAL, MIRR, IRR, XNPV, NPV, PMT, RATE, PV, FV,
+	IPMT, PPMT, ZTEST, EXPM1, LN1P.
       </para>
     </listitem>
+
+    <listitem>
+      <para>
+        <emphasis role="bold">Import/Export</emphasis>
+      </para>
+      <para>
+	The xml exporter is now much faster and lighter for .gnumeric files,
+	and the GNOME enable <application>Gnumeric</application> supports gnome-vfs
+	and drag-n-drop images and files.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+        <emphasis role="bold">GTK+ Port</emphasis>
+      </para>
+      <para>
+        One of the principal aims of this developers series is to make
+        <application>Gnumeric</application> work using only the GTK+
+        libraries. These libraries, following their 2.4.0 release,
+        have all the functionality needed for the core of
+        <application>Gnumeric</application>. This work will remove all
+        dependencies in the core code on GNOME libraries although a
+        version with the more complete features included in GNOME will
+        still exist.
+      </para>
+    </listitem>
+
+</itemizedlist>
+
+</para>
+
+
+<!--
 
     <listitem>
       <para>
@@ -446,6 +479,12 @@
 </para>
 
 -->
+
+<para>
+    The 1.4.x release is dedicated to the memory of lost colleagues,
+    Chema (Grandma) Celorio who help make <application>Gnumeric</application>
+    as stable as it is,  and Mel Seder who kept us smiling.  They'll be missed.
+</para>
 
 <para>
   For more details on the changes in
