@@ -14,6 +14,7 @@ Release Critical
 - Finish support for named ranges in applix.
 - range sel for expressions that start with +
 - 'discard' for invalid expressions enters text as string
+- Reinstate auto-format (=FV(1,2,3,4,5) should yield a monetary format).
 
 1.2 Targets
 -----------
