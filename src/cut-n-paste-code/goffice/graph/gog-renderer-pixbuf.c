@@ -222,6 +222,8 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 					(double)prend->w / gdk_pixbuf_get_width (image),
 					(double)prend->h / gdk_pixbuf_get_height (image),
 					GDK_INTERP_HYPER);
+				break;
+
 			case GOG_IMAGE_WALLPAPER:
 				imax = prend->w / (w = gdk_pixbuf_get_width (image));
 				jmax = prend->h / (h = gdk_pixbuf_get_height (image));
