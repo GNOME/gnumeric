@@ -8,6 +8,7 @@ struct _WorkbookControl {
 	GtkObject  gtk_object;
 
 	WorkbookView *wb_view;
+	GPtrArray *sheet_controls; /* FIXME : these are views for now */
 };
 typedef struct {
 	GtkObjectClass   gtk_object_class;
@@ -20,6 +21,10 @@ typedef struct {
 	void (*format_feedback)	(WorkbookControl *wbc, MStyle *style);
 	void (*zoom_feedback)	(WorkbookControl *wbc);
 	void (*edit_line_set)   (WorkbookControl *wbc, char const *text);
+	struct {
+		void (*add)	(WorkbookControl *wbc, Sheet *sheet);
+		void (*remove)	(WorkbookControl *wbc, Sheet *sheet);
+	} sheet;
 	struct {
 		void (*name)  (WorkbookControl *wbc, char const *name);
 		void (*value) (WorkbookControl *wbc, char const *value);
@@ -62,6 +67,9 @@ void wb_control_prefs_update	     (WorkbookControl *wbc);
 void wb_control_format_feedback	     (WorkbookControl *wbc, MStyle *style);
 void wb_control_zoom_feedback	     (WorkbookControl *wbc);
 void wb_control_edit_line_set        (WorkbookControl *wbc, char const *text);
+void wb_control_sheet_add	     (WorkbookControl *wbc, Sheet *sheet);
+void wb_control_sheet_remove	     (WorkbookControl *wbc, Sheet *sheet);
+
 void wb_control_auto_expr_name	     (WorkbookControl *wbc, char const *name);
 void wb_control_auto_expr_value	     (WorkbookControl *wbc, char const *value);
 

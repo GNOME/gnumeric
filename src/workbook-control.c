@@ -58,10 +58,15 @@ WBC_VIRTUAL (zoom_feedback,
 	     (WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (edit_line_set,
 	     (WorkbookControl *wbc, char const *text), (wbc, text))
+WBC_VIRTUAL_FULL (sheet_add, sheet.add,
+	     (WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
+WBC_VIRTUAL_FULL (sheet_remove, sheet.remove,
+	     (WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
+
 WBC_VIRTUAL_FULL (auto_expr_name, auto_expr.name,
-	     (WorkbookControl *wbc, char const *name), (wbc, text))
+	     (WorkbookControl *wbc, char const *name), (wbc, name))
 WBC_VIRTUAL_FULL (auto_expr_value, auto_expr.value,
-	     (WorkbookControl *wbc, char const *value), (wbc, text))
+	     (WorkbookControl *wbc, char const *value), (wbc, value))
 
 WBC_VIRTUAL_FULL (undo_redo_clear, undo_redo.clear,
 	(WorkbookControl *wbc, gboolean is_undo), (wbc, is_undo))
@@ -143,6 +148,6 @@ workbook_control_init (WorkbookControl *wbc, WorkbookView *optional_view)
 	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
 	g_return_if_fail (wbc->wb_view == NULL);
 
-	if (optional_view != NULL)
-		wbc->wb_view = optional_view;
+	wbc->wb_view = (optional_view != NULL) ? optional_view : workbook_view_new (NULL);
+	wbc->sheet_controls = g_ptr_array_new ();
 }

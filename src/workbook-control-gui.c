@@ -28,6 +28,7 @@
 #include "workbook-edit.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "rendered-value.h"
 #include "dialogs.h"
 #include "commands.h"
@@ -50,6 +51,7 @@
 #include "gnumeric-util.h"
 #include "widgets/gnumeric-toolbar.h"
 
+#include "widgets/widget-editable-label.h"
 #include <gal/widgets/gtk-combo-text.h>
 #include <gal/widgets/gtk-combo-stack.h>
 #include <ctype.h>
@@ -66,36 +68,24 @@
 GtkWindow *
 wb_control_gui_toplevel (WorkbookControlGUI *wbcg)
 {
-	return wcbg->toplevel;
+	return wbcg->toplevel;
 }
 
 Sheet *
 wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg)
 {
-	GtkWidget *current_notebook;
-	Sheet *sheet;
+	SheetView *sheet_view;
 
-	g_return_val_if_fail (wb != NULL, NULL);
+	g_return_val_if_fail (wbcg != NULL, NULL);
 
-	current_notebook = GTK_NOTEBOOK (wb->notebook)->cur_page->child;
-	sheet = gtk_object_get_data (GTK_OBJECT (current_notebook), "sheet");
+	sheet_view = SHEET_VIEW (GTK_NOTEBOOK (wbcg->notebook)->cur_page->child);
 
-	if (sheet != NULL) {
-		SheetView *sheet_view = SHEET_VIEW (sheet->sheet_views->data);
+	g_return_val_if_fail (sheet_view != NULL, NULL);
 
-		g_return_val_if_fail (sheet_view != NULL, NULL);
+	gtk_window_set_focus (GTK_WINDOW (sheet_view->wbcg),
+			      sheet_view->sheet_view);
 
-		/* This is silly.  We have no business assuming there is only 1 view */
-		gtk_window_set_focus (GTK_WINDOW (workbook_get_toplevel (wb)), sheet_view->sheet_view);
-
-		if (wb->current_sheet != sheet) {
-			gtk_signal_emit (GTK_OBJECT (wb), workbook_signals [SHEET_ENTERED], sheet);
-			wb->current_sheet = sheet;
-		}
-	} else
-		g_warning ("There is no current sheet in this workbook");
-
-	return sheet;
+	return sheet_view->sheet;
 }
 
 static void
@@ -141,7 +131,7 @@ wbcg_prefs_update (WorkbookControl *wbc)
 	WorkbookView	*wbv = wb_control_workbook_view (wbc);
 
 	g_hash_table_foreach (wb->sheet_hash_private, cb_prefs_update, NULL);
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (wbcg->notebook),
+	gtk_notebook_set_show_tabs (wbcg->notebook,
 				    wbv->show_notebook_tabs);
 }
 
@@ -255,6 +245,275 @@ wbcg_edit_line_set (WorkbookControl *wbc, char const *text)
 	GtkEntry *entry = workbook_get_entry ((WorkbookControlGUI*)wbc);
 	gtk_entry_set_text (entry, text);
 }
+
+/*
+ * yield_focus
+ * @widget   widget
+ * @toplevel toplevel
+ *
+ * Give up focus if we have it. This is called when widget is destroyed. A
+ * widget which no longer exists should not have focus!
+ */
+static gboolean
+yield_focus (GtkWidget *widget, GtkWindow *toplevel)
+{
+	if (toplevel && (toplevel->focus_widget == widget))
+		gtk_window_set_focus (toplevel, NULL);
+
+	return FALSE;
+}
+
+static void
+cb_sheet_label_edit_stopped (EditableLabel *el, WorkbookControlGUI *wbcg)
+{
+	wb_control_gui_focus_cur_sheet (wbcg);
+}
+
+/*
+ * Signal handler for EditableLabel's text_changed signal.
+ */
+static gboolean
+cb_sheet_label_changed (EditableLabel *el,
+			const char *new_name, WorkbookControlGUI *wbcg)
+{
+	gboolean ans = !cmd_rename_sheet (WORKBOOK_CONTROL (wbcg),
+					  el->text, new_name);
+	wb_control_gui_focus_cur_sheet (wbcg);
+	return ans;
+}
+
+static void cb_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg);
+static void
+sheet_action_add_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	cb_insert_sheet (NULL, wbcg);
+}
+static void
+sheet_action_clone_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Workbook *wb = wb_control_workbook (wbc);
+     	Sheet *new_sheet = sheet_duplicate (wb_control_cur_sheet (wbc));
+	workbook_attach_sheet (wb, new_sheet);
+	sheet_set_dirty (new_sheet, TRUE);
+}
+static void
+sheet_action_rename_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	Sheet *current_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	char *new_name = dialog_get_sheet_name (wbcg, current_sheet->name_unquoted);
+	if (!new_name)
+		return;
+
+	/* We do not care if it fails */
+	cmd_rename_sheet (WORKBOOK_CONTROL (wbcg), current_sheet->name_unquoted, new_name);
+	g_free (new_name);
+}
+static void
+sheet_action_reorder_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	dialog_sheet_order (wbcg);
+}
+static void
+delete_sheet_if_possible (GtkWidget *ignored, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Workbook *wb = wb_control_workbook (wbc);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+	GtkWidget *d, *button_no;
+	char *message;
+	int r;
+
+	/*
+	 * If this is the last sheet left, ignore the request
+	 */
+	if (workbook_sheet_count (wb) == 1)
+		return;
+
+	message = g_strdup_printf (
+		_("Are you sure you want to remove the sheet called `%s'?"),
+		sheet->name_unquoted);
+
+	d = gnome_message_box_new (
+		message, GNOME_MESSAGE_BOX_QUESTION,
+		GNOME_STOCK_BUTTON_YES,
+		GNOME_STOCK_BUTTON_NO,
+		NULL);
+	g_free (message);
+	button_no = g_list_last (GNOME_DIALOG (d)->buttons)->data;
+	gtk_widget_grab_focus (button_no);
+
+	r = gnumeric_dialog_run (wbcg, GNOME_DIALOG (d));
+
+	if (r != 0)
+		return;
+
+	workbook_delete_sheet (sheet);
+	workbook_recalc_all (wb);
+}
+
+/**
+ * sheet_menu_label_run:
+ */
+static void
+sheet_menu_label_run (Sheet *sheet, GdkEventButton *event)
+{
+#define SHEET_CONTEXT_TEST_SIZE 1
+
+	struct {
+		const char *text;
+		void (*function) (GtkWidget *widget, WorkbookControlGUI *wbcg);
+		int  flags;
+	} const sheet_label_context_actions [] = {
+		{ N_("Add another sheet"), &sheet_action_add_sheet, 0 },
+		{ N_("Remove this sheet"), &delete_sheet_if_possible, SHEET_CONTEXT_TEST_SIZE },
+		{ N_("Rename this sheet"), &sheet_action_rename_sheet, 0 },
+		{ N_("Duplicate this sheet"), &sheet_action_clone_sheet, 0 },
+		{ N_("Re-order sheets"), &sheet_action_reorder_sheet, SHEET_CONTEXT_TEST_SIZE },
+		{ NULL, NULL }
+	};
+
+	GtkWidget *menu;
+	GtkWidget *item;
+	int i;
+
+	menu = gtk_menu_new ();
+
+	for (i = 0; sheet_label_context_actions [i].text != NULL; i++){
+		int flags = sheet_label_context_actions [i].flags;
+
+		if (flags & SHEET_CONTEXT_TEST_SIZE){
+			if (workbook_sheet_count (sheet->workbook) < 2)
+				continue;
+		}
+		item = gtk_menu_item_new_with_label (
+			_(sheet_label_context_actions [i].text));
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_widget_show (item);
+
+		gtk_signal_connect (
+			GTK_OBJECT (item), "activate",
+			GTK_SIGNAL_FUNC (sheet_label_context_actions [i].function),
+			sheet);
+	}
+
+	gnumeric_popup_menu (GTK_MENU (menu), event);
+}
+
+/**
+ * cb_sheet_label_button_press:
+ *
+ * Invoked when the user has clicked on the EditableLabel widget.
+ * This takes care of switching to the notebook that contains the label
+ */
+static gint
+cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event, GtkWidget *child)
+{
+	GtkWidget *notebook;
+	gint page_number;
+
+	if (event->type != GDK_BUTTON_PRESS)
+		return FALSE;
+
+	notebook = child->parent;
+	page_number = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), child);
+
+	if (event->button == 1) {
+		gtk_notebook_set_page (GTK_NOTEBOOK (notebook), page_number);
+		return TRUE;
+	}
+
+	if (event->button == 3) {
+		g_return_val_if_fail (IS_SHEET_VIEW (child), FALSE);
+		sheet_menu_label_run (SHEET_VIEW (child)->sheet, event);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+/**
+ * wbcg_sheet_add:
+ * @sheet: a sheet
+ *
+ * Creates a new SheetView for the sheet and adds it to the workbook-control-gui.
+ *
+ * A callback to yield focus when the sheet view is destroyed is attached
+ * to the sheet view. This solves a problem which we encountered e.g. when
+ * a file import is canceled or fails:
+ * - First, a sheet is attached to the workbook in this routine. The sheet
+ *   view gets focus.
+ * - Then, the sheet is detached, sheet view is destroyed, but GTK
+ *   still believes that the sheet view has focus.
+ * - GTK accesses already freed memory. Due to the excellent cast checking
+ *   in GTK, we didn't get anything worse than warnings. But the bug had
+ *   to be fixed anyway.
+ */
+static void
+wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	SheetView *sheet_view;
+	GtkWidget *sheet_label;
+
+	g_return_if_fail (wbcg != NULL);
+	g_return_if_fail (wbcg->notebook != NULL);
+
+	sheet_view = sheet_new_sheet_view (sheet);
+	gtk_signal_connect (
+		GTK_OBJECT (sheet_view->sheet_view), "destroy",
+		GTK_SIGNAL_FUNC (yield_focus),
+		wbcg->toplevel);
+
+	/*
+	 * NB. this is so we can use editable_label_set_text since
+	 * gtk_notebook_set_tab_label kills our widget & replaces with a label.
+	 */
+	sheet_label = editable_label_new (sheet->name_unquoted);
+	gtk_signal_connect_after (
+		GTK_OBJECT (sheet_label), "text_changed",
+		GTK_SIGNAL_FUNC (cb_sheet_label_changed), wbcg);
+	gtk_signal_connect (
+		GTK_OBJECT (sheet_label), "editing_stopped",
+		GTK_SIGNAL_FUNC (cb_sheet_label_edit_stopped), wbcg);
+	gtk_signal_connect (
+		GTK_OBJECT (sheet_label), "button_press_event",
+		GTK_SIGNAL_FUNC (cb_sheet_label_button_press), sheet_view);
+
+	gtk_widget_show (sheet_label);
+	gtk_widget_show_all (GTK_WIDGET (sheet_view));
+
+	gtk_object_set_data (GTK_OBJECT (sheet_view), "sheet_label", sheet_label);
+	gtk_notebook_append_page (wbcg->notebook,
+				  GTK_WIDGET (sheet_view), sheet_label);
+
+	if (wbc->sheet_controls->len > 3)
+		gtk_notebook_set_scrollable (wbcg->notebook, TRUE);
+}
+
+static void
+wbcg_sheet_remove (WorkbookControl *wbc, Sheet *sheet)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	SheetView *sheet_view = NULL;
+	int i;
+
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (i = wbc->sheet_controls->len ; i-- > 0 ; ) {
+		sheet_view = g_ptr_array_index (wbc->sheet_controls, i);
+		if (sheet_view->sheet == sheet) {
+			gtk_notebook_remove_page (wbcg->notebook, i);
+			sheet_destroy_sheet_view (sheet_view);
+			break;
+		}
+	}
+
+	/* Only be scrollable if there are more than 3 tabs */
+	if (wbc->sheet_controls->len <= 3)
+		gtk_notebook_set_scrollable (wbcg->notebook, FALSE);
+}
+
 
 static void
 wbcg_auto_expr_name (WorkbookControl *wbc, char const *text)
@@ -499,44 +758,6 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg, Workbook *wb)
 		return FALSE;
 	} else
 		return TRUE;
-}
-
-static void
-delete_sheet_if_possible (GtkWidget *ignored, WorkbookControlGUI *wbcg)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Workbook *wb = wb_control_workbook (wbc);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	GtkWidget *d, *button_no;
-	char *message;
-	int r;
-
-	/*
-	 * If this is the last sheet left, ignore the request
-	 */
-	if (workbook_sheet_count (wb) == 1)
-		return;
-
-	message = g_strdup_printf (
-		_("Are you sure you want to remove the sheet called `%s'?"),
-		sheet->name_unquoted);
-
-	d = gnome_message_box_new (
-		message, GNOME_MESSAGE_BOX_QUESTION,
-		GNOME_STOCK_BUTTON_YES,
-		GNOME_STOCK_BUTTON_NO,
-		NULL);
-	g_free (message);
-	button_no = g_list_last (GNOME_DIALOG (d)->buttons)->data;
-	gtk_widget_grab_focus (button_no);
-
-	r = gnumeric_dialog_run (wbcg, GNOME_DIALOG (d));
-
-	if (r != 0)
-		return;
-
-	workbook_delete_sheet (sheet);
-	workbook_recalc_all (wb);
 }
 
 /****************************************************************************/
@@ -864,13 +1085,10 @@ static void
 cb_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	Sheet *new_sheet;
-	char *name;
+	char *name = workbook_sheet_get_free_name (wb, _("Sheet"), TRUE, FALSE);
+	Sheet *new_sheet = sheet_new (wb, name);
 
-	name = workbook_sheet_get_free_name (wb, _("Sheet"), TRUE, FALSE);
-	new_sheet = sheet_new (wb, name);
 	g_free (name);
-
 	workbook_attach_sheet (wb, new_sheet);
 	sheet_set_dirty (new_sheet, TRUE);
 }
@@ -2232,7 +2450,7 @@ wbcg_destroy (GtkObject *wb_object)
 
 	gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), NULL);
 
-	if (!GTK_OBJECT_DESTROYED (wbcg->toplevel))
+	if (!GTK_OBJECT_DESTROYED (GTK_OBJECT (wbcg->toplevel)))
 		gtk_object_destroy (GTK_OBJECT (wbcg->toplevel));
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (wb_object);
@@ -2289,14 +2507,17 @@ do_focus_sheet (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num,
 static void
 workbook_setup_sheets (WorkbookControlGUI *wbcg)
 {
-	wbcg->notebook = gtk_notebook_new ();
+	GtkWidget *w;
+
+	w = gtk_notebook_new ();
+	wbcg->notebook = GTK_NOTEBOOK (w);
 	gtk_signal_connect_after (GTK_OBJECT (wbcg->notebook), "switch_page",
 				  GTK_SIGNAL_FUNC (do_focus_sheet), wbcg);
 
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (wbcg->notebook), GTK_POS_BOTTOM);
 	gtk_notebook_set_tab_border (GTK_NOTEBOOK (wbcg->notebook), 0);
 
-	gtk_table_attach (GTK_TABLE (wbcg->table), wbcg->notebook,
+	gtk_table_attach (GTK_TABLE (wbcg->table), GTK_WIDGET (wbcg->notebook),
 			  0, WB_COLS, WB_EA_SHEETS, WB_EA_SHEETS+1,
 			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
 			  0, 0);
@@ -2618,9 +2839,11 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->format_feedback  = wbcg_format_feedback;
 	wbc_class->zoom_feedback    = wbcg_zoom_feedback;
 	wbc_class->edit_line_set    = wbcg_edit_line_set;
+	wbc_class->sheet.add        = wbcg_sheet_add;
+	wbc_class->sheet.remove	    = wbcg_sheet_remove;
 
-	wbc_class->auto_expr.name    = wbcg_auto_expr_name;
-	wbc_class->auto_expr.value   = wbcg_auto_expr_value;
+	wbc_class->auto_expr.name   = wbcg_auto_expr_name;
+	wbc_class->auto_expr.value  = wbcg_auto_expr_value;
 
 	wbc_class->undo_redo.clear  = wbcg_undo_redo_clear;
 	wbc_class->undo_redo.pop    = wbcg_undo_redo_pop;

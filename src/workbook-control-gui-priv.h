@@ -27,7 +27,7 @@ struct _WorkbookControlGUI {
 #endif
 
 	GtkWindow *toplevel;
-	GtkWidget  *notebook;
+	GtkNotebook *notebook;
 
 	/* Combos */
 	GtkWidget *font_name_selector;
