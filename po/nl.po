@@ -116,8 +116,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-16 21:15-0500\n"
-"PO-Revision-Date: 2004-02-26 13:32+0100\n"
+"POT-Creation-Date: 2004-03-19 21:19+0100\n"
+"PO-Revision-Date: 2004-03-20 04:33+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -1047,7 +1047,7 @@ msgstr "Financieel Afgeleiden"
 msgid "Functions related to financial derivatives"
 msgstr "Functies gerelateerd aan financieel afgeleiden"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5517
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5522
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Bezig met lezen bestand..."
@@ -1143,41 +1143,41 @@ msgstr "Onverwacht attribuut %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "Onjuist gemaakt XML document!"
 
-#: plugins/excel/ms-excel-read.c:1043 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1044 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#ONBEKEND!"
 
 # werkblad?
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1134 plugins/excel/ms-excel-read.c:1145
+#: plugins/excel/ms-excel-read.c:1135 plugins/excel/ms-excel-read.c:1146
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
 
-#: plugins/excel/ms-excel-read.c:1148
+#: plugins/excel/ms-excel-read.c:1149
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: plugins/excel/ms-excel-read.c:1151
+#: plugins/excel/ms-excel-read.c:1152
 #, c-format
 msgid "Chart%d"
 msgstr "Grafiek%d"
 
-#: plugins/excel/ms-excel-read.c:1154
+#: plugins/excel/ms-excel-read.c:1155
 #, c-format
 msgid "Module%d"
 msgstr "Module%d"
 
-#: plugins/excel/ms-excel-read.c:2951
+#: plugins/excel/ms-excel-read.c:2952
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Fout bij verwerken naar '%s'"
 
-#: plugins/excel/ms-excel-read.c:3007
+#: plugins/excel/ms-excel-read.c:3008
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1186,7 +1186,7 @@ msgstr ""
 "DDE-links zijn niet ondersteund.\n"
 "Naam '%s' zal verloren gaan.\n"
 
-#: plugins/excel/ms-excel-read.c:3013
+#: plugins/excel/ms-excel-read.c:3014
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1195,15 +1195,15 @@ msgstr ""
 "OLE-links zijn niet ondersteund.\n"
 "Naam '%s' zal verloren gaan.\n"
 
-#: plugins/excel/ms-excel-read.c:4877
+#: plugins/excel/ms-excel-read.c:4882
 msgid "external references"
 msgstr "externe verwijzingen"
 
-#: plugins/excel/ms-excel-read.c:4902
+#: plugins/excel/ms-excel-read.c:4907
 msgid "No password supplied"
 msgstr "Geen wachtwoord opgegeven"
 
-#: plugins/excel/ms-excel-read.c:5750
+#: plugins/excel/ms-excel-read.c:5755
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Niet in staat om een geldige MS Excel werkmap te vinden"
 
@@ -1217,7 +1217,7 @@ msgstr ""
 "We hebben reeds een lengte geschreven van een tekenreeks die wordt afgekapt "
 "vanwege tekenset-problemen."
 
-#: plugins/excel/ms-excel-write.c:3806
+#: plugins/excel/ms-excel-write.c:3805
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1227,7 +1227,7 @@ msgstr ""
 "(tm) 95 bestand. Excel (tm) 95 ondersteunt slechts %d rijen, en dit werkboek "
 "heeft er %d"
 
-#: plugins/excel/ms-excel-write.c:3813
+#: plugins/excel/ms-excel-write.c:3812
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1237,11 +1237,11 @@ msgstr ""
 "(tm) bestand. MS Excel ondersteunt slechts %d rijen en dit werkboek heeft er "
 "%d"
 
-#: plugins/excel/ms-excel-write.c:4331
+#: plugins/excel/ms-excel-write.c:4330
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kon de stroom 'Map' niet openen voor schrijven\n"
 
-#: plugins/excel/ms-excel-write.c:4351
+#: plugins/excel/ms-excel-write.c:4350
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kon de stroom 'Werkmap' niet openen voor schrijven\n"
 
@@ -21707,40 +21707,37 @@ msgid "Ring plotting engine"
 msgstr "Ring plot-motor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% of default size"
-msgstr "% van _normale grootte"
+msgstr "% van normale grootte"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:3
 msgid "3_d"
-msgstr ""
+msgstr "3_d"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
-#, fuzzy
 msgid "Dia_meter"
-msgstr "Parameters"
+msgstr "Dia_meter"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:5
 msgid "Show _negative values"
-msgstr ""
+msgstr "_Negatieve waarden tonen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:6
-#, fuzzy
 msgid "Sur_face"
-msgstr "Bron"
+msgstr "Opper_vlak"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:7
 msgid "_Bubbles scaled to"
-msgstr ""
+msgstr "_Ballonnen geschaald op"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
 msgid "_Size reprented by:"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
-#, fuzzy
 msgid "_Vary colors by bubble"
-msgstr "Elke punt een andere _kleur"
+msgstr "Kleuren _wisselen per ballon"
 
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
@@ -21761,12 +21758,12 @@ msgstr "Y"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:355
 msgid "PlotBubble"
-msgstr "PlotBellen"
+msgstr "Ballonnen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:471
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
-msgstr "Bellen"
+msgstr "Ballonnen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
 msgid ""
@@ -21791,7 +21788,7 @@ msgstr "Multidimensionale punten met een cirkel bij elke punt."
 # ballonnen ipv bellen
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Plot X, Y and bubble size."
-msgstr "X, Y en bellen tekenen."
+msgstr "X, Y en ballonnen tekenen."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY"
@@ -21816,7 +21813,7 @@ msgstr "2D punten plot-motor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:3
 msgid "Bubble plotting engine"
-msgstr "Bellen plot-motor"
+msgstr "Ballonnen plot-motor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
 msgid "Stock Scatter plot types"
