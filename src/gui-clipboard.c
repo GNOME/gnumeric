@@ -472,6 +472,8 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		PangoContext *context = gtk_widget_get_pango_context (GTK_WIDGET (wbcg_toplevel (wbcg)));
 		char *rendered_selection = cellregion_to_string (clipboard, context);
 
+		if (rendered_selection == NULL)
+			rendered_selection = g_strdup ("");
 		gtk_selection_data_set_text (selection_data, 
 					     (gchar *) rendered_selection,
 					     strlen (rendered_selection));

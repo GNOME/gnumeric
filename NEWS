@@ -33,6 +33,7 @@ Morten:
 	* Add support for setting text and markup in buttons.
 	* Fix XL save crash.  [#155371]
 	* Limit the width of search window.  [#136421]
+	* Protect against crash in inter-process paste.
 
 Yukihiro Nakai:
 	* Improve perl plugin.

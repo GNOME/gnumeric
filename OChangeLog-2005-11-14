@@ -1,3 +1,10 @@
+2004-10-20  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-clipboard.c (x_clipboard_get_cb): Crash protection.
+
+	* src/clipboard.c (cellregion_to_string): Add extra argument
+	checks.
+
 2004-10-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/.cvsignore: add GNOME_Gnumeric-gtk.xml

@@ -657,6 +657,8 @@ cellregion_to_string (GnmCellRegion const *cr, PangoContext *context)
 	int col, row;
 
 	g_return_val_if_fail (cr != NULL, NULL);
+	g_return_val_if_fail (cr->rows >= 0, NULL);
+	g_return_val_if_fail (cr->cols >= 0, NULL);
 
 	data = g_new0 (char **, cr->rows);
 
