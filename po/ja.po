@@ -13416,22 +13416,22 @@ msgstr "クリップボードから貼付け"
 #: src/workbook-view.c:79 src/workbook-view.c:83 src/workbook.c:1476
 #, fuzzy
 msgid "Undo"
-msgstr "無作為"
+msgstr "元に戻す"
 
 #: src/workbook.c:1476
 #, fuzzy
 msgid "Undo the operation"
-msgstr "未知の演算子エラーです"
+msgstr "操作を取り消します"
 
 #: src/workbook-view.c:80 src/workbook-view.c:84 src/workbook.c:1479
 #, fuzzy
 msgid "Redo"
-msgstr "無作為"
+msgstr "やり直し"
 
 #: src/workbook.c:1479
 #, fuzzy
 msgid "Redo the operation"
-msgstr "乱数生成"
+msgstr "操作をやり直します"
 
 #: src/workbook.c:1485
 msgid "Sum into the current cell."
