@@ -50,6 +50,7 @@
 #include "sheet-autofill.h"
 #include "mstyle.h"
 #include "search.h"
+#include "sheet-object-cell-comment.h"
 
 #define MAX_DESCRIPTOR_WIDTH 15
 
@@ -439,7 +440,7 @@ command_push_undo (WorkbookControl *wbc, GtkObject *obj)
 			if (undo_trunc >= 0)
 				wb_control_undo_redo_truncate (control, undo_trunc, TRUE);
 			wb_control_undo_redo_clear (control, FALSE);
-				
+
 		});
 		undo_redo_menu_labels (wb);
 	} else
@@ -1823,7 +1824,7 @@ cmd_paste_cut_update_origin (ExprRelocateInfo const  *info, WorkbookControl *wbc
 		sheet_update (info->origin_sheet);
 	}
 }
-	
+
 static gboolean
 cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
@@ -2679,15 +2680,26 @@ typedef struct
 	GnumericCommand parent;
 	SearchReplace *sr;
 
-	/* Undo/redo uses this list of cells.  */
+	/*
+	 * Undo/redo use this list of SearchReplaceItems to do their
+	 * work.  Note, that it is possible for a cell to occur
+	 * multiple times in the list.
+	 */
 	GList *cells;
 } CmdSearchReplace;
 
 GNUMERIC_MAKE_COMMAND (CmdSearchReplace, cmd_search_replace);
 
+typedef enum { SRI_expr, SRI_text, SRI_comment } SearchReplaceItemType;
+
 typedef struct {
 	EvalPos pos;
-	ExprTree *old_expr, *new_expr;
+	SearchReplaceItemType old_type, new_type;
+	union {
+		ExprTree *expr;
+		char *text;
+		char *comment;
+	} old, new;
 } SearchReplaceItem;
 
 static gboolean
@@ -2703,10 +2715,24 @@ cmd_search_replace_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 					     sri->pos.eval.col,
 					     sri->pos.eval.row);
 
-		if (sri->old_expr)
-			cell_set_expr (cell, sri->old_expr, NULL);
-		else
-			; /* FIXME...  Do something.  */
+		switch (sri->old_type) {
+		case SRI_expr:
+			cell_set_expr (cell, sri->old.expr, NULL);
+			break;
+		case SRI_text:
+			sheet_cell_set_text (cell, sri->old.text);
+			break;
+		case SRI_comment:
+			{
+				CellComment *comment = NULL /* cell_has_comment (cell) */;
+				if (comment) {
+					cell_comment_text_set (comment, sri->old.comment);
+				} else {
+					g_warning ("Undo/redo broken.");
+				}
+			}
+			break;
+		}
 	}
 
 	return FALSE;
@@ -2725,32 +2751,88 @@ cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 					     sri->pos.eval.col,
 					     sri->pos.eval.row);
 
-		if (sri->new_expr)
-			cell_set_expr (cell, sri->new_expr, NULL);
-		else
-			; /* FIXME...  Do something.  */
+		switch (sri->new_type) {
+		case SRI_expr:
+			cell_set_expr (cell, sri->new.expr, NULL);
+			break;
+		case SRI_text:
+			sheet_cell_set_text (cell, sri->new.text);
+			break;
+		case SRI_comment:
+			{
+				CellComment *comment = NULL /* cell_has_comment (cell)*/;
+				if (comment) {
+					cell_comment_text_set (comment, sri->new.comment);
+				} else {
+					g_warning ("Undo/redo broken.");
+				}
+			}
+			break;
+		}
 	}
 
 	return FALSE;
 }
 
 static gboolean
+cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControl *wbc,
+			    Cell *cell, gboolean test_run)
+{
+	SearchReplace *sr = me->sr;
+
+	/* FIXME */
+
+	if (!test_run && sr->replace_comments) {
+		CellComment *comment = NULL /* cell_has_comment (cell) */;
+		if (comment) {
+			const char *old_text = cell_comment_text_get (comment);
+			char *new_text = search_replace_string (sr, old_text);
+			if (new_text) {
+				gboolean doit = TRUE;
+				if (sr->query) {
+					/* FIXME. */
+				}
+
+				if (doit) {
+					SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
+					sri->old_type = sri->new_type = SRI_comment;
+					sri->old.comment = g_strdup (old_text);
+					sri->new.comment = new_text;
+					me->cells = g_list_prepend (me->cells, sri);
+
+					cell_comment_text_set (comment, new_text);
+				} else
+					g_free (new_text);
+			}
+		}
+	}
+
+	return FALSE;
+}
+
+
+static gboolean
 cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc, gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
-	gboolean query = sr->query;
 
 	if (test_run) {
 		/*
 		 * The only thing that can fail during replacement are
-		 * expressions in fail mode.
+		 * expressions in fail mode.  Thus we don't really have
+		 * to perform a test_run in any other case.
 		 */
 		if (sr->error_behaviour != SRE_fail ||
 		    !sr->replace_expressions)
 			return FALSE;
-		query = FALSE;
 	}
 
+	/* FIXME */
+
+	if (!test_run) {
+		/* Cells are added in the wrong order.  */
+		me->cells = g_list_reverse (me->cells);
+	}
 
 	return FALSE;
 }
@@ -2764,8 +2846,28 @@ cmd_search_replace_destroy (GtkObject *cmd)
 
 	for (tmp = me->cells; tmp; tmp = tmp->next) {
 		SearchReplaceItem *sri = tmp->data;
-		if (sri->old_expr) expr_tree_unref (sri->old_expr);
-		if (sri->new_expr) expr_tree_unref (sri->new_expr);
+		switch (sri->old_type) {
+		case SRI_expr:
+			expr_tree_unref (sri->old.expr);
+			break;
+		case SRI_text:
+			g_free (sri->old.text);
+			break;
+		case SRI_comment:
+			g_free (sri->old.comment);
+			break;
+		}
+		switch (sri->new_type) {
+		case SRI_expr:
+			expr_tree_unref (sri->new.expr);
+			break;
+		case SRI_text:
+			g_free (sri->new.text);
+			break;
+		case SRI_comment:
+			g_free (sri->new.comment);
+			break;
+		}
 	}
 	g_list_free (me->cells);
 	search_replace_free (me->sr);

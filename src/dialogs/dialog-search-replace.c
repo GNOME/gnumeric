@@ -29,6 +29,13 @@ static const char *search_type_group[] = {
 	0
 };
 
+static const char *scope_group[] = {
+	"scope_workbook",
+	"scope_sheet",
+	"scope_range",
+	0
+};
+
 
 static int
 get_group_value (GladeXML *gui, const char *group[])
@@ -49,16 +56,17 @@ is_checked (GladeXML *gui, const char *name)
 	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 }
 
-static const char *
+static char *
 get_text (GladeXML *gui, const char *name)
 {
 	GtkWidget *w = glade_xml_get_widget (gui, name);
-	return gtk_entry_get_text (GTK_ENTRY (w));
+	return g_strdup (gtk_entry_get_text (GTK_ENTRY (w)));
 }
 
 
 /*
- * Dialog
+ * Dialog.  Returns a SearchReplace object that the users wants to search
+ * for, or NULL if the search is cancelled.
  */
 SearchReplace *
 dialog_search_replace (WorkbookControlGUI *wbcg)
@@ -84,6 +92,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg)
 	gtk_widget_show_all (dialog->vbox);
 
 	while (1) {
+		char *err;
 		bval = gnumeric_dialog_run (wbcg, dialog);
 
 		if (bval == 0) {
@@ -91,11 +100,15 @@ dialog_search_replace (WorkbookControlGUI *wbcg)
 
 			sr = search_replace_new ();
 
+			sr->search_text = get_text (gui, "searchtext");
+			sr->replace_text = get_text (gui, "replacetext");
+
 			i = get_group_value (gui, search_type_group);
 			sr->is_regexp = (i == 1);
 
-			sr->search_text = g_strdup (get_text (gui, "searchtext"));
-			sr->replace_text = g_strdup (get_text (gui, "replacetext"));
+			i = get_group_value (gui, scope_group);
+			sr->scope = (i == -1) ? SRS_sheet : (SearchReplaceScope)i;
+			sr->range_text = get_text (gui, "rangetext");
 
 			sr->query = is_checked (gui, "query");
 			sr->ignore_case = FALSE;  /* Not in gui yet.  */
@@ -111,9 +124,9 @@ dialog_search_replace (WorkbookControlGUI *wbcg)
 			sr = NULL;
 		}
 
-		if (sr && strlen (sr->search_text) == 0) {
-			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
-					 _("You must enter something to search for."));
+		if (sr && (err = search_replace_verify (sr))) {
+			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, err);
+			g_free (err);
 			search_replace_free (sr);
 		} else if (sr &&
 			   !sr->replace_strings &&

@@ -1,3 +1,10 @@
+2001-01-18  Morten Welinder  <terra@diku.dk>
+
+	* src/search.c (search_replace_verify, search_replace_string): New
+ 	functions.
+
+	* src/commands (cmd_search_replace_do_cell): new function.
+
 2001-01-22  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/commands.c (update_after_action):
