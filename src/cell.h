@@ -12,7 +12,7 @@ typedef enum {
 	/* Is the top left corner of a merged region */
 	CELL_IS_MERGED	    = 0x20000000,
 	/* Cells expression was changed, recalc before rendering */
-	CELL_HAS_NEW_EXPR    = 0x20000000
+	CELL_HAS_NEW_EXPR    = 0x40000000
 } GnmCellFlags;
 
 /* Definition of a GnmCell */

@@ -1,3 +1,8 @@
+2004-01-08  Jody Goldberg <jody@gnome.org>
+
+	* src/cell.h (CELL_HAS_NEW_EXPR) : AARRRGGH.  Actually a sign a
+	  _unique_ value to it.
+
 2004-01-05  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=130424
