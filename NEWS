@@ -9,7 +9,10 @@ Andreas:
 Ben Liblit:
 	* Move the various compile time paths into a generated header.
 
-Jean Br?fort:
+Emmanuel Pacaud:
+	* HIG compliant quit dialog.
+
+Jean Brefort:
 	* Initial version of gradient editor for chart style page.
 
 Jody:
@@ -24,18 +27,21 @@ Jody:
 	* Sheet data -> charts begins working.
 	* Some minor tweaking for xls escher import to handle gradients
 	* Clean up edit item, and support spanning autocompletion
-	* Fixes for sheet object dependencies
-	* Fixes for chart series generation
-	* Basic Pie & Bar/Col plots
-	* Initial xls import for new plots (no formatting)
-	* Have HTML exporters handle utf8
+	* Fixes for sheet object dependencies.
+	* Fixes for chart series generation.
+	* Basic Pie & Bar/Col plots.
+	* Initial xls import for new plots (no formatting).
+	* Have HTML exporters handle utf8.
 	* Extend layout engine in GogChart.
 	* Nice redraw speedup for images and charts.
 	* Fix undo bug for moving merged regions (yummy).
 	* Support Move with cells flag for sheet object.
 	* Text in charts.
 	* Fix lots of bugs in the run up to a beta.
-	* Fix undo of defining an existing named expression placeholded
+	* Fix undo of defining an existing named expression placeholder.
+	* Simplify the recently used file stuff in preparation for egg.
+	* Fix months old stupidity in my lobotomization of gconf wrapper.
+	* Remove deprecation from canvas items.
 
 Morten:
 	* New function COLUMNNUMBER.

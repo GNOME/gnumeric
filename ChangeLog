@@ -1,3 +1,89 @@
+2003-06-05  Jody Goldberg <jody@gnome.org>
+
+	* src/plugin.c (gnumeric_extra_plugin_dirs) : clarify the ownership of
+	  the lists.
+	(plugins_init) : ditto.
+	(plugins_shutdown) : ditto.
+
+	* src/application.c (application_history_get_list) : const the output
+	  to be clear on the ownership semantics.  Add a 'force_reload'
+	  argument to force the list to reload and clip from the underlying
+	  gconf source.  Should not be necessary later when we clear up the
+	  relationship between application, and the config.
+	(application_history_update_list) : deleted.
+	(application_history_add) : new.  merge in some of the old
+	  application_history_update_list, and some of the history_menu stuff
+	  and emit a notifuy even on the newly created file_history_list
+	  property of the application.  We should do the same for other
+	  properties rather than requiring direct gconf connections.
+	(application_history_list_shrink) : delete.
+	(application_history_write_config) : delete.
+	(gnumeric_application_get_property) : new.
+	(gnumeric_application_class_init) : install the property.
+
+	* src/workbook.c (workbook_finalize) : Just call
+	  application_history_add directly rather than
+	  workbook_history_update that was a pointless layer of indirection.
+	  No need to directly call application_history_write_config
+	  history_add handles that.
+
+	* src/sheet-object-widget.c (sheet_widget_list_create_widget) : If
+	  we're going to throw in a stub widget, it might as well a treeview
+	  rather than a deprecated list widget.
+
+	* src/workbook.c (workbook_history_update) : delete the vast majority
+	  of this moving what little remained into.
+
+	* src/history.c : delete everything but history_item_label.
+	  greatly simplify the logic and move the majority of it into.
+	* src/workbook-control-gui.c : here.  While we're at it simplify our
+	  lives in preparation for turning the bonobo mess into virtuals on
+	  wbcg.  Use a simpler approach to creation and removal that let
+	    - monitors the application::notify::file-history-list rather than
+	      requiring explicit calls from a non-gui layer.
+	    - removes everything even the seperator then reinserts the new
+	      entries.
+	(wbcg_file_history_setup) : renamed from wbcg_history_setup.
+	(change_menu_label) : Use gtk_label_set_text with use_underline
+	  set to true in place of the deprecated parse_uline gunk.  While
+	  we're in here set the tooltip too.  Its a hack, setting the data
+	  directly based on knownledge of the implementation in libgnomeui.
+	  However, there aren't many choices other than fixing libgnomeui
+	  which is just too long a wait.
+	(cb_edit_paste_special) : move call to cmd_paste_to_selection in to
+	  the dialog like every other implemntation.
+	(wbcg_finalize) :  Use g_signal_handlers_disconnect_by_func in place
+	  of the deprecated gtk_signal_disconnect_by_func.
+	(workbook_setup_sheets) : Use gtk_notebook_set_show_border (FALSE) in
+	  place of the deprecated gtk_notebook_set_tab_border (0).
+	(workbook_control_gui_init) : use allow_grow, and allow_shrink
+	  properties in place of deprecated gtk_window_set_policy.  And
+	  g_idle_add, in place of deprecated gtk_idle_add.
+
+	* src/sheet-control-gui.c (context_menu_handler) :
+	  dialog_paste_special now calls cmd_paste_to_selection itself
+	  like all the other dialogs.
+
+	* src/gutils.c (g_slist_map) : constify to make life easier.
+
+	* src/gnumeric-pane.c : some minor property renaming in the custom
+	  canvas-items when we removed the deprecated gunk.
+	* src/item-bar.c : remove deprecated GtkArg gunk in favour of
+	  GObject::Param stuff.
+	* src/item-grid.c : ditto.
+
+	* src/gnumeric-gconf.h : Make the public GSLists const just to be
+	  absolutely clear about who owns what.
+
+	* src/gnumeric-gconf.c (gnm_gconf_set_plugin_extra_dirs) : make list
+	  ownership semantics absolutely clear.
+	(gnm_gconf_set_plugin_extra_dirs) : ditto.
+	(gnm_gconf_set_file_history_files) : ditto.
+	(gnm_gconf_add_notification_plugin_directories) : delete unused.
+	(gnm_gconf_set_autoformat_extra_dirs) : delete unused.
+
+	* src/gnumeric-gconf-priv.h : no need to publicly include gconf anymore
+
 2003-06-05  Morten Welinder  <terra@gnome.org>
 
 	* src/stf.c (stf_read_default_probe): Delete.
@@ -20,6 +106,11 @@
 
 	* src/stf-parse.c (stf_parse_region): Quote anything that might be
 	an expression.  Still not brilliant, but better.
+
+2003-06-04  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-filter.c (cb_filter_button_press) : this seems simpler,
+	  and catches clicking on other buttons to close the popup.
 
 2003-06-03  Jody Goldberg <jody@gnome.org>
 
