@@ -38,6 +38,8 @@ Morten:
 	* Speeding up a few string value constructions.
 	* Really make autocorrect utf8 safe.
 	* Add FIB function.
+	* Fix loading of sheets with error constants in expressions, such
+	  as #REF!
 
 Lutz Müller:
 	* Drag & Drop sheet re-ordering
