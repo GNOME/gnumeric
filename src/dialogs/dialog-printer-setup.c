@@ -485,6 +485,10 @@ do_hf_config (const char *title, PrintHF **config)
 		print_hf_free (*config);
 		*config = print_hf_new (left_format, middle_format, right_format);
 
+		g_free (left_format);
+		g_free (middle_format);
+		g_free (right_format);
+
 		ret = print_hf_register (*config);
 	}
 

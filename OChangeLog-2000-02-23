@@ -17,6 +17,8 @@
 
 1999-09-18  Morten Welinder  <terra@diku.dk>
 
+	* src/dialogs/dialog-printer-setup.c (do_hf_config): Plug leaks.
+
 	* src/sheet.c (zoom_cell_style): Plug leak.
 
 	* src/functions/fn-date.c (get_serial_time): Be defensive.
