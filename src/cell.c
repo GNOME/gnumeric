@@ -1026,8 +1026,10 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 
 			new_tree = expr_tree_relocate (cell->parsed_node, col_diff, row_diff);
 
-			expr_tree_unref (cell->parsed_node);
-			cell->parsed_node = new_tree;
+			if (new_tree) {
+				expr_tree_unref (cell->parsed_node);
+				cell->parsed_node = new_tree;
+			}
 		}
 		/* The following call also relinks the cell.  */
 		cell_formula_changed (cell);

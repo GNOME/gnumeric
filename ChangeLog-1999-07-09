@@ -1,5 +1,13 @@
 1999-05-16  Morten Welinder  <terra@diku.dk>
 
+	* src/expr.c (do_expr_tree_relocate): Change to use lazy copying
+ 	scheme -- this should improve sharing.  (Until someone saves and
+	reloads, of course.  More about that at a later time.)
+	(expr_tree_invalidate_references): Quiet.
+	(expr_tree_fixup_references): Quiet.
+
+	* src/cell.c (cell_relocate): Only update if changed.
+
 	* src/expr.c (evaluate_level): Deleted.
 	(bigger_prec): Deleted.
 	(do_expr_decode_tree): Handle left/right associativity.
