@@ -1,5 +1,18 @@
 2000-11-03  Jody Goldberg <jgoldberg@home.com>
 
+	* src/commands.c (cmd_paste_copy_undo) : Clear any operations when
+	  storing the undo info for paste_copy.  There is no longer any need
+	  for the operations.  We are storing the image.
+
+	* src/clipboard.c (clipboard_prepend_cell) : Be safe and init the
+	  comment field.
+
+2000-11-03  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : Update the GAL requirement.
+
+2000-11-03  Jody Goldberg <jgoldberg@home.com>
+
 	* src/clipboard.c (clipboard_paste_region) : Optimize the styles for
 	  the entire target region in one swoop, rather than each tile
 	  individually.  This fixes the reported problem symptom.  I do not

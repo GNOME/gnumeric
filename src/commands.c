@@ -1924,7 +1924,9 @@ cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	if (me->has_been_through_cycle)
 		clipboard_release (me->content);
 	else
-		me->dst.paste_flags &= ~PASTE_TRANSPOSE;
+		/* Save the content */
+		me->dst.paste_flags = PASTE_FORMULAS |
+			(me->dst.paste_flags & PASTE_FORMATS);
 
 	me->content = content;
 	me->has_been_through_cycle = TRUE;

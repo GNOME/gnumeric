@@ -436,6 +436,7 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 
 	copy = g_new (CellCopy, 1);
 	copy->type       = CELL_COPY_TYPE_CELL;
+	copy->comment    = NULL;
 	copy->u.cell     = cell_copy (cell);
 	copy->u.cell->pos.col = copy->col_offset = col - c->base_col;
 	copy->u.cell->pos.row = copy->row_offset = row - c->base_row;
