@@ -71,22 +71,21 @@ static Value *
 gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 {
 	int c = value_get_as_int (argv[0]);
-	char result[7];
 
-	if (c <= 0 || c >= 256)
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
-
-	if (c <= 127) {
+	if (c > 0 && c <= 127) {
+		char result[2];
 		result[0] = c;
 		result[1] = 0;
 		return value_new_string (result);
-	} else {
+	} else if (c >= 128 && c <= 255) {
 		char c2 = c;
-
 		char *str = g_convert_with_iconv (&c2, 1, CHAR_iconv,
 						  NULL, NULL, NULL);
-		return value_new_string_nocopy (str);
+		if (str)
+			return value_new_string_nocopy (str);
 	}
+
+	return value_new_error (ei->pos, gnumeric_err_VALUE);
 }
 
 /***************************************************************************/
