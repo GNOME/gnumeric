@@ -1,3 +1,10 @@
+2004-05-24  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (negate_value): New function, extracted from
+	gnm_expr_eval and cb_iter_unary_neg.
+	(gnm_expr_eval, cb_iter_unary_neg): Use it.
+	(cb_iter_unary_neg, cb_iter_percentage): Fix crash for empties.
+
 2004-05-22  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* src/expr.c: (cb_iter_unary_neg), (cb_iter_percentage): make it compile again by changing

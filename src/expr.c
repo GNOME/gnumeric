@@ -901,41 +901,61 @@ bin_array_op (GnmEvalPos const *ep, GnmValue *sizer, GnmValue *a, GnmValue *b,
 	return iter_info.res;
 }
 
+static inline GnmValue *
+negate_value (GnmValue const *v)
+{
+	GnmValue *tmp;
+	GnmFormat *fmt; 
+
+	if (v->type == VALUE_INTEGER) {
+		int i = v->v_int.val;
+		if (i < 0 && -i < 0)
+			tmp = value_new_float (-(gnm_float)i);
+		else
+			tmp = value_new_int (-i);
+		fmt = VALUE_FMT (v);
+	} else if (v->type == VALUE_FLOAT) {
+		tmp = value_new_float (-v->v_float.val);
+		fmt = VALUE_FMT (v);
+	} else if (v->type == VALUE_BOOLEAN) {
+		/* Silly, but XL compatible.  */
+		tmp = value_new_int (v->v_bool.val ? -1 : 0);
+		fmt = VALUE_FMT (v);
+	} else
+		return NULL;
+
+	if (fmt != NULL) {
+		VALUE_FMT (tmp) = fmt;
+		style_format_ref (fmt);
+	}
+
+	return tmp;
+}
+
 static GnmValue *
 cb_iter_unary_neg (GnmValue const *v, GnmEvalPos const *ep,
 		   int x, int y, GnmValue *res)
 {
-	GnmValue *tmp, *conv = NULL;
-	GnmFormat *fmt = NULL; 
+	GnmValue *tmp = NULL;
 
 	if (VALUE_IS_EMPTY (v))
 		tmp = value_new_int (0);
 	else if (v->type == VALUE_ERROR)
 		tmp = value_dup (v);
 	else if (v->type == VALUE_STRING) {
-		conv = format_match_number (v->v_str.val->str, NULL,
-			workbook_date_conv (ep->sheet->workbook));
-		if (conv != NULL)
-			v = conv;
-	}
-	if (v->type == VALUE_INTEGER) {
-		tmp = value_new_int (-v->v_int.val);
-		fmt = VALUE_FMT (v);
-	} else if (v->type == VALUE_FLOAT) {
-		tmp = value_new_float (-v->v_float.val);
-		fmt = VALUE_FMT (v);
-	} else if (v->type == VALUE_BOOLEAN) {
-		tmp = value_new_int (v->v_bool.val ? -1 : 0);
-		fmt = VALUE_FMT (v);
+		GnmValue *conv = format_match_number
+			(v->v_str.val->str, NULL,
+			 workbook_date_conv (ep->sheet->workbook));
+		if (conv != NULL) {
+			tmp = negate_value (conv);
+			value_release (conv);
+		}
 	} else
+		tmp = negate_value (v);
+
+	if (!tmp)
 		tmp = value_new_error_VALUE (ep);
 
-	if (fmt != NULL) {
-		VALUE_FMT (tmp) = fmt;
-		style_format_ref (fmt);
-	}
-	if (conv != NULL)
-		value_release (conv);
 	res->v_array.vals [x][y] = tmp;
 	return NULL;
 }
@@ -944,27 +964,32 @@ static GnmValue *
 cb_iter_percentage (GnmValue const *v, GnmEvalPos const *ep,
 		    int x, int y, GnmValue *res)
 {
-	GnmValue *tmp, *conv = NULL;
+	GnmValue *tmp;
 
 	if (VALUE_IS_EMPTY (v))
 		tmp = value_new_int (0);
 	else if (v->type == VALUE_ERROR)
 		tmp = value_dup (v);
-	else if (v->type == VALUE_STRING) {
-		conv = format_match_number (v->v_str.val->str, NULL,
-			workbook_date_conv (ep->sheet->workbook));
+	else {
+		GnmValue *conv = NULL;
+		if (v->type == VALUE_STRING) {
+			conv = format_match_number (v->v_str.val->str, NULL,
+						    workbook_date_conv (ep->sheet->workbook));
+			if (conv != NULL)
+				v = conv;
+		}
+
+		if (VALUE_IS_NUMBER (v)){
+			tmp = value_new_float (value_get_as_float (v) / 100);
+			VALUE_FMT (tmp) = style_format_default_percentage ();
+			style_format_ref (VALUE_FMT (tmp));
+		} else
+			tmp = value_new_error_VALUE (ep);
+
 		if (conv != NULL)
-			v = conv;
+			value_release (conv);
 	}
 
-	if (VALUE_IS_NUMBER (v)){
-		tmp = value_new_float (value_get_as_float (v) / 100);
-		VALUE_FMT (tmp) = style_format_default_percentage ();
-		style_format_ref (VALUE_FMT (tmp));
-	} else
-		tmp = value_new_error_VALUE (ep);
-	if (conv != NULL)
-		value_release (conv);
 	res->v_array.vals [x][y] = tmp;
 	return NULL;
 }
@@ -1138,18 +1163,9 @@ gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 		}
 		if (!VALUE_IS_NUMBER (a))
 			res = value_new_error_VALUE (pos);
-		else if (expr->any.oper == GNM_EXPR_OP_UNARY_NEG) {
-			if (a->type == VALUE_INTEGER)
-				res = value_new_int (-a->v_int.val);
-			else if (a->type == VALUE_FLOAT)
-				res = value_new_float (-a->v_float.val);
-			else /* silly */
-				res = value_new_int (a->v_bool.val ? -1 : 0);
-			if (VALUE_FMT (a) != NULL) {
-				VALUE_FMT (res) = VALUE_FMT (a);
-				style_format_ref (VALUE_FMT (res));
-			}
-		} else {
+		else if (expr->any.oper == GNM_EXPR_OP_UNARY_NEG)
+			res = negate_value (a);
+		else {
 			res = value_new_float (value_get_as_float (a) / 100);
 			VALUE_FMT (res) = style_format_default_percentage ();
 			style_format_ref (VALUE_FMT (res));
