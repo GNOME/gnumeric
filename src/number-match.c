@@ -982,7 +982,7 @@ compute_value (const char *s, const regmatch_t *mp,
  *
  * Attempt to match the the supplied string as a simple value.
  */
-Value   *
+Value *
 format_match_simple (const char *text)
 {
 	/* Is it a boolean?  */

@@ -83,6 +83,7 @@ gui_file_import (WorkbookControlGUI *wbcg)
 
 	/* Pack it into file selector */
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Import file")));
+	gtk_file_selection_hide_fileop_buttons (fsel);
 	gtk_box_pack_start (GTK_BOX (fsel->action_area), GTK_WIDGET (box),
 	                    FALSE, TRUE, 0);
 
@@ -286,6 +287,7 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	const gchar *wb_file_name;
 	
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
+	gtk_file_selection_hide_fileop_buttons (fsel);
 
 	/* Select current directory if we have one */
 	wb = wb_control_workbook (wbc);

@@ -11,7 +11,7 @@ struct _SheetControlGUI {
 
 	GtkTable  	 *table;
 	GtkWidget	 *select_all_btn;
-	GtkWidget        *canvas;
+	GtkWidget        *gsheet;
 	GnomeCanvas      *col_canvas, *row_canvas;
 	GnomeCanvasItem  *col_item, *row_item;
 

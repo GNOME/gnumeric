@@ -255,7 +255,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 	ItemBar const         *item_bar = ITEM_BAR (item);
 	SheetControlGUI const *scg = item_bar->scg;
 	Sheet const           *sheet = ((SheetControl *) scg)->sheet;
-	GnumericSheet const   *gsheet = GNUMERIC_SHEET (scg->canvas);
+	GnumericSheet const   *gsheet = GNUMERIC_SHEET (scg->gsheet);
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 	ColRowInfo const *cri;
 	int pixels;
@@ -606,7 +606,7 @@ item_bar_start_resize (ItemBar *ib)
 	SheetControlGUI const * const scg = ib->scg;
 	Sheet const * const sheet = ((SheetControl *) scg)->sheet;
 	double const zoom = sheet->last_zoom_factor_used; /* * res / 72.; */
-	GnumericSheet const * const gsheet = GNUMERIC_SHEET (scg->canvas);
+	GnumericSheet const * const gsheet = GNUMERIC_SHEET (scg->gsheet);
 	GnomeCanvas const * const canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup * const group = GNOME_CANVAS_GROUP (canvas->root);
 	GnomeCanvasPoints * const points =
@@ -683,6 +683,8 @@ item_bar_end_resize (ItemBar *item_bar, int new_size)
 	if (item_bar->resize_guide) {
 		gtk_object_destroy (item_bar->resize_start);
 		item_bar->resize_start = NULL;
+	}
+	if (item_bar->resize_guide) {
 		gtk_object_destroy (item_bar->resize_guide);
 		item_bar->resize_guide = NULL;
 	}
@@ -734,7 +736,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	ItemBar * const item_bar = ITEM_BAR (item);
 	SheetControl *sc = (SheetControl *) item_bar->scg;
 	Sheet   * const sheet = sc->sheet;
-	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->scg->canvas);
+	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->scg->gsheet);
 	WorkbookControlGUI * const wbcg = item_bar->scg->wbcg;
 	gboolean const is_cols = item_bar->is_col_header;
 	double const zoom = sheet->last_zoom_factor_used;

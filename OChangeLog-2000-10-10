@@ -1735,7 +1735,7 @@
 
 	* src/functions/fn-database.c (find_column_of_field) : Use
 	  cell_get_rendered_text rather than entered_text.
-	(parse_criteria_rang) : Ditto.
+	(parse_criteria_range) : Ditto.
 	(find_rows_that_match) : Ditto.
 
 	* src/formats.c (cell_format_currency) : Add some versions without

@@ -283,8 +283,9 @@ cell_get_rendered_text (Cell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, g_strdup("ERROR"));
 
-	/* If this fails it is likely that you need to do a sheet_update */
-	g_return_val_if_fail (cell->rendered_value != NULL, g_strdup("ERROR"));
+	/* A precursor to just in time rendering */
+	if (cell->rendered_value == NULL)
+		cell_render_value (cell, TRUE);
 
 	return rendered_value_get_text (cell->rendered_value);
 }

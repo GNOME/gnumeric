@@ -208,12 +208,7 @@ parse_criteria (char const *criteria, criteria_test_fun_t *fun,
 		len=0;
 	}
 
-	tmp = g_strtod(criteria+len, &p);
-
-	if (p == criteria+len || *p != '\0')
-	        *test_value = value_new_string (criteria+len);
-	else
-	        *test_value = value_new_float (tmp);
+	*test_value = format_match (criteria+len, NULL, NULL);
 }
 
 

@@ -1,3 +1,14 @@
+2001-06-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/rendered-value.c (cell_get_rendered_text) : We need this for
+	  now.  There are functions that actualyl rely on the rendered text.
+
+2001-06-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gui-file.c (gui_file_open) : There is no point showing the
+	  create/delete/rename buttons when loading.
+	(gui_file_import) : and importing.
+
 2001-06-07  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/consolidate.c (retrieve_col_tree): Ignore
