@@ -23,7 +23,6 @@
 
 #include <gnumeric-gconf.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gal/util/e-util.h> /* e_free_string_slist */
 #include <gtk/gtk.h>
 
 /* Signals */
@@ -479,7 +478,8 @@ application_history_write_config (void)
 	gnm_gconf_set_file_history_files (app->history_list);
 	gnm_conf_sync ();
 
-	e_free_string_slist (app->history_list);
+	g_slist_foreach (app->history_list, (GFunc)g_free, NULL);
+	g_slist_free (app->history_list);
 	app->history_list = NULL;
 }
 

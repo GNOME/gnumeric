@@ -43,7 +43,6 @@
 
 #include <glade/glade.h>
 #include <gal/widgets/widget-color-combo.h>
-#include <gal/util/e-util.h>
 
 typedef struct {
 	WorkbookControlGUI  *wbcg;
@@ -427,8 +426,8 @@ cb_add_clicked (GtkWidget *ignore, SheetManager *state)
 					    SHEET_NEW_NAME, &new_name,
 					    -1);
 			n++;
-			match = (0 == g_str_compare (name, new_name) ||
-				 0 == g_str_compare (name, old_name));
+			match = (new_name != NULL && !strcmp (name, new_name)) ||
+				(old_name != NULL && !strcmp (name, old_name));
 			if (match)
 				break;
 		}
@@ -552,8 +551,7 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 			new_order = g_slist_prepend (new_order, this_sheet);
 			
 			if (this_sheet == NULL || 
-			    (strlen(new_name) > 0 && 
-			     0 != g_str_compare (old_name, new_name))) {
+			    (strlen (new_name) > 0 && strcmp (old_name, new_name))) {
 				changed_names = g_slist_prepend (changed_names, this_sheet);
 				new_names = g_slist_prepend (new_names, 
 							     strlen(new_name) > 0 ? new_name : NULL);
@@ -619,7 +617,8 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 		changed_names = NULL;
 		g_slist_free (old_order);
 		old_order = NULL;
-		e_free_string_slist (new_names);
+		g_slist_foreach (new_names, (GFunc)g_free, NULL);
+		g_slist_free (new_names);
 		new_names = NULL;
 
 		g_slist_free (color_changed);

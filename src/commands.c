@@ -67,7 +67,6 @@
 #include "gnumeric-gconf.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <gal/util/e-util.h>
 #include <ctype.h>
 
 /*
@@ -4263,10 +4262,12 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 	g_slist_free (me->new_sheets);
 	me->new_sheets = NULL;	
 
-	e_free_string_slist (me->old_names);
+	g_slist_foreach (me->old_names, (GFunc)g_free, NULL);
+	g_slist_free (me->old_names);
 	me->old_names = NULL;
 
-	e_free_string_slist (me->new_names);
+	g_slist_foreach (me->new_names, (GFunc)g_free, NULL);
+	g_slist_free (me->new_names);
 	me->new_names = NULL;
 
 	g_slist_free (me->color_changed);

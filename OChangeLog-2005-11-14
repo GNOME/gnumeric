@@ -1,3 +1,13 @@
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	Patch from : dorami@bu.iij4u.or.jp
+	* src/gnumeric-canvas.c : re-enable IM support.
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_editline_focus_in) : give the entry a
+	  chance to handle the focus-in too.
+
 2002-09-30  Morten Welinder  <terra@diku.dk>
 
 	* src/GNOME_Gnumeric.xml: Fix case of Hyperlink.

@@ -41,6 +41,7 @@
 #include <style.h>
 #include <cell.h>
 #include <ranges.h>
+#include <io-context.h>
 
 #include <gsf/gsf-input.h>
 #include <libxml/HTMLparser.h>

@@ -221,23 +221,6 @@ g_list_free_custom (GList *list, GFreeFunc free_func)
 }
 
 /**
- * g_list_map:
- * @list        : list of some items
- * @map_func    : mapping function
- */
-GList *
-g_list_map (GList *list, GnmMapFunc map_func)
-{
-	GList *list_copy = NULL;
-
-	GNM_LIST_FOREACH (list, void, value,
-		GNM_LIST_PREPEND (list_copy, map_func (value))
-	);
-
-	return g_list_reverse (list_copy);
-}
-
-/**
  * g_slist_map:
  * @list        : list of some items
  * @map_func    : mapping function
@@ -926,4 +909,17 @@ gnm_mem_chunk_foreach_leak (gnm_mem_chunk *chunk, GFunc cb, gpointer user)
 
 	g_slist_foreach (leaks, cb, user);
 	g_slist_free (leaks);
+}
+
+int
+g_str_compare (void const *x, void const *y)
+{
+	if (x == NULL || y == NULL) {
+		if (x == y)
+			return 0;
+		else
+			return x ? -1 : 1;
+	} 
+		
+	return strcmp (x, y);
 }

@@ -42,7 +42,6 @@
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
-#include <gal/util/e-util.h>
 
 typedef struct {
 	gboolean	 changed;
@@ -182,9 +181,12 @@ ac_dialog_toggle_init (AutoCorrectState *state, char const *name,
 static gboolean
 cb_autocorrect_destroy (GtkObject *w, AutoCorrectState *state)
 {
-	e_free_string_slist (state->init_caps.exceptions);
+	g_slist_foreach (state->init_caps.exceptions, (GFunc)g_free, NULL);
+	g_slist_free (state->init_caps.exceptions);
 	state->init_caps.exceptions = NULL;
-	e_free_string_slist (state->first_letter.exceptions);
+
+	g_slist_foreach (state->first_letter.exceptions, (GFunc)g_free, NULL);
+	g_slist_free (state->first_letter.exceptions);
 	state->first_letter.exceptions = NULL;
 
 	if (state->glade != NULL) {

@@ -4016,7 +4016,7 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 		if (!wbcg_edit_start (wbcg, FALSE, TRUE))
 			wbcg_focus_cur_scg (wbcg);
 
-	return TRUE;
+	return FALSE;
 }
 
 static void

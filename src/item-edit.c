@@ -144,6 +144,14 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	pango_layout_set_attributes (layout, attrs);
 
 	text = wbcg_edit_get_display_text (item_edit->scg->wbcg);
+	if (GNUMERIC_CANVAS (canvas)->preedit_length){
+		PangoAttrList *tmp_attrs = pango_attr_list_new();
+		pango_attr_list_splice (tmp_attrs,GNUMERIC_CANVAS (canvas)->preedit_attrs,
+			g_utf8_offset_to_pointer(text,cursor_pos)-text,
+			g_utf8_offset_to_pointer(text,cursor_pos+GNUMERIC_CANVAS (canvas)->preedit_length)-text);
+		pango_layout_set_attributes (layout,tmp_attrs);
+		pango_attr_list_unref (tmp_attrs);
+	}
 	pango_layout_index_to_pos (layout,
 		g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
 	gdk_draw_layout (drawable, canvas->style->black_gc,
@@ -223,8 +231,8 @@ recalc_spans (GnomeCanvasItem *item)
 		if(cri->visible)
 			col_size += cri->size_pixels;
 	}
-	pango_layout_get_pixel_size(layout,&width,&height);
-	g_object_unref(layout);
+	pango_layout_get_pixel_size (layout,&width,&height);
+	g_object_unref (layout);
 	col_span = 1 + cur_col - item_edit->pos.col;
 	merged = sheet_merge_is_corner (sheet, &item_edit->pos);
 	if (merged != NULL) {

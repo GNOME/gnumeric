@@ -1,6 +1,7 @@
 #ifndef GNM_CANVAS_H
 #define GNM_CANVAS_H
 
+#include <gtk/gtkimmulticontext.h>
 #include "gnumeric-simple-canvas.h"
 
 #define GNUMERIC_CANVAS_TYPE     (gnumeric_canvas_get_type ())
@@ -39,6 +40,13 @@ struct _GnumericCanvas {
 	int        sliding_x, sliding_y;
 	int        sliding_dx, sliding_dy;
 	gboolean   sliding_adjacent_h, sliding_adjacent_v;
+
+	/*  IM */
+	guint      need_im_reset :1;
+	guint      mask_state;
+	GtkIMContext *im_context;
+	guint      preedit_length;
+	PangoAttrList *preedit_attrs;
 };
 
 GType        gnumeric_canvas_get_type (void);

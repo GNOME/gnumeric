@@ -38,7 +38,6 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <glade/glade.h>
-#include <gal/util/e-util.h>
 #include <ctype.h>
 
 #define GLADE_FILE "function-select.glade"
@@ -115,7 +114,8 @@ dialog_function_write_recent_func (FunctionSelectState *state, FunctionDefinitio
 	}
 	gnm_gconf_set_recent_funcs (gconf_value_list);
 	gnm_conf_sync ();
-	e_free_string_slist (gconf_value_list);
+	g_slist_foreach (gconf_value_list, (GFunc)g_free, NULL);
+	g_slist_free (gconf_value_list);
 }
 
 

@@ -48,6 +48,63 @@ gnm_canvas_guru_key (WorkbookControlGUI const *wbcg, GdkEventKey *event)
 	return TRUE;
 }
 
+static gboolean
+gnm_check_ctrl_mask (GnumericCanvas *gcanvas,guint keyval){
+	SheetControl *sc = (SheetControl *) gcanvas->simple.scg;
+	Sheet *sheet = sc->sheet;
+	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
+	char const *fmt = NULL;
+	char const *desc = NULL;
+
+	switch (keyval) {
+	case GDK_asciitilde :
+		fmt = cell_formats [FMT_NUMBER][0];
+		desc = _("Format as Number");
+		break;
+	case GDK_dollar :
+		fmt = cell_formats [FMT_CURRENCY][0];
+		desc = _("Format as Currency");
+		break;
+	case GDK_percent :
+		fmt = cell_formats [FMT_PERCENT][0];
+		desc = _("Format as Percentage");
+		break;
+	case GDK_asciicircum :
+		fmt = cell_formats [FMT_SCIENCE][0];
+		desc = _("Format as Scientific");
+		break;
+	case GDK_numbersign :
+		fmt = cell_formats [FMT_DATE][0];
+		desc = _("Format as Date");
+		break;
+	case GDK_at :
+		fmt = cell_formats [FMT_TIME][0];
+		desc = _("Format as Time");
+		break;
+	case GDK_exclam :
+		fmt = cell_formats [FMT_ACCOUNT][0];
+		desc = _("Format as alternative Number"); /* FIXME: Better descriptor */
+		break;
+
+	case GDK_ampersand :
+		workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
+		return TRUE;
+	case GDK_underscore :
+		workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
+		return TRUE;
+	}
+
+	if (fmt != NULL) {
+		MStyle *mstyle = mstyle_new ();
+
+		mstyle_set_format_text (mstyle, fmt);
+		cmd_selection_format (WORKBOOK_CONTROL (wbcg), mstyle, NULL, desc);
+		return TRUE;
+	}
+	return FALSE;
+}
+		
+
 /*
  * key press event handler for the gnumeric sheet for the sheet mode
  */
@@ -84,58 +141,12 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 			: scg_rangesel_move;
 	} else {
 		if ((event->state & GDK_CONTROL_MASK)) {
-			char const *fmt = NULL;
-			char const *desc = NULL;
-
-			switch (event->keyval) {
-			case GDK_asciitilde :
-				fmt = cell_formats [FMT_NUMBER][0];
-				desc = _("Format as Number");
-				break;
-			case GDK_dollar :
-				fmt = cell_formats [FMT_CURRENCY][0];
-				desc = _("Format as Currency");
-				break;
-			case GDK_percent :
-				fmt = cell_formats [FMT_PERCENT][0];
-				desc = _("Format as Percentage");
-				break;
-			case GDK_asciicircum :
-				fmt = cell_formats [FMT_SCIENCE][0];
-				desc = _("Format as Scientific");
-				break;
-			case GDK_numbersign :
-				fmt = cell_formats [FMT_DATE][0];
-				desc = _("Format as Date");
-				break;
-			case GDK_at :
-				fmt = cell_formats [FMT_TIME][0];
-				desc = _("Format as Time");
-				break;
-			case GDK_exclam :
-				fmt = cell_formats [FMT_ACCOUNT][0];
-				desc = _("Format as alternative Number"); /* FIXME: Better descriptor */
-				break;
-
-			case GDK_ampersand :
-				workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
+			if (gnm_check_ctrl_mask (gcanvas,event->keyval))
 				return TRUE;
-			case GDK_underscore :
-				workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
-				return TRUE;
-			}
-
-			if (fmt != NULL) {
-				MStyle *mstyle = mstyle_new ();
-
-				mstyle_set_format_text (mstyle, fmt);
-				cmd_selection_format (WORKBOOK_CONTROL (wbcg), mstyle, NULL, desc);
-				return TRUE;
-			}
 		}
 		movefn = (event->state & GDK_SHIFT_MASK)
-			? scg_cursor_extend
-			: scg_cursor_move;
+					? scg_cursor_extend
+					: scg_cursor_move;
 	}
 
 	switch (event->keyval) {
@@ -395,8 +406,16 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (wbcg_edit_has_guru (scg->wbcg) == NULL  &&
 	    (scg->current_object != NULL || scg->new_object != NULL))
 		res = gnm_canvas_key_mode_object (gcanvas, event);
-	else
+	else{
+		gcanvas->mask_state = event->state;
+		if (gtk_im_context_filter_keypress (gcanvas->im_context,event))
+		{
+			gcanvas->need_im_reset = TRUE;
+			return TRUE;
+		}
+		gtk_im_context_reset(gcanvas->im_context);
 		res = gnm_canvas_key_mode_sheet (gcanvas, event);
+	}
 
 	switch (event->keyval) {
 	case GDK_Shift_L:   case GDK_Shift_R:
@@ -420,6 +439,11 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 	if (gcanvas->simple.scg->grab_stack > 0)
 		return TRUE;
 
+	if (gtk_im_context_filter_keypress (gcanvas->im_context,event))
+	{
+		gcanvas->need_im_reset = TRUE;
+		return TRUE;
+	}
 	/*
 	 * The status_region normally displays the current edit_pos
 	 * When we extend the selection it changes to displaying the size of
@@ -439,12 +463,8 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 static gint
 gnm_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 {
-#warning IM disabled
-#if 0
-	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (widget);
-	if (gcanvas->ic)
-		gdk_im_begin (gcanvas->ic, gcanvas->simple.canvas.layout.bin_window);
-#endif
+	GNUMERIC_CANVAS (widget)->need_im_reset = TRUE;
+	gtk_im_context_focus_in (GNUMERIC_CANVAS (widget)->im_context);
 	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->focus_in_event) (widget, event);
 }
 
@@ -452,10 +472,8 @@ gnm_canvas_focus_in (GtkWidget *widget, GdkEventFocus *event)
 static gint
 gnm_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 {
-#warning IM disabled
-#if 0
-	gdk_im_end ();
-#endif
+	GNUMERIC_CANVAS (widget)->need_im_reset = TRUE;
+	gtk_im_context_focus_out (GNUMERIC_CANVAS (widget)->im_context);
 	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->focus_out_event) (widget, event);
 }
 
@@ -465,66 +483,8 @@ gnm_canvas_realize (GtkWidget *widget)
 	if (GTK_WIDGET_CLASS (gcanvas_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (gcanvas_parent_class)->realize)(widget);
 
-#warning IM disabled
-#if 0
-	gint width, height;
-	GdkWindow *window;
-	GnumericCanvas *gcanvas;
-
-	window = widget->window;
-	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
-
-	e_cursor_set (window, E_CURSOR_FAT_CROSS);
-
-	gcanvas = GNUMERIC_CANVAS (widget);
-	if (gdk_im_ready () && (gcanvas->ic_attr = gdk_ic_attr_new ()) != NULL) {
-		GdkEventMask mask;
-		GdkICAttr *attr = gcanvas->ic_attr;
-		GdkICAttributesType attrmask = GDK_IC_ALL_REQ;
-		GdkIMStyle style;
-		GdkIMStyle supported_style = GDK_IM_PREEDIT_NONE |
-			GDK_IM_PREEDIT_NOTHING |
-			GDK_IM_PREEDIT_POSITION |
-			GDK_IM_STATUS_NONE |
-			GDK_IM_STATUS_NOTHING;
-
-		if(widget->style && widget->style->font->type != GDK_FONT_FONTSET)
-			supported_style &= ~GDK_IM_PREEDIT_POSITION;
-
-		attr->style = style = gdk_im_decide_style (supported_style);
-		attr->client_window = gcanvas->simple.canvas.layout.bin_window;
-
-		if ((style & GDK_IM_PREEDIT_MASK) == GDK_IM_PREEDIT_POSITION) {
-			if (widget->style && widget->style->font->type != GDK_FONT_FONTSET) {
-				g_warning ("over-the-spot style requires fontset");
-			} else {
-				gdk_window_get_size (attr->client_window, &width, &height);
-				height = widget->style->font->ascent +
-					widget->style->font->descent;
-
-				attrmask |= GDK_IC_PREEDIT_POSITION_REQ;
-				attr->spot_location.x = 0;
-				attr->spot_location.y = height;
-				attr->preedit_area.x = 0;
-				attr->preedit_area.y = 0;
-				attr->preedit_area.width = width;
-				attr->preedit_area.height = height;
-				attr->preedit_fontset = widget->style->font;
-			}
-		}
-
-		gcanvas->ic = gdk_ic_new (attr, attrmask);
-		if (gcanvas->ic != NULL) {
-			mask = gdk_window_get_events (attr->client_window);
-			mask |= gdk_ic_get_events (gcanvas->ic);
-			gdk_window_set_events (attr->client_window, mask);
-
-			if (GTK_WIDGET_HAS_FOCUS (widget))
-				gdk_im_begin (gcanvas->ic, attr->client_window);
-		} else
-			g_warning ("Can't create input context.");
-	}
-#endif
+	gtk_im_context_set_client_window (GNUMERIC_CANVAS (widget)->im_context,
+		gtk_widget_get_toplevel (widget)->window);
 }
 
 static void
@@ -535,17 +495,8 @@ gnm_canvas_unrealize (GtkWidget *widget)
 	gcanvas = GNUMERIC_CANVAS (widget);
 	g_return_if_fail (gcanvas != NULL);
 
-#warning IM disabled
-#if 0
-	if (gcanvas->ic) {
-		gdk_ic_destroy (gcanvas->ic);
-		gcanvas->ic = NULL;
-	}
-	if (gcanvas->ic_attr) {
-		gdk_ic_attr_destroy (gcanvas->ic_attr);
-		gcanvas->ic_attr = NULL;
-	}
-#endif
+	gtk_im_context_set_client_window (GNUMERIC_CANVAS (widget)->im_context,
+		gtk_widget_get_toplevel (widget)->window);
 
 	(*GTK_WIDGET_CLASS (gcanvas_parent_class)->unrealize)(widget);
 }
@@ -563,8 +514,16 @@ typedef struct {
 } GnumericCanvasClass;
 
 static void
+gnm_canvas_finalize (GObject *object)
+{
+	g_object_unref (G_OBJECT (GNUMERIC_CANVAS (object)->im_context));
+	G_OBJECT_CLASS (gcanvas_parent_class)->finalize(object);
+}
+
+static void
 gnm_canvas_class_init (GnumericCanvasClass *Class)
 {
+	GObjectClass *gobject_class = G_OBJECT_CLASS (Class);
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GnomeCanvasClass *canvas_class;
@@ -575,6 +534,8 @@ gnm_canvas_class_init (GnumericCanvasClass *Class)
 
 	gcanvas_parent_class = g_type_class_peek (GNM_SIMPLE_CANVAS_TYPE);
 
+	gobject_class->finalize = gnm_canvas_finalize;
+
 	widget_class->realize		   = gnm_canvas_realize;
 	widget_class->unrealize		   = gnm_canvas_unrealize;
  	widget_class->size_allocate	   = gnm_canvas_size_allocate;
@@ -584,16 +545,103 @@ gnm_canvas_class_init (GnumericCanvasClass *Class)
 	widget_class->focus_out_event	   = gnm_canvas_focus_out;
 }
 
+/* IM Context Callbacks
+ */
+
+static void
+gnm_canvas_commit_cb (GtkIMContext *context, const gchar *str, GnumericCanvas *gcanvas)
+{
+	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
+	GtkEditable *editable = GTK_EDITABLE (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
+	gint tmp_pos;
+
+	if(str && strlen(str) == 1 && gcanvas->mask_state & GDK_CONTROL_MASK){
+		if (gnm_check_ctrl_mask (gcanvas,*str))
+			return;
+	}
+	if (!wbcg_is_editing(wbcg)) {
+		if (!wbcg_edit_start (wbcg, TRUE, TRUE))
+			return;
+	}
+
+	if (gtk_editable_get_selection_bounds (editable, NULL, NULL))
+		gtk_editable_delete_selection (editable);
+	else
+	{
+		tmp_pos = gtk_editable_get_position (editable);
+		if (GTK_ENTRY(editable)->overwrite_mode)
+			gtk_editable_delete_text (editable,tmp_pos,tmp_pos+1);
+	}
+
+	tmp_pos = gtk_editable_get_position (editable);
+	gtk_editable_insert_text (editable, str, strlen (str), &tmp_pos);
+	gtk_editable_set_position (editable, tmp_pos);
+}
+
+static void
+gnm_canvas_preedit_changed_cb (GtkIMContext *context, GnumericCanvas *gcanvas)
+{
+	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
+	GtkEditable *editable = GTK_EDITABLE (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
+	gchar *preedit_string;
+	int tmp_pos;
+	int cursor_pos;
+
+	tmp_pos = gtk_editable_get_position (editable);
+	if(gcanvas->preedit_attrs)
+		pango_attr_list_unref(gcanvas->preedit_attrs);
+	gtk_im_context_get_preedit_string (gcanvas->im_context, &preedit_string, &gcanvas->preedit_attrs, &cursor_pos);
+
+	if (!wbcg_is_editing (wbcg)) {
+		if (!wbcg_edit_start (wbcg, TRUE, TRUE)){
+			gtk_im_context_reset (gcanvas->im_context);
+			gcanvas->preedit_length=0;
+			if(gcanvas->preedit_attrs)
+				pango_attr_list_unref(gcanvas->preedit_attrs);
+			gcanvas->preedit_attrs=NULL;
+			g_free (preedit_string);
+			return;
+		}
+	}
+	if(gcanvas->preedit_length)
+		gtk_editable_delete_text (editable,tmp_pos,tmp_pos+gcanvas->preedit_length);
+	gcanvas->preedit_length = strlen(preedit_string);
+
+	if(gcanvas->preedit_length)
+		gtk_editable_insert_text (editable, preedit_string, gcanvas->preedit_length, &tmp_pos);
+	g_free (preedit_string);
+}
+
+static gboolean
+gnm_canvas_retrieve_surrounding_cb (GtkIMContext *context, GnumericCanvas *gcanvas)
+{
+#if 0
+	gtk_im_context_set_surrounding (context,
+		entry->text,
+		entry->n_bytes,
+		g_utf8_offset_to_pointer (entry->text, entry->current_pos) - entry->text);
+
+#endif
+	return FALSE;
+}
+
+static gboolean
+gnm_canvas_delete_surrounding_cb (GtkIMContext *slave, gint offset, gint n_chars, GnumericCanvas *gcanvas)
+{
+#if 0
+	gtk_editable_delete_text (GTK_EDITABLE (entry),
+		entry->current_pos + offset,
+		entry->current_pos + offset + n_chars);
+#endif
+	return TRUE;
+}
+
+
 static void
 gnm_canvas_init (GnumericCanvas *gcanvas)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gcanvas);
 
-#warning IM disabled
-#if 0
-	gcanvas->ic = NULL;
-	gcanvas->ic_attr = NULL;
-#endif
 	gcanvas->first.col = gcanvas->last_full.col = gcanvas->last_visible.col = 0;
 	gcanvas->first.row = gcanvas->last_full.row = gcanvas->last_visible.row = 0;
 	gcanvas->first_offset.col = 0;
@@ -605,6 +653,20 @@ gnm_canvas_init (GnumericCanvas *gcanvas)
 	gcanvas->sliding_x  = gcanvas->sliding_dx = -1;
 	gcanvas->sliding_y  = gcanvas->sliding_dy = -1;
 	gcanvas->sliding_adjacent_h = gcanvas->sliding_adjacent_v = FALSE;
+
+	gcanvas->im_context = gtk_im_multicontext_new();
+	gcanvas->preedit_length = 0;
+	gcanvas->preedit_attrs = NULL;
+
+	g_signal_connect (G_OBJECT (gcanvas->im_context), "commit",
+		G_CALLBACK (gnm_canvas_commit_cb), gcanvas);
+	g_signal_connect (G_OBJECT (gcanvas->im_context), "preedit_changed",
+		G_CALLBACK (gnm_canvas_preedit_changed_cb), gcanvas);
+	g_signal_connect (G_OBJECT (gcanvas->im_context), "retrieve_surrounding",
+		G_CALLBACK (gnm_canvas_retrieve_surrounding_cb), gcanvas);
+	g_signal_connect (G_OBJECT (gcanvas->im_context), "delete_surrounding",
+		G_CALLBACK (gnm_canvas_delete_surrounding_cb), gcanvas);
+
 
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);

@@ -401,7 +401,43 @@ oo_cell_content_end (GsfXmlSAXState *gsf_state)
 		cell_set_value (cell, v);
 	}
 }
+static void
+oo_style (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+{
+	 /* <style:style style:name="ce1" style:family="table-cell" style:parent-style-name="Default" style:data-style-name="N0"> */
+}
+static void
+oo_style_prop (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+{
+	OOParseState *state = (OOParseState *)gsf_state;
 
+	state->pos.eval.col = -1;
+	state->pos.eval.row = -1;
+
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (!strcmp (attrs[0], "fo:background-color")) {
+			"#010101"
+		else if (!strcmp (attrs[0], "fo:color")) {
+			="#000000"
+		} else if (!strcmp (attrs[0], "style:cell-protect")) {
+			="protected"
+		} else if (!strcmp (attrs[0], "style:text-align-source")) {
+			="value-type"
+		} else if (!strcmp (attrs[0], "fo:vertical-align")) {
+			="bottom" {top, middle, bottom, Automatic }
+		} else if (!strcmp (attrs[0], "fo:wrap-option")) {
+			="no-wrap"
+		} else if (!strcmp (attrs[0], "style:font-name")) {
+			="Arial"
+		} else if (!strcmp (attrs[0], "fo:font-size")) {
+			="10pt"
+		} else if (!strcmp (attrs[0], "fo:font-weight")) {
+			="normal"
+		} else if (!strcmp (attrs[0], "fo:font-style" )) {
+			="italic"
+		}
+}
+		       
 static GsfXmlSAXNode opencalc_dtd[] = {
 GSF_XML_SAX_NODE (START, START, NULL, FALSE, NULL, NULL, 0),
 GSF_XML_SAX_NODE (START, OFFICE, "office:document-content", FALSE, NULL, NULL, 0),
@@ -417,10 +453,10 @@ GSF_XML_SAX_NODE (START, OFFICE, "office:document-content", FALSE, NULL, NULL, 0
   GSF_XML_SAX_NODE (OFFICE, OFFICE_STYLES, "office:automatic-styles", FALSE, NULL, NULL, 0),
   /* <office:automatic-styles> */
 
-    GSF_XML_SAX_NODE (OFFICE_STYLES, STYLE, "style:style", FALSE, NULL, NULL, 0),
+    GSF_XML_SAX_NODE (OFFICE_STYLES, STYLE, "style:style", FALSE, &oo_style, NULL, 0),
       /* <style:style style:name="co1" style:family="table-column"> */
 
-      GSF_XML_SAX_NODE (STYLE, STYLE_PROP, "style:properties", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (STYLE, STYLE_PROP, "style:properties", FALSE, &oo_style_prop, NULL, 0),
 	/* <style:properties fo:break-before="auto" style:column-width="0.9138inch"/> */
 
     GSF_XML_SAX_NODE (OFFICE_STYLES, NUMBER_STYLE, "number:number-style", FALSE, NULL, NULL, 0),

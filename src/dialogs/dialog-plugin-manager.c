@@ -42,7 +42,6 @@
 
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gal/util/e-util.h>
 
 #include <string.h>
 
@@ -215,7 +214,8 @@ pm_delete_dir (char *dir_name)
 	if (directory) {
 		plugin_dirs = g_slist_delete_link (plugin_dirs, directory);
 		gnm_gconf_set_plugin_extra_dirs (plugin_dirs);
-		e_free_string_slist (plugin_dirs);
+		g_slist_foreach (plugin_dirs, (GFunc)g_free, NULL);
+		g_slist_free (plugin_dirs);
 	}
 }
 
@@ -231,7 +231,8 @@ pm_add_dir (char *dir_name)
 		GNM_SLIST_PREPEND (plugin_dirs, dir_name);
 		GNM_SLIST_SORT (plugin_dirs, g_str_compare);
 		gnm_gconf_set_plugin_extra_dirs (plugin_dirs);
-		e_free_string_slist (plugin_dirs);
+		g_slist_foreach (plugin_dirs, (GFunc)g_free, NULL);
+		g_slist_free (plugin_dirs);
 	}
 }
 
@@ -508,11 +509,13 @@ pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 	if (plugin_path_env != NULL) {
 		plugin_dirs = g_strsplit_to_slist (plugin_path_env, ":");
 		pm_gui_load_directories (pm_gui, plugin_dirs, FALSE);
-		e_free_string_slist (plugin_dirs);
+		g_slist_foreach (plugin_dirs, (GFunc)g_free, NULL);
+		g_slist_free (plugin_dirs);
 	}
 	plugin_dirs = gnm_app_prefs->plugin_extra_dirs;
 	pm_gui_load_directories (pm_gui, plugin_dirs, TRUE);
-	e_free_string_slist (plugin_dirs);
+	g_slist_foreach (plugin_dirs, (GFunc)g_free, NULL);
+	g_slist_free (plugin_dirs);
 }
 
 static void

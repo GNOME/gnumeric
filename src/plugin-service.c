@@ -31,7 +31,6 @@
 #include <gsf/gsf-impl-utils.h>
 
 #include <bonobo/bonobo-ui-node.h>
-#include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 
 #include <string.h>

@@ -41,7 +41,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
-#include <gal/util/e-util.h>
 #include <string.h>
 
 #define SOLVER_KEY            "solver-dialog"
@@ -446,7 +445,8 @@ cb_dialog_model_type_clicked (GtkWidget *button, SolverState *state)
 static void
 free_original_values (GSList *ov, gpointer user_data)
 {
-	e_free_string_slist (ov);
+	g_slist_foreach (ov, (GFunc)g_free, NULL);
+	g_slist_free (ov);
 }
 
 /**

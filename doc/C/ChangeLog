@@ -1,3 +1,8 @@
+2002-09-27  J.H.M. Dassen (Ray) <jdassen@debian.org>
+ 
+ 	* gnumeric-C.omf: Corrected subject category so the docs show up in
+ 	yelp's help contents. 
+ 
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9

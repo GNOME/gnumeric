@@ -46,7 +46,6 @@
 #include <libxml/xmlmemory.h>
 #include <gsf/gsf-impl-utils.h>
 
-#include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 
 #include <glib-object.h>
@@ -1446,7 +1445,8 @@ plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error)
 				   NULL);
 	GNM_SLIST_CONCAT (dir_list, gnumeric_extra_plugin_dirs ());
 	plugin_info_list = plugin_info_list_read_for_subdirs_of_dir_list (dir_list, &error);
-	e_free_string_slist (dir_list);
+	g_slist_foreach (dir_list, (GFunc)g_free, NULL);
+	g_slist_free (dir_list);
 	*ret_error = error;
 
 	return plugin_info_list;

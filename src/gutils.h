@@ -16,11 +16,10 @@ size_t	g_unichar_strlen  (gunichar const *str);
 int	g_unichar_strncmp (gunichar const *a, gunichar const *b, size_t n);
 
 void	  g_ptr_array_insert (GPtrArray *array, gpointer value, int index);
-GList    *g_list_map         (GList *list, GnmMapFunc map_func);
+int	  g_str_compare	     (void const *x, void const *y);
 GList    *g_create_list	     (gpointer item1, ...);
 gint      g_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func);
 void      g_list_free_custom (GList *list, GFreeFunc free_func);
-#define   g_string_list_copy(list) g_list_map (list, (GnmMapFunc) g_strdup)
 GList    *g_strsplit_to_list (const gchar *string, const gchar *delimiter);
 #define GNM_LIST_FOREACH(list,valtype,val,stmnt) \
 G_STMT_START { \

@@ -15,7 +15,6 @@
 #include "expr.h"
 #include "expr-impl.h"
 #include "datetime.h"
-#include <gal/util/e-util.h>
 
 /* ------------------------------------------------------------------------- */
 
@@ -490,7 +489,8 @@ collect_strings (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags, V
 
 	if (err) {
 		g_assert (err->type == VALUE_ERROR);
-		e_free_string_slist (cl.data);
+		g_slist_foreach (cl.data, (GFunc)g_free, NULL);
+		g_slist_free (cl.data);
 		*error = err;
 		return NULL;
 	}
@@ -515,7 +515,8 @@ string_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 		return (error != VALUE_TERMINATE) ? error : NULL;
 
 	err = func (vals, &res);
-	e_free_string_slist (vals);
+	g_slist_foreach (vals, (GFunc)g_free, NULL);
+	g_slist_free (vals);
 
 	if (err) {
 		if (res)
