@@ -1,6 +1,4 @@
-#pragma inhibit push
 #include <gnome-factory.idl>
-#pragma inhibit pop
 #include <Table.idl>
 
 module GNOME {
