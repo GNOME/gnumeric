@@ -442,7 +442,6 @@ pref_tree_initializer (PrefState *state, gpointer data,
 				    G_TYPE_STRING,
 				    G_TYPE_STRING,
 				    G_TYPE_STRING,
-				    G_TYPE_STRING,
 				    G_TYPE_BOOLEAN);
 	view = GTK_TREE_VIEW (gtk_tree_view_new_with_model
 			      (GTK_TREE_MODEL (model)));

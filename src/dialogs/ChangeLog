@@ -1,3 +1,8 @@
+2004-06-29  Jody Goldberg <jody@gnome.org>
+
+	* dialog-preferences.c (pref_tree_initializer) : fix crash on startup
+	  due to missing column
+
 2004-06-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (cb_desc_stat_tool_ok_clicked):
