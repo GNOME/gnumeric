@@ -16,6 +16,8 @@
 #include "func.h"
 #include "utils.h"
 
+static Value *eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree);
+
 EvalPosition *
 eval_pos_init (EvalPosition *eval_pos, Sheet *sheet, int col, int row)
 {
@@ -774,7 +776,7 @@ eval_range (FunctionEvalInfo *s, Value *v)
 		}
 }
 
-Value *
+static Value *
 eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 {
 	Value *res = NULL, *a = NULL, *b = NULL;

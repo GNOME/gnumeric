@@ -132,7 +132,6 @@ Value *callback_function_stat (const EvalPosition *ep, Value *value,
 
 Value *gnumeric_average     (FunctionEvalInfo *s, GList *nodes);
 Value *gnumeric_count       (FunctionEvalInfo *s, GList *nodes);
-Value *gnumeric_sum         (FunctionEvalInfo *s, GList *nodes);
 Value *gnumeric_stdev       (FunctionEvalInfo *s, GList *nodes);
 Value *gnumeric_stdevp      (FunctionEvalInfo *s, GList *nodes);
 Value *gnumeric_var         (FunctionEvalInfo *s, GList *nodes);
@@ -140,7 +139,6 @@ Value *gnumeric_varp        (FunctionEvalInfo *s, GList *nodes);
 Value *gnumeric_counta      (FunctionEvalInfo *s, GList *nodes);
 Value *gnumeric_min         (FunctionEvalInfo *s, GList *nodes);
 Value *gnumeric_max         (FunctionEvalInfo *s, GList *nodes);
-Value *gnumeric_suma        (FunctionEvalInfo *s, GList *nodes);
 
 Value *gnumeric_return_current_time (void);
 
@@ -165,15 +163,6 @@ int  criteria_test_less_or_equal    (Value *x, Value *y);
 void parse_criteria                 (const char *criteria,
 				     criteria_test_fun_t *fun,
 				     Value **test_value);
-
-typedef struct {
-        GSList    *entries;
-        int       n;
-} make_list_t;
-
-Value *callback_function_make_list (const EvalPosition *ep,
-				    Value *value, void *closure);
-void init_make_list_closure(make_list_t *p);
 
 float_t get_serial_date (const Value *v);
 GDate *get_date (const Value *v);

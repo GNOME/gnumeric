@@ -75,7 +75,13 @@ callback_function_stat (const EvalPosition *ep, Value *value, void *closure)
 	return NULL;
 }
 
-Value *
+
+typedef struct {
+        GSList    *entries;
+        int       n;
+} make_list_t;
+
+static Value *
 callback_function_make_list (const EvalPosition *ep, Value *value,
 			     void *closure)
 {
@@ -96,7 +102,7 @@ callback_function_make_list (const EvalPosition *ep, Value *value,
 	return NULL;
 }
 
-void
+static void
 init_make_list_closure(make_list_t *p)
 {
         p->n = 0;

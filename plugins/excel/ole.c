@@ -20,7 +20,7 @@
 #define BIFF_TYPES_FILE    "biff-types.h"
 #define ESCHER_TYPES_FILE  "escher-types.h"
 
-char delim[]=" \t\n";
+static char delim[]=" \t\n";
 
 typedef struct {
 	guint16 opcode;
@@ -31,7 +31,7 @@ static GPtrArray *biff_types   = NULL;
 static GPtrArray *escher_types = NULL;
 typedef enum { eBiff=0, eEscher=1 } typeType;
 
-char *cur_dir = NULL;
+static char *cur_dir = NULL;
 
 static void dump_vba (MsOle *f);
 

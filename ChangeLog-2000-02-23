@@ -1,5 +1,13 @@
 1999-09-19  Morten Welinder  <terra@diku.dk>
 
+	* src/functions/fn-stat.c (callback_function_make_list): Static.
+	(init_make_list_closure): Static.
+
+	* src/expr.c (eval_expr_real): Static.
+
+	* src/functions/fn-math.c (gnumeric_sum): Static.
+	(gnumeric_suma): Static.
+
 	* src/analysis-tools.c (covariance_tool): Plug leak.
 	(descriptive_stat_tool): Plug leak.
 	(correlation_tool): Plug leak.

@@ -1,3 +1,7 @@
+1999-09-18  Morten Welinder  <terra@diku.dk>
+
+	* ole.c (cur_dir, delim): static.
+
 1999-09-18  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric-chart.c (gnumeric_chart_destroy) : implement.

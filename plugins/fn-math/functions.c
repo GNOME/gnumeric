@@ -1356,7 +1356,7 @@ static char *help_sum = {
 	   "@SEEALSO=AVERAGE, COUNT")
 };
 
-Value *
+static Value *
 gnumeric_sum (FunctionEvalInfo *ei, GList *nodes)
 {
 	return float_range_function (nodes, ei,
@@ -1387,7 +1387,7 @@ static char *help_suma = {
 	   "@SEEALSO=AVERAGE, SUM, COUNT")
 };
 
-Value *
+static Value *
 gnumeric_suma (FunctionEvalInfo *ei, GList *nodes)
 {
 	return float_range_function (nodes, ei,
