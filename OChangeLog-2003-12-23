@@ -1,3 +1,11 @@
+2002-02-24  Almer S. Tigelaar  <almer@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=72416
+	http://bugzilla.gnome.org/show_bug.cgi?id=71783
+	* src/stf-export.c (stf_export_cell):
+	Honor the 'never' quote setting and fix a subtle
+	bug that caused the quoting character always be	"
+
 2002-02-22  Morten Welinder  <terra@diku.dk>
 
 	* src/numbers.h (floorgnum, ceilgnum, powgnum, expgnum, loggnum,
