@@ -27,6 +27,9 @@ typedef struct {
 	/* Virtual methods */
 	GnomeCanvasItem *(*realize) (SheetObject *sheet_object, SheetView *sheet_view);
 	void             (*update)  (SheetObject *sheet_object, gdouble x, gdouble y);
+	void       (*update_coords) (SheetObject *sheet_object,
+				     gdouble x1delta, gdouble y1delta,
+				     gdouble x2delta, gdouble y2delta);
 	void   (*creation_finished) (SheetObject *sheet_object);
 } SheetObjectClass;
 
@@ -46,11 +49,9 @@ typedef enum {
 /*
  * This routine creates the SheetObject in the SheetViews's Canvases.
  */
-void             sheet_object_realize        (Sheet *sheet,
-					      SheetObject *object);
+void             sheet_object_realize        (SheetObject *object);
 
-void             sheet_object_unrealize      (Sheet *sheet,
-					      SheetObject *object);
+void             sheet_object_unrealize      (SheetObject *object);
 
 void             sheet_object_make_current   (Sheet *sheet,
 					      SheetObject *object);

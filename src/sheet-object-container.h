@@ -24,6 +24,10 @@ typedef struct {
 	 */
 	GnomeClientSite *client_site;
 
+	/*
+	 * Points to the object server that implements this view
+	 */
+	GnomeObject     *object_server;
 	char *repoid;
 } SheetObjectContainer;
 
@@ -31,8 +35,21 @@ typedef struct {
 	SheetObjectClass parent_class;
 } SheetObjectContainerClass;
 
+/*
+ * Generic Bonobo containers.
+ */
 GtkType      sheet_object_container_get_type (void);
+SheetObject *sheet_object_container_new      (Sheet *sheet,
+					      double x1, double y1,
+					      double x2, double y2,
+					      char *repoid);
+void         sheet_object_container_land     (SheetObject *so);
+
+/*
+ * Graphics
+ */
 SheetObject *sheet_object_graphic_new        (Sheet *sheet,
 					      double x1, double y1,
 					      double x2, double y2);
+
 #endif /* GNUMERIC_SHEET_OBJECT_CONTAINER_H */

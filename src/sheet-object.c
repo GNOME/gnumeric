@@ -88,12 +88,35 @@ sheet_object_destroy (GtkObject *object)
 	(*sheet_object_parent_class->destroy)(object);
 }
 
+/*
+ * Default method implementation for update_coords,
+ * This is used by cheap objects: we unrealize the objects,
+ * update the coordinates and realize the object
+ */
+static void
+sheet_object_update_coords (SheetObject *so,
+			    gdouble x1d, gdouble y1d,
+			    gdouble x2d, gdouble y2d)
+{
+	double *coords = so->bbox_points->coords;
+	
+	sheet_object_unrealize (so);
+	coords [0] += x1d;
+	coords [1] += y1d;
+	coords [2] += x2d;
+	coords [3] += y2d;
+	sheet_object_realize (so);
+}
+
 static void
 sheet_object_class_init (GtkObjectClass *object_class)
 {
+	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+	
 	sheet_object_parent_class = gtk_type_class (gtk_object_get_type ());
 
 	object_class->destroy = sheet_object_destroy;
+	sheet_object_class->update_coords = sheet_object_update_coords;
 }
 
 GtkType
@@ -199,16 +222,14 @@ sheet_view_object_unrealize (SheetView *sheet_view, SheetObject *object)
  * on every existing SheetView)
  */
 void
-sheet_object_realize (Sheet *sheet, SheetObject *object)
+sheet_object_realize (SheetObject *object)
 {
 	GList *l;
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_SHEET_OBJECT (object));
 	
-	for (l = sheet->sheet_views; l; l = l->next){
+	for (l = object->sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
 		GnomeCanvasItem *item;
 		
@@ -224,16 +245,14 @@ sheet_object_realize (Sheet *sheet, SheetObject *object)
  * every SheetViews.
  */
 void
-sheet_object_unrealize (Sheet *sheet, SheetObject *object)
+sheet_object_unrealize (SheetObject *object)
 {
 	GList *l;
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_SHEET_OBJECT (object));
 
-	for (l = sheet->sheet_views; l; l = l->next){
+	for (l = object->sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
 		
 		sheet_view_object_unrealize (sheet_view, object);
@@ -306,7 +325,7 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 		g_assert_not_reached ();
 	}
 
-	sheet_object_realize (sheet, o);
+	sheet_object_realize (o);
 
 	return o;
 }
@@ -382,6 +401,16 @@ sheet_button_press (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 	sheet->coords = g_list_append (sheet->coords, oc);
 
 	sheet->current_object = create_object (sheet, oc->x, oc->y);
+
+	/*
+	 * If something fails during object creation,
+	 * set the mode to the normal sheet mode
+	 */
+	if (!sheet->current_object){
+		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
+		return 1;
+	}
+
 	
 	gtk_signal_connect (GTK_OBJECT (gsheet), "button_release_event",
 			    GTK_SIGNAL_FUNC (sheet_button_release), sheet);
@@ -657,15 +686,6 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 			GnomeCanvasItem *object_item = NULL;
 			GList *ll;
 
-			/* Find the object in this sheet view */
-			for (ll = object->realized_list; ll; ll = ll->next){
-				GnomeCanvasItem *oi = ll->data;
-				
-				if (oi->canvas == GNOME_CANVAS (sheet_view->sheet_view)){
-					object_item = oi;
-					break;
-				}
-			}
 			if (change & POINT (0)){
 				set_item_x (sheet_view, 0, coords [0] + dx);
 				set_item_x (sheet_view, 3, coords [0] + dx);
@@ -696,12 +716,12 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 				set_item_y (sheet_view, 4, (coords [1] + dy + coords [3])/2);
 			}
 
-			sheet_view_object_unrealize (sheet_view, object);
-			coords [0] += change & POINT (0) ? dx : 0;
-			coords [1] += change & POINT (1) ? dy : 0;
-			coords [2] += change & POINT (2) ? dx : 0;
-			coords [3] += change & POINT (3) ? dy : 0;
-			sheet_view_object_realize (sheet_view, object);
+			SO_CLASS(object)->update_coords (
+				object,
+				change & POINT (0) ? dx : 0,
+				change & POINT (1) ? dy : 0,
+				change & POINT (2) ? dx : 0,
+				change & POINT (3) ? dy : 0);
 		}
 		break;
 	}
@@ -754,12 +774,12 @@ object_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object)
 		
 		gnome_canvas_item_ungrab (item, event->button.time);
 
-		sheet_object_unrealize (object->sheet, object);
+		sheet_object_unrealize (object);
 		object->bbox_points->coords [0] += total_x;
 		object->bbox_points->coords [1] += total_y;
 		object->bbox_points->coords [2] += total_x;
 		object->bbox_points->coords [3] += total_y;
-		sheet_object_realize (object->sheet, object);
+		sheet_object_realize (object);
 		
 		sheet_object_make_current (object->sheet, object);
 		break;

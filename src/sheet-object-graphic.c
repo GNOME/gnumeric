@@ -170,7 +170,7 @@ sheet_object_filled_realize (SheetObject *so, SheetView *sheet_view)
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	SheetObjectFilled  *sof = SHEET_OBJECT_FILLED (so);
 	GnomeCanvasItem *item = NULL;
-	double *c;
+	double *c, x1, y1, x2, y2;
 	GtkType type;
 	
 	g_return_val_if_fail (so != NULL, NULL);
@@ -195,10 +195,10 @@ sheet_object_filled_realize (SheetObject *so, SheetView *sheet_view)
 	item = gnome_canvas_item_new (
 		sheet_view->object_group,
 		type,
-		"x1",            c [0] = MIN (c [0], c [2]),
-		"y1",            c [1] = MIN (c [1], c [3]),
-		"x2",            c [2] = MAX (c [0], c [2]),
-		"y2",            c [3] = MAX (c [1], c [3]),
+		"x1",            x1 = MIN (c [0], c [2]),
+		"y1",            y1 = MIN (c [1], c [3]),
+		"x2",            x2 = MAX (c [0], c [2]),
+		"y2",            y2 = MAX (c [1], c [3]),
 		"fill_color",    sof->fill_color ? sof->fill_color->str : NULL,
 		"outline_color", sog->color->str,
 		"width_pixels",  sog->width,
@@ -211,22 +211,21 @@ static void
 sheet_object_filled_update (SheetObject *sheet_object, gdouble to_x, gdouble to_y)
 {
 	double x1, x2, y1, y2;
+	double *coords = sheet_object->bbox_points->coords;
 	GList *l;
 	
-	x1 = MIN (sheet_object->bbox_points->coords [0], to_x);
-	x2 = MAX (sheet_object->bbox_points->coords [0], to_x);
-	y1 = MIN (sheet_object->bbox_points->coords [1], to_y);
-	y2 = MAX (sheet_object->bbox_points->coords [1], to_y);
-
+	coords [2] = to_x;
+	coords [3] = to_y;
+	
 	for (l = sheet_object->realized_list; l; l = l->next){
 		GnomeCanvasItem *item = l->data;
 
 		gnome_canvas_item_set (
 			item,
-			"x1", x1,
-			"y1", y1,
-			"x2", x2,
-			"y2", y2,
+			"x1", MIN (coords [0], to_x), 
+			"y1", MIN (coords [1], to_y),
+			"x2", MAX (coords [0], to_x),
+			"y2", MAX (coords [1], to_y),
 			NULL);
 	}
 }

@@ -1182,17 +1182,19 @@ readXmlObject (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	    (type == SHEET_OBJECT_ELLIPSE)){
 		fill_color = (char *) xmlGetValue (tree, "FillColor");
 		xmlGetIntValue (tree, "Pattern", &pattern);
-		ret = sheet_object_create_filled (ctxt->sheet, type,
-			       x1, y1, x2, y2, fill_color, color, width);
+		ret = sheet_object_create_filled (
+			ctxt->sheet, type,
+			x1, y1, x2, y2, fill_color, color, width);
 		if (ret != NULL){
 			sof = SHEET_OBJECT_FILLED (ret);
 			sof->pattern = pattern;
 		}
 	} else {
-		ret = sheet_object_create_line (ctxt->sheet, type,
-					   x1, y1, x2, y2, color, width);
+		ret = sheet_object_create_line (
+			ctxt->sheet, type,
+			x1, y1, x2, y2, color, width);
 	}
-	sheet_object_realize (ctxt->sheet, ret);
+	sheet_object_realize (ret);
 	return ret;
 }
 
