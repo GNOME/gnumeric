@@ -334,9 +334,9 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
 
 		/* See: S59E09.HTM */
 		len = wb->sheets->len;
-		data = ms_biff_put_len_next (bp, BIFF_TABID, len);
-		for (lp = 0; lp < len; lp++) /* FIXME: ? */
-			MS_OLE_SET_GUINT16 (data + lp*2, lp);
+		data = ms_biff_put_len_next (bp, BIFF_TABID, len * 2);
+		for (lp = 0; lp < len; lp++)
+			MS_OLE_SET_GUINT16 (data + lp*2, lp + 1);
 		ms_biff_put_commit (bp);
 	}
 	/* See: S59D8A.HTM */
@@ -373,7 +373,7 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, eBiff_version ver)
 
 	write_window1 (bp, ver);
 
-	if (ver >= eBiffV8) {
+	if (ver >= eBiffV8 && 0 /* if we have panes */) {
 		/* See: S59DCA.HTM */
 		data = ms_biff_put_len_next (bp, BIFF_PANE, 2);
 		MS_OLE_SET_GUINT16 (data, 0x0);
@@ -552,7 +552,7 @@ write_fonts (BiffPut *bp, ExcelWorkbook *wb)
 	guint8 data[64];
 	int lp;
 	
-	for (lp=0;lp<4;lp++) { /* FIXME: Magic minimum fonts */
+	for (lp = 0; lp < 5; lp++) { /* FIXME: Magic minimum fonts */
 		fonts->StyleFont_to_idx = g_hash_table_new (g_direct_hash,
 							    g_direct_equal);
 		/* Kludge for now ... */
@@ -731,15 +731,23 @@ write_xf (BiffPut *bp, ExcelWorkbook *wb)
 	xf->Style_to_idx = g_hash_table_new (g_direct_hash,
 					    g_direct_equal);
 	/* Need at least 16 apparently */
-	for (lp=0;lp<21;lp++)
+	for (lp = 0; lp < 21; lp++)
 		write_xf_record (bp, NULL, wb->ver,lp);
 
 	/* See: S59DEA.HTM */
-	for (lp=0;lp<6;lp++) {
+	for (lp = 0; lp < 6; lp++) {
 		guint8 *data = ms_biff_put_len_next (bp, BIFF_STYLE, 4);
 		MS_OLE_SET_GUINT32 (data, style_magic[lp]); /* cop out */
 		ms_biff_put_commit (bp);
 	}
+
+	/* See: S59E14.HTM */
+	if (wb->ver >= eBiffV8) {
+		guint8 *data = ms_biff_put_len_next (bp, BIFF_USESELFS, 2);
+		MS_OLE_SET_GUINT16 (data, 0x1); /* we are language naturals */
+		ms_biff_put_commit (bp);
+	}
+
 	return xf;
 }
 
@@ -1202,7 +1210,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	if (ver >= eBiffV8) {
 		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS, 14);
 		MS_OLE_SET_GUINT32 (data +  0, 0);
-		MS_OLE_SET_GUINT32 (data +  4, sheet->maxy-1);
+		MS_OLE_SET_GUINT32 (data +  4, sheet->maxy);
 		MS_OLE_SET_GUINT16 (data +  8, 0);
 		MS_OLE_SET_GUINT16 (data + 10, sheet->maxx);
 		MS_OLE_SET_GUINT16 (data + 12, 0x0000);
@@ -1224,15 +1232,36 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 	eBiff_version ver = sheet->wb->ver;
 
 	write_window1 (bp, ver);
+	/* See: S59E18.HTM */
 	if (ver <= eBiffV7) {
-		/* See: S59E18.HTM */
+		guint16 options = 0x2b6; /* Arabic ? */
 		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 10);
-		MS_OLE_SET_GUINT32 (data +  0, 0x000006b6);
+
+		if (sheet->gnum_sheet ==
+		    workbook_get_current_sheet (sheet->wb->gnum_wb))
+			options |= 0x400;
+
+		MS_OLE_SET_GUINT16 (data +  0, options);
+		MS_OLE_SET_GUINT16 (data +  2, 0x0);
 		MS_OLE_SET_GUINT32 (data +  4, 0x0);
 		MS_OLE_SET_GUINT16 (data +  8, 0x0);
 		ms_biff_put_commit (bp);
 	} else {
-		printf ("FIXME: need magic window2 numbers\n");
+		guint16 options = 0x2b6;
+		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 18);
+
+		if (sheet->gnum_sheet ==
+		    workbook_get_current_sheet (sheet->wb->gnum_wb))
+			options |= 0x400;
+
+		MS_OLE_SET_GUINT16 (data +  0, options);
+		MS_OLE_SET_GUINT16 (data +  2, 0x0);
+		MS_OLE_SET_GUINT32 (data +  4, 0x0);
+		MS_OLE_SET_GUINT16 (data +  8, 0x0);
+		MS_OLE_SET_GUINT16 (data + 10, 0x1);
+		MS_OLE_SET_GUINT32 (data + 12, 0x0);
+		MS_OLE_SET_GUINT16 (data + 16, 0x0);
+		ms_biff_put_commit (bp);
 	}
 	
 	if (ver >= eBiffV8) {
@@ -1373,7 +1402,7 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 		g_error ("Sheet seems impossibly big");
 	
 	if (sheet->wb->ver >= eBiffV8) {
-		guint8 *data = ms_biff_put_len_next (bp, BIFF_INDEX,
+		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
 						     sheet->maxy*4 + 16);
 		index_off = bp->streamPos;
 		MS_OLE_SET_GUINT32 (data, 0);

@@ -2682,7 +2682,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				int top_vis_row, left_vis_col;
 				guint16 options;
 
-				if (q->length<6) {
+				if (q->length < 6) {
 					printf ("Duff window data");
 					break;
 				}

@@ -101,7 +101,7 @@ ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 						 anchor[0], anchor[1],
 						 anchor[2], anchor[3],
 						 blip->reproid);
-		if (!sheet_object_container_load (so, blip->stream, TRUE))
+		if (!sheet_object_container_load (so, blip->stream, FALSE))
 			g_warning ("Failed to load '%s' from stream",
 				   blip->reproid);
 #endif

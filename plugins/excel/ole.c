@@ -199,8 +199,7 @@ enter_dir (MsOle *ole)
 			g_free (newpath);
 			return;
 		}
-		if (s.type != MsOleStorageT &&
-		    s.type != MsOleRootT) {
+		if (s.type == MsOleStreamT) {
 			printf ("Trying to enter a stream. (%d)\n", s.type);
 			g_free (newpath);
 			return;
@@ -305,7 +304,10 @@ do_biff_raw (MsOle *ole)
 		buffer = g_new (guint8, 65550);
 		while (stream->read_copy (stream, data, 4)) {
 			guint32 len=MS_OLE_GET_GUINT16(data+2);
-			printf ("0x%4x Opcode 0x%3x : %15s, length 0x%x (=%d)\n", stream->position,
+/*			printf ("0x%4x Opcode 0x%3x : %15s, length 0x%x (=%d)\n", stream->position,
+				MS_OLE_GET_GUINT16(data), get_biff_opcode_name (MS_OLE_GET_GUINT16(data)),
+				len, len);*/
+			printf ("Opcode 0x%3x : %15s, length 0x%x (=%d)\n",
 				MS_OLE_GET_GUINT16(data), get_biff_opcode_name (MS_OLE_GET_GUINT16(data)),
 				len, len);
 			stream->read_copy (stream, buffer, len);
