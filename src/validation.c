@@ -22,6 +22,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "numbers.h"
+#include "mathfunc.h"
 #include "validation.h"
 #include "expr.h"
 #include "mstyle.h"
@@ -147,13 +148,17 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			return VALIDATION_STATUS_VALID;
 
 		case VALIDATION_TYPE_AS_INT : {
-			gnum_float dummy;
-			if (val->type == VALUE_FLOAT &&
-			    gnumabs (modfgnum (cell->value->v_float.val, &dummy)) > 1e-10) {
-				const char *valstr = value_peek_string (val);
-				msg = g_strdup_printf (_("'%s' is not an integer"), valstr);
-				break;
+			if (val->type == VALUE_FLOAT) {
+				gnum_float f = value_get_as_float (val);
+				gboolean isint = gnumabs (f - gnumeric_fake_round (f)) < 1e-10;
+				if (!isint) {
+					const char *valstr = value_peek_string (val);
+					msg = g_strdup_printf (_("'%s' is not an integer"), valstr);
+					break;
+				}
 			}
+			/* FIXME: break or comment. */
+#warning "Jody, why do we fall through here?"
 		}
 
 		case VALIDATION_TYPE_AS_DATE :	/* What the hell does this do */
@@ -162,7 +167,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			if (val->type == VALUE_ERROR)
 				msg = g_strdup_printf (_("'%s' is an error"),
 						       val->v_err.mesg->str);
-			else if (cell->value->type == VALUE_STRING) {
+			else if (val->type == VALUE_STRING) {
 				Value *res = format_match_number (val->v_str.val->str, NULL);
 				if (res == NULL) {
 					char const *fmt;
@@ -178,7 +183,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 					val_expr = expr_tree_new_constant (res);
 			} else
 				val_expr = expr_tree_new_constant (
-					value_duplicate (cell->value));
+					value_duplicate (val));
 			break;
 
 		case VALIDATION_TYPE_IN_LIST :
@@ -192,7 +197,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			 * This seems wrong for
 			 */
 			val_expr = expr_tree_new_constant (
-				value_new_int (strlen (value_peek_string (cell->value))));
+				value_new_int (strlen (value_peek_string (val))));
 			break;
 
 		case VALIDATION_TYPE_CUSTOM :
@@ -217,7 +222,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			case VALIDATION_OP_GTE :	 op = OPER_GTE;		break;
 			case VALIDATION_OP_LTE :	 op = OPER_LTE;		break;
 			default :
-				g_warning ("Invalid operator %d", v->op);
+				g_warning ("Invalid validation operator %d", v->op);
 				return VALIDATION_STATUS_VALID;
 			}
 
@@ -278,13 +283,13 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			allocated_msg = TRUE;
 		else
 			msg = _("That value is invalid.\n"
-				"Restrictions have been placed on this cell's content.");
+				"Restrictions have been placed on this cell's contents.");
 	}
 
 	result = wb_control_validation_msg (wbc, v->type,
 		(v->title != NULL && v->title->str[0] != '\0')
 			? v->title->str
-			: _("Gnumeric : Validation"),
+			: _("Gnumeric: Validation"),
 		msg);
 	if (allocated_msg)
 		g_free (msg);

@@ -84,6 +84,8 @@ Morten:
 	* Fix "make -j" in plugins.
 	* Add extra tests for singularity and near-singularity in
 	  regression.
+	* Clean up Fourier analysis.
+	* Fix validation int check.
 
 Scott Ananian:
 	* Update the debian control files.
