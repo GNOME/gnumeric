@@ -1,3 +1,7 @@
+2001-05-31  Karl Eichwalder  <ke@suse.de>
+
+	* dif.c (dif_file_save): Normalize message string.
+
 2001-05-31  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* dif.c

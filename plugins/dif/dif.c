@@ -391,7 +391,7 @@ dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 	if (ferror (f)) {
 		gnumeric_io_error_info_set (io_context, error_info_new_str (
-		_("Error while saving dif file.")));
+		_("Error while saving DIF file.")));
 	}
 
 	fclose (f);
