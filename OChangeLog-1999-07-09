@@ -1,3 +1,8 @@
+1998-11-28  Michael Meeks    <mejm2@cam.ac.uk>
+
+	* plugins/excel/ms-ole.c, plugins/excel/ms-ole.h: Total re-write
+	of internal interfaces, code streamlined, '?' operators expunged.
+
 1998-11-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/item-grid.c (item_grid_realize): Oops.  This was not a bug.

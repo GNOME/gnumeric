@@ -60,8 +60,9 @@ extern BIFF_BOF_DATA *new_ms_biff_bof_data (BIFF_QUERY *pos) ;
 extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 
 //------------------------------------------------------------------------
-/* See S59B52.HTM */
+/* See S59D52.HTM */
 
+#define BIFF_DIMENSIONS                 0x00
 #define BIFF_BLANK                      0x01
 #define BIFF_NUMBER                     0x03
 #define BIFF_LABEL                      0x04

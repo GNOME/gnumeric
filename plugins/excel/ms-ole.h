@@ -9,29 +9,28 @@
 
 #include <glib.h>
 
-typedef long BBPtr ;
-typedef long SBPtr ;
+typedef guint32 BBPtr ;
+typedef guint32 SBPtr ;
 
-typedef struct _MS_OLE_Header
+typedef struct _MS_OLE_HEADER
 {
-  // bbd = Big Block Depot
-  guint32 number_of_bbd_blocks ;
-  BBPtr   *bbd_list ; // [number_of_bbd_blocks] very often 1
+  /* Header Data */
+  guint32 number_of_bbd_blocks ; /* bbd = Big Block Depot */
+  BBPtr   *bbd_list ; /* [number_of_bbd_blocks] very often 1 */
 
-  // sbd = Small Block Depot ( made up of BB's BTW )
+  /* sbd = Small Block Depot ( made up of BB's BTW ) */
   BBPtr   sbd_startblock ;
   guint32 number_of_sbd_blocks ;
-  BBPtr   *sbd_list ; // [number_of_sbd_blocks] very often 1 NB.
+  BBPtr   *sbd_list ; /* [number_of_sbd_blocks] very often 1 */
 
   guint32 number_of_sbf_blocks ;
-  BBPtr   sbf_startblock ; // This identifies the file that all small blocks are in.
-  BBPtr   *sbf_list ; // [number_of_sbf_blocks]
+  BBPtr   sbf_startblock ; /* Identifies the stream containing all small blocks are in. */
+  BBPtr   *sbf_list ; /* [number_of_sbf_blocks] */
 
   guint32 number_of_root_blocks ;
   BBPtr   root_startblock ;
   BBPtr   *root_list ;
-
-} MS_OLE_Header ;
+} MS_OLE_HEADER ;
 
 typedef enum _PPS_TYPE { MS_OLE_PPS_STORAGE = 0,
 			 MS_OLE_PPS_STREAM  = 1,
@@ -49,6 +48,7 @@ typedef struct _MS_OLE_PPS
   PPSPtr    pps_dir  ; // Points to sub-dir if there is one.
   guint32   pps_size ;
   guint32   pps_startblock ; // BBPtr or SBPtr depending on pps_size
+  guint32   end_block ;
 
   struct    _MS_OLE_PPS *next ;
 } MS_OLE_PPS ;
@@ -61,8 +61,11 @@ typedef struct _MS_OLE
   guint8  *mem ;
   guint32 length ;
 
-  /* To be considered private */
-  MS_OLE_Header header ;
+  /**
+   * To be considered private
+   **/
+
+  MS_OLE_HEADER header ; /* For speed cut down dereferences */
   MS_OLE_PPS    *root, *end ;
 
 } MS_OLE ;
@@ -87,18 +90,26 @@ extern void ms_ole_directory_destroy (MS_OLE_DIRECTORY *) ;
 
 typedef struct _MS_OLE_STREAM
 {
-  guint32    block ;		// the MS_OLE Block we are in
-  int        small_block ;	// Whether small or large blocks
-  guint8     *mem ;		// Current offset into block, postinc.
-  int        block_left ;       // Length in guint8s left in block - sort of redundant, = (mem-startmem)%SMALL/BIG_BLOCK_SIZE
-  int        length_left ;	// Length in guint8s left in stream.
-  MS_OLE     *f ;		// the MS_OLE structure pointer
-  MS_OLE_PPS *p ;               // This stores the real length eg.
+  guint32 block ;
+  guint16 offset ;
+
+  /* functions */
+  gboolean (*read_copy )(struct _MS_OLE_STREAM *, guint8 *ptr, guint32 length) ;
+  /* Returns non NULL if a contiguous block exists in memory */
+  guint8*  (*read_ptr  )(struct _MS_OLE_STREAM *, guint32 length) ;
+  void     (*advance   )(struct _MS_OLE_STREAM *, gint32 BYTES) ;
+  void     (*write     )(struct _MS_OLE_STREAM *, guint8 *ptr, gint32 BYTES ) ;
+  void     (*addblock  )(struct _MS_OLE_STREAM *) ;
+
+  /* PRIVATE */
+  MS_OLE *file ;
+  MS_OLE_PPS *pps ;  
 } MS_OLE_STREAM ;
 
 /* Mode = 'r' or 'w' */
 extern MS_OLE_STREAM *ms_ole_stream_open (MS_OLE *f, char *name, char mode) ;
-extern void ms_ole_stream_close (MS_OLE_STREAM *st) ;
+extern void ms_ole_stream_close  (MS_OLE_STREAM *st) ;
+extern void ms_ole_stream_unlink (MS_OLE *f, char *name) ;
 
 extern void dump (guint8 *ptr, int len) ;
 

@@ -25,15 +25,19 @@ typedef guint32 LONG ;
 // #define GETDOUBLE(p)   ((double)GETDLONG(p))
 #define BIFF_GETDOUBLE(p) (*((double *)(p)))
 
+/**
+ * Returns query data, it is imperative that copies of
+ * 'data *' should _not_ be kept.
+ **/
 typedef struct _BIFF_QUERY
 {
-  BYTE       ms_op ;
-  BYTE       ls_op ;
-  WORD       opcode ;
-  WORD       length ; // NB. can be extended by a continue opcode
-  BYTE       *data ;
-  int        data_malloced ;	// is *data a copy ?
-  LONG       streamPos ;        // count og bytes into the stream
+  guint8  ms_op ;
+  guint8  ls_op ;
+  guint16 opcode ;
+  gint32  length ; // NB. can be extended by a continue opcode
+  guint8  *data ;
+  int     data_malloced ;	// is *data a copy ?
+  guint32 streamPos ;        // count of bytes into the stream
   MS_OLE_STREAM *pos ;
 } BIFF_QUERY ;
 

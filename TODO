@@ -88,3 +88,18 @@ GNOME Spread Sheet task list
 
    Add collation of BIFF continuation records to the
    previous record, to save many checks in the code.
+
+   Sort code out so it uses the raw excel data instead
+   of convenient copies. ( in order for speedy writes )
+
+* OLE
+
+   addblock_bb ()
+   next_free_bb () 
+   extend_bbd () 
+   extend_root () 
+   extend_sbd ()
+   Consolidate_PPS ...
+   next_free_sb () 
+   addblock_sb ()
+
