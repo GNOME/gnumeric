@@ -1,3 +1,38 @@
+2000-01-19  JP Rosevear  <jpr@arcavia.com>
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): Modularize a
+	bit more for the sort dialog.  Use GLADE_FILE macro.
+	(dialog_cell_sort_ok): New function connected to the sort 
+	dialog ok button.  Builds the clause data and then calls cmd_sort.
+	(dialog_cell_sort_adv): Use GLADE_FILE macro.
+	(clip_range_to_finite): New function, reduces an infinite range to
+	an appropriate finite range.
+
+	* src/commands.c (cmd_sort): New function for new command
+	organization.
+	(cmd_sort_redo): ditto
+	(cmd_sort_undo): ditto
+	(cmd_sort_destroy): ditto
+
+	* src/sort.c (sort_compare_values): The former compare_values
+	function from dialog_cell_sort.c.
+	(sort_compare_values2): Does comparisons on original order
+	for undo.
+	(sort_qsort_func): The former qsort_func function from
+	dialog_cell_sort.c.
+	(sort_qsort_func2): Quicksort function for undo.
+	(sort_range): Performs the sort.  Much the same as the 
+	sort_cell_range function that was in dialog_cell_sort.c.
+	Sorts the data of a CmdSort object, creating it if necessary.
+	Takes the quicksort function to call as an argument.
+
+	* src/sort.h : New header file
+	
+	* src/ranges.h: Prototype range_name.
+
+	* src/ranges.c (range_name): New function that returns a 
+	const char * to "A1:B5" type range name.
+
 2000-01-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/print-cell.c (print_cell_grid) : Don't print grid lines for

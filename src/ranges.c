@@ -333,6 +333,27 @@ range_merge (Range const *a, Range const *b)
 	return ans;
 }
 
+const char *
+range_name (Range const *src)
+{
+	static char buffer [(2 + 4 * sizeof (long)) * 2 + 1];
+	char *name;
+	
+	if (src->start.col != src->end.col ||
+	    src->start.row != src->end.row) {
+		name = g_strdup (col_name (src->start.col));
+		sprintf (buffer, "%s%d:%s%d", name, src->start.row + 1,
+			 col_name (src->end.col), src->end.row + 1);
+		g_free (name);
+	} else {
+		sprintf (buffer, "%s%d",
+			 col_name (src->start.col),
+			 src->start.row + 1);
+	}
+	
+	return buffer;
+}
+
 void
 range_dump (Range const *src)
 {

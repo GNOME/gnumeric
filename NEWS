@@ -35,6 +35,8 @@ Jukka:
 	* Started `AutoCorrect' tool.
 	* Some minor improvements to the Solver tool.
 
+JP:
+	* Sorting undo/redo
 --------------------------------------------------------------------------
 
 Gnumeric 0.47

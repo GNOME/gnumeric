@@ -164,6 +164,8 @@ GNUMERIC_BASE_SOURCES =				\
 	sheet-view.h				\
 	solver-lp.c                     	\
 	solver.h				\
+	sort.c					\
+	sort.h					\
 	str.c					\
 	str.h					\
 	style.c					\

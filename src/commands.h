@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include "command-context.h"
+#include "sort.h"
 
 void command_undo (CommandContext *context, Workbook *wb);
 void command_redo (CommandContext *context, Workbook *wb);
@@ -35,6 +36,10 @@ gboolean cmd_paste_cut (CommandContext *context,
 
 gboolean cmd_rename_sheet (CommandContext *context, Workbook *wb,
 			   const char *old_name, const char *new_name);
+
+gboolean cmd_sort (CommandContext *context, Sheet *sheet,
+		   Range *range, SortClause *clauses,
+		   gint num_clause, gboolean columns);
 
 gboolean cmd_clear_selection (CommandContext *context, Sheet *sheet, int const clear_flags);
 

@@ -60,7 +60,11 @@ gboolean    range_intersection  (Range *r,
 				 Range const *b);
 Range       range_union         (Range const *a, Range const *b);
 gboolean    range_translate     (Range *range, int col_offset, int row_offset);
-gboolean    range_expand        (Range *range, int d_tlx, int d_tly, int d_brx, int d_bry);
+gboolean    range_expand        (Range *range,
+				 int d_tlx, int d_tly,
+				 int d_brx, int d_bry);
+
+const char *range_name          (Range const *src);
 void        range_dump          (Range const *src);
 Range      *range_copy          (Range const *src);
 

@@ -20,24 +20,17 @@
 #include "utils.h"
 #include "utils-dialog.h"
 #include "ranges.h"
+#include "commands.h"
+#include "sort.h"
+
+#define GLADE_FILE "cell-sort.glade"
 
 #define MAX_CLAUSE 6
 
-typedef struct {
-	int offset;
-	int asc;
-	gboolean cs;
-	gboolean val;
-} ClauseData;
-
-typedef struct {
-	Sheet      *sheet;
-	ClauseData *clauses;
-	Cell      **cells;
-	int         num_clause;
-	int         col;
-	int         row;
-} SortData;
+#define BUTTON_OK      0
+#define BUTTON_ADD     BUTTON_OK + 1
+#define BUTTON_REMOVE  BUTTON_ADD + 1
+#define BUTTON_CANCEL  BUTTON_REMOVE + 1
 
 typedef struct {
 	GtkWidget *parent;
@@ -53,8 +46,9 @@ typedef struct {
 } OrderBox;
 
 typedef struct {
-	int        retry;
-	int        force_redisplay;
+	Range     *sel;
+	Sheet     *sheet;
+	Workbook  *wb;
 	int        num_clause;
 	int        max_col_clause;
 	int        max_row_clause;
@@ -67,10 +61,116 @@ typedef struct {
 	GList     *colnames_header;
 	GList     *rownames_plain;
 	GList     *rownames_header;
-	Workbook  *wb;
 } SortFlow;
 
+/* Utility functions */
+static void
+clip_range_to_finite (Sheet *sheet, Range *range)
+{
+	Range extent;
+	
+	extent = sheet_get_extent (sheet);
+       	if (range->end.col >= SHEET_MAX_COLS - 2)
+		range->end.col = extent.end.col;
+	if (range->end.row >= SHEET_MAX_ROWS - 2)
+		range->end.row = extent.end.row;	
+}
 
+static gchar *
+column_name (Sheet *sheet, int row, int col, gboolean header)
+{
+	Cell *cell;
+	gchar *str = NULL;
+
+	if (header) {
+		cell = sheet_cell_get (sheet, col, row);
+		if (cell)
+			str = cell_get_text (cell);
+		else
+			str = strdup (col_name (col));
+	} else
+		str = strdup (col_name (col));
+	return str;
+}
+
+static gchar *
+row_name (Sheet *sheet, int row, int col, gboolean header)
+{
+	Cell *cell;
+	gchar *str = NULL;
+
+	if (header) {
+		cell = sheet_cell_get (sheet, col, row);
+		if (cell)
+			str = cell_get_text (cell);
+		else
+			str = g_strdup_printf ("%d", row + 1);
+	} else
+		str = g_strdup_printf ("%d", row + 1);
+	return str;
+}
+
+static GList *
+column_name_list (Sheet *sheet, int start_col, int end_col,
+			 int row, gboolean header)
+{
+	gchar *str;
+	GList *list;
+	int i;
+
+	list = NULL;
+	for (i = start_col; i <= end_col; i++) {
+		str  = column_name (sheet, row, i, header);
+		list = g_list_append (list, (gpointer) str);
+	}
+	return list;
+}
+
+static GList *
+row_name_list (Sheet *sheet, int start_row, int end_row,
+			 int col, gboolean header)
+{
+	gchar *str;
+	GList *list;
+	int i;
+
+	list = NULL;
+	for (i = start_row; i <= end_row; i++) {
+		str  = row_name (sheet, i, col, header);
+		list = g_list_append (list, (gpointer) str);
+	}
+	return list;
+}
+
+static gint
+string_pos_in_list (gchar *str, GList *list)
+{
+	gchar *item;
+	gint length;
+	int i;
+	
+	length = g_list_length(list);
+	for (i = 0; i < length; i++) {
+		item = (gchar *)g_list_nth_data(list, i);
+		if (!strcmp (str, item)) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+static void
+free_string_list (GList *list)
+{
+	GList *l;
+	
+	for (l = list; l; l = l->next)
+		g_free (l->data);
+
+	g_list_free (list);
+}
+
+/* Advanced dialog */
 static void
 dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 {
@@ -81,9 +181,9 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 	gint btn;
 
 	/* Get the dialog and check for errors */
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/cell-sort.glade", NULL);
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE, NULL);
 	if (!gui) {
-		g_warning ("Could not find cell-sort.glade\n");
+		g_warning ("Could not find " GLADE_FILE "\n");
 		return;
 	}
 
@@ -92,14 +192,20 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 	rb1    = glade_xml_get_widget (gui, "cell_sort_adv_value");
 	rb2    = glade_xml_get_widget (gui, "cell_sort_adv_text");
 	if (!dialog || !check || !rb1 || !rb2) {
-		g_warning ("Corrupt file cell-sort.glade\n");
+		g_warning ("Corrupt file " GLADE_FILE "\n");
 		gtk_object_unref (GTK_OBJECT (gui));
 		return;
 	}
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), orderbox->cs);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rb1), orderbox->val);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rb2), !(orderbox->val));
+	/* Set the button states */
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check),
+				      orderbox->cs);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rb1),
+				      orderbox->val);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (rb2),
+				      !(orderbox->val));
+
+	/* Run the dialog and save the state if necessary */
 	btn = gnome_dialog_run (GNOME_DIALOG (dialog));
 	if (btn == 0) {
 		orderbox->cs  = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
@@ -111,6 +217,7 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 	gtk_object_unref (GTK_OBJECT (gui));
 }
 
+/* Order boxes */
 static OrderBox *
 order_box_new (GtkWidget * parent, const gchar *frame_text,
 	       GList *names, gboolean empty)
@@ -162,6 +269,20 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	return orderbox;
 }
 
+static char *
+order_box_get_text (OrderBox *orderbox)
+{
+	return gtk_entry_get_text (GTK_ENTRY (
+		GTK_COMBO (orderbox->rangetext)->entry));
+}
+
+static void
+order_box_get_clause (OrderBox *orderbox, SortClause *clause) {
+	clause->asc = gtk_radio_group_get_selected (orderbox->group);
+	clause->cs  = orderbox->cs;
+	clause->val = orderbox->val;
+}
+
 static void
 order_box_set_default (OrderBox *orderbox)
 {
@@ -185,262 +306,75 @@ order_box_destroy (OrderBox *orderbox)
 	g_free (orderbox);
 }
 
-static char *
-order_box_get_text (OrderBox *orderbox, ClauseData *data)
+/* The cell sort dialog and its callbacks */
+static gboolean
+dialog_cell_sort_ok (SortFlow *sf)
 {
-	data->asc = gtk_radio_group_get_selected (orderbox->group);
-	data->cs  = orderbox->cs;
-	data->val = orderbox->val;
-	return gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (orderbox->rangetext)->entry));
-}
+	SortClause *array;
+	gint divstart, divend;
+	int lp;
 
-static int
-compare_values (const SortData * ain, const SortData * bin, int clause)
-{
-	Cell  *ca, *cb;
-	Value *a,  *b;
-	int ans = 0, fans = 0;
-
-	ca = ain->cells [ain->clauses [clause].offset];
-	cb = bin->cells [bin->clauses [clause].offset];
-
-	if (!ca)
-		a = value_new_int (0);
-	else
-		a = ca->value;
-	if (!cb)
-		b = value_new_int (0);
-	else
-		b = cb->value;
-
-	if (ain->clauses[clause].val) {
-		switch (a->type) {
-		case VALUE_EMPTY:
-		case VALUE_BOOLEAN:
-		case VALUE_FLOAT:
-		case VALUE_INTEGER:
-			switch (b->type) {
-			case VALUE_EMPTY:
-			case VALUE_BOOLEAN:
-			case VALUE_FLOAT:
-			case VALUE_INTEGER:
-			{
-				float_t fa, fb;
-				fa = value_get_as_float (a);
-				fb = value_get_as_float (b);
-				if (fa < fb)
-					ans = -1;
-				else if (fa == fb)
-					ans = 0;
-				else
-					ans = 1;
-				break;
-			}
-			default:
-				ans = -1;
-				break;
-			}
-			break;
-		default: {
-			switch (b->type) {
-			case VALUE_EMPTY:
-			case VALUE_BOOLEAN:
-			case VALUE_FLOAT:
-			case VALUE_INTEGER:
-				ans = 1;
-				break;
-			default: {
-					char *sa, *sb;
-					sa  = value_get_as_string (a);
-					sb  = value_get_as_string (b);
-					if (ain->clauses [clause].cs)
-						ans = strcmp (sa, sb);
-					else
-						ans = strcasecmp (sa, sb);
-					g_free (sa);
-					g_free (sb);
-					break;
-				}
-				}
-				break;
-			}
-		}
+	if (sf->columns) {
+		divstart = sf->sel->start.col;
+		divend = sf->sel->end.col;
 	} else {
-		char *sa, *sb;
-		if (ca)
-			sa = cell_get_text (ca);
-		else
-			sa = g_strdup ("0");
-		if (cb)
-			sb = cell_get_text (cb);
-		else
-			sb = g_strdup ("0");
+		divstart = sf->sel->start.row;
+		divend = sf->sel->end.row;
+	}
+	
+	array = g_new (SortClause, sf->num_clause);
+	for (lp = 0; lp < sf->num_clause; lp++) {
+		int division;
+		char *txt = order_box_get_text (sf->clauses [lp]);
 
-		if (ain->clauses [clause].cs)
-			ans = strcmp (sa, sb);
-		else
-			ans = strcasecmp (sa, sb);
-		g_free (sa);
-		g_free (sb);
+		order_box_get_clause (sf->clauses [lp], &array [lp]);
+		if (strlen (txt)) {
+			division = -1;
+			if (sf->columns) {
+				if (sf->header) {
+					division = divstart + string_pos_in_list(txt, sf->colnames_header);
+				} else {
+					division = col_from_name(txt);
+				}
+			} else {
+				if (sf->header) {
+					division = divstart + string_pos_in_list(txt, sf->rownames_header);
+				} else {
+					division = atoi(txt) - 1;
+				}
+			}
+			if (division < divstart || division > divend) {
+				gnumeric_notice (sf->wb,
+						 GNOME_MESSAGE_BOX_ERROR,
+						 sf->columns ?
+						 _("Column must be within range") :						_("Row must be within range"));
+				return TRUE;
+			}
+			array [lp].offset = division - divstart;
+		} else if (lp <= 0) {
+			gnumeric_notice (sf->wb, GNOME_MESSAGE_BOX_ERROR,
+					 sf->columns ?
+					 _("First column must be valid") :
+					 _("First row must be valid"));
+			return TRUE;
+		} else	/* Just duplicate the last condition: slow but sure */
+			array [lp].offset = array [lp - 1].offset;
 	}
 
-	if (ans == 0)
-		if (clause < ain->num_clause - 1)
-			fans = compare_values(ain, bin, ++clause);
+	if (sf->header) {
+		if (sf->columns)
+			sf->sel->start.row += 1;
 		else
-			fans = ans;
-	else if (ans < 0)
-		fans = ain->clauses [clause].asc ?  1 : -1;
-	else
-		fans = ain->clauses [clause].asc ? -1 :  1;
+			sf->sel->start.col += 1;
+	}
+	cmd_sort (NULL, sf->sheet, sf->sel, array,
+		  sf->num_clause, sf->columns);
 
-	if (!ca)
-		value_release (a);
-	if (!cb)
-		value_release (b);
-
-	return fans;
-}
-
-static int
-qsort_func (const void *a, const void *b)
-{
-	return compare_values (a, b, 0);
+	return FALSE;
 }
 
 static void
-sort_cell_range (Sheet * sheet, ClauseData * clauses, int num_clause,
-		 int start_col, int start_row,
-		 int end_col, int end_row, gboolean columns)
-{
-	SortData *array;
-	int lp, length, divisions, lp2;
-
-	if (columns) {
-		length    = end_row - start_row + 1;
-		divisions = end_col - start_col + 1;
-	} else {
-		length    = end_col - start_col + 1;
-		divisions = end_row - start_row + 1;
-	}
-
-	array = g_new (SortData, length);
-
-	for (lp = 0; lp < length; lp++) {
-		array [lp].sheet = sheet;
-		array [lp].clauses = clauses;
-		array [lp].num_clause = num_clause;
-		array [lp].col = start_col;
-		array [lp].row = start_row + lp;
-		if (columns)
-			array [lp].row += lp;
-		else
-			array [lp].col += lp;
-		array [lp].cells = g_new (Cell *, divisions);
-
-		for (lp2 = 0; lp2 < divisions; lp2++) {
-			Cell *cell;
-			if (columns)
-				cell = sheet_cell_get (sheet,
-						       start_col + lp2, start_row + lp);
-			else
-				cell = sheet_cell_get (sheet,
-						       start_col + lp, start_row + lp2);
-			array[lp].cells[lp2] = cell;
-			if (cell)
-				sheet_cell_remove(sheet, cell);
-		}
-	}
-
-	qsort (array, length, sizeof(SortData), qsort_func);
-	{
-		Cell *cell;
-		for (lp = 0; lp < length; lp++) {
-			for (lp2 = 0; lp2 < divisions; lp2++) {
-				cell = array [lp].cells [lp2];
-				if (cell) {
-					if (columns)
-						sheet_cell_add (sheet, cell, start_col + lp2,
-								start_row + lp);
-					else
-						sheet_cell_add (sheet, cell, start_col + lp,
-								start_row + lp2);
-				}
-			}
-			g_free (array [lp].cells);
-		}
-	}
-	g_free (array);
-}
-
-static gchar *
-cell_sort_col_name (Sheet *sheet, int row, int col, gboolean header)
-{
-	Cell *cell;
-	gchar *str = NULL;
-
-	if (header) {
-		cell = sheet_cell_get (sheet, col, row);
-		if (cell)
-			str = cell_get_text (cell);
-		else
-			str = strdup (col_name (col));
-	} else
-		str = strdup (col_name (col));
-	return str;
-}
-
-static gchar *
-cell_sort_row_name (Sheet *sheet, int row, int col, gboolean header)
-{
-	Cell *cell;
-	gchar *str = NULL;
-
-	if (header) {
-		cell = sheet_cell_get (sheet, col, row);
-		if (cell)
-			str = cell_get_text (cell);
-		else
-			str = g_strdup_printf ("%d", row + 1);
-	} else
-		str = g_strdup_printf ("%d", row + 1);
-	return str;
-}
-
-static GList *
-cell_sort_col_name_list (Sheet *sheet, int start_col, int end_col,
-			 int row, gboolean header)
-{
-	gchar *str;
-	GList *list;
-	int i;
-
-	list = NULL;
-	for (i = start_col; i <= end_col; i++) {
-		str  = cell_sort_col_name (sheet, row, i, header);
-		list = g_list_append (list, (gpointer) str);
-	}
-	return list;
-}
-
-static GList *
-cell_sort_row_name_list (Sheet *sheet, int start_row, int end_row,
-			 int col, gboolean header)
-{
-	gchar *str;
-	GList *list;
-	int i;
-
-	list = NULL;
-	for (i = start_row; i <= end_row; i++) {
-		str  = cell_sort_row_name (sheet, i, col, header);
-		list = g_list_append (list, (gpointer) str);
-	}
-	return list;
-}
-
-static void
-dialog_cell_sort_del_clause (GtkWidget *widget, SortFlow *sf)
+dialog_cell_sort_del_clause (SortFlow *sf)
 {
 	if (sf->num_clause > 1) {
 		sf->num_clause--;
@@ -456,10 +390,10 @@ dialog_cell_sort_del_clause (GtkWidget *widget, SortFlow *sf)
 }
 
 static void
-dialog_cell_sort_add_clause(GtkWidget *widget, SortFlow *sf)
+dialog_cell_sort_add_clause(SortFlow *sf)
 {
 	if ((sf->num_clause >= sf->max_col_clause && sf->columns)
-			|| (sf->num_clause >= sf->max_row_clause && !(sf->columns)))
+	    || (sf->num_clause >= sf->max_row_clause && !(sf->columns)))
 		gnumeric_notice (sf->wb, GNOME_MESSAGE_BOX_ERROR,
 				 _("Can't add more than the selection length."));
 	else if (sf->num_clause >= MAX_CLAUSE)
@@ -476,6 +410,16 @@ dialog_cell_sort_add_clause(GtkWidget *widget, SortFlow *sf)
 		gtk_widget_show_all (sf->dialog);
 		sf->num_clause++;
 	}
+}
+
+static void
+dialog_cell_sort_set_clauses(SortFlow *sf, int clauses) {
+	int i;
+
+	if (sf->num_clause <= clauses) return;
+
+	for (i = 0; i < (sf->num_clause - clauses); i++)
+		dialog_cell_sort_del_clause (sf);
 }
 
 static void
@@ -509,15 +453,6 @@ dialog_cell_sort_header_toggled (GtkWidget *widget, SortFlow *sf)
 	}
 }
 
-static void
-dialog_cell_sort_set_clauses(SortFlow *sf, int clauses) {
-	int i;
-
-	if (sf->num_clause <= clauses) return;
-
-	for (i = 0; i < (sf->num_clause - clauses); i++)
-		dialog_cell_sort_del_clause (NULL, sf);
-}
 
 static void
 dialog_cell_sort_rows_toggled(GtkWidget *widget, SortFlow *sf)
@@ -565,17 +500,6 @@ dialog_cell_sort_cols_toggled (GtkWidget *widget, SortFlow *sf)
 	}
 }
 
-static void
-string_list_free (GList *list)
-{
-	GList *l;
-	
-	for (l = list; l; l = l->next)
-		g_free (l->data);
-
-	g_list_free (list);
-}
-
 /*
  * Main entry point for the Cell Sort dialog box
  */
@@ -584,36 +508,56 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 {
 	GladeXML  *gui;
 	GtkWidget *table, *check, *rb1, *rb2;
-	int btn, lp, i;
-	Range sel, extent;
 	SortFlow sort_flow;
+	gboolean cont;
+	int lp, btn;
+
 
 	g_return_if_fail (inwb != NULL);
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
+	/* Initialize some important stuff */
+	sort_flow.sel = range_copy (selection_first_range (sheet, FALSE));
+	sort_flow.sheet = sheet;
+	sort_flow.wb = inwb;
+
+	/* We can't sort complex ranges */
 	if (!selection_is_simple (workbook_command_context_gui (inwb),
 				  sheet, _("sort")))
 		return;	
-	
-	sel = *(range_copy (selection_first_range (sheet, FALSE)));
-	extent = sheet_get_extent (sheet);
-       	if (sel.end.col >= SHEET_MAX_COLS - 2)
-		sel.end.col = extent.end.col;
-	if (sel.end.row >= SHEET_MAX_ROWS - 2)
-		sel.end.row = extent.end.row;
 
-	/* Init clauses */
-	sort_flow.max_col_clause = sel.end.col - sel.start.col + 1;
-	sort_flow.max_row_clause = sel.end.row - sel.start.row + 1;
-	sort_flow.num_clause = sort_flow.max_col_clause > 1 ? 2 : 1;
-	for (lp = 0; lp < MAX_CLAUSE; lp++)
-		sort_flow.clauses[lp] = NULL;
+	/* Correct selection if necessary */
+	clip_range_to_finite (sort_flow.sheet, sort_flow.sel);
+	
+	/* Set up the dialog information */
+	sort_flow.header = FALSE;
+	sort_flow.columns = TRUE;
+	sort_flow.colnames_plain  = column_name_list (sort_flow.sheet, 
+						      sort_flow.sel->start.col,
+						      sort_flow.sel->end.col,
+						      sort_flow.sel->start.row,
+						      FALSE);
+	sort_flow.colnames_header = column_name_list (sort_flow.sheet,
+						      sort_flow.sel->start.col,
+						      sort_flow.sel->end.col,
+						      sort_flow.sel->start.row,
+						      TRUE);
+	sort_flow.rownames_plain  = row_name_list (sort_flow.sheet,
+						   sort_flow.sel->start.row,
+						   sort_flow.sel->end.row,
+						   sort_flow.sel->start.col,
+						   FALSE);
+	sort_flow.rownames_header = row_name_list (sort_flow.sheet, 
+						   sort_flow.sel->start.row,
+						   sort_flow.sel->end.row,
+						   sort_flow.sel->start.col,
+						   TRUE);
 
 	/* Get the dialog and check for errors */
-	gui = glade_xml_new (GNUMERIC_GLADEDIR "/cell-sort.glade", NULL);
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE, NULL);
 	if (!gui) {
-		g_warning ("Could not find cell-sort.glade\n");
+		g_warning ("Could not find " GLADE_FILE "\n");
 		return;
 	}
 
@@ -628,131 +572,90 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 		return;
 	}
 
-	/* Set up the dialog */
-	sort_flow.wb = inwb;
-	sort_flow.header = FALSE;
-	sort_flow.columns = TRUE;
-	sort_flow.colnames_plain  = cell_sort_col_name_list (sheet, sel.start.col, sel.end.col,
-							     sel.start.row, FALSE);
-	sort_flow.colnames_header = cell_sort_col_name_list (sheet, sel.start.col, sel.end.col,
-							     sel.start.row, TRUE);
-	sort_flow.rownames_plain  = cell_sort_row_name_list (sheet, sel.start.row, sel.end.row,
-							     sel.start.col, FALSE);
-	sort_flow.rownames_header = cell_sort_row_name_list (sheet, sel.start.row, sel.end.row,
-							     sel.start.col, TRUE);
-	gtk_signal_connect (GTK_OBJECT (check), "toggled",
-			    GTK_SIGNAL_FUNC (dialog_cell_sort_header_toggled), &sort_flow);
-	gtk_signal_connect (GTK_OBJECT (rb1),   "toggled",
-			    GTK_SIGNAL_FUNC (dialog_cell_sort_rows_toggled),   &sort_flow);	
-	gtk_signal_connect (GTK_OBJECT (rb2),   "toggled",
-			    GTK_SIGNAL_FUNC (dialog_cell_sort_cols_toggled),   &sort_flow);
+	/* Init clauses */
+	sort_flow.max_col_clause = sort_flow.sel->end.col
+		- sort_flow.sel->start.col + 1;
+	sort_flow.max_row_clause = sort_flow.sel->end.row
+		- sort_flow.sel->start.row + 1;
+	sort_flow.num_clause = sort_flow.max_col_clause > 1 ? 2 : 1;
+	for (lp = 0; lp < MAX_CLAUSE; lp++)
+		sort_flow.clauses[lp] = NULL;
 
-	gnome_dialog_set_parent (GNOME_DIALOG (sort_flow.dialog), GTK_WINDOW (sort_flow.wb->toplevel));
+	/* Build the rest of the dialog */
+	gnome_dialog_set_parent (GNOME_DIALOG (sort_flow.dialog), 
+				 GTK_WINDOW (sort_flow.wb->toplevel));
 	gnome_dialog_close_hides(GNOME_DIALOG (sort_flow.dialog), TRUE);
 	
 	sort_flow.clause_box = gtk_vbox_new (FALSE, FALSE);
-	gtk_table_attach_defaults (GTK_TABLE (table), sort_flow.clause_box, 0, 1, 0, 1);
+	gtk_table_attach_defaults (GTK_TABLE (table), 
+				   sort_flow.clause_box, 0, 1, 0, 1);
 
 	for (lp = 0; lp < sort_flow.num_clause; lp++) {
-		sort_flow.clauses [lp] = order_box_new (sort_flow.clause_box, lp ? _("then by") : _("Sort by"),
-							sort_flow.colnames_plain, lp ? TRUE : FALSE);
-
-		if (!lp)
-			order_box_set_default (sort_flow.clauses [lp]);
+		sort_flow.clauses [lp] = order_box_new (sort_flow.clause_box,
+							lp 
+							? _("then by") 
+							: _("Sort by"),
+							sort_flow.colnames_plain,
+							lp ? TRUE : FALSE);
 	}
+	order_box_set_default (sort_flow.clauses [0]);
+	
+	/* Hook up the signals */
+	gtk_signal_connect (GTK_OBJECT (check), "toggled",
+			    GTK_SIGNAL_FUNC (dialog_cell_sort_header_toggled),
+			    &sort_flow);
+	gtk_signal_connect (GTK_OBJECT (rb1),   "toggled",
+			    GTK_SIGNAL_FUNC (dialog_cell_sort_rows_toggled),
+			    &sort_flow);	
+	gtk_signal_connect (GTK_OBJECT (rb2),   "toggled",
+			    GTK_SIGNAL_FUNC (dialog_cell_sort_cols_toggled),
+			    &sort_flow);
+
 	gtk_widget_show_all (sort_flow.dialog);
 	
 	/* Run the dialog */
-	do {			
-		sort_flow.retry = 0;
-		sort_flow.force_redisplay = 0;
-		btn = gnome_dialog_run (GNOME_DIALOG (sort_flow.dialog)) ;
-		if (btn == 0) {
-			ClauseData *array;
-
-			array = g_new (ClauseData, sort_flow.num_clause);
-			for (lp = 0; lp < sort_flow.num_clause; lp++) {
-				int division;
-				char *txt = order_box_get_text (sort_flow.clauses [lp],
-								&(array [lp]));
-				if (strlen (txt)) {
-					division = -1;
-					if (sort_flow.columns) {
-						if (sort_flow.header) {
-							for (i = 0; i < sel.end.col - sel.start.col + 1; i++) {
-								if (!strcmp (txt, g_list_nth_data (sort_flow.colnames_header, i))) {
-									division = sel.start.col + i;
-									break;
-								}
-							}
-						} else
-							division = col_from_name(txt);
-						if (division < sel.start.col || division > sel.end.col) {
-							gnumeric_notice (sort_flow.wb, GNOME_MESSAGE_BOX_ERROR,
-									 _("Column must be within range"));
-							sort_flow.retry = 1;
-						}
-						array [lp].offset = division - sel.start.col;
-					} else {
-						if (sort_flow.header) {
-							for (i = 0; i < sel.end.row - sel.start.row + 1; i++) {
-								if (!strcmp (txt, g_list_nth_data (sort_flow.rownames_header, i))) {
-									division = sel.start.row + i;
-									break;
-								}
-							}
-						} else {
-							division = atoi(txt) - 1;
-						}
-						if (division < sel.start.row || division > sel.end.row) {
-							gnumeric_notice (sort_flow.wb, GNOME_MESSAGE_BOX_ERROR,
-									 _("Row must be within range"));
-							sort_flow.retry = 1;
-						}
-						array [lp].offset = division - sel.start.row;
-					}
-				} else if (lp <= 0) {
-					gnumeric_notice (sort_flow.wb, GNOME_MESSAGE_BOX_ERROR,
-							 sort_flow.columns ? _("First column must be valid") : _("First row must be valid"));
-					sort_flow.retry = 1;
-				} else	/* Just duplicate the last condition: slow but sure */
-					array [lp].offset = array [lp - 1].offset;
-			}
-			if (!sort_flow.retry) {
-				if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)))
-					if (sort_flow.columns)
-						sort_cell_range (sheet, array, sort_flow.num_clause, sel.start.col, sel.start.row + 1,
-								 sel.end.col, sel.end.row, sort_flow.columns);
-					else
-						sort_cell_range (sheet, array, sort_flow.num_clause, sel.start.col + 1, sel.start.row,
-								 sel.end.col, sel.end.row, sort_flow.columns);
-				else
-					sort_cell_range (sheet, array, sort_flow.num_clause, sel.start.col, sel.start.row,
-							 sel.end.col, sel.end.row, sort_flow.columns);
-			}
-			g_free (array);
-		} else if (btn == 1) {
-			dialog_cell_sort_add_clause (NULL, &sort_flow);
-			sort_flow.retry = 1;
-		} else if (btn == 2) {
-			dialog_cell_sort_del_clause (NULL, &sort_flow);
-			sort_flow.retry = 1;
-		} else
-			sort_flow.retry = 0;
+	cont = TRUE;
+	while (cont) {
+		btn = gnome_dialog_run (GNOME_DIALOG (sort_flow.dialog));
+		if (btn == BUTTON_OK)
+			cont = dialog_cell_sort_ok (&sort_flow);
+		else if (btn == BUTTON_ADD)
+			dialog_cell_sort_add_clause (&sort_flow);
+		else if (btn == BUTTON_REMOVE)
+			dialog_cell_sort_del_clause (&sort_flow);
+		else
+			cont = FALSE;
 	}
-	while (sort_flow.retry || sort_flow.force_redisplay);
-
+	
 	/* Clean up */
 	if (sort_flow.dialog)
-		gtk_object_destroy (GTK_OBJECT (sort_flow.dialog));
-
+	  gtk_object_destroy (GTK_OBJECT (sort_flow.dialog));
+	
 	for (lp = 0; lp < sort_flow.num_clause; lp++)
-		order_box_destroy (sort_flow.clauses [lp]);
-
-	string_list_free (sort_flow.colnames_plain);
-	string_list_free (sort_flow.colnames_header);
-	string_list_free (sort_flow.rownames_plain);
-	string_list_free (sort_flow.rownames_header);
-
+	  order_box_destroy (sort_flow.clauses [lp]);
+	
+	free_string_list (sort_flow.colnames_plain);
+	free_string_list (sort_flow.colnames_header);
+	free_string_list (sort_flow.rownames_plain);
+	free_string_list (sort_flow.rownames_header);
+	
 	gtk_object_unref (GTK_OBJECT (gui));
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

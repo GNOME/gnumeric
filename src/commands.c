@@ -11,6 +11,8 @@
 #include "commands.h"
 #include "sheet.h"
 #include "workbook-view.h"
+#include "ranges.h"
+#include "sort.h"
 #include "utils.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -1250,10 +1252,112 @@ cmd_resize_row_col (CommandContext *context, gboolean is_col,
 }
 
 /******************************************************************/
+
+#define CMD_SORT_TYPE        (cmd_sort_get_type ())
+#define CMD_SORT(o)          (GTK_CHECK_CAST ((o), CMD_SORT_TYPE, CmdSort))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	Sheet      *sheet;
+	Range      *range;
+
+	SortData   *data;
+	SortClause *clauses;
+	gint       num_clause;
+	
+	gboolean   columns;
+} CmdSort;
+
+GNUMERIC_MAKE_COMMAND (CmdSort, cmd_sort);
+
+static void
+cmd_sort_destroy (GtkObject *cmd)
+{
+	CmdSort *me = CMD_SORT (cmd);
+
+	sort_clause_destroy (me->clauses);
+		
+	gnumeric_command_destroy (cmd);
+}
+
+static gboolean
+cmd_sort_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdSort *me = CMD_SORT(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	sort_position (me->sheet, me->range, me->data, me->columns);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_sort_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdSort *me = CMD_SORT(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	sort_contents (me->sheet, me->range, me->data, me->columns);
+
+	return FALSE;
+}
+
+
+gboolean
+cmd_sort (CommandContext *context, Sheet *sheet,
+	  Range *range, SortClause *clauses,
+	  gint num_clause, gboolean columns)
+{
+	GtkObject *obj;
+	CmdSort *me;
+	int length, lp;
+	
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_SORT_TYPE);
+	me = CMD_SORT (obj);
+	
+	me->sheet = sheet;
+	me->range = range;
+	me->clauses = clauses;
+	me->num_clause = num_clause;
+	me->columns = columns;
+	
+	if (columns)
+		length = me->range->end.row - me->range->start.row + 1;
+	else
+		length = me->range->end.col - me->range->start.col + 1;
+		
+	me->data = g_new (SortData, length);
+	
+	for (lp = 0; lp < length; lp++) {
+		me->data [lp].clauses = me->clauses;
+		me->data [lp].num_clause = me->num_clause;
+		if (me->columns)
+			me->data [lp].pos = me->range->start.row + lp;
+		else
+			me->data [lp].pos = me->range->start.col + lp;
+	}
+	
+	me->parent.cmd_descriptor =
+		g_strdup_printf (_("Sorting %s"), range_name(me->range));
+
+	cmd_sort_redo (me, context);
+	
+	/* Register the command object */
+	return command_push_undo (sheet->workbook, obj, FALSE);
+}
+
+/******************************************************************/
 /* TODO : Make a list of commands that should have undo support that dont
  *        even have stubs
  * - Autofill
  * - Array formula creation.
- * - Sorting (jpr is working on this ?)
  * - Row/Col hide/unhide
  */
+
+
