@@ -21,7 +21,6 @@
 
 	* src/*: s/ENABLE_BONOBO_PRINT/ENABLE_BONOBO/
 
->>>>>>> 1.178
 2000-04-14  Karl EICHWALDER  <ke@suse.de>
 
 	* src/file.c (wants_to_overwrite): Add missing dot.
