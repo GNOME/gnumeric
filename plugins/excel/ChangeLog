@@ -1,3 +1,9 @@
+2000-06-15  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (write_db_cell): No longer use uninitialized
+	rc_start [i]. Purify complained, although we immediately threw
+	away the result.
+
 2000-06-15  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-write.c (write_formula) : Incorrect offsets for formula
