@@ -94,13 +94,13 @@ enum {
 	FOO_CANVAS_ITEM_ALWAYS_REDRAW    = 1 << 6,
 	FOO_CANVAS_ITEM_VISIBLE          = 1 << 7,
 	FOO_CANVAS_ITEM_NEED_UPDATE      = 1 << 8,
-	FOO_CANVAS_ITEM_NEED_DEEP_UPDATE = 1 << 9,
+	FOO_CANVAS_ITEM_NEED_DEEP_UPDATE = 1 << 9
 };
 
 /* Update flags for items */
 enum {
 	FOO_CANVAS_UPDATE_REQUESTED  = 1 << 0,
-	FOO_CANVAS_UPDATE_DEEP       = 1 << 1,
+	FOO_CANVAS_UPDATE_DEEP       = 1 << 1
 };
 
 #define FOO_TYPE_CANVAS_ITEM            (foo_canvas_item_get_type ())

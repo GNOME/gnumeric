@@ -2418,6 +2418,11 @@ emit_event (FooCanvas *canvas, GdkEvent *event)
 	FooCanvasItem *parent;
 	guint mask;
 
+	/* Could be an old pick event */
+	if (!GTK_WIDGET_REALIZED (canvas)) {
+		return FALSE;
+	}
+
 	/* Perform checks for grabbed items */
 
 	if (canvas->grabbed_item &&

@@ -8,7 +8,7 @@
  *    Michael Meeks (michael@ximian.com)
  *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1998-2001 Michael Meeks, Jody Goldberg
+ * (C) 1998-2004 Michael Meeks, Jody Goldberg
  **/
 
 #include "ms-excel-read.h"
@@ -21,7 +21,7 @@ typedef enum {
     /* Flags */
 	MS_OBJ_ATTR_FLIP_H,
 	MS_OBJ_ATTR_FLIP_V,
-	MS_OBJ_ATTR_FILLED,
+	MS_OBJ_ATTR_UNFILLED,
 
 	/* will be enums when we support multiple arrow shapes */
 	MS_OBJ_ATTR_ARROW_START,
@@ -51,7 +51,8 @@ typedef enum {
     /* Ptrs */
 	MS_OBJ_ATTR_IS_PTR_MASK = 0x2000,
 	MS_OBJ_ATTR_ANCHOR,
-	MS_OBJ_ATTR_TEXT, /* the text including PangoMarkup tags */
+	MS_OBJ_ATTR_TEXT,	/* just the text, no markup */
+	MS_OBJ_ATTR_OBJ_NAME,
 
     /* GArrays */
 	MS_OBJ_ATTR_IS_GARRAY_MASK = 0x4000,
@@ -123,7 +124,7 @@ struct _MSObj {
 
 void  ms_read_OBJ   (BiffQuery *q, MSContainer *c, MSObjAttrBag *attrs);
 void  ms_obj_delete (MSObj *obj);
-char *ms_read_TXO   (BiffQuery *q);
+char *ms_read_TXO   (BiffQuery *q, MSContainer *c, PangoAttrList **markup);
 
 /********************************************************/
 

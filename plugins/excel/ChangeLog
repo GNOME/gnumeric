@@ -1,3 +1,14 @@
+2004-03-11  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=136730
+	* ms-excel-read.c (excel_get_xf) : be more flexible and handle xls
+	  generated with no XF records.
+	(excel_get_style_from_xf) : ditto.
+	(excel_sheet_insert_val) : ditto.
+
+	* ms-obj.c (ms_obj_read_pre_biff8_obj) : despite the name
+	  PangoAttributes::end_index is exclusive, not inclusive.
+
 2004-03-08  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_XF) : throw in a simple heuristic for
