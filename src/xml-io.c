@@ -16,6 +16,7 @@
 #include "gnumeric.h"
 #include "gnome-xml/tree.h"
 #include "gnome-xml/parser.h"
+#include "gnome-xml/parserInternals.h"
 #include "gnome-xml/xmlmemory.h"
 #include "color.h"
 #include "border.h"
@@ -826,7 +827,7 @@ xml_read_names (parse_xml_context_t *ctxt, xmlNodePtr tree, Workbook *wb,
 					if (!expr_name_create (wb, sheet, name, txt, &error))
 						g_warning (error);
 
-					g_free (txt);
+					xmlFree (txt);
 				}
 				bits = bits->next;
 			}
@@ -918,7 +919,7 @@ xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *summa
 
 						if (sit)
 							summary_info_add (summary_info, sit);
-						g_free (txt);
+						xmlFree (txt);
 					}
 				}
 				bits = bits->next;
@@ -2183,17 +2184,36 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 static gboolean
 xml_probe (const char *filename)
 {
-	xmlDocPtr res;
+        int ret;
+	xmlDocPtr res = NULL;
 	xmlNsPtr gmr;
+	xmlParserCtxtPtr ctxt;
+	xmlSAXHandler silent, *old;
 
-	res = xmlParseFile (filename);
-	if (res == NULL) {
-		/* FIXME: make probing silent.  */
-		fprintf (stderr,
-			 "File `%s' does not look like an xml-document\n"
-			 "Please ignore complaints about `Extra content at the end of the document'\n",
-			 filename);
-		return FALSE;
+	/*
+	 * Do a silent call to the XML parser.
+	 */
+	ctxt = xmlCreateFileParserCtxt(filename);
+	memcpy(&silent, ctxt->sax, sizeof(silent));
+	old = ctxt->sax;
+	silent.error = NULL;
+	silent.warning = NULL;
+	silent.fatalError = NULL;
+	ctxt->sax = &silent;
+
+	xmlParseDocument(ctxt);
+
+	ret = ctxt->wellFormed;
+	res = ctxt->myDoc;
+	ctxt->sax = old;
+	xmlFreeParserCtxt(ctxt);
+
+	/*
+	 * This is not well formed.
+	 */
+	if (!ret) {
+		xmlFreeDoc(res);
+	        return FALSE;
 	}
 
 	if (res->root == NULL) {
