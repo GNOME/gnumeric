@@ -442,7 +442,7 @@ item_edit_class_init (ItemEditClass *item_edit_class)
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	item_edit_parent_class = gtk_type_class (gnome_canvas_item_get_type ());
+	item_edit_parent_class = g_type_class_peek (gnome_canvas_item_get_type ());
 
 	object_class = (GtkObjectClass *) item_edit_class;
 	item_class = (GnomeCanvasItemClass *) item_edit_class;

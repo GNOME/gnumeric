@@ -346,7 +346,7 @@ fs_class_init (GtkObjectClass *klass)
 {
 	klass->destroy = fs_destroy;
 
-	fs_parent_class = gtk_type_class (gtk_hbox_get_type ());
+	fs_parent_class = g_type_class_peek (gtk_hbox_get_type ());
 
 	fs_signals[FONT_CHANGED] =
 		gtk_signal_new (

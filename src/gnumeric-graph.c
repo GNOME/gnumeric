@@ -44,6 +44,7 @@
 
 #include "dialogs.h"
 #include "sheet-control-gui.h"
+#include "parse-util.h"
 
 #include <idl/GNOME_Gnumeric_Graph.h>
 #include <bonobo.h>
@@ -530,7 +531,7 @@ gnm_graph_vector_corba_class_init (void)
 static void
 gnm_graph_vector_class_init (GObjectClass *object_class)
 {
-	gnm_graph_vector_parent_class = gtk_type_class (gtk_object_get_type ());
+	gnm_graph_vector_parent_class = g_type_class_peek (gtk_object_get_type ());
 
 	object_class->finalize = &gnm_graph_vector_finalize;
 
@@ -635,7 +636,7 @@ gnm_graph_subscribe_vector (GnmGraph *graph, GnmGraphVector *vector)
  * Returns the ID of the vector
  */
 int
-gnm_graph_add_vector (GnmGraph *graph, GnmExpr *expr,
+gnm_graph_add_vector (GnmGraph *graph, GnmExpr const *expr,
 		      GnmGraphVectorType type, Sheet *sheet)
 {
 	static CellPos const dummy = {0,0};
@@ -1040,18 +1041,17 @@ gnm_graph_finalize (GObject *obj)
 }
 
 static void
-cb_graph_assign_data (GtkWidget *ignored, GtkObject *obj_view)
+cb_graph_assign_data (GtkWidget *ignored, GObject *obj_view)
 {
-	SheetControlGUI *scg = sheet_object_view_control (obj_view);
-	SheetObject     *so  = sheet_object_view_obj     (obj_view);
-#ifdef GNOME2_CONVERSION_COMPLETE
-	dialog_graph_guru (scg_get_wbcg (scg), GNUMERIC_GRAPH (so), 1);
-#endif
+	SheetObject  *so = sheet_object_view_obj     (obj_view);
+	SheetControl *sc = sheet_object_view_control (obj_view);
+	dialog_graph_guru (scg_get_wbcg (SHEET_CONTROL_GUI (sc)),
+			   GNUMERIC_GRAPH (so), 1);
 }
 
 static void
 gnm_graph_populate_menu (SheetObject *so,
-			 GtkObject   *obj_view,
+			 GObject     *obj_view,
 			 GtkMenu     *menu)
 {
 	GnmGraph *graph;
@@ -1071,11 +1071,10 @@ gnm_graph_populate_menu (SheetObject *so,
 }
 
 static void
-gnm_graph_user_config (SheetObject *so, SheetControlGUI	*scg)
+gnm_graph_user_config (SheetObject *so, SheetControl *sc)
 {
-#ifdef GNOME2_CONVERSION_COMPLETE
-	dialog_graph_guru (scg_get_wbcg (scg), GNUMERIC_GRAPH (so), 2);
-#endif
+	dialog_graph_guru (scg_get_wbcg (SHEET_CONTROL_GUI (sc)),
+			   GNUMERIC_GRAPH (so), 2);
 }
 
 static gboolean
@@ -1093,19 +1092,15 @@ gnm_graph_read_xml (SheetObject *so,
 	for (tmp = tmp->xmlChildrenNode; tmp; tmp = tmp->next) {
 		int id, new_id, type;
 		ParsePos pos;
-		GnmExpr *expr;
+		GnmExpr const *expr;
 		xmlChar *content;
 
 		if (strcmp (tmp->name, "Vector"))
 			continue;
 
 		content = xmlNodeGetContent (tmp);
-#ifdef GNOME2_CONVERSION_COMPLETE
 		expr = gnm_expr_parse_str_simple ((gchar *)content,
 			parse_pos_init (&pos, NULL, ctxt->sheet, 0, 0));
-#else
-		expr = NULL;
-#endif
 		xmlFree (content);
 
 		g_return_val_if_fail (expr != NULL, TRUE);
@@ -1168,12 +1163,7 @@ gnm_graph_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class;
 
-#ifdef GNOME2_CONVERSION_COMPLETE
-	gnm_graph_parent_class = gtk_type_class (SHEET_OBJECT_CONTAINER_TYPE);
-#else
-	abort ();
-#endif
-
+	gnm_graph_parent_class = g_type_class_peek (SHEET_OBJECT_TYPE);
 	object_class->finalize = &gnm_graph_finalize;
 
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
@@ -1183,13 +1173,8 @@ gnm_graph_class_init (GObjectClass *object_class)
 	sheet_object_class->write_xml	  = gnm_graph_write_xml;
 }
 
-#ifdef GNOME2_CONVERSION_COMPLETE
 GSF_CLASS (GnmGraph, gnm_graph,
-	   gnm_graph_class_init, gnm_graph_init, SHEET_OBJECT_CONTAINER_TYPE)
-#else
-GSF_CLASS (GnmGraph, gnm_graph,
-	   gnm_graph_class_init, gnm_graph_init, 42)
-#endif
+	   gnm_graph_class_init, gnm_graph_init, SHEET_OBJECT_TYPE);
 
 /*****************************************************************************/
 

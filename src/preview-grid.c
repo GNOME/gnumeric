@@ -623,7 +623,7 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 	GtkObjectClass  *klass;
 	GnomeCanvasItemClass *item_class;
 
-	preview_grid_parent_class = gtk_type_class (gnome_canvas_item_get_type ());
+	preview_grid_parent_class = g_type_class_peek (gnome_canvas_item_get_type ());
 
 	klass = (GtkObjectClass *) preview_grid_class;
 	item_class = (GnomeCanvasItemClass *) preview_grid_class;

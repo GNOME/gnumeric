@@ -68,7 +68,7 @@ excel_gb_worksheet_function_class_init (GBRunObjectClass *klass)
 {
 	GBObjectClass *gb_class = (GBObjectClass *) klass;
 
-	parent_class = gtk_type_class (gbrun_object_get_type ());
+	parent_class = g_type_class_peek (gbrun_object_get_type ());
 
 	gb_class->deref = excel_gb_worksheet_function_deref;
 }
@@ -91,7 +91,7 @@ excel_gb_worksheet_function_get_type (void)
 		};
 
 		object_type = gtk_type_unique (GBRUN_TYPE_OBJECT, &object_info);
-		gtk_type_class (object_type);
+		g_type_class_peek (object_type);
 	}
 
 	return object_type;

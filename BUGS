@@ -68,10 +68,6 @@ Long term breakage
     - Tabulate.
     - Sheet object configuration changes.
 
-- Misc.
-    - Add an idle handler at start up to check for availablity of
-      evo and guppi.  They should only be enabled if they are available.
-
 - Names
     : references in names do not get changed with cut/paste or ins/del row/col.
       How to handle relative references in names ?? here.

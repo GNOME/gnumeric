@@ -1,3 +1,9 @@
+2002-08-30  Jody Goldberg <jody@gnome.org>
+
+	* dialog-graph-guru.c (dialog_graph_guru) : some initial work to get
+	  more ported.
+	* graph-guru.glade : ditto.
+
 2002-08-28  Jody Goldberg <jody@gnome.org>
 
 	* dialog-about.c : begin tighening the include requirements.

@@ -30,14 +30,13 @@
 #include <ranges.h>
 #include <selection.h>
 #include <expr.h>
-#include <sheet.h>
 #include <workbook-edit.h>
+#include <sheet.h>
+#include <sheet-view.h>
 #include <sheet-control-gui.h>
 #include <sheet-object.h>
 #include <widgets/gnumeric-combo-text.h>
-#include <idl/GNOME_Gnumeric_Graph.h>
 
-#include <bonobo.h>
 #include <gal/util/e-xml-utils.h>
 #include <libxml/parser.h>
 
@@ -86,8 +85,10 @@ struct _GraphGuruState
 	GtkWidget *selection_table;
 	GtkWidget *shared_separator;
 
+#if 0
 	CONFIG_GURU type_selector, format_guru;
 	DATA_GURU   data_guru;
+#endif
 	GtkWidget *sample;
 	GPtrArray *shared, *unshared;
 
@@ -101,12 +102,12 @@ struct _GraphGuruState
 
 	/* external state */
 	WorkbookControlGUI *wbcg;
-	SheetControlGUI	   *scg;
 	Workbook	   *wb;
+	SheetControlGUI	   *scg;
+	SheetView	   *sv;
 	Sheet		   *sheet;
 };
 
-#ifdef GNOME2_CONVERSION_COMPLETE
 static void graph_guru_select_plot (GraphGuruState *s, xmlNode *plot, int seriesID);
 
 static void
@@ -179,6 +180,7 @@ graph_guru_get_spec (GraphGuruState *s)
 	char *name;
 	GtkWidget *item;
 	xmlDoc *xml_doc = NULL;
+#ifdef GNOME2_CONVERSION_COMPLETE
 	GNOME_Gnumeric_Buffer *spec;
 	CORBA_Environment  ev;
 
@@ -202,6 +204,7 @@ graph_guru_get_spec (GraphGuruState *s)
 		g_warning ("'%s' : getting the spec from data_guru %p",
 			   gnm_graph_exception (&ev), s->data_guru);
 	}
+#endif
 
 	g_return_if_fail (xml_doc != NULL);
 #if 0
@@ -261,17 +264,22 @@ graph_guru_series_delete (GraphGuruState *state, int series_id)
 #endif
 
 static void
-vector_state_series_set_dimension (VectorState *vs, GnmExpr *expr)
+vector_state_series_set_dimension (VectorState *vs, GnmExpr const *expr)
 {
-	CORBA_Environment  ev;
 	int vector_id = -1;
 
-	if (vs->state == NULL || vs->state->data_guru == CORBA_OBJECT_NIL)
+	if (vs->state == NULL)
 		return;
 
 	if (expr != NULL)
 		vector_id = gnm_graph_add_vector (vs->state->graph,
 			expr, GNM_VECTOR_AUTO, vs->state->sheet);
+
+#if 0
+	CORBA_Environment  ev;
+
+	if (vs->state->data_guru == CORBA_OBJECT_NIL)
+		return;
 
 	CORBA_exception_init (&ev);
 
@@ -299,6 +307,7 @@ vector_state_series_set_dimension (VectorState *vs, GnmExpr *expr)
 			   gnm_graph_exception (&ev), vs->state->data_guru);
 	}
 	CORBA_exception_free (&ev);
+#endif
 }
 
 static void
@@ -338,7 +347,7 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 static void
 vector_state_apply_changes (VectorState *vs)
 {
-	GnmExpr *expr = NULL;
+	GnmExpr const *expr = NULL;
 	gboolean changed;
 
 	if (vs == NULL || !vs->changed)
@@ -485,13 +494,15 @@ graph_guru_state_destroy (GraphGuruState *state)
 	graph_guru_select_plot (state, NULL, -1);
 
 	if (state->plot_selector) {
-		g_signal_disconnect_by_data (
-			G_OBJECT (state->plot_selector), state);
+		g_signal_handlers_disconnect_matched (
+			G_OBJECT (state->plot_selector),
+			G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, state);
 		state->plot_selector = NULL;
 	}
 	if (state->series_selector != NULL) {
-		gtk_signal_disconnect_by_data (
-			G_OBJECT (state->series_selector), state);
+		g_signal_handlers_disconnect_matched (
+			G_OBJECT (state->series_selector),
+			G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, state);
 			state->series_selector = NULL;
 	}
 
@@ -706,6 +717,7 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot, int seriesID)
 static void
 graph_guru_apply_changes (GraphGuruState *state)
 {
+#if 0
 	CORBA_Environment  ev;
 
 	CORBA_exception_init (&ev);
@@ -724,11 +736,13 @@ graph_guru_apply_changes (GraphGuruState *state)
 		break;
 	}
 	CORBA_exception_free (&ev);
+#endif
 }
 
 static void
 graph_guru_init_data_page (GraphGuruState *s)
 {
+#if 0
 	if (s->data_guru != CORBA_OBJECT_NIL)
 		return;
 
@@ -742,11 +756,13 @@ graph_guru_init_data_page (GraphGuruState *s)
 	gtk_container_add (GTK_CONTAINER (s->sample_frame), s->sample);
 	gtk_widget_show_all (s->sample_frame);
 	graph_guru_get_spec (s);
+#endif
 }
 
 static void
 graph_guru_init_format_page (GraphGuruState *s)
 {
+#if 0
 	GtkWidget *w;
 
 	if (s->format_guru != CORBA_OBJECT_NIL)
@@ -764,6 +780,7 @@ graph_guru_init_format_page (GraphGuruState *s)
 		gtk_notebook_append_page (s->steps, w, NULL);
 	else
 		gtk_notebook_prepend_page (s->steps, w, NULL);
+#endif
 }
 
 static void
@@ -945,6 +962,7 @@ cb_graph_guru_focus (GtkWindow *window, GtkWidget *focus, GraphGuruState *state)
 static void
 cb_graph_guru_series_add (GtkWidget *button, GraphGuruState *s)
 {
+#if 0
 	int new_index;
 	CORBA_Environment  ev;
 
@@ -957,16 +975,17 @@ cb_graph_guru_series_add (GtkWidget *button, GraphGuruState *s)
 		CORBA_exception_free (&ev);
 		return;
 	}
+	CORBA_exception_free (&ev);
 	graph_guru_get_spec (s);
 	graph_guru_select_series (s, graph_guru_get_series (s, new_index));
-
-	CORBA_exception_free (&ev);
+#endif
 }
 
 static void
 cb_graph_guru_series_delete (GtkWidget *button, GraphGuruState *s)
 {
 	if (s->current_series >= 0) {
+#ifdef GNOME2_CONVERSION_COMPLETE
 		CORBA_Environment  ev;
 		CORBA_exception_init (&ev);
 		DATA_GURU1 (seriesDelete) (s->data_guru, s->current_series, &ev);
@@ -979,6 +998,10 @@ cb_graph_guru_series_delete (GtkWidget *button, GraphGuruState *s)
 			graph_guru_get_spec (s);
 		}
 		CORBA_exception_free (&ev);
+#else
+		s->current_series = -1;
+		graph_guru_get_spec (s);
+#endif
 	}
 }
 
@@ -1056,8 +1079,9 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 
 	state = g_new0 (GraphGuruState, 1);
 	state->wbcg	= wbcg;
-	state->scg	= wbcg_cur_scg (wbcg);
 	state->wb	= wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->scg	= wbcg_cur_scg (wbcg);
+	state->sv	= sc_view (SHEET_CONTROL (state->scg));
 	state->sheet	= wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	state->valid	= FALSE;
 	state->updating = FALSE;
@@ -1072,9 +1096,11 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	state->current_page	= -1;
 	state->current_plot	= -1;
 	state->current_series	= -1;
+#if 0
 	state->type_selector	= CORBA_OBJECT_NIL;
 	state->data_guru	= CORBA_OBJECT_NIL;
 	state->format_guru	= CORBA_OBJECT_NIL;
+#endif
 
 	if (graph != NULL) {
 		g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
@@ -1085,7 +1111,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 		state->graph = GNUMERIC_GRAPH (gnm_graph_new (state->wb));
 
 	if (state->graph != NULL && page == 0) {
-		GList *ptr = g_list_last (state->sheet->selections);
+		GList *ptr = g_list_last (state->sv->selections);
 		Range const *r = ptr->data;
 		int num_cols = range_width (r);
 		int num_rows = range_height (r);
@@ -1096,7 +1122,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 		/* Excel docs claim that rows == cols uses rows */
 
 		/* selections are in reverse order */
-		ptr = g_list_last (state->sheet->selections);
+		ptr = g_list_last (state->sv->selections);
 		for (; ptr != NULL; ptr = ptr->prev)
 			gnm_graph_range_to_vectors (state->graph, state->sheet,
 				ptr->data, default_to_cols);
@@ -1112,6 +1138,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	state->valid = TRUE;
 
 	state->initial_page = page;
+#if 0
 	if (page == 0) {
 		GtkWidget *w;
 		state->type_selector = gnm_graph_get_config_control (
@@ -1121,6 +1148,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 		gtk_widget_show_all (w);
 		gtk_notebook_prepend_page (state->steps, w, NULL);
 	}
+#endif
 
 	gtk_widget_show_all (state->dialog);
 
@@ -1130,4 +1158,3 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	}
 	graph_guru_set_page (state, page);
 }
-#endif

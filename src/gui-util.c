@@ -878,6 +878,7 @@ gnumeric_create_popup_menu_list (GSList *elements,
 				 GdkEventButton *event)
 {
 	GtkWidget *menu, *item;
+	char const *trans;
 
 	menu = gtk_menu_new ();
 
@@ -893,7 +894,9 @@ gnumeric_create_popup_menu_list (GSList *elements,
 			continue;
 
 		if (name != NULL && *name != '\0') {
-			item = gtk_image_menu_item_new_with_mnemonic (_(name));
+			trans = _(name);
+			printf ("'%s' = '%s'\n", name, trans);
+			item = gtk_image_menu_item_new_with_mnemonic (trans);
 			if (element->sensitive_filter != 0 &&
 			    (element->sensitive_filter & sensitive_filter))
 				gtk_widget_set_sensitive (GTK_WIDGET (item), FALSE);

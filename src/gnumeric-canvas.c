@@ -577,7 +577,7 @@ gnm_canvas_class_init (GnumericCanvasClass *Class)
 	widget_class = (GtkWidgetClass *) Class;
 	canvas_class = (GnomeCanvasClass *) Class;
 
-	gcanvas_parent_class = gtk_type_class (GNM_SIMPLE_CANVAS_TYPE);
+	gcanvas_parent_class = g_type_class_peek (GNM_SIMPLE_CANVAS_TYPE);
 
 	widget_class->realize		   = gnm_canvas_realize;
 	widget_class->unrealize		   = gnm_canvas_unrealize;

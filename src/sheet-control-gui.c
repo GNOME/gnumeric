@@ -2418,7 +2418,7 @@ scg_class_init (GObjectClass *object_class)
 
 	g_return_if_fail (sc_class != NULL);
 
-	scg_parent_class = gtk_type_class (sheet_control_get_type ());
+	scg_parent_class = g_type_class_peek (sheet_control_get_type ());
 	object_class->finalize = scg_finalize;
 
 	sc_class->resize                 = scg_resize;

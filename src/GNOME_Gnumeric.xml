@@ -342,12 +342,12 @@
 
       	    <separator/>
 
-            <!-- These don't work yet for Gnome 2 
 	    <menuitem name="InsertGraph" verb="GraphGuru"
 		pixtype="stock" pixname="Gnumeric_GraphGuru"
 		_label="_Graph..."
 		_tip="Invoke the graph guru to create a graph"/>
 
+            <!-- These don't work yet for Gnome 2 
 	    <menuitem name="InsertComponent" verb=""
 		pixtype="stock" pixname="Gnumeric_InsertComponent"
 		_label="_Object..."
@@ -741,13 +741,13 @@
 
 	<separator/>
 
-        <!-- These don't work yet for Gnome 2 
 	<toolitem name="GraphGuru"
 	    pixtype="stock" pixname="Gnumeric_GraphGuru"
 	    _label="Graph Guru"
 	    _tip="Invoke the graph guru to create a graph"
 	    verb="GraphGuru" sensitive="0" />
 
+        <!-- These don't work yet for Gnome 2 
 	<toolitem name="InsertComponent"
 	    pixtype="stock" pixname="Gnumeric_InsertComponent"
 	    _label="Insert Component"

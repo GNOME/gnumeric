@@ -172,7 +172,7 @@ gee_class_init (GtkObjectClass *klass)
 	GObjectClass   *gobject_class = G_OBJECT_CLASS (klass);
 
 	gnumeric_expr_entry_parent_class
-		= gtk_type_class (gtk_hbox_get_type());
+		= g_type_class_peek (gtk_hbox_get_type());
 
 	gobject_class->set_property = gee_set_property;
 	gobject_class->get_property = gee_get_property;

@@ -120,7 +120,7 @@ excel_gb_worksheets_get_type (void)
 
 		object_type = gtk_type_unique (
 			GBRUN_TYPE_COLLECTION, &object_info);
-		gtk_type_class (object_type);
+		g_type_class_peek (object_type);
 	}
 
 	return object_type;

@@ -30,8 +30,7 @@ gnm_simple_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 static void
 gnm_simple_canvas_class_init (GtkWidgetClass *klass)
 {
-	parent = gtk_type_class (gnome_canvas_get_type ());
-
+	parent = g_type_class_peek (gnome_canvas_get_type ());
 	klass->key_press_event	 = gnm_simple_canvas_key_press;
 	klass->key_release_event = gnm_simple_canvas_key_release;
 }

@@ -75,7 +75,7 @@ gb_ole_stream_class_init (GBOleStreamClass *klass)
 	GBLexerStreamClass *lex_class;
 	GtkObjectClass     *object_class;
 
-	lex_object_parent = gtk_type_class (GB_TYPE_LEXER_STREAM);
+	lex_object_parent = g_type_class_peek (GB_TYPE_LEXER_STREAM);
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = gb_ole_stream_destroy;

@@ -1366,7 +1366,7 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	item_cursor_parent_class = gtk_type_class (gnome_canvas_item_get_type ());
+	item_cursor_parent_class = g_type_class_peek (gnome_canvas_item_get_type ());
 
 	object_class = (GtkObjectClass *) item_cursor_class;
 	item_class = (GnomeCanvasItemClass *) item_cursor_class;

@@ -27,7 +27,7 @@ void	   gnm_graph_range_to_vectors	  (GnmGraph *g, Sheet *sheet,
 					   Range const *src, gboolean as_cols);
 xmlDoc	  *gnm_graph_get_spec		  (GnmGraph *g, gboolean force_update);
 void	   gnm_graph_import_specification (GnmGraph *graph, xmlDoc *spec);
-int	   gnm_graph_add_vector	   	  (GnmGraph *graph, GnmExpr *expr,
+int	   gnm_graph_add_vector	   	  (GnmGraph *graph, GnmExpr const *expr,
 					   GnmGraphVectorType type, Sheet *s);
 GnmGraphVector *gnm_graph_get_vector	  (GnmGraph *graph, int id);
 

@@ -959,7 +959,7 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	item_bar_parent_class = gtk_type_class (gnome_canvas_item_get_type ());
+	item_bar_parent_class = g_type_class_peek (gnome_canvas_item_get_type ());
 
 	object_class = (GtkObjectClass *) item_bar_class;
 	item_class = (GnomeCanvasItemClass *) item_bar_class;

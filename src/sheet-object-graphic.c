@@ -600,7 +600,7 @@ sheet_object_graphic_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class;
 
-	sheet_object_graphic_parent_class = gtk_type_class (SHEET_OBJECT_TYPE);
+	sheet_object_graphic_parent_class = g_type_class_peek (SHEET_OBJECT_TYPE);
 
 	/* Object class method overrides */
 	object_class->finalize = sheet_object_graphic_finalize;
@@ -1114,7 +1114,7 @@ sheet_object_filled_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class;
 
-	sheet_object_filled_parent_class = gtk_type_class (SHEET_OBJECT_GRAPHIC_TYPE);
+	sheet_object_filled_parent_class = g_type_class_peek (SHEET_OBJECT_GRAPHIC_TYPE);
 
 	object_class->finalize		  = sheet_object_filled_finalize;
 
@@ -1287,7 +1287,7 @@ sheet_object_polygon_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class;
 
-	sheet_object_polygon_parent_class = gtk_type_class (SHEET_OBJECT_TYPE);
+	sheet_object_polygon_parent_class = g_type_class_peek (SHEET_OBJECT_TYPE);
 
 	/* Object class method overrides */
 	object_class->finalize = sheet_object_polygon_finalize;

@@ -72,7 +72,7 @@ excel_gb_application_get_type (void)
 		};
 
 		object_type = gtk_type_unique (GBRUN_TYPE_OBJECT, &object_info);
-		gtk_type_class (object_type);
+		g_type_class_peek (object_type);
 	}
 
 	return object_type;

@@ -54,7 +54,7 @@ sheet_object_item_class_init (GtkObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 
-	sheet_object_item_parent_class = gtk_type_class (sheet_object_get_type ());
+	sheet_object_item_parent_class = g_type_class_peek (sheet_object_get_type ());
 
 	/* SheetObject class method overrides */
 	sheet_object_class->new_view = sheet_object_item_new_view;

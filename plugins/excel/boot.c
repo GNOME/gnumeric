@@ -25,6 +25,7 @@
 
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
+#include <gsf/gsf-msole-utils.h>
 
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-outfile.h>
@@ -86,6 +87,22 @@ excel_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	return FALSE;
 }
 
+static void
+excel_read_metadata (GsfInfile *ole, char const *name, IOContext *context)
+{
+	GError   *err = NULL;
+	GsfInput *stream = gsf_infile_child_by_name (ole, name);
+
+	if (stream != NULL) {
+		gsf_msole_metadata_read (stream, &err);
+		if (err != NULL) {
+			gnumeric_io_error_read (context, err->message);
+			g_error_free (err);
+		}
+		g_object_unref (G_OBJECT (stream));
+	}
+}
+
 /*
  * excel_file_open
  * @context:   	Command context
@@ -122,25 +139,12 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 	}
 
 	ms_excel_read_workbook (context, new_wb_view, stream);
-#warning re-enable this when gsf handles doc metadata
-#warning TODO we can now support pre-ole files ! but first find a way to id them.
-#if 0
-	if (!gnumeric_io_error_occurred (context)) {
-		Workbook *wb = wb_view_workbook (new_wb_view);
-		ms_summary_read (f, wb->summary_info);
+	g_object_unref (G_OBJECT (stream));
 
-		if (ms_excel_read_debug > 0)
-			summary_info_dump (wb->summary_info);
-
-		if (ms_excel_read_gb) {
-			if (!ms_excel_read_gb (context, wb, f))
-				g_warning ("Failed to read Basic scripts");
-		}
-	}
-#endif
+	excel_read_metadata (ole, "\05SummaryInformation", context);
+	excel_read_metadata (ole, "\05DocumentSummaryInformation", context);
 
 	g_object_unref (G_OBJECT (ole));
-	g_object_unref (G_OBJECT (stream));
 }
 
 /*

@@ -313,7 +313,7 @@ sheet_object_bonobo_class_init (GtkObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class;
 
-	sheet_object_bonobo_parent_class = gtk_type_class (sheet_object_get_type ());
+	sheet_object_bonobo_parent_class = g_type_class_peek (sheet_object_get_type ());
 
 	/* GtkObject class method overrides */
 	object_class->destroy = sheet_object_bonobo_destroy;

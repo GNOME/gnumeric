@@ -19,9 +19,7 @@ typedef enum {
 	FD_LAST = FD_INPUT_MSG
 } FormatDialogPosition_t;
 
-#ifdef WITH_BONOBO
 void     dialog_graph_guru	(WorkbookControlGUI *wbcg, GnmGraph *graph, int page);
-#endif
 void	 dialog_formula_guru	(WorkbookControlGUI *wbcg, FunctionDefinition const *);
 void	 dialog_plugin_manager  (WorkbookControlGUI *wbcg);
 void	 dialog_goto_cell       (WorkbookControlGUI *wbcg);
