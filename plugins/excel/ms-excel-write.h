@@ -71,6 +71,7 @@ struct _ExcelSheet {
 };
 
 struct _ExcelWorkbook {
+	IOContext     *io_context;
 	Workbook      *gnum_wb;
 	WorkbookView  *gnum_wb_view;
 	GPtrArray     *sheets;

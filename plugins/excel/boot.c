@@ -142,6 +142,7 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 	MsOle *f;
 	MsOleErr result;
 	void *state = NULL;
+	gint res;
 
 	if (g_file_exists (filename)) {
 		gchar *disable_safety;
@@ -157,7 +158,12 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 		}
 	}
 
-	if (ms_excel_check_write (context, &state, wb_view, ver) != 0) {
+	io_progress_message (context, _("Preparing for save..."));
+	io_progress_range_push (context, 0.0, 0.1);
+	res = ms_excel_check_write (context, &state, wb_view, ver);
+	io_progress_range_pop (context);
+
+	if (res != 0) {
 		gnumeric_io_error_unknown (context);
 		return;
 	}
@@ -176,7 +182,10 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 		return;
 	}
 
+	io_progress_message (context, _("Saving file..."));
+	io_progress_range_push (context, 0.1, 1.0);
 	ms_excel_write_workbook (context, f, state, ver);
+	io_progress_range_pop (context);
 
 	ms_summary_write (f, wb->summary_info);
 

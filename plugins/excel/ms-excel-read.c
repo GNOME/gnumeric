@@ -48,6 +48,8 @@
 
 /* #define NO_DEBUG_EXCEL */
 
+#define N_BYTES_BETWEEN_PROGRESS_UPDATES   0x1000
+
 static excel_iconv_t current_workbook_iconv = NULL;
 
 /* Forward references */
@@ -3589,8 +3591,8 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
 }
 
 static gboolean
-ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
-		     ExcelSheet *sheet)
+ms_excel_read_sheet (IOContext *io_context, BiffQuery *q, ExcelWorkbook *wb,
+                     WorkbookView *wb_view, ExcelSheet *sheet)
 {
 	PrintInformation *pi;
 
@@ -3862,6 +3864,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 				break;
 			}
 		}
+		value_io_progress_update (io_context, q->streamPos);
 	}
 
 	printf ("Error, hit end without EOF\n");
@@ -4047,6 +4050,8 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		}
 	}
 
+	io_progress_message (context, _("Reading file..."));
+	value_io_progress_set (context, stream->size, N_BYTES_BETWEEN_PROGRESS_UPDATES);
 	q = ms_biff_query_new (stream);
 
 	while (problem_loading == NULL && ms_biff_query_next (q)) {
@@ -4141,7 +4146,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 					gboolean    kill  = FALSE;
 
 					ms_excel_sheet_set_version (sheet, ver->version);
-					if (ms_excel_read_sheet (q, wb, wb_view, sheet)) {
+					if (ms_excel_read_sheet (context, q, wb, wb_view, sheet)) {
 						ms_container_realize_objs (sheet_container (sheet));
 
 #if 0
@@ -4412,6 +4417,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	if (ver)
 		ms_biff_bof_data_destroy (ver);
 	ms_ole_stream_close (&stream);
+	io_progress_unset (context);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {

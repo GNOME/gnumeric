@@ -1,3 +1,23 @@
+2001-06-12  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* boot.c (excel_save): Set up io_progress before calling ms_excel_check_write
+	and ms_excel_write_workbook.
+
+	* ms-excel-read.c
+	(ms_excel_read_sheet): Added IOContext argument,
+	call value_io_progress_update on every loop iteration.
+	(ms_excel_read_workbook): Set up io progress message and helper.
+
+	* ms-excel-write.c
+	(pre_cell): Update io progress.
+	(pre_blanks): Update io progress at every row.
+	(gather_styles): Set up io progress helper.
+	(write_block): Update io progress after every write_cell call.
+	(ms_excel_write_workbook): Set up io progress helper.
+	(ms_excel_check_write): Copy IOContext ptr into ExcelWorkbook struct.
+
+	* ms-excel-write.h (struct _ExcelWorkbook): Added io_context.
+
 2001-06-03 Jody Goldberg <jgoldberg@home.com>
 	For Vlad Harchev <hvv@hippo.ru>
 

@@ -61,6 +61,8 @@
 #include "ms-excel-xf.h"
 #include "ms-formula-write.h"
 
+#define N_ELEMENTS_BETWEEN_PROGRESS_UPDATES   20
+
 static excel_iconv_t current_workbook_iconv = NULL;
 /**
  *  This function writes simple strings...
@@ -1580,6 +1582,8 @@ pre_cell (gconstpointer dummy, Cell *cell, ExcelSheet *sheet)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (sheet != NULL);
 
+	count_io_progress_update (sheet->wb->io_context, 1);
+
 	col = cell->pos.col;
 	row = cell->pos.row;
 
@@ -1644,10 +1648,12 @@ pre_blanks (ExcelSheet *sheet)
 {
 	int row, col;
 
-	for (row = 0; row < sheet->maxy; row++)
+	for (row = 0; row < sheet->maxy; row++) {
 		for (col = 0; col < sheet->maxx; col++)
 			if (!cell_is_used (sheet, col, row))
 				pre_blank (sheet, col, row);
+		count_io_progress_update (sheet->wb->io_context, 1);
+	}
 }
 
 /**
@@ -1672,8 +1678,18 @@ pre_blanks (ExcelSheet *sheet)
 static void
 gather_styles (ExcelWorkbook *wb)
 {
-	guint i;
+	guint n = 0, i;
+	enum {N_CELLS_BETWEEN_UPDATES = 20};
 
+	for (i = 0; i < wb->sheets->len; i++) {
+		ExcelSheet *s;
+
+		s = g_ptr_array_index (wb->sheets, i);
+		n += g_hash_table_size (s->gnum_sheet->cell_hash);
+		n += s->maxy;
+	}	
+
+	count_io_progress_set (wb->io_context, n, N_CELLS_BETWEEN_UPDATES);
 	for (i = 0; i < wb->sheets->len; i++) {
 		ExcelSheet *s = g_ptr_array_index (wb->sheets, i);
 
@@ -1682,6 +1698,7 @@ gather_styles (ExcelWorkbook *wb)
 				      (GHFunc) pre_cell, s);
 		pre_blanks (s);
 	}
+	io_progress_unset (wb->io_context);
 }
 
 /**
@@ -3401,6 +3418,7 @@ write_block (BiffPut *bp, ExcelSheet *sheet, guint32 begin, int nrows)
 					run_size = 0;
 				}
 				write_cell (bp, sheet, cell);
+				workbook_io_progress_update (sheet->wb->io_context, 1);
 			}
 		}
 		if (run_size > 0 && run_size <= maxx) {
@@ -3544,7 +3562,7 @@ pre_pass (IOContext *context, ExcelWorkbook *wb)
 	put_font (wb->xf->default_style, NULL, wb);
 	put_format (wb->xf->default_style, NULL, wb);
 
-	gather_styles (wb);	/* (and cache cells) */
+	gather_styles (wb);     /* (and cache cells) */
 	/* Gather Info from styles */
 	gather_fonts (wb);
 	gather_formats (wb);
@@ -3608,10 +3626,13 @@ write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersio
 	biff_eof_write (bp);
 	/* End of Workbook */
 
+	workbook_io_progress_set (context, wb->gnum_wb, WB_PROGRESS_CELLS,
+	                          N_ELEMENTS_BETWEEN_PROGRESS_UPDATES);
 	/* Sheets */
 	for (lp = 0; lp < wb->sheets->len; lp++)
 		write_sheet (context, bp, g_ptr_array_index (wb->sheets, lp));
 	/* End of Sheets */
+	io_progress_unset (context);
 
 	/* Finalise Workbook stuff */
 	for (lp = 0; lp < wb->sheets->len; lp++) {
@@ -3678,6 +3699,7 @@ ms_excel_check_write (IOContext *context, void **state, WorkbookView *gwb_view,
 	*state = wb;
 
 	wb->ver          = ver;
+	wb->io_context   = context;
 	wb->gnum_wb      = wb_view_workbook (gwb_view);
 	wb->gnum_wb_view = gwb_view;
 	wb->sheets   = g_ptr_array_new ();
