@@ -714,6 +714,7 @@ src/widgets/Makefile
 src/functions/Makefile
 doc/Makefile
 doc/C/Makefile
+omf-install/Makefile
 plugins/Makefile
 plugins/numtheory/Makefile
 plugins/derivatives/Makefile
