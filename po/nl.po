@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2002-03-05 15:31-0500\n"
+"POT-Creation-Date: 2002-03-08 00:53+0100\n"
 "PO-Revision-Date: 2002-03-06 14:21+01:00\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -452,7 +452,7 @@ msgstr ""
 "opt_bs_gamma"
 
 #: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4490
-#: plugins/mps/mps.c:579 src/xml-io.c:3242
+#: plugins/mps/mps.c:581 src/xml-io.c:3249
 msgid "Reading file..."
 msgstr "Bezig bestand te lezen..."
 
@@ -661,7 +661,8 @@ msgstr ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(i)\n"
 "@DESCRIPTION=De EXECSQL functie biedt de mogelijkheid een opdracht aan een \n"
-"database server te geven. Het resultaat wordt in het huidige werkblad weergegeven.\n"
+"database server te geven. Het resultaat wordt in het huidige werkblad "
+"weergegeven.\n"
 "Het gebruikt libgda voor toegang tot de databases.\n"
 "@EXAMPLES=\n"
 "@SEEALSO="
@@ -790,16 +791,16 @@ msgstr "Lotus 123"
 msgid "Lotus 123 (*.wk1)"
 msgstr "Lotus 123 (*.wk1)"
 
-#: plugins/mps/mps.c:276
+#: plugins/mps/mps.c:278
 msgid "Program Name"
 msgstr "Naam van Programma"
 
-#: plugins/mps/mps.c:282
+#: plugins/mps/mps.c:284
 msgid "Objective Value"
 msgstr "Objectieve Waarde"
 
 #. Print 'Status'.
-#: plugins/mps/mps.c:293
+#: plugins/mps/mps.c:295
 msgid "Feasible"
 msgstr "Haalbaar"
 
@@ -807,12 +808,12 @@ msgstr "Haalbaar"
 #. * Add objective function stuff into the sheet.
 #.
 #. Print 'Objective function:'
-#: plugins/mps/mps.c:308
+#: plugins/mps/mps.c:310
 msgid "Objective function:"
 msgstr "Objectieve functie:"
 
 #. Print 'Current values'
-#: plugins/mps/mps.c:311
+#: plugins/mps/mps.c:313
 msgid "Current values"
 msgstr "Huidige waarden"
 
@@ -820,60 +821,61 @@ msgstr "Huidige waarden"
 #. * Add constraints into the sheet.
 #.
 #. Print 'Constraints:'.
-#: plugins/mps/mps.c:332
+#: plugins/mps/mps.c:334
 msgid "Constraints:"
 msgstr "Voorwaarden:"
 
 #. Print constraint titles.
-#: plugins/mps/mps.c:335 src/dialogs/dialog-plugin-manager.c:550
+#: plugins/mps/mps.c:337 src/dialogs/dialog-plugin-manager.c:550
 #: src/dialogs/plugin-manager.glade.h:8 src/format-template.c:405
-#: src/solver-lp.c:941 src/solver-lp.c:965 src/solver-lp.c:998
-#: src/solver-lp.c:1092 src/solver-lp.c:1139 src/workbook-control.c:234
+#: src/tools/solver/reports.c:138 src/tools/solver/reports.c:162
+#: src/tools/solver/reports.c:190 src/tools/solver/reports.c:291
+#: src/tools/solver/reports.c:320 src/workbook-control.c:234
 msgid "Name"
 msgstr "Naam"
 
-#: plugins/mps/mps.c:339 src/dialogs/dialog-plugin-manager.c:555
-#: src/solver-lp.c:1093 src/solver-lp.c:1140
+#: plugins/mps/mps.c:341 src/dialogs/dialog-plugin-manager.c:555
+#: src/tools/solver/reports.c:292 src/tools/solver/reports.c:321
 msgid "Value"
 msgstr "Waarde"
 
-#: plugins/mps/mps.c:340
+#: plugins/mps/mps.c:342
 msgid "Type"
 msgstr "Type"
 
-#: plugins/mps/mps.c:341
+#: plugins/mps/mps.c:343
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:342 src/solver-lp.c:1002
+#: plugins/mps/mps.c:344 src/tools/solver/reports.c:194
 msgid "Slack"
 msgstr "Speelruimte"
 
-#: plugins/mps/mps.c:343 src/solver-lp.c:1001
+#: plugins/mps/mps.c:345 src/tools/solver/reports.c:193
 msgid "Status"
 msgstr "Status"
 
-#: plugins/mps/mps.c:1129
+#: plugins/mps/mps.c:1131
 msgid "Problem name was not defined in the file."
 msgstr "Probleemnaam was niet gedefinieerd in het bestand."
 
-#: plugins/mps/mps.c:1132
+#: plugins/mps/mps.c:1134
 msgid "Invalid ROWS section in the file."
 msgstr "Ongeldige RIJEN sectie in bestand."
 
-#: plugins/mps/mps.c:1135
+#: plugins/mps/mps.c:1137
 msgid "Invalid COLUMNS section in the file."
 msgstr "Ongeldige KOLOMMEN sectie in bestand."
 
-#: plugins/mps/mps.c:1138
+#: plugins/mps/mps.c:1140
 msgid "Invalid RHS section in the file."
 msgstr "Ongeldige RHS sectie in bestand."
 
-#: plugins/mps/mps.c:1141
+#: plugins/mps/mps.c:1143
 msgid "Invalid BOUNDS section in the file."
 msgstr "Ongeldige RANDEN sectie in bestand."
 
-#: plugins/mps/mps.c:1157
+#: plugins/mps/mps.c:1159
 msgid "Error while reading MPS file."
 msgstr "Fout bij lezen MPS bestand."
 
@@ -908,10 +910,11 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
+#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (MÃ¶bius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -1417,11 +1420,11 @@ msgstr "Onjuist gemaakt XML document!"
 msgid "About this application"
 msgstr "Over dit programma"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3051
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3055
 msgid "Add an outline group"
 msgstr "Voeg een outline groep toe"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3081
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3085
 msgid "Advanced _Filter..."
 msgstr "Geavanceerde _Filter..."
 
@@ -1437,23 +1440,23 @@ msgstr "Lijnt de inhoud naar links uit en vergroot de inspringafstand"
 msgid "Arrow"
 msgstr "Pijl"
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3019
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3023
 msgid "Auto _Correct..."
 msgstr "Automatische _Correctie..."
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2649
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2653
 msgid "Auto_fill"
 msgstr "Autovul"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2650
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2654
 msgid "Automatically fill the current selection"
 msgstr "De huidige selectie automatisch vullen"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3020
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3024
 msgid "Automatically perform simple spell checking"
 msgstr "Doe automatisch simpele spellings controle"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3023
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3027
 msgid "Automatically save the current document at regular intervals"
 msgstr "Sla geregeld het huidige document automatisch op. "
 
@@ -1478,15 +1481,15 @@ msgstr "Randen"
 msgid "Button"
 msgstr "Knop"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2793
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2797
 msgid "C_ells..."
 msgstr "_Cellen..."
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2703
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2707
 msgid "C_lear"
 msgstr "_Wissen"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2906
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2910
 msgid "C_olumn"
 msgstr "K_olom"
 
@@ -1506,24 +1509,24 @@ msgstr "Centreer over de geselecteerde cellen"
 msgid "Centers the text in each selection"
 msgstr "De celinhoud centreren"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2840
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2844
 msgid "Change height of the selected rows"
 msgstr "Pas de hoogte van de geselecteerde rijen aan"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2833
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2837
 msgid "Change the default column width"
 msgstr "Pas de standaard kolom breedte aan"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2852
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2856
 msgid "Change the default row height"
 msgstr "Pas de standaard rij hoogte aan"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2676
-#: src/workbook-control-gui.c:2862
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2680
+#: src/workbook-control-gui.c:2866
 msgid "Change the order the sheets are displayed"
 msgstr "Verander de volgorde waarin de werkbladen worden worden getoond."
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2821
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2825
 msgid "Change width of the selected columns"
 msgstr "Pas de breedte van de geselecteerde kolommen aan"
 
@@ -1531,19 +1534,19 @@ msgstr "Pas de breedte van de geselecteerde kolommen aan"
 msgid "Checkbox"
 msgstr "Checkbox"
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2610
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2614
 msgid "Clear the selected cells' comments"
 msgstr "Verwijder de opmerkingen van de geselecteerde cellen"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2613
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2617
 msgid "Clear the selected cells' contents"
 msgstr "Verwijder de inhoud van de geselecteerde cellen"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2607
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2611
 msgid "Clear the selected cells' formats"
 msgstr "Verwijder de opmaak van de geselecteerde cellen"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2604
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2608
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Verwijder de opmaak, opmerkingen en inhoud van de geselecteerde cellen"
 
@@ -1552,15 +1555,15 @@ msgid "Close the current file"
 msgstr "Sluit het huidige bestand"
 
 #: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:4
-#: src/workbook-control-gui.c:2609
+#: src/workbook-control-gui.c:2613
 msgid "Co_mments"
 msgstr "Op_merkingen"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2978
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2982
 msgid "Co_variance"
 msgstr "Co_variantie"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3045
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3049
 msgid "Collapse an outline group"
 msgstr "Outline groep inklappen"
 
@@ -1568,13 +1571,13 @@ msgstr "Outline groep inklappen"
 msgid "Combo Box"
 msgstr "Combo Box"
 
-#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2950
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2954
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr ""
 "Twee populatiegemiddelden vergelijken voor twee afhankelijke steekproeven: t-"
 "test"
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:2954
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:2958
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
@@ -1582,7 +1585,7 @@ msgstr ""
 "Twee populatiegemiddelden vergelijken voor twee onafhankelijke steekproeven "
 "uit populaties met gelijke varianties: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:2959
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:2963
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
@@ -1590,13 +1593,15 @@ msgstr ""
 "Twee populatiegemiddelden vergelijken voor twee onafhankelijke steekproeven "
 "uit populaties met ongelijke variantie: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2964
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2968
 msgid ""
 "Comparing two population means from pop. with known varinces or using a "
 "large sample: z- test"
-msgstr "Twee populatiegemiddelden vergelijken van populaties met bekende varianties of gebruik maken van een grote steekproef: z-test"
+msgstr ""
+"Twee populatiegemiddelden vergelijken van populaties met bekende varianties "
+"of gebruik maken van een grote steekproef: z-test"
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3006
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3010
 msgid "Comparing two population variances"
 msgstr "Twee Populatie varianties vergelijken"
 
@@ -1604,12 +1609,12 @@ msgstr "Twee Populatie varianties vergelijken"
 msgid "Configure toolbars"
 msgstr "Configureer knoppenbalken"
 
-#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3099
+#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3103
 msgid "Consolidate regions using a function"
 msgstr "Celbereiken consolideren gebruik makend van een functie"
 
 #: src/GNOME_Gnumeric.xml.h:45 src/selection.c:497
-#: src/workbook-control-gui.c:3153
+#: src/workbook-control-gui.c:3157
 msgid "Copy"
 msgstr "Kopiëren"
 
@@ -1622,7 +1627,7 @@ msgid "Copy the selection"
 msgstr "Kopiëer de selectie"
 
 #: src/GNOME_Gnumeric.xml.h:48 src/dialogs/covariance.glade.h:2
-#: src/workbook-control-gui.c:2979
+#: src/workbook-control-gui.c:2983
 msgid "Covariance"
 msgstr "Covariantie"
 
@@ -1654,15 +1659,15 @@ msgstr "Maak een lijn object"
 msgid "Create a list"
 msgstr "Maak een lijst object"
 
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2745
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2749
 msgid "Create a new shared view of the workbook"
 msgstr "Maak een nieuwe gedeelde zicht op de werkmap"
 
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2571
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2575
 msgid "Create a new spreadsheet"
 msgstr "Nieuw rekenblad maken"
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2748
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2752
 msgid "Create a new unshared view of the workbook"
 msgstr "Maak een nieuwe ongedeelde zicht op de werkmap"
 
@@ -1682,22 +1687,22 @@ msgstr "Maak een schuifbalk"
 msgid "Create an arrow"
 msgstr "Maak een pijl object"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1414
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1415
 msgid "Cu_t"
 msgstr "K_nippen"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2766
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2770
 msgid "Current _date"
 msgstr "Huidige _datum"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2772
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2776
 msgid "Current _time"
 msgstr "Huidige _tijd"
 
 #: src/GNOME_Gnumeric.xml.h:66 src/selection.c:523 src/selection.c:526
-#: src/workbook-control-gui.c:3150
+#: src/workbook-control-gui.c:3154
 msgid "Cut"
 msgstr "Knippen"
 
@@ -1718,15 +1723,15 @@ msgstr "Precisie Verlagen"
 msgid "Decreases the number of decimals displayed"
 msgstr "Verlaagt het aantal weergegeven decimalen"
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2867
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2871
 msgid "Display _Formulas"
 msgstr "_Formules weergeven"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3060
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3064
 msgid "Display _Outlines"
 msgstr "_Outlines weergeven"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2868
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2872
 msgid "Display the value of a formula or the formula itself"
 msgstr "Toon de waarde van een formule of de formule zelf"
 
@@ -1746,15 +1751,15 @@ msgstr "Afsluiten"
 msgid "Edit a formula in the current cell"
 msgstr "Bewerk een functie in de huidige cel"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2590
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2594
 msgid "Edit descriptive information"
 msgstr "Beschrijvende informatie bewerken"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2781
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2785
 msgid "Edit sheet and workbook names"
 msgstr "Bewerk blad en werkmap namen"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2811
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2815
 msgid "Edit the selected cell's comment"
 msgstr "Bewerk de opmerking van de geselecteerde cel"
 
@@ -1762,11 +1767,11 @@ msgstr "Bewerk de opmerking van de geselecteerde cel"
 msgid "Ellipse"
 msgstr "Ellips"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2824
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2828
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Zorg dat kolommen breed genoeg zijn om de inhoud weer te geven."
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2843
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2847
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Zorg dat rijen hoog genoeg zijn om de inhoud weer te geven"
 
@@ -1774,19 +1779,19 @@ msgstr "Zorg dat rijen hoog genoeg zijn om de inhoud weer te geven"
 msgid "Exit the program"
 msgstr "Sluit het programma af"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2937
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2941
 msgid "Exponential smoothing"
 msgstr "Exponentieel Glad"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:2985
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:2989
 msgid "F_orecasting"
 msgstr "V_oorspellen"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3120
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3124
 msgid "F_ormat"
 msgstr "_Opmaak"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3082
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3086
 msgid "Filter data with given criteria"
 msgstr "Filter de gegevens met de opgegeven criteria."
 
@@ -1809,12 +1814,12 @@ msgstr "Lettertype selecteren"
 msgid "Foreground"
 msgstr "Voorgrond"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2911
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2915
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formateer een celbereik volgens een voor gedefinieerd sjabloon"
 
 #: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4063
-#: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:2988
+#: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:2992
 msgid "Fourier Analysis"
 msgstr "Fourier Analyse"
 
@@ -1827,7 +1832,7 @@ msgstr "Frame"
 msgid "Function Guru"
 msgstr "Functie Goeroe"
 
-#: src/GNOME_Gnumeric.xml.h:97 src/workbook-control-gui.c:2656
+#: src/GNOME_Gnumeric.xml.h:97 src/workbook-control-gui.c:2660
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 "Genereer steekproefgetallen voor een aantal verschillende soorten "
@@ -1837,7 +1842,7 @@ msgstr ""
 msgid "Graph Guru"
 msgstr "Grafiek Goeroe"
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2839
+#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2843
 msgid "H_eight..."
 msgstr "Hoogt_e..."
 
@@ -1845,7 +1850,7 @@ msgstr "Hoogt_e..."
 msgid "Hide _Column Headers"
 msgstr "Verberg _Kolom Koppen"
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2879
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2883
 msgid "Hide _Gridlines"
 msgstr "Verberg _Rasterlijnen"
 
@@ -1853,19 +1858,19 @@ msgstr "Verberg _Rasterlijnen"
 msgid "Hide _Row Headers"
 msgstr "Verberg _Rij Koppen"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2873
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2877
 msgid "Hide _Zeros"
 msgstr "Verberg _Nullen"
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2827
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2831
 msgid "Hide the selected columns"
 msgstr "Verberg de geselecteerde kolommen"
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2846
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2850
 msgid "Hide the selected rows"
 msgstr "Verberg de geselecteerde rijen."
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2575
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2579
 msgid "Imports a file"
 msgstr "Importeert een bestand"
 
@@ -1891,11 +1896,11 @@ msgid "Insert Shaped Component"
 msgstr "Gevormd Object Invoegen"
 
 #: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:464
-#: src/workbook-control-gui.c:2668
+#: src/workbook-control-gui.c:2672
 msgid "Insert a new sheet"
 msgstr "Voeg een nieuw werkblad toe"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2803
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2807
 msgid "Insert a new spreadsheet"
 msgstr "Voeg een nieuw rekenblad toe"
 
@@ -1907,23 +1912,23 @@ msgstr "Voeg een gevormd object in"
 msgid "Insert an object into the spreadsheet"
 msgstr "Voeg een object in"
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2794
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2798
 msgid "Insert new cells"
 msgstr "Nieuwe cellen invoegen"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2797
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2801
 msgid "Insert new columns"
 msgstr "Nieuwe kolommen invoegen"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2800
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2804
 msgid "Insert new rows"
 msgstr "Nieuwe rijen invoegen"
 
-#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:2767
+#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:2771
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Zet de huidige datum in de geselecteerde cel(len)"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:2773
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:2777
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Zet de huidige tijd in de geselecteerde cel(len)"
 
@@ -1939,7 +1944,7 @@ msgstr "Voegt een gevormd bonobo object in."
 msgid "Invoke the graph guru to create a graph"
 msgstr "Start de grafiek goeroe voor het maken van een grafiek"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2680
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2684
 msgid "Irrevocably remove an entire sheet"
 msgstr "Verwijder onherroepelijk een volledig werkblad"
 
@@ -1947,15 +1952,15 @@ msgstr "Verwijder onherroepelijk een volledig werkblad"
 msgid "Italicize"
 msgstr "Cursief maken"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3029
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3033
 msgid "Iteratively recalculate to find a target value"
 msgstr "Herhalend berekenen om een doelwaarde te vinden"
 
-#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3033
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3037
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Herhalend berekenen met beperkingen om een doelwaarde te bereiken"
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2729
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2733
 msgid "Jump to a specified cell"
 msgstr "Spring naar een specifieke cel"
 
@@ -1986,19 +1991,19 @@ msgstr "Lijst"
 msgid "Lock or unlock the top left cols/rows"
 msgstr "Vastzetten of loslaten van de kolommen/rijen links boven"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2664
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2668
 msgid "Make a copy of the current sheet"
 msgstr "Maak een kopie van het huidige werkblad"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2653
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2657
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Maak een tebel van de waarde van een cel als functie van andere cellen"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2830
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2834
 msgid "Make any hidden columns in the selection visible"
 msgstr "Maak verborgen kolommen in de selectie weer zichtbaar."
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2849
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2853
 msgid "Make any hidden rows in the selection visible"
 msgstr "Maak verborgen rijen in de selectie weer zichtbaar"
 
@@ -2027,11 +2032,11 @@ msgstr "Samenvoegen"
 msgid "Merge a range of cells"
 msgstr "Voeg een aantal cellen samen"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2903
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2907
 msgid "Modify the formatting of the selected cells"
 msgstr "Verander de opmaak van de geselecteerde cellen"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2915
+#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2919
 msgid "Modify the workbook attributes"
 msgstr "Verander de attributten van de werkmap"
 
@@ -2039,27 +2044,27 @@ msgstr "Verander de attributten van de werkmap"
 msgid "Money"
 msgstr "Geld"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2941
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2945
 msgid "Moving average"
 msgstr "Bewegend gemiddelde"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3129
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3133
 msgid "New"
 msgstr "Nieuw"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2744
+#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2748
 msgid "New _Shared"
 msgstr "Nieuw _Gedeeld"
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2747
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2751
 msgid "New _Unshared"
 msgstr "Nieuw _Ongedeeld"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2925
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2929
 msgid "One Factor Analysis of Variance"
 msgstr "Een Factor Analyse van Variantie"
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3132
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3136
 msgid "Open"
 msgstr "Openenen"
 
@@ -2071,11 +2076,11 @@ msgstr "Nieuw rekenblad"
 msgid "Open an existing workbook"
 msgstr "Open een bestaande werkmap"
 
-#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3066
+#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3070
 msgid "Outlines _Below"
 msgstr "Outlines onder"
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3072
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3076
 msgid "Outlines _Right"
 msgstr "Outlines _rechts"
 
@@ -2083,12 +2088,12 @@ msgstr "Outlines _rechts"
 msgid "P_aste Special..."
 msgstr "Pl_akken Speciaal..."
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2589
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2593
 msgid "P_roperties..."
 msgstr "Eigenschappen..."
 
 #: src/GNOME_Gnumeric.xml.h:160 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3156
+#: src/workbook-control-gui.c:3160
 msgid "Paste"
 msgstr "Plakken"
 
@@ -2100,11 +2105,11 @@ msgstr "De inhoud van het klembord plakken"
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "Plak de inhoud van het klembord of de buffer"
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2698
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2702
 msgid "Paste with optional filters and transformations"
 msgstr "Plakken met optionele filters en transformaties"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2976
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2980
 msgid "Pearson Correlation"
 msgstr "Pearson Correlatie"
 
@@ -2113,21 +2118,21 @@ msgstr "Pearson Correlatie"
 msgid "Percent"
 msgstr "Procent"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3000
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3004
 msgid "Periodic and random samples"
 msgstr "Periodieke en willekeurige steekproeven"
 
 #: src/GNOME_Gnumeric.xml.h:167 src/dialogs/print.glade.h:16
-#: src/workbook-control-gui.c:3141
+#: src/workbook-control-gui.c:3145
 msgid "Print"
 msgstr "Afdrukken"
 
-#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2584
+#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2588
 msgid "Print Pre_view..."
 msgstr "Afdruk_voorbeeld..."
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2584
-#: src/workbook-control-gui.c:3144
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2588
+#: src/workbook-control-gui.c:3148
 msgid "Print Preview"
 msgstr "Afdrukvoorbeeld"
 
@@ -2155,25 +2160,25 @@ msgstr "Radio Knop"
 msgid "Ranks and _Percentiles"
 msgstr "Rangen en _Percentielen"
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:2994
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:2998
 msgid "Ranks, placements and percentiles"
 msgstr "Rangen, plaatsingen en percentielen"
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:2675
-#: src/workbook-control-gui.c:2861
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:2679
+#: src/workbook-control-gui.c:2865
 msgid "Re-_Order Sheets..."
 msgstr "Rangschik B_laden..."
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2671
-#: src/workbook-control-gui.c:2858
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2675
+#: src/workbook-control-gui.c:2862
 msgid "Re_name..."
 msgstr "Her_noemen..."
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2733
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2737
 msgid "Recalculate"
 msgstr "Herberekenen"
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2734
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2738
 msgid "Recalculate the spreadsheet"
 msgstr "Bereken het rekenblad opnieuw"
 
@@ -2185,11 +2190,11 @@ msgstr "Rechthoek"
 msgid "Redo the undone action"
 msgstr "Herhaalt de ingreep"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2997
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3001
 msgid "Regression Analysis"
 msgstr "Regressie Analyse"
 
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:3054
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:3058
 msgid "Remove an outline group"
 msgstr "Verwijder een outline groep"
 
@@ -2199,8 +2204,8 @@ msgstr ""
 "Verwijder de geselecteerde cellen waardoor andere cellen in hun plaats "
 "schuiven"
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2672
-#: src/workbook-control-gui.c:2859
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2676
+#: src/workbook-control-gui.c:2863
 msgid "Rename the current sheet"
 msgstr "Geef het huidige werkblad een andere naam"
 
@@ -2213,15 +2218,15 @@ msgstr "Rechts"
 msgid "Right justifies the contents of each cell"
 msgstr "De celinhoud naar rechts uitlijnen"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2710
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2714
 msgid "S_heet"
 msgstr "_Blad"
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2814
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2818
 msgid "S_pecial"
 msgstr "_Speciaal"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3135
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3139
 msgid "Save"
 msgstr "Opslaan"
 
@@ -2245,43 +2250,43 @@ msgstr "Sla de huidige werkmap op"
 msgid "Scrollbar"
 msgstr "Schuifbalk"
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:2722
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:2726
 msgid "Search and Replace..."
 msgstr "Zoeken en Vervangen..."
 
-#: src/GNOME_Gnumeric.xml.h:198 src/workbook-control-gui.c:2717
+#: src/GNOME_Gnumeric.xml.h:198 src/workbook-control-gui.c:2721
 msgid "Search for some text"
 msgstr "Zoek naar een tekst"
 
-#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2723
+#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2727
 msgid "Search for some text and replace it with something else"
 msgstr "Zoek een bepaalde tekst en vervang die door iets anders"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2716
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2720
 msgid "Search..."
 msgstr "Zoeken..."
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2636
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2640
 msgid "Select Arra_y"
 msgstr "Selecteer reek_s"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2621
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2625
 msgid "Select _All"
 msgstr "_Alles Selecteren"
 
-#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2631
+#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2635
 msgid "Select _Column"
 msgstr "Selecteer _Kolom"
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2641
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2645
 msgid "Select _Depends"
 msgstr "Selecteer Afhankelijkheden"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2626
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2630
 msgid "Select _Row"
 msgstr "Selecteer _Rij"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2622
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2626
 msgid "Select all cells in the spreadsheet"
 msgstr "Selecteer alle cellen in het rekenblad"
 
@@ -2289,15 +2294,15 @@ msgstr "Selecteer alle cellen in het rekenblad"
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Selecteer alle cellen die afhankelijk zijn van de huidige actieve cel"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2637
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2641
 msgid "Select an array of cells"
 msgstr "Selecteer een celbereik"
 
-#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2632
+#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2636
 msgid "Select an entire column"
 msgstr "Selecteer gehele kolom"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2627
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2631
 msgid "Select an entire row"
 msgstr "Selecteer gehele rij"
 
@@ -2319,11 +2324,11 @@ msgstr "Stelt het formaat van de geselecteerde cellen in op percentage"
 msgid "Setup the page settings for your current printer"
 msgstr "Pagina-instellingen voor de huidige printer."
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3183
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3187
 msgid "Sort Ascending"
 msgstr "Sorteer Oplopend"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3186
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3190
 msgid "Sort Descending"
 msgstr "Sorteer Aflopend"
 
@@ -2355,13 +2360,13 @@ msgstr "Splitsen"
 msgid "Split merged ranges of cells"
 msgstr "Splits een aantal samengevoegde cellen"
 
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3038
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3042
 msgid "Statistical Anal_ysis"
 msgstr "_Statistische Analyses"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3176 src/workbook-control-gui.c:3795
-#: src/workbook-view.c:453
+#: src/workbook-control-gui.c:3180 src/workbook-control-gui.c:3799
+#: src/workbook-view.c:451
 msgid "Sum"
 msgstr "Som"
 
@@ -2373,43 +2378,43 @@ msgstr "Sommeer in huidige cel"
 msgid "Thousand separator"
 msgstr "Duizendtallen scheidingsteken"
 
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:2886
+#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:2890
 msgid "Toggle whether or not to display column headers"
 msgstr "Zet de weergave van kolom koppen aan of uit"
 
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:2880
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:2884
 msgid "Toggle whether or not to display gridlines"
 msgstr "Zet de weergave van rasterlijnen aan of uit"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3061
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3065
 msgid "Toggle whether or not to display outline groups"
 msgstr "Zet de weergave van outline groepen aan of uit"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2892
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2896
 msgid "Toggle whether or not to display row headers"
 msgstr "Zet de weergave van rij-koppen aan of uit"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:2874
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:2878
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Zet de weergave van nullen als lege cellen, aan of uit"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3073
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3077
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Zet de weergave van kolom-outlines links of rechts"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3067
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3071
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Zet de weergave van rij-outlines boven of onder"
 
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:2928
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:2932
 msgid "Two Factor Analysis of Variance"
 msgstr "Twee Factor Analyse van Variantie"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3003
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3007
 msgid "Two _Means"
 msgstr "Twee Ge_middelden:"
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3048
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3052
 msgid "Uncollapse an outline group"
 msgstr "Outline groep uitklappen"
 
@@ -2425,31 +2430,31 @@ msgstr "Onderstreep de tekst"
 msgid "Undo the last action"
 msgstr "Maak de laatste ingreep ongedaan"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2953
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2957
 msgid "Unpaired Samples, E_qual Var.: T-Test"
 msgstr "Niet gekoppelde Steekproeven, _Gelijke Var.: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2958
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2962
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr "Niet gekoppelde Steekproeven, _Ongelijke Var.: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3096
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3100
 msgid "Validate input with preset criteria"
 msgstr "Controleer invoer volgens de huidige criteria"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2991
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2995
 msgid "Various frequency tables"
 msgstr "Verscheidene frequentie tabellen"
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2982
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2986
 msgid "Various summary statistics"
 msgstr "Verscheidene samenvattings statistieken"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:2754
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:2758
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoom in of uit"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2973
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2977
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
@@ -2457,30 +2462,30 @@ msgstr "_ANOVA"
 msgid "_About..."
 msgstr "_Info..."
 
-#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1447
-#: src/workbook-control-gui.c:2810
+#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1448
+#: src/workbook-control-gui.c:2814
 msgid "_Add / Modify comment..."
 msgstr "Opmerking _Toevoegen/Aanpassen ..."
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2603
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2607
 msgid "_All"
 msgstr "_Volledig"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3022
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3026
 msgid "_Auto Save..."
 msgstr "_Automatisch Opslaan..."
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2823
-#: src/workbook-control-gui.c:2842
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2827
+#: src/workbook-control-gui.c:2846
 msgid "_Auto fit selection"
 msgstr "Selectie _Automatisch passend maken"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2910
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2914
 msgid "_Autoformat..."
 msgstr "_Automatische opmaak..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2902
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2906
 msgid "_Cells..."
 msgstr "_Cellen..."
 
@@ -2494,11 +2499,11 @@ msgstr "Sluiten"
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2796
+#: src/workbook-control-gui.c:2800
 msgid "_Columns"
 msgstr "_Kolommen"
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3098
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3102
 msgid "_Consolidate..."
 msgstr "_Consolideren..."
 
@@ -2507,32 +2512,32 @@ msgid "_Content"
 msgstr "_Inhoud"
 
 #: src/GNOME_Gnumeric.xml.h:257 src/item-cursor.c:1029
-#: src/sheet-control-gui.c:1416
+#: src/sheet-control-gui.c:1417
 msgid "_Copy"
 msgstr "Kopiëren"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:2975
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:2979
 msgid "_Correlation"
 msgstr "_Correlatie"
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3122
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3126
 msgid "_Data"
 msgstr "_Gegevens"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:2780
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:2784
 msgid "_Define..."
 msgstr "_Definieer..."
 
-#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1434
-#: src/workbook-control-gui.c:2705
+#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1435
+#: src/workbook-control-gui.c:2709
 msgid "_Delete..."
 msgstr "_Verwijderen..."
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2981
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2985
 msgid "_Descriptive Statistics"
 msgstr "_Beschrijvende Statistieken"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2663
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2667
 msgid "_Duplicate"
 msgstr "_Dupliceer"
 
@@ -2540,7 +2545,7 @@ msgstr "_Dupliceer"
 msgid "_Edit"
 msgstr "B_ewerken"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2936
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2940
 msgid "_Exponential Smoothing"
 msgstr "_Exponentieel Glad"
 
@@ -2549,32 +2554,32 @@ msgid "_File"
 msgstr "_Bestand"
 
 #: src/GNOME_Gnumeric.xml.h:267 src/dialogs/cell-format.glade.h:109
-#: src/workbook-control-gui.c:2714
+#: src/workbook-control-gui.c:2718
 msgid "_Fill"
 msgstr "_Vullen"
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3094
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3098
 msgid "_Filter"
 msgstr "_Filteren"
 
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2606
+#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2610
 msgid "_Formats"
 msgstr "_Opmaak"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2987
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2991
 msgid "_Fourier Analysis"
 msgstr "_Fourier Analyse"
 
 #: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:949
-#: src/workbook-control-gui.c:2756
+#: src/workbook-control-gui.c:2760
 msgid "_Freeze Panes"
 msgstr "_Raam Vastzetten"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3028
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3032
 msgid "_Goal Seek..."
 msgstr "_Doelzoeken..."
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2728
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2732
 msgid "_Goto cell..."
 msgstr "_Ga naar cel..."
 
@@ -2586,7 +2591,7 @@ msgstr "_Grafiek..."
 msgid "_Group"
 msgstr "_Groeperen"
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3104
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3108
 msgid "_Group and Outline"
 msgstr "_Groeperen en Outlines"
 
@@ -2594,26 +2599,26 @@ msgstr "_Groeperen en Outlines"
 msgid "_Help"
 msgstr "_Help"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1459
-#: src/sheet-control-gui.c:1467 src/workbook-control-gui.c:2826
-#: src/workbook-control-gui.c:2845
+#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1460
+#: src/sheet-control-gui.c:1468 src/workbook-control-gui.c:2830
+#: src/workbook-control-gui.c:2849
 msgid "_Hide"
 msgstr "_Verbergen"
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3044
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3048
 msgid "_Hide Detail"
 msgstr "Details verbergen"
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2990
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2994
 msgid "_Histogram"
 msgstr "_Histogram"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:2575
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:2579
 msgid "_Import..."
 msgstr "_Importeer..."
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:2667
-#: src/workbook-control-gui.c:3119
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:2671
+#: src/workbook-control-gui.c:3123
 msgid "_Insert"
 msgstr "_Invoegen"
 
@@ -2621,19 +2626,19 @@ msgstr "_Invoegen"
 msgid "_Insert new"
 msgstr "Nieuwe _Invoegen"
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:2963
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:2967
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr "_Bekende Varianties of Grote Steekproef: Z-Test"
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2940
+#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2944
 msgid "_Moving Average"
 msgstr "Bewegend Ge_middelde"
 
-#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:2808
+#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:2812
 msgid "_Name"
 msgstr "_Naam"
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:2571
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:2575
 msgid "_New"
 msgstr "_Nieuw"
 
@@ -2641,7 +2646,7 @@ msgstr "_Nieuw"
 msgid "_Object..."
 msgstr "_Object..."
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:2924
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:2928
 msgid "_One Factor"
 msgstr "_Een Factor"
 
@@ -2649,15 +2654,15 @@ msgstr "_Een Factor"
 msgid "_Open..."
 msgstr "_Openen..."
 
-#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:2949
+#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:2953
 msgid "_Paired Samples: T-Test"
 msgstr "_Gekoppelde Steekproeven: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1418
+#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1419
 msgid "_Paste"
 msgstr "_Plakken"
 
-#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3013
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3017
 msgid "_Plug-ins..."
 msgstr "_Plug-ins..."
 
@@ -2665,7 +2670,7 @@ msgstr "_Plug-ins..."
 msgid "_Print..."
 msgstr "_Afdrukken..."
 
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:2655
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:2659
 msgid "_Random Generator..."
 msgstr "Steekproefgetallen Generator..."
 
@@ -2673,16 +2678,16 @@ msgstr "Steekproefgetallen Generator..."
 msgid "_Redo"
 msgstr "He_rhalen"
 
-#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:2996
+#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3000
 msgid "_Regression"
 msgstr "_Regressie"
 
 #: src/GNOME_Gnumeric.xml.h:298 src/dialogs/autocorrect.glade.h:12
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2679
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2683
 msgid "_Remove"
 msgstr "Verwijde_ren"
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:2907
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:2911
 msgid "_Row"
 msgstr "_Rij"
 
@@ -2692,11 +2697,11 @@ msgstr "_Rij"
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
-#: src/workbook-control-gui.c:2799
+#: src/workbook-control-gui.c:2803
 msgid "_Rows"
 msgstr "_Rijen"
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:2999
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3003
 msgid "_Sampling"
 msgstr "_Steekproeven"
 
@@ -2704,7 +2709,7 @@ msgstr "_Steekproeven"
 msgid "_Save"
 msgstr "Op_slaan"
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:2712
+#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:2716
 msgid "_Select"
 msgstr "_Selecteren"
 
@@ -2712,32 +2717,32 @@ msgstr "_Selecteren"
 msgid "_Shaped Object"
 msgstr "Gevormd Object"
 
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:2802
-#: src/workbook-control-gui.c:2908
+#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:2806
+#: src/workbook-control-gui.c:2912
 msgid "_Sheet"
 msgstr "_Blad"
 
-#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3047
+#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3051
 msgid "_Show Detail"
 msgstr "Detail_s weergeven"
 
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3032
+#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3036
 msgid "_Solver..."
 msgstr "Oplo_sser..."
 
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3091
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3095
 msgid "_Sort..."
 msgstr "_Sorteren..."
 
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:2851
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:2855
 msgid "_Standard Height"
 msgstr "_Standaard Hoogte"
 
-#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:2832
+#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:2836
 msgid "_Standard Width"
 msgstr "_Standaard Breedte"
 
-#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:2652
+#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:2656
 msgid "_Tabulate Dependency..."
 msgstr "_Tabuleer Afhankelijkheid... "
 
@@ -2745,15 +2750,15 @@ msgstr "_Tabuleer Afhankelijkheid... "
 msgid "_Toolbars..."
 msgstr "_Knoppenbalken..."
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3121
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3125
 msgid "_Tools"
 msgstr "Ge_reedschap"
 
-#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2927
+#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2931
 msgid "_Two Factor"
 msgstr "_Twee Factor"
 
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3005
+#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3009
 msgid "_Two Variances: FTest"
 msgstr "_Twee Varianties: FTest"
 
@@ -2765,13 +2770,13 @@ msgstr "_Herstel"
 msgid "_Ungroup"
 msgstr "Groepering opheffen"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1461
-#: src/sheet-control-gui.c:1469 src/workbook-control-gui.c:2829
-#: src/workbook-control-gui.c:2848
+#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1462
+#: src/sheet-control-gui.c:1470 src/workbook-control-gui.c:2833
+#: src/workbook-control-gui.c:2852
 msgid "_Unhide"
 msgstr "_Zichtbaar maken"
 
-#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3095
+#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3099
 msgid "_Validate..."
 msgstr "C_ontroleren..."
 
@@ -2779,15 +2784,15 @@ msgstr "C_ontroleren..."
 msgid "_View"
 msgstr "_Weergave"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:2820
+#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:2824
 msgid "_Width..."
 msgstr "_Breedte"
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:2914
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:2918
 msgid "_Workbook..."
 msgstr "_Werkmap..."
 
-#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:2753
+#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:2757
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
@@ -2974,7 +2979,9 @@ msgstr "/df/SS/MS/F/Significantie van F"
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
 "%%"
-msgstr "/Coefficienten/Standaard Fout/t Stat/P-waarde/Onderste %%0.0%s%%%%/Bovenste %%0.0%s%%%%"
+msgstr ""
+"/Coefficienten/Standaard Fout/t Stat/P-waarde/Onderste %%0.0%s%%%%/Bovenste %"
+"%0.0%s%%%%"
 
 #: src/analysis-tools.c:2539
 msgid "Moving Averages"
@@ -3114,7 +3121,7 @@ msgstr "Imaginair"
 msgid "Error '%s' opening workbook stream"
 msgstr "Fout '%s' bij openen werkmap stroom"
 
-#: src/bonobo-io.c:474 src/format-template.c:627 src/xml-io.c:3265
+#: src/bonobo-io.c:474 src/format-template.c:627 src/xml-io.c:3272
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ongeldig xml bestand. Boom is leeg?"
 
@@ -3409,7 +3416,7 @@ msgid "Pasting into %s"
 msgstr "Plakken in %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2617 src/commands.c:2618 src/workbook-control-gui.c:1814
+#: src/commands.c:2617 src/commands.c:2618 src/workbook-control-gui.c:1817
 msgid "Autofill"
 msgstr "Autovul"
 
@@ -3476,29 +3483,39 @@ msgstr "Grootte van object veranderen"
 msgid "Move object"
 msgstr "Object verplaatsen"
 
-#: src/commands.c:4030
+#: src/commands.c:4059
+msgid "Renaming Sheets"
+msgstr "Bladen Hernoemen"
+
+#: src/commands.c:4062
+msgid "Reordering Sheets"
+msgstr "Bladen Herordenen"
+
+#: src/commands.c:4070
+#, fuzzy
+msgid "Adding a sheet"
+msgstr "Naam wijzigen van blad"
+
+#: src/commands.c:4073
+#, fuzzy, c-format
+msgid "Adding sheet '%s'"
+msgstr "Onbekend werkblad '%s'"
+
+#: src/commands.c:4077
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Naam wijzigen blad '%s' '%s'"
 
-#: src/commands.c:4034
-msgid "Renaming Sheets"
-msgstr "Bladen Hernoemen"
-
-#: src/commands.c:4037
-msgid "Reordering Sheets"
-msgstr "Bladen Herordenen"
-
-#: src/commands.c:4039
+#: src/commands.c:4082
 msgid "Reorganizing Sheets"
 msgstr "Bladen Herordenen"
 
-#: src/commands.c:4166
+#: src/commands.c:4209
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Commentaar van %s wissen"
 
-#: src/commands.c:4167
+#: src/commands.c:4210
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Commentaar van %s instellen"
@@ -4506,7 +4523,7 @@ msgid "Selection has"
 msgstr "Selectie heeft"
 
 #: src/dialogs/cell-sort.glade.h:3 src/dialogs/dialog-cell-sort.c:710
-#: src/workbook-control-gui.c:2451
+#: src/workbook-control-gui.c:2455
 msgid "Sort"
 msgstr "Sorteren"
 
@@ -4542,7 +4559,7 @@ msgstr "Kolom breedte (pts):"
 msgid "Add the entered area to the list of source areas"
 msgstr "Voeg het opgegeven bereik toe aan de lijst met bron bereiken."
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3798
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3802
 msgid "Average"
 msgstr "Gemiddelde"
 
@@ -4554,7 +4571,7 @@ msgstr "K_opieer labels"
 msgid "Clear the list of source areas"
 msgstr "Schoon de lijst van bron bereiken"
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3799
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3803
 msgid "Count"
 msgstr "Telling"
 
@@ -4586,11 +4603,11 @@ msgstr "In bovens_te rij"
 msgid "Labels"
 msgstr "Labels"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3797
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3801
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3796
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3800
 msgid "Min"
 msgstr "Min"
 
@@ -5107,7 +5124,8 @@ msgid ""
 "Two or more of the independent variables are nearly linear\n"
 "dependent.  Treat the regression result with great care!"
 msgstr ""
-"Twee of meer van de onafhankelijke variabelen zijn zowat lineair afhankelijk.\n"
+"Twee of meer van de onafhankelijke variabelen zijn zowat lineair "
+"afhankelijk.\n"
 "Beschouw het resultaat van de regressie met grote argwaan!"
 
 #: src/dialogs/dialog-analysis-tools.c:2704
@@ -5123,7 +5141,8 @@ msgid ""
 "Two or more of the independent variables are nearly linear\n"
 "dependent.  All numerical precision was lost in the computation."
 msgstr ""
-"Twee of meer van de onafhankelijke variabelen zijn zowat lineair afhankelijk.\n"
+"Twee of meer van de onafhankelijke variabelen zijn zowat lineair "
+"afhankelijk.\n"
 "De numerische precisie is in de berekening verloren gegaan."
 
 #: src/dialogs/dialog-analysis-tools.c:2718
@@ -5486,9 +5505,13 @@ msgstr "Geen oplossing gevonden voor doelzoeken met cel %s"
 msgid "Could not create the Goal-Seek dialog."
 msgstr "Kon het Doel-Zoeken dialoogvenster niet maken."
 
+#.
+#. * Fill in the labels of `Target Cell' section.
+#.
 #: src/dialogs/dialog-goto-cell.c:47 src/dialogs/tabulate.glade.h:1
-#: src/solver-lp.c:940 src/solver-lp.c:964 src/solver-lp.c:997
-#: src/solver-lp.c:1091 src/solver-lp.c:1138
+#: src/tools/solver/reports.c:137 src/tools/solver/reports.c:161
+#: src/tools/solver/reports.c:189 src/tools/solver/reports.c:290
+#: src/tools/solver/reports.c:319
 msgid "Cell"
 msgstr "Cel"
 
@@ -5728,24 +5751,24 @@ msgstr "Huidige Naam"
 msgid "New Name"
 msgstr "Nieuwe Naam"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:64
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:65
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
 #. xgettext: Int == Integer constraint for the linear program
-#: src/dialogs/dialog-solver.c:69 src/dialogs/solver.glade.h:9
+#: src/dialogs/dialog-solver.c:68 src/dialogs/solver.glade.h:9
 msgid "Int"
 msgstr "Int"
 
-#: src/dialogs/dialog-solver.c:745
+#: src/dialogs/dialog-solver.c:749
 msgid ""
 "Solver found an optimal solution. All constraints and optimality conditions "
 "are satisfied.\n"
@@ -5753,21 +5776,21 @@ msgstr ""
 "Oplosser heeft een optimale oplossing gevonden. Aan alle rand, en "
 "optimaliserings voorwaarden is voldaan.\n"
 
-#: src/dialogs/dialog-solver.c:752
+#: src/dialogs/dialog-solver.c:756
 msgid "The Target Cell value does not converge!"
 msgstr "De Doelcel waarde convergeert niet!"
 
-#: src/dialogs/dialog-solver.c:756
+#: src/dialogs/dialog-solver.c:760
 #, c-format
 msgid "Solver was not successful: %i"
 msgstr "Oplosser was niet succesvol: %i"
 
-#: src/dialogs/dialog-solver.c:780
+#: src/dialogs/dialog-solver.c:783
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Voorwaarde `%s' is voor een cel dat geen invoercel is."
 
-#: src/dialogs/dialog-solver.c:1023
+#: src/dialogs/dialog-solver.c:1028
 msgid "Could not create the Solver dialog."
 msgstr "Kon het Oplosser dialoogvenster niet maken."
 
@@ -6316,8 +6339,8 @@ msgstr "Vergroting"
 msgid "Sheets"
 msgstr "Bladen"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3346
-#: src/workbook-control-gui.c:3386
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3350
+#: src/workbook-control-gui.c:3390
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -6780,7 +6803,7 @@ msgid "Scale"
 msgstr "Schaal"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1030 src/xml-io.c:2954
+#: src/workbook.c:1035 src/workbook.c:1282 src/xml-io.c:2961
 msgid "Sheet"
 msgstr "Blad"
 
@@ -7293,7 +7316,8 @@ msgstr "Neem _Niet-Negatief Aan"
 msgid "B_y Changing Cells: "
 msgstr "Door Cellen te _Veranderen:"
 
-#: src/dialogs/solver.glade.h:7 src/solver-lp.c:996 src/solver-lp.c:1130
+#: src/dialogs/solver.glade.h:7 src/tools/solver/reports.c:257
+#: src/tools/solver/reports.c:367
 msgid "Constraints"
 msgstr "Beperkingen"
 
@@ -9897,16 +9921,18 @@ msgstr ""
 "@SEEALSO=MONTH"
 
 #: src/functions/fn-date.c:922
+#, fuzzy
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
-"@DESCRIPTION=WORKDAY returns the day which is @days working days from the "
+"@DESCRIPTION=WORKDAY returns the date which is @days working days from the "
 "@start_date.  Weekends and holidays optionally supplied in @holidays are "
 "respected.\n"
 "Returns #NUM! if @start_date or @days are invalid.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
-"WORKDAY(DATE(2001,1,5),DATE(2001,2,15)) equals 88609.\n"
+"DAY(WORKDAY(DATE(2001,1,5),30)) equals 16 and\n"
+"MONTH(WORKDAY(DATE(2001,1,5),30)) equals 2.\n"
 "\n"
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
@@ -9923,18 +9949,19 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #. Path of the current directory or folder.
-#: src/functions/fn-date.c:958 src/functions/fn-eng.c:77
+#: src/functions/fn-date.c:960 src/functions/fn-eng.c:77
 #: src/functions/fn-information.c:393 src/functions/fn-information.c:409
 msgid "Unimplemented"
 msgstr "Niet geimplementeerd"
 
-#: src/functions/fn-date.c:993
+#: src/functions/fn-date.c:995
+#, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
 "@DESCRIPTION=NETWORKDAYS returns the number of non-weekend non-holidays "
-"between @start_date and @end_date.  Holidays optionally supplied in "
-"@holidays.\n"
+"between @start_date and @end_date including these dates. Holidays are "
+"optionally supplied in @holidays.\n"
 "Returns #NUM! if start_date or end_date are invalid.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -9955,7 +9982,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1116
+#: src/functions/fn-date.c:1129
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9983,7 +10010,7 @@ msgstr ""
 "ISOWEEKNUM(A1)=51\n"
 "@SEEALSO=WEEKNUM"
 
-#: src/functions/fn-date.c:1160
+#: src/functions/fn-date.c:1173
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -10024,7 +10051,7 @@ msgstr ""
 "WEEKNUM(A1;2)=51\n"
 "@SEEALSO=ISOWEEKNUM"
 
-#: src/functions/fn-date.c:1219
+#: src/functions/fn-date.c:1232
 msgid "Date / Time"
 msgstr "Datum / Tijd"
 
@@ -14172,8 +14199,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(zoekwaarde;bereik;kolom[;benaderen;als_index])\n"
-"@DESCRIPTION=VLOOKUP vindt de rij waarvan de eerste kolom-cel dezelfde waarde heeft als de @zoekwaarde. Het zoeken vindt plaats in het opgegeven @bereik. Als @benaderen ONWAAR is wordt gezocht naar een exacte overeenkomst. Als @benaderen WAAR is, moeten de waarden in de eerste kolom van het @bereik gesorteerd zijn in oplopende volgorde. In dat geval vindt het de rijwaarde die kleiner is dan de @zoekwaarde. @als_index geeft de offset van de overeenkomst in plaats van de waarde.\n"
-"Geeft een #GETAL! foutmelding als @kolom< 0. Geeft een #VERW! als @kolom buiten het @bereik valt.\n"
+"@DESCRIPTION=VLOOKUP vindt de rij waarvan de eerste kolom-cel dezelfde "
+"waarde heeft als de @zoekwaarde. Het zoeken vindt plaats in het opgegeven "
+"@bereik. Als @benaderen ONWAAR is wordt gezocht naar een exacte "
+"overeenkomst. Als @benaderen WAAR is, moeten de waarden in de eerste kolom "
+"van het @bereik gesorteerd zijn in oplopende volgorde. In dat geval vindt "
+"het de rijwaarde die kleiner is dan de @zoekwaarde. @als_index geeft de "
+"offset van de overeenkomst in plaats van de waarde.\n"
+"Geeft een #GETAL! foutmelding als @kolom< 0. Geeft een #VERW! als @kolom "
+"buiten het @bereik valt.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HLOOKUP"
@@ -14196,8 +14230,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(zoekwaarde;bereik;rij[;benaderen])\n"
-"@DESCRIPTION=HLOOKUP vindt de kolom waarvan de eerste rij-cel dezelfde waarde heeft als de @zoekwaarde. Het zoeken vindt plaats in het opgegeven @bereik. Als @benaderen ONWAAR is wordt gezocht naar een exacte overeenkomst. Als @benaderen WAAR is, moeten de waarden in de eerste rij van het @bereik gesorteerd zijn in oplopende volgorde. In dat geval vindt het de kolomwaarde die kleiner is dan de @zoekwaarde. @als_index geeft de offset in plaats van de waarde.\n"
-"Geeft een #GETAL! foutmelding als @rij < 0. Geeft een #VERW! als @rij buiten het @bereik valt.\n"
+"@DESCRIPTION=HLOOKUP vindt de kolom waarvan de eerste rij-cel dezelfde "
+"waarde heeft als de @zoekwaarde. Het zoeken vindt plaats in het opgegeven "
+"@bereik. Als @benaderen ONWAAR is wordt gezocht naar een exacte "
+"overeenkomst. Als @benaderen WAAR is, moeten de waarden in de eerste rij van "
+"het @bereik gesorteerd zijn in oplopende volgorde. In dat geval vindt het de "
+"kolomwaarde die kleiner is dan de @zoekwaarde. @als_index geeft de offset in "
+"plaats van de waarde.\n"
+"Geeft een #GETAL! foutmelding als @rij < 0. Geeft een #VERW! als @rij buiten "
+"het @bereik valt.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=VLOOKUP"
@@ -15275,7 +15316,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDEXP\n"
 "@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP geeft een willekeurig getal volgens een exponentiele distributie.\n"
+"@DESCRIPTION=RANDEXP geeft een willekeurig getal volgens een exponentiele "
+"distributie.\n"
 "@EXAMPLES=\n"
 "RANDEXP(0,5)\n"
 "\n"
@@ -15293,7 +15335,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDPOISSON\n"
 "@SYNTAX=RANDPOISSON(lambda)\n"
-"@DESCRIPTION=RANDPOISSON geeft een willekeurig getal volgens een Poisson distributie.\n"
+"@DESCRIPTION=RANDPOISSON geeft een willekeurig getal volgens een Poisson "
+"distributie.\n"
 "@EXAMPLES=\n"
 "RANDPOISSON(3)\n"
 "\n"
@@ -15313,8 +15356,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p;trekkingen)\n"
-"@DESCRIPTION=RANDNEGBINOM geeft een willekeurig getal volgens een Binomiale distributie. \n"
-"Als @p < 0 of @p > 1, geeft RANDBINOM een #GETAL! foutmelding. Als @trekkingen < 0 geeft RANDBINOM een #GETAL! foutmelding.\n"
+"@DESCRIPTION=RANDNEGBINOM geeft een willekeurig getal volgens een Binomiale "
+"distributie. \n"
+"Als @p < 0 of @p > 1, geeft RANDBINOM een #GETAL! foutmelding. Als "
+"@trekkingen < 0 geeft RANDBINOM een #GETAL! foutmelding.\n"
 "@EXAMPLES=\n"
 "RANDBINOM(0,5;2)\n"
 "\n"
@@ -15335,8 +15380,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p;mislukkingen)\n"
-"@DESCRIPTION=RANDNEGBINOM geeft een willekeurig getal volgens een negatief Binomiale distributie. \n"
-"Als @p < 0 of @p > 1, geeft RANDNEGBINOM een #GETAL! foutmelding. Als @mislukkingen < 0 geeft RANDNEGBINOM een #GETAL! foutmelding.\n"
+"@DESCRIPTION=RANDNEGBINOM geeft een willekeurig getal volgens een negatief "
+"Binomiale distributie. \n"
+"Als @p < 0 of @p > 1, geeft RANDNEGBINOM een #GETAL! foutmelding. Als "
+"@mislukkingen < 0 geeft RANDNEGBINOM een #GETAL! foutmelding.\n"
 "@EXAMPLES=\n"
 "RANDNEGBINOM(0,5;2)\n"
 "\n"
@@ -15355,7 +15402,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDBERNOULLI\n"
 "@SYNTAX=RANDBERNOULLI(p)\n"
-"@DESCRIPTION=RANDBERNOULLI geeft een willekeurig getal volgens een Bernoulli distributie\n"
+"@DESCRIPTION=RANDBERNOULLI geeft een willekeurig getal volgens een Bernoulli "
+"distributie\n"
 "Als @p < 0 of @p > 1 geeft RANDBERNOULLI een #GETAL! foutmelding.\n"
 "@EXAMPLES=\n"
 "RANDBERNOULLI(0,5)\n"
@@ -15639,7 +15687,8 @@ msgstr ""
 "@SYNTAX=PI()\n"
 "@DESCRIPTION=PI geeft de waarde van pi.\n"
 "Deze functie wordt zonder argumenten aangeroepen.\n"
-"Deze functie is compatibel met Excel, behalve dat pi met een grotere nauwkeurigheid wordt gegeven.\n"
+"Deze functie is compatibel met Excel, behalve dat pi met een grotere "
+"nauwkeurigheid wordt gegeven.\n"
 "@EXAMPLES=\n"
 "PI() is ongeveer 3,141593\n"
 "\n"
@@ -17479,8 +17528,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n;trekkingen;p;cumulatief)\n"
-"@DESCRIPTION=BINOMDIST geeft de binomiale distributie. @n is het aantal successen, @trekkingen is het totale aantal onafhankelijke trekkingen, @p is de waarschijnlijkheid van succes in een trekking en @cumulatief bepaalt of het resultaat de som van de binomiaal functie moet zijn van 0 to @n.\n"
-"Als @n of @trekkingen geen geheel getal zijn worden ze afgekapt. Als @n < 0 of @trekkingen < 0 geeft BINOMDIST een #NUM! foutmelding. Als @p < 0 of @p > 1 geeft BINOMDIST een #GETAL! foutmelding.\n"
+"@DESCRIPTION=BINOMDIST geeft de binomiale distributie. @n is het aantal "
+"successen, @trekkingen is het totale aantal onafhankelijke trekkingen, @p is "
+"de waarschijnlijkheid van succes in een trekking en @cumulatief bepaalt of "
+"het resultaat de som van de binomiaal functie moet zijn van 0 to @n.\n"
+"Als @n of @trekkingen geen geheel getal zijn worden ze afgekapt. Als @n < 0 "
+"of @trekkingen < 0 geeft BINOMDIST een #NUM! foutmelding. Als @p < 0 of @p > "
+"1 geeft BINOMDIST een #GETAL! foutmelding.\n"
 "Deze functie is compatibel met Excel.\n"
 "@EXAMPLES=\n"
 "BINOMDIST(3; 5; 0,8 ;0) is 0,2048\n"
@@ -19529,10 +19583,28 @@ msgstr "Gedetailleerde foutmelding"
 msgid "Show details"
 msgstr "Geef details weer"
 
-#: src/gui-util.c:873
+#: src/gui-util.c:848
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Niet in staat om bestand '%s' te openen"
+
+#: src/gutils.c:564
+msgid ""
+"This version of Gnumeric has been compiled with inadequate precision in "
+"modfgnum."
+msgstr ""
+
+#: src/gutils.c:658
+msgid ""
+"This version of Gnumeric has been compiled with inadequate precision in "
+"frexpgnum."
+msgstr ""
+
+#: src/gutils.c:711
+msgid ""
+"This version of Gnumeric has been compiled with inadequate precision in "
+"yngnum."
+msgstr ""
 
 #.
 #. * xgettext:
@@ -19600,57 +19672,57 @@ msgstr "Schuif cellen naar rechts en verplaats"
 msgid "C_ancel"
 msgstr "_Afbreken"
 
-#: src/main.c:81
+#: src/main.c:80
 msgid "Display Gnumeric's version"
 msgstr "Geef Gnumeric's versie nummer weer"
 
-#: src/main.c:83
+#: src/main.c:82
 msgid "Set the root library directory"
 msgstr "Stel het pad van de root bibliotheek in"
 
-#: src/main.c:85
+#: src/main.c:84
 msgid "Adjust the root data directory"
 msgstr "Verander het root data pad"
 
-#: src/main.c:88
+#: src/main.c:87
 msgid "Dumps the function definitions"
 msgstr "Dump de functie definities"
 
-#: src/main.c:88
+#: src/main.c:87
 msgid "FILE"
 msgstr "BESTAND"
 
-#: src/main.c:91
+#: src/main.c:90
 msgid "Enables some debugging functions"
 msgstr "Schakelt enkele debug functies in"
 
-#: src/main.c:91 src/main.c:94 src/main.c:96
+#: src/main.c:90 src/main.c:93 src/main.c:95
 msgid "LEVEL"
 msgstr "LEVEL"
 
-#: src/main.c:94
+#: src/main.c:93
 msgid "Enables some dependency related debugging functions"
 msgstr "Zet enkele afhankelijkheids gerelateerde debug functies aan"
 
-#: src/main.c:96
+#: src/main.c:95
 msgid "Enables some print debugging behavior"
 msgstr "Schakelt enkele debug functies voor printen in"
 
-#: src/main.c:99
+#: src/main.c:98
 msgid "Specify the size and location of the initial window"
 msgstr "Geef de maat en de plaats van het eerste window"
 
-#: src/main.c:99
+#: src/main.c:98
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "BREEDTExHOOGTE+XOFF+YOFF"
 
-#: src/main.c:103
+#: src/main.c:102
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Stop onmiddelijk na het laden van de geselecteerde mappen (handig voor "
 "testen)"
 
-#: src/main.c:132
+#: src/main.c:131
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -19676,7 +19748,7 @@ msgstr ""
 "\n"
 "-- Het Gnumeric Team."
 
-#: src/main.c:188
+#: src/main.c:187
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -19687,11 +19759,11 @@ msgstr ""
 "gegevenspad := '%s'\n"
 "bibliotheekpad := '%s'\n"
 
-#: src/main.c:248
+#: src/main.c:247
 msgid "Could not initialize Workbook factory"
 msgstr "Fout bij initialiseren Gnumeric Werkmap fabriek"
 
-#: src/main.c:252
+#: src/main.c:251
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Fout bij initialiseren EmbeddableGrid object"
 
@@ -19948,7 +20020,7 @@ msgstr "Fout bij openen bestand \"%s\" voor lezen."
 msgid "Unable to mmap the file."
 msgstr "Fout bij mmap-en bestand."
 
-#: src/plugin-util.c:318 src/xml-io.c:3231
+#: src/plugin-util.c:318 src/xml-io.c:3238
 msgid "Cannot get file size."
 msgstr "Kan bestandsgrootte niet krijgen."
 
@@ -20203,7 +20275,7 @@ msgstr "Ongeldige backslash aan het einde van de vervangende tekst."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "kan niet uitgevoerd worden met meerdere selecties"
 
-#: src/sheet-control-gui.c:1420
+#: src/sheet-control-gui.c:1421
 msgid "Paste _Special"
 msgstr "Plakken _Speciaal"
 
@@ -20214,41 +20286,41 @@ msgstr "Plakken _Speciaal"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1432
+#: src/sheet-control-gui.c:1433
 msgid "_Insert..."
 msgstr "_Invoegen..."
 
-#: src/sheet-control-gui.c:1436
+#: src/sheet-control-gui.c:1437
 msgid "_Insert Column(s)"
 msgstr "Kolom(men) _Invoegen"
 
-#: src/sheet-control-gui.c:1438
+#: src/sheet-control-gui.c:1439
 msgid "_Delete Column(s)"
 msgstr "Kolom(men) Verwij_deren"
 
-#: src/sheet-control-gui.c:1440
+#: src/sheet-control-gui.c:1441
 msgid "_Insert Row(s)"
 msgstr "Rij(en) _Invoegen"
 
-#: src/sheet-control-gui.c:1442
+#: src/sheet-control-gui.c:1443
 msgid "_Delete Row(s)"
 msgstr "Rij(en) Verwij_deren"
 
-#: src/sheet-control-gui.c:1445
+#: src/sheet-control-gui.c:1446
 msgid "Clear Co_ntents"
 msgstr "I_nhoud Leegmaken"
 
-#: src/sheet-control-gui.c:1453
+#: src/sheet-control-gui.c:1454
 msgid "_Format Cells..."
 msgstr "_Celeigenschappen..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1457
+#: src/sheet-control-gui.c:1458
 msgid "Column _Width..."
 msgstr "Kolom _Breedte..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1465
+#: src/sheet-control-gui.c:1466
 msgid "_Row Height..."
 msgstr "_Rij Hoogte..."
 
@@ -20366,138 +20438,37 @@ msgstr "Checkbox Instellingen"
 msgid "Label:"
 msgstr "Label:"
 
-#: src/sheet.c:2118
+#: src/sheet.c:2119
 msgid "Target region contains merged cells"
 msgstr "Doel gebied bevat samengevoegde cellen"
 
-#: src/sheet.c:2180
+#: src/sheet.c:2181
 msgid "cannot operate on merged cells"
 msgstr "kan niet toepassen op samengevoegde cellen"
 
-#: src/sheet.c:2191
+#: src/sheet.c:2192
 msgid "cannot operate on array formulae"
 msgstr "kan niet worden toegepast op array formules"
 
-#: src/sheet.c:3042
+#: src/sheet.c:3043
 msgid "Clear"
 msgstr "Leegmaken"
 
-#: src/sheet.c:3450
+#: src/sheet.c:3451
 msgid "Insert Columns"
 msgstr "Kolommen Invoegen"
 
-#: src/sheet.c:3507
+#: src/sheet.c:3508
 msgid "Delete Columns"
 msgstr "Kolommen Verwijderen"
 
-#: src/sheet.c:3561
+#: src/sheet.c:3562
 msgid "Insert Rows"
 msgstr "Rijen Invoegen"
 
-#: src/sheet.c:3618
+#: src/sheet.c:3619
 msgid "Delete Rows"
 msgstr "Rijen Verwijderen"
-
-#: src/solver-lp.c:932
-msgid "Answer Report"
-msgstr "Verslag Beantwoorden"
-
-#: src/solver-lp.c:933
-msgid "Gnumeric Solver Answer Report"
-msgstr "Gnumeric Oplosser Antwoord Verslag"
-
-#: src/solver-lp.c:937
-msgid "Target Cell (Maximize)"
-msgstr "Doel Cel (Maximaliseren)"
-
-#: src/solver-lp.c:939
-msgid "Target Cell (Minimize)"
-msgstr "Doel Cel (Minimaliseren)"
-
-#: src/solver-lp.c:942 src/solver-lp.c:966
-msgid "Original Value"
-msgstr "Oorspronkelijke Waarde"
-
-#: src/solver-lp.c:943 src/solver-lp.c:967
-msgid "Final Value"
-msgstr "Eind Waarde"
-
-#: src/solver-lp.c:963 src/solver-lp.c:1085
-msgid "Adjustable Cells"
-msgstr "Aanpasbare Cellen"
-
-#: src/solver-lp.c:999
-msgid "Cell Value"
-msgstr "Cel Waarde"
-
-#: src/solver-lp.c:1000
-msgid "Formula"
-msgstr "Formule"
-
-#: src/solver-lp.c:1048
-msgid "Binding"
-msgstr "Binding"
-
-#: src/solver-lp.c:1050
-msgid "Not Binding"
-msgstr "Geen Binding"
-
-#: src/solver-lp.c:1083
-msgid "Sensitivity Report"
-msgstr "Gevoeligheids Verslag"
-
-#: src/solver-lp.c:1084
-msgid "Gnumeric Solver Sensitivity Report"
-msgstr "Gnumeric Oplosser Gevoeligheids Verslag"
-
-#: src/solver-lp.c:1086 src/solver-lp.c:1132
-msgid "Final"
-msgstr "Laatste"
-
-#: src/solver-lp.c:1087
-msgid "Reduced"
-msgstr "Gereduceerd"
-
-#: src/solver-lp.c:1088
-msgid "Objective"
-msgstr "Objectief"
-
-#: src/solver-lp.c:1089 src/solver-lp.c:1090 src/solver-lp.c:1135
-#: src/solver-lp.c:1136
-msgid "Allowable"
-msgstr "Toelaatbaar"
-
-#: src/solver-lp.c:1094
-msgid "Cost"
-msgstr "Kosten"
-
-#: src/solver-lp.c:1095
-msgid "Coefficient"
-msgstr "Coefficient"
-
-#: src/solver-lp.c:1096 src/solver-lp.c:1143
-msgid "Increase"
-msgstr "Ophogen"
-
-#: src/solver-lp.c:1097 src/solver-lp.c:1144
-msgid "Decrease"
-msgstr "Verlagen"
-
-#: src/solver-lp.c:1133
-msgid "Shadow"
-msgstr "Shaduw"
-
-#: src/solver-lp.c:1134
-msgid "Constraint"
-msgstr "Beperking"
-
-#: src/solver-lp.c:1141
-msgid "Price"
-msgstr "Prijs"
-
-#: src/solver-lp.c:1142
-msgid "R.H. Side"
-msgstr "Rechterkant"
 
 #: src/stf-parse.c:35
 #, c-format
@@ -20547,6 +20518,105 @@ msgstr "Tekst invoer (instelbaar)"
 #: src/stf.c:418
 msgid "Text export (configurable)"
 msgstr "Tekst uitvoer (instelbaar)"
+
+#: src/tools/solver/reports.c:91
+#, fuzzy
+msgid "Gnumeric Solver"
+msgstr "Gnumeric"
+
+#: src/tools/solver/reports.c:96
+msgid "Worksheet:"
+msgstr ""
+
+#: src/tools/solver/reports.c:103
+msgid "Report Created:"
+msgstr ""
+
+#. Fill in the header titles.
+#: src/tools/solver/reports.c:124 src/tools/solver/reports.c:253
+msgid "Answer Report"
+msgstr "Verslag Beantwoorden"
+
+#: src/tools/solver/reports.c:139 src/tools/solver/reports.c:163
+msgid "Original Value"
+msgstr "Oorspronkelijke Waarde"
+
+#: src/tools/solver/reports.c:140 src/tools/solver/reports.c:164
+msgid "Final Value"
+msgstr "Eind Waarde"
+
+#: src/tools/solver/reports.c:191
+msgid "Cell Value"
+msgstr "Cel Waarde"
+
+#: src/tools/solver/reports.c:192
+msgid "Formula"
+msgstr "Formule"
+
+#: src/tools/solver/reports.c:223
+msgid "Binding"
+msgstr "Binding"
+
+#: src/tools/solver/reports.c:225
+msgid "Not Binding"
+msgstr "Geen Binding"
+
+#: src/tools/solver/reports.c:248
+msgid "Target Cell (Maximize)"
+msgstr "Doel Cel (Maximaliseren)"
+
+#: src/tools/solver/reports.c:250
+msgid "Target Cell (Minimize)"
+msgstr "Doel Cel (Minimaliseren)"
+
+#. Fill in other titles.
+#: src/tools/solver/reports.c:256 src/tools/solver/reports.c:366
+msgid "Adjustable Cells"
+msgstr "Aanpasbare Cellen"
+
+#.
+#. * Fill in the titles.
+#.
+#. Fill in the header titles.
+#: src/tools/solver/reports.c:274 src/tools/solver/reports.c:363
+msgid "Sensitivity Report"
+msgstr "Gevoeligheids Verslag"
+
+#.
+#. * Fill in the labels of `Adjustable Cells' section.
+#.
+#: src/tools/solver/reports.c:288 src/tools/solver/reports.c:317
+msgid "Final"
+msgstr "Laatste"
+
+#: src/tools/solver/reports.c:289
+msgid "Reduced"
+msgstr "Gereduceerd"
+
+#: src/tools/solver/reports.c:293
+#, fuzzy
+msgid "Gradient"
+msgstr "Afdrukken"
+
+#: src/tools/solver/reports.c:318
+#, fuzzy
+msgid "Lagrange"
+msgstr "Bereik"
+
+#: src/tools/solver/reports.c:322
+#, fuzzy
+msgid "Multiplier"
+msgstr "Vermenigvuldigen"
+
+#: src/tools/solver/solver.c:362
+msgid "Target cell is empty. The objective function cannot be determined."
+msgstr ""
+
+#: src/tools/solver/solver.c:379
+msgid ""
+"Some of the input cells contain non-numeric values.  Specify a valid input "
+"range."
+msgstr ""
 
 #: src/validation.c:140
 #, c-format
@@ -20668,13 +20738,13 @@ msgstr "Niets"
 msgid "Un_freeze Panes"
 msgstr "Raam Loslaten"
 
-#: src/workbook-control-gui.c:1011 src/workbook-control-gui.c:3163
-#: src/workbook-control-gui.c:3358 src/workbook-control-gui.c:3380
+#: src/workbook-control-gui.c:1011 src/workbook-control-gui.c:3167
+#: src/workbook-control-gui.c:3362 src/workbook-control-gui.c:3384
 msgid "Undo"
 msgstr "Ongedaan maken"
 
-#: src/workbook-control-gui.c:1012 src/workbook-control-gui.c:3166
-#: src/workbook-control-gui.c:3365 src/workbook-control-gui.c:3383
+#: src/workbook-control-gui.c:1012 src/workbook-control-gui.c:3170
+#: src/workbook-control-gui.c:3369 src/workbook-control-gui.c:3387
 msgid "Redo"
 msgstr "Herhalen"
 
@@ -20696,7 +20766,7 @@ msgstr "Werkmap %s heeft niet opgeslagen wijzingen, deze wijzingen opslaan?"
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Werkmap heeft niet opgeslagen wijzingen, deze wijzingen opslaan?"
 
-#: src/workbook-control-gui.c:1727
+#: src/workbook-control-gui.c:1730
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -20715,7 +20785,7 @@ msgstr ""
 "\n"
 "De vervanging is afgebroken en niets is veranderd."
 
-#: src/workbook-control-gui.c:1764
+#: src/workbook-control-gui.c:1767
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "Opmerking in cel %s!%s"
@@ -20724,7 +20794,7 @@ msgstr "Opmerking in cel %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1974
+#: src/workbook-control-gui.c:1978
 msgid "Insert rows"
 msgstr "Rijen Invoegen"
 
@@ -20732,146 +20802,146 @@ msgstr "Rijen Invoegen"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1992
+#: src/workbook-control-gui.c:1996
 msgid "Insert columns"
 msgstr "Kolommen Invoegen"
 
-#: src/workbook-control-gui.c:2327
+#: src/workbook-control-gui.c:2331
 msgid "Show"
 msgstr "Toon"
 
-#: src/workbook-control-gui.c:2327
+#: src/workbook-control-gui.c:2331
 msgid "Hide"
 msgstr "_Verbergen"
 
-#: src/workbook-control-gui.c:2344
+#: src/workbook-control-gui.c:2348
 msgid "can only be performed on an existing group"
 msgstr "kan enkel worden uitgevoerd op een bestaande groep"
 
-#: src/workbook-control-gui.c:2368
+#: src/workbook-control-gui.c:2372
 msgid "Group"
 msgstr "Groepeer"
 
-#: src/workbook-control-gui.c:2368
+#: src/workbook-control-gui.c:2372
 msgid "Ungroup"
 msgstr "Groepering opheffen"
 
-#: src/workbook-control-gui.c:2513
+#: src/workbook-control-gui.c:2517
 msgid "Select an object to add"
 msgstr "Selecteer een object om toe te voegen"
 
-#: src/workbook-control-gui.c:2524
+#: src/workbook-control-gui.c:2528
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "Kan object van type '%s' niet maken"
 
-#: src/workbook-control-gui.c:2612
+#: src/workbook-control-gui.c:2616
 msgid "_Contents"
 msgstr "_Inhoud"
 
-#: src/workbook-control-gui.c:2642
+#: src/workbook-control-gui.c:2646
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "Selecteer alle cellen die afhankelijk zijn van de huidige actieve cel"
 
-#: src/workbook-control-gui.c:2697
+#: src/workbook-control-gui.c:2701
 msgid "P_aste special..."
 msgstr "Pl_akken speciaal..."
 
-#: src/workbook-control-gui.c:2706
+#: src/workbook-control-gui.c:2710
 msgid "Remove selected cells, shifting other into their place"
 msgstr ""
 "Verwijder de geselecteerde cellen waardoor andere cellen in hun plaats "
 "schuiven"
 
-#: src/workbook-control-gui.c:2757
+#: src/workbook-control-gui.c:2761
 msgid "Freeze the top left of the sheet"
 msgstr "Het gedeelte van het werkblad links boven vastzetten"
 
-#: src/workbook-control-gui.c:2785
+#: src/workbook-control-gui.c:2789
 msgid "_Auto generate names..."
 msgstr "_Automatisch gegenereerde namen..."
 
-#: src/workbook-control-gui.c:2786
+#: src/workbook-control-gui.c:2790
 msgid "Use the current selection to create names"
 msgstr "Gebruik de huidige selectie om namen te maken"
 
-#: src/workbook-control-gui.c:2885
+#: src/workbook-control-gui.c:2889
 msgid "Hide _Column Header"
 msgstr "Verberg _Kolom Koppen"
 
-#: src/workbook-control-gui.c:2891
+#: src/workbook-control-gui.c:2895
 msgid "Hide _Row Header"
 msgstr "Verberg _Rij Koppen"
 
-#: src/workbook-control-gui.c:2993
+#: src/workbook-control-gui.c:2997
 msgid "Ranks And _Percentiles"
 msgstr "Rangen en Percentielen"
 
-#: src/workbook-control-gui.c:3014
+#: src/workbook-control-gui.c:3018
 msgid "Manage available plugin modules."
 msgstr "Beheer de beschikbare plugin modules."
 
-#: src/workbook-control-gui.c:3050
+#: src/workbook-control-gui.c:3054
 msgid "_Group..."
 msgstr "_Groepeer..."
 
-#: src/workbook-control-gui.c:3053
+#: src/workbook-control-gui.c:3057
 msgid "_Ungroup..."
 msgstr "Groepering opheffen..."
 
-#: src/workbook-control-gui.c:3092
+#: src/workbook-control-gui.c:3096
 msgid "Sorts the selected region."
 msgstr "Sorteer de geselecteerde cellen"
 
-#: src/workbook-control-gui.c:3129
+#: src/workbook-control-gui.c:3133
 msgid "Creates a new workbook"
 msgstr "Maakt een nieuwe werkmap"
 
-#: src/workbook-control-gui.c:3132
+#: src/workbook-control-gui.c:3136
 msgid "Opens an existing workbook"
 msgstr "Opent een bestaande werkmap"
 
-#: src/workbook-control-gui.c:3135
+#: src/workbook-control-gui.c:3139
 msgid "Saves the workbook"
 msgstr "Slaat de werkmap op"
 
-#: src/workbook-control-gui.c:3141
+#: src/workbook-control-gui.c:3145
 msgid "Prints the workbook"
 msgstr "Drukt het werkboek af"
 
-#: src/workbook-control-gui.c:3150
+#: src/workbook-control-gui.c:3154
 msgid "Cuts the selection to the clipboard"
 msgstr "Knipt de selectie naar het klembord"
 
-#: src/workbook-control-gui.c:3153
+#: src/workbook-control-gui.c:3157
 msgid "Copies the selection to the clipboard"
 msgstr "Kopiëert de selectie naar het klembord"
 
-#: src/workbook-control-gui.c:3156
+#: src/workbook-control-gui.c:3160
 msgid "Pastes the clipboard"
 msgstr "Plakt de inhoud van het klembord"
 
-#: src/workbook-control-gui.c:3163
+#: src/workbook-control-gui.c:3167
 msgid "Undo the operation"
 msgstr "Maakt de ingreep ongedaan"
 
-#: src/workbook-control-gui.c:3166
+#: src/workbook-control-gui.c:3170
 msgid "Redo the operation"
 msgstr "Herhaal de ingreep"
 
-#: src/workbook-control-gui.c:3176
+#: src/workbook-control-gui.c:3180
 msgid "Sum into the current cell."
 msgstr "Sommeer in huidige cel."
 
-#: src/workbook-control-gui.c:3179
+#: src/workbook-control-gui.c:3183
 msgid "Function"
 msgstr "Functie"
 
-#: src/workbook-control-gui.c:3179
+#: src/workbook-control-gui.c:3183
 msgid "Edit a function in the current cell."
 msgstr "Bewerk een functie in de huidige cel"
 
-#: src/workbook-control-gui.c:3183
+#: src/workbook-control-gui.c:3187
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
@@ -20879,7 +20949,7 @@ msgstr ""
 "Sorteert het geselecteerde gebied in oplopende volgorde gebaseerd op de "
 "eerst geselecteerde kolom"
 
-#: src/workbook-control-gui.c:3186
+#: src/workbook-control-gui.c:3190
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
@@ -20887,23 +20957,23 @@ msgstr ""
 "Sorteert het geselecteerde gebied in aflopende volgorde gebaseerd op de "
 "eerst geselecteerde kolom"
 
-#: src/workbook-control-gui.c:4129
+#: src/workbook-control-gui.c:4133
 msgid "Send"
 msgstr "Verzenden"
 
-#: src/workbook-control-gui.c:4129
+#: src/workbook-control-gui.c:4133
 msgid "Send the current file in email"
 msgstr "Verstuur het huidige bestand per email"
 
-#: src/workbook-control-gui.c:4331
+#: src/workbook-control-gui.c:4335
 msgid "Re-Edit"
 msgstr "Opnieuw B_ewerken"
 
-#: src/workbook-control-gui.c:4332 src/workbook-control-gui.c:4337
+#: src/workbook-control-gui.c:4336 src/workbook-control-gui.c:4341
 msgid "Discard"
 msgstr "Verwerpen"
 
-#: src/workbook-control-gui.c:4336
+#: src/workbook-control-gui.c:4340
 msgid "Accept"
 msgstr "Accepteer"
 
@@ -21107,24 +21177,24 @@ msgstr "Maakt een rechthoek object"
 msgid "Creates an ellipse object"
 msgstr "Maakt een ellips object"
 
-#: src/workbook-view.c:226
+#: src/workbook-view.c:224
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dK"
 
-#: src/workbook-view.c:363
+#: src/workbook-view.c:361
 msgid "Internal ERROR"
 msgstr "Interne FOUT"
 
-#: src/workbook-view.c:562
+#: src/workbook-view.c:560
 msgid "Default file saver is not available."
 msgstr "Standaard bestandsopslag is niet beschikbaar."
 
-#: src/workbook-view.c:653
+#: src/workbook-view.c:651
 msgid "No sheets in workbook."
 msgstr "Geen werkbladen in werkmap."
 
-#: src/workbook-view.c:663
+#: src/workbook-view.c:661
 msgid "Unsupported file format."
 msgstr "Niet ondersteund bestandsformaat."
 
@@ -21133,44 +21203,80 @@ msgstr "Niet ondersteund bestandsformaat."
 msgid "Book%d.%s"
 msgstr "Boek%d.%s"
 
-#: src/workbook.c:1185
+#: src/workbook.c:1204
 msgid "Sheet name must have at least 1 letter"
 msgstr "Bladnaam moet tenminste 1 letter bevatten"
 
-#: src/workbook.c:1199
+#: src/workbook.c:1218
 msgid "There is already a sheet named"
 msgstr "Er is reeds een blad genaamd"
 
-#: src/workbook.c:1209
+#: src/workbook.c:1228
 msgid "You may not use this name twice"
 msgstr "Je mag deze naam niet twee keer gebruiken"
 
-#: src/xml-io.c:2668
+#: src/xml-io.c:2676
 msgid "Unparsable xml in clipboard"
 msgstr "Niet te verwerken xml in klembord"
 
-#: src/xml-io.c:2675
+#: src/xml-io.c:2683
 msgid "Clipboard is in unknown format"
 msgstr "Klembord is in onbekend formaat"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3081
+#: src/xml-io.c:3088
 msgid "Processing file..."
 msgstr "Bezig met verwerken bestand..."
 
-#: src/xml-io.c:3239
+#: src/xml-io.c:3246
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Onvoldoende geheugen om zlib decompressie toestand te maken."
 
-#: src/xml-io.c:3274
+#: src/xml-io.c:3281
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Is geen Gnumeric Werkmap bestand"
 
-#: src/xml-io.c:3332
+#: src/xml-io.c:3339
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
+
+#~ msgid "Gnumeric Solver Answer Report"
+#~ msgstr "Gnumeric Oplosser Antwoord Verslag"
+
+#~ msgid "Gnumeric Solver Sensitivity Report"
+#~ msgstr "Gnumeric Oplosser Gevoeligheids Verslag"
+
+#~ msgid "Objective"
+#~ msgstr "Objectief"
+
+#~ msgid "Allowable"
+#~ msgstr "Toelaatbaar"
+
+#~ msgid "Cost"
+#~ msgstr "Kosten"
+
+#~ msgid "Coefficient"
+#~ msgstr "Coefficient"
+
+#~ msgid "Increase"
+#~ msgstr "Ophogen"
+
+#~ msgid "Decrease"
+#~ msgstr "Verlagen"
+
+#~ msgid "Shadow"
+#~ msgstr "Shaduw"
+
+#~ msgid "Constraint"
+#~ msgstr "Beperking"
+
+#~ msgid "Price"
+#~ msgstr "Prijs"
+
+#~ msgid "R.H. Side"
+#~ msgstr "Rechterkant"
 
 #~ msgid "Oval"
 #~ msgstr "Ovaal"
