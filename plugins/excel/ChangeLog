@@ -1,5 +1,10 @@
 2002-11-24  Jody Goldberg <jody@gnome.org>
 
+	* ms-formula-read.c (excel_formula_parses_ref_sheets) : fix typo.
+	  check the source not the destination.
+
+2002-11-24  Jody Goldberg <jody@gnome.org>
+
 	* ms-obj.c (ms_obj_read_pre_biff8_obj) : add some fun.
 
 2002-11-20  Jody Goldberg <jody@gnome.org>

@@ -250,6 +250,9 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 		ColRowInfo const * const ri = cell->row_info;
 		ColRowInfo const * const ci = cell->col_info;
 
+		if (ri->needs_respan)
+			row_calc_spans ((ColRowInfo *)ri, sheet);
+
 		/* FIXME : get the margins from the far col/row too */
 		cell_draw (cell, style, ig->gc.cell, drawable,
 			   l, t,

@@ -720,7 +720,7 @@ excel_formula_parses_ref_sheets (MSContainer const *container, guint8 const *dat
 			excel_externsheet_v8 (container->ewb, GSF_LE_GET_GUINT16 (data));
 
 		if (es != NULL) {
-			if (*first == (Sheet *)2 || *last == (Sheet *)2) /* deleted sheets */
+			if (es->first == (Sheet *)2 || es->last == (Sheet *)2) /* deleted sheets */
 				return TRUE;
 			*first = es->first;
 			*last = es->last;
