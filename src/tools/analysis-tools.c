@@ -30,6 +30,7 @@
 #include "sheet-style.h"
 #include "workbook.h"
 #include "format.h"
+#include "sheet-object-cell-comment.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
@@ -616,6 +617,30 @@ set_cell_float_na (data_analysis_output_t *dao, int col, int row, gnum_float v, 
 	}
 }
 
+static void
+dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,
+		      const char *comment)
+{
+	CellPos pos;
+	const char *author = NULL;
+
+	/* Check that the output is in the given range, but allow singletons
+	 * to expand
+	 */
+	if (dao->type == RangeOutput &&
+	    (dao->cols > 1 || dao->rows > 1) &&
+	    (col >= dao->cols || row >= dao->rows))
+	        return;
+
+	col += dao->start_col;
+	row += dao->start_row;
+	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS)
+		return;
+
+	pos.col = col;
+	pos.row = row;
+	cell_set_comment (dao->sheet, &pos, author, comment);
+}
 
 /*
  * Set a column of text from a string like "/first/second/third" or "|foo|bar|baz".
@@ -2401,6 +2426,9 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_italic (dao, 1, 15, 6, 15);
 	g_free (text);
 
+	dao_set_cell_comment (dao, 4, 15,
+			      _("Probability of an observation's absolute value being larger than the t-value's"));
+
 	if (xdim == 1)
 		cor_err =  range_correl_pop (xss[0], (gnum_float *)(y_data->data->data),
 					     y_data->data->len, &r);
@@ -2885,16 +2913,16 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 
 
 	set_cell_text_col (dao, 0, 0, _("/ANOVA"
-					       "/Source of Variation"
-					       "/Between Groups"
-					       "/Within Groups"
-					       "/Total"));
+					"/Source of Variation"
+					"/Between Groups"
+					"/Within Groups"
+					"/Total"));
 	set_cell_text_row (dao, 1, 1, _("/SS"
-					       "/df"
-					       "/MS"
-					       "/F"
-					       "/P-value"
-					       "/F critical"));
+					"/df"
+					"/MS"
+					"/F"
+					"/P-value"
+					"/F critical"));
 	set_italic (dao, 1, 1, 6, 1);
 
 	/* ANOVA */
@@ -3935,8 +3963,8 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 
 /************* Fourier Analysis Tool **************************************
  *
- * This tool performa a fast fourier transform calculating the fourier
- * transform as defined in Weaver: THeory of dis and cont Fouriere Analysis
+ * This tool performes a fast fourier transform calculating the fourier
+ * transform as defined in Weaver: Theory of dis and cont Fouriere Analysis
  *
  * If the length of the given sequence is not a power of 2, an appropriate
  * number of 0s are added.

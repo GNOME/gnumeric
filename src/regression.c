@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define DEBUG_NEAR_SINGULAR
+#undef DEBUG_NEAR_SINGULAR
 
 #define ALLOC_MATRIX(var,dim1,dim2)			\
   do { int _i, _d1, _d2;				\

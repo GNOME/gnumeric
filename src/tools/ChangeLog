@@ -1,5 +1,8 @@
 2002-03-08  Morten Welinder  <terra@diku.dk>
 
+	* analysis-tools.c (dao_set_cell_comment): New function.
+	(regression_tool): Set a comment on the P-value header.
+
 	* analysis-tools.c (fourier_fft_inv): Eliminate.
 	(fourier_fft): Handle inverse case also.  Make n and skip
 	parameters.  Eliminate fourier_t.  Constify.
