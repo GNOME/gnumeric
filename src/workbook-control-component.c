@@ -343,6 +343,7 @@ workbook_control_component_ctor_class (GObjectClass *object_class)
 
 	g_return_if_fail (wbc_class != NULL);
 	wbc_class->context_class.get_password = wbcc_get_password;
+	wbc_class->context_class.set_sensitive= wbcc_set_sensitive;
 	wbc_class->context_class.progress_set = wbcc_progress_set;
 	wbc_class->context_class.progress_message_set
 		= wbcc_progress_message_set;
@@ -357,7 +358,6 @@ workbook_control_component_ctor_class (GObjectClass *object_class)
 	wbc_class->zoom_feedback      = wbcc_zoom_feedback;
 	wbc_class->edit_line_set      = wbcc_edit_line_set;
 	wbc_class->selection_descr_set = wbcc_edit_selection_descr_set;
-	wbc_class->set_sensitive      = wbcc_set_sensitive;
 	wbc_class->edit_set_sensitive = wbcc_edit_set_sensitive;
 	wbc_class->auto_expr_value    = wbcc_auto_expr_value;
 
