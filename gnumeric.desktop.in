@@ -1,7 +1,7 @@
 [Desktop Entry]
-Name=Gnumeric spreadsheet
+Name=Gnumeric
 Name[da]=Gnumeric
-Name[de]=Gnumeric Tabellenkalkulation
+Name[de]=Gnumeric
 Name[es]=Gnumeric
 Name[et]=Gnumeric
 Name[fr]=Tableur Gnumeric
@@ -12,9 +12,9 @@ Name[pt]=Gnumeric
 Name[pl]=Arkusz kalkulacyjny Gnumeric
 Name[ru]=Электронная таблица Gnumeric
 Name[sv]=Gnumeric kalkylblad
-Comment=Spreadsheet
+Comment=The GNOME Spreadsheet Application
 Comment[da]=Regneark
-Comment[de]=Gnumeric Tabellenkalkulation
+Comment[de]=Die GNOME-Tabellenkalkulation
 Comment[es]=Hoja de cАlculo
 Comment[et]=Tabelarvutus
 Comment[fr]=Tableur Gnumeric

@@ -1,3 +1,8 @@
+2000-04-14  Karl EICHWALDER  <ke@suse.de>
+
+	* gnumeric.desktop.in: Exchange Name/Comment.  Adjust the values
+	for de.
+
 2000-04-14  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/selection.c (selection_is_simple): Use an
@@ -16,6 +21,7 @@
 
 	* src/*: s/ENABLE_BONOBO_PRINT/ENABLE_BONOBO/
 
+>>>>>>> 1.178
 2000-04-14  Karl EICHWALDER  <ke@suse.de>
 
 	* src/file.c (wants_to_overwrite): Add missing dot.
