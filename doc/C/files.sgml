@@ -492,13 +492,36 @@ Totals:,"$5400.00 ","$116400.00 ",($7200.00),
   <title>The Text Import Druid for Separated Fields</title>
   <orderedlist>
   <listitem>
-  <para></para>
   <figure id="file-format-csv-import-ex2">
-    <title>Selecting the basic format type</title>
+    <title>Separation Customization</title>
     <screenshot>
 	<graphic fileref="figures/files-csv-import-ex2.png" format="PNG"></graphic>
     </screenshot>
   </figure>  
+  <para>Select the appropriate field separator(s) in the 
+  <quote><guilabel>Separator</guilabel></quote> frame. Select the 
+  <quote><guilabel>See two separators as one</guilabel></quote>option if any sequence of 
+  separators are supposed to be considered a single separator. The 
+  <quote><guilabel>Example</guilabel></quote> frame gives immediate feedback on your choices:</para>
+  <figure id="file-format-csv-import-ex3">
+    <title>Separation Customization With Correct Selection</title>
+    <screenshot>
+	<graphic fileref="figures/files-csv-import-ex3.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>  
+  </listitem>
+  <listitem>
+  <para>Finally select the appropriate format for each input column:</para>
+  <figure id="file-format-csv-import-ex4">
+    <title>Selecting Formats</title>
+    <screenshot>
+	<graphic fileref="figures/files-csv-import-ex4.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>  
+  </listitem>
+  <listitem><para>
+  Click the <quote><guibutton>Finish</guibutton></quote> button 
+  to complete importing the file.</para>
   </listitem>
   </orderedlist>
   </sect4>
@@ -506,17 +529,25 @@ Totals:,"$5400.00 ","$116400.00 ",($7200.00),
   <title>The Text Import Druid for Fixed Width Fields</title>
   <orderedlist>
   <listitem>
-  <para></para>
-  <figure id="file-format-csv-import-ex9">
-    <title>Selecting the basic format type</title>
+  <para>If you selected fixed width fields you are asked to specify the widths for
+  each field. Click the <quote><guibutton>Auto Column Discovery</guibutton></quote> button
+  to have gnumeric try to determine the fields widths automatically.</para>
+  <figure id="file-format-csv-import-ex5">
+    <title></title>
     <screenshot>
-	<graphic fileref="figures/files-csv-import-ex9.png" format="PNG"></graphic>
+	<graphic fileref="figures/files-csv-import-ex5.png" format="PNG"></graphic>
     </screenshot>
   </figure>  
   </listitem>
+  <listitem>
+  <para>Finally select the appropriate format for each input column:</para>
+  </listitem>
+  <listitem><para>
+  Click the <quote><guibutton>Finish</guibutton></quote> button 
+  to complete importing the file.</para>
+  </listitem>
   </orderedlist>
   </sect4>
-
   </sect3>
   </sect2>
 

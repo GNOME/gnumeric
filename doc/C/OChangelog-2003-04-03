@@ -1,6 +1,14 @@
 2001-12-28 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* files.sgml : add text export druid
+	* files.sgml : add text import druid docs
+	* figures/files-csv-import-ex2.png : new figure
+	* figures/files-csv-import-ex3.png : new figure
+	* figures/files-csv-import-ex4.png : new figure
+	* figures/files-csv-import-ex5.png : new figure
+
+2001-12-28 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add text export druid docs
 	* figures/file-formats-import-list.png : updated
 	* figures/files-csv-import-ex1.png : new figure
 	* figures/files-csv-export-ex2.png : new figure
