@@ -1,3 +1,7 @@
+2002-09-20  Michael Meeks  <michael@ximian.com>
+
+	* corba-sheet.c: re-hash to use BonoboObject.
+
 2002-09-19  Jody Goldberg <jody@gnome.org>
 
 	* corba-application.c : move init into a 'general' service so that
