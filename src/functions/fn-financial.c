@@ -936,7 +936,7 @@ static char *help_dollarfr = {
 	   "a dollar price expressed as a fraction. "
 	   "\n"
 	   "If @fraction is non-integer it is truncated. "
-	   "If @fraction <= 0 DOLLARDE returns #NUM! error. "
+	   "If @fraction <= 0 DOLLARFR returns #NUM! error. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
