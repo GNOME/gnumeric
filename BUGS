@@ -25,10 +25,6 @@ Long term breakage
     : use a hash instead of a list for deps
     : keep the hash per sheet rather than per workbook.
 
-- double clicking the drag handle disregards content in the region to fill.
-  It only looks at the neighbouring region to find the boundary, but ignores
-  content in the region we will fill.
-
 - Panes 
     : cursor dragging only affects src pane.
     : XL export
@@ -143,8 +139,6 @@ Dialogs
 -------
 - Function selector
     : 'Most recently used'
-    : typing in the function list should jump to an entry that starts with the
-      requested letter.
 - Formula Guru
     : As we auto add new entries for varargs we should make them visible.
     : Editing nested functions.  How best to express this.
