@@ -95,6 +95,7 @@ src/dialogs/dialog-printer-setup.c
 src/dialogs/dialog-search-replace.c
 src/dialogs/dialog-search.c
 src/dialogs/dialog-sheet-order.c
+src/dialogs/dialog-simple-input.c
 src/dialogs/dialog-solver.c
 src/dialogs/dialog-stf-csv-page.c
 src/dialogs/dialog-stf-export-format-page.c
