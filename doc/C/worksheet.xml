@@ -45,7 +45,7 @@
       <figure id="worksheet-data-2">
 	<title>The Current Cell Indicator.</title>
 	<screenshot>
-	  <graphic fileref="figures/worksheet-data-2" format="PNG"></graphic>
+	  <graphic fileref="figures/worksheet-data-2.png" format="PNG"></graphic>
 	</screenshot>
       </figure>
 		<para>The cell indicator will show the address for the cell at the top
@@ -116,7 +116,7 @@
       
       <para>The equals button 
 		<guibutton>
-		  <inlinegraphic fileref="figures/button-equals"
+		  <inlinegraphic fileref="figures/button-equals.png"
 				 format="PNG" />
 		</guibutton>
 	  can be used to start a formula in the currently selected cell. If a user

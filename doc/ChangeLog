@@ -1,7 +1,6 @@
 2003-05-17  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
-	* C/gui-elements.xml: Consistently use file extension on the label
-	images.
+	* C/gui-elements.xml, C/worksheet.xml: Added missing file extensions.
 
 2003-05-11  Jody Goldberg <jody@gnome.org>
 
