@@ -1,5 +1,10 @@
 2003-06-17  Morten Welinder  <terra@gnome.org>
 
+	* src/format.c (update_lc): New function to extract all lc info
+	right away.
+	(format_get_decimal, format_get_thousand, format_get_currency):
+	Use it.
+
 	* src/stf-parse.c (stf_parse_options_guess): Set sepchar in all
 	cases.
 

@@ -54,48 +54,75 @@ static StyleFormat *default_general_fmt;
 
 
 /* Points to the locale information for number display */
-static struct lconv *lc = NULL;
-static char *locale_currency = NULL; /* in UTF-8 */
+static gboolean locale_info_cached = FALSE;
 static gboolean date_order_cached = FALSE;
+static char lc_decimal;
+static char lc_thousand;
+static gboolean lc_precedes;
+static gboolean lc_space_sep;
+static char *lc_currency = NULL; /* in UTF-8 */
 
 char const *
 gnumeric_setlocale (int category, char const *val)
 {
-	lc = NULL;
-	g_free (locale_currency); locale_currency = NULL;
+	locale_info_cached = FALSE;
 	date_order_cached = FALSE;
 	return setlocale (category, val);
+}
+
+static void
+update_lc (void)
+{
+	struct lconv *lc = localeconv ();
+
+	/*
+	 * Extract all information here as lc is not guaranteed to stay
+	 * valid after next localeconv call which could be anywhere.
+	 */
+
+	lc_decimal = lc->decimal_point[0] ? lc->decimal_point[0] : '.';
+
+	lc_thousand = lc->mon_thousands_sep[0]
+		? lc->mon_thousands_sep[0]
+		: (lc_decimal == ','
+		   ? '.'
+		   : ',');
+
+	/* Use != 0 rather than == 1 so that CHAR_MAX (undefined) is true */
+	lc_precedes = (lc->p_cs_precedes != 0);
+
+	/* Use == 1 rather than != 0 so that CHAR_MAX (undefined) is false */
+	lc_space_sep = (lc->p_sep_by_space == 1);
+
+	g_free (lc_currency);
+	if (lc->currency_symbol && *lc->currency_symbol) {
+		lc_currency =
+			g_locale_to_utf8 (lc->currency_symbol, -1,
+					  NULL, NULL, NULL);
+		if (!lc_currency)
+			g_warning ("Failed to convert locale currency symbol \"%s\" to UTF-8.",
+				   lc->currency_symbol);
+		}
+	if (!lc_currency)
+		lc_currency = g_strdup ("$");
 }
 
 char
 format_get_decimal (void)
 {
-	char res;
-	if (lc == NULL)
-		lc = localeconv ();
+	if (!locale_info_cached)
+		update_lc ();
 
-	/* NOTE : Use decimal_point _not_ mon_decimal_point.  strtognum uses this
-	 * and we get very confused when they are different (eg ru_RU)
-	 */
-	res = lc->decimal_point[0];
-	return (res != '\0') ? res : '.';
+	return lc_decimal;
 }
 
 char
 format_get_thousand (void)
 {
-	char res;
-	if (lc == NULL)
-		lc = localeconv ();
+	if (!locale_info_cached)
+		update_lc ();
 
-	res = lc->mon_thousands_sep[0];
-	if (res != '\0')
-		return res;
-
-	/* Provide a decent default for countries using ',' as a decimal */
-	if (format_get_decimal () != ',')
-		return ',';
-	return '.';
+	return lc_thousand;
 }
 
 /**
@@ -111,29 +138,16 @@ format_get_thousand (void)
 char const *
 format_get_currency (gboolean *precedes, gboolean *space_sep)
 {
-	if (lc == NULL)
-		lc = localeconv ();
+	if (!locale_info_cached)
+		update_lc ();
 
-	/* Use != 0 rather than == 1 so that CHAR_MAX (undefined) is true */
 	if (precedes)
-		*precedes = (lc->p_cs_precedes != 0);
-	/* Use == 1 rather than != 0 so that CHAR_MAX (undefined) is false */
-	if (space_sep)
-		*space_sep = (lc->p_sep_by_space == 1);
+		*precedes = lc_precedes;
 
-	if (locale_currency == NULL) {
-		if (lc->currency_symbol && *lc->currency_symbol) {
-			locale_currency =
-				g_locale_to_utf8 (lc->currency_symbol, -1,
-						  NULL, NULL, NULL);
-			if (!locale_currency)
-				g_warning ("Failed to convert locale currency symbol \"%s\" to UTF-8.",
-					   lc->currency_symbol);
-		}
-		if (!locale_currency)
-			locale_currency = g_strdup ("$");
-	}
-	return locale_currency;
+	if (space_sep)
+		*space_sep = lc_space_sep;
+
+	return lc_currency;
 }
 
 /*
