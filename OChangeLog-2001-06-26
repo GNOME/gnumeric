@@ -1,3 +1,16 @@
+2001-04-01  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/commands.c
+	(cmd_ins_del_colrow_redo): Don't mirror the size of the
+	selected cols/rows, instead look at the next visible col/row
+	to the top/left for the size.
+	(cmd_hide_colrow_correct_selection): Pass extra "forward" parameter
+	value to colrow_find_adjacent_visible.
+
+	* src/colrow.h, src/colrow.c
+	(colrow_find_adjacent_visible): Add optional "forward" parameter.
+	If unset it will seek to the right/bottom otherwise to the left/top.
+
 2001-03-31  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/plugin.[ch]: Replaced PLUGIN_MESSAGE macro with plugin_message

@@ -889,15 +889,7 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		: range_init (&r, 0, first, SHEET_MAX_COLS-1, last));
 
 	if (me->is_insert) {
-		int i, resize[me->count];
-
-		for (i = me->index; i < me->index + me->count; i++) {
-			ColRowInfo *info = me->is_cols ?
-				sheet_col_get_info (me->sheet, i) :
-				sheet_row_get_info (me->sheet, i);
-
-			resize[i - me->index] = info->size_pixels;
-		}
+		int prev_visible;
 
 		if (me->is_cols)
 			trouble = sheet_insert_cols (wbc, me->sheet, me->index,
@@ -905,15 +897,36 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		else
 			trouble = sheet_insert_rows (wbc, me->sheet, me->index,
 						     me->count, &me->reloc_storage);
+
+		if (me->index >= 1)
+			prev_visible = colrow_find_adjacent_visible (me->sheet, me->is_cols,
+								     me->index - 1, FALSE);
+		else
+			prev_visible = -1;
+
 		/*
-		 * The newly inserted columns should mirror the sizes of the
-		 * original cols/rows that were there
+		 * We use the size of the column/row to the left/top to determine
+		 * the size for the newly inserted column. 
+		 * For column 0 we use the default size. And for columns having
+		 * the default size we'll just keep the default size aswell.
 		 */
-		for (i = me->index; i < me->index + me->count; i++)
-			if (me->is_cols)
-				sheet_col_set_size_pixels (me->sheet, i, resize[i - me->index], FALSE);
-			else
-				sheet_row_set_size_pixels (me->sheet, i, resize[i - me->index], FALSE);
+		if (prev_visible >= 0) {
+			ColRowInfo *info = me->is_cols ? 
+				sheet_col_get (me->sheet, prev_visible) :
+				sheet_row_get (me->sheet, prev_visible);
+
+			if (info) {
+				int i;
+				
+				for (i = me->index; i < me->index + me->count; i++)
+					if (me->is_cols)
+						sheet_col_set_size_pixels (me->sheet, i, info->size_pixels,
+									   info->hard_size);
+					else
+						sheet_row_set_size_pixels (me->sheet, i, info->size_pixels,
+									   info->hard_size);
+			}
+		}
 	} else {
 		if (me->is_cols)
 			trouble = sheet_delete_cols (wbc, me->sheet, me->index,
@@ -1831,7 +1844,8 @@ cmd_hide_colrow_correct_selection (GnumericCommand *cmd)
 	 * Make sure the selection/cursor is set to a visible row/col
 	 */
 	index = colrow_find_adjacent_visible (me->sheet, me->is_cols, me->is_cols
-					      ? me->sheet->edit_pos.col : me->sheet->edit_pos.row);
+					      ? me->sheet->edit_pos.col : me->sheet->edit_pos.row,
+					      TRUE);
 
 	x = me->is_cols ? me->sheet->edit_pos.row : index;
 	y = me->is_cols ? index : me->sheet->edit_pos.col;
