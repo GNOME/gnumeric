@@ -4,6 +4,9 @@ Jon:
 	* Vastly improved col / row sizing in excel import
 	* ditto for Excel object placement.
 
+JP:
+	* Expanded sort dialog to allow sorting of rows as well as columns
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.43

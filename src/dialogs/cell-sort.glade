@@ -66,11 +66,10 @@
       </child>
 
       <widget>
-	<class>GtkFrame</class>
-	<name>frame2</name>
-	<label>My selection has</label>
-	<label_xalign>0</label_xalign>
-	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	<class>GtkHBox</class>
+	<name>hbox1</name>
+	<homogeneous>True</homogeneous>
+	<spacing>0</spacing>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -87,12 +86,75 @@
 	</child>
 
 	<widget>
-	  <class>GtkCheckButton</class>
-	  <name>cell_sort_header_check</name>
-	  <can_focus>True</can_focus>
-	  <label>A header</label>
-	  <active>False</active>
-	  <draw_indicator>True</draw_indicator>
+	  <class>GtkFrame</class>
+	  <name>frame2</name>
+	  <label>Selection has</label>
+	  <label_xalign>0</label_xalign>
+	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>cell_sort_header_check</name>
+	    <can_focus>True</can_focus>
+	    <label>A header</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkFrame</class>
+	  <name>frame3</name>
+	  <label>Sort</label>
+	  <label_xalign>0</label_xalign>
+	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkHBox</class>
+	    <name>hbox2</name>
+	    <homogeneous>True</homogeneous>
+	    <spacing>0</spacing>
+
+	    <widget>
+	      <class>GtkRadioButton</class>
+	      <name>cell_sort_row_rb</name>
+	      <can_focus>True</can_focus>
+	      <label>Rows</label>
+	      <active>False</active>
+	      <draw_indicator>True</draw_indicator>
+	      <group>row_col</group>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkRadioButton</class>
+	      <name>cell_sort_col_rb</name>
+	      <can_focus>True</can_focus>
+	      <label>Columns</label>
+	      <active>True</active>
+	      <draw_indicator>True</draw_indicator>
+	      <group>row_col</group>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
+	  </widget>
 	</widget>
       </widget>
     </widget>

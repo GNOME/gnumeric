@@ -5,7 +5,10 @@
  */
 
 gchar *s = N_("Sort...");
-gchar *s = N_("My selection has");
+gchar *s = N_("Selection has");
 gchar *s = N_("A header");
+gchar *s = N_("Sort");
+gchar *s = N_("Rows");
+gchar *s = N_("Columns");
 gchar *s = N_("Add");
 gchar *s = N_("Remove");
