@@ -393,7 +393,7 @@ cmd_set_text_destroy (GtkObject *cmd)
 gboolean
 cmd_set_text (CommandContext *context,
 	      Sheet *sheet, CellPos const *pos,
-	      char *new_text)
+	      const char *new_text)
 {
 	static int const max_descriptor_width = 15;
 
@@ -680,9 +680,9 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 
 	/* restore row/col contents */
 	if (me->is_cols)
-		(void) range_init (&r, index, 0, index, SHEET_MAX_ROWS-1);
+		range_init (&r, index, 0, index, SHEET_MAX_ROWS-1);
 	else
-		(void) range_init (&r, 0, index, SHEET_MAX_COLS-1, index);
+		range_init (&r, 0, index, SHEET_MAX_COLS-1, index);
 
 	clipboard_paste_region (context,
 				paste_target_init (&pt, me->sheet, &r, PASTE_ALL_TYPES),

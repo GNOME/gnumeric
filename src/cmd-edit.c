@@ -309,7 +309,7 @@ cmd_paste (CommandContext *context, PasteTarget const *pt, guint32 time)
 		} else if ((dst.end.col - dst.start.col) != cols ||
 			   (dst.end.row - dst.start.row) != rows) {
 
-			char * msg = g_strdup_printf (
+			char *msg = g_strdup_printf (
 				_("destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n\n"
 				  "Try selecting a single cell or an area of the same shape and size."),
 				(dst.end.row - dst.start.row)+1,

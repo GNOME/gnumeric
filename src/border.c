@@ -11,8 +11,8 @@
 #include "color.h"
 
 struct LineDotPattern {
-	gint const			elements;
-	unsigned char * const	pattern;
+	gint const elements;
+	const unsigned char * const	pattern;
 	double * const		pattern_d;
 };
 
@@ -200,6 +200,7 @@ style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type)
 	if (style_border_data[i].pattern != NULL) {
 		struct LineDotPattern const * const pat =
 			style_border_data[i].pattern;
+		
 		gdk_gc_set_dashes (gc, style_border_data[i].offset,
 				   pat->pattern, pat->elements);
 	}

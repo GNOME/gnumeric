@@ -42,7 +42,7 @@ corba_sheet (Sheet *sheet, CORBA_Environment *ev)
 }
 
 static GNOME_Gnumeric_Sheet
-Workbook_sheet_new (PortableServer_Servant servant, const CORBA_char * name, CORBA_Environment * ev)
+Workbook_sheet_new (PortableServer_Servant servant, const CORBA_char *name, CORBA_Environment *ev)
 {
         Workbook *workbook = workbook_from_servant (servant);
 	Sheet *sheet;
@@ -60,7 +60,7 @@ Workbook_sheet_new (PortableServer_Servant servant, const CORBA_char * name, COR
 }
 
 static GNOME_Gnumeric_Sheet
-Workbook_sheet_lookup (PortableServer_Servant servant, const CORBA_char * name, CORBA_Environment * ev)
+Workbook_sheet_lookup (PortableServer_Servant servant, const CORBA_char *name, CORBA_Environment *ev)
 {
         Workbook *workbook = workbook_from_servant (servant);
 	Sheet *sheet;
@@ -76,7 +76,7 @@ Workbook_sheet_lookup (PortableServer_Servant servant, const CORBA_char * name, 
  * FIXME: This breaks the link between name, saver and level.
  */
 static void
-Workbook_set_filename (PortableServer_Servant servant, const CORBA_char * name, CORBA_Environment * ev)
+Workbook_set_filename (PortableServer_Servant servant, const CORBA_char *name, CORBA_Environment *ev)
 {
         Workbook *workbook = workbook_from_servant (servant);
 
@@ -84,7 +84,7 @@ Workbook_set_filename (PortableServer_Servant servant, const CORBA_char * name, 
 }
 
 static void
-Workbook_save_to (PortableServer_Servant servant, const CORBA_char * filename, CORBA_Environment * ev)
+Workbook_save_to (PortableServer_Servant servant, const CORBA_char *filename, CORBA_Environment *ev)
 {
         Workbook *wb = workbook_from_servant (servant);
 
@@ -136,8 +136,8 @@ Workbook_set_dirty (PortableServer_Servant servant, const CORBA_boolean is_dirty
 
 static CORBA_boolean
 Workbook_sheet_rename (PortableServer_Servant servant,
-		       const CORBA_char * old_name,
-		       const CORBA_char * new_name, CORBA_Environment * ev)
+		       const CORBA_char *old_name,
+		       const CORBA_char *new_name, CORBA_Environment *ev)
 {
 	Workbook *workbook = workbook_from_servant (servant);
 	
@@ -163,10 +163,10 @@ Workbook_recalc_all (PortableServer_Servant servant, CORBA_Environment * ev)
 
 static void
 Workbook_parse (PortableServer_Servant servant,
-		const CORBA_char * cellref,
-		GNOME_Gnumeric_Sheet * sheet,
-		CORBA_long * col,
-		CORBA_long * row, CORBA_Environment * ev)
+		const CORBA_char *cellref,
+		GNOME_Gnumeric_Sheet *sheet,
+		CORBA_long *col,
+		CORBA_long *row, CORBA_Environment *ev)
 {
 }
 

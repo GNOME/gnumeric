@@ -21,6 +21,7 @@
 #include "border.h"
 #include "application.h"
 #include "workbook-cmd-format.h"
+#include "workbook-edit.h"
 #include "pattern.h"
 #include "workbook-view.h"
 #include "workbook.h"

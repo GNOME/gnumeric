@@ -86,9 +86,9 @@ application_clipboard_clear (void)
 		app.clipboard_sheet = NULL;
 
 		/* Release the selection */
-		(void) gtk_selection_owner_set (NULL,
-						GDK_SELECTION_PRIMARY,
-						GDK_CURRENT_TIME);
+		gtk_selection_owner_set (NULL,
+					 GDK_SELECTION_PRIMARY,
+					 GDK_CURRENT_TIME);
 	}
 }
 

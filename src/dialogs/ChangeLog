@@ -1,3 +1,11 @@
+2000-06-04  Miguel de Icaza  <miguel@helixcode.com>
+
+	* dialog-function-wizard.c (dialog_function_druid): Use
+	workbook_get_entry here.
+
+	* dialog-printer-setup.c (spin_button_adapt_to_unit): Added
+	g_assert_not_reached ();
+
 2000-06-02  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-autocorrect.c: #include dialog-autocorrect.h to silence

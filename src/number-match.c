@@ -605,7 +605,7 @@ compute_value (const char *s, const regmatch_t *mp,
 
 		case MATCH_NUMBER:
 			{
-				char * ptr = str;
+				char *ptr = str;
 				number = 0;
 				do
 				{

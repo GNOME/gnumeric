@@ -10,13 +10,13 @@ void command_redo (CommandContext *context, Workbook *wb);
 void command_list_release	(GSList *cmds);
 
 gboolean cmd_set_text		(CommandContext *context, Sheet *sheet,
-				 CellPos const *pos, char *new_text);
+				 CellPos const *pos, const char *new_text);
 
 gboolean cmd_area_set_text	(CommandContext *context, EvalPos const *pos,
-				 char const *text, gboolean as_array);
+				 const char *text, gboolean as_array);
 
 gboolean cmd_set_date_time	(CommandContext *context, Sheet *sheet,
-				 CellPos const *pos, gboolean is_date);
+				 const CellPos *pos, gboolean is_date);
 
 gboolean cmd_insert_cols	(CommandContext *context, Sheet *sheet,
 				 int start_col, int count);
@@ -31,12 +31,12 @@ gboolean cmd_resize_row_col	(CommandContext *context, Sheet *sheet,
 				 int index, gboolean is_col);
 
 gboolean cmd_paste_cut		(CommandContext *context,
-				 ExprRelocateInfo const *info);
+				 const ExprRelocateInfo *info);
 gboolean cmd_paste_copy		(CommandContext *context,
-				 PasteTarget const *pt, CellRegion *content);
+				 const PasteTarget *pt, CellRegion *content);
 
 gboolean cmd_rename_sheet	(CommandContext *context, Workbook *wb,
-				 char const *old_name, char const *new_name);
+				 const char *old_name, const char *new_name);
 
 gboolean cmd_sort		(CommandContext *context, Sheet *sheet,
 				 Range *range, SortClause *clauses,

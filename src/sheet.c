@@ -11,6 +11,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "workbook.h"
+#include "workbook-edit.h"
 #include "gnumeric-sheet.h"
 #include "parse-util.h"
 #include "gnumeric-util.h"
@@ -1283,9 +1284,9 @@ sheet_load_cell_val (Sheet const *sheet)
 		/* No need to worry about locale for the comma
 		 * this syntax is not parsed
 		 */
-		char * tmp = g_strdup_printf ("}(%d,%d)[%d][%d]",
-					      ar->rows, ar->cols,
-					      ar->y, ar->x);
+		char *tmp = g_strdup_printf ("}(%d,%d)[%d][%d]",
+					     ar->rows, ar->cols,
+					     ar->y, ar->x);
 		gtk_entry_prepend_text  (entry, "{");
 		gtk_entry_append_text (entry, tmp);
 		g_free (tmp);
@@ -3893,6 +3894,7 @@ void
 sheet_create_edit_cursor (Sheet *sheet)
 {
 	GList *l;
+
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 		gnumeric_sheet_create_editing_cursor (gsheet);

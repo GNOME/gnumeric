@@ -26,15 +26,6 @@
 #   define WORKBOOK_PARENT_CLASS_TYPE gtk_object_get_type()
 #endif
 
-/*
- * FIXME FIXME FIXME
- * WARNING WARNING WARNING
- * Inorder for this file to work config.h MUST
- * be included first.
- *
- * This seems a poor choice (IMHO).
- * It would be better for this file to include it directly.
- */
 #include "gnumeric.h"
 #include "symbol.h"
 #include "summary.h"
@@ -189,10 +180,6 @@ void        workbook_expr_unrelocate_free(GSList *info);
 void        workbook_move_sheet          (Sheet *sheet, int direction);
 void        workbook_delete_sheet        (Sheet *sheet);
 
-GtkWidget  *workbook_get_entry           (Workbook const *wb);
-GtkWidget  *workbook_set_entry           (Workbook const *wb, GtkWidget *new_entry);
-gboolean    workbook_editing_expr        (Workbook const *wb);
-
 /* See also sheet_cell_foreach_range */
 Value *
 workbook_foreach_cell_in_range (EvalPos const * pos,
@@ -217,9 +204,6 @@ CommandContext *workbook_command_context_gui (Workbook *wb);
 
 void        workbook_autosave_cancel     (Workbook *wb);
 void        workbook_autosave_set        (Workbook *wb, int minutes, gboolean prompt);
-
-void        workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp, gboolean cursorp);
-void        workbook_finish_editing          (Workbook *wb, gboolean const accept);
 
 /*
  * Feedback routines

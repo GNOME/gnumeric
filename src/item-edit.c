@@ -4,6 +4,13 @@
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
  *
+ * This module provides:
+ *   * Integration of an in-sheet text editor (GtkEntry) with the Workbook
+ *     GtkEntry as a canvas item.
+ *
+ *   * Feedback on expressions in the spreadsheet (referenced cells or
+ *     ranges are highlighted on the spreadsheet).
+ *
  * (C) 1999, 2000 Miguel de Icaza
  */
 #include <config.h>
@@ -13,14 +20,13 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "item-edit.h"
-#include "application.h"
 #include "value.h"
 #include "ranges.h"
 #include "parse-util.h"
 #include "sheet.h"
 #include "workbook.h"
+#include "workbook-edit.h"
 #include "gnumeric-util.h"
-#include "complete-sheet.h"
 
 static GnomeCanvasItem *item_edit_parent_class;
 
@@ -73,13 +79,12 @@ point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 {
 	Value *v;
 	int text_len, cursor_pos, scan;
-	GtkEntry *entry = GTK_ENTRY(workbook_get_entry (item_edit->sheet->workbook));
 
 	if ((text = gnumeric_char_start_expr_p (text)) == NULL)
 		return FALSE;
 
 	text_len = strlen (text);
-	cursor_pos = GTK_EDITABLE (entry)->current_pos;
+	cursor_pos = GTK_EDITABLE (item_edit->entry)->current_pos;
 	if (cursor_pos == 0)
 		return FALSE;
 	cursor_pos--;
@@ -148,27 +153,48 @@ scan_for_range (ItemEdit *item_edit, const char *text)
 }
 
 static void
-item_edit_draw_text (GdkDrawable *drawable, GdkFont *font, GtkStyle *style,
+item_edit_draw_cursor (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *style,
+		       int x, int y, GdkFont *font)
+{
+	if (!item_edit->cursor_visible)
+		return;
+	
+	gdk_draw_line (drawable, style->black_gc,
+		       x, y-font->ascent,
+		       x, y+font->descent);
+}
+
+static void
+item_edit_draw_text (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *style,
 		     gint x, gint y, const gchar *text, gint text_length,
 		     int const cursor_pos)
 {
+	GdkFont *font = item_edit->font;
+
 	GdkGC *gc = style->black_gc;
-	
+
 	/* If this segment contains the cursor draw it */
-	if (0 <= cursor_pos && cursor_pos <= text_length) {
-		if (cursor_pos > 0) {
-			gdk_draw_text (drawable, font, gc, x, y, text, cursor_pos);
-			x += gdk_text_width (font, text, cursor_pos);
-			text += cursor_pos;
-			text_length -= cursor_pos;
-		}
-		gdk_draw_line (drawable, gc,
-			       x, y-font->ascent,
-			       x, y+font->descent);
+	if (cursor_pos <= text_length) {
+		gdk_draw_text (drawable, font, gc, x, y, text, cursor_pos);
+		x += gdk_text_width (font, text, cursor_pos);
+		text += cursor_pos;
+		text_length -= cursor_pos;
+
+		item_edit_draw_cursor (item_edit, drawable, style, x, y, font);
 	}
 
-	if (text_length > 0)
+	if (text_length > 0){
+		if (workbook_auto_completing (item_edit->sheet->workbook)){
+			gdk_draw_rectangle (
+				drawable, style->black_gc, TRUE,
+				x, y - font->ascent,
+				gdk_text_width (font, text, text_length),
+				font->ascent + font->descent);
+			gc = style->white_gc;
+		}
+
 		gdk_draw_text (drawable, font, gc, x, y, text, text_length);
+	}
 }
 
 static void
@@ -177,8 +203,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 {
 	GtkWidget *canvas   = GTK_WIDGET (item->canvas);
 	ItemEdit *item_edit = ITEM_EDIT (item);
-	ColRowInfo const * const ci =
-		sheet_col_get_info (item_edit->sheet, item_edit->col);
+	ColRowInfo const * const ci = sheet_col_get_info (item_edit->sheet, item_edit->col);
 	int const left_pos = ((int)item->x1) + ci->margin_a - x;
 
 	/* NOTE : This does not handle vertical alignment yet so there may be some
@@ -186,29 +211,32 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	 */
 	int top_pos = ((int)item->y1) - y + 1; /* grid line */
 	int text_offset = 0;
-	GtkEntry *entry = GTK_ENTRY(workbook_get_entry (item_edit->sheet->workbook));
-	int cursor_pos = item_edit->cursor_visible
-		? GTK_EDITABLE (entry)->current_pos : -1;
+	int cursor_pos = GTK_EDITABLE (item_edit->entry)->current_pos;
 	GSList *ptr;
-
-	char const * const text = gtk_entry_get_text (entry);
+	const char *text;
 
 	/* no drawing until the font is set */
 	if (item_edit->font == NULL)
 		return;
 	top_pos += item_edit->font->ascent;
 
-	/* Draw the background (recall that gdk_draw_rectangle excludes far coords) */
+       	/* Draw the background (recall that gdk_draw_rectangle excludes far coords) */
 	gdk_draw_rectangle (
 		drawable, canvas->style->white_gc, TRUE,
 		((int)item->x1)-x, ((int)item->y1)-y,
 		(int)(item->x2-item->x1),
 		(int)(item->y2-item->y1));
 
+	/*
+	 * Make a number of tests for auto-completion
+	 */
+	text = workbook_edit_get_display_text (item_edit->sheet->workbook);
+	
+
 	for (ptr = item_edit->text_offsets; ptr != NULL; ptr = ptr->next){
 		int const text_end = GPOINTER_TO_INT (ptr->data);
 
-		item_edit_draw_text (drawable, item_edit->font, canvas->style,
+		item_edit_draw_text (item_edit, drawable, canvas->style,
 				     left_pos, top_pos, text+text_offset, text_end-text_offset,
 				     cursor_pos-text_offset);
 		text_offset = text_end;
@@ -216,7 +244,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	}
 
 	/* draw the remainder */
-	item_edit_draw_text (drawable, item_edit->font, canvas->style,
+	item_edit_draw_text (item_edit, drawable, canvas->style,
 			     left_pos, top_pos, text+text_offset,
 			     strlen (text+text_offset),
 			     cursor_pos-text_offset);
@@ -253,9 +281,8 @@ recalc_spans (GnomeCanvasItem *item)
 	ItemEdit *item_edit = ITEM_EDIT (item);
 	Sheet    *sheet     = item_edit->sheet;
 	GdkFont  *font      = item_edit->font;
-	GtkEntry *entry = GTK_ENTRY(workbook_get_entry (item_edit->sheet->workbook));
-	char const * const start = gtk_entry_get_text (entry);
-	char const * text = start;
+	const char *start = workbook_edit_get_display_text (item_edit->sheet->workbook);
+	const char *text  = start;
 
 	GSList	*text_offsets = NULL;
 
@@ -263,8 +290,7 @@ recalc_spans (GnomeCanvasItem *item)
 	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
 	int cur_line = 1;
 	int cur_col = item_edit->col, max_col = cur_col;
-	ColRowInfo const * cri =
-		sheet_col_get_info (item_edit->sheet, cur_col);
+	ColRowInfo const * cri = sheet_col_get_info (item_edit->sheet, cur_col);
 
 	/* Start after the grid line and the left margin */
 	int left_in_col = cri->size_pixels - cri->margin_a - 1;
@@ -356,9 +382,8 @@ cb_item_edit_cursor_blink (ItemEdit *item_edit)
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_edit);
 
 	item_edit->cursor_visible = !item_edit->cursor_visible;
-	/* Request redraw directly.  Should I be using notify ? */
-	gnome_canvas_request_redraw (GNOME_CANVAS_ITEM (item_edit)->canvas,
-				     item->x1, item->y1, item->x2, item->y2);
+
+	gnome_canvas_item_request_update (item);
 	return TRUE;
 }
 
@@ -405,18 +430,22 @@ item_edit_init (ItemEdit *item_edit)
 	item_edit->feedback_cursor = NULL;
 }
 
+/*
+ * Invoked when the GtkEntry has changed
+ *
+ * We use this to sync up the GtkEntry with our display on the screen.
+ */
 static void
 entry_changed (GtkEntry *entry, void *data)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (data);
 	ItemEdit *item_edit = ITEM_EDIT (item);
-	char *text;
+	const char *text;
+	
+	text = gtk_entry_get_text (item_edit->entry);
 
-	text = gtk_entry_get_text (entry);
 	if (gnumeric_char_start_expr_p (text))
 		scan_for_range (item_edit, text);
-	else if (application_use_auto_complete_get ())
-		complete_start (item_edit->auto_complete, text);
 	
 	gnome_canvas_item_request_update (item);
 }
@@ -425,19 +454,16 @@ static void
 item_edit_destroy (GtkObject *o)
 {
 	ItemEdit *item_edit = ITEM_EDIT (o);
-	GtkWidget *entry = workbook_get_entry (item_edit->sheet->workbook);
-
+	GtkEntry *entry = item_edit->entry;
+	
 	if (item_edit->text_offsets != NULL)
 		g_slist_free (item_edit->text_offsets);
 
-	if (application_use_auto_complete_get ())
-		gtk_object_unref (GTK_OBJECT (item_edit->auto_complete));
-	
 	item_edit_cursor_blink_stop (item_edit);
 	entry_destroy_feedback_range (item_edit);
 
-	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal);
-	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal2);
+	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal_changed);
+	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal_event);
 
 	if (GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)(o);
@@ -447,7 +473,7 @@ static int
 entry_event (GtkEntry *entry, GdkEvent *event, GnomeCanvasItem *item)
 {
 	switch (event->type) {
-	case GDK_KEY_PRESS:
+	case GDK_KEY_PRESS: 
 	case GDK_KEY_RELEASE:
 	case GDK_BUTTON_PRESS:
 		gnome_canvas_item_request_update (item);
@@ -459,33 +485,31 @@ entry_event (GtkEntry *entry, GdkEvent *event, GnomeCanvasItem *item)
 }
 
 static void
-item_edit_complete_notify (const char *text, void *closure)
-{
-}
-
-static void
 item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item      = GNOME_CANVAS_ITEM (o);
 	ItemEdit        *item_edit = ITEM_EDIT (o);
 	GnumericSheet   *gsheet    = GNUMERIC_SHEET (item->canvas);
 	Sheet		*sheet;
-	GtkWidget	*entry;
+	GtkEntry        *entry;
 
 	/* We can only set the item_grid once */
 	g_return_if_fail (arg_id == ARG_ITEM_GRID);
 	g_return_if_fail (item_edit->item_grid == NULL);
 
 	item_edit->item_grid = GTK_VALUE_POINTER (*arg);
-	sheet = item_edit->sheet = item_edit->item_grid->sheet_view->sheet;
+	item_edit->sheet = item_edit->item_grid->sheet_view->sheet;
+	item_edit->entry = GTK_ENTRY (workbook_get_entry (item_edit->sheet->workbook));
 
+	sheet = item_edit->sheet;
 	item_edit->col = sheet->cursor.edit_pos.col;
 	item_edit->row = sheet->cursor.edit_pos.row;
-	entry = workbook_get_entry (sheet->workbook);
-	item_edit->signal = gtk_signal_connect (
+
+	entry = item_edit->entry;
+	item_edit->signal_changed = gtk_signal_connect (
 		GTK_OBJECT (entry), "changed",
 		GTK_SIGNAL_FUNC (entry_changed), item_edit);
-	item_edit->signal2 = gtk_signal_connect_after (
+	item_edit->signal_event = gtk_signal_connect_after (
 		GTK_OBJECT (entry), "event",
 		GTK_SIGNAL_FUNC (entry_event), item_edit);
 
@@ -494,12 +518,6 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	/*
 	 * Init the auto-completion
 	 */
-	if (application_use_auto_complete_get ())
-		item_edit->auto_complete = complete_sheet_new (
-			sheet, item_edit->col, item_edit->row,
-			item_edit_complete_notify, item_edit);
-	else
-		item_edit->auto_complete = NULL;
 	
 	/* set the font and the upper left corner if this is the first pass */
 	if (item_edit->font == NULL) {

@@ -100,6 +100,7 @@ char *
 gnumeric_sys_data_dir (const char *subdir)
 {
 	extern char *gnumeric_data_dir;
+
 	return g_strconcat (gnumeric_data_dir, subdir, "/", NULL);
 }
 
@@ -107,23 +108,39 @@ char *
 gnumeric_sys_lib_dir (const char *subdir)
 {
 	extern char *gnumeric_lib_dir;
+
 	return g_strconcat (gnumeric_lib_dir, subdir, "/", NULL);
 }
 
 #define GLADE_SUFFIX	"glade"
 #define PLUGIN_SUFFIX	"plugins"
 
-char * gnumeric_sys_glade_dir (void)  { return gnumeric_sys_data_dir (GLADE_SUFFIX); }
-char * gnumeric_sys_plugin_dir (void) { return gnumeric_sys_lib_dir (PLUGIN_SUFFIX); }
+char *
+gnumeric_sys_glade_dir (void)
+{
+	return gnumeric_sys_data_dir (GLADE_SUFFIX);
+}
+
+char *
+gnumeric_sys_plugin_dir (void)
+{
+	return gnumeric_sys_lib_dir (PLUGIN_SUFFIX);
+}
 
 char *
 gnumeric_usr_dir (const char *subdir)
 {
-	char const * const home_dir = getenv ("HOME");
+	const char *home_dir = getenv ("HOME");
+
 	if (home_dir != NULL)
-		return g_strconcat (home_dir, "/.gnumeric/" GNUMERIC_VERSION "/",
-				    subdir, "/", NULL);
+		return g_strconcat (
+			home_dir, "/.gnumeric/" GNUMERIC_VERSION "/",
+			subdir, "/", NULL);
 	return NULL;
 }
 
-char * gnumeric_usr_plugin_dir (void) { return gnumeric_usr_dir (PLUGIN_SUFFIX); }
+char *
+gnumeric_usr_plugin_dir (void)
+{
+	return gnumeric_usr_dir (PLUGIN_SUFFIX);
+}

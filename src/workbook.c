@@ -14,6 +14,7 @@
 #include "application.h"
 #include "eval.h"
 #include "workbook.h"
+#include "workbook-edit.h"
 #include "gnumeric-util.h"
 #include "sheet-object.h"
 #include "dialogs.h"
@@ -284,6 +285,8 @@ workbook_do_destroy (Workbook *wb)
 		GTK_SIGNAL_FUNC (workbook_set_focus), wb);
 
 	wb->priv->during_destruction = TRUE;
+
+	workbook_auto_complete_destroy (wb);
 	workbook_autosave_cancel (wb);
 
 	if (wb->file_format_level > FILE_FL_NEW)
@@ -588,7 +591,7 @@ workbook_close_if_user_permits (Workbook *wb)
 static void
 close_cmd (GtkWidget *widget, Workbook *wb)
 {
-	(void) workbook_close_if_user_permits (wb);
+	workbook_close_if_user_permits (wb);
 }
 
 static void
@@ -605,7 +608,8 @@ quit_cmd (void)
 
 	for (l = n; l; l = l->next){
 		Workbook *wb = l->data;
-		(void) workbook_close_if_user_permits (wb);
+
+		workbook_close_if_user_permits (wb);
 	}
 
 	g_list_free (n);
@@ -616,6 +620,7 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event, Workbook *wb)
 {
 	if (!wb->editing)
 		workbook_start_editing_at_cursor (wb, FALSE, TRUE);
+
 	return TRUE;
 }
 
@@ -1063,7 +1068,7 @@ cb_autofunction (GtkWidget *widget, Workbook *wb)
 	if (wb->editing)
 		return;
 
-	entry = GTK_ENTRY (wb->priv->edit_line);
+	entry = workbook_get_entry (wb);
 	txt = gtk_entry_get_text (entry);
 	if (strncmp (txt, "=", 1)) {
 		workbook_start_editing_at_cursor (wb, TRUE, TRUE);
@@ -1088,7 +1093,7 @@ autosum_cmd (GtkWidget *widget, Workbook *wb)
 	if (wb->editing)
 		return;
 
-	entry = GTK_ENTRY (wb->priv->edit_line);
+	entry = workbook_get_entry (wb);
 	txt = gtk_entry_get_text (entry);
 	if (strncmp (txt, "=sum(", 5)) {
 		workbook_start_editing_at_cursor (wb, TRUE, TRUE);
@@ -1097,7 +1102,8 @@ autosum_cmd (GtkWidget *widget, Workbook *wb)
 	} else {
 		workbook_start_editing_at_cursor (wb, FALSE, TRUE);
 
-		/* FIXME : This is crap!
+		/*
+		 * FIXME : This is crap!
 		 * When the function druid is more complete use that.
 		 */
 		gtk_entry_set_position (entry, entry->text_length-1);
@@ -1614,7 +1620,8 @@ do_focus_sheet (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, Wo
 
 	if (wb->editing) {
 		/* If we are not at a subexpression boundary then finish editing */
-		accept = !gnumeric_entry_at_subexpr_boundary_p (wb->priv->edit_line);
+		accept = !gnumeric_entry_at_subexpr_boundary_p (workbook_get_entry (wb));
+
 		if (accept)
 			workbook_finish_editing (wb, TRUE);
 	}
@@ -1833,19 +1840,20 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 		if (wb->editing) {
 			if (event->state == GDK_CONTROL_MASK ||
 			    event->state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
-				gboolean const is_array =
-					(event->state & GDK_SHIFT_MASK);
-				char * const text =
-					gtk_entry_get_text (GTK_ENTRY (wb->priv->edit_line));
-				Sheet * sheet = wb->editing_sheet;
+				gboolean const is_array = (event->state & GDK_SHIFT_MASK);
+				const char *text = gtk_entry_get_text (workbook_get_entry (wb));
+				Sheet *sheet = wb->editing_sheet;
 				EvalPos pos;
+				
 				/* Be careful to use the editing sheet */
 				gboolean const trouble =
-					cmd_area_set_text (workbook_command_context_gui (wb),
-							   eval_pos_init (&pos, sheet, &sheet->cursor.edit_pos),
-							   text, is_array);
+					cmd_area_set_text (
+						workbook_command_context_gui (wb),
+						eval_pos_init (&pos, sheet, &sheet->cursor.edit_pos),
+						text, is_array);
 
-				/* If the assignment was successful finish
+				/*
+				 * If the assignment was successful finish
 				 * editing but do NOT store the results
 				 */
 				if (!trouble)
@@ -1855,7 +1863,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 
 			/* Is this the right way to append a newline ?? */
 			if (event->state == GDK_MOD1_MASK)
-				gtk_entry_append_text (GTK_ENTRY (wb->priv->edit_line), "\n");
+				gtk_entry_append_text (workbook_get_entry (wb), "\n");
 		}
 	default:
 		return FALSE;
@@ -1931,12 +1939,16 @@ static void
 workbook_setup_edit_area (Workbook *wb)
 {
 	GtkWidget *pix, *deps_button, *box, *box2;
-
+	GtkEntry *entry;
+	
 	wb->priv->selection_descriptor     = gtk_entry_new ();
 	wb->priv->ok_button     = gtk_button_new ();
 	wb->priv->cancel_button = gtk_button_new ();
 	wb->priv->func_button	= gtk_button_new ();
-	wb->priv->edit_line	= gtk_entry_new ();
+
+	workbook_edit_init (wb);
+	entry = workbook_get_entry (wb);
+	
 	box           = gtk_hbox_new (0, 0);
 	box2          = gtk_hbox_new (0, 0);
 
@@ -1984,20 +1996,20 @@ workbook_setup_edit_area (Workbook *wb)
 	}
 
 	gtk_box_pack_start (GTK_BOX (box2), box, 0, 0, 0);
-	gtk_box_pack_end   (GTK_BOX (box2), wb->priv->edit_line, 1, 1, 0);
+	gtk_box_pack_end   (GTK_BOX (box2), GTK_WIDGET (entry), 1, 1, 0);
 
 	gtk_table_attach (GTK_TABLE (wb->priv->table), box2,
 			  0, 1, 0, 1,
 			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* Do signal setup for the editing input line */
-	gtk_signal_connect (GTK_OBJECT (wb->priv->edit_line), "focus-in-event",
+	gtk_signal_connect (GTK_OBJECT (entry), "focus-in-event",
 			    GTK_SIGNAL_FUNC (cb_editline_focus_in),
 			    wb);
-	gtk_signal_connect (GTK_OBJECT (wb->priv->edit_line), "activate",
+	gtk_signal_connect (GTK_OBJECT (entry), "activate",
 			    GTK_SIGNAL_FUNC (accept_input),
 			    wb);
-	gtk_signal_connect (GTK_OBJECT (wb->priv->edit_line), "key_press_event",
+	gtk_signal_connect (GTK_OBJECT (entry), "key_press_event",
 			    GTK_SIGNAL_FUNC (wb_edit_key_pressed),
 			    wb);
 
@@ -2467,6 +2479,15 @@ workbook_standard_toolbar_orient (GtkToolbar *toolbar,
 		gtk_widget_hide (wb->priv->zoom_entry);
 }
 
+static char const * const preset_zoom [] = {
+	"200%",
+	"100%",
+	"75%",
+	"50%",
+	"25%",
+	NULL
+};
+
 /*
  * These create toolbar routines are kept independent, as they
  * will need some manual customization in the future (like adding
@@ -2476,16 +2497,6 @@ static GtkWidget *
 workbook_create_standard_toobar (Workbook *wb)
 {
 	GnomeDockItemBehavior behavior;
-
-	char const * const preset_zoom[] =
-	{
-	    "200%",
-	    "100%",
-	    "75%",
-	    "50%",
-	    "25%",
-	    NULL
-	};
 	const char *name = "StandardToolbar";
 	int i, len;
 	GtkWidget *toolbar, *zoom, *entry, *undo, *redo;
@@ -2959,7 +2970,7 @@ sheet_action_rename_sheet (GtkWidget *widget, Sheet *current_sheet)
 		return;
 
 	/* We do not care if it fails */
-	(void) cmd_rename_sheet (workbook_command_context_gui (wb),
+	cmd_rename_sheet (workbook_command_context_gui (wb),
 				 wb, current_sheet->name_unquoted, new_name);
 	g_free (new_name);
 }
@@ -3252,8 +3263,7 @@ workbook_sheet_lookup (Workbook *wb, const char *sheet_name)
  *
  * Returns the name assigned to the sheet.  */
 char *
-workbook_sheet_get_free_name (Workbook *wb, const char * const base,
-			      gboolean always_suffix)
+workbook_sheet_get_free_name (Workbook *wb, const char *base, gboolean always_suffix)
 {
 	const char *name_format = "%s%d";
 	char *name;
@@ -3695,148 +3705,6 @@ workbook_delete_sheet (Sheet *sheet)
 	workbook_detach_sheet (wb, sheet, FALSE);
 }
 
-/**
- * workbook_start_editing_at_cursor:
- *
- * @wb:       The workbook to be edited.
- * @blankp:   If true, erase current cell contents first.  If false, leave the
- *            contents alone.
- * @cursorp:  If true, create an editing cursor in the current sheet.  (If
- *            false, the text will be editing in the edit box above the sheet,
- *            but this is not handled by this function.)
- *
- * Initiate editing of a cell in the sheet.  Note that we have two modes of
- * editing:
- *  1) in-cell editing when you just start typing, and
- *  2) above sheet editing when you hit F2.
- */
-void
-workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
-				  gboolean cursorp)
-{
-	Sheet *sheet;
-	Cell *cell;
-
-	g_return_if_fail (wb != NULL);
-
-	sheet = wb->current_sheet;
-	g_return_if_fail (sheet != NULL);
-
-	application_clipboard_unant ();
-
-	cell = sheet_cell_get (sheet,
-			       sheet->cursor.edit_pos.col,
-			       sheet->cursor.edit_pos.row);
-
-	if (blankp)
-		gtk_entry_set_text (GTK_ENTRY (wb->priv->edit_line), "");
-	else {
-		/* If this is part of an array we need to remove the
-		 * '{' '}' and the size information from the display.
-		 * That is not actually part of the parsable expression.
-		 */
-		if (NULL != cell_is_array (cell)) {
-			char * text = cell_get_entered_text (cell);
-			gtk_entry_set_text (GTK_ENTRY (wb->priv->edit_line), text);
-			g_free (text);
-		}
-	}
-
-	if (cursorp) {
-		/* Redraw the cell contents in case there was a span */
-		int const c = sheet->cursor.edit_pos.col;
-		int const r = sheet->cursor.edit_pos.row;
-		sheet_create_edit_cursor (sheet);
-		sheet_redraw_cell_region (sheet, c, r, c, r);
-	} else
-		/* Give the focus to the edit line */
-		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), workbook_get_entry (wb));
-
-
-	/* TODO : Should we reset like this ? probably */
-	wb->use_absolute_cols = wb->use_absolute_rows = FALSE;
-
-	wb->editing = TRUE;
-	wb->editing_sheet = sheet;
-	wb->editing_cell = cell;
-
-	/* These are only sensitive while editing */
-	gtk_widget_set_sensitive (wb->priv->ok_button, TRUE);
-	gtk_widget_set_sensitive (wb->priv->cancel_button, TRUE);
-
-	/* Toolbars are insensitive while editing */
-	gtk_widget_set_sensitive (wb->priv->func_button, FALSE);
-	gtk_widget_set_sensitive (wb->priv->standard_toolbar, FALSE);
-	gtk_widget_set_sensitive (wb->priv->format_toolbar, FALSE);
-}
-
-void
-workbook_finish_editing (Workbook *wb, gboolean const accept)
-{
-	Sheet *sheet;
-
-	g_return_if_fail (wb != NULL);
-
-	if (!wb->editing)
-		return;
-
-	g_return_if_fail (wb->editing_sheet != NULL);
-
-	/* Stop editing */
-	sheet = wb->editing_sheet;
-	wb->editing = FALSE;
-	wb->editing_sheet = NULL;
-	wb->editing_cell = NULL;
-
-	/* These are only sensitive while editing */
-	gtk_widget_set_sensitive (wb->priv->ok_button, FALSE);
-	gtk_widget_set_sensitive (wb->priv->cancel_button, FALSE);
-
-	/* Toolbars are insensitive while editing */
-	gtk_widget_set_sensitive (wb->priv->func_button, TRUE);
-	gtk_widget_set_sensitive (wb->priv->standard_toolbar, TRUE);
-	gtk_widget_set_sensitive (wb->priv->format_toolbar, TRUE);
-
-	/* Save the results before changing focus */
-	if (accept) {
-		/* TODO : Get a context */
-		GtkEntry * const entry = GTK_ENTRY (sheet->workbook->priv->edit_line);
-		char     * const txt = gtk_entry_get_text (entry);
-		/* Store the old value for undo */
-		/* TODO : What should we do in case of failure ?
-		 * maybe another parameter that will force an end ? */
-		(void )cmd_set_text (workbook_command_context_gui (wb),
-				     sheet, &sheet->cursor.edit_pos, txt);
-	} else {
-		/* Redraw the cell contents in case there was a span */
-		int const c = sheet->cursor.edit_pos.col;
-		int const r = sheet->cursor.edit_pos.row;
-		sheet_redraw_cell_region (sheet, c, r, c, r);
-
-		/* Reload the entry widget with the original contents */
-		sheet_load_cell_val (sheet);
-	}
-
-	/* restore focus to original sheet in case things were being selected
-	 * on a different page */
-	workbook_focus_sheet (sheet);
-
-	/* FIXME :
-	 * If user was editing on the input line, get the focus back
-	 * This code was taken from workbook_focus_current_sheet which also needs
-	 * fixing.  There can be multiple views.  We have no business at all
-	 * assigning focus to the first.
-	 */
-	gtk_window_set_focus (GTK_WINDOW (wb->toplevel),
-			      SHEET_VIEW (sheet->sheet_views->data)->sheet_view);
-
-	/* Only the edit sheet has an edit cursor */
-	sheet_stop_editing (sheet);
-
-	if (accept)
-		workbook_recalc (wb);
-}
-
 static void
 cb_sheet_calc_spans (gpointer key, gpointer value, gpointer flags)
 {
@@ -3848,22 +3716,6 @@ workbook_calc_spans (Workbook *wb, SpanCalcFlags const flags)
 	g_return_if_fail (wb != NULL);
 
 	g_hash_table_foreach (wb->sheets, &cb_sheet_calc_spans, GINT_TO_POINTER (flags));
-}
-
-GtkWidget *
-workbook_get_entry (Workbook const *wb)
-{
-	g_return_val_if_fail (wb != NULL, NULL);
-	g_return_val_if_fail (wb->priv != NULL, NULL);
-
-	/* TODO : If there is an function drui up use the edit line from there */
-	return wb->priv->edit_line;
-}
-
-gboolean
-workbook_editing_expr (Workbook const *wb)
-{
-	return gnumeric_entry_at_subexpr_boundary_p (wb->priv->edit_line);
 }
 
 void

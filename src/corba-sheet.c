@@ -415,7 +415,7 @@ Sheet_cell_get_value (PortableServer_Servant servant,
 static void
 Sheet_cell_set_text (PortableServer_Servant servant,
 		     const CORBA_long col, const CORBA_long row,
-		     const CORBA_char * text, CORBA_Environment *ev)
+		     const CORBA_char *text, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -454,7 +454,7 @@ static void
 Sheet_cell_set_format (PortableServer_Servant servant,
 		       const CORBA_long col,
 		       const CORBA_long row,
-		       const CORBA_char * format,
+		       const CORBA_char *format,
 		       CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
@@ -491,7 +491,7 @@ static void
 Sheet_cell_set_font (PortableServer_Servant servant,
 		     const CORBA_long col,
 		     const CORBA_long row,
-		     const CORBA_char * font,
+		     const CORBA_char *font,
 		     const CORBA_double points,
 		     CORBA_Environment *ev)
 {
@@ -528,7 +528,7 @@ Sheet_cell_get_font (PortableServer_Servant servant, const CORBA_long col, const
 static void
 Sheet_cell_set_comment (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
-			const CORBA_char * comment, CORBA_Environment *ev)
+			const CORBA_char *comment, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -561,7 +561,7 @@ Sheet_cell_get_comment (PortableServer_Servant servant,
 static void
 Sheet_cell_set_foreground (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
-			   const CORBA_char * color, CORBA_Environment *ev)
+			   const CORBA_char *color, CORBA_Environment *ev)
 {
 	GdkColor c;
 	MStyle *mstyle = mstyle_new ();
@@ -589,7 +589,7 @@ Sheet_cell_get_foreground (PortableServer_Servant servant,
 static void
 Sheet_cell_set_background (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
-			   const CORBA_char * color, CORBA_Environment *ev)
+			   const CORBA_char *color, CORBA_Environment *ev)
 {
 	GdkColor c;
 	MStyle *mstyle = mstyle_new ();

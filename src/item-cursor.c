@@ -15,6 +15,7 @@
 #include "cursors.h"
 #include "selection.h"
 #include "workbook.h"
+#include "workbook-edit.h"
 #include "gnumeric-util.h"
 #include "cmd-edit.h"
 #include "commands.h"

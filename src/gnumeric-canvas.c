@@ -21,6 +21,7 @@
 #include "ranges.h"
 #include "application.h"
 #include "workbook-view.h"
+#include "workbook-edit.h"
 #include "workbook.h"
 #include "commands.h"
 
@@ -221,7 +222,7 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 	Sheet * sheet = gsheet->sheet_view->sheet;
 	Workbook const * wb =sheet->workbook;
 	gboolean const inter_sheet = (sheet != wb->editing_sheet);
-	char * buffer;
+	char *buffer;
 	int pos;
 
 	/* Get the new selection string */
@@ -232,7 +233,7 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 				  sel->pos.start.row+1);
 
 	if (!range_is_singleton (&sel->pos)) {
-		char * tmp = g_strdup_printf ("%s:%s%s%s%d",
+		char *tmp = g_strdup_printf ("%s:%s%s%s%d",
 					      buffer,
 					      wb->use_absolute_cols ? "$": "",
 					      col_name (sel->pos.end.col),
@@ -243,8 +244,8 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 	}
 
 	if (inter_sheet) {
-		char * tmp = g_strdup_printf ("%s!%s", sheet->name_quoted,
-					      buffer);
+		char *tmp = g_strdup_printf ("%s!%s", sheet->name_quoted,
+					     buffer);
 		g_free (buffer);
 		buffer = tmp;
 	}
@@ -695,7 +696,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		cmd_clear_selection (workbook_command_context_gui (wb), sheet, CLEAR_VALUES);
 		break;
 
-	/* NOTE : Keep these in sync with the condition
+	/*
+	 * NOTE : Keep these in sync with the condition
 	 *        for tabs.
 	 */
 	case GDK_KP_Enter:
@@ -705,8 +707,9 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		     event->state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
 		     event->state == GDK_MOD1_MASK))
 			/* Forward the keystroke to the input line */
-			return gtk_widget_event (workbook_get_entry (wb),
-						 (GdkEvent *) event);
+			return gtk_widget_event (
+				GTK_WIDGET (workbook_get_entry (wb)),
+				(GdkEvent *) event);
 		/* fall down */
 
 	case GDK_Tab:
@@ -758,7 +761,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
 
 		/* Forward the keystroke to the input line */
-		return gtk_widget_event (workbook_get_entry (wb), (GdkEvent *) event);
+		return gtk_widget_event (GTK_WIDGET (workbook_get_entry (wb)),
+					 (GdkEvent *) event);
 	}
 	sheet_update (sheet);
 

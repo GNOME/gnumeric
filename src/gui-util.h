@@ -60,7 +60,7 @@ void        gnumeric_position_tooltip (GtkWidget *tip, int horizontal);
 GtkWidget  *gnumeric_create_tooltip (void);
 
 /* Is this GtkEntry editing at a subexpression boundary */
-gboolean    gnumeric_entry_at_subexpr_boundary_p (GtkWidget const * const w);
+gboolean    gnumeric_entry_at_subexpr_boundary_p (GtkEntry *entry);
 
 GladeXML   *gnumeric_glade_xml_new (CommandContext *context, char const * gladefile);
 

@@ -11,11 +11,12 @@
 typedef struct {
 	GnomeCanvasItem canvas_item;
 
-	guint      signal;	/* the signal we connect */
-	guint      signal2;	/* the other signal we connect */
-
+	guint      signal_changed;	/* ::changed signal in the GtkEntry */
+	guint      signal_event;	/* ::event signal in the GtkEntry */
+	
 	ItemGrid   *item_grid;
 	Sheet      *sheet;
+	GtkEntry   *entry;		/* Utility pointer to the workbook entry */
 
 	/* Where are we */
 	int         col, row, col_span, lines, ignore_lines;
@@ -34,9 +35,6 @@ typedef struct {
 	GnomeCanvasItem *feedback_cursor;
 	Range            feedback_region;
 	gboolean         feedback_disabled;
-
-	/* GtkType: "Complete" */
-	void            *auto_complete;
 } ItemEdit;
 
 GtkType item_edit_get_type (void);

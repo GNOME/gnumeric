@@ -204,6 +204,8 @@ GNUMERIC_BASE_SOURCES =				\
 	workbook.h				\
 	workbook-cmd-format.c			\
 	workbook-cmd-format.h			\
+	workbook-edit.c				\
+	workbook-edit.h				\
 	workbook-format-toolbar.c		\
 	workbook-format-toolbar.h		\
 	workbook-private.h			\

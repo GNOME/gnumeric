@@ -271,7 +271,7 @@ Workbook *
 workbook_read (CommandContext *context, const char *filename)
 {
 	Workbook *wb = NULL;
-	char * template;
+	char *template;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
@@ -361,7 +361,7 @@ workbook_import (CommandContext *context, Workbook *parent,
 		gnome_dialog_close (GNOME_DIALOG (dialog));
 		
 	if (fo) {
-		char * template;
+		char *template;
 
 		wb = workbook_new ();
 		template = g_strdup_printf (_("Could not import file %s\n%%s"),

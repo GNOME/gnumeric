@@ -43,9 +43,12 @@ struct _WorkbookPrivate {
 	const char *current_font_name;
 
 	/* Edit area */
-	GtkWidget *selection_descriptor;
-	GtkWidget *edit_line;
-
+	GtkWidget *selection_descriptor;	/* A GtkEntry */
+	struct {
+		GtkEntry *entry;
+		int       signal_changed;
+	} edit_line;
+	
 	/* While editing these should be visible */
 	GtkWidget *ok_button, *cancel_button;
 
@@ -60,6 +63,16 @@ struct _WorkbookPrivate {
 	 */
 	CommandContext *gui_context, *corba_context;
 
+	/*
+	 * Auto completion
+	 */
+	void            *auto_complete;         /* GtkType is (Complete *) */
+	gboolean         auto_completing;
+	char            *auto_complete_text;
+
+	/* Used to detect if the user has backspaced, so we turn off auto-complete */
+	int              auto_max_size;
+	 
 #ifdef ENABLE_BONOBO
 #else
 	/* Menu items that get toggled */
@@ -70,3 +83,4 @@ struct _WorkbookPrivate {
 };
 
 #endif /* GNUMERIC_WORKBOOK_PRIVATE_H */
+

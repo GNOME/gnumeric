@@ -12,6 +12,7 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "workbook.h"
+#include "workbook-edit.h"
 #include "cell.h"
 #include "expr.h"
 #include "func.h"
@@ -344,14 +345,13 @@ dialog_function_druid (Workbook *wb)
 	Sheet *sheet;
 	GtkEntry *entry;
 	gchar *txt;
-	GtkWidget *dialog, *w;
+	GtkWidget *dialog;
 	State *state;
 	FunctionDefinition *fd;
 
 	g_return_if_fail (wb != NULL);
 
-	w = workbook_get_entry (wb);
-	entry = GTK_ENTRY(w);
+	entry = workbook_get_entry (wb);
 	txt   = gtk_entry_get_text (entry);
 	sheet = wb->current_sheet;
 

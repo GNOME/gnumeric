@@ -333,6 +333,8 @@ gtk_radio_button_select (GSList *group, int n)
 	GSList *l;
 	int len = g_slist_length (group);
 
+	g_return_if_fail ((n >= 0) && n < len);
+	
 	l = g_slist_nth (group, len - n - 1);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (l->data), 1);
 }
@@ -667,14 +669,11 @@ gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
  * eg '=sum', or 'bob' are not while '=sum(' is
  */
 gboolean
-gnumeric_entry_at_subexpr_boundary_p (GtkWidget const * const w)
+gnumeric_entry_at_subexpr_boundary_p (GtkEntry *entry)
 {
-	GtkEntry *entry;
 	int cursor_pos;
 
-	g_return_val_if_fail (w, FALSE);
-	entry = GTK_ENTRY (w);
-	g_return_val_if_fail (entry, FALSE);
+	g_return_val_if_fail (entry != NULL, FALSE);
 
 	cursor_pos = GTK_EDITABLE (entry)->current_pos;
 

@@ -76,7 +76,9 @@ cellref_name (CellRef *cell_ref, ParsePos const *pp)
 		s = g_strconcat (sheet->name_quoted, "!", buffer, NULL);
 
 		if (sheet->workbook != pp->wb) {
-			char * n = g_strconcat ("[", sheet->workbook->filename, "]", s, NULL);
+			char *n;
+
+			n = g_strconcat ("[", sheet->workbook->filename, "]", s, NULL);
 			g_free (s);
 			s = n;
 		}

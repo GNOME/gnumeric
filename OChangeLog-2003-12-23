@@ -1,3 +1,90 @@
+2000-06-05  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/gnumeric-util.c (gtk_radio_button_select): Add
+	precondition.  Chema found this, but we should add the proper
+	check at an upper layer.
+
+2000-06-04  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/gnumeric-util.c (gnumeric_entry_at_subexpr_boundary_p):
+	Change prototype to use GtkEntry instead of GtkWidget.
+
+	* src/workbook-edit.c (workbook_finish_editing): Changed direct access to
+	workbook->private_entry to workbook_get_entry. 
+	(entry_changed): ditto.
+	(workbook_start_editing_at_cursor): ditto.
+	(workbook_editing_expr): ditto.
+	(workbook_edit_get_display_text): ditto.
+
+	* src/workbook.c (autosum_cmd): Changed direct access to
+	workbook->private_entry to workbook_get_entry. 
+	(do_focus_sheet): ditto.
+	(wb_edit_key_pressed): ditto.
+	(workbook_setup_edit_area): ditto.
+
+	* src/workbook.c (cb_autofunction): ditto.
+
+	* src/workbook-private.h: Make edit_line a structure to keep track
+	of the entry and its signal changed.  Also take a chance to change
+	this to the self descriptive GtkEntry instead of GtkWidget.
+
+	* src/commands.c (cmd_set_text): Added const here.
+
+	* src/workbook.c (workbook_do_destroy): Add destroy notification
+	for the editing facilities
+
+	* src/item-edit.c (item_edit_set_arg): removed auto complete code
+	from here. 
+
+2000-06-03  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/workbook-edit.c, src/workbook-edit.h: New files.  Moved
+	workbook_start_editing_at_cursor, workbook_finish_editing,
+	workbook_get_entry, workbook_editing_expr here.  Killed
+	workbook_set_entry prototype.
+
+	* src/workbook.c (workbook_start_editing_at_cursor): Moved
+	autocomplete here. 
+
+	* src/workbook.h: Removed warning.  #include <config.h> is a
+	mandatory header file in every C file.  A correct approach is to
+	use something like Nautilus' perl script that verifies the
+	presence of config.h as the first include.
+
+	* src/workbook.c (close_cmd): Removed ulgy (void)
+	(quit_cmd): More.
+	(sheet_action_rename_sheet): more.
+	(workbook_finish_editing): Fixed more ugly.
+
+	* src/gutils.c (gnumeric_sys_glade_dir): Fixed ugly indentation.
+	(gnumeric_usr_plugin_dir): More ugly stuff fixed.
+	(gnumeric_usr_dir): Removed ugly const.
+
+2000-05-02  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/item-edit.h: New ::entry member, auto_max_size, auto_complete_text
+
+	* src/item-edit.c (item_edit_draw_text): Take an ItemEdit as a
+	first argument, and reduce the cluttered arguments we were
+	passing.
+	(item_edit_draw): Cursor_pos is now only the position, it is not
+	overloaded with show/hide cursor as well.
+	(item_edit_draw_text): Update acoordingly.
+	(item_edit_draw_cursor): This new routine paints the cursor only.
+	(item_edit_set_arg): Add a new signal handler for "activated" on
+	the entry
+	(cb_item_edit_cursor_blink): Removed FIXME.
+	(item_edit_set_arg): Init item_edit->entry.  I am pretty sure this
+	existed in the past.
+
+2000-05-01  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/item-edit.c (item_edit_draw): Pass auto-completing flag.
+	(item_edit_draw_text): Invert auto-complete region.
+	(item_edit_set_arg): Init auto_completing here.
+	(item_edit_complete_notify): Set the entry from the
+	auto-completing data here.
+
 2000-06-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_cell_expr_{link,unlink}) : renamed from

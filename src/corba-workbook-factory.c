@@ -44,7 +44,7 @@ static POA_GNOME_Gnumeric_WorkbookFactory__epv gnumeric_workbook_factory_epv;
 static POA_GNOME_Gnumeric_WorkbookFactory__vepv gnumeric_workbook_factory_vepv;
 
 static GNOME_Gnumeric_Workbook
-WorkbookFactory_read (PortableServer_Servant servant, const CORBA_char * filename, CORBA_Environment * ev)
+WorkbookFactory_read (PortableServer_Servant servant, const CORBA_char *filename, CORBA_Environment *ev)
 {
 	CommandContext *context;
 	Workbook *workbook;
@@ -62,8 +62,8 @@ WorkbookFactory_read (PortableServer_Servant servant, const CORBA_char * filenam
 
 static CORBA_boolean
 WorkbookFactory_manufactures (PortableServer_Servant servant,
-			      const CORBA_char * obj_goad_id,
-			      CORBA_Environment * ev)
+			      const CORBA_char *obj_goad_id,
+			      CORBA_Environment *ev)
 {
 	g_warning ("Request for: %s\n", obj_goad_id);
 
