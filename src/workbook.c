@@ -1120,15 +1120,16 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM(file_save_as_cmd, NULL),
 
-	{ GNOME_APP_UI_ITEM, N_("Su_mmary..."), N_("Summary information"),
-	  summary_cmd },
+	GNOMEUIINFO_ITEM_NONE(N_("Su_mmary..."),
+			      N_("Summary information"),
+			      &summary_cmd),
 
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM(print_setup_cmd, NULL),
 	GNOMEUIINFO_MENU_PRINT_ITEM(file_print_cmd, NULL),
-	{ GNOME_APP_UI_ITEM, N_("Print pre_view"), N_("Print preview"),
-	  file_print_preview_cmd },
+	GNOMEUIINFO_ITEM(N_("Print pre_view"), N_("Print preview"),
+			 &file_print_preview_cmd, preview_xpm),
 	
 	GNOMEUIINFO_SEPARATOR,
 
@@ -1143,22 +1144,21 @@ static GnomeUIInfo workbook_menu_file [] = {
 /* Edit menu */
 
 static GnomeUIInfo workbook_menu_edit_clear [] = {
-	{ GNOME_APP_UI_ITEM, N_("_All"),
-	  N_("Clear the selected cells' formats, comments, and contents"),
-	  clear_all_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Formats"),
-	  N_("Clear the selected cells' formats"),
-	  clear_formats_cmd },
-	{ GNOME_APP_UI_ITEM, N_("Co_mments"),
-	  N_("Clear the selected cells' comments"),
-	  clear_comments_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Content"),
-	  N_("Clear the selected cells' contents"),
-	  clear_content_cmd },
+	GNOMEUIINFO_ITEM_NONE(N_("_All"),
+		N_("Clear the selected cells' formats, comments, and contents"),
+		&clear_all_cmd),
+	GNOMEUIINFO_ITEM_NONE(N_("_Formats"),
+		N_("Clear the selected cells' formats"),
+		&clear_formats_cmd),
+	GNOMEUIINFO_ITEM_NONE(N_("Co_mments"),
+		N_("Clear the selected cells' comments"),
+		&clear_comments_cmd),
+	GNOMEUIINFO_ITEM_NONE(N_("_Content"),
+		N_("Clear the selected cells' contents"),
+		&clear_content_cmd),
 	GNOMEUIINFO_END
 };
 
-#define PASTE_SPECIAL_NAME N_("P_aste special...")
 #define GNOME_MENU_EDIT_PATH D_("_Edit/")
 
 static GnomeUIInfo workbook_menu_edit [] = {
@@ -1173,20 +1173,25 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, PASTE_SPECIAL_NAME, NULL,
-	  paste_special_cmd },
-        { GNOME_APP_UI_SUBTREE, N_("C_lear"),
-	  N_("Clear the selected cell(s)"), workbook_menu_edit_clear },
-        { GNOME_APP_UI_ITEM, N_("_Delete..."), NULL,
-	  delete_cells_cmd },
-        { GNOME_APP_UI_ITEM, N_("De_lete Sheet"), NULL,
-	  delete_sheet_cmd },
+	GNOMEUIINFO_ITEM_NONE(N_("P_aste special..."),
+		N_("Paste with optional filters and transformations"),
+		&paste_special_cmd),
+
+	GNOMEUIINFO_SUBTREE(N_("C_lear"), &workbook_menu_edit_clear),
+
+	GNOMEUIINFO_ITEM_NONE(N_("_Delete..."),
+		N_("Remove selected cells, shifting other into their place"),
+		&delete_cells_cmd),
+	GNOMEUIINFO_ITEM_NONE(N_("De_lete Sheet"),
+		N_("Irrevocably remove an entire sheet"),
+		&delete_sheet_cmd),
 
 	GNOMEUIINFO_SEPARATOR,
 
 	{ GNOME_APP_UI_ITEM, N_("_Select All"),
 	  N_("Select all cells in the spreadsheet"), select_all_cmd, NULL,
 	  NULL, 0, 0, 'a', GDK_CONTROL_MASK },
+
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),
 	  N_("Jump to a specified cell"), goto_cell_cmd, NULL, NULL,
 	  0, 0, 'i', GDK_CONTROL_MASK },
@@ -1200,8 +1205,9 @@ static GnomeUIInfo workbook_menu_edit [] = {
 /* View menu */
 
 static GnomeUIInfo workbook_menu_view [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Zoom..."),
-	  N_("Zoom the spreadsheet in or out"), zoom_cmd },
+	GNOMEUIINFO_ITEM_NONE(N_("_Zoom..."),
+		N_("Zoom the spreadsheet in or out"),
+		&zoom_cmd),
 	GNOMEUIINFO_END
 };
 

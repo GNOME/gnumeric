@@ -1,3 +1,13 @@
+2000-03-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-cell-format.c (cb_font_changed) : Use the size
+	  from the selector rather than the display size with is zoom and
+	  resolution dependant.
+
+	* src/main.c (has_gnumeric_been_compiled_with_guile_support) :
+	  A little test to circumvent the problems associated with the guile
+	  pluging requiring changes to gnumeric's main().
+
 2000-03-30  Kjartan Maraas  <kmaraas@online.no>
 
 	* gnumeric.spec.in: Make it build a RPM.

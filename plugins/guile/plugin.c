@@ -22,6 +22,8 @@
 #include "func.h"
 #include "cell.h"
 #include "value.h"
+#include "main.h"
+#include "command-context.h"
 
 /* This is damn ugly.
  * However, it will get things working again (I hope)
@@ -473,6 +475,12 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
+
+	if (!has_gnumeric_been_compiled_with_guile_support ()) {
+		gnumeric_error_plugin_problem (context,
+			_("Gnumeric has not been compiled with support for guile."));
+		return PLUGIN_QUIET_ERROR;
+	}
 
 	/* Initialize just in case. */
 	eval_pos = NULL;

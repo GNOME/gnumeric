@@ -1140,25 +1140,22 @@ cb_font_changed (GtkWidget *widget, GtkStyle *previous_style, FormatState *state
 {
 	FontSelector *font_sel;
 	GnomeDisplayFont *gnome_display_font;
-	GnomeFont *gnome_font;
-	char *family_name;
-	double height;
 
 	g_return_if_fail (state != NULL);
+
 	font_sel = state->font.selector;
 	g_return_if_fail (font_sel != NULL);
-	gnome_display_font = font_sel->display_font;
 
+	gnome_display_font = font_sel->display_font;
 	if (!gnome_display_font)
 		return;
 
-	gnome_font = gnome_display_font->gnome_font;
-	family_name = gnome_font->fontmap_entry->familyname;
-	height = gnome_display_font->gnome_font->size;
-
 	if (state->enable_edit) {
+		GnomeFont const * const gnome_font = gnome_display_font->gnome_font;
+		char const * const family_name = gnome_font->fontmap_entry->familyname;
+
 		mstyle_set_font_name   (state->result, family_name);
-		mstyle_set_font_size   (state->result, gnome_font->size);
+		mstyle_set_font_size   (state->result, font_sel->size);
 		mstyle_set_font_bold   (state->result,
 					gnome_font->fontmap_entry->weight_code >=
 					GNOME_FONT_BOLD);

@@ -214,6 +214,12 @@ gnumeric_main (void *closure, int argc, char *argv [])
 }
 
 #ifdef HAVE_GUILE
+gboolean
+has_gnumeric_been_compiled_with_guile_support ()
+{
+	return TRUE;
+}
+
 int
 main (int argc, char *argv [])
 {
@@ -250,6 +256,12 @@ main (int argc, char *argv [])
 	return 0;
 }
 #else
+gboolean
+has_gnumeric_been_compiled_with_guile_support ()
+{
+	return FALSE;
+}
+
 int
 main (int argc, char *argv [])
 {
