@@ -4,7 +4,7 @@ INCLUDES = \
     $(GNUMERIC_CFLAGS) $(GB_CFLAGS)
 
 gnum_gbdir = $(gnumeric_plugindir)/gb
-xmldir = $(gnumeric_plugin_gbdir)
+xmldir = $(gnum_gbdir)
 gnum_gb_LTLIBRARIES = gnum_gb.la
 gnum_gb_la_LDFLAGS = -module -avoid-version
 

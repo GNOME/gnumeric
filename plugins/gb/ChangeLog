@@ -1,3 +1,8 @@
+2001-10-10  Jody Goldberg <jgoldberg@home.com>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=62093
+	* Makefile.am (xmldir) : use the right dir.
+
 2001-10-07  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.71
