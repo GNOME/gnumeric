@@ -185,7 +185,10 @@ figures/number-format-color-dialog.png 	\
 figures/number-format-dialog.png 	\
 figures/number-format-font-dialog.png 	\
 figures/number-format-justification-dialog-2.png 	\
-figures/number-format-justification.png 	\
+figures/number-format-border-dialog.png	\
+figures/number-format-protection.png	\
+figures/number-format-validation.png	\
+figures/number-format-validation-warning.png	\
 figures/oval.png	\
 figures/percentage.png	\
 figures/plug-ins.png	\
