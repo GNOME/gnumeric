@@ -161,9 +161,9 @@ static void
 gog_series_element_class_init (GogSeriesElementClass *klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
-	gse_parent_klass = g_type_class_peek_parent (klass);
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
+	gse_parent_klass = g_type_class_peek_parent (klass);
 
 	gobject_klass->set_property = gog_series_element_set_property;
 	gobject_klass->get_property = gog_series_element_get_property;
