@@ -559,6 +559,27 @@ cb_pref_undo_size_changed (GtkSpinButton *button, PrefState *state)
 				       NULL);
 }
 
+static void
+cb_pref_undo_set_maxnum (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			     GtkSpinButton *button)
+{
+	gint int_in_gconf = gconf_client_get_int (gconf,
+						  GNUMERIC_GCONF_UNDO_MAXNUM, 
+						  NULL);
+	gint int_in_button = gtk_spin_button_get_value_as_int (button);
+	if (int_in_gconf != int_in_button)
+		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
+}
+
+static void 
+cb_pref_undo_maxnum_changed (GtkSpinButton *button, PrefState *state)
+{
+		gconf_client_set_int (state->gconf,
+				       GNUMERIC_GCONF_UNDO_MAXNUM,
+				       gtk_spin_button_get_value_as_int (button), 
+				       NULL);
+}
+
 static 
 GtkWidget *pref_undo_page_initializer (PrefState *state, gpointer data, 
 					  GtkNotebook *notebook, gint page_num)
@@ -645,6 +666,36 @@ GtkWidget *pref_undo_page_initializer (PrefState *state, gpointer data,
 	the_tip = gtk_tooltips_new ();
 	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
 	gconf_schema_free (the_schema);
+
+	/* Undo Size Spin Button */
+	the_schema = gconf_client_get_schema (state->gconf, 
+					      "/schemas" GNUMERIC_GCONF_UNDO_MAXNUM, 
+					      NULL);
+	item = gtk_label_new (gconf_schema_get_short_desc (the_schema));
+	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
+	gtk_table_attach (GTK_TABLE (page), item, 0, 1, 3, 4, 0, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (20,
+									 1, 200, 1, 
+									 5, 5)),
+				     1, 0);
+	
+	cb_pref_undo_set_maxnum (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
+	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_UNDO_MAXNUM,
+			  (GConfClientNotifyFunc) cb_pref_undo_set_maxnum,
+			  item, NULL, NULL);
+	g_signal_connect (G_OBJECT (page),
+		"destroy",
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
+	g_signal_connect (G_OBJECT (item),
+		"value-changed",
+		G_CALLBACK (cb_pref_undo_maxnum_changed), state);
+	gtk_table_attach (GTK_TABLE (page), item, 1, 2, 3, 4, GTK_FILL | GTK_EXPAND, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	the_tip = gtk_tooltips_new ();
+	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
+	gconf_schema_free (the_schema);
+
 
 	gtk_widget_show_all (page);
 	return page;

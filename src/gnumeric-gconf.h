@@ -2,6 +2,7 @@
 #define GNUMERIC_GCONF_H
 
 #define GNUMERIC_GCONF_UNDO_SIZE "/apps/gnumeric/undo/size"
+#define GNUMERIC_GCONF_UNDO_MAXNUM "/apps/gnumeric/undo/maxnum"
 #define GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME "/apps/gnumeric/undo/show_sheet_name"
 #define GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH "/apps/gnumeric/undo/max_descriptor_width"
 #define GNUMERIC_GCONF_FILE_HISTORY_N "/apps/gnumeric/core/file/history/n"

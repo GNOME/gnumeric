@@ -1,5 +1,12 @@
 2002-04-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* schemas/gnumeric-general.schemas : add max number of undo items pref
+	* src/commands.c (truncate_undo_info) : also truncate if max number
+	  of items is exceeded.
+	* src/gnumeric-gconf.h : add max number of undo items pref
+
+2002-04-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/GNOME_Gnumeric.xml : Change menu text for Sheet Reorder/Manage
 	* src/workbook-control-gui.c : Change tooltip for Sheet Manage
 

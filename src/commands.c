@@ -510,14 +510,19 @@ truncate_undo_info (Workbook *wb)
 {
 	GConfClient *client;
 	int size_left;
+	int max_num;
 	int ok_count;
 	GSList *l, *prev;
 	GError *err = NULL;
 
 	client = application_get_gconf_client ();
 	size_left = gconf_client_get_int (client, GNUMERIC_GCONF_UNDO_SIZE, &err);
-	if (err)
+	if (err || size_left < 0)
 		size_left = 0;
+	err = NULL;
+	max_num = gconf_client_get_int (client, GNUMERIC_GCONF_UNDO_MAXNUM, &err);
+	if (err || max_num <= 0)
+		max_num = 1;
 	
 #ifdef DEBUG_TRUNCATE_UNDO
 	fprintf (stderr, "Undo sizes:");
@@ -544,7 +549,7 @@ truncate_undo_info (Workbook *wb)
 #endif
 
 		/* Keep at least one undo item.  */
-		if (size > size_left && ok_count >= 1) {
+		if (ok_count >= max_num || (size > size_left && ok_count >= 1)) {
 			/* Current item is too big; truncate list here.  */
 			command_list_release (l);
 			prev->next = NULL;
