@@ -1246,6 +1246,173 @@ gnumeric_sum (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 	return result;
 }
 
+static char *help_sumsq = {
+	N_("@FUNCTION=SUMSQ\n"
+	   "@SYNTAX=SUMSQ(value1, value2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "SUMSQ returns the sum of the squares of all the values and "
+	   "cells referenced in the argument list. " 
+	   "\n"
+
+	   "@SEEALSO=SUM, COUNT")
+};
+
+typedef struct {
+	guint32 num;
+	float_t sum;
+} math_sumsq_t;
+
+static int
+callback_function_sumsq (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+	math_sumsq_t *mm = closure;
+	
+	switch (value->type){
+	case VALUE_INTEGER:
+		mm->num++;
+		mm->sum += value->v.v_int * value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+		mm->num++;
+		mm->sum += value->v.v_float * value->v.v_float;
+		break;
+	default:
+		/* ignore strings */
+		break;
+	}
+	return TRUE;
+}
+
+static Value *
+gnumeric_sumsq (void *sheet, GList *expr_node_list, int eval_col,
+		int eval_row, char **error_string)
+{
+        math_sumsq_t p;
+
+	p.num = 0;
+	p.sum = 0;
+
+	function_iterate_argument_values (sheet, callback_function_sumsq,
+					  &p, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	return value_float (p.sum);
+}
+
+static char *help_multinomial = {
+	N_("@FUNCTION=MULTINOMIAL\n"
+	   "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "MULTINOMIAL returns the ratio of the factorial of a sum of "
+	   "values to the product of factorials. "
+	   "\n"
+
+	   "@SEEALSO=SUM")
+};
+
+typedef struct {
+	guint32 num;
+	int     sum;
+        int     product;
+} math_multinomial_t;
+
+static int
+callback_function_multinomial (Sheet *sheet, Value *value,
+			       char **error_string, void *closure)
+{
+	math_multinomial_t *mm = closure;
+	
+	switch (value->type){
+	case VALUE_INTEGER:
+	        mm->product *= fact(value->v.v_int);
+		mm->sum += value->v.v_int;
+		mm->num++;
+		break;
+	default:
+		return FALSE;
+	}
+	return TRUE;
+}
+
+static Value *
+gnumeric_multinomial (void *sheet, GList *expr_node_list, int eval_col,
+		      int eval_row, char **error_string)
+{
+        math_multinomial_t p;
+
+	p.num = 0;
+	p.sum = 0;
+	p.product = 1;
+
+	if (function_iterate_argument_values (sheet,
+					      callback_function_multinomial,
+					      &p, expr_node_list,
+					      eval_col, eval_row,
+					      error_string) == FALSE) {
+	        *error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	return value_float (fact(p.sum) / p.product);
+}
+
+static char *help_product = {
+	N_("@FUNCTION=PRODUCT\n"
+	   "@SYNTAX=PRODUCT(value1, value2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "PRODUCT returns the product of all the values and cells "
+	   "referenced in the argument list. " 
+	   "\n"
+
+	   "@SEEALSO=SUM, COUNT")
+};
+
+typedef struct {
+	guint32 num;
+	float_t product;
+} math_product_t;
+
+static int
+callback_function_product (Sheet *sheet, Value *value,
+			   char **error_string, void *closure)
+{
+	math_product_t *mm = closure;
+	
+	switch (value->type){
+	case VALUE_INTEGER:
+		mm->num++;
+		mm->product *= value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+		mm->num++;
+		mm->product *= value->v.v_float;
+		break;
+	default:
+		/* ignore strings */
+		break;
+	}
+	return TRUE;
+}
+
+static Value *
+gnumeric_product (void *sheet, GList *expr_node_list, int eval_col,
+		  int eval_row, char **error_string)
+{
+        math_product_t p;
+
+	p.num = 0;
+	p.product = 1;
+
+	function_iterate_argument_values (sheet, callback_function_product,
+					  &p, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	return value_float (p.product);
+}
+
 static char *help_tan = {
 	N_("@FUNCTION=TAN\n"
 	   "@SYNTAX=TAN(x)\n"
@@ -1582,10 +1749,12 @@ FunctionDefinition math_functions [] = {
 	{ "max",     0,      "",          &help_max,     gnumeric_max, NULL },
 	{ "min",     0,      "",          &help_min,     gnumeric_min, NULL },
 	{ "mod",     "ff",   "num,denom", &help_mod,     NULL, gnumeric_mod },
+	{ "multinomial", 0,  "",          &help_multinomial, gnumeric_multinomial, NULL },
 	{ "not",     "f",    "number",    &help_not,     NULL, gnumeric_not },
 	{ "odd" ,    "f",    "number",    &help_odd,     NULL, gnumeric_odd },
 	{ "or",      0,      "",          &help_or,      gnumeric_or, NULL },
 	{ "power",   "ff",   "x,y",       &help_power,   NULL, gnumeric_power },
+	{ "product", 0,      "number",    &help_product, gnumeric_product, NULL },
 	{ "quotient" , "ff",  "num,den",  &help_quotient, NULL, gnumeric_quotient},
 	{ "radians", "f",    "number",    &help_radians, NULL, gnumeric_radians },
 	{ "rand",    "",     "",          &help_rand,    NULL, gnumeric_rand },
@@ -1596,6 +1765,7 @@ FunctionDefinition math_functions [] = {
 	{ "sqrt",    "f",    "number",    &help_sqrt,    NULL, gnumeric_sqrt },
 	{ "sqrtpi",  "f",    "number",    &help_sqrtpi,  NULL, gnumeric_sqrtpi},
 	{ "sum",     0,      "number",    &help_sum,     gnumeric_sum, NULL },
+	{ "sumsq",   0,      "number",    &help_sumsq,   gnumeric_sumsq, NULL },
 	{ "tan",     "f",    "number",    &help_tan,     NULL, gnumeric_tan },
 	{ "tanh",    "f",    "number",    &help_tanh,    NULL, gnumeric_tanh },
 	{ "trunc",   "f",    "number",    &help_trunc,   gnumeric_trunc, NULL },
