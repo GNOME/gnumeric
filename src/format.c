@@ -1318,6 +1318,8 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 	GList *list;
 	gboolean is_general = FALSE;
 
+	g_return_val_if_fail (value != NULL, "<ERROR>");
+
 	if (color)
 		*color = NULL;
 
