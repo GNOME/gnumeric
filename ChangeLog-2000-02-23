@@ -1,5 +1,10 @@
 1999-12-06  Michael Meeks  <mmeeks@gnu.org>
 
+	* doc/Styles.txt: Add section 2.1.1, update optimization +
+	example code, type fixes. + 2.4.1 explaining borders.
+
+1999-12-06  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/eval.c (search_cell_deps): Cull dead 'draw' code.
 
 1999-12-05  Michael Meeks  <mmeeks@gnu.org>
