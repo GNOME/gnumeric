@@ -1,5 +1,10 @@
 1999-10-19  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/xml-io.c (xml_sheet_write): Actually attach the saved
+	style tree.
+
+1999-10-19  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/mstyle.c (mstyle_destroy): Fix leak.
 
 	* src/item-grid.c (item_grid_draw_cell): ditto.

@@ -1511,7 +1511,8 @@ xml_write_styles (parse_xml_context_t *ctxt, GList *l)
 {
 	xmlNodePtr cur;
 
-	g_return_val_if_fail (l != NULL, NULL);
+	if (!l)
+		return NULL;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Styles", NULL);
 	while (l) {
@@ -1566,7 +1567,12 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	if (printinfo)
 		xmlAddChild (cur, printinfo);
 
+	/*
+	 * Styles
+	 */
 	styles = xml_write_styles (ctxt, sheet_get_style_list (sheet));
+	if (styles)
+		xmlAddChild (cur, styles);
 
 	/*
 	 * Cols informations.

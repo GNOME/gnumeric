@@ -898,10 +898,10 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			if (wb->ver >= eBiffV8) {
 				guint16 extn_idx = MS_OLE_GET_GUINT16(cur) ;
 
-				first = getRefV8 (MS_OLE_GET_GUINT8(cur+2),
+				first = getRefV8 (MS_OLE_GET_GUINT16(cur+2),
 						  MS_OLE_GET_GUINT16(cur+6),
 						  fn_col, fn_row, 0) ;
-				last  = getRefV8 (MS_OLE_GET_GUINT8(cur+4),
+				last  = getRefV8 (MS_OLE_GET_GUINT16(cur+4),
 						  MS_OLE_GET_GUINT16(cur+8),
 						  fn_col, fn_row, 0) ;
 
@@ -932,10 +932,10 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		{
 			CellRef *first=0, *last=0 ;
 			if (wb->ver >= eBiffV8) {
-				first = getRefV8 (MS_OLE_GET_GUINT8(cur+0),
+				first = getRefV8 (MS_OLE_GET_GUINT16(cur+0),
 						  MS_OLE_GET_GUINT16(cur+4),
 						  fn_col, fn_row, shared) ;
-				last  = getRefV8 (MS_OLE_GET_GUINT8(cur+2),
+				last  = getRefV8 (MS_OLE_GET_GUINT16(cur+2),
 						  MS_OLE_GET_GUINT16(cur+6),
 						  fn_col, fn_row, shared) ;
 				ptg_length = 8 ;
