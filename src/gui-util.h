@@ -14,7 +14,7 @@ void       gtk_radio_button_select      (GSList *group, int n);
 
 char      *font_get_bold_name           (const char *fontname);
 char      *font_get_italic_name         (const char *fontname);
-char      *font_change_component        (const char *fontname, int idx, char *value);
+char      *font_change_component        (const char *fontname, int idx, const char *value);
 
 /*
  * Use this on menus that are popped up
