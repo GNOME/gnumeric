@@ -1199,6 +1199,8 @@ print_job_info_destroy (PrintJobInfo *pj)
 	hf_render_info_destroy (pj->render_info);
 	if (pj->decoration_font)
 		g_object_unref (G_OBJECT (pj->decoration_font));
+	if (pj->print_context)
+		g_object_unref (G_OBJECT (pj->print_context));
 	print_info_free (pj->pi);
 	g_free (pj);
 }

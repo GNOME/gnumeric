@@ -1,3 +1,7 @@
+2003-11-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/print.c (print_job_info_destroy): plug leak
+	
 2003-11-24  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_colrow_group_ungroup) : when adding a group
