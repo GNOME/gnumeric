@@ -1,3 +1,7 @@
+2000-10-21  Michael Meeks  <michael@helixcode.com>
+
+	* POTFILES.in: add gnumeric.xml.h
+
 2000-10-15  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian translation.

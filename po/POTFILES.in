@@ -147,3 +147,4 @@ src/workbook-private.c
 src/workbook.c
 src/xml-io.c
 src/xml-io-autoft.c
+src/gnumeric.xml.h

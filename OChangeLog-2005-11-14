@@ -1,9 +1,17 @@
+2000-10-21  Michael Meeks  <michael@helixcode.com>
+
+	* src/gnumeric.xml.h: commit to CVS.
+
 2000-10-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (do_render_number) : Brown paper bag.  Bug 29068.
 	  I HATE global variables.
 	(fmt_general_float) : Rewrite to rationalize and catch some corner
 	  cases.
+
+2000-10-19  Michael Meeks  <michael@helixcode.com>
+
+	* src/gnumeric.xml: don't display the zoom control when vertical.
 
 2000-10-19  Michael Meeks  <michael@helixcode.com>
 
