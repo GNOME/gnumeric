@@ -63,8 +63,7 @@ void
 auto_format_init (void)
 {
 	auto_format_function_hash =
-		g_hash_table_new_full (gnumeric_strcase_hash,
-				       gnumeric_strcase_equal,
+		g_hash_table_new_full (g_str_hash, g_str_equal,
 				       g_free,
 				       NULL);
 }

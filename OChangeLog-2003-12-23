@@ -1,5 +1,7 @@
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
+	* src/auto-format.c (auto_format_init): Make table case sensitive.
+
 	* src/gui-file.c (file_opener_description_cmp): Make utf8 safe.
 	(file_saver_description_cmp): Ditto.
 	* src/func.c (function_category_compare): Make utf8 safe.
