@@ -31,7 +31,7 @@ Morten:
 	* Improve auto-detection of separators for text files.  [#167449]
 	* Fix some #decimals problems with print page setup.
 	* Fix saving.
-	* Fix crash when using --quit.
+	* Fix crash when using --quit.  Fix leak too.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

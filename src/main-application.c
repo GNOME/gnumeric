@@ -387,6 +387,8 @@ main (int argc, char const *argv [])
 #else
 		gtk_main ();
 #endif
+	} else {
+		g_object_unref (ioc);
 	}
 
 	gnumeric_arg_shutdown ();
