@@ -22,9 +22,6 @@
 	<widget class="GnomeDruidPageStandard" id="sheet_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Choose sheets to export</property>
-	  <property name="title_foreground">#8a1008188a10</property>
-	  <property name="background">#22180823eb5c</property>
-	  <property name="logo_background">#00000000ca48</property>
 	  <property name="logo">../../../pixmaps/gnumeric/stf-druid.png</property>
 
 	  <child internal-child="vbox">
@@ -385,9 +382,6 @@
 	<widget class="GnomeDruidPageStandard" id="format_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Choose export formatting</property>
-	  <property name="title_foreground">#8a1008188a10</property>
-	  <property name="background">#99780824eb5c</property>
-	  <property name="logo_background">#00000000ca48</property>
 	  <property name="logo">../../../pixmaps/gnumeric/stf-druid.png</property>
 
 	  <child internal-child="vbox">

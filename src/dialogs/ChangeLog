@@ -1,3 +1,8 @@
+2002-11-11  Jon K. Hellan  <hellan@acm.org>
+
+	* dialog-stf.glade, dialog-stf-export.glade: Don't set title colour
+	scheme explicitly.
+
 2002-11-11  Morten Welinder  <terra@diku.dk>
 
 	* dialog-stf-export.glade: A colon is ":", not ";". 

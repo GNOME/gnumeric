@@ -23,9 +23,6 @@
 	<widget class="GnomeDruidPageStandard" id="main_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Data type and number of lines</property>
-	  <property name="title_foreground">#7cc008187cc0</property>
-	  <property name="background">#b9100825e86c</property>
-	  <property name="logo_background">#00000000ca48</property>
 	  <property name="logo">stf-druid.png</property>
 
 	  <child internal-child="vbox">
@@ -454,9 +451,6 @@
 	<widget class="GnomeDruidPageStandard" id="csv_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Separation customization</property>
-	  <property name="title_foreground">#7cc008187cc0</property>
-	  <property name="background">#67280827e86c</property>
-	  <property name="logo_background">#00000000ca48</property>
 	  <property name="logo">stf-druid.png</property>
 
 	  <child internal-child="vbox">
@@ -1113,9 +1107,6 @@
 	<widget class="GnomeDruidPageStandard" id="fixed_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Fixed width customization</property>
-	  <property name="title_foreground">#7cc008187cc0</property>
-	  <property name="background">#61900828e86c</property>
-	  <property name="logo_background">#00000000ca48</property>
 	  <property name="logo">stf-druid.png</property>
 
 	  <child internal-child="vbox">
@@ -1518,9 +1509,6 @@
 	<widget class="GnomeDruidPageStandard" id="format_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Column formatting</property>
-	  <property name="title_foreground">#7cc008187cc0</property>
-	  <property name="background">#0ab00829e86c</property>
-	  <property name="logo_background">#00000000ca48</property>
 	  <property name="logo">stf-druid.png</property>
 
 	  <child internal-child="vbox">
