@@ -89,9 +89,28 @@ dialog_goto_cell (WorkbookControlGUI *wbcg)
 
 		if (*text){
 			if (workbook_parse_and_jump (WORKBOOK_CONTROL (wbcg), text)) {
-				gchar *texts [1];
-				texts [0] = text;
-				gtk_clist_append (GTK_CLIST (clist), texts);
+				char *tmp[1];
+				int i = 0;
+				gboolean existed = FALSE;
+
+				/* See if it's already in the list, if so, move it to the front */
+				while (gtk_clist_get_text (GTK_CLIST (clist), i, 0, tmp)) {
+
+					if (strcmp (tmp[0], text) == 0) {
+						if (i != 0)
+							gtk_clist_swap_rows (GTK_CLIST (clist), 0, i);
+						existed = TRUE;
+						break;
+					}
+
+					i++;
+				}
+
+				if (!existed) {
+					gchar *texts [1];
+					texts [0] = text;
+					gtk_clist_prepend (GTK_CLIST (clist), texts);
+				}
 			}
 		}
 	}

@@ -1,3 +1,8 @@
+2001-05-18  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-goto-cell.c (dialog_goto_cell): Don't add duplicates
+	to the list and add new entries to the front.
+
 2001-05-18  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (draw_format_preview) : be sure to insert
