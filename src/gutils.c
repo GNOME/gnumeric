@@ -16,6 +16,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
 #include <stdlib.h>
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>

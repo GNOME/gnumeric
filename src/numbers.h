@@ -11,21 +11,24 @@ typedef long double gnum_float;
 #define strtognum strtold
 #else
 #define NEED_FAKE_STRTOGNUM
-/* Defined in gutils.h  */
+/* Defined in gutils.c  */
+gnum_float strtognum (const char *str, char **end);
 #endif
 
 #ifdef HAVE_MODFL
 #define modfgnum modfl
 #else
 #define NEED_FAKE_MODFGNUM
-/* Defined in gutils.h  */
+/* Defined in gutils.c  */
+gnum_float modfgnum (gnum_float x, gnum_float *iptr);
 #endif
 
 #ifdef HAVE_FABSL
 #define gnumabs fabsl
 #else
 #define NEED_FAKE_GNUMABS
-/* Defined in gutils.h  */
+/* Defined in gutils.c  */
+gnum_float gnumabs (gnum_float x);
 #endif
 
 #define GNUM_FORMAT_e "Le"

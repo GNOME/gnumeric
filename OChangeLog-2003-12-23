@@ -1,5 +1,8 @@
 2002-02-21  Morten Welinder  <terra@diku.dk>
 
+	* src/numbers.h: Define prototypes for strtognum, modfgnum, and
+	gnumabs here when needed.
+
 	* src/workbook-control-gui.c (wbcg_validation_msg): Constify.
 
 	* src/cell.c (cell_is_zero): Use gnum_float.

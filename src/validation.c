@@ -20,8 +20,8 @@
  */
 
 #include <gnumeric-config.h>
-#include <string.h>
 #include "gnumeric.h"
+#include "numbers.h"
 #include "validation.h"
 #include "expr.h"
 #include "mstyle.h"
@@ -33,6 +33,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <math.h>
+#include <string.h>
 
 /**
  * validation_new :

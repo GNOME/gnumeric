@@ -23,6 +23,7 @@
 
 #include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "numbers.h"
 #include "format.h"
 
 #include "style-color.h"
