@@ -1,5 +1,9 @@
 1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
 
+	* Makefile.am: remove the 'ole' test program
+
+	* ole.c: Removed, see module libole2 in test/test-ole.
+
 	* ms-escher.c (ms_escher_read_ClientData): Remove realize & queue
 	objects instead. Add precondition on state->sheet.
 
