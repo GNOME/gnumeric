@@ -1290,7 +1290,8 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		for (bound = -1, i = 0 ; i < n ; i++, cur = next) {
 			next = cur + major_step;
-			if (i*major_step > (area->w - pre - post)) /* clip */
+			if (gnumeric_sub_epsilon (i * major_step) > (area->w - pre - post)) 
+				/* clip */
 				continue;
 			if (draw_minor) {
 				for (; minor_pos < cur ; minor_pos += minor_step)
@@ -1379,7 +1380,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		for (bound = DBL_MAX, i = 0 ; i < n ; i++, cur = next) {
 			next = cur - major_step;
-			if (cur < area->y) /* clip */
+			if (gnumeric_sub_epsilon (i * major_step) > area->h) /* clip */
 				continue;
 			if (draw_minor) {
 				for (; minor_pos > cur ; minor_pos -= minor_step)

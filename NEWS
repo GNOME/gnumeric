@@ -18,7 +18,8 @@ Andreas:
 
 Emmanuel Pacaud:
 	* Work on single point formating for charts.
-	* Fix rounding issue for markers in xy plots (partly fix 135621)
+	http://bugzilla.gnome.org/show_bug.cgi?id=135621
+	* Fix rounding issue for markers in xy plots and for axis ticks.
 
 Jody:
 	* Drop gnome-app-helper in favour of GtkAction
