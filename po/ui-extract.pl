@@ -43,7 +43,7 @@ sub SplitOnArgument {
 	&Xmlfiles;
 
     } else {
-	&Xmlfiles;
+	&Help;
 
     }  
 }    
