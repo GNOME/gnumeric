@@ -36,7 +36,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.63cvs\n"
 "POT-Creation-Date: 2001-05-26 14:29+0200\n"
-"PO-Revision-Date: 2001-05-26 15:02+0200\n"
+"PO-Revision-Date: 2001-05-26 19:34+0200\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1058,24 +1058,24 @@ msgid "Paste"
 msgstr "Einfügen"
 
 #: src/cmd-edit.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "Shift rows %d:%d"
-msgstr "%d Zeilen %d:%d löschen"
+msgstr "Zeilen %d:%d versetzen"
 
 #: src/cmd-edit.c:409
-#, fuzzy, c-format
+#, c-format
 msgid "Shift row %d"
-msgstr "Na_ch unten versetzen und kopieren"
+msgstr "Zeile %d versetzen"
 
 #: src/cmd-edit.c:445
-#, fuzzy, c-format
+#, c-format
 msgid "Shift columns %s"
-msgstr "Spalten hervorholen"
+msgstr "Spalten %s versetzen"
 
 #: src/cmd-edit.c:446
-#, fuzzy, c-format
+#, c-format
 msgid "Shift column %s"
-msgstr "Spalten hervorholen"
+msgstr "Spalte %s versetzen"
 
 #: src/commands.c:634 src/commands.c:729
 msgid "Set Text"
@@ -1134,33 +1134,33 @@ msgstr "Zeile %d löschen"
 
 #: src/commands.c:1217
 msgid "Undo Clear"
-msgstr "Leeren rückgängig machen"
+msgstr "Entfernen rückgängig machen"
 
 #: src/commands.c:1300
 msgid "contents"
-msgstr "Inhalte"
+msgstr "Inhalt"
 
 #: src/commands.c:1302
 msgid "formats"
-msgstr "Formate"
+msgstr "Format"
 
 #: src/commands.c:1304
 msgid "comments"
-msgstr "Kommentare"
+msgstr "Kommentar"
 
 #: src/commands.c:1320
 msgid "all"
-msgstr "alle"
+msgstr "alles"
 
 #: src/commands.c:1327
 #, c-format
 msgid "Clearing %s in %s"
-msgstr "%s in %s leeren"
+msgstr "Entfernen: %s in %s"
 
 #: src/commands.c:1602
 #, c-format
 msgid "Rename sheet '%s' '%s'"
-msgstr "Benenne Blatt von »%s« in »%s« um"
+msgstr "Blatt umbenennen: Von »%s« in »%s«"
 
 #. FIXME : the '>' prefix is intended to give the translators
 #. * a chance to provide a locale specific date format.
@@ -2375,11 +2375,11 @@ msgstr "Zellen löschen"
 
 #: src/dialogs/delete-cells.glade.h:5
 msgid "Shift cells _left"
-msgstr "Zellen nach _links verschieben"
+msgstr "Zellen nach _links versetzen"
 
 #: src/dialogs/delete-cells.glade.h:6
 msgid "Shift cells _up"
-msgstr "Zellen nach _oben verschieben"
+msgstr "Zellen nach _oben versetzen"
 
 #: src/dialogs/dialog-advanced-filter.c:235
 msgid "You should introduce a valid cell names in 'List Range:'"
@@ -2906,7 +2906,7 @@ msgstr "Vordergrund"
 
 #: src/dialogs/dialog-cell-format.c:2152 src/workbook-format-toolbar.c:833
 msgid "Clear Background"
-msgstr "Hintergrund löschen"
+msgstr "Hintergrund entfernen"
 
 #: src/dialogs/dialog-cell-sort.c:202
 msgid "Ascending"
@@ -3492,7 +3492,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "Clear list of columns"
-msgstr "Liste der Spalten leeren"
+msgstr "Liste Spalten entfernen"
 
 #: src/dialogs/dialog-stf.glade.h:12
 msgid "Click to select a column"
@@ -3729,7 +3729,7 @@ msgstr "_Aufeinander folgende Text-Indikatoren escapen"
 
 #: src/dialogs/dialog-stf.glade.h:63
 msgid "_Clear"
-msgstr "_Leeren"
+msgstr "E_ntfernen"
 
 #: src/dialogs/dialog-stf.glade.h:64
 msgid "_Colon (:)"
@@ -3886,11 +3886,11 @@ msgstr "Zellen einfügen"
 
 #: src/dialogs/insert-cells.glade.h:5
 msgid "Shift cells _down"
-msgstr "Zellen nach _unten verschieben"
+msgstr "Zellen nach _unten versetzen"
 
 #: src/dialogs/insert-cells.glade.h:6
 msgid "_Shift cells right"
-msgstr "Zellen nach _rechts verschieben"
+msgstr "Zellen nach _rechts versetzen"
 
 #: src/dialogs/names.glade.h:1
 msgid "Define Name"
@@ -4589,7 +4589,7 @@ msgstr "Diese Änderungen _auch auf die Zellen anwenden, die die gleichen Einstel
 
 #: src/dialogs/validate.glade.h:5
 msgid "Clear All"
-msgstr "Alles leeren"
+msgstr "Alles entfernen"
 
 #: src/dialogs/validate.glade.h:7
 msgid "Date"
@@ -4616,9 +4616,8 @@ msgid "Information"
 msgstr "Informationen"
 
 #: src/dialogs/validate.glade.h:13
-#, fuzzy
 msgid "Input Validation"
-msgstr "Überprüfung der Daten"
+msgstr "Überprüfung der Eingabe"
 
 #: src/dialogs/validate.glade.h:14
 msgid "Input _Message :"
@@ -4634,14 +4633,12 @@ msgid "Messa_ge :"
 msgstr "Meldun_g:"
 
 #: src/dialogs/validate.glade.h:17
-#, fuzzy
 msgid "S_how error alert after invalid data is entered"
 msgstr "Fehlerwarnung nach der Eingabe ungültiger Daten an_zeigen."
 
 #: src/dialogs/validate.glade.h:18
-#, fuzzy
 msgid "Show input _message when cell is selected"
-msgstr "Eingabemeldung an_zeigen, wenn die Zelle ausgewählt ist."
+msgstr "Eingabe_meldung anzeigen, wenn die Zelle ausgewählt ist."
 
 #: src/dialogs/validate.glade.h:19
 msgid "Stop"
@@ -12153,7 +12150,6 @@ msgid "Error while opening file \"%s\" for reading."
 msgstr "Fehler beim Schließen der Datei, Fehler: %s"
 
 #: src/plugin-util.c:297
-#, fuzzy
 msgid "Unable to mmap the file."
 msgstr "Es ist nicht möglich, die Datei in den Speicherbereich legen (mmap)."
 
@@ -12175,9 +12171,8 @@ msgstr ""
 "zu lesen."
 
 #: src/plugin.c:292 src/plugin.c:369
-#, fuzzy
 msgid "Unknown name"
-msgstr "Unbekannter Pluginname."
+msgstr "Unbekannter Name."
 
 #: src/plugin.c:520
 #, fuzzy, c-format
@@ -12348,9 +12343,8 @@ msgid "Module file name"
 msgstr "Dateiname des Moduls"
 
 #: src/plugin-loader-module.c:334
-#, fuzzy
 msgid "File doesn't contain \"plugin_init_general\" function."
-msgstr "Datei weist keine »cleanup_plugin«-Funktion auf."
+msgstr "Datei weist keine »plugins_init_general«-Funktion auf."
 
 #: src/plugin-loader-module.c:339
 #, fuzzy
@@ -12450,9 +12444,8 @@ msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
 #: src/print.c:1041
-#, fuzzy
 msgid "Print Region"
-msgstr "Druckvorschau"
+msgstr "Bereich drucken"
 
 #: src/print.c:1158
 msgid "Print Sheets"
@@ -12553,7 +12546,7 @@ msgstr "_Einfügen..."
 #: src/GNOME_Gnumeric.xml.h:226 src/sheet-control-gui.c:1046
 #: src/workbook-control-gui.c:2158
 msgid "_Delete..."
-msgstr "_Entfernen..."
+msgstr "Lösch_en..."
 
 #: src/sheet-control-gui.c:1048
 msgid "_Insert Column(s)"
@@ -12573,7 +12566,7 @@ msgstr "Zei_le(n) löschen"
 
 #: src/sheet-control-gui.c:1057
 msgid "Clear Co_ntents"
-msgstr "_Inhalt löschen"
+msgstr "_Inhalt entfernen"
 
 #: src/sheet-control-gui.c:1063
 msgid "_Format Cells..."
@@ -12626,14 +12619,12 @@ msgid "Checkbox Configure"
 msgstr "Checkbox konfigurieren"
 
 #: src/sheet-object-widget.c:844
-#, fuzzy
 msgid "Cell :"
-msgstr "Zelle"
+msgstr "Zelle:"
 
 #: src/sheet-object-widget.c:847
-#, fuzzy
 msgid "Label :"
-msgstr "Beschriftung"
+msgstr "Beschriftung:"
 
 #: src/sheet-object.c:83
 msgid "Configure"
@@ -12653,7 +12644,7 @@ msgstr ""
 
 #: src/sheet.c:2871
 msgid "Clear"
-msgstr "Leeren"
+msgstr "Entfernen"
 
 #: src/sheet.c:3248
 msgid "Insert Columns"
@@ -12938,24 +12929,20 @@ msgstr ""
 "Der Wert muss größer als 0 sein."
 
 #: src/workbook-format-toolbar.c:85
-#, fuzzy
 msgid "Set Horizontal Alignment"
-msgstr "Vertikale Ausrichtung"
+msgstr "Vertikale Ausrichtung festlegen"
 
 #: src/workbook-format-toolbar.c:185
-#, fuzzy
 msgid "Set Font Style"
-msgstr "Stil der Schrift:"
+msgstr "Stil der Schrift festlegen"
 
 #: src/workbook-format-toolbar.c:252
-#, fuzzy
 msgid "Set Font"
-msgstr "Schrift auswählen"
+msgstr "Schrift festlegen"
 
 #: src/workbook-format-toolbar.c:285
-#, fuzzy
 msgid "Set Font Size"
-msgstr "Schriftgröße"
+msgstr "Schriftgröße festlegen"
 
 #: src/workbook-format-toolbar.c:307
 #, fuzzy
@@ -12973,12 +12960,10 @@ msgid "Format with thousands seperator"
 msgstr "Trennzeichen für Tausender"
 
 #: src/workbook-format-toolbar.c:348
-#, fuzzy
 msgid "Increase precision"
 msgstr "Genauigkeit erhöhen"
 
 #: src/workbook-format-toolbar.c:354
-#, fuzzy
 msgid "Decrease precision"
 msgstr "Genauigkeit vermindern"
 
@@ -13118,7 +13103,7 @@ msgstr "Hintergrundfarbe"
 
 #: src/workbook-format-toolbar.c:631
 msgid "Clear Borders"
-msgstr "Rahmen löschen"
+msgstr "Rahmen entfernen"
 
 #: src/workbook-format-toolbar.c:634
 msgid "All Borders"
@@ -13153,9 +13138,8 @@ msgid "Top and Thick Bottom"
 msgstr "Oben, dazu unten dick"
 
 #: src/workbook-format-toolbar.c:729
-#, fuzzy
 msgid "Set Borders"
-msgstr "Rahmen"
+msgstr "Rahmen festlegen"
 
 #: src/workbook-format-toolbar.c:806
 msgid "Size"
@@ -13257,9 +13241,8 @@ msgid "No sheets in workbook."
 msgstr "Namen des Blatts und des Arbeitsbuchs bearbeiten"
 
 #: src/workbook-view.c:742
-#, fuzzy
 msgid "Unsupported file format."
-msgstr "Nicht unterstützte Methode"
+msgstr "Nicht unterstütztes Dateiformat."
 
 #: src/workbook-control-gui.c:271
 msgid " : Gnumeric"
@@ -13360,7 +13343,6 @@ msgstr "Zeile(n) einfügen"
 #. * are permitted.
 #.
 #: src/workbook-control-gui.c:1628
-#, fuzzy
 msgid "Insert columns"
 msgstr "Spalten einfügen"
 
@@ -13412,19 +13394,19 @@ msgstr "_Alles"
 
 #: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2071
 msgid "Clear the selected cells' formats, comments, and contents"
-msgstr "Formate, Kommentare und Inhalte der gewählten Zellen löschen"
+msgstr "Format, Kommentar und Inhalt der gewählten Zellen entfernen"
 
 #: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2073
 msgid "_Formats"
-msgstr "_Formate"
+msgstr "_Format"
 
 #: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2074
 msgid "Clear the selected cells' formats"
-msgstr "Formate der gewählten Zellen löschen"
+msgstr "Format der gewählten Zellen entfernen"
 
 #: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2077
 msgid "Clear the selected cells' comments"
-msgstr "Kommentare der gewählten Zellen löschen"
+msgstr "Kommentar der gewählten Zellen entfernen"
 
 #: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2079
 msgid "_Content"
@@ -13432,7 +13414,7 @@ msgstr "_Inhalt"
 
 #: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2080
 msgid "Clear the selected cells' contents"
-msgstr "Ausgewählte Zelleninhalte löschen"
+msgstr "Ausgewählten Zelleninhalt entfernen"
 
 #: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:2088
 msgid "Select _All"
@@ -13572,11 +13554,9 @@ msgstr "_Zoom..."
 msgid "Zoom the spreadsheet in or out"
 msgstr "Das Arbeitsblatt ein- oder davon wegzoomen"
 
-# Checkit. vs. "Clear"
 #: src/workbook-control-gui.c:2193
-#, fuzzy
 msgid "_Freeze..."
-msgstr "_Entfernen..."
+msgstr ""
 
 #: src/workbook-control-gui.c:2194
 msgid "Freeze the top left of the sheet"
@@ -13875,27 +13855,24 @@ msgid "Statistical methods."
 msgstr "Statistische Methoden"
 
 #: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2395
-#, fuzzy
 msgid "_Hide Detail"
-msgstr "Details"
+msgstr "Details _verbergen"
 
 #: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2396
 msgid "Collapse an outline group"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:2398
-#, fuzzy
 msgid "_Show Detail"
-msgstr "Details"
+msgstr "Details an_zeigen"
 
 #: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2399
 msgid "Uncollapse an outline group"
 msgstr ""
 
 #: src/workbook-control-gui.c:2401
-#, fuzzy
 msgid "_Group..."
-msgstr "Gruppen"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:2402
 #, fuzzy
@@ -13941,9 +13918,8 @@ msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Umschalten, ob der Spaltenkopf angezeigt werden soll oder nicht."
 
 #: src/workbook-control-gui.c:2433
-#, fuzzy
 msgid "_Sort"
-msgstr "Sortieren"
+msgstr "_Sortieren"
 
 #: src/workbook-control-gui.c:2434
 #, fuzzy
@@ -14897,10 +14873,6 @@ msgstr "Die GNOME-Tabellenkalkulation"
 
 #~ msgid "Enables database access"
 #~ msgstr "Datenbank-Zugriff aktivieren"
-
-#, fuzzy
-#~ msgid "None\n"
-#~ msgstr "Keine"
 
 #, fuzzy
 #~ msgid "pts\n"
