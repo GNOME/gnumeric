@@ -95,6 +95,7 @@ update_lc (void)
 	lc_space_sep = (lc->p_sep_by_space == 1);
 
 	g_free (lc_currency);
+	lc_currency = NULL;
 	if (lc->currency_symbol && *lc->currency_symbol) {
 		lc_currency =
 			g_locale_to_utf8 (lc->currency_symbol, -1,
