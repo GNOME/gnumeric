@@ -1,3 +1,7 @@
+2005-01-20  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : post branching bump
+
 2005-01-19  Morten Welinder  <terra@gnome.org>
 
 	* src/style.c (style_font_new_simple): Only create
