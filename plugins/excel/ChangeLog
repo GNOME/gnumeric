@@ -1,3 +1,8 @@
+2001-08-27  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_sheet_parse_expr_internal) : disable some of the
+	  debugging spew.
+
 2001-08-26  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* boot.c (excel_save):

@@ -2264,21 +2264,25 @@ ms_sheet_obj_create (MSContainer *container, MSObj *obj)
 static ExprTree *
 ms_sheet_parse_expr_internal (ExcelSheet *esheet, guint8 const *data, int length)
 {
-	ParsePos pp;
-	Workbook *wb;
 	Sheet *sheet;
 	ExprTree *expr;
-	char *tmp;
 
 	g_return_val_if_fail (length > 0, NULL);
 
 	sheet = esheet->gnum_sheet;
-	wb = (sheet == NULL) ? esheet->wb->gnum_wb : NULL;
 	expr = ms_excel_parse_formula (esheet, data,
 				       0, 0, FALSE, length, NULL);
-	tmp = expr_tree_as_string (expr, parse_pos_init (&pp, wb, sheet, 0, 0));
-	puts (tmp);
-	g_free (tmp);
+#if 0
+	{
+		char *tmp;
+		ParsePos pp;
+		Workbook *wb = (sheet == NULL) ? esheet->wb->gnum_wb : NULL;
+
+		tmp = expr_tree_as_string (expr, parse_pos_init (&pp, wb, sheet, 0, 0));
+		puts (tmp);
+		g_free (tmp);
+	}
+#endif
 
 	return expr;
 }
