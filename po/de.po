@@ -1,6 +1,6 @@
 # Copyright (C) 1999, 2000, 2001, 2002 Free Software Foundation, Inc.
 # Karl Eichwalder <ke@suse.de>, 1999, 2000, 2001.
-# Christian Meyer <chrisime@gnome.org>, 2001.
+# Christian Meyer <chrisime@gnome.org>, 2001, 2002.
 # Matthias Warkus <mawa@iname.com>, 1999, 2000.
 # Karsten Weiss <knweiss@gmx.de>, 1999, 2002.
 # Ralf Baechle <ralf@gnu.org>, 1999.
@@ -36,6 +36,12 @@
 #     translations, but *all* should be checked when it is time to translate
 #     the function-reference, *not now*.
 #
+# 2002-02-21  Christian Meyer <chrisime@gnome.org>
+# Currently there are about 200 LATER's. Should we extract them into a
+# separate file and discuss about those? I think completetion of LATER
+# translation should be targeted for Gnumeric 1.2 (GNOME2 port).
+# It'd be also wise to have a policy for Gnumeric like GnuCash's.
+#
 # 2002-02-02  Karsten Weiss <knweiss@gmx.de>
 # 	* selection="Auswahl", mark="Markierung"
 # 	* Standard menu names+accelerator keys
@@ -59,9 +65,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.x\n"
-"POT-Creation-Date: 2002-02-16 12:44+0100\n"
-"PO-Revision-Date: 2002-02-16 12:48+0100\n"
-"Last-Translator: Karsten Weiss <knweiss@gmx.de>\n"
+"POT-Creation-Date: 2002-02-21 12:55+0100\n"
+"PO-Revision-Date: 2002-02-21 12:43+0100\n"
+"Last-Translator: Christian Meyer <chrisime@gnome.org>\n"
 "Language-Team: GNOME-DE <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -105,7 +111,6 @@ msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
 #: plugins/derivatives/options.c:289
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_call\n"
 "@SYNTAX=opt_bs_call(strike,price,volatility,days_to_maturity,rate)\n"
@@ -125,7 +130,6 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:309
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_put\n"
 "@SYNTAX=opt_bs_put(strike,price,volatility,days_to_maturity,rate)\n"
@@ -145,7 +149,6 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:329
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_call_delta\n"
 "@SYNTAX=opt_bs_call_delta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -167,7 +170,6 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:352
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_put_delta\n"
 "@SYNTAX=opt_bs_put_delta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -189,7 +191,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:376
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_call_rho\n"
 "@SYNTAX=opt_bs_call_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -211,7 +213,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:400
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_put_rho\n"
 "@SYNTAX=opt_bs_put_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -233,7 +235,6 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:423
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_call_theta\n"
 "@SYNTAX=opt_bs_call_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -254,7 +255,6 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:446
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_put_theta\n"
 "@SYNTAX=opt_bs_put_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -275,7 +275,6 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:469
-#, fuzzy
 msgid ""
 "@FUNCTION=opt_bs_gamma\n"
 "@SYNTAX=opt_bs_gamma(strike,price,volatility,days_to_maturity,rate)\n"
@@ -297,7 +296,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/derivatives/options.c:493
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_vega\n"
 "@SYNTAX=opt_bs_bega(strike,price,volatility,days_to_maturity,rate)\n"
@@ -319,7 +318,7 @@ msgid ""
 msgstr "LATER"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3378
+#: plugins/mps/mps.c:579 src/xml-io.c:3379
 msgid "Reading file..."
 msgstr "Die Datei wird gelesen..."
 
@@ -374,7 +373,7 @@ msgstr "Fehler beim Lesen der DIF-Datei."
 msgid "Cannot get default sheet."
 msgstr "Das Vorgabeblatt ist nicht erreichbar."
 
-#: plugins/dif/dif.c:398
+#: plugins/dif/dif.c:399
 msgid "Error while saving DIF file."
 msgstr "Fehler beim Speichern der DIF-Datei."
 
@@ -770,7 +769,6 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -787,7 +785,7 @@ msgstr ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
 "@DESCRIPTION=Die NT_MU Funktion (Möbius Mu Funktion) gibt \n"
-"0 zurück, wenn  @n durch das Quadrat einer Primzahl teilbar ist.\n"
+"0 zurück, wenn @n durch das Quadrat einer Primzahl teilbar ist.\n"
 "Andernfalls: \n"
 "-1, wenn @n eine ungerade Anzahl verschiedener Primfaktoren besitzt.\n"
 "1, wenn @n eine gerade Anzahl verschiedener Primfaktoren besitzt.\n"
@@ -3065,7 +3063,7 @@ msgstr "Imaginär"
 msgid "Error '%s' opening workbook stream"
 msgstr "Fehler »%s« beim Öffnen des workbook-Streams"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3401
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ungültige XML-Datei. Ist der Baum leer?"
 
@@ -6832,7 +6830,7 @@ msgid "Scale"
 msgstr "Skalierung"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3086
+#: src/workbook.c:1065 src/xml-io.c:3087
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -6968,14 +6966,16 @@ msgstr "Durchschnittl. Rang"
 msgid "Rank and Percentile"
 msgstr "Rang und Perzentile"
 
+# CHECK: I'm not quite sure about that.
 #: src/dialogs/rank.glade.h:8
 msgid "Ties:"
-msgstr ""
+msgstr "Unentschieden:"
 
 # CHECK: "Oberer Rang" oder "Höchstes Rang"
+# 2002-02-21 I think "Top-Rang" is ok for now. -cm-
 #: src/dialogs/rank.glade.h:16
 msgid "_Top Rank"
-msgstr ""
+msgstr "_Top-Rang"
 
 #: src/dialogs/regression.glade.h:1
 msgid "0.95"
@@ -9184,7 +9184,6 @@ msgstr ""
 "die den angegebenen Kriterien entspricht.\n"
 
 #: src/functions/fn-database.c:704
-#, fuzzy
 msgid ""
 "\n"
 "If none of the items match the conditions, DGET returns #VALUE! error. If "
@@ -9197,8 +9196,8 @@ msgid ""
 msgstr ""
 "\n"
 "Wenn keiner der Posten die Bedingungen erfüllt, gibt DGET einen #WERT!-"
-"Fehlerzurück. Erfüllt mehr als ein Posten die Bedingungen, gibt DGET einen "
-"#ZAHL!-Fehler zurück.@EXAMPLES=\n"
+"Fehler zurück. Erfüllt mehr als ein Posten die Bedingungen, gibt DGET einen "
+"#ZAHL!-Fehler zurück. @EXAMPLES=\n"
 "DGET(A1:C7, \"Gehalt\", A9:A10) ergibt 34323.\n"
 "DGET(A1:C7, \"Name\", A9:A10) ergibt \"Clark\".\n"
 "\n"
@@ -9976,7 +9975,6 @@ msgid "Unimplemented"
 msgstr "Nicht implementiert"
 
 #: src/functions/fn-date.c:993
-#, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -9990,20 +9988,19 @@ msgid ""
 "\n"
 "@SEEALSO=WORKDAY"
 msgstr ""
-"@FUNCTION=WORKDAY\n"
-"@SYNTAX=WORKDAY (Startdatum,Enddatum,Feiertage)\n"
+"@FUNCTION=NETWORKDAYS\n"
+"@SYNTAX=NETWORKDAY (Startdatum,Enddatum,Feiertage)\n"
 "@DESCRIPTION=Gibt die Anzahl der Werktage zurück, die zwischen @Startdatum "
-"und @Enddatum liegen. Wochenenden und Feiertage, die als @Feiertage optional "
-"angegeben werden können, werden berücksichtigt.\n"
-"Gibt #ZAHL! zurück, wenn @Startdatum oder @Tage ungültig sind.\n"
+"und @Enddatum liegen. Feiertage, die als @Feiertage optional angegeben "
+"werden können, werden berücksichtigt.\n"
+"Gibt #ZAHL! zurück, wenn @Startdatum oder @Enddatum ungültig sind.\n"
 "Diese Funktion ist Excel-kompatibel. \n"
 "@EXAMPLES=\n"
 "NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) ergibt 33.\n"
 "\n"
-"@SEEALSO=NETWORKDAYS"
+"@SEEALSO=WORKDAY"
 
 #: src/functions/fn-date.c:1116
-#, fuzzy
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -10019,7 +10016,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-date.c:1160
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -10924,7 +10920,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-eng.c:1686
-#, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -10944,7 +10939,6 @@ msgid "Impossible"
 msgstr "Unmöglich"
 
 #: src/functions/fn-eng.c:1742
-#, fuzzy
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -11872,7 +11866,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-financial.c:2787
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -11906,7 +11899,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-financial.c:2829
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -11941,7 +11933,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-financial.c:2872
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -11975,7 +11966,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-financial.c:2914
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -12008,7 +11998,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-financial.c:2955
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -12041,7 +12030,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-financial.c:2996
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -12274,7 +12262,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-information.c:575
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -12658,7 +12645,6 @@ msgid "Logical"
 msgstr "Logik"
 
 #: src/functions/fn-lookup.c:316
-#, fuzzy
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -12920,7 +12906,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:170
-#, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -13521,35 +13506,42 @@ msgstr ""
 
 #: src/functions/fn-math.c:1235
 msgid ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp returns a exponentially distributed random number. \n"
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandExp(0.5).\n"
+"RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP gibt eine exponentiell-verteilte Zufallszahl zurück. \n"
+"@EXAMPLES=\n"
+"RANDEXP(0.5).\n"
+"\n"
+"@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1258
 msgid ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson returns a poisson distributed random number. \n"
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr "LATER"
 
 #: src/functions/fn-math.c:1284
 msgid ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p,trials)\n"
-"@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
-"If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 RandBinom "
+"@FUNCTION=RANDBINOM\n"
+"@SYNTAX=RANDBINOM(p,trials)\n"
+"@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM "
 "returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBinom(0.5,2).\n"
+"RANDBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr "LATER"
@@ -13558,7 +13550,7 @@ msgstr "LATER"
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
-"@DESCRIPTION=RANDNEGBINOM returns a negitive binomialy distributed random "
+"@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random "
 "number. \n"
 "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures "
 "RANDNEGBINOM returns #NUM! error. \n"
@@ -13570,12 +13562,12 @@ msgstr "LATER"
 
 #: src/functions/fn-math.c:1345
 msgid ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli returns a Bernoulli distributed random number. \n"
-"If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. \n"
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBernoulli(0.5).\n"
+"RANDBERNOULLI(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr "LATER"
@@ -13988,7 +13980,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-math.c:1949
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -14004,7 +13995,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:1983
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -14047,7 +14037,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:2068
-#, fuzzy
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -14108,7 +14097,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:2428
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -14137,7 +14125,6 @@ msgid "Array version not implemented!"
 msgstr "Feldversion nicht implementiert!"
 
 #: src/functions/fn-math.c:2541
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -14159,7 +14146,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:2653
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -14212,7 +14198,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-math.c:2849
-#, fuzzy
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -14572,7 +14557,6 @@ msgstr ""
 "@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-stat.c:707
-#, fuzzy
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -15316,7 +15300,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:2461
-#, fuzzy
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -15334,7 +15317,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:2555
-#, fuzzy
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -15387,7 +15369,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:2826
-#, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -15406,7 +15387,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:2861
-#, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -15497,7 +15477,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:3036
-#, fuzzy
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -15719,7 +15698,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:4302
-#, fuzzy
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -15740,7 +15718,6 @@ msgid ""
 msgstr "LATER"
 
 #: src/functions/fn-stat.c:4373
-#, fuzzy
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -16837,7 +16814,7 @@ msgid "Unable to mmap the file."
 msgstr ""
 "Es ist nicht möglich, die Datei in einen Speicherbereich zu legen (mmap)."
 
-#: src/plugin-util.c:318 src/xml-io.c:3367
+#: src/plugin-util.c:318 src/xml-io.c:3368
 msgid "Cannot get file size."
 msgstr "Es ist nicht möglich, die Größe der Datei festzustellen."
 
@@ -18164,35 +18141,29 @@ msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 "Fehler beim Versuch, einen Baum von einer Autoformat-Vorlage zu bilden."
 
-#: src/xml-io.c:2799
+#: src/xml-io.c:2800
 msgid "Unparsable xml in clipboard"
 msgstr "Nicht parsebares XML in der Zwischenablage"
 
-#: src/xml-io.c:2806
+#: src/xml-io.c:2807
 msgid "Clipboard is in unknown format"
 msgstr "Zwischenablage hat ein unbekanntes Format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3212
+#: src/xml-io.c:3213
 msgid "Processing file..."
 msgstr "Datei wird eingelesen..."
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3376
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Ungenügend Speicher verfügbar, um zlib-Kompression zu erlauben. "
 
-#: src/xml-io.c:3410
+#: src/xml-io.c:3411
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 
-#: src/xml-io.c:3467
+#: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
-
-#~ msgid "Text File Export (*.csv)"
-#~ msgstr "Textdatei-Export (*.csv)"
-
-#~ msgid "'%f' is not a number"
-#~ msgstr "'%f' ist keine Zahl"
