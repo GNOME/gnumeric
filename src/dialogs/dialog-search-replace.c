@@ -306,7 +306,7 @@ dialog_search_replace_query (WorkbookControlGUI *wbcg,
 	gtk_tooltips_set_tip (gtk_tooltips_new (),
 			      gtk_dialog_add_button (dialog, GTK_STOCK_YES, 
 						     GTK_RESPONSE_YES),
-			      _("Perform this replacemen"), NULL);
+			      _("Perform this replacement"), NULL);
 	
 	gtk_widget_show_all (GTK_WIDGET (dialog));
 	res = gtk_dialog_run (dialog);
