@@ -894,6 +894,7 @@ initgnumeric (void)
 		PyDict_SetItemString (d, (char *) "error", GnumericError);
 }
 
+/*
 gboolean
 plugin_can_deactivate_general (void)
 {
@@ -907,6 +908,7 @@ plugin_can_deactivate_general (void)
 	}
 	return TRUE;
 }
+*/
 
 void
 plugin_cleanup_general (ErrorInfo **ret_error)
@@ -994,4 +996,6 @@ plugin_init_general (ErrorInfo **ret_error)
 		g_free (name);
 		g_free (dir);
 	}
+	/* Don't try to deactivate the plugin */
+	gnm_plugin_use_ref (plugins_get_plugin_by_id ("Gnumeric_python"));
 }

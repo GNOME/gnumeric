@@ -1,3 +1,11 @@
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".
+
+	* python.c (plugin_can_deactivate_general): Commented out.
+	(plugin_init_general): Use gnm_plugin_use_ref to prevent plugin from
+	being deactivated.
+
 2002-07-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.6
