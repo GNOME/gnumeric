@@ -704,7 +704,11 @@ dialog_cell_format (Sheet *sheet)
 	
 	gtk_widget_show (prop_win);
 	gtk_grab_add (prop_win);
+
 	cell_format_prop_win = prop_win;
 	gtk_main ();
 	cell_format_prop_win = NULL;
+
+	g_list_free (cells);
 }
+

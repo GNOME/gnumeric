@@ -1,3 +1,28 @@
+1998-09-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_clear_region): Redraw the deleted region. 
+	(sheet_clear_region_content): Same.
+	(sheet_cell_remove): same.
+
+	* src/sheet-view.c (sheet_view_redraw_cell_region): 
+
+	* src/cell.c (cell_set_halign): New routine:  Only changes the
+	Horizontal alignment of a cell.
+	(cell_set_format, cell_set_text, cell_set_font_from_style,
+	cell_set_halign, cell_set_alignment): Queue a redraw to a cell
+	before making changes to the properties, to repaint correctly the
+	regions it covers before the change.
+
+	* src/workbook.c (center_cmd, left_align_cmd, right_align_cmd,
+	set_selection_halign):  New routines used to bind the alignment
+	commands from the toolbar.
+
+	* src/sheet-view.c (sheet_view_redraw_cell_region): Silly mistake
+	fix.  Last time I touched this routine i got too excited.  I
+	should use *_col_get_distance only for numbers, not rows.
+
+	My variables were badly named and I thus commmited a mistake, fix.
+
 1998-09-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/dialog-cell-format.c (create_align_page): Added support for

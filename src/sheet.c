@@ -917,12 +917,17 @@ sheet_select_all (Sheet *sheet)
 }
 
 /*
- * FIXME: This routine is pretty simplistic: It should figure out
- * which cells in the region cross the cell boundary
+ * This routine is used to queue the redraw regions for the 
+ * cell region specified.
+ *
+ * It is usually called before a change happens to a region,
+ * and after the change has been done to queue the regions
+ * for the old contents and the new contents.
  */
 void
-sheet_redraw_cell_region (Sheet *sheet, int start_col, int start_row,
-			  int end_col, int end_row)
+sheet_redraw_cell_region (Sheet *sheet,
+			  int start_col, int start_row,
+			  int end_col,   int end_row)
 {
 	GList *l;
 	
@@ -1651,6 +1656,11 @@ sheet_cell_remove (Sheet *sheet, Cell *cell)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
+	/* Queue a redraw on the region used by the cell being removed */
+	sheet_redraw_cell_region (sheet,
+				  cell->col->pos, cell->row->pos,
+				  cell->col->pos, cell->row->pos);
+				  
 	sheet_cell_remove_internal (sheet, cell);
 	cell->col->data = g_list_remove (cell->col->data, cell);
 	
@@ -1783,6 +1793,9 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
 
+	/* Queue a redraw for the cells being removed */
+	sheet_redraw_cell_region (sheet, start_col, start_row, end_col, end_row);
+	
 	destroyable_cells = NULL;
 	sheet_cell_foreach_range (
 		sheet, TRUE,
@@ -1834,6 +1847,9 @@ sheet_clear_region_content (Sheet *sheet, int start_col, int start_row, int end_
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
 
+	/* Queue a redraw for the region being redrawn */
+	sheet_redraw_cell_region (sheet, start_col, start_row, end_col, end_row);
+	
 	sheet_cell_foreach_range (
 		sheet, TRUE,
 		start_col, start_row,
@@ -1873,6 +1889,8 @@ sheet_clear_region_formats (Sheet *sheet, int start_col, int start_row, int end_
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
 
+	/* Queue a draw for the region being modified */
+	sheet_redraw_cell_region (sheet, start_col, start_row, end_col, end_row);
 	sheet_cell_foreach_range (
 		sheet, TRUE,
 		start_col, start_row,

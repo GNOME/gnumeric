@@ -59,10 +59,12 @@ cell_set_alignment (Cell *cell, int halign, int valign, int orient, int auto_ret
 	g_return_if_fail (cell->style != NULL);
 
 	if ((cell->style->halign == halign) &&
-	    (cell->style->halign == valign) &&
+	    (cell->style->valign == valign) &&
 	    (cell->style->orientation == orient))
 		return;
 
+	cell_queue_redraw (cell);
+	
 	cell->style->halign = halign;
 	cell->style->valign = valign;
 	cell->style->orientation = orient;
@@ -74,6 +76,21 @@ cell_set_alignment (Cell *cell, int halign, int valign, int orient, int auto_ret
 }
 
 void
+cell_set_halign (Cell *cell, StyleHAlignFlags halign)
+{
+	g_return_if_fail (cell != NULL);
+
+	if (cell->style->halign == halign)
+		return;
+
+	cell_queue_redraw (cell);
+	cell->style->halign = halign;
+
+	cell_calc_dimensions (cell);
+	cell_queue_redraw (cell);
+}
+
+void
 cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 {
 	GdkFont *font;
@@ -81,6 +98,8 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (style_font != NULL);
 
+	cell_queue_redraw (cell);
+	
 	style_font_unref (cell->style->font);
 	style_font_ref (style_font);
 	
@@ -155,6 +174,8 @@ cell_set_text (Cell *cell, char *text)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
+	cell_queue_redraw (cell);
+	
 	/* The value entered */
 	if (cell->entered_text)
 		string_unref (cell->entered_text);
@@ -283,6 +304,8 @@ cell_set_format (Cell *cell, char *format)
 	if (strcmp (format, cell->style->format->format) == 0)
 		return;
 
+	cell_queue_redraw (cell);
+	
 	/* Change the format */
 	style_format_unref (cell->style->format);
 	cell->style->format = style_format_new (format);

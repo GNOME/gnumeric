@@ -1,113 +1,153 @@
+<!DOCTYPE book PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
+]>
 
-\title {The Gnumeric Spreadsheet Internal Design}
-\author { Miguel de Icaza \\ \bf {(miguel@gnu.org)} }
+<book id="gnumeric-design">
+  <bookinfo>
+    <title>The Gnumeric Spreadsheet Internal Design</title>
+    <releaseinfo>September 2, 1998</releaseinfo>
+    <author>
+      <firstname>Miguel</firstname>
+      <surname>de Icaza</surname>
+      <affiliation>
+        <shortaffil>Instituto de Ciencias Nucleares, Universidad
+           Nacional Autónoma de México
+	</shortaffil>
+      </affiliation>
+    </author>
+    <address><email>miguel@gnu.org</email></address>
+    <date>September 2, 1998</date>
+  </bookinfo>
 
+<chapter>
+<title>Gnumeric Internal Design</title>
+  <sect1>
+    <title>Design Goals</title>
 
-\section { Design goals }
+    <para>
+    The Gnumeric Spreadsheet is a spreadsheet that is intended to grow in
+    the future to provide all of the features available in
+    commercial-grade spreadsheets.  
+    </para>
+    
+    <para>
+    I am not only intending to provide Gnumeric with a very good
+    computation engine, but I am also interested in making the GUI
+    experience for the user as pleasant as possible, and that includes
+    taking a lot of ideas from existing spreadsheets.
+    </para>
+  </sect1>
+    
+  <sect1>
+    <title>Basic organization</title>
 
-The Gnumeric Spreadsheet is a spreadsheet that is intended to grow in
-the future to provide all of the features available in
-commercial-grade spreadsheets.  
+    <para>
+    The Gnumeric spreadsheet is basically organized as Workbooks (see
+    src/sheet.h for the definition of the workbook object).  There might
+    be various workbooks loaded at the same time.  Every one of these
+    workbooks might have a variable number of Sheets (see src/sheet.h for
+    the definition of the Sheet object), and finally each sheet contains
+    cells (The definition of a Gnumeric Cell is in src/cell.h).
+    </para>
+    
+    <itemizedlist>
+    
+      <listitem><para> Workbooks only take care of keeping various sheets together and giving
+      a name to them.</para>
+      
+      <listitem><para>item Sheets are the repository of information:
+      cells are kept here, information on the columns and rows is kept
+      here, and the styles attached to the regions is also kept here.</para>
+      
+      <para>Sheets might have multiple views, this is required to support split
+      views and in the future to support the GNOME document model.  The
+      actual front-end to the Sheet object is the SheetView object:
+      SheetView object each one has a number of components:</para>
+      
+      <itemizedlist>
+  	      <listitem><para>
+	        Their scrollbars.</para>
 
-I am not only intending to provide Gnumeric with a very good
-computation engine, but I am also interested in making the GUI
-experience for the user as pleasant as possible, and that includes
-taking a lot of ideas from existing spreadsheets.
+  	      <listitem><para>
+	        Their cell display engine (more in a second).</para>
 
-\section {Basic organization}
+  	      <listitem><para>
+	        Their bar display (column and row display).</para>
+      </itemizedlist>
+      
+      <para>The cell display engine is basically a modified GnomeCanvas that can
+      deal with keystrokes and can do some extra spreadsheet oriented
+      tasks.  This cell display engine is of type GnumericSheet.</para>
+      
+      <para>GnumericSheet objects usually contain a number of Gnome Canvas items
+      specially designed to be used for a spreadsheet: the Grid Item and the
+      Cursor Item:</para>
+      
+      <itemizedlist>
+      
+  	<listitem><para>
+	  The Grid item takes care of rendering the
+  	  actual contents of the Sheet object and displaying the Cells
+  	  in the way the user requested, this is the actual "core"
+  	  display engine.</para>
+  	
+  	<listitem><para>
+	  The Cursor item is the item that actually draws the spreadsheet
+  	  cursor.  This item, as every other Gnome Canvas item can take events
+  	  and this one is specially interesting, as it provides the basic
+  	  facilities for dragging a region of cells. </para>
+  	
+      </itemizedlist>
+      
+      <para>During the course of a user session, Gnumeric will create
+      Items of type Editor, a special item designed to display the
+      contents of a cell as it is being typed and it is syncronized
+      with a GtkEntry (to provide an Excel-like way of typing text
+      into the cells).</para>
+      
+    </itemizedlist>
+    
+    <para> Sheets contain information for columns and rows in linked
+    lists to facilitate their traversal (in the future, when
+    bottlenecks are identified, we will provide an alternate quick
+    access method based on hash tables).</para>
+    
+    <para>The column and row information is stored in GList's that
+    contain ColRowInfo structures.  These structures include a number
+    of interesting bits:</para>
+    
+    <itemizedlist>
 
-The Gnumeric spreadsheet is basically organized as Workbooks (see
-src/sheet.h for the definition of the workbook object).  There might
-be various workbooks loaded at the same time.  Every one of these
-workbooks might have a variable number of Sheets (see src/sheet.h for
-the definition of the Sheet object), and finally each sheet contains
-cells (The definition of a Gnumeric Cell is in src/cell.h).
+	<listitem><para> Their assigned position (or -1 if they are
+	  the "default" style), field name "pos".</para>
 
-\begin{itemize}
+	<listitem><para> The actual width used in pixels (for the
+	  current magnification setting) as well as their logical
+	  size, plus the margins required in pixels for displaying
+	  various cell adornements.</para>
 
-\item Workbooks only take care of keeping various sheets together and giving
-a name to them.  
+    </itemizedlist>
 
-\item Sheets are the repository of information: cells are kept here,
-information on the columns and rows is kept here, and the styles
-attached to the regions is also kept here. 
+    <para>When a cell is allocated, both ColRowInfos (for column and row) are
+    allocated and properly linked, the cell is made to point to these new
+    structures.</para>
+    
+    <para>The column ColRowInfos have a field called "data", this is a linked
+    list of Cells for every row where a cell exists. </para>
+    
+    <para>Cells are stored in a hash table inside the Sheet data
+    structure for quick retrieval and they are also linked properly in
+    their respective columns. </para>
+  </sect1>
 
-Sheets might have multiple views, this is required to support split
-views and in the future to support the GNOME document model.  The
-actual front-end to the Sheet object is the SheetView object:
-SheetView object each one has a number of components:
+  <sect1>
+  <title>Resource management</title>
 
-\begin {itemize}
-	\item Their scrollbars.
-	\item Their cell display engine (more in a second).
-	\item Their bar display (column and row display).
-\end{itemize}
-
-The cell display engine is basically a modified GnomeCanvas that can
-deal with keystrokes and can do some extra spreadsheet oriented
-tasks.  This cell display engine is of type GnumericSheet.
-
-\item GnumericSheet objects usually contain a number of Gnome Canvas items
-specially designed to be used for a spreadsheet: the Grid Item and the
-Cursor Item:
-
-\begin{itemize}
-
-\item The Grid item takes care of rendering the actual contents of the Sheet
-object and displaying the Cells in the way the user requested, this is
-the actual "core" display engine.  
-
-\item The Cursor item is the item that actually draws the spreadsheet
-cursor.  This item, as every other Gnome Canvas item can take events
-and this one is specially interesting, as it provides the basic
-facilities for dragging a region of cells. 
-
-\end{itemize}
-
-During the course of a user session, Gnumeric will create Items of
-type Editor, a special item designed to display the contents of a cell
-as it is being typed and it is syncronized with a GtkEntry (to provide
-an Excel-like way of typing text into the cells).
-
-\end{itemize}
-
-\section{Sheet organization}
-
-Sheets contain information for columns and rows in linked lists to
-facilitate their traversal (in the future, when bottlenecks are
-identified, we will provide an alternate quick access method based on
-hash tables).  
-
-The column and row information is stored in GList's that contain
-ColRowInfo structures.  These structures include a number of
-interesting bits:
-
-	- Their assigned position (or -1 if they are the "default"
-	  style), field name "pos".
-
-	- The actual width used in pixels (for the current
-	  magnification setting) as well as their logical size, plus
-	  the margins required in pixels for displaying various cell
-	  adornements. 
-
-When a cell is allocated, both ColRowInfos (for column and row) are
-allocated and properly linked, the cell is made to point to these new
-structures.  
-
-The column ColRowInfos have a field called "data", this is a linked
-list of Cells for every row where a cell exists. 
-
-Cells are stored in a hash table inside the Sheet data structure for
-quick retrieval and they are also linked properly in their respective
-columns. 
-
-\section{Resource management}
-
-Data structures in Gnumeric are lightweight, they are designed to
-consume little memory by reusing as much information as possible.
-This is achieved by making common information be hashed and
-reference-counted.  This is done with strings, parser/interprester
-symbols and styles.
-
-\end{document}
+    <para>Data structures in Gnumeric are lightweight, they are
+    designed to consume little memory by reusing as much information
+    as possible.  This is achieved by making common information be
+    hashed and reference-counted.  This is done with strings,
+    parser/interprester symbols and styles.</para>
+  </sect1>
+</chapter>
+</book>
 

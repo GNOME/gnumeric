@@ -21,6 +21,7 @@ Workbook *current_workbook;
 static void
 workbook_new_cmd (void)
 {
+	workbook_new_with_sheets (1);
 }
 
 static void
@@ -34,18 +35,38 @@ workbook_save_cmd (void)
 }
 
 static void
-left_align_cmd (void)
+set_selection_halign (Workbook *wb, StyleHAlignFlags align)
 {
+	Sheet *sheet;
+	GList *cells, *l;
+
+	sheet = workbook_get_current_sheet (wb);
+	cells = sheet_selection_to_list (sheet);
+
+	for (l = cells; l; l = l->next){
+		Cell *cell = l->data;
+		
+		cell_set_halign (cell, align);
+	}
+	g_list_free (cells);
 }
 
 static void
-right_align_cmd (void)
+left_align_cmd (GtkWidget *widget, Workbook *wb)
 {
+	set_selection_halign (wb, HALIGN_LEFT);
 }
 
 static void
-center_cmd (void)
+right_align_cmd (GtkWidget *widget, Workbook *wb)
 {
+	set_selection_halign (wb, HALIGN_RIGHT);
+}
+
+static void
+center_cmd (GtkWidget *widget, Workbook *wb)
+{
+	set_selection_halign (wb, HALIGN_CENTER);
 }
 
 static void
