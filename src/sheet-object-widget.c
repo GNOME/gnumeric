@@ -868,15 +868,15 @@ sheet_widget_checkbox_write_xml (SheetObject const *so,
 				 xmlNodePtr tree)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-	ParsePos pos, *pp;
-	char *val;
-
-	pp = parse_pos_init (&pos, NULL, so->sheet, 0, 0);
-	val = expr_tree_as_string (swc->dep.expression, pp);
 
 	xml_node_set_cstr (tree, "Label", swc->label);
 	xml_node_set_int  (tree, "Value", swc->value);
-	xml_node_set_cstr (tree, "Input", val);
+	if (swc->dep.expression != NULL) {
+		ParsePos pos;
+		char *val = expr_tree_as_string (swc->dep.expression,
+			parse_pos_init (&pos, NULL, so->sheet, 0, 0));
+		xml_node_set_cstr (tree, "Input", val);
+	}
 	
 	return FALSE;
 }
@@ -895,10 +895,13 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 		return TRUE;
 	}
 	
+	swc->dep.sheet = NULL;
+	swc->dep.expression = NULL;
+	swc->dep.flags = checkbox_get_dep_type ();
 	swc->label = g_strdup (label);
 	xmlFree (label);
 	
-	if (input_txt) {
+	if (input_txt != NULL && *input_txt != '\0') {
 		ParsePos pos;
 		ExprTree *expr;
 
@@ -914,12 +917,7 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 		swc->dep.expression = expr;
 		
 		xmlFree (input_txt);
-	} else {
-		swc->dep.expression = NULL;
 	}
-		
-	swc->dep.sheet = context->sheet;
-	swc->dep.flags = checkbox_get_dep_type ();
 		
 	xml_node_get_int (tree, "Value", &swc->value);
 

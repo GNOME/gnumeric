@@ -1,4 +1,12 @@
-2001-12-30  Jody Goldberg <jody@gnome.org>
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_read_xml) : do not
+	  set the sheet here.  That happens latter.  Handle no input smoothly.
+	(sheet_widget_checkbox_write_xml) : handle no input smoothly.
+
+	* src/format.c (append_second_elapsed) : use unsigned long.
+	(append_minute_elapsed) : use unsigned long.
+	(append_hour_elapsed) : use unsigned long.
 
 	* src/commands.c (cmd_insert_rows) : avoid using g_strdup_printf.  It
 	  does not support positional arguments, which makes translation

@@ -323,7 +323,7 @@ static void
 append_hour_elapsed (GString *string, int n, const struct tm *time_split, int number)
 {
 	char *temp = g_alloca (n + 4 * sizeof (int));
-	int hours;
+	unsigned long hours;
 
 	hours = number * 24 + time_split->tm_hour;
 	sprintf (temp, "%0*d", n, hours);
@@ -353,7 +353,7 @@ static void
 append_minute_elapsed (GString *string, int n, const struct tm *time_split, int number)
 {
 	char *temp = g_alloca (n + 4 * sizeof (int));
-	int minutes;
+	unsigned long minutes;
 
 	minutes = ((number * 24) + time_split->tm_hour) * 60 + time_split->tm_min;
 
@@ -384,7 +384,7 @@ static void
 append_second_elapsed (GString *string, int n, const struct tm *time_split, int number)
 {
 	char *temp = g_alloca (n + 4 * sizeof (int));
-	int seconds;
+	unsigned long seconds;
 
 	seconds = (((number * 24 + time_split->tm_hour) * 60 + time_split->tm_min) * 60) + time_split->tm_sec;
 	sprintf (temp, "%0*d", n, seconds);
