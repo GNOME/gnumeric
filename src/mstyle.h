@@ -46,6 +46,9 @@ typedef enum _MStyleElementType {
 
 		MSTYLE_WRAP_TEXT,
 
+	        MSTYLE_CONTENT_LOCKED,
+	        MSTYLE_CONTENT_HIDDEN,
+
 	        MSTYLE_VALIDATION,
 	        MSTYLE_VALIDATION_STYLE,
 	        MSTYLE_VALIDATION_MSG,
@@ -110,6 +113,11 @@ void                mstyle_set_orientation (MStyle *st, StyleOrientation o);
 StyleOrientation    mstyle_get_orientation (const MStyle *st);
 void                mstyle_set_wrap_text   (MStyle *st, gboolean f);
 gboolean            mstyle_get_wrap_text   (const MStyle *st);
+
+void                mstyle_set_content_locked (MStyle *st, gboolean f);
+gboolean            mstyle_get_content_locked (const MStyle *st);
+void                mstyle_set_content_hidden (MStyle *st, gboolean f);
+gboolean            mstyle_get_content_hidden (const MStyle *st);
 
 void                mstyle_set_validation       (MStyle *st, StyleCondition *sc);
 StyleCondition     *mstyle_get_validation       (const MStyle *st);

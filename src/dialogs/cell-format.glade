@@ -3189,8 +3189,7 @@ Double
 
       <widget>
 	<class>GtkCheckButton</class>
-	<name>checkbutton5</name>
-	<sensitive>False</sensitive>
+	<name>protection_locked</name>
 	<can_focus>True</can_focus>
 	<label>_Locked</label>
 	<active>False</active>
@@ -3204,8 +3203,7 @@ Double
 
       <widget>
 	<class>GtkCheckButton</class>
-	<name>checkbutton6</name>
-	<sensitive>False</sensitive>
+	<name>protection_hidden</name>
 	<can_focus>True</can_focus>
 	<label>_Hidden</label>
 	<active>False</active>
@@ -3227,7 +3225,6 @@ Double
 	<yalign>0</yalign>
 	<xpad>0</xpad>
 	<ypad>10</ypad>
-	<focus_target>protected_button</focus_target>
 	<child>
 	  <padding>0</padding>
 	  <expand>False</expand>
@@ -3237,7 +3234,7 @@ Double
 
       <widget>
 	<class>GtkCheckButton</class>
-	<name>protected_button</name>
+	<name>protection_sheet_protected</name>
 	<sensitive>False</sensitive>
 	<can_focus>True</can_focus>
 	<label>Worksheet _protected</label>

@@ -1,3 +1,17 @@
+2001-09-26  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumeric.xsd : The style flags are not required, it will eventually
+	  be possible to define styles that only change some of the
+	  attributes.  Add locked & hidden.
+
+	* src/xml-io.c (xml_write_style) : write locked & hidden.
+	(xml_read_style) : read them too.
+
+	* src/mstyle.c (mstyle_element_equal) : support locked and hidden.
+	(mstyle_{get,set}_content_{locked,hidden}) : We have not implemented
+	  it yet, but storing the info is easy enough.
+	(mstyle_new_default) : Add locked & hidden.
+
 2001-09-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/expr.c (eval_expr_real) : shrink the stack a bit.

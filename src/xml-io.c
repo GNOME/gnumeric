@@ -616,6 +616,10 @@ xml_write_style (XmlParseContext *ctxt,
 		xml_node_set_int (cur, "Shade", mstyle_get_pattern (style));
 	if (mstyle_is_element_set (style, MSTYLE_INDENT))
 		xml_node_set_int (cur, "Indent", mstyle_get_indent (style));
+	if (mstyle_is_element_set (style, MSTYLE_CONTENT_LOCKED))
+		xml_node_set_int (cur, "Locked", mstyle_get_content_locked (style));
+	if (mstyle_is_element_set (style, MSTYLE_CONTENT_HIDDEN))
+		xml_node_set_int (cur, "Hidden", mstyle_get_content_hidden (style));
 
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_FORE))
 		xml_node_set_color (cur, "Fore", mstyle_get_color (style, MSTYLE_COLOR_FORE));
@@ -1341,6 +1345,11 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			mstyle_set_wrap_text (mstyle, val);
 	} else if (xml_node_get_int (tree, "Fit", &val))
 		mstyle_set_wrap_text (mstyle, val);
+
+	if (xml_node_get_int (tree, "Locked", &val))
+		mstyle_set_content_locked (mstyle, val);
+	if (xml_node_get_int (tree, "Hidden", &val))
+		mstyle_set_content_hidden (mstyle, val);
 
 	if (xml_node_get_int (tree, "VAlign", &val))
 		mstyle_set_align_v (mstyle, val);

@@ -509,6 +509,7 @@ static gboolean
 BC_R(attachedlabel)(ExcelChartHandler const *handle,
 		    ExcelChartReadState *s, BiffQuery *q)
 {
+	d (3,{
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data);
 	gboolean const show_value = (flags&0x01) ? TRUE : FALSE;
 	gboolean const show_percent = (flags&0x02) ? TRUE : FALSE;
@@ -533,6 +534,7 @@ BC_R(attachedlabel)(ExcelChartHandler const *handle,
 		if (show_bubble_size)
 			puts ("Show bubble size");
 	}
+	});
 	return FALSE;
 }
 
@@ -1374,12 +1376,11 @@ BC_R(markerformat)(ExcelChartHandler const *handle,
 		BC_R(color) (q->data+4, "InteriorColour", marker, no_back);
 	}
 
-	if (s->container.ver >= MS_BIFF_V8)
-	{
+	if (s->container.ver >= MS_BIFF_V8) {
 #if 0
-	/* Ignore the colour indicies.  Use the colours themselves
-	 * to avoid problems with guessing the strange index values
-	 */
+		/* Ignore the colour indicies.  Use the colours themselves to
+		 * avoid problems with guessing the strange index values
+		 */
 		StyleColor const * marker_border =
 		    ms_excel_palette_get (s->wb->palette,
 					  MS_OLE_GET_GUINT16 (q->data+12));
@@ -1750,11 +1751,13 @@ BC_R(series)(ExcelChartHandler const *handle,
 	g_return_val_if_fail (s->xml.doc != NULL, TRUE);
 	g_return_val_if_fail (s->currentSeries == NULL, TRUE);
 
+	d (2, printf ("SERIES = %d\n", s->series->len););
+
 	series = excel_chart_series_new ();
 	series->xml = xmlNewDocNode (s->xml.doc, s->xml.ns, "Series", NULL);
+	e_xml_set_uint_prop_by_name (series->xml, "index", s->series->len);
 
-	/*
-	 * WARNING : The offsets in the documentation are WRONG.
+	/* WARNING : The offsets in the documentation are WRONG.
 	 *           Use the sizes instead.
 	 */
 	BC_R(vector_details) (s, q, series, MS_VECTOR_PURPOSE_CATEGORIES,
@@ -1767,8 +1770,6 @@ BC_R(series)(ExcelChartHandler const *handle,
 
 	g_ptr_array_add (s->series, series);
 	s->currentSeries = series;
-
-	d (2, printf ("SERIES = %d\n", s->series->len-1););
 
 	return FALSE;
 }
@@ -1809,6 +1810,13 @@ BC_R(seriestext)(ExcelChartHandler const *handle,
 	d (2, puts (text););
 
 	g_return_val_if_fail (id == 0, FALSE);
+
+	/* A quick heuristic */
+	if (s->currentSeries != NULL)
+		xmlSetProp (s->currentSeries->xml, "name", text); 
+
+	/* TODO : handle axis and chart titles */
+
 	return FALSE;
 }
 
@@ -2434,7 +2442,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 				/* Figure out how to assign these back to the series,
 				 * are they just sequential ?
 				 */
-				d (5, printf ("%f\n", val););
+				d (10, printf ("%f\n", val););
 				break;
 			}
 
@@ -2444,7 +2452,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 				guint16 xf  = MS_OLE_GET_GUINT16 (q->data + 4);
 				guint16 len = MS_OLE_GET_GUINT16 (q->data + 6);
 				char *label = biff_get_text (q->data + 8, len, NULL);
-				d (5, {	puts (label);
+				d (10, {puts (label);
 					printf ("hmm, what are these values for a chart ???\n"
 						"row = %d, col = %d, xf = %d\n", row, col, xf);});
 				g_free (label);

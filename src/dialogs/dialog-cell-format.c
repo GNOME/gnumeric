@@ -146,6 +146,10 @@ typedef struct _FormatState
 		PatternPicker	 pattern;
 	} back;
 
+	struct {
+		GtkCheckButton *hidden, *locked;
+	} protection;
+
 	void (*dialog_changed) (gpointer user_data);
 	gpointer	dialog_changed_user_data;
 } FormatState;
@@ -1870,6 +1874,53 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 
 /*****************************************************************************/
 
+static void
+cb_protection_locked_toggle (GtkToggleButton *button, FormatState *state)
+{
+	if (state->enable_edit) {
+		mstyle_set_content_locked (state->result,
+			gtk_toggle_button_get_active (button));
+		fmt_dialog_changed (state);
+	}
+}
+
+static void
+cb_protection_hidden_toggle (GtkToggleButton *button, FormatState *state)
+{
+	if (state->enable_edit) {
+		mstyle_set_content_hidden (state->result,
+			gtk_toggle_button_get_active (button));
+		fmt_dialog_changed (state);
+	}
+}
+
+static void
+fmt_dialog_init_protection_page (FormatState *state)
+{
+	GtkWidget *w;
+	gboolean flag = FALSE;
+
+	flag = mstyle_is_element_conflict (state->style, MSTYLE_CONTENT_LOCKED)
+		? FALSE : mstyle_get_content_locked (state->style);
+	w = glade_xml_get_widget (state->gui, "protection_locked");
+	state->protection.locked = GTK_CHECK_BUTTON (w);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
+	gtk_signal_connect (GTK_OBJECT (w),
+		"toggled", GTK_SIGNAL_FUNC (cb_protection_locked_toggle),
+		state);
+
+	flag = mstyle_is_element_conflict (state->style, MSTYLE_CONTENT_HIDDEN)
+		? FALSE : mstyle_get_content_hidden (state->style);
+	w = glade_xml_get_widget (state->gui, "protection_hidden");
+	state->protection.hidden = GTK_CHECK_BUTTON (w);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
+	gtk_signal_connect (GTK_OBJECT (w),
+		"toggled", GTK_SIGNAL_FUNC (cb_protection_hidden_toggle),
+		state);
+}
+
+/*****************************************************************************/
+
 /* Handler for the apply button */
 static void
 cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
@@ -1935,8 +1986,7 @@ set_initial_focus (FormatState *state)
 		focus_widget
 			= glade_xml_get_widget (state->gui, "back_color_auto");
 	} else if (strcmp (name, "protection_box") == 0) {
-		focus_widget = glade_xml_get_widget (state->gui,
-						     "protected_button");
+		focus_widget = GTK_WIDGET (state->protection.locked);
 	} else {
 		focus_widget = NULL;
 	}
@@ -2068,6 +2118,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	fmt_dialog_init_align_page (state);
 	fmt_dialog_init_font_page (state);
 	fmt_dialog_init_background_page (state);
+	fmt_dialog_init_protection_page (state);
 
 	/* Setup border line pattern buttons & select the 1st button */
 	for (i = MSTYLE_BORDER_TOP; i < MSTYLE_BORDER_DIAGONAL; i++) {

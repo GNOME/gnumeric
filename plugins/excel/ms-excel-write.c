@@ -2001,7 +2001,7 @@ get_xf_differences (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *parentst)
 	/* hmm. documentation doesn't say that alignment bit is
 	   affected by vertical alignment, but it's a reasonable guess */
 	if (xfd->halign != HALIGN_GENERAL || xfd->valign != VALIGN_TOP
-	    || xfd->wrap)
+	    || xfd->wrap_text)
 		xfd->differences |= 1 << MS_BIFF_D_ALIGN_BIT;
 	for (i = 0; i < STYLE_ORIENT_MAX; i++) {
 		/* Should we also test colors? */
@@ -2037,8 +2037,8 @@ log_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, int idx)
 			xfd->format_idx, desc);
 		g_free (desc);
 
-		printf (" hor align 0x%x, ver align 0x%x, wrap %s\n",
-			xfd->halign, xfd->valign, xfd->wrap ? "on" : "off");
+		printf (" hor align 0x%x, ver align 0x%x, wrap_text %s\n",
+			xfd->halign, xfd->valign, xfd->wrap_text ? "on" : "off");
 		printf (" fill fg color idx 0x%x, fill bg color idx 0x%x"
 			", pattern (Excel) %d\n",
 			xfd->pat_foregnd_col, xfd->pat_backgnd_col,
@@ -2096,14 +2096,14 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 	xfd->style_format = mstyle_get_format (st);
 	xfd->format_idx   = formats_get_index (wb, xfd->style_format);
 
-	/* Hidden and locked - we don't have those yet */
-	xfd->hidden = MS_BIFF_H_VISIBLE;
-	xfd->locked = MS_BIFF_L_UNLOCKED;
+	xfd->locked = mstyle_get_content_locked (st);
+	xfd->hidden = mstyle_get_content_hidden (st);
 
 	xfd->halign = mstyle_get_align_h (st);
 	xfd->valign = mstyle_get_align_v (st);
-	xfd->wrap   = mstyle_get_wrap_text (st);
+	xfd->wrap_text   = mstyle_get_wrap_text (st);
 	xfd->orientation = mstyle_get_orientation (st);
+	xfd->indent = mstyle_get_indent (st);
 
 	/* Borders */
 	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
@@ -2121,7 +2121,6 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 					c = PALETTE_ALSO_BLACK;
 				xfd->border_color[i] = c;
 			}
-
 		}
 	}
 
@@ -2249,20 +2248,17 @@ write_xf_record (BiffPut *bp, ExcelWorkbook *wb, BiffXFData *xfd)
 		MS_OLE_SET_GUINT16 (data+0, xfd->font_idx);
 		MS_OLE_SET_GUINT16 (data+2, xfd->format_idx);
 
-		/* According to doc, 1 means locked, but it's 1 also for
-		 * unlocked cells. Presumably, locking becomes effective when
-		 * the locking bit in differences is also set */
 		itmp = 0x0001;
-		if (xfd->hidden != MS_BIFF_H_VISIBLE)
+		if (xfd->hidden)
 			itmp |= 1 << 1;
-		if (xfd->locked != MS_BIFF_L_UNLOCKED)
+		if (xfd->locked)
 			itmp |= 1;
 		itmp |= (xfd->parentstyle << 4) & 0xFFF0; /* Parent style */
 		MS_OLE_SET_GUINT16(data+4, itmp);
 
 		/* Horizontal alignment */
 		itmp  = halign_to_excel (xfd->halign) & 0x7;
-		if (xfd->wrap)	/* Wrapping */
+		if (xfd->wrap_text)	/* Wrapping */
 			itmp |= 1 << 3;
 		/* Vertical alignment */
 		itmp |= (valign_to_excel (xfd->valign) << 4) & 0x70;

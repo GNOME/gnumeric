@@ -54,7 +54,9 @@ typedef struct {
 		}                align;
 		int		 indent;
 		StyleOrientation orientation;
-		gboolean         fit_in_cell;
+		gboolean         wrap_text;
+		gboolean         content_locked;
+		gboolean         content_hidden;
 
 		StyleCondition  *validation;
 		ValidationStyle  validation_style;
@@ -94,7 +96,9 @@ struct _MStyle {
 #define MSTYLE_ANY_BOOLEAN           MSTYLE_FONT_BOLD: \
 				case MSTYLE_FONT_ITALIC: \
 				case MSTYLE_FONT_STRIKETHROUGH: \
-				case MSTYLE_WRAP_TEXT
+				case MSTYLE_WRAP_TEXT:\
+				case MSTYLE_CONTENT_LOCKED:\
+				case MSTYLE_CONTENT_HIDDEN
 
 #define MSTYLE_ANY_GUINT16           MSTYLE_ALIGN_V: \
                                 case MSTYLE_ALIGN_H
@@ -358,7 +362,15 @@ mstyle_element_equal (MStyleElement const *a,
 			return TRUE;
 		break;
 	case MSTYLE_WRAP_TEXT:
-		if (a->u.fit_in_cell == b->u.fit_in_cell)
+		if (a->u.wrap_text == b->u.wrap_text)
+			return TRUE;
+		break;
+	case MSTYLE_CONTENT_LOCKED:
+		if (a->u.content_locked == b->u.content_locked)
+			return TRUE;
+		break;
+	case MSTYLE_CONTENT_HIDDEN:
+		if (a->u.content_hidden == b->u.content_hidden)
 			return TRUE;
 		break;
 	case MSTYLE_VALIDATION:
@@ -608,6 +620,8 @@ mstyle_new_default (void)
 	mstyle_set_indent      (mstyle, 0);
 	mstyle_set_orientation (mstyle, ORIENT_HORIZ);
 	mstyle_set_wrap_text   (mstyle, FALSE);
+	mstyle_set_content_locked (mstyle, TRUE);
+	mstyle_set_content_hidden (mstyle, FALSE);
 	mstyle_set_font_name   (mstyle, DEFAULT_FONT);
 	mstyle_set_font_bold   (mstyle, FALSE);
 	mstyle_set_font_italic (mstyle, FALSE);
@@ -1198,7 +1212,7 @@ mstyle_set_wrap_text (MStyle *style, gboolean f)
 	g_return_if_fail (style != NULL);
 
 	style->elements[MSTYLE_WRAP_TEXT].type = MSTYLE_WRAP_TEXT;
-	style->elements[MSTYLE_WRAP_TEXT].u.fit_in_cell = f;
+	style->elements[MSTYLE_WRAP_TEXT].u.wrap_text = f;
 }
 
 gboolean
@@ -1206,7 +1220,40 @@ mstyle_get_wrap_text (const MStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT), FALSE);
 
-	return style->elements [MSTYLE_WRAP_TEXT].u.fit_in_cell;
+	return style->elements [MSTYLE_WRAP_TEXT].u.wrap_text;
+}
+
+void
+mstyle_set_content_locked (MStyle *style, gboolean f)
+{
+	g_return_if_fail (style != NULL);
+
+	style->elements[MSTYLE_CONTENT_LOCKED].type = MSTYLE_CONTENT_LOCKED;
+	style->elements[MSTYLE_CONTENT_LOCKED].u.wrap_text = f;
+}
+
+gboolean
+mstyle_get_content_locked (const MStyle *style)
+{
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_CONTENT_LOCKED), FALSE);
+
+	return style->elements [MSTYLE_CONTENT_LOCKED].u.wrap_text;
+}
+void
+mstyle_set_content_hidden (MStyle *style, gboolean f)
+{
+	g_return_if_fail (style != NULL);
+
+	style->elements[MSTYLE_CONTENT_HIDDEN].type = MSTYLE_CONTENT_HIDDEN;
+	style->elements[MSTYLE_CONTENT_HIDDEN].u.wrap_text = f;
+}
+
+gboolean
+mstyle_get_content_hidden (const MStyle *style)
+{
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_CONTENT_HIDDEN), FALSE);
+
+	return style->elements [MSTYLE_CONTENT_HIDDEN].u.wrap_text;
 }
 
 void

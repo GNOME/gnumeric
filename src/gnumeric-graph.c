@@ -31,8 +31,10 @@
 #include "workbook-private.h"
 #include "value.h"
 #include "ranges.h"
-#include "selection.h"
 #include "sheet-object-container.h"
+
+#include "dialogs.h"
+#include "sheet-control-gui.h"
 
 #include <bonobo.h>
 #include <liboaf/liboaf.h>
@@ -336,6 +338,29 @@ static POA_GNOME_Gnumeric_VectorSelection__vepv	vector_selection_vepv;
 static POA_GNOME_Gnumeric_Scalar_Vector__vepv	scalar_vector_vepv;
 static POA_GNOME_Gnumeric_Date_Vector__vepv	date_vector_vepv;
 static POA_GNOME_Gnumeric_String_Vector__vepv	string_vector_vepv;
+
+GtkWidget *
+gnm_graph_get_config_control (GnmGraph *graph, char const *which_control)
+{
+	CORBA_Environment  ev;
+	GtkWidget	  *res = NULL;
+	Bonobo_Control	   control;
+
+	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), NULL);
+
+	CORBA_exception_init (&ev);
+	control = MANAGER1 (configure) (graph->manager, which_control, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("'%s' : while attempting to get aconfiguration control",
+			   bonobo_exception_get_text (&ev));
+	} else if (control == CORBA_OBJECT_NIL) {
+		g_warning ("Was this an unknown config control ??");
+	} else
+		res = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
+	CORBA_exception_free (&ev);
+
+	return res;
+}
 
 static void
 gnm_graph_vector_set_expr (Dependent *dep, ExprTree *expr)
@@ -807,6 +832,8 @@ gnm_graph_type_selector (GnmGraph *graph)
 	GtkWidget	  *res = NULL;
 	Bonobo_Control	   control;
 
+	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), NULL);
+
 	CORBA_exception_init (&ev);
 	control = MANAGER1 (configure) (graph->manager, "Type", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -1039,8 +1066,11 @@ gnm_graph_destroy (GtkObject *obj)
 }
 
 static void
-cb_graph_assign_data (GtkWidget *ignored, GnmGraph *graph)
+cb_graph_assign_data (GtkWidget *ignored, GtkObject *obj_view)
 {
+	SheetControlGUI *scg = sheet_object_view_control (obj_view);
+	SheetObject     *so  = sheet_object_view_obj     (obj_view);
+	dialog_graph_guru (scg_get_wbcg (scg), GNUMERIC_GRAPH (so), 1);
 }
 
 static void
@@ -1056,7 +1086,7 @@ gnm_graph_populate_menu (SheetObject *so,
 	graph = GNUMERIC_GRAPH (so);
 	item = gtk_menu_item_new_with_label (_("Data..."));
 	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    GTK_SIGNAL_FUNC (cb_graph_assign_data), graph);
+			    GTK_SIGNAL_FUNC (cb_graph_assign_data), obj_view);
 	gtk_menu_append (menu, item);
 
 	if (SHEET_OBJECT_CLASS (gnm_graph_parent_class)->populate_menu)

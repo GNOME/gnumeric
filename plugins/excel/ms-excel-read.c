@@ -1160,10 +1160,14 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 	if (xf->style_format)
 		mstyle_set_format (mstyle, xf->style_format);
 
+	/* protection */
+	mstyle_set_content_locked (mstyle, xf->locked);
+	mstyle_set_content_hidden (mstyle, xf->hidden);
+
 	/* Alignment */
 	mstyle_set_align_v   (mstyle, xf->valign);
 	mstyle_set_align_h   (mstyle, xf->halign);
-	mstyle_set_wrap_text (mstyle, xf->wrap);
+	mstyle_set_wrap_text (mstyle, xf->wrap_text);
 	mstyle_set_indent    (mstyle, xf->indent);
 	/* mstyle_set_orientation (mstyle, ); */
 
@@ -1435,8 +1439,8 @@ biff_xf_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 	    ? biff_format_data_lookup (wb, xf->format_idx) : NULL;
 
 	data = MS_OLE_GET_GUINT16 (q->data + 4);
-	xf->locked = (data & 0x0001) ? MS_BIFF_L_LOCKED : MS_BIFF_L_UNLOCKED;
-	xf->hidden = (data & 0x0002) ? MS_BIFF_H_HIDDEN : MS_BIFF_H_VISIBLE;
+	xf->locked = (data & 0x0001) != 0;
+	xf->hidden = (data & 0x0002) != 0;
 	xf->xftype = (data & 0x0004) ? MS_BIFF_X_STYLE : MS_BIFF_X_CELL;
 	xf->format = (data & 0x0008) ? MS_BIFF_F_LOTUS : MS_BIFF_F_MS;
 	xf->parentstyle = (data & 0xfff0) >> 4;
@@ -1485,7 +1489,7 @@ biff_xf_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 		printf ("Unknown halign %d\n", subdata);
 		break;
 	}
-	xf->wrap = (data & 0x0008) ? TRUE : FALSE;
+	xf->wrap_text = (data & 0x0008) != 0;
 	subdata = (data & 0x0070) >> 4;
 	switch (subdata) {
 	case 0:

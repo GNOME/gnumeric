@@ -2315,7 +2315,7 @@ cb_sort_descending (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	dialog_graph_guru (wbcg);
+	dialog_graph_guru (wbcg, NULL, 0);
 }
 
 static void

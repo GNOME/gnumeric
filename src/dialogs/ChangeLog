@@ -1,3 +1,16 @@
+2001-09-26  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c : Add a sample for the data page.
+	  Make the lists of plots and series.  rewrite the the glade file
+	  in preparation for constructing the exprEntries.
+
+2001-09-26  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-cell-format.c (cb_protection_locked_toggle) : new.
+	(cb_protection_hidden_toggle) : new.
+	(fmt_dialog_init_protection_page) : new.
+	(fmt_dialog_impl) : call fmt_dialog_init_protection_page.
+
 2001-09-21  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-formula-guru.c (cb_formula_guru_entry_changed) : fix the

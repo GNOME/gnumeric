@@ -348,15 +348,17 @@
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="HAlign"       type="gmr:horizontal_alignment" use="required"/>
-        <xsd:attribute name="VAlign"       type="gmr:vertical_alignment"   use="required"/>
-        <xsd:attribute name="WrapText"     type="xsd:boolean"          use="required"/>
-        <xsd:attribute name="Orient"       type="gmr:style_orientation"    use="required"/>
-        <xsd:attribute name="Shade"        type="gmr:style_shading"        use="required"/>
-        <xsd:attribute name="Indent"       type="xsd:integer"          use="required"/>
-        <xsd:attribute name="Fore"         type="gmr:color"                use="required"/>
-        <xsd:attribute name="Back"         type="gmr:color"                use="required"/>
-        <xsd:attribute name="PatternColor" type="gmr:color"                use="required"/>
+        <xsd:attribute name="HAlign"       type="gmr:horizontal_alignment"/>
+        <xsd:attribute name="VAlign"       type="gmr:vertical_alignment"  />
+        <xsd:attribute name="WrapText"     type="xsd:boolean"          	  />
+        <xsd:attribute name="Orient"       type="gmr:style_orientation"   />
+        <xsd:attribute name="Shade"        type="gmr:style_shading"       />
+        <xsd:attribute name="Indent"       type="xsd:integer"             />
+        <xsd:attribute name="Fore"         type="gmr:color"               />
+        <xsd:attribute name="Back"         type="gmr:color"               />
+        <xsd:attribute name="PatternColor" type="gmr:color"               />
+        <xsd:attribute name="Locked"	   type="xsd:boolean"          	  />
+        <xsd:attribute name="Hidden"	   type="xsd:boolean"          	  />
         <!-- the most common value of the Format attribute, by far, is
              General. Here are some other values: 
              #,##0.00

@@ -16,6 +16,7 @@ Eric Baudais:
 
 Jody:
 	* Enable XL import for graphs.
+	* Import/Export/Edit Hidden/Locked attributes.
 	* Parse using the assigned fmt before checking the builtins.
 	* Add simple bucketing of range dependencies.
 	* Add minor formating extension.

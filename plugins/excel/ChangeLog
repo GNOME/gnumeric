@@ -1,3 +1,12 @@
+2001-09-26  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-xf.h (_BiffXFData) : locked and hidden are booleans.
+	* ms-excel-read.c (biff_xf_data_new) : read them that way.
+	(ms_excel_get_style_from_xf) : store the protection flags.
+	* ms-excel-write.c (build_xf_data) : ditto.  Add indent.
+
+	* ms-chart.c (BC_R(seriestext)) : handle manually entered series names.
+
 2001-09-25  Jon K Hellan  <hellan@acm.org>
 
 	* .cvsignore: Add plugin.xml

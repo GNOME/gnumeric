@@ -34,7 +34,6 @@ typedef enum { MS_BIFF_TYPE_Workbook=0, MS_BIFF_TYPE_VBModule=1, MS_BIFF_TYPE_Wo
 /* Cell / XF types */
 typedef enum { MS_BIFF_H_VISIBLE=0, MS_BIFF_H_HIDDEN=1,
 	       MS_BIFF_H_VERY_HIDDEN=2 } MsBiffHidden ;
-typedef enum { MS_BIFF_L_LOCKED=1, MS_BIFF_L_UNLOCKED=0 } MsBiffLocked ;
 typedef enum { MS_BIFF_X_STYLE=0, MS_BIFF_X_CELL=1 } MsBiffXfType ;
 typedef enum { MS_BIFF_F_MS=0, MS_BIFF_F_LOTUS=1 } MsBiffFormat ;
 typedef enum { MS_BIFF_E_CONTEXT=0, MS_BIFF_E_LEFT_TO_RIGHT=1,

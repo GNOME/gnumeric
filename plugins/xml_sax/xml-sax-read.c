@@ -1032,6 +1032,10 @@ xml_sax_styleregion_start (XMLSaxParseState *state, CHAR const **attrs)
 			mstyle_set_color (state->style, MSTYLE_COLOR_PATTERN, colour);
 		else if (!strcmp (attrs[0], "Format"))
 			mstyle_set_format_text (state->style, attrs[1]);
+		else if (xml_sax_attr_int (attrs, "Hidden", &val))
+			mstyle_set_content_hidden (state->style, val);
+		else if (xml_sax_attr_int (attrs, "Locked", &val))
+			mstyle_set_content_locked (state->style, val);
 		else
 			xml_sax_unknown_attr (state, attrs, "StyleRegion");
 	}

@@ -18,7 +18,7 @@ typedef enum {
 } FormatDialogPosition_t;
 
 #ifdef ENABLE_BONOBO
-void     dialog_graph_guru	(WorkbookControlGUI *wbcg);
+void     dialog_graph_guru	(WorkbookControlGUI *wbcg, GnmGraph *graph, int page);
 #endif
 void	   dialog_formula_guru	(WorkbookControlGUI *wbcg);
 void	   dialog_plugin_manager  (WorkbookControlGUI *wbcg);
