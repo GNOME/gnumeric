@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2002-02-22 01:50+0100\n"
-"PO-Revision-Date: 2002-02-22 01:53+0100\n"
+"POT-Creation-Date: 2002-03-02 11:41+0100\n"
+"PO-Revision-Date: 2002-03-02 11:58+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1388,14 +1388,13 @@ msgstr "SUM"
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
-msgstr ""
+msgstr "Sammenligner to populasjonsmedianer for to utvalg som ikke er i par fra populasjon med ulik varians: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3014
-#, fuzzy
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
-msgstr "Sammenligner to populasjonsmedianer for toparutvalg.: t-test"
+msgstr "Sammenligner to populasjonsmedianer med kjente varianser eller ved bruk av et stort utvalg: z- test"
 
 #: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3056
 msgid "Comparing two population variances"
@@ -2231,11 +2230,11 @@ msgstr "Angre siste handling"
 
 #: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3003
 msgid "Unpaired Samples, E_qual Var.: T-Test"
-msgstr ""
+msgstr "Utvalg som ikke er i par, li_k var.: T-Test"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3008
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
-msgstr ""
+msgstr "Utvalg som ikke er i par, _ulik var.: T-Test"
 
 #: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3146
 msgid "Validate input with preset criteria"
@@ -2458,7 +2457,7 @@ msgstr "_Åpne..."
 
 #: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:2999
 msgid "_Paired Samples: T-Test"
-msgstr ""
+msgstr "_Utvalg i par: T-Test"
 
 #: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1396
 #: src/workbook-control-gui.c:2742
@@ -4254,36 +4253,36 @@ msgid "_Wrap text"
 msgstr "_Bryt tekst"
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "min <= val <= max         (between)"
-msgstr "min <= val <= maks        (mellom)"
+msgid "min &lt;= val &lt;= max         (between)"
+msgstr "min &lt;= val &lt;= maks        (mellom)"
 
 #: src/dialogs/cell-format.glade.h:132
 msgid "val != bound                  (not equal to)"
 msgstr "val != grense                 (ikke lik)"
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val <  bound                  (less than)"
-msgstr "verdi < grense                (mindre enn)"
+msgid "val &gt;  bound                  (greater than)"
+msgstr "verdi &gt; grense                (større enn)"
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val <= min || max <= val (not between)"
-msgstr "verdi <= min || maks <= verdi (ikke mellom)"
+msgid "val &gt;=bound                  (greater than or equal to)"
+msgstr "verdi &gt;= grense              (større enn eller lik)"
 
 #: src/dialogs/cell-format.glade.h:135
-msgid "val <=bound                  (less than or equal to)"
-msgstr "verdi <= grense              (mindre enn eller lik)"
+msgid "val &lt;  bound                  (less than)"
+msgstr "verdi &gt; grense                (mindre enn)"
 
 #: src/dialogs/cell-format.glade.h:136
-msgid "val == bound                 (equal to)"
-msgstr "verdi == grense              (lik)"
+msgid "val &lt;= min || max &lt;= val (not between)"
+msgstr "verdi &lt;= min || maks &lt;= verdi (ikke mellom)"
 
 #: src/dialogs/cell-format.glade.h:137
-msgid "val >  bound                  (greater than)"
-msgstr "verdi > grense                (større enn)"
+msgid "val &lt;=bound                  (less than or equal to)"
+msgstr "verdi &lt;= grense              (mindre enn eller lik)"
 
 #: src/dialogs/cell-format.glade.h:138
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "verdi >= grense              (større enn eller lik)"
+msgid "val == bound                 (equal to)"
+msgstr "verdi == grense              (lik)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5522,15 +5521,15 @@ msgstr "Kommentar"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Er du sikker på at du vil fjerne arket med navn «%s»?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5577,25 +5576,25 @@ msgstr "Er du sikker på at du vil avbryte?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2
+msgid "&lt;- Remove"
+msgstr "&lt;-Fjern"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "&lt;- Remove all"
+msgstr "&lt;-Fjern alle"
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "<- Remove"
-msgstr "<-Fjern"
-
-#: src/dialogs/dialog-stf-export.glade.h:4
-msgid "<- Remove all"
-msgstr "<-Fjern alle"
-
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add ->"
-msgstr "Legg til->"
+msgid "Add -&gt;"
+msgstr "Legg til-&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all ->"
-msgstr "Legg til alle->"
+msgid "Add all -&gt;"
+msgstr "Legg til alle-&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -7084,6 +7083,14 @@ msgstr "Skriv inn nytt navn på _ark:"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Endre navn på arket"
+
+#: src/dialogs/solver.glade.h:1
+msgid "&gt;="
+msgstr "&gt;="
+
+#: src/dialogs/solver.glade.h:2
+msgid "&lt;="
+msgstr "&lt;="
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
