@@ -1,5 +1,10 @@
 2001-09-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-control-gui.c (scg_scrollbar_config) : Fix old off by 1
+	  error.  Number of visible = last - first PLUS 1.
+
+2001-09-18  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-control-gui.c (scg_redraw_all) : make headers optional.
 	* src/sheet-control.c (sc_redraw_all) : make headers optional.
 	* src/sheet.c (sheet_redraw_all) : make headers optional.

@@ -3784,18 +3784,18 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->editing_cell = NULL;
 	wbcg->rangesel = NULL;
 
-	gtk_signal_connect_after (
-		GTK_OBJECT (wbcg->toplevel), "delete_event",
+	gtk_signal_connect_after (GTK_OBJECT (wbcg->toplevel),
+		"delete_event",
 		GTK_SIGNAL_FUNC (wbcg_delete_event), wbcg);
-	gtk_signal_connect_after (
-		GTK_OBJECT (wbcg->toplevel), "set_focus",
+	gtk_signal_connect_after ( GTK_OBJECT (wbcg->toplevel),
+		"set_focus",
 		GTK_SIGNAL_FUNC (wbcg_set_focus), wbcg);
 	gtk_signal_connect (GTK_OBJECT (wbcg->toplevel),
-			    "button-release-event",
-			    GTK_SIGNAL_FUNC (cb_scroll_wheel_support),
-			    wbcg);
-	gtk_signal_connect (GTK_OBJECT (wbcg->toplevel), "realize",
-			    GTK_SIGNAL_FUNC (cb_realize), wbcg);
+		"button-release-event",
+		GTK_SIGNAL_FUNC (cb_scroll_wheel_support), wbcg);
+	gtk_signal_connect (GTK_OBJECT (wbcg->toplevel),
+		"realize",
+		GTK_SIGNAL_FUNC (cb_realize), wbcg);
 #if 0
 	/* Enable toplevel as a drop target */
 

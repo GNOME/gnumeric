@@ -325,9 +325,9 @@ scg_scrollbar_config (SheetControl const *sc)
 		max_row = sheet->rows.max_used;
 	if (max_row < sheet->max_object_extent.row)
 		max_row = sheet->max_object_extent.row;
-	va->upper = max_row;
+	va->upper = max_row + 1;
 	va->value = gcanvas->first.row;
-	va->page_size = last_row - gcanvas->first.row;
+	va->page_size = last_row - gcanvas->first.row + 1;
 	va->page_increment = MAX (va->page_size - 3.0, 1.0);
 	va->step_increment = 1;
 
@@ -335,8 +335,8 @@ scg_scrollbar_config (SheetControl const *sc)
 		max_col = sheet->cols.max_used;
 	if (max_col < sheet->max_object_extent.col)
 		max_col = sheet->max_object_extent.col;
-	ha->upper = max_col;
-	ha->page_size = last_col - gcanvas->first.col;
+	ha->upper = max_col + 1;
+	ha->page_size = last_col - gcanvas->first.col + 1;
 	ha->value = gcanvas->first.col;
 	ha->page_increment = MAX (ha->page_size - 3.0, 1.0);
 	ha->step_increment = 1;
