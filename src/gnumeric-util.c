@@ -719,7 +719,7 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 		item = NULL;
 
 		if (elements [i].display_filter != 0 &&
-		    elements [i].display_filter != display_filter)
+		    !(elements [i].display_filter & display_filter))
 			continue;
 
 		if (name != NULL && *name != '\0') {

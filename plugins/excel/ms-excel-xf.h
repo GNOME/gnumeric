@@ -34,6 +34,7 @@ typedef struct _BiffXFData {
 	StyleVAlignFlags valign;
 	gboolean wrap;
 	guint8 rotation;
+	int indent;
 	StyleOrientation orientation;
 	MsBiffEastern eastern;
 	guint8 border_color[STYLE_ORIENT_MAX];
@@ -45,4 +46,5 @@ typedef struct _BiffXFData {
 
 	MStyle *mstyle[3];
 } BiffXFData;
+
 #endif

@@ -1,5 +1,10 @@
 2000-12-07  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-control-gui.c (scg_context_menu) : Use more of the new
+	  artwork.
+
+2000-12-07  Jody Goldberg <jgoldberg@home.com>
+
 	* src/expr.c (cellrange_relocate) : disable the relocating the partner
 	  for forced partial relocation.
 

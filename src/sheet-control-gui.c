@@ -1111,8 +1111,9 @@ scg_context_menu (SheetControlGUI *sheet_view, GdkEventButton *event,
 		  gboolean is_col, gboolean is_row)
 {
 	enum {
-		CONTEXT_IGNORE_FOR_ROWS = 1,
-		CONTEXT_IGNORE_FOR_COLS = 2
+		CONTEXT_DISPLAY_FOR_CELLS = 1,
+		CONTEXT_DISPLAY_FOR_ROWS = 2,
+		CONTEXT_DISPLAY_FOR_COLS = 4
 	};
 	enum {
 		CONTEXT_ENABLE_PASTE_SPECIAL = 1,
@@ -1130,15 +1131,30 @@ scg_context_menu (SheetControlGUI *sheet_view, GdkEventButton *event,
 
 		{ "", NULL, 0, 0, 0 },
 
+		/* TODO : One day make the labels smarter.  Generate them to include
+		 * quantities.
+		 * 	eg : Insert 4 rows
+		 * 	or : Insert row
+		 * This is hard for now because there is no memory management for the label
+		 * strings, and the logic that knows the count is elsewhere
+		 */
 		{ N_("_Insert..."),	NULL,
-		    0, 0, CONTEXT_INSERT },
+		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_INSERT },
 		{ N_("_Delete..."),	NULL,
-		    0, 0, CONTEXT_DELETE },
+		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_DELETE },
+		{ N_("_Insert Column(s)"), "Menu_Gnumeric_ColumnAdd",
+		    CONTEXT_DISPLAY_FOR_COLS, 0, CONTEXT_INSERT },
+		{ N_("_Delete Column(s)"), "Menu_Gnumeric_ColumnDelete",
+		    CONTEXT_DISPLAY_FOR_COLS, 0, CONTEXT_DELETE },
+		{ N_("_Insert Row(s)"), "Menu_Gnumeric_RowAdd",
+		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_INSERT },
+		{ N_("_Delete Row(s)"), "Menu_Gnumeric_RowDelete",
+		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_DELETE },
+
 		{ N_("Clear Co_ntents"),NULL,
 		    0, 0, CONTEXT_CLEAR_CONTENT },
 
-		/* TODO : Add the comment modification elements
-		* We may need to make the filter for popupmenus stronger */
+		/* TODO : Add the comment modification elements */
 		{ "", NULL, 0, 0, 0 },
 
 		{ N_("_Format Cells..."),GNOME_STOCK_MENU_PREF,
@@ -1146,27 +1162,28 @@ scg_context_menu (SheetControlGUI *sheet_view, GdkEventButton *event,
 
 		/* Column specific (Note some labels duplicate row labels) */
 		{ N_("Column _Width..."), "Menu_Gnumeric_ColumnSize",
-		    CONTEXT_IGNORE_FOR_COLS, 0, CONTEXT_COL_WIDTH },
+		    CONTEXT_DISPLAY_FOR_COLS, 0, CONTEXT_COL_WIDTH },
 		{ N_("_Hide"),		  "Menu_Gnumeric_ColumnHide",
-		    CONTEXT_IGNORE_FOR_COLS, 0, CONTEXT_COL_HIDE },
+		    CONTEXT_DISPLAY_FOR_COLS, 0, CONTEXT_COL_HIDE },
 		{ N_("_Unhide"),	  "Menu_Gnumeric_ColumnUnhide",
-		    CONTEXT_IGNORE_FOR_COLS, 0, CONTEXT_COL_UNHIDE },
+		    CONTEXT_DISPLAY_FOR_COLS, 0, CONTEXT_COL_UNHIDE },
 
 		/* Row specific (Note some labels duplicate col labels) */
 		{ N_("_Row Height..."),	  "Menu_Gnumeric_RowSize",
-		    CONTEXT_IGNORE_FOR_ROWS, 0, CONTEXT_ROW_HEIGHT },
+		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_ROW_HEIGHT },
 		{ N_("_Hide"),		  "Menu_Gnumeric_RowHide",
-		    CONTEXT_IGNORE_FOR_ROWS, 0, CONTEXT_ROW_HIDE },
+		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_ROW_HIDE },
 		{ N_("_Unhide"),	  "Menu_Gnumeric_RowUnhide",
-		    CONTEXT_IGNORE_FOR_ROWS, 0, CONTEXT_ROW_UNHIDE },
+		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_ROW_UNHIDE },
 
 		{ NULL, NULL, 0, 0, 0 },
 	};
 
 	/* row and column specific operations */
 	int const display_filter =
-		(is_col ? CONTEXT_IGNORE_FOR_COLS : 0) |
-		(is_row ? CONTEXT_IGNORE_FOR_ROWS : 0);
+		((!is_col && !is_row) ? CONTEXT_DISPLAY_FOR_CELLS : 0) |
+		(is_col ? CONTEXT_DISPLAY_FOR_COLS : 0) |
+		(is_row ? CONTEXT_DISPLAY_FOR_ROWS : 0);
 
 	/*
 	 * Paste special does not apply to cut cells.  Enable

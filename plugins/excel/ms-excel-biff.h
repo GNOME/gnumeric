@@ -100,6 +100,3 @@ extern void           free_ms_biff_bof_data (MsBiffBofData *data) ;
 #include "biff-types.h"
 
 #endif
-
-
-

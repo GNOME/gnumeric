@@ -1243,6 +1243,8 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	mstyle_set_align_v     (mstyle, xf->valign);
 	mstyle_set_align_h     (mstyle, xf->halign);
 	mstyle_set_fit_in_cell (mstyle, xf->wrap);
+	mstyle_set_indent      (mstyle, xf->indent);
+	/* mstyle_set_orientation (mstyle, ); */
 
 	/* Font */
 	fd = ms_excel_get_font (sheet, xf->font_idx);
@@ -1726,21 +1728,16 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 		 * The undocumented record MERGECELLS appears to be the correct source.
 		 * Nothing seems to set the merge flags.
 		 */
-		static gboolean indent_warn = TRUE;
 		static gboolean shrink_warn = TRUE;
 
 		/* FIXME : What are the lower 8 bits Always 0 ?? */
 		/* We need this to be able to support travel.xls */
 		const guint16 data = MS_OLE_GET_GUINT16 (q->data + 8);
-		int const indent = data & 0x0f;
 		gboolean const shrink = (data & 0x10) ? TRUE : FALSE;
 		/* gboolean const merge = (data & 0x20) ? TRUE : FALSE; */
 
-		if (indent != 0 && indent_warn) {
-			indent_warn = FALSE;
-			g_warning ("EXCEL : horizontal indent of %d (> 0) is not supported yet.",
-				   indent);
-		}
+		xf->indent = data & 0x0f;
+
 		if (shrink && shrink_warn) {
 			shrink_warn = FALSE;
 			g_warning ("EXCEL : Shrink to fit is not supported yet.");
