@@ -235,6 +235,8 @@ command_redo (CommandContext *context, Workbook *wb)
  *    with a list of commands.
  *
  * @cmd_list : The set of commands to free.
+ *
+ * NOTE : remember to NULL the list when you are done.
  */
 void
 command_list_release (GSList *cmd_list)

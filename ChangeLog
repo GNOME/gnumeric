@@ -1,3 +1,14 @@
+2000-05-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-math.c (gnumeric_countif) :
+	    Make code match comment.  We can safely ignore blanks.
+	(gnumeric_sumif) : Code was correct.  Add a larger comment explaining
+	  rationale.
+	(gnumeric_sumx2my2) : Code was wrong.  We can not skip blank cells
+	  if there are multiple ranges that need to be kept in sync.
+	(gnumeric_sumx2py2) : Ditto.
+	(gnumeric_sumxmy2) : Ditto.
+
 2000-05-05  Tuomas Kuosmanen  <tigert@tigert.gimp.org>
 
 	* src/pixmaps/function_selector.xpm: Made the ()'s a bit higher

@@ -4,14 +4,6 @@ and longer term bugs.
 
 Release Critical
 ----------------
-
-- gnumeric_countif
-  gnumeric_sumif : Comment and code do not agree, who is right.
-
-- gnumeric_sumx2my2
-  gnumeric_sumx2py2
-  gnumeric_sumxmy2 : These do not handle blank cells.
-
 - gnumeric_ftest : Needs auditing.  All calls to eval_pos_init_cellref
   are questionable.
 
@@ -27,8 +19,7 @@ Long term breakage
 - Clearing a cell that stopped a span does not regenerate the span.
 - changing col/row sizes does not have undo support.
 - The implication of mixed mode references ($B$2:C3)
-  is large.  We need to validate references when pasting a
-  copy to check for inversion.
+  is large.  All accesses to a RangeRef need to be normalized.
 
 - Copy with destination larger than source does not duplicate the styles.
 
