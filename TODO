@@ -11,7 +11,6 @@ Project
     - a SAXOut struct and utils as a wrapper for FILE/gnome-vfs & indent info
     - xml_sax out using ^^
 
-
 Optimizations, Polish and Extensions
 ====================================
 This section lists various optimizations/extensions that can be done
@@ -62,8 +61,6 @@ to features that already work.
 
 * Font dialog
 
-   + Get the list of *valid* fonts from GnomePrint
-   + Filter font list by font encoding.
    + Create a simplistic dialog (to map to font-bold yes/no).
 
 * Cut&Paste
@@ -101,11 +98,6 @@ to features that already work.
      Cell comments should be wrapped - at least so that they do not run
      off the screen.
    
-   + Headers for Columns and Rows
-     The captions should be customizable, ie instead of "A1", it should
-     be possible to display "Sales".  We can use this with Michael's
-     name support. 
-
    + Captions (ItemBar)
      It should be possible to set the dimensions of the cols, rows to
      contain information as "min_points", "max_points".  
@@ -137,9 +129,6 @@ to features that already work.
    + Supply default extension to use with a write operation.
    + Improve handling of unknown fonts and functions when importing.
 
-* Unicode
-
-   + Support throughout Gnumeric.
 
 * Workbooks:
 
@@ -162,13 +151,6 @@ to features that already work.
 * Calculation
    + Rework 'Name' dependencies so we can re-express names.
    + Dependancies for - CELL, INDIRECT functions.
-   + Implicit iteration.  For an array expression that returns scalar results.
-     which takes a range as a scalar argument, apply the expression to each element
-     of the input range.
-
-   + Make checks for inserting rows/cols more intelligent in the face of multiple selections.
-     Currently it just checks the first selected range for infiniteness we need to check all
-     selected ranges.
 
 * Excel Import
 

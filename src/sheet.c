@@ -25,11 +25,11 @@
 #include "sheet.h"
 
 #include "command-context.h"
+#include "workbook.h"
 #include "sheet-control.h"
 #include "sheet-style.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
-#include "workbook-private.h"
 #include "workbook-edit.h"
 #include "parse-util.h"
 #include "dependent.h"
@@ -2476,7 +2476,7 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 	}
 
 	sheet_cell_destroy (sheet, cell,
-			    sheet->workbook->priv->recursive_dirty_enabled);
+		sheet->workbook->recursive_dirty_enabled);
 }
 
 static Value *

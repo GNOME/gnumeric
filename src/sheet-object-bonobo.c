@@ -24,7 +24,6 @@
 
 #include "workbook.h"
 #include "sheet.h"
-#include "workbook-private.h"
 #include "gui-util.h"
 
 #include <math.h>

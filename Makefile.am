@@ -1,4 +1,4 @@
-SUBDIRS = . po idl src plugins icons templates doc schemas omf-install
+SUBDIRS = . po src plugins icons templates doc schemas omf-install
 
 XML_I18N_XML_KIND = --pass-through
 
@@ -23,6 +23,8 @@ serverdir = $(libdir)/bonobo/servers/
 server_in_files = GNOME_Gnumeric.server.in
 server_DATA	= GNOME_Gnumeric.server
 @INTLTOOL_SERVER_RULE@
+
+CLEANFILES = intltool-extract intltool-merge intltool-update
 
 EXTRA_DIST = \
 	gnumeric.desktop.in gnumeric.spec.in GNOME_Gnumeric.server.in.in\

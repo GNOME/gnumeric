@@ -28,6 +28,8 @@
 
 /* Signals */
 enum {
+	WORKBOOK_ADDED,
+	WORKBOOK_REMOVED,
 	CLIPBOARD_MODIFIED,
 	LAST_SIGNAL
 };
@@ -48,12 +50,16 @@ struct _GnumericApplication {
 	/* Others */
 	GConfClient     *gconf_client;
 	GtkWidget       *pref_dialog;
+
+	GList		*workbook_list;
 };
 
 typedef struct 
 {
 	GObjectClass     parent;
-	
+
+	void (*workbook_added)     (GnumericApplication *gnm_app, Workbook *wb);
+	void (*workbook_removed)   (GnumericApplication *gnm_app, Workbook *wb);
 	void (*clipboard_modified) (GnumericApplication *gnm_app);
 	
 } GnumericApplicationClass;
@@ -98,21 +104,40 @@ add_icon (GtkIconFactory *factory,
 	gtk_icon_source_free (src);
 }
 
-static GList *workbook_list = NULL;
+/**
+ * application_workbook_list_remove :
+ * @wb : 
+ *
+ * Remove @wb from the application's list of workbooks.
+ **/
 void
 application_workbook_list_add (Workbook *wb)
 {
-	workbook_list = g_list_prepend (workbook_list, wb);
+	g_return_if_fail (IS_WORKBOOK (wb));
+
+	app->workbook_list = g_list_prepend (app->workbook_list, wb);
+	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_ADDED], 0, wb);
 }
+
+/**
+ * application_workbook_list_remove :
+ * @wb : 
+ *
+ * Remove @wb from the application's list of workbooks.
+ **/
 void
 application_workbook_list_remove (Workbook *wb)
 {
-	workbook_list = g_list_remove (workbook_list, wb);
+	g_return_if_fail (IS_WORKBOOK (wb));
+
+	app->workbook_list = g_list_remove (app->workbook_list, wb);
+	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_ADDED], 0, wb);
 }
+
 GList *
 application_workbook_list (void)
 {
-	return workbook_list;
+	return app->workbook_list;
 }
 
 /**
@@ -286,7 +311,7 @@ application_workbook_foreach (WorkbookCallback cback, gpointer data)
 {
 	GList *l;
 
-	for (l = workbook_list; l; l = l->next){
+	for (l = app->workbook_list; l; l = l->next){
 		Workbook *wb = l->data;
 
 		if (!(*cback)(wb, data))
@@ -596,6 +621,22 @@ gnumeric_application_class_init (GObjectClass *object_class)
 	/* Object class method overrides */
 	object_class->finalize = gnumeric_application_finalize;
 
+	signals [WORKBOOK_ADDED] = g_signal_new ("workbook_added",
+		GNUMERIC_APPLICATION_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnumericApplicationClass, workbook_added),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__VOID__OBJECT,
+		G_TYPE_NONE,
+		1, WORKBOOK_TYPE);
+	signals [WORKBOOK_REMOVED] = g_signal_new ("workbook_removed",
+		GNUMERIC_APPLICATION_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnumericApplicationClass, workbook_removed),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__VOID__OBJECT,
+		G_TYPE_NONE,
+		1, WORKBOOK_TYPE);
 	signals [CLIPBOARD_MODIFIED] = g_signal_new ("clipboard_modified",
 		GNUMERIC_APPLICATION_TYPE,
 		G_SIGNAL_RUN_LAST,
@@ -603,7 +644,7 @@ gnumeric_application_class_init (GObjectClass *object_class)
 		(GSignalAccumulator) NULL, NULL,
 		gnm__VOID__VOID,
 		G_TYPE_NONE,
-		0, G_TYPE_NONE);
+		0);
 }
 
 static void
@@ -617,6 +658,8 @@ gnumeric_application_init (GObject *obj)
 	gnm_app->clipboard_sheet_view = NULL;
 
 	gnm_app->gconf_client = NULL;
+
+	gnm_app->workbook_list = NULL;
 
 	app = gnm_app;
 }

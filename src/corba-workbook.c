@@ -14,7 +14,6 @@
 #include "corba.h"
 #include "commands.h"
 #include "command-context-corba.h"
-#include "workbook-private.h"
 #include "sheet-private.h"
 
 #include <bonobo/bonobo-object.h>

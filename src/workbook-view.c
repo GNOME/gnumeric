@@ -27,7 +27,6 @@
 #include "workbook-control-priv.h"
 #include "workbook.h"
 #include "history.h"
-#include "workbook-private.h"
 #include "application.h"
 #include "sheet.h"
 #include "sheet-merge.h"

@@ -7,7 +7,7 @@ SUBDIRS = pixmaps dialogs widgets tools cut-n-paste-code
 if WITH_BONOBO
 component = gnumeric-component
 endif
-bin_PROGRAMS = gnumeric $(component)
+bin_PROGRAMS = gnumeric $(component) # ssconvert
 #noinst_PROGRAMS = number-match
 
 INCLUDES = 								\
@@ -251,8 +251,6 @@ GNUMERIC_BASE =					\
 	workbook-format-toolbar.h		\
 	workbook-object-toolbar.c		\
 	workbook-object-toolbar.h		\
-	workbook-private.h			\
-	workbook-private.c			\
 	workbook-view.c				\
 	workbook-view.h				\
 	workbook-control.c 			\
@@ -342,6 +340,12 @@ gnumeric_component_LDFLAGS = $(gnumeric_LDFLAGS)
 
 gnumeric_component_app_libs = $(gnumeric_app_libs)
 endif
+
+#ssconvert_LDADD   = $(gnumeric_LDADD)
+#ssconvert_LDFLAGS = $(gnumeric_LDFLAGS)
+#ssconvert_SOURCES =				\
+#	$(GNUMERIC_BASE)			\
+#	ssconvert.c
 
 gnm-marshalers.h : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=gnm_ > $@

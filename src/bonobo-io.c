@@ -532,3 +532,44 @@ gnumeric_bonobo_io_init (void)
 	register_file_saver (gnumeric_bonobo_saver);
 }
 #endif
+
+#if 0
+static int
+workbook_persist_file_load (BonoboPersistFile *ps, const CORBA_char *filename,
+			    CORBA_Environment *ev, void *closure)
+{
+	WorkbookView *wbv = closure;
+
+	return wb_view_open_file (filename, /* FIXME */ NULL, FALSE, NULL) ? 0 : -1;
+}
+
+static int
+workbook_persist_file_save (BonoboPersistFile *ps, const CORBA_char *filename,
+			    CORBA_Environment *ev, void *closure)
+{
+	WorkbookView *wbv = closure;
+	GnumFileSaver *fs;
+
+	fs = get_file_saver_by_id ("Gnumeric_XmlIO:gnum_xml");
+	return wb_view_save_as (wbv, fs, filename, NULL /* FIXME */) ? 0 : -1;
+}
+
+static void
+workbook_bonobo_setup (WorkbookPrivate *wbp)
+{
+	BonoboPersistFile *persist_file;
+
+	/* FIXME : This is totaly broken.
+	 * 1) it does not belong here at the workbook level
+	 * 2) which view use ?
+	 * 3) it should not be in this file.
+	 */
+	persist_file = bonobo_persist_file_new (
+		workbook_persist_file_load,
+		workbook_persist_file_save,
+		wbv);
+	bonobo_object_add_interface (
+		BONOBO_OBJECT (wbp),
+		BONOBO_OBJECT (persist_file));
+}
+#endif

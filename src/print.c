@@ -34,7 +34,6 @@
 #include <libgnomeprint/gnome-print-config.h>
 #include <libgnomeprintui/gnome-print-master-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprintui/gnome-printer-dialog.h>
 
 /*
  * Margins
@@ -1131,7 +1130,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 		gnome_print_dialog_construct_range_page (
 			GNOME_PRINT_DIALOG (gnome_print_dialog),
 			GNOME_PRINT_RANGE_CURRENT | GNOME_PRINT_RANGE_ALL |
-			GNOME_PRINT_RANGE_SELECTION | GNOME_PRINT_RANGE_RANGE,
+			GNOME_PRINT_RANGE_SELECTOR | GNOME_PRINT_RANGE_RANGE,
 			first, end, _("Act_ive sheet"), _("S_heets"));
 
 		toplevel = wbcg_toplevel (wbcg);
@@ -1162,7 +1161,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 		case GNOME_PRINT_RANGE_ALL:
 			default_range = PRINT_ALL_SHEETS;
   			break;
-		case GNOME_PRINT_RANGE_SELECTION:
+		case GNOME_PRINT_RANGE_SELECTOR:
 			default_range = PRINT_SHEET_SELECTION;
   			break;
 		case GNOME_PRINT_RANGE_RANGE:

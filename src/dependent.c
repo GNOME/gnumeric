@@ -22,6 +22,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "dependent.h"
+#include "workbook.h"
 
 #include "value.h"
 #include "cell.h"
@@ -30,7 +31,6 @@
 #include "expr-impl.h"
 #include "expr-name.h"
 #include "workbook-view.h"
-#include "workbook-private.h"
 #include "rendered-value.h" /* FIXME : should not be needed with JIT-R */
 #include "ranges.h"
 #include "gutils.h"
@@ -107,7 +107,7 @@ dependent_changed (Dependent *dep)
 	 */
 	dependent_link (dep, &pos);
 
-	if (dep->sheet->workbook->priv->recursive_dirty_enabled)
+	if (dep->sheet->workbook->recursive_dirty_enabled)
 		cb_dependent_queue_recalc (dep,  NULL);
 	else
 		dependent_flag_recalc (dep);

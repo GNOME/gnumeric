@@ -13,7 +13,6 @@
 #include "sheet-object-container.h"
 
 #include "workbook-control-gui-priv.h"
-#include "workbook-private.h"
 #include "sheet.h"
 #include "gui-util.h"
 #include "sheet-control-gui.h"

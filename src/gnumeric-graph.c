@@ -31,7 +31,6 @@
 #include "value.h"
 #include "cell.h"
 #include "sheet.h"
-#include "workbook-private.h"
 #include "value.h"
 #include "str.h"
 #include "number-match.h"
@@ -1135,30 +1134,6 @@ gnm_graph_series_add_dimension (xmlNode *series, char const *dim_name)
 	res = xmlNewChild (series, series->ns, (xmlChar *)"Dimension", NULL);
 	xmlSetProp (res, (xmlChar *)"dim_name", dim_name);
 	return res;
-}
-
-char *
-gnm_graph_exception (CORBA_Environment *ev)
-{
-#ifdef GNOME2_CONVERSION_COMPLETE
-        if (ev->_major == CORBA_USER_EXCEPTION) {
-		if (!strcmp (ev->_id, "IDL:GNOME/Gnumeric/Error:1.0")) {
-                        GNOME_Gnumeric_Error *err = ev->_params;
-
-                        if (!err || !err->mesg) {
-                                return "No general exception error message";
-                        } else {
-                                return err->mesg;
-                        }
-                } else {
-                        return ev->_id;
-                }
-        } else
-                return CORBA_exception_id (ev);
-#else
-	g_warning ("FIXME");
-	return NULL;
-#endif
 }
 
 GnmGraphPlot *

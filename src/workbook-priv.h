@@ -12,7 +12,6 @@
 #include "file.h"
 #include <glib-object.h>
 
-typedef struct _WorkbookPrivate WorkbookPrivate;
 struct _Workbook {
 	GObject  base;
 
@@ -23,9 +22,6 @@ struct _Workbook {
 	GHashTable *sheet_order_dependents;
 
 	gboolean modified;
-
-	/* Attribute list */
-	GList *attributes;
 
 	gchar          *filename;
 	FileFormatLevel file_format_level;
@@ -41,15 +37,13 @@ struct _Workbook {
 	/* Attached summary information */
 	SummaryInfo *summary_info;
 
-	void       *corba_server;
-
 	struct {
 		gboolean enabled;
 		int      max_number;
 		double   tolerance;
 	} iteration;
-
-	WorkbookPrivate *priv;
+	gboolean during_destruction;
+	gboolean recursive_dirty_enabled;
 };
 
 typedef struct {

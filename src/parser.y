@@ -694,7 +694,7 @@ cellref:  CELLREF {
 	}
 
 	| sheetref CELLREF RANGE_SEP opt_sheetref CELLREF {
-		gboolean failed;
+		gboolean failed = FALSE;
 
 		unregister_allocation ($5);
 		unregister_allocation ($2);

@@ -17,7 +17,6 @@
 
 #include "workbook-view.h"
 #include "workbook-control.h"
-#include "workbook-private.h"
 #include "command-context.h"
 #include "application.h"
 #include "sheet.h"
@@ -36,12 +35,6 @@
 #include "gutils.h"
 #include "gnm-marshalers.h"
 #include "style-color.h"
-
-#ifdef WITH_BONOBO
-#include <bonobo/bonobo-persist-file.h>
-#include "sheet-object-container.h"
-#include "sheet-object-bonobo.h"
-#endif
 
 #include <gtk/gtkmain.h> /* for gtk_main_quit */
 #include <gsf/gsf-impl-utils.h>
@@ -126,7 +119,7 @@ workbook_finalize (GObject *wb_object)
 	Workbook *wb = WORKBOOK (wb_object);
 	GList *sheets, *ptr;
 
-	wb->priv->during_destruction = TRUE;
+	wb->during_destruction = TRUE;
 
 	if (wb->file_saver != NULL) {
 		g_object_weak_unref (G_OBJECT (wb->file_saver),
@@ -203,9 +196,6 @@ workbook_finalize (GObject *wb_object)
 
 	g_ptr_array_free (wb->sheets, TRUE);
 	wb->sheets = NULL;
-
-	workbook_private_delete (wb->priv);
-	wb->priv = NULL;
 
 	if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
 		workbook_history_update (application_workbook_list (), wb->filename);
@@ -319,7 +309,6 @@ workbook_init (GObject *object)
 {
 	Workbook *wb = WORKBOOK (object);
 
-	wb->priv = workbook_private_new ();
 	wb->wb_views = NULL;
 	wb->sheets = g_ptr_array_new ();
 	wb->sheet_hash_private = g_hash_table_new (gnumeric_strcase_hash,
@@ -338,16 +327,13 @@ workbook_init (GObject *object)
 	wb->iteration.max_number = 100;
 	wb->iteration.tolerance = .001;
 
-	application_workbook_list_add (wb);
+	wb->file_format_level = FILE_FL_NEW;
+	wb->file_saver        = NULL;
 
-#if 0
-	workbook_corba_setup (wb);
-#endif
-#ifdef WITH_BONOBO
-#ifdef GNOME2_CONVERSION_COMPLETE
-	workbook_bonobo_setup (wb);
-#endif
-#endif
+	wb->during_destruction = FALSE;
+	wb->recursive_dirty_enabled = TRUE;
+
+	application_workbook_list_add (wb);
 }
 
 static void
@@ -404,10 +390,6 @@ workbook_new (void)
 		is_unique = workbook_set_filename (wb, name);
 		g_free (name);
 	} while (!is_unique);
-	wb->file_format_level = FILE_FL_NEW;
-	wb->file_saver        = NULL;
-
-	wb->priv->during_destruction = FALSE;
 	return wb;
 }
 
@@ -688,8 +670,12 @@ workbook_cells (Workbook *wb, gboolean comments)
 gboolean
 workbook_enable_recursive_dirty (Workbook *wb, gboolean enable)
 {
-	gboolean old = wb->priv->recursive_dirty_enabled;
-	wb->priv->recursive_dirty_enabled = enable;
+	gboolean old;
+
+	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
+	
+	old = wb->recursive_dirty_enabled;
+	wb->recursive_dirty_enabled = enable;
 	return old;
 }
 
@@ -912,7 +898,7 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 
 	/* If not exiting, adjust the focus for any views whose focus sheet
 	 * was the one being deleted, and prepare to recalc */
-	if (!wb->priv->during_destruction) {
+	if (!wb->during_destruction) {
 		if (sheet_index > 0)
 			focus = g_ptr_array_index (wb->sheets, sheet_index-1);
 		else if ((sheet_index+1) < (int)wb->sheets->len)

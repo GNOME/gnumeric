@@ -49,9 +49,11 @@ libgnomecanvas-2.0 >= 1.113.0
 gal-2.0		>= 0.0.6
 libgnome-2.0	>= 1.105.0
 libgnomeui-2.0	>= 1.106.0
-libgnomeprint-2.0 >= 1.114.0
-libgnomeprintui-2.0 >= 1.114.0
+libgnomeprint-2.0 >= 1.120.0
+libgnomeprintui-2.0 >= 1.120.0
 ])
+dnl add this after release
+dnl libguppi-2	>= 0.50.0
 AC_SUBST(GNUMERIC_LIBS)
 AC_SUBST(GNUMERIC_CFLAGS)
 
@@ -708,6 +710,7 @@ plugins/python/Makefile
 plugins/python-loader/Makefile
 plugins/gnome-glossary/Makefile
 plugins/py-func/Makefile
+plugins/corba/Makefile
 plugins/perl/Makefile
 plugins/perl/ext/Makefile.PL
 plugins/guile/Makefile

@@ -21,6 +21,7 @@ Jody:
 	* Support implicit iteration for array expressions.
 	* Fix sheet object ref counting error that Morten found.
 	* Fix crash when destroying unshared view.
+	* Start fleshing out support signals to give scripting more power
 
 Morten:
 	* Leak plugging.

@@ -29,7 +29,6 @@
 
 #ifdef WITH_BONOBO
 #	include <bonobo.h>
-#	include "workbook-private.h"
 #endif
 
 #include <libgnome/gnome-help.h>

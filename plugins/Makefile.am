@@ -12,6 +12,12 @@ PYFUNC_DIR =
 GNOME_GLOSSARY_DIR = 
 endif
 
+if WITH_CORBA
+CORBA_DIR = corba
+else
+CORBA_DIR =
+endif
+
 if WITH_PERL
 PERL_DIR = perl
 else
@@ -51,7 +57,7 @@ SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-financial fn-info \
 	$(PYTHON_DIR) $(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
 	$(GDA_DIR)
 
-SUBDIRS_LOADERS = $(PYTHON_LOADER_DIR)
+SUBDIRS_LOADERS = $(PYTHON_LOADER_DIR) $(CORBA_DIR)
 
 SUBDIRS_DATA_SOURCES = sample_datasource
 

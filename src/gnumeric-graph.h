@@ -4,7 +4,6 @@
 #include "gnumeric.h"
 #include <gtk/gtkwidget.h>
 #include <libxml/tree.h>
-#include <bonobo.h>
 /* Do not include idl here due to automake irritaion for the non-bonobo case */
 
 typedef enum {
@@ -32,10 +31,13 @@ int	   gnm_graph_add_vector	   	  (GnmGraph *graph, GnmExpr const *expr,
 
 GnmGraphVector *gnm_graph_get_vector	  (GnmGraph *graph, int id);
 
-GnmGraphPlot *gnm_graph_add_plot      (GnmGraph *graph);
 void	      gnm_graph_remove_plot   (GnmGraph *graph, GnmGraphPlot *plot);
-void	      gnm_graph_plot_set_type (GnmGraphPlot *plot, xmlNode *type);
+GnmGraphPlot *gnm_graph_add_plot      (GnmGraph *graph);
 
+void	      gnm_graph_plot_set_type (GnmGraphPlot *plot, xmlNode *type);
+void	      gnm_graph_plot_remove_series (GnmGraphPlot *plot, GnmGraphSeries *series);
+GnmGraphPlot *gnm_graph_plot_add_series    (GnmGraphPlot *plot);
+void	      gnm_graph_plot_set_type (GnmGraphPlot *plot, xmlNode *type);
 extern char const * const gnm_graph_vector_type_name [];
 
 #define GNUMERIC_GRAPH_VECTOR_TYPE	(gnm_graph_vector_get_type ())
@@ -48,8 +50,5 @@ Dependent const *gnm_graph_vector_get_dependent (GnmGraphVector const *v);
 /* Series utilities */
 xmlNode *gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *element);
 xmlNode *gnm_graph_series_add_dimension (xmlNode *series, char const *element);
-
-char 	       *gnm_graph_exception	     (CORBA_Environment *ev);
-Bonobo_Control  gnm_graph_get_config_control (GnmGraph *g, char const *which);
 
 #endif /* GNUMERIC_GRAPH_H */

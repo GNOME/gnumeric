@@ -15,7 +15,6 @@
 #include "sheet.h"
 #include "embeddable-grid.h"
 #include "corba.h"
-#include "workbook-private.h"
 #include "ranges.h"
 #include "value.h"
 
