@@ -112,9 +112,9 @@ typedef struct {
 } StyleFormatEntry;
 
 struct _StyleFormat {
-	int        ref_count;
-	char      *format;
-        GPtrArray *entries;  /* Of type StyleFormatEntry. */
+	int    ref_count;
+	char  *format;
+        GList *entries;  /* Of type StyleFormatEntry. */
 };
 
 /*
@@ -407,8 +407,6 @@ format_compile (StyleFormat *format)
 	StyleFormatEntry standard_entries[4];
 	StyleFormatEntry *temp;
 
-	format_destroy (format);
-
 	/* g_string_maybe_expand (string, length); */
 
 	for (i = 0; i < length; i++){
@@ -469,6 +467,14 @@ format_compile (StyleFormat *format)
 	g_string_free (string, TRUE);
 }
 
+static void
+format_entry_dtor (gpointer data, gpointer	user_data)
+{
+	StyleFormatEntry *entry = data;
+	g_free (entry->format);
+	g_free (entry);
+}
+
 /*
  * This routine is invoked when the last user of the
  * format is gone (ie, refcount has reached zero) just
@@ -479,14 +485,8 @@ format_compile (StyleFormat *format)
 void
 format_destroy (StyleFormat *format)
 {
-	int i;
-	for (i = format->entries->len; i-- > 0 ; ) {
-		StyleFormatEntry *entry = g_ptr_array (format->entries, i);
-		g_free (entry->format);
-		g_free (entry);
-	}
-
-	g_ptr_array_free (format->entries, FALSE);
+	g_list_foreach (format->entries, &format_entry_dtor, NULL);
+	g_list_free (format->entries);
 	format->entries = NULL;
 }
 
@@ -1378,7 +1378,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 	char *v = NULL;
 	StyleFormatEntry entry;
 	gboolean is_general = FALSE;
-	int i;
+	GList *list;
 
 	g_return_val_if_fail (value != NULL, "<ERROR>");
 
@@ -1530,6 +1530,7 @@ style_format_new_XL (const char *name, gboolean delocalize)
 	if (!format) {
 		format = g_new0 (StyleFormat, 1);
 		format->format = g_strdup (name);
+		format->entries = NULL;
 		format_compile (format);
 		g_hash_table_insert (style_format_hash, format->format, format);
 	}
