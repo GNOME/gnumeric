@@ -1,7 +1,7 @@
 # Turkish translations for gnumeric messages.
 # Copyright (C) 2000-2001 Free Software Foundation, Inc.
 # Nilgün Belma Bugüner <nilgun@fide.org>, 2001
-# Görkem Çetin <görkem@gelecek.com.tr>, 2000.
+# Görkem Çetin <gorkem@gelecek.com.tr>, 2000.
 #
 msgid ""
 msgstr ""
