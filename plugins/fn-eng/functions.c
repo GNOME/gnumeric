@@ -5,10 +5,12 @@
  * Author:
  *  Michael Meeks <michael@imaginator.com>
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *  Morten Welinder <terra@diku.dk>
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
- * License as published by the Free Software Foundation.
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -36,6 +38,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <libgnome/gnome-i18n.h>
+
+#include "plugin.h"
+#include "plugin-util.h"
+#include "module-plugin-defs.h"
+
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /**
  * FIXME: In the long term this needs optimising.
@@ -1799,130 +1807,46 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-void eng_functions_init (void);
-void
-eng_functions_init (void)
-{
-	FunctionCategory *cat = function_get_category_with_translation ("Engineering", _("Engineering"));
-
-	function_add_args  (
-		cat, "besseli",    "ff",   "xnum,ynum",
-		&help_besseli, gnumeric_besseli);
-	function_add_args  (
-		cat, "besselk",     "ff",   "xnum,ynum",
-		&help_besselk, gnumeric_besselk);
-	function_add_args  (
-		cat, "besselj",     "ff",   "xnum,ynum",
-		&help_besselj, gnumeric_besselj);
-	function_add_args  (
-		cat, "bessely",     "ff",   "xnum,ynum",
-		&help_bessely, gnumeric_bessely);
-	function_add_args  (
-		cat, "bin2dec",     "?",    "number",
-		&help_bin2dec, gnumeric_bin2dec);
-	function_add_args  (
-		cat, "bin2hex",     "?|f",  "xnum,ynum",
-		&help_bin2hex, gnumeric_bin2hex);
-	function_add_args  (
-		cat, "bin2oct",     "?|f",  "xnum,ynum",
-		&help_bin2oct, gnumeric_bin2oct);
-	function_add_args  (
-		cat, "complex",     "ff|s", "real,im[,suffix]",
-		&help_complex, gnumeric_complex);
-	function_add_args  (
-		cat, "convert",     "fss",  "number,from_unit,to_unit",
-		&help_convert, gnumeric_convert);
-	function_add_args  (
-		cat, "dec2bin",     "?|f",  "xnum,ynum",
-		&help_dec2bin, gnumeric_dec2bin);
-	function_add_args  (
-		cat, "dec2oct",     "?|f",  "xnum,ynum",
-		&help_dec2oct, gnumeric_dec2oct);
-	function_add_args  (
-		cat, "dec2hex",     "?|f",  "xnum,ynum",
-		&help_dec2hex, gnumeric_dec2hex);
-	function_add_args  (
-		cat, "delta",       "f|f",  "xnum,ynum",
-		&help_delta, gnumeric_delta);
-	function_add_args  (
-		cat, "erf",         "f|f",  "lower,upper",
-		&help_erf, gnumeric_erf );
-	function_add_args  (
-		cat, "erfc",        "f",    "number",
-		&help_erfc, gnumeric_erfc);
-	function_add_args  (
-		cat, "gestep",      "f|f",  "xnum,ynum",
-		&help_gestep, gnumeric_gestep);
-	function_add_args  (
-		cat, "hex2bin",     "?|f",  "xnum,ynum",
-		&help_hex2bin, gnumeric_hex2bin);
-	function_add_args  (
-		cat, "hex2dec",     "?",    "number",
-		&help_hex2dec, gnumeric_hex2dec);
-	function_add_args  (
-		cat, "hex2oct",     "?|f",  "xnum,ynum",
-		&help_hex2oct, gnumeric_hex2oct);
-	function_add_args  (
-		cat, "imabs",       "?",  "inumber",
-		&help_imabs, gnumeric_imabs);
-	function_add_args  (
-		cat, "imaginary",   "?",  "inumber",
-		&help_imaginary, gnumeric_imaginary);
-	function_add_args  (
-		cat, "imargument",  "?",  "inumber",
-		&help_imargument, gnumeric_imargument);
-	function_add_args  (
-		cat, "imconjugate", "?",  "inumber",
-		&help_imconjugate, gnumeric_imconjugate);
-	function_add_args  (
-		cat, "imcos",       "?",  "inumber",
-		&help_imcos, gnumeric_imcos);
-	function_add_args  (
-		cat, "imtan",       "?",  "inumber",
-		&help_imtan, gnumeric_imtan);
-	function_add_args  (
-		cat, "imdiv",       "??", "inumber,inumber",
-		&help_imdiv, gnumeric_imdiv);
-	function_add_args  (
-		cat, "imexp",       "?",  "inumber",
-		&help_imexp, gnumeric_imexp);
-	function_add_args  (
-		cat, "imln",        "?",  "inumber",
-		&help_imln, gnumeric_imln);
-	function_add_args  (
-		cat, "imlog10",     "?",  "inumber",
-		&help_imlog10, gnumeric_imlog10);
-	function_add_args  (
-		cat, "imlog2",      "?",  "inumber",
-		&help_imlog2, gnumeric_imlog2);
-	function_add_args  (
-		cat, "impower",     "??", "inumber,inumber",
-		&help_impower, gnumeric_impower);
-	function_add_nodes (
-		cat, "improduct", NULL, "inumber,inumber",
-		&help_improduct, gnumeric_improduct);
-	function_add_args  (
-		cat, "imreal",      "?",  "inumber",
-		&help_imreal, gnumeric_imreal);
-	function_add_args  (
-		cat, "imsin",       "?",  "inumber",
-		&help_imsin, gnumeric_imsin);
-	function_add_args  (
-		cat, "imsqrt",      "?",  "inumber",
-		&help_imsqrt, gnumeric_imsqrt);
-	function_add_args  (
-		cat, "imsub",       "??", "inumber,inumber",
-		&help_imsub, gnumeric_imsub);
-	function_add_nodes (
-		cat, "imsum",       NULL, "inumber,inumber",
-		&help_imsum, gnumeric_imsum);
-	function_add_args  (
-		cat, "oct2bin",     "?|f",  "xnum,ynum",
-		&help_oct2bin, gnumeric_oct2bin);
-	function_add_args  (
-		cat, "oct2dec",     "?",    "number",
-		&help_oct2dec, gnumeric_oct2dec);
-	function_add_args  (
-		cat, "oct2hex",     "?|f",  "xnum,ynum",
-		&help_oct2hex, gnumeric_oct2hex);
-}
+const ModulePluginFunctionInfo engineering_functions[] = {
+        { "besseli",     "ff",   "xnum,ynum", &help_besseli, gnumeric_besseli, NULL, NULL, NULL },
+        { "besselk",     "ff",   "xnum,ynum", &help_besselk, gnumeric_besselk, NULL, NULL, NULL },
+        { "besselj",     "ff",   "xnum,ynum", &help_besselj, gnumeric_besselj, NULL, NULL, NULL },
+        { "bessely",     "ff",   "xnum,ynum", &help_bessely, gnumeric_bessely, NULL, NULL, NULL },
+        { "bin2dec",     "?",    "number", &help_bin2dec, gnumeric_bin2dec, NULL, NULL, NULL },
+        { "bin2hex",     "?|f",  "xnum,ynum", &help_bin2hex, gnumeric_bin2hex, NULL, NULL, NULL },
+        { "bin2oct",     "?|f",  "xnum,ynum", &help_bin2oct, gnumeric_bin2oct, NULL, NULL, NULL },
+        { "complex",     "ff|s", "real,im[,suffix]", &help_complex, gnumeric_complex, NULL, NULL, NULL },
+        { "convert",     "fss",  "number,from_unit,to_unit", &help_convert, gnumeric_convert, NULL, NULL, NULL },
+        { "dec2bin",     "?|f",  "xnum,ynum", &help_dec2bin, gnumeric_dec2bin, NULL, NULL, NULL },
+        { "dec2oct",     "?|f",  "xnum,ynum", &help_dec2oct, gnumeric_dec2oct, NULL, NULL, NULL },
+        { "dec2hex",     "?|f",  "xnum,ynum", &help_dec2hex, gnumeric_dec2hex, NULL, NULL, NULL },
+        { "delta",       "f|f",  "xnum,ynum", &help_delta, gnumeric_delta, NULL, NULL, NULL },
+        { "erf",         "f|f",  "lower,upper", &help_erf, gnumeric_erf , NULL, NULL, NULL },
+        { "erfc",        "f",    "number", &help_erfc, gnumeric_erfc, NULL, NULL, NULL },
+        { "gestep",      "f|f",  "xnum,ynum", &help_gestep, gnumeric_gestep, NULL, NULL, NULL },
+        { "hex2bin",     "?|f",  "xnum,ynum", &help_hex2bin, gnumeric_hex2bin, NULL, NULL, NULL },
+        { "hex2dec",     "?",    "number", &help_hex2dec, gnumeric_hex2dec, NULL, NULL, NULL },
+        { "hex2oct",     "?|f",  "xnum,ynum", &help_hex2oct, gnumeric_hex2oct, NULL, NULL, NULL },
+        { "imabs",       "?",    "inumber", &help_imabs, gnumeric_imabs, NULL, NULL, NULL },
+        { "imaginary",   "?",    "inumber", &help_imaginary, gnumeric_imaginary, NULL, NULL, NULL },
+        { "imargument",  "?",    "inumber", &help_imargument, gnumeric_imargument, NULL, NULL, NULL },
+        { "imconjugate", "?",    "inumber", &help_imconjugate, gnumeric_imconjugate, NULL, NULL, NULL },
+        { "imcos",       "?",    "inumber", &help_imcos, gnumeric_imcos, NULL, NULL, NULL },
+        { "imtan",       "?",    "inumber", &help_imtan, gnumeric_imtan, NULL, NULL, NULL },
+        { "imdiv",       "??",   "inumber,inumber", &help_imdiv, gnumeric_imdiv, NULL, NULL, NULL },
+        { "imexp",       "?",    "inumber", &help_imexp, gnumeric_imexp, NULL, NULL, NULL },
+        { "imln",        "?",    "inumber", &help_imln, gnumeric_imln, NULL, NULL, NULL },
+        { "imlog10",     "?",    "inumber", &help_imlog10, gnumeric_imlog10, NULL, NULL, NULL },
+        { "imlog2",      "?",    "inumber", &help_imlog2, gnumeric_imlog2, NULL, NULL, NULL },
+        { "impower",     "??",   "inumber,inumber", &help_impower, gnumeric_impower, NULL, NULL, NULL },
+        { "improduct",   NULL,   "inumber,inumber", &help_improduct, NULL, gnumeric_improduct, NULL, NULL },
+        { "imreal",      "?",    "inumber", &help_imreal, gnumeric_imreal, NULL, NULL, NULL },
+        { "imsin",       "?",    "inumber", &help_imsin, gnumeric_imsin, NULL, NULL, NULL },
+        { "imsqrt",      "?",    "inumber", &help_imsqrt, gnumeric_imsqrt, NULL, NULL, NULL },
+        { "imsub",       "??",   "inumber,inumber", &help_imsub, gnumeric_imsub, NULL, NULL, NULL },
+        { "imsum",       NULL,   "inumber,inumber", &help_imsum, NULL, gnumeric_imsum, NULL, NULL },
+        { "oct2bin",     "?|f",  "xnum,ynum", &help_oct2bin, gnumeric_oct2bin, NULL, NULL, NULL },
+        { "oct2dec",     "?",    "number", &help_oct2dec, gnumeric_oct2dec, NULL, NULL, NULL },
+        { "oct2hex",     "?|f",  "xnum,ynum", &help_oct2hex, gnumeric_oct2hex, NULL, NULL, NULL },
+        {NULL}
+};
