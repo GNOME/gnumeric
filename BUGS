@@ -525,13 +525,6 @@ Function Breakage
   algorithm, see Knuth.
 - WORKDAY	Add holiday support
 
-* Convert the code from sc to use our more accurate date routines
-- ODDFPRICE	(test fails)
-- ODDFYIELD
-- ODDLPRICE	(test fails)
-- ODDLYIELD	(test fails)
-- YIELDDISC	(basis 1 seems different)
-
 Printing
 --------
 - cell text wraps differently when printing than displaying due to scaling
@@ -592,3 +585,12 @@ Finished
 23) Bonobo component						(DONE)
     23.1) Install it in libexec					(DONE)
     23.2) Investigate warnings 					(DONE)
+28) Finish Function Coverage					(DONE)
+    28.1) Convert the code from sc to use our date routines	(DONE)
+    28.2) ODDFPRICE	(test fails)				(DONE)
+    28.3) ODDFYIELD						(DONE)
+    28.4) ODDLPRICE	(test fails)				(DONE)
+    28.5) ODDLYIELD	(test fails)				(DONE)
+    28.6) YIELDDISC	(basis 1 seems different)		(DONE)
+    28.7) YEARFRAC						(DONE)
+
