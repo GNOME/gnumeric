@@ -1,3 +1,9 @@
+2002-03-12  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* dao.[ch] (dao_set_bold): New function.  Moved from
+	src/tools/solver/reports.c.
+	(dao_set_underlined): Ditto.
+
 2002-03-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dao.[hc] : new files, code extracted from 

@@ -511,6 +511,64 @@ dao_autofit_columns (data_analysis_output_t *dao)
 }
 
 /**
+ * dao_set_bold:
+ * @dao:
+ * @col1:
+ * @row1:
+ * @col2:
+ * @row2:
+ *
+ * sets the given cell range to bold
+ * 
+ *
+ **/
+
+void
+dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
+	      int col2, int row2)
+{
+	MStyle *mstyle = mstyle_new ();
+	Range  range;
+
+	range.start.col = col1;
+	range.start.row = row1;
+	range.end.col   = col2;
+	range.end.row   = row2;
+
+	mstyle_set_font_bold (mstyle, TRUE);
+	sheet_style_apply_range (dao->sheet, &range, mstyle);
+}
+
+/**
+ * dao_set_underlined:
+ * @dao:
+ * @col1:
+ * @row1:
+ * @col2:
+ * @row2:
+ *
+ * sets the given cell range to underlined
+ * 
+ *
+ **/
+
+void
+dao_set_underlined (data_analysis_output_t *dao, int col1, int row1,
+		    int col2, int row2)
+{
+	MStyle *mstyle = mstyle_new ();
+	Range  range;
+
+	range.start.col = col1;
+	range.start.row = row1;
+	range.end.col   = col2;
+	range.end.row   = row2;
+
+	mstyle_set_font_uline (mstyle, TRUE);
+	sheet_style_apply_range (dao->sheet, &range, mstyle);
+}
+
+/**
  * dao_set_italic:
  * @dao:
  * @col1:

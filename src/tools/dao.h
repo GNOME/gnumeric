@@ -57,22 +57,26 @@ data_analysis_output_t *dao_init (data_analysis_output_t *dao,
 
 void dao_autofit_columns      (data_analysis_output_t *dao);
 void dao_autofit_these_columns (data_analysis_output_t *dao, int from_col, int to_col);
+void dao_set_bold             (data_analysis_output_t *dao, int col1, int row1,
+			       int col2, int row2);
 void dao_set_italic           (data_analysis_output_t *dao, int col1, int row1,
-			   int col2, int row2);
+			       int col2, int row2);
+void dao_set_underlined       (data_analysis_output_t *dao, int col1, int row1,
+			       int col2, int row2);
 void dao_set_percent          (data_analysis_output_t *dao, int col1, int row1,
-			   int col2, int row2);
+			       int col2, int row2);
 
 void dao_set_cell             (data_analysis_output_t *dao, int col, int row, char const *text);
 void dao_set_cell_printf      (data_analysis_output_t *dao,
-			   int col, int row, char const *fmt, ...)
+			       int col, int row, char const *fmt, ...)
                            G_GNUC_PRINTF (4, 5);
 void dao_set_cell_value       (data_analysis_output_t *dao, int col, int row, Value *v);
 void dao_set_cell_float       (data_analysis_output_t *dao,
-			   int col, int row, gnum_float v);
+			       int col, int row, gnum_float v);
 void dao_set_cell_int         (data_analysis_output_t *dao,
-			   int col, int row, int v);
+			       int col, int row, int v);
 void dao_set_cell_na          (data_analysis_output_t *dao,
-			   int col, int row);
+			       int col, int row);
 void dao_set_cell_float_na    (data_analysis_output_t *dao, int col, int row, gnum_float v, 
 			   gboolean is_valid);
 void dao_set_cell_comment (data_analysis_output_t *dao, int col, int row,

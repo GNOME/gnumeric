@@ -36,36 +36,6 @@
 /* ------------------------------------------------------------------------- */
 
 
-static void
-set_bold (Sheet *sheet, int col1, int row1, int col2, int row2)
-{
-	MStyle *mstyle = mstyle_new ();
-	Range  range;
-
-	range.start.col = col1;
-	range.start.row = row1;
-	range.end.col   = col2;
-	range.end.row   = row2;
-
-	mstyle_set_font_bold (mstyle, TRUE);
-	sheet_style_apply_range (sheet, &range, mstyle);
-}
-
-static void
-set_underlined (Sheet *sheet, int col1, int row1, int col2, int row2)
-{
-	MStyle *mstyle = mstyle_new ();
-	Range  range;
-
-	range.start.col = col1;
-	range.start.row = row1;
-	range.end.col   = col2;
-	range.end.row   = row2;
-
-	mstyle_set_font_uline (mstyle, TRUE);
-	sheet_style_apply_range (sheet, &range, mstyle);
-}
-
 static char *
 find_name (Sheet *sheet, int col, int row)
 {
@@ -138,7 +108,7 @@ fill_header_titles (data_analysis_output_t *dao, gchar *title, Sheet *sheet)
 	dao_set_cell (dao, 0, 2, buf->str);
 	g_string_free (buf, FALSE);
 
-	set_bold (dao->sheet, 0, 0, 0, 2);
+	dao_set_bold (dao, 0, 0, 0, 2);
 }
 
 
@@ -172,7 +142,7 @@ solver_answer_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 2, 6, _("Name"));
 	dao_set_cell (&dao, 3, 6, _("Original Value"));
 	dao_set_cell (&dao, 4, 6, _("Final Value"));
-	set_bold (dao.sheet, 0, 6, 4, 6);
+	dao_set_bold (&dao, 0, 6, 4, 6);
 
 	/* Set `Cell' field (cell reference to the target cell). */
 	dao_set_cell (&dao, 1, 7, cell_name (res->param->target_cell));
@@ -198,7 +168,7 @@ solver_answer_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 2, 11,   _("Name"));
 	dao_set_cell (&dao, 3, 11,   _("Original Value"));
 	dao_set_cell (&dao, 4, 11,   _("Final Value"));
-	set_bold (dao.sheet, 0, 11, 4, 11);
+	dao_set_bold (&dao, 0, 11, 4, 11);
 
 	for (i = 0; i < vars; i++) {
 		/* Set `Cell' column */
@@ -228,7 +198,7 @@ solver_answer_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 4, 15 + vars, _("Formula"));
 	dao_set_cell (&dao, 5, 15 + vars, _("Status"));
 	dao_set_cell (&dao, 6, 15 + vars, _("Slack"));
-	set_bold (dao.sheet, 0, 15 + vars, 6, 15 + vars);
+	dao_set_bold (&dao, 0, 15 + vars, 6, 15 + vars);
 
 	for (i = 0; i < res->param->n_constraints +
 	       res->param->n_int_bool_constraints; i++) {
@@ -329,7 +299,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 5, 7, _("Coefficient"));
 	dao_set_cell (&dao, 6, 7, _("Increase"));
 	dao_set_cell (&dao, 7, 7, _("Decrease"));
-	set_bold (dao.sheet, 0, 6, 7, 7);
+	dao_set_bold (&dao, 0, 6, 7, 7);
 
 	for (i = 0; i < vars; i++) {
 		/* Set `Cell' column */
@@ -376,7 +346,7 @@ solver_sensitivity_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 5, 11 + vars, _("R.H. Side"));
 	dao_set_cell (&dao, 6, 11 + vars, _("Increase"));
 	dao_set_cell (&dao, 7, 11 + vars, _("Decrease"));
-	set_bold (dao.sheet, 0, 10 + vars, 7, 11 + vars);
+	dao_set_bold (&dao, 0, 10 + vars, 7, 11 + vars);
 
 	for (i = 0; i < res->param->n_constraints +
 	       res->param->n_int_bool_constraints; i++) {
@@ -460,8 +430,8 @@ solver_limits_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 1, 6, _("Cell"));
 	dao_set_cell (&dao, 2, 6, _("Name"));
 	dao_set_cell (&dao, 3, 6, _("Value"));
-	set_bold (dao.sheet, 2, 5, 2, 5);
-	set_bold (dao.sheet, 0, 6, 3, 6);
+	dao_set_bold (&dao, 2, 5, 2, 5);
+	dao_set_bold (&dao, 0, 6, 3, 6);
 
 	dao_set_cell (&dao, 2, 10, _("Adjustable"));
 	dao_set_cell (&dao, 1, 11, _("Cell"));
@@ -478,8 +448,8 @@ solver_limits_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 8, 11, _("Limit"));
 	dao_set_cell (&dao, 9, 11, _("Result"));
 
-	set_bold (dao.sheet, 2, 10, 9, 10);
-	set_bold (dao.sheet, 0, 11, 9, 11);
+	dao_set_bold (&dao, 2, 10, 9, 10);
+	dao_set_bold (&dao, 0, 11, 9, 11);
 
 
 	/*
@@ -627,8 +597,8 @@ solver_performance_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 4, 6, _("Int Constraints"));
 	dao_set_cell (&dao, 5, 6, _("Bool Constraints"));
 	dao_set_cell (&dao, 1, 7, _("Number of"));
-	set_bold (dao.sheet, 0, 6, 5, 6);
-	set_bold (dao.sheet, 1, 7, 1, 7);
+	dao_set_bold (&dao, 0, 6, 5, 6);
+	dao_set_bold (&dao, 1, 7, 1, 7);
 
 	/* Set the `Nbr of Variables'. */
 	dao_set_cell_value (&dao, 2, 7, value_new_float (res->param->n_variables));
@@ -655,8 +625,8 @@ solver_performance_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 6, 11, _("Zeros (obj. fn)"));
 	dao_set_cell (&dao, 1, 12, _("Number of"));
 	dao_set_cell (&dao, 1, 13, _("Ratio"));
-	set_bold (dao.sheet, 0, 11, 6, 11);
-	set_bold (dao.sheet, 1, 12, 1, 13);
+	dao_set_bold (&dao, 0, 11, 6, 11);
+	dao_set_bold (&dao, 1, 12, 1, 13);
 
 	/* Set the `Nbr of Matrix Elements'. */
 	mat_size = res->param->n_variables * res->param->n_constraints;
@@ -712,8 +682,8 @@ solver_performance_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 3, 17, _("System"));
 	dao_set_cell (&dao, 4, 17, _("Real"));
 	dao_set_cell (&dao, 1, 18, _("Time (sec.)"));
-	set_bold (dao.sheet, 0, 17, 4, 17);
-	set_bold (dao.sheet, 1, 18, 1, 18);
+	dao_set_bold (&dao, 0, 17, 4, 17);
+	dao_set_bold (&dao, 1, 18, 1, 18);
 
 	/* Set the `User Time'. */
 	dao_set_cell_value (&dao, 2, 18, value_new_float (res->time_user));
@@ -733,8 +703,8 @@ solver_performance_report (WorkbookControl *wbc,
 	dao_set_cell (&dao, 3, 22, _("CPU MHz"));
 	dao_set_cell (&dao, 4, 22, _("OS"));
 	dao_set_cell (&dao, 1, 23, _("Name"));
-	set_bold (dao.sheet, 0, 22, 3, 22);
-	set_bold (dao.sheet, 1, 23, 1, 23);
+	dao_set_bold (&dao, 0, 22, 3, 22);
+	dao_set_bold (&dao, 1, 23, 1, 23);
 
 	if (get_cpu_info (model_name, cpu_mhz, 255)) {
 	        /* Set the `CPU Model'. */
@@ -875,13 +845,13 @@ solver_program_report (WorkbookControl *wbc,
 		switch (c->type) {
 		case SolverLE:
 		        dao_set_cell (&dao, col*3 + 1, 10 + i, "<");
-			set_underlined (dao.sheet, col*3 + 1, 10 + i,
-					col*3 + 1, 10 + i);
+			dao_set_underlined (&dao, col*3 + 1, 10 + i,
+					    col*3 + 1, 10 + i);
 		        break;
 		case SolverGE:
 		        dao_set_cell (&dao, col*3 + 1, 10 + i, ">");
-			set_underlined (dao.sheet, col*3 + 1, 10 + i,
-					col*3 + 1, 10 + i);
+			dao_set_underlined (&dao, col*3 + 1, 10 + i,
+					    col*3 + 1, 10 + i);
 		        break;
 		case SolverEQ:
 		        dao_set_cell (&dao, col*3 + 1, 10 + i, "=");
@@ -927,11 +897,11 @@ solver_program_report (WorkbookControl *wbc,
 	        dao_set_cell (&dao, 0, 5, _("Equal to"));
 		break;
 	}
-	set_bold (dao.sheet, 0, 5, 0, 5);
+	dao_set_bold (&dao, 0, 5, 0, 5);
 
 	/* Print `Subject to' title. */
 	dao_set_cell (&dao, 0, 9, _("Subject to"));
-	set_bold (dao.sheet, 0, 9, 0, 9);
+	dao_set_bold (&dao, 0, 9, 0, 9);
 }
 
 

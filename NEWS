@@ -2,14 +2,14 @@ Gnumeric 1.1.2
 
 Andreas:
 	* Make Single-Factor ANOVA undoable.
-	* Port search dialog
+	* Port search dialog.
 
 Jody:
 	* Fix XL import of external function names.
 	* plug item-bar leak.
 
 Jukka:
-	* More solver improvements
+	* More solver improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.0 and 1.1.1
