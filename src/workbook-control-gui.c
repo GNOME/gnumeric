@@ -2864,8 +2864,8 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	if (accept && wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)) != NULL) {
 		sheet_flag_status_update_range (sheet, NULL);
 		sheet_update (sheet);
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-}
+		wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
+	}
 }
 
 static GtkObjectClass *parent_class;
