@@ -1,3 +1,14 @@
+gnumeric (1.2.6-3) unstable; urgency=low
+
+  * [src/parse-util.c] Updated from CVS to fix a pretty-print (and thus
+    saving) problem with ranges like $B$1:$B1. (Closes: #235120)
+  * [src/commands.c] Fixed incorrect string. (Closes: #233089)
+  * [po/ChangeLog, po/cs.po, po/en_CA.po, po/es.po, po/ga.po, po/nl.po,
+    po/pt_BR.po, po/sv.po] Updates from CVS.
+  * [debian/gnumeric.menu] Quoted needs and section values.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  4 Mar 2004 18:47:56 +0100
+
 gnumeric (1.2.6-2) unstable; urgency=low
 
   * [debian/control] Bumped yelp build dependency to ensure the HTML
