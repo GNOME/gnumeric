@@ -30,7 +30,7 @@ typedef struct _MS_EXCEL_SHEET
 } MS_EXCEL_SHEET ;
 
 extern void ms_excel_sheet_insert (MS_EXCEL_SHEET *sheet, int xfidx, int col, int row, char *text) ;
-extern void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx) ;
+extern void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, guint16 xfidx) ;
 
 typedef struct _MS_EXCEL_PALETTE
 {
@@ -55,7 +55,8 @@ typedef struct _BIFF_FONT_DATA
 typedef struct _MS_EXCEL_WORKBOOK
 {
 	GList *boundsheet_data ;
-	GList *XF_records ;
+	GHashTable *XF_cell_records ;
+	GHashTable *XF_style_records ;
 	GList *excel_sheets ;
 	GList *font_data ;
 	MS_EXCEL_PALETTE *palette ;

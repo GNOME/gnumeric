@@ -344,6 +344,7 @@ ms_excel_palette_destroy (MS_EXCEL_PALETTE * pal)
 }
 
 typedef struct _BIFF_XF_DATA {
+        guint16 index ;
 	WORD font_idx;
 	WORD format_idx;
 	eBiff_hidden hidden;
@@ -472,13 +473,11 @@ get_style_color_from_idx (MS_EXCEL_SHEET *sheet, int idx)
 }
 
 void
-ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, int xfidx)
+ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, guint16 xfidx)
 {
 	GList *ptr;
 	int cnt;
 	BIFF_XF_DATA *xf;
-	static int cache_xfidx = 0;
-	static BIFF_XF_DATA *cache_ptr   = 0;
 
 	if (xfidx == 0){
 		printf ("Normal cell formatting\n");
@@ -486,45 +485,23 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, int xfidx)
 	}
 	if (xfidx == 15){
 		printf ("Default cell formatting\n");
-		return;
+    		return;
 	}
-	xf = cache_ptr;
-
-	if (cache_xfidx != xfidx || !cache_ptr)
-	{
-		cache_xfidx = xfidx;
-		cache_ptr   = 0;
-		/*
-		 * if (!cell->text) Crash if formatting and no text...
-		 * cell_set_text_simple(cell, ""); 
-		 */
-		ptr = g_list_first (sheet->wb->XF_records);
-		/*
-		 * printf ("Looking for %d\n", xfidx); 
-		 */
-		cnt = 16 + 4;		/*
-					 * Magic number ... :-)  FIXME - dodgy 
-					 */
-		while (ptr){
-			xf = ptr->data;
+	/*
+	 * if (!cell->text) Crash if formatting and no text...
+	 * cell_set_text_simple(cell, ""); 
+	 * printf ("Looking for %d\n", xfidx); 
+	 */
 	
-			if (xf->xftype != eBiffXCell){
-				ptr = ptr->next;
-				continue;
-			}
-			if (cnt == xfidx){
-				cache_ptr = xf;
-				break;
-			}
-			cnt++;
-			ptr = ptr->next;
-			if (!ptr)
-			{
-				printf ("No XF record for %d out of %d found :-(\n", xfidx, cnt);
-				return;
-			}
-		}
+	xf = g_hash_table_lookup (sheet->wb->XF_cell_records, &xfidx) ;
+	if (!xf)
+	{
+	        printf ("No XF record for %d out of %d found :-(\n",
+			xfidx, g_hash_table_size (sheet->wb->XF_cell_records));
+	        return;
 	}
+	if (xf->xftype != eBiffXCell)
+	       printf ("FIXME: Error looking up XF\n") ;
 
 	/*
 	 * Well set it up then ! FIXME: hack ! 
@@ -539,7 +516,7 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, int xfidx)
  			tmp[lp] = get_style_color_from_idx
  				(sheet, xf->border_color[lp]);
  		cell_set_border (cell, xf->border_type, tmp);
-		}
+	}
 }
 
 static StyleBorderType
@@ -583,8 +560,8 @@ biff_xf_map_border (int b)
 /**
  * Parse the BIFF XF Data structure into a nice form, see S59E1E.HTM
  **/
-static BIFF_XF_DATA *
-biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
+static void
+biff_xf_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY * q, eBiff_version ver)
 {
 	BIFF_XF_DATA *xf = (BIFF_XF_DATA *) g_malloc (sizeof (BIFF_XF_DATA));
 	LONG data, subdata;
@@ -776,13 +753,39 @@ biff_xf_data_new (BIFF_QUERY * q, eBiff_version ver)
 		subdata = subdata >> 7;
 		xf->border_color[STYLE_RIGHT] = (subdata & 0x7f);
 	}
-	return xf;
+
+	if (xf->xftype == eBiffXCell)
+	{
+	        xf->index = 16 + 4 + g_hash_table_size (wb->XF_cell_records) ;
+		/*	        printf ("Inserting into cell XF hash with : %d\n", xf->index) ; */
+		g_hash_table_insert (wb->XF_cell_records, &xf->index, xf) ;
+	}
+	else
+	{
+	        xf->index = 16 + 4 + g_hash_table_size (wb->XF_style_records) ;
+		/*	        printf ("Inserting into style XF hash with : %d\n", xf->index) ; */
+		g_hash_table_insert (wb->XF_style_records, &xf->index, xf) ;
+	}
 }
 
-static void
-biff_xf_data_destroy (BIFF_XF_DATA * d)
+static gboolean 
+biff_xf_data_destroy (gpointer key, BIFF_XF_DATA *d, gpointer userdata)
 {
 	g_free (d);
+	return 1 ;
+}
+
+static guint
+biff_xf_data_hash (const guint16 *d)
+{
+        return *d ;
+}
+
+static gint
+biff_xf_data_compare (const BIFF_XF_DATA *a, const BIFF_XF_DATA *b)
+{
+	if (a->index==b->index) return 1 ;
+	return 0 ;
 }
 
 static MS_EXCEL_SHEET *
@@ -830,7 +833,10 @@ ms_excel_workbook_new ()
 	ans->boundsheet_data = NULL;
 	ans->font_data = NULL;
 	ans->excel_sheets = NULL;
-	ans->XF_records = NULL;
+	ans->XF_style_records = g_hash_table_new ((GHashFunc)biff_xf_data_hash,
+						  (GCompareFunc)biff_xf_data_compare) ;;
+	ans->XF_cell_records = g_hash_table_new ((GHashFunc)biff_xf_data_hash,
+						 (GCompareFunc)biff_xf_data_compare) ;;
 	ans->palette = NULL;
 	ans->global_strings = NULL;
 	ans->global_string_max = 0;
@@ -857,15 +863,14 @@ ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 	}
 	g_list_free (wb->boundsheet_data);
 
-	ptr = g_list_first (wb->XF_records);
-	while (ptr){
-		BIFF_XF_DATA *dat;
-
-		dat = ptr->data;
-		biff_xf_data_destroy (dat);
-		ptr = ptr->next;
-	}
-	g_list_free (wb->XF_records);
+	g_hash_table_foreach_remove (wb->XF_style_records,
+				     (GHRFunc)biff_xf_data_destroy,
+				     wb) ;
+	g_hash_table_destroy (wb->XF_style_records) ;
+	g_hash_table_foreach_remove (wb->XF_cell_records,
+				     (GHRFunc)biff_xf_data_destroy,
+				     wb) ;
+	g_hash_table_destroy (wb->XF_cell_records) ;
 
 	ptr = g_list_first (wb->font_data);
 	while (ptr){
@@ -1239,15 +1244,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 						 * FIXME: see S59E1E.HTM 
 						 */
 			case BIFF_XF:
-				{
-					BIFF_XF_DATA *ptr = biff_xf_data_new (q, ver->version);
-
-					/*
-					 * printf ("Extended format:\n");
-					 * dump (q->data, q->length); 
-					 */
-					wb->XF_records = g_list_append (wb->XF_records, ptr);
-				}
+				biff_xf_data_new (wb, q, ver->version) ;
 				break;
 			case BIFF_STRINGS:
 				wb->global_strings= g_malloc(q->length-8);
