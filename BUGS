@@ -17,6 +17,9 @@ Long term breakage
   selection.  Not individually adjusting each non-blank cell's precision.
   This would mirror the application of bold/italic/underline
 
+- Moreover, the above buttons ought to work.  Try "44", click $, then add
+  and remove decimals.
+
 - Auto resize needs to handle empty cells.
 - changing col/row sizes does not mark a sheet dirty.
 - changing col/row sizes does not have undo support.
