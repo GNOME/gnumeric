@@ -62,7 +62,9 @@ workbook_view_set_undo_redo_state (Workbook const * const wb,
 {
 	g_return_if_fail (wb != NULL);
 
+#ifndef ENABLE_BONOBO
 	change_menu_label (wb->priv->menu_item_undo, _("Undo"), undo_suffix);
 	change_menu_label (wb->priv->menu_item_redo, _("Redo"), redo_suffix);
+#endif
 }
 

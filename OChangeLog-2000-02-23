@@ -1,3 +1,8 @@
+2000-01-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-view.c (workbook_view_set_undo_redo_state) : Disable
+	  for bonobo versions.
+
 2000-01-05  Morten Welinder  <terra@diku.dk>
 
 	* src/expr.c (eval_expr_real): Fix OPER_EXP operand test for the
