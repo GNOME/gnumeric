@@ -1,5 +1,4 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
  * fn-lookup.c:  Built in lookup functions and functions registration
  *

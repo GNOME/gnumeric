@@ -12,6 +12,8 @@ Jody:
 	* Rewrite editable-label to use gtkentry and to be utf8 clean.
 	* Fix scrollbar & checkbox object cloning.
 	* Support Applix's #AND# #OR# #NOT#
+	* Rework dependent relocation.
+	* Improve event handling during sheet-object editing.
 
 Jukka:
 	* More solver improvements.
