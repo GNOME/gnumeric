@@ -927,13 +927,12 @@ static void
 xml_cell_set_array_expr (Cell *cell, char const *text,
 			 int const cols, int const rows)
 {
-	char *error_string = NULL;
 	ParsePos pp;
-	ExprTree * expr;
+	ExprTree *expr;
 
 	expr = expr_parse_string (text,
 				  parse_pos_init_cell (&pp, cell),
-				  NULL, &error_string);
+				  NULL, NULL);
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,

@@ -1,3 +1,8 @@
+2001-04-26  Jody Goldberg <jgoldberg@home.com>
+
+	* xml-sax-read.c (xml_cell_set_array_expr) : oops accidentally backed
+	  out a patch.
+
 2001-04-25  Jody Goldberg <jgoldberg@home.com>
 
 	* xml-sax-read.c (xmlSaxParseSheet) : Add flags for the outline
