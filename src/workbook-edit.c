@@ -404,16 +404,14 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
 				      GTK_WIDGET (wbcg_get_entry (wbcg)));
 
-
 	wbcg->editing = TRUE;
 	wbcg->editing_sheet = sheet;
 	wbcg->editing_cell = cell;
 
-	/*
-	 * If this assert fails, it means editing was not shut down
+	/* If this assert fails, it means editing was not shut down
 	 * properly before
 	 */
-	g_assert (wbcg->edit_line.signal_changed == -1);
+	g_return_val_if_fail (wbcg->edit_line.signal_changed == -1, TRUE);
 	wbcg->edit_line.signal_changed = g_signal_connect (
 		G_OBJECT (wbcg_get_entry (wbcg)),
 		"changed",

@@ -180,7 +180,6 @@ item_bar_realize (GnomeCanvasItem *item)
 	ItemBar *ib;
 	GdkWindow *window;
 	GtkStyle *style;
-	GtkWidget *button;
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)(item);
@@ -188,11 +187,8 @@ item_bar_realize (GnomeCanvasItem *item)
 	ib = ITEM_BAR (item);
 	window = GTK_WIDGET (item->canvas)->window;
 
-	button = gtk_button_new ();
-
 	/* Configure our gc */
-	gtk_widget_ensure_style (button);
-	style = gtk_widget_get_style (button);
+	style = gtk_widget_get_default_style ();
 
 	ib->text_gc = gdk_gc_new (window);
 	gdk_gc_set_foreground (ib->text_gc, &style->text[GTK_STATE_NORMAL]);
@@ -202,7 +198,6 @@ item_bar_realize (GnomeCanvasItem *item)
 	gdk_gc_copy (ib->lines, ib->text_gc);
 	gdk_gc_set_line_attributes (ib->lines, 2, GDK_LINE_SOLID,
 				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
-	gtk_widget_destroy (button);
 
 	ib->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	if (ib->is_col_header)
