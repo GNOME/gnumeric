@@ -1,5 +1,11 @@
 2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-function-select.c : use get/set methods of gnumeric-gconf.h
+	* dialog-plugin-manager.c : switch from gnome-config to gconf
+	* dialog-preferences.c : add include
+
+2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-autocorrect.c : make exception lists into GSList (rather 
 	  than GList)
 	* dialog-preferences.c : move gconf keys for fonts into 

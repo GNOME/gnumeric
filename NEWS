@@ -27,6 +27,7 @@ Andreas:
 	* Add number of sheets preference
 	* Start to UTF8 some of the string functions
 	* Preserve autocorrect exception lists
+	* Switch plugin manager from gnome-config to gconf
 
 Jody:
 	* Add password dialog to support encrypted input.

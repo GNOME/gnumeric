@@ -34,9 +34,10 @@
 #include <workbook-control.h>
 #include <workbook.h>
 #include <plugin.h>
+#include <gnumeric-gconf.h>
+#include <application.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-config.h>
 #include <string.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
@@ -113,7 +114,7 @@ cb_pm_button_activate_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gu
 	if (plugin_loader_is_available_by_id (loader_type_str)) {
 		loader_available = TRUE;
 	} else {
-		GList *l;
+		GSList *l;
 		PluginInfo *loader_pinfo = NULL;
 
 		for (l = plugin_db_get_available_plugin_info_list (); l != NULL; l = l->next) {
@@ -275,8 +276,8 @@ cb_pm_button_install_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gui
 static void
 cb_pm_checkbutton_install_new_toggled (GtkCheckButton *checkbutton, PluginManagerGUI *pm_gui)
 {
-	gnome_config_set_bool ("Gnumeric/Plugin/ActivateNewByDefault",
-	                       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)));
+	gnm_gconf_set_activate_new_plugins (
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)));
 }
 
 static void
@@ -338,9 +339,9 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 	g_signal_connect (G_OBJECT (pm_gui->checkbutton_install_new),
 		"toggled",
 		G_CALLBACK (cb_pm_checkbutton_install_new_toggled), pm_gui);
+	
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pm_gui->checkbutton_install_new),
-	                              gnome_config_get_bool_with_default
-				      ("Gnumeric/Plugin/ActivateNewByDefault=true", NULL));
+				      gnm_gconf_get_activate_new_plugins ());
 	update_plugin_manager_view (pm_gui);
 }
 
@@ -356,7 +357,7 @@ plugin_compare_name (gconstpointer a, gconstpointer b)
 static void
 update_plugin_manager_view (PluginManagerGUI *pm_gui)
 {
-	GList *sorted_plugin_list, *l;
+	GSList *sorted_plugin_list, *l;
 	gint n_active_plugins, n_inactive_plugins, n_plugins;
 	GtkTreeIter iter, *select_iter = NULL;
 	plugin_state_t status;
@@ -368,7 +369,7 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 
 	gtk_list_store_clear (pm_gui->model_plugins);
 
-	sorted_plugin_list = g_list_sort (g_list_copy
+	sorted_plugin_list = g_slist_sort (g_slist_copy
 					  (plugin_db_get_available_plugin_info_list ()),
 	                                  &plugin_compare_name);
 
@@ -414,7 +415,7 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 	}
 	n_plugins = n_active_plugins + n_inactive_plugins;
 
-	g_list_free (sorted_plugin_list);
+	g_slist_free (sorted_plugin_list);
 
 	free_plugin_id (pm_gui->current_plugin_id);
 	pm_gui->current_plugin_id = NULL;
@@ -440,7 +441,7 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 {
 	PluginInfo *pinfo;
 	gint n_extra_info_items, i;
-	GList *extra_info_keys, *extra_info_values, *lkey, *lvalue;
+	GSList *extra_info_keys, *extra_info_values, *lkey, *lvalue;
 	GtkTreeIter iter;
 
 	g_return_if_fail (pm_gui != NULL);
@@ -468,8 +469,8 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 						    EXTRA_VALUE, (gchar *) lvalue->data,
 						    -1);
 			}
-			e_free_string_list (extra_info_keys);
-			e_free_string_list (extra_info_values);
+			e_free_string_slist (extra_info_keys);
+			e_free_string_slist (extra_info_values);
 		}
 	} else {
 		gtk_entry_set_text (pm_gui->entry_name, "");
@@ -587,7 +588,8 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_gui->current_plugin_id = NULL;
 	pm_dialog_init (pm_gui);
 	(void) gnumeric_dialog_run (wbcg, pm_gui->dialog_pm);
-	gnome_config_sync ();
+	gconf_client_suggest_sync (application_get_gconf_client (), NULL);
+
 
 	free_plugin_id (pm_gui->current_plugin_id);
 	g_free (pm_gui);

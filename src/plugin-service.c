@@ -859,24 +859,24 @@ plugin_service_function_group_read (xmlNode *tree, ErrorInfo **ret_error)
 		service_function_group->translated_category_name = translated_category_name;
 		service_function_group->function_name_list = function_name_list;
 	} else {
-		GList *error_list = NULL;
+		GSList *error_list = NULL;
 
 		if (group_id == NULL) {
-			error_list = g_list_prepend (error_list,
+			error_list = g_slist_prepend (error_list,
 			                             error_info_new_str (
 			                             _("Missing function group id.")));
 		}
 		if (category_name == NULL) {
-			error_list = g_list_prepend (error_list,
+			error_list = g_slist_prepend (error_list,
 			                             error_info_new_str (
 			                             _("Missing function category name.")));
 		}
 		if (function_name_list == NULL) {
-			error_list = g_list_prepend (error_list,
+			error_list = g_slist_prepend (error_list,
 			                             error_info_new_str (
 			                             _("Missing function category name.")));
 		}
-		error_list = g_list_reverse (error_list);
+		error_list = g_slist_reverse (error_list);
 		*ret_error = error_info_new_from_error_list (error_list);
 
 		g_free (group_id);

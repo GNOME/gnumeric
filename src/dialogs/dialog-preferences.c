@@ -32,6 +32,8 @@
 #include "number-match.h"
 #include "widgets/widget-font-selector.h"
 #include "widgets/gnumeric-cell-renderer-text.h"
+
+#include "gnumeric-gconf-priv.h"
 #include "gnumeric-gconf.h"
 
 #include <gui-util.h>

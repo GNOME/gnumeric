@@ -252,7 +252,7 @@ ctree_insert_error_info (GtkCTree *ctree, GtkCTreeNode *parent,
 	GtkCTreeNode *my_node, *last_child_node;
 	gchar *message;
 	gboolean child_expand;
-	GList *details_list, *l;
+	GSList *details_list, *l;
 
 	message = (gchar *) error_info_peek_message (error);
 	if (message == NULL) {
@@ -320,13 +320,13 @@ void
 gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 {
 	GString *str;
-	GList *details;
+	GSList *details;
 	gboolean has_extra_details;
 	GtkWidget *dialog;
 
 	str = g_string_new (error_info_peek_message (error));
 	details = error_info_peek_details (error);
-	if (g_list_length (details) == 1) {
+	if (g_slist_length (details) == 1) {
 		ErrorInfo *details_error = details->data;
 		gchar const *s;
 

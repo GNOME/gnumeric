@@ -112,57 +112,6 @@ gnumeric_config_get_string_list (gchar const *config_path,
 	return items;;
 }
 
-/**
- * gnumeric_config_set_string_list:
- * @config_path: GNOME configuration path or its prefix if
- *               @item_name_prefix != NULL.
- * @item_name_prefix: Prefix of key name when writing multiple strings to
- *                    configuration.
- *
- * Stores list of string values in GNOME configuration.
- * If @item_name_prefix == NULL it converts @items to vector and stores it in
- * configuration. If @item_name_prefix != NULL, it stores mulitple strings
- * with keys of the form @item_name_prefix%d.
- */
-void
-gnumeric_config_set_string_list (GList *items,
-                                 gchar const *config_path,
-                                 gchar const *item_name_prefix)
-{
-	GList *l;
-	gint i;
-
-	if (item_name_prefix != NULL) {
-		gchar *key;
-
-		gnome_config_push_prefix (config_path);
-		for (l = items, i = 0; l != NULL; l = l->next, i++) {
-			key = g_strdup_printf ("%s%d", item_name_prefix, i);
-			gnome_config_set_string (key, (gchar *) l->data);
-			g_free (key);
-		}
-		key = g_strdup_printf ("%s%d", item_name_prefix, i);
-		gnome_config_clean_key (key);
-		g_free (key);
-		gnome_config_pop_prefix ();
-	} else {
-		gchar const **itemv;
-		gint n_items;
-
-		n_items = g_list_length (items);
-		if (n_items > 0) {
-			itemv = g_new (gchar const *, n_items);
-			for (l = items, i = 0; l != NULL; l = l->next, i++) {
-				itemv[i] = (gchar const *) l->data;
-			}
-			gnome_config_set_vector (config_path, n_items, itemv);
-			g_free (itemv);
-		} else {
-			gnome_config_set_vector (config_path, 0, NULL);
-		}
-	}
-}
-
 void
 g_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 {
@@ -202,6 +151,30 @@ g_create_list (gpointer item1, ...)
 	va_end (args);
 
 	return g_list_reverse (list);
+}
+
+/**
+ * g_create_list:
+ * @item1: First item.
+ *
+ * Creates a GList from NULL-terminated list of arguments.
+ *
+ * Return value: created list.
+ */
+GSList *
+g_create_slist (gpointer item1, ...)
+{
+	va_list args;
+	GSList *list = NULL;
+	gpointer item;
+
+	va_start (args, item1);
+	for (item = item1; item != NULL; item = va_arg (args, gpointer)) {
+		list = g_slist_prepend (list, item);
+	}
+	va_end (args);
+
+	return g_slist_reverse (list);
 }
 
 gint
@@ -262,6 +235,29 @@ g_string_list_copy (GList *list)
 }
 
 /**
+ * g_string_list_copy:
+ * @list: List of strings.
+ *
+ * Creates a copy of the given string list (strings are also copied using
+ * g_strdup).
+ *
+ * Return value: new copy of the list which you should free after use using
+ *               function e_free_string_list()
+ */
+GSList *
+g_string_slist_copy (GSList *list)
+{
+	GSList *list_copy = NULL, *l;
+
+	for (l = list; l != NULL; l = l->next) {
+		list_copy = g_slist_prepend (list_copy, g_strdup ((gchar *) l->data));
+	}
+	list_copy = g_slist_reverse (list_copy);
+
+	return list_copy;
+}
+
+/**
  * g_strsplit_to_list:
  * @string: String to split
  * @delimiter: Token delimiter
@@ -285,6 +281,35 @@ g_strsplit_to_list (gchar const *string, gchar const *delimiter)
 			string_list = g_list_prepend (string_list, token_v[i]);
 		}
 		string_list = g_list_reverse (string_list);
+		g_free (token_v);
+	}
+
+	return string_list;
+}
+/**
+ * g_strsplit_to_slist:
+ * @string: String to split
+ * @delimiter: Token delimiter
+ *
+ * Splits up string into tokens at delim and returns a string list.
+ *
+ * Return value: string list which you should free after use using function
+ * e_free_string_list().
+ *
+ */
+GSList *
+g_strsplit_to_slist (gchar const *string, gchar const *delimiter)
+{
+	gchar **token_v;
+	GSList *string_list = NULL;
+	gint i;
+
+	token_v = g_strsplit (string, delimiter, 0);
+	if (token_v != NULL) {
+		for (i = 0; token_v[i] != NULL; i++) {
+			string_list = g_slist_prepend (string_list, token_v[i]);
+		}
+		string_list = g_slist_reverse (string_list);
 		g_free (token_v);
 	}
 

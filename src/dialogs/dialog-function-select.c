@@ -77,13 +77,10 @@ enum {
 static void
 dialog_function_load_recent_funcs (FunctionSelectState *state)
 {
-	GConfClient *client;
 	FunctionDefinition *fd;
 	GSList *recent_funcs, *this_funcs;
 
-	client = application_get_gconf_client ();
-	recent_funcs = gconf_client_get_list (client, FUNCTION_SELECT_GCONF_RECENT,
-					      GCONF_VALUE_STRING, NULL);
+	recent_funcs = gnm_gconf_get_recent_funcs ();
 
 	for (this_funcs = recent_funcs; this_funcs; this_funcs = this_funcs->next) {
 		char *name = this_funcs->data;
@@ -101,18 +98,8 @@ static void
 dialog_function_write_recent_func (FunctionSelectState *state, FunctionDefinition const *fd)
 {
 	GSList *rec_funcs;
-	GConfClient *client;
 	GSList *gconf_value_list = NULL;
-	GError *err = NULL;
-	gint limit;
-	guint ulimit;
-
-	client = application_get_gconf_client ();
-	
-	limit = gconf_client_get_int (client, FUNCTION_SELECT_GCONF_NUM_OF_RECENT, &err);
-	if (err)
-		limit = 0;
-	ulimit = (limit < 0) ? 0 : (guint)limit;
+	guint ulimit = gnm_gconf_get_num_of_recent_funcs ();
 
 	state->recent_funcs = g_slist_remove (state->recent_funcs, (gpointer) fd);
 	state->recent_funcs = g_slist_prepend (state->recent_funcs, (gpointer) fd);
@@ -125,9 +112,8 @@ dialog_function_write_recent_func (FunctionSelectState *state, FunctionDefinitio
 		gconf_value_list = g_slist_prepend 
 			(gconf_value_list, g_strdup (function_def_get_name (rec_funcs->data)));
 	}
-	gconf_client_set_list (client, FUNCTION_SELECT_GCONF_RECENT, GCONF_VALUE_STRING,
-                                       gconf_value_list, NULL);
-	gconf_client_suggest_sync (client, NULL);
+	gnm_gconf_set_recent_funcs (gconf_value_list);
+	gnm_conf_sync ();
 	e_free_string_slist (gconf_value_list);
 }
 

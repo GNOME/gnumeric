@@ -60,36 +60,32 @@ cb_autocorrect_notification (GConfClient *gconf, guint cnxn_id, GConfEntry *entr
 void
 autocorrect_init (void)
 {
-	GConfClient *client = application_get_gconf_client ();
-
-	autocorrect.init_caps =  gconf_client_get_bool (client, AUTOCORRECT_INIT_CAPS, NULL);
-	autocorrect.first_letter = gconf_client_get_bool (client, AUTOCORRECT_FIRST_LETTER, NULL);
-	autocorrect.names_of_days = gconf_client_get_bool (client, AUTOCORRECT_NAMES_OF_DAYS, 
-							   NULL);
-	autocorrect.replace = gconf_client_get_bool (client, AUTOCORRECT_REPLACE, NULL);
+	autocorrect.init_caps =  gnm_gconf_get_autocorrect_init_caps ();
+	autocorrect.first_letter = gnm_gconf_get_autocorrect_first_letter ();
+	autocorrect.names_of_days = gnm_gconf_get_autocorrect_names_of_days ();
+	autocorrect.replace = gnm_gconf_get_autocorrect_replace ();
 
 	e_free_string_slist (autocorrect.exceptions.first_letter);
-	autocorrect.exceptions.first_letter = gconf_client_get_list (client, 
-								     AUTOCORRECT_FIRST_LETTER_LIST,
-								     GCONF_VALUE_STRING, NULL);
-	e_free_string_slist (autocorrect.exceptions.init_caps);
-	autocorrect.exceptions.init_caps = gconf_client_get_list (client, 
-								  AUTOCORRECT_INIT_CAPS_LIST,
-								  GCONF_VALUE_STRING, NULL);
+	autocorrect.exceptions.first_letter =  
+		gnm_gconf_get_autocorrect_first_letter_exceptions ();
 
-	autocorrect.notification_id = gconf_client_notify_add (client, AUTOCORRECT_DIRECTORY,
-				   (GConfClientNotifyFunc) cb_autocorrect_notification,
-				   NULL, NULL, NULL);
+	e_free_string_slist (autocorrect.exceptions.init_caps);
+	autocorrect.exceptions.init_caps = gnm_gconf_get_autocorrect_init_caps_exceptions (); 
+
+	if (autocorrect.notification_id == 0)
+		autocorrect.notification_id = gnm_gconf_add_notification_autocorrect (
+			(GConfClientNotifyFunc) cb_autocorrect_notification);
 }
 
 void
 autocorrect_shutdown (void)
 {
-	gconf_client_notify_remove (application_get_gconf_client (), 
-				    autocorrect.notification_id);
-	
+	autocorrect.notification_id = gnm_gconf_rm_notification_autocorrect (
+		autocorrect.notification_id);
+
 	e_free_string_slist (autocorrect.exceptions.first_letter);
 	autocorrect.exceptions.first_letter = NULL;
+
 	e_free_string_slist (autocorrect.exceptions.init_caps);
 	autocorrect.exceptions.init_caps = NULL;
 }
@@ -97,20 +93,13 @@ autocorrect_shutdown (void)
 void
 autocorrect_store_config (void)
 {
-	GConfClient *client = application_get_gconf_client ();
-
-	gconf_client_set_bool (client, AUTOCORRECT_INIT_CAPS, autocorrect.init_caps, NULL);
-	gconf_client_set_bool (client, AUTOCORRECT_FIRST_LETTER, autocorrect.first_letter, 
-			       NULL);
-	gconf_client_set_bool (client, AUTOCORRECT_NAMES_OF_DAYS, autocorrect.names_of_days, 
-			       NULL);
-	gconf_client_set_bool (client, AUTOCORRECT_REPLACE, autocorrect.replace, NULL);
-	gconf_client_set_list (client, AUTOCORRECT_INIT_CAPS_LIST, GCONF_VALUE_STRING,
-                                       autocorrect.exceptions.init_caps, NULL);
-	gconf_client_set_list (client, AUTOCORRECT_FIRST_LETTER_LIST, GCONF_VALUE_STRING,
-                                       autocorrect.exceptions.first_letter, NULL);
-
-	gconf_client_suggest_sync (client, NULL);
+	gnm_gconf_set_autocorrect_init_caps (autocorrect.init_caps);
+	gnm_gconf_set_autocorrect_first_letter (autocorrect.first_letter);
+	gnm_gconf_set_autocorrect_names_of_days (autocorrect.names_of_days);
+	gnm_gconf_set_autocorrect_replace (autocorrect.replace);
+	gnm_gconf_set_autocorrect_init_caps_exceptions (autocorrect.exceptions.init_caps);
+	gnm_gconf_set_autocorrect_first_letter_exceptions (autocorrect.exceptions.first_letter);
+	gnm_conf_sync ();
 }
 
 gboolean

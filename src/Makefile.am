@@ -101,6 +101,9 @@ GNUMERIC_BASE =					\
 	gnumeric-simple-canvas.h		\
 	gnumeric-canvas.c			\
 	gnumeric-canvas.h			\
+	gnumeric-gconf.c			\
+	gnumeric-gconf.h			\
+	gnumeric-gconf-priv.h			\
 	gnumeric-pane.c				\
 	gnumeric-pane.h				\
 	gnumeric.h				\

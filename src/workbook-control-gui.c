@@ -1351,13 +1351,10 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 static void
 cb_file_new (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	GConfClient *client  = application_get_gconf_client ();
-	GError *err = NULL;
 	gint n_of_sheets;
 
-	n_of_sheets = gconf_client_get_int (client, GNUMERIC_GCONF_WORKBOOK_NSHEETS, &err);
-	if (err || n_of_sheets < 1)
-		n_of_sheets = 1;
+	n_of_sheets = gnm_gconf_get_initial_sheet_number ();
+
 	(void) workbook_control_gui_new (NULL, workbook_new_with_sheets (n_of_sheets));
 }
 

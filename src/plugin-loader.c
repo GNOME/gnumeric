@@ -164,7 +164,7 @@ E_MAKE_TYPE (gnumeric_plugin_loader, "GnumericPluginLoader", GnumericPluginLoade
 
 void
 gnumeric_plugin_loader_set_attributes (GnumericPluginLoader *loader,
-                                       GList *attr_names, GList *attr_values,
+                                       GSList *attr_names, GSList *attr_values,
                                        ErrorInfo **ret_error)
 {
 	ErrorInfo *error;
@@ -350,7 +350,7 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 }
 
 gint
-gnumeric_plugin_loader_get_extra_info_list (GnumericPluginLoader *loader, GList **ret_keys_list, GList **ret_values_list)
+gnumeric_plugin_loader_get_extra_info_list (GnumericPluginLoader *loader, GSList **ret_keys_list, GSList **ret_values_list)
 {
 	GnumericPluginLoaderClass *gnumeric_plugin_loader_class;
 

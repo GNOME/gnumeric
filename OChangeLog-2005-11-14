@@ -1,3 +1,26 @@
+2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-dialogs.schemas : new plugin schemas
+	* src/Makefile.am : add src/gnumeric-gconf.c and src/gnumeric-gconf-priv.h
+	* src/application.c : use get/set methods from src/gnumeric-gconf.h
+	* src/commands.c : change include
+	* src/error-info.c : switch to GSLists from GLists
+	* src/error-info.h : switch to GSLists from GLists
+	* src/gnumeric-gconf.h : new get/set methods
+	* src/gnumeric-gconf.c : new
+	* src/gnumeric-gconf-priv.h : formerly src/gnumeric-gconf.h
+	* src/gui-util.c : switch to GSLists from GLists
+	* src/gutils.h : some new g_slist functions 
+	* src/gutils.c : some new g_slist functions
+	* src/libgnumeric.c : use get/set methods from src/gnumeric-gconf.h
+	* src/plugin-loader-module.c : switch to GSLists from GLists
+	* src/plugin-loader.c : switch to GSLists from GLists
+	* src/plugin-loader.h : switch to GSLists from GLists
+	* src/plugin-service.c : switch to GSLists from GLists
+	* src/plugin.c : switch to GSLists from GLists and use gconf
+	* src/plugin.h : switch to GSLists from GLists
+	* src/workbook-control-gui.c : use get/set methods from src/gnumeric-gconf.h
+
 2002-04-15  Jon K Hellan  <hellan@acm.org>
 
 	* src/.cvsignore: Ingore gnumeric-component

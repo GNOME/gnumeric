@@ -29,7 +29,7 @@ typedef enum {
 void         plugins_init (CommandContext *context);
 void         plugins_shutdown (void);
 
-GList       *gnumeric_extra_plugin_dirs (void);
+GSList       *gnumeric_extra_plugin_dirs (void);
 
 typedef GType (*PluginLoaderGetTypeCallback) (gpointer callback_data, ErrorInfo **ret_error);
 
@@ -52,13 +52,13 @@ void         plugin_dependencies_inc_dependants (PluginInfo *pinfo, PluginDepend
 void         plugin_dependencies_dec_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
 
 PluginInfo  *plugin_db_get_plugin_info_by_plugin_id (const gchar *plugin_id);
-GList       *plugin_db_get_known_plugin_id_list (void);
-GList       *plugin_db_get_available_plugin_info_list (void);
+GSList       *plugin_db_get_known_plugin_id_list (void);
+GSList       *plugin_db_get_available_plugin_info_list (void);
 void         plugin_db_update_saved_active_plugin_id_list (void);
 void         plugin_db_init (ErrorInfo **ret_error);
 void         plugin_db_shutdown (ErrorInfo **ret_error);
-void         plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error);
-void         plugin_db_deactivate_plugin_list (GList *plugins, ErrorInfo **ret_error);
+void         plugin_db_activate_plugin_list (GSList *plugins, ErrorInfo **ret_error);
+void         plugin_db_deactivate_plugin_list (GSList *plugins, ErrorInfo **ret_error);
 void         plugin_db_mark_plugin_for_deactivation (PluginInfo *pinfo, gboolean mark);
 gboolean     plugin_db_is_plugin_marked_for_deactivation (PluginInfo *pinfo);
 /*
@@ -69,7 +69,7 @@ gchar       *plugin_info_get_id (PluginInfo *pinfo);
 gchar       *plugin_info_get_name (PluginInfo *pinfo);
 gchar       *plugin_info_get_description (PluginInfo *pinfo);
 gchar       *plugin_info_get_config_prefix (PluginInfo *pinfo);
-gint         plugin_info_get_extra_info_list (PluginInfo *pinfo, GList **ret_keys_list, GList **ret_values_list);
+gint         plugin_info_get_extra_info_list (PluginInfo *pinfo, GSList **ret_keys_list, GSList **ret_values_list);
 gboolean     plugin_info_is_active (PluginInfo *pinfo);
 const gchar *plugin_info_peek_dir_name (PluginInfo *pinfo);
 const gchar *plugin_info_peek_id (PluginInfo *pinfo);

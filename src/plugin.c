@@ -23,6 +23,7 @@
 #include "plugin-loader.h"
 #include "plugin-loader-module.h"
 #include "plugin-service.h"
+#include "gnumeric-gconf.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -37,6 +38,7 @@
 #include <fnmatch.h>
 #include <locale.h>
 #include <gmodule.h>
+#include <application.h>
 #include <libgnome/libgnome.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
@@ -50,7 +52,7 @@
 typedef struct _PluginLoaderStaticInfo PluginLoaderStaticInfo;
 struct _PluginLoaderStaticInfo {
 	gchar *loader_type_str;
-	GList *attr_names, *attr_values;
+	GSList *attr_names, *attr_values;
 };
 
 typedef struct _PluginDependency PluginDependency;
@@ -86,19 +88,19 @@ struct _PluginLoaderTypeInfo {
 };
 
 static GHashTable *plugins_marked_for_deactivation_hash = NULL;
-static GList *known_plugin_id_list = NULL;
-static GList *available_plugin_info_list = NULL;
-static GList *saved_active_plugin_id_list = NULL;
+static GSList *known_plugin_id_list = NULL;
+static GSList *available_plugin_info_list = NULL;
+static GSList *saved_active_plugin_id_list = NULL;
 
-static GList *registered_loader_types = NULL;
+static GSList *registered_loader_types = NULL;
 
 
 static void plugin_get_loader_if_needed (PluginInfo *pinfo, ErrorInfo **ret_error);
 static void plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_error);
 static PluginInfo *plugin_info_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error);
-static GList *plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error);
-static GList *plugin_info_list_read_for_subdirs_of_dir_list (GList *dir_list, ErrorInfo **ret_error);
-static GList *plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error);
+static GSList *plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error);
+static GSList *plugin_info_list_read_for_subdirs_of_dir_list (GSList *dir_list, ErrorInfo **ret_error);
+static GSList *plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error);
 
 
 /*
@@ -112,7 +114,7 @@ typedef struct {
 } PluginFileState;
 
 static gboolean plugin_file_state_list_changed;
-static GList *plugin_file_state_list;
+static GSList *plugin_file_state_list;
 static GHashTable *plugin_file_state_dir_hash;
 
 static gchar *
@@ -170,23 +172,23 @@ plugin_file_state_free (PluginFileState *state)
 static void
 plugin_cache_init (void)
 {
-	GList *state_str_list, *l;
+	GSList *state_str_list, *l;
 
 	plugin_file_state_list = NULL;
 	plugin_file_state_dir_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
 
-	state_str_list = gnumeric_config_get_string_list (
-	                 "/Gnumeric/Plugin/PluginFileStates", NULL);
+	state_str_list = gnm_gconf_get_plugin_file_states ();
+
 	for (l = state_str_list; l != NULL; l = l->next) {
 		PluginFileState *state;
 
 		state = plugin_file_state_from_string ((gchar *) l->data);
 		if (state != NULL) {
-			plugin_file_state_list = g_list_prepend (plugin_file_state_list, state);
+			plugin_file_state_list = g_slist_prepend (plugin_file_state_list, state);
 			g_hash_table_insert (plugin_file_state_dir_hash, state->dir_name, state);
 		}
 	}
-	g_list_free_custom (state_str_list, g_free);
+	g_slist_free_custom (state_str_list, g_free);
 
 	plugin_file_state_list_changed = FALSE;
 }
@@ -195,21 +197,20 @@ static void
 plugin_cache_shutdown (void)
 {
 	if (plugin_file_state_list_changed) {
-		GList *state_str_list = NULL, *l;
+		GSList *state_str_list = NULL, *l;
 
 		for (l = plugin_file_state_list; l != NULL; l = l->next) {
-			state_str_list = g_list_prepend (state_str_list,
+			state_str_list = g_slist_prepend (state_str_list,
 			                                 plugin_file_state_as_string (
 			                                 (PluginFileState *) l->data));
 		}
-		gnumeric_config_set_string_list (state_str_list,
-		                                 "/Gnumeric/Plugin/PluginFileStates",
-		                                 NULL);
-		g_list_free_custom (state_str_list, g_free);
+
+                gnm_gconf_set_plugin_file_states (state_str_list);
+		g_slist_free_custom (state_str_list, g_free);
 		plugin_message (0, "Cache changed\n");
 	}
 	g_hash_table_destroy (plugin_file_state_dir_hash);
-	g_list_free_custom (plugin_file_state_list, (GFreeFunc) plugin_file_state_free);
+	g_slist_free_custom (plugin_file_state_list, (GFreeFunc) plugin_file_state_free);
 }
 
 static gboolean
@@ -314,7 +315,7 @@ plugin_info_get_config_prefix (PluginInfo *pinfo)
 }
 
 gint
-plugin_info_get_extra_info_list (PluginInfo *pinfo, GList **ret_keys_list, GList **ret_values_list)
+plugin_info_get_extra_info_list (PluginInfo *pinfo, GSList **ret_keys_list, GSList **ret_values_list)
 {
 	ErrorInfo *ignored_error;
 
@@ -467,7 +468,7 @@ plugin_loader_register_type (const gchar *id_str, GType loader_type)
 	loader_type_info->loader_type = loader_type;
 	loader_type_info->get_type_callback = NULL;
 	loader_type_info->get_type_callback_data = NULL;
-	registered_loader_types = g_list_append (registered_loader_types, loader_type_info);
+	registered_loader_types = g_slist_append (registered_loader_types, loader_type_info);
 }
 
 void
@@ -485,13 +486,13 @@ plugin_loader_register_id_only (const gchar *id_str, PluginLoaderGetTypeCallback
 	loader_type_info->loader_type = G_TYPE_NONE;
 	loader_type_info->get_type_callback = callback;
 	loader_type_info->get_type_callback_data = callback_data;
-	registered_loader_types = g_list_append (registered_loader_types, loader_type_info);
+	registered_loader_types = g_slist_append (registered_loader_types, loader_type_info);
 }
 
 GType
 plugin_loader_get_type_by_id (const gchar *id_str, ErrorInfo **ret_error)
 {
-	GList *l;
+	GSList *l;
 
 	g_return_val_if_fail (id_str != NULL, G_TYPE_NONE);
 	g_return_val_if_fail (ret_error != NULL, G_TYPE_NONE);
@@ -534,7 +535,7 @@ plugin_loader_get_type_by_id (const gchar *id_str, ErrorInfo **ret_error)
 gboolean
 plugin_loader_is_available_by_id (const gchar *id_str)
 {
-	GList *l;
+	GSList *l;
 
 	g_return_val_if_fail (id_str != NULL, FALSE);
 
@@ -557,10 +558,10 @@ plugin_dependency_get_plugin_info (PluginDependency *dep)
 	return dep->pinfo;
 }
 
-static GList *
+static GSList *
 plugin_info_read_dependency_list (xmlNode *tree)
 {
-	GList *dependency_list = NULL;
+	GSList *dependency_list = NULL;
 	xmlNode *node;
 
 	g_return_val_if_fail (tree != NULL, NULL);
@@ -584,19 +585,19 @@ plugin_info_read_dependency_list (xmlNode *tree)
 				if (e_xml_get_bool_prop_by_name_with_default (node, (xmlChar *)"load", TRUE)) {
 					dep->dep_type |= (2 ^ DEPENDENCY_LOAD);
 				}
-				dependency_list = g_list_prepend (dependency_list, dep);
+				dependency_list = g_slist_prepend (dependency_list, dep);
 			}
 		}
 	}
 
-	return g_list_reverse (dependency_list);
+	return g_slist_reverse (dependency_list);
 }
 
-static GList *
+static GSList *
 plugin_info_read_service_list (xmlNode *tree, ErrorInfo **ret_error)
 {
-	GList *service_list = NULL;
-	GList *error_list = NULL;
+	GSList *service_list = NULL;
+	GSList *error_list = NULL;
 	xmlNode *node;
 	gint i;
 
@@ -614,7 +615,7 @@ plugin_info_read_service_list (xmlNode *tree, ErrorInfo **ret_error)
 
 			if (service != NULL) {
 				g_assert (service_error == NULL);
-				service_list = g_list_prepend (service_list, service);
+				service_list = g_slist_prepend (service_list, service);
 			} else {
 				ErrorInfo *error;
 
@@ -622,17 +623,17 @@ plugin_info_read_service_list (xmlNode *tree, ErrorInfo **ret_error)
 				        _("Error while reading service #%d info."),
 				        i);
 				error_info_add_details (error, service_error);
-				error_list = g_list_prepend (error_list, error);
+				error_list = g_slist_prepend (error_list, error);
 			}
 		}
 	}
 	if (error_list != NULL) {
-		error_list = g_list_reverse (error_list);
+		error_list = g_slist_reverse (error_list);
 		*ret_error = error_info_new_from_error_list (error_list);
-		g_list_free_custom (service_list, (GFreeFunc) plugin_service_free);
+		g_slist_free_custom (service_list, (GFreeFunc) plugin_service_free);
 		return NULL;
 	} else {
-		return g_list_reverse (service_list);
+		return g_slist_reverse (service_list);
 	}
 }
 
@@ -663,13 +664,13 @@ plugin_info_read_loader_static_info (xmlNode *tree, ErrorInfo **ret_error)
 					gchar *value;
 
 					value = e_xml_get_string_prop_by_name (node, (xmlChar *)"value");
-					loader_info->attr_names = g_list_prepend (loader_info->attr_names, name);
-					loader_info->attr_values = g_list_prepend (loader_info->attr_values, value);
+					loader_info->attr_names = g_slist_prepend (loader_info->attr_names, name);
+					loader_info->attr_values = g_slist_prepend (loader_info->attr_values, value);
 				}
 			}
 		}
-		loader_info->attr_names = g_list_reverse (loader_info->attr_names);
-		loader_info->attr_values = g_list_reverse (loader_info->attr_values);
+		loader_info->attr_names = g_slist_reverse (loader_info->attr_names);
+		loader_info->attr_values = g_slist_reverse (loader_info->attr_values);
 	} else {
 		*ret_error = error_info_new_str (_("Unspecified loader type."));
 	}
@@ -683,8 +684,8 @@ loader_static_info_free (PluginLoaderStaticInfo *loader_info)
 	g_return_if_fail (loader_info != NULL);
 
 	g_free (loader_info->loader_type_str);
-	e_free_string_list (loader_info->attr_names);
-	e_free_string_list (loader_info->attr_values);
+	e_free_string_slist (loader_info->attr_names);
+	e_free_string_slist (loader_info->attr_values);
 	g_free (loader_info);
 }
 
@@ -705,8 +706,8 @@ plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_erro
 	gchar *id, *name, *description;
 	xmlNode *tree, *information_node, *dependencies_node, *loader_node, *services_node;
 	ErrorInfo *services_error, *loader_error;
-	GList *service_list;
-	GList *dependency_list;
+	GSList *service_list;
+	GSList *dependency_list;
 	PluginLoaderStaticInfo *loader_static_info;
 
 	*ret_error = NULL;
@@ -795,12 +796,12 @@ plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_erro
 			pinfo->n_deps[i] = 0;
 		}
 		pinfo->is_active = FALSE;
-		g_list_to_vector (pinfo->dependencies_v, PluginDependency, dependency_list);
-		g_list_free (dependency_list);
+		g_slist_to_vector (pinfo->dependencies_v, PluginDependency, dependency_list);
+		g_slist_free (dependency_list);
 		pinfo->loader_static_info = loader_static_info;
 		pinfo->loader = NULL;
-		g_list_to_vector (pinfo->services_v, PluginService, service_list);
-		g_list_free (service_list);
+		g_slist_to_vector (pinfo->services_v, PluginService, service_list);
+		g_slist_free (service_list);
 		for (service_ptr = pinfo->services_v; *service_ptr != NULL; service_ptr++) {
 			plugin_service_set_plugin (*service_ptr, pinfo);
 		}
@@ -811,11 +812,11 @@ plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_erro
 			error_info_free (loader_error);
 			error_info_free (services_error);
 		} else {
-			GList *error_list = NULL;
+			GSList *error_list = NULL;
 			ErrorInfo *error;
 
 			if (name == NULL) {
-				error_list = g_list_prepend (error_list, error_info_new_str (
+				error_list = g_slist_prepend (error_list, error_info_new_str (
 				             _("Unknown plugin name.")));
 			}
 			if (loader_static_info == NULL) {
@@ -829,7 +830,7 @@ plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_erro
 					        _("No loader defined for plugin with id=\"%s\"."),
 					        id);
 				}
-				error_list = g_list_prepend (error_list, error);
+				error_list = g_slist_prepend (error_list, error);
 			}
 			if (service_list == NULL) {
 				if (services_error != NULL) {
@@ -842,18 +843,18 @@ plugin_info_read (PluginInfo *pinfo, const gchar *dir_name, ErrorInfo **ret_erro
 					        _("No services defined for plugin with id=\"%s\"."),
 					        id);
 				}
-				error_list = g_list_prepend (error_list, error);
+				error_list = g_slist_prepend (error_list, error);
 			}
 			g_assert (error_list != NULL);
-			error_list = g_list_reverse (error_list);
+			error_list = g_slist_reverse (error_list);
 			*ret_error = error_info_new_from_error_list (error_list);
 		}
 
-		g_list_free_custom (dependency_list, (GFreeFunc) plugin_dependency_free);
+		g_slist_free_custom (dependency_list, (GFreeFunc) plugin_dependency_free);
 		if (loader_static_info != NULL) {
 			loader_static_info_free (loader_static_info);
 		}
-		g_list_free_custom (service_list, (GFreeFunc) plugin_service_free);
+		g_slist_free_custom (service_list, (GFreeFunc) plugin_service_free);
 		g_free (id);
 		g_free (name);
 		g_free (description);
@@ -1001,7 +1002,7 @@ plugin_get_loader_if_needed (PluginInfo *pinfo, ErrorInfo **ret_error)
 void
 activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-	GList *error_list = NULL;
+	GSList *error_list = NULL;
 	PluginDependency **dep_ptr;
 	gint i;
 
@@ -1033,10 +1034,10 @@ activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 				            _("We depend on plugin with id=\"%s\" which couldn't be activated."),
 				            (*dep_ptr)->plugin_id);
 				error_info_add_details (new_error, dep_error);
-				error_list = g_list_prepend (error_list, new_error);
+				error_list = g_slist_prepend (error_list, new_error);
 			}
 		} else {
-			error_list = g_list_prepend (error_list, error_info_new_printf (
+			error_list = g_slist_prepend (error_list, error_info_new_printf (
 			             _("We depend on plugin with id=\"%s\" which is not available."),
 			             (*dep_ptr)->plugin_id));
 		}
@@ -1053,7 +1054,7 @@ activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 				        _("Error while activating plugin service #%d."),
 				        i);
 				error_info_add_details (error, service_error);
-				error_list = g_list_prepend (error_list, error);
+				error_list = g_slist_prepend (error_list, error);
 			}
 		}
 	}
@@ -1069,7 +1070,7 @@ activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 void
 deactivate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-	GList *error_list = NULL;
+	GSList *error_list = NULL;
 	gint i;
 
 	g_return_if_fail (pinfo != NULL);
@@ -1093,7 +1094,7 @@ deactivate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 			        _("Error while deactivating plugin service #%d."),
 			        i);
 			error_info_add_details (error, service_error);
-			error_list = g_list_prepend (error_list, error);
+			error_list = g_slist_prepend (error_list, error);
 		}
 	}
 	if (error_list != NULL) {
@@ -1187,7 +1188,7 @@ plugin_unload_service (PluginInfo *pinfo, PluginService *service, ErrorInfo **re
 void
 plugin_load_dependencies (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-	GList *error_list = NULL;
+	GSList *error_list = NULL;
 	PluginDependency **dep_ptr;
 
 	g_return_if_fail (pinfo != NULL);
@@ -1221,10 +1222,10 @@ plugin_load_dependencies (PluginInfo *pinfo, ErrorInfo **ret_error)
 				            _("We depend on plugin with id=\"%s\" which couldn't be loaded."),
 				            (*dep_ptr)->plugin_id);
 				error_info_add_details (new_error, dep_error);
-				error_list = g_list_prepend (error_list, new_error);
+				error_list = g_slist_prepend (error_list, new_error);
 			}
 		} else {
-			error_list = g_list_prepend (error_list, error_info_new_printf (
+			error_list = g_slist_prepend (error_list, error_info_new_printf (
 			             _("We depend on plugin with id=\"%s\" which is not available."),
 			             (*dep_ptr)->plugin_id));
 		}
@@ -1290,7 +1291,7 @@ plugin_info_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
 			state->dir_name = g_strdup (dir_name);
 			state->file_state = g_strdup (file_state);
 			state->plugin_id = g_strdup (pinfo->id);
-			plugin_file_state_list = g_list_prepend (plugin_file_state_list, state);
+			plugin_file_state_list = g_slist_prepend (plugin_file_state_list, state);
 			g_hash_table_insert (plugin_file_state_dir_hash, state->dir_name, state);
 		} else {
 			g_free (state->file_state);
@@ -1314,13 +1315,13 @@ plugin_info_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
 /*
  * May return partial list and some error info.
  */
-static GList *
+static GSList *
 plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error)
 {
-	GList *plugin_info_list = NULL;
+	GSList *plugin_info_list = NULL;
 	DIR *dir;
 	struct dirent *entry;
-	GList *error_list = NULL;
+	GSList *error_list = NULL;
 
 	g_return_val_if_fail (dir_name != NULL, NULL);
 	g_return_val_if_fail (ret_error != NULL, NULL);
@@ -1341,31 +1342,31 @@ plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret
 		full_entry_name = g_concat_dir_and_file (dir_name, entry->d_name);
 		pinfo = plugin_info_read_for_dir (full_entry_name, &error);
 		if (pinfo != NULL) {
-			plugin_info_list = g_list_prepend (plugin_info_list, pinfo);
+			plugin_info_list = g_slist_prepend (plugin_info_list, pinfo);
 		}
 		if (error != NULL) {
-			error_list = g_list_prepend (error_list, error);
+			error_list = g_slist_prepend (error_list, error);
 		}
 		g_free (full_entry_name);
 	}
 	if (error_list != NULL) {
-		error_list = g_list_reverse (error_list);
+		error_list = g_slist_reverse (error_list);
 		*ret_error = error_info_new_from_error_list (error_list);
 	}
 	closedir (dir);
 
-	return g_list_reverse (plugin_info_list);
+	return g_slist_reverse (plugin_info_list);
 }
 
 /*
  * May return partial list and some error info.
  */
-static GList *
-plugin_info_list_read_for_subdirs_of_dir_list (GList *dir_list, ErrorInfo **ret_error)
+static GSList *
+plugin_info_list_read_for_subdirs_of_dir_list (GSList *dir_list, ErrorInfo **ret_error)
 {
-	GList *plugin_info_list = NULL;
-	GList *dir_iterator;
-	GList *error_list = NULL;
+	GSList *plugin_info_list = NULL;
+	GSList *dir_iterator;
+	GSList *error_list = NULL;
 
 	g_return_val_if_fail (ret_error != NULL, NULL);
 
@@ -1373,66 +1374,65 @@ plugin_info_list_read_for_subdirs_of_dir_list (GList *dir_list, ErrorInfo **ret_
 	for (dir_iterator = dir_list; dir_iterator != NULL; dir_iterator = dir_iterator->next) {
 		gchar *dir_name;
 		ErrorInfo *error;
-		GList *dir_plugin_info_list;
+		GSList *dir_plugin_info_list;
 
 		dir_name = (gchar *) dir_iterator->data;
 		dir_plugin_info_list = plugin_info_list_read_for_subdirs_of_dir (dir_name, &error);
 		if (error != NULL) {
-			error_list = g_list_prepend (error_list, error);
+			error_list = g_slist_prepend (error_list, error);
 		}
 		if (dir_plugin_info_list != NULL) {
-			plugin_info_list = g_list_concat (plugin_info_list, dir_plugin_info_list);
+			plugin_info_list = g_slist_concat (plugin_info_list, dir_plugin_info_list);
 		}
 	}
 	if (error_list != NULL) {
-		error_list = g_list_reverse (error_list);
+		error_list = g_slist_reverse (error_list);
 		*ret_error = error_info_new_from_error_list (error_list);
 	}
 
 	return plugin_info_list;
 }
 
-GList *
+GSList *
 gnumeric_extra_plugin_dirs (void)
 {
-	static GList *extra_dirs;
+	static GSList *extra_dirs;
 	static gboolean list_ready = FALSE;
 
 	if (!list_ready) {
 		gchar const *plugin_path_env;
 
-		extra_dirs = gnumeric_config_get_string_list ("Gnumeric/Plugin/",
-		                                              "ExtraPluginsDir");
+		extra_dirs = gnm_gconf_get_plugin_extra_dirs ();
 		plugin_path_env = g_getenv ("GNUMERIC_PLUGIN_PATH");
 		if (plugin_path_env != NULL) {
-			extra_dirs = g_list_concat (extra_dirs,
-			                            g_strsplit_to_list (plugin_path_env, ":"));
+			extra_dirs = g_slist_concat (extra_dirs,
+			                            g_strsplit_to_slist (plugin_path_env, ":"));
 		}
 		list_ready = TRUE;
 	}
 
-	return g_string_list_copy (extra_dirs);
+	return g_string_slist_copy (extra_dirs);
 }
 
 /*
  * May return partial list and some error info.
  */
-static GList *
+static GSList *
 plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error)
 {
-	GList *dir_list;
-	GList *plugin_info_list;
+	GSList *dir_list;
+	GSList *plugin_info_list;
 	ErrorInfo *error;
 
 	g_return_val_if_fail (ret_error != NULL, NULL);
 
 	*ret_error = NULL;
-	dir_list = g_create_list (gnumeric_sys_plugin_dir (),
-	                          gnumeric_usr_plugin_dir (),
-	                          NULL);
-	dir_list = g_list_concat (dir_list, gnumeric_extra_plugin_dirs ());
+	dir_list = g_create_slist (gnumeric_sys_plugin_dir (),
+				   gnumeric_usr_plugin_dir (),
+				   NULL);
+	dir_list = g_slist_concat (dir_list, gnumeric_extra_plugin_dirs ());
 	plugin_info_list = plugin_info_list_read_for_subdirs_of_dir_list (dir_list, &error);
-	e_free_string_list (dir_list);
+	e_free_string_slist (dir_list);
 	*ret_error = error;
 
 	return plugin_info_list;
@@ -1444,10 +1444,10 @@ plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error)
  * (plugin_loader_is_available_by_id() returns FALSE).
  */
 void
-plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error)
+plugin_db_activate_plugin_list (GSList *plugins, ErrorInfo **ret_error)
 {
-	GList *l;
-	GList *error_list = NULL;
+	GSList *l;
+	GSList *error_list = NULL;
 
 	g_return_if_fail (ret_error != NULL);
 
@@ -1467,12 +1467,12 @@ plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error)
 				            pinfo->name,
 				            pinfo->id);
 				error_info_add_details (new_error, error);
-				error_list = g_list_prepend (error_list, new_error);
+				error_list = g_slist_prepend (error_list, new_error);
 			}
 		}
 	}
 	if (error_list != NULL) {
-		error_list = g_list_reverse (error_list);
+		error_list = g_slist_reverse (error_list);
 		*ret_error = error_info_new_from_error_list (error_list);
 	}
 }
@@ -1483,10 +1483,10 @@ plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error)
  * (plugin_can_deactivate() returns FALSE).
  */
 void
-plugin_db_deactivate_plugin_list (GList *plugins, ErrorInfo **ret_error)
+plugin_db_deactivate_plugin_list (GSList *plugins, ErrorInfo **ret_error)
 {
-	GList *l;
-	GList *error_list = NULL;
+	GSList *l;
+	GSList *error_list = NULL;
 
 	g_return_if_fail (ret_error != NULL);
 
@@ -1506,23 +1506,23 @@ plugin_db_deactivate_plugin_list (GList *plugins, ErrorInfo **ret_error)
 				            pinfo->name,
 				            pinfo->id);
 				error_info_add_details (new_error, error);
-				error_list = g_list_prepend (error_list, new_error);
+				error_list = g_slist_prepend (error_list, new_error);
 			}
 		}
 	}
 	if (error_list != NULL) {
-		error_list = g_list_reverse (error_list);
+		error_list = g_slist_reverse (error_list);
 		*ret_error = error_info_new_from_error_list (error_list);
 	}
 }
 
-GList *
+GSList *
 plugin_db_get_known_plugin_id_list (void)
 {
 	return known_plugin_id_list;
 }
 
-GList *
+GSList *
 plugin_db_get_available_plugin_info_list (void)
 {
 	return available_plugin_info_list;
@@ -1531,7 +1531,7 @@ plugin_db_get_available_plugin_info_list (void)
 PluginInfo *
 plugin_db_get_plugin_info_by_plugin_id (const gchar *plugin_id)
 {
-	GList *l;
+	GSList *l;
 
 	g_return_val_if_fail (plugin_id != NULL, NULL);
 
@@ -1549,24 +1549,22 @@ plugin_db_get_plugin_info_by_plugin_id (const gchar *plugin_id)
 void
 plugin_db_update_saved_active_plugin_id_list (void)
 {
-	GList *l;
+	GSList *l;
 
 	if (saved_active_plugin_id_list != NULL) {
-		e_free_string_list (saved_active_plugin_id_list);
+		e_free_string_slist (saved_active_plugin_id_list);
 	}
 	saved_active_plugin_id_list = NULL;
 	for (l = available_plugin_info_list; l != NULL; l = l->next) {
 		PluginInfo *pinfo = l->data;
 
 		if (pinfo->is_active) {
-			saved_active_plugin_id_list = g_list_prepend (saved_active_plugin_id_list,
+			saved_active_plugin_id_list = g_slist_prepend (saved_active_plugin_id_list,
 			                                              g_strdup (pinfo->id));
 		}
 	}
-	saved_active_plugin_id_list = g_list_reverse (saved_active_plugin_id_list);
-	gnumeric_config_set_string_list (saved_active_plugin_id_list,
-	                                 "Gnumeric/Plugin/ActivePlugins",
-	                                 NULL);
+	saved_active_plugin_id_list = g_slist_reverse (saved_active_plugin_id_list);
+	gnm_gconf_set_active_plugins (saved_active_plugin_id_list);
 }
 
 
@@ -1601,7 +1599,7 @@ void
 plugin_db_init (ErrorInfo **ret_error)
 {
 	ErrorInfo *error;
-	GList *new_plugin_ids, *l;
+	GSList *new_plugin_ids, *l;
 	GHashTable *known_plugin_id_hash;
 
 	g_return_if_fail (ret_error != NULL);
@@ -1612,13 +1610,8 @@ plugin_db_init (ErrorInfo **ret_error)
 		*ret_error = error;
 	}
 
-	saved_active_plugin_id_list = gnumeric_config_get_string_list (
-	                              "Gnumeric/Plugin/ActivePlugins",
-	                              NULL);
-
-	known_plugin_id_list = gnumeric_config_get_string_list (
-	                       "Gnumeric/Plugin/KnownPlugins",
-	                       NULL);
+	saved_active_plugin_id_list = gnm_gconf_get_active_plugins ();
+	known_plugin_id_list =  gnm_gconf_get_known_plugins ();
 
 	/* Make a hash of the known plugins */
 	known_plugin_id_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
@@ -1631,26 +1624,21 @@ plugin_db_init (ErrorInfo **ret_error)
 		gchar *plugin_id = ((PluginInfo *) l->data)->id;
 
 		if (g_hash_table_lookup (known_plugin_id_hash, plugin_id) == NULL)
-			new_plugin_ids = g_list_prepend (new_plugin_ids, g_strdup (plugin_id));
+			new_plugin_ids = g_slist_prepend (new_plugin_ids, g_strdup (plugin_id));
 	}
 	g_hash_table_destroy (known_plugin_id_hash);
 
 	/* Store and potentially activate new plugins */
 	if (new_plugin_ids != NULL) {
-		if (gnome_config_get_bool_with_default ("Gnumeric/Plugin/ActivateNewByDefault=true", NULL)) {
+		if (gnm_gconf_get_activate_new_plugins ()) {
 			saved_active_plugin_id_list =
-				g_list_concat (saved_active_plugin_id_list,
-					       g_string_list_copy (new_plugin_ids));
-			gnumeric_config_set_string_list (saved_active_plugin_id_list,
-				"Gnumeric/Plugin/ActivePlugins",
-				NULL);
+				g_slist_concat (saved_active_plugin_id_list,
+					       g_string_slist_copy (new_plugin_ids));
+			gnm_gconf_set_active_plugins (saved_active_plugin_id_list);
 		}
-
-		known_plugin_id_list = g_list_concat (known_plugin_id_list,
+		known_plugin_id_list = g_slist_concat (known_plugin_id_list,
 				new_plugin_ids);
-		gnumeric_config_set_string_list (known_plugin_id_list,
-				"Gnumeric/Plugin/KnownPlugins",
-				NULL);
+		gnm_gconf_set_known_plugins (known_plugin_id_list);
 	}
 }
 
@@ -1672,7 +1660,7 @@ plugin_db_shutdown (ErrorInfo **ret_error)
 static void
 plugin_db_activate_saved_active_plugins (ErrorInfo **ret_error)
 {
-	GList *plugin_list = NULL, *l;
+	GSList *plugin_list = NULL, *l;
 	ErrorInfo *error;
 
 	g_return_if_fail (ret_error != NULL);
@@ -1683,13 +1671,13 @@ plugin_db_activate_saved_active_plugins (ErrorInfo **ret_error)
 
 		pinfo = plugin_db_get_plugin_info_by_plugin_id ((gchar *) l->data);
 		if (pinfo != NULL) {
-			plugin_list = g_list_prepend (plugin_list, pinfo);
+			plugin_list = g_slist_prepend (plugin_list, pinfo);
 		}
 	}
-	plugin_list = g_list_reverse (plugin_list);
+	plugin_list = g_slist_reverse (plugin_list);
 	plugin_db_activate_plugin_list (plugin_list, &error);
 	*ret_error = error;
-	g_list_free (plugin_list);
+	g_slist_free (plugin_list);
 
 #ifndef PLUGIN_DEBUG
 	plugin_db_update_saved_active_plugin_id_list ();
@@ -1699,7 +1687,7 @@ plugin_db_activate_saved_active_plugins (ErrorInfo **ret_error)
 void
 plugins_init (CommandContext *context)
 {
-	GList *error_list = NULL;
+	GSList *error_list = NULL;
 	ErrorInfo *error;
 
 #ifdef PLUGIN_DEBUG
@@ -1709,18 +1697,18 @@ plugins_init (CommandContext *context)
 	plugin_cache_init ();
 	plugin_db_init (&error);
 	if (error != NULL) {
-		error_list = g_list_prepend (error_list, error_info_new_str_with_details (
+		error_list = g_slist_prepend (error_list, error_info_new_str_with_details (
 		                             _("Errors while reading info about available plugins."),
 		                             error));
 	}
 	plugin_db_activate_saved_active_plugins (&error);
 	if (error != NULL) {
-		error_list = g_list_prepend (error_list, error_info_new_str_with_details (
+		error_list = g_slist_prepend (error_list, error_info_new_str_with_details (
 		                             _("Errors while activating plugins."),
 		                             error));
 	}
 	if (error_list != NULL) {
-		error_list = g_list_reverse (error_list);
+		error_list = g_slist_reverse (error_list);
 		error = error_info_new_str_with_details_list (
 		        _("Errors while initializing plugin system."),
 		        error_list);
@@ -1753,7 +1741,7 @@ plugins_shutdown (void)
 	plugin_db_shutdown (&ignored_error);
 	plugin_cache_shutdown ();
 	error_info_free (ignored_error);
-	gnome_config_sync ();
+	gnm_conf_sync ();
 }
 
 void

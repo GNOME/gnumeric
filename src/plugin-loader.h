@@ -28,7 +28,7 @@ struct _GnumericPluginLoader {
 struct _GnumericPluginLoaderClass {
 	GtkObjectClass parent_class;
 
-	void (*set_attributes) (GnumericPluginLoader *loader, GList *attr_names, GList *attr_values, ErrorInfo **ret_error);
+	void (*set_attributes) (GnumericPluginLoader *loader, GSList *attr_names, GSList *attr_values, ErrorInfo **ret_error);
 	void (*load) (GnumericPluginLoader *loader, ErrorInfo **ret_error);
 	void (*unload) (GnumericPluginLoader *loader, ErrorInfo **ret_error);
 	void (*load_service_general) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
@@ -41,20 +41,20 @@ struct _GnumericPluginLoaderClass {
 	void (*unload_service_function_group) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 	void (*load_service_plugin_loader) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 	void (*unload_service_plugin_loader) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
-	gint (*get_extra_info_list) (GnumericPluginLoader *loader, GList **ret_keys_list, GList **ret_values_list);
+	gint (*get_extra_info_list) (GnumericPluginLoader *loader, GSList **ret_keys_list, GSList **ret_values_list);
 };
 
 GType gnumeric_plugin_loader_get_type (void);
 
 void gnumeric_plugin_loader_set_attributes (GnumericPluginLoader *loader,
-                                            GList *attr_names, GList *attr_values,
+                                            GSList *attr_names, GSList *attr_values,
                                             ErrorInfo **ret_error);
 void gnumeric_plugin_loader_set_plugin (GnumericPluginLoader *loader, PluginInfo *plugin);
 void gnumeric_plugin_loader_load (GnumericPluginLoader *loader, ErrorInfo **ret_error);
 void gnumeric_plugin_loader_unload (GnumericPluginLoader *loader, ErrorInfo **ret_error);
 void gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 void gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
-gint gnumeric_plugin_loader_get_extra_info_list (GnumericPluginLoader *loader, GList **ret_keys_list, GList **ret_values_list);
+gint gnumeric_plugin_loader_get_extra_info_list (GnumericPluginLoader *loader, GSList **ret_keys_list, GSList **ret_values_list);
 gboolean gnumeric_plugin_loader_is_loaded (GnumericPluginLoader *loader);
 
 #endif /* GNUMERIC_PLUGIN_LOADER_H */

@@ -148,7 +148,6 @@ application_init (void)
 	};
 	unsigned i = 0;
 	GtkIconFactory *factory = gtk_icon_factory_new ();
-	GError *err = NULL;
 
 	for (i = 0; i < G_N_ELEMENTS (entry) ; i++)
 		add_icon (factory, entry[i].scalable_data,
@@ -177,28 +176,11 @@ application_init (void)
 	 * out the flaws in the display code.
 	 */
 
-	app.horizontal_dpi = gconf_client_get_float (app.gconf_client,
-						     GNUMERIC_GCONF_GUI_RES_H, &err);
-	if (err || app.horizontal_dpi == 0.0)
-		app.horizontal_dpi = 96.;
-	err = NULL;
-	app.vertical_dpi = gconf_client_get_float (app.gconf_client,
-						   GNUMERIC_GCONF_GUI_RES_V, &err);
-	if (err || app.vertical_dpi == 0.0)
-		app.vertical_dpi = 96.;
-	err = NULL;
-	app.edit_auto_complete = gconf_client_get_bool (app.gconf_client,
-							GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE, &err);
-	err = NULL;
-	app.live_scrolling = gconf_client_get_bool (app.gconf_client,
-						    GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, &err);
-	err = NULL;
-	app.auto_expr_recalc_lag = gconf_client_get_int (app.gconf_client,
-							 GNUMERIC_GCONF_GUI_ED_RECALC_LAG, 
-							 &err);
-	if (err || app.auto_expr_recalc_lag == 0)
-		app.auto_expr_recalc_lag = 200;
-
+	app.horizontal_dpi = gnm_gconf_get_horizontal_dpi ();
+	app.vertical_dpi = gnm_gconf_get_vertical_dpi ();
+	app.edit_auto_complete = gnm_gconf_get_auto_complete();
+	app.live_scrolling = gnm_gconf_get_live_scrolling ();
+	app.auto_expr_recalc_lag = gnm_gconf_get_recalc_lag ();
 }
 
 static GList *workbook_list = NULL;
@@ -462,19 +444,13 @@ GSList*
 application_history_get_list (void)
 {
         gint max_entries;
-	GError *err = NULL;
-	GConfClient *client = application_get_gconf_client ();
 
 	/* If the list is already populated, return it. */
 	if (app.history_list)
 		return app.history_list;
 
-	max_entries = gconf_client_get_int (client, GNUMERIC_GCONF_FILE_HISTORY_N, &err);
-	if (err || max_entries < 0)
-		max_entries = 4;
-
-	app.history_list = gconf_client_get_list (client, GNUMERIC_GCONF_FILE_HISTORY_FILES,
-					      GCONF_VALUE_STRING, NULL);
+	max_entries = gnm_gconf_get_file_history_max ();
+	app.history_list = gnm_gconf_get_file_history_files ();
 
 	while (g_slist_length (app.history_list) > (guint)max_entries) {
 		GSList *last = g_slist_last (app.history_list);
@@ -502,15 +478,11 @@ application_history_update_list (const gchar *filename)
 	gchar *name, *old_name = NULL;
 	GSList *l = NULL;
 	gint max_entries;
-	GError *err = NULL;
-	GConfClient *client = application_get_gconf_client ();
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
 	/* Get maximum list length from config */
-	max_entries = gconf_client_get_int (client, GNUMERIC_GCONF_FILE_HISTORY_N, &err);
-	if (err || max_entries < 0)
-		max_entries = 4;
+	max_entries = gnm_gconf_get_file_history_max ();
 
 	/* Shorten the list in case max_entries has changed. */
 	while (g_slist_length (app.history_list) > (guint) max_entries) {
@@ -540,6 +512,8 @@ application_history_update_list (const gchar *filename)
 							last);
 	}
 
+	gnm_gconf_set_file_history_files (app.history_list);
+	gnm_conf_sync ();
 	return old_name;
 }
 
@@ -565,14 +539,10 @@ void
 application_history_write_config (void)
 {
 	gint max_entries;
-	GError *err = NULL;
-	GConfClient *client = application_get_gconf_client ();
 
 	if (app.history_list == NULL) return;
 
-	max_entries = gconf_client_get_int (client, GNUMERIC_GCONF_FILE_HISTORY_N, &err);
-	if (err || max_entries < 0)
-		max_entries = 4;
+	max_entries = gnm_gconf_get_file_history_max ();
 
 	/* Shorten the list in case max_entries has changed. */
 	while (g_slist_length (app.history_list) > (guint) max_entries) {
@@ -582,9 +552,8 @@ application_history_write_config (void)
 							last);
 	}
 
-	gconf_client_set_list (client, GNUMERIC_GCONF_FILE_HISTORY_FILES, GCONF_VALUE_STRING,
-                                       app.history_list, NULL);
-	gconf_client_suggest_sync (client, NULL);
+	gnm_gconf_set_file_history_files (app.history_list);
+	gnm_conf_sync ();
 
 	e_free_string_slist (app.history_list);
 	app.history_list = NULL;

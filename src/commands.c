@@ -63,6 +63,8 @@
 #include "summary.h"
 #include "tools/dao.h"
 #include "gnumeric-gconf.h"
+/* FIXME, we shouldn't be using gnumeric-gconf-priv.h */
+#include "gnumeric-gconf-priv.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>

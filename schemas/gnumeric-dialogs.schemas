@@ -85,6 +85,57 @@
         <long>Autocorrect replace</long>
         </locale>
       </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/plugins/activate-new</key>
+        <applyto>/apps/gnumeric/plugins/activate-new</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>TRUE</default>
+        <locale name="C">
+        <short>Activate New Plugins</short>
+        <long>This variable determines whether to activate every new encountered plugin.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/plugins/active</key>
+        <applyto>/apps/gnumeric/plugins/active</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+        <locale name="C">
+        <short>List of Active Plugins.</short>
+        <long>This list contains all plugins that are supposed to be automatically activated.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/plugins/known</key>
+        <applyto>/apps/gnumeric/plugins/known</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+        <locale name="C">
+        <short>List of Known Plugins.</short>
+        <long>This list contains all known plugins.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/plugins/file-states</key>
+        <applyto>/apps/gnumeric/plugins/file-states</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+        <locale name="C">
+        <short>List of Plugin File States.</short>
+        <long>This list contains all plugin file states.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/plugins/extra-dirs</key>
+        <applyto>/apps/gnumeric/plugins/extra-dirs</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+        <locale name="C">
+        <short>List of Extra Plugin Directories.</short>
+        <long>This list contains all extra directories containing plugins.</long>
+        </locale>
+      </schema>
     </schemalist>
 </gconfschemafile>
   

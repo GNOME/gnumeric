@@ -10,9 +10,6 @@ gdouble  gnumeric_time_counter_pop (void);
 
 GList   *gnumeric_config_get_string_list (const gchar *config_path,
                                           const gchar *item_name_prefix);
-void     gnumeric_config_set_string_list (GList *items,
-                                          const gchar *config_path,
-                                          const gchar *item_name_prefix);
 
 void	  g_ptr_array_insert (GPtrArray *array, gpointer value, int index);
 GList    *g_create_list	     (gpointer item1, ...);
@@ -53,7 +50,21 @@ G_STMT_START { \
 	g_free (vector); \
 } G_STMT_END
 
+GSList    *g_create_slist	     (gpointer item1, ...);
 void      g_slist_free_custom (GSList *list, GFreeFunc free_func);
+GSList    *g_string_slist_copy (GSList *list);
+GSList    *g_strsplit_to_slist (const gchar *string, const gchar *delimiter);
+#define   g_slist_to_vector(vector,elem_type,list_expr) \
+G_STMT_START { \
+	GSList *list, *l; \
+	gint size, i; \
+	list = (list_expr); \
+	size = g_slist_length (list); \
+	(vector) = g_new (elem_type *, size + 1); \
+	for (l = list, i = 0; l != NULL; l = l->next, i++) \
+		(vector)[i] = (elem_type *) l->data; \
+	(vector)[size] = NULL; \
+} G_STMT_END
 
 #define   g_lang_score_is_better(score_a, score_b) (score_a < score_b)
 gint      g_lang_score_in_lang_list (gchar *lang, GList *lang_list);

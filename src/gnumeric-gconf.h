@@ -1,59 +1,83 @@
 #ifndef GNUMERIC_GCONF_H
 #define GNUMERIC_GCONF_H
 
-/*
- *  Note: This file must stay synchronized with the corresponding schema file!
- *
- *
- */
-
-
-/*
- *  schemas/gnumeric-dialogs.schemas
- */
-
-#define GNUMERIC_GCONF_UNDO_DIRECTORY "/apps/gnumeric/undo"
-#define GNUMERIC_GCONF_UNDO_SIZE GNUMERIC_GCONF_UNDO_DIRECTORY "/size"
-#define GNUMERIC_GCONF_UNDO_MAXNUM GNUMERIC_GCONF_UNDO_DIRECTORY "/maxnum"
-#define GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME GNUMERIC_GCONF_UNDO_DIRECTORY "/show_sheet_name"
-#define GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH GNUMERIC_GCONF_UNDO_DIRECTORY "/max_descriptor_width"
-
-#define AUTOCORRECT_DIRECTORY "/apps/gnumeric/autocorrect"
-#define AUTOCORRECT_INIT_CAPS AUTOCORRECT_DIRECTORY "/init-caps"
-#define AUTOCORRECT_INIT_CAPS_LIST AUTOCORRECT_DIRECTORY "/init-caps-list"
-#define AUTOCORRECT_FIRST_LETTER AUTOCORRECT_DIRECTORY "/first-letter"
-#define AUTOCORRECT_FIRST_LETTER_LIST AUTOCORRECT_DIRECTORY "/first-letter-list"
-#define AUTOCORRECT_NAMES_OF_DAYS AUTOCORRECT_DIRECTORY "/names-of-days"
-#define AUTOCORRECT_REPLACE AUTOCORRECT_DIRECTORY "/replace"
-
-
-/*
- *  schemas/gnumeric-general.schemas
- */
-
-#define GNUMERIC_GCONF_FONT_DIRECTORY "/apps/gnumeric/core/defaultfont"
-#define GNUMERIC_GCONF_FONT_NAME GNUMERIC_GCONF_FONT_DIRECTORY "/name"
-#define GNUMERIC_GCONF_FONT_SIZE GNUMERIC_GCONF_FONT_DIRECTORY "/size"
-#define GNUMERIC_GCONF_FONT_BOLD GNUMERIC_GCONF_FONT_DIRECTORY "/bold"
-#define GNUMERIC_GCONF_FONT_ITALIC GNUMERIC_GCONF_FONT_DIRECTORY "/italic"
-
-#define GNUMERIC_GCONF_FILE_HISTORY_N "/apps/gnumeric/core/file/history/n"
-#define GNUMERIC_GCONF_FILE_HISTORY_FILES "/apps/gnumeric/core/file/history/files"
-
-#define GNUMERIC_GCONF_WORKBOOK_NSHEETS "/apps/gnumeric/core/workbook/n-sheet"
-
-#define GNUMERIC_GCONF_GUI_RES_H "/apps/gnumeric/core/gui/screen/horizontaldpi"
-#define GNUMERIC_GCONF_GUI_RES_V "/apps/gnumeric/core/gui/screen/verticaldpi"
-#define GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE "/apps/gnumeric/core/gui/editing/autocomplete"
-#define GNUMERIC_GCONF_GUI_ED_LIVESCROLLING "/apps/gnumeric/core/gui/editing/livescrolling"
-#define GNUMERIC_GCONF_GUI_ED_RECALC_LAG "/apps/gnumeric/core/gui/editing/recalclag"
-
-
-#define FUNCTION_SELECT_GCONF_RECENT "/apps/gnumeric/functionselector/recentfunctions"
-#define FUNCTION_SELECT_GCONF_NUM_OF_RECENT "/apps/gnumeric/functionselector/num-of-recent"
-
-
-
 #include <gconf/gconf-client.h>
+#include <numbers.h>
+
+void     gnm_conf_sync (void);
+
+guint    gnm_gconf_add_notification_autocorrect (GConfClientNotifyFunc func);
+guint    gnm_gconf_rm_notification_autocorrect (guint id);
+
+
+GSList * gnm_gconf_get_plugin_file_states (void);
+void     gnm_gconf_set_plugin_file_states (GSList *list);
+
+GSList * gnm_gconf_get_plugin_extra_dirs (void);
+void     gnm_gconf_set_plugin_extra_dirs (GSList *list);
+
+GSList * gnm_gconf_get_active_plugins (void);
+void     gnm_gconf_set_active_plugins (GSList *list);
+
+GSList * gnm_gconf_get_known_plugins (void);
+void     gnm_gconf_set_known_plugins (GSList *list);
+
+gboolean gnm_gconf_get_activate_new_plugins (void);
+void     gnm_gconf_set_activate_new_plugins (gboolean val);
+
+
+GSList * gnm_gconf_get_recent_funcs (void);
+void     gnm_gconf_set_recent_funcs (GSList *list);
+
+guint    gnm_gconf_get_num_of_recent_funcs (void);
+void     gnm_gconf_set_num_of_recent_funcs (guint val);
+
+
+gboolean gnm_gconf_get_autocorrect_init_caps (void);
+void     gnm_gconf_set_autocorrect_init_caps (gboolean val);
+
+gboolean gnm_gconf_get_autocorrect_first_letter (void);
+void     gnm_gconf_set_autocorrect_first_letter (gboolean val);
+
+gboolean gnm_gconf_get_autocorrect_names_of_days (void);
+void     gnm_gconf_set_autocorrect_names_of_days (gboolean val);
+
+gboolean gnm_gconf_get_autocorrect_replace (void);
+void     gnm_gconf_set_autocorrect_replace (gboolean val);
+
+GSList * gnm_gconf_get_autocorrect_init_caps_exceptions (void);
+void     gnm_gconf_set_autocorrect_init_caps_exceptions (GSList *list);
+
+GSList * gnm_gconf_get_autocorrect_first_letter_exceptions (void);
+void     gnm_gconf_set_autocorrect_first_letter_exceptions (GSList *list);
+
+gnum_float gnm_gconf_get_horizontal_dpi (void);
+void     gnm_gconf_set_horizontal_dpi  (gnum_float val);
+
+gnum_float gnm_gconf_get_vertical_dpi (void);
+void     gnm_gconf_set_vertical_dpi  (gnum_float val);
+
+gboolean gnm_gconf_get_auto_complete (void);
+void     gnm_gconf_set_auto_complete (gboolean val);
+
+gboolean gnm_gconf_get_live_scrolling (void);
+void     gnm_gconf_set_live_scrolling (gboolean val);
+
+gint     gnm_gconf_get_recalc_lag (void);
+void     gnm_gconf_set_recalc_lag (gint val);
+
+gint     gnm_gconf_get_file_history_max (void);
+void     gnm_gconf_set_file_history_max (gint val);
+
+GSList * gnm_gconf_get_file_history_files (void);
+void     gnm_gconf_set_file_history_files (GSList *list);
+
+gint     gnm_gconf_get_initial_sheet_number (void);
+void     gnm_gconf_set_initial_sheet_number (gint val);
+
+
+
+
+
 
 #endif /* GNUMERIC_GRAPH_H */
