@@ -15,18 +15,18 @@
 #include <config.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #include <gnome.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <fcntl.h>
 #include <errno.h>
-#include "../../src/gnumeric.h"
-#include "../../src/gnumeric-util.h"
-#include "../../src/plugin.h"
 #include "csv-io.h"
 #include "file.h"
+#include "gnumeric-util.h"
 
 
 static char
@@ -39,12 +39,12 @@ insert_csv_cell (Sheet* sheet, char *string, int start, int end, int col, int ro
 
 	if(sheet == NULL)
 		return 0;
-	
+
 	if (start > 1 && end > 1){
 		p = g_malloc (end - start + 1);
 
 		g_assert (p != NULL);
-		
+
 		for (i = start; i <= end; i++){
 			p [ii++] = string [i];
 		}
@@ -85,15 +85,15 @@ csv_parse_file (const char *filename,Sheet *sheet)
 	if ((fd = open (filename, O_RDONLY)) < 0){
 		char *msg;
 		int  err = errno;
-		
+
 		msg = g_strdup_printf (_("While opening %s\n%s"),
 					 filename, g_strerror (err));
 		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, msg);
 		g_free (msg);
-		
-		return 0;	
+
+		return 0;
 	}
-	
+
 	if (fstat (fd, &buf) == -1){
 		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 				 "Can not stat the file");
@@ -102,13 +102,13 @@ csv_parse_file (const char *filename,Sheet *sheet)
 	}
 
 	/* FIXME: ARBITRARY VALUE */
-	if (buf.st_size < 1 || buf.st_size > 1000000){ 
+	if (buf.st_size < 1 || buf.st_size > 1000000){
 		close(fd);
 		return 0;
 	} else {
 		flen = buf.st_size;
 	}
-	
+
 	if ((file = mmap (NULL, flen, PROT_READ, MAP_PRIVATE, fd, 0)) == (char*)-1){
 		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, "Can not mmap the file");
 		close (fd);
@@ -119,7 +119,7 @@ csv_parse_file (const char *filename,Sheet *sheet)
 	switch (file [idx]){
 		case '\r':
 			if (file [idx+1] == '\n')
-				idx++;	
+				idx++;
 			break;
 		case '\n':
 			if (data){  /* Non empty line */
@@ -147,7 +147,7 @@ csv_parse_file (const char *filename,Sheet *sheet)
 		default:
 			if (file [idx] < 21 || file [idx] > 126){
 				non_printable++;
-				if (non_printable > 10){ /* FIXME: ARBITRARY VALUE */   
+				if (non_printable > 10){ /* FIXME: ARBITRARY VALUE */
 					close (fd);
 					return 0;
 				}
@@ -162,27 +162,30 @@ csv_parse_file (const char *filename,Sheet *sheet)
 		sheet->max_col_used=mcol;
 		sheet->max_row_used=crow;
 	}
-	munmap (file, flen);	
+	munmap (file, flen);
 	close (fd);
 	return 1;
 }
 
 
-Workbook *
+static Workbook *
 csv_read_workbook (const char* filename)
 {
 	Workbook	*book;
 	Sheet		*sheet;
 
-	book = workbook_new ();  /* FIXME: Can this return NULL? */
+	book = workbook_new ();
+	if (!book) return NULL;
+
 	sheet = sheet_new (book, _("NoName"));
 	workbook_attach_sheet (book, sheet);
 
 	/*if (sheet != NULL){
 		book->sheet = sheet;
-	}*/	
+	}*/
 
-	if ((csv_parse_file (filename, sheet)) == 0){
+	if ((csv_parse_file (filename, sheet)) == 0) {
+		workbook_destroy (book);
 		return NULL;
 	}
 
@@ -200,21 +203,20 @@ csv_probe (const char *filename)
 	}
 }
 
-void
+static void
 csv_init (void)
 {
-	char *desc = _("CSV (comma separated values)");
-	
+	const char *desc = _("CSV (comma separated values)");
+
 	file_format_register_open (0, desc, csv_probe, csv_read_workbook);
 	/* file_format_register_save (".csv", desc, gnumericWriteCSVWorkbook);*/
 }
 
-static int
+static void
 csv_cleanup_plugin (PluginData *pd)
 {
-	file_format_unregister_save (csv_read_workbook);
-
-	return TRUE;
+	file_format_unregister_open (csv_probe, csv_read_workbook);
+	/* file_format_unregister_save (csv_read_workbook); */
 }
 
 static int
@@ -231,6 +233,6 @@ init_plugin (PluginData *pd)
 	pd->can_unload = csv_can_unload;
 	pd->cleanup_plugin = csv_cleanup_plugin;
 	pd->title = g_strdup (_("CSV (comma separated value file import/export plugin)"));
-	
+
 	return 0;
 }

@@ -10,12 +10,9 @@
 #ifndef GNUMERIC_CSV_IO_H
 #define GNUMERIC_CSV_IO_H
 
-Sheet    *gnumericReadCSVSheet     (const char *filename);
-Workbook *gnumericReadCSVWorkbook  (const char *filename);
-/* not yet 
-int       gnumericWriteCSVSheet    (Sheet *sheet, const char *filename);
-int       gnumericWriteCSVWorkbook (Workbook *sheet, const char *filename);
-*/
-void      csv_init (void);
+#include "sheet.h"
+#include "plugin.h"
+
+int       init_plugin (PluginData *pd);
 
 #endif /* GNUMERIC_CSV_IO_H */
