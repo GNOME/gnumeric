@@ -1,3 +1,7 @@
+2002-01-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* Makefile.am: added missing figures
+
 2002-01-17  Alexander Kirillov  <kirillov@math.sunysb.edu>
 
 	* Makefile.am: added missing figures for number format section
@@ -6,12 +10,12 @@
 
 	* Release 1.0.2
 
-2002-01-11 Andreas J. Guelzow <aguelzow@taliesin.ca>
+2002-01-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.sgml : document Fourier Analysis Tool.
 	* doc/C/figures/analysistools-fourier-formula.png : new
 
-2002-01-11 Andreas J. Guelzow <aguelzow@taliesin.ca>
+2002-01-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.sgml : update histogram documentation
 	* figures/analysistools-histogram-ex3.png : new

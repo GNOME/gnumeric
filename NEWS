@@ -1,5 +1,8 @@
 Gnumeric 1.0.3
 
+Andreas:
+	* Improve compatibility of COUP_ fuctions
+
 Jody:
 	* More work on XL import for 3d references.
 	* Import checkbox links from XL.
