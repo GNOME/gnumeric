@@ -25,13 +25,20 @@
 <listitem><para><link linkend="gnumeric-DATE">DATE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DAY">DAY</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DEGREES">DEGREES</link></para></listitem>
+<listitem><para><link linkend="gnumeric-EFFECT">EFFECT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXACT">EXACT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXP">EXP</link></para></listitem>
+<listitem><para><link linkend="gnumeric-EXPONDIST">EXPONDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FACT">FACT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FLOOR">FLOOR</link></para></listitem>
+<listitem><para><link linkend="gnumeric-GAMMALN">GAMMALN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-GCD">GCD</link></para></listitem>
+<listitem><para><link linkend="gnumeric-GEOMEAN">GEOMEAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-HOUR">HOUR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-IF">IF</link></para></listitem>
 <listitem><para><link linkend="gnumeric-INT">INT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ISERROR">ISERROR</link></para></listitem>
+<listitem><para><link linkend="gnumeric-LCM">LCM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LEFT">LEFT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LEN">LEN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOG">LOG</link></para></listitem>
@@ -43,24 +50,34 @@
 <listitem><para><link linkend="gnumeric-MIN">MIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MINUTE">MINUTE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MONTH">MONTH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-NOT">NOT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NOW">NOW</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NVARIANCE">NVARIANCE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-OR">OR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PI">PI</link></para></listitem>
+<listitem><para><link linkend="gnumeric-POISSON">POISSON</link></para></listitem>
+<listitem><para><link linkend="gnumeric-POWER">POWER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RADIANS">RADIANS</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RIGHT">RIGHT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SECOND">SECOND</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SELECTION">SELECTION</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SIGN">SIGN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SIN">SIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SINH">SINH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SLN">SLN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-STDEV">STDEV</link></para></listitem>
+<listitem><para><link linkend="gnumeric-STDEVP">STDEVP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SUM">SUM</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SYD">SYD</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TAN">TAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TANH">TANH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TIME">TIME</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TODAY">TODAY</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TRUNC">TRUNC</link></para></listitem>
 <listitem><para><link linkend="gnumeric-UPPER">UPPER</link></para></listitem>
+<listitem><para><link linkend="gnumeric-VAR">VAR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-VARIANCE">VARIANCE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-VARP">VARP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-YEAR">YEAR</link></para></listitem>
 </itemizedlist>
 
@@ -110,6 +127,32 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-UPPER">UPPER</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-STDEVP">STDEVP</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>STDEVP</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>STDEVP(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>STDEV returns standard deviation of a set of numbers treating these numbers as members of a complete population</para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-STDEV">STDEV</link>
+,         <link linkend="gnumeric-VAR">VAR</link>
+,         <link linkend="gnumeric-MEAN">MEAN</link>
       </para>
     </refsect1>
   </refentry>
@@ -171,6 +214,22 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-GCD">GCD</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>GCD</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>GCD(n1,n2)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the greatest common divisor of N1 and N2.</para>
+        <para></para>
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-ATAN">ATAN</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -191,6 +250,32 @@
 ,         <link linkend="gnumeric-SIN">SIN</link>
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
 ,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-INT">INT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>INT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>INT(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >0, amd CEIL(b1) for b1 < 0. </para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-FLOOR">FLOOR</link>
+,         <link linkend="gnumeric-CEIL">CEIL</link>
+,         <link linkend="gnumeric-ABS">ABS</link>
       </para>
     </refsect1>
   </refentry>
@@ -230,24 +315,49 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-INT">INT</refentrytitle><refmiscinfo></refmiscinfo>
+      <refentrytitle><anchor id="gnumeric-NOT">NOT</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
-      <refname>INT</refname>
+      <refname>NOT</refname>
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>INT(b1, b2, ...)</synopsis>
+      <synopsis>NOT(number)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >0, amd CEIL(b1) for b1 < 0. </para>
+        <para>Implements the logical NOT function: the result is TRUE if the number is zero;  othewise the result is FALSE.</para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-AND">AND</link>
+,         <link linkend="gnumeric-OR">OR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-CEIL">CEIL</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>CEIL</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>CEIL(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The CEIL function rounds x up to the next nearest integer.</para>
         <para>Performing this function on a string or empty cell simply does nothing.</para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-FLOOR">FLOOR</link>
-,         <link linkend="gnumeric-CEIL">CEIL</link>
-,         <link linkend="gnumeric-ABS">ABS</link>
+      <para>        <link linkend="gnumeric-ABS">ABS</link>
+,         <link linkend="gnumeric-FLOOR">FLOOR</link>
+,         <link linkend="gnumeric-INT">INT</link>
       </para>
     </refsect1>
   </refentry>
@@ -281,24 +391,22 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-CEIL">CEIL</refentrytitle><refmiscinfo></refmiscinfo>
+      <refentrytitle><anchor id="gnumeric-GAMMALN">GAMMALN</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
-      <refname>CEIL</refname>
+      <refname>GAMMALN</refname>
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>CEIL(x)</synopsis>
+      <synopsis>GAMMALN(x)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The CEIL function rounds x up to the next nearest integer.</para>
-        <para>Performing this function on a string or empty cell simply does nothing.</para>
+        <para>The GAMMALN function returns the ln of the gamma function</para>
+        <para>Performing this function on a string or empty cell returns an error. </para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-ABS">ABS</link>
-,         <link linkend="gnumeric-FLOOR">FLOOR</link>
-,         <link linkend="gnumeric-INT">INT</link>
+      <para>        <link linkend="gnumeric-POISSON">POISSON</link>
       </para>
     </refsect1>
   </refentry>
@@ -434,6 +542,22 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-SIGN">SIGN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SIGN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SIGN(number)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns -1 if NUMBER is less than 0, 1 if NUMBER</para>
+        <para>is greater than 0 and 0 if NUMBER is equal 0.</para>        <para></para>
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-MAX">MAX</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -485,6 +609,22 @@
   </refentry>
 
 
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-SLN">SLN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SLN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SLN(cost,salvage value,life)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Calculates the straight line depriciation for anasset based on its cost, salvage value and anticipated life.</para>
+        <para>Formula for it is:</para>        <para>Depriciation expense = ( cost - salvage value ) / life@SEEALSO=</para>        <para></para>
 
   <refentry>
     <refmeta>
@@ -555,6 +695,7 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-OR">OR</link>
+,         <link linkend="gnumeric-NOT">NOT</link>
       </para>
     </refsect1>
   </refentry>
@@ -662,6 +803,31 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-VAR">VAR</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>VAR</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>VAR(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>VAR estimates the variance of a sample of a population To get the true variance of a complete population use @VARP</para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-VARP">VARP</link>
+,         <link linkend="gnumeric-STDEV">STDEV</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-OR">OR</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -678,6 +844,31 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-AND">AND</link>
+,         <link linkend="gnumeric-NOT">NOT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-POISSON">POISSON</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>POISSON</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>POISSON(x,mean,cumulative)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The POISSON function returns the Poisson distribution @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to x.</para>
+        <para>Performing this function on a string or empty cell returns an error.if x is a non-integer it is truncated. if x <= 0 POISSON returns #NUM! error. if mean <= 0 POISSON returns the #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-POISSON">POISSON</link>
       </para>
     </refsect1>
   </refentry>
@@ -760,6 +951,29 @@
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
 ,         <link linkend="gnumeric-RADIANS">RADIANS</link>
       </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-EFFECT">EFFECT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>EFFECT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>EFFECT(b1,b2)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Calculates the effective interest rate from given nominal rate.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
     </refsect1>
   </refentry>
 
@@ -1029,7 +1243,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the ascii character reprensented by the number x.</para>
+        <para>Returns the ascii character represented by the number x.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -1053,7 +1267,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns true if string1 is exactly equal to string2 (this routine is case sensitive.</para>
+        <para>Returns true if string1 is exactly equal to string2 (this routine is case sensitive).</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -1062,6 +1276,22 @@
   </refentry>
 
 
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-SYD">SYD</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SYD</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SYD(cost,salvage value,life,period)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Calculates the sum-of-years digits depriciation for anasset based on its cost, salvage value, anticipated life and aparticular period.</para>
+        <para>Formula for it is:</para>        <para>Depriciation expense = ( cost - salvage value ) * (life-period+1) * 2 / life * (life + 1)@SEEALSO=</para>        <para></para>
 
   <refentry>
     <refmeta>
@@ -1199,6 +1429,55 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-GEOMEAN">GEOMEAN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>GEOMEAN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>GEOMEAN(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>GEOMEAN returns the geometric mean of the N dataThis is equal to the Nth root of the product of the terms</para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-MEDIAN">MEDIAN</link>
+,         <link linkend="gnumeric-MEAN">MEAN</link>
+,         <link linkend="gnumeric-MODE">MODE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TRUNC">TRUNC</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TRUNC</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TRUNC(number[,digits])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The TRUNC function returns the value of number truncated to the number of digits specified.  If digits is omited then digits defaults to zero.</para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-DATE">DATE</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1300,6 +1579,79 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-EXPONDIST">EXPONDIST</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>EXPONDIST</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>EXPONDIST(x,y,cumulative)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The EXPONDIST function returns the exponential distribution If the cumulative boolean is false it will return: y * exp (-y*x), otherwise it will return 1 - exp (-y*x). If x<0 or y<=0 this will return an error</para>
+        <para>Performing this function on a string or empty cell simply does nothing. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-POISSON">POISSON</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-VARP">VARP</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>VARP</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>VARP(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>VARP calculates the variance of a set of numbers where each number is a member of a population and the set is the entire population</para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-STDEV">STDEV</link>
+,         <link linkend="gnumeric-VAR">VAR</link>
+,         <link linkend="gnumeric-MEAN">MEAN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ISERROR">ISERROR</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ISERROR</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ISERROR(exp)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns a TRUE value if the expression has an error</para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-STDEV">STDEV</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1368,6 +1720,22 @@
   </refentry>
 
 
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-LCM">LCM</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LCM</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LCM(n1,n2)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the least common multiplier of N1 and N2.</para>
+        <para></para>
 
   <refentry>
     <refmeta>
@@ -1492,6 +1860,30 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-CHAR">CHAR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-POWER">POWER</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>POWER</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>POWER(x,y)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the value of x raised to the power y</para>
+        <para>Performing this function on a string or empty cell returns an error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-EXP">EXP</link>
       </para>
     </refsect1>
   </refentry>

@@ -9,6 +9,12 @@ Note that Gnumeric will perform regular string to serial number conversion for y
 @DESCRIPTION=Returns a lower-case version of the string in @text
 @SEEALSO=UPPER
 
+@FUNCTION=STDEVP
+@SYNTAX=STDEVP(b1, b2, ...)
+@DESCRIPTION=STDEV returns standard deviation of a set of numbers treating these numbers as members of a complete population
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=STDEV,VAR,MEAN
+
 @FUNCTION=LOG2
 @SYNTAX=LOG2(x)
 @DESCRIPTION=Computes the base-2 logarithm  of x. 
@@ -21,17 +27,15 @@ Performing this function on a string or empty cell returns an error.
 Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string
 @SEEALSO=HOUR, MINUTE, NOW, TIME
 
+@FUNCTION=GCD
+@SYNTAX=GCD(n1,n2)
+@DESCRIPTION=Returns the greatest common divisor of N1 and N2.
+
 @FUNCTION=ATAN
 @SYNTAX=ATAN(x)
 @DESCRIPTION=The ATAN function calculates the arc tangent of x; that  is the value whose tangent is x.Return value is in radians.
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=TAN, COS, SIN, DEGREES, RADIANS
-
-@FUNCTION=SINH
-@SYNTAX=SINH(x)
-@DESCRIPTION=The SINH  function  returns  the  hyperbolic sine of x, which is defined mathematically as (exp(x) - exp(-x)) / 2.  x is in radians. 
-Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
-@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP
 
 @FUNCTION=INT
 @SYNTAX=INT(b1, b2, ...)
@@ -39,16 +43,34 @@ Performing this function on a string or empty cell simply does nothing. This fun
 Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=FLOOR, CEIL, ABS
 
-@FUNCTION=SUM
-@SYNTAX=SUM(value1, value2, ...)
-@DESCRIPTION=Computes the sum of all the values and cells referenced in the argument list. 
-@SEEALSO=AVERAGE, COUNT
+@FUNCTION=SINH
+@SYNTAX=SINH(x)
+@DESCRIPTION=The SINH  function  returns  the  hyperbolic sine of x, which is defined mathematically as (exp(x) - exp(-x)) / 2.  x is in radians. 
+Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
+@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP
+
+@FUNCTION=NOT
+@SYNTAX=NOT(number)
+@DESCRIPTION=Implements the logical NOT function: the result is TRUE if the number is zero;  othewise the result is FALSE.
+
+@SEEALSO=AND, OR
 
 @FUNCTION=CEIL
 @SYNTAX=CEIL(x)
 @DESCRIPTION=The CEIL function rounds x up to the next nearest integer.
 Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=ABS, FLOOR, INT
+
+@FUNCTION=SUM
+@SYNTAX=SUM(value1, value2, ...)
+@DESCRIPTION=Computes the sum of all the values and cells referenced in the argument list. 
+@SEEALSO=AVERAGE, COUNT
+
+@FUNCTION=GAMMALN
+@SYNTAX=GAMMALN(x)
+@DESCRIPTION=The GAMMALN function returns the ln of the gamma function
+Performing this function on a string or empty cell returns an error. 
+@SEEALSO=POISSON
 
 @FUNCTION=FACT
 @SYNTAX=FACT(x)
@@ -81,6 +103,11 @@ Serial Numbers in Gnumeric are represented as follows:The integral part is the n
 For example: .0 represents the beginning of the day, and 0.5 represents noon
 @SEEALSO=TODAY, NOW
 
+@FUNCTION=SIGN
+@SYNTAX=SIGN(number)
+@DESCRIPTION=Returns -1 if NUMBER is less than 0, 1 if NUMBER
+is greater than 0 and 0 if NUMBER is equal 0.
+
 @FUNCTION=MAX
 @SYNTAX=MAX(b1, b2, ...)
 @DESCRIPTION=MAX returns the value of the element of the values passed that has the largest value. With negative numbers considered smaller than positive numbers.
@@ -92,6 +119,12 @@ Performing this function on a string or empty cell simply does nothing.
 @DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic tangent of x; that is the value whose  hyperbolic  tangent is  x.   If  the  absolute value of x is greater than 1.0,  ATANH returns an error of 'atanh: domain error'      
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS
+
+@FUNCTION=SLN
+@SYNTAX=SLN(cost,salvage value,life)
+@DESCRIPTION=Calculates the straight line depriciation for anasset based on its cost, salvage value and anticipated life.
+Formula for it is:
+Depriciation expense = ( cost - salvage value ) / life@SEEALSO=
 
 @FUNCTION=TIME
 @SYNTAX=TIME (hours,minutes,seconds)
@@ -109,7 +142,7 @@ Note that Gnumeric will perform regular string to serial number conversion for y
 @DESCRIPTION=Implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.
 b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.
 If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. 
-@SEEALSO=OR
+@SEEALSO=OR, NOT
 
 @FUNCTION=ACOSH
 @SYNTAX=ACOSH(x)
@@ -133,12 +166,24 @@ Performing this function on a string or empty cell simply does nothing.
 @DESCRIPTION=Returns the leftmost num_chars characters or the left character if num_chars is not specified
 @SEEALSO=MID, RIGHT
 
+@FUNCTION=VAR
+@SYNTAX=VAR(b1, b2, ...)
+@DESCRIPTION=VAR estimates the variance of a sample of a population To get the true variance of a complete population use @VARP
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=VARP,STDEV
+
 @FUNCTION=OR
 @SYNTAX=OR(b1, b2, ...)
 @DESCRIPTION=Implements the logical OR function: the result is TRUE if any of the values evaluated to TRUE.
 b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.
 If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!'is returned.
-@SEEALSO=AND
+@SEEALSO=AND, NOT
+
+@FUNCTION=POISSON
+@SYNTAX=POISSON(x,mean,cumulative)
+@DESCRIPTION=The POISSON function returns the Poisson distribution @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to x.
+Performing this function on a string or empty cell returns an error.if x is a non-integer it is truncated. if x <= 0 POISSON returns #NUM! error. if mean <= 0 POISSON returns the #NUM! error. 
+@SEEALSO=POISSON
 
 @FUNCTION=FLOOR
 @SYNTAX=FLOOR(x)
@@ -156,6 +201,11 @@ Performing this function on a string or empty cell simply does nothing.
 @DESCRIPTION=The TAN function  returns the tangent of x, where x is given in radians. 
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS
+
+@FUNCTION=EFFECT
+@SYNTAX=EFFECT(b1,b2)
+@DESCRIPTION=Calculates the effective interest rate from given nominal rate.
+@SEEALSO=
 
 @FUNCTION=MIN
 @SYNTAX=MIN(b1, b2, ...)
@@ -216,13 +266,19 @@ This function is called with no arguments.
 
 @FUNCTION=CHAR
 @SYNTAX=CHAR(x)
-@DESCRIPTION=Returns the ascii character reprensented by the number x.
+@DESCRIPTION=Returns the ascii character represented by the number x.
 @SEEALSO=CODE
 
 @FUNCTION=EXACT
 @SYNTAX=EXACT(string1, string2)
-@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this routine is case sensitive.
+@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this routine is case sensitive).
 @SEEALSO=
+
+@FUNCTION=SYD
+@SYNTAX=SYD(cost,salvage value,life,period)
+@DESCRIPTION=Calculates the sum-of-years digits depriciation for anasset based on its cost, salvage value, anticipated life and aparticular period.
+Formula for it is:
+Depriciation expense = ( cost - salvage value ) * (life-period+1) * 2 / life * (life + 1)@SEEALSO=
 
 @FUNCTION=ASIN
 @SYNTAX=ASIN(x)
@@ -254,6 +310,18 @@ Performing this function on a string or empty cell simply does nothing.
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=COS, SIN, DEGREES, RADIANS
 
+@FUNCTION=GEOMEAN
+@SYNTAX=GEOMEAN(b1, b2, ...)
+@DESCRIPTION=GEOMEAN returns the geometric mean of the N dataThis is equal to the Nth root of the product of the terms
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=MEDIAN,MEAN,MODE
+
+@FUNCTION=TRUNC
+@SYNTAX=TRUNC(number[,digits])
+@DESCRIPTION=The TRUNC function returns the value of number truncated to the number of digits specified.  If digits is omited then digits defaults to zero.
+
+@SEEALSO=
+
 @FUNCTION=DATE
 @SYNTAX=DATE (year,month,day)
 @DESCRIPTION=Computes the number of days since the 1st of january of 1900(the date serial number) for the given year, month and day.
@@ -277,6 +345,24 @@ Performing this function on a string or empty cell simply does nothing.
 @DESCRIPTION=Returns the length in characters of the string @string.
 @SEEALSO=CHAR, CODE
 
+@FUNCTION=EXPONDIST
+@SYNTAX=EXPONDIST(x,y,cumulative)
+@DESCRIPTION=The EXPONDIST function returns the exponential distribution If the cumulative boolean is false it will return: y * exp (-y*x), otherwise it will return 1 - exp (-y*x). If x<0 or y<=0 this will return an error
+Performing this function on a string or empty cell simply does nothing. 
+@SEEALSO=POISSON
+
+@FUNCTION=VARP
+@SYNTAX=VARP(b1, b2, ...)
+@DESCRIPTION=VARP calculates the variance of a set of numbers where each number is a member of a population and the set is the entire population
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=STDEV,VAR,MEAN
+
+@FUNCTION=ISERROR
+@SYNTAX=ISERROR(exp)
+@DESCRIPTION=Returns a TRUE value if the expression has an error
+
+@SEEALSO=
+
 @FUNCTION=STDEV
 @SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard deviation of all the values and cells referenced in the argument list. This is equivalent to the square root of the variance.
 @SEEALSO=VARIANCE
@@ -291,6 +377,10 @@ Performing this function on a string or empty cell simply does nothing. This fun
 @SYNTAX=RIGHT(text[,num_chars])
 @DESCRIPTION=Returns the rightmost num_chars characters or the right character if num_chars is not specified
 @SEEALSO=MID, LEFT
+
+@FUNCTION=LCM
+@SYNTAX=LCM(n1,n2)
+@DESCRIPTION=Returns the least common multiplier of N1 and N2.
 
 @FUNCTION=COUNT
 @SYNTAX=COUNT(b1, b2, ...)
@@ -319,6 +409,12 @@ Performing this function on a string or empty cell simply does nothing. This fun
 @SYNTAX=CODE(char)
 @DESCRIPTION=Returns the ASCII number for the character char.
 @SEEALSO=CHAR
+
+@FUNCTION=POWER
+@SYNTAX=POWER(x,y)
+@DESCRIPTION=Returns the value of x raised to the power y
+Performing this function on a string or empty cell returns an error. 
+@SEEALSO=EXP
 
 @FUNCTION=COS
 @SYNTAX=COS(x)

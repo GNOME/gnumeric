@@ -33,6 +33,7 @@ dialog_about (Workbook *wb)
 		N_("Mark Probst, Guile support"),
 		N_("Vincent Renardias, CSV support"),
 		N_("Vladimir Vuksan, financial functions"),
+		N_("Takashi Matsuda, simple text plugin"),
 		NULL
 	};
 
