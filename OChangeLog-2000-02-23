@@ -1,3 +1,9 @@
+1999-09-17  Jody Goldberg <jgoldberg@home.com>
+
+	* samples/operator.xls : Updated to be robust in the
+	  face of errors, and to use epsilon comparisons for the
+	  artihmetic comparisons.
+
 1999-09-18  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet.c (zoom_cell_style): Plug leak.
