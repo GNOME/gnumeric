@@ -1,3 +1,9 @@
+Gnumeric 1.1.13
+
+Morten:
+	* Improve qpro importer.
+
+--------------------------------------------------------------------------
 Gnumeric 1.1.12
 
 Andreas:
@@ -53,6 +59,7 @@ Morten:
 	* Make SEARCH function UTF-8 safe.
 	* Fix sc importer to do ISO-8859-1 -> UTF-8 conversion.
 	* Fix oleo importer to do ISO-8859-1 -> UTF-8 conversion.
+	* Make search UTF-8 safe.
 
 Nick Lamb:
 	* Initial support for pre-ole xls files.

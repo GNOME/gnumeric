@@ -98,7 +98,17 @@ typedef struct {
 	WorkbookView	*wbv;
 	Workbook	*wb;
 	Sheet		*cur_sheet;
+	GIConv          converter;
 } QProReadState;
+
+static Value *
+qpro_new_string (QProReadState *state, gchar const *data)
+{
+	return value_new_string_nocopy (
+		g_convert_with_iconv (data, -1, state->converter,
+				      NULL, NULL, NULL));
+}
+
 
 static guint8 const *
 qpro_get_record (QProReadState *state, guint16 *id, guint16 *len)
@@ -118,15 +128,18 @@ qpro_get_record (QProReadState *state, guint16 *id, guint16 *len)
 
 	if (*len == 0)
 		return "";
+
 	/* some sanity checking */
-	g_return_val_if_fail (*len < 0x2000, NULL);
+	if (*id != QPRO_UNDOCUMENTED_837) {
+		g_return_val_if_fail (*len < 0x2000, NULL);
+	}
+
 	data = gsf_input_read (state->input, *len, NULL);
 	if (data == NULL)
 		g_warning ("huh? failure reading %hd for type %hd", *len, *id);
 	return data;
 }
 
-#define state(f)	case f : printf ("%s = %hd\n", #f, len); break
 #define validate(f,expected) qpro_validate_len (state, #f, len, expected)
 
 static gboolean
@@ -143,11 +156,185 @@ qpro_validate_len (QProReadState *state, char const *id, guint16 len, int expect
 }
 
 
+static const struct {
+	const char *name;
+	int args;
+} qpro_functions[QPRO_OP_LAST_FUNC - QPRO_OP_FIRST_FUNC + 1] = {
+	{ "err", -1 },
+	{ "abs", 1 },
+	{ "int", 1 },
+	{ "sqrt", 1 },
+	{ "log", 1 },
+	{ "ln", 1 },
+	{ "pi", 1 },
+	{ "sin", 1 },
+	{ "cos", 1 },
+	{ "tan", 1 },
+	{ "atan2", 2 },
+	{ "atan", 1 },
+	{ "asin", 1 },
+	{ "acos", 1 },
+	{ "exp", 1 },
+	{ "mod", 2 },
+	{ "choose", -2 },
+	{ "isna", 1 },
+	{ "iserr", 1 },
+	{ "false", 0 },
+	{ "true", 0 },
+	{ "rand", 0 },
+	{ "date", 1 },
+	{ "now", 0 },
+	{ "pmt", -1 },
+	{ "pv", -1 },
+	{ "fv", -1 },
+	{ "if", 3 },
+	{ "day", 1 },
+	{ "month", 1 },
+	{ "year", 1 },
+	{ "round", -1 },
+	{ "time", 1 },
+	{ "hour", 1 },
+	{ "minute", 1 },
+	{ "second", 1 },
+	{ "isnum", -1 },
+	{ "isstr", -1 },
+	{ "length", -1 },
+	{ "value", -1 },
+	{ "string", -1 },
+	{ "mid", -1 },
+	{ "char", 1 },
+	{ "code", 1 },
+	{ "find", -1 },
+	{ "dateval", -1 },
+	{ "timeval", -1 },
+	{ "cellptr", -1 },
+	{ "sum", -2 },
+	{ "avg", -2 },
+	{ "count", -2 },
+	{ "min", -2 },
+	{ "max", -2 },
+	{ "vlookup", 3 },
+	{ "npv1", -1 },
+	{ "var", -2 },
+	{ "std", -2 },
+	{ "irr", -1 },
+	{ "hlookup", -1 },
+	{ "dsum", -1 },
+	{ "davg", -1 },
+	{ "dcount", -1 },
+	{ "dmin", -1 },
+	{ "dmax", -1 },
+	{ "dvar", -1 },
+	{ "dstd", -1 },
+	{ "index2d", -1 },
+	{ "cols", -1 },
+	{ "rows", -1 },
+	{ "repeat", -1 },
+	{ "upper", 1 },
+	{ "lower", 1 },
+	{ "left", 2 },
+	{ "right", 2 },
+	{ "replace", -1 },
+	{ "proper", -1 },
+	{ "cell", -1 },
+	{ "trim", 1 },
+	{ "clean", 1 },
+	{ "s", -1 },
+	{ "n", -1 },
+	{ "exact", -1 },
+	{ "call", -1 },
+	{ "at", -1 },
+	{ "rate", -1 },
+	{ "term", -1 },
+	{ "cterm", -1 },
+	{ "sln", -1 },
+	{ "syd", -1 },
+	{ "ddb", -1 },
+	{ "stdp", -2 },
+	{ "varp", -2 },
+	{ "dstds", -1 },
+	{ "dvars", -1 },
+	{ "pval", -1 },
+	{ "paymt", -1 },
+	{ "fval", -1 },
+	{ "nper", -1 },
+	{ "irate", -1 },
+	{ "ipaymt", -1 },
+	{ "ppaymt", -1 },
+	{ "sumproduct", -1 },
+	{ "memavail", -1 },
+	{ "mememsavail", -1 },
+	{ "fileexists", -1 },
+	{ "curvalue", -1 },
+	{ "degrees", 1 },
+	{ "radians", 1 },
+	{ "hex2dec", -1 },
+	{ "dec2hex", -1 },
+	{ "today", 0 },
+	{ "npv2", -1 },
+	{ "cellindex2d", -1 },
+	{ "version", -1 },
+	{ NULL, -1 },
+	{ NULL, -1 },
+	{ NULL, -1 },
+	{ NULL, -1 },
+	{ NULL, -1 },
+	{ NULL, -1 },
+	{ NULL, -1 },
+	{ NULL, -1 },
+	{ "sheets", -1 },
+	{ NULL, -1 },
+	{ NULL, -1 },
+	{ "index3d", -1 },
+	{ "cellindex3d", -1 },
+	{ "property", -1 },
+	{ "ddelink", -1 },
+	{ "command", -1 }
+};
+
+#ifdef DEBUG_MISSING
+static void
+dump_missing_functions (void)
+{
+	static gboolean done = FALSE;
+	int i;
+
+	if (!done) {
+		for (i = QPRO_OP_FIRST_FUNC; i <= QPRO_OP_LAST_FUNC; i++) {
+			const char *name = qpro_functions[i - QPRO_OP_FIRST_FUNC].name;
+			int args = qpro_functions[i - QPRO_OP_FIRST_FUNC].args;
+			GnmFunc *f;
+			int dummy;
+
+			if (!name || args != -1)
+				continue;
+
+			f = gnm_func_lookup (name, NULL);
+			if (f == 0) {
+				g_warning ("%s is not known.", name);
+				continue;
+			}
+
+			function_def_count_args (f, &dummy, &dummy);
+
+			g_warning ("Function %s has args %s.",
+				   name, f->arg_names ? f->arg_names : "?");
+		}
+		done = TRUE;
+	}
+}
+#endif
+
+
 static void
 qpro_parse_formula (QProReadState *state, int col, int row,
 		    guint8 const *data, guint8 const *end)
 {
 	int magic = GSF_LE_GET_GUINT16 (data + 6) & 0x7ff8;
+#if 0
+	int flags = GSF_LE_GET_GUINT16 (data + 8);
+	int length = GSF_LE_GET_GUINT16 (data + 10);
+#endif
 	guint16 ref_offset = GSF_LE_GET_GUINT16 (data + 12);
 	Value   *val;
 	GSList  *stack = NULL;
@@ -155,23 +342,31 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 	guint8 const *refs, *fmla;
 	int len;
 
+#ifdef DEBUG_MISSING
+	dump_missing_functions ();
+#endif
+
 	fmla = data + 14;
 	refs = fmla + ref_offset;
 	g_return_if_fail (refs <= end);
 
 #if 0
 	puts (cell_coord_name (col, row));
+	gsf_mem_dump (data, 14);
 	gsf_mem_dump (fmla, refs-fmla);
-	gsf_mem_dump (refs, end-fmla);
+	gsf_mem_dump (refs, end-refs);
 #endif
 
 	while (fmla < refs && *fmla != QPRO_OP_EOF) {
 		expr = NULL;
 		len = 1;
+#if 0
+		g_print ("Operator %d.\n", *fmla);
+#endif
 		switch (*fmla) {
 		case QPRO_OP_CONST_FLOAT:
 			expr = gnm_expr_new_constant (value_new_float (
-				gsf_le_get_double (fmla+1)));
+				gsf_le_get_double (fmla + 1)));
 			len = 9;
 			break;
 
@@ -193,6 +388,27 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 
 		case QPRO_OP_RANGEREF: {
 			CellRef a, b;
+			guint16 tmp;
+
+			tmp = GSF_LE_GET_GUINT16 (refs + 4);
+			a.sheet = NULL;
+			a.col = *((gint8 *)(refs + 2));
+			a.col_relative = (tmp & 0x4000) ? TRUE : FALSE;
+			a.row_relative = (tmp & 0x2000) ? TRUE : FALSE;
+			if (a.row_relative)
+				a.row = ((gint16)(tmp & 0x1fff) << 3) >> 3;
+			else
+				a.row = tmp & 0x1fff;
+
+			tmp = GSF_LE_GET_GUINT16 (refs + 8);
+			b.sheet = NULL;
+			b.col = *((gint8 *)(refs + 6));
+			b.col_relative = (tmp & 0x4000) ? TRUE : FALSE;
+			b.row_relative = (tmp & 0x2000) ? TRUE : FALSE;
+			if (b.row_relative)
+				b.row = ((gint16)(tmp & 0x1fff) << 3) >> 3;
+			else
+				b.row = tmp & 0x1fff;
 
 			expr = gnm_expr_new_constant (
 				value_new_cellrange_unsafe (&a, &b));
@@ -200,17 +416,18 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			break;
 		}
 		case QPRO_OP_EOF:	break; /* exit */
-		case QPRO_OP_PAREN:	break; /* ignore for now */
+
+		case QPRO_OP_PAREN:     break; /* Currently just ignore.  */
 
 		case QPRO_OP_CONST_INT:
 			expr = gnm_expr_new_constant (
-				value_new_int ((gint16)GSF_LE_GET_GUINT16 (fmla+1)));
+				value_new_int ((gint16)GSF_LE_GET_GUINT16 (fmla + 1)));
 			len = 3;
 			break;
 
 		case QPRO_OP_CONST_STR:
-			expr = gnm_expr_new_constant (value_new_string (fmla+1));
-			len = 1 + strlen (fmla+1) + 1;
+			expr = gnm_expr_new_constant (qpro_new_string (state, fmla + 1));
+			len = 1 + strlen (fmla + 1) + 1;
 			break;
 
 		case QPRO_OP_DEFAULT_ARG:
@@ -250,8 +467,40 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 		}
 
 		case QPRO_OP_AND:
-		case QPRO_OP_OR:
-		case QPRO_OP_NOT:
+		case QPRO_OP_OR: {
+			GSList *tmp = stack;
+			GnmFunc *f = gnm_func_lookup (*fmla == QPRO_OP_OR ? "or" : "and",
+						      NULL);
+			GnmExprList *arglist;
+
+			g_return_if_fail (stack != NULL && stack->next != NULL);
+
+			arglist = g_slist_prepend (NULL, stack->data);
+			arglist = g_slist_prepend (arglist, stack->next->data);
+
+			stack = stack->next->next;
+			tmp->next->next = NULL;
+			g_slist_free (tmp);
+
+			expr = gnm_expr_new_funcall (f, arglist);
+			break;
+		}
+
+		case QPRO_OP_NOT: {
+			GSList *tmp = stack;
+			GnmFunc *f = gnm_func_lookup ("NOT", NULL);
+			GnmExprList *arglist;
+
+			g_return_if_fail (stack != NULL);
+			arglist = g_slist_prepend (NULL, stack->data);
+
+			stack = stack->next;
+			tmp->next= NULL;
+			g_slist_free (tmp);
+
+			expr = gnm_expr_new_funcall (f, arglist);
+			break;
+		}
 
 		case QPRO_OP_UNARY_NEG:
 		case QPRO_OP_UNARY_PLUS: {
@@ -272,6 +521,63 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 
 		default:
 			if (QPRO_OP_FIRST_FUNC <= *fmla && *fmla <= QPRO_OP_LAST_FUNC) {
+				int idx = *fmla - QPRO_OP_FIRST_FUNC;
+				const char *name = qpro_functions[idx].name;
+				int args = qpro_functions[idx].args;
+				GnmExprList *arglist = NULL;
+				GSList *tmp = stack;
+				GnmFunc *f;
+
+				if (name == NULL) {
+					g_warning ("QPRO function %d is not known.", *fmla);
+					break;
+				}
+				/* FIXME : Add support for workbook local functions */
+				f = gnm_func_lookup (name, NULL);
+				if (f == NULL) {
+					g_warning ("QPRO function %s is not supported!",
+						   name);
+					break;
+				}
+
+				if (args == -1) {
+					g_warning ("QPRO function %s is not supported.",
+						   name);
+					for (tmp = stack; tmp; tmp = tmp->next) {
+						ParsePos pp;
+						char *p;
+
+						pp.wb = state->wb;
+						pp.sheet = state->cur_sheet;
+						pp.eval.col = col;
+						pp.eval.row = row;
+						p = gnm_expr_as_string (tmp->data, &pp);
+						g_print ("Expr: %s\n", p);
+						g_free (p);
+					}
+					g_print ("-----\n");
+					break;
+				}
+
+				if (args == -2) {
+					args = fmla[1];
+					len++;
+				}
+
+				while (args > 0) {
+					GSList *cut = stack;
+					arglist = g_slist_prepend (arglist, stack->data);
+					args--;
+					stack = stack->next;
+					if (args == 0) {
+						cut->next = NULL;
+						g_slist_free (tmp);
+					}
+				}
+				expr = gnm_expr_new_funcall (f, arglist);
+				break;
+			} else {
+				g_warning ("Operator %d encountered.", *fmla);
 			}
 		}
 		if (expr != NULL) {
@@ -281,32 +587,65 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 	}
 	g_return_if_fail (fmla != refs);
 	g_return_if_fail (stack != NULL);
-	g_return_if_fail (stack->next == NULL);
+
+	if (stack->next) {
+		GSList *tmp;
+
+		for (tmp = stack; tmp; tmp = tmp->next) {
+			ParsePos pp;
+			char *p;
+
+			pp.wb = state->wb;
+			pp.sheet = state->cur_sheet;
+			pp.eval.col = col;
+			pp.eval.row = row;
+			p = gnm_expr_as_string (tmp->data, &pp);
+			g_print ("Expr: %s\n", p);
+			g_free (p);
+		}
+		g_return_if_fail (stack->next == NULL);
+	}
 
 	expr = stack->data;
 	g_slist_free (stack);
 
-	if (magic == 0x7ff0) {
-		val = value_new_error (NULL,  gnumeric_err_VALUE);
-	} else if (magic == 0x7ff8) {
+	switch (magic) {
+	case 0x7ff0:
+		val = value_new_error (NULL, gnumeric_err_VALUE);
+		break;
+	case 0x7ff8: {
 		guint16 id, len;
 		int new_row, new_col;
 
+	again:
 		data = qpro_get_record (state, &id, &len);
-
 		g_return_if_fail (data != NULL);
+
+		if (id == QPRO_UNDOCUMENTED_270) {
+			/*
+			 * poker.wk3 has a few of these.  They seem to be
+			 * more or less embedding a copy of the formula
+			 * record.
+			 */
+			g_warning ("Encountered 270 record.");
+			goto again;
+		}
+
 		g_return_if_fail (id == QPRO_FORMULA_STRING);
 
-		new_col = data [0]; 
+		new_col = data[0];
 		new_row = GSF_LE_GET_GUINT16 (data + 2);
 
 		/* Be anal */
 		g_return_if_fail (col == new_col);
 		g_return_if_fail (row == new_row);
 
-		val = value_new_string (data + 7);
-	} else
+		val = qpro_new_string (state, data + 7);
+		break;
+	}
+	default:
 		val = value_new_float (gsf_le_get_double (data));
+	}
 
 	cell_set_expr_and_value (sheet_cell_fetch (state->cur_sheet, col, row),
 		expr, val, TRUE);
@@ -316,8 +655,10 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 static MStyle *
 qpro_get_style (QProReadState *state, guint8 const *data)
 {
+#if 0
 	unsigned attr_id = GSF_LE_GET_GUINT16 (data) >> 3;
 	printf ("Get Attr %u\n", attr_id);
+#endif
 	return sheet_style_default (state->cur_sheet);
 }
 
@@ -334,19 +675,21 @@ qpro_read_sheet (QProReadState *state)
 	state->cur_sheet = sheet;
 	workbook_sheet_attach (state->wb, sheet, NULL);
 	sheet_flag_recompute_spans (sheet);
+#if 0
 	printf ("----------> start %s\n", def_name);
+#endif
 	while (NULL != (data = qpro_get_record (state, &id, &len))) {
 		switch (id) {
 		case QPRO_BLANK_CELL:
 			if (validate (QPRO_BLANK_CELL, 6))
 				sheet_style_set_pos (sheet,
-					data [0], GSF_LE_GET_GUINT16 (data + 2),
+					data[0], GSF_LE_GET_GUINT16 (data + 2),
 					qpro_get_style (state, data + 4));
 			break;
 
 		case QPRO_INTEGER_CELL:
 			if (validate (QPRO_INTEGER_CELL, 8)) {
-				int col = data [0];
+				int col = data[0];
 				int row = GSF_LE_GET_GUINT16 (data + 2);
 				sheet_style_set_pos (sheet, col, row,
 					qpro_get_style (state, data + 4));
@@ -357,7 +700,7 @@ qpro_read_sheet (QProReadState *state)
 
 		case QPRO_FLOATING_POINT_CELL:
 			if (validate (QPRO_FLOATING_POINT_CELL, 14)) {
-				int col = data [0];
+				int col = data[0];
 				int row = GSF_LE_GET_GUINT16 (data + 2);
 				sheet_style_set_pos (sheet, col, row,
 					qpro_get_style (state, data + 4));
@@ -368,18 +711,18 @@ qpro_read_sheet (QProReadState *state)
 
 		case QPRO_LABEL_CELL:
 			if (validate (QPRO_LABEL_CELL, -1)) {
-				int col = data [0];
+				int col = data[0];
 				int row = GSF_LE_GET_GUINT16 (data + 2);
 				sheet_style_set_pos (sheet, col, row,
 					qpro_get_style (state, data + 4));
 				cell_assign_value (sheet_cell_fetch (sheet, col, row),
-					value_new_string (data + 7));
+						   qpro_new_string (state, data + 7));
 			}
 			break;
 
 		case QPRO_FORMULA_CELL:
 			if (validate (QPRO_FORMULA_CELL, -1)) {
-				int col = data [0];
+				int col = data[0];
 				int row = GSF_LE_GET_GUINT16 (data + 2);
 				sheet_style_set_pos (sheet, col, row,
 					qpro_get_style (state, data + 4));
@@ -403,8 +746,13 @@ qpro_read_sheet (QProReadState *state)
 
 		case QPRO_PAGE_NAME:
 			if (validate (QPRO_PAGE_NAME, -1)) {
+				char *utf8name =
+					g_convert_with_iconv (data, -1,
+							      state->converter,
+							      NULL, NULL, NULL);
 #warning this is wrong, but the workbook interface is confused and needs a control.
-				sheet_rename (sheet, data);
+				sheet_rename (sheet, utf8name);
+				g_free (utf8name);
 			}
 			break;
 
@@ -434,7 +782,7 @@ qpro_read_sheet (QProReadState *state)
 		case QPRO_PAGE_TAB_COLOR :
 			if (validate (QPRO_PAGE_TAB_COLOR, 4))
 				sheet_set_tab_color (sheet, style_color_new_i8 (
-					data [0], data [1], data [2]), NULL);
+					data[0], data[1], data[2]), NULL);
 			break;
 
 		case QPRO_PAGE_ZOOM_FACTOR :
@@ -444,7 +792,7 @@ qpro_read_sheet (QProReadState *state)
 
 				if (low == 100) {
 					if (high < 10 || high > 400)
-						gnm_io_warning (state->io_context, 
+						gnm_io_warning (state->io_context,
 							_("Invalid zoom %hd %%"), high);
 					else
 						sheet_set_zoom_factor (sheet, ((double)high) / 100.,
@@ -457,7 +805,9 @@ qpro_read_sheet (QProReadState *state)
 		if (id == QPRO_END_OF_PAGE)
 			break;
 	}
+#if 0
 	printf ("----------< end\n");
+#endif
 	state->cur_sheet = NULL;
 }
 
@@ -468,6 +818,7 @@ qpro_read_workbook (QProReadState *state, GsfInput *input)
 	guint8 const *data;
 
 	state->input = input;
+	gsf_input_seek (input, 0, G_SEEK_SET);
 
 	while (NULL != (data = qpro_get_record (state, &id, &len))) {
 		switch (id) {
@@ -504,6 +855,7 @@ qpro_file_open (GnumFileOpener const *fo, IOContext *context,
 	state.wbv = new_wb_view;
 	state.wb = wb_view_workbook (new_wb_view);
 	state.cur_sheet = NULL;
+	state.converter	 = g_iconv_open ("UTF-8", "ISO-8859-1");
 
 	/* check for >= QPro 6.0 which is OLE based */
 	ole = gsf_infile_msole_new (input, NULL);
@@ -518,4 +870,6 @@ qpro_file_open (GnumFileOpener const *fo, IOContext *context,
 		g_object_unref (G_OBJECT (ole));
 	} else
 		qpro_read_workbook (&state, input);
+
+	gsf_iconv_close (state.converter);
 }

@@ -51,8 +51,8 @@ Pending Patches
 12) audit all of the import plugins to do UTF-8 conversions
     12.1)  excel						(DONE)
     12.2)  applix						(DONE)
-    12.3)  lotus
-    12.4)  quattro pro
+    12.3)  lotus						(DONE)
+    12.4)  quattro pro                                          (DONE)
     12.5)  plan perfect						(DONE)
     12.6)  html							(DONE)
     12.7)  opencalc						(DONE)
