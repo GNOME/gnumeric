@@ -10,10 +10,9 @@
 #define GNUMERIC_EXCEL_H
 
 #include "gnumeric.h"
-#include <libole2/ms-ole.h>
 #include <gsf/gsf.h>
 
-typedef gboolean (*MsExcelReadGbFn) (IOContext *context, Workbook *wb, MsOle *f);
+typedef gboolean (*MsExcelReadGbFn) (IOContext *context, Workbook *wb, GsfInput *input);
 extern MsExcelReadGbFn ms_excel_read_gb;
 
 typedef enum { MS_BIFF_V2 = 2,
@@ -35,7 +34,7 @@ void ms_excel_read_workbook (IOContext *context,
  */
 extern int      ms_excel_check_write (IOContext *context, void **state,
                                       WorkbookView *wb, MsBiffVersion ver);
-extern void     ms_excel_write_workbook (IOContext *context, MsOle *file,
+extern void     ms_excel_write_workbook (IOContext *context, GsfOutfile *output,
                                          void *state, MsBiffVersion ver);
 void ms_excel_write_free_state (void *state);
 

@@ -545,7 +545,7 @@ ms_excel_unexpected_biff (BiffQuery *q, char const *state,
 		printf ("Unexpected Opcode in %s: 0x%x, length 0x%x\n",
 			state, q->opcode, q->length);
 		if (debug_level > 2)
-			ms_ole_dump (q->data, q->length);
+			gsf_mem_dump (q->data, q->length);
 	}
 #endif
 }
@@ -721,7 +721,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 
 	d (5, {
 		printf ("String:\n");
-		ms_ole_dump (pos, length + 1);
+		gsf_mem_dump (pos, length + 1);
 	});
 
 	header = biff_string_get_flags (pos,
@@ -746,7 +746,7 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 	d (4, {
 		printf ("String len %d, byte length %d: %d %d %d:\n",
 			length, (*byte_length), high_byte, rich_str, ext_str);
-		ms_ole_dump (pos, *byte_length);
+		gsf_mem_dump (pos, *byte_length);
 	});
 
 
@@ -820,7 +820,7 @@ get_string (char **output, BiffQuery *q, guint32 offset, MsBiffVersion ver)
 						&rich_str);
 		if (!header) {
 			g_warning ("Seriously broken string with no header 0x%x", *(q->data + new_offset));
-			ms_ole_dump (q->data + new_offset, q->length - new_offset);
+			gsf_mem_dump (q->data + new_offset, q->length - new_offset);
 			return 0;
 		}
 
@@ -864,7 +864,7 @@ read_sst (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 
 	d (4, {
 		printf ("SST\n");
-		ms_ole_dump (q->data, q->length);
+		gsf_mem_dump (q->data, q->length);
 	});
 
 	wb->global_string_max = GSF_LE_GET_GUINT32 (q->data + 4);
@@ -928,7 +928,7 @@ ms_biff_bof_data_new (BiffQuery *q)
 			d (2, {
 				printf ("Complicated BIFF version 0x%x\n",
 					GSF_LE_GET_GUINT16 (q->non_decrypted_data));
-				ms_ole_dump (q->non_decrypted_data, q->length);
+				gsf_mem_dump (q->non_decrypted_data, q->length);
 			});
 
 			switch (GSF_LE_GET_GUINT16 (q->non_decrypted_data)) {
@@ -2123,7 +2123,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 					esheet->gnum_sheet->name_unquoted,
 					cell_name (cell));
 				if (ms_excel_read_debug > 5)
-					ms_ole_dump (q->data + 6, 8);
+					gsf_mem_dump (q->data + 6, 8);
 			});
 
 			val = value_new_empty ();
@@ -3476,7 +3476,7 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 	}
 
 	puts ("Header");
-	ms_ole_dump (q->data+6, 6);
+	gsf_mem_dump (q->data+6, 6);
 
 	/* UNDOCUMENTED : the format of the conditional format
 	 * is unspecified.
@@ -3507,14 +3507,14 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 
 	if (fmt_type & 0x04) { /* font */
 		puts ("Font");
-		ms_ole_dump (q->data+offset, 118);
+		gsf_mem_dump (q->data+offset, 118);
 
 		offset += 118;
 	}
 
 	if (fmt_type & 0x10) { /* borders */
 		puts ("Border");
-		ms_ole_dump (q->data+offset, 8);
+		gsf_mem_dump (q->data+offset, 8);
 
 		offset += 8;
 	}
@@ -3549,7 +3549,7 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 
 
 	g_return_if_fail (q->length == offset + expr1_len + expr2_len);
-	ms_ole_dump (q->data+6, 6);
+	gsf_mem_dump (q->data+6, 6);
 #if 0
 	printf ("%d == %d (%d + %d + %d) (0x%x)\n",
 		q->length, offset + expr1_len + expr2_len,
@@ -4099,7 +4099,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			Value *v = biff_get_rk (q->data + 6);
 			d (2, {
 				printf ("RK number: 0x%x, length 0x%x\n", q->opcode, q->length);
-				ms_ole_dump (q->data, q->length);
+				gsf_mem_dump (q->data, q->length);
 			});
 
 			ms_excel_sheet_insert_val (esheet, EX_GETXF (q), EX_GETCOL (q),
@@ -4396,7 +4396,7 @@ ms_excel_externsheet_v8 (BiffQuery const *q, ExcelWorkbook *ewb)
 	num = GSF_LE_GET_GUINT16 (q->data);
 
 	d (1, printf ("ExternSheet (%d entries)\n", num););
-	d (10, ms_ole_dump (q->data, q->length););
+	d (10, gsf_mem_dump (q->data, q->length););
 
 	ewb->extern_sheet_v8 = g_array_set_size (
 		g_array_sized_new (FALSE, FALSE,
@@ -4671,7 +4671,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		case BIFF_FORMAT: { /* S59D8E.HTM */
 			BiffFormatData *d = g_new (BiffFormatData, 1);
 			/*				printf ("Format data 0x%x %d\n", q->ms_op, ver->version);
-							ms_ole_dump (q->data, q->length);*/
+							gsf_mem_dump (q->data, q->length);*/
 			if (ver->version == MS_BIFF_V7) { /* Totaly guessed */
 				d->idx = GSF_LE_GET_GUINT16 (q->data);
 				d->name = biff_get_text (q->data + 3, GSF_LE_GET_GUINT8 (q->data + 2), NULL);

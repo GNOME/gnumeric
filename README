@@ -37,13 +37,12 @@ You need:
 	libbonoboui	>= 1.106.0	??
 	libgnomeprint	>= 1.106.0	??
 	libgnomeprintui	>= 1.106.0	??
+	libgsf		>= 1.1.0
 	intltools	>= 0.9
 	libglade	>= 1.99.4
 	gal-2		>= 0.0.0	(gal-2 branch of module gal)
 	gnome-xml   	>= 2.4.12
 	NOTE : gnome-xml is also known as libxml
-	libole2	    	>= 1.3.0
-	NOTE : libole2 is also known as libgnomeole2
 
 Optionally:
 	gda		>= 0.2.92  (GDA plugin, for accessing databases)

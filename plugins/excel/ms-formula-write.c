@@ -24,9 +24,7 @@
 #include <str.h>
 #include <parse-util.h>
 
-#include <fcntl.h>
-#include <assert.h>
-#include <stdio.h>
+#include <gsf/gsf-utils.h>
 
 #define FORMULA_DEBUG 0
 /*#define DO_IT (ms_excel_formula_debug > 0)*/
@@ -235,8 +233,8 @@ ms_formula_write_pre_data (BiffPut *bp, ExcelSheet *sheet,
 
 				if (DO_IT) {
 				ms_biff_put_var_next (bp, BIFF_EXTERNNAME);
-				MS_OLE_SET_GUINT32 (data + 0, 0x0);
-				MS_OLE_SET_GUINT16 (data + 4, 0x0);
+				GSF_LE_SET_GUINT32 (data + 0, 0x0);
+				GSF_LE_SET_GUINT16 (data + 4, 0x0);
 				ms_biff_put_var_write (bp, data, 6);
 				txt = g_strdup (fce->u.ename_v7.name);
 				g_strup (txt); /* scraping the barrel here */
@@ -246,7 +244,7 @@ ms_formula_write_pre_data (BiffPut *bp, ExcelSheet *sheet,
 					       TRUE, AS_PER_VER);
 				g_free (buf);
 				g_free (txt);
-				MS_OLE_SET_GUINT32 (data, 0x171c0002); /* Magic hey :-) */
+				GSF_LE_SET_GUINT32 (data, 0x171c0002); /* Magic hey :-) */
 				ms_biff_put_var_write (bp, data, 4);
 				ms_biff_put_commit (bp);
 				}
@@ -280,7 +278,7 @@ static void
 push_guint16 (PolishData *pd, guint16 b)
 {
 	guint8 data[2];
-	MS_OLE_SET_GUINT16 (data, b);
+	GSF_LE_SET_GUINT16 (data, b);
 	ms_biff_put_var_write (pd->bp, data, sizeof(data));
 }
 
@@ -288,7 +286,7 @@ static void
 push_guint32 (PolishData *pd, guint32 b)
 {
 	guint8 data[4];
-	MS_OLE_SET_GUINT32 (data, b);
+	GSF_LE_SET_GUINT32 (data, b);
 	ms_biff_put_var_write (pd->bp, data, sizeof(data));
 }
 
@@ -312,8 +310,8 @@ write_cellref_v7 (PolishData *pd, const CellRef *ref,
 	if (ref->row_relative)
 		row |= 0x8000;
 
-	MS_OLE_SET_GUINT16 (out_row, row);
-	MS_OLE_SET_GUINT8  (out_col, col);
+	GSF_LE_SET_GUINT16 (out_row, row);
+	GSF_LE_SET_GUINT8  (out_col, col);
 }
 
 static void
@@ -336,8 +334,8 @@ write_cellref_v8 (PolishData *pd, const CellRef *ref,
 	if (ref->row_relative)
 		col |= 0x8000;
 
-	MS_OLE_SET_GUINT16 (out_row, row);
-	MS_OLE_SET_GUINT16 (out_col, col);
+	GSF_LE_SET_GUINT16 (out_row, row);
+	GSF_LE_SET_GUINT16 (out_col, col);
 }
 
 static void
@@ -397,11 +395,11 @@ write_area (PolishData *pd, CellRef const *a, CellRef const *b)
 				g_warning ("References to external workbooks are not supported yet");
 			}
 
-			MS_OLE_SET_GUINT16 (data, 0xffff);
-			MS_OLE_SET_GUINT32 (data +  2, 0x0);
-			MS_OLE_SET_GUINT32 (data +  6, 0x0);
-			MS_OLE_SET_GUINT16 (data + 10, first_idx);
-			MS_OLE_SET_GUINT16 (data + 12, second_idx);
+			GSF_LE_SET_GUINT16 (data, 0xffff);
+			GSF_LE_SET_GUINT32 (data +  2, 0x0);
+			GSF_LE_SET_GUINT32 (data +  6, 0x0);
+			GSF_LE_SET_GUINT16 (data + 10, first_idx);
+			GSF_LE_SET_GUINT16 (data + 12, second_idx);
 			write_cellref_v7 (pd, a,
 					  data + 18, (guint16 *)(data + 14));
 			write_cellref_v7 (pd, b,
@@ -411,7 +409,7 @@ write_area (PolishData *pd, CellRef const *a, CellRef const *b)
 			guint16 extn_idx = ms_excel_write_get_externsheet_idx (pd->sheet->wb,
 									       a->sheet,
 									       b->sheet);
-			MS_OLE_SET_GUINT16 (data, extn_idx);
+			GSF_LE_SET_GUINT16 (data, extn_idx);
 			write_cellref_v8 (pd, a,
 					  (guint16 *)(data + 6), (guint16 *)(data + 2));
 			write_cellref_v8 (pd, b,
@@ -444,11 +442,11 @@ write_ref (PolishData *pd, const CellRef *ref)
 		if (pd->ver <= MS_BIFF_V7) {
 			guint16 extn_idx = ms_excel_write_get_sheet_idx (pd->sheet->wb,
 									 ref->sheet);
-			MS_OLE_SET_GUINT16 (data, 0xffff); /* FIXME ? */
-			MS_OLE_SET_GUINT32 (data +  2, 0x0);
-			MS_OLE_SET_GUINT32 (data +  6, 0x0);
-			MS_OLE_SET_GUINT16 (data + 10, extn_idx);
-			MS_OLE_SET_GUINT16 (data + 12, extn_idx);
+			GSF_LE_SET_GUINT16 (data, 0xffff); /* FIXME ? */
+			GSF_LE_SET_GUINT32 (data +  2, 0x0);
+			GSF_LE_SET_GUINT32 (data +  6, 0x0);
+			GSF_LE_SET_GUINT16 (data + 10, extn_idx);
+			GSF_LE_SET_GUINT16 (data + 12, extn_idx);
 			write_cellref_v7 (pd, ref, data + 16,
 					  (guint16 *)(data + 14));
 			ms_biff_put_var_write (pd->bp, data, 17);
@@ -456,7 +454,7 @@ write_ref (PolishData *pd, const CellRef *ref)
 			guint16 extn_idx = ms_excel_write_get_externsheet_idx (pd->sheet->wb,
 									       ref->sheet,
 									       NULL);
-			MS_OLE_SET_GUINT16 (data, extn_idx);
+			GSF_LE_SET_GUINT16 (data, extn_idx);
 			write_cellref_v8 (pd, ref, (guint16 *)(data + 2),
 					  (guint16 *)(data + 1));
 			ms_biff_put_var_write (pd->bp, data, 6);
@@ -595,11 +593,11 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 			guint8 data[10];
 			int i = value_get_as_int (v);
 			if (i >= 0 && i < 1<<16) {
-				MS_OLE_SET_GUINT8  (data, FORMULA_PTG_INT);
-				MS_OLE_SET_GUINT16 (data + 1, i);
+				GSF_LE_SET_GUINT8  (data, FORMULA_PTG_INT);
+				GSF_LE_SET_GUINT16 (data + 1, i);
 				ms_biff_put_var_write (pd->bp, data, 3);
 			} else {
-				MS_OLE_SET_GUINT8 (data, FORMULA_PTG_NUM);
+				GSF_LE_SET_GUINT8 (data, FORMULA_PTG_NUM);
 				gnumeric_set_le_double (data + 1, value_get_as_float (v));
 				ms_biff_put_var_write (pd->bp, data, 9);
 			}
@@ -607,23 +605,23 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 		}
 		case VALUE_FLOAT : {
 			guint8 data[10];
-			MS_OLE_SET_GUINT8 (data, FORMULA_PTG_NUM);
+			GSF_LE_SET_GUINT8 (data, FORMULA_PTG_NUM);
 			gnumeric_set_le_double (data+1, value_get_as_float (v));
 			ms_biff_put_var_write (pd->bp, data, 9);
 			break;
 		}
 		case VALUE_BOOLEAN : {
 			guint8 data[2];
-			MS_OLE_SET_GUINT8 (data, FORMULA_PTG_BOOL);
-			MS_OLE_SET_GUINT8 (data+1, v->v_bool.val ? 1 : 0);
+			GSF_LE_SET_GUINT8 (data, FORMULA_PTG_BOOL);
+			GSF_LE_SET_GUINT8 (data+1, v->v_bool.val ? 1 : 0);
 			ms_biff_put_var_write (pd->bp, data, 2);
 			break;
 		}
 
 		case VALUE_ERROR : {
 			guint8 data[2];
-			MS_OLE_SET_GUINT8 (data, FORMULA_PTG_ERR);
-			MS_OLE_SET_GUINT8 (data+1, ms_excel_write_map_errcode (v));
+			GSF_LE_SET_GUINT8 (data, FORMULA_PTG_ERR);
+			GSF_LE_SET_GUINT8 (data+1, ms_excel_write_map_errcode (v));
 			ms_biff_put_var_write (pd->bp, data, 2);
 			break;
 		}
@@ -651,11 +649,11 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 			if (v->v_array.x > 256 || v->v_array.y > 65536)
 				g_warning ("Array far too big");
 
-			MS_OLE_SET_GUINT8  (data + 0, FORMULA_PTG_ARRAY);
-			MS_OLE_SET_GUINT8  (data + 1, v->v_array.x - 1);
-			MS_OLE_SET_GUINT16 (data + 2, v->v_array.y - 1);
-			MS_OLE_SET_GUINT16 (data + 4, 0x0); /* ? */
-			MS_OLE_SET_GUINT16 (data + 6, 0x0); /* ? */
+			GSF_LE_SET_GUINT8  (data + 0, FORMULA_PTG_ARRAY);
+			GSF_LE_SET_GUINT8  (data + 1, v->v_array.x - 1);
+			GSF_LE_SET_GUINT16 (data + 2, v->v_array.y - 1);
+			GSF_LE_SET_GUINT16 (data + 4, 0x0); /* ? */
+			GSF_LE_SET_GUINT16 (data + 6, 0x0); /* ? */
 			ms_biff_put_var_write (pd->bp, data, 8);
 
 			pd->arrays = g_list_append (pd->arrays, (gpointer)v);
@@ -697,8 +695,8 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 			if (!strcmp(tree->name.name->name->str,
 				    (char *) g_ptr_array_index (pd->sheet->wb->names, idx))) {
 
-			    MS_OLE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
-			    MS_OLE_SET_GUINT16 (data + 1, idx + 1);
+			    GSF_LE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
+			    GSF_LE_SET_GUINT16 (data + 1, idx + 1);
 			    ms_biff_put_var_write (pd->bp, data, 15);
 			    return;
 			}
@@ -708,9 +706,9 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 	case GNM_EXPR_OP_ARRAY : {
 		GnmExprArray const *array = &tree->array;
 		guint8 data[5];
-		MS_OLE_SET_GUINT8 (data, FORMULA_PTG_EXPR);
-		MS_OLE_SET_GUINT16 (data+1, pd->row - array->y);
-		MS_OLE_SET_GUINT16 (data+3, pd->col - array->x);
+		GSF_LE_SET_GUINT8 (data, FORMULA_PTG_EXPR);
+		GSF_LE_SET_GUINT16 (data+1, pd->row - array->y);
+		GSF_LE_SET_GUINT16 (data+3, pd->col - array->x);
 		ms_biff_put_var_write (pd->bp, data, 5);
 
 		/* Be anal */
@@ -774,7 +772,7 @@ ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, GnmExpr const *expr,
 			int fn_col, int fn_row, int paren_level)
 {
 	PolishData pd;
-	MsOlePos start;
+	unsigned start;
 	guint32 len;
 
 	g_return_val_if_fail (bp, 0);

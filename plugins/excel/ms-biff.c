@@ -16,8 +16,8 @@
 #include "ms-biff.h"
 #include "biff-types.h"
 
-#include <libole2/ms-ole.h>
 #include <gsf/gsf-input.h>
+#include <gsf/gsf-output.h>
 #include <gsf/gsf-utils.h>
 
 #define BIFF_DEBUG 0
@@ -37,8 +37,8 @@ dump_biff (BiffQuery *q)
 {
 	g_print ("Opcode 0x%x length %d malloced? %d\nData:\n", q->opcode, q->length, q->data_malloced);
 	if (q->length > 0)
-		ms_ole_dump (q->data, q->length);
-/*	dump_stream (q->pos); */
+		gsf_mem_dump (q->data, q->length);
+/*	dump_stream (q->output); */
 }
 
 /*******************************************************************************/
@@ -388,21 +388,22 @@ ms_biff_query_destroy (BiffQuery *q)
 
 /* Sets up a record on a stream */
 BiffPut *
-ms_biff_put_new (MsOleStream *s)
+ms_biff_put_new (GsfOutput *output)
 {
 	BiffPut *bp;
-	g_return_val_if_fail (s != NULL, 0);
+
+	g_return_val_if_fail (output != NULL, 0);
 
 	bp = g_new (BiffPut, 1);
 
 	bp->ms_op         = bp->ls_op = 0;
 	bp->length        = 0;
 	bp->length        = 0;
-	bp->streamPos     = s->tell (s);
+	bp->streamPos     = gsf_output_tell (output);
 	bp->data_malloced = FALSE;
 	bp->data          = 0;
 	bp->len_fixed     = 0;
-	bp->pos           = s;
+	bp->output        = output;
 
 	return bp;
 }
@@ -411,7 +412,7 @@ void
 ms_biff_put_destroy (BiffPut *bp)
 {
 	g_return_if_fail (bp != NULL);
-	g_return_if_fail (bp->pos != NULL);
+	g_return_if_fail (bp->output != NULL);
 
 	g_free (bp);
 }
@@ -420,7 +421,7 @@ guint8 *
 ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 {
 	g_return_val_if_fail (bp, 0);
-	g_return_val_if_fail (bp->pos, 0);
+	g_return_val_if_fail (bp->output, 0);
 	g_return_val_if_fail (bp->data == NULL, 0);
 	g_return_val_if_fail (len < MAX_LIKED_BIFF_LEN, 0);
 
@@ -432,7 +433,7 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 	bp->ms_op      = (opcode >>   8);
 	bp->ls_op      = (opcode & 0xff);
 	bp->length     = len;
-	bp->streamPos  = bp->pos->tell (bp->pos);
+	bp->streamPos  = gsf_output_tell (bp->output);
 	if (len > 0) {
 		bp->data = g_new (guint8, len);
 		bp->data_malloced = TRUE;
@@ -445,7 +446,7 @@ ms_biff_put_var_next (BiffPut *bp, guint16 opcode)
 {
 	guint8 data[4];
 	g_return_if_fail (bp != NULL);
-	g_return_if_fail (bp->pos != NULL);
+	g_return_if_fail (bp->output != NULL);
 
 #if BIFF_DEBUG > 0
 	printf ("Biff put var 0x%x\n", opcode);
@@ -457,11 +458,11 @@ ms_biff_put_var_next (BiffPut *bp, guint16 opcode)
 	bp->curpos     = 0;
 	bp->length     = 0;
 	bp->data       = 0;
-	bp->streamPos  = bp->pos->tell (bp->pos);
+	bp->streamPos  = gsf_output_tell (bp->output);
 
-	MS_OLE_SET_GUINT16 (data,    opcode);
-	MS_OLE_SET_GUINT16 (data + 2,0xfaff); /* To be corrected later */
-	bp->pos->write (bp->pos, data, 4);
+	GSF_LE_SET_GUINT16 (data,    opcode);
+	GSF_LE_SET_GUINT16 (data + 2,0xfaff); /* To be corrected later */
+	gsf_output_write (bp->output, 4, data);
 }
 
 void
@@ -469,7 +470,7 @@ ms_biff_put_var_write  (BiffPut *bp, guint8 *data, guint32 len)
 {
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (data != NULL);
-	g_return_if_fail (bp->pos != NULL);
+	g_return_if_fail (bp->output != NULL);
 
 	g_return_if_fail (!bp->data);
 	g_return_if_fail (!bp->len_fixed);
@@ -477,45 +478,45 @@ ms_biff_put_var_write  (BiffPut *bp, guint8 *data, guint32 len)
 	/* Temporary */
 	g_return_if_fail (bp->length + len < 0xf000);
 
-	bp->pos->write (bp->pos, data, len);
-	bp->curpos+= len;
+	gsf_output_write (bp->output, len, data);
+	bp->curpos += len;
 	if (bp->curpos > bp->length)
 		bp->length = bp->curpos;
 }
 
 void
-ms_biff_put_var_seekto (BiffPut *bp, MsOlePos pos)
+ms_biff_put_var_seekto (BiffPut *bp, int pos)
 {
 	g_return_if_fail (bp != NULL);
-	g_return_if_fail (bp->pos != NULL);
+	g_return_if_fail (bp->output != NULL);
 
 	g_return_if_fail (!bp->len_fixed);
 	g_return_if_fail (!bp->data);
 
 	bp->curpos = pos;
-	bp->pos->lseek (bp->pos, bp->streamPos + bp->curpos + 4, MsOleSeekSet);
+	gsf_output_seek (bp->output, bp->streamPos + bp->curpos + 4, GSF_SEEK_SET);
 }
 
 static void
 ms_biff_put_var_commit (BiffPut *bp)
 {
 	guint8   tmp [4];
-	MsOlePos endpos;
+	int endpos;
 
 	g_return_if_fail (bp != NULL);
-	g_return_if_fail (bp->pos != NULL);
+	g_return_if_fail (bp->output != NULL);
 
 	g_return_if_fail (!bp->len_fixed);
 	g_return_if_fail (!bp->data);
 
 	endpos = bp->streamPos + bp->length + 4;
-	bp->pos->lseek (bp->pos, bp->streamPos, MsOleSeekSet);
+	gsf_output_seek (bp->output, bp->streamPos, GSF_SEEK_SET);
 
-	MS_OLE_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
-	MS_OLE_SET_GUINT16 (tmp+2, bp->length);
-	bp->pos->write (bp->pos, tmp, 4);
+	GSF_LE_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
+	GSF_LE_SET_GUINT16 (tmp+2, bp->length);
+	gsf_output_write (bp->output, 4, tmp);
 
-	bp->pos->lseek (bp->pos, endpos, MsOleSeekSet);
+	gsf_output_seek (bp->output, endpos, GSF_SEEK_SET);
 	bp->streamPos  = endpos;
 	bp->curpos     = 0;
 }
@@ -525,23 +526,23 @@ ms_biff_put_len_commit (BiffPut *bp)
 	guint8  tmp[4];
 
 	g_return_if_fail (bp != NULL);
-	g_return_if_fail (bp->pos != NULL);
+	g_return_if_fail (bp->output != NULL);
 	g_return_if_fail (bp->len_fixed);
 	g_return_if_fail (bp->length == 0 || bp->data);
 	g_return_if_fail (bp->length < MAX_LIKED_BIFF_LEN);
 
 /*	if (!bp->data_malloced) Unimplemented optimisation
-		bp->pos->lseek (bp->pos, bp->length, MsOleSeekCur);
+		bp->output->lseek (bp->output, bp->length, GSF_SEEK_CUR);
 		else */
-	MS_OLE_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
-	MS_OLE_SET_GUINT16 (tmp + 2, bp->length);
-	bp->pos->write (bp->pos, tmp, 4);
-	bp->pos->write (bp->pos, bp->data, bp->length);
+	GSF_LE_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
+	GSF_LE_SET_GUINT16 (tmp + 2, bp->length);
+	gsf_output_write (bp->output, 4, tmp);
+	gsf_output_write (bp->output, bp->length, bp->data);
 
 	g_free (bp->data);
 	bp->data      = 0 ;
 	bp->data_malloced = FALSE;
-	bp->streamPos = bp->pos->tell (bp->pos);
+	bp->streamPos = gsf_output_tell (bp->output);
 	bp->curpos    = 0;
 }
 

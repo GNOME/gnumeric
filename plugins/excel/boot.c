@@ -21,14 +21,16 @@
 #include "module-plugin-defs.h"
 
 #include "excel.h"
-#include "ms-summary.h"
 #include "boot.h"
 #include "ms-excel-util.h"
 #include "ms-excel-read.h"
 
-#include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
+
+#include <gsf/gsf-output-stdio.h>
+#include <gsf/gsf-outfile.h>
+#include <gsf/gsf-outfile-msole.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -153,10 +155,10 @@ static void
 excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
             MsBiffVersion ver)
 {
-	Workbook *wb = wb_view_workbook (wb_view);
-	MsOle *f;
-	MsOleErr result;
+	GsfOutput *output;
+	GsfOutfile *outfile;
 	void *state = NULL;
+	GError    *err;
 	gint res;
 
 	io_progress_message (context, _("Preparing for save..."));
@@ -169,28 +171,30 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 		return;
 	}
 
-	result = ms_ole_create (&f, filename);
-
-	if (result != MS_OLE_ERR_OK) {
-		char *str = g_strdup_printf ("%s %s",
-					     _("Can't open"),
-					     filename);
+	output = gsf_output_stdio_new (filename, &err);
+	if (output == NULL) {
+		char *str = g_strdup_printf (_("Can't open '%s' : %s"),
+			filename, err->message);
 		gnumeric_io_error_save (context, str);
-
-		ms_ole_destroy (&f);
 		ms_excel_write_free_state (state);
+		g_error_free (err);
 		g_free (str);
 		return;
 	}
 
 	io_progress_message (context, _("Saving file..."));
 	io_progress_range_push (context, 0.1, 1.0);
-	ms_excel_write_workbook (context, f, state, ver);
+	outfile = gsf_outfile_msole_new (output);
+	g_object_unref (G_OBJECT (output));
+	ms_excel_write_workbook (context, outfile, state, ver);
 	io_progress_range_pop (context);
 
+#warning re-enable when gsf meta data generator is ready
+#if 0
+	Workbook *wb = wb_view_workbook (wb_view);
 	ms_summary_write (f, wb->summary_info);
-
-	ms_ole_destroy (&f);
+#endif
+	g_object_unref (G_OBJECT (outfile));
 }
 
 void

@@ -1,3 +1,8 @@
+2002-07-09  Jody Goldberg <jody@gnome.org>
+
+	* README : add libgsf and remove libole
+	* configure.in : remove libole
+
 2002-07-08  Jon K Hellan  <hellan@acm.org>
 
 	* src/gnumeric-graph.c: modernize a little bit more.

@@ -336,7 +336,7 @@ ms_obj_dump_impl (guint8 const *data, int len, int data_left, char const *name)
 		len = data_left - 4;
 	}
 	if (ms_excel_object_debug > 2)
-		ms_ole_dump (data, len+4);
+		gsf_mem_dump (data, len+4);
 	printf ("}; /* %s */\n", name);
 }
 #else
@@ -608,7 +608,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	/* The ftEnd record should have been the last */
 	if (data_len_left > 0) {
 		printf("OBJ : unexpected extra data after Object End record;\n");
-		ms_ole_dump (data, data_len_left);
+		gsf_mem_dump (data, data_len_left);
 		return TRUE;
 	}
 

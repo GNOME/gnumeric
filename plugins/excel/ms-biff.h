@@ -9,7 +9,6 @@
 #ifndef GNUMERIC_BIFF_H
 #define GNUMERIC_BIFF_H
 
-#include <libole2/ms-ole.h>
 #include <gsf/gsf.h>
 #include "rc4.h"
 #include "md5.h"
@@ -61,15 +60,15 @@ typedef struct _BiffPut
 	guint8       ls_op;
 	guint32      length; /* NB. can be extended by a continue opcode */
 	guint8      *data;
-	MsOlePos     streamPos;
-	MsOlePos     curpos; /* Curpos is offset from beggining of header */
+	int	     streamPos;
+	unsigned     curpos; /* Curpos is offset from beginning of header */
 	int          data_malloced;
 	int          len_fixed;
-	MsOleStream *pos;
+	GsfOutput   *output;
 } BiffPut;
 
 /* Sets up a record on a stream */
-BiffPut      *ms_biff_put_new        (MsOleStream *);
+BiffPut      *ms_biff_put_new        (GsfOutput *);
 void          ms_biff_put_destroy    (BiffPut *);
 
 /**
@@ -82,7 +81,7 @@ guint8        *ms_biff_put_len_next   (BiffPut *, guint16 opcode, guint32 len);
 void           ms_biff_put_var_next   (BiffPut *, guint16 opcode);
 void           ms_biff_put_var_write  (BiffPut *, guint8 *, guint32 len);
 /* Seeks to pos bytes after the beggining of the record */
-void           ms_biff_put_var_seekto (BiffPut *, MsOlePos pos);
+void           ms_biff_put_var_seekto (BiffPut *, int pos);
 /* Must commit after each record */
 void           ms_biff_put_commit     (BiffPut *);
 

@@ -25,6 +25,8 @@ Jody:
 	* Save selection correctly for xls.
 	* Move freeze state to SheetView.
 	* Decrease dependence on gal in favour of libgsf.
+	* Move libgsf for XL export
+	* Remove dependence on libole2 !
 
 Jukka:
 	* More solver enhancements:

@@ -9,8 +9,6 @@
 #ifndef GNUMERIC_MS_EXCEL_WRITE_H
 #define GNUMERIC_MS_EXCEL_WRITE_H
 
-#include <libole2/ms-ole.h>
-
 #include "ms-biff.h"
 #include "ms-excel-biff.h"
 #include "ms-excel-util.h"
@@ -60,7 +58,7 @@ struct _ExcelSheet {
 	ExcelWorkbook *wb;
 	Sheet         *gnum_sheet;
 	GArray        *dbcells;
-	MsOlePos       streamPos;
+	unsigned       streamPos;
 	guint32        boundsheetPos;
 	gint32         max_col, max_row;
 	GHashTable    *formula_cache;
@@ -82,7 +80,7 @@ struct _ExcelWorkbook {
 	Fonts         *fonts;
 	Formats       *formats;
 	GPtrArray     *names;
-	MsOlePos   streamPos;
+	unsigned       streamPos;
 };
 
 typedef enum {
@@ -112,8 +110,8 @@ biff_convert_text (char **buf, const char *txt, MsBiffVersion ver);
 extern int
 biff_put_text (BiffPut *bp, const char *txt, int len, MsBiffVersion ver,
 	       gboolean write_len, PutType how);
-extern int ms_excel_write_ExcelWorkbook (MsOle *file, ExcelWorkbook *wb,
-				          MsBiffVersion ver);
+extern int ms_excel_write_ExcelWorkbook (GsfOutfile *file, ExcelWorkbook *wb,
+					 MsBiffVersion ver);
 extern int ms_excel_write_get_sheet_idx (ExcelWorkbook *wb, Sheet *gnum_sheet);
 extern int ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
 					       Sheet *gnum_sheeta,

@@ -18,8 +18,6 @@
 #include "summary.h"
 
 #include <gsf/gsf-utils.h>
-#include <libole2/ms-ole.h>
-#include <libole2/ms-ole-summary.h>
 
 #include <string.h>
 

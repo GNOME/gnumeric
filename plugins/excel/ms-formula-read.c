@@ -738,7 +738,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 1 && esheet != NULL) {
 		ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
-		ms_ole_dump (mem, length);
+		gsf_mem_dump (mem, length);
 	}
 #endif
 
@@ -872,7 +872,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 2) {
 					printf ("Optimised IF 0x%x 0x%x\n", grbit, w);
-					ms_ole_dump (mem, length);
+					gsf_mem_dump (mem, length);
 				}
 #endif
 				tr = w ? ms_excel_parse_formula (ewb, esheet, fn_col, fn_row,
@@ -889,7 +889,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 1) {
 					printf ("'Optimised' choose\n");
-					ms_ole_dump (mem,length);
+					gsf_mem_dump (mem,length);
 				}
 #endif
 				for (lp=0;lp<w;lp++) { /* w = wCases */
@@ -913,7 +913,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 				if (ms_excel_formula_debug > 2) {
 					printf ("Goto %d: cur = 0x%x\n", w,
 						(int)(cur-mem));
-					ms_ole_dump (mem, length);
+					gsf_mem_dump (mem, length);
 				}
 #endif
 				ptg_length = w;
@@ -978,7 +978,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		case FORMULA_PTG_STR: {
 			char *str;
 			guint32 len;
-/*			ms_ole_dump (mem, length);*/
+/*			gsf_mem_dump (mem, length);*/
 			if (ver >= MS_BIFF_V8) {
 				str = biff_get_text (cur+2, GSF_LE_GET_GUINT16(cur), &len);
 				ptg_length = 2 + len;
@@ -1095,7 +1095,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			} else {
 				printf ("-------------------\n");
 				printf ("XL : Extended ptg %x\n", eptg_type);
-				ms_ole_dump (mem+2, length-2);
+				gsf_mem_dump (mem+2, length-2);
 				printf ("-------------------\n");
 			}
 		}
@@ -1113,7 +1113,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			if (ms_excel_formula_debug > 1) {
 				printf ("An Array how interesting: (%d,%d)\n",
 					cols, rows);
-				ms_ole_dump (mem, length);
+				gsf_mem_dump (mem, length);
 			}
 #endif
 			array_data += 3;
@@ -1158,7 +1158,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 					} else {
 						printf ("FIXME: Duff array item type %d @ %s%d\n",
 							opts, col_name(fn_col), fn_row+1);
-						ms_ole_dump (array_data+1, 8);
+						gsf_mem_dump (array_data+1, 8);
 						error = TRUE;
 						goto really_duff;
 						break;
@@ -1428,7 +1428,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			cell_coord_name (fn_col,fn_row),
 			(shared?" (shared)":""));
 		printf ("formula data : \n");
-		ms_ole_dump (mem, length);
+		gsf_mem_dump (mem, length);
 
 		parse_list_free (&stack);
 		return expr_tree_string (_(" Unknown formula"));

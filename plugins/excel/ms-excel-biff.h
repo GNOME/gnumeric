@@ -15,15 +15,15 @@
 #include "ms-biff.h"
 
 /* Pass this a BiffQuery * */
-#define EX_GETROW(p)      (MS_OLE_GET_GUINT16(p->data + 0))
-#define EX_GETCOL(p)      (MS_OLE_GET_GUINT16(p->data + 2))
-#define EX_GETXF(p)       (MS_OLE_GET_GUINT16(p->data + 4))
-#define EX_GETSTRLEN(p)   (MS_OLE_GET_GUINT16(p->data + 6))
+#define EX_GETROW(p)      (GSF_LE_GET_GUINT16(p->data + 0))
+#define EX_GETCOL(p)      (GSF_LE_GET_GUINT16(p->data + 2))
+#define EX_GETXF(p)       (GSF_LE_GET_GUINT16(p->data + 4))
+#define EX_GETSTRLEN(p)   (GSF_LE_GET_GUINT16(p->data + 6))
 
-#define EX_SETROW(p,d)    (MS_OLE_SET_GUINT16(p + 0, d))
-#define EX_SETCOL(p,d)    (MS_OLE_SET_GUINT16(p + 2, d))
-#define EX_SETXF(p,d)     (MS_OLE_SET_GUINT16(p + 4, d))
-#define EX_SETSTRLEN(p,d) (MS_OLE_SET_GUINT16(p + 6, d))
+#define EX_SETROW(p,d)    (GSF_LE_SET_GUINT16(p + 0, d))
+#define EX_SETCOL(p,d)    (GSF_LE_SET_GUINT16(p + 2, d))
+#define EX_SETXF(p,d)     (GSF_LE_SET_GUINT16(p + 4, d))
+#define EX_SETSTRLEN(p,d) (GSF_LE_SET_GUINT16(p + 6, d))
 
 /* Version info types as found in various Biff records */
 typedef enum { MS_BIFF_TYPE_Workbook=0, MS_BIFF_TYPE_VBModule=1, MS_BIFF_TYPE_Worksheet=2,
