@@ -26,7 +26,8 @@ Long term breakage
   is large.  All accesses to a RangeRef need to be normalized. (1/2 done)
 
 - Copy with destination larger than source does not duplicate the styles.
-- Copy
+- Copy should only replicate when the target region size is an integer multiple
+  of the source region.
 
 - border style double_line does handle all of the different intersection cases.
 
