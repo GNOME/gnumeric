@@ -336,9 +336,9 @@ cell_set_text_and_value (Cell *cell, String *text,
 	 */
 	if (optional_format)
 		cell->format = style_format_new (optional_format);
+	cell->u.entered_text = string_ref (text);
 	cell->value = v;
 	cell_render_value (cell);
-	cell->u.entered_text = string_ref (text);
 }
 
 /*

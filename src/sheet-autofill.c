@@ -527,6 +527,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		rinfo = &rwinfo.u.relocate;
 
 		/* FIXME : Find out how to handle this */
+		rwinfo.type = EXPR_REWRITE_RELOCATE;
 		rinfo->target_sheet = rinfo->origin_sheet = 0;
 		rinfo->col_offset = rinfo->row_offset = 0;
 		rinfo->origin.start.col = rinfo->origin.end.col = cell->col_info->pos;

@@ -1,3 +1,21 @@
+2000-05-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_get_extent) : Disable the use of
+	  sheet_style_get_extent until it is more intelligent.
+
+	* configure.in : Produce a Using OAF message in the non-bonobo case
+	  too.  Limit xml to version 1.x for now.
+
+	* src/cell.c (cell_set_text_and_value) : Set the entered_text BEFORE
+	  the value so that cells with format = text render correctly.
+
+2000-05-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-autofill.c (autofill_cell) : Init the RewriteInfo::type.
+
+	* src/clipboard.c (paste_cell) : Cells need acurate locations before
+	  relocation.  This is not pretty, but it is functional.
+
 2000-05-16  Karl Eichwalder  <ke@suse.de>
 
 	* NEWS (Translations): Add gl.
