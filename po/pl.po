@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2001-12-17 15:39+0100\n"
-"PO-Revision-Date: 2001-12-19 02:52+0100\n"
+"POT-Creation-Date: 2001-12-19 16:34+0100\n"
+"PO-Revision-Date: 2001-12-19 16:35+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2805,8 +2805,8 @@ msgstr "przekracza granice arkusza"
 msgid "Pasting into %s"
 msgstr "Wklejenie do %s"
 
-#. Check arrays or merged regions
-#: src/commands.c:1 src/workbook-control-gui.c:1
+#. Check arrays or merged regions in src or target regions
+#: src/commands.c:1 src/commands.c:1 src/workbook-control-gui.c:1
 msgid "Autofill"
 msgstr "Automatyczne wype³nienie"
 
@@ -3850,8 +3850,8 @@ msgid "val <=bound                  (less than or equal to)"
 msgstr "warto¶æ <= ograniczenie  (nie wiêksze ni¿)"
 
 #: src/dialogs/cell-format.glade.h:1
-msgid "val == bound  (equal to)"
-msgstr "warto¶æ = ograniczenie  (równe)"
+msgid "val == bound                 (equal to)"
+msgstr "warto¶æ == ograniczenie  (równe)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -4837,7 +4837,7 @@ msgstr "Warto¶æ%d"
 #: src/dialogs/dialog-formula-guru.c:1 src/dialogs/dialog-search.c:1
 #: src/functions/fn-string.c:1
 msgid "String"
-msgstr "£añcuchy znakowe"
+msgstr "£añcuch znakowy"
 
 #: src/dialogs/dialog-formula-guru.c:1
 msgid "Boolean"
@@ -5091,7 +5091,7 @@ msgstr "Wyra¿enie"
 
 #: src/dialogs/dialog-search.c:1
 msgid "Integer"
-msgstr ""
+msgstr "Liczba ca³kowita"
 
 #: src/dialogs/dialog-search.c:1
 msgid "Other value"
@@ -5751,11 +5751,11 @@ msgstr "Poszukiwanie celu"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "Last Result:"
-msgstr ""
+msgstr "Ostatni wynik:"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "Remaining Error:"
-msgstr ""
+msgstr "Pozosta³y b³±d:"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "Set Cell:"
@@ -5775,7 +5775,7 @@ msgstr "Wprowad¼ format napisu dla ka¿dej sekcji:"
 
 #: src/dialogs/hf-config.glade.h:1
 msgid "Header/Footer Config"
-msgstr ""
+msgstr "Konfiguracja g³ówki/stopki"
 
 #: src/dialogs/hf-config.glade.h:1
 msgid "Left section:"
@@ -8644,7 +8644,7 @@ msgid ""
 "the string that contains the date.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
-"DATEVALUE(\"1/1/1999\") equals 36160. \n"
+"DATEVALUE(\"1/1/1999\") equals 36161.\n"
 "@SEEALSO=DATE"
 msgstr ""
 "@FUNCTION=DATEVALUE\n"
@@ -8653,7 +8653,7 @@ msgstr ""
 "³añcuchem znaków zawieraj±cym datê.\n"
 "Funkcja ta jest zgodna z programem Excel.\n"
 "@EXAMPLES=\n"
-"DATEVALUE(\"1/1/1999\") jest równe 36160.\n"
+"DATEVALUE(\"1/1/1999\") jest równe 36161.\n"
 "@SEEALSO=DATE"
 
 #: src/functions/fn-date.c:1
@@ -17697,6 +17697,7 @@ msgid "Sheet name is required"
 msgstr "Wymagana jest nazwa arkusza"
 
 #: src/parser.y:1
+#, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "W arkuszu \"%s\" nie istnieje nazwa \"%s\""
 
@@ -18263,22 +18264,18 @@ msgstr "D³ugo¶æ strza³ki"
 msgid "Arrow width"
 msgstr "Szeroko¶æ strza³ki"
 
-#: src/sheet-object-graphic.c:1 src/sheet-object-graphic.c:1
-#: src/sheet-object-graphic.c:1
-msgid "Transparent"
-msgstr "Przezroczysto¶æ"
-
 #: src/sheet-object-graphic.c:1
 msgid "Distance from tip of arrowhead to the center point"
-msgstr ""
+msgstr "Odleg³o¶æ od czubka grota do jego punktu ¶rodkowego"
 
 #: src/sheet-object-graphic.c:1
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
 msgstr ""
+"Odleg³o¶æ od czubka grota do jego punktu koñcowego, liczona wzd³u¿ krawêdzi"
 
 #: src/sheet-object-graphic.c:1
 msgid "Distance of trailing point from outside edge of shaft"
-msgstr ""
+msgstr "Odleg³o¶æ od punktu koñcowego grota do osi strza³ki"
 
 #: src/sheet-object-graphic.c:1
 msgid "Configure filled object"
@@ -18295,6 +18292,10 @@ msgstr "Kolor wype³nienia"
 #: src/sheet-object-graphic.c:1
 msgid "Border width"
 msgstr "Szeroko¶æ krawêdzi"
+
+#: src/sheet-object-graphic.c:1 src/sheet-object-graphic.c:1
+msgid "Transparent"
+msgstr "Przezroczysto¶æ"
 
 #: src/sheet-object-widget.c:1
 msgid "Checkbox Configure"
@@ -19145,16 +19146,20 @@ msgstr ""
 "Wyst±pi³ b³±d przy próbie stworzenia drzewa z pliku szablonu automatycznego "
 "formatowania"
 
+#: src/xml-io.c:1
+msgid "Unparsable xml in clipboard"
+msgstr "Schowek zawiera niepoprawne dane w XML-u"
+
+#: src/xml-io.c:1
+msgid "Clipboard is in unknown format"
+msgstr "Dane w schowku s± w nieznanym formacie"
+
 #.
 #. * Pass 2: read the contents
 #.
 #: src/xml-io.c:1
 msgid "Processing file..."
 msgstr "Przetwarzanie pliku..."
-
-#: src/xml-io.c:1
-msgid "Invalid xml clipboard data. Tree is empty ?"
-msgstr "Niepoprawne dane xml w schowku. Drzewo jest puste?"
 
 #: src/xml-io.c:1
 msgid "Not enough memory to create zlib decompression state."
