@@ -1,3 +1,7 @@
+2004-11-21  Jon K Hellan  <hellan@acm.org>
+
+	* src/ssindex.c: #include gog-object.h
+
 2004-11-19  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Add ssindex but leave it disabled by default because

@@ -27,6 +27,7 @@
 #include "sheet-object-graph.h"
 
 #include <goffice/utils/go-file.h>
+#include <goffice/graph/gog-object.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-libxml.h>
 #include <string.h>
