@@ -158,6 +158,7 @@
 		      <property name="active">False</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
+  		      <property name="group">max_button</property>
 		    </widget>
 		    <packing>
 		      <property name="padding">5</property>

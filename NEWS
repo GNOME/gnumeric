@@ -31,6 +31,9 @@ Jody:
 John Gill:
 	* Heuristics to improve finger feel of autofilter range selection
 
+Jukka:
+	* Fixed solver's model maximization button
+
 Nick Lamb:
 	* Improve import of ancient xls.
 
