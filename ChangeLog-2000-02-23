@@ -1,3 +1,8 @@
+1999-09-23  Rodrigo Stulzer Lopes <rodrigo@conectiva.com.br>
+
+	* configure.in: add pt_BR to ALL_LINGUAS
+
+
 1999-09-23  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/print.c (print_page): Setup the rotation for each page.
