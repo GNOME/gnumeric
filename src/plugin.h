@@ -24,4 +24,7 @@ PluginData    *plugin_load           (gchar *filename);
 void           plugin_unload         (PluginData *pd);
 GtkWidget     *plugin_manager_new    (void);
 
+/* These get defined in plugins */
+int            init_plugin           (PluginData *pd);
+void           cleanup_plugin        (PluginData *pd);
 #endif

@@ -5,9 +5,9 @@ CFLAGS += -g -Wall 	\
 bin_PROGRAMS = gnumeric
 check_PROGRAMS = test-format test-parser
 
-INCLUDES = 			\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" \
-	-I$(includedir)				 \
+INCLUDES = 						\
+	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+	-I$(includedir)				 	\
 	$(GNOME_INCLUDEDIR)
 
 GNOME_XML_LIB = -lxml

@@ -40,6 +40,8 @@ AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
 AC_OUTPUT([
 Makefile
 src/Makefile
+plugins/Makefile
+plugins/sample/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile

@@ -1,1 +1,1 @@
-SUBDIRS = intl po macros src
+SUBDIRS = intl po macros src plugins
