@@ -515,10 +515,13 @@ trim_spaces_inplace (char *field, StfParseOptions_t const *parseoptions)
  * returns NULL if @character is not a separator, a pointer to the character
  * after the separator otherwise.
  **/
-static inline char const *
+static char const *
 stf_parse_csv_is_separator (char const *character, char const *chr, GSList const *str)
 {
 	g_return_val_if_fail (character != NULL, NULL);
+
+	if (*character == 0)
+		return NULL;
 
 	if (str) {
 		GSList const *l;

@@ -1,7 +1,12 @@
 2005-02-01  Morten Welinder  <terra@gnome.org>
 
+	* src/stf-parse.c (stf_parse_csv_is_separator): Handle
+	end-of-buffer correctly in the single-character case.
+	[Fixes #165617]
+
 	* src/commands.c (cmd_ins_del_colrow): Survive if the current
 	clipboard does not hold a range (but holds a sheet object).
+	[Fixes #165873]
 
 2005-01-27  Morten Welinder  <terra@gnome.org>
 
