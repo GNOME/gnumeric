@@ -257,6 +257,12 @@ cb_sheet_destroy_contents (gpointer key, gpointer value, gpointer user_data)
 }
 
 static void
+sheet_order_cmd (GtkWidget *widget, Workbook *wb)
+{
+        dialog_sheet_order (wb);
+}
+
+static void
 workbook_do_destroy_private (Workbook *wb)
 {
 	g_free (wb->priv);
@@ -1219,6 +1225,8 @@ static GnomeUIInfo workbook_menu_format_row [] = {
 static GnomeUIInfo workbook_menu_format_sheet [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Change name"),   NULL,
 	  workbook_cmd_format_sheet_change_name },
+	{ GNOME_APP_UI_ITEM, N_("Re-_Order Sheets"), NULL,
+	  sheet_order_cmd },
 
 	{ GNOME_APP_UI_TOGGLEITEM, N_("Display _Formulas"),
 	    NULL, &cb_sheet_pref_display_formulas },
@@ -1447,24 +1455,19 @@ workbook_focus_current_sheet (Workbook *wb)
 	return sheet;
 }
 
-void
-workbook_focus_sheet (Sheet *sheet)
+static int
+workbook_get_sheet_position (Sheet *sheet)
 {
 	GtkNotebook *notebook;
 	int sheets, i;
 
-	g_return_if_fail (sheet);
-	g_return_if_fail (sheet->workbook);
-	g_return_if_fail (sheet->workbook->notebook);
-	g_return_if_fail (IS_SHEET (sheet));
-
 	notebook = GTK_NOTEBOOK (sheet->workbook->notebook);
 	sheets = workbook_sheet_count (sheet->workbook);
 
-	if (sheets == 1)
-		return;
+	if (sheets <= 1)
+		return sheets;
 
-	for (i = 0; i < sheets; i++){
+	for (i = 0; i < sheets; i++) {
 		Sheet *this_sheet;
 		GtkWidget *w;
 
@@ -1472,11 +1475,31 @@ workbook_focus_sheet (Sheet *sheet)
 
 		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
 
-		if (this_sheet == sheet){
-			gtk_notebook_set_page (notebook, i);
+		if (this_sheet == sheet)
 			break;
-		}
 	}
+
+	return i;
+}
+
+void
+workbook_focus_sheet (Sheet *sheet)
+{
+	GtkNotebook *notebook;
+	int i;
+
+	g_return_if_fail (sheet);
+	g_return_if_fail (sheet->workbook);
+	g_return_if_fail (sheet->workbook->notebook);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	notebook = GTK_NOTEBOOK (sheet->workbook->notebook);
+	i = workbook_get_sheet_position (sheet);
+
+	if (i <= 1)
+		return;
+
+	gtk_notebook_set_page (notebook, i);
 }
 
 static int
@@ -2515,33 +2538,7 @@ sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet)
 	if (r != 0)
 		return;
 
-	/*
-	 * Invalidate references to the deleted sheet from other sheets in the
-	 * workbook by pretending to move the contents of the deleted sheet
-	 * to infinity (and beyond)
-	 */
-	{
-		ExprRelocateInfo rinfo;
-		rinfo.origin.start.col = 0;
-		rinfo.origin.start.row = 0;
-		rinfo.origin.end.col = SHEET_MAX_COLS-1;
-		rinfo.origin.end.row = SHEET_MAX_ROWS-1;
-		rinfo.origin_sheet = rinfo.target_sheet = current_sheet;
-		rinfo.col_offset = SHEET_MAX_COLS-1;
-		rinfo.row_offset = SHEET_MAX_ROWS-1;
-
-		workbook_expr_unrelocate_free (workbook_expr_relocate (wb, &rinfo));
-	}
-
-	/* Clear the cliboard to avoid dangling references to the deleted sheet */
-	if (current_sheet == application_clipboard_sheet_get ())
-		application_clipboard_clear ();
-
-	/*
-	 * All is fine, remove the sheet
-	 */
-	workbook_detach_sheet (wb, current_sheet, FALSE);
-
+	workbook_delete_sheet (current_sheet);
 	workbook_recalc_all (wb);
 }
 
@@ -3132,4 +3129,74 @@ workbook_autosave_set (Workbook *wb, int minutes, gboolean prompt)
 			gtk_timeout_add (minutes * 60000, 
 					 (GtkFunction) dialog_autosave_callback, wb);
 	}
+}
+
+/*
+ * Moves the sheet up or down @direction spots in the sheet list
+ * If @direction is positive, move left. If positive, move right.
+ * If @direction is greater than the possible number of spots
+ * The result is undefined
+ */
+void        
+workbook_move_sheet (Sheet *sheet, int direction)
+{
+        GtkNotebook *nb; 
+	GtkWidget *w;
+	gint source, dest;
+
+        g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	nb = GTK_NOTEBOOK (sheet->workbook->notebook);
+
+        source = workbook_get_sheet_position (sheet);
+	dest = source + direction;
+	w = gtk_notebook_get_nth_page (nb, source);
+	
+	gtk_notebook_reorder_child (nb, w, dest);
+}
+
+/*
+ * Unlike workbook_detach_sheet, this function
+ * Not only detaches the given sheet from its parent workbook,
+ * But also invalidates all references to the deleted sheet
+ * From other sheets in the workbook and clears all references
+ * In the clipboard to this sheet
+ * Finally, it also detaches the sheet from the workbook
+ */
+void 
+workbook_delete_sheet (Sheet *sheet)
+{
+        Workbook *wb;
+	g_return_if_fail (sheet != NULL);
+        g_return_if_fail (IS_SHEET (sheet));
+
+	wb = sheet->workbook;
+
+	/*
+	 * Invalidate references to the deleted sheet from other sheets in the
+	 * workbook by pretending to move the contents of the deleted sheet
+	 * to infinity (and beyond)
+	 */
+	{
+		ExprRelocateInfo rinfo;
+		rinfo.origin.start.col = 0;
+		rinfo.origin.start.row = 0;
+		rinfo.origin.end.col = SHEET_MAX_COLS-1;
+		rinfo.origin.end.row = SHEET_MAX_ROWS-1;
+		rinfo.origin_sheet = rinfo.target_sheet = sheet;
+		rinfo.col_offset = SHEET_MAX_COLS-1;
+		rinfo.row_offset = SHEET_MAX_ROWS-1;
+
+		workbook_expr_unrelocate_free (workbook_expr_relocate (wb, &rinfo));
+	}
+
+	/* Clear the cliboard to avoid dangling references to the deleted sheet */
+	if (sheet == application_clipboard_sheet_get ())
+		application_clipboard_clear ();
+
+	/*
+	 * All is fine, remove the sheet
+	 */
+	workbook_detach_sheet (wb, sheet, FALSE);
 }

@@ -28,6 +28,7 @@ void   	 dialog_autosave        (Workbook *wb);
 gboolean dialog_autosave_prompt (Workbook *wb);
 void     dialog_data_analysis   (Workbook *wb, Sheet *sheet);
 char   	*dialog_get_sheet_name  (Workbook *wb, const char *name);
+void     dialog_sheet_order     (Workbook *wb);
 gboolean dialog_get_number      (Workbook *wb,
 				 const char *glade_file,
 				 double *init_and_return_value);

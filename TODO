@@ -31,6 +31,8 @@ Gnumeric Spread Sheet task list
 
    * Support selecting a range on a different sheet.
 
+   * C-Insert: Copy, S-Insert: Paste, S-Delete: cut; test.
+
 * Implement Even More Functions
 
     * AREAS and GETPIVOTDATA

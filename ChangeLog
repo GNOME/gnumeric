@@ -1,10 +1,25 @@
+2000-03-01  Dom Lachowicz <dominicl@seas.upenn.edu>
+
+	* src/dialogs/sheet-order.glade,
+	  src/dialogs/sheet-order.glade.h,
+	  src/dialogs/dialog-sheet-order.c: Created.
+
+	* src/dialogs/Makefile.am: Added three above files to project
+
+	* src/dialogs/dialogs.h (dialog_sheet_order): added new function
+	
+	* src/workbook.c (sheet_order_cmd): added
+	(workbook_get_sheet_position, workbook_delete_sheet),
+	(workbook_move_sheet, workbook_focus_sheet, wb_edit_key_pressed): updated.
+
+	* src/workbook.h (workbook_delete_sheet, workbook_move_sheet): added
+
 2000-03-06  Michael Meeks  <michael@helixcode.com>
 
 	* src/Gnumeric.idl: add nasty mess copied from Bonobo.
 
 	* src/Makefile.am ($(GNUMERIC_CORBA_GENERATED)): Add -D__GNUMERIC_COMPILE
 	
-
 2000-03-05  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* doc/C/solver.sgml, doc/C/images/solver-0[1,2,3,4,5].jpg: Added

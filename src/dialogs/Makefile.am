@@ -35,6 +35,7 @@ libdialogs_a_SOURCES =				\
 	dialog-printer.c			\
 	dialog-printer.h			\
 	dialog-printer-setup.c			\
+	dialog-sheet-order.c			\
 	dialog-simple-input.c			\
 	dialog-solver.c				\
 	dialog-stf.c				\
@@ -68,6 +69,7 @@ glade_DATA = 				\
 	names.glade			\
 	print.glade 			\
 	row-height.glade		\
+	sheet-order.glade		\
 	sheet-rename.glade		\
 	solver.glade			\
 	solver-options.glade		\
@@ -96,6 +98,7 @@ glade_msgs = 				\
 	names.glade.h			\
 	print.glade.h			\
 	row-height.glade.h		\
+	sheet-order.glade.h		\
 	sheet-rename.glade.h		\
 	solver.glade.h			\
 	solver-options.glade.h		\

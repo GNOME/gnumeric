@@ -3,8 +3,6 @@ appropriate for new developers.
 
 Description                                             Difficulty  Integration
 ------------------------------------------------------  ----------  -----------
-- Dialog to change the order of sheets.                 Low	    Low
-
 - Ability to Create a new sheet that is a copy          Medium      Medium
   of an existing sheet.
 
