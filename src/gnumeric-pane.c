@@ -1125,15 +1125,9 @@ static int
 cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
 				     FooCanvasItem *view)
 {
-	if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
-		SheetObject *so = sheet_object_view_get_so (SHEET_OBJECT_VIEW (view));
-		SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
-
-		g_return_val_if_fail (so != NULL, FALSE);
-
-		scg_object_select (scg, so);
-		return cb_sheet_object_canvas_event (view, event, so);
-	}
+	if (event->type == GDK_BUTTON_PRESS && event->button.button == 3)
+		return cb_sheet_object_canvas_event (view, event,
+			sheet_object_view_get_so (SHEET_OBJECT_VIEW (view)));
 
 	return FALSE;
 }
