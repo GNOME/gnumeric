@@ -410,9 +410,9 @@ cb_pref_tree_changed_notification (char const *key, GtkTreeModel *model)
 
 	gtk_tree_model_foreach (model, (GtkTreeModelForeachFunc) pref_tree_find_iter,
 				&search_cb);
-	if (search_cb.iter_valid) {
+	if (search_cb.iter_valid)
 		pref_tree_set_model (model, &search_cb.iter);
-	} else
+	else
 		g_warning ("Unexpected gconf notification!");
 }
 

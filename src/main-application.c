@@ -154,7 +154,7 @@ gnumeric_arg_parse (int argc, char const *argv [])
 
 	program = gnome_program_init (PACKAGE, VERSION,
 		(i < argc) ? LIBGNOME_MODULE : LIBGNOMEUI_MODULE,
-		argc, argv,
+		argc, (char **)argv,
 		GNOME_PARAM_APP_PREFIX,		GNUMERIC_PREFIX,
 		GNOME_PARAM_APP_SYSCONFDIR,	GNUMERIC_SYSCONFDIR,
 		GNOME_PARAM_APP_DATADIR,	GNUMERIC_DATADIR,

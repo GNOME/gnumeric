@@ -14,6 +14,7 @@ Jody:
 	* Fix db functions
 	* Pango uses _byte_ offsets for attributes.  Fix everything
 	* Fix xls import of chart background and outline
+	* Support richtext during autofill
 
 Morten:
 	* Fix crash related to database functions (#138600).  [backported]

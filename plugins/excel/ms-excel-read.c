@@ -907,7 +907,7 @@ append_markup (PangoAttribute *src, TXORun *run)
 	return FALSE;
 }
 
-static PangoAttrList *
+static GnmFormat *
 excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 			 char const *str, unsigned str_len)
 {
@@ -954,7 +954,7 @@ excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 			txo_run.last = txo_run.first;
 		}
 	}
-	return txo_run.accum;
+	return style_format_new_markup (txo_run.accum, FALSE);
 }
 
 /*
@@ -1023,8 +1023,7 @@ sst_read_string (BiffQuery *q, MSContainer const *c,
 		txo_run.last = G_MAXINT;
 		pango_attr_list_filter (prev_markup,
 			(PangoAttrFilterFunc) append_markup, &txo_run);
-		res->markup = style_format_new_markup (txo_run.accum);
-		pango_attr_list_unref (txo_run.accum);
+		res->markup = style_format_new_markup (txo_run.accum, FALSE);
 
 		total_end_len -= 4*total_n_markup;
 	}
@@ -5012,13 +5011,9 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 	excel_set_xf (esheet, q);
 	if (txt != NULL) {
 		GnmFormat *fmt = NULL;
-		if (has_markup) {
-			PangoAttrList *attrs =
-				excel_read_LABEL_markup (q, esheet,
-							 txt, str_len);
-			fmt = style_format_new_markup (attrs);
-			pango_attr_list_unref (attrs);
-		}
+		if (has_markup)
+			fmt = excel_read_LABEL_markup (q, esheet,
+						       txt, str_len);
 
 		/* might free txt, do not do this until after parsing markup */
 		v = value_new_string_nocopy (txt);

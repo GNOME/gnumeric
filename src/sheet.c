@@ -1351,7 +1351,7 @@ sheet_cell_set_text (GnmCell *cell, char const *text, PangoAttrList *markup)
 
 		cell_set_value (cell, val);
 		if (markup != NULL && VALUE_IS_STRING (cell->value)) {
-			GnmFormat *fmt = style_format_new_markup (markup);
+			GnmFormat *fmt = style_format_new_markup (markup, TRUE);
 			value_set_fmt (cell->value, fmt);
 			style_format_unref (fmt);
 		}

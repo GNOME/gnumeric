@@ -8,6 +8,12 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=136546
+    : about box i18n
+    http://bugzilla.gnome.org/show_bug.cgi?id=136363
+    : label font size
+    http://bugzilla.gnome.org/show_bug.cgi?id=140820
+    : undo of tab colour change
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
     : X axis label seperation
 

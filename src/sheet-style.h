@@ -41,19 +41,19 @@ void     style_row_init			(GnmBorder const * * *prev_vert,
 					 GnmRow *sr, GnmRow *next_sr,
 					 int start_col, int end_col,
 					 gpointer mem, gboolean hide_grid);
-GnmStyle  *sheet_style_most_common_in_col   (Sheet const *sheet, int col);
-GnmHLink*sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *r);
-void	 sheet_style_foreach	   	(Sheet const *sheet,
-					 GHFunc	    func,
-					 gpointer    user_data);
+GnmStyle *sheet_style_most_common_in_col   (Sheet const *sheet, int col);
+GnmHLink *sheet_style_region_contains_link (Sheet const *sheet, GnmRange const *r);
+void	  sheet_style_foreach (Sheet const *sheet,
+			       GHFunc	    func,
+			       gpointer    user_data);
 
 void sheet_style_init     (Sheet *sheet);
 void sheet_style_shutdown (Sheet *sheet);
 
-void        sheet_style_set_auto_pattern_color (Sheet  *sheet,
-						GnmColor *grid_color);
+void      sheet_style_set_auto_pattern_color (Sheet  *sheet,
+					      GnmColor *grid_color);
 GnmColor *sheet_style_get_auto_pattern_color (Sheet const *sheet);
-void        sheet_style_update_grid_color      (Sheet const *sheet);
+void      sheet_style_update_grid_color      (Sheet const *sheet);
 
 GnmStyle const    *style_list_get_style	(GnmStyleList const *l, GnmCellPos const *pos);
 void		 style_list_free	(GnmStyleList *l);
@@ -62,7 +62,7 @@ SpanCalcFlags	 sheet_style_set_list	(Sheet *sheet, GnmCellPos const *corner,
 					 gboolean transpose, GnmStyleList const *l);
 
 GnmStyleList *sheet_style_get_validation_list (Sheet const *sheet,
-					    GnmRange const *r);
+					       GnmRange const *r);
 
 /* For internal use only */
 void	  sheet_style_unlink (Sheet *sheet, GnmStyle *st);

@@ -56,7 +56,7 @@ struct _GnmFormat {
 };
 
 char	    *style_format_delocalize	(char const *descriptor_string);
-GnmFormat   *style_format_new_markup	(PangoAttrList *markup);
+GnmFormat   *style_format_new_markup	(PangoAttrList *markup, gboolean add_ref);
 GnmFormat   *style_format_new_XL	(char const *descriptor_string,
 					 gboolean delocalize);
 GnmFormat   *style_format_build		(FormatFamily family,

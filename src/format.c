@@ -2313,13 +2313,14 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 
 /**
  * style_format_new_markup :
- *
  * @markup : #PangoAttrList
+ * @add_ref :
  *
- * Make a reference to @markup and create a MARKUP format
+ * Create a MARKUP format.  If @add_ref is FALSE absorb the reference to
+ * @markup, otherwise add a reference.
  */
 GnmFormat *
-style_format_new_markup (PangoAttrList *markup)
+style_format_new_markup (PangoAttrList *markup, gboolean add_ref)
 {
 	GnmFormat *format = g_new0 (GnmFormat, 1);
 
@@ -2329,7 +2330,8 @@ style_format_new_markup (PangoAttrList *markup)
 	format->match_tags = NULL;
 	format->family = FMT_MARKUP;
 	format->markup = markup;
-	pango_attr_list_ref (markup);
+	if (add_ref)
+		pango_attr_list_ref (markup);
 
 	g_hash_table_insert (style_format_hash, format->format, format);
 	format->ref_count++;
