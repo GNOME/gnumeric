@@ -184,7 +184,7 @@ show_python_console (WorkbookControlGUI *wbcg)
 
 	gtk_container_add (GTK_CONTAINER (win), vbox);
 	gtk_widget_grab_focus (cline);
-	gtk_widget_set_usize (win, 600, 400);
+	gtk_window_set_default_size (GTK_WINDOW (win), 600, 400);
 	g_signal_connect (
 		win, "delete_event", G_CALLBACK (cb_delete_app), NULL);
 
