@@ -1,3 +1,4 @@
+/* -*-mode:c; c-style:k&r; c-basic-offset:8; -*- */
 /*
  * GNU Oleo input filter for Gnumeric
  *
@@ -36,8 +37,8 @@
 
 /* Copied from Lotus-123 plugin */
 static void
-append_zeros (char *s, int n) {
-
+append_zeros (char *s, int n)
+{
 	if (n > 0) {
 		s = s + strlen (s);
 		*s++ = '.';
@@ -49,12 +50,9 @@ append_zeros (char *s, int n) {
 
 
 static void
-oleo_set_format (Sheet *sheet, guint32 col, guint32 row,
-		 char value_type, int precision, char adjust)
+oleo_set_style (Sheet *sheet, int col, int row, MStyle *mstyle)
 {
-	char fmt_string[100];
 	Range range;
-	MStyle *mstyle = mstyle_new_default ();
 
 	if (!sheet)
 		return;
@@ -65,41 +63,7 @@ oleo_set_format (Sheet *sheet, guint32 col, guint32 row,
 	if (row >= 0)
 		range.start.row = range.end.row = OLEO_TO_GNUMERIC (row);
 
-	switch (value_type) {
-		case 'F': case 'D':
-		strcpy (fmt_string, "0");
-		append_zeros (fmt_string, precision);
-		break;
-
-	case '%':
-		strcpy (fmt_string, "0");
-		append_zeros (fmt_string, precision);
-		strcat (fmt_string, "%");
-		break;
-
-	default:
-		strcpy (fmt_string, "");
-	}
-
-	switch (adjust) {
-	case 'R':
-		mstyle_set_align_h (mstyle, HALIGN_RIGHT);
-		break;
-	case 'L':
-		mstyle_set_align_h (mstyle, HALIGN_LEFT);
-		break;
-	}
-
-	if (fmt_string[0])
-		mstyle_set_format_text (mstyle, fmt_string);
-
-#if OLEO_DEBUG > 0
-	g_warning ("(%d, %d) -> (%d, %d): %c %s\n",
-		   range.start.row, range.start.col,
-		   range.end.row, range.end.col,
-		   adjust, fmt_string);
-#endif /* OLEO_DEBUG */
-
+	mstyle_ref (mstyle);
 	sheet_style_set_range (sheet, &range, mstyle);
 }
 
@@ -178,7 +142,7 @@ oleo_get_ref_value (int *start, unsigned char *start_relative,
 
 
 static char const *
-oleo_get_gnumeric_expr (char *g_expr, const char *o_expr,
+oleo_get_gnumeric_expr (char *g_expr, char const *o_expr,
 			ParsePos const *cur_pos)
 {
 	char const *from = o_expr;
@@ -230,16 +194,15 @@ oleo_get_gnumeric_expr (char *g_expr, const char *o_expr,
 
 
 static ExprTree *
-oleo_parse_formula (const char *text, const Sheet *sheet, int col, int row)
+oleo_parse_formula (char const *text, Sheet *sheet, int col, int row)
 {
 	ParsePos pos;
 	ParseError error;
 	ExprTree *expr;
 	char gnumeric_text[2048];
 
-	const Cell *cell = sheet_cell_fetch ((Sheet *)sheet,
-					   OLEO_TO_GNUMERIC (col),
-					   OLEO_TO_GNUMERIC (row));
+	Cell const *cell = sheet_cell_fetch (sheet,
+		OLEO_TO_GNUMERIC (col), OLEO_TO_GNUMERIC (row));
 
 	parse_pos_init_cell (&pos, cell);
 
@@ -259,7 +222,7 @@ oleo_parse_formula (const char *text, const Sheet *sheet, int col, int row)
 }
 
 static void
-oleo_deal_with_cell (char *str, Sheet *sheet, int *ccol, int *crow)
+oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *crow)
 {
 	Cell *cell;
 	ExprTree *expr = NULL;
@@ -326,6 +289,10 @@ oleo_deal_with_cell (char *str, Sheet *sheet, int *ccol, int *crow)
 			cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
 		else
 			cell_set_value (cell, val, NULL);
+
+		if(style)
+			oleo_set_style (sheet, *ccol, *crow, style);
+
 	} else {
 #if OLEO_DEBUG > 0
 		g_warning ("oleo: cval is NULL.\n");
@@ -343,32 +310,52 @@ oleo_deal_with_cell (char *str, Sheet *sheet, int *ccol, int *crow)
  * parse the command as it may update current row/column
  */
 static void
-oleo_deal_with_format (char *str, Sheet *sheet, int *ccol, int *crow)
+oleo_deal_with_format (MStyle **style, 
+		       char *str, Sheet *sheet, int *ccol, int *crow)
 {
-	char *ptr = str + 1, val_type = 0, adj = 0;
-	int row = -1, col = -1, prec = 0;
+	char *ptr = str + 1, fmt_string[100];
+	MStyle *mstyle = mstyle_new_default ();
+	
+	fmt_string[0] = '\0';
+
 	while (*ptr) {
-		if (*ptr != ';') {
-#if OLEO_DEBUG > 0
-			g_warning ("ptr : %s\n", ptr);
-#endif
-			break;
-		}
-		*ptr++ = '\0';
-		switch (*ptr++) {
-		case 'c' : col = *ccol = astol (&ptr); break;
-		case 'r' : row = *crow = astol (&ptr); break;
-		case 'F':
-			val_type = *ptr++;
+		char c=*ptr++;
+		
+		switch (c) {
+		case 'c' : *ccol = astol (&ptr); break;
+		case 'r' : *crow = astol (&ptr); break;
+		case 'F': case 'G':
+			c=*ptr++;
+
+			strcpy (fmt_string, "0");
 			if (isdigit (*ptr))
-				prec = astol (&ptr);
-			if (*ptr)
-				adj = *ptr++;
+				append_zeros (fmt_string, astol (&ptr));
+			switch (c) {
+			case 'F':
+				break;
+			case '%':
+				strcat (fmt_string, "%");
+				break;
+			default: /* Unknown format type... */
+				fmt_string[0] = '\0'; /* - ignore completely */
 		}
-		if (!*ptr)
 			break;
+		case 'L':
+			mstyle_set_align_h (mstyle, HALIGN_LEFT);
+			break;
+		case 'R':
+			mstyle_set_align_h (mstyle, HALIGN_RIGHT);
 	}
-	oleo_set_format (sheet, col, row, val_type, prec, adj);
+	}
+	if (fmt_string[0])
+		mstyle_set_format_text (mstyle, fmt_string);
+
+	mstyle_ref(mstyle);
+	
+	if(*style)
+		mstyle_unref(*style);
+	
+	*style=mstyle;
 }
 
 static Sheet *
@@ -385,12 +372,13 @@ oleo_new_sheet (Workbook *wb, int idx)
 }
 
 void
-oleo_read (IOContext *io_context, Workbook *wb, const gchar *filename)
+oleo_read (IOContext *io_context, Workbook *wb, gchar const *filename)
 {
 	FILE *f;
 	int sheetidx  = 0;
 	int ccol = 0, crow = 0;
 	Sheet *sheet = NULL;
+	MStyle *style = NULL;
 	char str[2048];
 	ErrorInfo *error;
 
@@ -420,12 +408,11 @@ oleo_read (IOContext *io_context, Workbook *wb, const gchar *filename)
 		case '#': /* Comment */
 			break;
 
-		case 'C': oleo_deal_with_cell (str, sheet, &ccol, &crow);
+		case 'C': oleo_deal_with_cell (str, sheet, style, &ccol, &crow);
 			break;
 
-		case 'F': oleo_deal_with_format (str, sheet, &ccol, &crow);
+		case 'F': oleo_deal_with_format (&style, str, sheet, &ccol, &crow);
 			break;
-
 		default: /* unknown */
 #if OLEO_DEBUG > 0
 			g_warning ("oleo: Don't know how to deal with %c.\n",
