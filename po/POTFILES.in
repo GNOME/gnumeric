@@ -25,6 +25,8 @@ plugins/fn-date/functions.c
 plugins/fn-date/plugin.xml.in
 plugins/fn-eng/functions.c
 plugins/fn-eng/plugin.xml.in
+plugins/fn-erlang/functions.c
+plugins/fn-erlang/plugin.xml.in
 plugins/fn-financial/functions.c
 plugins/fn-financial/plugin.xml.in
 plugins/fn-info/functions.c

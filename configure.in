@@ -972,6 +972,7 @@ plugins/fn-complex/Makefile
 plugins/fn-database/Makefile
 plugins/fn-date/Makefile
 plugins/fn-eng/Makefile
+plugins/fn-erlang/Makefile
 plugins/fn-financial/Makefile
 plugins/fn-info/Makefile
 plugins/fn-logical/Makefile

@@ -67,7 +67,7 @@ endif
 SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif qpro \
 	plan-perfect xml_sax applix $(MPS_DIR) openoffice $(PSICONV_DIR) $(PARADOX_DIR)
 
-SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-financial fn-info \
+SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-erlang fn-financial fn-info \
 	fn-logical fn-complex fn-lookup fn-math fn-stat fn-string fn-random \
 	derivatives \
 	$(PERL_DIR) $(GUILE_DIR) \

@@ -12,6 +12,9 @@ Andreas:
 	* Improve schema description [#153631]
 	* Warn if csv import is dropping columns [#139385]
 
+Arief Mulya Utama:
+	* Erlang (telecommunications engineering) plugin.
+
 Hal Ashburner:
 	* Some function documentation cleanups.
 
