@@ -16,6 +16,7 @@
 #include "workbook-private.h"
 #include "gnumeric-util.h"
 #include "application.h"
+#include "widgets/gtk-combo-stack.h"
 
 void
 workbook_view_set_paste_special_state (Workbook *wb, gboolean enable)
@@ -83,6 +84,46 @@ workbook_view_set_undo_redo_state (Workbook const * const wb,
 	change_menu_label (wb, "/Edit/Undo", _("Undo"), undo_suffix);
 	change_menu_label (wb, "/Edit/Redo", _("Redo"), redo_suffix);
 #endif
+}
+
+void
+workbook_view_push_undo (Workbook const * const wb,
+			char const * const cmd_text)
+{
+	gtk_combo_stack_push_item (GTK_COMBO_STACK (wb->priv->undo_combo),
+				   cmd_text);
+}
+
+void
+workbook_view_pop_undo (Workbook const * const wb)
+{
+	gtk_combo_stack_remove_top (GTK_COMBO_STACK (wb->priv->undo_combo), 1);
+}
+
+void
+workbook_view_clear_undo (Workbook const * const wb)
+{
+	gtk_combo_stack_clear (GTK_COMBO_STACK (wb->priv->undo_combo));
+}
+
+void
+workbook_view_push_redo (Workbook const * const wb,
+			char const * const cmd_text)
+{
+	gtk_combo_stack_push_item (GTK_COMBO_STACK (wb->priv->redo_combo),
+				   cmd_text);
+}
+
+void
+workbook_view_pop_redo (Workbook const * const wb)
+{
+	gtk_combo_stack_remove_top (GTK_COMBO_STACK (wb->priv->redo_combo), 1);
+}
+
+void
+workbook_view_clear_redo (Workbook const * const wb)
+{
+	gtk_combo_stack_clear (GTK_COMBO_STACK (wb->priv->redo_combo));
 }
 
 void

@@ -208,6 +208,9 @@ command_undo (CommandContext *context, Workbook *wb)
 	wb->undo_commands = g_slist_remove (wb->undo_commands,
 					    wb->undo_commands->data);
 	wb->redo_commands = g_slist_prepend (wb->redo_commands, cmd);
+
+	workbook_view_pop_undo (wb);
+	workbook_view_push_redo (wb, cmd->cmd_descriptor);
 	undo_redo_menu_labels (wb);
 	/* TODO : Should we mark the workbook as clean or pristine too */
 }
@@ -244,6 +247,9 @@ command_redo (CommandContext *context, Workbook *wb)
 	wb->redo_commands = g_slist_remove (wb->redo_commands,
 					    wb->redo_commands->data);
 	wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
+
+	workbook_view_push_undo (wb, cmd->cmd_descriptor);
+	workbook_view_pop_redo (wb);
 	undo_redo_menu_labels (wb);
 }
 
@@ -302,6 +308,8 @@ command_push_undo (CommandContext *context, Workbook *wb, GtkObject *obj)
 
 		wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
 
+		workbook_view_push_undo (wb, cmd->cmd_descriptor);
+		workbook_view_clear_redo (wb);
 		undo_redo_menu_labels (wb);
 	} else
 		gtk_object_unref (obj);

@@ -36,6 +36,7 @@
 #include "command-context-gui.h"
 #include "commands.h"
 #include "widgets/gtk-combo-text.h"
+#include "widgets/gtk-combo-stack.h"
 #include "wizard.h"
 #include "gutils.h"
 #include "rendered-value.h"
@@ -638,10 +639,30 @@ undo_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+undo_combo_cmd (GtkWidget *widget, gint num, Workbook *wb)
+{
+	int i;
+	
+	workbook_finish_editing (wb, FALSE);
+	for (i = 0; i < num; i++)
+		command_undo (workbook_command_context_gui (wb), wb);
+}
+
+static void
 redo_cmd (GtkWidget *widget, Workbook *wb)
 {
 	workbook_finish_editing (wb, FALSE);
 	command_redo (workbook_command_context_gui (wb), wb);
+}
+
+static void
+redo_combo_cmd (GtkWidget *widget, gint num, Workbook *wb)
+{
+	int i;
+	
+	workbook_finish_editing (wb, FALSE);
+	for (i = 0; i < num; i++)
+		command_redo (workbook_command_context_gui (wb), wb);
 }
 
 static void
@@ -1507,12 +1528,17 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
+#if 0
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Undo"), N_("Undo the operation"),
 		undo_cmd, GNOME_STOCK_PIXMAP_UNDO),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Redo"), N_("Redo the operation"),
 		redo_cmd, GNOME_STOCK_PIXMAP_REDO),
+#else
+#define TB_UNDO_POS 11
+#define TB_REDO_POS 12
+#endif
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -2462,7 +2488,7 @@ workbook_create_standard_toobar (Workbook *wb)
 	};
 	const char *name = "StandardToolbar";
 	int i, len;
-	GtkWidget *toolbar, *zoom, *entry;
+	GtkWidget *toolbar, *zoom, *entry, *undo, *redo;
 	GnomeApp *app = GNOME_APP (wb->toplevel);
 
 	g_return_val_if_fail (app != NULL, NULL);
@@ -2507,6 +2533,26 @@ workbook_create_standard_toobar (Workbook *wb)
 	gtk_widget_show (zoom);
 	gnumeric_toolbar_append_with_eventbox (GTK_TOOLBAR (toolbar),
 				   zoom, _("Zoom"), NULL);
+
+	/* Undo dropdown list */
+	undo = wb->priv->undo_combo = gtk_combo_stack_new (GNOME_STOCK_PIXMAP_UNDO, TRUE);
+	gtk_combo_box_set_title (GTK_COMBO_BOX (undo), _("Undo"));
+	gtk_widget_show (undo);	
+	gtk_signal_connect (GTK_OBJECT (undo), "pop",
+			    (GtkSignalFunc) undo_combo_cmd, wb);
+
+	/* Redo dropdown list */
+	redo = wb->priv->redo_combo = gtk_combo_stack_new (GNOME_STOCK_PIXMAP_REDO, TRUE);
+	gtk_combo_box_set_title (GTK_COMBO_BOX (redo), _("Redo"));
+	gtk_widget_show (redo);
+	gtk_signal_connect (GTK_OBJECT (redo), "pop",
+			    (GtkSignalFunc) redo_combo_cmd, wb);
+	
+	/* Add them to the toolbar */
+	gnumeric_toolbar_insert_with_eventbox (GTK_TOOLBAR (toolbar),
+					       undo, _("Undo"), NULL, TB_UNDO_POS);
+	gnumeric_toolbar_insert_with_eventbox (GTK_TOOLBAR (toolbar),
+					       redo, _("Redo"), NULL, TB_REDO_POS);
 
 	gtk_signal_connect (
 		GTK_OBJECT(toolbar), "orientation-changed",

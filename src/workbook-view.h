@@ -17,6 +17,16 @@ void workbook_view_set_undo_redo_state (Workbook const * const wb,
 					char const * const undo_suffix,
 					char const * const redo_suffix);
 
+void workbook_view_push_undo (Workbook const * const wb,
+			      char const * const cmd_text);
+void workbook_view_pop_undo (Workbook const * const wb);
+void workbook_view_clear_undo (Workbook const * const wb);
+
+void workbook_view_push_redo (Workbook const * const wb,
+			      char const * const cmd_text);
+void workbook_view_pop_redo (Workbook const * const wb);
+void workbook_view_clear_redo (Workbook const * const wb);
+
 void workbook_view_set_size (Workbook const * const wb,
 			     int width_pixels,
 			     int height_pixels);

@@ -35,6 +35,11 @@ struct _WorkbookPrivate {
 	 */
 	GtkWidget *fore_combo, *back_combo, *border_combo;
 
+	/*
+	 * GtkComboStacks for Undo/Redo
+	 */
+	GtkWidget *undo_combo, *redo_combo;
+
 	const char *current_font_name;
 
 	/* Edit area */
