@@ -20,9 +20,17 @@
 #include "border.h"
 #include "pattern.h"
 #include "cellspan.h"
+#include "ranges.h"
 #include "sheet.h"
+#include "sheet-merge.h"
 #include "print-cell.h"
 #include "rendered-value.h"
+
+#if 0
+#define MERGE_DEBUG(range, str) do { range_dump (range); fprintf (stderr, str); } while (0)
+#else
+#define MERGE_DEBUG(range, str)
+#endif
 
 static void
 print_vline (GnomePrintContext *context,
@@ -202,21 +210,21 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 	GList *list = NULL;
 	double used = 0., used_last_space = 0.;
 
-	for (line_begin = p = text; *p; p++){
+	for (line_begin = p = text; *p; p++) {
 		double const len_current =
 			gnome_font_get_width_string_n (font, p, 1);
 
 		/* Wrap if there is an embeded newline, or we have overflowed */
-		if (*p == '\n' || used + len_current > width){
+		if (*p == '\n' || used + len_current > width) {
 			char const *begin = line_begin;
 			int len;
 
-			if (*p == '\n'){
+			if (*p == '\n') {
 				/* start after newline, preserve whitespace */
 				line_begin = p+1;
 				len = p - begin;
 				used = 0.;
-			} else if (last_whitespace != NULL){
+			} else if (last_whitespace != NULL) {
 				/* Split at the run of whitespace */
 				line_begin = last_whitespace + 1;
 				len = first_whitespace - begin;
@@ -235,7 +243,7 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 		}
 
 		used += len_current;
-		if (*p == ' '){
+		if (*p == ' ') {
 			used_last_space = used;
 			last_whitespace = p;
 			if (!prev_was_space)
@@ -298,15 +306,15 @@ print_cell (Cell const *cell, MStyle *mstyle,
 	double const font_ascent = gnome_font_get_ascender (print_font);
 	double rect_x, rect_width, rect_y, rect_height;
 
-	Sheet const *sheet = cell->base.sheet;
-	ColRowInfo const *ci = cell->col_info;
-	ColRowInfo const *ri = cell->row_info;
+	Sheet const * const sheet = cell->base.sheet;
+	ColRowInfo const * const ci = cell->col_info; /* DEPRECATED */
+	ColRowInfo const * const ri = cell->row_info; /* DEPRECATED */
 	double text_base;
 	double font_height;
 	StyleHAlignFlags halign;
 	StyleVAlignFlags valign;
 	int num_lines = 0;
-	double line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
+	double line_offset [3]; /* There are up to 3 lines, double underlined strikethroughs */
 	char const *text;
 	StyleColor *fore;
 	double cell_width_pts;
@@ -329,9 +337,10 @@ print_cell (Cell const *cell, MStyle *mstyle,
 		text = cell->rendered_value->rendered_text->str;
 
 	/* Get the sizes exclusive of margins and grids */
-	if (width < 0)
+	/* FIXME : all callers will eventually pass in their cell size */
+	if (width < 0) /* DEPRECATED */
 		width  = ci->size_pts - (ci->margin_b + ci->margin_a + 1.);
-	if (height < 0)
+	if (height < 0) /* DEPRECATED */
 		height = ri->size_pts - (ri->margin_b + ri->margin_a + 1.);
 
 	/* This rectangle has the whole area used by this cell
@@ -426,7 +435,7 @@ print_cell (Cell const *cell, MStyle *mstyle,
 	halign = cell_default_halign (cell, mstyle);
 	if (halign != HALIGN_JUSTIFY && valign != VALIGN_JUSTIFY &&
 	    !mstyle_get_fit_in_cell (mstyle)) {
-		double total, len = cell_width_pts;
+		double x, total, len = cell_width_pts;
 
 		switch (halign) {
 		case HALIGN_FILL:
@@ -434,49 +443,40 @@ print_cell (Cell const *cell, MStyle *mstyle,
 			/* fall through */
 
 		case HALIGN_LEFT:
-			x1 = rect_x;
+			x = rect_x;
 			break;
 
 		case HALIGN_RIGHT:
-			x1 = rect_x + rect_width - cell_width_pts;
+			x = rect_x + rect_width - cell_width_pts;
 			break;
 
 		case HALIGN_CENTER:
 		case HALIGN_CENTER_ACROSS_SELECTION:
-			x1 = rect_x + (rect_width - cell_width_pts) / 2;
+			x = rect_x + (rect_width - cell_width_pts) / 2;
 			break;
 
 		default:
 			g_warning ("Single-line justitfication style not supported\n");
-			x1 = rect_x;
+			x = rect_x;
 			break;
 		}
 
 		gnome_print_setfont (context, print_font);
 		total = 0;
 		do {
-			print_text (context, x1, text_base, text, len,
+			print_text (context, x, text_base, text, len,
 				    line_offset, num_lines);
 
-			x1 += len;
+			x += len;
 			total += len;
 		} while (halign == HALIGN_FILL && total < ci->size_pts && len > 0);
 	} else {
 		GList *lines, *l;
 		int line_count;
-		double x_offset, y_offset, inter_space;
+		double x, y_offset, inter_space;
 
 		lines = cell_split_text (print_font, text, ci->size_pts);
 		line_count = g_list_length (lines);
-
-		{
-			static int warn_shown;
-
-			if (!warn_shown){
-				g_warning ("Set clipping, multi-line");
-				warn_shown = 1;
-			}
-		}
 
 		switch (valign) {
 		case VALIGN_TOP:
@@ -529,26 +529,27 @@ print_cell (Cell const *cell, MStyle *mstyle,
 
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
-				x_offset = ci->margin_a;
+				x = rect_x;
+
+				/* Be cheap, only calculate the width of the
+				 * string if we need to. */
 				if (num_lines > 0)
 					len = gnome_font_get_width_string (print_font, str);
 				break;
 
 			case HALIGN_RIGHT:
 				len = gnome_font_get_width_string (print_font, str);
-				x_offset = ci->size_pts - ci->margin_b - len;
+				x = rect_x + rect_width - len;
 				break;
 
 			case HALIGN_CENTER:
 			case HALIGN_CENTER_ACROSS_SELECTION:
 				len = gnome_font_get_width_string (print_font, str);
-				x_offset = (ci->size_pts - len) / 2;
+				x = rect_x + (rect_width - len) / 2;
 			}
 
-			/* Advance one pixel for the border */
-			x_offset++;
 			print_text (context,
-				    x1 + x_offset, y1 - y_offset, str,
+				    x, y1 - y_offset, str,
 				    len, line_offset, num_lines);
 
 			y_offset += inter_space;
@@ -659,6 +660,103 @@ print_cell_background (GnomePrintContext *context, Sheet *sheet,
 #endif
 }
 
+/**
+ * print_merged_range:
+ *
+ * Handle the special drawing requirements for a 'merged cell'.
+ * First draw the entire range (clipped to the visible region) then redraw any
+ * segments that are selected.
+ */
+static void
+print_merged_range (GnomePrintContext *context, Sheet *sheet,
+		    double start_x, double start_y,
+		    Range const *view, Range const *range)
+{
+	int tmp;
+	double l, r, t, b;
+	Cell const *cell = sheet_cell_get (sheet, range->start.col, range->start.row);
+	MStyle *mstyle = sheet_style_compute (sheet, range->start.col, range->start.row);
+	gboolean const no_background = !(gnumeric_background_set_pc (mstyle, context));
+
+	/* FIXME : should not need the hack used in the drawing code of +-1 to
+	 * remove the grid lines. */
+
+	l = r = start_x;
+	if (view->start.col <= range->start.col) {
+		l += sheet_col_get_distance_pts (sheet,
+			view->start.col, range->start.col);
+		if (no_background)
+			l++;
+	}
+	if (range->end.col <= (tmp = view->end.col)) {
+		tmp = range->end.col;
+		if (no_background)
+			r--;
+	}
+	r += sheet_col_get_distance_pts (sheet, view->start.col, tmp+1);
+
+	t = b = start_y;
+	if (view->start.row <= range->start.row) {
+		t -= sheet_row_get_distance_pts (sheet,
+			view->start.row, range->start.row);
+		if (no_background)
+			t--;
+	}
+	if (range->end.row <= (tmp = view->end.row)) {
+		tmp = range->end.row;
+		if (no_background)
+			b++;
+	}
+	b -= sheet_row_get_distance_pts (sheet, view->start.row, tmp+1);
+
+	/* Remember PS includes the far pixels */
+	if (no_background)
+		gnome_print_setrgbcolor (context, 1., 1., 1.);
+	print_rectangle (context, l, t, r-l, t-b);
+
+	if (range->start.col < view->start.col) {
+		l -= sheet_col_get_distance_pts (sheet,
+			range->start.col, view->start.col);
+	} else if (no_background)
+		l--;
+
+	if (view->end.col < range->end.col)
+		r += sheet_col_get_distance_pts (sheet,
+			view->end.col+1, range->end.col+1);
+	else if (no_background)
+		r++;
+	if (range->start.row < view->start.row)
+		t += sheet_row_get_distance_pts (sheet,
+			range->start.row, view->start.row);
+	else if (no_background)
+		t++;
+	if (view->end.row < range->end.row)
+		b -= sheet_row_get_distance_pts (sheet,
+			view->end.row+1, range->end.row+1);
+	else if (no_background)
+		b--;
+
+	print_border (context, mstyle, l, t, r-l+1, t-b+1, FALSE);
+
+	if (cell != NULL) {
+		ColRowInfo const * const ri = cell->row_info;
+		ColRowInfo const * const ci = cell->col_info;
+
+		print_cell (cell, mstyle, context,
+			   l, t,
+			   r - l - ci->margin_b - ci->margin_a,
+			   t - b - ri->margin_b - ri->margin_a);
+	}
+
+	mstyle_unref (mstyle);
+}
+
+static gint
+merged_col_cmp (Range const *a, Range const *b)
+{
+	return a->start.col - b->start.col;
+}
+
 /*
  * print_cell_range:
  *
@@ -675,33 +773,105 @@ print_cell_range (GnomePrintContext *context,
 		  double base_x, double base_y,
 		  gboolean output)
 {
-	int row, col;
 	double x, y;
 	gboolean printed = FALSE;
 
-	g_return_val_if_fail (context != NULL, FALSE);
+	int col, row;
+	GSList *merged_active, *merged_active_seen, *merged_unused, *merged_used, *ptr, **lag;
+	gboolean first_row;
+	Range view;
+
 	g_return_val_if_fail (GNOME_IS_PRINT_CONTEXT (context), FALSE);
-	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (start_col <= end_col, FALSE);
 	g_return_val_if_fail (start_row <= end_row, FALSE);
 
+	first_row = TRUE;
+	merged_active = merged_active_seen = merged_used = NULL;
+	merged_unused = sheet_merge_get_overlap (sheet,
+		range_init (&view, start_col, start_row, end_col, end_row));
+
 	y = base_y;
-	for (row = start_row; row <= end_row; row++){
+	for (row = start_row; row <= end_row; row++) {
 		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
 		if (!ri->visible)
 			continue;
 
+		col = start_col;
 		x = base_x;
 
-		/* Do not increment the column here, spanning cols are different */
-		for (col = start_col; col <= end_col; ){
+		/* Restore the set of ranges seen, but still active ranges.
+		 * Reinverting to maintain the original order */
+		g_return_val_if_fail (merged_active == NULL, FALSE);
+
+		while (merged_active_seen != NULL) {
+			GSList *tmp = merged_active_seen->next;
+			merged_active_seen->next = merged_active;
+			merged_active = merged_active_seen;
+			merged_active_seen = tmp;
+			MERGE_DEBUG (merged_active->data, " : seen -> active\n");
+		}
+
+		/* look for merges that start on this row, on the first painted row
+		 * also check for merges that start above. */
+		lag = &merged_unused;
+		for (ptr = merged_unused; ptr != NULL; ) {
+			Range * const r = ptr->data;
+
+			if ((r->start.row == row) ||
+			    (first_row && r->start.row < row)) {
+				GSList *tmp = ptr;
+				ptr = *lag = tmp->next;
+				g_slist_free_1 (tmp);
+				merged_active = g_slist_insert_sorted (merged_active, r,
+							(GCompareFunc)merged_col_cmp);
+				MERGE_DEBUG (r, " : unused -> active\n");
+
+				view.start.row = row;
+				view.start.col = col;
+				if (output)
+					print_merged_range (context, sheet,
+							    x, y, &view, r);
+				printed = TRUE;
+			} else {
+				lag = &(ptr->next);
+				ptr = ptr->next;
+			}
+		}
+
+		first_row = FALSE;
+
+		/* DO NOT increment the column here, spanning cols are different */
+		while (col <= end_col) {
 			CellSpanInfo const * span;
 			ColRowInfo const * ci = sheet_col_get_info (sheet, col);
 
 			if (!ci->visible) {
 				++col;
 				continue;
+			}
+
+			/* Skip any merged regions */
+			if (merged_active) {
+				Range const *r = merged_active->data;
+				if (r->start.col <= col) {
+					x += sheet_col_get_distance_pts (
+						sheet, col, r->end.col+1);
+					col = r->end.col + 1;
+
+					ptr = merged_active;
+					merged_active = merged_active->next;
+					if (r->end.row == row) {
+						ptr->next = merged_used;
+						merged_used = ptr;
+						MERGE_DEBUG (r, " : active -> used\n");
+					} else {
+						ptr->next = merged_active_seen;
+						merged_active_seen = ptr;
+						MERGE_DEBUG (r, " : active -> seen\n");
+					}
+					continue;
+				}
 			}
 
 			/*
@@ -711,7 +881,7 @@ print_cell_range (GnomePrintContext *context,
 			 * 2) Look in the rows hash table to see if
 			 *    there is a span descriptor.
 			 */
-			if (ri->pos == -1 || NULL == (span = row_span_get (ri, col))){
+			if (ri->pos == -1 || NULL == (span = row_span_get (ri, col))) {
 				Cell   *cell   = sheet_cell_get (sheet, col, row);
 				MStyle *mstyle = (output)
 					? print_cell_background (
@@ -719,14 +889,14 @@ print_cell_range (GnomePrintContext *context,
 						col, row, x, y, FALSE)
 					: sheet_style_compute (sheet, col, row);
 
-				if (cell_is_blank (cell)) {
-					if (!output)
-						printed |= mstyle_visible_in_blank (mstyle);
-				} else {
+				if (!cell_is_blank (cell)) {
 					printed = TRUE;
 					if (output)
-						print_cell (cell, mstyle,
-							    context, x, y, -1., -1.);
+						print_cell (cell, mstyle, context,
+							    x, y, -1., -1.);
+				} else {
+					if (!output)
+						printed |= mstyle_visible_in_blank (mstyle);
 				}
 
 				mstyle_unref (mstyle);
@@ -745,11 +915,10 @@ print_cell_range (GnomePrintContext *context,
 				int real_x = -1;
 				MStyle *real_style = NULL;
 				gboolean const is_visible =
-				    ri->visible && ci->visible;
+					ri->visible && ci->visible;
 
 				/* Paint the backgrounds & borders */
 				for (; col <= MIN (end_col, end_span_col) ; ++col) {
-
 					ci = sheet_col_get_info (sheet, col);
 					if (ci->visible) {
 						MStyle *mstyle = NULL;
@@ -781,8 +950,8 @@ print_cell_range (GnomePrintContext *context,
 
 				if (is_visible && output) {
 					/* FIXME : use correct margins */
-					double width  = ci->size_pts - (ci->margin_b + ci->margin_a + 1);
-					double x = real_x;
+					double tmp_width  = ci->size_pts - (ci->margin_b + ci->margin_a + 1);
+					double tmp_x = real_x;
 
 					/* x1, y1 are relative to this cell origin, but the cell might
 					 * be using columns to the left (if it is set to right justify
@@ -791,15 +960,15 @@ print_cell_range (GnomePrintContext *context,
 					if (start_span_col != cell->pos.col) {
 						int offset = sheet_col_get_distance_pts (sheet,
 							start_span_col, cell->pos.col);
-						x     -= offset;
-						width += offset;
+						tmp_x     -= offset;
+						tmp_width += offset;
 					}
 					if (end_span_col != cell->pos.col)
-						width += sheet_col_get_distance_pts (sheet,
+						tmp_width += sheet_col_get_distance_pts (sheet,
 							cell->pos.col+1, end_span_col+1);
 
-					print_cell (cell, real_style,
-						    context, real_x, y, width, -1.);
+					print_cell (cell, real_style, context,
+						    tmp_x, y, tmp_width, -1.);
 				}
 
 				printed = TRUE;
@@ -845,7 +1014,7 @@ print_cell_grid (GnomePrintContext *context,
 
 	y = base_y;
 	print_hline (context, base_x, base_x + width, y);
-	for (row = start_row; row <= end_row; row++){
+	for (row = start_row; row <= end_row; row++) {
 		ColRowInfo const *ri = sheet_row_get_info (sheet, row);
 		if (ri && ri->visible) {
 			y -= ri->size_pts;

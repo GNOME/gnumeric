@@ -99,7 +99,6 @@ STF - pasting a single line should not invoke the importer
 - Merged Cells
     - copy/paste (cut works)
     - fix undo ins/del row/col to restore lost merged regions
-    - printing
 
 Dialogs
 -------

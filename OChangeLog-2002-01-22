@@ -1,3 +1,13 @@
+2000-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell-draw.c (cell_draw) : sync drawing with
+	* src/print-cell.c (print_cell) : printing. 
+
+	* src/item-grid.c (item_grid_draw) : sync drawing with
+	* src/print-cell.c (print_cell_range) : printing.
+	(print_merged_range) : new function, sort of works.  We need to draw
+	  grids AFTER content to avoid this sort of sillyness.
+
 2000-12-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_draw) : support multiline text in merged

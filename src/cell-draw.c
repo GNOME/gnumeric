@@ -274,7 +274,7 @@ cell_draw (Cell const *cell, MStyle *mstyle,
 
 		switch (halign) {
 		case HALIGN_FILL:
-			printf ("FILL!\n");
+			g_warning ("FILL!");
 			/* fall through */
 
 		case HALIGN_LEFT:
