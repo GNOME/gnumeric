@@ -5064,6 +5064,12 @@ pbeta (gnm_float x, gnm_float a, gnm_float b, gboolean lower_tail, gboolean log_
 /* ------------------------------------------------------------------------ */
 
 /*
+ * New phyper implementation.  Copyright 2004 Morten Welinder.
+ * Distributed under the GNU General Public License.
+ *
+ * Thanks to Ian Smith for ideas.
+ */
+/*
  * Calculate
  *
  *          phyper (i, NR, NB, n, TRUE, FALSE)
