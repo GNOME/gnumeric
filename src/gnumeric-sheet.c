@@ -1129,12 +1129,14 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 		if (cb == width){
 			gsheet->last_visible_col = col;
 			gsheet->last_full_col = col;
+			break;
 		} if (cb > width){
 			gsheet->last_visible_col = col;
 			if (col == gsheet->top_col)
 				gsheet->last_full_col = gsheet->top_col;
 			else
 				gsheet->last_full_col = col - 1;
+			break;
 		}
 		pixels = cb;
 		++col;
@@ -1159,12 +1161,14 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 		if (cb == height){
 			gsheet->last_visible_row = row;
 			gsheet->last_full_row = row;
+			break;
 		} if (cb > height){
 			gsheet->last_visible_row = row;
 			if (row == gsheet->top_row)
 				gsheet->last_full_row = gsheet->top_row;
 			else
 				gsheet->last_full_row = row - 1;
+			break;
 		}
 		pixels = cb;
 		row++;

@@ -1,9 +1,12 @@
-1999-10-29  Jody Goldberg <jgoldberg@home.com>
+1999-10-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_new) : Found the drawing
 	  problem wherin it was not possible to jump to the bottom of a
 	  64k row sheet.  The scroll region of 1M was too small.  Upped it
 	  to 1,200,000.
+	(gnumeric_sheet_compute_visible_ranges) : A fencepost-ish problem.
+	  There is no need to increment the col/row count once we've found
+	  the end.  Doing so risks falling prey to the boundary cases.
 
 	* src/sheet-view.c (new_canvas_bar) : Ditto.
 
