@@ -298,7 +298,7 @@ color_combo_construct (ColorCombo *cc, char **icon,
 	 */
 	cc->preview_button = gtk_button_new ();
 	if (!gnome_preferences_get_toolbar_relief_btn ())
-	  gtk_button_set_relief (GTK_BUTTON (cc->preview_button), GTK_RELIEF_NONE);
+		gtk_button_set_relief (GTK_BUTTON (cc->preview_button), GTK_RELIEF_NONE);
 
 	gtk_widget_push_visual (gdk_imlib_get_visual ());
 	gtk_widget_push_colormap (gdk_imlib_get_colormap ());
@@ -347,7 +347,7 @@ color_combo_construct (ColorCombo *cc, char **icon,
 				 cc->color_table);
 
 	if (!gnome_preferences_get_toolbar_relief_btn ())
-	  gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (cc), GTK_RELIEF_NONE);
+		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (cc), GTK_RELIEF_NONE);
 }
 
 /*

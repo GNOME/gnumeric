@@ -25,7 +25,8 @@ typedef struct {
 	GladeXML       *gui;
 	
 	int             current_page;
-	GtkNotebook    *steps_notebook;
+	int             last_graphic_type_page;
+	GtkNotebook    *steps_notebook, *graphic_types_notebook;
 	
 	/* Data for the various pages */
 	int             graphic_type;

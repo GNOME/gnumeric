@@ -8,6 +8,7 @@
 #
 
 wizarddir = $(libdir)/gnumeric/wizards/$(VERSION)
+iconsdir  = $(datadir)/pixmaps/gnumeric
 gladedir   = $(datadir)/gnumeric/glade
 
 glade_DATA = graphics.glade
@@ -25,6 +26,7 @@ INCLUDES = 						\
 	-I$(top_srcdir)/libglade			\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
         -DGNUMERIC_GLADEDIR=\""$(gladedir)"\"           \
+        -DGNUMERIC_ICONSDIR=\""$(iconsdir)"\"           \
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
 	$(GNOME_INCLUDEDIR)

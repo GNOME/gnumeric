@@ -16,10 +16,30 @@
 #include <glade/glade.h>
 #include "gnumeric-util.h"
 #include "wizard.h"
+#include "graphic-type.h"
 
 #define LAST_PAGE 2
 
 extern void (*graphic_wizard_hook)(Workbook *wb);
+
+void
+attach_view (const char *name, WizardGraphicContext *gc)
+{
+	BonoboViewFrame *view_frame;
+	GtkWidget *view;
+	
+	GtkContainer *container = GTK_CONTAINER (glade_xml_get_widget (gc->gui, name));
+	
+	view_frame = bonobo_client_site_new_view (
+		gc->client_site, gc->workbook->uih->top_level_uih);
+	view = bonobo_view_frame_get_wrapper (view_frame);
+	
+	/*
+	 * Add the widget to the container.  Remove any
+	 * placeholders that might have been left by libglade
+	 */
+	gtk_container_add (container, view);
+}
 
 static void
 customize (GladeXML *gui, WizardGraphicContext *gc)
@@ -27,30 +47,16 @@ customize (GladeXML *gui, WizardGraphicContext *gc)
 	int i;
 	
 	/* Now, customize the GUI */
-	gc->steps_notebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "main-notebook"));
 	gtk_notebook_set_show_tabs (gc->steps_notebook, FALSE);
-
-	fill_graphic_types (gui, gc);
+	
+	graphic_type_boot (gui, gc);
 
 	for (i = 0; i < 6; i++){
-		BonoboViewFrame *view_frame;
-		GtkContainer *container;
-		GtkWidget *view;
 		char *name;
-
+		
 		name = g_strdup_printf ("plot-view-%d", i+1);
-		container = GTK_CONTAINER (glade_xml_get_widget (gui, name));
+		attach_view (name, gc);
 		g_free (name);
-		
-		view_frame = bonobo_client_site_new_view (
-			gc->client_site, gc->workbook->uih->top_level_uih);
-		view = bonobo_view_frame_get_wrapper (view_frame);
-		
-		/*
-		 * Add the widget to the container.  Remove any
-		 * placeholders that might have been left by libglade
-		 */
-		gtk_container_add (container, view);
 	}
 
 	/* Finally, show the widget */

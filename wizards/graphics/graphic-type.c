@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include <glade/glade.h>
 #include "wizard.h"
+#include "graphic-type.h"
 #include "../../graph/Graph.h"
 
 typedef struct {
@@ -204,7 +205,7 @@ static subtype_info_t scatter_subtypes [] = {
 
 	{
 		N_("Scatter points connected with lines"),
-		2, 1,
+		3, 1,
 		{
 			GNOME_Graph_CHART_TYPE_SCATTER,
 			0, /* plot_mode ignored */
@@ -220,7 +221,7 @@ static subtype_info_t scatter_subtypes [] = {
 
 	{
 		N_("Scatter data connected with lines"),
-		2, 1,
+		3, 2,
 		{
 			GNOME_Graph_CHART_TYPE_SCATTER,
 			0, /* plot_mode ignored */
@@ -288,33 +289,148 @@ static struct {
 	{ NULL, NULL, NULL }
 };
 
+void
+graphic_type_show_page (WizardGraphicContext *gc, int n)
+{
+	gtk_notebook_set_page (gc->graphic_types_notebook, n);
+}
+
+void
+graphic_type_show_preview (WizardGraphicContext *gc)
+{
+	gc->last_graphic_type_page = gtk_notebook_get_current_page (gc->graphic_types_notebook);
+	gtk_notebook_set_page (gc->graphic_types_notebook, 5);
+}
+
+void
+graphic_type_restore_view (WizardGraphicContext *gc)
+{
+	gtk_notebook_set_page (gc->graphic_types_notebook, gc->last_graphic_type_page);
+	gc->last_graphic_type_page = -1;
+}
+
 static void
 graphic_type_selected (GtkCList *clist, gint row, gint column, GdkEvent *event,
 		       WizardGraphicContext *gc)
 {
-	printf ("Row selected: %d\n", row);
+	graphic_type_show_page (gc, row);
+}
+
+static void
+graph_type_button_clicked (GtkWidget *widget, subtype_info_t *type)
+{
+	WizardGraphicContext *gc = gtk_object_get_user_data (GTK_OBJECT (widget));
+	GtkLabel *label = GTK_LABEL (glade_xml_get_widget (gc->gui, "plot-description"));
+
+	gtk_label_set_text (label, type->description);
+}
+
+static void
+show_sample_pressed (GtkWidget *button, WizardGraphicContext *gc)
+{
+	graphic_type_show_preview (gc);
+}
+
+static void
+show_sample_released (GtkWidget *button, WizardGraphicContext *gc)
+{
+	graphic_type_restore_view (gc);
 }
 
 void
-fill_graphic_types (GladeXML *gui, WizardGraphicContext *gc)
+graphic_type_boot (GladeXML *gui, WizardGraphicContext *gc)
 {
 	GtkCList *clist = GTK_CLIST (glade_xml_get_widget (gui, "graphic-type-clist"));
+	GtkTable *table = GTK_TABLE (glade_xml_get_widget (gui, "graphic-selector-table"));
+	GtkObject *show_sample = GTK_OBJECT(glade_xml_get_widget (gui, "show-sample"));
 	int i;
 
+	gc->graphic_types_notebook = GTK_NOTEBOOK (gtk_notebook_new ());
+	gtk_widget_show (GTK_WIDGET (gc->graphic_types_notebook));
+	gtk_table_attach (table, GTK_WIDGET (gc->graphic_types_notebook),
+			  1, 2, 1, 3,
+			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL,
+			  0, 0);
+	gtk_notebook_set_show_tabs (gc->graphic_types_notebook, FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (gc->graphic_types_notebook), 0);
+	gtk_notebook_set_show_border (gc->graphic_types_notebook, FALSE);
+	
+	gtk_clist_set_column_width (clist, 0, 16);
 	gtk_clist_set_column_justification (clist, 1, GTK_JUSTIFY_LEFT);
 	gtk_signal_connect (GTK_OBJECT (clist), "select_row",
 			    GTK_SIGNAL_FUNC (graphic_type_selected), gc);
 	
 	for (i = 0; graphic_types [i].text; i++){
+		GtkWidget *display_table;
+		subtype_info_t *type_info;
 		char *clist_text [2];
+		int j;
 
 		clist_text [0] = "";
 		clist_text [1] = _(graphic_types [i].text);
 		gtk_clist_append (clist, clist_text);
-	}
-	gtk_clist_select_row (clist, 1, 0);
-	gtk_clist_thaw (clist);
-}
 
+		type_info = graphic_types [i].subtypes;
+
+		display_table = gtk_table_new (0, 0, 0);
+		gtk_widget_show (display_table);
+		gtk_notebook_append_page (gc->graphic_types_notebook, display_table, NULL);
+			
+		for (j = 0; type_info [j].description != NULL; j++){
+			GtkWidget *happy_button, *pix;
+			char *button_name;
+			
+			happy_button = gtk_button_new ();
+			gtk_widget_show (happy_button);
+			gtk_button_set_relief (GTK_BUTTON (happy_button), GTK_RELIEF_NONE);
+
+			button_name = g_strdup_printf (
+				"%s/%s_%d_%d.png",
+				GNUMERIC_ICONSDIR, graphic_types [i].icon_name,
+				type_info [j].col, type_info [j].row);
+			pix = gnome_pixmap_new_from_file (button_name);
+			if (pix){
+				gtk_container_add (GTK_CONTAINER (happy_button), pix);
+				gtk_widget_show (pix);
+			}
+			g_free (button_name);
+
+			gtk_table_attach (
+				GTK_TABLE (display_table), happy_button,
+				type_info [j].row, type_info [j].row+1,
+				type_info [j].col, type_info [j].col+1,
+				0, 0, 4, 4);
+
+			gtk_signal_connect (
+				GTK_OBJECT (happy_button), "clicked",
+				GTK_SIGNAL_FUNC(graph_type_button_clicked), &type_info [j]);
+			gtk_object_set_user_data (GTK_OBJECT (happy_button), gc);
+
+			if (i == 0 && j == 0)
+				gtk_button_clicked (GTK_BUTTON (happy_button));
+		}
+		
+	}
+
+	{
+		GtkWidget *label;
+		
+		label = gtk_label_new ("This is the preview.  Honest.  Yeah right.");
+		gtk_widget_show (label);
+		gtk_notebook_append_page (gc->graphic_types_notebook, label, NULL);
+	}
+
+	gtk_clist_select_row (clist, 0, 1);
+	gtk_clist_thaw (clist);
+
+	/*
+	 * Connect the "Show Preview" button
+	 */
+
+	gtk_signal_connect (
+		show_sample, "pressed", GTK_SIGNAL_FUNC (show_sample_pressed), gc);
+	gtk_signal_connect (
+		show_sample, "released", GTK_SIGNAL_FUNC (show_sample_released), gc);
+}
 
 

@@ -1,3 +1,12 @@
+2000-02-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* Makefile.am (-DGNUMERIC_ICONSDIR): GNUMERIC_ICONSDIR defined
+
+2000-02-24  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* graphic-type.c (graphic_type_boot): Fixety fix;  Create notebook
+	with previews, connect signals 
+
 2000-02-24  Miguel de Icaza  <miguel@helixcode.com>
 
 	* main.c (graphics_wizard): Grab focus, run mainloop, 

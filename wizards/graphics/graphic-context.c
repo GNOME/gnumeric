@@ -26,6 +26,13 @@ get_graphics_component (void)
 	return object_server;
 }
 
+static void
+graphic_context_load_pointers (WizardGraphicContext *gc, GladeXML *gui)
+{
+	gc->dialog_toplevel = glade_xml_get_widget (gui, "graphics-wizard-dialog");
+	gc->steps_notebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "main-notebook"));
+}
+
 WizardGraphicContext *
 graphic_context_new (Workbook *wb, GladeXML *gui)
 {
@@ -62,18 +69,20 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	gc->signature = GC_SIGNATURE;
 	gc->current_page = 0;
 	gc->gui = gui;
-	gc->dialog_toplevel = glade_xml_get_widget (gui, "graphics-wizard-dialog");
-
+	gc->last_graphic_type_page = -1;
+	
+	graphic_context_load_pointers (gc, gui);
+	
 	gc->client_site = client_site;
 	gc->graphics_server = object_server;
 		
 	return gc;
 
 error_binding:
-	gtk_object_unref (GTK_OBJECT (object_server));
+	bonobo_object_unref (BONOBO_OBJECT (object_server));
 	
 error_activation:
-	gtk_object_unref (GTK_OBJECT (client_site));
+	bonobo_object_unref (BONOBO_OBJECT (client_site));
 
 	return NULL;
 }
@@ -105,7 +114,7 @@ graphic_context_destroy (WizardGraphicContext *gc)
 	}
 	g_list_free (gc->data_range_list);
 
-	gtk_object_unref (GTK_OBJECT (gc->graphics_server));
+	bonobo_object_unref (BONOBO_OBJECT (gc->graphics_server));
 	
 	g_free (gc);
 }
