@@ -1,5 +1,8 @@
 2004-09-27  Morten Welinder  <terra@gnome.org>
 
+	* utils/go-file.c (go_url_encode): Make this half-way decent.
+	(go_url_decode): Make this O(n) too.
+
 	* libpresent/ppt-parsing-helper.h: Add header guard.
 
 2004-09-27  Jon K Hellan  <hellan@acm.org>

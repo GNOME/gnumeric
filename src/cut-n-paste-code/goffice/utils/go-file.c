@@ -281,61 +281,60 @@ go_file_split_uris (const char *data)
 gchar*
 go_url_decode (gchar const *text)
 {
-	gchar const *cursor = text;
-	gchar* result;
-	gchar* rcursor;
+	GString *result;
 
 	g_return_val_if_fail (text != NULL, NULL);
 	g_return_val_if_fail (*text != '\0', NULL);
 
-	rcursor = result = g_new0 (gchar, strlen (text) + 1);
-
-	while (*cursor != '\0') {
-		if (*cursor == '%' && strlen (cursor) >= 3 && g_ascii_isxdigit (cursor[1]) && g_ascii_isxdigit (cursor[2])) {
-			*rcursor = g_ascii_xdigit_value (cursor[1]) << 4;
-			*rcursor++ |= g_ascii_xdigit_value (cursor[2]);
-			cursor += 3;
-		} else {
-			*rcursor++ = *cursor++;
-		}
+	result = g_string_new (NULL);
+	while (*text) {
+		unsigned char c = *text++;
+		if (c == '%') {
+			if (g_ascii_isxdigit (text[0]) && g_ascii_isxdigit (text[1])) {
+				g_string_append_c (result,
+						   (g_ascii_xdigit_value (text[0]) << 4) |
+						   g_ascii_xdigit_value (text[1]));
+				text += 2;
+			} else {
+				/* Bogus.  */
+				return g_string_free (result, TRUE);
+			}
+		} else
+			g_string_append_c (result, c);
 	}
 
-	return result;
+	return g_string_free (result, FALSE);
 }
 
-/*
- * Respect rfc2368
+/**
+ * go_url_decode: url-encode a string according to RFC 2368.
  */
 gchar*
 go_url_encode (gchar const *text)
 {
-	gint i;
-	gint len;
-	gint count = 0;
-	gchar* result;
+	static const char hex[16] = "0123456789ABCDEF";
+	GString* result;
 
 	g_return_val_if_fail (text != NULL, NULL);
 	g_return_val_if_fail (*text != '\0', NULL);
 
-	len = strlen (text);
-
-	for (i = 0; i < len; i++) {
-		if (!g_ascii_isalnum (text[i]))
-			count++;
-	}
-
-	result = g_new0 (gchar, len + count * 3 + 1);
-
-	for (i = 0; i < len; i++) {
-		if (g_ascii_isalnum (text[i])) {
-			result[strlen (result)] = text[i];
-		} else {
-			gchar* buf = g_strdup_printf ("%%%02X", (guchar)text[i]);
-			strcat (result, buf);
-			g_free (buf);
+	result = g_string_new (NULL);
+	while (*text) {
+		unsigned char c = *text++;
+		switch (c) {
+		case '.': case '-': case '_': case '@':
+			g_string_append_c (result, c);
+			break;
+		default:
+			if (g_ascii_isalnum (c))
+				g_string_append_c (result, c);
+			else {
+				g_string_append_c (result, '%');
+				g_string_append_c (result, hex[c >> 4]);
+				g_string_append_c (result, hex[c & 0xf]);
+			}
 		}
 	}
 
-	return result;
+	return g_string_free (result, FALSE);
 }
-
