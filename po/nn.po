@@ -1004,7 +1004,7 @@ msgstr "Lag ei pil"
 #: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1320
 #: src/workbook-control-gui.c:2569
 msgid "Cu_t"
-msgstr "K_lipp"
+msgstr "Klipp u_t"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
 #: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2651
@@ -1721,7 +1721,7 @@ msgstr "_Endra namn ..."
 
 #: src/GNOME_Gnumeric.xml.h:226
 msgid "_Close"
-msgstr "_Lukk"
+msgstr "L_ukk"
 
 #: src/GNOME_Gnumeric.xml.h:227 src/dialogs/anova-one.glade.h:8
 #: src/dialogs/correlation.glade.h:7 src/dialogs/covariance.glade.h:7
@@ -13634,7 +13634,7 @@ msgstr "Skriv ut funksjonsdefinisjonane"
 
 #: src/main.c:88
 msgid "FILE"
-msgstr "FIL"
+msgstr "FILE"
 
 #: src/main.c:91
 msgid "Enables some debugging functions"
