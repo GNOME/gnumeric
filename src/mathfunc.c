@@ -5324,7 +5324,7 @@ random_levy_skew (gnum_float c, gnum_float alpha, gnum_float beta)
 gnum_float
 random_exppow_pdf (gnum_float x, gnum_float a, gnum_float b)
 {
-	gnum_float lngamma = lgamma (1 + 1 / b) ;
+	gnum_float lngamma = lgammagnum (1 + 1 / b) ;
 
 	return (1 / (2 * a)) * expgnum (-powgnum (gnumabs (x / a),b) - lngamma);
 }
@@ -5841,7 +5841,7 @@ gnum_float
 combin (int n, int k)
 {
 	if (n >= 15) {
-		return floorgnum (0.5 + expgnum (lgamma (n + 1) - lgamma (k + 1) - lgamma (n - k + 1)));
+		return floorgnum (0.5 + expgnum (lgammagnum (n + 1) - lgammagnum (k + 1) - lgammagnum (n - k + 1)));
 	} else {
 		return fact (n) / fact (k) / fact (n - k);
 	}
@@ -5851,7 +5851,7 @@ gnum_float
 permut (int n, int k)
 {
 	if (n >= 15) {
-		return floorgnum (0.5 + expgnum (lgamma (n + 1) - lgamma (n - k + 1)));
+		return floorgnum (0.5 + expgnum (lgammagnum (n + 1) - lgammagnum (n - k + 1)));
 	} else {
 		return fact (n) / fact (n - k);
 	}
@@ -5876,7 +5876,7 @@ fact (int n)
 		}
 		return table[n];
 	} else
-		return floorgnum (0.5 + expgnum (lgamma (n + 1)));
+		return floorgnum (0.5 + expgnum (lgammagnum (n + 1)));
 }
 
 /*

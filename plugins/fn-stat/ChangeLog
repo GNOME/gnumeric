@@ -1,3 +1,7 @@
+2002-11-06  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_gammaln): Use lgammagnum, not lgamma.
+
 2002-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca> for
 	Olaf Till <i7tiol@t-online.de>
 

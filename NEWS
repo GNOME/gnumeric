@@ -25,6 +25,8 @@ Morten:
 	  LAPLACE, PARETO, LOGISTIC functions.
 	* Plug leaks in function selector dialog.
 	* Improve memory usage in search centre slighly.
+	* Fix precision of GAMMALN.
+	* Fix precision of FACT and extend it to negative non-integers.
 
 Nick Lamb:
 	* Initial support for pre-ole xls files.

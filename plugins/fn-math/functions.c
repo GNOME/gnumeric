@@ -898,13 +898,14 @@ gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	x = value_get_as_float (argv[0]);
-	if (x < 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
 	x_is_integer = (x == floorgnum (x));
 
+	if (x < 0 && x_is_integer)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
 	if (x > 12 || !x_is_integer) {
-		gnum_float res = expgnum (lgamma (x + 1));
+		gnum_float tmp = lgammagnum (x + 1);
+		gnum_float res = signgam * expgnum (tmp);
 		if (x_is_integer)
 			res = floorgnum (res + 0.5);  /* Round, just in case. */
 		return value_new_float (res);
@@ -3084,7 +3085,7 @@ const GnmFuncDescriptor math_functions[] = {
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "fact",    "f", N_("number"),    &help_fact,
 	  gnumeric_fact, NULL, NULL, NULL, NULL,
-	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_SUPERSET, GNM_FUNC_TEST_STATUS_BASIC },
 
 /* MS Excel puts this in the engineering functions */
 	{ "factdouble", "f", N_("number"), &help_factdouble,

@@ -1221,7 +1221,7 @@ gnumeric_gammaln (FunctionEvalInfo *ei, Value **argv)
 	if (x <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (lgamma (x));
+	return value_new_float (lgammagnum (x));
 }
 
 /***************************************************************************/

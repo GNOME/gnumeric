@@ -668,9 +668,6 @@ search_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
 	}
 
 	{
-#if 0
-		unsigned int i;
-#endif
 		LazyList *ll = LAZY_LIST (dd->matches_model);
 		GPtrArray *cells = search_collect_cells (sr, wb_control_cur_sheet (wbc));
 
