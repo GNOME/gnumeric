@@ -12,7 +12,6 @@ endif
 #noinst_PROGRAMS = number-match
 
 INCLUDES = 								\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 			\
 	-DGNUMERIC_PREFIX=\""$(gnumeric_prefix)"\"			\
 	-DGNUMERIC_SYSCONFDIR=\""$(sysconfdir)"\"			\
 	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"			\

@@ -343,8 +343,10 @@ AM_GLIB_GNU_GETTEXT
 
 # AM_GNOME_GETTEXT above substs $DATADIRNAME
 # this is the directory where the *.{mo,gmo} files are installed
-gnomelocaledir='${prefix}/${DATADIRNAME}/locale'
-AC_SUBST(gnomelocaledir)
+AC_MSG_CHECKING(locale directory)
+GNUMERIC_LOCALE_DIR="${prefix}/${DATADIRNAME}/locale"
+AC_DEFINE_UNQUOTED(GNUMERIC_LOCALE_DIR,"$GNUMERIC_LOCALE_DIR")
+AC_MSG_RESULT("$GNUMERIC_LOCALE_DIR")
 
 #AC_PATH_PROG(TPUT_CMD,tput,no)
 TPUT_CMD=no
