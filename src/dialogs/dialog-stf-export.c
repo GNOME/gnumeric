@@ -315,7 +315,7 @@ static void cb_sheet_down (TextExportState *state) { move_element (state, FALSE)
 
 static void
 cb_sheet_export_toggled (GtkCellRendererToggle *cell,
-			 gchar                 *path_string,
+			 const gchar *path_string,
 			 TextExportState *state)
 {
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
