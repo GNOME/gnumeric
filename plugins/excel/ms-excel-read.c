@@ -4,6 +4,8 @@
  * Author:
  *    Michael Meeks (michael@imaginator.com)
  *    Jody Goldberh (jgoldberg@home.com)
+ *
+ * (C) 1998, 1999 Michael Meeks, Jody Goldberg
  **/
 
 #include "ms-formula-read.h"
@@ -2094,27 +2096,29 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	case BIFF_MULBLANK:
 	{
 		/* S59DA7.HTM is extremely unclear, this is an educated guess */
-		int col = EX_GETCOL (q);
+		int firstcol = EX_GETCOL (q);
 		int const row = EX_GETROW (q);
-		int lastcol = MS_OLE_GET_GUINT16 (q->data + q->length - 2);
-		guint8 const *ptr = (q->data + 4);
+		guint8 const *ptr = (q->data + q->length - 2);
+		int lastcol = MS_OLE_GET_GUINT16 (ptr);
+		int i;
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 0) {
 			printf ("Cells in row %d are blank starting at col %s until col ",
-				row+1, col_name(col));
+				row+1, col_name(firstcol));
 			printf ("%s;\n",
 				col_name(lastcol));
 		}
 #endif
-		if (lastcol < col) {
-			int const tmp = col;
-			col = lastcol;
+		if (lastcol < firstcol) {
+			int const tmp = firstcol;
+			firstcol = lastcol;
 			lastcol = tmp;
 		}
-		for (; col <= lastcol ; ++col, ptr += 2) {
+		for (i = lastcol; i >= firstcol ; --i) {
+			ptr -= 2;
 			ms_excel_sheet_insert_val (sheet,
 						   MS_OLE_GET_GUINT16 (ptr),
-						   col, EX_GETROW (q),
+						   i, row,
 						   value_new_empty());
 		}
 		break;

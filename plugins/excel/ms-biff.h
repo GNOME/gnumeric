@@ -3,6 +3,8 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
+ *
+ * (C) 1998, 1999 Michael Meeks
  **/
 #ifndef GNUMERIC_BIFF_H
 #define GNUMERIC_BIFF_H

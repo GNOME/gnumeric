@@ -5,6 +5,8 @@
  *
  * Author:
  *    Jody Goldberg (jgoldberg@home.com)
+ *
+ * (C) 1999 Jody Goldberg
  **/
 
 #include "gnumeric-chart.h"

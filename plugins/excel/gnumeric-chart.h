@@ -8,6 +8,8 @@
  *
  * Author:
  *    Jody Goldberg (jgoldberg@home.com)
+ *
+ * (C) 1999 Jody Goldberg
  **/
 
 typedef struct _GnumericChartSeries

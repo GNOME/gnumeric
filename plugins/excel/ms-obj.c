@@ -4,6 +4,8 @@
  * Author:
  *    Jody Goldberg (jgoldberg@home.com)
  *    Michael Meeks (mmeeks@gnu.org)
+ *
+ * (C) 1998, 1999 Jody Goldberg, Michael Meeks
  **/
 
 #include "ms-obj.h"

@@ -1,3 +1,12 @@
+/**
+ * ms-chart.c: MS Excel chart support for Gnumeric
+ *
+ * Author:
+ *    Jody Goldberg (jgoldberg@home.com)
+ *
+ * (C) 1999 Jody Goldberg
+ **/
+
 #include "excel.h"
 #include "ms-chart.h"
 #include "ms-formula-read.h"

@@ -1,3 +1,8 @@
+1999-09-29  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_cell:MULBLANK) : Insert blanks in
+	  reverse order, to decrease the load on the insert routines.
+
 1999-09-26  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_cell:COLINFO) : Seems like
