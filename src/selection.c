@@ -1113,4 +1113,32 @@ selection_foreach_range (Sheet *sheet,
 	}
 }
 
+static gboolean
+cb_set_row_height(Sheet *sheet, ColRowInfo *info, void *height)
+{
+	sheet_row_set_internal_height (sheet, info, *((double *)height));
+	return FALSE;
+}
 
+/**
+ * sheet_selection_height_update:
+ * @sheet:  The sheet,
+ * @height: The font height.
+ * 
+ *  Use this function having changed the font height to auto
+ * resize the row heights to make the text fit nicely.
+ *
+ **/
+void
+sheet_selection_height_update (Sheet *sheet, double height)
+{
+	GList *l;
+
+	for (l = sheet->selections; l; l = l->next) {
+		SheetSelection *ss = l->data;
+
+		sheet_foreach_colrow (sheet, &sheet->rows,
+				      ss->user.start.row, ss->user.end.row,
+				      &cb_set_row_height, &height);
+	}
+}

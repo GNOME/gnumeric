@@ -325,15 +325,14 @@ create_number_format_page (GtkWidget *prop_win, MStyleElement *styles,
 static void
 apply_number_formats (Style *style, Sheet *sheet, MStyleElement *styles)
 {
-	MStyleElement e;
 	char *str = gtk_entry_get_text (GTK_ENTRY (number_input));
 	
 	if (!strcmp (str, ""))
 		return;
 
-	e.type = MSTYLE_FORMAT;
-	e.u.format = style_format_new (str);
-	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+	mstyle_element_destroy (styles[MSTYLE_FORMAT]);
+	styles[MSTYLE_FORMAT].type = MSTYLE_FORMAT;
+	styles[MSTYLE_FORMAT].u.format = style_format_new (str);
 }
 
 typedef struct {
@@ -462,34 +461,33 @@ apply_align_format (Style *style, Sheet *sheet, MStyleElement *styles)
 {
 	int i;
 	int halign, valign, autor;
-	MStyleElement e;
 
 	i = gtk_radio_group_get_selected (hradio_list);
 	halign = horizontal_aligns [i].flag;
 	if (halign) {
-		e.type = MSTYLE_ALIGN_H;
-		e.u.align.h = halign;
-		sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+		mstyle_element_destroy (styles[MSTYLE_ALIGN_H]);
+		styles[MSTYLE_ALIGN_H].type = MSTYLE_ALIGN_H;
+		styles[MSTYLE_ALIGN_H].u.align.h = halign;
 	}
 
 	i = gtk_radio_group_get_selected (vradio_list);
 	valign = vertical_aligns [i].flag;
 	if (valign) {
-		e.type = MSTYLE_ALIGN_V;
-		e.u.align.v = valign;
-		sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+		mstyle_element_destroy (styles[MSTYLE_ALIGN_V]);
+		styles[MSTYLE_ALIGN_V].type = MSTYLE_ALIGN_V;
+		styles[MSTYLE_ALIGN_V].u.align.v = valign;
 	}
 
 	autor = GTK_TOGGLE_BUTTON (auto_return)->active;
 	if (autor) {
-		e.type = MSTYLE_FIT_IN_CELL;
-		e.u.fit_in_cell = autor;
-		sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+		mstyle_element_destroy (styles[MSTYLE_FIT_IN_CELL]);
+		styles[MSTYLE_FIT_IN_CELL].type = MSTYLE_FIT_IN_CELL;
+		styles[MSTYLE_FIT_IN_CELL].u.fit_in_cell = autor;
 	}
 
-	e.type = MSTYLE_ORIENTATION;
-	e.u.orientation = ORIENT_HORIZ;
-	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+	mstyle_element_destroy (styles[MSTYLE_ORIENTATION]);
+	styles[MSTYLE_ORIENTATION].type = MSTYLE_ORIENTATION;
+	styles[MSTYLE_ORIENTATION].u.orientation = ORIENT_HORIZ;
 }
 
 static void
@@ -531,20 +529,12 @@ create_font_page (GtkWidget *prop_win, MStyleElement *styles,
 	return font_widget;
 }
 
-static gboolean
-cb_set_row_height(Sheet *sheet, ColRowInfo *info, void *height)
-{
-	sheet_row_set_internal_height (sheet, info, *((double *)height));
-	return FALSE;
-}
-
 static void
 apply_font_format (Style *style, Sheet *sheet, MStyleElement *styles)
 {
 	FontSelector *font_sel = FONT_SELECTOR (font_widget);
 	GnomeDisplayFont *gnome_display_font;
 	GnomeFont *gnome_font;
-	MStyleElement e;
 	char *family_name;
 	double height;
 
@@ -556,64 +546,19 @@ apply_font_format (Style *style, Sheet *sheet, MStyleElement *styles)
 	family_name = gnome_font->fontmap_entry->familyname;
 	height = gnome_display_font->gnome_font->size;
 
-/*	style->valid_flags |= STYLE_FONT;
-	style->font = style_font_new (
-		family_name,
-		gnome_font->size,
-		sheet->last_zoom_factor_used,
-		gnome_font->fontmap_entry->weight_code >= GNOME_FONT_BOLD,
-		gnome_font->fontmap_entry->italic);*/
+	styles[MSTYLE_FONT_NAME].type = MSTYLE_FONT_NAME;
+	styles[MSTYLE_FONT_NAME].u.font.name = string_get (family_name);
 
-	e.type = MSTYLE_FONT_NAME;
-	e.u.font.name = string_get (family_name);
-	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+	styles[MSTYLE_FONT_SIZE].type = MSTYLE_FONT_SIZE;
+	styles[MSTYLE_FONT_SIZE].u.font.size = gnome_font->size;
+		
+	styles[MSTYLE_FONT_BOLD].type = MSTYLE_FONT_BOLD;
+	styles[MSTYLE_FONT_BOLD].u.font.bold = gnome_font->fontmap_entry->weight_code >= GNOME_FONT_BOLD;
+		
+	styles[MSTYLE_FONT_ITALIC].type = MSTYLE_FONT_ITALIC;
+	styles[MSTYLE_FONT_ITALIC].u.font.italic = gnome_font->fontmap_entry->italic;
 
-	e.type = MSTYLE_FONT_SIZE;
-	e.u.font.size = gnome_font->size;
-	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
-		
-	e.type = MSTYLE_FONT_BOLD;
-	e.u.font.bold = gnome_font->fontmap_entry->weight_code >= GNOME_FONT_BOLD;
-	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
-		
-	e.type = MSTYLE_FONT_ITALIC;
-	e.u.font.italic = gnome_font->fontmap_entry->italic;
-	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
-		
-	/* Apply the new font to all of the cell rows */
-/*	for (; cells; cells = cells->next){
-		Cell *cell = cells->data;
-		
-		cell_set_font_from_style (cell, style->font);
-		}*/
-
-	/* Now apply it to every row in the selection */
-/*	for (l = sheet->selections; l; l = l->next){
-		SheetSelection *ss = l->data;
-		GList *rl;*/
-		
-		/* Special case, the whole spreadsheet */
-/*		if (ss->user.start.row == 0 && ss->user.end.row == SHEET_MAX_ROWS-1)
-			sheet_row_set_internal_height (sheet, &sheet->default_row_style, height);
-
-		for (rl = sheet->rows_info; rl; rl = rl->next){
-			ColRowInfo *ri = rl->data;
-
-			if (ri->pos < ss->user.start.row)
-				break;
-			if (ri->pos > ss->user.end.row)
-				break;
-			
-			sheet_row_set_internal_height (sheet, ri, height);
-		}
-		}
-		if (ss->user.start.row == 0 && ss->user.end.row == SHEET_MAX_ROWS-1)
-			sheet_row_set_internal_height (sheet, &sheet->rows.default_style, height);
-		else
-			sheet_foreach_colrow (sheet, &sheet->rows,
-					      ss->user.start.row, ss->user.end.row,
-					      &cb_set_row_height, &height);
-	}*/
+	sheet_selection_height_update (sheet, height);
 }
 
 
@@ -798,7 +743,6 @@ apply_coloring_format (Style *style, Sheet *sheet, MStyleElement *styles)
 	gushort fore_change = FALSE, back_change = FALSE;
 	gushort fore_red=0, fore_green=0, fore_blue=0;
 	gushort back_red=0xff, back_green=0xff, back_blue=0xff;
-	MStyleElement e;
 
 	/*
 	 * Let's check the foreground first
@@ -808,12 +752,9 @@ apply_coloring_format (Style *style, Sheet *sheet, MStyleElement *styles)
 	 * case 0 means no foreground
 	 */
 	case 0:
-		g_warning ("Default unimplemented");
-/*		fore_red   = 0;
-		fore_green = 0;
-		fore_blue  = 0;
-		style->valid_flags &= ~STYLE_FORE_COLOR;
-		fore_change = TRUE;*/
+		mstyle_element_destroy (styles[MSTYLE_COLOR_FORE]);
+		styles[MSTYLE_COLOR_FORE].type = MSTYLE_ELEMENT_UNSET;
+		fore_change = FALSE;
 		break;
 	/*
 	 * case 1 means colored foreground
@@ -842,13 +783,9 @@ apply_coloring_format (Style *style, Sheet *sheet, MStyleElement *styles)
 	 * case 0 means no background
 	 */
 	case 0:
-		g_warning ("Default unimplemented");
-/*		back_red   = 0xffff;
-		back_green = 0xffff;
-		back_blue  = 0xffff;
-		style->valid_flags &= ~STYLE_BACK_COLOR;
-		style->valid_flags &= ~STYLE_PATTERN;*/
-		back_change = TRUE;
+		mstyle_element_destroy (styles[MSTYLE_COLOR_BACK]);
+		styles[MSTYLE_COLOR_BACK].type = MSTYLE_ELEMENT_UNSET;
+		back_change = FALSE;
 		break;
 
 	/*
@@ -883,15 +820,15 @@ apply_coloring_format (Style *style, Sheet *sheet, MStyleElement *styles)
 	}
 
 	if (fore_change) {
-		e.type = MSTYLE_COLOR_FORE;
-		e.u.color.fore = style_color_new (fore_red, fore_green, fore_blue);
-		sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+		styles[MSTYLE_COLOR_FORE].type = MSTYLE_COLOR_FORE;
+		styles[MSTYLE_COLOR_FORE].u.color.fore =
+			style_color_new (fore_red, fore_green, fore_blue);
 	}
 
 	if (back_change) {
-		e.type = MSTYLE_COLOR_BACK;
-		e.u.color.fore = style_color_new (back_red, back_green, back_blue);
-		sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+		styles[MSTYLE_COLOR_BACK].type = MSTYLE_COLOR_BACK;
+		styles[MSTYLE_COLOR_BACK].u.color.fore =
+			style_color_new (back_red, back_green, back_blue);
 	}
 }
 
@@ -915,7 +852,6 @@ cell_properties_apply (GtkObject *w, int page, MStyleElement *styles)
 {
 	Sheet *sheet;
 	Style *style;
-	GList *l;
 	int i;
 	
 	if (page != -1)
@@ -934,17 +870,7 @@ cell_properties_apply (GtkObject *w, int page, MStyleElement *styles)
 
 	cell_thaw_redraws ();
 	
-	/* Attach this style to all of the selections */
-	for (l = sheet->selections; l; l = l->next){
-/*		SheetSelection *ss = l->data;*/
-		
-		g_warning ("No style attachment");
-/*		sheet_style_attach (
-			sheet,
-			ss->user.start.col, ss->user.start.row,
-			ss->user.end.col,   ss->user.end.row,
-			style);*/
-	}
+	sheet_selection_apply_style (sheet, mstyle_new_elems (NULL, styles));
 }
 
 static void

@@ -3,6 +3,7 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org).
+ *   Michael Meeks   (mmeeks@gnu.org).
  *
  */
 #include <config.h>

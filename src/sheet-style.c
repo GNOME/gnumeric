@@ -26,7 +26,7 @@
 #include "mstyle.h"
 #include "main.h"
 
-#define STYLE_DEBUG (gnumeric_debugging > 0)
+#define STYLE_DEBUG (style_debugging > 2)
 
 typedef struct {
 	GList      *style_list;
@@ -74,6 +74,8 @@ sheet_style_cache_lookup (const EvalPosition * const p)
 static gboolean
 scache_remove (EvalPosition *key, MStyleElement *data, gpointer dummy)
 {
+	g_return_val_if_fail (key != NULL, FALSE);
+	g_return_val_if_fail (data != NULL, FALSE);
 	g_free (key);
 	g_free (data);
 	return TRUE;
@@ -467,10 +469,10 @@ sheet_selection_get_uniq_style (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	/*
-	 * FIXME: each style region needs to be fragmented into totaly
-	 * overlapping regions. These must then be merged down to MStyleElement
-	 * arrays and then these must be compared + conflicts tagged.
-	 * use range_fragment + simplify mstyle_do_merge.
+	 * For each non-overlapping selection the contained style regions
+	 * must be fragmented into totaly overlapping regions. These must
+	 * then be merged down to MStyleElement arrays and then these must
+	 * be compared + conflicts tagged.
 	 */
 
 	mash = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
@@ -500,6 +502,7 @@ sheet_destroy_styles (Sheet *sheet)
 {
 	GList *l;
 
+	sheet_style_cache_flush (sheet);	
 	for (l = STYLE_LIST (sheet); l; l = l->next) {
 		StyleRegion *sr = l->data;
 
@@ -511,7 +514,6 @@ sheet_destroy_styles (Sheet *sheet)
 	}
 	g_list_free (STYLE_LIST (sheet));
 	STYLE_LIST (sheet) = NULL;
-	sheet_style_cache_flush (sheet);	
 }
 
 void

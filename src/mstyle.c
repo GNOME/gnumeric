@@ -7,7 +7,7 @@
 #include "border.h"
 #include "main.h"
 
-#define STYLE_DEBUG (gnumeric_debugging > 0)
+#define STYLE_DEBUG (style_debugging > 2)
 
 typedef struct {
 	guint32        ref_count;

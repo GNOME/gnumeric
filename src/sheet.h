@@ -293,6 +293,7 @@ void           sheet_style_compute            (Sheet const *sheet,
 void           sheet_style_optimize           (Sheet *sheet, Range range);
 void           sheet_selection_apply_style    (Sheet *sheet, MStyle *style);
 MStyleElement *sheet_selection_get_uniq_style (Sheet *sheet);
+void           sheet_selection_height_update  (Sheet *sheet, double height);
 void           sheet_create_styles            (Sheet *sheet);
 void           sheet_destroy_styles           (Sheet *sheet);
 GList         *sheet_get_style_list           (Sheet *sheet);

@@ -1,5 +1,19 @@
 1999-10-16  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/dialogs/dialog-cell-format.c (apply_coloring_format): Fixup.
+
+	* src/selection.c (sheet_selection_height_update): create.
+
+	* src/dialogs/dialog-cell-format.c (cell_properties_apply):
+	update. (apply_number_formats, apply_align_format),
+	(apply_font_format): Don't set the selection's properties yet,
+	setup the selections height.
+
+	* src/sheet-style.c (sheet_selection_get_uniq_style):
+	update docs.
+
+1999-10-16  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/style.c (style_mstyle_new): Add format ( oops ).
 
 	* src/cell.c (cell_get_formatted_val): Create.
