@@ -36,6 +36,9 @@ Morten:
 
 Zbigniew:
 	* More work on plugin system.
+	* Many i/o system improvements (general cleanup, reporing i/o progress,
+	  better probing, nicer import dialog, pluggable default savers,
+	  handling single sheet exporters in a special way)
 
 --------------------------------------------------------------------------
 Gnumeric 0.65
