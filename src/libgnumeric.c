@@ -41,14 +41,10 @@ extern gboolean EmbeddableGridFactory_init (void);
 #include "style.h"
 #include "style-color.h"
 #include "str.h"
+#include "eval.h"
 
 #include <gal/widgets/e-cursors.h>
 #include <glade/glade.h>
-#include <glade/glade-xml.h>
-
-#ifdef HAVE_GUILE
-#include <libguile.h>
-#endif
 
 #ifdef USE_WM_ICONS
 #include <libgnomeui/gnome-window-icon.h>
@@ -68,7 +64,6 @@ gboolean initial_workbook_open_complete = FALSE;
 extern gboolean libole2_debug;
 
 static char *dump_file_name = NULL;
-static char *startup_glade_file = NULL;
 static const char **startup_files = NULL;
 static int gnumeric_show_version = FALSE;
 char *gnumeric_lib_dir = GNUMERIC_LIBDIR;
@@ -151,6 +146,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 #endif
 
 	application_init ();
+	dependent_types_init ();
 	string_init ();
 	style_init ();
 	gnumeric_color_init ();
@@ -172,15 +168,16 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 	global_gnome_font_init ();
 
-	/* Ignore Shift for accelerators to avoid problems with different keyboard layouts
-	 * that change the shift state of various keys.
+	/* Ignore Shift for accelerators to avoid problems with different
+	 * keyboard layouts that change the shift state of various keys.
+	 *
+	 * WARNING : This means that Shift-Space is not valid accelerator.
 	 */
-	gtk_accelerator_set_default_mod_mask (gtk_accelerator_get_default_mod_mask() & ~GDK_SHIFT_MASK);
+	gtk_accelerator_set_default_mod_mask (
+		gtk_accelerator_get_default_mod_mask() & ~GDK_SHIFT_MASK);
 
 	/* Glade */
 	glade_gnome_init ();
-	if (startup_glade_file)
-		glade_xml_new (startup_glade_file, NULL);
 
 	if (dump_file_name) {
 		function_dump_defs (dump_file_name);
@@ -265,6 +262,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	format_color_shutdown ();
 	gnumeric_color_shutdown ();
 	style_shutdown ();
+	dependent_types_shutdown ();
 
 	global_gnome_font_shutdown ();
 
@@ -272,6 +270,8 @@ gnumeric_main (void *closure, int argc, char *argv [])
 }
 
 #ifdef HAVE_GUILE
+#include <libguile.h>
+
 gboolean
 has_gnumeric_been_compiled_with_guile_support (void)
 {

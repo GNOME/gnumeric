@@ -47,7 +47,6 @@
 void
 cmd_select_all (Sheet *sheet)
 {
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet_selection_reset (sheet);
@@ -66,15 +65,15 @@ cmd_select_all (Sheet *sheet)
 void
 cmd_select_cur_row (Sheet *sheet)
 {
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	sheet_selection_reset (sheet);
-	sheet_selection_add_range (sheet,
-		sheet->edit_pos.col, sheet->edit_pos.row,
-		0, sheet->edit_pos.row,
-		SHEET_MAX_COLS-1, sheet->edit_pos.row);
-	sheet_update (sheet);
+	Range const *sel = selection_first_range (sheet,  NULL, NULL);
+	if (sel != NULL) {
+		Range r = *sel;
+		sheet_selection_reset (sheet);
+		sheet_selection_add_range (sheet,
+			sheet->edit_pos.col, sheet->edit_pos.row,
+			0, r.start.row, SHEET_MAX_COLS-1, r.end.row);
+		sheet_update (sheet);
+	}
 }
 
 /**
@@ -86,15 +85,15 @@ cmd_select_cur_row (Sheet *sheet)
 void
 cmd_select_cur_col (Sheet *sheet)
 {
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	sheet_selection_reset (sheet);
-	sheet_selection_add_range (sheet,
-		sheet->edit_pos.col, sheet->edit_pos.row,
-		sheet->edit_pos.col, 0,
-		sheet->edit_pos.col, SHEET_MAX_ROWS-1);
-	sheet_update (sheet);
+	Range const *sel = selection_first_range (sheet,  NULL, NULL);
+	if (sel != NULL) {
+		Range r = *sel;
+		sheet_selection_reset (sheet);
+		sheet_selection_add_range (sheet,
+			sheet->edit_pos.col, sheet->edit_pos.row,
+			r.start.col, 0, r.end.col, SHEET_MAX_ROWS-1);
+		sheet_update (sheet);
+	}
 }
 
 /**
@@ -146,6 +145,15 @@ cb_compare_deps (gconstpointer a, gconstpointer b)
 	return cell_a->pos.col - cell_b->pos.col;
 }
 
+static void
+cb_collect_deps (Dependent *dep, gpointer user)
+{
+	if ((dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL) {
+		GList **list = (GList **)user;
+		*list = g_list_prepend (*list, dep);
+	}
+}
+
 /**
  * cmd_select_cur_depends :
  * @sheet: The sheet
@@ -156,7 +164,7 @@ void
 cmd_select_cur_depends (Sheet *sheet)
 {
 	Cell  *cur_cell;
-	GList *deps, *ptr = NULL;
+	GList *deps = NULL, *ptr = NULL;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -167,8 +175,7 @@ cmd_select_cur_depends (Sheet *sheet)
 	if (cur_cell == NULL)
 		return;
 
-	deps = cell_get_dependencies (cur_cell);
-	deps = dependent_list_filter (deps, DEPENDENT_CELL);
+	cell_foreach_dep (cur_cell, cb_collect_deps, &deps);
 	if (deps == NULL)
 		return;
 

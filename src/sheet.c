@@ -33,7 +33,6 @@
 #include "cellspan.h"
 #include "cell.h"
 #include "sheet-merge.h"
-#include "dependent.h"
 #include "sheet-private.h"
 #include "expr-name.h"
 #include "rendered-value.h"
@@ -1386,7 +1385,7 @@ sheet_cell_set_text (Cell *cell, char const *text)
 	} else {
 		cell_set_value (cell, val, format);
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
-		cell_content_changed (cell);
+		cell_queue_recalc (cell);
 	}
 	if (format)
 		style_format_unref (format);
@@ -1407,7 +1406,7 @@ sheet_cell_set_expr (Cell *cell, ExprTree *expr)
 	/* No need to do anything until recalc */
 	cell_set_expr (cell, expr, NULL);
 	cell_unregister_span (cell);
-	cell_content_changed (cell);
+	cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);
 }
 
@@ -1428,7 +1427,7 @@ sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 {
 	cell_set_value (cell, v, opt_fmt);
 	sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
-	cell_content_changed (cell);
+	cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);
 }
 
@@ -2466,17 +2465,14 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 static void
 sheet_cell_remove_simple (Sheet *sheet, Cell *cell)
 {
-	GList *deps;
-
 	if (cell_needs_recalc (cell))
-		dependent_unqueue_recalc (CELL_TO_DEP (cell));
+		dependent_unqueue (CELL_TO_DEP (cell));
 
 	if (cell_has_expr (cell))
 		dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 
-	deps = cell_get_dependencies (cell);
-	if (deps)
-		dependent_queue_recalc_list (deps, TRUE);
+	/* queue the things depending on the cell */
+	cell_queue_recalc (cell);
 
 	sheet_cell_remove_from_hash (sheet, cell);
 }
@@ -2639,7 +2635,7 @@ sheet_destroy_contents (Sheet *sheet)
 		row_destroy_span (sheet_row_get (sheet, i));
 
 	/* Remove any pending recalcs */
-	dependent_unqueue_recalc_sheet (sheet);
+	dependent_unqueue_sheet (sheet);
 
 	/* Unlink expressions from the workbook expr list */
 	dependent_unlink_sheet (sheet);
@@ -3217,7 +3213,7 @@ colrow_move (Sheet *sheet,
 
 		sheet_cell_add_to_hash (sheet, cell);
 		cell_relocate (cell, NULL);
-		cell_content_changed (cell);
+		cell_queue_recalc (cell);
 	}
 }
 
@@ -3272,8 +3268,8 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 	sheet_relocate_objects (&reloc_info);
 	sheet_style_insert_colrow (&reloc_info);
 
-	/* 5. Recompute dependencies */
-	sheet_recalc_dependencies (sheet);
+	/* 5. Queue entire sheet for recalc */
+	sheet_region_queue_recalc (sheet, NULL);
 
 	/* 6. Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
@@ -3342,8 +3338,8 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 	sheet_relocate_objects (&reloc_info);
 	sheet_style_relocate (&reloc_info);
 
-	/* 6. Recompute dependencies */
-	sheet_recalc_dependencies (sheet);
+	/* 6. Queue entire sheet for recalc */
+	sheet_region_queue_recalc (sheet, NULL);
 
 	/* 7. Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
@@ -3404,8 +3400,8 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 	sheet_relocate_objects (&reloc_info);
 	sheet_style_insert_colrow (&reloc_info);
 
-	/* 5. Recompute dependencies */
-	sheet_recalc_dependencies (sheet);
+	/* 5. Queue entire sheet for recalc */
+	sheet_region_queue_recalc (sheet, NULL);
 
 	/* 6. Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
@@ -3474,8 +3470,8 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 	sheet_relocate_objects (&reloc_info);
 	sheet_style_relocate (&reloc_info);
 
-	/* 6. Recompute dependencies */
-	sheet_recalc_dependencies (sheet);
+	/* 6. Queue entire sheet for recalc */
+	sheet_region_queue_recalc (sheet, NULL);
 
 	/* 7. Notify sheet of pending update */
 	sheet->priv->recompute_visibility = TRUE;
@@ -3592,7 +3588,7 @@ sheet_move_range (WorkbookControl *wbc,
 		if ((cell->pos.col + rinfo->col_offset) >= SHEET_MAX_COLS ||
 		    (cell->pos.row + rinfo->row_offset) >= SHEET_MAX_ROWS) {
 			if (cell_needs_recalc (cell))
-				dependent_unqueue_recalc (CELL_TO_DEP (cell));
+				dependent_unqueue (CELL_TO_DEP (cell));
 			if (cell_has_expr (cell))
 				dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 			cell_destroy (cell);
@@ -3614,15 +3610,15 @@ sheet_move_range (WorkbookControl *wbc,
 			dependent_link (CELL_TO_DEP (cell), &cell->pos);
 
 		cell_relocate (cell, NULL);
-		cell_content_changed (cell);
+		cell_queue_recalc (cell);
 	}
 
 	/* 7. Move objects in the range */
 	sheet_relocate_objects (rinfo);
 	sheet_merge_relocate (rinfo);
 
-	/* 8. Recompute dependencies */
-	sheet_recalc_dependencies (rinfo->target_sheet);
+	/* 8. Queue entire sheet for recalc */
+	sheet_region_queue_recalc (rinfo->target_sheet, NULL);
 
 	/* 9. Notify sheet of pending update */
 	rinfo->origin_sheet->priv->recompute_spans = TRUE;

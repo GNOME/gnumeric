@@ -51,7 +51,7 @@ goal_seek_eval (gnum_float x, gnum_float *y, void *vevaldata)
 	GoalEvalData *evaldata = vevaldata;
 
 	cell_set_value (evaldata->xcell, value_new_float (x), NULL);
-	cell_content_changed (evaldata->xcell);
+	cell_queue_recalc (evaldata->xcell);
 	workbook_recalc (evaldata->xcell->base.sheet->workbook);
 
 	if (evaldata->ycell->value) {

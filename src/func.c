@@ -816,14 +816,14 @@ typedef struct {
 } IterateCallbackClosure;
 
 /*
- * iterate_cellrange_callback:
+ * cb_iterate_cellrange:
  *
  * Helper routine used by the function_iterate_do_value routine.
  * Invoked by the sheet cell range iterator.
  */
 static Value *
-iterate_cellrange_callback (Sheet *sheet, int col, int row,
-			    Cell *cell, void *user_data)
+cb_iterate_cellrange (Sheet *sheet, int col, int row,
+		      Cell *cell, void *user_data)
 {
 	IterateCallbackClosure *data = user_data;
 	EvalPos ep;
@@ -836,8 +836,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row,
 		return (*data->callback)(&ep, NULL, data->closure);
 	}
 
-	if (cell->base.generation != sheet->workbook->generation)
-		cell_eval (cell);
+	cell_eval (cell);
 
 	/* If we encounter an error for the strict case, short-circuit here.  */
 	if (data->strict && (NULL != (res = cell_is_error (cell))))
@@ -904,7 +903,7 @@ function_iterate_do_value (EvalPos      const *ep,
 		data.strict   = strict;
 
 		res = workbook_foreach_cell_in_range (ep, value, ignore_blank,
-						      iterate_cellrange_callback,
+						      cb_iterate_cellrange,
 						      &data);
 	}
 	}

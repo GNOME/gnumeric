@@ -26,7 +26,7 @@
 #include "idl/gnumeric-graphs.h"
 #include <bonobo.h>
 #include <gtk/gtkobject.h>
-#include "dependent.h"
+#include "eval.h"
 #include "expr.h"
 #include "value.h"
 #include "cell.h"

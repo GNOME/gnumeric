@@ -1,3 +1,88 @@
+2001-05-22  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumeric.spec.in : bump version of libole2
+	* README : ditto.
+	* configure.in : ditto.
+
+2001-05-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_is_pristine) : no need to check the recalc
+	  queue.  If there are no dependents there is nothing to put on the
+	  eval queue.
+
+	* src/func.c (cb_iterate_cellrange) : rename from
+	  iterate_cellrange_callback remove 'generation' mechanism.
+
+	* src/cell.c (cell_cleanout) : Clear both recalc flags,
+	  in_queue and needs
+	(cell_copy) : ditto.
+	(cell_eval_content) : No need to render the value.  assign_value
+	  already does it.
+	(cell_content_changed) : deleted.
+
+	* src/Makefile.am : merge dependent.[ch] into eval.[ch]
+
+2001-05-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/eval.c : reorg and merged with dependent.[ch]
+
+	* src/sheet.c (sheet_cell_set_text) :
+	  s/cell_content_changed/cell_queue_recalc/
+	(sheet_cell_set_expr) : ditto.
+	(sheet_cell_set_value) : ditto.
+	(colrow_move) : ditto.
+	(sheet_destroy_contents) : 
+	  s/dependent_unqueue_recalc_sheet/dependent_unqueue_sheet/
+
+	* src/cmd-edit.c (cmd_select_cur_row) : Make behavior match XL.
+	(cmd_select_cur_col) : Make behavior match XL.
+
+	* src/format.c (render_number) : avoid temporaries.
+	(do_render_number) : ditto.
+
+2001-05-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (eval_range) : delete.
+	(eval_expr_real) : Use workbook_foreach_cell_in_range rather than
+	  range_eval.  Remove 'generation' mechanism.
+	(cb_range_eval) : a simple pass through
+
+	* src/eval.c (sheet_region_recalc_deps) : rename from
+	  sheet_recalc_dependencies and merge in sheet_region_get_deps.
+	  Use the new foreach style interfaces.
+	(cb_single_recalc_all_depends) : rename from cb_single_get_all_depends
+	  and simplify.
+	(cb_range_recalc_all_depends) : rename from cb_sheet_get_all_depends and simplify.
+	(cb_dependent_queue_recalc) : new wrapper.
+	(cb_region_contained_depend) : renamed from search_range_deps and simplify.
+	(cell_foreach_dep) : rename from cell_get_dependencies and switch to
+	  an in place api rather than creating a list.
+	(cell_foreach_single_dep) : switch to in place api
+	(cell_foreach_range_dep) : ditto.
+	(search_cell_deps) : ditto.
+	(cell_recalc_deps) : ditto.
+	(cell_eval) : ditto.
+	(cb_generation_queue) : new utility.
+
+	* src/dependent.c (dependent_list_filter) : delete.
+
+	* src/cmd-edit.c (cb_collect_deps) : new function split from.
+	(cmd_select_cur_depends) : here. So that we can use the new depend
+	  api.
+
+	* src/sheet.c (sheet_move_range) : use sheet_region_recalc_deps.
+	(sheet_{insert,delete}_{cols,rows}) : ditto.
+	(sheet_cell_remove_simple) : Use in place depend interface.
+
+	* src/cell.c (cell_content_changed) : Use in place depend interface.
+	* src/clipboard.c (clipboard_paste_region) : ditto.
+	* src/commands.c (cmd_area_set_text_redo) : ditto.
+	(cmd_autofill_redo) : ditto.
+
+2001-05-21  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : remove gnorba and modernize a bit.
+
 2001-05-23  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/plugin-service.c

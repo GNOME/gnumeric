@@ -13,7 +13,6 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "clipboard.h"
-#include "dependent.h"
 #include "sheet.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
@@ -416,12 +415,10 @@ clipboard_paste_region (WorkbookControl *wbc,
 		}
 
         if (has_content) {
-		GList *deps = sheet_region_get_deps (pt->sheet, &pt->range);
 		Range const *r = &pt->range;
 		int min_col, max_col;
 
-		if (deps)
-			dependent_queue_recalc_list (deps, TRUE);
+		sheet_region_queue_recalc (pt->sheet, r);
 		sheet_regen_adjacent_spans (pt->sheet,
 			r->start.col,  r->start.row, r->end.col, r->end.row,
 			&min_col, &max_col);

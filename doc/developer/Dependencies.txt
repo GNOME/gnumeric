@@ -1,12 +1,11 @@
-A discussion of the new dependency code, version 0.1
+A discussion of the new dependency code, version 0.2
 by Michael Meeks <mmeeks@gnu.org>
 
 
 The dependency code is a comparatively conceptualy simple part of the gnumeric
-code. The code is designed to determine which cells depend on the cell of
-interest. The main use of this is in triggering recomputation of cells which
-depend on a cell that has just changed.
-
+code. The code is designed to determine which objects depend on which cells.
+The main use of this is triggering recomputation for things that depend on
+something that has changed.
 
 1.     Overview of the Dependencies
 
@@ -25,12 +24,10 @@ range references. The two hash tables store DependencyRange structures in the
 'range_hash' member, and DependencySingle structures in the 'single_hash'
 member.
 
-       The DependencyRange structure defines a range reference. This essential
-lists the Cells ( not neccessarily in this sheet ), that depend on the range
-specified. Hence to find the cells that depend on a cell you have just altered
-you must search all the range structures in the range_hash for that sheet. This
-is very important; to re-phrase dependancies are stored in an Area -> list of
-depending cells fashion.
+       The DependencyRange structure defines a range reference. This lists the
+Dependencies ( not neccessarily in this sheet ), that depend on the range
+specified.  Hence to find the cells that depend on a cell you have just altered
+you must search all the range structures in the range_hash for that sheet.
 
        The DependencySingle structure mapping stores the degenerate case of
 a DependencyRange. Essentialy it stores the cells that depend on a unit range.
@@ -39,21 +36,12 @@ the Range hash, all of which has to be traversed per dependency calculation.
 NB. the DependencySingle has to use CellPos' since there is no garentee that
 a cell will exist at a given position in the sheet that is depended on.
 
-1.2    The generation gap
-
-       In order to ensure that there are no circular dependencies that will
-create a recursive loop locking gnumeric there is a generation counter on
-each cell. There is a generation count per workbook which is incremented on
-recalculate. When a cell is re-calculated its generation is set to be the
-workbook's generation count. A cell will only be re-evaluated if its generation
-is not the current generation.
-
 
 2.     Dependent Evaluation
 
        The routine dependent_eval will evaluate a dependent and if its value
 changes it will queue cells that depend on it, these are obtained via
-cell_get_dependencies, which looks up in the single_hash and tranverses the
+cell_forech_dep, which looks up in the single_hash and tranverses the
 range_hash to obtain its result. Often cell recalculation happens through
 workbook_recalc which works through the workbook's eval_queue re-evaluating
 the cells there.
@@ -64,18 +52,9 @@ the cells there.
 simply traversing the ExprTree (expr.h) will result in many cells being
 evaluated. Essentialy each dereference in the ExprTree ( eg. =A1 ) will cause
 the re-calculation of A1's ExprTree before we can continue ( recursively ).
-After the root ExprTree has been evaluated the value is set on the Cell and
-the dependencies of this cell are queued on the workbook's eval_queue.
-
-2.2    Short circuiting dependencies
-
-       Clearly, if after evaluating a cell's ExprTree we generate an identical
-Value (value.h) we can prune a huge chunk off the dependency tree by not
-bothering notifying dependencies of a change ( since there hasn't been one ).
-Hence cell_eval_content returns a gboolean indicating whether the cell's
-value has changed.  (Ok, so this feature was dropped before the code went
-live, since a few other changes were needed to support it, but there is room
-for performance improvement here ).
+This is actually fairly expensive when the expression contains a reference like
+    =sum(a1:a65535)
+Each dependent can be in two states
 
 
 3.     Dependencies the bottleneck
@@ -99,7 +78,7 @@ time in search_cell_deps.
        To overcome this problem we partition dependencies into single cell
 dependencies and range dependencies. This way for the common =A1 case, we don't
 add an entry in the range_hash, we simply add an entry in the simple_hash.
-Hence for the cell_get_dependencies we have one less entry in the range hash to
+Hence for the cell_forech_dep we have one less entry in the range hash to
 iterate over, which saves N iterations of search_cell_deps.
 
 	Another common case is having a lot of formulae sharing the same range
@@ -180,7 +159,7 @@ references a different cell, hence the dependency has to be treated rather
 differently. This is yet to be implemented.
 
 
-5.     Future Expansion
+5.1     Future Expansion
 
        There are several avenues open for future expansion. Clearly further
 accelerating the range search will give big speedups on large sheets. This
@@ -188,15 +167,6 @@ could be done by clipping the dependency ranges several times against smaller
 ranges homing in on the cell of interest, and storing the results for future
 reference. Clearly many of the MStyle range related optimizations would be
 useful here as well.
-
-5.1    Pruning the tree
-
-       It should be trivial to chop huge chunks of the dependency tree out 
-if we find that the value we have generated is identical to that which we
-already had. This is currently implemented, but commented out, since
-dependencies need to be recalculated on move / cut / paste etc. and in this
-case the value does not change. Simply NULL'ing cell->value in cell_relocate
-might fix this.
 
 5.2    Multi-threading,
 

@@ -5,6 +5,10 @@ Almer:
 
 Jody:
 	* Fix ctrl-enter filling.
+	* Reorganize the recalc queue
+
+Zbigniew:
+	* More work on plugin system.
 
 --------------------------------------------------------------------------
 Gnumeric 0.65

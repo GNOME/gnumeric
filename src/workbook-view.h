@@ -73,6 +73,15 @@ void		 wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display);
 void		 wb_view_auto_expr	  (WorkbookView *wbv,
 					   char const *name, char const *expr);
 
+/* I/O routines */ 
+gboolean wb_view_save_as     (WorkbookView *wbv, WorkbookControl *wbc,
+                              GnumFileSaver *fs, char const *file_name);
+gboolean wb_view_save        (WorkbookView *wbv, WorkbookControl *wbc);
+gboolean wb_view_open        (WorkbookView *wbv, WorkbookControl *wbc,
+                              char const *file_name);
+gboolean wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
+                              GnumFileOpener *fo, char const *file_name);
+
 #define WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control, code)			\
 do {										\
 	int jNd;								\
@@ -85,14 +94,5 @@ do {										\
 		}								\
 } while (0)
 
-/* i/o routines */
-
-gboolean wb_view_save_as     (WorkbookView *wbv, WorkbookControl *wbc,
-                              GnumFileSaver *fs, const gchar *file_name);
-gboolean wb_view_save        (WorkbookView *wbv, WorkbookControl *wbc);
-gboolean wb_view_open        (WorkbookView *wbv, WorkbookControl *wbc,
-                              const gchar *file_name);
-gboolean wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
-                              GnumFileOpener *fo, const gchar *file_name);
 
 #endif /* GNUMERIC_WORKBOOK_VIEW_H */

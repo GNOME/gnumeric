@@ -1985,7 +1985,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		if (shared_expr_index > 0) {
 			gpointer id = GINT_TO_POINTER (shared_expr_index);
 			gpointer expr =
-			    g_hash_table_lookup (ctxt->expr_map, id);
+				g_hash_table_lookup (ctxt->expr_map, id);
 
 			if (expr == NULL) {
 				if (cell_has_expr (ret))

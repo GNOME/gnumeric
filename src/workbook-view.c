@@ -370,7 +370,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	if (wbv->auto_expr_value_as_string)
 		g_free (wbv->auto_expr_value_as_string);
 	if (v) {
-		const char *val_str = value_peek_string (v);
+		char const *val_str = value_peek_string (v);
 		wbv->auto_expr_value_as_string =
 			g_strconcat (wbv->auto_expr_desc, "=", val_str, NULL);
 		value_release (v);
@@ -588,7 +588,7 @@ workbook_view_new (Workbook *optional_wb)
  */
 gboolean
 wb_view_save_as (WorkbookView *wbv, WorkbookControl *wbc,
-                 GnumFileSaver *fs, const gchar *file_name)
+                 GnumFileSaver *fs, gchar const *file_name)
 {
 	gboolean success = FALSE;
 	IOContext *io_context;
@@ -676,7 +676,7 @@ wb_view_save (WorkbookView *wbv, WorkbookControl *wbc)
  */
 gboolean
 wb_view_open (WorkbookView *wbv, WorkbookControl *wbc,
-              const gchar *file_name)
+              gchar const *file_name)
 {
 	return wb_view_open_custom (wbv, wbc, NULL, file_name);
 }
@@ -694,7 +694,7 @@ wb_view_open (WorkbookView *wbv, WorkbookControl *wbc,
  */
 gboolean
 wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
-                     GnumFileOpener *fo, const gchar *file_name)
+                     GnumFileOpener *fo, gchar const *file_name)
 {
 	gboolean success = FALSE;
 	IOContext *io_context;
@@ -727,30 +727,30 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 			tmp_wbv = workbook_view_new (tmp_wb);
 			gnum_file_opener_open (fo, io_context, tmp_wbv, file_name);
 			if (!gnumeric_io_error_occurred (io_context) &&
-			    workbook_sheet_count (tmp_wb) == 0) {
+			    workbook_sheet_count (tmp_wb) == 0)
 				gnumeric_io_error_read (io_context, _("No sheets in workbook."));
-			}
+
 			if (!gnumeric_io_error_occurred (io_context)) {
 				workbook_set_dirty (tmp_wb, FALSE);
 				new_wb = tmp_wb;
-			} else {
+			} else
 				gtk_object_destroy (GTK_OBJECT (tmp_wb));
-			}
-		} else {
+		} else
 			gnumeric_io_error_read (io_context, _("Unsupported file format."));
-		}
 	} else {
 		new_wb = workbook_new_with_sheets (1);
 		workbook_set_saveinfo (new_wb, file_name, FILE_FL_NEW, NULL);
 	}
-	if (gnumeric_io_has_error_info (io_context)) {
+
+	if (gnumeric_io_has_error_info (io_context))
 		gnumeric_io_error_info_display (io_context);
-	}
+
 	if (!gnumeric_io_error_occurred (io_context)) {
 		WorkbookView *new_wbv;
 		Workbook *old_wb;
 
-		g_assert (new_wb != NULL);
+		g_return_val_if_fail (new_wb != NULL, FALSE);
+
 		new_wbv = workbook_view_new (new_wb);
 		old_wb = wb_control_workbook (wbc);
 		if (workbook_is_pristine (old_wb)) {
@@ -758,15 +758,17 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 			workbook_unref (old_wb);
 			workbook_control_set_view (wbc, new_wbv, NULL);
 			workbook_control_init_state (wbc);
-		} else {
+		} else
 			(void) wb_control_wrapper_new (wbc, new_wbv, NULL);
-		}
+
 		workbook_recalc (new_wb);
-		g_assert (!workbook_is_dirty (new_wb));
+
+		g_return_val_if_fail (!workbook_is_dirty (new_wb), FALSE);
+
 		sheet_update (wb_view_cur_sheet (new_wbv));
 		success = TRUE;
 	} else {
-		g_assert (new_wb == NULL);
+		g_return_val_if_fail (new_wb == NULL, FALSE);
 		success = FALSE;
 	}
 	gnumeric_io_context_free (io_context);

@@ -9,8 +9,6 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "clipboard.h"
-#include "dependent.h"
-#include "eval.h"
 #include "selection.h"
 #include "application.h"
 #include "workbook-control-gui-priv.h"

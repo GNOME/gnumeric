@@ -418,37 +418,11 @@ expr_array_intersection (Value *a)
 	return tmp;
 }
 
-/*
- * Utility routine to ensure that all elements of a range are recalced as
- * necessary.
- */
-static void
-eval_range (EvalPos const *pos, Value *v)
+static Value *
+cb_range_eval (Sheet *sheet, int col, int row, Cell *cell, void *ignore)
 {
-	int start_col, start_row, end_col, end_row;
-	CellRef * a = &v->v_range.cell.a;
-	CellRef * b = &v->v_range.cell.b;
-	Sheet * sheet = a->sheet ? a->sheet : pos->sheet;
-	Cell * cell;
-	int r, c;
-	int const gen = pos->sheet->workbook->generation;
-
-	cell_get_abs_col_row (a, &pos->eval, &start_col, &start_row);
-	cell_get_abs_col_row (b, &pos->eval, &end_col, &end_row);
-
-	if (b->sheet && a->sheet != b->sheet) {
-		g_warning ("3D references not-fully supported.\n"
-			   "Recalc may be incorrect");
-		return;
-	}
-
-	for (r = start_row; r <= end_row; ++r)
-		for (c = start_col; c <= end_col; ++c) {
-			if ((cell = sheet_cell_get (sheet, c, r)) == NULL)
-				continue;
-			if (cell->base.generation != gen)
-				cell_eval (cell);
-		}
+	cell_eval (cell);
+	return NULL;
 }
 
 static Value *
@@ -823,8 +797,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		if (cell == NULL)
 			return NULL;
 
-		if (cell->base.generation != pos->sheet->workbook->generation)
-			cell_eval (cell);
+		cell_eval (cell);
 
 		return value_duplicate (cell->value);
 	}
@@ -834,7 +807,8 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		if (res->type != VALUE_CELLRANGE)
 			return value_duplicate (res);
 		if (flags & EVAL_PERMIT_NON_SCALAR) {
-			eval_range (pos, res);
+			workbook_foreach_cell_in_range (pos, res, TRUE,
+							cb_range_eval, NULL);
 			return value_duplicate (res);
 		} else {
 			/*
@@ -871,8 +845,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 					if (cell == NULL)
 						return NULL;
 
-					if (cell->base.generation != pos->sheet->workbook->generation)
-						cell_eval (cell);
+					cell_eval (cell);
 
 					return value_duplicate (cell->value);
 				}

@@ -79,7 +79,7 @@ cell_cleanout (Cell *cell)
 		cell->format = NULL;
 	}
 
-	cell->base.flags &= ~(CELL_HAS_EXPRESSION|DEPENDENT_QUEUED_FOR_RECALC);
+	cell->base.flags &= ~(CELL_HAS_EXPRESSION|DEPENDENT_IN_RECALC_QUEUE|DEPENDENT_NEEDS_RECALC);
 }
 
 /**
@@ -104,7 +104,7 @@ cell_copy (Cell const *cell)
 
 	/* The new cell is not linked into any of the major management structures */
 	new_cell->base.sheet = NULL;
-	new_cell->base.flags &= ~(DEPENDENT_QUEUED_FOR_RECALC|CELL_IN_SHEET_LIST|DEPENDENT_IN_EXPR_LIST);
+	new_cell->base.flags &= ~(DEPENDENT_IN_RECALC_QUEUE|DEPENDENT_NEEDS_RECALC|CELL_IN_SHEET_LIST|DEPENDENT_IN_EXPR_LIST);
 
 	/* now copy properly the rest */
 	if (cell_has_expr (new_cell))
@@ -183,27 +183,7 @@ cell_eval_content (Cell *cell)
 		v = value_new_error (&pos, "Internal error");
 
 	cell_assign_value (cell, v, NULL);
-
-	/* TODO : Can we Use spancalc without too much performance overhead
-	 * Seems like a better approach may be to do this at display time */
-	cell_render_value (cell, TRUE);
 	sheet_redraw_cell (cell);
-}
-
-/**
- * cell_content_changed: Queues recalc of all of the cells depends.
- */
-void
-cell_content_changed (Cell *cell)
-{
-	GList   *deps;
-
-	g_return_if_fail (cell != NULL);
-
-	/* Queue all of the dependencies for this cell */
-	deps = cell_get_dependencies (cell);
-	if (deps)
-		dependent_queue_recalc_list (deps, TRUE);
 }
 
 /*

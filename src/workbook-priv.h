@@ -41,9 +41,6 @@ struct _Workbook {
 
 	/* The dependents to be evaluated */
 	GList     *eval_queue;
-	int        max_iterations;
-
-	guint8     generation;
 
 	/* Attached summary information */
 	SummaryInfo *summary_info;

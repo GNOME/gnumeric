@@ -21,7 +21,6 @@
 #include "application.h"
 #include "sheet.h"
 #include "sheet-control-gui.h" /* ICK : remove when mode_edit is virtualized */
-#include "dependent.h"
 #include "expr.h"
 #include "expr-name.h"
 #include "eval.h"
@@ -295,7 +294,7 @@ workbook_is_pristine (Workbook *wb)
 #ifdef ENABLE_BONOBO
 	    wb->priv->workbook_views ||
 #endif
-	    wb->eval_queue || (wb->file_format_level > FILE_FL_NEW))
+	    (wb->file_format_level > FILE_FL_NEW))
 		return FALSE;
 
 	/* Check if we seem to contain anything */
@@ -370,7 +369,6 @@ workbook_init (GtkObject *object)
 	wb->sheet_hash_private = g_hash_table_new (gnumeric_strcase_hash,
 						   gnumeric_strcase_equal);
 	wb->names        = NULL;
-	wb->max_iterations = 1;
 	wb->summary_info   = summary_info_new ();
 	summary_info_default (wb->summary_info);
 

@@ -2,18 +2,18 @@
 #define GNUMERIC_CELL_H
 
 #include "gnumeric.h"
-#include "dependent.h"
+#include "eval.h"
 
 typedef enum {
-    /* MUST BE > 0xffff for dependent */
-    /* Cell has an expression (Can we use base.expr == NULL ?)*/
-    CELL_HAS_EXPRESSION	   = 0x10000,
+	/* MUST BE > 0xffff for dependent */
+	/* Cell has an expression (Can we use base.expr == NULL ?)*/
+	CELL_HAS_EXPRESSION = 0x010000,
 
-    /* Cell is linked into the sheet */
-    CELL_IN_SHEET_LIST	   = 0x20000,
+	/* Cell is linked into the sheet */
+	CELL_IN_SHEET_LIST  = 0x020000,
 
-    /* Is the top left corner of a merged region */
-    CELL_IS_MERGED	   = 0x40000
+	/* Is the top left corner of a merged region */
+	CELL_IS_MERGED	    = 0x040000,
 } CellFlags;
 
 /* Definition of a Gnumeric Cell */
@@ -50,7 +50,7 @@ void        cell_content_changed         (Cell *cell);
 /**
  * Cell state checking
  */
-#define	    cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_QUEUED_FOR_RECALC)
+#define	    cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_NEEDS_RECALC)
 #define	    cell_expr_is_linked(cell)	((cell)->base.flags & DEPENDENT_IN_EXPR_LIST)
 #define	    cell_has_expr(cell)		((cell)->base.flags & CELL_HAS_EXPRESSION)
 #define	    cell_is_linked(cell)	((cell)->base.flags & CELL_IN_SHEET_LIST)

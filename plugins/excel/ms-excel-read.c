@@ -1376,7 +1376,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 static void
 ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 {
-	MStyle *const mstyle  = ms_excel_get_style_from_xf (sheet, xfidx);
+	MStyle *const mstyle = ms_excel_get_style_from_xf (sheet, xfidx);
 	if (mstyle == NULL)
 		return;
 
@@ -1861,8 +1861,8 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 		return expr;
 	}
 
-	printf ("EXCEL : unexpected record after a formula 0x%x in '%s'\n",
-		q->opcode, cell_name (cell));
+	g_warning ("EXCEL : unexpected record after a formula 0x%x in '%s'\n",
+		   q->opcode, cell_name (cell));
 	return NULL;
 }
 
@@ -2061,7 +2061,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 	 * 0x2 = CalcOnLoad
 	 */
 	if (options & 0x3)
-		dependent_queue_recalc (CELL_TO_DEP (cell));
+		cell_queue_recalc (cell);
 }
 
 BiffSharedFormula *
