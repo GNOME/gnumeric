@@ -190,7 +190,7 @@ static GSF_CLASS (type, func,						\
 static char *
 undo_global_range_name (Sheet *sheet, Range const * const range)
 {
-	gboolean show_sheet_name = gnm_gconf_get_show_sheet_name ();
+	gboolean show_sheet_name = gnm_app_prefs->show_sheet_name;
 	return global_range_name (show_sheet_name ? sheet : NULL, range); 
 }
 
@@ -298,7 +298,7 @@ cmd_cell_pos_name_utility (Sheet *sheet, CellPos const *pos)
 static guint
 max_descriptor_width (void)
 {
-	return gnm_gconf_get_max_descriptor_width ();
+	return gnm_app_prefs->max_descriptor_width;
 }
 
 /**
@@ -577,8 +577,8 @@ truncate_undo_info (Workbook *wb)
 	int ok_count;
 	GSList *l, *prev;
 
-	size_left = gnm_gconf_get_undo_size (); 
-	max_num = gnm_gconf_get_undo_max_number ();
+	size_left = gnm_app_prefs->undo_size; 
+	max_num   = gnm_app_prefs->undo_max_number;
 	
 #ifdef DEBUG_TRUNCATE_UNDO
 	fprintf (stderr, "Undo sizes:");

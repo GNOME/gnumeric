@@ -39,7 +39,6 @@
 #include "expr.h"
 #include "rendered-value.h"
 #include "gnumeric-gconf.h"
-#include "auto-correct.h"
 
 #include <locale.h>
 #ifdef WITH_BONOBO
@@ -109,6 +108,7 @@ void
 gnm_common_init (void)
 {
 	g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
+	gnm_conf_init ();
 	value_init ();
 	expr_init ();
 	cell_init ();
@@ -126,7 +126,6 @@ gnm_common_init (void)
 	print_init ();
 	autofill_init ();
 	sheet_object_register ();
-	autocorrect_init ();
 
 	/* The statically linked in file formats */
 	xml_init ();
@@ -160,7 +159,6 @@ gnm_shutdown (void)
 	application_release_pref_dialog ();
 	application_clipboard_clear (TRUE);
 
-	autocorrect_shutdown ();
 	plugins_shutdown ();
 	print_shutdown ();
 	expr_name_shutdown ();

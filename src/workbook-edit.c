@@ -465,7 +465,7 @@ wbcg_edit_attach_guru_with_unfocused_rs (WorkbookControlGUI *wbcg, GtkWidget *gu
 
 	wbcg_edit_attach_guru_main (wbcg, guru);
 	
-	if (gnm_gconf_get_unfocused_range_selection ()) {
+	if (gnm_app_prefs->unfocused_range_selection) {
 		if (gee)
 			wbcg_set_entry (wbcg, gee);
 	} else

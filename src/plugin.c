@@ -1421,7 +1421,7 @@ gnumeric_extra_plugin_dirs (void)
 	GSList *extra_dirs;
 	gchar const *plugin_path_env;
 	
-	extra_dirs = gnm_gconf_get_plugin_extra_dirs ();
+	extra_dirs = gnm_app_prefs->plugin_extra_dirs;
 	plugin_path_env = g_getenv ("GNUMERIC_PLUGIN_PATH");
 	if (plugin_path_env != NULL) {
 		GNM_SLIST_CONCAT (extra_dirs, g_strsplit_to_slist (plugin_path_env, ":"));
@@ -1723,7 +1723,7 @@ plugins_init (CommandContext *context)
 
 	/* initialize hash table with information about known plugin.xml files */
 	plugin_file_state_dir_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, plugin_file_state_free);
-	state_str_list = gnm_gconf_get_plugin_file_states ();
+	state_str_list = gnm_app_prefs->plugin_file_states;
 	GNM_SLIST_FOREACH (state_str_list, char, state_str,
 		PluginFileState *state;
 
@@ -1749,8 +1749,8 @@ plugins_init (CommandContext *context)
 	}
 
 	/* activate all previously active and (optionally) new plugins */
-	saved_active_ids = gnm_gconf_get_active_plugins ();
-	if (gnm_gconf_get_activate_new_plugins ()) {
+	saved_active_ids = gnm_app_prefs->active_plugins;
+	if (gnm_app_prefs->activate_new_plugins) {
 		g_hash_table_foreach (
 			plugin_file_state_dir_hash,
 			ghf_collect_new_plugin_ids,

@@ -11,12 +11,10 @@ typedef enum {
 	AC_MAX_FEATURE
 } AutoCorrectFeature;
 
-void	 autocorrect_init     	    (void);
-void	 autocorrect_shutdown  	    (void);
 void	 autocorrect_store_config   (void);
 gboolean autocorrect_get_feature    (AutoCorrectFeature feat);
 void	 autocorrect_set_feature    (AutoCorrectFeature feat, gboolean val);
-GSList const *autocorrect_get_exceptions (AutoCorrectFeature feat);
+GSList  *autocorrect_get_exceptions (AutoCorrectFeature feat);
 void	 autocorrect_set_exceptions (AutoCorrectFeature feat, GSList const *list);
 
 char    *autocorrect_tool 	 (char const *input);

@@ -186,7 +186,7 @@ sheet_new (Workbook *wb, char const *name)
 					     (GCompareFunc)&cellpos_cmp);
 
 	/* Force the zoom change inorder to initialize things */
-	sheet_set_zoom_factor (sheet, gnm_gconf_get_zoom (), TRUE, TRUE);
+	sheet_set_zoom_factor (sheet, gnm_app_prefs->zoom, TRUE, TRUE);
 
 	sheet->pristine = TRUE;
 	sheet->modified = FALSE;

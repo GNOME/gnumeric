@@ -1530,11 +1530,11 @@ do_setup_sheet_selector (PrinterSetupState *state)
 		"toggled",
 		G_CALLBACK (cb_do_sheet_selector_toggled), state);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
-				      gnm_gconf_get_all_sheets ());
+				      gnm_app_prefs->print_all_sheets);
 	cb_do_sheet_selector_toggled (GTK_TOGGLE_BUTTON (w), state);
 	w = glade_xml_get_widget (state->gui, "apply-to-selected");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
-				      !gnm_gconf_get_all_sheets ());
+				      !gnm_app_prefs->print_all_sheets);
 	gtk_widget_show_all (table);
 }
 

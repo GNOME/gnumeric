@@ -62,6 +62,65 @@ gnumeric_time_counter_pop (void)
 	return ret_val;
 }
 
+/***************************************************************************/
+
+gunichar const *
+g_unichar_strchr (gunichar const *str, gunichar c)
+{
+	g_return_val_if_fail (str != NULL, NULL);
+
+	for (; *str ; str++)
+		if (*str == c)
+			return str;
+	return NULL;
+}
+
+gunichar const *
+g_unichar_strstr_utf8 (gunichar const *haystack, gchar const *needle)
+{
+	gchar const *tmp;
+	int i;
+	gunichar start;
+
+	g_return_val_if_fail (haystack != NULL, NULL);
+	g_return_val_if_fail (haystack[0], NULL);
+	g_return_val_if_fail (needle != NULL, NULL);
+
+	start = g_utf8_get_char (needle);
+	while (NULL != (haystack = g_unichar_strchr (haystack, start))) {
+		i = 0;
+		tmp = needle;
+		do {
+			if (haystack[++i] == 0)
+				return haystack;
+			tmp = g_utf8_next_char (tmp);
+		} while (g_utf8_get_char (tmp) == haystack[i]);
+		haystack++;
+	}
+	return NULL;
+}
+
+size_t
+g_unichar_strlen (gunichar const *str)
+{
+	int i = 0;
+	while (*str++)
+		i++;
+	return i;
+}
+
+int
+g_unichar_strncmp (gunichar const *a, gunichar const *b, size_t n)
+{
+	while (n > 0 && *a == *b)
+		a++, b++, n--;
+
+	if (n > 0)
+		return *a - *b;
+	return 0;
+}
+
+/***************************************************************************/
 void
 g_ptr_array_insert (GPtrArray *array, gpointer value, int index)
 {

@@ -3354,7 +3354,7 @@ static void
 gnumeric_xml_set_compression (xmlDoc *doc, int compression)
 {
 	if (compression < 0)
-		compression = gnm_gconf_get_xml_compression_level ();
+		compression = gnm_app_prefs->xml_compression_level;
 	xmlSetDocCompressMode (doc, compression);
 }
 

@@ -321,14 +321,14 @@ application_workbook_get_by_index (int i)
 double
 application_display_dpi_get (gboolean horizontal)
 {
-	return horizontal ? gnm_gconf_get_horizontal_dpi () : gnm_gconf_get_vertical_dpi ();
+	return horizontal ? gnm_app_prefs->horizontal_dpi : gnm_app_prefs->vertical_dpi;
 }
 
 double
 application_dpi_to_pixels (void)
 {
-	return MIN (gnm_gconf_get_horizontal_dpi (),
-		    gnm_gconf_get_vertical_dpi ()) / 72.;
+	return MIN (gnm_app_prefs->horizontal_dpi,
+		    gnm_app_prefs->vertical_dpi) / 72.;
 }
 
 /**
@@ -348,8 +348,8 @@ application_history_get_list (void)
 	if (app->history_list)
 		return app->history_list;
 
-	max_entries = gnm_gconf_get_file_history_max ();
-	app->history_list = gnm_gconf_get_file_history_files ();
+	max_entries = gnm_app_prefs->file_history_max;
+	app->history_list = gnm_app_prefs->file_history_files;
 
 	while (g_slist_length (app->history_list) > (guint)max_entries) {
 		GSList *last = g_slist_last (app->history_list);
@@ -381,7 +381,7 @@ application_history_update_list (const gchar *filename)
 	g_return_val_if_fail (filename != NULL, NULL);
 
 	/* Get maximum list length from config */
-	max_entries = gnm_gconf_get_file_history_max ();
+	max_entries = gnm_app_prefs->file_history_max;
 
 	/* Shorten the list in case max_entries has changed. */
 	while (g_slist_length (app->history_list) > (guint) max_entries) {
@@ -441,7 +441,7 @@ application_history_write_config (void)
 
 	if (app->history_list == NULL) return;
 
-	max_entries = gnm_gconf_get_file_history_max ();
+	max_entries = gnm_app_prefs->file_history_max;
 
 	/* Shorten the list in case max_entries has changed. */
 	while (g_slist_length (app->history_list) > (guint) max_entries) {
@@ -458,20 +458,19 @@ application_history_write_config (void)
 	app->history_list = NULL;
 }
 
-gboolean application_use_auto_complete	  (void) { return gnm_gconf_get_auto_complete(); }
-gboolean application_live_scrolling	  (void) { return gnm_gconf_get_live_scrolling (); }
-int	 application_auto_expr_recalc_lag (void) { return gnm_gconf_get_recalc_lag (); }
-
-
+gboolean application_use_auto_complete	  (void) { return gnm_app_prefs->auto_complete; }
+gboolean application_live_scrolling	  (void) { return gnm_app_prefs->live_scrolling; }
+int	 application_auto_expr_recalc_lag (void) { return gnm_app_prefs->recalc_lag; }
 
 GConfClient *
 application_get_gconf_client (void) 
 {
-	if (!app->gconf_client)
+	if (!app->gconf_client) {
 		app->gconf_client = gconf_client_get_default ();
-	gconf_client_add_dir (app->gconf_client, "/apps/gnumeric",
-			      GCONF_CLIENT_PRELOAD_RECURSIVE,
-			      NULL);
+		gconf_client_add_dir (app->gconf_client, "/apps/gnumeric",
+				      GCONF_CLIENT_PRELOAD_RECURSIVE,
+				      NULL);
+	}
 	return app->gconf_client; 
 }
 
@@ -617,8 +616,7 @@ gnumeric_application_init (GObject *obj)
 	gnm_app->clipboard_copied_contents = NULL;
 	gnm_app->clipboard_sheet_view = NULL;
 
-	/* Set up GConf: */
-	gnm_app->gconf_client = gconf_client_get_default ();
+	gnm_app->gconf_client = NULL;
 
 	app = gnm_app;
 }

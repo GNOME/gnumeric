@@ -367,7 +367,3 @@ EXTRA_DIST = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml	\
 # Bonobo requires things to be in a subdir of this form
 uidir=$(gnumeric_datadir)/gnome-2.0/ui
 ui_DATA = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml
-
-CLEANFILES  = $(GNUMERIC_GENERATED)
-dist-hook :
-	cd $(distdir) && rm -f $(CLEANFILES)

@@ -15,14 +15,6 @@
 #define FUNCTION_SELECT_GCONF_RECENT "/apps/gnumeric/functionselector/recentfunctions"
 #define FUNCTION_SELECT_GCONF_NUM_OF_RECENT "/apps/gnumeric/functionselector/num-of-recent"
 
-#define AUTOCORRECT_DIRECTORY "/apps/gnumeric/autocorrect"
-#define AUTOCORRECT_INIT_CAPS AUTOCORRECT_DIRECTORY "/init-caps"
-#define AUTOCORRECT_INIT_CAPS_LIST AUTOCORRECT_DIRECTORY "/init-caps-list"
-#define AUTOCORRECT_FIRST_LETTER AUTOCORRECT_DIRECTORY "/first-letter"
-#define AUTOCORRECT_FIRST_LETTER_LIST AUTOCORRECT_DIRECTORY "/first-letter-list"
-#define AUTOCORRECT_NAMES_OF_DAYS AUTOCORRECT_DIRECTORY "/names-of-days"
-#define AUTOCORRECT_REPLACE AUTOCORRECT_DIRECTORY "/replace"
-
 #define PLUGIN_GCONF_DIRECTORY "/apps/gnumeric/plugins"
 #define PLUGIN_GCONF_ACTIVATE_NEW PLUGIN_GCONF_DIRECTORY "/activate-new"
 #define PLUGIN_GCONF_ACTIVE PLUGIN_GCONF_DIRECTORY "/active"

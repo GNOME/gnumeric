@@ -45,11 +45,11 @@
 #include <gal/util/e-util.h>
 
 typedef struct {
-	gboolean   changed;
-	gint       row;
-        GtkWidget *entry;
-        GtkWidget *list;
-	GSList	  *exceptions;
+	gboolean	 changed;
+        GtkWidget	*entry;
+        GtkWidget	*list;
+	GtkListStore	*model;
+	GSList		*exceptions;
 } AutoCorrectExceptionState;
 
 typedef struct {
@@ -66,30 +66,22 @@ static void
 cb_add_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
 {
 	gchar const *txt;
-	GSList    *ptr;
-	gboolean new_flag = TRUE;
+	GSList      *ptr;
+	GtkTreeIter  iter;
+	gboolean     new_flag = TRUE;
 
 	txt = gtk_entry_get_text (GTK_ENTRY (s->entry));
-	for (ptr = s->exceptions; ptr != NULL; ptr = ptr->next) {
-	        gchar *x = (gchar *) ptr->data;
-
-	        if (strcmp(x, txt) == 0) {
+	for (ptr = s->exceptions; ptr != NULL; ptr = ptr->next)
+	        if (strcmp (ptr->data, txt) == 0) {
 		        new_flag = FALSE;
 			break;
 		}
-	}
 
 	if (new_flag) {
-	        gint row;
-		char *dumy[2];
-		char *str;
-
-	        dumy[0] = (char *)txt;
-		dumy[1] = NULL;
-		str = g_strdup (txt);
-		row = gtk_clist_append (GTK_CLIST (s->list), dumy);
-		gtk_clist_set_row_data (GTK_CLIST (s->list), row, str);
-		s->exceptions = g_slist_prepend (s->exceptions, str);
+		gchar *tmp = g_strdup (txt);
+		gtk_list_store_append (s->model, &iter);
+		gtk_list_store_set (s->model, &iter, 0, tmp, -1);
+		s->exceptions = g_slist_prepend (s->exceptions, tmp);
 		s->changed = TRUE;
 	}
 	gtk_entry_set_text (GTK_ENTRY (s->entry), "");
@@ -98,67 +90,71 @@ cb_add_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
 static void
 cb_remove_clicked (GtkWidget *widget, AutoCorrectExceptionState *s)
 {
-        if (s->row >= 0) {
-	        gpointer x = gtk_clist_get_row_data (GTK_CLIST (s->list),
-						     s->row);
-	        gtk_clist_remove (GTK_CLIST (s->list), s->row);
-		s->exceptions = g_slist_remove (s->exceptions, x);
-		g_free (x);
-		s->changed = TRUE;
-	}
-}
+	char *txt;
+	GtkTreeIter iter;
+	GtkTreeSelection *selection =
+		gtk_tree_view_get_selection (GTK_TREE_VIEW (s->list));
 
-static void
-cb_select_row (GtkWidget *widget, gint row, gint col, GdkEventButton *event,
-	       AutoCorrectExceptionState *s)
-{
-        s->row = row;
+	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
+		return;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (s->model), &iter,
+		0, &txt,
+		-1);
+	s->exceptions = g_slist_remove (s->exceptions, txt);
+	gtk_list_store_remove (s->model, &iter);
+	g_free (txt);
+	s->changed = TRUE;
 }
 
 static void
 autocorrect_init_exception_list (AutoCorrectState *state,
 				 AutoCorrectExceptionState *exception,
-				 GSList const *exceptions,
+				 GSList *exceptions,
 				 char const *entry_name,
 				 char const *list_name,
 				 char const *add_name,
 				 char const *remove_name)
 {
-	GtkWidget *w;
-	GSList     *ptr;
+	GtkWidget   *w;
+	GtkTreeIter  iter;
+	GtkTreeSelection *selection;
 
 	exception->changed = FALSE;
-	exception->row = -1;
-	exception->exceptions = NULL;
+	exception->exceptions = exceptions;
 	exception->entry = glade_xml_get_widget (state->glade, entry_name);
+	exception->model = gtk_list_store_new (1, G_TYPE_STRING);
 	exception->list = glade_xml_get_widget (state->glade, list_name);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-		GTK_WIDGET (exception->entry));
-	g_signal_connect (G_OBJECT (exception->list),
-		"select_row",
-		G_CALLBACK (cb_select_row), exception);
-	for (ptr = (GSList *)exceptions; ptr != NULL; ptr = ptr->next) {
-	        gchar *s[2], *txt = (gchar *) ptr->data;
-		gint  row;
+	gtk_tree_view_set_model (GTK_TREE_VIEW (exception->list),
+				 GTK_TREE_MODEL (exception->model));
+	gtk_tree_view_append_column (GTK_TREE_VIEW (exception->list),
+		gtk_tree_view_column_new_with_attributes (NULL,
+			gtk_cell_renderer_text_new (),
+			"text", 0, 
+			NULL));
 
-		exception->exceptions = g_slist_prepend (exception->exceptions,
-							 g_strdup (txt));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (exception->list));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 
-	        s[0] = txt;
-		s[1] = NULL;
-		row = gtk_clist_append(GTK_CLIST (exception->list), s);
-		gtk_clist_set_row_data (GTK_CLIST (exception->list), row, txt);
+	for (; exceptions != NULL; exceptions = exceptions->next) {
+		gtk_list_store_append (exception->model, &iter);
+		gtk_list_store_set (exception->model, &iter,
+			0,	 exceptions->data,
+			-1);
 	}
-	exception->exceptions = g_slist_reverse (exception->exceptions);
 
 	w = glade_xml_get_widget (state->glade, add_name);
 	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_add_clicked), exception);
 	w = glade_xml_get_widget (state->glade, remove_name);
-	g_signal_connect (GTK_OBJECT (w),
+	g_signal_connect (G_OBJECT (w),
 		"clicked",
 		G_CALLBACK (cb_remove_clicked), exception);
+	g_signal_connect (G_OBJECT (exception->entry),
+		"activate",
+		G_CALLBACK (cb_add_clicked), exception);
+
 }
 
 static void

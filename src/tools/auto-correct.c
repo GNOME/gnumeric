@@ -30,10 +30,9 @@
 
 #include "dates.h"
 #include "application.h"
-#include <gnumeric-gconf.h>
+#include "gutils.h"
 #include <gsf/gsf-impl-utils.h>
 
-#include <gal/util/e-util.h>
 #include <ctype.h>
 #include <string.h>
 
@@ -51,62 +50,106 @@ static struct {
 	guint notification_id;
 } autocorrect;
 
+#define AUTOCORRECT_DIRECTORY "/apps/gnumeric/autocorrect"
+#define AUTOCORRECT_INIT_CAPS AUTOCORRECT_DIRECTORY "/init-caps"
+#define AUTOCORRECT_INIT_CAPS_LIST AUTOCORRECT_DIRECTORY "/init-caps-list"
+#define AUTOCORRECT_FIRST_LETTER AUTOCORRECT_DIRECTORY "/first-letter"
+#define AUTOCORRECT_FIRST_LETTER_LIST AUTOCORRECT_DIRECTORY "/first-letter-list"
+#define AUTOCORRECT_NAMES_OF_DAYS AUTOCORRECT_DIRECTORY "/names-of-days"
+#define AUTOCORRECT_REPLACE AUTOCORRECT_DIRECTORY "/replace"
+
+static void cb_autocorrect_update (GConfClient *gconf, guint cnxn_id,
+				   GConfEntry *entry, gpointer ignore);
 
 static void
-cb_autocorrect_notification (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
-			     gpointer ignore)
+autocorrect_clear (void)
 {
-	autocorrect_init ();
+	autocorrect_set_exceptions (AC_INIT_CAPS, NULL);
+	autocorrect_set_exceptions (AC_FIRST_LETTER, NULL);
 }
 
-void
+static void
+autocorrect_load (void)
+{
+	GConfClient *client = application_get_gconf_client ();
+
+	autocorrect.init_caps = gconf_client_get_bool (client,
+		AUTOCORRECT_INIT_CAPS, NULL);
+	autocorrect_set_exceptions (AC_INIT_CAPS, gconf_client_get_list (client,
+		AUTOCORRECT_INIT_CAPS_LIST, GCONF_VALUE_STRING, NULL));
+
+	autocorrect.first_letter = gconf_client_get_bool (client,
+		AUTOCORRECT_FIRST_LETTER, NULL);
+	autocorrect_set_exceptions (AC_FIRST_LETTER, gconf_client_get_list (client,
+		AUTOCORRECT_FIRST_LETTER_LIST, GCONF_VALUE_STRING, NULL));
+
+	autocorrect.names_of_days = gconf_client_get_bool (client,
+		AUTOCORRECT_NAMES_OF_DAYS, NULL);
+	autocorrect.replace = gconf_client_get_bool (client,
+		AUTOCORRECT_REPLACE, NULL);
+}
+
+static void
 autocorrect_init (void)
 {
-	autocorrect.init_caps =  gnm_gconf_get_autocorrect_init_caps ();
-	autocorrect.first_letter = gnm_gconf_get_autocorrect_first_letter ();
-	autocorrect.names_of_days = gnm_gconf_get_autocorrect_names_of_days ();
-	autocorrect.replace = gnm_gconf_get_autocorrect_replace ();
+	if (autocorrect.notification_id != 0)
+		return;
 
-	e_free_string_slist (autocorrect.exceptions.first_letter);
-	autocorrect.exceptions.first_letter =  
-		gnm_gconf_get_autocorrect_first_letter_exceptions ();
-
-	e_free_string_slist (autocorrect.exceptions.init_caps);
-	autocorrect.exceptions.init_caps = gnm_gconf_get_autocorrect_init_caps_exceptions (); 
-
-	if (autocorrect.notification_id == 0)
-		autocorrect.notification_id = gnm_gconf_add_notification_autocorrect (
-			(GConfClientNotifyFunc) cb_autocorrect_notification);
+	autocorrect_load ();
+	autocorrect.notification_id = gconf_client_notify_add (
+		application_get_gconf_client (),
+		AUTOCORRECT_DIRECTORY, cb_autocorrect_update,
+		NULL, NULL, NULL);
+	g_object_set_data_full (gnumeric_application_get_app (),
+		"ToolsAutoCorrect", GINT_TO_POINTER (1),
+		(GDestroyNotify) autocorrect_clear);
 }
 
-void
-autocorrect_shutdown (void)
+static void
+cb_autocorrect_update (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+		       gpointer ignore)
 {
-	autocorrect.notification_id = gnm_gconf_rm_notification (
-		autocorrect.notification_id);
-
-	e_free_string_slist (autocorrect.exceptions.first_letter);
-	autocorrect.exceptions.first_letter = NULL;
-
-	e_free_string_slist (autocorrect.exceptions.init_caps);
-	autocorrect.exceptions.init_caps = NULL;
+	autocorrect_clear ();
+	autocorrect_load ();
 }
 
 void
 autocorrect_store_config (void)
 {
-	gnm_gconf_set_autocorrect_init_caps (autocorrect.init_caps);
-	gnm_gconf_set_autocorrect_first_letter (autocorrect.first_letter);
-	gnm_gconf_set_autocorrect_names_of_days (autocorrect.names_of_days);
-	gnm_gconf_set_autocorrect_replace (autocorrect.replace);
-	gnm_gconf_set_autocorrect_init_caps_exceptions (autocorrect.exceptions.init_caps);
-	gnm_gconf_set_autocorrect_first_letter_exceptions (autocorrect.exceptions.first_letter);
-	gnm_conf_sync ();
+	GConfChangeSet *cs = gconf_change_set_new ();
+	GSList *init_caps = autocorrect_get_exceptions (AC_INIT_CAPS);
+	GSList *first_letter = autocorrect_get_exceptions (AC_FIRST_LETTER);
+
+	gconf_change_set_set_bool (cs, AUTOCORRECT_INIT_CAPS,
+		autocorrect.init_caps);
+	gconf_change_set_set_list (cs, AUTOCORRECT_INIT_CAPS_LIST,
+		GCONF_VALUE_STRING, init_caps);
+	gconf_change_set_set_bool (cs, AUTOCORRECT_FIRST_LETTER,
+		autocorrect.first_letter);
+	gconf_change_set_set_list (cs, AUTOCORRECT_FIRST_LETTER_LIST,
+	       GCONF_VALUE_STRING, first_letter);
+	gconf_change_set_set_bool (cs, AUTOCORRECT_NAMES_OF_DAYS,
+		autocorrect.names_of_days);
+	gconf_change_set_set_bool (cs, AUTOCORRECT_REPLACE,
+		autocorrect.replace);
+
+	gconf_client_commit_change_set (application_get_gconf_client (),
+					cs, FALSE, NULL);
+	gconf_client_suggest_sync (application_get_gconf_client (), NULL);
+	gconf_change_set_unref (cs);
+
+	g_slist_foreach (init_caps, (GFunc)g_free, NULL);
+	g_slist_free (init_caps);
+	g_slist_foreach (first_letter, (GFunc)g_free, NULL);
+	g_slist_free (first_letter);
+
 }
 
 gboolean
 autocorrect_get_feature (AutoCorrectFeature feature)
 {
+	autocorrect_init ();
+
 	switch (feature) {
 	case AC_INIT_CAPS :	return autocorrect.init_caps;
 	case AC_FIRST_LETTER :	return autocorrect.first_letter;
@@ -131,39 +174,60 @@ autocorrect_set_feature (AutoCorrectFeature feature, gboolean val)
 	};
 }
 
-GSList const*
+/**
+ * autocorrect_get_exceptions :
+ * @feature :
+ *
+ * Return a list of utf8 encoded strings.  Both the list and the content need to be freed.
+ **/
+GSList *
 autocorrect_get_exceptions (AutoCorrectFeature feature)
 {
+	GSList *ptr, *accum;
+
+	autocorrect_init ();
+
 	switch (feature) {
-	case AC_INIT_CAPS :     return autocorrect.exceptions.init_caps;
-	case AC_FIRST_LETTER :	return autocorrect.exceptions.first_letter;
+	case AC_INIT_CAPS :    ptr = autocorrect.exceptions.init_caps; break;
+	case AC_FIRST_LETTER : ptr = autocorrect.exceptions.first_letter; break;
 	default :
 		g_warning ("Invalid autocorrect feature %d.", feature);
+		return NULL;
 	};
-	return NULL;
+
+	for (accum = NULL; ptr != NULL; ptr = ptr->next)
+		accum = g_slist_prepend (accum,
+			g_ucs4_to_utf8 (ptr->data, -1, NULL, NULL, NULL));
+	return g_slist_reverse (accum);
 }
 
+/**
+ * autocorrect_set_exceptions :
+ * @feature :
+ * @list : A GSList of utf8 encoded strings.
+ *
+ **/
 void
 autocorrect_set_exceptions (AutoCorrectFeature feature, GSList const *list)
 {
-	GSList *new_list = NULL, *this;
+	GSList **res, *accum = NULL;
 	
-	for (this = (GSList *)list; this; this = this->next)
-		new_list = g_slist_prepend (new_list, g_strdup ((char *) this->data));
-	new_list = g_slist_reverse (new_list);
-		
 	switch (feature) {
-	case AC_INIT_CAPS :    
-		e_free_string_slist (autocorrect.exceptions.init_caps);
-		autocorrect.exceptions.init_caps = new_list;	   
-		break;
-	case AC_FIRST_LETTER : 
-		e_free_string_slist (autocorrect.exceptions.first_letter);
-		autocorrect.exceptions.first_letter = new_list; 
-		break;
+	case AC_INIT_CAPS : res = &autocorrect.exceptions.init_caps; break;
+	case AC_FIRST_LETTER :res = &autocorrect.exceptions.first_letter; break;
 	default :
 		g_warning ("Invalid autocorrect feature %d.", feature);
+		return;
 	};
+
+	for (; list; list = list->next)
+		accum = g_slist_prepend (accum,
+			g_utf8_to_ucs4 (list->data, -1, NULL, NULL, NULL));
+	accum = g_slist_reverse (accum);
+		
+	g_slist_foreach (*res, (GFunc)g_free, NULL);
+	g_slist_free (*res);
+	*res = accum;	   
 }
 
 static char const * const autocorrect_day [] = {
@@ -175,69 +239,76 @@ static char const * const autocorrect_day [] = {
 char *
 autocorrect_tool (char const *command)
 {
-        unsigned char *s;
-	unsigned char *ucommand = (unsigned char *)g_strdup (command);
+        gunichar *s, *p;
+	gunichar *ucommand = g_utf8_to_ucs4 (command, -1, NULL, NULL, NULL);
 	gint i, len;
+	static gunichar const not_punct[] = {
+		'~', '@', '#', '$', '%',
+		'^', '&', '*', '(', ')',
+		'[', ']', '{', '}', '<',
+		'>', ',', '/', '_', '-',
+		'+', '=', '`', '\'', '\"', '\\'
+	};
+
+	autocorrect_init ();
 
 	len = strlen ((char *)ucommand);
 
         if (autocorrect.init_caps) {
 		for (s = ucommand; *s; s++) {
 		skip_ic_correct:
-			if (isupper (*s) && isupper (s[1])) {
-				if (islower (s[2])) {
+			if (g_unichar_isupper (s[0]) && g_unichar_isupper (s[1])) {
+				if (g_unichar_islower (s[2])) {
 					GSList *c = autocorrect.exceptions.init_caps;
 					while (c != NULL) {
-						guchar *a = (guchar *)c->data;
-						if (strncmp (s, a, strlen (a)) == 0) {
+						gunichar const *a = c->data;
+						if (g_unichar_strncmp (s, a, g_unichar_strlen (a)) == 0) {
 							s++;
 							goto skip_ic_correct;
 						}
 						c = c->next;
 					}
-					s[1] = tolower (s[1]);
+					s[1] = g_unichar_tolower (s[1]);
 				} else
-					while (*s && !isspace(*s))
+					while (*s && !g_unichar_isspace(*s))
 						++s;
 			}
 		}
 	}
 
 	if (autocorrect.first_letter) {
-		unsigned char *p;
-
 		for (s = ucommand; *s; s = p+1) {
-			static char const * const not_punct = "~@#$%^&*()[]{}<>,/_-+=`\'\"\\";
 		skip_first_letter:
-			/* We need to find the end of a sentence assume ',' is not */
+			/* Attempt to find the end of a sentence. */
 			for (p = s; *p != '\0' &&
-			     !(ispunct (*p) && NULL == strchr (not_punct, *p)) ; p++)
+			     !(g_unichar_ispunct (*p) &&
+			       NULL == g_unichar_strchr (not_punct, *p)) ; p++)
 				;
 			if (*p == '\0')
 				break;
 
-			while (isspace(*s))
+			while (g_unichar_isspace(*s))
 				++s;
-			if (islower (*s) && (s == ucommand || isspace (s[-1]))) {
-				GSList *cur = autocorrect.exceptions.first_letter;
+			if (g_unichar_islower (*s) && (s == ucommand || g_unichar_isspace (s[-1]))) {
+				GSList const *cur = autocorrect.exceptions.first_letter;
 
 				for ( ; cur != NULL; cur = cur->next) {
-					guchar *t, *c = (guchar *)cur->data;
-					gint  l = strlen ((char *)c);
-					gint  spaces = 0;
+					gunichar *t, *c = cur->data;
+					gint l = g_unichar_strlen (c);
+					gint spaces = 0;
 
 					for (t = s - 1; t >= ucommand; t--)
-						if (isspace (*t))
+						if (g_unichar_isspace (*t))
 							++spaces;
 						else
 							break;
 					if (s - ucommand > l + spaces &&
-					    strncmp(s-l-spaces, c, l) == 0) {
+					    g_unichar_strncmp (s-l-spaces, c, l) == 0) {
 						s = p + 1;
 						goto skip_first_letter;
 					}
 				}
-				*s = toupper (*s);
+				*s = g_unichar_toupper (*s);
 			}
 		}
 	}
@@ -245,14 +316,13 @@ autocorrect_tool (char const *command)
 	if (autocorrect.names_of_days)
 		for (i = 0; day_long[i] != NULL; i++) {
 			char const *day = _(day_long [i]) + 1;
-			s = ucommand;
-			while (NULL != (s = (unsigned char *)strstr ((char *)s, day))) {
+			for (s = ucommand ; NULL != (s = (gunichar *)g_unichar_strstr_utf8 (s, day)) ; s++)
 				if (s > ucommand &&
-				    (s-1 == ucommand || isspace (s[-2])))
-					s[-1] = toupper (s[-1]);
-				s++;
-			}
+				    (s-1 == ucommand || g_unichar_isspace (s[-2])))
+					s[-1] = g_unichar_toupper (s[-1]);
 		}
 
-	return (char *)ucommand;
+	command = g_ucs4_to_utf8 (ucommand, -1, NULL, NULL, NULL);
+	g_free (ucommand);
+	return (char *)command;
 }

@@ -4,157 +4,128 @@
 #include <gconf/gconf-client.h>
 #include <numbers.h>
 
+typedef struct {
+	struct {
+		GSList	*extra_dirs;
+		char	*sys_dir;
+		char	*usr_dir;
+	} autoformat;
+
+	gint     	 file_history_max;
+	GSList		*file_history_files;
+	guint    	 num_of_recent_funcs;
+	GSList 		*recent_funcs;
+
+	GSList		*plugin_file_states;
+	GSList		*plugin_extra_dirs;
+	GSList		*active_plugins;
+	gboolean	 activate_new_plugins;
+
+	gboolean	 show_sheet_name;
+	guint		 max_descriptor_width;
+	gint		 undo_size;
+	gint		 undo_max_number;
+
+	gint		 initial_sheet_number;
+	float		 horizontal_window_fraction;
+	float		 vertical_window_fraction;
+	float		 zoom;
+
+	gint		 xml_compression_level;
+	gboolean 	 import_uses_all_openers;
+	gboolean 	 file_overwrite_default_answer;
+	gboolean 	 file_ask_single_sheet_save;
+
+	gboolean 	 sort_default_by_case;
+	gboolean 	 sort_default_retain_formats;
+	gboolean 	 sort_default_ascending;
+	gint     	 sort_max_initial_clauses;
+
+	gboolean	 print_all_sheets; /* vs print only selected */
+	gchar   	*printer;
+	gchar   	*printer_backend;
+	gchar   	*printer_filename;
+	gchar   	*printer_command;
+	gchar   	*printer_lpr_P;
+
+	float		 horizontal_dpi;
+	float		 vertical_dpi;
+	gboolean	 auto_complete;
+	gboolean	 live_scrolling;
+	gint		 recalc_lag;
+	gboolean	 unfocused_range_selection;
+} GnmAppPrefs;
+extern GnmAppPrefs const *gnm_app_prefs;
+
+void     gnm_conf_init (void);
 void     gnm_conf_sync (void);
 guint    gnm_gconf_rm_notification (guint id);
 
 /* autocorrect */
 guint    gnm_gconf_add_notification_autocorrect (GConfClientNotifyFunc func);
-
-gboolean gnm_gconf_get_autocorrect_init_caps (void);
 void     gnm_gconf_set_autocorrect_init_caps (gboolean val);
-
-gboolean gnm_gconf_get_autocorrect_first_letter (void);
 void     gnm_gconf_set_autocorrect_first_letter (gboolean val);
-
-gboolean gnm_gconf_get_autocorrect_names_of_days (void);
 void     gnm_gconf_set_autocorrect_names_of_days (gboolean val);
-
-gboolean gnm_gconf_get_autocorrect_replace (void);
 void     gnm_gconf_set_autocorrect_replace (gboolean val);
-
-GSList * gnm_gconf_get_autocorrect_init_caps_exceptions (void);
 void     gnm_gconf_set_autocorrect_init_caps_exceptions (GSList *list);
-
-GSList * gnm_gconf_get_autocorrect_first_letter_exceptions (void);
 void     gnm_gconf_set_autocorrect_first_letter_exceptions (GSList *list);
 
 /* autoformat */
-GSList * gnm_gconf_get_autoformat_extra_dirs (void);
 void     gnm_gconf_set_autoformat_extra_dirs (GSList *list);
-
-char *   gnm_gconf_get_autoformat_sys_dirs (void);
 void     gnm_gconf_set_autoformat_sys_dirs (char const * string);
-
-char *   gnm_gconf_get_autoformat_usr_dirs (void);
 void     gnm_gconf_set_autoformat_usr_dirs (char const * string);
 
 /* file history */
-gint     gnm_gconf_get_file_history_max (void);
 void     gnm_gconf_set_file_history_max (gint val);
-
-GSList * gnm_gconf_get_file_history_files (void);
 void     gnm_gconf_set_file_history_files (GSList *list);
 
 /* plugins */
 guint    gnm_gconf_add_notification_plugin_directories (GConfClientNotifyFunc func, gpointer data);
-
-GSList * gnm_gconf_get_plugin_file_states (void);
 void     gnm_gconf_set_plugin_file_states (GSList *list);
-
-GSList * gnm_gconf_get_plugin_extra_dirs (void);
 void     gnm_gconf_set_plugin_extra_dirs (GSList *list);
-
-GSList * gnm_gconf_get_active_plugins (void);
 void     gnm_gconf_set_active_plugins (GSList *list);
-
-gboolean gnm_gconf_get_activate_new_plugins (void);
 void     gnm_gconf_set_activate_new_plugins (gboolean val);
 
 /* undo */
-gboolean gnm_gconf_get_show_sheet_name (void);
 void     gnm_gconf_set_show_sheet_name (gboolean val);
-
-guint    gnm_gconf_get_max_descriptor_width (void);
 void     gnm_gconf_set_max_descriptor_width (guint val);
-
-gint     gnm_gconf_get_undo_size (void);
 void     gnm_gconf_set_undo_size (gint val);
-
-gint     gnm_gconf_get_undo_max_number (void);
 void     gnm_gconf_set_undo_max_number (gint val);
 
 /* new workbooks */
-gint     gnm_gconf_get_initial_sheet_number (void);
 void     gnm_gconf_set_initial_sheet_number (gint val);
-
-gnum_float gnm_gconf_get_horizontal_window_fraction (void);
 void     gnm_gconf_set_horizontal_window_fraction  (gnum_float val);
-
-gnum_float gnm_gconf_get_vertical_window_fraction (void);
 void     gnm_gconf_set_vertical_window_fraction  (gnum_float val);
-
-gnum_float gnm_gconf_get_zoom (void);
 void     gnm_gconf_set_zoom  (gnum_float val);
 
 /* xml/files */
-gint     gnm_gconf_get_xml_compression_level (void);
 void     gnm_gconf_set_xml_compression_level (gint val);
-
-GSList * gnm_gconf_get_recent_funcs (void);
 void     gnm_gconf_set_recent_funcs (GSList *list);
-
-guint    gnm_gconf_get_num_of_recent_funcs (void);
 void     gnm_gconf_set_num_of_recent_funcs (guint val);
-
-gboolean gnm_gconf_get_import_uses_all_openers (void);
 void     gnm_gconf_set_import_uses_all_openers (gboolean val);
-
-gboolean gnm_gconf_get_file_overwrite_default_answer (void);
 void     gnm_gconf_set_file_overwrite_default_answer (gboolean val);
-
-gboolean gnm_gconf_get_file_ask_single_sheet_save (void);
 void     gnm_gconf_set_file_ask_single_sheet_save (gboolean val);
 
 /* sort */
-
-gboolean gnm_gconf_get_sort_default_by_case (void);
 void     gnm_gconf_set_sort_default_by_case (gboolean val);
-
-gboolean gnm_gconf_get_sort_default_retain_formats (void);
 void     gnm_gconf_set_sort_default_retain_formats (gboolean val);
-
-gboolean gnm_gconf_get_sort_default_ascending (void);
 void     gnm_gconf_set_sort_default_ascending (gboolean val);
-
-gint     gnm_gconf_get_sort_max_initial_clauses (void);
 void     gnm_gconf_set_sort_max_initial_clauses (gint val);
 
 /* print-setup & printing */
-gboolean gnm_gconf_get_all_sheets (void);
 void     gnm_gconf_set_all_sheets (gboolean val);
-
-gchar   *gnm_gconf_get_printer (void);
 void     gnm_gconf_set_printer (gchar *str);
-
-gchar   *gnm_gconf_get_printer_backend (void);
 void     gnm_gconf_set_printer_backend (gchar *str);
-
-gchar   *gnm_gconf_get_printer_filename (void);
 void     gnm_gconf_set_printer_filename (gchar *str);
-
-gchar   *gnm_gconf_get_printer_command (void);
 void     gnm_gconf_set_printer_command (gchar *str);
-
-gchar   *gnm_gconf_get_printer_lpr_P (void);
 void     gnm_gconf_set_printer_lpr_P (gchar *str);
 
 /* others */
-gnum_float gnm_gconf_get_horizontal_dpi (void);
 void     gnm_gconf_set_horizontal_dpi  (gnum_float val);
-
-gnum_float gnm_gconf_get_vertical_dpi (void);
 void     gnm_gconf_set_vertical_dpi  (gnum_float val);
-
-gboolean gnm_gconf_get_auto_complete (void);
 void     gnm_gconf_set_auto_complete (gboolean val);
-
-gboolean gnm_gconf_get_live_scrolling (void);
 void     gnm_gconf_set_live_scrolling (gboolean val);
-
-gint     gnm_gconf_get_recalc_lag (void);
 void     gnm_gconf_set_recalc_lag (gint val);
-
-gboolean gnm_gconf_get_unfocused_range_selection (void);
 void     gnm_gconf_set_unfocused_range_selection (gboolean val);
 
 #endif /* GNUMERIC_GRAPH_H */

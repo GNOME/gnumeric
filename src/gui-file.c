@@ -129,7 +129,7 @@ gui_file_import (WorkbookControlGUI *wbcg)
 	GnumFileOpener *fo = NULL;
 	gchar const *file_name;
 
-	if (gnm_gconf_get_import_uses_all_openers ())
+	if (gnm_app_prefs->import_uses_all_openers)
 		importers = get_file_openers ();
 	else
 		importers = get_file_importers ();
@@ -202,7 +202,7 @@ can_try_save_to (WorkbookControlGUI *wbcg, const char *name)
 		      _("Workbook %s already exists.\n"
 		      "Do you want to save over it?"), name);
 		result = gnumeric_dialog_question_yes_no (
-			wbcg, msg, gnm_gconf_get_file_overwrite_default_answer());
+			wbcg, msg, gnm_app_prefs->file_overwrite_default_answer);
 		g_free (msg);
 	}
 
@@ -217,7 +217,7 @@ check_multiple_sheet_support_if_needed (GnumFileSaver *fs,
 	gboolean ret_val = TRUE;
 
 	if (gnum_file_saver_get_save_scope (fs) == FILE_SAVE_SHEET &&
-	    gnm_gconf_get_file_ask_single_sheet_save ()) {
+	    gnm_app_prefs->file_ask_single_sheet_save) {
 		GList *sheets;
 		gchar *msg = _("Selected file format doesn't support "
 			       "saving multiple sheets in one file.\n"

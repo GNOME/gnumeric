@@ -121,8 +121,14 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 	StyleFont *font;
 	StyleFont key;
 
-	g_return_val_if_fail (font_name != NULL, NULL);
-	g_return_val_if_fail (size_pts != 0, NULL);
+	if (font_name == NULL) {
+		g_warning ("font_name == NULL, Using %s", DEFAULT_FONT);
+		font_name = DEFAULT_FONT;
+	}
+	if (size_pts == 0) {
+		g_warning ("font_name == NULL, Using %f", DEFAULT_SIZE);
+		size_pts = DEFAULT_SIZE;
+	}
 
 	/* This cast does not mean we will change the name.  */
 	key.font_name = (char *)font_name;

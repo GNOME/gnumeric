@@ -1,3 +1,16 @@
+2002-09-09  Jody Goldberg <jody@gnome.org>
+
+	* auto-correct.c (autocorrect_tool) : convert to unicode.
+	(autocorrect_set_exceptions) : convert to ucs4 internally.
+	(autocorrect_get_exceptions) : change the memory management semantics
+	  of the result.
+	(autocorrect_get_feature) : init the gconf cache as needed.
+	(autocorrect_store_config) : use a changeset.
+	(cb_autocorrect_update) : Use clear and load.
+	(autocorrect_init) : hook on to the application as data so to handle
+	  destruction in stead of requiring explicit removal.
+	(autocorrect_load) : handle the gconf lookup directly.
+
 2002-08-29  Jody Goldberg <jody@gnome.org>
 
 	* auto-correct.c (autocorrect_tool) : don't run off the end of strings

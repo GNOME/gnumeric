@@ -81,7 +81,7 @@ dialog_function_load_recent_funcs (FunctionSelectState *state)
 	FunctionDefinition *fd;
 	GSList *recent_funcs, *this_funcs;
 
-	recent_funcs = gnm_gconf_get_recent_funcs ();
+	recent_funcs = gnm_app_prefs->recent_funcs;
 
 	for (this_funcs = recent_funcs; this_funcs; this_funcs = this_funcs->next) {
 		char *name = this_funcs->data;
@@ -100,7 +100,7 @@ dialog_function_write_recent_func (FunctionSelectState *state, FunctionDefinitio
 {
 	GSList *rec_funcs;
 	GSList *gconf_value_list = NULL;
-	guint ulimit = gnm_gconf_get_num_of_recent_funcs ();
+	guint ulimit = gnm_app_prefs->num_of_recent_funcs;
 
 	state->recent_funcs = g_slist_remove (state->recent_funcs, (gpointer) fd);
 	state->recent_funcs = g_slist_prepend (state->recent_funcs, (gpointer) fd);

@@ -168,7 +168,7 @@ main (int argc, char *argv [])
 	if (!initial_workbook_open_complete && !immediate_exit_flag) {
 		initial_workbook_open_complete = TRUE;
 		if (!opened_workbook) {
-			gint n_of_sheets = gnm_gconf_get_initial_sheet_number ();
+			gint n_of_sheets = gnm_app_prefs->initial_sheet_number;
 			while (n_of_sheets--)
 				workbook_sheet_add (wb_control_workbook (wbc),
 						    NULL, FALSE);

@@ -1,3 +1,13 @@
+2002-09-09  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-gconf.c : slim things down and cache the results
+	  locally.
+
+	* src/gutils.c (g_unichar_strchr) : new.
+	(g_unichar_strstr_utf8) : new.
+	(g_unichar_strlen) : new.
+	(g_unichar_strncmp) : new.
+
 2002-09-09  Morten Welinder  <terra@diku.dk>
 
 	* src/item-edit.c (item_edit_destroy): Plug leak.
@@ -7,6 +17,14 @@
 	* src/workbook-control-component.c
 	(workbook_control_component_init): wbcg no longer has editing,
 	editing_sheet or editing_cell members, so don't initialize them.
+
+2002-09-06  Jody Goldberg <jody@gnome.org>
+
+	* src/style.c (style_font_new_simple) : provide smarter defaults in case
+	  of a screw up.
+
+	* src/gnumeric-gconf.c (gnm_gconf_get_zoom) : supply a smarter default
+	  for out of range values.
 
 2002-09-06  Jody Goldberg <jody@gnome.org>
 

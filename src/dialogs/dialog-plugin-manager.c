@@ -209,7 +209,7 @@ pm_delete_dir (char *dir_name)
 	GSList *plugin_dirs;
 	GSList *directory;
 	
-	plugin_dirs = gnm_gconf_get_plugin_extra_dirs ();
+	plugin_dirs = gnm_app_prefs->plugin_extra_dirs;
 	directory = g_slist_find_custom (plugin_dirs, dir_name, g_str_compare);
 	g_free (dir_name);
 	if (directory) {
@@ -224,7 +224,7 @@ pm_add_dir (char *dir_name)
 {
 	GSList *plugin_dirs;
 	
-	plugin_dirs = gnm_gconf_get_plugin_extra_dirs ();
+	plugin_dirs = gnm_app_prefs->plugin_extra_dirs;
 	if (g_slist_find_custom (plugin_dirs, dir_name, g_str_compare)) 
 		g_free (dir_name);
 	else {
@@ -451,7 +451,7 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 		G_CALLBACK (pm_dialog_cleanup), pm_gui);
 	
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pm_gui->checkbutton_install_new),
-				      gnm_gconf_get_activate_new_plugins ());
+				      gnm_app_prefs->activate_new_plugins);
 
 	/* initialize plugin list */
 	gtk_list_store_clear (pm_gui->model_plugins);
@@ -510,7 +510,7 @@ pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 		pm_gui_load_directories (pm_gui, plugin_dirs, FALSE);
 		e_free_string_slist (plugin_dirs);
 	}
-	plugin_dirs = gnm_gconf_get_plugin_extra_dirs ();
+	plugin_dirs = gnm_app_prefs->plugin_extra_dirs;
 	pm_gui_load_directories (pm_gui, plugin_dirs, TRUE);
 	e_free_string_slist (plugin_dirs);
 }

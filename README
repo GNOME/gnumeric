@@ -67,8 +67,8 @@ provided and then it will be possible to create Gnumeric plugins with
 other licenses, until then, the only setup available requires plugins
 to fall under the GNU GPL license.
 
-The perl and plan-perfect plugins are not meant to be installed.
-They are included for informational purposes only.
+The perl plugin is not meant to be installed.  It is currently unmaintained and
+is included for informational purposes only.
 
 Mailing lists
 -------------

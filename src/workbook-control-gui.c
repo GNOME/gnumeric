@@ -1500,11 +1500,8 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 static void
 cb_file_new (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	gint n_of_sheets;
-
-	n_of_sheets = gnm_gconf_get_initial_sheet_number ();
-
-	(void) workbook_control_gui_new (NULL, workbook_new_with_sheets (n_of_sheets));
+	(void) workbook_control_gui_new (NULL,
+		workbook_new_with_sheets (gnm_app_prefs->initial_sheet_number));
 }
 
 static void
@@ -2773,7 +2770,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 	for (i=0; i < numclause; i++) {
 		clause[i].offset = i;
 		clause[i].asc = asc;
-		clause[i].cs = gnm_gconf_get_sort_default_by_case ();
+		clause[i].cs = gnm_app_prefs->sort_default_by_case;
 		clause[i].val = TRUE;
 	}
 
@@ -2783,7 +2780,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 	data->num_clause = numclause;
 	data->clauses = clause;
 
-	data->retain_formats = gnm_gconf_get_sort_default_retain_formats ();
+	data->retain_formats = gnm_app_prefs->sort_default_retain_formats;
 
 	/* Hard code sorting by row.  I would prefer not to, but user testing
 	 * indicates
@@ -4456,8 +4453,8 @@ show_gui (WorkbookControlGUI *wbcg)
 	GdkGeometry geometry;
 	GdkWindowHints size_hints = GDK_HINT_MAX_SIZE;
 
-	fx = gnm_gconf_get_horizontal_window_fraction ();
-	fy = gnm_gconf_get_vertical_window_fraction ();
+	fx = gnm_app_prefs->horizontal_window_fraction;
+	fy = gnm_app_prefs->vertical_window_fraction;
 
 	if (x_geometry && wbv && wbcg->toplevel) {
 		gint result;

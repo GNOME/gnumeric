@@ -31,6 +31,134 @@
 #include <gconf/gconf-client.h>
 #include "gutils.h"
 
+static GnmAppPrefs prefs;
+GnmAppPrefs const *gnm_app_prefs = &prefs;
+
+void
+gnm_conf_init (void)
+{
+	char *tmp;
+	GConfClient *client = application_get_gconf_client ();
+
+	/* history */
+	prefs.file_history_max = gconf_client_get_int (client,
+		GNUMERIC_GCONF_FILE_HISTORY_N, NULL);
+	prefs.file_history_files = gconf_client_get_list (client,
+		GNUMERIC_GCONF_FILE_HISTORY_FILES, GCONF_VALUE_STRING, NULL);
+	prefs.num_of_recent_funcs = gconf_client_get_int (client,
+		FUNCTION_SELECT_GCONF_NUM_OF_RECENT, NULL);
+	prefs.recent_funcs = gconf_client_get_list (client,
+		FUNCTION_SELECT_GCONF_RECENT, GCONF_VALUE_STRING, NULL);
+	if (prefs.file_history_max < 0 || 20 < prefs.file_history_max)
+		prefs.file_history_max = 4;
+	if (prefs.num_of_recent_funcs < 0 || 40  < prefs.num_of_recent_funcs)
+		prefs.num_of_recent_funcs = 10;
+
+	prefs.plugin_file_states = gconf_client_get_list (client,
+		PLUGIN_GCONF_FILE_STATES, GCONF_VALUE_STRING, NULL);
+	prefs.plugin_extra_dirs = gconf_client_get_list (client,
+		PLUGIN_GCONF_EXTRA_DIRS, GCONF_VALUE_STRING, NULL);
+	prefs.active_plugins = gconf_client_get_list (client,
+		PLUGIN_GCONF_ACTIVE, GCONF_VALUE_STRING, NULL);
+	prefs.activate_new_plugins = gconf_client_get_bool (client,
+		PLUGIN_GCONF_ACTIVATE_NEW, NULL);
+
+	prefs.horizontal_dpi = gconf_client_get_float (client,
+		GNUMERIC_GCONF_GUI_RES_H, NULL);
+	prefs.vertical_dpi = gconf_client_get_float (client,
+		GNUMERIC_GCONF_GUI_RES_V, NULL);
+	prefs.auto_complete = gconf_client_get_bool (client,
+		GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE, NULL);
+	prefs.live_scrolling = gconf_client_get_bool (client,
+		GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, NULL);
+	prefs.recalc_lag = gconf_client_get_int (client,
+		GNUMERIC_GCONF_GUI_ED_RECALC_LAG, NULL);
+	prefs.initial_sheet_number = gconf_client_get_int (client,
+		GNUMERIC_GCONF_WORKBOOK_NSHEETS, NULL);
+	prefs.show_sheet_name = gconf_client_get_bool (client,
+		GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME, NULL);
+	prefs.max_descriptor_width = gconf_client_get_int (client,
+		GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH, NULL);
+	prefs.undo_size = gconf_client_get_int (client,
+		GNUMERIC_GCONF_UNDO_SIZE, NULL);
+	prefs.undo_max_number = gconf_client_get_int (client,
+		GNUMERIC_GCONF_UNDO_MAXNUM, NULL);
+
+	if (prefs.horizontal_dpi < 10 || 1000 < prefs.horizontal_dpi)
+		prefs.horizontal_dpi = 96;
+	if (prefs.vertical_dpi < 10 || 1000 < prefs.vertical_dpi)
+		prefs.vertical_dpi = 96;
+	if (prefs.initial_sheet_number < 1 || 64 < prefs.initial_sheet_number)
+		prefs.initial_sheet_number = 3;
+	if (prefs.max_descriptor_width < 5 || 256 < prefs.max_descriptor_width)
+		prefs.max_descriptor_width = 15;
+	if (prefs.undo_size  < 1 || 10000000 < prefs.undo_size)
+		prefs.undo_size = 1000000;
+	if (prefs.undo_max_number < 0 || 100000 < prefs.undo_max_number)
+		prefs.undo_max_number = 100;
+
+	prefs.autoformat.extra_dirs = gconf_client_get_list (client,
+		AUTOFORMAT_GCONF_EXTRA_DIRS, GCONF_VALUE_STRING, NULL);
+	tmp = gconf_client_get_string (client,
+		AUTOFORMAT_GCONF_SYS_DIR, NULL);
+	if (tmp == NULL)
+		tmp = g_strdup ("autoformat-template");
+	prefs.autoformat.sys_dir = gnumeric_sys_data_dir (tmp);
+	g_free (tmp);
+	tmp = gconf_client_get_string (client,
+		AUTOFORMAT_GCONF_USR_DIR, NULL);
+	if (tmp == NULL)
+		tmp = g_strdup ("autoformat-template");
+	prefs.autoformat.usr_dir = gnumeric_usr_dir (tmp);
+	g_free (tmp);
+
+	prefs.horizontal_window_fraction = gconf_client_get_float (client,
+		  GNUMERIC_GCONF_GUI_WINDOW_X, NULL);
+	prefs.vertical_window_fraction = gconf_client_get_float (client,
+		  GNUMERIC_GCONF_GUI_WINDOW_Y, NULL);
+	prefs.zoom = gconf_client_get_float (client,
+		  GNUMERIC_GCONF_GUI_ZOOM, NULL);
+	if (prefs.horizontal_window_fraction < .1 || 1 < prefs.horizontal_window_fraction)
+		prefs.horizontal_window_fraction = .6;
+	if (prefs.vertical_window_fraction < .1 || 1 < prefs.vertical_window_fraction)
+		prefs.vertical_window_fraction = .6;
+	if (prefs.zoom < .1 || 5 < prefs.zoom)
+		prefs.zoom = 1;
+
+	prefs.xml_compression_level = gconf_client_get_int (client,
+		GNUMERIC_GCONF_XML_COMPRESSION, NULL);
+	prefs.import_uses_all_openers = gconf_client_get_bool (client,
+		GNUMERIC_GCONF_FILE_IMPORT_USES_ALL_OP, NULL);
+	prefs.file_overwrite_default_answer = gconf_client_get_bool (client,
+		GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT, NULL);
+	prefs.file_ask_single_sheet_save = gconf_client_get_bool (client,
+		GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE, NULL);
+	if (prefs.xml_compression_level < 0 || 9 < prefs.xml_compression_level)
+		prefs.xml_compression_level = 9;
+
+	prefs.sort_default_by_case = gconf_client_get_bool (client,
+		GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE, NULL);
+	prefs.sort_default_retain_formats = gconf_client_get_bool (client,
+		GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM, NULL);
+	prefs.sort_default_ascending = gconf_client_get_bool (client,
+		GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING, NULL);
+	prefs.sort_max_initial_clauses = gconf_client_get_int (client,
+		GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL, NULL);
+
+	prefs.print_all_sheets = gconf_client_get_bool (client,
+		PRINTSETUP_GCONF_ALL_SHEETS, NULL);
+	prefs.unfocused_range_selection = gconf_client_get_bool (client,
+		DIALOGS_GCONF_UNFOCUSED_RS, NULL);
+	prefs.printer = gconf_client_get_string (client,
+		PRINTING_GCONF_PRINTER, NULL);
+	prefs.printer_backend = gconf_client_get_string (client,
+		PRINTING_GCONF_BACKEND, NULL);
+	prefs.printer_filename = gconf_client_get_string (client,
+		PRINTING_GCONF_FILENAME, NULL);
+	prefs.printer_lpr_P = gconf_client_get_string (client,
+		PRINTING_GCONF_BACKEND_PRINTER, NULL);
+}
+
 void
 gnm_conf_sync (void)
 {
@@ -44,28 +172,12 @@ gnm_gconf_rm_notification (guint id)
 	return 0;
 }
 
-GSList *
-gnm_gconf_get_plugin_file_states (void)
-{
-	return gconf_client_get_list (application_get_gconf_client (), 
-				      PLUGIN_GCONF_FILE_STATES,
-				      GCONF_VALUE_STRING, NULL);
-}
-
 void
 gnm_gconf_set_plugin_file_states (GSList *list)
 {
 	gconf_client_set_list (application_get_gconf_client (), 
 			       PLUGIN_GCONF_FILE_STATES,
 			       GCONF_VALUE_STRING, list, NULL);
-}
-
-GSList *
-gnm_gconf_get_plugin_extra_dirs (void)
-{
-	return gconf_client_get_list (application_get_gconf_client (), 
-				      PLUGIN_GCONF_EXTRA_DIRS,
-				      GCONF_VALUE_STRING, NULL);
 }
 
 void
@@ -83,28 +195,12 @@ gnm_gconf_add_notification_plugin_directories (GConfClientNotifyFunc func, gpoin
 					func, data, NULL, NULL);
 }
 
-GSList *
-gnm_gconf_get_active_plugins (void)
-{
-	return gconf_client_get_list (application_get_gconf_client (), 
-				      PLUGIN_GCONF_ACTIVE,
-				      GCONF_VALUE_STRING, NULL);
-}
-
 void
 gnm_gconf_set_active_plugins (GSList *list)
 {
 	gconf_client_set_list (application_get_gconf_client (), 
 			       PLUGIN_GCONF_ACTIVE,
 			       GCONF_VALUE_STRING, list, NULL);
-}
-
-gboolean
-gnm_gconf_get_activate_new_plugins (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      PLUGIN_GCONF_ACTIVATE_NEW,
-				      NULL);
 }
 
 void
@@ -115,31 +211,12 @@ gnm_gconf_set_activate_new_plugins (gboolean val)
 			       val, NULL);
 }
 
-GSList *
-gnm_gconf_get_recent_funcs (void)
-{
-	return gconf_client_get_list (application_get_gconf_client (), 
-				      FUNCTION_SELECT_GCONF_RECENT,
-				      GCONF_VALUE_STRING, NULL);
-}
-
 void
 gnm_gconf_set_recent_funcs (GSList *list)
 {
 	gconf_client_set_list (application_get_gconf_client (), 
 			       FUNCTION_SELECT_GCONF_RECENT,
 			       GCONF_VALUE_STRING, list, NULL);
-}
-
-guint
-gnm_gconf_get_num_of_recent_funcs (void)
-{
-	gint num = gconf_client_get_int (application_get_gconf_client (), 
-				      FUNCTION_SELECT_GCONF_NUM_OF_RECENT,
-				      NULL);
-	if (num < 0)
-		return 0;
-	return (guint) num;
 }
 
 void
@@ -151,139 +228,12 @@ gnm_gconf_set_num_of_recent_funcs (guint val)
 }
 
 
-gboolean
-gnm_gconf_get_autocorrect_init_caps (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      AUTOCORRECT_INIT_CAPS,
-				      NULL);
-}
-
-void
-gnm_gconf_set_autocorrect_init_caps (gboolean val)
-{
-	gconf_client_set_bool (application_get_gconf_client (), 
-			       AUTOCORRECT_INIT_CAPS,
-			       val, NULL);
-}
-
-gboolean
-gnm_gconf_get_autocorrect_first_letter (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      AUTOCORRECT_FIRST_LETTER,
-				      NULL);
-}
-
-void
-gnm_gconf_set_autocorrect_first_letter (gboolean val)
-{
-	gconf_client_set_bool (application_get_gconf_client (), 
-			       AUTOCORRECT_FIRST_LETTER,
-			       val, NULL);
-}
-
-gboolean
-gnm_gconf_get_autocorrect_names_of_days (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      AUTOCORRECT_NAMES_OF_DAYS,
-				      NULL);
-}
-
-void
-gnm_gconf_set_autocorrect_names_of_days (gboolean val)
-{
-	gconf_client_set_bool (application_get_gconf_client (), 
-			       AUTOCORRECT_NAMES_OF_DAYS,
-			       val, NULL);
-}
-
-gboolean
-gnm_gconf_get_autocorrect_replace (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      AUTOCORRECT_NAMES_OF_DAYS,
-				      NULL);
-}
-
-void
-gnm_gconf_set_autocorrect_replace (gboolean val)
-{
-	gconf_client_set_bool (application_get_gconf_client (), 
-			       AUTOCORRECT_NAMES_OF_DAYS,
-			       val, NULL);
-}
-
-GSList *
-gnm_gconf_get_autocorrect_init_caps_exceptions (void)
-{
-	return gconf_client_get_list (application_get_gconf_client (), 
-				      AUTOCORRECT_INIT_CAPS_LIST,
-				      GCONF_VALUE_STRING, NULL);
-}
-
-void
-gnm_gconf_set_autocorrect_init_caps_exceptions (GSList *list)
-{
-	gconf_client_set_list (application_get_gconf_client (), 
-			       AUTOCORRECT_INIT_CAPS_LIST,
-			       GCONF_VALUE_STRING, list, NULL);
-}
-
-GSList *
-gnm_gconf_get_autocorrect_first_letter_exceptions (void)
-{
-	return gconf_client_get_list (application_get_gconf_client (), 
-				      AUTOCORRECT_FIRST_LETTER_LIST,
-				      GCONF_VALUE_STRING, NULL);
-}
-
-void
-gnm_gconf_set_autocorrect_first_letter_exceptions (GSList *list)
-{
-	gconf_client_set_list (application_get_gconf_client (), 
-			       AUTOCORRECT_FIRST_LETTER_LIST,
-			       GCONF_VALUE_STRING, list, NULL);
-}
-
-guint
-gnm_gconf_add_notification_autocorrect (GConfClientNotifyFunc func)
-{
-	return gconf_client_notify_add (application_get_gconf_client (), AUTOCORRECT_DIRECTORY,
-					func, NULL, NULL, NULL);
-}
-
-gnum_float
-gnm_gconf_get_horizontal_dpi (void)
-{
-	return 96.;
-#if 0
-	gnum_float val =  gconf_client_get_float (application_get_gconf_client (), 
-						  GNUMERIC_GCONF_GUI_RES_H,
-						  NULL);
-	return ((val == 0.0) ? 96.0 : val);
-#endif
-}
-
 void
 gnm_gconf_set_horizontal_dpi  (gnum_float val)
 {
 	gconf_client_set_float (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_GUI_RES_H,
 			       val, NULL);
-}
-
-gnum_float
-gnm_gconf_get_vertical_dpi (void)
-{
-	return 96.;
-#if 0
-	gnum_float val =  gconf_client_get_float (application_get_gconf_client (), 
-						  GNUMERIC_GCONF_GUI_RES_V,
-						  NULL);
-	return ((val == 0.0) ? 96.0 : val);
-#endif
 }
 
 void
@@ -294,28 +244,12 @@ gnm_gconf_set_vertical_dpi  (gnum_float val)
 			       val, NULL);
 }
 
-gboolean
-gnm_gconf_get_auto_complete (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE,
-				      NULL);
-}
-
 void
 gnm_gconf_set_auto_complete (gboolean val)
 {
 	gconf_client_set_bool (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE,
 			       val, NULL);
-}
-
-gboolean
-gnm_gconf_get_live_scrolling (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      GNUMERIC_GCONF_GUI_ED_LIVESCROLLING,
-				      NULL);
 }
 
 void
@@ -326,30 +260,12 @@ gnm_gconf_set_live_scrolling (gboolean val)
 			       val, NULL);
 }
 
-gint
-gnm_gconf_get_recalc_lag (void)
-{
-	gint val = gconf_client_get_int (application_get_gconf_client (), 
-					 GNUMERIC_GCONF_GUI_ED_RECALC_LAG,
-					 NULL);
-	return ((val == 0) ? 200 : val);
-}
-
 void
 gnm_gconf_set_recalc_lag (gint val)
 {
 	gconf_client_set_int (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_GUI_ED_RECALC_LAG,
 			       val, NULL);
-}
-
-gint
-gnm_gconf_get_file_history_max (void)
-{
-	gint val = gconf_client_get_int (application_get_gconf_client (), 
-					 GNUMERIC_GCONF_FILE_HISTORY_N,
-					 NULL);
-	return ((val < 0) ? 4 : val);
 }
 
 void
@@ -360,29 +276,12 @@ gnm_gconf_set_file_history_max (gint val)
 			       val, NULL);
 }
 
-GSList *
-gnm_gconf_get_file_history_files (void)
-{
-	return gconf_client_get_list (application_get_gconf_client (), 
-				      GNUMERIC_GCONF_FILE_HISTORY_FILES,
-				      GCONF_VALUE_STRING, NULL);
-}
-
 void
 gnm_gconf_set_file_history_files (GSList *list)
 {
 	gconf_client_set_list (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_FILE_HISTORY_FILES,
 			       GCONF_VALUE_STRING, list, NULL);
-}
-
-gint
-gnm_gconf_get_initial_sheet_number (void)
-{
-	gint val = gconf_client_get_int (application_get_gconf_client (), 
-					 GNUMERIC_GCONF_WORKBOOK_NSHEETS,
-					 NULL);
-	return ((val <= 0) ? 1 : val);
 }
 
 void
@@ -393,29 +292,12 @@ gnm_gconf_set_initial_sheet_number (gint val)
 			      val, NULL);
 }
 
-gboolean
-gnm_gconf_get_show_sheet_name (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME,
-				      NULL);
-}
-
 void
 gnm_gconf_set_show_sheet_name (gboolean val)
 {
 	gconf_client_set_bool (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME,
 			       val, NULL);
-}
-
-guint
-gnm_gconf_get_max_descriptor_width (void)
-{
-	gint val = gconf_client_get_int (application_get_gconf_client (), 
-					 GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH,
-					 NULL);
-	return ((val < 3) ? 10 : (guint) val);
 }
 
 void
@@ -426,47 +308,25 @@ gnm_gconf_set_max_descriptor_width (guint val)
 			       (gint) val, NULL);
 }
 
-gint
-gnm_gconf_get_undo_size (void)
-{
-	gint val = gconf_client_get_int (application_get_gconf_client (), 
-					 GNUMERIC_GCONF_UNDO_SIZE,
-					 NULL);
-	return ((val < 0) ? 0 : val);
-}
-
 void
 gnm_gconf_set_undo_size (gint val)
 {
+	if (val < 1)
+		val = 1;
 	gconf_client_set_int (application_get_gconf_client (), 
 			      GNUMERIC_GCONF_UNDO_SIZE,
 			      val, NULL);
 }
 
 
-gint
-gnm_gconf_get_undo_max_number (void)
-{
-	gint val = gconf_client_get_int (application_get_gconf_client (), 
-					 GNUMERIC_GCONF_UNDO_MAXNUM,
-					 NULL);
-	return ((val <= 0) ? 1 : val);
-}
-
 void
 gnm_gconf_set_undo_max_number (gint val)
 {
+	if (val < 1)
+		val = 1;
 	gconf_client_set_int (application_get_gconf_client (), 
 			      GNUMERIC_GCONF_UNDO_MAXNUM,
 			      val, NULL);
-}
-
-GSList *
-gnm_gconf_get_autoformat_extra_dirs (void)
-{
-	return gconf_client_get_list (application_get_gconf_client (), 
-				      AUTOFORMAT_GCONF_EXTRA_DIRS,
-				      GCONF_VALUE_STRING, NULL);
 }
 
 void
@@ -477,42 +337,12 @@ gnm_gconf_set_autoformat_extra_dirs (GSList *list)
 			       GCONF_VALUE_STRING, list, NULL);
 }
 
-char *
-gnm_gconf_get_autoformat_sys_dirs (void)
-{
-	char *directory;
-	char *conf_value = gconf_client_get_string (application_get_gconf_client (), 
-						    AUTOFORMAT_GCONF_SYS_DIR,
-						    NULL);
-	if (conf_value) {
-		directory = gnumeric_sys_data_dir (conf_value);
-		g_free (conf_value);
-		return directory;
-	} else 
-		return gnumeric_sys_data_dir ("autoformat-template");
-}
-
 void
 gnm_gconf_set_autoformat_sys_dirs (char const * string)
 {
 	gconf_client_set_string (application_get_gconf_client (), 
 			       AUTOFORMAT_GCONF_SYS_DIR,
 			       string, NULL);
-}
-
-char *
-gnm_gconf_get_autoformat_usr_dirs (void)
-{
-	char *directory;
-	char *conf_value = gconf_client_get_string (application_get_gconf_client (), 
-						    AUTOFORMAT_GCONF_USR_DIR,
-						    NULL);
-	if (conf_value) {
-		directory = gnumeric_usr_dir (conf_value);
-		g_free (conf_value);
-		return directory;
-	} else 
-		return gnumeric_usr_dir ("autoformat-template");
 }
 
 void
@@ -523,34 +353,12 @@ gnm_gconf_set_autoformat_usr_dirs (char const * string)
 			       string, NULL);
 }
 
-gnum_float
-gnm_gconf_get_horizontal_window_fraction (void)
-{
-	gnum_float val =  gconf_client_get_float (application_get_gconf_client (), 
-						  GNUMERIC_GCONF_GUI_WINDOW_X,
-						  NULL);
-	val = MIN (val, 1.0);
-	val = MAX (0.25, val);
-	return val;
-}
-
 void
 gnm_gconf_set_horizontal_window_fraction  (gnum_float val)
 {
 	gconf_client_set_float (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_GUI_WINDOW_X,
 			       val, NULL);
-}
-
-gnum_float
-gnm_gconf_get_vertical_window_fraction (void)
-{
-	gnum_float val =  gconf_client_get_float (application_get_gconf_client (), 
-						  GNUMERIC_GCONF_GUI_WINDOW_Y,
-						  NULL);
-	val = MIN (val, 1.0);
-	val = MAX (0.25, val);
-	return val;
 }
 
 void
@@ -561,31 +369,12 @@ gnm_gconf_set_vertical_window_fraction  (gnum_float val)
 			       val, NULL);
 }
 
-gint
-gnm_gconf_get_xml_compression_level (void)
-{
-	gint val = gconf_client_get_int (application_get_gconf_client (), 
-					 GNUMERIC_GCONF_XML_COMPRESSION,
-					 NULL);
-	val = MIN (val, 10);
-	val = MAX (0, val);
-	return val;
-}
-
 void
 gnm_gconf_set_xml_compression_level (gint val)
 {
 	gconf_client_set_int (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_XML_COMPRESSION,
 			       val, NULL);
-}
-
-gboolean
-gnm_gconf_get_import_uses_all_openers (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      GNUMERIC_GCONF_FILE_IMPORT_USES_ALL_OP,
-				      NULL);
 }
 
 void
@@ -596,14 +385,6 @@ gnm_gconf_set_import_uses_all_openers (gboolean val)
 			       val, NULL);
 }
 
-gboolean
-gnm_gconf_get_file_overwrite_default_answer (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT,
-				      NULL);
-}
-
 void
 gnm_gconf_set_file_overwrite_default_answer (gboolean val)
 {
@@ -612,28 +393,12 @@ gnm_gconf_set_file_overwrite_default_answer (gboolean val)
 			       val, NULL);
 }
 
-gboolean
-gnm_gconf_get_file_ask_single_sheet_save (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE,
-				      NULL);
-}
-
 void
 gnm_gconf_set_file_ask_single_sheet_save (gboolean val)
 {
 	gconf_client_set_bool (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE,
 			       val, NULL);
-}
-
-gboolean
-gnm_gconf_get_sort_default_by_case (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE,
-				      NULL);
 }
 
 void
@@ -645,28 +410,12 @@ gnm_gconf_set_sort_default_by_case (gboolean val)
 }
 
 
-gboolean
-gnm_gconf_get_sort_default_retain_formats (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM,
-				      NULL);
-}
-
 void
 gnm_gconf_set_sort_default_retain_formats (gboolean val)
 {
 	gconf_client_set_bool (application_get_gconf_client (), 
 			       GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM,
 			       val, NULL);
-}
-
-gboolean
-gnm_gconf_get_sort_default_ascending (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING,
-				      NULL);
 }
 
 void
@@ -677,34 +426,12 @@ gnm_gconf_set_sort_default_ascending (gboolean val)
 			       val, NULL);
 }
 
-gint
-gnm_gconf_get_sort_max_initial_clauses (void)
-{
-	gint val = gconf_client_get_int (application_get_gconf_client (), 
-					 GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL,
-					 NULL);
-	val = MIN (val, 50);
-	val = MAX (0, val);
-	return val;
-}
-
 void
 gnm_gconf_set_sort_max_initial_clauses (gint val)
 {
 	gconf_client_set_int (application_get_gconf_client (), 
 			      GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL,
 			      val, NULL);
-}
-
-gnum_float
-gnm_gconf_get_zoom (void)
-{
-	gnum_float val =  gconf_client_get_float (application_get_gconf_client (), 
-						  GNUMERIC_GCONF_GUI_ZOOM,
-						  NULL);
-	val = MAX (val, 0.1);
-	val = MIN (val, 5.0);
-	return val;
 }
 
 void
@@ -715,28 +442,12 @@ gnm_gconf_set_zoom  (gnum_float val)
 				val, NULL);
 }
 
-gboolean
-gnm_gconf_get_all_sheets (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      PRINTSETUP_GCONF_ALL_SHEETS,
-				      NULL);
-}
-
 void
 gnm_gconf_set_all_sheets (gboolean val)
 {
 	gconf_client_set_bool (application_get_gconf_client (), 
 			       PRINTSETUP_GCONF_ALL_SHEETS,
 			       val, NULL);
-}
-
-gboolean
-gnm_gconf_get_unfocused_range_selection (void)
-{
-	return gconf_client_get_bool (application_get_gconf_client (), 
-				      DIALOGS_GCONF_UNFOCUSED_RS,
-				      NULL);
 }
 
 void
@@ -746,14 +457,6 @@ gnm_gconf_set_unfocused_range_selection (gboolean val)
 			       DIALOGS_GCONF_UNFOCUSED_RS,
 			       val, NULL);
 }
-
-gchar   *gnm_gconf_get_printer (void)
-{
-	return gconf_client_get_string (application_get_gconf_client (), 
-					PRINTING_GCONF_PRINTER,
-					NULL);
-}
-
 void     gnm_gconf_set_printer (gchar *str)
 {
 	if (str == NULL)
@@ -763,14 +466,6 @@ void     gnm_gconf_set_printer (gchar *str)
                                   str, NULL);
 	g_free (str);
 }
-
-gchar   *gnm_gconf_get_printer_backend (void)
-{
-	return gconf_client_get_string (application_get_gconf_client (), 
-					PRINTING_GCONF_BACKEND,
-					NULL);
-}
-
 void     gnm_gconf_set_printer_backend (gchar *str)
 {
 	if (str == NULL)
@@ -780,14 +475,6 @@ void     gnm_gconf_set_printer_backend (gchar *str)
                                   str, NULL);
 	g_free (str);
 }
-
-gchar   *gnm_gconf_get_printer_filename (void)
-{
-	return gconf_client_get_string (application_get_gconf_client (), 
-					PRINTING_GCONF_FILENAME,
-					NULL);
-}
-
 void     gnm_gconf_set_printer_filename (gchar *str)
 {
 	if (str == NULL)
@@ -814,14 +501,6 @@ void     gnm_gconf_set_printer_command (gchar *str)
                                   str, NULL);
 	g_free (str);
 }
-
-gchar   *gnm_gconf_get_printer_lpr_P (void)
-{
-	return gconf_client_get_string (application_get_gconf_client (), 
-					PRINTING_GCONF_BACKEND_PRINTER,
-					NULL);
-}
-
 void     gnm_gconf_set_printer_lpr_P (gchar *str)
 {
 	if (str == NULL)

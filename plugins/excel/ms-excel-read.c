@@ -4750,6 +4750,13 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	value_io_progress_set (context, gsf_input_size (input), N_BYTES_BETWEEN_PROGRESS_UPDATES);
 	q = ms_biff_query_new (input);
 
+	if (current_workbook_iconv != NULL) {
+		g_warning ("current_workbook_iconv != NULL");
+	}
+
+	/* default to ansi in case the file does not contain a CODEPAGE record */
+	current_workbook_iconv = gsf_msole_iconv_open_for_import (1252);
+
 	while (!stop_loading &&		  /* we have not hit the end */
 	       problem_loading == NULL && /* there were no problems so far */
 	       ms_biff_query_next (q)) {  /* we can load the record */

@@ -11,6 +11,7 @@ Jody:
 	* remove some deprecated functions
 	* Fix handling of files named .xml.gz
 	* Improvements for ExprEntry
+	* Make autocorrect unicode safe, and port dialgo to treeview
 
 Morten:
 	* Leak plugging.
