@@ -5,6 +5,7 @@
  *    Marko R. Riedel (mriedel@neuearbeit.de)    [Functions]
  *    Morten Welinder (terra@diku.dk)            [Plugin framework]
  */
+#include <config.h>
 #include <gnome.h>
 #include <glib.h>
 
@@ -34,7 +35,7 @@ intpow (int p, int v)
 #define ITHPRIME_LIMIT 1000000
 static int *prime_table = NULL;
 
-static int 
+static int
 ithprime (int i, int *res)
 {
 	static int computed = 0;
@@ -113,6 +114,65 @@ walk_factorization (int n, void *data,
 	}
 }
 
+/*
+ * Returns -1 (out of bounds), or #primes <= n
+ */
+static int
+compute_nt_pi (int n)
+{
+	int lower = 3, upper = 4, mid, p = 7;
+
+	if (n <= 1)
+		return 0;
+
+	if (n < 4)
+		return n - 1;
+
+	while (p < n) {
+		lower = upper;
+		upper *= 2;
+		if (ithprime (upper, &p))
+			return -1;
+	}
+
+	while (upper - lower > 1) {
+		mid = (lower + upper) / 2;
+		ithprime (mid, &p);
+
+		if (p < n)
+			lower = mid;
+		else if (p > n)
+			upper = mid;
+		else
+			return mid;
+	}
+
+	ithprime (upper, &p);
+	return (p == n) ? lower + 1 : lower;
+}
+
+
+/*
+ * Returns -1 (out of bounds), 0 (non-prime), or 1 (prime).
+ */
+static int
+isprime (int n)
+{
+	int i = 1, p = 2;
+
+	if (n <= 1)
+		return 0;
+
+	for (i = 1; p * p <= n; i++) {
+		if (ithprime (i, &p))
+			return -1;
+		if (n % p == 0)
+			return 0;
+	}
+
+	return 1;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static char *help_phi = {
@@ -120,7 +180,7 @@ static char *help_phi = {
 	   "@SYNTAX=NT_PHI(n)\n"
 	   "@DESCRIPTION="
 	   "The NT_PHI function calculates the number of integers less "
-	   "than or equal to @n that are relatively prime to @n.\n" 
+	   "than or equal to @n that are relatively prime to @n.\n"
 	   "This function only takes one argument."
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -154,7 +214,7 @@ static char *help_d = {
 	N_("@FUNCTION=NT_D\n"
 	   "@SYNTAX=NT_D(n)\n"
 	   "@DESCRIPTION="
-	   "The NT_D function calculates the number of divisors of @n.\n" 
+	   "The NT_D function calculates the number of divisors of @n.\n"
 	   "This function only takes one argument."
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -188,7 +248,7 @@ static char *help_sigma = {
 	N_("@FUNCTION=NT_SIGMA\n"
 	   "@SYNTAX=NT_SIGMA(n)\n"
 	   "@DESCRIPTION="
-	   "The NT_SIGMA function calculates the sum of the divisors of @n.\n" 
+	   "The NT_SIGMA function calculates the sum of the divisors of @n.\n"
 	   "This function only takes one argument."
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -198,11 +258,9 @@ static char *help_sigma = {
 static void
 walk_for_sigma (int p, int v, void *data)
 {
-	* (int *) data *= 
+	* (int *) data *=
 		  ( v == 1 ? p + 1 : (intpow (p, v + 1) - 1) / (p - 1) );
 }
-
-/* ------------------------------------------------------------------------- */
 
 static Value *
 gnumeric_sigma (FunctionEvalInfo *ei, Value **args)
@@ -219,18 +277,18 @@ gnumeric_sigma (FunctionEvalInfo *ei, Value **args)
 	return value_new_int (sigma);
 }
 
+/* ------------------------------------------------------------------------- */
+
 static char *help_ithprime = {
 	N_("@FUNCTION=ITHPRIME\n"
 	   "@SYNTAX=ITHPRIME(i)\n"
 	   "@DESCRIPTION="
-	   "The ITHPRIME function returns the @ith prime.\n" 
+	   "The ITHPRIME function returns the @ith prime.\n"
 	   "This function only takes one argument."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=NT_D, NT_SIGMA")
 };
-
-/* ------------------------------------------------------------------------- */
 
 static Value *
 gnumeric_ithprime (FunctionEvalInfo *ei, Value **args)
@@ -249,8 +307,61 @@ gnumeric_ithprime (FunctionEvalInfo *ei, Value **args)
 
 /* ------------------------------------------------------------------------- */
 
+static char *help_isprime = {
+	N_("@FUNCTION=ISPRIME\n"
+	   "@SYNTAX=ISPRIME(i)\n"
+	   "@DESCRIPTION="
+	   "The ISPRIME function returns TRUE if @i is prime "
+	   "and FALSE otherwise.\n"
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA")
+};
+
+static Value *
+gnumeric_isprime (FunctionEvalInfo *ei, Value **args)
+{
+	int i, yesno;
+
+	i = value_get_as_int (args [0]);
+	yesno = isprime (i);
+	if (yesno == -1)
+		return value_new_error (ei->pos, OUT_OF_BOUNDS);
+	else
+		return value_new_bool (yesno);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static char *help_nt_pi = {
+	N_("@FUNCTION=NT_PI\n"
+	   "@SYNTAX=NT_PI(n)\n"
+	   "@DESCRIPTION="
+	   "The NT_PI function returns the number of primes "
+	   "less than or equal to @n.\n"
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA")
+};
+
+static Value *
+gnumeric_nt_pi (FunctionEvalInfo *ei, Value **args)
+{
+	int n, pi;
+
+	n = value_get_as_int (args [0]);
+	pi = compute_nt_pi (n);
+
+	if (pi == -1)
+		return value_new_error (ei->pos, OUT_OF_BOUNDS);
+	else
+		return value_new_int (pi);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static const char *function_names[] = {
-	"nt_phi", "nt_d", "nt_sigma", "ithprime"
+	"nt_phi", "nt_d", "nt_sigma", "ithprime", "isprime", "nt_pi"
 };
 
 static const int function_count =
@@ -300,14 +411,18 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	cat = function_get_category (_("Number Theory"));
 
-	function_add_args  (cat, "ithprime","f",    
+	function_add_args  (cat, "ithprime","f",
 			    "number",    &help_ithprime, gnumeric_ithprime);
-	function_add_args  (cat, "nt_phi",     "f",    
+	function_add_args  (cat, "nt_phi",     "f",
 			    "number",    &help_phi,      gnumeric_phi);
-	function_add_args  (cat, "nt_d",       "f",    
+	function_add_args  (cat, "nt_d",       "f",
 			    "number",    &help_d,        gnumeric_d);
-	function_add_args  (cat, "nt_sigma",   "f",    
+	function_add_args  (cat, "nt_sigma",   "f",
 			    "number",    &help_sigma,    gnumeric_sigma);
+	function_add_args  (cat, "isprime", "f",
+			    "number",    &help_isprime,  gnumeric_isprime);
+	function_add_args  (cat, "nt_pi",   "f",
+			    "number",    &help_nt_pi,    gnumeric_nt_pi);
 
 	if (plugin_data_init (pd, can_unload, cleanup_plugin,
 			      NUMTHEORY_TITLE, NUMTHEORY_DESCR))

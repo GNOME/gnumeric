@@ -1,3 +1,7 @@
+2000-05-03  Morten Welinder  <terra@diku.dk>
+
+	* numtheory.c (init_plugin): Add new functions from Marko.
+
 2000-04-25  Morten Welinder  <terra@diku.dk>
 
 	* numtheory.c (gnumeric_ithprime): Up limit to 1000000.
