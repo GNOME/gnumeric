@@ -19,6 +19,15 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=130791
 	* Fix xls export for plugin functions
 
+David Mosberger-Tang <David.Mosberger@acm.org>:
+	http://bugs.debian.org/226382
+	* Fix File->Page Setup crash on ia64.
+
+J.H.M. Dassen (Ray):
+	http://bugs.debian.org/227524
+    	* Include several missing images in the documentation and corrected
+    	  some image file references.
+
 --------------------------------------------------------------------------
 Gnumeric 1.2.4
 
