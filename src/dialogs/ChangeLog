@@ -1,3 +1,12 @@
+2003-12-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (tool_update_sensitivity_cb): remove
+	  unused code and store warning messages in warning label
+	* covariance.glade: some HIGification and addition of a warning field
+	* correlation.glade: ditto
+	* rank.glade: ditto
+	* fourier-analysis.glade: ditto
+
 2003-12-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* fill-series.glade: replace output page widgets with dao widget

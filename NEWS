@@ -3,6 +3,8 @@ Gnumeric 1.3.0
 Andreas:
 	* Make new strings translatable.
 	* Use new widget for output page of analysis tools.
+	* Add display indicating why the okay button is disabled
+	  to selected analysis tools.
 
 John Gill:
 	* Tool tips for the sort dialog.

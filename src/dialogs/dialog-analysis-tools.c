@@ -471,42 +471,48 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
  * Update the dialog widgets sensitivity if the only items of interest
  * are one or two standard input and and one output item, permitting multiple
  * areas as first input.
+ *
+ * used by:
+ * Correlation
+ * Covariance
+ * RankPercentile
+ * FourierAnalysis
+ * 
  **/
 static void
 tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			    GenericToolState *state)
 {
-	gboolean ready  = FALSE;
-	gboolean input_1_ready  = FALSE;
-	gboolean input_2_ready  = FALSE;
-	gboolean output_ready  = FALSE;
-
         GSList *input_range;
-        GnmValue *input_range_2;
 
+	/* Checking Input Range */
         input_range = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
+	if (input_range == NULL) {
+		gtk_label_set_text (GTK_LABEL (state->warning),
+				    _("The input range is invalid."));
+		gtk_widget_set_sensitive (state->ok_button, FALSE);
+		if (state->apply_button != NULL)
+			gtk_widget_set_sensitive (state->apply_button,
+						  FALSE);
+		return;
+	} else
+		range_list_destroy (input_range);
 
-	if (state->input_entry_2 != NULL) {
-		input_range_2 =  gnm_expr_entry_parse_as_value
-			(GNM_EXPR_ENTRY (state->input_entry_2), state->sheet);
-	} else {
-		input_range_2 = NULL;
+	/* Checking Output Page */
+	if (!gnm_dao_is_ready (GNM_DAO (state->gdao))) {
+		gtk_label_set_text (GTK_LABEL (state->warning),
+				    _("The output specification "
+				      "is invalid."));
+		gtk_widget_set_sensitive (state->ok_button, FALSE);
+		if (state->apply_button != NULL)
+			gtk_widget_set_sensitive (state->apply_button,
+						  FALSE);
+		return;
 	}
-
-	input_1_ready = (input_range != NULL);
-	input_2_ready = ((state->input_entry_2 == NULL) || 
-			 (input_range_2 != NULL));
-
-	output_ready = gnm_dao_is_ready (GNM_DAO (state->gdao));
 	
-        if (input_range != NULL) range_list_destroy (input_range);
-        if (input_range_2 != NULL) value_release (input_range_2);
-
-	ready = input_1_ready && input_2_ready && output_ready;
-	if (state->apply_button != NULL)
-		gtk_widget_set_sensitive (state->apply_button, ready);
-	gtk_widget_set_sensitive (state->ok_button, ready);
+	gtk_label_set_text (GTK_LABEL (state->warning), "");
+	gtk_widget_set_sensitive (state->ok_button, TRUE);
 
 	return;
 }
