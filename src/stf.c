@@ -48,6 +48,7 @@
 #include "clipboard.h"
 #include "parse-util.h"
 #include "commands.h"
+#include "gui-util.h"
 
 #include <gsf/gsf-input.h>
 #include <string.h>
@@ -56,6 +57,7 @@
 #include <gsf/gsf-output-memory.h>
 #include <gsf/gsf-utils.h>
 #include <locale.h>
+
 
 /**
  * stf_open_and_read
@@ -134,7 +136,7 @@ stf_apply_formats (StfParseOptions_t *parseoptions,
 
 	for (ui = 0; ui < parseoptions->formats->len; ui++) {
 		if (parseoptions->col_import_array == NULL ||
-		    parseoptions->col_import_array_len <= ui ||
+		    parseoptions->col_import_array_len <= (int)ui ||
 		    parseoptions->col_import_array[ui]) {
 			GnmStyle *style = mstyle_new ();
 			GnmFormat *sf = g_ptr_array_index 
@@ -374,11 +376,23 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	if (stf_parse_sheet (po, utf8data, NULL, sheet, 0, 0)) {
 		workbook_recalc (book);
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
+		if (po->cols_exceeded) {
+/* Using gnm_cmd_context_error_import will destroy the successfully imported portion */
+/* 			gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context), */
+/* 						      _("Some columns of data were" */
+/* 							" dropped since they exceeded" */
+/* 							" the available sheet size.")); */
+			gnumeric_notice (wbcg_toplevel (WORKBOOK_CONTROL_GUI (context->impl)),
+					 GTK_MESSAGE_WARNING,_("Some columns of data were"
+							       " dropped since they exceeded"
+							       " the available sheet size."));
+		}
 	} else {
 		workbook_sheet_detach (book, sheet, TRUE);
 		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 			_("Parse error while trying to parse data into sheet"));
 	}
+
 
 	stf_parse_options_free (po);
 	g_free (utf8data);

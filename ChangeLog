@@ -1,3 +1,14 @@
+2004-10-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=139385
+	* src/stf-parse.c (stf_parse_options_new) initialize
+	  cols_exceeded
+	(stf_parse_sheet): set cols_exceeded
+	* src/stf-parse.h: add cols_exceeded to StfParseOptions_t
+	* src/stf.c (stf_apply_formats): remove warning
+	(stf_read_workbook_auto_csvtab): show warning if 
+	  cols_exceeded is set.
+
 2004-10-21  Yukihiro Nakai  <nakai@gnome.gr.jp>
 
 	* src/format-template.c: (xml_read_format_template_members)

@@ -168,6 +168,8 @@ stf_parse_options_new (void)
 	parseoptions->col_import_array_len = 0;
 	parseoptions->formats = NULL;
 
+	parseoptions->cols_exceeded = FALSE;
+
 	return parseoptions;
 }
 
@@ -1144,7 +1146,6 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	GnmDateConventions const *date_conv;
 	GStringChunk *lines_chunk;
 	GPtrArray *lines, *line;
-	gboolean warned = FALSE;
 
 	SETUP_LOCALE_SWITCH;
 
@@ -1170,11 +1171,11 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 			    parseoptions->col_import_array_len <= lcol ||
 			    parseoptions->col_import_array[lcol]) {
 				if (col >= SHEET_MAX_COLS) {
-					if (!warned) {
+					if (!parseoptions->cols_exceeded) {
 						g_warning (_("There are more columns of data than "
 							     "there is room for in the sheet.  Extra "
 							     "columns will be ignored."));
-						warned = TRUE;
+						parseoptions->cols_exceeded = TRUE;
 					}
 				} else {
 					char const *text = g_ptr_array_index (line, lcol);
