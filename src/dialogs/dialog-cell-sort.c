@@ -13,6 +13,7 @@
 #include "dialogs.h"
 #include "cell.h"
 #include "expr.h"
+#include "selection.h"
 #include "utils.h"
 
 typedef struct {

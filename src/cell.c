@@ -1212,7 +1212,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 
 			sibling = sheet_cell_get (sheet, pos, row);
 
-			if (sibling)
+			if (!cell_is_blank(sibling))
 				return;
 
 			ci = sheet_col_get_info (sheet, pos);
@@ -1240,7 +1240,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 
 			sibling = sheet_cell_get (sheet, pos, row);
 
-			if (sibling)
+			if (!cell_is_blank(sibling))
 				return;
 
 			ci = sheet_col_get_info (sheet, pos);
@@ -1275,7 +1275,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 			if (*col1 - 1 >= 0){
 				left_sibling = sheet_cell_get (sheet, *col1 - 1, row);
 
-				if (left_sibling)
+				if (!cell_is_blank(left_sibling))
 					left_left = 0;
 				else {
 					ci = sheet_col_get_info (sheet, *col1 - 1);
@@ -1291,7 +1291,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 			if (*col2 + 1 < SHEET_MAX_COLS-1){
 				right_sibling = sheet_cell_get (sheet, *col2 + 1, row);
 
-				if (right_sibling)
+				if (!cell_is_blank(right_sibling))
 					left_right = 0;
 				else {
 					ci = sheet_col_get_info (sheet, *col2 + 1);

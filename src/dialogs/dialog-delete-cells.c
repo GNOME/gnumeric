@@ -9,6 +9,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "selection.h"
 #include "dialogs.h"
 
 void

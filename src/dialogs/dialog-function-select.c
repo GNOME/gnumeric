@@ -41,7 +41,7 @@ function_categories_fill (SelectorState *selector_state)
 		gchar *cols [1];
 		
 		fc = g_list_nth_data (selector_state->cats, i);
-		cols[0] = fc->name;
+		cols[0] = (gchar *)fc->name; /* Const cast */
 		gtk_clist_append (cl, cols);
 
 		if (i == selector_state->selected_cat)
@@ -72,7 +72,7 @@ function_definition_update (SelectorState *selector_state)
 		gchar *cols [1];
 		FunctionDefinition *fn = p->data;
 		
-		cols [0] = fn->name;
+		cols[0] = (gchar *)fn->name; /* Const cast */
 		gtk_clist_append (cl, cols);
 		
 		if (i == selector_state->selected_func)

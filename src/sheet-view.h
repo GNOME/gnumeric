@@ -73,6 +73,8 @@ void             sheet_view_set_header_visibility (SheetView *sheet_view,
 						   gboolean col_headers_visible,
 						   gboolean row_headers_visible);
 
+void             sheet_view_scrollbar_config      (SheetView const *sheet_view);
+
 typedef struct {
 	GtkTableClass parent_class;
 } SheetViewClass;

@@ -17,6 +17,7 @@
 #include "cursors.h"
 #include "sheet-autofill.h"
 #include "clipboard.h"
+#include "selection.h"
 
 static GnomeCanvasItem *item_cursor_parent_class;
 

@@ -14,6 +14,7 @@
 #include "dialogs.h"
 #include "format.h"
 #include "formats.h"
+#include "selection.h"
 #include "pattern-selector.h"
 #include "widgets/widget-font-selector.h"
 

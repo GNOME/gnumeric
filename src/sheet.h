@@ -29,6 +29,12 @@ typedef struct {
 	int       row;
 } ParsePosition;
 
+typedef struct {
+	int        base_col, base_row;
+	int        start_col, start_row;
+	int        end_col, end_row;
+} SheetSelection;
+
 #ifdef ENABLE_BONOBO
 #    include <bonobo/gnome-container.h>
 #endif
@@ -54,12 +60,6 @@ typedef struct {
 	Range  range;
 	Style  *style;
 } StyleRegion;
-
-typedef struct {
-	int        base_col, base_row;
-	int        start_col, start_row;
-	int        end_col, end_row;
-} SheetSelection;
 
 typedef enum {
 	/* Normal editing mode of the Sheet */
@@ -167,49 +167,6 @@ void        sheet_cursor_move            (Sheet *sheet, int col, int row,
 					  gboolean clear_selection, gboolean add_dest_to_selection);
 void        sheet_make_cell_visible      (Sheet *sheet, int col, int row);
 
-/* Selection management */
-void        sheet_select_all             (Sheet *sheet);
-int         sheet_is_all_selected        (Sheet *sheet);
-void        sheet_selection_append       (Sheet *sheet, int col, int row);
-void        sheet_selection_extend_to    (Sheet *sheet, int col, int row);
-void	    sheet_selection_set		 (Sheet *sheet,
-					  int start_col, int start_row,
-					  int end_col, int end_row);
-void        sheet_selection_reset        (Sheet *sheet);
-void        sheet_selection_reset_only   (Sheet *sheet);
-int         sheet_selection_equal        (SheetSelection *a, SheetSelection *b);
-void        sheet_selection_append_range (Sheet *sheet,
-					  int base_col,  int base_row,
-					  int start_col, int start_row,
-					  int end_col,   int end_row);
-int         sheet_selection_first_range  (Sheet *sheet,
-					  int *base_col,  int *base_row,
-					  int *start_col, int *start_row,
-					  int *end_col,   int *end_row);
-CellList   *sheet_selection_to_list      (Sheet *sheet);
-char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
-
-/* Operations on the selection */
-void        sheet_selection_clear             (Sheet *sheet);
-void        sheet_selection_clear_content     (Sheet *sheet);
-void        sheet_selection_clear_comments    (Sheet *sheet);
-void        sheet_selection_clear_formats     (Sheet *sheet);
-
-/* Cut/Copy/Paste on the workbook selection */
-gboolean    sheet_selection_copy              (Sheet *sheet);
-gboolean    sheet_selection_cut               (Sheet *sheet);
-void        sheet_selection_paste             (Sheet *sheet,
-					       int dest_col,    int dest_row,
-					       int paste_flags, guint32 time32);
-int         sheet_selection_walk_step         (Sheet *sheet,
-					       int   forward,     int horizontal,
-					       int   current_col, int current_row,
-					       int   *new_col,    int *new_row);
-void        sheet_selection_extend_horizontal (Sheet *sheet, int count, gboolean jump_to_boundaries);
-void        sheet_selection_extend_vertical   (Sheet *sheet, int count, gboolean jump_to_boundaries);
-int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
-gboolean    sheet_verify_selection_simple     (Sheet *sheet, const char *command_name);
-
 /* Cell management */
 void        sheet_set_text                (Sheet *sheet, int col, int row,
 					   const char *str);
@@ -305,6 +262,8 @@ void        sheet_compute_visible_ranges  (Sheet *sheet);
 void        sheet_redraw_cell_region      (Sheet *sheet,
 				           int start_col, int start_row,
 				           int end_col,   int end_row);
+void	    sheet_redraw_cols		  (Sheet *sheet);
+void	    sheet_redraw_rows		  (Sheet *sheet);
 void        sheet_redraw_selection        (Sheet *sheet, SheetSelection *ss);
 void        sheet_redraw_all              (Sheet *sheet);
 				       
@@ -340,6 +299,7 @@ void        sheet_style_attach            (Sheet *sheet,
 					   Style  *style);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
+void        sheet_update_controls         (Sheet *sheet);
 /*
  * Sheet visual editing
  */
@@ -391,4 +351,3 @@ void sheet_insert_object (Sheet *sheet, char *repoid);
 void sheet_corba_setup       (Sheet *);
 void sheet_corba_shutdown    (Sheet *);
 #endif /* GNUMERIC_SHEET_H */
-

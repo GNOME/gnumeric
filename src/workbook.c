@@ -25,6 +25,7 @@
 #include "widgets/widget-editable-label.h"
 #include "print-info.h"
 #include "ranges.h"
+#include "selection.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/gnome-persist-file.h>

@@ -15,6 +15,7 @@
 #include "sheet-object.h"
 #include "color.h"
 #include "cursors.h"
+#include "selection.h"
 #include "utils.h"
 
 #undef DEBUG_POSITIONS
@@ -1115,6 +1116,9 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 		pixels = cb;
 		row++;
 	} while (pixels < height);
+
+	/* Update the scrollbar sizes */
+	sheet_view_scrollbar_config (gsheet->sheet_view);
 }
 
 static int

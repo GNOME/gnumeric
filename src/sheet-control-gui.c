@@ -185,23 +185,39 @@ new_canvas_bar (SheetView *sheet_view, GtkOrientation o, GnomeCanvasItem **itemp
 	return GNOME_CANVAS (canvas);
 }
 
-static void
-sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetView *sheet_view)
+/* Manages the scrollbar dimensions and paging parameters. */
+void
+sheet_view_scrollbar_config (SheetView const *sheet_view)
 {
 	GtkAdjustment *va = GTK_ADJUSTMENT (sheet_view->va);
 	GtkAdjustment *ha = GTK_ADJUSTMENT (sheet_view->ha);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
-	int last_col = gsheet->last_full_col;
-	int last_row = gsheet->last_full_row;
+	Sheet         *sheet = sheet_view->sheet;
+	int const last_col = gsheet->last_full_col;
+	int const last_row = gsheet->last_full_row;
 
-	va->upper = MAX (last_row, sheet_view->sheet->max_row_used);
+	va->upper = MAX (MAX (last_row,
+			      sheet_view->sheet->max_row_used),
+			 sheet->cursor_row);
 	va->page_size = last_row - gsheet->top_row;
+	va->step_increment = va->page_increment =
+	    va->page_size / 2;
 	
-	ha->upper = MAX (last_col, sheet_view->sheet->max_col_used);
+	ha->upper = MAX (MAX (last_col,
+			      sheet_view->sheet->max_col_used),
+			 sheet->cursor_col);
 	ha->page_size = last_col - gsheet->top_col;
+	ha->step_increment = ha->page_increment =
+	    ha->page_size / 2;
 
 	gtk_adjustment_changed (va);
 	gtk_adjustment_changed (ha);
+}
+
+static void
+sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetView *sheet_view)
+{
+	sheet_view_scrollbar_config (sheet_view);
 }
 
 static void
@@ -557,7 +573,6 @@ sheet_view_construct (SheetView *sheet_view)
 			    GTK_SIGNAL_FUNC (button_select_all), sheet_view);
 	
 	/* Scroll bars and their adjustments */
-	/* FIXME : The step_inc, page_inc, and page_size should be related to the page size, not 1 */
 	sheet_view->va = gtk_adjustment_new (0.0, 0.0, sheet->max_row_used, 1.0, 1.0, 1.0);
 	sheet_view->ha = gtk_adjustment_new (0.0, 0.0, sheet->max_col_used, 1.0, 1.0, 1.0);
 	sheet_view->hs = gtk_hscrollbar_new (GTK_ADJUSTMENT (sheet_view->ha));

@@ -1,3 +1,7 @@
+1999-09-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_get_span) : Support VALUE_EMPTY.
+
 1999-09-08  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/sheet-view.c (filenames_dropped, sheet_view_construct): Move
@@ -28,6 +32,11 @@
 
 	* src/workbook.c: changed "_Comments" to "Co_mments" as there is
 	already "_Content" in the same menu
+
+1999-09-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-function-select.c (function_definition_update,
+	  function_categories_fill) : Const.
 
 1999-09-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
@@ -84,6 +93,15 @@
 
 	* src/cursors.c (create_bitmap_and_mask_from_xpm): Fix bitmap
  	loading.  This code isn't exactly elegant.
+
+1999-09-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-view.[ch] (sheet_view_scrollbar_config) : Adjust scrollbar
+	  increment.  Split out from sheet_view_size_allocate.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges) :
+	  call sheet_view_scrollbar_config, to adjust scrollbar when region
+	  changes.
 
 1999-09-05  Miguel de Icaza  <miguel@gnu.org>
 

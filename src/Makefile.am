@@ -119,6 +119,8 @@ GNUMERIC_BASE_SOURCES =				\
 	regression.h				\
 	render-ascii.c				\
 	render-ascii.h				\
+	selection.c				\
+	selection.h				\
 	sheet.c					\
 	sheet.h					\
 	sheet-autofill.c			\
