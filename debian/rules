@@ -10,7 +10,7 @@ build: build-stamp
 build-stamp:
 	dh_testdir
 
-	./configure --prefix=/usr --sysconfdir=/etc
+	./configure --prefix=/usr --sysconfdir=/etc --with-bonobo
 	# Add here commands to compile the package.
 	make #CFLAGS="-O2 -g -Wall"
 
