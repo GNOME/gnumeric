@@ -1,5 +1,11 @@
 2003-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=128611
+	* src/formats.c (cell_format_classify): ignore case when comparing
+	  with general format
+
+2003-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=129049
 	* src/session.c (interaction_function): stick dialogs and workbook 
 	  windows to ensure they are visible for logout conversation

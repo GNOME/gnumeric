@@ -6,7 +6,7 @@ Adrian Bunk:
 Andreas
 	* http://bugzilla.gnome.org/show_bug.cgi?id=128166
 	  Mark workbook as dirty on sheet deletion/addition
-	* Bug fixes: 128915
+	* Bug fixes: 128915, 128611
 	* Minor changes to the sort dialog
 	* http://bugzilla.gnome.org/show_bug.cgi?id=128936
 	  Allow text export to use the rendered strings rather than the 

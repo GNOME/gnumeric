@@ -741,7 +741,7 @@ cell_format_classify (GnmFormat const *sf, FormatCharacteristics *info)
 		return FMT_UNKNOWN;
 
 	/* Note: ->family is not yet ready.  */
-	if (strcmp (sf->format, cell_format_general[0]) == 0)
+	if (g_ascii_strcasecmp (sf->format, cell_format_general[0]) == 0)
 		return FMT_GENERAL;
 
 	/* Can we parse it ? */
