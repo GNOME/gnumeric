@@ -92,7 +92,7 @@ static const GOMSParserRecordType types[] =
 	{	TextCharsAtom,			"TextCharsAtom",		FALSE,	TRUE,	-1,	-1	},
 	{	StyleTextPropAtom,		"StyleTextPropAtom",		FALSE,	TRUE,	-1,	-1	},
 	{	BaseTextPropAtom,		"BaseTextPropAtom",		FALSE,	FALSE,	-1,	-1	},
-	{	TxMasterStyleAtom,		"TxMasterStyleAtom",		FALSE,	FALSE,	-1,	-1	},
+	{	TxMasterStyleAtom,		"TxMasterStyleAtom",		FALSE,	TRUE,	-1,	-1	},
 	{	TxCFStyleAtom,			"TxCFStyleAtom",		FALSE,	FALSE,	-1,	-1	},
 	{	TxPFStyleAtom,			"TxPFStyleAtom",		FALSE,	FALSE,	-1,	-1	},
 	{	TextRulerAtom,			"TextRulerAtom",		FALSE,	FALSE,	-1,	-1	},
@@ -235,6 +235,140 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 {
 	ParseUserData *parse_user_data = user_data;
 	switch (record->opcode) {
+	case TxMasterStyleAtom:
+		{
+			int indentation_levels;
+			int indentation_level;
+			int i = 0;
+			GodDefaultAttributes *default_attributes;
+			gboolean first = TRUE;
+
+			if (stack && STACK_TOP->opcode == Environment)
+				return;
+
+			ERROR (stack && STACK_TOP->opcode == MainMaster, "Placement Error");
+
+			default_attributes = god_default_attributes_new ();
+
+			indentation_levels = GSF_LE_GET_GUINT16 (data);
+			i += 2;
+			if (record->inst >= 5) {
+				i += 2;
+				first = FALSE;
+			}
+			for (indentation_level = 0; indentation_level < indentation_levels; indentation_level ++) {
+				GList *pango_attributes = NULL;
+				guint32 fields;
+
+				/* Paragraph Attributes */
+				fields = GSF_LE_GET_GUINT32 (data + i);
+				i += 4;
+
+				/*				g_print ("%d: %x\n", indentation_level, fields);*/
+				if (fields & 0x000f)
+					i += 2; /* Bullet Flags */
+				if (fields & 0x0080)
+					i += 2; /* Bullet Char */
+				if (fields & 0x0010)
+					i += 2; /* Bullet Font */
+				if (fields & 0x0040)
+					i += 2; /* Bullet Height */
+				if (fields & 0x0020)
+					i += 4; /* Bullet Color */
+				if (first) {
+					if (fields & 0x0f00)
+						i += 2; /* Justification last 2 bits */
+				} else {
+					if (fields & 0x0800)
+						i += 2; /* Justification last 2 bits */
+				}
+				if (fields & 0x1000)
+					i += 2; /* line feed */
+				if (fields & 0x2000)
+					i += 2; /* upper dist */
+				if (fields & 0x4000)
+					i += 2; /* lower dist */
+				if (first) {
+					if (fields & 0x8000)
+						i += 2; /* Text offset */
+					if (fields & 0x00010000)
+						i += 2; /* Bullet offset */
+					if (fields & 0x00020000) 
+						i += 2; /* Default tab */
+					if (fields & 0x00200000) {
+						guint tab_count = GSF_LE_GET_GUINT16 (data + i);
+						i += 2 + tab_count * 4; /* Tabs */
+					}
+					if (fields & 0x00040000)
+						i += 2; /* Unknown */
+					if (fields & 0x00080000)
+						i += 2; /* Asian Line Break */
+					if (fields & 0x00100000)
+						i += 2; /* bidi */
+				} else {
+					if (fields & 0x8000)
+						i += 2; /* Unknown */
+					if (fields & 0x0100)
+						i += 2; /* Text offset */
+					if (fields & 0x0200)
+						i += 2; /* Unknown */
+					if (fields & 0x0400)
+						i += 2; /* Bullet offset */
+					if (fields & 0x00010000)
+						i += 2; /* Unknown */
+					if (fields & 0x000e0000)
+						i += 2; /* Asian Line Break some bits. */
+					if (fields & 0x00100000) {
+						guint tab_count = GSF_LE_GET_GUINT16 (data + i);
+						i += 2 + tab_count * 4; /* Tabs */
+					}
+					if (fields & 0x00200000) {
+						i += 2;
+					}
+				}
+
+				/* Character Attributes */
+				fields = GSF_LE_GET_GUINT32 (data + i);
+				i += 4;
+				if (fields & 0x0000ffff)
+					i += 2; /* Bit Field */
+				if (fields & 0x00010000)
+					i += 2; /* Font */
+				if (fields & 0x00200000)
+					i += 2; /* Asian or Complex Font */
+				if (fields & 0x00400000)
+					i += 2; /* Unknown */
+				if (fields & 0x00800000)
+					i += 2; /* Symbol */
+				if (fields & 0x00020000) {
+					pango_attributes = g_list_prepend (pango_attributes,
+									   pango_attr_size_new (GSF_LE_GET_GUINT16 (data + i) * PANGO_SCALE));
+					i += 2;
+				}
+				if (fields & 0x00040000)
+					i += 4; /* Font Color */
+				if (fields & 0x00080000)
+					i += 2; /* Escapement */
+				if (fields & 0x00100000)
+					i += 2; /* Unknown */
+
+				god_default_attributes_set_paragraph_attributes_for_indent (default_attributes,
+											    indentation_level,
+											    NULL);
+				god_default_attributes_set_pango_attributes_for_indent (default_attributes,
+											indentation_level,
+											pango_attributes);
+				g_list_foreach (pango_attributes, (GFunc) pango_attribute_destroy, NULL);
+				g_list_free (pango_attributes);
+
+				first = FALSE;
+			}
+			present_presentation_set_default_attributes_for_text_type (parse_user_data->presentation,
+										   record->inst,
+										   default_attributes);
+			g_object_unref (default_attributes);
+		}
+		break;
 	case DocumentAtom:
 		{
 			GodAnchor *anchor;
@@ -282,7 +416,11 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			parse_state = stack ? STACK_TOP->parse_state : NULL;
 			if (parse_state) {
 				slide_list_with_text_parse_state_finish_text (parse_user_data->presentation, parse_state);
+				g_print ("Text type: %d\n", GSF_LE_GET_GUINT32(data));
 				parse_state->current_text = PRESENT_TEXT (present_text_new (record->inst, GSF_LE_GET_GUINT32(data)));
+				g_object_set (parse_state->current_text,
+					      "presentation", parse_user_data->presentation,
+					      NULL);
 			}
 		}
 		break;
@@ -318,23 +456,19 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 			ERROR (stack && STACK_TOP->opcode == SlideListWithText, "Placement Error");
 			parse_state = stack ? STACK_TOP->parse_state : NULL;
 			if (parse_state) {
-				int remain;
 				double space_before = 0;
 				double space_after = 0;
 				int indent_type = 0;
 				int i = 0;
 				int position = 0;
-				int char_position = 0;
 				const char *text = god_text_model_get_text (GOD_TEXT_MODEL (parse_state->current_text));
 				int text_len = strlen (text);
-				int char_length = g_utf8_strlen (text, -1);
 				GodParagraphAttributes *para_attr;
-				remain = text_len + 1;
-				while (remain > 0) {
+				while (position < text_len) {
 					int sublen = 0;
+					int end;
 					guint fields;
 					int section_length = GSF_LE_GET_GUINT32 (data + i);
-					remain -= section_length;
 					sublen += 4;
 					indent_type = GSF_LE_GET_GUINT16 (data + i + sublen);
 					sublen += 2;
@@ -392,25 +526,28 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 						      "space_after", space_after,
 						      "indent", (double) (indent_type * UN_PER_IN),
 						      NULL);
-					char_position += section_length;
-					if (char_position <= char_length) {
-						section_length = g_utf8_offset_to_pointer (text + position, section_length) - (text + position);
+					end = position;
+					while (section_length && end < text_len) {
+						section_length --;
+						end += g_utf8_skip[(guchar) text[end]];
 					}
 					god_text_model_set_paragraph_attributes (GOD_TEXT_MODEL (parse_state->current_text),
 										 position, 
-										 position + section_length,
+										 end,
 										 para_attr);
+					god_text_model_set_indent (GOD_TEXT_MODEL (parse_state->current_text),
+								   position, 
+								   end,
+								   indent_type);
 					g_object_unref (para_attr);
 					i += sublen;
-					remain -= section_length;
-					position += section_length;
+					position = end;
 				}
 
-				remain = text_len + 1;
 				position = 0;
-				char_position = 0;
-				while (remain > 0) {
+				while (position < text_len) {
 					int sublen = 0;
+					int end;
 					GList *attrs = NULL, *iterator;
 					guint fields;
 					int section_length = GSF_LE_GET_GUINT32 (data + i);
@@ -476,20 +613,20 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 #endif
 						sublen += 2;
 					}
-					g_print ("position: %d, section_length: %d\n", position, section_length);
-					char_position += section_length;
-					if (char_position <= char_length) {
-						section_length = g_utf8_offset_to_pointer (text + position, section_length) - (text + position);
+					/*					g_print ("position: %d, section_length: %d\n", position, section_length);*/
+					end = position;
+					while (section_length && end < text_len) {
+						section_length --;
+						end += g_utf8_skip[(guchar) text[end]];
 					}
 					god_text_model_set_pango_attributes (GOD_TEXT_MODEL (parse_state->current_text),
 									     position, 
-									     position + section_length,
+									     end,
 									     attrs);
 					for (iterator = attrs; iterator; iterator = iterator->next)
 						pango_attribute_destroy (iterator->data);
 					g_list_free (attrs);
-					position += section_length;
-					remain -= section_length;
+					position = end;
 					i += sublen;
 				}
 			}

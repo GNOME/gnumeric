@@ -36,6 +36,7 @@ struct PresentPresentationPrivate_ {
 	GodDrawingGroup *drawing_group;
 	GodAnchor *extents;
 	GodAnchor *notes_extents;
+	GPtrArray *default_attributes;
 };
 
 static GPtrArray*
@@ -181,6 +182,36 @@ present_presentation_set_notes_extents (PresentPresentation  *presentation,
 	presentation->priv->notes_extents = notes_extents;
 	if (presentation->priv->notes_extents)
 		g_object_ref (presentation->priv->notes_extents);
+}
+
+void
+present_presentation_set_default_attributes_for_text_type  (PresentPresentation *presentation,
+							    guint text_type,
+							    GodDefaultAttributes *default_attributes)
+{
+	GodDefaultAttributes **default_attributes_location;
+	if (presentation->priv->default_attributes == NULL)
+		presentation->priv->default_attributes = g_ptr_array_new();
+	if (presentation->priv->default_attributes->len <= text_type)
+		g_ptr_array_set_size (presentation->priv->default_attributes, text_type + 1);
+
+	default_attributes_location = (GodDefaultAttributes **) &g_ptr_array_index (presentation->priv->default_attributes, text_type);
+	if (*default_attributes_location)
+		g_object_unref (*default_attributes_location);
+	*default_attributes_location = default_attributes;
+	if (*default_attributes_location)
+		g_object_ref (*default_attributes_location);
+}
+
+const GodDefaultAttributes *
+present_presentation_get_default_attributes_for_text_type  (PresentPresentation *presentation,
+							    guint text_type)
+{
+	if (presentation->priv->default_attributes == NULL)
+		return NULL;
+	if (presentation->priv->default_attributes->len <= text_type)
+		return NULL;
+	return g_ptr_array_index (presentation->priv->default_attributes, text_type);
 }
 
 static void

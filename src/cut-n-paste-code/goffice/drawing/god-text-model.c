@@ -25,6 +25,7 @@
 
 #include <goffice/goffice-config.h>
 #include "drawing/god-text-model.h"
+#include <drawing/god-default-attributes.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 
@@ -75,6 +76,16 @@ god_text_model_set_paragraph_attributes (GodTextModel *text,
 }
 
 void
+god_text_model_set_indent (GodTextModel *text,
+			   int start,
+			   int end,
+			   int indent)
+{
+	if (GOD_TEXT_MODEL_GET_CLASS (text)->set_indent)
+		GOD_TEXT_MODEL_GET_CLASS (text)->set_indent (text, start, end, indent);
+}
+
+void
 god_text_model_set_pango_attributes (GodTextModel *text,
 				     int start,
 				     int end,
@@ -82,6 +93,15 @@ god_text_model_set_pango_attributes (GodTextModel *text,
 {
 	if (GOD_TEXT_MODEL_GET_CLASS (text)->set_pango_attributes)
 		GOD_TEXT_MODEL_GET_CLASS (text)->set_pango_attributes (text, start, end, attributes);
+}
+
+const GodDefaultAttributes *
+god_text_model_get_default_attributes (GodTextModel *text)
+{
+	if (GOD_TEXT_MODEL_GET_CLASS (text)->get_default_attributes)
+		return GOD_TEXT_MODEL_GET_CLASS (text)->get_default_attributes (text);
+	else
+		return NULL;
 }
 
 void
@@ -248,6 +268,27 @@ real_god_text_model_set_pango_attributes (GodTextModel *text,
 }
 
 static void
+real_god_text_model_set_indent (GodTextModel *text,
+				int start,
+				int end,
+				int indent)
+{
+	guint i;
+	int count = 0;
+	if (text->priv->paragraphs) {
+		for (i = 0; i < text->priv->paragraphs->len; i++) {
+			int length = strlen (PARAGRAPH(i)->text);
+			if (count >= end)
+				return;
+			if (count + length + 1 > start) {
+				PARAGRAPH(i)->indent = indent;
+			}
+			count += length + 1;
+		}
+	}
+}
+
+static void
 real_god_text_model_paragraph_foreach  (GodTextModel *text,
 					GodTextModelParagraphForeachCallback callback,
 					gpointer user_data)
@@ -268,18 +309,20 @@ god_text_model_class_init (GodTextModelClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class           = (GObjectClass *) class;
+	object_class                    = (GObjectClass *) class;
 
-	parent_class           = g_type_class_peek_parent (class);
+	parent_class                    = g_type_class_peek_parent (class);
 
-	object_class->finalize = god_text_model_finalize;
+	object_class->finalize          = god_text_model_finalize;
 
-	class->get_text        = real_god_text_model_get_text;
-	class->set_text        = real_god_text_model_set_text;
+	class->get_text                 = real_god_text_model_get_text;
+	class->set_text                 = real_god_text_model_set_text;
 
 	class->set_paragraph_attributes = real_god_text_model_set_paragraph_attributes;
-	class->set_pango_attributes = real_god_text_model_set_pango_attributes;
-	class->paragraph_foreach = real_god_text_model_paragraph_foreach;
+	class->set_pango_attributes     = real_god_text_model_set_pango_attributes;
+	class->set_indent               = real_god_text_model_set_indent;
+	class->get_default_attributes   = NULL;
+	class->paragraph_foreach        = real_god_text_model_paragraph_foreach;
 }
 
 GSF_CLASS (GodTextModel, god_text_model,

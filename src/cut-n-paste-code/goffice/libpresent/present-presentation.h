@@ -38,39 +38,46 @@ typedef struct {
 	GObjectClass parent_class;
 } PresentPresentationClass;
 
-GType                present_presentation_get_type           (void);
-PresentPresentation *present_presentation_new                (void);
+GType                       present_presentation_get_type                              (void);
+PresentPresentation        *present_presentation_new                                   (void);
 
 /* Slide list functions */
-void                 present_presentation_append_slide       (PresentPresentation *presentation,
-							      PresentSlide        *slide);
-void                 present_presentation_insert_slide       (PresentPresentation *presentation,
-							      PresentSlide        *slide,
-							      int                  pos);
-void                 present_presentation_delete_slide       (PresentPresentation *presentation,
-							      int                  pos);
-void                 present_presentation_reorder_slide      (PresentPresentation *presentation,
-							      int                  old_pos,
-							      int                  new_pos);
-int                  present_presentation_get_slide_count    (PresentPresentation *presentation);
+void                        present_presentation_append_slide                          (PresentPresentation  *presentation,
+											PresentSlide         *slide);
+void                        present_presentation_insert_slide                          (PresentPresentation  *presentation,
+											PresentSlide         *slide,
+											int                   pos);
+void                        present_presentation_delete_slide                          (PresentPresentation  *presentation,
+											int                   pos);
+void                        present_presentation_reorder_slide                         (PresentPresentation  *presentation,
+											int                   old_pos,
+											int                   new_pos);
+int                         present_presentation_get_slide_count                       (PresentPresentation  *presentation);
 /* Return value is reffed. */
-PresentSlide        *present_presentation_get_slide          (PresentPresentation *presentation,
-							      int                  pos);
+PresentSlide               *present_presentation_get_slide                             (PresentPresentation  *presentation,
+											int                   pos);
 
 /* Return value is reffed. */
-GodDrawingGroup     *present_presentation_get_drawing_group  (PresentPresentation *presentation);
-void                 present_presentation_set_drawing_group  (PresentPresentation *presentation,
-							      GodDrawingGroup     *drawing_group);
+GodDrawingGroup            *present_presentation_get_drawing_group                     (PresentPresentation  *presentation);
+void                        present_presentation_set_drawing_group                     (PresentPresentation  *presentation,
+											GodDrawingGroup      *drawing_group);
 
 /* Return value is reffed. */
-GodAnchor           *present_presentation_get_extents        (PresentPresentation *presentation);
-void                 present_presentation_set_extents        (PresentPresentation *presentation,
-							      GodAnchor           *anchor);
+GodAnchor                  *present_presentation_get_extents                           (PresentPresentation  *presentation);
+void                        present_presentation_set_extents                           (PresentPresentation  *presentation,
+											GodAnchor            *anchor);
 
 /* Return value is reffed. */
-GodAnchor           *present_presentation_get_notes_extents  (PresentPresentation *presentation);
-void                 present_presentation_set_notes_extents  (PresentPresentation *presentation,
-							      GodAnchor           *anchor);
+GodAnchor                  *present_presentation_get_notes_extents                     (PresentPresentation  *presentation);
+void                        present_presentation_set_notes_extents                     (PresentPresentation  *presentation,
+											GodAnchor            *anchor);
+
+/* Default attributes */
+void                        present_presentation_set_default_attributes_for_text_type  (PresentPresentation  *presentation,
+											guint                   text_type,
+											GodDefaultAttributes *default_attributes);
+const GodDefaultAttributes *present_presentation_get_default_attributes_for_text_type  (PresentPresentation  *presentation,
+											guint                   text_type);
 
 G_END_DECLS
 

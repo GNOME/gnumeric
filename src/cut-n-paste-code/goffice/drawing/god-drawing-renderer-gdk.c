@@ -174,6 +174,7 @@ typedef struct {
 	GodDrawingRendererGdk *renderer;
 	GdkRectangle *rect;
 	long long y_ofs;
+	const GodDefaultAttributes *default_attributes;
 } DrawTextContext;
 
 static void
@@ -187,6 +188,8 @@ draw_text (GodTextModel *text,
 	double space_before = 0;
 	double space_after = 0;
 	double indent = 0;
+	const GList *iterator;
+	PangoAttrList *attributes;
 	if (paragraph->para_attributes)
 		g_object_get (paragraph->para_attributes,
 			      "space_before", &space_before,
@@ -200,7 +203,20 @@ draw_text (GodTextModel *text,
 	pango_layout_set_text (layout, paragraph->text, -1);
 	pango_layout_set_auto_dir (layout, FALSE);
 	if (paragraph->char_attributes)
-		pango_layout_set_attributes (layout, paragraph->char_attributes);
+		attributes = pango_attr_list_copy (paragraph->char_attributes);
+	else
+		attributes = pango_attr_list_new ();
+	if (draw_context->default_attributes) {
+		iterator = god_default_attributes_get_pango_attributes_for_indent ((GodDefaultAttributes *)draw_context->default_attributes, paragraph->indent);
+		for (; iterator; iterator = iterator->next) {
+			PangoAttribute *attr = pango_attribute_copy (iterator->data);
+			attr->start_index = 0;
+			attr->end_index = -1;
+			pango_attr_list_insert_before (attributes, attr);
+		}
+	}
+	pango_layout_set_attributes (layout, attributes);
+	pango_attr_list_unref (attributes);
 	gdk_draw_layout (draw_context->renderer->priv->drawable,
 			 draw_context->renderer->priv->gc,
 			 draw_context->rect->x + indent / draw_context->renderer->priv->x_units_per_pixel,
@@ -348,6 +364,7 @@ god_drawing_renderer_gdk_render_shape (GodDrawingRendererGdk *renderer,
 		draw_context->renderer = renderer;
 		draw_context->rect = &rect;
 		draw_context->y_ofs = 0;
+		draw_context->default_attributes = god_text_model_get_default_attributes (text_model);
 		god_text_model_paragraph_foreach (text_model, draw_text, draw_context);
 		g_object_unref (prop_table);
 	}

@@ -1,3 +1,29 @@
+2004-07-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* drawing/Makefile.am (libgoffice_drawing_la_SOURCES): Added
+	god-default-attributes.c and god-default-attributes.h.
+
+	* drawing/god-default-attributes.c,
+	drawing/god-default-attributes.h: Default pango and paragraph
+	attributes per indent level.
+
+	* drawing/god-drawing-renderer-gdk.c: Handle default attributes.
+	Rework character attributes.
+
+	* drawing/god-text-model.c, drawing/god-text-model.h: Added indent
+	and default attributes concepts.
+
+	* libpresent/load-ppt.c (handle_atom): Parse TxMasterStyleAtom.
+
+	* libpresent/present-presentation.c,
+	libpresent/present-presentation.h: Added a default default
+	attributes object per text type.
+
+	* libpresent/present-text.c: Added a property to store a pointer
+	to the main presentation object.
+
+	* test/dump-ppt-records.c: Parse TxMasterStyleAtom.
+
 2004-07-08  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-guru.c (cb_canvas_select_item) : handle the zoom

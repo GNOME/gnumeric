@@ -16,6 +16,7 @@
 #include <glib-object.h>
 #include <glib.h>
 #include <drawing/god-paragraph-attributes.h>
+#include <drawing/god-default-attributes.h>
 #include <pango/pango-attributes.h>
 
 G_BEGIN_DECLS
@@ -35,6 +36,7 @@ typedef struct {
 	char *text;
 	PangoAttrList *char_attributes;
 	GodParagraphAttributes *para_attributes;
+	int indent;
 } GodTextModelParagraph;
 
 typedef void (*GodTextModelParagraphForeachCallback) (GodTextModel *text,
@@ -53,35 +55,42 @@ struct GodTextModelClass {
 	void           (*set_text)  (GodTextModel *text, const char    *text_value);
 	void           (*set_paragraph_attributes) (GodTextModel *text, int start, int end, GodParagraphAttributes *attributes);
 	void           (*set_pango_attributes) (GodTextModel *text, int start, int end, GList *attributes);
+	void           (*set_indent) (GodTextModel *text, int start, int end, int indent);
+	const GodDefaultAttributes *           (*get_default_attributes) (GodTextModel *text);
 	void           (*paragraph_foreach) (GodTextModel *text, GodTextModelParagraphForeachCallback callback, gpointer user_data);
 };
 
-GType         god_text_model_get_type                  (void);
+GType                       god_text_model_get_type                  (void);
 
 /* Set routines*/
-GodTextModel *god_text_model_new                       (void);
-void          god_text_model_set_text                  (GodTextModel                         *text,
-							const char                           *text_value);
+GodTextModel               *god_text_model_new                       (void);
+void                        god_text_model_set_text                  (GodTextModel                         *text,
+								      const char                           *text_value);
 #if 0
-void         *god_text_model_append_paragraph          (GodTextModel                         *text,
-							PangoLayout                          *layout,
-							GodParagraphAttributes               *para_attr);
+void                       *god_text_model_append_paragraph          (GodTextModel                         *text,
+								      PangoLayout                          *layout,
+								      GodParagraphAttributes               *para_attr);
 #endif
-void          god_text_model_set_paragraph_attributes  (GodTextModel                         *text,
-							int                                   start,
-							int                                   end,
-							GodParagraphAttributes               *para_attr);
-void          god_text_model_set_pango_attributes      (GodTextModel                         *text,
-							int                                   start,
-							int                                   end,
-							GList                                *char_attrs);
+void                        god_text_model_set_paragraph_attributes  (GodTextModel                         *text,
+								      int                                   start,
+								      int                                   end,
+								      GodParagraphAttributes               *para_attr);
+void                        god_text_model_set_pango_attributes      (GodTextModel                         *text,
+								      int                                   start,
+								      int                                   end,
+								      GList                                *char_attrs);
+void                        god_text_model_set_indent                (GodTextModel                         *text,
+								      int                                   start,
+								      int                                   end,
+								      int                                   indent);
+const GodDefaultAttributes *god_text_model_get_default_attributes    (GodTextModel                         *text);
 
 /* Get routines */
-const char   *god_text_model_get_text                  (GodTextModel                         *text);
-int           god_text_model_get_length                (GodTextModel                         *text);
-void          god_text_model_paragraph_foreach         (GodTextModel                         *text,
-							GodTextModelParagraphForeachCallback  callback,
-							gpointer                              user_data);
+const char                 *god_text_model_get_text                  (GodTextModel                         *text);
+int                         god_text_model_get_length                (GodTextModel                         *text);
+void                        god_text_model_paragraph_foreach         (GodTextModel                         *text,
+								      GodTextModelParagraphForeachCallback  callback,
+								      gpointer                              user_data);
 
 
 G_END_DECLS

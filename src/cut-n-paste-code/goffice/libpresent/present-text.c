@@ -26,6 +26,9 @@
 
 #include <gnumeric-config.h>
 #include "libpresent/present-text.h"
+#include <libpresent/present-presentation.h>
+
+#include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
 
 static GObjectClass *parent_class;
@@ -33,6 +36,12 @@ static GObjectClass *parent_class;
 struct PresentTextPrivate_ {
 	int id;
 	PresentTextType type;
+	PresentPresentation *presentation;
+};
+
+enum {
+	PROP_0,
+	PROP_PRESENTATION,
 };
 
 void
@@ -89,15 +98,67 @@ present_text_finalize (GObject *object)
 }
 
 static void
+present_text_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+	PresentText *text = PRESENT_TEXT (object);
+
+	switch (prop_id) {
+	case PROP_PRESENTATION:
+		if (text->priv->presentation != NULL)
+			g_object_unref (text->priv->presentation);
+		text->priv->presentation = g_value_get_object (value);
+		if (text->priv->presentation != NULL)
+			g_object_ref (text->priv->presentation);
+		break;
+	}
+}
+
+static void
+present_text_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+{
+	PresentText *text = PRESENT_TEXT (object);
+
+	switch (prop_id){
+	case PROP_PRESENTATION:
+		g_value_set_object (value, text->priv->presentation);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
+	}
+}
+
+static const GodDefaultAttributes *
+present_text_get_default_attributes (GodTextModel *text)
+{
+	PresentText *present_text = PRESENT_TEXT (text);
+	return present_presentation_get_default_attributes_for_text_type (present_text->priv->presentation, present_text->priv->type);
+}
+
+
+static void
 present_text_class_init (PresentTextClass *class)
 {
 	GObjectClass *object_class;
+	GodTextModelClass *god_text_model_class;
 
-	object_class           = (GObjectClass *) class;
+	object_class                                 = (GObjectClass *) class;
+	god_text_model_class                         = (GodTextModelClass *) class;
 
-	parent_class           = g_type_class_peek_parent (class);
+	parent_class                                 = g_type_class_peek_parent (class);
 
-	object_class->finalize = present_text_finalize;
+	object_class->finalize                       = present_text_finalize;
+	object_class->get_property                   = present_text_get_property;
+	object_class->set_property                   = present_text_set_property;
+
+	god_text_model_class->get_default_attributes = present_text_get_default_attributes;
+
+	g_object_class_install_property (object_class, PROP_PRESENTATION,
+					 g_param_spec_object ("presentation",
+							      _( "Presentation" ),
+							      _( "Presentation" ),
+							      PRESENT_PRESENTATION_TYPE,
+							      G_PARAM_READWRITE));
 }
 
 GSF_CLASS (PresentText, present_text,

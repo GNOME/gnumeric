@@ -432,6 +432,129 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				i += 2;
 			}
 			break;
+	case TxMasterStyleAtom:
+		{
+			int indentation_levels;
+			int indentation_level;
+			int i = 0;
+			int lasti;
+			gboolean first = TRUE;
+
+			gsf_mem_dump (data, record->length);
+
+			indentation_levels = GSF_LE_GET_GUINT16 (data);
+			i += 2;
+			lasti = i;
+			if (record->inst >= 5) {
+				i += 2;
+				first = FALSE;
+			}
+			for (indentation_level = 0; indentation_level < indentation_levels; indentation_level ++) {
+				guint32 fields;
+
+				/* Paragraph Attributes */
+				fields = GSF_LE_GET_GUINT32 (data + i);
+				i += 4;
+
+				printf ("level: %d  para fields: 0x%04x\n", indentation_level, fields);
+
+				if (fields & 0x000f)
+					i += 2; /* Bullet Flags */
+				if (fields & 0x0080)
+					i += 2; /* Bullet Char */
+				if (fields & 0x0010)
+					i += 2; /* Bullet Font */
+				if (fields & 0x0040)
+					i += 2; /* Bullet Height */
+				if (fields & 0x0020)
+					i += 4; /* Bullet Color */
+				if (first) {
+					if (fields & 0x0f00)
+						i += 2; /* Justification last 2 bits */
+				} else {
+					if (fields & 0x0800)
+						i += 2; /* Justification last 2 bits */
+				}
+				if (fields & 0x1000)
+					i += 2; /* line feed */
+				if (fields & 0x2000)
+					i += 2; /* upper dist */
+				if (fields & 0x4000)
+					i += 2; /* lower dist */
+				if (first) {
+					if (fields & 0x8000)
+						i += 2; /* Text offset */
+					if (fields & 0x00010000)
+						i += 2; /* Bullet offset */
+					if (fields & 0x00020000) 
+						i += 2; /* Default tab */
+					if (fields & 0x00200000) {
+						guint tab_count = GSF_LE_GET_GUINT16 (data + i);
+						i += 2 + tab_count * 4; /* Tabs */
+					}
+					if (fields & 0x00040000)
+						i += 2; /* Unknown */
+					if (fields & 0x00080000)
+						i += 2; /* Asian Line Break */
+					if (fields & 0x00100000)
+						i += 2; /* bidi */
+				} else {
+					if (fields & 0x8000)
+						i += 2; /* Unknown */
+					if (fields & 0x0100)
+						i += 2; /* Text offset */
+					if (fields & 0x0200)
+						i += 2; /* Unknown */
+					if (fields & 0x0400)
+						i += 2; /* Bullet offset */
+					if (fields & 0x00010000)
+						i += 2; /* Unknown */
+					if (fields & 0x000e0000)
+						i += 2; /* Asian Line Break some bits. */
+					if (fields & 0x00100000) {
+						guint tab_count = GSF_LE_GET_GUINT16 (data + i);
+						i += 2 + tab_count * 4; /* Tabs */
+					}
+					if (fields & 0x00200000) {
+						i += 2;
+					}
+				}
+
+				/* Character Attributes */
+				fields = GSF_LE_GET_GUINT32 (data + i);
+				printf ("level: %d  char fields: 0x%04x\n", indentation_level, fields);
+				i += 4;
+				if (fields & 0x0000ffff)
+					i += 2; /* Bit Field */
+				if (fields & 0x00010000)
+					i += 2; /* Font */
+				if (fields & 0x00200000)
+					i += 2; /* Asian or Complex Font */
+				if (fields & 0x00400000)
+					i += 2; /* Unknown */
+				if (fields & 0x00800000)
+					i += 2; /* Symbol */
+				if (fields & 0x00020000) {
+					printf ("Font size: %d\n", (int) GSF_LE_GET_GUINT16 (data + i));
+					i += 2;
+				}
+				if (fields & 0x00040000)
+					i += 4; /* Font Color */
+				if (fields & 0x00080000)
+					i += 2; /* Escapement */
+				if (fields & 0x00100000)
+					i += 2; /* Unknown */
+
+				if (i != lasti) {
+					gsf_mem_dump (data + lasti, i - lasti);
+					lasti = i;
+				}
+
+				first = FALSE;
+			}
+
+		}
+		break;
 		case StyleTextPropAtom:
 			gsf_mem_dump (data, record->length);
 			remain = text_length + 1;
@@ -445,7 +568,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				sublen += 4;
 				sublen += 2;
 				fields = GSF_LE_GET_GUINT32 (data + i + sublen);
-				printf ("fields: 0x%04x\n", fields);
+				printf ("para fields: 0x%04x\n", fields);
 				sublen += 4;
 
 				sublen += 12;
@@ -503,7 +626,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				remain -= section_length;
 				sublen += 4;
 				fields = GSF_LE_GET_GUINT32 (data + i + sublen);
-				printf ("fields: 0x%04x\n", fields);
+				printf ("char fields: 0x%04x\n", fields);
 				sublen += 4;
 				if (fields & (TEXT_FIELD_PROPERTY_EXISTS_BOLD |
 					      TEXT_FIELD_PROPERTY_EXISTS_ITALIC |
