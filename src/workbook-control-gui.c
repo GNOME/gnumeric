@@ -2610,7 +2610,7 @@ static GnomeUIInfo workbook_menu_edit [] = {
 		  N_("Search for some text"),
 	          cb_edit_search,
 		  NULL, NULL,
-		  0, 0, 0, 0 },
+		  0, 0, GDK_F7, 0 },
 
 	{ GNOME_APP_UI_ITEM, N_("Search and Replace..."),
 		  N_("Search for some text and replace it with something else"),

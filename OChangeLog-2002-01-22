@@ -1,3 +1,8 @@
+2001-10-12  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-control-gui.c: Add the F7 accelerator for
+ 	non-Bonobo also.
+
 2001-10-12  John Gotts <jgotts@linuxsavvy.com>
 
 	* gnumeric.spec.in: If you don't want bonobo, change %define WithBonobo
