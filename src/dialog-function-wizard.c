@@ -15,6 +15,8 @@
 #include "expr.h"
 #include "func.h"
 
+#define INPUTS_FOR_MULTI_ARG 6
+
 typedef struct {
 	GtkBox *dialog_box ;
 	GtkWidget *widget ;
@@ -61,11 +63,12 @@ typedef struct {
 	gboolean optional ;
 	gchar    type ;
 	GtkEntry *entry ;
+	Workbook *wb ;
 } ARG_DATA ;
 
 /**
  * Build descriptions of arguments
- * If fd->args == 0, do something different.
+ * If fd->args == 0, make it up
  **/
 static void
 arg_data_list_new (STATE *state)
@@ -79,15 +82,28 @@ arg_data_list_new (STATE *state)
 	    !state->tok)
 		return ;
 	
-	type = state->fd->args ;
-	g_return_if_fail (type) ;
-
 	state->args = g_ptr_array_new () ;
+
+	type = state->fd->args ;
+	if (!type) {
+		int lp ;
+		for (lp=0;lp<INPUTS_FOR_MULTI_ARG;lp++) {
+			ARG_DATA *ad ;
+			ad = g_new (ARG_DATA, 1) ;
+			ad->arg_name = g_strdup ("Value") ;
+			ad->wb = state->wb ;
+			ad->type = '?' ;
+			ad->optional = (lp!=0) ;
+			ad->entry = NULL ;
+			g_ptr_array_add (state->args, ad) ;
+		}
+		return ;
+	}
 
 	copy_args = tokenised_help_find (state->tok, "SYNTAX") ;
 	if (!copy_args) {
-		state->args = NULL ;
 		g_ptr_array_free (state->args, FALSE) ;
+		state->args = NULL ;
 	}
 	copy_args = g_strdup (copy_args) ;
 
@@ -102,20 +118,22 @@ arg_data_list_new (STATE *state)
 			continue ;
 		}
 		if (*ptr==',' || *ptr==')') {
-			ARG_DATA *ad ;
-			ad = g_new (ARG_DATA, 1) ;
-			ad->arg_name = g_strndup (start, (int)(ptr-start)) ;
-
 			if (*type=='|') {
 				type++ ;
 				optional = 1 ;
 			}
-			ad->type = *type ;
-			ad->optional = optional ;
+			if (ptr > start) {
+				ARG_DATA *ad ;
+				ad = g_new (ARG_DATA, 1) ;
+				ad->arg_name = g_strndup (start, (int)(ptr-start)) ;
+				ad->wb = state->wb ;
+				
+				ad->type = *type ;
+				ad->optional = optional ;
+				ad->entry = NULL ;
+				g_ptr_array_add (state->args, ad) ;
+			}
 			type++ ;
-
-			ad->entry = NULL ;
-			g_ptr_array_add (state->args, ad) ;
 			start = ptr+1 ;
 		}
 		ptr++ ;
@@ -142,11 +160,32 @@ arg_data_list_destroy (STATE *state)
 	g_ptr_array_free (state->args, FALSE) ;
 }
 
+static void
+function_input (GtkWidget *widget, ARG_DATA *ad)
+{
+	FunctionDefinition *fd = dialog_function_select (ad->wb) ;
+	GtkEntry *entry = ad->entry ;
+	gchar *txt ;
+	int pos ;
+
+	if (!fd) return ;
+	txt = dialog_function_wizard (ad->wb, fd) ;
+       	if (!txt || !ad->wb || !ad->wb->ea_input) return ;
+	
+	pos = gtk_editable_get_position (GTK_EDITABLE(entry)) ;
+
+	gtk_editable_insert_text (GTK_EDITABLE(entry),
+				  txt, strlen(txt), &pos) ;
+	g_free (txt) ;
+}
+
 static GtkWidget *
 function_type_input (ARG_DATA *ad)
 {
 	GtkBox   *box ;
 	GtkEntry *entry ;
+	GtkButton *button ;
+	GtkWidget *pix ;
 	gchar *txt = NULL, *label ;
 
 	g_return_val_if_fail (ad, NULL) ;
@@ -164,7 +203,7 @@ function_type_input (ARG_DATA *ad)
 		txt = _("Boolean") ;
 		break ;
 	case 'r':
-		txt = _("Range") ;
+		txt = _("Range/Array") ;
 		break ;
 	case '?':
 		txt = _("Any") ;
@@ -184,6 +223,17 @@ function_type_input (ARG_DATA *ad)
 		label = g_strconcat ("(", txt, ")", NULL) ;
 	else
 		label = g_strconcat ("=", txt, NULL) ;
+
+	button = GTK_BUTTON(gtk_button_new()) ;
+	pix = gnome_stock_pixmap_widget_new (ad->wb->toplevel,
+					     GNOME_STOCK_PIXMAP_BOOK_GREEN);
+	gtk_container_add (GTK_CONTAINER (button), pix);
+	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC(function_input), ad);
+	
+	gtk_box_pack_start (box, GTK_WIDGET(button),
+			    TRUE, TRUE, 0) ;
 	gtk_box_pack_start (box, gtk_label_new (label),
 			    TRUE, TRUE, 0) ;
 	g_free (label) ;
@@ -261,6 +311,12 @@ dialog_function_wizard (Workbook *wb, FunctionDefinition *fd)
 	state.args = NULL ;
 	arg_data_list_new (&state) ;
 
+	/* It takes no arguments */
+	if (state.args && state.args->len == 0) {
+		tokenised_help_destroy (state.tok) ;
+		return get_text_value (&state) ;
+	}
+
 	dialog = gnome_dialog_new (_("Formula Wizard"),
 				   GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL,
@@ -281,7 +337,3 @@ dialog_function_wizard (Workbook *wb, FunctionDefinition *fd)
 	tokenised_help_destroy (state.tok) ;
 	return ans ;
 }
-
-
-
-

@@ -1073,6 +1073,24 @@ gnumeric_radians (struct FunctionDefinition *i, Value *argv [], char **error_str
 	return value_float ((value_get_as_double (argv [0]) * M_PI) / 180);
 }
 
+static char *help_rand = {
+	N_("@FUNCTION=RAND\n"
+	   "@SYNTAX=RAND()\n"
+
+	   "@DESCRIPTION="
+	   "Returns a random number greater than or equal to 0 and less than 1."
+	   "\n"
+	   "\n"
+	   
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_rand (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	return value_float (rand()/(RAND_MAX + 1.0)) ;
+}
+
 static char *help_sin = {
 	N_("@FUNCTION=SIN\n"
 	   "@SYNTAX=SIN(x)\n"
@@ -1373,6 +1391,7 @@ FunctionDefinition math_functions [] = {
 	{ "or",      0,      "",          &help_or,      gnumeric_or, NULL },
 	{ "power",   "ff",   "x,y",       &help_power,   NULL, gnumeric_power },
 	{ "radians", "f",    "number",    &help_radians, NULL, gnumeric_radians },
+	{ "rand",    "",     "",          &help_rand,    NULL, gnumeric_rand },
 	{ "sin",     "f",    "number",    &help_sin,     NULL, gnumeric_sin },
 	{ "sinh",    "f",    "number",    &help_sinh,    NULL, gnumeric_sinh },
 	{ "sqrt",    "f",    "number",    &help_sqrt,    NULL, gnumeric_sqrt },

@@ -1028,24 +1028,25 @@ static void
 wizard_input (GtkWidget *widget, Workbook *wb)
 {
 	FunctionDefinition *fd = dialog_function_select (wb) ;
-	gchar *txt, *edittxt, *ptr ;
-	gint pos, lp, len, lentxt, editlen ;
+	GtkEntry *entry = GTK_ENTRY(wb->ea_input) ;
+	gchar *txt, *edittxt ;
+	int pos ;
 
 	if (!fd) return ;
 	txt = dialog_function_wizard (wb, fd) ;
-       	if (!txt || !wb || !wb->ea_input) return ;
+       	if (!txt || !wb || !entry) return ;
 	
-	pos = gtk_editable_get_position (GTK_EDITABLE(wb->ea_input)) ;
+	pos = gtk_editable_get_position (GTK_EDITABLE(entry)) ;
 
-	gtk_editable_insert_text (GTK_EDITABLE(wb->ea_input),
+	gtk_editable_insert_text (GTK_EDITABLE(entry),
 				  txt, strlen(txt), &pos) ;
 	g_free (txt) ;
-	txt = gtk_entry_get_text (GTK_ENTRY (wb->ea_input)) ;
+	txt = gtk_entry_get_text (entry) ;
 	if (txt[0] != '=')
 	        edittxt = g_strconcat ("=", txt, NULL) ;
 	else
 		edittxt = g_strdup (txt) ;
-	gtk_entry_set_text (GTK_ENTRY (wb->ea_input), edittxt) ;
+	gtk_entry_set_text (entry, edittxt) ;
 	g_free (edittxt) ;
 }
 

@@ -16,11 +16,13 @@
 #include "func.h"
 
 typedef struct {
-	GtkWidget *widget ;
+	GtkWidget *widget, *dlg ;
 	GtkBox *dialog_box ;
 	Workbook *wb ;
 	GPtrArray *cats ;
 	GtkCList *function_list ;
+	GtkCList *cl_funcs ;
+	GtkCList *cl_cats ;
 	int selected_func ;  /* An Entry */
 	int selected_cat  ;  /* An Array */
 } STATE ;
@@ -37,6 +39,7 @@ category_select_row (GtkCList *clist, gint row, gint col,
 			      state->widget) ;
 	state->selected_func = 0 ;
 	function_select_create (state) ;
+/*	gtk_clist_select_row (state->cl_cats, row, 0) ; */
 	gtk_widget_show_all (GTK_WIDGET(state->dialog_box)) ;
 }
 
@@ -44,11 +47,17 @@ static void
 function_select_row (GtkCList *clist, gint row, gint col,
 		     GdkEvent *event, STATE *state)
 {
-/* 	printf ("Function %d\n", row) ; */
+/* 	printf ("Function %d\n", row) ;  */
+	if (state->selected_func == row) {
+/*		printf ("Double click\n") ; */
+		gtk_signal_emit_by_name (GTK_OBJECT(state->dlg),
+					 "clicked", 0) ;
+	}
 	state->selected_func = row ;
 	gtk_container_remove (GTK_CONTAINER(state->dialog_box),
 			      state->widget) ;
 	function_select_create (state) ;
+/*	gtk_clist_select_row (state->cl_funcs, row, 0) ; */
 	gtk_widget_show_all (GTK_WIDGET(state->dialog_box)) ;
 }
 
@@ -101,9 +110,8 @@ function_select_create (STATE *state)
 	box  = gtk_hbox_new (0, 0) ;
 
 	{ /* The Category List */
-		cl = GTK_CLIST (gtk_clist_new(1)) ;
+		state->cl_cats = cl = GTK_CLIST (gtk_clist_new(1)) ;
 		gtk_clist_column_titles_hide(cl) ;
-		gtk_clist_set_selection_mode (cl,GTK_SELECTION_SINGLE) ;
 		
 		for (lp=0;lp<state->cats->len;lp++) {
 			gchar *cols[1] ;
@@ -113,6 +121,7 @@ function_select_create (STATE *state)
 			if (lp == state->selected_cat)
 				gtk_clist_select_row (cl, lp, 0) ;
 		}
+		gtk_clist_set_selection_mode (cl,GTK_SELECTION_SINGLE) ;
 		gtk_signal_connect (GTK_OBJECT (cl), "select_row",
 				    GTK_SIGNAL_FUNC (category_select_row),
 				    state);
@@ -129,9 +138,8 @@ function_select_create (STATE *state)
 	{ /* The Function List */
 		FunctionDefinition *fn = cat->functions ;
 		
-		cl = GTK_CLIST (gtk_clist_new(1)) ;
+		state->cl_funcs = cl = GTK_CLIST (gtk_clist_new(1)) ;
 		gtk_clist_column_titles_hide(cl) ;
-		gtk_clist_set_selection_mode (cl,GTK_SELECTION_SINGLE) ;
 
 		max = 0 ;
 		for (lp = 0; fn[lp].name; lp++) {
@@ -144,6 +152,7 @@ function_select_create (STATE *state)
 			}
 			max++ ;
 		}
+		gtk_clist_set_selection_mode (cl,GTK_SELECTION_SINGLE) ;
 		gtk_signal_connect (GTK_OBJECT (cl), "select_row",
 				    GTK_SIGNAL_FUNC (function_select_row),
 				    state);
@@ -216,6 +225,7 @@ dialog_function_select (Workbook *wb)
 				 GTK_WINDOW (wb->toplevel)) ;
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE) ;
 
+	state.dlg        = dialog ;
 	state.dialog_box = GTK_BOX(GNOME_DIALOG (dialog)->vbox) ;
 
 	function_select_create (&state) ;

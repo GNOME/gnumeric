@@ -1,3 +1,24 @@
+1999-04-06 Michael Meeks  <michael@imaginator.com>
+
+	* src/func.c (tokenised_help_new): Improved algorithem.
+	(functions_init): Made descriptions more verbose.
+
+	* src/workbook.c (wizard_input): Cleaned to use local
+	entry instead of specific wb->ea_input.
+	
+	* src/dialog-function-wizard.c (function_type_input):
+	Update types, add recursive function button.
+	(function_input): Created.
+	(arg_data_list_new): Added wb to ARG_DATA, needed for
+	function_input.
+	Added default code for multi-arg functions.
+	Deals with no-argument functions properly,
+	Fix silly args=NULL g_free(args) bug.
+	(dialog_function_wizard): Special 'no-arguments' quick
+	case.
+
+	* src/fn-math.c (gnumeric_rand): Added RAND function.
+
 1999-04-05  Morten Wellinder <terra@diku.dk>
 
 	* src/cell.c (cell_set_rendered_text): Fix for circular

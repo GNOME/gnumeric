@@ -157,17 +157,25 @@ tokenised_help_new (FunctionDefinition *fd)
 	tok->fd = fd ;
 	if (fd->help && fd->help[0]) {
 		char *ptr ;
+		int seek_att = 1 ;
+		int last_newline = 1 ;
 		tok->help_copy = g_strdup (fd->help[0]) ;
 		tok->sections = g_ptr_array_new () ;
 		ptr = tok->help_copy ;
 		while (*ptr) {
 			if (*ptr == '\\' && *(ptr+1))
 				ptr+=2 ;
-			if (*ptr == '@' ||
-			    *ptr == '=') {
+			if (*ptr == '@' && seek_att && last_newline) {
 				*ptr = 0 ;
 				g_ptr_array_add (tok->sections, (ptr+1)) ;
+				seek_att = 0 ;
+			} else if (*ptr == '=' && !seek_att) {
+				*ptr = 0 ;
+				g_ptr_array_add (tok->sections, (ptr+1)) ;
+				seek_att = 1 ;
 			}
+			last_newline =  (*ptr == '\n') ;
+				
 			ptr++ ;
 		}
 /*	{
@@ -236,15 +244,15 @@ void
 functions_init (void)
 {
 	categories = g_ptr_array_new () ;
-	install_symbols (math_functions, _("Mathematics"));
+	install_symbols (math_functions, _("Maths / Trig."));
 	install_symbols (sheet_functions, _("Sheet"));
-	install_symbols (misc_functions, _("Misc"));
-	install_symbols (date_functions, _("Date"));
+	install_symbols (misc_functions, _("Miscellaneous"));
+	install_symbols (date_functions, _("Date / Time"));
 	install_symbols (string_functions, _("String"));
 	install_symbols (stat_functions, _("Statistics"));
-	install_symbols (finance_functions, _("Finance"));
+	install_symbols (finance_functions, _("Financial"));
 	install_symbols (eng_functions, _("Engineering"));
-	install_symbols (lookup_functions, _("Lookup"));
+	install_symbols (lookup_functions, _("Data / Lookup"));
 }
 
 void
