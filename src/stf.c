@@ -184,6 +184,8 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 		GSList *iterator;
 		int col, rowcount;
 
+		stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, dialogresult->lines);
+
 		iterator = dialogresult->formats;
 		col = 0;
 		rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
@@ -205,7 +207,6 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 			col++;
 		}
 		
-		stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, dialogresult->lines);
 		if (!stf_parse_sheet (dialogresult->parseoptions, dialogresult->newstart, sheet)) {
 
 			workbook_sheet_detach (book, sheet);

@@ -1,5 +1,7 @@
 2001-07-26  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/stf.c (stf_read_workbook): Set the format on all lines.
+
 	* src/sheet-control-gui.c (scg_colrow_select): Avoid loss of
 	an invalid expression.
 
