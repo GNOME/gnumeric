@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-12-14 17:37+0100\n"
-"PO-Revision-Date: 2002-12-14 17:33+0200\n"
+"POT-Creation-Date: 2002-12-16 13:32+0100\n"
+"PO-Revision-Date: 2002-12-16 13:25+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -727,7 +727,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5095
-#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3552
+#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3551
 msgid "Reading file..."
 msgstr "Läser fil..."
 
@@ -903,16 +903,16 @@ msgstr ""
 "Vi har redan skrivit en längd för en sträng som blir avkortad på grund av "
 "kodningsproblem."
 
-#: plugins/excel/ms-excel-write.c:3359 plugins/excel/ms-excel-write.c:3364
+#: plugins/excel/ms-excel-write.c:3363 plugins/excel/ms-excel-write.c:3368
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "För många rader för detta format (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3739
+#: plugins/excel/ms-excel-write.c:3743
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kunde inte öppna ström \"Bok\" för skrivning\n"
 
-#: plugins/excel/ms-excel-write.c:3759
+#: plugins/excel/ms-excel-write.c:3763
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kunde inte öppna ström \"Arbetsbok\" för skrivning\n"
 
@@ -16363,25 +16363,25 @@ msgstr "PO-filformat för Gnome-ordlistan"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Tillhandahåller stöd för att spara Gnome-ordlistan i .po-filer."
 
-#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:3016
+#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:3015
 msgid "Unparsable xml in clipboard"
 msgstr "Otolkningsbar xml i urklipp"
 
-#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:3023
+#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:3022
 msgid "Clipboard is in unknown format"
 msgstr "Urklipp är i ett okänt format"
 
 #: plugins/gnumeric_1_0/xml-io.c:3112 plugins/xbase/boot.c:172
 #: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:721
 #: src/dialogs/print.glade.h:20 src/workbook.c:1047 src/workbook.c:1377
-#: src/xml-io.c:3303
+#: src/xml-io.c:3302
 msgid "Sheet"
 msgstr "Blad"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3430
+#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3429
 msgid "Processing file..."
 msgstr "Bearbetar fil..."
 
@@ -16389,7 +16389,7 @@ msgstr "Bearbetar fil..."
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Är inte en Gnumeric-arbetsboksfil"
 
-#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3631
+#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3630
 msgid "Failure saving file"
 msgstr "Fel vid sparande av fil"
 
@@ -16856,11 +16856,11 @@ msgstr ""
 "Kan inte läsa position för uttrycket \"%s\" med värde  \"%s\" på grund av \"%"
 "s\""
 
-#: plugins/openoffice/openoffice-read.c:865
+#: plugins/openoffice/openoffice-read.c:869
 msgid "No stream named content.xml found."
 msgstr "Ingen ström med namn content.xml kan hittas."
 
-#: plugins/openoffice/openoffice-read.c:905
+#: plugins/openoffice/openoffice-read.c:909
 #: plugins/xml_sax/xml-sax-read.c:1467
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet är inte korrekt utformat!"
@@ -21695,13 +21695,11 @@ msgstr "Katalog"
 #. Is it a boolean?
 #: src/dialogs/dialog-preferences.c:376 src/format.c:1577
 #: src/number-match.c:1112 src/value-sheet.c:33 src/value.c:298
-#: src/value.c:650
 msgid "TRUE"
 msgstr "SANT"
 
 #: src/dialogs/dialog-preferences.c:377 src/format.c:1577
 #: src/number-match.c:1114 src/value-sheet.c:33 src/value.c:300
-#: src/value.c:650
 msgid "FALSE"
 msgstr "FALSKT"
 
@@ -22092,6 +22090,7 @@ msgid ""
 "First round number should be greater or equal than the number of the last "
 "round."
 msgstr ""
+"Första rundans värde skall vara större än eller lika med sista rundans värde."
 
 #: src/dialogs/dialog-simulation.c:398
 msgid "_Inputs:"
@@ -23793,7 +23792,7 @@ msgstr "Resultatsammanfattning: "
 
 #: src/dialogs/simulation.glade.h:18
 msgid "Summary report grupped by rounds"
-msgstr ""
+msgstr "Sammanfattning är grupperad m.a.p. rundor"
 
 #: src/dialogs/simulation.glade.h:19
 msgid "Summary: "
@@ -24134,17 +24133,17 @@ msgstr "_Skydd"
 msgid "_Workbook Protected"
 msgstr "_Arbetsbok skyddad"
 
-#: src/expr-name.c:346
+#: src/expr-name.c:354
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "\"%s\" har en cirkelreferens"
 
-#: src/expr-name.c:377
+#: src/expr-name.c:385
 #, c-format
 msgid "'%s' is already defined in sheet"
 msgstr "\"%s\" är redan definierad i bladet"
 
-#: src/expr-name.c:378
+#: src/expr-name.c:386
 #, c-format
 msgid "'%s' is already defined in workbook"
 msgstr "\"%s\" är redan definierad i arbetsboken"
@@ -24970,7 +24969,6 @@ msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Zimbabwe, dollar"
 
 #: src/func-builtin.c:34
-#, fuzzy
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -24989,16 +24987,16 @@ msgstr ""
 "@SYNTAX=SUM(värde1; värde2; ...)\n"
 "@DESCRIPTION=SUM beräknar summan av alla värden och celler som refereras "
 "till i argumentlistan.\n"
-"Denna funktion är kompatibel med Excel.\n"
+"\n"
+"* Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"Antag att cellerna A1, A2, ..., A5 innehåller talen 11, 15, 17, 21, och 43. "
+"Antag att cellerna A1; A2; ...; A5 innehåller talen 11; 15; 17; 21; och 43. "
 "Då är\n"
 "SUM(A1:A5) lika med 107.\n"
 "\n"
 "@SEEALSO=AVERAGE, COUNT"
 
 #: src/func-builtin.c:64
-#, fuzzy
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -25017,8 +25015,10 @@ msgstr ""
 "@SYNTAX=PRODUCT(värde1; värde2; ...)\n"
 "@DESCRIPTION=PRODUCT returnerar produkten av alla värden och celler som "
 "refereras till i argumentlistan.\n"
-"Denna funktion är kompatibel med Excel. Detta innebär även att om alla "
+"\n"
+"* Denna funktion är kompatibel med Excel. Detta innebär även att om alla "
 "celler är tomma blir resultatet 0.\n"
+"\n"
 "@EXAMPLES=\n"
 "PRODUCT(2;5;9) är lika med 90.\n"
 "\n"
@@ -25125,9 +25125,8 @@ msgid "Parse error while trying to parse data into cellregion"
 msgstr "Fel vid tolkning av data till cellområde"
 
 #: src/gui-file.c:65
-#, fuzzy
 msgid "Automatically detected"
-msgstr "Fyll den aktuella markeringen automatiskt"
+msgstr "Upptäcks automatiskt"
 
 #: src/gui-file.c:77
 msgid "File format:"
@@ -25190,6 +25189,8 @@ msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
 msgstr ""
+"Den givna ändelsen passar inte den valda filtypen. Vill du använda detta "
+"namn i alla fall?"
 
 #. Pack it into file selector
 #: src/gui-file.c:296
@@ -25240,9 +25241,8 @@ msgstr ""
 #. * 'File' menu
 #.
 #: src/history.c:130
-#, fuzzy
 msgid "_File/Preferen_ces..."
-msgstr "I_nställningar..."
+msgstr "_Arkiv/I_nställningar..."
 
 #: src/history.c:228
 msgid "File/"
@@ -25365,7 +25365,7 @@ msgstr "BREDDxHÖJD+XAVST+YAVST"
 
 #: src/main-application.c:78
 msgid "Don't show splash screen"
-msgstr ""
+msgstr "Visa inte startbild"
 
 #: src/main-application.c:81
 msgid "Exit immediately after loading the selected books (useful for testing)."
@@ -25442,7 +25442,7 @@ msgstr "#OMKALK!"
 
 #: src/parser.y:345
 msgid "Constructed ranges use simple references"
-msgstr ""
+msgstr "Skapade områden använder enkla referenser"
 
 #: src/parser.y:359 src/parser.y:372
 msgid "All entries in the set must be references"
@@ -25454,9 +25454,8 @@ msgid "Unknown sheet '%s'"
 msgstr "Okänt blad \"%s\""
 
 #: src/parser.y:553
-#, fuzzy
 msgid "() is an invalid expression"
-msgstr "Ogiltigt uttryck"
+msgstr "() är ett Ogiltigt uttryck"
 
 #: src/parser.y:586 src/parser.y:608
 #, c-format
@@ -25469,14 +25468,14 @@ msgid "Unknown workbook '%s'"
 msgstr "Okänd arbetsbok \"%s\""
 
 #: src/parser.y:753
-#, fuzzy
 msgid "This locale uses '\\' rather than ',' to separate array columns."
-msgstr "Tecknet %c kan inte användas för att avskilja vektorelement"
+msgstr ""
+"Denna lokal använder \"\\\" snarare än \",\" för att avskilja vektorkolumner."
 
 #: src/parser.y:766
-#, fuzzy
 msgid "This locale uses ',' rather than '\\' to separate array columns."
-msgstr "Tecknet %c kan inte användas för att avskilja vektorelement"
+msgstr ""
+"Denna lokal använder \",\" snarare än \"\\\" för att avskilja vektorkolumner."
 
 #: src/parser.y:895 src/parser.y:1118
 msgid "Could not find matching closing quote"
@@ -25568,9 +25567,9 @@ msgid "Module doesn't contain \"%s\" function."
 msgstr "Modulen innehåller inte funktionen \"%s\"."
 
 #: src/plugin-loader-module.c:618
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown verb: %s"
-msgstr "Okänd version"
+msgstr "Okänt verb: %s"
 
 #: src/plugin-loader.c:265 src/plugin-loader.c:307
 msgid "Service not supported by loader."
@@ -25590,31 +25589,29 @@ msgstr "Uppstädningsfunktionen i insticksmodulen returnerade ett fel."
 
 #: src/plugin-service.c:308
 msgid "Clipboard"
-msgstr ""
+msgstr "Urklipp"
 
 #: src/plugin-service.c:475
-#, fuzzy
 msgid "File opener has no description"
-msgstr "Filöppnaren med id=\"%s\" har ingen beskrivning"
+msgstr "Filöppnaren har ingen beskrivning"
 
 #: src/plugin-service.c:507
-#, fuzzy, c-format
+#, c-format
 msgid "File opener - %s"
-msgstr "Filöppnaren har inget id"
+msgstr "Filöppnare - %s"
 
 #: src/plugin-service.c:627
 msgid "Error while reading file."
 msgstr "Fel vid läsning av fil."
 
 #: src/plugin-service.c:772
-#, fuzzy
 msgid "File saver has no description"
-msgstr "Filspararen med id=\"%s\" har ingen beskrivning"
+msgstr "Filspararen har ingen beskrivning"
 
 #: src/plugin-service.c:818
-#, fuzzy, c-format
+#, c-format
 msgid "File saver - %s"
-msgstr "Filnamn: %s"
+msgstr "Filsparare -  %s"
 
 #: src/plugin-service.c:880
 msgid "Error while saving file."
@@ -25625,64 +25622,62 @@ msgid "Missing function category name."
 msgstr "Kategorinamn för funktion saknas."
 
 #: src/plugin-service.c:1037
-#, fuzzy
 msgid "Function group is empty."
-msgstr "Grupp-id för funktion saknas."
+msgstr "Funktionsgruppen är tom."
 
 #: src/plugin-service.c:1131
-#, fuzzy, c-format
+#, c-format
 msgid "%d function in category \"%s\""
-msgstr "Kategorinamn för funktion saknas."
+msgstr "%d funktion i kategori \"%s\""
 
 #: src/plugin-service.c:1132
 #, c-format
 msgid "Group of %d functions in category \"%s\""
-msgstr ""
+msgstr "Grupp med %d funktioner i kategori \"%s\""
 
 #: src/plugin-service.c:1228
-#, fuzzy
 msgid "Plugin loader"
-msgstr "Inläsare för Python-insticksmoduler"
+msgstr "Inläsare för insticksmoduler"
 
 #: src/plugin-service.c:1304
-#, fuzzy
 msgid "Missing file name."
-msgstr "Saknad fil %s"
+msgstr "Saknat filnamn."
 
 #: src/plugin-service.c:1370
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot read UI description from XML file %s."
-msgstr "Kan inte läsa infofilen från insticksmodul (\"%s\")."
+msgstr "Kan inte läsa UI-beskrivning från XML-filen %s."
 
 #: src/plugin-service.c:1406
 #, c-format
 msgid "User interface with %d action"
-msgstr ""
+msgstr "Användargränssnitt med %d åtgärd"
 
 #: src/plugin-service.c:1407
 #, c-format
 msgid "User interface with %d actions"
-msgstr ""
+msgstr "Användargränssnitt med %d åtgärder"
 
 #: src/plugin-service.c:1499
 msgid "No \"type\" attribute on \"service\" element."
-msgstr ""
+msgstr "Inget \"typ\"-attribut på \"tjänst\"-element."
 
 #: src/plugin-service.c:1508
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown service type: %s."
-msgstr "Okänt blad \"%s\""
+msgstr "Okänd tjänstetyp: %s."
 
 #: src/plugin-service.c:1521
-#, fuzzy
 msgid "Error reading service information."
-msgstr "Fel vid läsning av information för tjänst nummer %d."
+msgstr "Fel vid läsning av information för tjänst."
 
 #: src/plugin-service.c:1592
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
 msgstr ""
+"Vi måste läsa in tjänst innan vi aktiverar den (PLUGIN_ALWAYS_LOAD är satt) "
+"men inläsningen misslyckades."
 
 #: src/plugin-util.c:127
 #, c-format
@@ -25710,7 +25705,7 @@ msgid "Error while opening file \"%s\" for reading."
 msgstr "Fel vid öppnande av filen \"%s\" för läsning."
 
 #: src/plugin.c:361
-#, fuzzy, c-format
+#, c-format
 msgid "File contains plugin info with invalid id (%s), expected %s."
 msgstr ""
 "Filen innehåller insticksmodulinformation med felaktigt id (%s), %s "
@@ -25756,16 +25751,18 @@ msgstr "Insticksmodulen har inget id."
 #: src/plugin.c:845
 #, c-format
 msgid "Plugin id contains invalid characters (%s)."
-msgstr ""
+msgstr "Insticksmodul-id innehåller otillåtna tecken (%s)."
 
 #: src/plugin.c:849
 msgid "Unknown plugin name."
 msgstr "Okänt namn på insticksmodul."
 
 #: src/plugin.c:853
-#, fuzzy, c-format
+#, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
-msgstr "Ingen inläsare är angiven för insticksmodulen med id=\"%s\"."
+msgstr ""
+"Ingen inläsare är angiven eller inläsnings-id felaktigt för insticksmodulen "
+"med id=\"%s\"."
 
 #: src/plugin.c:858
 #, c-format
@@ -25783,24 +25780,22 @@ msgid "Error initializing plugin loader (\"%s\")."
 msgstr "Fel vid initiering av insticksmodulinläsare (\"%s\")."
 
 #: src/plugin.c:947 src/plugin.c:1104
-#, fuzzy
 msgid "Detected cyclic plugin dependencies."
-msgstr "Fel vid inläsning av insticksmodulberoenden."
+msgstr "Fann cykliska beroenden mellan insticksmoduler."
 
 #: src/plugin.c:971
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't activate plugin with id=\"%s\"."
-msgstr "Kunde inte aktivera insticksmodulen \"%s\" (ID: %s)."
+msgstr "Kunde inte aktivera insticksmodulen med id=\"%s\"."
 
 #: src/plugin.c:977 src/plugin.c:1150
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't find plugin with id=\"%s\"."
-msgstr "Ingen inläsare är angiven för insticksmodulen med id=\"%s\"."
+msgstr "Kunde inte hitta insticksmodulen med id=\"%s\"."
 
 #: src/plugin.c:984
-#, fuzzy
 msgid "Error while activating plugin dependencies."
-msgstr "Fel vid inläsning av insticksmodulberoenden."
+msgstr "Fel vid aktivering av insticksmodulberoenden."
 
 #: src/plugin.c:998
 #, c-format
@@ -25817,9 +25812,9 @@ msgid "Cannot load plugin loader."
 msgstr "Kan inte läsa in insticksmodulinläsare."
 
 #: src/plugin.c:1144
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
-msgstr "Ingen inläsare är angiven för insticksmodulen med id=\"%s\"."
+msgstr "Kunde inte läsa in insticksmodulen med id=\"%s\"."
 
 #: src/plugin.c:1157
 msgid "Error while loading plugin dependencies."
@@ -25846,9 +25841,9 @@ msgid "Errors while reading info about available plugins."
 msgstr "Fel vid läsning av information om tillgängliga insticksmoduler."
 
 #: src/plugin.c:1645
-#, fuzzy
 msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr "Fel vid inaktivering av insticksmodultjänst %d."
+msgstr ""
+"Fel vid inaktivering av insticksmoduler som inte längre finns på hårddisken."
 
 #: src/plugin.c:1666
 #, c-format
@@ -25857,6 +25852,10 @@ msgid ""
 "%s.\n"
 "You should restart Gnumeric now."
 msgstr ""
+"Följande insticksmoduler finns inte längre på hårddisken men är fortfarande "
+"aktiva:\n"
+"%s.\n"
+"Du borde starta om Gnumeric nu."
 
 #: src/plugin.c:1774
 msgid "Errors while activating plugins."
@@ -25958,9 +25957,8 @@ msgid "cannot be performed with multiple ranges selected"
 msgstr "kan inte utföras med flera valda intervall"
 
 #: src/sheet-control-gui.c:1414
-#, fuzzy
 msgid "Remove Hyperlink"
-msgstr "Ta bort aktuellt"
+msgstr "Ta bort hyperlänk"
 
 #: src/sheet-control-gui.c:1450
 msgid "Paste _Special"
@@ -26013,46 +26011,44 @@ msgstr "_Radhöjd..."
 
 #: src/sheet-control-gui.c:1502
 msgid "_Hyperlink"
-msgstr ""
+msgstr "_Hyperlänk"
 
 #: src/sheet-control-gui.c:1505
-#, fuzzy
 msgid "Edit _Hyperlink"
-msgstr "Redigera uttryck"
+msgstr "Redigera _Hyperlänk"
 
 #: src/sheet-control-gui.c:1508
-#, fuzzy
 msgid "_Remove Hyperlink"
-msgstr "Ta bort aktuellt"
+msgstr "_Ta bort Hyperlänk"
 
 #: src/sheet-filter.c:350
-#, fuzzy
 msgid "(All)"
-msgstr "Allt"
+msgstr "(Allt)"
 
 #: src/sheet-filter.c:355
 msgid "(Top 10...)"
-msgstr ""
+msgstr "(Top 10...)"
 
 #: src/sheet-filter.c:362
-#, fuzzy
 msgid "(Custom...)"
-msgstr "Anpassad"
+msgstr "(Anpassad...)"
 
 #: src/sheet-filter.c:405
 msgid "(Blanks...)"
-msgstr ""
+msgstr "(Tomma...)"
 
 #: src/sheet-filter.c:411
 msgid "(Non Blanks...)"
-msgstr ""
+msgstr "(Ej tomma...)"
 
 #: src/sheet-merge.c:80
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "There is already a merged region that intersects\n"
 "%s!%s"
-msgstr "Det finns redan ett sammanslaget område som skär"
+msgstr ""
+"Det finns redan ett sammanslaget område som skäri\n"
+"%s!%s"
 
 #: src/sheet-object-bonobo.c:243
 msgid "Open..."
@@ -26089,6 +26085,10 @@ msgid ""
 "column named TRUE may conflict with the constant of the same\n"
 "name.  Expect weirdness."
 msgstr ""
+"Detta är en särskild version av Gnumeric. Den har blivit byggd\n"
+"för att stödja ett mycket stort antal rader. Åtkomst av columnen\n"
+"med namn SANT kan krocka med konstanten med samma namn. Förvänta\n"
+"dig egendomligheter."
 
 #: src/sheet.c:1940
 msgid "Target region contains merged cells"
@@ -26129,31 +26129,30 @@ msgid "Error while trying to pre-convert file"
 msgstr "Fel vid försök att förkonvertera fil"
 
 #: src/stf.c:133
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
 "The character '%s' (ASCII decimal %d) was encountered.\n"
 "Most likely your locale settings are wrong."
 msgstr ""
 "Denna fil verkar inte vara en giltig textfil.\n"
-"Tecknet \"%c\" (det decimala ASCII-tecknet %d) hittades.\n"
+"Tecknet \"%s\" (det decimala ASCII-tecknet %d) hittades.\n"
 "Dina lokalinställningar är troligtvis fel."
 
 #: src/stf.c:139
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
 "Byte 0x%d was encountered.\n"
 "Most likely your locale settings are wrong."
 msgstr ""
 "Denna fil verkar inte vara en giltig textfil.\n"
-"Tecknet \"%c\" (det decimala ASCII-tecknet %d) hittades.\n"
+"Byte 0x%d hittades.\n"
 "Dina lokalinställningar är troligtvis fel."
 
 #: src/stf.c:274 src/stf.c:304
-#, fuzzy
 msgid "Text to Columns"
-msgstr "Ta bort kolumner"
+msgstr "Text till kolumner"
 
 #: src/stf.c:279
 #, c-format
@@ -26161,9 +26160,8 @@ msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr ""
 
 #: src/stf.c:310
-#, fuzzy
 msgid "Error while trying to parse data into sheet"
-msgstr "Tolkningsfel vid tolkning av data i kalkylbladet"
+msgstr "Fel vid tolkning av data i kalkylbladet"
 
 #: src/stf.c:386
 msgid "Parse error while trying to parse data into sheet"
@@ -26175,7 +26173,7 @@ msgstr "Fel vid skrivning av csv-fil"
 
 #: src/stf.c:467
 msgid "Comma or tab separated files (CSV/TSV))"
-msgstr ""
+msgstr "Komma- eller tabseparerad fil (CSV/TSV))"
 
 #: src/stf.c:471
 msgid "Text import (configurable)"
@@ -26628,9 +26626,8 @@ msgid "New Workbook"
 msgstr "Ny arbetsbok"
 
 #: src/tools/dao.c:743
-#, fuzzy
 msgid "Gnumeric "
-msgstr "Gnumeric"
+msgstr "Gnumeric "
 
 #: src/tools/dao.c:748
 msgid "Worksheet:"
@@ -26682,9 +26679,8 @@ msgid ""
 msgstr ""
 
 #: src/tools/simulation.c:242
-#, fuzzy
 msgid "Simulation Report"
-msgstr "Gränsrapport"
+msgstr "Simulationsrapport"
 
 #: src/tools/simulation.c:255
 msgid "Mean"
@@ -26711,37 +26707,32 @@ msgid "Kurtosis"
 msgstr "Kurtosis"
 
 #: src/tools/simulation.c:263
-#, fuzzy
 msgid "Range"
-msgstr "_Område"
+msgstr "Område"
 
 #: src/tools/simulation.c:265
-#, fuzzy
 msgid "Confidence (95 %)"
-msgstr "Konfidensnivå (%g%%)"
+msgstr "Konfidensnivå (95%)"
 
 #: src/tools/simulation.c:266
-#, fuzzy
 msgid "Lower Limit (95 %)"
-msgstr "Understa 95%"
+msgstr "Undre gräns (95%)"
 
 #: src/tools/simulation.c:267
 msgid "Upper Limit (95 %)"
-msgstr ""
+msgstr "Övre gräns (95%)"
 
 #: src/tools/simulation.c:335
 msgid "SUMMARY OF SIMULATION ROUND #"
-msgstr ""
+msgstr "SAMMANFATTNING AV SIMULATIONSRUNDA "
 
 #: src/tools/simulation.c:349
-#, fuzzy
 msgid "Report"
-msgstr "Rapporter"
+msgstr "Rapport"
 
 #: src/tools/simulation.c:396
-#, fuzzy
 msgid "(Input) "
-msgstr "Indata"
+msgstr "(Indata) "
 
 #: src/tools/solver/reports-write.c:110 src/tools/solver/reports-write.c:238
 msgid "Answer Report"
@@ -27208,24 +27199,20 @@ msgid "Un_freeze Panes"
 msgstr "Av_frys paneler"
 
 #: src/workbook-control-gui.c:1342
-#, fuzzy
 msgid "Unfreeze the top left of the sheet"
-msgstr "Frys övre vänstra på bladet"
+msgstr "Tina övre vänstra på bladet"
 
 #: src/workbook-control-gui.c:1357
-#, fuzzy
 msgid "Remove _Auto Filter"
-msgstr "Ta bort kanter"
+msgstr "Ta bort _autofilter"
 
 #: src/workbook-control-gui.c:1360
-#, fuzzy
 msgid "Remove a filter"
-msgstr "<- Ta bort alla"
+msgstr "Ta bort ett filter"
 
 #: src/workbook-control-gui.c:1361
-#, fuzzy
 msgid "Add a filter"
-msgstr "Avancerade filter"
+msgstr "Lägg till ett filter"
 
 #: src/workbook-control-gui.c:1380 src/workbook-control-gui.c:3831
 #: src/workbook-control-gui.c:4052
@@ -27309,18 +27296,16 @@ msgid "Insert columns"
 msgstr "Infoga kolumner"
 
 #: src/workbook-control-gui.c:2810
-#, fuzzy
 msgid "Add Filter"
-msgstr "Avancerade filter"
+msgstr "Lägg till filter"
 
 #: src/workbook-control-gui.c:2813
-#, fuzzy
 msgid "AutoFilter"
-msgstr "Lägg till _autofilter"
+msgstr "Autofilter"
 
 #: src/workbook-control-gui.c:2813
 msgid "Requires more than 1 row"
-msgstr ""
+msgstr "iKräver mer än en rad"
 
 #: src/workbook-control-gui.c:2867 src/workbook-control-gui.c:2886
 msgid "Show Detail"
@@ -27372,9 +27357,8 @@ msgid "Ranks And _Percentiles"
 msgstr "Ranger och _percentiler"
 
 #: src/workbook-control-gui.c:3770
-#, fuzzy
 msgid "Create a pivot table."
-msgstr "Skapa en rubrik"
+msgstr "Skapa en pivottabell."
 
 #: src/workbook-control-gui.c:3831
 msgid "Undo the operation"
@@ -27525,9 +27509,9 @@ msgid "Can't open '%s' : %s"
 msgstr "Kan inte öppna \"%s\": %s"
 
 #: src/workbook-view.c:565
-#, fuzzy, c-format
+#, c-format
 msgid "An unexplained error happened while saving %s"
-msgstr "Ett oförklarligt fel inträffade vid öppnande av \"%s\""
+msgstr "Ett oförklarligt fel inträffade vid sparande av %s"
 
 #.
 #. * This should be quite rare.  To provoke, use
@@ -27568,12 +27552,12 @@ msgstr "Det finns redan ett blad med namnet"
 msgid "You may not use this name twice"
 msgstr "Du kan inte använda detta namn två gånger"
 
-#: src/xml-io.c:3594
+#: src/xml-io.c:3593
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Är inte en Gnumeric-arbetsboksfil"
 
-#: src/xml-io.c:3663
+#: src/xml-io.c:3662
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
