@@ -1,11 +1,14 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * ms-formula-write.c: MS Excel <- Gnumeric formula conversion
  * See: S59E2B.HTM
  *
  * Author:
  *    Michael Meeks (michael@ximian.com)
+ *    Jody Goldberg (jody@gnome.org)
  *
  * (C) 1998-2001 Michael Meeks
+ *          2002 Jody Goldberg
  */
 
 #include <gnumeric-config.h>
@@ -23,8 +26,10 @@
 #include <expr-name.h>
 #include <str.h>
 #include <parse-util.h>
+#include <io-context.h>
 
 #include <gsf/gsf-utils.h>
+#include <libgnome/gnome-i18n.h>
 
 #define FORMULA_DEBUG 0
 /*#define DO_IT (ms_excel_formula_debug > 0)*/
@@ -484,9 +489,15 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, GnmExpr const *tree)
 		}
 	}
 
-	for (; args ; args = args->next) {
+	for (args = tree->func.arg_list ; args ; ) {
 		write_node (pd, args->data, 0);
 		num_args++;
+		args = args->next;
+		if (args != NULL && num_args == fce->u.std.fd->num_args) {
+			gnm_io_warning (pd->sheet->wb->io_context, 
+				_("Too many arguments for function, MS Excel expects exactly %d and we have more"),
+				fce->u.std.fd->num_args);
+		}
 	}
 
 #if FORMULA_DEBUG > 1
@@ -494,17 +505,25 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, GnmExpr const *tree)
 		name, fce->u.std.idx, fce->u.std.fd->num_args);
 #endif
 
-	g_assert (num_args < 128);
+	if (num_args >= 128) {
+	}
+
 	if (fce->type == CACHE_STD) {
 		if (fce->u.std.fd->num_args < 0) {
 			push_guint8  (pd, FORMULA_PTG_FUNC_VAR);
 			push_guint8  (pd, num_args | (prompt&0x80));
 			push_guint16 (pd, fce->u.std.idx | (cmdequiv&0x8000));
 		} else {
+			/* If XL requires more arguments than we do
+			 * pad the remainder with missing args
+			 */
+			while (num_args++ < fce->u.std.fd->num_args)
+				push_guint8 (pd, FORMULA_PTG_MISSARG);
+
 			push_guint8  (pd, FORMULA_PTG_FUNC);
 			push_guint16 (pd, fce->u.std.idx);
 		}
-	} else if (DO_IT) { /* Undocumented :-) */
+	} else { /* Undocumented :-) */
 		push_guint8  (pd, FORMULA_PTG_FUNC_VAR + 0x20);
 		push_guint8  (pd, (num_args + 1) | (prompt&0x80));
 		push_guint16 (pd, 0xff | (cmdequiv&0x8000));

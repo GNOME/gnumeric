@@ -1,3 +1,11 @@
+2002-08-02  Jody Goldberg <jody@gnome.org>
+
+	* src/io-context.c (gnm_io_warning) : a simple placeholder.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=88933
+	* src/sheet-view.c (sv_attach_control) : no need to manually
+	  initialize things.  Use sv_init_sc.
+
 2002-08-01  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/stf.c
@@ -8,7 +16,6 @@
 2002-08-01  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-style.c (sheet_style_foreach) : new.
-
 
 	* src/mstyle.c (mstyle_equal_XL) : new.
 

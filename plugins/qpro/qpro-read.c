@@ -40,6 +40,7 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
+#include <libgnome/gnome-i18n.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -124,10 +125,9 @@ static gboolean
 qpro_validate_len (QProReadState *state, char const *id, guint16 len, int expected_len)
 {
 	if (expected_len >= 0  && len != expected_len) {
-		char *msg = g_strdup_printf ("Invalid '%s' record of length %hd instead of %d",
+		gnm_io_warning (state->io_context,
+			_("Invalid '%s' record of length %hd instead of %d"),
 			id, len, expected_len);
-		gnm_io_warning (state->io_context, msg);
-		g_free (msg);
 		return FALSE;
 	}
 
@@ -434,12 +434,10 @@ qpro_read_sheet (QProReadState *state)
 				guint16 high = GSF_LE_GET_GUINT16 (data + 2);
 
 				if (low == 100) {
-					if (high < 10 || high > 400) {
-						char *msg = g_strdup_printf ("Invalid zoom %hd %%",
-							high);
-						gnm_io_warning (state->io_context, msg);
-						g_free (msg);
-					} else
+					if (high < 10 || high > 400)
+						gnm_io_warning (state->io_context, 
+							_("Invalid zoom %hd %%"), high);
+					else
 						sheet_set_zoom_factor (sheet, ((double)high) / 100.,
 							FALSE, FALSE);
 				}
@@ -476,12 +474,10 @@ qpro_read_workbook (QProReadState *state, GsfInput *input)
 			break;
 
 		default :
-			if (id > QPRO_LAST_SANE_ID) {
-				char *msg = g_strdup_printf ("Invalid record %d of length %hd",
+			if (id > QPRO_LAST_SANE_ID)
+				gnm_io_warning (state->io_context,
+					_("Invalid record %d of length %hd"),
 					id, len);
-				gnm_io_warning (state->io_context, msg);
-				g_free (msg);
-			}
 		};
 		if (id == QPRO_END_OF_FILE)
 			break;

@@ -3,6 +3,8 @@ Gnumeric 1.1.7
 Jody:
 	* Fix and speed up the XL exporter.
 	* Make the behaviour for right button consistent in all contexts.
+	* Fix import of frozen panes.
+	* Fix XL export of functions with fewer args than XL requires
 
 Jukka:
 	* New random distribution functions (mostly integrated from the 

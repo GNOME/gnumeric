@@ -25,6 +25,7 @@
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <stdarg.h>
 
 #define PROGRESS_UPDATE_STEP        0.01
 #define PROGRESS_UPDATE_PERIOD_SEC  0.20
@@ -412,9 +413,18 @@ gnm_io_get_password (IOContext *context, char const *msg)
 
 #warning Good Project implement these
 void
-gnm_io_warning (IOContext *context, char const *msg)
+gnm_io_warning (IOContext *context, char const *fmt, ...)
 {
-	g_return_if_fail (IS_IO_CONTEXT (context));
+	char *msg;
+	va_list args;
+
+	va_start (args, fmt);
+	msg = g_strdup_vprintf (fmt, args);
+	va_end (args);
+
+	g_warning ("Implement IO_CONTEXT::warning");
+	g_warning (msg);
+	g_free (msg);
 }
 
 void

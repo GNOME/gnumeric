@@ -76,11 +76,25 @@ sv_wbv (SheetView const *sv)
 	return sv->wbv;
 }
 
+static void
+sv_init_sc (SheetView const *sv, SheetControl *sc)
+{
+	/* set_panes will change the initial so cache it */
+	CellPos initial = sv->initial_top_left;
+	sc_set_panes (sc);
+
+	/* And this will restore it */
+	sc_set_top_left (sc, initial.col, initial.row);
+	sc_scrollbar_config (sc);
+
+	/* Set the visible bound, not the logical bound */
+	sc_cursor_bound (sc, selection_first_range (sv, NULL, NULL));
+	sc_ant (sc);
+}
+
 void
 sv_attach_control (SheetView *sv, SheetControl *sc)
 {
-	Range bound;
-
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 	g_return_if_fail (IS_SHEET_CONTROL (sc));
 	g_return_if_fail (sc->view == NULL);
@@ -90,11 +104,7 @@ sv_attach_control (SheetView *sv, SheetControl *sc)
 	g_ptr_array_add (sv->controls, sc);
 	sc->view  = sv;
 	sc->sheet = sv_sheet (sv); /* convenient */
-
-	bound.start = sv->cursor.base_corner;
-	bound.end = sv->cursor.move_corner;
-	range_normalize (&bound);
-	sc_cursor_bound (sc, &bound);
+	sv_init_sc (sv, sc);
 }
 
 void
@@ -204,22 +214,6 @@ sheet_view_init (GObject *object)
 GSF_CLASS (SheetView, sheet_view,
 	   sheet_view_class_init, sheet_view_init,
 	   G_TYPE_OBJECT);
-
-static void
-sv_init_sc (SheetView const *sv, SheetControl *sc)
-{
-	/* set_panes will change the initial so cache it */
-	CellPos initial = sv->initial_top_left;
-	sc_set_panes (sc);
-
-	/* And this will restore it */
-	sc_set_top_left (sc, initial.col, initial.row);
-	sc_scrollbar_config (sc);
-
-	/* Set the visible bound, not the logical bound */
-	sc_cursor_bound (sc, selection_first_range (sv, NULL, NULL));
-	sc_ant (sc);
-}
 
 SheetView *
 sheet_view_new (Sheet *sheet, WorkbookView *wbv)
