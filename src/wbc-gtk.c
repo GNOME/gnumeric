@@ -1136,8 +1136,6 @@ cb_add_custom_ui (G_GNUC_UNUSED GnmApp *app,
 	gtk_ui_manager_insert_action_group (gtk->ui, details->actions, 0);
 	gtk_ui_manager_add_ui_from_string (gtk->ui, extra_ui->layout, -1, NULL);
 
-	if (NULL == gtk->custom_uis)
-		gtk->custom_uis = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
 	g_hash_table_insert (gtk->custom_uis, extra_ui, details);
 }
 static void
@@ -1406,6 +1404,9 @@ wbc_gtk_init (GObject *obj)
 	}
 	g_free (uifile);
 
+	gtk->custom_uis = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+						 NULL, g_free);
+
 	gtk->file_history.actions = NULL;
 	gtk->file_history.merge_id = 0;
 	wbc_gtk_reload_recent_file_menu (wbcg);
@@ -1451,6 +1452,8 @@ wbc_gtk_finalize (GObject *obj)
 	if (gtk->toolbar.actions != NULL)
 		g_object_unref (gtk->toolbar.actions);
 	g_object_unref (gtk->ui);
+
+	g_hash_table_destroy (gtk->custom_uis);
 
 	parent_class->finalize (obj);
 }

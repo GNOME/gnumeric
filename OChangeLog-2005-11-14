@@ -1,3 +1,13 @@
+2004-10-29  Morten Welinder  <terra@gnome.org>
+
+	* src/plugin-service.c (plugin_service_ui_finalize): Free actions
+	using the right kind of freer.
+
+	* src/wbc-gtk.c (wbc_gtk_init): Create custom_uis table here.
+	(wbc_gtk_finalize): Destroy it here.
+
+	* src/stf-export.c (stf_export_sheet): Plug leak.
+
 2004-10-29  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-gconf.c (gnm_conf_init_extras) : typos in the broken

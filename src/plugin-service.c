@@ -1228,7 +1228,7 @@ plugin_service_ui_finalize (GObject *obj)
 
 	g_free (service_ui->file_name);
 	service_ui->file_name = NULL;
-	gnm_slist_free_custom (service_ui->actions, g_free);
+	gnm_slist_free_custom (service_ui->actions, (GFreeFunc)gnm_action_free);
 	service_ui->actions = NULL;
 
 	parent_class = g_type_class_peek (GNM_PLUGIN_SERVICE_TYPE);
