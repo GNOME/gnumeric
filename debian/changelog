@@ -4,6 +4,13 @@ gnumeric (1.1.11-2) experimental; urgency=low
 
  -- <not_a_debian_release>  Fri,  1 Nov 2002 20:51:35 +0100
 
+gnumeric (1.1.12-1) experimental; urgency=low
+
+  * New upstream development release.
+  * Versioned the build-depends on libgda-dev to deal with broken headers.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 15 Nov 2002 13:04:15 +0100
+
 gnumeric (1.1.11-1) experimental; urgency=low
 
   * New upstream development release.

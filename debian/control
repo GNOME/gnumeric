@@ -14,7 +14,7 @@ Build-Depends: debhelper (>= 3.0), gettext, bison, flex, docbook-utils,
  libbonobo-activation-dev (>= 1.0.3-2.1),
  libgsf-gnome-1-dev (>= 1.5.0-0),
  python2.2-dev (>= 2.2.1-6),
- libgda2-dev,
+ libgda2-dev (>= 0.8.199-2.1)
 Standards-Version: 3.5.7
 
 Package: gnumeric
