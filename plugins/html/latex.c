@@ -358,7 +358,7 @@ latex2e_write_file_header(GsfOutput *output)
 "%%  To include the file in another, the following two lines must be %%\n"
 "%%  in the including file:                                          %%\n"
 "%%        \\def\\inputGnumericTable{}                                 %%\n"
-"%%  at the begining of the file and:                                %%\n"
+"%%  at the beginning of the file and:                               %%\n"
 "%%        \\input{name-of-this-file.tex}                             %%\n"
 "%%  where the table is to be placed. Note also that the including   %%\n"
 "%%  file must use the following packages for the table to be        %%\n"

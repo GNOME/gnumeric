@@ -1,3 +1,12 @@
+2003-07-14  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : s/criterias/criteria/
+	  criterium is the singlular
+	  criteria is the plural, although it is frequently used as the
+	  singular too.
+
+	s/specifing/specifying/
+
 2003-06-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* functions.c: Do not use preprocessor macros in 

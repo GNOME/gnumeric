@@ -106,7 +106,7 @@ static char const *help_randdiscrete = {
 
 	   "@DESCRIPTION="
 	   "RANDDISCRETE returns one of the values in the @val_range. The "
-	   "probablilites for each value are given in the @prob_range.\n"
+	   "probabilities for each value are given in the @prob_range.\n"
 	   "\n"
 	   "* If @prob_range is omitted, the uniform discrete distribution "
 	   "is assumed.\n"
@@ -260,7 +260,7 @@ static char const *help_randpoisson = {
            "@SYNTAX=RANDPOISSON(lambda)\n"
 
            "@DESCRIPTION="
-           "RANDPOISSON returns a poisson-distributed random number.\n"
+           "RANDPOISSON returns a Poisson-distributed random number.\n"
            "\n"
            "* If @lambda < 0 RANDPOISSON returns #NUM! error.\n"
            "\n"
@@ -412,7 +412,7 @@ static char const *help_randgaussian = {
            "@SYNTAX=RANDGAUSSIAN(mean,stdev)\n"
 
            "@DESCRIPTION="
-           "RANDGAUSSIAN returns a gaussian-distributed random number.\n"
+           "RANDGAUSSIAN returns a Gaussian-distributed random number.\n"
            "\n"
            "* If @stdev < 0 RANDGAUSSIAN returns #NUM! error.\n"
 	   "\n"
@@ -441,7 +441,7 @@ static char const *help_randcauchy = {
            "@SYNTAX=RANDCAUCHY(a)\n"
 
            "@DESCRIPTION="
-           "RANDCAUCHY returns a cauchy-distributed random number with "
+           "RANDCAUCHY returns a Cauchy-distributed random number with "
 	   "scale parameter a. The Cauchy distribution is also known as the "
 	   "Lorentz distribution.\n"
            "\n"
@@ -934,7 +934,7 @@ static char const *help_randexppow = {
 	   "p(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, "
 	   "for x >= 0.\n\n"
 	   "* For @b = 1 this reduces to the Laplace distribution.\n"
-	   "* For @b = 2 it has the same form as a gaussian distribution "
+	   "* For @b = 2 it has the same form as a Gaussian distribution "
 	   "with sigma = a/sqrt(2).\n"
            "\n"
            "@EXAMPLES=\n"
@@ -1039,7 +1039,7 @@ static char const *help_simtable = {
 	   "The successive use of the simulation tool also requires that you "
 	   "give to the tool at least one input variable having RAND() or "
 	   "any other RAND<distribution name>() function in it. "
-	   "On each round, the simulation tool iterates for thegiven number "
+	   "On each round, the simulation tool iterates for the given number "
 	   "of rounds over all the input variables to reevaluate them. "
 	   "On each iteration, "
 	   "the values of the output variables are stored, and when "

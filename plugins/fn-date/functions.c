@@ -63,7 +63,7 @@ static char const *help_date = {
 	   "@SYNTAX=DATE (year,month,day)\n"
 
 	   "@DESCRIPTION="
-	   "DATE returns the number of days since the 1st of january of 1900"
+	   "DATE returns the number of days since the 1st of January of 1900"
 	   "(the date serial number) for the given year, month and day.\n"
 	   "\n"
 	   "* If @month < 1 or @month > 12, the year will be corrected.  A "

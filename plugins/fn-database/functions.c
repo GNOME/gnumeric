@@ -279,9 +279,9 @@ static char const *help_daverage = {
 	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
+	   "labels of the fields for which the criteria are for.  Cells " \
 	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "``<9''.  Equality condition can be given simply by specifying a " \
 	   "value, e.g. ``3'' or ``John''. \n"\
 	   "Each row in @criteria specifies a separate condition. "\
            "If a row in "\
@@ -353,9 +353,9 @@ static char const *help_dcount = {
 	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
+	   "labels of the fields for which the criteria are for.  Cells " \
 	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "``<9''.  Equality condition can be given simply by specifying a " \
 	   "value, e.g. ``3'' or ``John''. \n"\
 	   "Each row in @criteria specifies a separate condition. "\
            "If a row in "\
@@ -426,9 +426,9 @@ static char const *help_dcounta = {
 	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
+	   "labels of the fields for which the criteria are for.  Cells " \
 	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "``<9''.  Equality condition can be given simply by specifying a " \
 	   "value, e.g. ``3'' or ``John''. \n"\
 	   "Each row in @criteria specifies a separate condition. "\
            "If a row in "\
@@ -497,9 +497,9 @@ static char const *help_dget = {
 	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
+	   "labels of the fields for which the criteria are for.  Cells " \
 	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "``<9''.  Equality condition can be given simply by specifying a " \
 	   "value, e.g. ``3'' or ``John''. \n"\
 	   "Each row in @criteria specifies a separate condition. "\
            "If a row in "\
@@ -580,9 +580,9 @@ static char const *help_dmax = {
 	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
+	   "labels of the fields for which the criteria are for.  Cells " \
 	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "``<9''.  Equality condition can be given simply by specifying a " \
 	   "value, e.g. ``3'' or ``John''. \n"\
 	   "Each row in @criteria specifies a separate condition. "\
            "If a row in "\
@@ -655,9 +655,9 @@ static char const *help_dmin = {
 	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
+	   "labels of the fields for which the criteria are for.  Cells " \
 	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "``<9''.  Equality condition can be given simply by specifying a " \
 	   "value, e.g. ``3'' or ``John''. \n"\
 	   "Each row in @criteria specifies a separate condition. "\
            "If a row in "\
@@ -727,9 +727,9 @@ static char const *help_dproduct = {
 	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
+	   "labels of the fields for which the criteria are for.  Cells " \
 	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "``<9''.  Equality condition can be given simply by specifying a " \
 	   "value, e.g. ``3'' or ``John''. \n"\
 	   "Each row in @criteria specifies a separate condition. "\
            "If a row in "\
@@ -800,9 +800,9 @@ static char const *help_dstdev = {
 	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
+	   "labels of the fields for which the criteria are for.  Cells " \
 	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "``<9''.  Equality condition can be given simply by specifying a " \
 	   "value, e.g. ``3'' or ``John''. \n"\
 	   "Each row in @criteria specifies a separate condition. "\
            "If a row in "\
@@ -873,9 +873,9 @@ static char const *help_dstdevp = {
 	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
+	   "labels of the fields for which the criteria are for.  Cells " \
 	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "``<9''.  Equality condition can be given simply by specifying a " \
 	   "value, e.g. ``3'' or ``John''. \n"\
 	   "Each row in @criteria specifies a separate condition. "\
            "If a row in "\
@@ -945,9 +945,9 @@ static char const *help_dsum = {
 	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
+	   "labels of the fields for which the criteria are for.  Cells " \
 	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "``<9''.  Equality condition can be given simply by specifying a " \
 	   "value, e.g. ``3'' or ``John''. \n"\
 	   "Each row in @criteria specifies a separate condition. "\
            "If a row in "\
@@ -1019,9 +1019,9 @@ static char const *help_dvar = {
 	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
+	   "labels of the fields for which the criteria are for.  Cells " \
 	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "``<9''.  Equality condition can be given simply by specifying a " \
 	   "value, e.g. ``3'' or ``John''. \n"\
 	   "Each row in @criteria specifies a separate condition. "\
            "If a row in "\
@@ -1092,9 +1092,9 @@ static char const *help_dvarp = {
 	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
-	   "labels of the fields for which the criterias are for.  Cells " \
+	   "labels of the fields for which the criteria are for.  Cells " \
 	   "below the labels specify conditions, for example, ``>3'' or " \
-	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "``<9''.  Equality condition can be given simply by specifying a " \
 	   "value, e.g. ``3'' or ``John''. \n"\
 	   "Each row in @criteria specifies a separate condition. "\
            "If a row in "\

@@ -103,7 +103,7 @@ static char const *help_unichar = {
 	   "@SYNTAX=UNICHAR(x)\n"
 
 	   "@DESCRIPTION="
-	   "UNICHAR returns the unicode character represented by the number @x.\n"
+	   "UNICHAR returns the Unicode character represented by the number @x.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "UNICHAR(65) equals A.\n"
@@ -180,7 +180,7 @@ static char const *help_unicode = {
 	   "@SYNTAX=UNICODE(char)\n"
 
 	   "@DESCRIPTION="
-	   "UNICODE returns the unicode number for the character @char.\n\n"
+	   "UNICODE returns the Unicode number for the character @char.\n\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "UNICODE(\"A\") equals 65.\n"
@@ -404,7 +404,7 @@ static char const *help_upper = {
            "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "UPPER(\"canceled\") equals \"CANCELED\".\n"
+	   "UPPER(\"cancelled\") equals \"CANCELLED\".\n"
 	   "\n"
 	   "@SEEALSO=LOWER")
 };

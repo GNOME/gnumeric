@@ -508,7 +508,7 @@ static char const *help_received = {
 	   "\n"
 	   "@settlement is the settlement date of the security.  "
 	   "@maturity is the maturity date of the security.  The amount "
-	   "of investement is specified in @investment.  @rate is the "
+	   "of investment is specified in @investment.  @rate is the "
 	   "security's discount rate.\n\n"
 	   "@basis is the type of day counting system you want to "
 	   "use:\n"
@@ -972,11 +972,11 @@ static char const *help_sln = {
 	   "\n"
 	   "The formula is:\n"
 	   "\n"
-	   "Depriciation expense = ( @cost - @salvage_value ) / @life\n"
+	   "Depreciation expense = ( @cost - @salvage_value ) / @life\n"
 	   "\n"
 	   "@cost is the cost of an asset when acquired (market value).\n"
 	   "@salvage_value is the amount you get when asset is sold at the end "
-	   "of the assets's useful life.\n"
+	   "of the asset's useful life.\n"
 	   "@life is the anticipated life of an asset.\n"
 	   "\n"
 	   "* If @life <= 0, SLN returns #NUM! error.\n"
@@ -1028,7 +1028,7 @@ static char const *help_syd = {
 	   "\n"
 	   "The Formula used for sum-of-years digits depreciation is:\n"
 	   "\n"
-	   "Depriciation expense =\n\n\t ( @cost - @salvage_value ) * "
+	   "Depreciation expense =\n\n\t ( @cost - @salvage_value ) * "
 	   "(@life - @period + 1) * 2 / @life * (@life + 1).\n"
 	   "\n"
 	   "@cost is the cost of an asset when acquired (market value).\n"
@@ -1594,7 +1594,7 @@ static char const *help_pv = {
 	   "@pmt is the payment made each period, "
 	   "@fv is the future value and @type is when the payment is made.\n"
 	   "\n"
-	   "* If @type = 1 then the payment is made at the begining of the "
+	   "* If @type = 1 then the payment is made at the beginning of the "
 	   "period.\n"
 	   "* If @type = 0 (or omitted) it is made at the end of each "
 	   "period.\n"
@@ -1630,7 +1630,7 @@ static char const *help_npv = {
 	   "@SYNTAX=NPV(rate,v1,v2,...)\n"
 	   "@DESCRIPTION="
 	   "NPV calculates the net present value of an investment generating "
-	   "peridic payments.  @rate is the periodic interest rate and "
+	   "periodic payments.  @rate is the periodic interest rate and "
 	   "@v1, @v2, ... are the periodic payments.  If the schedule of the "
 	   "cash flows are not periodic use the XNPV function. "
 	   "\n"
@@ -1856,7 +1856,7 @@ static char const *help_fv = {
 	   "periods in an annuity, @pmt is the payment made each period, "
 	   "@pv is the present value and @type is when the payment is made.\n"
 	   "\n"
-	   "* If @type = 1 then the payment is made at the begining of the "
+	   "* If @type = 1 then the payment is made at the beginning of the "
 	   "period.\n"
 	   "* If @type = 0 it is made at the end of each period.\n"
 	   "\n"
@@ -2029,7 +2029,7 @@ static char const *help_nper = {
 	   "The interest rate per period is @rate, @pmt is the payment made "
 	   "each period, @pv is the present value, @fv is the future value "
 	   "and @type is when the payments are due. If @type = 1, payments "
-	   "are due at the begining of the period, if @type = 0, payments "
+	   "are due at the beginning of the period, if @type = 0, payments "
 	   "are due at the end of the period.\n"
 	   "\n"
 	   "* If @rate <= 0, NPER returns #DIV0 error.\n"
@@ -2077,7 +2077,7 @@ static char const *help_duration = {
 	N_("@FUNCTION=DURATION\n"
 	   "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
 	   "@DESCRIPTION="
-	   "DURATION calucates the duration of a security.\n"
+	   "DURATION calculates the duration of a security.\n"
 	   "\n"
 	   "@settlement is the settlement date of the security. "
 	   "@maturity is the maturity date of the security. "
@@ -2235,7 +2235,7 @@ static char const *help_euro = {
 	   "    GRD\t(Greek)\n"
 	   "    IEP\t(Ireland)\n"
 	   "    ITL\t(Italy)\n"
-	   "    LUF\t(Luxemburg)\n"
+	   "    LUF\t(Luxembourg)\n"
 	   "    NLG\t(Netherlands)\n"
 	   "    PTE\t(Portugal)\n"
 	   "\n"
@@ -2280,15 +2280,15 @@ one_euro (char const *str)
 		else if (strncmp ("FRF", str, 3) == 0)
 		        return GNM_const (6.55957);
 		break;
+	case 'G':
+	        if (strncmp ("GRD", str, 3) == 0)
+		        return GNM_const (340.75);
+		break;
 	case 'I':
 	        if (strncmp ("IEP", str, 3) == 0)
 		        return GNM_const (0.787564);
 		else if (strncmp ("ITL", str, 3) == 0)
 		        return GNM_const (1936.27);
-		break;
-	case 'G':
-	        if (strncmp ("GRD", str, 3) == 0)
-		        return GNM_const (340.75);
 		break;
 	case 'L':
 	        if (strncmp ("LUX", str, 3) == 0)
@@ -2342,7 +2342,7 @@ static char const *help_euroconvert = {
 	   "    GRD\t(Greek)\n"
 	   "    IEP\t(Ireland)\n"
 	   "    ITL\t(Italy)\n"
-	   "    LUF\t(Luxemburg)\n"
+	   "    LUF\t(Luxembourg)\n"
 	   "    NLG\t(Netherlands)\n"
 	   "    PTE\t(Portugal)\n"
 	   "\n"
@@ -3411,7 +3411,7 @@ static char const *help_couppcd = {
 	N_("@FUNCTION=COUPPCD\n"
 	   "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
-	   "COUPPCD returns the coupon date preceeding settlement.\n"
+	   "COUPPCD returns the coupon date preceding settlement.\n"
 	   "\n"
 	   "@settlement is the settlement date of the security.\n"
 	   "@maturity is the maturity date of the security.\n"

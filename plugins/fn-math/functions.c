@@ -861,7 +861,7 @@ static char const *help_exp = {
 	   "@SYNTAX=EXP(x)\n"
 
 	   "@DESCRIPTION="
-	   "EXP computes the value of e (the base of natural logarithmns) "
+	   "EXP computes the value of e (the base of natural logarithms) "
 	   "raised to the power of @x.\n\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
@@ -1755,12 +1755,12 @@ gnumeric_fib (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_quotient = {
 	N_("@FUNCTION=QUOTIENT\n"
-	   "@SYNTAX=QUOTIENT(numerator,denumerator)\n"
+	   "@SYNTAX=QUOTIENT(numerator,denominator)\n"
 
 	   "@DESCRIPTION="
 	   "QUOTIENT function returns the integer portion "
 	   "of a division.  @numerator is the divided number and "
-	   "@denumerator is the divisor.\n\n"
+	   "@denominator is the divisor.\n\n"
 	   "* This function is Excel compatible.\n "
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -2643,7 +2643,7 @@ static char const *help_seriessum = {
 	   "SERIESSUM function returns the sum of a power series.  @x is "
 	   "the base of the power series, @n is the initial power to raise @x, "
 	   "@m is the increment to the power for each term in the series, and "
-	   "@coefficients is the coefficents by which each successive power "
+	   "@coefficients are the coefficients by which each successive power "
 	   "of @x is multiplied.\n\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"

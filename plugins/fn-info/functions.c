@@ -83,7 +83,7 @@ static char const *help_cell = {
            "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "CEll(\"format\",A1) returns the code of the format of the cell A1.\n"
+	   "Cell(\"format\",A1) returns the code of the format of the cell A1.\n"
 	   "\n"
 	   "@SEEALSO=")
 };

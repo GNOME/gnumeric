@@ -256,7 +256,7 @@ static char const *help_if = {
 	   "non-zero value the result of the IF expression is the @if-true "
 	   "expression, otherwise IF evaluates to the value of @if-false.\n"
 	   "\n"
-	   "* If ommitted @if-true defaults to TRUE and @if-false to FALSE.\n"
+	   "* If omitted @if-true defaults to TRUE and @if-false to FALSE.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
