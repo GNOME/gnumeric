@@ -32,6 +32,8 @@
 #include <auto-format.h>
 
 #include <libgnome/gnome-i18n.h>
+#include <expr.h>
+#include <sheet.h>
 
 #include "plugin.h"
 #include "plugin-util.h"
@@ -882,6 +884,80 @@ gnumeric_randgaussiantail (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_simtable = {
+        N_("@FUNCTION=SIMTABLE\n"
+           "@SYNTAX=SIMTABLE(d1, d2, ..., dN)\n"
+
+           "@DESCRIPTION="
+           "SIMTABLE returns one of the values in the given argument list "
+	   "depending on the round number of the simulation tool. When the "
+	   "simulation tool is not activated, SIMTABLE returns @d1.\n"
+	   "\n"
+	   "With the simulation tool and the SIMTABLE function you can "
+	   "test given decision variables. Each SIMTABLE function contains "
+	   "the possible values of a simulation variable. In most of "
+	   "valid simulation models you should have the same number of "
+	   "values @dN for all decision variables.  If the simulation is run "
+	   "more rounds than there are values defined, SIMTABLE returns "
+	   "#N/A! error (e.g. if A1 contains `=SIMTABLE(1)' and A2 "
+	   "`=SIMTABLE(1,2)', A1 yields #N/A! error on the second round).\n"
+	   "\n"
+	   "The successive use of the simulation tool also requires that you "
+	   "give to the tool at least one input variable having RAND() or "
+	   "any other RAND<distribution name>() function in it. "
+	   "On each round, the simulation tool iterates given number of "
+	   "times all the input variables to revalue them. On each iteration, "
+	   "the values of the of the output variables are stored, and when "
+	   "the round is completed, descriptive statistical information is "
+	   "created according to the values.\n"
+	   "\n"
+           "@EXAMPLES=\n"
+	   "SIMTABLE(TRUE,FALSE) returns TRUE on the first simulation round "
+	   "and FALSE on the second round.\n"
+           "SIMTABLE(223,225,227,229) returns 227 on the simulation round "
+           "#3.\n"
+           "\n"
+           "@SEEALSO=")
+};
+
+typedef struct {
+	int   index;
+	Value *value;
+} simtable_t;
+
+static Value *
+callback_function_simtable (const EvalPos *ep, Value *value, void *closure)
+{
+	simtable_t *p = closure;
+
+	if (p->index == ep->sheet->simulation_round)
+		p->value = value_duplicate (value);
+	++(p->index);
+
+	return NULL;
+}
+
+static Value *
+gnumeric_simtable (FunctionEvalInfo *ei, GnmExprList *nodes)
+{
+	simtable_t p;
+
+	p.index = 0;
+	p.value = NULL;
+
+	function_iterate_argument_values
+		(ei->pos, callback_function_simtable, &p, nodes,
+		 FALSE, CELL_ITER_IGNORE_BLANK);
+
+	/* See if there was any value worth using. */
+	if (p.value == NULL)
+		return value_new_error (ei->pos, gnumeric_err_NA);
+
+	return p.value;
+}
+
+/***************************************************************************/
+
 const ModulePluginFunctionInfo random_functions[] = {
 	{ "rand",    "", "",           &help_rand,
 	  gnumeric_rand, NULL, NULL, NULL },
@@ -943,5 +1019,7 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_randuniform, NULL, NULL, NULL },
         { "randweibull", "ff", N_("a,b"), &help_randweibull,
 	  gnumeric_randweibull, NULL, NULL, NULL },
+	{ "simtable", 0, N_("d1[,d2,...,dN]"), &help_simtable, NULL,
+	  gnumeric_simtable, NULL, NULL },
         {NULL}
 };

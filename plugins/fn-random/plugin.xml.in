@@ -41,6 +41,7 @@
 				<function name="randtdist"/>
 				<function name="randuniform"/>
 				<function name="randweibull"/>
+				<function name="simtable"/>
 			</functions>
 		</service>
 	</services>
