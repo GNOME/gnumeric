@@ -21,17 +21,55 @@ sheet_redraw_all (Sheet *sheet)
 }
 
 static void
+sheet_compute_cell (Sheet *sheet, Cell *cell)
+{
+	char *error_msg;
+	Value *v;
+
+	if (cell->text)
+		g_free (cell->text);
+	
+	v = eval_node_value (sheet,
+			     cell->parsed_node,
+			     &error_msg);
+
+	if (cell->value)
+		eval_release_value (cell->value);
+	
+	if (v == NULL){
+		cell->text = g_strdup (error_msg);
+		cell->value = NULL;
+	} else {
+		/* FIXME: Use the format stuff */
+		cell->value = v;
+		cell->text  = eval_value_string (v);
+	}
+}
+
+static void
 recompute_one_cell (Sheet *sheet, int col, int row, Cell *cell, void *closure)
 {
-	
+	if (cell->parsed_node == NULL)
+		return;
+
+	printf ("recomputing %d %d\n", col, row);
+	sheet_compute_cell (sheet, cell);
+	sheet_redraw_cell_region (sheet,
+				  cell->col->pos, cell->row->pos,
+				  cell->col->pos, cell->row->pos);
 }
 
 void
 sheet_brute_force_recompute (Sheet *sheet)
 {
-	sheet_cell_foreach_range (sheet, 1, 0, 0, SHEET_MAX_COL, SHEET_MAX_ROW,
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	printf ("brute force!\n");
+	sheet_cell_foreach_range (sheet, 1,
+				  0, 0,
+				  SHEET_MAX_COLS, SHEET_MAX_ROWS,
 				  recompute_one_cell, NULL);
-				  
 }
 
 static void
@@ -1036,29 +1074,30 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 
 		last_row_gen = -1;
 		for (row = (GList *) ci->data; row; row = row->data){
-			ColRowInfo *ri = row->data;
-
-			if (ri->pos < start_row)
+			Cell *cell = (Cell *) row->data;
+			int  row_pos = cell->row->pos;
+			
+			if (row_pos < start_row)
 				continue;
 
-			if (ri->pos > end_row)
+			if (row_pos > end_row)
 				break;
 
 			if (!only_existing){
 				if (last_row_gen > 0){
-					if (ri->pos != last_row_gen+1)
+					if (row_pos != last_row_gen+1)
 						gen_row_blanks (sheet, ci->pos,
 								last_row_gen,
-								ri->pos,
+								row_pos,
 								callback,
 								closure);
 				}
-				if (ri->pos > start_row)
+				if (row_pos > start_row)
 					gen_row_blanks (sheet, ci->pos,
-							ri->pos, start_row,
+							row_pos, start_row,
 							callback, closure);
 			}
-			(*callback)(sheet, ci->pos, ri->pos, (Cell *) ri->data, closure);
+			(*callback)(sheet, ci->pos, row_pos, cell, closure);
 		}
 	}
 }
@@ -1118,7 +1157,6 @@ void
 cell_set_formula (Sheet *sheet, Cell *cell, char *text)
 {
 	char *error_msg;
-	Value *v;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet)); 
@@ -1135,21 +1173,7 @@ cell_set_formula (Sheet *sheet, Cell *cell, char *text)
 		return;
 	}
 
-	v = eval_node_value (sheet,
-			     cell->parsed_node,
-			     &error_msg);
-
-	if (cell->value)
-		eval_release_value (cell->value);
-	
-	if (v == NULL){
-		cell->text = g_strdup (error_msg);
-		cell->value = NULL;
-	} else {
-		/* FIXME: Use the format stuff */
-		cell->value = v;
-		cell->text  = eval_value_string (v);
-	}
+	sheet_compute_cell (sheet, cell);
 }
 
 

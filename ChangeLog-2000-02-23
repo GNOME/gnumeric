@@ -1,3 +1,9 @@
+1998-07-28    <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_cell_new): Insert the row, not the cell in
+	the column list.
+	(sheet_cell_foreach_range): Fixety fix
+
 1998-07-27    <miguel@nuclecu.unam.mx>
 
 	* src/sheet.c (sheet_cell_new): Cells are born with their propper
