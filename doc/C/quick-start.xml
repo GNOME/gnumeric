@@ -70,7 +70,7 @@
       <mediaobject>
         <imageobject>
           <imagedata fileref="figures/gnumeric-empty.510.png" 
-              format="PNG" scale="100" />
+              format="PNG"/>
         </imageobject>
         <textobject>
           <para>

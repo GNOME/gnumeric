@@ -28,7 +28,7 @@
       <mediaobject>
         <imageobject>
           <imagedata fileref="figures/gnumeric-power-example.png" 
-              format="PNG" scale="100"/>
+              format="PNG" />
         </imageobject>
         <textobject>
           <phrase>An image of <application>Gnumeric</application>
@@ -61,33 +61,37 @@
   correct. <application>Gnumeric</application> was created and is
   maintained by the <ulink type="http"
   url="http://www.gnome.org/">GNOME</ulink> project.  This manual
-  describes version 1.3 of <application>Gnumeric</application>.
+  describes version &appversion; of <application>Gnumeric</application>.
 </para>
 
+<!--
 <warning>
   <para>
-    The 1.3 series of releases are unstable releases meant for
+    The 1.5 series of releases are unstable releases meant for
     developer testing. If you want a stable release get the most recent
-    release from the 1.2 series.
+    release from the 1.4 series.
   </para>
 </warning>
-<!--
+-->
+
 <note>
   <para>
-    The 1.2 series of releases are stable releases. These are only
-    changed with minor improvements and fixes for problems (bugs) in
-    the program. These releases can be considered safe for use in a
-    production environment.
+    Releases of &gnum; in the 1.4 series will have numbers starting
+    with 1.4 but with extra numbers afterwards, such as 1.4.0 or
+    1.4.3. These are stable releases which are only changed with minor
+    improvements and fixes for problems (bugs) in the program. These
+    releases can be considered safe for use in a production
+    environment.
   </para>
 </note>
--->
+
 
 <para>
   <application>Gnumeric</application> aims for:
   <itemizedlist>
     <listitem>
       <para>
-	<guilabel>Stability :</guilabel>
+	<emphasis role="bold">Stability :</emphasis>
       </para>
       <para>
         <application>Gnumeric</application> has undergone significant
@@ -102,7 +106,7 @@
 
     <listitem>
       <para>
-	<guilabel>File compatibility :</guilabel>
+	<emphasis role="bold">File compatibility :</emphasis>
       </para>
       <para>
         Transparent access and manipulation of files from other
@@ -130,7 +134,7 @@
 
     <listitem>
       <para>
-        <guilabel>Minimal cost of transition :</guilabel>
+        <emphasis role="bold">Minimal cost of transition :</emphasis>
       </para>
       <para>
         Learning new and unfamiliar interfaces is an expensive and
@@ -143,7 +147,7 @@
 
     <listitem>
       <para>
-	<guilabel>Sufficient feature set :</guilabel>
+	<emphasis role="bold">Sufficient feature set :</emphasis>
       </para>
       <para>
         <application>Gnumeric</application> now has enough of the
@@ -164,7 +168,7 @@
 
     <listitem>
       <para>
-        <guilabel>Internationalization :</guilabel>
+        <emphasis role="bold">Internationalization :</emphasis>
       </para>
       <para>
 	<application>Gnumeric</application> has been translated into
@@ -175,7 +179,7 @@
 
     <listitem>
       <para>
-	<guilabel>Scalability :</guilabel>
+	<emphasis role="bold">Scalability :</emphasis>
       </para>
       <para>
         The core architecture is designed to ensure that
@@ -187,7 +191,7 @@
 
     <listitem>
       <para>
-	<guilabel>Openness :</guilabel>
+	<emphasis role="bold">Openness :</emphasis>
       </para>
       <para>
         <application>Gnumeric</application> is <ulink type="http"
@@ -223,12 +227,14 @@
 </para>
 
 
+
+<!--
 <para>
-  <guilabel>The Gnumeric 1.3 Series of Releases for Developers</guilabel>
+  <emphasis role="bold">The Gnumeric 1.5 Series of Releases for Developers</emphasis>
 </para>
 
 <para>
-  The <application>Gnumeric</application> 1.3 series of releases are
+  The <application>Gnumeric</application> 1.5 series of releases are
   developer releases. These releases are kept as stable as
   possible. However, each release in this series includes changes and
   improvements some of which are quite large. These new changes may
@@ -247,11 +253,23 @@
   In this version of <application>Gnumeric</application>, we will be
   working on the following features:
 
+-->
+
+
+<para>
+  <emphasis role="bold">The new features introduced in the Gnumeric 1.4 release
+  series:</emphasis>
+</para>
+        
+<para>
+  The 1.4 series of <application>Gnumeric</application> include
+  numerous improvements over the versions in the 1.2 series.
+
   <itemizedlist>
 
     <listitem>
       <para>
-        <guilabel>GTK+ Port</guilabel>
+        <emphasis role="bold">GTK+ Port</emphasis>
       </para>
       <para>
         One of the principal aims of this developers series is to make
@@ -267,7 +285,7 @@
 
     <listitem>
       <para>
-        <guilabel>The Port to Microsoft Operating Systems</guilabel>
+        <emphasis role="bold">The Port to Microsoft Operating Systems</emphasis>
       </para>
       <para>
         The port of the core of <application>Gnumeric</application> to
@@ -279,7 +297,7 @@
 
     <listitem>
       <para>
-        <guilabel>Improved Analytics</guilabel>
+        <emphasis role="bold">Improved Analytics</emphasis>
       </para>
       <para>
         The analytical correctness of
@@ -292,7 +310,7 @@
 
     <listitem>
       <para>
-        <guilabel>Improved Graphics</guilabel>
+        <emphasis role="bold">Improved Graphics</emphasis>
       </para>
       <para>
         The graphical system is improving rapidly with new types of
@@ -302,7 +320,7 @@
 
     <listitem>
       <para>
-        <guilabel>Improved Textual support</guilabel>
+        <emphasis role="bold">Improved Textual support</emphasis>
       </para>
       <para>
         The ability to use Rich Text has been added in this
@@ -313,7 +331,7 @@
 
     <listitem>
       <para>
-        <guilabel>Improved Microsoft Excel Compatibility</guilabel>
+        <emphasis role="bold">Improved Microsoft Excel Compatibility</emphasis>
       </para>
       <para>
         The file format used by the Microsoft Excel<trademark/>
@@ -329,23 +347,15 @@
 
 </para>
 
-<para>
-  <guilabel>The new features introduced in the Gnumeric 1.2 release
-  series:</guilabel>
-</para>
-        
-<para>
-  The 1.3 series of <application>Gnumeric</application> releases build
-  on the current stable release series, the 1.2 series of
-  releases. These releases include numerous improvements over the
-  versions in the 1.0 series.
 
+<!--
+
+<para>
   <itemizedlist>
 
-    
     <listitem>
       <para>
-        <guilabel>Improved Analytics :</guilabel>
+        <emphasis role="bold">Improved Analytics :</emphasis>
       </para>
       <para>
         This version of <application>Gnumeric</application> includes
@@ -373,7 +383,7 @@
 
     <listitem>
       <para>
-        <guilabel>Improved File Import and Export :</guilabel>
+        <emphasis role="bold">Improved File Import and Export :</emphasis>
       </para>
       <para>
         The ability to import and export files of different formats
@@ -388,7 +398,7 @@
 
     <listitem>
       <para>
-        <guilabel>Improved Graphing :</guilabel>
+        <emphasis role="bold">Improved Graphing :</emphasis>
       </para>
       <para>
         The earlier versions of <application>Gnumeric</application>
@@ -402,7 +412,7 @@
 
     <listitem>
       <para>
-        <guilabel>Improved Structure based on GTK 2.0 :</guilabel>
+        <emphasis role="bold">Improved Structure based on GTK 2.0 :</emphasis>
       </para>
       <para>
         This version of <application>Gnumeric</application> is based
@@ -423,10 +433,14 @@
 
   </itemizedlist>
 
+</para>
+
+-->
+
+<para>
   For more details on the changes in
   <application>Gnumeric</application>, refer to the file named NEWS in
   the source code distribution.
-
 </para>
 
 <para>
@@ -434,7 +448,7 @@
 </para>
 
 <para>
-  <guilabel>Known Issues in the Gnumeric 1.3 releases:</guilabel>
+  <emphasis role="bold">Known Issues in the Gnumeric 1.4 releases:</emphasis>
 </para>
         
 <para>

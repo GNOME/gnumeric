@@ -1,3 +1,18 @@
+2004-11-19  Adrian Custer <acuster@gnome.org>
+
+	* NEWS Bump version to 1.4. Start edits of worksheet 
+	       chapter. Minor Edits.
+	
+	* gnumeric.xml: Change title, edit paragraph. 
+	                Change guilabel -> emphasis. 
+	* manual-usage.xml: Change title, edit paragraph.
+	* worksheets.xml: Major edits.
+	* welcome.xml: Edit for 1.4. Change guilabel -> emphasis.
+	* morehelp.xml: Change guilabel -> emphasis.
+	* quickstart.xml: remove scale="100" on screenshot.
+
+	* gnumeric-driver.xsl: Add. Driver file for win32 HTMLhelp.
+
 2004-11-14  Adrian Custer <acuster@gnome.org>
 
 	* gnumeric.xml: Help the poor packagers. revert to docbook 4.1.2.
