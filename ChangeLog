@@ -1,3 +1,7 @@
+2002-08-18  Jon K Hellan  <hellan@acm.org>
+
+	* src/print.c: Fix typo.
+
 2002-08-18  Morten Welinder  <terra@diku.dk>
 
 	* src/hlink.c (gnm_hlink_url_activate, ...): Use "lnk", not "link"

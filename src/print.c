@@ -7,7 +7,8 @@
  * Handles printing of Sheets.
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>#include "gnumeric.h"
+#include <gnumeric-i18n.h>
+#include "gnumeric.h"
 #include "print.h"
 
 #include "gui-util.h"
