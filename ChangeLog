@@ -1,3 +1,8 @@
+2002-10-11  Morten Welinder  <terra@diku.dk>
+
+	* src/goal-seek.c (fake_df): Use FINITE, not finite, for HPUX.
+	Sigh.  We have to do better for 1.1.x.
+
 2002-10-06  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

@@ -124,7 +124,7 @@ fake_df (GoalSeekFunction f, gnum_float x, gnum_float *dfx, gnum_float xstep,
 	}
 
 	*dfx = (yr - yl) / (xr - xl);
-	return finite (*dfx) ? GOAL_SEEK_OK : GOAL_SEEK_ERROR;
+	return FINITE (*dfx) ? GOAL_SEEK_OK : GOAL_SEEK_ERROR;
 }
 
 void
