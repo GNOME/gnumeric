@@ -100,6 +100,7 @@ src/cut-n-paste-code/egg/menu/egg-action.c
 src/cut-n-paste-code/egg/menu/egg-markup.c
 src/cut-n-paste-code/egg/menu/egg-menu-merge.c
 src/cut-n-paste-code/egg/toolbar/eggtoolbar.c
+src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c
 src/cut-n-paste-code/egg/toolbar/eggtoolitem.c
 src/dates.c
 src/dependent.c
