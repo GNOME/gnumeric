@@ -5,7 +5,7 @@
 		<_description>This plugin provides support for Python plugins</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="python_loader.la:dlname"/>
+		<attribute name="module_file" value="python_loader.la"/>
 	</loader>
 	<services>
 		<service type="plugin_loader" id="python"></service>

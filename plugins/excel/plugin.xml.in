@@ -5,7 +5,7 @@
 		<_description>Imports/Exports MS Excel (tm) files</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="excel.la:dlname"/>
+		<attribute name="module_file" value="excel.la"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="excel" priority="100" probe="TRUE"

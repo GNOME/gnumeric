@@ -5,7 +5,7 @@
 		<_description>Import/Export of HTML, TeX, DVI, roff</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="html.la:dlname"/>
+		<attribute name="module_file" value="html.la"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="html32" priority="100" probe="FALSE" open="TRUE" import="TRUE">

@@ -5,7 +5,7 @@
 		<_description>This plugin provides Python language support in Gnumeric</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="python.la:dlname"/>
+		<attribute name="module_file" value="python.la"/>
 	</loader>
 	<services>
 		<service type="general"></service>

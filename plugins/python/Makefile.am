@@ -19,8 +19,6 @@ Pythonscripts_DATA = gnumeric_startup.py gnumeric_defs.py
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
-# It's a hack, but we tag our own command onto the merge rule...
 @INTLTOOL_XML_RULE@
-	sh $(top_srcdir)/tools/fixup-plugin-xml $@ $(gnumeric_plugin_python_LTLIBRARIES)
 
 EXTRA_DIST = $(Pythonscripts_DATA) $(xml_in_files)

@@ -5,7 +5,7 @@
 		<_description>Several basic utilities for prime numbers, pi, phi, sigma. It also hold some simple bitwise operations</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="numtheory.la:dlname"/>
+		<attribute name="module_file" value="numtheory.la"/>
 	</loader>
 	<services>
 		<service type="function_group" id="num_theory">

@@ -5,7 +5,7 @@
 		<_description>Imports MultiPlan (SYLK) files</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="sylk.la:dlname"/>
+		<attribute name="module_file" value="sylk.la"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="sylk" priority="1" probe="TRUE"

@@ -5,7 +5,7 @@
 		<_description>Imports SC/XSpread files</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="sc.la:dlname"/>
+		<attribute name="module_file" value="sc.la"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="sc" priority="1" probe="FALSE"

@@ -39,8 +39,6 @@ gnum_gb_la_LIBADD =		\
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
-# It's a hack, but we tag our own command onto the merge rule...
 @INTLTOOL_XML_RULE@
-	sh $(top_srcdir)/tools/fixup-plugin-xml $@ $(gnum_gb_LTLIBRARIES)
 
 EXTRA_DIST = README main.gba gnumeric.gbp $(xml_in_files)

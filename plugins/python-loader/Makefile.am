@@ -17,8 +17,6 @@ python_loader_la_SOURCES = python-loader.c \
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
 
-# It's a hack, but we tag our own command onto the merge rule...
 @INTLTOOL_XML_RULE@
-	sh $(top_srcdir)/tools/fixup-plugin-xml $@ $(gnumeric_plugin_python_loader_LTLIBRARIES)
 
 EXTRA_DIST = $(xml_in_files)

@@ -1,5 +1,9 @@
 2002-02-26  Morten Welinder  <terra@diku.dk>
 
+	* plugins/*/*.xml.in: just use the .la file for module_file.
+
+	* plugins/*/Makefile.am: don't hack the .xml file any more.
+
 	* src/mathfunc.c: Make various helper functions static.
 
 	* src/format-template.h: prototype the template member functions.

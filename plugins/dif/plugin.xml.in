@@ -5,7 +5,7 @@
 		<_description>Reads and writes information stored in the Data Interchange Format (*.dif)</_description>
 	</information>
 	<loader type="g_module">
-		<attribute name="module_file" value="dif.la:dlname"/>
+		<attribute name="module_file" value="dif.la"/>
 	</loader>
 	<services>
 		<service type="file_opener" id="dif" priority="1" probe="FALSE"
