@@ -1,3 +1,7 @@
+2000-06-17  Jon K Hellan  <hellan@acm.org>
+
+	* formula-guru.glade: Allow auto-shrink - it's exactly what we want.
+
 2000-06-15  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-function-wizard.c (cb_formula_guru_entry_focus_in) :
