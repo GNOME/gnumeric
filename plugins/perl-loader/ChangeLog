@@ -1,0 +1,5 @@
+2004-11-02  Morten Welinder  <terra@gnome.org>
+
+	* perl-loader.c (call_perl_function_args): C99 Fix.
+	(gplp_load_base): Only use PERL_EXIT_DESTRUCT_END when defined.
+	Don't free the loader's name!
