@@ -197,10 +197,26 @@
 	</mediaobject>
       </figure>
     <para>
-      You can select row or column titles to print by clicking in
-      the <interface>expr-entry widget</interface> and selecting
-      the rows or columns with the mouse.
-    </para>
+      You can select rows or columns to be printed on every page of
+      the output. This is commonly used for printing column or row
+      names. To enable this, enter the range of cells to be
+      repeated in <guilabel>Rows to repeat...</guilabel> or
+      <guilabel>Columns to repeat..</guilabel> field. Instead of
+      entering them manually, you can also select columns or rows to
+      be repeated using the mouse. 
+      </para>
+    <warning>
+      <title>WARNING</title>
+       <para>Note that the rows and columns must be entered as ranges
+       of cells. That is, if you want to have first row repeated, you
+       must enter <literal>A1:IV1</literal>, not just
+       <literal>1</literal>. Similarly, to have column
+       <literal>A</literal> repeated, you must enter
+       <literal>A1:A65536</literal>. The Gnumeric developers are
+       working on  this shortcoming. 
+      </para>
+    </warning>
+
     <para>
       Select <interface>Grid lines</interface> to print the cell
       grid lines with your document. Unselect the button to hide

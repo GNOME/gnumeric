@@ -1,3 +1,8 @@
+2002-05-16  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* printing.xml: added more info about about selecting columns/rows to
+	repeat in print setup dialog (see bug 59498) 
+
 2002-04-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.3
