@@ -1,3 +1,10 @@
+2003-07-15  Jody Goldberg <jody@gnome.org>
+
+	From John Gill :
+	* dialog-preferences.c (cb_pref_window_set_transition_keys) : new.
+	(cb_pref_window_transition_keys_toggled) : new.
+	(pref_window_page_initializer) : use them here.
+
 2003-07-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dao-gui-utils.h (dialog_tool_preset_to_range): new

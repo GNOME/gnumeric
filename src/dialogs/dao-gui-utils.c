@@ -32,6 +32,7 @@
 #include "value.h"
 #include "gui-util.h"
 #include "workbook-control-gui.h"
+#include "selection.h"
 #include <gtk/gtk.h>
 
 const char *output_group[] = {

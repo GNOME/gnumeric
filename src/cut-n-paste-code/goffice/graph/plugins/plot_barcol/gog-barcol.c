@@ -123,7 +123,7 @@ gog_barcol_plot_get_property (GObject *obj, guint param_id,
 static char const *
 gog_barcol_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 {
-	return "PlotBarCol";
+	return N_("PlotBarCol");
 }
 
 extern gpointer gog_barcol_plot_pref (GogBarColPlot *barcol, CommandContext *cc);

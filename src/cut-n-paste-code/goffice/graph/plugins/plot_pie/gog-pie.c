@@ -100,7 +100,7 @@ gog_pie_plot_get_property (GObject *obj, guint param_id,
 static char const *
 gog_pie_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 {
-	return "PlotPie";
+	return N_("PlotPie");
 }
 
 extern gpointer gog_pie_plot_pref (GogPiePlot *pie, CommandContext *cc);
@@ -118,7 +118,6 @@ gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 	unsigned i, n;
 	GogPiePlot const *model = GOG_PIE_PLOT (plot);
 	GogSeries const *series = plot->series->data; /* start with the first */
-	GObjectClass *klass = G_OBJECT_GET_CLASS (series);
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
 	GogStyle *style;
 	GODataVector *labels;
@@ -135,7 +134,7 @@ gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 	if (series->values[0].data != NULL)
 		labels = GO_DATA_VECTOR (series->values[0].data);
 	for ( ; i < n ; i++) {
-		gog_theme_init_style (theme, style, klass,
+		gog_theme_init_style (theme, style, GOG_OBJECT (series),
 			model->base.index_num + i);
 		label = (labels != NULL)
 			? go_data_vector_get_str (labels, i) : NULL;
@@ -326,7 +325,6 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	double default_sep;
 	unsigned elem, j, n, k;
 	ArtVpath path [MAX_ARC_SEGMENTS*2 + 4];
-	GObjectClass *klass;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
 	GogStyle *style;
 	GSList *ptr;
@@ -373,10 +371,8 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		r_ext = center_radius + r * (double)index / (double)num_series;
 
 		style = GOG_STYLED_OBJECT (series)->style;
-		if (model->base.vary_style_by_element)  {
+		if (model->base.vary_style_by_element)
 			style = gog_style_dup (style);
-			klass = G_OBJECT_GET_CLASS (series);
-		}
 		gog_renderer_push_style (view->renderer, style);
 
 		theta = (model->initial_angle + series->initial_angle) * 2. * M_PI / 360. - M_PI / 2.;
@@ -429,7 +425,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 
 			if (model->base.vary_style_by_element)
-				gog_theme_init_style (theme, style, klass,
+				gog_theme_init_style (theme, style, GOG_OBJECT (series),
 					model->base.index_num + k);
 			gog_renderer_draw_polygon (view->renderer, path,
 				r * len < 5 /* drop outline for thin segments */);

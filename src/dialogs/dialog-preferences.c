@@ -354,6 +354,7 @@ pref_tree_page_open (PrefState *state, G_GNUC_UNUSED gpointer data,
 	cb_pref_tree_selection_changed (gtk_tree_view_get_selection (view), state);
 }
 
+
 static gboolean
 pref_tree_find_iter (GtkTreeModel *model,
 		     G_GNUC_UNUSED GtkTreePath *tree_path,
@@ -1090,6 +1091,31 @@ cb_pref_window_set_sheet_num (GConfClient *gconf,
 }
 
 static void
+cb_pref_window_set_transition_keys (GConfClient *gconf,
+				    G_GNUC_UNUSED guint cnxn_id,
+				    G_GNUC_UNUSED GConfEntry *entry,
+				    GtkToggleButton *button)
+{
+	gboolean is_set_gconf = gconf_client_get_bool (gconf,
+						       GNUMERIC_GCONF_GUI_ED_TRANSITION_KEYS,
+						       NULL);
+	gboolean is_set_button = gtk_toggle_button_get_active (button);
+	if (is_set_gconf != is_set_button)
+		gtk_toggle_button_set_active (button, is_set_gconf);
+}
+
+static void
+cb_pref_window_transition_keys_toggled (GtkToggleButton *button, PrefState *state)
+{
+	gconf_client_set_bool (state->gconf,
+			       GNUMERIC_GCONF_GUI_ED_TRANSITION_KEYS,
+			       gtk_toggle_button_get_active (button),
+			       NULL);
+	application_set_transition_keys(gtk_toggle_button_get_active (button));
+}
+
+
+static void
 cb_pref_window_sheet_num_changed (GtkSpinButton *button, PrefState *state)
 {
 	gconf_client_set_int (state->gconf,
@@ -1130,6 +1156,13 @@ pref_window_page_initializer (PrefState *state,
 {
 	GtkWidget *page = gtk_table_new (4, 2, FALSE);
 	gint row = 0;
+
+	/* Transition keys check box */
+	dialog_pref_create_checkbox (GNUMERIC_GCONF_GUI_ED_TRANSITION_KEYS,
+				     "/schemas" GNUMERIC_GCONF_GUI_ED_TRANSITION_KEYS,
+				     page, row++, state,
+				     cb_pref_window_set_transition_keys,
+				     cb_pref_window_transition_keys_toggled);
 
 	/* Window Height Spin Button */
 	dialog_pref_create_float_spin (GNUMERIC_GCONF_GUI_WINDOW_Y,
