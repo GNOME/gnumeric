@@ -31,6 +31,7 @@ typedef struct {
 		void (*rename)  (WorkbookControl *wbc, Sheet *sheet);
 		void (*focus)   (WorkbookControl *wbc, Sheet *sheet);
 		void (*move)    (WorkbookControl *wbc, Sheet *sheet, int dir);
+		void (*remove_all) (WorkbookControl *wbc);
 	} sheet;
 	struct {
 		void (*clear)	(WorkbookControl *wbc, gboolean is_undo);
@@ -61,7 +62,7 @@ typedef struct {
 #define IS_WORKBOOK_CONTROL(o)	  (GTK_CHECK_TYPE ((o), WORKBOOK_CONTROL_TYPE))
 
 GtkType workbook_control_get_type    (void);
-void 	workbook_control_init	     (WorkbookControl *wbc,
+void 	workbook_control_set_view    (WorkbookControl *wbc,
 				      WorkbookView *optional_view,
 				      Workbook *optional_wb);
 void    workbook_control_sheets_init (WorkbookControl *wbc);
@@ -76,14 +77,14 @@ void wb_control_prefs_update	     (WorkbookControl *wbc);
 void wb_control_format_feedback	     (WorkbookControl *wbc, MStyle *style);
 void wb_control_zoom_feedback	     (WorkbookControl *wbc);
 void wb_control_edit_line_set        (WorkbookControl *wbc, char const *text);
+void wb_control_auto_expr_value	     (WorkbookControl *wbc, char const *value);
 
 void wb_control_sheet_add	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_remove	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_rename	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_focus	     (WorkbookControl *wbc, Sheet *sheet);
 void wb_control_sheet_move	     (WorkbookControl *wbc, Sheet *sheet, int dir);
-
-void wb_control_auto_expr_value	     (WorkbookControl *wbc, char const *value);
+void wb_control_sheet_remove_all     (WorkbookControl *wbc);
 
 void wb_control_undo_redo_clear	     (WorkbookControl *wbc, gboolean is_undo);
 void wb_control_undo_redo_pop	     (WorkbookControl *wbc, gboolean is_undo);

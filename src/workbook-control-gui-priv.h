@@ -3,6 +3,9 @@
 
 #include "gnumeric.h"
 #include "workbook-control-gui.h"
+#ifdef ENABLE_BONOBO
+#include <bonobo.h>
+#endif
 
 struct _WorkbookControlGUI {
 	WorkbookControl	wb_control;

@@ -84,6 +84,8 @@ WBC_VIRTUAL_FULL (sheet_focus, sheet.focus,
 	     (WorkbookControl *wbc, Sheet *sheet), (wbc, sheet))
 WBC_VIRTUAL_FULL (sheet_move, sheet.move,
 	     (WorkbookControl *wbc, Sheet *sheet, int dir), (wbc, sheet, dir))
+WBC_VIRTUAL_FULL (sheet_remove_all, sheet.remove_all,
+	     (WorkbookControl *wbc), (wbc))
 
 WBC_VIRTUAL_FULL (undo_redo_clear, undo_redo.clear,
 	(WorkbookControl *wbc, gboolean is_undo), (wbc, is_undo))
@@ -219,7 +221,8 @@ static void
 wbc_destroy (GtkObject *obj)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
-	wb_view_detach_control (wbc);
+	if (wbc->wb_view != NULL)
+		wb_view_detach_control (wbc);
 	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
@@ -234,8 +237,8 @@ GNUMERIC_MAKE_TYPE(workbook_control, "WorkbookControl", WorkbookControl,
 		   workbook_control_ctor_class, NULL, gtk_object_get_type ())
 
 void
-workbook_control_init (WorkbookControl *wbc,
-		       WorkbookView *optional_view, Workbook *optional_wb)
+workbook_control_set_view (WorkbookControl *wbc,
+			   WorkbookView *optional_view, Workbook *optional_wb)
 {
 	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
 	g_return_if_fail (wbc->wb_view == NULL);

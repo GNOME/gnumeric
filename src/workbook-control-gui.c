@@ -47,6 +47,9 @@
 #include "history.h"
 #include "str.h"
 
+#ifdef ENABLE_BONOBO
+#include "sheet-object-container.h"
+#endif
 #include "gnumeric-type-util.h"
 #include "gnumeric-util.h"
 #include "widgets/gnumeric-toolbar.h"
@@ -233,46 +236,17 @@ cb_sheet_label_edit_stopped (EditableLabel *el, WorkbookControlGUI *wbcg)
 	wb_control_gui_focus_cur_sheet (wbcg);
 }
 
-static void cb_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg);
 static void
-sheet_action_add_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
+sheet_action_add_sheet (GtkWidget *widget, SheetView *sheet_view)
 {
-	cb_insert_sheet (NULL, wbcg);
-}
-static void
-sheet_action_clone_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Workbook *wb = wb_control_workbook (wbc);
-     	Sheet *new_sheet = sheet_duplicate (wb_control_cur_sheet (wbc));
-	workbook_attach_sheet (wb, new_sheet);
-	sheet_set_dirty (new_sheet, TRUE);
-}
-static void
-sheet_action_rename_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
-{
-	Sheet *current_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	char *new_name = dialog_get_sheet_name (wbcg, current_sheet->name_unquoted);
-	if (!new_name)
-		return;
-
-	/* We do not care if it fails */
-	cmd_rename_sheet (WORKBOOK_CONTROL (wbcg), current_sheet->name_unquoted, new_name);
-	g_free (new_name);
+	WorkbookControl *wbc = WORKBOOK_CONTROL (sheet_view->wbcg);
+	workbook_sheet_add (wb_control_workbook (wbc), sheet_view->sheet, TRUE);
 }
 
 static void
-sheet_action_reorder_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
+delete_sheet_if_possible (GtkWidget *ignored, SheetView *sheet_view)
 {
-	dialog_sheet_order (wbcg);
-}
-
-static void
-delete_sheet_if_possible (GtkWidget *ignored, WorkbookControlGUI *wbcg)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Workbook *wb = wb_control_workbook (wbc);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (sheet_view->wbcg));
 	GtkWidget *d, *button_no;
 	char *message;
 	int r;
@@ -285,7 +259,7 @@ delete_sheet_if_possible (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 
 	message = g_strdup_printf (
 		_("Are you sure you want to remove the sheet called `%s'?"),
-		sheet->name_unquoted);
+		sheet_view->sheet->name_unquoted);
 
 	d = gnome_message_box_new (
 		message, GNOME_MESSAGE_BOX_QUESTION,
@@ -296,26 +270,54 @@ delete_sheet_if_possible (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 	button_no = g_list_last (GNOME_DIALOG (d)->buttons)->data;
 	gtk_widget_grab_focus (button_no);
 
-	r = gnumeric_dialog_run (wbcg, GNOME_DIALOG (d));
+	r = gnumeric_dialog_run (sheet_view->wbcg, GNOME_DIALOG (d));
 
 	if (r != 0)
 		return;
 
-	workbook_delete_sheet (sheet);
+	workbook_sheet_delete (sheet_view->sheet);
 	workbook_recalc_all (wb);
+}
+
+static void
+sheet_action_rename_sheet (GtkWidget *widget, SheetView *sheet_view)
+{
+	Sheet *sheet = sheet_view->sheet;
+	char *new_name = dialog_get_sheet_name (sheet_view->wbcg, sheet->name_unquoted);
+	if (!new_name)
+		return;
+
+	/* We do not care if it fails */
+	cmd_rename_sheet (WORKBOOK_CONTROL (sheet_view->wbcg),
+			  sheet->name_unquoted, new_name);
+	g_free (new_name);
+}
+
+static void
+sheet_action_clone_sheet (GtkWidget *widget, SheetView *sheet_view)
+{
+     	Sheet *new_sheet = sheet_duplicate (sheet_view->sheet);
+	workbook_sheet_attach (sheet_view->sheet->workbook, new_sheet);
+	sheet_set_dirty (new_sheet, TRUE);
+}
+
+static void
+sheet_action_reorder_sheet (GtkWidget *widget, SheetView *sheet_view)
+{
+	dialog_sheet_order (sheet_view->wbcg);
 }
 
 /**
  * sheet_menu_label_run:
  */
 static void
-sheet_menu_label_run (Sheet *sheet, GdkEventButton *event)
+sheet_menu_label_run (SheetView *sheet_view, GdkEventButton *event)
 {
 #define SHEET_CONTEXT_TEST_SIZE 1
 
 	struct {
 		const char *text;
-		void (*function) (GtkWidget *widget, WorkbookControlGUI *wbcg);
+		void (*function) (GtkWidget *widget, SheetView *sheet_view);
 		int  flags;
 	} const sheet_label_context_actions [] = {
 		{ N_("Add another sheet"), &sheet_action_add_sheet, 0 },
@@ -335,10 +337,10 @@ sheet_menu_label_run (Sheet *sheet, GdkEventButton *event)
 	for (i = 0; sheet_label_context_actions [i].text != NULL; i++){
 		int flags = sheet_label_context_actions [i].flags;
 
-		if (flags & SHEET_CONTEXT_TEST_SIZE){
-			if (workbook_sheet_count (sheet->workbook) < 2)
+		if (flags & SHEET_CONTEXT_TEST_SIZE &&
+		    workbook_sheet_count (sheet_view->sheet->workbook) < 2)
 				continue;
-		}
+
 		item = gtk_menu_item_new_with_label (
 			_(sheet_label_context_actions [i].text));
 		gtk_menu_append (GTK_MENU (menu), item);
@@ -347,7 +349,7 @@ sheet_menu_label_run (Sheet *sheet, GdkEventButton *event)
 		gtk_signal_connect (
 			GTK_OBJECT (item), "activate",
 			GTK_SIGNAL_FUNC (sheet_label_context_actions [i].function),
-			sheet);
+			sheet_view);
 	}
 
 	gnumeric_popup_menu (GTK_MENU (menu), event);
@@ -360,7 +362,8 @@ sheet_menu_label_run (Sheet *sheet, GdkEventButton *event)
  * This takes care of switching to the notebook that contains the label
  */
 static gint
-cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event, GtkWidget *child)
+cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
+			     GtkWidget *child)
 {
 	GtkWidget *notebook;
 	gint page_number;
@@ -378,12 +381,14 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event, GtkWidget
 
 	if (event->button == 3) {
 		g_return_val_if_fail (IS_SHEET_VIEW (child), FALSE);
-		sheet_menu_label_run (SHEET_VIEW (child)->sheet, event);
+		sheet_menu_label_run (SHEET_VIEW (child), event);
 		return TRUE;
 	}
 
 	return FALSE;
 }
+
+static void workbook_setup_sheets (WorkbookControlGUI *wbcg);
 
 /**
  * wbcg_sheet_add:
@@ -410,7 +415,9 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	GtkWidget *sheet_label;
 
 	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (wbcg->notebook != NULL);
+
+	if (wbcg->notebook == NULL)
+		workbook_setup_sheets (wbcg);
 
 	sheet_view = sheet_new_sheet_view (sheet);
 	sheet_view->wbcg = wbcg;
@@ -469,12 +476,18 @@ wbcg_sheet_remove (WorkbookControl *wbc, Sheet *sheet)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	SheetView *sheet_view;
-	int i = sheet_to_page_index (wbcg, sheet, &sheet_view);
+	int i;
+
+	/* During destruction we may have already removed the notebook */
+	if (wbcg->notebook == NULL)
+		return;
+
+	i = sheet_to_page_index (wbcg, sheet, &sheet_view);
 
 	g_return_if_fail (i >= 0);
 
 	gtk_notebook_remove_page (wbcg->notebook, i);
-	sheet_destroy_sheet_view (sheet_view);
+	gtk_object_unref (GTK_OBJECT (sheet_view));
 
 	/* Only be scrollable if there are more than 3 tabs */
 	if (g_list_length (wbcg->notebook->children) <= 3)
@@ -514,6 +527,18 @@ wbcg_sheet_move (WorkbookControl *wbc, Sheet *sheet, int dir)
 {
 #warning Finish this
 	g_warning ("Finish me");
+}
+
+static void
+wbcg_sheet_remove_all (WorkbookControl *wbc)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+
+	if (wbcg->notebook != NULL) {
+		gtk_container_remove (GTK_CONTAINER (wbcg->table),
+				      GTK_WIDGET (wbcg->notebook));
+		wbcg->notebook = NULL;
+	}
 }
 
 static void
@@ -710,7 +735,7 @@ static char const * const preset_zoom [] = {
  *           FALSE if it is closed.
  */
 static gboolean
-workbook_close_if_user_permits (WorkbookControlGUI *wbcg, Workbook *wb)
+workbook_close_if_user_permits (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
 	gboolean   can_close = TRUE;
 	gboolean   done      = FALSE;
@@ -790,52 +815,30 @@ cb_file_open (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	char *fname = dialog_query_load_file (wbcg);
-	Workbook *new_wb;
 
 	if (!fname)
 		return;
 
-	new_wb = workbook_read (wbc, fname);
-
-	if (new_wb != NULL) {
-		Workbook *old_wb = wb_control_workbook (wbc);
-
-		/* FIXME */
-		/*
-		 * If the current workbook is empty and untouched remove it
-		 * in favour of the new book
-		 */
-		if (workbook_is_pristine (old_wb))
-			workbook_unref (old_wb);
-	}
+	(void) workbook_read (wbc, fname);
 	g_free (fname);
 }
 
 static void
 cb_file_import (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	/* FIXME */
-	Workbook *wb = wb_control_workbook (wbc);
 	char *fname = dialog_query_load_file (wbcg);
-	Workbook *new_wb;
 
 	if (!fname)
 		return;
 
-	new_wb = workbook_import (wbcg, wb, fname);
-	if (new_wb && workbook_is_pristine (wb))
-		workbook_unref (wb);
-
+	(void) workbook_import (wbcg, fname);
 	g_free (fname);
 }
 
 static void
 cb_file_save (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Workbook *wb = wb_control_workbook (wbc);
-	workbook_save (wbcg, wb);
+	workbook_save (wbcg, wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
 }
 
 static void
@@ -878,14 +881,20 @@ cb_file_summary (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_file_close (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	workbook_close_if_user_permits (wbcg, wb);
+	workbook_close_if_user_permits (wbcg,
+		wb_control_view (WORKBOOK_CONTROL (wbcg)));
 }
 
 static void
 cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	GList *ptr, *workbooks;
+
+	/* If we are still loading initial files, short circuit */
+	if (!initial_workbook_open_complete) {
+		initial_workbook_open_complete = TRUE;
+		return;
+	}
 
 	/* list is modified during workbook destruction */
 	workbooks = g_list_copy (application_workbook_list ());
@@ -1044,7 +1053,11 @@ cb_edit_delete (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_edit_delete_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	delete_sheet_if_possible (NULL, wbcg);
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	SheetView *res;
+
+	if (sheet_to_page_index (wbcg, wb_control_cur_sheet (wbc), &res) >= 0)
+		delete_sheet_if_possible (NULL, res);
 }
 
 static void
@@ -1111,13 +1124,8 @@ cb_define_name (GtkWidget *unused, WorkbookControlGUI *wbcg)
 static void
 cb_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	char *name = workbook_sheet_get_free_name (wb, _("Sheet"), TRUE, FALSE);
-	Sheet *new_sheet = sheet_new (wb, name);
-
-	g_free (name);
-	workbook_attach_sheet (wb, new_sheet);
-	sheet_set_dirty (new_sheet, TRUE);
+	workbook_sheet_add (wb_control_workbook (WORKBOOK_CONTROL (wbcg)),
+			    NULL, TRUE);
 }
 
 static void
@@ -1456,23 +1464,41 @@ cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_insert_component (GtkWidget *widget, Workbook *wb)
+select_component_id (Sheet *sheet, char const *interface)
 {
-	select_component_id (wb->current_sheet,
+	char *obj_id;
+	char const *required_interfaces [2];
+
+	required_interfaces [0] = interface;
+	required_interfaces [1] = NULL;
+
+	obj_id = bonobo_selector_select_id (_("Select an object to add"),
+					    required_interfaces);
+	if (obj_id != NULL)
+		sheet_mode_create_object (
+			sheet_object_container_new_object (sheet, obj_id));
+	else
+		sheet_mode_edit	(sheet);
+}
+
+static void
+cb_insert_component (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	select_component_id (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)),
 			     "IDL:Bonobo/Embeddable:1.0");
 }
 
 static void
-cb_insert_shaped_component (GtkWidget *widget, Workbook *wb)
+cb_insert_shaped_component (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	select_component_id (wb->current_sheet,
+	select_component_id (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)),
 			     "IDL:Bonobo/Canvas/Item:1.0");
 }
 
 static void
-cb_dump_xml (GtkWidget *widget, Workbook *wb)
+cb_dump_xml (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	bonobo_win_dump (BONOBO_WIN (wb->toplevel), "on demand");
+	bonobo_win_dump (BONOBO_WIN (wbcg->toplevel), "on demand");
 }
 #endif
 
@@ -2449,8 +2475,8 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 static int
 wbcg_delete_event (GtkWidget *widget, GdkEvent *event, WorkbookControlGUI *wbcg)
 {
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	return workbook_close_if_user_permits (wbcg, wb);
+	return workbook_close_if_user_permits (wbcg,
+		wb_control_view (WORKBOOK_CONTROL (wbcg)));
 }
 
 /*
@@ -2464,44 +2490,6 @@ wbcg_set_focus (GtkWindow *window, GtkWidget *focus, WorkbookControlGUI *wbcg)
 {
 	if (focus && !window->focus_widget)
 		wb_control_gui_focus_cur_sheet (wbcg);
-}
-
-static GtkObjectClass *parent_class;
-static void
-wbcg_destroy (GtkObject *obj)
-{
-	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (obj);
-
-	gtk_signal_disconnect_by_func (
-		GTK_OBJECT (wbcg->toplevel),
-		GTK_SIGNAL_FUNC (wbcg_set_focus), wbcg);
-
-	workbook_auto_complete_destroy (wbcg);
-
-	gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), NULL);
-
-	if (!GTK_OBJECT_DESTROYED (GTK_OBJECT (wbcg->toplevel)))
-		gtk_object_destroy (GTK_OBJECT (wbcg->toplevel));
-
-	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
-}
-
-static gboolean
-cb_scroll_wheel_support (GtkWidget *w, GdkEventButton *event, Workbook *wb)
-{
-	/* FIXME : now that we have made the split this is no longer true. */
-	/* This is a stub routine to handle scroll wheel events
-	 * Unfortunately the toplevel window is currently owned by the workbook
-	 * rather than a workbook-view so we cannot really scroll things
-	 * unless we scrolled all the views at once which is ugly.
-	 */
-#if 0
-	if (event->button == 4)
-	    puts("up");
-	else if (event->button == 5)
-	    puts("down");
-#endif
-	return FALSE;
 }
 
 static void
@@ -2535,12 +2523,55 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
 }
 
+static GtkObjectClass *parent_class;
+static void
+wbcg_destroy (GtkObject *obj)
+{
+	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (obj);
+
+	/* Disconnect signals that would attempt to change things during
+	 * destruction.
+	 */
+	if (wbcg->notebook != NULL)
+		gtk_signal_disconnect_by_func (
+			GTK_OBJECT (wbcg->notebook),
+			GTK_SIGNAL_FUNC (cb_notebook_switch_page), wbcg);
+	gtk_signal_disconnect_by_func (
+		GTK_OBJECT (wbcg->toplevel),
+		GTK_SIGNAL_FUNC (wbcg_set_focus), wbcg);
+
+	workbook_auto_complete_destroy (wbcg);
+
+	gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), NULL);
+
+	if (!GTK_OBJECT_DESTROYED (GTK_OBJECT (wbcg->toplevel)))
+		gtk_object_destroy (GTK_OBJECT (wbcg->toplevel));
+
+	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
+}
+
+static gboolean
+cb_scroll_wheel_support (GtkWidget *w, GdkEventButton *event, Workbook *wb)
+{
+	/* FIXME : now that we have made the split this is no longer true. */
+	/* This is a stub routine to handle scroll wheel events
+	 * Unfortunately the toplevel window is currently owned by the workbook
+	 * rather than a workbook-view so we cannot really scroll things
+	 * unless we scrolled all the views at once which is ugly.
+	 */
+#if 0
+	if (event->button == 4)
+	    puts("up");
+	else if (event->button == 5)
+	    puts("down");
+#endif
+	return FALSE;
+}
+
 static void
 workbook_setup_sheets (WorkbookControlGUI *wbcg)
 {
-	GtkWidget *w;
-
-	w = gtk_notebook_new ();
+	GtkWidget *w = gtk_notebook_new ();
 	wbcg->notebook = GTK_NOTEBOOK (w);
 	gtk_signal_connect_after (GTK_OBJECT (wbcg->notebook), "switch_page",
 		GTK_SIGNAL_FUNC (cb_notebook_switch_page), wbcg);
@@ -2552,6 +2583,7 @@ workbook_setup_sheets (WorkbookControlGUI *wbcg)
 			  0, WB_COLS, WB_EA_SHEETS, WB_EA_SHEETS+1,
 			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
 			  0, 0);
+	gtk_widget_show (w);
 }
 
 #ifdef ENABLE_BONOBO
@@ -2756,11 +2788,11 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	tmp = gnome_app_new ("Gnumeric", "Gnumeric");
 	wbcg->toplevel = GTK_WINDOW (tmp);
 	wbcg->table    = gtk_table_new (0, 0, 0);
+	wbcg->notebook = NULL;
 
-	workbook_control_init (&wbcg->wb_control, optional_view, optional_wb);
+	workbook_control_set_view (&wbcg->wb_control, optional_view, optional_wb);
 
 	workbook_setup_edit_area (wbcg);
-	workbook_setup_sheets (wbcg);
 
 #ifndef ENABLE_BONOBO
 	/* Do BEFORE setting up UI bits in the non-bonobo case */
@@ -2791,7 +2823,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	bonobo_ui_util_set_ui (wbcg->uic, GNOME_DATADIR, "gnumeric.xml", "gnumeric");
 
 	/* Do after setting up UI bits in the bonobo case */
-	workbook_setup_status_area (wb);
+	workbook_setup_status_area (wbcg);
 #endif
 	/* Create before registering verbs so that we can merge some extra. */
  	workbook_create_toolbars (wbcg);
@@ -2859,7 +2891,7 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 
 	g_return_if_fail (wbc_class != NULL);
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = gtk_type_class (workbook_control_get_type ());
 
 	object_class->destroy 	    = wbcg_destroy;
 	wbc_class->control_new	    = wbcg_control_new;
@@ -2877,6 +2909,7 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->sheet.rename	    = wbcg_sheet_rename;
 	wbc_class->sheet.focus	    = wbcg_sheet_focus;
 	wbc_class->sheet.move	    = wbcg_sheet_move;
+	wbc_class->sheet.remove_all = wbcg_sheet_remove_all;
 
 	wbc_class->undo_redo.clear  = wbcg_undo_redo_clear;
 	wbc_class->undo_redo.pop    = wbcg_undo_redo_pop;
