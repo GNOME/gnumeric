@@ -590,8 +590,8 @@ gog_view_find_child_view  (GogView const *container, GogObject const *target_mod
 	GogObject const *obj, *old_target;
 	GSList *ptr;
 
-	g_return_if_fail (IS_GOG_VIEW (container), NULL);
-	g_return_if_fail (IS_GOG_OBJECT (target_model), NULL);
+	g_return_val_if_fail (IS_GOG_VIEW (container), NULL);
+	g_return_val_if_fail (IS_GOG_OBJECT (target_model), NULL);
 
 	/* @container is a view for @target_models parent */
 	obj = target_model;
@@ -603,7 +603,8 @@ gog_view_find_child_view  (GogView const *container, GogObject const *target_mod
 	for ( ; obj != target_model ; container = ptr->data) {
 		/* find the parent of @target_object that should be a child of this view */
 		old_target = obj;
-		for (obj = target_model ; obj != NULL && obj->parent != old_target)
+		obj = target_model;
+		while (obj != NULL && obj->parent != old_target)
 			obj = obj->parent;
 
 		g_return_val_if_fail (obj != NULL, NULL);
@@ -615,6 +616,6 @@ gog_view_find_child_view  (GogView const *container, GogObject const *target_mod
 		g_return_val_if_fail (ptr != NULL, NULL);
 	}
 
-	return container;
+	return (GogView *)container;
 }
 
