@@ -547,7 +547,7 @@ dialog_formula_guru (Workbook *wb)
 			while (i >= state->args->len)
 				formula_guru_arg_new (NULL, '?', TRUE, state);
 
-			as = g_ptr_array_index (state->args, i);
+			as = g_ptr_array_index (state->args, i++);
 			str = expr_tree_as_string (l->data, &pos);
 			gtk_entry_set_text (as->entry, str);
 			g_free (str);
