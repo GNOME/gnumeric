@@ -157,6 +157,21 @@ gtk_combo_text_add_item (GtkComboText *ct,
 }
 
 static void
+cb_list_mapped (GtkWidget *widget, gpointer user_data)
+{
+	GtkList *list = GTK_LIST (widget);
+
+	if (g_list_length (list->children) == 0)
+		return;
+	
+	if (g_list_length (list->selection) == 0)
+		/* FIXME: Should we block signal? */
+		gtk_list_select_item (list, 0); 
+	
+	gtk_widget_grab_focus (GTK_WIDGET ((list->selection->data)));
+}
+
+static void
 gtk_combo_text_construct (GtkComboText *ct, gboolean const is_scrolled)
 {
 	GtkWidget *entry, *list, *scroll, *display_widget;
@@ -176,10 +191,23 @@ gtk_combo_text_construct (GtkComboText *ct, gboolean const is_scrolled)
 						GTK_POLICY_NEVER,
 						GTK_POLICY_AUTOMATIC);
 
-		gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(scroll), list);
+		gtk_scrolled_window_add_with_viewport (
+			GTK_SCROLLED_WINDOW(scroll), list);
+		gtk_container_set_focus_hadjustment (
+			GTK_CONTAINER (list),
+			gtk_scrolled_window_get_hadjustment (
+				GTK_SCROLLED_WINDOW (scroll)));
+		gtk_container_set_focus_vadjustment (
+			GTK_CONTAINER (list),
+			gtk_scrolled_window_get_vadjustment (
+				GTK_SCROLLED_WINDOW (scroll)));
 		gtk_widget_set_usize (scroll, 0, 200); /* MAGIC NUMBER */
 	} else
 		display_widget = list;
+
+	gtk_signal_connect (
+		GTK_OBJECT (list), "map",
+		GTK_SIGNAL_FUNC (cb_list_mapped), NULL);
 
 	gtk_widget_show (display_widget);
 	gtk_widget_show (entry);

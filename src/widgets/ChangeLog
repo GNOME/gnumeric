@@ -1,3 +1,38 @@
+2000-05-18  Jon K Hellan  <hellan@acm.org>
+
+	* gtk-combo-text.c (cb_list_mapped): New callback function. Sets
+	focus to selected item, which also happens to make it visible.
+	(gtk_combo_text_construct): Call
+	gtk_container_set_focus_hadjustment - this enables autoscroll and 
+	keyboard scrolling. Connect cb_list_mapped.
+
+2000-05-15  Jon K Hellan  <hellan@acm.org>
+
+	* gtk-combo-box.h: Declare gtk_combo_box_set_display. It was
+	declared global in gtk-combo-box.c - apparently on purpose.
+
+	* gtk-combo-box.c: Make behaviour more like tearoff menus for
+	consistency: Make it possible to popup the original combo while
+	the tearoff menu is up.
+	(deactivate_arrow): New function. Set arrow button visual to
+	inactive. Code moved from gtk_combo_box_popup_hide_unconditional.
+	(gtk_combo_box_popup_hide_unconditional): See above.
+	(gtk_combo_box_popup_hide): Handle case where popup is hidden
+	while tearoff menu is up.
+	(gtk_combo_box_popup_display): Remove !torn_off assertion and
+	handle torn_off case.
+	(gtk_combo_popup_tear_off): Add set_position parameter, true if
+	tearoff window wasn't already up. Queue a resize to fix confusion
+	about size.
+	(gtk_combo_set_tearoff_state): Deactivate arrow button when
+	tearing off - because button now works as usual in torn off state.
+	(gtk_combo_tearoff_bg_copy): Remove #if 0 around it. Make comment
+	short and clear now that I understand what it's for. More info in
+	comment at point it is called from. Use allocation geometry
+	instead of requisition, in case tearoff window has been resized.
+	(cb_tearable_button_release): Remove some unnecessary
+	conditionals. Too much cut and paste?
+
 2000-05-07  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric-toolbar.c (gnumeric_toolbar_new) : Take an accel_group.
