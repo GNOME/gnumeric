@@ -6,6 +6,8 @@ Jody:
 
 Jon Kåre:
 	* Finish UI for managing hyperlinks of various sorts.
+	* Skip sheet chooser page in text export when there is only
+	  one sheet (Fixes 84791).
 
 Morten:
 	* Fix MDETERM.
