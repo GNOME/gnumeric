@@ -2,6 +2,10 @@
 
 	* src/mathfunc.c (qbeta): Improve guess in log_p and lower_tail
 	cases.
+	(random_gaussian_pdf): Delete and use dnorm instead.
+	(random_normal): Use the unit-circle method to generate two
+	normally distributed numbers at a time.
+	(random_lognormal): Use our own method based on random_normal.
 
 2003-05-06  Guntupalli Karunakar  <karunakar@freedomink.org>
 

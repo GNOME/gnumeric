@@ -4669,22 +4669,39 @@ random_01 (void)
 gnm_float
 random_normal (void)
 {
-	return qnorm (random_01 (), 0, 1, TRUE, FALSE);
+	static gboolean  has_saved = FALSE;
+	static gnm_float saved;
+
+	if (has_saved) {
+		has_saved = FALSE;
+		return saved;
+	} else {
+		gnm_float u, v, r2, rsq;
+		do {
+			u = 2 * random_01 () - 1;
+			v = 2 * random_01 () - 1;
+			r2 = u * u + v * v;
+		} while (r2 > 1 || r2 == 0);
+
+		rsq = sqrtgnum (-2 * loggnum (r2) / r2);
+
+		has_saved = TRUE;
+		saved = v * rsq;
+
+		return u * rsq;
+	}
+}
+
+gnm_float
+random_lognormal (gnm_float zeta, gnm_float sigma)
+{
+	return expgnum (sigma * random_normal () + zeta);
 }
 
 static gnm_float
 random_gaussian (gnm_float sigma)
 {
 	return sigma * random_normal ();
-}
-
-static gnm_float
-random_gaussian_pdf (gnm_float x, gnm_float sigma)
-{
-	gnm_float u = x / gnumabs (sigma);
-
-	return (1 / (sqrtgnum (2 * M_PIgnum) * gnumabs (sigma))) *
-		expgnum (-u * u / 2);
 }
 
 /*
@@ -4778,31 +4795,6 @@ random_cauchy (gnm_float a)
 	} while (u == 0.5);
 
 	return a * tangnum (M_PIgnum * u);
-}
-
-/*
- * Generate a lognormal distributed number. From the GNU Scientific
- * library 1.1.1.
- * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
- */
-gnm_float
-random_lognormal (gnm_float zeta, gnm_float sigma)
-{
-	gnm_float u, v, r2, normal;
-
-	do {
-		/* choose x,y in uniform square (-1,-1) to (+1,+1) */
-
-		u = -1 + 2 * random_01 ();
-		v = -1 + 2 * random_01 ();
-
-		/* see if it is in the unit circle */
-		r2 = u * u + v * v;
-	} while (r2 > 1.0 || r2 == 0);
-
-	normal = u * sqrtgnum (-2.0 * loggnum (r2) / r2);
-
-	return expgnum (sigma * normal + zeta);
 }
 
 /*
@@ -5423,7 +5415,7 @@ random_exppow (gnm_float a, gnm_float b)
 
 		do {
 			x     = random_gaussian (sigma) ;
-			y     = random_gaussian_pdf (x, sigma) ;
+			y     = dnorm (x, 0.0, gnumabs (sigma), FALSE) ;
 			h     = random_exppow_pdf (x, a, b) ;
 			ratio = h / (s * y) ;
 			u     = random_01 ();

@@ -34,7 +34,6 @@ Morten:
 	* Improve progress display when loading.
 	* Eliminate rendered_text from struct RenderedValue.  (Operation
 	  Snappiness, Part 6.)
-	* Speed up generation of random numbers.
 	* Fix a few stf irritants.
 	* Security fix for sample data source plugin.
 	* Security fix for oleo plugin.
@@ -43,7 +42,8 @@ Morten:
 	* Fix latex exporter crash.
 	* Restore auto-format functionality.  (Automatically supply a format
 	  to a new cell based on the formula entered.)
-	* Work around hangs in, e.g., BETAINV.
+	* Work around extremely slow cases in in, e.g., BETAINV.
+	* Improve speed of generation of many types of random numbers.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16
