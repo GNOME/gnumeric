@@ -541,7 +541,11 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogStyle *neg_style = NULL;
 	GSList *ptr;
 	double const *y_vals, *x_vals = NULL, *z_vals = NULL;
-	double x = 0., y = 0., z, x_min, x_max, x_off, x_scale, y_min, y_max, y_off, y_scale, zmax, rmax = 0.;
+	double x = 0., y = 0., z;
+	double x_min, x_max, x_off, x_scale;
+	double y_min, y_max, y_off, y_scale;
+	double zmax, rmax = 0.;
+	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
 	double prev_x = 0., prev_y = 0.; /* make compiler happy */
 	ArtVpath	path[3];
 	GogStyle *style = NULL;
@@ -621,6 +625,13 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		prev_valid = FALSE;
 		gog_renderer_push_style (view->renderer, style);
+		margin = gog_renderer_line_size (view->renderer, 
+						 go_marker_get_size (style->marker.mark)) / 2.0;
+		x_margin_min = x_min - margin;
+		x_margin_max = x_max + margin;
+		y_margin_min = y_min - margin;
+		y_margin_max = y_max + margin;
+
 		for (i = 1 ; i <= n ; i++) {
 			x = x_vals ? *x_vals++ : i;
 			y = *y_vals++;
@@ -662,8 +673,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 			/* draw marker after line */
 			if (prev_valid && show_marks &&
-			    x_min <= prev_x && prev_x <= x_max &&
-			    y_min <= prev_y && prev_y <= y_max)
+			    x_margin_min <= prev_x && prev_x <= x_margin_max &&
+			    y_margin_min <= prev_y && prev_y <= y_margin_max)
 				gog_renderer_draw_marker (view->renderer, prev_x, prev_y);
 
 			prev_x = x;
@@ -673,8 +684,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		/* draw marker after line */
 		if (prev_valid && show_marks &&
-		    x_min <= prev_x && prev_x <= x_max &&
-		    y_min <= prev_y && prev_y <= y_max)
+		    x_margin_min <= prev_x && prev_x <= x_margin_max &&
+		    y_margin_min <= prev_y && prev_y <= y_margin_max)
 			gog_renderer_draw_marker (view->renderer, x, y);
 
 		gog_renderer_pop_style (view->renderer);

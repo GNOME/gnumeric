@@ -18,6 +18,7 @@ Andreas:
 
 Emmanuel Pacaud:
 	* Work on single point formating for charts.
+	* Fix rounding issue for markers in xy plots (partly fix 135621)
 
 Jody:
 	* Drop gnome-app-helper in favour of GtkAction

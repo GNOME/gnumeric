@@ -1,3 +1,8 @@
+2004-03-11  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/plugins/plot_xy/gog-xy.c : draw markers when they are in plot
+	area and a margin half marker size wide (partly fix 135621).
+	
 2004-03-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-object.c : make use_parent_as_proxy a class property
