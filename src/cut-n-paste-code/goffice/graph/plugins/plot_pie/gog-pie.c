@@ -117,15 +117,16 @@ gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 {
 	unsigned i, n;
 	GogPiePlot const *model = GOG_PIE_PLOT (plot);
-	GogSeries const *series = plot->series->data; /* start with the first */
+	GogSeries const *series;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
 	GogStyle *style;
 	GODataVector *labels;
 	char *label;
 
-	if (!model->base.vary_style_by_element)
+	if (!model->base.vary_style_by_element  || plot->series == NULL)
 		return FALSE;
 
+	series = plot->series->data; /* start with the first */
 	i = 0;
 	n = model->base.cardinality;
 	style = gog_style_dup (series->base.style);

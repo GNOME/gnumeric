@@ -139,7 +139,7 @@ static void
 gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath *path)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
-	GogStyle *style = renderer->cur_style;
+	GogStyle const *style = renderer->cur_style;
 
 	set_color (prend, style->line.color);
 	gnome_print_setlinewidth (prend->gp_context, 
@@ -166,7 +166,7 @@ static void
 gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolean narrow)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
-	GogStyle *style = renderer->cur_style;
+	GogStyle const *style = renderer->cur_style;
 	gboolean with_outline = (!narrow && style->outline.width >= 0.);
 	GdkPixbuf *image;
 	ArtDRect bbox;
@@ -326,6 +326,11 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, ArtPoint *pos,
 	gnome_print_setfont (prend->gp_context, gfont);
 	gnome_print_moveto (prend->gp_context, pos->x, -pos->y - font_ascent);
 	gnome_print_show (prend->gp_context, text);
+
+	if (size != NULL) {
+		size->w = gnome_font_get_width_utf8 (gfont, text);
+		size->h = gnome_font_get_ascender (gfont) + gnome_font_get_descender (gfont);
+	}
 }
 
 static void
@@ -335,7 +340,7 @@ gog_renderer_gnome_print_measure_text (GogRenderer *rend,
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
 	GnomeFont *gfont = get_font (prend,  rend->cur_style->font.font);
 	size->w = gnome_font_get_width_utf8 (gfont, text);
-	size->h = 10;
+	size->h = gnome_font_get_ascender (gfont) + gnome_font_get_descender (gfont);
 }
 
 static void

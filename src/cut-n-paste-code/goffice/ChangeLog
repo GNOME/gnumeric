@@ -1,3 +1,19 @@
+2003-09-03  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-label.c (gog_label_view_size_request) : take outline
+	  into account.
+
+	* graph/gog-legend.c (gog_legend_view_render) : don't over draw space
+	  allocated to children, and actually measure the text.
+	(gog_legend_editor) : add.
+
+	* graph/gog-view.c (gog_view_size_child_request) : new utility to
+	  build up a size requestfor the children around the request for the
+	  parent.
+
+	* graph/plugins/plot_pie/gog-pie.c (gog_pie_plot_foreach_elem) :
+	  handle case with no series.
+
 2003-09-03  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-object-xml.c (gog_object_set_arg_full): Plug leak.

@@ -57,7 +57,7 @@ gog_renderer_finalize (GObject *obj)
 			(GFunc)g_object_unref, NULL);
 		g_slist_free (rend->style_stack);
 		rend->style_stack = NULL;
-		g_object_unref (rend->cur_style);
+		g_object_unref ((gpointer)rend->cur_style);
 		rend->cur_style = NULL;
 	}
 
@@ -160,7 +160,7 @@ gog_renderer_invalidate_size_requests (GogRenderer *rend)
 }
 
 void
-gog_renderer_push_style (GogRenderer *rend, GogStyle *style)
+gog_renderer_push_style (GogRenderer *rend, GogStyle const *style)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
@@ -169,8 +169,8 @@ gog_renderer_push_style (GogRenderer *rend, GogStyle *style)
 
 	if (rend->cur_style != NULL)
 		rend->style_stack = g_slist_prepend (
-			rend->style_stack, rend->cur_style);
-	g_object_ref (style);
+			rend->style_stack, (gpointer)rend->cur_style);
+	g_object_ref ((gpointer)style);
 	rend->cur_style = style;
 
 	if (klass->push_style)
@@ -185,7 +185,7 @@ gog_renderer_pop_style (GogRenderer *rend)
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (rend->cur_style != NULL);
 
-	g_object_unref (rend->cur_style);
+	g_object_unref ((gpointer)rend->cur_style);
 	if (rend->style_stack != NULL) {
 		rend->cur_style = rend->style_stack->data;
 		rend->style_stack = g_slist_remove (rend->style_stack,
@@ -273,6 +273,12 @@ gog_renderer_measure_text (GogRenderer *rend,
 	g_return_if_fail (text != NULL);
 
 	(klass->measure_text) (rend, text, size);
+
+	/* Make sure invisible things don't skew size */
+	if (size->w == 0)
+		size->h = 0;
+	else if (size->h == 0)
+		size->w = 0;
 }
 
 static void

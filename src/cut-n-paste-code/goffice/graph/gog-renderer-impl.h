@@ -41,7 +41,7 @@ struct _GogRenderer {
 	GClosure *font_watcher;
 	gboolean  needs_update;
 
-	GogStyle *cur_style;
+	GogStyle const *cur_style;
 	GSList   *style_stack;
 };
 
@@ -50,7 +50,7 @@ typedef struct {
 
 	/* Virtuals */
 	void (*font_removed)   (GogRenderer *renderer, GOFont const *font);
-	void (*push_style)     (GogRenderer *renderer, GogStyle *style);
+	void (*push_style)     (GogRenderer *renderer, GogStyle const *style);
 	void (*pop_style)      (GogRenderer *renderer);
 
 	void (*draw_path)      (GogRenderer *renderer, ArtVpath *path);

@@ -71,6 +71,11 @@ void       gog_view_size_allocate    (GogView *v, GogViewAllocation const *a);
 gboolean   gog_view_update_sizes     (GogView *v);
 GogObject *gog_view_point  	     (GogView *container, double x, double y);
 
+/* protected */
+void gog_view_size_child_request (GogView *v,
+				  GogViewRequisition const *avail,
+				  GogViewRequisition *req);
+
 G_END_DECLS
 
 #endif /* GOG_VIEW_H */

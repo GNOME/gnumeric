@@ -19,6 +19,9 @@
  * USA
  */
 
+#warning Uses deprecated pango ft2 api
+#undef PANGO_DISABLE_DEPRECATED
+
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/gog-renderer-impl.h>
@@ -75,7 +78,7 @@ static void
 gog_renderer_pixbuf_draw_path (GogRenderer *renderer, ArtVpath *path)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (renderer);
-	GogStyle *style = renderer->cur_style;
+	GogStyle const *style = renderer->cur_style;
 	double width = gog_renderer_line_size (renderer, style->line.width);
 	ArtSVP *svp = art_svp_vpath_stroke (path,
 		ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_SQUARE,
@@ -99,7 +102,7 @@ static void
 gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolean narrow)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (renderer);
-	GogStyle *style = renderer->cur_style;
+	GogStyle const *style = renderer->cur_style;
 	ArtRender *render;
 	ArtSVP *fill, *outline = NULL;
 	ArtDRect bbox;
@@ -274,7 +277,6 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint *pos,
 	ft_bitmap.palette_mode = 0;
 	ft_bitmap.palette      = NULL;
 	pango_ft2_render_layout (&ft_bitmap, layout, -rect.x, -rect.y);
-	g_object_unref (layout);
 
 #if 0
 	render = art_render_new (pos->x + rect.x, pos->y,
@@ -294,6 +296,13 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint *pos,
 		pos->y + rect.height,
 		ft_bitmap.buffer, ft_bitmap.pitch);
 	art_render_invoke (render);
+
+	if (size != NULL) {
+		pango_layout_get_pixel_extents (layout, &rect, NULL);
+		size->w = rect.width;
+		size->h = rect.height;
+	}
+	g_object_unref (layout);
 }
 
 static void

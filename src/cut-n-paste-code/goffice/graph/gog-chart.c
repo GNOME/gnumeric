@@ -219,7 +219,7 @@ gog_chart_init (GogChart *chart)
 	chart->y     = 0;
 	chart->cols  = 0;
 	chart->rows  = 0;
-	chart->padding_pts = GO_CM_TO_PT (.5);
+	chart->padding_pts = GO_CM_TO_PT (.25);
 
 	/* start as true so that we can queue an update when it changes */
 	chart->cardinality_valid = TRUE;

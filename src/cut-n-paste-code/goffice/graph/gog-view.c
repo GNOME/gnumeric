@@ -371,12 +371,18 @@ gog_view_queue_resize (GogView *view)
 
 	gog_renderer_request_update (view->renderer);
 
+#if 0 /* optimization that breaks when child contributes to size of parent */
 	view->allocation_valid = FALSE; /* in case there is no parent */
 	if (NULL == (view = view->parent))
 		return;
 	view->allocation_valid = FALSE;
 	while (NULL != (view = view->parent) && view->child_allocations_valid)
 		view->child_allocations_valid = FALSE;
+#else
+	do
+		view->allocation_valid = FALSE; /* in case there is no parent */
+	while (NULL != (view = view->parent) && view->allocation_valid);
+#endif
 }
 
 /**
@@ -499,4 +505,54 @@ gog_view_point (GogView *view, double x, double y)
 	if (res != NULL)
 		g_object_ref (res);
 	return res;
+}
+
+/**
+ * gog_view_size_child_request :
+ * @view : #GogView
+ * @avail : the amount of space available in total
+ * @req : holds the amount of space for the parent, and is expanded with the
+ * 	needs of the children.
+ *
+ * Takes the space requested in @req and expands it to hold all @view->model's
+ * children.
+ * Returns the necessary size in @req.
+ **/
+void
+gog_view_size_child_request (GogView *view,
+			     GogViewRequisition const *avail,
+			     GogViewRequisition *res)
+{
+	GSList *ptr, *list;
+	GogView *child;
+	GogObjectPosition pos;
+	GogViewRequisition req;
+
+	/* walk the list in reverse */
+	list = g_slist_reverse (g_slist_copy (view->children));
+	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
+		child = ptr->data;
+
+		pos = child->model->position;
+		if (pos & GOG_POSITION_MANUAL) {
+			g_warning ("manual is not supported yet");
+		} else if (pos & GOG_POSITION_COMPASS) {
+			/* Dead simple */
+			gog_view_size_request (child, &req);
+
+			if (pos & (GOG_POSITION_N|GOG_POSITION_S))
+				res->h += req.h;
+			else if (res->h < req.h)
+				res->h = req.h;
+
+			if (pos & (GOG_POSITION_E|GOG_POSITION_W))
+				res->w += req.w;
+			else if (res->w < req.w)
+				res->w = req.w;
+
+		} else if (pos != GOG_POSITION_SPECIAL)
+			g_warning ("unexpected position %x for child %p of %p",
+				   pos, child, view);
+	}
+	g_slist_free (list);
 }

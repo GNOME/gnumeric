@@ -34,7 +34,7 @@ GType gog_renderer_get_type            (void);
 
 void  gog_renderer_request_update (GogRenderer *r);
 
-void  gog_renderer_push_style     (GogRenderer *r, GogStyle *style);
+void  gog_renderer_push_style     (GogRenderer *r, GogStyle const *style);
 void  gog_renderer_pop_style      (GogRenderer *r);
 
 void  gog_renderer_draw_path      (GogRenderer *r, ArtVpath *path);

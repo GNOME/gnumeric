@@ -175,16 +175,20 @@ static void
 gog_label_view_size_request (GogView *view, GogViewRequisition *req)
 {
 	GogLabel *label = GOG_LABEL (view->model);
+	double outline = gog_renderer_line_size (
+		view->renderer, label->base.style->outline.width);
+
+	req->w = req->h = 1.;
 	if (label->text.data != NULL) {
 		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (label->text.data));
 		if (text != NULL) {
 			gog_renderer_push_style (view->renderer, label->base.style);
 			gog_renderer_measure_text (view->renderer, text, req);
 			gog_renderer_pop_style (view->renderer);
-			return;
 		}
 	}
-	req->w = req->h = 1.;
+	req->w += outline * 2;
+	req->h += outline * 2;
 }
 
 static void
