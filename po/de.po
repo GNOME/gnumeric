@@ -34,8 +34,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.50\n"
-"POT-Creation-Date: 2000-04-13 03:52+0200\n"
-"PO-Revision-Date: 2000-04-13 03:52+02:00\n"
+"POT-Creation-Date: 2000-04-14 20:33+0200\n"
+"PO-Revision-Date: 2000-04-14 20:44+02:00\n"
 "Last-Translator: Matthias Warkus <mawa@iname.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1179,15 +1179,16 @@ msgstr "Einen gültigen Zellennamen in 'Setze Zelle' angeben"
 
 #: src/dialogs/dialog-goal-seek.c:368
 msgid "The cell named in 'Set cell' must contain a formula"
-msgstr "Die in 'Setze Zelle' angegebene Zelle muß eine Formel enthalten"
+msgstr "Die in 'Setze Zelle' angegebene Zelle muss eine Formel enthalten"
 
-#: src/dialogs/dialog-goal-seek.c:381
+#: src/dialogs/dialog-goal-seek.c:381 src/dialogs/dialog-solver.c:884
 msgid "You should introduce a valid cell name in 'By changing cell'"
-msgstr "Einen gültigen Zellennamen 'By changing cell' angeben"
+msgstr "Einen gültigen Zellennamen in 'Durch Ändern von Zelle' angeben"
 
 #: src/dialogs/dialog-goal-seek.c:390
 msgid "The cell named in 'By changing cell' must not contain a formula"
-msgstr "Die in 'By changing cell' angegebene Zelle darf keine Formel enthalten"
+msgstr ""
+"Die in 'Durch Ändern von Zelle' angegebene Zelle darf keine Formel enthalten"
 
 #: src/dialogs/dialog-goal-seek.c:439
 msgid "Goal seek did not find a solution!"
@@ -1317,11 +1318,7 @@ msgstr ""
 
 #: src/dialogs/dialog-solver.c:861
 msgid "You should introduce a valid cell name for 'Target cell'"
-msgstr "Einen gültigen Zellennamen für 'Target cell' angeben"
-
-#: src/dialogs/dialog-solver.c:884
-msgid "You should introduce a valid cell names in 'By changing cells'"
-msgstr "Einen gültigen Zellennamen in 'By changing cells' einfügen"
+msgstr "Einen gültigen Zellennamen für 'Zielzelle' angeben"
 
 #: src/dialogs/dialog-plugin-manager.c:93
 #: src/dialogs/plugin-manager.glade.h:16
@@ -2710,7 +2707,7 @@ msgstr "Auswahl _einpassen %"
 msgid "%"
 msgstr "%"
 
-#: src/dialogs/dialog-zoom.glade.h:17 src/print.c:873
+#: src/dialogs/dialog-zoom.glade.h:17 src/print.c:913
 msgid "Sheets"
 msgstr "Blätter"
 
@@ -2750,11 +2747,11 @@ msgstr "Funktionswähler"
 
 #: src/dialogs/function-select.glade.h:8
 msgid "Function _Categories"
-msgstr "Funktionskategorien"
+msgstr "Funktions_kategorien"
 
 #: src/dialogs/function-select.glade.h:9
 msgid "Function _Names"
-msgstr "Funktionsnamen"
+msgstr "Fu_nktionsnamen"
 
 #: src/dialogs/function-select.glade.h:10
 #: src/dialogs/function-select.glade.h:11
@@ -2836,9 +2833,11 @@ msgstr "Dateiformat:"
 #: src/file.c:536
 #, c-format
 msgid ""
-"Workbook %s already exists\n"
+"Workbook %s already exists.\n"
 "Do you want to save over it?"
 msgstr ""
+"Arbeitsbuch %s existiert bereits.\n"
+"Wollen Sie es beim Speichern überschreiben?"
 
 #: src/file.c:577
 #, c-format
@@ -2846,6 +2845,8 @@ msgid ""
 "%s\n"
 "is a directory name"
 msgstr ""
+"%s\n"
+"ist ein Verzeichnisname."
 
 #: src/file.c:586
 #, c-format
@@ -2853,12 +2854,16 @@ msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
+"Sie haben nicht die Rechte nach\n"
+"%s zu speichern."
 
 #: src/file.c:610
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
 msgstr ""
+"Bitte geben Sie einen Dateinamen ein,\n"
+"kein Verzeichnis."
 
 #: src/file.c:617
 msgid ""
@@ -3875,7 +3880,6 @@ msgstr ""
 "@SEEALSO=IMLN,IMLOG10"
 
 #: src/functions/fn-eng.c:973
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -3886,17 +3890,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-eng.c:1003
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
@@ -3909,17 +3904,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSQRT"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-eng.c:1039
-#, fuzzy
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
@@ -3930,17 +3916,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMPRODUCT"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-eng.c:1073
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -3951,17 +3928,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-eng.c:1101
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -3972,17 +3940,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMPOWER"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-eng.c:1129
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
@@ -4003,7 +3962,6 @@ msgstr ""
 "@SEEALSO=IMSUM"
 
 #: src/functions/fn-eng.c:1160
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -4014,17 +3972,15 @@ msgid ""
 "\n"
 "@SEEALSO=IMDIV"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
+"@FUNCTION=IMPRODUCT\n"
+"@SYNTAX=IMPRODUCT(izahl[,izahl,...])\n"
+"@DESCRIPTION=IMPRODUCT gibt das Produkt zweier komplexer Zahlen zurück. Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
+"IMPRODUCT(\"2-j\",\"4-2j\") ist gleich 6-8j.\n"
 "\n"
-"@SEEALSO=IMSUM"
+"@SEEALSO=IMDIV"
 
 #: src/functions/fn-eng.c:1230
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
@@ -4035,14 +3991,13 @@ msgid ""
 "\n"
 "@SEEALSO=IMSUB"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
+"@FUNCTION=IMSUM\n"
+"@SYNTAX=IMSUM(izahl,izahl)\n"
+"@DESCRIPTION=IMSUM gibt die Differenz zweier komplexer Zahlen zurück. Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
+"IMSUB(\"2-4j\",\"9-j\") ist gleich 11-5j.\n"
 "\n"
-"@SEEALSO=IMSUM"
+"@SEEALSO=IMSUB"
 
 #: src/functions/fn-eng.c:1264
 msgid ""
@@ -4438,7 +4393,6 @@ msgid "nominal - domain error"
 msgstr "nominal - Definitionsbereich-Fehler"
 
 #: src/functions/fn-financial.c:657
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -4448,14 +4402,6 @@ msgid ""
 "\n"
 "@SEEALSO=PV"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-financial.c:691
 msgid ""
@@ -5736,7 +5682,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:808
-#, fuzzy
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -5747,14 +5692,6 @@ msgid ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-math.c:830
 msgid ""
@@ -5851,7 +5788,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1083
-#, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -5863,14 +5799,6 @@ msgid ""
 "\n"
 "@SEEALSO=EXP"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-math.c:1117
 msgid ""
@@ -5996,7 +5924,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1405
-#, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -6007,14 +5934,6 @@ msgid ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-math.c:1428
 msgid ""
@@ -6030,7 +5949,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1451
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -6042,14 +5960,6 @@ msgid ""
 "\n"
 "@SEEALSO=POWER"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-math.c:1479
 msgid ""
@@ -6135,7 +6045,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1693
-#, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -6146,14 +6055,6 @@ msgid ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-math.c:1716
 msgid ""
@@ -6169,7 +6070,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1739
-#, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -6181,17 +6081,8 @@ msgid ""
 "\n"
 "@SEEALSO=SQRTPI"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-math.c:1763
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -6204,14 +6095,6 @@ msgid ""
 "\n"
 "@SEEALSO=INT"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-math.c:1802
 msgid ""
@@ -6745,7 +6628,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:492
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -6757,14 +6639,6 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-stat.c:519
 msgid ""
@@ -6813,7 +6687,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:630
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -6826,14 +6699,6 @@ msgid ""
 "\n"
 "@SEEALSO=FISHER"
 msgstr ""
-"@FUNCTION=IMSUB\n"
-"@SYNTAX=IMSUB(izahl,izahl)\n"
-"@DESCRIPTION=IMSUB gibt die Differenz zweier komplexer Zahlen zurück. Diese "
-"Funktion ist Excel-kompatibel.\n"
-"@EXAMPLES=\n"
-"IMSUB(\"3-j\",\"2+j\") ist gleich 1-2j.\n"
-"\n"
-"@SEEALSO=IMSUM"
 
 #: src/functions/fn-stat.c:658
 msgid ""
@@ -10213,24 +10078,23 @@ msgid "the workbook"
 msgstr "dem Arbeitsbuch"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:378
-#, fuzzy
+#: src/print.c:372
 msgid "&[PAGE]"
-msgstr "Seite &[PAGE]"
+msgstr "&[PAGE]"
 
-#: src/print.c:761 src/workbook.c:1803
+#: src/print.c:796 src/workbook.c:1803
 msgid "Selection must be a single range"
 msgstr "Auswahl muss ein einzelner Bereich sein"
 
-#: src/print.c:866
+#: src/print.c:906
 msgid "Print Sheets"
 msgstr "Blätter drucken"
 
-#: src/print.c:873
+#: src/print.c:913
 msgid "Active sheet"
 msgstr "Aktives Blatt"
 
-#: src/print.c:948 src/workbook.c:1120 src/workbook.c:1441
+#: src/print.c:988 src/workbook.c:1120 src/workbook.c:1441
 msgid "Print preview"
 msgstr "Druckvorschau"
 
@@ -11270,3 +11134,6 @@ msgstr "Ist keine Arbeitsbuch-Datei"
 #: src/xml-io.c:3082
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
+
+#~ msgid "You should introduce a valid cell names in 'By changing cells'"
+#~ msgstr "Einen gültigen Zellennamen in 'Durch Ändern von Zelle' einfügen"
