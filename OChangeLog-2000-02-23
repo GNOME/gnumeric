@@ -1,3 +1,7 @@
+Sat Jul  4 15:07:49 PDT 1998 Manish Singh <yosh@gimp.org>
+
+	* fixed up intl autoconf stuff
+
 1998-07-04  Chris Lahey  <clahey@umich.edu>
 
 	* src/Makefile.am (bin_PROGRAMS): Added test-format to compile the
