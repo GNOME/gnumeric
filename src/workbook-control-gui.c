@@ -3137,7 +3137,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Page Set_up..."),
 			       N_("Setup the page settings for your current printer"),
 				cb_file_page_setup),
-	GNOMEUIINFO_ITEM_STOCK (N_("Print Previe_w..."), N_("Print preview"),
+	GNOMEUIINFO_ITEM_STOCK (N_("Print Pre_view..."), N_("Print preview"),
 				cb_file_print_preview, GTK_STOCK_PRINT_PREVIEW),
 	GNOMEUIINFO_MENU_PRINT_ITEM (cb_file_print, NULL),
 
