@@ -1,3 +1,8 @@
+2001-05-06  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-cell-format.c (fmt_dialog_selection_type) : If the selected
+	  range is a single merged cell don't display as multi cols/rows.
+
 2001-05-04  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-sort.c (dialog_cell_sort_ok) : changes to selection_is_simple.

@@ -1,15 +1,16 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * dialog-cell-format.c:  Implements a dialog to format cells.
  *
  * Author:
  *  Jody Goldberg <jgoldberg@home.com>
- *
  **/
 
 #include <config.h>
 #include <gnome.h>
 #include <glade/glade.h>
 #include "sheet.h"
+#include "sheet-merge.h"
 #include "sheet-style.h"
 #include "style-color.h"
 #include "dialogs.h"
@@ -1625,7 +1626,7 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 		}
 		changed = TRUE;
 	}
-	if (edge->pattern_index != state->border.pattern.cur_index) {
+	if ((int)edge->pattern_index != state->border.pattern.cur_index) {
 		edge->pattern_index = state->border.pattern.cur_index;
 		for (i = 0; line_info[i].states != 0 ; ++i ) {
 			if (line_info[i].location == edge->index &&
@@ -1838,7 +1839,7 @@ draw_border_preview (FormatState *state)
 			? &gnome_canvas_item_show : &gnome_canvas_item_hide;
 
 		for (j = 0; line_info[j].states != 0 ; ++j) {
-			if (line_info[j].location == i &&
+			if ((int)line_info[j].location == i &&
 			    state->border.lines[j] != NULL)
 				(*func) (state->border.lines[j]);
 		}
@@ -2303,12 +2304,27 @@ fmt_dialog_selection_type (Sheet *sheet,
 			   Range const *range,
 			   gpointer user_data)
 {
-	FormatState  *state = user_data;
+	FormatState *state = user_data;
+	GSList *merged;
+	gboolean allow_multi_col = TRUE, allow_multi_row = TRUE;
 
-	if (range->start.row != range->end.row)
-		state->selection_mask |= 1;
-	if (range->start.col != range->end.col)
+	merged = sheet_merge_get_overlap (sheet, range);
+	if (merged != NULL) {
+		if (merged->next == NULL) {
+			Range const *m = merged->data;
+			if (m->start.col == range->start.col &&
+			    m->end.col == range->end.col)
+				allow_multi_col = FALSE;
+			if (m->start.row == range->start.row &&
+			    m->end.row == range->end.row)
+				allow_multi_row = FALSE;
+		}
+		g_slist_free (merged);
+	}
+	if (allow_multi_col && range->start.col != range->end.col)
 		state->selection_mask |= 2;
+	if (allow_multi_row && range->start.row != range->end.row)
+		state->selection_mask |= 1;
 
 	sheet_style_get_uniform (state->sheet, range,
 				 &(state->style), state->borders);
