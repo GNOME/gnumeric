@@ -362,3 +362,23 @@ color_combo_set_gocolor (GtkWidget *cc, GOColor c)
 	} else
 		color_combo_set_color (COLOR_COMBO (cc), NULL);
 }
+
+GOColor
+go_color_from_str (const gchar *string)
+{
+	unsigned r, g, b, a;
+	GOColor color = 0;
+
+	if (sscanf ((const char *) string, "%X:%X:%X:%X", &r, &g, &b, &a) == 4)
+		color = RGBA_TO_UINT (r, g, b, a);
+	return color;
+}
+
+gchar *
+go_color_as_str (GOColor color)
+{
+	unsigned r, g, b, a;
+
+	UINT_TO_RGBA (color, &r, &g, &b, &a);
+	return g_strdup_printf ("%X:%X:%X:%X", r, g, b, a);
+}

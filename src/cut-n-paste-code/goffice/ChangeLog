@@ -1,3 +1,32 @@
+2003-09-05  Jon K Hellan  <hellan@acm.org>
+
+	* utils/go-color.[ch] (go_color_from_str, go_color_as_str):
+	New. Convert color to/from string.
+
+	* graph/gog-style.c (str_as_fill_style, fill_style_as_str):
+	New. Convert fill style to/from string.
+	(str_as_pattern, pattern_as_str): New. Convert pattern to/from
+	string.
+	(str_as_grad_dir, grad_dir_as_str): New. Convert gradient
+	direction to/from string.
+	(str_as_marker_shape, marker_shape_as_str): New. Convert marker
+	shape to/from string.
+	(gog_style_line_load, gog_style_line_save): New. Load/save a
+	line/outline style.
+	(gog_style_gradient_load, gog_style_gradient_save): New. Load/save
+	a gradient.
+	(gog_style_fill_load, gog_style_fill_save): New. Load/save a fill.
+	(gog_style_marker_load, gog_style_marker_save): New. Load/save a
+	marker.
+	(gog_style_font_load, gog_style_font_save): New. Load/save a font.
+	(gog_style_persist_dom_load, gog_style_persist_dom_save):
+	Implement.
+
+	* graph/gog-object-xml.c (gog_object_set_arg_full) : Don't expect
+	GObject type name as entity content.
+	(gog_object_write_property): Don't save GObject type name as
+	entity content.
+
 2003-09-04  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-style.c : move the marker editor back into the main style

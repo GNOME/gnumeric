@@ -129,11 +129,18 @@ gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlN
 		break;
 
 	case G_TYPE_OBJECT:
-		if (val != NULL) {
-			GType type = g_type_from_name (val);
+		if (g_type_is_a (prop_type, G_TYPE_OBJECT)) {
+			xmlChar *type_name;
+			GType    type = 0;
 			GObject *val_obj;
 
 			success = FALSE;
+			type_name = xmlGetProp (xml_node, 
+						(xmlChar const *) "type");
+			if (type_name != NULL) {
+				type = g_type_from_name (type_name);
+			}
+			xmlFree (type_name);
 			if (type != 0) {
 				val_obj = g_object_new (type, NULL);
 				if (IS_GOG_PERSIST_DOM (val_obj) &&
@@ -203,7 +210,6 @@ gog_object_write_property (GogObject *obj, GParamSpec *pspec, xmlNode *parent)
 		val_obj = g_value_get_object (&value);
 		if (val_obj != NULL) {
 			if (IS_GOG_PERSIST_DOM (val_obj)) {
-				xmlNodeSetContent (node, G_OBJECT_TYPE_NAME (val_obj));
 				gog_persist_dom_save (GOG_PERSIST_DOM (val_obj), node);
 			} else
 				g_warning ("How are we supposed to persist this ??");

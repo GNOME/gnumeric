@@ -908,19 +908,531 @@ gog_style_init (GogStyle *style)
 	style->font.color = RGBA_BLACK;
 }
 
+static struct {
+	GogFillStyle fstyle;
+	const gchar  *name;
+} fill_names[] = {
+	GOG_FILL_STYLE_NONE,     "none",
+	GOG_FILL_STYLE_PATTERN,  "pattern",
+	GOG_FILL_STYLE_GRADIENT, "gradient",
+	GOG_FILL_STYLE_IMAGE,    "image"
+};
+
+static GogFillStyle
+str_as_fill_style (const gchar *name)
+{
+	unsigned i;
+	GogFillStyle ret = GOG_FILL_STYLE_PATTERN;
+
+	for (i = 0; i < sizeof fill_names / sizeof fill_names[0]; i++) {
+		if (strcmp (fill_names[i].name, name) == 0) {
+			ret = fill_names[i].fstyle;
+			break;
+		}
+	}
+	return ret;
+}
+
+static const gchar *
+fill_style_as_str (GogFillStyle fstyle)
+{
+	unsigned i;
+	const gchar *ret = "pattern";
+
+	for (i = 0; i < sizeof fill_names / sizeof fill_names[0]; i++) {
+		if (fill_names[i].fstyle == fstyle) {
+			ret = fill_names[i].name;
+			break;
+		}
+	}
+	return ret;
+}
+
+static struct {
+	GOPatternType pattern;
+	const gchar  *name;
+} pattern_names[] = {
+	GO_PATTERN_SOLID,            "solid",
+	GO_PATTERN_GREY75,           "grey75",
+	GO_PATTERN_GREY50,           "grey50",
+	GO_PATTERN_GREY25,           "grey25",
+	GO_PATTERN_GREY125,          "grey12.5",
+	GO_PATTERN_GREY625,          "grey6.25",
+	GO_PATTERN_HORIZ,            "horiz",
+	GO_PATTERN_VERT,             "vert",
+	GO_PATTERN_REV_DIAG,         "rev-diag",
+	GO_PATTERN_DIAG,             "diag",
+	GO_PATTERN_DIAG_CROSS,       "diag-cross",
+	GO_PATTERN_THICK_DIAG_CROSS, "thick-diag-cross",
+	GO_PATTERN_THIN_HORIZ,       "thin-horiz",
+	GO_PATTERN_THIN_VERT,        "thin-vert",
+	GO_PATTERN_THIN_REV_DIAG,    "rev-diag",
+	GO_PATTERN_THIN_DIAG,        "thin-diag",
+	GO_PATTERN_THIN_HORIZ_CROSS, "thin-horiz-cross",
+	GO_PATTERN_THIN_DIAG_CROSS,  "thin-diag-cross",
+	GO_PATTERN_FOREGROUND_SOLID, "foreground-solid",
+	GO_PATTERN_SMALL_CIRCLES,    "small-circles",
+	GO_PATTERN_SEMI_CIRCLES,     "semi-circles",
+	GO_PATTERN_THATCH,           "thatch",
+	GO_PATTERN_LARGE_CIRCLES,    "large-circles",
+	GO_PATTERN_BRICKS,           "bricks"
+};
+
+static GOPatternType
+str_as_pattern (const gchar *name)
+{
+	unsigned i;
+	GogFillStyle ret = GO_PATTERN_SOLID;
+
+	for (i = 0; i < sizeof pattern_names / sizeof pattern_names[0]; i++) {
+		if (strcmp (pattern_names[i].name, name) == 0) {
+			ret = pattern_names[i].pattern;
+			break;
+		}
+	}
+	return ret;
+}
+
+static const gchar *
+pattern_as_str (GOPatternType pattern)
+{
+	unsigned i;
+	const gchar *ret = "none";
+
+	for (i = 0; i < sizeof pattern_names / sizeof pattern_names[0]; i++) {
+		if (pattern_names[i].pattern == pattern) {
+			ret = pattern_names[i].name;
+			break;
+		}
+	}
+	return ret;
+}
+
+static struct {
+	GOGradientDirection dir;
+	const gchar  *name;
+} grad_dir_names[] = {
+	GO_GRADIENT_N_TO_S,            "n-s",
+	GO_GRADIENT_S_TO_N,            "s-n",
+	GO_GRADIENT_N_TO_S_MIRRORED,   "n-s-mirrored",
+	GO_GRADIENT_S_TO_N_MIRRORED,   "s-n-mirrored",
+	GO_GRADIENT_W_TO_E,            "w-e",
+	GO_GRADIENT_E_TO_W,            "e-w",
+	GO_GRADIENT_W_TO_E_MIRRORED,   "w-e-mirrored",
+	GO_GRADIENT_E_TO_W_MIRRORED,   "e-w-mirrored",
+	GO_GRADIENT_NW_TO_SE,          "nw-se",
+	GO_GRADIENT_SE_TO_NW,          "se-nw",
+	GO_GRADIENT_NW_TO_SE_MIRRORED, "nw-se-mirrored",
+	GO_GRADIENT_SE_TO_NW_MIRRORED, "se-nw-mirrored",
+	GO_GRADIENT_NE_TO_SW,          "ne-sw",
+	GO_GRADIENT_SW_TO_NE,          "sw-ne",
+	GO_GRADIENT_SW_TO_NE_MIRRORED, "sw-ne-mirrored",
+	GO_GRADIENT_NE_TO_SW_MIRRORED, "ne-sw-mirrored",
+};
+
+static GOGradientDirection
+str_as_grad_dir (const gchar *name)
+{
+	unsigned i;
+	GOGradientDirection ret = GO_GRADIENT_N_TO_S;
+
+	for (i = 0; 
+	     i < sizeof grad_dir_names / sizeof grad_dir_names[0]; i++) {
+		if (strcmp (grad_dir_names[i].name, name) == 0) {
+			ret = grad_dir_names[i].dir;
+			break;
+		}
+	}
+	return ret;
+}
+
+static const gchar *
+grad_dir_as_str (GOGradientDirection dir)
+{
+	unsigned i;
+	const gchar *ret = "pattern";
+
+	for (i = 0; i < sizeof grad_dir_names / sizeof grad_dir_names[0]; i++) {
+		if (grad_dir_names[i].dir == dir) {
+			ret = grad_dir_names[i].name;
+			break;
+		}
+	}
+	return ret;
+}
+
+static struct {
+	GOMarkerShape shape;
+	const gchar  *name;
+} marker_shape_names[] = {
+	GO_MARKER_NONE,           "none",
+	GO_MARKER_SQUARE,         "square",
+	GO_MARKER_DIAMOND,        "diamond",
+	GO_MARKER_TRIANGLE_DOWN,  "triangle-down",
+	GO_MARKER_TRIANGLE_UP,    "triangle-up",
+	GO_MARKER_TRIANGLE_RIGHT, "triangle-right",
+	GO_MARKER_TRIANGLE_LEFT,  "triangle-left",
+	GO_MARKER_CIRCLE,         "circle",
+	GO_MARKER_X,              "x",
+	GO_MARKER_CROSS,          "cross",
+	GO_MARKER_ASTERISK,       "asterisk",
+	GO_MARKER_BAR,            "bar",
+	GO_MARKER_HALF_BAR,       "half-bar",
+	GO_MARKER_BUTTERFLY,      "butterfly",
+	GO_MARKER_HOURGLASS,      "hourglass"
+};
+
+static GOMarkerShape
+str_as_marker_shape (const gchar *name)
+{
+	unsigned i;
+	GOMarkerShape ret = GO_MARKER_NONE;
+
+	for (i = 0; 
+	     i < sizeof marker_shape_names / sizeof marker_shape_names[0]; 
+	     i++) {
+		if (strcmp (marker_shape_names[i].name, name) == 0) {
+			ret = marker_shape_names[i].shape;
+			break;
+		}
+	}
+	return ret;
+}
+
+static const gchar *
+marker_shape_as_str (GOMarkerShape shape)
+{
+	unsigned i;
+	const gchar *ret = "pattern";
+
+	for (i = 0; 
+	     i < sizeof marker_shape_names / sizeof marker_shape_names[0]; 
+	     i++) {
+		if (marker_shape_names[i].shape == shape) {
+			ret = marker_shape_names[i].name;
+			break;
+		}
+	}
+	return ret;
+}
+
+static void
+gog_style_line_load (xmlNode *node, float *width, GOColor *color)
+{
+	char *str;
+	
+	str = xmlGetProp (node, "width");
+	if (str != NULL) {
+		*width = g_strtod (str, NULL);
+		xmlFree (str);
+	}
+	str = xmlGetProp (node, "color");
+	if (str != NULL) {
+		*color = go_color_from_str (str);
+		xmlFree (str);
+	}
+}
+
+static void
+gog_style_line_save (xmlNode *parent, xmlChar const *name, 
+		     float width, GOColor color)
+{
+	gchar *str;
+	xmlNode *node = xmlNewDocNode (parent->doc, NULL, name, NULL);
+
+	str = g_strdup_printf ("%f",  width);
+	xmlSetProp (node, (xmlChar const *) "width", str);
+	g_free (str);
+	str = go_color_as_str (color);
+	xmlSetProp (node, (xmlChar const *) "color", str);
+	g_free (str);
+	xmlAddChild (parent, node);
+}
+
+static void
+gog_style_gradient_load (xmlNode *node, GogStyle *style)
+{
+	char    *str = xmlGetProp (node, "direction");
+	if (str != NULL) {
+		style->fill.u.gradient.dir
+			= str_as_grad_dir (str);
+		xmlFree (str);
+	}
+	str = xmlGetProp (node, "brightness");
+	if (str != NULL) {
+		style->fill.u.gradient.brightness
+			= g_strtod (str, NULL);
+		xmlFree (str);
+	} else {
+		str = xmlGetProp (node, "start-color");
+		if (str != NULL) {
+			style->fill.u.gradient.start
+				= go_color_from_str (str);
+			xmlFree (str);
+		}
+		str = xmlGetProp (node, "end-color");
+		if (str != NULL) {
+			style->fill.u.gradient.end
+				= go_color_from_str (str);
+			xmlFree (str);
+		}
+	}
+}
+
+static void
+gog_style_gradient_save (xmlNode *parent, GogStyle *style)
+{
+	gchar *str;
+	xmlNode *node =  xmlNewDocNode (parent->doc, NULL, "gradient", NULL);
+
+	xmlSetProp (node, (xmlChar const *) "direction", 
+		    grad_dir_as_str (style->fill.u.gradient.dir));
+	/* FIXME: According to gog-style.h, condition is >= 0 */
+	if (style->fill.u.gradient.brightness > 0) {
+		str = g_strdup_printf ("%f",  
+				       style->fill.u.gradient.brightness);
+		xmlSetProp (node, (xmlChar const *) "brightness", str);
+		g_free (str);
+	} else {
+		str = go_color_as_str (style->fill.u.gradient.start);
+		xmlSetProp (node, (xmlChar const *) "start-color", str);
+		g_free (str);
+		str = go_color_as_str (style->fill.u.gradient.end);
+		xmlSetProp (node, (xmlChar const *) "end-color", str);
+		g_free (str);
+	}
+	xmlAddChild (parent, node);
+}
+
+static void
+gog_style_fill_load (xmlNode *node, GogStyle *style)
+{
+	xmlNode *ptr;
+	char    *str = xmlGetProp (node, "type");
+
+	if (str == NULL)
+		return;
+	style->fill.type = str_as_fill_style (str);
+	xmlFree (str);
+
+	switch (style->fill.type) {
+	case GOG_FILL_STYLE_PATTERN:
+		for (ptr = node->xmlChildrenNode ; 
+		     ptr != NULL ; ptr = ptr->next) {
+			if (xmlIsBlankNode (ptr) || ptr->name == NULL)
+				continue;
+			if (strcmp (ptr->name, "pattern") == 0) {
+				str = xmlGetProp (ptr, "type");
+				if (str != NULL) {
+					style->fill.u.pattern.pat.pattern
+						= str_as_pattern (str);
+					xmlFree (str);
+				}
+				str = xmlGetProp (ptr, "fore");
+				if (str != NULL) {
+					style->fill.u.pattern.pat.fore
+						 = go_color_from_str (str);
+					xmlFree (str);
+				}
+				str = xmlGetProp (ptr, "back");
+				if (str != NULL) {
+					style->fill.u.pattern.pat.back
+						 = go_color_from_str (str);
+					xmlFree (str);
+				}
+			}
+		}
+		break;
+	case GOG_FILL_STYLE_GRADIENT:
+		for (ptr = node->xmlChildrenNode ; 
+		     ptr != NULL ; ptr = ptr->next) {
+			if (xmlIsBlankNode (ptr) || ptr->name == NULL)
+				continue;
+			if (strcmp (ptr->name, "gradient") == 0) 
+				gog_style_gradient_load (ptr, style);
+		}
+		break;
+	case GOG_FILL_STYLE_IMAGE:
+		/* FIXME: TODO */
+		break;
+	default:
+		break;
+	}
+}
+
+static void
+gog_style_fill_save (xmlNode *parent, GogStyle *style)
+{
+	gchar *str;
+	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "fill", NULL);
+	xmlNode *child;
+	xmlSetProp (node, (xmlChar const *) "type", 
+		    fill_style_as_str (style->fill.type));
+	switch (style->fill.type) {
+	case GOG_FILL_STYLE_NONE:
+		break;
+	case GOG_FILL_STYLE_PATTERN:
+		child =  xmlNewDocNode (parent->doc, NULL, "pattern", NULL);
+		xmlSetProp (child, (xmlChar const *) "type", 
+			    pattern_as_str (style->fill.u.pattern.pat.pattern));
+		str = go_color_as_str (style->fill.u.pattern.pat.fore);
+		xmlSetProp (child, (xmlChar const *) "fore", str);
+		g_free (str);
+		str = go_color_as_str (style->fill.u.pattern.pat.back);
+		xmlSetProp (child, (xmlChar const *) "back", str);
+		g_free (str);
+		xmlAddChild (node, child);
+		break;
+	case GOG_FILL_STYLE_GRADIENT:
+		gog_style_gradient_save (node, style);
+		break;
+	case GOG_FILL_STYLE_IMAGE:
+		/* FIXME: TODO */
+		break;
+	default:
+		break;
+	}
+	xmlAddChild (parent, node);
+}
+
+static void
+gog_style_marker_load (xmlNode *node, GogStyle *style)
+{
+	char *str;
+	GOMarker *marker = go_marker_dup (style->marker);
+
+	str = xmlGetProp (node, "shape");
+	if (str != NULL) {
+		go_marker_set_shape (marker, str_as_marker_shape (str));
+		xmlFree (str);
+	}
+	str = xmlGetProp (node, "outline-color");
+	if (str != NULL) {
+		go_marker_set_outline_color (marker, go_color_from_str (str));
+		xmlFree (str);
+	}
+	str = xmlGetProp (node, "fill-color");
+	if (str != NULL) {
+		go_marker_set_fill_color (marker, go_color_from_str (str));
+		xmlFree (str);
+	}
+	str = xmlGetProp (node, "size");
+	if (str != NULL) {
+		go_marker_set_size (marker, g_strtod (str, NULL));
+		xmlFree (str);
+	}
+	gog_style_set_marker (style, marker);
+}
+
+static void
+gog_style_marker_save (xmlNode *parent, GogStyle *style)
+{
+	gchar *str;
+	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "marker", NULL);
+
+	xmlSetProp (node, (xmlChar const *) "shape", 
+		    marker_shape_as_str (go_marker_get_shape (style->marker)));
+	str = go_color_as_str (go_marker_get_outline_color (style->marker));
+	xmlSetProp (node, (xmlChar const *) "outline-color", str);
+	g_free (str);
+	str = go_color_as_str (go_marker_get_fill_color (style->marker));
+	xmlSetProp (node, (xmlChar const *) "fill-color", str);
+	g_free (str);
+	str = g_strdup_printf ("%d", go_marker_get_size (style->marker));
+	xmlSetProp (node, (xmlChar const *) "size", str);
+	g_free (str);
+
+	xmlAddChild (parent, node);
+}
+
+static void
+gog_style_font_load (xmlNode *node, GogStyle *style)
+{
+	char *str;
+
+	str = xmlGetProp (node, "color");
+	if (str != NULL) {
+		style->font.color = go_color_from_str (str);
+		xmlFree (str);
+	}
+	str = xmlGetProp (node, "font");
+	if (str != NULL) {
+		PangoFontDescription *desc;
+
+		desc = pango_font_description_from_string (str);
+		if (desc != NULL)
+			gog_style_set_font (style, desc);
+		xmlFree (str);
+	}
+	str = xmlGetProp (node, "auto-scale");
+	style->font.auto_scale = FALSE;
+	if (str != NULL) { 
+		if (strcmp (str, "true") == 0)
+				 style->font.auto_scale = TRUE;
+		xmlFree (str);
+	}
+}
+
+static void
+gog_style_font_save (xmlNode *parent, GogStyle *style)
+{
+	gchar *str;
+	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "font", NULL);
+
+	str = go_color_as_str (style->font.color);
+	xmlSetProp (node, (xmlChar const *) "color", str);
+	g_free (str);
+	str = go_font_as_str (style->font.font);
+	xmlSetProp (node, (xmlChar const *) "font", str);
+	g_free (str);
+	xmlSetProp (node, (xmlChar const *) "auto-scale", 
+		    style->font.auto_scale ? "true" : "false");
+
+	xmlAddChild (parent, node);
+}
+
 static gboolean
 gog_style_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
 {
-#warning TODO
-	g_warning ("TODO import style from dom");
+	GogStyle *style = GOG_STYLE (gpd);
+	xmlNode *ptr;
+	char *str;
+
+	for (ptr = node->xmlChildrenNode ; ptr != NULL ; ptr = ptr->next) {
+		if (xmlIsBlankNode (ptr) || ptr->name == NULL)
+			continue;
+		if (strcmp (ptr->name, "outline") == 0)
+			gog_style_line_load (ptr, &style->outline.width, 
+					     &style->outline.color);
+		else if (strcmp (ptr->name, "line") == 0)
+			gog_style_line_load (ptr, &style->line.width, 
+					     &style->line.color);
+		else if (strcmp (ptr->name, "fill") == 0)
+			gog_style_fill_load (ptr, style);
+		else if (strcmp (ptr->name, "marker") == 0)
+			gog_style_marker_load (ptr, style);
+		else if (strcmp (ptr->name, "font") == 0)
+			gog_style_font_load (ptr, style);
+	}
 	return TRUE;
 }
 
 static void
 gog_style_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
 {
-#warning TODO
-	g_warning ("TODO persist style to dom");
+	GogStyle *style = GOG_STYLE (gpd);
+	xmlNode *node;
+
+	xmlSetProp (parent, (xmlChar const *) "type", 
+		    g_type_name (GOG_STYLE_TYPE));
+
+	gog_style_line_save (parent, "outline", 
+			     style->outline.width, style->outline.color);
+	gog_style_line_save (parent, "line", 
+			     style->line.width, style->line.color);
+	gog_style_fill_save (parent, style);
+	gog_style_marker_save (parent, style);
+	gog_style_font_save (parent, style);
 }
 
 static void
