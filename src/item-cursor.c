@@ -23,6 +23,7 @@
 #include "cmd-edit.h"
 #include "commands.h"
 #include "ranges.h"
+#include "parse-util.h"
 #include <gal/widgets/e-cursors.h>
 
 #define ITEM_CURSOR_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_cursor_get_type (), ItemCursorClass))
@@ -978,6 +979,7 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 		item_cursor_do_action (ic, (event->state & GDK_CONTROL_MASK)
 				       ? ACTION_COPY_CELLS : ACTION_MOVE_CELLS,
 				       event->time);
+	wb_control_gui_set_status_text (ic->scg->wbcg, "");
 }
 
 static void
@@ -1051,6 +1053,29 @@ item_cursor_tip_setlabel (ItemCursor *item_cursor)
 }
 #endif
 
+static void
+item_cursor_tip_setstatus (ItemCursor *item_cursor)
+{
+	char buffer [32]; /* What if SHEET_MAX_ROWS or SHEET_MAX_COLS changes? */
+	int tmp;
+	Range const * src = &item_cursor->pos;
+
+	/*
+	 * keep these as 2 print statements, because
+	 * col_name uses a static buffer
+	 */
+	tmp = snprintf (buffer, sizeof (buffer), "%s%s",
+			col_name (src->start.col),
+			row_name (src->start.row));
+
+	if (src->start.col != src->end.col || src->start.row != src->end.row)
+		snprintf (buffer+tmp, sizeof (buffer)-tmp, ":%s%s",
+			  col_name (src->end.col),
+			  row_name (src->end.row));
+			  
+	wb_control_gui_set_status_text (item_cursor->scg->wbcg, buffer);
+}
+
 static gboolean
 cb_move_cursor (SheetControlGUI *scg, int col, int row, gpointer user_data)
 {
@@ -1077,7 +1102,8 @@ cb_move_cursor (SheetControlGUI *scg, int col, int row, gpointer user_data)
 	 */
 	item_cursor_tip_setlabel (item_cursor);
 #endif
-
+	item_cursor_tip_setstatus (item_cursor);
+	
 	/* Make target cell visible, and adjust the cursor size */
 	item_cursor_set_bounds_visibly (item_cursor, col, row, &corner,
 					corner.col + w, corner.row + h);
