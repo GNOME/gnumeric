@@ -5,6 +5,7 @@
 #include "position.h"
 #include <sys/types.h>
 #include <regex.h>
+#include "regutf8.h"
 
 typedef enum { SRE_fail = 0,
 	       SRE_skip,
@@ -55,7 +56,7 @@ struct _SearchReplace {
 	 */
 	gboolean by_row;
 
-	regex_t *comp_search;
+	gnumeric_regex_t *comp_search;
 	gboolean plain_replace;
 
 	/*

@@ -1,3 +1,7 @@
+2002-11-14  Morten Welinder  <terra@diku.dk>
+
+	* src/search.c (search_replace_compile): Turn on regutf8.
+
 2002-11-13  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (gnm_expr_eval) : functions only check for NULL not empty.
