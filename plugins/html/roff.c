@@ -24,6 +24,7 @@
 #include "config.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "style.h"
 #include "roff.h"
 #include "font.h"
 #include "cell.h"

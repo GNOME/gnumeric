@@ -18,6 +18,7 @@
 #include "value.h"
 #include "file.h"
 #include "cell.h"
+#include "style.h"
 #include "command-context.h"
 
 typedef struct {

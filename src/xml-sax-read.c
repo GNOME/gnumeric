@@ -806,7 +806,7 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 				  NULL, &error_string);
 
 	g_return_if_fail (expr != NULL);
-	cell_set_array_formula (cell->sheet,
+	cell_set_array_formula (cell->base.sheet,
 				cell->pos.row,
 				cell->pos.col,
 				cell->pos.row + rows-1,

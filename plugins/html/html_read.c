@@ -26,6 +26,7 @@
 #include <errno.h>
 #include "config.h"
 #include "workbook.h"
+#include "style.h"
 #include "html.h"
 #include "cell.h"
 #include "value.h"
@@ -468,7 +469,7 @@ html_read (CommandContext *context, Workbook *wb, const char *filename)
 							if (flags & HTML_RIGHT)
 								mstyle_set_align_h (mstyle, HALIGN_CENTER);
 
-							sheet_style_attach_single (cell->sheet,
+							sheet_style_attach_single (cell->base.sheet,
 										   cell->pos.col, cell->pos.row,
 										   mstyle);
 						}
