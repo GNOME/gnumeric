@@ -2223,17 +2223,16 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SUBTREE(N_("_Select"), workbook_menu_edit_select),
 
-	GNOMEUIINFO_ITEM_NONE (N_("Search and Replace..."),
-		N_("Search for some text and replace it with something else"),
-		cb_edit_search_replace),
+	{ GNOME_APP_UI_ITEM, N_("Search and Replace..."),
+		  N_("Search for some text and replace it with something else"),
+	          cb_edit_search_replace,
+		  NULL, NULL, 0, 0, GDK_F6, 0 },
 
-	/* Default <Ctrl-G> to be goto */
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),
 		  N_("Jump to a specified cell"),
 		  cb_edit_goto,
-		  NULL, NULL, 0, 0, GDK_G, GDK_CONTROL_MASK },
+		  NULL, NULL, 0, 0, GDK_F5, 0 },
 
-	/* Default <F9> to recalculate */
 	{ GNOME_APP_UI_ITEM, N_("Recalculate"),
 		  N_("Recalculate the spreadsheet"),
 		  cb_edit_recalc,
@@ -2280,9 +2279,10 @@ static GnomeUIInfo workbook_menu_insert_special [] = {
 };
 
 static GnomeUIInfo workbook_menu_names [] = {
-	GNOMEUIINFO_ITEM_NONE (N_("_Define..."),
-		N_("Edit sheet and workbook names"),
-		cb_define_name),
+	{ GNOME_APP_UI_ITEM, N_("_Define..."),
+	  N_("Edit sheet and workbook names"),
+	  cb_define_name, NULL, NULL, 0, 0,
+	  GDK_F3, GDK_CONTROL_MASK },
 #if 0
 	GNOMEUIINFO_ITEM_NONE (N_("_Auto generate names..."),
 		N_("Use the current selection to create names"),

@@ -10,6 +10,7 @@ Almer:
 	* Clean-up row naming.
 	* Fix the STF exporter (it works again).
 	* Add new consolidation feature.
+	* Keyboard Shortcuts for moving and formatting.
 
 Elliot:
 	* Financial functions.

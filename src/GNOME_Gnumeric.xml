@@ -241,12 +241,13 @@
 
 	    <menuitem name="EditSearchReplace" verb=""
 		_label="Search and Replace..."
-		_tip="Search for some text and replace it with something else"/>
+		_tip="Search for some text and replace it with something else"
+		accel="F6"/>
 
 	    <menuitem name="EditGoto" verb=""
 		_label="_Goto cell..."
 		_tip="Jump to a specified cell"
-		accel="*Control*g"/>
+		accel="F5"/>
 
 	    <menuitem name="EditRecalc" verb=""
 		_label="Recalculate"
@@ -301,7 +302,8 @@
 	    <submenu name="Names" _label="_Name">
 		<menuitem name="Define" verb="EditNames"
 		    _label="_Define"
-		    _tip="Edit sheet and workbook names"/>
+		    _tip="Edit sheet and workbook names"
+		    accel="*Control*F3"/>
 	    </submenu>
 
 	    <menuitem name="InsertComment" verb=""

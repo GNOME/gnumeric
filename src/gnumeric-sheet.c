@@ -14,6 +14,8 @@
 #include "item-grid.h"
 #include "sheet-control-gui-priv.h"
 #include "gnumeric-util.h"
+#include "mstyle.h"
+#include "style-border.h"
 #include "style-color.h"
 #include "selection.h"
 #include "parse-util.h"
@@ -43,6 +45,31 @@ gnumeric_sheet_destroy (GtkObject *object)
 
 	if (GTK_OBJECT_CLASS (gsheet_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (gsheet_parent_class)->destroy)(object);
+}
+
+/*
+ * Adds borders to all the selected regions on the sheet.
+ * FIXME: This is a little more simplistic then it should be, it always
+ * removes and/or overwrites any borders. What we should do is
+ * 1) When adding -> don't add a border if the border is thicker than 'THIN'
+ * 2) When removing -> don't remove unless the border is 'THIN'
+ */
+static void
+borders_mutate (WorkbookControlGUI *wbcg, Sheet *sheet, gboolean add)
+{
+	StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+	int i;
+
+	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; ++i)
+		if (i <= STYLE_BORDER_RIGHT)
+			borders[i] = style_border_fetch (
+				add ? STYLE_BORDER_THIN : STYLE_BORDER_NONE,
+				style_color_black (), style_border_get_orientation (i));
+		else
+			borders[i] = NULL;
+								  
+	cmd_format (WORKBOOK_CONTROL (wbcg), sheet, NULL, borders,
+		    add ? _("Add Borders") : _("Remove borders"));
 }
 
 /*
@@ -84,25 +111,91 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			: scg_cursor_move;
 	}
 
+	if ((event->state & GDK_CONTROL_MASK) && (event->state & GDK_SHIFT_MASK)) {
+		char *fmt = NULL;
+		char *desc = NULL;
+		
+		switch (event->keyval) {
+		case GDK_asciitilde :
+			fmt = "0";
+			desc = _("Format as Number");
+			break;
+		case GDK_dollar :
+			fmt = "$0.00_);($0.00)";
+			desc = _("Format as Currency");
+			break;
+		case GDK_percent :
+			fmt = "0%";
+			desc = _("Format as Percentage");
+			break;
+		case GDK_asciicircum :
+			fmt = "0.00E+00";
+			desc = _("Format as Scientific");
+			break;
+		case GDK_numbersign :
+			fmt = "d-mmm-yy";
+			desc = _("Format as Date");
+			break;
+		case GDK_at :
+			fmt = "h:mm AM/PM";
+			desc = _("Format as Time");
+			break;
+		case GDK_exclam :
+			fmt = "#,##0.00";
+			desc = _("Format as alternative Number"); /* FIXME: Better descriptor */
+			break;
+		case GDK_ampersand :
+			borders_mutate (wbcg, sheet, TRUE);
+			return TRUE;
+		case GDK_underscore :
+			borders_mutate (wbcg, sheet, FALSE);
+			return TRUE;
+		}
+
+		if (fmt) {
+			MStyle *mstyle = mstyle_new ();
+
+			mstyle_set_format_text (mstyle, fmt);
+			cmd_format (WORKBOOK_CONTROL (wbcg), sheet, mstyle, NULL, desc);
+			return TRUE;
+		}
+	}
+	
 	switch (event->keyval) {
 	case GDK_KP_Left:
 	case GDK_Left:
-		(*movefn) (gsheet->scg, -1, jump_to_bounds, TRUE);
+		if (event->state & GDK_MOD5_MASK)
+			gnumeric_sheet_set_left_col (
+				gsheet, gsheet->col.first > 0 ? gsheet->col.first - 1 : 0);
+		else
+			(*movefn) (gsheet->scg, -1, jump_to_bounds, TRUE);
 		break;
 
 	case GDK_KP_Right:
 	case GDK_Right:
-		(*movefn) (gsheet->scg, 1, jump_to_bounds, TRUE);
+		if (event->state & GDK_MOD5_MASK)
+			gnumeric_sheet_set_left_col (
+				gsheet, gsheet->col.first < SHEET_MAX_COLS - 1 ? gsheet->col.first + 1 : SHEET_MAX_COLS - 1);
+		else
+			(*movefn) (gsheet->scg, 1, jump_to_bounds, TRUE);
 		break;
 
 	case GDK_KP_Up:
 	case GDK_Up:
-		(*movefn) (gsheet->scg, -1, jump_to_bounds, FALSE);
+		if (event->state & GDK_MOD5_MASK)
+			gnumeric_sheet_set_top_row (
+				gsheet, gsheet->row.first > 0 ? gsheet->row.first - 1 : 0);
+		else
+			(*movefn) (gsheet->scg, -1, jump_to_bounds, FALSE);
 		break;
 
 	case GDK_KP_Down:
 	case GDK_Down:
-		(*movefn) (gsheet->scg, 1, jump_to_bounds, FALSE);
+		if (event->state & GDK_MOD5_MASK)
+			gnumeric_sheet_set_top_row (
+				gsheet, gsheet->row.first < SHEET_MAX_ROWS - 1 ? gsheet->row.first + 1 : SHEET_MAX_ROWS - 1);
+		else
+			(*movefn) (gsheet->scg, 1, jump_to_bounds, FALSE);
 		break;
 
 	case GDK_KP_Page_Up:
@@ -135,23 +228,36 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_KP_Home:
 	case GDK_Home:
-		/* do the ctrl-home jump to A1 in 2 steps */
-		(*movefn)(gsheet->scg, -SHEET_MAX_COLS, FALSE, TRUE);
-		if ((event->state & GDK_CONTROL_MASK))
-			(*movefn)(gsheet->scg, -SHEET_MAX_ROWS, FALSE, FALSE);
+		if (event->state & GDK_MOD5_MASK) {
+			gnumeric_sheet_set_left_col (gsheet, sheet->edit_pos.col);
+			gnumeric_sheet_set_top_row (gsheet, sheet->edit_pos.row);
+		} else {
+			/* do the ctrl-home jump to A1 in 2 steps */
+			(*movefn)(gsheet->scg, -SHEET_MAX_COLS, FALSE, TRUE);
+			if ((event->state & GDK_CONTROL_MASK))
+				(*movefn)(gsheet->scg, -SHEET_MAX_ROWS, FALSE, FALSE);
+		}
 		break;
 
 	case GDK_KP_End:
 	case GDK_End:
-	{
-		Range r = sheet_get_extent (sheet);
+		if (event->state & GDK_MOD5_MASK) {
+			int new_col = sheet->edit_pos.col - (gsheet->col.last_full - gsheet->col.first);
+			int new_row = sheet->edit_pos.row - (gsheet->row.last_full - gsheet->row.first);
+			
+			if (new_col > 0)
+				gnumeric_sheet_set_left_col (gsheet, new_col);
+			if (new_row > 0)
+				gnumeric_sheet_set_top_row (gsheet, new_row);
+		} else {
+			Range r = sheet_get_extent (sheet);
 		
-		/* do the ctrl-end jump to the extent in 2 steps */
-		(*movefn)(gsheet->scg, r.end.col - sheet->edit_pos.col, FALSE, TRUE);
-		if ((event->state & GDK_CONTROL_MASK))
-			(*movefn)(gsheet->scg, r.end.row - sheet->edit_pos.row, FALSE, FALSE);
+			/* do the ctrl-end jump to the extent in 2 steps */
+			(*movefn)(gsheet->scg, r.end.col - sheet->edit_pos.col, FALSE, TRUE);
+			if ((event->state & GDK_CONTROL_MASK))
+				(*movefn)(gsheet->scg, r.end.row - sheet->edit_pos.row, FALSE, FALSE);
+		}
 		break;
-	}
 	
 	case GDK_KP_Delete:
 	case GDK_Delete:
@@ -196,6 +302,13 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_Escape:
 		wbcg_edit_finish (wbcg, FALSE);
 		application_clipboard_unant ();
+		break;
+		
+	case GDK_BackSpace:
+		/* Re-center the view on the active cell */
+		if ((event->state & GDK_CONTROL_MASK) != 0)
+			gnumeric_sheet_make_cell_visible (gsheet, sheet->edit_pos.col,
+							  sheet->edit_pos.row, TRUE);
 		break;
 
 	case GDK_F4:

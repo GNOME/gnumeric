@@ -1,3 +1,19 @@
+2001-06-21  Almer S. Tigelaar  <almer@gnome.org>
+ 
+ 	* src/gnumeric-sheet.c (border_mutate): New, toggles
+ 	borders around regions.
+ 
+ 	(gnumeric_sheet_key_mode_sheet):
+ 	Make Ctrl+Backspace center on the active cell.
+ 	Add support for Locked scrolling with the arrow keys, home and end.
+ 	Add support for Ctrl+Shift ~, $, %, ^, #, @, !, & and _ shortcut keys
+ 	for formatting and border mutations.
+ 
+ 	* src/workbook-control-gui.c, src/GNOME_Gnumeric.xml:
+ 	Change keybinding of Goto Cell from Ctrl+G to F5.
+ 	Set keybinding of Search&Replace to F6.
+ 	Set keybinding of Define Names to Ctrl+F3
+ 
 2001-06-20  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_claim_selection):
