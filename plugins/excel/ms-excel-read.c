@@ -3769,12 +3769,49 @@ excel_read_GUTS (BiffQuery *q, ExcelReadSheet *esheet)
 	sheet_colrow_gutter (esheet->sheet, FALSE, row_gut);
 }
 
+#if 0
+/* Status as of September 2004: we cannot use this information in a reasonable
+   way yetyet, as the current (2.8) gnome-print API is problematic:
+   "the printinfo has a gp printconfig which stores the settings [but] when we
+   set a printer it overrides the previous settings with the printer defaults"
+
+/* map a BIFF4 SETUP paper size number to the equivalent libgnomeprint paper
+   name or width and height.
+   The mapping can be derived from http://sc.openoffice.org/excelfileformat.pdf
+   and the documentation for the Spreadsheet::WriteExcel perl module.
+ */
+#define PAPER_NAMES_LEN 91
+typedef struct {
+	/* libgnomeprint's name for a physical paper size,
+	 * or its width and heigth in gnomeprint units */
+	const char *gp_name, *gp_width, *gp_height;
+} paper_size_table_entry;
+
+static paper_size_table_entry const paper_size_table[PAPER_NAMES_LEN] = {
+	{ NULL, NULL, NULL },		/* printer default / undefined */
+	{ "USLetter", NULL, NULL },
+	{ "USLetter", NULL, NULL },	/* Letter small */
+	{ NULL, "11in", "17in" },	/* Tabloid */
+	{ NULL, "17in", "11in" },	/* Ledger */
+	{ "USLegal", NULL, NULL },	/* Legal */
+
+	{ NULL, "5.5in", "8.5in" },	/* Statement */
+	{ NULL, "7.25in", "10.5in" },	/* Executive */
+	{ "A3", NULL, NULL },
+	{ "A4", NULL, NULL },
+	{ "A4", NULL, NULL },		/* A4 small */
+
+	/* TODO: remainder of table */
+};
+#endif
+
+
 /* See: S59DE3.HTM */
 static void
 excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 {
 	PrintInformation *pi = esheet->sheet->print_info;
-	guint16  grbit;
+	guint16  grbit, papersize;
 
 	g_return_if_fail (q->length == 34);
 
@@ -3802,11 +3839,26 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 		}
 
 #if 0
+		papersize = GSF_LE_GET_GUINT16 (q->data + 0);
+		fprintf (stderr,"Paper size %hu\n", papersize);
+
 		/* Useful somewhere ? */
-		fprintf (stderr,"Paper size %hu resolution %hu vert. res. %hu\n",
-			GSF_LE_GET_GUINT16 (q->data +  0),
+		fprintf (stderr,"resolution %hu vert. res. %hu\n",
 			GSF_LE_GET_GUINT16 (q->data + 12),
 			GSF_LE_GET_GUINT16 (q->data + 14));
+
+		if (papersize < PAPER_NAMES_LEN) {
+			guchar *paper_name = (guchar *)paper_size_table[papersize].gp_name;
+			guchar *paper_width = (guchar *)paper_size_table[papersize].gp_width;
+			guchar *paper_height = (guchar *)paper_size_table[papersize].gp_width;
+			if (paper_name != NULL) {
+				gnome_print_config_set(pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_SIZE, (guchar *)paper_name);
+			} else if ((paper_width != NULL) && (paper_height != NULL)) {
+				gnome_print_config_set(pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_WIDTH, (guchar *)paper_width);
+				gnome_print_config_set(pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_HEIGHT, (guchar *)paper_height);
+			}
+			/* fprintf (stderr,"GPC: %s\n", gnome_print_config_to_string(pi->print_config, 0)); */
+		}
 #endif
 	}
 
