@@ -92,6 +92,7 @@
 <listitem><para><link linkend="gnumeric-MID">MID</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MIN">MIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MINUTE">MINUTE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MOD">MOD</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MODE">MODE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MONTH">MONTH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NEGBINOMDIST">NEGBINOMDIST</link></para></listitem>
@@ -269,7 +270,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>DEC2BIN(number,places)</synopsis>
+      <synopsis>DEC2BIN(number[,places])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -395,7 +396,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>DELTA(x,y)</synopsis>
+      <synopsis>DELTA(x[,y])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -471,7 +472,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>BIN2HEX(number,places)</synopsis>
+      <synopsis>BIN2HEX(number[,places])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -592,6 +593,22 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-MOD">MOD</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MOD</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MOD(number,divisor)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Implements modulo arithmetic.Returns the remainder when divisor is divided into abs(number).</para>
+        <para>Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL</para>        <para></para>
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-PERMUT">PERMUT</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -699,7 +716,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>HEX2BIN(number,places)</synopsis>
+      <synopsis>HEX2BIN(number[,places])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -1885,7 +1902,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>OCT2BIN(number,places)</synopsis>
+      <synopsis>OCT2BIN(number[,places])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -2223,7 +2240,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>OCT2HEX(number,places)</synopsis>
+      <synopsis>OCT2HEX(number[,places])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -2622,7 +2639,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>DEC2OCT(number,places)</synopsis>
+      <synopsis>DEC2OCT(number[,places])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -3084,7 +3101,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>HEX2OCT(number,places)</synopsis>
+      <synopsis>HEX2OCT(number[,places])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -3294,7 +3311,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>GESTEP(x,y)</synopsis>
+      <synopsis>GESTEP(x[,y])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -3407,7 +3424,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>ERF(lower limit, upper_limit)</synopsis>
+      <synopsis>ERF(lower limit[,upper_limit])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -3456,7 +3473,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>BIN2OCT(number,places)</synopsis>
+      <synopsis>BIN2OCT(number[,places])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -3552,7 +3569,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>DEC2HEX(number,places)</synopsis>
+      <synopsis>DEC2HEX(number[,places])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>

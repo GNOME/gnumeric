@@ -44,7 +44,6 @@ dialog_about (Workbook *wb)
 	    
 	    for (i = 0; authors[i] != NULL; i++){
 		    authors [i] = _(authors [i]);
-		    i++;
 	    }
 	}
 #endif

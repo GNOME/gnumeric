@@ -1,3 +1,20 @@
+1999-03-31  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/about.c (dialog_about): Fixed.  Patch from Takashi Matsuda
+
+1999-03-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-financial.c (gnumeric_dollarfr): Use floor, not floorf,
+	as I can not find documentation on this on my system. 
+
+	* src/fn-math.c (gnumeric_ceiling): Use ceil, not ceilf.  I can
+	not find documentation on this on my system
+
+1998-11-12  Morten Wellinder <terra@diku.dk>
+	
+	* src/fn-stat.c (gnumeric_variance): More precise method of
+	computing the variance.
+
 1999-03-30  Michael Meeks  <michael@imaginator.com>
 
 	* src/sheet.c (sheet_selection_first_range): This returns

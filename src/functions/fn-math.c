@@ -422,14 +422,14 @@ gnumeric_ceiling (struct FunctionDefinition *i, Value *argv [], char **error_str
 	}
 	/* Find significance level */
 	for (n=0; n<12; n++) {
-	        ceiled = ceilf(significance * k);
-		if (fabs(ceiled - (significance * k)) < significance/2)
+	        ceiled = ceil (significance * k);
+		if (fabs (ceiled - (significance * k)) < significance/2)
 		        break;
 		k *= 10;
 	}
 	ceiled *= 10;
 
-	div = ceilf((x * k * 10) / ceiled);
+	div = ceil ((x * k * 10) / ceiled);
 	mod = ((x * k * 10) / ceiled) - div;
 
 	return value_float (sign * ceiled * div / (k*10) -

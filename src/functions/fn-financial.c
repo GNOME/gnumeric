@@ -303,7 +303,7 @@ gnumeric_dollarde (struct FunctionDefinition *i, Value *argv [], char **error_st
 	for (n=0; tmp; n++)
 	        tmp /= 10;
 
-	floored = floorf(fractional_dollar);
+	floored = floor (fractional_dollar);
 	rest = fractional_dollar - floored;
 	tmp = (int) (rest * pow(10, n));
 
@@ -342,7 +342,7 @@ gnumeric_dollarfr (struct FunctionDefinition *i, Value *argv [], char **error_st
 	for (n=0; tmp; n++)
 	        tmp /= 10;
 
-	floored = floorf(fractional_dollar);
+	floored = floor (fractional_dollar);
 	rest = fractional_dollar - floored;
 	tmp = (int) (rest * fraction);
 

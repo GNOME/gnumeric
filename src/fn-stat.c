@@ -4,6 +4,7 @@
  * Authors:
  *  Michael Meeks <michael@imaginator.com>
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *  Morten Welinder <terra@diku.dk>
  */
 #include <config.h>
 #include <gnome.h>
@@ -75,42 +76,120 @@ static char *help_ = {
 
 #endif
 
+/* Take a deep breath.
+
+   We want to compute the variance of a population, i.e., we want to
+   compute
+
+     VAR(x1,...,xn) = (1/n) sum ((x_i - m)^2)
+
+   where m is the average of the population.  The obvious way is to
+   run twice through the data: once to calculate m and once to calculate
+   the variance.  From a numerical point of view, that is not the worst
+   thing to do, but it is wasteful to have to look at the data twice.
+
+   Mathematically, we might use the identity
+
+     VAR(x1,...,xn) = (sum x_i^2 - (sum x_i)^2 / n) / n
+
+   but this method has very bad numerical properties.  The subtraction
+   loses a lot of precision and we can get negative results.  Bad.
+
+   It is much better to keep track of the two values of
+
+     M_j = (1/j) sum x_i                 i = 1,...,j
+     Q_j = sum (x_i - M_j)^2             i = 1,...,j
+
+   as we encounter each new observation.  If we set M_0 = Q_0 = 0, then
+   we have
+
+     M_j = M_{j-1} + (x - M_{j-1}) / j
+     Q_j = Q_{j-1} + (x - M_{j-1})^2 * (j-1) / j
+
+   Note, that we keep adding non-negative numbers to get Q_j.  That gives
+   us good numerical properties.  Finally, we get the variance by
+
+     VAR(x1,...,xn) = Q_n / n
+
+   March 30, 1999.
+
+   Morten Welinder
+   terra@gnu.org
+
+   PS: For fun, here is a comparison of the two methods.
+
+     robbie:~> ./a.out 40000.00000001 40000.00000002
+     N-variance according to method 1: -4.76837e-07      <--- wrong sign!
+     N-variance according to method 2: 2.50222e-17
+
+     robbie:~> ./a.out 40000.0000001 40000.0000002
+     N-variance according to method 1: 0                 <--- zero!
+     N-variance according to method 2: 2.50004e-15
+
+     robbie:~> ./a.out 40000.000001 40000.000002
+     N-variance according to method 1: 2.38419e-07       <--- six ord. mag. off!
+     N-variance according to method 2: 2.5e-13
+
+     robbie:~> ./a.out 40000.00001 40000.00002
+     N-variance according to method 1: 2.38419e-07
+     N-variance according to method 2: 2.5e-11
+
+     robbie:~> ./a.out 40000.0001 40000.0002
+     N-variance according to method 1: 0                 <--- zero again???
+     N-variance according to method 2: 2.5e-09
+
+     robbie:~> ./a.out 40000.001 40000.002
+     N-variance according to method 1: 2.38419e-07
+     N-variance according to method 2: 2.5e-07
+
+     robbie:~> ./a.out 40000.01 40000.02
+     N-variance according to method 1: 2.47955e-05
+     N-variance according to method 2: 2.5e-05
+
+     robbie:~> ./a.out 40000.1 40000.2
+     N-variance according to method 1: 0.0025003
+     N-variance according to method 2: 0.0025
+
+   */
+
+
+
 typedef struct {
-	guint32 num ;
-	float_t sum_x ;
-	float_t sum_x_squared ;
+	int N;
+	float_t M, Q;
 } stat_closure_t;
 
 static void
 setup_stat_closure (stat_closure_t *cl)
 {
-	cl->num = 0 ;
-	cl->sum_x = 0.0 ;
-	cl->sum_x_squared = 0.0 ;
+	cl->N = 0 ;
+	cl->M = 0.0 ;
+	cl->Q = 0.0 ;
 }
 
 static int
 callback_function_stat (Sheet *sheet, Value *value, char **error_string, void *closure)
 {
 	stat_closure_t *mm = closure;
-	
+	float_t x, dx, dm;
+
 	switch (value->type){
 	case VALUE_INTEGER:
-		mm->num++ ;
-		mm->sum_x+=value->v.v_int ;
-		mm->sum_x_squared+= ((float_t)value->v.v_int)*((float_t)value->v.v_int) ;
+		x = value->v.v_int;
 		break;
-
 	case VALUE_FLOAT:
-		mm->num++ ;
-		mm->sum_x+=value->v.v_float ;
-		mm->sum_x_squared+= ((float_t)value->v.v_float)*((float_t)value->v.v_float) ;
-		break ;
+		x = value->v.v_float;
+		break;
 	default:
 		/* ignore strings */
-		break;
+		return TRUE;
 	}
-	
+
+	dx = x - mm->M;
+	dm = dx / (mm->N + 1);
+	mm->M += dm;
+	mm->Q += mm->N * dx * dm;
+	mm->N++;
 	return TRUE;
 }
 
@@ -121,7 +200,9 @@ static char *help_varp = {
 	   "@DESCRIPTION="
 	   "VARP calculates the variance of a set of numbers "
 	   "where each number is a member of a population "
-	   "and the set is the entire population"
+	   "and the set is the entire population."
+	   "\n"
+	   "(VARP is also known as the N-variance.)"
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
@@ -141,11 +222,8 @@ gnumeric_varp (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, 
 					  &cl, expr_node_list,
 					  eval_col, eval_row, error_string);
 
-	num = (float_t)cl.num ;
-	ans = (num*cl.sum_x_squared - cl.sum_x*cl.sum_x)
-		/ (num * num) ;
-
-	return 	value_float(ans) ;
+	/* FIXME -- what about no arguments?  */
+	return value_float (cl.Q / cl.N);
 }
 
 static char *help_var = {
@@ -153,8 +231,12 @@ static char *help_var = {
 	   "@SYNTAX=VAR(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "VAR estimates the variance of a sample of a population "
+	   "VAR estimates the variance of a sample of a population. "
 	   "To get the true variance of a complete population use @VARP"
+	   "\n"
+	   "(VAR is also known as the N-1-variance.  Under reasonable "
+	   "conditions, it is the maximum-likelihood estimator for the "
+	   "true variance.)"
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
@@ -174,12 +256,8 @@ gnumeric_var (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 					  &cl, expr_node_list,
 					  eval_col, eval_row, error_string);
 
-
-	num = (float_t)cl.num ;
-	ans = (num*cl.sum_x_squared - cl.sum_x*cl.sum_x)
-		/ (num * (num - 1.0)) ;
-
-	return value_float(ans) ;
+	/* FIXME -- what about no arguments or just one argument?  */
+	return value_float (cl.Q / (cl.N - 1));
 }
 
 static char *help_stdev = {
@@ -209,7 +287,7 @@ static char *help_stdevp = {
 	   "@SYNTAX=STDEVP(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "STDEV returns standard deviation of a set of numbers "
+	   "STDEVP returns standard deviation of a set of numbers "
 	   "treating these numbers as members of a complete population"
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing."

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.4\n"
-"POT-Creation-Date: 1999-03-30 10:26-0600\n"
+"POT-Creation-Date: 1999-03-30 18:29-0600\n"
 "PO-Revision-Date: 1998-12-21 16:48 +1\n"
 "Last-Translator: Ralf Baechle <ralf@gnu.org>\n"
 "Language-Team:\n"
@@ -17,7 +17,7 @@ msgstr ""
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:241 src/expr.c:509 src/fn-math.c:1270
+#: plugins/guile/plugin.c:241 src/expr.c:509 src/fn-math.c:1311
 #: src/fn-sheet.c:38 src/fn-sheet.c:83 src/fn-string.c:302
 msgid "Invalid number of arguments"
 msgstr "Ungültige Anzahl von Argumenten"
@@ -412,7 +412,7 @@ msgid "Left"
 msgstr "Links"
 
 #: src/dialog-cell-format.c:357 src/dialog-cell-format.c:366
-#: src/workbook.c:851
+#: src/workbook.c:861
 msgid "Center"
 msgstr "Mitte"
 
@@ -996,7 +996,7 @@ msgstr ""
 "Fehler '#WERT!' zurückgegeben.\n"
 "@SEEALSO=OR"
 
-#: src/fn-math.c:187 src/fn-math.c:1008
+#: src/fn-math.c:187 src/fn-math.c:1049
 msgid "#VALUE"
 msgstr "#WERT"
 
@@ -1155,7 +1155,8 @@ msgstr ""
 msgid "#VALUE!"
 msgstr "#WERT"
 
-#: src/fn-math.c:415 src/fn-math.c:1094
+#. -0
+#: src/fn-math.c:415 src/fn-math.c:946 src/fn-math.c:954 src/fn-math.c:1135
 msgid "#NUM!"
 msgstr ""
 
@@ -1423,6 +1424,19 @@ msgstr ""
 
 #: src/fn-math.c:925
 msgid ""
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(number,divisor)\n"
+"@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when divisor "
+"is divided into abs(number).\n"
+"Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL"
+msgstr ""
+
+#: src/fn-math.c:958
+msgid "#DIV/0!"
+msgstr ""
+
+#: src/fn-math.c:966
+msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
 "@DESCRIPTION=Implements the logical NOT function: the result is TRUE if the "
@@ -1431,7 +1445,7 @@ msgid ""
 "@SEEALSO=AND, OR"
 msgstr ""
 
-#: src/fn-math.c:946
+#: src/fn-math.c:987
 #, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
@@ -1459,7 +1473,7 @@ msgstr ""
 "Fehler '#WERT!' zurückgegeben.\n"
 "@SEEALSO=AND"
 
-#: src/fn-math.c:1015
+#: src/fn-math.c:1056
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1474,7 +1488,7 @@ msgstr ""
 "nichts.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:1036
+#: src/fn-math.c:1077
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1492,7 +1506,7 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:1056
+#: src/fn-math.c:1097
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1511,7 +1525,7 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:1077
+#: src/fn-math.c:1118
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
@@ -1528,7 +1542,7 @@ msgstr ""
 "gibt einen Fehler zurück.  Diese Funktion hat keine Argumente.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1101
+#: src/fn-math.c:1142
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1542,7 +1556,7 @@ msgstr ""
 "referenziert sind, auf.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1191
+#: src/fn-math.c:1232
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1560,7 +1574,7 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1211
+#: src/fn-math.c:1252
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1578,7 +1592,7 @@ msgstr ""
 "nichts.  Diese Funktion hat nur ein Argument.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1231
+#: src/fn-math.c:1272
 #, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
@@ -1595,7 +1609,7 @@ msgstr ""
 "gibt einen Fehler zurück.  Diese Funktion hat keine Argumente.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1250
+#: src/fn-math.c:1291
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -2215,7 +2229,7 @@ msgid ""
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:839
+#: src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:849
 msgid "Copy"
 msgstr "Kopieren"
 
@@ -2247,11 +2261,11 @@ msgstr "Zellen nach unten schieben und bewegen"
 msgid "Shift cells right and move"
 msgstr "Zellen rechsverschieben und bewegen"
 
-#: src/item-grid.c:526 src/workbook.c:836
+#: src/item-grid.c:526 src/workbook.c:846
 msgid "Cut"
 msgstr "Ausschneiden"
 
-#: src/item-grid.c:528 src/sheet.c:2535 src/workbook.c:842
+#: src/item-grid.c:528 src/sheet.c:2570 src/workbook.c:852
 msgid "Paste"
 msgstr "Einfügen"
 
@@ -2347,385 +2361,395 @@ msgstr " hat ungespeicherte Änderungen, speichern?"
 msgid "Insert rows"
 msgstr "Zeilen einfügen"
 
-#: src/workbook.c:587
+#: src/workbook.c:595
 msgid ">mm/dd/yyyy"
 msgstr ">dd. mm. yyyy"
 
-#: src/workbook.c:606
+#: src/workbook.c:614
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:662
+#: src/workbook.c:670
 msgid "_New"
 msgstr "_Neu"
 
-#: src/workbook.c:662
+#: src/workbook.c:670
 #, fuzzy
 msgid "Create a new spreadsheet"
 msgstr "Neues Blatt erzeugen"
 
-#: src/workbook.c:673
+#: src/workbook.c:681
 msgid "Plu_g-ins..."
 msgstr "Module ..."
 
-#: src/workbook.c:673
+#: src/workbook.c:681
 #, fuzzy
 msgid "Gnumeric plugins"
 msgstr "Gnumeric"
 
-#: src/workbook.c:687
+#: src/workbook.c:695
 msgid "_All"
 msgstr "_Alles"
 
-#: src/workbook.c:688
+#: src/workbook.c:696
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
-#: src/workbook.c:690
+#: src/workbook.c:698
 msgid "_Formats"
 msgstr "_Formate"
 
-#: src/workbook.c:691
+#: src/workbook.c:699
 msgid "Clear the selected cells' formats"
 msgstr ""
 
-#: src/workbook.c:692
+#: src/workbook.c:700
 msgid "_Comments"
 msgstr "_Kommentar"
 
-#: src/workbook.c:693
+#: src/workbook.c:701
 #, fuzzy
 msgid "Clear the selected cells' comments"
 msgstr "Zentriert den Zelleninhalt"
 
-#: src/workbook.c:694
+#: src/workbook.c:702
 msgid "_Content"
 msgstr "_Inhalt"
 
-#: src/workbook.c:695
+#: src/workbook.c:703
 #, fuzzy
 msgid "Clear the selected cells' contents"
 msgstr "Zentriert den Zelleninhalt"
 
-#: src/workbook.c:703
+#: src/workbook.c:711
 msgid "P_aste special..."
 msgstr "Einfügen spezial ..."
 
-#: src/workbook.c:704
+#: src/workbook.c:712
 msgid "C_lear"
 msgstr "_Löschen"
 
-#: src/workbook.c:705
+#: src/workbook.c:713
 msgid "Clear the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:709
+#: src/workbook.c:717
 msgid "_Select All"
 msgstr "_Alles auswählen"
 
-#: src/workbook.c:710
+#: src/workbook.c:718
 msgid "Select all cells in the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:712
+#: src/workbook.c:720
 msgid "_Goto cell.."
 msgstr "_Gehe zu Zelle ..."
 
-#: src/workbook.c:713
+#: src/workbook.c:721
 msgid "Jump to a specified cell"
 msgstr ""
 
-#: src/workbook.c:719
+#: src/workbook.c:727
 msgid "_Define cell names"
 msgstr "_Zellennamen festlegen"
 
-#: src/workbook.c:723
+#: src/workbook.c:731
 msgid "_Recalculate"
 msgstr "_Neuberechnung"
 
-#: src/workbook.c:724
+#: src/workbook.c:732
 msgid "Recalculate the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:732
+#: src/workbook.c:740
 msgid "_Zoom..."
 msgstr "_Vergrößern"
 
-#: src/workbook.c:733
+#: src/workbook.c:741
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
-#: src/workbook.c:740
+#: src/workbook.c:748
 msgid "Current _date"
 msgstr "Aktuelles _Datum"
 
-#: src/workbook.c:741
+#: src/workbook.c:749
 msgid "Insert the current data into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:744
+#: src/workbook.c:752
 msgid "Current _time"
 msgstr "Aktuelle _Zeit"
 
-#: src/workbook.c:745
+#: src/workbook.c:753
 msgid "Insert the current time into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:752 src/workbook.c:798
+#: src/workbook.c:760 src/workbook.c:808
 msgid "_Sheet"
 msgstr "_Blatt"
 
-#: src/workbook.c:752
+#: src/workbook.c:760
 #, fuzzy
 msgid "Insert a new spreadsheet"
 msgstr "Neues Blatt erzeugen"
 
-#: src/workbook.c:754 src/workbook.c:792
+#: src/workbook.c:762 src/workbook.c:800
 msgid "_Cells..."
 msgstr "_Zellen ..."
 
-#: src/workbook.c:754
+#: src/workbook.c:762
 #, fuzzy
 msgid "Insert new cells"
 msgstr "Zellen einfügen"
 
-#: src/workbook.c:756
+#: src/workbook.c:764
 msgid "_Rows"
 msgstr "_Reihen"
 
-#: src/workbook.c:756
+#: src/workbook.c:764
 #, fuzzy
 msgid "Insert new rows"
 msgstr "Zeilen einfügen"
 
-#: src/workbook.c:758
+#: src/workbook.c:766
 msgid "C_olumns"
 msgstr "S_palten"
 
-#: src/workbook.c:758
+#: src/workbook.c:766
 #, fuzzy
 msgid "Insert new columns"
 msgstr "Spalte(n) einfügen"
 
-#: src/workbook.c:763
+#: src/workbook.c:771
 #, fuzzy
 msgid "_Add/modify comment"
 msgstr "_Kommentar zufügen/ändern"
 
-#: src/workbook.c:764
+#: src/workbook.c:772
 msgid "Edit the selected cell's comment"
 msgstr ""
 
-#: src/workbook.c:765
+#: src/workbook.c:773
 msgid "_Special"
 msgstr "_Spezial"
 
-#: src/workbook.c:774 src/workbook.c:780
+#: src/workbook.c:782 src/workbook.c:788
 msgid "_Autoadjust"
 msgstr "_Automatisch ausrichten"
 
-#: src/workbook.c:775
+#: src/workbook.c:783
 msgid "_Width"
 msgstr "_Breite"
 
-#: src/workbook.c:781
+#: src/workbook.c:789
 msgid "_Height"
 msgstr "_Höhe"
 
-#: src/workbook.c:786
+#: src/workbook.c:794
 msgid "_Change name"
 msgstr "_Namen ändern"
 
-#: src/workbook.c:793
+#: src/workbook.c:801
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
-#: src/workbook.c:796
+#: src/workbook.c:803
+#, fuzzy
+msgid "_Sort"
+msgstr "F_ormat"
+
+#: src/workbook.c:804
+#, fuzzy
+msgid "Sort the selected cells"
+msgstr "Zentriert den Zelleninhalt"
+
+#: src/workbook.c:806
 msgid "C_olumn"
 msgstr "_Spalte"
 
-#: src/workbook.c:797
+#: src/workbook.c:807
 msgid "_Row"
 msgstr "_Reihe"
 
-#: src/workbook.c:814
+#: src/workbook.c:824
 msgid "_Insert"
 msgstr "_Einfügen"
 
-#: src/workbook.c:815
+#: src/workbook.c:825
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:824
+#: src/workbook.c:834
 msgid "New"
 msgstr "New"
 
-#: src/workbook.c:824
+#: src/workbook.c:834
 #, fuzzy
 msgid "Creates a new sheet"
 msgstr "Neues Blatt erzeugen"
 
-#: src/workbook.c:827
+#: src/workbook.c:837
 msgid "Open"
 msgstr "Öffnen"
 
-#: src/workbook.c:827
+#: src/workbook.c:837
 msgid "Opens an existing workbook"
 msgstr "Öffnet ein existierendes Arbeitsbuch"
 
-#: src/workbook.c:830
+#: src/workbook.c:840
 msgid "Save"
 msgstr "Speichern"
 
-#: src/workbook.c:830
+#: src/workbook.c:840
 msgid "Saves the workbook"
 msgstr "Speichert das Arbeitsbuch"
 
-#: src/workbook.c:836
+#: src/workbook.c:846
 msgid "Cuts the selection to the clipboard"
 msgstr "Verschiebt die Auswahl in die Zwischenablage"
 
-#: src/workbook.c:839
+#: src/workbook.c:849
 msgid "Copies the selection to the clipboard"
 msgstr "Kopiert die Auswahl in die Zwischenablage"
 
-#: src/workbook.c:842
+#: src/workbook.c:852
 msgid "Pastes the clipboard"
 msgstr "Kopiert in die Zwischenablage"
 
-#: src/workbook.c:848
+#: src/workbook.c:858
 msgid "Left align"
 msgstr "Linksbündig"
 
-#: src/workbook.c:848
+#: src/workbook.c:858
 #, fuzzy
 msgid "Left justifies the cell contents"
 msgstr "Zentriert den Zelleninhalt"
 
-#: src/workbook.c:851
+#: src/workbook.c:861
 msgid "Centers the cell contents"
 msgstr "Zentriert den Zelleninhalt"
 
-#: src/workbook.c:854
+#: src/workbook.c:864
 msgid "Right align"
 msgstr "Rechtsbündig"
 
-#: src/workbook.c:854
+#: src/workbook.c:864
 #, fuzzy
 msgid "Right justifies the cell contents"
 msgstr "Zentriert den Zelleninhalt"
 
-#: src/workbook.c:859
+#: src/workbook.c:869
 msgid "Bold"
 msgstr "Fett"
 
-#: src/workbook.c:859
+#: src/workbook.c:869
 #, fuzzy
 msgid "Sets the bold font"
 msgstr "Setzt das Fettattribut der Zelle"
 
-#: src/workbook.c:862
+#: src/workbook.c:872
 msgid "Italic"
 msgstr "Kursiv"
 
-#: src/workbook.c:862
+#: src/workbook.c:872
 msgid "Makes the font italic"
 msgstr ""
 
-#: src/workbook.c:868
+#: src/workbook.c:878
 msgid "Line"
 msgstr "Linie"
 
-#: src/workbook.c:868
+#: src/workbook.c:878
 msgid "Creates a line object"
 msgstr "Erzeugt ein Linienobjekt"
 
-#: src/workbook.c:871
+#: src/workbook.c:881
 msgid "Arrow"
 msgstr "Pfeil"
 
-#: src/workbook.c:871
+#: src/workbook.c:881
 msgid "Creates an arrow object"
 msgstr "Erzeugt ein Pfeilobjekt"
 
-#: src/workbook.c:874
+#: src/workbook.c:884
 msgid "Rectangle"
 msgstr "Rechteck"
 
-#: src/workbook.c:874
+#: src/workbook.c:884
 msgid "Creates a rectangle object"
 msgstr "Erzeugt ein Rechtecksobjekt"
 
-#: src/workbook.c:877
+#: src/workbook.c:887
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: src/workbook.c:877
+#: src/workbook.c:887
 msgid "Creates an ellipse object"
 msgstr "Erzeugt ein Ellipsenobjekt"
 
-#: src/workbook.c:958
+#: src/workbook.c:968
 msgid "You should introduce a valid cell name"
 msgstr "Geben sie der Zelle einen gültigen Namen"
 
-#: src/workbook.c:965
+#: src/workbook.c:975
 msgid "Column out of range"
 msgstr "Unzulässige Spaltennummer"
 
-#: src/workbook.c:971
+#: src/workbook.c:981
 msgid "Row number out of range"
 msgstr "Unzulässige Zeilennummer"
 
-#: src/workbook.c:1077
+#: src/workbook.c:1087
 msgid "Sum"
 msgstr "Sum"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1088
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:1079
+#: src/workbook.c:1089
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:1080
+#: src/workbook.c:1090
 msgid "Average"
 msgstr "Durchschnitt"
 
-#: src/workbook.c:1081
+#: src/workbook.c:1091
 msgid "Count"
 msgstr "Anzahl"
 
-#: src/workbook.c:1273
+#: src/workbook.c:1283
 msgid "Untitled.gnumeric"
 msgstr "Namenlos.gnumeric"
 
-#: src/workbook.c:1360
+#: src/workbook.c:1370
 msgid "Zoom out"
 msgstr "Verkleinern"
 
-#: src/workbook.c:1367
+#: src/workbook.c:1377
 msgid "Zoom in"
 msgstr "Vergrößern"
 
-#: src/workbook.c:1452
+#: src/workbook.c:1462
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr ""
 
-#: src/workbook.c:1471
+#: src/workbook.c:1481
 msgid "Other sheets depend on the values on this sheet, I can not remove it"
 msgstr ""
 
-#: src/workbook.c:1491
+#: src/workbook.c:1501
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:1492
+#: src/workbook.c:1502
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:1753 src/workbook.c:1781
+#: src/workbook.c:1763 src/workbook.c:1791
 #, c-format
 msgid "Sheet %d"
 msgstr "Blatt %d"

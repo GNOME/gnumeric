@@ -21,7 +21,7 @@ Performing this function on a string or empty cell simply does nothing. This fun
 @SEEALSO=VARIANCE
 
 @FUNCTION=DEC2BIN
-@SYNTAX=DEC2BIN(number,places)
+@SYNTAX=DEC2BIN(number[,places])
 @DESCRIPTION=The DEC2BIN function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
 if places is too small or negative #NUM! error is returned.
 @SEEALSO=BIN2DEC
@@ -53,7 +53,7 @@ Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=STDEV
 
 @FUNCTION=DELTA
-@SYNTAX=DELTA(x,y)
+@SYNTAX=DELTA(x[,y])
 @DESCRIPTION=The DELTA function test for numerical eqivilance of two arguments returning 1 in equality y is optional, and defaults to 0
 if either argument is non-numeric returns a #VALUE! error
 @SEEALSO=EXACT,GESTEP
@@ -71,7 +71,7 @@ If reference is neither an array nor a reference nor a range returns #VALUE!.
 @SEEALSO=COLUMN,COLUMNS,ROWS
 
 @FUNCTION=BIN2HEX
-@SYNTAX=BIN2HEX(number,places)
+@SYNTAX=BIN2HEX(number[,places])
 @DESCRIPTION=The BIN2HEX function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.
 if places is too small or negative #NUM! error is returned.
 @SEEALSO=HEX2BIN
@@ -98,6 +98,11 @@ Note that Gnumeric will perform regular string to serial number conversion for y
 @SYNTAX=FIXED(num, [decimals, no_commas])
 @DESCRIPTION=Returns @num as a formatted string with @decimals numbers after the decimal point, omitting commas if requested by @no_commas
 @SEEALSO=
+
+@FUNCTION=MOD
+@SYNTAX=MOD(number,divisor)
+@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when divisor is divided into abs(number).
+Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL
 
 @FUNCTION=PERMUT
 @SYNTAX=PERMUT(n,k)
@@ -132,7 +137,7 @@ PMT = Payment received on annuityPRINCIPA(per-1) = amount of the remaining princ
 @SEEALSO=PPMT,PV,FV
 
 @FUNCTION=HEX2BIN
-@SYNTAX=HEX2BIN(number,places)
+@SYNTAX=HEX2BIN(number[,places])
 @DESCRIPTION=The HEX2BIN function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.
 if places is too small or negative #NUM! error is returned.
 @SEEALSO=BIN2HEX
@@ -409,7 +414,7 @@ If x is non-number FISHER returns #VALUE! error.
 @SEEALSO=FISHER
 
 @FUNCTION=OCT2BIN
-@SYNTAX=OCT2BIN(number,places)
+@SYNTAX=OCT2BIN(number[,places])
 @DESCRIPTION=The OCT2BIN function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.
 if places is too small or negative #NUM! error is returned.
 @SEEALSO=BIN2OCT
@@ -496,7 +501,7 @@ The day might be negative (to count backwards) and it is relative to the previou
 @SEEALSO=MID, LEFT
 
 @FUNCTION=OCT2HEX
-@SYNTAX=OCT2HEX(number,places)
+@SYNTAX=OCT2HEX(number[,places])
 @DESCRIPTION=The OCT2HEX function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.
 if places is too small or negative #NUM! error is returned.
 @SEEALSO=OCT2HEX
@@ -586,7 +591,7 @@ Performing this function on a string or empty cell returns an error.if f or t is
 @SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT
 
 @FUNCTION=DEC2OCT
-@SYNTAX=DEC2OCT(number,places)
+@SYNTAX=DEC2OCT(number[,places])
 @DESCRIPTION=The DEC2OCT function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
 if places is too small or negative #NUM! error is returned.
 @SEEALSO=OCT2DEC
@@ -693,7 +698,7 @@ Strings and empty cells are simply ignored.
 @SEEALSO=AND, OR
 
 @FUNCTION=HEX2OCT
-@SYNTAX=HEX2OCT(number,places)
+@SYNTAX=HEX2OCT(number[,places])
 @DESCRIPTION=The HEX2OCT function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.
 if places is too small or negative #NUM! error is returned.
 @SEEALSO=BIN2HEX
@@ -744,7 +749,7 @@ Performing this function on a string or empty cell returns an error.
 @SEEALSO=POISSON
 
 @FUNCTION=GESTEP
-@SYNTAX=GESTEP(x,y)
+@SYNTAX=GESTEP(x[,y])
 @DESCRIPTION=The GESTEP function test for if x is >= y, returning 1 if it is so, and 0 otherwise y is optional, and defaults to 0
 if either argument is non-numeric returns a #VALUE! error
 @SEEALSO=DELTA
@@ -774,7 +779,7 @@ Performing this function on a non-integer or a negative number returns an error.
 If fraction is non-integer it is truncated. If fraction<=0 DOLLARDE returns #NUM! error. @SEEALSO=DOLLARFR
 
 @FUNCTION=ERF
-@SYNTAX=ERF(lower limit, upper_limit)
+@SYNTAX=ERF(lower limit[,upper_limit])
 @DESCRIPTION=The ERF function returns the integral of the error function between the limits. If the upper limit ommitted ERF returns the integral between zero and the lower limit
 if either lower or upper are not numeric a #VALUE! error is returned.if either lower or upper are < 0 a #NUM! error is returned.
 @SEEALSO=ERFC
@@ -786,7 +791,7 @@ Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=MIN,ABS
 
 @FUNCTION=BIN2OCT
-@SYNTAX=BIN2OCT(number,places)
+@SYNTAX=BIN2OCT(number[,places])
 @DESCRIPTION=The BIN2OCT function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
 if places is too small or negative #NUM! error is returned.
 @SEEALSO=OCT2BIN
@@ -808,7 +813,7 @@ Performing this function on a string or empty cell simply does nothing. This fun
 @DESCRIPTION=Calculates the net present value of an investment.@SEEALSO=PV
 
 @FUNCTION=DEC2HEX
-@SYNTAX=DEC2HEX(number,places)
+@SYNTAX=DEC2HEX(number[,places])
 @DESCRIPTION=The DEC2HEX function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
 if places is too small or negative #NUM! error is returned.
 @SEEALSO=HEX2DEC
