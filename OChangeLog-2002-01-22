@@ -9,7 +9,7 @@
 	* src/workbook-edit.c (wbcg_edit_finish): When there's a missing
 	closing paren, try appending one and see if it helps.
 
-	* src/stf-parse.c (stf_preparse): New, default preparsing of a file.
+	* src/stf.c (stf_preparse): New, default preparsing of a file.
 	(stf_read_workbook): Use stf_preparse.
 	(stf_read_default_probe): Prober for reading.
 	(stf_read_workbook_csv_default): New, read a csv file in default formatting.

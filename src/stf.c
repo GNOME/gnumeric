@@ -2,8 +2,7 @@
  * stf.c : Utilizes the stf-parse engine and the dialog-stf to provide a plug-in for
  *         importing text files with a structure (CSV/fixed width)
  *
- * Copyright (C) Almer. S. Tigelaar.
- * EMail: almer1@dds.nl or almer-t@bigfoot.com
+ * Copyright (C) Almer. S. Tigelaar <almer@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -103,6 +102,47 @@ stf_open_and_read (const char *filename)
 	return data;
 }
 
+static char *
+stf_preparse (IOContext *context, char const *filename)
+{
+	char *data = stf_open_and_read (filename);
+	unsigned char const *c;
+	
+	if (!data) {
+		if (context)
+			gnumeric_io_error_read (context,
+						_("Error while trying to memory map file"));
+		return NULL;
+	}
+
+	if (!stf_parse_convert_to_unix (data)) {
+		/*
+		 * Note this buffer was allocated with malloc, not g_malloc
+		 */
+		free (data);
+		if (context)
+			gnumeric_io_error_read (context,
+						_("Error while trying to pre-convert file"));
+		return NULL;
+	}
+
+	if ((c = stf_parse_is_valid_data (data)) != NULL) {
+		if (context) {
+			char *message = g_strdup_printf (_("This file does not seem to be a valid text file.\nThe character '%c' (ASCII decimal %d) was encountered.\nMost likely your locale settings are wrong."),
+							 *c, (int) *c);
+			gnumeric_io_error_read (context, message);
+			g_free (message);
+		}
+		/*
+		 * Note this buffer was allocated with malloc, not g_malloc
+		 */
+		free (data);
+		return NULL;
+	}
+
+	return data;
+}
+
 /**
  * stf_read_workbook
  * @fo       : file opener
@@ -118,45 +158,15 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 	DialogStfResult_t *dialogresult = NULL;
 	char *name;
 	char *data;
-	unsigned char const *c;
 	Sheet *sheet;
 	Workbook *book;
 
 	book = wb_view_workbook (wbv);
-	data = stf_open_and_read (filename);
-	if (!data) {
 
-		gnumeric_io_error_read (context,
-				     _("Error while trying to memory map file"));
+	data = stf_preparse (context, filename);
+	if (!data)
 		return;
-	}
-
-	if (!stf_parse_convert_to_unix (data)) {
-		/*
-		 * Note this buffer was allocated with malloc, not g_malloc
-		 */
-		free (data);
-		gnumeric_io_error_read (context,
-				     _("Error while trying to pre-convert file"));
-		return;
-	}
-
-	if ((c = stf_parse_is_valid_data (data)) != NULL) {
-		char *message;
-		/*
-		 * Note this buffer was allocated with malloc, not g_malloc
-		 */
-
-		message = g_strdup_printf (_("This file does not seem to be a valid text file.\nThe character '%c' (ASCII decimal %d) was encountered.\nMost likely your locale settings are wrong."),
-					   *c, (int) *c);
-		gnumeric_io_error_read (context, message);
-		g_free (message);
-
-		free (data);
-
-		return;
-	}
-
+		
 	/*
 	 * Add Sheet
 	 */
@@ -225,10 +235,105 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 		gnumeric_io_error_unknown (context);
 }
 
+/**
+ * stf_read_workbook_default_csv
+ * @fo       : file opener
+ * @context  : command context
+ * @book     : workbook
+ * @filename : file to read from+convert
+ *
+ * Automatic importing of a comma delimited csv file.
+ **/
+static void
+stf_read_workbook_default_csv (GnumFileOpener const *fo, IOContext *context,
+			       WorkbookView *wbv, char const *filename)
+{
+	Sheet *sheet;
+	Workbook *book;
+	char *name, *data;
+	StfParseOptions_t *po;
+
+	book = wb_view_workbook (wbv);
+	data = stf_preparse (context, filename);
+	if (!data)
+		return;
+
+	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
+	sheet = sheet_new (book, name);
+	g_free (name);
+
+	workbook_sheet_attach (book, sheet, NULL);
+
+	po = stf_parse_options_new ();
+	
+	stf_parse_options_set_type (po, PARSE_TYPE_CSV);
+	stf_parse_options_set_trim_spaces (po, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
+	stf_parse_options_set_lines_to_parse (po, -1);
+	
+	stf_parse_options_csv_set_separators (po, ",", NULL);
+	stf_parse_options_csv_set_stringindicator (po, '"');
+	stf_parse_options_csv_set_indicator_2x_is_single (po, FALSE);
+	stf_parse_options_csv_set_duplicates (po, FALSE);
+	
+	if (!stf_parse_sheet (po, data, sheet)) {
+
+		workbook_sheet_detach (book, sheet);
+		/*
+		 * Note this buffer was allocated with malloc, not g_malloc
+		 */
+		free (data);
+		stf_parse_options_free (po);
+		gnumeric_io_error_read (context, _("Parse error while trying to parse data into sheet"));
+		return;
+	}
+	stf_parse_options_free (po);
+	
+	workbook_recalc (book);
+	sheet_calc_spans (sheet, SPANCALC_RENDER);
+	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, NULL);
+	
+	/*
+	 * Note the buffer was allocated with malloc, not with g_malloc
+	 * as g_malloc aborts if there is not enough memory
+	 */
+	free (data);
+}
+
+#define STF_PROBE_SIZE 16384
+
+static gboolean
+stf_read_default_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeLevel pl)
+{
+	int fd = open (file_name, O_RDONLY);
+	gboolean res;
+	char *data;
+
+	if (fd < 0)
+		return FALSE;
+
+	data = g_new (char, STF_PROBE_SIZE);
+	if (!data) {
+		close (fd);
+		return FALSE;
+	}
+		
+	if (read (fd, data, STF_PROBE_SIZE) < 1) {
+		g_free (data);
+		close (fd);
+		return FALSE;
+	}
+
+	res = (stf_parse_is_valid_data (data) == NULL);
+	g_free (data);
+	close (fd);
+	return res;
+}
 
 #ifndef PAGE_SIZE
 #define PAGE_SIZE (BUFSIZ*8)
 #endif
+
+/***********************************************************************************/
 
 /**
  * stf_open_for_write:
@@ -327,8 +432,12 @@ void
 stf_init (void)
 {
 	register_file_opener_as_importer (gnum_file_opener_new (
-	                      "Gnumeric_stf:stf", _("Text File import"),
+	                      "Gnumeric_stf:stf_druid", _("Text File import (customizable)"),
 	                      NULL, stf_read_workbook));
+	register_file_opener (gnum_file_opener_new (
+		"Gnumeric_stf:stf_csv", _("Text File import (default csv)"),
+		stf_read_default_probe, stf_read_workbook_default_csv), 0);
+			      
 	register_file_saver (gnum_file_saver_new (
 	                     "Gnumeric_stf:stf", "csv",
 	                     _("Text File Export (*.csv)"),
