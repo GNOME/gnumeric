@@ -28,6 +28,7 @@ Morten:
 	* Speed up generation of random numbers.
 	* Fix a few stf irritants.
 	* Security fix for sample data source plugin.
+	* Security fix for oleo plugin.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16
