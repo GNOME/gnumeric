@@ -3,11 +3,11 @@ INCLUDES = \
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(GNUMERIC_CFLAGS)
 
-gnumeric_plugin_fncomplexdir = $(gnumeric_plugindir)/fn-complex
-xmldir = $(gnumeric_plugin_fncomplexdir)
-gnumeric_plugin_fncomplex_LTLIBRARIES = plugin.la
+gnumeric_plugin_fnlogicaldir = $(gnumeric_plugindir)/fn-logical
+xmldir = $(gnumeric_plugin_fnlogicaldir)
+gnumeric_plugin_fnlogical_LTLIBRARIES = plugin.la
 plugin_la_LDFLAGS = -module -avoid-version
-plugin_la_SOURCES = functions.c gsl-complex.c gsl-complex.h
+plugin_la_SOURCES = functions.c
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
