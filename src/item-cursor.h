@@ -42,10 +42,6 @@ struct _ItemCursor {
 	 *     Where the action started (base_x, base_y) and the
 	 *     width and heigth of the selection when the autofill
 	 *     started.
-	 *
-	 * For the anted mode:
-	 *     base_col and base_row are used to keep track of where
-	 *     the selection was started.
 	 */
 	CellPos	 base;
 	int      base_x, base_y;

@@ -412,6 +412,7 @@ static void
 rangesel_horizontal_move (GnumericSheet *gsheet, int dir, gboolean jump_to_boundaries)
 {
 	ItemCursor *ic;
+	int col, row;
 
 	g_return_if_fail (dir == -1 || dir == 1);
 
@@ -419,21 +420,20 @@ rangesel_horizontal_move (GnumericSheet *gsheet, int dir, gboolean jump_to_bound
 		start_cell_selection (gsheet);
 
 	ic = gsheet->sel_cursor;
-	ic->base.col = sheet_find_boundary_horizontal (gsheet->scg->sheet,
-		ic->base.col, ic->base.row,
-		ic->base.row, dir, jump_to_boundaries);
+	row = ic->base_corner.row;
+	col = sheet_find_boundary_horizontal (gsheet->scg->sheet,
+		ic->base_corner.col, row, row, dir, jump_to_boundaries);
 	selection_remove_selection_string (gsheet);
-	item_cursor_set_bounds (ic,
-		ic->base.col, ic->base.row, ic->base.col, ic->base.row);
+	item_cursor_set_bounds (ic, col, row, col, row);
 	selection_insert_selection_string (gsheet);
-	gnumeric_sheet_make_cell_visible (gsheet,
-		ic->move_corner.col, ic->move_corner.row, FALSE);
+	gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
 }
 
 static void
 rangesel_vertical_move (GnumericSheet *gsheet, int dir, gboolean jump_to_boundaries)
 {
 	ItemCursor *ic;
+	int col, row;
 
 	g_return_if_fail (dir == -1 || dir == 1);
 
@@ -441,15 +441,13 @@ rangesel_vertical_move (GnumericSheet *gsheet, int dir, gboolean jump_to_boundar
 		start_cell_selection (gsheet);
 
 	ic = gsheet->sel_cursor;
-	ic->base.row = sheet_find_boundary_vertical (gsheet->scg->sheet,
-		ic->base.col, ic->base.row,
-		ic->base.col, dir, jump_to_boundaries);
+	col = ic->base_corner.col;
+	row = sheet_find_boundary_vertical (gsheet->scg->sheet,
+		col, ic->base_corner.row, col, dir, jump_to_boundaries);
 	selection_remove_selection_string (gsheet);
-	item_cursor_set_bounds (ic,
-		ic->base.col, ic->base.row, ic->base.col, ic->base.row);
+	item_cursor_set_bounds (ic, col, row, col, row);
 	selection_insert_selection_string (gsheet);
-	gnumeric_sheet_make_cell_visible (gsheet,
-		ic->move_corner.col, ic->move_corner.row, FALSE);
+	gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
 }
 
 static void

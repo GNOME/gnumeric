@@ -1,5 +1,10 @@
 2001-01-04  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-sheet.c (rangesel_{horizontal,vertical}_move) : remove
+	  crufty use of ItemCursor::base.  The cursors have both corners now.
+
+2001-01-04  Jody Goldberg <jgoldberg@home.com>
+
 	* src/item-cursor.c (item_cursor_event) : animated cursors can no be
 	  dragged or resized.   NOTE : This introduces a small bug while
 	  fixing another.  The animated cursor is frequently drawn on top of
