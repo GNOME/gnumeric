@@ -122,35 +122,6 @@ handle_paint_events (void)
 }
 
 
-static void
-warn_about_ancient_gnumerics (const char *binary, WorkbookControl *wbc)
-{
-	struct stat buf;
-	time_t now = time (NULL);
-	int days = 180;
-
-	if (binary &&
-	    stat (binary, &buf) != -1 &&
-	    buf.st_mtime != -1 &&
-	    now - buf.st_mtime > days * 24 * 60 * 60) {
-		handle_paint_events ();
-
-		gnumeric_error_system (COMMAND_CONTEXT (wbc),
-				       _("Thank you for using Gnumeric!\n"
-					 "\n"
-					 "The version of Gnumeric you are using is quite old\n"
-					 "by now.  It is likely that many bugs have been fixed\n"
-					 "and that new features have been added in the meantime.\n"
-					 "\n"
-					 "Please consider upgrading before reporting any bugs.\n"
-					 "Consult http://www.gnumeric.org/ for details.\n"
-					 "\n"
-					 "-- The Gnumeric Team."));
-	}
-}
-
-
-
 #if 0
 static void
 gnumeric_check_for_components (void)
@@ -176,7 +147,7 @@ main (int argc, char *argv [])
 	WorkbookControl *wbc;
 	const char *gnumeric_binary = argv[0];
 
-	/* Make stdout line buffered - we only use it for debug info */
+	/* Make stdout line unbuffered - we only use it for debug info */
 	setvbuf (stdout, NULL, _IOLBF, 0);
 
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
@@ -282,8 +253,6 @@ main (int argc, char *argv [])
 					    NULL, FALSE);
 			handle_paint_events ();
 		}
-
-		warn_about_ancient_gnumerics (gnumeric_binary, wbc);
 
 		gtk_main ();
 	}
