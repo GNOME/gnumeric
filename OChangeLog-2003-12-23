@@ -1,3 +1,11 @@
+2000-04-07  Morten Welinder  <terra@diku.dk>
+
+	* src/selection.c (sheet_selection_reset_only): Free the right list.
+	(sheet_is_range_selected): Avoid double assignment.
+	(sheet_is_cell_selected): Ditto.
+
+	* src/history.c (history_menu_remove_items): Plug leak.
+
 2000-04-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/embeddable-grid.h (GridViewClass) : Fix typo, did this ever work ?

@@ -202,6 +202,8 @@ history_menu_remove_items (Workbook *wb, GList *name_list)
 		path = g_strconcat (_("File/"), label, NULL);
 		gnome_app_remove_menus (GNOME_APP (wb->toplevel), path,
 					g_list_length (name_list));
+		g_free (label);
+		g_free (path);
 	}
 #else
 	for (l = name_list; l; l = l->next) {

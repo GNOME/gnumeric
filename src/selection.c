@@ -274,7 +274,7 @@ sheet_is_all_selected (Sheet const * const sheet)
 gboolean
 sheet_is_cell_selected (Sheet const * const sheet, int col, int row)
 {
-	GList *list = sheet->selections;
+	GList *list;
 
 	for (list = sheet->selections; list; list = list->next){
 		SheetSelection const *ss = list->data;
@@ -291,7 +291,7 @@ sheet_is_cell_selected (Sheet const * const sheet, int col, int row)
 gboolean
 sheet_is_range_selected (Sheet const * const sheet, Range const *r)
 {
-	GList *list = sheet->selections;
+	GList *list;
 
 	for (list = sheet->selections; list; list = list->next){
 		SheetSelection const *ss = list->data;
@@ -472,7 +472,7 @@ sheet_selection_reset_only (Sheet *sheet)
 		g_free (ss);
 	}
 
-	g_list_free (tmp);
+	g_list_free (list);
 }
 
 /**
