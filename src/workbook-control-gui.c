@@ -872,7 +872,10 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 static void
 cb_file_new (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	workbook_new_with_sheets (1);
+	/* FIXME : we should have a user configurable setting
+	 * for how many sheets to create by default
+	 */
+	(void) workbook_control_gui_new (NULL, workbook_new_with_sheets (1));
 }
 
 static void
@@ -915,7 +918,7 @@ cb_file_save_as (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_file_print_setup (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	Sheet *sheet =wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	dialog_printer_setup (wbcg, sheet);
 }
 
