@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "func.h"
 
 #include "utils.h"
 
@@ -620,6 +621,13 @@ make_inter_sheet_ref_v7 (MS_EXCEL_WORKBOOK *wb, guint16 extn_idx,
 	}
 }
 
+/* Handle unknown functions on import without losing their names */
+static Value *
+unknownFunctionHandler (FunctionEvalInfo *ei, GList *expr_node_list)
+{
+	return function_error (ei, gnumeric_err_NAME);
+}
+
 static gboolean
 make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 {
@@ -637,29 +645,37 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 			parse_list_free (&args);
 			parse_list_push (stack, expr_tree_new_error (_("Broken function")));
 			printf ("Killroy was here.  Did not know what he was doing.\n");
-			return 0;
-		}
-		else {
-			name = symbol_lookup (global_symbol_table, tmp->u.constant->v.str->str);
-			if (!name) {
-				char *errtxt = g_strdup_printf ("Duff fn '%s'", 
-								tmp->u.constant->v.str->str);
-				printf ("Fn : '%s'\n", tmp->u.constant->v.str->str);
-				parse_list_free (&args);
-				parse_list_push (stack, expr_tree_new_error (errtxt));
-				g_free (errtxt);
-				expr_tree_unref (tmp);
 				return 0;
+		} else
+		{
+			char const * const f_name = tmp->u.constant->v.str->str;
+
+			name = symbol_lookup (global_symbol_table, f_name);
+			if (!name)
+			{
+				FunctionCategory *cat =
+					function_get_category (_("Unknown Function"));
+				/*
+				 * TODO TODO TODO : should add a
+				 *    function_add_{nodes,args}_fake
+				 * This will allow a user to load a missing
+				 * plugin to supply missing functions.
+				 */
+				function_add_nodes (cat, g_strdup (f_name),
+						    "", "...", NULL,
+						    &unknownFunctionHandler);
+				name = symbol_lookup (global_symbol_table,
+						      f_name);
+				g_assert (name);
+
+				g_warning ("%s : unknown function.\n", f_name);
 			}
 			expr_tree_unref (tmp);
 			symbol_ref (name);
 			parse_list_push (stack, expr_tree_new_funcall (name, args));
 			return 1 ;
 		}
-	}
-	else
-		if (fn_idx >= 0 && fn_idx < FORMULA_FUNC_DATA_LEN)
-		{
+	} else if (fn_idx >= 0 && fn_idx < FORMULA_FUNC_DATA_LEN) {
 			const FORMULA_FUNC_DATA *fd = &formula_func_data[fn_idx] ;
 			GList *args;
 
@@ -703,9 +719,9 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 				parse_list_push_raw (stack, value_duplicate (name->data));
 			}
 			return 1 ;
-		}
-		else
-			printf ("FIXME, unimplemented fn 0x%x, with %d args\n", fn_idx, numargs) ;
+	} else
+		printf ("FIXME, unimplemented fn 0x%x, with %d args\n",
+			fn_idx, numargs) ;
 	return 0 ;
 }
 

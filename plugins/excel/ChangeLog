@@ -1,3 +1,30 @@
+1999-06-30  Jody Goldberg  <jgoldberg@home.com>
+
+	* biff-types.h : Add some undocumented BIFF types, move INDEX,
+	  DEFAULTROWHEIGHT into lsb territory.
+
+	* ms-excel-read.c (ms_excel_palette_new) : Correct debug messages.
+	(ms_excel_palette_get) : Improve debug messages, and assume that
+	  0, 64, 127 are all contrast states.
+	(ms_excel_set_cell_colors) : Tail merge with ms_excel_set_cell_xf,
+	  handle special case of fill-pattern=0.  Now all the color sheets
+	  look OK !! Next step, patterns.
+	(ms_excel_read_formula, ms_excel_read_boolerr) : Read current values so
+	  we can set styles.  Empty strings are undocumented :-(
+	(ms_excel_read_cell) : Handle array formulas.
+	(ms_excel_read_sheet, ms_excel_read_workbook) : Add some unhandled
+	  record types so that we can start to enable state checking.
+	(ms_excel_unexpected_biff) : New function for warning about state.
+	(biff_xf_data_new) : Don't map pattern types as if they were borders.
+
+	* ms-formula-read.c (make_function) : Generate a dummy handler for
+	  unknown functions.
+	  (unknownFunctionHandler) : A dummy handler returning NAME for unknown
+	  functions.
+
+	* ms-chart.c : Use ms_excel_unexpected_biff, handle some
+	  undocumented codes, and fill in more record types.
+
 1999-06-30  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-write.c (write_sheet_bools): Updated

@@ -109,4 +109,7 @@ extern char* biff_name_data_get_name (MS_EXCEL_SHEET *sheet, guint16 idx);
 extern BIFF_BOF_DATA * ms_biff_bof_data_new (BIFF_QUERY * q);
 extern void ms_biff_bof_data_destroy (BIFF_BOF_DATA * data);
 
+/* A utility routine to handle unexpected BIFF records */
+extern void          ms_excel_unexpected_biff (BIFF_QUERY *q,
+					       char const * const state);
 #endif
