@@ -93,6 +93,7 @@ typedef struct _MS_EXCEL_WORKBOOK
 	GHashTable *font_data ;
 	GHashTable *format_data ;
 	GHashTable *name_data ;
+	int read_drawing_group;
   	GList *excel_sheets ;
 	BIFF_EXTERNSHEET_DATA *extern_sheets ;
 	guint16 num_extern_sheets ;

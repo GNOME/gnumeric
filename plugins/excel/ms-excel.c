@@ -244,8 +244,8 @@ ms_biff_bof_data_new (BIFF_QUERY * q)
 {
 	BIFF_BOF_DATA *ans = g_new (BIFF_BOF_DATA, 1);
 
-	if ((q->opcode & 0xff) == BIFF_BOF){
-		assert (q->length >= 4);
+	if ((q->opcode & 0xff) == BIFF_BOF &&
+	    (q->length >= 4)){
 		/*
 		 * Determine type from boff
 		 */
@@ -1306,6 +1306,7 @@ ms_excel_workbook_new ()
 	ans->palette = NULL;
 	ans->global_strings = NULL;
 	ans->global_string_max = 0;
+	ans->read_drawing_group = 0;
 	return ans;
 }
 
@@ -1988,7 +1989,9 @@ biff_get_externsheet_name(MS_EXCEL_WORKBOOK *wb, guint16 idx, gboolean get_first
 	BIFF_EXTERNSHEET_DATA *bed ;
 	BIFF_BOUNDSHEET_DATA *bsd ;
 	guint16 index ;
-	g_assert ( idx < wb->num_extern_sheets) ;
+
+	if (idx>=wb->num_extern_sheets)
+		return "Unknown";
 
 	bed = &wb->extern_sheets[idx] ;
 	index = get_first ? bed->first_tab : bed->last_tab ;
@@ -2191,7 +2194,11 @@ ms_excelReadWorkbook (MS_OLE * file)
 			case BIFF_MS_O_DRAWING_GROUP: /* FIXME: See: S59DA5.HTM */
 				if (gnumeric_debugging>0) {
 					printf ("FIXME: MS Drawing Group\n");
-					ms_escher_hack_get_drawing (q);
+					if (wb && wb->read_drawing_group==0) {
+						ms_escher_hack_get_drawing (q);
+						wb->read_drawing_group=1;
+					} else /* Why should this be ? don't ask me */
+						printf ("FIXME: bad docs\n");
 				}
 				break;
 			case BIFF_EXTERNSHEET:

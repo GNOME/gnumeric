@@ -76,15 +76,19 @@ extern MS_OLE_DIRECTORY *ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *nam
 extern void ms_ole_directory_unlink (MS_OLE_DIRECTORY *) ;
 extern void ms_ole_directory_destroy (MS_OLE_DIRECTORY *) ;
 
+typedef enum { MS_OLE_SEEK_SET, MS_OLE_SEEK_CUR } ms_ole_seek_t;
+
 typedef struct _MS_OLE_STREAM
 {
-	guint32 block ;
-	/**
-	 * This has limits 0-SB_BLOCK_SIZE or 0-BB_BLOCK_SIZE.
-	 * The last extra state saving an unused block at EOStream
-	 **/
-	guint16 offset ;
-	guint32 end_block ;
+	GArray *blocks;    /* A list of the blocks in the file if NULL: no file */
+#ifdef G_HAVE_GINT64
+	guint32 position;  /* Current offset into file. Points to the next byte to read */
+	guint32 size;
+#else
+	guint32 position;
+	guint32 size;
+#endif
+	enum { MS_OLE_SMALL_BLOCK, MS_OLE_LARGE_BLOCK } strtype; /* Type of stream */
 
 	/**
 	 * Attempts to copy length bytes into *ptr, returns true if
@@ -99,9 +103,9 @@ typedef struct _MS_OLE_STREAM
 	guint8*  (*read_ptr  )(struct _MS_OLE_STREAM *, guint32 length) ;
 	/**
 	 * This function must be called to advance the stream pointer after
-	 * any read.
+	 * any read_ptr.
 	 **/
-	void     (*advance   )(struct _MS_OLE_STREAM *, gint32 BYTES) ;
+	void     (*lseek     )(struct _MS_OLE_STREAM *, gint32 BYTES, ms_ole_seek_t type) ;
 	/**
 	 * This writes length bytes at *ptr to the stream, it _does_ advance
 	 * the stream pointer.
@@ -119,6 +123,6 @@ typedef struct _MS_OLE_STREAM
 extern MS_OLE_STREAM *ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode) ;
 extern void ms_ole_stream_close  (MS_OLE_STREAM *) ;
 
-extern void dump (guint8 *ptr, int len) ;
+extern void dump (guint8 *ptr, guint32 len) ;
 
 #endif

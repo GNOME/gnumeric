@@ -135,6 +135,7 @@ biff_to_flat_data (const BIFF_QUERY *q, guint8 **data, guint32 *length)
 		ms_biff_query_next(nq);
 		cnt++;
 	} while (nq->opcode == BIFF_CONTINUE ||
+		 nq->opcode == BIFF_MS_O_DRAWING ||
 		 nq->opcode == BIFF_MS_O_DRAWING_GROUP);
 
 	printf ("MERGING %d continues\n", cnt);
@@ -146,6 +147,7 @@ biff_to_flat_data (const BIFF_QUERY *q, guint8 **data, guint32 *length)
 		ptr+=nq->length;
 		ms_biff_query_next(nq);
 	} while (nq->opcode == BIFF_CONTINUE ||
+		 nq->opcode == BIFF_MS_O_DRAWING ||
 		 nq->opcode == BIFF_MS_O_DRAWING_GROUP);
 }
 

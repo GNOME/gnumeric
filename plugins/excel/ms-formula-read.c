@@ -719,7 +719,8 @@ make_function (PARSE_LIST *stack, int fn_idx, int numargs)
  * Return a dynamicaly allocated string containing the formula, never NULL
  **/
 char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
-			      int fn_col, int fn_row, int shared, guint16 length)
+			      int fn_col, int fn_row, int shared,
+			      guint16 length)
 {
 	Cell *cell ;
 	int len_left = length ;
@@ -928,6 +929,7 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			GString *ans = g_string_new ("{");
 			ptg_length = 3;
 			if (cols==0) cols=256;
+#ifdef 0
 			for (lpy=0;lpy<rows;lpy++) {
 				for (lpx=0;lpx<cols;lpx++) {
 					guint8 opts=BIFF_GETBYTE(data);
@@ -938,7 +940,9 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 						ptg_length+=9;
 					} else if (opts == 2) {
 						guint32 len;
-						g_string_append (ans, biff_get_text (data+2, BIFF_GETBYTE(data+1), &len));
+						g_string_append (ans, biff_get_text (data+2,
+										     BIFF_GETBYTE(data+1),
+										     &len));
 						g_string_append (ans, ",");
 						data+=len+2;
 						ptg_length+=2+len;
@@ -949,6 +953,7 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 					g_string_append (ans, ";");
 				}
 			}
+#endif
 			g_string_append (ans, "}");
 			parse_list_push_raw (stack, ans->str, NO_PRECEDENCE);
 			g_string_free (ans, FALSE);

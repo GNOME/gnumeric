@@ -1,5 +1,23 @@
 1999-04-18  Michael Meeks  <michael@edenproject.org>
 
+	* ms-ole.c, ms-ole.h: MASSIVE hack. invalidates
+	pretty much all the previous ole changelog entries.
+	(dump): Updated type.
+
+	* ms-excel.c (ms_biff_bof_data_new): Removed assert.
+	(biff_get_externsheet_name): Removed assert.
+	(ms_excel_parse_formula): Commented out array support.
+
+1999-04-18  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel.c (ms_excel_workbook_new): Added flag so
+	only reads first group & merges rest.
+
+	* ms-escher.c (biff_to_flat_data): Improved merge
+	heuristic.
+
+1999-04-18  Michael Meeks  <michael@edenproject.org>
+
 	* ms-escher.c (bse_type_to_name): Created.
 	(bse_type_to_name): Created.
 	(BSE_new): Updated.
