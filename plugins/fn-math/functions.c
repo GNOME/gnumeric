@@ -253,7 +253,7 @@ static char const *help_hypot = {
 	   "@SYNTAX=HYPOT(number1,number2,...)\n"
 
 	   "@DESCRIPTION="
-	   "HYPOT returns the square root of the sum of the squares of the argumnents.\n"
+	   "HYPOT returns the square root of the sum of the squares of the arguments.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "HYPOT(3,4) equals to 5.\n"
