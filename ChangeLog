@@ -1,5 +1,9 @@
 2002-12-22  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.1.14
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
 	* src/workbook-control-gui.c (cb_auto_filter) : aarrrggghhh typo.
 
 2002-12-22  Jody Goldberg <jody@gnome.org>
