@@ -35,7 +35,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <gnome.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
