@@ -1,7 +1,8 @@
 2002-02-15  Jody Goldberg <jody@gnome.org>
 
 	* src/widgets/gnumeric-combo-text.c (gnm_combo_text_destroy) : more
-	  g_signal-ification.
+	  g_signal-ification.  g_signal_handlers_disconnect_by_func just hides
+	  the problem.  The real issue is that we are disconnecting twice.
 
 	* src/workbook.c (workbook_set_saveinfo) : use a weak_ref.
 

@@ -249,10 +249,13 @@ gnm_combo_text_destroy (GtkObject *object)
 	GtkObjectClass *parent;
 	GnmComboText *ct = GNM_COMBO_TEXT (object);
 
-	gtk_signal_disconnect_by_func (GTK_OBJECT (ct),
-		G_CALLBACK (cb_pop_down), NULL);
-	g_signal_handlers_disconnect_by_func (GTK_OBJECT (ct->list),
-		G_CALLBACK (cb_list_unselect), ct);
+	if (ct->list != NULL) {
+		g_signal_handlers_disconnect_by_func (G_OBJECT (ct),
+			G_CALLBACK (cb_pop_down), NULL);
+		g_signal_handlers_disconnect_by_func (GTK_OBJECT (ct->list),
+			G_CALLBACK (cb_list_unselect), ct);
+		ct->list = NULL;
+	}
 
 	parent = g_type_class_peek (gtk_combo_box_get_type ());
 	if (parent && parent->destroy)
