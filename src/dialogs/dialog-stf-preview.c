@@ -216,7 +216,7 @@ stf_preview_new (GtkWidget *data_container,
 	renderdata->tree_view =
 		GTK_TREE_VIEW (gtk_tree_view_new_with_model
 			       (GTK_TREE_MODEL (renderdata->ll)));
-	renderdata->colcount     = 0;
+	renderdata->colcount = 0;
 
 	gtk_container_add (GTK_CONTAINER (renderdata->data_container),
 			   GTK_WIDGET (renderdata->tree_view));

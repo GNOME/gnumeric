@@ -315,6 +315,16 @@ stf_dialog_format_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 void
 stf_dialog_format_page_cleanup (DruidPageData_t *pagedata)
 {
+	GPtrArray *formats = pagedata->format.format_run_list;
+	if (formats) {
+		unsigned int ui;
+		for (ui = 0; ui < formats->len; ui++) {
+			StyleFormat *sf = g_ptr_array_index (formats, ui);
+			style_format_unref (sf);
+		}
+		g_ptr_array_free (formats, TRUE);
+	}
+
 	stf_preview_free (pagedata->format.format_run_renderdata);
 }
 

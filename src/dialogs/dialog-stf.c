@@ -510,6 +510,7 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 		}
 
 		dialogresult->formats = pagedata.format.format_run_list;
+		pagedata.format.format_run_list = NULL;
 	}
 
 	/* Quick Note, if the parseoptions members of either the csv page or
