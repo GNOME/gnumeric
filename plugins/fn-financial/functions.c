@@ -2065,7 +2065,7 @@ gnumeric_nper (FunctionEvalInfo *ei, GnmValue **argv)
 	if (tmp <= 0.0)
 		return value_new_error_VALUE (ei->pos);
 
-        return value_new_float (loggnum (tmp) / loggnum (1.0 + rate));
+        return value_new_float (loggnum (tmp) / log1pgnum (rate));
 }
 
 /***************************************************************************/
@@ -2164,7 +2164,7 @@ gnumeric_g_duration (FunctionEvalInfo *ei, GnmValue **argv)
 	else if (fv / pv < 0)
 		return value_new_error_VALUE (ei->pos);
 
-        return value_new_float (loggnum (fv / pv) / loggnum (1.0 + rate));
+        return value_new_float (loggnum (fv / pv) / log1pgnum (rate));
 
 }
 

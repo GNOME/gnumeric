@@ -5,6 +5,7 @@
 	gnumeric_mirr, irr_npv, irr_npv_df, callback_function_npv,
 	gnumeric_xnpv, xirr_npv): Improve precision for small rates using
 	new pow1p and pow1pm1.
+	(gnumeric_nper, gnumeric_g_duration): Use log1pgnum.
 
 2004-03-28  Jody Goldberg <jody@gnome.org>
 
