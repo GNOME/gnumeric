@@ -1,3 +1,18 @@
+2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_user_config) : add line 
+	  preview
+
+2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_user_config) : don't
+	  use GnomeDialog. Use Glade.
+	(cb_dialog_graphic_config_destroy) : replaces cb_dialog_graphic_close
+	(cb_dialog_graphic_config_apply_clicked) : replaces cb_dialog_graphic_clicked
+	(cb_dialog_graphic_config_ok_clicked) : new
+	(cb_dialog_graphic_config_cancel_clicked) : new
+	(cb_adjustment_value_changed) : use changed DialogGraphicData
+
 2002-04-10  Morten Welinder  <terra@diku.dk>
 
 	* src/clipboard.c (paste_cell_with_operation): Plug leak.

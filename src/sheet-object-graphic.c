@@ -488,7 +488,7 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
  	table = glade_xml_get_widget (state->gui, "table");
 	state->canvas = gnome_canvas_new ();
 	gtk_table_attach_defaults (GTK_TABLE (table), state->canvas,
-				   2, 3, 2, 5);
+				   2, 3, 0, (sog->type != SHEET_OBJECT_ARROW) ? 2 : 5);
 	gtk_widget_show (GTK_WIDGET (state->canvas));
 
 	state->fill_color_combo = color_combo_new (NULL, NULL, NULL,
@@ -497,7 +497,11 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 			       sog->fill_color ? &sog->fill_color->color : NULL);
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table),
-				   state->fill_color_combo, 1, 3, 0, 1);
+				   state->fill_color_combo, 1, 2, 0, 1);
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->fill_color_combo), 
+					GTK_RELIEF_NORMAL);
+	color_combo_box_set_preview_relief (COLOR_COMBO (state->fill_color_combo), 
+					    GTK_RELIEF_NORMAL);
 	gtk_widget_show (GTK_WIDGET (state->fill_color_combo));
 
 	state->spin_arrow_tip = GTK_SPIN_BUTTON (glade_xml_get_widget (
@@ -511,6 +515,12 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 						     state->gui, "spin_line_width"));
 	state->width = sog->width;
 	gtk_spin_button_set_value (state->spin_line_width, state->width);
+	state->a = sog->a;
+	state->b = sog->b;
+	state->c = sog->c;
+	gtk_spin_button_set_value (state->spin_arrow_tip, state->a);
+	gtk_spin_button_set_value (state->spin_arrow_length, state->b);
+	gtk_spin_button_set_value (state->spin_arrow_width, state->c);
 
 	if (sog->type != SHEET_OBJECT_ARROW) {
 		gtk_widget_hide (glade_xml_get_widget (state->gui, "label_arrow_tip"));
@@ -519,69 +529,67 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 		gtk_widget_hide (GTK_WIDGET (state->spin_arrow_tip));
 		gtk_widget_hide (GTK_WIDGET (state->spin_arrow_length));
 		gtk_widget_hide (GTK_WIDGET (state->spin_arrow_width));
-		gtk_widget_hide (state->canvas);
-		gtk_widget_show (state->dialog);
-	} else {
-		gtk_widget_show (state->dialog);
-		state->a = sog->a;
-		state->b = sog->b;
-		state->c = sog->c;
-		gtk_spin_button_set_value (state->spin_arrow_tip, state->a);
-		gtk_spin_button_set_value (state->spin_arrow_length, state->b);
-		gtk_spin_button_set_value (state->spin_arrow_width, state->c);
-		points = gnome_canvas_points_new (2);
-		points->coords [0] = state->canvas->allocation.width / 2.0;
-		points->coords [1] = 0.0;
-		points->coords [2] = points->coords [0];
-		points->coords [3] = state->canvas->allocation.height;
+	} 
+	gtk_widget_show (state->dialog);
+
+	points = gnome_canvas_points_new (2);
+	points->coords [0] = state->canvas->allocation.width / 4.0;
+	points->coords [1] = 5.0;
+	points->coords [2] = state->canvas->allocation.width - points->coords [0];
+	points->coords [3] = state->canvas->allocation.height - points->coords [1];
+
+	if (sog->type != SHEET_OBJECT_ARROW)
+		state->arrow = gnome_canvas_item_new (
+			gnome_canvas_root (GNOME_CANVAS (state->canvas)),
+			GNOME_TYPE_CANVAS_LINE, "points", points,
+			"fill_color_gdk", sog->fill_color, NULL);
+	else
 		state->arrow = gnome_canvas_item_new (
 				gnome_canvas_root (GNOME_CANVAS (state->canvas)),
 				GNOME_TYPE_CANVAS_LINE, "points", points,
 				"fill_color_gdk", sog->fill_color,
 				"first_arrowhead", TRUE, NULL);
-		gnome_canvas_points_free (points);
-		gnome_canvas_set_scroll_region (GNOME_CANVAS (state->canvas),
+
+	gnome_canvas_points_free (points);
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (state->canvas),
 					0., 0., state->canvas->allocation.width,
 					state->canvas->allocation.height);
-		cb_adjustment_value_changed (NULL, state);
-
-		g_signal_connect (G_OBJECT
-				  (gtk_spin_button_get_adjustment (state->spin_line_width)),
-				  "value_changed",
-				  G_CALLBACK (cb_adjustment_value_changed), state);
-		g_signal_connect (G_OBJECT 
-				  (gtk_spin_button_get_adjustment (state->spin_arrow_tip)),
-				  "value_changed",
-				  G_CALLBACK (cb_adjustment_value_changed), state);
-		g_signal_connect (G_OBJECT 
-				  (gtk_spin_button_get_adjustment (state->spin_arrow_length)),
-				  "value_changed",
-				  G_CALLBACK (cb_adjustment_value_changed), state);
-		g_signal_connect (G_OBJECT
-				  (gtk_spin_button_get_adjustment (state->spin_arrow_width)),
-				  "value_changed",
-				  G_CALLBACK (cb_adjustment_value_changed), state);
-		g_signal_connect (G_OBJECT (state->fill_color_combo),
-				  "color_changed",
-				  G_CALLBACK (cb_fill_color_changed), state);
-	}
-
+	cb_adjustment_value_changed (NULL, state);
+	g_signal_connect (G_OBJECT 
+			  (gtk_spin_button_get_adjustment (state->spin_arrow_tip)),
+			  "value_changed",
+			  G_CALLBACK (cb_adjustment_value_changed), state);
+	g_signal_connect (G_OBJECT 
+			  (gtk_spin_button_get_adjustment (state->spin_arrow_length)),
+			  "value_changed",
+			  G_CALLBACK (cb_adjustment_value_changed), state);
+	g_signal_connect (G_OBJECT
+			  (gtk_spin_button_get_adjustment (state->spin_arrow_width)),
+			  "value_changed",
+			  G_CALLBACK (cb_adjustment_value_changed), state);
+	g_signal_connect (G_OBJECT (state->fill_color_combo),
+			  "color_changed",
+			  G_CALLBACK (cb_fill_color_changed), state);
+	g_signal_connect (G_OBJECT
+			  (gtk_spin_button_get_adjustment (state->spin_line_width)),
+			  "value_changed",
+			  G_CALLBACK (cb_adjustment_value_changed), state);
 	g_signal_connect (G_OBJECT (state->dialog),
 			  "destroy",
 			  G_CALLBACK (cb_dialog_graphic_config_destroy), state);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "ok_button")),
-		"clicked",
-		G_CALLBACK (cb_dialog_graphic_config_ok_clicked), state);
+			  "clicked",
+			  G_CALLBACK (cb_dialog_graphic_config_ok_clicked), state);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "apply_button")),
-		"clicked",
-		G_CALLBACK (cb_dialog_graphic_config_apply_clicked), state);
+			  "clicked",
+			  G_CALLBACK (cb_dialog_graphic_config_apply_clicked), state);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "cancel_button")),
-		"clicked",
-		G_CALLBACK (cb_dialog_graphic_config_cancel_clicked), state);
+			  "clicked",
+			  G_CALLBACK (cb_dialog_graphic_config_cancel_clicked), state);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		(sog->type != SHEET_OBJECT_ARROW) ? "so-line.html" : "so-arrow.html");
-
+	
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 

@@ -1,5 +1,15 @@
 2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* so-arrow.glade : add line preview
+
+2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* Makefile.am : added so-arrow.glade
+	* so-arrow.glade : new
+	* sheet-order.glade : fix minumum button width
+
+2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* Makefile.am : added so-checkbox.glade
 	* so-checkbox.glade : new
 
