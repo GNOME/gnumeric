@@ -11,7 +11,7 @@
 GType command_context_get_type (void);
 
 void  cmd_context_error		(CommandContext *cc, GError *err);
-char *cmd_context_get_password	(CommandContext *cc, char const *msg);
+char *cmd_context_get_password	(CommandContext *cc, char const *filename);
 void  cmd_context_set_sensitive	(CommandContext *cc, gboolean sensitive);
 
 /* utility routines for common errors */

@@ -48,6 +48,7 @@ base_files =					\
 	dialog-define-names.c			\
 	dialog-delete-cells.c			\
 	dialog-merge.c				\
+	dialog-password.c			\
 	dialog-paste-special.c			\
 	dialog-pivottable.c			\
 	dialog-plugin-manager.c 		\

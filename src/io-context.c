@@ -64,10 +64,10 @@ ioc_finalize (GObject *obj)
 }
 
 static char *
-ioc_get_password (CommandContext *cc, char const *msg)
+ioc_get_password (CommandContext *cc, char const *filename)
 {
 	IOContext *ioc = (IOContext *)cc;
-	return cmd_context_get_password (ioc->impl, msg);
+	return cmd_context_get_password (ioc->impl, filename);
 }
 
 static void

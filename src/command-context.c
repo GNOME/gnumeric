@@ -161,11 +161,11 @@ cmd_context_progress_message_set (CommandContext *context, gchar const *msg)
 }
 
 char *
-cmd_context_get_password (CommandContext *cc, char const *msg)
+cmd_context_get_password (CommandContext *cc, char const *filename)
 {
 	g_return_val_if_fail (IS_COMMAND_CONTEXT (cc), NULL);
 
-	return CC_CLASS (cc)->get_password (cc, msg);
+	return CC_CLASS (cc)->get_password (cc, filename);
 }
 
 void

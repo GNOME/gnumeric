@@ -16,6 +16,7 @@
 #include "io-context-gtk.h"
 #include "io-context-priv.h"
 #include "libgnumeric.h"
+#include "dialogs.h"
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtklabel.h>
@@ -153,6 +154,13 @@ icg_user_is_impatient (IOContextGtk *icg)
 	return g_timer_elapsed (icg->timer, NULL) > ICG_POPUP_DELAY;
 }
 
+static char *
+icg_get_password (CommandContext *cc, char const *filename)
+{
+	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
+	return dialog_get_password (icg->window, filename);
+}
+
 static void
 icg_progress_set (CommandContext *cc, gfloat val)
 {
@@ -235,6 +243,7 @@ icg_class_init (IOContextGtkClass *klass)
 
 	G_OBJECT_CLASS (klass)->finalize = icg_finalize;
 
+	cc_class->get_password         = icg_get_password;
 	cc_class->progress_set         = icg_progress_set;
 	cc_class->progress_message_set = icg_progress_message_set;
 	cc_class->error.error_info     = icg_error_error_info;

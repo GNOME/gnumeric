@@ -15,7 +15,7 @@
 #include "workbook-edit.h"
 
 static char *
-wbcc_get_password (CommandContext *cc, char const* msg) { return NULL; }
+wbcc_get_password (CommandContext *cc, char const* filename) { return NULL; }
 static void
 wbcc_set_sensitive (CommandContext *wbc, gboolean sensitive) {}
 

@@ -79,7 +79,7 @@ ccs_init (CommandContextStderr *ccs)
 
 static char *
 ccs_get_password (G_GNUC_UNUSED CommandContext *cc,
-		  G_GNUC_UNUSED char const* msg)
+		  G_GNUC_UNUSED char const* filename)
 {
 	return NULL;
 }

@@ -597,6 +597,7 @@ gnumeric_application_setup_icons (void)
 		{ gnm_pivottable_24,	                gnm_pivottable_16,		"Gnumeric_PivotTable" },
 		{ gnm_protection_yes,	                NULL,				"Gnumeric_Protection_Yes" },
 		{ gnm_protection_no,       		NULL,				"Gnumeric_Protection_No" },
+		{ gnm_protection_yes_48,	        NULL,				"Gnumeric_Protection_Yes_Dialog" },
 
 		{ gnm_link_add_24,			gnm_link_add_16,		"Gnumeric_Link_Add" },
 		{ NULL,					gnm_link_delete_16,		"Gnumeric_Link_Delete" },

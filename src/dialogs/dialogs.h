@@ -98,6 +98,7 @@ typedef enum {
 } ttest_type;
 
 int dialog_ttest_tool    (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test);
+char *dialog_get_password (GtkWindow *parent, const char *filename);
 
 /* Modeless dialogs */
 void	 dialog_summary_update  (WorkbookControlGUI *wbcg, gboolean open_dialogs);

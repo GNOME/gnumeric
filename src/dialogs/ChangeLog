@@ -1,3 +1,12 @@
+2002-12-30  Jon K Hellan  <hellan@acm.org>
+
+	* Makefile.am (base_files): Add dialog-password.c
+
+	* dialog-password.c: Add.
+	(cb_accept_password): Moved from workbook-control-gui.c.
+	(dialog_get_password): New function with material taken from
+	wbcg_get_password in workbook-control-gui.c.
+
 2002-12-24  Jody Goldberg <jody@gnome.org>
 
 	* dialog-workbook-attr.c : clean up includes
