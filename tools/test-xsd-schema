@@ -1,0 +1,4 @@
+#!/bin/sh
+for f in $* ; do
+    xmllint -schema gnumeric.xsd "$f" > /dev/null
+done
