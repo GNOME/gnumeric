@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2001-12-28 05:14+0100\n"
-"PO-Revision-Date: 2001-12-28 05:14+0100\n"
+"POT-Creation-Date: 2001-12-30 00:29+0100\n"
+"PO-Revision-Date: 2001-12-30 00:30+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
-#: plugins/mps/mps.c:571 src/xml-io.c:3448
+#: plugins/mps/mps.c:579 src/xml-io.c:3448
 msgid "Reading file..."
 msgstr "Läser fil..."
 
@@ -398,16 +398,16 @@ msgstr "Lotus 123"
 msgid "Lotus 123 (*.wk1)"
 msgstr "Lotus 123 (*.wk1)"
 
-#: plugins/mps/mps.c:274
+#: plugins/mps/mps.c:276
 msgid "Program Name"
 msgstr "Programnamn"
 
-#: plugins/mps/mps.c:279
+#: plugins/mps/mps.c:282
 msgid "Objective Value"
 msgstr "Objektivvärde"
 
 #. Print 'Status'.
-#: plugins/mps/mps.c:290
+#: plugins/mps/mps.c:293
 msgid "Feasible"
 msgstr "Möjligt"
 
@@ -415,12 +415,12 @@ msgstr "Möjligt"
 #. * Add objective function stuff into the sheet.
 #.
 #. Print 'Objective function:'
-#: plugins/mps/mps.c:305
+#: plugins/mps/mps.c:308
 msgid "Objective function:"
 msgstr "Objektivfunktion:"
 
 #. Print 'Current values'
-#: plugins/mps/mps.c:308
+#: plugins/mps/mps.c:311
 msgid "Current values"
 msgstr "Aktuella värden"
 
@@ -428,60 +428,60 @@ msgstr "Aktuella värden"
 #. * Add constraints into the sheet.
 #.
 #. Print 'Constraints:'.
-#: plugins/mps/mps.c:329
+#: plugins/mps/mps.c:332
 msgid "Constraints:"
 msgstr "Restriktioner:"
 
 #. Print constraint titles.
-#: plugins/mps/mps.c:332 src/dialogs/plugin-manager.glade.h:13
+#: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:13
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
 msgid "Name"
 msgstr "Namn"
 
-#: plugins/mps/mps.c:336 src/dialogs/cell-sort.glade.h:14
+#: plugins/mps/mps.c:339 src/dialogs/cell-sort.glade.h:14
 #: src/dialogs/plugin-manager.glade.h:15 src/solver-lp.c:1050
 #: src/solver-lp.c:1097
 msgid "Value"
 msgstr "Värde"
 
-#: plugins/mps/mps.c:337
+#: plugins/mps/mps.c:340
 msgid "Type"
 msgstr "Typ"
 
-#: plugins/mps/mps.c:338
+#: plugins/mps/mps.c:341
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:339 src/solver-lp.c:959
+#: plugins/mps/mps.c:342 src/solver-lp.c:959
 msgid "Slack"
 msgstr "Spelrum"
 
-#: plugins/mps/mps.c:340 src/solver-lp.c:958
+#: plugins/mps/mps.c:343 src/solver-lp.c:958
 msgid "Status"
 msgstr "Status"
 
-#: plugins/mps/mps.c:1114
+#: plugins/mps/mps.c:1127
 msgid "Problem name was not defined in the file."
 msgstr "Problemnamnet angavs inte i filen."
 
-#: plugins/mps/mps.c:1117
+#: plugins/mps/mps.c:1130
 msgid "Invalid ROWS section in the file."
 msgstr "Ogiltigt ROWS-asvnitt i filen."
 
-#: plugins/mps/mps.c:1120
+#: plugins/mps/mps.c:1133
 msgid "Invalid COLUMNS section in the file."
 msgstr "Ogiltigt COLUMNS-avsnitt i filen."
 
-#: plugins/mps/mps.c:1123
+#: plugins/mps/mps.c:1136
 msgid "Invalid RHS section in the file."
 msgstr "Ogiltigt RHS-avsnitt i filen."
 
-#: plugins/mps/mps.c:1126
+#: plugins/mps/mps.c:1139
 msgid "Invalid BOUNDS section in the file."
 msgstr "Ogiltigt BOUNDS-avsnitt i filen."
 
-#: plugins/mps/mps.c:1142
+#: plugins/mps/mps.c:1155
 msgid "Error while reading MPS file."
 msgstr "Fel vid läsning av MPS-fil."
 
@@ -13032,6 +13032,19 @@ msgid ""
 "\n"
 "@SEEALSO=HLOOKUP"
 msgstr ""
+"@FUNCTION=VLOOKUP\n"
+"@SYNTAX=VLOOKUP(värde;område;kolumn[,uppskatta])\n"
+"@DESCRIPTION=Funktionen VLOOKUP söker den rad i området som har en första "
+"kolumn liknande den i värde. Om @uppskatta inte är sant söker den raden med "
+"en exakt likhet. Om @uppskatta är sant måste värdena vara sorterade med "
+"minsta värdet först för att funktionen ska fungera korrekt; i detta fall "
+"söker den raden med värde mindre än @värde. Den returnerar värdet på raden "
+"som hittas på ett 1-baserat avstånd i @kolumn kolumner in i @område.\n"
+"Returnerar #NUM! om @kolumn < 0. Returnerar #REF! om @kolumn är utanför "
+"@område.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=HLOOKUP"
 
 #: src/functions/fn-lookup.c:538
 msgid ""
@@ -13048,6 +13061,18 @@ msgid ""
 "\n"
 "@SEEALSO=VLOOKUP"
 msgstr ""
+"@FUNCTION=HLOOKUP\n"
+"@SYNTAX=HLOOKUP(värde;område;rad[,uppskatta])\n"
+"@DESCRIPTION=Funktionen HLOOKUP söker den kolumn i området som har en första "
+"rad liknande den i värde. Om @uppskatta inte är sant söker den kolumnen med "
+"en exakt likhet. Om @uppskatta är sant måste värdena vara sorterade med "
+"minsta värdet först för att funktionen ska fungera korrekt; i detta fall "
+"söker den kolumnen med värde mindre än @värde. Den returnerar värdet på "
+"kolumnen som hittas på ett 1-baserat avstånd i @rad rader in i @område.\n"
+"Returnerar #NUM! om @rad < 0. Returnerar #REF! om @rad är utanför @område.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=VLOOKUP"
 
 #: src/functions/fn-lookup.c:599
 msgid ""
@@ -13064,6 +13089,18 @@ msgid ""
 "\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 msgstr ""
+"@FUNCTION=LOOKUP\n"
+"@SYNTAX=LOOKUP(värde;vektor1;vektor2)\n"
+"@DESCRIPTION=Funktionen LOOKUP söker radindexet med \"värde\" i @vektor1 och "
+"returnerar innehållet i värde2 vid det radindexet. Om området är längre än "
+"det är brett roteras känsligheten för sökningen. Alternativt kan en ensam "
+"vektor användas.\n"
+"Om LOOKUP inte kan hitta @värde använder den det näst största värdet som är "
+"mindre än värde. Data måste vara sorterade.\n"
+"Om @värde är mindre än det första värdet returneras #-\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=VLOOKUP,HLOOKUP"
 
 #: src/functions/fn-lookup.c:666
 msgid ""
@@ -13085,6 +13122,23 @@ msgid ""
 "\n"
 "@SEEALSO=LOOKUP"
 msgstr ""
+"@FUNCTION=MATCH\n"
+"@SYNTAX=MATCH(sökning;vektor[,typ])\n"
+"@DESCRIPTION=Funktionen MATCH söker radindexet för @sökning i @vektor och "
+"returnerar det. Om området är längre än det är brett roteras känsligheten "
+"för sökningen. Alternativt kan en ensam vektor användas.\n"
+"Parametern @typ, vilken som standard är +1, styr sökningen:\n"
+"Om @typ = 1  söks största värdet <= @sökning.\n"
+"Om @typ = 0  söks första värdet == @sökning.\n"
+"Om @typ = -1 söks minsta värdet >= @sökning.\n"
+"\n"
+"För typ 0 kan data vara i vilken ordning som helst. För typ -1 och +1 måste "
+"data vara sorterat (och i detta fall använder MATCH en binärsökning för att "
+"hitta indexet).\n"
+"Om @sökning inte kan hittas returneras #-.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=LOOKUP"
 
 #: src/functions/fn-lookup.c:726
 msgid ""
@@ -13129,6 +13183,18 @@ msgid ""
 "17.3,21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=INDEX\n"
+"@SYNTAX=INDEX(vektor;[rad; kolumn; område])\n"
+"@DESCRIPTION=INDEX ger en referens till en cell i angiven @vektor. Cellen "
+"pekas ut med @rad och @kolumn, vilka räknar antalet rader och kolumner i "
+"vektorn.\n"
+"Om @rad och @kolumn utelämnas antas de vara 1. @område måste vara 1; "
+"referenser till flera områden är ännu inte implementerat. Om referensen "
+"hamnar utanför intervallet för @vektor returnerar INDEX felvärdet #REF!.\n"
+"\n"
+"@EXAMPLES=Antag att cellerna A1, A2, ..., A5 innehåller talen 11,4, 17,3, "
+"21,3, 25,9 och 40,1. Då är INDEX(A1:A5;4;1;1) lika med 25,9\n"
+"@SEEALSO="
 
 #: src/functions/fn-lookup.c:835
 msgid ""
@@ -13190,6 +13256,17 @@ msgid ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
+"@FUNCTION=OFFSET\n"
+"@SYNTAX=OFFSET(område;rad;kolumn;höjd;bredd)\n"
+"@DESCRIPTION=Funktionen OFFSET returnerar ett cellområde. Cellområdet börjar "
+"vid offset (@kolumn;@rad) från @område, och är av höjden @höjd och bredden "
+"@bredd.\n"
+"Om område varken är en referens eller ett område returneras #VÄRDE!. Om "
+"antingen höjd eller bredd utelämnas används höjden eller bredden på "
+"referensen.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=COLUMN,COLUMNS,ROWS"
 
 #: src/functions/fn-lookup.c:977
 msgid ""
@@ -15424,6 +15501,15 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST"
 msgstr ""
+"@FUNCTION=NORMSDIST\n"
+"@SYNTAX=NORMSDIST(x)\n"
+"@DESCRIPTION=Funktionen NORMSDIST returnerar normalkumulativa "
+"standardfördelningen. @x är värdet för vilket du vill ha fördelningen.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"NORMSDIST(2) är lika med 0,977249868.\n"
+"\n"
+"@SEEALSO=NORMDIST"
 
 #: src/functions/fn-stat.c:569
 msgid ""
@@ -15439,6 +15525,17 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 msgstr ""
+"@FUNCTION=NORMSINV\n"
+"@SYNTAX=NORMSINV(p)\n"
+"@DESCRIPTION=Funktionen NORMSINV returnerar inversen av den normalkumulativa "
+"standardfördelningen. @p är den givna sannolikheten som motsvarar "
+"normalfördelningen.\n"
+"Om @p < 0 eller @p > 1 returnerar NORMSINV felvärdet #NUM!.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"NORMSINV(0,2) är lika med -0,841621234.\n"
+"\n"
+"@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
 #: src/functions/fn-stat.c:602
 msgid ""
@@ -15482,6 +15579,18 @@ msgid ""
 "\n"
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 msgstr ""
+"@FUNCTION=LOGINV\n"
+"@SYNTAX=LOGINV(p;medelvärde;stdav)\n"
+"@DESCRIPTION=Funktionen LOGINV returnerar inversen av den kumulativa "
+"lognormalfördelningen. @p är den givna sannolikheten som motsvarar "
+"normalfördelningen, @medelvärde är det aritmetiska medelvärdet av "
+"fördelningen, och @stdav är standardavvikelsen för fördelningen.\n"
+"Om @p < 0 eller @p > 1 eller @stdav <= 0 returnerar LOGINV felvärdet #NUM!.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"LOGINV(0,5;2;3) är lika med 7,389056099.\n"
+"\n"
+"@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 
 #: src/functions/fn-stat.c:679
 msgid ""
@@ -15496,6 +15605,16 @@ msgid ""
 "\n"
 "@SEEALSO=FISHER"
 msgstr ""
+"@FUNCTION=FISHERINV\n"
+"@SYNTAX=FISHERINV(x)\n"
+"@DESCRIPTION=Funktionen FISHERINV returnerar inversen av "
+"Fishertransformeringen vid @x.\n"
+"Om @x inte är ett tal returnerar FISHERINV felvärdet #VÄRDE!.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"FISHERINV(2) är lika med 0,96402758.\n"
+"\n"
+"@SEEALSO=FISHER"
 
 #: src/functions/fn-stat.c:707
 msgid ""
@@ -15733,6 +15852,22 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 msgstr ""
+"@FUNCTION=SKEW\n"
+"@SYNTAX=SKEW(n1; n2; ...)\n"
+"@DESCRIPTION=SKEW returnerar en neutral uppskattning av snedfördelningen hos "
+"en fördelning.\n"
+"Observera att detta endast är meningsfullt om den underliggande fördelningen "
+"verkligen har ett tredje moment. Snedfördelningen hos en symmetrisk "
+"fördelning (t.ex. normalfördelningen) är noll.\n"
+"Strängar och tomma celler ignoreras.\n"
+"Om mindre än tre tal anges returnerar SKEW felvärdet #DIV/0!.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1, A2, ..., A5 innehåller talen 11,4, 17,3, 21,3, 25,9 "
+"och 40,1. Då är\n"
+"SKEW(A1:A5) lika med 0,976798268.\n"
+"\n"
+"@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 
 #: src/functions/fn-stat.c:1044
 msgid ""
@@ -15799,6 +15934,17 @@ msgid ""
 "\n"
 "@SEEALSO=POISSON"
 msgstr ""
+"@FUNCTION=GAMMALN\n"
+"@SYNTAX=GAMMALN(x)\n"
+"@DESCRIPTION=Funktionen GAMMALN returnerar den naturliga logaritmen för "
+"gammafunktionen.\n"
+"Om @x inte är ett tal returnerar GAMMALN felvärdet #VÄRDE!. Om @x <= 0 "
+"returnerar GAMMALN felvärdet #NUM!.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"GAMMALN(23) är lika med 48,471181352.\n"
+"\n"
+"@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:1157
 msgid ""
@@ -16175,6 +16321,17 @@ msgid ""
 "\n"
 "@SEEALSO=COMBIN"
 msgstr ""
+"@FUNCTION=PERMUT\n"
+"@SYNTAX=PERMUT(n;k)\n"
+"@DESCRIPTION=Funktionen PERMUT returnerar antalet permutationer. @n är "
+"antalet objekt, @k är antalet objekt i varje permutation.\n"
+"Om @n = 0 returnerar PERMUT felvärdet #NUM!. Om @n < @k returnerar PERMUT "
+"felvärdet #NUM!.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"PERMUT(7;3) är lika med 210.\n"
+"\n"
+"@SEEALSO=COMBIN"
 
 #: src/functions/fn-stat.c:1790
 msgid ""
@@ -16221,6 +16378,19 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
+"@FUNCTION=CONFIDENCE\n"
+"@SYNTAX=CONFIDENCE(x;stdav;storlek)\n"
+"@DESCRIPTION=Funktionen CONFIDENCE returnerar konfidensintervallet för ett "
+"medelvärde. @x är signifikansnivån, @stdav är standardavvikelsen för "
+"fördelningen, och @storlek är storleken på provet.\n"
+"Om @storlek inte är ett heltal trunkeras det. Om @storlek < 0 returnerar "
+"CONFIDENCE felvärdet #NUM!. Om @storlek är 0 returnerar CONFIDENCE felvärdet "
+"#DIV/0!.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"CONFIDENCE(0,05;1;33) är lika med 0,341185936.\n"
+"\n"
+"@SEEALSO=AVERAGE"
 
 #: src/functions/fn-stat.c:1871
 msgid ""
@@ -16290,6 +16460,17 @@ msgid ""
 "\n"
 "@SEEALSO=POISSON"
 msgstr ""
+"@FUNCTION=NORMDIST\n"
+"@SYNTAX=NORMDIST(x;medelvärde;stdav;kumulativ)\n"
+"@DESCRIPTION=Funktionen NORMDIST returnerar den kumulativa "
+"normalfördelningen. @x är värdet för vilket du önskar fördelningen, "
+"@medelvärde är medelvärdet av fördelningen, @stdav är standardavvikelsen.\n"
+"Om @stdav är 0 returnerar NORMDIST felvärdet #DIV/0!.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"NORMDIST(2;1;2;0) är lika med 0,176032663.\n"
+"\n"
+"@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:2000
 msgid ""
@@ -17624,7 +17805,7 @@ msgstr "Formatera som tid"
 msgid "Format as alternative Number"
 msgstr "Formatera som alternativt tal"
 
-#: src/gnumeric-canvas.c:503
+#: src/gnumeric-canvas.c:504
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Filen \"%s\" har ett ogiltigt format."
@@ -18630,15 +18811,15 @@ msgstr "Kantbredd"
 msgid "Transparent"
 msgstr "Genomskinlig"
 
-#: src/sheet-object-widget.c:821
+#: src/sheet-object-widget.c:791
 msgid "Checkbox Configure"
 msgstr "Kryssrutekonfiguration"
 
-#: src/sheet-object-widget.c:834
+#: src/sheet-object-widget.c:804
 msgid "Cell :"
 msgstr "Cell:"
 
-#: src/sheet-object-widget.c:837
+#: src/sheet-object-widget.c:807
 msgid "Label :"
 msgstr "Rubrik:"
 
@@ -18658,23 +18839,23 @@ msgstr "kan inte operera på sammanslagna celler"
 msgid "cannot operate on array formulae"
 msgstr "kan inte operera på vektorformler"
 
-#: src/sheet.c:3051
+#: src/sheet.c:3048
 msgid "Clear"
 msgstr "Töm"
 
-#: src/sheet.c:3457
+#: src/sheet.c:3454
 msgid "Insert Columns"
 msgstr "Infoga kolumner"
 
-#: src/sheet.c:3514
+#: src/sheet.c:3511
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: src/sheet.c:3568
+#: src/sheet.c:3565
 msgid "Insert Rows"
 msgstr "Infoga rader"
 
-#: src/sheet.c:3625
+#: src/sheet.c:3622
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
