@@ -249,6 +249,7 @@ gnumeric_bonobo_LDADD =					\
 	$(GNOME_XML_LIB) 				\
 	$(GUILE_LIBS)					\
 	$(INTLLIBS)
+#	-lbonobo-print					\
 
 wc:
 	wc -l $(gnumeric_SOURCES)

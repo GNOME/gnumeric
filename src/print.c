@@ -168,7 +168,7 @@ print_page_cells (Sheet *sheet,
 		base_x, base_y, TRUE);
 }
 
-#ifdef ENABLE_BONOBO
+#ifdef ENABLE_BONOBO_PRINT
 static void
 print_page_object (SheetObject *so,
 		   int start_col, int start_row, int end_col, int end_row,
@@ -176,33 +176,32 @@ print_page_object (SheetObject *so,
 		   PrintJobInfo *pj)
 {
 	SheetObjectPrintInfo so_pi;
-	double tlx, tly, brx, bry;
-	double canvas_x, canvas_y;
 
 	g_return_if_fail (pj != NULL);
 	g_return_if_fail (so != NULL);
 
 	base_y = pj->height - base_y;
 
-	g_warning ("FIXME: we need some cunning maths here");
-
 	so_pi.pc = pj->print_context;
 	so_pi.pi = pj->pi;
 
-	sheet_object_get_bounds (so, &tlx, &tly, &brx, &bry);
-
-	canvas_x = sheet_col_get_distance_pts (so->sheet, 0, start_col);
-	canvas_y = sheet_row_get_distance_pts (so->sheet, 0, start_row);
-	if (tlx - canvas_x < 0 ||
+/*	if (tlx - canvas_x < 0 ||
 	    tly - canvas_y < 0) {
-		g_warning ("Object needs scissoring (%g, %g %g, %g) (%g, %g)",
+		g_warning ("Object out of range (%g, %g %g, %g) (%g, %g)",
 			   tlx, tly, brx, bry, canvas_x, canvas_y);
 		return;
-	}
-	so_pi.x      = tlx - canvas_x;
-	so_pi.y      = tly - canvas_y;
-	so_pi.width  = brx - tlx;
-	so_pi.height = bry - tly;
+		}*/
+
+	/* FIXME: this maths is a quick hack; sorry */
+	so_pi.x       = sheet_col_get_distance_pts (so->sheet, 0, start_col);
+	so_pi.y       = sheet_row_get_distance_pts (so->sheet, 0, start_row);
+	so_pi.width   = sheet_col_get_distance_pts (so->sheet, start_col, end_col + 1);
+	so_pi.height  = sheet_row_get_distance_pts (so->sheet, start_row, end_row + 1);
+	so_pi.print_x = base_x;
+	so_pi.print_y = base_y;
+	/* Canvas -> print */
+	so_pi.print_x_scale = print_width  / so_pi.width;
+	so_pi.print_y_scale = print_height / so_pi.height;
 
 	/*
 	 *   We calculate the bounds of the page in canvas co-ordinates and
@@ -425,7 +424,7 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 			sheet, start_col, start_row, end_col, end_row,
 			x, y, print_width, print_height, pj);
 
-#ifdef ENABLE_BONOBO
+#ifdef ENABLE_BONOBO_PRINT
 		/*
 		 * Print objects
 		 */

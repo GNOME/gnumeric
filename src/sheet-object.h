@@ -35,11 +35,17 @@ typedef struct {
 typedef struct {
 	GnomePrintContext *pc;
 	PrintInformation  *pi;
-	/* Dimensions of the page in canvas co-ordinates */
+	/* Dimensions of the object in canvas co-ordinates */
 	double             x;
 	double             y;
 	double             width;
 	double             height;
+	/* Offset into the page to print at */
+	double             print_x;
+	double             print_y;
+	/* Width & height scaling factors */
+	double             print_x_scale;
+	double             print_y_scale;
 } SheetObjectPrintInfo;
 
 typedef struct {

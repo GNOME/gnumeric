@@ -1,3 +1,11 @@
+2000-04-09  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_class_init): add print
+	hooks.
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_print): implement.
+	(sheet_object_graphic_class_init): setup print method
+
 2000-04-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-cell-format.c : Do not change the target style if

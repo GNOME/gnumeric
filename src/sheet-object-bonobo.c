@@ -196,13 +196,51 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 	return TRUE;
 }
 
+#ifdef ENABLE_BONOBO_PRINT
+static void
+sheet_object_bonobo_print (SheetObject *so, SheetObjectPrintInfo *pi)
+{
+	SheetObjectBonobo *sob = SHEET_OBJECT_BONOBO (so);
+	double tlx, tly, brx, bry;
+	BonoboPrintClient  *bpc;
+	BonoboPrintContext *pc;
+
+	bpc = bonobo_print_client_get (sob->object_server);
+	if (!bpc) {
+		static gboolean warned = FALSE;
+		if (!warned)
+			g_warning ("Some bonobo objects are not printable");
+		warned = TRUE;
+		return;
+	}
+
+	/* Gnome print uses a strange co-ordinate system */
+	sheet_object_get_bounds (so, &tlx, &tly, &brx, &bry);
+	pc = bonobo_print_context_new (
+			    pi->print_x + (tlx - pi->x) * pi->print_x_scale,
+			    pi->print_y - (bry - pi->y) * pi->print_y_scale,
+			    pi->print_x + (brx - pi->x) * pi->print_x_scale,
+			    pi->print_y - (tly - pi->y) * pi->print_y_scale);
+
+	bonobo_print_client_print_to (bpc, pc, pi->pc);
+
+	bonobo_print_context_free (pc);
+}
+#endif
+
 static void
 sheet_object_bonobo_class_init (GtkObjectClass *object_class)
 {
+	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+
 	sheet_object_bonobo_parent_class = gtk_type_class (sheet_object_get_type ());
 
 	/* Object class method overrides */
 	object_class->destroy = sheet_object_bonobo_destroy;
+
+#ifdef ENABLE_BONOBO_PRINT
+	sheet_object_class->print = sheet_object_bonobo_print;
+#endif
 }
 
 GtkType

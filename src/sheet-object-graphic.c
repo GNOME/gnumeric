@@ -7,6 +7,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
+#include <libgnomeprint/gnome-print.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
@@ -22,6 +23,37 @@ sheet_object_graphic_destroy (GtkObject *object)
 
 	string_unref (sog->color);
 	GTK_OBJECT_CLASS (sheet_object_graphic_parent_class)->destroy (object);
+}
+
+static void
+sheet_object_graphic_print (SheetObject *so, SheetObjectPrintInfo *pi)
+{
+	double x, y;
+
+	if (so->type == SHEET_OBJECT_ARROW) {
+		static gboolean warned = FALSE;
+		g_warning ("FIXME: I print arrows as lines");
+		warned = TRUE;
+	}
+
+	/* Gnome print uses a strange co-ordinate system */
+	gnome_print_gsave (pi->pc);
+
+	x = so->bbox_points->coords [0];
+	y = so->bbox_points->coords [1];
+	gnome_print_moveto (pi->pc,
+			    pi->print_x + (x - pi->x) * pi->print_x_scale,
+			    pi->print_y - (y - pi->y) * pi->print_y_scale);
+
+	x = so->bbox_points->coords [2];
+	y = so->bbox_points->coords [3];
+	gnome_print_lineto (pi->pc,
+			    pi->print_x + (x - pi->x) * pi->print_x_scale,
+			    pi->print_y - (y - pi->y) * pi->print_y_scale);
+
+	gnome_print_stroke (pi->pc);
+
+	gnome_print_grestore (pi->pc);
 }
 
 static GnomeCanvasItem *
@@ -77,6 +109,7 @@ sheet_object_graphic_class_init (GtkObjectClass *object_class)
 
 	/* SheetObject class method overrides */
 	sheet_object_class->realize = sheet_object_graphic_realize;
+	sheet_object_class->print   = sheet_object_graphic_print;
 }
 
 GtkType
