@@ -2522,9 +2522,9 @@ xml_read_sheet_object (XmlParseContext const *ctxt, xmlNodePtr tree)
 	if (!strcmp (tree->name, "Rectangle"))
 		so = g_object_new (GNM_SO_FILLED_TYPE, NULL);
 	else if (!strcmp (tree->name, "Ellipse"))
-		so = g_object_new (GNM_SO_FILLED_TYPE, "is_oval", TRUE, NULL);
+		so = g_object_new (GNM_SO_FILLED_TYPE, "is-oval", TRUE, NULL);
 	else if (!strcmp (tree->name, "Line"))
-		so = g_object_new (GNM_SO_LINE_TYPE, "is_arrow", TRUE, NULL);
+		so = g_object_new (GNM_SO_LINE_TYPE, "is-arrow", TRUE, NULL);
 	else if (!strcmp (tree->name, "Arrow"))
 		so = g_object_new (GNM_SO_LINE_TYPE, NULL);
 

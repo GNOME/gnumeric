@@ -431,11 +431,9 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 		}
 
 		if (format) {
-			g_print ("Format: [%s]\n", style_format_as_XL (format, FALSE));
 			format_value_gstring (str, format, v, NULL,
 					      -1, workbook_date_conv (wb_view_workbook (wbv)));
 		} else {
-			g_print ("No format\n");
 			g_string_append (str, value_peek_string (v));
 		}
 

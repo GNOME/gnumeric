@@ -1,5 +1,8 @@
 2005-03-28  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-view.c (wb_view_auto_expr_recalc): Take format from
+	auto-format.
+
 	* src/xml-io.c: Don't include <goffice/utils/go-locale.h> which
 	just went away and wasn't needed anyway.
 

@@ -90,6 +90,19 @@ is_date (GnmFuncFlags typ, GOFormat *explicit)
 static GnmFuncFlags
 do_af_suggest (GnmExpr const *expr, const GnmEvalPos *epos, GOFormat **explicit)
 {
+#if 0
+	{
+		GnmParsePos pp;
+		pp.eval = epos->eval;
+		pp.sheet = epos->sheet;
+		pp.wb = pp.sheet->workbook;
+		g_printerr ("Suggesting format for [%s]\n",
+			    gnm_expr_as_string (expr,
+						&pp,
+						gnm_expr_conventions_default));
+	}
+#endif
+
 	switch (expr->any.oper) {
 	case GNM_EXPR_OP_EQUAL:
 	case GNM_EXPR_OP_GT:
