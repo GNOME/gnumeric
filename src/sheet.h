@@ -51,6 +51,7 @@ struct _Sheet {
 	gboolean    has_filtered_rows;
 
         SolverParameters *solver_parameters;
+	GList            *scenarios;
 
 	gint simulation_round;
 

@@ -199,6 +199,7 @@ sheet_new (Workbook *wb, char const *name)
 
 	sheet->filters = NULL;
 	sheet->pivottables = NULL;
+	sheet->scenarios = NULL;
 	sheet->list_merged = NULL;
 	sheet->hash_merged = g_hash_table_new ((GHashFunc)&cellpos_hash,
 					       (GCompareFunc)&cellpos_cmp);
