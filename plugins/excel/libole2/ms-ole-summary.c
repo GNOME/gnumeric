@@ -170,6 +170,17 @@ write_items (MsOleSummary *si)
 			si->s->write (si->s, fill_data, 4 - (w->len & 0x3));
 
 	}
+
+	/*
+	 * Pad it out to a BB file.
+	 */
+	{
+		int     i;
+		guint8  data[] = { 0, 0, 0, 0 };
+		for (i = 0; i < 0x1000/4; i++)
+			si->s->write (si->s, data, 4);
+	}
+
 }
 
 /**
@@ -511,6 +522,7 @@ ms_ole_summary_close (MsOleSummary *si)
 
 	if (si->s)
 		ms_ole_stream_close (&si->s);
+	si->s = NULL;
 
 	g_free (si);
 }

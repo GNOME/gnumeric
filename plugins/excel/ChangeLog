@@ -1,5 +1,9 @@
 1999-11-30  Michael Meeks  <mmeeks@gnu.org>
 
+	* boot.c (excel_save): Disable summary info export.
+
+1999-11-30  Michael Meeks  <mmeeks@gnu.org>
+
 	* ms-excel-read.c: Add ms_excel_write_debug.
 
 1999-11-30  Jon K Hellan  <hellan@acm.org>

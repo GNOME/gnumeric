@@ -1,3 +1,7 @@
+1999-11-30  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-ole-summary.c (write_items): Ensure that we write a BB file.
+
 1999-11-17  Arturo Tena  <arturo@directmail.org>
 
 	* Revert the last change. I will study pps_encode_tree_chain later and
