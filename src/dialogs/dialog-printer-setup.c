@@ -494,36 +494,6 @@ preview_page_create (PrinterSetupState *state)
 	draw_margins (state, x1, y1, x2, y2);
 }
 
-static void
-canvas_update (PrinterSetupState *state)
-{
-	guchar *unit_txt;
-
-	preview_page_destroy (state);
-	preview_page_create (state);
-	set_vertical_bounds (state);
-
-	unit_txt = gnome_print_config_get (state->gp_config, GNOME_PRINT_KEY_PREFERED_UNIT);
-	if (unit_txt) {
-		gnome_print_unit_selector_set_unit (GNOME_PRINT_UNIT_SELECTOR
-						    (state->unit_selector),
-						    gnome_print_unit_get_by_abbreviation
-						    (unit_txt));
-		g_free (unit_txt);
-	}
-
-}
-
-static void
-notebook_flipped (G_GNUC_UNUSED GtkNotebook *notebook,
-		  G_GNUC_UNUSED GtkNotebookPage *page,
-		  gint page_num,
-		  PrinterSetupState *state)
-{
-	if (page_num == HF_PAGE)
-		canvas_update (state);
-}
-
 /**
  * spin_button_adapt_to_unit
  * @spin      spinbutton
@@ -550,7 +520,7 @@ spin_button_adapt_to_unit (GtkSpinButton *spin, const GnomePrintUnit *new_unit)
 	adjustment = gtk_spin_button_get_adjustment (spin);
 	g_return_if_fail (GTK_IS_ADJUSTMENT (adjustment));
 
-	if (new_unit->unittobase <= 1) {
+	if (new_unit->unittobase <= 3) {
 		/* "mm" and "pt" */
 		step_increment = 1.0;
 		digits = 1;
@@ -567,6 +537,39 @@ spin_button_adapt_to_unit (GtkSpinButton *spin, const GnomePrintUnit *new_unit)
 	adjustment->page_increment = step_increment * 10;
 	gtk_adjustment_changed (adjustment);
 	gtk_spin_button_set_digits (spin, digits);
+}
+
+static void
+canvas_update (PrinterSetupState *state)
+{
+	guchar *unit_txt;
+
+	preview_page_destroy (state);
+	preview_page_create (state);
+	set_vertical_bounds (state);
+
+	unit_txt = gnome_print_config_get (state->gp_config, GNOME_PRINT_KEY_PREFERED_UNIT);
+	if (unit_txt) {
+		GnomePrintUnitSelector *sel =
+			GNOME_PRINT_UNIT_SELECTOR (state->unit_selector);
+		const GnomePrintUnit *unit =
+			gnome_print_unit_get_by_abbreviation (unit_txt);
+
+		g_free (unit_txt);
+		gnome_print_unit_selector_set_unit (sel, unit);
+		spin_button_adapt_to_unit (state->margins.header.spin, unit);
+		spin_button_adapt_to_unit (state->margins.footer.spin, unit);
+	}
+}
+
+static void
+notebook_flipped (G_GNUC_UNUSED GtkNotebook *notebook,
+		  G_GNUC_UNUSED GtkNotebookPage *page,
+		  gint page_num,
+		  PrinterSetupState *state)
+{
+	if (page_num == HF_PAGE)
+		canvas_update (state);
 }
 
 static void
