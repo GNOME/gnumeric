@@ -22,6 +22,7 @@
 #include "ranges.h"
 #include "sheet.h"
 #include "sheet-style.h"
+#include "sheet-control-gui.h"
 #include "commands.h"
 #include "xml-io.h"
 #include "value.h"
@@ -40,7 +41,8 @@
 typedef struct {
 	WorkbookControlGUI *wbcg;
 	GnmPasteTarget        *paste_target;
-	GdkAtom            fallback;
+	GdkAtom            image_atom;
+	GdkAtom            string_atom;
 } GnmGtkClipboardCtxt;
 
 /* The name of our clipboard atom and the 'magic' info number */
@@ -54,8 +56,6 @@ typedef struct {
 #define CTEXT_ATOM_NAME "COMPOUND_TEXT"
 #define STRING_ATOM_NAME "STRING"
 
-/* The name of the TARGETS atom (don't change unless you know what you are doing!) */
-#define TARGETS_ATOM_NAME "TARGETS"
 
 static GnmCellRegion *
 text_to_cell_region (WorkbookControlGUI *wbcg,
@@ -134,6 +134,47 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 	return cr;
 }
 
+static void
+text_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
+		       gpointer closure)
+{
+	GnmGtkClipboardCtxt *ctxt = closure;
+	WorkbookControlGUI *wbcg = ctxt->wbcg;
+	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
+	GnmPasteTarget	   *pt   = ctxt->paste_target;
+	GnmCellRegion *content = NULL;
+
+	/* Nothing on clipboard? */
+	if (sel->length < 0) {
+		;
+	} else if (sel->target == gdk_atom_intern (UTF8_ATOM_NAME, FALSE)) {
+		content = text_to_cell_region (wbcg, sel->data, sel->length, "UTF-8", TRUE);
+	} else if (sel->target == gdk_atom_intern (CTEXT_ATOM_NAME, FALSE)) {
+		/* COMPOUND_TEXT is icky.  Just let GTK+ do the work.  */
+		char *data_utf8 = gtk_selection_data_get_text (sel);
+		content = text_to_cell_region (wbcg, data_utf8, strlen (data_utf8), "UTF-8", TRUE);
+		g_free (data_utf8);
+	} else if (sel->target == gdk_atom_intern (STRING_ATOM_NAME, FALSE)) {
+		char const *locale_encoding;
+		g_get_charset (&locale_encoding);
+
+		content = text_to_cell_region (wbcg, sel->data, sel->length, locale_encoding, FALSE);
+	}
+	if (content) {
+		/*
+		 * if the conversion from the X selection -> a cellregion
+		 * was canceled this may have content sized -1,-1
+		 */
+		if (content->cols > 0 && content->rows > 0)
+			cmd_paste_copy (wbc, pt, content);
+
+		/* Release the resources we used */
+		cellregion_unref (content);
+	}
+	g_free (ctxt->paste_target);
+	g_free (ctxt);
+}
+
 /**
  * Use the file_opener plugin service to read into a temporary workbook, in
  * order to copy from it to the paste target. A temporary sheet would do just
@@ -193,7 +234,29 @@ out:
 }
 
 static void
-complex_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
+image_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
+			  gpointer closure)
+{
+	GnmGtkClipboardCtxt *ctxt = closure;
+	WorkbookControlGUI *wbcg = ctxt->wbcg;
+	GnmPasteTarget	   *pt   = ctxt->paste_target;
+
+	if (sel->length > 0) {
+		scg_paste_image (wbcg_cur_scg (wbcg), &pt->range, 
+				 sel->data, sel->length);
+		g_free (ctxt->paste_target);
+		g_free (ctxt);
+	} else  if (ctxt->string_atom !=  GDK_NONE) {
+		gtk_clipboard_request_contents (clipboard, ctxt->string_atom, 
+						text_content_received, ctxt);
+	} else {
+		g_free (ctxt->paste_target);
+		g_free (ctxt);
+	}
+}
+
+static void
+table_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 			  gpointer closure)
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
@@ -210,18 +273,6 @@ complex_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		/* The data is the gnumeric specific XML interchange format */
 		content = xml_cellregion_read (wbc, pt->sheet,
 					       sel->data, sel->length);
-	} else if (sel->target == gdk_atom_intern (UTF8_ATOM_NAME, FALSE)) {
-		content = text_to_cell_region (wbcg, sel->data, sel->length, "UTF-8", TRUE);
-	} else if (sel->target == gdk_atom_intern (CTEXT_ATOM_NAME, FALSE)) {
-		/* COMPOUND_TEXT is icky.  Just let GTK+ do the work.  */
-		char *data_utf8 = gtk_selection_data_get_text (sel);
-		content = text_to_cell_region (wbcg, data_utf8, strlen (data_utf8), "UTF-8", TRUE);
-		g_free (data_utf8);
-	} else if (sel->target == gdk_atom_intern (STRING_ATOM_NAME, FALSE)) {
-		char const *locale_encoding;
-		g_get_charset (&locale_encoding);
-
-		content = text_to_cell_region (wbcg, sel->data, sel->length, locale_encoding, FALSE);
 	} else if ((sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE)) ||
 		   (sel->target == gdk_atom_intern (OOO11_ATOM_NAME, FALSE))) {
 		content = table_cellregion_read (wbc, "Gnumeric_OpenCalc:openoffice",
@@ -242,41 +293,37 @@ complex_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 
 		/* Release the resources we used */
 		cellregion_unref (content);
-
 		g_free (ctxt->paste_target);
 		g_free (ctxt);
-	} else if (ctxt->fallback != GDK_NONE) {
-		GdkAtom preferred = ctxt->fallback;
-		ctxt->fallback = GDK_NONE;
-		gtk_clipboard_request_contents (clipboard, preferred,
-						complex_content_received,
-						ctxt);
+	} else if (ctxt->image_atom != GDK_NONE) {
+		gtk_clipboard_request_contents (clipboard, ctxt->image_atom,
+						image_content_received, ctxt);
+	} else if (ctxt->string_atom != GDK_NONE) {
+		gtk_clipboard_request_contents (clipboard, ctxt->string_atom, 
+						text_content_received, ctxt);
 	} else {
-		/* We're giving up */
 		g_free (ctxt->paste_target);
 		g_free (ctxt);
 	}
 }
 
 /**
- * x_clipboard_received:
+ * x_targets_received:
  *
  * Invoked when the selection has been received by our application.
  * This is triggered by a call we do to gtk_clipboard_request_contents.
  *
- * We try to import a spreadsheet/table, and fall back to a string format
- * if this fails, e.g. for html which contains something which is not a table.
+ * We try to import a spreadsheet/table, next an image, and finally fall back 
+ * to a string format if the others fail, e.g. for html which does not
+ * contain a table. 
  */
 static void
-x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
-		      gpointer closure)
+x_targets_received (GtkClipboard *clipboard, GdkAtom *targets, 
+		      gint n_targets, gpointer closure)
 {
 	GnmGtkClipboardCtxt *ctxt = closure;
-	GdkAtom table_atom = GDK_NONE, string_atom = GDK_NONE;
-	GdkAtom preferred = GDK_NONE;
-	GdkAtom const *targets = (GdkAtom *) sel->data;
-	unsigned const atom_count = (sel->length / sizeof (GdkAtom));
-	unsigned i, j;
+	GdkAtom table_atom = GDK_NONE;
+	gint i, j;
 
 	/* in order of preference */
 	static char const *table_fmts [] = {
@@ -294,15 +341,14 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	};
 
 	/* Nothing on clipboard? */
-	if ((sel->length < 0) ||
-	    (sel->target != gdk_atom_intern (TARGETS_ATOM_NAME, FALSE))) {
+	if (targets == NULL || n_targets == 0) {
 		g_free (ctxt->paste_target);
 		g_free (ctxt);
 		return;
 	}
 
 #if 0
-	for (j = 0; j < atom_count && table_atom == GDK_NONE; j++)
+	for (j = 0; j < n_targets && table_atom == GDK_NONE; j++)
 		puts (gdk_atom_name (targets[j]));
 #endif
 	
@@ -312,39 +358,57 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 		/* Look for one we can use */
 		GdkAtom atom = gdk_atom_intern (table_fmts[i], FALSE);
 		/* is it on offer? */
-		for (j = 0; j < atom_count && table_atom == GDK_NONE; j++) {
+		for (j = 0; j < n_targets && table_atom == GDK_NONE; j++) {
 			if (targets [j] == atom)
 				table_atom = atom;
 		}
 	}
-		
+
+	if (table_atom == GDK_NONE) {
+		GtkTargetList *tl = gtk_target_list_new (NULL, 0);
+		GList *l;
+		GtkTargetPair *tp;
+		gboolean found = FALSE;
+
+		gtk_target_list_add_image_targets (tl, 0, FALSE);
+
+		/* Find an image format */
+		for (i = 0 ; i < n_targets && !found; i++) {
+			for (l = tl->list; l && !found; l = l->next) {
+				tp = (GtkTargetPair *)l->data;
+				if (tp->target == targets[i]) {
+					ctxt->image_atom = targets[i];
+					found = TRUE;
+				}
+			}
+		}
+		gtk_target_list_unref (tl);
+	}
+
 	/* Find a string format to fall back to */
-	for (i = 0 ; string_fmts[i] && string_atom == GDK_NONE ; i++) {
+	for (i = 0 ; string_fmts[i] && ctxt->string_atom == GDK_NONE ; i++) {
 		/* Look for one we can use */
 		GdkAtom atom = gdk_atom_intern (string_fmts[i],	FALSE);
 		/* is it on offer? */
-		for (j = 0; j < atom_count && string_atom == GDK_NONE;
+		for (j = 0; j < n_targets && ctxt->string_atom == GDK_NONE;
 		     j++) {
 			if (targets [j] == atom)
-				string_atom = atom;
+				ctxt->string_atom = atom;
 		}
-		if (string_atom != GDK_NONE)
+		if (ctxt->string_atom != GDK_NONE)
 			break;
 	}
 
-	if (table_atom != GDK_NONE) {
-		preferred = table_atom;
-		ctxt->fallback = string_atom;
-	} else if (string_atom != GDK_NONE) {
-		preferred = string_atom;
-		ctxt->fallback = GDK_NONE;
-	}
-
-	if (preferred != GDK_NONE)
-		gtk_clipboard_request_contents (clipboard, preferred,
-			 complex_content_received, ctxt);
+	if (table_atom != GDK_NONE)
+		gtk_clipboard_request_contents (clipboard, table_atom,
+						table_content_received, ctxt);
+	else if (ctxt->image_atom != GDK_NONE)
+		gtk_clipboard_request_contents (clipboard, ctxt->image_atom,
+						image_content_received, ctxt);
+	else if (ctxt->string_atom != GDK_NONE)
+		gtk_clipboard_request_contents (clipboard, ctxt->string_atom, 
+						text_content_received, ctxt);
 	else {
-		/* Nothing we can use - time to give up */
 		g_free (ctxt->paste_target);
 		g_free (ctxt);
 	}
@@ -526,17 +590,17 @@ x_request_clipboard (WorkbookControlGUI *wbcg, GnmPasteTarget const *pt)
 		 gnm_app_prefs->prefer_clipboard_selection
 		 ? GDK_SELECTION_CLIPBOARD
 		 : GDK_SELECTION_PRIMARY);
-	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
 
 	ctxt = g_new (GnmGtkClipboardCtxt, 1);
 	ctxt->wbcg = wbcg;
 	ctxt->paste_target = g_new (GnmPasteTarget, 1);
 	*ctxt->paste_target = *pt;
-	ctxt->fallback = GDK_NONE;
+	ctxt->image_atom = GDK_NONE;
+	ctxt->string_atom = GDK_NONE;
 
-	/* Query the formats, This will callback x_clipboard_received */
-	gtk_clipboard_request_contents (clipboard, atom_targets,
-					x_clipboard_received, ctxt);
+	/* Query the formats, This will callback x_targets_received */
+	gtk_clipboard_request_targets (clipboard, 
+				       x_targets_received, ctxt);
 }
 
 gboolean

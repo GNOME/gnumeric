@@ -1,3 +1,13 @@
+2005-03-11  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (text_content_received): New. Split out of
+	complex_content_received.
+	(image_content_received): New. Receive image data.
+	(table_content_received): Renamed from complex_content_received
+	and split.
+	(x_targets_received): Renamed from x_clipboard_received.
+	(x_request_clipboard): Use gtk_clipboard_request_targets-
+
 2005-03-10  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-control-gui.c (scg_image_create): New. The parts which
