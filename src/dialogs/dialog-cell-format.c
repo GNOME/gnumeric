@@ -1774,7 +1774,7 @@ draw_border_preview (FormatState *state)
 					p->pattern_index);
 			} else
 				state->border.lines[i] = NULL;
-		    }
+		}
 		gnome_canvas_points_free (points);
 	}
 

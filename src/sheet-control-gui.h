@@ -4,7 +4,7 @@
 #include "gui-gnumeric.h"
 #include <gtk/gtktable.h>
 
-#define SHEET_CONTROL_GUI_TYPE        (sheet_view_get_type ())
+#define SHEET_CONTROL_GUI_TYPE        (sheet_control_gui_get_type ())
 #define SHEET_CONTROL_GUI(obj)        (GTK_CHECK_CAST((obj), SHEET_CONTROL_GUI_TYPE, SheetControlGUI))
 #define SHEET_CONTROL_GUI_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), SHEET_CONTROL_GUI_TYPE))
 #define IS_SHEET_CONTROL_GUI(o)       (GTK_CHECK_TYPE((o), SHEET_CONTROL_GUI_TYPE))
@@ -67,33 +67,33 @@ typedef struct {
 	GtkTableClass parent_class;
 } SheetControlGUIClass;
 
-GtkType          sheet_view_get_type              (void);
-GtkWidget       *sheet_view_new                   (Sheet *sheet);
+GtkType     sheet_control_gui_get_type       (void);
+GtkWidget * sheet_control_gui_new            (Sheet *sheet);
 
-void             sheet_view_set_zoom_factor       (SheetControlGUI *scg,
-						   double factor);
+void        sheet_view_set_zoom_factor       (SheetControlGUI *scg,
+					      double factor);
 
-void             sheet_view_redraw_all            (SheetControlGUI *scg);
-void             sheet_view_redraw_cell_region    (SheetControlGUI *scg,
-						   int start_col, int start_row,
-						   int end_col, int end_row);
-void             sheet_view_redraw_headers        (SheetControlGUI *scg,
-						   gboolean const col, gboolean const row,
-						   Range const * r /* optional == NULL */);
+void        sheet_view_redraw_all            (SheetControlGUI *scg);
+void        sheet_view_redraw_cell_region    (SheetControlGUI *scg,
+					      int start_col, int start_row,
+					      int end_col, int end_row);
+void        sheet_view_redraw_headers        (SheetControlGUI *scg,
+					      gboolean const col, gboolean const row,
+					      Range const * r /* optional == NULL */);
 
-void             sheet_view_set_header_visibility (SheetControlGUI *scg,
-						   gboolean col_headers_visible,
-						   gboolean row_headers_visible);
+void        sheet_view_set_header_visibility (SheetControlGUI *scg,
+					      gboolean col_headers_visible,
+					      gboolean row_headers_visible);
 
-void             scg_scrollbar_config		  (SheetControlGUI const *scg);
+void        scg_scrollbar_config	     (SheetControlGUI const *scg);
 
-void             sheet_view_selection_ant         (SheetControlGUI *scg);
-void             sheet_view_selection_unant       (SheetControlGUI *scg);
+void        sheet_view_selection_ant         (SheetControlGUI *scg);
+void        sheet_view_selection_unant       (SheetControlGUI *scg);
 
-void             sheet_view_adjust_preferences    (SheetControlGUI *scg);
-void             sheet_view_update_cursor_pos	  (SheetControlGUI *scg);
+void        sheet_view_adjust_preferences    (SheetControlGUI *scg);
+void        sheet_view_update_cursor_pos	  (SheetControlGUI *scg);
 
-StyleFont *      sheet_view_get_style_font        (Sheet const *sheet,
+StyleFont * sheet_view_get_style_font        (Sheet const *sheet,
 						   MStyle const *mstyle);
 
 void	 sheet_view_stop_sliding  (SheetControlGUI *scg);

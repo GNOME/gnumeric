@@ -1,3 +1,10 @@
+2001-02-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric.xml : Remove the ugly alight right
+
+	* src/style-border.c (style_borders_row_draw) : Do a quick
+	  implementation of diagonals.
+
 2001-02-08  Jon K Hellan  <hellan@acm.org>
 
 	* src/embeddable-grid.[ch]: Adapt to more Bonobo changes. 

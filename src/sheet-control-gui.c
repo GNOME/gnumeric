@@ -30,6 +30,7 @@
 #include "commands.h"
 #include "clipboard.h"
 #include "dialogs.h"
+#include "gnumeric-type-util.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-view-frame.h>
@@ -683,11 +684,13 @@ sheet_view_set_header_visibility (SheetControlGUI *scg,
 }
 
 GtkWidget *
-sheet_view_new (Sheet *sheet)
+sheet_control_gui_new (Sheet *sheet)
 {
 	SheetControlGUI *scg;
 
-	scg = gtk_type_new (sheet_view_get_type ());
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	scg = gtk_type_new (sheet_control_gui_get_type ());
 	scg->sheet = sheet;
 	scg->tip = NULL;
 
@@ -731,34 +734,12 @@ scg_class_init (SheetControlGUIClass *Class)
 	GtkObjectClass *object_class;
 
 	object_class = (GtkObjectClass *) Class;
-
 	scg_parent_class = gtk_type_class (gtk_table_get_type ());
-
 	object_class->destroy = sheet_view_destroy;
 }
 
-GtkType
-sheet_view_get_type (void)
-{
-	static GtkType sheet_view_type = 0;
-
-	if (!sheet_view_type){
-		GtkTypeInfo sheet_view_info = {
-			"SheetControlGUI",
-			sizeof (SheetControlGUI),
-			sizeof (SheetControlGUIClass),
-			(GtkClassInitFunc) scg_class_init,
-			(GtkObjectInitFunc) scg_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		sheet_view_type = gtk_type_unique (gtk_table_get_type (), &sheet_view_info);
-	}
-
-	return sheet_view_type;
-}
+GNUMERIC_MAKE_TYPE (sheet_control_gui, "SheetControlGUI", SheetControlGUI,
+		    scg_class_init, scg_init, gtk_table_get_type ())
 
 void
 sheet_view_selection_unant (SheetControlGUI *scg)

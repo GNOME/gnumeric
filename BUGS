@@ -7,16 +7,8 @@ Release Critical
 
 - Autoformat draw borders!
 
-- Fix Borders
-    - diagonals
-    * use new border code for cell format dialog
-    * adjust to the different stroking techniques for rendering vs printing.
-
 Long term breakage
 ------------------
-
-- Styles
-    - improve uniform_get to handle full sheet more quickly.
 
 - Search-and-replace.
   - Comments for empty cells are not found.
@@ -90,9 +82,16 @@ Long term breakage
 - The implication of mixed mode references ($B$2:C3)
   is large.  All accesses to a RangeRef need to be normalized. (1/2 done)
 
-- Underline should scale with font size.  (Say, max (1, font->descent/4?)
-  gnome-print has a function we could use for printing which returns the
-  underline thickness.
+- Styles
+    - improve uniform_get to handle full sheet more quickly.
+    - Borders
+	- use new border code for cell format dialog (possibly preview-grid)
+	- adjust to the different stroking techniques for rendering vs printing.
+    - Underline
+	- should scale with font size.  (Say, max (1, font->descent/4?)
+	  gnome-print has a function we could use for printing which returns the
+	  underline thickness.
+	- Should be visible in the edit-item
 
 - Functions like SUMPRODUCT need to have better support for sparse ranges.
   We should probably create synchronously_walk_ranges.  (XL goes kaboom on

@@ -34,11 +34,36 @@
 #include "mstyle.h"
 
 #include "preview-grid.h"
+#include "gnumeric-type-util.h"
 
-/*
- * Included for border drawing
- */
-#include "item-grid.h"
+struct _PreviewGrid {
+	GnomeCanvasItem canvas_item;
+
+	GdkGC      *grid_gc;	/* Draw grid gc */
+	GdkGC      *fill_gc;	/* Default background fill gc */
+	GdkGC      *gc;		/* Color used for the cell */
+	GdkGC      *empty_gc;	/* GC used for drawing empty cells */
+
+	PGridGetCell get_cell_cb;
+
+	PGridGetRowOffset get_row_offset_cb;
+	PGridGetColOffset get_col_offset_cb;
+
+	PGridGetColWidth get_col_width_cb;
+	PGridGetRowHeight get_row_height_cb;
+
+	PGridGetStyle get_style_cb;
+
+	gpointer cb_data;
+
+	gboolean gridlines;
+};
+
+typedef struct {
+	GnomeCanvasItemClass parent_class;
+} PreviewGridClass;
+
+#define PREVIEW_GRID_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), preview_grid_get_type (), PreviewGridClass))
 
 static GnomeCanvasItemClass *preview_grid_parent_class;
 
@@ -106,16 +131,11 @@ preview_grid_realize (GnomeCanvasItem *item)
 	preview_grid->gc = gdk_gc_new (window);
 	preview_grid->empty_gc = gdk_gc_new (window);
 
-	/* Allocate the default colors */
-	preview_grid->background = gs_white;
-	preview_grid->grid_color = gs_light_gray;
-	preview_grid->default_color = gs_black;
+	gdk_gc_set_foreground (gc, &gs_light_gray);
+	gdk_gc_set_background (gc, &gs_white);
 
-	gdk_gc_set_foreground (gc, &preview_grid->grid_color);
-	gdk_gc_set_background (gc, &preview_grid->background);
-
-	gdk_gc_set_foreground (preview_grid->fill_gc, &preview_grid->background);
-	gdk_gc_set_background (preview_grid->fill_gc, &preview_grid->grid_color);
+	gdk_gc_set_foreground (preview_grid->fill_gc, &gs_white);
+	gdk_gc_set_background (preview_grid->fill_gc, &gs_light_gray);
 }
 
 /**
@@ -446,32 +466,6 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 	*/
 }
 
-/**
- * preview_grid_get_type:
- *
- * Create type information
- *
- * Return value: PreviewGrid type information
- **/
-GtkType
-preview_grid_get_type (void)
-{
-	static GtkType preview_grid_type = 0;
-
-	if (!preview_grid_type) {
-		GtkTypeInfo preview_grid_info = {
-			"PreviewGrid",
-			sizeof (PreviewGrid),
-			sizeof (PreviewGridClass),
-			(GtkClassInitFunc) preview_grid_class_init,
-			(GtkObjectInitFunc) preview_grid_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		preview_grid_type = gtk_type_unique (gnome_canvas_item_get_type (), &preview_grid_info);
-	}
-
-	return preview_grid_type;
-}
+GNUMERIC_MAKE_TYPE (preview_grid, "PreviewGrid", PreviewGrid,
+		    preview_grid_class_init, preview_grid_init,
+		    gnome_canvas_item_get_type ())

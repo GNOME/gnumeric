@@ -81,18 +81,18 @@ sheet_rename (Sheet *sheet, const char *new_name)
 SheetControlGUI *
 sheet_new_sheet_view (Sheet *sheet)
 {
-	GtkWidget *sheet_view;
+	GtkWidget *scg;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	sheet_view = sheet_view_new (sheet);
+	scg = sheet_control_gui_new (sheet);
 
-	scg_set_cursor_bounds (SHEET_CONTROL_GUI (sheet_view),
+	scg_set_cursor_bounds (SHEET_CONTROL_GUI (scg),
 		sheet->cursor.base_corner.col, sheet->cursor.base_corner.row,
 		sheet->cursor.move_corner.col, sheet->cursor.move_corner.row);
-	sheet->s_controls = g_list_prepend (sheet->s_controls, sheet_view);
+	sheet->s_controls = g_list_prepend (sheet->s_controls, scg);
 
-	return SHEET_CONTROL_GUI (sheet_view);
+	return SHEET_CONTROL_GUI (scg);
 }
 
 void

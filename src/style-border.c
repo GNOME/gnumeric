@@ -1,10 +1,24 @@
+/* vim: set sw=8: */
+
 /*
- * border.c: Managing cell borders
+ * border.c: Managing drawing and printing cell borders
  *
- * Author:
- *  Jody Goldberg (jgoldberg@home.org)
+ * Copyright (C) 1999, 2000, 2001 Jody Goldberg (jgoldberg@home.com)
  *
- *  (C) 1999, 2000 Jody Goldberg
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
  */
 #include <config.h>
 #include "style-border.h"
@@ -555,6 +569,7 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 	int o[2][2];
 	int col, next_x = x;
 	GdkGC *gc;
+	StyleBorder const *diag;
 
 	for (col = sr->start_col; col <= sr->end_col ; col++, x = next_x) {
 
@@ -576,20 +591,44 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 				       next_x + o[0][1] + 1, y);
 		}
 
-		if (!draw_vertical)
-			continue;
-		gc = style_border_get_gc (sr->vertical [col], drawable);
-		if (gc != NULL) {
-			int x1 = x;
-			if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
-				gdk_draw_line (drawable, gc, x-1, y1 + o[1][0],
-					       x-1, y2 + o[1][1] + 1);
-				++x1;
+		if (draw_vertical) {
+			gc = style_border_get_gc (sr->vertical [col], drawable);
+			if (gc != NULL) {
+				int x1 = x;
+				if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
+					gdk_draw_line (drawable, gc, x-1, y1 + o[1][0],
+						       x-1, y2 + o[1][1] + 1);
+					++x1;
+				}
+				/* See note in style_border_set_gc_dash about +1 */
+				gdk_draw_line (drawable, gc, x1, y1 + o[0][0],
+					       x1, y2 + o[0][1] + 1);
 			}
-			/* See note in style_border_set_gc_dash about +1 */
-			gdk_draw_line (drawable, gc, x1, y1 + o[0][0],
-				       x1, y2 + o[0][1] + 1);
 		}
+
+		/* FIXME : I am tired.  Do proper margins for these later */
+		diag = mstyle_get_border (sr->styles [col], MSTYLE_BORDER_REV_DIAGONAL);
+		if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
+			int a = 0;
+			gc = style_border_get_gc (diag, drawable);
+			if (diag->line_type == STYLE_BORDER_DOUBLE) {
+				gdk_draw_line (drawable, gc, x, y1+2, next_x-2, y2);
+				a = 2;
+			}
+			gdk_draw_line (drawable, gc, x+a, y1, next_x, y2-a);
+		}
+
+		diag = mstyle_get_border (sr->styles [col], MSTYLE_BORDER_DIAGONAL);
+		if (diag != NULL && diag->line_type != STYLE_BORDER_NONE) {
+			int a = 0;
+			gc = style_border_get_gc (diag, drawable);
+			if (diag->line_type == STYLE_BORDER_DOUBLE) {
+				gdk_draw_line (drawable, gc, x, y2-2, next_x-2, y1);
+				a = 2;
+			}
+			gdk_draw_line (drawable, gc, x+a, y2, next_x, y1+a);
+		}
+
 	}
 	if (draw_vertical) {
 		gc = style_border_get_gc (sr->vertical [col], drawable);
@@ -695,7 +734,6 @@ style_border_draw (StyleBorder const * const border, StyleBorderLocation const t
 		   StyleBorder const * const extend_begin,
 		   StyleBorder const * const extend_end)
 {
-	return;
 	if (!style_border_is_blank (border)) {
 		/* Cast away const */
 		GdkGC *gc = style_border_get_gc (border, drawable);

@@ -874,8 +874,6 @@ mstyle_set_border (MStyle *st, MStyleElementType t,
 StyleBorder *
 mstyle_get_border (const MStyle *st, MStyleElementType t)
 {
-	g_return_val_if_fail (mstyle_is_element_set (st, t), NULL);
-
 	switch (t) {
 	case MSTYLE_ANY_BORDER:
 		return st->elements[t].u.border.any;

@@ -534,23 +534,23 @@
 	    pixtype="stock" pixname="Gnumeric_GraphGuru"
 	    _label="Graph Guru"
 	    _tip="Invoke the graph guru to create a graph"
-	    verb="GraphGuru" behavior="pack-end"/>
+	    verb="GraphGuru" />
 
 	<toolitem name="InsertComponent"
 	    pixtype="stock" pixname="Gnumeric_InsertComponent"
 	    _label="Insert Component"
 	    _tip="Insert an object into the spreadsheet"
-	    verb="InsertComponent" behavior="pack-end"/>
+	    verb="InsertComponent" />
 
 	<toolitem name="InsertShapedComponent"
 	    pixtype="stock" pixname="Gnumeric_InsertShapedComponent"
 	    _label="Insert Shaped Component"
 	    _tip="Insert a shaped component into the spreadsheet"
-	    verb="InsertShapedComponent" behavior="pack-end"/>
+	    verb="InsertShapedComponent" />
 
 	<control name="SheetZoom"
 	    _tip="Zoom the spreadsheet in or out"
-	    vdisplay="none" behavior="pack-end"/>
+	    vdisplay="none" />
     </dockitem>
 
     <dockitem name="FormatToolbar" band_num="2" behavior="exclusive"
