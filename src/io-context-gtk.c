@@ -150,7 +150,10 @@ icg_init_gui (IOContextGtk *icg)
 	int sx, sy;
 	GdkWindowHints hints;
 	GdkGeometry geom;
-
+#ifdef HAVE_GDK_SCREEN_GET_MONITOR_GEOMETRY
+	GdkRectangle rect;
+#endif
+	
 	vbox = gtk_vbox_new (FALSE, 8);
 	gtk_box_pack_start (GTK_BOX (vbox),
 			    gnumeric_load_image ("gnome-gnumeric.png"),
