@@ -6,8 +6,6 @@
  * please see bonobo/samples/ for a better starting point.
  */
 
-#include <Bonobo.idl>
-
 module GNOME {
 	module Gnumeric {
 		interface Sheet {
@@ -17,11 +15,10 @@ module GNOME {
 			attribute string name;
 		};
 		interface Application {
-			Workbook new_workbook ();
-			Workbook open_workbook (in string file);
+			Workbook workbook_new ();
+			Workbook workbook_open (in string file_name);
 		};
 	};
 };
-
 
 #endif /* __GNUMERIC_IDL__ */

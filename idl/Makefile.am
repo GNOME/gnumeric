@@ -43,8 +43,9 @@ stamp_Gnumeric_Graph_idl : $(srcdir)/GNOME_Gnumeric_Graph.idl
 $(GNUMERIC_GRAPH_GENERATED): stamp_Gnumeric_Graph_idl
 
 if ENABLE_EVOLUTION
+EVOLUTION_IDL_DIR = $(shell $(GNOME_CONFIG) --datadir)/idl
 stamp_evolution_idl :
-	$(ORBIT_IDL) `$(GNOME_CONFIG) --datadir`/idl/Evolution-Composer.idl && touch $@
+	$(ORBIT_IDL) `$(EVOLUTION_IDL_DIR)/idl/Evolution-Composer.idl && touch $@
 
 $(EVOLUTION_GENERATED) : stamp_evolution_idl
 

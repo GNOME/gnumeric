@@ -446,10 +446,10 @@ if $try_python; then
 	python_val=
 	AC_CHECK_PROG(python_val, "$python_prog", true, false)
 	if $python_val; then
-		  PY_PREFIX=`python -c 'import sys ; print sys.prefix'`
-		  PY_EXEC_PREFIX=`python -c 'import sys ; print sys.exec_prefix'`
+		  PY_PREFIX=`$python_prog -c 'import sys ; print sys.prefix'`
+		  PY_EXEC_PREFIX=`$python_prg -c 'import sys ; print sys.exec_prefix'`
 		  changequote(<<, >>)dnl
-		  PY_VERSION=`python -c 'import sys ; print sys.version[0:3]'`
+		  PY_VERSION=`$python_prog -c 'import sys ; print sys.version[0:3]'`
 		  changequote([, ])dnl
 		  if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
 			  PY_LIBS="python$PY_VERSION"
@@ -565,6 +565,11 @@ AC_ARG_WITH(evolution,
 if test x"$have_bonobo" = "xtrue" -a x"$try_evolution" = "xtrue" ; then
 	path_to_composer_idl=`pkg-config --datadir`/idl/Evolution-Composer.idl
 	AC_CHECK_FILE($path_to_composer_idl, evolution=yes, evolution=no)
+ 	if test x"$evolution" = "xno" ; then
+ 		echo "Debian build hack: enabling Evolution support anyway;"
+ 		echo "be sure to set EVOLUTION_IDL_DIR to a dir containing Evolution-Composer.idl"
+ 		evolution=yes
+ 	fi
 fi
 AM_CONDITIONAL(ENABLE_EVOLUTION, test x"$evolution" = "xyes")
 if test x"$evolution" = "xyes" ; then
@@ -611,6 +616,30 @@ dnl ====================================
 dnl = End tests for jw
 dnl ====================================
 
+dnl Implement Debian policy on building with debugging info and on stripping.
+echo "Debian build policy: "
+echo -n "	* "
+case $DEB_BUILD_OPTIONS in
+	*debug*)	echo -n "Will "
+			;;
+	*)		echo -n "Will not "
+			CFLAGS=`echo $CFLAGS | sed -e 's/-g\>//'`
+			;;
+esac
+echo "include debug info in objects."
+echo -n "	* "
+case $DEB_BUILD_OPTIONS in
+	*nostrip*)	echo -n "Will not "
+			INSTALL_STRIP_PROGRAM=`echo $INSTALL_STRIP_PROGRAM | sed -e 's/-s\>//'`
+			STRIP=/bin/true
+			;;
+	*)		echo -n "Will "
+			;;
+esac
+echo "strip on install."
+#echo "CFLAGS is: $CFLAGS"
+#echo "INSTALL_STRIP_PROGRAM is: $INSTALL_STRIP_PROGRAM"
+#echo "STRIP is: $STRIP"
 
 AC_OUTPUT([
 gnumeric.spec

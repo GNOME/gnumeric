@@ -1,3 +1,8 @@
+2002-04-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am: Added `-I..' to INCLUDES so gnm-marshalers.h is found
+	when building in a separate builddir.
+
 2002-04-15  Morten Welinder  <terra@diku.dk>
 
 	* *.c: Include <gnumeric-config.h> as needed.

@@ -1,3 +1,28 @@
+2002-04-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* idl/Makefile.am: introduce EVOLUTION_IDL_DIR to support building
+	with Evolution-Composer.idl in a non-standard location.
+
+2001-11-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: added gdk_pixbuf to the libs considered for
+	GNUMERIC_CFLAGS and GNUMERIC_LIBS.
+
+2001-10-27  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in : Support --with-python=prog consistently: never call
+	`python', always call $python_prog.
+
+2001-10-21  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* idl/Makefile.am : Introduced EVOLUTION_IDL_DIR to make it possible
+	  to use Evolution-Composer.idl from a non-standard location.
+
+2001-11-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: added gdk_pixbuf to the libs considered for
+	GNUMERIC_CFLAGS and GNUMERIC_LIBS.
+
 2002-04-22  Morten Welinder  <terra@diku.dk>
 
 	* src/value.c (criteria_test_equal, criteria_test_unequal,

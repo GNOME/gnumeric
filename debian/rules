@@ -14,6 +14,51 @@ export DH_COMPAT=3
 # Try to preserve timestamps as much as possible
 export INSTALL=/usr/bin/install -p
 
+
+# Features configuration
+# ---------------------- 
+#
+# We're aiming for a package that's stable, with as much
+# functionality as is reasonably possible.
+
+features:=
+
+# The Python support offers a nice way to extend gnumeric's functionality.
+
+features+= --with-python=python2.2
+
+# Bonobo allows us to use parts of other applications like Guppi and
+# Evolution as components via CORBA, and allows us to work as a component
+# for other applications.
+#
+# The bonobo support is currently disabled while the GNOME2 port is being
+# worked on
+
+features+= --without-bonobo
+
+# File -> Send functionality via Evolution's mail composer component. Note
+# that this is achieved through Bonobo, so no additional library
+# dependencies are introduced.
+
+features+= --with-evolution
+
+# Plugin to access databases through the GDA framework.
+
+features+= --with-gda
+
+# Guile offers an additional way to extension gnumeric, but the guile
+# support is for guile 1.5 or newer, which is not currently available in
+# Debian.
+
+features+= --without-guile
+
+# configure.in: "Gnome Basic is extremely API unstable; it is likely that
+# gnumeric will only build with the single version mentioned in
+# configure.in, if at all. It is possible, but unlikely, that Gnome Basic
+# contains security vulnerabilities."
+
+features+= --without-gb
+
 configure: configure-stamp
 configure-stamp:
 	dh_testdir
@@ -28,43 +73,12 @@ configure-stamp:
 		cp /usr/share/idl/Evolution-Composer.idl evo ; \
 	fi
 	
-	# Configuration motivation
-	# ------------------------ 
-	#
-	# We're aiming for a package that's stable, with as much
-	# functionality as is reasonably possible.
-	#
-	# --with-python: The Python support offers a nice way to extend
-	# gnumeric's functionality.
-	#
-	# --with-bonobo: Bonobo allows us to use parts of other applications
-	# like Guppi and Evolution as components via CORBA, and allows us to 
-	# work as a component for other applications.
-	# XXXX bonobo support doesn't seem to be working yet.
-	# --with-evolution: Enables File -> Send functionality via
-	# Evolution's mail composer component. Note that this is achieved
-	# through Bonobo, so no additional library dependencies are
-	# introduced.
-	#
-	# --without-guile: Guile offers an additional way to extension
-	# gnumeric, but the guile support is for guile 1.5 or newer, which
-	# is not currently available in Debian.
-	#
-	# --without-gb: configure.in: "Gnome Basic is extremely API unstable; 
-	# it is likely that gnumeric will only build with the single version
-	# mentioned in configure.in, if at all. It is possible, but
-	# unlikely, that Gnome Basic contains security vulnerabilities."
-	#
-	# --without-gda: enabling the GDA plugin would mean putting gnumeric
-	# in non-US as libgda-dev is in non-US. Let's wait until crypto in main 
-	# is realised technically.
 	mkdir build
 	cd build && env srcdir=`pwd`/.. \
 		sh ../autogen.sh \
+		$(features) \
 		--prefix=/usr --sysconfdir=/etc \
-                --with-python=python2.2 \
-		--without-bonobo --without-evolution \
-                --without-guile --without-gb --without-gda \
+		--localstatedir=/var/lib \
                 --enable-compile-warnings=minimum \
                 --enable-iso-c
 
@@ -74,8 +88,6 @@ build: configure-stamp build-stamp
 build-stamp:
 	dh_testdir
 
-	# Add here commands to compile the package.
-	#cd build && $(MAKE)
 	cd build && $(MAKE) EVOLUTION_IDL_DIR=`pwd`/../evo
 
 	touch build-stamp
@@ -95,9 +107,8 @@ clean:
 	-rm -f po/*.gmo
 
 	# Clean out files generated as part of the documentation generation
-	-rm -f doc/C/index.html
-	-rm -rf doc/C/gnumeric
-	-rm -rf doc/C/DBTOHTML_OUTPUT_DIR*
+	-rm -f doc/C/index.html omf-install/gnumeric-C.omf
+	-rm -rf doc/C/gnumeric doc/C/DBTOHTML_OUTPUT_DIR*
 
 	-rm -rf aclocal.m4 config.h.in configure stamp-h.in \
 		xml-i18n-extract* xml-i18n-merge* xml-i18n-update* \
@@ -111,26 +122,40 @@ install: build
 	dh_clean -k
 	dh_installdirs
 
-	cd build && $(MAKE) install prefix=`pwd`/../debian/gnumeric/usr sysconfdir=`pwd`/../debian/gnumeric/etc
+	cd build && $(MAKE) install \
+		prefix=`pwd`/../debian/gnumeric/usr \
+		sysconfdir=`pwd`/../debian/gnumeric/etc \
+		localstatedir=`pwd`/../debian/gnumeric/var/lib
 
+	# Plugins are not intended as stand-alone executables
+	find `pwd`/debian/gnumeric/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
+
+	# Remove unwanted files: static libraries, libtool files for plugins
+	# and documentation sources
 	find `pwd`/debian/gnumeric/usr/ -name '*.a' -print0 | xargs -0 rm -f
 	find `pwd`/debian/gnumeric/usr/lib/gnumeric/*/plugins -name '*.la' -print0 | xargs -0 rm -f
+	find `pwd`/debian/gnumeric/ -name '*.sgml' -print0 | xargs -0 rm -f
 
+	# Remove scrollkeeper stuff as well, as it should be done at package
+	# (de)install time.
+	rm -rf `pwd`/debian/gnumeric/var/lib/scrollkeeper
+
+	# Low-colour icon for use by the menu system
+	$(INSTALL) -m 644 debian/gnome-gnumeric.xpm `pwd`/debian/gnumeric/usr/share/pixmaps/
+
+	# Move files and put in links
 	dh_movefiles --sourcedir=debian/gnumeric
-
 	mv `pwd`/debian/gnumeric-doc/usr/share/gnome/help/gnumeric \
 		`pwd`/debian/gnumeric-doc/usr/share/doc/gnumeric-doc/html
 	cd `pwd`/debian/gnumeric-doc/usr/share/gnome/help && \
 		ln -s ../../doc/gnumeric-doc/html/ gnumeric
-
-	DATADIR=`build/src/gnumeric -v | awk '/datadir/{ print $3; }' | sed -e "s/'//g"` && \
-		cd debian/gnumeric && \
-		for idl in $$DATADIR/idl/*.idl; do \
-			(cd usr/share/idl && ln -s `echo $$idl | sed -e 's,^/usr/share,..,'` .); \
+	cd debian/gnumeric && \
+		for idl in usr/share/gnumeric/*/idl/*.idl; do \
+			(cd usr/share/idl && ln -s `echo $$idl | sed -e 's,^usr/share,..,'` .); \
 		done
 
 	# Clean out empty dirs left over from moving
-	-find `pwd`/debian/gnumeric/ -type d -depth | xargs rmdir
+	-find `pwd`/debian/gnumeric/ -type d -depth | xargs rmdir 2>&1 >/dev/null
 
 # Build architecture-independent files here.
 # Pass -i to all debhelper commands in this target to reduce clutter.
@@ -172,7 +197,7 @@ binary-arch: build install
 #	dh_installlogrotate -a
 #	dh_installemacsen -a
 #	dh_installpam -a
-#	dh_installmime -a
+	dh_installmime -a
 #	dh_installinit -a
 	dh_installcron -a
 	dh_installman -a

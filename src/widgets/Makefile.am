@@ -3,6 +3,7 @@ INCLUDES = 						\
         -DGNUMERIC_GLADEDIR=\""$(gnumeric_gladedir)"\"	\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/src				\
+	-I..						\
 	$(GNUMERIC_CFLAGS)
 
 noinst_LIBRARIES = libwidgets.a
