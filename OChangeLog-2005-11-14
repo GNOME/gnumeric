@@ -1,5 +1,9 @@
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
+	* gnumeric.spec.in : delete bogus gal req
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : post release bump to 1.1.90 in prep for beta status
 	  next week.
 

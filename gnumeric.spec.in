@@ -24,7 +24,6 @@ BuildRequires:	gtk2-devel		>= 2.0.0
 BuildRequires:	libxml2-devel		>= 2.4.12
 BuildRequires:	libglade2-devel		>= 1.99.7
 BuildRequires:	libgnomecanvas-devel	>= 1.113.0
-BuildRequires:	libgal-2-devel		>= 1.99
 BuildRequires:	libgnome-devel		>= 1.105.0
 BuildRequires:	libgnomeui-devel	>= 1.106.0
 BuildRequires:	libgnomeprint22-devel	>= 2.2.0
