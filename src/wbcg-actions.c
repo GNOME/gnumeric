@@ -1295,8 +1295,6 @@ toggle_current_font_attr (WorkbookControlGUI *wbcg,
 	if (wbcg->updating_ui)
 		return;
 
-	g_warning ("DOO");
-
 	new_style = mstyle_new ();
 	current_style = sheet_style_get (sheet,
 		sv->edit_pos.col,

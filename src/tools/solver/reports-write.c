@@ -851,15 +851,13 @@ solver_program_report (WorkbookControl *wbc,
 		/* Print the type. */
 		switch (c->type) {
 		case SolverLE:
-		        dao_set_cell (&dao, col*3 + 1, row, "<");
-			dao_set_underlined (&dao, col*3 + 1, row,
-					    col*3 + 1, row);
-		        break;
+			/* "<=" character.  */
+		        dao_set_cell (&dao, col*3 + 1, row, "\xe2\x89\xa4");
+			break;
 		case SolverGE:
-		        dao_set_cell (&dao, col*3 + 1, row, ">");
-			dao_set_underlined (&dao, col*3 + 1, row,
-					    col*3 + 1, row);
-		        break;
+			/* ">=" character.  */
+		        dao_set_cell (&dao, col*3 + 1, row, "\xe2\x89\xa5");
+			break;
 		case SolverEQ:
 		        dao_set_cell (&dao, col*3 + 1, row, "=");
 		        break;

@@ -1,3 +1,8 @@
+2004-02-03  Morten Welinder  <terra@gnome.org>
+
+	* reports-write.c (solver_program_report): Use unicode characters
+	for <= and >=, not underlines.
+
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.3
