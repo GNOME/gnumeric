@@ -9,9 +9,9 @@
 #include <gnome.h>
 #include <ctype.h>
 #include <math.h>
-#include "numbers.h"
+#include <limits.h>
+#include "complex.h"
 #include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "utils.h"
 #include "func.h"
 
@@ -463,140 +463,45 @@ gnumeric_bessely (struct FunctionDefinition *i,
 }
 
 
-static char *i_suffix = "i";
-static char *j_suffix = "j";
-
-
-/* Returns 1 if 'i' or '+i', -1 if '-i', and 0 otherwise.
- */
-static int
-is_unit_imaginary(char *inumber, char **suffix)
-{
-        int im = 0;
-
-	/* Check if only 'i' or '-i' */
-	if (strcmp(inumber, "i") == 0 || strcmp(inumber, "+i") == 0) {
-	        im = 1;
-		*suffix = i_suffix;
-	}
-	if (strcmp(inumber, "-i") == 0) {
-	        im = -1;
-		*suffix = i_suffix;
-	}
-	if (strcmp(inumber, "j") == 0 || strcmp(inumber, "+j") == 0) {
-	        im = 1;
-		*suffix = j_suffix;
-	}
-	if (strcmp(inumber, "-j") == 0) {
-	        im = -1;
-		*suffix = j_suffix;
-	}        
-
-	return im;
-}
-
 /* Converts a complex number string into its coefficients.  Returns 0 if ok,
  * 1 if an error occured.
  */
 static int
-get_real_and_imaginary(char *inumber, float_t *real, float_t *im, 
-		       char **suffix)
+value_get_as_complex (Value *val, complex_t *res, char *imunit)
 {
-        char *p;
+	if (VALUE_IS_NUMBER (val)) {
+		complex_real (res, value_get_as_float (val));
+		*imunit = 'i';
+		return 0;
+	} else {
+		char *s;
+		int err;
 
-	*real = 0;
-	*suffix = j_suffix;
-
-	*im = is_unit_imaginary(inumber, suffix);
-	if (*im)
-	        return 0;
-
-	/* Get the real coefficient */
-	*real = strtod(inumber, &p);
-	if (inumber == p)
-	        return 1;
-
-	if (*p == '\0') {
-	        *im = 0;
-	        return 0;
+		s = value_get_as_string (val);
+		err = complex_from_string (res, s, imunit);
+		g_free (s);
+		return err;
 	}
-
-	/* Check if only imaginary coefficient */
-	if (*p == 'i') {
-	        if (*(p+1) == '\0') {
-		        *im = *real;
-			*real = 0;
-			*suffix = i_suffix;
-			return 0;
-		} else
-		        return 1;
-	}
-	if (*p == 'j') {
-	        if (*(p+1) == '\0') {
-		        *im = *real;
-			*real = 0;
-			*suffix = j_suffix;
-			return 0;
-		} else
-		        return 1;
-	}
-
-	/* Get the imaginary coefficient */
-	*im = is_unit_imaginary(p, suffix);
-	if (*im)
-	        return 0;
-
-	inumber = p;
-	*im = strtod(inumber, &p);
-	if (inumber == p)
-	        return 1;
-
-	if (*p == 'i') {
-	        if (*(p+1) == '\0') {
-			*suffix = i_suffix;
-			return 0;
-		} else
-		        return 1;
-	}
-	if (*p == 'j') {
-	        if (*(p+1) == '\0') {
-			*suffix = j_suffix;
-			return 0;
-		} else
-		        return 1;
-	}
-
-        return 1;
 }
 
-static Value*
-create_inumber (float_t real, float_t im, char *suffix)
+
+static Value *
+value_new_complex (const complex_t *c, char imunit)
 {
-	static char buf[256];
+	if (complex_real_p (c))
+		return value_new_float (c->re);
+	else {
+		char *s, f[5 + 4 * sizeof (int)];
+		Value *res;
 
-	if (im == 0)
-	        return value_new_float (real);
-
-	if (suffix == NULL)
-	        suffix = "i";
-
-	if (im == 1)
-	        if (real == 0)
-		        sprintf(buf, "%s", suffix);
-		else
-		        sprintf(buf, "%g+%s", real, suffix);
-	else if (im == -1)
-	        if (real == 0)
-		        sprintf(buf, "-%s", suffix);
-		else
-		        sprintf(buf, "%g-%s", real, suffix);
-	else if (real == 0)
-	        sprintf(buf, "%g%s", im, suffix);
-	else  
-	        sprintf(buf, "%g%+g%s", real, im, suffix);
-
-	return value_new_string (buf);
+		sprintf (f, "%%.%dg", DBL_DIG);
+		s = complex_to_string (c, f, f, imunit);
+		res = value_new_string (s);
+		g_free (s);
+		return res;
+	}
 }
+
 
 static char *help_complex = {
 	N_("@FUNCTION=COMPLEX\n"
@@ -617,11 +522,12 @@ static Value *
 gnumeric_complex (struct FunctionDefinition *fd, 
 		  Value *argv [], char **error_string)
 {
-        float_t     r, i;
-	char        *suffix;
+	complex_t c;
+	char *suffix;
 
-	r = value_get_as_float (argv[0]);
-	i = value_get_as_float (argv[1]);
+	complex_init (&c,
+		      value_get_as_float (argv[0]),
+		      value_get_as_float (argv[1]));
 
 	if (argv[2] == NULL)
 	        suffix = "i";
@@ -634,7 +540,7 @@ gnumeric_complex (struct FunctionDefinition *fd,
 		return NULL;
 	}
 
-	return create_inumber (r, i, suffix);
+	return value_new_complex (&c, *suffix);
 }
 
 static char *help_imaginary = {
@@ -651,23 +557,18 @@ static Value *
 gnumeric_imaginary (struct FunctionDefinition *fd, 
 		    Value *argv [], char **error_string)
 {
-        float_t real, im;
-	char    *suffix;
+	complex_t c;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0]))
-	        return value_new_int (0);
+	if (VALUE_IS_NUMBER (argv[0]))
+		return value_new_float (0.0);
 
-	if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
-	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
-	
-	return value_new_float (im);
+	return value_new_float (c.im);
 }
 
 static char *help_imreal = {
@@ -684,23 +585,18 @@ static Value *
 gnumeric_imreal (struct FunctionDefinition *fd, 
 		 Value *argv [], char **error_string)
 {
-        float_t real, im;
-	char    *suffix;
+	complex_t c;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0]))
-	        return value_new_float (value_get_as_float (argv[0]));
+	if (VALUE_IS_NUMBER (argv[0]))
+		return value_duplicate (argv[0]);
 
-	if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
-	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
-	
-	return value_new_float (real);
+	return value_new_float (c.re);
 }
 
 static char *help_imabs = {
@@ -717,25 +613,15 @@ static Value *
 gnumeric_imabs (struct FunctionDefinition *fd, 
 		Value *argv [], char **error_string)
 {
-        float_t real, im;
-	char    *suffix;
+	complex_t c;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_float (argv[0]);
-	        return value_new_float (sqrt(real * real));
-	}
-
-	if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
-	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
-	
-	return value_new_float (sqrt(real*real + im*im));
+	return value_new_float (complex_mod (&c));
 }
 
 static char *help_imconjugate = {
@@ -751,25 +637,16 @@ static Value *
 gnumeric_imconjugate (struct FunctionDefinition *fd, 
 		      Value *argv [], char **error_string)
 {
-        float_t real, im;
-	char    *suffix;
+	complex_t c, res;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_float (argv[0]);
-	        return value_new_float (real);
-	}
-
-	if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
 
-	if (get_real_and_imaginary(argv[0]->v.str->str, &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
-	
-	return create_inumber (real, -im, suffix);
+	complex_conj (&res, &c);
+	return value_new_complex (&res, imunit);
 }
 
 static char *help_imcos = {
@@ -785,23 +662,41 @@ static Value *
 gnumeric_imcos (struct FunctionDefinition *fd, 
 		Value *argv [], char **error_string)
 {
-        float_t real, im;
-	char    *suffix;
+	complex_t c, res;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_float (argv[0]);
-	        im = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
+	}
+
+	complex_cos (&res, &c);
+	return value_new_complex (&res, imunit);
+}
+
+static char *help_imtan = {
+	N_("@FUNCTION=IMTAN\n"
+	   "@SYNTAX=IMTAN(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMCOS returns the tangent of a complex number. "
+	   "\n"
+	   "@SEEALSO=IMTAN")
+};
+
+static Value *
+gnumeric_imtan (struct FunctionDefinition *fd, 
+		Value *argv [], char **error_string)
+{
+	complex_t c, res;
+	char imunit;
+
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
+		*error_string = gnumeric_err_VALUE;
 		return NULL;
 	}
-	
-	return create_inumber (cos(real)*cosh(im),
-			       -sin(real)*sinh(im), suffix);
+
+	complex_tan (&res, &c);
+	return value_new_complex (&res, imunit);
 }
 
 static char *help_imexp = {
@@ -817,24 +712,16 @@ static Value *
 gnumeric_imexp (struct FunctionDefinition *fd, 
 		Value *argv [], char **error_string)
 {
-        float_t real, im, e;
-	char    *suffix;
+	complex_t c, res;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_float (argv[0]);
-	        im = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
-	e = exp(real);
-
-	return create_inumber (e * cos(im), e * sin(im), suffix);
+	complex_exp (&res, &c);
+	return value_new_complex (&res, imunit);
 }
 
 static char *help_imargument = {
@@ -850,24 +737,15 @@ static Value *
 gnumeric_imargument (struct FunctionDefinition *fd, 
 		     Value *argv [], char **error_string)
 {
-        float_t real, im, theta;
-	char    *suffix;
+	complex_t c;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_float (argv[0]);
-	        im = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
-	theta = atan(im / real);
-
-	return value_new_float (theta);
+	return value_new_float (complex_angle (&c));
 }
 
 static char *help_imln = {
@@ -879,44 +757,20 @@ static char *help_imln = {
 	   "@SEEALSO=IMEXP")
 };
 
-static void
-complex_ln(float_t *real, float_t *im)
-{
-        float_t r, i;
-
-        r = log(sqrt(*real * *real + *im * *im));
-	i = atan(*im / *real);
-	*real = r;
-	*im = i;
-}
-
 static Value *
 gnumeric_imln (struct FunctionDefinition *fd, 
 	       Value *argv [], char **error_string)
 {
-        float_t real, im;
-	char    *suffix;
+	complex_t c, res;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_float (argv[0]);
-	        im = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
 	}
-	
-	if (real == 0) {
-		*error_string = gnumeric_err_DIV0;
-		return NULL;
-	}
-	
-	complex_ln(&real, &im);
 
-	return create_inumber (real, im, suffix);
+	complex_ln (&res, &c);
+	return value_new_complex (&res, imunit);
 }
 
 static char *help_imlog2 = {
@@ -932,31 +786,18 @@ static Value *
 gnumeric_imlog2 (struct FunctionDefinition *fd, 
 		 Value *argv [], char **error_string)
 {
-        float_t real, im;
-	float_t ln_2;
-	char    *suffix;
+	complex_t c, res;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_float (argv[0]);
-	        im = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
 	}
-	
-	if (real == 0) {
-		*error_string = gnumeric_err_DIV0;
-		return NULL;
-	}
-	
-	complex_ln(&real, &im);
-	ln_2 = log(2);
 
-	return create_inumber (real/ln_2, im/ln_2, suffix);
+	complex_ln (&res, &c);
+	res.re /= M_LN2;
+	res.im /= M_LN2;
+	return value_new_complex (&res, imunit);
 }
 
 static char *help_imlog10 = {
@@ -972,31 +813,18 @@ static Value *
 gnumeric_imlog10 (struct FunctionDefinition *fd, 
 		  Value *argv [], char **error_string)
 {
-        float_t real, im;
-	float_t ln_10;
-	char    *suffix;
+	complex_t c, res;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_float (argv[0]);
-	        im = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
 	}
-	
-	if (real == 0) {
-		*error_string = gnumeric_err_DIV0;
-		return NULL;
-	}
-	
-	complex_ln(&real, &im);
-	ln_10 = log(10);
 
-	return create_inumber (real/ln_10, im/ln_10, suffix);
+	complex_ln (&res, &c);
+	res.re /= M_LN10;
+	res.im /= M_LN10;
+	return value_new_complex (&res, imunit);
 }
 
 static char *help_impower = {
@@ -1014,34 +842,28 @@ static Value *
 gnumeric_impower (struct FunctionDefinition *fd, 
 		  Value *argv [], char **error_string)
 {
-        float_t real, im, n, r, theta, power;
-	char    *suffix;
+	complex_t a, b, lna, b_lna, res;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_float (argv[0]);
-	        im = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &a, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
-	n = value_get_as_float (argv[1]);
-	
-	if (real == 0) {
+	if (value_get_as_complex (argv[1], &b, &imunit)) {
+		*error_string = gnumeric_err_VALUE;
+		return NULL;
+	}
+
+	if (a.re == 0) {
 		*error_string = gnumeric_err_DIV0;
 		return NULL;
 	}
-	
-	r = sqrt(real*real + im*im);
-	theta = atan(im / real);
-	power = pow(r, n);
 
-	return create_inumber (power * cos(n*theta), power * sin(n*theta),
-			       suffix);
+	complex_ln (&lna, &a);
+	complex_mul (&b_lna, &b, &lna);
+	complex_exp (&res, &b_lna);
+	return value_new_complex (&res, imunit);
 }
 
 static char *help_imdiv = {
@@ -1057,41 +879,26 @@ static Value *
 gnumeric_imdiv (struct FunctionDefinition *fd, 
 		Value *argv [], char **error_string)
 {
-        float_t a, b, c, d, den;
-	char    *suffix;
+	complex_t a, b, res;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        a = value_get_as_float (argv[0]);
-	        b = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &a, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &a, &b, &suffix)) {
-		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
-	if (VALUE_IS_NUMBER(argv[1])) {
-	        c = value_get_as_float (argv[1]);
-	        d = 0;
-	} else if (argv[1]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[1], &b, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	} else if (get_real_and_imaginary(argv[1]->v.str->str,
-					  &c, &d, &suffix)) {
-		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
-	den = c*c + d*d;
-
-	if (den == 0) {
+	if (complex_zero_p (&b)) {
 		*error_string = gnumeric_err_DIV0;
 		return NULL;
 	}
-	
-	return create_inumber ((a*c+b*d) / den, (b*c-a*d) / den, suffix);
+
+	complex_div (&res, &a, &b);
+	return value_new_complex (&res, imunit);
 }
 
 static char *help_imsin = {
@@ -1107,23 +914,16 @@ static Value *
 gnumeric_imsin (struct FunctionDefinition *fd, 
 		Value *argv [], char **error_string)
 {
-        float_t real, im;
-	char    *suffix;
+	complex_t c, res;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_float (argv[0]);
-	        im = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
 	}
-	
-	return create_inumber (sin(real)*cosh(im),
-			       -cos(real)*sinh(im), suffix);
+
+	complex_sin (&res, &c);
+	return value_new_complex (&res, imunit);
 }
 
 static char *help_imsqrt = {
@@ -1139,25 +939,16 @@ static Value *
 gnumeric_imsqrt (struct FunctionDefinition *fd, 
 		 Value *argv [], char **error_string)
 {
-        float_t real, im, r, theta;
-	char    *suffix;
+	complex_t c, res;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        real = value_get_as_float (argv[0]);
-	        im = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &c, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &real, &im, &suffix)) {
-		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
-	r = sqrt(sqrt(real*real + im*im));
-	theta = atan(im / real) / 2;
-
-	return create_inumber (r*cos(theta), r*sin(theta), suffix);
+	complex_sqrt (&res, &c);
+	return value_new_complex (&res, imunit);
 }
 
 static char *help_imsub = {
@@ -1173,34 +964,21 @@ static Value *
 gnumeric_imsub (struct FunctionDefinition *fd, 
 		Value *argv [], char **error_string)
 {
-        float_t a, b, c, d;
-	char    *suffix;
+	complex_t a, b, res;
+	char imunit;
 
-	if (VALUE_IS_NUMBER(argv[0])) {
-	        a = value_get_as_float (argv[0]);
-	        b = 0;
-	} else if (argv[0]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[0], &a, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	} else if (get_real_and_imaginary(argv[0]->v.str->str,
-					  &a, &b, &suffix)) {
-		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
-	if (VALUE_IS_NUMBER(argv[1])) {
-	        c = value_get_as_float (argv[1]);
-	        d = 0;
-	} else if (argv[1]->type != VALUE_STRING) {
+	if (value_get_as_complex (argv[1], &b, &imunit)) {
 		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	} else if (get_real_and_imaginary(argv[1]->v.str->str,
-					  &c, &d, &suffix)) {
-		*error_string = gnumeric_err_NUM;
 		return NULL;
 	}
 
-	return create_inumber (a-c, b-d, suffix);
+	complex_sub (&res, &a, &b);
+	return value_new_complex (&res, imunit);
 }
 
 static char *help_improduct = {
@@ -1217,9 +995,8 @@ typedef enum {
 } eng_imoper_type_t;
 
 typedef struct {
-        float_t           real;
-        float_t           im;
-        char              *suffix;
+	complex_t         res;
+        char              imunit;;
         eng_imoper_type_t type;
 } eng_imoper_t;
 
@@ -1228,43 +1005,28 @@ callback_function_imoper (Sheet *sheet, Value *value,
 			  char **error_string, void *closure)
 {
         eng_imoper_t *result = closure;
-	char         *suffix;
-	float_t      im, real, rest_im, rest_real;
+	complex_t c, newres;
+	char *imptr, dummy;
 
-        switch (value->type){
-        case VALUE_INTEGER:
-	        im = 0;
-		real = value->v.v_int;
-                break;
-	case VALUE_FLOAT:
-	        im = 0;
-		real = value->v.v_float;
-		break;
-	case VALUE_STRING:
-	        if (get_real_and_imaginary(value->v.str->str,
-					   &real, &im, &suffix))
-		        return FALSE;
-		break;
-        default:
-                return FALSE;
-        }
-
-	rest_real = result->real;
-	rest_im = result->im;
+	imptr = VALUE_IS_NUMBER (value) ? &dummy : &result->imunit;
+	if (value_get_as_complex (value, &c, imptr)) {
+		*error_string = gnumeric_err_VALUE;
+		return NULL;
+	}
 
 	switch (result->type) {
 	case Improduct:
-	        result->real = rest_real*real - rest_im*im;
-		result->im = rest_real*im + rest_im*real;
+		complex_mul (&newres, &result->res, &c);
 	        break;
 	case Imsum:
-	        result->real = rest_real + real;
-		result->im = rest_im + im;
+		complex_add (&newres, &result->res, &c);
 	        break;
 	default:
-	        return FALSE;
+		abort ();
 	}
 
+	/* Complex routines assume pointers are different.  */
+	result->res = newres;
         return TRUE;
 }
 
@@ -1273,46 +1035,20 @@ gnumeric_improduct (Sheet *sheet, GList *expr_node_list,
 		    int eval_col, int eval_row, char **error_string)
 {
         eng_imoper_t p;
-	ExprTree     *tree;
-	Value        *val;
-        float_t      a, b;
-
-	if (expr_node_list == NULL) {
-                *error_string = gnumeric_err_NUM;
-                return NULL;
-	}
-
-	tree = (ExprTree *) expr_node_list->data;
-        if (tree == NULL) {
-                *error_string = gnumeric_err_NUM;
-                return NULL;
-        }
-        val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
-
-	if (VALUE_IS_NUMBER(val)) {
-	        p.real = value_get_as_float (val);
-	        p.im = 0;
-		p.suffix = "j";
-	} else if (val->type != VALUE_STRING) {
-		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	} else if (get_real_and_imaginary(val->v.str->str,
-					  &p.real, &p.im, &p.suffix)) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
 
 	p.type = Improduct;
+	p.imunit = 'j';
+	complex_real (&p.res, 1);
 
         if (function_iterate_argument_values (sheet, callback_function_imoper,
-                                              &p, expr_node_list->next,
+                                              &p, expr_node_list,
                                               eval_col, eval_row,
                                               error_string) == FALSE) {
                 *error_string = gnumeric_err_NUM;
                 return NULL;
         }
 
-	return create_inumber (p.real, p.im, p.suffix);
+	return value_new_complex (&p.res, p.imunit);
 }
 
 static char *help_imsum = {
@@ -1329,46 +1065,20 @@ gnumeric_imsum (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
         eng_imoper_t p;
-	ExprTree     *tree;
-	Value        *val;
-        float_t      a, b;
-
-	if (expr_node_list == NULL) {
-                *error_string = gnumeric_err_NUM;
-                return NULL;
-	}
-
-	tree = (ExprTree *) expr_node_list->data;
-        if (tree == NULL) {
-                *error_string = gnumeric_err_NUM;
-                return NULL;
-        }
-        val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
-
-	if (VALUE_IS_NUMBER(val)) {
-	        p.real = value_get_as_float (val);
-	        p.im = 0;
-		p.suffix = "j";
-	} else if (val->type != VALUE_STRING) {
-		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	} else if (get_real_and_imaginary(val->v.str->str,
-					  &p.real, &p.im, &p.suffix)) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
 
 	p.type = Imsum;
+	p.imunit = 'j';
+	complex_real (&p.res, 0);
 
         if (function_iterate_argument_values (sheet, callback_function_imoper,
-                                              &p, expr_node_list->next,
+                                              &p, expr_node_list,
                                               eval_col, eval_row,
                                               error_string) == FALSE) {
                 *error_string = gnumeric_err_NUM;
                 return NULL;
         }
 
-	return create_inumber (p.real, p.im, p.suffix);
+	return value_new_complex (&p.res, p.imunit);
 }
 
 static char *help_convert = {
@@ -2043,6 +1753,8 @@ FunctionDefinition eng_functions [] = {
 	  NULL, gnumeric_imsub },
 	{ "imsum",       "??", "inumber,inumber",            &help_imsum,
 	  gnumeric_imsum, NULL },
+	{ "imtan",       "?",  "inumber",                    &help_imtan,
+	  NULL, gnumeric_imtan },
 	{ "oct2bin",     "?|f",  "xnum,ynum",                &help_oct2bin,
 	  NULL, gnumeric_oct2bin },
 	{ "oct2dec",     "?",    "number",                   &help_oct2dec,

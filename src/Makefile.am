@@ -42,6 +42,8 @@ GNUMERIC_BASE_SOURCES =				\
 	clipboard.h				\
 	color.c					\
 	color.h					\
+	complex.h				\
+	complex.c				\
 	corba.h					\
 	cursors.c				\
 	cursors.h				\

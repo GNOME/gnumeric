@@ -1,3 +1,13 @@
+1999-06-16  Morten Welinder  <terra@diku.dk>
+
+	* src/complex.h, src/complex.c: New files.
+
+	* src/fn-eng.c: Use complex.c; improve precision, fix a few bugs,
+ 	plug a few leaks, add a few functions, and generally be merry.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add complex.c and
+ 	complex.h.
+
 1999-06-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/finfuns.xls: A new file for financial functions.
