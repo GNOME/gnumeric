@@ -14,22 +14,22 @@
 			<save_info saver_id="html32" format_level="auto"/>
 		</service>
 		<service type="file_saver" id="html32" file_extension="html" format_level="auto">
-			<information description="HTML 3.2 file format (*.html)"/>
+			<information description="HTML 3.2 (*.html)"/>
 		</service>
 		<service type="file_saver" id="html40" file_extension="html" format_level="auto">
-			<information description="HTML 4.0 file format (*.html)"/>
+			<information description="HTML 4.0 (*.html)"/>
 		</service>
 		<service type="file_saver" id="latex" file_extension="tex" format_level="write_only">
-			<information description="LaTeX file format (*.tex)"/>
+			<information description="LaTeX (*.tex)"/>
 		</service>
 		<service type="file_saver" id="latex2e" file_extension="tex" format_level="write_only">
-			<information description="LaTeX2e file format (*.tex)"/>
+			<information description="LaTeX2e (*.tex)"/>
 		</service>
 		<service type="file_saver" id="roff_dvi" file_extension="dvi" format_level="write_only">
-			<information description="DVI TeX file format (via groff)"/>
+			<information description="DVI TeX (via groff)"/>
 		</service>
 		<service type="file_saver" id="roff" file_extension="me" format_level="write_only">
-			<information description="TROFF file format (*.me)"/>
+			<information description="TROFF (*.me)"/>
 		</service>
 	</services>
 </plugin>

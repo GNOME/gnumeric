@@ -249,7 +249,7 @@ html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	fprintf (fp, "\ttext-align: left;\n");
 	fprintf (fp, "}\n");
 	fprintf (fp, "--></STYLE>\n");
-	fprintf (fp, "</HEAD>\n<BODY>\n");
+	fprintf (fp, "</HEAD>\n</BODY>\n");
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
@@ -318,7 +318,7 @@ html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	fprintf (fp, "\ttext-align: left;\n");
 	fprintf (fp, "}\n");
 	fprintf (fp, "--></STYLE>\n");
-	fprintf (fp, "</HEAD>\n<BODY>\n");
+	fprintf (fp, "</HEAD>\n</BODY>\n");
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
