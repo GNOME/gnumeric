@@ -1,3 +1,7 @@
+2002-10-28  Morten Welinder  <terra@diku.dk>
+
+	* src/xml-io.c (xml_sheet_write): fix number of cells.
+
 2002-10-28  Jody Goldberg <jody@gnome.org>
 
 	* src/ranges.c (global_range_parse) : don't create names.

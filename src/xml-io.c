@@ -2400,22 +2400,19 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	/* save cells in natural order */
 	cells = xmlNewChild (sheetNode, ctxt->ns, (xmlChar const *)"Cells", NULL);
 	{
-		gint i ,n ;
-		n = g_hash_table_size (sheet->cell_hash);
-		if (n > 0) {
-			GPtrArray *natural = g_ptr_array_new ();
-			g_hash_table_foreach (sheet->cell_hash,
-				(GHFunc) copy_hash_table_to_ptr_array, natural);
-			qsort (&g_ptr_array_index (natural, 0),
-			       n,
-			       sizeof (gpointer),
-			       natural_order_cmp);
-			for (i = 0; i < n; i++) {
-				child = xml_write_cell (ctxt, g_ptr_array_index (natural, i));
-				xmlAddChild (cells, child);
-			}
-			g_ptr_array_free (natural, TRUE);
+		size_t i;
+		GPtrArray *natural = g_ptr_array_new ();
+		g_hash_table_foreach (sheet->cell_hash,
+				      (GHFunc) copy_hash_table_to_ptr_array, natural);
+		qsort (&g_ptr_array_index (natural, 0),
+		       natural->len,
+		       sizeof (gpointer),
+		       natural_order_cmp);
+		for (i = 0; i < natural->len; i++) {
+			child = xml_write_cell (ctxt, g_ptr_array_index (natural, i));
+			xmlAddChild (cells, child);
 		}
+		g_ptr_array_free (natural, TRUE);
 	}
 
 	xml_write_merged_regions (ctxt, sheetNode, sheet->list_merged);
