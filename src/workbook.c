@@ -331,7 +331,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 
 		/* NO */
 	case 1:
-		workbook_mark_unmodified (sheet->workbook);
+		workbook_mark_clean (sheet->workbook);
 		break;
 		
 		/* CANCEL */

@@ -22,7 +22,7 @@ gnumeric_notice (char *str)
 	dialog = gnome_dialog_new (_("Notice"), GNOME_STOCK_BUTTON_OK, NULL);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 0);
 	gtk_widget_show (label);
-	gnome_dialog_run_modal (GNOME_DIALOG (dialog));
+	gnome_dialog_run (GNOME_DIALOG (dialog));
 	gtk_object_destroy (GTK_OBJECT (dialog));
 }
 

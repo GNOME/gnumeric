@@ -1,5 +1,11 @@
 1998-11-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/gnumeric-util.c (gnumeric_notice): Do not use
+	gnome_dialog_run_modal. 
+
+	* src/dialog-goto-cell.c (dialog_goto_cell): Do not use
+	gnome_dialog_run_modal 
+
 	* src/sheet.c (sheet_mark_clean): New routine to mark a sheet as
 	not modified.
 

@@ -78,7 +78,7 @@ dialog_goto_cell (Workbook *wb)
 	gtk_widget_grab_focus (entry);
 	
 	/* Run the dialog */
-	gnome_dialog_run_modal (GNOME_DIALOG (dialog));
+	gnome_dialog_run (GNOME_DIALOG (dialog));
 
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
 
