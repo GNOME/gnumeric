@@ -1130,6 +1130,18 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 		sheet_cancel_pending_input (workbook_get_current_sheet (wb));
 		workbook_focus_current_sheet (wb);
 		return TRUE;
+
+	case GDK_KP_Up:
+	case GDK_Up:
+	case GDK_KP_Down:
+	case GDK_Down:
+		/* Ignore these keys.  The default behaviour is certainly
+		   not what we want.  */
+		/* FIXME: what is the proper way to stop the key getting to
+		   the gtkentry?  */
+		event->keyval = GDK_VoidSymbol;
+		return TRUE;
+
 	default:
 		return FALSE;
 	}
