@@ -326,6 +326,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 	GdkRectangle rect;
 	GdkPoint points[3];
 	gboolean has_object = scg->new_object != NULL || scg->current_object != NULL;
+	int shadow;
 
 	if (ib->is_col_header) {
 		int const inc = item_bar_group_size (ib, sheet->cols.max_outline_level);
@@ -340,10 +341,17 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 		rect.y = ib->indent;
 		rect.height = ib->cell_height;
 
-		/* See comment below for explaination of the line */
-		gdk_draw_line (drawable, ib->lines,
-			       total-1, rect.y,
-			       total-1, rect.y + rect.height - 1);
+		/* 
+		 * See comment below for explanation of this. 
+		 * shadow type selection must be keep in sync with code in ib_draw_cell.
+		 */
+		if (col > 0 && !has_object && sv_selection_col_type (sv, col-1) == COL_ROW_FULL_SELECTION) 
+			shadow = GTK_SHADOW_IN;
+		else  
+			shadow = GTK_SHADOW_OUT;
+		gtk_paint_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
+				  NULL, NULL, "GnmItemBarCell",
+				  total-10, rect.y, 10, rect.height);
 
 		if (col > 0) {
 			cri = sheet_col_get_info (sheet, col-1);
@@ -485,25 +493,30 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 		int const len = (inc > 4) ? 4 : inc;
 		int const end = expose->area.y + expose->area.height;
 
-		/* Include a 1 pixel buffer.
-		 * To avoid overlaping the cells the shared pixel belongs to
-		 * the cell above.  This has the nice property that the bottom
-		 * dark line of the shadow aligns with the grid lines.
-		 * Unfortunately it also implies a 1 pixel empty space at the
-		 * top of the bar.  Which we are forced to fill in with
-		 * something.  For now I draw a black line there to be
-		 * compatible with the default colour used on the bottom of the
-		 * cell shadows.
-		 */
 		int total = 1 + gcanvas->first_offset.row;
 		int row = gcanvas->first.row;
 
 		rect.x = ib->indent;
 		rect.width = ib->cell_width;
 
-		gdk_draw_line (drawable, ib->lines,
-			       rect.x,			total-1,
-			       rect.x + rect.width-1,	total-1);
+		/* To avoid overlaping the cells the shared pixel belongs to
+		 * the cell above.  This has the nice property that the bottom
+		 * dark line of the shadow aligns with the grid lines.
+		 * Unfortunately it also implies a 1 pixel empty space at the
+		 * top of the bar.  Which we are forced to fill in with
+		 * something.  For now we draw a shadow there to be compatible 
+		 * with the colour used on the bottom of the cell shadows.
+		 *
+		 * shadow type selection must be keep in sync with code in ib_draw_cell.
+		 */
+		if (row > 0 && !has_object && sv_selection_row_type (sv, row - 1) == COL_ROW_FULL_SELECTION)
+			shadow = GTK_SHADOW_IN;
+		else 
+			shadow = GTK_SHADOW_OUT;
+		gtk_paint_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
+				  NULL, NULL, "GnmItemBarCell",
+				  rect.x, total-10, rect.width, 10);
+
 		if (row > 0) {
 			cri = sheet_row_get_info (sheet, row-1);
 			prev_visible = cri->visible;
