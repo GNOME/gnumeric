@@ -19,6 +19,7 @@
 #include "workbook-view.h"
 #include "value.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "io-context.h"
 #include "plugin-util.h"
 #include "plugin.h"

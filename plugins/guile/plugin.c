@@ -34,6 +34,7 @@
 #include "error-info.h"
 #include "module-plugin-defs.h"
 #include "expr.h"
+#include "expr-impl.h"
 #include "gutils.h"
 #include "func.h"
 #include "cell.h"

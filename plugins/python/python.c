@@ -22,6 +22,7 @@
 #include "str.h"
 #include "command-context.h"
 #include "expr.h"
+#include "expr-impl.h"
 
 #include "Python.h"
 

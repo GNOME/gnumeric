@@ -1,3 +1,7 @@
+2002-03-22  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c: Include expr-impl.h
+
 2002-03-11  Jon K Hellan  <hellan@acm.org>
 
 	* py-gnumeric.c (create_python_interpreter,
