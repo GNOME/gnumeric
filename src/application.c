@@ -52,6 +52,11 @@ application_clipboard_clear (void)
 		sheet_selection_unant (sheet);
 		workbook_view_set_paste_special_state (sheet->workbook, FALSE);
 		app.clipboard_sheet = NULL;
+
+		/* Release the selection */
+		(void) gtk_selection_owner_set (NULL,
+						GDK_SELECTION_PRIMARY,
+						GDK_CURRENT_TIME);
 	}
 }
 
