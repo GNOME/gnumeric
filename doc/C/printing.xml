@@ -560,6 +560,25 @@
         </listitem>
       </varlistentry>
 
+      <varlistentry>
+        <term>
+          <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/print-preview-fitonetoone.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the print preview toolbar zoom to
+              fit at one to one scale button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Fit at one to one scale.
+          </guiicon>
+        </term>
+        <listitem>
+          <para>Fits the page at full resolution.</para>
+        </listitem>
+      </varlistentry>
+
        <varlistentry>
         <term>
           <guiicon><inlinemediaobject>
@@ -579,43 +598,7 @@
         </listitem>
       </varlistentry>
 
-       <varlistentry>
-        <term>
-          <guiicon><inlinemediaobject>
-            <imageobject>
-              <imagedata fileref="figures/print-preview-fitwide.png" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the print preview toolbar zoom to fit width
-              button.</phrase>
-            </textobject>
-           </inlinemediaobject>
-          Fit Wide
-          </guiicon>
-        </term>
-        <listitem>
-          <para>Fits the whole width of the page into the screen space.</para>
-        </listitem>
-      </varlistentry>
 
-       <varlistentry>
-        <term>
-          <guiicon><inlinemediaobject>
-            <imageobject>
-              <imagedata fileref="figures/print-preview-fittall.png" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the print preview toolbar zoom to fit height
-              button.</phrase>
-            </textobject>
-           </inlinemediaobject>
-          Fit Tall
-          </guiicon>
-        </term>
-        <listitem>
-          <para>Fits the whole height of the page into the screen space.</para>
-        </listitem>
-      </varlistentry>
    </variablelist>
   </sect2>
 </sect1>

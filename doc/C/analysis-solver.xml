@@ -3,6 +3,11 @@
 
   <para>With Gnumeric Solver you can solve linear programs.</para>
 
+  <!-- Add a comment so we keep this picture in figures/. and its
+       Makefile.am. -->
+  <!-- solver-05.png -->
+
+
   <sect2>
     <title>Introduction to Linear Programming</title>
 

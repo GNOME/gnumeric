@@ -1,148 +1,1083 @@
-<sect1 id="sect-file-textImport">
+ <sect1 id="sect-file-textImport">
   <title>Importing Text</title>
 
   <para>
-    &gnum; can import files or file fragments that consist entirely of
-    text. Text files provide a basic, common format enabling programs
-    to share data.
+    &gnum; can import data which is organized as text fields
+    structured in some systematic fashion either from a file or from
+    the clipboard. Importing structured text may require extensive
+    intervention on the part of the user so &gnum; provides a
+    <interface>Text Import</interface> druid, which is a three paneled
+    dialog with configuration options. For text imported from files,
+    this druid appears after the file has been opened, using the file
+    format named "Text Import (configurable)" in the <interface>File
+    Open</interface> dialog, as is explained in <xref
+    linkend="sect-file-open" />. For text imported from the clipboard,
+    the druid appears when a user attempts to paste the text into a
+    worksheet, as is explained in <xref
+    linkend="sect-movecopy-xclipboard" />.
   </para>
 
   <para>
-    Text files consist simply of a continous stream of
-    standard text characters so reading the characters themselves is
-    generally quite simple. Occasionally, this step may prove
-    difficult if the <wordasword>'encoding'</wordasword> of the
-    characters is misunderstood by &gnum;; see <xref
-    linkend="note-file-textImport-encoding"/> for a better
-    explanation.
+    The text import druid contains three panels but the middle panel
+    differs depending on the structuring system used, either with data
+    fields separated by a special character or with data fields
+    occurring at equally spaced intervals in each line. The first
+    panel allows the user to configure the character encoding, line
+    break characters, structuring system, and line range. The second
+    panel allows the user to define the columns by either, for
+    separated data, setting the separating character and text
+    delimiting character, or, for fixed space data, by setting the
+    column spacing. The thrid panel allows the user to select which
+    columns to import and define their data types.
   </para>
+
+    <tip>
+    <title>The steps involved in the text import druid.</title>
+
+    <para></para><!-- Spacing HACK  -->
+
+    <orderedlist>
+      <listitem>
+        <para>
+	  Launch the  <interface>Text Import</interface> druid.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Define the character encoding of the text block.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Define the characters indicating the breaks between the lines.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Select the line range from the text block to be imported.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Go to the second panel, which will be different for data
+	  structured by separating characters and data structured by
+	  fixed spacing.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  (For separated data) Define the separating character.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  (For separated data) Define the character grouping a text field.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  (For fixed width data) Define the field widths.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Go to the third panel.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Configure the inclusion of empty outside columns.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Select the locale that will influence the formating of the
+	  numerical elements in each column.
+	</para>
+      </listitem>
+       <listitem>
+        <para>
+	  Select the numerical formats for the data in each columns.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Select the columns to be included in the imported block.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Click on the <guibutton>Finish</guibutton> button.
+	</para>
+      </listitem>
+    </orderedlist>
+
+  </tip>
 
   <para>
-    The difficulty with text files comes from the method which is used
-    to structure the data within the text file. Text files are
-    generally not created as a simple stream of numbers but instead
-    they are created with a regular format. &gnum; must correctly
-    recognize this format to be able to input the data
-    effectively. Because text files are such a common format, there
-    are a large variety of different methods that are used to
-    structure the data within the file. &gnum; needs to parse, or
-    interpret, the file while it is being read to assign different
-    elements into different cells and select the correct number format
-    for each created cell. In order to ensure that this interpretation
-    is done correctly, &gnum; has a special dialog, the
-    <interface>Text Import</interface> dialog, in which the user can
-    configure every aspect of the file import. While this step may
-    require some time and may require several attempts to achieve
-    correctly, the correct import of a structured file saves immense
-    amounts of time compared to re-entering data.
-  </para>
-
-  <para>
-    TODO: Discuss tandard approaches to formating data: CSV, TAB,
-    SPACE, Database tables.
+    This explanation of the <interface>Text Import</interface> druid
+    will first start with a discussion of text files including
+    character encodings and line break delimiters. The explanation
+    will then cover the various strategies used to structure numeric
+    data in text files. Following these discussions, the components of
+    the druid will be presented and, finally, a detailed explanation
+    of each step in the use of the druid will be presented.
   </para>
 
 
 
-  <sect2 id="note-file-textImport-encoding">
-    <title>File Encodings</title>
+  <sect2 id="sect-file-textImport-encoding">
+    <title>Character Encodings</title>
+
 
     <para>
-      TODO: Add a note on encodings and how &gnum; handles them.
+      All files on a computer consist of a stream of binary
+      numbers. Text files are files in which these binary numbers are
+      directly related to some set of characters according to some
+      scheme. These schemes are called
+      <wordasword>'encodings'</wordasword>.
     </para>
+
+    <para>
+      The origin of computers also led to the invention of a number of
+      different encoding schemes. Due to the limitation of early
+      computer hardware, these encoding schemes all restricted
+      themselves to character sets which contained only the most
+      essential characters of the English language. The desire to
+      support characters which were not in this basic set of
+      characters led to the creation of new encoding schemes,
+      many of which restricted themselves to the characters in
+      specific languages. One encoding scheme, called UTF-8, has now
+      emerged as the best encoding scheme for the future for a
+      multitude of reasons including its ability to co-exist with
+      current operating systems and its ability to encode all of the
+      characters in the largest set of characters which has been
+      consistently defined, the Universal Character Set. However, the
+      existence of the diversity of encoding schemes means that for
+      the foreseeable future, files will be created and distributed
+      using several different schemes. This is especially true for
+      files containing text in languages other than English.
+    </para>
+
+    <para>
+      This complex situation generally does not impact users.  &gnum;
+      has been designed to deal with most of the complexity. Many
+      kinds of flies, such as the &gnum; file format itself, describe
+      their encoding scheme internally in such a way that it can be
+      easily recognized. &gnum; also provides an easy approach to
+      changing the encoding scheme in case this proves necessary.
+    </para>
+
+    <para>
+      Encoding schemes merely prove a hindrance to users when opening
+      files. There is no danger that data be lost or that any other
+      serious problem arise by selecting the wrong scheme; the worst
+      that will happen is that the text shown by &gnum; appear with
+      nonsensical groups of characters, with streams of question mark
+      (?) characters, or with symbols which are boxes with four
+      numbers in them. <!-- TODO: add a picture -->
+      All of these indicate that the encoding scheme used to read the
+      file was not the same encoding scheme as was used to create the
+      file. The difficulty is then to determine what encoding scheme
+      to use. A simple process of trial and error should lead to
+      picking the right scheme.
+   </para>
+
+<!-- TODO: expand all this stuff into something useful.
+    <para>
+      A basic strategy for selecting encodings, is first to try
+      without changning anything. If errors, try again. Try locale,
+      iso-8..., UTF-8 and then any language that may be where the user
+      is from.
+    </para>
+
+-->
+<!-- TODO add ref to locale -->
+
   </sect2>
 
 
-  <!-- Old text follows. ****************** -->
-
-  <para>This format exports <application>Gnumeric</application> spreadsheets as straight 
-  text or imports them 
-  from straight text files. Both export (save as) as well as import can be highly customized.
-  </para>
 
 
 
-  <sect4 id="file-format-csv-import">
-  <title>The Text Import Druid</title>
 
-  <para>
-    After specifying the <quote><guilabel>Text File
-    Import</guilabel></quote> Format and a file name in the
-    <quote><guilabel>Import..</guilabel></quote> dialog, the text
-    import druid starts to guide you through the various
-    options.</para> <para>On the first screen of the druid specify the
-    basic format type (fixed width fields or fields separated by
-    specific characters), as well as the line numbers of the lines to
-    import.</para>
-  <figure id="file-format-csv-import-ex1">
-    <title>Selecting the basic format type</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/files-csv-import-ex1.png" format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the first page of the text import
-              druid.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>  
-  <sect5>
-  <title>The Text Import Druid for Separated Fields</title>
-  <orderedlist>
-  <listitem>
-  <figure id="file-format-csv-import-ex2">
-    <title>Separation Customization</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/files-csv-import-ex2.png" format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the second page of the text import
-              druid.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>  
-  <para>Select the appropriate field separator(s) in the 
-  <quote><guilabel>Separator</guilabel></quote> frame. Select the 
-  <quote><guilabel>See two separators as one</guilabel></quote>option if any sequence of 
-  separators are supposed to be considered a single separator. The 
-  <quote><guilabel>Example</guilabel></quote> frame gives immediate feedback on your choices:</para>
-  <figure id="file-format-csv-import-ex3">
-    <title>Separation Customization With Correct Selection</title>
-    <screenshot>
-	<mediaobject>
-           <imageobject>
-             <imagedata fileref="figures/files-csv-import-ex3.png" format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the second page of the text import
-              druid with the comma separator seleced.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>  
-  </listitem>
-  <listitem>
-  <para>Finally select the appropriate format for each input column:</para>
-  <figure id="file-format-csv-import-ex4">
-    <title>Selecting Formats</title>
-    <screenshot>
-	<mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/files-csv-import-ex4.png" format="PNG" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the third page of the text import
-              druid.</phrase>
-            </textobject>
-           </mediaobject>
-    </screenshot>
-  </figure>  
-<para>After selecting a column on the left select the appropriate format on the right. In the preview section at the bottom of the dialog, you can immediately see the effect of selecting that format. The following types of formats are available:</para>
+
+
+
+  <sect2 id="sect-file-textImport-lineBreak">
+    <title>Line break delimiters</title>
+
+     <para>
+       Structured text files rely on the files having explicitly
+       defined rows within the file as one component in the
+       structuring system. Each of these rows is defined by a
+       character sequence indicating the end of a row.
+     </para>
+
+     <para>
+       Two characters that are part of the ASCII code, an early
+       encoding that became a widely followed standard, were included
+       to help define the end of the line. These are the 'linefeed'
+       character and the 'carriage return' character, named after the
+       two processes which occur when a typewriter starts a new line:
+       first the typewriter barrel rolls - the linefeed - then the
+       whole carriage with the sheet of paper moves back to the
+       starting point -the carriage return. In the same way that
+       different computing systems have used different encoding
+       schemes,  three different approaches became common for defining
+       the end of the line.
+     </para>
+
+     <para>
+       In GNU operating systems and other systems that inherit from
+       the UNIX legacy, the end of a line was defined simply using the
+       'linefeed' character. The Macintosh operating system chose
+       instead to use only the 'carriage return' character. The
+       Windows operating system uses both characters in the sequence
+       'carriage return' then 'linefeed'. 
+     </para>
+
+     <para>
+       A user opening a file into &gnum; will see, in the preview area
+       of the <interface>Text Import</interface> druid, whether or not
+       the line breaks have been recognized correctly and will be able
+       to alter the recognition settings. An incompatible setup will
+       either yield a single unbroken line of text, lines of text with
+       extra, empty rows between them, or lines of text with extra
+       symbols at the start or end of each line.
+     </para>
+
+
+
+ </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="sect-file-textImport-dataStruct">
+    <title>Data Structuring Strategies</title>
+
+     <para>
+       TODO. TODO. TODO.
+     </para>
+
+     <para>
+       Separated value files:
+         separators
+         * one or more characters as separators
+	 * in gum, a single sequence can be used as a separator
+	      e.g. STOP
+
+	 text field delimiters
+	 * any character
+	      e.g 'Zoe, Sally, Dodji'
+
+	 Examples:
+	   CSV, TAB, SPACE delimited files.
+
+	cop the sections in panel 2a
+     </para>
+
+     <para>
+       Fixed width files:
+         * e.g. databases, old punch cards.
+     </para>
+
+    <para>
+      The difficulty with text files comes from the method which is
+      used to structure the data within the text file. Text files are
+      generally not created as a simple stream of numbers but instead
+      they are created with a regular format. &gnum; must correctly
+      recognize this format to be able to input the data
+      effectively. Because text files are such a common format, there
+      are a large variety of different methods that are used to
+      structure the data within the file. &gnum; needs to parse, or
+      interpret, the file while it is being read to assign different
+      elements into different cells and select the correct number
+      format for each created cell. In order to ensure that this
+      interpretation is done correctly, &gnum; has a special dialog,
+      the <interface>Text Import</interface> dialog, in which the user
+      can configure every aspect of the file import. While this step
+      may require some time and may require several attempts to
+      achieve correctly, the correct import of a structured file saves
+      immense amounts of time compared to re-entering data.
+
+    </para>
+
+
+ </sect2>
+
+
+
+
+
+
+
+
+
+
+  <sect2 id="note-file-textImport-druid">
+    <title>
+      The Components of the <interface>Text Import</interface> Druid
+    </title>
+
+    <para>
+      The <interface>Text Import</interface> druid consists of three
+      panels with the middle panel differing according to the type of
+      data structuring used. 
+    </para>
+
+    <para>
+      
+    </para>
+
+
+
+
+    <sect3 id="sect-file-textImport-druid-panel1">
+      <title>
+        The first panel of the <interface>Text Import</interface> Druid.
+      </title>
+
+      <para>
+      </para>
+
+      <figure id="fig-file-textImport-druid-panel1">
+        <title>
+	  The first panel of the <interface>Text Import</interface>
+	  druid with the component areas labeled with callouts.
+	</title>
+	<screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/textguru-import-panel1-withTags.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the first panel 'Text Import'
+	        druid with callouts labeling the different areas.
+	      </para>
+	    </textobject>
+	  </mediaobject>
+	</screenshot>
+	<caption>
+	  The different components of the first panel of the
+	  <interface>Text Import</interface> druid with each component
+	  labeled with a callout.
+	</caption>
+      </figure>
+
+      <para>
+        The purpose of each labeled component in <xref
+        linkend="fig-file-textImport-druid-panel1" /> is
+        explained below:
+
+
+
+
+	<variablelist>
+	  <title>The components of the first panel</title>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">1</emphasis> - The file encoding
+	      selection menu.
+	    </term>
+	    <listitem>
+	      <para>
+	        This drop down menu provides a list of encoding
+	        schemes for the characters in the text file.  By
+	        default, &gnum; selects the encoding scheme used by
+	        the locale of the user.  See <xref
+	        linkend="sect-file-textImport-encoding" /> for more
+	        details.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">2</emphasis> - The line break
+	      character selector.
+	    </term>
+	    <listitem>
+	      <para>
+	        These three check boxes can be selected individually
+	        or together to define the sequences which will be
+	        interpreted as line break indicators. Generally,
+	        selecting all three boxes will produce the correct
+	        results. 
+		<!-- TODO is there ever a situation where having all
+	             three checked, doesn't work? -->
+	      </para>
+	      <para>
+	        The errors produced if the wrong combination of boxes
+	        is selected will include the entire file being placed
+	        on a single line, empty lines appearing between the
+	        lines of the file, or undefined symbols appearing at
+	        the beginning or end of almost every line. See <xref
+	        linkend="sect-file-textImport-lineBreak" /> for more
+	        details.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">3</emphasis> - The data
+	      structuring system selector.
+	    </term>
+	    <listitem>
+	      <para>
+	        These two push buttons allow the choice between the
+	        two different structuring schemes, data structured by
+	        placing a separating character between the data values
+	        and data organized in fixed width columns. Note that
+	        this choice will determine which panel will be shown
+	        as the second panel of the druid. See <xref
+	        linkend="sect-file-textImport-dataStruct" /> for more
+	        details. 
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">4</emphasis> - The line range spinboxes.
+	    </term>
+	    <listitem>
+	      <para>
+	        These two spin buttons allow the user to select the
+	        start and end rows for the data import. The spin boxes
+	        can be used either by typing a new value in the text
+	        entry area where the numbers are displayed, or by
+	        using the mouse button to click on the up arrow to
+	        increase the number and the down arrow to decrease the
+	        number.
+	      </para>
+	      <para>
+	        For instance, if the text file contained a large
+	        header area with meta information, this header could
+	        be excluded from the data imported to the &gnum;
+	        worksheet by increasing the number of the starting,
+	        "From", line.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">5</emphasis> - The preview area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area displays a preview of the file as it will be
+	        interpreted when the the settings that are currently
+	        selected in this first panel are applied.
+	      </para>
+	    </listitem>
+          </varlistentry>
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">6</emphasis> - The button area.
+	    </term>
+	    <listitem>
+	      <para>
+	        These four buttons allow the user to navigate the
+	        druid. The <guibutton>Help</guibutton> button should
+	        open the &gnum; manual to this section. The
+	        <guibutton>Cancel</guibutton> button will dismiss the
+	        dialog and return the user to the worksheet. The
+	        <guibutton>Back</guibutton> button is disabled since
+	        this is the first panel of the druid and the
+	        <guibutton>Forward</guibutton> button will bring up
+	        the next panel in the druid.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+
+        </variablelist>
+
+      </para>
+
+    </sect3>
+
+    <sect3 id="sect-file-textImport-druid-panel2separated">
+      <title>
+        The second panel of the <interface>Text Import</interface>
+        Druid used for separated data
+      </title>
+
+      <para>
+        This panel applies to text data which has been structured by
+        separating the data values on each row using a particular
+        character or character sequence as a data value
+        'separator'. This structuring strategy includes the two
+        common formats called 'Comma Separated Value' and 'Tab
+        Separated Value' formats which use comma and tab characters,
+        respectively, as the separating characters.
+      </para>
+
+      <figure id="fig-file-textImport-druid-panel2a">
+        <title>
+	  The second panel of the <interface>Text Import</interface>
+	  druid for separated data with
+	  the component areas labeled with callouts. 
+	</title>
+	<screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/textguru-import-panel2a-withTags.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the second panel 'Text Import'
+	        druid for separated data with callouts labeling the
+	        different areas. 
+	      </para>
+	    </textobject>
+	  </mediaobject>
+	</screenshot>
+	<caption>
+	  The different components of the second panel of the
+	  <interface>Text Import</interface> druid for separated data
+	  with each component labeled with a callout.
+	</caption>
+      </figure>
+
+      <para>
+        The purpose of each labeled component in <xref
+        linkend="fig-file-textImport-druid-panel2a" /> is
+        explained below:
+
+	<variablelist>
+	  <title>The components of the second panel for structured data</title>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">1</emphasis> - The separator
+	    definition area.
+	    </term>
+	    <listitem>
+	      <para>
+
+	        This are allows the user to define the characters used
+	        to separate data value fields within each
+	        row. The checkboxes can be pressed to add or remove
+	        characters from those treated as
+	        separators. Additionally, the 'custom' type allows the
+	        user to define either other single characters, or a
+	        particular character sequence used to separate
+	        values. The preview area in the panel will show the
+	        file processed with the rules which have already been
+	        applied.
+	      </para>
+
+	      <para>
+	        Generally, this type of file structuring uses a single
+	        character to separate fields but it is possible to use
+	        either several different characters or to use a
+	        sequence of characters. For example, it would be
+	        possible to use the old telegraphic convention of
+	        separating phrases with the word 'STOP' by selecting
+	        the 'custom' separator type and entering the character
+	        sequence 'STOP' in the text field.
+	      </para>
+
+	      <para>
+	        This area also includes a checkbox enabling two
+	        separator sequences that immediately follow one
+	        another, to be treated as a single separator. This
+	        option will only be useful where data is imported with
+	        one or more completely empty columns and no partially
+	        filled columns. If this option is checked and the data
+	        file has partially filled columns of data, the columns
+	        will be jumbled during the text import operation.
+	      </para>
+
+	      <para>
+	        See <xref linkend="sect-file-textImport-dataStruct" />
+	        for more details.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">2</emphasis> - The text indicating
+	      character area.
+	    </term>
+	    <listitem>
+	      <para>
+	        Separated value files often additionally define a
+	        character used to indicate the start and end of a data
+	        element which should be considered a single text
+	        entry. This strategy allows the inclusion of text
+	        entries which include the value separator.
+	      </para>
+
+	      <para>
+	        For example, a file which is structured as a comma
+	        separated value file, could use the double quotation
+	        mark to delimit text values and would then be able to
+	        include text values such as: 'Zoe, Mark, Sally'.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+ 	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">3</emphasis> - The preview area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area displays a preview of the file as it will be
+	        interpreted when the the settings that are currently
+	        selected in the first and second panels are applied.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+ 	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">4</emphasis> - The button area.
+	    </term>
+	    <listitem>
+	      <para>
+	        These four buttons allow the user to navigate the
+	        druid. The <guibutton>Help</guibutton> button should
+	        open the &gnum; manual to this section. The
+	        <guibutton>Cancel</guibutton> button will dismiss the
+	        dialog and return the user to the worksheet. The
+	        <guibutton>Back</guibutton> button will take the user
+	        back to the first panel, without, however, changing
+	        the settings in this second panel. The
+	        <guibutton>Forward</guibutton> button will bring up
+	        the next panel in the druid.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+      </variablelist>
+
+      </para>
+
+    </sect3>
+
+
+    <sect3 id="sect-file-textImport-druid-panel2fixed">
+      <title>
+        The second panel of the <interface>Text Import</interface>
+        Druid used for fixed width data
+      </title>
+
+      <para>
+        The second panel of the <interface>Text Import</interface>
+        Druid used for fixed width data allows the user to define the
+        widths of each column to be imported. &gnum; provides a
+        mechanism to automatically guess the widths of the columns and
+        allows the user, using the mouse, to define the widths of the
+        columns.
+      </para>
+
+      <figure id="fig-file-textImport-druid-panel2b">
+        <title>
+	  The second panel of the <interface>Text Import</interface>
+	  druid for fixed width data with the component areas labeled
+	  with callouts. 
+	</title>
+	<screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/textguru-import-panel2b-withTags.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the second panel 'Text Import'
+	        druid for fixed width data with callouts labeling the
+	        different areas. 
+	      </para>
+	    </textobject>
+	  </mediaobject>
+	</screenshot>
+	<caption>
+	  The different components of the second panel of the
+	  <interface>Text Import</interface> druid for fixed width
+	  data with each component labeled with a callout.
+	</caption>
+      </figure>
+
+      <para>
+        The purpose of each labeled component in <xref
+        linkend="fig-file-textImport-druid-panel2b" /> is
+        explained below:
+
+	<variablelist>
+	  <title>
+	    The components of the second panel for fixed width data
+	  </title>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">1</emphasis> - The automatic
+	      column discovery button.
+	    </term>
+	    <listitem>
+	      <para>
+	        This left most button, named <guibutton>Auto Column
+	        Discovery</guibutton>, will cause &gnum; to scan the
+	        file an attempt to assign the columns
+	        automatically. The example presented in <xref
+	        linkend="fig-file-textImport-druid-panel2b" /> shows
+	        one result after this button has been pressed: many of
+	        the columns were discovered automatically, but the
+	        second and third columns were
+	        misidentified. Nonetheless, the automatic mechanism
+	        provides a useful starting point. The definition of
+	        the columns can be refined using the methods described
+	        below.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">2</emphasis> - The column
+	      definition clearing button.
+	    </term>
+	    <listitem>
+	      <para>
+	        This right most button, named <guibutton>Auto Column
+	        Discovery</guibutton>, will clear all the column
+	        definitions and reset the file to a single
+	        column. This button should be used cautiously since
+	        there is no way to reverse its action and any
+	        carefully prepared column definition layout will be
+	        irretrievably lost.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">3</emphasis> - The preview and
+	    column width definition area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area acts as both a preview area and an area
+	        where users can define the columns widths.
+	      </para>
+
+	      <para>
+		As a preview area, this area
+	        displays a preview of the file as it will be
+	        interpreted when the the settings that are currently
+	        selected in this first panel are applied.
+	      </para>
+
+	      <para>
+	        This area can also be used to define column
+	        widths. When the panel first appears, a single column
+	        will be defined. The automatic column discovery
+	        mechanism may split this single column into many more
+	        columns. The mouse can then be used to further divide
+	        columns or to join previously separate columns.
+	      </para>
+
+	      <para>
+	        The column definition currently relies on the mouse
+	        and the context menu obtained by clicking with one of
+	        the secondary mouse buttons. New columns can be
+	        defined by placing the mouse pointer at the start of a
+	        desired column, selecting the context menu and
+	        choosing the <guimenuitem>Split</guimenuitem> menu
+	        item. This will create a new column starting at the
+	        position of the mouse pointer tip and ending at the
+	        end of the currently defined column for this
+	        area. Currently defined columns can be merged with the
+	        column on the left or right using the
+	        <guimenuitem>Delete and Merge Left</guimenuitem> or
+	        <guimenuitem>Delete and Merge right</guimenuitem> menu
+	        items. The size of a column can be increased by
+	        placing the mouse pointer inside the column area or
+	        header and using the <guimenuitem>Widen</guimenuitem>
+	        or <guimenuitem>Narrow</guimenuitem> menu items,
+	        respectively. Either of these will change the width of
+	        the column by changing the right hand end of the
+	        column. 
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">4</emphasis> - The button area.
+	    </term>
+	    <listitem>
+	      <para>
+	        These four buttons allow the user to navigate the
+	        druid. The <guibutton>Help</guibutton> button should
+	        open the &gnum; manual to this section. The
+	        <guibutton>Cancel</guibutton> button will dismiss the
+	        dialog and return the user to the worksheet. The
+	        <guibutton>Back</guibutton> button will take the user
+	        back to the first panel, without, however, changing
+	        the settings in this second panel. The
+	        <guibutton>Forward</guibutton> button will bring up
+	        the next panel in the druid.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+        </variablelist>
+
+      </para>
+
+    </sect3>
+
+
+    <sect3 id="sect-file-textImport-druid-panel3">
+      <title>
+        The third panel of the <interface>Text Import</interface>
+      Druid
+      </title>
+
+      <para>
+        This panel allows users to select and format the columns to be
+        imported to the &gnum; workbook. The first button allows the
+        exclusion of empty columns on either of the outer sides of the
+        columns with data. The second button allows the user to define
+        the locale used to interpret the values in the file. The
+        remaining area allows the user to predefine the data format to
+        be used for all the values in each column. This area also
+        allows the users to select which columns in the file will be
+        imported to the &gnum; worksheet. Finally, this panel provides
+        the <guibutton>Finish</guibutton> which is used to dismiss the
+        dialog and import the file.
+      </para>
+
+      <figure id="fig-file-textImport-druid-panel3">
+        <title>
+	  The third panel of the <interface>Text Import</interface>
+	  druid with the component areas labeled with callouts.
+	</title>
+	<screenshot>
+          <mediaobject> 
+	    <imageobject> 
+	      <imagedata fileref="figures/textguru-import-panel3-withTags.png"
+	                 format="PNG" />
+	    </imageobject>
+	    <textobject>
+	      <para> 
+	        This screenshot depicts the third panel 'Text Import'
+	        druid with callouts labeling the different areas.
+	      </para>
+	    </textobject>
+	  </mediaobject>
+	</screenshot>
+	<caption>
+	  The different components of the third panel of the
+	  <interface>Text Import</interface> druid with each component
+	  labeled with a callout.
+	</caption>
+      </figure>
+
+      <para>
+        The purpose of each labeled component in <xref
+        linkend="fig-file-textImport-druid-panel3" /> is
+        explained below:
+
+	<variablelist>
+	  <title>The components of the third panel</title>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">1</emphasis> - The trim of empty
+	    outer columns drop down list button.
+	    </term>
+	    <listitem>
+	      <para>
+	        This button provides a list allowing the user to
+	        select whether to trim any outer columns which are
+	        completely empty. The choices are to delete the
+	        columns on both sides, on neither side, or on one side
+	        only. This will only affect columns which have been
+	        previously defined but which contain no data values at
+	        all. 
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">2</emphasis> - Locale definition
+	      for import drop down menu button.
+	    </term>
+	    <listitem>
+	      <para>
+	        This button provides a list of locales which can be
+	        set. The chosen locale will affect how numeric values
+	        are interpreted when then are imported. For instance,
+	        the locale will define the character expected as the
+	        decimal separator which is the period character (.) in
+	        some locales, and the comma character (,) in
+	        others. These locales generally then use the other
+	        character as the spacer grouping the digits in
+	        thousands. 
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">3</emphasis> - The column data
+	      format selection list.
+	    </term>
+	    <listitem>
+	      <para>
+	        This list allows predetermining the format which
+	      &gnum; will assign to each of the values in the columns
+	      selected below. Cell data formats are explained in <xref
+	      linkend="sect-data-format"/>.
+	      </para>
+	      <para>
+	        To use this list, first, one or more columns must be
+	        selected in the preview area below, then, a data
+	        format in this list can be selected, and finally any
+	        details of the format can be configured. Number
+	        formats for instance allow the user to force numbers
+	        to contain fixed number of digits after the decimal
+	        point.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">4</emphasis> - The column
+	      selection, inclusion, and file preview area.
+	    </term>
+	    <listitem>
+	      <para>
+	        This area allows users to select columns which will be
+	        preformatted, to select which columns to include in
+	        the import and to preview the file. Each single column
+	        can be selected by clicking with the mouse pointer on
+	        the column header. Any single column can be excluded
+	        from the data imported to the &gnum; worksheet by
+	        clicking in the checkbox in the column header to
+	        remove the check mark. The area also provides a
+	        preview of the data in the text file showing the
+	        effect of the with the current configuration.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+	  <varlistentry>
+	    <term>
+	      <emphasis role="bold">5</emphasis> - The button area.
+	    </term>
+	    <listitem>
+	      <para>
+	        These four buttons allow the user to navigate the
+	        druid. The <guibutton>Help</guibutton> button should
+	        open the &gnum; manual to this section. The
+	        <guibutton>Cancel</guibutton> button will dismiss the
+	        dialog and return the user to the worksheet. The
+	        <guibutton>Back</guibutton> button will take the user
+	        back to the second panel, without, however, changing
+	        the settings in this third panel. The
+	        <guibutton>Finish</guibutton> button will dismiss the
+	        druid and cause the file to be imported into a new
+	        worksheet using the selected configuration parameters.
+	      </para>
+	    </listitem>
+          </varlistentry>
+
+        </variablelist>
+
+      </para>
+
+    </sect3>
+
+
+
+  </sect2>
+
+
+<!-- TODO
+
+  <sect2 id="sect-file-textImport-druid-process">
+    <title>
+      The procedure to use the <interface>Text Import</interface>
+      Druid.
+    </title>
+
+    <para>
+      
+    </para>
+
+    <procedure>
+      <title>
+	The procedure to use the <interface>Text Import</interface>
+        Druid.
+      </title>
+
+      <step>
+	<title>
+	  Step title
+	</title>
+	<para>
+	  Step description
+	</para>
+      </step>
+
+    </procedure>
+
+    <para>
+     The file will be opened
+    </para>
+
+  </sect2>
+
+-->
+
+
+
+
+
+<!-- Old text follows. ******************
+
+
+<sect2>
+  <title> OLD TEXT FOLLOWS: </title>
+
+	        
+
+
+  <sect4>
+  <title>The Number Formats</title>
+
+
+<para>After selecting a column on the left select the appropriate
+    format on the right. In the preview section at the bottom of the
+    dialog, you can immediately see the effect of selecting that
+    format. The following types of formats are available:</para>
+
+
+
+
   <variablelist>
     <varlistentry>
       <term>
@@ -153,6 +1088,10 @@
       a number, a date, etc.</para>
       </listitem>
     </varlistentry>
+
+
+
+
     <varlistentry>
       <term>
       Numbers
@@ -174,6 +1113,11 @@
   see <xref linkend="file-format-scientificformats" />.</para>
       </listitem>
     </varlistentry>
+
+
+
+
+
     <varlistentry>
       <term>
       Currency Amounts
@@ -191,6 +1135,12 @@
   </figure>
       </listitem>
     </varlistentry>
+
+
+
+
+
+
     <varlistentry>
       <term>
       Dates and Times
@@ -233,6 +1183,10 @@ h:mm:ss AM/PM
   </figure>
       </listitem>
     </varlistentry>
+
+
+
+
     <varlistentry>
       <term>
       Fractions
@@ -267,6 +1221,11 @@ h:mm:ss AM/PM
   </figure>
       </listitem>
     </varlistentry>
+
+
+
+
+
     <varlistentry>
       <term>
       Text
@@ -282,8 +1241,16 @@ h:mm:ss AM/PM
   </figure>
       </listitem>
     </varlistentry>
+
+
+
   </variablelist>
+
+
+
   <para>More details on the various formats can be found in 
+    <xref linkend="file-format" />.</para>
+
     <xref linkend="sect-data-format" />.</para>
   </listitem>
   <listitem><para>
@@ -326,7 +1293,9 @@ h:mm:ss AM/PM
   </sect5>
   </sect4>
 
+</sect2>
 
+Old text. -->
 
 
 </sect1>

@@ -1,3 +1,33 @@
+2004-09-30  Adrian Custer <acuster@gnome.org>
+
+	* NEWS: Rewrite of the 'Text Import' section of the 'Working with
+	        Files' chapter. 
+	* NEWS: Cleaned up the figures/ dir. Now only images in the text
+	        are present. 
+
+	* gnumeric.xml: Add explicit encoding.
+	
+	* figures/textguru-import-panel1-withTags.png: Added
+	* figures/textguru-import-panel2a-withTags.png: Added
+	* figures/textguru-import-panel2b-withTags.png: Added
+	* figures/textguru-import-panel3-withTags.png: Added
+	* figures/files-csv-import-ex1.png: Deleted
+	* figures/files-csv-import-ex2.png: Deleted
+	* figures/files-csv-import-ex3.png: Deleted
+	* figures/files-csv-import-ex4.png: Deleted
+	* figures/files-csv-import-ex5.png: Deleted
+	* figures/Makefile.am: Modified for files above. Major edits to
+	  sync with files in text and in figures/ directory.
+	
+	* files-formats.xml: misc edit. Add TODO comments.
+	* files-textopen.xml: Wrote.
+	
+	* graphics-plots.xml: Add a comment w/ stock/surface plot.
+	* analysis-solver.xml: Add a comment with sovler-05.png.
+	* gui-menus.xml: Change image for format and help menus.
+	* gui-toolbars.xml: Add hyperlink, scroll, spin, slide entries.
+	* printing.xml: Add fitonetoone button, dropped fit tall/wide.
+	
 2004-09-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* files-textopen.xml, files-saving.xml, graphics-plots.xml,

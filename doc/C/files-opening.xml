@@ -11,7 +11,7 @@
   <tip>
     <title>The steps required to open a file.</title>
 
-    <para></para>
+    <para></para><!-- Spacing HACK  -->
 
     <orderedlist>
       <listitem>
@@ -20,7 +20,7 @@
 	</para>
 	<para>
 	  In the <guimenu>File</guimenu> menu, select the
-	<guimenuitem>Open</guimenuitem> menu item.
+	  <guimenuitem>Open</guimenuitem> menu item.
 	</para>
       </listitem>
       <listitem>
@@ -514,7 +514,7 @@
 	          defined but will include all the characters in every
 	          language and many other useful symbols for
 	          mathematics, science, music and literature.  <xref
-	          linkend="note-file-textImport-encoding"/> contains a brief
+	          linkend="sect-file-textImport-encoding"/> contains a brief
 	          explanation of character encoding, and discusses the
 	          encodings available in &gnum;.
 		</para>

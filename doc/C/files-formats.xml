@@ -543,6 +543,9 @@ gunzip Book1.text.gz
   <sect2 id="file-format-csv">
     <title>Comma Separated Value (CSV) File Format</title>
 
+<!-- TODO: explain interference with the decimal/thousands separator
+    in certain locales. -->
+
     <para>
       The Comma Separated Value (CSV) file format is a common
       structuring strategy for text format files. In CSV flies, each
@@ -942,7 +945,7 @@ gunzip Book1.text.gz
 	  <emphasis role="bold">Format Details</emphasis>
 	</term>
 	<listitem>
-<!--
+<!-- TODO remove or improve
 	  <para>
 	    The following figures illustrate the output of the
 	    different HTML file formats.
@@ -2645,7 +2648,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 	<listitem>
 	  <para>
 	    The exporter can only create text files using a separator
-            character and cannot create fixed-width separated files.
+            character and cannot create fixed-width structured files.
 	  </para>
 	</listitem>
       </varlistentry>

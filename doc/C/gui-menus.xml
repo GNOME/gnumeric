@@ -1266,12 +1266,12 @@
 	of cells, columns, rows, worksheets and the workbook. This menu also gives users
 	access to templates of standard formats.
 </para>
-		<figure id="menu-format-torn-off.png">
+		<figure id="menu-format-labelled.png">
 		    <title>The <guimenu>Format</guimenu> menu.</title>
 		    <screenshot>
 		      <mediaobject>
             <imageobject>
-              <imagedata fileref="figures/menu-format-torn-off.png" />
+              <imagedata fileref="figures/menu-format-labelled.png" />
             </imageobject>
             <textobject>
               <phrase>An image of the Format menu.</phrase>
@@ -1858,12 +1858,12 @@
 
 
 	<para>The <guimenu>Help</guimenu> menu is quite simple.</para>
-		<figure id="menu-help-torn-off.png">
+		<figure id="menu-help-labelled.png">
 		    <title>The <guimenu>Help</guimenu> menu.</title>
 		    <screenshot>
 		      <mediaobject>
             <imageobject>
-              <imagedata fileref="figures/menu-help-torn-off.png" />
+              <imagedata fileref="figures/menu-help-labelled.png" />
             </imageobject>
             <textobject>
               <phrase>An image of the Help menu.</phrase>

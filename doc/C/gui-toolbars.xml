@@ -309,6 +309,29 @@
 	<term>
 	  <guiicon><inlinemediaobject>
             <imageobject>
+              <imagedata fileref="figures/button-insert-hyperlink.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the standard toolbar's "Insert Hyperlink"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+	   Insert a hyperlink 
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>
+            This button opens a dialog to allow the user to define a
+            hyperlink either internally within the spreadsheet or to
+            an external resource such as a web page.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+     <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
               <imagedata fileref="figures/button-sum.png" />
             </imageobject>
             <textobject>
@@ -1049,6 +1072,69 @@ colour.</para>
 	</term>
 	<listitem>
 	  <para>This button allows a user to insert a check box.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-scrollbar.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Scrollbar"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a Scrollbar.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a scrollbar.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-spin.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a
+              spinbutton box" button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a Spinbutton Box.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a spinbutton box.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="figures/button-slider.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the object toolbar's "Insert a Slider"
+              button.</phrase>
+            </textobject>
+           </inlinemediaobject>
+          Insert a Slider.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a slider.</para>
 	</listitem>
       </varlistentry>
 
