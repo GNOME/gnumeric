@@ -252,7 +252,7 @@ html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "\ttext-align: left;\n"
 "}\n"
 "--></STYLE>\n"
-"</HEAD>\n</BODY>\n");
+"</HEAD>\n<BODY>\n");
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
@@ -274,7 +274,7 @@ html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		fprintf (fp, "</TABLE>\n<P>\n\n");
 	}
 	g_list_free (sheets);
-	fprintf (fp, "<BODY>\n</HTML>\n");
+	fprintf (fp, "</BODY>\n</HTML>\n");
 	fclose (fp);
 }
 
@@ -323,7 +323,7 @@ html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "\ttext-align: left;\n"
 "}\n"
 "--></STYLE>\n"
-"</HEAD>\n</BODY>\n");
+"</HEAD>\n<BODY>\n");
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
@@ -345,7 +345,7 @@ html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		fprintf (fp, "</TABLE>\n<P>\n\n");
 	}
 	g_list_free (sheets);
-	fprintf (fp, "<BODY>\n</HTML>\n");
+	fprintf (fp, "</BODY>\n</HTML>\n");
 	fclose (fp);
 }
 
