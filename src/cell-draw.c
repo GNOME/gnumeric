@@ -316,7 +316,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 			gdk_draw_text (drawable, font, gc, 1 + x1 + x, text_base, text, strlen (text));
 			x1 += len;
 			total += len;
-		} while (halign == HALIGN_FILL && total < rect.width);
+		} while (halign == HALIGN_FILL && total < rect.width && len >0);
 	}
 
 	return end_col - start_col + 1;

@@ -592,9 +592,25 @@ compute_value (const char *s, const regmatch_t *mp,
 			break;
 
 		case MATCH_NUMBER:
-			is_number = TRUE;
-			number = atof (str);
-			idx += 3;
+			{
+				char * ptr = str;
+				number = 0;
+				do
+				{
+				    /*
+				     * FIXME FIXME FIXME
+				     * 1) Need to use locale specific ','
+				     *    but that is broken elsewhere already.
+				     * 2) How to format 10,00.3 ??
+				     *    I assume ',' means thousans_sep.
+				     */
+				    number *= 1000.;
+				    number += strtod(ptr, &ptr);
+				} while (*(ptr++) == ',');
+
+				idx += 3;
+				is_number = TRUE;
+			}
 			break;
 
 		case MATCH_HOUR:
@@ -730,7 +746,9 @@ format_match (const char *s, float_t *v, char **format)
 			continue;
 
 #if 0
-		printf ("matches expression: %s %s\n", fp->format, fp->regexp_str); */
+		{
+		    int i;
+		printf ("matches expression: %s %s\n", fp->format, fp->regexp_str);
 		for (i = 0; i < NM; i++){
 			char *p;
 
@@ -739,6 +757,7 @@ format_match (const char *s, float_t *v, char **format)
 
 			p = extract_text (s, &mp [i]);
 			printf ("%d %d->%s\n", mp [i].rm_so, mp [i].rm_eo, p);
+		}
 		}
 #endif
 

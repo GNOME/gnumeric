@@ -740,7 +740,13 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 		}
 
 		case CHAR_THOUSAND: {
-			info.comma_separator_seen = TRUE;
+			if (!can_render_number) {
+				char c = lc->thousands_sep [0];
+				if (c == 0)
+					c = ',';
+				g_string_append_c (result, c);
+			} else
+				info.comma_separator_seen = TRUE;
 			break;
 		}
 
@@ -1026,7 +1032,10 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 	}
 	/* FIXME: what about translated "General"?  */
 
-	/* Use top left corner of an array result */
+	/*
+	 * Use top left corner of an array result.
+	 * This wont work for ranges because we dont't have a location
+	 */
 	if (value->type == VALUE_ARRAY)
 		value = value_area_fetch_x_y (NULL, value, 0, 0);
 

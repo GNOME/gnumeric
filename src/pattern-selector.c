@@ -15,7 +15,7 @@
 #define PIXS_PER_SQUARE 25
 #define BORDER 3
 
-void
+static void
 pattern_selector_select (PatternSelector *ps, int pattern)
 {
 	int x, y;

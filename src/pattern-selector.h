@@ -21,6 +21,5 @@ typedef struct {
 
 GtkType     pattern_selector_get_type   (void);
 GtkWidget  *pattern_selector_new        (int pattern);
-void        pattern_selector_select     (PatternSelector *ps, int pattern);
 
 #endif /* GNUMERIC_PATTERN_SELECTOR_H */

@@ -17,7 +17,9 @@ Jukka:
 	  analysis tool
 
 Jody:
-	* Added HYPERLINK stub, fixed OFFSET.
+	* Added TEXT, HYPERLINK stub, fixed OFFSET, VALUE.
+	* Improve handling of empty cells, and null strings.  Still incomplete.
+	* Partial fix formating/parsing.
 	* Bug fixes for Excel import.
 
 Michael:

@@ -334,7 +334,7 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 			
 			x += len;
 			total += len;
-		} while (halign == HALIGN_FILL && total < cell->col->units);
+		} while (halign == HALIGN_FILL && total < cell->col->units && len > 0);
 	}
 }
 

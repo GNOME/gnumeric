@@ -1,3 +1,38 @@
+1999-07-20  Jody Goldberg  <jgoldberg@home.com>
+
+	* src/fn-math.c : Moved gpow10 from here.
+	* src/utils.[ch] : to here.
+
+	* src/expr.c (value_area_get_x_y) : return NULL in all cases of
+	  invalid refernces dont fake a 0.
+	Rename TYPE_ERROR -> TYPE_MISMATCH.
+	(is_null_string) : New function.
+	(compare) : Allow equality tests between empty/error things too.
+	(eval_expr) : Allow comparisons of empty/error values.  It can handle
+	  it now.
+	(OPER_ARRAY) : Use value_area_get_x_y not fetch_x_y, handle empty/error.
+	(value_get_as_string) : Fix typo in recent unlogged change.  The change
+	  might break importing files from a different locale.
+
+	* src/fn-string.c : Add TEXT, improve VALUE, REPLACE so that they
+	  passes more tests.
+
+	* src/number-match.c (compute_value) : Partial support for thousands
+	  separator.  Why doesn't this code use locale ?
+
+	* src/format.c (format_value) : better support for ranges, attempt to
+	  work around problem of a thousands seperator in a date format.
+
+	* src/cell-draw.c (cell_draw) : Fix potential for infinite loop
+	  with HALIGN_FILL.
+	* src/print-cell.c (print_cell_text) : Ditto.
+
+	* src/parser.y (make_string_return) : A string of the form "..." is
+	  a string, don't try to parse it as a number.
+
+	* src/pattern-selector.[ch] : pattern_selector_select made static. In
+	  preparation for different approach.
+
 1999-07-19  Andreas Voegele <andreas.voegele@gmx.de>
 
 	* src/parser.y (gnumeric_unsafe_expr_parser): Use the locale to
@@ -62,6 +97,9 @@
 	(gnumeric_hyperlink) : Add stub.
 
 	* src/expr-name.[ch] (expr_name_add, expr_name_lookup) : Const.
+
+	* src/parser.y (make_string_return) : Handle special case of "" avoid
+	  turning it into a number.
 
 1999-07-13  Michael Meeks  <michael@edenproject.org>
 

@@ -522,7 +522,7 @@ typedef enum {
 
 static struct {
 	char         *name;
-	void         (*fn)(GtkWidget *widget, ItemGrid *item_grid);
+	void         (*fn)(GtkWidget *widget, Sheet *item_grid);
 	popup_types  type;
 } item_grid_context_menu [] = {
 	{ N_("Cut"),           context_cut_cmd,           IG_ALWAYS         },

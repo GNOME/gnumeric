@@ -279,7 +279,7 @@ return_sheetref (Sheet *sheet)
 }
 
 static int
-make_string_return (char *string)
+make_string_return (char const *string, gboolean const possible_number)
 {
 	ExprTree *e;
 	Value *v;
@@ -295,8 +295,11 @@ make_string_return (char *string)
 	 * of the known number formating codes, if this
 	 * succeeds, we store this as a float + format,
 	 * otherwise, we return a string.
+	 * Be extra careful with empty strings (""),  They may
+	 * match some formats ....
 	 */
-	if (format_match (string, &fv, &format)){
+	if (possible_number && string[0] != '\0' &&
+	    format_match (string, &fv, &format)){
 		v->type = VALUE_FLOAT;
 		v->v.v_float = fv;
 		if (parser_desired_format && *parser_desired_format == NULL)
@@ -370,19 +373,19 @@ return_name (ExprName *exprn)
 /**
  * try_symbol:
  * @string: the string to try.
- * @try_cellref: whether we know for sure if it is not a cellref
+ * @try_cellref_and_number: If it may be a cellref or a number.
  *
  * Attempts to figure out what @string refers to.
- * if @try_cellref is TRUE it will also attempt to match the
- * string as a cellname reference.
+ * if @try_cellref_and_number is TRUE it will also attempt to match the
+ * string as a cellname reference or a number.
  */
 static int
-try_symbol (char *string, gboolean try_cellref)
+try_symbol (char *string, gboolean try_cellref_and_number)
 {
 	Symbol *sym;
 	int v;
 
-	if (try_cellref){
+	if (try_cellref_and_number){
 		v = return_cellref (string);
 		if (v)
 			return v;
@@ -406,7 +409,7 @@ try_symbol (char *string, gboolean try_cellref)
 			return return_name (name);
 	}
 
-	return make_string_return (string);
+	return make_string_return (string, try_cellref_and_number);
 }
 
 int yylex (void)

@@ -8,6 +8,7 @@
 #include <gnome.h>
 #include <math.h>
 #include <string.h>
+#include <locale.h>
 #include "gnumeric.h"
 #include "expr.h"
 #include "eval.h"
@@ -502,7 +503,7 @@ value_get_as_string (const Value *value)
 {
 	struct lconv *locinfo;
 	
-	separator = ",";
+	char const * separator = ",";
 	locinfo = localeconv ();
 	if (locinfo->decimal_point &&
 	    locinfo->decimal_point [0] == ',' &&
@@ -955,7 +956,7 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 	if (v->type == VALUE_ARRAY){
 		g_return_val_if_fail (x < v->v.array.x &&
 				      y < v->v.array.y,
-				      value_zero);
+				      NULL);
 		return v->v.array.vals [x][y];
 	} else {
 		CellRef const * const a = &v->v.cell_range.cell_a;
@@ -997,8 +998,8 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 		 * This should return NA but some of the math functions may
 		 * rely on this for now.
 		 */
-		g_return_val_if_fail (a_row<=b_row, value_zero);
-		g_return_val_if_fail (a_col<=b_col, value_zero);
+		g_return_val_if_fail (a_row<=b_row, NULL);
+		g_return_val_if_fail (a_col<=b_col, NULL);
 
 		sheet = a->sheet?a->sheet:ep->sheet;
 		g_return_val_if_fail (sheet != NULL, NULL);
@@ -1282,7 +1283,7 @@ typedef enum {
 	IS_EQUAL,
 	IS_LESS,
 	IS_GREATER,
-	TYPE_ERROR
+	TYPE_MISMATCH
 } compare_t;
 
 static compare_t
@@ -1307,12 +1308,27 @@ compare_float_float (float_t a, float_t b)
 		return IS_GREATER;
 }
 
+static gboolean
+is_null_string (Value const *v)
+{
+	return v != NULL && v->type == VALUE_STRING && v->v.str->str[0] == '\0';
+}
+
 /*
  * Compares two (Value *) and returns one of compare_t
  */
 static compare_t
 compare (const Value *a, const Value *b)
 {
+	/* Handle trivial and double NULL case */
+	if (a == b)
+		return IS_EQUAL;
+
+	if (a == NULL)
+		return is_null_string (b) ? IS_EQUAL : TYPE_MISMATCH;
+	if (b == NULL)
+		return is_null_string (a) ? IS_EQUAL : TYPE_MISMATCH;
+
 	if (a->type == VALUE_INTEGER){
 		int f;
 
@@ -1328,7 +1344,7 @@ compare (const Value *a, const Value *b)
 			return compare_float_float (a->v.v_int, f);
 
 		default:
-			return TYPE_ERROR;
+			return TYPE_MISMATCH;
 		}
 	}
 
@@ -1347,7 +1363,7 @@ compare (const Value *a, const Value *b)
 			return compare_float_float (a->v.v_float, f);
 
 		default:
-			return TYPE_ERROR;
+			return TYPE_MISMATCH;
 		}
 	}
 
@@ -1363,7 +1379,7 @@ compare (const Value *a, const Value *b)
 			return IS_LESS;
 	}
 
-	return TYPE_ERROR;
+	return TYPE_MISMATCH;
 }
 
 /*
@@ -1426,21 +1442,26 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 		int comp;
 
 		a = eval_expr (s, tree->u.binary.value_a);
-		if (!a)
-			return NULL;
-
 		b = eval_expr (s, tree->u.binary.value_b);
-		if (!b) {
-			value_release (a);
-			return NULL;
-		}
 
 		comp = compare (a, b);
-		value_release (a);
-		value_release (b);
 
-		if (comp == TYPE_ERROR){
-			error_message_set (s->error, _("Type error"));
+		if (a != NULL)
+			value_release (a);
+		if (b != NULL)
+			value_release (b);
+
+		if (comp == TYPE_MISMATCH){
+			/* TODO TODO TODO : Make error more informative
+			 *    regarding what is comparing to what
+			 */
+			/* For equality comparisons even errors are ok */
+			if (tree->oper == OPER_EQUAL)
+				return value_new_bool (FALSE);
+			if (tree->oper == OPER_NOT_EQUAL)
+				return value_new_bool (TRUE);
+
+			error_message_set (s->error, _("Type Mismatch"));
 			return NULL;
 		}
 
@@ -1457,16 +1478,16 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 			res = value_new_bool (comp == IS_LESS);
 			break;
 
+		case OPER_NOT_EQUAL:
+			res = value_new_bool (comp != IS_EQUAL);
+			break;
+
 		case OPER_LTE:
-			res = value_new_bool (comp == IS_EQUAL || comp == IS_LESS);
+			res = value_new_bool (comp != IS_GREATER);
 			break;
 
 		case OPER_GTE:
-			res = value_new_bool (comp == IS_EQUAL || comp == IS_GREATER);
-			break;
-
-		case OPER_NOT_EQUAL:
-			res = value_new_bool (comp != IS_EQUAL);
+			res = value_new_bool (comp != IS_LESS);
 			break;
 
 		default:
@@ -1726,13 +1747,15 @@ eval_expr (FunctionEvalInfo *s, ExprTree *tree)
 				EvalPosition tmp_ep = s->pos;
 				tmp_ep.eval_col -= x;
 				tmp_ep.eval_row -= y;
-				a = (Value *)value_area_fetch_x_y (
-					&tmp_ep, 
-					a, x, y);
+				a = (Value *)value_area_get_x_y (
+					&tmp_ep, a, x, y);
 			} else
 				return function_error (s, gnumeric_err_NA);
 		} else if (x >= 1 || y >= 1)
 			return function_error (s, gnumeric_err_NA);
+
+		if (a == NULL)
+			return NULL;
 		return value_duplicate (a);
 	}
 	}

@@ -158,7 +158,7 @@ void           style_color_unref      (StyleColor *sc);
 StyleBorder   *style_border_new_plain (void);
 void           style_border_ref       (StyleBorder *sb);
 void           style_border_unref     (StyleBorder *sb);
-StyleBorder   *style_border_new       (StyleBorderType border_type[4],
+StyleBorder   *style_border_new       (StyleBorderType const border_type[4],
  				       StyleColor *border_color[4]);
 
 /*

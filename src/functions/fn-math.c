@@ -52,29 +52,6 @@ gcd (int a, int b)
 	return a;
 }
 
-static float_t
-gpow10 (int n)
-{
-	float_t res = 1.0;
-	float_t p;
-	const int maxn = 300;
-
-	if (n >= 0) {
-		p = 10.0;
-		n = (n > maxn) ? maxn : n;
-	} else {
-		p = 0.1;
-		/* Note carefully that we avoid overflow.  */
-		n = (n < -maxn) ? maxn : -n;
-	}
-	while (n > 0) {
-		if (n & 1) res *= p;
-		p *= p;
-		n >>= 1;
-	}
-	return res;
-}
-
 
 typedef struct {
         GSList *list;
@@ -2654,6 +2631,14 @@ void math_functions_init()
 	function_add_args  (cat, "tanh",    "f",    "number",    &help_tanh,    gnumeric_tanh);
 	function_add_args  (cat, "trunc",   "f|f",  "number,digits",    &help_trunc,   gnumeric_trunc);
 	function_add_args  (cat, "pi",      "",     "",          &help_pi,      gnumeric_pi);
-	function_add_args  (cat, "mmult",   "AA",   "array1,array2", &help_mmult, gnumeric_mmult);
-	function_add_args  (cat, "transpose","A",   "array1", &help_transpose, gnumeric_transpose);
+	function_add_args  (cat, "mmult",   "AA",   "array1,array2",
+			    &help_mmult, gnumeric_mmult);
+	function_add_args  (cat, "transpose","A",   "array",
+			    &help_transpose, gnumeric_transpose);
+#if 0
+	function_add_args  (cat, "mdeterm","A",   "array",
+			    &help_mdeterm, gnumeric_mdeterm);
+	function_add_args  (cat, "minverse","A",   "array",
+			    &help_minverse, gnumeric_minverse);
+#endif
 }

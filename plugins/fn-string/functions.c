@@ -12,6 +12,7 @@
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
+#include "format.h"
 #include "number-match.h"
 
 static char *help_char = {
@@ -582,6 +583,7 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 	gchar *s;
 	gint start, num, oldlen, newlen;
 
+	/* Why do we need this ? */
 	if (argv[0]->type != VALUE_STRING ||
 	    argv[1]->type != VALUE_INTEGER ||
 	    argv[2]->type != VALUE_INTEGER ||
@@ -592,9 +594,11 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 	num = value_get_as_int (argv[2]);
 	oldlen = strlen(argv[0]->v.str->str);
 
-	if (start <= 0 || num <= 0 || --start + num > oldlen )
+	if (start <= 0 || num <= 0)
 		return function_error (ei, _("Invalid arguments"));
 
+	if (--start + num > oldlen)
+		num = oldlen - start;
 	newlen = strlen (argv [3]->v.str->str);
 
 	s = g_new (gchar, 1 + newlen + oldlen - num);
@@ -611,6 +615,8 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 
 	return v;
 }
+
+/*****************************************************************/
 
 static char *help_t = {
 	N_("@FUNCTION=T\n"
@@ -629,6 +635,60 @@ gnumeric_t (FunctionEvalInfo *ei, Value **argv)
 	else
 		return value_new_string ("");
 }
+
+/*****************************************************************/
+
+static char *help_text = {
+	N_("@FUNCTION=TEXT\n"
+	   "@SYNTAX=TEXT(value,format_text)\n"
+	   "@DESCRIPTION="
+	   "Returns @value as a string with the specified format."
+	   "\n"
+	   "@SEEALSO=DOLLAR")
+};
+
+static Value *
+gnumeric_text (FunctionEvalInfo *ei, Value **args)
+{
+	StyleFormat *format  = style_format_new (args[1]->v.str->str);
+	Value *res, *tmp = NULL;
+	Value const *arg  = args[0];
+	gboolean ok = FALSE;
+
+	/* FIXME FIXME FIXME : All this should really be moved
+	 *                     into value_get_as_float
+	 */
+	if (arg->type == VALUE_CELLRANGE || arg->type == VALUE_ARRAY) {
+		if (value_area_get_height (&ei->pos, arg) == 1 &&
+		    value_area_get_width (&ei->pos, arg) == 1)
+			arg = value_area_fetch_x_y (&ei->pos, arg, 0, 0);
+	}
+
+	if (arg->type == VALUE_STRING) {
+		char *format = NULL;
+		float_t num = 0.;
+		if ((ok = format_match (arg->v.str->str, &num, &format)))
+			tmp = value_new_float (num);
+	} else
+		ok = VALUE_IS_NUMBER(arg);
+
+	if (ok)
+	{
+		char const *str = format_value (format,
+						(tmp != NULL) ? tmp : arg,
+						NULL);
+		res = value_new_string (str);
+	} else
+		res = function_error (ei, _("Type mismatch"));
+
+	if (tmp != NULL)
+		value_release (tmp);
+	style_format_unref (format);
+	return res;
+}
+
+
+/*****************************************************************/
 
 static char *help_trim = {
 	N_("@FUNCTION=TRIM\n"
@@ -1142,15 +1202,12 @@ string_functions_init ()
 			    &help_substitute, gnumeric_substitute);
 	function_add_args  (cat, "t",          "?",    "value",
 			    &help_t,          gnumeric_t);
+	function_add_args  (cat, "text",       "?s",   "value,format_text",
+			    &help_text,          gnumeric_text);
 	function_add_args  (cat, "trim",       "s",    "text",
 			    &help_trim,       gnumeric_trim);
 	function_add_args  (cat, "upper",      "s",    "text",
 			    &help_upper,      gnumeric_upper);
 	function_add_args  (cat, "value",      "?",    "text",
 			    &help_value,      gnumeric_value);
-
-/* Missing:
- * TEXT(number,format) formats number
- */
-
 }

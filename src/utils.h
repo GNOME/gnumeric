@@ -30,5 +30,6 @@ GDate      *g_date_new_serial      (guint32 serial);
 
 double      random_01              (void);
 double      random_normal          (void);
+float_t     gpow10                 (int n);
 
 #endif /* GNUMERIC_UTILS_H */

@@ -349,3 +349,30 @@ random_normal (void)
 {
 	return qnorm (random_01 (), 0, 1);
 }
+
+
+/*
+ * Generate 10^n being careful not to overflow
+ */
+float_t
+gpow10 (int n)
+{
+	float_t res = 1.0;
+	float_t p;
+	const int maxn = 300;
+
+	if (n >= 0) {
+		p = 10.0;
+		n = (n > maxn) ? maxn : n;
+	} else {
+		p = 0.1;
+		/* Note carefully that we avoid overflow.  */
+		n = (n < -maxn) ? maxn : -n;
+	}
+	while (n > 0) {
+		if (n & 1) res *= p;
+		p *= p;
+		n >>= 1;
+	}
+	return res;
+}
