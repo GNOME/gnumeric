@@ -399,4 +399,49 @@ go_line_build_bpath (double const *x, double const *y, int n)
 	g_free (angles);
 	return path;
 }
+
+ArtVpath*
+go_line_build_vpath (double const *x, double const *y, int n)
+{
+	ArtVpath *path;
+	int i, j, start, nb;
+
+	g_return_val_if_fail (n > 0, NULL);
+
+	path = art_new (ArtVpath, n + 1);
+
+	j = -1;
+	for (start = nb = i = 0; i <= n; i++) {
+		if ((i == n) || isnan (x[i]) || !go_finite (x[i]) || (fabs (x[i]) == DBL_MAX) ||
+			isnan (y[i]) || !go_finite (y[i]) || (fabs (y[i]) == DBL_MAX)) {
+			/* invalid or infinite points interrupt the path; DBL_MAX is also filtered
+			because this value is returned when mapping an negative value to a logarithmic
+			axis. */
+			switch (nb) {
+			case 0: /* invalid point: don't draw anything */
+				break;
+			case 1: /* isolated point: don't draw anything */
+				j--;
+				break;
+			default: /* draw a bezier spline */
+				path[start].code = ART_MOVETO_OPEN;
+				while (start < j) {
+					start++ ;
+					path[start].code = ART_LINETO;
+				}
+				start++;
+			}
+			nb = 0;
+		} else if (!nb || ((path[j].x != x[i]) && (path[j].y != y[i]))) {
+			j++;
+			path[j].x = x[i];
+			path[j].y = y[i];
+			nb++;
+		}
+	}
+
+	path[start].code = ART_END;
+	return path;
+}
+
 #endif /*WITH_GTK*/

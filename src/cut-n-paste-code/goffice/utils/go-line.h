@@ -51,6 +51,7 @@ ArtVpath 	*go_line_dash_vpath 		(ArtVpath const *path, ArtVpathDash const *dash,
 gpointer	 go_line_dash_selector		(GOLineDashType default_type);
 
 ArtBpath *go_line_build_bpath (double const *x, double const *y, int n);
+ArtVpath *go_line_build_vpath (double const *x, double const *y, int n);
 
 G_END_DECLS
 

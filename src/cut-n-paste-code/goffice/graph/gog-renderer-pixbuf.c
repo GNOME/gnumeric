@@ -220,44 +220,95 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
 	GogStyle const *style = rend->cur_style;
 	double width = line_size (rend, style->line.width);
 	ArtSVP *svp;
-	ArtVpath *dashed_path;
+	ArtVpath *dashed_path, short_path[3];
+	double offset, dash_length = 0., dx, dy, n;
+	int i;
+
+	if (path[0].code == ART_END) /* this should not happen! */
+		return;
+	short_path[0].code = ART_MOVETO;
+	short_path[1].code = ART_LINETO;
+	short_path[2].code = ART_END;
 
 	switch (style->line.dash_type) {
 		case GO_LINE_NONE:
 			return;
 		case GO_LINE_SOLID:
-			svp = art_svp_vpath_stroke ((ArtVpath *) path,
-						    ART_PATH_STROKE_JOIN_MITER, 
-						    ART_PATH_STROKE_CAP_BUTT,
-						    width, 4, 0.5);
+			i = 1; /* assumiong that path[0].code is not ART_LINETO */
+			while (path[i].code != ART_END) {
+				if (path[i].code == ART_LINETO) {
+					short_path[0].x = path [i - 1].x;
+					short_path[0].y = path [i - 1].y;
+					short_path[1].x = path [i].x;
+					short_path[1].y = path [i].y;
+					svp = art_svp_vpath_stroke ((ArtVpath *) short_path,
+									ART_PATH_STROKE_JOIN_MITER, 
+									ART_PATH_STROKE_CAP_BUTT,
+									width, 4, 0.5);
+					if (bound != NULL) {
+						ArtSVP *orig = svp;
+						ArtSVP *clip = clip_path (bound);
+						svp = art_svp_intersect (clip, orig);
+						art_svp_free (clip);
+						art_svp_free (orig);
+					}
+				
+					go_color_render_svp (style->line.color, svp,
+								 prend->x_offset,
+								 prend->y_offset,
+								 prend->w + prend->x_offset,
+								 prend->h + prend->y_offset,
+								 prend->pixels, prend->rowstride);
+					art_svp_free (svp);
+				}
+				i++;
+			}
 			break;
 		default:
-			dashed_path = go_line_dash_vpath (path, rend->line_dash,  
-				rend->cur_clip != NULL ? &rend->cur_clip->area : NULL);
-			if (dashed_path == NULL)
-				return;
-			svp = art_svp_vpath_stroke (dashed_path,
-						    ART_PATH_STROKE_JOIN_MITER, 
-						    ART_PATH_STROKE_CAP_BUTT,
-						    width, 4, 0.5);
-			g_free (dashed_path);
+			offset = rend->line_dash->offset;
+			for (i = 0; i < rend->line_dash->n_dash; i++)
+				dash_length += rend->line_dash->dash[i];
+			i = 1; /* assuming that path[0].code is not ART_LINETO */
+			while (path[i].code != ART_END) {
+				if (path[i].code == ART_LINETO) {
+					short_path[0].x = path [i - 1].x;
+					short_path[0].y = path [i - 1].y;
+					short_path[1].x = path [i].x;
+					short_path[1].y = path [i].y;
+					dx = short_path[1].x - short_path[0].x;
+					dy = short_path[1].y - short_path[0].y;
+					dashed_path = go_line_dash_vpath (short_path, rend->line_dash,  
+						rend->cur_clip != NULL ? &rend->cur_clip->area : NULL);
+					dx = sqrt (dx * dx + dy * dy);
+					n = floor (dx / dash_length);
+					rend->line_dash->offset += dx - n * dash_length;
+					if (dashed_path != NULL) {
+						svp = art_svp_vpath_stroke (dashed_path,
+										ART_PATH_STROKE_JOIN_MITER, 
+										ART_PATH_STROKE_CAP_BUTT,
+										width, 4, 0.5);
+						g_free (dashed_path);
+					if (bound != NULL) {
+						ArtSVP *orig = svp;
+						ArtSVP *clip = clip_path (bound);
+						svp = art_svp_intersect (clip, orig);
+						art_svp_free (clip);
+						art_svp_free (orig);
+					}
+				
+					go_color_render_svp (style->line.color, svp,
+								 prend->x_offset,
+								 prend->y_offset,
+								 prend->w + prend->x_offset,
+								 prend->h + prend->y_offset,
+								 prend->pixels, prend->rowstride);
+					art_svp_free (svp);
+					}
+				}
+				i++;
+			}
+			rend->line_dash->offset = offset;
 	}
-
-	if (bound != NULL) {
-		ArtSVP *orig = svp;
-		ArtSVP *clip = clip_path (bound);
-		svp = art_svp_intersect (clip, orig);
-		art_svp_free (clip);
-		art_svp_free (orig);
-	}
-
-	go_color_render_svp (style->line.color, svp,
-			     prend->x_offset,
-			     prend->y_offset,
-			     prend->w + prend->x_offset,
-			     prend->h + prend->y_offset,
-			     prend->pixels, prend->rowstride);
-	art_svp_free (svp);
 }
   
 static void

@@ -1,3 +1,12 @@
+2005-02-16  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* graph/gog-renderer-pixbuf.c: (gog_renderer_pixbuf_draw_path): rewrite to
+	use large paths at once and have better dashes support
+	* graph/plugins/plot_xy/gog-xy.c: (gog_xy_view_render): render path at once.
+	* utils/go-line.c: (go_line_build_vpath): new function, builds a vpath from
+	a set of points.
+	* utils/go-line.h: ditto.
+
 2005-02-16  Jody Goldberg <jody@gnome.org>
 
 	* utils/go-file.c (go_url_check_extension) : pull down from gnumeric

@@ -596,11 +596,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	double zmax, rmax = 0.;
 	double x_margin_min, x_margin_max, y_margin_min, y_margin_max, margin;
 	double xerrmin, xerrmax, yerrmin, yerrmax;
-	double prev_x = 0., prev_y = 0.; 
-	double prev_x_canvas = 0., prev_y_canvas = 0.;
-	ArtVpath	path[3];
 	GogStyle *style = NULL;
-	gboolean valid, prev_valid, show_marks, show_lines, show_negatives, in_3d, size_as_area = TRUE;
+	gboolean show_marks, show_lines, show_negatives, in_3d, size_as_area = TRUE;
 
 	MarkerData **markers;
 	unsigned *num_markers;
@@ -624,9 +621,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	markers = g_alloca (num_series * sizeof (MarkerData *));
 	num_markers = g_alloca (num_series * sizeof (unsigned));
 
-	path[0].code = ART_MOVETO;
-	path[1].code = ART_LINETO;
-	path[2].code = ART_END;
 	for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
 		series = ptr->data;
 		markers[j] = NULL;
@@ -684,26 +678,31 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				GO_DATA_VECTOR (series->base.values[2].data));
 			if (n > tmp)
 				n = tmp;
-		} else if (GOG_XY_PLOT (view->model)->use_splines && show_lines) {
-			ArtBpath *path;
+		} else if (show_lines) {
 			double *x_splines = g_new (double, n), *y_splines = g_new (double, n);
 			for (i = 0; i < n; i++) {
-				x = x_vals ? x_vals[i] : i;
+				x = x_vals ? x_vals[i] : i + 1;
 				x_splines[i] = gog_axis_map_to_canvas (x_map, x);
 				y_splines[i] = gog_axis_map_to_canvas (y_map, y_vals[i]);
 			}
-			path = go_line_build_bpath (x_splines, y_splines, n);
-			gog_renderer_draw_bezier_path (view->renderer, path, &view->residual);
-			art_free (path);
+			if (GOG_XY_PLOT (view->model)->use_splines) {
+				ArtBpath *path;
+				path = go_line_build_bpath (x_splines, y_splines, n);
+				gog_renderer_draw_bezier_path (view->renderer, path, &view->residual);
+				art_free (path);
+			} else {
+				ArtVpath *path;
+				path = go_line_build_vpath (x_splines, y_splines, n);
+				gog_renderer_draw_path (view->renderer, path, &view->residual);
+				art_free (path);
+			}
 			g_free (x_splines);
 			g_free (y_splines);
-			show_lines = FALSE;
 		}
 
 		if (show_marks && !GOG_IS_BUBBLE_PLOT (model))
 			markers[j] = g_new (MarkerData, n);
 
-		prev_valid = FALSE;
 		margin = gog_renderer_line_size (view->renderer, 1);
 		x_margin_min = view->allocation.x - margin;
 		x_margin_max = view->allocation.x + view->allocation.w + margin;
@@ -714,104 +713,62 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		for (i = 1 ; i <= n ; i++) {
 			x = x_vals ? *x_vals++ : i;
 			y = *y_vals++;
-			valid = !isnan (y) && !isnan (x);
-			if (valid) {
-				/* We are checking with go_finite here because isinf
-				   if not available everywhere.  Note, that NANs
-				   have been ruled out.  */
-				if (!go_finite (y))
-					y = 0; /* excel is just sooooo consistent */
-				if (!go_finite (x))
-					x = i;
-				x_canvas = gog_axis_map_to_canvas (x_map, x);
-				y_canvas = gog_axis_map_to_canvas (y_map, y);
-				if (GOG_IS_BUBBLE_PLOT(model)) {
-					z = *z_vals++;
-					if (!go_finite (z)) continue;
-					if (z < 0) {
-						if (GOG_BUBBLE_PLOT(model)->show_negatives) {
-							gog_renderer_push_style (view->renderer, neg_style);
-							bubble_draw_circle (view, x_canvas, y_canvas, 
-									    ((size_as_area)? sqrt (- z / zmax): - z / zmax) * rmax);
-							gog_renderer_pop_style (view->renderer);
-						} else continue;
-					} else {
-						if (model->base.vary_style_by_element)
-							gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
-								model->base.index_num + i - 1, FALSE);
-						bubble_draw_circle (view, x_canvas, y_canvas, ((size_as_area)? sqrt (z / zmax): z / zmax) * rmax);
-					}
-				} else	if (prev_valid && show_lines) {
-					path[0].x = prev_x_canvas;
-					path[0].y = prev_y_canvas;
-					path[1].x = x_canvas;
-					path[1].y = y_canvas;
-					gog_renderer_draw_path (view->renderer, path, NULL);
+			if (isnan (y) || isnan (x))
+				continue;
+			/* We are checking with go_finite here because isinf
+			   if not available everywhere.  Note, that NANs
+			   have been ruled out.  */
+			if (!go_finite (y))
+				y = 0; /* excel is just sooooo consistent */
+			if (!go_finite (x))
+				x = i;
+			x_canvas = gog_axis_map_to_canvas (x_map, x);
+			y_canvas = gog_axis_map_to_canvas (y_map, y);
+			if (GOG_IS_BUBBLE_PLOT(model)) {
+				z = *z_vals++;
+				if (!go_finite (z)) continue;
+				if (z < 0) {
+					if (GOG_BUBBLE_PLOT(model)->show_negatives) {
+						gog_renderer_push_style (view->renderer, neg_style);
+						bubble_draw_circle (view, x_canvas, y_canvas, 
+									((size_as_area)? sqrt (- z / zmax): - z / zmax) * rmax);
+						gog_renderer_pop_style (view->renderer);
+					} else continue;
+				} else {
+					if (model->base.vary_style_by_element)
+						gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
+							model->base.index_num + i - 1, FALSE);
+					bubble_draw_circle (view, x_canvas, y_canvas, ((size_as_area)? sqrt (z / zmax): z / zmax) * rmax);
 				}
 			}
 
 			/* draw error bars after line */
-			if (prev_valid) {
-				if (gog_error_bar_is_visible (series->x_errors)) {
-						GogErrorBar const *bar = series->x_errors;
-					 if (gog_error_bar_get_bounds (bar, i - 2, &xerrmin, &xerrmax)) {
-						 gog_error_bar_render (bar, view->renderer, 
-								       x_map, y_map, 
-								       prev_x, prev_y, 
-								       xerrmin, xerrmax, TRUE);
-					 }
-				}
-				if (gog_error_bar_is_visible (series->y_errors)) {
-					GogErrorBar const *bar = series->y_errors;
-					 if (gog_error_bar_get_bounds (bar, i - 2, &yerrmin, &yerrmax)) {
-						 gog_error_bar_render (bar, view->renderer, 
-								       x_map, y_map, prev_x, prev_y, 
-								       yerrmin, yerrmax, FALSE);
-					 }
-				}
+			if (gog_error_bar_is_visible (series->x_errors)) {
+					GogErrorBar const *bar = series->x_errors;
+				 if (gog_error_bar_get_bounds (bar, i - 1, &xerrmin, &xerrmax)) {
+					 gog_error_bar_render (bar, view->renderer, 
+								   x_map, y_map, 
+								   x, y, 
+								   xerrmin, xerrmax, TRUE);
+				 }
+			}
+			if (gog_error_bar_is_visible (series->y_errors)) {
+				GogErrorBar const *bar = series->y_errors;
+				 if (gog_error_bar_get_bounds (bar, i - 1, &yerrmin, &yerrmax)) {
+					 gog_error_bar_render (bar, view->renderer, 
+								   x_map, y_map, x, y, 
+								   yerrmin, yerrmax, FALSE);
+				 }
 			}
 
 			/* draw marker after line */
-			if (prev_valid && show_marks &&
-			    x_margin_min <= prev_x_canvas && prev_x_canvas <= x_margin_max &&
-			    y_margin_min <= prev_y_canvas && prev_y_canvas <= y_margin_max) {
-				markers[j][k].x = prev_x_canvas;
-				markers[j][k].y = prev_y_canvas;
+			if (show_marks &&
+			    x_margin_min <= x_canvas && x_canvas <= x_margin_max &&
+			    y_margin_min <= y_canvas && y_canvas <= y_margin_max) {
+				markers[j][k].x = x_canvas;
+				markers[j][k].y = y_canvas;
 				k++;
 			}
-
-			prev_x_canvas = x_canvas;
-			prev_y_canvas = y_canvas;
-			prev_x = x;
-			prev_y = y;
-			prev_valid = valid;
-		}
-
-		/* draw error bars after line */
-		if (gog_error_bar_is_visible (series->x_errors)) {
-			GogErrorBar const *bar = series->x_errors;
-			if (gog_error_bar_get_bounds (bar, i - 2, &xerrmin, &xerrmax)) {
-				gog_error_bar_render (bar, view->renderer, 
-						      x_map, y_map, prev_x, prev_y, 
-						      xerrmin, xerrmax, TRUE);
-			}
-		}
-		if (gog_error_bar_is_visible (series->y_errors)) {
-			GogErrorBar const *bar = series->y_errors;
-			if (gog_error_bar_get_bounds (bar, i - 2, &yerrmin, &yerrmax)) {
-				gog_error_bar_render (bar, view->renderer, 
-						      x_map, y_map, prev_x, prev_y, 
-						      yerrmin, yerrmax, FALSE);
-			}
-		}
-
-		/* draw marker after line */
-		if (prev_valid && show_marks &&
-		    x_margin_min <= prev_x_canvas && prev_x_canvas <= x_margin_max &&
-		    y_margin_min <= prev_y_canvas && prev_y_canvas <= y_margin_max) {
-			markers[j][k].x = x_canvas;
-			markers[j][k].y = y_canvas;
-			k++;
 		}
 
 		gog_renderer_pop_style (view->renderer);
