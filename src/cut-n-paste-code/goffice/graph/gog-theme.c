@@ -129,9 +129,8 @@ GSF_CLASS (GogTheme, gog_theme,
 	   gog_theme_class_init, gog_theme_init,
 	   G_TYPE_OBJECT)
 
-void
-gog_theme_init_style (GogTheme *theme, GogStyle *style,
-		      GogObject *obj, int ind)
+static GogThemeElement *
+gog_theme_find_element (GogTheme *theme, GogObject *obj)
 {
 	GogThemeElement *elem = NULL;
 	GObjectClass *klass;
@@ -139,7 +138,7 @@ gog_theme_init_style (GogTheme *theme, GogStyle *style,
 	if (theme == NULL)
 		theme = default_theme;
 
-	g_return_if_fail (theme != NULL);
+	g_return_val_if_fail (theme != NULL, NULL);
 
 	if (theme->load_from_file != NULL) {
 #warning TODO parse some xml
@@ -185,12 +184,35 @@ gog_theme_init_style (GogTheme *theme, GogStyle *style,
 		if (elem != NULL)	/* if found lets cache the result */
 			g_hash_table_insert (theme->elem_hash_by_class, klass, elem);
 	}
+	return elem;
+}
 
-	/* no theme entry for this type */
+/**
+ * gog_theme_fillin_style :
+ * @theme : #GogTheme
+ * @style : #GogStyle to initialize
+ * @obj : #GogObject The object associated with @style
+ * @ind : an optional index
+ * @complete_overwrite : boolean
+ *
+ * Fill in the auto aspects of @style based on @theme 's element for objects of
+ * type/role similar to @obj with index @ind.  If @complete_overwrite is used,
+ * fillin the entire style, not just the auto portions.
+ **/
+void
+gog_theme_fillin_style (GogTheme *theme, GogStyle *style,
+			GogObject *obj, int ind, gboolean complete_overwrite)
+{
+	GogThemeElement *elem = gog_theme_find_element (theme, obj);
+
 	g_return_if_fail (elem != NULL);
 
-#warning we should handle the applicability here not in the themes
-	gog_style_apply_theme (style, elem->style, FALSE);
+	if (complete_overwrite)
+		gog_style_assign (style, elem->style);
+	else
+		gog_style_apply_theme (style, elem->style);
+
+#warning we should handle the applicability here not in the map
 	if (ind >= 0 && elem->map)
 		(elem->map) (style, ind);
 }

@@ -52,67 +52,6 @@ gnm_canvas_guru_key (WorkbookControlGUI const *wbcg, GdkEventKey *event)
 }
 
 static gboolean
-gnm_check_ctrl_mask (GnmCanvas *gcanvas,guint keyval)
-{
-	SheetControl *sc = (SheetControl *) gcanvas->simple.scg;
-	Sheet *sheet = sc->sheet;
-	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
-	char const *fmt = NULL;
-	char const *desc = NULL;
-
-	switch (keyval) {
-	case GDK_asciitilde :
-		fmt = cell_formats [FMT_NUMBER][0];
-		desc = _("Format as Number");
-		break;
-	case GDK_dollar :
-		fmt = cell_formats [FMT_CURRENCY][0];
-		desc = _("Format as Currency");
-		break;
-	case GDK_percent :
-		fmt = cell_formats [FMT_PERCENT][0];
-		desc = _("Format as Percentage");
-		break;
-	case GDK_asciicircum :
-		fmt = cell_formats [FMT_SCIENCE][0];
-		desc = _("Format as Scientific");
-		break;
-	case GDK_numbersign :
-		fmt = cell_formats [FMT_DATE][0];
-		desc = _("Format as Date");
-		break;
-	case GDK_at :
-		fmt = cell_formats [FMT_TIME][0];
-		desc = _("Format as Time");
-		break;
-	case GDK_exclam :
-		fmt = cell_formats [FMT_ACCOUNT][0];
-		desc = _("Format as alternative Number"); /* FIXME: Better descriptor */
-		break;
-
-	case GDK_ampersand :
-		workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
-		return TRUE;
-	case GDK_underscore :
-		workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, FALSE);
-		return TRUE;
-	}
-
-	if (fmt != NULL) {
-		GnmStyle *mstyle = mstyle_new ();
-
-		mstyle_set_format_text (mstyle, fmt);
-		cmd_selection_format (WORKBOOK_CONTROL (wbcg), mstyle, NULL, desc);
-		return TRUE;
-	}
-	return FALSE;
-}
-
-
-/*
- * key press event handler for the gnumeric sheet for the sheet mode
- */
-static gboolean
 gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 {
 	SheetControl *sc = (SheetControl *) gcanvas->simple.scg;
@@ -147,14 +86,10 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		movefn = (event->state & GDK_SHIFT_MASK)
 			? scg_rangesel_extend
 			: scg_rangesel_move;
-	} else {
-		if ((event->state & GDK_CONTROL_MASK) &&
-		    gnm_check_ctrl_mask (gcanvas,event->keyval))
-			return TRUE;
+	} else
 		movefn = (event->state & GDK_SHIFT_MASK)
 			? scg_cursor_extend
 			: scg_cursor_move;
-	}
 
 	switch (event->keyval) {
 	case GDK_KP_Left:
@@ -611,11 +546,6 @@ gnm_canvas_commit_cb (GtkIMContext *context, const gchar *str, GnmCanvas *gcanva
 	GtkEditable *editable = GTK_EDITABLE (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
 	gint tmp_pos;
 
-	if (str &&
-	    strlen (str) == 1 &&
-	    gcanvas->mask_state & GDK_CONTROL_MASK &&
-	    gnm_check_ctrl_mask (gcanvas,*str))
-		return;
 	if (!wbcg_is_editing (wbcg) &&
 	    !wbcg_edit_start (wbcg, TRUE, TRUE))
 		return;

@@ -39,6 +39,8 @@
 #include "sheet-merge.h"
 #include "sheet-filter.h"
 #include "sheet-style.h"
+#include "style-border.h"
+#include "style-color.h"
 #include "tools/filter.h"
 #include "sheet-control-gui-priv.h"
 #include "sheet-view.h"
@@ -1409,22 +1411,79 @@ static void
 apply_number_format (WorkbookControlGUI *wbcg,
 		     char const *translated_format, char const *descriptor)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GnmStyle *mstyle = mstyle_new ();
-
 	mstyle_set_format_text (mstyle, translated_format);
-	cmd_selection_format (wbc, mstyle, NULL, descriptor);
+	cmd_selection_format (WORKBOOK_CONTROL (wbcg), mstyle, NULL, descriptor);
 }
 
-static GNM_ACTION_DEF (cb_format_as_money)
+static GNM_ACTION_DEF (cb_format_as_number)
 {
 	apply_number_format (wbcg,
-		cell_formats[FMT_ACCOUNT][2], _("Format as Money"));
+		cell_formats [FMT_NUMBER][0], _("Format as Number"));
+}
+static GNM_ACTION_DEF (cb_format_as_currency)
+{
+	apply_number_format (wbcg,
+		cell_formats [FMT_CURRENCY][0], _("Format as Currency"));
+}
+static GNM_ACTION_DEF (cb_format_as_accounting)
+{
+	apply_number_format (wbcg,
+		cell_formats[FMT_ACCOUNT][2], _("Format as Accounting"));
 }
 
-static GNM_ACTION_DEF (cb_format_as_percent)
+static GNM_ACTION_DEF (cb_format_as_percentage)
 {
-	apply_number_format (wbcg, "0.00%", _("Format as Percentage"));
+	apply_number_format (wbcg,
+		cell_formats [FMT_PERCENT][0], _("Format as Percentage"));
+}
+static GNM_ACTION_DEF (cb_format_as_scientific)
+{
+	apply_number_format (wbcg,
+		cell_formats [FMT_SCIENCE][0], _("Format as Scientific"));
+}
+static GNM_ACTION_DEF (cb_format_as_time)
+{
+	apply_number_format (wbcg,
+		cell_formats [FMT_DATE][0], _("Format as Date"));
+}
+static GNM_ACTION_DEF (cb_format_as_date)
+{
+	apply_number_format (wbcg,
+		cell_formats [FMT_TIME][0], _("Format as Time"));
+}
+
+/* Adds borders to all the selected regions on the sheet.
+ * FIXME: This is a little more simplistic then it should be, it always
+ * removes and/or overwrites any borders. What we should do is
+ * 1) When adding -> don't add a border if the border is thicker than 'THIN'
+ * 2) When removing -> don't remove unless the border is 'THIN'
+ */
+static void
+mutate_borders (WorkbookControlGUI *wbcg, gboolean add)
+{
+	GnmBorder *borders [STYLE_BORDER_EDGE_MAX];
+	int i;
+
+	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; ++i)
+		if (i <= STYLE_BORDER_RIGHT)
+			borders[i] = style_border_fetch (
+				add ? STYLE_BORDER_THIN : STYLE_BORDER_NONE,
+				style_color_black (), style_border_get_orientation (i));
+		else
+			borders[i] = NULL;
+
+	cmd_selection_format (WORKBOOK_CONTROL (wbcg), NULL, borders,
+		add ? _("Add Borders") : _("Remove borders"));
+}
+
+static GNM_ACTION_DEF (cb_format_add_borders)
+{
+	mutate_borders (wbcg, TRUE);
+}
+static GNM_ACTION_DEF (cb_format_clear_borders)
+{
+	mutate_borders (wbcg, FALSE);
 }
 
 static void
@@ -1506,6 +1565,52 @@ static GNM_ACTION_DEF (cb_copydown)
 static GNM_ACTION_DEF (cb_copyright)
 {
 	g_warning ("Killroy was here in cb_copyright");
+}
+
+static GNM_ACTION_DEF (cb_format_column_auto_fit)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	workbook_cmd_resize_selected_colrow (wbc,
+		wb_control_cur_sheet (wbc), TRUE, -1);
+}
+static GNM_ACTION_DEF (cb_set_column_width)
+{
+	dialog_col_width (wbcg, FALSE);
+}
+static GNM_ACTION_DEF (cb_format_column_std_width)
+{
+	dialog_col_width (wbcg, TRUE);
+}
+static GNM_ACTION_DEF (cb_format_column_hide)
+{
+	cmd_selection_colrow_hide (WORKBOOK_CONTROL (wbcg), TRUE, FALSE);
+}
+static GNM_ACTION_DEF (cb_format_column_unhide)
+{
+	cmd_selection_colrow_hide (WORKBOOK_CONTROL (wbcg), TRUE, TRUE);
+}
+
+static GNM_ACTION_DEF (cb_format_row_auto_fit)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	workbook_cmd_resize_selected_colrow (wbc, 
+		wb_control_cur_sheet (wbc), FALSE, -1);
+}
+static GNM_ACTION_DEF (cb_set_row_height)
+{
+	dialog_row_height (wbcg, FALSE);
+}
+static GNM_ACTION_DEF (cb_format_row_std_height)
+{
+	dialog_row_height (wbcg, TRUE);
+}
+static GNM_ACTION_DEF (cb_format_row_hide)
+{
+	cmd_selection_colrow_hide (WORKBOOK_CONTROL (wbcg), FALSE, FALSE);
+}
+static GNM_ACTION_DEF (cb_format_row_unhide)
+{
+	cmd_selection_colrow_hide (WORKBOOK_CONTROL (wbcg), FALSE, TRUE);
 }
 
 /* Actions that are always sensitive */
@@ -1786,36 +1891,36 @@ static GtkActionEntry actions[] = {
 /* Format -> Col */
 	{ "ColumnSize", "Gnumeric_ColumnSize", N_("_Width..."),
 		NULL, N_("Change width of the selected columns"),
-		G_CALLBACK (sheet_dialog_set_column_width) },
+		G_CALLBACK (cb_set_column_width) },
 	{ "ColumnAutoSize", NULL, N_("_Auto fit selection"),
 		NULL, N_("Ensure columns are just wide enough to display content"),
-		G_CALLBACK (workbook_cmd_format_column_auto_fit) },
+		G_CALLBACK (cb_format_column_auto_fit) },
 	{ "ColumnHide", "Gnumeric_ColumnHide", N_("_Hide"),
 		NULL, N_("Hide the selected columns"),
-		G_CALLBACK (workbook_cmd_format_column_hide) },
+		G_CALLBACK (cb_format_column_hide) },
 	{ "ColumnUnhide", "Gnumeric_ColumnUnhide", N_("_Unhide"),
 		NULL, N_("Make any hidden columns in the selection visible"),
-		G_CALLBACK (workbook_cmd_format_column_unhide) },
+		G_CALLBACK (cb_format_column_unhide) },
 	{ "ColumnDefaultSize", NULL, N_("_Standard Width"),
 		NULL, N_("Change the default column width"),
-		G_CALLBACK (workbook_cmd_format_column_std_width) },
+		G_CALLBACK (cb_format_column_std_width) },
 
 /* Format -> Row */
 	{ "RowSize", "Gnumeric_RowSize", N_("H_eight..."),
 		NULL, N_("Change height of the selected rows"),
-		G_CALLBACK (sheet_dialog_set_row_height) },
+		G_CALLBACK (cb_set_row_height) },
 	{ "RowAutoSize", NULL, N_("_Auto fit selection"),
 		NULL, N_("Ensure rows are just tall enough to display content"),
-		G_CALLBACK (workbook_cmd_format_row_auto_fit) },
+		G_CALLBACK (cb_format_row_auto_fit) },
 	{ "RowHide", "Gnumeric_RowHide", N_("_Hide"),
 		NULL, N_("Hide the selected rows"),
-		G_CALLBACK (workbook_cmd_format_row_hide) },
+		G_CALLBACK (cb_format_row_hide) },
 	{ "RowUnhide", "Gnumeric_RowUnhide", N_("_Unhide"),
 		NULL, N_("Make any hidden rows in the selection visible"),
-		G_CALLBACK (workbook_cmd_format_row_unhide) },
+		G_CALLBACK (cb_format_row_unhide) },
 	{ "RowDefaultSize", NULL, N_("_Standard Height"),
 		NULL, N_("Change the default row height"),
-		G_CALLBACK (workbook_cmd_format_row_std_height) },
+		G_CALLBACK (cb_format_row_std_height) },
 
 /* Tools */
 	{ "ToolsPlugins", NULL, N_("_Plug-ins..."),
@@ -2026,12 +2131,35 @@ static GtkActionEntry actions[] = {
 	{ "FormatUnmergeCells", "Gnumeric_SplitCells", N_("Split"),
 		NULL, N_("Split merged ranges of cells"),
 		G_CALLBACK (cb_unmerge_cells) },
-	{ "FormatAsMoney", "Gnumeric_FormatAsMoney", N_("Money"),
-		NULL, N_("Set the format of the selected cells to monetary"),
-		G_CALLBACK (cb_format_as_money) },
-	{ "FormatAsPercent", "Gnumeric_FormatAsPercent", N_("Percent"),
-		NULL, N_("Set the format of the selected cells to percentage"),
-		G_CALLBACK (cb_format_as_percent) },
+
+	{ "FormatAsNumber", NULL, N_("Number"),
+		"<control>asciitilde", N_("Format the selection as numbers"),
+		G_CALLBACK (cb_format_as_number) },
+	{ "FormatAsCurrency", NULL, N_("Currency"),
+		"<control>dollar", N_("Format the selection as currency"),
+		G_CALLBACK (cb_format_as_currency) },
+	{ "FormatAsAccounting", "Gnumeric_FormatAsAccounting", N_("Accounting"),
+		"<control>exclam", N_("Format the selection as accounting"),
+		G_CALLBACK (cb_format_as_accounting) },
+	{ "FormatAsPercentage", "Gnumeric_FormatAsPercent", N_("Percentage"),
+		"<control>percent", N_("Format the selection as percentage"),
+		G_CALLBACK (cb_format_as_percentage) },
+	{ "FormatAsScientific", NULL, N_("Scientific"),
+		"<control>asciicircum", N_("Format the selection as scientific"),
+		G_CALLBACK (cb_format_as_scientific) },
+	{ "FormatAsDate", NULL, N_("Date"),
+		"<control>numbersign", N_("Format the selection as date"),
+		G_CALLBACK (cb_format_as_date) },
+	{ "FormatAsTime", NULL, N_("Time"),
+		"<control>at", N_("Format the selection as time"),
+		G_CALLBACK (cb_format_as_time) },
+	{ "FormatAddBorders", NULL, N_("AddBorders"),
+		"<control>ampersand", N_("Add a border the the selection"),
+		G_CALLBACK (cb_format_add_borders) },
+	{ "FormatClearBorders", NULL, N_("ClearBorders"),
+		"<control>underscore", N_("Clear the border around the selection"),
+		G_CALLBACK (cb_format_clear_borders) },
+
 	{ "FormatWithThousands", "Gnumeric_FormatThousandSeparator", N_("Thousands Separator"),
 		NULL, N_("Set the format of the selected cells to include a thousands separator"),
 		G_CALLBACK (cb_format_with_thousands) },

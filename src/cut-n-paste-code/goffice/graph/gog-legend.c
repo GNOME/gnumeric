@@ -168,8 +168,8 @@ static void
 gog_legend_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	style->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT;
-	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (gso)),
-		style, GOG_OBJECT (gso), 0);
+	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
+		style, GOG_OBJECT (gso), 0, FALSE);
 }
 
 static void

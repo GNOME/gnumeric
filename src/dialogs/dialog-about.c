@@ -173,13 +173,15 @@ typedef struct {
 	GtkWidget *canvas;
 	FooCanvasItem *ctrl;
 	GogObject *graph;
+	GogStyle  *contributor_style;
 	GOData *contribs_data, *individual_data, *contributor_name;
 
 	guint	 timer;
 
 	double	 contribs [GNM_ABOUT_NUM_TYPES];
 	double	 individual [GNM_ABOUT_NUM_TYPES];
-	unsigned indx;
+	unsigned item_index;
+	int	 fade_state;
 	gboolean dec;
 } GnmAboutState;
 
@@ -194,24 +196,39 @@ gnm_about_state_free (GnmAboutState *state)
 	g_free (state);
 }
 
+#define FADE_STATES	15
+#define MAX_FADE_STATE	(FADE_STATES*2)
+
 static gboolean
 cb_about_animate (GnmAboutState *state)
 {
 	int i;
+	float alpha;
 
-	if (state->indx >= G_N_ELEMENTS (contributors)) {
-		state->indx = 0;
-		state->dec = !state->dec;
-	}
+	if (state->fade_state == MAX_FADE_STATE) {
+		state->fade_state = 0;
+		state->item_index++;
+		if (state->item_index >= G_N_ELEMENTS (contributors)) {
+			state->item_index = 0;
+			state->dec = !state->dec;
+		}
 
-	for (i = 0 ; i < GNM_ABOUT_NUM_TYPES ; i++)
-		if (contributors [state->indx].contributions & (1 << i)) {
-			state->contribs [i] += state->dec ? -1 : 1;
-			state->individual [i] = 1;
-		} else
-			state->individual [i] = 0;
+		for (i = 0 ; i < GNM_ABOUT_NUM_TYPES ; i++)
+			if (contributors [state->item_index].contributions & (1 << i)) {
+				state->contribs [i] += state->dec ? -1 : 1;
+				state->individual [i] = 1;
+			} else
+				state->individual [i] = 0;
+	} else
+		state->fade_state++;
+
+	/* 1-((x-25)/25)**4 */
+	alpha = (state->fade_state - FADE_STATES) / (double)FADE_STATES;
+	alpha *= alpha;
+	state->contributor_style->font.color = UINT_RGBA_CHANGE_A (
+		state->contributor_style->font.color, (unsigned)(255 * (1. - alpha)));
 	go_data_scalar_str_set_str (GO_DATA_SCALAR_STR (state->contributor_name),
-		contributors [state->indx++].name, FALSE);
+		contributors [state->item_index].name, FALSE);
 	go_data_emit_changed (GO_DATA (state->contribs_data));
 	go_data_emit_changed (GO_DATA (state->individual_data));
 	return TRUE;
@@ -236,7 +253,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
 		GTK_STOCK_OK,		GTK_RESPONSE_OK,
 		NULL);
-	state->indx = 0;
+	state->fade_state = MAX_FADE_STATE;	/* prime things to start at item 0 */
+	state->item_index = -1;
 	state->dec = FALSE;
 	for (i = GNM_ABOUT_NUM_TYPES ; i-- > 0 ; )
 		state->contribs[i] = state->individual[i] = 0.;
@@ -245,7 +263,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 
 	state->graph = g_object_new (GOG_GRAPH_TYPE, NULL);
 	GOG_STYLED_OBJECT (state->graph)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
-	GOG_STYLED_OBJECT (state->graph)->style->fill.pattern.fore = 0xFFFF99FF;
+	GOG_STYLED_OBJECT (state->graph)->style->fill.pattern.back = 0xFFFF99FF;
 	GOG_STYLED_OBJECT (state->graph)->style->fill.gradient.dir = GO_GRADIENT_W_TO_E_MIRRORED;
 	GOG_STYLED_OBJECT (state->graph)->style->outline.width = 0; /* hairline */
 	GOG_STYLED_OBJECT (state->graph)->style->outline.color = RGBA_BLACK;
@@ -279,6 +297,11 @@ dialog_about (WorkbookControlGUI *wbcg)
 	state->individual_data = go_data_vector_val_new (
 		state->individual, G_N_ELEMENTS (state->individual));
 	gog_series_set_dim (series, 1, state->individual_data, NULL);
+	GOG_STYLED_OBJECT (series)->style->outline.width = -1;
+	GOG_STYLED_OBJECT (series)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
+	GOG_STYLED_OBJECT (series)->style->fill.gradient.dir = GO_GRADIENT_N_TO_S_MIRRORED;
+	gog_style_set_fill_brightness (
+		GOG_STYLED_OBJECT (series)->style, 70.);
 
 	/* remove the default grid, its ugly here */
 	tmp = gog_object_get_child_by_role (chart,
@@ -300,9 +323,10 @@ dialog_about (WorkbookControlGUI *wbcg)
 		pango_font_description_from_string ("Sans 10"));
 
 	tmp = gog_object_add_by_name (chart, "Title", NULL);
-	gog_object_set_pos (tmp, GOG_POSITION_N | GOG_POSITION_ALIGN_CENTER);
+	gog_object_set_pos (tmp, GOG_POSITION_N | GOG_POSITION_ALIGN_START);
 	state->contributor_name = go_data_scalar_str_new ("", FALSE);
 	gog_dataset_set_dim (GOG_DATASET (tmp), 0, state->contributor_name, NULL);
+	state->contributor_style = GOG_STYLED_OBJECT (tmp)->style;
 	gog_style_set_font (GOG_STYLED_OBJECT (tmp)->style,
 		pango_font_description_from_string ("Sans Bold 10"));
 
@@ -323,6 +347,11 @@ dialog_about (WorkbookControlGUI *wbcg)
 	state->contribs_data = go_data_vector_val_new (
 		state->contribs, G_N_ELEMENTS (state->contribs));
 	gog_series_set_dim (series, 1, state->contribs_data, NULL);
+	GOG_STYLED_OBJECT (series)->style->outline.width = -1;
+	GOG_STYLED_OBJECT (series)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
+	GOG_STYLED_OBJECT (series)->style->fill.gradient.dir = GO_GRADIENT_NW_TO_SE;
+	gog_style_set_fill_brightness (
+		GOG_STYLED_OBJECT (series)->style, 70.);
 
 	tmp = gog_object_add_by_name (state->graph, "Title", NULL);
 	gog_object_set_pos (tmp, GOG_POSITION_S | GOG_POSITION_ALIGN_END);
@@ -353,6 +382,6 @@ dialog_about (WorkbookControlGUI *wbcg)
 	g_signal_connect (state->about, "response",
 		G_CALLBACK (gtk_widget_destroy), NULL);
 
-	state->timer = g_timeout_add (1000,
+	state->timer = g_timeout_add (100,
 		(GSourceFunc) cb_about_animate, state);
 }

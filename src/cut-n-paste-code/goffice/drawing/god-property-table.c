@@ -898,7 +898,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, GODrawingPropertyTa
 		if (ms_biff_query_peek_next (q, &op) && op == BIFF_IMDATA) {
 			printf ("Reading trailing IMDATA;\n");
 			ms_biff_query_next (q);
-			excel_read_IMDATA (q);
+			excel_read_IMDATA (q, FALSE);
 		}
 	}
 

@@ -1,3 +1,11 @@
+2004-07-05  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_IMDATA) : Add an optional mechanism for
+	  doing something with the data.  Still not entirely sure what format
+	  it is.  I'd hoped BMP but that does not appear to work.
+
+	* biff-types.h : Add a few more records
+
 2004-06-29  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_REFMODE) : new.

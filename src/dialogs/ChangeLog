@@ -1,3 +1,8 @@
+2004-07-05  Jody Goldberg <jody@gnome.org>
+
+	* dialog-about.c (dialog_about) : Throw in some gradients and a cheesy
+	  text fade in out.
+
 2004-06-29  Jody Goldberg <jody@gnome.org>
 
 	* dialog-preferences.c (pref_tree_initializer) : fix crash on startup

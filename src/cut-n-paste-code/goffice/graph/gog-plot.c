@@ -368,8 +368,8 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 	style = gog_style_dup (series->base.style);
 	n = only_visible ? plot->visible_cardinality : plot->full_cardinality;
 	for (i = 0; i < n ; i++) {
-		gog_theme_init_style (theme, style, GOG_OBJECT (series),
-			plot->index_num + i);
+		gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
+			plot->index_num + i, FALSE);
 		if (labels != NULL)
  			label = (i < num_labels)
  				? go_data_vector_get_str (labels, i) : g_strdup ("");

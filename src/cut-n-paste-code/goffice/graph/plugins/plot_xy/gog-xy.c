@@ -692,8 +692,8 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 						} else continue;
 					} else {
 						if (model->base.vary_style_by_element)
-							gog_theme_init_style (theme, style, GOG_OBJECT (series),
-								model->base.index_num + i - 1);
+							gog_theme_fillin_style (theme, style, GOG_OBJECT (series),
+								model->base.index_num + i - 1, FALSE);
 						bubble_draw_circle (view, x, y, ((size_as_area)? sqrt (z / zmax): z / zmax) * rmax);
 					}
 				} else	if (prev_valid && show_lines) {

@@ -89,7 +89,7 @@ Pending Patches
 	5.8.13) Cleanup						(DONE)
 	5.8.14) why is first custom colour not displayed	(DONE)
 	5.8.15) Better cursor
-    5.9) Move the hard coded accelerators out of
+    5.9) Move the hard coded accelerators out of		(DONE)
 	canvas into actions
     5.10) Add indent/unindent icons to gtk			(DONE)
 	5.10.1) Patch written					(DONE)

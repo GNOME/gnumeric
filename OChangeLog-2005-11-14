@@ -1,3 +1,31 @@
+2004-07-05  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-cmd-format.c (workbook_cmd_mutate_borders) :  move into
+	  wbcg-actions.c
+
+	* src/sheet-autofill.c (fill_item_new) : fix an old leak
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) :  no need to
+	  check for accelerators here any more.
+	(gnm_canvas_commit_cb) :  nor here.
+	(gnm_check_ctrl_mask) :  delete and make these real accelerators the
+	  way they belong.
+
+	* src/wbcg-actions.c
+	(cb_format_as_number) : a real accelerator
+	(cb_format_as_currency) : ditto
+	(cb_format_as_accounting) : ditto
+	(cb_format_as_percentage) : ditto
+	(cb_format_as_scientific) : ditto
+	(cb_format_as_time) : ditto
+	(cb_format_as_date) : ditto
+	(cb_format_add_borders) : ditto
+	(cb_format_clear_borders) : ditto
+
+	* src/GNOME_Gnumeric-gtk.xml :  Add the new accelerators
+	* src/application.c (gnumeric_application_setup_icons) : Rename the
+	  icons to match the verbs (Percentage, Accounting)
+
 2004-07-02  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Make gconf conditional and test for uname

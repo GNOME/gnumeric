@@ -1,3 +1,14 @@
+2004-07-06  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-graph.c (gog_graph_init) : apply theme style for graphs
+	  to do a full init.
+
+2004-07-04  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-styled-object.c (gog_styled_object_parent_changed) :
+	    initialize the style completely using the theme when we have a
+	    theme.
+
 2004-07-04  Christopher James Lahey  <clahey@ximian.com>
 
 	* drawing/god-drawing-renderer-gdk.c (draw_text): Handle

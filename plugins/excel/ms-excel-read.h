@@ -16,6 +16,7 @@
 #include "ms-container.h"
 #include <expr.h>
 #include <pango/pango-attributes.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 typedef struct {
 	Workbook  *wb;
@@ -143,7 +144,7 @@ char	      *ms_biff_get_chars (char const *ptr, guint length,
 
 GnmColor  *excel_palette_get (ExcelPalette const *pal, gint idx);
 
-void	    excel_read_IMDATA (BiffQuery *q);
+GdkPixbuf *excel_read_IMDATA (BiffQuery *q, gboolean keep_image);
 
 /* A utility routine to handle unexpected BIFF records */
 void excel_unexpected_biff (BiffQuery *q, char const *state, int debug_level);

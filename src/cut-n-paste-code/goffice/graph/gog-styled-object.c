@@ -109,6 +109,8 @@ gog_styled_object_parent_changed (GogObject *obj, gboolean was_set)
 	GogObjectClass *gog_object_klass = GOG_OBJECT_CLASS (parent_klass);
 	if (was_set) {
 		GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
+		gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
+			gso->style, GOG_OBJECT (gso), 0, TRUE);
 		gog_styled_object_apply_theme (gso, gso->style);
 	}
 	gog_object_klass->parent_changed (obj, was_set);
@@ -118,8 +120,8 @@ static void
 gog_styled_object_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	style->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL; /* default */
-	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (gso)),
-		style, GOG_OBJECT (gso), 0);
+	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
+		style, GOG_OBJECT (gso), 0, FALSE);
 }
 
 static void

@@ -628,8 +628,8 @@ gnumeric_application_setup_icons (void)
 
 		{ gnm_add_decimals,			NULL,				"Gnumeric_FormatAddPrecision" },
 		{ gnm_remove_decimals,			NULL,				"Gnumeric_FormatRemovePrecision" },
-		{ gnm_money,				NULL,				"Gnumeric_FormatAsMoney" },
-		{ gnm_percent,				NULL,				"Gnumeric_FormatAsPercent" },
+		{ gnm_money,				NULL,				"Gnumeric_FormatAsAccounting" },
+		{ gnm_percent,				NULL,				"Gnumeric_FormatAsPercentage" },
 		{ gnm_thousand,				NULL,				"Gnumeric_FormatThousandSeparator" },
 
 		{ gnm_auto,				NULL,				"Gnumeric_AutoSum" },

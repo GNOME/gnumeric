@@ -210,6 +210,8 @@ gog_graph_init (GogGraph *graph)
 	/* Cheat and assign a name here, graphs will not have parents until we
 	 * support graphs in graphs */
 	GOG_OBJECT (graph)->user_name = g_strdup (_("Graph"));
+	gog_theme_fillin_style (graph->theme,
+		gso->style, GOG_OBJECT (graph), 0, TRUE);
 	gog_styled_object_apply_theme (gso, gso->style);
 }
 

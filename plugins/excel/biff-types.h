@@ -5,10 +5,10 @@
  * biff-types.h: A long and dull list of BIFF types.
  *
  * Author:
- *	Michael Meeks (michael@ximian.com)
  *	Jody Goldberg (jody@gnome.org)
+ *	Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2002 Michael Meeks, Jody Goldberg
+ * (C) 1998-2004 Michael Meeks, Jody Goldberg
  **/
 /**
  * See S59D52.HTM for the spec.
@@ -213,10 +213,17 @@
 #define BIFF_SXVDEX			0x100	/* ONLY 1 */
 #define BIFF_SXFORMULA			0x103	/* ONLY 1 */
 #define BIFF_SXDBEX			0x122	/* ONLY 1 */
+#define BIFF_CHTRINSERT			0x137	/* ONLY 1 */
+#define BIFF_CHTRINFO			0x138	/* ONLY 1 */
+#define BIFF_CHTRCELLCONTENT		0x13B	/* ONLY 1 */
 #define BIFF_TABID			0x13d	/* ONLY 1 */
+#define BIFF_CHTRMOVERANGE		0x140	/* ONLY 1 */
+#define BIFF_CHTRINSERTTAB		0x14D	/* ONLY 1 */
+#define BIFF_LABELRANGES		0x15F	/* ONLY 1 */
 #define BIFF_USESELFS			0x160	/* ONLY 1 */
 #define BIFF_DSF			0x161	/* ONLY 1 */
 #define BIFF_XL5MODIFY			0x162	/* ONLY 1 */
+#define BIFF_CHTRHEADER			0x196	/* ONLY 1 */
 #define BIFF_FILESHARING2		0x1a5
 #define BIFF_USERDBVIEW			0x1a9	/* ONLY 1 */
 #define BIFF_USERSVIEWBEGIN		0x1aa

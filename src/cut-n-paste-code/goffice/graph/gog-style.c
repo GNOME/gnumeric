@@ -1017,13 +1017,12 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
  * gog_style_apply_theme :
  * @dst : #GogStyle
  * @src :  #GogStyle
- * @override : apply even if the setting is not auto
  *
  * Merge the attributes from @src onto the elements of @dst that were not user
  * assigned (is_auto)
  **/
 void
-gog_style_apply_theme (GogStyle *dst, GogStyle const *src, gboolean override)
+gog_style_apply_theme (GogStyle *dst, GogStyle const *src)
 {
 	if (src == dst)
 		return;
@@ -1096,6 +1095,7 @@ gog_style_init (GogStyle *style)
 	style->interesting_fields = GOG_STYLE_ALL;
 	style->disable_theming = 0;
 	gog_style_force_auto (style);
+	style->outline.width = 0;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	style->fill.gradient.brightness = -1.;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_BLACK);

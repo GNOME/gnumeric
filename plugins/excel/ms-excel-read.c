@@ -3579,12 +3579,21 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 				       firstcol, lastcol);
 }
 
-void
-excel_read_IMDATA (BiffQuery *q)
+GdkPixbuf *
+excel_read_IMDATA (BiffQuery *q, gboolean keep_image)
 {
+	static int count = 0;
+	FILE *f;
 	guint16 op;
 	guint32 image_len = GSF_LE_GET_GUINT32 (q->data + 4);
+
+	GError *err = NULL;
+	GdkPixbufLoader *loader = NULL;
+	GdkPixbuf	*pixbuf = NULL;
+	gboolean ret;
+
 	d (1,{
+		char *file_name;
 		char const *from_name;
 		char const *format_name;
 		guint16 const format   = GSF_LE_GET_GUINT16 (q->data);
@@ -3607,16 +3616,42 @@ excel_read_IMDATA (BiffQuery *q)
 
 		fprintf (stderr,"Picture from %s in %s format\n",
 			from_name, format_name);
+
+		file_name = g_strdup_printf ("imdata%d", count++);
+		f = fopen (file_name, "w");
+		fwrite (q->data+8, 1, q->length-8, f);
+		g_free (file_name);
 	});
+
+	loader = gdk_pixbuf_loader_new_with_type ("bmp", &err);
+	if (loader != NULL)
+		ret = gdk_pixbuf_loader_write (loader, q->data+8, q->length-8, &err);
 
 	image_len += 8;
 	while (image_len > q->length &&
 	       ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 		image_len -= q->length;
 		ms_biff_query_next (q);
+		d(1, fwrite (q->data, 1, q->length, f););
+		if (ret)
+			ret = gdk_pixbuf_loader_write (loader, q->data, q->length, &err);
 	}
 
-	g_return_if_fail (image_len == q->length);
+	d(1, fclose (f););
+	gdk_pixbuf_loader_close (loader, ret ? &err : NULL);
+	if (ret)
+		pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+	g_object_unref (G_OBJECT (loader));
+
+	g_return_val_if_fail (image_len == q->length, pixbuf);
+
+	if (err != NULL) {
+		g_warning (err-> message);
+		g_error_free (err);
+		err = NULL;
+	}
+
+	return pixbuf;
 }
 
 /* S59DE2.HTM */
@@ -4675,7 +4710,9 @@ excel_read_BG_PIC (BiffQuery *q,
 		   ExcelReadSheet *esheet)
 {
 	/* undocumented, looks similar to IMDATA */
-	excel_read_IMDATA (q);
+	GdkPixbuf *background = excel_read_IMDATA (q, TRUE);
+	if (background != NULL)
+		g_object_unref (background);
 }
 
 static GnmValue *
@@ -5292,7 +5329,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 				biff_get_rk (q->data + 6));
 			break;
 
-		case BIFF_IMDATA:	excel_read_IMDATA (q); break;
+		case BIFF_IMDATA:	excel_read_IMDATA (q, FALSE);		break;
 		case BIFF_GUTS:		excel_read_GUTS (q, esheet);		break;
 		case BIFF_WSBOOL:	excel_read_WSBOOL (q, esheet);		break;
 		case BIFF_GRIDSET:		break;

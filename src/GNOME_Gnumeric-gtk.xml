@@ -251,8 +251,8 @@
     <toolitem action="FormatMergeCells"/>
     <toolitem action="FormatUnmergeCells"/>
     <separator name="fmt-sep2"/>
-    <toolitem action="FormatAsMoney"/>
-    <toolitem action="FormatAsPercent"/>
+    <toolitem action="FormatAsAccounting"/>
+    <toolitem action="FormatAsPercentage"/>
     <toolitem action="FormatWithThousands"/>
     <toolitem action="FormatIncreasePrecision"/>
     <toolitem action="FormatDecreasePrecision"/>
@@ -283,9 +283,18 @@
     <toolitem action="CreateEllipse"/>
   </toolbar>
 
-  <accelerator name="CopyRight" action="CopyRight"/>
-  <accelerator name="CopyDown" action="CopyDown"/>
-  <accelerator name="FontBold" action="FontBold"/>
-  <accelerator name="FontItalic" action="FontItalic"/>
-  <accelerator name="FontUnderline" action="FontUnderline"/>
+  <accelerator name="CopyRight"		 action="CopyRight"/>
+  <accelerator name="CopyDown"		 action="CopyDown"/>
+  <accelerator name="FontBold"		 action="FontBold"/>
+  <accelerator name="FontItalic"	 action="FontItalic"/>
+  <accelerator name="FontUnderline"	 action="FontUnderline"/>
+  <accelerator name="FormatAsNumber"	 action="FormatAsNumber"/>
+  <accelerator name="FormatAsCurrency"	 action="FormatAsCurrency"/>
+  <accelerator name="FormatAsAccounting" action="FormatAsAccounting"/>
+  <accelerator name="FormatAsPercentage" action="FormatAsPercentage"/>
+  <accelerator name="FormatAsScientific" action="FormatAsScientific"/>
+  <accelerator name="FormatAsDate"	 action="FormatAsDate"/>
+  <accelerator name="FormatAsTime"	 action="FormatAsTime"/>
+  <accelerator name="FormatAddBorders"	 action="FormatAddBorders"/>
+  <accelerator name="FormatClearBorders" action="FormatClearBorders"/>
 </ui>

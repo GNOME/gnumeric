@@ -318,9 +318,6 @@ fill_item_new (Sheet *sheet, int col, int row)
 		AutoFillList const *list;
 		int  num, pos, endpos, i18;
 
-		fi->type = FILL_STRING_CONSTANT;
-		fi->v.str = gnm_string_ref (value->v_str.val);
-
 		list = matches_list (value->v_str.val->str, &num, &i18);
 		if (list) {
 			fi->type = FILL_STRING_LIST;
@@ -332,10 +329,13 @@ fill_item_new (Sheet *sheet, int col, int row)
 
 		if (string_has_number (value->v_str.val, &num, &pos, &endpos)) {
 			fi->type = FILL_STRING_WITH_NUMBER;
-			fi->v.numstr.str = value->v_str.val;
+			fi->v.numstr.str = gnm_string_ref (value->v_str.val);
 			fi->v.numstr.num = num;
 			fi->v.numstr.pos = pos;
 			fi->v.numstr.endpos = endpos;
+		} else {
+			fi->type = FILL_STRING_CONSTANT;
+			fi->v.str = gnm_string_ref (value->v_str.val);
 		}
 
 		return fi;
