@@ -1,3 +1,9 @@
+1999-07-11  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_formula): Catch NULL cell->text
+	(ms_excel_formula_shared): Check on cell... & add position to debug.
+	(ms_excel_sheet_append_comment): Add paranoid blank text setting.
+
 1999-07-13  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_workbook SST) : Zero sized strings use

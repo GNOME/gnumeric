@@ -14,6 +14,7 @@ typedef struct _Sheet Sheet;
 #include "str.h"
 #include "symbol.h"
 #include "cell.h"
+#include "summary.h"
 
 #define SHEET_MAX_ROWS (16 * 1024)
 #define SHEET_MAX_COLS 256
@@ -79,7 +80,10 @@ struct _Workbook {
 
 	/* The Symbol table used for naming cell ranges in the workbook */
 	SymbolTable *symbol_names;
-	
+
+	/* Attached summary information */
+	SummaryInfo *sin;
+
 	/*
 	 * This is  used during the clipboard paste command to pass information
 	 * to the asyncronous paste callback

@@ -10,16 +10,21 @@ Michael
 	* New style support so we can do
 		* Colours
 		* Fonts etc.
+	* Move workbook name lists into Workbook structure.
 	* Sort out biff padding =>
 	* Sort out better versioning scheme & helper macros.
 	* Rationalise Missing Argument stuff ... a new value ?
 	* Remove silly name record in writing ( after debugging is done )
 	* Lookup Harvest and see if we can help with doc summary info for
 	searches.
+	* Split panes.
 	* Use the document summary information
 	* Use same XML as Office for elegance (?)
 	* Get font / layout sizes correct for new Print-stuff.
 	* Investigate VB streams, and their lengths.
+	* glib
+		* g_get_double ( instead of biff_getdouble )
+		* g_str_case_hash ( case insensitive g_str_hash )
 
 Jody
 	* BIFF_COLINFO : Assuming a width of 36 seems to give reasonable

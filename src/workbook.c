@@ -244,6 +244,9 @@ workbook_do_destroy (Workbook *wb)
 	/* First do all deletions that leave the workbook in a working
 	   order.  */
 
+	summary_info_free (wb->sin);
+	wb->sin = NULL;
+
 	/*
 	 * Erase all cells.  In particular this removes all links between
 	 * sheets.
@@ -1307,6 +1310,8 @@ deps_output (GtkWidget *widget, Workbook *wb)
 	Cell *cell;
 	GList *list;
 
+	summary_info_dump (wb->sin);
+
 	if (!sheet_selection_first_range (
 		sheet, &dummy, &dummy, &col, &row, &dummy, &dummy)){
 		gnumeric_notice (
@@ -1600,6 +1605,8 @@ workbook_core_new (void)
 	wb->print_info = print_info_new ();
 	wb->symbol_names = symbol_table_new ();
 	wb->max_iterations = 1;
+	wb->sin       = summary_info_new ();
+	summary_info_default (wb->sin);
 
 	/* Set the default operation to be performed over selections */
 	wb->auto_expr      = NULL;

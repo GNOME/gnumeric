@@ -147,7 +147,13 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 	else
 		do_multi_line = FALSE;
 
-	text = cell->text->str;
+	if (cell && cell->text && cell->text->str)
+		text = cell->text->str;
+	else {
+		printf ("Serious cell error at '%s'\n", cell_name (cell->col->pos,
+								   cell->row->pos));
+		text = "FATAL ERROR";
+	} 
 	
 	/*
 	 * To draw the background of the cell, we need to

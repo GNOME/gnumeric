@@ -160,6 +160,8 @@ GNUMERIC_BASE_SOURCES =				\
 	str.h					\
 	style.c					\
 	style.h					\
+	summary.c				\
+	summary.h				\
 	symbol.h				\
 	symbol.c				\
 	utils.c					\

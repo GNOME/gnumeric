@@ -1,3 +1,20 @@
+1999-07-13  Michael Meeks  <michael@edenproject.org>
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): add summary.[ch]
+
+	* src/workbook.c (workbook_core_new): Hook in summary info.
+	(workbook_do_destroy): ditto.
+	(deps_output): debugging hook.
+
+	* src/sheet.h: Added SummaryInfo to Workbook.
+
+	* src/summary.[ch]: Added.
+
+1999-07-11  Michael Meeks  <michael@edenproject.org>
+
+	* src/cell-draw.c (cell_draw): Added handy debug for when
+	cell->text is duff.
+
 1999-07-13  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-string.c (gnumeric_search): Actually start search where

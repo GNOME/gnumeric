@@ -951,10 +951,13 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 	BiffXFData const *xf = ms_excel_get_xf (sheet, xfidx);
 	StyleColor *fore, *back, *basefore;
 	int back_index;
-
-	/* IF this was an error, the message was already printed. */
-	if (xf == NULL)
+	
+	g_return_if_fail (cell->value);
+	
+	if (xfidx == 0) {
+/*		printf ("Normal cell formatting\n"); */
 		return;
+	}
 
 	g_return_if_fail (cell->value);
 
@@ -984,7 +987,7 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 			xf->fill_pattern_idx);
 	}
 #endif
-
+	
 	if (!basefore) {
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_color_debug > 2) {
@@ -1007,7 +1010,7 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 		fore = basefore;
 		back_index = xf->pat_foregnd_col;
 	}
-
+	
 	/* Use contrasting colour for background if the fill pattern is
 	 * 0 (transparent)
 	 */
@@ -1313,8 +1316,7 @@ ms_excel_sheet_insert (ExcelSheet *sheet, int xfidx,
 	if (text) {
 		sheet->blank = FALSE;
 		cell_set_text_simple (cell, text);
-	}
-	else
+	} else
 		cell_set_text_simple (cell, "");
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
 }
@@ -1348,8 +1350,8 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 {
 	g_return_val_if_fail (ms_biff_query_next (q), FALSE);
 	if (q->ls_op != BIFF_SHRFMLA && q->ls_op != BIFF_ARRAY) {
-		printf ("EXCEL : unexpected record after a formula %x\n",
-			q->opcode);
+		printf ("EXCEL : unexpected record after a formula %x in '%s'\n",
+			q->opcode, cell_name (cell->col->pos, cell->row->pos));
 		return FALSE;
 	} else {
 		gboolean const is_array = (q->ls_op == BIFF_ARRAY);
@@ -1510,8 +1512,14 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		 *                     when the flag is set.
 		 */
 		cell_set_formula_tree_simple (cell, expr);
-	} else if (!array_elem && !ms_excel_formula_shared (q, sheet, cell))
+	} else if (!array_elem && !ms_excel_formula_shared (q, sheet, cell)) {
+		cell_set_text (cell, "Broken expr a");
+		g_warning ("NULL expr a");
 		return;
+	} else { /* Expr is NULL */
+		cell_set_text (cell, "Broken expr b");
+		g_warning ("NULL expr b");
+	}
 
 	if (is_string)
 	{
@@ -1639,6 +1647,8 @@ ms_excel_sheet_append_comment (ExcelSheet *sheet, int col, int row, char *text)
 {
 	if (text) {
 		Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+		if (!cell->value)
+			cell_set_text (cell, "");
 		if (cell->comment && cell->comment->comment &&
 		    cell->comment->comment->str) {
 			char *txt = g_strconcat (cell->comment->comment->str, text, NULL);
