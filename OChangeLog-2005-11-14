@@ -1,3 +1,10 @@
+2001-02-22  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_unmerge_cells_init) : add simple test to avoid
+	  merging singletons.
+	(cmd_unmerge_cells) : check for failure.
+	(cmd_merge_cells) : ditto.
+
 2001-02-22  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/preview-grid.c (preview_grid_draw): The style row
@@ -5,6 +12,10 @@
 	to pass the inverse of the preview grid's show gridlines property.
 
 2001-02-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/render-ascii.c (cell_region_render_ascii) : The list reveral
+	  stuff is no longer needed.  The new engine keeps only complete
+	  styles and keeps the list as a partition.
 
 	* src/sheet-style.c (sheet_style_insert_colrow) : When inserting
 	  before the first row/col use the style from A/1.

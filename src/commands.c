@@ -2579,14 +2579,20 @@ cmd_unmerge_cells_destroy (GtkObject *cmd)
 	gnumeric_command_destroy (cmd);
 }
 
-static void
+static gboolean
 cmd_unmerge_cells_init (CmdUnmergeCells *me, Sheet *sheet, GList *selection)
 {
 	me->sheet = sheet;
 	me->unmerged_regions = NULL;
 	me->ranges = g_array_new (FALSE, FALSE, sizeof (Range));
 	for ( ; selection != NULL ; selection = selection->next)
-		g_array_append_val (me->ranges, *(Range *)selection->data);
+		if (!range_is_singleton (selection->data))
+			g_array_append_val (me->ranges, *(Range *)selection->data);
+	if (me->ranges->len <= 0) {
+		gtk_object_destroy (GTK_OBJECT (me));
+		return TRUE;
+	}
+	return FALSE;
 }
 
 /**
@@ -2606,10 +2612,11 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GList *selection)
 	obj = gtk_type_new (CMD_UNMERGE_CELLS_TYPE);
 	me = CMD_UNMERGE_CELLS (obj);
 
-	cmd_unmerge_cells_init (me, sheet, selection);
 	me->parent.sheet = sheet;
 	me->parent.size = 1;
 	me->parent.cmd_descriptor = g_strdup (_("Unmerge Cells"));
+	if (cmd_unmerge_cells_init (me, sheet, selection))
+		return TRUE;
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
@@ -2712,16 +2719,16 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GList *selection)
 	GtkObject *obj;
 	CmdMergeCells *me;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	obj = gtk_type_new (CMD_MERGE_CELLS_TYPE);
 	me = CMD_MERGE_CELLS (obj);
 
-	cmd_unmerge_cells_init (CMD_UNMERGE_CELLS (me), sheet, selection);
-
 	me->unmerge.parent.sheet = sheet;
 	me->unmerge.parent.size = 1;
 	me->unmerge.parent.cmd_descriptor = g_strdup (_("Merge Cells"));
+	if (cmd_unmerge_cells_init (CMD_UNMERGE_CELLS (me), sheet, selection))
+		return TRUE;
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
