@@ -435,7 +435,6 @@ static char *help_trimmean = {
 };
 
 typedef struct {
-	int     first;
 	guint32 num;
         float_t last;
         GSList  *list;
@@ -452,16 +451,13 @@ callback_function_trimmean (Sheet *sheet, Value *value,
 		return TRUE;
 
 	x = value_get_as_float (value);
-	if (mm->first == TRUE)
-		mm->last = x;
-	else {
+	if (mm->num > 0) {
 		float_t *p = g_new(float_t, 1);
 		*p = mm->last;
 		mm->list = g_slist_append (mm->list, p);
-		mm->last = x;
 	}
+	mm->last = x;
 	mm->num++;
-	mm->first = FALSE;
 	return TRUE;
 }
 
@@ -474,7 +470,6 @@ gnumeric_trimmean (Sheet *sheet, GList *expr_node_list,
 	int         trim_count, n, count;
 	float_t     sum;
 
-	p.first = TRUE;
 	p.num   = 0;
 	p.list  = NULL;
 
@@ -2839,7 +2834,6 @@ gnumeric_large (Sheet *sheet, GList *expr_node_list,
 	int             n, k;
 	float_t         r;
 
-	p.first = TRUE;
 	p.num   = 0;
 	p.list  = NULL;
 
@@ -2850,7 +2844,7 @@ gnumeric_large (Sheet *sheet, GList *expr_node_list,
 	p.num--;
 	k = ((int) p.last);
 
-	if (p.num == 0 || k<=0 || k >= p.num){
+	if (p.num == 0 || k<=0 || k > p.num){
 		*error_string = _("#NUM!");
 		list  = p.list;
 		while (list != NULL){
@@ -2905,7 +2899,6 @@ gnumeric_small (Sheet *sheet, GList *expr_node_list,
 	int             n, k;
 	float_t         r;
 
-	p.first = TRUE;
 	p.num   = 0;
 	p.list  = NULL;
 
@@ -2916,7 +2909,7 @@ gnumeric_small (Sheet *sheet, GList *expr_node_list,
 	p.num--;
 	k = ((int) p.last);
 
-	if (p.num == 0 || k<=0 || k >= p.num){
+	if (p.num == 0 || k<=0 || k > p.num){
 		*error_string = _("#NUM!");
 		list  = p.list;
 		while (list != NULL){

@@ -1,5 +1,11 @@
 1999-06-01  Morten Welinder  <terra@diku.dk>
 
+	* src/fn-stat.c (callback_function_trimmean): Cleanup.
+	(gnumeric_large): Fix conditional.  Thanks to Nick Lamb.
+	(gnumeric_small): Ditto.
+
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
 	* src/fn-stat.c (gnumeric_skew): Fix crashes and leaks.
 	(gnumeric_covar): Ditto.
 	(gnumeric_rsq): Ditto.
