@@ -171,7 +171,7 @@ style_border_new_plain (void)
 }
 
 StyleColor *
-style_color_new (char *fore, char *back)
+style_color_new (char *color)
 {
 	g_warning ("Style color not yet implemented\n");
 	g_warning ("Remember to deallocate colors\n");
@@ -211,12 +211,13 @@ style_new (void)
 
 	style->valid_flags = STYLE_ALL;
 	
-	style->format  = style_format_new ("General");
-	style->font    = style_font_new ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*", 14);
-	style->border  = style_border_new_plain ();
-	style->color   = NULL;
-	style->halign = HALIGN_GENERAL;
-	style->valign = VALIGN_CENTER;
+	style->format      = style_format_new ("General");
+	style->font        = style_font_new ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*", 14);
+	style->border      = style_border_new_plain ();
+	style->fore_color  = NULL;
+	style->back_color  = NULL;
+	style->halign      = HALIGN_GENERAL;
+	style->valign      = VALIGN_CENTER;
 	style->orientation = ORIENT_HORIZ;
 	
 	return style;
@@ -248,9 +249,13 @@ style_destroy (Style *style)
 	if (style->valid_flags & STYLE_BORDER)
 		style_border_unref (style->border);
 
-	if (style->valid_flags & STYLE_COLOR)
-		if (style->color)
-			style_color_unref (style->color);
+	if (style->valid_flags & STYLE_FORE_COLOR)
+		if (style->fore_color)
+			style_color_unref (style->fore_color);
+
+	if (style->valid_flags & STYLE_BACK_COLOR)
+		if (style->back_color)
+			style_color_unref (style->back_color);
 	
 	g_free (style);
 }
@@ -282,11 +287,17 @@ style_duplicate (Style *original)
 	else
 		style->border = NULL;
 
-	if (style->valid_flags & STYLE_COLOR)
-		if (style->color)
-			style_color_ref (style->color);
+	if (style->valid_flags & STYLE_FORE_COLOR)
+		if (style->fore_color)
+			style_color_ref (style->fore_color);
 	else
-		style->color = NULL;
+		style->fore_color = NULL;
+
+	if (style->valid_flags & STYLE_BACK_COLOR)
+		if (style->back_color)
+			style_color_ref (style->back_color);
+	else
+		style->back_color = NULL;
 	
 	return style;
 }
@@ -357,8 +368,7 @@ color_equal (gconstpointer v, gconstpointer v2)
 	StyleColor *k1 = (StyleColor *) v;
 	StyleColor *k2 = (StyleColor *) v2;
 
-	if ((k1->foreground.pixel == k2->foreground.pixel) &&
-	    (k1->background.pixel == k2->background.pixel))
+	if (k1->color.pixel == k2->color.pixel)
 		return 1;
 	
 	return 0;
@@ -369,7 +379,7 @@ color_hash (gconstpointer v)
 {
 	StyleColor *k = (StyleColor *)v;
 
-	return k->foreground.pixel + k->background.pixel;
+	return k->color.pixel;
 }
 
 void
@@ -413,11 +423,19 @@ style_merge_to (Style *target, Style *source)
 			target->orientation = source->orientation;
 		}
 
-	if (!(target->valid_flags & STYLE_COLOR))
-		if (source->valid_flags & STYLE_COLOR){
-			target->valid_flags |= STYLE_COLOR;
-			target->color = source->color;
-			if (target->color)
-				style_color_ref (target->color);
+	if (!(target->valid_flags & STYLE_FORE_COLOR))
+		if (source->valid_flags & STYLE_FORE_COLOR){
+			target->valid_flags |= STYLE_FORE_COLOR;
+			target->fore_color = source->fore_color;
+			if (target->fore_color)
+				style_color_ref (target->fore_color);
+		}
+
+	if (!(target->valid_flags & STYLE_BACK_COLOR))
+		if (source->valid_flags & STYLE_BACK_COLOR){
+			target->valid_flags |= STYLE_BACK_COLOR;
+			target->back_color = source->back_color;
+			if (target->back_color)
+				style_color_ref (target->back_color);
 		}
 }

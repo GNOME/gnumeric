@@ -1,3 +1,10 @@
+/*
+ * workbook.c:  Workbook management (toplevel windows)
+ *
+ * Author:
+ *    Miguel de Icaza (miguel@gnu.org).
+ *
+ */
 #include <config.h>
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
@@ -84,6 +91,33 @@ static void
 center_cmd (GtkWidget *widget, Workbook *wb)
 {
 	set_selection_halign (wb, HALIGN_CENTER);
+}
+
+static void
+create_line_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_LINE);
+}
+
+static void
+create_rectangle_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_BOX);
+}
+
+static void
+create_ellipse_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_OVAL);
 }
 
 static void
@@ -320,6 +354,17 @@ static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_ITEM_DATA (N_("Right align"),
 				N_("Sets the cell alignment to the right"),
 				right_align_cmd, NULL, align_right),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_STOCK (N_("Line"),
+				N_("Creates a line object"),
+				create_line_cmd, GNOME_STOCK_PIXMAP_JUMP_TO),
+	GNOMEUIINFO_ITEM_STOCK (N_("Rectangle"),
+				N_("Creates a rectangle object"),
+				create_rectangle_cmd, GNOME_STOCK_PIXMAP_JUMP_TO),
+	GNOMEUIINFO_ITEM_STOCK (N_("Ellipse"),
+				N_("Creates an ellipse object"),
+				create_ellipse_cmd, GNOME_STOCK_PIXMAP_JUMP_TO),
+	
 	GNOMEUIINFO_END
 };
 

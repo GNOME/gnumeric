@@ -771,8 +771,8 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	halign = cell_get_horizontal_align (cell);
 	text = CELL_TEXT_GET (cell);
 
-	if ((cell->style->valid_flags & STYLE_COLOR) && cell->style->color){
-		gdk_gc_set_background (gc, &cell->style->color->background);
+	if ((cell->style->valid_flags & STYLE_BACK_COLOR) && cell->style->back_color){
+		gdk_gc_set_background (gc, &cell->style->back_color->color);
 	}
 	
 	/* if a number overflows, do special drawing */

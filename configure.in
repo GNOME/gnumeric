@@ -17,6 +17,17 @@ AM_PROG_LIBTOOL
 GNOME_X_CHECKS
 GNOME_XML_CHECK
 
+dnl
+dnl Check for ORBit
+dnl
+AC_CHECK_PROG(orbit_val, orbit-config, true, false)
+
+AM_CONDITIONAL(WITH_ORBIT, $orbit_val)
+
+if $orbit_val; then
+    AC_DEFINE(HAVE_ORBIT)
+fi
+
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)

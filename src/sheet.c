@@ -2796,3 +2796,4 @@ sheet_fill_selection_with (Sheet *sheet, char *str)
 				sheet_set_text (sheet, col, row, str);
 	}
 }
+

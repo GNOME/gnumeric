@@ -20,32 +20,34 @@ typedef struct {
 extern gnumeric_sheet_pattern_t gnumeric_sheet_patterns [GNUMERIC_SHEET_PATTERNS];
 
 typedef struct {
-	GnomeCanvas canvas;
+	GnomeCanvas   canvas;
 
-	GtkWidget   *entry;
-	SheetView   *sheet_view;
+	GtkWidget     *entry;
+	SheetView     *sheet_view;
 	
-	ColType     top_col, last_visible_col, last_full_col;
-	RowType     top_row, last_visible_row, last_full_row;
+	ColType       top_col, last_visible_col, last_full_col;
+	RowType       top_row, last_visible_row, last_full_row;
 
-	ItemGrid    *item_grid;
-	ItemCursor  *item_cursor;
-	ItemBar     *item_bar_col;
+	ItemGrid      *item_grid;
+	ItemCursor    *item_cursor;
+	ItemBar       *item_bar_col;
 
-	ItemEdit    *item_editor;
+	ItemEdit      *item_editor;
 
+	SheetModeType mode;
+	
 	/* This flag keeps track of a cell selector
 	 * (ie, when the user uses the cursor keys
 	 * to select a cell for an expression).
 	 */
-	int         selecting_cell;
-	int         sel_cursor_pos;
-	int         sel_text_len;
-	ItemCursor  *selection;
-	ItemBar     *colbar;
-	ItemBar     *rowbar;
+	int           selecting_cell;
+	int           sel_cursor_pos;
+	int           sel_text_len;
+	ItemCursor    *selection;
+	ItemBar       *colbar;
+	ItemBar       *rowbar;
 
-	GdkPixmap   *patterns [GNUMERIC_SHEET_PATTERNS];
+	GdkPixmap     *patterns [GNUMERIC_SHEET_PATTERNS];
 } GnumericSheet;
 
 GtkType    gnumeric_sheet_get_type               (void);

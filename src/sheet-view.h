@@ -11,17 +11,25 @@
 typedef struct {
 	GtkTable  table;
 
-	Sheet           *sheet;
-	GtkWidget       *sheet_view;
-	GnomeCanvas     *col_canvas, *row_canvas;
-	GnomeCanvasItem *col_item, *row_item;
+	Sheet            *sheet;
+	GtkWidget        *sheet_view;
+	GnomeCanvas      *col_canvas, *row_canvas;
+	GnomeCanvasItem  *col_item, *row_item;
+
+	/* Object group */
+	GnomeCanvasGroup *object_group;
+
+	/* Temporary object used during the creation of objects
+	 * in the canvas
+	 */
+	void             *temp_item;
 	
 	/* Scrolling information */
 	GtkWidget  *vs, *hs;	/* The scrollbars */
 	GtkObject  *va, *ha;    /* The adjustments */
 
 	/* Tip for scrolling */
-	GtkWidget  *tip;
+	GtkWidget        *tip;
 } SheetView;
 
 GtkType     sheet_view_get_type              (void);

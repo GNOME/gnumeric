@@ -61,6 +61,13 @@ typedef struct {
 	int        end_col, end_row;
 } SheetSelection;
 
+typedef enum {
+	SHEET_MODE_SHEET,
+	SHEET_MODE_CREATE_LINE,
+	SHEET_MODE_CREATE_BOX,
+	SHEET_MODE_CREATE_OVAL,
+} SheetModeType;
+
 typedef struct {
 	int        signature;
 	
@@ -91,6 +98,11 @@ typedef struct {
 
 	double     last_zoom_factor_used;
 
+	/* Objects */
+	SheetModeType mode;	/* Sheet mode */
+	GList      *objects;	/* List of objects in the spreadsheet */
+	GList      *coords;	/* During creation time: keeps click coordinates */
+	
 	/*
 	 * When editing a cell: the cell (may be NULL) and
 	 * the original text of the cell
@@ -265,6 +277,12 @@ void        sheet_cancel_pending_input    (Sheet *sheet);
 void        sheet_load_cell_val           (Sheet *sheet);
 void        sheet_selection_col_extend_to (Sheet *sheet, int col);
 void        sheet_selection_row_extend_to (Sheet *sheet, int row);
+
+/*
+ * Event state manipulation (for mode operation)
+ */
+void        sheet_set_mode_type           (Sheet *sheet, SheetModeType type);
+
 
 /*
  * Callback routines.

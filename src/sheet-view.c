@@ -378,6 +378,7 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 static void
 sheet_view_construct (SheetView *sheet_view)
 {
+	GnomeCanvasGroup *root_group;
 	GtkTable  *table = GTK_TABLE (sheet_view);
 	GtkWidget *select_all;
 	Sheet *sheet = sheet_view->sheet;
@@ -421,6 +422,16 @@ sheet_view_construct (SheetView *sheet_view)
 		GTK_OBJECT (sheet_view), "size_allocate",
 		GTK_SIGNAL_FUNC (sheet_view_size_allocate), sheet_view);
 
+	/* Create the object group inside the GnumericSheet */
+	root_group = GNOME_CANVAS_GROUP (
+		GNOME_CANVAS (sheet_view->sheet_view)->root);
+	sheet_view->object_group = gnome_canvas_item_new (
+		root_group,
+		gnome_canvas_group_get_type (),
+		"x", 0.0,
+		"y", 0.0,
+		NULL);
+		
 	/* Attach the GnumericSheet */
 	gtk_table_attach (table, sheet_view->sheet_view,
 			  1, 2, 1, 2,

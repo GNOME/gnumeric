@@ -1,3 +1,16 @@
+1998-09-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/style.h: Color style is now a single color
+
+1998-09-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-object.c: New file.  The support for adding graphical
+	objects to the spreadhseet is here.  The main entry point is
+	sheet_set_mode_type which hooks to the signal handlers for object
+	creation. 
+
+	Various routines for per-view creation, destruction are provided.
+	
 1998-09-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/parser.y: Add unary '+'

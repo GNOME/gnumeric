@@ -987,9 +987,9 @@ gnumeric_sheet_class_init (GnumericSheetClass *class)
 	/* Method override */
 	object_class->destroy = gnumeric_sheet_destroy;
 	
-	widget_class->realize = gnumeric_sheet_realize;
- 	widget_class->size_allocate = gnumeric_size_allocate;
-	widget_class->key_press_event = gnumeric_sheet_key;
+	widget_class->realize              = gnumeric_sheet_realize;
+ 	widget_class->size_allocate        = gnumeric_size_allocate;
+	widget_class->key_press_event      = gnumeric_sheet_key;
 }
 
 static void
