@@ -73,6 +73,7 @@ graph_guru_state_destroy (GraphGuruState *state)
 		state->gui = NULL;
 	}
 
+#if 0
 	/* Release the series objects */
 	if (state->series != NULL) {
 		int i = state->series->len;
@@ -83,6 +84,7 @@ graph_guru_state_destroy (GraphGuruState *state)
 		g_ptr_array_free (state->series, TRUE);
 		state->series = NULL;
 	}
+#endif
 
 	if (state->control != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;

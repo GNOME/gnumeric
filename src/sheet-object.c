@@ -16,6 +16,7 @@
 #include "dialogs.h"
 #include "sheet-object.h"
 #include "cursors.h"
+#include "widgets/gnumeric-clear-canvas-items.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
@@ -284,12 +285,14 @@ typedef struct {
 
 /*
  * cb_obj_create_motion:
- * @gsheet : 
+ * @gsheet :
  * @event :
  * @closure :
  *
  * Rubber band a rectangle to show where the object is going to go,
  * and support autoscroll.
+ *
+ * TODO : Add autoscroll.
  */
 static gboolean
 cb_obj_create_motion (GnumericSheet *gsheet, GdkEventMotion *event,
@@ -318,7 +321,7 @@ cb_obj_create_motion (GnumericSheet *gsheet, GdkEventMotion *event,
 		y2 = tmp_y;
 		y1 = closure->y;
 	}
-	     
+
 	if (!closure->has_been_sized) {
 		closure->has_been_sized =
 		    (fabs (tmp_x - closure->x) > 5.) ||
@@ -416,9 +419,8 @@ sheet_object_begin_creation (GnumericSheet *gsheet, GdkEventButton *event)
 	closure = g_new (SheetObjectCreationData, 1);
 	closure->sheet = sheet;
 	closure->has_been_sized = FALSE;
-	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
-				      event->x, event->y,
-				      &closure->x, &closure->y);
+	closure->x = event->x;
+	closure->y = event->y;
 
 	closure->item = gnome_canvas_item_new (
 		gsheet->sheet_view->object_group,
@@ -540,7 +542,8 @@ sheet_object_destroy_control_points (Sheet *sheet)
 		if (sheet_view == NULL)
 			return;
 
-		for (i = 0; i < 8; i++) {
+		i = sizeof (sheet_view->control_points)/sizeof(GnomeCanvasItem *);
+		while (i-- > 0) {
 			gtk_object_destroy (GTK_OBJECT (sheet_view->control_points [i]));
 			sheet_view->control_points [i] = NULL;
 		}
@@ -628,6 +631,46 @@ set_item_x_y (SheetObject *so, SheetView *sheet_view, int idx,
 		       NULL);
 }
 
+static void
+set_acetate_coords (SheetObject *so, SheetView *sheet_view,
+		    double l, double t, double r, double b)
+{
+	l -= 10.; r += 10.;
+	t -= 10.; b += 10.;
+
+	if (sheet_view->control_points [8] == NULL) {
+		GnomeCanvasItem *item;
+		GtkWidget *event_box = gtk_event_box_new ();
+
+		item = gnome_canvas_item_new (
+			sheet_view->object_group,
+			gnome_canvas_widget_get_type (),
+			"widget", event_box,
+			"x",      l,
+			"y",      t,
+			"width",  r - l + 1.,
+			"height", b - t + 1.,
+			NULL);
+		gtk_signal_connect (GTK_OBJECT (event_box), "button_press",
+				    GTK_SIGNAL_FUNC (control_point_handle_event),
+				    so);
+		gtk_signal_connect (GTK_OBJECT (item), "event",
+				    GTK_SIGNAL_FUNC (control_point_handle_event),
+				    so);
+		gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (8));
+		gtk_object_set_data (GTK_OBJECT (item), "cursor",
+				     GINT_TO_POINTER (GNUMERIC_CURSOR_MOVE));
+
+		sheet_view->control_points [8] = item;
+	} else
+		gnome_canvas_item_set (
+		       sheet_view->control_points [8],
+		       "x",      l,
+		       "y",      t,
+		       "width",  r - l + 1.,
+		       "height", b - t + 1.,
+		       NULL);
+}
 /**
  * update_bbox:
  * @sheet_object: The selected object.
@@ -645,10 +688,15 @@ update_bbox (SheetObject *so)
 
 	l = c[0];
 	t = c[1];
-	r = c[2] - 1.; /* bounding boxes EXCLUDE the far coords */
-	b = c[3] - 1.;
+	r = c[2];
+	b = c[3];
 	for (ptr = so->sheet->sheet_views; ptr != NULL; ptr = ptr->next) {
 		SheetView *sheet_view = ptr->data;
+
+		/* set the acetate 1st so that the other points
+		 * will override it
+		 */
+		set_acetate_coords (so, sheet_view, l, t, r, b);
 
 		set_item_x_y (so, sheet_view, 0, l, t,
 			      GNUMERIC_CURSOR_SIZE_TL);
@@ -750,6 +798,13 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 			coords[2] += dx;
 			coords[3] += dy;
 			break;
+		case 8:
+			coords[0] += dx;
+			coords[1] += dy;
+			coords[2] += dx;
+			coords[3] += dy;
+			break;
+
 		default:
 			g_warning ("Should not happen %d", idx);
 		}

@@ -649,7 +649,6 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 	default:
 		return FALSE;
 	}
-
 }
 
 static gboolean

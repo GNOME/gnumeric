@@ -1,5 +1,19 @@
 2000-09-14  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-object-widget.c (sheet_object_widget_new_view) : Fix off
+	  by one error.
+	(sheet_object_widget_update_bounds) : Ditto.
+	(control_point_handle_event) : Handle events for the acetate.
+
+	* src/sheet-object.c (sheet_object_destroy_control_points) : Avoid
+	  hard coding the number of control points.
+	(sheet_object_begin_creation) : event coordinates are already mapped.
+	(update_bbox) : The off by 1 error was in the widget wrapper not here.
+
+	* idl/gnumeric-graphs.idl : Make the Vector::changed routines oneway.
+
+2000-09-14  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-view.c (sheet_view_row_size_changed) : Use
 	  sheet_selection_full_rows and workbook_cmd_format_row_height.
 	(sheet_view_col_size_changed) : Use

@@ -606,7 +606,8 @@ sheet_view_construct (SheetView *sheet_view)
 			  0, 0);
 	gtk_widget_show (sheet_view->sheet_view);
 
-	for (i = 8; i-- > 0 ; )
+	i = sizeof (sheet_view->control_points)/sizeof(GnomeCanvasItem *);
+	while (i-- > 0)
 		sheet_view->control_points[i] = NULL;
 
 	/*

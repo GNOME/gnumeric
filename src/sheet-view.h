@@ -34,7 +34,7 @@ struct _SheetView {
 	/*
 	 * Control points for the current item
 	 */
-	GnomeCanvasItem  *control_points [8];
+	GnomeCanvasItem  *control_points [9];
 	
 	/* Scrolling information */
 	GtkWidget  *vs, *hs;	/* The scrollbars */

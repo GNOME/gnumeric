@@ -97,8 +97,8 @@ sheet_object_widget_new_view (SheetObject *so, SheetView *sheet_view)
 		"widget", view_widget,
 		"x",      x1,
 		"y",      y1,
-		"width",  x2 - x1,
-		"height", y2 - y1,
+		"width",  x2 - x1 + 1.,
+		"height", y2 - y1 + 1.,
 		"size_pixels", FALSE,
 		NULL);
 
@@ -109,7 +109,7 @@ sheet_object_widget_new_view (SheetObject *so, SheetView *sheet_view)
 }
 
 /*
- * This implemenation moves the widget rather than
+ * This implemenationt moves the widget rather than
  * destroying/updating/creating the views
  */
 static void
@@ -127,8 +127,8 @@ sheet_object_widget_update_bounds (SheetObject *so)
 			item,
 			"x",      x1,
 			"y",      y1,
-			"width",  x2 - x1,
-			"height", y2 - y1,
+			"width",  x2 - x1 + 1.,
+			"height", y2 - y1 + 1.,
 			NULL);
 	}
 }
