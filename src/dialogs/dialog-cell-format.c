@@ -219,7 +219,7 @@ setup_pattern_button (GladeXML  *gui,
 		      PatternPicker *picker,
 		      gboolean const flag,
 		      int const index,
-		      gboolean select)
+		      int const select_index)
 {
 	GtkWidget * tmp = glade_xml_get_widget (gui, name);
 	if (tmp != NULL) {
@@ -244,7 +244,7 @@ setup_pattern_button (GladeXML  *gui,
 				     GINT_TO_POINTER (index));
 
 		/* Set the state AFTER the signal to get things redrawn correctly */
-		if (select) {
+		if (index == select_index) {
 			picker->cur_index = index;
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
 						      TRUE);
@@ -263,9 +263,9 @@ setup_color_pickers (ColorPicker *picker,
 		     FormatState *state,
 		     GtkSignalFunc preview_update,
 		     MStyleElementType const e,
-		     MStyle	 *mstyle)
+		     MStyle	 *mstyle,
+		     StyleColor *mcolor)
 {
-	StyleColor *mcolor = NULL;
 	GtkWidget *combo, *box, *frame;
 	ColorGroup *cg;
 
@@ -1952,8 +1952,6 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		char const * const name;
 		StyleBorderType const pattern;
 	} const line_pattern_buttons[] = {
-	    { "line_pattern_thin", STYLE_BORDER_THIN },
-
 	    { "line_pattern_none", STYLE_BORDER_NONE },
 	    { "line_pattern_medium_dash_dot_dot", STYLE_BORDER_MEDIUM_DASH_DOT_DOT },
 
@@ -1972,8 +1970,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	    { "line_pattern_dashed", STYLE_BORDER_DASHED },
 	    { "line_pattern_thick", STYLE_BORDER_THICK },
 
-	    /* Thin will display here, but we need to put it first to make it
-	     * the default */
+	    { "line_pattern_thin", STYLE_BORDER_THIN },
 	    { "line_pattern_double", STYLE_BORDER_DOUBLE },
 
 	    { NULL },
@@ -2025,6 +2022,8 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	int i, selected;
 	char const *name;
 	gboolean has_back;
+	GdkColor *default_border_color = &gs_black;
+	int default_border_style = STYLE_BORDER_THIN;
 
 	GtkWidget *dialog = glade_xml_get_widget (state->gui, "CellFormat");
 	g_return_if_fail (dialog != NULL);
@@ -2068,41 +2067,48 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	fmt_dialog_init_background_page (state);
 
 	/* Setup border line pattern buttons & select the 1st button */
+	for (i = MSTYLE_BORDER_TOP; i < MSTYLE_BORDER_DIAGONAL; i++) {
+		StyleBorder const *border = mstyle_get_border (state->style, i);
+		if (!style_border_is_blank (border)) {
+			default_border_color = &border->color->color;
+			default_border_style = border->line_type;
+			break;
+		}
+	}
+
 	state->border.pattern.draw_preview = NULL;
 	state->border.pattern.current_pattern = NULL;
 	state->border.pattern.state = state;
+	state->border.rgba = GNOME_CANVAS_COLOR (
+		default_border_color->red   >> 8,
+		default_border_color->green >> 8,
+		default_border_color->blue  >> 8);
 	for (i = 0; (name = line_pattern_buttons[i].name) != NULL; ++i)
 		setup_pattern_button (state->gui, name, &state->border.pattern,
-				      i != 1, /* No image for None */
-				      line_pattern_buttons[i].pattern,
-				      FALSE); /* don't select */
+			i != 0, /* No image for None */
+			line_pattern_buttons[i].pattern,
+			default_border_style);
 
-	/* Set the default line pattern to THIN (the 1st element of line_pattern_buttons).
-	 * This cannot come from the style.  It is a UI element not a display item */
-	gtk_toggle_button_set_active (state->border.pattern.default_button, TRUE);
-
-	setup_color_pickers (&state->font.color, "fore_color_group",
-			     "font_color_hbox",
-			     _("Automatic"), _("Foreground"), &gs_black, state,
-			     cb_font_preview_color, MSTYLE_COLOR_FORE,
-			     state->style);
 	setup_color_pickers (&state->border.color, "border_color_group",
 			     "border_color_hbox",
 			     _("Automatic"), _("Border"), &gs_black, state,
 			     cb_border_color, MSTYLE_ELEMENT_UNSET,
-			     state->style);
-	state->border.rgba = GNOME_CANVAS_COLOR (
-		gs_black.red>>8, gs_black.green>>8, gs_black.blue>>8);
+			     state->style, NULL);
+	setup_color_pickers (&state->font.color, "fore_color_group",
+			     "font_color_hbox",
+			     _("Automatic"), _("Foreground"), &gs_black, state,
+			     cb_font_preview_color, MSTYLE_COLOR_FORE,
+			     state->style, NULL);
 	setup_color_pickers (&state->back.back_color, "back_color_group",
 			     "back_color_hbox",
 			     _("Clear Background"), _("Background"), NULL, state,
 			     cb_back_preview_color, MSTYLE_COLOR_BACK,
-			     state->style);
+			     state->style, NULL);
 	setup_color_pickers (&state->back.pattern_color, "pattern_color_group",
 			     "pattern_color_hbox",
 			     _("Automatic"), _("Pattern"), &gs_black, state,
 			     cb_pattern_preview_color, MSTYLE_COLOR_PATTERN,
-			     state->style);
+			     state->style, NULL);
 
 	/* Setup the border images */
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {
@@ -2138,7 +2144,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		setup_pattern_button (state->gui, name,
 				      &state->back.pattern, TRUE,
 				      i+1, /* Pattern #s start at 1 */
-				      i+1 == selected);
+				      selected);
 
 	/* If the pattern is 0 indicating no background colour
 	 * Set background to No colour.  This will set states correctly.

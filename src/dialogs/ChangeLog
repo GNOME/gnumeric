@@ -1,5 +1,13 @@
 2001-09-04  Jody Goldberg <jgoldberg@home.com>
 
+	* dialog-cell-format.c (fmt_dialog_impl) : init the border selector
+	  with the pattern and colour of the first available border, default
+	  to black & THIN if nothing has a border.
+	(setup_pattern_button) : improve the interface to simplify selecting
+	  the initial button.
+
+2001-09-04  Jody Goldberg <jgoldberg@home.com>
+
 	* dialog-cell-format.c (picker_style_color) : delete.
 	(cb_font_preview_color) : call style_color_new directly.
 	(cb_border_color) : rgba was border selector specific.
