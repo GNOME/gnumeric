@@ -15,6 +15,11 @@ J.H.M. Dassen (Ray):
 	* XLS import for paper sizes for which gnome-print doesn't have a
 	  name.
 
+Jean Brefort:
+	* Fix crash in contour plots. [#163626]
+	* When saving, always ask when file exist and come back to the dialog
+	  when user does not want to overwrite.
+
 Jody:
 	* Install the man pages
 	* Backport some framework for RTL
