@@ -147,7 +147,7 @@ press <guibutton>Okay</guibutton> to return to the cell color dialog.
   <title>Changing a cell's text color</title>
  <step>
      <para>
-        Select the cell or range of cell that the font needs to be changed in. </para>
+        Select the cell or range of cell that the color needs to be changed in. </para>
    </step>
     <step>
       <para>Open the cell format dialog. This dialog can be opened from the
@@ -210,7 +210,7 @@ as needed. There are several justification options. See
  <title>Changing a cells justification.</title>
    <step>
     <para>
-        Select the cell or range of cell that the font needs to be changed in. </para>
+        Select the cell or range of cell that the justification needs to be changed in. </para>
    </step>
     <step>
       <para>Open the cell format dialog. This dialog can be opened from the

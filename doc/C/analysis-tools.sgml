@@ -6,7 +6,7 @@
   sampling.  To use these tools select the ``Data Analysis...'' entry
   in the ``Tools'' menu.  This gives you a list of tools to choose
   from.  Select one of the tools from the list and press the OK
-  button.  The tools are described bellow.</para>
+  button.  The tools are described below.</para>
 
   <para>All the tools have the same output options.  The results can
   be printed out into a new sheet, into a new workbook, or into the
@@ -141,7 +141,7 @@
      variance, kurtosis, skewness, range, minimum, maximum, sum, and
      count for each given variable.</para>
 
-     <para>If ``Conficence Level for Mean'' button is checked on, the
+     <para>If ``Confidence Level for Mean'' button is checked on, the
      tool calculates the confidence level for mean for each variable.
      You should specify the percentage of the confidence in the entry
      box.  The default value is to calculate the confidence level of
