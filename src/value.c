@@ -465,7 +465,7 @@ value_hash (Value const *v)
 	case VALUE_FLOAT: {
 		int expt;
 		gnum_float mant = frexpgnum (gnumabs (v->v_float.val), &expt);
-		guint h = ((guint)(INT_MAX * mant)) ^ expt;
+		guint h = ((guint)(0x80000000u * mant)) ^ expt;
 		if (v->v_float.val >= 0)
 			h ^= 0x55555555;
 		return h;

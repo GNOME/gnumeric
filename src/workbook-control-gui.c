@@ -3468,7 +3468,7 @@ cb_workbook_debug_info (GtkWidget *widget, WorkbookControlGUI *wbcg)
 						     es);
 		});
 
-		g_warning ("Nodes in: %d, nodes stored: %d\n",
+		g_warning ("Nodes in: %d, nodes stored: %d.",
 			   es->nodes_in, es->nodes_stored);
 		expr_tree_sharer_destroy (es);
 	}

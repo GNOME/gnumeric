@@ -493,14 +493,12 @@ cb_range_mode (gpointer key, gpointer value, gpointer user_data)
 static guint
 float_hash (const gnum_float *d)
 {
-	guint h = 0;
-	size_t i;
-	const unsigned char *p = (const unsigned char *)d;
-
-	for (i = 0; i < sizeof (gnum_float); i++)
-		h ^= h / 3 + (h << 9) + p[i];
-
-        return h;
+	int expt;
+	gnum_float mant = frexpgnum (gnumabs (*d), &expt);
+	guint h = ((guint)(0x80000000u * mant)) ^ expt;
+	if (*d >= 0)
+		h ^= 0x55555555;
+	return h;
 }
 
 static gint

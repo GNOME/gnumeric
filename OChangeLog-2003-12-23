@@ -1,5 +1,12 @@
 2002-03-18  Morten Welinder  <terra@diku.dk>
 
+	* src/rangefunc.c (float_hash): Fix for long double case (which
+	has six padding bytes on gcc/ix86).  Also be smarter.
+
+	* src/value.c (value_hash): Scale by a power of two for speed.
+
+2002-03-18  Morten Welinder  <terra@diku.dk>
+
 	* src/workbook-control-gui.c (cb_workbook_debug_info): Add code to
 	share cells in workbook.
 
