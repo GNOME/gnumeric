@@ -23737,7 +23737,7 @@ msgstr "Semikolon (;)"
 
 #: src/dialogs/dialog-stf-export.glade.h:30
 msgid "Separator:"
-msgstr "Trennlinie:"
+msgstr "Trennzeichen:"
 
 #: src/dialogs/dialog-stf-export.glade.h:31
 msgid "Sheets to export"
