@@ -1,5 +1,9 @@
 1999-09-18  Morten Welinder  <terra@diku.dk>
 
+	* src/expr.c (eval_expr_real): For integer 0^0, return #NUM!.
+	(eval_expr_real): Adjust float power error check to match the
+ 	integer one.
+
 	* src/style.c (style_new): Silence.
 
 	* src/sheet.c (sheet_update_controls): Initialize all closure

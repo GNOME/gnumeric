@@ -950,7 +950,7 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 					return value_new_float ((float_t) dres);
 
 			case OPER_EXP:
-				if (ia == 0 && ib < 0)
+				if (ia == 0 && ib <= 0)
 					return value_new_error (&s->pos, gnumeric_err_NUM);
 				dres = pow ((double)ia, (double)ib);
 				ires = (int)dres;
@@ -985,9 +985,8 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 				    : value_new_float(va / vb);
 
 			case OPER_EXP:
-				if (va == 0.)
-					return value_new_error (&s->pos,
-								gnumeric_err_NUM);
+				if (va == 0 && vb <= 0)
+					return value_new_error (&s->pos, gnumeric_err_NUM);
 				return value_new_float(pow(va, vb));
 
 			default:
