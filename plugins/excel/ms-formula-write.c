@@ -1,5 +1,6 @@
 /*
  * ms-formula-write.c: MS Excel <- Gnumeric formula conversion
+ * See: S59E2B.HTM
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
@@ -21,6 +22,10 @@
 #include "formula-types.h"
 
 #define FORMULA_DEBUG 0
+
+#define OP_REF(o)   (o + FORMULA_CLASS_REF)
+#define OP_VALUE(o) (o + FORMULA_CLASS_VALUE)
+#define OP_ARRAY(o) (o + FORMULA_CLASS_ARRAY)
 
 /* FIXME: Leaks like a leaky bucket */
 
@@ -173,7 +178,7 @@ write_string (PolishData *pd, gchar *txt)
 		push_guint8 (pd, FORMULA_PTG_MISSARG);
 	else {
 		push_guint8 (pd, FORMULA_PTG_STR);
-		biff_put_text (pd->bp, txt, eBiffV8, TRUE, SIXTEEN_BIT);
+		biff_put_text (pd->bp, txt, pd->ver, TRUE, AS_PER_VER);
 	}
 }
 
@@ -185,7 +190,7 @@ write_area (PolishData *pd, const CellRef *a, const CellRef *b)
 	if (!a->sheet || !b->sheet ||
 	    (a->sheet == pd->sheet->gnum_sheet &&
 	     a->sheet == b->sheet)) {
-		push_guint8 (pd, FORMULA_PTG_AREA);
+		push_guint8 (pd, OP_REF (FORMULA_PTG_AREA));
 		if (pd->ver <= eBiffV7) {
 			write_cellref_v7 (pd, a,
 					  data + 4, (guint16 *)(data + 0));
@@ -213,7 +218,7 @@ write_area (PolishData *pd, const CellRef *a, const CellRef *b)
 		else
 			second_idx = first_idx;
 
-		push_guint8 (pd, FORMULA_PTG_AREA_3D);
+		push_guint8 (pd, OP_REF (FORMULA_PTG_AREA_3D));
 		if (pd->ver <= eBiffV7) {
 			BIFF_SET_GUINT16 (data, 0); /* FIXME ? */
 			BIFF_SET_GUINT32 (data +  2, 0x0);
@@ -249,7 +254,7 @@ write_ref (PolishData *pd, const CellRef *ref)
 
 	if (!ref->sheet ||
 	    ref->sheet == pd->sheet->gnum_sheet) {
-		push_guint8 (pd, FORMULA_PTG_REF);
+		push_guint8 (pd, OP_VALUE (FORMULA_PTG_REF));
 		if (pd->ver <= eBiffV7) {
 			write_cellref_v7 (pd, ref, data + 2, (guint16 *)data);
 			ms_biff_put_var_write (pd->bp, data, 3);
@@ -258,7 +263,7 @@ write_ref (PolishData *pd, const CellRef *ref)
 			ms_biff_put_var_write (pd->bp, data, 4);
 		}
 	} else {
-		push_guint8 (pd, FORMULA_PTG_REF_3D);
+		push_guint8 (pd, OP_VALUE (FORMULA_PTG_REF_3D));
 		if (pd->ver <= eBiffV7) {
 			guint16 extn_idx = ms_excel_write_get_sheet_idx (pd->sheet->wb,
 									 ref->sheet);
@@ -418,7 +423,7 @@ write_node (PolishData *pd, ExprTree *tree)
                 /* See S59E2B.HTM for some really duff docs */
 		case VALUE_ARRAY: /* Guestimation */
 		{
-			guint8 data[11];
+			guint8 data[8];
 			
 			if (v->v.array.x > 256 ||
 			    v->v.array.y > 65536)
@@ -427,10 +432,9 @@ write_node (PolishData *pd, ExprTree *tree)
 			BIFF_SET_GUINT8  (data + 0, FORMULA_PTG_ARRAY);
 			BIFF_SET_GUINT8  (data + 1, v->v.array.x - 1);
 			BIFF_SET_GUINT16 (data + 2, v->v.array.y - 1);
-			BIFF_SET_GUINT32 (data + 4, 0x0); /* ? */
-			BIFF_SET_GUINT16 (data + 8, 0x0); /* ? */
-			BIFF_SET_GUINT8  (data +10, 0x0); /* ? */
-			ms_biff_put_var_write (pd->bp, data, 11);
+			BIFF_SET_GUINT16 (data + 4, 0x0); /* ? */
+			BIFF_SET_GUINT16 (data + 6, 0x0); /* ? */
+			ms_biff_put_var_write (pd->bp, data, 8);
 
 			pd->arrays = g_list_append (pd->arrays, v);
 			break;
@@ -493,9 +497,11 @@ write_arrays (PolishData *pd)
 				BIFF_SETDOUBLE (data, value_get_as_float (v));
 				ms_biff_put_var_write (pd->bp, data, 8);
 			} else { /* Can only be a string */
+				gchar *txt = value_get_as_string (v);
 				push_guint8 (pd, 2);
-				biff_put_text (pd->bp, value_get_as_string (v),
+				biff_put_text (pd->bp, txt,
 					       pd->ver, TRUE, AS_PER_VER);
+				g_free (txt);
 			}
 		}
 	}
@@ -508,7 +514,7 @@ ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, ExprTree *expr,
 			int fn_col, int fn_row)
 {
 	PolishData *pd;
-	ms_ole_pos_t start;
+	MsOlePos start;
 	guint32 len;
 	
 	g_return_val_if_fail (bp, 0);
@@ -527,8 +533,13 @@ ms_excel_write_formula (BiffPut *bp, ExcelSheet *sheet, ExprTree *expr,
 	write_node (pd, expr);
 	len = bp->length - start;
 
-	while (pd->arrays)
-		write_arrays (pd);
+	if (pd->arrays) {
+		push_guint16 (pd, 0x0); /* Sad but true */
+		push_guint8  (pd, 0x0);
 
+		while (pd->arrays)
+			write_arrays (pd);
+	}
+	
 	return len;
 }

@@ -76,7 +76,7 @@ struct _PPS {
 	PPS     *parent;
 	guint32  size;
 	BLP      start;
-	PPS_TYPE type;
+	PPSType type;
 	PPS_IDX  idx; /* Only used on write */
 };
 
@@ -101,12 +101,12 @@ typedef struct {
 	gboolean dirty;
 	int      usage;
 	guint8   *data;
-} BB_BLK_ATTR;
+} BBBlkAttr;
 
-static BB_BLK_ATTR *
+static BBBlkAttr *
 bb_blk_attr_new (guint32 blk)
 {
-	BB_BLK_ATTR *attr = g_new (BB_BLK_ATTR, 1);
+	BBBlkAttr *attr = g_new (BBBlkAttr, 1);
 	attr->blk   = blk;
 	attr->dirty = FALSE;
 	attr->usage = 0;
@@ -117,13 +117,13 @@ bb_blk_attr_new (guint32 blk)
 static void
 set_blk_dirty (MsOle *f, BLP b)
 {
-	BB_BLK_ATTR *attr = g_ptr_array_index (f->bbattr, b);
+	BBBlkAttr *attr = g_ptr_array_index (f->bbattr, b);
 	g_assert (attr);
 	attr->dirty = TRUE;
 }
 
 static void
-write_cache_block (MsOle *f, BB_BLK_ATTR *attr)
+write_cache_block (MsOle *f, BBBlkAttr *attr)
 {
 	size_t offset;
 
@@ -145,7 +145,7 @@ write_cache_block (MsOle *f, BB_BLK_ATTR *attr)
 static guint8 *
 get_block_ptr (MsOle *f, BLP b, gboolean forwrite)
 {
-	BB_BLK_ATTR *attr, *tmp, *min;
+	BBBlkAttr *attr, *tmp, *min;
 	size_t offset;
 	guint32 i, blks;
 
@@ -238,7 +238,7 @@ get_block_ptr (MsOle *f, BLP b, gboolean forwrite)
 /* These get other interesting stuff from the PPS record */
 #define PPS_GET_STARTBLOCK(p)      ( GET_GUINT32(p + 0x74))
 #define PPS_GET_SIZE(p)            ( GET_GUINT32(p + 0x78))
-#define PPS_GET_TYPE(p) ((PPS_TYPE)( GET_GUINT8(p + 0x42)))
+#define PPS_GET_TYPE(p) ((PPSType)( GET_GUINT8(p + 0x42)))
 #define PPS_SET_STARTBLOCK(p,i)    ( SET_GUINT32(p + 0x74, i))
 #define PPS_SET_SIZE(p,i)          ( SET_GUINT32(p + 0x78, i))
 #define PPS_SET_TYPE(p,i)          ( SET_GUINT8 (p + 0x42, i))
@@ -444,7 +444,7 @@ static void
 extend_file (MsOle *f, guint blocks)
 {
 #if !OLE_MMAP
-	BB_BLK_ATTR *s;
+	BBBlkAttr *s;
 	guint32 blkidx, i;
 	
 	if (f->bbattr->len) {
@@ -855,7 +855,7 @@ pps_encode_tree_chain (MsOle *f, GList *list)
 #if OLE_DEBUG > 0
 		printf ("Chaining previous for '%s'\n", p->name);
 #endif
-		if (p->type == MsOle_PPS_STORAGE)
+		if (p->type == MsOlePPSStorage)
 			pps_encode_tree_chain (f, l);
 
 		mem  = get_pps_ptr (f, p->idx, TRUE);
@@ -891,7 +891,7 @@ pps_encode_tree_chain (MsOle *f, GList *list)
 #if OLE_DEBUG > 0
 		printf ("Chaining next for '%s'\n", p->name);
 #endif
-		if (p->type == MsOle_PPS_STORAGE)
+		if (p->type == MsOlePPSStorage)
 			pps_encode_tree_chain (f, l);
 
 		mem  = get_pps_ptr (f, p->idx, TRUE);
@@ -1282,7 +1282,7 @@ ms_ole_create (const char *name)
 		p           = g_new(PPS, 1);
 		p->name     = g_strdup ("Root Entry");
 		p->start    = END_OF_CHAIN;
-		p->type     = MsOle_PPS_ROOT;
+		p->type     = MsOlePPSRoot;
 		p->size     = 0;
 		p->children = NULL;
 		p->parent   = NULL;
@@ -1333,7 +1333,7 @@ ms_ole_destroy (MsOle *f)
 		munmap (f->mem, f->length);
 #else
 		for (i=0; (f->bbattr) && (i < f->bbattr->len);i++) {
-			BB_BLK_ATTR *attr = g_ptr_array_index (f->bbattr, i);
+			BBBlkAttr *attr = g_ptr_array_index (f->bbattr, i);
 			if (f->dirty && attr->dirty)
 				write_cache_block (f, attr);
 			g_free (attr->data);
@@ -1396,7 +1396,7 @@ check_stream (MsOleStream *s)
 	g_return_if_fail (p);
 	blk = p->start;
 	idx = 0;
-	if (s->strtype == MsOle_SMALL_BLOCK) {
+	if (s->strtype == MsOleSmallBlock) {
 		while (blk != END_OF_CHAIN) {
 			g_assert (g_array_index (s->blocks, BLP, idx) ==
 				  blk);
@@ -1419,7 +1419,7 @@ check_stream (MsOleStream *s)
 	}
 }
 
-static ms_ole_pos_t
+static MsOlePos
 tell_pos (MsOleStream *s)
 {
 	return s->position;
@@ -1510,11 +1510,11 @@ free_allocation (MsOle *f, guint32 startblock, gboolean is_big_block_stream)
 }
 
 static void
-ms_ole_lseek (MsOleStream *s, gint32 bytes, ms_ole_seek_t type)
+ms_ole_lseek (MsOleStream *s, gint32 bytes, MsOleSeek type)
 {
 	g_return_if_fail (s);
 
-	if (type == MsOle_SEEK_SET)
+	if (type == MsOleSeekSet)
 		s->position = bytes;
 	else
 		s->position+= bytes;
@@ -1552,7 +1552,7 @@ ms_ole_read_ptr_bb (MsOleStream *s, guint32 length)
 	/* Straight map, simply return a pointer */
 	ans = BB_R_PTR(s->file, ms_array_index (s->blocks, BLP, s->position/BB_BLOCK_SIZE))
 	      + s->position%BB_BLOCK_SIZE;
-	ms_ole_lseek (s, length, MsOle_SEEK_CUR);
+	ms_ole_lseek (s, length, MsOleSeekCur);
 	check_stream (s);
 	return ans;
 }
@@ -1585,7 +1585,7 @@ ms_ole_read_ptr_sb (MsOleStream *s, guint32 length)
 	/* Straight map, simply return a pointer */
 	ans = GET_SB_R_PTR(s->file, ms_array_index (s->blocks, BLP, s->position/SB_BLOCK_SIZE))
 		+ s->position%SB_BLOCK_SIZE;
-	ms_ole_lseek (s, length, MsOle_SEEK_CUR);
+	ms_ole_lseek (s, length, MsOleSeekCur);
 	check_stream (s);
 	return ans;
 }
@@ -1603,6 +1603,7 @@ ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, guint32 length)
 	guint8 *src;
 
 	g_return_val_if_fail (s, 0);
+	g_return_val_if_fail (ptr, 0);
 
 	if (!s->blocks) {
 		printf ("Reading from NULL file\n");
@@ -1647,6 +1648,7 @@ ms_ole_read_copy_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 	guint8 *src;
 
 	g_return_val_if_fail (s, 0);
+	g_return_val_if_fail (ptr, 0);
 
 	if (!s->blocks) {
 		printf ("Reading from NULL file\n");
@@ -1689,7 +1691,7 @@ ms_ole_append_block (MsOleStream *s)
 	BLP lastblk = END_OF_CHAIN;
 	BLP eoc     = END_OF_CHAIN;
 
-	if (s->strtype==MsOle_SMALL_BLOCK) {
+	if (s->strtype==MsOleSmallBlock) {
 		if (!s->blocks)
 			s->blocks = g_array_new (FALSE, FALSE, sizeof(BLP));
 
@@ -1788,7 +1790,7 @@ ms_ole_write_bb (MsOleStream *s, guint8 *ptr, guint32 length)
 	if (lengthen > 0)
 		s->size+=lengthen;
 
-	s->lseek (s, length, MsOle_SEEK_CUR);
+	s->lseek (s, length, MsOleSeekCur);
 	check_stream (s);
 	return;
 }
@@ -1834,11 +1836,11 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 		if (s->size >= BB_THRESHOLD)
 		{
 			PPS         *p = s->pps;
-			ms_ole_pos_t oldlen;
+			MsOlePos oldlen;
 			guint8      *buffer;
 
 			buffer       = g_new (guint8, s->size);
-			s->lseek     (s, 0, MsOle_SEEK_SET);
+			s->lseek     (s, 0, MsOleSeekSet);
 			oldlen       = s->size;
 			s->read_copy (s, buffer, oldlen);
 
@@ -1858,7 +1860,7 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 			/* Convert the file to BBlocks */
 			s->size     = 0;
 			s->position = 0;
-			s->strtype  = MsOle_LARGE_BLOCK;
+			s->strtype  = MsOleLargeBlock;
 			g_array_free (s->blocks, TRUE);
 			s->blocks   = 0;
 
@@ -1878,7 +1880,7 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 		blkidx++;
 		check_stream (s);
 	}
-	s->lseek (s, length, MsOle_SEEK_CUR);
+	s->lseek (s, length, MsOleSeekCur);
 	return;
 }
 
@@ -1922,7 +1924,7 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 		s->write     = ms_ole_write_bb;
 
 		s->blocks    = g_array_new (FALSE, FALSE, sizeof(BLP));
-		s->strtype   = MsOle_LARGE_BLOCK;
+		s->strtype   = MsOleLargeBlock;
 		for (lp=0;lp<(s->size+BB_BLOCK_SIZE-1)/BB_BLOCK_SIZE;lp++)
 		{
 			g_array_append_val (s->blocks, b);
@@ -1956,7 +1958,7 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 		else
 			s->blocks = NULL;
 
-		s->strtype   = MsOle_SMALL_BLOCK;
+		s->strtype   = MsOleSmallBlock;
 
 		for (lp=0;lp<(s->size+SB_BLOCK_SIZE-1)/SB_BLOCK_SIZE;lp++)
 		{
@@ -2079,9 +2081,9 @@ ms_ole_directory_enter (MsOleDirectory *d)
 
 	d->first = 1;
 
-	if (d->type != MsOle_PPS_STORAGE &&
-	    d->type != MsOle_PPS_ROOT) {
-		printf ("Bad type %d %d\n", d->type, MsOle_PPS_ROOT);
+	if (d->type != MsOlePPSStorage &&
+	    d->type != MsOlePPSRoot) {
+		printf ("Bad type %d %d\n", d->type, MsOlePPSRoot);
 		return;
 	}
 
@@ -2121,7 +2123,7 @@ ms_ole_directory_unlink (MsOleDirectory *d)
  * new stream / directory.
  **/
 MsOleDirectory *
-ms_ole_directory_create (MsOleDirectory *d, char *name, PPS_TYPE type)
+ms_ole_directory_create (MsOleDirectory *d, char *name, PPSType type)
 {
 	/* Find a free PPS */
 	PPS *p;

@@ -79,8 +79,8 @@ typedef struct _BiffPut
 	guint8         ls_op;
 	guint32        length; /* NB. can be extended by a continue opcode */
 	guint8        *data;
-	ms_ole_pos_t   streamPos;
-	ms_ole_pos_t   curpos; /* Curpos is offset from beggining of header */
+	MsOlePos   streamPos;
+	MsOlePos   curpos; /* Curpos is offset from beggining of header */
 	guint16        num_merges;      
 	gint16         padding;
 	int            data_malloced;
@@ -101,7 +101,7 @@ extern guint8        *ms_biff_put_len_next   (BiffPut *, guint16 opcode, guint32
 extern void           ms_biff_put_var_next   (BiffPut *, guint16 opcode);
 extern void           ms_biff_put_var_write  (BiffPut *, guint8 *, guint32 len);
 /* Seeks to pos bytes after the beggining of the record */
-extern void           ms_biff_put_var_seekto (BiffPut *, ms_ole_pos_t pos);
+extern void           ms_biff_put_var_seekto (BiffPut *, MsOlePos pos);
 /* Must commit after each record */
 extern void           ms_biff_put_commit     (BiffPut *);
 

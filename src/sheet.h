@@ -52,7 +52,7 @@ struct _Workbook {
         GnomeAppBar * appbar;
   
 	/* The auto-expression */
-	char       *auto_expr_text;
+	ExprTree   *auto_expr;
 	String     *auto_expr_desc;
 	GnomeCanvasItem  *auto_expr_label;
 	

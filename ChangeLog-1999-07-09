@@ -1,3 +1,34 @@
+1999-07-05  Michael Meeks  <michael@edenproject.org>
+
+	* src/sheet.c (sheet_update_auto_expr): Removed parsing.
+
+	* src/workbook.c (workbook_set_auto_expr): Moved unsafe parser
+	call in here.
+
+	* src/sheet.h: Changed auto_expr_text to ExprTree auto_expr.
+
+	* src/parser.y (gnumeric_expr_parser): Added.
+	(gnumeric_unsafe_expr_parser): Renamed and changed arguments.
+
+	* plugins/guile/plugin.c (init_plugin): New function stuff.
+	(func_scm_apply): ditto.
+	(func_scm_eval): ditto.
+	(func_marshal_func): ditto.
+	(scm_register_function): ditto.
+
+	* plugins/python/python.c (__register_function): Updated to
+	new function stuff.
+	(marshal_func): ditto.
+
+	* plugins/perl/ext/Makefile.PL.in: Added GNOME_PRINT bits.
+
+1999-07-04  Michael Meeks  <michael@edenproject.org>
+
+	* src/workbook.c (workbook_sheet_get_free_name): Made more
+	similar to Excel: base sheet no. = 1 + no space.
+	(workbook_new_with_sheets): Update to more Excel friendly
+	names.
+
 1999-07-02  Miguel de Icaza  <miguel@gnu.org>
 
 	* doc/Design, doc/translating.sgml: small touchups.

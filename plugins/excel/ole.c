@@ -30,6 +30,8 @@ static GPtrArray *biff_types   = NULL;
 static GPtrArray *escher_types = NULL;
 typedef enum { eBiff=0, eEscher=1 } typeType;
 
+static void dump_summary (MsOleStream *ole);
+
 static void
 read_types (char *fname, GPtrArray **types, typeType t)
 {
@@ -157,6 +159,8 @@ syntax_error(char *err)
 	printf (" * biffraw <stream name>:   dump biff records no merge + raw data\n");
 	printf (" * draw    <stream name>:   dump drawing records\n");
 	printf (" * dump    <stream name>:   dump stream\n");
+	printf (" * summary <stream name>:   dump document summary info\n");
+	printf (" * debug                :   dump internal ole library status\n");
 	printf (" Raw transfer commands\n");
 	printf (" * get     <stream name> <fname>\n");
 	printf (" * put     <fname> <stream name>\n");
@@ -221,16 +225,16 @@ esh_header_next (ESH_HEADER *h)
 	return 1;
 }
 
-static ESH_HEADER *
+/* static ESH_HEADER *
 esh_header_contained (ESH_HEADER *h)
 {
 	if (h->length_left<ESH_HEADER_LEN)
 		return NULL;
-	g_assert (h->data[h->length_left-1] == /* Check that pointer */
+	g_assert (h->data[h->length_left-1] == *//* Check that pointer *//*
 		  h->data[h->length_left-1]);
 	return esh_header_new (h->data+ESH_HEADER_LEN,
 			       h->length-ESH_HEADER_LEN);
-}
+}*/
 
 static void
 esh_header_destroy (ESH_HEADER *h)
@@ -360,7 +364,6 @@ do_biff_raw (MsOle *ole)
 	if ((dir = get_file_handle (ole, ptr)))
 	{
 		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
-		BiffQuery *q = ms_biff_query_new (stream);
 		guint8 data[4], *buffer;
 		
 		buffer = g_new (guint8, 65550);
@@ -396,7 +399,6 @@ do_draw (MsOle *ole)
 			    q->ls_op == BIFF_MS_O_DRAWING_SELECTION) {
 				guint8 *data;
 				guint32 len;
-				guint32 str_pos=q->streamPos;
 				guint skip = biff_to_flat_data (q, &data, &len) - 1;
 				printf("Drawing: '%s'\n", get_biff_opcode_name(q->opcode));
 				dump_escher (data, len, 0);
@@ -449,7 +451,7 @@ really_put (MsOle *ole, char *from, char *to)
 
 	if (!(dir = get_file_handle (ole, to)))
 		dir = ms_ole_directory_create (ms_ole_get_root(ole),
-					       to, MsOle_PPS_STREAM);
+					       to, MsOlePPSStream);
 		
 	if (dir)
 	{
@@ -463,7 +465,7 @@ really_put (MsOle *ole, char *from, char *to)
 			return;
 		}
 
-		stream->lseek (stream, 0, MsOle_SEEK_SET);
+		stream->lseek (stream, 0, MsOleSeekSet);
 	       
 		do {
 			guint32 lenr = 1+ (int)(8192.0*rand()/(RAND_MAX+1.0));
@@ -473,6 +475,22 @@ really_put (MsOle *ole, char *from, char *to)
 		} while (!feof(f) && len>0);
 
 		fclose (f);
+		ms_ole_stream_close (stream);
+	} else
+		printf ("Need a stream name\n");
+}
+
+static void
+do_summary (MsOle *ole)
+{
+	char *ptr;
+	MsOleDirectory *dir;
+	
+	ptr = strtok (NULL, delim);
+	if ((dir = get_file_handle (ole, ptr)))
+	{
+		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
+		dump_summary (stream);
 		ms_ole_stream_close (stream);
 	} else
 		printf ("Need a stream name\n");
@@ -567,6 +585,8 @@ int main (int argc, char **argv)
 			do_put (ole);
 		else if (g_strcasecmp(ptr, "copyin")==0)
 			do_copyin (ole);
+		else if (g_strcasecmp(ptr, "summary")==0)
+			do_summary (ole);
 		else if (g_strcasecmp(ptr, "debug")==0)
 			ms_ole_debug (ole, 1);
 		else if (g_strcasecmp(ptr,"exit")==0 ||
@@ -580,3 +600,102 @@ int main (int argc, char **argv)
 	ms_ole_destroy (ole);
 	return 1;
 }
+
+/* ------------------------------------------------------------------- */
+/*            Developed here for convenience only                      */
+/* ------------------------------------------------------------------- */
+
+/* See: S59FD3.HTM */
+typedef struct _MsOleSummaryHeader MsOleSummaryHeader;
+typedef struct _MsOleSummaryRecord MsOleSummaryRecord;
+typedef guint32 MsOleSummaryFileTime;
+
+#define GUID_LEN 16
+#define HEADER_LEN (18 + GUID_LEN + 12 + 16 + 8)
+#define RECORD_LEN ( 2 + GUID_LEN + 16)
+/* LONG  = 4 bytes */
+/* DWORD = 2 bytes ( signed ? ) */
+struct _MsOleSummaryHeader {
+	gint16                len;
+	MsOleSummaryFileTime  total_edit;
+	MsOleSummaryFileTime  last_printed;
+	MsOleSummaryFileTime  create;
+	MsOleSummaryFileTime  last_save;
+	GPtrArray            *records;
+};
+
+struct _MsOleSummaryRecord {
+	gint16 len;
+};
+
+static MsOleSummaryRecord *
+read_records (MsOleStream *s)
+{
+	guint8  data[2];
+	guint8 *mem;
+	gint32 len;
+	MsOleSummaryRecord *sr = g_new (MsOleSummaryRecord, 1);
+
+	g_return_val_if_fail (s, NULL);
+
+	if (!s->read_copy (s, data, 2))
+		return NULL;
+	sr->len = BIFF_GET_GUINT16 (data);
+	printf ("Summary Record length 0x%x\n", sr->len);
+
+	len = RECORD_LEN + sr->len - 2;
+
+	g_return_val_if_fail (len >= 0, NULL);
+	mem = g_malloc (len);
+	if (!s->read_copy   (s, mem, len))
+		return NULL;
+	dump           (mem, len);
+
+	printf ("string from \n");
+	dump           (mem + (BIFF_GET_GUINT16 (mem + 14 + GUID_LEN)), 10);
+
+	g_free         (mem);
+
+	return sr;
+}
+
+static void
+dump_summary (MsOleStream *s)
+{
+	MsOleSummaryHeader *sh = g_new (MsOleSummaryHeader, 1);
+	/* Dwords, GUID, DW, FileTimes, DW */
+	guint pos = 0;
+	guint8 data[HEADER_LEN];
+
+	g_return_if_fail (s);
+	g_return_if_fail (HEADER_LEN <= s->size);
+
+	s->lseek (s, 4, MsOleSeekSet); /* A hunch */
+
+	if (!s->read_copy (s, data, HEADER_LEN))
+		return;
+	sh->len = BIFF_GET_GUINT16 (data + pos);
+/*	g_return_if_fail (sh->len <= s->size); Ignore ... */
+
+	pos += 18 + GUID_LEN + 12;
+	sh->total_edit   = BIFF_GET_GUINT32 (data + pos);
+	pos+=4;
+	sh->last_printed = BIFF_GET_GUINT32 (data + pos);
+	pos+=4;
+	sh->create       = BIFF_GET_GUINT32 (data + pos);
+	pos+=4;
+	sh->last_save    = BIFF_GET_GUINT32 (data + pos);
+
+	printf ("Summary info len 0x%x\n", sh->len);
+	dump (data, HEADER_LEN+sh->len);
+
+	s->lseek (s, sh->len, MsOleSeekCur);
+
+	sh->records = g_ptr_array_new ();
+	while (s->tell(s) < s->size) {
+		MsOleSummaryRecord *sr = read_records (s);
+		g_return_if_fail (sr);
+		g_ptr_array_add (sh->records, sr);
+	}
+}
+

@@ -51,3 +51,14 @@
 #define FORMULA_PTG_NAME_X             0x39
 #define FORMULA_PTG_REF_3D             0x3a
 #define FORMULA_PTG_AREA_3D            0x3b
+
+/*
+ * Classes of Formulae Values
+ * These apply mainly to references and arrays
+ * Ignore for:
+ *    operators
+ *    simple values (integer, string ... ) [ string ? ]
+ */
+#define FORMULA_CLASS_REF              0x00
+#define FORMULA_CLASS_VALUE            0x20
+#define FORMULA_CLASS_ARRAY            0x40

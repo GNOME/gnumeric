@@ -40,10 +40,10 @@
 /* #define NO_DEBUG_EXCEL */
 
 /* Used in src/main.c to toggle debug messages on & off */
-int ms_excel_read_debug = 0;
+int ms_excel_read_debug    = 0;
 int ms_excel_formula_debug = 0;
-int ms_excel_color_debug = 0;
-int ms_excel_chart_debug = 0;
+int ms_excel_color_debug   = 0;
+int ms_excel_chart_debug   = 0;
 
 /* Forward references */
 static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
@@ -1333,7 +1333,8 @@ ms_excel_sheet_insert (ExcelSheet *sheet, int xfidx,
 }
 
 /*
- * Handle FORMULA */
+ * Handle FORMULA
+ */
 static void
 ms_excel_read_formula (BiffQuery * q, ExcelSheet * sheet)
 {
@@ -1381,7 +1382,7 @@ ms_excel_read_formula (BiffQuery * q, ExcelSheet * sheet)
 	} else {
 		guint8 const val_type = BIFF_GET_GUINT8 (q->data+6);
 		switch (val_type) {
-		case 0 : /* String */
+		case 0 : /* String: See S59DE9.HTM */
 			if (ms_biff_query_next (q) && q->opcode == BIFF_STRING) {
 				/*
 				 * NOTE : the Excel developers kit docs are
@@ -2395,7 +2396,7 @@ find_workbook (MsOle *ptr)
 	 * The thing to seek; first the kingdom of God, then this:
 	 */
 	while (ms_ole_directory_next (d)) {
-		if (d->type == MsOle_PPS_STREAM) {
+		if (d->type == MsOlePPSStream) {
 			int hit = 0;
 
 			/*
@@ -2774,7 +2775,7 @@ ms_excel_read_workbook (MsOle *file)
 			case BIFF_PROTECT :
 	     			break;
 
-			case BIFF_PASSguint16 :
+			case BIFF_PASSWORD :
 	     			break;
 
 			case (BIFF_NAME & 0xff) : /* Why here and not as 18 */

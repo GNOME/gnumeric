@@ -2,8 +2,7 @@ Michael
 	* Change all structure names ToCapitalisedLikeThisNames
 	* In ms-formula-write.c
 		* Booleans
-		* IF
-		* Arrays
+		* test IF and CHOOSE: need 'optimising'
 		* Sort out silly things with massive sized sheets
 			* Deeper DBCELL records
 			* Truncated Index records
@@ -16,7 +15,7 @@ Michael
 	* Fix inter-sheet dependencies ... well broken.
 	* Lookup Harvest and see if we can help with doc summary info for
 	searches.
-	* Implement document summary information, S59FD3.HTM
+	* Implement document summary information, S59FD3.HTM ( wrong ).
 	* Use same XML as Office for elegance (?)
 
 Jody

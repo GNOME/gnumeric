@@ -201,7 +201,6 @@ arg_list: exp {
 	}
         | { $$ = NULL; }
 	;
-
 %%
 
 static int
@@ -704,21 +703,27 @@ value_dump (const Value *value)
 	}
 }
 
+/*
+ *  Don't use this function. This is a hack to make getting the auto
+ * expression hack to work less of a hack.
+ */
 ParseErr
-gnumeric_expr_parser (const char *expr, const EvalPosition *ep,
-		      const char **desired_format, ExprTree **result)
+gnumeric_unsafe_expr_parser (const char *expr, Sheet *sheet, guint eval_col, guint eval_row,
+			     const char **desired_format, ExprTree **result);
+ParseErr
+gnumeric_unsafe_expr_parser (const char *expr, Sheet *sheet, guint eval_col, guint eval_row,
+			     const char **desired_format, ExprTree **result)
 {
 	struct lconv *locinfo;
 
-	g_return_val_if_fail (ep, PARSE_ERR_UNKNOWN);
 	g_return_val_if_fail (expr, PARSE_ERR_UNKNOWN);
 	g_return_val_if_fail (result, PARSE_ERR_UNKNOWN);
 
 	parser_error = PARSE_OK;
 	parser_expr = expr;
-	parser_sheet = ep->sheet;
-	parser_col   = ep->eval_col;
-	parser_row   = ep->eval_row;
+	parser_sheet = sheet;
+	parser_col   = eval_col;
+	parser_row   = eval_row;
 	parser_desired_format = desired_format;
 	parser_result = result;
 
@@ -744,4 +749,12 @@ gnumeric_expr_parser (const char *expr, const EvalPosition *ep,
 	return parser_error;
 }
 
+ParseErr
+gnumeric_expr_parser (const char *expr, const EvalPosition *ep,
+		      const char **desired_format, ExprTree **result)
+{
+	g_return_val_if_fail (ep, PARSE_ERR_UNKNOWN);
+	return gnumeric_unsafe_expr_parser (expr, ep->sheet, ep->eval_col,
+					    ep->eval_row, desired_format, result);
+}
 

@@ -211,15 +211,12 @@ expr_to_scm (ExprTree *expr, CellRef cell_ref)
 }
 
 static Value*
-func_scm_eval (FunctionDefinition *fn, Value *argv[], char **error_string)
+func_scm_eval (FunctionEvalInfo *ei, Value *argv[])
 {
 	SCM result;
 
 	if (argv[0]->type != VALUE_STRING)
-	{
-		*error_string = _("Argument must be a Guile expression");
-		return NULL;
-	}
+		return function_error (ei, _("Argument must be a Guile expression"));
 
 	result = scm_eval_0str(argv[0]->v.str->str);
 
@@ -227,7 +224,7 @@ func_scm_eval (FunctionDefinition *fn, Value *argv[], char **error_string)
 }
 
 static Value*
-func_scm_apply (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	int i;
 	Value *value;
@@ -237,47 +234,36 @@ func_scm_apply (void *tsheet, GList *expr_node_list, int eval_col, int eval_row,
 		result;
 
 	if (g_list_length(expr_node_list) < 1)
-	{
-		*error_string = _("Invalid number of arguments");
-		return NULL;
-	}
+		return function_error (ei, _("Invalid number of arguments"));
 
-	value = eval_expr(tsheet, (ExprTree*)expr_node_list->data, eval_col, eval_row, error_string);
+	value = eval_expr(ei, (ExprTree*)expr_node_list->data);
 	if (value == NULL)
-	{
-		*error_string = _("First argument to SCM must be a Guile expression");
-		return NULL;
-	}
+		return function_error (ei, _("First argument to SCM must be a Guile expression"));
+
 	symbol = value_get_as_string (value);
 	if (symbol == NULL)
-	{
-		*error_string = _("First argument to SCM must be a Guile expression");
-		return NULL;
-	}
+		return function_error (ei, _("First argument to SCM must be a Guile expression"));
+
 	function = scm_eval_0str(symbol);
 	if (SCM_UNBNDP(function))
-	{
-		*error_string = _("Undefined scheme function");
-		return NULL;
-	}
+		return function_error (ei, _("Undefined scheme function"));
+
 	value_release(value);
 
 	for (i = g_list_length(expr_node_list) - 1; i >= 1; --i)
 	{
 		CellRef eval_cell;
 
-		eval_cell.col = eval_col;
-		eval_cell.row = eval_row;
+		eval_cell.col = ei->pos.eval_col;
+		eval_cell.row = ei->pos.eval_row;
 		eval_cell.col_relative = 0;
 		eval_cell.row_relative = 0;
 		eval_cell.sheet = NULL;
 		
-		value = eval_expr(tsheet, (ExprTree*)g_list_nth(expr_node_list, i)->data, eval_col, eval_row, error_string);
+		value = eval_expr(ei, (ExprTree*)g_list_nth(expr_node_list, i)->data);
 		if (value == NULL)
-		{
-			*error_string = _("Could not evaluate argument");
-			return NULL;
-		}
+			return function_error (ei, _("Could not evaluate argument"));
+
 		args = scm_cons(value_to_scm(value, eval_cell), args);
 		value_release(value);
 	}
@@ -332,9 +318,10 @@ scm_set_cell_string (SCM scm_cell_ref, SCM scm_string)
 static SCM
 scm_gnumeric_funcall(SCM funcname, SCM arglist)
 {
-	char *error_string;
 	int i, num_args;
 	Value **values;
+	EvalPosition ep;
+	ErrorMessage *error;
 	CellRef cell_ref = { 0, 0, 0, 0 };
 
 	SCM_ASSERT(SCM_NIMP(funcname) && SCM_STRINGP(funcname), funcname, SCM_ARG1, "gnumeric-funcall");
@@ -348,11 +335,13 @@ scm_gnumeric_funcall(SCM funcname, SCM arglist)
 		arglist = SCM_CDR(arglist);
 	}
 
-	return value_to_scm(function_call_with_values(workbook_get_current_sheet(current_workbook),
+	error = error_message_new ();
+	return value_to_scm(function_call_with_values(eval_pos_init (&ep, workbook_get_current_sheet(current_workbook),
+								     0, 0),
 						      SCM_CHARS(funcname),
 						      num_args,
 						      values,
-						      &error_string),
+						      error),
 			    cell_ref);
 }
 
@@ -370,9 +359,10 @@ fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
 }
 
 static Value*
-func_marshal_func (FunctionDefinition *fndef, Value *argv[], char **error_string)
+func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
 	GList *l;
+	FunctionDefinition *fndef = ei->func_def;
 	SCM args = SCM_EOL,
 		result,
 		function;
@@ -382,10 +372,7 @@ func_marshal_func (FunctionDefinition *fndef, Value *argv[], char **error_string
 
 	l = g_list_find_custom(funclist, fndef, (GCompareFunc)fndef_compare);
 	if (l == NULL)
-	{
-		*error_string = _("Unable to lookup Guile function.");
-		return NULL;
-	}
+		return function_error (ei, _("Unable to lookup Guile function."));
 
 	function = ((FuncData*)l->data)->function;
 
@@ -401,7 +388,9 @@ static SCM
 scm_register_function(SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_function)
 {
 	FunctionDefinition *fndef;
+	FunctionCategory   *cat;
 	FuncData *fdata;
+	char **help;
 
 	SCM_ASSERT(SCM_NIMP(scm_name) && SCM_STRINGP(scm_name), scm_name, SCM_ARG1, "scm_register_function");
 	SCM_ASSERT(SCM_NIMP(scm_args) && SCM_STRINGP(scm_args), scm_args, SCM_ARG2, "scm_register_function");
@@ -410,7 +399,12 @@ scm_register_function(SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_function
 
 	scm_permanent_object(scm_function); /* is this correct? */
 
-	fndef = g_new0(FunctionDefinition, 1);
+	help  = g_new (char *, 1);
+	*help = g_strdup(SCM_CHARS(scm_help));
+	cat   = function_get_category ("Guile");
+	fndef = function_add_args (cat, g_strdup(SCM_CHARS(scm_name)),
+				   g_strdup(SCM_CHARS(scm_args)), NULL,
+				   help, func_marshal_func);
 
 	fdata = g_new(FuncData, 1);
 	fdata->fndef = fndef;
@@ -418,23 +412,8 @@ scm_register_function(SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_function
 
 	funclist = g_list_append(funclist, fdata);
 
-	fndef->name = g_strdup(SCM_CHARS(scm_name));
-	fndef->args = g_strdup(SCM_CHARS(scm_args));
-	fndef->named_arguments = NULL;
-	fndef->help = g_new(char*, 1);
-	*fndef->help = g_strdup(SCM_CHARS(scm_help));
-	fndef->fn = func_marshal_func;
-
-	symbol_install(global_symbol_table, fndef->name, SYMBOL_FUNCTION, fndef);
-
 	return SCM_UNSPECIFIED;
 }
-
-static FunctionDefinition plugin_functions[] = {
-	{ "scm_eval", "s", "expr", NULL, NULL, func_scm_eval },
-	{ "scm_apply", 0, "symbol", NULL, func_scm_apply, NULL },
-	{ NULL, NULL, NULL, NULL, NULL, NULL }
-};
 
 static int
 no_unloading_for_me (PluginData *pd)
@@ -447,9 +426,13 @@ int init_plugin (PluginData *pd);
 int
 init_plugin (PluginData *pd)
 {
+	FunctionCategory *cat;
 	char *init_file_name;
 
-	install_symbols(plugin_functions, "Guile");
+	cat = function_get_category ("Guile");
+	function_add_args  (cat, "scm_eval", "s", "expr",  NULL, func_scm_eval);
+	function_add_nodes (cat, "scm_apply", 0, "symbol", NULL, func_scm_apply);
+
 	pd->can_unload = no_unloading_for_me;
 	pd->title = g_strdup(_("Guile Plugin"));
 

@@ -110,13 +110,13 @@ biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
 /**
  * See S59D5D.HTM
  **/
-static ms_ole_pos_t
+static MsOlePos
 biff_bof_write (BiffPut *bp, eBiff_version ver,
 		eBiff_filetype type)
 {
 	guint   len;
 	guint8 *data;
-	ms_ole_pos_t ans;
+	MsOlePos ans;
 
 	if (ver >= eBiffV8)
 		len = 16;
@@ -304,10 +304,10 @@ write_window1 (BiffPut *bp, eBiff_version ver)
 {
 	/* See: S59E17.HTM */
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_WINDOW1, 18);
-	BIFF_SET_GUINT16 (data+  0, 0x00f0);
-	BIFF_SET_GUINT16 (data+  2, 0x0078);
-	BIFF_SET_GUINT16 (data+  4, 0x378c);
-	BIFF_SET_GUINT16 (data+  6, 0x2283);
+	BIFF_SET_GUINT16 (data+  0, 0x0000);
+	BIFF_SET_GUINT16 (data+  2, 0x0000);
+	BIFF_SET_GUINT16 (data+  4, 0x2c4c);
+	BIFF_SET_GUINT16 (data+  6, 0x198c);
 	BIFF_SET_GUINT16 (data+  8, 0x0038); /* various flags */
 	BIFF_SET_GUINT16 (data+ 10, 0x0000); /* selected tab */
 	BIFF_SET_GUINT16 (data+ 12, 0x0000); /* displayed tab */
@@ -332,7 +332,7 @@ write_bits (BiffPut *bp, eBiff_version ver)
 	ms_biff_put_commit (bp);
 
 	/* See: S59DCC.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_PASSguint16, 2);
+	data = ms_biff_put_len_next (bp, BIFF_PASSWORD, 2);
 	BIFF_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
 
@@ -446,17 +446,17 @@ biff_boundsheet_write_first (BiffPut *bp, eBiff_filetype type,
  **/
 static void
 biff_boundsheet_write_last (MsOleStream *s, guint32 pos,
-			    ms_ole_pos_t streamPos)
+			    MsOlePos streamPos)
 {
 	guint8  data[4];
-	ms_ole_pos_t oldpos;
+	MsOlePos oldpos;
 	g_return_if_fail (s);
 	
 	oldpos = s->position;/* FIXME: tell function ? */
-	s->lseek (s, pos+4, MsOle_SEEK_SET);
+	s->lseek (s, pos+4, MsOleSeekSet);
 	BIFF_SET_GUINT32 (data, streamPos);
 	s->write (s, data, 4);
-	s->lseek (s, oldpos, MsOle_SEEK_SET);
+	s->lseek (s, oldpos, MsOleSeekSet);
 }
 
 #define PALETTE_WHITE 0
@@ -799,7 +799,8 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 
 		if (ver >= eBiffV8); /* Use SST stuff in fulness of time */
 
-		/* See: S59DDC.HTM */
+		/* See: S59DDC.HTM ( for RSTRING ) */
+		/* See: S59D9D.HTM ( for LABEL ) */
 		ms_biff_put_var_next   (bp, (0x200 | BIFF_LABEL));
 		EX_SETXF (data, xf);
 		EX_SETCOL(data, col);
@@ -813,6 +814,60 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 	default:
 		printf ("Unhandled value type %d\n", v->type);
 		break;
+	}
+}
+
+static void
+write_formula (BiffPut *bp, ExcelSheet *sheet, Cell *cell)
+{
+	guint8   data[22];
+	guint8   lendat[2];
+	guint32  len;
+	gboolean string_result = FALSE;
+	gint     col, row;
+	
+	g_return_if_fail (bp);
+	g_return_if_fail (cell);
+	g_return_if_fail (sheet);
+	g_return_if_fail (cell->parsed_node);
+
+	col = cell->col->pos;
+	row = cell->row->pos;
+
+	/* See: S59D8F.HTM */
+	ms_biff_put_var_next (bp, BIFF_FORMULA);
+	EX_SETROW (data, row);
+	EX_SETCOL (data, col);
+	EX_SETXF  (data, XF_MAGIC);
+	if (cell->value && VALUE_IS_NUMBER (cell->value))
+		BIFF_SETDOUBLE (data + 6, value_get_as_float (cell->value));
+	else { /* FIXME: Need special cases for BOOLERR & BOOLEAN */
+		BIFF_SET_GUINT32 (data +  6, 0x00000000);
+		BIFF_SET_GUINT32 (data + 10, 0xffff0000);
+		string_result = TRUE;
+	}
+	BIFF_SET_GUINT16 (data + 14, 0x0); /* Always calc & on load */
+	BIFF_SET_GUINT32 (data + 16, 0x0);
+	BIFF_SET_GUINT16 (data + 20, 0x0);
+	ms_biff_put_var_write (bp, data, 22);
+	len = ms_excel_write_formula (bp, sheet, cell->parsed_node,
+				      col, row);
+	g_assert (len <= 0xffff);
+	ms_biff_put_var_seekto (bp, 20);
+	BIFF_SET_GUINT16 (lendat, len);
+	ms_biff_put_var_write (bp, lendat, 2);
+	
+	ms_biff_put_commit (bp);
+
+	if (string_result) {
+		gchar *str;
+		g_return_if_fail (cell->value);
+
+		ms_biff_put_var_next (bp, 0x200|BIFF_STRING);
+		str = value_get_as_string (cell->value);
+		biff_put_text (bp, str, eBiffV7, TRUE, SIXTEEN_BIT);
+		g_free (str);
+		ms_biff_put_commit (bp);
 	}
 }
 
@@ -835,34 +890,9 @@ write_cell (BiffPut *bp, ExcelSheet *sheet, Cell *cell)
 			cell->value?value_get_as_string (cell->value):"empty");
 	}
 #endif
-	if (cell->parsed_node) {
-		guint8 data[22];
-		guint8 lendat[2];
-		guint32 len;
-
-		ms_biff_put_var_next   (bp, BIFF_FORMULA);
-		EX_SETROW(data, row);
-		EX_SETCOL(data, col);
-		EX_SETXF (data, XF_MAGIC);
-		if (cell->value && VALUE_IS_NUMBER(cell->value))
-			BIFF_SETDOUBLE(data+6, value_get_as_float (cell->value));
-		else {
-			BIFF_SET_GUINT32 (data +  6, 0xffff);
-			BIFF_SET_GUINT32 (data + 10, 0xffff);
-		}
-		BIFF_SET_GUINT16 (data + 14, 0x3); /* Always calc & on load */
-		BIFF_SET_GUINT32 (data + 16, 0x0);
-		BIFF_SET_GUINT16 (data + 20, 0x0);
-		ms_biff_put_var_write (bp, data, 22);
-		len = ms_excel_write_formula (bp, sheet, cell->parsed_node,
-					      col, row);
-		g_assert (len <= 0xffff);
-		ms_biff_put_var_seekto (bp, 20);
-		BIFF_SET_GUINT16 (lendat, len);
-		ms_biff_put_var_write (bp, lendat, 2);
-
-		ms_biff_put_commit (bp);
-	} else if (cell->value)
+	if (cell->parsed_node)
+		write_formula (bp, sheet, cell);
+	else if (cell->value)
 		write_value (bp, cell->value, sheet->wb->ver,
 			     col, row, XF_MAGIC);
 }
@@ -878,7 +908,7 @@ write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row, gu
 
 	if (run == 1) {
 		guint8 *data;
-		data = ms_biff_put_len_next (bp, BIFF_BLANK, 6);
+		data = ms_biff_put_len_next (bp, 0x200|BIFF_BLANK, 6);
 		EX_SETXF (data, MAGIC_BLANK_XF);
 		EX_SETCOL(data, end_col);
 		EX_SETROW(data, row);
@@ -961,7 +991,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	ms_biff_put_commit (bp);
 
 	/* See: S59D72.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_DEFAULTROWHEIGHT, 4);
+	data = ms_biff_put_len_next (bp, 0x200|BIFF_DEFAULTROWHEIGHT, 4);
 	BIFF_SET_GUINT32 (data, 0x00ff0000);
 	ms_biff_put_commit (bp);
 
@@ -1022,7 +1052,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	BIFF_SET_GUINT16 (data+ 4, 0x0c49); /* width */
 	BIFF_SET_GUINT16 (data+ 6, 0x0f);   /* XF index */
 	BIFF_SET_GUINT16 (data+ 8, 0x00);   /* options */
-	BIFF_SET_GUINT16 (data+10, 0x44);   /* magic */
+	BIFF_SET_GUINT16 (data+10, 0x00);   /* magic */
 	ms_biff_put_commit (bp);
 
 	/* See: S59D76.HTM */
@@ -1071,6 +1101,7 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 	BIFF_SET_GUINT8  (data + 14, 0x0);
 	ms_biff_put_commit (bp);
 
+/* See: S59D90.HTM: Global Column Widths...  not cricual.       
 	data = ms_biff_put_len_next (bp, BIFF_GCW, 34);
 	{
 		int lp;
@@ -1079,13 +1110,14 @@ write_sheet_tail (BiffPut *bp, ExcelSheet *sheet)
 		BIFF_SET_GUINT32 (data, 0xfffd0020);
 	}
 	ms_biff_put_commit (bp);
+*/
 }
 
 static void
-write_index (MsOleStream *s, ExcelSheet *sheet, ms_ole_pos_t pos)
+write_index (MsOleStream *s, ExcelSheet *sheet, MsOlePos pos)
 {
 	guint8  data[4];
-	ms_ole_pos_t oldpos;
+	MsOlePos oldpos;
 	int lp;
 	
 	g_return_if_fail (s);
@@ -1093,13 +1125,13 @@ write_index (MsOleStream *s, ExcelSheet *sheet, ms_ole_pos_t pos)
 	
 	oldpos = s->position;/* FIXME: tell function ? */
 	if (sheet->wb->ver >= eBiffV8)
-		s->lseek (s, pos+4+16, MsOle_SEEK_SET);
+		s->lseek (s, pos+4+16, MsOleSeekSet);
 	else
-		s->lseek (s, pos+4+12, MsOle_SEEK_SET);
+		s->lseek (s, pos+4+12, MsOleSeekSet);
 
 	g_assert (sheet->maxy >= sheet->dbcells->len);
 	for (lp=0;lp<sheet->dbcells->len;lp++) {
-		ms_ole_pos_t pos = g_array_index (sheet->dbcells, ms_ole_pos_t, lp);
+		MsOlePos pos = g_array_index (sheet->dbcells, MsOlePos, lp);
 		BIFF_SET_GUINT32 (data, pos - sheet->wb->streamPos);
 #if EXCEL_DEBUG > 1
 		printf ("writing index record 0x%4x - 0x%4x = 0x%4x\n",
@@ -1108,15 +1140,15 @@ write_index (MsOleStream *s, ExcelSheet *sheet, ms_ole_pos_t pos)
 		s->write (s, data, 4);
 	}
 
-	s->lseek (s, oldpos, MsOle_SEEK_SET);
+	s->lseek (s, oldpos, MsOleSeekSet);
 }
 
 /* See: S59DDB.HTM */
-static ms_ole_pos_t
+static MsOlePos
 write_rowinfo (BiffPut *bp, guint32 row, guint32 width)
 {
 	guint8 *data;
-	ms_ole_pos_t pos;
+	MsOlePos pos;
 
 	data = ms_biff_put_len_next (bp, (0x200 | BIFF_ROW), 16);
 	pos = bp->streamPos;
@@ -1134,12 +1166,12 @@ write_rowinfo (BiffPut *bp, guint32 row, guint32 width)
 }
 
 static void
-write_db_cell (BiffPut *bp, ExcelSheet *sheet, ms_ole_pos_t start)
+write_db_cell (BiffPut *bp, ExcelSheet *sheet, MsOlePos start)
 {
 	/* See: 'Finding records in BIFF files': S59E28.HTM */
 	/* See: 'DBCELL': S59D6D.HTM */
 	
-	ms_ole_pos_t pos;
+	MsOlePos pos;
 
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_DBCELL, 6);
 	pos = bp->streamPos;
@@ -1158,7 +1190,7 @@ static void
 write_sheet (BiffPut *bp, ExcelSheet *sheet)
 {
 	guint32 x, y, maxx, maxy;
-	ms_ole_pos_t index_off;
+	MsOlePos index_off;
 
 	sheet->streamPos = biff_bof_write (bp, sheet->wb->ver, eBiffTWorksheet);
 
@@ -1174,7 +1206,7 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 		BIFF_SET_GUINT32 (data +  8, sheet->maxy);
 		BIFF_SET_GUINT32 (data + 12, 0);
 	} else {
-		guint8 *data = ms_biff_put_len_next (bp, BIFF_INDEX,
+		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
 						     sheet->maxy*4 + 12);
 		index_off = bp->streamPos;
 		BIFF_SET_GUINT32 (data, 0);
@@ -1196,7 +1228,7 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 #endif
 	for (y=0;y<maxy;y++) {
 		guint32 run_size = 0;
-		ms_ole_pos_t start;
+		MsOlePos start;
 
 		start = write_rowinfo (bp, y, maxx);
 
@@ -1211,7 +1243,7 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 				write_cell (bp, sheet, cell);
 			}
 		}
-		if (run_size)
+		if (run_size > 0 && run_size < maxx)
 			write_mulblank (bp, sheet, x, y, run_size);
 
 		write_db_cell (bp, sheet, start);
@@ -1236,7 +1268,7 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 	sheet->wb         = wb;
 	sheet->maxx       = sheet->gnum_sheet->max_col_used+1;
 	sheet->maxy       = sheet->gnum_sheet->max_row_used+1;
-	sheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (ms_ole_pos_t));
+	sheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (MsOlePos));
 
 	printf ("Workbook  %d %p\n", wb->ver, wb->gnum_wb);
 	g_ptr_array_add (wb->sheets, sheet);
@@ -1325,7 +1357,7 @@ ms_excel_write_workbook (MsOle *file, Workbook *wb,
 		strname = "Book";
 	dir = ms_ole_directory_create (ms_ole_get_root (file),
 				       strname,
-				       MsOle_PPS_STREAM);
+				       MsOlePPSStream);
 	if (!dir) {
 		printf ("Can't create stream\n");
 		return 0;

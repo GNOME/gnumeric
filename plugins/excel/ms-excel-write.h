@@ -38,7 +38,7 @@ struct _ExcelSheet {
 	ExcelWorkbook *wb;
 	Sheet         *gnum_sheet;
 	GArray        *dbcells;
-	ms_ole_pos_t   streamPos;
+	MsOlePos   streamPos;
 	guint32        boundsheetPos;
 	guint32        maxx;
 	guint32        maxy;
@@ -51,7 +51,7 @@ struct _ExcelWorkbook {
 	Palette       *pal;
 	Fonts         *fonts;
 	Formats       *formats;
-	ms_ole_pos_t   streamPos;
+	MsOlePos   streamPos;
 };
 
 extern int ms_excel_write_ExcelWorkbook (MsOle *file, ExcelWorkbook *wb,

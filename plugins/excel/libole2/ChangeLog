@@ -1,3 +1,30 @@
+1999-07-03  Michael Meeks  <michael@edenproject.org>
+
+	* ms-ole.c (ms_ole_read_copy_sb, ms_ole_read_copy_bb):
+	Added check on ptr.
+
+1999-07-02  Michael Meeks  <michael@edenproject.org>
+
+	* ms-ole.h: Indented nicely again.
+
+1999-07-03  Michael Meeks  <michael@edenproject.org>
+
+	* ms-ole.[ch]: Clean.
+	s/MS_OLE_STREAM/MsOleStream/g
+	s/MS_OLE_DIRECTORY/MsOleDirectory/g
+	s/MS_OLE/MsOle/g
+	s/MsOle_SEEK_SET/MsOleSeekSet/g
+	s/MsOle_SEEK_CUR/MsOleSeekCur/g
+	s/ms_ole_seek_t/MsOleSeek/g
+	s/MsOle_PPS_STORAGE/MsOlePPSStorage/g
+	s/MsOle_PPS_STREAM/MsOlePPSStream/g
+	s/MsOle_PPS_ROOT/MsOlePPSRoot/g
+	s/PPS_TYPE/PPSType/g
+	s/ms_ole_pos_t/MsOlePos/g
+	s/MsOle_SMALL_BLOCK/MsOleSmallBlock/g
+	s/MsOle_LARGE_BLOCK/MsOleLargeBlock/g
+	s/BB_BLK_ATTR/BBBlkAttr/g
+
 1999-06-28  Michael Meeks  <michael@edenproject.org>
 
 	* ms-ole.c (pps_encode_tree_initial): Added different

@@ -241,9 +241,9 @@ workbook_do_destroy (Workbook *wb)
 
 	if (wb->auto_expr_desc)
 		string_unref (wb->auto_expr_desc);
-	if (wb->auto_expr_text) {
-		g_free (wb->auto_expr_text);
-		wb->auto_expr_text = NULL;
+	if (wb->auto_expr) {
+		expr_tree_unref (wb->auto_expr);
+		wb->auto_expr = NULL;
 	}
 
 	/* Problems with insert/delete column/row caused formula_cell_list
@@ -1388,7 +1388,6 @@ workbook_setup_edit_area (Workbook *wb)
 			    wb);
 }
 
-
 static struct {
 	char *displayed_name;
 	char *function;
@@ -1408,13 +1407,20 @@ static struct {
 static void
 workbook_set_auto_expr (Workbook *wb, const char *description, const char *expression)
 {
+	extern ParseErr
+		gnumeric_unsafe_expr_parser (const char *expr, Sheet *sheet, guint eval_col, guint eval_row,
+					     const char **desired_format, ExprTree **result);
+	
+	if (wb->auto_expr)
+		expr_tree_unref (wb->auto_expr);
+
+	g_assert (gnumeric_unsafe_expr_parser (expression, NULL, 0, 0,
+					       NULL, &wb->auto_expr) ==
+		  PARSE_OK);
+
 	if (wb->auto_expr_desc)
 		string_unref (wb->auto_expr_desc);
 
-	if (wb->auto_expr_text)
-		g_free (wb->auto_expr_text);
-
-	wb->auto_expr_text = g_strdup (expression);
 	wb->auto_expr_desc = string_get (description);
 }
 
@@ -1639,7 +1645,7 @@ workbook_new (void)
 		GTK_SIGNAL_FUNC (workbook_delete_event), wb);
 
 	/* Set the default operation to be performed over selections */
-	wb->auto_expr_text = NULL;
+	wb->auto_expr      = NULL;
 	wb->auto_expr_desc = NULL;
 	workbook_set_auto_expr (wb,
 		_(quick_compute_routines [0].displayed_name),
@@ -2093,13 +2099,13 @@ workbook_sheet_lookup (Workbook *wb, const char *sheet_name)
 char *
 workbook_sheet_get_free_name (Workbook *wb)
 {
-        const char *name_format = _("Sheet %d");
+        const char *name_format = _("Sheet%d");
 	char *name = g_malloc (strlen (name_format) + 4 * sizeof (int));
 	int  i;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 
-	for (i = 0; ; i++){
+	for (i = 1; ; i++){
 		sprintf (name, name_format, i);
 		if (workbook_sheet_lookup (wb, name) == NULL)
 			return name;
@@ -2125,11 +2131,11 @@ workbook_new_with_sheets (int sheet_count)
 
 	wb = workbook_new ();
 
-	for (i = 0; i < sheet_count; i++){
+	for (i = 1; i <= sheet_count; i++){
 		Sheet *sheet;
 		char name [80];
 
-		snprintf (name, sizeof (name), _("Sheet %d"), i);
+		snprintf (name, sizeof (name), _("Sheet%d"), i);
 		sheet = sheet_new (wb, name);
 		workbook_attach_sheet (wb, sheet);
 

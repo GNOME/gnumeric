@@ -1,3 +1,70 @@
+1999-07-04  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-read.c (formula_func_data): Fixed ISREF, ISPMT.
+
+	* ms-excel-write.c (write_mulblank): Add 0x200 to BLANK
+
+	* biff-types.h (BIFF_PASSWORD): convert back from
+	PASSguint16 :-)
+
+	* ms-formula-write.c (write_arrays): Fix memory leak.
+
+	* ms-excel-read.c (ms_excel_read_formula): Add S59DE9 reference.
+
+	* ms-excel-write.c (write_cell): Updated constant so formulae get
+	evaluated correctly.
+	(write_formula): Split out complexity, Added STRING result storage.
+
+	* ms-formula-write.c (write_string): Un-dofus the string writing
+	fix Excel crash on any formula string.
+
+	* ms-excel-write.c (write_cell): Fixup always calc. & on load,
+	don't seem to be needed.
+	Implement class specifiers throughout where needed.
+
+	* ms-formula-write.c (OP_*): Helper macros for getting the class
+	right on each PTG.
+
+	* formula-types.h: Added class defines.
+
+	* ms-excel-write.c (write_sheet_bools): Removed magic 0x44 from
+	last byte of BIFF_COLINFO. Commented out GCW: unneccessary and
+	wrong.
+	(write_window1): Fiddled with the magic numbers.
+	(write_sheet_bools): Add 0x200 to DEFAULTROWHEIGHT.
+	(write_sheet): ditto to INDEX.
+
+1999-07-03  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-write.c (ms_excel_write_formula): Added critical
+	magic 3 padding bytes s Array's are saved properly.
+
+	* ms-excel-write.c (write_sheet): Size optimisation for blank
+	rows.
+
+1999-07-02  Michael Meeks  <michael@edenproject.org>
+
+	* ole.c (syntax_error): Update help.
+	(read_records, dump_summary, do_summary): Start of summary info
+	reading.
+	(do_biff_raw): Cleaned unused var.
+	(esh_header_contained): commented out.
+
+1999-07-02  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-read.c: more stylistic fiddling on great
+	new debug stuff from Jody...
+
+	* *.[ch]:
+	s/MsOle_SEEK_SET/MsOleSeekSet/g
+	s/MsOle_SEEK_CUR/MsOleSeekCur/g
+	s/ms_ole_seek_t/MsOleSeek/g
+	s/MsOle_PPS_STORAGE/MsOlePPSStorage/g
+	s/MsOle_PPS_STREAM/MsOlePPSStream/g
+	s/MsOle_PPS_ROOT/MsOlePPSRoot/g
+	s/PPS_TYPE/PPSType/g
+	s/ms_ole_pos_t/MsOlePos/g
+
 1999-07-02  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-chart.c : Stylistic consistancy.

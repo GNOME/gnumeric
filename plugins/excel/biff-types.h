@@ -29,7 +29,7 @@
 #define BIFF_DELTA                      0x10	/* 0 */
 #define BIFF_ITERATION                  0x11	/* 0 */
 #define BIFF_PROTECT                    0x12	/* 0 */
-#define BIFF_PASSguint16                   0x13	/* 0 */
+#define BIFF_PASSWORD                   0x13	/* 0 */
 #define BIFF_HEADER                     0x14	/* 0, NOT 10 */
 #define BIFF_FOOTER                     0x15	/* 0, NOT 10 */
 #define BIFF_EXTERNCOUNT                0x16	/* 0, NOT 10 */

@@ -185,7 +185,7 @@ ms_biff_merge_continues (BiffQuery *bq, guint32 len)
 		chunk.length = BIFF_GET_GUINT16 (tmp+2);
 		bq->num_merges++;
 	} while ((BIFF_GET_GUINT16(tmp) & 0xff) == BIFF_CONTINUE);
-	bq->pos->lseek (bq->pos, -4, MsOle_SEEK_CUR); /* back back off */
+	bq->pos->lseek (bq->pos, -4, MsOleSeekCur); /* back back off */
 
 	bq->data = g_malloc (total_len);
 	if (!bq->data)
@@ -258,7 +258,7 @@ ms_biff_query_next_merge (BiffQuery *bq, gboolean do_merge)
 	    bq->pos->read_copy (bq->pos, tmp, 4)) {
 		if ((BIFF_GET_GUINT16(tmp) & 0xff) == BIFF_CONTINUE)
 			return ms_biff_merge_continues (bq, BIFF_GET_GUINT16(tmp+2));
-		bq->pos->lseek (bq->pos, -4, MsOle_SEEK_CUR); /* back back off */
+		bq->pos->lseek (bq->pos, -4, MsOleSeekCur); /* back back off */
 #if BIFF_DEBUG > 4
 		printf ("Backed off\n");
 #endif
@@ -282,7 +282,7 @@ ms_biff_query_unmerge (BiffQuery *bq)
 	if (!bq || !bq->num_merges)
 		return;
 	bq->pos->lseek (bq->pos, -(4*(bq->num_merges+1) - (bq->num_merges*bq->padding)
-				   + bq->length), MsOle_SEEK_CUR);
+				   + bq->length), MsOleSeekCur);
 	ms_biff_query_next_merge (bq, FALSE);
 }
 
@@ -392,21 +392,21 @@ ms_biff_put_var_write  (BiffPut *bp, guint8 *data, guint32 len)
 		bp->length = bp->curpos;
 }
 void
-ms_biff_put_var_seekto (BiffPut *bp, ms_ole_pos_t pos)
+ms_biff_put_var_seekto (BiffPut *bp, MsOlePos pos)
 {
 	g_return_if_fail (bp);
 	g_return_if_fail (!bp->len_fixed);
 	g_return_if_fail (!bp->data);
 
 	bp->curpos = pos;
-	bp->pos->lseek (bp->pos, bp->streamPos + bp->curpos + 4, MsOle_SEEK_SET);
+	bp->pos->lseek (bp->pos, bp->streamPos + bp->curpos + 4, MsOleSeekSet);
 }
 
 static void
 ms_biff_put_var_commit (BiffPut *bp)
 {
 	guint8       tmp[4];
-	ms_ole_pos_t endpos;
+	MsOlePos endpos;
 
 	g_return_if_fail (bp);
 	g_return_if_fail (bp->pos);
@@ -414,13 +414,13 @@ ms_biff_put_var_commit (BiffPut *bp)
 	g_return_if_fail (!bp->data);
 
 	endpos = bp->streamPos + bp->length + 4;
-	bp->pos->lseek (bp->pos, bp->streamPos, MsOle_SEEK_SET);
+	bp->pos->lseek (bp->pos, bp->streamPos, MsOleSeekSet);
 
 	BIFF_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
 	BIFF_SET_GUINT16 (tmp+2, bp->length);
 	bp->pos->write (bp->pos, tmp, 4);
 
-	bp->pos->lseek (bp->pos, endpos, MsOle_SEEK_SET);
+	bp->pos->lseek (bp->pos, endpos, MsOleSeekSet);
 	bp->streamPos  = endpos;
 	bp->curpos     = 0;
 }
@@ -436,7 +436,7 @@ ms_biff_put_len_commit (BiffPut *bp)
 	g_return_if_fail (bp->length < MAX_LIKED_BIFF_LEN);
 
 /*	if (!bp->data_malloced) Unimplemented optimisation
-		bp->pos->lseek (bp->pos, bp->length, MsOle_SEEK_CUR);
+		bp->pos->lseek (bp->pos, bp->length, MsOleSeekCur);
 		else */
 	BIFF_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
 	BIFF_SET_GUINT16 (tmp+2, bp->length);

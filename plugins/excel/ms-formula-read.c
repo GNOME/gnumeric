@@ -170,7 +170,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 102 */	{ "VLOOKUP", -1 }, /* range_lookup is optional */
 /* 103 */	{ "LINKS", -2 },
 /* 104 */	{ "INPUT", -2 },
-/* 105 */	{ "ISREF", -2 },
+/* 105 */	{ "ISREF", 1 },
 /* 106 */	{ "GETFORMULA", -2 },
 /* 107 */	{ "GETNAME", -2 },
 /* 108 */	{ "SETVALUE", -2 },
@@ -415,7 +415,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 347 */	{ "COUNTBLANK", -1 },
 /* 348 */	{ "SCENARIOGET", -2 },
 /* 349 */	{ "OPTIONSLISTSGET", -2 },
-/* 350 */	{ "ISPMT", -2 },
+/* 350 */	{ "ISPMT", 1 },
 /* 351 */	{ "DATEDIF", -2 },
 /* 352 */	{ "DATESTRING", -2 },
 /* 353 */	{ "NUMBERSTRING", -2 },
@@ -435,10 +435,6 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 367 */	{ "VARA", -1 }
 };
 
-/**
- * Helper functions.
- **/
-
 static ExprTree *
 expr_tree_string (const char *str)
 {
@@ -446,20 +442,11 @@ expr_tree_string (const char *str)
 }
 
 /**
- * End of helper functions
- **/
-
-
-
-
-
-
-/**
  *  A useful routine for extracting data from a common
  * storage structure.
  **/
 static CellRef *
-getRefV7(ExcelSheet *sheet, guint8 col, guint16 gbitrw, int curcol, int currow, int shared)
+getRefV7 (ExcelSheet *sheet, guint8 col, guint16 gbitrw, int curcol, int currow, int shared)
 {
 	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
 	cr->col          = col ;
@@ -468,7 +455,7 @@ getRefV7(ExcelSheet *sheet, guint8 col, guint16 gbitrw, int curcol, int currow, 
 	cr->col_relative = (gbitrw & 0x4000)==0x4000 ;
 	cr->sheet = sheet->gnum_sheet ;
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug >2){
+	if (ms_excel_formula_debug > 2) {
 		printf ("7In : 0x%x, 0x%x  at %d, %d%s\n", col, gbitrw,
 			curcol, currow, (shared?" (shared)":"")) ; 
 	}
@@ -492,13 +479,13 @@ getRefV7(ExcelSheet *sheet, guint8 col, guint16 gbitrw, int curcol, int currow, 
  * storage structure.
  **/
 static CellRef *
-getRefV8(ExcelSheet *sheet, guint16 row, guint16 gbitcl, int curcol, int currow,
-	 gboolean const shared)
+getRefV8 (ExcelSheet *sheet, guint16 row, guint16 gbitcl, int curcol, int currow,
+	  gboolean const shared)
 {
 	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
 	cr->sheet = sheet->gnum_sheet ;
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 2){
+	if (ms_excel_formula_debug > 2) {
 		printf ("8In : 0x%x, 0x%x  at %d, %d%s\n", row, gbitcl,
 			curcol, currow, (shared?" (shared)":"")) ;
 	}
@@ -521,7 +508,7 @@ getRefV8(ExcelSheet *sheet, guint16 row, guint16 gbitcl, int curcol, int currow,
 	if (cr->col_relative)
 		cr->col-= curcol ;
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 2){
+	if (ms_excel_formula_debug > 2) {
 		printf ("Returns : %d,%d Rel:(%d %d)\n", cr->col, cr->row,
 			cr->col_relative, cr->row_relative);
 	}
@@ -680,7 +667,7 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 		GList *args;
 
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_formula_debug > 0){
+		if (ms_excel_formula_debug > 0) {
 			printf ("Function '%s', args %d, templ: %d\n",
 				fd->prefix, numargs, fd->num_args);
 		}
@@ -750,7 +737,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 	char *ans ;
 	
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug >1){
+	if (ms_excel_formula_debug > 1) {
 		printf ("\n\n%s:%s%s\n",
 			(sheet->gnum_sheet)?sheet->gnum_sheet->name:"",
 			cell_name(fn_col,fn_row), (shared?" (shared)":""));
@@ -765,7 +752,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 		if (ptg > FORMULA_PTG_MAX)
 			break ;
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_formula_debug > 0){
+		if (ms_excel_formula_debug > 0) {
 			printf ("Ptg : 0x%02x", ptg);
 			if (ptg != ptgbase)
 				printf ("(0x%02x)", ptgbase);
@@ -922,7 +909,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 			v = value_array_new (cols, rows);
 			ptg_length = 7;
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_formula_debug > 1){
+			if (ms_excel_formula_debug > 1) {
 				printf ("An Array how interesting: (%d,%d)\n",
 					cols, rows);
 				dump (mem, length);
@@ -933,7 +920,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 					Value *set_val=0;
 					guint8 opts=BIFF_GET_GUINT8(array_data);
 #ifndef NO_DEBUG_EXCEL
-					if (ms_excel_formula_debug > 0){
+					if (ms_excel_formula_debug > 0) {
 						printf ("Opts 0x%x\n", opts);
 					}
 #endif
@@ -958,7 +945,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 						if (str) {
 							set_val = value_new_string (str);
 #ifndef NO_DEBUG_EXCEL
-							if (ms_excel_formula_debug > 0){
+							if (ms_excel_formula_debug > 0) {
 								printf ("String '%s'\n", str);
 							}
 #endif
@@ -1081,7 +1068,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 			ptg_length = 3 ;
 			if (grbit & 0x01) {
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 0){
+				if (ms_excel_formula_debug > 0) {
 					printf ("A volatile function: so what\n") ;
 				}
 #endif
@@ -1089,7 +1076,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 				/* Who cares if the TRUE expr has a goto at the end */
 				ExprTree *tr;
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 2){
+				if (ms_excel_formula_debug > 2) {
 					printf ("Optimised IF 0x%x 0x%x\n", grbit, w) ;
 					dump (mem, length) ;
 				}
@@ -1109,7 +1096,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 				ExprTree *tr;
 
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 1){
+				if (ms_excel_formula_debug > 1) {
 					printf ("'Optimised' choose\n");
 					dump (mem,length);
 				}
@@ -1118,7 +1105,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 					offset= BIFF_GET_GUINT16(data);
 					len = BIFF_GET_GUINT16(data+2) - offset;
 #ifndef NO_DEBUG_EXCEL
-					if (ms_excel_formula_debug > 1){
+					if (ms_excel_formula_debug > 1) {
 						printf ("Get from %d len %d [ = 0x%x ]\n",
 							ptg_length+offset, len,
 							*(cur+ptg_length+offset));
@@ -1133,7 +1120,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 				ptg_length+=BIFF_GET_GUINT16(data);
 			} else if (grbit & 0x08) { /* AttrGoto */
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 2){
+				if (ms_excel_formula_debug > 2) {
 					printf ("Goto %d: cur = 0x%x\n", w,
 						(int)(cur-mem)) ;
 					dump (mem, length) ;
@@ -1153,7 +1140,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 				/* Could perhaps pop top arg & append space ? */ ;
 				else
 #ifndef NO_DEBUG_EXCEL
-					if (ms_excel_formula_debug > 1){
+					if (ms_excel_formula_debug > 1) {
 						printf ("Redundant whitespace in formula 0x%x count %d\n", attrs, num_space) ;
 					}
 #else
@@ -1287,7 +1274,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 				parse_list_push (&stack, expr_tree_new_binary (l, op, r));
 			} else {
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 0){
+				if (ms_excel_formula_debug > 0) {
 					printf ("Unknown PTG 0x%x base %x\n",
 						ptg, ptgbase);
 				}
@@ -1303,7 +1290,7 @@ ms_excel_parse_formula (ExcelSheet *sheet, guint8 *mem,
 	}
 	if (error) {
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_formula_debug > 0){
+		if (ms_excel_formula_debug > 0) {
 			printf ("Unknown Formula/Array at %s:%s%s\n",
 				(sheet->gnum_sheet)?sheet->gnum_sheet->name:"",
 				cell_name(fn_col,fn_row),

@@ -6,6 +6,7 @@
 #include <gnome.h>
 #include <string.h>
 #include "../../src/gnumeric.h"
+#include "../../src/func.h"
 #include "../../src/symbol.h"
 #include "../../src/plugin.h"
 
@@ -86,19 +87,18 @@ fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
 }
 
 static Value *
-marshal_func (FunctionDefinition *fndef, Value *argv[], char **error_string)
+marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
 	PyObject *args, *result;
+	FunctionDefinition *fndef = ei->func_def;
 	Value *v;
 	GList *l;
 	int i, count = strlen(fndef->args);
 	
 	/* Find the Python code object for this FunctionDefinition. */
 	l = g_list_find_custom(funclist, fndef, (GCompareFunc) fndef_compare);
-	if (!l) {
-		*error_string = _("Unable to lookup Python code object.");
-		return NULL;
-	}
+	if (!l)
+		return function_error (ei, _("Unable to lookup Python code object."));
 	
 	/* Build the argument list which is a Python tuple. */
 	args = PyTuple_New (count);
@@ -111,10 +111,9 @@ marshal_func (FunctionDefinition *fndef, Value *argv[], char **error_string)
 	result = PyEval_CallObject (((FuncData *)(l->data))->codeobj, args);
 	Py_DECREF (args);
 
-	if (!result){
-		*error_string = _("Python exception.");
+	if (!result) {
 		PyErr_Clear (); /* XXX should popup window with exception info */
-		return NULL;
+		return function_error (ei, _("Python exception."));
 	}
 	
 	v = convert_python_to_value (result);
@@ -125,6 +124,7 @@ marshal_func (FunctionDefinition *fndef, Value *argv[], char **error_string)
 static PyObject *
 __register_function (PyObject *m, PyObject *py_args)
 {
+	FunctionCategory *cat;
 	FunctionDefinition *fndef;
 	FuncData *fdata;
 	char *name, *args, *named_args, *help1, **help;
@@ -143,6 +143,12 @@ __register_function (PyObject *m, PyObject *py_args)
 		PyErr_SetString (PyExc_MemoryError, _("could not alloc FuncDef"));
 		return NULL;
 	}
+
+	cat   = function_get_category (_("Perl"));
+	help  = g_new (char *, 1);
+	*help = g_strdup (help1);
+	fndef = function_add_args (cat, g_strdup (name), g_strdup (args),
+				   g_strdup (named_args), help, marshal_func);
 	
 	fdata = g_new (FuncData, 1);
 	fdata->fndef = fndef;
@@ -150,17 +156,6 @@ __register_function (PyObject *m, PyObject *py_args)
 	Py_INCREF(codeobj);
 	funclist = g_list_append(funclist, fdata);
 	
-	fndef->name    	       = g_strdup (name);
-	fndef->args    	       = g_strdup (args);
-	fndef->named_arguments = g_strdup (named_args);
-	fndef->help            = g_new (char *, 1);
-	*fndef->help           = g_strdup (help1);
-#if 0
-#warning Michael, can you fix this?
-	fndef->fn              = marshal_func;
-	
-	symbol_install (global_symbol_table, fndef->name, SYMBOL_FUNCTION, fndef);
-#endif
 	Py_INCREF (Py_None);
 	return Py_None;
 }

@@ -797,11 +797,8 @@ sheet_update_auto_expr (Sheet *sheet)
 	v = NULL;
 	func_eval_info_init (&ei, sheet, 0, 0);
 
-	tree = expr_parse_string (wb->auto_expr_text, &ei.pos,
-				  NULL, &error);
-
-	if (tree)
-		v = eval_expr (&ei, tree);
+	if (wb->auto_expr)
+		v = eval_expr (&ei, wb->auto_expr);
 
 	if (v) {
 		char *s;
@@ -813,7 +810,6 @@ sheet_update_auto_expr (Sheet *sheet)
 	} else
 		workbook_auto_expr_label_set (wb, error_message_txt(ei.error));
 
-	expr_tree_unref (tree);
 	error_message_free (ei.error);
 }
 
