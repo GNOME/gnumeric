@@ -1,5 +1,9 @@
 Gnumeric 0.74
 
+Jodu:
+	* Fix regexp handling of escaped characters.
+	* Improve XL import when faced with corrupt workbooks.
+
 Morten:
 	* Find and fix leaks.
 	* Fix an ugly dependency bug.
@@ -13,6 +17,7 @@ Adrian Custer:
 
 Almer:
 	* More work on validation.
+	* Improve View menu layout.
 
 Andreas:
 	* Allow analysis tool output to be directed onto a range 
