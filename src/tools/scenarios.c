@@ -42,7 +42,7 @@
 #include "mathfunc.h"
 #include "scenarios.h"
 #include "dao.h"
-
+#include "style-color.h"
 
 /* Generic stuff **********************************************************/
 
@@ -460,4 +460,10 @@ scenario_summary (WorkbookControl        *wbc,
 	dao_set_bold (&dao, 0, 0, 0, 2 + row);
 	dao_autofit_columns (&dao);
 	dao_set_cell (&dao, 0, 0, _("Scenario Summary"));
+
+	dao_set_colors (&dao, 0, 0, cols + 3, 1,
+			style_color_new (gs_white.red, gs_white.green, 
+					 gs_white.blue),
+			style_color_new (gs_dark_gray.red, gs_dark_gray.green,
+					 gs_dark_gray.blue));
 }

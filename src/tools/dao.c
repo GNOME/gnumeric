@@ -42,6 +42,7 @@
 #include "format.h"
 #include "sheet-object-cell-comment.h"
 #include "commands.h"
+#include "style-color.h"
 
 #include <gtk/gtk.h>
 #include <time.h>
@@ -648,6 +649,33 @@ dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
 	MStyle *mstyle = mstyle_new ();
 
 	mstyle_set_format_text (mstyle, "0.00%");
+	dao_set_style (dao, col1 + dao->start_col, row1 + dao->start_row,
+		       col2 + dao->start_col, row2 + dao->start_row, mstyle);
+}
+
+/**
+ * dao_set_colors:
+ * @dao:
+ * @col1:
+ * @row1:
+ * @col2:
+ * @row2:
+ *
+ * set the given cell range to given background and text colors
+ * 
+ *
+ **/
+void
+dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
+		int col2, int row2,
+		StyleColor *fore, StyleColor *back)
+{
+	MStyle *mstyle;
+
+	mstyle = mstyle_new ();
+	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, fore);
+	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, back);
+	mstyle_set_pattern (mstyle, 1);
 	dao_set_style (dao, col1 + dao->start_col, row1 + dao->start_row,
 		       col2 + dao->start_col, row2 + dao->start_row, mstyle);
 }

@@ -63,6 +63,9 @@ void dao_set_underlined       (data_analysis_output_t *dao, int col1, int row1,
 void dao_set_percent          (data_analysis_output_t *dao, int col1, int row1,
 			       int col2, int row2);
 
+void dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
+		     int col2, int row2,
+		     StyleColor *fore, StyleColor *back);
 void dao_set_cell             (data_analysis_output_t *dao, int col, int row,
 			       char const *text);
 void dao_set_cell_printf      (data_analysis_output_t *dao,

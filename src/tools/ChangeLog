@@ -1,5 +1,9 @@
 2003-04-15  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* scenarios.c (scenario_summary): Set colors of the report.
+
+	* dao.c (dao_set_colors): Wrote.
+
 	* scenarios.c (scenario_add_new, collect_values): Return TRUE if
 	changing cells contain at least one formula.
 
