@@ -1,3 +1,26 @@
+2000-08-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-date.c (gnumeric_datevalue) : Handle error values.
+	(gnumeric_timevalue) : Ditto.
+	(gnumeric_year) : Ditto.
+	(gnumeric_month) : Ditto.
+	(gnumeric_day) : Ditto.
+	(gnumeric_weekday) : Ditto.
+	(gnumeric_days360) : Ditto.
+	(gnumeric_eomonth) : Ditto.
+	(gnumeric_workday) : Ditto.
+	(networkdays_holiday_callback) : Ditto.
+	(gnumeric_networkdays) : Ditto.
+
+	* src/functions/fn-financial.c (gnumeric_coupdaybs) : Ditto.
+	(gnumeric_coupdays) : Ditto.
+	(gnumeric_coupncd) : Ditto.
+	(gnumeric_coupnum) : Ditto.
+
+2000-08-07  Arturo Tena <arturo@directmail.org>
+
+	* configure.in : Fix libole2 test.
+
 2000-08-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_menu_insert_special) : No need to specify

@@ -2576,6 +2576,11 @@ gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
         int     freq, basis;
         int     days;
 
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+	if (argv[1]->type == VALUE_ERROR)
+		return value_duplicate (argv[1]);
+
         settlement = datetime_value_to_g(argv[0]);
         maturity = datetime_value_to_g(argv[1]);
         freq = value_get_as_int (argv[2]);
@@ -2620,6 +2625,11 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
         GDate   *maturity;
         int     freq, basis;
         float_t days;
+
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+	if (argv[1]->type == VALUE_ERROR)
+		return value_duplicate (argv[1]);
 
         settlement = datetime_value_to_g(argv[0]);
         maturity = datetime_value_to_g(argv[1]);
@@ -2686,6 +2696,11 @@ gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
         int     freq, basis;
 	Value   *v;
 
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+	if (argv[1]->type == VALUE_ERROR)
+		return value_duplicate (argv[1]);
+
         settlement = datetime_value_to_g(argv[0]);
         maturity = datetime_value_to_g(argv[1]);
         freq = value_get_as_int (argv[2]);
@@ -2747,6 +2762,11 @@ gnumeric_coupnum (FunctionEvalInfo *ei, Value **argv)
         GDate   *maturity;
         int     freq, basis;
         float_t n;
+
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+	if (argv[1]->type == VALUE_ERROR)
+		return value_duplicate (argv[1]);
 
         settlement = datetime_value_to_g(argv[0]);
         maturity = datetime_value_to_g(argv[1]);

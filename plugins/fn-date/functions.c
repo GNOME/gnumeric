@@ -90,6 +90,8 @@ static char *help_datevalue = {
 static Value *
 gnumeric_datevalue (FunctionEvalInfo *ei, Value **argv)
 {
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
 	return value_new_int (datetime_value_to_serial (argv[0]));
 }
 
@@ -237,6 +239,9 @@ static Value *
 gnumeric_timevalue (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t raw;
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+
 	raw = datetime_value_to_serial_raw (argv[0]);
 	return value_new_float (raw - (int)raw);
 }
@@ -346,7 +351,12 @@ static Value *
 gnumeric_year (FunctionEvalInfo *ei, Value **argv)
 {
 	int res = 1900;
-	GDate *date = datetime_value_to_g (argv[0]);
+	GDate *date;
+
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+
+	date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
 		res = g_date_year (date);
 		g_date_free (date);
@@ -376,7 +386,12 @@ static Value *
 gnumeric_month (FunctionEvalInfo *ei, Value **argv)
 {
 	int res = 1;
-	GDate *date = datetime_value_to_g (argv[0]);
+	GDate *date;
+	
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+
+	date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
 		res = g_date_month (date);
 		g_date_free (date);
@@ -406,7 +421,12 @@ static Value *
 gnumeric_day (FunctionEvalInfo *ei, Value **argv)
 {
 	int res = 1;
-	GDate *date = datetime_value_to_g (argv[0]);
+	GDate *date;
+
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+
+	date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
 		res = g_date_day (date);
 		g_date_free (date);
@@ -436,7 +456,12 @@ static Value *
 gnumeric_weekday (FunctionEvalInfo *ei, Value **argv)
 {
 	int res = 1;
-	GDate *date = datetime_value_to_g (argv[0]);
+	GDate *date;
+
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+
+	date = datetime_value_to_g (argv[0]);
 	if (date != NULL) {
 		res = (g_date_weekday (date) + 1) % 7;
 		g_date_free (date);
@@ -487,6 +512,10 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 	} else
 		method = METHOD_US;
 
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+	if (argv[1]->type == VALUE_ERROR)
+		return value_duplicate (argv[1]);
 	serial1 = datetime_value_to_serial (argv[0]);
 	serial2 = datetime_value_to_serial (argv[1]);
 	if ((flipped = (serial1 > serial2))) {
@@ -563,8 +592,12 @@ gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *res;
 	int months = 0;
-	GDate *date = datetime_value_to_g (argv[0]);
+	GDate *date;
 
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+
+	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
                   return value_new_error (ei->pos, gnumeric_err_VALUE);
 
@@ -608,8 +641,12 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 	Value *res;
 	int days;
 	GDateWeekday weekday;
-	GDate *date = datetime_value_to_g (argv[0]);
+	GDate *date;
 
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+
+	date = datetime_value_to_g (argv[0]);
 	if (date == NULL || !g_date_valid (date))
                   return value_new_error (ei->pos, gnumeric_err_VALUE);
 	weekday = g_date_weekday (date);
@@ -702,9 +739,12 @@ networkdays_holiday_callback(EvalPos const *ep,
 	Value *res = NULL;
 	networkdays_holiday_closure * close =
 	    (networkdays_holiday_closure *)user_data;
-	int const serial = datetime_value_to_serial (v);
+	int serial;
 	GDate * date;
 
+	if (v->type == VALUE_ERROR)
+		return value_duplicate (v);
+	serial = datetime_value_to_serial (v);
         if (serial <= 0)
 		return value_new_error (ep, gnumeric_err_NUM);
 
@@ -729,6 +769,14 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 	int end_serial = datetime_value_to_serial (argv[1]);
 	int start_offset, end_offset, res;
 	networkdays_holiday_closure close;
+
+	if (argv[0]->type == VALUE_ERROR)
+		return value_duplicate (argv[0]);
+	if (argv[1]->type == VALUE_ERROR)
+		return value_duplicate (argv[1]);
+
+	start_serial = datetime_value_to_serial (argv[0]);
+	end_serial = datetime_value_to_serial (argv[1]);
 
 	/* Swap if necessary */
 	if (start_serial > end_serial) {
