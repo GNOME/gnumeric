@@ -90,6 +90,10 @@ style_border_equal (gconstpointer v1, gconstpointer v2)
 	MStyleBorder const *k1 = (MStyleBorder const *) v1;
 	MStyleBorder const *k2 = (MStyleBorder const *) v2;
 
+	/*
+	 * ->color is a pointer, but the comparison is safe because
+	 * all colours are cached, see style_color_new.
+	 */	   
 	return	(k1->color == k2->color) && 
 		(k1->line_type == k2->line_type);
 }
@@ -99,7 +103,15 @@ style_border_hash (gconstpointer v)
 {
 	MStyleBorder const *b = (MStyleBorder const *) v;
 
-	/* Quick kludge */
+	/*
+	 * HACK ALERT!
+	 *
+	 * ->color is a pointer, but the comparison is safe because
+	 * all colours are cached, see style_color_new.
+	 *
+	 * We assume that casting a pointer to (unsigned) does something
+	 * useful.  That's probably ok.
+	 */	   
  	return (((unsigned)b->color) ^ b->line_type);
 }
 
