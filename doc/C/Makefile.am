@@ -298,17 +298,24 @@ sgml_ents = 					\
 	cell_refer.sgml				\
 	copying-moving.sgml			\
 	editing.sgml				\
+	fdl-appendix.sgml			\
 	files.sgml				\
 	filter.sgml				\
 	formulas.sgml				\
 	functions.sgml				\
+	graphs.sgml				\
+	gui-elements.sgml			\
 	introduction.sgml			\
 	license.sgml				\
+	menus.sgml				\
 	number-format.sgml			\
 	printing.sgml				\
+	preface.sgml				\
 	selections.sgml				\
 	solver.sgml				\
+	toolbars.sgml				\
 	worksheet.sgml
+
 
 EXTRA_DIST += gnumeric.1
 
