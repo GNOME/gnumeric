@@ -5,6 +5,7 @@ Andreas:
 
 Jody:
 	* Make names created in the goto box absolute.
+	* Fix multi-line text entry.
 
 Morten:
 	* Back-port DATE2UNIX fix.
