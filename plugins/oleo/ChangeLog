@@ -1,3 +1,7 @@
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
 2001-12-07  Jody Goldberg <jody@gnome.org>
 
 	* oleo.c (oleo_set_style) : document why we are adding a ref here.

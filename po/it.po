@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
-"POT-Creation-Date: 2001-12-14 18:21-0500\n"
+"POT-Creation-Date: 2001-12-16 02:50-0500\n"
 "PO-Revision-Date: 2001-01-04 20:05+01:00\n"
 "Last-Translator: Leandro Noferini <lnoferin@cybervalley.org>\n"
 "Language-Team: \n"
@@ -2168,92 +2168,97 @@ msgstr "_Vai alla cella..."
 
 #: src/GNOME_Gnumeric.xml.h:244
 #, fuzzy
+msgid "_Graph"
+msgstr "Gruppi"
+
+#: src/GNOME_Gnumeric.xml.h:245
+#, fuzzy
 msgid "_Group"
 msgstr "Gruppi"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2914
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2914
 #, fuzzy
 msgid "_Group and Outline"
 msgstr "Linee della _griglia"
 
-#: src/GNOME_Gnumeric.xml.h:246
+#: src/GNOME_Gnumeric.xml.h:247
 #, fuzzy
 msgid "_Help"
 msgstr "_Nascondi"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1433
+#: src/GNOME_Gnumeric.xml.h:248 src/sheet-control-gui.c:1433
 #: src/sheet-control-gui.c:1441 src/workbook-control-gui.c:2726
 #: src/workbook-control-gui.c:2745
 msgid "_Hide"
 msgstr "_Nascondi"
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2854
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2854
 #, fuzzy
 msgid "_Hide Detail"
 msgstr "Dettagli del _file"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2460
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2460
 msgid "_Import..."
 msgstr "_Importa"
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2552
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2552
 #: src/workbook-control-gui.c:2929
 msgid "_Insert"
 msgstr "_Inserisci"
 
-#: src/GNOME_Gnumeric.xml.h:251
+#: src/GNOME_Gnumeric.xml.h:252
 #, fuzzy
 msgid "_Insert new"
 msgstr "_Inserisci"
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2708
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2708
 msgid "_Name"
 msgstr "_Nome"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2456
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2456
 msgid "_New"
 msgstr "_Nuovo"
 
-#: src/GNOME_Gnumeric.xml.h:254
+#: src/GNOME_Gnumeric.xml.h:255
 #, fuzzy
 msgid "_Object"
 msgstr "_Oggetto..."
 
-#: src/GNOME_Gnumeric.xml.h:255
+#: src/GNOME_Gnumeric.xml.h:256
 #, fuzzy
 msgid "_Open..."
 msgstr "Apri"
 
-#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1394
+#: src/GNOME_Gnumeric.xml.h:257 src/sheet-control-gui.c:1394
 #: src/workbook-control-gui.c:2592
 msgid "_Paste"
 msgstr "_Incolla"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:2822
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:2822
 msgid "_Plug-ins..."
 msgstr "_Plu_g-in..."
 
-#: src/GNOME_Gnumeric.xml.h:258
+#: src/GNOME_Gnumeric.xml.h:259
 #, fuzzy
 msgid "_Print..."
 msgstr "Stampa"
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:1029
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:1029
 #: src/workbook-control-gui.c:2577
 #, fuzzy
 msgid "_Redo"
 msgstr "Riesegui"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/dialogs/autocorrect.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2564
 msgid "_Remove"
 msgstr "_Elimina"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:2807
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2807
 msgid "_Row"
 msgstr "_Riga"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/dialogs/anova-one.glade.h:14
+#: src/GNOME_Gnumeric.xml.h:263 src/dialogs/anova-one.glade.h:14
 #: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
 #: src/dialogs/descriptive-stats.glade.h:20
 #: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:18
@@ -2263,87 +2268,87 @@ msgstr "_Riga"
 msgid "_Rows"
 msgstr "_Righe"
 
-#: src/GNOME_Gnumeric.xml.h:263
+#: src/GNOME_Gnumeric.xml.h:264
 #, fuzzy
 msgid "_Save"
 msgstr "Salva"
 
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2612
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2612
 #, fuzzy
 msgid "_Select"
 msgstr "_Seleziona..."
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2693
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2693
 #: src/workbook-control-gui.c:2808
 msgid "_Sheet"
 msgstr "_Foglio"
 
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2857
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2857
 #, fuzzy
 msgid "_Show Detail"
 msgstr "Dettagli del _file"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2840
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2840
 msgid "_Solver..."
 msgstr "_Risolutore..."
 
-#: src/GNOME_Gnumeric.xml.h:268
+#: src/GNOME_Gnumeric.xml.h:269
 msgid "_Sort..."
 msgstr "_Ordina..."
 
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2751
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2751
 msgid "_Standard Height"
 msgstr "Altezza _Standard"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2732
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:2732
 msgid "_Standard Width"
 msgstr "Larghezza Standard = "
 
-#: src/GNOME_Gnumeric.xml.h:271
+#: src/GNOME_Gnumeric.xml.h:272
 #, fuzzy
 msgid "_Toolbars..."
 msgstr "Cance_lla..."
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2931
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2931
 msgid "_Tools"
 msgstr "_Tools"
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:1028
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:1028
 #: src/workbook-control-gui.c:2573
 #, fuzzy
 msgid "_Undo"
 msgstr "Annulla"
 
-#: src/GNOME_Gnumeric.xml.h:274
+#: src/GNOME_Gnumeric.xml.h:275
 #, fuzzy
 msgid "_Ungroup"
 msgstr "Annulla"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1435
+#: src/GNOME_Gnumeric.xml.h:276 src/sheet-control-gui.c:1435
 #: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2729
 #: src/workbook-control-gui.c:2748
 msgid "_Unhide"
 msgstr "_Mostra"
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2905
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:2905
 #, fuzzy
 msgid "_Validate..."
 msgstr "_Larghezza..."
 
-#: src/GNOME_Gnumeric.xml.h:277
+#: src/GNOME_Gnumeric.xml.h:278
 #, fuzzy
 msgid "_View"
 msgstr "Vista"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/workbook-control-gui.c:2720
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2720
 msgid "_Width..."
 msgstr "_Larghezza..."
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2814
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2814
 msgid "_Workbook..."
 msgstr "_Cartella di lavoro..."
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2653
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:2653
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
@@ -5576,11 +5581,11 @@ msgstr ""
 msgid "%d lines to import"
 msgstr "%d linee da importare"
 
-#: src/dialogs/dialog-stf-main-page.c:210
+#: src/dialogs/dialog-stf-main-page.c:227
 msgid "LINES TOO LONG!"
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:234
+#: src/dialogs/dialog-stf-main-page.c:253
 #, c-format
 msgid "Data (from %s)"
 msgstr "Dati (da %s)"

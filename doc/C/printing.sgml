@@ -13,7 +13,7 @@
      <title><interface>Print Dialog</interface></title>
      <screenshot>
       <screeninfo><interface>Print Dialog</interface></screeninfo>
-      <graphic fileref="figures/print-worksheet" format="png"
+      <graphic fileref="figures/print-worksheet.png" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -36,7 +36,7 @@
      <title><interface>Print Setup Dialog - Page</interface></title>
      <screenshot>
       <screeninfo><interface>Print Setup Dialog - Page</interface></screeninfo>
-      <graphic fileref="figures/printing-setup-page-1" format="png"
+      <graphic fileref="figures/printing-setup-page-1.png" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -48,7 +48,7 @@
      <title><interface>Print Setup Dialog - Margins</interface></title>
      <screenshot>
       <screeninfo><interface>Print Dialog - Margins</interface></screeninfo>
-      <graphic fileref="figures/printing-setup-margins" format="png"
+      <graphic fileref="figures/printing-setup-margins.png" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -60,7 +60,7 @@
      <title><interface>Print Dialog</interface></title>
      <screenshot>
       <screeninfo><interface>Print Dialog</interface></screeninfo>
-      <graphic fileref="figures/printing-setup-header" format="png"
+      <graphic fileref="figures/printing-setup-header.png" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -72,7 +72,7 @@
      <title><interface>Print Setup Dialog - Page</interface></title>
      <screenshot>
       <screeninfo><interface>Print Setup Dialog - Page</interface></screeninfo>
-      <graphic fileref="figures/printing-setup-page" format="png"
+      <graphic fileref="figures/printing-setup-page.png" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -92,7 +92,7 @@
      <title><interface>Print Preview Dialog</interface></title>
      <screenshot>
       <screeninfo><interface>Print Preview Dialog</interface></screeninfo>
-      <graphic fileref="figures/printing-preview" format="png"
+      <graphic fileref="figures/printing-preview.png" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>

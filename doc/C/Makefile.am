@@ -189,4 +189,4 @@ func-index.sgml: func.defs make-func-index.pl
 
 func.defs: 
 	gnumericdir=`cd $(top_builddir)/src && pwd`; \
-	cd $(srcdir) && $$gnumericdir/$(gnumeric) --dump-func-defs=func.defs
+	cd $(srcdir) && $$gnumericdir/gnumeric --dump-func-defs=func.defs

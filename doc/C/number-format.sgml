@@ -53,7 +53,7 @@
   <figure id="number-format-dialog">
       <title>The main number formatting dialog.</title>
       <screenshot>
-	<graphic fileref="figures/number-format-dialog" format="png"></graphic>
+	<graphic fileref="figures/number-format-dialog.png" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -81,7 +81,7 @@ tab. This will open the standard Gnome font selection dialog.</para>
 <figure id="number-format-font-dialog">
    <title>The Font selection dialog</title>
    <screenshot>
-      <graphic fileref="figures/number-format-font-dialog" format="png"></graphic>
+      <graphic fileref="figures/number-format-font-dialog.png" format="png"></graphic>
    </screenshot>
 </figure>
 
@@ -150,7 +150,7 @@ pattern with a potentially different colour.
 <figure id="number-format-color-dialog">
   <title>The cell color dialog.</title>
     <screenshot>
-      <graphic fileref="figures/number-format-color-dialog" format="png"></graphic>
+      <graphic fileref="figures/number-format-color-dialog.png" format="png"></graphic>
      </screenshot>
 </figure>
 
@@ -181,14 +181,14 @@ as needed. There are several justification options. See
 <figure id="number-format-justification">
   <title>Example of text justification.</title>
   <screenshot>
-     <graphic fileref="figures/number-format-justification" format="png"></graphic>
+     <graphic fileref="figures/number-format-justification.png" format="png"></graphic>
    </screenshot>
 </figure>
 
 <figure id="number-format-justification-dialog">
   <title>The cell justification dialog.</title>
   <screenshot>
-     <graphic fileref="figures/number-format-justification-dialog-2" format="png"></graphic>
+     <graphic fileref="figures/number-format-justification-dialog-2.png" format="png"></graphic>
    </screenshot>
 </figure>
 

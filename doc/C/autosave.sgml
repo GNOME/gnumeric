@@ -10,7 +10,7 @@
   <figure id="autosave-figure">
     <title>The Auto Save Tool dialog.</title>
     <screenshot>
-      <graphic fileref="figures/auto-save.png"></graphic>
+      <graphic fileref="figures/auto-save.png" format="PNG"></graphic>
     </screenshot>
   </figure>
 

@@ -1,3 +1,7 @@
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
 2001-12-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* latex.c (latex2e_write_multicolumn_cell) : implement 

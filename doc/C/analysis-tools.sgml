@@ -8,19 +8,10 @@
   button or double-click on the tool.  The tools are described below.</para>
 
 <figure id="analysistools">
-<title>
-Data Analysis Tools
-</title>
-<screenshot id="analysistools-shot">
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-tools.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the Data Analysis Tools dialog</phrase>
-</textobject>
-</mediaobject>
-</screenshot>
+    <title>Data Analysis Tools </title>
+    <screenshot id="analysistools-shot">
+	<graphic fileref="figures/analysistools-tools.png" format="PNG"></graphic>
+    </screenshot>
 </figure>
 
   <para>All tools have the same output options (see <xref linkend="outputoptions">).
@@ -35,21 +26,12 @@ Data Analysis Tools
   <note><para>The
   old data in the output range is deleted and cannot be recovered.</para></note>
 
-<figure id="outputoptions">
-<title>
-Common output options of the data analysis tools
-</title>
-<screenshot id="outputoptions-shot">
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-outputoptions.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Common output options of the data analysis tools</phrase>
-</textobject>
-</mediaobject>
-</screenshot>
-</figure>
+  <figure id="outputoptions">
+      <title>Common output options of the data analysis tools</title>
+      <screenshot id="outputoptions-shot">
+	  <graphic fileref="figures/analysistools-outputoptions.png" format="PNG"></graphic>
+      </screenshot>
+  </figure>
 
   <para>To enter a range into an entry field, you can either type the 
   range specification into the text field, or click 
@@ -58,14 +40,7 @@ Common output options of the data analysis tools
   <figure id="specifyingranges">
     <title>Specifying Ranges</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-ranges.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>An example how to specify ranges</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-ranges.png" format="PNG"></graphic>
     </screenshot>
   </figure>
   <para>Some entry fields accept lists of ranges. To enter these lists,
@@ -129,27 +104,13 @@ Common output options of the data analysis tools
   <figure id="anova-two-factor-without-tool-ex1">
     <title>2-factor ANOVA Without Replication Dialog</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-ANOVA2wo-ex1.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>A completed 2-factor ANOVA without replication dialog</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-ANOVA2wo-ex1.png" format="PNG"></graphic>
     </screenshot>
   </figure>
   <figure id="anova-two-factor-without-tool-ex2">
     <title>Output From a2-factor ANOVA Without Replication</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-ANOVA2wo-ex2.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>The output from a 2-factor ANOVA without replication</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-ANOVA2wo-ex2.png" format="PNG"></graphic>
     </screenshot>
   </figure>
   </sect3>
@@ -175,27 +136,13 @@ Common output options of the data analysis tools
   <figure id="anova-two-factor-with-tool-ex1">
     <title>2-factor ANOVA With Replication Dialog</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-ANOVA2w-ex1.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>A completed 2-factor ANOVA with replication dialog</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-ANOVA2w-ex1.png" format="PNG"></graphic>
     </screenshot>
   </figure>
   <figure id="anova-two-factor-with-tool-ex2">
     <title>Output From a 2-factor ANOVA With Replication</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-ANOVA2w-ex2.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>The output from a 2-factor ANOVA with replication</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-ANOVA2w-ex2.png" format="PNG"></graphic>
     </screenshot>
   </figure>
      
@@ -214,14 +161,7 @@ Common output options of the data analysis tools
   <figure id="correlation-tool-dialog">
     <title>Correlation Tool Dialog</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-correlation.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the correlation tool dialog</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-correlation.png" format="PNG"></graphic>
     </screenshot>
   </figure>
 
@@ -242,14 +182,7 @@ Common output options of the data analysis tools
   <figure id="correlation-example-1">
     <title>Some Example Data</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-correlation-ex1.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Some example data</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-correlation-ex1.png" format="PNG"></graphic>
     </screenshot>
   </figure>
 
@@ -286,27 +219,13 @@ Common output options of the data analysis tools
   <figure id="correlation-example-2">
     <title>Completed Correlation Dialog</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-correlation-ex2.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the completed correlation tool dialog</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-correlation-ex2.png" format="PNG"></graphic>
     </screenshot>
   </figure>
   <figure id="correlation-example-3">
     <title>Correlation Tool Output</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-correlation-ex3.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the results output</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-correlation-ex3.png" format="PNG"></graphic>
     </screenshot>
   </figure>
   </sect1>
@@ -317,14 +236,7 @@ Common output options of the data analysis tools
   <figure id="covariance-tool-dialog">
     <title>Covariance Tool Dialog</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-covariance.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the covariance tool dialog</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-covariance.png" format="PNG"></graphic>
     </screenshot>
   </figure>
 
@@ -345,14 +257,7 @@ Common output options of the data analysis tools
   <figure id="covariance-example-1">
     <title>Some Example Data</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-covariance-ex1.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Some example data</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-covariance-ex1.png" format="PNG"></graphic>
     </screenshot>
   </figure>
 
@@ -389,14 +294,7 @@ Common output options of the data analysis tools
   <figure id="covariance-example-2">
     <title>Covariance Tool Output</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-covariance-ex2.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the results output</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-covariance-ex2.png" format="PNG"></graphic>
     </screenshot>
   </figure>
   </sect1>
@@ -408,14 +306,7 @@ Common output options of the data analysis tools
   <figure id="descriptive-statistics-tool-dialog">
     <title>Descriptive Statistics Tool Dialog</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-descstats.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the descriptive statistics tools dialog</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-descstats.png" format="PNG"></graphic>
     </screenshot>
   </figure>
 
@@ -465,14 +356,7 @@ Common output options of the data analysis tools
   <figure id="descstats-example-1">
     <title>Some Example Data</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-descstats-ex1.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Some example data</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-descstats-ex1.png" format="PNG"></graphic>
     </screenshot>
   </figure>
  <example id="usingdescstatstool"><title>Using the Descriptive Statistics Tool</title>
@@ -483,14 +367,7 @@ Common output options of the data analysis tools
   <figure id="descstats-example-2">
     <title>Descriptive Statistics Tool Output</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-descstats-ex2.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the results output</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-descstats-ex2.png" format="PNG"></graphic>
     </screenshot>
   </figure>
   </sect1>
@@ -523,14 +400,7 @@ Common output options of the data analysis tools
   <figure id="ftest-tool-dialog">
     <title>F-Test Tool Dialog</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-ftest.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the F-test tool dialog</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-ftest.png" format="PNG"></graphic>
     </screenshot>
   </figure>
      <para>Use the F-Test tool to test whether two population  
@@ -565,14 +435,7 @@ Common output options of the data analysis tools
    <figure id="ftest-example-1">
     <title>Some Example Data</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-ftest-ex1.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Some example data</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-ftest-ex1.png" format="PNG"></graphic>
     </screenshot>
   </figure>
  <example id="usingftesttool"><title>Using the F-Test Tool</title>
@@ -583,14 +446,7 @@ Common output options of the data analysis tools
   <figure id="ftest-example-2">
     <title>F-Test Tool Output</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-ftest-ex2.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the results output</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-ftest-ex2.png" format="PNG"></graphic>
     </screenshot>
   </figure>
     
@@ -602,14 +458,7 @@ Common output options of the data analysis tools
   <figure id="histogram-tool-dialog">
     <title>Histogram Tool Dialog</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-histogram.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the histogram tool dialog</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-histogram.png" format="PNG"></graphic>
     </screenshot>
   </figure>
 
@@ -657,14 +506,7 @@ Common output options of the data analysis tools
   <figure id="histogram-example-1">
     <title>Some Example Data</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-histogram-ex1.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Some example data</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-histogram-ex1.png" format="PNG"></graphic>
     </screenshot>
   </figure>
 
@@ -704,14 +546,7 @@ Common output options of the data analysis tools
   <figure id="histogram-example-2">
     <title>Histogram Tool Output</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-histogram-ex2.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the results output</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-histogram-ex2.png" format="PNG"></graphic>
     </screenshot>
   </figure>
 
@@ -827,14 +662,7 @@ Common output options of the data analysis tools
   <figure id="rank-and-percentile-tool-dialog">
     <title>Rank and Percentile Tool Dialog</title>
     <screenshot>
-<mediaobject>
-<imageobject>
-<imagedata fileref="figures/analysistools-rank.png" format="PNG">
-</imageobject>
-<textobject>
-<phrase>Screenshot of the Rank and Percentile Tool dialog</phrase>
-</textobject>
-</mediaobject>
+	<graphic fileref="figures/analysistools-rank.png" format="PNG"></graphic>
     </screenshot>
   </figure>
 

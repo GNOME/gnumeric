@@ -125,7 +125,7 @@
     <figure id="rightclickmove">
       <title>The option menu for dragging a cell with right click</title>
       <screenshot>
-	<graphic fileref="figures/dndselection-1.png"></graphic>
+	<graphic fileref="figures/dndselection-1.png" format="PNG"></graphic>
       </screenshot>
     </figure>
     

@@ -303,13 +303,13 @@ format_template_member_free (TemplateMember *member)
  * @r:
  *
  * Get the rectangular area covered by the TemplateMember @member in the parent
- * rectangle @x1, @y1, @x2, @y2.
+ * rectangle @r.
  * NOTE : This simply calculates the rectangle, it does not calculate repetitions
  *        or anything. That you'll have to do yourself :-)
  *
  * Return value: a Range containing the effective rectangle of @member
  **/
-Range
+static Range
 format_template_member_get_rect (TemplateMember *member, Range const *r)
 {
 	Range res;

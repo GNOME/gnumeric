@@ -15,7 +15,7 @@
   <figure id="worksheet-all-1.png">
     <title>A example of the entire worksheet.</title>
     <screenshot>
-      <graphic fileref="figures/worksheet-all-1" format="png"></graphic>
+      <graphic fileref="figures/worksheet-all-1.png" format="png"></graphic>
     </screenshot>
   </figure>
   </sect2>
@@ -730,7 +730,7 @@
      <title>The <interface>toolbar</interface></title>
      <screenshot>
       <screeninfo>The <interface>toobar</interface></screeninfo>
-      <graphic fileref="figures/toolbar" format="png"
+      <graphic fileref="figures/toolbar.png" format="png"
        srccredit="Thomas Canty">
       </graphic>
      </screenshot>
@@ -1070,7 +1070,7 @@
     <figure id="worksheet-data-1">
       <title>The Data Entry area.</title>
       <screenshot>
-	<graphic fileref="figures/worksheet-data-1" format="png"></graphic>
+	<graphic fileref="figures/worksheet-data-1.png" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -1089,7 +1089,7 @@
       <figure id="worksheet-data-2">
 	<title>The Current Cell Indicator.</title>
 	<screenshot>
-	  <graphic fileref="figures/worksheet-data-2" format="png"></graphic>
+	  <graphic fileref="figures/worksheet-data-2.png" format="png"></graphic>
 	</screenshot>
       </figure>
       
@@ -1101,7 +1101,7 @@
       <para>While entering data in the entry area, you can confirm the
 	current cell contents by pressing the green return button
 	<guibutton>
-	  <inlinegraphic fileref="figures/worksheet-data-3" format="png">
+	  <inlinegraphic fileref="figures/worksheet-data-3.png" format="png">
 	  </inlinegraphic>
 	</guibutton>.
       </para>
@@ -1144,14 +1144,14 @@
     <figure id="worksheet-cols-1">
       <title>The column labels at the top of the worksheet.</title>
       <screenshot>
-	<graphic fileref="figures/worksheet-cols-1" format="png"></graphic>
+	<graphic fileref="figures/worksheet-cols-1.png" format="png"></graphic>
       </screenshot>
     </figure>
     
     <figure id="worksheet-rows-1">
       <title>The row labels at the left side of the worksheet.</title>
       <screenshot>
-	<graphic fileref="figures/worksheet-rows-1" format="png"></graphic>
+	<graphic fileref="figures/worksheet-rows-1.png" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -1168,7 +1168,7 @@
     <figure id="worksheet-info-1">
       <title>The info area.</title>
       <screenshot>
-	<graphic fileref="figures/worksheet-info-1" format="png"></graphic>
+	<graphic fileref="figures/worksheet-info-1.png" format="png"></graphic>
       </screenshot>
     </figure>
     
@@ -1191,7 +1191,7 @@
       <figure id="worksheet-running-calc-1">
 	<title>The running calculation area.</title>
 	<screenshot>
-	  <graphic fileref="figures/worksheet-running-calc-1" format="png"></graphic>
+	  <graphic fileref="figures/worksheet-running-calc-1.png" format="png"></graphic>
 	</screenshot>
       </figure>
     </sect3>

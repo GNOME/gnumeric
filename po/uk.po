@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
-"POT-Creation-Date: 2001-12-14 18:21-0500\n"
+"POT-Creation-Date: 2001-12-16 02:50-0500\n"
 "PO-Revision-Date: 1999-12-08 14:44+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -2056,88 +2056,93 @@ msgid "_Goto cell..."
 msgstr "Перейти на ком╕рку..."
 
 #: src/GNOME_Gnumeric.xml.h:244
+#, fuzzy
+msgid "_Graph"
+msgstr "Згрупувати"
+
+#: src/GNOME_Gnumeric.xml.h:245
 msgid "_Group"
 msgstr "Згрупувати"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2914
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2914
 #, fuzzy
 msgid "_Group and Outline"
 msgstr "Л╕н╕╖ с╕тки"
 
-#: src/GNOME_Gnumeric.xml.h:246
+#: src/GNOME_Gnumeric.xml.h:247
 msgid "_Help"
 msgstr "Дов╕дка"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1433
+#: src/GNOME_Gnumeric.xml.h:248 src/sheet-control-gui.c:1433
 #: src/sheet-control-gui.c:1441 src/workbook-control-gui.c:2726
 #: src/workbook-control-gui.c:2745
 msgid "_Hide"
 msgstr "Прибрати"
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2854
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2854
 #, fuzzy
 msgid "_Hide Detail"
 msgstr "Подробиц╕ про файл"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2460
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2460
 msgid "_Import..."
 msgstr "╤мпортувати..."
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2552
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2552
 #: src/workbook-control-gui.c:2929
 msgid "_Insert"
 msgstr "Вставка"
 
-#: src/GNOME_Gnumeric.xml.h:251
+#: src/GNOME_Gnumeric.xml.h:252
 msgid "_Insert new"
 msgstr "Вставити новий"
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2708
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2708
 msgid "_Name"
 msgstr "Назва"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2456
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2456
 msgid "_New"
 msgstr "Нова"
 
-#: src/GNOME_Gnumeric.xml.h:254
+#: src/GNOME_Gnumeric.xml.h:255
 msgid "_Object"
 msgstr "Об'╓кт"
 
-#: src/GNOME_Gnumeric.xml.h:255
+#: src/GNOME_Gnumeric.xml.h:256
 #, fuzzy
 msgid "_Open..."
 msgstr "В╕дкрити"
 
-#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1394
+#: src/GNOME_Gnumeric.xml.h:257 src/sheet-control-gui.c:1394
 #: src/workbook-control-gui.c:2592
 msgid "_Paste"
 msgstr "Вставити"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:2822
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:2822
 msgid "_Plug-ins..."
 msgstr "Доповнення..."
 
-#: src/GNOME_Gnumeric.xml.h:258
+#: src/GNOME_Gnumeric.xml.h:259
 #, fuzzy
 msgid "_Print..."
 msgstr "Друкувати"
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:1029
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:1029
 #: src/workbook-control-gui.c:2577
 msgid "_Redo"
 msgstr "Повторити"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/dialogs/autocorrect.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2564
 msgid "_Remove"
 msgstr "Видалити"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:2807
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2807
 msgid "_Row"
 msgstr "Рядок"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/dialogs/anova-one.glade.h:14
+#: src/GNOME_Gnumeric.xml.h:263 src/dialogs/anova-one.glade.h:14
 #: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
 #: src/dialogs/descriptive-stats.glade.h:20
 #: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:18
@@ -2147,82 +2152,82 @@ msgstr "Рядок"
 msgid "_Rows"
 msgstr "Рядки"
 
-#: src/GNOME_Gnumeric.xml.h:263
+#: src/GNOME_Gnumeric.xml.h:264
 msgid "_Save"
 msgstr "Зберегти"
 
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2612
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2612
 msgid "_Select"
 msgstr "Вибрати"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2693
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2693
 #: src/workbook-control-gui.c:2808
 msgid "_Sheet"
 msgstr "Аркуш"
 
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2857
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2857
 #, fuzzy
 msgid "_Show Detail"
 msgstr "Подробиц╕ про файл"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2840
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2840
 msgid "_Solver..."
 msgstr "Р╕шення..."
 
-#: src/GNOME_Gnumeric.xml.h:268
+#: src/GNOME_Gnumeric.xml.h:269
 msgid "_Sort..."
 msgstr "_Сортувати..."
 
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2751
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2751
 msgid "_Standard Height"
 msgstr "Стандартна висота"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2732
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:2732
 msgid "_Standard Width"
 msgstr "Стандартна ширина"
 
-#: src/GNOME_Gnumeric.xml.h:271
+#: src/GNOME_Gnumeric.xml.h:272
 #, fuzzy
 msgid "_Toolbars..."
 msgstr "╤нструменти"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2931
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2931
 msgid "_Tools"
 msgstr "╤нструменти"
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:1028
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:1028
 #: src/workbook-control-gui.c:2573
 msgid "_Undo"
 msgstr "В╕дм╕нити"
 
-#: src/GNOME_Gnumeric.xml.h:274
+#: src/GNOME_Gnumeric.xml.h:275
 msgid "_Ungroup"
 msgstr "Розгрупувати"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1435
+#: src/GNOME_Gnumeric.xml.h:276 src/sheet-control-gui.c:1435
 #: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2729
 #: src/workbook-control-gui.c:2748
 msgid "_Unhide"
 msgstr "Показати"
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2905
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:2905
 #, fuzzy
 msgid "_Validate..."
 msgstr "_Ширина..."
 
-#: src/GNOME_Gnumeric.xml.h:277
+#: src/GNOME_Gnumeric.xml.h:278
 msgid "_View"
 msgstr "Вигляд"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/workbook-control-gui.c:2720
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2720
 msgid "_Width..."
 msgstr "_Ширина..."
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2814
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2814
 msgid "_Workbook..."
 msgstr "Книга..."
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2653
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:2653
 msgid "_Zoom..."
 msgstr "Масштаб..."
 
@@ -5364,11 +5369,11 @@ msgstr ""
 msgid "%d lines to import"
 msgstr "%d рядк╕в для ╕мпорту"
 
-#: src/dialogs/dialog-stf-main-page.c:210
+#: src/dialogs/dialog-stf-main-page.c:227
 msgid "LINES TOO LONG!"
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:234
+#: src/dialogs/dialog-stf-main-page.c:253
 #, c-format
 msgid "Data (from %s)"
 msgstr "Дан╕ (з %s)"

@@ -26,7 +26,7 @@
        <title>Worksheet containing the table to be filtered and a
        simple criteria.</title>
        <screenshot>
-         <graphic fileref="figures/advanced-filter-1.png"></graphic>
+         <graphic fileref="figures/advanced-filter-1.png" format="PNG"></graphic>
        </screenshot>
      </figure>
 
@@ -39,7 +39,7 @@
        <title>Criteria for selecting rows whose `Profit' column is between
        0 and 40000.</title>
        <screenshot>
-         <graphic fileref="figures/advanced-filter-2.png"></graphic>
+         <graphic fileref="figures/advanced-filter-2.png" format="PNG"></graphic>
        </screenshot>
      </figure>
 
@@ -50,7 +50,7 @@
      <figure id="advanced-filter-dialog-figure">
        <title>The Advanced Filter dialog.</title>
        <screenshot>
-         <graphic fileref="figures/filter.png"></graphic>
+         <graphic fileref="figures/filter.png" format="PNG"></graphic>
        </screenshot>
      </figure>
 

@@ -1,5 +1,12 @@
 2001-12-15  Jody Goldberg <jody@gnome.org>
 
+	* Release 0.99.0
+
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* src/format-template.c (format_template_member_get_rect) : warning
+	  suppression.
+
 	* src/application.c (application_init) : add the 16x16 graph guru icon.
 
 	* doc/C/Makefile.am : distribute header & footer too.

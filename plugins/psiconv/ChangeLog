@@ -1,3 +1,7 @@
+2001-12-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.0
+
 2001-11-05  Bugzilla User  <cly@mail.dotcom.fr>
 
 	* psiconv-read.c: bitrot fight.
