@@ -12,8 +12,6 @@ Release Critical
 - 3D reference fixes on sheet deletion
 - iconv utf8 password -> ucs4 before hashing
 
-http://bugzilla.gnome.org/show_bug.cgi?id=77682
-
 1.2 Targets
 -----------
 
