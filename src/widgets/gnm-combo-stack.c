@@ -1,3 +1,11 @@
+/*
+ * gtk-combo-stack: A combo box for displaying stacks.
+ *
+ * Authors:
+ * 	ERDI Gergo  <cactus@cactus.rulez.org>
+ */
+#include <config.h>
+#include <gnome.h>
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-stock.h>
 #include "gtk-combo-stack.h"
@@ -144,6 +152,9 @@ gtk_combo_stack_construct (GtkComboStack *combo,
 	GtkWidget *button, *list, *scroll, *display_widget, *pixmap;
 	
 	button = combo->button = gtk_button_new ();
+	if (!gnome_preferences_get_toolbar_relief_btn ())
+		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+
 	list = combo->list = gtk_list_new ();
 
 	/* Create the button */

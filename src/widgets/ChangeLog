@@ -1,3 +1,8 @@
+2000-05-28  Jody Goldberg <jgoldberg@home.com>
+
+	* gtk-combo-stack.c (gtk_combo_stack_construct) : The button relief
+	  needs to be set too.
+
 2000-05-28  ERDI Gergo  <cactus@cactus.rulez.org>
 
 	* gtk-combo-stack.c: New clear() method
