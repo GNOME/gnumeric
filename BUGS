@@ -73,6 +73,15 @@ Long term breakage
 
 - latex : multiline rows not handled properly.
         : nor are spans
+
+- SheetObjects  : use GtkArg and remove cruft from xml-io.
+	 	: Add data member to Class to indicate 'simple' object
+		  types that can be rubber banded directly.
+		: Add bounding_box_add
+		      bounding_box_remove
+		  to handle shaped objects.
+
+- Parser : The single character '%' is parsed as an expression '0%'
 Dialogs
 -------
 - Use color combos in format dialog.

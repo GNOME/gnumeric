@@ -7,7 +7,6 @@
 typedef struct _GraphSeries GraphSeries;
 
 GraphSeries *graph_series_new (Sheet *sheet, Range const *r);
-CORBA_Object graph_series_servant (GraphSeries const *series);
-void graph_series_set_subscriber (GraphSeries *series, CORBA_Object obj);
+void graph_series_set_subscriber (GraphSeries *series, CORBA_Object manager);
 
 #endif /* GNUMERIC_GRAPH_SERIES_H */

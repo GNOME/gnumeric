@@ -38,8 +38,8 @@ make_container_item (SheetObject *so, SheetView *sheet_view, GtkWidget *w)
 		"widget", w,
 		"x",      x1,
 		"y",      y1,
-		"width",  x2 - x1,
-		"height", y2 - y1,
+		"width",  x2 - x1 + 1,
+		"height", y2 - y1 + 1,
 		"size_pixels", FALSE,
 		NULL);
 	sheet_object_widget_handle (so, w, item);
@@ -192,8 +192,8 @@ sheet_object_container_update_bounds (SheetObject *so)
 			item,
 			"x",      x1,
 			"y",      y1,
-			"width",  x2 - x1,
-			"height", y2 - y1,
+			"width",  x2 - x1 + 1,
+			"height", y2 - y1 + 1,
 			NULL);
 	}
 }

@@ -11,8 +11,6 @@
 			_descr="Open a file"
 			pixtype="stock" pixname="Menu_Open" accel="F3"/>
 	
-			<placeholder name="open"/>
-
 			<menuitem name="FileImport" verb="" _label="_Import..."
 			_descr="Imports a file"
 			pixtype="stock" pixname="Menu_Open"/>
@@ -43,7 +41,7 @@
 			_descr="Close the current file" pixtype="stock" pixname="Menu_Close"
 			accel="*Control*w"/>
 
-			<placeholder delimit="both"/>
+			<placeholder name="FileHistory" delimit="both"/>
 	
 			<menuitem name="FileExit" verb="" _label="E_xit" _descr="Exit the program"
 			pixtype="stock" pixname="Menu_Exit" accel="*Control*q"/>
@@ -142,7 +140,6 @@
 			_label="_Recalculate"
 			_descr="Recalculate the spreadsheet" accel="F9"/>
 
-	
 			<placeholder name="ops"/>
 
 		</submenu>

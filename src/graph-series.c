@@ -39,6 +39,7 @@ struct _GraphSeries {
 
 	GraphSeriesType type;
 	gboolean	is_column;
+	Range		range;	/* TODO : add support for discontinuous */
 
 	CORBA_Object    vector_ref;
 	union {
@@ -169,13 +170,51 @@ graph_series_eval (Dependent *dep)
 	g_return_if_fail (series != NULL);
 
 	CORBA_exception_init (&ev);
-	GNOME_Gnumeric_VectorScalarNotify_changed (
-		series->subscriber.scalar,
-		0, graph_series_seq_scalar (series), &ev);
+	switch (series->type) {
+	case SERIES_SCALAR :
+		GNOME_Gnumeric_VectorScalarNotify_changed (
+			series->subscriber.scalar,
+			0, graph_series_seq_scalar (series), &ev);
+		break;
+
+	case SERIES_DATE :
+		GNOME_Gnumeric_VectorDateNotify_changed (
+			series->subscriber.date,
+			0, graph_series_seq_date (series), &ev);
+		break;
+
+	case SERIES_STRING :
+		GNOME_Gnumeric_VectorStringNotify_changed (
+			series->subscriber.string,
+			0, graph_series_seq_string (series), &ev);
+		break;
+
+	default :
+		g_assert_not_reached ();
+	}
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_warning ("Problems notifying graph of change %p", series);
 	CORBA_exception_free (&ev);
 }
 
 /******************************************************************************/
+
+
+static char *
+series_get_name (GraphSeries const *series, char const *prefix)
+{
+	static int counter = 0;
+
+	++counter;
+	if (range_has_header (series->dep.sheet, &series->range,
+			      series->is_column)) {
+		Cell const *cell = sheet_cell_get (series->dep.sheet,
+						   series->range.start.col,
+						   series->range.start.row);
+		return value_get_as_string (cell->value);
+	} else
+		return g_strdup_printf ("%sseries%d", prefix, ++counter);
+}
 
 static void
 impl_vector_scalar_value (PortableServer_Servant servant,
@@ -184,12 +223,15 @@ impl_vector_scalar_value (PortableServer_Servant servant,
 			  CORBA_Environment *ev)
 {
 	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
+	char *label;
 
 	g_return_if_fail (GRAPH_SERIES (series) != NULL);
 	g_return_if_fail (series->type == SERIES_SCALAR);
 
-	*name = CORBA_string_dup ("BOBO");
+	label = series_get_name (series, "SCALAR");
+	*name = CORBA_string_dup (label);
 	*values = graph_series_seq_scalar (series);
+	g_free (label);
 }
 
 static void
@@ -199,12 +241,15 @@ impl_vector_date_value (PortableServer_Servant servant,
 			CORBA_Environment *ev)
 {
 	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
+	char *label;
 
 	g_return_if_fail (GRAPH_SERIES (series) != NULL);
 	g_return_if_fail (series->type == SERIES_DATE);
 
-	*name = CORBA_string_dup ("BOBO");
+	label = series_get_name (series, "DATE");
+	*name = CORBA_string_dup (label);
 	*values = graph_series_seq_date (series);
+	g_free (label);
 }
 
 static void
@@ -214,12 +259,15 @@ impl_vector_string_value (PortableServer_Servant servant,
 			  CORBA_Environment *ev)
 {
 	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
+	char *label;
 
 	g_return_if_fail (GRAPH_SERIES (series) != NULL);
 	g_return_if_fail (series->type == SERIES_STRING);
 
-	*name = CORBA_string_dup ("BOBO");
+	label = series_get_name (series, "STRING");
+	*name = CORBA_string_dup (label);
 	*values = graph_series_seq_string (series);
+	g_free (label);
 }
 
 /******************************************************************************/
@@ -379,24 +427,42 @@ graph_series_get_dep_type ()
 	return type;
 }
 
+
+/* TODO:
+ * Do we need to evaluate this as an expression ?
+ */
+static Value *
+cb_check_range_for_pure_string (Sheet *sheet, int col, int row,
+				Cell *cell, void *user_data)
+{
+	if (cell == NULL || cell->value->type != VALUE_STRING)
+		return value_terminate ();
+	return NULL;
+}
+
 GraphSeries *
 graph_series_new (Sheet *sheet, Range const *r)
 {
 	CORBA_Environment ev;
 	PortableServer_Servant serv = CORBA_OBJECT_NIL;
 	GraphSeries *series;
-	GraphSeriesType type = SERIES_SCALAR;
+	GraphSeriesType type;
 
 	series = gtk_type_new (graph_series_get_type ());
 
-	printf ("series::new () = 0x%p\n", series);
+	if (sheet_cell_foreach_range (sheet, FALSE,
+				      r->start.col, r->start.row,
+				      r->end.col, r->end.row,
+				      &cb_check_range_for_pure_string,
+				      NULL))
+		type = SERIES_SCALAR;
+	else
+		type = SERIES_STRING;
+
+	printf ("series::new (%d) = 0x%p\n", type, series);
 	series->type = type;
 	series->is_column = (r->start.col == r->end.col);
-	if (range_has_header (sheet, r, series->is_column)) {
-		puts ("has name");
-	} else {
-		puts ("generate name");
-	}
+	series->range = *r;
 
 	series->dep.sheet = sheet;
 	series->dep.flags = graph_series_get_dep_type ();
@@ -441,17 +507,38 @@ graph_series_new (Sheet *sheet, Range const *r)
 	return series;
 }
 
-CORBA_Object
-graph_series_servant (GraphSeries const *series)
-{
-	g_return_val_if_fail (IS_GRAPH_SERIES (series), CORBA_OBJECT_NIL);
-
-	return series->vector_ref;
-}
-
 void
-graph_series_set_subscriber (GraphSeries *series, CORBA_Object obj)
+graph_series_set_subscriber (GraphSeries *series, CORBA_Object graph_manager)
 {
+	CORBA_Environment ev;
+	GNOME_Gnumeric_Graph_Manager manager = graph_manager;
+
 	g_return_if_fail (series->subscriber.scalar == CORBA_OBJECT_NIL);
-	series->subscriber.scalar = obj;
+
+	CORBA_exception_init (&ev);
+
+	switch (series->type) {
+	case SERIES_SCALAR :
+		series->subscriber.scalar =
+			GNOME_Gnumeric_Graph_Manager_addVectorScalar (manager,
+				series->vector_ref, &ev);
+		break;
+
+	case SERIES_DATE :
+		series->subscriber.scalar =
+			GNOME_Gnumeric_Graph_Manager_addVectorDate (manager,
+				series->vector_ref, &ev);
+		break;
+
+	case SERIES_STRING :
+		series->subscriber.scalar =
+			GNOME_Gnumeric_Graph_Manager_addVectorString (manager,
+				series->vector_ref, &ev);
+		break;
+	default :
+		g_assert_not_reached();
+	}
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_warning ("Problems registering series %p", series);
+	CORBA_exception_free (&ev);
 }

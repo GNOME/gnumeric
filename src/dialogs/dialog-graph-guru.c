@@ -306,22 +306,14 @@ graph_guru_init_manager (GraphGuruState *state)
 
 
 static gboolean
-cb_create_series_from_range(Sheet *sheet,
-			    Range const *src,
-			    gpointer user_data)
+cb_create_series_from_range (Sheet *sheet, Range const *src, gpointer user_data)
 {
-	CORBA_Environment ev;
-	GNOME_Gnumeric_VectorScalarNotify subscriber;
-
 	GraphGuruState *state = user_data;
 	GraphSeries *series;
 	Range vector;
 	int i, count;
 
-	CORBA_exception_init (&ev);
-
 	vector = *src;
-
 	if (state->is_columns) {
 		count = vector.end.col - vector.start.col;
 		vector.end.col = vector.start.col;
@@ -332,10 +324,7 @@ cb_create_series_from_range(Sheet *sheet,
 
 	for (i = 0 ; i <= count ; i++) {
 		series = graph_series_new (sheet, &vector);
-		subscriber = GNOME_Gnumeric_Graph_Manager_addVectorScalar (
-			state->manager,
-			graph_series_servant (series), &ev);
-		graph_series_set_subscriber (series, subscriber);
+		graph_series_set_subscriber (series, state->manager);
 		g_ptr_array_add (state->series, series);
 
 		if (state->is_columns)
@@ -344,7 +333,6 @@ cb_create_series_from_range(Sheet *sheet,
 			vector.end.row = ++vector.start.row;
 	}
 
-	CORBA_exception_free (&ev);
 	return TRUE;
 }
 

@@ -1,3 +1,34 @@
+2000-09-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-graph-guru.c (cb_create_series_from_range) :
+	  GraphSeries is responsible for registering.
+
+	* src/history.c : Attempt to convert to the new bonobo ui handler.
+
+	* src/graph-series.c (graph_series_eval) : Support string and date
+	  series.
+	(series_get_name) : New function.
+	(impl_vector_scalar_value) : Use it here.
+	(impl_vector_date_value) : here
+	(impl_vector_string_value) : and here.
+	(cb_check_range_for_pure_string) : new function.
+	(graph_series_new) : Start guess whether a series is scalar or string.
+	(graph_series_servant) : Delete.
+	(graph_series_set_subscriber) : Take responsibility for registering
+	  with the remote Graph::Manager.
+
+	* src/gnumeric.xml : Remove bogus '/menu/File/open' placeholder
+	  Name the '/menu/File/FileHistory' placeholder.
+
+	* src/sheet-object-container.c (sheet_object_container_update_bounds)
+	  Fix off by 1 error here.
+	(make_container_item) : And here.
+
+	* src/sheet-object.c (sheet_object_add_view) : Renamed from
+	  sheet_view_object_realize.
+	(sheet_object_remove_view) : Renamed from sheet_view_object_unrealize.
+	(control_point_handle_event) : Enable edit popup from control points.
+
 2000-09-16  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/dialogs/autoformat.glade:

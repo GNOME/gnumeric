@@ -176,12 +176,13 @@ sheet_object_item_destroyed (GnomeCanvasItem *item, SheetObject *so)
 }
 
 /*
- * sheet_view_object_realize
+ * sheet_object_new_view
  *
- * Creates the actual object on the Canvas of a SheetView
+ * Creates a GnomeCanvasItem for a SheetView and sets up the event
+ * handlers.
  */
 static GnomeCanvasItem *
-sheet_view_object_realize (SheetView *sheet_view, SheetObject *so)
+sheet_object_new_view (SheetObject *so, SheetView *sheet_view)
 {
 	GnomeCanvasItem *item;
 
@@ -193,7 +194,7 @@ sheet_view_object_realize (SheetView *sheet_view, SheetObject *so)
 	item = SO_CLASS (so)->new_view (so, sheet_view);
 
 	if (item == NULL) {
-		g_warning ("We created an unsupported type\n");
+		g_warning ("Unable to create a view for this object\n");
 		return NULL;
 	}
 
@@ -202,16 +203,17 @@ sheet_view_object_realize (SheetView *sheet_view, SheetObject *so)
 	gtk_signal_connect (GTK_OBJECT (item), "destroy",
 			    GTK_SIGNAL_FUNC (sheet_object_item_destroyed), so);
 	so->realized_list = g_list_prepend (so->realized_list, item);
+
 	return item;
 }
 
 /*
- * sheet_view_object_unrealize
+ * sheet_object_remove_view
  *
  * Removes the object from the canvas in the SheetView.
  */
 static void
-sheet_view_object_unrealize (SheetView *sheet_view, SheetObject *so)
+sheet_object_remove_view (SheetObject *so, SheetView *sheet_view)
 {
 	GList *l;
 
@@ -250,7 +252,7 @@ sheet_object_realize (SheetObject *so)
 		SheetView *sheet_view = l->data;
 		GnomeCanvasItem *item;
 
-		item = sheet_view_object_realize (sheet_view, so);
+		item = sheet_object_new_view (so, sheet_view);
 	}
 }
 
@@ -258,7 +260,7 @@ sheet_object_realize (SheetObject *so)
  * sheet_object_unrealize
  *
  * Destroys the Canvas Item that represents this SheetObject from
- * every SheetViews.
+ * every SheetView.
  */
 void
 sheet_object_unrealize (SheetObject *so)
@@ -271,7 +273,7 @@ sheet_object_unrealize (SheetObject *so)
 	for (l = so->sheet->sheet_views; l; l = l->next) {
 		SheetView *sheet_view = l->data;
 
-		sheet_view_object_unrealize (sheet_view, so);
+		sheet_object_remove_view (so, sheet_view);
 	}
 }
 
@@ -724,7 +726,8 @@ update_bbox (SheetObject *so)
  * Index & cursor type are stored as user data associated with the CanvasItem
  */
 static int
-control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *so)
+control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event,
+			    SheetObject *so)
 {
 	int idx;
 	static gdouble last_x, last_y;
@@ -746,6 +749,9 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 		break;
 
 	case GDK_BUTTON_PRESS:
+		switch (event->button.button) {
+		case 1:
+		case 2:
 		so->dragging = TRUE;
 		gnome_canvas_item_grab (item,
 					GDK_POINTER_MOTION_MASK |
@@ -753,6 +759,21 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 					NULL, event->button.time);
 		last_x = event->button.x;
 		last_y = event->button.y;
+		break;
+		case 3:
+		{
+			GtkMenu *menu;
+
+			sheet_mode_edit_object (so);
+			menu = create_popup_menu (so);
+			gtk_widget_show_all (GTK_WIDGET (menu));
+			gnumeric_popup_menu (menu, &event->button);
+			break;
+		}
+		default:
+			/* Ignore mouse wheel events */
+			return FALSE;
+		}
 		break;
 
 	case GDK_MOTION_NOTIFY: {
@@ -891,7 +912,8 @@ sheet_object_print (SheetObject *so, SheetObjectPrintInfo *pi)
  * Event handler for a SheetObject
  */
 int
-sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *so)
+sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
+			   SheetObject *so)
 {
 	static int event_last_x,  event_last_y;
 	static int event_total_x, event_total_y;
