@@ -1,5 +1,8 @@
 2002-12-29  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=64969
+	* src/sheet-merge.c (sheet_merge_add) : update bounds.
+
 	* src/sheet-control-gui.c (scg_set_panes) : handle freezing already
 	  frozen panes to support adjustments after ins/del col/row.
 

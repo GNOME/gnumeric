@@ -7,6 +7,7 @@ Jody:
 	* Misc screwups with autofilters
 	* Ins/Del Col/Row now does mostly the right thing with filters.
 	* Ins/Del Col/Row now handles frozen panes.
+	* Lower right of merge extends sheet bounds.
 
 Jon Kåre:
 	* Open DB connections read only

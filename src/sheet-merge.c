@@ -137,6 +137,14 @@ sheet_merge_add (Sheet *sheet, Range const *r, gboolean clear,
 		sheet_object_update_bounds (SHEET_OBJECT (comment), NULL);
 
 	sheet_flag_status_update_range (sheet, r);
+	if (sheet->cols.max_used < r->end.col) {
+		sheet->cols.max_used = r->end.col;
+		sheet->priv->resize_scrollbar = TRUE;
+	}
+	if (sheet->rows.max_used < r->end.row) {
+		sheet->rows.max_used = r->end.row;
+		sheet->priv->resize_scrollbar = TRUE;
+	}
 	return FALSE;
 }
 
