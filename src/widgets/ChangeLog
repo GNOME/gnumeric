@@ -1,3 +1,8 @@
+2002-12-21  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_load_from_range) : loading a
+	  range into the entry ensures that it is valid.
+
 2002-12-09  Jon K Hellan  <hellan@acm.org>
 
 	* widget-editable-label.c (el_set_color_gdk): Remove.

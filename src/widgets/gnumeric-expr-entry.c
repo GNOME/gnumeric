@@ -1032,6 +1032,8 @@ gnm_expr_entry_load_from_range (GnumericExprEntry *gee,
 	if (gee->freeze_count == 0)
 		gee_rangesel_update_text (gee);
 
+	rs->is_valid = TRUE; /* we just loaded it up */
+
 	return needs_change;
 }
 

@@ -1260,8 +1260,8 @@ do_setup_page_info (PrinterSetupState *state)
 	state->area_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_scg (state->area_entry, wbcg_cur_scg (state->wbcg));
 	gnm_expr_entry_set_flags (state->area_entry,
-				       GNM_EE_SHEET_OPTIONAL,
-				       GNM_EE_SHEET_OPTIONAL);
+		GNM_EE_SHEET_OPTIONAL,
+		GNM_EE_SHEET_OPTIONAL);
 	gtk_box_pack_start (GTK_BOX (pa_hbox), GTK_WIDGET (state->area_entry),
 			    TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (state->area_entry));
@@ -1269,8 +1269,8 @@ do_setup_page_info (PrinterSetupState *state)
 	state->top_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_scg (state->top_entry, wbcg_cur_scg (state->wbcg));
 	gnm_expr_entry_set_flags (state->top_entry,
-		GNM_EE_FULL_ROW | GNM_EE_SHEET_OPTIONAL,
-		GNM_EE_FULL_ROW | GNM_EE_SHEET_OPTIONAL);
+		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_ROW | GNM_EE_SHEET_OPTIONAL,
+		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_ROW | GNM_EE_ABS_ROW | GNM_EE_SHEET_OPTIONAL);
 	gtk_table_attach (GTK_TABLE (repeat_table),
 			  GTK_WIDGET (state->top_entry),
 			  1, 2, 0, 1,
@@ -1279,10 +1279,9 @@ do_setup_page_info (PrinterSetupState *state)
 
 	state->left_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_scg (state->left_entry, wbcg_cur_scg (state->wbcg));
-	gnm_expr_entry_set_flags (
-		state->left_entry,
-		GNM_EE_FULL_COL | GNM_EE_SHEET_OPTIONAL,
-		GNM_EE_FULL_COL | GNM_EE_SHEET_OPTIONAL);
+	gnm_expr_entry_set_flags (state->left_entry,
+		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_COL | GNM_EE_SHEET_OPTIONAL,
+		GNM_EE_SINGLE_RANGE | GNM_EE_FULL_COL | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL);
 	gtk_table_attach (GTK_TABLE (repeat_table),
 			  GTK_WIDGET (state->left_entry),
 			  1, 2, 1, 2,
@@ -1724,14 +1723,10 @@ do_fetch_page_info (PrinterSetupState *state)
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "radio-order-right"));
 	state->pi->print_order = t->active ? PRINT_ORDER_RIGHT_THEN_DOWN : PRINT_ORDER_DOWN_THEN_RIGHT;
 
-/* FIXME: parsing should be done by the expr-entry */
-	pi->repeat_top.use = parse_range (
-		gnm_expr_entry_get_text (state->top_entry),
-		&pi->repeat_top.range);
-
-	pi->repeat_left.use = parse_range (
-		gnm_expr_entry_get_text (state->left_entry),
-		&pi->repeat_left.range);
+	pi->repeat_top.use = gnm_expr_entry_get_rangesel (state->top_entry,
+		&pi->repeat_top.range, NULL);
+	pi->repeat_left.use = gnm_expr_entry_get_rangesel (state->left_entry,
+		&pi->repeat_left.range, NULL);
 }
 
 static void
