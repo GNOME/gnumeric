@@ -1,3 +1,9 @@
+2001-08-28  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-stat.c (gnumeric_logest) : we appear to be using affine as an
+	  offset, ensure that it is 0 or 1.
+	  The statistics are still on the reverse order for some reason.
+
 2001-08-26  Jody Goldberg <jgoldberg@home.com>
 
 	* fn-information.c (gnumeric_expression) : fix typo.

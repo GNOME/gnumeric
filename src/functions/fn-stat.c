@@ -3963,10 +3963,10 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 {
 	gnum_float        **xss = NULL, *ys = NULL;
 	Value             *result = NULL;
-	int               nx, ny, dim, i;
+	int               affine, nx, ny, dim, i;
 	int               xarg = 0;
 	gnum_float        *expres = NULL;
-	gboolean          affine, stat, err;
+	gboolean          stat, err;
 	regression_stat_t extra_stat;
 	enum {
 		ARRAY      = 1,
@@ -4111,13 +4111,13 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 	}
 
 	if (argv[1 + xarg]) {
-		affine = value_get_as_bool (argv[1 + xarg], &err);
+		affine = value_get_as_bool (argv[1 + xarg], &err) ? 1 : 0;
 		if (err) {
 			result = value_new_error (ei->pos, gnumeric_err_VALUE);
 			goto out;
 		}
 	} else
-		affine = TRUE;
+		affine = 1;
 
 	if (argv[2 + xarg]) {
 		stat = value_get_as_bool (argv[2 + xarg], &err);
@@ -4131,7 +4131,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 
 	expres = g_new (gnum_float, dim + 1);
 	if (exponential_regression (xss, dim, ys, nx, affine,
-			       expres, &extra_stat)) {
+				    expres, &extra_stat)) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
