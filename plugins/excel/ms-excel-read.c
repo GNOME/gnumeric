@@ -620,7 +620,7 @@ excel_sheet_new (ExcelWorkbook *ewb, char const *sheet_name)
 	if (sheet == NULL) {
 		sheet = sheet_new (ewb->gnum_wb, sheet_name);
 		workbook_sheet_attach (ewb->gnum_wb, sheet, NULL);
-		d (1, fprintf (stderr,"Adding sheet sheet '%s'\n", sheet_name););
+		d (1, fprintf (stderr,"Adding sheet '%s'\n", sheet_name););
 	}
 	/* in case nothing forces a spanning flag it here so that spans will
 	 * regenerater later.
@@ -1178,11 +1178,11 @@ excel_read_FORMAT (BiffQuery *q, ExcelWorkbook *ewb)
 	} else if (ewb->container.ver >= MS_BIFF_V7) { /* Total guess */
 		d->idx = GSF_LE_GET_GUINT16 (q->data);
 		d->name = biff_get_text (q->data + 3, GSF_LE_GET_GUINT8 (q->data + 2), NULL);
-	} else if (ewb->container.ver >= MS_BIFF_V4) { /* Sample sheets suggest this */
-		d->idx = g_hash_table_size (ewb->format_data) + 0x32;
+	} else if (ewb->container.ver >= MS_BIFF_V4) { /* Seems to work */
+		d->idx = g_hash_table_size (ewb->format_data);
 		d->name = biff_get_text (q->data + 3, GSF_LE_GET_GUINT8 (q->data + 2), NULL);
 	} else {
-		d->idx = g_hash_table_size (ewb->format_data) + 0x32;
+		d->idx = g_hash_table_size (ewb->format_data);
 		d->name = biff_get_text (q->data + 1, GSF_LE_GET_GUINT8 (q->data), NULL);
 	}
 
@@ -1202,18 +1202,30 @@ excel_read_FONT (BiffQuery *q, ExcelWorkbook *ewb)
 	fd->italic     = (data & 0x2) == 0x2;
 	fd->struck_out = (data & 0x8) == 0x8;
 	if (ewb->container.ver <= MS_BIFF_V2) /* Guess */ {
-		fd->color_idx = 0x7f;
-		fd->boldness = 0;
+		fd->color_idx  = 0x7f;
+		if (data & 0x4)
+			fd->underline = MS_BIFF_F_U_SINGLE;
+		else
+			fd->underline = MS_BIFF_F_U_NONE;
+		if (data & 0x1)
+			fd->boldness = 0x2bc;
+		else
+			fd->boldness = 0x190;
 		fd->script = MS_BIFF_F_S_NONE;
-		fd->underline = MS_BIFF_F_U_NONE;
 		fd->fontname = biff_get_text (q->data + 5,
 				      GSF_LE_GET_GUINT8 (q->data + 4), NULL);
 	} else if (ewb->container.ver <= MS_BIFF_V4) /* Guess */ {
 		fd->color_idx  = GSF_LE_GET_GUINT16 (q->data + 4);
 		fd->color_idx &= 0x7f; /* Undocumented but a good idea */
-		fd->boldness = 0;
+		if (data & 0x4)
+			fd->underline = MS_BIFF_F_U_SINGLE;
+		else
+			fd->underline = MS_BIFF_F_U_NONE;
+		if (data & 0x1)
+			fd->boldness = 0x2bc;
+		else
+			fd->boldness = 0x190;
 		fd->script = MS_BIFF_F_S_NONE;
-		fd->underline = MS_BIFF_F_U_NONE;
 		fd->fontname = biff_get_text (q->data + 7,
 				      GSF_LE_GET_GUINT8 (q->data + 6), NULL);
 	} else {
@@ -1463,6 +1475,9 @@ excel_get_xf (ExcelReadSheet *esheet, int xfidx)
 	GPtrArray const * const p = esheet->container.ewb->XF_cell_records;
 
 	g_return_val_if_fail (p != NULL, NULL);
+	g_return_val_if_fail (p->len, NULL); /* happens in early XL */
+	if (esheet->container.ver == MS_BIFF_V2)
+		xfidx &= 0x3f; /* Guess from experimental results */
 	if (0 > xfidx || xfidx >= (int)p->len) {
 		g_warning ("XL: Xf index 0x%X is not in the range[0..0x%X)", xfidx, p->len);
 		xfidx = 0;
@@ -1743,48 +1758,111 @@ excel_map_pattern_index_from_excel (int const i)
 }
 
 /**
- * Default XF Data for early worksheets with little (no?) style info
+ * Parse the OLD BIFF XF Data structure (see also excel_read_XF below)
  **/
 static void
-excel_workbook_add_XF (ExcelWorkbook *ewb)
+excel_read_XF_OLD (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 {
 	BiffXFData *xf = g_new (BiffXFData, 1);
+	guint16 data;
+        guint8 subdata;
 
-	xf->font_idx = 0;
-	xf->format_idx = 0;
-	xf->style_format = NULL;
+	d ( 2, printf("XF # %d\n", ewb->XF_cell_records->len); );
+	d ( 2, gsf_mem_dump (q->data, q->length); );
 
-	xf->locked = 0;
-	xf->hidden = 0;
-	xf->xftype = MS_BIFF_X_STYLE;
-	xf->format = MS_BIFF_F_MS;
-	xf->parentstyle = 0;
+        xf->font_idx = GSF_LE_GET_GUINT8 (q->data);
+        xf->format_idx = GSF_LE_GET_GUINT8 (q->data + 1);
+	xf->style_format = (xf->format_idx > 0)
+		? excel_wb_get_fmt (ewb, xf->format_idx) : NULL;
 
-	xf->halign = HALIGN_GENERAL;
-	xf->valign = VALIGN_TOP;
-	xf->rotation = 0;
-	xf->indent = 0;
-	xf->differences = 0;
-	xf->pat_foregnd_col = 0;
-	xf->pat_backgnd_col = 0;
-	xf->fill_pattern_idx = 0;
-	xf->border_type[STYLE_BOTTOM] = 0;
-	xf->border_color[STYLE_BOTTOM] = 0;
-	xf->border_type[STYLE_TOP] = 0;
-	xf->border_color[STYLE_TOP] = 0;
-	xf->border_type[STYLE_LEFT] = 0;
-	xf->border_color[STYLE_LEFT] = 0;
-	xf->border_type[STYLE_RIGHT] = 0;
-	xf->border_color[STYLE_RIGHT] = 0;
-	xf->border_type[STYLE_DIAGONAL] = 0;
-	xf->border_color[STYLE_DIAGONAL] = 0;
-	xf->border_type[STYLE_REV_DIAGONAL] = 0;
-	xf->border_color[STYLE_REV_DIAGONAL] = 0;
+        xf->locked = 0;
+        xf->hidden = 0;
+        xf->xftype = MS_BIFF_X_STYLE;
+        xf->format = MS_BIFF_F_MS;
+        xf->parentstyle = 0;
 
-	/* Init the cache */
-	xf->mstyle = NULL; 
+        xf->halign = HALIGN_GENERAL;
 
-	g_ptr_array_add (ewb->XF_cell_records, xf);
+	if (ver >= MS_BIFF_V3) {
+		data = GSF_LE_GET_GUINT8 (q->data + 4);
+		switch (data & 0x07) {
+		case 1:
+			xf->halign = HALIGN_LEFT; break;
+		case 2:
+			xf->halign = HALIGN_CENTER; break;
+		case 3:
+			xf->halign = HALIGN_RIGHT; break;
+		}
+	} else {
+		data = GSF_LE_GET_GUINT8 (q->data + 3);
+		switch (data & 0x07) {
+		case 1:
+			xf->halign = HALIGN_LEFT; break;
+		case 2:
+			xf->halign = HALIGN_CENTER; break;
+		case 3:
+			xf->halign = HALIGN_RIGHT; break;
+		}
+	}
+
+        xf->valign = VALIGN_BOTTOM;
+        xf->rotation = 0;
+        xf->indent = 0;
+        xf->differences = 0;
+
+	if (ver >= MS_BIFF_V3) {
+		data = GSF_LE_GET_GUINT16 (q->data + 6);
+		xf->pat_backgnd_col = (data & 0xf800) >> 11;
+		if (xf->pat_backgnd_col >= 24)
+			xf->pat_backgnd_col += 40; /* Defaults */
+		xf->pat_foregnd_col = (data & 0x07c0) >> 6;
+		if (xf->pat_foregnd_col >= 24)
+			xf->pat_foregnd_col += 40; /* Defaults */
+		xf->fill_pattern_idx =
+		  excel_map_pattern_index_from_excel(data & 0x001f);
+	} else {
+		xf->pat_foregnd_col = 0;
+		xf->pat_backgnd_col = 0;
+		xf->fill_pattern_idx = 0;
+	}
+
+	if (ver >= MS_BIFF_V3) {
+		data = GSF_LE_GET_GUINT8 (q->data + 10);
+		xf->border_type[STYLE_BOTTOM] = biff_xf_map_border(data & 0x07);
+		subdata = data >> 3;
+	       	xf->border_color[STYLE_BOTTOM] = (subdata==24) ? 64 : subdata;
+		data = GSF_LE_GET_GUINT8 (q->data + 8);
+		xf->border_type[STYLE_TOP] = biff_xf_map_border(data & 0x07);
+		subdata = data >> 3;
+	       	xf->border_color[STYLE_TOP] = (subdata==24) ? 64 : subdata;
+		data = GSF_LE_GET_GUINT8 (q->data + 9);
+		xf->border_type[STYLE_LEFT] = biff_xf_map_border(data & 0x07);
+		subdata = data >> 3;
+       		xf->border_color[STYLE_LEFT] = (subdata==24) ? 64 : subdata;
+		data = GSF_LE_GET_GUINT8 (q->data + 11);
+		xf->border_type[STYLE_RIGHT] = biff_xf_map_border(data & 0x07);
+		subdata = data >> 3;
+       		xf->border_color[STYLE_RIGHT] = (subdata==24) ? 64 : subdata;
+	} else {
+		xf->border_type[STYLE_TOP] = 0;
+       		xf->border_color[STYLE_TOP] = 0;
+		xf->border_type[STYLE_BOTTOM] = 0;
+       		xf->border_color[STYLE_BOTTOM] = 0;
+		xf->border_type[STYLE_LEFT] = 0;
+       		xf->border_color[STYLE_LEFT] = 0;
+		xf->border_type[STYLE_RIGHT] = 0;
+       		xf->border_color[STYLE_RIGHT] = 0;
+	}
+
+        xf->border_type[STYLE_DIAGONAL] = 0;
+        xf->border_color[STYLE_DIAGONAL] = 0;
+        xf->border_type[STYLE_REV_DIAGONAL] = 0;
+        xf->border_color[STYLE_REV_DIAGONAL] = 0;
+
+        /* Init the cache */
+        xf->mstyle = NULL;
+
+        g_ptr_array_add (ewb->XF_cell_records, xf);
 }
 
 /**
@@ -2079,8 +2157,13 @@ excel_formula_shared (BiffQuery *q, ExcelReadSheet *esheet, Cell *cell)
 	r.start.col	= GSF_LE_GET_GUINT8 (q->data + 4);
 	r.end.col	= GSF_LE_GET_GUINT8 (q->data + 5);
 
-	data = q->data + (is_array ? 14 : 10);
-	data_len = GSF_LE_GET_GUINT16 (q->data + (is_array ? 12 : 8));
+	if (esheet->container.ver > MS_BIFF_V4) {
+		data = q->data + (is_array ? 14 : 10);
+		data_len = GSF_LE_GET_GUINT16 (q->data + (is_array ? 12 : 8));
+	} else {
+		data = q->data + 10;
+		data_len = GSF_LE_GET_GUINT16 (q->data + 8);
+	}
 	expr = excel_parse_formula (
 		&esheet->container, esheet, r.start.col, r.start.row,
 		data, data_len, !is_array, NULL);
@@ -2538,6 +2621,27 @@ excel_workbook_get_sheet (ExcelWorkbook const *ewb, guint idx)
 }
 
 static void
+excel_workbook_reset_style (ExcelWorkbook *ewb)
+{
+	unsigned i;
+
+	g_hash_table_destroy (ewb->font_data);
+        ewb->font_data        = g_hash_table_new_full (
+                (GHashFunc)biff_guint16_hash, (GCompareFunc)biff_guint16_equal,
+                NULL, (GDestroyNotify)biff_font_data_destroy);
+
+        for (i = 0; i < ewb->XF_cell_records->len; i++)
+                biff_xf_data_destroy (g_ptr_array_index (ewb->XF_cell_records, i));
+        g_ptr_array_free (ewb->XF_cell_records, TRUE);
+        ewb->XF_cell_records  = g_ptr_array_new ();
+
+	g_hash_table_destroy (ewb->format_data);
+        ewb->format_data      = g_hash_table_new_full (
+                (GHashFunc)biff_guint16_hash, (GCompareFunc)biff_guint16_equal,
+                NULL, (GDestroyNotify)biff_format_data_destroy);
+}
+
+static void
 excel_workbook_destroy (ExcelWorkbook *ewb)
 {
 	unsigned i, j;
@@ -2725,7 +2829,7 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 	char *name = NULL;
 
 	d (2, {
-	   fprintf (stderr,"EXTERNAME\n");
+	   fprintf (stderr,"EXTERNNAME\n");
 	   gsf_mem_dump (q->data, q->length); });
 
 	if (container->ver >= MS_BIFF_V7) {
@@ -2749,13 +2853,13 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 
 		case 0x01: /* DDE */
 			gnm_io_warning (container->ewb->context,
-				_("DDE links are no supported.\nName '%s' will be lost.\n"),
+				_("DDE links are not supported.\nName '%s' will be lost.\n"),
 				name);
 			break;
 
 		case 0x10: /* OLE */
 			gnm_io_warning (container->ewb->context,
-				_("OLE links are no supported.\nName '%s' will be lost.\n"),
+				_("OLE links are not supported.\nName '%s' will be lost.\n"),
 				name);
 			break;
 
@@ -2763,10 +2867,16 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 			g_warning ("EXCEL: Invalid external name type. ('%s')", name);
 			break;
 		}
-	} else { /* Ancient Papyrus spec. 
-		name = biff_get_text (q->data + 1,
-			GSF_LE_GET_GUINT8 (q->data), NULL);
-			*/
+	} else if (container->ver >= MS_BIFF_V5) {
+		name = biff_get_text (q->data + 7,
+			GSF_LE_GET_GUINT8 (q->data + 6), NULL);
+		nexpr = excel_parse_name (container->ewb, 0,
+			name, NULL, 0, FALSE);
+	} else {
+		name = biff_get_text (q->data + 3,
+			GSF_LE_GET_GUINT8 (q->data + 2), NULL);
+		nexpr = excel_parse_name (container->ewb, 0,
+			name, NULL, 0, FALSE);
 	}
 
 	/* nexpr is potentially NULL if there was an error */
@@ -2818,7 +2928,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 	guint16 flags		= GSF_LE_GET_GUINT16 (q->data);
 	/*guint8  kb_shortcut	= GSF_LE_GET_GUINT8  (q->data + 2); */
 	guint32 name_len	= GSF_LE_GET_GUINT8  (q->data + 3);
-	guint16 expr_len	= GSF_LE_GET_GUINT16 (q->data + 4);
+	guint16 expr_len;
 	gboolean const builtin_name = (flags & 0x0020) ? TRUE : FALSE;
 
 	guint16 sheet_index = 0;
@@ -2827,6 +2937,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 	/* int fn_grp_idx = (flags & 0xfc0)>>6; */
 
 	if (ewb->container.ver >= MS_BIFF_V8) {
+		expr_len= GSF_LE_GET_GUINT16 (q->data + 4);
 		sheet_index = GSF_LE_GET_GUINT16 (q->data + 8);
 		ptr = q->data + 14;
 		/* #!%&@ The header is before the id byte, and the len does not
@@ -2847,6 +2958,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 
 		}
 	} else if (ewb->container.ver >= MS_BIFF_V7) {
+		expr_len= GSF_LE_GET_GUINT16 (q->data + 4);
 		/* opencalc docs claim 8 is the right one, XL docs say 6 == 8
 		 * pivot.xls suggests that at least for local builtin names 6
 		 * is correct and 8 is bogus for == biff7 */
@@ -2854,10 +2966,14 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 		ptr = q->data + 14;
 		if (builtin_name)
 			name = g_strdup (excel_builtin_name (ptr));
-	} else {
-		ptr = q->data + 5;
+	} else if (ewb->container.ver >= MS_BIFF_V3) {
+		expr_len= GSF_LE_GET_GUINT16 (q->data + 4);
+		ptr = q->data + 6;
 		if (builtin_name)
 			name = g_strdup (excel_builtin_name (ptr));
+	} else {
+		expr_len= GSF_LE_GET_GUINT8 (q->data + 4);
+		ptr = q->data + 5;
 	}
 
 	d (2, {
@@ -4578,7 +4694,6 @@ static gboolean
 excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		  WorkbookView *wb_view, ExcelReadSheet *esheet)
 {
-	MStyle *mstyle;
 	PrintInformation *pi;
 
 	g_return_val_if_fail (ewb != NULL, FALSE);
@@ -4591,12 +4706,17 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 	d (1, fprintf (stderr,"----------------- '%s' -------------\n",
 		      esheet->sheet->name_unquoted););
 
-	/* Apply the default style */
-	mstyle = excel_get_style_from_xf (esheet, 15);
-	if (mstyle != NULL) {
-		Range r;
-		sheet_style_set_range (esheet->sheet,
-			range_init_full_sheet (&r), mstyle);
+	if (ewb->container.ver <= MS_BIFF_V4) {
+		/* Style is per-sheet in early Excel - default TODO */
+		excel_workbook_reset_style(ewb);
+	} else {
+		/* Apply the default style */
+		MStyle *mstyle= excel_get_style_from_xf (esheet, 15);
+		if (mstyle != NULL) {
+			Range r;
+			sheet_style_set_range (esheet->sheet,
+				range_init_full_sheet (&r), mstyle);
+	 	}
 	}
 
 	for (; ms_biff_query_next (q) ;
@@ -4913,10 +5033,13 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		}
 
 		/* Found in worksheet only in XLS <= BIFF 4 */
-		case BIFF_XF_OLD:	excel_workbook_add_XF (ewb);	break;
+		case BIFF_XF_OLD:
+			excel_read_XF_OLD (q, ewb, esheet->container.ver);
+			break;
 		case BIFF_NAME:		excel_read_NAME (q, ewb);	break;
 		case BIFF_FONT:		excel_read_FONT (q, ewb);	break;
 		case BIFF_FORMAT:	excel_read_FORMAT (q, ewb);	break;
+		case BIFF_STYLE:	break;
 		case BIFF_1904:		excel_read_1904 (q, ewb);	break;
 
 		default:
@@ -5091,7 +5214,6 @@ excel_read_BOF (BiffQuery	 *q,
 			fprintf (stderr, "Excel 2.x single worksheet\n");
 
 		esheet= excel_sheet_new (ewb, "Worksheet");
-		excel_workbook_add_XF (ewb);
 		excel_read_sheet (q, ewb, wb_view, esheet);
 
 	} else if (ver->type == MS_BIFF_TYPE_Worksheet) {
@@ -5127,9 +5249,9 @@ excel_read_BOF (BiffQuery	 *q,
 			g_warning ("EXCEL: file format error.  Missing BIFF_EOF");
 	} else if (ver->type == MS_BIFF_TYPE_Workspace) {
 		/* Multiple sheets, XLW format from Excel 4.0 */
+		fprintf (stderr,"Excel 4.x workbook\n");
 		ewb = excel_workbook_new (ver->version, context, wb_view);
 		ewb->gnum_wb = wb_view_workbook (wb_view);
-		excel_workbook_add_XF (ewb);
 	} else
 		fprintf (stderr,"Unknown BOF (%x)\n", ver->type);
 

@@ -24,6 +24,9 @@ Jody:
 	* Provide a cleaner work around for 
 	    http://bugzilla.gnome.org/show_bug.cgi?id=121543
 
+Nick Lamb:
+	* Improve import of ancient xls.
+
 Morten:
 	* Invalid memory read in marker combo.
 

@@ -1,3 +1,24 @@
+2003-09-13  Nick Lamb <njl195@zepler.org.uk>
+
+	* ms-excel-read.c (excel_sheet_new) : typo fix
+	(excel_read_FORMAT) : Early BIFF uses smaller datatypes
+	(excel_read_FONT) : Implement for early BIFF
+	(excel_get_xf) : More early BIFF hacks
+	(excel_read_XF_OLD) : New function, read OLD XF structures
+	(excel_workbook_add_XF) : Obsoleted, removed
+	(excel_formula_shared) : Early BIFF uses smaller datatypes
+	(excel_workbook_reset_style) : New function, needed for XLW files
+	(excel_read_EXTERNNAME) : typo fix, Early BIFF fixes
+	(excel_read_NAME) : Early BIFF uses smaller datatypes
+	(excel_read_sheet) : Style is per-sheet in XLW files, what default?
+	 Use excel_read_XF_OLD instead of excel_workbook_add_XF
+	(excel_read_BOF) : Stop using excel_workbook_add_XF,
+	 report XL4 workbooks to stderr just like all other file types
+
+	* ms-formula-read.c (excel_parse_formula) :
+	 Handle PTG_SHEET and PTG_SHEET_END, at least for known examples
+	 Also early BIFF as usual has smaller datatypes
+
 2003-09-21  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (excel_parse_formula) : disable debug spew.

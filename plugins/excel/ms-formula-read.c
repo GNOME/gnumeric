@@ -772,6 +772,7 @@ excel_parse_formula (MSContainer const *container,
 	int len_left = length;
 	GnmExprList *stack = NULL;
 	gboolean error = FALSE;
+	gboolean external = FALSE;
 
 	if (array_element != NULL)
 		*array_element = FALSE;
@@ -905,8 +906,14 @@ excel_parse_formula (MSContainer const *container,
 
 		case FORMULA_PTG_ATTR : { /* FIXME: not fully implemented */
 			guint8  grbit = GSF_LE_GET_GUINT8(cur);
-			guint16 w     = GSF_LE_GET_GUINT16(cur+1);
-			ptg_length = 3;
+			guint16 w;
+			if (ver >= MS_BIFF_V3) {
+				w = GSF_LE_GET_GUINT16(cur+1);
+				ptg_length = 3;
+			} else {
+				w = GSF_LE_GET_GUINT8(cur+1);
+				ptg_length = 2;
+			}
 			if (grbit == 0x00) {
 				static gboolean warned_a = FALSE;
 				static gboolean warned_3 = FALSE;
@@ -981,6 +988,8 @@ excel_parse_formula (MSContainer const *container,
 					gsf_mem_dump (mem, length);
 				}
 #endif
+				/* Not right prior to Excel 4.0 ? */
+				if (ver <= MS_BIFF_V3) break;
 				ptg_length = w;
 			} else if (grbit & 0x10) { /* AttrSum: 'optimised' SUM function */
 				if (!make_function (&stack, 0x04, 1))
@@ -1008,6 +1017,23 @@ excel_parse_formula (MSContainer const *container,
 			}
 		}
 		break;
+
+		case FORMULA_PTG_SHEET: {
+			ptg_length = 10;
+			external = TRUE;
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_formula_debug > 1) {
+				fprintf (stderr, "External ref ignored\n");
+			}
+#endif
+			break;
+		}
+
+		case FORMULA_PTG_SHEET_END: {
+			ptg_length = 4;
+			external = FALSE;
+			break;
+		}
 
 		case FORMULA_PTG_ERR: {
 			parse_list_push_raw (&stack, biff_get_error (NULL, GSF_LE_GET_GUINT8 (cur)));
@@ -1258,30 +1284,47 @@ excel_parse_formula (MSContainer const *container,
 			break;
 		}
 
-		case FORMULA_PTG_FUNC:
-			if (!make_function (&stack, GSF_LE_GET_GUINT16(cur), -1)) {
+		case FORMULA_PTG_FUNC: {
+			/* index into fn table */
+			int iftab;
+
+			if (ver >= MS_BIFF_V4) {
+				ptg_length = 2;
+				iftab = GSF_LE_GET_GUINT16(cur);
+			} else {
+				ptg_length = 1;
+				iftab = GSF_LE_GET_GUINT8(cur);
+			}
+
+			if (!make_function (&stack, iftab, -1)) {
 				error = TRUE;
 				puts ("error making func");
 			}
-			ptg_length = 2;
 			break;
+		}
 
 		case FORMULA_PTG_FUNC_VAR: {
 			int const numargs = (GSF_LE_GET_GUINT8( cur ) & 0x7f);
 			/* index into fn table */
-			int const iftab   = (GSF_LE_GET_GUINT16(cur+1) & 0x7fff);
+			int iftab;
 #if 0
 			/* Prompts the user ?  */
 			int const prompt  = (GSF_LE_GET_GUINT8( cur ) & 0x80);
 			/* is a command equiv.?*/
 			int const cmdquiv = (GSF_LE_GET_GUINT16(cur+1) & 0x8000);
 #endif
+			if (ver >= MS_BIFF_V4) {
+				ptg_length = 3;
+				iftab = (GSF_LE_GET_GUINT16(cur+1) & 0x7fff);
+			} else {
+				ptg_length = 2;
+				iftab = GSF_LE_GET_GUINT8(cur+1);
+			}
 
 			if (!make_function (&stack, iftab, numargs)) {
 				error = TRUE;
 				puts ("error making func var");
 			}
-			ptg_length = 3;
 			break;
 		}
 
@@ -1293,10 +1336,15 @@ excel_parse_formula (MSContainer const *container,
 
 			if (ver >= MS_BIFF_V8)
 				ptg_length = 4;  /* Docs are wrong, no ixti */
-			else
+			else if (ver >= MS_BIFF_V5)
 				ptg_length = 14;
+			else
+				ptg_length = 10;
 
-			a = container->ewb->container.names;
+			if (external)
+				a = container->names;
+			else 
+				a = container->ewb->container.names;
 			if (a == NULL || name_idx < 1 || a->len < name_idx ||
 			    (nexpr = g_ptr_array_index (a, name_idx-1)) == NULL) {
 				g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.",
