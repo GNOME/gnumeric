@@ -202,6 +202,7 @@ real_god_text_model_set_paragraph_attributes (GodTextModel *text,
 				if (PARAGRAPH(i)->para_attributes)
 					g_object_ref (PARAGRAPH(i)->para_attributes);
 			}
+			count += length;
 		}
 	}
 }

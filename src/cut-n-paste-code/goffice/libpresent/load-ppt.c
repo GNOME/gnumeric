@@ -320,10 +320,10 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 				double space_before = 0;
 				double space_after = 0;
 				int indent_type = 0;
-				int i;
+				int i = 0;
+				int position = 0;
 				GodParagraphAttributes *para_attr;
 				remain = god_text_model_get_length (GOD_TEXT_MODEL (parse_state->current_text)) + 1;
-				i = 0;
 				while (remain > 0) {
 					int sublen = 0;
 					guint fields;
@@ -386,12 +386,14 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 						      "space_after", space_after,
 						      "indent", (double) (indent_type * UN_PER_IN),
 						      NULL);
+					g_print ("position, section_length: %d, %d\n", position, section_length);
 					god_text_model_set_paragraph_attributes (GOD_TEXT_MODEL (parse_state->current_text),
-										 i,
-										 i + sublen,
+										 position, 
+										 position + section_length - 1,
 										 para_attr);
 					g_object_unref (para_attr);
 					i += sublen;
+					position += section_length;
 				}
 #if 0
 				remain = text_length + 1;

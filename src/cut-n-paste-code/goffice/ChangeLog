@@ -1,3 +1,14 @@
+2004-06-30  Christopher James Lahey  <clahey@ximian.com>
+
+	* drawing/god-text-model.c
+	(real_god_text_model_set_paragraph_attributes): Oh yeah, the
+	character count should increase as you iterate through the
+	paragraph.
+
+	* libpresent/load-ppt.c (handle_atom): Pass in the position in the
+	text instead of the position in the file.  That might be a good
+	idea.
+
 2004-06-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* drawing/Makefile.am (libgoffice_drawing_la_SOURCES): Added
