@@ -6,6 +6,7 @@
 	  Removed AC_ARG_PROGRAM as AM_INIT_AUTOMAKE already calls it on our 
 	  behalf.
 	  Actually honour --enable-compile-warnings=... .
+	* src/parse-util.h, src/regutf8.c, src/regutf8.h: Don't use // comments.
 
 2002-11-01  Jody Goldberg <jody@gnome.org>
 

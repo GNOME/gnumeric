@@ -23,7 +23,7 @@ char const *cellref_parse	(CellRef *out, char const *in,
 char	   *rangeref_as_string	(RangeRef const *ref, ParsePos const *pp);
 char const *rangeref_parse	(RangeRef *res, char const *in,
 				 ParsePos const *pp);
-				 //GError **err);
+				 /* GError **err); */
 
 char const *sheetref_parse	(char const *start, Sheet **sheet,
 				 Workbook const *wb, gboolean allow_3d);
@@ -79,7 +79,7 @@ typedef enum {
 
 typedef char const *(*GnmRangeRefParse) (RangeRef *res, char const *in,
 					 ParsePos const *pp);
-					 //GError **err);
+					 /* GError **err); */
 
 #define gnm_expr_parse_str_simple(expr_text, pp) \
 	gnm_expr_parse_str (expr_text, pp, GNM_EXPR_PARSE_DEFAULT, &rangeref_parse, NULL)

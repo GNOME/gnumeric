@@ -314,72 +314,72 @@ map_wp_char (int charset, int charcode)
   switch (charset)
     {
     case 1:
-      // multinatinal character
+      /* multinational character */
       cmax = sizeof (multinational_map) / sizeof (multinational_map[0]);
       if (charcode < cmax)
         ucode = multinational_map[charcode];
       break;
     case 2:
-      // phonetic symbol
+      /* phonetic symbol */
       cmax = sizeof (phonetic_map) / sizeof (phonetic_map[0]);
       if (charcode < cmax)
         ucode = phonetic_map[charcode];
       break;
     case 3:
-      // TODO box drawing
+      /* TODO box drawing */
       break;
     case 4:
-      // typographic symbol
+      /* typographic symbol */
       cmax = sizeof (typographic_map) / sizeof (typographic_map[0]);
       if (charcode < cmax)
         ucode = typographic_map[charcode];
       break;
     case 5:
-      // iconic symbol
+      /* iconic symbol */
       cmax = sizeof (iconic_map) / sizeof (iconic_map[0]);
       if (charcode < cmax)
         ucode = iconic_map[charcode];
       break;
     case 6:
-      // math/scientific
+      /* math/scientific */
       cmax = sizeof (math_map) / sizeof (math_map[0]);
       if (charcode < cmax)
         ucode = math_map[charcode];
       break;
     case 7:
-      // math/scientific extended
+      /* math/scientific extended */
       cmax = sizeof (mathext_map) / sizeof (mathext_map[0]);
       if (charcode < cmax)
         ucode = mathext_map[charcode];
       break;
     case 8:
-      // greek
+      /* greek */
       cmax = sizeof (greek_map) / sizeof (greek_map[0]);
       if (charcode < cmax)
         ucode = greek_map[charcode];
       break;
     case 9:
-      // hebrew
+      /* hebrew */
       cmax = sizeof (hebrew_map) / sizeof (hebrew_map[0]);
       if (charcode < cmax)
         ucode = hebrew_map[charcode];
       break;
     case 10:
-      // cyrillic
+      /* cyrillic */
       cmax = sizeof (cyrillic_map) / sizeof (cyrillic_map[0]);
       if (charcode < cmax)
         ucode = cyrillic_map[charcode];
       break;
     case 11:
-      // japanese
+      /* japanese */
       cmax = sizeof (japanese_map) / sizeof (japanese_map[0]);
       if (charcode < cmax)
         ucode = japanese_map[charcode];
       break;
     }
 
-  // FIXME not sure about this but I think codepoint >= 0xf000 is really
-  // specific only to WP
+  /* FIXME not sure about this but I think codepoint >= 0xf000 is really
+     specific only to WP */
   if( ucode >= 0xf000 ) ucode = 0;
 
   return ucode;

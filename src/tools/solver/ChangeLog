@@ -1,3 +1,7 @@
+2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* reports-write.c: Don't use // comments.
+
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.11

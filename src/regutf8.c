@@ -25,7 +25,7 @@
 /* Match a single UTF-8 encoded character.  Needs to be ()-free.  */
 #define UTF8DOT "[\x01-\x7f\xc0-\xfd][\x80-\xbf]*"
 
-// ----------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- */
 
 #define MP_SRCEXT 1
 #define MP_DSTEXT 2
@@ -251,7 +251,7 @@ make_pattern (gnumeric_regex_t *preg, GString *dst, char **pp, int mpflags)
 	return REG_OK;
 }
 
-// ----------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- */
 
 int
 gnumeric_regcomp (gnumeric_regex_t *preg, const char *pattern, int cflags)
@@ -317,7 +317,7 @@ gnumeric_regcomp (gnumeric_regex_t *preg, const char *pattern, int cflags)
 	return res;
 }
 
-// ----------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- */
 
 int
 gnumeric_regexec (const gnumeric_regex_t *preg, const char *string,
@@ -368,7 +368,7 @@ gnumeric_regexec (const gnumeric_regex_t *preg, const char *string,
 	return res;
 }
 
-// ----------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- */
 
 size_t
 gnumeric_regerror (int errcode, const gnumeric_regex_t *preg,
@@ -378,7 +378,7 @@ gnumeric_regerror (int errcode, const gnumeric_regex_t *preg,
 	return regerror (errcode, NULL, errbuf, errbuf_size);
 }
 
-// ----------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- */
 
 void
 gnumeric_regfree (gnumeric_regex_t *preg)
@@ -387,7 +387,7 @@ gnumeric_regfree (gnumeric_regex_t *preg)
 	g_free (preg->parens);
 }
 
-// ----------------------------------------------------------------------------
+/* -------------------------------------------------------------------------- */
 
 #ifdef TEST_REGUTF8
 

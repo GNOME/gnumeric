@@ -1706,7 +1706,7 @@ gnumeric_fib (FunctionEvalInfo *ei, Value **argv)
 		gnum_float s5 = sqrtgnum (5.0);
 		gnum_float r1 = (1 + s5) / 2;
 		gnum_float r2 = (1 - s5) / 2;
-		// Use the Binet form.
+		/* Use the Binet form. */
 		return value_new_float ((powgnum (r1, n) - powgnum (r2, n)) / s5);
 	}
 }
