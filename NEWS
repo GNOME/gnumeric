@@ -1,5 +1,9 @@
 Gnumeric 1.5.0
 
+Emmanuel Pacaud:
+
+	* Snap to grid mode when moving sheet objects with shift.
+	
 Jean Brefort:
 	* add scatter plots with spline interpolation.
 	* Box-plots.
