@@ -1,3 +1,9 @@
+2004-01-14  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gui-other-elements.xml, gui-overview.xml, gui-toolbars.xml, 
+	printing.xml: Added missing '.png' suffix to figure filerefs.
+	* figures/Makefile.am: Added missing figures to EXTRA_DIST.
+
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.3

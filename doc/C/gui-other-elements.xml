@@ -57,7 +57,7 @@
 	<screenshot>
           <mediaobject>
             <imageobject>
-              <imagedata fileref="figures/worksheet-data-2" format="PNG" />
+              <imagedata fileref="figures/worksheet-data-2.png" format="PNG" />
             </imageobject>
             <textobject>
               <phrase>An image of the current cell indicator.</phrase>
@@ -153,7 +153,7 @@
 		<guibutton>
 		  <inlinemediaobject>
             <imageobject>
-              <imagedata fileref="figures/button-equals" format="PNG" />
+              <imagedata fileref="figures/button-equals.png" format="PNG" />
             </imageobject>
             <textobject>
               <phrase>An image of the equals button.</phrase>
