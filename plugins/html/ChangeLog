@@ -1,3 +1,16 @@
+1999-10-24  Michael Meeks  <mmeeks@gnu.org>
+
+	* html.c (html_write_cell_str): move common code here.
+	(html_read): Update style setting.
+	(html_cell_bold, html_cell_italic): kill.
+	(html_write_cell32, html_write_cell40): update style bits.
+
+	* font.c (font_get_size): kill ( mstyle_get_font_size )
+	(font_match): Move common code here.
+	(font_is_helvetica, font_is_monospaced, font_is_sansserif): update.
+
+	* epsf.c (epsf_write_cell): Kill 'Style'
+
 1999-10-20  Michael Meeks  <mmeeks@gnu.org>
 
 	* roff.c (write_wb_roff): kill leak.

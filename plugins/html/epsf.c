@@ -41,78 +41,78 @@
 static void
 epsf_write_cell (FILE *fp, Cell *cell, float x, float y)
 {
-	Style *style;
+	MStyle *mstyle;
 	int cell_width, cell_height;
 	RGB_t rgb;
 	int font_size;
 
-	if (!cell) {	/* empty cell */
+	if (!cell)	/* empty cell */
 		return;
-	} else {
-		style = cell_get_style (cell);
-		if (!style) {
-			/* is this case posible? */
-			return;
-		} else {
-			rgb.r = style->back_color->color.red >> 8;
-			rgb.g = style->back_color->color.green >> 8;
-			rgb.b = style->back_color->color.blue >> 8;
-			ps_set_color (fp, &rgb);
+	else {
+		mstyle = cell_get_mstyle (cell);
+		g_return_if_fail (mstyle != NULL);
 
-			cell_width = CELL_WIDTH(cell);
-			cell_height= CELL_HEIGHT(cell);
-			ps_box_filled (fp, x, y, cell_width, cell_height);
-
-			rgb.r = style->fore_color->color.red >> 8;
-			rgb.g = style->fore_color->color.green >> 8;
-			rgb.b = style->fore_color->color.blue >> 8;
-			ps_set_color (fp, &rgb);
-			ps_box_bordered (fp, x, y, cell_width, cell_height, 0.5);
-
-			font_size = font_get_size (style);
-
-			if (!font_size)
-				font_size = 10;
-			if (font_is_sansserif (style)) {
-				if (style->font->is_bold && style->font->is_italic)
-					ps_set_font (fp, HELVETICA_BOLD_OBLIQUE, font_size);
-				else if (style->font->is_bold)
-					ps_set_font (fp, HELVETICA_BOLD, font_size);
-				else if (style->font->is_italic)
-					ps_set_font (fp, HELVETICA_OBLIQUE, font_size);
-				else
-					ps_set_font (fp, HELVETICA, font_size);
-			} else if (font_is_monospaced (style)) {
-				if (style->font->is_bold && style->font->is_italic)
-					ps_set_font (fp, COURIER_BOLD_ITALIC, font_size);
-				else if (style->font->is_bold)
-					ps_set_font (fp, COURIER_BOLD, font_size);
-				else if (style->font->is_italic)
-					ps_set_font (fp, COURIER_ITALIC, font_size);
-				else
-					ps_set_font (fp, COURIER, font_size);
-			} else {
-				if (style->font->is_bold && style->font->is_italic)
-					ps_set_font (fp, TIMES_BOLD_ITALIC, font_size);
-				else if (style->font->is_bold)
-					ps_set_font (fp, TIMES_BOLD, font_size);
-				else if (style->font->is_italic)
-					ps_set_font (fp, TIMES_ITALIC, font_size);
-				else
-					ps_set_font (fp, TIMES, font_size);
-			}
-			if (style->halign & HALIGN_RIGHT)
-				ps_text_right (fp, cell->text->str,
-					x + cell_width - 2, y+2 + (font_size/3));
-			else if (style->halign & HALIGN_CENTER)
-				ps_text_center (fp, cell->text->str,
-					x + 2, x + cell_width - 2, y+2 + (font_size/3));
+		rgb.r = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.red >> 8;
+		rgb.g = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.green >> 8;
+		rgb.b = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.blue >> 8;
+		ps_set_color (fp, &rgb);
+		
+		cell_width  = CELL_WIDTH  (cell);
+		cell_height = CELL_HEIGHT (cell);
+		ps_box_filled (fp, x, y, cell_width, cell_height);
+		
+		rgb.r = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.red >> 8;
+		rgb.g = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.green >> 8;
+		rgb.b = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.blue >> 8;
+		ps_set_color (fp, &rgb);
+		ps_box_bordered (fp, x, y, cell_width, cell_height, 0.5);
+		
+		font_size = mstyle_get_font_size (mstyle);
+		
+		if (!font_size)
+			font_size = 10;
+		if (font_is_sansserif (mstyle)) {
+			if (mstyle_get_font_bold   (mstyle) &&
+			    mstyle_get_font_italic (mstyle))
+				ps_set_font (fp, HELVETICA_BOLD_OBLIQUE, font_size);
+			else if (mstyle_get_font_bold (mstyle))
+				ps_set_font (fp, HELVETICA_BOLD, font_size);
+			else if (mstyle_get_font_italic (mstyle))
+				ps_set_font (fp, HELVETICA_OBLIQUE, font_size);
 			else
-				ps_text_left (fp, cell->text->str, x+2, y+2 + (font_size/3));
-			ps_write_raw (fp, "\n");
+				ps_set_font (fp, HELVETICA, font_size);
+		} else if (font_is_monospaced (mstyle)) {
+			if (mstyle_get_font_bold   (mstyle) &&
+			    mstyle_get_font_italic (mstyle))
+				ps_set_font (fp, COURIER_BOLD_ITALIC, font_size);
+			else if (mstyle_get_font_bold (mstyle))
+				ps_set_font (fp, COURIER_BOLD, font_size);
+			else if (mstyle_get_font_italic (mstyle))
+				ps_set_font (fp, COURIER_ITALIC, font_size);
+			else
+				ps_set_font (fp, COURIER, font_size);
+		} else {
+			if (mstyle_get_font_bold   (mstyle) &&
+			    mstyle_get_font_italic (mstyle))
+				ps_set_font (fp, TIMES_BOLD_ITALIC, font_size);
+			else if (mstyle_get_font_bold (mstyle))
+				ps_set_font (fp, TIMES_BOLD, font_size);
+			else if (mstyle_get_font_italic (mstyle))
+				ps_set_font (fp, TIMES_ITALIC, font_size);
+			else
+				ps_set_font (fp, TIMES, font_size);
 		}
-		style_unref (style);
+		if (mstyle_get_align_h (mstyle) & HALIGN_RIGHT)
+			ps_text_right (fp, cell->text->str,
+				       x + cell_width - 2, y+2 + (font_size/3));
+		else if (mstyle_get_align_h (mstyle) & HALIGN_CENTER)
+			ps_text_center (fp, cell->text->str,
+					x + 2, x + cell_width - 2, y + 2 + (font_size / 3));
+		else
+			ps_text_left (fp, cell->text->str, x + 2, y + 2 + (font_size / 3));
+		ps_write_raw (fp, "\n");
 	}
+	mstyle_unref (mstyle);
 }
 
 /*

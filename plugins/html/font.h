@@ -25,10 +25,9 @@
 #include "../../src/gnumeric.h"
 #include "../../src/gnumeric-util.h"
 
-int font_is_monospaced (Style *style);
-int font_is_helvetica (Style *style);
-int font_is_sansserif (Style *style);
-int font_get_size (Style *style);
+int font_is_monospaced (MStyle *mstyle);
+int font_is_helvetica  (MStyle *mstyle);
+int font_is_sansserif  (MStyle *mstyle);
 
 #endif
 

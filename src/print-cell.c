@@ -171,10 +171,11 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 }
 
 static void
-print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double base_y)
+print_cell_text (GnomePrintContext *context, Cell *cell,
+		 double base_x, double base_y, MStyle *mstyle)
 {
-	Style *style = cell_get_style (cell);
-	GnomeFont *print_font = style->font->font;
+	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
+	GnomeFont *print_font = style_font->font;
 	double text_width;
 	double font_height;
 	gboolean do_multi_line;
@@ -184,16 +185,19 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 	cell_get_span (cell, &start_col, &end_col);
 	
 	text_width = gnome_font_get_width_string (print_font, cell->text->str);
-	font_height = style->font->size;
+	font_height = style_font->size;
 		
 	if (text_width > cell->col->units && cell_is_number (cell)) {
 		print_overflow (context, cell);
-		style_unref (style);
+		style_font_unref (style_font);
 		return;
 	}
 
-	halign = cell_get_horizontal_align (cell, style->halign);
-	if (halign == HALIGN_JUSTIFY || style->valign == VALIGN_JUSTIFY || style->fit_in_cell)
+	halign = cell_get_horizontal_align (cell,
+					    mstyle_get_align_h (mstyle));
+	if (halign == HALIGN_JUSTIFY ||
+	    mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY ||
+	    mstyle_get_fit_in_cell (mstyle))
 		do_multi_line = TRUE;
 	else
 		do_multi_line = FALSE;
@@ -216,23 +220,24 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 			}
 		}
 
-		switch (style->valign){
+		switch (mstyle_get_align_v (mstyle)) {
 		case VALIGN_TOP:
 			y_offset = 0;
 			inter_space = font_height;
 			break;
 			
 		case VALIGN_CENTER:
-			y_offset = - ((cell->row->units - (line_count * font_height))/2);
+			y_offset = - ((cell->row->units -
+				       (line_count * font_height)) / 2);
 			inter_space = font_height;
 			break;
 			
 		case VALIGN_JUSTIFY:
-			if (line_count > 1){
+			if (line_count > 1) {
 				y_offset = 0;
 				inter_space = font_height + 
 					(cell->row->units - (line_count * font_height))
-					/ (line_count-1);
+					/ (line_count - 1);
 				break;
 			} 
 			/* Else, we become a VALIGN_BOTTOM line */
@@ -251,10 +256,10 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 		gnome_print_setfont (context, print_font);
 
 		y_offset -= font_height;
-		for (l = lines; l; l = l->next){
+		for (l = lines; l; l = l->next) {
 			char const * const str = l->data;
 
-			switch (halign){
+			switch (halign) {
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
 				x_offset = cell->col->margin_a_pt;
@@ -274,7 +279,8 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 				x_offset = cell->col->margin_a_pt;
 			}
 
-			gnome_print_moveto (context, base_x + x_offset, base_y + y_offset);
+			gnome_print_moveto (context, base_x + x_offset,
+					    base_y + y_offset);
 			gnome_print_show (context, str);
 			gnome_print_stroke (context);
 			
@@ -291,21 +297,22 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 		 * compute the pixel difference 
 		 */
 		if (start_col != cell->col->pos)
-			diff = -sheet_col_get_unit_distance (cell->sheet, start_col, cell->col->pos);
+			diff = -sheet_col_get_unit_distance (cell->sheet, start_col,
+							     cell->col->pos);
 		else
 			diff = 0;
 
 		{
 			static int warn_shown;
 
-			if (!warn_shown){
+			if (!warn_shown) {
 				g_warning ("Set clipping");
 				warn_shown = 1;
 			}
 		}
 		
 		len = 0;
-		switch (halign){
+		switch (halign) {
 		case HALIGN_FILL:
 			g_warning ("Unhandled");
 			len = text_width;
@@ -320,7 +327,7 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 			break;
 
 		case HALIGN_CENTER:
-			x = (cell->col->units - text_width)/2;
+			x = (cell->col->units - text_width) / 2;
 			break;
 
 		default:
@@ -332,7 +339,8 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 		gnome_print_setfont (context, print_font);
 		total = 0;
 		do {
-			gnome_print_moveto (context, base_x + x, base_y - cell->row->units);
+			gnome_print_moveto (context, base_x + x,
+					    base_y - cell->row->units);
 			gnome_print_show (context, cell->text->str);
 			gnome_print_stroke (context);
 			
@@ -340,7 +348,7 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 			total += len;
 		} while (halign == HALIGN_FILL && total < cell->col->units && len > 0);
 	}
-	style_unref (style);
+	style_font_unref (style_font);
 }
 
 static void
@@ -365,14 +373,15 @@ static void
 print_cell (GnomePrintContext *context, Cell *cell,
 	    double x1, double y1, double x2, double y2)
 {
-	Style *style = cell_get_style (cell);
-	StyleColor *fore = style->fore_color;
+	MStyle     *mstyle = cell_get_mstyle  (cell);
+	StyleColor *fore   = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
 	
 	g_assert (cell != NULL);
 
 	gnome_print_setrgbcolor (context, 0, 0, 0);
 /*	print_cell_border (context, style->border, x1, y1, x2, y2); */
-	print_cell_background (context, style->back_color, x1, y1, x2, y2);
+	print_cell_background (context, mstyle_get_color (mstyle, MSTYLE_COLOR_BACK),
+			       x1, y1, x2, y2);
 	
 	gnome_print_setrgbcolor (context,
 				 fore->red   / (double) 0xfff,
@@ -381,8 +390,9 @@ print_cell (GnomePrintContext *context, Cell *cell,
 
 	print_cell_text (context, cell,
 			 x1 + cell->col->margin_a_pt,
-			 y1 + cell->row->margin_b_pt);
-	style_unref (style);
+			 y1 + cell->row->margin_b_pt,
+			 mstyle);
+	mstyle_unref (mstyle);
 }
 
 static void
@@ -491,19 +501,23 @@ print_cell_grid (GnomePrintContext *context,
 	end_row++;
 	
 	x = base_x;
-	for (col = start_col; col <= end_col; col++){
+	for (col = start_col; col <= end_col; col++) {
 		ColRowInfo *ci = sheet_col_get_info (sheet, col);
 
-		vline (context, x, base_y, base_y - height);
-		x += ci->units + ci->margin_a_pt + ci->margin_b_pt;
+		if (ci) {
+			vline (context, x, base_y, base_y - height);
+			x += ci->units + ci->margin_a_pt + ci->margin_b_pt;
+		}
 	}
 
 	y = base_y;
 	for (row = start_row; row <= end_row; row++){
 		ColRowInfo *ri = sheet_row_get_info (sheet, row);
 
-		hline (context, base_x, base_x + width, y);
-		y -= ri->units + ri->margin_a_pt + ri->margin_b_pt;
+		if (ri) {
+			hline (context, base_x, base_x + width, y);
+			y -= ri->units + ri->margin_a_pt + ri->margin_b_pt;
+		}
 	}
 }
 

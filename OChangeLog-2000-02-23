@@ -1,3 +1,48 @@
+1999-10-24  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (sheet_unique_cb): Again, CVS merge bug fixed.
+
+	* src/mstyle.c (mstyle_elements_equal): Fix stupid bug ( again ).
+	(mstyle_elements_compare): fix big bug; stupid CVS.
+
+	* src/sheet.c (sheet_update_controls): fix leak.
+
+	* src/sheet-style.c (sheet_destroy_styles): fix leak.
+
+	* src/cell.c (cell_get_style): Kill.
+
+	* src/functions/fn-information.c (gnumeric_cell): Update format
+	section.
+
+	* src/sheet.c (cb_set_cell_value): Kill FORMAT_SET reference
+	and use new style API.
+
+	* src/cell.h: Kill CELL_FORMAT_SET flag.
+
+1999-10-23  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/print-cell.c (print_cell_text): kill Style.
+	(print_cell): ditto.
+	(print_cell_grid): Add checks on return type of
+	sheet_*_get_info.
+
+	* src/mstyle.h: big constification.
+
+	* src/mstyle.c (mstyle_verify): fix compile errors.
+
+	* src/cell-draw.c (sheet_view_font): Kill.
+	(cell_draw): edge out Style.
+	(sheet_get_style_font): create.
+
+	* src/cell.c (cell_get_mstyle): implement.
+
+	* src/style.h: Change structs back to typedef defines + move
+	"mstlye.h" include to foot + add MStyleBorder.
+
+	* src/item-grid.c (item_grid_draw_border): Take an MStyle.
+	(item_grid_paint_empty_cell): pass an mstyle + kill a Style.
+	(item_grid_draw_cell): edge Style out.
+
 1999-10-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-style.c (sheet_style_attach) : reference the style object.

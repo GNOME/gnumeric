@@ -213,21 +213,25 @@ item_grid_invert_gc (ItemGrid *item_grid)
 }
 
 static void
-item_grid_draw_border (GdkDrawable *drawable, Style *style,
+item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 		       int x, int y, int w, int h)
 {
-	if (style->valid_flags & STYLE_BORDER_TOP)
-		border_draw (drawable, style->border_top,
-			     x, y, x+w, y);
-	if (style->valid_flags & STYLE_BORDER_LEFT)
-		border_draw (drawable, style->border_left,
-			     x, y, x, y+h);
-	if (style->valid_flags & STYLE_BORDER_BOTTOM)
-		border_draw (drawable, style->border_bottom,
-			     x, y+h, x+w, y+h);
-	if (style->valid_flags & STYLE_BORDER_RIGHT)
-		border_draw (drawable, style->border_right,
-			     x+w, y, x+w, y+h);
+	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_TOP))
+		border_draw (drawable,
+			     mstyle_get_border (mstyle, MSTYLE_BORDER_TOP),
+			     x, y, x + w, y);
+	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_LEFT))
+		border_draw (drawable, 
+			     mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT),
+			     x, y, x, y + h);
+	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_BOTTOM))
+		border_draw (drawable, 
+			     mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM),
+			     x, y + h, x + w, y + h);
+	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_RIGHT))
+		border_draw (drawable, 
+			     mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT),
+			     x + w, y, x + w, y + h);
 #if 0
 	/* These would look ugly and should be ignored for now */
 	if (style->valid_flags & STYLE_BORDER_DIAGONAL)
@@ -248,51 +252,52 @@ static int
 item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int x1, int y1)
 {
 	GdkGC      *gc     = item_grid->gc;
+	GdkColor   *col;
 	int         count;
 	int         w, h;
-	Style      *style;
+	MStyle     *mstyle;
+	
+	mstyle = sheet_style_compute (item_grid->sheet, cell->col->pos,
+				      cell->row->pos);
 
-	style = cell_get_style (cell);
 	/* setup foreground */
 	gdk_gc_set_foreground (gc, &item_grid->default_color);
 	if (cell->render_color)
 		gdk_gc_set_foreground (gc, &cell->render_color->color);
 	else {
-		if (style->valid_flags & STYLE_FORE_COLOR)
-			gdk_gc_set_foreground (gc, &style->fore_color->color);
+		col = &mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color;
+		gdk_gc_set_foreground (gc, col);
 	}
 
-	if (style->valid_flags & STYLE_BACK_COLOR && style->back_color){
-		gdk_gc_set_background (gc, &style->back_color->color);
-	}
+	col = &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color;
+	gdk_gc_set_background (gc, col);
 
 	w = cell->col->pixels;
 	h = cell->row->pixels;
-	if ((style->valid_flags & STYLE_PATTERN) && style->pattern){
+	if (mstyle_is_element_set (mstyle, MSTYLE_PATTERN)) {
 #if 0
 		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
-		int p = style->pattern - 1;
-
+		int p = mstyle_get_pattern (mstyle) - 1;
 		/*
 		 * Next two lines are commented since the pattern display code of the cell
 		 * have not been tested (written?)
 		 */
 		gdk_gc_set_stipple (gc, GNUMERIC_SHEET (item->canvas)->patterns [p]);
-		gdk_gc_set_fill (gc, GDK_STIPPLED);
+		gdk_gc_set_fill    (gc, GDK_STIPPLED);
 #endif
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    x1, y1, w, h);
 				    
-		gdk_gc_set_fill (gc, GDK_SOLID);
+		gdk_gc_set_fill    (gc, GDK_SOLID);
 		gdk_gc_set_stipple (gc, NULL);
 	}
 
 	/* Draw cell contents BEFORE border */
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 
-	item_grid_draw_border (drawable, style, x1, y1, w, h);
+	item_grid_draw_border (drawable, mstyle, x1, y1, w, h);
 
-	style_unref (style);
+	mstyle_unref (mstyle);
 
 	return count;
 }
@@ -321,12 +326,7 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			ri->pixels - ri->margin_b);
 	}
 
-	{
-		Style *style = style_new_mstyle (mstyle, MSTYLE_ELEMENT_MAX,
-						 item_grid->sheet->last_zoom_factor_used);
-		item_grid_draw_border (drawable, style, x, y, ci->pixels, ri->pixels);
-		style_unref (style);
-	}
+	item_grid_draw_border (drawable, mstyle, x, y, ci->pixels, ri->pixels);
 
 	mstyle_unref (mstyle);
 }

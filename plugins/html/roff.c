@@ -69,7 +69,6 @@ write_wb_roff (Workbook *wb, FILE *fp)
 	GList *sheet_list;
 	Sheet *sheet;
 	Cell *cell;
-	Style *style;
 	int row, col, fontsize, v_size;
 
 	g_return_val_if_fail (wb != NULL, -1);
@@ -95,49 +94,50 @@ write_wb_roff (Workbook *wb, FILE *fp)
 				if (!cell) {
 					fprintf (fp, "l");
 				} else {
-					style = cell_get_style (cell);
-					if (style->halign & HALIGN_RIGHT)
+					MStyle *mstyle = cell_get_mstyle (cell);
+					if (mstyle_get_align_h (mstyle) & HALIGN_RIGHT)
 						fprintf (fp, "r");
-					else if (style->halign & HALIGN_CENTER)
+					else if (mstyle_get_align_h (mstyle) & HALIGN_CENTER)
 						fprintf (fp, "c");
 					else
 						fprintf (fp, "l");
-					if (font_is_monospaced (style)) {
-						if (style->font->is_bold &&
-							style->font->is_italic)
+					if (font_is_monospaced (mstyle)) {
+						if (mstyle_get_font_bold (mstyle) &&
+						    mstyle_get_font_italic (mstyle))
 							fprintf (fp, "fCBI");
-						else if (style->font->is_bold)
+						else if (mstyle_get_font_bold (mstyle))
 							fprintf (fp, "fCB");
-						else if (style->font->is_italic)
+						else if (mstyle_get_font_italic (mstyle))
 							fprintf (fp, "fCI");
 						else
 							fprintf (fp, "fCR");
-					} else if (font_is_helvetica (style)) {
-						if (style->font->is_bold &&
-							style->font->is_italic)
+					} else if (font_is_helvetica (mstyle)) {
+						if (mstyle_get_font_bold (mstyle) &&
+						    mstyle_get_font_italic (mstyle))
 							fprintf (fp, "fHBI");
-						else if (style->font->is_bold)
+						else if (mstyle_get_font_bold (mstyle))
 							fprintf (fp, "fHB");
-						else if (style->font->is_italic)
+						else if (mstyle_get_font_italic (mstyle))
 							fprintf (fp, "fHI");
 						else
 							fprintf (fp, "fHR");
 					} else {
 						/* default is times */
-						if (style->font->is_bold &&
-							style->font->is_italic)
+						if (mstyle_get_font_bold (mstyle) &&
+						    mstyle_get_font_italic (mstyle))
 							fprintf (fp, "fTBI");
-						else if (style->font->is_bold)
+						else if (mstyle_get_font_bold (mstyle))
 							fprintf (fp, "fTB");
-						else if (style->font->is_italic)
+						else if (mstyle_get_font_italic (mstyle))
 							fprintf (fp, "fTI");
 					}
-					fontsize = font_get_size (style);
+					fontsize = mstyle_get_font_size (mstyle);
 					if (fontsize) {
 						fprintf (fp, "p%d", fontsize);
-						v_size = v_size > fontsize ? v_size : fontsize;
+						v_size = v_size > fontsize ? v_size :
+							fontsize;
 					}
-					style_unref (style);
+					mstyle_unref (mstyle);
 				}
 			}
 			fprintf (fp, ".\n");

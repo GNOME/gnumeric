@@ -167,15 +167,10 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		 */
 		return value_new_error (&ei->pos, _("Unimplemented"));
 	} else if (!g_strcasecmp (info_type, "format")) {
-		Cell *cell = sheet_cell_get (ei->pos.sheet, ref.col, ref.row);
-
-		if (cell && CELL_IS_FORMAT_SET (cell)) {
-			Style *style = cell_get_style (cell);
-			Value *val = translate_cell_format (style->format);
-			style_unref (style);
-			return val;
-		} else
-			return value_new_string ("G");
+		MStyle *mstyle = sheet_style_compute (ei->pos.sheet, ref.col, ref.row);
+		Value *val     = translate_cell_format (mstyle_get_format (mstyle));
+		mstyle_unref (mstyle);
+		return val;
 	} else if (!g_strcasecmp (info_type, "prefix")) {
 		/* Text value corresponding to the "label prefix" of the cell.
 		 * Returns single quotation mark (') if the cell contains

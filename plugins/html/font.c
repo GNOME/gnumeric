@@ -23,24 +23,21 @@
 #include "config.h"
 #include "font.h"
 
-/*
- */
-int
-font_is_monospaced (Style *style)
+static int
+font_match (MStyle *mstyle, char **names)
 {
-	char *name[] = {"Courier", "fixed", NULL};
 	int i;
+	const char *font_name;
 
-	if (!style)
+	if (!mstyle)
 		return 0;
-	if (!style->font)
-		return 0;
-	if (!style->font->font_name)
-		return 0;
+	font_name = mstyle_get_font_name (mstyle);
 
-	/* printf ("%s\n", style->font->font_name); */
-	for (i = 0; name[i]; i++) {
-		if (strcmp (name[i], style->font->font_name) == 0)
+	g_return_val_if_fail (names != NULL, 0);
+	g_return_val_if_fail (font_name != NULL, 0);
+
+	for (i = 0; names[i]; i++) {
+		if (strcasecmp (font_name, names[i]) == 0)
 			return 1;
 	}
 	return 0;
@@ -49,54 +46,32 @@ font_is_monospaced (Style *style)
 /*
  */
 int
-font_is_helvetica (Style *style)
+font_is_monospaced (MStyle *mstyle)
 {
-	if (!style)
-		return 0;
-	if (!style->font)
-		return 0;
-	if (!style->font->font_name)
-		return 0;
+	char *names[] = { "Courier", "fixed", NULL };
 
-	if (strcmp ("Helvetica", style->font->font_name) == 0)
-		return 1;
-	return 0;
+	return font_match (mstyle, names);
 }
 
 /*
  */
 int
-font_is_sansserif (Style *style)
+font_is_helvetica (MStyle *mstyle)
 {
-	int i;
-	char *name[] = {
-		"helvetica","avantgarde","neep","blippo","capri","clean","fixed",NULL};
+	char *names [] = { "Helvetica", NULL };
 
-	if (!style)
-		return 0;
-	if (!style->font)
-		return 0;
-	if (!style->font->font_name)
-		return 0;
-
-	for (i = 0; name[i]; i++) {
-		if (strcasecmp (style->font->font_name, name[i]) == 0)
-			return 1;
-	}
-	return 0;
+	return font_match (mstyle, names);
 }
 
 /*
  */
 int
-font_get_size (Style *style)
+font_is_sansserif (MStyle *mstyle)
 {
-	if (!style)
-		return 0;
-	if (!style->font)
-		return 0;
+	char *names [] = { "helvetica", "avantgarde",
+			   "neep", "blippo", "capri",
+			   "clean", "fixed", NULL };
 
-	/* printf ("%f %f\n", style->font->size, style->font->scale); */
-	return ((int)style->font->size);
+	return font_match (mstyle, names);
 }
 

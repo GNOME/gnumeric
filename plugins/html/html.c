@@ -56,67 +56,73 @@ html_fprintf (FILE *fp, const char *s)
 	return len;
 }
 
+static void
+html_write_cell_str (FILE *fp, Cell *cell, MStyle *mstyle)
+{
+	if (font_is_monospaced (mstyle))
+		fprintf (fp, "<TT>");
+	if (mstyle_get_font_bold (mstyle))
+		fprintf (fp, "<B>");
+	if (mstyle_get_font_italic (mstyle))
+		fprintf (fp, "<I>");
+
+	html_fprintf (fp, cell->text->str);
+
+	if (mstyle_get_font_italic (mstyle))
+		fprintf (fp, "</I>");
+	if (mstyle_get_font_bold (mstyle))
+		fprintf (fp, "</B>");
+	if (font_is_monospaced (mstyle))
+		fprintf (fp, "</TT>");
+}
+
 /*
  * write a TD
  */
 static void
 html_write_cell32 (FILE *fp, Cell *cell)
 {
-	Style *style;
+	MStyle *mstyle;
 	unsigned char r, g, b;
 
 	if (!cell) {	/* empty cell */
 		fprintf (fp, "\t<TD>");
 	} else {
-		style = cell_get_style (cell);
-
-		if (!style) {
-			/* is this case posible? */
-			html_fprintf (fp, cell->text->str);
-		} else {
-			switch (cell_get_horizontal_align (cell, style->halign)) {
-			case HALIGN_RIGHT :
-			    fprintf (fp, " align=right");
-			    break;
-
-			case HALIGN_CENTER :
-				fprintf (fp, " align=center");
-				break;
-			default :
-				break;
-			}
-			if (style->valign & VALIGN_TOP)
-				fprintf (fp, " valign=top");
-			r = style->back_color->color.red >> 8;
-			g = style->back_color->color.green >> 8;
-			b = style->back_color->color.blue >> 8;
-			if (r != 255 || g != 255 || b != 255)
-				fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
-			fprintf (fp, ">");
-			r = style->fore_color->color.red >> 8;
-			g = style->fore_color->color.green >> 8;
-			b = style->fore_color->color.blue >> 8;
-			if (r != 0 || g != 0 || b != 0)
-				fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
-						r, g, b);
-			if (font_is_monospaced (style))
-				fprintf (fp, "<TT>");
-			if (style->font->is_bold)
-				fprintf (fp, "<B>");
-			if (style->font->is_italic)
-				fprintf (fp, "<I>");
-			html_fprintf (fp, cell->text->str);
-			if (style->font->is_italic)
-				fprintf (fp, "</I>");
-			if (style->font->is_bold)
-				fprintf (fp, "</B>");
-			if (font_is_monospaced (style))
-				fprintf (fp, "</TT>");
-			if (r != 0 || g != 0 || b != 0)
-				fprintf (fp, "</FONT>");
+		mstyle = cell_get_mstyle (cell);
+		g_return_if_fail (mstyle != NULL);
+		
+		switch (cell_get_horizontal_align (cell,
+						   mstyle_get_align_h (mstyle))) {
+		case HALIGN_RIGHT :
+			fprintf (fp, " align=right");
+			break;
+			
+		case HALIGN_CENTER :
+			fprintf (fp, " align=center");
+			break;
+		default :
+			break;
 		}
-		style_unref (style);
+		if (mstyle_get_align_v (mstyle) & VALIGN_TOP)
+			fprintf (fp, " valign=top");
+		r = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.red >> 8;
+		g = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.green >> 8;
+		b = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.blue >> 8;
+		if (r != 255 || g != 255 || b != 255)
+			fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
+		fprintf (fp, ">");
+		r = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.red >> 8;
+		g = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.green >> 8;
+		b = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.blue >> 8;
+		if (r != 0 || g != 0 || b != 0)
+			fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
+				 r, g, b);
+		html_write_cell_str (fp, cell, mstyle);
+
+		if (r != 0 || g != 0 || b != 0)
+			fprintf (fp, "</FONT>");
 	}
+	mstyle_unref (mstyle);
 	fprintf (fp, "</TD>\n");
 }
 
@@ -126,59 +132,45 @@ html_write_cell32 (FILE *fp, Cell *cell)
 static void
 html_write_cell40 (FILE *fp, Cell *cell)
 {
-	Style *style;
+	MStyle *mstyle;
 	unsigned char r, g, b;
 
 	if (!cell) {	/* empty cell */
 		fprintf (fp, "\t<TD>");
 	} else {
-		style = cell_get_style (cell);
+		mstyle = cell_get_mstyle (cell);
+		g_return_if_fail (mstyle != NULL);
 
-		if (!style) {
-			/* is this case posible? */
-			html_fprintf (fp, cell->text->str);
-		} else {
-			switch (cell_get_horizontal_align (cell, style->halign)) {
-			case HALIGN_RIGHT :
-			    fprintf (fp, " halign=right");
-			    break;
-
-			case HALIGN_CENTER :
-				fprintf (fp, " halign=center");
-				break;
-			default :
-				break;
-			}
-			if (style->valign & VALIGN_TOP)
-				fprintf (fp, " valign=top");
-			r = style->back_color->color.red >> 8;
-			g = style->back_color->color.green >> 8;
-			b = style->back_color->color.blue >> 8;
-			if (r != 255 || g != 255 || b != 255)
-				fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
-			fprintf (fp, ">");
-			r = style->fore_color->color.red >> 8;
-			g = style->fore_color->color.green >> 8;
-			b = style->fore_color->color.blue >> 8;
-			if (r != 0 || g != 0 || b != 0)
-				fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
-						r, g, b);
-			if (font_is_monospaced (style))
-				fprintf (fp, "<TT>");
-			if (style->font->is_bold)
-				fprintf (fp, "<B>");
-			if (style->font->is_italic)
-				fprintf (fp, "<I>");
-			html_fprintf (fp, cell->text->str);
-			if (style->font->is_italic)
-				fprintf (fp, "</I>");
-			if (style->font->is_bold)
-				fprintf (fp, "</B>");
-			if (font_is_monospaced (style))
-				fprintf (fp, "</TT>");
-			if (r != 0 || g != 0 || b != 0)
-				fprintf (fp, "</FONT>");
+		switch (cell_get_horizontal_align (cell,
+						   mstyle_get_align_h (mstyle))) {
+		case HALIGN_RIGHT :
+			fprintf (fp, " halign=right");
+			break;
+			
+		case HALIGN_CENTER :
+			fprintf (fp, " halign=center");
+			break;
+		default :
+			break;
 		}
+		if (mstyle_get_align_v (mstyle) & VALIGN_TOP)
+			fprintf (fp, " valign=top");
+		r = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.red >> 8;
+		g = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.green >> 8;
+		b = mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color.blue >> 8;
+		if (r != 255 || g != 255 || b != 255)
+			fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
+		fprintf (fp, ">");
+		r = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.red >> 8;
+		g = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.green >> 8;
+		b = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.blue >> 8;
+		if (r != 0 || g != 0 || b != 0)
+			fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
+				 r, g, b);
+		html_write_cell_str (fp, cell, mstyle);
+
+		if (r != 0 || g != 0 || b != 0)
+			fprintf (fp, "</FONT>");
 	}
 	fprintf (fp, "</TD>\n");
 }
@@ -353,40 +345,6 @@ html_get_string (char *s, int *flags)
 }
 
 /*
- * change the font of a cell to bold
- */
-static void
-html_cell_bold (Cell *cell)
-{
-	MStyle *mstyle;
-
-	if (!cell)
-		return;
-
-	mstyle = mstyle_new ();
-	mstyle_set_font_bold (mstyle, TRUE);
-
-	cell_set_mstyle (cell, mstyle);
-}
-
-/*
- * change the font of a cell to italic
- */
-static void
-html_cell_italic (Cell *cell)
-{
-	MStyle *mstyle;
-
-	if (!cell)
-		return;
-
-	mstyle = mstyle_new ();
-	mstyle_set_font_italic (mstyle, TRUE);
-
-	cell_set_mstyle (cell, mstyle);
-}
-
-/*
  * try at least to read back what we have written before..
  */
 gboolean
@@ -463,21 +421,23 @@ html_read (Workbook *wb, const char *filename)
 					str = html_get_string (p, &flags);
 					cell = sheet_cell_fetch (sheet, col, row);
 					if (str && cell) {
-						Style *style = cell_get_style (cell);
-						/* set the attributes of the cell
-						 */
-						if (style && style->font && flags) {
-							if (flags & HTML_BOLD) {
-								html_cell_bold (cell);
-							}
-							if (flags & HTML_ITALIC) {
-								html_cell_italic (cell);
-							}
-							if (flags & HTML_RIGHT) {
-								MStyle *mstyle = mstyle_new ();
+						if (flags) {
+							MStyle *mstyle = mstyle_new ();
+							/*
+							 * set the attributes of the cell
+							 */
+							if (flags & HTML_BOLD)
+								mstyle_set_font_bold (mstyle, TRUE);
+							
+							if (flags & HTML_ITALIC)
+								mstyle_set_font_italic (mstyle, TRUE);
+							
+							if (flags & HTML_RIGHT)
 								mstyle_set_align_h (mstyle, HALIGN_CENTER);
-								cell_set_mstyle (cell, mstyle);
-							}
+							
+							sheet_style_attach_single (cell->sheet,
+										   cell->col->pos,
+										   cell->row->pos, mstyle);
 						}
 						/* set the content of the cell */
 						cell_set_text_simple (cell, str);

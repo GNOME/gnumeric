@@ -454,7 +454,7 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 	for (l = STYLE_LIST (sheet); l; l = l->next) {
 		StyleRegion *sr = l->data;
 		if (range_overlap (&sr->range, range)) {
-			if (STYLE_DEBUG) {
+			if (style_debugging > 0) {
 				range_dump (&sr->range);
 				mstyle_dump (sr->style);
 			}
@@ -465,9 +465,22 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 	/* Fragment ranges into fully overlapping ones */
 	simple = range_fragment (overlap_list);
 	for (l = simple; l; l = g_list_next (l)) {
-		Range  *r = simple->data;
+		Range  *r = l->data;
 		GList  *b, *style_list = NULL;
 		MStyle *tmp;
+
+		/*
+		 * Some of the ranges are far bigger than our
+		 * selection & we arn't interested in them really.
+		 */
+		if (!range_overlap (r, range))
+			continue;
+
+		if (style_debugging > 0) {
+			printf ("Fragmented range: ");
+			range_dump (r);
+			printf ("\n");
+		}
 
 		/*
 		 * Build a list of styles here.
@@ -484,7 +497,6 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
 							     sr->style);
 			}
 		}
-		style_list = g_list_reverse (style_list);
 
 		if (!mstyle_list_check_sorted (style_list))
 			g_warning ("Styles not sorted");
@@ -528,7 +540,13 @@ sheet_selection_get_unique_style (Sheet *sheet)
 	cl.mstyle = mstyle_new ();
 
 	selection_foreach_range (sheet, sheet_unique_cb, &cl);
-
+ 
+	if (style_debugging > 0) {
+		printf ("Uniq style is\n");
+		mstyle_dump (cl.mstyle);
+		printf ("\n");
+	}
+ 
 	return cl.mstyle;
 }
 
@@ -550,6 +568,8 @@ sheet_destroy_styles (Sheet *sheet)
 {
 	GList *l;
 
+	g_return_if_fail (sheet->style_data != NULL);
+
 	sheet_style_cache_flush (sheet);
 	for (l = STYLE_LIST (sheet); l; l = l->next) {
 		StyleRegion *sr = l->data;
@@ -562,6 +582,9 @@ sheet_destroy_styles (Sheet *sheet)
 	}
 	g_list_free (STYLE_LIST (sheet));
 	STYLE_LIST (sheet) = NULL;
+
+	g_free (sheet->style_data);
+	sheet->style_data = NULL;
 }
 
 void

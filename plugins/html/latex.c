@@ -72,7 +72,6 @@ html_write_wb_latex (Workbook *wb, const char *filename)
 	GList *sheet_list;
 	Sheet *sheet;
 	Cell *cell;
-	Style *style;
 	int row, col;
 
 	g_return_val_if_fail (wb != NULL, -1);
@@ -105,45 +104,40 @@ html_write_wb_latex (Workbook *wb, const char *filename)
 					else
 						fprintf (fp, "\t\n");
 				} else {
-					style = cell_get_style (cell);
-					if (!style) {
-						/* is this case posible? */
+					MStyle *mstyle = cell_get_mstyle (cell);
+					g_return_val_if_fail (mstyle != NULL, 0);
+
+					if (col != 0)
 						fprintf (fp, "\t&");
-						latex_fprintf (fp, cell->text->str);
-						fprintf (fp, "&\n");
-					} else {
-						if (col != 0)
-							fprintf (fp, "\t&");
-						else
-							fprintf (fp, "\t ");
-						if (style->halign & HALIGN_RIGHT)
-							fprintf (fp, "\\hfill ");
-						if (style->halign & HALIGN_CENTER)
-							fprintf (fp, "{\\centering ");	/* doesn't work */
-						if (style->valign & VALIGN_TOP)
-							;
-						if (font_is_monospaced (style))
-							fprintf (fp, "{\\tt ");
-						else if (font_is_sansserif (style))
-							fprintf (fp, "{\\sf ");
-						if (style->font->is_bold)
-							fprintf (fp, "{\\bf ");
-						if (style->font->is_italic)
-							fprintf (fp, "{\\em ");
-						latex_fprintf (fp, cell->text->str);
-						if (style->font->is_italic)
-							fprintf (fp, "}");
-						if (style->font->is_bold)
-							fprintf (fp, "}");
-						if (font_is_monospaced (style))
-							fprintf (fp, "}");
-						else if (font_is_sansserif (style))
-							fprintf (fp, "}");
-						if (style->halign & HALIGN_CENTER)
-							fprintf (fp, "}");
-						fprintf (fp, "\n");
-					}
-					style_unref (style);
+					else
+						fprintf (fp, "\t ");
+					if (mstyle_get_align_h (mstyle) & HALIGN_RIGHT)
+						fprintf (fp, "\\hfill ");
+					if (mstyle_get_align_h (mstyle) & HALIGN_CENTER)
+						fprintf (fp, "{\\centering ");	/* doesn't work */
+					if (mstyle_get_align_v (mstyle) & VALIGN_TOP)
+						;
+					if (font_is_monospaced (mstyle))
+						fprintf (fp, "{\\tt ");
+					else if (font_is_sansserif (mstyle))
+						fprintf (fp, "{\\sf ");
+					if (mstyle_get_font_bold (mstyle))
+						fprintf (fp, "{\\bf ");
+					if (mstyle_get_font_italic (mstyle))
+						fprintf (fp, "{\\em ");
+					latex_fprintf (fp, cell->text->str);
+					if (mstyle_get_font_italic (mstyle))
+						fprintf (fp, "}");
+					if (mstyle_get_font_bold (mstyle))
+						fprintf (fp, "}");
+					if (font_is_monospaced (mstyle))
+						fprintf (fp, "}");
+					else if (font_is_sansserif (mstyle))
+						fprintf (fp, "}");
+					if (mstyle_get_align_h (mstyle) & HALIGN_CENTER)
+						fprintf (fp, "}");
+					fprintf (fp, "\n");
+					mstyle_unref (mstyle);
 				}
 			}
 			fprintf (fp, "\\\\\\hline\n");
@@ -166,7 +160,6 @@ html_write_wb_latex2e (Workbook *wb, const char *filename)
 	GList *sheet_list;
 	Sheet *sheet;
 	Cell *cell;
-	Style *style;
 	int row, col;
 	unsigned char r,g,b;
 
@@ -202,53 +195,47 @@ html_write_wb_latex2e (Workbook *wb, const char *filename)
 					else
 						fprintf (fp, "\t\n");
 				} else {
-					style = cell_get_style (cell);
-					if (!style) {
-						/* is this case posible? */
+					MStyle *mstyle = cell_get_mstyle (cell);
+					g_return_val_if_fail (mstyle != NULL, 0);
+					if (col != 0)
 						fprintf (fp, "\t&");
-						latex_fprintf (fp, cell->text->str);
-						fprintf (fp, "&\n");
-					} else {
-						if (col != 0)
-							fprintf (fp, "\t&");
-						else
-							fprintf (fp, "\t ");
-						if (style->halign & HALIGN_RIGHT)
-							fprintf (fp, "\\hfill ");
-						if (style->halign & HALIGN_CENTER)
-							fprintf (fp, "\\centering ");	/* doesn't work */
-						if (style->valign & VALIGN_TOP)
-							;
-						r = style->fore_color->color.red >> 8;
-						g = style->fore_color->color.green >> 8;
-						b = style->fore_color->color.blue >> 8;
-						if (r != 0 || g != 0 || b != 0)
-							fprintf (fp, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
-								(double)r/255, (double)g/255, (double)b/255);
-						if (font_is_monospaced (style))
-							fprintf (fp, "{\\tt ");
-						else if (font_is_sansserif (style))
-							fprintf (fp, "\\textsf{");
-						if (style->font->is_bold)
-							fprintf (fp, "\\textbf{");
-						if (style->font->is_italic)
-							fprintf (fp, "{\\em ");
-						latex_fprintf (fp, cell->text->str);
-						if (style->font->is_italic)
-							fprintf (fp, "}");
-						if (style->font->is_bold)
-							fprintf (fp, "}");
-						if (font_is_monospaced (style))
-							fprintf (fp, "}");
-						else if (font_is_sansserif (style))
-							fprintf (fp, "}");
-						if (r != 0 || g != 0 || b != 0)
-							fprintf (fp, "}");
-						/* if (style->halign & HALIGN_CENTER) */
-							/* fprintf (fp, "\\hfill"); */
-						fprintf (fp, "\n");
-					}
-					style_unref (style);
+					else
+						fprintf (fp, "\t ");
+					if (mstyle_get_align_h (mstyle) & HALIGN_RIGHT)
+						fprintf (fp, "\\hfill ");
+					if (mstyle_get_align_h (mstyle) & HALIGN_CENTER)
+						fprintf (fp, "\\centering ");	/* doesn't work */
+					if (mstyle_get_align_v (mstyle) & VALIGN_TOP)
+						;
+					r = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.red >> 8;
+					g = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.green >> 8;
+					b = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.blue >> 8;
+					if (r != 0 || g != 0 || b != 0)
+						fprintf (fp, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
+							 (double)r/255, (double)g/255, (double)b/255);
+					if (font_is_monospaced (mstyle))
+						fprintf (fp, "{\\tt ");
+					else if (font_is_sansserif (mstyle))
+						fprintf (fp, "\\textsf{");
+					if (mstyle_get_font_bold (mstyle))
+						fprintf (fp, "\\textbf{");
+					if (mstyle_get_font_italic (mstyle))
+						fprintf (fp, "{\\em ");
+					latex_fprintf (fp, cell->text->str);
+					if (mstyle_get_font_italic (mstyle))
+						fprintf (fp, "}");
+					if (mstyle_get_font_bold (mstyle))
+						fprintf (fp, "}");
+					if (font_is_monospaced (mstyle))
+						fprintf (fp, "}");
+					else if (font_is_sansserif (mstyle))
+						fprintf (fp, "}");
+					if (r != 0 || g != 0 || b != 0)
+						fprintf (fp, "}");
+					/* if (style->halign & HALIGN_CENTER) */
+					/* fprintf (fp, "\\hfill"); */
+					fprintf (fp, "\n");
+					mstyle_unref (mstyle);
 				}
 			}
 			fprintf (fp, "\\\\\\hline\n");

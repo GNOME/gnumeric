@@ -7,7 +7,7 @@
  * string that would match a value entered in that format.  Then, on
  * lookup we try to match the string against every regular expression
  * we have: if a match is found, then we decode the number using a
- * precomputed paralel-list of subexpressions.
+ * precomputed parallel-list of subexpressions.
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)

@@ -99,24 +99,27 @@ cell_split_text (GdkFont *font, char const *text, int const width)
 	return list;
 }
 
-static GdkFont *
-sheet_view_font (SheetView *sheet_view, Cell *cell)
+static inline StyleFont *
+sheet_get_style_font (const Sheet *sheet, MStyle *mstyle)
 {
-	Style *style = cell_get_style (cell);
-	GdkFont *tmp = style_font_gdk_font (style->font);
-	style_unref (style);
-	return tmp;
+	double     zoom   = sheet->last_zoom_factor_used;
+	StyleFont *font   = mstyle_get_font (mstyle, zoom);
+
+	return font;
 }
 
 /*
  * Returns the number of columns used for the draw
  */
 int 
-cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
+cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
+	   GdkDrawable *drawable, int x1, int y1)
 {
-	Style        *style = cell_get_style (cell);
+	MStyle       *mstyle = cell_get_mstyle (cell);
 	GdkFont      *font;
-	GdkRectangle rect;
+	StyleFont    *style_font;
+	GdkColor     *col;
+	GdkRectangle  rect;
 	
 	int start_col, end_col;
 	int width, height;
@@ -126,7 +129,9 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 	int do_multi_line;
 	char *text;
 
-	font = sheet_view_font (sheet_view, cell);
+	style_font = sheet_get_style_font (cell->sheet, mstyle);
+	font = style_font_gdk_font (style_font);
+
 	text_base = y1 + cell->row->pixels - font->descent;
 	
 	cell_get_span (cell, &start_col, &end_col);
@@ -134,19 +139,24 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 	width  = COL_INTERNAL_WIDTH (cell->col);
 	height = ROW_INTERNAL_HEIGHT (cell->row);
 
-	font_height = style_font_get_height (style->font);
+	font_height = style_font_get_height (style_font);
 	
-	halign = cell_get_horizontal_align (cell, style->halign);
+	halign = cell_get_horizontal_align (cell, mstyle_get_align_h (mstyle));
 
 	/* if a number overflows, do special drawing */
-	if (width < cell->width && cell_is_number (cell)){
-		draw_overflow (drawable, gc, font, x1 + cell->col->margin_a, y1, text_base,
+	if (width < cell->width && cell_is_number (cell)) {
+		draw_overflow (drawable, gc, font,
+			       x1 + cell->col->margin_a,
+			       y1, text_base,
 			       width, height);
-		style_unref (style);
+		style_font_unref (style_font);
+		mstyle_unref (mstyle);
 		return 1;
 	}
 
-	if (halign == HALIGN_JUSTIFY || style->valign == VALIGN_JUSTIFY || style->fit_in_cell)
+	if (halign == HALIGN_JUSTIFY ||
+	    mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY ||
+	    mstyle_get_fit_in_cell (mstyle))
 		do_multi_line = TRUE;
 	else
 		do_multi_line = FALSE;
@@ -164,9 +174,10 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 	 * change the gc's drawing color before calling the
 	 * gdk_draw_rectangle function
 	 */
-	gdk_gc_set_foreground (gc, &(style->back_color->color));
+	col = &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color;
+	gdk_gc_set_foreground (gc, col);
 
-	if (do_multi_line){
+	if (do_multi_line) {
 		GList *lines, *l;
 		int cell_pixel_height = ROW_INTERNAL_HEIGHT (cell->row);
 		int line_count, x_offset, y_offset, inter_space;
@@ -185,26 +196,29 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 
 		if (cell->render_color)
 			gdk_gc_set_foreground (gc, &cell->render_color->color);
-		else
-			gdk_gc_set_foreground (gc, &(style->fore_color->color));
+		else {
+			col = &mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color;
+			gdk_gc_set_foreground (gc, col);
+		}
 
-		switch (style->valign){
+		switch (mstyle_get_align_v (mstyle)) {
 		case VALIGN_TOP:
 			y_offset = 0;
 			inter_space = font_height;
 			break;
 			
 		case VALIGN_CENTER:
-			y_offset = (cell_pixel_height - (line_count * font_height))/2;
+			y_offset = (cell_pixel_height -
+				    (line_count * font_height)) / 2;
 			inter_space = font_height;
 			break;
 			
 		case VALIGN_JUSTIFY:
-			if (line_count > 1){
+			if (line_count > 1) {
 				y_offset = 0;
 				inter_space = font_height + 
 					(cell_pixel_height - (line_count * font_height))
-					/ (line_count-1);
+					/ (line_count - 1);
 				break;
 			} 
 			/* Else, we become a VALIGN_BOTTOM line */
@@ -221,7 +235,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 		}
 
 		y_offset += font_height - 1;
-		for (l = lines; l; l = l->next){
+		for (l = lines; l; l = l->next) {
 			char const * const str = l->data;
 
 			switch (halign){
@@ -236,7 +250,8 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 				break;
 
 			case HALIGN_CENTER:
-				x_offset = (cell->col->pixels - gdk_string_width (font, str)) / 2;
+				x_offset = (cell->col->pixels -
+					    gdk_string_width (font, str)) / 2;
 				break;
 			default:
 				g_warning ("Multi-line justification style not supported\n");
@@ -245,7 +260,8 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 			/* Advance one pixel for the border */
 			x_offset++;
 			gc = GTK_WIDGET (sheet_view->sheet_view)->style->black_gc;
-			gdk_draw_text (drawable, font, gc, x1 + x_offset, y1 + y_offset, str, strlen (str));
+			gdk_draw_text (drawable, font, gc, x1 + x_offset,
+				       y1 + y_offset, str, strlen (str));
 			y_offset += inter_space;
 			
 			g_free (l->data);
@@ -261,14 +277,16 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 		 * compute the pixel difference 
 		 */
 		if (start_col != cell->col->pos)
-			diff = -sheet_col_get_distance (cell->sheet, start_col, cell->col->pos);
+			diff = -sheet_col_get_distance (cell->sheet,
+							start_col, cell->col->pos);
 		else
 			diff = 0;
 
 		/* This rectangle has the whole area used by this cell */
 		rect.x = x1 + 1 + diff;
 		rect.y = y1 + 1;
-		rect.width  = sheet_col_get_distance (cell->sheet, start_col, end_col+1) - 1;
+		rect.width  = sheet_col_get_distance (cell->sheet,
+						      start_col, end_col + 1) - 1;
 		rect.height = cell->row->pixels - 1;
 		
 		/* Set the clip rectangle */
@@ -278,7 +296,8 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 		 * To draw the background of the cell, we need to change the
 		 * gc's drawing color before calling the gdk_draw_rectangle function
 		 */
-		gdk_gc_set_foreground (gc, &(style->back_color->color));
+		col = &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color;
+		gdk_gc_set_foreground (gc, col);
 		gdk_draw_rectangle (drawable, gc, TRUE,
                                     rect.x, rect.y, rect.width, rect.height);
 		
@@ -287,11 +306,13 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 		 */
 		if (cell->render_color)
 			gdk_gc_set_foreground (gc, &cell->render_color->color);
-		else
-			gdk_gc_set_foreground (gc, &(style->fore_color->color));
+		else {
+			col = &mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color;
+			gdk_gc_set_foreground (gc, col);
+		}
 
 		len = 0;
-		switch (halign){
+		switch (halign) {
 		case HALIGN_FILL:
 			printf ("FILL!\n");
 			len = gdk_string_width (font, text);
@@ -306,7 +327,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 			break;
 
 		case HALIGN_CENTER:
-			x = (cell->col->pixels - cell->width)/2;
+			x = (cell->col->pixels - cell->width) / 2;
 			break;
 			
 		default:
@@ -317,12 +338,15 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 
 		total = 0;
 		do {
-			gdk_draw_text (drawable, font, gc, 1 + x1 + x, text_base, text, strlen (text));
+			gdk_draw_text (drawable, font, gc, 1 + x1 + x,
+				       text_base, text, strlen (text));
 			x1 += len;
 			total += len;
-		} while (halign == HALIGN_FILL && total < rect.width && len >0);
+		} while (halign == HALIGN_FILL && total < rect.width && len > 0);
 	}
 
-	style_unref (style);
+	style_font_unref (style_font);
+	mstyle_unref (mstyle);
+
 	return end_col - start_col + 1;
 }

@@ -46,7 +46,9 @@ typedef struct
 /* Cell contains a comment */
 #define CELL_HAS_COMMENT       1
 
-#define CELL_FORMAT_SET        2
+/*
+ * #define CELL_FORMAT_SET        2
+ */
 
 /* Cell has been queued for recalc */
 #define CELL_QUEUED_FOR_RECALC 4
@@ -96,7 +98,9 @@ struct _Cell {
 	char        generation;
 };
 
-#define CELL_IS_FORMAT_SET(cell) ((cell)->flags & CELL_FORMAT_SET)
+/*
+ * #define CELL_IS_FORMAT_SET(cell) ((cell)->flags & CELL_FORMAT_SET)
+ */
 
 typedef enum {
 	CELL_COPY_TYPE_CELL,
@@ -144,7 +148,7 @@ void        cell_comment_reposition      (Cell *cell);
 char       *cell_get_comment             (Cell *cell);
 
 void        cell_set_rendered_text       (Cell *cell, const char *rendered_text);
-Style      *cell_get_style               (const Cell *cell);
+MStyle     *cell_get_mstyle              (const Cell *cell);
 void        cell_set_mstyle              (const Cell *cell, MStyle *mstyle);
 void        cell_relocate                (Cell *cell);
 

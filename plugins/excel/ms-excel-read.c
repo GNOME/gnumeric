@@ -1024,8 +1024,9 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 	StyleColor *fore, *back, *basefore;
 	int back_index;
 	MStyle *mstyle;
+	Range   range;
 
-	g_return_val_if_fail (xf, NULL);
+	g_return_val_if_fail (xf != NULL, NULL);
 
 	if (xf->mstyle != NULL)
 		return xf->mstyle;
@@ -1071,6 +1072,9 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 
 	g_return_val_if_fail (back && fore, NULL);
 
+	/*
+	 * This is riddled with leaking StyleColor references !
+	 */
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, fore);
 	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, back);
 

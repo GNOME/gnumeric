@@ -1328,6 +1328,18 @@ cell_is_error (Cell const *cell)
 	return NULL;
 }
 
+MStyle *
+cell_get_mstyle (const Cell *cell)
+{
+	MStyle *mstyle;
+
+	mstyle = sheet_style_compute (cell->sheet,
+				      cell->col->pos,
+				      cell->row->pos);
+	return mstyle;
+}
+
+/*
 Style *
 cell_get_style (const Cell *cell)
 {
@@ -1343,6 +1355,7 @@ cell_get_style (const Cell *cell)
 
 	return ans;
 }
+*/
 
 void
 cell_set_mstyle (const Cell *cell, MStyle *mstyle)

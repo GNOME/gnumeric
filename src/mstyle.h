@@ -4,7 +4,6 @@
 #include <gdk/gdk.h>
 #include <libgnomeprint/gnome-font.h>
 
-typedef struct _MStyleBorder      MStyleBorder;
 typedef enum   _MStyleElementType MStyleElementType;
 
 /*
@@ -51,6 +50,11 @@ enum _MStyleElementType {
 #include "sheet.h"
 #include "str.h"
 
+/* Very deprecated */
+Style         *style_new_mstyle       (MStyle *e, guint len,
+				       double zoom);
+/* End of deprecation */
+
 MStyle     *mstyle_new         (void);
 MStyle     *mstyle_new_name    (const gchar *name);
 MStyle     *mstyle_new_default (void);
@@ -59,6 +63,7 @@ void        mstyle_unref       (MStyle *st);
 void        mstyle_destroy     (MStyle *st);
 gboolean    mstyle_equal       (const MStyle *a, const MStyle *b);
 gboolean    mstyle_verify      (const MStyle *st);
+guint       mstyle_hash        (gconstpointer st);
 
 /*
  * Wafer thin element access functions.
@@ -72,28 +77,29 @@ void                mstyle_set_color       (MStyle *st, MStyleElementType t,
 StyleColor         *mstyle_get_color       (MStyle *st, MStyleElementType t);
 void                mstyle_set_border      (MStyle *st, MStyleElementType t,
 					    MStyleBorder *border);
-const MStyleBorder *mstyle_get_border      (MStyle *st, MStyleElementType t);
+const MStyleBorder *mstyle_get_border      (const MStyle *st, MStyleElementType t);
 void                mstyle_set_pattern     (MStyle *st, int pattern);
-int                 mstyle_get_pattern     (MStyle *st);
+int                 mstyle_get_pattern     (const MStyle *st);
 void                mstyle_set_font_name   (MStyle *st, const char *name);
 const char         *mstyle_get_font_name   (const MStyle *st);
 void                mstyle_set_font_bold   (MStyle *st, gboolean bold);
-gboolean            mstyle_get_font_bold   (MStyle *st);
+gboolean            mstyle_get_font_bold   (const MStyle *st);
 void                mstyle_set_font_italic (MStyle *st, gboolean italic);
-gboolean            mstyle_get_font_italic (MStyle *st);
+gboolean            mstyle_get_font_italic (const MStyle *st);
 void                mstyle_set_font_size   (MStyle *st, double size);
-double              mstyle_get_font_size   (MStyle *st);
-StyleFont          *mstyle_get_font        (MStyle *st, double zoom);
+double              mstyle_get_font_size   (const MStyle *st);
+/* this font must be unrefd after use */
+StyleFont          *mstyle_get_font        (const MStyle *st, double zoom);
 void                mstyle_set_format      (MStyle *st, const char *format);
 StyleFormat        *mstyle_get_format      (MStyle *st);
 void                mstyle_set_align_h     (MStyle *st, StyleHAlignFlags a);
-StyleHAlignFlags    mstyle_get_align_h     (MStyle *st);
+StyleHAlignFlags    mstyle_get_align_h     (const MStyle *st);
 void                mstyle_set_align_v     (MStyle *st, StyleVAlignFlags a);
-StyleVAlignFlags    mstyle_get_align_v     (MStyle *st);
+StyleVAlignFlags    mstyle_get_align_v     (const MStyle *st);
 void                mstyle_set_orientation (MStyle *st, StyleOrientation o);
-StyleOrientation    mstyle_get_orientation (MStyle *st);
+StyleOrientation    mstyle_get_orientation (const MStyle *st);
 void                mstyle_set_fit_in_cell (MStyle *st, gboolean f);
-gboolean            mstyle_get_fit_in_cell (MStyle *st);
+gboolean            mstyle_get_fit_in_cell (const MStyle *st);
 
 /* commutative */
 MStyle     *mstyle_merge       (const MStyle *sta, const MStyle *stb);

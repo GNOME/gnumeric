@@ -1010,13 +1010,19 @@ static Value *
 cb_set_cell_value (Sheet *sheet, int col, int row, Cell *cell,
 		  void *user_data)
 {
-	closure_set_cell_value * info = user_data;
+	MStyle                 *mstyle;
+	closure_set_cell_value *info = user_data;
 
 	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
 
-	if (!CELL_IS_FORMAT_SET (cell))
-		cell_set_format_simple (cell, info->format);
+	mstyle = mstyle_new ();
+	mstyle_set_format (mstyle, info->format);
+
+/*	if (!CELL_IS_FORMAT_SET (cell))
+	cell_set_format_simple (cell, info->format); */
+
+	sheet_style_attach_single (sheet, col, row, mstyle);
 	cell_set_value (cell, value_new_float (info->val));
 	return NULL;
 }
@@ -1040,7 +1046,7 @@ sheet_set_text (Sheet *sheet, char const *text, Range const * r)
 		if (end != text && *end == 0) {
 			/*
 			 * It is a number -- remain in General format.  Note
-			 * that we would other wise actually set a "0" format
+			 * that we would otherwise actually set a "0" format
 			 * for integers and that it would stick.
 			 */
 		} else if (format_match (text, &closure.val, &closure.format)) {
@@ -1246,6 +1252,7 @@ sheet_update_controls (Sheet *sheet)
 				      sheet->cursor_row);
 
 	workbook_feedback_set (sheet->workbook, mstyle);
+	mstyle_unref (mstyle);
 }		
 
 int

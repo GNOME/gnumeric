@@ -7,11 +7,7 @@
 #define DEFAULT_FONT "Helvetica"
 #define DEFAULT_SIZE 12.0
 
-typedef struct _Style            Style;
-typedef struct _StyleFont        StyleFont;
-typedef struct _StyleColor       StyleColor;
-typedef struct _StyleFormat      StyleFormat;
-typedef struct _StyleFormatEntry StyleFormatEntry;
+typedef struct _MStyleBorder      MStyleBorder;
 
 /* Alignment definitions */
 typedef enum {
@@ -37,22 +33,20 @@ typedef enum {
 	ORIENT_VERT_VERT_TEXT2 = 8
 } StyleOrientation;
 
-#include "mstyle.h"
-
-struct _StyleFormatEntry {
+typedef struct {
         char     *format;
 	int      want_am_pm;
         char     restriction_type;
         int      restriction_value;
-};
+} StyleFormatEntry;
 
-struct _StyleFormat {
+typedef struct {
 	int      ref_count;
         GList    *format_list;  /* Of type StyleFormatEntry. */
 	char     *format;
-};
+} StyleFormat;
 
-struct _StyleFont {
+typedef struct {
 	int                ref_count;
 	char              *font_name;
 	double             size;
@@ -62,16 +56,16 @@ struct _StyleFont {
 
 	unsigned int is_bold:1;
 	unsigned int is_italic:1;
-};
+} StyleFont;
 
-struct _StyleColor {
+typedef struct {
 	int      ref_count;
 	GdkColor color;
 	char     *name;
 	gushort  red;
 	gushort  green;
 	gushort  blue;
-};
+} StyleColor;
 
 #define STYLE_FORMAT         0x0001
 #define STYLE_FONT           0x0002
@@ -91,7 +85,7 @@ struct _StyleColor {
 		   STYLE_FORE_COLOR | STYLE_BACK_COLOR | STYLE_PATTERN_COLOR | \
 		   STYLE_BORDER_TOP | STYLE_BORDER_LEFT | STYLE_BORDER_BOTTOM | STYLE_BORDER_RIGHT)
 
-struct _Style {
+typedef struct {
 	StyleFormat   *format;
 	StyleFont     *font;
 	StyleColor    *fore_color;
@@ -112,14 +106,12 @@ struct _Style {
 	unsigned int fit_in_cell:1;
 	
 	unsigned int valid_flags;
-};
+} Style;
 
 void           style_init  	      (void);
 void	       style_shutdown         (void);
 
 Style         *style_new   	      (void);
-Style         *style_new_mstyle       (MStyle *e, guint len,
-				       double zoom);
 void           style_merge_to         (Style *target, Style *source);
 Style         *style_duplicate        (const Style *style);
 void           style_destroy          (Style *style);
@@ -157,5 +149,6 @@ extern StyleFont *gnumeric_default_font;
 extern StyleFont *gnumeric_default_bold_font;
 extern StyleFont *gnumeric_default_italic_font;
 
-#endif /* GNUMERIC_STYLE_H */
+#include "mstyle.h"
 
+#endif /* GNUMERIC_STYLE_H */
