@@ -5,6 +5,9 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
+ *
+ * (C) 1999 Miguel de Icaza.
+ * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
 #include <gnome.h>
@@ -13,6 +16,10 @@
 #include <glade/glade.h>
 #include <bonobo.h>
 #include "graphic-context.h"
+#include "sheet.h"
+#include "utils.h"
+#include "expr.h"
+#include "value.h"
 
 #define GRAPH_GOADID "GOADID:embeddable:Graph:Layout"
 
@@ -27,10 +34,120 @@ get_graphics_component (void)
 }
 
 static void
-graphic_context_load_pointers (WizardGraphicContext *gc, GladeXML *gui)
+graphic_context_load_widget_pointers (WizardGraphicContext *gc, GladeXML *gui)
 {
 	gc->dialog_toplevel = glade_xml_get_widget (gui, "graphics-wizard-dialog");
 	gc->steps_notebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "main-notebook"));
+}
+
+static void
+gc_selection_get_sizes (Sheet *sheet, int *cols, int *rows)
+{
+	GList *l;
+
+	*cols = *rows = 0;
+	
+	for (l = sheet->selections; l; l = l->next){
+		SheetSelection *ss = l->data;
+		const int range_cols = ss->user.end.col - ss->user.start.col;
+		const int range_rows = ss->user.end.row - ss->user.start.row;
+
+		*cols += range_cols;
+		*rows += range_rows;
+	}
+}
+
+void
+graphic_wizard_guess_series (WizardGraphicContext *gc, SeriesOrientation orientation,
+			     gboolean first_item_is_series_name)
+{
+	Sheet *sheet = gc->workbook->current_sheet;
+	GList *l;
+	int series = 0;
+	int offset;
+	
+	if (first_item_is_series_name)
+		offset = 1;
+	else
+		offset = 0;
+	
+	for (l = sheet->selections; l; l = l->next){
+		SheetSelection *ss = l->data;
+		SheetVector *vector;
+		const CellPos *start = &ss->user.start;
+		const CellPos *end   = &ss->user.end;
+		Range range;
+		int start_pos, end_pos, item;
+		int header_col, header_row;
+		
+		if (orientation == SERIES_COLUMNS){
+			start_pos = start->col;
+			end_pos   = end->col;
+		} else {
+			start_pos = start->row;
+			end_pos   = end->row;
+		}
+		
+		for (item = start_pos; item <= end_pos; item++){
+			DataRange *data_range;
+			char *expr;
+			
+			if (orientation == SERIES_COLUMNS){
+				range.start.col = item;
+				range.end.col   = item;
+				range.start.row = start->row + offset;
+				range.end.row   = end->row;
+
+				if (range.start.row > range.end.row)
+					continue;
+				
+				header_col = item;
+				header_row = start->row;
+			} else {
+				range.start.row = item;
+				range.end.row   = item;
+				range.start.col = start->col + offset;
+				range.end.col   = end->col;
+
+				if (range.start.col > range.end.col)
+					continue;
+
+				header_col = start->col;
+				header_row = item;
+			}
+			
+
+			if (first_item_is_series_name){
+				expr = g_strdup_printf (
+					"%s!$%s$%d",
+					sheet->name,
+					col_name (header_col), header_row+1);
+			} else {
+				expr = g_strdup_printf (
+					_("\"Series %d\""), series);
+			}
+			vector = sheet_vector_new (sheet);
+			sheet_vector_append_range (vector, &range);
+			data_range = data_range_new_from_vector (gc->workbook, expr, vector);
+			g_free (expr);
+
+			graphic_context_data_range_add (gc, data_range);
+		}
+	}
+}
+
+static void
+graphic_context_auto_guess_series (WizardGraphicContext *gc)
+{
+	Sheet *sheet = gc->workbook->current_sheet;
+	int cols, rows;
+	
+	gc_selection_get_sizes (sheet, &cols, &rows);
+
+	if (cols > rows)
+		graphic_wizard_guess_series (gc, SERIES_ROWS, TRUE);
+	else
+		graphic_wizard_guess_series (gc, SERIES_COLUMNS, TRUE);
 }
 
 WizardGraphicContext *
@@ -71,11 +188,13 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	gc->gui = gui;
 	gc->last_graphic_type_page = -1;
 	
-	graphic_context_load_pointers (gc, gui);
+	graphic_context_load_widget_pointers (gc, gui);
 	
 	gc->client_site = client_site;
 	gc->graphics_server = object_server;
-		
+
+	graphic_context_auto_guess_series (gc);
+					   
 	return gc;
 
 error_binding:
@@ -110,7 +229,7 @@ graphic_context_destroy (WizardGraphicContext *gc)
 	for (l = gc->data_range_list; l; l = l->next){
 		DataRange *data_range = l->data;
 
-		data_range_destroy (data_range);
+		data_range_destroy (data_range, TRUE);
 	}
 	g_list_free (gc->data_range_list);
 
@@ -130,22 +249,14 @@ graphic_context_data_range_add (WizardGraphicContext *gc, DataRange *data_range)
 }
 
 void
-graphic_context_data_range_remove (WizardGraphicContext *gc, const char *range_name)
+graphic_context_data_range_remove (WizardGraphicContext *gc, DataRange *data_range)
 {
-	GList *l;
-	
 	g_return_if_fail (gc != NULL);
 	g_return_if_fail (IS_GRAPHIC_CONTEXT (gc));
-	g_return_if_fail (range_name != NULL);
+	g_return_if_fail (data_range != NULL);
 
-	for (l = gc->data_range_list; l; l = l->next){
-		DataRange *data_range = l->data;
+	gc->data_range_list = g_list_remove (gc->data_range_list, data_range);
 
-		if (strcmp (data_range->name->str, range_name) != 0)
-			continue;
-
-		gc->data_range_list = g_list_remove (gc->data_range_list, data_range);
-	}
 }
 
 void
@@ -158,7 +269,7 @@ graphics_context_data_range_clear (WizardGraphicContext *gc)
 	for (l = gc->data_range_list; l; l = l->next){
 		DataRange *data_range = l->data;
 
-		data_range_destroy (data_range);
+		data_range_destroy (data_range, TRUE);
 	}
 	g_list_free (gc->data_range_list);
 	gc->data_range_list = NULL;
@@ -187,39 +298,136 @@ graphic_context_set_data_range (WizardGraphicContext *gc,
 }
 
 DataRange *
-data_range_new (const char *name, const char *expression)
+data_range_new (Workbook *wb, const char *name_expr)
 {
 	DataRange *data_range;
+	ParsePosition pp;
 	ExprTree *tree;
-	gchar * expr;
+	char *error;
+	
+	parse_pos_init (&pp, wb, 0, 0);
+	
+	data_range = g_new (DataRange, 1);
+	tree = expr_parse_string (name_expr, &pp, NULL, &error);
+
+	if (tree == NULL){
+		data_range->entered_expr = string_get ("\"\"");
+		tree = expr_parse_string ("\"\"", &pp, NULL, &error);
+	} else
+		data_range->entered_expr = string_get (name_expr);
+		
+	return data_range;
+}
+
+char *
+data_range_get_name (DataRange *data_range)
+{
+	g_return_val_if_fail (data_range != NULL, NULL);
+
+	g_error ("Implement me");
+	
+	return NULL;
+}
+
+DataRange *
+data_range_new_from_expr (Workbook *wb, const char *name_expr, const char *expression)
+{
+	ParsePosition pp;
+	GList *expressions;
+	DataRange *data_range;
+	ExprTree *tree;
+	char *expr;
 	char *error;
 
 	/* Hack:
 	 * Create a valid expression, parse as expression, and pull the
 	 * parsed arguments.
 	 */
+	parse_pos_init (&pp, wb, 0, 0);
 	expr = g_strconcat ("=SELECTION(", expression, ")", NULL);
-	tree = expr_parse_string (expr, NULL, NULL, &error);
+	tree = expr_parse_string (expr, &pp, NULL, &error);
 	g_free (expr);
 	
 	if (tree == NULL)
 		return NULL;
 
-	g_assert (tree->oper == OPER_FUNCALL);
+	g_assert (tree->oper != OPER_FUNCALL);
 
-	data_range = g_new (DataRange, 1);
-	data_range->name = string_get (name);
-	data_range->base_tree = tree;
+	/*
+	 * Verify that the entire tree contains cell references
+	 */
+	for (expressions = tree->u.function.arg_list; expressions; expressions = expressions->next){
+		ExprTree *tree = expressions->data;
+
+		if (tree->oper == OPER_CONSTANT){
+			if (tree->u.constant->type != VALUE_CELLRANGE)
+				return NULL;
+		} else if (tree->oper != OPER_VAR)
+			return NULL;
+	}
+
+	data_range = data_range_new (wb, name_expr);
+	data_range->vector = sheet_vector_new (wb->current_sheet);
+
+	for (expressions = tree->u.function.arg_list; expressions; expressions = expressions->next){
+		ExprTree *tree = expressions->data;
+
+		if (tree->oper == OPER_CONSTANT){
+			Value *v = tree->u.constant;
+			CellRef *cell_a = &v->v.cell_range.cell_a;
+			CellRef *cell_b = &v->v.cell_range.cell_b;
+			Range r;
+			
+			g_assert (tree->u.constant->type == VALUE_CELLRANGE);
+
+			r.start.col = MIN (cell_a->col, cell_b->col);
+			r.start.row = MIN (cell_a->row, cell_b->row);
+			r.end.col   = MAX (cell_a->col, cell_b->col);
+			r.end.row   = MAX (cell_a->row, cell_b->row);
+			
+			sheet_vector_append_range (data_range->vector, &r);
+		} else if (tree->oper == OPER_VAR){
+			CellRef *cr = &tree->u.ref;
+			Range r;
+
+			r.start.col = cr->col;
+			r.start.row = cr->row;
+			r.end.col   = cr->col;
+			r.end.row   = cr->row;
+			
+			sheet_vector_append_range (data_range->vector, &r);
+			return NULL;
+		} else
+			g_error ("This should not happen");
+	}
+
+	expr_tree_unref (tree);
 	
-	data_range->list_of_expressions = tree->u.function.arg_list;
+	return data_range;
+}
+
+DataRange *
+data_range_new_from_vector (Workbook *wb, const char *name_expr, SheetVector *vector)
+{
+	DataRange *data_range;
+	
+	data_range = data_range_new (wb, name_expr);
+	data_range->vector = vector;
 
 	return data_range;
 }
 
 void
-data_range_destroy (DataRange *data_range)
+data_range_destroy (DataRange *data_range, gboolean detach_from_sheet)
 {
-	string_unref (data_range->name);
-	expr_tree_unref (data_range->base_tree);
+	expr_tree_unref (data_range->name_expr);
+
+	if (detach_from_sheet && data_range->vector)
+		sheet_vector_detach (data_range->vector);
+
+	if (data_range->vector)
+		gtk_object_unref (GTK_OBJECT (data_range->vector));
+
+	string_unref (data_range->entered_expr);
 	g_free (data_range);
 }

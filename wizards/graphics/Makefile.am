@@ -29,6 +29,7 @@ INCLUDES = 						\
         -DGNUMERIC_ICONSDIR=\""$(iconsdir)"\"           \
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
+	-I../../src					\
 	$(GNOME_INCLUDEDIR)
 
 EXTRA_DIST = $(glade_DATA)

@@ -26,9 +26,19 @@ struct _SheetVector {
 
 	Sheet  *sheet;
 	int len;
-	int n_blocks;
-	RangeBlock *blocks;
 
+	/*
+	 * A sheet vector consists of a group of ranges.  The user
+	 * can specify multiple non-contigous ranges as a single
+	 * serie.  
+	 */
+	int         n_blocks;	/* Number of Range blocks */
+	RangeBlock *blocks;	/* The blocks. */
+
+	/*
+	 * This is passed by the Graph component as the
+	 * callback to invoke when there is a change
+	 */
 	GNOME_Gnumeric_VectorNotify notify;
 };
 
@@ -42,6 +52,8 @@ void         sheet_vector_reset         (SheetVector *sheet_vector);
 void         sheet_vector_append_range  (SheetVector *sheet_vector, Range *range);
 
 void         sheet_vectors_cell_changed (Cell *cell);
+void         sheet_vector_attach        (SheetVector *sheet_vector, Sheet *sheet);
+void         sheet_vector_detach        (SheetVector *sheet_vector);
 
 END_GNOME_DECLS
 

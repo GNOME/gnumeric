@@ -247,7 +247,9 @@ sheet_vector_destroy (GtkObject *object)
 {
 	SheetVector *vec = SHEET_VECTOR (object);
 
-	vec->sheet->private->sheet_vectors = g_slist_remove (vec->sheet->private->sheet_vectors, vec);
+	if (vec->sheet != NULL)
+		g_error ("SheetVector has not been detached prior to destruction");
+	
 	if (vec->blocks)
 		g_free (vec->blocks);
 
@@ -331,7 +333,7 @@ sheet_vector_corba_object_create (BonoboObject *object)
 }
 
 SheetVector *
-sheet_vector_new (Sheet *sheet)
+sheet_vector_new (void)
 {
 	SheetVector *sheet_vector;
 	GNOME_Gnumeric_Vector corba_vector;
@@ -380,6 +382,31 @@ sheet_vector_append_range (SheetVector *sheet_vector, Range *range)
 }
 
 void
+sheet_vector_attach (SheetVector *sheet_vector, Sheet *sheet)
+{
+	g_return_if_fail (sheet_vector != NULL);
+	g_return_if_fail (IS_SHEET_VECTOR (sheet_vector));
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	sheet_vector->sheet = sheet;
+	
+	sheet->private->sheet_vectors = g_slist_prepend (sheet->private->sheet_vectors, sheet_vector);
+}
+
+void
+sheet_vector_detach (SheetVector *sheet_vector)
+{
+	g_return_if_fail (sheet_vector != NULL);
+	g_return_if_fail (IS_SHEET_VECTOR (sheet_vector));
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	sheet_vector->sheet = NULL;
+	sheet->private->sheet_vectors = g_slist_remove (sheet->private->sheet_vectors, sheet_vector);
+}
+
+void
 sheet_vectors_cell_changed (Cell *cell)
 {
 	GSList *l;
@@ -414,8 +441,12 @@ sheet_vectors_shutdown (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	
-	for (;sheet->private->sheet_vectors;)
+	for (;sheet->private->sheet_vectors;){
+		SheetVector *sheet_vector = sheet->private->sheet_vectors->data;
+
+		sheet_vector_detach (sheet_vector);
 		gtk_object_unref (GTK_OBJECT (sheet->private->sheet_vectors->data));
+	}
 
 	g_slist_free (sheet->private->sheet_vectors);
 	sheet->private->sheet_vectors = NULL;

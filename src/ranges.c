@@ -13,7 +13,6 @@
 #include <string.h>
 #include <string.h>
 #include <ctype.h>
-#include <gnome.h>
 #include "numbers.h"
 #include "symbol.h"
 #include "expr.h"
@@ -663,6 +662,14 @@ range_split_ranges (const Range *hard, const Range *soft,
 	return g_list_prepend (split, middle);
 }
 
+/**
+ * range_copy:
+ * @a: Source range to copy
+ *
+ * Copies the @a range.
+ *
+ * Return value: A copy of the Range.
+ */
 Range *
 range_copy (const Range *a)
 {

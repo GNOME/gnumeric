@@ -3,20 +3,23 @@
 
 #include "str.h"
 #include "expr.h"
+#include "sheet-vector.h"
 
 typedef enum {
 	SERIES_COLUMNS,
 	SERIES_ROWS
-} SeriesLocation;
+} SeriesOrientation;
 
 typedef struct {
-	String   *name;
-	ExprTree *base_tree;
-	GList    *list_of_expressions;
+	ExprTree    *name_expr;
+	String      *entered_expr;
+	SheetVector *vector;
 } DataRange;
 
-DataRange *data_range_new     (const char *name, const char *expression);
-void       data_range_destroy (DataRange *data_range);
+DataRange *data_range_new             (Workbook *wb, const char *name_expr);
+DataRange *data_range_new_from_expr   (Workbook *wb, const char *name_expr, const char *expression);
+DataRange *data_range_new_from_vector (Workbook *wb, const char *name_expr, SheetVector *vector);
+void       data_range_destroy         (DataRange *data_range, gboolean detach_from_sheet);
 
 typedef struct {
 	guint           signature;
@@ -28,20 +31,21 @@ typedef struct {
 	int             last_graphic_type_page;
 	GtkNotebook    *steps_notebook, *graphic_types_notebook;
 	
-	/* Data for the various pages */
-	int             graphic_type;
+	int graphic_type;
 
-	String          *data_range;
-	SeriesLocation   series_location;
+	/* Data for the various pages */
+	String             *data_range;
+	SeriesOrientation   series_location;
+	GList              *data_range_list;
+
+	String             *x_axis_label;
 		        
-	GList           *data_range_list;	
-	String          *x_axis_label;
-		        
-	String          *plot_title;
-	String          *y_axis_label;
+	String             *plot_title;
+	String             *y_axis_label;
 
 	BonoboObjectClient *graphics_server;
 	BonoboClientSite   *client_site;
+
 } WizardGraphicContext;
 
 #define GC_SIGNATURE ((('G' << 8) | ('C' << 8)) | 'o')
@@ -52,9 +56,17 @@ graphic_context_new     (Workbook *wb, GladeXML *gui);
 void            graphic_context_destroy (WizardGraphicContext *gc);
 
 void            graphic_context_data_range_remove (WizardGraphicContext *gc,
-						   const char *range_name);
+						   DataRange *data_range);
 void            graphic_context_data_range_add    (WizardGraphicContext *gc,
 						   DataRange *data_range);
+
+/*
+ * Wizardy functions have a graphic_wizard prefix, because they do
+ * magic.
+ */
+void
+graphic_wizard_guess_series (WizardGraphicContext *gc, SeriesOrientation orientation,
+			     gboolean first_item_is_series_name);
 
 #endif /* GNUMERIC_WIZARD_GRAPHICS_CONTEXT_H */
 

@@ -5,6 +5,7 @@
  *    Miguel de Icaza (miguel@gnu.org).
  *
  * (C) 1998, 1999, 2000 Miguel de Icaza
+ * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
 #include <gnome.h>

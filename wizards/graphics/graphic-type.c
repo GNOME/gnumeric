@@ -8,11 +8,12 @@
  */
 #include <config.h>
 #include <gnome.h>
+#define Gnumeric_H
 #include "gnumeric.h"
 #include <glade/glade.h>
+#include "../../graph/Graph.h"
 #include "wizard.h"
 #include "graphic-type.h"
-#include "../../graph/Graph.h"
 
 typedef struct {
 	GNOME_Graph_ChartType     chart_type;

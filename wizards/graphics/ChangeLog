@@ -1,3 +1,11 @@
+2000-03-01  Miguel de Icaza  <miguel@helixcode.com>
+
+	* graphic-context.c (gc_selection_get_sizes): new function:
+	computes the maximum number of columns/rows in the selection.
+
+	(graphic_context_auto_guess_series): Auto-guesses the series in
+	the sheet selection and the orientation.
+
 2000-02-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* Makefile.am (-DGNUMERIC_ICONSDIR): GNUMERIC_ICONSDIR defined

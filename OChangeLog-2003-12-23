@@ -1,3 +1,16 @@
+2000-03-02  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/about.c (dialog_about): Changed to www.helixcode.com
+
+2000-03-01  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/parser.c (gnumeric_expr_parser): Make preconditions clear.
+
+	* src/ranges.c: Removed gnome.h from the include list.
+
+	* src/sheet.h: Fix comment.  The list contains SheetSelection
+	structures not Ranges.
+
 2000-03-01  Jon K Hellan  <hellan@acm.org>
 
 	* src/dialogs/cell-format.glade: Font pane: Make accelerator for

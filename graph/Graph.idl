@@ -210,7 +210,8 @@ module GNOME {
 			Axis  get_axis (in AxisType axis);
 
 			void reset_series ();
-			void add_series (in GNOME::Gnumeric::Vector vector);
+		        void add_label_series (in GNOME::Gnumeric::Vector vector);
+			void add_series (in GNOME::Gnumeric::Vector vector, in string series_name);
 		};
 	};
 };

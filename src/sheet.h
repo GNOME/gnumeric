@@ -84,7 +84,7 @@ struct _Sheet {
 	} cursor;
 
 	/*
-	 * an ordered list of Ranges, the first of
+	 * an ordered list of SheetSelections, the first of
 	 * which corresponds to the range base_corner:move_corner
 	 */
 	GList       *selections;
