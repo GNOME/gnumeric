@@ -21,8 +21,8 @@
 
 #include <fnmatch.h>
 #include <glib.h>
-#include <gnome-xml/tree.h>
-#include <gnome-xml/xmlmemory.h>
+#include <libxml/tree.h>
+#include <libxml/xmlmemory.h>
 #include <libgnome/libgnome.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/util/e-util.h>
