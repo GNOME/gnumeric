@@ -15,6 +15,7 @@ Morten:
 	* Add PFACTOR function.
 	* Plug leaks.
 	* Revive logic to add missing parenthesis in parser.
+	* Fix evil timing issue in about dialog.  [#155268]
 
 --------------------------------------------------------------------------
 
