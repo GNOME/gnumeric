@@ -219,10 +219,6 @@ Functions
     WORKDAY	Add holiday support
     YEARFRAC	Implement
 
-UTF-8:
-    - Window titles.
-    - format precompile
-
 Possibly Post 1.2 Targets
 -------------------------
 - insert cut
