@@ -20,7 +20,7 @@
 typedef struct _GnmComboTextClass   GnmComboTextClass;
 
 struct _GnmComboTextClass {
-	GtkComboBoxClass parent_class;
+	GnmComboBoxClass parent_class;
 
 	gboolean (* selection_changed)	(GnmComboText *ct, GtkWidget *new_item);
 	gboolean (* entry_changed)	(GnmComboText *ct, char const *new_str);
@@ -106,7 +106,7 @@ cb_list_select (G_GNUC_UNUSED GtkWidget *list,
 		gtk_entry_set_text (entry, text);
 	g_free (text);
 
-	gtk_combo_box_popup_hide (GTK_COMBO_BOX (data));
+	gnm_combo_box_popup_hide (GNM_COMBO_BOX (data));
 }
 
 static void
@@ -284,7 +284,7 @@ gnm_combo_text_init (GnmComboText *ct)
 		G_CALLBACK (cb_list_mapped), NULL);
 
 	gtk_widget_show (ct->entry);
-	gtk_combo_box_construct (GTK_COMBO_BOX (ct),
+	gnm_combo_box_construct (GNM_COMBO_BOX (ct),
 		ct->entry, ct->scroll);
 	g_signal_connect (G_OBJECT (ct),
 		"pop_down_done",
@@ -311,7 +311,7 @@ gnm_combo_text_destroy (GtkObject *object)
 		ct->list = NULL;
 	}
 
-	parent = g_type_class_peek (gtk_combo_box_get_type ());
+	parent = g_type_class_peek (gnm_combo_box_get_type ());
 	if (parent && parent->destroy)
 		(*parent->destroy) (object);
 }
@@ -361,7 +361,7 @@ gnm_combo_text_glade_new (void)
 
 GSF_CLASS (GnmComboText, gnm_combo_text,
 	   gnm_combo_text_class_init, gnm_combo_text_init,
-	   gtk_combo_box_get_type ())
+	   gnm_combo_box_get_type ())
 
 /**
  * gnm_combo_text_set_text :

@@ -35,7 +35,7 @@
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 #include "widgets/gnumeric-combo-text.h"
 
-#include <widgets/gtk-combo-box.h>
+#include <widgets/gnm-combo-box.h>
 #include <widgets/widget-color-combo.h>
 #include <widgets/widget-pixmap-combo.h>
 #include <libgnomeui/gnome-app-helper.h>
@@ -754,7 +754,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 			  "entry_changed",
 			  G_CALLBACK (change_font_in_selection_cmd), wbcg);
 	entry = GNM_COMBO_TEXT (fontsel)->entry;
-	/* gtk_combo_box_set_title (GTK_COMBO_BOX (fontsel), _("Font")); */
+	/* gnm_combo_box_set_title (GNM_COMBO_BOX (fontsel), _("Font")); */
 	/* gtk_container_set_border_width (GTK_CONTAINER (fontsel), 0); */
 
 	len = 0;
@@ -778,7 +778,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 			  "entry_changed",
 			  G_CALLBACK (change_font_size_in_selection_cmd), wbcg);
 	entry = GNM_COMBO_TEXT (fontsize)->entry;
-	/* gtk_combo_box_set_title (GTK_COMBO_BOX (fontsize), _("Size"));  */
+	/* gnm_combo_box_set_title (GNM_COMBO_BOX (fontsize), _("Size"));  */
 	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {
 		char *buffer = g_strdup_printf ("%d", gnumeric_point_sizes[i]);
 		gnm_combo_text_add_item (GNM_COMBO_TEXT (fontsize), buffer);
@@ -800,7 +800,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 		"changed",
 		G_CALLBACK (cb_border_changed), wbcg);
 	disable_focus (border_combo, NULL);
-	gtk_combo_box_set_title (GTK_COMBO_BOX (border_combo),
+	gnm_combo_box_set_title (GNM_COMBO_BOX (border_combo),
 				 _("Borders"));
 
 	/* Create the background colour combo box */
@@ -814,7 +814,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 		"color_changed",
 		G_CALLBACK (cb_back_color_changed), wbcg);
 	disable_focus (back_combo, NULL);
-	gtk_combo_box_set_title (GTK_COMBO_BOX (back_combo),
+	gnm_combo_box_set_title (GNM_COMBO_BOX (back_combo),
 				 _("Background"));
 
 	/* Sync the color of the background color combo with the other views */
@@ -839,7 +839,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 		"color_changed",
 		G_CALLBACK (cb_fore_color_changed), wbcg);
 	disable_focus (fore_combo, NULL);
-	gtk_combo_box_set_title (GTK_COMBO_BOX (fore_combo),
+	gnm_combo_box_set_title (GNM_COMBO_BOX (fore_combo),
 				 _("Foreground"));
 
 	/* Sync the color of the font color combo with the other views */

@@ -24,7 +24,7 @@
 #ifndef GNUMERIC_WIDGET_PIXMAP_COMBO_H
 #define GNUMERIC_WIDGET_PIXMAP_COMBO_H
 
-#include <widgets/gtk-combo-box.h>
+#include <widgets/gnm-combo-box.h>
 #include <gtk/gtktooltips.h>
 
 G_BEGIN_DECLS
@@ -41,7 +41,7 @@ typedef struct {
 } PixmapComboElement;
 
 typedef struct {
-	GtkComboBox     combo_box;
+	GnmComboBox     combo_box;
 
 	/* Static information */
 	int cols, rows;
@@ -64,7 +64,7 @@ GtkWidget *pixmap_combo_new           (PixmapComboElement const *elements,
 void       pixmap_combo_select_pixmap (PixmapCombo *combo, int index);
 
 typedef struct {
-	GtkComboBoxClass parent_class;
+	GnmComboBoxClass parent_class;
 
 	/* Signals emited by this widget */
 	void (* changed) (PixmapCombo *pixmap_combo, int index);

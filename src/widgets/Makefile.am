@@ -17,10 +17,10 @@ libwidgets_a_SOURCES =				\
 	widget-color-combo.h			\
 	widget-pixmap-combo.c			\
 	widget-pixmap-combo.h			\
-	gtk-combo-box.c				\
-	gtk-combo-box.h				\
-	gtk-combo-stack.c			\
-	gtk-combo-stack.h			\
+	gnm-combo-box.c				\
+	gnm-combo-box.h				\
+	gnm-combo-stack.c			\
+	gnm-combo-stack.h			\
 	preview-file-selection.c		\
 	preview-file-selection.h		\
 	widget-charmap-selector.c		\

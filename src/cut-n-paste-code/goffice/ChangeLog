@@ -1,3 +1,14 @@
+2003-10-05  Jon K Hellan  <hellan@acm.org>
+
+	* utils/go-pattern.c (go_pattern_selector): gtk_combo_box renamed
+	to gnm_combo_box.
+
+	* utils/go-marker.c (go_marker_selector): Ditto.
+
+	* utils/go-gradient.c (go_gradient_selector): Ditto.
+
+	* graph/gog-style.c (create_color_combo): Ditto.
+
 2003-10-05  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* graph/gog-guru.c: #include gtkliststore.h to fix build.

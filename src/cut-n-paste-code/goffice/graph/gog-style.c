@@ -114,7 +114,7 @@ create_color_combo (StylePrefState *state, GOColor initial_val,
 	GtkWidget *w = color_combo_new (NULL, _("Automatic"),
 		NULL, color_group_fetch (group, NULL));
 	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
-	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
+	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
 	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, label_name)), w);

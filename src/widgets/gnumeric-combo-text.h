@@ -2,7 +2,7 @@
 #ifndef _GNM_COMBO_TEXT_H
 #define _GNM_COMBO_TEXT_H
 
-#include <widgets/gtk-combo-box.h>
+#include <widgets/gnm-combo-box.h>
 
 G_BEGIN_DECLS
 
@@ -13,7 +13,7 @@ G_BEGIN_DECLS
 typedef struct _GnmComboText	   GnmComboText;
 
 struct _GnmComboText {
-	GtkComboBox parent;
+	GnmComboBox parent;
 
 	GCompareFunc cmp_func;
 

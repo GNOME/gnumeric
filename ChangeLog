@@ -1,3 +1,16 @@
+2003-10-05  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_user_config):
+	gtk_combo_box renamed to gnm_combo_box.
+
+	* src/workbook-control-gui.c (ur_stack, wbcg_undo_redo_clear,
+	wbcg_undo_redo_truncate, wbcg_undo_redo_pop,
+	wbcg_undo_redo_push, workbook_create_standard_toolbar,
+	workbook_create_standard_toolbar): Ditto.
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar):
+	Ditto.
+
 2003-09-29  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (render_number): Keep track of number of

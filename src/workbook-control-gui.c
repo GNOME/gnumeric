@@ -85,7 +85,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <widgets/widget-color-combo.h>
-#include <widgets/gtk-combo-stack.h>
+#include <widgets/gnm-combo-stack.h>
 
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-stock-icons.h>
@@ -1257,35 +1257,35 @@ wbcg_auto_expr_value (WorkbookControl *wbc)
 	}
 }
 
-static GtkComboStack *
+static GnmComboStack *
 ur_stack (WorkbookControl *wbc, gboolean is_undo)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	return GTK_COMBO_STACK (is_undo ? wbcg->undo_combo : wbcg->redo_combo);
+	return GNM_COMBO_STACK (is_undo ? wbcg->undo_combo : wbcg->redo_combo);
 }
 
 static void
 wbcg_undo_redo_clear (WorkbookControl *wbc, gboolean is_undo)
 {
-	gtk_combo_stack_clear (ur_stack (wbc, is_undo));
+	gnm_combo_stack_clear (ur_stack (wbc, is_undo));
 }
 
 static void
 wbcg_undo_redo_truncate (WorkbookControl *wbc, int n, gboolean is_undo)
 {
-	gtk_combo_stack_truncate (ur_stack (wbc, is_undo), n);
+	gnm_combo_stack_truncate (ur_stack (wbc, is_undo), n);
 }
 
 static void
 wbcg_undo_redo_pop (WorkbookControl *wbc, gboolean is_undo)
 {
-	gtk_combo_stack_remove_top (ur_stack (wbc, is_undo), 1);
+	gnm_combo_stack_remove_top (ur_stack (wbc, is_undo), 1);
 }
 
 static void
 wbcg_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo)
 {
-	gtk_combo_stack_push_item (ur_stack (wbc, is_undo), text);
+	gnm_combo_stack_push_item (ur_stack (wbc, is_undo), text);
 }
 
 #ifndef WITH_BONOBO
@@ -4194,7 +4194,7 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (zoom),
 		"entry_changed",
 		G_CALLBACK (cb_change_zoom), wbcg);
-	gtk_combo_box_set_title (GTK_COMBO_BOX (zoom), _("Zoom"));
+	gnm_combo_box_set_title (GNM_COMBO_BOX (zoom), _("Zoom"));
 
 	/* Set a reasonable default width */
 	len = gnm_measure_string (
@@ -4208,15 +4208,15 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 		gnm_combo_text_add_item (GNM_COMBO_TEXT (zoom), preset_zoom[i]);
 
 	/* Undo dropdown list */
-	undo = wbcg->undo_combo = gtk_combo_stack_new (GTK_STOCK_UNDO, TRUE);
-	gtk_combo_box_set_title (GTK_COMBO_BOX (undo), _("Undo"));
+	undo = wbcg->undo_combo = gnm_combo_stack_new (GTK_STOCK_UNDO, TRUE);
+	gnm_combo_box_set_title (GNM_COMBO_BOX (undo), _("Undo"));
 	g_signal_connect (G_OBJECT (undo),
 		"pop",
 		G_CALLBACK (cb_undo_combo), wbcg);
 
 	/* Redo dropdown list */
-	redo = wbcg->redo_combo = gtk_combo_stack_new (GTK_STOCK_REDO, TRUE);
-	gtk_combo_box_set_title (GTK_COMBO_BOX (redo), _("Redo"));
+	redo = wbcg->redo_combo = gnm_combo_stack_new (GTK_STOCK_REDO, TRUE);
+	gnm_combo_box_set_title (GNM_COMBO_BOX (redo), _("Redo"));
 	g_signal_connect (G_OBJECT (redo),
 		"pop",
 		G_CALLBACK (cb_redo_combo), wbcg);

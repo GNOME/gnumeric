@@ -33,14 +33,14 @@
 #ifndef GNUMERIC_WIDGET_COLOR_COMBO_H
 #define GNUMERIC_WIDGET_COLOR_COMBO_H
 
-#include <widgets/gtk-combo-box.h>
+#include <widgets/gnm-combo-box.h>
 #include <libfoocanvas/foo-canvas.h>
 #include <widgets/color-palette.h>
 
 G_BEGIN_DECLS
 
 typedef struct _ColorCombo {
-	GtkComboBox     combo_box;
+	GnmComboBox     combo_box;
 
 	/*
 	 * GtkImage where we display
@@ -57,7 +57,7 @@ typedef struct _ColorCombo {
 } ColorCombo;
 
 typedef struct {
-	GtkComboBoxClass parent_class;
+	GnmComboBoxClass parent_class;
 
 	/* Signals emited by this widget */
 	void (* color_changed) (ColorCombo *color_combo, GdkColor *color,

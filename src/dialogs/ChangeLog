@@ -1,3 +1,10 @@
+2003-10-05  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-sheet-order.c (dialog_sheet_order): Ditto.
+
+	* dialog-cell-format.c (setup_color_pickers): gtk_combo_box
+	renamed to gnm_combo_box.
+
 2003-10-05  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* dialog-autocorrect.c, dialog-cell-sort.c, dialog-consolidate.c,
