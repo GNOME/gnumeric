@@ -1,3 +1,10 @@
+1999-12-08  Ariel Rios <jarios@usa.net>
+
+	* plugin.c: (func_marshal_func) We now use func_def_count_arg to get the count 
+          number. Count variable was replaced with min and max int vars. 
+          (scm_to_value): The float cast when returning a number was replaced
+          with a float_t cast as per Michael's recomendation.
+
 1999-12-07  Ariel Rios <jarios@usa.net>
 
 	* functions.scm: The function fibonacci was corrected so it can always return numbers.

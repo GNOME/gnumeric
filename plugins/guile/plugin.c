@@ -130,7 +130,7 @@ scm_to_value (SCM scm)
 
 		//return value_new_int((int)scm_num2int(scm));
 
-		return value_new_float ((float)scm_num2dbl(scm, 0));
+		return value_new_float ((float_t)scm_num2dbl(scm, 0));
 	}
 	else if (SCM_NIMP(scm) && SCM_CONSP(scm))
 	{
@@ -398,8 +398,10 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 	FunctionDefinition *fndef = ei->func_def;
 	SCM args = SCM_EOL, result, function;
 	CellRef dummy = { 0, 0, 0, 0 };
-	int i, count = strlen(fndef->args);
 	EvalPosition *old_eval_pos;
+	int i, min, max; 
+
+	function_def_count_args(fndef, &min, &max);
 
 	l = g_list_find_custom(funclist, fndef, (GCompareFunc)fndef_compare);
 	if (l == NULL)
@@ -407,7 +409,7 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 
 	function = ((FuncData*)l->data)->function;
 
-	for (i = count - 1; i >= 0; --i)
+	for (i = min - 1; i >= 0; --i)
 		args = scm_cons(value_to_scm(argv[i], dummy), args);
 
 	old_eval_pos = eval_pos;
