@@ -107,7 +107,7 @@ static char const *help_unichar = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "UNICHAR(65) equals A.\n"
-	   "CHAR(8232) equals an carriage return error.\n"
+	   "UNICHAR(8232) equals an carriage return error.\n"
 	   "\n"
 	   "@SEEALSO=CHAR,UNICODE,CODE")
 };
@@ -235,7 +235,7 @@ static char const *help_len = {
            "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "len(\"Helsinki\") equals 8.\n"
+	   "LEN(\"Helsinki\") equals 8.\n"
 	   "\n"
 	   "@SEEALSO=CHAR, CODE")
 };
@@ -421,7 +421,8 @@ static char const *help_concatenate = {
 	N_("@FUNCTION=CONCATENATE\n"
 	   "@SYNTAX=CONCATENATE(string1[,string2...])\n"
 	   "@DESCRIPTION="
-	   "CONCATENATE returns up appended strings.\n\n"
+	   "CONCATENATE returns the string obtained by concatenation of "
+	   "the given strings.\n\n"
            "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -1055,24 +1056,24 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_search = {
 	N_("@FUNCTION=SEARCH\n"
-	   "@SYNTAX=SEARCH(text,within[,start_num])\n"
+	   "@SYNTAX=SEARCH(search_string,text[,start_num])\n"
 	   "@DESCRIPTION="
-	   "SEARCH returns the location of a character or text string within "
-	   "another string.  @text is the string or character to be searched. "
-	   "@within is the string in which you want to search.  @start_num "
-	   "is the start position of the search in @within.  If @start_num "
+	   "SEARCH returns the location of the @search_ string within "
+	   "@text. The search starts  with the @start_num character of text "
+	   "@text.  If @start_num "
 	   "is omitted, it is assumed to be one.  The search is not case "
 	   "sensitive.\n"
 	   "\n"
-	   "@text can contain wildcard characters (*) and question marks (?) "
-	   "to control the search.  A question mark matches with any "
-	   "character and wildcard matches with any string including empty "
+	   "@search_string can contain wildcard characters (*) and "
+	   "question marks (?). "
+	   "A question mark matches any "
+	   "character and a wildcard matches any string including the empty "
 	   "string.  If you want the actual wildcard or question mark to "
-	   "be searched, use tilde (~) before the character.\n"
+	   "be found, use tilde (~) before the character.\n"
 	   "\n"
-	   "* If @text is not found, SEARCH returns #VALUE! error.\n"
+	   "* If @search_string is not found, SEARCH returns #VALUE! error.\n"
 	   "* If @start_num is less than one or it is greater than the length "
-	   "of @within, SEARCH returns #VALUE! error.\n"
+	   "of @text, SEARCH returns #VALUE! error.\n"
            "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -1179,7 +1180,7 @@ const GnmFuncDescriptor string_functions[] = {
         { "right",      "S|f",   N_("text,num_chars"),          &help_right,
 	  gnumeric_right, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-        { "search",     "SS|f",  N_("find,within,start_num"),   &help_search,
+        { "search",     "SS|f",  N_("search_string,text,start_num"),   &help_search,
 	  gnumeric_search, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "substitute", "SSS|f", N_("text,old,new,num"),       &help_substitute,
