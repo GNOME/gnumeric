@@ -19,6 +19,9 @@ typedef struct {
 	GtkCheckButton  *main_2x_indicator;
 	GtkCombo        *main_textindicator;
 	GtkEntry        *main_textfield;
+	GtkCheckButton  *line_break_unix;
+	GtkCheckButton  *line_break_windows;
+	GtkCheckButton  *line_break_mac;
      
 	/* Page members that are created at run-time */
 	CharmapSelector *charmap_selector;

@@ -1,3 +1,8 @@
+2003-06-13  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-main-page.c (cb_line_breaks): Handle changes in line
+	break specs.
+
 2003-06-12  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf.c (stf_dialog): New argument fixed_encoding which,

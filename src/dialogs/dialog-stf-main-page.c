@@ -195,7 +195,7 @@ main_page_stoprow_changed (GtkSpinButton* button,
 
 static void
 main_page_stringindicator_change (G_GNUC_UNUSED GtkWidget *widget,
-			DruidPageData_t *data)
+				  DruidPageData_t *data)
 {
 	char *textfieldtext;
 	gunichar str_ind;
@@ -224,6 +224,32 @@ main_page_source_format_toggled (G_GNUC_UNUSED GtkWidget *widget,
 
 	stf_parse_options_set_type (data->parseoptions,
 				    active ? PARSE_TYPE_CSV : PARSE_TYPE_FIXED);
+}
+
+static void
+cb_line_breaks (G_GNUC_UNUSED GtkWidget *widget,
+		DruidPageData_t *data)
+{
+	gboolean to_end = (gtk_spin_button_get_value_as_int (data->main.main_stoprow) ==
+			   (int)data->main.renderdata->lines->len);
+
+	stf_parse_options_clear_line_terminator (data->parseoptions);
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.line_break_unix)))
+		stf_parse_options_add_line_terminator (data->parseoptions, "\n");
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.line_break_windows)))
+		stf_parse_options_add_line_terminator (data->parseoptions, "\r\n");
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.line_break_mac)))
+		stf_parse_options_add_line_terminator (data->parseoptions, "\r");
+
+	main_page_update_preview (data);
+	main_page_import_range_changed (data);
+
+	/* If the selected area went all the way to the end, follow it there.  */
+	if (to_end) {
+		gtk_spin_button_set_value (data->main.main_stoprow,
+					   data->main.renderdata->lines->len);
+		main_page_import_range_changed (data);
+	}
 }
 
 /**
@@ -286,6 +312,9 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->main.main_2x_indicator  = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "main_2x_indicator"));
 	pagedata->main.main_textindicator = GTK_COMBO    (glade_xml_get_widget (gui, "main_textindicator"));
 	pagedata->main.main_textfield     = GTK_ENTRY    (glade_xml_get_widget (gui, "main_textfield"));
+	pagedata->main.line_break_unix    = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "line_break_unix"));
+	pagedata->main.line_break_windows = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "line_break_windows"));
+	pagedata->main.line_break_mac     = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "line_break_mac"));
 
 	pagedata->main.charmap_selector = CHARMAP_SELECTOR (charmap_selector_new (CHARMAP_SELECTOR_TO_UTF8));
 	if (!main_page_set_encoding (pagedata, pagedata->encoding) &&
@@ -351,6 +380,16 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->main.main_separated),
 		"toggled",
 		G_CALLBACK (main_page_source_format_toggled), pagedata);
+
+	g_signal_connect (G_OBJECT (pagedata->main.line_break_unix),
+			  "toggled",
+			  G_CALLBACK (cb_line_breaks), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->main.line_break_windows),
+			  "toggled",
+			  G_CALLBACK (cb_line_breaks), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->main.line_break_mac),
+			  "toggled",
+			  G_CALLBACK (cb_line_breaks), pagedata);
 
 	g_signal_connect (G_OBJECT (pagedata->main_page),
 		"prepare",
