@@ -1920,7 +1920,7 @@ do_expr_decode_tree (ExprTree *tree, const EvalPosition *fp, int paren_level)
 		/* Not exactly Excel format but more useful */
 		{
 			GString *str = g_string_new ("{");
-			g_string_sprintfa (str, "%s}(%dx%d)[%d][%d]", res,
+			g_string_sprintfa (str, "%s}(%d,%d)[%d][%d]", res,
 					   tree->u.array.rows,
 					   tree->u.array.cols,
 					   tree->u.array.y,
