@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "POT-Creation-Date: 2001-01-16 13:28+0100\n"
-"PO-Revision-Date: 2001-01-16 17:26+01:00\n"
+"PO-Revision-Date: 2001-01-24 15:15+0100\n"
 "Last-Translator: Andras TIMAR <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -188,7 +188,7 @@ msgstr "Guile bõvítmény"
 
 #: plugins/guile/plugin.c:235
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr "Ez a plugin bekapcsolja a Guile (scheme) támogatást a Gnumeric-ben"
+msgstr "Ez a bõvítmény bekapcsolja a Guile (scheme) támogatást a Gnumeric-ben"
 
 #: plugins/html/boot.c:74
 msgid "HTML 3.2 file format (*.html)"
@@ -625,7 +625,7 @@ msgstr "Kenneth Christiansen, i18n, vegyes dolgok."
 
 #: src/about.c:41
 msgid "Tom Dyas, plugin support."
-msgstr "Tom Dyas, plugin támogatás."
+msgstr "Tom Dyas, bõvítmények támogatása."
 
 #: src/about.c:42
 msgid "Gergõ Érdi, Gnumeric hacker."
@@ -661,7 +661,7 @@ msgstr "Adrian Likins, dokumentáció, hibakeresés."
 
 #: src/about.c:50
 msgid "Takashi Matsuda, original text plugin."
-msgstr "Takashi Matsuda, eredeti szöveg plugin."
+msgstr "Takashi Matsuda, eredeti szöveg bõvítmény."
 
 #: src/about.c:51
 msgid "Michael Meeks, Excel and OLE2 importing."
