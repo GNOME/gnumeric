@@ -1,3 +1,8 @@
+2004-04-15  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_ftest): Improve precision when we end up
+	using the left tail.
+
 2004-04-12  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_fisher): Use log1pgnum.

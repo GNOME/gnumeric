@@ -3595,12 +3595,16 @@ gnumeric_ftest (FunctionEvalInfo *ei, GnmValue *argv[])
 	if (var2 == 0)
 	        return value_new_error_VALUE (ei->pos);
 
-	p = pf (var1 / var2, dof1, dof2, FALSE, FALSE) * 2;
+	p = pf (var1 / var2, dof1, dof2, FALSE, FALSE);
+	if (p > 0.5) {
+		/*
+		 * We need the other tail and 1-p might not be very
+		 * accurate.
+		 */
+		p = pf (var1 / var2, dof1, dof2, TRUE, FALSE);
+	}
 
-	if (p > 1)
-	        p = 2 - p;
-
-	return value_new_float (p);
+	return value_new_float (2 * p);
 }
 
 /***************************************************************************/
