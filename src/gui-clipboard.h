@@ -4,7 +4,7 @@
 #include "workbook-control-gui.h"
 #include <gtk/gtkwindow.h>
 
-void x_clipboard_bind_workbook (WorkbookControlGUI *wbcg);
+int  x_clipboard_bind_workbook (WorkbookControlGUI *wbcg);
 void x_request_clipboard (WorkbookControlGUI *wbcg,
 			  PasteTarget const *pt, guint32 time);
 

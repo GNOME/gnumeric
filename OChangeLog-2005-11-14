@@ -1,8 +1,24 @@
+2001-04-13  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (workbook_control_gui_init): Use
+	gtk_idle_add to postpone clipboard setup. For mysterious reasons,
+	connecting callbacks to the table doesn't work. Toplevel does
+	work, but we must wait until we live inside a toplevel.
+
+	* src/gui-clipboard.c (x_selection_received,
+	x_clipboard_bind_workbook): Use wb_control_gui_toplevel to
+	determine toplevel.
+
+	* src/gui-clipboard.[ch] (x_clipboard_bind_workbook): Change
+	signature to make it callable as an idle function. Make it
+	determine the toplevel from 
+
 2001-04-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/style.c (font_init) : rename fontmap -> fontmap2 for newer
 	  versions of gnome-print.
 
+>>>>>>> 1.1087
 2001-04-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/Makefile.am : rename gnumeric.xml GNOME_Gnumeric.xml.
@@ -28,6 +44,7 @@
 	(mstyle_elements_equal) : adjust here.
 	(mstyle_elements_compare) : and here.
 
+>>>>>>> 1.1085
 2001-04-12  Morten Welinder  <terra@diku.dk>
 
 	* src/plugin-util.c: Portability fix.

@@ -3315,7 +3315,6 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	workbook_create_format_toolbar (wbcg);
 	workbook_create_object_toolbar (wbcg);
 
-	x_clipboard_bind_workbook (wbcg);	/* clipboard setup */
 	wbcg_history_setup (wbcg);		/* Dynamic history menu items. */
 
 	/* There is nothing to undo/redo yet */
@@ -3370,6 +3369,10 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	
 	/* Postpone showing the GUI, so that we may resize it freely. */
 	gtk_idle_add ((GtkFunction) show_gui, wbcg);
+	/* Postpone clipboard setup. For mysterious reasons, connecting
+	   callbacks to the table doesn't work. toplevel does work, but we
+	   must wait until we live inside a toplevel. */
+	gtk_idle_add ((GtkFunction) x_clipboard_bind_workbook, wbcg);
 }
 
 static void
