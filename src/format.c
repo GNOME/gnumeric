@@ -396,35 +396,6 @@ append_second_elapsed (GString *string, int n, const struct tm *time_split, int 
 	return;
 }
 
-#if 0
-/*
- * Parses the day part field at the beginning of the format.  Returns
- * the number of characters used.
- */
-static int
-append_half (GString *string, const guchar *format, const struct tm *time_split)
-{
-	if (time_split->tm_hour <= 11){
-		if (tolower (format [0]) == 'a' || tolower (format [0]) == 'p')
-			g_string_append_c (string, 'a');
-		else
-			g_string_append_c (string, 'A');
-	}
-	else {
-		if (tolower (format [0]) == 'a' || tolower (format [0]) == 'p')
-			g_string_append_c (string, 'p');
-		else
-			g_string_append_c (string, 'P');
-	}
-
-	if (tolower (format [1]) == 'm'){
-		g_string_append_c (string, format [1]);
-		return 2;
-	} else
-		return 1;
-}
-#endif
-
 static StyleFormatEntry *
 format_entry_ctor (void)
 {
@@ -598,17 +569,15 @@ format_compile (StyleFormat *format)
 			entry->restriction_value = 0.;
 
 			switch (counter) {
+			/* single conditions should remain catch alls */
 			case 1 : if (num_entries > 1)
-					entry->restriction_type =
+					 entry->restriction_type =
 						 (num_entries > 2) ? '>' : '.';
 				 break;
-			case 2 : if (num_entries > 2)
-					 entry->restriction_type = '<';
-				 break;
-			case 3 : if (num_entries > 3)
-					 entry->restriction_type = '=';
-				 break;
-			case 4 : entry->restriction_type = '@';
+			/* Once there is more than one condition no catchall */
+			case 2 : entry->restriction_type = '<'; break;
+			case 3 : entry->restriction_type = '='; break;
+			case 4 : entry->restriction_type = '@'; break;
 			default :
 				 break;
 			}
@@ -1651,25 +1620,25 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 			if (style_format_condition (list->data, value))
 				break;
 
-		/* If nothing matches ignore result */
-		if (NULL == list)
-			return g_strdup ("");
+		/* If nothing matches treat it as General */
+		if (NULL != list) {
+			entry = (StyleFormatEntry const *)(list->data);
 
-		entry = (StyleFormatEntry const *)(list->data);
+			/* Empty formats should be ignored */
+			if (entry->format [0] == '\0')
+				return g_strdup ("");
 
-		/* Empty formats should be ignored */
-		if (entry->format [0] == '\0')
-			return g_strdup ("");
+			if (color && entry->color != NULL)
+				*color = style_color_ref (entry->color);
 
-		if (color && entry->color != NULL)
-			*color = style_color_ref (entry->color);
-
-		if (strcmp (entry->format, "@") == 0) {
-			/* FIXME : Formatting a value as a text returns the entered
-			 * text.  We need access to the parse format */
-			entry = NULL;
-		} else if (strcmp (entry->format, "General") == 0)
-			entry = NULL;
+			if (strcmp (entry->format, "@") == 0) {
+				/* FIXME : Formatting a value as a text returns
+				 * the entered text.  We need access to the
+				 * parse format */
+				entry = NULL;
+			} else if (strcmp (entry->format, "General") == 0)
+				entry = NULL;
+		}
 	}
 
 	switch (value->type) {

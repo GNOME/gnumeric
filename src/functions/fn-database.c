@@ -13,6 +13,7 @@
 #include "str.h"
 #include "cell.h"
 #include "sheet.h"
+#include "number-match.h"
 
 /* Type definitions */
 
@@ -181,9 +182,7 @@ void
 parse_criteria (char const *criteria, criteria_test_fun_t *fun,
 		Value **test_value)
 {
-	char    *p;
-	gnum_float tmp;
-	int     len;
+	int len;
 
         if (strncmp (criteria, "<=", 2) == 0) {
 	        *fun = (criteria_test_fun_t) criteria_test_less_or_equal;

@@ -1,3 +1,10 @@
+2001-06-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (format_value) : if no conditions match treat as
+	  General, not as empty.
+	(format_compile) : No need to use a catch all condition if there are
+	  some conditions.
+
 2001-06-08  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (workbook_menu_format_row) : avoid
