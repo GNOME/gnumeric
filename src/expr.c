@@ -282,7 +282,10 @@ expr_tree_unref (ExprTree *expr)
 	g_return_if_fail (expr != NULL);
 	g_return_if_fail (expr->any.ref_count > 0);
 
-	do_expr_tree_unref (expr);
+	if (expr->any.ref_count == 1)
+		do_expr_tree_unref (expr);
+	else
+		expr->any.ref_count--;
 }
 
 /**
