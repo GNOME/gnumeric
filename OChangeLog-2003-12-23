@@ -1,3 +1,10 @@
+2001-03-10  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/sheet-control-gui.c 
+	(scg_scrollbar_config): Clear scrollbar text.
+	(vertical_scroll_offset_changed): Adjust to display hint in the scrollbar.
+	(horizontal_scroll_offset_changed): Idem.
+
 2001-03-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-control-gui.c (scg_construct) : lay some ground work for

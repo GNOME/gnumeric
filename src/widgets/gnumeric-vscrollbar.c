@@ -57,16 +57,15 @@ gnumeric_vscrollbar_adjustment_value_changed (GtkAdjustment *adjustment, gpointe
 {
 	GnumericVScrollbar *vs = GNUMERIC_VSCROLLBAR (data);
 
-	if (vs->tip) {
-		char *buffer = g_strdup_printf (_("Row: %d"), (int) adjustment->value + 1);
-
-		gtk_label_set_text (GTK_LABEL (vs->tip), buffer);
-		g_free (buffer);
-	}
-
+	/*
+	 * Do we emit a real change or just a hint
+	 */
 	if (vs->live)
 		gtk_signal_emit (GTK_OBJECT (vs), vscrollbar_signals[OFFSET_CHANGED],
-				 (int) GTK_RANGE (vs)->adjustment->value);
+				 (int) GTK_RANGE (vs)->adjustment->value, FALSE);
+	else
+		gtk_signal_emit (GTK_OBJECT (vs), vscrollbar_signals[OFFSET_CHANGED],
+				 (int) GTK_RANGE (vs)->adjustment->value, TRUE);
 }
 
 static gint
@@ -76,21 +75,12 @@ gnumeric_vscrollbar_button_press (GtkWidget *widget, GdkEventButton *event)
 	GtkRange           *range = GTK_RANGE (widget);
 
 	if (event->window == range->slider) {
-		vs->live = FALSE;
+		gnumeric_vscrollbar_adjustment_value_changed (range->adjustment, vs);
 
-		/*
-		 * We show a small tooltip which contains
-		 * the toprow so the user knows where the view "lands" when the button
-		 * is released
-		 */	
-		if (!vs->tip) 
-			vs->tip = gnumeric_create_tooltip ();
-
-		gnumeric_vscrollbar_adjustment_value_changed (GTK_RANGE (vs)->adjustment,
-							      (gpointer) vs);
-		
-		gnumeric_position_tooltip (vs->tip, 1);
-		gtk_widget_show_all (gtk_widget_get_toplevel (vs->tip));
+		if (event->state & GDK_SHIFT_MASK)
+			vs->live = TRUE;
+		else
+			vs->live = FALSE;
 	} else
 		vs->live = TRUE;
 	
@@ -102,14 +92,8 @@ gnumeric_vscrollbar_button_release (GtkWidget *widget, GdkEventButton *event)
 {
 	GnumericVScrollbar *vs    = GNUMERIC_VSCROLLBAR (widget);
 
-	if (vs->tip) {
-		gtk_widget_hide (gtk_widget_get_toplevel (vs->tip));
-		gtk_widget_destroy (vs->tip);
-		vs->tip = NULL;
-	}
-		
 	gtk_signal_emit (GTK_OBJECT (vs), vscrollbar_signals[OFFSET_CHANGED],
-			 (int) GTK_RANGE (vs)->adjustment->value);
+			 (int) GTK_RANGE (vs)->adjustment->value, FALSE);
 
 	return parent_class->button_release_event (widget, event);
 }
@@ -117,7 +101,6 @@ gnumeric_vscrollbar_button_release (GtkWidget *widget, GdkEventButton *event)
 static void
 gnumeric_vscrollbar_init (GnumericVScrollbar *vs)
 {
-	vs->tip  = NULL;
 	vs->live = FALSE;
 }
 
@@ -149,8 +132,8 @@ gnumeric_vscrollbar_class_init (GnumericVScrollbarClass *klass)
 				GTK_RUN_FIRST | GTK_RUN_NO_RECURSE,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (GnumericVScrollbarClass, offset_changed),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
 
 	gtk_object_class_add_signals (object_class, vscrollbar_signals, LAST_SIGNAL);

@@ -15,7 +15,6 @@ struct _GnumericHScrollbar
 {
 	GtkHScrollbar  hscrollbar;
 	
-	GtkWidget     *tip;
 	gboolean       live;
 };
 
@@ -23,7 +22,7 @@ struct _GnumericHScrollbarClass
 {
 	GtkHScrollbarClass parent_class;
 
-	void (* offset_changed)   (GnumericHScrollbar *hs, int left);
+	void (* offset_changed)   (GnumericHScrollbar *hs, int left, int is_hint);
 };
 
 

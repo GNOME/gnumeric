@@ -15,6 +15,7 @@
 #include "workbook-view.h"
 #include "workbook-edit.h"
 #include "workbook-cmd-format.h"
+#include "workbook-control-gui-priv.h"
 #include "cell.h"
 #include "selection.h"
 #include "style.h"
@@ -326,6 +327,8 @@ scg_scrollbar_config (SheetControlGUI const *scg)
 
 	gtk_adjustment_changed (va);
 	gtk_adjustment_changed (ha);
+
+	gnome_appbar_set_status (scg->wbcg->appbar, "");
 }
 
 #if 0
@@ -453,21 +456,37 @@ button_select_all (GtkWidget *the_button, SheetControlGUI *scg)
 }
 
 static void
-vertical_scroll_offset_changed (GtkAdjustment *adj, int top, SheetControlGUI *scg)
+vertical_scroll_offset_changed (GtkAdjustment *adj, int top, int is_hint, SheetControlGUI *scg)
 {
 	GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
 
-	/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
-	gnumeric_sheet_set_top_row (gsheet, top);
+	if (is_hint) {
+		char *buffer = g_strdup_printf (_("Row: %d"), top + 1);
+		
+		gnome_appbar_set_status (scg->wbcg->appbar, buffer);
+		g_free (buffer);
+	} else {
+		/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
+		gnome_appbar_set_status (scg->wbcg->appbar, "");
+		gnumeric_sheet_set_top_row (gsheet, top);
+	}
 }
 
 static void
-horizontal_scroll_offset_changed (GtkAdjustment *adj, int left, SheetControlGUI *scg)
+horizontal_scroll_offset_changed (GtkAdjustment *adj, int left, int is_hint, SheetControlGUI *scg)
 {
 	GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
 
-	/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
-	gnumeric_sheet_set_left_col (gsheet, left);
+	if (is_hint) {
+		char *buffer = g_strdup_printf (_("Column: %s"), col_name (left));
+
+		gnome_appbar_set_status (scg->wbcg->appbar, buffer);
+		g_free (buffer);
+	} else {
+		/* NOTE : Excel does not move the cursor, just scrolls the sheet. */
+		gnome_appbar_set_status (scg->wbcg->appbar, "");
+		gnumeric_sheet_set_left_col (gsheet, left);
+	}
 }
 
 static void
@@ -507,6 +526,7 @@ scg_construct (SheetControlGUI *scg)
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_FILL,
 			  0, 0);
+
 	scg->row_canvas = new_canvas_bar (scg, GTK_ORIENTATION_VERTICAL, &scg->row_item);
 	gtk_table_attach (table, GTK_WIDGET (scg->row_canvas),
 			  0, 1, 1, 2,

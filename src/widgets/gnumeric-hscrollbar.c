@@ -58,17 +58,12 @@ gnumeric_hscrollbar_adjustment_value_changed (GtkAdjustment *adjustment, gpointe
 {
 	GnumericHScrollbar *hs = GNUMERIC_HSCROLLBAR (data);
 
-	if (hs->tip) {
-		char *buffer = g_strdup_printf (_("Column: %s"), col_name (adjustment->value));
-
-		gtk_label_set_text (GTK_LABEL (hs->tip), buffer);
-		g_free (buffer);
-	}
-
 	if (hs->live)
 		gtk_signal_emit (GTK_OBJECT (hs), hscrollbar_signals[OFFSET_CHANGED],
-				 (int) GTK_RANGE (hs)->adjustment->value);
-
+				 (int) GTK_RANGE (hs)->adjustment->value, FALSE);
+	else
+		gtk_signal_emit (GTK_OBJECT (hs), hscrollbar_signals[OFFSET_CHANGED],
+				 (int) GTK_RANGE (hs)->adjustment->value, TRUE);
 }
 
 static gint
@@ -78,21 +73,12 @@ gnumeric_hscrollbar_button_press (GtkWidget *widget, GdkEventButton *event)
 	GtkRange           *range = GTK_RANGE (widget);
 
 	if (event->window == range->slider) {
-		hs->live = FALSE;
-
-		/*
-		 * We show a small tooltip which contains
-		 * the toprow so the user knows where the view "lands" when the button
-		 * is released
-		 */	
-		if (!hs->tip) 
-			hs->tip = gnumeric_create_tooltip ();
-
-		gnumeric_hscrollbar_adjustment_value_changed (GTK_RANGE (hs)->adjustment,
-							      (gpointer) hs);
+		gnumeric_hscrollbar_adjustment_value_changed (range->adjustment, hs);
 		
-		gnumeric_position_tooltip (hs->tip, 1);
-		gtk_widget_show_all (gtk_widget_get_toplevel (hs->tip));
+		if (event->state & GDK_SHIFT_MASK)
+			hs->live = TRUE;
+		else
+			hs->live = FALSE;
 	} else
 		hs->live = TRUE;
 
@@ -104,14 +90,8 @@ gnumeric_hscrollbar_button_release (GtkWidget *widget, GdkEventButton *event)
 {
 	GnumericHScrollbar *hs    = GNUMERIC_HSCROLLBAR (widget);
 
-	if (hs->tip) {
-		gtk_widget_hide (gtk_widget_get_toplevel (hs->tip));
-		gtk_widget_destroy (hs->tip);
-		hs->tip = NULL;
-	}
-		
 	gtk_signal_emit (GTK_OBJECT (hs), hscrollbar_signals[OFFSET_CHANGED],
-			 (int) GTK_RANGE (hs)->adjustment->value);
+			 (int) GTK_RANGE (hs)->adjustment->value, FALSE);
 			 
 	return parent_class->button_release_event (widget, event);
 }
@@ -119,7 +99,6 @@ gnumeric_hscrollbar_button_release (GtkWidget *widget, GdkEventButton *event)
 static void
 gnumeric_hscrollbar_init (GnumericHScrollbar *hs)
 {
-	hs->tip  = NULL;
 	hs->live = FALSE;
 }
 
@@ -151,8 +130,8 @@ gnumeric_hscrollbar_class_init (GnumericHScrollbarClass *klass)
 				GTK_RUN_FIRST | GTK_RUN_NO_RECURSE,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (GnumericHScrollbarClass, offset_changed),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
 
 	gtk_object_class_add_signals (object_class, hscrollbar_signals, LAST_SIGNAL);

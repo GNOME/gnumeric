@@ -14,8 +14,7 @@ typedef struct _GnumericVScrollbarClass  GnumericVScrollbarClass;
 struct _GnumericVScrollbar
 {
 	GtkVScrollbar  vscrollbar;
-	
-	GtkWidget     *tip;
+
 	gboolean       live;
 };
 
@@ -23,7 +22,7 @@ struct _GnumericVScrollbarClass
 {
 	GtkVScrollbarClass parent_class;
 
-	void (* offset_changed)   (GnumericVScrollbar *vs, int top);
+	void (* offset_changed)   (GnumericVScrollbar *vs, int top, int is_hint);
 };
 
 
