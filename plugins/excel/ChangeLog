@@ -1,5 +1,9 @@
 1999-05-15  Michael Meeks  <michael@imaginator.com>
 
+	* Makefile.am: stop 'ole' being installed.
+
+1999-05-15  Michael Meeks  <michael@imaginator.com>
+
 	* ms-formula.c (ms_excel_parse_formula): Cleaned debug.
 
 	* boot.c (excel_init): Added write hooks.

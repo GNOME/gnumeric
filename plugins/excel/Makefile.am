@@ -28,7 +28,7 @@ libexcel_a_SOURCES =		\
 	ms-obj.c		\
 	ms-obj.h
 
-bin_PROGRAMS =			\
+noinst_PROGRAMS =		\
 	ole
 
 ole_SOURCES =			\
