@@ -1,3 +1,7 @@
+2005-03-11  Jean Brefort <jean.brefort@normalesup.org>
+
+	* ms-chart.c (valuerange): import logarithmix axis mapping.
+
 2005-02-16  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_workbook) : Use count_io_progress_set

@@ -1819,12 +1819,10 @@ BC_R(valuerange)(XLChartHandler const *handle,
 	xl_axis_get_elem (s->axis, AXIS_ELEM_MINOR_TICK,  "Minor Increment",	flags&0x08, q->data+24);
 	xl_axis_get_elem (s->axis, AXIS_ELEM_CROSS_POINT, "Cross over point",	flags&0x10, q->data+32);
 
-#if 0
 	if (flags & 0x20) {
-		g_object_set (s->axis, "log-scale", TRUE, NULL);
+		g_object_set (s->axis, "map-name", "Log", NULL);
 		d (1, fputs ("Log scaled;\n", stderr););
 	}
-#endif
 	if (flags & 0x40) {
 		g_object_set (s->axis, "invert-axis", TRUE, NULL);
 		d (1, fputs ("Values in reverse order;\n", stderr););
