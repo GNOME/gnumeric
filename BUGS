@@ -5,13 +5,12 @@ and longer term bugs.
 Release Critical
 ----------------
 
-- po build is broken (flog kanikus)
 - bisection bug (jpr)
-- Look into ability to identify versions of gnumeric xml that are newer than we
-  are.  As DV about name spaces.
 
 Long term breakage
 ------------------
+- Look into ability to identify versions of gnumeric xml that are newer than we
+  are.  As DV about name spaces.
 
 - Entering "=1e11111" yields "Syntax Error", not "overflow".
 
@@ -43,8 +42,6 @@ Long term breakage
   and remove decimals.
 - While we're playing with those functions, lets add simple ones like inc/dec
   font size and things like that.
-
-- New xml importer does not support the run length encoding of rows/cols
 
 - cell_set_value is being called from the C locale rather than the selected
   locale during xml restore.  This is broken because it attempts to render the
