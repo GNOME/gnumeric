@@ -49,15 +49,16 @@ static GObjectClass *parent_klass;
 static void
 cb_outline_width_changed (GtkAdjustment *adj, GogObject *gobj)
 {
-	GogStyle *style = NULL;
+	GogStyle *style = NULL, *newstyle;
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
-	style = gog_style_dup (style);
+	newstyle = gog_style_dup (style);
+	g_object_unref (style);
+	g_return_if_fail (newstyle != NULL);
 
-	g_return_if_fail (style != NULL);
-
-	style->flags |= GOG_STYLE_OUTLINE;
-	style->outline.width = adj->value;
-	g_object_set (G_OBJECT (gobj), "style", style, NULL);
+	newstyle->flags |= GOG_STYLE_OUTLINE;
+	newstyle->outline.width = adj->value;
+	g_object_set (G_OBJECT (gobj), "style", newstyle, NULL);
+	g_object_unref (newstyle);
 }
 
 static void
@@ -68,15 +69,16 @@ cb_outline_color_changed (GtkWidget *cc,
 			  G_GNUC_UNUSED gboolean is_default,
 			  GogObject *gobj)
 {
-	GogStyle *style = NULL;
+	GogStyle *style = NULL, *newstyle;
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
-	style = gog_style_dup (style);
+	newstyle = gog_style_dup (style);
+	g_object_unref (style);
+	g_return_if_fail (newstyle != NULL);
 
-	g_return_if_fail (style != NULL);
-
-	style->flags |= GOG_STYLE_OUTLINE;
-	style->outline.color = color_combo_get_gocolor (cc);
-	g_object_set (G_OBJECT (gobj), "style", style, NULL);
+	newstyle->flags |= GOG_STYLE_OUTLINE;
+	newstyle->outline.color = color_combo_get_gocolor (cc);
+	g_object_set (G_OBJECT (gobj), "style", newstyle, NULL);
+	g_object_unref (newstyle);
 }
 
 static void
@@ -87,15 +89,17 @@ cb_fill_color_changed (GtkWidget *cc,
 		       G_GNUC_UNUSED gboolean is_default,
 		       GogObject *gobj)
 {
-	GogStyle *style = NULL;
+	GogStyle *style = NULL, *newstyle;
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
-	style = gog_style_dup (style);
 
-	g_return_if_fail (style != NULL);
+	newstyle = gog_style_dup (style);
+	g_object_unref (style);
+	g_return_if_fail (newstyle != NULL);
 
-	style->flags |= GOG_STYLE_FILL;
-	style->fill.u.solid.color = color_combo_get_gocolor (cc);
-	g_object_set (G_OBJECT (gobj), "style", style, NULL);
+	newstyle->flags |= GOG_STYLE_FILL;
+	newstyle->fill.u.solid.color = color_combo_get_gocolor (cc);
+	g_object_set (G_OBJECT (gobj), "style", newstyle, NULL);
+	g_object_unref (newstyle);
 }
 
 static void
@@ -106,15 +110,17 @@ cb_start_color_changed (GtkWidget *cc,
 			G_GNUC_UNUSED gboolean is_default,
 			GogObject *gobj)
 {
-	GogStyle *style = NULL;
+	GogStyle *style = NULL, *newstyle;
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
-	style = gog_style_dup (style);
 
-	g_return_if_fail (style != NULL);
+	newstyle = gog_style_dup (style);
+	g_object_unref (style);
+	g_return_if_fail (newstyle != NULL);
 
-	style->flags |= GOG_STYLE_FILL;
-	style->fill.u.gradient.start = color_combo_get_gocolor (cc);
-	g_object_set (G_OBJECT (gobj), "style", style, NULL);
+	newstyle->flags |= GOG_STYLE_FILL;
+	newstyle->fill.u.gradient.start = color_combo_get_gocolor (cc);
+	g_object_set (G_OBJECT (gobj), "style", newstyle, NULL);
+	g_object_unref (newstyle);
 }
 
 static void
@@ -125,15 +131,17 @@ cb_end_color_changed (GtkWidget *cc,
 		       G_GNUC_UNUSED gboolean is_default,
 		       GogObject *gobj)
 {
-	GogStyle *style = NULL;
+	GogStyle *style = NULL, *newstyle;
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
-	style = gog_style_dup (style);
 
-	g_return_if_fail (style != NULL);
+	newstyle = gog_style_dup (style);
+	g_object_unref (style);
+	g_return_if_fail (newstyle != NULL);
 
-	style->flags |= GOG_STYLE_FILL;
-	style->fill.u.gradient.end = color_combo_get_gocolor (cc);
-	g_object_set (G_OBJECT (gobj), "style", style, NULL);
+	newstyle->flags |= GOG_STYLE_FILL;
+	newstyle->fill.u.gradient.end = color_combo_get_gocolor (cc);
+	g_object_set (G_OBJECT (gobj), "style", newstyle, NULL);
+	g_object_unref (newstyle);
 }
 
 static void
@@ -176,14 +184,16 @@ static void
 cb_gradient_type_changed (GtkWidget *cc,
 		       GogObject *gobj)
 {
-	GogStyle *style = NULL;
+	GogStyle *style = NULL, *newstyle;
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
-	style = gog_style_dup (style);
 
-	g_return_if_fail (style != NULL);
+	newstyle = gog_style_dup (style);
+	g_object_unref (style);
+	g_return_if_fail (newstyle != NULL);
 
-	style->fill.u.gradient.type = gtk_option_menu_get_history (GTK_OPTION_MENU (cc));
-	g_object_set (G_OBJECT (gobj), "style", style, NULL);
+	newstyle->fill.u.gradient.type = gtk_option_menu_get_history (GTK_OPTION_MENU (cc));
+	g_object_set (G_OBJECT (gobj), "style", newstyle, NULL);
+	g_object_unref (newstyle);
 }
 
 static void
@@ -262,89 +272,89 @@ cb_image_filename_changed (GtkWidget *cc,
 				GdkEventFocus *ev,
 		       GogObject *gobj)
 {
-	GogStyle *style = NULL;
+	GogStyle *style = NULL, *newstyle;
 	char const *filename;
 
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
-	style = gog_style_dup (style);
+	newstyle = gog_style_dup (style);
+	g_object_unref (style);
+	g_return_val_if_fail (newstyle != NULL, FALSE);
 
-	g_return_val_if_fail (style != NULL, FALSE);
-	
 	filename = gtk_entry_get_text (GTK_ENTRY (cc));
-	
-	style->fill.u.image.image_file = (filename)? g_strdup (filename): NULL;
-	g_object_set (G_OBJECT (gobj), "style", style, NULL);
+
+	newstyle->fill.u.image.image_file = g_strdup (filename);
+	g_object_set (G_OBJECT (gobj), "style", newstyle, NULL);
+	g_object_unref (newstyle);
+
 	return FALSE;
 }
 
 static void
 cb_image_file_select (GtkWidget *cc, GogObject *gobj)
 {
-	GogStyle *style = NULL;
+	GogStyle *style = NULL, *newstyle;
 	GtkWidget *fs, *w;
 	gint result;
 	const gchar* filename;
 	GladeXML *gui;
 
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
-	style = gog_style_dup (style);
-
-	g_return_if_fail (style != NULL);
+	newstyle = gog_style_dup (style);
+	g_object_unref (style);
+	g_return_if_fail (newstyle != NULL);
 
 	fs = gtk_file_selection_new (_("Select an image file"));
 	gtk_window_set_modal (GTK_WINDOW (fs), TRUE);
-	if (style->fill.u.image.image_file)
-		gtk_file_selection_set_filename (GTK_FILE_SELECTION (fs), style->fill.u.image.image_file);
+	if (newstyle->fill.u.image.image_file)
+		gtk_file_selection_set_filename (GTK_FILE_SELECTION (fs), newstyle->fill.u.image.image_file);
 	result = gtk_dialog_run (GTK_DIALOG (fs));
 	if (result == GTK_RESPONSE_OK) {
 		filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fs));
 		if (filename && !*filename) filename = NULL;
-		if (style->fill.u.image.image_file)
-				g_free (style->fill.u.image.image_file);
-		style->fill.u.image.image_file = (filename)? g_strdup (filename): NULL;
+		g_free (newstyle->fill.u.image.image_file);
+		newstyle->fill.u.image.image_file = g_strdup (filename);
 		gui = (GladeXML*) g_object_get_data (G_OBJECT (cc), "state");
 		w = glade_xml_get_widget (gui, "image_filename");
 		gtk_entry_set_text (GTK_ENTRY (w), (filename)? filename: "");
-		g_object_set (G_OBJECT (gobj), "style", style, NULL);
+		g_object_set (G_OBJECT (gobj), "style", newstyle, NULL);
 	}
+	g_object_unref (newstyle);
 	gtk_widget_destroy (fs);
-	g_return_if_fail (style != NULL);
 }
 
 static void
 cb_image_style_changed (GtkWidget *cc,
 		       GogObject *gobj)
 {
-	GogStyle *style = NULL;
+	GogStyle *style = NULL, *newstyle;
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
-	style = gog_style_dup (style);
+	newstyle = gog_style_dup (style);
+	g_object_unref (style);
+	g_return_if_fail (newstyle != NULL);
 
-	g_return_if_fail (style != NULL);
-	
-	style->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (cc));
-	
-	g_object_set (G_OBJECT (gobj), "style", style, NULL);
+	newstyle->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (cc));
+	g_object_set (G_OBJECT (gobj), "style", newstyle, NULL);
+	g_object_unref (newstyle);
 }
 
 static void
 cb_type_changed (GtkWidget *cc,
-		       GogObject *gobj)
+		 GogObject *gobj)
 {
 	GtkNotebook *fill_notebook;
 	gint page;
 	GladeXML *gui;
 	GtkWidget *w, *table;
-	GogStyle *style = NULL;
+	GogStyle *style = NULL, *newstyle;
 	const gchar* filename;
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
-	style = gog_style_dup (style);
-
-	g_return_if_fail (style != NULL);
+	newstyle = gog_style_dup (style);
+	g_object_unref (style);
+	g_return_if_fail (newstyle != NULL);
 	
-	if ((style->flags & GOG_STYLE_FILL) &&
-	    GOG_FILL_STYLE_IMAGE == style->fill.type &&
-		style->fill.u.image.image_file) {
-			g_free (style->fill.u.image.image_file);
+	if ((newstyle->flags & GOG_STYLE_FILL) &&
+	    GOG_FILL_STYLE_IMAGE == newstyle->fill.type) {
+		g_free (newstyle->fill.u.image.image_file);
 	}
 
 	gui = (GladeXML*) g_object_get_data (G_OBJECT (cc), "state");
@@ -352,48 +362,49 @@ cb_type_changed (GtkWidget *cc,
 	page = gtk_option_menu_get_history(GTK_OPTION_MENU (cc));
 	switch (page) {
 	case 0:
-		style->fill.type = GOG_FILL_STYLE_NONE;
+		newstyle->fill.type = GOG_FILL_STYLE_NONE;
 		break;
 	case 1:
 		table = glade_xml_get_widget (gui, "fill_table");
 		w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "color");
 		if (! w) {
-			init_solid_page (gobj, gui, style);
+			init_solid_page (gobj, gui, newstyle);
 			w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "color");
 		}
-		style->fill.type = GOG_FILL_STYLE_SOLID;
-		style->fill.u.solid.color = color_combo_get_gocolor (w);
-		style->fill.u.solid.is_auto = FALSE;
+		newstyle->fill.type = GOG_FILL_STYLE_SOLID;
+		newstyle->fill.u.solid.color = color_combo_get_gocolor (w);
+		newstyle->fill.u.solid.is_auto = FALSE;
 		break;
 	case 2:
 		table = glade_xml_get_widget (gui, "gradient_table");
 		w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "start");
 		if (! w)
 		{
-			init_gradient_page (gobj, gui, style);
+			init_gradient_page (gobj, gui, newstyle);
 			w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "start");
 		}
-		style->fill.type = GOG_FILL_STYLE_GRADIENT;
-		style->fill.u.gradient.start = color_combo_get_gocolor (w);
+		newstyle->fill.type = GOG_FILL_STYLE_GRADIENT;
+		newstyle->fill.u.gradient.start = color_combo_get_gocolor (w);
 		w = GTK_WIDGET (g_object_get_data (G_OBJECT (table), "end"));
-		style->fill.u.gradient.end = color_combo_get_gocolor (w);
+		newstyle->fill.u.gradient.end = color_combo_get_gocolor (w);
 		w = glade_xml_get_widget (gui, "gradient_type");
-		style->fill.u.gradient.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+		newstyle->fill.u.gradient.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
 		break;
 	case 3:
-		style->fill.type = GOG_FILL_STYLE_PATTERN;
+		newstyle->fill.type = GOG_FILL_STYLE_PATTERN;
 		break;
 	case 4:
-		style->fill.type = GOG_FILL_STYLE_IMAGE;
+		newstyle->fill.type = GOG_FILL_STYLE_IMAGE;
 		w = glade_xml_get_widget (gui, "image_filename");
 		filename = gtk_entry_get_text (GTK_ENTRY (w));
-		style->fill.u.image.image_file = (filename && *filename)? g_strdup (filename): NULL;
+		newstyle->fill.u.image.image_file = (filename && *filename)? g_strdup (filename): NULL;
 		w = glade_xml_get_widget (gui, "image_option");
-		style->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+		newstyle->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
 		break;
 	}
 	gtk_notebook_set_current_page (fill_notebook, page);
-	g_object_set (G_OBJECT (gobj), "style", style, NULL);
+	g_object_set (G_OBJECT (gobj), "style", newstyle, NULL);
+	g_object_unref (newstyle);
 }
 
 GogStyle *
@@ -529,6 +540,7 @@ gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 		"changed",
 		G_CALLBACK (cb_type_changed), gobj);
 	gtk_widget_show_all (GTK_WIDGET (table));
+	g_object_unref (style);
 	return table;
 }
 

@@ -1,3 +1,7 @@
+2003-08-01  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-style.c (gog_style_class_init): Plug leaks.
+
 2003-08-01  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_path) : use
