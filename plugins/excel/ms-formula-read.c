@@ -1267,6 +1267,13 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 		}
 		break;
 
+#if 0
+		case FORMULA_PTG_MEM_FUNC:
+			/* Can I just ignore this ? */
+			ptg_length = 2 + MS_OLE_GET_GUINT16 (cur);
+			break;
+#endif
+
 		case FORMULA_PTG_REF_ERR:
 			ptg_length = (ver >= MS_BIFF_V8) ? 4 : 3;
 			parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
@@ -1398,7 +1405,17 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 			if (first) g_free (first);
 			if (last)  g_free (last);
 		}
-		break;
+
+		case FORMULA_PTG_REF_ERR_3D :
+			ptg_length = (ver >= MS_BIFF_V8) ? 6 : 17;
+			parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
+			break;
+
+		case FORMULA_PTG_AREA_ERR_3D :
+			ptg_length = (ver >= MS_BIFF_V8) ? 10 : 20;
+			parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
+			break;
+
 		default:
 			g_warning ("EXCEL : Unhandled PTG 0x%x\n", ptg);
 			error = TRUE;

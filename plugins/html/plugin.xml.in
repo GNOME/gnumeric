@@ -8,7 +8,7 @@
 		<attribute name="module_file" value="html.la:dlname"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="html32" priority="100" probe="FALSE">
+		<service type="file_opener" id="html32" priority="100" probe="FALSE" open="TRUE" import="TRUE">
 			<information>
 				<_description>HTML file made by gnumeric</_description>
 			</information>

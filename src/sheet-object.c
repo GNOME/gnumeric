@@ -881,6 +881,7 @@ sheet_object_clone_sheet (const Sheet *src, Sheet *dst)
 	GList *list;
 	GList *new_list = NULL;
 
+	g_return_if_fail (IS_SHEET (dst));
 	g_return_if_fail (dst->sheet_objects == NULL);
 	
 	list = src->sheet_objects;

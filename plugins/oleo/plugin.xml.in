@@ -8,7 +8,7 @@
 		<attribute name="module_file" value="oleo.la:dlname"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="oleo" priority="100" probe="FALSE">
+		<service type="file_opener" id="oleo" priority="100" probe="FALSE" open="TRUE" import="TRUE">
 			<information>
 				<_description>GNU Oleo (*.oleo)</_description>
 			</information>

@@ -1,3 +1,27 @@
+2001-12-27  Jody Goldberg <jody@gnome.org>
+
+	* plugins/*/plugins.xml.in : make the probable openers available from
+	  the import menu to simplify the user experience until we can revisit
+	  the distinction between import and open.
+
+	* src/value-sheet.c (value_area_get_width) : rip out the clipping.
+	(value_area_get_height) : rip out the clipping.  This slows graphs
+	  but fixes countblank, cols, and rows.
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_construct_with_range) :
+	  remove attempt to assign the corner of the current selection.
+	(sheet_widget_checkbox_clone) : be safer when dealing with checkboxes
+	  without expressions.
+	(sheet_widget_checkbox_get_ref) : ditto.
+
+	* src/sheet-object.c (sheet_object_clone_sheet) : more protection.
+
+	* src/commands.c (cmd_area_set_text_redo) : the content list was in
+	  reversed compared to the range list.
+	(cmd_paste_cut) : don't register a cmd for a paste that does nothing.
+
+	* src/gnumeric-canvas.c (gnm_canvas_realize) : formating.
+
 2001-12-26  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=66842

@@ -95,7 +95,6 @@ value_area_get_width (EvalPos const *ep, Value const *v)
 
 	if (v->type == VALUE_CELLRANGE) {
 		RangeRef const *r = &v->v_range.cell;
-		Sheet const *sheeta = eval_sheet (r->a.sheet, ep->sheet);
 		int ans = r->b.col - r->a.col;
 
 		if (r->a.col_relative) {
@@ -103,20 +102,12 @@ value_area_get_width (EvalPos const *ep, Value const *v)
 				ans -= ep->eval.col;
 		} else if (r->b.col_relative)
 			ans += ep->eval.col;
-
 		if (ans < 0)
 			ans = -ans;
-		/* FIXME : this is just plain wrong, it is only true for ranges
-		 * starting at 0.  However, it has been here so long that I
-		 * don't want to change it until after release.  */
-		/* FIXME: 3D references, will not clip correctly */
-		if (sheeta && sheeta->cols.max_used < ans) /* Clip */
-			ans = sheeta->cols.max_used;
 		return ans + 1;
 	} else if (v->type == VALUE_ARRAY)
 		return v->v_array.x;
-	else
-		return 1;
+	return 1;
 }
 
 int
@@ -126,7 +117,6 @@ value_area_get_height (EvalPos const *ep, Value const *v)
 
 	if (v->type == VALUE_CELLRANGE) {
 		RangeRef const *r = &v->v_range.cell;
-		Sheet const *sheeta = eval_sheet (r->a.sheet, ep->sheet);
 		int ans = r->b.row - r->a.row;
 
 		if (r->a.row_relative) {
@@ -137,17 +127,10 @@ value_area_get_height (EvalPos const *ep, Value const *v)
 
 		if (ans < 0)
 			ans = -ans;
-		/* FIXME : this is just plain wrong, it is only true for ranges
-		 * starting at 0.  However, it has been here so long that I
-		 * don't want to change it until after release.  */
-		/* FIXME: 3D references, will not clip correctly */
-		if (sheeta && sheeta->rows.max_used < ans) /* Clip */
-			ans = sheeta->rows.max_used;
 		return ans + 1;
 	} else if (v->type == VALUE_ARRAY)
 		return v->v_array.y;
-	else
-		return 1;
+	return 1;
 }
 
 Value const *

@@ -6,7 +6,11 @@ Andreas:
 	* Fix roff importer (#66457)
 
 Jody:
-	* double check that nearest range is not on another sheet.
+	* Double check that nearest range is not on another sheet.
+	* Fix undo for range fills with overlapping ranges.
+	* Do not register commands for pasting a cut onto itself.
+	* Fix cloning checkboxes.
+	* Make all openers available on the import menu, just in case.
 
 --------------------------------------------------------------------------
 Gnumeric 0.99.1

@@ -564,9 +564,6 @@ sheet_widget_checkbox_construct_with_range (SheetObjectWidget *sow,
 	swc->dep.sheet = NULL;
 	swc->dep.flags = checkbox_get_dep_type ();
 
-	if (range == NULL && sheet != NULL)
-		range = selection_first_range (sheet, NULL, NULL);
-
 	if (range != NULL && sheet != NULL) {
 		CellRef ref;
 		ref.sheet = sheet;
@@ -647,8 +644,8 @@ sheet_widget_checkbox_create_widget (SheetObjectWidget *sow, SheetControlGUI *sv
 	return button;
 }
 
-static void
-sheet_widget_checkbox_get_ref (SheetWidgetCheckbox *swc, const CellRef **ref)
+static CellRef const *
+sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc)
 {
 	const ExprTree *tree;
 
@@ -659,45 +656,43 @@ sheet_widget_checkbox_get_ref (SheetWidgetCheckbox *swc, const CellRef **ref)
 	 * in the form of : Sheetx!$Col$Row
 	 */
 	tree = swc->dep.expression;
-	*ref = &tree->var.ref;
+	*ref = (tree != NULL) ? &tree->var.ref : NULL;
 }
 
 static SheetObject *
 sheet_widget_checkbox_clone (SheetObject const *so, Sheet *new_sheet)
 {
-	SheetObjectWidget *new_sow;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-	const CellRef *ref;
+	SheetObjectWidget *new_sow = sheet_object_widget_clone (so, new_sheet);
+	CellRef const *ref = sheet_widget_checkbox_get_ref (swc);
+	Range tmp, *r = NULL;
 
-	new_sow = sheet_object_widget_clone (so, new_sheet);
-
-	sheet_widget_checkbox_get_ref (SHEET_WIDGET_CHECKBOX (so), &ref);
-	if (ref->sheet == so->sheet) {
-		Range range;
-
-		range.start.col = range.end.col = ref->col;
-		range.start.row = range.end.row = ref->row;
-
-		sheet_widget_checkbox_construct_with_range (new_sow,
-			new_sheet, &range, swc->label);
-	} else {
-		/* When the sheet of the object is different than the sheet of it's
-		 * input, we point the new object to the same input as the source
-		 * checkbox. Chema.
-		 */
-		
-		/* I can't clone this objects yet cause i cant test it
-		 * because setting the reference of the checkbox to an object
-		 * outside of the current sheet is crashing. We first need to
-		 * fix the configuration so that it can point to a cell outisde
-		 * the sheet before we can clone. Chema
-		 */
-		g_warning ("Cloning for objects that point to an outside of sheet reference "
-			   "not yet implemented\n");
-		gtk_object_unref (GTK_OBJECT (new_sow));
-		return NULL;
+	if (ref != NULL) {
+		if (ref->sheet == so->sheet) {
+			range.start.col = range.end.col = ref->col;
+			range.start.row = range.end.row = ref->row;
+			r = &range;
+		} else {
+			/* When the sheet of the object is different than the sheet of it's
+			 * input, we point the new object to the same input as the source
+			 * checkbox. Chema.
+			 */
+			
+			/* I can't clone this objects yet cause i cant test it
+			 * because setting the reference of the checkbox to an object
+			 * outside of the current sheet is crashing. We first need to
+			 * fix the configuration so that it can point to a cell outisde
+			 * the sheet before we can clone. Chema
+			 */
+			g_warning ("Cloning for objects that point to an outside of sheet reference "
+				   "not yet implemented\n");
+			gtk_object_unref (GTK_OBJECT (new_sow));
+			return NULL;
+		}
 	}
 
+	sheet_widget_checkbox_construct_with_range (new_sow,
+		new_sheet, r, swc->label);
 	SHEET_WIDGET_CHECKBOX (new_sow)->value = swc->value;
 
 	return SHEET_OBJECT (new_sow);

@@ -769,6 +769,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		/* mark content as dirty */
 		sheet_flag_status_update_range (me->pos.sheet, r);
 	}
+	me->old_content = g_slist_reverse (me->old_content);
 
 	/*
 	 * Now that things have been filled in and recalculated we can generate
@@ -2399,6 +2400,13 @@ cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info,
 	GtkObject *obj;
 	CmdPasteCut *me;
 	Range r;
+
+	g_return_val_if_fail (info != NULL, TRUE);
+
+	/* This is vacuous */
+	if (info->origin_sheet == info->target_sheet &&
+	    info->col_offset == 0 && info->row_offset == 0)
+		return TRUE;
 
 	/* FIXME: Do we want to show the destination range as well ? */
 	if (descriptor == NULL)

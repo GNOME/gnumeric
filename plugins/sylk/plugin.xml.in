@@ -8,7 +8,8 @@
 		<attribute name="module_file" value="sylk.la:dlname"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="sylk" priority="1" probe="TRUE">
+		<service type="file_opener" id="sylk" priority="1" probe="TRUE"
+			open="FALSE" import="TRUE">
 			<information>
 				<_description>MultiPlan (SYLK) import</_description>
 			</information>

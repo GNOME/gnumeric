@@ -1,3 +1,8 @@
+2001-12-27  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (ms_excel_parse_formula) : enable support for
+	  deleted 3d references.
+
 2001-12-24  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.1

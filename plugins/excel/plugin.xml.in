@@ -8,7 +8,8 @@
 		<attribute name="module_file" value="excel.la:dlname"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="excel" priority="100" probe="TRUE">
+		<service type="file_opener" id="excel" priority="100" probe="TRUE"
+			open="TRUE" import="TRUE">
 			<information>
 				<_description>Microsoft(R) Excel (*.xls)</_description>
 			</information>

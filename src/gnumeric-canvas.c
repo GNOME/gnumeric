@@ -537,34 +537,29 @@ gnm_canvas_realize (GtkWidget *widget)
 			GDK_IM_STATUS_NOTHING;
 
 		if(widget->style && widget->style->font->type != GDK_FONT_FONTSET)
-		  supported_style &= ~GDK_IM_PREEDIT_POSITION;
+			supported_style &= ~GDK_IM_PREEDIT_POSITION;
 
 		attr->style = style = gdk_im_decide_style (supported_style);
 		attr->client_window = gcanvas->simple.canvas.layout.bin_window;
 
-		switch (style & GDK_IM_PREEDIT_MASK)
-		  {
-		  case GDK_IM_PREEDIT_POSITION:
-		    if (widget->style && widget->style->font->type != GDK_FONT_FONTSET)
-		      {
-		        g_warning ("over-the-spot style requires fontset");			        break;
-		      }
+		if ((style & GDK_IM_PREEDIT_MASK) == GDK_IM_PREEDIT_POSITION) {
+			if (widget->style && widget->style->font->type != GDK_FONT_FONTSET) {
+				g_warning ("over-the-spot style requires fontset");
+			} else {
+				gdk_window_get_size (attr->client_window, &width, &height);
+				height = widget->style->font->ascent +
+					widget->style->font->descent;
 
-		    gdk_window_get_size (attr->client_window, &width, &height);
-		    height = widget->style->font->ascent +
-		             widget->style->font->descent;
-
-		    attrmask |= GDK_IC_PREEDIT_POSITION_REQ;
-		    attr->spot_location.x = 0;
-		    attr->spot_location.y = height;
-		    attr->preedit_area.x = 0;
-		    attr->preedit_area.y = 0;
-		    attr->preedit_area.width = width;
-		    attr->preedit_area.height = height;
-		    attr->preedit_fontset = widget->style->font;
-
-		    break;
-		  }
+				attrmask |= GDK_IC_PREEDIT_POSITION_REQ;
+				attr->spot_location.x = 0;
+				attr->spot_location.y = height;
+				attr->preedit_area.x = 0;
+				attr->preedit_area.y = 0;
+				attr->preedit_area.width = width;
+				attr->preedit_area.height = height;
+				attr->preedit_fontset = widget->style->font;
+			}
+		}
 
 		gcanvas->ic = gdk_ic_new (attr, attrmask);
 		if (gcanvas->ic != NULL) {

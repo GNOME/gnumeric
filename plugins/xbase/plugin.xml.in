@@ -8,7 +8,8 @@
 		<attribute name="module_file" value="xbase.la:dlname"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="xbase" priority="100" probe="FALSE">
+		<service type="file_opener" id="xbase" priority="100" probe="FALSE"
+			open="TRUE" import="TRUE">
 			<information>
 				<_description>Xbase (*.dbf) file format</_description>
 			</information>
