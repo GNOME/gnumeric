@@ -1,34 +1,34 @@
 2000-12-10  Jody Goldberg <jgoldberg@home.com>
 
-	* src/expr-name.c (expr_name_invalidate_refs_sheet) : comment out the
-	  warning.  These the life cycles of names are too fluid to scare
-	  users yet.
+	* src/expr-name.c (expr_name_invalidate_refs_sheet) : comment out
+ 	  the warning.  The life cycles of names are too fluid to scare
+ 	  users yet.
 	(expr_name_invalidate_refs_wb) : Ditto.
 
 2000-12-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.c (cell_set_text) : send the current format to the
-	  number matcher..
+	  number matcher.
 	* src/sheet.c (sheet_cell_set_text) : Ditto.
 
-	* src/parse-util.c (parse_text_value_or_expr) : send the curent
+	* src/parse-util.c (parse_text_value_or_expr) : send the current
 	  format to the number matcher.
 
 	* src/number-match.c (format_match) : take the current format as a
-	  parameter.  Begin using it to handle cells formated as text.
+ 	  parameter.  Begin using it to handle cells formated as text.
 
 	* src/format.c (style_format_is_text)  utility routine.
 
 2000-12-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (sheet_selection_set_internal) : rename from
-	  sheet_selection_set and add the 'just_add_it' flag to indicate that
-	  we don't need to do anything fancy.
+ 	  sheet_selection_set and add the 'just_add_it' flag to indicate
+ 	  that we don't need to do anything fancy.
 
 2000-12-09  Chema Celorio  <chema@celorio.com>
 
-	* src/xml-io.c (xml_write_names): Always wrinte a <Names> node,
-	even if it is empty. (See coment on code for details)
+	* src/xml-io.c (xml_write_names): Always write a <Names> node,
+	even if it is empty.  (See comment in code for details)
 
 	* src/sheet.c (sheet_new): make sheet->names NULL.
 	(sheet_clone_names): free the list with g_list_free not g_free
@@ -38,16 +38,17 @@
 	* src/expr-name.h (expr_name_wb2sheet): add prototypes for
 	wb2sheet & sheet2wb
 
-	* src/expr-name.c (expr_name_unlink): new funct. Code form
-	expr_name_remove 
+	* src/expr-name.c (expr_name_unlink): new funct. Code from
+ 	expr_name_remove
 	(expr_name_remove): call expr_name_unlink
-	(expr_name_invalidate_refs_name): add a warning about this function
-	not beeing implemented
+	(expr_name_invalidate_refs_name): add a warning about this
+ 	function not being implemented
 	(expr_name_invalidate_refs_sheet): ditto
 	(expr_name_invalidate_refs_wb): ditto
-	(expr_name_sheet2wb): new funct. changed the scope of a NamedExpression
-	from sheet to workbook.
-	(expr_name_wb2sheet): not implemented yet. Workbook to sheet scope change
+	(expr_name_sheet2wb): new funct. changed the scope of a
+ 	NamedExpression from sheet to workbook.
+	(expr_name_wb2sheet): not implemented yet. Workbook to sheet scope
+ 	change
 
 2000-12-09  Jody Goldberg <jgoldberg@home.com>
 
@@ -88,7 +89,7 @@
 	  New functions.  These need work.  the 'read_fn' and 'write_fn' do
 	  not merge nicely yet.
 
-	* src/main.c (gnumeric_main) : Register the sheet obect types.
+	* src/main.c (gnumeric_main) : Register the sheet object types.
 	  We need this until the plugin scheme is ready.
 
 	* src/item-grid.c (cb_obj_create_button_release) : Use set_sheet
