@@ -1,4 +1,8 @@
-gnumeric = gnumeric
-gnumeric_helpdir = $(datadir)/gnome/help/gnumeric/es
+lang=es
+locale=es_ES
+gnumeric_helpdir = $(datadir)/gnome/help/gnumeric/$(lang)
 gnumeric_help_DATA = topic.dat
-EXTRA_DIST = topic.dat
+
+include $(srcdir)/../gnumeric-doc.make
+
+dist-hook: app-dist-hook

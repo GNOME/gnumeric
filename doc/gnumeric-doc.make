@@ -16,6 +16,8 @@ EXTRA_DIST +=					\
 	func-header.sgml func-footer.sgml	\
 	func-list.sgml
 
+include $(gnumeric_docdir)/sgmldocs.make
+
 $(srcdir)/functions.sgml: $(srcdir)/func-list.sgml $(srcdir)/func-header.sgml $(srcdir)/func-footer.sgml
 	cd $(srcdir) && cat func-header.sgml func-list.sgml func-footer.sgml > $@
 
@@ -24,8 +26,3 @@ $(srcdir)/func-list.sgml: $(srcdir)/func.defs $(gnumeric_docdir)/make-func-list.
 
 func.defs: 
 	LC_ALL="$(locale)" ; export LC_ALL ; $(top_builddir)/src/gnumeric --dump-func-defs=$(srcdir)/func.defs
-
-include $(gnumeric_docdir)/sgmldocs.make
-
-dist-hook: app-dist-hook
-

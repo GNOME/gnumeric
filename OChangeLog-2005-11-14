@@ -1,3 +1,16 @@
+2002-03-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.5
+
+2002-03-09  Jody Goldberg <jody@gnome.org>
+
+	* src/func.c (copy_hash_table_to_ptr_array) : when dumping a function
+	  ensure that it has been loaded.
+
+	* src/validation.c (validation_eval) : back port some fixes.
+
+	* src/eval.c (micro_hash_init) : back port fix.
+
 2002-03-05  Jody Goldberg <jody@gnome.org>
 
 	* src/eval.c (dependent_unlink) : fix typo.

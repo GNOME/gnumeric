@@ -1,337 +1,3947 @@
-@FUNCTION=DAY
-@SYNTAX=DAY (número_serie)
-@DESCRIPTION=Convierte un número serie en un día.
-Recuerde que Gnumeric realizará por usted la conversión de una cadena de texto a un número serie, por lo que puede introducir la fecha como una cadena de texto
-@SEEALSO=MONTH, TIME, NOW, YEAR
+@FUNCTION=ABS
+@SYNTAX=ABS(b1)
+@DESCRIPTION=Implementa la función Valor Absoluto: el resultado se obtiene abandonando el signo negativo (si está presente). Se aplica a números enteros y a punto flotante. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ABS(7) es igual a 7.
+ABS(-3,14) es igual a 3,14.
 
-@FUNCTION=LOWER
-@SYNTAX=LOWER(text)
-@DESCRIPTION=Devuelve una versión en minúsculas de la cadena de carácteres @texto
-@SEEALSO=UPPER
+@SEEALSO=CEIL, FLOOR
 
-@FUNCTION=LOG2
-@SYNTAX=LOG2(x)
-@DESCRIPTION=Calcula el logaritmo en base 2 de x.
-Ejecutar esta función en una cadena de texto o en una celda vacía devuelve un error.
-@SEEALSO=EXP, LOG10, LOG
+@FUNCTION=ACCRINT
+@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])
+@DESCRIPTION=ACCRINT calculates the accrued interest for a security that pays periodic interest.  @issue is the issue date of the security.  @first_interest is the first interest date of the security.  @settlement is the settlement date of the sequrity.  The settlement date is always after the issue date (the date when the security is bought). @rate is the annual rate of the security and @par is the par value of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
 
-@FUNCTION=SECOND
-@SYNTAX=SECOND (número_serie)
-@DESCRIPTION=Convierte un número serie en un segundo. El segundo se devuelve como un entero en el intervalo 0 a 59
-Recuerde que Gnumeric realizará por usted la conversión de una cadena de texto a un número serie, por lo que puede introducir la fecha como una cadena de texto
-@SEEALSO=HOUR, MINUTE, NOW, TIME
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
 
-@FUNCTION=ATAN
-@SYNTAX=ATAN(x)
-@DESCRIPTION=La función ATAN calcula el arco tangente de x; es decir, el número cuya tangente es x. Devuelve el valor en radianes.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
-@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS
+If @issue date, @first_interest date, or @settlement date is not valid, ACCRINT returns #NUM! error. The dates must be @issue < @first_interest < @settlement, or ACCRINT returns #NUM! error. If @rate <= 0 or @par <= 0 , ACCRINT returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, ACCRINT returns #NUM! error. If @issue date is after @settlement date or they are the same, ACCRINT returns #NUM! error. 
+@EXAMPLES=
 
-@FUNCTION=SINH
-@SYNTAX=SINH(x)
-@DESCRIPTION=La función SINH devuelve el seno hiperbólico de x, que está definido matemáticamente como (exp(x) - exp(-x)) / 2. x es un valor en radianes.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
-@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP
+@SEEALSO=ACCRINTM
 
-@FUNCTION=INT
-@SYNTAX=INT(b1, b2, ...)
-@DESCRIPTION=La función INT redondea b1 al entero más próximo. Donde `próximo' implica estar más cerca de cero. Es equivalente a FLOOR(b1) para b1 > 0, y a CEIL(b1) para b1 < 0.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
-@SEEALSO=FLOOR, CEIL, ABS
+@FUNCTION=ACCRINTM
+@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])
+@DESCRIPTION=ACCRINTM calculates and returns the accrued interest for a security from @issue to @maturity date.  @issue is the issue date of the security.  @maturity is the maturity date of the security.  @rate is the annual rate of the security and @par is the par value of the security. If you omit @par, ACCRINTM applies $1,000 instead.  @basis is the type of day counting system you want to use:
 
-@FUNCTION=SUM
-@SYNTAX=SUM(valor1, valor2, ...)
-@DESCRIPTION=Calcula la suma de todos los valores y celdas a las que se hace referencia en la lista de argumentos.
-@SEEALSO=AVERAGE, COUNT
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
 
-@FUNCTION=CEIL
-@SYNTAX=CEIL(x)
-@DESCRIPTION=La función CEIL redondea x al siguiente entero más cercano.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
-@SEEALSO=ABS, FLOOR, INT
+If @issue date or @maturity date is not valid, ACCRINTM returns #NUM! error. If @rate <= 0 or @par <= 0, ACCRINTM returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, ACCRINTM returns #NUM! error. If @issue date is after @maturity date or they are the same, ACCRINTM returns #NUM! error. 
+@EXAMPLES=
 
-@FUNCTION=FACT
-@SYNTAX=FACT(x)
-@DESCRIPTION=Calcula el factorial de x. Es decir, x!
-Ejecutar esta función en una cadena de carácteres o en una celda vacía devolverá un error
-@SEEALSO=
+@SEEALSO=ACCRINT
 
-@FUNCTION=HOUR
-@SYNTAX=HOUR (número_serie)
-@DESCRIPTION=Convierte un número serie en una hora. La hora se devolverá como un entero en el rango 0 (12:00 A.M) a 23 (11:00 P.M)
-Recuerde que Gnumeric realizará por usted la conversión de una cadena de texto a un número serie, por lo que puede introducir la fecha como una cadena de texto
-@SEEALSO=MINUTE, NOW, TIME, SECOND
+@FUNCTION=ACOS
+@SYNTAX=ACOS(x)
+@DESCRIPTION=ACOS function calculates the arc cosine of @x; that is the value whose cosine is @x.  If @x  falls  outside  the range -1 to 1, ACOS fails and returns the #NUM! error. The value it returns is in radians.
+This function is Excel compatible.
+@EXAMPLES=
+ACOS(0.1) equals 1.470629.
+ACOS(-0.1) equals 1.670964.
 
-@FUNCTION=MID
-@SYNTAX=MID(cadena_de_carácteres, posición, longitud)
-@DESCRIPTION=Devuelve una subcadena de @longitud carácteres de @cadena_de_carácteres empezando en la posición @posición.
-@SEEALSO=LEFT, RIGHT
-
-@FUNCTION=MONTH
-@SYNTAX=MONTH (número_serie)
-@DESCRIPTION=Convierte un número serie en un mes.
-Recuerde que Gnumeric realizará por usted la conversión de una cadena de texto a un número serie, por lo que puede introducir la fecha como una cadena de texto
-@SEEALSO=DAY, TIME, NOW, YEAR
-
-@FUNCTION=NOW
-@SYNTAX=NOW ()
-@DESCRIPTION=Devuelve el número serie para la fecha y hora del momento en que se evalua la función.
-Los números serie en Gnumeric están representados como sigue: La parte entera es el número de días desde el 1 de Enero de 1900. La parte decimal representa la fracción del día y se refiere a la hora, minutos y segundos
-Por ejemplo: .0 representa el principio del día, y 0.5 representa el medio día 
-@SEEALSO=TODAY, NOW
-
-@FUNCTION=MAX
-@SYNTAX=MAX(b1, b2, ...)
-@DESCRIPTION=MAX devuelve el valor mayor de todos los valores que se le pasan como argumentos. Los números negativos se consideran más pequeños que los positivos.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
-@SEEALSO=MIN,ABS
-
-@FUNCTION=ATANH
-@SYNTAX=ATANH(x)
-@DESCRIPTION=La función ATANH calcula la arco tangente hiperbólica de x; es decir, el valor cuya tangente hiperbólica es x. Si el valor absoluto de x es mayor que 1.0, ATANH devuelve el error `atanh: domain error'
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
-@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS
-
-@FUNCTION=TIME
-@SYNTAX=TIME (horas,minutos,segundos)
-@DESCRIPTION=Devuelve una fracción representando la hora
-@SEEALSO=HOUR
-
-@FUNCTION=YEAR
-@SYNTAX=YEAR (número_serie)
-@DESCRIPTION=Convierte un número serie en un año.
-Recuerde que Gnumeric realizará por usted la conversión de una cadena de texto a un número serie, por lo que puede introducir la fecha como una cadena de texto
-@SEEALSO=DAY, MONTH, TIME, NOW
-
-@FUNCTION=AND
-@SYNTAX=AND(b1, b2, ...)
-@DESCRIPTION=Implementa la función lógica AND (Y): el resultado es TRUE (VERDAD) si todas las expresiones evaluadas son TRUE, en caso contrario devuelve FALSE (FALSO).
-Desde b1 hasta bN deben ser expresiones que deben devolver TRUE o FALSE. Si devuelven un número entero o de coma flotante, se considerará 0 como FALSE y cualquier otro resultado como TRUE.
-Si los valores que se devuelven contienen cadenas o celdas vacías, se ignorarán. Si no se devuelve ningún valor lógico, entonces se devolverá el error `#VALUE!'.
-@SEEALSO=OR
+@SEEALSO=COS, SIN, DEGREES, RADIANS
 
 @FUNCTION=ACOSH
 @SYNTAX=ACOSH(x)
-@DESCRIPTION=La función ACOSH calcula el arco coseno hiperbólico de x; es decir, el valor cuyo coseno hiperbólico es x. Si x es menor que 1.0, acosh() devuelverá el error `acosh - domain error'
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
-@SEEALSO=ACOS, DEGREES, RADIANS 
+@DESCRIPTION=ACOSH  function  calculates  the inverse hyperbolic cosine of @x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, ACOSH() returns the #NUM! error.
+This function is Excel compatible. 
+@EXAMPLES=
+ACOSH(2) equals 1.31696.
+ACOSH(5.3) equals 2.35183.
 
-@FUNCTION=CLEAN
-@SYNTAX=CLEAN(cadena_de_carácteres)
-@DESCRIPTION=Borra cualquier no carácter no imprimible de @cadena_de_carácteres.
+@SEEALSO=ACOS, ASINH, DEGREES, RADIANS 
+
+@FUNCTION=ADDRESS
+@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])
+@DESCRIPTION=ADDRESS returns a cell address as text for specified row and column numbers. 
+If @abs_num is 1 or omitted, ADDRESS returns absolute reference. If @abs_num is 2 ADDRESS returns absolute row and relative column.  If @abs_num is 3 ADDRESS returns relative row and absolute column. If @abs_num is 4 ADDRESS returns relative reference. If @abs_num is greater than 4 ADDRESS returns #VALUE! error. 
+@a1 is a logical value that specifies the reference style.  If @a1 is TRUE or omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise ADDRESS returns an R1C1-style reference, i.e. R4C4. 
+@text specifies the name of the worksheet to be used as the external reference.  
+If @row_num or @col_num is less than one, ADDRESS returns #VALUE! error. 
+@EXAMPLES=
+ADDRESS(5,4) equals "$D$5".
+ADDRESS(5,4,4) equals "D5".
+ADDRESS(5,4,3,FALSE) equals "R[5]C4".
+
 @SEEALSO=
 
-@FUNCTION=RADIANS
-@SYNTAX=RADIANS(x)
-@DESCRIPTION=Convierte x de grados a radianes.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
-@SEEALSO=PI,DEGREES
+@FUNCTION=AMORDEGRC
+@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,basis])
+@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting period.@settlement is the settlement date of the security. @maturity is the maturity date of the security. @basis is the type of day counting system you want to use:
 
-@FUNCTION=LEFT
-@SYNTAX=LEFT(texto[,num_carácteres])
-@DESCRIPTION=Devuelve los @num_carácteres carácteres más a la izquierda de @texto, o bien el carácter más a la izquierda de texto si no se especifica @num_carácteres.
-@SEEALSO=MID, RIGHT
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
 
-@FUNCTION=OR
-@SYNTAX=OR(b1, b2, ...)
-@DESCRIPTION=Implementa la función lógica OR (O): el resultado es TRUE (VERDAD) si cualquiera de los valores evaluados es TRUE, en caso contrario devuelve FALSE (FALSO).
-Desde b1 hasta bN deben ser expresiones que deben devolver TRUE o FALSE. Si devuelven un número entero o de coma flotante, se considerará 0 como FALSE y cualquier otro resultado como TRUE.
-Si los valores que se devuelven contienen cadenas o celdas vacías, se ignorarán. Si no se devuelve ningún valor lógico, entonces se devolverá el error `#VALUE!'.
-@SEEALSO=AND
+If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+@EXAMPLES=
 
-@FUNCTION=FLOOR
-@SYNTAX=FLOOR(x)
-@DESCRIPTION=La función FLOOR redondea x al entero inferior más cercano.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
-@SEEALSO=CEIL, ABS, INT
+@SEEALSO=
+
+@FUNCTION=AMORLINC
+@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,basis])
+@DESCRIPTION=AMORLINC returns the depreciation for each accounting period.@settlement is the settlement date of the security. @maturity is the maturity date of the security. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=AND
+@SYNTAX=AND(b1, b2, ...)
+@DESCRIPTION=AND implements the logical AND function: the result is TRUE if all of the expressions evaluate to TRUE, otherwise it returns FALSE.
+@b1, trough @bN are expressions that should evaluate to TRUE or FALSE.  If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.
+If the values contain strings or empty cells those values are ignored. If no logical values are provided, then the error #VALUE! is returned.
+This function is Excel compatible. 
+@EXAMPLES=
+AND(TRUE,TRUE) equals TRUE.
+AND(TRUE,FALSE) equals FALSE.
+
+Let us assume that A1 holds number five and A2 number one.  Then
+AND(A1>3,A2<2) equals TRUE.
+
+@SEEALSO=OR, NOT
+
+@FUNCTION=ASIN
+@SYNTAX=ASIN(x)
+@DESCRIPTION=ASIN function calculates the arc sine of @x; that is the value whose sine is @x. If @x falls outside  the  range -1 to 1, ASIN fails and returns the #NUM! error.
+This function is Excel compatible. 
+@EXAMPLES=
+ASIN(0.5) equals 0.523599.
+ASIN(1) equals 1.570797.
+
+@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS
+
+@FUNCTION=ASINH
+@SYNTAX=ASINH(x)
+@DESCRIPTION=Calcula el seno hiperbólico inverso de @x; o sea el valor cuyo seno hiperbólico es @x. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ASINH(0.5) es igual a 0,481212.
+ASINH(1.0) es igual a 0,881374.
+
+@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS
+
+@FUNCTION=ATAN
+@SYNTAX=ATAN(x)
+@DESCRIPTION=Calcula el arco tangente de @x; o sea el valor cuya tangente es @x. El valor devuelto se expresa en radianes. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ATAN(0.5) es igual a 0,463648.
+ATAN(1) es igual a 0,785398.
+
+@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS
+
+@FUNCTION=ATAN2
+@SYNTAX=ATAN2(b1;b2)
+@DESCRIPTION=Calcula el arco tangente de las dos variables @b1 y @b2. Es similar a calcular el arco tangente de @b2 / @b1, salvo que el signo de ambos argumentos es usado para determinar el cuadrante del resultado. El valor devuelto se expresan en radianes.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ATAN2(0,5;1,0) es igual a 1,107149.
+ATAN2(-0,5;2,0) es igual a 1,815775.
+
+@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS
+
+@FUNCTION=ATANH
+@SYNTAX=ATANH(x)
+@DESCRIPTION=ATANH function calculates the inverse hyperbolic tangent of @x; that is the value whose hyperbolic tangent is @x. If the absolute value of @x is greater than 1.0, ATANH returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+ATANH(0.5) equals 0.549306.
+ ATANH(0.8) equals 1.098612.
+
+@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS
+
+@FUNCTION=AVEDEV
+@SYNTAX=AVEDEV(n1, n2, ...)
+@DESCRIPTION=AVEDEV returns the average of the absolute deviations of a data set from their mean.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+AVEDEV(A1:A5) equals 7.84.
+
+@SEEALSO=STDEV
 
 @FUNCTION=AVERAGE
 @SYNTAX=AVERAGE(valor1, valor2,...)
-@DESCRIPTION=Calcula la media de todos los valores y celdas a las que se hagan referencia en la lista de argumentos. Es equivalente a la suma de los argumentos dividido por el número de argumentos.
+@DESCRIPTION=AVERAGE calcula el promedio de todos los valores y celdas referenciadas en la lista de argumentos.  Es equivalente a la suma de los argumentos dividido por el número de argumentos.  
+Esta función es compatible con Excel. 
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contienen los números 11.4, 17.3, 21.3, 25.9 y 40.1.  Luego,
+AVERAGE(A1:A5) es igual a 23.2.
+
 @SEEALSO=SUM, COUNT
 
-@FUNCTION=TAN
-@SYNTAX=TAN(x)
-@DESCRIPTION=La función TAN devuelve la tangente de x, donde x está en radianes.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
-@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS
+@FUNCTION=AVERAGEA
+@SYNTAX=AVERAGEA(valor1;valor2;...)
+@DESCRIPTION=Calcula el promedio de los valores y celdas referenciados en la lista de argumentos. Se incluye en el cálculo los números y también los textos y expresiones lógicas. Si la celda contiene texto o la expresión lógica FALSO, se contará como un cero (0). Si contiene un valor lógico VERDAD, se contará como un uno (1). Note que las celdas vacías no son contadas.
+Esta función es compatible con Excel.
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contienen los números 11,4; 17,5; "vacío"; 25,9 y 40,1.  Entonces
+AVERAGEA(A1:A5) es igual a 18,94.
 
-@FUNCTION=MIN
-@SYNTAX=MIN(b1, b2, ...)
-@DESCRIPTION=MIN devuelve el valor del elemento más pequeño. Los números negativos se considerarán más pequeños que los número positivos.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
-@SEEALSO=MAX,ABS
+@SEEALSO=AVERAGE
 
-@FUNCTION=TANH
-@SYNTAX=TANH(x)
-@DESCRIPTION=La función TANH devuelve la tangente hiperbólica de x, que está definida matemáticamente como sinh(x) / cosh(x).
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
-@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
+@FUNCTION=BESSELI
+@SYNTAX=BESSELI(x,y)
+@DESCRIPTION=BESSELI function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.
+If @x or @y are not numeric a #VALUE! error is returned. If @y < 0 a #NUM! error is returned.
+This function is Excel compatible. 
+@EXAMPLES=
+BESSELI(0.7,3) equals 0.007367374.
 
-@FUNCTION=IF
-@SYNTAX=IF(condición,si-cierto,si-falso)
-@DESCRIPTION=Utiliza la orden IF para ejecutar condicionalmente otras expresiones. IF evalua @condición. Si @condición devuelve un valor distinto de cero el resultado de la expresión IF será la expresión @si-cierto, en caso contrario IF evalua @si-falso
-@SEEALSO=
+@SEEALSO=BESSELJ,BESSELK,BESSELY
 
-@FUNCTION=UPPER
-@SYNTAX=UPPER(texto)
-@DESCRIPTION=Devuelve una versión en mayúsculas de la cadena de carácteres contenida en @texto
-@SEEALSO=LOWER
+@FUNCTION=BESSELJ
+@SYNTAX=BESSELJ(x,y)
+@DESCRIPTION=BESSELJ function returns the bessel function with @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.
+If @x or @y are not numeric a #VALUE! error is returned.  If @y < 0 a #NUM! error is returned.
+This function is Excel compatible. 
+@EXAMPLES=
+BESSELJ(0.89,3) equals 0.013974004.
 
-@FUNCTION=SELECTION
-@SYNTAX=SELECTION(x)
-@DESCRIPTION=La función SELECTION devuelve una lista con los valores actualmente seleccionados. Se utiliza normalmente para hacer calculos al vuelo.
-@SEEALSO=
+@SEEALSO=BESSELJ,BESSELK,BESSELY
 
-@FUNCTION=ABS
-@SYNTAX=ABS(b1)
-@DESCRIPTION=Implementa la función Valor Absoluto: el resultado es quitar el signo negativo (de estar presente). Puede hacerse para enteros y números de coma flotante.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
-@SEEALSO=CEIL, FLOOR
+@FUNCTION=BESSELK
+@SYNTAX=BESSELK(x,y)
+@DESCRIPTION=BESSELK function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.
+If x or n are not numeric a #VALUE! error is returned. If y < 0 a #NUM! error is returned.
+This function is Excel compatible. 
+@EXAMPLES=
+BESSELK(3,9) equals 397.95880.
 
-@FUNCTION=COSH
-@SYNTAX=COSH(x)
-@DESCRIPTION=La función COSH devuelve el coseno hiperbólico de x, que está definida matemáticamente como (exp(x) + exp(-x)) / 2. x está en radianes.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
-@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP
+@SEEALSO=BESSELI,BESSELJ,BESSELY
 
-@FUNCTION=NVARIANCE
-@SYNTAX = NVARIANCE(valor1, valor2, ...)
-@DESCRIPTION=Calcula la varianza de todos los valores y celdas a las que se hace referencia en la lista de argumentos. Equivale a la suma de (valor - media)^2, dividido por el número de valores. Si quiere dividirlo por N - 1 en vez de por N, utilice VARIANCE.
-@SEEALSO=AVERAGE, VARIANCE
+@FUNCTION=BESSELY
+@SYNTAX=BESSELY(x,y)
+@DESCRIPTION=BESSELY function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.
+If x or n are not numeric a #VALUE! error is returned. If n < 0 a #NUM! error is returned.
+This function is Excel compatible. 
+@EXAMPLES=
+BESSELY(4,2) equals 0.215903595.
 
-@FUNCTION=MINUTE
-@SYNTAX=MINUTE (número_serie)
-@DESCRIPTION=Convierte un número serie en un minito. El minuto se devuelve como un entero en el intervalo 0 a 59.
-Recuerde que Gnumeric realizará por usted la conversión de una cadena de texto a un número serie, por lo que puede introducir la fecha como una cadena de texto
-@SEEALSO=HOUR, NOW, TIME, SECOND
+@SEEALSO=BESSELJ,BESSELK,BESSELY
 
-@FUNCTION=VARIANCE
-@SYNTAX = VARIANCE(valor1, valor2, ...)
-@DESCRIPTION=Calcula la varianza de todos los valores y celdas a los que se hace referencia en la lista de argumentos. Esto es equivalente a la suma de (valor - media)^2, dividido por el número de datos menos 1. Si quiere dividir por N en lugar de por N - 1, utilice NVARIANCE.
-@SEEALSO=AVERAGE, NVARIANCE
+@FUNCTION=BETADIST
+@SYNTAX=BETADIST(x,alpha,beta[,a,b])
+@DESCRIPTION=BETADIST function returns the cumulative beta distribution. @a is the optional lower bound of @x and @b is the optional upper bound of @x.  If @a is not given, BETADIST uses 0.  If @b is not given, BETADIST uses 1.
+If @x < @a or @x > @b BETADIST returns #NUM! error. If @alpha <= 0 or @beta <= 0, BETADIST returns #NUM! error. If @a >= @b BETADIST returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+BETADIST(0.12,2,3) equals 0.07319808.
 
-@FUNCTION=PI
-@SYNTAX=PI()
-@DESCRIPTION=La función PI devuelve el valor Pi tal y como está definido en M_PI.
-Esta función no recibe ningún argumento.
+@SEEALSO=BETAINV
+
+@FUNCTION=BETAINV
+@SYNTAX=BETAINV(p,alpha,beta[,a,b])
+@DESCRIPTION=BETAINV function returns the inverse of cumulative beta distribution.  @a is the optional lower bound of @x and @b is the optinal upper bound of @x.  If @a is not given, BETAINV uses 0.  If @b is not given, BETAINV uses 1.
+If @p < 0 or @p > 1 BETAINV returns #NUM! error. If @alpha <= 0 or @beta <= 0, BETAINV returns #NUM! error. If @a >= @b BETAINV returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+BETAINV(0.45,1.6,1) equals 0.607096629.
+
+@SEEALSO=BETADIST
+
+@FUNCTION=BIN2DEC
+@SYNTAX=BIN2DEC(x)
+@DESCRIPTION=La función BIN2DEC convierte un número binario (pasado como número o como cadena de texto) a su equivalente decimal. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+BIN2DEC(101) devuelve 5.
+
+@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX
+
+@FUNCTION=BIN2HEX
+@SYNTAX=BIN2HEX(número[;dígitos])
+@DESCRIPTION=La función BIN2HEX convierte un número binario a su equivalente hexadecimal. @ancho es un parámetro facultativo, que indica el ancho del número resultante, a rellenar con 0 si necesario.
+Si @ancho es demasiado pequeño, o negativo, el error #NUMERO! es devuelto. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+BIN2HEX(100111) devuelve 27.
+
+@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC
+
+@FUNCTION=BIN2OCT
+@SYNTAX=BIN2HEX(número[;dígitos])
+@DESCRIPTION=La función BIN2OCT convierte un número binario a su equivalente octal. @ancho es un parámetro facultativo, que indica el ancho del número resultante, a rellenar con 0 si necesario.
+Si @ancho es demasiado pequeño, o negativo, el error #NUMERO! es devuelto. 
+Esta función es compatible con Excel.
+@EXAMPLES=
+BIN2OCT(110111) devuelve 67.
+
+@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX
+
+@FUNCTION=BINOMDIST
+@SYNTAX=BINOMDIST(n,trials,p,cumulative)
+@DESCRIPTION=BINOMDIST function returns the binomial distribution. @n is the number of successes, @trials is the total number of independent trials, @p is the probability of success in trials, and @cumulative describes whether to return the sum of thebinomial function from 0 to @n.
+If @n or @trials are non-integer they are truncated. If @n < 0 or @trials < 0 BINOMDIST returns #NUM! error. If @n > trials BINOMDIST returns #NUM! error. If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+BINOMDIST(3,5,0.8,0) equals 0.2048.
+
+@SEEALSO=POISSON
+
+@FUNCTION=CEIL
+@SYNTAX=CEIL(x)
+@DESCRIPTION=Redondea @x hacia el próximo valor entero.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+CEIL(0.4) es igual a 1.
+CEIL(-1,1) es igual a  -1.
+CEIL(-2,9) es igual a -2.
+
+@SEEALSO=ABS, FLOOR, INT
+
+@FUNCTION=CEILING
+@SYNTAX=CEILING(x;significancia)
+@DESCRIPTION=Redondea hacia arriba @x de manera a que sea igual al múltiple de @significancia más cercano.
+Si @x o @significancia no es un valor numérico, CEILING devuelve el error #VALOR!. Si @x y @significancia son de signos contrarios, CEILING devuelve el error #NUMERO!. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+CEILING(2,43;1) es igual a 3.
+CEILING(123,123;3) es igual a 126.
+
+@SEEALSO=CEIL
+
+@FUNCTION=CELL
+@SYNTAX=CELL(type,ref)
+@DESCRIPTION=CELL returns information about the formatting, location, or contents of a cell. 
+@type specifies the type of information you want to obtain:
+      address       Returns the given cell reference as text.
+     col           Returns the number of the column in @ref.
+     contents      Returns the contents of the cell in @ref.
+     format        Returns the code of the format of the cell.
+     parentheses   Returns 1 if @ref contains a negative value
+                   and it's format displays it with parentheses.
+     row           Returns the number of the row in @ref.
+     width         Returns the column width.
+
+This function is Excel compatible. 
+@EXAMPLES=
+CEll("format",A1) returns the code of the format of the cell A1.
+
 @SEEALSO=
 
 @FUNCTION=CHAR
 @SYNTAX=CHAR(x)
-@DESCRIPTION=Devuelve el carácter ascii representado por el número x.
+@DESCRIPTION=Devuelve el carácter ASCII representado por el número @x.
+@EXAMPLES=
+CHAR(65) devuelve A.
+
 @SEEALSO=CODE
 
-@FUNCTION=EXACT
-@SYNTAX=EXACT(cadena_de_carácteres1, cadena_de_carácteres2)
-@DESCRIPTION=Devuelve TRUE si @cadena_de_carácteres1 es exactamente
-igual a @cadena_de_carácteres2 (ésta rutina distingue entre mayúsculas
-y minúsculas).
+@FUNCTION=CHIDIST
+@SYNTAX=CHIDIST(x,dof)
+@DESCRIPTION=CHIDIST function returns the one-tailed probability of the chi-squared distribution. @dof is the number of degrees of freedom.
+If @dof is non-integer it is truncated.  If @dof < 1 CHIDIST returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+CHIDIST(5.3,2) equals 0.070651213.
+
+@SEEALSO=CHIINV,CHITEST
+
+@FUNCTION=CHIINV
+@SYNTAX=CHIINV(p,dof)
+@DESCRIPTION=CHIINV function returns the inverse of the one-tailed probability of the chi-squared distribution.
+If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+CHIINV(0.98,7) equals 1.564293004.
+
+@SEEALSO=CHIDIST,CHITEST
+
+@FUNCTION=CHITEST
+@SYNTAX=CHITEST(actual_range,theoretical_range)
+@DESCRIPTION=CHITEST function returns the test for independence of chi-squared distribution.
+@actual_range is a range that contains the observed data points. @theoretical_range is a range that contains the expected values of the data points.
+This function is Excel compatible.
+@EXAMPLES=
+
+@SEEALSO=CHIDIST,CHIINV
+
+@FUNCTION=CHOOSE
+@SYNTAX=CHOOSE(index[,value1][,value2]...)
+@DESCRIPTION=CHOOSE returns the value of index @index. @index is rounded to an integer if it is not.
+If @index < 1 or @index > number of values: returns #VAL!.
+@EXAMPLES=
+CHOOSE(3,"Apple","Orange","Grape","Perry") equals "Grape".
+
+@SEEALSO=IF
+
+@FUNCTION=CLEAN
+@SYNTAX=CLEAN(cadena)
+@DESCRIPTION=Limpia la cadena de todo carácter no imprimible.
+Esta función es compatible con Excel.
+@EXAMPLES=
+CLEAN("uno"\&char(7)) devuelve "uno".
+
 @SEEALSO=
 
-@FUNCTION=ASIN
-@SYNTAX=ASIN(x)
-@DESCRIPTION=La función ASIN calcula el arco seno de x; es decir, el valor cuyo seno es x. Si x cae dentro del rango -1 a 1, ASIN fallará y devolverá el error `asin - domain error'
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
-@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS
+@FUNCTION=CODE
+@SYNTAX=CODE(caracter)
+@DESCRIPTION=Devuelve el valor ASCII del caracter @caracter.
+Esta función es compatible con Excel.
+@EXAMPLES=
+CODE("A") es igual a 65.
 
-@FUNCTION=BIN2DEC
-@SYNTAX=BIN2DEC(x)
-@DESCRIPTION=La función BIN2DEC convierte un número en binario contenido en una cadena de carácteres o en un número en su equivalente decimal.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
-@SEEALSO=DEC2BIN
+@SEEALSO=CHAR
 
-@FUNCTION=EXP
-@SYNTAX=EXP(x)
-@DESCRIPTION=Calcula el valor de e (la base de los logaritmos naturales) elevado a la potencia x.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía devolverá un error.
-@SEEALSO=LOG, LOG2, LOG10
+@FUNCTION=COLUMN
+@SYNTAX=COLUMN([reference])
+@DESCRIPTION=COLUMN function returns an array of the column numbers taking a default argument of the containing cell position.
+If @reference is neither an array nor a reference nor a range returns #VALUE!.
+@EXAMPLES=
+COLUMN() in E1 equals 5.
 
-@FUNCTION=ATAN2
-@SYNTAX=ATAN2(b1,b2)
-@DESCRIPTION=La función ATAN2 calcula el arco tangente de las dos variables b1 y b2. Es lo mismo que calcular el arco tangente de b2 / b1, excepto que el signo de ambos argumentos se utiliza para determinar el cuadrante del resultado. El resultado será en radianes.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
-@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS
+@SEEALSO=COLUMNS,ROW,ROWS
 
-@FUNCTION=ACOS
-@SYNTAX=ACOS(x)
-@DESCRIPTION=La función ACOS calcula el arco coseno de x; esto es, el valor cuyo coseno es x. function calculates the arc cosine of x; that is the value whose cosine is x.  Si x cae fuera del rango de -1 a 1, ACOS fallará y devolverá el error `acos - domain error'. El valor que devuelve estará en radianes.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
-@SEEALSO=COS, SIN, DEGREES, RADIANS
+@FUNCTION=COLUMNS
+@SYNTAX=COLUMNS(referencia)
+@DESCRIPTION=La función COLUMNS devuelve la cantidad de columnas en el área o vector @referencia.
+Si @referencia no es ni un vector, ni una referencia, ni un rango; la función devuelve el error #VALOR!.
+@EXAMPLES=
+COLUMNS(H2:J3) es igual a 3.
 
-@FUNCTION=DATE
-@SYNTAX=DATE (año,mes,día)
-@DESCRIPTION=Calcula el número de días desde el 1 de Enero de 1900 (el número serie) para el @año, @mes y @día que recibe como argumentos.
-El @día puede ser negativo (para contar hacia atrás) y es relativo al @mes. Los años deben ser al menos 1900
-@SEEALSO=TODAY, NOW
+@SEEALSO=COLUMN,ROW,ROWS
 
-@FUNCTION=LOG10
-@SYNTAX=LOG10(x)
-@DESCRIPTION=Calcula el logaritmo base 10 de x.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía devolverá un error.
-@SEEALSO=EXP, LOG2, LOG
+@FUNCTION=COMBIN
+@SYNTAX=COMBIN(n;k)
+@DESCRIPTION=Calcula la cantidad de combinaciones.
+Efectuar esta función con números no enteros o negativos devuelve un error. También si @n es inferior a @k devuelve un error.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+COMBIN(8;6) es igual a 28.
+COMBIN(6;2) es igual a 15.
 
-@FUNCTION=DEGREES
-@SYNTAX=DEGREES(x)
-@DESCRIPTION=Calcula el número de grados equivalentes a @x radianes.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
-@SEEALSO=RADIANS, PI
+@SEEALSO=
 
-@FUNCTION=LEN
-@SYNTAX=LEN(cadena_de_carácteres)
-@DESCRIPTION=Devuelve la longitud en carácteres de la cadena de carácteres @cadena_de_carácteres.
-@SEEALSO=CHAR, CODE
+@FUNCTION=COMPLEX
+@SYNTAX=COMPLEX(real;im[;sufijo])
+@DESCRIPTION=Devuelve el número complejo de la forma x + yi. @real es la parte real e @im es el coeficiente imaginario del número complejo.  @sufijo es el sufijo para el coeficiente imaginario, si es omitido, COMPLEX emplea 'i'.
+Si @sufijo no es 'i' ni 'j', entonces COMPLEX devuelve el error #VALOR!.
+Esta función es compatible con Excel.
+@EXAMPLES=
+COMPLEX(1,-1) es igual a 1-i.
 
-@FUNCTION=STDEV
-@SYNTAX = STDEV(value1, value2, ...)
-@DESCRIPTION=Calcula de desviación estándar de todos los valores y celdas a los que se hace referencia en la lista de argumentos. Es equivalente a la raíz cuadrada de la varianza.
-@SEEALSO=VARIANCE
+@SEEALSO=
 
-@FUNCTION=ASINH
-@SYNTAX=ASINH(x)
-@DESCRIPTION=La función ASINH calcula el arco seno hiperbólico de @x; es decir, el valor cuyo seno hiperbólico es @x.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
-@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS
+@FUNCTION=CONCATENATE
+@SYNTAX=CONCATENATE(cadena1[,cadena2...])
+@DESCRIPTION=Devuelve una cadena resultando de la concatenación de las cadenas pasadas en argumento.
+Esta función es compatible con Excel.
+@EXAMPLES=
+CONCATENATE("aa","bb") devuelve "aabb".
 
-@FUNCTION=RIGHT
-@SYNTAX=RIGHT(texto[,num_carácteres])
-@DESCRIPTION=Devuelve los @num_carácteres carácteres situados más
-a la derecha o el carácter situado más a la derecha si no se
-especifica @num_carácteres
-@SEEALSO=MID, LEFT
+@SEEALSO=LEFT, MID, RIGHT
 
-@FUNCTION=COUNT
-@SYNTAX=COUNT(b1, b2, ...)
-@DESCRIPTION=Devuelve el número total de argumentos pasados.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada.
+@FUNCTION=CONFIDENCE
+@SYNTAX=CONFIDENCE(x,dev_std,tamaño)
+@DESCRIPTION=Devuelve el intervalo de confianza de la media. @x es el nivel de significancia, @dev_std es la desviación estándar de la población y @tamaño corresponde al tamaño de la muestra.
+Si @tamaño no es un número entero, entonces se trunca.  Si @tamaño < 0, CONFIDENCE devuelve el error #NUMERO!.  Si @tamaño es 0, CONFIDENCE devuelve el error #DIV/0!.
+Esta función es compatible con Excel.
+@EXAMPLES=
+CONFIDENCE(0,05;1;33) es igual a 0,341185936.
+
 @SEEALSO=AVERAGE
 
-@FUNCTION=LOG
-@SYNTAX=LOG(x)
-@DESCRIPTION=Calcula el logaritmo natural de x.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía devolverá un error.
-@SEEALSO=EXP, LOG2, LOG10
+@FUNCTION=CONVERT
+@SYNTAX=CONVERT(number,from_unit,to_unit)
+@DESCRIPTION=CONVERT returns a conversion from one measurement system to another.  For example, you can convert a weight in pounds to a weight in grams.  @number is the value you want to convert, @from_unit specifies the unit of the @number, and @to_unit is the unit for the result.
+@from_unit and @to_unit can be any of the following:
 
-@FUNCTION=SIN
-@SYNTAX=SIN(x)
-@DESCRIPTION=La función SIN devuelve el seno de @x, donde @x viene en radianes.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
-@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES
+Weight and mass:
+'g'    Gram
+'sg'   Slug
+'lbm'  Pound
+'u'    U (atomic mass)
+'ozm'  Ounce
 
-@FUNCTION=TODAY
-@SYNTAX=TODAY ()
-@DESCRIPTION=Devuelve el número serie de hoy (el número de días que
-han pasado desde el 1 de Enero de 1900)
-@SEEALSO=TODAY, NOW
+Distance:
+'m'    Meter
+'mi'   Statute mile
+'Nmi'  Nautical mile
+'in'   Inch
+'ft'   Foot
+'yd'   Yard
+'ang'  Angstrom
+'Pica' Pica
 
-@FUNCTION=CODE
-@SYNTAX=CODE(carácter)
-@DESCRIPTION=Devuelve el número ASCII del @carácter.
-@SEEALSO=CHAR
+Time:
+'yr'   Year
+'day'  Day
+'hr'   Hour
+'mn'   Minute
+'sec'  Second
+
+Pressure:
+'Pa'   Pascal
+'atm'  Atmosphere
+'mmHg' mm of Mercury
+
+Force:
+'N'    Newton
+'dyn'  Dyne
+'lbf'  Pound force
+
+Energy:
+'J'    Joule
+'e'    Erg
+'c'    Thermodynamic calorie
+'cal'  IT calorie
+'eV'   Electron volt
+'HPh'  Horsepower-hour
+'Wh'   Watt-hour
+'flb'  Foot-pound
+'BTU'  BTU
+
+Power:
+'HP'   Horsepower
+'W'    Watt
+Magnetism:
+'T'    Tesla
+'ga'   Gauss
+
+Temperature:
+'C'    Degree Celsius
+'F'    Degree Fahrenheit
+'K'    Degree Kelvin
+
+Liquid measure:
+'tsp'  Teaspoon
+'tbs'  Tablespoon
+'oz'   Fluid ounce
+'cup'  Cup
+'pt'   Pint
+'qt'   Quart
+'gal'  Gallon
+'l'    Liter
+
+For metric units any of the following prefixes can be used:
+'E'  exa    1E+18
+'P'  peta   1E+15
+'T'  tera   1E+12
+'G'  giga   1E+09
+'M'  mega   1E+06
+'k'  kilo   1E+03
+'h'  hecto  1E+02
+'e'  dekao  1E+01
+'d'  deci   1E-01
+'c'  centi  1E-02
+'m'  milli  1E-03
+'u'  micro  1E-06
+'n'  nano   1E-09
+'p'  pico   1E-12
+'f'  femto  1E-15
+'a'  atto   1E-18
+
+If @from_unit and @to_unit are different types, CONVERT returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+CONVERT(3,"lbm","g") equals 1360.7769.
+CONVERT(5.8,"m","in") equals 228.3465.
+CONVERT(7.9,"cal","J") equals 33.07567.
+
+@SEEALSO=
+
+@FUNCTION=CORREL
+@SYNTAX=CORREL(vector1,vector2)
+@DESCRIPTION=Devuelve el coeficiente de correlación de dos conjuntos de datos.  Las celdas vacías o con texto siempre son ignoradas.
+Esta función es compatible con Excel.
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3; 21,3; 25,9; y 40,1; y las celdas B1, B2, ..., B5 contengan 23,2; 25,8; 29,9; 33,5; y 42,7. Entonces
+SLOPE(A1:A5,B1:B5) es igual a 0,996124788.
+
+@SEEALSO=COVAR,FISHER,FISHERINV
 
 @FUNCTION=COS
 @SYNTAX=COS(x)
-@DESCRIPTION=La función COS devuelve el coseno de x, donde x viene dado en radianes.
-Ejecutar esta función en una cadena de carácteres o en una celda vacía simplemente no hará nada. Esta función sólo toma un argumento.
+@DESCRIPTION=Devuelve el coseno de @x, @x se expresa en radianes. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+COS(0.5) es igual a 0,877583.
+COS(1) es igual a 0,540302.
+
 @SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES
+
+@FUNCTION=COSH
+@SYNTAX=COSH(x)
+@DESCRIPTION=Devuelve el coseno hiperbólico de @x, el cual es definido matemáticamente como (exp(@x) + exp(-@x)) / 2.  @x en radianes. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+COSH(0,5) es igual a 1,127626.
+COSH(1) es igual a 1,543081.
+
+@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP
+
+@FUNCTION=COUNT
+@SYNTAX=COUNT(valor1, valor2, ...)
+@DESCRIPTION=Calcula el total de números enteros o de coma flotante entre los argumentos.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contienen los números 11,4; 17,3; 21,3; 25,9 y 40,1.  Entonces
+COUNT(A1:A5) es igual a 5.
+
+@SEEALSO=AVERAGE, COUNT
+
+@FUNCTION=COUNTA
+@SYNTAX=COUNTA(valor1, valor2, ...)
+@DESCRIPTION=Calcula el número de argumentos sin incluir celdas vacías.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contienen los números 11,4; "sin datos"; "sin datos"; 25,9 y 40,1.  Entonces
+COUNT(A1:A5) es igual a 3.
+
+@SEEALSO=AVERAGE, COUNT, DCOUNT, DCOUNTA, PRODUCT, SUM
+
+@FUNCTION=COUNTBLANK
+@SYNTAX=COUNTBLANK(rango)
+@DESCRIPTION=COUNTBLANK devuelve la cantidad de celdas vacías en @rango. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+COUNTBLANK(A1:A20) devuelve el número de celdas vacías en A1:A20.
+
+@SEEALSO=COUNT
+
+@FUNCTION=COUNTIF
+@SYNTAX=COUNTIF(rango;criterio)
+@DESCRIPTION=Cuenta la cantidad de celdas en el @rango dado que corresponden al @criterio dado. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contienen los números 23, 27, 28, 33, y 39.  Entonces
+COUNTIF(A1:A5;"<=28") es igual a 3.
+COUNTIF(A1:A5;"<28") es igual a 2.
+COUNTIF(A1:A5;"28") es igual a 1.
+COUNTIF(A1:A5;">28") es igual a 2.
+
+@SEEALSO=COUNT,SUMIF
+
+@FUNCTION=COUPDAYBS
+@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])
+@DESCRIPTION=COUPDAYBS returns the number of days from the beginning of the coupon period to the settlement date.
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@frequency is the number of coupon payments per year.
+@eom = TRUE handles end of month maturity dates special.
+Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.
+@basis is the type of day counting system you want to use:
+
+0  MSRB 30/360 (MSRB Rule G33 (e))
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+5  European+ 30/360
+(see the gnumeric manual for a detailed description of these bases)
+
+If @frequency is invalid, COUPDAYBS returns #NUM! error.
+If @basis is omitted, MSRB 30/360 is applied.
+If @basis is invalid, #NUM! error is returned.
+
+@EXAMPLES=
+COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 89
+COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 0
+
+@SEEALSO=
+
+@FUNCTION=COUPDAYS
+@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])
+@DESCRIPTION=COUPDAYS returns the number of days in the coupon period of the settlement date.
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@frequency is the number of coupon payments per year.
+@eom = TRUE handles end of month maturity dates special.
+Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.
+@basis is the type of day counting system you want to use:
+
+0  MSRB 30/360 (MSRB Rule G33 (e))
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+5  European+ 30/360
+(see the gnumeric manual for a detailed description of these bases)
+
+If @frequency is invalid, COUPDAYS returns #NUM! error.
+If @basis is omitted, MSRB 30/360 is applied.
+If @basis is invalid, #NUM! error is returned.
+
+@EXAMPLES=
+COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 90
+COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 90
+COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,1,FALSE) = 91
+
+@SEEALSO=
+
+@FUNCTION=COUPDAYSNC
+@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])
+@DESCRIPTION=COUPDAYSNC returns the number of days from the settlement date to the next coupon date.
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@frequency is the number of coupon payments per year.
+@eom = TRUE handles end of month maturity dates special.
+Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.
+@basis is the type of day counting system you want to use:
+
+0  MSRB 30/360 (MSRB Rule G33 (e))
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+5  European+ 30/360
+(see the gnumeric manual for a detailed description of these bases)
+
+If @frequency is invalid, COUPDAYSNC returns #NUM! error.
+If @basis is omitted, MSRB 30/360 is applied.
+If @basis is invalid, #NUM! error is returned.
+
+@EXAMPLES=
+COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0) = 1
+COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 89
+
+@SEEALSO=
+
+@FUNCTION=COUPNCD
+@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])
+@DESCRIPTION=COUPNCD returns the coupon date following settlement.
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@frequency is the number of coupon payments per year.
+@eom = TRUE handles end of month maturity dates special.
+Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.
+@basis is the type of day counting system you want to use:
+
+0  MSRB 30/360 (MSRB Rule G33 (e))
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+5  European+ 30/360
+(see the gnumeric manual for a detailed description of these bases)
+
+If @frequency is invalid, COUPNCD returns #NUM! error.
+If @basis is omitted, MSRB 30/360 is applied.
+If @basis is invalid, #NUM! error is returned.
+
+@EXAMPLES=
+COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 30-Nov-2002
+COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 28-Feb-2003
+
+@SEEALSO=
+
+@FUNCTION=COUPNUM
+@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])
+@DESCRIPTION=COUPNUM returns the numbers of coupons to be paid between the settlement and maturity dates, rounded up.
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@frequency is the number of coupon payments per year.
+@eom = TRUE handles end of month maturity dates special.
+Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. 6 = bimonthly, 12 = monthly.
+@basis is the type of day counting system you want to use:
+
+0  MSRB 30/360 (MSRB Rule G33 (e))
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+5  European+ 30/360
+
+If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! error. If @basis is omitted, MSRB 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+@EXAMPLES=
+COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0) = 6
+COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 5
+@SEEALSO=
+
+@FUNCTION=COUPPCD
+@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])
+@DESCRIPTION=COUPPCD returns the coupon date preceeding settlement.
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@frequency is the number of coupon payments per year.
+@eom = TRUE handles end of month maturity dates special.
+Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.
+@basis is the type of day counting system you want to use:
+
+0  MSRB 30/360 (MSRB Rule G33 (e))
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+5  European+ 30/360
+(see the gnumeric manual for a detailed description of these bases)
+
+If @frequency is invalid, COUPPCD returns #NUM! error.
+If @basis is omitted, MSRB 30/360 is applied.
+If @basis is invalid, #NUM! error is returned.
+
+@EXAMPLES=
+COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 31-AUG-2002
+COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 29-Nov-2002
+
+@SEEALSO=
+
+@FUNCTION=COVAR
+@SYNTAX=COVAR(vector1,vector2)
+@DESCRIPTION=Devuelve la covarianza de dos conjuntos de datos.  Las celdas vacías o con texto siempre son ignoradas.
+Esta función es compatible con Excel.
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3; 21,3; 25,9; y 40,1; y las celdas B1, B2, ..., B5 contengan 23,2; 25,8; 29,9; 33,5; y 42,7. Entonces
+SLOPE(A1:A5,B1:B5) es igual a 65,858.
+
+@SEEALSO=CORREL,FISHER,FISHERINV
+
+@FUNCTION=CRITBINOM
+@SYNTAX=CRITBINOM(trials,p,alpha)
+@DESCRIPTION=CRITBINOM function returns the smallest value for which thecumulative is greater than or equal to a given value. @n is the number of trials, @p is the probability of success in trials, and @alpha is the criterion value. 
+If @trials is a non-integer it is truncated. If @trials < 0 CRITBINOM returns #NUM! error. If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. If @alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+CRITBINOM(10,0.5,0.75) equals 6.
+
+@SEEALSO=BINOMDIST
+
+@FUNCTION=CUMIPMT
+@SYNTAX=CUMIPMT(tasa:nper;pv;inicio_período;fin_período;tipo)
+@DESCRIPTION=Calcula el interés acumulado pagado en un préstamo entre @inicio_período y @fin_período.
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=CUMPRINC
+@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)
+@DESCRIPTION=CUMPRINC returns the cumulative principal paid on a loan between @start_period and @end_period.
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=DATE
+@SYNTAX=DATE (año;mes;día)
+@DESCRIPTION=Calcula la cantidad de días desde el 1º de enero de 1900 (es decir el número de serie de la fecha), para el año, mes, y día especificados.
+El valor @día puede ser negativo (para contar hacia atrás) y es relativo al @mes anterior. El valor @año tiene que ser superior a 1900. Si @año <= 30, se asume 2000 + @año.  Si 30 < @año < 100, se asume 1900 + @año.
+Si la fecha no es válida, DATE devuelve el error #VALOR!.
+Esta función es compatible con Excel.
+@EXAMPLES=
+DATE(2001; 3; 30) es igual a 'Mar 30, 2001'.
+
+@SEEALSO=TODAY, NOW
+
+@FUNCTION=DATE2UNIX
+@SYNTAX=DATE2UNIX(serial)
+@DESCRIPTION=DATE2UNIX converts a spreadsheet date and time serial number into a unix time.
+
+A unix time is the number of seconds since midnight January 1, 1970.
+
+@EXAMPLES=
+
+@SEEALSO=NOW, DATE, UNIX2DATE
+
+@FUNCTION=DATEDIF
+@SYNTAX=DATEDIF(fecha1;fecha2;intervalo)
+@DESCRIPTION=DATEDIF devuelve la diferencia entre dos fechas.  @intervalo tiene seis posibles valores:  "y", "m", "d", "ym", "md", and "yd".
+Las tres primeras opciones devuelven el número entero de años, meses o días, respectivamente, entre las dos fechas especificadas.
+"ym" devuelve el número entero de meses entre dos fechas sin incluir la diferencia en años.
+"md" devuelve el número entero de días entre dos fechas sin incluir la diferencia de meses.
+"yd" devuelve el número entero de días entre dos fechas sin incluir la diferencia en años.
+Esta función es compatible con Excel.
+@EXAMPLES=
+DATEDIF(DATE(2000;4;30),DATE(2003;8;4),"d") es igual a 1191.
+DATEDIF(DATE(2000;4;30),DATE(2003;8;4),"y") es igual a 3.
+
+@SEEALSO=DATE
+
+@FUNCTION=DATEVALUE
+@SYNTAX=DATEVALUE(texto)
+@DESCRIPTION=Devuelve el número de serie de la fecha dada por el parámetro @texto .
+Esta función es compatible con Excel.
+@EXAMPLES=
+DATEVALUE("1/1/1999") es igual a 36160. 
+@SEEALSO=DATE
+
+@FUNCTION=DAVERAGE
+@SYNTAX=DAVERAGE(database,field,criteria)
+@DESCRIPTION=DAVERAGE function returns the average of the values in a list or database that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function.  If @field is an integer, for example. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). 
+@EXAMPLES=
+Let us assume that the range A1:C7 contain the following values:
+Name    Age     Salary
+John    34      54342
+Bill    35      22343
+Clark   29      34323
+Bob     43      47242
+Susan   37      42932
+Jill    45      45324
+
+In addition, the cells A9:B11 contain the following values:
+Age     Salary
+<30
+>40     >46000
+
+@EXAMPLES=
+DAVERAGE(A1:C7, "Salary", A9:A11) equals 42296.3333.
+DAVERAGE(A1:C7, "Age", A9:A11) equals 39.
+DAVERAGE(A1:C7, "Salary", A9:B11) equals 40782.5.
+DAVERAGE(A1:C7, "Age", A9:B11) equals 36.
+
+@SEEALSO=DCOUNT
+
+@FUNCTION=DAY
+@SYNTAX=DAY (número_de_serie)
+@DESCRIPTION=Convierte el número de serie a un día del mes.
+Note que Gnumeric hará la conversión de una cadena de texto a un número de serie; por lo tanto, puede entrar la fecha como una cadena de texto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+DAY("24/10/1968") es igual a 24.
+
+@SEEALSO=MONTH, TIME, NOW, YEAR
+
+@FUNCTION=DAYS360
+@SYNTAX=DAYS360 (fecha1;fecha2;método)
+@DESCRIPTION=Devuelve la cantidad de días entre @fecha1 y @fecha2 siguiendo un calendario de 360 días con todos los meses de 30 días.
+Si @método es VERDAD, el método europeo es usado. En ese caso, si el día del mes es un 31, será considerado como un 30.
+Si @método es FALSO o se omite, el método estadounidense será usado. Que es un método más complicado usado como método estandardizado en la industria en EE.UU.
+Note que Gnumeric convertirá las fechas dadas como cadenas de texto al número de serie de la fecha usado de manera interna; es decir que puede si lo desea pasar las fechas como cadenas de texto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+DAYS360(DATE(2003;2;3); DATE(2007;4;2)) es igual a 1499.
+
+@SEEALSO=MONTH, TIME, NOW, YEAR
+
+@FUNCTION=DB
+@SYNTAX=DB(cost,salvage,life,period[,month])
+@DESCRIPTION=DB calculates the depreciation of an asset for a given period using the fixed-declining balance method.  @cost is the initial value of the asset.  @salvage is the value after the depreciation. @life is the number of periods overall.  @period is the period for which you want the depreciation to be calculated.  @month is the number of months in the first year of depreciation. If @month is omitted, it is assumed to be 12. 
+@EXAMPLES=
+
+@SEEALSO=DDB,SLN,SYD
+
+@FUNCTION=DCOUNT
+@SYNTAX=DCOUNT(database,field,criteria)
+@DESCRIPTION=DCOUNT function counts the cells that contain numbers in a database that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function.  If @field is an integer, for example. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). 
+@EXAMPLES=
+Let us assume that the range A1:C7 contain the following values:
+Name    Age     Salary
+John    34      54342
+Bill    35      22343
+Clark   29      34323
+Bob     43      47242
+Susan   37      42932
+Jill    45      45324
+
+In addition, the cells A9:B11 contain the following values:
+Age     Salary
+<30
+>40     >46000
+
+@EXAMPLES=
+DCOUNT(A1:C7, "Salary", A9:A11) equals 3.
+DCOUNT(A1:C7, "Salary", A9:B11) equals 2.
+DCOUNT(A1:C7, "Name", A9:B11) equals 0.
+
+@SEEALSO=DAVERAGE
+
+@FUNCTION=DCOUNTA
+@SYNTAX=DCOUNTA(database,field,criteria)
+@DESCRIPTION=DCOUNTA function counts the cells that contain data in a database that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function.  If @field is an integer, for example. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). 
+@EXAMPLES=
+Let us assume that the range A1:C7 contain the following values:
+Name    Age     Salary
+John    34      54342
+Bill    35      22343
+Clark   29      34323
+Bob     43      47242
+Susan   37      42932
+Jill    45      45324
+
+In addition, the cells A9:B11 contain the following values:
+Age     Salary
+<30
+>40     >46000
+
+@EXAMPLES=
+DCOUNTA(A1:C7, "Salary", A9:A11) equals 3.
+DCOUNTA(A1:C7, "Salary", A9:B11) equals 2.
+DCOUNTA(A1:C7, "Name", A9:B11) equals 2.
+
+@SEEALSO=DCOUNT
+
+@FUNCTION=DDB
+@SYNTAX=DDB(cost,salvage,life,period[,factor])
+@DESCRIPTION=DDB returns the depreciation of an asset for a given period using the double-declining balance method or some other similar method you specify.  @cost is the initial value of the asset, @salvage is the value after the last period, @life is the number of periods, @period is the period for which you want the depreciation to be calculated, and @factor is the factor at which the balance declines.  If @factor is omitted, it is assumed to be two (double-declining balance method). 
+@EXAMPLES=
+
+@SEEALSO=SLN,SYD
+
+@FUNCTION=DEC2BIN
+@SYNTAX=DEC2BIN(número[;dígitos])
+@DESCRIPTION=La DEC2BIN función convierte @número de decimal a binario. El valor @dígitos es opcional y especifica el número de dígitos que tendrá el número binario.
+Si @dígitos es muy pequeño o negativo, el error  #NUMERO! es devuelto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+DEC2BIN(42) es igual a 101010.
+
+@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX
+
+@FUNCTION=DEC2HEX
+@SYNTAX=DEC2HEX(número[;dígitos])
+@DESCRIPTION=La DEC2BIN función convierte @número de decimal a hexadecimal. El valor @dígitos es opcional y especifica el número de dígitos que tendrá el número hexadecimal.
+Si @dígitos es muy pequeño o negativo, el error  #NUMERO! es devuelto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+DEC2HEX(42) es igual a 2A.
+
+@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT
+
+@FUNCTION=DEC2OCT
+@SYNTAX=DEC2OCT(número[;dígitos])
+@DESCRIPTION=La DEC2OCT función convierte @número de decimal a octal. El valor @dígitos es opcional y especifica el número de dígitos que tendrá el número octal.
+Si @dígitos es muy pequeño o negativo, el error  #NUMERO! es devuelto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+DEC2OCT(42) es igual a 52.
+
+@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX
+
+@FUNCTION=DEGREES
+@SYNTAX=DEGREES(x)
+@DESCRIPTION=Calcula el equivalente en grados del ángulo @x dado en radianes. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+DEGREES(2,5) es igual a 143,2394.
+
+@SEEALSO=RADIANS, PI
+
+@FUNCTION=DELTA
+@SYNTAX=DELTA(x[,y])
+@DESCRIPTION=DELTA function tests for numerical equivalence of two arguments, returning 1 in case of equality.  @y is optional, and defaults to 0.
+If either argument is non-numeric returns a #VALUE! error.
+This function is Excel compatible.
+@EXAMPLES=
+DELTA(42.99,43) equals 0.
+
+@SEEALSO=EXACT,GESTEP
+
+@FUNCTION=DEVSQ
+@SYNTAX=DEVSQ(n1, n2, ...)
+@DESCRIPTION=DEVSQ returns the sum of squares of deviations of a data set from the sample mean.
+Strings and empty cells are simply ignored.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+DEVSQ(A1:A5) equals 470.56.
+
+@SEEALSO=STDEV
+
+@FUNCTION=DGET
+@SYNTAX=DGET(database,field,criteria)
+@DESCRIPTION=DGET function returns a single value from a column that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function.  If @field is an integer, for example. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). 
+@EXAMPLES=
+Let us assume that the range A1:C7 contain the following values:
+Name    Age     Salary
+John    34      54342
+Bill    35      22343
+Clark   29      34323
+Bob     43      47242
+Susan   37      42932
+Jill    45      45324
+
+In addition, the cells A9:B11 contain the following values:
+Age     Salary
+<30
+>40     >46000
+
+If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error. 
+@EXAMPLES=
+DGET(A1:C7, "Salary", A9:A10) equals 34323.
+DGET(A1:C7, "Name", A9:A10) equals "Clark".
+
+@SEEALSO=DCOUNT
+
+@FUNCTION=DISC
+@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])
+@DESCRIPTION=DISC calculates and returns the discount rate for a sequrity. @settlement is the settlement date of the security.  @maturity is the maturity date of the security.  @par is the price per $100 face value of the security.  @redemption is the redeption value per $100 face value of the security. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @settlement date or @maturity date is not valid, DISC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, DISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, DISC returns #NUM! error. 
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=DMAX
+@SYNTAX=DMAX(database,field,criteria)
+@DESCRIPTION=DMAX function returns the largest number in a column that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function.  If @field is an integer, for example. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). 
+@EXAMPLES=
+Let us assume that the range A1:C7 contain the following values:
+Name    Age     Salary
+John    34      54342
+Bill    35      22343
+Clark   29      34323
+Bob     43      47242
+Susan   37      42932
+Jill    45      45324
+
+In addition, the cells A9:B11 contain the following values:
+Age     Salary
+<30
+>40     >46000
+
+@EXAMPLES=
+DMAX(A1:C7, "Salary", A9:A11) equals 47242.
+DMAX(A1:C7, "Age", A9:A11) equals 45.
+DMAX(A1:C7, "Age", A9:B11) equals 43.
+
+@SEEALSO=DMIN
+
+@FUNCTION=DMIN
+@SYNTAX=DMIN(database,field,criteria)
+@DESCRIPTION=DMIN function returns the smallest number in a column that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function.  If @field is an integer, for example. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). 
+@EXAMPLES=
+Let us assume that the range A1:C7 contain the following values:
+Name    Age     Salary
+John    34      54342
+Bill    35      22343
+Clark   29      34323
+Bob     43      47242
+Susan   37      42932
+Jill    45      45324
+
+In addition, the cells A9:B11 contain the following values:
+Age     Salary
+<30
+>40     >46000
+
+@EXAMPLES=
+DMIN(A1:C7, "Salary", A9:B11) equals 34323.
+DMIN(A1:C7, "Age", A9:B11) equals 29.
+
+@SEEALSO=DMAX
+
+@FUNCTION=DOLLAR
+@SYNTAX=DOLLAR(num,[decimales])
+@DESCRIPTION=Devuelve @num formateado como una cantidad de dinero.
+Esta función es compatible con Excel.
+@EXAMPLES=
+DOLLAR(12345) es igual a "$12,345.00".
+
+@SEEALSO=FIXED, TEXT, VALUE
+
+@FUNCTION=DOLLARDE
+@SYNTAX=DOLLARDE(dólar_fraccional;fracción)
+@DESCRIPTION=Convierte un precio en dólares expresado como fracción, a un precio en dólares expresado con decimales. @dólar_fraccional es el numerando a ser convertido.  @fracción es el denominador de la fracción.
+Si @fracción no es un entero, será truncado. Si @fracción <= 0 DOLLARDE devuelve el error #NUMERO! .
+@EXAMPLES=
+
+@SEEALSO=DOLLARFR
+
+@FUNCTION=DOLLARFR
+@SYNTAX=DOLLARFR(decimal_dólar;fracción)
+@DESCRIPTION=DOLLARFR convierte un precio en dólares expresado en decimales, a un precio en dólares expresado como una fracción.
+Si @fracción no es un entero, será truncado. Si @fracción <= 0 DOLLARFR devuelve el error #NUM! .
+@EXAMPLES=
+
+@SEEALSO=DOLLARDE
+
+@FUNCTION=DPRODUCT
+@SYNTAX=DPRODUCT(database,field,criteria)
+@DESCRIPTION=DPRODUCT function returns the product of numbers in a column that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function.  If @field is an integer, for example. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). 
+@EXAMPLES=
+Let us assume that the range A1:C7 contain the following values:
+Name    Age     Salary
+John    34      54342
+Bill    35      22343
+Clark   29      34323
+Bob     43      47242
+Susan   37      42932
+Jill    45      45324
+
+In addition, the cells A9:B11 contain the following values:
+Age     Salary
+<30
+>40     >46000
+
+@EXAMPLES=
+DPRODUCT(A1:C7, "Age", A9:B11) equals 1247.
+
+@SEEALSO=DSUM
+
+@FUNCTION=DSTDEV
+@SYNTAX=DSTDEV(database,field,criteria)
+@DESCRIPTION=DSTDEV function returns the estimate of the standard deviation of a population based on a sample. The populations consists of numbers that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function.  If @field is an integer, for example. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). 
+@EXAMPLES=
+Let us assume that the range A1:C7 contain the following values:
+Name    Age     Salary
+John    34      54342
+Bill    35      22343
+Clark   29      34323
+Bob     43      47242
+Susan   37      42932
+Jill    45      45324
+
+In addition, the cells A9:B11 contain the following values:
+Age     Salary
+<30
+>40     >46000
+
+@EXAMPLES=
+DSTDEV(A1:C7, "Age", A9:B11) equals 9.89949.
+DSTDEV(A1:C7, "Salary", A9:B11) equals 9135.112506.
+
+@SEEALSO=DSTDEVP
+
+@FUNCTION=DSTDEVP
+@SYNTAX=DSTDEVP(database,field,criteria)
+@DESCRIPTION=DSTDEVP function returns the standard deviation of a population based on the entire populations. The populations consists of numbers that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function.  If @field is an integer, for example. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). 
+@EXAMPLES=
+Let us assume that the range A1:C7 contain the following values:
+Name    Age     Salary
+John    34      54342
+Bill    35      22343
+Clark   29      34323
+Bob     43      47242
+Susan   37      42932
+Jill    45      45324
+
+In addition, the cells A9:B11 contain the following values:
+Age     Salary
+<30
+>40     >46000
+
+@EXAMPLES=
+DSTDEVP(A1:C7, "Age", A9:B11) equals 7.
+DSTDEVP(A1:C7, "Salary", A9:B11) equals 6459.5.
+
+@SEEALSO=DSTDEV
+
+@FUNCTION=DSUM
+@SYNTAX=DSUM(database,field,criteria)
+@DESCRIPTION=DSUM function returns the sum of numbers in a column that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function.  If @field is an integer, for example. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). 
+@EXAMPLES=
+Let us assume that the range A1:C7 contain the following values:
+Name    Age     Salary
+John    34      54342
+Bill    35      22343
+Clark   29      34323
+Bob     43      47242
+Susan   37      42932
+Jill    45      45324
+
+In addition, the cells A9:B11 contain the following values:
+Age     Salary
+<30
+>40     >46000
+
+@EXAMPLES=
+DSUM(A1:C7, "Age", A9:B11) equals 72.
+DSUM(A1:C7, "Salary", A9:B11) equals 81565.
+
+@SEEALSO=DPRODUCT
+
+@FUNCTION=DURATION
+@SYNTAX=DURATION(rate,pv,fv)
+@DESCRIPTION=DURATION calculates number of periods needed for an investment to attain a desired value. This function is similar to FV and PV with a difference that we do not need give the direction of cash flows e.g. -100 for a cash outflow and +100 for a cash inflow.
+@EXAMPLES=
+
+@SEEALSO=PPMT,PV,FV
+
+@FUNCTION=DVAR
+@SYNTAX=DVAR(database,field,criteria)
+@DESCRIPTION=DVAR function returns the estimate of variance of a population based on a sample. The populations consists of numbers that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function.  If @field is an integer, for example. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). 
+@EXAMPLES=
+Let us assume that the range A1:C7 contain the following values:
+Name    Age     Salary
+John    34      54342
+Bill    35      22343
+Clark   29      34323
+Bob     43      47242
+Susan   37      42932
+Jill    45      45324
+
+In addition, the cells A9:B11 contain the following values:
+Age     Salary
+<30
+>40     >46000
+
+@EXAMPLES=
+DVAR(A1:C7, "Age", A9:B11) equals 98.
+DVAR(A1:C7, "Salary", A9:B11) equals 83450280.5.
+
+@SEEALSO=DVARP
+
+@FUNCTION=DVARP
+@SYNTAX=DVARP(database,field,criteria)
+@DESCRIPTION=DVARP function returns the variance of a population based on the entire populations. The populations consists of numbers that match conditions specified. 
+@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. 
+@field specifies which column is used in the function.  If @field is an integer, for example. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range. 
+@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``>3'' or ``<9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria). 
+@EXAMPLES=
+Let us assume that the range A1:C7 contain the following values:
+Name    Age     Salary
+John    34      54342
+Bill    35      22343
+Clark   29      34323
+Bob     43      47242
+Susan   37      42932
+Jill    45      45324
+
+In addition, the cells A9:B11 contain the following values:
+Age     Salary
+<30
+>40     >46000
+
+@EXAMPLES=
+DVARP(A1:C7, "Age", A9:B11) equals 49.
+DVARP(A1:C7, "Salary", A9:B11) equals 41725140.25.
+
+@SEEALSO=DVAR
+
+@FUNCTION=EDATE
+@SYNTAX=EDATE(número_de_serie;meses)
+@DESCRIPTION=Devuelve el número de serie de la fecha correspondiente a la fecha dada por @número_serie más (o menos) la cantidad de meses especificada con @meses (que puede ser un número negativo o positivo, según se quiera añadir o sustraer meses a la fecha inicial).
+Si @meses no es un entero será truncado. 
+@EXAMPLES=
+EDATE(DATE(2001;12;30);2) devuelve 'Feb 28, 2002'.
+
+@SEEALSO=DATE
+
+@FUNCTION=EFFECT
+@SYNTAX=EFFECT(r,nper)
+@DESCRIPTION=EFFECT calculates the effective interest rate from a given nominal rate.
+Effective interest rate is calculated using this formula:
+
+    (1 + @r / @nper) ^ @nper - 1
+
+where:
+
+@r = nominal interest rate (stated in yearly terms)
+@nper = number of periods used for compounding
+@EXAMPLES=
+For example credit cards will list an APR (annual percentage rate) which is a nominal interest rate.
+For example if you wanted to find out how much you are actually paying interest on your credit card that states an APR of 19% that is compounded monthly you would type in:
+=EFFECT(.19,12) and you would get .2075 or 20.75%. That is the effective percentage you will pay on your loan.
+@SEEALSO=NOMINAL
+
+@FUNCTION=EOMONTH
+@SYNTAX=EOMONTH (fecha_inicio;meses)
+@DESCRIPTION=Devuelve el último día del mes que viene @meses meses después que @fecha_inicio .
+Devuelve #NUMERO! si @fecha_inicio o @meses no son válidos.
+Esta función es compatible con Excel.
+@EXAMPLES=
+Si A1 contiene 21/12/00, entonces EOMONTH(A1;0)=31/12/00, EOMONTH(A1;5)=31/5/01, y EOMONTH(A1;2)=28/2/01
+
+@SEEALSO=MONTH
+
+@FUNCTION=ERF
+@SYNTAX=ERF([lower limit,]upper_limit)
+@DESCRIPTION=With a single argument ERF returns the error function, defined as erf(x) = 2/sqrt(pi)* integral from 0 to x of exp(-t*t) dt. If two arguments are supplied, they are the lower and upper limits of the integral.
+If either @lower_limit or @upper_limit is not numeric a #VALUE! error is returned.
+This function is upward-compatible with that in Excel. (If two arguments are supplied, Excel will not allow either to be negative.) 
+@EXAMPLES=
+ERF(0.4) equals 0.428392355.
+ERF(1.6448536269515/SQRT(2)) equals 0.90.
+
+The second example shows that a random variable with a normal distribution has a 90 percent chance of falling within approximately 1.645 standard deviations of the mean.
+@SEEALSO=ERFC
+
+@FUNCTION=ERFC
+@SYNTAX=ERFC(x)
+@DESCRIPTION=ERFC function returns the complementary error function, defined as 1 - erf(x). erfc(x) is calculated more accurately than 1 - erf(x) for arguments larger than about 0.5.
+If @x is not numeric a #VALUE! error is returned.  
+@EXAMPLES=
+ERFC(6) equals 2.15197367e-17.
+
+@SEEALSO=ERF
+
+@FUNCTION=ERROR
+@SYNTAX=ERROR(texto)
+@DESCRIPTION=Devuelve el error especificado en @texto.
+
+@EXAMPLES=
+ERROR("#ERROR PROPIO").
+
+@SEEALSO=ISERRO
+
+@FUNCTION=ERROR.TYPE
+@SYNTAX=ERROR(value)
+@DESCRIPTION=ERROR.TYPE returns an error number corresponding to the given error value.  The error numbers for error values are
+#DIV/0!    2
+#VALUE!    3
+#REF!      4
+#NAME?     5
+#NUM!      6
+#N/A       7
+This function is Excel compatible. 
+@EXAMPLES=
+ERROR.TYPE(NA()) equals 7.
+
+@SEEALSO=ISERROR
+
+@FUNCTION=EURO
+@SYNTAX=EURO(moneda)
+@DESCRIPTION=Convierte un Euro a la moneda nacional especificada por la unión económica europea.  @moneda corresponde a alguno de los siguientes valores:
+    ATS     (Austria)
+    BEF     (Bélgica)
+    DEM     (Alemania)
+    ESP     (España)
+    FIM     (Finlandia)
+    FRF     (Francia)
+    IEP     (Irlanda)
+    ITL     (Italia)
+    LUF     (Luxemburgo)
+    NLG     (Holanda)
+    PTE     (Portugal)
+
+Si @moneda es distinto a alguno de los valores indicados anteriormente, entonces EURO devuelve el error #NUMERO! 
+@EXAMPLES=
+EURO("DEM") es igual a 1,95583.
+@SEEALSO=
+
+@FUNCTION=EVEN
+@SYNTAX=EVEN(número)
+@DESCRIPTION=Devuelve el número redondeado al entero par más próximo. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+EVEN(5,4) es igual a 6.
+
+@SEEALSO=ODD
+
+@FUNCTION=EXACT
+@SYNTAX=EXACT(cadena1, cadena2)
+@DESCRIPTION=Devuelve VERDAD si @cadena1 es exactamente idéntico a @cadena2 (esta rutina distingue mayúsculas y minúsculas).
+Esta función es compatible con Excel.
+@EXAMPLES=
+EXACT("key","key") es igual a VERDAD.
+EXACT("key","Key") es igual a FALSO.
+
+@SEEALSO=LEN, SEARCH
+
+@FUNCTION=EXP
+@SYNTAX=EXP(x)
+@DESCRIPTION=Calcula el valor de e (la base de los logaritmos naturales) elevado a la potencia @x. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+EXP(2) es igual a 7,389056.
+
+@SEEALSO=LOG, LOG2, LOG10
+
+@FUNCTION=EXPONDIST
+@SYNTAX=EXPONDIST(x,y,cumulative)
+@DESCRIPTION=EXPONDIST function returns the exponential distribution. If the @cumulative boolean is false it will return: @y * exp (-@y*@x), otherwise it will return 1 - exp (-@y*@x).
+If @x < 0 or @y <= 0 this will return an error.
+This function is Excel compatible.
+@EXAMPLES=
+EXPONDIST(2,4,0) equals 0.001341851.
+
+@SEEALSO=POISSON
+
+@FUNCTION=EXPRESSION
+@SYNTAX=EXPRESSION(celda)
+@DESCRIPTION=Devuelve la expresión en @celda como una cadena, o vacío si la celda no es una expresión.
+@EXAMPLES=
+En A1 EXPRESSION(A2) es igual a 'EXPRESSION(A3)'.
+En A2 EXPRESSION(A3) es igual a 0.
+
+@SEEALSO=TEXT
+
+@FUNCTION=FACT
+@SYNTAX=FACT(x)
+@DESCRIPTION=Calcula el factorial de @x, es decir @x! 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+FACT(3) es igual a 6.
+FACT(9) es igual a 362880.
+
+@SEEALSO=
+
+@FUNCTION=FACTDOUBLE
+@SYNTAX=FACTDOUBLE(number)
+@DESCRIPTION=FACTDOUBLE function returns the double factorial of a @number, i.e., x!!.
+If @number is not an integer, it is truncated.  If @number is negative FACTDOUBLE returns #NUM! error.
+This function is Excel compatible. 
+@EXAMPLES=
+FACTDOUBLE(5) equals 15.
+
+@SEEALSO=FACT
+
+@FUNCTION=FALSE
+@SYNTAX=FALSE()
+@DESCRIPTION=Devuelve el valor lógico falso.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+FALSE() es igual a FALSO.
+
+@SEEALSO=TRUE
+
+@FUNCTION=FDIST
+@SYNTAX=FDIST(x,dof1,dof2)
+@DESCRIPTION=FDIST function returns the F probability distribution. @dof1 is the numerator degrees of freedom and @dof2 is the denominator degrees of freedom.
+If @x < 0 FDIST returns #NUM! error.  If @dof1 < 1 or @dof2 < 1, FDIST returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+FDIST(2,5,5) equals 0.232511319.
+
+@SEEALSO=FINV
+
+@FUNCTION=FIND
+@SYNTAX=FIND(cadena1,cadena2[,inicio])
+@DESCRIPTION=Devuelve la posición de @cadena1 en @cadena2 (distingue mayúsculas y minúsculas), la búsqueda se hace sólo a partir de la posición @inicio (se asume 1 si no se indica).
+Esta función es compatible con Excel.
+@EXAMPLES=
+FIND("ac","Jack") es igual a 2.
+
+@SEEALSO=EXACT, LEN, MID, SEARCH
+
+@FUNCTION=FINV
+@SYNTAX=FINV(p,dof1,dof2)
+@DESCRIPTION=FINV function returns the inverse of the F probability distribution.
+If @p < 0 or @p > 1 FINV returns #NUM! error. If @dof1 < 1 or @dof2 < 1 FINV returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+FINV(0.2,2,4) equals 2.472135955.
+
+@SEEALSO=FDIST
+
+@FUNCTION=FISHER
+@SYNTAX=FISHER(x)
+@DESCRIPTION=FISHER function returns the Fisher transformation at @x.
+If @x is not-number FISHER returns #VALUE! error.  If @x <= -1 or @x >= 1 FISHER returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+FISHER(0.332) equals 0.345074339.
+
+@SEEALSO=SKEW
+
+@FUNCTION=FISHERINV
+@SYNTAX=FISHERINV(x)
+@DESCRIPTION=FISHERINV function returns the inverse of the Fisher transformation at @x. 
+If @x is non-number FISHERINV returns #VALUE! error.
+This function is Excel compatible.
+@EXAMPLES=
+FISHERINV(2) equals 0.96402758.
+
+@SEEALSO=FISHER
+
+@FUNCTION=FIXED
+@SYNTAX=FIXED(número, [decimales, sin_separador])
+@DESCRIPTION=Devuelve @número como una cadena formateada con @decimales decimales después de la coma decimal. El separador de miles no se usará si se pide @sin_separador.
+Esta función es compatible con Excel.
+@EXAMPLES=
+FIXED(1234.567,2) devuelve "1.234,57".
+
+@SEEALSO=
+
+@FUNCTION=FLOOR
+@SYNTAX=FLOOR(x;significancia)
+@DESCRIPTION=Redondea @x al múltiplo de @significancia inferior. Por omisión @significancia tiene el valor 1. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+FLOOR(0;5) es igual a 0.
+FLOOR(5;2) es igual a 4.
+FLOOR(-5;-2) es igual a -4.
+FLOOR(-5;2) es igual a #NUMERO!.
+
+@SEEALSO=CEIL, ABS, INT
+
+@FUNCTION=FORECAST
+@SYNTAX=FORECAST(x,known_y's,known_x's)
+@DESCRIPTION=FORECAST function estimates a future value according to existing values using simple linear regression.  The estimated future value is a y-value for a given x-value (@x). 
+If @known_x or @known_y contains no data entries or different number of data entries, FORECAST returns #N/A error. If the variance of the @known_x is zero, FORECAST returns #DIV/0 error.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
+FORECAST(7,A1:A5,B1:B5) equals -10.859397661.
+
+@SEEALSO=INTERCEPT,TREND
+
+@FUNCTION=FREQUENCY
+@SYNTAX=FREQUENCY(vector_datos,vector_intervalos)
+@DESCRIPTION=La función FREQUENCY cuenta cuantas veces aparecen los valores dados en un rango de valores. 
+@vector_datos es el vector de los datos de los cuales quiere contar las frecuencias. @vector_intervalos es un vector que contiene los intervalos en los cuales quiere reagrupar los valore de @vector_datos.  Si @vector_intervalos está vacío, FREQUENCY devuelve la cantidad de puntos en @vector_datos. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=FTEST
+@SYNTAX=FTEST(array1,array2)
+@DESCRIPTION=FTEST function returns the two-tailed probability that the variances in the given two data sets are not significantly different.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
+FTEST(A1:A5,B1:B5) equals 0.510815017.
+
+@SEEALSO=FDIST,FINV
+
+@FUNCTION=FV
+@SYNTAX=FV(rate,term,pmt,pv,type)
+@DESCRIPTION=FV computes the future value of an investment. This is based on periodic, constant payments and a constant interest rate. The interest rate per period is @rate, @term is the number of periods in an annuity, @pmt is the payment made each period, @pv is the present value and @type is when the payment is made. If @type = 1 then the payment is made at the begining of the period. If @type = 0 it is made at the end of each period.
+@EXAMPLES=
+
+@SEEALSO=PV,PMT,PPMT
+
+@FUNCTION=FVSCHEDULE
+@SYNTAX=FVSCHEDULE(principal,schedule)
+@DESCRIPTION=FVSCHEDULE returns the future value of given initial value after applying a series of compound periodic interest rates. The argument @principal is the present value; @schedule is an array of interest rates to apply. The @schedule argument must be a range of cells.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain interest rates 0.11, 0.13, 0.09, 0.17, and 0.03.  Then
+FVSCHEDULE(3000,A1:A5) equals 4942.7911611.
+@SEEALSO=PV,FV
+
+@FUNCTION=G_PRODUCT
+@SYNTAX=PRODUCT(valor1, valor2, ...)
+@DESCRIPTION=Calcula el producto de todos los valores y celdas referenciados en la lista de argumentos. Las celdas vacías son ignoradas y el producto de celdas vaciás es 1.
+@EXAMPLES=
+PRODUCT(2,5,9) devuelve 90.
+
+@SEEALSO=SUM, COUNT
+
+@FUNCTION=GAMMADIST
+@SYNTAX=GAMMADIST(x,alpha,beta,cum)
+@DESCRIPTION=GAMMADIST function returns the gamma distribution. If @cum is TRUE, GAMMADIST returns the incomplete gamma function, otherwise it returns the probability mass function.
+If @x < 0 GAMMADIST returns #NUM! error. If @alpha <= 0 or @beta <= 0, GAMMADIST returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+GAMMADIST(1,2,3,0) equals 0.07961459.
+
+@SEEALSO=GAMMAINV
+
+@FUNCTION=GAMMAINV
+@SYNTAX=GAMMAINV(p,alpha,beta)
+@DESCRIPTION=GAMMAINV function returns the inverse of the cumulative gamma distribution.
+If @p < 0 or @p > 1 GAMMAINV returns #NUM! error. If @alpha <= 0 or @beta <= 0 GAMMAINV returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+GAMMAINV(0.34,2,4) equals 4.829093908.
+
+@SEEALSO=GAMMADIST
+
+@FUNCTION=GAMMALN
+@SYNTAX=GAMMALN(x)
+@DESCRIPTION=GAMMALN function returns the natural logarithm of the gamma function.
+If @x is non-number then GAMMALN returns #VALUE! error. If @x <= 0 then GAMMALN returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+GAMMALN(23) equals 48.471181352.
+
+@SEEALSO=POISSON
+
+@FUNCTION=GCD
+@SYNTAX=GCD(a;b)
+@DESCRIPTION=Devuelve el máximo común divisor entre dos números. 
+Si uno de los argumentos es inferior a cero, GCD devuelve el error #NUMERO!. Si alguno de los argumentos no es un entero, será truncado.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+GCD(470;770) es igual a 10.
+GCD(470;770;1495) es igual a 5.
+
+@SEEALSO=LCM
+
+@FUNCTION=GEOMEAN
+@SYNTAX=GEOMEAN(valor1, valor2, ...)
+@DESCRIPTION=Devuelve la media geométrica de los argumentos, es decir, la raíz n-ésima del producto de los términos.
+Esta función es compatible con Excel.
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3; 21,3; 25,9; y 40,1. Entonces
+GEOMEAN(A1:A5) es igual a 21,279182482.
+
+@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN
+
+@FUNCTION=GESTEP
+@SYNTAX=GESTEP(x[,y])
+@DESCRIPTION=GESTEP function test for if @x is >= @y, returning 1 if it is so, and 0 otherwise. @y is optional, and defaults to 0.
+If either argument is non-numeric returns a #VALUE! error.
+This function is Excel compatible.
+@EXAMPLES=
+GESTEP(5,4) equals 1.
+
+@SEEALSO=DELTA
+
+@FUNCTION=GETENV
+@SYNTAX=GETENV(string)
+@DESCRIPTION=GETENV retrieves a value from the execution environment.
+
+If the variable specified by @STRING does not exist, #N/A! will be returned.  Note, that variable names are case sensitive.
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=GETPIVOTDATA
+@SYNTAX=GETPIVOTDATA(tabla_pivote;nombre_campo)
+@DESCRIPTION=Recupera un resumen de datos desde la tabla pivote. @tabla_pivote es un rango de celdas que contienen la tabla pivote. @nombre_campo es el nombre del campo del cual se desea el resumen de datos.
+Si no está disponible el resumen de datos, GETPIVOTDATA devuelve el error #REF!.
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=GNUMERIC_VERSION
+@SYNTAX=GNUMERIC_VERSION()
+@DESCRIPTION=Devuelve la versión de gnumeric como una cadena de caracteres.
+@EXAMPLES=
+GNUMERIC_VERSION().
+
+@SEEALSO=
+
+@FUNCTION=GROWTH
+@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])
+@DESCRIPTION=GROWTH function applies the ``least squares'' method to fit an exponential curve to your data and predicts the exponential growth by using this curve. 
+If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is omitted, it is assumed to be the same as @known_x's. 
+GROWTH returns an array having one column and a row for each data point in @new_x.
+If @known_y's and @known_x's have unequal number of data points, GROWTH returns #NUM! error.
+If @const is FALSE, the line will be forced to go through the origin, i.e., b will be zero. The default is TRUE.
+@EXAMPLES=
+
+@SEEALSO=LOGEST,GROWTH,TREND
+
+@FUNCTION=HARMEAN
+@SYNTAX=HARMEAN(b1, b2, ...)
+@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points (that is, N divided by the sum of the inverses of the data points).
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+HARMEAN(A1:A5) equals 19.529814427.
+
+@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN
+
+@FUNCTION=DEC2BIN
+@SYNTAX=DEC2BIN(número[;dígitos])
+@DESCRIPTION=La DEC2BIN función convierte un número a decimal a un número binario. El valor @ancho es opcional y especifica el número de espacio de relleno.
+Si @ancho es muy pequeño o negativo, el error  #NUMERO! es devuelto. 
+Esta función es compatible con Excel.
+@EXAMPLES=
+DEC2BIN(42) devuelve 101010.
+
+@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX
+
+@FUNCTION=HEX2DEC
+@SYNTAX=HEX2DEC(x)
+@DESCRIPTION=Convierte un número hexadecimal a su equivalente decimal.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+HEX2DEC("2A") es igual a 42.
+
+@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT
+
+@FUNCTION=BIN2OCT
+@SYNTAX=BIN2HEX(número[,dígitos])
+@DESCRIPTION=La función BIN2OCT convierte un número binario a su equivalente octal. @ancho es un parámetro facultativo, que indica el ancho del número resultante, a rellenar con 0 si necesario.
+Si @ancho es demasiado pequeño, o negativo, el error #NUMERO! es devuelto. Esta función es compatible con Excel. 
+@EXAMPLES=
+BIN2OCT(110111) devuelve 67.
+
+@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX
+
+@FUNCTION=HLOOKUP
+@SYNTAX=HLOOKUP(value,range,row[,approximate])
+@DESCRIPTION=HLOOKUP function finds the col in range that has a first row cell similar to value.  If @approximate is not true it finds the col with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than @value it returns the value in the col found at a 1 based offset in @row rows into the @range.
+Returns #NUM! if @row < 0. Returns #REF! if @row falls outside @range.
+@EXAMPLES=
+
+@SEEALSO=VLOOKUP
+
+@FUNCTION=HOUR
+@SYNTAX=HOUR (número_de_serie)
+@DESCRIPTION=Convierte el número de serie en un formato de hora en el rango de 0 a 23
+Note que Gnumeric hará la conversión de una cadena de texto a un número de serie; por lo tanto puede ingresar la fecha como una cadena de texto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+HOUR(0,128472) es igual a 3.
+
+@SEEALSO=MINUTE, NOW, TIME, SECOND
+
+@FUNCTION=HYPERLINK
+@SYNTAX=HYPERLINK(enlace; [etiqueta_opcional])
+@DESCRIPTION=La función HYPERLINK devuelve su segundo argumento, o, en caso de ser omitido, devuelve el primer argumento.
+
+@EXAMPLES=
+HYPERLINK("www.gnome.org";"GNOME") es igual a GNOME.
+
+@SEEALSO=
+
+@FUNCTION=HYPGEOMDIST
+@SYNTAX=HYPGEOMDIST(x,n,M,N)
+@DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution. @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.
+If @x,@n,@M or @N is a non-integer it is truncated.  If @x,@n,@M or @N < 0 HYPGEOMDIST returns #NUM! error.  If @x > @M or @n > @N HYPGEOMDIST returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+HYPGEOMDIST(1,2,3,10) equals 0.4666667.
+
+@SEEALSO=BINOMDIST,POISSON
+
+@FUNCTION=IF
+@SYNTAX=IF(condition[,if-true,if-false])
+@DESCRIPTION=Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false. If ommitted @if-true defaults to TRUE and @if-false to FALSE.
+This function is Excel compatible. 
+@EXAMPLES=
+IF(FALSE,TRUE,FALSE) equals FALSE.
+
+@SEEALSO=
+
+@FUNCTION=IMABS
+@SYNTAX=IMABS(complejo)
+@DESCRIPTION=Devuelve el valor absoluto de un número complejo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMABS("2-i") es igual a 2,23606798.
+
+@SEEALSO=IMAGINARY,IMREAL
+
+@FUNCTION=IMAGINARY
+@SYNTAX=IMAGINARY(complejo)
+@DESCRIPTION=Devuelve la parte imaginaria de un número complejo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMAGINARY("132-i") es igual a -1.
+
+@SEEALSO=IMREAL
+
+@FUNCTION=IMARGUMENT
+@SYNTAX=IMARGUMENT(complejo)
+@DESCRIPTION=Devuelve el argumento teta de un número complejo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMARGUMENT("2-i") es igual a -0,463647609.
+
+@SEEALSO=
+
+@FUNCTION=IMCONJUGATE
+@SYNTAX=IMLCONJUGATE(complejo)
+@DESCRIPTION=Devuelve el conjugado del número complejo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMCONJUGATE("1-i") es igual a 1+i.
+
+@SEEALSO=IMAGINARY,IMREAL
+
+@FUNCTION=IMCOS
+@SYNTAX=IMCOS(complejo)
+@DESCRIPTION=Devuelve el coseno de un número complejo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMCOS("1+i") devuelve 0,833730-0,988898i.
+
+@SEEALSO=IMSIN,IMTAN
+
+@FUNCTION=IMDIV
+@SYNTAX=IMDIV(complejo;complejo)
+@DESCRIPTION=Devuelve el cociente de dos números complejos.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMDIV("2-i";"2+i") devuelve 0,6-0,8i.
+
+@SEEALSO=IMPRODUCT
+
+@FUNCTION=IMEXP
+@SYNTAX=IMEXP(complejo)
+@DESCRIPTION=Devuelve la exponencial de un número complejo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMEXP("2-i") devuelve 3,992324-6,217676i.
+
+@SEEALSO=IMLN
+
+@FUNCTION=IMLN
+@SYNTAX=IMLN(complejo)
+@DESCRIPTION=Devuelve el algoritmo natural de un número complejo. (El resultado tendrá una parte imaginaria entre -pi y +pi.  El logaritmo natural no es definido de manera única con números complejos; puede que necesite añadir o sustraer un múltiple par de pi a la parte imaginaria).
+Esta función es compatible con Excel.
+@EXAMPLES=
+IMLN("3-i") devuelve 1,15129-0,32175i.
+
+@SEEALSO=IMEXP,IMLOG2,IMLOG10
+
+@FUNCTION=IMLOG10
+@SYNTAX=IMLOG10(complejo)
+@DESCRIPTION=Devuelve el logaritmo en base 10 de un número complejo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMLOG10("3-i") devuelve 0,5-0,13973i.
+
+@SEEALSO=IMLN,IMLOG2
+
+@FUNCTION=IMLOG2
+@SYNTAX=IMLOG2(complejo)
+@DESCRIPTION=Devuelve el logaritmo de base 2 un número complejo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMLOG2("3-i") devuelve 1,66096-0,46419i.
+
+@SEEALSO=IMLN,IMLOG10
+
+@FUNCTION=IMPOWER
+@SYNTAX=IMPOWER(número_im;número)
+@DESCRIPTION=Devuelve un número complejo elevado a una potencia. @number_im es el número complejo y @número es la potencia con la cual se desea elevar el número complejo.
+Esta función es compatible con Excel.
+@EXAMPLES=
+IMPOWER("4-i";2) es igual a 15-8i.
+
+@SEEALSO=IMSQRT
+
+@FUNCTION=IMPRODUCT
+@SYNTAX=IMPRODUCT(complejo1[;complejo2;...])
+@DESCRIPTION=Devuelve el producto de los números complejos indicados.
+Esta función es compatible con Excel.
+@EXAMPLES=
+IMPRODUCT("2-i";"4-2i") es igual a 6-8i.
+
+@SEEALSO=IMDIV
+
+@FUNCTION=IMREAL
+@SYNTAX=IMREAL(complejo)
+@DESCRIPTION=Devuelve la parte real de un número complejo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMREAL("132-i") es igual a 132.
+
+@SEEALSO=IMAGINARY
+
+@FUNCTION=IMSIN
+@SYNTAX=IMSIN(complejo)
+@DESCRIPTION=Devuelve el seno de un número complejo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMSIN("1+i") es igual a 1,29846+0,63496i.
+
+@SEEALSO=IMCOS,IMTAN
+
+@FUNCTION=IMSQRT
+@SYNTAX=IMSQRT(complejo)
+@DESCRIPTION=Devuelve la raíz cuadrada de un número complejo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMSQRT("1+i") es igual a 1,09868+0,4550899i.
+
+@SEEALSO=IMPOWER
+
+@FUNCTION=IMSUB
+@SYNTAX=IMSUB(complejo;complejo)
+@DESCRIPTION=Devuelve la diferencia de dos números complejos.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMSUB("2-4i";"9-i") es igual a 11-5i.
+
+@SEEALSO=IMSUM
+
+@FUNCTION=IMSUM
+@SYNTAX=IMSUM(complejo;complejo)
+@DESCRIPTION=Devuelve la suma de dos números complejos.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+IMSUM("2-4i";"9-i") es igual a 11-5i.
+
+@SEEALSO=IMSUB
+
+@FUNCTION=IMTAN
+@SYNTAX=IMTAN(complejo)
+@DESCRIPTION=Devuelve la tangente de un número complejo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+
+@SEEALSO=IMSIN,IMCOS
+
+@FUNCTION=INDEX
+@SYNTAX=INDEX(array,[row, col, area])
+@DESCRIPTION=INDEX gives a reference to a cell in the given @array.The cell is pointed out by @row and @col, which count the rows and columnsin the array.
+If @row and @col are ommited the are assumed to be 1.@area has to be 1; references to multiple areas are not yet implemented.If the reference falls outside the range of the @array, INDEX returns a#REF! error.
+
+@EXAMPLES=Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3,21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9
+@SEEALSO=
+
+@FUNCTION=INDIRECT
+@SYNTAX=INDIRECT(ref_text,[format])
+@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to by the ref_text string. The string specifices a single cell reference the format of which is either A1 or R1C1 style. The style is set by the format boolean, which defaults to the former.
+If @ref_text is not a valid reference returns #REF! 
+@EXAMPLES=
+If A1 contains 3.14 and A2 contains A1, then
+INDIRECT(A2) equals 3.14.
+
+@SEEALSO=
+
+@FUNCTION=INFO
+@SYNTAX=INFO(tipo)
+@DESCRIPTION=Entrega información del sistema.
+@tipo es la información que se desea obtener:
+    memavail        Devuelve la cantidad de memoria disponible (bytes).
+    memused         Devuelve la cantidad de memoria usada (bytes).
+    numfile         Devuelve el número de hojas de cálculo activas.
+    osversion       Devuelve la versión del sistema operativo.
+    recalc          Devuelve el modo de recálculo (automatic).
+    release         Returns the version of Gnumeric as text.
+    system          Devuelve el nombre del sistema.
+    totmem          Devuelve la cantidad de memoria total del sistema.
+
+Esta función es compatible con Excel, exceptúando los tipos directorio y origen, los cuales no están implementados.
+@EXAMPLES=
+INFO("system") es igual a "Linux" en un sistema Linux.
+
+@SEEALSO=
+
+@FUNCTION=INT
+@SYNTAX=INT(a)
+@DESCRIPTION=Devuelve el entero más alto que no es mayor a su argumento.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+INT(7,2) es igual a 7.
+INT(-5,5) es igual a -6.
+
+@SEEALSO=FLOOR, CEIL, ABS
+
+@FUNCTION=INTERCEPT
+@SYNTAX=INTERCEPT(known_y's,known_x's)
+@DESCRIPTION=INTERCEPT function calculates the point where the linear regression line intersects the y-axis.  
+If @known_x or @known_y contains no data entries or different number of data entries, INTERCEPT returns #N/A error. If the variance of the @known_x is zero, INTERCEPT returns #DIV/0 error.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
+INTERCEPT(A1:A5,B1:B5) equals -20.785117212.
+
+@SEEALSO=FORECAST,TREND
+
+@FUNCTION=INTRATE
+@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])
+@DESCRIPTION=INTRATE calculates and returns the interest rate of a fully vested security.  @settlement is the settlement date of the security.  @maturity is the maturity date of the security. @investment is the prize of the security paid at @settlement date and @redemption is the amount to be received at @maturity date.  @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @settlement date or @maturity date is not valid, INTRATE returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, INTRATE returns #NUM! error. If @settlement date is after @maturity date or they are the same, INTRATE returns #NUM! error. 
+@EXAMPLES=
+
+If you had a bond with a settlement date of April 15, 2000, maturity date September 30, 2000, investment of $100,000, redemption value $103,525, using the actual/actual basis, the bond discount rate is:
+=INTRATE(36631, 36799, 100000, 103525, 1) which equals 0.0648 or 6.48%
+@SEEALSO=RECEIVED, DATE
+
+@FUNCTION=IPMT
+@SYNTAX=IPMT(rate,per,nper,pv,fv,type)
+@DESCRIPTION=IPMT calculates the amount of a payment of an annuity going towards interest.
+Formula for IPMT is:
+
+IPMT(PER) = -PRINCIPAL(PER-1) * INTEREST_RATE
+where:
+PRINCIPAL(PER-1) = amount of the remaining principal from last period
+@EXAMPLES=
+
+@SEEALSO=PPMT,PV,FV
+
+@FUNCTION=IRR
+@SYNTAX=IRR(values[,guess])
+@DESCRIPTION=IRR calculates and returns the internal rate of return of an investment.  This function is closely related to the net present value function (NPV).  The IRR is the interest rate for a serie of cash flow where the net preset value is zero. 
+@values contains the serie of cash flow generated by the investment.  The payments should occur at regular intervals.  The optional @guess is the initial value used in calculating the IRR.  You do not have to use that, it is only provided for the Excel compatibility. 
+This function is Excel compatible. 
+@EXAMPLES=
+Let us assume that the cells A1:A8 contain the numbers -32432, 5324, 7432, 9332, 12324, 4334, 1235, -3422.  Then
+IRR(A1:A8) returns 0.04375. 
+@SEEALSO=FV,NPV,PV
+
+@FUNCTION=ISBLANK
+@SYNTAX=ISBLANK(valor)
+@DESCRIPTION=Devuelve VERDAD si @valor es vacío. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ISBLANK(A1).
+
+@SEEALSO=
+
+@FUNCTION=ISERR
+@SYNTAX=ISERR(valor)
+@DESCRIPTION=ISERR devuelve VERDAD si es un valor de error cualquiera, excepto #N/D.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ISERR(NA()) es igual a FALSO.
+
+@SEEALSO=
+
+@FUNCTION=ISERROR
+@SYNTAX=ISERROR(valor)
+@DESCRIPTION=Devuelve VERDAD si la expresión contiene un error.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ISERROR(NA()) es igual a VERDAD.
+
+@SEEALSO=ERROR
+
+@FUNCTION=ISEVEN
+@SYNTAX=ISEVEN(valor)
+@DESCRIPTION=Devuelve VERDAD si el @valor es par. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ISEVEN(4) es igual a VERDAD.
+
+@SEEALSO=ISODD
+
+@FUNCTION=ISLOGICAL
+@SYNTAX=ISLOGICAL(valor)
+@DESCRIPTION=Devuelve VERDAD si @valor es un valor lógico. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ISLOGICAL(A1).
+
+@SEEALSO=
+
+@FUNCTION=ISNA
+@SYNTAX=ISNA(valor)
+@DESCRIPTION=ISNA devuelve VERDAD si el valor es el error #N/D.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ISNA(NA()) es igual a VERDAD.
+
+@SEEALSO=
+
+@FUNCTION=ISNONTEXT
+@SYNTAX=ISNONTEXT(valor)
+@DESCRIPTION=Devuelve VERDAD si @valor no es una cadena de texto. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ISNONTEXT("texto") es igual a FALSO.
+
+@SEEALSO=ISTEXT
+
+@FUNCTION=ISNUMBER
+@SYNTAX=ISNUMBER(valor)
+@DESCRIPTION=Devuelve VERDAD si @valor es un número.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ISNUMBER("texto") es igual a FALSO.
+
+@SEEALSO=
+
+@FUNCTION=ISODD
+@SYNTAX=ISODD(valor)
+@DESCRIPTION=Devuelve VERDAD si @valor es un número impar. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ISODD(3) es igual a VERDAD.
+
+@SEEALSO=ISEVEN
+
+@FUNCTION=ISOWEEKNUM
+@SYNTAX=ISOWEEKNUM (date)
+@DESCRIPTION=ISOWEEKNUM returns the ISO 8601 week number of @date.
+Returns #NUM! if date is invalid.
+An ISO 8601 week starts on Monday. Weeks are numbered from 1. A week including days from two different years is assigned to the year which includes the most days. This means that Dec 31 could be in week 1 of the following year, and Jan 1 could be in week 52 or 53 of the previous year.
+@EXAMPLES=
+If A1 contains 12/21/00 then ISOWEEKNUM(A1)=51
+@SEEALSO=WEEKNUM
+
+@FUNCTION=ISPMT
+@SYNTAX=ISPMT(rate,per,nper,pv)
+@DESCRIPTION=ISPMT function returns the interest paid on a given period. 
+If @per < 1 or @per > @nper, ISPMT returns #NUM! error. 
+@EXAMPLES=
+
+@SEEALSO=PV
+
+@FUNCTION=ISREF
+@SYNTAX=ISREF(valor)
+@DESCRIPTION=Devuelve VERDAD si @valor es una referencia.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ISREF(A1) es igual a VERDAD.
+
+@SEEALSO=
+
+@FUNCTION=ISTEXT
+@SYNTAX=ISTEXT(valor)
+@DESCRIPTION=Devuelve VERDAD si @valor es una cadena de texto. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ISTEXT("texto") es igual a VERDAD.
+
+@SEEALSO=ISNONTEXT
+
+@FUNCTION=KURT
+@SYNTAX=KURT(n1, n2, ...)
+@DESCRIPTION=KURT returns an unbiased estimate of the kurtosis of a data set.
+Note, that this is only meaningful is the underlying distribution really has a fourth moment.  The kurtosis is offset by three such that a normal distribution will have zero kurtosis.
+Strings and empty cells are simply ignored.
+If fewer than four numbers are given or all of them are equal KURT returns #DIV/0! error.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+KURT(A1:A5) equals 1.234546305.
+
+@SEEALSO=AVERAGE,VAR,SKEW,KURTP
+
+@FUNCTION=KURTP
+@SYNTAX=KURTP(n1, n2, ...)
+@DESCRIPTION=KURTP returns the population kurtosis of a data set.
+Strings and empty cells are simply ignored.
+If fewer than two numbers are given or all of them are equal KURTP returns #DIV/0! error.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+KURTP(A1:A5) equals -0.691363424.
+
+@SEEALSO=AVERAGE,VARP,SKEWP,KURT
+
+@FUNCTION=LARGE
+@SYNTAX=LARGE(n1;n2;...;k)
+@DESCRIPTION=Devuleve el k-ésimo mayor valor en un conjunto de datos.
+Si el conjunto de datos está vacío, entonces devuelve el error #NUMERO!. If @k <= 0 o @k es mayor que el número de términos, entonces LARGE devuelve el error #NUMERO!.nEsta función es compatible con Excel.
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3, 21,3; 25,9 y 40,1.  Entonces
+LARGE(A1:A5;2) es igual a 25,9.
+LARGE(A1:A5;4) es igual a 17,3.
+
+@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL
+
+@FUNCTION=LCM
+@SYNTAX=LCM(number1,number2,...)
+@DESCRIPTION=LCM returns the least common multiple of integers.  The least common multiple is the smallest positive number that is a multiple of all integer arguments given. 
+If any of the arguments is less than one, LCM returns #NUM! error.
+This function is Excel compatible. 
+@EXAMPLES=
+LCM(2,13) equals to 26.
+LCM(4,7,5) equals to 140.
+
+@SEEALSO=GCD
+
+@FUNCTION=LEFT
+@SYNTAX=LEFT(texto[,número])
+@DESCRIPTION=Devuelve los @número caracteres a la izquierda del texto o el primer caracter a la izquierda si @número no se especifica.
+Esta función es compatible con Excel.
+@EXAMPLES=
+LEFT("Directorio",3) es igual a "Dir".
+
+@SEEALSO=MID, RIGHT
+
+@FUNCTION=LEN
+@SYNTAX=LEN(cadena)
+@DESCRIPTION=Devuelve el largo en carácteres de la cadena @cadena.
+Esta función es compatible con Excel.
+@EXAMPLES=
+len("Helsinki") es igual a 8.
+
+@SEEALSO=CHAR, CODE
+
+@FUNCTION=LINEST
+@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])
+@DESCRIPTION=LINEST function calculates the ``least squares'' line that best fit to your data in @known_y's.  @known_x's contains the corresponding x's where y=mx+b.
+If @known_x's is omitted, an array {1, 2, 3, ...} is used. LINEST returns an array having two columns and one row.  The slope (m) of the regression line y=mx+b is given in the first column and the y-intercept (b) in the second.
+If @known_y's and @known_x's have unequal number of data points, LINEST returns #NUM! error.
+If @const is FALSE, the line will be forced to go through the origin, i.e., b will be zero. The default is TRUE.
+If @stat is TRUE, extra statistical information will be returned. Extra statistical information is written bellow the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares. 
+The default of @stat is FALSE.
+@EXAMPLES=
+
+@SEEALSO=LOGEST,TREND
+
+@FUNCTION=LN
+@SYNTAX=LN(x)
+@DESCRIPTION=Calcula el logaritmo natural de @x. Si @x es <= 0, LN devuelve el error #NUMERO!.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+LN(7) es igual a 1,94591.
+
+@SEEALSO=EXP, LOG2, LOG10
+
+@FUNCTION=LOG
+@SYNTAX=LOG(x[;base])
+@DESCRIPTION=Calcula el logaritmo de @x en la @base dada. Si la @base no se especifica LOG devuelve el logaritmo en base 10.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+LOG(2) es igual a 0,30103.
+LOG(8192;2) es igual a 13.
+
+@SEEALSO=LN, LOG2, LOG10
+
+@FUNCTION=LOG10
+@SYNTAX=LOG10(x)
+@DESCRIPTION=Calcula el logaritmo en base 10 de @x. Si @x <= 0, LOG10 devuelve el error #NUMERO!.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+LOG10(7) devuelve 0.845098.
+
+@SEEALSO=EXP, LOG2, LOG
+
+@FUNCTION=LOG2
+@SYNTAX=LOG2(x)
+@DESCRIPTION=Calcula el logaritmo en base 2 de @x. Si @x <= 0, LOG2 devuelve el error #NUMERO!.
+@EXAMPLES=
+LOG2(1024) es igual a 10.
+
+@SEEALSO=EXP, LOG10, LOG
+
+@FUNCTION=LOGEST
+@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])
+@DESCRIPTION=The LOGEST function applies the ``least squares'' method to fit an exponential curve of the form y = b * m{1}^x{1} * m{2}^x{2}... to your data.
+If @known_x's is omitted, an array {1, 2, 3, ...} is used. LOGEST returns an array { m{n},m{n-1}, ...,m{1},b }.
+If @known_y's and @known_x's have unequal number of data points, LOGEST returns #NUM! error.
+If @const is FALSE, the line will be forced to go through (0,1),i.e., b will be one.  The default is TRUE.
+If @stat is TRUE, extra statistical information will be returned. Extra statistical information is written bellow the regression line coefficients in the result array.  Extra statistical information consists of four rows of data.  In the first row the standard error values for the coefficients m1, (m2, ...), b are represented.  The second row contains the square of R and the standard error for the y estimate.  The third row contains the F-observed value and the degrees of freedom.  The last row contains the regression sum of squares and the residual sum of squares. 
+The default of @stat is FALSE.
+@EXAMPLES=
+
+@SEEALSO=LOGEST,GROWTH,TREND
+
+@FUNCTION=LOGINV
+@SYNTAX=LOGINV(p,mean,stdev)
+@DESCRIPTION=LOGINV function returns the inverse of the lognormal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stdev is the standard deviation of the distribution.
+If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+LOGINV(0.5,2,3) equals 7.389056099.
+
+@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST
+
+@FUNCTION=LOGNORMDIST
+@SYNTAX=LOGNORMDIST(x,mean,stdev)
+@DESCRIPTION=LOGNORMDIST function returns the lognormal distribution. @x is the value for which you want the distribution, @mean is the mean of the distribution, and @stdev is the standard deviation of the distribution.
+If @stdev = 0 LOGNORMDIST returns #DIV/0! error. If @x <= 0, @mean < 0 or @stdev < 0 LOGNORMDIST returns #NUM! error.
+This function is Excel compatible. 
+@EXAMPLES=
+LOGNORMDIST(3,1,2) equals 0.519662338.
+
+@SEEALSO=NORMDIST
+
+@FUNCTION=LOOKUP
+@SYNTAX=LOOKUP(value,vector1,vector2)
+@DESCRIPTION=LOOKUP function finds the row index of 'value' in @vector1 and returns the contents of value2 at that row index. If the area is longer than it is wide then the sense of the search is rotated. Alternatively a single array can be used.
+If LOOKUP can't find @value it uses the next largest value less than value. The data must be sorted. 
+If @value is smaller than the first value it returns #N/A
+@EXAMPLES=
+
+@SEEALSO=VLOOKUP,HLOOKUP
+
+@FUNCTION=LOWER
+@SYNTAX=LOWER(texto)
+@DESCRIPTION=Devuelve una versión en minúsculas de la cadena @texto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+LOWER("J. F. Kennedy") es igual a "j. f. kennedy".
+
+@SEEALSO=UPPER
+
+@FUNCTION=MATCH
+@SYNTAX=MATCH(seek,vector[,type])
+@DESCRIPTION=MATCH function finds the row index of @seek in @vector and returns it. If the area is longer than it is wide then the sense of the search is rotated. Alternatively a single array can be used.
+The @type parameter, which defaults to +1, controls the search:
+If @type = 1,  finds largest value <= @seek.
+If @type = 0,  finds first value == @seek.
+If @type = -1, finds smallest value >= @seek.
+
+For type 0, the data can be in any order.  For types -1 and +1, the data must be sorted.  (And in this case, MATCH uses a binary search to locate the index.)
+If @seek could not be found, #N/A is returned.
+@EXAMPLES=
+
+@SEEALSO=LOOKUP
+
+@FUNCTION=MAX
+@SYNTAX=MAX(b1;b2;...)
+@DESCRIPTION=Devuelve el valor del elemento pasado en argumento cuyo valor es mayor a todos los demás. Los valores negativos se consideran inferiores a los positivos.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3; 21,3; 25,9; y 40,1.  Entonces
+MAX(A1:A5) es igual a 40,1.
+
+@SEEALSO=MIN,ABS
+
+@FUNCTION=MAXA
+@SYNTAX=MAXA(number1,number2,...)
+@DESCRIPTION=MAXA returns the largest value of the given arguments.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
+MAXA(A1:A5) equals 40.1.
+
+@SEEALSO=MAX,MINA
+
+@FUNCTION=MDETERM
+@SYNTAX=MDETERM(matriz)
+@DESCRIPTION=Devuelve el determinante de la @matriz dada.
+Si la @matriz no tiene la misma cantidad de líneas que de columnas MDETERM devuelve el error #VALOR! .
+Esta función es compatible con Excel.
+@EXAMPLES=
+Suponiendo que las celdas A1, ..., A4 contengan los números 2, 3, 7, y 3, B1, ..., B4 4, 2, 4, y 1, C1, ..., C4 9, 4, 3, y 2, y D1, ..., D4 7, 3, 6, y 5.  Entonces,
+MDETERM(A1:D4) es igual a 148.
+
+@SEEALSO=MMULT, MINVERSE
+
+@FUNCTION=MDURATION
+@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])
+@DESCRIPTION=MDURATION returns the Macauley duration for a security with par value 100.
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=MEDIAN
+@SYNTAX=MEDIAN(n1;n2;...)
+@DESCRIPTION=Devuelve la mediana del conjunto de datos.
+Las cadenas y celdas vacías son ignoradas. Si el número de datos es par, MEDIAN devuelve el promedio de los valores del medio.
+Esta función es compatible con Excel.
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3, 21,3; 25,9 y 40,1.  Entonces
+MEDIAN(A1:A5) es igual a 21,3.
+
+@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM
+
+@FUNCTION=MID
+@SYNTAX=MID(cadena, posición, largo)
+@DESCRIPTION=Devuelve una sub-cadena de texto de la cadena @cadena, empezando por @posición y contando @largo carácteres.
+Esta función es compatible con Excel.
+@EXAMPLES=
+MID("probando",2,3) es igual a "rob".
+
+@SEEALSO=LEFT, RIGHT
+
+@FUNCTION=MIN
+@SYNTAX=MIN(b1;b2;...)
+@DESCRIPTION=Devuelve el valor del elemento pasado en argumento cuyo valor es inferior a todos los demás. Los valores negativos se consideran inferiores a los positivos.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3; 21,3; 25,9; y 40,1.  Entonces
+MIN(A1:A5) es igual a 11,4.
+
+@SEEALSO=MAX,ABS
+
+@FUNCTION=MINA
+@SYNTAX=MINA(number1,number2,...)
+@DESCRIPTION=MINA returns the smallest value of the given arguments.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
+MINA(A1:A5) equals 0.
+
+@SEEALSO=MIN,MAXA
+
+@FUNCTION=MINUTE
+@SYNTAX=MINUTE (número_de_serie)
+@DESCRIPTION=Convierte el número de serie a minutos. Los minutos son dados como un entero en el rango de 0 a 59.
+Note que Gnumeric hará la conversión de una cadena de texto a un número de serie; por lo tanto puede entrar la fecha como una cadena de texto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+MINUTE(0,128472) es igual a 5.
+
+@SEEALSO=HOUR, NOW, TIME, SECOND
+
+@FUNCTION=MINVERSE
+@SYNTAX=MINVERSE(matrix)
+@DESCRIPTION=MINVERSE function returns the inverse matrix of a given matrix. 
+If the @matrix cannot be inverted, MINVERSE returns #NUM! error. If the @matrix does not contain equal number of columns and rows, MINVERSE returns #VALUE! error.
+This function is Excel compatible.
+@EXAMPLES=
+
+@SEEALSO=MMULT, MDETERM
+
+@FUNCTION=MIRR
+@SYNTAX=MIRR(values,finance_rate,reinvest_rate)
+@DESCRIPTION=MIRR function returns the modified internal rate of return for a given periodic cash flow. 
+@EXAMPLES=
+
+@SEEALSO=NPV
+
+@FUNCTION=MMULT
+@SYNTAX=MMULT(vector1;vector2)
+@DESCRIPTION=Devuelve la matriz producto de dos vectores. El resultado es una matriz con la misma cantidad de líneas que @vector1 y la misma cantidad de columnas que @vector2.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+
+@SEEALSO=TRANSPOSE,MINVERSE
+
+@FUNCTION=MOD
+@SYNTAX=MOD(número;divisor)
+@DESCRIPTION=Implementa el modulo aritmético. Devuelve el resto de la división de abs( @número ) por @divisor.Si el @divisor es cero devuelve el error #DIV/0! .
+Esta función es compatible con Excel. 
+
+@EXAMPLES=
+MOD(23;7) es igual a 2.
+
+@SEEALSO=INT,FLOOR,CEIL
+
+@FUNCTION=MODE
+@SYNTAX=MODE(n1, n2, ...)
+@DESCRIPTION=MODE returns the most common number of the data set. If the data set has many most common numbers MODE returns the first one of them. 
+Strings and empty cells are simply ignored. If the data set does not contain any duplicates MODE returns #N/A error.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 11.4, 25.9, and 40.1.  Then
+MODE(A1:A5) equals 11.4.
+
+@SEEALSO=AVERAGE,MEDIAN
+
+@FUNCTION=MONTH
+@SYNTAX=MONTH (número_de_serie)
+@DESCRIPTION=Convierte el número de serie a un mes.
+Note que Gnumeric hará la conversión de una cadena de texto a un número de serie; por lo tanto puede entrar la fecha como una cadena de texto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+MONTH(DATE(2003;4;30)) es igual a 4.
+
+@SEEALSO=DAY, TIME, NOW, YEAR
+
+@FUNCTION=MROUND
+@SYNTAX=MROUND(número;múltiple)
+@DESCRIPTION=Redondea el número dado @número al múltiple de @múltiple más cercano. Si @número y @múltiple son de signos contrarios, MROUND devuelve el error #NUMERO! 
+Esta función es compatible con Excel.
+
+@EXAMPLES=
+MROUND(1,7;0,2) es igual a 1,8.
+MROUND(321,123;0,12) es igual a 321,12.
+
+@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP
+
+@FUNCTION=MULTINOMIAL
+@SYNTAX=MULTINOMIAL(valor1;valor2;...)
+@DESCRIPTION=Devuelve el resultado de la división de la factorial de la suma de los valores, por el producto de los factoriales.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+MULTINOMIAL(2;3;4) es igual a 1260.
+
+@SEEALSO=SUM
+
+@FUNCTION=N
+@SYNTAX=N(valor)
+@DESCRIPTION=Devuelve @valor convertido a un número. Las cadenas que contienen texto son convertidas al valor cero.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+N("42") es igual a 42.
+
+@SEEALSO=
+
+@FUNCTION=NA
+@SYNTAX=NA()
+@DESCRIPTION=NA devuelve el valor de error #N/D. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+NA() es igual al error #N/D.
+
+@SEEALSO=
+
+@FUNCTION=NEGBINOMDIST
+@SYNTAX=NEGBINOMDIST(f,t,p)
+@DESCRIPTION=NEGBINOMDIST function returns the negative binomial distribution. @f is the number of failures, @t is the threshold number of successes, and @p is the probability of a success.
+If @f or @t is a non-integer it is truncated. If (@f + @t -1) <= 0 NEGBINOMDIST returns #NUM! error. If @p < 0 or @p > 1 NEGBINOMDIST returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+NEGBINOMDIST(2,5,0.55) equals 0.152872629.
+
+@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT
+
+@FUNCTION=NETWORKDAYS
+@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)
+@DESCRIPTION=NETWORKDAYS returns the number of non-weekend non-holidays between @start_date and @end_date.  Holidays optionally supplied in @holidays.
+Returns #NUM! if start_date or end_date are invalid.
+This function is Excel compatible. 
+@EXAMPLES=
+NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) equals 33.
+
+@SEEALSO=WORKDAY
+
+@FUNCTION=NOMINAL
+@SYNTAX=NOMINAL(r,nper)
+@DESCRIPTION=NOMINAL calculates the nominal interest rate from a given effective rate.
+Nominal interest rate is given by a formula:
+
+@nper * (( 1 + @r ) ^ (1 / @nper) - 1 )
+where:
+
+@r = effective interest rate
+@nper = number of periods used for compounding
+@EXAMPLES=
+
+@SEEALSO=EFFECT
+
+@FUNCTION=NORMDIST
+@SYNTAX=NORMDIST(x,mean,stdev,cumulative)
+@DESCRIPTION=NORMDIST function returns the normal cumulative distribution. @x is the value for which you want the distribution, @mean is the mean of the distribution, @stdev is the standard deviation. 
+If @stdev is 0 NORMDIST returns #DIV/0! error.
+This function is Excel compatible.
+@EXAMPLES=
+NORMDIST(2,1,2,0) equals 0.176032663.
+
+@SEEALSO=POISSON
+
+@FUNCTION=NORMINV
+@SYNTAX=NORMINV(p,mean,stdev)
+@DESCRIPTION=NORMINV function returns the inverse of the normal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stdev is the standard deviation of the distribution.
+If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+NORMINV(0.76,2,3) equals 4.118907689.
+
+@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST
+
+@FUNCTION=NORMSDIST
+@SYNTAX=NORMSDIST(x)
+@DESCRIPTION=NORMSDIST function returns the standard normal cumulative distribution. @x is the value for which you want the distribution.
+This function is Excel compatible.
+@EXAMPLES=
+NORMSDIST(2) equals 0.977249868.
+
+@SEEALSO=NORMDIST
+
+@FUNCTION=NORMSINV
+@SYNTAX=NORMSINV(p)
+@DESCRIPTION=NORMSINV function returns the inverse of the standard normal cumulative distribution. @p is the given probability corresponding to the normal distribution.
+If @p < 0 or @p > 1 NORMSINV returns #NUM! error. 
+This function is Excel compatible.
+@EXAMPLES=
+NORMSINV(0.2) equals -0.841621234.
+
+@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST
+
+@FUNCTION=NOT
+@SYNTAX=NOT(número)
+@DESCRIPTION=Implementa la función lógica NO: el resultado es VERDAD si @número es cero; sino el resultado es FALSO. Esta función es compatible con Excel. 
+@EXAMPLES=
+NOT(0) es igual a VERDAD.
+NOT(TRUE) es igual a FALSO.
+
+@SEEALSO=AND, OR
+
+@FUNCTION=NOW
+@SYNTAX=NOW()
+@DESCRIPTION=Devuelve el número de serie de la fecha y hora a la cual fue evaluada la función.
+Los números de serie de las fechas en Gnumeric son representados de la manera siguiente: La parte entera representa la cantidad de días transcurridos desde el 1º de enero de 1900. La parte decimal representa la fracción del día, y es convertida en horas, minutos y segundos
+Por ejemplo: ,0 representa el inicio del día, mientras que 0,5 representa mediodía
+Esta función es compatible con Excel.
+@EXAMPLES=
+NOW().
+
+@SEEALSO=TODAY, NOW
+
+@FUNCTION=NPER
+@SYNTAX=NPER(rate,pmt,pv,fv,type)
+@DESCRIPTION=NPER calculates number of periods of an investment based on periodic constant payments and a constant interest rate. The interest rate per period is @rate, @pmt is the payment made each period, @pv is the present value, @fv is the future value and @type is when the payments are due. If @type = 1, payments are due at the begining of the period, if @type = 0, payments are due at the end of the period.
+@EXAMPLES=
+For example, if you deposit $10,000 in a savings account that earns an interest rate of 6%. To calculate home many years it will take to double your investment use NPER as follows:
+=NPER(0.06, 0, -10000, 20000,0)returns 11.895661046 which indicates that you can double your money just before the end of the 12th year.
+@SEEALSO=PPMT,PV,FV
+
+@FUNCTION=NPV
+@SYNTAX=NPV(rate,v1,v2,...)
+@DESCRIPTION=NPV calculates the net present value of an investment generating peridic payments.  @rate is the periodic interest rate and @v1, @v2, ... are the periodic payments.  If the schedule of the cash flows are not periodic use the XNPV function. 
+@EXAMPLES=
+NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) equals 186.30673.
+
+@SEEALSO=PV,XNPV
+
+@FUNCTION=OCT2BIN
+@SYNTAX=OCT2BIN(número[;dígitos])
+@DESCRIPTION=La DEC2BIN función convierte @número octal a decimal. El valor @dígitos es opcional y especifica el número de dígitos que tendrá el número decimal.
+Si @dígitos es muy pequeño o negativo, el error  #NUMERO! es devuelto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+OCT2BIN("213") es igual a 10001011.
+
+@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX
+
+@FUNCTION=OCT2DEC
+@SYNTAX=OCT2DEC(x)
+@DESCRIPTION=La función OCT2DEC convierte un número octal a su equivalente decimal.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+OCT2DEC("124") es igual a 84.
+
+@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX
+
+@FUNCTION=OCT2HEX
+@SYNTAX=OCT2HEX(número[;dígitos])
+@DESCRIPTION=La DEC2HEX función convierte @número octal a hexadecimal. El valor @dígitos es opcional y especifica el número de dígitos que tendrá el número decimal.
+Si @dígitos es muy pequeño o negativo, el error  #NUMERO! es devuelto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+OCT2HEX(132) es igual a 5A.
+
+@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC
+
+@FUNCTION=ODD
+@SYNTAX=ODD(número)
+@DESCRIPTION=Devuelve el @número redondeado al entero impar más próximo.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+ODD(4,4) es igual a 5.
+
+@SEEALSO=EVEN
+
+@FUNCTION=ODDFPRICE
+@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency[,basis])
+@DESCRIPTION=ODDFPRICE returns the price per $100 face value of a security. The security should have an odd short or long first period. @settlement is the settlement date of the security. @maturity is the maturity date of the security. @issue is the issue date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, ODDFPRICE returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=ODDFYIELD
+@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency[,basis])
+@DESCRIPTION=ODDFYIELD calculates the yield of a security having an odd first period. @settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=ODDLPRICE
+@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequency[,basis])
+@DESCRIPTION=ODDLPRICE calculates the price per $100 face value of a security that has an odd last coupon period. @settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=ODDLYIELD
+@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,frequency[,basis])
+@DESCRIPTION=ODDLYIELD calculates the yield of a security having an odd last period. @settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, ODDLYIELD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=OFFSET
+@SYNTAX=OFFSET(range,row,col,height,width)
+@DESCRIPTION=OFFSET function returns a cell range. The cell range starts at offset (@col,@row) from @range, and is of height @height and width @width.
+If range is neither a reference nor a range returns #VALUE!.  If either height or width is omitted the height or width of the reference is used.
+@EXAMPLES=
+
+@SEEALSO=COLUMN,COLUMNS,ROWS
+
+@FUNCTION=OR
+@SYNTAX=OR(b1, b2, ...)
+@DESCRIPTION=OR implements the logical OR function: the result is TRUE if any of the values evaluated to TRUE.
+@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.
+If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error #VALUE! is returned.
+This function is Excel compatible. 
+@EXAMPLES=
+OR(TRUE,FALSE) equals TRUE.
+OR(3>4,4<3) equals FALSE.
+
+@SEEALSO=AND, NOT
+
+@FUNCTION=PEARSON
+@SYNTAX=PEARSON(vector1;vector2)
+@DESCRIPTION=Devuelve el coeficiente de correlación Pearson para dos conjuntos de datos.
+Se ignoran las cadenas de texto y las celdas vacías.
+Esta función es compatible con Excel.
+@EXAMPLES=
+
+@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX
+
+@FUNCTION=PERCENTILE
+@SYNTAX=PERCENTILE(array,k)
+@DESCRIPTION=PERCENTILE function returns the 100*@k-th percentile of the given data points (that is, a number x such that a fraction @k of the data points are less than x).  
+If @array is empty, PERCENTILE returns #NUM! error.  If @k < 0 or @k > 1, PERCENTILE returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+PERCENTILE(A1:A5,0.42) equals 20.02.
+
+@SEEALSO=QUARTILE
+
+@FUNCTION=PERCENTRANK
+@SYNTAX=PERCENTRANK(array,x[,significance])
+@DESCRIPTION=PERCENTRANK function returns the rank of a data point in a data set.  @array is the range of numeric values, @x is the data point which you want to rank, and the optional @significance indentifies the number of significant digits for the returned value, truncating the remainder.  If @significance is omitted, PERCENTRANK uses three digits.
+If @array contains no data points, PERCENTRANK returns #NUM! error.
+If @significance is less than one, PERCENTRANK returns #NUM! error.
+If @x exceeds the largest value or is less than the smallest value in @array, PERCENTRANK returns #NUM! error.
+If @x does not match any of the values in @array or @x matches more than once, PERCENTRANK interpolates the returned value.
+@EXAMPLES=
+
+@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL
+
+@FUNCTION=PERMUT
+@SYNTAX=PERMUT(n,k)
+@DESCRIPTION=PERMUT function returns the number of permutations. @n is the number of objects, @k is the number of objects in each permutation.
+If @n = 0 PERMUT returns #NUM! error.  If @n < @k PERMUT returns #NUM! error.
+ This function is Excel compatible.
+@EXAMPLES=
+PERMUT(7,3) equals 210.
+
+@SEEALSO=COMBIN
+
+@FUNCTION=PI
+@SYNTAX=PI()
+@DESCRIPTION=PI functions returns the value of pi. 
+This function is called with no arguments.
+This function is Excel compatible, except that it returns pi with a better precision. 
+@EXAMPLES=
+PI() equals 3.141593.
+
+@SEEALSO=SQRTPI
+
+@FUNCTION=PMT
+@SYNTAX=PMT(rate,nper,pv[,fv,type])
+@DESCRIPTION=PMT returns the amount of payment for a loan based on a constant interest rate and constant payments (each payment is equal amount). @rate is the constant interest rate. @nper is the overall number of payments. @pv is the present value. @fv is the future value. @type is the type of the payment: 0 means at the end of the period and 1 means at the beginning of the period. 
+If @fv is omitted, Gnumeric assumes it to be zero. If @type is omitted, Gnumeric assumes it to be zero. 
+@EXAMPLES=
+
+@SEEALSO=PPMT,PV,FV
+
+@FUNCTION=POISSON
+@SYNTAX=POISSON(x;media;cumulativo)
+@DESCRIPTION=Devuelve la distribución de Poisson, @x es la cantidad de eventos, @media es el valor numérico esperado, @cumulativo describe si se debe devolver la suma de la función de Poisson de 0 a @x.
+Si @x no es un entero será troncado. Si @x <= 0 POISSON devuelve el error #NUMERO! . Si @media <= 0 POISSON devuelve el error #NUMERO!.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+POISSON(3;6;0) es igual a 0,089235078.
+
+@SEEALSO=NORMDIST, WEIBULL
+
+@FUNCTION=POWER
+@SYNTAX=POWER(x;y)
+@DESCRIPTION=Devuelve el valor de @x a la potencia @y.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+POWER(2;7) es igual a 128.
+POWER(3;3,141) es igual a 31,523749.
+
+@SEEALSO=EXP
+
+@FUNCTION=PPMT
+@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])
+@DESCRIPTION=PPMT calculates the amount of a payment of an annuity going towards principal.
+Formula for it is:
+PPMT(per) = PMT - IPMT(per)
+where:
+PMT = Payment received on annuity
+IPMT(per) = amount of interest for period per
+@EXAMPLES=
+
+@SEEALSO=IPMT,PV,FV
+
+@FUNCTION=PRICE
+@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])
+@DESCRIPTION=PRICE returns price per $100 face value of a security. This method can only be used if the security pays periodic interest. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, PRICE returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=PRICEDISC
+@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])
+@DESCRIPTION=PRICEDISC calculates and returns the price per $100 face value of a security bond.  The security does not pay interest at maturity.  @settlement is the settlement date of the security. @maturity is the maturity date of the security.  @discount is the rate for which the security is discounted.  @redemption is the amount to be received on @maturity date.  @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @settlement date or @maturity date is not valid, PRICEDISC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEDISC returns #NUM! error. 
+@EXAMPLES=
+
+@SEEALSO=PRICEMAT
+
+@FUNCTION=PRICEMAT
+@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])
+@DESCRIPTION=PRICEMAT calculates and returns the price per $100 face value of a security.  The security pays interest at maturity. @settlement is the settlement date of the security.  @maturity is the maturity date of the security.  @issue is the issue date of the security.  @rate is the discount rate of the security. @yield is the annual yield of the security. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @settlement date or @maturity date is not valid, PRICEMAT returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, PRICEMAT returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEMAT returns #NUM! error. 
+@EXAMPLES=
+
+@SEEALSO=PRICEDISC
+
+@FUNCTION=PROB
+@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])
+@DESCRIPTION=PROB function returns the probability that values in a range or an array are between two limits. If @upper_limit is not given, PROB returns the probability that values in @x_range are equal to @lower_limit.
+If the sum of the probabilities in @prob_range is not equal to 1 PROB returns #NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns #NUM! error. If @x_range and @prob_range contain a different number of data entries, PROB returns #N/A error.
+This function is Excel compatible.
+@EXAMPLES=
+
+@SEEALSO=BINOMDIST,CRITBINOM
+
+@FUNCTION=PRODUCT
+@SYNTAX=PRODUCT(valor1;valor2;...)
+@DESCRIPTION=Calcula el producto de todos los valores y celdas referenciados en la lista de argumentos.
+Esta función es compatible con Excel.  En particular esto significa que si todas las celdas están vacías, el resultado será 0.
+@EXAMPLES=
+PRODUCT(2;5;9) es igual a 90.
+
+@SEEALSO=SUM, COUNT, G_PRODUCT
+
+@FUNCTION=PROPER
+@SYNTAX=PROPER(cadena)
+@DESCRIPTION=Devuelve la cadena @cadena con la primera letra de cada palabra en mayúsculas.
+Esta función es compatible con Excel.
+@EXAMPLES=
+PROPER("j. f. kennedy") es igual a "J. F. Kennedy".
+
+@SEEALSO=LOWER, UPPER
+
+@FUNCTION=PV
+@SYNTAX=PV(rate,nper,pmt[,fv,type])
+@DESCRIPTION=PV calculates the present value of an investment. @rate is the periodic interest rate, @nper is the number of periods used for compounding. @pmt is the payment made each period, @fv is the future value and @type is when the payment is made. If @type = 1 then the payment is made at the begining of the period. If @type = 0 (or omitted) it is made at the end of each period.@EXAMPLES=
+
+@SEEALSO=FV
+
+@FUNCTION=QUARTILE
+@SYNTAX=QUARTILE(array,quart)
+@DESCRIPTION=QUARTILE function returns the quartile of the given data points.  
+If @quart is equal to: QUARTILE returns:
+0                      the smallest value of @array.
+1                      the first quartile
+2                      the second quartile
+3                      the third quartile
+4                      the largest value of @array.
+
+If @array is empty, QUARTILE returns #NUM! error. If @quart < 0 or @quart > 4, QUARTILE returns #NUM! error. If @quart is not an integer, it is truncated.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+QUARTILE(A1:A5,1) equals 17.3.
+
+@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL
+
+@FUNCTION=QUOTIENT
+@SYNTAX=QUOTIENT(numerator,denumerator)
+@DESCRIPTION=QUOTIENT function returns the integer portion of a division.  @numerator is the divided number and 
+@denumerator is the divisor.
+This function is Excel compatible. 
+@EXAMPLES=
+QUOTIENT(23,5) equals 4.
+
+@SEEALSO=MOD
+
+@FUNCTION=RADIANS
+@SYNTAX=RADIANS(x)
+@DESCRIPTION=Calcula el número en radianes equivalente al ángulo de @x grados.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+RADIANS(180) es igual a 3,14159.
+
+@SEEALSO=PI,DEGREES
+
+@FUNCTION=RAND
+@SYNTAX=RAND()
+@DESCRIPTION=Devuelve un número aleatorio mayor o igual a 0 e inferior a 1.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+RAND() devuelve un número aleatorio entre 0 y 1.
+
+@SEEALSO=RANDBETWEEN
+
+@FUNCTION=RANDBERNOULLI
+@SYNTAX=RANDBERNOULLI(p)
+@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. 
+If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. 
+@EXAMPLES=
+RANDBERNOULLI(0.5).
+
+@SEEALSO=RAND,RANDBETWEEN
+
+@FUNCTION=RANDBETWEEN
+@SYNTAX=RANDBETWEEN(bottom,top)
+@DESCRIPTION=RANDBETWEEN function returns a random integer number between and including @bottom and @top.
+If @bottom or @top is non-integer, they are truncated. If @bottom > @top, RANDBETWEEN returns #NUM! error.
+This function is Excel compatible. 
+@EXAMPLES=
+RANDBETWEEN(3,7).
+
+@SEEALSO=RAND
+
+@FUNCTION=RANDBINOM
+@SYNTAX=RANDBINOM(p,trials)
+@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. 
+If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM returns #NUM! error. 
+@EXAMPLES=
+RANDBINOM(0.5,2).
+
+@SEEALSO=RAND,RANDBETWEEN
+
+@FUNCTION=RANDEXP
+@SYNTAX=RANDEXP(b)
+@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. 
+@EXAMPLES=
+RANDEXP(0.5).
+
+@SEEALSO=RAND,RANDBETWEEN
+
+@FUNCTION=RANDNEGBINOM
+@SYNTAX=RANDNEGBINOM(p,failures)
+@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random number. 
+If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures RANDNEGBINOM returns #NUM! error. 
+@EXAMPLES=
+RANDNEGBINOM(0.5,2).
+
+@SEEALSO=RAND,RANDBETWEEN
+
+@FUNCTION=RANDPOISSON
+@SYNTAX=RANDPOISSON(lambda)
+@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. 
+@EXAMPLES=
+RANDPOISSON(3).
+
+@SEEALSO=RAND,RANDBETWEEN
+
+@FUNCTION=RANK
+@SYNTAX=RANK(x,ref[,order])
+@DESCRIPTION=RANK returns the rank of a number in a list of numbers.  @x is the number whose rank you want to find, @ref is the list of numbers, and @order specifies how to rank numbers.  If @order is 0, numbers are ranked in descending order, otherwise numbers are ranked in ascending order.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+RANK(17.3,A1:A5) equals 4.
+
+@SEEALSO=PERCENTRANK
+
+@FUNCTION=RATE
+@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])
+@DESCRIPTION=RATE calculates the rate of an investment.
+@EXAMPLES=
+
+@SEEALSO=PV,FV
+
+@FUNCTION=RECEIVED
+@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])
+@DESCRIPTION=RECEIVED calculates and returns the amount to be received at @maturity date for a security bond.  @settlement is the settlement date of the security.  @maturity is the maturity date of the security.  The amount of investement is specified in @investment.  @rate is the security's discount rate. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @settlement date or @maturity date is not valid, RECEIVED returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, RECEIVED returns #NUM! error. If @settlement date is after @maturity date or they are the same, RECEIVED returns #NUM! error. 
+@EXAMPLES=
+
+@SEEALSO=INTRATE
+
+@FUNCTION=REPLACE
+@SYNTAX=REPLACE(antiguo,inicio,número,nuevo)
+@DESCRIPTION=Devuelve la cadena @antiguo con @nuevo reemplazando @número carácteres a partir de la posición @inicio.
+Esta función es compatible con Excel.
+@EXAMPLES=
+REPLACE("testing",2,3,"*****") es igual a "t*****ing".
+
+@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM
+
+@FUNCTION=REPT
+@SYNTAX=REPT(cadena,número)
+@DESCRIPTION=Devuelve la cadena @cadena repetida @número veces.
+Esta función es compatible con Excel.
+@EXAMPLES=
+REPT(".",3) es igual a "...".
+
+@SEEALSO=CONCATENATE
+
+@FUNCTION=RIGHT
+@SYNTAX=RIGHT(texto[,número])
+@DESCRIPTION=Devuelve los @número caracteres a la derecha del texto o el primer caracter a la derecha si @número no se especifica.
+Esta función es compatible con Excel.
+@EXAMPLES=
+RIGHT("end") es igual a "d".
+RIGHT("end",2) es igual a "nd".
+
+@SEEALSO=MID, LEFT
+
+@FUNCTION=ROMAN
+@SYNTAX=ROMAN(número[;tipo])
+@DESCRIPTION=La función ROMAN devuelve un número en números árabes pasado en argumento, en su representación en números romanos, bajo la forma de una cadena de texto. @número es el número que desea convertir y @tipo es el tipo de números romanos que desea usar. 
+Si @tipo es 0 o se omite, ROMAN devuelve números romanos clásicos. El tipo 1 es más conciso que el tipo clásico, el tipo 2 es más conciso que el tipo 1, y el tipo 3 más conciso que el tipo 2. El tipo 4 es un tipo simplificado.
+Si @número es negativo o superior a 3999, ROMAN devuelve el error #VALOR!.
+Esta función es compatible con Excel.
+@EXAMPLES=
+ROMAN(999) es igual a CMXCIX.
+ROMAN(999;1) es igual a LMVLIV.
+ROMAN(999;2) es igual a XMIX.
+ROMAN(999;3) es igual a VMIV.
+ROMAN(999;4) es igual a IM.
+
+@SEEALSO=
+
+@FUNCTION=ROUND
+@SYNTAX=ROUND(número[;cifras])
+@DESCRIPTION=Redondea el número dado, @número es el número que desea redondear y @cifras es la cantidad de cifras significativas a la cual quiere redondearlo.
+Si @cifras es superior a cero, @número es redondeado hasta una cantidad de cifras decimales significativas de @cifras. Si @cifras es cero o se omite, el número es redondeado al entero más próximo.Si @cifras es negativo, indica las cifras a la izquierda del punto decimal, que se desea redondear.
+Esta función es compatible con Excel.
+@EXAMPLES=
+ROUND(5,5) es igual a 6.
+ROUND(-3,3) es igual a -3.
+ROUND(1501,15;1) es igual a 1501,2.
+ROUND(1501,15;-2) es igual a 1500,0.
+
+@SEEALSO=ROUNDDOWN,ROUNDUP
+
+@FUNCTION=ROUNDDOWN
+@SYNTAX=ROUNDDOWN(number[,digits])
+@DESCRIPTION=ROUNDDOWN function rounds a given @number down. @number is the number you want rounded down and @digits is the number of digits to which you want to round that number. 
+If @digits is greater than zero, @number is rounded down to the given number of digits. If @digits is zero or omitted, @number is rounded down to the nearest integer. If @digits is less than zero, @number is rounded down to the left of the decimal point.
+This function is Excel compatible. 
+@EXAMPLES=
+ROUNDDOWN(5.5) equals 5.
+ROUNDDOWN(-3.3) equals -4.
+ROUNDDOWN(1501.15,1) equals 1501.1.
+ROUNDDOWN(1501.15,-2) equals 1500.0.
+
+@SEEALSO=ROUND,ROUNDUP
+
+@FUNCTION=ROUNDUP
+@SYNTAX=ROUNDUP(number[,digits])
+@DESCRIPTION=ROUNDUP function rounds a given number up. @number is the number you want rounded up and @digits is the number of digits to which you want to round that number. 
+If @digits is greater than zero, @number is rounded up to the given number of digits. If @digits is zero or omitted, @number is rounded up to the nearest integer. If @digits is less than zero, @number is rounded up to the left of the decimal point.
+This function is Excel compatible.
+@EXAMPLES=
+ROUNDUP(5.5) equals 6.
+ROUNDUP(-3.3) equals -3.
+ROUNDUP(1501.15,1) equals 1501.2.
+ROUNDUP(1501.15,-2) equals 1600.0.
+
+@SEEALSO=ROUND,ROUNDDOWN
+
+@FUNCTION=ROW
+@SYNTAX=ROW([reference])
+@DESCRIPTION=ROW function returns an array of the row numbers taking a default argument of the containing cell position.
+If @reference is neither an array nor a reference nor a range returns #VALUE!.
+@EXAMPLES=
+ROW() in G13 equals 13.
+
+@SEEALSO=COLUMN,COLUMNS,ROWS
+
+@FUNCTION=ROWS
+@SYNTAX=ROWS(referencia)
+@DESCRIPTION=La función COLUMNS devuelve la cantidad de filas en el área o vector de @referencia.
+Si @referencia no es ni un vector, ni una referencia, ni un rango; la función devuelve el error #VALOR!.
+@EXAMPLES=
+ROWS(H7:I13) es igual a 7.
+
+@SEEALSO=COLUMN,ROW,ROWS
+
+@FUNCTION=RSQ
+@SYNTAX=RSQ(array1,array2)
+@DESCRIPTION=RSQ returns the square of the Pearson correlation coefficient of two data sets.
+Strings and empty cells are simply ignored.
+This function is Excel compatible.
+@EXAMPLES=
+
+@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND
+
+@FUNCTION=SEARCH
+@SYNTAX=SEARCH(texto1,texto2[,inicio])
+@DESCRIPTION=Devuelve la posición del carácter o cadena de texto en otra cadena de texto. @texto1 es el carácter o texto a buscar. @texto2 es la cadena de texto en la cual buscar. @inicio indica la posición en @texto2 a partir de la cual iniciar la búsqueda. Si @inicio se omite, se asume como igual a uno (1). La búsqueda considera de la misma manera mayúsculas y minúsculas.
+@texto1 puede incluir caracteres genéricos (*) y puntos de interrogación (?) para controlar la búsqueda. Un punto de interrogación corresponde a un carácter cualquiera; un asterisco corresponde a una cadena de texto cualquiera, incluida la cadena vacía. Si desea buscar un punto de interrogación o un asterisco use la tilde (~) antes del carácter. 
+Si @texto1 no se encuentra, SEARCH devuelve el error #VALOR! . Si @inicio es inferior a 1 o superior al tamaño de @texto2 , SEARCH devuelve el error #VALOR!.
+Esta función es compatible con Excel.
+@EXAMPLES=
+SEARCH("c","Cancel") es igual a 1.
+SEARCH("c","Cancel",2) es igual a 4.
+
+@SEEALSO=FIND
+
+@FUNCTION=SECOND
+@SYNTAX=SECOND (número_de_serie)
+@DESCRIPTION=Convierte el número de serie a segundos. Los segundos son dados en el rango de 0 a 59.
+Note que Gnumeric hará la conversión de una cadena de texto a un número de serie; por lo tanto puede entrar la fecha como una cadena de texto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+SECOND(0,600613) es igual a 53.
+
+@SEEALSO=HOUR, MINUTE, NOW, TIME
+
+@FUNCTION=SELECTION
+@SYNTAX=SELECTION(intersección_permitida)
+@DESCRIPTION=Devuelve una lista con los valores de las celdas actualmente seleccionadas con el ratón. Es usualmente usado para calcular valores al vuelo. Si @intersección_permitida es VERDAD entonces los rangos de la selección hecha por el usuario son devueltos, INCLUSIVE SI SE SUPERPONEN.  Si @intersección_permitida es FALSO se devuelve un conjunto de regiones distinto, sin embargo puede haber más regiones de lo que el utilizador haya especificado.
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=SERIESSUM
+@SYNTAX=SERIESSUM(x,n,m,coefficients)
+@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is the base of the power series, @n is the initial power to raise @x, @m is the increment to the power for each term in the series, and @coefficients is the coefficents by which each successive power of @x is multiplied.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, 2.98, 3.42, and 4.33.  Then
+SERIESSUM(3,1,2.23,A1:A5) equals 251416.43018.
+
+@SEEALSO=COUNT,SUM
+
+@FUNCTION=SIGN
+@SYNTAX=SIGN(número)
+@DESCRIPTION=La función SIGN devuelve 1 si el @número es positivo, cero si se trata de 0, y -1 si el @número es negativo.
+Esta función es compatible con Excel.
+@EXAMPLES=
+SIGN(3) es igual a 1.
+SIGN(-3) es igual a -1.
+SIGN(0) es igual a 0.
+
+@SEEALSO=
+
+@FUNCTION=SIN
+@SYNTAX=SIN(x)
+@DESCRIPTION=La función SIN devuelve el seno de @x, con @x en radianes.
+Esta función es compatible con Excel.
+@EXAMPLES=
+SIN(0,5) es igual a 0,479426.
+
+@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES
+
+@FUNCTION=SINH
+@SYNTAX=SINH(x)
+@DESCRIPTION=La función SINH devuelve el seno hiperbólico de @x, el cual es definido matemáticamente como (exp(@x) - exp(-@x)) / 2.   @x en radianes.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+SINH(0,5) es igual a 0,521095.
+
+@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP
+
+@FUNCTION=SKEW
+@SYNTAX=SKEW(n1, n2, ...)
+@DESCRIPTION=SKEW returns an unbiased estimate for skewness of a distribution.
+Note, that this is only meaningful if the underlying distribution really has a third moment.  The skewness of a symmetric (e.g., normal) distribution is zero.
+Strings and empty cells are simply ignored.
+If less than three numbers are given, SKEW returns #DIV/0! error.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+SKEW(A1:A5) equals 0.976798268.
+
+@SEEALSO=AVERAGE,VAR,SKEWP,KURT
+
+@FUNCTION=SKEWP
+@SYNTAX=SKEWP(n1, n2, ...)
+@DESCRIPTION=SKEWP returns the population skewness of a data set.
+Strings and empty cells are simply ignored.
+If less than two numbers are given, SKEWP returns #DIV/0! error.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+SKEWP(A1:A5) equals 0.655256198.
+
+@SEEALSO=AVERAGE,VARP,SKEW,KURTP
+
+@FUNCTION=SLN
+@SYNTAX=SLN(cost,salvage_value,life)
+@DESCRIPTION=SLN function will determine the straight line depreciation of an asset for a single period. The amount you paid for the asset is the @cost, @salvage is the value of the asset at the end of its useful life, and @life is the number of periods over which an the asset is depreciated. This method of deprecition devides the cost evenly over the life of an asset.
+The formula used for straight line depriciation is:
+Depriciation expense = ( @cost - @salvage_value ) / @life
+	@cost = cost of an asset when acquired (market value).	@salvage_value = amount you get when asset sold at the end of the assets's useful life.	@life = anticipated life of an asset.
+@EXAMPLES=
+For example, lets suppose your company purchases a new machine for $10,000, which has a salvage value of $700 and will have a useful life of 10 years. The SLN yearly depreciation is computed as follows:
+=SLN(10000, 700, 10)
+This will return the yearly depreciation figure of $930.
+@SEEALSO=SYD
+
+@FUNCTION=SLOPE
+@SYNTAX=SLOPE(y_conocidos,x_conocidos)
+@DESCRIPTION=Devuelve la inclinación de la línea de regresión linear.
+Esta función es compatible con Excel.
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3; 21,3; 25,9; y 40,1; y las celdas B1, B2, ..., B5 contengan 23,2; 25,8; 29,9; 33,5; y 42,7. Entonces
+SLOPE(A1:A5,B1:B5) es igual a 1,417959936.
+
+@SEEALSO=STDEV,STDEVPA
+
+@FUNCTION=SMALL
+@SYNTAX=SMALL(n1;n2;...;k)
+@DESCRIPTION=Devuleve el k-ésimo menor valor en un conjunto de datos.
+Si el conjunto de datos está vacío, entonces devuelve el error #NUMERO!. If @k <= 0 o @k es mayor que el número de términos, entonces SMALL devuelve el error #NUMERO!.nEsta función es compatible con Excel.
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3, 21,3; 25,9 y 40,1.  Entonces
+LARGE(A1:A5;2) es igual a 17,3.
+LARGE(A1:A5;4) es igual a 25,9.
+
+@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE
+
+@FUNCTION=SQRT
+@SYNTAX=SQRT(x)
+@DESCRIPTION=Devuelve la raíz cuadrada de @x.
+Si @x es negativo devuelve el error #NUMERO!.
+Esta función es compatible con Excel.
+@EXAMPLES=
+SQRT(2) es igual a 1,4142136.
+
+@SEEALSO=POWER
+
+@FUNCTION=SQRTPI
+@SYNTAX=SQRTPI(número)
+@DESCRIPTION=Devuelve la raíz cuadrada de un @número multiplicado por pi.
+Esta función es compatible con Excel.
+@EXAMPLES=
+SQRTPI(2) es igual a 2,506628275.
+
+@SEEALSO=PI
+
+@FUNCTION=STANDARDIZE
+@SYNTAX=STANDARDIZE(x,mean,stdev)
+@DESCRIPTION=STANDARDIZE function returns a normalized value. @x is the number to be normalized, @mean is the mean of the distribution, @stdev is the standard deviation of the distribution.
+If @stddev is 0 STANDARDIZE returns #DIV/0! error.
+This function is Excel compatible.
+@EXAMPLES=
+STANDARDIZE(3,2,4) equals 0.25.
+
+@SEEALSO=AVERAGE
+
+@FUNCTION=STDEV
+@SYNTAX=STDEV(b1; b2; ...)
+@DESCRIPTION=STDEV calcula la desviación estándar, cada número es el miembro de una población. Esta función es compatible con Excel.
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3;21,3; 25,9 y 40,1.  Entonces,
+STDEV(A1:A5) devuelve 10,84619749.
+
+@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR
+
+@FUNCTION=STDEVA
+@SYNTAX=STDEVA(number1,number2,...)
+@DESCRIPTION=STDEVA returns the standard deviation based on a sample. Numbers, text and logical values are included in the calculation too.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
+STDEVA(A1:A5) equals 15.119953704.
+
+@SEEALSO=STDEV,STDEVPA
+
+@FUNCTION=STDEVP
+@SYNTAX=STDEVP(b1, b2, ...)
+@DESCRIPTION=STDEVP returns standard deviation of a set of numbers treating these numbers as members of a complete population.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+STDEVP(A1:A5) equals 9.701133954.
+
+@SEEALSO=STDEV,STDEVA,STDEVPA
+
+@FUNCTION=STDEVPA
+@SYNTAX=STDEVPA(number1,number2,...)
+@DESCRIPTION=STDEVPA returns the standard deviation based on the entire population.  Numbers, text and logical values are included in the calculation too.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
+STDEVPA(A1:A5) equals 13.523697719.
+
+@SEEALSO=STDEVA,STDEVP
+
+@FUNCTION=STEYX
+@SYNTAX=STEYX(known_y's,known_x's)
+@DESCRIPTION=STEYX function returns the standard error of the predicted y-value for each x in the regression.
+If @known_y's and @known_x's are empty or have a different number of arguments then STEYX returns #N/A error.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
+STEYX(A1:A5,B1:B5) equals 1.101509979.
+
+@SEEALSO=PEARSON,RSQ,SLOPE
+
+@FUNCTION=SUBSTITUTE
+@SYNTAX=SUBSTITUTE(texto, antiguo, nuevo [,número]
+@DESCRIPTION=Reemplaza @antiguo con @nuevo en @texto. Las substituciones se aplican únicamente a la @número instancias de @antiguo en @texto, si se omite @número se reemplazan todas las instancias.
+Esta función es compatible con Excel.
+@EXAMPLES=
+SUBSTITUTE("probando","prob","esper") es igual a "esperando".
+
+@SEEALSO=REPLACE, TRIM
+
+@FUNCTION=SUBTOTAL
+@SYNTAX=SUMIF(función_num,ref1,ref2,...)
+@DESCRIPTION=La función SUBTOTAL devuelve el subtotal de la lista de argumentos. @función_num es el número que especifica la función a usar para calcular el subtotal. Las siguientes funciones son disponibles:
+1   AVERAGE
+2   COUNT
+3   COUNTA
+4   MAX
+5   MIN
+6   PRODUCT
+7   STDEV
+8   STDEVP
+9   SUM
+10  VAR
+11  VARP
+ Esta función es compatible con Excel. 
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 23, 27, 28, 33 y 39.  Entonces
+SUBTOTAL(1,A1:A5) es igual a 30.
+SUBTOTAL(6,A1:A5) es igual a 22378356.
+SUBTOTAL(7,A1:A5) es igual a 6.164414003.
+SUBTOTAL(9,A1:A5) es igual a 150.
+SUBTOTAL(11,A1:A5) es igual a 30.4.
+
+@SEEALSO=COUNT,SUM
+
+@FUNCTION=SUM
+@SYNTAX=SUM(valor1;valor2;...)
+@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en la lista de argumentos.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contienen los números 11, 15, 17, 21 y 43.  Entonces
+SUM(A1:A5) es igual a 107.
+
+@SEEALSO=AVERAGE, COUNT
+
+@FUNCTION=SUMA
+@SYNTAX=SUMA(valor1, valor2, ...)
+@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en la lista de argumentos. Se incluye en el cálculo los números y también los textos y expresiones lógicas. Si la celda contiene texto o la expresión lógica FALSO, se contará como un cero (0). Si contiene un valor lógico VERDAD, se contará como un uno (1). Note que las celdas vacías no son contadas.
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contienen los números 11, 15, 17, 21 y 43.  Entonces
+SUMA(A1:A5) es igual a 107.
+
+@SEEALSO=AVERAGE, SUM, COUNT
+
+@FUNCTION=SUMIF
+@SYNTAX=SUMIF(rango;criterio[;rango_real])
+@DESCRIPTION=Suma los valores de las celdas en el @rango que corresponde al @criterio pasado en argumento. Si @rango_real es usado, SUMIF sumará los valores en el rango @rango_real cuyos componentes en @rango corresponden al criterio pasado en argumento @criterio.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contiene los números 23, 27, 28, 33, y 39.  Entonces
+SUMIF(A1:A5;"<=28") es igual a 78.
+SUMIF(A1:A5;"<28") es igual a 50.
+Además, si las celdas B1, B2, ..., B5 contienen los números 5, 3, 2, 6, y 7 entonces:
+SUMIF(A1:A5;"<=27",B1:B5) es igual a 8.
+
+@SEEALSO=COUNTIF,SUM
+
+@FUNCTION=SUMPRODUCT
+@SYNTAX=SUMPRODUCT(rango1;rango2;...)
+@DESCRIPTION=Multiplica las entradas correspondientes de los vectores o rangos especificados, y luego devuelve la suma de dichos productos. Si una entrada de un vector no es numérica e valor cero es usado en su lugar. 
+Si los vectores o rangos en argumento no son de dimensiones iguales, SUMPRODUCT devuelve el error #VALOR! .
+Esta función es compatible con Excel. 
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11, 15, 17, 21, y 43 y las celdas B1, B2, ..., B5 los números 13, 22, 31, 33, y 39.  Entonces
+SUMPRODUCT(A1:A5;B1:B5) es igual a 3370.
+
+@SEEALSO=SUM,PRODUCT
+
+@FUNCTION=SUMSQ
+@SYNTAX=SUMSQ(valor1;valor2;...)
+@DESCRIPTION=Calcula la suma de los cuadrados de todos los valores y celdas referenciados en la lista de argumentos.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contienen los números 11, 15, 17, 21, y 43.  Entonces
+SUMSQ(A1:A5) es igual a 2925.
+
+@SEEALSO=SUM, COUNT
+
+@FUNCTION=SUMX2MY2
+@SYNTAX=SUMX2MY2(array1,array2)
+@DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2MY2 is SUM (x^2-y^2). 
+Strings and empty cells are simply ignored.
+If @array1 and @array2 have different number of data points, SUMX2MY2 returns #N/A error.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  Then
+SUMX2MY2(A1:A5,B1:B5) equals -1299.
+
+@SEEALSO=SUMSQ,SUMX2PY2
+
+@FUNCTION=SUMX2PY2
+@SYNTAX=SUMX2PY2(array1,array2)
+@DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2PY2 is SUM (x^2+y^2). 
+Strings and empty cells are simply ignored.
+If @array1 and @array2 have different number of data points, SUMX2PY2 returns #N/A error.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  Then
+SUMX2PY2(A1:A5,B1:B5) equals 7149.
+
+@SEEALSO=SUMSQ,SUMX2MY2
+
+@FUNCTION=SUMXMY2
+@SYNTAX=SUMXMY2(array1,array2)
+@DESCRIPTION=SUMXMY2 function returns the sum of squares of differences of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMXMY2 is SUM (x-y)^2. 
+Strings and empty cells are simply ignored.
+If @array1 and @array2 have different number of data points, SUMXMY2 returns #N/A error.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  Then
+SUMXMY2(A1:A5,B1:B5) equals 409.
+
+@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2
+
+@FUNCTION=SYD
+@SYNTAX=SYD(cost,salvage_value,life,period)
+@DESCRIPTION=SYD function calculates the sum-of-years digits depriciation for an asset based on its cost, salvage value, anticipated life and a particular period. This method accelerates the rate of the depreciation, so that more depreciation expense occurs in earlier periods than in later ones. The depreciable cost is the actual cost minus the salvage value. The useful life is the number of periods (typically years) over with the asset is depreciated.
+The Formula used for sum-of-years digits depriciation is:
+Depriciation expense = ( @cost - @salvage_value ) * (@life - @period + 1) * 2 / @life * (@life + 1).
+	@cost = cost of an asset when acquired (market value).	@salvage_value = amount you get when asset sold at the end of its useful life.	@life = anticipated life of an asset.	@period = period for which we need the expense.
+@EXAMPLES=
+For example say a company purchases a new computer for $5000 which has a salvage value of $200, and a useful life of three years. We would use the following to calculate the second year's depreciation using the SYD method:
+=SYD(5000, 200, 5, 2) which returns 1,280.00.
+@SEEALSO=SLN
+
+@FUNCTION=T
+@SYNTAX=T(valor)
+@DESCRIPTION=Devuelve @valor únicamente si se trata de una cadena de texto; sino devuelve una cadena vacía.
+Esta función es compatible con Excel.
+@EXAMPLES=
+T("texto") es igual a "texto".
+T(64) devuelve una celda vacía.
+
+@SEEALSO=CELL, N, VALUE
+
+@FUNCTION=TAN
+@SYNTAX=TAN(x)
+@DESCRIPTION=Devuelve la tangente de @x, con @x en radianes.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+TAN(3) es igual a -0,1425465.
+
+@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS
+
+@FUNCTION=TANH
+@SYNTAX=TANH(x)
+@DESCRIPTION=Devuelve la tangente hiperbólica de @x, la cual es definida matemáticamente como sinh(@x) / cosh(@x).
+Esta función es compatible con Excel. 
+@EXAMPLES=
+TANH(2) devuelve 0,96402758.
+
+@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
+
+@FUNCTION=TBILLEQ
+@SYNTAX=TBILLEQ(settlement,maturity,discount)
+@DESCRIPTION=TBILLEQ function returns the bond-yield equivalent (BEY) for a treasury bill.  TBILLEQ is equivalent to (365 * @discount) / (360 - @discount * DSM) where DSM is the days between @settlement and @maturity. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLEQ returns #NUM! error. If @discount is negative, TBILLEQ returns #NUM! error. 
+@EXAMPLES=
+
+@SEEALSO=TBILLPRICE,TBILLYIELD
+
+@FUNCTION=TBILLPRICE
+@SYNTAX=TBILLPRICE(settlement,maturity,discount)
+@DESCRIPTION=TBILLPRICE function returns the price per $100 value for a treasury bill where @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns #NUM! error. If @discount is negative, TBILLPRICE returns #NUM! error. 
+@EXAMPLES=
+
+@SEEALSO=TBILLEQ,TBILLYIELD
+
+@FUNCTION=TBILLYIELD
+@SYNTAX=TBILLYIELD(settlement,maturity,pr)
+@DESCRIPTION=TBILLYIELD function returns the yield for a treasury bill. @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLYIELD returns #NUM! error. If @pr is negative, TBILLYIELD returns #NUM! error. 
+@EXAMPLES=
+
+@SEEALSO=TBILLEQ,TBILLPRICE
+
+@FUNCTION=TDIST
+@SYNTAX=TDIST(x,dof,tails)
+@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is the degree of freedom and @tails is 1 or 2 depending on whether you want one-tailed or two-tailed distribution.
+If @dof < 1 TDIST returns #NUM! error.  If @tails is neither 1 or 2 TDIST returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+TDIST(2,5,1) equals 0.050969739.
+
+@SEEALSO=TINV,TTEST
+
+@FUNCTION=TEXT
+@SYNTAX=TEXT(valor,formato_texto)
+@DESCRIPTION=Devuelve @valor como una cadena de texto, según el formato especificado.
+Esta función es compatible con Excel.
+@EXAMPLES=
+TEXT(3.223,"$0.00") es igual a "$3.22".
+TEXT(date(1999,4,15),"mmmm, dd, yy") es igual a "Abril, 15, 99".
+
+@SEEALSO=DOLLAR
+
+@FUNCTION=TIME
+@SYNTAX=TIME (horas,minutos,segundos)
+@DESCRIPTION=Devuelve una fracción representando la hora.
+Esta función es compatible con Excel.
+@EXAMPLES=
+TIME(3; 5; 23) es igual a 3:05 AM.
+
+@SEEALSO=HOUR
+
+@FUNCTION=TIMEVALUE
+@SYNTAX=TIMEVALUE (texto_hora)
+@DESCRIPTION=Devuelve una fracción representando la hora del día, un número entre 0 y 1.
+Esta función es compatible con Excel.
+@EXAMPLES=
+TIMEVALUE("3:05") es igual a 0,128472.
+TIMEVALUE("2:24:53 PM") es igual a 0,600613.
+
+@SEEALSO=HOUR
+
+@FUNCTION=TINV
+@SYNTAX=TINV(p,dof)
+@DESCRIPTION=TINV function returns the inverse of the two-tailed Student's t-distribution.
+If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+TINV(0.4,32) equals 0.852998454.
+
+@SEEALSO=TDIST,TTEST
+
+@FUNCTION=TODAY
+@SYNTAX=TODAY ()
+@DESCRIPTION=Devuelve el número de serie de la fecha de hoy (la cantidad de días transcurridos desde el 1º de enero de 1900).
+Esta función es compatible con Excel.
+@EXAMPLES=
+TODAY() es igual a 'Nov 6, 2001' en ese día en particular.
+
+@SEEALSO=TODAY, NOW
+
+@FUNCTION=TRANSPOSE
+@SYNTAX=TRANSPOSE(matriz)
+@DESCRIPTION=La función TRANSPOSE devuelve la matriz transpuesta de @matriz.
+@EXAMPLES=
+
+@SEEALSO=MMULT
+
+@FUNCTION=TREND
+@SYNTAX=TREND(known_y's[,known_x's],new_x's])
+@DESCRIPTION=TREND function estimates future values of a given data set using the ``least squares'' line that best fit to your data. @known_y's is the y-values where y=mx+b and @known_x's contains the corresponding x-values.  @new_x's contains the x-values for which you want to estimate the y-values. 
+If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is omitted, it is assumed to be the same as @known_x's. If @known_y's and @known_x's have unequal number of data points, TREND returns #NUM! error. 
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
+TREND(A1:A5,B1:B5) equals 156.52.
+
+@SEEALSO=LINEST
+
+@FUNCTION=TRIM
+@SYNTAX=TRIM(texto)
+@DESCRIPTION=Devuelve la cadena @texto con sólo un espacio entre cada palabra.
+Esta función es compatible con Excel.
+@EXAMPLES=
+TRIM("  a bbb  cc") es igual a "a bbb cc".
+
+@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE
+
+@FUNCTION=TRIMMEAN
+@SYNTAX=TRIMMEAN(ref,fraction)
+@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref is the list of numbers whose mean you want to calculate and @fraction is the fraction of the data set excluded from the mean. For example, if @fraction=0.2 and the data set contains 40 numbers, 8 numbers are trimmed from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the set.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+TRIMMEAN(A1:A5,0.2) equals 23.2.
+
+@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE
+
+@FUNCTION=TRUE
+@SYNTAX=TRUE()
+@DESCRIPTION=Devuelve el valor lógico verdad. 
+Esta función es compatible con Excel. 
+@EXAMPLES=
+TRUE() es igual a VERDAD.
+
+@SEEALSO=FALSE
+
+@FUNCTION=TRUNC
+@SYNTAX=TRUNC(número[;dígitos])
+@DESCRIPTION=Devuelve el valor de @número troncado a la cantidad de @dígitos especificado. Si no se especifica @dígitos se asume cero.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+TRUNC(3,12) es igual a 3.
+TRUNC(4,15;1) es igual a 4.1.
+
+@SEEALSO=INT
+
+@FUNCTION=TTEST
+@SYNTAX=TTEST(array1,array2,tails,type)
+@DESCRIPTION=TTEST function returns the probability of a Student's t-Test. 
+@array1 is the first data set and @array2 is the second data set.  If @tails is one, TTEST uses the one-tailed distribution and if @tails is two, TTEST uses the two-tailed distribution.  @type determines the kind of the test:
+1  Paired test
+2  Two-sample equal variance
+3  Two-sample unequal variance
+
+If the data sets contain a different number of data points and the test is paired (@type one), TTEST returns the #N/A error. @tails and @type are truncated to integers. If @tails is not one or two, TTEST returns #NUM! error. If @type is any other than one, two, or three, TTEST returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
+TTEST(A1:A5,B1:B5,1,1) equals 0.003127619.
+TTEST(A1:A5,B1:B5,2,1) equals 0.006255239.
+TTEST(A1:A5,B1:B5,1,2) equals 0.111804322.
+TTEST(A1:A5,B1:B5,1,3) equals 0.113821797.
+
+@SEEALSO=FDIST,FINV
+
+@FUNCTION=TYPE
+@SYNTAX=TYPE(valor)
+@DESCRIPTION=Devuelve un número que indica el tipo de dato de @valor.
+Esta función es compatible con Excel. 
+@EXAMPLES=
+TYPE(3) es igual a 1.
+TYPE("texto") es igual a 2.
+
+@SEEALSO=
+
+@FUNCTION=UNIX2DATE
+@SYNTAX=UNIX2DATE(unixtime)
+@DESCRIPTION=UNIX2DATE converts a unix time into a spreadsheet date and time.
+
+A unix time is the number of seconds since midnight January 1, 1970.
+
+@EXAMPLES=
+
+@SEEALSO=NOW, DATE, DATE2UNIX
+
+@FUNCTION=UPPER
+@SYNTAX=UUPER(texto)
+@DESCRIPTION=Devuelve una versión en mayúsculas de la cadena @texto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+UPPER("cancelado") devuelve "CANCELADO".
+
+@SEEALSO=LOWER
+
+@FUNCTION=VALUE
+@SYNTAX=VALUE(texto)
+@DESCRIPTION=Devuelve el valor numérico de @texto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+VALUE("$1,000") es igual a 1000.
+
+@SEEALSO=DOLLAR, FIXED, TEXT
+
+@FUNCTION=VAR
+@SYNTAX=VAR(b1, b2, ...)
+@DESCRIPTION=VAR estimates the variance of a sample of a population. To get the true variance of a complete population use @VARP.
+(VAR is also known as the N-1-variance.  Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.)
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+VAR(A1:A5) equals 117.64.
+
+@SEEALSO=VARP,STDEV
+
+@FUNCTION=VARA
+@SYNTAX=VARA(number1,number2,...)
+@DESCRIPTION=VARA returns the variance based on a sample.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
+VARA(A1:A5) equals 228.613.
+
+@SEEALSO=VAR,VARPA
+
+@FUNCTION=VARP
+@SYNTAX=VARP(b1, b2, ...)
+@DESCRIPTION=VARP calcula la variencia de un conjunto de números, cada número es el miembro de una población y el conjunto es la población entera.
+(VARP también se conoce como N-variencia.)
+@EXAMPLES=
+Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11.4, 17.3, 21.3, 25.9 y 40.1.  Entonces,
+VARP(A1:A5) es igual a 94.112.
+
+@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR
+
+@FUNCTION=VARPA
+@SYNTAX=VARPA(number1,number2,...)
+@DESCRIPTION=VARPA returns the variance based on the entire population.  Numbers, text and logical values are included in the calculation too.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
+VARPA(A1:A5) equals 182.8904.
+
+@SEEALSO=VARP,VARP
+
+@FUNCTION=VDB
+@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])
+@DESCRIPTION=VDB calculates the depreciation of an asset for a given period or partial period using the double-declining balance method.
+@EXAMPLES=
+
+@SEEALSO=DB
+
+@FUNCTION=VLOOKUP
+@SYNTAX=VLOOKUP(value,range,column[,approximate])
+@DESCRIPTION=VLOOKUP function finds the row in range that has a first column similar to value.  If @approximate is not true it finds the row with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than @value.  It returns the value in the row found at a 1 based offset in @column columns into the @range.
+Returns #NUM! if @column < 0. Returns #REF! if @column falls outside @range.
+@EXAMPLES=
+
+@SEEALSO=HLOOKUP
+
+@FUNCTION=WEEKDAY
+@SYNTAX=WEEKDAY (serial_number[, method])
+@DESCRIPTION=WEEKDAY converts a serial number to a weekday.
+
+This function returns an integer indicating the day of week.
+@METHOD indicates the numbering system.  It defaults to 1.
+
+For @METHOD=1: Sunday is 1, Monday is 2, etc.
+For @METHOD=2: Monday is 1, Tuesday is 2, etc.
+For @METHOD=3: Monday is 0, Tuesday is 1, etc.
+
+Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string.
+This function is Excel compatible. 
+@EXAMPLES=
+WEEKDAY("10/24/1968") equals 5 (Thursday).
+
+@SEEALSO=DAY, MONTH, TIME, NOW, YEAR
+
+@FUNCTION=WEEKNUM
+@SYNTAX=WEEKNUM (date, method)
+@DESCRIPTION=WEEKNUM returns the week number of @date according to the given @method.
+
+@method defaults to 1.
+For method=1, week starts on Sunday, and days before first Sunday are in week 0.
+For method=2, week starts on Monday, and days before first Monday are in week 0.
+For method=150, the ISO 8601 week number is returned.
+
+Returns #NUM! if date or method is invalid.
+This function is Excel compatible, except that Excel does not support ISO 8601 week numbers.
+@EXAMPLES=
+If A1 contains 12/21/00 then WEEKNUM(A1,2)=51
+@SEEALSO=ISOWEEKNUM
+
+@FUNCTION=WEIBULL
+@SYNTAX=WEIBULL(x,alpha,beta,cumulative)
+@DESCRIPTION=WEIBULL function returns the Weibull distribution. If the @cumulative boolean is true it will return: 1 - exp (-(@x/@beta)^@alpha), otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/@beta^@alpha)). 
+If @x < 0 WEIBULL returns #NUM! error. If @alpha <= 0 or @beta <= 0 WEIBULL returns #NUM! error.
+This function is Excel compatible.
+@EXAMPLES=
+WEIBULL(3,2,4,0) equals 0.213668559.
+
+@SEEALSO=POISSON
+
+@FUNCTION=WORKDAY
+@SYNTAX=WORKDAY (fecha_inicio;días;vacaciones)
+@DESCRIPTION=Devuelve el día que viene @días días laborables después que @fecha_inicio. Los días de fin de semana así como los días opcionalmente indicados con el argumento @vacaciones no se cuentan.
+Devuelve #NUMERO! si @fecha_inicio o @días no son válidos.
+Esta función es compatible con Excel.
+@EXAMPLES=
+WORKDAY(DATE(2001;1;5); DATE(2001;2;15)) es igual a 88609.
+
+@SEEALSO=NETWORKDAYS
+
+@FUNCTION=XIRR
+@SYNTAX=XIRR(values,dates[,guess])
+@DESCRIPTION=XIRR calculates and returns the internal rate of return of an investment that has not necessarily periodic payments.  This function is closely related to the net present value function (NPV and XNPV).  The XIRR is the interest rate for a serie of cash flow where the XNPV is zero. 
+@values contains the serie of cash flow generated by the investment.  @dates contains the dates of the payments.  The first date describes the payment day of the initial payment and thus all the other dates should be after this date. The optional @guess is the initial value used in calculating the XIRR.  You do not have to use that, it is only provided for the Excel compatibility. 
+This function is Excel compatible. 
+@EXAMPLES=
+Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, 1933, and 1422, and the cells B1:B5 contain the dates "1999-01-15", "1999-04-04", "1999-05-09", "2000-03-12", and "2000-05-1". Then
+XIRR(A1:A5,B1:B5) returns 0.224838. 
+@SEEALSO=IRR,XNPV
+
+@FUNCTION=XNPV
+@SYNTAX=XNPV(rate,values,dates)
+@DESCRIPTION=XNPV calculates the net present value of an investment.  The schedule of the cash flows is given in @dates array.  The first date indicates the beginning of the payment schedule.  @rate is the interest rate and @values are the payments. 
+If @values and @dates contain unequal number of values, XNPV returns the #NUM! error. 
+@EXAMPLES=
+
+@SEEALSO=NPV,PV
+
+@FUNCTION=YEAR
+@SYNTAX=YEAR (número_de_serie)
+@DESCRIPTION=Convierte el número de serie a un año.
+Note que Gnumeric hará la conversión de una cadena de texto a un número de serie; por lo tanto puede entrar la fecha como una cadena de texto.
+Esta función es compatible con Excel.
+@EXAMPLES=
+YEAR(DATE(2003;4;30)) es igual a 2003.
+
+@SEEALSO=DAY, MONTH, TIME, NOW
+
+@FUNCTION=YIELD
+@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])
+@DESCRIPTION=Use YIELD to calculate the yield on a security that pays periodic interest. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, YIELD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=YIELDDISC
+@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])
+@DESCRIPTION=YIELDDISC calculates the annual yield of a security that is discounted. @settlement is the settlement date of the security.  @maturity is the maturity date of the security. @pr is the price per $100 face value of the security. @redemption is the redemption value per $100 face value. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, YIELDDISC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=YIELDMAT
+@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])
+@DESCRIPTION=YIELDMAT calculates the annual yield of a security for which the interest is payed at maturity date. @settlement is the settlement date of the security. @maturity is the maturity date of the security. @issue is the issue date of the security. @rate is the interest rate set to the security. @pr is the price per $100 face value of the security. @basis is the type of day counting system you want to use:
+
+0  US 30/360
+1  actual days/actual days
+2  actual days/360
+3  actual days/365
+4  European 30/360
+
+If @frequency is other than 1, 2, or 4, YIELDMAT returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+@EXAMPLES=
+
+@SEEALSO=
+
+@FUNCTION=ZTEST
+@SYNTAX=ZTEST(ref,x)
+@DESCRIPTION=ZTEST returns the two-tailed probability of a z-test.
+@ref is the data set and @x is the value to be tested.
+If @ref contains less than two data items ZTEST returns #DIV/0! error.
+This function is Excel compatible.
+@EXAMPLES=
+Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1.  Then
+ZTEST(A1:A5,20) equals 0.254717826.
+
+@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE
 

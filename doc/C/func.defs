@@ -3011,7 +3011,7 @@ RAND() returns a random number greater than zero but less than one.
 
 @FUNCTION=RANDBERNOULLI
 @SYNTAX=RANDBERNOULLI(p)
-@DESCRIPTION=RANDBERNOULLI returns a Bernoulli distributed random number. 
+@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. 
 If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. 
 @EXAMPLES=
 RANDBERNOULLI(0.5).
@@ -3030,7 +3030,7 @@ RANDBETWEEN(3,7).
 
 @FUNCTION=RANDBINOM
 @SYNTAX=RANDBINOM(p,trials)
-@DESCRIPTION=RANDBINOM returns a binomialy distributed random number. 
+@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. 
 If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM returns #NUM! error. 
 @EXAMPLES=
 RANDBINOM(0.5,2).
@@ -3039,7 +3039,7 @@ RANDBINOM(0.5,2).
 
 @FUNCTION=RANDEXP
 @SYNTAX=RANDEXP(b)
-@DESCRIPTION=RANDEXP returns a exponentially distributed random number. 
+@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. 
 @EXAMPLES=
 RANDEXP(0.5).
 
@@ -3056,7 +3056,7 @@ RANDNEGBINOM(0.5,2).
 
 @FUNCTION=RANDPOISSON
 @SYNTAX=RANDPOISSON(lambda)
-@DESCRIPTION=RANDPOISSON returns a poisson distributed random number. 
+@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. 
 @EXAMPLES=
 RANDPOISSON(3).
 

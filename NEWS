@@ -52,6 +52,7 @@ C. Scott Ananian:
 	* Some documentation fixes.
 	* Fix import of WorkbookView attributes.
 	* update the debian files.
+	* some fixes for validation.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.4
