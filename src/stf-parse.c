@@ -1355,11 +1355,17 @@ stf_parse_options_guess (const char *data)
 		/*
 		 * Try a few more or less likely characters and pick the first
 		 * one that occurs on at least half the lines.
+		 *
+		 * The order is mostly random, although ' ' and '!' which
+		 * could very easily occur in text are put last.
 		 */
 		if (count_character (lines, (c = sepchar), 0.5) > 0 ||
 		    count_character (lines, (c = format_get_col_sep ()), 0.5) > 0 ||
-		    count_character (lines, (c = ' '), 0.5) > 0 ||
-		    count_character (lines, (c = ':'), 0.5) > 0) {
+		    count_character (lines, (c = ':'), 0.5) > 0 ||
+		    count_character (lines, (c = ';'), 0.5) > 0 ||
+		    count_character (lines, (c = '|'), 0.5) > 0 ||
+		    count_character (lines, (c = '!'), 0.5) > 0 ||
+		    count_character (lines, (c = ' '), 0.5) > 0) {
 			char sep[7];
 			sep[g_unichar_to_utf8 (c, sep)] = 0;
 			stf_parse_options_csv_set_separators (res, sep, NULL);
