@@ -23,7 +23,7 @@ module GNOME {
 
 	enum VectorType {
 	    VECTOR_TYPE_SCALAR,
-	    VECTOR_TYPE_DATE,	/* unused */
+	    VECTOR_TYPE_DATE,
 	    VECTOR_TYPE_STRING
 	};
 

@@ -168,6 +168,7 @@
                         <xsd:element name="Cells"           type="gmr:Cells"/>
                         <xsd:element name="MergedRegions"   type="gmr:MergedRegions"/>
                         <xsd:element name="Solver"          type="gmr:Solver"/>
+                        <xsd:element name="SheetLayout"     type="gmr:SheetLayout"/>
                     </xsd:sequence>
                         <!-- note: xsd:boolean values can be true, false, 1, 0;
                              gnumeric, in this element, always generates 'true' or
@@ -756,4 +757,12 @@
         </xsd:restriction>
     </xsd:simpleType>
     
+    <xsd:complexType name="SheetLayout">
+        <xsd:attribute name="TopLeft"   type="xsd:string" use="required"/>
+           <xsd:element name="FreezePanes" use="optional">
+		<xsd:attribute name="FrozenTopLeft"   type="xsd:string" use="required"/>
+		<xsd:attribute name="UnfrozenTopLeft" type="xsd:string" use="required"/>
+           </xsd:element>
+    </xsd:complexType>
+
 </xsd:schema>
