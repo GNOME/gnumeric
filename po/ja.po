@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.2\n"
 "POT-Creation-Date: 2002-01-10 23:59+0900\n"
-"PO-Revision-Date: 2002-01-10 23:37+0900\n"
+"PO-Revision-Date: 2002-01-11 00:02+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -2033,7 +2033,7 @@ msgstr "グラフ(_G)..."
 
 #: src/GNOME_Gnumeric.xml.h:247
 msgid "_Group"
-msgstr "グループ(_G)"
+msgstr "グループ化(_G)"
 
 #: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2928
 msgid "_Group and Outline"
@@ -3758,7 +3758,7 @@ msgstr "すべての番号"
 
 #: src/dialogs/cell-format.glade.h:103
 msgid "Worksheet _protected"
-msgstr "ワークシートの保護(_P)"
+msgstr "ワークシートを保護する(_P)"
 
 #: src/dialogs/cell-format.glade.h:104
 msgid "_Accounting"
@@ -3786,7 +3786,7 @@ msgstr "分数(_F)"
 
 #: src/dialogs/cell-format.glade.h:112
 msgid "_Hidden"
-msgstr "隠す(_H)"
+msgstr "式を隠す(_H)"
 
 #: src/dialogs/cell-format.glade.h:113
 msgid "_Indent"
@@ -3802,7 +3802,7 @@ msgstr "左(_L)"
 
 #: src/dialogs/cell-format.glade.h:116
 msgid "_Locked"
-msgstr "ロック(_L)"
+msgstr "セルをロックする(_L)"
 
 #: src/dialogs/cell-format.glade.h:117
 msgid "_Number"
