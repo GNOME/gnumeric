@@ -76,6 +76,8 @@ typedef struct {
 	GSList              *ov_cell_stack;
 	GtkWidget           *warning_dialog;
 
+	gboolean             cancelled;
+
 	Sheet	            *sheet;
 	Workbook            *wb;
 	WorkbookControlGUI  *wbcg;
@@ -459,6 +461,15 @@ dialog_destroy (GtkObject *w, SolverState  *state)
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
+	if (state->ov_cell_stack != NULL &&
+	    !state->cancelled &&
+	    !cmd_solver (WORKBOOK_CONTROL(state->wbcg), state->ov_cell_stack, 
+			 state->ov_stack, NULL))
+	{
+		state->ov_cell_stack = NULL;
+		state->ov_stack = NULL;
+	}
+
 	if (state->ov_stack != NULL) {
 		g_slist_foreach (state->ov_stack, (GFunc)free_original_values,
 				 NULL);
@@ -531,6 +542,7 @@ cb_dialog_cancel_clicked (G_GNUC_UNUSED GtkWidget *button, SolverState *state)
 		state->ov_stack = NULL;
 		workbook_recalc (state->sheet->workbook);
 	}
+	state->cancelled = TRUE;
 
 	gtk_widget_destroy (state->dialog);
 }
@@ -546,13 +558,8 @@ static void
 cb_dialog_close_clicked (G_GNUC_UNUSED GtkWidget *button,
 			 SolverState *state)
 {
-	if (!cmd_solver (state->wbcg, state->ov_cell_stack, 
-			 state->ov_stack, NULL))
-	{
-		state->ov_cell_stack = NULL;
-		state->ov_stack = NULL;
-		gtk_widget_destroy (state->dialog);
-	}
+	state->cancelled = FALSE;
+	gtk_widget_destroy (state->dialog);
 }
 
 /*
@@ -1028,6 +1035,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	workbook_recalc (state->sheet->workbook);
 
 	if (res != NULL) {
+		state->cancelled = FALSE;
 		solver_reporting (state, res, errmsg);
 		if (param->options.add_scenario)
 			solver_add_scenario (state, res,
@@ -1355,6 +1363,7 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->ov_stack       = NULL;
 	state->ov_cell_stack  = NULL;
 	state->warning_dialog = NULL;
+	state->cancelled      = TRUE;
 
 	if (dialog_init (state)) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,

@@ -1,3 +1,13 @@
+2003-07-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-solver.c (dialog_destroy): call cmd_solver if 
+	  appropriate
+	(cb_dialog_cancel_clicked) set cancelled to true
+	(cb_dialog_close_clicked) set cancelled to false and defer
+	  call of cmd_solver to dialog_destroy
+	(cb_dialog_solve_clicked) set cancelled to false
+	(dialog_solver) initialize cancelled to true
+
 2003-07-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-stf.glade: give a proper title to the dialog
