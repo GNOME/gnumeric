@@ -1466,8 +1466,8 @@ cell_used_map_new (ExcelSheet *sheet)
 {
 	long nwords;
 	gpointer ptr = NULL;
-	if (sheet->maxx > 0 && sheet->maxy> 0) {
-		nwords = (sheet->maxx * sheet->maxy - 1) / 32 + 1;
+	if (sheet->max_col > 0 && sheet->max_row > 0) {
+		nwords = (sheet->max_col * sheet->max_row - 1) / 32 + 1;
 		ptr = g_malloc0 (nwords * 4);
 	}
 	return ptr;
@@ -1479,7 +1479,7 @@ cell_used_map_new (ExcelSheet *sheet)
 static void
 cell_mark_used (ExcelSheet *sheet, int col, int row)
 {
-	long bit_ix = row * sheet->maxx + col;
+	long bit_ix = row * sheet->max_col + col;
 	long word_ix = bit_ix / 32;
 	int  rem     = bit_ix % 32;
 
@@ -1493,7 +1493,7 @@ cell_mark_used (ExcelSheet *sheet, int col, int row)
 static gboolean
 cell_is_used (const ExcelSheet *sheet, int col, int row)
 {
-	long bit_ix = row * sheet->maxx + col;
+	long bit_ix = row * sheet->max_col + col;
 	long word_ix = bit_ix / 32;
 	int  rem     = bit_ix % 32;
 	gboolean ret = FALSE;
@@ -1607,8 +1607,8 @@ put_mstyle (ExcelWorkbook *wb, MStyle *st)
 inline static ExcelCell *
 excel_cell_get (ExcelSheet *sheet, int col, int row)
 {
-	g_return_val_if_fail (col < sheet->maxx, NULL);
-	g_return_val_if_fail (row < sheet->maxy, NULL);
+	g_return_val_if_fail (col < sheet->max_col, NULL);
+	g_return_val_if_fail (row < sheet->max_row, NULL);
 	return *(sheet->cells + row) + col;
 }
 
@@ -1636,7 +1636,7 @@ pre_cell (gconstpointer dummy, Cell *cell, ExcelSheet *sheet)
 	}
 #endif
 
-	if (col >= sheet->maxx || row >= sheet->maxy) {
+	if (col >= sheet->max_col || row >= sheet->max_row) {
 		/* sheet_get_extent clipped blank cells, this had better be blank. */
 		g_return_if_fail (cell_is_blank (cell));
 		return;
@@ -1691,8 +1691,8 @@ pre_blanks (ExcelSheet *sheet)
 {
 	int row, col;
 
-	for (row = 0; row < sheet->maxy; row++) {
-		for (col = 0; col < sheet->maxx; col++)
+	for (row = 0; row < sheet->max_row; row++) {
+		for (col = 0; col < sheet->max_col; col++)
 			if (!cell_is_used (sheet, col, row))
 				pre_blank (sheet, col, row);
 		count_io_progress_update (sheet->wb->io_context, 1);
@@ -1707,7 +1707,7 @@ pre_blanks (ExcelSheet *sheet)
  * the table.
  *
  * We also need styles for blank cells, so we let pre_blanks scan all
- * blank cell positions, limited by maxx and maxy.
+ * blank cell positions, limited by max_col and max_row.
  *
  * To see what cells are blank, we use the cell_used_map, where
  * pre_cell sets a bit for each cell which is in use. This should be
@@ -1729,7 +1729,7 @@ gather_styles (ExcelWorkbook *wb)
 
 		s = g_ptr_array_index (wb->sheets, i);
 		n += g_hash_table_size (s->gnum_sheet->cell_hash);
-		n += s->maxy;
+		n += s->max_row;
 	}	
 
 	count_io_progress_set (wb->io_context, n, N_CELLS_BETWEEN_UPDATES);
@@ -3085,16 +3085,16 @@ write_dimension (BiffPut *bp, ExcelSheet *sheet)
 	if (sheet->wb->ver >= MS_BIFF_V8) {
 		data = ms_biff_put_len_next (bp, 0x200 | BIFF_DIMENSIONS, 14);
 		MS_OLE_SET_GUINT32 (data +  0, 0);
-		MS_OLE_SET_GUINT32 (data +  4, sheet->maxy);
+		MS_OLE_SET_GUINT32 (data +  4, sheet->max_row);
 		MS_OLE_SET_GUINT16 (data +  8, 0);
-		MS_OLE_SET_GUINT16 (data + 10, sheet->maxx);
+		MS_OLE_SET_GUINT16 (data + 10, sheet->max_col);
 		MS_OLE_SET_GUINT16 (data + 12, 0x0000);
 	} else {
 		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS, 10);
 		MS_OLE_SET_GUINT16 (data +  0, 0);
-		MS_OLE_SET_GUINT16 (data +  2, sheet->maxy);
+		MS_OLE_SET_GUINT16 (data +  2, sheet->max_row);
 		MS_OLE_SET_GUINT16 (data +  4, 0);
-		MS_OLE_SET_GUINT16 (data +  6, sheet->maxx);
+		MS_OLE_SET_GUINT16 (data +  6, sheet->max_col);
 		MS_OLE_SET_GUINT16 (data +  8, 0x0000);
 	}
 	ms_biff_put_commit (bp);
@@ -3114,7 +3114,7 @@ write_colinfos (BiffPut *bp, ExcelSheet *sheet)
 	ColRowInfo const *first = NULL;
 	int i;
 
-	for (i = 0; i < sheet->maxx; i++) {
+	for (i = 0; i < sheet->max_col; i++) {
 		ColRowInfo const *ci = sheet_col_get (sheet->gnum_sheet, i);
 
 		if (first == NULL)
@@ -3412,20 +3412,20 @@ write_db_cell (BiffPut *bp, ExcelSheet *sheet,
 static guint32
 write_block (BiffPut *bp, ExcelSheet *sheet, guint32 begin, int nrows)
 {
-	guint32 maxx = sheet->maxx;
+	guint32 max_col = sheet->max_col;
 	guint32 end;
 	guint32 x, y;
 	MsOlePos  ri_start [2]; /* Row info start */
 	MsOlePos *rc_start;	/* Row cells start */
 
-	if (nrows > sheet->maxy - (int) begin) /* Incomplete final block? */
-		nrows = sheet->maxy - (int) begin;
+	if (nrows > sheet->max_row - (int) begin) /* Incomplete final block? */
+		nrows = sheet->max_row - (int) begin;
 	end = begin + nrows - 1;
 
-	ri_start [0] = write_rowinfo (bp, sheet, begin, maxx);
+	ri_start [0] = write_rowinfo (bp, sheet, begin, max_col);
 	ri_start [1] = bp->streamPos;
 	for (y = begin + 1; y <= end; y++)
-		(void) write_rowinfo (bp, sheet, y, maxx);
+		(void) write_rowinfo (bp, sheet, y, max_col);
 
 	rc_start = g_new0 (MsOlePos, nrows);
 	for (y = begin; y <= end; y++) {
@@ -3434,7 +3434,7 @@ write_block (BiffPut *bp, ExcelSheet *sheet, guint32 begin, int nrows)
 
 		/* Save start pos of 1st cell in row */
 		rc_start [y - begin] = bp->streamPos;
-		for (x = 0; x < maxx; x++) {
+		for (x = 0; x < max_col; x++) {
 			const ExcelCell *cell = excel_cell_get (sheet, x, y);
 			if (!cell->gnum_cell) {
 				xf_list = g_list_append
@@ -3452,7 +3452,7 @@ write_block (BiffPut *bp, ExcelSheet *sheet, guint32 begin, int nrows)
 				workbook_io_progress_update (sheet->wb->io_context, 1);
 			}
 		}
-		if (run_size > 0 && run_size <= maxx) {
+		if (run_size > 0 && run_size <= max_col) {
 			write_mulblank (bp, sheet, x - 1, y,
 					xf_list, run_size);
 		}
@@ -3479,13 +3479,13 @@ write_sheet (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 	MsOlePos index_off;
 	/* No. of blocks of rows. Only correct as long as all rows -
 	   including empties - have row info records */
-	guint32 nblocks = (sheet->maxy - 1) / rows_in_block + 1;
+	guint32 nblocks = (sheet->max_row - 1) / rows_in_block + 1;
 
 	sheet->streamPos = biff_bof_write (bp, sheet->wb->ver, MS_BIFF_TYPE_Worksheet);
 	/* We catch too large sheets during write check, but leave this in: */
 	maxrows = (sheet->wb->ver >= MS_BIFF_V8)
 		? MsBiffMaxRowsV8 : MsBiffMaxRowsV7;
-	g_assert (sheet->maxy <= maxrows);
+	g_assert (sheet->max_row <= maxrows);
 
 	if (sheet->wb->ver >= MS_BIFF_V8) {
 		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
@@ -3493,7 +3493,7 @@ write_sheet (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 		index_off = bp->streamPos;
 		MS_OLE_SET_GUINT32 (data, 0);
 		MS_OLE_SET_GUINT32 (data +  4, 0);
-		MS_OLE_SET_GUINT32 (data +  8, sheet->maxy);
+		MS_OLE_SET_GUINT32 (data +  8, sheet->max_row);
 		MS_OLE_SET_GUINT32 (data + 12, 0);
 	} else {
 		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
@@ -3501,7 +3501,7 @@ write_sheet (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 		index_off = bp->streamPos;
 		MS_OLE_SET_GUINT32 (data, 0);
 		MS_OLE_SET_GUINT16 (data + 4, 0);
-		MS_OLE_SET_GUINT16 (data + 6, sheet->maxy);
+		MS_OLE_SET_GUINT16 (data + 6, sheet->max_row);
 		MS_OLE_SET_GUINT32 (data + 8, 0);
 	}
 	ms_biff_put_commit (bp);
@@ -3512,9 +3512,9 @@ write_sheet (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 	if (ms_excel_write_debug > 1)
 		printf ("Saving sheet '%s' geom (%d, %d)\n",
 			sheet->gnum_sheet->name_unquoted,
-			sheet->maxx, sheet->maxy);
+			sheet->max_col, sheet->max_row);
 #endif
-	for (y = 0; y < sheet->maxy; y = block_end + 1)
+	for (y = 0; y < sheet->max_row; y = block_end + 1)
 		block_end = write_block (bp, sheet, y, rows_in_block);
 
 	write_biff7_comments (bp, sheet);
@@ -3525,50 +3525,66 @@ write_sheet (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 }
 
 static ExcelSheet *
-new_sheet (ExcelWorkbook *wb, Sheet *value)
+excel_sheet_new (ExcelWorkbook *ewb, Sheet *gnum_sheet, IOContext *context)
 {
-	ExcelSheet      *sheet = g_new (ExcelSheet, 1);
+	ExcelSheet      *esheet = g_new (ExcelSheet, 1);
 	Range           extent;
 	ExcelCell       **p, **pmax;
+	int const maxrows = (ewb->ver >= MS_BIFF_V8)
+		? MsBiffMaxRowsV8 : MsBiffMaxRowsV7;
 
-	g_return_val_if_fail (value, NULL);
-	g_return_val_if_fail (wb, NULL);
+	g_return_val_if_fail (gnum_sheet, NULL);
+	g_return_val_if_fail (ewb, NULL);
 
 	/* Ignore spans and merges past the bound */
-	extent = sheet_get_extent (value, FALSE);
-	sheet_style_get_extent (value, &extent);
+	extent = sheet_get_extent (gnum_sheet, FALSE);
 
-	sheet->gnum_sheet = value;
-	sheet->streamPos  = 0x0deadbee;
-	sheet->wb         = wb;
-	sheet->maxx       = 1 + MAX (value->cols.max_used, extent.end.col);
-	sheet->maxy       = 1 + MAX (value->rows.max_used, extent.end.row);
-	sheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (MsOlePos));
-	sheet->base_char_width = 0;
+	if (extent.end.col > maxrows) {
+		char *msg = g_strdup_printf (
+			_("Too many rows for this format (%d > %d)"),
+			  extent.end.col, maxrows);
+		gnumeric_io_error_save (context, msg);
+		g_free (msg);
+		return NULL;
+	}
 
-	ms_formula_cache_init (sheet);
-	sheet->cell_used_map = cell_used_map_new (sheet);
+	sheet_style_get_extent (gnum_sheet, &extent);
 
-	sheet->cells = g_new (ExcelCell *, sheet->maxy);
-	for (p = sheet->cells, pmax = p + sheet->maxy; p < pmax; p++)
-		*p = g_new0 (ExcelCell, sheet->maxx);
+	esheet->gnum_sheet = gnum_sheet;
+	esheet->streamPos  = 0x0deadbee;
+	esheet->wb         = ewb;
+	esheet->max_col    = 1 + MAX (gnum_sheet->cols.max_used, extent.end.col);
+	esheet->max_row    = 1 + MAX (gnum_sheet->rows.max_used, extent.end.row);
+	esheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (MsOlePos));
+	esheet->base_char_width = 0;
 
-	return sheet;
+	/* It is ok to have formatting out of range, we can disregard that. */
+	if (esheet->max_row > maxrows)
+		esheet->max_row = maxrows;
+
+	ms_formula_cache_init (esheet);
+	esheet->cell_used_map = cell_used_map_new (esheet);
+
+	esheet->cells = g_new (ExcelCell *, esheet->max_row);
+	for (p = esheet->cells, pmax = p + esheet->max_row; p < pmax; p++)
+		*p = g_new0 (ExcelCell, esheet->max_col);
+
+	return esheet;
 }
 
 static void
-free_sheet (ExcelSheet *sheet)
+excel_sheet_free (ExcelSheet *esheet)
 {
 	ExcelCell     **p, **pmax;
 
-	if (sheet) {
-		g_free (sheet->cell_used_map);
-		for (p = sheet->cells, pmax = p + sheet->maxy; p < pmax; p++)
+	if (esheet) {
+		g_free (esheet->cell_used_map);
+		for (p = esheet->cells, pmax = p + esheet->max_row; p < pmax; p++)
 			g_free (*p);
-		g_free (sheet->cells);
-		g_array_free (sheet->dbcells, TRUE);
-		ms_formula_cache_shutdown (sheet);
-		g_free (sheet);
+		g_free (esheet->cells);
+		g_array_free (esheet->dbcells, TRUE);
+		ms_formula_cache_shutdown (esheet);
+		g_free (esheet);
 	}
 }
 
@@ -3580,12 +3596,14 @@ free_sheet (ExcelSheet *sheet)
  * Scans all the workbook items. Adds all styles, fonts, formats and
  * colors to tables. Resolves any referencing problems before they
  * occur, hence the records can be written in a linear order.
- *
  **/
 static int
 pre_pass (IOContext *context, ExcelWorkbook *wb)
 {
 	int ret = 0;
+
+	if (wb->sheets->len == 0)
+		return TRUE;
 
 	/* The default style first */
 	put_mstyle (wb, wb->xf->default_style);
@@ -3620,7 +3638,7 @@ free_workbook (ExcelWorkbook *wb)
 	xf_free  (wb);
 	for (lp = 0; lp < wb->sheets->len; lp++) {
 		ExcelSheet *s = g_ptr_array_index (wb->sheets, lp);
-		free_sheet (s);
+		excel_sheet_free (s);
 	}
 
 	g_free (wb);
@@ -3678,35 +3696,6 @@ write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersio
 }
 
 /*
- * check_sheet
- * @context  Command context
- * @sheet    Sheet
- *
- * Check if we are able to save the sheet. Return -1 if we would, 0 otherwise.
- *
- * FIXME: Check if the 16384 rows limit is a limit on max row no. or
- * on no. of row records. If the latter, change the test if we avoid
- * storing empty row records.
- */
-static int
-check_sheet (IOContext *context, ExcelSheet *sheet)
-{
-	gint32 maxrows;
-	int ret = 0;
-
-	maxrows = (sheet->wb->ver >= MS_BIFF_V8)
-		? MsBiffMaxRowsV8 : MsBiffMaxRowsV7;
-
-	if (sheet->maxy > maxrows) {
-		gnumeric_io_error_save (context,
-			_("Too many rows for this format"));
-		ret = -1;
-	}
-
-	return ret;
-}
-
-/*
  * ms_excel_check_write
  * @context  Command context
  * @filename File name
@@ -3721,7 +3710,7 @@ int
 ms_excel_check_write (IOContext *context, void **state, WorkbookView *gwb_view,
 		      MsBiffVersion ver)
 {
-	int ret = 0;
+	int res;
 	ExcelWorkbook *wb = g_new (ExcelWorkbook, 1);
 	GList    *sheets, *ptr;
 
@@ -3743,22 +3732,19 @@ ms_excel_check_write (IOContext *context, void **state, WorkbookView *gwb_view,
 
 	sheets = workbook_sheets (wb->gnum_wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
-		ExcelSheet *sheet = new_sheet (wb, ptr->data);
-		g_ptr_array_add (wb->sheets, sheet);
-		if ((ret = check_sheet (context, sheet)) != 0)
-			goto cleanup;
-	}
-
-	ret = pre_pass (context, wb);
-
-cleanup:
-	if (ret != 0) {
-		free_workbook (wb);
-		*state = NULL;
+		ExcelSheet *esheet = excel_sheet_new (wb, ptr->data, context);
+		if (esheet != NULL)
+			g_ptr_array_add (wb->sheets, esheet);
 	}
 	g_list_free (sheets);
 
-	return ret;
+	res = pre_pass (context, wb);
+	if (res != 0) {
+		free_workbook (wb);
+		*state = NULL;
+	}
+
+	return res;
 }
 
 void

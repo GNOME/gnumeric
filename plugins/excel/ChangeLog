@@ -1,3 +1,9 @@
+2001-10-15  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (excel_sheet_new) : merge check_sheet into here.
+	  rename according to our standards.  Only complain about being too
+	  large if the content is too large, silently clip the formats.
+
 2001-10-12  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-chart.c (BC_R(legend)) : Use more guppi-ish terms for legend
