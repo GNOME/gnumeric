@@ -311,7 +311,6 @@ plugins/oleo/Makefile
 plugins/python/Makefile
 plugins/perl/Makefile
 plugins/perl/ext/Makefile.PL
-plugins/stat/Makefile
 plugins/guile/Makefile
 plugins/ff-csv/Makefile
 plugins/text/Makefile

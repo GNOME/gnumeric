@@ -17,8 +17,4 @@ else
 GUILE_DIR =
 endif
 
-#SUBDIRS = sample stat excel ff-csv text $(PYTHON) $(PERL) $(GUILE_DIR) xbase
-
-SUBDIRS = sample stat excel lotus-123 oleo sc sylk ff-csv text xbase html dif ff-stf $(PYTHON) $(GUILE_DIR)
-
-
+SUBDIRS = sample excel lotus-123 oleo sc sylk ff-csv text xbase html dif ff-stf $(PYTHON) $(GUILE_DIR)

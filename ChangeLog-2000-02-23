@@ -1,5 +1,14 @@
 2000-01-18  Morten Welinder  <terra@diku.dk>
 
+	* plugins/Makefile.am (SUBDIRS): Delete the superseded stat
+ 	plugin.
+
+	* plugins/stat/*: remove
+
+	* configure.in (AC_OUTPUT): Ditto.
+
+2000-01-18  Morten Welinder  <terra@diku.dk>
+
 	* src/functions/fn-logical.c (logical_functions_init): Add result
  	type for IF.
 
