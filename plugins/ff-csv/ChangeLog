@@ -1,3 +1,8 @@
+2000-04-02  Jody Goldberg <jgoldberg@home.com>
+
+	* csv-io.c : Disable the CSV parse code because it has been deprecated
+	  in favour of the STF.
+
 2000-03-26  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* csv-io.c (csv_write_workbook, csv_read_workbook) : modified to use 

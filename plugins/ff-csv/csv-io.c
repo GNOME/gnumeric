@@ -28,6 +28,8 @@ static int
 csv_write_workbook (CommandContext *context, Workbook *wb,
 		    const char *filename);
 
+#ifdef ENABLE_OLD_CSV_IMPORT
+
 typedef struct {
 	char const *data, *cur;
 	int         len;
@@ -35,7 +37,6 @@ typedef struct {
 	int line;
 	Sheet *sheet;
 } FileSource_t;
-
 
 static int
 csv_parse_field (CommandContext *context, FileSource_t *src, Cell *cell)
@@ -150,10 +151,6 @@ csv_parse_sheet (CommandContext *context, FileSource_t *src)
 	return 0;
 }
 
-#ifndef MAP_FAILED
-#   define MAP_FAILED -1
-#endif
-
 static int
 csv_read_workbook (CommandContext *context, Workbook *book,
 		   char const *filename)
@@ -190,6 +187,8 @@ csv_read_workbook (CommandContext *context, Workbook *book,
 
 	return result;
 }
+
+#endif
 
 static int
 csv_write_cell (FILE *f, Cell *cell, int col, int row)
@@ -293,7 +292,9 @@ csv_can_unload (PluginData *pd)
 static void
 csv_cleanup_plugin (PluginData *pd)
 {
+#ifdef ENABLE_OLD_CSV_IMPORT
 	file_format_unregister_open (NULL, csv_read_workbook);
+#endif
 	file_format_unregister_save (csv_write_workbook);
 }
 
@@ -308,8 +309,10 @@ init_plugin (CommandContext *context, PluginData *pd)
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
+#ifdef ENABLE_OLD_CSV_IMPORT
 	desc = _("Comma Separated Value (CSV) import");
 	file_format_register_open (1, desc, NULL, csv_read_workbook);
+#endif
 
 	desc = _("Comma Separated Value format (*.csv)");
 	file_format_register_save (".csv", desc, FILE_FL_MANUAL,
