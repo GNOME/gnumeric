@@ -1,8 +1,13 @@
 #ifndef GNUMERIC_NUMBERS_H
 #define GNUMERIC_NUMBERS_H
 
-typedef int    gnum_int;
-
+#include <math.h>
+#ifdef HAVE_IEEEFP_H
+#include <ieeefp.h>
+#endif
+#ifdef HAVE_IEEE754_H
+#include <ieee754.h>
+#endif
 
 #ifdef WITH_LONG_DOUBLE
 

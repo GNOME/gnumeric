@@ -2319,7 +2319,7 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 		break;
 	}
 	case VALUE_INTEGER: {
-		gnum_int vint = v->v_int.val;
+		int vint = v->v_int.val;
 		guint8 *data;
 
 		d (3, printf ("Writing %d %d\n", vint, v->v_int.val););

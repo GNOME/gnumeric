@@ -34,7 +34,7 @@ struct _ValueBool {
 struct _ValueInt {
 	ValueType const type;
 	StyleFormat *fmt;
-	gnum_int val;
+	int val;
 };
 struct _ValueFloat {
 	ValueType const type;

@@ -1568,7 +1568,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 	case VALUE_BOOLEAN:
 		return g_strdup (value->v_bool.val ? _("TRUE"):_("FALSE"));
 	case VALUE_INTEGER: {
-		gnum_int val = value->v_int.val;
+		int val = value->v_int.val;
 		if (need_abs)
 			val = ABS (val);
 
