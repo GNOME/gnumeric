@@ -1,3 +1,7 @@
+2001-02-11  Karl Eichwalder  <ke@suse.de>
+
+	* src/main.c: s/behaviour/behavior/ .
+
 2001-02-11  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* configure.in: Small correction for GAL.

@@ -98,7 +98,7 @@ const struct poptOption gnumeric_popt_options [] = {
 	{ "debug_deps", '\0', POPT_ARG_INT, &dependency_debugging, 0,
 	  N_("Enables some dependency related debugging functions"), N_("LEVEL") },
 	{ "debug_print", '\0', POPT_ARG_INT, &print_debugging, 0,
-	  N_("Enables some print debugging behaviour"), N_("LEVEL") },
+	  N_("Enables some print debugging behavior"), N_("LEVEL") },
 
 	{ "quit", '\0', POPT_ARG_NONE, &immediate_exit_flag, 0,
 	  N_("Exit immediately after loading the selected books (useful for testing)."), NULL },
