@@ -238,12 +238,17 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 			TokenizedHelp *help = tokenized_help_new (func);
 			char const * f_desc =
 				tokenized_help_find (help, "DESCRIPTION");
+			char const *f_syntax = 
+				tokenized_help_find (help, "SYNTAX");
+				
 			char const * cursor;
 			GString    * buf = g_string_new (NULL);
 			GtkTextIter  start, end;
 			GtkTextTag * tag;
 			int          i;
 
+			g_string_append (buf, f_syntax);
+			g_string_append (buf, "\n\n");
 			g_string_append (buf, f_desc);
 			gtk_text_buffer_set_text (state->description, buf->str,
 						  -1);
@@ -382,15 +387,11 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 			
 			for (this_func = funcs; this_func; this_func = this_func->next) {
 				GnmFunc const *a_func = this_func->data;
-				TokenizedHelp *help = tokenized_help_new (a_func);
-				char const *f_syntax = tokenized_help_find (help, "SYNTAX");
-				
 				gtk_list_store_append (state->model_f, &iter);
 				gtk_list_store_set (state->model_f, &iter,
-						    FUN_NAME, f_syntax,
+						    FUN_NAME, gnm_func_get_name (a_func),
 						    FUNCTION, a_func,
 						    -1);
-				tokenized_help_destroy (help);
 			}
 			g_list_free (funcs);
 		} else if (cat == NULL) {
@@ -399,15 +400,11 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 			     rec_funcs = rec_funcs->next) {
 				GnmFunc const *a_func = rec_funcs->data;
 
-				TokenizedHelp *help = tokenized_help_new (a_func);
-				char const *f_syntax = tokenized_help_find (help, "SYNTAX");
-
 				gtk_list_store_append (state->model_f, &iter);
 				gtk_list_store_set (state->model_f, &iter,
-						    FUN_NAME, f_syntax,
+						    FUN_NAME, gnm_func_get_name (a_func),
 						    FUNCTION, a_func,
 						    -1);
-				tokenized_help_destroy (help);
 			}
 		} else {
 			int i = 0;

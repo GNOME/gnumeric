@@ -407,23 +407,23 @@ gnumeric_randbernoulli (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char const *help_randgaussian = {
-        N_("@FUNCTION=RANDGAUSSIAN\n"
-           "@SYNTAX=RANDGAUSSIAN(mean,stdev)\n"
+static char const *help_randnorm = {
+        N_("@FUNCTION=RANDNORM\n"
+           "@SYNTAX=RANDNORM(mean,stdev)\n"
 
            "@DESCRIPTION="
-           "RANDGAUSSIAN returns a Gaussian-distributed random number.\n"
+           "RANDNORM returns a normal-distributed random number.\n"
            "\n"
-           "* If @stdev < 0 RANDGAUSSIAN returns #NUM! error.\n"
+           "* If @stdev < 0 RANDNORM returns #NUM! error.\n"
 	   "\n"
            "@EXAMPLES=\n"
-           "RANDGAUSSIAN(0,1).\n"
+           "RANDNORM(0,1).\n"
            "\n"
            "@SEEALSO=RAND")
 };
 
 static Value *
-gnumeric_randgaussian (FunctionEvalInfo *ei, Value **argv)
+gnumeric_randnorm (FunctionEvalInfo *ei, Value **argv)
 {
 	gnm_float mean  = value_get_as_float (argv[0]);
 	gnm_float stdev = value_get_as_float (argv[1]);
@@ -897,7 +897,7 @@ static char const *help_randlevy = {
 	   "omitted, it is assumed to be 0.\n"
 	   "\n"
 	   "* For @alpha = 1, @beta=0, we get the Lorentz distribution.\n"
-	   "* For @alpha = 2, @beta=0, we get the Gaussian distribution.\n"
+	   "* For @alpha = 2, @beta=0, we get the normal distribution.\n"
            "\n"
 	   "* If @alpha <= 0 or @alpha > 2, RANDLEVY returns #NUM! error.\n"
 	   "* If @beta < -1 or @beta > 1, RANDLEVY returns #NUM! error.\n"
@@ -934,7 +934,7 @@ static char const *help_randexppow = {
 	   "p(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, "
 	   "for x >= 0.\n\n"
 	   "* For @b = 1 this reduces to the Laplace distribution.\n"
-	   "* For @b = 2 it has the same form as a Gaussian distribution "
+	   "* For @b = 2 it has the same form as a Norm distribution "
 	   "with sigma = a/sqrt(2).\n"
            "\n"
            "@EXAMPLES=\n"
@@ -982,38 +982,38 @@ gnumeric_randlandau (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char const *help_randgaussiantail = {
-        N_("@FUNCTION=RANDGAUSSIANTAIL\n"
-           "@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
+static char const *help_randnormtail = {
+        N_("@FUNCTION=RANDNORMTAIL\n"
+           "@SYNTAX=RANDNORMTAIL(a,sigma)\n"
 
            "@DESCRIPTION="
-           "RANDGAUSSIANTAIL returns a random variates from the upper tail "
-	   "of a Gaussian distribution with standard deviation @sigma. The "
+           "RANDNORMTAIL returns a random variates from the upper tail "
+	   "of a Norm distribution with standard deviation @sigma. The "
 	   "values returned are larger than the lower limit @a, which must be "
 	   "positive. The method is based on Marsaglia's famous "
 	   "rectangle-wedge-tail algorithm (Ann Math Stat 32, 894-899 "
 	   "(1961)), with this aspect explained in Knuth, v2, 3rd ed, p139, "
 	   "586 (exercise 11).\n"
 	   "\n"
-	   "The probability distribution for Gaussian tail random variates "
+	   "The probability distribution for Norm tail random variates "
 	   "is,\n\n\t"
 	   "p(x) dx = {1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx,\n\n"
 	   "for x > a where N(a;sigma) is the normalization constant, "
 	   "N(a;sigma) = (1/2) erfc(a / sqrt(2 sigma^2)).\n"
            "\n"
            "@EXAMPLES=\n"
-           "RANDGAUSSIANTAIL(0.5,0.1).\n"
+           "RANDNORMTAIL(0.5,0.1).\n"
            "\n"
            "@SEEALSO=RAND")
 };
 
 static Value *
-gnumeric_randgaussiantail (FunctionEvalInfo *ei, Value **argv)
+gnumeric_randnormtail (FunctionEvalInfo *ei, Value **argv)
 {
 	gnm_float a     = value_get_as_float (argv[0]);
 	gnm_float sigma = value_get_as_float (argv[1]);
 
-	return value_new_float (random_gaussian_tail (a, sigma));
+	return value_new_float (random_norm_tail (a, sigma));
 }
 
 /***************************************************************************/
@@ -1130,8 +1130,8 @@ const GnmFuncDescriptor random_functions[] = {
         { "randgamma", "ff", N_("a,b"),    &help_randgamma,
 	  gnumeric_randgamma, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randgaussiantail", "ff", N_("a,sigma"),    &help_randgaussiantail,
-	  gnumeric_randgaussiantail, NULL, NULL, NULL, NULL,
+        { "randnormtail", "ff", N_("a,sigma"),    &help_randnormtail,
+	  gnumeric_randnormtail, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "randgeom", "f", N_("p"),    &help_randgeom,
 	  gnumeric_randgeom, NULL, NULL, NULL, NULL,
@@ -1163,8 +1163,8 @@ const GnmFuncDescriptor random_functions[] = {
         { "randnegbinom", "ff", N_("p,failures"), &help_randnegbinom,
 	  gnumeric_randnegbinom, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
-        { "randgaussian", "ff", N_("mean,stdev"), &help_randgaussian,
-	  gnumeric_randgaussian, NULL, NULL, NULL, NULL,
+        { "randnorm", "ff", N_("mean,stdev"), &help_randnorm,
+	  gnumeric_randnorm, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
         { "randpareto", "ff", N_("a,b"), &help_randpareto,
 	  gnumeric_randpareto, NULL, NULL, NULL, NULL,
