@@ -453,6 +453,7 @@ AC_SUBST(IDL_FLAGS)
 dnl ****************************
 dnl Check for libgda
 dnl ****************************
+have_gda=false
 AC_MSG_CHECKING(for libgda)
 if gda-config --libs client > /dev/null 2>&1; then 
 	AC_MSG_RESULT(found)

@@ -1,3 +1,7 @@
+2000-11-27  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in (have_gda) : init to false.
+
 2000-11-27  Michael Meeks  <michael@helixcode.com>
 
 	* src/embeddable-grid.c (EmbeddableGridFactory_init): upd.
