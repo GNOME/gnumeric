@@ -2,6 +2,7 @@
 #define GNUMERIC_CLIPBOARD_H
 
 #include "gnumeric.h"
+#include <pango/pango-context.h>
 
 enum {
 	PASTE_CONTENT		= 1 << 0, /* either CONTENT or AS_VALUES */
@@ -82,6 +83,6 @@ PasteTarget*paste_target_init      (PasteTarget *pt,
 
 CellRegion *cellregion_new	 (Sheet *origin_sheet);
 void        cellregion_free      (CellRegion *content);
-char	   *cellregion_to_string (CellRegion const *content);
+char	   *cellregion_to_string (PangoContext *context, CellRegion const *content);
 
 #endif /* GNUMERIC_CLIPBOARD_H */

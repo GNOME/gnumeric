@@ -334,13 +334,14 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
  */
 static void
 x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
-		     guint info, WorkbookControl *wbc)
+		    guint info, WorkbookControlGUI *wbcg)
 {
 	gboolean to_gnumeric = FALSE, content_needs_free = FALSE;
 	CellRegion *clipboard = application_clipboard_contents_get ();
 	GdkAtom atom_gnumeric = gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE);
 	Sheet *sheet = application_clipboard_sheet_get ();
 	Range const *a = application_clipboard_area_get ();
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 
 	/*
 	 * Not sure how to handle this, not sure what purpose this has has
@@ -383,7 +384,8 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		xmlFree (buffer);
 		to_gnumeric = TRUE;
 	} else {
-		char *rendered_selection = cellregion_to_string (clipboard);
+		PangoContext *context = gtk_widget_get_pango_context (wbcg_toplevel (wbcg));
+		char *rendered_selection = cellregion_to_string (context, clipboard);
 
 		gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
 					(guchar *) rendered_selection, strlen (rendered_selection));

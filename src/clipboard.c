@@ -630,7 +630,7 @@ cellregion_free (CellRegion *cr)
  * Renders a CellRegion as a sequence of strings.
  */
 char *
-cellregion_to_string (CellRegion const *cr)
+cellregion_to_string (PangoContext *context, CellRegion const *cr)
 {
 	GString *all, *line;
 	GList *l;
@@ -652,18 +652,13 @@ cellregion_to_string (CellRegion const *cr)
 			/* FIXME: feels bogus to use rendered value.  */
 			MStyle const *mstyle = style_list_get_style (cr->styles,
 				&c_copy->u.cell->pos);
-			/* FIXME: probably not here.  */
-			PangoContext *context = gdk_pango_context_get ();
 			RenderedValue *rv;
-
-			pango_context_set_language (context, gtk_get_default_language ());
 
 			rv = rendered_value_new (c_copy->u.cell,
 						 mstyle, FALSE,
 						 context);
 			v = g_strdup (rendered_value_get_text (rv));
 			rendered_value_destroy (rv);
-			g_object_unref (G_OBJECT (context));
 		} else
 			v = g_strdup (c_copy->u.text);
 
