@@ -23014,14 +23014,12 @@ msgid "F_inish"
 msgstr "終了(_I)"
 
 #: src/dialogs/dialog-stf.glade.h:24
-#, fuzzy
 msgid "Fi_xed width"
-msgstr "固定幅(_F)"
+msgstr "固定幅(_X)"
 
 #: src/dialogs/dialog-stf.glade.h:25
-#, fuzzy
 msgid "Fixed"
-msgstr "ファイル(_F)/"
+msgstr "固定"
 
 #: src/dialogs/dialog-stf.glade.h:27
 msgid "Fr_om line:"
@@ -23181,14 +23179,13 @@ msgid "`"
 msgstr "`"
 
 #: src/dialogs/dialog-stf-main-page.c:150
-#, fuzzy, c-format
 msgid "%d of %d lines to import"
-msgstr "%d 行をインポート"
+msgstr "%2$1行のうち%1$d行をインポート"
 
 #: src/dialogs/dialog-stf-main-page.c:171
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
-msgstr ""
+msgstr "データはエンコーディング %s では正しくありません。他のエンコーディングを選択してください。"
 
 #: src/dialogs/dialog-stf-main-page.c:395
 #, c-format
@@ -23331,18 +23328,16 @@ msgid "Fill Series"
 msgstr "連続データの作成"
 
 #: src/dialogs/fill-series.glade.h:7
-#, fuzzy
 msgid "S_tep value:"
-msgstr "増分値: "
+msgstr "増分値(_T):"
 
 #: src/dialogs/fill-series.glade.h:9
 msgid "Series in:"
 msgstr "連続データの範囲:"
 
 #: src/dialogs/fill-series.glade.h:10
-#, fuzzy
 msgid "St_op value:"
-msgstr "停止値: "
+msgstr "停止値(_O):"
 
 #: src/dialogs/fill-series.glade.h:11
 msgid "Type:"
@@ -23794,14 +23789,11 @@ msgid "<b>Available Names</b>"
 msgstr "利用可能名称"
 
 #: src/dialogs/names.glade.h:4
-#, fuzzy
 msgid "<b>Definition</b>"
-msgstr "<b>方向</b>"
+msgstr "<b>定義</b>"
 
-#: src/dialogs/names.glade.h:5
-#, fuzzy
 msgid "Define Names"
-msgstr "定義名"
+msgstr "名前の定義"
 
 #: src/dialogs/names.glade.h:6
 msgid "Workbook"
@@ -23967,9 +23959,8 @@ msgid "Page"
 msgstr "ページ"
 
 #: src/dialogs/print.glade.h:16
-#, fuzzy
 msgid "Page Setup"
-msgstr "印刷設定(_U)..."
+msgstr "印刷設定"
 
 #: src/dialogs/print.glade.h:17
 msgid "Print _area:"
@@ -24033,7 +24024,7 @@ msgstr "行のタイトル(_R)"
 
 #: src/dialogs/print.glade.h:33
 msgid "_Units:"
-msgstr "単位 (_U):"
+msgstr "単位(_U):"
 
 #: src/dialogs/print.glade.h:34
 msgid "_Vertically"
@@ -24056,14 +24047,12 @@ msgid "_Distribution:"
 msgstr "分散(_D):"
 
 #: src/dialogs/random-generation.glade.h:8
-#, fuzzy
 msgid "_Number of variables:"
-msgstr "変数の数(_V):"
+msgstr "変数の数(_N):"
 
 #: src/dialogs/random-generation.glade.h:9
-#, fuzzy
 msgid "_Size of sample:"
-msgstr "標本の大きさ:"
+msgstr "標本の大きさ(_S):"
 
 #: src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
@@ -24358,7 +24347,7 @@ msgstr "文字列(_S)"
 
 #: src/dialogs/search-replace.glade.h:2
 msgid "<span weight=\"bold\">Change Cells Containing</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">次を含むセルを変更</span>"
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "<span weight=\"bold\">Miscellaneous</span>"
