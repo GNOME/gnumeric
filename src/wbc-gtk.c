@@ -1008,9 +1008,7 @@ cb_window_menu_activate (GObject *action, WorkbookControlGUI *wbcg)
 static unsigned
 regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
 {
-	GtkActionEntry entry;
 	unsigned k, count = 0;
-	char *name, *label;
 
 	/* how many controls are there */
 	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, if (IS_WORKBOOK_CONTROL_GUI (wbc)) count++;);
@@ -1020,22 +1018,38 @@ regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
 		if (i >= 10)
 			return i;
 		if (IS_WORKBOOK_CONTROL_GUI (wbc)) {
-			name = g_strdup_printf ("WindowListEntry%d", i);
-			entry.name = name;
-			entry.stock_id = NULL;
-			if (count > 1)
-				label = g_strdup_printf ("_%d %s:%d", i++, wb->basename, k++);
-			else
-				label = g_strdup_printf ("_%d %s", i++, wb->basename);
-			entry.label = label;
+			GString *label = g_string_new (NULL);
+			char *name;
+			const char *s;
+			GtkActionEntry entry;
 
+			g_string_append_printf (label, "_%d ", i);
+			s = wb->basename;
+			while (*s) {
+				if (*s == '_')
+					g_string_append_c (label, '_');
+				g_string_append_c (label, *s);
+				s++;
+			}
+			if (count > 1)
+				g_string_append_printf (label, ":%d", k++);
+			else {
+#warning "What if basename ends in :number here?  Add a space?"
+			}
+
+			entry.name = name = g_strdup_printf ("WindowListEntry%d", i);
+			entry.stock_id = NULL;
+			entry.label = label->str;
 			entry.accelerator = NULL;
 			entry.tooltip = NULL;
 			entry.callback = G_CALLBACK (cb_window_menu_activate);
+
 			gtk_action_group_add_actions (gtk->windows.actions,
 				&entry, 1, wbc);
-			g_free (label);
+
+			g_string_free (label, TRUE);
 			g_free (name);
+			i++;
 		}});
 	return i;
 }

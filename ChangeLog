@@ -1,3 +1,8 @@
+2004-10-13  Morten Welinder  <terra@gnome.org>
+
+	* src/wbc-gtk.c (regenerate_window_menu): Escape underscore in
+	names.
+
 2004-10-11  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_rename) : tell each view to update its edit line
