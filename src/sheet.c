@@ -1888,6 +1888,9 @@ sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row, i
  * @sheet The sheet where the cell is inserted
  * @cell  The cell, it should already have col/pos pointers
  *        initialized pointing to the correct ColRowInfo
+ *
+ * Cell::pos must be valid before this is called.  The position is used as the
+ * hash key.
  */
 static void
 sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
@@ -2774,6 +2777,7 @@ colrow_move (Sheet *sheet,
 	     ColRowCollection *info_collection,
 	     int const old_pos, int const new_pos)
 {
+	gboolean const is_cols = (info_collection == &sheet->cols);
 	ColRowInfo **segment = COLROW_GET_SEGMENT(info_collection, old_pos);
 	ColRowInfo *info = (segment != NULL) ?
 		segment[COLROW_SUB_INDEX(old_pos)] : NULL;
@@ -2803,7 +2807,7 @@ colrow_move (Sheet *sheet,
 	info->pos = new_pos;
 
 	/* TODO : Figure out a way to merge these functions */
-	if (info_collection == &sheet->cols)
+	if (is_cols)
 		sheet_col_add (sheet, info);
 	else
 		sheet_row_add (sheet, info);
@@ -2811,6 +2815,11 @@ colrow_move (Sheet *sheet,
 	/* Insert the cells back */
 	for (; cells != NULL ; cells = g_list_remove (cells, cell)) {
 		cell = cells->data;
+
+		if (is_cols)
+			cell->pos.col = new_pos;
+		else
+			cell->pos.row = new_pos;
 
 		sheet_cell_add_to_hash (sheet, cell);
 		cell_relocate (cell, NULL);

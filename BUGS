@@ -8,16 +8,9 @@ Release Critical
   calculations to a crawl
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE in expressions.
-
-Long term breakage
-------------------
-- We should save per block maximums.
-- Changing an expression name that is in use does not recalc, or regen depends
-  correctly.
-- The max row/col canvas scroll size is still hard coded.
-
-- Copy sheet, and insert new sheet both append to the end of the sheet list
-  rather than insereting before the current sheet.
+- The translate/untranslate routines for formats need to be written
+- The currency list in the format dialog needs to be sorted for the locale
+- When applying a currency symbol we need to store the NON-localized id.
 - Increase/Decrease precision toolbar buttons should look at the displayed
   precision for the edit cell and assign the changed value to the entire
   selection.  Not individually adjusting each non-blank cell's precision.
@@ -26,8 +19,26 @@ Long term breakage
   and remove decimals.
 - While we're playing with those functions, lets add simple ones like inc/dec
   font size and things like that.
+- Copy sheet, and insert new sheet both append to the end of the sheet list
+  rather than insereting before the current sheet.
+
+Post 0.57 Changes
+-----------------
+- Fix Borders
+- Move the string -> parsing from parser to expr eval.
+- Model View Controller
+
+Long term breakage
+------------------
+- We should save per block maximums.
+
+- Changing an expression name that is in use does not recalc, or regen depends
+  correctly.
+
+- The max row/col canvas scroll size is still hard coded.
 
 - Auto resize needs to handle empty cells.
+
 - auto-fill does not resize row/col
 
 - The implication of mixed mode references ($B$2:C3)

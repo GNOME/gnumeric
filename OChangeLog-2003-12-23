@@ -1,3 +1,11 @@
+2000-08-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (colrow_move) : Reset the cell positions.
+
+2000-08-25  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : Build gnumeric before its executables.
+
 2000-08-22  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_clone_styles) : Init the style tables.
