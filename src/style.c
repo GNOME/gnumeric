@@ -112,11 +112,11 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 	StyleFont key;
 
 	if (font_name == NULL) {
-		g_warning ("font_name == NULL, Using %s", DEFAULT_FONT);
+		g_warning ("font_name == NULL, using %s", DEFAULT_FONT);
 		font_name = DEFAULT_FONT;
 	}
-	if (size_pts == 0) {
-		g_warning ("font_name == NULL, Using %f", DEFAULT_SIZE);
+	if (size_pts <= 0) {
+		g_warning ("font_size <= 0, using %f", DEFAULT_SIZE);
 		size_pts = DEFAULT_SIZE;
 	}
 

@@ -2230,19 +2230,21 @@ scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 void
 scg_set_display_cursor (SheetControlGUI *scg)
 {
-	int cursor = -1;
+	GnmCursorType cursor = (GnmCursorType)-1;
+	gboolean have_cursor = FALSE;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	if (scg->new_object != NULL)
+	if (scg->new_object != NULL) {
+		have_cursor = TRUE;
 		cursor = GNM_CURSOR_THIN_CROSS;
-	else if (scg->current_object != NULL)
+	} else if (scg->current_object != NULL) {
+		have_cursor = TRUE;
 		cursor = GNM_CURSOR_ARROW;
+	}
 
 	SCG_FOREACH_PANE (scg, pane, {
-		int c = cursor;
-		if (c < 0)
-			c = pane->cursor_type;
+		GnmCursorType c = have_cursor ? cursor : pane->cursor_type;
 		gnm_cursor_set_widget (GTK_WIDGET (pane->gcanvas), c);});
 }
 

@@ -201,14 +201,14 @@ item_bar_realize (FooCanvasItem *item)
 	window = GTK_WIDGET (item->canvas)->window;
 
 	/* Configure our gc */
-	style = gtk_widget_get_default_style ();
+	style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
 
 	ib->text_gc = gdk_gc_new (window);
-	gdk_gc_set_foreground (ib->text_gc, &style->text[GTK_STATE_NORMAL]);
+	gdk_gc_set_rgb_fg_color (ib->text_gc, &style->text[GTK_STATE_NORMAL]);
 	ib->filter_gc = gdk_gc_new (window);
 	gdk_gc_set_rgb_fg_color (ib->filter_gc, &gs_yellow);
 	ib->shade = gdk_gc_new (window);
-	gdk_gc_set_foreground (ib->shade, &style->dark[GTK_STATE_NORMAL]);
+	gdk_gc_set_rgb_fg_color (ib->shade, &style->dark[GTK_STATE_NORMAL]);
 	ib->lines = gdk_gc_new (window);
 	gdk_gc_copy (ib->lines, ib->text_gc);
 	gdk_gc_set_line_attributes (ib->lines, 2, GDK_LINE_SOLID,

@@ -146,14 +146,16 @@ item_grid_realize (FooCanvasItem *item)
 	window = GTK_WIDGET (item->canvas)->window;
 
 	/* Configure the default grid gc */
-	ig->gc.fill = gdk_gc_new (window);
 	ig->gc.cell = gdk_gc_new (window);
-	ig->gc.empty = gdk_gc_new (window);
-	ig->gc.bound = gdk_gc_new (window);
+	gdk_gc_set_fill (ig->gc.cell, GDK_SOLID);
 
+	ig->gc.empty = gdk_gc_new (window);
+
+	ig->gc.fill = gdk_gc_new (window);
 	gdk_gc_set_rgb_fg_color (ig->gc.fill,  &gs_white);
 	gdk_gc_set_rgb_bg_color (ig->gc.fill,  &gs_light_gray);
-	gdk_gc_set_fill (ig->gc.cell, GDK_SOLID);
+
+	ig->gc.bound = gdk_gc_new (window);
 	gdk_gc_set_rgb_fg_color (ig->gc.bound, &gs_black);
 	gdk_gc_set_line_attributes (ig->gc.bound, 3, GDK_LINE_SOLID,
 				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
@@ -1065,7 +1067,8 @@ cb_cursor_motion (ItemGrid *ig)
 	Sheet const *sheet = ((SheetControl *) ig->scg)->view->sheet;
 	FooCanvas *canvas = ig->canvas_item.canvas;
 	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
-	int x, y, cursor;
+	int x, y;
+	GnmCursorType cursor;
 	CellPos pos;
 	GnmHLink *old_link;
 

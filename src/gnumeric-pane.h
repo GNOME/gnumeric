@@ -4,6 +4,7 @@
 #include "gui-gnumeric.h"
 #include <libfoocanvas/foo-canvas.h>
 #include <libfoocanvas/foo-canvas-util.h>
+#include "gui-util.h"
 
 struct _GnumericPane {
 	int		 index;
@@ -32,7 +33,7 @@ struct _GnumericPane {
 	SheetObject	 *drag_object;
 	FooCanvasItem  *control_points [9]; /* Control points for the current item */
 
-	int	cursor_type;
+	GnmCursorType	cursor_type;
 };
 
 void gnm_pane_init	(GnumericPane *pane, SheetControlGUI *scg,
