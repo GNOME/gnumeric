@@ -160,7 +160,7 @@ main (int argc, char *argv [])
 	}
 
 	/* TODO: Use the ioc. */
-	gnm_common_init ();
+	gnm_common_init (TRUE);
 
 	if (func_def_file)
 		return gnm_dump_func_defs (func_def_file, TRUE);

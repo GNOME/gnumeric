@@ -80,7 +80,7 @@ main (int argc, char *argv [])
 		return 0;
 	}
 
-	gnm_common_init ();
+	gnm_common_init (FALSE);
 
 	cc = cmd_context_stderr_new ();
 	plugins_init (cc);

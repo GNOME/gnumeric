@@ -2,12 +2,13 @@ Gnumeric 1.2.2
 
 Jody:
 	* More renaming
-	* Don't install schemas when building an rpm.
+	* Don't install schemas when building an rpm
 	* Support non-assisted CSV export for ssconvert
 	* Simple optimization for 30% faster number matching
 	* Center line plot points on index
 	* Fix crash when importing truncated xls files
 	* Update axis labels when bac/col/line/area labels are set/cleared
+	* Complain loudly when people run without installing the schema
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

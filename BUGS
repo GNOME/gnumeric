@@ -504,7 +504,7 @@ Short Term Goals
 29) gconf.
     29.1) Check for errors					(DONE)
     29.2) update on remote changes
-    29.3) see if schema is installed
+    29.3) see if schema is installed				(DONE)
     29.4) Move the pref storage into app and compartmentalize
     	  the use of gconf.
     29.5) update the preference structure on local changes 

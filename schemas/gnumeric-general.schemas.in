@@ -289,8 +289,8 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/core/sort/dialog/max-intial-clauses</key>
-        <applyto>/apps/gnumeric/core/sort/dialog/max-intial-clauses</applyto>
+        <key>/schemas/apps/gnumeric/core/sort/dialog/max-initial-clauses</key>
+        <applyto>/apps/gnumeric/core/sort/dialog/max-initial-clauses</applyto>
         <owner>Gnumeric</owner>
         <type>int</type>
 	<default>10</default>

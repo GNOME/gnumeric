@@ -90,7 +90,7 @@ main (int argc, char *argv [])
 	g_object_unref (cc);
 
 	/* TODO: Use the ioc. */
-	gnm_common_init ();
+	gnm_common_init (FALSE);
 
  	plugins_init (GNM_CMD_CONTEXT (ioc));
 	g_object_unref (ioc);

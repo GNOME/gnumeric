@@ -31,7 +31,6 @@ typedef struct {
 	float		 zoom;
 
 	gint		 xml_compression_level;
-	gboolean 	 import_uses_all_openers;
 	gboolean 	 file_overwrite_default_answer;
 	gboolean 	 file_ask_single_sheet_save;
 
@@ -57,7 +56,7 @@ typedef struct {
 } GnmAppPrefs;
 extern GnmAppPrefs const *gnm_app_prefs;
 
-void     gnm_conf_init (void);
+void     gnm_conf_init (gboolean fast);
 void     gnm_conf_sync (void);
 
 /* autocorrect */
@@ -96,7 +95,6 @@ void     gnm_gconf_set_zoom  (gnm_float val);
 void     gnm_gconf_set_xml_compression_level (gint val);
 void     gnm_gconf_set_recent_funcs (GSList *list);
 void     gnm_gconf_set_num_of_recent_funcs (guint val);
-void     gnm_gconf_set_import_uses_all_openers (gboolean val);
 void     gnm_gconf_set_file_overwrite_default_answer (gboolean val);
 void     gnm_gconf_set_file_ask_single_sheet_save (gboolean val);
 
@@ -118,6 +116,7 @@ void     gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle,
 void     gnm_gconf_set_horizontal_dpi  (gnm_float val);
 void     gnm_gconf_set_vertical_dpi  (gnm_float val);
 void     gnm_gconf_set_auto_complete (gboolean val);
+void	 gnm_gconf_set_transition_keys (gboolean val);
 void     gnm_gconf_set_live_scrolling (gboolean val);
 void     gnm_gconf_set_recalc_lag (gint val);
 void     gnm_gconf_set_unfocused_range_selection (gboolean val);

@@ -913,10 +913,10 @@ cb_pref_sort_set_case (GConfClient *gconf,
 static void
 cb_pref_sort_case_toggled(GtkToggleButton *button, PrefState *state)
 {
-		gconf_client_set_bool (state->gconf,
-				       GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE,
-				       gtk_toggle_button_get_active (button),
-				       NULL);
+	gconf_client_set_bool (state->gconf,
+			       GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE,
+			       gtk_toggle_button_get_active (button),
+			       NULL);
 }
 
 static void
@@ -936,10 +936,10 @@ cb_pref_sort_set_ascending (GConfClient *gconf,
 static void
 cb_pref_sort_ascending_toggled(GtkToggleButton *button, PrefState *state)
 {
-		gconf_client_set_bool (state->gconf,
-				       GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING,
-				       gtk_toggle_button_get_active (button),
-				       NULL);
+	gconf_client_set_bool (state->gconf,
+			       GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING,
+			       gtk_toggle_button_get_active (button),
+			       NULL);
 }
 
 static void
@@ -1162,7 +1162,6 @@ cb_pref_window_live_scrolling_toggled (GtkToggleButton *button, PrefState *state
 			       NULL);
 }
 
-
 static GtkWidget *
 pref_window_page_initializer (PrefState *state,
 			      G_GNUC_UNUSED gpointer data,
@@ -1300,10 +1299,10 @@ cb_pref_file_set_overwrite (GConfClient *gconf,
 static void
 cb_pref_file_overwrite_toggled (GtkToggleButton *button, PrefState *state)
 {
-		gconf_client_set_bool (state->gconf,
-				       GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT,
-				       gtk_toggle_button_get_active (button),
-				       NULL);
+	gconf_client_set_bool (state->gconf,
+			       GNUMERIC_GCONF_FILE_OVERWRITE_DEFAULT,
+			       gtk_toggle_button_get_active (button),
+			       NULL);
 }
 
 static void
@@ -1323,10 +1322,10 @@ cb_pref_file_set_single_sheet_warn (GConfClient *gconf,
 static void
 cb_pref_file_single_sheet_warn_toggled (GtkToggleButton *button, PrefState *state)
 {
-		gconf_client_set_bool (state->gconf,
-				       GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE,
-				       gtk_toggle_button_get_active (button),
-				       NULL);
+	gconf_client_set_bool (state->gconf,
+			       GNUMERIC_GCONF_FILE_SINGLE_SHEET_SAVE,
+			       gtk_toggle_button_get_active (button),
+			       NULL);
 }
 
 static void

@@ -98,13 +98,13 @@ extern char *gnumeric_data_dir;
  * to tell whether we are in GUI or not.
  */
 void
-gnm_common_init (void)
+gnm_common_init (gboolean fast)
 {
 	mathfunc_init ();
 	g_object_new (GNUMERIC_APPLICATION_TYPE, NULL);
 	plugin_services_init ();
 	libgoffice_init ();
-	gnm_conf_init ();
+	gnm_conf_init (fast);
 	gnm_string_init ();
 	mstyle_init ();
 	value_init ();
