@@ -176,17 +176,43 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 			GnmComboText *ct)
 {
 	GtkRequisition list_req;
+	int mon_width, mon_height;
+#ifdef HAVE_GDK_SCREEN_GET_MONITOR_GEOMETRY
+	GdkRectangle rect;
+	GdkScreen    *screen;
 
+	/* In a Xinerama setup, use geometry of the actual display
+	 * unit, if available. Since gtk 2.2 */
+	screen = gtk_widget_get_screen (widget);
+	if (screen == NULL)	/* Looks like this will happen when
+				 * embedded as a bonobo component */
+		screen = gdk_screen_get_default;
+
+	gdk_screen_get_monitor_geometry (screen, 0, &rect);
+	mon_width  = rect.width;
+	mon_height = rect.height;
+#else
+	mon_width  = gdk_screen_width  ();
+	mon_height = gdk_screen_height ();
+#endif
 	gtk_widget_size_request	(ct->list, &list_req);
 	if (requisition->height < list_req.height) {
-		int height = list_req.height;
-		GtkWidget const *w = GTK_CONTAINER (ct->list)->focus_child;
+		int height       = list_req.height;
+		GtkWidget const *w = GTK_WIDGET 
+			(GTK_LIST (ct->list)->children->data);
 
 		if (w != NULL) {
-			/* Magic number, max number of items before we scroll */
-			height = w->requisition.height * 10;
+			/* Make room for a whole number of items which don't
+			 * overflow the screen, but no more than 20. */
+			int avail_height, nitems;
+			
+			avail_height = mon_height - 20
+				- GTK_CONTAINER (widget)->border_width * 2 + 4;
+			nitems = MIN (20, avail_height / w->requisition.height);
+			height = nitems *  w->requisition.height;
 			if (height > list_req.height)
 				height = list_req.height;
+			
 		}
 
 		/* FIXME : Why do we need 4 ??
@@ -196,9 +222,11 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 			GTK_CONTAINER (widget)->border_width * 2 + 4;
 	}
 
-	if (requisition->width < ct->entry->allocation.width)
-		requisition->width = ct->entry->allocation.width +
-			GTK_CONTAINER (widget)->border_width * 2;
+	requisition->width  = MAX (requisition->width, 
+				   ct->entry->allocation.width + 
+				   GTK_CONTAINER (widget)->border_width * 2);
+	requisition->width  = MIN (requisition->width, mon_width - 20);
+	requisition->height = MIN (requisition->height, mon_height - 20);
 }
 
 static void

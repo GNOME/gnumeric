@@ -1,3 +1,8 @@
+2003-09-10  Jon K Hellan  <hellan@acm.org>
+
+	* gnumeric-combo-text.c (cb_scroll_size_request): Compute size
+	even when no widget in the list is focused.
+
 2003-09-10  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.90
