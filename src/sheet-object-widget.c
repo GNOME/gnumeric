@@ -32,7 +32,7 @@
 #include "sheet-object-widget.h"
 #include "expr.h"
 #include "value.h"
-#include "bonobo.h"
+#include "selection.h"
 #include "workbook-edit.h"
 
 #define SHEET_OBJECT_WIDGET_TYPE     (sheet_object_widget_get_type ())
@@ -341,88 +341,6 @@ typedef struct {
 	SheetObjectWidgetClass	sow;
 } SheetWidgetCheckboxClass;
 
-typedef struct {
-	GtkWidget *dialog;
-	GtkWidget *entry;
-
-	Workbook  *wb;
-} CheckboxConfigState;
-
-static gboolean
-cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
-{
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
-
-	workbook_edit_detach_guru (state->wb);
-
-	/* Handle window manger closing the dialog.
-	 * This will be ignored if we are being destroyed differently.
-	 */
-	workbook_finish_editing (state->wb, FALSE);
-
-	state->dialog = NULL;
-
-	g_free (state);
-	return FALSE;
-}
-
-static void
-cb_checkbox_config_focus (GtkWidget *w, GdkEventFocus *ev, CheckboxConfigState *state)
-{
-	workbook_set_entry (state->wb, GTK_ENTRY (state->entry));
-	workbook_edit_select_absolute (state->wb);
-}
-
-static void
-cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number)
-{
-	printf ("button %d\n", button_number);
-}
-
-static void
-sheet_widget_checkbox_user_config (SheetObject *so)
-{
-	CheckboxConfigState *state;
-	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-
-	g_return_if_fail (swc != NULL);
-
-	state = g_new (CheckboxConfigState, 1);
-	state->wb = so->sheet->workbook;
-	state->dialog = gnome_dialog_new (_("Checkbox Configure"),
-					  GNOME_STOCK_BUTTON_OK, 
-					  GNOME_STOCK_BUTTON_CANCEL, 
-					  NULL);
-	state->entry = gtk_entry_new ();
-	if (swc->dep.expression != NULL) {
-		ParsePos pp;
-		char *text = expr_tree_as_string (swc->dep.expression,
-			parse_pos_init (&pp, NULL, so->sheet, 0, 0));
-		gtk_entry_set_text (GTK_ENTRY (state->entry), text);
-	}
-
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
-			    state->entry, TRUE, TRUE, 5);
-	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
-
-	gtk_signal_connect (GTK_OBJECT (state->entry), "focus-in-event",
-			    GTK_SIGNAL_FUNC (cb_checkbox_config_focus), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (cb_checkbox_config_destroy), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "clicked",
-			    GTK_SIGNAL_FUNC (cb_checkbox_config_clicked), state);
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE(state->entry));
-
-	gnumeric_non_modal_dialog (state->wb, GTK_WINDOW (state->dialog));
-	workbook_edit_attach_guru (state->wb, state->dialog);
-	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
-	gtk_window_set_focus (GTK_WINDOW (state->dialog),
-			      GTK_WIDGET (state->entry));
-	gtk_widget_show_all (state->dialog);
-}
-
 static void
 sheet_widget_checkbox_set_active (SheetWidgetCheckbox *swc)
 {
@@ -463,11 +381,12 @@ checkbox_eval (Dependent *dep)
 static void
 checkbox_set_expr (Dependent *dep, ExprTree *expr)
 {
-	expr_tree_ref (expr);
+	if (expr != NULL)
+		expr_tree_ref (expr);
 	dependent_unlink (dep, NULL);
 	expr_tree_unref (dep->expression);
 	dep->expression = expr;
-	dependent_changed (dep, NULL, TRUE);
+	dependent_changed (dep, NULL, expr != NULL);
 }
 
 static void
@@ -495,6 +414,7 @@ sheet_widget_checkbox_construct (SheetObjectWidget *sow, Sheet *sheet)
 {
 	static int counter = 0;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (sow);
+	Range const * range = selection_first_range (sheet, TRUE);
 	CellRef ref;
 
 	g_return_if_fail (swc != NULL);
@@ -505,8 +425,10 @@ sheet_widget_checkbox_construct (SheetObjectWidget *sow, Sheet *sheet)
 	swc->dep.sheet = sheet;
 	swc->dep.flags = checkbox_get_dep_type ();
 
+	/* Default to the top left of the current selection */
 	ref.sheet = sheet;
-	ref.col = ref.row = 0; /* FIXME */
+	ref.col = range->start.col;
+	ref.row = range->start.row;
 	ref.col_relative = ref.row_relative = FALSE;
 	swc->dep.expression = expr_tree_new_var (&ref);
 	dependent_changed (&swc->dep, NULL, TRUE);
@@ -537,6 +459,14 @@ sheet_widget_checkbox_toggled (GtkToggleButton *button,
 		return;
 	swc->value = gtk_toggle_button_get_active (button);
 	sheet_widget_checkbox_set_active (swc);
+
+	if (swc->dep.expression && swc->dep.expression->any.oper == OPER_VAR) {
+		gboolean const new_val = gtk_toggle_button_get_active (button);
+		ExprVar	const *var = &swc->dep.expression->var;
+		Cell *cell = sheet_cell_fetch (swc->sow.parent_object.sheet,
+					       var->ref.col, var->ref.row);
+		sheet_cell_set_value (cell, value_new_bool (new_val), NULL);
+	}
 }
 
 static GtkWidget *
@@ -555,6 +485,108 @@ sheet_widget_checkbox_create_widget (SheetObjectWidget *sow, SheetView *sview)
 			    swc);
 
 	return button;
+}
+
+typedef struct {
+	GtkWidget *dialog;
+	GtkWidget *entry;
+
+	Workbook  *wb;
+	SheetWidgetCheckbox *swc;
+} CheckboxConfigState;
+
+static gboolean
+cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
+{
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	workbook_edit_detach_guru (state->wb);
+
+	/* Handle window manger closing the dialog.
+	 * This will be ignored if we are being destroyed differently.
+	 */
+	workbook_finish_editing (state->wb, FALSE);
+
+	state->dialog = NULL;
+
+	g_free (state);
+	return FALSE;
+}
+
+static void
+cb_checkbox_config_focus (GtkWidget *w, GdkEventFocus *ev, CheckboxConfigState *state)
+{
+	workbook_set_entry (state->wb, GTK_ENTRY (state->entry));
+	workbook_edit_select_absolute (state->wb);
+}
+
+static void
+cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
+			    CheckboxConfigState *state)
+{
+	if (button_number == 0) {
+		SheetObject *so = SHEET_OBJECT (state->swc);
+		char *text = gtk_entry_get_text (GTK_ENTRY (state->entry));
+
+		if (text != NULL && *text) {
+			ParsePos pp;
+			char *error_string = NULL;
+			ExprTree *expr = expr_parse_string (text,
+				parse_pos_init (&pp, NULL, so->sheet, 0, 0),
+				NULL, &error_string);
+
+			/* FIXME : Should we be more verbose about errors */
+			if (expr != NULL && expr->any.oper == OPER_VAR)
+				checkbox_set_expr (&state->swc->dep, expr);
+		} else
+			checkbox_set_expr (&state->swc->dep, NULL);
+	}
+	workbook_finish_editing (state->wb, FALSE);
+}
+
+static void
+sheet_widget_checkbox_user_config (SheetObject *so)
+{
+	CheckboxConfigState *state;
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+
+	g_return_if_fail (swc != NULL);
+
+	state = g_new (CheckboxConfigState, 1);
+	state->swc = swc;
+	state->wb = so->sheet->workbook;
+	state->dialog = gnome_dialog_new (_("Checkbox Configure"),
+					  GNOME_STOCK_BUTTON_OK, 
+					  GNOME_STOCK_BUTTON_CANCEL, 
+					  NULL);
+	state->entry = gtk_entry_new ();
+	if (swc->dep.expression != NULL) {
+		ParsePos pp;
+		char *text = expr_tree_as_string (swc->dep.expression,
+			parse_pos_init (&pp, NULL, so->sheet, 0, 0));
+		gtk_entry_set_text (GTK_ENTRY (state->entry), text);
+	}
+
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
+			    state->entry, TRUE, TRUE, 5);
+	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
+
+	gtk_signal_connect (GTK_OBJECT (state->entry), "focus-in-event",
+			    GTK_SIGNAL_FUNC (cb_checkbox_config_focus), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (cb_checkbox_config_destroy), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "clicked",
+			    GTK_SIGNAL_FUNC (cb_checkbox_config_clicked), state);
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE(state->entry));
+
+	gnumeric_non_modal_dialog (state->wb, GTK_WINDOW (state->dialog));
+	workbook_edit_attach_guru (state->wb, state->dialog);
+	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
+	gtk_window_set_focus (GTK_WINDOW (state->dialog),
+			      GTK_WIDGET (state->entry));
+	gtk_widget_show_all (state->dialog);
 }
 
 SOW_MAKE_TYPE(checkbox, Checkbox, &sheet_widget_checkbox_user_config)

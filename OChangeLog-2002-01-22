@@ -1,3 +1,9 @@
+2000-09-22  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_toggled) : Change
+	  the cell state.
+	(sheet_widget_checkbox_construct) : default to something intelligent.
+
 2000-09-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_hide_cursor) : redraw the selection.
