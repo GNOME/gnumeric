@@ -150,7 +150,7 @@ function_dump_defs (char const *filename, gboolean as_def)
 			up = g_ascii_strup (fd->name, -1);
 			fprintf (output_file, "<tr><td></td>\n");
 			fprintf (output_file,
-"    <td><a href =\"doc/gnumeric-%s.html\">%s</a></td>\n", up, fd->name);
+"    <td><a href =\"doc/gnumeric-%s.shtml\">%s</a></td>\n", up, fd->name);
 			g_free (up);
 			fprintf (output_file,
 "    <td bgcolor=#%s><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s implementation\">%s</a></td>\n",
