@@ -185,7 +185,6 @@ gnumeric_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	sheet_cell_calc_span (change_cell, SPANCALC_RENDER);
 	sheet_flag_status_update_cell (change_cell);
-	sheet_redraw_cell (change_cell);
 
 	return status;
 }

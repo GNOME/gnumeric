@@ -787,7 +787,6 @@ sheet_autofill (Sheet *sheet, int base_col, int base_row, int w, int h, int end_
 	static int autofill_inited;
 	int series;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	if (!autofill_inited){

@@ -26,7 +26,8 @@
 #include "sheet.h"
 #include "sheet-merge.h"
 #include "sheet-control-gui-priv.h"
-#include "gnumeric-type-util.h"
+
+#include <gal/util/e-util.h>
 #include <gal/widgets/e-cursors.h>
 
 struct _CellComment {
@@ -86,7 +87,8 @@ comment_get_points (SheetControlGUI *scg, SheetObject const *so)
 	points->coords [5] = y + TRIANGLE_WIDTH;
 
 	for (i = 0; i < 3; i++)
-		gnome_canvas_c2w (GNOME_CANVAS (scg->gsheet),
+		/* FIXME : panes ? */
+		gnome_canvas_c2w (GNOME_CANVAS (scg_primary_pane (scg)),
 				  points->coords [i*2],
 				  points->coords [i*2+1],
 				  &(points->coords [i*2]),
@@ -159,7 +161,8 @@ cell_comment_new_view (SheetObject *so, SheetControlGUI *scg)
 	g_return_val_if_fail (cc != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
 
-	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (scg->gsheet)->root);
+	/* FIXME : panes ? */
+	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (scg_primary_pane (scg))->root);
 	points = comment_get_points (scg, so);
 	item = gnome_canvas_item_new (
 		group, gnome_canvas_polygon_get_type (),
@@ -243,10 +246,8 @@ cell_comment_class_init (GtkObjectClass *object_class)
 	sheet_object_class->clone         = &cell_comment_clone;
 }
 
-GNUMERIC_MAKE_TYPE (cell_comment,
-		    "CellComment", CellComment,
-		    cell_comment_class_init, NULL,
-		    SHEET_OBJECT_TYPE);
+E_MAKE_TYPE (cell_comment, "CellComment", CellComment,
+	     cell_comment_class_init, NULL, SHEET_OBJECT_TYPE);
 
 char const  *
 cell_comment_author_get (CellComment const *cc)

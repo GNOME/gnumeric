@@ -269,10 +269,6 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data,
 	 * render it to the Gnumeric XML clipboard format
 	 */
 	if (clipboard == NULL) {
-
-		g_return_if_fail (sheet != NULL);
-		g_return_if_fail (a != NULL);
-
 		content_needs_free = TRUE;
 		clipboard = clipboard_copy_range (sheet, a);
 	}

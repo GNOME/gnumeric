@@ -3,7 +3,7 @@
 /*
  * graph-vector.c: Support routines for graph vector.
  *
- * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
+ * Copyright (C) 2000-2001 Jody Goldberg (jgoldberg@home.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -31,7 +31,8 @@
 #include "value.h"
 #include "cell.h"
 #include "sheet.h"
-#include "gnumeric-type-util.h"
+
+#include <gal/util/e-util.h>
 
 typedef enum { VECTOR_SCALAR, VECTOR_DATE, VECTOR_STRING } GraphVectorType;
 struct _GraphVector {
@@ -376,9 +377,8 @@ graph_vector_init (GtkObject *object)
 	vector->subscriber.string = CORBA_OBJECT_NIL;
 }
 
-static GNUMERIC_MAKE_TYPE (graph_vector,"GraphVector",GraphVector,
-			   &graph_vector_class_init, &graph_vector_init,
-			   gtk_object_get_type ())
+static E_MAKE_TYPE (graph_vector,"GraphVector",GraphVector,
+		    graph_vector_class_init, graph_vector_init, GTK_TYPE_OBJECT)
 
 
 static void

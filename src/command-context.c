@@ -4,11 +4,12 @@
  * Author:
  * 	Jody Goldberg <jgoldberg@home.com>
  *
- * (C) 1999, 2000 Jody Goldberg
+ * (C) 1999-2001 Jody Goldberg
  */
 #include <config.h>
-#include "gnumeric-type-util.h"
 #include "command-context-priv.h"
+
+#include <gal/util/e-util.h>
 #include <gnome.h> /* Ick.  This is required to get _("") */
 
 #define CC_CLASS(o) COMMAND_CONTEXT_CLASS (GTK_OBJECT (o)->klass)
@@ -140,4 +141,5 @@ command_context_pop_err_template (CommandContext *context)
 	}
 }
 
-GNUMERIC_MAKE_TYPE(command_context, "CommandContext", CommandContext, NULL, NULL, gtk_object_get_type ())
+E_MAKE_TYPE (command_context, "CommandContext", CommandContext,
+	     NULL, NULL, GTK_TYPE_OBJECT)

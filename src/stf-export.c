@@ -182,7 +182,7 @@ void
 stf_export_options_sheet_list_add (StfExportOptions_t *export_options, Sheet *sheet)
 {
 	g_return_if_fail (export_options != NULL);
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	export_options->sheet_list = g_slist_append (export_options->sheet_list, sheet);
 }
@@ -269,7 +269,7 @@ stf_export_sheet (StfExportOptions_t *export_options, Sheet *sheet)
 	Range r;
 
 	g_return_val_if_fail (export_options != NULL, FALSE);
-	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (export_options->terminator_type != TERMINATOR_TYPE_UNKNOWN, FALSE);
 	g_return_val_if_fail (export_options->cell_separator != '\0', FALSE);
 	g_return_val_if_fail (export_options->quoting_mode != QUOTING_MODE_UNKNOWN, FALSE);

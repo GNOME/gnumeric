@@ -1728,7 +1728,6 @@ sheet_style_set_list (Sheet *sheet, CellPos const *corner,
 	SpanCalcFlags spanflags = SPANCALC_SIMPLE;
 	GList const *l;
 
-	g_return_val_if_fail (sheet != NULL, spanflags);
 	g_return_val_if_fail (IS_SHEET (sheet), spanflags);
 
 	/* Sluggish but simple implementation for now */

@@ -9,7 +9,7 @@
 struct _ItemBar {
 	GnomeCanvasItem  canvas_item;
 
-	SheetControlGUI *scg;
+	GnumericSheet   *gsheet;
 	int              dragging : 1;
 	int              is_col_header : 1;
 	GdkGC           *gc, *lines, *shade; /* Draw gc */

@@ -39,9 +39,9 @@
 #include "position.h"
 #include "cell.h"
 #include "parse-util.h"
-#include "gnumeric-type-util.h"
 #include "io-context.h"
 
+#include <gal/util/e-util.h>
 #include <gal/widgets/gtk-combo-stack.h>
 #include <locale.h>
 
@@ -66,8 +66,6 @@ Workbook *
 wb_view_workbook (WorkbookView *wbv)
 {
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
-	g_return_val_if_fail (IS_WORKBOOK (wbv->wb), NULL);
-
 	return wbv->wb;
 }
 
@@ -524,7 +522,7 @@ workbook_view_init (WorkbookView *wbv, Workbook *opt_wb)
 }
 
 static void
-workbook_view_ctor_class (GtkObjectClass *object_class)
+workbook_view_class_init (GtkObjectClass *object_class)
 {
 	WorkbookViewClass *wbc_class = WORKBOOK_VIEW_CLASS (object_class);
 
@@ -558,11 +556,8 @@ workbook_view_ctor_class (GtkObjectClass *object_class)
 			GTK_TYPE_POINTER);
 }
 
-GNUMERIC_MAKE_TYPE(workbook_view,
-		   "WorkbookView",
-		   WorkbookView,
-		   workbook_view_ctor_class, NULL,
-		   gtk_object_get_type ());
+E_MAKE_TYPE (workbook_view, "WorkbookView", WorkbookView,
+	     workbook_view_class_init, NULL, GTK_TYPE_OBJECT);
 
 WorkbookView *
 workbook_view_new (Workbook *optional_wb)
@@ -668,6 +663,7 @@ wb_view_save (WorkbookView *wbv, WorkbookControl *wbc)
  * @wbv         : Workbook View
  * @wbc         : Workbook Control
  * @file_name   : File name
+ * @display_err : should errors messages be generated
  *
  * Reads @file_name file, automatically detecting file type and using
  * appropriate file opener.
@@ -676,9 +672,9 @@ wb_view_save (WorkbookView *wbv, WorkbookControl *wbc)
  */
 gboolean
 wb_view_open (WorkbookView *wbv, WorkbookControl *wbc,
-              gchar const *file_name)
+              gchar const *file_name, gboolean display_errors)
 {
-	return wb_view_open_custom (wbv, wbc, NULL, file_name);
+	return wb_view_open_custom (wbv, wbc, NULL, file_name, display_errors);
 }
 
 /**
@@ -694,7 +690,8 @@ wb_view_open (WorkbookView *wbv, WorkbookControl *wbc,
  */
 gboolean
 wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
-                     GnumFileOpener const *fo, gchar const *file_name)
+                     GnumFileOpener const *fo, gchar const *file_name,
+		     gboolean display_errors)
 {
 	Workbook *new_wb = NULL;
 	WorkbookView *new_wbv = NULL;

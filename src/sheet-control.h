@@ -12,7 +12,7 @@ GtkType sheet_control_get_type    (void);
 void sc_init_state  (SheetControl *sc);
 
 Sheet *sc_sheet	(SheetControl *sc);
-void sc_invalidate_sheet (SheetControl *sc);
+void   sc_set_sheet (SheetControl *sc, Sheet *sheet);
 
 /**
  * NOTE:
@@ -23,7 +23,7 @@ void sc_invalidate_sheet (SheetControl *sc);
 void sc_resize		       (SheetControl *sc);
 void sc_set_zoom_factor        (SheetControl *sc);
 void sc_redraw_all             (SheetControl *sc);
-void sc_redraw_cell_region     (SheetControl *sc,
+void sc_redraw_region          (SheetControl *sc,
 				int start_col, int start_row,
 				int end_col, int end_row);
 void sc_redraw_headers         (SheetControl *sc,
@@ -42,5 +42,6 @@ void sc_compute_visible_region (SheetControl *sc, gboolean full_recompute);
 void sc_make_cell_visible      (SheetControl *sc, int col, int row,
 				gboolean force_scroll);
 void sc_cursor_bound	       (SheetControl *sc, Range const *r);
+void sc_set_panes	       (SheetControl *sc);
 
 #endif /* GNUMERIC_SHEET_CONTROL_H */

@@ -24,12 +24,12 @@
 #include "workbook-control-priv.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "gnumeric-type-util.h"
 #include "parse-util.h"
 #include "sheet.h"
 #include "selection.h"
 #include "commands.h"
 
+#include <gal/util/e-util.h>
 #include <gnome.h> /* Ick.  This is required to get _("") */
 
 #define WBC_CLASS(o) WORKBOOK_CONTROL_CLASS ((o)->context.gtk_object.klass)
@@ -204,14 +204,14 @@ wbc_destroy (GtkObject *obj)
 }
 
 static void
-workbook_control_ctor_class (GtkObjectClass *object_class)
+workbook_control_class_init (GtkObjectClass *object_class)
 {
 	parent_class = gtk_type_class (gtk_object_get_type ());
 	object_class->destroy = wbc_destroy;
 }
 
-GNUMERIC_MAKE_TYPE(workbook_control, "WorkbookControl", WorkbookControl,
-		   workbook_control_ctor_class, NULL, command_context_get_type ())
+E_MAKE_TYPE (workbook_control, "WorkbookControl", WorkbookControl,
+	     workbook_control_class_init, NULL, COMMAND_CONTEXT_TYPE);
 
 void
 workbook_control_set_view (WorkbookControl *wbc,

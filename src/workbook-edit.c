@@ -154,7 +154,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	if (!wbcg->editing)
 		return TRUE;
 
-	g_return_val_if_fail (wbcg->editing_sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (wbcg->editing_sheet), TRUE);
 
 	sheet = wbcg->editing_sheet;
 
@@ -208,7 +208,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		/* Redraw the cell contents in case there was a span */
 		int const c = sheet->edit_pos.col;
 		int const r = sheet->edit_pos.row;
-		sheet_redraw_cell_region (sheet, c, r, c, r);
+		sheet_redraw_region (sheet, c, r, c, r);
 
 		/* Reload the entry widget with the original contents */
 		wb_view_edit_line_set (wbv, wbc);
@@ -347,7 +347,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	scg_create_editor (scg);
 
 	/* Redraw the cell contents in case there was a span */
-	sheet_redraw_cell_region (sheet, col, row, col, row);
+	sheet_redraw_region (sheet, col, row, col, row);
 
 	/* Activate auto-completion if this is not an expression */
 	if (application_use_auto_complete () &&

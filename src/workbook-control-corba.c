@@ -6,9 +6,8 @@
  *   Miguel de Icaza (miguel@gnu.org)
  */
 #include <config.h>
-#include "gnumeric-type-util.h"
 #include "workbook-control-priv.h"
-#include "command-context-corba.h"
+#include "worbook-control-corba.h"
 #include "gnumeric-util.h"
 
 #define CCG_CLASS(o) CMD_CONTEXT_CORBA_CLASS (GTK_OBJECT (o)->klass)
@@ -63,9 +62,8 @@ wbcc_init_class (GtkObjectClass *object_class)
 	cc_class->error.invalid	= &wbcc_error_invalid;
 }
 
-static GNUMERIC_MAKE_TYPE(workbook_control_corba, "WorkbookControlCorba", WorkbookControlCorba,
-		   wbcc_init_class, NULL, workbook_control_get_type ())
-
+static E_MAKE_TYPE (workbook_control_corba, "WorkbookControlCorba", WorkbookControlCorba,
+		    wbcc_init_class, NULL, WORKBOOK_CONTROL_TYPE);
 
 CommandContext *
 command_context_corba_new (void)

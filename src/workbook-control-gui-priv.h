@@ -41,6 +41,7 @@ struct _WorkbookControlGUI {
 	GtkWidget  *menu_item_search_replace;
 	GtkWidget  *menu_item_define_name;
 	GtkWidget  *menu_item_consolidate;
+	GtkWidget  *menu_item_freeze_panes;
 	
 	/* Menu items that get toggled */
 	GtkWidget  *menu_item_sheet_display_formulas;

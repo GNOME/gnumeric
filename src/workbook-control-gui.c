@@ -58,17 +58,19 @@
 #include "sheet-object-container.h"
 #endif
 
-#include "gnumeric-type-util.h"
 #include "gnumeric-util.h"
 #include "widgets/gnumeric-toolbar.h"
 
 #include "widgets/widget-editable-label.h"
+#include <gal/util/e-util.h>
 #include <gal/widgets/gtk-combo-text.h>
 #include <gal/widgets/gtk-combo-stack.h>
 #include <ctype.h>
 #include <stdarg.h>
 
 #include "pixmaps/equal-sign.xpm"
+
+#define ENABLE_FREEZE
 
 gboolean
 wbcg_ui_update_begin (WorkbookControlGUI *wbcg)
@@ -552,7 +554,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	if (wbcg->notebook == NULL)
 		workbook_setup_sheets (wbcg);
 
-	scg = sheet_new_scg (sheet);
+	scg = sheet_control_gui_new (sheet);
 	sc = (SheetControl *) scg;
 	sc->wbc = wbc;
 	scg->wbcg = wbcg;
@@ -767,6 +769,7 @@ change_menu_sensitivity (GtkWidget *menu_item, gboolean sensitive)
 	gtk_widget_set_sensitive (menu_item, sensitive);
 }
 
+/* FIXME : This is crap.  We need to handle the accelerators properly */
 static void
 change_menu_label (GtkWidget *menu_item, char const *prefix, char const *suffix)
 {
@@ -929,11 +932,11 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 					 !wbcg_edit_has_guru (wbcg));
 #endif
 
-#if 0
+#ifdef ENABLE_FREEZE
 	if (MS_FREEZE_VS_THAW & flags) {
 		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 		char const* label = sheet_is_frozen (sheet)
-			? _("Unfreeze Panes") : _("_Freeze Panes");
+			? _("un_Freeze Panes") : _("_Freeze Panes");
 #ifndef ENABLE_BONOBO
 		change_menu_label (wbcg->menu_item_freeze_panes,
 				   NULL, label);
@@ -1591,7 +1594,7 @@ cb_view_zoom (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	dialog_zoom (wbcg, wb_control_cur_sheet (wbc));
 }
 
-#if 0
+#ifdef ENABLE_FREEZE
 static void
 cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -1599,7 +1602,7 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
 
-	if (scg->active_panes) {
+	if (scg->active_panes == 1) {
 		CellPos top_left;
 		top_left.col = scg->pane[0].gsheet->col.first;
 		top_left.row = scg->pane[0].gsheet->row.first;
@@ -2291,7 +2294,7 @@ static GnomeUIInfo workbook_menu_view [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Zoom..."),
 		N_("Zoom the spreadsheet in or out"),
 		cb_view_zoom),
-#if 0
+#ifdef ENABLE_FREEZE
 	GNOMEUIINFO_ITEM_NONE (N_("_Freeze..."),
 		N_("Freeze the top left of the sheet"),
 		cb_view_freeze_panes),
@@ -2678,8 +2681,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
 
 	BONOBO_UI_UNSAFE_VERB ("ViewZoom", cb_view_zoom),
-#if 0
-	BONOBO_UI_UNSAFE_VERB ("ViewFreezePanes", cb_view_freeze_panes),
+#ifdef ENABLE_FREEZE
+	BONOBO_UI_UNSAFE_VERB ("ViewFreezeThawPanes", cb_view_freeze_panes),
 #endif
 	BONOBO_UI_UNSAFE_VERB ("ViewNewShared", cb_view_new_shared),
 	BONOBO_UI_UNSAFE_VERB ("ViewNewUnshared", cb_view_new_unshared),
@@ -3555,7 +3558,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	/* FIXME: Once input validation is enabled change the [3] */
 	wbcg->menu_item_consolidate =
 		workbook_menu_data [3].widget;
-#if 0
+#ifdef ENABLE_FREEZE
 	wbcg->menu_item_freeze_panes =
 		workbook_menu_view [1].widget;
 #endif
@@ -3730,11 +3733,9 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->menu_state.sheet_prefs = wbcg_menu_state_sheet_prefs;
 }
 
-GNUMERIC_MAKE_TYPE(workbook_control_gui,
-		   "WorkbookControlGUI",
-		   WorkbookControlGUI,
-		   workbook_control_gui_ctor_class, NULL,
-		   workbook_control_get_type ());
+E_MAKE_TYPE(workbook_control_gui, "WorkbookControlGUI", WorkbookControlGUI,
+	    workbook_control_gui_ctor_class, NULL,
+	    WORKBOOK_CONTROL_TYPE);
 
 WorkbookControl *
 workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)

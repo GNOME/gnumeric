@@ -16,6 +16,7 @@ struct _GnumericSheet {
 	GnomeCanvas   canvas;
 
 	SheetControlGUI *scg;
+	GnumericPane *pane;
 
 	struct {
 		int first, last_full, last_visible;
@@ -26,16 +27,17 @@ struct _GnumericSheet {
 	ItemCursor    *item_cursor;
 	ItemCursor    *sel_cursor;
 
+	GnomeCanvasGroup *anted_group;
+	GnomeCanvasGroup *object_group;
+
 	/* Input context for dead key support */
 	GdkIC     *ic;
 	GdkICAttr *ic_attr;
 };
 
-GtkType    gnumeric_sheet_get_type (void);
-GtkWidget *gnumeric_sheet_new      (SheetControlGUI *sheet);
+GtkType        gnumeric_sheet_get_type (void);
+GnumericSheet *gnumeric_sheet_new      (SheetControlGUI *scg, GnumericPane *pane);
 
-void gnumeric_sheet_set_top_row	 (GnumericSheet *gsheet, int new_first_row);
-void gnumeric_sheet_set_left_col (GnumericSheet *gsheet, int new_first_col);
 int  gnumeric_sheet_find_col	 (GnumericSheet *gsheet, int x, int *col_origin);
 int  gnumeric_sheet_find_row	 (GnumericSheet *gsheet, int y, int *row_origin);
 
@@ -48,8 +50,9 @@ void gnumeric_sheet_rangesel_stop  (GnumericSheet *gsheet);
 
 void gsheet_compute_visible_region    (GnumericSheet *gsheet,
 				       gboolean const full_recompute);
-void gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet,
-				       int col, int row,
-				       gboolean const force_scroll);
+
+void gnumeric_sheet_redraw_region  (GnumericSheet *gsheet,
+				    int start_col, int start_row,
+				    int end_col, int end_row);
 
 #endif /* GNUMERIC_GNUMERIC_SHEET_H */

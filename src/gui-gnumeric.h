@@ -9,6 +9,7 @@ typedef struct _ItemGrid		ItemGrid;
 typedef struct _ItemBar			ItemBar;
 typedef struct _ItemEdit		ItemEdit;
 typedef struct _GnumericSheet		GnumericSheet;
+typedef struct _GnumericPane		GnumericPane;
 typedef struct _SheetControlGUI		SheetControlGUI;
 typedef struct _WorkbookControlGUI	WorkbookControlGUI;
 

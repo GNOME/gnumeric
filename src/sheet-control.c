@@ -22,8 +22,8 @@
  */
 #include <config.h>
 #include "sheet-control-priv.h"
-#include "sheet-control.h"
-#include "gnumeric-type-util.h"
+
+#include <gal/util/e-util.h>
 
 #define SC_CLASS(o) SHEET_CONTROL_CLASS ((o)->object.klass)
 #define SC_VIRTUAL_FULL(func, handle, arglist, call)		\
@@ -52,14 +52,14 @@ sc_destroy (GtkObject *obj)
 }
 
 static void
-sheet_control_ctor_class (GtkObjectClass *object_class)
+sc_class_init (GtkObjectClass *object_class)
 {
 	parent_class = gtk_type_class (gtk_object_get_type ());
 	object_class->destroy = sc_destroy;
 }
 
-GNUMERIC_MAKE_TYPE(sheet_control, "SheetControl", SheetControl,
-		   sheet_control_ctor_class, NULL, gtk_object_get_type ())
+E_MAKE_TYPE (sheet_control, "SheetControl", SheetControl,
+	     sc_class_init, NULL, GTK_TYPE_OBJECT);
 
 void
 sc_init_state (SheetControl *sc)
@@ -81,10 +81,10 @@ sc_sheet (SheetControl *sc)
 }
 
 void
-sc_invalidate_sheet (SheetControl *sc)
+sc_set_sheet (SheetControl *sc, Sheet *sheet)
 {
 	g_return_if_fail (IS_SHEET_CONTROL (sc));
-	sc->sheet = NULL;
+	sc->sheet = sheet;
 }
 
 
@@ -94,7 +94,7 @@ SC_VIRTUAL (set_zoom_factor, (SheetControl *sc), (sc))
 
 SC_VIRTUAL (redraw_all, (SheetControl *sc), (sc))
 
-SC_VIRTUAL (redraw_cell_region,
+SC_VIRTUAL (redraw_region,
 	    (SheetControl *sc,
 	     int start_col, int start_row, int end_col, int end_row),
 	    (sc, start_col, start_row, end_col, end_row))
@@ -125,3 +125,4 @@ SC_VIRTUAL (make_cell_visible,
 	    (sc, col, row, force_scroll));
 
 SC_VIRTUAL (cursor_bound, (SheetControl *sc, Range const *r), (sc, r))
+SC_VIRTUAL (set_panes, (SheetControl *sc), (sc))

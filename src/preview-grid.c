@@ -24,7 +24,6 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
-#include "gnumeric-type-util.h"
 #include "preview-grid.h"
 
 #include "cell.h"
@@ -38,6 +37,8 @@
 #include "style-border.h"
 #include "style-color.h"
 #include "value.h"
+
+#include <gal/util/e-util.h>
 
 struct _PreviewGrid {
 	GnomeCanvasItem canvas_item;
@@ -672,6 +673,5 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 	*/
 }
 
-GNUMERIC_MAKE_TYPE (preview_grid, "PreviewGrid", PreviewGrid,
-		    preview_grid_class_init, preview_grid_init,
-		    gnome_canvas_item_get_type ())
+E_MAKE_TYPE (preview_grid, "PreviewGrid", PreviewGrid,
+	     preview_grid_class_init, preview_grid_init, GNOME_TYPE_CANVAS_ITEM);

@@ -82,6 +82,10 @@
 	    _tip="Paste with optional filters and transformations"
 	    pixtype="stock" pixname="Paste"/>
 
+	<cmd name="ViewFreezeThawPanes"
+	    _label="_Freeze Panes"
+	    _tip="Lock or unlock the top left cols/rows"/>
+
 	<cmd name="EditClearAll"
 	    _label="_All"
 	    _tip="Clear the selected cells' formats, comments, and contents"/>
@@ -262,7 +266,7 @@
 	    <menuitem name="ViewZoom" verb=""
 		_label="_Zoom..."
 		_tip="Zoom the spreadsheet in or out"/>
-
+	    <menuitem name="ViewFreezeThawPanes" verb=""/>
 	    <menuitem name="ViewNewShared" verb=""
 		_label="New _Shared"
 		_tip="Create a new shared view of the workbook"/>
@@ -316,12 +320,12 @@
 		<menuitem name="Date" verb="InsertCurrentDate"
 		    _label="Current _date"
 		    _tip="Insert the current date into the selected cell(s)"
-		    accel="*Control*;"/>
+		    accel="*Control*semicolon"/>
 
 		<menuitem name="Time" verb="InsertCurrentTime"
 		    _label="Current _time"
 		    _tip="Insert the current time into the selected cell(s)"
-		    accel="*Control*:"/>
+		    accel="*Control*colon" />
 
 	    </submenu>
 
@@ -596,7 +600,7 @@
 	    pixtype="stock" pixname="Gnumeric_GraphGuru"
 	    _label="Graph Guru"
 	    _tip="Invoke the graph guru to create a graph"
-	    verb="GraphGuru" />
+	    verb="GraphGuru" sensitive="0" />
 
 	<toolitem name="InsertComponent"
 	    pixtype="stock" pixname="Gnumeric_InsertComponent"

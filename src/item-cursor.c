@@ -223,10 +223,9 @@ item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, in
 	item->x1 = x - 1;
 	item->y1 = y - 1;
 
-	if (item_cursor->style == ITEM_CURSOR_SELECTION)
-		extra = 1;
-	else
-		extra = 0;
+	/* for the autohandle */
+	extra = (item_cursor->style == ITEM_CURSOR_SELECTION) ? 3 : 0;
+
 	item->x2 = x + w + 2 + extra;
 	item->y2 = y + h + 2 + extra;
 
@@ -307,7 +306,10 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		draw_internal = 1;
 		draw_external = 1;
 		{
-			GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
+			GnumericSheet const *gsheet = GNUMERIC_SHEET (item->canvas);
+			SheetControlGUI const *scg = gsheet->scg;
+			/* FIXME : too simplistic.  do better checking for
+			 * frozen panes */
 			if (item_cursor->pos.end.row <= gsheet->row.last_full)
 				draw_handle = 1;
 			else if (item_cursor->pos.start.row < gsheet->row.first)
@@ -984,7 +986,7 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 
 static void
 item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
-				int visible_col,int visible_row,
+				int col,int row,
 				CellPos const *corner,
 				int end_col, int end_row)
 {
@@ -999,7 +1001,7 @@ item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
 	 * of clipping the cursor to the currently visible region is getting in the way.
 	 * We are forced to make the region visible before we move the cursor.
 	 */
-	gnumeric_sheet_make_cell_visible (gsheet, visible_col, visible_row, FALSE);
+	scg_make_cell_visible (gsheet->scg, col, row, FALSE);
 	range_init (&r, corner->col, corner->row, end_col, end_row);
 	if (item_cursor_set_bounds (item_cursor, &r))
 		gnome_canvas_update_now (GNOME_CANVAS (gsheet));

@@ -19,10 +19,10 @@
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
-#include <gtk/gtkmain.h>
 #include "complete.h"
-#include <gal/util/e-util.h>
 
+#include <gal/util/e-util.h>
+#include <gtk/gtkmain.h>
 #include <stdio.h>
 #include <stdlib.h>
 

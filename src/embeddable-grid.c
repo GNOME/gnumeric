@@ -227,7 +227,7 @@ grid_view_activate (GridView *grid_view, gboolean state)
 	if (state) {
 		g_return_if_fail (grid_view != NULL);
 
-		gtk_widget_grab_focus (GTK_WIDGET (grid_view->scg->gsheet));
+		scg_take_focus (grid_view->scg);
 	}
 
 	bonobo_view_activate_notify (BONOBO_VIEW (grid_view), state);
@@ -241,7 +241,7 @@ grid_view_new (EmbeddableGrid *eg)
 	grid_view = gtk_type_new (GRID_VIEW_TYPE);
 
 	grid_view->embeddable = eg;
-	grid_view->scg = sheet_new_scg (eg->sheet);
+	grid_view->scg = sheet_control_gui_new (eg->sheet);
 	gtk_widget_show (GTK_WIDGET (grid_view->scg));
 	gtk_widget_set_usize (GTK_WIDGET (grid_view->scg), 320, 200);
 

@@ -23,7 +23,6 @@
 #include "sheet-style.h"
 #include "sheet-merge.h"
 #include "sheet-object-impl.h"
-#include "gnumeric-type-util.h"
 #include "cell.h"
 #include "cell-draw.h"
 #include "cellspan.h"
@@ -35,6 +34,8 @@
 #include "style-color.h"
 #include "pattern.h"
 #include "portability.h"
+
+#include <gal/util/e-util.h>
 #include <gal/widgets/e-cursors.h>
 #include <math.h>
 
@@ -226,7 +227,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 		scg->current_object == NULL && scg->new_object == NULL &&
 		!(sheet->edit_pos.col == col && sheet->edit_pos.row == row) &&
 		sheet_is_cell_selected (sheet, col, row);
-	gboolean const has_back = 
+	gboolean const has_back =
 		gnumeric_background_set_gc (style, gc,
 					    ig->canvas_item.canvas,
 					    is_selected);
@@ -317,8 +318,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	/*
 	 * allocate a single blob of memory for all 8 arrays of pointers.
-	 * 	- 6 arrays of n StyleBorder const *
-	 * 	- 2 arrays of n MStyle const *
+	 *	- 6 arrays of n StyleBorder const *
+	 *	- 2 arrays of n MStyle const *
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
 	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,
@@ -328,14 +329,14 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	next_sr.row = sr.row = row = start_row;
 	sheet_style_get_row (sheet, &sr);
 
-	/* Collect the column widths */	
+	/* Collect the column widths */
 	colwidths = g_alloca (n * sizeof (int));
 	colwidths -= start_col;
 	for (col = start_col; col <= end_col; col++) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 		colwidths[col] = ci->visible ? ci->size_pixels : -1;
 	}
-	
+
 	for (y = diff_y; row <= end_row; row = sr.row = next_sr.row, ri = next_ri) {
 		/* Restore the set of ranges seen, but still active.
 		 * Reinverting list to maintain the original order */
@@ -401,7 +402,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 			if (!ci->visible)
 				continue;
-				
+
 			/* Skip any merged regions */
 			if (merged_active) {
 				Range const *r = merged_active->data;
@@ -542,7 +543,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (sr.row >= SHEET_MAX_ROWS-1)
 		style_borders_row_draw (prev_vert, &sr,
 					drawable, diff_x, y, y, colwidths, FALSE);
-	
+
 	if (merged_used)	/* ranges whose bottoms are in the view */
 		g_slist_free (merged_used);
 	if (merged_active_seen) /* ranges whose bottoms are below the view */
@@ -622,7 +623,7 @@ cb_obj_create_motion (GnumericSheet *gsheet, GdkEventMotion *event,
 	} else {
 		SheetObject *so;
 		double points [4];
-		
+
 		points [0] = closure->x;
 		points [1] = closure->y;
 		points [2] = event->x;
@@ -691,7 +692,7 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 	gtk_signal_disconnect_by_func (
 		GTK_OBJECT (gsheet),
 		GTK_SIGNAL_FUNC (cb_obj_create_button_release), closure);
-	
+
 	scg_object_calc_position (scg, so, pts);
 
 	if (!sheet_object_rubber_band_directly (so)) {
@@ -725,7 +726,7 @@ sheet_object_begin_creation (GnumericSheet *gsheet, GdkEventButton *event)
 	SheetObject *so;
 	SheetObjectCreationData *closure;
 
-	g_return_val_if_fail (gsheet != NULL, TRUE);
+	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), TRUE);
 	g_return_val_if_fail (gsheet->scg != NULL, TRUE);
 
 	scg = gsheet->scg;
@@ -742,10 +743,9 @@ sheet_object_begin_creation (GnumericSheet *gsheet, GdkEventButton *event)
 	closure->x = event->x;
 	closure->y = event->y;
 
-	
 	if (!sheet_object_rubber_band_directly (so)) {
 		closure->item = gnome_canvas_item_new (
-			gsheet->scg->object_group,
+			gsheet->object_group,
 			gnome_canvas_rect_get_type (),
 			"outline_color", "black",
 			"width_units",   2.0,
@@ -755,7 +755,7 @@ sheet_object_begin_creation (GnumericSheet *gsheet, GdkEventButton *event)
 
 		points [0] = points [2] = event->x;
 		points [1] = points [3] = event->y;
-		
+
 		scg_object_calc_position (scg, so, points);
 		sheet_object_set_sheet (so, ((SheetControl *) scg)->sheet);
 		closure->item = NULL;
@@ -1102,6 +1102,5 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 	item_class->event       = item_grid_event;
 }
 
-GNUMERIC_MAKE_TYPE (item_grid, "ItemGrid", ItemGrid,
-		    item_grid_class_init, item_grid_init,
-		    gnome_canvas_item_get_type ())
+E_MAKE_TYPE (item_grid, "ItemGrid", ItemGrid,
+	     item_grid_class_init, item_grid_init, GNOME_TYPE_CANVAS_ITEM);

@@ -244,7 +244,7 @@ colrow_save_sizes (Sheet *sheet, gboolean const is_cols, int first, int last)
 	float              size, run_size = 0.;
 	int                run_length = 0;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (first <= last, NULL);
 
 	for (i = first; i <= last; ++i) {
@@ -395,7 +395,7 @@ colrow_restore_sizes (Sheet *sheet, gboolean const is_cols,
 	int i, offset = first;
 
 	g_return_if_fail (sizes != NULL);
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (first <= last);
 
 	for (l = sizes; l != NULL; l = l->next) {
@@ -818,7 +818,8 @@ colrow_set_visibility (Sheet *sheet, gboolean const is_cols,
 {
 	int i, prev_outline = 0;
 	gboolean prev_changed = FALSE;
-	g_return_if_fail (sheet != NULL);
+
+	g_return_if_fail (IS_SHEET (sheet));
 
 	for (i = first; i <= last ; ++i) {
 		ColRowInfo * const cri = is_cols

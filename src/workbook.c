@@ -312,7 +312,7 @@ workbook_persist_file_load (BonoboPersistFile *ps, const CORBA_char *filename,
 {
 	WorkbookView *wbv = closure;
 
-	return wb_view_open (wbv, /* FIXME */ NULL, filename) ? 0 : -1;
+	return wb_view_open (wbv, /* FIXME */ NULL, filename, FALSE) ? 0 : -1;
 }
 
 static int
@@ -896,7 +896,7 @@ workbook_attach_view (Workbook *wb, WorkbookView *wbv)
 {
 	g_return_if_fail (IS_WORKBOOK (wb));
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
-	g_return_if_fail (wbv->wb == NULL);
+	g_return_if_fail (wb_view_workbook (wbv) == NULL);
 
 	wbv->wb = wb;
 	if (wbv->wb->wb_views == NULL)
@@ -1233,7 +1233,7 @@ workbook_sheet_rename (WorkbookControl *wbc,
 	sheet = (Sheet *) g_hash_table_lookup (wb->sheet_hash_private,
 					       old_name);
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	/* Do not let two sheets in the workbook have the same name */
 	tmp = (Sheet *) g_hash_table_lookup (wb->sheet_hash_private, new_name);

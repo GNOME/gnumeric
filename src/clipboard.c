@@ -249,7 +249,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 	int repeat_horizontal, repeat_vertical;
 	int dst_cols, dst_rows, src_cols, src_rows, min_col, max_col, tmp;
 	Range const *r;
-	gboolean has_content;
+	gboolean has_content, adjust_merges = TRUE;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
 	g_return_val_if_fail (content != NULL, TRUE);
@@ -260,13 +260,23 @@ clipboard_paste_region (WorkbookControl *wbc,
 	src_cols = content->cols;
 	src_rows = content->rows;
 
+	/* Treat a target of a single merge specially, don't split the merge */
+	{
+		Range const *merge = sheet_merge_is_corner (pt->sheet, &r->start);
+		if (merge != NULL && range_equal (r, merge)) {
+			dst_cols = dst_rows = 1;
+			adjust_merges = FALSE;
+		}
+	}
+
 	has_content = pt->paste_flags & (PASTE_CONTENT|PASTE_AS_VALUES|PASTE_LINK);
 
 	if (pt->paste_flags & PASTE_TRANSPOSE) {
 		int tmp = src_cols;
 		src_cols = src_rows;
 		src_rows = tmp;
-	}
+	} 
+
 
 	if (content->not_as_content && (pt->paste_flags & PASTE_CONTENT)) {
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
@@ -332,7 +342,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 	}
 
 	/* remove and merged regions in the target range */
-	if (has_content) {
+	if (has_content && adjust_merges) {
 		GSList *merged, *ptr;
 		merged = sheet_merge_get_overlap (pt->sheet, &pt->range);
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
@@ -425,9 +435,9 @@ clipboard_paste_region (WorkbookControl *wbc,
 	sheet_regen_adjacent_spans (pt->sheet,
 		r->start.col,  r->start.row, r->end.col, r->end.row,
 		&min_col, &max_col);
-	sheet_range_calc_spans (pt->sheet, pt->range,
+	sheet_range_calc_spans (pt->sheet, &pt->range,
 		(pt->paste_flags & PASTE_FORMATS) ? SPANCALC_RE_RENDER : SPANCALC_RENDER);
-	sheet_redraw_cell_region (pt->sheet,
+	sheet_redraw_region (pt->sheet,
 		min_col, r->start.row, max_col, r->end.row);
 
 	if (pt->paste_flags & PASTE_UPDATE_ROW_HEIGHT)

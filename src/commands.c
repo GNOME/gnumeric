@@ -3,7 +3,7 @@
 /*
  * commands.c: Handlers to undo & redo commands
  *
- * Copyright (C) 1999, 2000 Jody Goldberg (jgoldberg@home.com)
+ * Copyright (C) 1999-2001 Jody Goldberg (jgoldberg@home.com)
  *
  * Contributors : Almer S. Tigelaar (almer@gnome.org)
  *
@@ -23,9 +23,8 @@
  * USA
  */
 #include <config.h>
-#include "gnumeric-type-util.h"
-#include "gnumeric-util.h"
 #include "commands.h"
+#include "gnumeric-util.h"
 #include "application.h"
 #include "sheet.h"
 #include "sheet-style.h"
@@ -53,6 +52,8 @@
 #include "mstyle.h"
 #include "search.h"
 #include "sheet-object-cell-comment.h"
+
+#include <gal/util/e-util.h>
 
 #define MAX_DESCRIPTOR_WIDTH 15
 
@@ -116,9 +117,8 @@ typedef struct {
 	RedoCmd		redo_cmd;
 } GnumericCommandClass;
 
-static GNUMERIC_MAKE_TYPE(gnumeric_command, "GnumericCommand",
-			  GnumericCommand, NULL, NULL,
-			  gtk_object_get_type());
+static E_MAKE_TYPE (gnumeric_command, "GnumericCommand", GnumericCommand,
+		    NULL, NULL, GTK_TYPE_OBJECT);
 
 /* Store the real GtkObject dtor pointer */
 static void (* gtk_object_dtor) (GtkObject *object) = NULL;
@@ -138,7 +138,7 @@ gnumeric_command_destroy (GtkObject *obj)
 	(*gtk_object_dtor) (obj);
 }
 
-#define GNUMERIC_MAKE_COMMAND_WITH_PARENT(type, func, pclass, ptype)	\
+#define GNUMERIC_MAKE_COMMAND(type, func)				\
 static gboolean								\
 func ## _undo (GnumericCommand *me, WorkbookControl *wbc);		\
 static gboolean								\
@@ -154,12 +154,11 @@ func ## _class_init (GnumericCommandClass * const parent)		\
 		gtk_object_dtor = parent->parent_class.destroy;		\
 	parent->parent_class.destroy = & func ## _destroy;		\
 }									\
-static GNUMERIC_MAKE_TYPE_WITH_CLASS(func, #type, type, pclass,		\
-				     func ## _class_init, NULL, ptype)
-
-#define GNUMERIC_MAKE_COMMAND(type, func)				    \
-	GNUMERIC_MAKE_COMMAND_WITH_PARENT(type, func, GnumericCommandClass, \
-					  gnumeric_command_get_type())
+typedef struct {							\
+	GnumericCommandClass cmd;					\
+} type ## Class;							\
+static E_MAKE_TYPE (func, #type, type,					\
+		    func ## _class_init, NULL, GNUMERIC_COMMAND_TYPE);
 
 /******************************************************************/
 
@@ -624,7 +623,7 @@ cmd_set_text (WorkbookControl *wbc,
 	gchar *text, *corrected_text;
 	Cell const *cell;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
 
 	/* Ensure that we are not splitting up an array */
@@ -779,7 +778,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	 */
 	for (l = me->selection ; l != NULL ; l = l->next) {
 		Range const * const r = l->data;
-		sheet_range_calc_spans (me->pos.sheet, *r, SPANCALC_RENDER);
+		sheet_range_calc_spans (me->pos.sheet, r, SPANCALC_RENDER);
 	}
 
 	return FALSE;
@@ -1062,7 +1061,7 @@ cmd_ins_del_colrow (WorkbookControl *wbc,
 	GtkObject *obj;
 	CmdInsDelColRow *me;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	obj = gtk_type_new (CMD_INS_DEL_COLROW_TYPE);
 	me = CMD_INS_DEL_COLROW (obj);
@@ -1370,7 +1369,7 @@ cmd_format_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 			g_return_val_if_fail (l2 && l2->data, TRUE);
 
 			r = l2->data;
-			sheet_range_calc_spans (me->sheet, *r, flags);
+			sheet_range_calc_spans (me->sheet, r, flags);
 			if (flags != SPANCALC_SIMPLE)
 				rows_height_update (me->sheet, r, TRUE);
 			sheet_flag_format_update_range (me->sheet, r);
@@ -1470,7 +1469,7 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 	CmdFormat *me;
 	GSList    *l;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	obj = gtk_type_new (CMD_FORMAT_TYPE);
 	me = CMD_FORMAT (obj);
@@ -1706,7 +1705,7 @@ cmd_set_date_time (WorkbookControl *wbc,
 	CmdSetDateTime *me;
 	Cell const *cell;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	/* Ensure that we are not splitting up an array */
 	cell = sheet_cell_get (sheet, pos->col, pos->row);
@@ -1813,7 +1812,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 	GString *list;
 	gboolean is_single;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	obj = gtk_type_new (CMD_RESIZE_COLROW_TYPE);
 	me = CMD_RESIZE_COLROW (obj);
@@ -2054,7 +2053,7 @@ cmd_colrow_hide_selection (WorkbookControl *wbc, Sheet *sheet,
 	GtkObject *obj;
 	CmdColRowHide *me;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	obj = gtk_type_new (CMD_COLROW_HIDE_TYPE);
 	me = CMD_COLROW_HIDE (obj);
@@ -2238,7 +2237,7 @@ cmd_group (WorkbookControl *wbc, Sheet *sheet,
 	CmdGroup *me;
 
 	g_return_val_if_fail (wbc != NULL, TRUE);	
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	obj = gtk_type_new (CMD_GROUP_TYPE);
 	me = CMD_GROUP (obj);
@@ -2631,7 +2630,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 	CmdPasteCopy *me;
 
 	g_return_val_if_fail (pt != NULL, TRUE);
-	g_return_val_if_fail (pt->sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (pt->sheet), TRUE);
 
 	obj = gtk_type_new (CMD_PASTE_COPY_TYPE);
 	me = CMD_PASTE_COPY (obj);
@@ -2762,7 +2761,7 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				   me->end_col, me->end_row);
 
 	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
-	sheet_range_calc_spans (me->dst.sheet, me->dst.range, SPANCALC_RENDER);
+	sheet_range_calc_spans (me->dst.sheet, &me->dst.range, SPANCALC_RENDER);
 	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
 	sheet_make_cell_visible	(me->dst.sheet, me->base_col, me->base_row);
 
@@ -2875,7 +2874,7 @@ cmd_autoformat_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 			g_return_val_if_fail (l2 && l2->data, TRUE);
 
 			r = l2->data;
-			sheet_range_calc_spans (me->sheet, *r, flags);
+			sheet_range_calc_spans (me->sheet, r, flags);
 			if (flags != SPANCALC_SIMPLE)
 				rows_height_update (me->sheet, r, TRUE);
 		}
@@ -2946,7 +2945,7 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 	GString   *names;
 	GSList    *l;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	obj = gtk_type_new (CMD_AUTOFORMAT_TYPE);
 	me = CMD_AUTOFORMAT (obj);
@@ -3013,7 +3012,7 @@ cmd_unmerge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	for (i = 0 ; i < me->unmerged_regions->len ; ++i) {
 		Range const *tmp = &(g_array_index (me->unmerged_regions, Range, i));
 		sheet_merge_add (wbc, me->parent.sheet, tmp, FALSE);
-		sheet_range_calc_spans (me->parent.sheet, *tmp, SPANCALC_RE_RENDER);
+		sheet_range_calc_spans (me->parent.sheet, tmp, SPANCALC_RE_RENDER);
 	}
 
 	g_array_free (me->unmerged_regions, TRUE);
@@ -3036,11 +3035,11 @@ cmd_unmerge_cells_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		GSList *ptr, *merged = sheet_merge_get_overlap (me->parent.sheet,
 			&(g_array_index (me->ranges, Range, i)));
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-			Range tmp = *(Range *)(ptr->data);
+			Range const tmp = *(Range *)(ptr->data);
 			g_array_append_val (me->unmerged_regions, tmp);
 			sheet_merge_remove (wbc, me->parent.sheet, &tmp);
-			sheet_range_calc_spans (me->parent.sheet, tmp,
-							SPANCALC_RE_RENDER);
+			sheet_range_calc_spans (me->parent.sheet, &tmp,
+						SPANCALC_RE_RENDER);
 		}
 		g_slist_free (merged);
 	}
@@ -3078,7 +3077,7 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 	CmdUnmergeCells *me;
 	GString *names;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	obj = gtk_type_new (CMD_UNMERGE_CELLS_TYPE);
 	me = CMD_UNMERGE_CELLS (obj);
@@ -3741,7 +3740,7 @@ cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
 	GtkObject *obj;
 	CmdColRowStdSize *me;
 
-	g_return_val_if_fail (sheet != NULL, TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	obj = gtk_type_new (CMD_COLROW_STD_SIZE_TYPE);
 	me = CMD_COLROW_STD_SIZE (obj);

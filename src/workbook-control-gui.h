@@ -4,7 +4,7 @@
 #include "workbook-control.h"
 #include "gui-gnumeric.h"
 
-#define WORKBOOK_CONTROL_GUI_TYPE     (workbook_control_get_type ())
+#define WORKBOOK_CONTROL_GUI_TYPE     (workbook_control_gui_get_type ())
 #define WORKBOOK_CONTROL_GUI(obj)     (GTK_CHECK_CAST ((obj), WORKBOOK_CONTROL_GUI_TYPE, WorkbookControlGUI))
 #define WORKBOOK_CONTROL_GUI_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), WORKBOOK_CONTROL_GUI_TYPE, WorkbookControlClassGUI))
 #define IS_WORKBOOK_CONTROL_GUI(o)    (GTK_CHECK_TYPE ((o), WORKBOOK_CONTROL_GUI_TYPE))

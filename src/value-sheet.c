@@ -260,8 +260,9 @@ value_area_get_x_y (EvalPos const *ep, Value const *v, int x, int y)
 		g_return_val_if_fail (a_row<=b_row, NULL);
 		g_return_val_if_fail (a_col<=b_col, NULL);
 
-		sheet = a->sheet?a->sheet:ep->sheet;
-		g_return_val_if_fail (sheet != NULL, NULL);
+		sheet = eval_sheet (a->sheet, ep->sheet);
+
+		g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 		/* Speedup */
 		if (sheet->cols.max_used < a_col ||

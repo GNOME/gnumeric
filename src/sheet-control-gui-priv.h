@@ -6,23 +6,29 @@
 /* #include "gui-gnumeric.h" */
 #include <gtk/gtktable.h>
 
+struct _GnumericPane {
+	GList		*anted_cursors;
+	int		 index;
+	GnumericSheet	*gsheet;
+	struct {
+		GnomeCanvas *canvas;
+		ItemBar     *item;
+	} col, row;
+};
+
 struct _SheetControlGUI {
 	SheetControl sheet_control;
 
-	GtkTable  	 *table;
-	GtkWidget	 *select_all_btn;
-	GtkWidget        *gsheet;
-	GnomeCanvas      *col_canvas, *row_canvas;
-	GnomeCanvasItem  *col_item, *row_item;
+	GtkTable	*table;
+	GtkTable	*inner_table;
+	GtkWidget	*select_all_btn;
+	GnumericPane	 pane [4];
+	int		 active_panes;
 
 	/* Scrolling information */
-	GtkWidget  *vs, *hs;	/* The scrollbars */
-	GtkObject  *va, *ha;    /* The adjustments */
-	GtkWidget        *tip;	/* Tip for scrolling */
-
-	/* Anted cursors */
-	GList            *anted_cursors;
-	GnomeCanvasGroup *anted_group;
+	GtkWidget	*vs, *hs;	/* Scrollbars */
+	GtkObject	*va, *ha;	/* Adjustments */
+	GtkWidget	*tip;		/* Scrolling tip (unused till gtk2) */
 
 	/* Sliding scroll */
 	SheetControlGUISlideHandler	slide_handler;
@@ -32,7 +38,6 @@ struct _SheetControlGUI {
 	int        sliding_x, sliding_y;
 
 	/* SheetObject support */
-	GnomeCanvasGroup *object_group;
 	SheetObject	 *new_object;	/* A newly created object that has yet to be realized */
 	SheetObject	 *current_object;
 	SheetObject	 *drag_object;

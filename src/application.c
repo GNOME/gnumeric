@@ -306,7 +306,7 @@ application_clipboard_unant (void)
 static gboolean
 application_set_selected_sheet (WorkbookControl *wbc, Sheet *sheet)
 {
-	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	application_clipboard_clear (FALSE);
 
@@ -335,7 +335,7 @@ void
 application_clipboard_copy (WorkbookControl *wbc,
 			    Sheet *sheet, Range const *area)
 {
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (area != NULL);
 
 	if (application_set_selected_sheet (wbc, sheet) ) {
@@ -374,7 +374,7 @@ void
 application_clipboard_cut (WorkbookControl *wbc,
 			   Sheet *sheet, Range const *area)
 {
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (area != NULL);
 
 	if (application_set_selected_sheet (wbc, sheet) ) {

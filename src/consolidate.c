@@ -124,7 +124,7 @@ redraw_respan_and_select (Sheet *sheet, int start_col, int start_row, int end_co
 	Range r;
 
 	range_init (&r, start_col, start_row, end_col, end_row);
-	sheet_range_calc_spans (sheet, r, SPANCALC_RESIZE | SPANCALC_RENDER);
+	sheet_range_calc_spans (sheet, &r, SPANCALC_RESIZE | SPANCALC_RENDER);
 	sheet_region_queue_recalc (sheet, &r);
 	
 	if (values) {

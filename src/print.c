@@ -992,7 +992,7 @@ print_sheet (gpointer value, gpointer user_data)
 	Range extent;
 
 	g_return_if_fail (pj != NULL);
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	/* if printing a range, check we are in range, otherwise iterate */
 	if (pj->range == PRINT_SHEET_RANGE) {

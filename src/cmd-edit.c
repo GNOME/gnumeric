@@ -109,7 +109,6 @@ cmd_select_cur_array (Sheet *sheet)
 	ExprArray const *array;
 	int col, row;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	col = sheet->edit_pos.col;
@@ -166,7 +165,6 @@ cmd_select_cur_depends (Sheet *sheet)
 	Cell  *cur_cell;
 	GList *deps = NULL, *ptr = NULL;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	cur_cell = sheet_cell_get (sheet,
@@ -258,7 +256,6 @@ cmd_select_cur_inputs (Sheet *sheet)
 {
 	Cell *cell;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	cell = sheet_cell_get (sheet,
@@ -294,7 +291,6 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
 	Range const *src_range;
 
 	g_return_if_fail (pt != NULL);
-	g_return_if_fail (pt->sheet != NULL);
 	g_return_if_fail (IS_SHEET (pt->sheet));
 
 	src_range = application_clipboard_area_get ();

@@ -19,14 +19,12 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-
 #include "application.h"
-
-#include "gnumeric-type-util.h"
 #include "gnumeric-util.h"
-
 #include "gnumeric-vscrollbar.h"
+
+#include <gal/util/e-util.h>
+#include <gnome.h>
 
 enum {
 	OFFSET_CHANGED,
@@ -160,8 +158,7 @@ gnumeric_vscrollbar_new (GtkAdjustment *adjustment)
 	return vs;
 }
 
-GNUMERIC_MAKE_TYPE_WITH_CLASS (gnumeric_vscrollbar, "GnumericVScrollbar",
-			       GnumericVScrollbar, GnumericVScrollbarClass,
-			       gnumeric_vscrollbar_class_init, gnumeric_vscrollbar_init,
-			       gtk_vscrollbar_get_type ())
+E_MAKE_TYPE (gnumeric_vscrollbar, "GnumericVScrollbar", GnumericVScrollbar,
+	     gnumeric_vscrollbar_class_init, gnumeric_vscrollbar_init,
+	     GTK_TYPE_VSCROLLBAR);
 			       

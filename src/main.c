@@ -208,9 +208,9 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	if (startup_files) {
 		int i;
 		for (i = 0; startup_files [i]  && !initial_workbook_open_complete ; i++) {
- 			if (wb_view_open (wb_control_view (wbc), wbc, startup_files[i])) {
+ 			if (wb_view_open (wb_control_view (wbc), wbc,
+					  startup_files[i], TRUE))
   				opened_workbook = TRUE;
- 			}
 
 			handle_paint_events ();
 		}

@@ -395,7 +395,7 @@ expr_name_sheet2wb (NamedExpression *expression)
 	Sheet *sheet;
 	Workbook *wb;
 
-	g_return_val_if_fail (expression->sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (expression->sheet), FALSE);
 	
 	sheet = expression->sheet;
 	wb = sheet->workbook;

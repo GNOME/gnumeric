@@ -84,9 +84,7 @@ sheet_merge_add (WorkbookControl *wbc,
 	if (clear) {
 		int i;
 
-		sheet_redraw_cell_region (sheet,
-					  r->start.col, r->start.row,
-					  r->end.col, r->end.row);
+		sheet_redraw_range (sheet, r);
 
 		/* Clear the non-corner content */
 		if (r->start.col != r->end.col)

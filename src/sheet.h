@@ -78,8 +78,10 @@ struct _Sheet {
 	SheetPrivate     *priv;
 	PrintInformation *print_info;
 
-	/* place holders for new features */
-	CellPos	    frozen_corner;
+	struct {
+		CellPos top_left;
+		CellPos bottom_right;
+	} frozen;
 };
 
 #define SHEET_SIGNATURE 0x12349876
@@ -89,8 +91,11 @@ Sheet      *sheet_new			(Workbook *wb, char const *name);
 Sheet      *sheet_duplicate		(Sheet const *source_sheet);
 void        sheet_destroy		(Sheet *sheet);
 void        sheet_destroy_contents	(Sheet *sheet);
-void	    sheet_freeze_panes		(Sheet *sheet, CellPos const *pos);
 void        sheet_rename		(Sheet *sheet, char const *new_name);
+void	    sheet_freeze_panes		(Sheet *sheet,
+					 CellPos const *top_left,
+					 CellPos const *bottom_right);
+gboolean    sheet_is_frozen		(Sheet const *sheet);
 
 void        sheet_set_zoom_factor	(Sheet *sheet, double factor,
 					 gboolean force, gboolean respan);
@@ -220,9 +225,9 @@ gboolean sheet_range_contains_region (Sheet const *sheet, Range const *r,
 
 /* Redraw */
 void        sheet_redraw_all              (Sheet const *sheet);
-void        sheet_redraw_cell             (Cell const *r);
+void        sheet_redraw_cell             (Cell const *cell);
 void        sheet_redraw_range            (Sheet const *sheet, Range const *r);
-void        sheet_redraw_cell_region      (Sheet const *sheet,
+void        sheet_redraw_region      	  (Sheet const *sheet,
 				           int start_col, int start_row,
 				           int end_col,   int end_row);
 void	    sheet_redraw_headers          (Sheet const *sheet,
@@ -270,7 +275,7 @@ Value const *sheet_cell_get_value (Sheet *sheet, int const col, int const row);
 void  sheet_range_set_text   (EvalPos const *pos, Range const *r, char const *str);
 void  sheet_apply_style	     (Sheet  *sheet, Range const *range, MStyle *mstyle);
 void  sheet_calc_spans	     (Sheet const *sheet,	SpanCalcFlags flags);
-void  sheet_range_calc_spans (Sheet *sheet, Range r,	SpanCalcFlags flags);
+void  sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags);
 void  sheet_cell_calc_span   (Cell const *cell,		SpanCalcFlags flags);
 void  sheet_regen_adjacent_spans (Sheet *sheet,
 			     int start_col, int start_row,
@@ -306,6 +311,9 @@ void  sheet_clear_region (WorkbookControl *context,
 			  int start_col, int start_row,
 			  int end_col, int end_row,
 			  int clear_flags);
+
+void	sheet_attach_control (Sheet *sheet, SheetControl *sc);
+void    sheet_detach_control (SheetControl *sc);
 
 #define SHEET_FOREACH_CONTROL(sheet, control, code)			\
 do {									\

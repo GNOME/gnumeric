@@ -151,7 +151,6 @@ range_list_parse (Sheet *sheet, char const *range_spec, gboolean strict)
 	char *copy, *range_copy, *r;
 	GSList *ranges = NULL;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (range_spec != NULL, NULL);
 
@@ -261,7 +260,7 @@ range_list_foreach_area (Sheet *sheet, GSList *ranges,
 {
 	GSList *l;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	for (l = ranges; l; l = l->next) {
 		Value *value = l->data;
@@ -1231,7 +1230,7 @@ global_range_new (Sheet *sheet, Range const *r)
 {
 	GlobalRange *gr = g_new0 (GlobalRange, 1);
 
-	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (r != NULL, NULL);
 	
 	gr->sheet = sheet;

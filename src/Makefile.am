@@ -51,8 +51,6 @@ GNUMERIC_BASE_SOURCES =				\
 	command-context.c			\
 	command-context.h			\
 	command-context-priv.h			\
-	command-context-corba.c			\
-	command-context-corba.h			\
 	consolidate.c				\
 	consolidate.h				\
 	io-context.c				\
@@ -95,7 +93,6 @@ GNUMERIC_BASE_SOURCES =				\
 	gnumeric-sheet.h			\
 	gnumeric-util.c				\
 	gnumeric-util.h				\
-	gnumeric-type-util.h			\
 	gnumeric.h				\
 	gui-clipboard.c				\
 	gui-clipboard.h				\
@@ -236,6 +233,11 @@ GNUMERIC_BASE_SOURCES =				\
 	xml-io-autoft.c				\
 	xml-io-autoft.h
 
+# TODO : split the bonobo and corba tests one day
+GNUMERIC_CORBA_SOURCES = 			\
+	workbook-control-corba.c		\
+	workbook-control-corba.h
+
 GNUMERIC_BONOBO_SOURCES = 			\
 	bonobo-io.c				\
 	bonobo-io.h				\
@@ -248,7 +250,8 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	sheet-object-container.c		\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
-	sheet-object-item.h
+	sheet-object-item.h			\
+	$(GNUMERIC_CORBA_SOURCES)
 
 if BONOBO
 gnumeric_SOURCES =				\

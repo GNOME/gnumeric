@@ -19,15 +19,13 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-
 #include "application.h"
-
-#include "gnumeric-type-util.h"
 #include "gnumeric-util.h"
 #include "parse-util.h"
-
 #include "gnumeric-hscrollbar.h"
+
+#include <gnome.h>
+#include <gal/util/e-util.h>
 
 enum {
 	OFFSET_CHANGED,
@@ -159,7 +157,6 @@ gnumeric_hscrollbar_new (GtkAdjustment *adjustment)
 	return hs;
 }
 
-GNUMERIC_MAKE_TYPE_WITH_CLASS (gnumeric_hscrollbar, "GnumericHScrollbar",
-			       GnumericHScrollbar, GnumericHScrollbarClass,
-			       gnumeric_hscrollbar_class_init, gnumeric_hscrollbar_init,
-			       gtk_hscrollbar_get_type ())
+E_MAKE_TYPE (gnumeric_hscrollbar, "GnumericHScrollbar", GnumericHScrollbar,
+	     gnumeric_hscrollbar_class_init, gnumeric_hscrollbar_init,
+	     GTK_TYPE_HSCROLLBAR);

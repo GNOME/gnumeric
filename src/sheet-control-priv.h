@@ -18,7 +18,7 @@ typedef struct {
 	void (*resize) 		       (SheetControl *sc);
 	void (*set_zoom_factor)        (SheetControl *sc);
 	void (*redraw_all)             (SheetControl *sc);
-	void (*redraw_cell_region)     (SheetControl *sc,
+	void (*redraw_region)	       (SheetControl *sc,
 				        int start_col, int start_row,
 					int end_col, int end_row);
 	void (*redraw_headers)         (SheetControl *sc,
@@ -35,7 +35,7 @@ typedef struct {
 	void (*make_cell_visible)      (SheetControl  *sc, int col, int row,
 					gboolean force_scroll);
 	void (*cursor_bound) 	       (SheetControl *sc, Range const *r);
-
+	void (*set_panes) 	       (SheetControl *sc);
 } SheetControlClass;
 
 #define SHEET_CONTROL_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_CONTROL_TYPE, SheetControlClass))

@@ -12,7 +12,6 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "sheet-control-gui.h"
-#include "gnumeric-type-util.h"
 #include "dialogs.h"
 #include "sheet-object-impl.h"
 #include "workbook-edit.h"
@@ -27,6 +26,8 @@
 #ifdef ENABLE_BONOBO
 #include "sheet-object-bonobo.h"
 #endif
+
+#include <gal/util/e-util.h>
 
 /* Returns the class for a SheetObject */
 #define SO_CLASS(so) SHEET_OBJECT_CLASS(GTK_OBJECT(so)->klass)
@@ -194,9 +195,9 @@ sheet_object_class_init (GtkObjectClass *object_class)
 	sheet_object_class->default_height_pts = 36.;	/* 1/2 inch */
 }
 
-GNUMERIC_MAKE_TYPE (sheet_object, "SheetObject", SheetObject,
-		    sheet_object_class_init, sheet_object_init,
-		    gtk_object_get_type ())
+E_MAKE_TYPE (sheet_object, "SheetObject", SheetObject,
+	     sheet_object_class_init, sheet_object_init,
+	     GTK_TYPE_OBJECT);
 
 SheetObject *
 sheet_object_view_obj (GtkObject *view)
@@ -522,7 +523,7 @@ sheet_object_position_pixels (SheetObject const *so,
 			      SheetControlGUI const *scg, int *coords)
 {
 	g_return_if_fail (IS_SHEET_OBJECT (so));
-	g_return_if_fail (so->sheet != NULL);
+	g_return_if_fail (IS_SHEET (so->sheet));
 
 	coords [0] = scg_colrow_distance_get (scg, TRUE, 0,
 		so->cell_bound.start.col);

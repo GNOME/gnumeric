@@ -10,7 +10,7 @@
 #include <config.h>
 #include "sheet.h"
 #include "command-context.h"
-#include "sheet-control-gui.h"
+#include "sheet-control.h"
 #include "sheet-style.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
@@ -51,7 +51,7 @@ sheet_unant (Sheet *sheet)
 {
 	GList *l;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	if (!sheet->ants)
 		return;
@@ -73,17 +73,16 @@ sheet_ant (Sheet *sheet, GList *ranges)
 {
 	GList *l;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (ranges != NULL);
 
 	if (sheet->ants != NULL)
 		sheet_unant (sheet);
 
 	/*
-	 * We need to copy the whole selection to the
-	 * 'ant' list which contains all currently anted
-	 * regions on the sheet. Every sheet-control-gui
-	 * look at that list to ant/unant things
+	 * We need to copy the whole selection to the 'ant' list which contains
+	 * all currently anted regions on the sheet. Every sheet-control look
+	 * at that list to ant/unant things
 	 */
 	for (l = ranges; l != NULL; l = l->next) {
 		Range *ss = l->data;
@@ -124,21 +123,27 @@ sheet_rename (Sheet *sheet, char const *new_name)
 	sheet->name_quoted = sheet_name_quote (new_name);
 }
 
-SheetControlGUI *
-sheet_new_scg (Sheet *sheet)
+static void
+sheet_init_sc (Sheet const *sheet, SheetControl *sc)
 {
-	GtkObject *scg;
-	Range const *r;
-
-	r = selection_first_range (sheet, NULL, NULL);
-	g_return_val_if_fail (r != NULL, NULL);
-
-	scg = sheet_control_gui_new (sheet);
 	/* Set the visible bound, not the logical bound */
-	sc_cursor_bound (SHEET_CONTROL (scg), r);
-	sheet->s_controls = g_list_prepend (sheet->s_controls, scg);
+	sc_cursor_bound (sc, selection_first_range (sheet, NULL, NULL));
+	sc_ant (sc);
+}
 
-	return SHEET_CONTROL_GUI (scg);
+/* TODO : these feel like they belong in sheet_control, but workbook_* does it this way.
+ * way may want to switch in the future.
+ */
+void
+sheet_attach_control (Sheet *sheet, SheetControl *sc)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (IS_SHEET_CONTROL (sc));
+	g_return_if_fail (sc_sheet (sc) == NULL);
+
+	sc_set_sheet (sc, sheet);
+	sheet->s_controls = g_list_prepend (sheet->s_controls, sc);
+	sheet_init_sc (sheet, sc);
 }
 
 void
@@ -147,11 +152,13 @@ sheet_detach_control (SheetControl *sc)
 	Sheet *sheet;
 	
 	g_return_if_fail (IS_SHEET_CONTROL (sc));
+
 	sheet = sc_sheet (sc);
+
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet->s_controls = g_list_remove (sheet->s_controls, sc);
-	sc_invalidate_sheet (sc);
+	sc_set_sheet (sc, NULL);
 }
 
 /*
@@ -242,7 +249,8 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->display_outlines = TRUE;
 	sheet->outline_symbols_below = TRUE;
 	sheet->outline_symbols_right = TRUE;
-	sheet->frozen_corner.col = sheet->frozen_corner.row = -1;
+	sheet->frozen.top_left.col = sheet->frozen.top_left.row =
+	sheet->frozen.bottom_right.col = sheet->frozen.bottom_right.row = -1;
 
 	/* Init menu states */
 	sheet->priv->enable_insert_rows = TRUE;
@@ -328,25 +336,21 @@ cb_recalc_span1 (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
  * the cached version of the rendered text in the cell.
  **/
 void
-sheet_range_calc_spans (Sheet *sheet, Range r, SpanCalcFlags flags)
+sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags)
 {
 	sheet->modified = TRUE;
 
 	/* Redraw the original region in case the span changes */
-	sheet_redraw_cell_region (sheet,
-				  r.start.col, r.start.row,
-				  r.end.col, r.end.row);
+	sheet_redraw_range (sheet, r);
 
 	sheet_foreach_cell_in_range (sheet, TRUE,
-				     r.start.col, r.start.row,
-				     r.end.col, r.end.row,
+				     r->start.col, r->start.row,
+				     r->end.col, r->end.row,
 				     cb_recalc_span1,
 				     GINT_TO_POINTER (flags));
 
 	/* Redraw the new region in case the span changes */
-	sheet_redraw_cell_region (sheet,
-				  r.start.col, r.start.row,
-				  r.end.col, r.end.row);
+	sheet_redraw_range (sheet, r);
 }
 
 void
@@ -454,7 +458,7 @@ sheet_apply_style (Sheet       *sheet,
 	SpanCalcFlags const spanflags = required_updates_for_style (style);
 
 	sheet_style_apply_range (sheet, range, style);
-	sheet_range_calc_spans (sheet, *range, spanflags);
+	sheet_range_calc_spans (sheet, range, spanflags);
 
 	if (spanflags != SPANCALC_SIMPLE)
 		rows_height_update (sheet, range, TRUE);
@@ -475,7 +479,7 @@ sheet_apply_style (Sheet       *sheet,
 static void
 sheet_update_zoom_controls (Sheet *sheet)
 {
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
 	{
@@ -500,7 +504,7 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 	struct resize_colrow closure;
 	double factor;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	/* Bound zoom between 10% and 500% */
 	factor = (f < .1) ? .1 : ((f > 5.) ? 5. : f);
@@ -866,7 +870,7 @@ sheet_update (Sheet const *sheet)
 {
 	SheetPrivate *p;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet_update_only_grid (sheet);
 
@@ -974,7 +978,7 @@ sheet_col_row_can_group (Sheet *sheet, int from, int to, gboolean is_cols)
 {
 	ColRowInfo *from_cri, *to_cri;
 	
-	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (from >= 0, FALSE);
 	g_return_val_if_fail (is_cols ? to < SHEET_MAX_COLS : to < SHEET_MAX_ROWS, FALSE);
 
@@ -1055,7 +1059,7 @@ sheet_col_row_group_ungroup (Sheet *sheet, int from, int to, gboolean is_cols,
 	int i;
 	int highest;
 	
-	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (from >= 0, FALSE);
 	g_return_val_if_fail (is_cols ? to < SHEET_MAX_COLS : to < SHEET_MAX_ROWS, FALSE);
 
@@ -1118,14 +1122,14 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 	if (cell_is_blank (cell))
 		return;
 
+	/* Remember the first cell is the min & max */
 	if (res->range.start.col > cell->pos.col)
 		res->range.start.col = cell->pos.col;
-	else if (res->range.end.col < cell->pos.col)
+	if (res->range.end.col < cell->pos.col)
 		res->range.end.col = cell->pos.col;
-
 	if (res->range.start.row > cell->pos.row)
 		res->range.start.row = cell->pos.row;
-	else if (res->range.end.row < cell->pos.row)
+	if (res->range.end.row < cell->pos.row)
 		res->range.end.row = cell->pos.row;
 
 	if (!res->spans_and_merges_extend)
@@ -1583,9 +1587,9 @@ sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
  * It intelligently handles spans and merged ranges
  */
 void
-sheet_redraw_cell_region (Sheet const *sheet,
-			  int start_col, int start_row,
-			  int end_col,   int end_row)
+sheet_redraw_region (Sheet const *sheet,
+		     int start_col, int start_row,
+		     int end_col,   int end_row)
 {
 	GSList *ptr;
 	int min_col = start_col, max_col = end_col;
@@ -1649,7 +1653,7 @@ sheet_redraw_cell_region (Sheet const *sheet,
 	}
 
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sc_redraw_cell_region (control,
+		sc_redraw_region (control,
 			min_col, min_row, max_col, max_row););
 }
 
@@ -1659,9 +1663,9 @@ sheet_redraw_range (Sheet const *sheet, Range const *range)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (range != NULL);
 
-	sheet_redraw_cell_region (sheet,
-				  range->start.col, range->start.row,
-				  range->end.col, range->end.row);
+	sheet_redraw_region (sheet,
+			     range->start.col, range->start.row,
+			     range->end.col, range->end.row);
 }
 
 static void
@@ -1669,7 +1673,7 @@ sheet_redraw_partial_row (Sheet const *sheet, int const row,
 			  int const start_col, int const end_col)
 {
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sc_redraw_cell_region (control,
+		sc_redraw_region (control,
 			start_col, row, end_col, row););
 }
 
@@ -1685,7 +1689,7 @@ sheet_redraw_cell (Cell const *cell)
 	merged = sheet_merge_is_corner (cell->base.sheet, &cell->pos);
 	if (merged != NULL) {
 		SHEET_FOREACH_CONTROL (cell->base.sheet, control,
-			sc_redraw_cell_region (control,
+			sc_redraw_region (control,
 				merged->start.col, merged->start.row,
 				merged->end.col, merged->end.row););
 		return;
@@ -2430,7 +2434,7 @@ sheet_cells (Sheet *sheet,
 	Range r;
 	GList *scomments, *tmp;
 
-	g_return_val_if_fail (sheet != NULL, cells);
+	g_return_val_if_fail (IS_SHEET (sheet), cells);
 
 	sheet_foreach_cell_in_range (sheet, TRUE,
 				     start_col, start_row,
@@ -2637,9 +2641,9 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 
 	/* Queue a redraw on the region used by the cell being removed */
 	if (redraw) {
-		sheet_redraw_cell_region (sheet,
-					  cell->pos.col, cell->pos.row,
-					  cell->pos.col, cell->pos.row);
+		sheet_redraw_region (sheet,
+				     cell->pos.col, cell->pos.row,
+				     cell->pos.col, cell->pos.row);
 		sheet_flag_status_update_cell (cell);
 	}
 
@@ -3017,14 +3021,14 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 
 	/* Queue a redraw for cells being modified */
 	if (clear_flags & (CLEAR_VALUES|CLEAR_FORMATS))
-		sheet_redraw_cell_region (sheet,
-					  start_col, start_row,
-					  end_col, end_row);
+		sheet_redraw_region (sheet,
+				     start_col, start_row,
+				     end_col, end_row);
 
 	/* Clear the style in the region (new_default will ref the style for us). */
 	if (clear_flags & CLEAR_FORMATS) {
 		sheet_style_set_range (sheet, &r, sheet_style_default (sheet));
-		sheet_range_calc_spans (sheet, r, SPANCALC_RE_RENDER|SPANCALC_RESIZE);
+		sheet_range_calc_spans (sheet, &r, SPANCALC_RE_RENDER|SPANCALC_RESIZE);
 		rows_height_update (sheet, &r, TRUE);
 	}
 
@@ -3062,9 +3066,7 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 		sheet_region_queue_recalc (sheet, &r);
 
 	/* Always redraw */
-	sheet_redraw_cell_region (sheet,
-				  min_col, start_row,
-				  max_col, end_row);
+	sheet_redraw_region (sheet, min_col, start_row, max_col, end_row);
 }
 
 /*****************************************************************************/
@@ -3099,12 +3101,10 @@ sheet_set_edit_pos (Sheet *sheet, int col, int row)
 
 		/* Redraw before change */
 		if (merged != NULL)
-			sheet_redraw_cell_region (sheet,
-						  merged->start.col, merged->start.row,
-						  merged->end.col, merged->end.row);
+			sheet_redraw_range (sheet, merged);
 		else
-			sheet_redraw_cell_region (sheet, old.col, old.row,
-						  old.col, old.row);
+			sheet_redraw_region (sheet, old.col, old.row,
+					     old.col, old.row);
 
 		sheet->edit_pos_real.col = col;
 		sheet->edit_pos_real.row = row;
@@ -3112,12 +3112,10 @@ sheet_set_edit_pos (Sheet *sheet, int col, int row)
 		/* Redraw after change (handling merged cells) */
 		merged = sheet_merge_contains_pos (sheet, &sheet->edit_pos_real);
 		if (merged != NULL) {
-			sheet_redraw_cell_region (sheet,
-				merged->start.col, merged->start.row,
-				merged->end.col, merged->end.row);
+			sheet_redraw_range (sheet, merged);
 			sheet->edit_pos = merged->start;
 		} else {
-			sheet_redraw_cell_region (sheet, col, row, col, row);
+			sheet_redraw_region (sheet, col, row, col, row);
 			sheet->edit_pos = sheet->edit_pos_real;
 		}
 	}
@@ -3174,7 +3172,7 @@ sheet_cursor_set (Sheet *sheet,
 
 	g_return_if_fail (range_is_sane	(bound));
 
-	SHEET_FOREACH_CONTROL(sheet, scg, sc_cursor_bound (scg, bound););
+	SHEET_FOREACH_CONTROL(sheet, sc, sc_cursor_bound (sc, bound););
 }
 
 void
@@ -3655,11 +3653,7 @@ sheet_move_range (WorkbookControl *wbc,
 					rinfo->col_offset, rinfo->row_offset);
 
 	/* Redraw the src region in case anything was spanning */
-	sheet_redraw_cell_region (rinfo->origin_sheet,
-				  rinfo->origin.start.col,
-				  rinfo->origin.start.row,
-				  rinfo->origin.end.col,
-				  rinfo->origin.end.row);
+	sheet_redraw_range (rinfo->origin_sheet, &rinfo->origin);
 
 	/* 1. invalidate references to any cells in the destination range that
 	 * are not shared with the src.  This must be done before the references
@@ -3821,7 +3815,7 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 	int i;
 	int sign = 1;
 
-	g_assert (sheet != NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), 1.);
 
 	if (from > to) {
 		int const tmp = to;
@@ -3829,6 +3823,9 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 		from = tmp;
 		sign = -1;
 	}
+
+	g_return_val_if_fail (from >= 0, 1.);
+	g_return_val_if_fail (to <= SHEET_MAX_COLS, 1.);
 
 	/* Do not use colrow_foreach, it ignores empties */
 	for (i = from ; i < to ; ++i) {
@@ -3909,7 +3906,7 @@ sheet_col_get_default_size_pts (Sheet const *sheet)
 {
 	ColRowInfo const *ci;
 
-	g_assert (sheet != NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), 1.);
 
 	ci = &sheet->cols.default_style;
 	return  ci->size_pts;
@@ -3920,7 +3917,7 @@ sheet_col_get_default_size_pixels (Sheet const *sheet)
 {
 	ColRowInfo const *ci;
 
-	g_assert (sheet != NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), 1.);
 
 	ci = &sheet->cols.default_style;
 	return  ci->size_pixels;
@@ -3964,7 +3961,7 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 	double pts = 0., sign = 1.;
 	int i;
 
-	g_assert (sheet != NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), 1.);
 
 	if (from > to) {
 		int const tmp = to;
@@ -4080,7 +4077,7 @@ sheet_row_get_default_size_pts (Sheet const *sheet)
 {
 	ColRowInfo const *ci;
 
-	g_assert (sheet != NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), 1.);
 
 	ci = &sheet->rows.default_style;
 	return  ci->size_pts;
@@ -4091,7 +4088,7 @@ sheet_row_get_default_size_pixels (Sheet const *sheet)
 {
 	ColRowInfo const *ci;
 
-	g_assert (sheet != NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), 1.);
 
 	ci = &sheet->rows.default_style;
 	return  ci->size_pixels;
@@ -4407,13 +4404,68 @@ sheet_duplicate	(Sheet const *src)
 /**
  * sheet_freeze_panes :
  * @sheet : the sheet
- * @pos   : Where to freeze
- *
- * A place holder
+ * @top_left   : Where to freeze
+ * @bottom_right   : Where to freeze
  */
 void
-sheet_freeze_panes (Sheet *sheet, CellPos const *pos)
+sheet_freeze_panes (Sheet *sheet,
+		    CellPos const *top_left,
+		    CellPos const *bottom_right)
 {
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if (top_left != NULL) {
+		g_return_if_fail (bottom_right != NULL);
+		g_return_if_fail (bottom_right->col >= top_left->col);
+		g_return_if_fail (bottom_right->row >= top_left->row);
+
+		/* Just in case */
+		if (bottom_right->col != (SHEET_MAX_COLS-1) &&
+		    bottom_right->row != (SHEET_MAX_ROWS-1)) {
+			g_return_if_fail (bottom_right->row >= top_left->row);
+			sheet->frozen.top_left = *top_left;
+			sheet->frozen.bottom_right = *bottom_right;
+		} else
+			top_left = bottom_right = NULL;
+	} 
+
+	if (top_left == NULL) {
+		g_return_if_fail (bottom_right == NULL);
+
+		/* no change */
+		if (sheet->frozen.top_left.col < 0 &&
+		    sheet->frozen.top_left.row < 0 &&
+		    sheet->frozen.bottom_right.col < 0 &&
+		    sheet->frozen.bottom_right.row < 0)
+			return;
+
+		sheet->frozen.top_left.col = sheet->frozen.top_left.row =
+		sheet->frozen.bottom_right.col = sheet->frozen.bottom_right.row = -1;
+	}
+
+	SHEET_FOREACH_CONTROL (sheet, control,
+			       sc_set_panes (control);
+			       sheet_init_sc (sheet, control););
+	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
+		if (sheet == wb_view_cur_sheet (view)) {
+			WORKBOOK_VIEW_FOREACH_CONTROL(view, wbc,
+				wb_control_menu_state_update (wbc, sheet, MS_FREEZE_VS_THAW););
+		}
+	});
+}
+
+/**
+ * sheet_is_frozen :
+ * @sheet :
+ */
+gboolean
+sheet_is_frozen	(Sheet const *sheet)
+{
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+
+	/* be flexible, in the future we will support 2 way splits too */
+	return sheet->frozen.bottom_right.col >= 0 ||
+		sheet->frozen.bottom_right.row >= 0;
 }
 
 /**
@@ -4421,8 +4473,8 @@ sheet_freeze_panes (Sheet *sheet, CellPos const *pos)
  * @sheet   : the sheet
  * @is_cols : use cols or rows
  *
- * When changing the placement of outline collapse markers they need
- * to be recomputed.
+ * When changing the placement of outline collapse markers the flags
+ * need to be recomputed.
  */
 void
 sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols)

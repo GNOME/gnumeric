@@ -569,7 +569,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 		int line_count;
 		double x, y_offset, inter_space;
 
-		lines = cell_split_text (print_font, text, ci->size_pts);
+		lines = cell_split_text (print_font, text, width);
 		line_count = g_list_length (lines);
 
 		switch (valign) {
@@ -696,27 +696,18 @@ print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 		    Range const *view, Range const *range)
 {
 	float l, r, t, b;
-	int last;
 	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
-
-	/* load style from corner which may not be visible */
 	MStyle const *mstyle = sheet_style_get (sheet, range->start.col, range->start.row);
 
-	l = r = start_x;
-	if (view->start.col < range->start.col)
-		l += sheet_col_get_distance_pts (sheet,
-			view->start.col, range->start.col);
-	if (range->end.col <= (last = view->end.col))
-		last = range->end.col;
-	r += sheet_col_get_distance_pts (sheet, view->start.col, last+1);
+	l = sheet_col_get_distance_pts (sheet,
+		view->start.col, range->start.col) + start_x;
+	r = sheet_col_get_distance_pts (sheet,
+		view->start.col, range->end.col+1) + start_x;
 
-	t = b = start_y;
-	if (view->start.row < range->start.row)
-		t += sheet_row_get_distance_pts (sheet,
-			view->start.row, range->start.row);
-	if (range->end.row <= (last = view->end.row))
-		last = range->end.row;
-	b += sheet_row_get_distance_pts (sheet, view->start.row, last+1);
+	t = sheet_row_get_distance_pts (sheet,
+		view->start.row, range->start.row) + start_y;
+	b = sheet_row_get_distance_pts (sheet,
+		view->start.row, range->end.row+1) + start_y;
 
 	if (gnumeric_background_set_pc (mstyle, context))
 		/* Remember api excludes the far pixels */
@@ -725,19 +716,6 @@ print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 	if (cell != NULL) {
 		ColRowInfo const * const ri = cell->row_info;
 		ColRowInfo const * const ci = cell->col_info;
-
-		if (range->start.col < view->start.col)
-			l -= sheet_col_get_distance_pts (sheet,
-				range->start.col, view->start.col);
-		if (view->end.col < range->end.col)
-			r += sheet_col_get_distance_pts (sheet,
-				view->end.col+1, range->end.col+1);
-		if (range->start.row < view->start.row)
-			t -= sheet_row_get_distance_pts (sheet,
-				range->start.row, view->start.row);
-		if (view->end.row < range->end.row)
-			b += sheet_row_get_distance_pts (sheet,
-				view->end.row+1, range->end.row+1);
 
 		/* FIXME : get the margins from the far col/row too */
 		print_cell (cell, mstyle, context,

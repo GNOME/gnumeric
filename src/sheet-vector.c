@@ -403,7 +403,6 @@ sheet_vector_attach (SheetVector *sheet_vector, Sheet *sheet)
 {
 	g_return_if_fail (sheet_vector != NULL);
 	g_return_if_fail (IS_SHEET_VECTOR (sheet_vector));
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet_vector->sheet = sheet;
@@ -422,7 +421,6 @@ sheet_vector_detach (SheetVector *sheet_vector)
 	sheet = sheet_vector->sheet;
 	sheet_vector->sheet = NULL;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet->priv->sheet_vectors = g_slist_remove (sheet->priv->sheet_vectors, sheet_vector);
@@ -460,7 +458,6 @@ sheet_vectors_cell_changed (Cell *cell)
 void
 sheet_vectors_shutdown (Sheet *sheet)
 {
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	for (;sheet->priv->sheet_vectors;){

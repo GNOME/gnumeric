@@ -98,7 +98,7 @@ gui_file_import (WorkbookControlGUI *wbcg)
 	file_name = gtk_file_selection_get_filename (fsel);
 	if (fo != NULL) {
 		(void) wb_view_open_custom (wb_control_view (WORKBOOK_CONTROL (wbcg)),
-		                            WORKBOOK_CONTROL (wbcg), fo, file_name);
+		                            WORKBOOK_CONTROL (wbcg), fo, file_name, TRUE);
 	}
 	gtk_object_destroy (GTK_OBJECT (fsel));
 	g_list_free (importers);
@@ -302,10 +302,9 @@ gui_file_open (WorkbookControlGUI *wbcg)
 		g_free (tmp);
 	}
 
-	if (gnumeric_dialog_file_selection (wbcg, fsel)) {
+	if (gnumeric_dialog_file_selection (wbcg, fsel))
 		(void) wb_view_open (wb_control_view (wbc), wbc,
-		                     gtk_file_selection_get_filename (fsel));
-	}
+			gtk_file_selection_get_filename (fsel), TRUE);
 
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 }

@@ -1170,7 +1170,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet
 
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
-	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	res = stf_parse_general (parseoptions, data);
 	for (row = 0, l = res; l != NULL; l = l->next, row++) {

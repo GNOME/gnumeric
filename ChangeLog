@@ -1,3 +1,139 @@
+2001-07-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-merge.c (sheet_merge_add) : Use sheet_redraw_range.
+
+	* src/sheet-control.c (sc_set_panes) : new virtual.
+	(sc_set_sheet) : renamed from sc_invalidate_sheet.
+
+	* src/sheet-control-gui.c (scg_primary_pane) : new function. Be very
+	  careful when using this.  It should not be necessary in most cases.
+	(scg_get_wbcg) : convenience routine.
+	(scg_redraw_all) : frozen panes.
+	(scg_redraw_region) : renamed from scg_redraw_cell_region, and frozen
+	  pane support.
+	(scg_redraw_headers) : merge in the code from gnumeric-sheet.
+	(scg_update_cursor_pos) : pane support.
+	(scg_resize) : ditto.
+	(scg_set_zoom_factor) : ditto.  Broken. needs to resize the panes.
+	(scg_scrollbar_config) : adjust to panes.
+	(scg_make_edit_pos_visible) : use scg_make_cell_visible.
+	(scg_colrow_select) : reorg a bit.
+	(vertical_scroll_offset_changed) : adjust to panes.
+	(horizontal_scroll_offset_changed) : ditto.
+	(cb_table_destroy) : ditto.
+	(scg_init) : init the top here.
+	(bar_set_left_col) : from gnumeric-sheet. Still needs work for panes.
+	(bar_set_top_row) : ditto.
+	(gnumeric_sheet_set_left_col) : ditto.
+	(gnumeric_sheet_set_top_row) : ditto.
+	(scg_set_left_col) : TODO.
+	(scg_set_top_row) : ditto.
+	(gnumeric_sheet_set_top_left) : new function split from.
+	(gnumeric_sheet_make_cell_visible) : here.
+	(scg_make_cell_visible) : adjsut to panes and do the real work here.
+	(scg_make_cell_visible_virt : wrapper for use as virtual.
+	(gnumeric_pane_new) : new function.
+	(gnumeric_pane_delete) : ditto.
+	(scg_set_panes) : ditto.
+	(scg_construct) : move the table attachments around and move the
+	  canvas groups into the panes.
+	(sheet_control_gui_new) : beef this up.
+	(scg_unant) : adjust to panes.
+	(scg_ant) : ditto.
+	(scg_cursor_visible) : ditto.
+	(scg_cursor_bound) : ditto.
+	(scg_adjust_preferences) : ditto.
+	(scg_compute_visible_region) : ditto.
+	(scg_create_editor) : ditto.
+	(scg_stop_editing) : ditto.
+	(scg_take_focus) : ditto.
+	(scg_sliding_callback) : adjust top panes, but is still much too
+	  stupid.
+	(scg_start_sliding) : ditto.
+	(cb_slide_handler) : ditto.
+	(cb_control_point_event) : ditto.
+	(new_control_point) : ditto.
+	(set_item_x_y) : ditto.
+	(set_acetate_coords) : ditto.
+	(scg_object_calc_position) : ditto.
+	(scg_object_view_position) : ditto.
+	(scg_rangesel_changed) : ditto.
+	(scg_rangesel_start) : ditto.
+	(scg_rangesel_stop) : ditto.
+	(scg_rangesel_move) : ditto.
+	(scg_rangesel_extend) : ditto.
+
+	* src/item-grid.c (sheet_object_begin_creation) : Use the group
+	  associated with the gsheet, not the scg, and use GNUMERIC_IS_SHEET
+	  in preference to != NULL.
+
+	* src/item-bar.c : Store the gnumeric-sheet rather than the scg so
+	  that we can get to the Pane.
+
+	* src/embeddable-grid.c (grid_view_activate) : Use scg_take_focus.
+	(grid_view_new) : Use sheet_control_gui_new in place of sheet_new_scg.
+
+	* convert to E_MAKE_TYPE
+	* Use IS_SHEET in preference to sheet != NULL
+	* sheet_range_calc_spans signature change
+
+	* src/clipboard.c (clipboard_paste_region) : special handling when
+	  pasting into a selection that consists of a single merged cell.
+
+	* src/application.c (application_set_selected_sheet) : Use IS_SHEET.
+	(application_clipboard_copy) : ditto.
+	(application_clipboard_cut) : ditto.
+
+	* src/Makefile.am :
+	    command-context-corba -> workbook-control-corba
+
+	* src/sheet.c : convert to using IS_SHEET in place of sheet != NULL in
+	  several places.
+	(sheet_is_frozen) : new function.
+	(sheet_freeze_panes) : implement.
+	(sheet_new) : init frozen pane data.
+	(sheet_range_calc_spans) : pass a pointer rather than copy of the range.
+	  and use sheet_redraw_range.
+	(sheet_apply_style) : use sheet_redraw_range.
+	(cb_sheet_get_extent) : premature optimization is evil.
+	(sheet_redraw_region) : rename from sheet_redraw_cell_region.
+	(sheet_set_edit_pos) : use sheet_redraw_range.
+	(sheet_move_range) : ditto.
+	(sheet_init_sc) : new routine.
+	(sheet_attach_control) : rename and task from sheet_new_scg.
+	(sheet_redraw_region) : renamed from sheet_redraw_cell_region.
+
+	* src/item-cursor.c (item_cursor_update) : increase the spacing for
+	  the autohandle.
+
+	* src/GNOME_Gnumeric.xml :
+	  - Use Control*colon and Control*semicolon
+	  - desensitize the graph guru for now.
+	  - Add freeze/thaw
+
+	* src/item-bar.c (item_bar_unrealize) : no need to double unref the
+	  fonts.
+
+	* src/print-cell.c (print_merged_range) : This is not being drawn on
+	  the screen, no need for all the fancy calcs to only draw the visible
+	  bits.  We will just clip it.
+	* src/print-cell.c (print_cell) : Use the calulated width, not the col
+	  width for splitting.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Use the scg_
+	  versions of things in preference to the gnumeric_sheet_ versions.
+	(gnumeric_sheet_new) : Store the Pane that this is associated with.
+	(gnumeric_sheet_bar_set_top_row) : moved to sheet-control-gui.c
+	(gnumeric_sheet_set_top_row) : ditto.
+	(gnumeric_sheet_bar_set_left_col) : ditto.
+	(gnumeric_sheet_set_left_col) : ditto.
+	(gnumeric_sheet_make_cell_visible) : ditto.
+	(gsheet_compute_visible_region) : handle panes.
+
+2001-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object-container.c : include sheet.h
+
 2001-06-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-control-gui.c (cb_table_destroy) : unref the control so

@@ -181,7 +181,7 @@ sheet_selection_redraw (Sheet const *sheet)
 		Range const *r = sel->data;
 
 		SHEET_FOREACH_CONTROL (sheet, control,
-			sc_redraw_cell_region (control,
+			sc_redraw_region (control,
 				r->start.col, r->start.row,
 				r->end.col, r->end.row);
 			sc_redraw_headers (control, TRUE, TRUE, r););
@@ -1114,7 +1114,7 @@ sheet_selection_walk_step (Sheet *sheet,
 	Range const *ss;
 	gboolean is_singleton = FALSE;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->selections != NULL);
 
 	ss = sheet->selections->data;

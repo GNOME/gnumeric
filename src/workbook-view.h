@@ -78,9 +78,11 @@ gboolean wb_view_save_as     (WorkbookView *wbv, WorkbookControl *wbc,
                               GnumFileSaver *fs, char const *file_name);
 gboolean wb_view_save        (WorkbookView *wbv, WorkbookControl *wbc);
 gboolean wb_view_open        (WorkbookView *wbv, WorkbookControl *wbc,
-                              char const *file_name);
+                              char const *file_name,
+			      gboolean display_errors);
 gboolean wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
-                              GnumFileOpener const *fo, char const *file_name);
+                              GnumFileOpener const *fo, char const *file_name,
+			      gboolean display_errors);
 
 #define WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control, code)			\
 do {										\

@@ -262,7 +262,8 @@ gnumeric_plugin_loader_python_class_init (GnumericPluginLoaderPythonClass *klass
 	gtk_object_class->destroy = gnumeric_plugin_loader_python_destroy;
 }
 
-E_MAKE_TYPE (gnumeric_plugin_loader_python, "GnumericPluginLoaderPython", GnumericPluginLoaderPython, &gnumeric_plugin_loader_python_class_init, gnumeric_plugin_loader_python_init, PARENT_TYPE)
+E_MAKE_TYPE (gnumeric_plugin_loader_python, "GnumericPluginLoaderPython", GnumericPluginLoaderPython,
+	     &gnumeric_plugin_loader_python_class_init, gnumeric_plugin_loader_python_init, PARENT_TYPE)
 
 /*
  * Service - file_opener

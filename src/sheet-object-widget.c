@@ -26,9 +26,9 @@
 #include <math.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
-#include "gnumeric-type-util.h"
 #include "eval.h"
-#include "sheet-control-gui-priv.h"
+#include "gnumeric-sheet.h"
+#include "sheet-control-gui.h"
 #include "sheet-object-widget.h"
 #include "sheet-object-impl.h"
 #include "expr.h"
@@ -40,6 +40,8 @@
 #include "sheet.h"
 #include "gnumeric-expr-entry.h"
 #include "dialogs.h"
+
+#include <gal/util/e-util.h>
 
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-config-dialog"
 
@@ -65,9 +67,9 @@ sheet_widget_ ## n1 ## _class_init (GtkObjectClass *object_class) \
 	so_class->read_xml = fn_read_xml; \
 	object_class->destroy = & sheet_widget_ ## n1 ## _destroy; \
 } \
-static GNUMERIC_MAKE_TYPE(sheet_widget_ ## n1, "SheetWidget" #n2, SheetWidget ## n2, \
-			  &sheet_widget_ ## n1 ## _class_init, \
-			  NULL, sheet_object_widget_get_type ()) \
+static E_MAKE_TYPE(sheet_widget_ ## n1, "SheetWidget" #n2, SheetWidget ## n2, \
+		   &sheet_widget_ ## n1 ## _class_init, \
+		   NULL, SHEET_OBJECT_WIDGET_TYPE);	\
 SheetObject * \
 sheet_widget_ ## n1 ## _new(Sheet *sheet) \
 { \
@@ -97,25 +99,15 @@ static GtkObjectClass *sheet_object_widget_class = NULL;
 
 static GtkType sheet_object_widget_get_type	(void);
 
-static void
-sheet_object_widget_set_active (SheetObject *so, gboolean val)
-{
-	GList  *l;
-
-	for (l = so->realized_list; l; l = l->next){
-	}
-}
-
 static GtkObject *
 sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *scg)
 {
-	GnomeCanvasItem *view_item;
-	GtkWidget *view_widget =
-		SOW_CLASS(so)->create_widget (SHEET_OBJECT_WIDGET (so),
-					      scg);
-
-	view_item = gnome_canvas_item_new (
-		scg->object_group,
+	/* FIXME : this is bogus */
+	GnumericSheet *gsheet = scg_primary_pane (scg);
+	GtkWidget *view_widget = SOW_CLASS(so)->create_widget (
+		SHEET_OBJECT_WIDGET (so), scg);
+	GnomeCanvasItem *view_item = gnome_canvas_item_new (
+		gsheet->object_group,
 		gnome_canvas_widget_get_type (),
 		"widget", view_widget,
 		"size_pixels", FALSE,
@@ -157,7 +149,6 @@ sheet_object_widget_class_init (GtkObjectClass *object_class)
 	/* SheetObject class method overrides */
 	so_class->new_view = sheet_object_widget_new_view;
 	so_class->update_bounds = sheet_object_widget_update_bounds;
-	so_class->set_active  = sheet_object_widget_set_active;
 
 	sow_class->create_widget = NULL;
 }
@@ -191,10 +182,9 @@ sheet_object_widget_clone (SheetObject const *so, Sheet *sheet)
 	return new_sow;
 }
 
-static GNUMERIC_MAKE_TYPE (sheet_object_widget,
-			   "SheetObjectWidget", SheetObjectWidget,
-			   &sheet_object_widget_class_init, NULL,
-			   sheet_object_get_type ())
+static E_MAKE_TYPE (sheet_object_widget, "SheetObjectWidget", SheetObjectWidget,
+		    sheet_object_widget_class_init, NULL,
+		    SHEET_OBJECT_TYPE);
 
 /****************************************************************************/
 static GtkType sheet_widget_label_get_type (void);
@@ -811,17 +801,17 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 	GtkWidget *label;
 	GtkWidget *table;
+	WorkbookControlGUI *wbcg = scg_get_wbcg (scg);
 
 	g_return_if_fail (swc != NULL);
 
 	/* Only pop up one copy per workbook */
-	if (gnumeric_dialog_raise_if_exists (scg->wbcg,
-					     SHEET_OBJECT_CONFIG_KEY))
+	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
 		return;
 	
 	state = g_new (CheckboxConfigState, 1);
 	state->swc = swc;
-	state->wbcg = scg->wbcg;
+	state->wbcg = wbcg;
 	state->dialog = gnome_dialog_new (_("Checkbox Configure"),
 					  GNOME_STOCK_BUTTON_OK,
 					  GNOME_STOCK_BUTTON_CANCEL,

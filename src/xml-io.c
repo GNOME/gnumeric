@@ -1283,7 +1283,7 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	g_return_if_fail (ctxt != NULL);
 	g_return_if_fail (tree != NULL);
-	g_return_if_fail (ctxt->sheet != NULL);
+	g_return_if_fail (IS_SHEET (ctxt->sheet));
 
 	pi = ctxt->sheet->print_info;
 
@@ -1339,7 +1339,7 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	g_return_if_fail (ctxt != NULL);
 	g_return_if_fail (tree != NULL);
-	g_return_if_fail (ctxt->sheet != NULL);
+	g_return_if_fail (IS_SHEET (ctxt->sheet));
 
 	pi = ctxt->sheet->print_info;
 
@@ -3242,7 +3242,7 @@ gnumeric_xml_write_selection_clipboard (WorkbookControl *wbc, Sheet *sheet,
 	xmlDocPtr xml;
 	XmlParseContext ctxt;
 
-	g_return_val_if_fail (sheet != NULL, -1);
+	g_return_val_if_fail (IS_SHEET (sheet), -1);
 
 	/*
 	 * Create the tree

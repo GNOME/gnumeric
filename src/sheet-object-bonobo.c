@@ -22,7 +22,6 @@
 #include "sheet.h"
 #include "workbook-private.h"
 #include "gnumeric-util.h"
-#include "gnumeric-type-util.h"
 #include "sheet-object-bonobo.h"
 
 #include <math.h>
@@ -32,6 +31,7 @@
 #include <bonobo/bonobo-view-frame.h>
 #include <bonobo/bonobo-client-site.h>
 #include <bonobo/bonobo-embeddable.h>
+#include <gal/util/e-util.h>
 
 static SheetObjectClass *sheet_object_bonobo_parent_class;
 
@@ -307,10 +307,8 @@ sheet_object_bonobo_class_init (GtkObjectClass *object_class)
 	sheet_object_class->write_xml	  = sheet_object_bonobo_write_xml;
 }
 
-GNUMERIC_MAKE_TYPE (sheet_object_bonobo,
-		    "SheetObjectBonobo", SheetObjectBonobo,
-		    sheet_object_bonobo_class_init, NULL,
-		    sheet_object_get_type ())
+E_MAKE_TYPE (sheet_object_bonobo, "SheetObjectBonobo", SheetObjectBonobo,
+	     sheet_object_bonobo_class_init, NULL, SHEET_OBJECT_TYPE);
 
 SheetObjectBonobo *
 sheet_object_bonobo_construct (SheetObjectBonobo *sob,
