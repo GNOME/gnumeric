@@ -1,5 +1,12 @@
 1999-10-08  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/sheet-style.c (sheet_selection_apply_style_cb): add.
+	(sheet_selection_apply_style): fix.
+
+	* src/selection.c (selection_foreach_range): Implement.
+
+1999-10-08  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/sheet.c (sheet_delete_col): hack up.
 
 	* src/item-grid.c (item_grid_paint_empty_cell): cull stuff.

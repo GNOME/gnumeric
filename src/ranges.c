@@ -323,7 +323,19 @@ range_overlap (Range const *a, Range const *b)
 GList *
 range_fragment (GList *ranges)
 {
-	g_warning ("Please implement me soon");
+	GList *a; /* Order n*n: ugly */
+
+	for (a = ranges; a; a = g_list_next (a)) {
+		GList *b;
+		for (b = g_list_next (a); b; b = g_list_next (b)) {
+			if (range_equal   (a->data, b->data)) {
+				g_warning ("equal ranges should be merged");
+			} else if (range_overlap (a->data, b->data)) {
+				g_warning ("Overlapping ranges");
+			}
+		}
+	}
+
 	return NULL;
 }
 

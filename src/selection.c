@@ -1094,3 +1094,23 @@ selection_contains_colrow (Sheet *sheet, int colrow, gboolean is_col)
 	}
 	return FALSE;
 }
+
+void
+selection_foreach_range (Sheet *sheet,
+			 void (*range_cb) (Sheet *sheet,
+					   Range const *range,
+					   gpointer user_data),
+			 gpointer user_data)
+{
+	GList *l;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (l = sheet->selections; l; l = g_list_next (l)) {
+		SheetSelection *ss = l->data;
+		range_cb (sheet, &ss->user, user_data);
+	}
+}
+
+

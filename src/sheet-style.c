@@ -115,6 +115,14 @@ sheet_style_compute_blank (Sheet const *sheet, int col, int row)
 	return style;
 }
 
+static void
+sheet_selection_apply_style_cb (Sheet *sheet,
+				Range const *range,
+				gpointer user_data)
+{
+	sheet_style_attach (sheet, *range, user_data);
+}
+
 /** 
  * sheet_selection_apply_style:
  * @style: style to be attached
@@ -125,10 +133,9 @@ sheet_style_compute_blank (Sheet const *sheet, int col, int row)
 void
 sheet_selection_apply_style (Sheet *sheet, MStyle *style)
 {
-	Range const * range = selection_first_range (sheet);
-
-	g_warning ("Fixme: applying style to first range only");
-	sheet_style_attach (sheet, *range, style);
+	selection_foreach_range (sheet, 
+				 sheet_selection_apply_style_cb,
+				 style);
 	sheet_set_dirty (sheet, TRUE);
 }
 
