@@ -201,7 +201,7 @@ ms_container_sheet (MSContainer const *c)
 	return (*c->vtbl->sheet) (c);
 }
 
-StyleFormat *
+GnmStyleFormat *
 ms_container_get_fmt (MSContainer const *c, guint16 indx)
 {
 	g_return_val_if_fail (c != NULL, NULL);

@@ -711,7 +711,7 @@ static GnmValue *
 convert (const eng_convert_unit_t units[],
 	 const eng_convert_unit_t prefixes[],
 	 char const *from_unit, char const *to_unit,
-	 gnm_float n, GnmValue **v, const EvalPos *ep)
+	 gnm_float n, GnmValue **v, const GnmEvalPos *ep)
 {
         gnm_float from_c, from_prefix, to_c, to_prefix;
 

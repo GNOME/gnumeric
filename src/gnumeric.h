@@ -82,8 +82,8 @@ typedef struct _GnmDateConventions      GnmDateConventions;
 typedef struct _GnmNamedExpr		GnmNamedExpr;
 typedef struct _GnmNamedExprCollection	GnmNamedExprCollection;
 
-typedef struct _PasteTarget		PasteTarget;
-typedef struct _CellRegion		CellRegion;
+typedef struct _GnmPasteTarget		GnmPasteTarget;
+typedef struct _GnmCellRegion		GnmCellRegion;
 
 typedef struct _ColRowInfo	 	ColRowInfo;
 typedef struct _ColRowCollection	ColRowCollection;
@@ -96,16 +96,16 @@ typedef struct _ColRowIndexSet          ColRowIndexSet;
 
 typedef struct _GnmFileOpener		GnmFileOpener;
 
-typedef struct _StyleFormat	        StyleFormat;
-typedef struct _StyleFont	        StyleFont;
-typedef struct _StyleColor	        StyleColor;
-typedef struct _StyleBorder	        StyleBorder;
-typedef struct _StyleRow	        StyleRow;
-typedef struct _MStyle		        MStyle;
+typedef struct _GnmStyleFormat	        GnmStyleFormat;
+typedef struct _GnmStyleFont	        GnmStyleFont;
+typedef struct _GnmStyleColor	        GnmStyleColor;
+typedef struct _GnmStyleBorder	        GnmStyleBorder;
+typedef struct _GnmStyleRow	        GnmStyleRow;
+typedef struct _GnmMStyle		GnmMStyle;
 
 typedef struct _SheetStyleData	        SheetStyleData;
-typedef struct _StyleRegion	        StyleRegion;
-typedef GSList				StyleList;
+typedef struct _GnmStyleRegion	        GnmStyleRegion;
+typedef GSList				GnmStyleList;
 
 typedef struct _FormatTemplate          FormatTemplate;	/* does not really belong here */
 
@@ -121,9 +121,9 @@ typedef struct {
 } GnmSheetRange;
 typedef struct _GnmCellRef	        GnmCellRef;	/* abs/rel point with sheet */
 typedef struct _GnmRangeRef	        GnmRangeRef;	/* abs/rel range with sheet */
-typedef struct _EvalPos		        EvalPos;
-typedef struct _ParsePos	        ParsePos;
-typedef struct _ParseError	        ParseError;
+typedef struct _GnmEvalPos		GnmEvalPos;
+typedef struct _GnmParsePos	        GnmParsePos;
+typedef struct _GnmParseError	        GnmParseError;
 typedef struct _FunctionEvalInfo        FunctionEvalInfo;
 typedef struct _GnmFunc			GnmFunc;
 typedef struct _ErrorInfo		ErrorInfo;

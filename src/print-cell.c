@@ -195,11 +195,11 @@ print_make_rectangle_path (GnomePrintContext *pc,
  *      \------/
  */
 static void
-print_cell (GnmCell const *cell, MStyle const *mstyle, GnomePrintContext *context,
+print_cell (GnmCell const *cell, GnmMStyle const *mstyle, GnomePrintContext *context,
 	    double x1, double y1, double width, double height, double h_center)
 {
 	Sheet const * const sheet = cell->base.sheet;
-	StyleFont *style_font = mstyle_get_font (mstyle, sheet->context, 1.0);
+	GnmStyleFont *style_font = mstyle_get_font (mstyle, sheet->context, 1.0);
 	GnomeFont *print_font = style_font->gnome_print_font;
 	double const font_descent = gnome_font_get_descender (print_font);
 	double const font_ascent = gnome_font_get_ascender (print_font);
@@ -486,7 +486,7 @@ print_rectangle (GnomePrintContext *context,
 
 static void
 print_cell_background (GnomePrintContext *context,
-		       MStyle const *style, int col, int row,
+		       GnmMStyle const *style, int col, int row,
 		       float x, float y, float w, float h)
 {
 	if (gnumeric_background_set_pc (style, context))
@@ -508,7 +508,7 @@ print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 {
 	float l, r, t, b;
 	GnmCell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
-	MStyle const *mstyle = sheet_style_get (sheet, range->start.col, range->start.row);
+	GnmMStyle const *mstyle = sheet_style_get (sheet, range->start.col, range->start.row);
 
 	l = sheet_col_get_distance_pts (sheet,
 		view->start.col, range->start.col) + start_x;
@@ -553,10 +553,10 @@ print_cell_range (GnomePrintContext *context,
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 	int start_row, start_col, end_col, end_row;
 
-	StyleRow sr, next_sr;
-	MStyle const **styles;
-	StyleBorder const **borders, **prev_vert;
-	StyleBorder const *none =
+	GnmStyleRow sr, next_sr;
+	GnmMStyle const **styles;
+	GnmStyleBorder const **borders, **prev_vert;
+	GnmStyleBorder const *none =
 		hide_grid ? NULL : style_border_none ();
 
 	GnmRange     view;
@@ -595,8 +595,8 @@ print_cell_range (GnomePrintContext *context,
 
 	/*
 	 * allocate a single blob of memory for all 8 arrays of pointers.
-	 * 	- 6 arrays of n StyleBorder const *
-	 * 	- 2 arrays of n MStyle const *
+	 * 	- 6 arrays of n GnmStyleBorder const *
+	 * 	- 2 arrays of n GnmMStyle const *
 	 *
 	 * then alias the arrays for easy access so that array [col] is valid
 	 * for all elements start_col-1 .. end_col+1 inclusive.
@@ -679,7 +679,7 @@ print_cell_range (GnomePrintContext *context,
 		}
 
 		for (col = start_col, x = base_x; col <= end_col ; col++) {
-			MStyle const *style;
+			GnmMStyle const *style;
 			CellSpanInfo const *span;
 			ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 

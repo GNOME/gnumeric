@@ -30,7 +30,7 @@ typedef struct {
 } collect_floats_t;
 
 static GnmValue *
-callback_function_collect (EvalPos const *ep, GnmValue *value, void *closure)
+callback_function_collect (GnmEvalPos const *ep, GnmValue *value, void *closure)
 {
 	gnm_float x;
 	collect_floats_t *cl = (collect_floats_t *)closure;
@@ -141,7 +141,7 @@ callback_function_collect (EvalPos const *ep, GnmValue *value, void *closure)
  * gnm_float.
  */
 static gnm_float *
-collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
+collect_floats (GnmExprList *exprlist, GnmEvalPos const *ep, CollectFlags flags,
 		int *n, GnmValue **error, GSList **info)
 {
 	GnmValue * err;
@@ -186,7 +186,7 @@ collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
    Presumably most useful when the value is an array.  */
 
 gnm_float *
-collect_floats_value (GnmValue const *val, EvalPos const *ep,
+collect_floats_value (GnmValue const *val, GnmEvalPos const *ep,
 		      CollectFlags flags, int *n, GnmValue **error)
 {
 	GnmExprList *exprlist;
@@ -205,7 +205,7 @@ collect_floats_value (GnmValue const *val, EvalPos const *ep,
 /* Like collect_floats_value, but keeps info on missing values */
 
 static gnm_float *
-collect_floats_value_with_info (GnmValue const *val, EvalPos const *ep,
+collect_floats_value_with_info (GnmValue const *val, GnmEvalPos const *ep,
 				CollectFlags flags, int *n, GSList **info,
 				GnmValue **error)
 {
@@ -430,7 +430,7 @@ typedef struct {
 } collect_strings_t;
 
 static GnmValue *
-callback_function_collect_strings (EvalPos const *ep, GnmValue *value, void *closure)
+callback_function_collect_strings (GnmEvalPos const *ep, GnmValue *value, void *closure)
 {
 	char *text = NULL;
 	collect_strings_t *cl = (collect_strings_t *)closure;
@@ -485,7 +485,7 @@ callback_function_collect_strings (EvalPos const *ep, GnmValue *value, void *clo
  */
 
 static GSList *
-collect_strings (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags, GnmValue **error)
+collect_strings (GnmExprList *exprlist, GnmEvalPos const *ep, CollectFlags flags, GnmValue **error)
 {
 	GnmValue * err;
 	collect_strings_t cl;

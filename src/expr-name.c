@@ -223,7 +223,7 @@ expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
  * lookup but do not reference a named expression.
  */
 GnmNamedExpr *
-expr_name_lookup (ParsePos const *pp, char const *name)
+expr_name_lookup (GnmParsePos const *pp, char const *name)
 {
 	GnmNamedExpr *res = NULL;
 	Sheet const *sheet = NULL;
@@ -337,7 +337,7 @@ expr_name_check_for_loop (char const *name, GnmExpr const *expr)
  *    can free the result by unrefing the name.
  **/
 GnmNamedExpr *
-expr_name_add (ParsePos const *pp, char const *name,
+expr_name_add (GnmParsePos const *pp, char const *name,
 	       GnmExpr const *expr, char **error_msg,
 	       gboolean link_to_container)
 {
@@ -474,7 +474,7 @@ expr_name_remove (GnmNamedExpr *nexpr)
  * returns a string that the caller needs to free.
  */
 char *
-expr_name_as_string (GnmNamedExpr const *nexpr, ParsePos const *pp,
+expr_name_as_string (GnmNamedExpr const *nexpr, GnmParsePos const *pp,
 		     GnmExprConventions const *fmt)
 {
 	if (pp == NULL)
@@ -483,7 +483,7 @@ expr_name_as_string (GnmNamedExpr const *nexpr, ParsePos const *pp,
 }
 
 GnmValue *
-expr_name_eval (GnmNamedExpr const *nexpr, EvalPos const *pos,
+expr_name_eval (GnmNamedExpr const *nexpr, GnmEvalPos const *pos,
 		GnmExprEvalFlags flags)
 {
 	g_return_val_if_fail (pos, NULL);

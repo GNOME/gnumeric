@@ -107,7 +107,7 @@ GnmValue    *global_range_parse    (Sheet *sheet, char const *range);
 char        *global_range_name     (Sheet *sheet, GnmRange const *r);
 
 GSList      *global_range_list_parse   (Sheet *sheet, char const *str);
-GnmValue    *global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
+GnmValue    *global_range_list_foreach (GSList *gr_list, GnmEvalPos const *ep,
 					CellIterFlags	flags,
 					CellIterFunc	handler,
 					gpointer	closure);

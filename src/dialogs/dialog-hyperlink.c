@@ -126,7 +126,7 @@ dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 		val = gnm_expr_entry_parse_as_value (gee, sheet);
 		if (!val) {
 			/* not an address, is it a name ? */
-			ParsePos pp;
+			GnmParsePos pp;
 			GnmNamedExpr *nexpr;
 
 			parse_pos_init_sheet (&pp, sheet);
@@ -262,7 +262,7 @@ dhl_cb_cancel (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 static void
 dhl_cb_ok (G_GNUC_UNUSED GtkWidget *button, HyperlinkState *state)
 {
-	MStyle *style;
+	GnmMStyle *style;
 	char *cmdname;
 	const char *target;
 	gboolean success;

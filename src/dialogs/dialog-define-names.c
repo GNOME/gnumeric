@@ -77,7 +77,7 @@ typedef struct {
 	WorkbookControlGUI	*wbcg;
 	GList			*expr_names;
 	GnmNamedExpr		*cur_name;
-	ParsePos		 pp;
+	GnmParsePos		 pp;
 	gboolean	 	 updating;
 } NameGuruState;
 
@@ -327,8 +327,8 @@ static gboolean
 name_guru_add (NameGuruState *state)
 {
 	GnmExpr	const *expr;
-	ParsePos	pp;
-	ParseError	perr;
+	GnmParsePos	pp;
+	GnmParseError	perr;
 	char const *name;
 	gboolean	res;
 

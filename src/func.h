@@ -172,7 +172,7 @@ struct _GnmFunc {
 };
 
 struct _FunctionEvalInfo {
-	EvalPos const *pos;
+	GnmEvalPos const *pos;
 	GnmExprFunction const *func_call;
 };
 
@@ -214,21 +214,21 @@ char       *function_def_get_arg_name  (GnmFunc const *fn_def,
 
 GnmValue *function_call_with_list	     (FunctionEvalInfo *ei, GnmExprList *args,
 				      GnmExprEvalFlags flags);
-GnmValue *function_call_with_values     (EvalPos const *ep, char const *name,
+GnmValue *function_call_with_values     (GnmEvalPos const *ep, char const *name,
                                       gint argc, GnmValue *values []);
-GnmValue *function_def_call_with_values (EvalPos const *ep, GnmFunc const *fn,
+GnmValue *function_def_call_with_values (GnmEvalPos const *ep, GnmFunc const *fn,
                                       gint argc, GnmValue *values []);
 
 /* Utilies to interate through ranges and argument lists */
-typedef GnmValue * (*FunctionIterateCB) (EvalPos const *ep,
+typedef GnmValue * (*FunctionIterateCB) (GnmEvalPos const *ep,
                                       GnmValue *value, gpointer user_data);
-GnmValue *function_iterate_argument_values	(EvalPos const	   *ep,
+GnmValue *function_iterate_argument_values	(GnmEvalPos const	   *ep,
                                          FunctionIterateCB  cb,
                                          gpointer           user_data,
                                          GnmExprList       *expr_node_list,
                                          gboolean           strict,
                                          CellIterFlags	    iter_flags);
-GnmValue *function_iterate_do_value	(EvalPos const      *ep,
+GnmValue *function_iterate_do_value	(GnmEvalPos const      *ep,
 					 FunctionIterateCB   cb,
 					 gpointer            user_data,
 					 GnmValue              *value,

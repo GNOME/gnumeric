@@ -1350,10 +1350,10 @@ scg_adjust_preferences (SheetControl *sc)
 	}
 }
 
-StyleFont *
+GnmStyleFont *
 scg_get_style_font (PangoContext *context,
 		    Sheet const *sheet,
-		    MStyle const *mstyle)
+		    GnmMStyle const *mstyle)
 {
 	/* When previewing sheet can == NULL */
 	double const zoom = (sheet) ? sheet->last_zoom_factor_used : 1.;
@@ -1450,7 +1450,7 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 		break;
 
 	case CONTEXT_HYPERLINK_REMOVE: {
-		MStyle *style = mstyle_new ();
+		GnmMStyle *style = mstyle_new ();
 		mstyle_set_hlink (style, NULL);
 		cmd_selection_format (wbc, style, NULL,
 			_("Remove Hyperlink"));

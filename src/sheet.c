@@ -387,7 +387,7 @@ sheet_cell_calc_span (GnmCell *cell, SpanCalcFlags flags)
 void
 sheet_apply_style (Sheet       *sheet,
 		   GnmRange const *range,
-		   MStyle      *style)
+		   GnmMStyle      *style)
 {
 	SpanCalcFlags const spanflags = required_updates_for_style (style);
 
@@ -1073,7 +1073,7 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
 		return NULL;
 
 	if (cell->rendered_value == NULL) {
-		MStyle const *style = sheet_style_get (sheet, col, row);
+		GnmMStyle const *style = sheet_style_get (sheet, col, row);
 
 		/* rendering is expensive.  Unwrapped cells will be the same
 		 * height as their font */
@@ -1081,7 +1081,7 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
 			cell_render_value (cell, TRUE);
 			height = cell_rendered_height (cell);
 		} else {
-			StyleFont *font = mstyle_get_font (style, sheet->context,
+			GnmStyleFont *font = mstyle_get_font (style, sheet->context,
 				sheet->last_zoom_factor_used);
 			height = font->height;
 			style_font_unref (font);
@@ -1244,7 +1244,7 @@ cb_clear_non_corner (Sheet *sheet, int col, int row, GnmCell *cell,
  * Does NOT generate spans.
  */
 void
-sheet_range_set_text (ParsePos const *pos, GnmRange const *r, char const *str)
+sheet_range_set_text (GnmParsePos const *pos, GnmRange const *r, char const *str)
 {
 	closure_set_cell_value	closure;
 	GSList *merged, *ptr;
@@ -1320,7 +1320,7 @@ sheet_cell_set_text (GnmCell *cell, char const *text)
 {
 	GnmExpr const *expr;
 	GnmValue	      *val;
-	ParsePos       pp;
+	GnmParsePos       pp;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
@@ -2282,7 +2282,7 @@ cb_sheet_cells_collect (Sheet *sheet, int col, int row,
 			GnmCell *cell, void *user_data)
 {
 	GPtrArray *cells = user_data;
-	EvalPos *ep = g_new (EvalPos, 1);
+	GnmEvalPos *ep = g_new (GnmEvalPos, 1);
 
 	ep->sheet = sheet;
 	ep->eval.col = col;
@@ -2304,7 +2304,7 @@ cb_sheet_cells_collect (Sheet *sheet, int col, int row,
  * @end_row   : the last row to search.
  * @comments  : If true, include cells with only comments also.
  *
- * Collects a GPtrArray of EvalPos pointers for all cells in a sheet.
+ * Collects a GPtrArray of GnmEvalPos pointers for all cells in a sheet.
  * No particular order should be assumed.
  */
 GPtrArray *
@@ -2333,7 +2333,7 @@ sheet_cells (Sheet *sheet,
 		GnmCell *cell = sheet_cell_get (sheet, loc->start.col, loc->start.row);
 		if (!cell) {
 			/* If cells does not exist, we haven't seen it...  */
-			EvalPos *ep = g_new (EvalPos, 1);
+			GnmEvalPos *ep = g_new (GnmEvalPos, 1);
 			ep->sheet = sheet;
 			ep->eval.col = loc->start.col;
 			ep->eval.row = loc->start.row;
@@ -3864,7 +3864,7 @@ static void
 sheet_clone_styles (Sheet const *src, Sheet *dst)
 {
 	GnmRange r;
-	StyleList *styles;
+	GnmStyleList *styles;
 	GnmCellPos	corner = { 0, 0 };
 
 	styles = sheet_style_get_list (src, range_init_full_sheet (&r));
@@ -4017,7 +4017,7 @@ sheet_dup (Sheet const *src)
  * absorb the reference to the style color
  */
 void
-sheet_set_tab_color (Sheet *sheet, StyleColor *tab_color, StyleColor *text_color)
+sheet_set_tab_color (Sheet *sheet, GnmStyleColor *tab_color, GnmStyleColor *text_color)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 

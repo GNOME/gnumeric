@@ -56,7 +56,7 @@ typedef struct {
 	int                  colcount;              /* Number of columns parsed */
         gboolean             *col_import_array;     /* 0/1 array indicating  */
 	                                            /* which cols to import  */
-	GPtrArray            *formats       ;       /* Contains StyleFormat *s */
+	GPtrArray            *formats       ;       /* Contains GnmStyleFormat *s */
 } StfParseOptions_t;
 
 /* CREATION/DESTRUCTION of stf options struct */
@@ -125,6 +125,6 @@ gboolean	    stf_parse_sheet                                   (StfParseOptions_
 								       Sheet *sheet,
 								       int start_col, int start_row);
 
-CellRegion         *stf_parse_region                                  (StfParseOptions_t *parseoptions,
+GnmCellRegion         *stf_parse_region                                  (StfParseOptions_t *parseoptions,
 								       char const *data, char const *data_end);
 #endif

@@ -803,10 +803,10 @@ command_redo_sheet_delete (Sheet* sheet)
 typedef struct {
 	GnmCommand cmd;
 
-	EvalPos pos;
+	GnmEvalPos pos;
 	gchar *text;
 	gboolean has_user_format;
-	CellRegion *old_contents;
+	GnmCellRegion *old_contents;
 } CmdSetText;
 
 MAKE_GNM_COMMAND (CmdSetText, cmd_set_text);
@@ -816,7 +816,7 @@ cmd_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSetText *me = CMD_SET_TEXT (cmd);
 	GnmRange r;
-	PasteTarget pt;
+	GnmPasteTarget pt;
 
 	r.start = r.end = me->pos.eval;
 	clipboard_paste_region (me->old_contents,
@@ -838,11 +838,11 @@ cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	expr = cell->base.expression;
 
 	if (!me->has_user_format && expr) {
-		EvalPos ep;
-		StyleFormat *sf = auto_style_format_suggest (expr,
+		GnmEvalPos ep;
+		GnmStyleFormat *sf = auto_style_format_suggest (expr,
 			eval_pos_init (&ep, me->cmd.sheet, &me->pos.eval));
 		if (sf) {
-			MStyle *new_style = mstyle_new ();
+			GnmMStyle *new_style = mstyle_new ();
 			GnmRange r;
 
 			mstyle_set_format (new_style, sf);
@@ -933,7 +933,7 @@ cmd_set_text (WorkbookControl *wbc,
 typedef struct {
 	GnmCommand cmd;
 
-	ParsePos   pp;
+	GnmParsePos   pp;
 	char	  *text;
 	gboolean   as_array;
 	GSList	*old_content;
@@ -954,8 +954,8 @@ cmd_area_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
 		GnmRange const *r = ranges->data;
-		CellRegion * c;
-		PasteTarget pt;
+		GnmCellRegion * c;
+		GnmPasteTarget pt;
 
 		g_return_val_if_fail (me->old_content != NULL, TRUE);
 
@@ -977,7 +977,7 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
 	GnmExpr const *expr = NULL;
 	GSList *l;
-	MStyle *new_style = NULL;
+	GnmMStyle *new_style = NULL;
 	char const *expr_txt;
 
 	g_return_val_if_fail (me != NULL, TRUE);
@@ -999,8 +999,8 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		if (expr == NULL)
 			return TRUE;
 	} else if (expr != NULL) {
-		EvalPos ep;
-		StyleFormat *sf = auto_style_format_suggest (expr,
+		GnmEvalPos ep;
+		GnmStyleFormat *sf = auto_style_format_suggest (expr,
 			eval_pos_init (&ep, me->cmd.sheet, &me->pp.eval));
 		gnm_expr_unref (expr);
 		expr = NULL;
@@ -1135,7 +1135,7 @@ typedef struct {
 	SheetView	*cut_copy_view;
 
 	ColRowStateList *saved_states;
-	CellRegion	*contents;
+	GnmCellRegion	*contents;
 	GnmRelocUndo	 reloc_storage;
 } CmdInsDelColRow;
 
@@ -1149,7 +1149,7 @@ cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	GnmRelocUndo	tmp;
 	gboolean trouble;
 	GnmRange r;
-	PasteTarget pt;
+	GnmPasteTarget pt;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->saved_states != NULL, TRUE);
@@ -1465,8 +1465,8 @@ cmd_clear_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
 		GnmRange const *r = ranges->data;
-		CellRegion  *c;
-		PasteTarget pt;
+		GnmCellRegion  *c;
+		GnmPasteTarget pt;
 
 		g_return_val_if_fail (me->old_content != NULL, TRUE);
 
@@ -1620,7 +1620,7 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 
 typedef struct {
 	GnmCellPos pos;
-	StyleList *styles;
+	GnmStyleList *styles;
 } CmdFormatOldStyle;
 
 typedef struct {
@@ -1630,8 +1630,8 @@ typedef struct {
 
 	GSList        *old_styles;
 
-	MStyle        *new_style;
-	StyleBorder  **borders;
+	GnmMStyle        *new_style;
+	GnmStyleBorder  **borders;
 } CmdFormat;
 
 MAKE_GNM_COMMAND (CmdFormat, cmd_format);
@@ -1743,8 +1743,8 @@ cmd_format_finalize (GObject *cmd)
  * @borders: borders to apply to the selection
  * @opt_translated_name : An optional name to use in place of 'Format Cells'
  *
- * If borders is non NULL, then the StyleBorder references are passed,
- * the MStyle reference is also passed.
+ * If borders is non NULL, then the GnmStyleBorder references are passed,
+ * the GnmMStyle reference is also passed.
  *
  * It absorbs the reference to the style.
  *
@@ -1752,7 +1752,7 @@ cmd_format_finalize (GObject *cmd)
  **/
 gboolean
 cmd_selection_format (WorkbookControl *wbc,
-		      MStyle *style, StyleBorder **borders,
+		      GnmMStyle *style, GnmStyleBorder **borders,
 		      char const *opt_translated_name)
 {
 	GObject *obj;
@@ -1794,7 +1794,7 @@ cmd_selection_format (WorkbookControl *wbc,
 	if (borders) {
 		int i;
 
-		me->borders = g_new (StyleBorder *, STYLE_BORDER_EDGE_MAX);
+		me->borders = g_new (GnmStyleBorder *, STYLE_BORDER_EDGE_MAX);
 		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
 			me->borders [i] = borders [i];
 	} else
@@ -2404,14 +2404,14 @@ typedef struct {
 	ColRowStateList *saved_sizes;
 
 	/* handle redo-ing an undo with content from a deleted sheet */
-	CellRegion *deleted_sheet_contents;
+	GnmCellRegion *deleted_sheet_contents;
 } CmdPasteCut;
 
 MAKE_GNM_COMMAND (CmdPasteCut, cmd_paste_cut);
 
 typedef struct {
-	PasteTarget pt;
-	CellRegion *contents;
+	GnmPasteTarget pt;
+	GnmCellRegion *contents;
 } PasteContent;
 
 /**
@@ -2543,7 +2543,7 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	/* rare corner case.  If the origin sheet has been deleted */
 	if (!IS_SHEET (me->info.origin_sheet)) {
-		PasteTarget pt;
+		GnmPasteTarget pt;
 		paste_target_init (&pt, me->info.target_sheet, &tmp, PASTE_ALL_TYPES);
 		sheet_clear_region (pt.sheet,
 			tmp.start.col, tmp.start.row, tmp.end.col,   tmp.end.row,
@@ -2677,8 +2677,8 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 typedef struct {
 	GnmCommand cmd;
 
-	CellRegion      *content;
-	PasteTarget      dst;
+	GnmCellRegion      *content;
+	GnmPasteTarget      dst;
 	gboolean         has_been_through_cycle;
 	ColRowStateList *saved_sizes;
 } CmdPasteCopy;
@@ -2690,7 +2690,7 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 		     gboolean is_undo)
 {
 	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
-	CellRegion *content;
+	GnmCellRegion *content;
 	SheetView *sv;
 
 	g_return_val_if_fail (me != NULL, TRUE);
@@ -2766,7 +2766,7 @@ cmd_paste_copy_finalize (GObject *cmd)
 
 gboolean
 cmd_paste_copy (WorkbookControl *wbc,
-		PasteTarget const *pt, CellRegion *content)
+		GnmPasteTarget const *pt, GnmCellRegion *content)
 {
 	GObject *obj;
 	CmdPasteCopy *me;
@@ -2860,8 +2860,8 @@ cmd_paste_copy (WorkbookControl *wbc,
 typedef struct {
 	GnmCommand cmd;
 
-	CellRegion *content;
-	PasteTarget dst;
+	GnmCellRegion *content;
+	GnmPasteTarget dst;
 	int base_col, base_row, w, h, end_col, end_row;
 	gboolean default_increment;
 	gboolean inverse_autofill;
@@ -3051,7 +3051,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 
 typedef struct {
 	GnmCellPos pos;
-	StyleList *styles;
+	GnmStyleList *styles;
 } CmdAutoFormatOldStyle;
 
 typedef struct {
@@ -3347,8 +3347,8 @@ cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	for (i = 0 ; i < me->ranges->len ; ++i) {
 		GnmRange const *r = &(g_array_index (me->ranges, GnmRange, i));
-		PasteTarget pt;
-		CellRegion * c;
+		GnmPasteTarget pt;
+		GnmCellRegion * c;
 
 		g_return_val_if_fail (me->old_content != NULL, TRUE);
 
@@ -3482,7 +3482,7 @@ MAKE_GNM_COMMAND (CmdSearchReplace, cmd_search_replace);
 typedef enum { SRI_text, SRI_comment } SearchReplaceItemType;
 
 typedef struct {
-	EvalPos pos;
+	GnmEvalPos pos;
 	SearchReplaceItemType old_type, new_type;
 	union {
 		char *text;
@@ -3584,7 +3584,7 @@ cmd_search_replace_redo (GnmCommand *cmd,
 }
 
 static gboolean
-cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
+cmd_search_replace_do_cell (CmdSearchReplace *me, GnmEvalPos *ep,
 			    gboolean test_run)
 {
 	GnmSearchReplace *sr = me->sr;
@@ -3596,7 +3596,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 		GnmExpr const *expr;
 		GnmValue *val;
 		gboolean err;
-		ParsePos pp;
+		GnmParsePos pp;
 
 		parse_pos_init_evalpos (&pp, ep);
 		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &expr,
@@ -3747,7 +3747,7 @@ cmd_search_replace_do (CmdSearchReplace *me,
 	cells = search_collect_cells (sr, sheet);
 
 	for (i = 0; i < cells->len; i++) {
-		EvalPos *ep = g_ptr_array_index (cells, i);
+		GnmEvalPos *ep = g_ptr_array_index (cells, i);
 
 		if (cmd_search_replace_do_cell (me, ep, test_run)) {
 			result = TRUE;
@@ -4280,7 +4280,7 @@ MAKE_GNM_COMMAND (CmdReorganizeSheets, cmd_reorganize_sheets);
 typedef struct {
 	char *name;
 	guint pos;
-	CellRegion *content;
+	GnmCellRegion *content;
 	ColRowStateList         *col_info;
 	ColRowStateList         *row_info;
 	GList                   *sheet_objects;
@@ -4410,7 +4410,7 @@ cmd_reorganize_sheets_delete_recreate_sheet (WorkbookControl *wbc, Workbook *wb,
 		workbook_sheet_move (a_new_sheet, -1);
 	}
 	if (sheet->content) {
-		PasteTarget pt;
+		GnmPasteTarget pt;
 		GnmRange r;
 		
 		clipboard_paste_region (sheet->content,
@@ -5003,7 +5003,7 @@ typedef struct {
 	ColRowStateList         *col_info;
 	ColRowStateList         *row_info;
 	GnmRange                   old_range;
-	CellRegion              *old_content;
+	GnmCellRegion              *old_content;
 } CmdAnalysis_Tool;
 
 MAKE_GNM_COMMAND (CmdAnalysis_Tool, cmd_analysis_tool);
@@ -5012,7 +5012,7 @@ static gboolean
 cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdAnalysis_Tool *me = CMD_ANALYSIS_TOOL (cmd);
-	PasteTarget pt;
+	GnmPasteTarget pt;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -5237,9 +5237,9 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 {
 	CmdMergeData *me = CMD_MERGE_DATA (cmd);
 	int i;
-	CellRegion *merge_content;
+	GnmCellRegion *merge_content;
 	GnmRangeRef *cell = &me->merge_zone->v_range.cell;
-	PasteTarget pt;
+	GnmPasteTarget pt;
 	GSList *this_field = me->merge_fields;
 	GSList *this_data = me->merge_data;
 	Sheet *source_sheet = cell->a.sheet;
@@ -5687,7 +5687,7 @@ cmd_print_setup (WorkbookControl *wbc, Sheet *sheet, PrintInformation const *pi)
 typedef struct {
 	GnmCommand cmd;
 
-	ParsePos	 pp;
+	GnmParsePos	 pp;
 	char		*name;
 	GnmExpr const	*expr;
 	gboolean	 new_name;
@@ -5775,7 +5775,7 @@ cmd_define_name_finalize (GObject *cmd)
  **/
 gboolean
 cmd_define_name (WorkbookControl *wbc, char const *name,
-		 ParsePos const *pp, GnmExpr const *expr)
+		 GnmParsePos const *pp, GnmExpr const *expr)
 {
 	GObject		*obj;
 	CmdDefineName	*me;
@@ -6029,8 +6029,8 @@ cmd_data_shuffle (WorkbookControl *wbc, data_shuffling_t *sc, Sheet *sheet)
 typedef struct {
 	GnmCommand cmd;
 
-	CellRegion      *content;
-	PasteTarget      dst;
+	GnmCellRegion      *content;
+	GnmPasteTarget      dst;
 	GnmRange            src;
 	Sheet           *src_sheet;
 	ColRowStateList *saved_sizes;
@@ -6043,7 +6043,7 @@ cmd_text_to_columns_impl (GnmCommand *cmd, WorkbookControl *wbc,
 		     gboolean is_undo)
 {
 	CmdTextToColumns *me = CMD_TEXT_TO_COLUMNS (cmd);
-	CellRegion *content;
+	GnmCellRegion *content;
 	SheetView *sv;
 
 	g_return_val_if_fail (me != NULL, TRUE);
@@ -6114,7 +6114,7 @@ gboolean
 cmd_text_to_columns (WorkbookControl *wbc,
 		     GnmRange const *src, Sheet *src_sheet, 
 		     GnmRange const *target, Sheet *target_sheet, 
-		     CellRegion *content)
+		     GnmCellRegion *content)
 {
 	GObject *obj;
 	CmdTextToColumns *me;

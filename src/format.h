@@ -40,7 +40,7 @@ typedef struct {
 	int      fraction_denominator;
 } FormatCharacteristics;
 
-struct _StyleFormat {
+struct _GnmStyleFormat {
 	int                   ref_count;
 	char                 *format;
         GSList               *entries;  /* Of type StyleFormatEntry. */
@@ -52,41 +52,41 @@ struct _StyleFormat {
 };
 
 char	      *style_format_delocalize  (char const *descriptor_string);
-StyleFormat   *style_format_new_XL	(char const *descriptor_string,
+GnmStyleFormat   *style_format_new_XL	(char const *descriptor_string,
 					 gboolean delocalize);
-StyleFormat   *style_format_build       (FormatFamily family,
+GnmStyleFormat   *style_format_build       (FormatFamily family,
 					 const FormatCharacteristics *info);
 
-char   	      *style_format_as_XL	(StyleFormat const *fmt,
+char   	      *style_format_as_XL	(GnmStyleFormat const *fmt,
 					 gboolean localized);
 char   	      *style_format_str_as_XL	(char const *descriptor_string,
 					 gboolean localized);
 
-void           style_format_ref		(StyleFormat *sf);
-void           style_format_unref	(StyleFormat *sf);
-gboolean       style_format_equal       (StyleFormat const *a, StyleFormat const *b);
+void           style_format_ref		(GnmStyleFormat *sf);
+void           style_format_unref	(GnmStyleFormat *sf);
+gboolean       style_format_equal       (GnmStyleFormat const *a, GnmStyleFormat const *b);
 
-StyleFormat   *style_format_general		(void);
-StyleFormat   *style_format_default_date	(void);
-StyleFormat   *style_format_default_time	(void);
-StyleFormat   *style_format_default_percentage	(void);
-StyleFormat   *style_format_default_money	(void);
+GnmStyleFormat   *style_format_general		(void);
+GnmStyleFormat   *style_format_default_date	(void);
+GnmStyleFormat   *style_format_default_time	(void);
+GnmStyleFormat   *style_format_default_percentage	(void);
+GnmStyleFormat   *style_format_default_money	(void);
 
 #define style_format_is_general(sf) ((sf)->family == FMT_GENERAL)
 #define style_format_is_text(sf) ((sf)->family == FMT_TEXT)
 
-char  *format_value   (StyleFormat const *format, GnmValue const *value, StyleColor **color,
+char  *format_value   (GnmStyleFormat const *format, GnmValue const *value, GnmStyleColor **color,
 		       double col_width, GnmDateConventions const *date_conv);
-void   format_value_gstring (GString *result, StyleFormat const *format,
-			     GnmValue const *value, StyleColor **color,
+void   format_value_gstring (GString *result, GnmStyleFormat const *format,
+			     GnmValue const *value, GnmStyleColor **color,
 			     double col_width, GnmDateConventions const *date_conv);
 
 void   format_color_init     (void);
 void   format_color_shutdown (void);
 
-StyleFormat *format_add_decimal      (StyleFormat const *fmt);
-StyleFormat *format_remove_decimal   (StyleFormat const *fmt);
-StyleFormat *format_toggle_thousands (StyleFormat const *fmt);
+GnmStyleFormat *format_add_decimal      (GnmStyleFormat const *fmt);
+GnmStyleFormat *format_remove_decimal   (GnmStyleFormat const *fmt);
+GnmStyleFormat *format_toggle_thousands (GnmStyleFormat const *fmt);
 
 typedef struct {
 	int  right_optional, right_spaces, right_req, right_allowed;
@@ -117,7 +117,7 @@ void number_format_shutdown (void);
 void currency_date_format_init     (void);
 void currency_date_format_shutdown (void);
 
-FormatFamily cell_format_classify (StyleFormat const *fmt, FormatCharacteristics *info);
+FormatFamily cell_format_classify (GnmStyleFormat const *fmt, FormatCharacteristics *info);
 
 /* Indexed by FormatCharacteristics */
 extern char const * const * const cell_formats [];

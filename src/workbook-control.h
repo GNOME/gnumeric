@@ -78,7 +78,7 @@ void wb_control_menu_state_sheet_count	(WorkbookControl *wbc);
 void wb_control_menu_state_update	(WorkbookControl *wbc, int flags);
 
 void wb_control_paste_from_selection (WorkbookControl *wbc,
-				      PasteTarget const *pt);
+				      GnmPasteTarget const *pt);
 gboolean wb_control_claim_selection  (WorkbookControl *wbc);
 
 WorkbookView *wb_control_view		(WorkbookControl const *wbc);

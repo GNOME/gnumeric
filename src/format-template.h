@@ -108,7 +108,7 @@ typedef struct {
 	int skip;
 	int edge;
 
-	MStyle *mstyle;       /* Style to apply */
+	GnmMStyle *mstyle;       /* Style to apply */
 } TemplateMember;
 
 /*
@@ -126,7 +126,7 @@ gint                  format_template_compare_name             (gconstpointer a,
 
 void                  format_template_attach_member            (FormatTemplate *ft, TemplateMember *member);
 void                  format_template_detach_member            (FormatTemplate *ft, TemplateMember *member);
-MStyle               *format_template_get_style                (FormatTemplate *ft, int row, int col);
+GnmMStyle               *format_template_get_style                (FormatTemplate *ft, int row, int col);
 void                  format_template_apply_to_sheet_regions   (FormatTemplate *ft, Sheet *sheet, GSList *regions);
 gboolean	      format_template_check_valid	       (FormatTemplate *ft, GSList *regions,
 								GnmCmdContext *cc);

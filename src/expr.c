@@ -503,7 +503,7 @@ expr_array_corner (GnmExpr const *expr,
 
 static gboolean
 gnm_expr_extract_ref (GnmCellRef *res, GnmExpr const *expr,
-		      EvalPos const *pos, GnmExprEvalFlags flags)
+		      GnmEvalPos const *pos, GnmExprEvalFlags flags)
 {
 	switch (expr->any.oper) {
 	case GNM_EXPR_OP_FUNCALL : {
@@ -584,7 +584,7 @@ handle_empty (GnmValue *res, GnmExprEvalFlags flags)
  * Returns the upper left corner of an array.
  **/
 static GnmValue *
-value_intersection (GnmValue *v, EvalPos const *pos)
+value_intersection (GnmValue *v, GnmEvalPos const *pos)
 {
 	GnmValue *res = NULL;
 	GnmRange r;
@@ -650,7 +650,7 @@ cb_range_eval (Sheet *sheet, int col, int row, GnmCell *cell, void *ignore)
 #endif
 
 static GnmValue *
-bin_cmp (GnmExprOp op, GnmValDiff comp, EvalPos const *pos)
+bin_cmp (GnmExprOp op, GnmValDiff comp, GnmEvalPos const *pos)
 {
 	if (comp == TYPE_MISMATCH) {
 		/* TODO TODO TODO : Make error more informative
@@ -705,7 +705,7 @@ func_bin_cmp (FunctionEvalInfo *ei, GnmValue *argv [])
  * expression returns empty, or the  value of an unused cell.
  */
 GnmValue *
-gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
+gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 	       GnmExprEvalFlags flags)
 {
 	GnmValue *res = NULL, *a = NULL, *b = NULL;
@@ -1049,7 +1049,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			int const num_y = value_area_get_height (a, pos);
 
 			/* Evaluate relative to the upper left corner */
-			EvalPos tmp_ep = *pos;
+			GnmEvalPos tmp_ep = *pos;
 			tmp_ep.eval.col -= x;
 			tmp_ep.eval.row -= y;
 
@@ -1102,7 +1102,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 
 static void
 gnm_expr_list_as_string (GString *target,
-			 GnmExprList const *list, ParsePos const *pp,
+			 GnmExprList const *list, GnmParsePos const *pp,
 			 GnmExprConventions const *fmt);
 
 
@@ -1114,7 +1114,7 @@ gnm_expr_list_as_string (GString *target,
  * appends a string representation to the target.
  */
 static void
-do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
+do_expr_as_string (GString *target, GnmExpr const *expr, GnmParsePos const *pp,
 		   int paren_level, GnmExprConventions const *conv)
 {
 	static struct {
@@ -1248,7 +1248,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 			GnmCell *corner = expr_array_corner (expr,
 				pp->sheet, &pp->eval);
 			if (corner) {
-				ParsePos tmp_pos = *pp;
+				GnmParsePos tmp_pos = *pp;
 				tmp_pos.eval.col -= x;
 				tmp_pos.eval.row -= y;
 				do_expr_as_string (
@@ -1275,7 +1275,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 }
 
 char *
-gnm_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
+gnm_expr_as_string (GnmExpr const *expr, GnmParsePos const *pp,
 		    GnmExprConventions const *fmt)
 {
 	GString *res;
@@ -1289,7 +1289,7 @@ gnm_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 
 void
 gnm_expr_as_gstring (GString *target,
-		     GnmExpr const *expr, ParsePos const *pp,
+		     GnmExpr const *expr, GnmParsePos const *pp,
 		     GnmExprConventions const *fmt)
 {
 	g_return_if_fail (expr != NULL);
@@ -1635,7 +1635,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		if (expr->name.optional_scope == NULL &&
 		    rwinfo->u.relocate.target_sheet != rwinfo->u.relocate.origin_sheet) {
 			GnmNamedExpr *new_nexpr;
-			ParsePos pos;
+			GnmParsePos pos;
 			parse_pos_init_sheet (&pos,
 				rwinfo->u.relocate.target_sheet);
 
@@ -2186,7 +2186,7 @@ gnm_expr_list_eq (GnmExprList const *la, GnmExprList const *lb)
 
 static void
 gnm_expr_list_as_string (GString *target,
-			 GnmExprList const *list, ParsePos const *pp,
+			 GnmExprList const *list, GnmParsePos const *pp,
 			 GnmExprConventions const *conv)
 {
 	char const *sep;
@@ -2394,7 +2394,7 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 	e2 = g_hash_table_lookup (es->exprs, e);
 	if (e2 == NULL) {
 #if 0
-		ParsePos pp;
+		GnmParsePos pp;
 		char *s;
 
 		pp.eval.col = 0;
@@ -2416,7 +2416,7 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 		e2 = e;
 	} else {
 #if 0
-		ParsePos pp;
+		GnmParsePos pp;
 		char *s;
 
 		pp.eval.col = 0;
@@ -2467,7 +2467,7 @@ static void
 cb_expression_pool_leak (gpointer data, G_GNUC_UNUSED gpointer user)
 {
 	GnmExpr const *expr = data;
-	ParsePos pp;
+	GnmParsePos pp;
 	char *s;
 
 	pp.eval.col = 0;

@@ -68,7 +68,7 @@ typedef struct {
 	/* Page members that are created at run-time */
 	LocaleSelector    *locale_selector;
 	RenderData_t      *renderdata;
-	GPtrArray         *formats; /* Contains StyleFormat* */
+	GPtrArray         *formats; /* Contains GnmStyleFormat* */
 	int                index;
 	gboolean           manual_change;
 	gboolean           sublist_select;
@@ -145,7 +145,7 @@ DialogStfResult_t *stf_dialog                           (WorkbookControlGUI *wbc
 void               stf_dialog_result_free               (DialogStfResult_t *dialogresult);
 
 void    stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
-						CellRegion *cr);
+						GnmCellRegion *cr);
 
 /* INIT FUNCTIONS
  *

@@ -110,7 +110,7 @@ value_new_float (gnm_float f)
 /* Memory pool for error values.  */
 static GnmMemChunk *value_error_pool;
 GnmValue *
-value_new_error (EvalPos const *ep, char const *mesg)
+value_new_error (GnmEvalPos const *ep, char const *mesg)
 {
 	GnmValueErr *v = CHUNK_ALLOC (GnmValueErr, value_error_pool);
 	*((GnmValueType *)&(v->type)) = VALUE_ERROR;
@@ -120,7 +120,7 @@ value_new_error (EvalPos const *ep, char const *mesg)
 }
 
 GnmValue *
-value_new_error_str (EvalPos const *ep, GnmString *mesg)
+value_new_error_str (GnmEvalPos const *ep, GnmString *mesg)
 {
 	GnmValueErr *v = CHUNK_ALLOC (GnmValueErr, value_error_pool);
 	*((GnmValueType *)&(v->type)) = VALUE_ERROR;
@@ -130,7 +130,7 @@ value_new_error_str (EvalPos const *ep, GnmString *mesg)
 }
 
 GnmValue *
-value_new_error_std (EvalPos const *pos, GnmStdError err)
+value_new_error_std (GnmEvalPos const *pos, GnmStdError err)
 {
 	size_t i = (size_t)err;
 	g_return_val_if_fail (i < G_N_ELEMENTS (standard_errors), NULL);
@@ -140,49 +140,49 @@ value_new_error_std (EvalPos const *pos, GnmStdError err)
 
 
 GnmValue *
-value_new_error_NULL (EvalPos const *pos)
+value_new_error_NULL (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NULL].locale_name_str);
 }
 
 GnmValue *
-value_new_error_DIV0 (EvalPos const *pos)
+value_new_error_DIV0 (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_DIV0].locale_name_str);
 }
 
 GnmValue *
-value_new_error_VALUE (EvalPos const *pos)
+value_new_error_VALUE (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_VALUE].locale_name_str);
 }
 
 GnmValue *
-value_new_error_REF (EvalPos const *pos)
+value_new_error_REF (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_REF].locale_name_str);
 }
 
 GnmValue *
-value_new_error_NAME (EvalPos const *pos)
+value_new_error_NAME (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NAME].locale_name_str);
 }
 
 GnmValue *
-value_new_error_NUM (EvalPos const *pos)
+value_new_error_NUM (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NUM].locale_name_str);
 }
 
 GnmValue *
-value_new_error_NA (EvalPos const *pos)
+value_new_error_NA (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NA].locale_name_str);
 }
 
 GnmValue *
-value_new_error_RECALC (EvalPos const *pos)
+value_new_error_RECALC (GnmEvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_RECALC].locale_name_str);
 }
@@ -207,7 +207,7 @@ value_error_name (GnmStdError err, gboolean translated)
  * Change the position of a ValueError.
  */
 GnmValue *
-value_error_set_pos (GnmValueErr *err, EvalPos const *pos)
+value_error_set_pos (GnmValueErr *err, GnmEvalPos const *pos)
 {
     g_return_val_if_fail (err != NULL, NULL);
     g_return_val_if_fail (err->type == VALUE_ERROR, NULL);
@@ -391,7 +391,7 @@ value_new_array_empty (guint cols, guint rows)
 }
 
 GnmValue *
-value_new_from_string (GnmValueType t, char const *str, StyleFormat *sf,
+value_new_from_string (GnmValueType t, char const *str, GnmStyleFormat *sf,
 		       gboolean translated)
 {
 	GnmValue *res = NULL;
@@ -1045,7 +1045,7 @@ value_get_rangeref (GnmValue const *v)
  * otherwise free it at return an appropriate error
  **/
 GnmValue *
-value_coerce_to_number (GnmValue *v, gboolean *valid, EvalPos const *ep)
+value_coerce_to_number (GnmValue *v, gboolean *valid, GnmEvalPos const *ep)
 {
 	g_return_val_if_fail (v != NULL, NULL);
 
@@ -1344,13 +1344,13 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 }
 
 void
-value_set_fmt (GnmValue *v, StyleFormat const *fmt)
+value_set_fmt (GnmValue *v, GnmStyleFormat const *fmt)
 {
 	if (fmt != NULL)
-		style_format_ref ((StyleFormat *)fmt);
+		style_format_ref ((GnmStyleFormat *)fmt);
 	if (VALUE_FMT (v) != NULL)
 		style_format_unref (VALUE_FMT (v));
-	VALUE_FMT (v) = (StyleFormat *)fmt;
+	VALUE_FMT (v) = (GnmStyleFormat *)fmt;
 }
 
 /****************************************************************************/
@@ -1432,7 +1432,7 @@ criteria_test_greater_or_equal (GnmValue const *x, GnmValue const *y)
  * Finds a column index of a field.
  */
 int
-find_column_of_field (EvalPos const *ep, GnmValue *database, GnmValue *field)
+find_column_of_field (GnmEvalPos const *ep, GnmValue *database, GnmValue *field)
 {
         Sheet *sheet;
         GnmCell  *cell;
@@ -1606,7 +1606,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
  * Parses the criteria cell range.
  */
 GSList *
-parse_database_criteria (EvalPos const *ep, GnmValue *database, GnmValue *criteria)
+parse_database_criteria (GnmEvalPos const *ep, GnmValue *database, GnmValue *criteria)
 {
 	Sheet	*sheet;
 	GnmCell	*cell;

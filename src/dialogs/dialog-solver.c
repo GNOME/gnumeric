@@ -900,7 +900,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	GnmValue                   *input_range;
         GSList			*input_cells = NULL;
 	GnmValue                   *result;
-	EvalPos                 pos;
+	GnmEvalPos                 pos;
 	gint                    i;
 	gboolean                answer, sensitivity, limits, performance;
 	gboolean                program, dual_program;

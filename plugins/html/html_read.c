@@ -75,9 +75,9 @@ html_get_sheet (char const *name, Workbook *wb)
 }
 
 static void
-html_append_text (GString *buf, xmlChar *text)
+html_append_text (GString *buf, const xmlChar *text)
 {
-	xmlChar *p;
+	const xmlChar *p;
 	
 	while (*text) {
 		while (g_ascii_isspace (*text))
@@ -94,7 +94,7 @@ html_append_text (GString *buf, xmlChar *text)
 }
 
 static void
-html_read_content (htmlNodePtr cur, GString *buf, MStyle *mstyle,
+html_read_content (htmlNodePtr cur, GString *buf, GnmMStyle *mstyle,
 		   xmlBufferPtr a_buf, gboolean first, htmlDocPtr doc)
 {
 	htmlNodePtr ptr;
@@ -146,14 +146,15 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 	int col = -1;
 
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
-		if (xmlStrEqual (ptr->name, CC2XML ("td")) || xmlStrEqual (ptr->name, CC2XML ("th"))) {
+		if (xmlStrEqual (ptr->name, CC2XML ("td")) ||
+		    xmlStrEqual (ptr->name, CC2XML ("th"))) {
 			GString *buf;
 			xmlBufferPtr a_buf;
 			xmlAttrPtr   props;
 			int colspan = 1;
 			int rowspan = 1;
 			GnmCellPos pos;
-			MStyle *mstyle;
+			GnmMStyle *mstyle;
 
 			/* Check whether we need to skip merges from above */
 			pos.row = tc->row;
@@ -372,7 +373,7 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
 		/* Link in a table node */
 		xmlAddPrevSibling (cur, tnode);
 		if (starts_inferred_row (cur)) {
-			htmlNodePtr rnode   = xmlNewNode (NULL, "tr");
+			htmlNodePtr rnode = xmlNewNode (NULL, "tr");
 
 			/* Link in a row node */
 			xmlAddChild (tnode, rnode);
@@ -453,13 +454,11 @@ html_file_open (GnmFileOpener const *fo, IOContext *io_context,
 						 gsf_input_name (input), enc);
 
 		for (; size > 0 ; size -= len) {
-			len = 4096;
-			if (len > size)
-				len =  size;
-		       buf = gsf_input_read (input, len, NULL);
-		       if (buf == NULL)
-			       break;
-		       htmlParseChunk (ctxt, (const char *)buf, len, 0);
+			len = MIN (4096, size);
+			buf = gsf_input_read (input, len, NULL);
+			if (buf == NULL)
+				break;
+			htmlParseChunk (ctxt, (const char *)buf, len, 0);
 		}
 
 		htmlParseChunk (ctxt, (const char *)buf, 0, 1);

@@ -8,7 +8,7 @@
 
 void     py_initgnumeric (GnmPyInterpreter *interpreter);
 
-GnmValue *call_python_function	 (PyObject *python_fn, EvalPos const *eval_pos,
+GnmValue *call_python_function	 (PyObject *python_fn, GnmEvalPos const *eval_pos,
 				  gint n_args, GnmValue **args);
 gchar    *py_exc_to_string	 (void);
 PyObject *py_new_Sheet_object	 (Sheet *sheet);

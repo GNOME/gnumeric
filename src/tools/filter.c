@@ -118,7 +118,7 @@ advanced_filter (WorkbookControl        *wbc,
 		 gboolean               unique_only_flag)
 {
         GSList  *crit, *rows;
-	EvalPos ep;
+	GnmEvalPos ep;
 
 	crit = parse_database_criteria (eval_pos_init_sheet
 					(&ep, wb_control_cur_sheet (wbc)),

@@ -39,7 +39,7 @@
 
 typedef struct {
 	WorkbookControlGUI *wbcg;
-	PasteTarget        *paste_target;
+	GnmPasteTarget        *paste_target;
 	GdkAtom            fallback;
 } GnmGtkClipboardCtxt;
 
@@ -57,14 +57,14 @@ typedef struct {
 /* The name of the TARGETS atom (don't change unless you know what you are doing!) */
 #define TARGETS_ATOM_NAME "TARGETS"
 
-static CellRegion *
+static GnmCellRegion *
 text_to_cell_region (WorkbookControlGUI *wbcg,
 		     guchar const *data, int data_len,
 		     const char *opt_encoding,
 		     gboolean fixed_encoding)
 {
 	DialogStfResult_t *dialogresult;
-	CellRegion *cr = NULL;
+	GnmCellRegion *cr = NULL;
 	gboolean oneline;
 	char *data_converted = NULL;
 	int i;
@@ -143,14 +143,14 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
  * We use the file_opener service by wrapping the selection data in a GsfInput,
  * and calling wb_view_new_from_input.
  **/
-static CellRegion *
+static GnmCellRegion *
 table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
-		       PasteTarget *pt, guchar *buffer, int length)
+		       GnmPasteTarget *pt, guchar *buffer, int length)
 {
 	WorkbookView *wb_view = NULL;
 	Workbook *wb = NULL;
 	GList *l = NULL;
-	CellRegion *ret = NULL;
+	GnmCellRegion *ret = NULL;
 	const GnmFileOpener *reader = gnm_file_opener_for_id (reader_id);
 	IOContext *ioc;
 	GsfInputMemory *input;
@@ -200,8 +200,8 @@ complex_content_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 	GnmGtkClipboardCtxt *ctxt = closure;
 	WorkbookControlGUI *wbcg = ctxt->wbcg;
 	WorkbookControl	   *wbc  = WORKBOOK_CONTROL (wbcg);
-	PasteTarget	   *pt   = ctxt->paste_target;
-	CellRegion *content = NULL;
+	GnmPasteTarget	   *pt   = ctxt->paste_target;
+	GnmCellRegion *content = NULL;
 
 	/* Nothing on clipboard? */
 	if (sel->length < 0) {
@@ -353,7 +353,7 @@ x_clipboard_received (GtkClipboard *clipboard, GtkSelectionData *sel,
 
 /* Cheezy implementation: paste into a temporary workbook, save that. */
 static guchar *
-table_cellregion_write (WorkbookControl *wbc, CellRegion *cr,
+table_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr,
 			char * saver_id, int *size)
 {
 	guchar *ret = NULL;
@@ -363,7 +363,7 @@ table_cellregion_write (WorkbookControl *wbc, CellRegion *cr,
 	Workbook *wb;
 	WorkbookView *wb_view;
 	Sheet *sheet;
-	PasteTarget pt;
+	GnmPasteTarget pt;
 	GnmRange r;
 	
 	*size = 0;
@@ -417,7 +417,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		    guint info, WorkbookControlGUI *wbcg)
 {
 	gboolean to_gnumeric = FALSE, content_needs_free = FALSE;
-	CellRegion *clipboard = gnm_app_clipboard_contents_get ();
+	GnmCellRegion *clipboard = gnm_app_clipboard_contents_get ();
 	Sheet *sheet = gnm_app_clipboard_sheet_get ();
 	GnmRange const *a = gnm_app_clipboard_area_get ();
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -515,7 +515,7 @@ x_clipboard_clear_cb (GtkClipboard *clipboard,
 }
 
 void
-x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
+x_request_clipboard (WorkbookControlGUI *wbcg, GnmPasteTarget const *pt)
 {
 	GnmGtkClipboardCtxt *ctxt;
 	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
@@ -529,7 +529,7 @@ x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 
 	ctxt = g_new (GnmGtkClipboardCtxt, 1);
 	ctxt->wbcg = wbcg;
-	ctxt->paste_target = g_new (PasteTarget, 1);
+	ctxt->paste_target = g_new (GnmPasteTarget, 1);
 	*ctxt->paste_target = *pt;
 	ctxt->fallback = GDK_NONE;
 

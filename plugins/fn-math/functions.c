@@ -2718,7 +2718,7 @@ callback_function_mmult_validate (Sheet *sheet, int col, int row,
 }
 
 static gboolean
-validate_range_numeric_matrix (EvalPos const *ep, GnmValue * matrix,
+validate_range_numeric_matrix (GnmEvalPos const *ep, GnmValue * matrix,
 			       int *rows, int *cols,
 			       GnmStdError *err)
 {
@@ -2759,7 +2759,7 @@ validate_range_numeric_matrix (EvalPos const *ep, GnmValue * matrix,
 }
 
 static gnm_float **
-value_to_matrix (GnmValue const *v, int cols, int rows, EvalPos const *ep)
+value_to_matrix (GnmValue const *v, int cols, int rows, GnmEvalPos const *ep)
 {
 	gnm_float **res = g_new (gnm_float *, rows);
 	int r, c;
@@ -2789,7 +2789,7 @@ free_matrix (gnm_float **mat, G_GNUC_UNUSED int cols, int rows)
 static GnmValue *
 gnumeric_minverse (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	EvalPos const * const ep = ei->pos;
+	GnmEvalPos const * const ep = ei->pos;
 
 	int	r, rows;
 	int	c, cols;
@@ -2846,7 +2846,7 @@ static char const *help_mmult = {
 static GnmValue *
 gnumeric_mmult (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	EvalPos const * const ep = ei->pos;
+	GnmEvalPos const * const ep = ei->pos;
 	int	r, rows_a, rows_b;
 	int	c, cols_a, cols_b;
         GnmValue *res;
@@ -2926,7 +2926,7 @@ static char const *help_mdeterm = {
 static GnmValue *
 gnumeric_mdeterm (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	EvalPos const * const ep = ei->pos;
+	GnmEvalPos const * const ep = ei->pos;
 
 	int	rows, cols;
         gnm_float res;

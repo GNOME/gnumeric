@@ -61,7 +61,7 @@ typedef struct {
 
 	gboolean (*claim_selection)      (WorkbookControl *wbc);
 	void	 (*paste_from_selection) (WorkbookControl *wbc,
-					  PasteTarget const *pt);
+					  GnmPasteTarget const *pt);
 	int	  (*validation_msg)	 (WorkbookControl *wbc, ValidationStyle v,
 					  char const *title, char const *msg);
 } WorkbookControlClass;

@@ -36,11 +36,11 @@ XmlParseContext *xml_parse_ctx_new     (xmlDoc		*doc,
 void		 xml_parse_ctx_destroy (XmlParseContext *ctxt);
 
 
-xmlNodePtr   xml_write_style    (XmlParseContext *ctxt, MStyle *style);
+xmlNodePtr   xml_write_style    (XmlParseContext *ctxt, GnmMStyle *style);
 
 xmlChar	   *xml_cellregion_write (WorkbookControl *context,
-				  CellRegion *cr, int *size);
-CellRegion *xml_cellregion_read  (WorkbookControl *context, Sheet *sheet,
+				  GnmCellRegion *cr, int *size);
+GnmCellRegion *xml_cellregion_read  (WorkbookControl *context, Sheet *sheet,
 				  guchar *buffer, int length);
 
 /* Some utility routines for setting attributes or content */
@@ -52,11 +52,11 @@ gboolean   xml_node_get_int	(xmlNodePtr node, char const *name, int *val);
 void       xml_node_set_int	(xmlNodePtr node, char const *name, int val);
 gboolean   xml_node_get_double	(xmlNodePtr node, char const *name, double *val);
 void       xml_node_set_double	(xmlNodePtr node, char const *name, double val, int precision);
-StyleColor*xml_node_get_color	(xmlNodePtr node, char const *name);
-void       xml_node_set_color	(xmlNodePtr node, char const *name, StyleColor const *color);
+GnmStyleColor*xml_node_get_color	(xmlNodePtr node, char const *name);
+void       xml_node_set_color	(xmlNodePtr node, char const *name, GnmStyleColor const *color);
 
-xmlNodePtr   xml_write_style    (XmlParseContext *ctxt, MStyle *style);
-MStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree);
+xmlNodePtr   xml_write_style    (XmlParseContext *ctxt, GnmMStyle *style);
+GnmMStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree);
 
 void      xml_init (void);
 

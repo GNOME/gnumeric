@@ -978,7 +978,7 @@ typedef struct
 } networkdays_holiday_closure;
 
 static GnmValue *
-networkdays_holiday_callback (GnmValue const *v, EvalPos const *ep,
+networkdays_holiday_callback (GnmValue const *v, GnmEvalPos const *ep,
 			      void *user_data)
 {
 	networkdays_holiday_closure * close =

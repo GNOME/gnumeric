@@ -269,9 +269,9 @@ sv_select_cur_inputs (SheetView *sv)
  * Full undo support.
  */
 void
-cmd_paste (WorkbookControl *wbc, PasteTarget const *pt)
+cmd_paste (WorkbookControl *wbc, GnmPasteTarget const *pt)
 {
-	CellRegion  *content;
+	GnmCellRegion  *content;
 	GnmRange const *src_range;
 
 	g_return_if_fail (pt != NULL);
@@ -339,7 +339,7 @@ void
 cmd_paste_to_selection (WorkbookControl *wbc, SheetView *dest_sv, int paste_flags)
 {
 	GnmRange const *r;
-	PasteTarget pt;
+	GnmPasteTarget pt;
 
 	if (!(r = selection_first_range (dest_sv, GNM_CMD_CONTEXT (wbc), _("Paste"))))
 		return;

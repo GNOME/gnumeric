@@ -492,7 +492,7 @@ render_pages (GString *target, HFRenderInfo *info, char const *args)
 static void
 render_value_with_format (GString *target, char const *number_format, HFRenderInfo *info)
 {
-	StyleFormat *format;
+	GnmStyleFormat *format;
 
 	/* TODO : Check this assumption.  Is it a localized format ?? */
 	format = style_format_new_XL (number_format, FALSE);

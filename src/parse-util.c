@@ -186,7 +186,7 @@ row_parse (char const *str, int *res, unsigned char *relative)
 /***************************************************************************/
 
 inline static int
-cellref_abs_col (GnmCellRef const *ref, ParsePos const *pp)
+cellref_abs_col (GnmCellRef const *ref, GnmParsePos const *pp)
 {
 	int col = (ref->col_relative) ? pp->eval.col + ref->col : ref->col;
 
@@ -198,7 +198,7 @@ cellref_abs_col (GnmCellRef const *ref, ParsePos const *pp)
 }
 
 inline static int
-cellref_abs_row (GnmCellRef const *ref, ParsePos const *pp)
+cellref_abs_row (GnmCellRef const *ref, GnmParsePos const *pp)
 {
 	int row = (ref->row_relative) ? pp->eval.row + ref->row : ref->row;
 
@@ -222,7 +222,7 @@ cellref_abs_row (GnmCellRef const *ref, ParsePos const *pp)
 void
 cellref_as_string (GString *target, GnmExprConventions const *conv,
 		   GnmCellRef const *cell_ref,
-		   ParsePos const *pp, gboolean no_sheetname)
+		   GnmParsePos const *pp, gboolean no_sheetname)
 {
 	int col, row;
 	Sheet *sheet = cell_ref->sheet;
@@ -278,7 +278,7 @@ cellref_as_string (GString *target, GnmExprConventions const *conv,
  **/
 void
 rangeref_as_string (GString *target, GnmExprConventions const *conv,
-		    GnmRangeRef const *ref, ParsePos const *pp)
+		    GnmRangeRef const *ref, GnmParsePos const *pp)
 {
 	GnmRange r;
 
@@ -588,9 +588,9 @@ gnm_expr_char_start_p (char const * c)
  * error is returned.
  */
 void
-parse_text_value_or_expr (ParsePos const *pos, char const *text,
+parse_text_value_or_expr (GnmParsePos const *pos, char const *text,
 			  GnmValue **val, GnmExpr const **expr,
-			  StyleFormat *cur_fmt,
+			  GnmStyleFormat *cur_fmt,
 			  GnmDateConventions const *date_conv)
 {
 	char const *expr_start;
@@ -617,8 +617,8 @@ parse_text_value_or_expr (ParsePos const *pos, char const *text,
 	*val = value_new_string (text);
 }
 
-ParseError *
-parse_error_init (ParseError *pe)
+GnmParseError *
+parse_error_init (GnmParseError *pe)
 {
 	pe->err		= NULL;
 	pe->begin_char	= 0;
@@ -628,7 +628,7 @@ parse_error_init (ParseError *pe)
 }
 
 void
-parse_error_free (ParseError *pe)
+parse_error_free (GnmParseError *pe)
 {
 	if (pe->err != NULL) {
 		g_error_free (pe->err);
@@ -774,7 +774,7 @@ sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
  * If the result != @start then @res is valid.
  **/
 char const *
-rangeref_parse (GnmRangeRef *res, char const *start, ParsePos const *pp)
+rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
 {
 	char const *ptr = start, *start_sheet, *tmp1, *tmp2;
 	Workbook *wb;
@@ -865,7 +865,7 @@ rangeref_parse (GnmRangeRef *res, char const *start, ParsePos const *pp)
 
 
 char const *
-gnm_1_0_rangeref_parse (GnmRangeRef *res, char const *start, ParsePos const *pp)
+gnm_1_0_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
 {
 	char const *ptr = start, *tmp1, *tmp2;
 	Workbook *wb;
@@ -920,7 +920,7 @@ gnm_1_0_rangeref_parse (GnmRangeRef *res, char const *start, ParsePos const *pp)
 
 static void
 def_expr_name_handler (GString *target,
-		       ParsePos const *pp,
+		       GnmParsePos const *pp,
 		       GnmExprName const *name,
 		       GnmExprConventions const *conv)
 {
@@ -1110,7 +1110,7 @@ parse_util_shutdown (void)
 }
 
 GnmExpr const *
-gnm_expr_parse_str_simple (char const *expr, ParsePos const *pp)
+gnm_expr_parse_str_simple (char const *expr, GnmParsePos const *pp)
 {
 	return gnm_expr_parse_str (expr, pp, GNM_EXPR_PARSE_DEFAULT,
 				   gnm_expr_conventions_default, NULL);

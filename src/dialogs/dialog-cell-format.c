@@ -145,8 +145,8 @@ typedef struct _FormatState
 	Sheet		*sheet;
 	SheetView	*sv;
 	GnmValue	*value;
-	MStyle		*style, *result;
-	StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+	GnmMStyle		*style, *result;
+	GnmStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
 
 	int	 	 selection_mask;
 	gboolean	 enable_edit;
@@ -187,7 +187,7 @@ typedef struct _FormatState
 	struct {
 		FooCanvas	*canvas;
 		PreviewGrid     *grid;
-		MStyle          *style;
+		GnmMStyle          *style;
 
 		ColorPicker	 back_color;
 		ColorPicker	 pattern_color;
@@ -350,12 +350,12 @@ setup_color_pickers (ColorPicker *picker,
 		     FormatState *state,
 		     GCallback preview_update,
 		     MStyleElementType const e,
-		     MStyle	 *mstyle)
+		     GnmMStyle	 *mstyle)
 {
 	GtkWidget *combo, *box, *frame;
 	ColorGroup *cg;
-	StyleColor *mcolor = NULL;
-	StyleColor *def_sc = NULL;
+	GnmStyleColor *mcolor = NULL;
+	GnmStyleColor *def_sc = NULL;
 	GdkColor *def_gc;
 
 	/* MSTYLE_ELEMENT_UNSET is abused as representing borders. */
@@ -874,7 +874,7 @@ fmt_dialog_init_align_page (FormatState *state)
 
 static void
 cb_font_changed (G_GNUC_UNUSED GtkWidget *widget,
-		 MStyle *mstyle, FormatState *state)
+		 GnmMStyle *mstyle, FormatState *state)
 {
 	static MStyleElementType const font_types[] = {
 		MSTYLE_FONT_NAME,
@@ -917,7 +917,7 @@ cb_font_preview_color (G_GNUC_UNUSED ColorCombo *combo,
 		       G_GNUC_UNUSED gboolean by_user,
 		       gboolean is_default, FormatState *state)
 {
-	StyleColor *col;
+	GnmStyleColor *col;
 
 	if (!state->enable_edit)
 		return;
@@ -1064,7 +1064,7 @@ cb_back_preview_color (G_GNUC_UNUSED ColorCombo *combo,
 		       gboolean is_default,
 		       FormatState *state)
 {
-	StyleColor *sc;
+	GnmStyleColor *sc;
 
 	g_return_if_fail (c);
 
@@ -1087,7 +1087,7 @@ cb_pattern_preview_color (G_GNUC_UNUSED ColorCombo *combo,
 			  G_GNUC_UNUSED gboolean by_user,
 			  gboolean is_default, FormatState *state)
 {
-	StyleColor *col = (is_default
+	GnmStyleColor *col = (is_default
 			   ? sheet_style_get_auto_pattern_color (state->sheet)
 			   : style_color_new (c->red, c->green, c->blue));
 
@@ -1199,11 +1199,11 @@ static struct
 	{ { 0., 0., 0., 0. }, 0, 0 }
 };
 
-static StyleBorder *
+static GnmStyleBorder *
 border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
 {
 	BorderPicker const *edge = & state->border.edge[loc];
-	StyleColor *color;
+	GnmStyleColor *color;
 	/* Don't set borders that have not been changed */
 	if (!edge->is_set)
 		return NULL;
@@ -1562,7 +1562,7 @@ cb_border_color (G_GNUC_UNUSED ColorCombo *combo,
 typedef struct
 {
 	StyleBorderLocation     t;
-	StyleBorder const *res;
+	GnmStyleBorder const *res;
 } check_border_closure_t;
 
 /*
@@ -1572,7 +1572,7 @@ typedef struct
 static void
 init_border_button (FormatState *state, StyleBorderLocation const i,
 		    GtkWidget *button,
-		    StyleBorder const * const border)
+		    GnmStyleBorder const * const border)
 {
 	if (border == NULL) {
 		state->border.edge[i].rgba = 0;
@@ -1580,7 +1580,7 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 		state->border.edge[i].pattern_index = STYLE_BORDER_INCONSISTENT;
 		state->border.edge[i].is_selected = TRUE;
 	} else {
-		StyleColor const *c = border->color;
+		GnmStyleColor const *c = border->color;
 		state->border.edge[i].rgba =
 		    GNOME_CANVAS_COLOR (c->color.red >> 8,
 					c->color.green >> 8,
@@ -1681,7 +1681,7 @@ fmt_dialog_init_protection_page (FormatState *state)
 static GnmExpr const *
 validation_entry_to_expr (Sheet *sheet, GnmExprEntry *gee)
 {
-	ParsePos pp;
+	GnmParsePos pp;
 	parse_pos_init_sheet (&pp, sheet);
 	return gnm_expr_entry_parse (gee, &pp, NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 }
@@ -1936,7 +1936,7 @@ fmt_dialog_init_validation_page (FormatState *state)
 		v = mstyle_get_validation (state->style);
 	if (v != NULL) {
 		GnmValidation const *v = mstyle_get_validation (state->style);
-		ParsePos pp;
+		GnmParsePos pp;
 
 		gtk_option_menu_set_history (state->validation.error.action, v->style);
 		gtk_option_menu_set_history (state->validation.constraint_type, v->type);
@@ -2018,7 +2018,7 @@ static void
 cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 {
 	if (btn == state->apply_button || btn == state->ok_button) {
-		StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+		GnmStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
 		int i;
 
 		if (state->validation.changed)
@@ -2252,7 +2252,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	/* Setup border line pattern buttons & select the 1st button */
 	for (i = MSTYLE_BORDER_TOP; i < MSTYLE_BORDER_DIAGONAL; i++) {
-		StyleBorder const *border = mstyle_get_border (state->style, i);
+		GnmStyleBorder const *border = mstyle_get_border (state->style, i);
 		if (!style_border_is_blank (border)) {
 			default_border_color = &border->color->color;
 			default_border_style = border->line_type;

@@ -107,8 +107,8 @@ static GHashTable *border_hash = NULL;
 static gint
 style_border_equal (gconstpointer v1, gconstpointer v2)
 {
-	StyleBorder const *k1 = (StyleBorder const *) v1;
-	StyleBorder const *k2 = (StyleBorder const *) v2;
+	GnmStyleBorder const *k1 = (GnmStyleBorder const *) v1;
+	GnmStyleBorder const *k2 = (GnmStyleBorder const *) v2;
 
 	/*
 	 * ->color is a pointer, but the comparison is safe because
@@ -121,7 +121,7 @@ style_border_equal (gconstpointer v1, gconstpointer v2)
 static guint
 style_border_hash (gconstpointer v)
 {
-	StyleBorder const *b = (StyleBorder const *) v;
+	GnmStyleBorder const *b = (GnmStyleBorder const *) v;
 
 	/*
 	 * HACK ALERT!
@@ -135,12 +135,12 @@ style_border_hash (gconstpointer v)
  	return (((unsigned)b->color) ^ b->line_type);
 }
 
-StyleBorder *
+GnmStyleBorder *
 style_border_none (void)
 {
-	static StyleBorder * none = NULL;
+	static GnmStyleBorder * none = NULL;
 	if (none == NULL) {
-		none = g_new0 (StyleBorder, 1);
+		none = g_new0 (GnmStyleBorder, 1);
 		none->line_type = STYLE_BORDER_NONE;
 		none->color = style_color_grid ();
 		none->begin_margin = none->end_margin = none->width = 0;
@@ -167,10 +167,10 @@ style_border_none (void)
  * NOTE : Absorbs a reference to @color.
  */
 void
-style_border_none_set_color (StyleColor *color)
+style_border_none_set_color (GnmStyleColor *color)
 {
-	StyleBorder *none = style_border_none ();
- 	StyleColor *nc;
+	GnmStyleBorder *none = style_border_none ();
+ 	GnmStyleColor *nc;
 
 	if (color == none->color) {
 		style_color_unref (color);
@@ -193,17 +193,17 @@ style_border_none_set_color (StyleColor *color)
  * @color : colour
  * @orientation : Not currently used.
  *
- * Fetches a StyleBorder from the cache, creating one if necessary.  Absorbs
+ * Fetches a GnmStyleBorder from the cache, creating one if necessary.  Absorbs
  * the colour reference.  In the future we may have different dash styles for
  * the same pattern depending on whether this is a horizontal or vertical line.
  */
-StyleBorder *
+GnmStyleBorder *
 style_border_fetch (StyleBorderType const	 line_type,
-		    StyleColor 			*color,
+		    GnmStyleColor 			*color,
 		    StyleBorderOrientation	 orientation)
 {
-	StyleBorder *border;
-	StyleBorder key;
+	GnmStyleBorder *border;
+	GnmStyleBorder key;
 
 	g_return_val_if_fail (line_type >= STYLE_BORDER_NONE, NULL);
 	g_return_val_if_fail (line_type < STYLE_BORDER_MAX, NULL);
@@ -229,7 +229,7 @@ style_border_fetch (StyleBorderType const	 line_type,
 		border_hash = g_hash_table_new (style_border_hash,
 						style_border_equal);
 
-	border = g_new0 (StyleBorder, 1);
+	border = g_new0 (GnmStyleBorder, 1);
 	*border = key;
 	g_hash_table_insert (border_hash, border, border);
 	border->ref_count = 1;
@@ -248,7 +248,7 @@ style_border_fetch (StyleBorderType const	 line_type,
 }
 
 gboolean
-style_border_visible_in_blank (StyleBorder const *border)
+style_border_visible_in_blank (GnmStyleBorder const *border)
 {
 	g_return_val_if_fail (border != NULL, FALSE);
 
@@ -317,7 +317,7 @@ style_border_set_gc_dash (GdkGC *gc, StyleBorderType const i)
 }
 
 static inline GdkGC *
-style_border_get_gc (StyleBorder const *border, GdkDrawable *drawable)
+style_border_get_gc (GnmStyleBorder const *border, GdkDrawable *drawable)
 {
 	GdkScreen *this_screen;
 	if (border == NULL)
@@ -329,8 +329,8 @@ style_border_get_gc (StyleBorder const *border, GdkDrawable *drawable)
 			g_object_unref (G_OBJECT (border->gc));
 		if (border->gc_screen)
 			g_object_unref (G_OBJECT (border->gc_screen));
-		((StyleBorder *)border)->gc = gdk_gc_new (drawable);
-		((StyleBorder *)border)->gc_screen = this_screen;
+		((GnmStyleBorder *)border)->gc = gdk_gc_new (drawable);
+		((GnmStyleBorder *)border)->gc_screen = this_screen;
 		g_object_ref (this_screen);
 		style_border_set_gc_dash (border->gc, border->line_type);
 		gdk_gc_set_rgb_fg_color (border->gc, &border->color->color);
@@ -370,7 +370,7 @@ style_border_set_pc_dash (StyleBorderType const i,
 }
 
 static inline gboolean
-style_border_set_pc (StyleBorder const * const border,
+style_border_set_pc (GnmStyleBorder const * const border,
 		     GnomePrintContext *context)
 {
 	if (border == NULL)
@@ -385,8 +385,8 @@ style_border_set_pc (StyleBorder const * const border,
 	return TRUE;
 }
 
-StyleBorder *
-style_border_ref (StyleBorder *border)
+GnmStyleBorder *
+style_border_ref (GnmStyleBorder *border)
 {
 	/* NULL is ok */
 	if (border != NULL)
@@ -395,7 +395,7 @@ style_border_ref (StyleBorder *border)
 }
 
 void
-style_border_unref (StyleBorder *border)
+style_border_unref (GnmStyleBorder *border)
 {
 	if (border == NULL)
 		return;
@@ -434,15 +434,15 @@ style_border_unref (StyleBorder *border)
 }
 
 static gboolean
-style_border_hmargins (StyleBorder const * const * prev_vert,
-		       StyleRow const *sr, int col,
+style_border_hmargins (GnmStyleBorder const * const * prev_vert,
+		       GnmStyleRow const *sr, int col,
 		       int offsets [2][2])
 {
-	StyleBorder const *border = sr->top [col];
-	StyleBorder const *t0 = prev_vert [col];
-	StyleBorder const *t1 = prev_vert [col+1];
-	StyleBorder const *b0 = sr->vertical [col];
-	StyleBorder const *b1 = sr->vertical [col+1];
+	GnmStyleBorder const *border = sr->top [col];
+	GnmStyleBorder const *t0 = prev_vert [col];
+	GnmStyleBorder const *t1 = prev_vert [col+1];
+	GnmStyleBorder const *b0 = sr->vertical [col];
+	GnmStyleBorder const *b1 = sr->vertical [col+1];
 
 	if (border->line_type == STYLE_BORDER_DOUBLE) {
 		/* pull inwards or outwards */
@@ -536,15 +536,15 @@ style_border_hmargins (StyleBorder const * const * prev_vert,
 }
 
 static gboolean
-style_border_vmargins (StyleBorder const * const * prev_vert,
-		       StyleRow const *sr, int col,
+style_border_vmargins (GnmStyleBorder const * const * prev_vert,
+		       GnmStyleRow const *sr, int col,
 		       int offsets [2][2])
 {
-	StyleBorder const *border = sr->vertical [col];
-	StyleBorder const *l0 = sr->top [col-1];
-	StyleBorder const *r0 = sr->top [col];
-	StyleBorder const *l1 = sr->bottom [col-1];
-	StyleBorder const *r1 = sr->bottom [col];
+	GnmStyleBorder const *border = sr->vertical [col];
+	GnmStyleBorder const *l0 = sr->top [col-1];
+	GnmStyleBorder const *r0 = sr->top [col];
+	GnmStyleBorder const *l1 = sr->bottom [col-1];
+	GnmStyleBorder const *r1 = sr->bottom [col];
 
 	if (border->line_type == STYLE_BORDER_DOUBLE) {
 		/* pull inwards or outwards */
@@ -630,8 +630,8 @@ style_border_vmargins (StyleBorder const * const * prev_vert,
  * It will move into the gui layer eventually.
  */
 void
-style_borders_row_draw (StyleBorder const * const * prev_vert,
-			StyleRow const *sr,
+style_borders_row_draw (GnmStyleBorder const * const * prev_vert,
+			GnmStyleRow const *sr,
 			GdkDrawable * const drawable,
 			int x, int y1, int y2,
 			int *colwidths, gboolean draw_vertical)
@@ -693,11 +693,11 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 }
 
 void
-style_border_draw_diag (MStyle const *style,
+style_border_draw_diag (GnmMStyle const *style,
 			GdkDrawable *drawable,
 			int x1, int y1, int x2, int y2)
 {
-	StyleBorder const *diag;
+	GnmStyleBorder const *diag;
 	GdkGC *gc;
 
 	diag = mstyle_get_border (style, MSTYLE_BORDER_REV_DIAGONAL);
@@ -750,15 +750,15 @@ print_vline (GnomePrintContext *context,
 }
 
 void
-style_borders_row_print (StyleBorder const * const * prev_vert,
-			 StyleRow const *sr,
+style_borders_row_print (GnmStyleBorder const * const * prev_vert,
+			 GnmStyleRow const *sr,
 			 GnomePrintContext *context,
 			 float x, float y1, float y2,
 			 Sheet const *sheet, gboolean draw_vertical)
 {
 	int o[2][2], col;
 	float next_x = x;
-	StyleBorder const *border;
+	GnmStyleBorder const *border;
 
 	for (col = sr->start_col; col <= sr->end_col ; col++, x = next_x) {
 		/* TODO : make this sheet agnostic.  Pass in an array of

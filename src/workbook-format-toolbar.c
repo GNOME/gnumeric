@@ -62,7 +62,7 @@ set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags halign)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView	*wb_view;
-	MStyle *style;
+	GnmMStyle *style;
 
 	/* If the user did not initiate this action ignore it.
 	 * This happens whenever the ui updates and the current cell makes a
@@ -151,7 +151,7 @@ change_selection_font (WorkbookControlGUI *wbcg,
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	MStyle *new_style, *current_style;
+	GnmMStyle *new_style, *current_style;
 
 	/* If the user did not initiate this action ignore it.
 	 * This happens whenever the ui updates and the current cell makes a
@@ -247,7 +247,7 @@ change_font_in_selection_cmd (GnmComboText *ct, char const *font_name,
 		return TRUE;
 
 	if (sheet != NULL) {
-		MStyle *mstyle;
+		GnmMStyle *mstyle;
 
 		mstyle = mstyle_new ();
 		mstyle_set_font_name (mstyle, font_name);
@@ -266,7 +266,7 @@ change_font_size_in_selection_cmd (GnmComboText *ct, char const *sizetext,
 				   WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	MStyle *mstyle;
+	GnmMStyle *mstyle;
 	double size;
 
 	/* If the user did not initiate this action ignore it.
@@ -299,7 +299,7 @@ apply_number_format (WorkbookControlGUI *wbcg,
 		     char const *translated_format, char const *descriptor)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	MStyle *mstyle = mstyle_new ();
+	GnmMStyle *mstyle = mstyle_new ();
 
 	mstyle_set_format_text (mstyle, translated_format);
 	cmd_selection_format (wbc, mstyle, NULL, descriptor);
@@ -320,12 +320,12 @@ cb_format_as_percent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 
 static void
 modify_format (WorkbookControlGUI *wbcg,
-	       StyleFormat *(*format_modify_fn) (StyleFormat const *format),
+	       GnmStyleFormat *(*format_modify_fn) (GnmStyleFormat const *format),
 	       char const *descriptor)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView const *wbv;
-	StyleFormat *new_fmt;
+	GnmStyleFormat *new_fmt;
 
 	wbv = wb_control_view (wbc);
 	g_return_if_fail (wbv != NULL);
@@ -333,7 +333,7 @@ modify_format (WorkbookControlGUI *wbcg,
 
 	new_fmt = (*format_modify_fn) (mstyle_get_format (wbv->current_format));
 	if (new_fmt != NULL) {
-		MStyle *style = mstyle_new ();
+		GnmMStyle *style = mstyle_new ();
 		mstyle_set_format (style, new_fmt);
 		cmd_selection_format (wbc, style, NULL, descriptor);
 		style_format_unref (new_fmt);
@@ -371,7 +371,7 @@ cb_format_inc_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 
 	i = mstyle_get_indent (wbv->current_format);
 	if (i < 20) {
-		MStyle *style = mstyle_new ();
+		GnmMStyle *style = mstyle_new ();
 
 		if (HALIGN_LEFT != mstyle_get_align_h (wbv->current_format))
 			mstyle_set_align_h (style, HALIGN_LEFT);
@@ -394,7 +394,7 @@ cb_format_dec_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 
 	i = mstyle_get_indent (wbv->current_format);
 	if (i > 0) {
-		MStyle *style = mstyle_new ();
+		GnmMStyle *style = mstyle_new ();
 
 		mstyle_set_indent (style, i-1);
 		cmd_selection_format (wbc, style, NULL,
@@ -517,7 +517,7 @@ cb_fore_color_changed (ColorCombo *combo, GdkColor *c,
 		       WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	MStyle *mstyle;
+	GnmMStyle *mstyle;
 
 	/* Color was set programatically, bail out */
 	if (!by_user)
@@ -554,7 +554,7 @@ cb_back_color_changed (ColorCombo *combo, GdkColor *c,
 		       WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	MStyle *mstyle;
+	GnmMStyle *mstyle;
 
 	/* Color was set programatically, bail out */
 	if (!by_user)
@@ -650,7 +650,7 @@ static void
 cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+	GnmStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
 	int i;
 
 	/* Init the list */
@@ -735,7 +735,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	GtkWidget *fontsel, *fontsize, *entry;
 	GtkWidget *border_combo, *back_combo, *fore_combo;
 	ColorGroup *cg;
-	StyleColor *sc_auto_font = style_color_auto_font ();
+	GnmStyleColor *sc_auto_font = style_color_auto_font ();
 
 	GList *l;
 	int i, len;
@@ -974,7 +974,7 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 #ifndef WITH_BONOBO
 	GtkToolbar *toolbar;
 #endif
-	MStyle 		*style;
+	GnmMStyle 		*style;
 	GnmComboText    *fontsel;
 	GnmComboText    *fontsize;
 	WorkbookView	*wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));

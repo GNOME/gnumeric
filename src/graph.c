@@ -79,7 +79,7 @@ gnm_go_data_eq (GOData const *data_a, GOData const *data_b)
 static char *
 gnm_go_data_as_str (GOData const *dat)
 {
-	ParsePos pp;
+	GnmParsePos pp;
 	GnmDependent const *dep = gnm_go_data_get_dep (dat);
 	if (dep->sheet == NULL)
 		return g_strdup ("No sheet for GnmGOData");
@@ -92,7 +92,7 @@ static  gboolean
 gnm_go_data_from_str (GOData *dat, char const *str)
 {
 	GnmExpr const *expr;
-	ParsePos   pp;
+	GnmParsePos   pp;
 	GnmDependent *dep = gnm_go_data_get_dep (dat);
 
 	/* Its too early in the life cycle to know where we
@@ -168,7 +168,7 @@ scalar_get_val (GnmGODataScalar *scalar)
 	}
 	if (scalar->val == NULL) {
 		if (scalar->dep.expression != NULL) {
-			EvalPos pos;
+			GnmEvalPos pos;
 			scalar->val = gnm_expr_eval (scalar->dep.expression,
 				eval_pos_init_dep (&pos, &scalar->dep),
 				GNM_EXPR_EVAL_PERMIT_EMPTY);
@@ -317,7 +317,7 @@ static void
 gnm_go_data_vector_load_len (GODataVector *dat)
 {
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
-	EvalPos ep;
+	GnmEvalPos ep;
 	GnmRange r;
 	Sheet *start_sheet, *end_sheet;
 	unsigned h, w;
@@ -426,7 +426,7 @@ static void
 gnm_go_data_vector_load_values (GODataVector *dat)
 {
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
-	EvalPos ep;
+	GnmEvalPos ep;
 	GnmRange r;
 	Sheet *start_sheet, *end_sheet;
 	int len = go_data_vector_get_len (dat); /* force calculation */
@@ -538,7 +538,7 @@ gnm_go_data_vector_get_value (GODataVector *dat, unsigned i)
 {
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
 	GnmValue *v;
-	EvalPos ep;
+	GnmEvalPos ep;
 	gboolean valid;
 
 	if (vec->val == NULL)
@@ -563,8 +563,8 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 {
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
 	GnmValue const *v;
-	EvalPos ep;
-	StyleFormat const *format = NULL;
+	GnmEvalPos ep;
+	GnmStyleFormat const *format = NULL;
 	GnmDateConventions const *date_conv = NULL;
 
 	if (vec->val == NULL)

@@ -530,7 +530,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 					g_warning ("QPRO function %s is not supported.",
 						   name);
 					for (tmp = stack; tmp; tmp = tmp->next) {
-						ParsePos pp;
+						GnmParsePos pp;
 						char *p;
 
 						pp.wb = state->wb;
@@ -571,7 +571,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 		GSList *tmp;
 
 		for (tmp = stack; tmp; tmp = tmp->next) {
-			ParsePos pp;
+			GnmParsePos pp;
 			char *p;
 
 			pp.wb = state->wb;
@@ -631,7 +631,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 	gnm_expr_unref (expr);
 }
 
-static MStyle *
+static GnmMStyle *
 qpro_get_style (QProReadState *state, guint8 const *data)
 {
 #if 0

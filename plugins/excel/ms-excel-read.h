@@ -74,7 +74,7 @@ typedef struct {
 	int *green;
 	int *blue;
 	int length;
-	StyleColor **gnum_cols;
+	GnmStyleColor **gnum_cols;
 } ExcelPalette;
 
 typedef struct {
@@ -121,7 +121,7 @@ struct _ExcelWorkbook {
 };
 
 char     *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
-GnmValue *biff_get_error (EvalPos const *pos, guint8 const err);
+GnmValue *biff_get_error (GnmEvalPos const *pos, guint8 const err);
 
 Sheet		*excel_externsheet_v7	 (MSContainer const *container, gint16 i);
 ExcelExternSheetV8 const *excel_externsheet_v8 (ExcelWorkbook const *wb, gint16 i);
@@ -132,7 +132,7 @@ void	       ms_biff_bof_data_destroy (MsBiffBofData * data);
 char	      *ms_biff_get_chars (char const *ptr, guint length,
 				  gboolean use_utf16);
 
-StyleColor  *excel_palette_get (ExcelPalette const *pal, gint idx);
+GnmStyleColor  *excel_palette_get (ExcelPalette const *pal, gint idx);
 
 void	    excel_read_IMDATA (BiffQuery *q);
 

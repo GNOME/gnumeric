@@ -9,7 +9,7 @@
 struct _GnmNamedExpr {
 	int	    ref_count;
 	GnmString  *name;
-	ParsePos    pos;
+	GnmParsePos    pos;
 	GHashTable *dependents;
 	GnmExpr const *expr;
 	gboolean    active;
@@ -17,17 +17,17 @@ struct _GnmNamedExpr {
 	gboolean    is_hidden;
 };
 
-GnmNamedExpr *expr_name_lookup (ParsePos const *pos, char const *name);
-GnmNamedExpr *expr_name_add    (ParsePos const *pp, char const *name,
+GnmNamedExpr *expr_name_lookup (GnmParsePos const *pos, char const *name);
+GnmNamedExpr *expr_name_add    (GnmParsePos const *pp, char const *name,
 				GnmExpr const *expr, char **error_msg,
 				gboolean link_to_container);
 
 void	 expr_name_ref	      (GnmNamedExpr *nexpr);
 void	 expr_name_unref      (GnmNamedExpr *nexpr);
 void     expr_name_remove     (GnmNamedExpr *nexpr);
-GnmValue*expr_name_eval       (GnmNamedExpr const *ne, EvalPos const *ep,
+GnmValue*expr_name_eval       (GnmNamedExpr const *ne, GnmEvalPos const *ep,
 			       GnmExprEvalFlags flags);
-char    *expr_name_as_string  (GnmNamedExpr const *ne, ParsePos const *pp,
+char    *expr_name_as_string  (GnmNamedExpr const *ne, GnmParsePos const *pp,
 			       GnmExprConventions const *fmt);
 char    *expr_name_set_scope  (GnmNamedExpr *ne, Sheet *sheet);
 void	 expr_name_set_expr   (GnmNamedExpr *ne, GnmExpr const *new_expr);

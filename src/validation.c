@@ -114,10 +114,10 @@ validation_unref (GnmValidation *v)
  *
  * Either pass @expr or @val.
  * The parameters will be validated against the
- * validation set in the MStyle if applicable.
+ * validation set in the GnmMStyle if applicable.
  **/
 ValidationStatus
-validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
+validation_eval (WorkbookControl *wbc, GnmMStyle const *mstyle,
 		 Sheet *sheet, GnmCellPos const *pos, gboolean *showed_dialog)
 {
 	GnmValidation *v;
@@ -242,8 +242,8 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 		}
 
 		if (expr != NULL) {
-			ParsePos  pp;
-			EvalPos   ep;
+			GnmParsePos  pp;
+			GnmEvalPos   ep;
 			char	 *expr_str;
 			GnmValue    *val;
 			gboolean  dummy, valid;

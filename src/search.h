@@ -86,7 +86,7 @@ GPtrArray *search_collect_cells (GnmSearchReplace *sr, Sheet *sheet);
 void search_collect_cells_free (GPtrArray *cells);
 
 typedef struct {
-	EvalPos ep;
+	GnmEvalPos ep;
 	GnmCell *cell;
 	GnmComment *comment;
 	SearchReplaceLocus locus;
@@ -100,7 +100,7 @@ typedef struct {
 	char *new_text; /* Caller must free if replacing and found.  */
 } SearchReplaceCommentResult;
 gboolean search_replace_comment (GnmSearchReplace *sr,
-				 EvalPos const *ep,
+				 GnmEvalPos const *ep,
 				 gboolean repl,
 				 SearchReplaceCommentResult *res);
 
@@ -110,7 +110,7 @@ typedef struct {
 	char *new_text; /* Caller must free if replacing and found.  */
 } SearchReplaceCellResult;
 gboolean search_replace_cell (GnmSearchReplace *sr,
-			      EvalPos const *ep,
+			      GnmEvalPos const *ep,
 			      gboolean repl,
 			      SearchReplaceCellResult *res);
 
@@ -118,7 +118,7 @@ typedef struct {
 	GnmCell *cell;
 } SearchReplaceValueResult;
 gboolean search_replace_value (GnmSearchReplace *sr,
-			       EvalPos const *ep,
+			       GnmEvalPos const *ep,
 			       SearchReplaceValueResult *res);
 
 #endif

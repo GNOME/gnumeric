@@ -1641,7 +1641,7 @@ wbcg_menu_state_sheet_count (WorkbookControl *wbc)
 }
 
 static void
-wbcg_paste_from_selection (WorkbookControl *wbc, PasteTarget const *pt)
+wbcg_paste_from_selection (WorkbookControl *wbc, GnmPasteTarget const *pt)
 {
 	x_request_clipboard ((WorkbookControlGUI *)wbc, pt);
 }
@@ -4842,7 +4842,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 	menu = gtk_menu_new ();
 
 	for (i = 0; quick_compute_routines [i].displayed_name; i++) {
-		ParsePos pp;
+		GnmParsePos pp;
 		const char *expr = quick_compute_routines [i].function;
 		const GnmExpr *new_auto_expr;
 
@@ -5556,8 +5556,8 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 
 	/* If we are setting something */
 	if (!gnm_expr_entry_is_blank (editor->entry)) {
-		ParsePos pos;
-		ParseError  perr;
+		GnmParsePos pos;
+		GnmParseError  perr;
 		GnmExpr const *expr;
 
 		parse_error_init (&perr);

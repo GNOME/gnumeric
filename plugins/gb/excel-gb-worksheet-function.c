@@ -31,7 +31,7 @@ excel_gb_worksheet_function_deref (GBEvalContext  *ec,
 
 	if ((fd = gnm_func_lookup (ref->name, funcs->sheet->workbook))) {
 		GPtrArray *args = g_ptr_array_new ();
-		EvalPos    ep;
+		GnmEvalPos    ep;
 		GnmValue  *ret;
 		GBValue   *gb_ret;
 		GSList    *l;

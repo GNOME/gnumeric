@@ -102,8 +102,8 @@ typedef struct {
 
 typedef struct _FillItem {
 	FillType     type;
-	StyleFormat *fmt;
-	MStyle	    *style;
+	GnmStyleFormat *fmt;
+	GnmMStyle	    *style;
 
 	GnmCellPos	     merged_size;
 
@@ -303,7 +303,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 	value_type = VALUE_TYPE (value);
 
 	if (value_type == VALUE_INTEGER || value_type == VALUE_FLOAT) {
-		const StyleFormat *sf = cell_get_format (cell);
+		const GnmStyleFormat *sf = cell_get_format (cell);
 
 		fi->type    = FILL_NUMBER;
 		fi->v.value = value;

@@ -59,10 +59,10 @@
 #define AF_EXPLICIT ((GnmFuncFlags)(GNM_FUNC_AUTO_MASK + 1))
 
 static GnmFuncFlags do_af_suggest_list (GnmExprList *list,
-					EvalPos const *epos,
-					StyleFormat **explicit);
+					GnmEvalPos const *epos,
+					GnmStyleFormat **explicit);
 
-struct cb_af_suggest { GnmFuncFlags typ; StyleFormat **explicit; };
+struct cb_af_suggest { GnmFuncFlags typ; GnmStyleFormat **explicit; };
 
 static GnmValue *
 cb_af_suggest (G_GNUC_UNUSED Sheet *sheet,
@@ -80,7 +80,7 @@ cb_af_suggest (G_GNUC_UNUSED Sheet *sheet,
 }
 
 static gboolean
-is_date (GnmFuncFlags typ, StyleFormat *explicit)
+is_date (GnmFuncFlags typ, GnmStyleFormat *explicit)
 {
 	return (typ == GNM_FUNC_AUTO_DATE ||
 		(typ == AF_EXPLICIT &&
@@ -88,7 +88,7 @@ is_date (GnmFuncFlags typ, StyleFormat *explicit)
 }
 
 static GnmFuncFlags
-do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
+do_af_suggest (GnmExpr const *expr, const GnmEvalPos *epos, GnmStyleFormat **explicit)
 {
 	switch (expr->any.oper) {
 	case GNM_EXPR_OP_EQUAL:
@@ -114,7 +114,7 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 
 	case GNM_EXPR_OP_SUB: {
 		GnmFuncFlags typ1, typ2;
-		StyleFormat *explicit1 = NULL, *explicit2 = NULL;
+		GnmStyleFormat *explicit1 = NULL, *explicit2 = NULL;
 
 		typ1 = do_af_suggest (expr->binary.value_a, epos, &explicit1);
 		typ2 = do_af_suggest (expr->binary.value_b, epos, &explicit2);
@@ -222,7 +222,7 @@ do_af_suggest (GnmExpr const *expr, const EvalPos *epos, StyleFormat **explicit)
 }
 
 static GnmFuncFlags
-do_af_suggest_list (GnmExprList *list, const EvalPos *epos, StyleFormat **explicit)
+do_af_suggest_list (GnmExprList *list, const GnmEvalPos *epos, GnmStyleFormat **explicit)
 {
 	GnmFuncFlags typ = GNM_FUNC_AUTO_UNKNOWN;
 	while (list && (typ == GNM_FUNC_AUTO_UNKNOWN || typ == GNM_FUNC_AUTO_UNITLESS)) {
@@ -234,10 +234,10 @@ do_af_suggest_list (GnmExprList *list, const EvalPos *epos, StyleFormat **explic
 
 /* ------------------------------------------------------------------------- */
 
-StyleFormat *
-auto_style_format_suggest (GnmExpr const *expr, EvalPos const *epos)
+GnmStyleFormat *
+auto_style_format_suggest (GnmExpr const *expr, GnmEvalPos const *epos)
 {
-	StyleFormat *explicit = NULL;
+	GnmStyleFormat *explicit = NULL;
 
 	g_return_val_if_fail (expr != NULL, NULL);
 	g_return_val_if_fail (epos != NULL, NULL);

@@ -1061,7 +1061,7 @@ typedef struct {
 } simtable_t;
 
 static GnmValue *
-callback_function_simtable (const EvalPos *ep, GnmValue *value, void *closure)
+callback_function_simtable (const GnmEvalPos *ep, GnmValue *value, void *closure)
 {
 	simtable_t *p = closure;
 

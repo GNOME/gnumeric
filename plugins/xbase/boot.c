@@ -184,7 +184,7 @@ xbase_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	}
 	{
 		GnmRange r;
-		MStyle *bold = mstyle_new ();
+		GnmMStyle *bold = mstyle_new ();
 		mstyle_set_font_bold (bold, TRUE);
 		sheet_style_apply_range	(sheet,
 			range_init (&r, 0, 0, file->fields-1, 0), bold);

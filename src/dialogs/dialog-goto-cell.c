@@ -226,7 +226,7 @@ cb_dialog_goto_selection_changed (GtkTreeSelection *the_selection, GotoState *st
 				    EXPRESSION, &name,
 				    -1);
 		if (name) {
-			ParsePos pp;
+			GnmParsePos pp;
 			char *where_to;
 
 			if (NULL == sheet)

@@ -65,7 +65,7 @@ gnm_hlink_activate (GnmHLink *lnk, WorkbookControl *wbc)
 GnmHLink *
 sheet_hlink_find (Sheet const *sheet, GnmCellPos const *pos)
 {
-	MStyle const *style = sheet_style_get (sheet, pos->col, pos->row);
+	GnmMStyle const *style = sheet_style_get (sheet, pos->col, pos->row);
 	return mstyle_get_hlink (style);
 }
 
@@ -159,7 +159,7 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 
 	/* not an address, is it a name ? */
 	if (target == NULL) {
-		ParsePos pp;
+		GnmParsePos pp;
 		GnmNamedExpr *nexpr = expr_name_lookup (
 			parse_pos_init_sheet (&pp, sheet), lnk->target);
 

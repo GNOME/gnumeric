@@ -34,7 +34,7 @@ GtkWidget * 	number_format_selector_new  	(void);
 
 void		number_format_selector_set_focus (NumberFormatSelector *nfs);
 void		number_format_selector_set_style_format (NumberFormatSelector *nfs,
-							 StyleFormat *style_format);
+							 GnmStyleFormat *style_format);
 void		number_format_selector_set_value (NumberFormatSelector *nfs,
 						  GnmValue const *value);
 void		number_format_selector_set_date_conv (NumberFormatSelector *nfs,

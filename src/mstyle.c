@@ -1,6 +1,6 @@
 /* vim: set sw=8: */
 /*
- * MStyle.c: The guts of the style engine.
+ * GnmMStyle.c: The guts of the style engine.
  *
  * Authors:
  *   Michael Meeks <mmeeks@gnu.org>
@@ -44,21 +44,21 @@ typedef struct {
 	MStyleElementType type;
 	union {
 		union {
-			StyleColor *any;
-			StyleColor *fore;
-			StyleColor *back;
-			StyleColor *pattern;
+			GnmStyleColor *any;
+			GnmStyleColor *fore;
+			GnmStyleColor *back;
+			GnmStyleColor *pattern;
 		}                color;
 		union {
-			StyleBorder *top;
-			StyleBorder *bottom;
-			StyleBorder *left;
-			StyleBorder *right;
-			StyleBorder *diagonal;
-			StyleBorder *rev_diagonal;
+			GnmStyleBorder *top;
+			GnmStyleBorder *bottom;
+			GnmStyleBorder *left;
+			GnmStyleBorder *right;
+			GnmStyleBorder *diagonal;
+			GnmStyleBorder *rev_diagonal;
 
 			/* Used for loading */
-			StyleBorder *any;
+			GnmStyleBorder *any;
 		}                border;
 		guint32          pattern;
 
@@ -70,7 +70,7 @@ typedef struct {
 			gboolean  strikethrough;
 			float     size;
 		}                font;
-		StyleFormat     *format;
+		GnmStyleFormat     *format;
 		union {
 			guint16   v;
 			guint16   h;
@@ -95,14 +95,14 @@ typedef struct {
 	} u;
 } MStyleElement;
 
-struct _MStyle {
+struct _GnmMStyle {
 	guint32        ref_count;
 	guint32        link_count;
 	Sheet	      *linked_sheet;
 	MStyleElement  elements[MSTYLE_ELEMENT_MAX];
 	PangoAttrList *pango_attrs;
 	double         pango_attrs_zoom;
-	StyleFont     *font;
+	GnmStyleFont     *font;
 	double         font_zoom;
 };
 
@@ -184,7 +184,7 @@ const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 static guint
 mstyle_hash_internal (gconstpointer st, int i)
 {
-	const MStyle *mstyle = (const MStyle *)st;
+	const GnmMStyle *mstyle = (const GnmMStyle *)st;
 	guint32 hash = 0;
 
 	while (i-- > (MSTYLE_ELEMENT_CONFLICT + 1)) {
@@ -552,7 +552,7 @@ mstyle_elements_compare (MStyleElement *a,
 }
 
 void
-mstyle_compare (MStyle *a, const MStyle *b)
+mstyle_compare (GnmMStyle *a, const GnmMStyle *b)
 {
 	mstyle_elements_compare (a->elements,
 				 b->elements);
@@ -571,7 +571,7 @@ mstyle_elements_unref (MStyleElement *e)
 }
 
 static void
-mstyle_elements_copy (MStyle *new_style, const MStyle *old_style)
+mstyle_elements_copy (GnmMStyle *new_style, const GnmMStyle *old_style)
 {
 	int                  i;
 	MStyleElement       *ans;
@@ -587,7 +587,7 @@ mstyle_elements_copy (MStyle *new_style, const MStyle *old_style)
 }
 
 static inline void
-mstyle_pango_clear (MStyle *mstyle)
+mstyle_pango_clear (GnmMStyle *mstyle)
 {
 	if (mstyle->pango_attrs) {
 		pango_attr_list_unref (mstyle->pango_attrs);
@@ -597,7 +597,7 @@ mstyle_pango_clear (MStyle *mstyle)
 
 
 static inline void
-mstyle_font_clear (MStyle *mstyle)
+mstyle_font_clear (GnmMStyle *mstyle)
 {
 	if (mstyle->font) {
 		style_font_unref (mstyle->font);
@@ -606,10 +606,10 @@ mstyle_font_clear (MStyle *mstyle)
 }
 
 
-MStyle *
+GnmMStyle *
 mstyle_new (void)
 {
-	MStyle *style = CHUNK_ALLOC0 (MStyle, mstyle_pool);
+	GnmMStyle *style = CHUNK_ALLOC0 (GnmMStyle, mstyle_pool);
 
 	style->ref_count = 1;
 	style->link_count = 0;
@@ -621,10 +621,10 @@ mstyle_new (void)
 	return style;
 }
 
-MStyle *
-mstyle_copy (const MStyle *style)
+GnmMStyle *
+mstyle_copy (const GnmMStyle *style)
 {
-	MStyle *new_style = CHUNK_ALLOC (MStyle, mstyle_pool);
+	GnmMStyle *new_style = CHUNK_ALLOC (GnmMStyle, mstyle_pool);
 
 	new_style->ref_count = 1;
 	new_style->link_count = 0;
@@ -642,11 +642,11 @@ mstyle_copy (const MStyle *style)
 	return new_style;
 }
 
-MStyle *
-mstyle_copy_merge (const MStyle *orig, const MStyle *overlay)
+GnmMStyle *
+mstyle_copy_merge (const GnmMStyle *orig, const GnmMStyle *overlay)
 {
 	int i;
-	MStyle *res = CHUNK_ALLOC0 (MStyle, mstyle_pool);
+	GnmMStyle *res = CHUNK_ALLOC0 (GnmMStyle, mstyle_pool);
 
 	MStyleElement       *res_e;
 	const MStyleElement *orig_e;
@@ -680,13 +680,13 @@ mstyle_copy_merge (const MStyle *orig, const MStyle *overlay)
 #define GCONF_FONT_BOLD "/apps/gnumeric/core/defaultfont/bold"
 #define GCONF_FONT_ITALIC "/apps/gnumeric/core/defaultfont/italic"
 
-MStyle *
+GnmMStyle *
 mstyle_new_default (void)
 {
 	GConfClient *client = gnm_app_get_gconf_client ();
 	char *font_name;
 	double font_size;
-	MStyle *mstyle = mstyle_new ();
+	GnmMStyle *mstyle = mstyle_new ();
 
 	/* From the gconf configuration */
 	font_name =  gconf_client_get_string (client,
@@ -748,7 +748,7 @@ mstyle_new_default (void)
 }
 
 void
-mstyle_ref (MStyle *style)
+mstyle_ref (GnmMStyle *style)
 {
 	g_return_if_fail (style->ref_count > 0);
 
@@ -757,7 +757,7 @@ mstyle_ref (MStyle *style)
 }
 
 void
-mstyle_unref (MStyle *style)
+mstyle_unref (GnmMStyle *style)
 {
 	g_return_if_fail (style->ref_count > 0);
 
@@ -780,16 +780,16 @@ mstyle_unref (MStyle *style)
  * make_copy tells if we are allowed to modify the style in place or we must
  * make a copy first.
  */
-static MStyle *
-link_pattern_color (MStyle *style, StyleColor *auto_color, gboolean make_copy)
+static GnmMStyle *
+link_pattern_color (GnmMStyle *style, GnmStyleColor *auto_color, gboolean make_copy)
 {
 	MStyleElementType etype = MSTYLE_COLOR_PATTERN;
-	StyleColor *pattern_color = style->elements[etype].u.color.any;
+	GnmStyleColor *pattern_color = style->elements[etype].u.color.any;
 
 	if (pattern_color->is_auto && auto_color != pattern_color) {
 		style_color_ref (auto_color);
 		if (make_copy) {
-			MStyle *orig = style;
+			GnmMStyle *orig = style;
 			style = mstyle_copy (style);
 			mstyle_unref (orig);
 		}
@@ -808,11 +808,11 @@ link_pattern_color (MStyle *style, StyleColor *auto_color, gboolean make_copy)
  * pattern, but not color 127. That distinction is not yet represented in
  * our data structures.
  */
-static MStyle *
-link_border_colors (MStyle *style, StyleColor *auto_color, gboolean make_copy)
+static GnmMStyle *
+link_border_colors (GnmMStyle *style, GnmStyleColor *auto_color, gboolean make_copy)
 {
-	StyleBorder *border;
-	StyleColor *color;
+	GnmStyleBorder *border;
+	GnmStyleColor *color;
 	int i;
 
 	for (i = MSTYLE_BORDER_TOP ; i <= MSTYLE_BORDER_DIAGONAL ; ++i) {
@@ -820,7 +820,7 @@ link_border_colors (MStyle *style, StyleColor *auto_color, gboolean make_copy)
 			border = style->elements[i].u.border.any;
 			color = border->color;
 			if (color->is_auto && auto_color != color) {
-				StyleBorder *new_border;
+				GnmStyleBorder *new_border;
 				StyleBorderOrientation orientation;
 
 				switch (i) {
@@ -844,7 +844,7 @@ link_border_colors (MStyle *style, StyleColor *auto_color, gboolean make_copy)
 					orientation);
 
 				if (make_copy) {
-					MStyle *orig = style;
+					GnmMStyle *orig = style;
 					style = mstyle_copy (style);
 					mstyle_unref (orig);
 					make_copy = FALSE;
@@ -869,14 +869,14 @@ link_border_colors (MStyle *style, StyleColor *auto_color, gboolean make_copy)
  * that we don't copy more than once. The final argument to the
  * link_xxxxx_color functions tell whether or not to copy.
  */
-MStyle *
-mstyle_link_sheet (MStyle *style, Sheet *sheet)
+GnmMStyle *
+mstyle_link_sheet (GnmMStyle *style, Sheet *sheet)
 {
-	StyleColor *auto_color;
+	GnmStyleColor *auto_color;
 	gboolean style_is_orig = TRUE;
 
 	if (style->linked_sheet != NULL) {
-		MStyle *orig = style;
+		GnmMStyle *orig = style;
 		style = mstyle_copy (style);
 		mstyle_unref (orig);
 		style_is_orig = FALSE;
@@ -908,7 +908,7 @@ mstyle_link_sheet (MStyle *style, Sheet *sheet)
 }
 
 void
-mstyle_link (MStyle *style)
+mstyle_link (GnmMStyle *style)
 {
 	g_return_if_fail (style->link_count > 0);
 
@@ -917,7 +917,7 @@ mstyle_link (MStyle *style)
 }
 
 void
-mstyle_link_multiple (MStyle *style, int count)
+mstyle_link_multiple (GnmMStyle *style, int count)
 {
 	g_return_if_fail (style->link_count > 0);
 
@@ -926,7 +926,7 @@ mstyle_link_multiple (MStyle *style, int count)
 }
 
 void
-mstyle_unlink (MStyle *style)
+mstyle_unlink (GnmMStyle *style)
 {
 	g_return_if_fail (style->link_count > 0);
 
@@ -944,7 +944,7 @@ mstyle_unlink (MStyle *style)
 }
 
 char *
-mstyle_to_string (const MStyle *style)
+mstyle_to_string (const GnmMStyle *style)
 {
 	guint i;
 	GString *ans;
@@ -970,7 +970,7 @@ mstyle_to_string (const MStyle *style)
 }
 
 void
-mstyle_dump (const MStyle *style)
+mstyle_dump (const GnmMStyle *style)
 {
 	char *txt;
 
@@ -982,7 +982,7 @@ mstyle_dump (const MStyle *style)
 }
 
 gboolean
-mstyle_equal (const MStyle *a, const MStyle *b)
+mstyle_equal (const GnmMStyle *a, const GnmMStyle *b)
 {
 	int i;
 	MStyleElement const *ea, *eb;
@@ -1012,7 +1012,7 @@ mstyle_equal (const MStyle *a, const MStyle *b)
 }
 
 gboolean
-mstyle_equal_XL (const MStyle *a, const MStyle *b)
+mstyle_equal_XL (const GnmMStyle *a, const GnmMStyle *b)
 {
 	int i;
 	MStyleElement const *ea, *eb;
@@ -1042,7 +1042,7 @@ mstyle_equal_XL (const MStyle *a, const MStyle *b)
 }
 
 gboolean
-mstyle_empty (const MStyle *style)
+mstyle_empty (const GnmMStyle *style)
 {
 	int i;
 
@@ -1055,7 +1055,7 @@ mstyle_empty (const MStyle *style)
 }
 
 gboolean
-mstyle_verify (const MStyle *style)
+mstyle_verify (const GnmMStyle *style)
 {
 	int j;
 
@@ -1069,7 +1069,7 @@ mstyle_verify (const MStyle *style)
 }
 
 gboolean
-mstyle_is_element_set (const MStyle *st, MStyleElementType t)
+mstyle_is_element_set (const GnmMStyle *st, MStyleElementType t)
 {
 	g_return_val_if_fail (st != NULL, FALSE);
 	g_return_val_if_fail (t > 0 && t < MSTYLE_ELEMENT_MAX, FALSE);
@@ -1079,7 +1079,7 @@ mstyle_is_element_set (const MStyle *st, MStyleElementType t)
 }
 
 gboolean
-mstyle_is_element_conflict (const MStyle *st, MStyleElementType t)
+mstyle_is_element_conflict (const GnmMStyle *st, MStyleElementType t)
 {
 	g_return_val_if_fail (st != NULL, FALSE);
 	g_return_val_if_fail (t > 0 && t < MSTYLE_ELEMENT_MAX, FALSE);
@@ -1088,7 +1088,7 @@ mstyle_is_element_conflict (const MStyle *st, MStyleElementType t)
 }
 
 void
-mstyle_unset_element (MStyle *st, MStyleElementType t)
+mstyle_unset_element (GnmMStyle *st, MStyleElementType t)
 {
 	g_return_if_fail (st != NULL);
 	g_return_if_fail (t > 0 && t < MSTYLE_ELEMENT_MAX);
@@ -1108,7 +1108,7 @@ mstyle_unset_element (MStyle *st, MStyleElementType t)
  * the element will first be unset)
  **/
 void
-mstyle_replace_element (MStyle *src, MStyle *dst, MStyleElementType t)
+mstyle_replace_element (GnmMStyle *src, GnmMStyle *dst, MStyleElementType t)
 {
 	g_return_if_fail (src != NULL);
 	g_return_if_fail (dst != NULL);
@@ -1122,8 +1122,8 @@ mstyle_replace_element (MStyle *src, MStyle *dst, MStyleElementType t)
 }
 
 void
-mstyle_set_color (MStyle *st, MStyleElementType t,
-		  StyleColor *col)
+mstyle_set_color (GnmMStyle *st, MStyleElementType t,
+		  GnmStyleColor *col)
 {
 	g_return_if_fail (st != NULL);
 	g_return_if_fail (col != NULL);
@@ -1141,8 +1141,8 @@ mstyle_set_color (MStyle *st, MStyleElementType t,
 	}
 }
 
-StyleColor *
-mstyle_get_color (MStyle const *st, MStyleElementType t)
+GnmStyleColor *
+mstyle_get_color (GnmMStyle const *st, MStyleElementType t)
 {
 	g_return_val_if_fail (mstyle_is_element_set (st, t), NULL);
 
@@ -1157,8 +1157,8 @@ mstyle_get_color (MStyle const *st, MStyleElementType t)
 }
 
 void
-mstyle_set_border (MStyle *st, MStyleElementType t,
-		   StyleBorder *border)
+mstyle_set_border (GnmMStyle *st, MStyleElementType t,
+		   GnmStyleBorder *border)
 {
 	g_return_if_fail (st != NULL);
 
@@ -1176,8 +1176,8 @@ mstyle_set_border (MStyle *st, MStyleElementType t,
 
 }
 
-StyleBorder *
-mstyle_get_border (const MStyle *st, MStyleElementType t)
+GnmStyleBorder *
+mstyle_get_border (const GnmMStyle *st, MStyleElementType t)
 {
 	switch (t) {
 	case MSTYLE_ANY_BORDER:
@@ -1190,7 +1190,7 @@ mstyle_get_border (const MStyle *st, MStyleElementType t)
 }
 
 void
-mstyle_set_pattern (MStyle *st, int pattern)
+mstyle_set_pattern (GnmMStyle *st, int pattern)
 {
 	g_return_if_fail (st != NULL);
 	g_return_if_fail (pattern >= 0);
@@ -1201,15 +1201,15 @@ mstyle_set_pattern (MStyle *st, int pattern)
 }
 
 int
-mstyle_get_pattern (const MStyle *style)
+mstyle_get_pattern (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_PATTERN), 0);
 
 	return style->elements[MSTYLE_PATTERN].u.pattern;
 }
 
-StyleFont *
-mstyle_get_font (const MStyle *style, PangoContext *context, double zoom)
+GnmStyleFont *
+mstyle_get_font (const GnmMStyle *style, PangoContext *context, double zoom)
 {
 	g_return_val_if_fail (style != NULL, NULL);
 
@@ -1218,7 +1218,7 @@ mstyle_get_font (const MStyle *style, PangoContext *context, double zoom)
 		gboolean bold, italic;
 		double size;
 
-		mstyle_font_clear ((MStyle *)style);
+		mstyle_font_clear ((GnmMStyle *)style);
 
 		if (mstyle_is_element_set (style, MSTYLE_FONT_NAME))
 			name = mstyle_get_font_name (style);
@@ -1240,10 +1240,10 @@ mstyle_get_font (const MStyle *style, PangoContext *context, double zoom)
 		else
 			size = DEFAULT_SIZE;
 
-		((MStyle *)style)->font =
+		((GnmMStyle *)style)->font =
 			style_font_new (context, name, size,
 					zoom, bold, italic);
-		((MStyle *)style)->font_zoom = zoom;
+		((GnmMStyle *)style)->font_zoom = zoom;
 	}
 
 	style_font_ref (style->font);
@@ -1251,7 +1251,7 @@ mstyle_get_font (const MStyle *style, PangoContext *context, double zoom)
 }
 
 void
-mstyle_set_font_name (MStyle *style, const char *name)
+mstyle_set_font_name (GnmMStyle *style, const char *name)
 {
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (style != NULL);
@@ -1264,7 +1264,7 @@ mstyle_set_font_name (MStyle *style, const char *name)
 }
 
 const char *
-mstyle_get_font_name (const MStyle *style)
+mstyle_get_font_name (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_NAME), NULL);
 
@@ -1272,7 +1272,7 @@ mstyle_get_font_name (const MStyle *style)
 }
 
 void
-mstyle_set_font_bold (MStyle *style, gboolean bold)
+mstyle_set_font_bold (GnmMStyle *style, gboolean bold)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1283,7 +1283,7 @@ mstyle_set_font_bold (MStyle *style, gboolean bold)
 }
 
 gboolean
-mstyle_get_font_bold (const MStyle *style)
+mstyle_get_font_bold (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_BOLD), FALSE);
 
@@ -1291,7 +1291,7 @@ mstyle_get_font_bold (const MStyle *style)
 }
 
 void
-mstyle_set_font_italic (MStyle *style, gboolean italic)
+mstyle_set_font_italic (GnmMStyle *style, gboolean italic)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1302,7 +1302,7 @@ mstyle_set_font_italic (MStyle *style, gboolean italic)
 }
 
 gboolean
-mstyle_get_font_italic (const MStyle *style)
+mstyle_get_font_italic (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC), FALSE);
 
@@ -1310,7 +1310,7 @@ mstyle_get_font_italic (const MStyle *style)
 }
 
 void
-mstyle_set_font_uline (MStyle *style, StyleUnderlineType const underline)
+mstyle_set_font_uline (GnmMStyle *style, StyleUnderlineType const underline)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1320,7 +1320,7 @@ mstyle_set_font_uline (MStyle *style, StyleUnderlineType const underline)
 }
 
 StyleUnderlineType
-mstyle_get_font_uline (const MStyle *style)
+mstyle_get_font_uline (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE), FALSE);
 
@@ -1328,7 +1328,7 @@ mstyle_get_font_uline (const MStyle *style)
 }
 
 void
-mstyle_set_font_strike (MStyle *style, gboolean const strikethrough)
+mstyle_set_font_strike (GnmMStyle *style, gboolean const strikethrough)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1338,14 +1338,14 @@ mstyle_set_font_strike (MStyle *style, gboolean const strikethrough)
 }
 
 gboolean
-mstyle_get_font_strike (const MStyle *style)
+mstyle_get_font_strike (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH), FALSE);
 
 	return style->elements[MSTYLE_FONT_STRIKETHROUGH].u.font.strikethrough;
 }
 void
-mstyle_set_font_size (MStyle *style, double size)
+mstyle_set_font_size (GnmMStyle *style, double size)
 {
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (size >= 1.);
@@ -1357,7 +1357,7 @@ mstyle_set_font_size (MStyle *style, double size)
 }
 
 double
-mstyle_get_font_size (const MStyle *style)
+mstyle_get_font_size (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_SIZE), 12.0);
 
@@ -1365,7 +1365,7 @@ mstyle_get_font_size (const MStyle *style)
 }
 
 void
-mstyle_set_format (MStyle *style, StyleFormat *format)
+mstyle_set_format (GnmMStyle *style, GnmStyleFormat *format)
 {
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (format != NULL);
@@ -1377,9 +1377,9 @@ mstyle_set_format (MStyle *style, StyleFormat *format)
 }
 
 void
-mstyle_set_format_text (MStyle *style, const char *format)
+mstyle_set_format_text (GnmMStyle *style, const char *format)
 {
-	StyleFormat *sf;
+	GnmStyleFormat *sf;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (format != NULL);
@@ -1393,8 +1393,8 @@ mstyle_set_format_text (MStyle *style, const char *format)
 	style_format_unref (sf);
 }
 
-StyleFormat *
-mstyle_get_format (MStyle const *style)
+GnmStyleFormat *
+mstyle_get_format (GnmMStyle const *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FORMAT), NULL);
 
@@ -1402,7 +1402,7 @@ mstyle_get_format (MStyle const *style)
 }
 
 void
-mstyle_set_align_h (MStyle *style, StyleHAlignFlags a)
+mstyle_set_align_h (GnmMStyle *style, StyleHAlignFlags a)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1411,7 +1411,7 @@ mstyle_set_align_h (MStyle *style, StyleHAlignFlags a)
 }
 
 StyleHAlignFlags
-mstyle_get_align_h (const MStyle *style)
+mstyle_get_align_h (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H), 0);
 
@@ -1419,7 +1419,7 @@ mstyle_get_align_h (const MStyle *style)
 }
 
 void
-mstyle_set_align_v (MStyle *style, StyleVAlignFlags a)
+mstyle_set_align_v (GnmMStyle *style, StyleVAlignFlags a)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1428,7 +1428,7 @@ mstyle_set_align_v (MStyle *style, StyleVAlignFlags a)
 }
 
 StyleVAlignFlags
-mstyle_get_align_v (const MStyle *style)
+mstyle_get_align_v (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_V), 0);
 
@@ -1436,7 +1436,7 @@ mstyle_get_align_v (const MStyle *style)
 }
 
 void
-mstyle_set_indent (MStyle *style, int i)
+mstyle_set_indent (GnmMStyle *style, int i)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1445,7 +1445,7 @@ mstyle_set_indent (MStyle *style, int i)
 }
 
 int
-mstyle_get_indent (const MStyle *style)
+mstyle_get_indent (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_INDENT), 0);
 
@@ -1453,7 +1453,7 @@ mstyle_get_indent (const MStyle *style)
 }
 
 void
-mstyle_set_rotation (MStyle *style, int rot_deg)
+mstyle_set_rotation (GnmMStyle *style, int rot_deg)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1462,7 +1462,7 @@ mstyle_set_rotation (MStyle *style, int rot_deg)
 }
 
 int
-mstyle_get_rotation (const MStyle *style)
+mstyle_get_rotation (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ROTATION), 0);
 
@@ -1470,7 +1470,7 @@ mstyle_get_rotation (const MStyle *style)
 }
 
 void
-mstyle_set_wrap_text (MStyle *style, gboolean f)
+mstyle_set_wrap_text (GnmMStyle *style, gboolean f)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1479,7 +1479,7 @@ mstyle_set_wrap_text (MStyle *style, gboolean f)
 }
 
 gboolean
-mstyle_get_wrap_text (const MStyle *style)
+mstyle_get_wrap_text (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT), FALSE);
 
@@ -1491,7 +1491,7 @@ mstyle_get_wrap_text (const MStyle *style)
  * is _JUSTIFY, the result will be TRUE.
  */
 gboolean
-mstyle_get_effective_wrap_text (const MStyle *style)
+mstyle_get_effective_wrap_text (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT), FALSE);
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_V), FALSE);
@@ -1504,7 +1504,7 @@ mstyle_get_effective_wrap_text (const MStyle *style)
 }
 
 void
-mstyle_set_shrink_to_fit (MStyle *style, gboolean f)
+mstyle_set_shrink_to_fit (GnmMStyle *style, gboolean f)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1513,14 +1513,14 @@ mstyle_set_shrink_to_fit (MStyle *style, gboolean f)
 }
 
 gboolean
-mstyle_get_shrink_to_fit (const MStyle *style)
+mstyle_get_shrink_to_fit (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_SHRINK_TO_FIT), FALSE);
 
 	return style->elements[MSTYLE_SHRINK_TO_FIT].u.wrap_text;
 }
 void
-mstyle_set_content_locked (MStyle *style, gboolean f)
+mstyle_set_content_locked (GnmMStyle *style, gboolean f)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1529,14 +1529,14 @@ mstyle_set_content_locked (MStyle *style, gboolean f)
 }
 
 gboolean
-mstyle_get_content_locked (const MStyle *style)
+mstyle_get_content_locked (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_CONTENT_LOCKED), FALSE);
 
 	return style->elements[MSTYLE_CONTENT_LOCKED].u.content_locked;
 }
 void
-mstyle_set_content_hidden (MStyle *style, gboolean f)
+mstyle_set_content_hidden (GnmMStyle *style, gboolean f)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1545,7 +1545,7 @@ mstyle_set_content_hidden (MStyle *style, gboolean f)
 }
 
 gboolean
-mstyle_get_content_hidden (const MStyle *style)
+mstyle_get_content_hidden (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_CONTENT_HIDDEN), FALSE);
 
@@ -1553,7 +1553,7 @@ mstyle_get_content_hidden (const MStyle *style)
 }
 
 void
-mstyle_set_validation (MStyle *style, GnmValidation *v)
+mstyle_set_validation (GnmMStyle *style, GnmValidation *v)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1563,7 +1563,7 @@ mstyle_set_validation (MStyle *style, GnmValidation *v)
 }
 
 GnmValidation *
-mstyle_get_validation (const MStyle *style)
+mstyle_get_validation (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_VALIDATION), NULL);
 
@@ -1571,7 +1571,7 @@ mstyle_get_validation (const MStyle *style)
 }
 
 void
-mstyle_set_hlink (MStyle *style, GnmHLink *link)
+mstyle_set_hlink (GnmMStyle *style, GnmHLink *link)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1581,7 +1581,7 @@ mstyle_set_hlink (MStyle *style, GnmHLink *link)
 }
 
 GnmHLink *
-mstyle_get_hlink (const MStyle *style)
+mstyle_get_hlink (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_HLINK), NULL);
 
@@ -1589,7 +1589,7 @@ mstyle_get_hlink (const MStyle *style)
 }
 
 void
-mstyle_set_input_msg (MStyle *style, GnmInputMsg *msg)
+mstyle_set_input_msg (GnmMStyle *style, GnmInputMsg *msg)
 {
 	g_return_if_fail (style != NULL);
 
@@ -1599,7 +1599,7 @@ mstyle_set_input_msg (MStyle *style, GnmInputMsg *msg)
 }
 
 GnmInputMsg *
-mstyle_get_input_msg (const MStyle *style)
+mstyle_get_input_msg (const GnmMStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_INPUT_MSG), NULL);
 
@@ -1607,7 +1607,7 @@ mstyle_get_input_msg (const MStyle *style)
 }
 
 gboolean
-mstyle_visible_in_blank (const MStyle *st)
+mstyle_visible_in_blank (const GnmMStyle *st)
 {
 	MStyleElementType i;
 
@@ -1624,7 +1624,7 @@ mstyle_visible_in_blank (const MStyle *st)
 }
 
 PangoAttrList *
-mstyle_get_pango_attrs (const MStyle *mstyle,
+mstyle_get_pango_attrs (const GnmMStyle *mstyle,
 			PangoContext *context,
 			double zoom)
 {
@@ -1636,16 +1636,16 @@ mstyle_get_pango_attrs (const MStyle *mstyle,
 			pango_attr_list_ref (mstyle->pango_attrs);
 			return mstyle->pango_attrs;
 		}
-		pango_attr_list_unref (((MStyle *)mstyle)->pango_attrs);
+		pango_attr_list_unref (((GnmMStyle *)mstyle)->pango_attrs);
 	}
 
-	((MStyle *)mstyle)->pango_attrs = res = pango_attr_list_new ();
-	((MStyle *)mstyle)->pango_attrs_zoom = zoom;
+	((GnmMStyle *)mstyle)->pango_attrs = res = pango_attr_list_new ();
+	((GnmMStyle *)mstyle)->pango_attrs_zoom = zoom;
 
 	/* Foreground colour.  */
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 	if (0) {
-		const StyleColor *fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+		const GnmStyleColor *fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
 		attr = pango_attr_foreground_new (fore->color.red, fore->color.green, fore->color.blue);
 		attr->start_index = 0;
 		attr->end_index = -1;
@@ -1682,7 +1682,7 @@ mstyle_get_pango_attrs (const MStyle *mstyle,
 
 	/* Handle font.  */
 	{
-		StyleFont *font = mstyle_get_font (mstyle, context, zoom);
+		GnmStyleFont *font = mstyle_get_font (mstyle, context, zoom);
 		attr = pango_attr_font_desc_new (font->pango.font_descr);
 		attr->start_index = 0;
 		attr->end_index = -1;
@@ -1702,7 +1702,7 @@ mstyle_init (void)
 #if USE_MSTYLE_POOL
 	mstyle_pool =
 		gnm_mem_chunk_new ("mstyle pool",
-				   sizeof (MStyle),
+				   sizeof (GnmMStyle),
 				   16 * 1024 - 128);
 #endif
 }
@@ -1711,7 +1711,7 @@ mstyle_init (void)
 static void
 cb_mstyle_pool_leak (gpointer data, gpointer user)
 {
-	MStyle *mstyle = data;
+	GnmMStyle *mstyle = data;
 	fprintf (stderr, "Leaking mstyle at %p.\n", mstyle);
 	mstyle_dump (mstyle);
 }

@@ -145,7 +145,7 @@ struct  _NumberFormatSelector {
 			GtkTreeSelection *selection;
 		} formats;
 
-		StyleFormat	*spec;
+		GnmStyleFormat	*spec;
 		gint		current_type;
 		int		num_decimals;
 		int		negative_format;
@@ -174,7 +174,7 @@ static void
 generate_format (NumberFormatSelector *nfs)
 {
 	FormatFamily const page = nfs->format.current_type;
-	StyleFormat *new_format;
+	GnmStyleFormat *new_format;
 
 	/* 
 	 * It is a strange idea not to reuse FormatCharacteristics
@@ -201,8 +201,8 @@ static void
 draw_format_preview (NumberFormatSelector *nfs, gboolean regen_format)
 {
 	gchar		*preview;
-	StyleFormat	*sf = NULL;
-	StyleColor	*c = NULL;
+	GnmStyleFormat	*sf = NULL;
+	GnmStyleColor	*c = NULL;
 
 	if (regen_format)
 		generate_format (nfs);
@@ -553,7 +553,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 			 * not been found append it */
 			/* TODO We should add the list of other custom formats created.
 			 *      It should be easy.  All that is needed is a way to differentiate
-			 *      the std formats and the custom formats in the StyleFormat hash.
+			 *      the std formats and the custom formats in the GnmStyleFormat hash.
 			 */
 			if  (page == FMT_CUSTOM && select.stamp == 0) {
 				char *tmp = style_format_as_XL (nfs->format.spec, TRUE);
@@ -1078,7 +1078,7 @@ number_format_selector_set_focus (NumberFormatSelector *nfs)
 
 void
 number_format_selector_set_style_format (NumberFormatSelector *nfs,
-					 StyleFormat *style_format)
+					 GnmStyleFormat *style_format)
 {
 	GnmComboText *combo;
 

@@ -279,7 +279,7 @@ stf_preview_colformats_clear (RenderData_t *renderdata)
  * returns : nothing
  **/
 void
-stf_preview_colformats_add (RenderData_t *renderdata, StyleFormat *format)
+stf_preview_colformats_add (RenderData_t *renderdata, GnmStyleFormat *format)
 {
 
 	g_return_if_fail (renderdata != NULL);

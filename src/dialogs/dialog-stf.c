@@ -460,7 +460,7 @@ stf_dialog_result_free (DialogStfResult_t *dialogresult)
  **/
 void    
 stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
-					CellRegion *cr)
+					GnmCellRegion *cr)
 {
 	unsigned int col, targetcol;
 	
@@ -470,9 +470,9 @@ stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
 	targetcol = 0;
 	for (col = 0; col < dialogresult->parseoptions->formats->len; col++) {
 		if (dialogresult->parseoptions->col_import_array[col]) {
-			StyleFormat *sf = g_ptr_array_index 
+			GnmStyleFormat *sf = g_ptr_array_index 
 				(dialogresult->parseoptions->formats, col);
-			StyleRegion *sr = g_new (StyleRegion, 1);
+			GnmStyleRegion *sr = g_new (GnmStyleRegion, 1);
 			
 			sr->range.start.col = targetcol;
 			sr->range.start.row = 0;

@@ -132,7 +132,7 @@ new_data_set (GnmValue *range, gboolean ignore_non_num, gboolean read_label,
 	      char *format, gint i, Sheet* sheet)
 {
 	GnmValue *result;
-	EvalPos  *pos = g_new (EvalPos, 1);
+	GnmEvalPos  *pos = g_new (GnmEvalPos, 1);
 	data_set_t * the_set = g_new (data_set_t, 1);
 	GnmCellPos cellpos = {0, 0};
 

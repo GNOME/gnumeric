@@ -88,7 +88,7 @@ value_dump (GnmValue const *value)
 }
 
 int
-value_area_get_width (GnmValue const *v, EvalPos const *ep)
+value_area_get_width (GnmValue const *v, GnmEvalPos const *ep)
 {
 	g_return_val_if_fail (v, 0);
 
@@ -110,7 +110,7 @@ value_area_get_width (GnmValue const *v, EvalPos const *ep)
 }
 
 int
-value_area_get_height (GnmValue const *v, EvalPos const *ep)
+value_area_get_height (GnmValue const *v, GnmEvalPos const *ep)
 {
 	g_return_val_if_fail (v, 0);
 
@@ -133,7 +133,7 @@ value_area_get_height (GnmValue const *v, EvalPos const *ep)
 }
 
 GnmValue const *
-value_area_fetch_x_y (GnmValue const *v, int x, int y, EvalPos const *ep)
+value_area_fetch_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 {
 	GnmValue const * const res = value_area_get_x_y (v, x, y, ep);
 	if (res && res->type != VALUE_EMPTY)
@@ -147,7 +147,7 @@ value_area_fetch_x_y (GnmValue const *v, int x, int y, EvalPos const *ep)
  * problems occur a NULL is returned.
  */
 GnmValue const *
-value_area_get_x_y (GnmValue const *v, int x, int y, EvalPos const *ep)
+value_area_get_x_y (GnmValue const *v, int x, int y, GnmEvalPos const *ep)
 {
 	g_return_val_if_fail (v, NULL);
 
@@ -222,7 +222,7 @@ value_area_get_x_y (GnmValue const *v, int x, int y, EvalPos const *ep)
 typedef struct
 {
 	ValueAreaFunc  callback;
-	EvalPos const *ep;
+	GnmEvalPos const *ep;
 	void	      *real_data;
 } WrapperClosure;
 
@@ -251,7 +251,7 @@ cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
  *    to stop (by returning non-NULL).
  */
 GnmValue *
-value_area_foreach (GnmValue const *v, EvalPos const *ep,
+value_area_foreach (GnmValue const *v, GnmEvalPos const *ep,
 		    CellIterFlags flags,
 		    ValueAreaFunc callback,
 		    void *closure)

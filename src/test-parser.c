@@ -26,7 +26,7 @@ main ()
 {
 	GnmValue *v;
 	EvalTree *node;
-	ParseError perr;
+	GnmParseError perr;
 	int i;
 	char *error;
 

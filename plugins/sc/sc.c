@@ -179,7 +179,7 @@ sc_parse_label (Sheet *sheet, char const *cmd, char const *str, int col, int row
 		cmdtype = LABEL;
 
 	if (cmdtype == LEFTSTRING || cmdtype == RIGHTSTRING) {
-		MStyle *mstyle;
+		GnmMStyle *mstyle;
 
 		mstyle = cell_get_mstyle (cell);
 		if (!mstyle)
@@ -245,7 +245,7 @@ sc_parse_cell_name_list (Sheet *sheet, char const *cell_name_str,
 
 
 static char const *
-sc_rangeref_parse (GnmRangeRef *res, char const *start, ParsePos const *pp)
+sc_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
 {
 	/* This is a hack.  We still cannot handle sc's row 0.  */
 	char const *end = rangeref_parse (res, start, pp);
@@ -261,7 +261,7 @@ sc_parse_let (Sheet *sheet, char const *cmd, char const *str, int col, int row)
 {
 	GnmExpr const *tree;
 	GnmCell *cell;
-	ParsePos pos;
+	GnmParsePos pos;
 	GnmValue const *v;
 
 	g_return_val_if_fail (sheet, FALSE);

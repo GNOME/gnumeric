@@ -298,7 +298,7 @@ range_has_header (Sheet const *sheet, GnmRange const *src,
 {
 	GnmCell *ca, *cb;
 	GnmValue *valuea, *valueb;
-	MStyle *stylea, *styleb;
+	GnmMStyle *stylea, *styleb;
 	int length, i;
 
 	/* There is only one row or col */
@@ -1080,7 +1080,7 @@ global_range_name    (Sheet *sheet, GnmRange const *r)
 GnmValue *
 global_range_parse (Sheet *sheet, char const *str)
 {
-	ParsePos  pp;
+	GnmParsePos  pp;
 	GnmExpr const *expr;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -1115,7 +1115,7 @@ global_range_parse (Sheet *sheet, char const *str)
 GSList *
 global_range_list_parse (Sheet *sheet, char const *str)
 {
-	ParsePos  pp;
+	GnmParsePos  pp;
 	GnmExpr const *expr;
 	GSList   *ranges = NULL;
 	GnmValue	 *v;
@@ -1155,7 +1155,7 @@ global_range_list_parse (Sheet *sheet, char const *str)
 }
 
 GnmValue *
-global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
+global_range_list_foreach (GSList *gr_list, GnmEvalPos const *ep,
 			   CellIterFlags flags,
 			   CellIterFunc  handler,
 			   gpointer	 closure)

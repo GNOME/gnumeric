@@ -52,7 +52,7 @@ gboolean	 gnm_app_clipboard_is_empty	  (void);
 gboolean	 gnm_app_clipboard_is_cut	  (void);
 Sheet		*gnm_app_clipboard_sheet_get	  (void);
 SheetView	*gnm_app_clipboard_sheet_view_get (void);
-CellRegion	*gnm_app_clipboard_contents_get	  (void);
+GnmCellRegion	*gnm_app_clipboard_contents_get	  (void);
 GnmRange const	*gnm_app_clipboard_area_get	  (void);
 
 #endif /* GNUMERIC_APPLICATION_H */

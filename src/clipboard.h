@@ -58,31 +58,31 @@ typedef struct {
 
 typedef GSList CellCopyList;
 
-struct _CellRegion {
+struct _GnmCellRegion {
 	Sheet		*origin_sheet; /* can be NULL */
 	GnmCellPos	 base;
 	int		 cols, rows;
 	CellCopyList	*content;
-	StyleList	*styles;
+	GnmStyleList	*styles;
 	GSList		*merged;
 	gboolean	 not_as_content;
 };
 
-struct _PasteTarget {
+struct _GnmPasteTarget {
 	Sheet      *sheet;
 	GnmRange    range;
 	int         paste_flags;
 };
 
-CellRegion *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
-gboolean    clipboard_paste_region (CellRegion const *content,
-				    PasteTarget const *pt,
+GnmCellRegion *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
+gboolean    clipboard_paste_region (GnmCellRegion const *content,
+				    GnmPasteTarget const *pt,
 				    GnmCmdContext *cc);
-PasteTarget*paste_target_init      (PasteTarget *pt,
+GnmPasteTarget*paste_target_init      (GnmPasteTarget *pt,
 				    Sheet *sheet, GnmRange const *r, int flags);
 
-CellRegion *cellregion_new	 (Sheet *origin_sheet);
-void        cellregion_free      (CellRegion *content);
-char	   *cellregion_to_string (PangoContext *context, CellRegion const *content);
+GnmCellRegion *cellregion_new	 (Sheet *origin_sheet);
+void        cellregion_free      (GnmCellRegion *content);
+char	   *cellregion_to_string (PangoContext *context, GnmCellRegion const *content);
 
 #endif /* GNUMERIC_CLIPBOARD_H */

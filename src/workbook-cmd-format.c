@@ -34,7 +34,7 @@
 void
 workbook_cmd_mutate_borders (WorkbookControl *wbc, Sheet *sheet, gboolean add)
 {
-	StyleBorder *borders [STYLE_BORDER_EDGE_MAX];
+	GnmStyleBorder *borders [STYLE_BORDER_EDGE_MAX];
 	int i;
 
 	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; ++i)

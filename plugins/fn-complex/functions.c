@@ -1400,7 +1400,7 @@ typedef struct {
 } eng_imoper_t;
 
 static GnmValue *
-callback_function_imoper (const EvalPos *ep, GnmValue *value, void *closure)
+callback_function_imoper (const GnmEvalPos *ep, GnmValue *value, void *closure)
 {
         eng_imoper_t *result = closure;
 	complex_t c;

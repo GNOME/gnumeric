@@ -815,7 +815,7 @@ gnumeric_indirect (FunctionEvalInfo *ei, GnmValue **args)
 	/* What good is this ? the parser handles both forms */
 	gboolean a1_style = args[1] ? value_get_as_bool (args[1], &error) : TRUE;
 #endif
-	ParsePos  pp;
+	GnmParsePos  pp;
 	char const *text = value_peek_string (args[0]);
 	GnmExpr const *expr = gnm_expr_parse_str_simple (text,
 		parse_pos_init_evalpos (&pp, ei->pos));
@@ -1188,7 +1188,7 @@ static char const *help_transpose = {
 static GnmValue *
 gnumeric_transpose (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	EvalPos const * const ep = ei->pos;
+	GnmEvalPos const * const ep = ei->pos;
         GnmValue const * const matrix = argv[0];
 	int	r, c;
         GnmValue *res;

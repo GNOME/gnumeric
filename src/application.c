@@ -53,7 +53,7 @@ struct _GnmApp {
 
 	/* Clipboard */
 	SheetView	*clipboard_sheet_view;
-	CellRegion	*clipboard_copied_contents;
+	GnmCellRegion	*clipboard_copied_contents;
 	GnmRange	 clipboard_cut_range;
 
 	/* History for file menu */
@@ -287,7 +287,7 @@ gnm_app_clipboard_sheet_view_get (void)
 	return app->clipboard_sheet_view;
 }
 
-CellRegion *
+GnmCellRegion *
 gnm_app_clipboard_contents_get (void)
 {
 	g_return_val_if_fail (app != NULL, NULL);

@@ -35,7 +35,7 @@ typedef enum _StyleUnderlineType {
 	UNDERLINE_DOUBLE = 2
 } StyleUnderlineType;
 
-struct _StyleFont {
+struct _GnmStyleFont {
 	int	 ref_count;
 	char	*font_name;
 	double	 size_pts;
@@ -64,18 +64,18 @@ struct _StyleFont {
 void           style_init  	      (void);
 void	       style_shutdown         (void);
 
-StyleFont     *style_font_new         (PangoContext *context,
+GnmStyleFont     *style_font_new         (PangoContext *context,
 				       const char *font_name,
 				       double size_pts, double scale,
 				       gboolean bold, gboolean italic);
-void style_font_ref          (StyleFont *sf);
-void style_font_unref        (StyleFont *sf);
+void style_font_ref          (GnmStyleFont *sf);
+void style_font_unref        (GnmStyleFont *sf);
 
 guint          style_font_hash_func (gconstpointer v);
 gint           style_font_equal (gconstpointer v, gconstpointer v2);
 
-SpanCalcFlags	 required_updates_for_style (MStyle *style);
-StyleHAlignFlags style_default_halign (MStyle const *mstyle, GnmCell const *c);
+SpanCalcFlags	 required_updates_for_style (GnmMStyle *style);
+StyleHAlignFlags style_default_halign (GnmMStyle const *mstyle, GnmCell const *c);
 
 extern double gnumeric_default_font_width;
 

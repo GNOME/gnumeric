@@ -73,7 +73,7 @@ typedef struct
 	GtkTreePath* active_path;
 	char * prefix;
 	char * suffix;
-	ParsePos  *pos;
+	GnmParsePos  *pos;
 
 	GtkTreeStore  *model;
 	GtkTreeView   *treeview;
@@ -967,7 +967,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 		char const *full_str = gtk_entry_get_text (wbcg_get_entry (wbcg));
 		char *func_str;
 
-		state->pos = g_new (ParsePos, 1);
+		state->pos = g_new (GnmParsePos, 1);
 		func_str = gnm_expr_as_string (expr,
 			parse_pos_init_cell (state->pos, cell),
 			gnm_expr_conventions_default);

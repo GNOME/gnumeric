@@ -21,11 +21,11 @@ GdkColor gs_dark_gray  = { 0, 0x3333, 0x3333, 0x3333 };    /* "gray20" */
 GdkColor gs_light_gray = { 0, 0xc7c7, 0xc7c7, 0xc7c7 };    /* "gray78" */
 
 static GHashTable *style_color_hash;
-static StyleColor *sc_black;
-static StyleColor *sc_white;
-static StyleColor *sc_grid;
+static GnmStyleColor *sc_black;
+static GnmStyleColor *sc_white;
+static GnmStyleColor *sc_grid;
 
-StyleColor *
+GnmStyleColor *
 style_color_new_name (char const *name)
 {
 	GdkColor c;
@@ -34,11 +34,11 @@ style_color_new_name (char const *name)
 	return style_color_new (c.red, c.green, c.blue);
 }
 
-static StyleColor *
+static GnmStyleColor *
 style_color_new_uninterned (gushort red, gushort green, gushort blue,
 			    gboolean is_auto)
 {
-	StyleColor *sc = g_new (StyleColor, 1);
+	GnmStyleColor *sc = g_new (GnmStyleColor, 1);
 
 	sc->color.red = red;
 	sc->color.green = green;
@@ -61,11 +61,11 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 	return sc;
 }
 
-StyleColor *
+GnmStyleColor *
 style_color_new (gushort red, gushort green, gushort blue)
 {
-	StyleColor *sc;
-	StyleColor key;
+	GnmStyleColor *sc;
+	GnmStyleColor key;
 
 	key.color.red   = red;
 	key.color.green = green;
@@ -83,7 +83,7 @@ style_color_new (gushort red, gushort green, gushort blue)
 }
 
 /* scale 8 bit/color ->  16 bit/color by cloning */
-StyleColor *
+GnmStyleColor *
 style_color_new_i8 (guint8 red, guint8 green, guint8 blue)
 {
 	gushort red16, green16, blue16;
@@ -95,7 +95,7 @@ style_color_new_i8 (guint8 red, guint8 green, guint8 blue)
 	return style_color_new (red16, green16, blue16);
 }
 
-StyleColor *
+GnmStyleColor *
 style_color_black (void)
 {
 	if (!sc_black)
@@ -103,7 +103,7 @@ style_color_black (void)
 	return style_color_ref (sc_black);
 }
 
-StyleColor *
+GnmStyleColor *
 style_color_white (void)
 {
 	if (!sc_white)
@@ -111,7 +111,7 @@ style_color_white (void)
 	return style_color_ref (sc_white);
 }
 
-StyleColor *
+GnmStyleColor *
 style_color_grid (void)
 {
 	if (!sc_grid)
@@ -126,10 +126,10 @@ style_color_grid (void)
 /**
  * Always black, as far as we know.
  */
-StyleColor *
+GnmStyleColor *
 style_color_auto_font (void)
 {
-	static StyleColor *color = NULL;
+	static GnmStyleColor *color = NULL;
 
 	if (!color)
 		color = style_color_new_uninterned (0, 0, 0, TRUE);
@@ -139,10 +139,10 @@ style_color_auto_font (void)
 /**
  * Always white, as far as we know.
  */
-StyleColor *
+GnmStyleColor *
 style_color_auto_back (void)
 {
-	static StyleColor *color = NULL;
+	static GnmStyleColor *color = NULL;
 
 	if (!color)
 		color = style_color_new_uninterned (0xffff, 0xffff, 0xffff,
@@ -153,18 +153,18 @@ style_color_auto_back (void)
 /**
  * Normally black, but follows grid color if so told.
  */
-StyleColor *
+GnmStyleColor *
 style_color_auto_pattern (void)
 {
-	static StyleColor *color = NULL;
+	static GnmStyleColor *color = NULL;
 
 	if (!color)
 		color = style_color_new_uninterned (0, 0, 0, TRUE);
 	return style_color_ref (color);
 }
 
-StyleColor *
-style_color_ref (StyleColor *sc)
+GnmStyleColor *
+style_color_ref (GnmStyleColor *sc)
 {
 	if (sc != NULL)
 		sc->ref_count++;
@@ -173,7 +173,7 @@ style_color_ref (StyleColor *sc)
 }
 
 void
-style_color_unref (StyleColor *sc)
+style_color_unref (GnmStyleColor *sc)
 {
 	if (sc == NULL)
 		return;
@@ -193,7 +193,7 @@ style_color_unref (StyleColor *sc)
 }
 
 gint
-style_color_equal (const StyleColor *k1, const StyleColor *k2)
+style_color_equal (const GnmStyleColor *k1, const GnmStyleColor *k2)
 {
 	if (k1->color.red   == k2->color.red &&
 	    k1->color.green == k2->color.green &&
@@ -207,7 +207,7 @@ style_color_equal (const StyleColor *k1, const StyleColor *k2)
 static guint
 color_hash (gconstpointer v)
 {
-	const StyleColor *k = (const StyleColor *)v;
+	const GnmStyleColor *k = (const GnmStyleColor *)v;
 
 	return (k->color.red << 16) ^ (k->color.green << 8) ^ (k->color.blue << 0) ^
 		(k->is_auto);
@@ -245,7 +245,7 @@ gnumeric_color_init (void)
 static void
 cb_color_leak (gpointer key, gpointer value, gpointer user_data)
 {
-	StyleColor *color = value;
+	GnmStyleColor *color = value;
 
 	fprintf (stderr, "Leaking style-color at %p [%04x:%04x:%04x].\n",
 		 color, color->color.red, color->color.green, color->color.blue);
@@ -258,7 +258,7 @@ gnumeric_color_shutdown (void)
 	 * FIXME: this doesn't really belong here, but style-border.c isn't
 	 * able to clean itself up yet.
 	 */	   
-	StyleBorder *none = style_border_none ();
+	GnmStyleBorder *none = style_border_none ();
 	style_color_unref (none->color);
 	none->color = NULL;
 

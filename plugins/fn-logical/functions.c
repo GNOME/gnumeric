@@ -69,7 +69,7 @@ static char const *help_and = {
 };
 
 static GnmValue *
-callback_function_and (const EvalPos *ep, GnmValue *value, void *closure)
+callback_function_and (const GnmEvalPos *ep, GnmValue *value, void *closure)
 {
 	int *result = closure;
 	gboolean err;
@@ -156,7 +156,7 @@ static char const *help_or = {
 };
 
 static GnmValue *
-callback_function_or (const EvalPos *ep, GnmValue *value, void *closure)
+callback_function_or (const GnmEvalPos *ep, GnmValue *value, void *closure)
 {
 	int *result = closure;
 	gboolean err;
@@ -213,7 +213,7 @@ static char const *help_xor = {
 };
 
 static GnmValue *
-callback_function_xor (const EvalPos *ep, GnmValue *value, void *closure)
+callback_function_xor (const GnmEvalPos *ep, GnmValue *value, void *closure)
 {
 	int *result = closure;
 	gboolean err;

@@ -455,8 +455,8 @@ search_replace_string (GnmSearchReplace *sr, const char *src)
 static int
 cb_order_sheet_row_col (const void *_a, const void *_b)
 {
-	const EvalPos *a = *(const EvalPos **)_a;
-	const EvalPos *b = *(const EvalPos **)_b;
+	const GnmEvalPos *a = *(const GnmEvalPos **)_a;
+	const GnmEvalPos *b = *(const GnmEvalPos **)_b;
 	int i;
 
 	i = strcmp (a->sheet->name_unquoted_collate_key,
@@ -474,8 +474,8 @@ cb_order_sheet_row_col (const void *_a, const void *_b)
 static int
 cb_order_sheet_col_row (const void *_a, const void *_b)
 {
-	const EvalPos *a = *(const EvalPos **)_a;
-	const EvalPos *b = *(const EvalPos **)_b;
+	const GnmEvalPos *a = *(const GnmEvalPos **)_a;
+	const GnmEvalPos *b = *(const GnmEvalPos **)_b;
 	int i;
 
 	i = strcmp (a->sheet->name_unquoted_collate_key,
@@ -494,7 +494,7 @@ static GnmValue *
 search_collect_cells_cb (Sheet *sheet, int col, int row,
 			 GnmCell *cell, GPtrArray *cells)
 {
-	EvalPos *ep = g_new (EvalPos, 1);
+	GnmEvalPos *ep = g_new (GnmEvalPos, 1);
 
 	ep->sheet = sheet;
 	ep->eval.col = col;
@@ -526,7 +526,7 @@ search_collect_cells (GnmSearchReplace *sr, Sheet *sheet)
 	case SRS_range:
 	{
 		GSList *range_list;
-		EvalPos ep;
+		GnmEvalPos ep;
 		cells = g_ptr_array_new ();
 		range_list = global_range_list_parse (sr->curr_sheet, sr->range_text);
 		global_range_list_foreach (range_list,
@@ -564,7 +564,7 @@ search_collect_cells_free (GPtrArray *cells)
 /* ------------------------------------------------------------------------- */
 /*
  * sr: The search spec.
- * cells: An array of EvalPos*, presumably a result of search_collect_cells.
+ * cells: An array of GnmEvalPos*, presumably a result of search_collect_cells.
  *
  * Returns an array of SearchFilterResult*s, which the caller must free.
  */
@@ -580,7 +580,7 @@ search_filter_matching (GnmSearchReplace *sr, const GPtrArray *cells)
 		SearchReplaceValueResult value_res;
 		SearchReplaceCommentResult comment_res;
 		gboolean found;
-		const EvalPos *ep = g_ptr_array_index (cells, i);
+		const GnmEvalPos *ep = g_ptr_array_index (cells, i);
 
 		found = search_replace_cell (sr, ep, FALSE, &cell_res);
 		g_free (cell_res.old_text);
@@ -628,7 +628,7 @@ search_filter_matching_free (GPtrArray *matches)
 
 gboolean
 search_replace_comment (GnmSearchReplace *sr,
-			const EvalPos *ep,
+			const GnmEvalPos *ep,
 			gboolean repl,
 			SearchReplaceCommentResult *res)
 {
@@ -658,7 +658,7 @@ search_replace_comment (GnmSearchReplace *sr,
 
 gboolean
 search_replace_cell (GnmSearchReplace *sr,
-		     const EvalPos *ep,
+		     const GnmEvalPos *ep,
 		     gboolean repl,
 		     SearchReplaceCellResult *res)
 {
@@ -722,7 +722,7 @@ search_replace_cell (GnmSearchReplace *sr,
 
 gboolean
 search_replace_value (GnmSearchReplace *sr,
-		      const EvalPos *ep,
+		      const GnmEvalPos *ep,
 		      SearchReplaceValueResult *res)
 {
 	GnmCell *cell;

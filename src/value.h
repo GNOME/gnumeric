@@ -24,43 +24,43 @@ typedef enum {
 
 typedef struct {
 	GnmValueType const type;
-	StyleFormat *fmt;
+	GnmStyleFormat *fmt;
 } GnmValueAny;
 struct _GnmValueBool {
 	GnmValueType const type;
-	StyleFormat *fmt;
+	GnmStyleFormat *fmt;
 	gboolean val;
 };
 struct _GnmValueInt {
 	GnmValueType const type;
-	StyleFormat *fmt;
+	GnmStyleFormat *fmt;
 	int val;
 };
 struct _GnmValueFloat {
 	GnmValueType const type;
-	StyleFormat *fmt;
+	GnmStyleFormat *fmt;
 	gnm_float val;
 };
 struct _GnmValueErr {
 	GnmValueType const type;
-	StyleFormat *fmt;
+	GnmStyleFormat *fmt;
 	GnmString   *mesg;
 	/* Currently unused.  Intended to support audit functions */
-	EvalPos  src;
+	GnmEvalPos  src;
 };
 struct _GnmValueStr {
 	GnmValueType const type;
-	StyleFormat *fmt;
+	GnmStyleFormat *fmt;
 	GnmString   *val;
 };
 struct _GnmValueRange {
 	GnmValueType const type;
-	StyleFormat *fmt;
+	GnmStyleFormat *fmt;
 	GnmRangeRef cell;
 };
 struct _GnmValueArray {
 	GnmValueType const type;
-	StyleFormat *fmt;
+	GnmStyleFormat *fmt;
 	int x, y;
 	GnmValue ***vals;  /* Array [x][y] */
 };
@@ -98,17 +98,17 @@ GnmValue *value_new_empty            (void);
 GnmValue *value_new_bool             (gboolean b);
 GnmValue *value_new_int              (int i);
 GnmValue *value_new_float            (gnm_float f);
-GnmValue *value_new_error            (EvalPos const *pos, char const *mesg);
-GnmValue *value_new_error_str        (EvalPos const *pos, GnmString *mesg);
-GnmValue *value_new_error_std        (EvalPos const *pos, GnmStdError err);
-GnmValue *value_new_error_NULL       (EvalPos const *pos);
-GnmValue *value_new_error_DIV0       (EvalPos const *pos);
-GnmValue *value_new_error_VALUE      (EvalPos const *pos);
-GnmValue *value_new_error_REF        (EvalPos const *pos);
-GnmValue *value_new_error_NAME       (EvalPos const *pos);
-GnmValue *value_new_error_NUM        (EvalPos const *pos);
-GnmValue *value_new_error_NA         (EvalPos const *pos);
-GnmValue *value_new_error_RECALC     (EvalPos const *pos);
+GnmValue *value_new_error            (GnmEvalPos const *pos, char const *mesg);
+GnmValue *value_new_error_str        (GnmEvalPos const *pos, GnmString *mesg);
+GnmValue *value_new_error_std        (GnmEvalPos const *pos, GnmStdError err);
+GnmValue *value_new_error_NULL       (GnmEvalPos const *pos);
+GnmValue *value_new_error_DIV0       (GnmEvalPos const *pos);
+GnmValue *value_new_error_VALUE      (GnmEvalPos const *pos);
+GnmValue *value_new_error_REF        (GnmEvalPos const *pos);
+GnmValue *value_new_error_NAME       (GnmEvalPos const *pos);
+GnmValue *value_new_error_NUM        (GnmEvalPos const *pos);
+GnmValue *value_new_error_NA         (GnmEvalPos const *pos);
+GnmValue *value_new_error_RECALC     (GnmEvalPos const *pos);
 GnmValue *value_new_string           (char const *str);
 GnmValue *value_new_string_nocopy    (char *str);
 GnmValue *value_new_string_str       (GnmString *str);
@@ -120,10 +120,10 @@ GnmValue *value_new_array            (guint cols, guint rows);
 GnmValue *value_new_array_empty      (guint cols, guint rows);
 GnmValue *value_new_array_non_init   (guint cols, guint rows);
 GnmValue *value_new_from_string	     (GnmValueType t, char const *str,
-				      StyleFormat *sf, gboolean translated);
+				      GnmStyleFormat *sf, gboolean translated);
 
 void        value_release	   (GnmValue *v);
-void	    value_set_fmt	   (GnmValue *v, StyleFormat const *fmt);
+void	    value_set_fmt	   (GnmValue *v, GnmStyleFormat const *fmt);
 void        value_dump		   (GnmValue const *v);
 GnmValue   *value_dup		   (GnmValue const *v);
 
@@ -143,9 +143,9 @@ void        value_get_as_gstring   (GnmValue const *v, GString *target,
 int         value_get_as_int	   (GnmValue const *v);
 gnm_float   value_get_as_float	   (GnmValue const *v);
 GnmValue   *value_coerce_to_number (GnmValue *v, gboolean *valid,
-				    EvalPos const *ep);
+				    GnmEvalPos const *ep);
 
-GnmValue   *value_error_set_pos    (GnmValueErr *err, EvalPos const *pos);
+GnmValue   *value_error_set_pos    (GnmValueErr *err, GnmEvalPos const *pos);
 GnmStdError value_error_classify   (GnmValue const *v);
 char const *value_error_name       (GnmStdError err, gboolean translated);
 
@@ -154,18 +154,18 @@ gboolean    value_get_as_checked_bool (GnmValue const *v);
 GnmRangeRef const *value_get_rangeref (GnmValue const *v);
 
 /* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
-/* The EvalPos provides a Sheet context; this allows
+/* The GnmEvalPos provides a Sheet context; this allows
    calculation of relative references. 'x','y' give the position */
-typedef GnmValue *(*ValueAreaFunc) (GnmValue const *v, EvalPos const *ep, void *user);
-GnmValue       *value_area_foreach    (GnmValue const *v, EvalPos const *ep,
+typedef GnmValue *(*ValueAreaFunc) (GnmValue const *v, GnmEvalPos const *ep, void *user);
+GnmValue       *value_area_foreach    (GnmValue const *v, GnmEvalPos const *ep,
 				       CellIterFlags flags,
 				       ValueAreaFunc func, gpointer user);
-int             value_area_get_width  (GnmValue const *v, EvalPos const *ep);
-int             value_area_get_height (GnmValue const *v, EvalPos const *ep);
+int             value_area_get_width  (GnmValue const *v, GnmEvalPos const *ep);
+int             value_area_get_height (GnmValue const *v, GnmEvalPos const *ep);
 GnmValue const *value_area_fetch_x_y  (GnmValue const *v, int x, int y,
-				       EvalPos const *ep);
+				       GnmEvalPos const *ep);
 GnmValue const *value_area_get_x_y    (GnmValue const *v, int x, int y,
-				       EvalPos const *ep);
+				       GnmEvalPos const *ep);
 
 /* A zero integer, not to be freed or changed.  */
 extern GnmValue const *value_zero;
@@ -195,8 +195,8 @@ void	free_criterias		(GSList *criterias);
 GSList *find_rows_that_match	(Sheet *sheet, int first_col,
 				 int first_row, int last_col, int last_row,
 				 GSList *criterias, gboolean unique_only);
-GSList *parse_database_criteria (EvalPos const *ep, GnmValue *database, GnmValue *criteria);
-int     find_column_of_field	(EvalPos const *ep, GnmValue *database, GnmValue *field);
+GSList *parse_database_criteria (GnmEvalPos const *ep, GnmValue *database, GnmValue *criteria);
+int     find_column_of_field	(GnmEvalPos const *ep, GnmValue *database, GnmValue *field);
 
 /* Protected */
 void value_init     (void);

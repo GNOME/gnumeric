@@ -63,13 +63,13 @@ static GnmMemChunk *rendered_value_pool;
 #endif
 
 static guint16
-calc_indent (PangoContext *context, const MStyle *mstyle, Sheet *sheet)
+calc_indent (PangoContext *context, const GnmMStyle *mstyle, Sheet *sheet)
 {
 	int indent = 0;
 	if (mstyle_is_element_set (mstyle, MSTYLE_INDENT)) {
 		indent = mstyle_get_indent (mstyle);
 		if (indent) {
-			StyleFont *style_font =
+			GnmStyleFont *style_font =
 				scg_get_style_font (context, sheet, mstyle);
 			indent *= style_font->approx_width.pixels.digit;
 			style_font_unref (style_font);
@@ -80,16 +80,16 @@ calc_indent (PangoContext *context, const MStyle *mstyle, Sheet *sheet)
 
 void
 rendered_value_render (GString *str,
-		       GnmCell *cell, PangoContext *context, MStyle const *mstyle,
+		       GnmCell *cell, PangoContext *context, GnmMStyle const *mstyle,
 		       gboolean *dynamic_width, gboolean *display_formula,
-		       StyleColor **color)
+		       GnmStyleColor **color)
 {
 	Sheet *sheet = cell->base.sheet;
 
 	*display_formula = cell_has_expr (cell) && sheet && sheet->display_formulas;
 
 	if (*display_formula) {
-		ParsePos pp;
+		GnmParsePos pp;
 		g_string_append_c (str, '=');
 		gnm_expr_as_gstring (str, cell->base.expression,
 				     parse_pos_init_cell (&pp, cell),
@@ -102,14 +102,14 @@ rendered_value_render (GString *str,
 	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
 		double col_width = -1.;
 		/* entered text CAN be null if called by set_value */
-		StyleFormat *format = mstyle_get_format (mstyle);
+		GnmStyleFormat *format = mstyle_get_format (mstyle);
 
 		/* For format general approximate the cell width in characters */
 		if (style_format_is_general (format)) {
 			if (*dynamic_width &&
 			    (VALUE_FMT (cell->value) == NULL ||
 			     style_format_is_general (VALUE_FMT (cell->value)))) {
-				StyleFont *style_font =
+				GnmStyleFont *style_font =
 					scg_get_style_font (context, sheet, mstyle);
 				double wdigit = style_font->approx_width.pts.digit;
 
@@ -164,16 +164,16 @@ rendered_value_render (GString *str,
  * Return value: a new RenderedValue
  **/
 RenderedValue *
-rendered_value_new (GnmCell *cell, MStyle const *mstyle,
+rendered_value_new (GnmCell *cell, GnmMStyle const *mstyle,
 		    gboolean dynamic_width,
 		    PangoContext *context)
 {
 	RenderedValue	*res;
 	Sheet		*sheet;
-	StyleColor	*color;
+	GnmStyleColor	*color;
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
-	const StyleColor *fore;
+	const GnmStyleColor *fore;
 	gboolean        display_formula;
 	double          zoom;
 
@@ -373,7 +373,7 @@ cell_get_entered_text (GnmCell const *cell)
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell_has_expr (cell)) {
-		ParsePos pp;
+		GnmParsePos pp;
 		GString *res = g_string_new ("=");
 
 		gnm_expr_as_gstring (res, cell->base.expression,

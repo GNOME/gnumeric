@@ -46,7 +46,7 @@ roff_fprintf (GsfOutput *output, GnmCell *cell)
 	int len, i;
 	const char *p;
 	char * s;
-	MStyle *mstyle;
+	GnmMStyle *mstyle;
 
 	if (cell_is_empty (cell))
 		return 0;
@@ -123,7 +123,7 @@ roff_file_save (GnmFileSaver const *fs, IOContext *io_context,
 				if (!cell) {
 					gsf_output_printf (output, "l");
 				} else {
-					MStyle *mstyle = cell_get_mstyle (cell);
+					GnmMStyle *mstyle = cell_get_mstyle (cell);
 					if (!mstyle)
 						break;
 					if (mstyle_get_align_h (mstyle) & HALIGN_RIGHT)

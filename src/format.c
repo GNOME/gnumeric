@@ -45,11 +45,11 @@
 
 /***************************************************************************/
 
-static StyleFormat *default_percentage_fmt;
-static StyleFormat *default_money_fmt;
-static StyleFormat *default_date_fmt;
-static StyleFormat *default_time_fmt;
-static StyleFormat *default_general_fmt;
+static GnmStyleFormat *default_percentage_fmt;
+static GnmStyleFormat *default_money_fmt;
+static GnmStyleFormat *default_date_fmt;
+static GnmStyleFormat *default_time_fmt;
+static GnmStyleFormat *default_general_fmt;
 
 
 /* Points to the locale information for number display */
@@ -248,7 +248,7 @@ typedef struct {
 	gboolean    has_fraction;
         char        restriction_type;
         gnm_float  restriction_value;
-	StyleColor *color;
+	GnmStyleColor *color;
 } StyleFormatEntry;
 
 /*
@@ -463,7 +463,7 @@ format_entry_set_fmt (StyleFormatEntry *entry,
 			  ? "General" : "");
 }
 
-static StyleColor * lookup_color (char const *str, char const *end);
+static GnmStyleColor * lookup_color (char const *str, char const *end);
 
 /*
  * Since the Excel formating codes contain a number of ambiguities, this
@@ -472,7 +472,7 @@ static StyleColor * lookup_color (char const *str, char const *end);
  * simplistic formatting
  */
 static void
-format_compile (StyleFormat *format)
+format_compile (GnmStyleFormat *format)
 {
 	gchar const *fmt, *real_start = NULL;
 	StyleFormatEntry *entry = format_entry_ctor ();
@@ -612,12 +612,12 @@ format_compile (StyleFormat *format)
 /*
  * This routine is invoked when the last user of the
  * format is gone (ie, refcount has reached zero) just
- * before the StyleFormat structure is actually released.
+ * before the GnmStyleFormat structure is actually released.
  *
  * resources allocated in format_compile should be disposed here
  */
 static void
-format_destroy (StyleFormat *format)
+format_destroy (GnmStyleFormat *format)
 {
 	g_slist_foreach (format->entries, &format_entry_dtor, NULL);
 	g_slist_free (format->entries);
@@ -628,7 +628,7 @@ format_destroy (StyleFormat *format)
 /* used to generate formats when delocalizing so keep the leadings caps */
 static struct FormatColor {
 	char const * const name;
-	StyleColor *color;
+	GnmStyleColor *color;
 } format_colors [] = {
 	{ N_("Black")   },
 	{ N_("Blue")    },
@@ -679,7 +679,7 @@ lookup_color_by_name (gchar const *str, gchar const *end,
 	return NULL;
 }
 
-static StyleColor *
+static GnmStyleColor *
 lookup_color (gchar const *str, gchar const *end)
 {
 	struct FormatColor const *color = lookup_color_by_name (str, end, FALSE);
@@ -880,12 +880,12 @@ static const char qmarks[NUM_ZEROS + 1] = "??????????????????????????????";
  *
  * generate an unlocalized number format based on @fmt.
  **/
-static StyleFormat *
+static GnmStyleFormat *
 style_format_number (FormatCharacteristics const *fmt)
 {
 	int symbol = fmt->currency_symbol_index;
 	GString *str, *tmp;
-	StyleFormat *sf;
+	GnmStyleFormat *sf;
 
 	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
 	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
@@ -945,11 +945,11 @@ style_format_number (FormatCharacteristics const *fmt)
 	return sf;
 }
 
-static StyleFormat *
+static GnmStyleFormat *
 style_format_fraction (FormatCharacteristics const *fmt)
 {
 	GString *str = g_string_new (NULL);
-	StyleFormat *sf;
+	GnmStyleFormat *sf;
 
 	if (fmt->fraction_denominator >= 2) {
 		g_string_printf (str, "# ?/%d", fmt->fraction_denominator);
@@ -968,11 +968,11 @@ style_format_fraction (FormatCharacteristics const *fmt)
 	return sf;
 }
 
-static StyleFormat *
+static GnmStyleFormat *
 style_format_percent (FormatCharacteristics const *fmt)
 {
 	GString *str;
-	StyleFormat *sf;
+	GnmStyleFormat *sf;
 
 	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
 	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
@@ -990,11 +990,11 @@ style_format_percent (FormatCharacteristics const *fmt)
 	return sf;
 }
 
-static StyleFormat *
+static GnmStyleFormat *
 style_format_science (FormatCharacteristics const *fmt)
 {
 	GString *str;
-	StyleFormat *sf;
+	GnmStyleFormat *sf;
 
 	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
 	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
@@ -1012,11 +1012,11 @@ style_format_science (FormatCharacteristics const *fmt)
 	return sf;
 }
 
-static StyleFormat *
+static GnmStyleFormat *
 style_format_account (FormatCharacteristics const *fmt)
 {
 	GString *str, *sym, *num;
-	StyleFormat *sf;
+	GnmStyleFormat *sf;
 	int symbol = fmt->currency_symbol_index;
 
 	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
@@ -1122,9 +1122,9 @@ find_decimal_char (char const *str)
 
 /* An helper function which modify the number of decimals displayed
  * and recreate the format string by calling the good function */
-static StyleFormat *
+static GnmStyleFormat *
 reformat_decimals (const FormatCharacteristics *fc,
-		   StyleFormat * (*format_function) (FormatCharacteristics const * fmt),
+		   GnmStyleFormat * (*format_function) (FormatCharacteristics const * fmt),
 		   int step)
 {
 	FormatCharacteristics fc_copy;
@@ -1145,14 +1145,14 @@ reformat_decimals (const FormatCharacteristics *fc,
  *
  * Returns NULL if the new format would not change things
  */
-StyleFormat *
-format_remove_decimal (StyleFormat const *fmt)
+GnmStyleFormat *
+format_remove_decimal (GnmStyleFormat const *fmt)
 {
 	int offset = 1;
 	char *ret, *p;
 	char const *tmp;
 	char const *format_string = fmt->format;
-	StyleFormat *sf;
+	GnmStyleFormat *sf;
 
 	switch (fmt->family) {
 	case FMT_NUMBER:
@@ -1241,14 +1241,14 @@ format_remove_decimal (StyleFormat const *fmt)
  *
  * Returns NULL if the new format would not change things
  */
-StyleFormat *
-format_add_decimal (StyleFormat const *fmt)
+GnmStyleFormat *
+format_add_decimal (GnmStyleFormat const *fmt)
 {
 	char const *pre = NULL;
 	char const *post = NULL;
 	char *res;
 	char const *format_string = fmt->format;
-	StyleFormat *sf;
+	GnmStyleFormat *sf;
 
 	switch (fmt->family) {
 	case FMT_NUMBER:
@@ -1341,12 +1341,12 @@ format_add_decimal (StyleFormat const *fmt)
 	return sf;
 }
 
-StyleFormat *
-format_toggle_thousands (StyleFormat const *fmt)
+GnmStyleFormat *
+format_toggle_thousands (GnmStyleFormat const *fmt)
 {
 	FormatCharacteristics fc;
 	GString *newformat;
-	StyleFormat *sf;
+	GnmStyleFormat *sf;
 
 	fc = fmt->family_info;
 	fc.thousands_sep = !fc.thousands_sep;
@@ -1936,8 +1936,8 @@ fmt_general_int (GString *result, int val, int col_width)
  * Returns NULL when the value should be formated as text
  */
 void
-format_value_gstring (GString *result, StyleFormat const *format,
-		      GnmValue const *value, StyleColor **color,
+format_value_gstring (GString *result, GnmStyleFormat const *format,
+		      GnmValue const *value, GnmStyleColor **color,
 		      double col_width, GnmDateConventions const *date_conv)
 {
 	StyleFormatEntry const *entry = NULL; /* default to General */
@@ -2049,7 +2049,7 @@ format_value_gstring (GString *result, StyleFormat const *format,
 }
 
 gchar *
-format_value (StyleFormat const *format, GnmValue const *value, StyleColor **color,
+format_value (GnmStyleFormat const *format, GnmValue const *value, GnmStyleColor **color,
 	      double col_width, GnmDateConventions const *date_conv)
 {
 	GString *result = g_string_sized_new (20);
@@ -2068,7 +2068,7 @@ number_format_init (void)
 static void
 cb_format_leak (gpointer key, gpointer value, gpointer user_data)
 {
-	StyleFormat *format = value;
+	GnmStyleFormat *format = value;
 
 	fprintf (stderr, "Leaking style-format at %p [%s].\n",
 		 format, format->format);
@@ -2189,15 +2189,15 @@ style_format_delocalize (char const *descriptor_string)
 /**
  * style_format_new_XL :
  *
- * Looks up and potentially creates a StyleFormat from the supplied string in
+ * Looks up and potentially creates a GnmStyleFormat from the supplied string in
  * XL format.
  *
  * @descriptor_string: XL descriptor in UTF-8 encoding.
  */
-StyleFormat *
+GnmStyleFormat *
 style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 {
-	StyleFormat *format;
+	GnmStyleFormat *format;
 	char *desc_copy = NULL;
 
 	/* Safety net */
@@ -2207,10 +2207,10 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 	} else if (delocalize)
 		descriptor_string = desc_copy = style_format_delocalize (descriptor_string);
 
-	format = (StyleFormat *) g_hash_table_lookup (style_format_hash, descriptor_string);
+	format = (GnmStyleFormat *) g_hash_table_lookup (style_format_hash, descriptor_string);
 
 	if (!format) {
-		format = g_new0 (StyleFormat, 1);
+		format = g_new0 (GnmStyleFormat, 1);
 		format->format = g_strdup (descriptor_string);
 		format->entries = NULL;
 		format->regexp_str = NULL;
@@ -2228,7 +2228,7 @@ style_format_new_XL (char const *descriptor_string, gboolean delocalize)
 }
 
 
-StyleFormat *
+GnmStyleFormat *
 style_format_build (FormatFamily family, const FormatCharacteristics *info)
 {
 	switch (family) {
@@ -2355,7 +2355,7 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
  * Return a string which the caller is responsible for freeing.
  */
 char *
-style_format_as_XL (StyleFormat const *fmt, gboolean localized)
+style_format_as_XL (GnmStyleFormat const *fmt, gboolean localized)
 {
 	g_return_val_if_fail (fmt != NULL,
 			      g_strdup (localized ? _("General") : "General"));
@@ -2364,13 +2364,13 @@ style_format_as_XL (StyleFormat const *fmt, gboolean localized)
 }
 
 gboolean
-style_format_equal (StyleFormat const *a, StyleFormat const *b)
+style_format_equal (GnmStyleFormat const *a, GnmStyleFormat const *b)
 {
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
 
 	/*
-	 * The way we create StyleFormat *s ensures that we don't need
+	 * The way we create GnmStyleFormat *s ensures that we don't need
 	 * to compare anything but pointers.
 	 */
 	return (a == b);
@@ -2380,10 +2380,10 @@ style_format_equal (StyleFormat const *a, StyleFormat const *b)
  * style_format_ref :
  * @sf :
  *
- * Add a reference to a StyleFormat
+ * Add a reference to a GnmStyleFormat
  */
 void
-style_format_ref (StyleFormat *sf)
+style_format_ref (GnmStyleFormat *sf)
 {
 	g_return_if_fail (sf != NULL);
 
@@ -2394,10 +2394,10 @@ style_format_ref (StyleFormat *sf)
  * style_format_unref :
  * @sf :
  *
- * Remove a reference to a StyleFormat, freeing when it goes to zero.
+ * Remove a reference to a GnmStyleFormat, freeing when it goes to zero.
  */
 void
-style_format_unref (StyleFormat *sf)
+style_format_unref (GnmStyleFormat *sf)
 {
 	if (sf == NULL)
 		return;
@@ -2415,7 +2415,7 @@ style_format_unref (StyleFormat *sf)
 	g_free (sf);
 }
 
-StyleFormat *
+GnmStyleFormat *
 style_format_general (void)
 {
 	if (!default_general_fmt)
@@ -2425,7 +2425,7 @@ style_format_general (void)
 	return default_general_fmt;
 }
 
-StyleFormat *
+GnmStyleFormat *
 style_format_default_date (void)
 {
 	if (!default_date_fmt)
@@ -2435,7 +2435,7 @@ style_format_default_date (void)
 	return default_date_fmt;
 }
 
-StyleFormat *
+GnmStyleFormat *
 style_format_default_time (void)
 {
 	if (!default_time_fmt)
@@ -2445,7 +2445,7 @@ style_format_default_time (void)
 	return default_time_fmt;
 }
 
-StyleFormat *
+GnmStyleFormat *
 style_format_default_percentage	(void)
 {
 	if (!default_percentage_fmt)
@@ -2455,7 +2455,7 @@ style_format_default_percentage	(void)
 	return default_percentage_fmt;
 }
 
-StyleFormat *
+GnmStyleFormat *
 style_format_default_money (void)
 {
 	if (!default_money_fmt)

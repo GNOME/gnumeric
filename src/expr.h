@@ -68,17 +68,17 @@ gboolean  gnm_expr_is_shared 	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_rangeref 	     (GnmExpr const *expr);
 gboolean  gnm_expr_is_err 	     (GnmExpr const *expr, GnmStdError e);
 gboolean  gnm_expr_equal	     (GnmExpr const *a, GnmExpr const *b);
-char	 *gnm_expr_as_string	     (GnmExpr const *expr, ParsePos const *pp,
+char	 *gnm_expr_as_string	     (GnmExpr const *expr, GnmParsePos const *pp,
 				      GnmExprConventions const *fmt);
 void      gnm_expr_as_gstring	     (GString *target,
-				      GnmExpr const *expr, ParsePos const *pp,
+				      GnmExpr const *expr, GnmParsePos const *pp,
 				      GnmExprConventions const *fmt);
 void	  gnm_expr_get_boundingbox   (GnmExpr const *expr, GnmRange *bound);
 GSList	 *gnm_expr_referenced_sheets (GnmExpr const *expr);
 gboolean  gnm_expr_containts_subtotal(GnmExpr const *expr);
 
 struct _GnmExprRelocateInfo {
-	EvalPos pos;
+	GnmEvalPos pos;
 
 	GnmRange   origin;	        /* References to cells in origin_sheet!range */
 	Sheet  *origin_sheet;	/* should to adjusted */
@@ -109,7 +109,7 @@ struct _GnmExprRewriteInfo {
 GnmExpr const *gnm_expr_rewrite	(GnmExpr const *expr,
 				 GnmExprRewriteInfo const *rwinfo);
 
-GnmValue *gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
+GnmValue *gnm_expr_eval (GnmExpr const *expr, GnmEvalPos const *pos,
 			 GnmExprEvalFlags flags);
 
 /*****************************************************************************/

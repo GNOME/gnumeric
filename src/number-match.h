@@ -3,13 +3,13 @@
 
 #include "gnumeric.h"
 
-gboolean format_match_create  (StyleFormat *fmt);
-void	 format_match_release (StyleFormat *fmt);
+gboolean format_match_create  (GnmStyleFormat *fmt);
+void	 format_match_release (GnmStyleFormat *fmt);
 
 GnmValue   *format_match_simple (char const *s);
-GnmValue   *format_match        (char const *s, StyleFormat *cur_fmt,
+GnmValue   *format_match        (char const *s, GnmStyleFormat *cur_fmt,
 				 GnmDateConventions const *date_conv);
-GnmValue   *format_match_number (char const *s, StyleFormat *cur_fmt,
+GnmValue   *format_match_number (char const *s, GnmStyleFormat *cur_fmt,
 				 GnmDateConventions const *date_conv);
 
 void format_match_init   (void);

@@ -116,7 +116,7 @@ WBC_VIRTUAL_FULL (menu_state_sheet_count, menu_state.sheet_count,
 	(WorkbookControl *wbc), (wbc))
 
 WBC_VIRTUAL (paste_from_selection,
-	(WorkbookControl *wbc, PasteTarget const *pt), (wbc, pt))
+	(WorkbookControl *wbc, GnmPasteTarget const *pt), (wbc, pt))
 
 void
 wb_control_sheet_add (WorkbookControl *wbc, SheetView *sv)
@@ -221,7 +221,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 	/* not an address, is it a name ? */
 	target = global_range_parse (sheet, text);
 	if (target == NULL) {
-		ParsePos pp;
+		GnmParsePos pp;
 		GnmNamedExpr *nexpr = expr_name_lookup (
 			parse_pos_init_sheet (&pp, sheet), text);
 

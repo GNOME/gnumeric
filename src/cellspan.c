@@ -200,7 +200,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	int align, left, max_col, min_col;
 	int row, pos, margin;
 	int cell_width_pixel, indented_w;
-	MStyle *mstyle;
+	GnmMStyle *mstyle;
 	ColRowInfo const *ri;
 	GnmRange const *merge_left;
 	GnmRange const *merge_right;
@@ -356,7 +356,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos_l);
 			if (ci->visible) {
 				if (cellspan_is_empty (pos_l, ri, cell)) {
-					MStyle * const mstyle =
+					GnmMStyle * const mstyle =
 						sheet_style_get (cell->base.sheet, pos_l, row);
 
 					if (mstyle_get_align_h (mstyle) != HALIGN_CENTER_ACROSS_SELECTION)
@@ -370,7 +370,7 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos_r);
 			if (ci->visible) {
 				if (cellspan_is_empty (pos_r, ri, cell)) {
-					MStyle * const mstyle =
+					GnmMStyle * const mstyle =
 						sheet_style_get (cell->base.sheet, pos_r, row);
 
 					if (mstyle_get_align_h (mstyle) != HALIGN_CENTER_ACROSS_SELECTION)

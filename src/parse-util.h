@@ -16,14 +16,14 @@ char const *cellpos_parse	(char const *cell_str, GnmCellPos *res,
 				 gboolean strict);
 void        cellref_as_string   (GString *target, const GnmExprConventions *conv,
 				 GnmCellRef const *cell_ref,
-				 ParsePos const *pp, gboolean no_sheetname);
+				 GnmParsePos const *pp, gboolean no_sheetname);
 char const *cellref_parse	(GnmCellRef *out, char const *in,
 				 GnmCellPos const *pos);
 
 void        rangeref_as_string (GString *target, GnmExprConventions const *conv,
-				GnmRangeRef const *ref, ParsePos const *pp);
+				GnmRangeRef const *ref, GnmParsePos const *pp);
 char const *rangeref_parse	(GnmRangeRef *res, char const *in,
-				 ParsePos const *pp);
+				 GnmParsePos const *pp);
 				 /* GError **err); */
 
 char const *sheetref_parse	(char const *start, Sheet **sheet,
@@ -33,9 +33,9 @@ char const *cell_coord_name	(int col, int row);
 char const *cell_name		(GnmCell const *cell);
 
 /* backwards compatibility versions that will move to a plugin */
-char	   *gnm_1_0_rangeref_as_string	(GnmRangeRef const *ref, ParsePos const *pp);
+char	   *gnm_1_0_rangeref_as_string	(GnmRangeRef const *ref, GnmParsePos const *pp);
 char const *gnm_1_0_rangeref_parse	(GnmRangeRef *res, char const *in,
-					 ParsePos const *pp);
+					 GnmParsePos const *pp);
 
 typedef enum {
 	PERR_NONE,
@@ -58,13 +58,13 @@ typedef enum {
 } ParseErrorID;
 
 /* In parser.y  */
-struct _ParseError {
+struct _GnmParseError {
 	GError	*err;
 	int begin_char, end_char;
 };
 
-ParseError *parse_error_init (ParseError *pe);
-void        parse_error_free (ParseError *pe);
+GnmParseError *parse_error_init (GnmParseError *pe);
+void        parse_error_free (GnmParseError *pe);
 
 typedef enum {
 	GNM_EXPR_PARSE_DEFAULT = 0, /* default is Excel */
@@ -76,7 +76,7 @@ typedef enum {
 } GnmExprParseFlags;
 
 typedef char const *(*GnmRangeRefParse) (GnmRangeRef *res, char const *in,
-					 ParsePos const *pp);
+					 GnmParsePos const *pp);
 					 /* GError **err); */
 
 /*
@@ -88,20 +88,20 @@ typedef GnmExpr const *(*GnmParseFunctionHandler) (const char *name,
 						   GnmExprConventions *convs);
 
 typedef void (*GnmParseExprNameHandler) (GString *target,
-					 ParsePos const *pp,
+					 GnmParsePos const *pp,
 					 GnmExprName const *name,
 					 GnmExprConventions const *convs);
 
 typedef void (*GnmParseCellRefHandler) (GString *target,
 					GnmExprConventions const *convs,
 					GnmCellRef const *cell_ref,
-					ParsePos const *pp,
+					GnmParsePos const *pp,
 					gboolean no_sheetname);
 
 typedef void (*GnmParseRangeRefHandler) (GString *target,
 					 GnmExprConventions const *convs,
 					 GnmRangeRef const *cell_ref,
-					 ParsePos const *pp);
+					 GnmParsePos const *pp);
 
 struct _GnmExprConventions {
 #if 0
@@ -186,20 +186,20 @@ extern GnmExprConventions *gnm_expr_conventions_default;
 void parse_util_init (void);
 void parse_util_shutdown (void);
 
-GnmExpr const *gnm_expr_parse_str (char const *expr, ParsePos const *pp,
+GnmExpr const *gnm_expr_parse_str (char const *expr, GnmParsePos const *pp,
 				   GnmExprParseFlags flags,
 				   GnmExprConventions *conv,
-				   ParseError *error);
+				   GnmParseError *error);
 
-GnmExpr const *gnm_expr_parse_str_simple (char const *expr, ParsePos const *pp);
+GnmExpr const *gnm_expr_parse_str_simple (char const *expr, GnmParsePos const *pp);
 
 /* Is this string potentially the start of an expression */
 char const *gnm_expr_char_start_p (char const *c);
 
-void	    parse_text_value_or_expr (ParsePos const *pos,
+void	    parse_text_value_or_expr (GnmParsePos const *pos,
 				      char const *text,
 				      GnmValue **val, GnmExpr const **expr,
-				      StyleFormat *current_format,
+				      GnmStyleFormat *current_format,
 				      GnmDateConventions const *date_conv);
 
 #endif /* GNUMERIC_PARSE_UTIL_H */

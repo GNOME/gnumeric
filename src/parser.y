@@ -190,7 +190,7 @@ typedef struct {
 	char const *start;	/* start of the expression */
 
 	/* Location where the parsing is taking place */
-	ParsePos const *pos;
+	GnmParsePos const *pos;
 
 	/* Locale info. */
 	gunichar decimal_point;
@@ -207,7 +207,7 @@ typedef struct {
 
 	GnmExprList *result;
 
-	ParseError *error;
+	GnmParseError *error;
 } ParserState;
 
 /* The error returned from the */
@@ -417,7 +417,7 @@ parser_simple_val_or_name (GnmExpr *str_expr)
 			if (state->unknown_names_are_strings) {
 				res = gnm_expr_new_constant (value_new_string (str));
 			} else {
-				ParsePos pp = *state->pos;
+				GnmParsePos pp = *state->pos;
 				pp.sheet = NULL;
 				/* Create a place holder */
 				nexpr = expr_name_add (&pp, str, NULL, NULL, TRUE);
@@ -579,7 +579,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| sheetref STRING {
 		GnmNamedExpr *nexpr = NULL;
 		char const *name = $2->constant.value->v_str.val->str;
-		ParsePos pos = *state->pos;
+		GnmParsePos pos = *state->pos;
 
 		pos.sheet = $1;
 		nexpr = expr_name_lookup (&pos, name);
@@ -597,7 +597,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| workbookref STRING {
 		GnmNamedExpr *nexpr = NULL;
 		char const *name = $2->constant.value->v_str.val->str;
-		ParsePos pos = *state->pos;
+		GnmParsePos pos = *state->pos;
 
 		pos.sheet = NULL;
 		pos.wb = $1;
@@ -1225,15 +1225,15 @@ yyerror (const char *s)
  * @error       : optionally NULL ptr to store details of error.
  *
  * Parse a string. if @error is non-null it will be assumed that the
- * caller has passed a pointer to a ParseError struct AND that it will
+ * caller has passed a pointer to a GnmParseError struct AND that it will
  * take responsibility for freeing that struct and its contents.
  * with parse_error_free.
  **/
 GnmExpr const *
-gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
+gnm_expr_parse_str (char const *expr_text, GnmParsePos const *pos,
 		    GnmExprParseFlags flags,
 		    GnmExprConventions *convs,
-		    ParseError *error)
+		    GnmParseError *error)
 {
 	GnmExpr const *expr;
 	ParserState pstate;

@@ -1645,7 +1645,7 @@ typedef struct {
 } financial_npv_t;
 
 static GnmValue *
-callback_function_npv (const EvalPos *ep, GnmValue *value, void *closure)
+callback_function_npv (const GnmEvalPos *ep, GnmValue *value, void *closure)
 {
         financial_npv_t *mm = closure;
 

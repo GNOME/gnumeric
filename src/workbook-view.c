@@ -190,11 +190,11 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 
 	sv = wbv->current_sheet_view;
 	if (sv != NULL) {
-		MStyle *mstyle = sheet_style_get (sv->sheet,
+		GnmMStyle *mstyle = sheet_style_get (sv->sheet,
 			sv->edit_pos.col,
 			sv->edit_pos.row);
-		StyleFormat *sf_style = mstyle_get_format (mstyle);
-		StyleFormat *sf_cell;
+		GnmStyleFormat *sf_style = mstyle_get_format (mstyle);
+		GnmStyleFormat *sf_cell;
 		GnmCell *cell;
 
 		if (style_format_is_general (sf_style) &&
@@ -387,7 +387,7 @@ void
 wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 {
 	FunctionEvalInfo ei;
-	EvalPos		 ep;
+	GnmEvalPos		 ep;
 	GnmExprList	*selection = NULL;
 	GnmValue	*v;
 	SheetView	*sv;

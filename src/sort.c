@@ -176,7 +176,7 @@ sort_permute (GnmSortData *data, int const *perm, int length,
 	      GnmCmdContext *cc)
 {
 	int i, *rperm;
-	PasteTarget pt;
+	GnmPasteTarget pt;
 
 	pt.sheet = data->sheet;
 	pt.paste_flags = PASTE_CONTENT | PASTE_COMMENTS;
@@ -194,7 +194,7 @@ sort_permute (GnmSortData *data, int const *perm, int length,
 
 	for (i = 0; i < length; i++) {
 		GnmRange range1, range2;
-		CellRegion *rcopy1, *rcopy2 = NULL;
+		GnmCellRegion *rcopy1, *rcopy2 = NULL;
 		int i1, i2;
 
 		/* Special case: element is already in place.  */

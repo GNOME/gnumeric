@@ -77,7 +77,7 @@ void	xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
 #define POINT_SIZE_PRECISION 4
 
 static void
-xml_out_add_stylecolor (GsfXMLOut *xml, char const *id, StyleColor *sc)
+xml_out_add_stylecolor (GsfXMLOut *xml, char const *id, GnmStyleColor *sc)
 {
 	g_return_if_fail (sc != NULL);
 
@@ -356,7 +356,7 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 }
 
 static void
-xml_write_style (GnmOutputXML *state, MStyle const *style)
+xml_write_style (GnmOutputXML *state, GnmMStyle const *style)
 {
 	static char const *border_names[] = {
 		GMR "Top",
@@ -443,7 +443,7 @@ xml_write_style (GnmOutputXML *state, MStyle const *style)
 
 	v = mstyle_get_validation (style);
 	if (v != NULL) {
-		ParsePos    pp;
+		GnmParsePos    pp;
 		char	   *tmp;
 
 		gsf_xml_out_start_element (state->output, GMR "Validation");
@@ -489,13 +489,13 @@ xml_write_style (GnmOutputXML *state, MStyle const *style)
 	       && NULL == mstyle_get_border (style, i))
 		i++;
 	if (i <= MSTYLE_BORDER_DIAGONAL) {
-		gsf_xml_out_start_element (state->output, GMR "StyleBorder");
+		gsf_xml_out_start_element (state->output, GMR "GnmStyleBorder");
 		for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
-			StyleBorder const *border;
+			GnmStyleBorder const *border;
 			if (mstyle_is_element_set (style, i) &&
 			    NULL != (border = mstyle_get_border (style, i))) {
 				StyleBorderType t = border->line_type;
-				StyleColor *col   = border->color;
+				GnmStyleColor *col   = border->color;
 				gsf_xml_out_start_element (state->output, 
 					border_names [i - MSTYLE_BORDER_TOP]);
 				gsf_xml_out_add_int (state->output, "Style", t);
@@ -510,9 +510,9 @@ xml_write_style (GnmOutputXML *state, MStyle const *style)
 }
 
 static void
-xml_write_style_region (GnmOutputXML *state, StyleRegion const *region)
+xml_write_style_region (GnmOutputXML *state, GnmStyleRegion const *region)
 {
-	gsf_xml_out_start_element (state->output, GMR "StyleRegion");
+	gsf_xml_out_start_element (state->output, GMR "GnmStyleRegion");
 	xml_out_add_range (state->output, &region->range);
 	if (region->style != NULL)
 		xml_write_style (state, region->style);
@@ -522,7 +522,7 @@ xml_write_style_region (GnmOutputXML *state, StyleRegion const *region)
 static void
 xml_write_styles (GnmOutputXML *state)
 {
-	StyleList *ptr, *styles = sheet_style_get_list (state->sheet, NULL);
+	GnmStyleList *ptr, *styles = sheet_style_get_list (state->sheet, NULL);
 	if (styles != NULL) {
 		gsf_xml_out_start_element (state->output, GMR "Styles");
 		for (ptr = styles; ptr; ptr = ptr->next)
@@ -651,7 +651,7 @@ copy_hash_table_to_ptr_array (gpointer key, GnmCell *cell, gpointer user_data)
 }
 
 static void
-xml_write_cell (GnmOutputXML *state, GnmCell const *cell, ParsePos const *pp)
+xml_write_cell (GnmOutputXML *state, GnmCell const *cell, GnmParsePos const *pp)
 {
 	GnmExprArray const *ar;
 	gboolean write_contents = TRUE;
@@ -723,7 +723,7 @@ xml_write_cells (GnmOutputXML *state)
 {
 	size_t i;
 	GPtrArray *natural = g_ptr_array_new ();
-	ParsePos pp;
+	GnmParsePos pp;
 	GnmCell const *cell;
 
 	gsf_xml_out_start_element (state->output, GMR "Cells");

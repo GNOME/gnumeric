@@ -171,7 +171,7 @@ applix_sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb)
 }
 
 static char const *
-applix_rangeref_parse (GnmRangeRef *res, char const *start, ParsePos const *pp)
+applix_rangeref_parse (GnmRangeRef *res, char const *start, GnmParsePos const *pp)
 {
 	char const *ptr = start, *tmp1, *tmp2;
 	Workbook *wb = pp->wb;
@@ -343,7 +343,7 @@ applix_read_typefaces (ApplixReadState *state)
 	return FALSE;
 }
 
-static StyleColor *
+static GnmStyleColor *
 applix_get_color (ApplixReadState *state, char **buf)
 {
 	/* Skip 'FG' or 'BG' */
@@ -371,10 +371,10 @@ applix_get_precision (char const *val)
 	return 2;
 }
 
-static MStyle *
+static GnmMStyle *
 applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 {
-	MStyle *style;
+	GnmMStyle *style;
 	char *start = *buffer, *tmp = start;
 	gboolean is_protected = FALSE, is_invisible = FALSE;
 	char const *format_prefix = NULL, *format_suffix = NULL;
@@ -616,7 +616,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 
 			case 'F' :
 				if (sep[1] == 'G' ) {
-					StyleColor *color = applix_get_color (state, &sep);
+					GnmStyleColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
 					mstyle_set_color (style, MSTYLE_COLOR_FORE, color);
@@ -704,14 +704,14 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 				sep = end;
 
 				if (sep[0] == 'F' && sep[1] == 'G' ) {
-					StyleColor *color = applix_get_color (state, &sep);
+					GnmStyleColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
 					mstyle_set_color (style, MSTYLE_COLOR_PATTERN, color);
 				}
 
 				if (sep[0] == 'B' && sep[1] == 'G') {
-					StyleColor *color = applix_get_color (state, &sep);
+					GnmStyleColor *color = applix_get_color (state, &sep);
 					if (color == NULL)
 						return NULL;
 					mstyle_set_color (style, MSTYLE_COLOR_BACK, color);
@@ -726,7 +726,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					STYLE_BORDER_DOUBLE
 				};
 
-				StyleColor *color;
+				GnmStyleColor *color;
 				MStyleElementType const type =
 					(sep[0] == 'T') ? MSTYLE_BORDER_TOP :
 					(sep[0] == 'B') ? MSTYLE_BORDER_BOTTOM :
@@ -782,7 +782,7 @@ applix_read_attributes (ApplixReadState *state)
 {
 	int count = 0;
 	unsigned char *ptr, *tmp;
-	MStyle *style;
+	GnmMStyle *style;
 
 	while (NULL != (ptr = applix_get_line (state))) {
 		if (!a_strncmp (ptr, "Attr Table End"))
@@ -988,10 +988,10 @@ static int
 applix_read_cells (ApplixReadState *state)
 {
 	Sheet *sheet;
-	MStyle *style;
+	GnmMStyle *style;
 	GnmCell *cell;
 	GnmCellPos pos;
-	ParseError  perr;
+	GnmParseError  perr;
 	unsigned char content_type, *tmp, *ptr;
 
 	while (NULL != (ptr = applix_get_line (state))) {
@@ -1023,7 +1023,7 @@ applix_read_cells (ApplixReadState *state)
 		switch (content_type) {
 		case ';' : /* First of a shared formula */
 		case '.' : { /* instance of a shared formula */
-			ParsePos	 pos;
+			GnmParsePos	 pos;
 			GnmExpr	const	*expr;
 			GnmValue		*val = NULL;
 			GnmRange		 r;
@@ -1186,7 +1186,7 @@ applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
 			return applix_parse_error (state, "Invalid row format end col");
 		attr_index = strtol (ptr = tmp+1, (char **)&tmp, 10);
 		if (tmp != ptr && attr_index >= 2 && attr_index < state->attrs->len+2) {
-			MStyle *style = g_ptr_array_index(state->attrs, attr_index-2);
+			GnmMStyle *style = g_ptr_array_index(state->attrs, attr_index-2);
 			mstyle_ref (style);
 			sheet_style_set_range (sheet, &r, style);
 		} else if (attr_index != 1) /* TODO : What the hell is attr 1 ?? */
@@ -1243,7 +1243,7 @@ applix_read_absolute_name (ApplixReadState *state, char *buffer)
 {
 	char *end;
 	GnmRangeRef ref;
-	ParsePos pp;
+	GnmParsePos pp;
 	GnmExpr const *expr;
 
 	/* .ABCDe. Coordinate: A:B2..A:C4 */
@@ -1275,7 +1275,7 @@ applix_read_relative_name (ApplixReadState *state, char *buffer)
 	int dummy;
 	char *end;
 	GnmRangeRef ref, flag;
-	ParsePos pp;
+	GnmParsePos pp;
 	GnmExpr const *expr;
 
 	/* .abcdE. tCol:0 tRow:0 tSheet:0 bCol:1 bRow:2 bSheet: 0 tColAbs:0 tRowAbs:0 tSheetAbs:1 bColAbs:0 bRowAbs:0 bSheetAbs:1 */

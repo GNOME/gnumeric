@@ -38,7 +38,7 @@ gboolean cmd_paste_cut		(WorkbookControl *wbc,
 				 gboolean move_selection,
 				 char *cmd_descriptor);
 gboolean cmd_paste_copy		(WorkbookControl *wbc,
-				 PasteTarget const *pt, CellRegion *content);
+				 GnmPasteTarget const *pt, GnmCellRegion *content);
 
 gboolean cmd_sort		(WorkbookControl *wbc, GnmSortData *data);
 
@@ -52,7 +52,7 @@ gboolean cmd_autofill		(WorkbookControl *wbc, Sheet *sheet,
  * selection.  In the future we should pass in a virtualized selection.
  */
 gboolean cmd_selection_format		(WorkbookControl *wbc,
-					 MStyle *style, StyleBorder **borders,
+					 GnmMStyle *style, GnmStyleBorder **borders,
 					 char const *opt_translated_name);
 gboolean cmd_selection_clear		(WorkbookControl *wbc, int clear_flags);
 gboolean cmd_selection_colrow_hide	(WorkbookControl *wbc,
@@ -108,7 +108,7 @@ gboolean cmd_merge_data		(WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_change_summary	(WorkbookControl *wbc, GSList *sin_changes);
 gboolean cmd_print_setup	(WorkbookControl *wbc, Sheet *sheet, PrintInformation const *pi);
 gboolean cmd_define_name	(WorkbookControl *wbc, char const *name,
-				 ParsePos const *pp, GnmExpr const *expr);
+				 GnmParsePos const *pp, GnmExpr const *expr);
 
 typedef enum  {
 	cmd_object_raise_up ,
@@ -132,7 +132,7 @@ gboolean cmd_data_shuffle (WorkbookControl *wbc, struct _data_shuffling_t *sc, S
 gboolean cmd_text_to_columns (WorkbookControl *wbc,
 			      GnmRange const *src, Sheet *src_sheet, 
 			      GnmRange const *target, Sheet *target_sheet, 
-			      CellRegion *content);
+			      GnmCellRegion *content);
 
 gboolean cmd_solver (WorkbookControl *wbc, 
 		     GSList *cells, GSList *ov, GSList *nv);

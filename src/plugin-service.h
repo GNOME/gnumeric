@@ -35,8 +35,8 @@ typedef struct {
 GType plugin_service_general_get_type (void);
 typedef struct _PluginServiceClipboard PluginServiceClipboard;
 typedef struct {
-	guint8     *(*write_content) (GnmPluginService *service, CellRegion *cr, int *size);
-	CellRegion *(*read_content)  (GnmPluginService *service, ErrorInfo **ret_error);
+	guint8     *(*write_content) (GnmPluginService *service, GnmCellRegion *cr, int *size);
+	GnmCellRegion *(*read_content)  (GnmPluginService *service, ErrorInfo **ret_error);
 } PluginServiceClipboardCallbacks;
 
 #define GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE  (plugin_service_file_opener_get_type ())

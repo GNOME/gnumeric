@@ -28,11 +28,11 @@ struct _RenderedValue {
 
 void
 rendered_value_render (GString *str,
-		       GnmCell *cell, PangoContext *context, MStyle const *mstyle,
+		       GnmCell *cell, PangoContext *context, GnmMStyle const *mstyle,
 		       gboolean *dynamic_width, gboolean *display_formula,
-		       StyleColor **color);
+		       GnmStyleColor **color);
 
-RenderedValue *rendered_value_new     (GnmCell *cell, MStyle const *mstyle,
+RenderedValue *rendered_value_new     (GnmCell *cell, GnmMStyle const *mstyle,
 				       gboolean dynamic_width,
 				       PangoContext *context);
 void           rendered_value_destroy (RenderedValue *rv);

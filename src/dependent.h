@@ -63,7 +63,7 @@ struct _GnmDepContainer {
 	GHashTable **range_hash;
 	GnmMemChunk *range_pool;
 
-	/* Single ranges, this maps an EvalPos * to a GSList of its
+	/* Single ranges, this maps an GnmEvalPos * to a GSList of its
 	 * dependencies.
 	 */
 	GHashTable *single_hash;

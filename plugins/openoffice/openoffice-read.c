@@ -60,15 +60,15 @@ typedef struct {
 	IOContext 	*context;	/* The IOcontext managing things */
 	WorkbookView	*wb_view;	/* View for the new workbook */
 
-	ParsePos 	pos;
+	GnmParsePos 	pos;
 
 	int 		 col_inc;
 	gboolean 	 simple_content;
 	gboolean 	 error_content;
 	GHashTable	*styles;
 	GHashTable	*formats;
-	MStyle		*style;
-	MStyle		*col_default_styles[SHEET_MAX_COLS];
+	GnmMStyle		*style;
+	GnmMStyle		*col_default_styles[SHEET_MAX_COLS];
 	GSList		*sheet_order;
 
 	GnmExprConventions *exprconv;
@@ -167,7 +167,7 @@ oo_attr_float (OOParseState *state, xmlChar const * const *attrs,
 	return TRUE;
 }
 
-static StyleColor *
+static GnmStyleColor *
 oo_attr_color (OOParseState *state, xmlChar const * const *attrs,
 	       int ns_id, char const *name)
 {
@@ -299,7 +299,7 @@ static void
 oo_col_start (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin;
-	MStyle *style = NULL;
+	GnmMStyle *style = NULL;
 	int repeat_count = 1;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
@@ -333,7 +333,7 @@ oo_row_start (GsfXMLIn *xin, xmlChar const **attrs)
 }
 
 static char const *
-oo_cellref_parse (GnmCellRef *ref, char const *start, ParsePos const *pp)
+oo_cellref_parse (GnmCellRef *ref, char const *start, GnmParsePos const *pp)
 {
 	char const *tmp1, *tmp2, *ptr = start;
 	/* sheet name cannot contain '.' */
@@ -378,7 +378,7 @@ oo_cellref_parse (GnmCellRef *ref, char const *start, ParsePos const *pp)
 }
 
 static char const *
-oo_rangeref_parse (GnmRangeRef *ref, char const *start, ParsePos const *pp)
+oo_rangeref_parse (GnmRangeRef *ref, char const *start, GnmParsePos const *pp)
 {
 	char const *ptr;
 
@@ -408,7 +408,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 	gnm_float	 float_val;
 	int array_cols = -1, array_rows = -1;
 	int merge_cols = -1, merge_rows = -1;
-	MStyle *style = NULL;
+	GnmMStyle *style = NULL;
 
 	state->col_inc = 1;
 	state->error_content = FALSE;
@@ -432,7 +432,7 @@ oo_cell_start (GsfXMLIn *xin, xmlChar const **attrs)
 				 */
 				state->error_content = TRUE;
 			else {
-				ParseError  perr;
+				GnmParseError  perr;
 				parse_error_init (&perr);
 				expr = oo_expr_parse_str (expr_string,
 					&state->pos, 0, &perr);
@@ -615,19 +615,19 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)xin;
 	xmlChar const *name = NULL;
-	MStyle *parent = NULL;
-	StyleFormat *fmt = NULL;
+	GnmMStyle *parent = NULL;
+	GnmStyleFormat *fmt = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		/* ignore  style:family the names seem unique enough */
 		if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "name"))
 			name = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "parent-style-name")) {
-			MStyle *tmp = g_hash_table_lookup (state->styles, attrs[1]);
+			GnmMStyle *tmp = g_hash_table_lookup (state->styles, attrs[1]);
 			if (tmp != NULL)
 				parent = tmp;
 		} else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "data-style-name")) {
-			StyleFormat *tmp = g_hash_table_lookup (state->formats, attrs[1]);
+			GnmStyleFormat *tmp = g_hash_table_lookup (state->formats, attrs[1]);
 			if (tmp != NULL)
 				fmt = tmp;
 		}
@@ -668,8 +668,8 @@ oo_style_prop (GsfXMLIn *xin, xmlChar const **attrs)
 		{ NULL,	0 },
 	};
 	OOParseState *state = (OOParseState *)xin;
-	StyleColor *color;
-	MStyle *style = state->style;
+	GnmStyleColor *color;
+	GnmMStyle *style = state->style;
 	StyleHAlignFlags h_align = HALIGN_GENERAL;
 	gboolean h_align_is_valid = FALSE;
 	int tmp;
@@ -733,8 +733,8 @@ oo_named_expr (GsfXMLIn *xin, xmlChar const **attrs)
 			expr_str = attrs[1];
 
 	if (name != NULL && base_str != NULL && expr_str != NULL) {
-		ParseError perr;
-		ParsePos   pp;
+		GnmParseError perr;
+		GnmParsePos   pp;
 		GnmExpr const *expr;
 		char *tmp = g_strconcat ("[", base_str, "]", NULL);
 

@@ -560,7 +560,7 @@ static char *
 gee_rangesel_make_text (GnmExprEntry const *gee)
 {
 	GnmRangeRef ref;
-	ParsePos pp;
+	GnmParsePos pp;
 	GString *target = g_string_new (NULL);
 
 	gee_prepare_range (gee, &ref);
@@ -622,7 +622,7 @@ gnm_expr_expr_find_range (GnmExprEntry *gee)
 	char const *text, *cursor, *tmp, *ptr;
 	GnmRangeRef  range;
 	Rangesel *rs;
-	ParsePos  pp;
+	GnmParsePos  pp;
 	int len;
 
 	g_return_if_fail (gee != NULL);
@@ -994,7 +994,7 @@ gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
 	g_return_if_fail (gee->freeze_count == 0);
 
 	if (dep->expression != NULL) {
-		ParsePos pp;
+		GnmParsePos pp;
 		char *text = gnm_expr_as_string (dep->expression,
 			parse_pos_init_dep (&pp, dep), gnm_expr_conventions_default);
 
@@ -1017,7 +1017,7 @@ gnm_expr_entry_load_from_dep (GnmExprEntry *gee, GnmDependent const *dep)
  **/
 void
 gnm_expr_entry_load_from_expr (GnmExprEntry *gee,
-			       GnmExpr const *expr, ParsePos const *pp)
+			       GnmExpr const *expr, GnmParsePos const *pp)
 {
 	g_return_if_fail (IS_GNM_EXPR_ENTRY (gee));
 	/* We have nowhere to store the text while frozen. */
@@ -1221,8 +1221,8 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
  * the flags.
  */
 GnmExpr const *
-gnm_expr_entry_parse (GnmExprEntry *gee, ParsePos const *pp,
-		      ParseError *perr, gboolean start_sel,
+gnm_expr_entry_parse (GnmExprEntry *gee, GnmParsePos const *pp,
+		      GnmParseError *perr, gboolean start_sel,
 		      GnmExprParseFlags flags)
 {
 	char const *text;

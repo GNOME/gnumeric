@@ -195,12 +195,12 @@ pln_file_probe (GnmFileOpener const *fo, GsfInput *input,
 		memcmp (header, signature, sizeof (signature)) == 0;
 }
 
-static MStyle *
+static GnmMStyle *
 pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 {
 	guint16 attr, fmt, font;
 	guint32 key;
-	MStyle *res;
+	GnmMStyle *res;
 
 	attr = GSF_LE_GET_GUINT16 (data);
 	fmt  = GSF_LE_GET_GUINT16 (data+2);
@@ -208,7 +208,7 @@ pln_get_style (PlanPerfectImport *state, guint8 const* data, gboolean is_cell)
 
 	/* Check for use of sheet defaults */
 	if (is_cell) {
-		MStyle *def = sheet_style_default (state->sheet);
+		GnmMStyle *def = sheet_style_default (state->sheet);
 		if ((attr & 0x0700) == 0x0400) {
 			attr &= 0xf8ff;
 			switch (mstyle_get_align_h (def)) {
@@ -275,7 +275,7 @@ pln_get_number (guint8 const * ch)
 }
 
 static char *
-pln_get_addr (ParsePos const *pp, guint8 const *ch)
+pln_get_addr (GnmParsePos const *pp, guint8 const *ch)
 {
 	guint16 r = GSF_LE_GET_GUINT16 (ch);
 	guint16 c = GSF_LE_GET_GUINT16 (ch+2);
@@ -308,7 +308,7 @@ pln_get_addr (ParsePos const *pp, guint8 const *ch)
 }
 
 static char *
-pln_convert_expr (ParsePos const *pp, guint8 const *ch)
+pln_convert_expr (GnmParsePos const *pp, guint8 const *ch)
 {
 	GString *expr = g_string_new (NULL);
 	guint8 *str;
@@ -492,8 +492,8 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 	GnmCell    *cell;
 	GnmValue   *v;
 	GnmExpr const *expr;
-	MStyle  *style;
-	ParsePos pp;
+	GnmMStyle  *style;
+	GnmParsePos pp;
 	GnmRange r;
 
 	range_init (&r, 0,0,0, SHEET_MAX_ROWS);

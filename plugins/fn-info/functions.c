@@ -122,7 +122,7 @@ static const translate_t translate_table[] = {
 };
 
 static GnmValue *
-translate_cell_format (StyleFormat const *format)
+translate_cell_format (GnmStyleFormat const *format)
 {
 	int i;
 	char *fmt;
@@ -153,8 +153,8 @@ translate_cell_format (StyleFormat const *format)
 static FormatCharacteristics
 retrieve_format_info (Sheet *sheet, int col, int row)
 {
-	MStyle *mstyle = sheet_style_get (sheet, col, row);
-	StyleFormat *format = mstyle_get_format (mstyle);
+	GnmMStyle *mstyle = sheet_style_get (sheet, col, row);
+	GnmStyleFormat *format = mstyle_get_format (mstyle);
 	return format->family_info;
 }
 
@@ -167,7 +167,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 
 	/* from CELL - limited usefulness! */
 	if (!g_ascii_strcasecmp(info_type, "address")) {
-		ParsePos pp;
+		GnmParsePos pp;
 		GString *str = g_string_new (NULL);
 
 		cellref_as_string (
@@ -180,7 +180,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 
 	/* from later 123 versions - USEFUL! */
 	} else if (!g_ascii_strcasecmp(info_type, "coord")) {
-		ParsePos pp;
+		GnmParsePos pp;
 		GnmCellRef tmp = *ref;
 		GString *str = g_string_new (NULL);
 
@@ -244,7 +244,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	/* from CELL */
 	/* Backwards compatibility w/123 - unnecessary */
 	} else if (!g_ascii_strcasecmp (info_type, "format")) {
-		MStyle const *mstyle =
+		GnmMStyle const *mstyle =
 			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
 
 		return translate_cell_format (mstyle_get_format (mstyle));
@@ -263,7 +263,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	/* Backwards compatibility w/123 - unnecessary */
 	} else if (!g_ascii_strcasecmp (info_type, "prefix") ||
 		   !g_ascii_strcasecmp (info_type, "prefixcharacter")) {
-		MStyle const *mstyle =
+		GnmMStyle const *mstyle =
 			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
 		GnmCell const *cell =
 			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
@@ -283,7 +283,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 	/* from CELL */
 	} else if (!g_ascii_strcasecmp (info_type, "locked") ||
 		   !g_ascii_strcasecmp (info_type, "protect")) {
-		MStyle const *mstyle =
+		GnmMStyle const *mstyle =
 			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
 		return value_new_int (mstyle_get_content_locked (mstyle) ? 1 : 0);
 
@@ -1182,7 +1182,7 @@ gnumeric_expression (FunctionEvalInfo *ei, GnmValue **args)
 				       a->col, a->row);
 
 		if (cell && cell_has_expr (cell)) {
-			ParsePos pos;
+			GnmParsePos pos;
 			char *expr_string = gnm_expr_as_string (cell->base.expression,
 				parse_pos_init_cell (&pos, cell),
 				gnm_expr_conventions_default);

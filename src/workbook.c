@@ -626,7 +626,7 @@ workbook_unref (Workbook *wb)
  *    to stop (by returning non-NULL).
  */
 GnmValue *
-workbook_foreach_cell_in_range (EvalPos const *pos,
+workbook_foreach_cell_in_range (GnmEvalPos const *pos,
 				GnmValue const	*cell_range,
 				CellIterFlags	 flags,
 				CellIterFunc	 handler,
@@ -673,7 +673,7 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
  * @wb : The workbook to find cells in.
  * @comments: If true, include cells with only comments also.
  *
- * Collects a GPtrArray of EvalPos pointers for all cells in a workbook.
+ * Collects a GPtrArray of GnmEvalPos pointers for all cells in a workbook.
  * No particular order should be assumed.
  */
 GPtrArray *
@@ -696,7 +696,7 @@ workbook_cells (Workbook *wb, gboolean comments)
 		g_ptr_array_set_size (cells, oldlen + scells->len);
 		memcpy (&g_ptr_array_index (cells, oldlen),
 			&g_ptr_array_index (scells, 0),
-			scells->len * sizeof (EvalPos *));
+			scells->len * sizeof (GnmEvalPos *));
 
 		g_ptr_array_free (scells, TRUE);
 	}
@@ -1428,10 +1428,10 @@ workbook_sheet_recolor  (Workbook *wb,
 		if (sheet != NULL) {
 			GdkColor *fc = (GdkColor *) fore->data;
 			GdkColor *bc = (GdkColor *) back->data;
-			StyleColor *fore_color = fc ?
+			GnmStyleColor *fore_color = fc ?
 				style_color_new (fc->red, fc->green,
 						 fc->blue) : NULL;
-			StyleColor *back_color = bc ?
+			GnmStyleColor *back_color = bc ?
 				style_color_new (bc->red, bc->green,
 						 bc->blue) : NULL;
 			sheet_set_tab_color (sheet, back_color, fore_color);

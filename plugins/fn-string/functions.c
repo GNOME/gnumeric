@@ -790,7 +790,7 @@ static char const *help_text = {
 static GnmValue *
 gnumeric_text (FunctionEvalInfo *ei, GnmValue **args)
 {
-	StyleFormat *format = style_format_new_XL (value_peek_string (args[1]),
+	GnmStyleFormat *format = style_format_new_XL (value_peek_string (args[1]),
 						   TRUE);
 	GnmValue       *res, *tmp = NULL;
 	GnmValue const *arg  = args[0];
@@ -992,7 +992,7 @@ static GnmValue *
 gnumeric_dollar (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	FormatCharacteristics info;
-	StyleFormat *sf;
+	GnmStyleFormat *sf;
 	gnm_float p10;
 	GnmValue *v;
 	char *s, *end;

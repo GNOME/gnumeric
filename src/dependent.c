@@ -147,7 +147,7 @@ dependent_set_expr (GnmDependent *dep, GnmExpr const *new_expr)
 
 #if 0
 {
-	ParsePos pos;
+	GnmParsePos pos;
 	char *str;
 
 	parse_pos_init_dep (&pos, dep);
@@ -766,7 +766,7 @@ link_expr_dep (GnmDependent *dep, GnmCellPos const *pos, GnmExpr const *tree)
 		if (tree->func.func->fn_type == GNM_FUNC_TYPE_STUB)
 			gnm_func_load_stub (tree->func.func);
 		if (tree->func.func->linker) {
-			EvalPos		 ep;
+			GnmEvalPos		 ep;
 			FunctionEvalInfo fei;
 			fei.pos = eval_pos_init_dep (&ep, dep);
 			fei.func_call = (GnmExprFunction const *)tree;
@@ -851,7 +851,7 @@ unlink_expr_dep (GnmDependent *dep, GnmCellPos const *pos, GnmExpr const *tree)
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList *l;
 		if (tree->func.func->unlinker) {
-			EvalPos		 ep;
+			GnmEvalPos		 ep;
 			FunctionEvalInfo fei;
 			fei.pos = eval_pos_init_dep (&ep, dep);
 			fei.func_call = (GnmExprFunction const *)tree;
@@ -1090,7 +1090,7 @@ cell_eval_content (GnmCell *cell)
 {
 	static GnmCell *iterating = NULL;
 	GnmValue   *v;
-	EvalPos	 pos;
+	GnmEvalPos	 pos;
 	int	 max_iteration;
 
 	if (!cell_has_expr (cell))
@@ -1107,7 +1107,7 @@ cell_eval_content (GnmCell *cell)
 
 #ifdef DEBUG_EVALUATION
 	{
-		ParsePos pp;
+		GnmParsePos pp;
 		char *str = gnm_expr_as_string (cell->base.expression,
 			parse_pos_init_cell (&pp, cell), gnm_expr_conventions_default);
 		printf ("{\nEvaluating %s: %s;\n", cell_name (cell), str);
@@ -1455,7 +1455,7 @@ typedef struct
 {
     	int dep_type;
 	union {
-		EvalPos    pos;
+		GnmEvalPos    pos;
 		GnmDependent *dep;
 	} u;
 	GnmExpr const *oldtree;

@@ -72,8 +72,8 @@ void cell_convert_expr_to_value	(GnmCell *cell);
 /**
  * Manipulate GnmCell attributes
  */
-MStyle *cell_get_mstyle		(GnmCell const *cell);
-StyleFormat *cell_get_format	(GnmCell const *cell);
+GnmMStyle *cell_get_mstyle		(GnmCell const *cell);
+GnmStyleFormat *cell_get_format	(GnmCell const *cell);
 void	cell_set_format		(GnmCell *cell, char const *format);
 
 void	cell_render_value	(GnmCell *cell, gboolean dynamic_width);

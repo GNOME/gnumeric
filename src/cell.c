@@ -210,7 +210,7 @@ cell_set_text (GnmCell *cell, char const *text)
 {
 	GnmExpr const *expr;
 	GnmValue      *val;
-	ParsePos       pos;
+	GnmParsePos       pos;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
@@ -541,7 +541,7 @@ void
 cell_render_value (GnmCell *cell, gboolean dynamic_width)
 {
 	RenderedValue *rv;
-	MStyle *mstyle;
+	GnmMStyle *mstyle;
 	PangoContext *context;
 
 	g_return_if_fail (cell != NULL);
@@ -575,7 +575,7 @@ cell_get_rendered_text  (GnmCell *cell)
 }
 
 
-MStyle *
+GnmMStyle *
 cell_get_mstyle (GnmCell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, NULL);
@@ -591,10 +591,10 @@ cell_get_mstyle (GnmCell const *cell)
  * Get the display format.  If the assigned format is General,
  * the format of the value will be used.
  */
-StyleFormat *
+GnmStyleFormat *
 cell_get_format (GnmCell const *cell)
 {
-	StyleFormat *fmt;
+	GnmStyleFormat *fmt;
 
 	g_return_val_if_fail (cell != NULL, style_format_general ());
 
@@ -621,7 +621,7 @@ void
 cell_set_format (GnmCell *cell, char const *format)
 {
 	GnmRange r;
-	MStyle *mstyle = mstyle_new ();
+	GnmMStyle *mstyle = mstyle_new ();
 
 	g_return_if_fail (mstyle != NULL);
 

@@ -32,8 +32,8 @@
 #include "ranges.h"
 
 
-EvalPos *
-eval_pos_init (EvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
+GnmEvalPos *
+eval_pos_init (GnmEvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
 {
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -46,8 +46,8 @@ eval_pos_init (EvalPos *ep, Sheet *sheet, GnmCellPos const *pos)
 	return ep;
 }
 
-EvalPos *
-eval_pos_init_dep (EvalPos *ep, GnmDependent const *dep)
+GnmEvalPos *
+eval_pos_init_dep (GnmEvalPos *ep, GnmDependent const *dep)
 {
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (dep != NULL, NULL);
@@ -63,8 +63,8 @@ eval_pos_init_dep (EvalPos *ep, GnmDependent const *dep)
 	return ep;
 }
 
-EvalPos *
-eval_pos_init_cell (EvalPos *ep, GnmCell const *cell)
+GnmEvalPos *
+eval_pos_init_cell (GnmEvalPos *ep, GnmCell const *cell)
 {
 	g_return_val_if_fail (ep != NULL, NULL);
 	g_return_val_if_fail (cell != NULL, NULL);
@@ -75,8 +75,8 @@ eval_pos_init_cell (EvalPos *ep, GnmCell const *cell)
 	return ep;
 }
 
-EvalPos *
-eval_pos_init_sheet (EvalPos *ep, Sheet *sheet)
+GnmEvalPos *
+eval_pos_init_sheet (GnmEvalPos *ep, Sheet *sheet)
 {
 	static GnmCellPos const pos = { 0, 0 };
 
@@ -101,8 +101,8 @@ eval_pos_init_sheet (EvalPos *ep, Sheet *sheet)
  * Use either a sheet (preferred) or a workbook to initialize the supplied
  * ParsePosition.
  */
-ParsePos *
-parse_pos_init (ParsePos *pp, Workbook *wb, Sheet *sheet, int col, int row)
+GnmParsePos *
+parse_pos_init (GnmParsePos *pp, Workbook *wb, Sheet *sheet, int col, int row)
 {
 	/* Global */
 	if (wb == NULL && sheet == NULL)
@@ -126,8 +126,8 @@ parse_pos_init (ParsePos *pp, Workbook *wb, Sheet *sheet, int col, int row)
  * @pp : The position to init.
  * @dep : The dependent
  */
-ParsePos *
-parse_pos_init_dep (ParsePos *pp, GnmDependent const *dep)
+GnmParsePos *
+parse_pos_init_dep (GnmParsePos *pp, GnmDependent const *dep)
 {
 	g_return_val_if_fail (pp != NULL, NULL);
 
@@ -138,8 +138,8 @@ parse_pos_init_dep (ParsePos *pp, GnmDependent const *dep)
 	return pp;
 }
 
-ParsePos *
-parse_pos_init_cell (ParsePos *pp, GnmCell const *cell)
+GnmParsePos *
+parse_pos_init_cell (GnmParsePos *pp, GnmCell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (cell->base.sheet), NULL);
@@ -149,16 +149,16 @@ parse_pos_init_cell (ParsePos *pp, GnmCell const *cell)
 			       cell->pos.col, cell->pos.row);
 }
 
-ParsePos *
-parse_pos_init_evalpos (ParsePos *pp, EvalPos const *ep)
+GnmParsePos *
+parse_pos_init_evalpos (GnmParsePos *pp, GnmEvalPos const *ep)
 {
 	g_return_val_if_fail (ep != NULL, NULL);
 
 	return parse_pos_init (pp, NULL, ep->sheet, ep->eval.col, ep->eval.row);
 }
 
-ParsePos *
-parse_pos_init_editpos (ParsePos *pp, SheetView const *sv)
+GnmParsePos *
+parse_pos_init_editpos (GnmParsePos *pp, SheetView const *sv)
 {
 	g_return_val_if_fail (IS_SHEET_VIEW (sv), NULL);
 
@@ -166,8 +166,8 @@ parse_pos_init_editpos (ParsePos *pp, SheetView const *sv)
 		sv->edit_pos.col, sv->edit_pos.row);
 }
 
-ParsePos *
-parse_pos_init_sheet (ParsePos *pp, Sheet *sheet)
+GnmParsePos *
+parse_pos_init_sheet (GnmParsePos *pp, Sheet *sheet)
 {
 	g_return_val_if_fail (pp != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -207,7 +207,7 @@ cellref_hash (GnmCellRef const *cr)
 }
 
 int
-cellref_get_abs_col (GnmCellRef const *ref, EvalPos const *ep)
+cellref_get_abs_col (GnmCellRef const *ref, GnmEvalPos const *ep)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (ep != NULL, 0);
@@ -222,7 +222,7 @@ cellref_get_abs_col (GnmCellRef const *ref, EvalPos const *ep)
 }
 
 int
-cellref_get_abs_row (GnmCellRef const *ref, EvalPos const *ep)
+cellref_get_abs_row (GnmCellRef const *ref, GnmEvalPos const *ep)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (ep != NULL, 0);
@@ -260,7 +260,7 @@ cellref_get_abs_pos (GnmCellRef const *cell_ref,
 }
 
 void
-cellref_make_abs (GnmCellRef *dest, GnmCellRef const *src, EvalPos const *ep)
+cellref_make_abs (GnmCellRef *dest, GnmCellRef const *src, GnmEvalPos const *ep)
 {
 	g_return_if_fail (dest != NULL);
 	g_return_if_fail (src != NULL);
@@ -311,7 +311,7 @@ rangeref_dup (GnmRangeRef const *rr)
  *     by converting to absolute coords and handling inversions.
  */
 void
-rangeref_normalize (GnmRangeRef const *ref, EvalPos const *ep,
+rangeref_normalize (GnmRangeRef const *ref, GnmEvalPos const *ep,
 		    Sheet **start_sheet, Sheet **end_sheet, GnmRange *dest)
 {
 	g_return_if_fail (ref != NULL);

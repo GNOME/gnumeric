@@ -63,10 +63,10 @@ tabulation_eval (Workbook *wb, int dims, gnm_float const *x,
 		: value_new_error_VALUE (NULL);
 }
 
-static StyleFormat const *
+static GnmStyleFormat const *
 my_get_format (GnmCell const *cell)
 {
-	StyleFormat const *format = mstyle_get_format (cell_get_mstyle (cell));
+	GnmStyleFormat const *format = mstyle_get_format (cell_get_mstyle (cell));
 
 	if (style_format_is_general (format) &&
 	    cell->value != NULL && VALUE_FMT (cell->value) != NULL)
@@ -82,14 +82,14 @@ do_tabulation (WorkbookControl *wbc,
 	GSList *sheet_idx = NULL;
 	Sheet *sheet = NULL;
 	gboolean sheetdim = (!data->with_coordinates && data->dims >= 3);
-	StyleFormat const *targetformat = my_get_format (data->target);
+	GnmStyleFormat const *targetformat = my_get_format (data->target);
 	int row = 0;
 
 	gnm_float *values = g_new (gnm_float, data->dims);
 	int *index = g_new (int, data->dims);
 	int *counts = g_new (int, data->dims);
 	Sheet **sheets = NULL;
-	StyleFormat const **formats = g_new (StyleFormat const *, data->dims);
+	GnmStyleFormat const **formats = g_new (GnmStyleFormat const *, data->dims);
 
 	{
 		int i;
@@ -111,7 +111,7 @@ do_tabulation (WorkbookControl *wbc,
 	if (sheetdim) {
 		int dim = 2;
 		gnm_float val = data->minima[dim];
-		StyleFormat const *sf = my_get_format (data->cells[dim]);
+		GnmStyleFormat const *sf = my_get_format (data->cells[dim]);
 		int i;
 
 		sheets = g_new (Sheet *, counts[dim]);
@@ -185,9 +185,9 @@ do_tabulation (WorkbookControl *wbc,
 
 			/* Make a horizon line on top between header and table.  */
 			if (row == 1 && col == 1) {
-				MStyle *mstyle = mstyle_new ();
+				GnmMStyle *mstyle = mstyle_new ();
 				GnmRange range;
-				StyleBorder *border;
+				GnmStyleBorder *border;
 
 				range.start.col = 0;
 				range.start.row = 0;
@@ -205,9 +205,9 @@ do_tabulation (WorkbookControl *wbc,
 
 			/* Make a vertical line on left between header and table.  */
 			if (row == 1 && col == 1) {
-				MStyle *mstyle = mstyle_new ();
+				GnmMStyle *mstyle = mstyle_new ();
 				GnmRange range;
-				StyleBorder *border;
+				GnmStyleBorder *border;
 
 				range.start.col = 0;
 				range.start.row = 0;

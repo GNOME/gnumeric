@@ -115,7 +115,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 		ValidationStatus valid;
 		char *free_txt = NULL;
 		char const *txt = wbcg_edit_get_display_text (wbcg);
-		MStyle *mstyle = sheet_style_get (sheet, sv->edit_pos.col, sv->edit_pos.row);
+		GnmMStyle *mstyle = sheet_style_get (sheet, sv->edit_pos.col, sv->edit_pos.row);
 		char const *expr_txt = NULL;
 
 		/* BE CAREFUL the standard fmts must not NOT include '@' */
@@ -131,8 +131,8 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 		 * it just isn't an expression. */
 		if (expr_txt != NULL && *expr_txt != '\0' && strcmp (expr_txt, "-")) {
 			GnmExpr const *expr = NULL;
-			ParsePos    pp;
-			ParseError  perr;
+			GnmParsePos    pp;
+			GnmParseError  perr;
 
 			parse_pos_init_editpos (&pp, sv);
 			parse_error_init (&perr);
@@ -141,7 +141,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 			/* Try adding a single extra closing paren to see if it helps */
 			if (expr == NULL && perr.err != NULL &&
 			    perr.err->code == PERR_MISSING_PAREN_CLOSE) {
-				ParseError tmp_err;
+				GnmParseError tmp_err;
 				char *tmp = g_strconcat (txt, ")", NULL);
 				parse_error_init (&tmp_err);
 				expr = gnm_expr_parse_str (gnm_expr_char_start_p (tmp),

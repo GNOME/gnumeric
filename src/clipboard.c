@@ -84,7 +84,7 @@ static GnmValue *
 apply_paste_oper_to_values (GnmCell const *old_cell, GnmCell const *copied_cell,
 			    GnmCell const *new_cell, int paste_flags)
 {
-	EvalPos pos;
+	GnmEvalPos pos;
 	GnmExpr expr, arg_a, arg_b;
 	GnmExprOp op = paste_op_to_expr_op (paste_flags);
 
@@ -144,8 +144,8 @@ paste_cell_with_operation (Sheet *dest_sheet,
  * this is called.
  */
 static void
-paste_link (PasteTarget const *pt, int top, int left,
-	    CellRegion const *content)
+paste_link (GnmPasteTarget const *pt, int top, int left,
+	    GnmCellRegion const *content)
 {
 	GnmCell *cell;
 	GnmCellPos pos;
@@ -246,20 +246,20 @@ paste_cell (Sheet *dest_sheet,
 
 /**
  * clipboard_paste_region:
- * @content : The CellRegion to paste.
+ * @content : The GnmCellRegion to paste.
  * @pt : Where to paste the values.
  * @cc : The context for error handling.
  *
- * Pastes the supplied CellRegion (@content) into the supplied
- * PasteTarget (@pt).  This operation is not undoable.  It does not auto grow
+ * Pastes the supplied GnmCellRegion (@content) into the supplied
+ * GnmPasteTarget (@pt).  This operation is not undoable.  It does not auto grow
  * the destination if the target is a singleton.  This is a simple interface to
  * paste a region.
  *
  * returns : TRUE if there was a problem.
  */
 gboolean
-clipboard_paste_region (CellRegion const *content,
-			PasteTarget const *pt,
+clipboard_paste_region (GnmCellRegion const *content,
+			GnmPasteTarget const *pt,
 			GnmCmdContext *cc)
 {
 	int repeat_horizontal, repeat_vertical, clearFlags;
@@ -462,7 +462,7 @@ clipboard_paste_region (CellRegion const *content,
 static GnmValue *
 clipboard_prepend_cell (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 {
-	CellRegion *cr = user_data;
+	GnmCellRegion *cr = user_data;
 	GnmExprArray const *a;
 	CellCopy *copy;
 	GnmComment   *comment;
@@ -514,10 +514,10 @@ clipboard_prepend_comment (SheetObject const *so, void *user_data)
  *
  * Entry point to the clipboard copy code
  */
-CellRegion *
+GnmCellRegion *
 clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 {
-	CellRegion *cr;
+	GnmCellRegion *cr;
 	GSList *merged, *ptr;
 	GSList *comments;
 
@@ -550,8 +550,8 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 	return cr;
 }
 
-PasteTarget*
-paste_target_init (PasteTarget *pt, Sheet *sheet, GnmRange const *r, int flags)
+GnmPasteTarget*
+paste_target_init (GnmPasteTarget *pt, Sheet *sheet, GnmRange const *r, int flags)
 {
 	pt->sheet = sheet;
 	pt->range = *r;
@@ -565,10 +565,10 @@ paste_target_init (PasteTarget *pt, Sheet *sheet, GnmRange const *r, int flags)
  *
  * A convenience routine to create CellRegions and init the flags nicely.
  */
-CellRegion *
+GnmCellRegion *
 cellregion_new (Sheet *origin_sheet)
 {
-	CellRegion *cr = g_new0 (CellRegion, 1);
+	GnmCellRegion *cr = g_new0 (GnmCellRegion, 1);
 	cr->origin_sheet	= origin_sheet;
 	cr->cols = cr->rows	= -1;
 	cr->not_as_content	= FALSE;
@@ -583,10 +583,10 @@ cellregion_new (Sheet *origin_sheet)
  * cellregion_free :
  * @content :
  *
- * A convenience routine to free the memory associated with a CellRegion.
+ * A convenience routine to free the memory associated with a GnmCellRegion.
  */
 void
-cellregion_free (CellRegion *cr)
+cellregion_free (GnmCellRegion *cr)
 {
 	CellCopyList *ptr;
 
@@ -629,10 +629,10 @@ cellregion_free (CellRegion *cr)
  * cellregion_to_string
  * @cr :
  *
- * Renders a CellRegion as a sequence of strings.
+ * Renders a GnmCellRegion as a sequence of strings.
  */
 char *
-cellregion_to_string (PangoContext *context, CellRegion const *cr)
+cellregion_to_string (PangoContext *context, GnmCellRegion const *cr)
 {
 	GString *all, *line;
 	CellCopyList *ptr;
@@ -652,7 +652,7 @@ cellregion_to_string (PangoContext *context, CellRegion const *cr)
 
 		if (c_copy->type != CELL_COPY_TYPE_TEXT) {
 			/* FIXME: feels bogus to use rendered value.  */
-			MStyle const *mstyle = style_list_get_style (cr->styles,
+			GnmMStyle const *mstyle = style_list_get_style (cr->styles,
 				&c_copy->u.cell->pos);
 			RenderedValue *rv;
 

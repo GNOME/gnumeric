@@ -27,7 +27,7 @@ typedef int (*float_range_function_t) (gnm_float const *, int, gnm_float *);
 typedef int (*float_range_function2_t) (gnm_float const *, gnm_float const *, int, gnm_float *);
 typedef int (*string_range_function_t) (GSList *, char**);
 
-gnm_float *collect_floats_value (GnmValue const *val, const EvalPos *ep,
+gnm_float *collect_floats_value (GnmValue const *val, const GnmEvalPos *ep,
 				 CollectFlags flags,
 				 int *n, GnmValue **error);
 

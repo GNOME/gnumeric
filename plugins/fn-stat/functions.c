@@ -78,7 +78,7 @@ setup_stat_closure (stat_closure_t *cl)
 }
 
 static GnmValue *
-callback_function_stat (EvalPos const *ep, GnmValue *value, void *closure)
+callback_function_stat (GnmEvalPos const *ep, GnmValue *value, void *closure)
 {
 	stat_closure_t *mm = closure;
 	gnm_float x, dx, dm;
@@ -111,7 +111,7 @@ callback_function_stat (EvalPos const *ep, GnmValue *value, void *closure)
  * than before.  We should not have to do this
  */
 static GnmValue *
-stat_helper (stat_closure_t *cl, EvalPos const *ep, GnmValue *val)
+stat_helper (stat_closure_t *cl, GnmEvalPos const *ep, GnmValue *val)
 {
 	GnmExprConstant expr;
 	GnmExprList *expr_node_list;
@@ -800,7 +800,7 @@ static char const *help_count = {
 };
 
 static GnmValue *
-callback_function_count (EvalPos const *ep, GnmValue *value, void *closure)
+callback_function_count (GnmEvalPos const *ep, GnmValue *value, void *closure)
 {
 	GnmValue *result = (GnmValue *) closure;
 
@@ -844,7 +844,7 @@ static char const *help_counta = {
 };
 
 static GnmValue *
-callback_function_counta (EvalPos const *ep, GnmValue *value, void *closure)
+callback_function_counta (GnmEvalPos const *ep, GnmValue *value, void *closure)
 {
         GnmValue *result = (GnmValue *) closure;
 
@@ -1351,7 +1351,7 @@ typedef struct {
 } stat_chitest_t;
 
 static GnmValue *
-callback_function_chitest_actual (EvalPos const *ep, GnmValue *value,
+callback_function_chitest_actual (GnmEvalPos const *ep, GnmValue *value,
 				  void *closure)
 {
 	stat_chitest_t *mm = closure;
@@ -1384,7 +1384,7 @@ typedef struct {
 } stat_chitest_t_t;
 
 static GnmValue *
-callback_function_chitest_theoretical (EvalPos const *ep, GnmValue *value,
+callback_function_chitest_theoretical (GnmEvalPos const *ep, GnmValue *value,
 				       void *closure)
 {
 	stat_chitest_t_t *mm = closure;
@@ -3037,7 +3037,7 @@ typedef struct {
 } stat_ztest_t;
 
 static GnmValue *
-callback_function_ztest (EvalPos const *ep, GnmValue *value, void *closure)
+callback_function_ztest (GnmEvalPos const *ep, GnmValue *value, void *closure)
 {
 	stat_ztest_t *mm = closure;
 	gnm_float last;
@@ -3376,7 +3376,7 @@ typedef struct {
 } stat_percentrank_t;
 
 static GnmValue *
-callback_function_percentrank (EvalPos const *ep, GnmValue *value,
+callback_function_percentrank (GnmEvalPos const *ep, GnmValue *value,
 			       void *user_data)
 {
         stat_percentrank_t *p = user_data;
@@ -3647,7 +3647,7 @@ typedef struct {
 } stat_ttest_t;
 
 static GnmValue *
-callback_function_ttest (EvalPos const *ep, GnmValue *value, void *closure)
+callback_function_ttest (GnmEvalPos const *ep, GnmValue *value, void *closure)
 {
 	stat_ttest_t *mm = closure;
 	gnm_float   x;

@@ -156,7 +156,7 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, GnmCellPos
 }
 
 static gboolean
-xml_sax_attr_color (xmlChar const * const *attrs, char const *name, StyleColor **res)
+xml_sax_attr_color (xmlChar const * const *attrs, char const *name, GnmStyleColor **res)
 {
 	int red, green, blue;
 
@@ -234,12 +234,12 @@ typedef struct {
 
 	gboolean  style_range_init;
 	GnmRange	  style_range;
-	MStyle   *style;
+	GnmMStyle   *style;
 
 	GnmCellPos cell;
 	int expr_id, array_rows, array_cols;
 	int value_type;
-	StyleFormat *value_fmt;
+	GnmStyleFormat *value_fmt;
 
 	int display_formulas;
 	int hide_zero;
@@ -249,7 +249,7 @@ typedef struct {
 	int display_outlines;
 	int outline_symbols_below;
 	int outline_symbols_right;
-	StyleColor *tab_color;
+	GnmStyleColor *tab_color;
 
 	/* expressions with ref > 1 a map from index -> expr pointer */
 	GHashTable *expr_map;
@@ -387,7 +387,7 @@ xml_sax_sheet_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
 	gboolean tmp;
-	StyleColor *color = NULL;
+	GnmStyleColor *color = NULL;
 
 	state->hide_col_header = state->hide_row_header =
 	state->display_formulas = state->hide_zero =
@@ -778,7 +778,7 @@ xml_sax_styleregion_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
 	int val;
-	StyleColor *colour;
+	GnmStyleColor *colour;
 
 	g_return_if_fail (state->style != NULL);
 
@@ -819,7 +819,7 @@ xml_sax_styleregion_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_int (attrs, "Orient", &val))
 			; /* ignore old useless attribute */
 		else
-			unknown_attr (state, attrs, "StyleRegion");
+			unknown_attr (state, attrs, "GnmStyleRegion");
 	}
 }
 
@@ -845,7 +845,7 @@ xml_sax_styleregion_font (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		else if (xml_sax_attr_int (attrs, "StrikeThrough", &val))
 			mstyle_set_font_strike (state->style, val ? TRUE : FALSE);
 		else
-			unknown_attr (state, attrs, "StyleFont");
+			unknown_attr (state, attrs, "GnmStyleFont");
 	}
 }
 
@@ -876,7 +876,7 @@ font_component (const char *fontname, int idx)
  * Returns: A valid style font.
  */
 static void
-style_font_read_from_x11 (MStyle *mstyle, const char *fontname)
+style_font_read_from_x11 (GnmMStyle *mstyle, const char *fontname)
 {
 	char const *c;
 
@@ -984,7 +984,7 @@ xml_sax_validation_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob
 
 	int const i = gsf_state->node->user_data.v_int;
 	GnmExpr const *expr;
-	ParsePos pos;
+	GnmParsePos pos;
 
 	g_return_if_fail (state->validation.expr [i] == NULL);
 
@@ -1002,7 +1002,7 @@ xml_sax_style_region_borders (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
 	int pattern = -1;
-	StyleColor *colour = NULL;
+	GnmStyleColor *colour = NULL;
 
 	g_return_if_fail (state->style != NULL);
 
@@ -1011,12 +1011,12 @@ xml_sax_style_region_borders (GsfXMLIn *gsf_state, xmlChar const **attrs)
 		if (xml_sax_attr_color (attrs, "Color", &colour)) ;
 		else if (xml_sax_attr_int (attrs, "Style", &pattern)) ;
 		else
-			unknown_attr (state, attrs, "StyleBorder");
+			unknown_attr (state, attrs, "GnmStyleBorder");
 	}
 
 	if (pattern >= STYLE_BORDER_NONE) {
 		MStyleElementType const type = gsf_state->node->user_data.v_int;
-		StyleBorder *border =
+		GnmStyleBorder *border =
 			style_border_fetch ((StyleBorderType)pattern, colour,
 					    style_border_get_orientation (type));
 		mstyle_set_border (state->style, type, border);
@@ -1031,7 +1031,7 @@ xml_sax_cell (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	int row = -1, col = -1;
 	int rows = -1, cols = -1;
 	int value_type = -1;
-	StyleFormat *value_fmt = NULL;
+	GnmStyleFormat *value_fmt = NULL;
 	int expr_id = -1;
 
 	g_return_if_fail (state->cell.row == -1);
@@ -1086,7 +1086,7 @@ static void
 xml_cell_set_array_expr (GnmCell *cell, char const *text,
 			 int const cols, int const rows)
 {
-	ParsePos pp;
+	GnmParsePos pp;
 	GnmExpr const *expr = gnm_expr_parse_str_simple (text,
 		parse_pos_init_cell (&pp, cell));
 
@@ -1158,7 +1158,7 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	int const array_rows = state->array_rows;
 	int const expr_id = state->expr_id;
 	int const value_type = state->value_type;
-	StyleFormat *value_fmt = state->value_fmt;
+	GnmStyleFormat *value_fmt = state->value_fmt;
 	gpointer const id = GINT_TO_POINTER (expr_id);
 	gpointer expr = NULL;
 
@@ -1257,8 +1257,8 @@ xml_sax_named_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 {
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 
-	ParseError  perr;
-	ParsePos    pos;
+	GnmParseError  perr;
+	GnmParsePos    pos;
 	GnmExpr const	*expr;
 
 	g_return_if_fail (state->name.name != NULL);
@@ -1408,10 +1408,10 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
 	GSF_XML_IN_NODE (SHEET_PRINTINFO, PRINT_ONLY_STYLE, GNM, "even_if_only_styles", TRUE, NULL, NULL),
 
       GSF_XML_IN_NODE (SHEET, SHEET_STYLES, GNM, "Styles", FALSE, NULL, NULL),
-	GSF_XML_IN_NODE (SHEET_STYLES, STYLE_REGION, GNM, "StyleRegion", FALSE, &xml_sax_style_region_start, &xml_sax_style_region_end),
+	GSF_XML_IN_NODE (SHEET_STYLES, STYLE_REGION, GNM, "GnmStyleRegion", FALSE, &xml_sax_style_region_start, &xml_sax_style_region_end),
 	  GSF_XML_IN_NODE (STYLE_REGION, STYLE_STYLE, GNM, "Style", FALSE, &xml_sax_styleregion_start, NULL),
 	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_FONT, GNM, "Font", TRUE, &xml_sax_styleregion_font, &xml_sax_styleregion_font_end),
-	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_BORDER, GNM, "StyleBorder", FALSE, NULL, NULL),
+	    GSF_XML_IN_NODE (STYLE_STYLE, STYLE_BORDER, GNM, "GnmStyleBorder", FALSE, NULL, NULL),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_TOP,     GNM, "Top",
 				    FALSE, FALSE, FALSE, &xml_sax_style_region_borders, NULL, MSTYLE_BORDER_TOP),
 	      GSF_XML_IN_NODE_FULL (STYLE_BORDER, BORDER_BOTTOM,  GNM, "Bottom",

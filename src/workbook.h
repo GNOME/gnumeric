@@ -73,7 +73,7 @@ void         workbook_add_summary_info    (Workbook *wb, SummaryItem *sit);
 SummaryInfo *workbook_metadata    	  (Workbook const *wb);
 
 /* See also sheet_cell_foreach_range */
-GnmValue   *workbook_foreach_cell_in_range (EvalPos const  *pos,
+GnmValue   *workbook_foreach_cell_in_range (GnmEvalPos const  *pos,
 					    GnmValue const *cell_range,
 					    CellIterFlags   flags,
 					    CellIterFunc    handler,

@@ -992,7 +992,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
  * you have to compute/expand all of the values to use this
  */
 GnmValue *
-function_call_with_values (EvalPos const *ep, char const *fn_name,
+function_call_with_values (GnmEvalPos const *ep, char const *fn_name,
 			   int argc, GnmValue *values [])
 {
 	GnmFunc *fn_def;
@@ -1009,7 +1009,7 @@ function_call_with_values (EvalPos const *ep, char const *fn_name,
 }
 
 GnmValue *
-function_def_call_with_values (EvalPos const *ep,
+function_def_call_with_values (GnmEvalPos const *ep,
                                GnmFunc const *fn_def,
                                gint    argc,
                                GnmValue  *values [])
@@ -1076,7 +1076,7 @@ cb_iterate_cellrange (Sheet *sheet, int col, int row,
 {
 	IterateCallbackClosure *data = user_data;
 	GnmValue *res;
-	EvalPos ep;
+	GnmEvalPos ep;
 
 	if (cell == NULL) {
 		ep.sheet = sheet;
@@ -1107,7 +1107,7 @@ cb_iterate_cellrange (Sheet *sheet, int col, int row,
  * Helper routine for function_iterate_argument_values.
  */
 GnmValue *
-function_iterate_do_value (EvalPos const *ep,
+function_iterate_do_value (GnmEvalPos const *ep,
 			   FunctionIterateCB  callback,
 			   gpointer	 closure,
 			   GnmValue	*value,
@@ -1189,7 +1189,7 @@ function_iterate_do_value (EvalPos const *ep,
  * GnmValue found on the list (this means that ranges get properly expaned).
  */
 GnmValue *
-function_iterate_argument_values (EvalPos const		*ep,
+function_iterate_argument_values (GnmEvalPos const		*ep,
 				  FunctionIterateCB	 callback,
 				  void			*callback_closure,
 				  GnmExprList		*expr_node_list,

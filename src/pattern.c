@@ -108,7 +108,7 @@ gnumeric_pattern_get_stipple (GdkDrawable *drawable, gint index)
  * return : TRUE if there is a background to paint.
  */
 gboolean
-gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
+gnumeric_background_set_gc (GnmMStyle const *mstyle, GdkGC *gc,
 			    FooCanvas *canvas,
 			    gboolean const is_selected)
 {
@@ -122,7 +122,7 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 	pattern = mstyle_get_pattern (mstyle);
 	if (pattern > 0) {
 		const GdkColor *back;
-		StyleColor *back_col =
+		GnmStyleColor *back_col =
 			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
 		g_return_val_if_fail (back_col != NULL, FALSE);
 
@@ -132,7 +132,7 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 			GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (canvas));
 			GdkDrawable *drawable = gdk_screen_get_root_window (screen);
 			GdkGCValues values;
-			StyleColor *pat_col =
+			GnmStyleColor *pat_col =
 				mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
@@ -174,7 +174,7 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
  * return : TRUE if there is a background to paint.
  */
 gboolean
-gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
+gnumeric_background_set_pc (GnmMStyle const *mstyle, GnomePrintContext *context)
 {
 	int pattern;
 
@@ -184,7 +184,7 @@ gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 	 */
 	pattern = mstyle_get_pattern (mstyle);
 	if (pattern > 0) {
-		StyleColor *back_col =
+		GnmStyleColor *back_col =
 			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
 
 		g_return_val_if_fail (back_col != NULL, FALSE);
@@ -221,7 +221,7 @@ gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 		 * color.
 		 */
 		if (pattern == 24) {
-			StyleColor *pat_col =
+			GnmStyleColor *pat_col =
 				mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
@@ -234,7 +234,7 @@ gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 #if 0
 		/* FIXME: How to do the other patterns? */
 		if (pattern > 1) {
-			StyleColor *pat_col =
+			GnmStyleColor *pat_col =
 			mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 

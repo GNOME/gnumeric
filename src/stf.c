@@ -135,8 +135,8 @@ stf_apply_formats (StfParseOptions_t *parseoptions,
 	for (ui = 0; ui < parseoptions->formats->len; ui++) {
 		if (parseoptions->col_import_array == NULL ||
 		    parseoptions->col_import_array[ui]) {
-			MStyle *style = mstyle_new ();
-			StyleFormat *sf = g_ptr_array_index 
+			GnmMStyle *style = mstyle_new ();
+			GnmStyleFormat *sf = g_ptr_array_index 
 				(parseoptions->formats, ui);
 			mstyle_set_format (style, sf);
 			sheet_style_apply_range (sheet, &range, style);
@@ -227,7 +227,7 @@ cb_get_content (Sheet *sheet, int col, int row,
 	if (cell != NULL) {
 		char *tmp;
 		if (cell_has_expr (cell)) {
-			ParsePos pp;
+			GnmParsePos pp;
 			tmp = gnm_expr_as_string (cell->base.expression,
 				parse_pos_init_cell (&pp, cell),
 				gnm_expr_conventions_default);
@@ -305,7 +305,7 @@ stf_text_to_columns (WorkbookControl *wbc, GnmCmdContext *cc)
 					   data, data_len);
 	}
 	if (dialogresult != NULL) {
-		CellRegion *cr = stf_parse_region (dialogresult->parseoptions,
+		GnmCellRegion *cr = stf_parse_region (dialogresult->parseoptions,
 						   dialogresult->text, NULL);
 		if (cr != NULL) {
 			stf_dialog_result_attach_formats_to_cr (dialogresult, cr);

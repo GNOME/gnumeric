@@ -937,7 +937,7 @@ item_cursor_do_action (ItemCursor *ic, ActionType action)
 	SheetView 	*sv;
 	Sheet		*sheet;
 	WorkbookControl *wbc;
-	PasteTarget pt;
+	GnmPasteTarget pt;
 
 	g_return_if_fail (ic != NULL);
 

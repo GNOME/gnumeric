@@ -63,8 +63,8 @@ struct _Sheet {
 	GHashTable	 *hash_merged;
 	SheetPrivate     *priv;
 	PrintInformation *print_info;
-	StyleColor	 *tab_color;
-	StyleColor	 *tab_text_color;
+	GnmStyleColor	 *tab_color;
+	GnmStyleColor	 *tab_text_color;
 
 	/* This needs to move elsewhere and get shared.  */
 	PangoContext *context;
@@ -78,8 +78,8 @@ Sheet      *sheet_dup			(Sheet const *source_sheet);
 void        sheet_destroy		(Sheet *sheet);
 void        sheet_destroy_contents	(Sheet *sheet);
 void        sheet_rename		(Sheet *sheet, char const *new_name);
-void	    sheet_set_tab_color		(Sheet *sheet, StyleColor *tab_color,
-					 StyleColor *text_color);
+void	    sheet_set_tab_color		(Sheet *sheet, GnmStyleColor *tab_color,
+					 GnmStyleColor *text_color);
 
 void        sheet_set_zoom_factor	(Sheet *sheet, double factor,
 					 gboolean force, gboolean respan);
@@ -236,8 +236,8 @@ void	     sheet_cell_set_expr    (GnmCell *cell, GnmExpr const *expr);
 void	     sheet_cell_set_value   (GnmCell *cell, GnmValue *v);
 void	     sheet_cell_set_text    (GnmCell *cell, char const *str);
 GnmValue const *sheet_cell_get_value(Sheet *sheet, int col, int row);
-void	     sheet_range_set_text   (ParsePos const *pos, GnmRange const *r, char const *str);
-void	     sheet_apply_style	    (Sheet  *sheet, GnmRange const *range, MStyle *mstyle);
+void	     sheet_range_set_text   (GnmParsePos const *pos, GnmRange const *r, char const *str);
+void	     sheet_apply_style	    (Sheet  *sheet, GnmRange const *range, GnmMStyle *mstyle);
 void	     sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
 void	     sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags);
 void	     sheet_cell_calc_span   (GnmCell *cell, SpanCalcFlags flags);

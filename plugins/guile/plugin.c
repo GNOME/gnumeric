@@ -54,7 +54,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
  * until someone who actually uses this thing takes
  * over maintaing it.
  */
-static EvalPos const *eval_pos = NULL;
+static GnmEvalPos const *eval_pos = NULL;
 
 static SCM
 scm_gnumeric_funcall (SCM funcname, SCM arglist)
@@ -141,7 +141,7 @@ func_marshal_func (FunctionEvalInfo *ei, GnmValue *argv[])
 	GnmFunc const *fndef;
 	SCM args = SCM_EOL, result, function;
 	GnmCellRef dummy = { 0, 0, 0, 0 };
-	EvalPos const *old_eval_pos;
+	GnmEvalPos const *old_eval_pos;
 	GnmGuileCallRec ggcr;
 	int i, min, max;
 

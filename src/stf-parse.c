@@ -204,7 +204,7 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 		GPtrArray *formats = parseoptions->formats;
 
 		for (ui = 0; ui < formats->len; ui++) {
-			StyleFormat *sf = g_ptr_array_index (formats, ui);
+			GnmStyleFormat *sf = g_ptr_array_index (formats, ui);
 			style_format_unref (sf);
 		}
 		g_ptr_array_free (formats, TRUE);
@@ -1204,10 +1204,10 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	return TRUE;
 }
 
-CellRegion *
+GnmCellRegion *
 stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const *data_end)
 {
-	CellRegion *cr;
+	GnmCellRegion *cr;
 	CellCopyList *content = NULL;
 	unsigned int row, colhigh = 0;
 	GStringChunk *lines_chunk;
@@ -1238,7 +1238,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 				if (text) {
 					CellCopy *ccopy;
 					GnmValue *v;
-					StyleFormat *fmt = g_ptr_array_index
+					GnmStyleFormat *fmt = g_ptr_array_index
 						(parseoptions->formats, col);
 
 					v = format_match (text, fmt, &date_conv);

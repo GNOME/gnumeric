@@ -26,7 +26,7 @@
 typedef struct _BiffXFData {
 	guint16 font_idx;
 	guint16 format_idx;
-	StyleFormat *style_format;
+	GnmStyleFormat *style_format;
 	gboolean hidden;
 	gboolean locked;
 	MsBiffXfType xftype;	/*  -- Very important field... */
@@ -46,7 +46,7 @@ typedef struct _BiffXFData {
 	guint16 pat_backgnd_col;
 	guint16 differences;
 
-	MStyle *mstyle;
+	GnmMStyle *mstyle;
 } BiffXFData;
 
 #endif

@@ -563,7 +563,7 @@ dao_autofit_columns (data_analysis_output_t *dao)
  **/
 static void
 dao_set_style (data_analysis_output_t *dao, int col1, int row1,
-	      int col2, int row2, MStyle *mstyle)
+	      int col2, int row2, GnmMStyle *mstyle)
 {
 	GnmRange  range;
 
@@ -605,7 +605,7 @@ void
 dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
 	      int col2, int row2)
 {
-	MStyle *mstyle = mstyle_new ();
+	GnmMStyle *mstyle = mstyle_new ();
 	GnmRange  range;
 
 	range.start.col = col1 + dao->start_col;
@@ -633,7 +633,7 @@ void
 dao_set_underlined (data_analysis_output_t *dao, int col1, int row1,
 		    int col2, int row2)
 {
-	MStyle *mstyle = mstyle_new ();
+	GnmMStyle *mstyle = mstyle_new ();
 	GnmRange  range;
 
 	range.start.col = col1 + dao->start_col;
@@ -661,7 +661,7 @@ void
 dao_set_italic (data_analysis_output_t *dao, int col1, int row1,
 		int col2, int row2)
 {
-	MStyle *mstyle = mstyle_new ();
+	GnmMStyle *mstyle = mstyle_new ();
 
 	mstyle_set_font_italic (mstyle, TRUE);
 	dao_set_style (dao, col1, row1, col2, row2, mstyle);
@@ -683,8 +683,8 @@ void
 dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
 {
-	MStyle *mstyle = mstyle_new ();
-	StyleFormat *style_format = NULL;
+	GnmMStyle *mstyle = mstyle_new ();
+	GnmStyleFormat *style_format = NULL;
 
 	style_format = style_format_default_percentage ();
 	mstyle_set_format (mstyle, style_format);
@@ -708,8 +708,8 @@ void
 dao_set_date (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
 {
-	MStyle *mstyle = mstyle_new ();
-	StyleFormat *style_format = NULL;
+	GnmMStyle *mstyle = mstyle_new ();
+	GnmStyleFormat *style_format = NULL;
 
 	style_format = style_format_default_date ();
 	mstyle_set_format (mstyle, style_format);
@@ -733,9 +733,9 @@ dao_set_date (data_analysis_output_t *dao, int col1, int row1,
 void
 dao_set_colors (data_analysis_output_t *dao, int col1, int row1,
 		int col2, int row2,
-		StyleColor *fore, StyleColor *back)
+		GnmStyleColor *fore, GnmStyleColor *back)
 {
-	MStyle *mstyle;
+	GnmMStyle *mstyle;
 
 	mstyle = mstyle_new ();
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, fore);
@@ -762,7 +762,7 @@ dao_set_align (data_analysis_output_t *dao, int col1, int row1,
 	       int col2, int row2,
 	       StyleHAlignFlags align_h, StyleVAlignFlags align_v)
 {
-	MStyle *mstyle;
+	GnmMStyle *mstyle;
 
 	mstyle = mstyle_new ();
 	mstyle_set_align_h (mstyle, align_h);

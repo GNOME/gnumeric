@@ -536,7 +536,7 @@ static void
 adjustment_eval (GnmDependent *dep)
 {
 	GnmValue *v;
-	EvalPos pos;
+	GnmEvalPos pos;
 
 	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
 			   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
@@ -696,7 +696,7 @@ cb_adjustment_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	 */
 	if (state->old_focus != NULL &&
 	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
-		ParsePos  pp;
+		GnmParsePos  pp;
 		GnmExpr const *expr = gnm_expr_entry_parse (
 			GNM_EXPR_ENTRY (state->old_focus->parent),
 			parse_pos_init_sheet (&pp, state->sheet),
@@ -727,7 +727,7 @@ static void
 cb_adjustment_config_ok_clicked (GtkWidget *button, AdjustmentConfigState *state)
 {
 	SheetObject *so = SHEET_OBJECT (state->swa);
-	ParsePos  pp;
+	GnmParsePos  pp;
 	GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
 		parse_pos_init_sheet (&pp, so->sheet),
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
@@ -874,7 +874,7 @@ sheet_widget_adjustment_write_xml (SheetObject const *so,
 	xml_node_set_double (tree, "Page", swa->adjustment->page_increment, 2);
 	xml_node_set_double  (tree, "Value", swa->adjustment->value, 2);
 	if (swa->dep.expression != NULL) {
-		ParsePos pos;
+		GnmParsePos pos;
 		char *val = gnm_expr_as_string (swa->dep.expression,
 			parse_pos_init_sheet (&pos, so->sheet),
 			gnm_expr_conventions_default);
@@ -899,7 +899,7 @@ sheet_widget_adjustment_read_xml (SheetObject *so,
 
 	input_txt = (gchar *)xmlGetProp (tree, (xmlChar *)"Input");
 	if (input_txt != NULL && *input_txt != '\0') {
-		ParsePos pos;
+		GnmParsePos pos;
 		GnmExpr const *expr = gnm_expr_parse_str_simple (input_txt,
 			parse_pos_init_sheet (&pos, context->sheet));
 
@@ -1108,7 +1108,7 @@ static void
 checkbox_eval (GnmDependent *dep)
 {
 	GnmValue *v;
-	EvalPos pos;
+	GnmEvalPos pos;
 	gboolean err, result;
 
 	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
@@ -1274,7 +1274,7 @@ cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	 */
 	if (state->old_focus != NULL &&
 	    IS_GNM_EXPR_ENTRY (state->old_focus->parent)) {
-		ParsePos  pp;
+		GnmParsePos  pp;
 		GnmExpr const *expr = gnm_expr_entry_parse (
 			GNM_EXPR_ENTRY (state->old_focus->parent),
 			parse_pos_init_sheet (&pp, state->sheet),
@@ -1307,7 +1307,7 @@ static void
 cb_checkbox_config_ok_clicked (GtkWidget *button, CheckboxConfigState *state)
 {
 	SheetObject *so = SHEET_OBJECT (state->swc);
-	ParsePos  pp;
+	GnmParsePos  pp;
 	GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
 		parse_pos_init_sheet (&pp, so->sheet),
 		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
@@ -1442,7 +1442,7 @@ sheet_widget_checkbox_write_xml (SheetObject const *so,
 	xml_node_set_cstr (tree, "Label", swc->label);
 	xml_node_set_int  (tree, "Value", swc->value);
 	if (swc->dep.expression != NULL) {
-		ParsePos pos;
+		GnmParsePos pos;
 		char *val = gnm_expr_as_string (swc->dep.expression,
 			parse_pos_init_sheet (&pos, so->sheet),
 			gnm_expr_conventions_default);
@@ -1474,7 +1474,7 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 
 	input_txt = (gchar *)xmlGetProp (tree, (xmlChar *)"Input");
 	if (input_txt != NULL && *input_txt != '\0') {
-		ParsePos pos;
+		GnmParsePos pos;
 		GnmExpr const *expr = gnm_expr_parse_str_simple (input_txt,
 			parse_pos_init_sheet (&pos, context->sheet));
 
@@ -1544,7 +1544,7 @@ static void
 radio_button_eval (GnmDependent *dep)
 {
 	GnmValue *v;
-	EvalPos pos;
+	GnmEvalPos pos;
 	gboolean err;
 	int result;
 
@@ -1679,7 +1679,7 @@ static void
 list_eval (GnmDependent *dep)
 {
 	GnmValue *v;
-	EvalPos pos;
+	GnmEvalPos pos;
 	gboolean err;
 	int result;
 
@@ -1776,7 +1776,7 @@ static void
 combo_input_eval (GnmDependent *dep)
 {
 	GnmValue *v;
-	EvalPos pos;
+	GnmEvalPos pos;
 	gboolean err;
 	int result;
 
@@ -1802,7 +1802,7 @@ static void
 combo_output_eval (GnmDependent *dep)
 {
 	GnmValue *v;
-	EvalPos pos;
+	GnmEvalPos pos;
 	gboolean err;
 	int result;
 
