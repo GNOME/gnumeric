@@ -1,3 +1,7 @@
+2000-04-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* widget-pixmap-combo.c (pixmap_combo_finalize): Fix leak.
+
 2000-04-06  Jody Goldberg <jgoldberg@home.com>
 
 	* gtk-combo-text.c (cb_enter) : Only change the state if the element

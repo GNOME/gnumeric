@@ -27,6 +27,8 @@ pixmap_combo_finalize (GtkObject *object)
 {
 	PixmapCombo *pc = PIXMAP_COMBO (object);
 
+	gtk_object_destroy (GTK_OBJECT (pc->tool_tip));
+	
 	g_free (pc->pixmaps);
 	(*pixmap_combo_parent_class->finalize) (object);
 }
