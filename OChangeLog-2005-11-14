@@ -1,3 +1,7 @@
+2002-06-21  Morten Welinder  <terra@diku.dk>
+
+	* configure.in: When checking for 2.96, use $CC.
+
 2002-06-20  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in (have_pygtk): Add test for Pygtk.
