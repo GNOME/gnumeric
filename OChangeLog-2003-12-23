@@ -1,3 +1,8 @@
+2003-04-22  Morten Welinder  <terra@gnome.org>
+
+	* src/formats.c (currency_date_format_init): Improve error
+	messages.
+
 2003-04-22  Jody Goldberg <jody@gnome.org>
 
 	* doc/xmldocs.make : install docs where libgnome expects them

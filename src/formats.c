@@ -171,12 +171,21 @@ static regex_t re_brackets_number;
 static regex_t re_percent_science;
 static regex_t re_account;
 
+static const char *
+my_regerror (int err, const regex_t *preg)
+{
+	static char buffer[1024];
+	regerror (err, preg, buffer, sizeof (buffer));
+	return buffer;
+}
+
 void
 currency_date_format_init (void)
 {
 	gboolean precedes, space_sep;
 	char const *curr = format_get_currency (&precedes, &space_sep);
 	char *pre, *post, *pre_rep, *post_rep;
+	int err;
 
 	/* Compile the regexps for format classification */
 
@@ -208,22 +217,30 @@ currency_date_format_init (void)
 	char const *pattern_account = "^_(\\(\\(\\(.*\\)\\*  \\{0,1\\}\\)\\{0,1\\}\\)\\(#,##0\\(\\.0\\{1,30\\}\\)\\{0,1\\}\\)\\(\\(\\*  \\{0,1\\}\\(.*\\)\\)\\{0,1\\}\\)_);_(\\1(\\4)\\6;_(\\1\"-\"?\\{0,30\\}\\6_);_(@_)$";
 
 
-	if ((regcomp (&re_simple_number, simple_number_pattern,
-		      REG_EXTENDED)) != 0)
-		g_warning ("Error in regcomp() for simple number, please report the bug");
+	err = regcomp (&re_simple_number, simple_number_pattern, REG_EXTENDED);
+	if (err)
+		g_warning ("Error in regcomp() for simple number, please report the bug [%s]",
+			   my_regerror (err, &re_simple_number));
 
-	if ((regcomp (&re_red_number, red_number_pattern, 0)) != 0)
-		g_warning ("Error in regcomp() for red number, please report the bug");
+	err = regcomp (&re_red_number, red_number_pattern, 0);
+	if (err)
+		g_warning ("Error in regcomp() for red number, please report the bug [%s]",
+			   my_regerror (err, &re_red_number));
 
-	if ((regcomp (&re_brackets_number, brackets_number_pattern, 0)) != 0)
-		g_warning ("Error in regcomp() for brackets number, please report the bug");
+	err = regcomp (&re_brackets_number, brackets_number_pattern, 0);
+	if (err)
+		g_warning ("Error in regcomp() for brackets number, please report the bug [%s]",
+			   my_regerror (err, &re_brackets_number));
 
-	if ((regcomp (&re_percent_science, pattern_percent_science,
-		      REG_EXTENDED)) != 0)
-		g_warning ("Error in regcomp() for percent and science, please report the bug");
+	err = regcomp (&re_percent_science, pattern_percent_science, REG_EXTENDED);
+	if (err)		      
+		g_warning ("Error in regcomp() for percent and science, please report the bug [%s]",
+			  my_regerror (err, &re_percent_science));
 
-	if ((regcomp (&re_account, pattern_account, 0)) != 0)
-		g_warning ("Error in regcomp() for account, please report the bug");
+	err = regcomp (&re_account, pattern_account, 0);
+	if (err)
+		g_warning ("Error in regcomp() for account, please report the bug [%s]",
+			   my_regerror (err, &re_account));
 
 	if (precedes) {
 		post_rep = post = (char *)"";
