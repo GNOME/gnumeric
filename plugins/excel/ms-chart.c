@@ -1633,7 +1633,7 @@ BC_R(shtprops)(ExcelChartHandler const *handle,
 	if (manual_format);
 		printf ("Manually formated\n");
 	if (only_plot_visible_cells);
-		printf ("Only plot visible (to who??) cells\n");
+		printf ("Only plot visible (to whom?) cells\n");
 	return FALSE;
 }
 
