@@ -1,5 +1,12 @@
 1999-03-07  Michael Meeks  <michael@imaginator.com>
 
+	* ms-formula.c: Changed FORMULA_PTG_STR to cope with both
+	versions of string properly.
+	Inserted innumerable time and text functions into the
+	translation table.
+
+1999-03-07  Michael Meeks  <michael@imaginator.com>
+
 	* ms-excel.c: Changed to use cell_set_text_simple to save
 	many redundant re-draws: big speedup.
 	hacked up a set_row_height call

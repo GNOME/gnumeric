@@ -63,6 +63,8 @@ FORMULA_FUNC_DATA formula_func_data[] =
   { 0x06, "MIN (", 0,  ")", -1, 0 },
   { 0x07, "MAX (", 0,  ")", -1, 0 },
   { 0x0f, "SIN (", 0, ")", 1, 0 },
+  { 0x0d, "DOLLAR (", 0, ")", 1, 0 },
+  { 0x0e, "FIXED (", 0, ")", 1, 0 },
   { 0x10, "COS (", 0, ")", 1, 0 },
   { 0x11, "TAN (", 0, ")", 1, 0 },
   { 0x12, "ATAN (", 0, ")", 1, 0 },
@@ -71,11 +73,27 @@ FORMULA_FUNC_DATA formula_func_data[] =
   { 0x16, "LN (", 0, ")", 1, 0 },
   { 0x17, "LOG10 (", 0, ")", 1, 0 },
   { 0x1a, "SIGN (", 0, ")", 1, 0 },
+  { 0x1e, "REPT (", 0, ")", 2, 0 },
+  { 0x1f, "MID (", 0, ")", 3, 0 },
+  { 0x20, "LEN (", 0,  ")", 1, 0 },
+  { 0x21, "VALUE (", 0,  ")", 1, 0 },
   { 0x24, "AND (", 0,  ")", -1, 0 },
   { 0x25, "OR (",  0,  ")", -1, 0 },
   { 0x26, "NOT (",  0,  ")", 1, 0 },
   { 0x27, "MOD (", 0, ")", 2, 0 },
+  { 0x30, "REPLACE (", 0, ")", 2, 0 },
   { 0x3f, "RAND (", 0, ")", 0, 0 },
+  { 0x41, "DATE (", 0, ")", 3, 0 },
+  { 0x42, "TIME (", 0, ")", 3, 0 },
+  { 0x43, "DAY (", 0, ")", 1, 0 },
+  { 0x44, "MONTH (", 0, ")", 1, 0 },
+  { 0x45, "YEAR (", 0, ")", 1, 0 },
+  { 0x46, "WEEKDAY (", 0, ")", 1, 0 },
+  { 0x47, "HOUR (", 0, ")", 1, 0 },
+  { 0x48, "MINUTE (", 0, ")", 1, 0 },
+  { 0x49, "SECOND (", 0, ")", 1, 0 },
+  { 0x4a, "NOW (", 0, ")", 0, 0 },
+  { 0x52, "SEARCH (", 0, ")", 3, 0 },
   { 0x56, "TYPE (", 0, ")", 1, 0 },
   { 0x61, "ATAN2 (", 0, ")", 2, 0 },
   { 0x62, "ASIN (", 0, ")", 1, 0 },
@@ -84,16 +102,32 @@ FORMULA_FUNC_DATA formula_func_data[] =
   { 0x66, "VLOOKUP (", 0, ")", -1, 0 },
   { 0x69, "ISREF (", 0, ")", 1, 0 },
   { 0x6d, "LOG (", 0, ")", 1, 0 },
+  { 0x6f, "CHAR (", 0, ")", 1, 0 },
+  { 0x70, "LOWER (",   0, ")", 1, 0 },
   { 0x71, "UPPER (",   0, ")", 1, 0 },
+  { 0x72, "PROPER (",   0, ")", 1, 0 },
+  { 0x73, "LEFT (",   0, ")", 2, 0 },
+  { 0x74, "RIGHT (",   0, ")", 2, 0 },
+  { 0x75, "EXACT (",   0, ")", 2, 0 },
+  { 0x76, "TRIM (",   0, ")", 1, 0 },
+  { 0x77, "0x77 (",   0, ")", 2, 0 },
+  { 0x78, "SUBSTITUTE (",   0, ")", -1, 0 },
+  { 0x79, "CODE (",   0, ")", 1, 0 },
+  { 0x7c, "FIND (",   0, ")", -1, 0 },
   { 0x7d, "CELL (",   0, ")", 2, 0 },
   { 0x7e, "ISERR (", 0, ")", 1, 0 },
   { 0x7f, "ISTEXT (", 0, ")", 1, 0 },
   { 0x80, "ISNUMBER (", 0, ")", 1, 0 },
   { 0x81, "ISBLANK (", 0, ")", 1, 0 },
+  { 0x82, "T (", 0, ")", 1, 0 },
   { 0x83, "N (", 0, ")", 1, 0 },
+  { 0x8c, "DATEVALUE (", 0, ")", 1, 0 },
+/*  { 0xa2, "CLEAN (", 0, ")", 1, 0 }, */
   { 0xc5, "TRUNC (", 0, ")", 1, 0 },
   { 0xc6, "ISLOGICAL (", 0, ")", 1, 0 },
   { 0xbe, "ISNONTEXT (", 0, ")", 1, 0 },
+  { 0xdc, "DAYS360 (", 0, ")", 2, 0 },
+  { 0xdd, "TODAY (", 0, ")", 0, 0 },
   { 0xe5, "SINH (", 0, ")", 1, 0 },
   { 0xe6, "COSH (", 0, ")", 1, 0 },
   { 0xe7, "TANH (", 0, ")", 1, 0 },
@@ -103,6 +137,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
   { 0xf4, "INFO (", 0, ")", 1, 0 },
   { 0x105, "ERROR.TYPE (", 0, ")", 1, 0 },
   { 0x120, "CEILING (", 0, ")", 2, 0 },
+  { 0x150, "CONCATENATE (", 0, ")", 2, 0 },
   { 0x156, "RADIANS (", 0, ")", 1, 0 },
   { 0x15b, "COUNTBLANK (", 0, ")", 1, 0 }
 };
@@ -651,12 +686,21 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 		case FORMULA_PTG_STR:
 		{
 			char *str ;
-/*			printf ("PTG_STR\n") ;
-			dump (q->data, q->length) ;*/
-			str = biff_get_text (cur+2, BIFF_GETBYTE(cur)) ;
+/*			dump (q->data, q->length) ;*/
+			if (sheet->ver == eBiffV8)
+			{
+				str = biff_get_text (cur+2, BIFF_GETWORD(cur)) ;
+				ptg_length = 2 + BIFF_GETWORD(cur) ;
+/*				printf ("v8+ PTG_STR '%s'\n", str) ; */
+			}
+			else
+			{
+				int len = BIFF_GETBYTE(cur) ;
+				str = biff_get_text (cur+1, len) ;
+				ptg_length = 1 + len ;
+/*				printf ("<v7 PTG_STR '%s' len %d ptglen %d\n", str, len, ptg_length) ; */
+			}
 			parse_list_push_raw (stack, str, NO_PRECEDENCE) ;
-/*			printf ("Found string '%s'\n", str) ;  */
-			ptg_length = 2 + BIFF_GETBYTE(cur) ;
 			break ;
 		}
 		default:
@@ -720,7 +764,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 				printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase), error=1 ;
 		}
 		}
-/*      printf ("Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length) ; */
+/*		printf ("Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length) ; */
 		cur+=    (ptg_length+1) ;
 		length-= (ptg_length+1) ;
 	}
