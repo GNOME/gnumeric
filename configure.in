@@ -404,7 +404,7 @@ else
     AC_MSG_RESULT($marker_fail not found)
 fi
 if test "$gal_ok" = no; then
-    AC_MSG_ERROR(You need at least GNOME Application libs 0.3.0 for this version of Gnumeric)
+    AC_MSG_ERROR(You need at least GNOME Application libs 0.5 for this version of Gnumeric)
 fi
 unset gal_ok
 
