@@ -1368,10 +1368,17 @@ sheet_selection_walk_step (Sheet *sheet,
 		if (ss->user.start.col == ss->user.end.col &&
 		    ss->user.start.row == ss->user.end.row) {
 			Range full_sheet;
-			full_sheet.start.col = 0;
-			full_sheet.start.row = 0;
-			full_sheet.end.col   = SHEET_MAX_COLS-1;
-			full_sheet.end.row   = SHEET_MAX_ROWS-1;
+			if (horizontal) {
+				full_sheet.start.col = 0;
+				full_sheet.end.col   = SHEET_MAX_COLS-1;
+				full_sheet.start.row =
+				full_sheet.end.row   = ss->user.start.row;
+			} else {
+				full_sheet.start.col = 
+				full_sheet.end.col   = ss->user.start.col;
+				full_sheet.start.row = 0;
+				full_sheet.end.row   = SHEET_MAX_ROWS-1;
+			}
 			if (!walk_boundaries (&full_sheet,
 					      inc_x, inc_y, &current, &destination))
 				sheet_make_cell_visible (sheet, 

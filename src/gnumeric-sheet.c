@@ -720,6 +720,9 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		cmd_clear_selection (workbook_command_context_gui (wb), sheet, CLEAR_VALUES);
 		break;
 
+	/* NOTE : Keep these in sync with the condition
+	 *        for tabs.
+	 */
 	case GDK_KP_Enter:
 	case GDK_Return:
 		if ((event->state & GDK_CONTROL_MASK) != 0){
@@ -764,7 +767,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	{
 		/* Figure out the direction */
 		gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
-		gboolean const horizontal = (event->keyval == GDK_Tab) ? TRUE : FALSE;
+		gboolean const horizontal = (event->keyval == GDK_KP_Enter ||
+					     event->keyval == GDK_Return) ? FALSE : TRUE;
 		sheet_selection_walk_step (sheet, direction, horizontal);
 		break;
 	}
