@@ -72,6 +72,8 @@ workbook_edit_toolbars_set_sensitive (WorkbookControlGUI *wbcg, gboolean sensiti
 
 #ifdef ENABLE_BONOBO
 	CORBA_exception_init (&ev);
+	bonobo_ui_component_set_prop (wbcg->uic, "/commands/MenuBar",
+				      "sensitive", sensitive ? "1" : "0", &ev);
 	bonobo_ui_component_set_prop (wbcg->uic, "/commands/StandardToolbar",
 				      "sensitive", sensitive ? "1" : "0", &ev);
 	bonobo_ui_component_set_prop (wbcg->uic, "/commands/FormatToolbar",
@@ -79,7 +81,19 @@ workbook_edit_toolbars_set_sensitive (WorkbookControlGUI *wbcg, gboolean sensiti
 	bonobo_ui_component_set_prop (wbcg->uic, "/commands/ObjectToolbar",
 				      "sensitive", sensitive ? "1" : "0", &ev);
 	CORBA_exception_free (&ev);
+	/* TODO : Ugly hack to work around strange bonobo semantics for
+	 * sensitivity of containers.  Bonono likes to recursively set the state
+	 * rather than just setting the container.
+	 */
+	if (sensitive) {
+		Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		if (wb->undo_commands == NULL)
+			gtk_widget_set_sensitive (wbcg->undo_combo, FALSE);
+		if (wb->redo_commands == NULL)
+			gtk_widget_set_sensitive (wbcg->redo_combo, FALSE);
+	}
 #else
+	gtk_widget_set_sensitive (GNOME_APP (wbcg->toplevel)->menubar, sensitive);
 	gtk_widget_set_sensitive (wbcg->standard_toolbar, sensitive);
 	gtk_widget_set_sensitive (wbcg->format_toolbar, sensitive);
 	gtk_widget_set_sensitive (wbcg->object_toolbar, sensitive);
@@ -125,7 +139,7 @@ workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean 
 	if (flag2) {
 		/* We put the re-enabling of the ui on a timer */
 		wbcg->toolbar_sensitivity_timer =
-			gtk_timeout_add (500, /* seems a reasonable amount */
+			gtk_timeout_add (300, /* seems a reasonable amount */
 					 (GtkFunction) cb_thaw_ui_toolbar,
 					 wbcg);
 	} else

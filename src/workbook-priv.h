@@ -99,8 +99,8 @@ GnumFileSaver *workbook_get_file_saver (Workbook *wb);
 void        workbook_print               (Workbook *, gboolean);
 
 void        workbook_set_dirty           (Workbook *wb, gboolean is_dirty);
-gboolean    workbook_is_dirty            (Workbook *wb);
-gboolean    workbook_is_pristine         (Workbook *wb);
+gboolean    workbook_is_dirty            (Workbook const *wb);
+gboolean    workbook_is_pristine         (Workbook const *wb);
 char       *workbook_selection_to_string (Workbook *wb, Sheet *base_sheet);
 
 GSList     *workbook_expr_relocate       (Workbook *wb,

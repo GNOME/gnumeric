@@ -248,7 +248,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 }
 
 gboolean
-workbook_is_dirty (Workbook *wb)
+workbook_is_dirty (Workbook const *wb)
 {
 	gboolean dirty = FALSE;
 
@@ -280,7 +280,7 @@ cb_sheet_check_pristine (gpointer key, gpointer value, gpointer user_data)
  * Return value: TRUE if we can discard this workbook.
  **/
 gboolean
-workbook_is_pristine (Workbook *wb)
+workbook_is_pristine (Workbook const *wb)
 {
 	gboolean pristine = TRUE;
 

@@ -1,3 +1,17 @@
+2001-09-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/GNOME_Gnumeric.xml : The magic incantation  that allows us to
+	  desensitize toolbars by setting a property on a command of the same
+	  namedoesnot work with a menubar, but supplying an 'id' property to
+	  the menu appears to do the trick.
+
+	* src/workbook-edit.c (workbook_edit_toolbars_set_sensitive) : set the
+	  menubar also.
+	(workbook_edit_toolbars_set_sensitive) : add a kludge for bonobo
+	  to disable its tendancy to resensitize the undo/redo widgets.
+	(workbook_edit_set_sensitive) : decrease the timer so that we don't feel
+	  so sluggish.
+
 2001-09-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_probe) : accept .xml & .xml.gz

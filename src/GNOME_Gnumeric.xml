@@ -136,12 +136,13 @@
 	    _tip="About this application"
 	    pixtype="stock" pixname="About"/>
 
+	<cmd name="MenuBar" sensitive="1"/>
 	<cmd name="StandardToolbar" sensitive="1"/>
 	<cmd name="FormatToolbar" sensitive="1"/>
 	<cmd name="ObjectToolbar" sensitive="1"/>
     </commands>
 
-    <menu>
+    <menu id="MenuBar">
 	<submenu name="File" _label="_File">
 
 	    <!-- We provide placeholders hoping that components like EOG

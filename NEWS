@@ -1,6 +1,9 @@
 --------------------------------------------------------------------------
 Gnumeric 0.71
 
+Almer:
+	* Core support for validation and conditional formats.
+
 Jody:
 	* Enable XL import for graphs.
 	* Add simple bucketing of range dependencies.
@@ -10,6 +13,7 @@ Jody:
 	* Improve sheet object menus.
 	* What eval queue?
 	* Fix handling of mixed mode references.
+	* Correct sensitivity of menus & toolbars.
 	* Some initial guess work on how to import conditional XL formats.
 	* bump bonobo req to 1.0.8 to fix the memory problem.
 	* bump the gnome-print req to 0.29 in an effort to decrease
