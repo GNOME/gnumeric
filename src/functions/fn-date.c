@@ -91,7 +91,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 	/* FIXME: someone should check this.  */
 	if (year <= 30)
 		year += 2000;
-	
+	else if (year < 100)
 		year += 1900;
 
         if (!g_date_valid_dmy(1, month, year))

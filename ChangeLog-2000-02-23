@@ -1,5 +1,8 @@
 1999-08-12  Jody Goldberg <jgoldberg@home.com>
 
+	* src/fn-date.c (gnumeric_date) : Fix typo that was moving us 1900
+	  years into the future.
+
 	* src/formats.c (cell_format_numbers) :  Use 'Red' rather than 'red'
 	  to match XL better.
 
