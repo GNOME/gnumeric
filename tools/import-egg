@@ -54,6 +54,10 @@ sub copy_subsystem {
 	    $line =~ s/\s+$//;
 	    push @sources, split (' ', $line) if $line ne '';
 	}
+
+	s/LTLIBRARIES/LIBRARIES/;
+	s/_la_/_a_/;
+
 	print DST;
     }
     close (*SRC);
