@@ -1677,8 +1677,6 @@ sheet_col_destroy (Sheet *sheet, ColRowInfo *ci)
 static void
 sheet_row_destroy (Sheet *sheet, ColRowInfo *ri)
 {
-	GList *l;
-
 	sheet->rows_info = g_list_remove (sheet->rows_info, ri);
 	style_destroy (ri->style);
 	g_free (ri);
@@ -1896,6 +1894,9 @@ colrow_closest_above (GList *l, int pos)
 void
 sheet_shift_row (Sheet *sheet, int col, int row, int count)
 {
+	GList *cur_col;
+	int   col_count, new_column;
+	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (count != 0);
@@ -1903,6 +1904,8 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 	if (count < 0)
 		sheet_clear_region (sheet, col, row, col - count, row);
 
+	col_count = g_list_length (sheet->cols_info);
+	
 	if (count > 0)
 		cur_col = g_list_nth (sheet->cols_info, col_count - 1);
 	else 
@@ -1914,7 +1917,8 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 
 	do {
 		ColRowInfo *ci;
-
+		GList *l;
+		
 		ci = cur_col->data;
 		new_column = ci->pos + count;
 
@@ -1936,8 +1940,8 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 				}
 
 				/* Relocate the cell */
-				sheet_cell_remove (sheet, cel);
-				sheet_cell_add (sheet, cell);
+				sheet_cell_remove (sheet, cell);
+				sheet_cell_add (sheet, cell, new_column, row);
 				if (cell->parsed_node)
 					cell_formula_relocate (cell, new_column, row);
 			}
@@ -1962,7 +1966,7 @@ sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
 	g_return_if_fail (start_row <= end_row);
 	
 	for (i = start_row; i <= end_row; i++)
-		sheet_move_row (sheet, col, i, count);
+		sheet_shift_row (sheet, col, i, count);
 }
 
 /*
