@@ -22,9 +22,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <gnome.h>
-#include <errno.h>
-#include <config.h>
+#include "config.h"
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
@@ -36,6 +34,10 @@
 #include "value.h"
 #include "font.h"
 #include "rendered-value.h"
+
+#include <gnome.h>
+#include <errno.h>
+#include <ctype.h>
 
 static FileSaverId default_file_saver_id;
 
@@ -347,11 +349,12 @@ html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
 /*
  */
 static char *
-html_get_string (char *s, int *flags)
+html_get_string (char const *s, int *flags, char const **last)
 {
 #define LINESIZE 1024
 	static char buf[LINESIZE];
-	char *p, *q;
+	char const *p;
+	char *q;
 
 	buf[0] = buf[LINESIZE-1] = '\0';
 	if (!s)
@@ -360,15 +363,18 @@ html_get_string (char *s, int *flags)
 	p = s;
 	while (*p) {
 		if (*p == '<') {
-			if ((((*(p+1) == 'I') || (*(p+1) == 'i'))) && (*(p+2) == '>'))
-				*flags |= HTML_ITALIC;
-			if ((((*(p+1) == 'B') || (*(p+1) == 'b'))) && (*(p+2) == '>'))
-				*flags |= HTML_BOLD;
-			/* needs more work.. */
-			while ((*p) && (*p != '>')) {
-				p++;
+			if (!strncasecmp (p+1, "/td>", 4)) {
+				p += 5;
+				break;
 			}
-			if (!(*p))
+			if (p [2] == '>') {
+				if (tolower ((unsigned char)p[1]) == 'i')
+					*flags |= HTML_ITALIC;
+				else if (tolower ((unsigned char)p[1]) == 'b')
+					*flags |= HTML_BOLD;
+			}
+			p = strchr (p, '>');
+			if (p == NULL)
 				break;
 		} else if (*p == '&') {
 			if (strstr (p, "&lt;")) {
@@ -387,7 +393,24 @@ html_get_string (char *s, int *flags)
 		}
 		p++;
 	}
+	*last = p;
 	*q = '\0';
+	return buf;
+}
+
+/* quick utility to do a case insensitive search for tags */
+static char const *
+findtag (char const *buf, char const *tag)
+{
+	int n;
+	g_return_val_if_fail (*tag == '<', NULL);
+
+	n = strlen (tag);
+
+	--buf;
+	do {
+		buf = strchr (buf+1, '<');
+	} while (buf != NULL && strncasecmp (buf, tag, n));
 	return buf;
 }
 
@@ -403,7 +426,7 @@ html_read (IOContext *context, WorkbookView *wb_view,
 	Sheet *sheet;
 	Cell *cell;
 	int num, row, col, flags;
-	char *p, *str;
+	char const *p, *str, *ptr;
 	char buf[LINESIZE];
 
 	g_return_val_if_fail (filename != NULL, -1);
@@ -421,15 +444,29 @@ html_read (IOContext *context, WorkbookView *wb_view,
 	row = -1;
 	num = 0;
 	while (fgets (buf, LINESIZE, fp) != NULL) {
-		if (strstr (buf, "<TABLE")) {
+		ptr = buf;
+quick_hack :
+		/* FIXME : This is an ugly hack.  I'll patch it a bit for now
+		 * but we should migrate to libxml
+		 */
+		if (ptr == NULL)
+			continue;
+
+		if (NULL != (p = findtag (ptr, "<TABLE"))) {
 			sheet = workbook_sheet_add (wb, NULL, FALSE);
 			row = -1;
-		} else if (strstr (buf, "</TABLE>")) {
+			ptr = strchr (p+6, '>');
+			goto quick_hack;
+		} else if (NULL != (p = findtag (ptr, "</TABLE>"))) {
 			sheet = NULL;
-		} else if (strstr (buf, "<TR>")) {
+			ptr = strchr (p+7, '>');
+			goto quick_hack;
+		} else if (NULL != (p = findtag (ptr, "<TR"))) {
 			row++;
 			col = 0;
-		} else if ((p = strstr (buf, "<TD")) != NULL) {
+			ptr = strchr (p+3, '>');
+			goto quick_hack;
+		} else if (NULL != (p = findtag (ptr, "<TD"))) {
 			/* process table data .. */
 			if (sheet) {
 				p += 3;
@@ -465,7 +502,7 @@ html_read (IOContext *context, WorkbookView *wb_view,
 				if (row == -1)	/* if we didn't found a TR .. */
 					row = 0;
 				if (*p) {
-					str = html_get_string (p, &flags);
+					str = html_get_string (p, &flags, &ptr);
 					cell = sheet_cell_fetch (sheet, col, row);
 					if (str && cell) {
 						if (flags) {
@@ -491,6 +528,7 @@ html_read (IOContext *context, WorkbookView *wb_view,
 					}
 				}
 				col++;
+				goto quick_hack;
 			}
 		}
 	}

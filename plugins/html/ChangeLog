@@ -1,3 +1,14 @@
+2001-02-03  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_read) : Make it suck slightly less.
+	  We have no business writing this crock of malarkey.
+	  This should use a REAL parser based on libxml.
+
+2001-02-02  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (findtag) : Quick utility.
+	(html_read) : use it.
+
 2001-01-08  Jody Goldberg <jgoldberg@home.com>
 
 	* html.c (html_write_wb_html32) : Don't leak style references.
