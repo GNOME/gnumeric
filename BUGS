@@ -111,7 +111,7 @@ UTF-8:
     - format precompile
 
 Bonobo component
-    Install it in libexec
+    Install it in libexec					(DONE)
     Investigate warnings
 
 Autocolors
