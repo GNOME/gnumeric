@@ -395,9 +395,10 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	return (fs);
 }
 
-void gui_file_save_to_stream (BonoboStream *stream, WorkbookControlGUI *wbcg,
-		              WorkbookView *wb_view, const gchar *mime_type,
-			      CORBA_Environment *ev)
+void
+gui_file_save_to_stream (BonoboStream *stream, WorkbookControlGUI *wbcg,
+			 WorkbookView *wb_view, const gchar *mime_type,
+			 CORBA_Environment *ev)
 {
 	GnumFileSaver *fs = NULL;
 	IOContext *io_context;

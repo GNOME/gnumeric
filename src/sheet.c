@@ -1163,7 +1163,7 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
 	if (!res->spans_and_merges_extend)
 		return;
 
-	/* Can not span AND merge */
+	/* Cannot span AND merge */
 	if (cell_is_merged (cell)) {
 		Range const *merged =
 			sheet_merge_is_corner (cell->base.sheet, &cell->pos);
@@ -2247,7 +2247,7 @@ sheet_range_contains_region (Sheet const *sheet, Range const *r,
 	if (merged != NULL) {
 		if (wbc != NULL)
 			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd,
-				_("can not operate on merged cells"));
+				_("cannot operate on merged cells"));
 		g_slist_free (merged);
 		return TRUE;
 	}
@@ -2258,7 +2258,7 @@ sheet_range_contains_region (Sheet const *sheet, Range const *r,
 					 cb_cell_is_array, NULL)) {
 		if (wbc != NULL)
 			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd,
-				_("can not operate on array formulae"));
+				_("cannot operate on array formulae"));
 		return TRUE;
 	}
 

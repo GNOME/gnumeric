@@ -584,7 +584,7 @@ array_row: array_exp {
 		} else {
 			return gnumeric_parse_error (
 				state, PERR_INVALID_ARRAY_SEPARATOR,
-				g_strdup_printf (_("The character %c can not be used to separate array elements"),
+				g_strdup_printf (_("The character %c cannot be used to separate array elements"),
 				state->array_col_separator), state->expr_text - state->expr_backup + 1, 1);
 		}
 	}
@@ -598,7 +598,7 @@ array_row: array_exp {
 			/* FIXME: Is this the right error to display? */
 			return gnumeric_parse_error (
 				state, PERR_INVALID_ARRAY_SEPARATOR,
-				g_strdup_printf (_("The character %c can not be used to separate array elements"),
+				g_strdup_printf (_("The character %c cannot be used to separate array elements"),
 				state->array_col_separator), state->expr_text - state->expr_backup + 1, 1);
 		}
 	}

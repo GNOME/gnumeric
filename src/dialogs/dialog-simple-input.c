@@ -30,7 +30,7 @@ dialog_choose_cols_vs_rows (WorkbookControlGUI *wbcg, const char *title,
 
 	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog1"));
 	if (dialog == NULL){
-		g_warning ("Can not find the `dialog1' widget in colrow.glade");
+		g_warning ("Cannot find the `dialog1' widget in colrow.glade");
 		gtk_object_destroy (GTK_OBJECT (gui));
 		return FALSE;
 	}
@@ -71,7 +71,7 @@ dialog_get_number (WorkbookControlGUI *wbcg,
 
 	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog1"));
 	if (dialog == NULL){
-		g_warning ("Can not find the `dialog1' widget in %s", glade_file);
+		g_warning ("Cannot find the `dialog1' widget in %s", glade_file);
 		gtk_object_destroy (GTK_OBJECT (gui));
 		return FALSE;
 	}
@@ -119,7 +119,7 @@ dialog_get_sheet_name (WorkbookControlGUI *wbcg, const char *current)
 
 	dialog = GNOME_DIALOG (glade_xml_get_widget (gui, "dialog"));
 	if (dialog == NULL){
-		g_warning ("Can not find the `dialog' widget in sheet-rename.glade");
+		g_warning ("Cannot find the `dialog' widget in sheet-rename.glade");
 		gtk_object_destroy (GTK_OBJECT (gui));
 		return NULL;
 	}

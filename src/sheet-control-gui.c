@@ -843,7 +843,7 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 		} else if (couple_panes) { /* pane 2 */
 			/* FIXME : We may need to change the way this routine
 			 * is used to fix this.  Because we only know what the
-			 * target cell is we can not absolutely differentiate
+			 * target cell is we cannot absolutely differentiate
 			 * between col & row scrolling.  For now use the
 			 * heuristic that if the col was visible this is a
 			 * vertical jump.

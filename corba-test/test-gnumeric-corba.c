@@ -98,7 +98,7 @@ main (int argc, char *argv[])
 		NULL, "GOADID:GNOME:Gnumeric:Workbook:1.0", 0, NULL);
 
 	if (workbook == CORBA_OBJECT_NIL){
-		printf ("Can not bind workbook");
+		printf ("Cannot bind workbook");
 		exit (1);
 	}
 

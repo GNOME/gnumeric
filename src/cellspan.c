@@ -172,7 +172,7 @@ cellspan_is_empty (int col, ColRowInfo const *ri, Cell const *ok_span_cell)
 		return FALSE;
 
 	tmp = sheet_cell_get (ok_span_cell->base.sheet, col, ri->pos);
-	/* FIXME : can not use cell_is_blank until expressions can span.
+	/* FIXME : cannot use cell_is_blank until expressions can span.
 	 * because cells with expressions start out with value Empty
 	 * existing spans continue to flow through, but never get removed
 	 * because we don't respan expression results.

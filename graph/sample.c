@@ -273,7 +273,7 @@ create_test (BonoboUIHandler *uih)
 	object = bonobo_object_activate ("GOADID:embeddable:Graph:Layout", 0);
 #endif
 	if (!object) {
-		printf ("Can not activate object\n");
+		printf ("Cannot activate object\n");
 		exit (1);
 	}
 	
