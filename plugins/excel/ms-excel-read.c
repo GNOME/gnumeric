@@ -425,10 +425,14 @@ biff_boundsheet_data_destroy (gpointer key, BIFF_BOUNDSHEET_DATA *d, gpointer us
  * Ug! FIXME
  **/
 static char *
-biff_nasty_font_check_function (char *name1, char *name2)
+biff_nasty_font_check_function (char *name1, char *name2, int ptsize)
 {
-	if (gdk_fontset_load(name1))
+	StyleFont *font;
+
+	font = style_font_new_simple (name1, ptsize);
+	if (font)
 	{
+		style_font_unref (font);
 		if (name2)
 			g_free(name2) ;
 		return name1 ;
@@ -444,16 +448,18 @@ biff_nasty_font_check_function (char *name1, char *name2)
 static StyleFont*
 biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
 {
-	char font_size[4*sizeof(int)]; /* I know it may seem excessive. Time will say. */
 	int i;
 	char *fname1, *fname2 ;
 	StyleFont *ans ;
+	int ptsize;
+
+	ptsize = MAX (4, fd->height / 20);
 
 	if (!fd->fontname) {
 #if EXCEL_DEBUG > 0
 		printf ("Curious no font name on %d\n", fd->index);
 #endif
-		return style_font_new (gnumeric_default_font->font_name, 1);
+		return style_font_new (gnumeric_default_font->font_name, ptsize);
 	}
 	
 	/*
@@ -469,36 +475,27 @@ biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
 	
 	fname1 = g_strdup (gnumeric_default_font->font_name);
 	fname2 = font_change_component (gnumeric_default_font->font_name, 1, fd->fontname);
-	fname1 = biff_nasty_font_check_function (fname2, fname1);
+	fname1 = biff_nasty_font_check_function (fname2, fname1, ptsize);
 
 /*	printf ("FoNt [-]: %s\n", fname1) ; */
 	if (fd->italic) {
-		fname2 = font_get_italic_name (fname1);
+		fname2 = font_get_italic_name (fname1, ptsize);
 /*			printf ("FoNt [i]: %s\n", fname2) ;  */
 	}
 	else
 		fname2 = g_strdup (fname1) ;
-	fname1 = biff_nasty_font_check_function (fname2, fname1) ;
+	fname1 = biff_nasty_font_check_function (fname2, fname1, ptsize) ;
 	
 	if (fd->boldness >= 0x2bc) {
-		fname2 = font_get_bold_name (fname1) ;
+		fname2 = font_get_bold_name (fname1, ptsize) ;
 /*			printf ("FoNt [b]: %s\n", fname1) ; */
 	}
 	else
 		fname2 = g_strdup (fname1) ;
-	fname1 = biff_nasty_font_check_function (fname2, fname1) ;
+	fname1 = biff_nasty_font_check_function (fname2, fname1, ptsize) ;
 	/* What about underlining? */
-
-	g_snprintf (font_size, 16, "%d", fd->height / 2);
-	{
-		char *tmp;
-		tmp = font_change_component (fname1, 7, font_size);
-		fname2 = font_change_component (tmp, 6, "*");
-		g_free (tmp);
-	}
-	fname1 = biff_nasty_font_check_function (fname2, fname1) ;
 	
-	ans = style_font_new (fname1, 1) ;
+	ans = style_font_new (fname1, ptsize) ;
 	g_free (fname1) ;
 	
 	if (fd->italic)

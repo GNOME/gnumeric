@@ -1,8 +1,19 @@
+1999-06-15  Morten Welinder  <terra@diku.dk>
+
+	* src/style.c (font_init): Rework.  (Work in progress.  Things
+ 	should work ok, but will become even better.)
+	(style_font_new_simple): Revert to loading a font, not a fontset.
+
+	* src/gnumeric-util.c (font_get_italic_name): Plug leak and unref
+ 	the StyleFont.
+	(font_get_bold_name, font_get_italic_name): New parameter units.
+  	All callers changed.
+
 1999-06-15  Tomas Ogren  <stric@ing.umu.se>
 
 	* configure.in: Added sv
 
-Mon Jun 14 18:24:40 1999  Morten Welinder  <welinder@rentec.com>
+1999-06-14  Morten Welinder  <terra@diku.dk>
 
 	* src/style.c (style_font_new_simple): Add negative caching.
 	(DEFAULT_FONT): Don't have a complete wildcard here -- that might

@@ -186,7 +186,7 @@ font_change_component (const char *fontname, int idx, const char *newvalue)
 
 
 char *
-font_get_bold_name (const char *fontname)
+font_get_bold_name (const char *fontname, int units)
 {
 	char *f;
 
@@ -198,15 +198,18 @@ font_get_bold_name (const char *fontname)
 }
 
 char *
-font_get_italic_name (const char *fontname)
+font_get_italic_name (const char *fontname, int units)
 {
 	char *f;
+	StyleFont *sf;
 
 	f = font_change_component (fontname, 3, "o");
-	if (style_font_new (f, 1) == NULL) {
+	sf = style_font_new_simple (f, units);
+	if (sf == NULL) {
 		g_free (f);
 		f = font_change_component (fontname, 3, "i");
-	}
+	} else
+		style_font_unref (sf);
 
 	return f;
 }
