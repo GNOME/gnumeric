@@ -7,7 +7,8 @@ Jody:
 Jukka:
 	* Major clean up to the documentation of functions.
 	* Added tons of examples to functions.
-	* Added ``Delete'' entry to ``Edit'' menu.
+	* Added ``Delete...'' entry to ``Edit'' menu.
+	* Implemented PERCENTILE function.
 
 Miguel:
 	* New toolbar code.

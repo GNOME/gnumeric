@@ -1,3 +1,7 @@
+1999-09-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-stat.c: Implemented PERCENTILE() function.
+
 1999-09-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/value.c (value_release) : Releasing value_terminate should not

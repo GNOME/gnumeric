@@ -75,7 +75,6 @@ callback_function_stat (const EvalPosition *ep, Value *value, void *closure)
 	return NULL;
 }
 
-
 typedef struct {
         GSList    *entries;
         int       n;
@@ -3099,6 +3098,8 @@ static char *help_percentrank = {
 
 typedef struct {
         float_t x;
+        float_t smaller_x;
+        float_t greater_x;
         int     smaller;
         int     greater;
         int     equal;
@@ -3116,11 +3117,15 @@ callback_function_percentrank (const EvalPosition *ep, Value *value,
 
 	y = value_get_as_float (value);
 
-	if (y < p->x)
+	if (y < p->x) {
 	        p->smaller++;
-	else if (y > p->x)
+		if (p->smaller_x == p->x || p->smaller_x < y)
+		        p->smaller_x = y;
+	} else if (y > p->x) {
 	        p->greater++;
-	else
+		if (p->greater_x == p->x || p->greater_x > y)
+		        p->greater_x = y;
+	} else
 	        p->equal++;
 
 	return NULL;
@@ -3134,13 +3139,15 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
         float_t            x, k, pr;
 	int                col, row, n;
         int                significance;
-	Value		  *ret;
+	Value		   *ret;
 
 	x = value_get_as_float (argv[1]);
 
 	p.smaller = 0;
 	p.greater = 0;
 	p.equal = 0;
+	p.smaller_x = x;
+	p.greater_x = x;
 	p.x = x;
 
         if (argv[2] == NULL)
@@ -3165,10 +3172,10 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 
 	if (p.equal == 1)
 	        pr = (float_t) p.smaller / (p.smaller+p.greater);
-	else if (p.equal == 0)
-	        pr = (float_t) p.smaller / (p.smaller+p.greater) +
-		  0.5 / (p.smaller+p.greater);
-	else
+	else if (p.equal == 0) {
+	        float_t a = (x-p.smaller_x) / (p.greater_x-p.smaller_x);
+	        pr = (float_t) (p.smaller + a-1) / (p.greater+p.smaller-1.0);
+	} else
 	        pr = (p.smaller + 0.5 * p.equal) /
 		  (p.smaller + p.equal + p.greater);
 
@@ -3181,6 +3188,62 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 	pr /= k;
 
 	return value_new_float (pr);
+}
+
+/***************************************************************************/
+
+static char *help_percentile = {
+	N_("@FUNCTION=PERCENTILE\n"
+	   "@SYNTAX=PERCENTILE(array,k)\n"
+
+	   "@DESCRIPTION="
+	   "PERCENTILE function returns the k-th percentile of the given data "
+	   "points.  "
+	   "\n"
+	   "If @array is empty, PERCENTILE returns #NUM! error. "
+	   "If @k < 0 or @k > 1, PERCENTILE returns #NUM! error. "
+	   "This function is Excel compatible. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "PERCENTILE(A1:A5,0.42) equals 20.02.\n"
+	   "\n"
+	   "@SEEALSO=QUARTILE")
+};
+
+static Value *
+gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
+{
+        float_t k, *data, fract, des, a, b;
+	int     n;
+	Value   *result = NULL;
+
+	k = value_get_as_float (argv[1]);
+
+	data = collect_floats_value (argv[0], &ei->pos,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
+				     &n, &result);
+	if (result)
+		goto out;
+
+	if (n == 0 || k < 0 || k > 1) {
+		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+	  
+	qsort ((float_t *) data, n, sizeof (data[0]), (void *) &float_compare);
+
+	fract = k * (n-1);
+	des = fract - (int) fract;
+	a = data[(int) fract];
+	b = data[(int) fract + 1];
+	result = value_new_float (b * des + a * (1.0-des));
+out:
+	g_free (data);
+
+	return result;
 }
 
 /***************************************************************************/
@@ -4138,6 +4201,8 @@ stat_functions_init (void)
 			    &help_normsdist, gnumeric_normsdist);
 	function_add_args  (cat, "normsinv",  "f",  "",
 			    &help_normsinv, gnumeric_normsinv);
+        function_add_args  (cat, "percentile",   "Af",  "array,k",
+			    &help_percentile, gnumeric_percentile);
 	function_add_args  (cat, "percentrank", "Af|f", "array,x,significance",
 			    &help_percentrank, gnumeric_percentrank);
         function_add_args  (cat, "pearson",     "AA",   "array1,array2",
