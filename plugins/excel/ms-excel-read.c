@@ -662,10 +662,10 @@ typedef struct {
  * formula is g_malloc'd and copied
  **/
 static void
-biff_name_data_new (MS_EXCEL_SHEET *sheet, char *name, guint8 *formula, guint16 len)
+biff_name_data_new (MS_EXCEL_WORKBOOK *wb, char *name, guint8 *formula, guint16 len)
 {
 	BIFF_NAME_DATA *bnd = g_new (BIFF_NAME_DATA, 1) ;
-	bnd->idx = g_hash_table_size (sheet->wb->name_data) + 1 ;
+	bnd->idx = g_hash_table_size (wb->name_data) + 1 ;
 	bnd->name = name ;
 	if (formula) {
 		bnd->formula = g_new (guint8, len) ;
@@ -675,7 +675,7 @@ biff_name_data_new (MS_EXCEL_SHEET *sheet, char *name, guint8 *formula, guint16 
 		bnd->formula = 0 ;
 		bnd->formula_len = 0 ;
 	}
-	g_hash_table_insert (sheet->wb->name_data, &bnd->idx, bnd) ;
+	g_hash_table_insert (wb->name_data, &bnd->idx, bnd) ;
 /*	printf ("Inserting '%s' into externname table at (%d)\n", bnd->name, bnd->idx) ; */
 }
 
@@ -843,9 +843,9 @@ ms_excel_set_cell_colors (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf
 		else
 			cell_set_color_from_style (cell, fore, back);
 	}
-#if EXCEL_DEBUG > 0
 	else
 		printf ("Missing color\n");
+#if EXCEL_DEBUG > 0
 #endif
 }
 
@@ -1480,6 +1480,117 @@ biff_get_rk (guint8 *ptr)
 	return ans;
 }
 
+/* FIXME: S59DA9.HTM */
+static void
+ms_excel_read_name (BIFF_QUERY * q)
+{
+	guint16 flags = BIFF_GETWORD(q->data) ;
+	guint16 fn_grp_idx ;
+	guint8  kb_shortcut = BIFF_GETBYTE(q->data+2);
+	guint8  name_len = BIFF_GETBYTE(q->data+3) ;
+	guint16 name_def_len  = BIFF_GETWORD(q->data+4) ;
+	guint8* name_def_data = q->data+14+name_def_len ;
+	guint16 sheet_idx = BIFF_GETWORD(q->data+6) ;
+	guint16 ixals = BIFF_GETWORD(q->data+8) ; /* dup */
+	guint8  menu_txt_len = BIFF_GETBYTE(q->data+10) ;
+	guint8  descr_txt_len = BIFF_GETBYTE(q->data+11) ;
+	guint8  help_txt_len = BIFF_GETBYTE(q->data+12) ;
+	guint8  status_txt_len = BIFF_GETBYTE(q->data+13) ;
+	char *name, *menu_txt, *descr_txt, *help_txt, *status_txt ;
+	guint8 *ptr ;
+
+/*	g_assert (ixals==sheet_idx) ; */
+	ptr = q->data + 14 ;
+	if (name_len == 1 && *ptr <= 0x0c)
+		/* FIXME FIXME FIXME */
+		/* Be sure to new these when we actually use the result */
+		switch(*ptr)
+		{
+		case 0x00 :	name = "Consolidate_Area"; break;
+		case 0x01 :	name = "Auto_Open"; break;
+		case 0x02 :	name = "Auto_Close"; break;
+		case 0x03 :	name = "Extract"; break;
+		case 0x04 :	name = "Database"; break;
+		case 0x05 :	name = "Criteria"; break;
+		case 0x06 :	name = "Print_Area"; break;
+		case 0x07 :	name = "Print_Titles"; break;
+		case 0x08 :	name = "Recorder"; break;
+		case 0x09 :	name = "Data_Form"; break;
+		case 0x0a :	name = "Auto_Activate"; break;
+		case 0x0b :	name = "Auto_Deactivate"; break;
+		case 0x0c :	name = "Sheet_Title"; break;
+		default :
+				name = "ERROR ERROR ERROR.  This is impossible";
+		}
+	else
+		name = biff_get_text (ptr, name_len, NULL) ;
+	ptr+= name_len + name_def_len ;
+	menu_txt = biff_get_text (ptr, menu_txt_len, NULL) ;
+	ptr+= menu_txt_len ;
+	descr_txt = biff_get_text (ptr, descr_txt_len, NULL) ;
+	ptr+= descr_txt_len ;
+	help_txt = biff_get_text (ptr, help_txt_len, NULL) ;
+	ptr+= help_txt_len ;
+	status_txt = biff_get_text (ptr, status_txt_len, NULL) ;
+
+	printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n", name, menu_txt, descr_txt,
+		help_txt, status_txt) ;
+	dump (name_def_data, name_def_len) ;
+
+	/* Unpack flags */
+	fn_grp_idx = (flags&0xfc0)>>6 ;
+	if ((flags&0x0001) != 0)
+		printf (" Hidden") ;
+	if ((flags&0x0002) != 0)
+		printf (" Function") ;
+	if ((flags&0x0004) != 0)
+		printf (" VB-Proc") ;
+	if ((flags&0x0008) != 0)
+		printf (" Proc") ;
+	if ((flags&0x0010) != 0)
+		printf (" CalcExp") ;
+	if ((flags&0x0020) != 0)
+		printf (" BuiltIn") ;
+	if ((flags&0x1000) != 0)
+		printf (" BinData") ;
+	printf ("\n") ;
+}
+
+/* FIXME: S59D7E.HTM */
+static void
+ms_excel_externname(BIFF_QUERY * q,
+		    MS_EXCEL_WORKBOOK * wb,
+		    eBiff_version version)
+{
+	char *externname ;
+	if ( version >= eBiffV7) {
+		guint16 options  = BIFF_GETWORD(q->data) ;
+		guint8  namelen  = BIFF_GETBYTE(q->data+6) ;
+		guint16 defnlen  = BIFF_GETWORD(q->data + 7 + namelen) ;
+		char *definition = 0 ;
+		
+		externname = biff_get_text (q->data+7, namelen, NULL) ;
+		if ((options & 0xffe0) != 0) {
+			printf ("Duff externname\n") ; return ;
+		}
+		if ((options & 0x0001) != 0)
+			printf ("fBuiltin\n") ;
+		/* Copy the definition to storage to parse at run-time in the formula */
+		biff_name_data_new (wb, externname, definition, defnlen) ;
+	} else { /* Ancient Papyrus spec. */
+		guint8 data[] = { 0x1c, 0x17 } ;
+		printf ("Externname Data:\n") ;
+		dump (q->data, q->length) ;
+		externname = biff_get_text (q->data+1, BIFF_GETBYTE(q->data), NULL) ;
+		biff_name_data_new (wb, externname, data, 2) ;
+	}
+	if (EXCEL_DEBUG>1)
+	{
+		printf ("Externname '%s'\n", externname) ;
+		dump (q->data, q->length) ;
+	}
+}
+
 /**
  * Parse the cell BIFF tag, and act on it as neccessary
  * NB. Microsoft Docs give offsets from start of biff record, subtract 4 their docs.
@@ -1770,92 +1881,17 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
                 break;
 	}
 
-	case BIFF_EXTERNNAME: /* FIXME: S59D7E.HTM */
-	{
-		char *externname ;
-		if ( sheet->ver >= eBiffV7) {
-			guint16 options  = BIFF_GETWORD(q->data) ;
-			guint8  namelen  = BIFF_GETBYTE(q->data+6) ;
-			guint16 defnlen  = BIFF_GETWORD(q->data + 7 + namelen) ;
-			char *definition = 0 ;
-			
-			externname = biff_get_text (q->data+7, namelen, NULL) ;
-			if ((options & 0xffe0) != 0) {
-				printf ("Duff externname\n") ; break ;
-			}
-			if ((options & 0x0001) != 0)
-				printf ("fBuiltin\n") ;
-			/* Copy the definition to storage to parse at run-time in the formula */
-			biff_name_data_new (sheet, externname, definition, defnlen) ;
-		} else { /* Ancient Papyrus spec. */
-			guint8 data[] = { 0x1c, 0x17 } ;
-			printf ("Externname Data:\n") ;
-			dump (q->data, q->length) ;
-			externname = biff_get_text (q->data+1, BIFF_GETBYTE(q->data), NULL) ;
-			biff_name_data_new (sheet, externname, data, 2) ;
-		}
-		if (EXCEL_DEBUG>1)
-		{
-			printf ("Externname '%s'\n", externname) ;
-			dump (q->data, q->length) ;
-		}
+	case BIFF_EXTERNNAME:
+		ms_excel_externname(q, sheet->wb, sheet->ver);
 		break ;
-	}
+
 	default:
 		switch (q->opcode)
 		{
-		case BIFF_NAME: /* FIXME: S59DA9.HTM */
-		{
-			guint16 flags = BIFF_GETWORD(q->data) ;
-			guint16 fn_grp_idx ;
-			guint8  kb_shortcut = BIFF_GETBYTE(q->data+2);
-			guint8  name_len = BIFF_GETBYTE(q->data+3) ;
-			guint16 name_def_len  = BIFF_GETWORD(q->data+4) ;
-			guint8* name_def_data = q->data+14+name_def_len ;
-			guint16 sheet_idx = BIFF_GETWORD(q->data+6) ;
-			guint16 ixals = BIFF_GETWORD(q->data+8) ; /* dup */
-			guint8  menu_txt_len = BIFF_GETBYTE(q->data+10) ;
-			guint8  descr_txt_len = BIFF_GETBYTE(q->data+11) ;
-			guint8  help_txt_len = BIFF_GETBYTE(q->data+12) ;
-			guint8  status_txt_len = BIFF_GETBYTE(q->data+13) ;
-			char *name, *menu_txt, *descr_txt, *help_txt, *status_txt ;
-			guint8 *ptr ;
-
-			g_assert (ixals==sheet_idx) ;
-			ptr = q->data + 14 ;
-			name = biff_get_text (ptr, name_len, NULL) ;
-			ptr+= name_len + name_def_len ;
-			menu_txt = biff_get_text (ptr, menu_txt_len, NULL) ;
-			ptr+= menu_txt_len ;
-			descr_txt = biff_get_text (ptr, descr_txt_len, NULL) ;
-			ptr+= descr_txt_len ;
-			help_txt = biff_get_text (ptr, help_txt_len, NULL) ;
-			ptr+= help_txt_len ;
-			status_txt = biff_get_text (ptr, status_txt_len, NULL) ;
-
-			printf ("Name record : '%s', '%s', '%s', '%s', '%s'\n", name, menu_txt, descr_txt,
-				help_txt, status_txt) ;
-			dump (name_def_data, name_def_len) ;
-
-			/* Unpack flags */
-			fn_grp_idx = (flags&0xfc0)>>6 ;
-			if ((flags&0x0001) != 0)
-				printf (" Hidden") ;
-			if ((flags&0x0002) != 0)
-				printf (" Function") ;
-			if ((flags&0x0004) != 0)
-				printf (" VB-Proc") ;
-			if ((flags&0x0008) != 0)
-				printf (" Proc") ;
-			if ((flags&0x0010) != 0)
-				printf (" CalcExp") ;
-			if ((flags&0x0020) != 0)
-				printf (" BuiltIn") ;
-			if ((flags&0x1000) != 0)
-				printf (" BinData") ;
-			printf ("\n") ;
+		case BIFF_NAME:
+			ms_excel_read_name (q);
 			break ;
-		}
+
 		case BIFF_STRING: /* FIXME: S59DE9.HTM */
 		{
 			char *txt ;
@@ -1915,9 +1951,11 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			}
 			return;
 			break;
+
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			ms_obj_read_obj (sheet, q);
+			ms_obj_read_obj (q);
 			break;
+
 		case BIFF_SELECTION: /* S59DE2.HTM */
 		{
 			int pane_number ;
@@ -2079,6 +2117,78 @@ find_workbook (MS_OLE * ptr)
 	return 0;
 }
 
+/*
+ * see S59DEC.HM,
+ * but this whole thing seems sketchy.
+ * always get 03 00 01 04
+ */
+static void
+ms_excel_read_supporting_wb (BIFF_BOF_DATA *ver, BIFF_QUERY *q)
+{
+	char *	name;
+	BYTE *  data;
+	guint32 byte_length, slen = 0;
+	WORD	numTabs = BIFF_GETWORD (q->data);
+	int i;
+
+	printf("Supporting workbook with %d Tabs\n", numTabs);
+	data = q->data + 2;
+	{
+		BYTE encodeType = BIFF_GETBYTE(data);
+		++data;
+		printf("--> SUPBOOK VirtPath encoding = ");
+		switch (encodeType)
+		{
+		case 0x00 : /* chEmpty */
+			puts("chEmpty");
+			break;
+		case 0x01 : /* chEncode */
+			puts("chEncode");
+#if 0
+			for (i = 0 ; i < 50 ; ++i)
+				printf("%3d (%c)(%x)\n", i, data[i], data[i]);
+#endif
+			break;
+		case 0x02 : /* chSelf */
+			puts("chSelf");
+			break;
+		default :
+			printf("Unknown/Unencoded ??(%x '%c') %d\n",
+			       encodeType, encodeType, q->length);
+		};
+	}
+
+#if 0
+	for (data = q->data + 2; numTabs-- > 0 ; )
+	{
+		if (ver->version == eBiffV8) {
+			slen = (guint32) BIFF_GETWORD (data);
+			name = biff_get_text (data += 2, slen, &byte_length);
+		} else {
+			slen = (guint32) BIFF_GETBYTE (data);
+			name = biff_get_text (data += 1, slen, &byte_length);
+		}
+		puts(name);
+	}
+#endif
+}
+
+/*
+ * A utility routine which should be moved to ms-biff.c but currently depends
+ * on EXCEL_DEBUG which is local to this file
+ */
+static void
+ms_biff_unknown_code (BIFF_QUERY *q)
+{
+#if 0
+	if (EXCEL_DEBUG>0 && EXCEL_DEBUG<=5)
+#endif
+		printf ("Unknown Opcode : 0x%x, length 0x%x\n",
+			q->opcode, q->length);
+	if (EXCEL_DEBUG>2)
+		dump (q->data, q->length); 
+}
+
 Workbook *
 ms_excel_read_workbook (MS_OLE * file)
 {
@@ -2125,6 +2235,54 @@ ms_excel_read_workbook (MS_OLE * file)
 		{
 			if (EXCEL_DEBUG>5)
 				printf ("Opcode : 0x%x\n", q->opcode) ;
+
+			/* Catch Chart specific codes before primary */
+			if (0x10 == q->ms_op)
+			    if (ms_chart_biff_read (wb, q))
+				continue;
+
+			/* Catch Oddballs
+			 * The heuristic seems to be that 'version 1' BIFF types
+			 * are unique and not versioned.
+			 */
+			if (0x1 == q->ms_op)
+			{
+				switch (q->opcode)
+				{
+				case BIFF_DFS :
+					printf ("Double Stream File : %s\n",
+						(BIFF_GETWORD(q->data) == 1)
+						? "Yes" : "No");
+					break;
+
+				case BIFF_TXO :
+					break;
+
+				case BIFF_REFRESHALL :
+					break;
+
+				case BIFF_USESELFS :
+					break;
+
+				case BIFF_TABID :
+					break;
+
+				case BIFF_PROT4REV :
+					break;
+
+				case BIFF_PROT4REVPASS :
+					break;
+
+				case BIFF_SUPBOOK:
+					ms_excel_read_supporting_wb (ver, q);
+					break;
+
+				default:
+					ms_biff_unknown_code (q);
+				}
+				continue;
+			}
+
 			switch (q->ls_op)
 			{
 			case BIFF_BOF:
@@ -2305,21 +2463,113 @@ ms_excel_read_workbook (MS_OLE * file)
 				if (EXCEL_DEBUG>0)
 					printf ("%d external references\n", BIFF_GETWORD(q->data)) ;
 				break ;
-			default:
-				switch (q->opcode)
+
+			case BIFF_CODEPAGE : /* DUPLICATE 42 */
 				{
-				case BIFF_SUPBOOK: /* see S59DEC.HM, but this whole thing seems sketchy : always get 03 00 01 04 */
-					printf ("SupBook:  %d tabs in workbook (FIXME!)\n", BIFF_GETWORD (q->data) ) ;
-					dump (q->data, q->length);
+				    /* This seems to appear within a workbook */
+				    char * page = NULL;
+				    WORD codepage = BIFF_GETWORD (q->data);
+
+				    switch(codepage)
+				    {
+				    case 0x01b5 :
+					puts("CodePage = IBM PC (Multiplan)");
 					break ;
-				default:
-					if (EXCEL_DEBUG>0 && EXCEL_DEBUG<=5)
-						printf ("Opcode : 0x%x, length 0x%x\n", q->opcode, q->length);
-					if (EXCEL_DEBUG>2)
-						dump (q->data, q->length); 
+				    case 0x8000 :
+					puts("CodePage = Apple Macintosh");
 					break;
+				    case 0x04e4 :
+					puts("CodePage = ANSI (Microsoft Windows)");
+					break;
+				    default :
+					printf("CodePage = UNKNOWN(%hx)\n",
+					       codepage);
+				    };
 				}
+				break;
+
+			case BIFF_PROTECT :
+	     			break;
+
+			case BIFF_PASSWORD :
+	     			break;
+
+			case (BIFF_NAME & 0xff) : /* Why here and not as 18 */
+				ms_excel_read_name (q);
+	     			break;
+
+			case (BIFF_STYLE & 0xff) : /* Why here and not as 93 */
+	     			break;
+
+			case BIFF_WINDOWPROTECT :
+	     			break;
+
+			case BIFF_EXTERNNAME :
+				ms_excel_externname(q, wb, ver->version);
+	     			break;
+
+			case BIFF_BACKUP :
+				break;
+			case BIFF_WRITEACCESS :
+				break;
+			case BIFF_HIDEOBJ :
+				break;
+			case BIFF_FNGROUPCOUNT :
+				break;
+			case BIFF_MMS :
+				break;
+
+			case BIFF_OBPROJ :
+				puts("Visual Basic Project");
+				break;
+
+			case BIFF_BOOKBOOL :
+				break;
+			case BIFF_COUNTRY :
+				break;
+
+			case BIFF_INTERFACEHDR :
+				break;
+
+			case BIFF_INTERFACEEND :
+				break;
+
+			case BIFF_1904 : /* 0, NOT 1 */
+				if (BIFF_GETWORD(q->data) == 1)
+					printf ("Uses 1904 Date System\n");
+				break;
+
+			case BIFF_WINDOW1 : /* 0 NOT 1 */
+				break;
+
+			case (BIFF_WINDOW2 & 0xff) :
+				break;
+
+			case BIFF_SELECTION : /* 0, NOT 10 */
+				break;
+
+			case BIFF_DIMENSIONS :	/* 2, NOT 1,10 */
+				break;
+
+			case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
+				ms_obj_read_obj (q);
+				break;
+
+			case BIFF_SCL :
+				break;
+
+			case BIFF_MS_O_DRAWING: /* FIXME: See: ms-escher.c and S59DA4.HTM */
+				if (gnumeric_debugging>0)
+					ms_escher_hack_get_drawing (q);
+				break;
+
+			default:
+				ms_biff_unknown_code (q);
+				break;
 			}
+			/* NO Code here unless you modify the handling
+			 * of Chart and Odd Balls Above the switch
+			 */
 		}
 		ms_biff_query_destroy (q);
 		if (ver)

@@ -1,3 +1,9 @@
+1999-06-12  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_supporting_wb): 
+	Renamed from _WB.
+	(ms_excel_read_name): Remove buggy names assert.
+
 1999-06-09  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c (ms_excel_read_workbook): Added version
