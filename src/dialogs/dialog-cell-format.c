@@ -35,7 +35,8 @@ static GtkWidget *auto_return;
 static GSList *foreground_radio_list;
 static GSList *background_radio_list;
 
-static GnomeColorPicker *foreground_cs;
+static GtkWidget *foreground_cs;
+static GtkWidget *background_cs;
 
 /* Points to the first cell in the selection */
 static Cell *first_cell;
@@ -669,13 +670,13 @@ create_foreground_radio (GtkWidget *prop_win)
 
 	foreground_radio_list = GTK_RADIO_BUTTON (r2)->group;
 
-	foreground_cs = GNOME_COLOR_PICKER (gnome_color_picker_new ());
+	foreground_cs = gnome_color_picker_new ();
 
-	make_color_picker_notify (GTK_WIDGET (foreground_cs), prop_win);
+	make_color_picker_notify (foreground_cs, prop_win);
 	
 	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (foreground_cs),
+	gtk_table_attach (GTK_TABLE (table), foreground_cs,
 			  1, 2, 1, 2, 0, 0, 0, 0); 
 
 	return frame;
@@ -684,7 +685,7 @@ create_foreground_radio (GtkWidget *prop_win)
 static GtkWidget *
 create_background_radio (GtkWidget *prop_win)
 {
-	GtkWidget *frame, *table, *r1, *r2, *r3, *cs1, *cs2, *p;
+	GtkWidget *frame, *table, *r1, *r2, *r3, *p;
 	int e = GTK_FILL | GTK_EXPAND;
 	
 	frame = gtk_frame_new (_("Background configuration"));
@@ -702,11 +703,9 @@ create_background_radio (GtkWidget *prop_win)
 	background_radio_list = GTK_RADIO_BUTTON (r3)->group;
 
 	/* The color selectors */
-	cs1 = gnome_color_picker_new ();
-	cs2 = gnome_color_picker_new ();
+	background_cs = gnome_color_picker_new ();
 
-	make_color_picker_notify (cs1, prop_win);
-	make_color_picker_notify (cs2, prop_win);
+	make_color_picker_notify (background_cs, prop_win);
 	
 	/* Create the pattern preview */
 	p = pattern_selector_new (0);
@@ -715,8 +714,7 @@ create_background_radio (GtkWidget *prop_win)
 	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), r3, 0, 1, 2, 3, e, 0, 4, 2);
 
-	gtk_table_attach (GTK_TABLE (table), cs1, 1, 2, 1, 2, 0, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), cs2, 1, 2, 2, 3, 0, 0, 4, 2);
+	gtk_table_attach (GTK_TABLE (table), background_cs, 1, 2, 1, 2, 0, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), p, 0, 2, 3, 4, GTK_FILL | GTK_EXPAND, GTK_FILL|GTK_EXPAND, 0, 0);
 	return frame;
 }
@@ -749,7 +747,7 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 	gushort back_red, back_green, back_blue;
 
 	if (gtk_radio_group_get_selected (foreground_radio_list) == 1){
-		gnome_color_picker_get_d (foreground_cs, &rd, &gd, &bd, &ad);
+		gnome_color_picker_get_d (GNOME_COLOR_PICKER (foreground_cs), &rd, &gd, &bd, &ad);
 
 		fore_red   = rd * 65535;
 		fore_green = gd * 65535;
@@ -765,7 +763,6 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		back_green = 0xffff;
 		back_blue  = 0xffff;
 	} else {
-
 	}
 	
 	/* Apply the color to the cells */
@@ -773,10 +770,13 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		Cell *cell = cells->data;
 
 		cell_set_foreground (cell, fore_red, fore_green, fore_blue);
+		cell_set_background (cell, back_red, back_green, back_blue);
+		cell_set_pattern    (cell, 2);
 	}
 
-	style->valid_flags |= STYLE_FORE_COLOR;
+	style->valid_flags |= STYLE_FORE_COLOR | STYLE_PATTERN | STYLE_BACK_COLOR;
 	style->fore_color  = style_color_new (fore_red, fore_green, fore_blue);
+	style->fore_color  = style_color_new (back_red, back_green, back_blue);
 }
 
 static struct {
@@ -787,7 +787,7 @@ static struct {
 	{ N_("Number"),    create_number_format_page,  apply_number_formats  },
 	{ N_("Alignment"), create_align_page,          apply_align_format    },
 	{ N_("Font"),      create_font_page,           apply_font_format     },
-	{ N_("Coloring"),  create_coloring_page,       apply_coloring_format },
+/*	{ N_("Coloring"),  create_coloring_page,       apply_coloring_format }, */
 	{ NULL, NULL }
 };
 

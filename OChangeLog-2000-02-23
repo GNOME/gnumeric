@@ -1,10 +1,14 @@
-1998-09-21  Adrian Likins <adrian@gimp.org>
-
-	*src/fn-math.c: firat stab at fleshing out the help 
-	blurbs here.
-
 1998-09-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/fn-math.c: Changed the way we tag the function definitions
+	before its too late.
+	
+	* src/item-cursor.c (item_cursor_point): Made the thresholds for
+	the cursor a little better.
+
+	* src/dialog-cell-format.c: Small changes to the color
+	configuration code. 
+	
 	* src/expr.c (do_expr_decode_tree): When decoding a tree, include
 	the argument separator.  Also, loop properly trough the arguments
 	being decoded.
@@ -16,6 +20,11 @@
 	* src/fn-date.c (gnumeric_now): The serial number returned by
 	NOW() should be relative to 1900/1/1, not year zero.
 
+1998-09-21  Adrian Likins <adrian@gimp.org>
+
+	*src/fn-math.c: firat stab at fleshing out the help 
+	blurbs here.
+	
 1998-09-20  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/expr.c (eval_expr): Fix the way we computed expressions. 

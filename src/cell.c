@@ -140,6 +140,32 @@ cell_set_foreground (Cell *cell, gushort red, gushort green, gushort blue)
 	cell_queue_redraw (cell);
 }
 
+void
+cell_set_background (Cell *cell, gushort red, gushort green, gushort blue)
+{
+	g_return_if_fail (cell != NULL);
+	
+	if (cell->style->valid_flags & STYLE_BACK_COLOR)
+		style_color_unref (cell->style->back_color);
+
+	cell->style->valid_flags |= STYLE_BACK_COLOR;
+	cell->style->back_color = style_color_new (red, green, blue);
+
+	cell_queue_redraw (cell);
+}
+
+
+void
+cell_set_pattern (Cell *cell, int pattern)
+{
+	g_return_if_fail (cell != NULL);
+
+	cell->style->valid_flags |= STYLE_PATTERN;
+	cell->style->pattern = pattern;
+
+	cell_queue_redraw (cell);
+}
+
 /*
  * cell_set_rendered_text
  * @cell:          the cell we will modify

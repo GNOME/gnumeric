@@ -339,22 +339,22 @@ item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 {
 	*actual_item = NULL;
 
-	if (cx < item->x1-1)
+	if (cx < item->x1-3)
 		return INT_MAX;
-	if (cx > item->x2)
+	if (cx > item->x2+3)
 		return INT_MAX;
-	if (cy < item->y1-1)
+	if (cy < item->y1-3)
 		return INT_MAX;
-	if (cy > item->y2)
+	if (cy > item->y2+3)
 		return INT_MAX;
 
 	/* FIXME: this needs to handle better the small little square case
 	 * for ITEM_CURSOR_SELECTION style
 	 */
-	if ((cx < (item->x1 + 3)) ||
-	    (cx > (item->x2 - 3)) ||
-	    (cy < (item->y1 + 3)) ||
-	    (cy > (item->y2 - 3))){
+	if ((cx < (item->x1 + 4)) ||
+	    (cx > (item->x2 - 8)) ||
+	    (cy < (item->y1 + 4)) ||
+	    (cy > (item->y2 - 8))){
 		*actual_item = item;
 		return 0.0;
 	}

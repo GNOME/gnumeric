@@ -214,12 +214,12 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 				    x1, y1,
 				    cell->col->pixels,
 				    cell->row->pixels);
-	} else {
 		gdk_gc_set_fill (gc, GDK_SOLID);
 		gdk_gc_set_stipple (gc, NULL);
 	}
 	
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
+
 	return count;
 }
 

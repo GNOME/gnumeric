@@ -526,8 +526,9 @@ render_number (gdouble number,
 	
 	for (temp = number; temp >= 1.0; temp /= 10.0){
 
-		gint digit = floor (temp);
-
+		double r = floor (temp);
+		int digit;
+				  
 		if (use_thousand_sep){
 			group++;
 			if (group == 4){
@@ -543,8 +544,8 @@ render_number (gdouble number,
 			}
 		}
 		
-		digit %= 10;
-		g_string_prepend_c (number_string, digit + '0');
+		digit = r - floor (r / 10) * 10;
+		g_string_prepend_c (number_string, (digit) + '0');
 		if (left_req > 0)
 			left_req --;
 		if (left_spaces > 0)

@@ -99,648 +99,648 @@ callback_function_and (Sheet *sheet, Value *value, char **error_string, void *cl
 #if 0
 /* help template */
 static char *help_ = {
-	N_("<function></function>"
-	   "<syntax>(b1, b2, ...)</syntax>n"
+	N_("@FUNCTION=NAME"
+	   "@SYNTAX=(b1, b2, ...)n"
 
-	   "<description>"
+	   "@DESCRIPTION"
 	   ""
-	   "<p>"
+	   "\n"
 
 	   ""
 	   ""
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso></seealso>")
+	   ""
+	   "@SEEALSO=")
 };
 
 #endif
 
 static char *help_atan2 = {
-	N_("<function>ATAN2</function>"
-	   "<syntax>ATAN2(b1,b2)</syntax>n"
+	N_("@FUNCTION=ATAN2"
+	   "@SYNTAX=ATAN2(b1,b2)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The ATAN2 function calculates the arc tangent of the two "
 	   "variables b1 and b2.  It is similar to calculating  the  arc "
 	   "tangent  of b2 / b1, except that the signs of both arguments "
 	   "are used to determine the quadrant of the result. "
 	   "The result is in Radians."
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."  
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>ATAN, ATANH, COS, SIN, DEGREES, RADIANS</seealso>")
+	   ""
+	   "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS")
 };
 
 
 static char *help_atanh = {
-	N_("<function>ATANH</function>"
-	   "<syntax>ATANH(b1)</syntax>n"
+	N_("@FUNCTION=ATANH"
+	   "@SYNTAX=ATANH(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The  ATANH  function  calculates  the inverse hyperbolic "
 	   "tangent of b1; that is the value whose  hyperbolic  tangent "
 	   "is  b1.   If  the  absolute value of b1 is greater than 1.0, "
 	   " ATANH returns an error of 'atanh: domain error'      "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>ATAN, TAN, SIN, COS, DEGREES, RADIANS</seealso>")
+	   ""
+	   "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS")
 };
 
 static char *help_atan = {
-	N_("<function>ATAN</function>"
-	   "<syntax>ATAN(b1)</syntax>n"
+	N_("@FUNCTION=ATAN"
+	   "@SYNTAX=ATAN(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The ATAN function calculates the arc tangent of b1; that "
 	   " is the value whose tangent is b1."
 	   "Return value is in radians."
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>TAN, COS, SIN, DEGREES, RADIANS</seealso>")
+	   ""
+	   "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS")
 };
 
 static char *help_asinh = {
-	N_("<function>ASINH</function>"
-	   "<syntax>ASINH(b1)</syntax>n"
+	N_("@FUNCTION=ASINH"
+	   "@SYNTAX=ASINH(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The ASIN  function  calculates  the inverse hyperbolic "
 	   " sine of b1; that is the value whose hyperbolic sine is b1. "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>ASIN, SIN, COS, DEGREES, RADIANS</seealso>")
+	   ""
+	   "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS")
 };
 
 
 static char *help_asin = {
-	N_("<function>ASIN</function>"
-	   "<syntax>ASIN(b1)</syntax>n"
+	N_("@FUNCTION=ASIN"
+	   "@SYNTAX=ASIN(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The ASIN function calculates the arc sine of b1; that is "
 	   "the value whose sine is b1.  If b1 falls outside  the  range "
 	   "-1 to 1, ASIN fails and returns the error 'asin - domain error'   "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>SIN, COS, ASINH, DEGREES, RADIANS</seealso>")
+	   ""
+	   "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS")
 };
 
 
 static char *help_acosh = {
-	N_("<function>ACOSH</function>"
-	   "<syntax>ACOSH(b1)</syntax>n"
+	N_("@FUNCTION=ACOSH"
+	   "@SYNTAX=ACOSH(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The ACOSH  function  calculates  the inverse hyperbolic "
 	   "cosine of b1; that is the value whose hyperbolic cosine  is "
 	   "b1.   If  b1  is less than 1.0, acosh() returns the error     "
 	   " 'acosh - domain error'"
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>ACOS, DEGREES, RADIANS </seealso>")
+	   ""
+	   "@SEEALSO=ACOS, DEGREES, RADIANS ")
 };
 
 static char *help_acos = {
-	N_("<function>ACOS</function>"
-	   "<syntax>ACOS(b1)</syntax>n"
+	N_("@FUNCTION=ACOS"
+	   "@SYNTAX=ACOS(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The ACOS function calculates the arc cosine of b1; that "
 	   " is the value whose cosine is b1.  If b1  falls  outside  the "
 	   " range -1 to 1, ACOS fails and returns the error 'acos - domain error'. "
 	   " The value it returns is in radians. "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>COS, SIN, DEGREES, RADIANS</seealso>")
+	   ""
+	   "@SEEALSO=COS, SIN, DEGREES, RADIANS")
 };
 
 
 static char *help_tanh = {
-	N_("<function>TANH</function>"
-	   "<syntax>TANH(b1)</syntax>n"
+	N_("@FUNCTION=TANH"
+	   "@SYNTAX=TANH(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   " The TANH function returns the hyperbolic tangent of b1, "
 	   " which is defined mathematically as sinh(b1) / cosh(b1). "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS</seealso>")
+	   ""
+	   "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS")
 };
 
 static char *help_tan = {
-	N_("<function>TAN</function>"
-	   "<syntax>TAN(b1)</syntax>n"
+	N_("@FUNCTION=TAN"
+	   "@SYNTAX=TAN(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The TAN function  returns the tangent of b1, where b1 is "
 	   "given in radians. "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS</seealso>")
+	   ""
+	   "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS")
 };
 
 
 static char *help_sinh = {
-	N_("<function>SINH</function>"
-	   "<syntax>SINH(b1)</syntax>n"
+	N_("@FUNCTION=SINH"
+	   "@SYNTAX=SINH(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The SINH  function  returns  the  hyperbolic sine of b1, "
 	   "which is defined mathematically as (exp(b1) - exp(-b1)) / 2. "
 	   " b1 is in radians. "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP</seealso>")
+	   ""
+	   "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP")
 };
 
 static char *help_cosh = {
-	N_("<function>COSH</function>"
-	   "<syntax>COSH(b1)</syntax>n"
+	N_("@FUNCTION=COSH"
+	   "@SYNTAX=COSH(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The COSH  function  returns the hyperbolic cosine of b1, "
 	   " which is defined mathematically as (exp(b1) + exp(-b1)) / 2.   "
 	   " b1 is in radians. "
-	   "<p>"
+	   "\n"
 
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP</seealso>")
+	   ""
+	   "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP")
 };
 
 
 static char *help_sin = {
-	N_("<function>SIN</function>"
-	   "<syntax>SIN(b1)</syntax>n"
+	N_("@FUNCTION=SIN"
+	   "@SYNTAX=SIN(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The SIN function returns the sine of b1, where b1 is given "
            " in radians. "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES</seealso>")
+	   ""
+	   "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES")
 };
 
 static char *help_cos = {
-	N_("<function>COS</function>"
-	   "<syntax>COS(b1)</syntax>n"
+	N_("@FUNCTION=COS"
+	   "@SYNTAX=COS(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The  COS  function  returns  the cosine of b1, where b1 is "
            "given in radians.  "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES</seealso>")
+	   ""
+	   "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES")
 };
 
 
 
 static char *help_int = {
-	N_("<function>INT</function>"
-	   "<syntax>INT(b1, b2, ...)</syntax>n"
+	N_("@FUNCTION=INT"
+	   "@SYNTAX=INT(b1, b2, ...)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The INT function round b1 now to the nearest int. "
 	   "Where 'nearest' implies being closer to zero. "
 	   "Eqilivent to FLOOR(b1) for b1 >0, amd CEIL(b1) "
 	   "for b1 < 0. " 
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing."
 	   ""
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>FLOOR, CEIL, ABS</seealso>")
+	   ""
+	   "@SEEALSO=FLOOR, CEIL, ABS")
 };
 
 static char *help_count = {
-	N_("<function>COUNT</function>"
-	   "<syntax>COUNT(b1, b2, ...)</syntax>n"
+	N_("@FUNCTION=COUNT"
+	   "@SYNTAX=COUNT(b1, b2, ...)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Returns the total number of arguments passed."
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing."
 	   ""
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>AVERAGE</seealso>")
+	   ""
+	   "@SEEALSO=AVERAGE")
 };
 
 
 static char *help_fact = {
-	N_("<function>FACT</function>"
-	   "<syntax>FACT(b1)</syntax>n"
+	N_("@FUNCTION=FACT"
+	   "@SYNTAX=FACT(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Computes the factorial of b1. ie, b1!"
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell returns an error"
 	   ""
-	   "<p>"
+	   "\n"
 	   
 	   "`Factorials were someone's attempt to make math *look* exciting. ` --Steven Wright "
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso></seealso>")
+	   ""
+	   "@SEEALSO=")
 };
 
 
 static char *help_exp = {
-	N_("<function>EXP</function>"
-	   "<syntax>EXP(b1)</syntax>n"
+	N_("@FUNCTION=EXP"
+	   "@SYNTAX=EXP(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Computes the value of e(the base of natural logarithmns) raised "
 	   "to the power of b1. "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell returns an error."
 	   ""
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>LOG, LOG2, LOG10</seealso>")
+	   ""
+	   "@SEEALSO=LOG, LOG2, LOG10")
 };
 
 static char *help_log = {
-	N_("<function>LOG</function>"
-	   "<syntax>LOG(b1)</syntax>n"
+	N_("@FUNCTION=LOG"
+	   "@SYNTAX=LOG(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Computes the natural logarithm  of b1. "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell returns an error. "
 	   ""
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>EXP, LOG2, LOG10</seealso>")
+	   ""
+	   "@SEEALSO=EXP, LOG2, LOG10")
 };
 
 static char *help_log10 = {
-	N_("<function>LOG10</function>"
-	   "<syntax>LOG10(b1)</syntax>n"
+	N_("@FUNCTION=LOG10"
+	   "@SYNTAX=LOG10(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Computes the base-10 logarithm  of b1. "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell returns an error. "
 	   ""
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>EXP, LOG2, LOG</seealso>")
+	   ""
+	   "@SEEALSO=EXP, LOG2, LOG")
 };
 
 static char *help_log2 = {
-	N_("<function>LOG2</function>"
-	   "<syntax>LOG2(b1)</syntax>n"
+	N_("@FUNCTION=LOG2"
+	   "@SYNTAX=LOG2(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Computes the base-2 logarithm  of b1. "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell returns an error. "
 	   ""
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>EXP, LOG10, LOG</seealso>")
+	   ""
+	   "@SEEALSO=EXP, LOG10, LOG")
 };
 
 
 static char *help_min = {
-	N_("<function>MIN</function>"
-	   "<syntax>MIN(b1, b2, ...)</syntax>n"
+	N_("@FUNCTION=MIN"
+	   "@SYNTAX=MIN(b1, b2, ...)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "MIN returns the value of the element of the values passed "
 	   "that has the smallest value. With negative numbers considered "
 	   "smaller than positive numbers."
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing."
 	   ""
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>MAX,ABS</seealso>")
+	   ""
+	   "@SEEALSO=MAX,ABS")
 };
 
 static char *help_max = {
-	N_("<function>MAX</function>"
-	   "<syntax>MAX(b1, b2, ...)</syntax>n"
+	N_("@FUNCTION=MAX"
+	   "@SYNTAX=MAX(b1, b2, ...)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "MAX returns the value of the element of the values passed "
 	   "that has the largest value. With negative numbers considered "
 	   "smaller than positive numbers."
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing."
 	   ""
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>MIN,ABS</seealso>")
+	   ""
+	   "@SEEALSO=MIN,ABS")
 };
 
 
 static char *help_radians = {
-	N_("<function>RADIANS</function>"
-	   "<syntax>RADIANS(b1)</syntax>n"
+	N_("@FUNCTION=RADIANS"
+	   "@SYNTAX=RADIANS(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Computes the number of radians equilivent to  "
 	   "b1 degrees. "
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   ""
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>PI,DEGREES</seealso>")
+	   ""
+	   "@SEEALSO=PI,DEGREES")
 };
 
 static char *help_degrees = {
-	N_("<function>DEGREES</function>"
-	   "<syntax>DEGREES(b1)</syntax>n"
+	N_("@FUNCTION=DEGREES"
+	   "@SYNTAX=DEGREES(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Computes the number of degrees equilivent to "
 	   " b1 radians."
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   ""
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso>RADIANS, PI</seealso>")
+	   ""
+	   "@SEEALSO=RADIANS, PI")
 };
 
 static char *help_sum = {
-	N_("<function>SUM</function>"
-	   "<syntax>SUM(value1, value2, ...)</syntax>n"
+	N_("@FUNCTION=SUM"
+	   "@SYNTAX=SUM(value1, value2, ...)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Computes the sum of all the values and cells referenced in the "
 	   "argument list. " 
-	   "<p>"
+	   "\n"
 
 
-	   "</description>"
-	   "<seealso>AVERAGE, COUNT</seealso>")
+	   ""
+	   "@SEEALSO=AVERAGE, COUNT")
 };
 
 
 static char *help_bin2dec = {
-	N_("<function>BIN2DEC(</function>"
-	   "<syntax>BIN2DEC(b1)</syntax>n"
+	N_("@FUNCTION=BIN2DEC("
+	   "@SYNTAX=BIN2DEC(b1)n"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "The BIN2DEC function coverts a binary number "
 	   "in string or number to its decimal equilivent."
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso></seealso>")
+	   ""
+	   "@SEEALSO=")
 };
 
 
 static char *help_pi = {
-	N_("<function>PI</function>"
-	   "<syntax>PI()</syntax>n"
+	N_("@FUNCTION=PI"
+	   "@SYNTAX=PI()n"
 
-	   "<description>The PI functions returns the value of Pi "
+	   "@DESCRIPTION=The PI functions returns the value of Pi "
 	   "as defined by M_PI."
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell"
 	   "returns an error. This function is called with no arguments."
-	   "<p>"
+	   "\n"
 	   
 	   ""
 	   ""
 	   ""
-	   "</description>"
-	   "<seealso></seealso>")
+	   ""
+	   "@SEEALSO=")
 };
 
 
 static char *help_floor = {
-	N_("<function>FLOOR</function>"
-	   "<syntax>FLOOR(b1)</syntax>n"
+	N_("@FUNCTION=FLOOR"
+	   "@SYNTAX=FLOOR(b1)n"
 
-	   "<description>The FLOOR function rounds b1 down to the next nearest"
+	   "@DESCRIPTION=The FLOOR function rounds b1 down to the next nearest"
 	   "integer."
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing."
-	   "<p>"
+	   "\n"
 	   
-	   "</description>"
-	   "<seealso>CEIL, ABS, INT</seealso>")
+	   ""
+	   "@SEEALSO=CEIL, ABS, INT")
 };
 
 static char *help_ceil = {
-	N_("<function>CEIL</function>"
-	   "<syntax>CEIL(b1)</syntax>n"
+	N_("@FUNCTION=CEIL"
+	   "@SYNTAX=CEIL(b1)n"
 
-	   "<description>The CEIL function rounds b1 up to the next nearest"
+	   "@DESCRIPTION=The CEIL function rounds b1 up to the next nearest"
 	   "integer."
-	   "<p>"
+	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing."
-	   "<p>"
+	   "\n"
 	   
-	   "</description>"
-	   "<seealso>ABS, FLOOR, INT</seealso>")
+	   ""
+	   "@SEEALSO=ABS, FLOOR, INT")
 };
 
 static char *help_abs = {
-	N_("<function>ABS</function>"
-	   "<syntax>ABS(b1)</syntax>n"
+	N_("@FUNCTION=ABS"
+	   "@SYNTAX=ABS(b1)n"
 
-	   "<description>Implements the Absolute Value function:  the result is "
+	   "@DESCRIPTION=Implements the Absolute Value function:  the result is "
 	   "to drop the negative sign (if present).  This can be done for "
-	   "integers and floating point numbers.<p>"
+	   "integers and floating point numbers.\n"
 
 	   "Performing this function on a string or empty cell simply does nothing."
-	   "<p>"
+	   "\n"
 	   
-	   "</description>"
-	   "<seealso>CEIL, FLOOR</seealso>")
+	   ""
+	   "@SEEALSO=CEIL, FLOOR")
 };
 
 static char *help_and = {
-	N_("<function>AND</function>"
-	   "<syntax>AND(b1, b2, ...)</syntax>n"
+	N_("@FUNCTION=AND"
+	   "@SYNTAX=AND(b1, b2, ...)n"
 
-	   "<description>Implements the logical AND function: the result is TRUE "
+	   "@DESCRIPTION=Implements the logical AND function: the result is TRUE "
 	   "if all of the expression evaluates to TRUE, otherwise it returns "
-	   "FALSE.<p>"
+	   "FALSE.\n"
 
 	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
 	   "If an integer or floating point value is provided zero is considered "
-	   "FALSE and anything else is TRUE.<p>"
+	   "FALSE and anything else is TRUE.\n"
 	   
 	   "If the values contain strings or empty cells those values are "
 	   "ignored.  If no logical values are provided, then the error '#VALUE!' "
 	   "is returned. "
-	   "</description>"
-	   "<seealso>OR</seealso>")
+	   ""
+	   "@SEEALSO=OR")
 };
 
 static Value *
@@ -837,15 +837,15 @@ gnumeric_atan2 (struct FunctionDefinition *i, Value *argv [], char **error_strin
 }
 
 static char *help_average = {
-	N_("<function>AVERAGE</function>"
-	   "<syntax>AVERAGE(value1, value2,...)</syntax>"
+	N_("@FUNCTION=AVERAGE"
+	   "@SYNTAX=AVERAGE(value1, value2,...)"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Computes the average of all the values and cells referenced in the "
 	   "argument list.  This is equivalent to the sum of the arguments divided "
 	   "by the count of the arguments."
-	   "</description>"
-	   "<seealso>SUM, COUNT</seealso>")
+	   ""
+	   "@SEEALSO=SUM, COUNT")
 };
 
 static Value *
@@ -1216,20 +1216,20 @@ gnumeric_max (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 }
 
 static char *help_or = {
-	N_("<function>OR</function>"
-	   "<syntax>OR(b1, b2, ...)</syntax>"
+	N_("@FUNCTION=OR"
+	   "@SYNTAX=OR(b1, b2, ...)"
 
-	   "<description>"
+	   "@DESCRIPTION="
 	   "Implements the logical OR function: the result is TRUE if any of the"
-	   "values evaluated to TRUE.<p>"
+	   "values evaluated to TRUE.\n"
 	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
 	   "If an integer or floating point value is provided zero is considered"
-	   "FALSE and anything else is TRUE.<p>"
+	   "FALSE and anything else is TRUE.\n"
 	   "If the values contain strings or empty cells those values are "
 	   "ignored.  If no logical values are provided, then the error '#VALUE!'"
 	   "is returned."
-	   "</description>"
-	   "<seealso>AND</seealso>")
+	   ""
+	   "@SEEALSO=AND")
 };
 
 
@@ -1393,44 +1393,44 @@ gnumeric_pi (struct FunctionDefinition *i, Value *argv [], char **error_string)
 }
 
 FunctionDefinition math_functions [] = {
-	{ "abs",     "f",    "number",    &help_abs, NULL, gnumeric_abs },
-	{ "acos",    "f",    "number",    &help_acos,      NULL, gnumeric_acos },
-	{ "acosh",   "f",    "number",    &help_acosh,      NULL, gnumeric_acosh },
-	{ "and",     0,      "",          &help_and, gnumeric_and, NULL },
-	{ "asin",    "f",    "number",    &help_asin,      NULL, gnumeric_asin },
-	{ "asinh",   "f",    "number",    &help_asinh,      NULL, gnumeric_asinh },
-	{ "atan",    "f",    "number",    &help_atan,      NULL, gnumeric_atan },
-	{ "atanh",   "f",    "number",    &help_atanh,      NULL, gnumeric_atanh },
-	{ "atan2",   "ff",   "xnum,ynum", &help_atan2,      NULL, gnumeric_atan2 },
+	{ "abs",     "f",    "number",    &help_abs,   NULL, gnumeric_abs },
+	{ "acos",    "f",    "number",    &help_acos,  NULL, gnumeric_acos },
+	{ "acosh",   "f",    "number",    &help_acosh, NULL, gnumeric_acosh },
+	{ "and",     0,      "",          &help_and,   gnumeric_and, NULL },
+	{ "asin",    "f",    "number",    &help_asin,  NULL, gnumeric_asin },
+	{ "asinh",   "f",    "number",    &help_asinh, NULL, gnumeric_asinh },
+	{ "atan",    "f",    "number",    &help_atan,  NULL, gnumeric_atan },
+	{ "atanh",   "f",    "number",    &help_atanh, NULL, gnumeric_atanh },
+	{ "atan2",   "ff",   "xnum,ynum", &help_atan2, NULL, gnumeric_atan2 },
 	/* avedev */
 	{ "average", 0,      "",          &help_average, gnumeric_average, NULL },
 	/* besseli */
 	/* besselj */
 	/* besselk */
 	/* bessely */
-	{ "bin2dec", "?",    "number",    &help_bin2dec,       NULL, gnumeric_bin2dec },
-	{ "cos",     "f",    "number",    &help_cos,       NULL, gnumeric_cos },
-	{ "cosh",    "f",    "number",    &help_cosh,       NULL, gnumeric_cosh },
-	{ "count",   0,      "",          &help_count,       gnumeric_count, NULL },
-	{ "ceil",    "f",    "number",    &help_ceil, NULL, gnumeric_ceil },
-	{ "degrees", "f",    "number",    &help_degrees,       NULL, gnumeric_degrees },
-	{ "exp",     "f",    "number",    &help_exp,       NULL, gnumeric_exp },
-	{ "fact",    "f",    "number",    &help_fact,       NULL, gnumeric_fact },
-	{ "floor",   "f",    "number",    &help_floor,NULL, gnumeric_floor },
-	{ "int",     "f",    "number",    &help_int,       NULL, gnumeric_int },
-	{ "log",     "f",    "number",    &help_log,       NULL, gnumeric_log },
-	{ "log2",    "f",    "number",    &help_log2,       NULL, gnumeric_log2 },
-	{ "log10",   "f",    "number",    &help_log10,       NULL, gnumeric_log10 },
-	{ "min",     0,      "",          &help_min,       gnumeric_min, NULL },
-	{ "max",     0,      "",          &help_max,       gnumeric_max, NULL },
-	{ "or",      0,      "",          &help_or,   gnumeric_or, NULL },
-	{ "radians", "f",    "number",    &help_radians,       NULL, gnumeric_radians },
-	{ "sin",     "f",    "number",    &help_sin,       NULL, gnumeric_sin },
-	{ "sinh",    "f",    "number",    &help_sinh,       NULL, gnumeric_sinh },
-	{ "sum",     0,      "number",    &help_sum,       gnumeric_sum, NULL },
-	{ "tan",     "f",    "number",    &help_tan,      NULL, gnumeric_tan },
-	{ "tanh",    "f",    "number",    &help_tanh,       NULL, gnumeric_tanh },
-	{ "pi",      "",     "",          &help_pi,    NULL,gnumeric_pi },
+	{ "bin2dec", "?",    "number",    &help_bin2dec, NULL, gnumeric_bin2dec },
+	{ "cos",     "f",    "number",    &help_cos,     NULL, gnumeric_cos },
+	{ "cosh",    "f",    "number",    &help_cosh,    NULL, gnumeric_cosh },
+	{ "count",   0,      "",          &help_count,   gnumeric_count, NULL },
+	{ "ceil",    "f",    "number",    &help_ceil,    NULL, gnumeric_ceil },
+	{ "degrees", "f",    "number",    &help_degrees, NULL, gnumeric_degrees },
+	{ "exp",     "f",    "number",    &help_exp,     NULL, gnumeric_exp },
+	{ "fact",    "f",    "number",    &help_fact,    NULL, gnumeric_fact },
+	{ "floor",   "f",    "number",    &help_floor,   NULL, gnumeric_floor },
+	{ "int",     "f",    "number",    &help_int,     NULL, gnumeric_int },
+	{ "log",     "f",    "number",    &help_log,     NULL, gnumeric_log },
+	{ "log2",    "f",    "number",    &help_log2,    NULL, gnumeric_log2 },
+	{ "log10",   "f",    "number",    &help_log10,   NULL, gnumeric_log10 },
+	{ "min",     0,      "",          &help_min,     gnumeric_min, NULL },
+	{ "max",     0,      "",          &help_max,     gnumeric_max, NULL },
+	{ "or",      0,      "",          &help_or,      gnumeric_or, NULL },
+	{ "radians", "f",    "number",    &help_radians, NULL, gnumeric_radians },
+	{ "sin",     "f",    "number",    &help_sin,     NULL, gnumeric_sin },
+	{ "sinh",    "f",    "number",    &help_sinh,    NULL, gnumeric_sinh },
+	{ "sum",     0,      "number",    &help_sum,     gnumeric_sum, NULL },
+	{ "tan",     "f",    "number",    &help_tan,     NULL, gnumeric_tan },
+	{ "tanh",    "f",    "number",    &help_tanh,    NULL, gnumeric_tanh },
+	{ "pi",      "",     "",          &help_pi,      NULL,gnumeric_pi },
 	{ NULL, NULL },
 };
 
