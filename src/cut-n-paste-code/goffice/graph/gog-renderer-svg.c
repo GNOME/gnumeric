@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-libxml.h>
@@ -127,34 +128,21 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path, gboo
 	if (style->fill.type != GOG_FILL_STYLE_NONE) {
 
 		switch (style->fill.type) {
-		case GOG_FILL_STYLE_PATTERN:
-			switch (style->fill.u.pattern.pat.pattern) {
-				case GO_PATTERN_SOLID:
-					buf = g_strdup_printf ("#%06x", style->fill.u.pattern.pat.back >> 8);
-					xmlNewProp (node, CC2XML ("fill"), CC2XML (buf));
+		case GOG_FILL_STYLE_PATTERN: {
+			GOColor color;
+			if (go_pattern_is_solid (&style->fill.u.pattern.pat, &color)) {
+				buf = g_strdup_printf ("#%06x", color >> 8);
+				xmlNewProp (node, CC2XML ("fill"), CC2XML (buf));
+				g_free (buf);
+				opacity = color & 0xff;
+				if (opacity != 255) {
+					buf = g_strdup_printf ("%g", (double) opacity / 255.);
+					xmlNewProp (node, CC2XML ("fill-opacity"), CC2XML (buf));
 					g_free (buf);
-					opacity = style->fill.u.pattern.pat.back & 0xff;
-					if (opacity != 255) {
-						buf = g_strdup_printf ("%g", (double) opacity / 255.);
-						xmlNewProp (node, CC2XML ("fill-opacity"), CC2XML (buf));
-						g_free (buf);
-					}
-					break;
-				case GO_PATTERN_FOREGROUND_SOLID:
-					buf = g_strdup_printf ("#%06x", style->fill.u.pattern.pat.fore >> 8);
-					xmlNewProp (node, CC2XML ("fill"), CC2XML (buf));
-					g_free (buf);
-					opacity = style->fill.u.pattern.pat.fore & 0xff;
-					if (opacity != 255) {
-						buf = g_strdup_printf ("%g", (double) opacity / 255.);
-						xmlNewProp (node, CC2XML ("fill-opacity"), CC2XML (buf));
-						g_free (buf);
-					}
-					break;
-				default:
-				break;
+				}
 			}
 			break;
+		}
 
 		case GOG_FILL_STYLE_GRADIENT:
 			id = g_strdup_printf ("g_%x_%x_%x", style->fill.u.gradient.dir, style->fill.u.gradient.start, style->fill.u.gradient.end);
@@ -294,9 +282,75 @@ gog_renderer_svg_draw_text (GogRenderer *rend, char const *text,
 static void
 gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 {
-#if 0
 	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
-#endif
+	GOMarker *marker = rend->cur_style->marker;
+	ArtVpath const *outline_path_raw, *fill_path_raw;
+	ArtVpath *outline_path, *fill_path;
+	double scaling[6], translation[6], affine[6];
+	double half_size;
+	xmlNodePtr node;
+	GString *string;
+	char *buf;
+	int opacity;
+
+	g_return_if_fail (marker != NULL);
+
+	go_marker_get_paths (marker, &outline_path_raw, &fill_path_raw);
+
+	if ((outline_path_raw == NULL) ||
+	    (fill_path_raw == NULL))
+		return;
+
+	half_size = gog_renderer_line_size (rend, marker->size) / 2.0;
+	art_affine_scale (scaling, half_size, half_size);
+	art_affine_translate (translation, x, y);
+	art_affine_multiply (affine, scaling, translation);
+
+	outline_path = art_vpath_affine_transform (outline_path_raw, affine);
+	fill_path = art_vpath_affine_transform (fill_path_raw, affine);
+
+	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
+	xmlAddChild (prend->doc->children, node);
+	string = g_string_new ("");
+	draw_path (prend, fill_path, string);
+	g_string_append (string, "z");
+	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
+	g_string_free (string, TRUE);
+	buf = g_strdup_printf ("#%06x", marker->fill_color >> 8);
+	xmlNewProp (node, CC2XML ("fill"), CC2XML (buf));
+	g_free (buf);
+	xmlNewProp (node, CC2XML ("stroke"), CC2XML ("none"));
+	opacity = marker->fill_color & 0xff;
+	if (opacity != 255) {
+		buf = g_strdup_printf ("%g", (double) opacity / 255.);
+		xmlNewProp (node, CC2XML ("fill-opacity"), CC2XML (buf));
+		g_free (buf);
+	}
+
+	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
+	xmlAddChild (prend->doc->children, node);
+	string = g_string_new ("");
+	draw_path (prend, outline_path, string);
+	g_string_append (string, "z");
+	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
+	g_string_free (string, TRUE);
+	xmlNewProp (node, CC2XML ("fill"), CC2XML ("none"));
+	xmlNewProp (node, CC2XML ("stroke-linecap"), CC2XML ("round"));
+	buf = g_strdup_printf ("%g",  gog_renderer_line_size (rend, go_marker_get_outline_width (marker)));
+	xmlNewProp (node, CC2XML ("stroke-width"), CC2XML (buf));
+	g_free (buf);
+	buf = g_strdup_printf ("#%06x", marker->outline_color >> 8);
+	xmlNewProp (node, CC2XML ("stroke"), CC2XML (buf));
+	g_free (buf);
+	opacity = marker->outline_color & 0xff;
+	if (opacity != 255) {
+		buf = g_strdup_printf ("%g", (double) opacity / 255.);
+		xmlNewProp (node, CC2XML ("stroke-opacity"), CC2XML (buf));
+		g_free (buf);
+	}
+
+	g_free (outline_path);
+	g_free (fill_path);
 }
 
 static void

@@ -7,7 +7,8 @@ J.H.M. Dassen (Ray):
 	* Update debian control files.
 
 Jean Brefort:
-	* Gradient support for svg exporter.
+	* Gradient support for svg chart renderer.
+	* Marker support for svg chart renderer.
 
 Jody:
 	* Fix infinite loop on empty axis under solaris.

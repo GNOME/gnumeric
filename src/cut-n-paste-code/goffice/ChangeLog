@@ -1,3 +1,8 @@
+2003-10-06 Jean Brefort <jean.brefort@ac-dijon.fr>
+ 
+ 	* graph/gog-renderer-svg.c (gog_renderer_svg_draw_polygon) : use go_pattern_is_solid.
+ 	(gog_renderer_svg_draw_marker) : implemented.
+
 2003-10-08  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-axis.c (role_label_post_add) : put y axis labels to the
@@ -69,7 +74,7 @@
 	  Publicize the data elements.
 	(gog_axis_update) : Manually handle the epsilon shifts so that we can
 	  ignore sign.
-
+ 
 2003-09-22  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-view.c (cb_remove_child) : doh!
