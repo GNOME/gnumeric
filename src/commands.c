@@ -4108,6 +4108,9 @@ typedef struct
 	GSList      *new_colors_back;
 	GSList      *old_colors_fore;
 	GSList      *old_colors_back;
+	GSList      *protection_changed;
+	GSList      *new_locks;
+	GSList      *old_locks;
 } CmdReorganizeSheets;
 
 GNUMERIC_MAKE_COMMAND (CmdReorganizeSheets, cmd_reorganize_sheets);
@@ -4134,7 +4137,8 @@ cmd_reorganize_sheets_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	return workbook_sheet_reorganize (me->wbc, me->changed_names, me->old_order,  
 					  me->old_names, me->new_names, NULL, 
 					  me->color_changed, 
-					  me->old_colors_fore, me->old_colors_back);
+					  me->old_colors_fore, me->old_colors_back,
+					  me->protection_changed, me->old_locks);
 }
 
 static gboolean
@@ -4147,7 +4151,8 @@ cmd_reorganize_sheets_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	return workbook_sheet_reorganize (me->wbc, me->changed_names, me->new_order, 
 					  me->new_names, me->old_names,
 					  &me->new_sheets, me->color_changed, 
-					  me->new_colors_fore, me->new_colors_back);
+					  me->new_colors_fore, me->new_colors_back,
+					  me->protection_changed, me->new_locks);
 }
 
 
@@ -4185,6 +4190,15 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 	g_slist_free (me->color_changed);
 	me->color_changed = NULL;
 
+	g_slist_free (me->protection_changed);
+	me->protection_changed = NULL;
+
+	g_slist_free (me->new_locks);
+	me->new_locks = NULL;
+
+	g_slist_free (me->old_locks);
+	me->old_locks = NULL;
+
 	g_slist_foreach (me->new_colors_fore, cb_slist_gdk_color_free, NULL);
 	g_slist_free (me->new_colors_fore);
 	me->new_colors_fore = NULL;
@@ -4208,7 +4222,8 @@ gboolean
 cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_order, 
 		       GSList *changed_names, GSList *new_names, GSList *deleted_sheets,
 		       GSList *color_changed, GSList *new_colors_back,
-		       GSList *new_colors_fore)
+		       GSList *new_colors_fore, 
+		       GSList *protection_changed, GSList *new_locks)
 {
 	GObject *obj;
 	CmdReorganizeSheets *me;
@@ -4240,6 +4255,11 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 	me->new_colors_back = new_colors_back;
 	me->old_colors_fore = NULL;
 	me->old_colors_back = NULL;
+	me->protection_changed = protection_changed;
+	me->new_locks = new_locks;
+	me->old_locks = NULL;
+
+
 	the_sheets = changed_names;
 	while (the_sheets) {
 		Sheet *sheet = the_sheets->data;
@@ -4250,6 +4270,8 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 				(me->old_names, g_strdup (sheet->name_unquoted));
 		the_sheets = the_sheets->next;
 	}
+	me->old_names = g_slist_reverse (me->old_names);
+
 	the_sheets = color_changed;
 	while (the_sheets) {
 		Sheet *sheet = the_sheets->data;
@@ -4269,7 +4291,15 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 
 	me->old_colors_fore = g_slist_reverse (me->old_colors_fore);
 	me->old_colors_back = g_slist_reverse (me->old_colors_back);
-	me->old_names = g_slist_reverse (me->old_names);
+
+	the_sheets = protection_changed;
+	while (the_sheets) {
+		Sheet *sheet = the_sheets->data;
+		me->old_locks = g_slist_prepend (me->old_locks, GINT_TO_POINTER (
+							 (sheet  != NULL) && sheet->is_protected));
+		the_sheets = the_sheets->next;
+	}
+	me->old_locks = g_slist_reverse (me->old_locks);
 
 	me->parent.sheet = NULL;
 	me->parent.size = 1 + g_slist_length (color_changed) + g_slist_length (changed_names);
@@ -4283,6 +4313,8 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 	}
 	if (color_changed != NULL) 
 		selector += (1 << 3);
+	if (protection_changed != NULL) 
+		selector += (1 << 4);
 	
 
 	switch (selector) {
@@ -4311,6 +4343,9 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 		break;
 	case (1 << 3):
 		me->parent.cmd_descriptor = g_strdup (_("Changing Tab Colors"));
+		break;
+	case (1 << 4):
+		me->parent.cmd_descriptor = g_strdup (_("Changing Sheet Protection"));
 		break;
 	default:
 		me->parent.cmd_descriptor = g_strdup (_("Reorganizing Sheets"));
@@ -4345,7 +4380,7 @@ cmd_rename_sheet (WorkbookControl *wbc, Sheet *sheet, char const *old_name, char
 	new_names = g_slist_prepend (new_names, g_strdup (new_name));
 
 	return cmd_reorganize_sheets (wbc, NULL, NULL, changed_names, new_names, 
-				      NULL, NULL, NULL, NULL);
+				      NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 /******************************************************************/

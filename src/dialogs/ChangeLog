@@ -1,3 +1,12 @@
+2002-06-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-sheet-order.c (cb_toggled_lock) : new
+	(populate_sheet_list) : replace standard icon with toggleable lock item
+	(cb_add_clicked) : handle lock column
+	(cb_ok_clicked) : handle changes in lock status
+	(cb_sheet_order_destroy) : remove pixmaps
+	(dialog_sheet_order) : setup pixmaps
+
 2002-06-15  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=84500

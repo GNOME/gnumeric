@@ -5,6 +5,7 @@ Andreas:
 	* Make the analysis tools honour the lock state of cells.
 	* Properly handle output range preparation for analysis tools
 	  even if the user did not want it cleared. 
+	* Create ui to set protection of indiviual sheets.
 
 Jody:
 	* Have the stf dialog use the default font.

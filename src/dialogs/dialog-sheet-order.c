@@ -37,6 +37,7 @@
 #include <style-color.h>
 #include <commands.h>
 #include <widgets/gnumeric-cell-renderer-text.h>
+#include <widgets/gnumeric-cell-renderer-toggle.h>
 #include "../pixmaps/gnumeric-stock-pixbufs.h"
 
 #include <libgnome/gnome-i18n.h>
@@ -57,16 +58,19 @@ typedef struct {
 	GtkWidget *delete_btn;
 	GtkWidget *ok_btn;
 	GtkWidget *cancel_btn;
-	GdkPixbuf *sheet_image;
 	GtkWidget *ccombo_back;
 	GtkWidget *ccombo_fore;
+
+	GdkPixbuf *image_padlock;
+	GdkPixbuf *image_padlock_no;	
 
 	gboolean initial_colors_set;
 	GSList *old_order;
 } SheetManager;
 
 enum {
-	SHEET_PIX,
+	SHEET_LOCKED,
+	SHEET_LOCK_IMAGE,
 	SHEET_NAME,
 	SHEET_NEW_NAME,
 	SHEET_POINTER,
@@ -207,6 +211,30 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 			wb_control_view (WORKBOOK_CONTROL (state->wbcg)), sheet);
 }
 
+static void
+cb_toggled_lock (GtkCellRendererToggle *cell,
+		 gchar                 *path_string,
+		 gpointer               data)
+{
+	SheetManager *state = data;
+	GtkTreeModel *model = GTK_TREE_MODEL (state->model);
+	GtkTreeIter iter;
+	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
+	gboolean value;
+
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_get (model, &iter, SHEET_LOCKED, &value, -1);
+
+	if (value) {
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, SHEET_LOCKED, FALSE,
+				   SHEET_LOCK_IMAGE, state->image_padlock_no, -1);
+	} else {
+		gtk_list_store_set (GTK_LIST_STORE (model), &iter, SHEET_LOCKED, TRUE,
+				   SHEET_LOCK_IMAGE, state->image_padlock, -1);
+	}
+	gtk_tree_path_free (path);
+}
+
 /* Add all of the sheets to the sheet_list */
 static void
 populate_sheet_list (SheetManager *state)
@@ -220,6 +248,7 @@ populate_sheet_list (SheetManager *state)
 	GtkCellRenderer *renderer;
 
 	state->model = gtk_list_store_new (NUM_COLMNS, 
+					   G_TYPE_BOOLEAN,
 					   GDK_TYPE_PIXBUF,
 					   G_TYPE_STRING, 	
 					   G_TYPE_STRING, 
@@ -245,7 +274,9 @@ populate_sheet_list (SheetManager *state)
 
 		gtk_list_store_append (state->model, &iter);
 		gtk_list_store_set (state->model, &iter,
-				    SHEET_PIX, state->sheet_image,
+				    SHEET_LOCKED, sheet->is_protected,
+				    SHEET_LOCK_IMAGE, sheet->is_protected ? 
+				    state->image_padlock : state->image_padlock_no,
 				    SHEET_NAME, sheet->name_unquoted,
 				    SHEET_NEW_NAME, "",
 				    SHEET_POINTER, sheet,
@@ -261,9 +292,14 @@ populate_sheet_list (SheetManager *state)
 
 	state->old_order = g_slist_reverse (state->old_order);
 
+	renderer = gnumeric_cell_renderer_toggle_new ();
+	g_signal_connect (G_OBJECT (renderer),
+		"toggled",
+		G_CALLBACK (cb_toggled_lock), state);
 	column = gtk_tree_view_column_new_with_attributes ("",
-							   gtk_cell_renderer_pixbuf_new (),
-							   "pixbuf", SHEET_PIX, 
+							   renderer,
+							   "active", SHEET_LOCKED,
+							   "pixbuf", SHEET_LOCK_IMAGE, 
 							   NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
@@ -309,6 +345,7 @@ cb_item_move (SheetManager *state, gint direction)
 	gint row;
 	gboolean is_deleted;
 	gboolean is_editable;
+	gboolean is_locked;
 	GdkColor *back, *fore;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
 
@@ -316,6 +353,7 @@ cb_item_move (SheetManager *state, gint direction)
 		return;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
+			    SHEET_LOCKED, &is_locked,
 			    SHEET_NAME, &name,
 			    SHEET_NEW_NAME, &new_name,
 			    IS_EDITABLE_COLUMN, &is_editable,
@@ -330,7 +368,9 @@ cb_item_move (SheetManager *state, gint direction)
 	gtk_list_store_remove (state->model, &iter);
 	gtk_list_store_insert (state->model, &iter, row + direction);
 	gtk_list_store_set (state->model, &iter,
-			    SHEET_PIX, state->sheet_image,
+			    SHEET_LOCKED, is_locked,
+			    SHEET_LOCK_IMAGE, is_locked ? 
+			    state->image_padlock : state->image_padlock_no,
 			    SHEET_NAME, name,
 			    SHEET_NEW_NAME, new_name,
 			    IS_EDITABLE_COLUMN, is_editable,
@@ -393,7 +433,8 @@ cb_add_clicked (GtkWidget *ignore, SheetManager *state)
 			break;
 	}
 	gtk_list_store_set (state->model, &iter,
-			    SHEET_PIX, state->sheet_image,
+			    SHEET_LOCKED, FALSE,
+			    SHEET_LOCK_IMAGE, state->image_padlock_no,
 			    SHEET_NAME, "",
 			    SHEET_NEW_NAME, name,
 			    SHEET_POINTER, NULL,
@@ -479,20 +520,23 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 	GSList *color_changed = NULL;
 	GSList *new_colors_back = NULL;
 	GSList *new_colors_fore  = NULL;
+	GSList *protection_changed  = NULL;
+	GSList *new_locks  = NULL;
 	GSList * old_order;
 	Sheet *this_sheet;
 	char *old_name, *new_name;
 	GtkTreeIter this_iter;
 	gint n = 0;
-	GSList *this_new, *this_old;
+	GSList *this_new, *this_old, *list;
 	gboolean order_has_changed = FALSE;
-	gboolean is_deleted;
+	gboolean is_deleted, is_locked;
 	GdkColor *back, *fore;
-	gboolean fore_changed, back_changed;
+	gboolean fore_changed, back_changed, lock_changed;
 
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
 					       &this_iter, NULL, n)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (state->model), &this_iter, 
+				    SHEET_LOCKED, &is_locked,
 				    SHEET_POINTER, &this_sheet, 
 				    SHEET_NAME, &old_name,
 				    SHEET_NEW_NAME, &new_name,
@@ -522,7 +566,6 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 				!sheet_order_gdk_color_equal (fore, 
 					      this_sheet->tab_text_color ? 
 					      &this_sheet->tab_text_color->color : NULL);
-
 			if (fore_changed || back_changed) {
 				color_changed = g_slist_prepend (color_changed, this_sheet);
 				new_colors_back = g_slist_prepend (new_colors_back, back);
@@ -533,16 +576,27 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 				if (fore)
 					gdk_color_free (fore);
 			}
-			    
 
+			lock_changed = (this_sheet == NULL) || 
+				(is_locked != this_sheet->is_protected);
+			if (lock_changed) {
+				protection_changed = g_slist_prepend (protection_changed, 
+								      this_sheet);
+				new_locks = g_slist_prepend (new_locks, 
+							     GINT_TO_POINTER (is_locked));
+			}
 		} else
 			deleted_sheets = g_slist_prepend (deleted_sheets, this_sheet);	
 		n++;
 	}
 
-	color_changed= g_slist_reverse (color_changed);
-	new_colors_back= g_slist_reverse (new_colors_back);
-	new_colors_fore= g_slist_reverse (new_colors_fore);
+	color_changed = g_slist_reverse (color_changed);
+	new_colors_back = g_slist_reverse (new_colors_back);
+	new_colors_fore = g_slist_reverse (new_colors_fore);
+
+	protection_changed = g_slist_reverse (protection_changed);
+	new_locks = g_slist_reverse (new_locks);
+
 	new_order = g_slist_reverse (new_order);
 	new_names = g_slist_reverse (new_names);
 	changed_names = g_slist_reverse (changed_names);
@@ -563,6 +617,24 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 		old_order = NULL;
 		e_free_string_slist (new_names);
 		new_names = NULL;
+
+		g_slist_free (color_changed);
+		color_changed = NULL;
+		for (list = new_colors_back; list != NULL; list = list->next)
+			if (list->data)
+				gdk_color_free ((GdkColor *)list->data);
+		g_slist_free (new_colors_back);
+		new_colors_back = NULL;
+		for (list = new_colors_fore; list != NULL; list = list->next)
+			if (list->data)
+				gdk_color_free ((GdkColor *)list->data);
+		g_slist_free (new_colors_fore);
+		new_colors_fore = NULL;
+
+		g_slist_free (protection_changed);
+		protection_changed = NULL;
+		g_slist_free (new_locks);
+		new_locks = NULL;
 		return;
 	}
 
@@ -584,12 +656,13 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 		old_order = NULL;
 	}
 
-	if ((new_order == NULL && changed_names == NULL && color_changed == NULL)
+	if ((new_order == NULL && changed_names == NULL && color_changed == NULL 
+	     && protection_changed == NULL)
 	    || !cmd_reorganize_sheets (WORKBOOK_CONTROL (state->wbcg), 
 				       old_order, new_order,
 				       changed_names, new_names, NULL,
-				       color_changed, new_colors_back,
-				       new_colors_fore)) {
+				       color_changed, new_colors_back, new_colors_fore, 
+				       protection_changed, new_locks)) {
 		gtk_widget_destroy (GTK_WIDGET (state->dialog));
 	} 
 	if (deleted_sheets) {
@@ -605,8 +678,11 @@ cb_sheet_order_destroy (GtkWidget *ignored, SheetManager *state)
 	wbcg_edit_detach_guru (state->wbcg);
 	g_object_unref (G_OBJECT (state->gui));
 	state->gui = NULL;
-	g_object_unref (state->sheet_image);
-	state->sheet_image = NULL;
+	g_object_unref (state->image_padlock);
+	state->image_padlock = NULL;
+	g_object_unref (state->image_padlock_no);
+	state->image_padlock_no = NULL;
+
 	if (state->old_order != NULL) {
 		g_slist_free (state->old_order);
 		state->old_order = NULL;
@@ -642,10 +718,14 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	state->cancel_btn  = glade_xml_get_widget (gui, "cancel_button");
 	state->old_order  = NULL;
 	state->initial_colors_set = FALSE; 
-	state->sheet_image =  gtk_widget_render_icon (state->dialog,
-                                             "Gnumeric_MergeCells",
-                                             GTK_ICON_SIZE_SMALL_TOOLBAR,
-                                             "Gnumeric-Sheet-Manager");
+	state->image_padlock =  gtk_widget_render_icon (state->dialog,
+                                             "Gnumeric_Padlock",
+                                             GTK_ICON_SIZE_LARGE_TOOLBAR,
+                                             "Gnumeric-Sheet-Manger");
+	state->image_padlock_no =  gtk_widget_render_icon (state->dialog,
+                                             "Gnumeric_PadlockNo",
+                                             GTK_ICON_SIZE_LARGE_TOOLBAR,
+                                             "Gnumeric-Sheet-Manger");
 
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->up_btn),   0., .5, 0., 0.);
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->down_btn), 0., .5, 0., 0.);

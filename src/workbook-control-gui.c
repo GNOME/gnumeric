@@ -2156,7 +2156,7 @@ cb_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL, NULL, 
 			       g_slist_prepend (NULL, NULL), 
 			       g_slist_prepend (NULL, NULL), 
-			       NULL, NULL, NULL, NULL);
+			       NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
 static void

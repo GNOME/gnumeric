@@ -1098,7 +1098,8 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 			   GSList *changed_names, GSList *new_order,  
 			   GSList *new_names,  GSList *old_names,
 			   GSList **new_sheets, GSList *color_changed,
-			   GSList *colors_fore, GSList *colors_back)
+			   GSList *colors_fore, GSList *colors_back,
+			   GSList *protection_changed, GSList *new_locks)
 {
 	GSList *this_sheet;
 	GSList *new_sheet = NULL;
@@ -1107,6 +1108,7 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 	GSList *the_sheets;
 	GSList *the_fore;
 	GSList *the_back;
+	GSList *the_lock;
 	Workbook *wb = wb_control_workbook (wbc);
 
 /* We need to verify validity of the new names */
@@ -1242,6 +1244,21 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 		the_sheets = the_sheets->next;
 	}
 	
+/* Changing Protection */
+	the_lock = new_locks;
+	the_sheets = protection_changed;
+	while (the_sheets) {
+		Sheet *sheet = the_sheets->data;
+		if (new_sheet && sheet == NULL) {
+			sheet = new_sheet->data;
+			new_sheet = new_sheet->next;
+		}
+		if (sheet != NULL)
+			sheet->is_protected = GPOINTER_TO_INT (the_lock->data);;
+		the_lock = the_lock->next;
+		the_sheets = the_sheets->next;
+	}
+
 /* reordering */
 	new_sheet = new_sheets ? *new_sheets : NULL;
 	this_sheet = new_order;

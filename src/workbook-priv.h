@@ -85,7 +85,8 @@ gboolean    workbook_sheet_reorganize    (WorkbookControl *wbc,
 					  GSList *changed_names, GSList *new_order,  
 					  GSList *new_names,  GSList *old_names,
 					  GSList **new_sheets, GSList *color_changed,
-					  GSList *colors_fore, GSList *colors_back);
+					  GSList *colors_fore, GSList *colors_back,
+					  GSList *protection_changed, GSList *new_locks);
 
 /* IO Routines */
 gboolean       workbook_set_filename   (Workbook *wb, const gchar *);

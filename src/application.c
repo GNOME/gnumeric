@@ -145,6 +145,9 @@ application_init (void)
 		{ gnm_object_list_24,			NULL,				"Gnumeric_ObjectList" },
 		{ gnm_object_radiobutton_24,		NULL,				"Gnumeric_ObjectRadiobutton" },
 		{ gnm_object_scrollbar_24,		NULL,				"Gnumeric_ObjectScrollbar" },
+
+		{ gnm_padlock,		                NULL,				"Gnumeric_Padlock" },
+		{ gnm_padlock_no,       		NULL,				"Gnumeric_PadlockNo" },
 	};
 	unsigned i = 0;
 	GtkIconFactory *factory = gtk_icon_factory_new ();

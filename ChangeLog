@@ -1,3 +1,19 @@
+2002-06-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/application.c : add pixmaps
+	* src/commands.c (cmd_reorganize_sheets_undo) : change call to 
+	  cmd_reorganize_sheets
+	(cmd_reorganize_sheets_redo) : ditto
+	(cmd_reorganize_sheets_finalize) : handle lock lists
+	(cmd_reorganize_sheets) : handle lock lists
+	* src/commands.h (cmd_reorganize_sheets) : change arguments
+	* src/workbook-control-gui.c : change calls to cmd_reorganize_sheets
+	* src/workbook.c (workbook_sheet_reorganize) : handle changed locks
+	* src/workbook.h (workbook_sheet_reorganize) : add arguments
+	* src/pixmaps/Makefile.am : add padlock_no.xpm and padlock.xpm
+	* src/pixmaps/padlock_no.xpm : new
+	* src/pixmaps/padlock.xpm : new
+
 2002-06-14  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook.c (workbook_sheet_detach) : add comment that we should

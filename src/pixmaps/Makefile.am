@@ -68,6 +68,9 @@ IMAGES = @STRIP_BEGIN@ 						\
 	border_top_n_double_bottom.xpm	\
 	border_top_n_thick_bottom.xpm	\
 	\
+	padlock.xpm			\
+	padlock_no.xpm			\
+	\
 	@STRIP_END@
 
 VARIABLES = @STRIP_BEGIN@ 									\
@@ -160,6 +163,9 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_border_top_n_bottom			$(srcdir)/border_top_n_bottom.xpm		\
 	gnm_border_top_n_double_bottom		$(srcdir)/border_top_n_double_bottom.xpm	\
 	gnm_border_top_n_thick_bottom		$(srcdir)/border_top_n_thick_bottom.xpm		\
+	\
+	gnm_padlock				$(srcdir)/padlock.xpm				\
+	gnm_padlock_no				$(srcdir)/padlock_no.xpm			\
 	@STRIP_END@
 
 pixbuf_file = $(top_builddir)/src/pixmaps/gnumeric-stock-pixbufs.h
