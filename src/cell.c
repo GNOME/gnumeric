@@ -692,7 +692,6 @@ calc_text_dimensions (int is_number, Style *style, char *text, int cell_w, int c
 				} else {
 					used = len;
 				}
-				printf ("Anadiendo %d pixeles\n", font_height);
 				*h += font_height;
 				ideal_cut_spot = NULL;
 			} else

@@ -254,7 +254,7 @@ gnumeric_sheet_can_move_cursor (GnumericSheet *gsheet)
 	switch (entry->text [cursor_pos-1]){
 	case '=': case '-': case '*': case '/': case '^': 
 	case '+': case '&': case '(': case '%': case '!':
-	case ':':
+	case ':': case ',':
 		return TRUE;
 	}
 	

@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<gmr:Workbook xmlns:gmr="http://www.gnome.org/gnumeric/">
+  <gmr:Geometry Width="776" Height="696"/>
+  <gmr:Sheets>
+    <gmr:Sheet>
+      <gmr:Name>Sheet 0</gmr:Name>
+      <gmr:MaxCol>2</gmr:MaxCol>
+      <gmr:MaxRow>11</gmr:MaxRow>
+      <gmr:Zoom>1.000000</gmr:Zoom>
+      <gmr:Cols>
+        <gmr:ColInfo No="0" Unit="175" MarginA="1" MarginB="1" HardSize="0"/>
+        <gmr:ColInfo No="1" Unit="126" MarginA="1" MarginB="1" HardSize="0"/>
+        <gmr:ColInfo No="2" Unit="80" MarginA="1" MarginB="1" HardSize="0"/>
+      </gmr:Cols>
+      <gmr:Rows>
+        <gmr:RowInfo No="0" Unit="20" MarginA="1" MarginB="1" HardSize="0"/>
+        <gmr:RowInfo No="1" Unit="20" MarginA="1" MarginB="1" HardSize="0"/>
+        <gmr:RowInfo No="2" Unit="20" MarginA="1" MarginB="1" HardSize="0"/>
+        <gmr:RowInfo No="4" Unit="20" MarginA="1" MarginB="1" HardSize="0"/>
+        <gmr:RowInfo No="5" Unit="20" MarginA="1" MarginB="1" HardSize="0"/>
+        <gmr:RowInfo No="6" Unit="20" MarginA="1" MarginB="1" HardSize="0"/>
+        <gmr:RowInfo No="8" Unit="20" MarginA="1" MarginB="1" HardSize="0"/>
+        <gmr:RowInfo No="9" Unit="20" MarginA="1" MarginB="1" HardSize="0"/>
+        <gmr:RowInfo No="11" Unit="20" MarginA="1" MarginB="1" HardSize="0"/>
+      </gmr:Rows>
+      <gmr:Cells>
+        <gmr:Cell Col="0" Row="0">Current serial number
+          <gmr:Style HAlign="4" VAlign="4" Fit="0" Orient="1" Shade="0" Format="General">
+            <gmr:Font Unit="14" NAME="FontDef1">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="0">=now()
+          <gmr:Style HAlign="1" VAlign="4" Fit="0" Orient="1" Shade="0" Format="0.000000">
+            <gmr:Font Unit="14" NAME="FontDef2">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="4">This year is:
+          <gmr:Style HAlign="4" VAlign="4" Fit="0" Orient="1" Shade="0" Format="General">
+            <gmr:Font Unit="14" NAME="FontDef3">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="11">E9
+          <gmr:Style HAlign="1" VAlign="4" Fit="0" Orient="1" Shade="0" Format="0">
+            <gmr:Font Unit="14" NAME="FontDef4">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="4">=year(b1)
+          <gmr:Style HAlign="1" VAlign="4" Fit="0" Orient="1" Shade="0" Format="0">
+            <gmr:Font Unit="14" NAME="FontDef5">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="8">Tomorrow is:
+          <gmr:Style HAlign="1" VAlign="4" Fit="0" Orient="1" Shade="0" Format="General">
+            <gmr:Font Unit="14" NAME="FontDef6">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="1">Serial number for today:
+          <gmr:Style HAlign="4" VAlign="4" Fit="0" Orient="1" Shade="0" Format="General">
+            <gmr:Font Unit="14" NAME="FontDef7">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="8">=day(date(year(now()),month(now()),1+day(now())))
+          <gmr:Style HAlign="1" VAlign="4" Fit="0" Orient="1" Shade="0" Format="0">
+            <gmr:Font Unit="14" NAME="FontDef8">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="1">=today()
+          <gmr:Style HAlign="1" VAlign="4" Fit="0" Orient="1" Shade="0" Format="0.000000">
+            <gmr:Font Unit="14" NAME="FontDef9">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="5">this month is:
+          <gmr:Style HAlign="4" VAlign="4" Fit="0" Orient="1" Shade="0" Format="General">
+            <gmr:Font Unit="14" NAME="FontDef10">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="5">=month(b1)
+          <gmr:Style HAlign="1" VAlign="4" Fit="0" Orient="1" Shade="0" Format="0">
+            <gmr:Font Unit="14" NAME="FontDef11">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="9">Next month is:
+          <gmr:Style HAlign="1" VAlign="4" Fit="0" Orient="1" Shade="0" Format="General">
+            <gmr:Font Unit="14" NAME="FontDef12">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="2">Current time serial:
+          <gmr:Style HAlign="4" VAlign="4" Fit="0" Orient="1" Shade="0" Format="General">
+            <gmr:Font Unit="14" NAME="FontDef13">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="9">=month(date(year(now()),1+month(now()),day(now())))
+          <gmr:Style HAlign="1" VAlign="4" Fit="0" Orient="1" Shade="0" Format="0">
+            <gmr:Font Unit="14" NAME="FontDef14">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="2">=B1-B2
+          <gmr:Style HAlign="1" VAlign="4" Fit="0" Orient="1" Shade="0" Format="0.000000">
+            <gmr:Font Unit="14" NAME="FontDef15">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="0" Row="6">This day is:
+          <gmr:Style HAlign="4" VAlign="4" Fit="0" Orient="1" Shade="0" Format="General">
+            <gmr:Font Unit="14" NAME="FontDef16">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+        <gmr:Cell Col="1" Row="6">=day(b1)
+          <gmr:Style HAlign="1" VAlign="4" Fit="0" Orient="1" Shade="0" Format="0">
+            <gmr:Font Unit="14" NAME="FontDef17">-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*</gmr:Font>
+          </gmr:Style>
+        </gmr:Cell>
+      </gmr:Cells>
+    </gmr:Sheet>
+  </gmr:Sheets>
+</gmr:Workbook>

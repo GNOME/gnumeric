@@ -293,7 +293,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Open"), NULL, open_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN },
 	{ GNOME_APP_UI_ITEM, N_("_Save"), NULL, save_cmd, NULL, NULL,
-	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE, GDK_s, GDK_CONTROL_MASK },
 	{ GNOME_APP_UI_ITEM, N_("S_ave as..."), NULL, save_as_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
 	{ GNOME_APP_UI_ITEM, N_("_Plugins..."), NULL, plugins_cmd },
@@ -340,10 +340,33 @@ static GnomeUIInfo workbook_menu_insert [] = {
 	GNOMEUIINFO_END
 };
 
+#if 0
+static GnomeUIInfo workbook_menu_format_column [] = {
+	{ GNOME_APP_UI_ITEM, N_("_Autoadjust"),   NULL, format_column_autoadjust_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Width"),        NULL, format_column_width_cmd },
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo workbook_menu_format_row [] = {
+	{ GNOME_APP_UI_ITEM, N_("_Autoadjust"),   NULL,  format_row_autoadjust_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Height"),        NULL, format_row_height_cmd },
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo workbook_menu_format_sheet [] = {
+	{ GNOME_APP_UI_ITEM, N_("_Change name"),   NULL,  format_sheet_change_name_cmd },
+	GNOMEUIINFO_END
+};
+#endif
 
 static GnomeUIInfo workbook_menu_format [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Cells.."), NULL, format_cells_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Cells.."),   NULL, format_cells_cmd, NULL, NULL,
 	  0, 0, GDK_1, GDK_CONTROL_MASK },
+#if 0
+	{ GNOME_APP_UI_SUBTREE, N_("C_olumn"), NULL, &workbook_menu_format_column },
+	{ GNOME_APP_UI_SUBTREE, N_("_Row"),    NULL, &workbook_menu_format_row },
+	{ GNOME_APP_UI_SUBTREE, N_("_Sheet"),  NULL, &workbook_menu_format_sheet },
+#endif
 	GNOMEUIINFO_END
 };
 

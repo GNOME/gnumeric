@@ -2320,8 +2320,10 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 			if (ci->pos < col)
 				break;
 		} else {
-			if (ci->pos < col)
+			if (ci->pos < col){
+				cur_col = cur_col->next;
 				continue;
+			}
 		}
 			
 		new_column = ci->pos + count;
@@ -2624,8 +2626,10 @@ sheet_shift_col (Sheet *sheet, int col, int row, int count)
 			if (cell->row->pos < row)
 				break;
 		} else {
-			if (cell->row->pos < row)
+			if (cell->row->pos < row){
+				cur_row = cur_row->next;
 				continue;
+			}
 		}
 
 		new_row = cell->row->pos + count;

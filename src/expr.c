@@ -145,7 +145,7 @@ expr_tree_unref (ExprTree *tree)
 char *
 value_string (Value *value)
 {
-	char buffer [1024];
+	char buffer [40];
 		
 	switch (value->type){
 	case VALUE_STRING:
@@ -1007,8 +1007,12 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 			strcpy (buffer_b, a);
 
 			return g_copy_strings (buffer_a, ":", buffer_b, NULL);
-		} else
-			return value_string (v);
+		} else {
+			if (v->type == VALUE_STRING){
+				return g_copy_strings ("\"", v->v.str->str, "\"", NULL);
+			} else
+				return value_string (v);
+		}
 	}
 	
 	case OP_VAR: {

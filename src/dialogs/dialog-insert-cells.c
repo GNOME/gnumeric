@@ -32,8 +32,8 @@ dialog_insert_cells (Sheet *sheet)
 		_("Insert"),
 		_("Shift cells right"), &state[0],
 		_("Shift cells down"),  &state[1],
-		_("Insert a row"),      &state[2],
-		_("Insert a column"),   &state[3],
+		_("Insert row(s)"),      &state[2],
+		_("Insert column(s)"),   &state[3],
 		GNOME_STOCK_BUTTON_OK,
 		GNOME_STOCK_BUTTON_CANCEL);
 

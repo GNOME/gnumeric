@@ -1073,8 +1073,12 @@ format_value (StyleFormat *format, Value *value, StyleColor **color)
 	
 	switch (value->type){
 	case VALUE_FLOAT:
-		if (is_general)
-			entry.format = "0.##";
+		if (is_general){
+			if (floor (value->v.v_float) == value->v.v_float)
+				entry.format = "0";
+			else
+				entry.format = "0.##";
+		}
 		if (finite (value->v.v_float))
 			v = format_number (value->v.v_float, &entry);
 		else
