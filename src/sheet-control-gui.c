@@ -10,8 +10,6 @@
 #include "gnumeric.h"
 #include "sheet-control-gui-priv.h"
 
-#define GNUMERIC_ITEM "SCG"
-#include "item-debug.h"
 #include "sheet.h"
 #include "sheet-private.h"
 #include "sheet-merge.h"
@@ -49,6 +47,8 @@
 #include <gal/widgets/e-cursors.h>
 
 #include <string.h>
+#define GNUMERIC_ITEM "SCG"
+#include "item-debug.h"
 
 static SheetControlClass *scg_parent_class;
 

@@ -10,8 +10,6 @@
 #include "gnumeric.h"
 #include "item-bar.h"
 
-#define GNUMERIC_ITEM "BAR"
-#include "item-debug.h"
 #include "style.h"
 #include "sheet.h"
 #include "sheet-control-gui-priv.h"
@@ -26,6 +24,8 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
+#define GNUMERIC_ITEM "BAR"
+#include "item-debug.h"
 
 static GnomeCanvasItemClass *item_bar_parent_class;
 

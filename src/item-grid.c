@@ -12,8 +12,6 @@
 #include "gnumeric.h"
 #include "item-grid.h"
 
-#define GNUMERIC_ITEM "GRID"
-#include "item-debug.h"
 #include "gnumeric-canvas.h"
 #include "workbook-edit.h"
 #include "workbook-view.h"
@@ -41,6 +39,8 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-cursors.h>
 #include <math.h>
+#define GNUMERIC_ITEM "GRID"
+#include "item-debug.h"
 
 #undef PAINT_DEBUG
 #if 0

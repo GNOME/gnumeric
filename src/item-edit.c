@@ -16,8 +16,6 @@
 #include "item-edit.h"
 
 #include "item-cursor.h"
-#define GNUMERIC_ITEM "EDIT"
-#include "item-debug.h"
 #include "gnumeric-canvas.h"
 #include "sheet-control-gui-priv.h"
 #include "sheet.h"
@@ -31,7 +29,8 @@
 #include "workbook-edit.h"
 #include "gui-util.h"
 #include "widgets/gnumeric-expr-entry.h"
-
+#include "item-debug.h"
+#define GNUMERIC_ITEM "EDIT"
 
 #include <ctype.h>
 #include <string.h>

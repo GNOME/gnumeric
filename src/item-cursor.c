@@ -10,8 +10,6 @@
 #include "gnumeric.h"
 #include "item-cursor.h"
 
-#define GNUMERIC_ITEM "CURSOR"
-#include "item-debug.h"
 #include "gnumeric-canvas.h"
 #include "sheet-control-gui-priv.h"
 #include "style-color.h"
@@ -31,6 +29,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-cursors.h>
 #include <gal/util/e-util.h>
+#define GNUMERIC_ITEM "CURSOR"
+#include "item-debug.h"
 
 #define ITEM_CURSOR_CLASS(k)      (G_TYPE_CHECK_CLASS_CAST ((k), item_cursor_get_type (), ItemCursorClass))
 
