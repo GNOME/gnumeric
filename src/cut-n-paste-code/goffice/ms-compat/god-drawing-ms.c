@@ -21,6 +21,7 @@
  * Boston, MA 02111-1307, USA.
  **/
 
+#include <gnumeric-config.h>
 #include "god-drawing-ms.h"
 #include "god-property-table.h"
 #include "god-shape.h"

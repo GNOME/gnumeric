@@ -1,5 +1,9 @@
 2004-03-16  Morten Welinder  <terra@gnome.org>
 
+	* graph/gog-error-bar-prefs.glade: Don't start visible.
+
+2004-03-16  Morten Welinder  <terra@gnome.org>
+
 	* graph/gog-error-bar.c (gog_error_bar_persist_dom_save): Constify
 	and avoid errors.
 

@@ -24,6 +24,7 @@
  * USA
  */
 
+#include <gnumeric-config.h>
 #include "god-shape.h"
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>

@@ -24,6 +24,7 @@
  * USA
  */
 
+#include <gnumeric-config.h>
 #include "god-property-table.h"
 #include <gsf/gsf-impl-utils.h>
 
