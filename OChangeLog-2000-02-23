@@ -1,3 +1,21 @@
+1999-02-23  Bruno Unna  <bruno@iac.com.mx>
+
+	* src/dialog-cell-format.c (create_background_radio): Activated
+	the patterned background control (although in my machine the
+	boxes are all black) and added a radio button to let the
+	user do nothing with backgrounds (analogous to the one in
+	foreground section).
+
+	* src/dialog-cell-format.c (apply_coloring_format): Now this
+	functions takes into account the changes in create_background_radio,
+	that is, if the user decides not to change the background,
+	the background will not be changed. Also, assigned default
+	values to some variables, just to avoid an annoying warning.
+
+	* src/dialog-cell-format.c (create_coloring_page): If there
+	are different backgrounds in the range, select by default
+	the "no change" radio button for the background.
+
 1999-02-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (cell_draw): If the cell has a render_color (provided
