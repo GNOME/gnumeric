@@ -3,18 +3,8 @@
 
 #include "sheet-control-gui.h"
 #include "sheet-control-priv.h"
-/* #include "gui-gnumeric.h" */
+#include "gnumeric-pane.h"
 #include <gtk/gtktable.h>
-
-struct _GnumericPane {
-	GList		*anted_cursors;
-	int		 index;
-	GnumericSheet	*gsheet;
-	struct {
-		GnomeCanvas *canvas;
-		ItemBar     *item;
-	} col, row;
-};
 
 struct _SheetControlGUI {
 	SheetControl sheet_control;
@@ -28,7 +18,6 @@ struct _SheetControlGUI {
 	/* Scrolling information */
 	GtkWidget	*vs, *hs;	/* Scrollbars */
 	GtkObject	*va, *ha;	/* Adjustments */
-	GtkWidget	*tip;		/* Scrolling tip (unused till gtk2) */
 
 	/* Sliding scroll */
 	SheetControlGUISlideHandler	slide_handler;
@@ -77,4 +66,3 @@ void scg_scrollbar_config       (SheetControl const *sc);
 void scg_mode_edit		(SheetControl *sc);
 
 #endif /* GNUMERIC_SHEET_CONTROL_GUI_PRIV_H */
-

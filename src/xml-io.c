@@ -1450,11 +1450,6 @@ style_font_read_from_x11 (MStyle *mstyle, const char *fontname)
 {
 	const char *c;
 
-	/*
-	 * FIXME: we should do something about the typeface instead
-	 * of hardcoding it to helvetica.
-	 */
-
 	c = font_component (fontname, 2);
 	if (strncmp (c, "bold", 4) == 0)
 		mstyle_set_font_bold (mstyle, TRUE);

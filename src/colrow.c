@@ -248,9 +248,7 @@ colrow_save_sizes (Sheet *sheet, gboolean const is_cols, int first, int last)
 	g_return_val_if_fail (first <= last, NULL);
 
 	for (i = first; i <= last; ++i) {
-		ColRowInfo *info = is_cols
-		    ? sheet_col_get_info (sheet, i)
-		    : sheet_row_get_info (sheet, i);
+		ColRowInfo *info = sheet_colrow_get_info (sheet, i, is_cols);
 
 		g_return_val_if_fail (info != NULL, NULL); /* be anal, and leak */
 		
@@ -834,6 +832,14 @@ colrow_set_visibility (Sheet *sheet, gboolean const is_cols,
 			cri->visible = visible;
 			prev_outline = cri->outline_level;
 			sheet->priv->recompute_visibility = TRUE;
+
+			if (is_cols) {
+				if (sheet->priv->reposition_objects.col > i)
+					sheet->priv->reposition_objects.col = i;
+			} else {
+				if (sheet->priv->reposition_objects.row > i)
+					sheet->priv->reposition_objects.row = i;
+			}
 		}
 	}
 	if (prev_changed &&

@@ -635,6 +635,14 @@ sheet_row_get_info (Sheet const *sheet, int row)
 	return (ColRowInfo *) &sheet->rows.default_style;
 }
 
+ColRowInfo *
+sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
+{
+	return is_cols
+		? sheet_col_get_info (sheet, colrow)
+		: sheet_row_get_info (sheet, colrow);
+}
+
 static void
 sheet_reposition_objects (Sheet const *sheet, CellPos const *pos)
 {
@@ -3785,8 +3793,8 @@ sheet_col_row_default_calc (Sheet *sheet, double units, int margin_a, int margin
 			    gboolean is_horizontal, gboolean is_pts)
 {
 	ColRowInfo *cri = is_horizontal
-	    ? &sheet->cols.default_style
-	    : &sheet->rows.default_style;
+		? &sheet->cols.default_style
+		: &sheet->rows.default_style;
 
 	g_return_if_fail (units > 0.);
 

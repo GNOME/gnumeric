@@ -8,10 +8,12 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - Panes : Autoscroll
+    - Panes : positioning of frozen segments when top-left != A1
+    	    : Autoscroll
 	    : Sheet objects
-	    : item-bar item-grid paint black line at max
-	    : item-cursor handling of drag handle
+	    : item-cursor handling of drag handle.  We should only move it to the top if the
+	      bottom is not visible in any pane.
+	    : xml persistence
 
 Pending Patches
 ---------------
@@ -21,6 +23,11 @@ Long term breakage
 
 - Panes 
     : Make ctrl-arrow smarter in the presence of panes.
+    : item-grid paint black line at max
+    : change semantics of freeze operation to clarify where to freeze
+      (is edit bottom-right of freeze or top left of unfrozen)
+    : GUI handling of freezing center if the current pos it at the top left.
+    : XL persistence
 
 - support negative durations with [h]
 

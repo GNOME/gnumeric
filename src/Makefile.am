@@ -89,6 +89,8 @@ GNUMERIC_BASE_SOURCES =				\
 	global-gnome-font.h			\
 	goal-seek.c				\
 	goal-seek.h				\
+	gnumeric-pane.c				\
+	gnumeric-pane.h				\
 	gnumeric-sheet.c			\
 	gnumeric-sheet.h			\
 	gnumeric-util.c				\

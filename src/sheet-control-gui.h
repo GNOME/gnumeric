@@ -72,10 +72,14 @@ void scg_cursor_extend		(SheetControlGUI *scg, int n,
 void scg_set_left_col		(SheetControlGUI *scg, int new_first_col);
 void scg_set_top_row		(SheetControlGUI *scg, int new_first_row);
 
+void scg_colrow_resize_end	(SheetControlGUI *scg);
+void scg_colrow_resize_start	(SheetControlGUI *scg,
+				 gboolean is_cols, int resize_first);
+void scg_colrow_resize_move	(SheetControlGUI *scg,
+				 gboolean is_cols, int resize_last);
+
 /* DO NOT USE THIS WITHOUT ALOT OF THOUGHT */
 GnumericSheet      *scg_pane		(SheetControlGUI *scg, int pane);
-GnumericSheet      *scg_adjacent_pane	(SheetControlGUI *scg, int pane,
-					 gboolean adjacent_h);
 
 WorkbookControlGUI *scg_get_wbcg	(SheetControlGUI const *scg);
 

@@ -500,9 +500,7 @@ static int
 cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col,
 			SheetObjectAnchor anchor_type, float offset)
 {
-	ColRowInfo const *cri = is_col
-		? sheet_col_get_info (sheet, i)
-		: sheet_row_get_info (sheet, i);
+	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
 	/* TODO : handle other anchor types */
 	if (anchor_type == SO_ANCHOR_PERCENTAGE_FROM_COLROW_END)
 		return (1. - offset) * cri->size_pixels;
@@ -549,9 +547,7 @@ static double
 cell_offset_calc_pt (Sheet const *sheet, int i, gboolean is_col,
 		     SheetObjectAnchor anchor_type, float offset)
 {
-	ColRowInfo const *cri = is_col
-		? sheet_col_get_info (sheet, i)
-		: sheet_row_get_info (sheet, i);
+	ColRowInfo const *cri = sheet_colrow_get_info (sheet, i, is_col);
 	/* TODO : handle other anchor types */
 	if (anchor_type == SO_ANCHOR_PERCENTAGE_FROM_COLROW_END)
 		return (1. - offset) * cri->size_pixels;

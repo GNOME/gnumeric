@@ -1,3 +1,37 @@
+2001-07-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-pane.c (canvas_bar_realized) : moved from scg.
+	(canvas_bar_adjustment_changed) : ditto.
+	(gnumeric_pane_header_init) : ditto.
+	(gnumeric_pane_init) : ditto.
+	(gnumeric_pane_release) : ditto.
+	(gnumeric_pane_colrow_resize_end) : new function.
+	(gnumeric_pane_colrow_resize_start) : ditto.
+	(gnumeric_pane_colrow_resize_move) : ditto.
+
+	* src/colrow.c (colrow_set_visibility) : toggling visibility moves
+	  objects and panes.
+	(colrow_save_sizes) : Use sheet_colrow_get_info.
+
+	* src/item-bar.c : s/destroy/finalize/
+	s/item_bar/ib/ for internal routines and vars.
+	Some renaming to clean things up
+	Move the struct decl into .c nothing should be looking at the
+	  implementation.
+	(item_bar_init) : remove unused 'FirstElement' arg.
+	(item_bar_set_arg) : remove unused arg and fix typo.
+	(item_bar_event) : use resize guide support routines in scg
+	  instead of handling it ourselves.
+	(resize_bar_init) : delete, and move concept to gnumeric-pane.
+	(item_bar_start_resize) : move content to gnumeric-pane.
+	(item_bar_end_resize) : move content to gnumeric-pane.
+
+	* src/sheet-control-gui.c (scg_set_top_row) : pane support.
+	(scg_set_left_col) : ditto.
+	(scg_colrow_resize_end) : new function.
+	(scg_colrow_resize_start) : ditto.
+	(scg_colrow_resize_move) : ditto.
+
 2001-07-08  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* src/GNOME_Gnumeric.xml: Wrap file related menus into a placeholder

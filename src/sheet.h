@@ -147,6 +147,8 @@ int	    sheet_find_boundary_vertical   (Sheet *sheet, int move_col, int row,
 /* Retrieve information from a col/row */
 ColRowInfo *sheet_col_get_info            (Sheet const *sheet, int col);
 ColRowInfo *sheet_row_get_info            (Sheet const *sheet, int row);
+ColRowInfo *sheet_colrow_get_info	  (Sheet const *sheet,
+					   int colrow, gboolean is_cols);
 
 /* Returns a pointer to a ColRowInfo: existed or NULL */
 ColRowInfo *sheet_col_get                 (Sheet const *sheet, int pos);
