@@ -1,3 +1,8 @@
+2003-01-25  Jody Goldberg <jody@gnome.org>
+
+	* excel-xml-read.c (xl_xml_wb) : quick framework to parse xml from
+	  Office XP.  Just a descriptor for now no real work.
+
 2003-01-21  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_foreach_name) : doh!

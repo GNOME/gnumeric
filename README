@@ -39,7 +39,7 @@ You need:
 	libgsf		>= 1.7.1
 	libglade	>= 2.0.0
 	intltools	>= 0.9
-	gal-2		>= 0.0.7	(gal-2 branch of module gal)
+	gal-2		>= 1.99.0	(cvs HEAD)
 	gnome-xml   	>= 2.4.12
 	NOTE : gnome-xml is also known as libxml
 

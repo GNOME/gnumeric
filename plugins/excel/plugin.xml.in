@@ -18,6 +18,13 @@
 				<file_pattern type="shell_pattern" value="*.xlt"/>
 			</file_patterns>
 		</service>
+		<!-- Enable when more is in place
+		<service type="file_opener" id="excel_xml" priority="1" probe="FALSE">
+			<information>
+				<_description>MS Excel (tm) XML</_description>
+			</information>
+		</service>
+		-->
 		<service type="file_saver" id="excel_biff7" file_extension="xls"
 		         format_level="auto" overwrite_files="TRUE">
 			<information>

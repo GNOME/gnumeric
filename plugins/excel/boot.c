@@ -25,6 +25,7 @@
 #include "boot.h"
 #include "ms-excel-util.h"
 #include "ms-excel-read.h"
+#include "excel-xml-read.h"
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-infile.h>
@@ -270,6 +271,7 @@ void
 plugin_init (void)
 {
 	excel_read_init ();
+	excel_xml_read_init ();
 }
 
 /*
@@ -281,4 +283,5 @@ plugin_cleanup (void)
 {
 	destroy_xl_font_widths ();
 	excel_read_cleanup ();
+	excel_xml_read_cleanup ();
 }

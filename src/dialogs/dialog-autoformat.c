@@ -47,7 +47,6 @@
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gal/util/e-util.h>
 #include <math.h>
 #include <stdlib.h>
 
