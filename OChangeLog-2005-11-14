@@ -1,5 +1,10 @@
 2001-09-27  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-object.c (cell_offset_calc_pixel) : round to nearest
+	  pixel, rather than truncating.
+
+2001-09-27  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-control-gui.c (set_acetate_coords) : make the control pts
 	  prettier.
 	(set_item_x_y) : ditto.

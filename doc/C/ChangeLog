@@ -1,3 +1,7 @@
+2001-09-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Modify description od descriptive stats tool.
+
 2001-09-17  Morten Welinder  <terra@diku.dk>
 
 	* make-index.pl: Use LF line endings.

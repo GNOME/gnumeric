@@ -166,11 +166,13 @@
      tool calculates  confidence intervals for the mean of each variable.
      You should specify the confidence level in the entry
      box.  The default value is to calculate the confidence level of
-     95&percnt;. Note that the interval given will usually be wider than the 
-     interval obtained using the CONFIDENCE functionn since that function
+     95&percnt;.</para> 
+
+     <note><para>The interval given will usually be wider than the 
+     interval obtained using the CONFIDENCE function since that function
      assumes that the population standard deviation is known while this tool
      estimates the population standard deviation by the sample standard
-     deviation.</para>
+     deviation.</para></note>
 
      <para>If ``Kth Largest:'' button is checked on, the tool finds
      the kth largest value of each of the variables.  Specify the k in

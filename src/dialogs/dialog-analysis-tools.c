@@ -959,6 +959,22 @@ desc_stat_tool_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 }
 
 /**
+ * desc_stat_tool_set_focus_output_range:
+ * @widget:
+ * @focus_widget:
+ * @state:
+ *
+ * Output range entry was focused. Switch to output range.
+ * 
+ **/
+static void
+desc_stat_tool_set_focus_output_range (GtkWidget *widget, GdkEventFocus *event,
+			DescriptiveStatState *state)
+{
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->output_range),TRUE);
+}
+
+/**
  * cb_desc_stat_tool_ok_clicked:
  * @button:
  * @state:
@@ -1068,8 +1084,6 @@ desc_stat_tool_update_sensitivity (DescriptiveStatState *state)
         if (output_range != NULL) value_release(output_range);
 
 	gtk_widget_set_sensitive (state->ok_button, ready);
-
-	gtk_widget_set_sensitive (GTK_WIDGET(state->output_entry), (i == 2) );
 }
 
 /**
@@ -1112,8 +1126,6 @@ dialog_desc_stat_tool_init (DescriptiveStatState *state, WorkbookControlGUI *wbc
 	state->dialog = glade_xml_get_widget (state->gui, "DescStats");
         if (state->dialog == NULL)
                 return TRUE;
-
-
 
 	state->ok_button     = glade_xml_get_widget(state->gui, "okbutton");
 	gtk_signal_connect (GTK_OBJECT (state->ok_button), "clicked",
@@ -1164,6 +1176,8 @@ dialog_desc_stat_tool_init (DescriptiveStatState *state, WorkbookControlGUI *wbc
 			    GTK_SIGNAL_FUNC (desc_stat_tool_destroy), state);
 	gtk_signal_connect_after (GTK_OBJECT (state->input_entry), "changed",
 			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
+	gtk_signal_connect (GTK_OBJECT (state->output_entry), "focus-in-event",
+			    GTK_SIGNAL_FUNC (desc_stat_tool_set_focus_output_range), state);
 	gtk_signal_connect_after (GTK_OBJECT (state->output_entry), "changed",
 			    GTK_SIGNAL_FUNC (desc_stat_tool_update_sensitivity_cb), state);
 	gtk_signal_connect_after (GTK_OBJECT (state->output_range), "toggled",

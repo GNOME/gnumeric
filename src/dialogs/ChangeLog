@@ -1,3 +1,14 @@
+2001-09-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (desc_stat_tool_set_focus_output_range) : 
+	  Switch output selection when output range is edited.
+	(cb_desc_stat_tool_ok_clicked) : ditto
+	(dialog_desc_stat_tool_init) : ditto
+
+2001-09-27  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (dialog_graph_guru) : doh!
+
 2001-09-26  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-graph-guru.c : Add a sample for the data page.

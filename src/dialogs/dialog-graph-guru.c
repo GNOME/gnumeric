@@ -463,7 +463,6 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	GraphGuruState *state;
 
 	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
 
 	state = g_new0 (GraphGuruState, 1);
 	state->wbcg	= wbcg;
@@ -481,6 +480,8 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	state->current_series = NULL;
 
 	if (graph != NULL) {
+		g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
+
 		state->graph = graph;
 		gtk_object_ref (GTK_OBJECT (state->graph));
 	} else
