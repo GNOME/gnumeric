@@ -127,7 +127,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 	hadold = (state->change_cell->value != NULL);
 	oldx = hadold ? value_get_as_float (state->change_cell->value) : 0;
 
-	/* PLAN A: Newton's iterative method.  */
+	/* PLAN A: Newton's iterative method from initial or midpoint.  */
 	{
 		gnum_float x0;
 
@@ -144,7 +144,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 	}
 
 	/* PLAN B: Trawl uniformly.  */
-	{
+	if (!seekdata.havexpos || !seekdata.havexneg) {
 		status = goal_seek_trawl_uniformly (goal_seek_eval,
 						    &seekdata, &evaldata,
 						    seekdata.xmin, seekdata.xmax,
@@ -154,7 +154,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 	}
 
 	/* PLAN C: Trawl normally from middle.  */
-	{
+	if (!seekdata.havexpos || !seekdata.havexneg) {
 		gnum_float sigma, mu;
 		int i;
 
@@ -172,7 +172,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 	}
 
 	/* PLAN D: Trawl normally from left.  */
-	{
+	if (!seekdata.havexpos || !seekdata.havexneg) {
 		gnum_float sigma, mu;
 		int i;
 
@@ -190,7 +190,7 @@ gnumeric_goal_seek (GoalSeekState *state)
 	}
 
 	/* PLAN E: Trawl normally from right.  */
-	{
+	if (!seekdata.havexpos || !seekdata.havexneg) {
 		gnum_float sigma, mu;
 		int i;
 
@@ -202,6 +202,23 @@ gnumeric_goal_seek (GoalSeekState *state)
 			status = goal_seek_trawl_normally (goal_seek_eval,
 							   &seekdata, &evaldata,
 							   mu, sigma, 20);
+			if (status == GOAL_SEEK_OK)
+				goto DONE;
+		}
+	}
+
+	/* PLAN F: Newton iteration with uniform net of starting points.  */
+	if (!seekdata.havexpos || !seekdata.havexneg) {
+		int i;
+		const int N = 10;
+
+		for (i = 1; i <= N; i++) {
+			gnum_float x0 =	seekdata.xmin +
+				(seekdata.xmax - seekdata.xmin) / (N + 1) * i;
+
+			status = goal_seek_newton (goal_seek_eval, NULL,
+						   &seekdata, &evaldata,
+						   x0);
 			if (status == GOAL_SEEK_OK)
 				goto DONE;
 		}

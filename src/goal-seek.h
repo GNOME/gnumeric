@@ -9,11 +9,11 @@ typedef struct {
 	gnum_float xmax;           /* Maximum allowed value for x.  */
 	gnum_float precision;      /* Desired relative precision.  */
 
-	gboolean havexpos;      /* Do we have a valid xpos?  */
+	gboolean havexpos;         /* Do we have a valid xpos?  */
 	gnum_float xpos;           /* Value for which f(xpos) > 0.  */
 	gnum_float ypos;           /* f(xpos).  */
 
-	gboolean havexneg;      /* Do we have a valid xneg?  */
+	gboolean havexneg;         /* Do we have a valid xneg?  */
 	gnum_float xneg;           /* Value for which f(xneg) < 0.  */
 	gnum_float yneg;           /* f(xneg).  */
 

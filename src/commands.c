@@ -985,7 +985,7 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 			if (info) {
 				int i;
-				ColRowInfo *cri;
+				ColRowInfo *cri = NULL;
 
 				for (i = me->index; i < me->index + me->count; i++)
 					if (me->is_cols) {

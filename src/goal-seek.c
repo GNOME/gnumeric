@@ -247,7 +247,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
  */
 
 #define SECANT_P(i) ((i) % 8 == 6)
-#define RIDDER_P(i) ((i) % 8 < 6)
+#define RIDDER_P(i) ((i) & 1)
 
 GoalSeekStatus
 goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
@@ -257,7 +257,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 	if (!data->havexpos || !data->havexneg)
 		return GOAL_SEEK_ERROR;
 
-	for (iterations = 0; iterations < 60; iterations++) {
+	for (iterations = 0; iterations < 100; iterations++) {
 		gnum_float xmid, ymid, stepsize;
 		GoalSeekStatus status;
 
@@ -295,7 +295,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 		if (update_data (xmid, ymid, data))
 			return GOAL_SEEK_OK;
 
-		stepsize = fabs (data->xpos - data->xneg)\
+		stepsize = fabs (data->xpos - data->xneg)
 			/ (fabs (data->xpos) + fabs (data->xneg));
 
 #ifdef DEBUG_GOAL_SEEK

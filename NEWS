@@ -4,6 +4,9 @@ Andreas:
 	* Allow analysis tool output to be directed onto a range 
           on another sheet.
 
+Morten:
+	* Improve goal seek.
+
 --------------------------------------------------------------------------
 Gnumeric 0.72
 
