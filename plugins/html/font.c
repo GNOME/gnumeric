@@ -25,60 +25,25 @@
 
 /*
  */
-static char *
-font_get_component (char *font, int idx)
-{
-	char *comp, *p, *ep;
-	int len, i;
-
-	if (!font)
-		return NULL;
-	p = font;
-	if (*p == '-')
-		p++;
-	for (i = 0; i < idx; i++) {
-		p = strchr (p, '-');
-		if (!p)
-			break;
-		if (*(p+1) != '-')
-			p++;
-	}
-	if (!p) {
-		return NULL;
-	}
-	len = strlen (p);
-	ep = strchr (p, '-');
-	if (ep)
-		len = ep - p;
-	if (!len)
-		return NULL;
-	comp = g_malloc (len+1);
-	if (!comp)
-		return NULL;
-	comp[len] = '\0';
-	memcpy (comp, p, len);
-	return comp;
-}
-
-/*
- */
 int
 font_is_monospaced (Style *style)
 {
-	char *comp;
-	int rc = 0;
+	char *name[] = {"Courier", "fixed", NULL};
+	int i;
 
 	if (!style)
 		return 0;
-
-	comp = font_get_component (style->font->font_name, 10);
-	/* printf ("%s\n", style->font->font_name); */
-	if (!comp)
+	if (!style->font)
 		return 0;
-	if (*comp == 'c' || *comp == 'm')
-		rc = 1;
-	g_free (comp);
-	return rc;
+	if (!style->font->font_name)
+		return 0;
+
+	/* printf ("%s\n", style->font->font_name); */
+	for (i = 0; name[i]; i++) {
+		if (strcmp (name[i], style->font->font_name) == 0)
+			return 1;
+	}
+	return 0;
 }
 
 /*
@@ -86,20 +51,16 @@ font_is_monospaced (Style *style)
 int
 font_is_helvetica (Style *style)
 {
-	char *comp;
-	int rc = 0;
-
 	if (!style)
 		return 0;
-
-	comp = font_get_component (style->font->font_name, 1);
-	/* printf ("%s\n", style->font->font_name); */
-	if (!comp)
+	if (!style->font)
 		return 0;
-	if (strcasecmp (comp, "helvetica") == 0)
-		rc = 1;
-	g_free (comp);
-	return rc;
+	if (!style->font->font_name)
+		return 0;
+
+	if (strcmp ("Helvetica", style->font->font_name) == 0)
+		return 1;
+	return 0;
 }
 
 /*
@@ -107,25 +68,22 @@ font_is_helvetica (Style *style)
 int
 font_is_sansserif (Style *style)
 {
-	char *comp;
-	int rc = 0, i;
+	int i;
 	char *name[] = {
 		"helvetica","avantgarde","neep","blippo","capri","clean","fixed",NULL};
 
 	if (!style)
 		return 0;
-
-	comp = font_get_component (style->font->font_name, 1);
-	if (!comp)
+	if (!style->font)
 		return 0;
+	if (!style->font->font_name)
+		return 0;
+
 	for (i = 0; name[i]; i++) {
-		if (strcasecmp (comp, name[i]) == 0) {
-			rc = 1;
-			break;
-		}
+		if (strcasecmp (style->font->font_name, name[i]) == 0)
+			return 1;
 	}
-	g_free (comp);
-	return rc;
+	return 0;
 }
 
 /*
@@ -133,28 +91,12 @@ font_is_sansserif (Style *style)
 int
 font_get_size (Style *style)
 {
-	int size, div = 0;
-	char *comp;
-
 	if (!style)
 		return 0;
-
-	comp = font_get_component (style->font->font_name, 6);
-	if (!comp || (*comp == '*')) {
-		if (comp)
-			g_free (comp);
-		comp = font_get_component (style->font->font_name, 7);
-		div = 10;
-	}
-	if (!comp || (*comp == '*')) {
-		if (comp)
-			g_free (comp);
+	if (!style->font)
 		return 0;
-	}
-	size = atoi (comp);
-	g_free (comp);
-	if (div)
-		size = size / div;
-	return size;
+
+	/* printf ("%f %f\n", style->font->size, style->font->scale); */
+	return ((int)style->font->size);
 }
 

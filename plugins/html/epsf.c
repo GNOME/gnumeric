@@ -25,6 +25,16 @@
 #include "ps.h"
 #include "font.h"
 
+#define CELL_DIM(cell,p) \
+			(cell->p->units + cell->p->margin_a_pt + cell->p->margin_b_pt)
+#define CELL_WIDTH(cell) CELL_DIM(cell,col)
+#define CELL_HEIGHT(cell) CELL_DIM(cell,row)
+
+#define COL_DIM(col) \
+			(col->units + col->margin_a_pt + col->margin_b_pt)
+#define ROW_HEIGHT(col) COL_DIM(col)
+#define COL_WIDTH(col) COL_DIM(col)
+
 /*
  * write a cell
  */
@@ -49,8 +59,8 @@ epsf_write_cell (FILE *fp, Cell *cell, float x, float y)
 			rgb.b = style->back_color->color.blue >> 8;
 			ps_set_color (fp, &rgb);
 
-			cell_width = cell->col->pixels;
-			cell_height= cell->row->pixels;
+			cell_width = CELL_WIDTH(cell);
+			cell_height= CELL_HEIGHT(cell);
 			ps_box_filled (fp, x, y, cell_width, cell_height);
 
 			rgb.r = style->fore_color->color.red >> 8;
@@ -115,8 +125,11 @@ epsf_write_wb (Workbook *wb, const char *filename)
 	Cell *cell;
 	ColRowInfo *col_info, *row_info;
 	int row, col;
-	int bx = 10, by = 10, bh, bw;
+	int bx = 57, by = 57, bh, bw;	/* offsets of bounding box about 2 cm */
 	float x_pos, y_pos;
+	GList *oblist;
+	SheetObject *obj;
+	double *pos;
 
 	g_return_val_if_fail (wb != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
@@ -133,29 +146,64 @@ epsf_write_wb (Workbook *wb, const char *filename)
 		bh = 0;
 		for (row = 0; row < (sheet->max_row_used+1); row++) {
 			row_info = sheet_row_get_info (sheet, row);
-			bh += row_info->pixels;
+			bh += ROW_HEIGHT(row_info);
 		}
 		bw = 0;
 		for (col = 0; col < (sheet->max_col_used+1); col++) {
 			col_info = sheet_col_get_info (sheet, col);
-			bw += col_info->pixels;
+			bw += COL_WIDTH(col_info);
 		}
-		bw += bx;
-		bh += by;
-		ps_init_eps (fp, bx, by, bw, bh);
+		ps_init_eps (fp, bx, by, bx + bw, by + bh);
 
 		x_pos = 0;
-		y_pos = bh - bx;
+		y_pos = bh;
 		for (row = 0; row < (sheet->max_row_used+1); row++) {
 			row_info = sheet_row_get_info (sheet, row);
-			y_pos -= row_info->pixels;
+			y_pos -= ROW_HEIGHT(row_info);
 			for (col = 0; col < (sheet->max_col_used+1); col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				col_info = sheet_col_get_info (sheet, col);
 				epsf_write_cell (fp, cell, x_pos, y_pos);
-				x_pos += col_info->pixels;
+				x_pos += COL_WIDTH(col_info);
 			}
 			x_pos = 0;
+		}
+		oblist = sheet->objects;
+		while (oblist) {
+			obj = oblist->data;
+			if (SHEET_OBJECT_GRAPHIC(obj)) {
+				SheetObjectGraphic *sog = (SheetObjectGraphic *)obj;
+				pos = obj->bbox_points->coords;
+				switch (sog->type) {
+					case SHEET_OBJECT_LINE:
+						ps_draw_line (fp,
+							pos[0], bh-pos[1], pos[2], bh - pos[3],
+							sog->width);
+						break;
+					case SHEET_OBJECT_RECTANGLE:
+						ps_box_bordered (fp,
+							pos[0], bh - pos[1] - (pos[3] - pos[1]),
+							pos[2]-pos[0], pos[3] - pos[1],
+							sog->width);
+						break;
+					case SHEET_OBJECT_ELLIPSE:
+						/* needs work */
+						ps_draw_ellipse (fp,
+							pos[0], bh - pos[1] - (pos[3] - pos[1]),
+							pos[2]-pos[0], pos[3] - pos[1],
+							sog->width);
+						break;
+					case SHEET_OBJECT_ARROW:
+						ps_draw_line (fp,
+							pos[0], bh-pos[1], pos[2], bh - pos[3],
+							sog->width);
+						/* needs work */
+						ps_draw_circle (fp,
+							pos[2], bh - pos[3], 2, 0.5);
+						break;
+				}
+			}
+			oblist = oblist->next;
 		}
 	}
 	ps_write_raw (fp, "showpage\n%%EOF\n");

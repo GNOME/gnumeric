@@ -1,4 +1,16 @@
+13/07/99 (rasca)
+
+	* latex.c: small fixes to use the right font for latex2e output
+
+	* ps.c: added code to draw an object simular to an ellipse :)
+
+12/07/99 (rasca)
+
+	* epsf.c, ps.c: added some code to draw lines
+
 11/07/99 (rasca)
+
+	* font.c: changed functions to meet the new font names in gnumeric
 
 	* epsf.c, ps.c: right alignment for text
 

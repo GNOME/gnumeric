@@ -227,9 +227,9 @@ html_write_wb_latex2e (Workbook *wb, const char *filename)
 						if (font_is_monospaced (style))
 							fprintf (fp, "{\\tt ");
 						else if (font_is_sansserif (style))
-							fprintf (fp, "{\\textsf ");
+							fprintf (fp, "\\textsf{");
 						if (style->font->is_bold)
-							fprintf (fp, "{\\bf ");
+							fprintf (fp, "\\textbf{");
 						if (style->font->is_italic)
 							fprintf (fp, "{\\em ");
 						latex_fprintf (fp, cell->text->str);

@@ -45,14 +45,17 @@ enum {
 };
 
 void ps_init_eps (FILE *fp, int bx, int by, int bw, int bh);
-void ps_text_left (FILE *fp, const char *s, float x, float y);
+void ps_text_left (FILE *fp, const char *s, double x, double y);
 void ps_text_right (FILE *fp, const char *s, double x, double y);
 void ps_text_center (FILE *fp, const char *s, double x1, double x2, double y);
 void ps_write_raw (FILE *fp, const char *s);
-void ps_box_bordered (FILE *fp, int llx, int lly, int w, int h, float lw);
-void ps_box_filled (FILE *fp, int llx, int lly, int w, int h);
+void ps_box_bordered(FILE *fp,double llx,double lly,double w,double h,float lw);
+void ps_box_filled (FILE *fp, double llx, double lly, double w, double h);
 void ps_set_color (FILE *fp, RGB_t *rgb);
 void ps_set_font (FILE *fp, unsigned int font, int size);
+void ps_draw_line (FILE *fp,double x1,double y1,double x2,double y2, double w);
+void ps_draw_circle (FILE *fp,double x,double y,double r, double w);
+void ps_draw_ellipse (FILE *fp,double llx,double lly,double w,double h,float lw);
 
 #endif
 

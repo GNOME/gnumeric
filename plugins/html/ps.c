@@ -49,18 +49,58 @@ ps_init_eps (FILE *fp, int bx, int by, int bw, int bh)
 	fprintf (fp, "%%%%BoundingBox: %d %d %d %d\n", bx, by, bw, bh);
 	fprintf (fp, "%%%%EndComments\n");
 	fprintf (fp, "%%%%BeginProlog\n");
-	fprintf (fp, "/setColor {setrgbcolor} bind def\n");
-	fprintf (fp, "/textLeft {moveto show} bind def\n");
-	fprintf (fp, "/rtextLeft {rmoveto show} bind def\n");
-	fprintf (fp, "/textRight {%% (text) lrx, lry\n");
-	fprintf (fp, "\texch 2 index stringwidth pop\n");
-	fprintf (fp, "\tsub exch moveto show\n} bind def\n");
-	fprintf (fp, "/setFont {exch findfont exch scalefont setfont} bind def\n");
-	fprintf (fp, "/rectBorder {setlinewidth 4 2 roll moveto\n");
-	fprintf (fp, "\t1 index 0 rlineto 0 exch\n");
-	fprintf (fp, "\trlineto neg 0 rlineto closepath stroke} bind def\n");
-	fprintf (fp, "/rectFill {setlinewidth 4 2 roll moveto 1 index 0 rlineto\n");
-	fprintf (fp, "\t0 exch rlineto neg 0 rlineto closepath fill} bind def\n");
+	fprintf (fp, "/setColor {\n"
+					"\tsetrgbcolor\n"
+					" } bind def\n");
+	fprintf (fp, "/textLeft {\n"
+					"\tmoveto show\n"
+					" } bind def\n");
+	fprintf (fp, "/rtextLeft {\n"
+					"\trmoveto show\n"
+					" } bind def\n");
+	fprintf (fp, "/textRight {%% (text) lrx, lry\n"
+					"\texch 2 index stringwidth pop\n"
+					"\tsub exch moveto show\n"
+					" } bind def\n");
+	fprintf (fp, "/setFont {\n"
+					"\texch findfont exch scalefont setfont\n"
+					" } bind def\n");
+	fprintf (fp, "/rectBorder {\n"
+					"\tsetlinewidth 4 2 roll moveto\n"
+					"\t1 index 0 rlineto 0 exch\n"
+					"\trlineto neg 0 rlineto closepath stroke\n"
+					" } bind def\n");
+	fprintf (fp, "/rectFill {%% llx, lly, width, height, linewidth\n"
+					"\tsetlinewidth 4 2 roll moveto 1 index 0 rlineto\n"
+					"\t0 exch rlineto neg 0 rlineto closepath fill\n"
+					" } bind def\n");
+	fprintf (fp, "/line {%% x1 y1 x2 y2 linewidth\n"
+					"\tsetlinewidth\n"
+					"\tnewpath\n"
+					"\t4 2 roll\n"
+					"\tmoveto\n"
+					"\tlineto\n"
+					"\tclosepath stroke\n"
+					" } bind def\n");
+	fprintf (fp, "/circle {%% x y r linewidth\n"
+					"\tsetlinewidth\n"
+					"\t0 360 arc\n"
+					"\tstroke\n"
+					" } bind def\n");
+	fprintf (fp, "/ellipse {%% llx lly width height linewidth\n"
+					"\tsetlinewidth\n"
+					"\t1 index 2 div\n"
+					"\t4 index add 3 index\n"
+					"\tmoveto\n"						/* p0 */
+					"\t3 index 3 index\n"				/* p1 */
+					"\t1 index 1 index 4 index add\n"	/* p2 */
+					"\t1 index 1 index exch 7 index 2 div add exch\n" 	/* p3 */
+					"\tcurveto\n"
+					"\t3 index 2 index add 3 index 2 index add\n"	/* p1 */
+					"\t1 index 5 index\n"							/* p2 */
+					"\t7 index 6 index 2 div add 7 index\n"			/* p3 */
+					"\tcurveto stroke clear\n"
+					" } bind def\n");
 	fprintf (fp, "%%%%EndProlog\n");
 	fprintf (fp, "%%%%Page: 1 1\n");
 	fprintf (fp, "%d %d translate\n\n", bx, by);
@@ -107,7 +147,7 @@ ps_write_string (FILE *fp, const char *s)
 /*
  */
 void
-ps_text_left (FILE *fp, const char *str, float x, float y)
+ps_text_left (FILE *fp, const char *str, double x, double y)
 {
 	ps_write_string (fp, str);
 	fprintf (fp, " %.2f %.2f textLeft\n", x, y);
@@ -146,21 +186,21 @@ ps_write_raw (FILE *fp, const char *s)
 /*
  */
 void
-ps_box_bordered (FILE *fp, int llx, int lly, int w, int h, float lw)
+ps_box_bordered (FILE *fp, double llx, double lly, double w, double h, float lw)
 {
 	if (!fp)
 		return;
-	fprintf (fp, "%d %d %d %d %.02f rectBorder\n", llx, lly, w, h, lw);
+	fprintf (fp, "%.2f %.2f %.2f %.2f %.2f rectBorder\n", llx,lly,w,h, lw);
 }
 
 /*
  */
 void
-ps_box_filled (FILE *fp, int llx, int lly, int w, int h)
+ps_box_filled (FILE *fp, double llx, double lly, double w, double h)
 {
 	if (!fp)
 		return;
-	fprintf (fp, "%d %d %d %d 0 rectFill\n", llx, lly, w, h);
+	fprintf (fp, "%.2f %.2f %.2f %.2f 0 rectFill\n", llx, lly, w, h);
 }
 
 /*
@@ -186,3 +226,32 @@ ps_set_font (FILE *fp, unsigned int font, int size)
 	fprintf (fp, "/%s %d setFont\n", ps_font[font], size);
 }
 
+/*
+ */
+void
+ps_draw_line (FILE *fp, double x1, double y1, double x2, double y2, double w)
+{
+	if (!fp)
+		return;
+	fprintf (fp, "%.2f %.2f %.2f %.2f %.2f line\n", x1, y1, x2, y2, w);
+}
+
+/*
+ */
+void
+ps_draw_circle (FILE *fp, double x, double y, double r, double w)
+{
+	if (!fp)
+		return;
+	fprintf (fp, "%.2f %.2f %.2f %.2f circle\n", x, y, r, w);
+}
+
+/*
+ */
+void
+ps_draw_ellipse (FILE *fp, double llx, double lly, double w, double h, float lw)
+{
+	if (!fp)
+		return;
+	fprintf (fp, "%.2f %.2f %.2f %.2f %.2f ellipse\n", llx, lly, w, h, lw);
+}
