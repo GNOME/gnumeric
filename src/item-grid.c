@@ -752,7 +752,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	if (scg->rangesel.active) {
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		if (event->state & GDK_SHIFT_MASK)
-			scg_rangesel_cursor_extend (scg, col, row);
+			scg_rangesel_extend_to (scg, col, row);
 		else
 			scg_rangesel_cursor_bounds (scg, col, row, col, row);
 		gnome_canvas_item_grab (item,
@@ -842,7 +842,7 @@ cb_extend_cell_range (SheetControlGUI *scg, int col, int row, gpointer ignored)
 static gboolean
 cb_extend_expr_range (SheetControlGUI *scg, int col, int row, gpointer ignored)
 {
-	scg_rangesel_cursor_extend (scg, col, row);
+	scg_rangesel_extend_to (scg, col, row);
 	return TRUE;
 }
 
@@ -938,7 +938,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			return 1;
 
 		if (ig->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE){
-			scg_rangesel_cursor_extend (ig->scg, col, row);
+			scg_rangesel_extend_to (ig->scg, col, row);
 			return 1;
 		}
 

@@ -14,6 +14,7 @@
 #include "item-debug.h"
 #include "gnumeric-sheet.h"
 #include "sheet.h"
+#include "sheet-merge.h"
 #include "workbook.h"
 #include "workbook-view.h"
 #include "workbook-edit.h"
@@ -197,7 +198,7 @@ scg_update_cursor_pos (SheetControlGUI *scg)
 
 /**
  * scg_resize :
- *
+ * @scg :
  */
 void
 scg_resize (SheetControlGUI *scg)
@@ -430,12 +431,12 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 	if (modifiers & GDK_SHIFT_MASK) {
 		if (is_cols) {
 			if (rangesel)
-				scg_rangesel_cursor_extend (scg, index, -1);
+				scg_rangesel_extend_to (scg, index, -1);
 			else
 				sheet_selection_extend_to (sheet, index, -1);
 		} else {
 			if (rangesel)
-				scg_rangesel_cursor_extend (scg, -1, index);
+				scg_rangesel_extend_to (scg, -1, index);
 			else
 				sheet_selection_extend_to (sheet, -1, index);
 		}
@@ -618,7 +619,6 @@ scg_construct (SheetControlGUI *scg)
 	while (i-- > 0)
 		scg->control_points[i] = NULL;
 
-	scg_resize (scg);
 	scg_ant (scg);
 }
 
@@ -2195,7 +2195,7 @@ scg_cursor_move_to (SheetControlGUI *scg, int col, int row,
 }
 
 void
-scg_rangesel_cursor_extend (SheetControlGUI *scg, int col, int row)
+scg_rangesel_extend_to (SheetControlGUI *scg, int col, int row)
 {
 	int base_col, base_row;
 

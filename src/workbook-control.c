@@ -246,6 +246,6 @@ workbook_control_init_state (WorkbookControl *wbc)
 	g_list_free (sheets);
 
 	wbc_class = WBC_CLASS (wbc);
-	if (wbc_class != NULL && wbc_class->control_new != NULL)
+	if (wbc_class != NULL && wbc_class->init_state != NULL)
 		wbc_class->init_state (wbc);
 }

@@ -1,3 +1,21 @@
+2001-05-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (cb_move_cursor) : typo.
+
+	* src/cmd-edit.c (cmd_shift_cols) : correct bound if shifting right.
+	(cmd_shift_rows) : correct bound if shifting down.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_make_cell_visible) : If the
+	  first == last then it is likely we are uninitialized and we can
+	  start the search from the first the target may be contained in the
+	  current region without scrolling.
+
+	* src/sheet-control-gui.c (scg_construct) : resize is now called when
+	  attached and the zoom scg_set_zoom_factor is set.
+	(scg_set_zoom_factor) : resize.
+
+	* src/workbook-control.c (workbook_control_init_state) : cut-n-paste-o.
+
 2001-05-08  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (sheet_selection_set_internal) : split this out into.

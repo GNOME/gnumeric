@@ -394,6 +394,8 @@ cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 	rinfo.origin.start.col = col;
 	rinfo.origin.end.row = end_row;
 	rinfo.origin.end.col = SHEET_MAX_COLS-1;
+	if (count > 0)
+		rinfo.origin.end.col -= count;
 
 	desc = (start_row != end_row)
 		? g_strdup_printf (_("Shift rows %d:%d"), start_row+1, end_row+1)
@@ -429,10 +431,11 @@ cmd_shift_cols (WorkbookControl *wbc, Sheet *sheet,
 	rinfo.origin.start.row = row;
 	rinfo.origin.end.col = end_col;
 	rinfo.origin.end.row = SHEET_MAX_ROWS-1;
+	if (count > 0)
+		rinfo.origin.end.row -= count;
 
 	desc = (start_col != end_col)
 		? g_strdup_printf (_("Shift columns %s"), cols_name (start_col, end_col))
 		: g_strdup_printf (_("Shift column %s"), col_name (start_col));
 	cmd_paste_cut (wbc, &rinfo, FALSE, desc);
 }
-

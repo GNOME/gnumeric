@@ -1063,16 +1063,15 @@ cb_move_cursor (SheetControlGUI *scg, int col, int row, gpointer user_data)
 		corner.row = SHEET_MAX_ROWS - h - 1;
 
 #if 0
-	/*
-	 * Leave this disabled until GtkLayout correctly handles
-	 * Windows with SaveUnder set. (Speak to quartic for details).
+	/* Leave this disabled until GtkLayout correctly handles
+	 * Windows with SaveUnder set. (Speak to federico for details).
 	 */
 	item_cursor_tip_setlabel (item_cursor);
 #endif
 
 	/* Make target cell visible, and adjust the cursor size */
 	item_cursor_set_bounds_visibly (item_cursor, col, row, &corner,
-					corner.row + w, corner.row + h);
+					corner.col + w, corner.row + h);
 	return FALSE;
 }
 

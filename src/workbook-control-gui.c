@@ -547,6 +547,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next)
 		sheet_object_new_view (ptr->data, scg);
 	scg_adjust_preferences (scg);
+	scg_set_zoom_factor (scg);
 }
 
 static void

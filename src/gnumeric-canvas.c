@@ -1002,9 +1002,10 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 		new_first_col = col;
 	} else if (col > gsheet->col.last_full) {
 		int width = GTK_WIDGET (canvas)->allocation.width;
-		int first_col;
+		int first_col = (gsheet->col.last_visible == gsheet->col.first)
+			? gsheet->col.first : col;
 
-		for (first_col = col; first_col > 0; --first_col) {
+		for (; first_col > 0; --first_col) {
 			ColRowInfo const * const ci = sheet_col_get_info (sheet, first_col);
 			if (ci->visible) {
 				width -= ci->size_pixels;
@@ -1021,9 +1022,10 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 		new_first_row = row;
 	} else if (row > gsheet->row.last_full) {
 		int height = GTK_WIDGET (canvas)->allocation.height;
-		int first_row;
+		int first_row = (gsheet->row.last_visible == gsheet->row.first)
+			? gsheet->row.first : row;
 
-		for (first_row = row; first_row > 0; --first_row) {
+		for (; first_row > 0; --first_row) {
 			ColRowInfo const * const ri = sheet_row_get_info (sheet, first_row);
 			if (ri->visible) {
 				height -= ri->size_pixels;
