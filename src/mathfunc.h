@@ -2,6 +2,15 @@
 #define GNUMERIC_MATHFUNC_H
 
 #include "numbers.h"
+#include <math.h>
+
+#ifdef qgamma
+/* It was reported that mips-sgi-irix6.5 has a weird and conflicting define
+   for qgamma.  See bug 1689.  */
+#warning "Your <math.h> is somewhat broken; we'll work around that."
+#undef qgamma
+#endif
+
 
 /* ------------------------------------------------------------------------- */
 
