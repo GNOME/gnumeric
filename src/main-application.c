@@ -31,6 +31,7 @@
 
 #ifdef WITH_BONOBO
 #include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-ui-main.h>
 #endif
 
 static int gnumeric_show_version = FALSE;

@@ -65,7 +65,6 @@ GNUMERIC_BASE =					\
 	io-context-priv.h			\
 	complex.h				\
 	complex.c				\
-	corba.h					\
 	dates.c					\
 	dates.h					\
 	datetime.c				\
@@ -268,11 +267,6 @@ GNUMERIC_BASE =					\
 	xml-io-autoft.c				\
 	xml-io-autoft.h
 
-# TODO : split the bonobo and corba tests one day
-GNUMERIC_CORBA = 				\
-	workbook-control-corba.c		\
-	workbook-control-corba.h
-
 GNUMERIC_BONOBO = 				\
 	bonobo-io.c				\
 	bonobo-io.h				\
@@ -285,7 +279,6 @@ GNUMERIC_BONOBO = 				\
 	workbook-control-component.c		\
 	workbook-control-component.h 		\
 	workbook-control-component-priv.h
-#	 $(GNUMERIC_CORBA)
 
 if WITH_BONOBO
 gnumeric_SOURCES =				\

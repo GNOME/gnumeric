@@ -676,7 +676,6 @@ GNOME_Gnumeric.server.in
 Makefile
 src/Makefile
 icons/Makefile
-idl/Makefile
 src/dialogs/Makefile
 src/pixmaps/Makefile
 src/widgets/Makefile

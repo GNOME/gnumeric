@@ -9,6 +9,8 @@
 
 2002-09-17  Jody Goldberg <jody@gnome.org>
 
+	* configure.in : remove idl dir as it starts to move to a plugin
+
 	* src/application.c (application_workbook_list_remove) : fix typo.
 
 2002-09-17  Jody Goldberg <jody@gnome.org>
