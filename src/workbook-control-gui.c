@@ -2126,10 +2126,11 @@ cb_edit_cut (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (wbcg_sheet_to_page_index (wbcg, sheet, &scg) >= 0) {
 		SheetControl *sc = (SheetControl *) scg;
 		/* FIXME : Add clipboard support for objects */
-		if (scg->current_object != NULL)
+		if (scg->current_object != NULL) {
 			cmd_object_delete (wbc, scg->current_object);
-		scg_mode_edit (sc);
-		sv_selection_cut (sc_view (sc), wbc);
+			scg_mode_edit (sc);
+		} else
+			sv_selection_cut (sc_view (sc), wbc);
 	}
 }
 

@@ -1,3 +1,8 @@
+2003-08-23  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_edit_cut) : if we're goign to delete
+	  an object don't cut the selection too.
+
 2003-08-22  Jody Goldberg <jody@gnome.org>
 
 	* src/graph.c (gnm_go_data_get_dep) : new.

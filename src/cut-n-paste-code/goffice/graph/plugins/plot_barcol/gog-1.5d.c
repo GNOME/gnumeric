@@ -131,10 +131,9 @@ gog_plot1_5d_update (GogObject *obj)
 	unsigned *lengths;
 	GSList *ptr;
 
-	minimum = DBL_MAX; /* yes I mean max */
-	maximum = DBL_MIN;
 	old_minimum =  model->minimum;
 	old_maximum =  model->maximum;
+	model->minimum = model->maximum = 0; /* ensure that 0 is include */
 	num_elements = num_series = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;

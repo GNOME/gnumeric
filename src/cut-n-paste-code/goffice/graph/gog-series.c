@@ -127,7 +127,6 @@ gog_series_editor (GogObject *gobj,
 	gtk_widget_show_all (GTK_WIDGET (table));
 
 	w = gtk_notebook_new ();
-	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (w), GTK_POS_LEFT);
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (w), GTK_WIDGET (table),
 		gtk_label_new (_("Data")));
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (w),

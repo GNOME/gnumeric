@@ -1,3 +1,7 @@
+2003-08-23  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_update) : doh!
+
 2003-08-22  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-object.c (gog_role_cmp) : use the new priority field to

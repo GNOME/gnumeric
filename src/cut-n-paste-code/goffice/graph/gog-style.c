@@ -307,7 +307,7 @@ fill_pattern_init (StylePrefState *state, GogStyle const *style)
 		gog_style_get_fill_color (style, 2),
 		"pattern_background", "fill_pattern_background_label",
 		G_CALLBACK (cb_bg_color_changed));
-	gtk_table_attach (GTK_TABLE (table), w, 3, 4, 1, 2, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
 
 	populate_pattern_combo (state, style);
 	gtk_widget_show_all (table);
@@ -385,13 +385,13 @@ fill_gradient_init (StylePrefState *state, GogStyle const *style)
 		gog_style_get_fill_color (style, 1),
 		"gradient_start", "fill_gradient_start_label",
 		G_CALLBACK (cb_fill_gradient_start_color));
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
 
 	state->fill.gradient.end = w = create_color_combo (state,
 		gog_style_get_fill_color (style, 2),
 		"gradient_end", "fill_gradient_end_label",
 		G_CALLBACK (cb_fill_gradient_end_color));
-	gtk_table_attach (GTK_TABLE (table), w, 3, 4, 1, 2, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), w, 3, 4, 2, 3, 0, 0, 0, 0);
 
 	populate_gradient_combo (state, style);
 	gtk_widget_show_all (table);
