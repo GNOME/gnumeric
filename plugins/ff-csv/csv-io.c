@@ -165,18 +165,28 @@ csv_write_cell (FILE *f, Cell *cell, int col, int row)
 		fputc (',', f);
 	if (cell) {
 		gboolean quoting = FALSE;
+		const char *s;
 
 		if (strchr (cell->text->str, ',') ||
+		    strchr (cell->text->str, '"') ||
 		    strchr (cell->text->str, ' ') ||
 		    strchr (cell->text->str, '\t')) {
 			quoting = TRUE;
 			fputc ('"', f);
 		}
-		fputs (cell->text->str, f); /* XXX quote " marks properly */
-		if (quoting) {
-			quoting = FALSE;
-			fputc ('"', f);
+
+		s = cell->text->str;
+		while (*s) {
+			if (*s == '"')
+				fputs ("\"\"", f);
+			else
+				fputc (*s, f);
+
+			s++;
 		}
+
+		if (quoting)
+			fputc ('"', f);
 	}
 	
 	if (ferror (f))
