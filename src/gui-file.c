@@ -34,8 +34,8 @@ file_opener_description_cmp (gconstpointer a, gconstpointer b)
 {
 	GnumFileOpener const *fo_a = a, *fo_b = b;
 
-	return strcoll (gnum_file_opener_get_description (fo_a),
-	                gnum_file_opener_get_description (fo_b));
+	return g_utf8_collate (gnum_file_opener_get_description (fo_a),
+			       gnum_file_opener_get_description (fo_b));
 }
 
 static gint
@@ -43,8 +43,8 @@ file_saver_description_cmp (gconstpointer a, gconstpointer b)
 {
 	GnumFileSaver const *fs_a = a, *fs_b = b;
 
-	return strcoll (gnum_file_saver_get_description (fs_a),
-	                gnum_file_saver_get_description (fs_b));
+	return g_utf8_collate (gnum_file_saver_get_description (fs_a),
+			       gnum_file_saver_get_description (fs_b));
 }
 
 static GtkWidget *

@@ -92,8 +92,8 @@ plugin_compare_name (gconstpointer a, gconstpointer b)
 {
 	GnmPlugin *plugin_a = (GnmPlugin *) a, *plugin_b = (GnmPlugin *) b;
 
-	return strcoll (gnm_plugin_get_name (plugin_a),
-	                gnm_plugin_get_name (plugin_b));
+	return g_utf8_collate (gnm_plugin_get_name (plugin_a),
+			       gnm_plugin_get_name (plugin_b));
 }
 
 static gboolean

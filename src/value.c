@@ -922,7 +922,7 @@ value_diff (Value const *a, Value const *b)
 		/* If both are strings compare as string */
 		case VALUE_STRING :
 		{
-			gint t = strcoll (a->v_str.val->str, b->v_str.val->str);
+			gint t = g_utf8_collate (a->v_str.val->str, b->v_str.val->str);
 			if (t == 0)
 				return 0.;
 		}

@@ -1,3 +1,8 @@
+2002-10-18  Morten Welinder  <terra@diku.dk>
+
+	* gnm-py-interpreter.c (gnm_py_interpreter_compare): Make utf8
+	safe.
+
 2002-10-11  Jon K Hellan  <hellan@acm.org>
 
 	* gnm-python.c: Include stdlib.h for setenv

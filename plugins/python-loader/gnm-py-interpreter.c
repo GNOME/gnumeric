@@ -226,8 +226,7 @@ gnm_py_interpreter_compare (gconstpointer a, gconstpointer b)
 	} else if (int_b->plugin == NULL) {
 		return 1;
 	} else {
-		return strcoll (
-			gnm_plugin_get_name (int_a->plugin),
-			gnm_plugin_get_name (int_b->plugin));
+		return g_utf8_collate (gnm_plugin_get_name (int_a->plugin),
+				       gnm_plugin_get_name (int_b->plugin));
 	}
 }

@@ -1,5 +1,10 @@
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
+	* src/gui-file.c (file_opener_description_cmp): Make utf8 safe.
+	(file_saver_description_cmp): Ditto.
+	* src/func.c (function_category_compare): Make utf8 safe.
+	* src/value.c (value_diff): Make utf8 safe.
+
 	* src/value.c (value_compare): Make utf8 safe.
 
 	* src/plugin-service.c (gnum_plugin_file_opener_probe): Use

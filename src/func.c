@@ -188,22 +188,9 @@ function_category_compare (gconstpointer a, gconstpointer b)
 {
 	GnmFuncGroup const *cat_a = a;
 	GnmFuncGroup const *cat_b = b;
-	char *str_a, *str_b;
 
-	g_return_val_if_fail (cat_a->display_name != NULL, 0);
-	g_return_val_if_fail (cat_b->display_name != NULL, 0);
-
-#if 0
-	str_a = g_utf8_casefold (cat_a->display_name->str, -1);
-	str_b = g_utf8_casefold (cat_b->display_name->str, -1);
-#endif
-
-	str_a = g_alloca (strlen (cat_a->display_name->str) + 1);
-	str_b = g_alloca (strlen (cat_b->display_name->str) + 1);
-	g_strdown (strcpy (str_a, cat_a->display_name->str));
-	g_strdown (strcpy (str_b, cat_b->display_name->str));
-
-	return strcoll (str_a, str_b);
+	return g_utf8_collate (cat_a->display_name,
+			       cat_b->display_name);
 }
 
 GnmFuncGroup *
@@ -214,26 +201,23 @@ gnm_func_group_fetch (char const *name)
 
 GnmFuncGroup *
 gnm_func_group_fetch_with_translation (char const *name,
-                                        char const *translation)
+				       char const *translation)
 {
 	GnmFuncGroup *cat = NULL;
-	char *int_name;
 	GList *l;
 
 	g_return_val_if_fail (name != NULL, NULL);
 
-	int_name = g_alloca (strlen (name) + 1);
-	g_strdown (strcpy (int_name, name));
 	for (l = categories; l != NULL; l = l->next) {
 		cat = l->data;
-		if (strcmp (cat->internal_name->str, int_name) == 0) {
+		if (strcmp (cat->internal_name->str, name) == 0) {
 			break;
 		}
 	}
 
 	if (l == NULL) {
 		cat = g_new (GnmFuncGroup, 1);
-		cat->internal_name = string_get (int_name);
+		cat->internal_name = string_get (name);
 		if (translation != NULL) {
 			cat->display_name = string_get (translation);
 			cat->has_translation = TRUE;

@@ -1,3 +1,7 @@
+2002-10-18  Morten Welinder  <terra@diku.dk>
+
+	* dialog-plugin-manager.c (plugin_compare_name): Make utf8 safe.
+
 2002-10-17  Morten Welinder  <terra@diku.dk>
 
 	* dialog-define-names.c (name_guru_populate_list): Sort names.
