@@ -1,3 +1,9 @@
+2003-06-03  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_lines): New function.
+	(stf_parse_next_token): Move UTF-8 from here to callers to avoid
+	insane slowdown.
+
 2003-06-02  Jody Goldberg <jody@gnome.org>
 
 	* src/expr-name.c (expr_name_set_scope) : if the new scope does not

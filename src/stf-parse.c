@@ -83,18 +83,18 @@ static inline gboolean
 comp_term (gchar const *s, gchar const *term)
 {
 	gchar const *this, *si = s;
-	
+
 	for (this = term; *term; term++, si++)
 		if (*term != *si)
 			return FALSE;
 	return TRUE;
 }
-			
+
 static inline gint
 compare_terminator (char const *s, StfParseOptions_t *parseoptions)
 {
 	GSList *term;
-	for (term = parseoptions->terminator; term; term = term->next) 
+	for (term = parseoptions->terminator; term; term = term->next)
 		if (comp_term (s, (gchar const*)(term->data)))
 			return strlen ((gchar const*)(term->data));
 	return 0;
@@ -122,7 +122,7 @@ stf_parse_options_new (void)
 	parseoptions->parsetype   = PARSE_TYPE_NOTSET;
 
 	parseoptions->terminator  = g_create_slist (g_strdup("\r\n"), g_strdup("\n"), g_strdup("\r"), NULL);
-	
+
 	parseoptions->parselines  = -1;
 	parseoptions->trim_spaces = (TRIM_TYPE_RIGHT | TRIM_TYPE_LEFT);
 
@@ -175,12 +175,12 @@ stf_parse_options_set_type (StfParseOptions_t *parseoptions, StfParseType_t cons
 	parseoptions->parsetype = parsetype;
 }
 
-static gint 
+static gint
 long_string_first (gchar const *a, gchar const *b)
 {
 	glong la = g_utf8_strlen (a, -1);
 	glong lb = g_utf8_strlen (a, -1);
-	
+
 	if (la > lb)
 		return -1;
 	if (la == lb)
@@ -193,7 +193,7 @@ long_string_first (gchar const *a, gchar const *b)
  * stf_parse_options_add_line_terminator:
  *
  * This will add to the line terminators, in both the Fixed width and CSV delimited importers
- * this indicates the end of a row. 
+ * this indicates the end of a row.
  *
  **/
 void
@@ -209,27 +209,27 @@ stf_parse_options_add_line_terminator (StfParseOptions_t *parseoptions, char con
  * stf_parse_options_remove_line_terminator:
  *
  * This will remove from the line terminators, in both the Fixed width and CSV delimited importers
- * this indicates the end of a row. 
+ * this indicates the end of a row.
  *
  **/
 void
 stf_parse_options_remove_line_terminator (StfParseOptions_t *parseoptions, char const *terminator)
 {
 	GSList*    in_list;
-	
+
 	g_return_if_fail (parseoptions != NULL);
-	
+
 	in_list = g_slist_find_custom (parseoptions->terminator, terminator, g_str_compare);
 
 	if (in_list)
-		GNM_SLIST_REMOVE(parseoptions->terminator, in_list->data);	
+		GNM_SLIST_REMOVE(parseoptions->terminator, in_list->data);
 }
 
 /**
  * stf_parse_options_clear_line_terminator:
  *
  * This will clear the line terminator, in both the Fixed width and CSV delimited importers
- * this indicates the end of a row. 
+ * this indicates the end of a row.
  *
  **/
 void
@@ -490,12 +490,13 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 
 	cur = src->position;
 	g_return_val_if_fail (cur != NULL, NULL);
-	
+	g_return_val_if_fail (g_utf8_validate (cur, -1, NULL), NULL);
+
 	res = g_string_sized_new (30);
-	
+
 	while (cur && *cur) {
 		char const *here, *there;
-		
+
 		next = stf_parse_next_token (cur, parseoptions, &ttype);
 		here = cur;
 		there = next;
@@ -521,10 +522,10 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 		}
 		cur = next;
 	}
-	
+
  cellfinished:
 	src->position = cur;
-	
+
 	if (parseoptions->indicator_2x_is_single) {
 		gboolean second = TRUE;
 		gunichar quote = parseoptions->stringindicator;
@@ -536,7 +537,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 			if (second) {
 				res = g_string_erase (res, len, g_utf8_next_char(found)-found);
 				second = FALSE;
-			} else 
+			} else
 				second = TRUE;
 		}
 	}
@@ -546,7 +547,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 /*
  * stf_parse_eat_separators:
  *
- * skip over leading separators 
+ * skip over leading separators
  *
  */
 
@@ -554,7 +555,7 @@ static void
 stf_parse_eat_separators (Source_t *src, StfParseOptions_t *parseoptions)
 {
 	char const *cur, *next;
-	
+
 	g_return_if_fail (src != NULL);
         g_return_if_fail (parseoptions != NULL);
 
@@ -591,7 +592,7 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 		char *field = stf_parse_csv_cell (src, parseoptions);
 		if (parseoptions->duplicates)
 			stf_parse_eat_separators (src, parseoptions);
-		
+
 		trim_spaces_inplace (field, parseoptions);
 		g_ptr_array_add (line, field);
 
@@ -723,7 +724,7 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 	g_return_val_if_fail (data != NULL, NULL);
 	g_return_val_if_fail (stf_parse_options_valid (parseoptions), NULL);
 	g_return_val_if_fail (g_utf8_validate (data, -1, NULL), NULL);
-	
+
 	src.position = data;
 	row = 0;
 
@@ -751,6 +752,54 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 	return lines;
 }
 
+GPtrArray *
+stf_parse_lines (const char *data, gboolean with_lineno)
+{
+	GPtrArray *lines;
+	int lineno = 1;
+
+	g_return_val_if_fail (data != NULL, NULL);
+
+	lines = g_ptr_array_new ();
+	while (*data) {
+		const char *data0 = data;
+		GPtrArray *line = g_ptr_array_new ();
+		gboolean leave = FALSE;
+
+		if (with_lineno)
+			g_ptr_array_add (line, g_strdup_printf ("%d", lineno++));
+
+		while (!leave) {
+			switch (*data) {
+			case 0:
+				g_ptr_array_add (line, g_strdup (data0));
+				leave = TRUE;
+				break;
+
+			case '\n':
+				g_ptr_array_add (line, g_strndup (data0, data - data0));
+				data++;
+				leave = TRUE;
+				break;
+
+			case '\r':
+				g_ptr_array_add (line, g_strndup (data0, data - data0));
+				data++;
+				if (*data == '\n') data++;
+				leave = TRUE;
+				break;
+
+			default:
+				data++;
+			}
+		}
+
+		g_ptr_array_add (lines, line);
+	}
+	return lines;
+}
+
+
 /**
  * stf_parse_get_rowcount:
  *
@@ -766,8 +815,9 @@ stf_parse_get_rowcount (StfParseOptions_t *parseoptions, char const *data)
 
 	g_return_val_if_fail (parseoptions != NULL, 0);
 	g_return_val_if_fail (data != NULL, 0);
+	g_return_val_if_fail (g_utf8_validate (data, -1, NULL), 0);
 
-	for (s = data; s && *s != '\0'; 
+	for (s = data; s && *s != '\0';
 	     s = stf_parse_next_token(s, parseoptions, &ttype)) {
 		if (ttype == STF_TOKEN_TERMINATOR) {
 			rowcount++;
@@ -1406,14 +1456,14 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data)
 }
 
 /*
- * stf_parse_next_token: find the next token. A token is a single character or 
+ * stf_parse_next_token: find the next token. A token is a single character or
  *                       a sequence of quoted characters
  * @data      : string to consider (guaranteed to be utf-8)
  * @quote     : quote character
- * @adj_escaped : if true then 2 adjacent quote characters represent one 
+ * @adj_escaped : if true then 2 adjacent quote characters represent one
  *                literal quote character
  *
- * returns the next token or NULL if there are no more tokens 
+ * returns the next token or NULL if there are no more tokens
  */
 
 char const*
@@ -1426,10 +1476,13 @@ stf_parse_next_token (char const *data, StfParseOptions_t *parseoptions, StfToke
 	g_return_val_if_fail (data != NULL, NULL);
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (*data != '\0', NULL);
+#if 0
+	/* This is *nuts*.  Have the caller validate the whole string.  */
 	g_return_val_if_fail (g_utf8_validate (data, -1, NULL), NULL);
-	
+#endif
+
 	quote= parseoptions->stringindicator;
-	
+
 	ttype = STF_TOKEN_CHAR;
 	character = g_utf8_find_next_char (data, NULL);
 	if (g_utf8_get_char (data) == quote) {
@@ -1439,7 +1492,7 @@ stf_parse_next_token (char const *data, StfParseOptions_t *parseoptions, StfToke
 		while (character && *character) {
 			if (g_utf8_get_char (character) == quote) {
 				character = g_utf8_find_next_char (character, NULL);
-				if (!adj_escaped || 
+				if (!adj_escaped ||
 				    g_utf8_get_char(character) != quote) {
 					ttype = STF_TOKEN_STRING;
 					break;
@@ -1453,7 +1506,7 @@ stf_parse_next_token (char const *data, StfParseOptions_t *parseoptions, StfToke
 			ttype = STF_TOKEN_TERMINATOR;
 			character = data + term_length;
 		} else {
-			char const *after_sep = stf_parse_csv_is_separator 
+			char const *after_sep = stf_parse_csv_is_separator
 				(data, parseoptions->sep.chr, parseoptions->sep.str);
 			if (after_sep) {
 				character = after_sep;
@@ -1461,7 +1514,7 @@ stf_parse_next_token (char const *data, StfParseOptions_t *parseoptions, StfToke
 			}
 		}
 	}
-	
+
 	if (tokentype)
 		*tokentype = ttype;
 	return character;

@@ -86,6 +86,8 @@ void stf_parse_options_fixed_splitpositions_add        (StfParseOptions_t *parse
 GPtrArray          *stf_parse_general                                 (StfParseOptions_t *parseoptions,
 								       char const *data);
 void                stf_parse_general_free                            (GPtrArray *lines);
+GPtrArray          *stf_parse_lines                                   (const char *data,
+								       gboolean with_lineno);
 
 int                 stf_parse_get_rowcount                            (StfParseOptions_t *parseoptions,
 								       char const *data);
