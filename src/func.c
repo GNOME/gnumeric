@@ -95,11 +95,15 @@ functions_init (void)
 	information_functions_init ();
 }
 
+static void function_def_get_full_info_if_needed (FunctionDefinition *fn_def);
+
 static void
 copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer array)
 {
 	Symbol *sym = value;
 	FunctionDefinition *fd = sym->data;
+
+	function_def_get_full_info_if_needed (fd);
 	if (sym->type == SYMBOL_FUNCTION &&
 	    fd->help != NULL && fd->name != NULL)
 		g_ptr_array_add (array, fd);

@@ -393,7 +393,7 @@ micro_hash_release (MicroHash *hash_table)
 static void
 micro_hash_init (MicroHash *hash_table, gpointer key)
 {
-	hash_table->num_elements = 0;
+	hash_table->num_elements = 1;
 	hash_table->num_buckets = 1;
 	hash_table->u.singleton = g_slist_prepend (NULL, key);
 }

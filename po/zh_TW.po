@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.4\n"
-"POT-Creation-Date: 2002-02-04 06:23-0500\n"
+"POT-Creation-Date: 2002-03-09 16:44-0500\n"
 "PO-Revision-Date: 2001-12-30 20:38+0800\n"
 "Last-Translator: Abel Cheung <maddog@linux.org.hk>\n"
 "Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
@@ -258,7 +258,7 @@ msgid ""
 msgstr ""
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3378
+#: plugins/mps/mps.c:579 src/xml-io.c:3379
 msgid "Reading file..."
 msgstr "正在讀入檔案..."
 
@@ -309,7 +309,7 @@ msgstr "讀取 DIF 檔時發生錯誤。"
 msgid "Cannot get default sheet."
 msgstr ""
 
-#: plugins/dif/dif.c:398
+#: plugins/dif/dif.c:399
 msgid "Error while saving DIF file."
 msgstr "儲存 DIF 檔時發生錯誤。"
 
@@ -388,12 +388,12 @@ msgstr ""
 msgid "Unable to locate valid MS Excel workbook"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3503
+#: plugins/excel/ms-excel-write.c:3511
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "此檔案的行數過多（%d > %d）"
 
-#: plugins/excel/ms-excel-write.c:3731
+#: plugins/excel/ms-excel-write.c:3737
 msgid "Can't open stream for writing\n"
 msgstr ""
 
@@ -492,7 +492,7 @@ msgstr "Gnome 辭彙 PO 檔格式"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "它提供將 Gnome 辭彙儲存為 .po 檔的支援。"
 
-#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -1554,7 +1554,7 @@ msgstr "前景"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4078
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4094
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
 msgid "Fourier Analysis"
 msgstr ""
@@ -2535,12 +2535,12 @@ msgstr ""
 msgid "_Zoom..."
 msgstr "縮放(_Z)..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3218
+#: src/analysis-tools.c:195 src/analysis-tools.c:3234
 #, c-format
 msgid "Row %i"
 msgstr "第 %i 行"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3210
+#: src/analysis-tools.c:198 src/analysis-tools.c:3226
 #, c-format
 msgid "Column %i"
 msgstr "第 %i 列"
@@ -2723,111 +2723,111 @@ msgid "Rank"
 msgstr ""
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2828 src/analysis-tools.c:3008
-#: src/analysis-tools.c:3270
+#: src/analysis-tools.c:2829 src/analysis-tools.c:3024
+#: src/analysis-tools.c:3286
 msgid "Anova"
 msgstr ""
 
-#: src/analysis-tools.c:2830
+#: src/analysis-tools.c:2831
 msgid "Anova: Single Factor"
 msgstr ""
 
-#: src/analysis-tools.c:2831 src/analysis-tools.c:3273
+#: src/analysis-tools.c:2832 src/analysis-tools.c:3289
 msgid "SUMMARY"
 msgstr ""
 
-#: src/analysis-tools.c:2832
+#: src/analysis-tools.c:2833
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:2895
+#: src/analysis-tools.c:2889
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: src/analysis-tools.c:2900 src/analysis-tools.c:3090
-#: src/analysis-tools.c:3297
+#: src/analysis-tools.c:2894 src/analysis-tools.c:3106
+#: src/analysis-tools.c:3313
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: src/analysis-tools.c:3014
+#: src/analysis-tools.c:3030
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: src/analysis-tools.c:3015
+#: src/analysis-tools.c:3031
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:3084
+#: src/analysis-tools.c:3100
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/analysis-tools.c:3272
+#: src/analysis-tools.c:3288
 msgid "Anova: Two-Factor With Replication"
 msgstr ""
 
-#: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3293 src/analysis-tools.c:3303
+#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr ""
 
-#: src/analysis-tools.c:3279
+#: src/analysis-tools.c:3295
 msgid "/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:3289
+#: src/analysis-tools.c:3305
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 
-#: src/analysis-tools.c:3757
+#: src/analysis-tools.c:3773
 #, c-format
 msgid "<%s"
 msgstr ""
 
-#: src/analysis-tools.c:3761
+#: src/analysis-tools.c:3777
 msgid "Too Small"
 msgstr ""
 
-#: src/analysis-tools.c:3778
+#: src/analysis-tools.c:3794
 msgid "More"
 msgstr ""
 
-#: src/analysis-tools.c:3786
+#: src/analysis-tools.c:3802
 #, c-format
 msgid ">%s"
 msgstr ""
 
-#: src/analysis-tools.c:3790
+#: src/analysis-tools.c:3806
 msgid "Too Large"
 msgstr ""
 
-#: src/analysis-tools.c:3831 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3847 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr ""
 
-#: src/analysis-tools.c:3836
+#: src/analysis-tools.c:3852
 msgid "Bin"
 msgstr ""
 
-#: src/analysis-tools.c:3861
+#: src/analysis-tools.c:3877
 msgid "Frequency"
 msgstr ""
 
-#: src/analysis-tools.c:3863 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3879 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3866
+#: src/analysis-tools.c:3882
 #, no-c-format
 msgid "Cumulative %"
 msgstr ""
 
-#: src/analysis-tools.c:4098
+#: src/analysis-tools.c:4114
 msgid "Real"
 msgstr "實數"
 
-#: src/analysis-tools.c:4099
+#: src/analysis-tools.c:4115
 msgid "Imaginary"
 msgstr "虛數"
 
@@ -2836,7 +2836,7 @@ msgstr "虛數"
 msgid "Error '%s' opening workbook stream"
 msgstr ""
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3401
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
 msgid "Invalid xml file. Tree is empty ?"
 msgstr ""
 
@@ -5134,7 +5134,7 @@ msgstr "%s 不是有效的來源區域"
 msgid "You cannot redefine a builtin name."
 msgstr ""
 
-#: src/dialogs/dialog-define-names.c:591
+#: src/dialogs/dialog-define-names.c:592
 msgid "Could not create the Name Guru."
 msgstr ""
 
@@ -6370,8 +6370,8 @@ msgstr "停止使用所有增效模組(_D)"
 msgid "_Install new plugin"
 msgstr "安裝新的增效模組(_I)"
 
-#: src/dialogs/print.glade.h:2
 # Refer to "_Adjust to:" entry before translation!
+#: src/dialogs/print.glade.h:2
 #, no-c-format
 msgid "% of normal size"
 msgstr "%"
@@ -6441,7 +6441,7 @@ msgid "Scale"
 msgstr "縮放"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3086
+#: src/workbook.c:1065 src/xml-io.c:3087
 msgid "Sheet"
 msgstr ""
 
@@ -7164,23 +7164,23 @@ msgstr ""
 msgid "'%s' has a circular reference"
 msgstr ""
 
-#: src/expr-name.c:415
+#: src/expr-name.c:418
 msgid "Builtin"
 msgstr "內置"
 
-#: src/expr-name.c:515 src/expr-name.c:527
+#: src/expr-name.c:516 src/expr-name.c:528
 msgid "Error: no sheet"
 msgstr ""
 
-#: src/expr.c:551
+#: src/expr.c:557
 msgid "Internal type error"
 msgstr ""
 
-#: src/expr.c:730
+#: src/expr.c:736
 msgid "Unknown operator"
 msgstr ""
 
-#: src/expr.c:959
+#: src/expr.c:965
 msgid "Unknown evaluation error"
 msgstr ""
 
@@ -8623,20 +8623,20 @@ msgstr ""
 msgid "[Red]"
 msgstr ""
 
-#: src/func.c:127
+#: src/func.c:131
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "無法建立檔案 %s\n"
 
-#: src/func.c:284
+#: src/func.c:288
 msgid "Function implementation not available."
 msgstr "尚未加入此函數功能。"
 
-#: src/func.c:500
+#: src/func.c:504
 msgid "Unknown Function"
 msgstr "不明的函數"
 
-#: src/func.c:853
+#: src/func.c:857
 msgid "Function does not exist"
 msgstr "函數不存在"
 
@@ -9526,7 +9526,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1116
+#: src/functions/fn-date.c:1124
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9541,7 +9541,7 @@ msgid ""
 "@SEEALSO=WEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1160
+#: src/functions/fn-date.c:1168
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -9563,7 +9563,7 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1219
+#: src/functions/fn-date.c:1227
 msgid "Date / Time"
 msgstr "日期 / 時間"
 
@@ -13171,12 +13171,13 @@ msgstr ""
 "@SEEALSO=RANDBETWEEN"
 
 #: src/functions/fn-math.c:1235
+#, fuzzy
 msgid ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp returns a exponentially distributed random number. \n"
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandExp(0.5).\n"
+"RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
@@ -13189,25 +13190,33 @@ msgstr ""
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1258
+#, fuzzy
 msgid ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson returns a poisson distributed random number. \n"
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@FUNCTION=RandExp\n"
+"@SYNTAX=RandExp(b)\n"
+"@DESCRIPTION=RandExp 回傳一個以指數方式分佈的隨機數。\n"
+"@EXAMPLES=\n"
+"RandExp(0.5)。\n"
+"\n"
+"@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1284
 msgid ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p,trials)\n"
-"@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
-"If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 RandBinom "
+"@FUNCTION=RANDBINOM\n"
+"@SYNTAX=RANDBINOM(p,trials)\n"
+"@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM "
 "returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBinom(0.5,2).\n"
+"RANDBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
@@ -13216,7 +13225,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
-"@DESCRIPTION=RANDNEGBINOM returns a negitive binomialy distributed random "
+"@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random "
 "number. \n"
 "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures "
 "RANDNEGBINOM returns #NUM! error. \n"
@@ -13227,16 +13236,24 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1345
+#, fuzzy
 msgid ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli returns a Bernoulli distributed random number. \n"
-"If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. \n"
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBernoulli(0.5).\n"
+"RANDBERNOULLI(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@FUNCTION=RandExp\n"
+"@SYNTAX=RandExp(b)\n"
+"@DESCRIPTION=RandExp 回傳一個以指數方式分佈的隨機數。\n"
+"@EXAMPLES=\n"
+"RandExp(0.5)。\n"
+"\n"
+"@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1373
 msgid ""
@@ -13572,8 +13589,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(分子,分母)\n"
-"@DESCRIPTION=QUOTIENT 函數回傳除法的整數部份。<分子> 是被除數而 <分母> 是"
-"除數。\n"
+"@DESCRIPTION=QUOTIENT 函數回傳除法的整數部份。<分子> 是被除數而 <分母> 是除"
+"數。\n"
 "此函數是兼容於 Excel 的。\n"
 "@EXAMPLES=\n"
 "QUOTIENT(23,5) 等於 4。\n"
@@ -13643,8 +13660,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(下限,上限)\n"
-"@DESCRIPTION=RANDBETWEEN 函數回傳 <下限> 和 <上限> 之間（包括 <下限> 及 "
-"<上限>）的隨機整數。\n"
+"@DESCRIPTION=RANDBETWEEN 函數回傳 <下限> 和 <上限> 之間（包括 <下限> 及 <上限"
+">）的隨機整數。\n"
 "如果 <下限> 或 <上限> 不是整數，會截取它們的整數部份計算。如果 <下限> 大於 <"
 "上限>，RANDBETWEEN 會回傳 #NUM! 錯誤。\n"
 "此函數是兼容於 Excel 的。\n"
@@ -16561,7 +16578,7 @@ msgstr "讀入檔案“%s”時發生錯誤。"
 msgid "Unable to mmap the file."
 msgstr ""
 
-#: src/plugin-util.c:318 src/xml-io.c:3367
+#: src/plugin-util.c:318 src/xml-io.c:3368
 msgid "Cannot get file size."
 msgstr "無法取得檔案大小。"
 
@@ -17140,17 +17157,20 @@ msgstr ""
 msgid "Error while trying to write csv file"
 msgstr "嘗試寫入 csv 檔案時發生錯誤"
 
-#: src/stf.c:438
-msgid "Text File import (customizable)"
-msgstr "匯入文字檔（自訂格式）"
-
-#: src/stf.c:441
-msgid "Text File import (default csv)"
+#: src/stf.c:439
+#, fuzzy
+msgid "Text import (defaults to csv)"
 msgstr "匯入文字檔（預設 csv）"
 
-#: src/stf.c:446
-msgid "Text File Export (*.csv)"
-msgstr "匯出文字檔（*.csv）"
+#: src/stf.c:443
+#, fuzzy
+msgid "Text import (configurable)"
+msgstr "匯入文字檔（自訂格式）"
+
+#: src/stf.c:447
+#, fuzzy
+msgid "Text export (configurable)"
+msgstr "匯入文字檔（自訂格式）"
 
 #: src/style.c:265 src/style.c:267
 msgid "<Has not been set>"
@@ -17195,27 +17215,37 @@ msgstr "在預期中的位置找不到 fontmap2 檔案。"
 msgid "Cell %s is not permitted to be blank"
 msgstr "儲存格 %s 不可是空白的"
 
-#: src/validation.c:158
-#, c-format
-msgid "'%f' is not an integer"
-msgstr "'%f' 不是整數"
+#: src/validation.c:155
+#, fuzzy, c-format
+msgid "'%s' is an error"
+msgstr "'%s' 不是數字"
 
-#: src/validation.c:168
-#, c-format
-msgid "'%f' is not a number"
-msgstr "'%f' 不是數字"
+#: src/validation.c:165
+#, fuzzy, c-format
+msgid "'%s' is not a valid date"
+msgstr "%s 不是有效的目的地區域"
 
-#: src/validation.c:175
+#: src/validation.c:167
+#, fuzzy, c-format
+msgid "'%s' is not a valid time"
+msgstr "'%s' 不是數字"
+
+#: src/validation.c:169
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' 不是數字"
 
-#: src/validation.c:259
+#: src/validation.c:182
+#, fuzzy, c-format
+msgid "'%s' is not an integer"
+msgstr "'%f' 不是整數"
+
+#: src/validation.c:275
 #, c-format
 msgid "%s is not true."
 msgstr ""
 
-#: src/validation.c:272
+#: src/validation.c:288
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -17223,7 +17253,7 @@ msgstr ""
 "儲存格的值無效。\n"
 "此儲存格的內容是有限制的。"
 
-#: src/validation.c:279
+#: src/validation.c:295
 msgid "Gnumeric : Validation"
 msgstr ""
 
@@ -17799,32 +17829,38 @@ msgstr ""
 msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 
-#: src/xml-io.c:2799
+#: src/xml-io.c:2800
 msgid "Unparsable xml in clipboard"
 msgstr "剪貼簿中有無法分析的 xml 內容"
 
-#: src/xml-io.c:2806
+#: src/xml-io.c:2807
 msgid "Clipboard is in unknown format"
 msgstr "剪貼簿的內容格式不詳"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3212
+#: src/xml-io.c:3213
 msgid "Processing file..."
 msgstr "正在處理檔案..."
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3376
 msgid "Not enough memory to create zlib decompression state."
 msgstr "記憶體不足，無法將 zlib 資料解壓"
 
-#: src/xml-io.c:3410
+#: src/xml-io.c:3411
 msgid "Is not an Gnumeric Workbook file"
 msgstr ""
 
-#: src/xml-io.c:3467
+#: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 檔案格式"
+
+#~ msgid "Text File Export (*.csv)"
+#~ msgstr "匯出文字檔（*.csv）"
+
+#~ msgid "'%f' is not a number"
+#~ msgstr "'%f' 不是數字"
 
 #~ msgid "Microsoft(R) Excel"
 #~ msgstr "微軟(R) Excel"

@@ -1,3 +1,7 @@
+2002-03-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.5
+
 2002-03-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* fn-date.c (gnumeric_networkdays) : fix (73491)

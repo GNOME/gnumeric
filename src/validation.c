@@ -27,6 +27,7 @@
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
+#include "mathfunc.h"
 #include "number-match.h"
 #include "workbook-control.h"
 
@@ -122,7 +123,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 		return VALIDATION_STATUS_VALID;
 
 	v = mstyle_get_validation (mstyle);
-	g_return_val_if_fail (v != NULL, 1);
+	g_return_val_if_fail (v != NULL, VALIDATION_STATUS_VALID);
 
 	if (v->style == VALIDATION_TYPE_ANY)
 		return VALIDATION_STATUS_VALID;
@@ -144,24 +145,19 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 		case VALIDATION_TYPE_ANY :
 			return VALIDATION_STATUS_VALID;
 
-		case VALIDATION_TYPE_AS_INT : {
-			double dummy;
-			if (val->type == VALUE_FLOAT &&
-			    fabs (modf (cell->value->v_float.val, &dummy)) > 1e-10) {
-				msg = g_strdup_printf (_("'%f' is not an integer"),
-						       cell->value->v_float.val);
-				break;
-			}
-		}
-
-		case VALIDATION_TYPE_AS_DATE :	/* What the hell does this do */
-		case VALIDATION_TYPE_AS_TIME :	/* What the hell does this do */
+		case VALIDATION_TYPE_AS_INT :
 		case VALIDATION_TYPE_AS_NUMBER :
-			if (val->type == VALUE_ERROR)
+		case VALIDATION_TYPE_AS_DATE :		/* What the hell does this do */
+		case VALIDATION_TYPE_AS_TIME : {	/* What the hell does this do */
+			Value *res = NULL;
+			/* we know it is not empty */
+			if (val->type == VALUE_ERROR) {
 				msg = g_strdup_printf (_("'%s' is an error"),
 						       val->v_err.mesg->str);
-			else if (cell->value->type == VALUE_STRING) {
-				Value *res = format_match_number (val->v_str.val->str, NULL, NULL);
+				break;
+			} else if (cell->value->type == VALUE_STRING) {
+				char const *s = value_peek_string (val);
+				res = format_match_number (s, NULL, NULL);
 				if (res == NULL) {
 					char const *fmt;
 					/* FIXME what else is needed */
@@ -171,13 +167,26 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 						fmt = N_("'%s' is not a valid time");
 					} else
 						fmt = N_("'%s' is not a number");
-					msg = g_strdup_printf (_(fmt), val->v_str.val->str);
-				} else
-					val_expr = expr_tree_new_constant (res);
+					msg = g_strdup_printf (_(fmt), s);
+					break;
+				}
 			} else
-				val_expr = expr_tree_new_constant (
-					value_duplicate (cell->value));
+				res = value_duplicate (cell->value);
+
+			if (v->type == VALIDATION_TYPE_AS_INT &&
+			    res != NULL && res->type == VALUE_FLOAT) {
+				gnum_float f = value_get_as_float (res);
+				gboolean isint = fabs (f - gnumeric_fake_round (f)) < 1e-10;
+				if (!isint) {
+					char const *valstr = value_peek_string (val);
+					msg = g_strdup_printf (_("'%s' is not an integer"), valstr);
+					break;
+				}
+			}
+
+			val_expr = expr_tree_new_constant (res);
 			break;
+		}
 
 		case VALIDATION_TYPE_IN_LIST :
 #warning TODO
@@ -244,7 +253,8 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 				return VALIDATION_STATUS_VALID;
 			}
 
-			if (v->op == VALIDATION_OP_BETWEEN || v->op == VALIDATION_OP_NOT_BETWEEN) {
+			if ((v->op == VALIDATION_OP_BETWEEN && valid) ||
+			    v->op == VALIDATION_OP_NOT_BETWEEN) {
 				g_return_val_if_fail (v->expr[1] != NULL, VALIDATION_STATUS_VALID);
 
 				expr_tree_ref (v->expr[1]);

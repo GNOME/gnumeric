@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.49\n"
-"POT-Creation-Date: 2002-01-30 22:58-0500\n"
+"POT-Creation-Date: 2002-03-09 16:44-0500\n"
 "PO-Revision-Date: 2000-03-28 16:26-0500\n"
 "Last-Translator: Spiros Papadimitriou <spapadim+@cs.cmu.edu>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -262,7 +262,7 @@ msgid ""
 msgstr ""
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3378
+#: plugins/mps/mps.c:579 src/xml-io.c:3379
 msgid "Reading file..."
 msgstr ""
 
@@ -319,7 +319,7 @@ msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 msgid "Cannot get default sheet."
 msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 
-#: plugins/dif/dif.c:398
+#: plugins/dif/dif.c:399
 #, fuzzy
 msgid "Error while saving DIF file."
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
@@ -401,12 +401,12 @@ msgstr "Βιβλία προστατευόμενα με συνθηματικό δεν υποστηρίζονται ακόμα."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Δε βρέθηκε έγκυρο βιβλίο MS Excel"
 
-#: plugins/excel/ms-excel-write.c:3503
+#: plugins/excel/ms-excel-write.c:3511
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:3731
+#: plugins/excel/ms-excel-write.c:3737
 msgid "Can't open stream for writing\n"
 msgstr ""
 
@@ -513,7 +513,7 @@ msgstr "Μορφή αρχείου XML Gnumeric"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr ""
 
-#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -652,7 +652,7 @@ msgstr "Νέος Περιορισμός"
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
-#: src/workbook-control.c:233
+#: src/workbook-control.c:234
 #, fuzzy
 msgid "Name"
 msgstr "Ανώνυμο"
@@ -1704,7 +1704,7 @@ msgstr "Φόντος"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4078
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4094
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
 #, fuzzy
 msgid "Fourier Analysis"
@@ -2804,12 +2804,12 @@ msgstr "_Βιβλίο"
 msgid "_Zoom..."
 msgstr "Κ_λίμακα..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3218
+#: src/analysis-tools.c:195 src/analysis-tools.c:3234
 #, fuzzy, c-format
 msgid "Row %i"
 msgstr "Σειρά: %d"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3210
+#: src/analysis-tools.c:198 src/analysis-tools.c:3226
 #, fuzzy, c-format
 msgid "Column %i"
 msgstr "Στήλη: %s"
@@ -3009,118 +3009,118 @@ msgid "Rank"
 msgstr "Διάστημα"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2828 src/analysis-tools.c:3008
-#: src/analysis-tools.c:3270
+#: src/analysis-tools.c:2829 src/analysis-tools.c:3024
+#: src/analysis-tools.c:3286
 msgid "Anova"
 msgstr ""
 
 # # FIX?  If anyone is familiar with the following statistical terms...
-#: src/analysis-tools.c:2830
+#: src/analysis-tools.c:2831
 msgid "Anova: Single Factor"
 msgstr "Anova: Απλός Παράγοντας"
 
-#: src/analysis-tools.c:2831 src/analysis-tools.c:3273
+#: src/analysis-tools.c:2832 src/analysis-tools.c:3289
 msgid "SUMMARY"
 msgstr ""
 
-#: src/analysis-tools.c:2832
+#: src/analysis-tools.c:2833
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:2895
+#: src/analysis-tools.c:2889
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: src/analysis-tools.c:2900 src/analysis-tools.c:3090
-#: src/analysis-tools.c:3297
+#: src/analysis-tools.c:2894 src/analysis-tools.c:3106
+#: src/analysis-tools.c:3313
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: src/analysis-tools.c:3014
+#: src/analysis-tools.c:3030
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Δύο Παράγοντες Χωρίς Επανάληψη"
 
-#: src/analysis-tools.c:3015
+#: src/analysis-tools.c:3031
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:3084
+#: src/analysis-tools.c:3100
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/analysis-tools.c:3272
+#: src/analysis-tools.c:3288
 #, fuzzy
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Δύο Παράγοντες Χωρίς Επανάληψη"
 
-#: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3293 src/analysis-tools.c:3303
+#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 #, fuzzy
 msgid "Total"
 msgstr "ύψος"
 
-#: src/analysis-tools.c:3279
+#: src/analysis-tools.c:3295
 msgid "/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:3289
+#: src/analysis-tools.c:3305
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 
-#: src/analysis-tools.c:3757
+#: src/analysis-tools.c:3773
 #, c-format
 msgid "<%s"
 msgstr ""
 
-#: src/analysis-tools.c:3761
+#: src/analysis-tools.c:3777
 msgid "Too Small"
 msgstr ""
 
-#: src/analysis-tools.c:3778
+#: src/analysis-tools.c:3794
 #, fuzzy
 msgid "More"
 msgstr "Μετακίνηση"
 
-#: src/analysis-tools.c:3786
+#: src/analysis-tools.c:3802
 #, c-format
 msgid ">%s"
 msgstr ""
 
-#: src/analysis-tools.c:3790
+#: src/analysis-tools.c:3806
 #, fuzzy
 msgid "Too Large"
 msgstr "Κ-οστο Μεγαλύτερο:"
 
-#: src/analysis-tools.c:3831 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3847 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr ""
 
-#: src/analysis-tools.c:3836
+#: src/analysis-tools.c:3852
 #, fuzzy
 msgid "Bin"
 msgstr "Ελάχιστο"
 
-#: src/analysis-tools.c:3861
+#: src/analysis-tools.c:3877
 msgid "Frequency"
 msgstr ""
 
-#: src/analysis-tools.c:3863 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3879 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3866
+#: src/analysis-tools.c:3882
 #, no-c-format
 msgid "Cumulative %"
 msgstr ""
 
-#: src/analysis-tools.c:4098
+#: src/analysis-tools.c:4114
 #, fuzzy
 msgid "Real"
 msgstr "Ορθογώνιο"
 
-#: src/analysis-tools.c:4099
+#: src/analysis-tools.c:4115
 #, fuzzy
 msgid "Imaginary"
 msgstr "Ιανουάριος"
@@ -3130,7 +3130,7 @@ msgstr "Ιανουάριος"
 msgid "Error '%s' opening workbook stream"
 msgstr ""
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3401
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "¶κυρο αρχείο XML. Κενό δέντρο;"
 
@@ -5626,7 +5626,7 @@ msgstr ""
 msgid "You cannot redefine a builtin name."
 msgstr ""
 
-#: src/dialogs/dialog-define-names.c:591
+#: src/dialogs/dialog-define-names.c:592
 #, fuzzy
 msgid "Could not create the Name Guru."
 msgstr "¶κυρο όρισμα"
@@ -7050,7 +7050,7 @@ msgid "Scale"
 msgstr "Κλίμακα"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3086
+#: src/workbook.c:1065 src/xml-io.c:3087
 msgid "Sheet"
 msgstr "Φύλλου"
 
@@ -7866,23 +7866,23 @@ msgstr "ήδη ορισμένο"
 msgid "'%s' has a circular reference"
 msgstr "κυκλική αναφορά"
 
-#: src/expr-name.c:415
+#: src/expr-name.c:418
 msgid "Builtin"
 msgstr "Ενσωματωμένη"
 
-#: src/expr-name.c:515 src/expr-name.c:527
+#: src/expr-name.c:516 src/expr-name.c:528
 msgid "Error: no sheet"
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
-#: src/expr.c:551
+#: src/expr.c:557
 msgid "Internal type error"
 msgstr "Εσωτερικό σφάλμα τύπου"
 
-#: src/expr.c:730
+#: src/expr.c:736
 msgid "Unknown operator"
 msgstr "¶γνωστος τελεστής"
 
-#: src/expr.c:959
+#: src/expr.c:965
 msgid "Unknown evaluation error"
 msgstr "¶γνωστο σφάλμα εκτίμησης"
 
@@ -9338,20 +9338,20 @@ msgstr "Δολλάριο Ζιμπάμπουε"
 msgid "[Red]"
 msgstr "[Κόκκινο]"
 
-#: src/func.c:127
+#: src/func.c:131
 #, fuzzy, c-format
 msgid "Cannot create file %s\n"
 msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 
-#: src/func.c:284
+#: src/func.c:288
 msgid "Function implementation not available."
 msgstr ""
 
-#: src/func.c:500
+#: src/func.c:504
 msgid "Unknown Function"
 msgstr "¶γνωστη Συνάρτηση"
 
-#: src/func.c:853
+#: src/func.c:857
 msgid "Function does not exist"
 msgstr "Ανύπαρκτη συνάρτηση"
 
@@ -10172,7 +10172,7 @@ msgstr ""
 "\n"
 "@ΕΠΙΣΗΣ=WORKDAY"
 
-#: src/functions/fn-date.c:1116
+#: src/functions/fn-date.c:1124
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -10187,7 +10187,7 @@ msgid ""
 "@SEEALSO=WEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1160
+#: src/functions/fn-date.c:1168
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -10209,7 +10209,7 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1219
+#: src/functions/fn-date.c:1227
 msgid "Date / Time"
 msgstr "Ημέρα / Ώρα"
 
@@ -14343,12 +14343,13 @@ msgstr ""
 "@ΔΕΙΤΕ=RANDBETWEEN"
 
 #: src/functions/fn-math.c:1235
+#, fuzzy
 msgid ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp returns a exponentially distributed random number. \n"
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandExp(0.5).\n"
+"RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
@@ -14361,12 +14362,13 @@ msgstr ""
 "@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1258
+#, fuzzy
 msgid ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson returns a poisson distributed random number. \n"
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
@@ -14379,24 +14381,26 @@ msgstr ""
 "@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1284
+#, fuzzy
 msgid ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p,trials)\n"
-"@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
-"If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 RandBinom "
+"@FUNCTION=RANDBINOM\n"
+"@SYNTAX=RANDBINOM(p,trials)\n"
+"@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM "
 "returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBinom(0.5,2).\n"
+"RANDBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@ΣΥΝΑΡΤΗΣΗ=RandBinom\n"
-"@ΣΥΝΤΑΞΗ=RandBinom(p,δοκιμές)\n"
-"@ΠΕΡΙΓΡΑΦΗ=Η RandBinom επιστρέφει τυχαίους αριθμούς με διωνυμική κατανομή. \n"
-"Εάν @p < 0 ή @p > 1 η RandBinom επιστρέφει σφάλμα #ΑΡΙΘ!. Εάν @δοκιμές < 0 η "
-"RandBinom επιστρέφει σφάλμα #ΑΡΙΘ!. \n"
+"@ΣΥΝΑΡΤΗΣΗ=RandNegBinom\n"
+"@ΣΥΝΤΑΞΗ=RandNegBinom(p,αποτυχίες)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η RandNegBinom επιστρέφει τυχαίους αριθμούς με αρνητική διωνυμική "
+"κατανομή. \n"
+"Εάν @p < 0 ή @p > 1 η RandNegBinom επιστρέφει σφάλμα #ΑΡΙΘ!. Εάν @επαναλ < 0 "
+"η RandNegBinom επιστρέφει σφάλμα #ΑΡΙΘ!. \n"
 "@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
-"RandBinom(0.5,2).\n"
+"RandNegBinom(0.5,2).\n"
 "\n"
 "@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
@@ -14405,7 +14409,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
-"@DESCRIPTION=RANDNEGBINOM returns a negitive binomialy distributed random "
+"@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random "
 "number. \n"
 "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures "
 "RANDNEGBINOM returns #NUM! error. \n"
@@ -14426,13 +14430,14 @@ msgstr ""
 "@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1345
+#, fuzzy
 msgid ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli returns a Bernoulli distributed random number. \n"
-"If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. \n"
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBernoulli(0.5).\n"
+"RANDBERNOULLI(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
@@ -18737,7 +18742,7 @@ msgstr ""
 msgid "Unable to mmap the file."
 msgstr "Απεικόνιση αρχείου στη μνήμη (mmap) αδύνατη"
 
-#: src/plugin-util.c:318 src/xml-io.c:3367
+#: src/plugin-util.c:318 src/xml-io.c:3368
 #, fuzzy
 msgid "Cannot get file size."
 msgstr "Δημιουργία αρχείου %s αδύνατη\n"
@@ -19367,19 +19372,19 @@ msgstr ""
 msgid "Error while trying to write csv file"
 msgstr ""
 
-#: src/stf.c:438
+#: src/stf.c:439
 #, fuzzy
-msgid "Text File import (customizable)"
+msgid "Text import (defaults to csv)"
 msgstr "Μορφή αρχείου LaTeX (*.tex)"
 
-#: src/stf.c:441
+#: src/stf.c:443
 #, fuzzy
-msgid "Text File import (default csv)"
+msgid "Text import (configurable)"
 msgstr "Μορφή αρχείου LaTeX (*.tex)"
 
-#: src/stf.c:446
+#: src/stf.c:447
 #, fuzzy
-msgid "Text File Export (*.csv)"
+msgid "Text export (configurable)"
 msgstr "Μορφή αρχείου LaTeX (*.tex)"
 
 #: src/style.c:265 src/style.c:267
@@ -19438,33 +19443,43 @@ msgstr ""
 msgid "Cell %s is not permitted to be blank"
 msgstr ""
 
-#: src/validation.c:158
-#, c-format
-msgid "'%f' is not an integer"
-msgstr ""
-
-#: src/validation.c:168
+#: src/validation.c:155
 #, fuzzy, c-format
-msgid "'%f' is not a number"
+msgid "'%s' is an error"
 msgstr "Αρ. π_ρώτης σελίδας:"
 
-#: src/validation.c:175
+#: src/validation.c:165
+#, fuzzy, c-format
+msgid "'%s' is not a valid date"
+msgstr "Αρ. π_ρώτης σελίδας:"
+
+#: src/validation.c:167
+#, fuzzy, c-format
+msgid "'%s' is not a valid time"
+msgstr "Αρ. π_ρώτης σελίδας:"
+
+#: src/validation.c:169
 #, fuzzy, c-format
 msgid "'%s' is not a number"
 msgstr "Αρ. π_ρώτης σελίδας:"
 
-#: src/validation.c:259
+#: src/validation.c:182
+#, fuzzy, c-format
+msgid "'%s' is not an integer"
+msgstr "Αρ. π_ρώτης σελίδας:"
+
+#: src/validation.c:275
 #, c-format
 msgid "%s is not true."
 msgstr ""
 
-#: src/validation.c:272
+#: src/validation.c:288
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
 msgstr ""
 
-#: src/validation.c:279
+#: src/validation.c:295
 #, fuzzy
 msgid "Gnumeric : Validation"
 msgstr "Αρθρώματα Gnumeric"
@@ -19817,7 +19832,7 @@ msgstr ""
 msgid "Define Name"
 msgstr "Ορισμός Ονόματος"
 
-#: src/workbook-control.c:240
+#: src/workbook-control.c:241
 #, fuzzy
 msgid "Address"
 msgstr "Πίνακας"
@@ -20102,35 +20117,65 @@ msgstr ""
 msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 
-#: src/xml-io.c:2799
+#: src/xml-io.c:2800
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "Επικόλληση τεμαχίου"
 
-#: src/xml-io.c:2806
+#: src/xml-io.c:2807
 msgid "Clipboard is in unknown format"
 msgstr ""
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3212
+#: src/xml-io.c:3213
 #, fuzzy
 msgid "Processing file..."
 msgstr "Απλή"
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3376
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 
-#: src/xml-io.c:3410
+#: src/xml-io.c:3411
 #, fuzzy
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Δεν είναι αρχείο βιβλίου"
 
-#: src/xml-io.c:3467
+#: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Μορφή αρχείου XML Gnumeric"
+
+#~ msgid ""
+#~ "@FUNCTION=RandBinom\n"
+#~ "@SYNTAX=RandBinom(p,trials)\n"
+#~ "@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
+#~ "If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 "
+#~ "RandBinom returns #NUM! error. \n"
+#~ "@EXAMPLES=\n"
+#~ "RandBinom(0.5,2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+#~ msgstr ""
+#~ "@ΣΥΝΑΡΤΗΣΗ=RandBinom\n"
+#~ "@ΣΥΝΤΑΞΗ=RandBinom(p,δοκιμές)\n"
+#~ "@ΠΕΡΙΓΡΑΦΗ=Η RandBinom επιστρέφει τυχαίους αριθμούς με διωνυμική "
+#~ "κατανομή. \n"
+#~ "Εάν @p < 0 ή @p > 1 η RandBinom επιστρέφει σφάλμα #ΑΡΙΘ!. Εάν @δοκιμές < "
+#~ "0 η RandBinom επιστρέφει σφάλμα #ΑΡΙΘ!. \n"
+#~ "@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+#~ "RandBinom(0.5,2).\n"
+#~ "\n"
+#~ "@ΔΕΙΤΕ=RAND,RANDBETWEEN"
+
+#, fuzzy
+#~ msgid "Text File Export (*.csv)"
+#~ msgstr "Μορφή αρχείου LaTeX (*.tex)"
+
+#, fuzzy
+#~ msgid "'%f' is not a number"
+#~ msgstr "Αρ. π_ρώτης σελίδας:"
 
 #, fuzzy
 #~ msgid "Statistical methods"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
-"POT-Creation-Date: 2002-02-28 01:14+0000\n"
+"POT-Creation-Date: 2002-03-09 16:44-0500\n"
 "PO-Revision-Date: 2002-02-28 01:35+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <none@none.org>\n"
@@ -558,12 +558,12 @@ msgstr "Livros de trabalho protegidos por senha ainda não são suportados."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Incapaz de localizar livro de trabalho MS Excel válido"
 
-#: plugins/excel/ms-excel-write.c:3503
+#: plugins/excel/ms-excel-write.c:3511
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Demasiadas linhas para este formato (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3731
+#: plugins/excel/ms-excel-write.c:3737
 msgid "Can't open stream for writing\n"
 msgstr "Incapaz de abrir fluxo para escrita\n"
 
@@ -672,7 +672,7 @@ msgstr "Formato de ficheiro Glossário Gnome PO"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Disponibiliza suporte para gravar o Glossário Gnome em ficheiros .po"
 
-#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -5431,7 +5431,7 @@ msgstr "%s não é uma área de origem válida"
 msgid "You cannot redefine a builtin name."
 msgstr "Não pode redefinir um nome interno."
 
-#: src/dialogs/dialog-define-names.c:591
+#: src/dialogs/dialog-define-names.c:592
 msgid "Could not create the Name Guru."
 msgstr "Incapaz de criar o Guro de Nomes."
 
@@ -7498,7 +7498,7 @@ msgstr "'%s' tem uma referência circular"
 msgid "Builtin"
 msgstr "Interno"
 
-#: src/expr-name.c:518 src/expr-name.c:530
+#: src/expr-name.c:516 src/expr-name.c:528
 msgid "Error: no sheet"
 msgstr "Erro: nenhuma folha"
 
@@ -8961,20 +8961,20 @@ msgstr "Dolar do Zimbabwe"
 msgid "[Red]"
 msgstr "[Vermelho]"
 
-#: src/func.c:127
+#: src/func.c:131
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Incapaz de criar ficheiro %s\n"
 
-#: src/func.c:284
+#: src/func.c:288
 msgid "Function implementation not available."
 msgstr "Implementação de função não disponível."
 
-#: src/func.c:500
+#: src/func.c:504
 msgid "Unknown Function"
 msgstr "Função Desconhecida"
 
-#: src/func.c:853
+#: src/func.c:857
 msgid "Function does not exist"
 msgstr "Função não existe"
 
@@ -9943,7 +9943,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1116
+#: src/functions/fn-date.c:1124
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9969,7 +9969,7 @@ msgstr ""
 "Se A1 contém 12/21/00 então ISOWEEKNUM(A1)=51\n"
 "@SEEALSO=WEEKNUM"
 
-#: src/functions/fn-date.c:1160
+#: src/functions/fn-date.c:1168
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -10009,7 +10009,7 @@ msgstr ""
 "Se A1 contém 12/21/00 então WEEKNUM(A1,2)=51\n"
 "@SEEALSO=ISOWEEKNUM"
 
-#: src/functions/fn-date.c:1219
+#: src/functions/fn-date.c:1227
 msgid "Date / Time"
 msgstr "Data / Hora"
 
@@ -15084,7 +15084,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDEXP\n"
 "@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP devolve um número aleatório distribuido exponencialmente. \n"
+"@DESCRIPTION=RANDEXP devolve um número aleatório distribuido "
+"exponencialmente. \n"
 "@EXAMPLES=\n"
 "RANDEXP(0.5).\n"
 "\n"
@@ -15123,7 +15124,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p,tentativas)\n"
-"@DESCRIPTION=RANDBINOM devolve um número aleatório distribuido binomialmente. \n"
+"@DESCRIPTION=RANDBINOM devolve um número aleatório distribuido "
+"binomialmente. \n"
 "Se @p < 0 ou @p > 1, RANDBINOM devolve o erro #NUM!. Se @tentativas < 0 "
 "RANDBINOM devolve o erro #NUM!. \n"
 "@EXAMPLES=\n"
@@ -20363,42 +20365,42 @@ msgstr "O seu ficheiro fontmap2 não tem uma entrada válida para Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "O seu ficheiro fontmap2 não foi encontrado na localização esperada."
 
-#: src/validation.c:137
+#: src/validation.c:138
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Não é permitido que a célula %s seja vazia"
 
-#: src/validation.c:151
-#, c-format
-msgid "'%f' is not an integer"
-msgstr "'%f' não é um inteiro"
-
-#: src/validation.c:161
+#: src/validation.c:155
 #, c-format
 msgid "'%s' is an error"
 msgstr "'%s' é um erro"
 
-#: src/validation.c:169
+#: src/validation.c:165
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "'%s' não é uma data válida"
 
-#: src/validation.c:171
+#: src/validation.c:167
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "'%s' não é uma hora válida"
 
-#: src/validation.c:173
+#: src/validation.c:169
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' não é um número"
 
-#: src/validation.c:265
+#: src/validation.c:182
+#, fuzzy, c-format
+msgid "'%s' is not an integer"
+msgstr "'%f' não é um inteiro"
+
+#: src/validation.c:275
 #, c-format
 msgid "%s is not true."
 msgstr "%s não é verdade."
 
-#: src/validation.c:278
+#: src/validation.c:288
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -20406,7 +20408,7 @@ msgstr ""
 "Esse valor é inválido.\n"
 "Foram colocadas restrições ao conteudo desta célula."
 
-#: src/validation.c:285
+#: src/validation.c:295
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric : Validação"
 

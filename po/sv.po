@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-02-21 02:44+0100\n"
+"POT-Creation-Date: 2002-03-09 16:44-0500\n"
 "PO-Revision-Date: 2002-02-21 02:46+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -582,12 +582,12 @@ msgstr "Lösenordsskyddade arbetsböcker stöds ännu inte."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
-#: plugins/excel/ms-excel-write.c:3503
+#: plugins/excel/ms-excel-write.c:3511
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "För många rader för detta format (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3731
+#: plugins/excel/ms-excel-write.c:3737
 msgid "Can't open stream for writing\n"
 msgstr "Kan inte öppna ström för skrivning\n"
 
@@ -693,7 +693,7 @@ msgstr "PO-filformat för Gnome-ordlistan"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Tillhandahåller stöd för att spara Gnome-ordlistan i .po-filer."
 
-#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -5448,7 +5448,7 @@ msgstr "%s är inget giltigt källområde"
 msgid "You cannot redefine a builtin name."
 msgstr "Du kan inte omdefiniera ett inbyggt namn."
 
-#: src/dialogs/dialog-define-names.c:591
+#: src/dialogs/dialog-define-names.c:592
 msgid "Could not create the Name Guru."
 msgstr "Kunde inte skapa namngurun."
 
@@ -7512,7 +7512,7 @@ msgstr "\"%s\" har en cirkelreferens"
 msgid "Builtin"
 msgstr "Inbyggd"
 
-#: src/expr-name.c:518 src/expr-name.c:530
+#: src/expr-name.c:516 src/expr-name.c:528
 msgid "Error: no sheet"
 msgstr "Fel: inget blad"
 
@@ -8970,20 +8970,20 @@ msgstr "Zimbabwiska dollar"
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:127
+#: src/func.c:131
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Kan inte skapa filen %s\n"
 
-#: src/func.c:284
+#: src/func.c:288
 msgid "Function implementation not available."
 msgstr "Funktionsimplementationen är inte tillgänglig."
 
-#: src/func.c:500
+#: src/func.c:504
 msgid "Unknown Function"
 msgstr "Okänd funktion"
 
-#: src/func.c:853
+#: src/func.c:857
 msgid "Function does not exist"
 msgstr "Funktionen finns inte"
 
@@ -9952,7 +9952,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1116
+#: src/functions/fn-date.c:1124
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9978,7 +9978,7 @@ msgstr ""
 "Om A1 innehåller 12/21/00 är ISOWEEKNUM(A1)=51\n"
 "@SEEALSO=WEEKNUM"
 
-#: src/functions/fn-date.c:1160
+#: src/functions/fn-date.c:1168
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -10018,7 +10018,7 @@ msgstr ""
 "Om A1 innehåller 12/21/00 är WEEKNUM(A1;2)=51\n"
 "@SEEALSO=ISOWEEKNUM"
 
-#: src/functions/fn-date.c:1219
+#: src/functions/fn-date.c:1227
 msgid "Date / Time"
 msgstr "Datum/Tid"
 
@@ -20337,42 +20337,42 @@ msgstr "Din \"fontmap2\"-fil har inte en giltig post för Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Din \"fontmap2\"-fil kunde inte hittas på den förväntade platsen."
 
-#: src/validation.c:137
+#: src/validation.c:138
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Cell %s får inte vara tom"
 
-#: src/validation.c:151
-#, c-format
-msgid "'%f' is not an integer"
-msgstr "\"%f\" är inte ett heltal"
-
-#: src/validation.c:161
+#: src/validation.c:155
 #, c-format
 msgid "'%s' is an error"
 msgstr "\"%s\" är ett fel"
 
-#: src/validation.c:169
+#: src/validation.c:165
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "\"%s\" är inte ett giltigt datum"
 
-#: src/validation.c:171
+#: src/validation.c:167
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "\"%s\" är inte en giltig tid"
 
-#: src/validation.c:173
+#: src/validation.c:169
 #, c-format
 msgid "'%s' is not a number"
 msgstr "\"%s\" är inte ett tal"
 
-#: src/validation.c:265
+#: src/validation.c:182
+#, fuzzy, c-format
+msgid "'%s' is not an integer"
+msgstr "\"%f\" är inte ett heltal"
+
+#: src/validation.c:275
 #, c-format
 msgid "%s is not true."
 msgstr "%s är inte sann."
 
-#: src/validation.c:278
+#: src/validation.c:288
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -20380,7 +20380,7 @@ msgstr ""
 "Det värdet är ogiltigt.\n"
 "Begränsningar har placerats på innehållet i denna cell."
 
-#: src/validation.c:285
+#: src/validation.c:295
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: validering"
 

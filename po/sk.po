@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
-"POT-Creation-Date: 2002-03-06 17:21+0100\n"
+"POT-Creation-Date: 2002-03-09 16:44-0500\n"
 "PO-Revision-Date: 06.03.2002 17:22\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -458,7 +458,8 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Modul pre Data Interchange Format (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid ""
+"Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Zapisuje a číta informácie uložené v Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:104
@@ -634,7 +635,7 @@ msgstr "Formát súborov Gnome Glossary PO"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Poskytuje podporu pre ukladanie Gnome Glossary do súborov .po."
 
-#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -1877,7 +1878,8 @@ msgstr "Opakovane prepočítava pre nájdenie cieľovej hodnoty"
 
 #: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3083
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr "Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
+msgstr ""
+"Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
 
 #: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2779
 msgid "Jump to a specified cell"
@@ -4397,7 +4399,8 @@ msgid "_Wrap text"
 msgstr "_Zalamovať text"
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "min &lt;= val &lt;= max         (between)"
+#, fuzzy
+msgid "min <= val <= max         (between)"
 msgstr "min &lt;= hodnota &lt;= max       (medzi)"
 
 #: src/dialogs/cell-format.glade.h:132
@@ -4405,28 +4408,33 @@ msgid "val != bound                  (not equal to)"
 msgstr "hod != limit                 (nerovná sa)"
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val &gt;  bound                  (greater than)"
-msgstr "hodnota &gt;  hranica                 (väčšia)"
-
-#: src/dialogs/cell-format.glade.h:134
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "hodnota &gt;= hranica                 (väčšia alebo rovná)"
-
-#: src/dialogs/cell-format.glade.h:135
-msgid "val &lt;  bound                  (less than)"
+#, fuzzy
+msgid "val <  bound                  (less than)"
 msgstr "hodnota &lt;  hranica                 (menšia)"
 
-#: src/dialogs/cell-format.glade.h:136
-msgid "val &lt;= min || max &lt;= val (not between)"
+#: src/dialogs/cell-format.glade.h:134
+#, fuzzy
+msgid "val <= min || max <= val (not between)"
 msgstr "hodnota &lt;= min || max &lt;= hodnota (nie medzi)"
 
-#: src/dialogs/cell-format.glade.h:137
-msgid "val &lt;=bound                  (less than or equal to)"
+#: src/dialogs/cell-format.glade.h:135
+#, fuzzy
+msgid "val <=bound                  (less than or equal to)"
 msgstr "hodnota &lt;= hranica                 (menšia alebo rovná)"
 
-#: src/dialogs/cell-format.glade.h:138
+#: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
 msgstr "hod == limit                (je rovná)"
+
+#: src/dialogs/cell-format.glade.h:137
+#, fuzzy
+msgid "val >  bound                  (greater than)"
+msgstr "hodnota &gt;  hranica                 (väčšia)"
+
+#: src/dialogs/cell-format.glade.h:138
+#, fuzzy
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "hodnota &gt;= hranica                 (väčšia alebo rovná)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5052,7 +5060,8 @@ msgstr ""
 "premenných a skúste to znovu."
 
 #: src/dialogs/dialog-analysis-tools.c:3085
-msgid "There must be an equal number of entries for each variable in the regression."
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
 msgstr "Pre každú premennú regresie musí byť rovnaký počet položiek."
 
 #: src/dialogs/dialog-analysis-tools.c:3185 src/dialogs/regression.glade.h:16
@@ -5097,7 +5106,8 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre histogram."
 
 #: src/dialogs/dialog-analysis-tools.c:4252
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
+msgstr ""
+"Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
 
 #: src/dialogs/dialog-analysis-tools.c:4315
 msgid "Each sample must contain the same number of rows."
@@ -5661,15 +5671,15 @@ msgstr "Komentár"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Ste si istý, že chcete odstrániť list nazvaný `%s'?"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5716,24 +5726,28 @@ msgstr "Naozaj chcete zrušiť?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "&lt;- Remove"
-msgstr "&lt;- Odstrániť"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "&lt;- Remove all"
-msgstr "&lt;- Odstrániť všetky"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "<- Remove"
+msgstr "Odstrániť"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+#, fuzzy
+msgid "<- Remove all"
+msgstr "&lt;- Odstrániť všetky"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add -&gt;"
-msgstr "Pridať -&gt;"
+#, fuzzy
+msgid "Add ->"
+msgstr "Pridať"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all -&gt;"
+#, fuzzy
+msgid "Add all ->"
 msgstr "Pridať všetky -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -5892,7 +5906,8 @@ msgstr "Stĺpec %d"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr "Spracovanie začne na tomto riadku, všetky predchádzajúce budú ignorované."
+msgstr ""
+"Spracovanie začne na tomto riadku, všetky predchádzajúce budú ignorované."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -5978,7 +5993,8 @@ msgstr "Definovať šírku každého stĺpca ručne."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr "Každý stĺpec v texte je oddelený oddeľovacím znakom, napr. bodkočiarkou."
+msgstr ""
+"Každý stĺpec v texte je oddelený oddeľovacím znakom, napr. bodkočiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -6083,8 +6099,10 @@ msgid "See two successive separators as one."
 msgstr "Dva za sebou idúce oddeľovače chápať ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid "See two successive text indicators as one that does not terminate the cell."
-msgstr "Dva za sebou idúce označovače textu chápať ako jeden, ktorý nekončí bunku."
+msgid ""
+"See two successive text indicators as one that does not terminate the cell."
+msgstr ""
+"Dva za sebou idúce označovače textu chápať ako jeden, ktorý nekončí bunku."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -7219,14 +7237,6 @@ msgstr "Zadajte nové meno _listu:"
 msgid "Rename sheet"
 msgstr "Premenovať list"
 
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr "&gt;="
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr "&lt;="
-
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
 msgstr "Predpokladať _lineárny model"
@@ -7372,8 +7382,10 @@ msgid "Tabulate Dependency"
 msgstr "Tabulovať závistlosti"
 
 #: src/dialogs/tabulate.glade.h:10
-msgid "Use down for first source, right for second, and multiple sheets for third"
-msgstr "Smerom dolu prvý zdroj, smerom vpravo druhý, viacnásobné listy pre tretí"
+msgid ""
+"Use down for first source, right for second, and multiple sheets for third"
+msgstr ""
+"Smerom dolu prvý zdroj, smerom vpravo druhý, viacnásobné listy pre tretí"
 
 #: src/dialogs/tabulate.glade.h:11
 msgid "_Coordinate"
@@ -7486,15 +7498,18 @@ msgid "Saving over old files of this type is disabled for safety."
 msgstr "Uloženie do starých súborov tohto typu je kvôli bezpečenosti vypnuté."
 
 #: src/file.c:497
-msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid ""
+"You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Túto funkciu môžete bezpečne vypnúť úpravou zodpovedajúceho súboru plugin."
 "xml."
 
 #: src/format-template.c:874
 #, c-format
-msgid "The target region is too small.  It should be at least %d rows by %d columns"
-msgstr "Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
+msgid ""
+"The target region is too small.  It should be at least %d rows by %d columns"
+msgstr ""
+"Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
 
 #: src/format-template.c:877
 #, c-format
@@ -8891,20 +8906,20 @@ msgstr "Zimbabwský dolár"
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:127
+#: src/func.c:131
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Nemôžem vytvoriť súbor %s\n"
 
-#: src/func.c:284
+#: src/func.c:288
 msgid "Function implementation not available."
 msgstr "Implementácia funkcie nie je k dispozícii."
 
-#: src/func.c:500
+#: src/func.c:504
 msgid "Unknown Function"
 msgstr "Neznáma funkcia"
 
-#: src/func.c:853
+#: src/func.c:857
 msgid "Function does not exist"
 msgstr "Funkcia neexistuje"
 
@@ -20118,42 +20133,42 @@ msgstr "Vaša mapa písiem fontmap2 neobsahuje platné informácie o Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Vaša mapa písiem fontmap2 nebola nájdená na očakávanom mieste."
 
-#: src/validation.c:137
+#: src/validation.c:138
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Bunka %s nesmie byť prázdna"
 
-#: src/validation.c:151
-#, c-format
-msgid "'%f' is not an integer"
-msgstr "'%f' nie je celé číslo"
-
-#: src/validation.c:161
+#: src/validation.c:155
 #, c-format
 msgid "'%s' is an error"
 msgstr "'%s' je chyba"
 
-#: src/validation.c:169
+#: src/validation.c:165
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "%s nie je platný dátum"
 
-#: src/validation.c:171
+#: src/validation.c:167
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "'%s' nie je paltný čas"
 
-#: src/validation.c:173
+#: src/validation.c:169
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' nie je číslo"
 
-#: src/validation.c:265
+#: src/validation.c:182
+#, fuzzy, c-format
+msgid "'%s' is not an integer"
+msgstr "'%f' nie je celé číslo"
+
+#: src/validation.c:275
 #, c-format
 msgid "%s is not true."
 msgstr "%s neplatí."
 
-#: src/validation.c:278
+#: src/validation.c:288
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -20161,7 +20176,7 @@ msgstr ""
 "Hodnota nie je platná.\n"
 "Na obsah tejto bunky sú kladené obmedzenia."
 
-#: src/validation.c:285
+#: src/validation.c:295
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: Overenie"
 
@@ -20771,3 +20786,14 @@ msgstr "Nie je súbor so zošitom Gnumeric"
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
 
+#~ msgid "&lt;- Remove"
+#~ msgstr "&lt;- Odstrániť"
+
+#~ msgid "Add -&gt;"
+#~ msgstr "Pridať -&gt;"
+
+#~ msgid "&gt;="
+#~ msgstr "&gt;="
+
+#~ msgid "&lt;="
+#~ msgstr "&lt;="

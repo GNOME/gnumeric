@@ -3,3 +3,6 @@ Makefile
 gnumeric
 index.html
 omf_timestamp
+functions.sgml
+func.defs
+func-list.sgml

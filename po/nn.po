@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.99.0\n"
-"POT-Creation-Date: 2002-01-30 22:58-0500\n"
+"POT-Creation-Date: 2002-03-09 16:44-0500\n"
 "PO-Revision-Date: 2002-01-15 03:14+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: Norwegian/Nynorsk <no@li.org>\n"
@@ -259,7 +259,7 @@ msgid ""
 msgstr ""
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3378
+#: plugins/mps/mps.c:579 src/xml-io.c:3379
 msgid "Reading file..."
 msgstr "Les fil ..."
 
@@ -314,7 +314,7 @@ msgstr "Feil ved lesing av DIF-fil."
 msgid "Cannot get default sheet."
 msgstr "Finn ikkje standardark."
 
-#: plugins/dif/dif.c:398
+#: plugins/dif/dif.c:399
 msgid "Error while saving DIF file."
 msgstr "Feil ved lagring av DIF-fil."
 
@@ -393,12 +393,12 @@ msgstr "Passordsikra arbeidsbøker er ikkje implentert enno."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Finn ikkje gyldig MS Excel arbeidsbok"
 
-#: plugins/excel/ms-excel-write.c:3503
+#: plugins/excel/ms-excel-write.c:3511
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "For mange rader for dette formatet (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3731
+#: plugins/excel/ms-excel-write.c:3737
 msgid "Can't open stream for writing\n"
 msgstr "Kan ikkje opne strøm for skriving\n"
 
@@ -504,7 +504,7 @@ msgstr "Gnome ordliste PO filformat"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Den tilbyr støtte for lagring av Gnome ordlister i .po filer"
 
-#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -627,7 +627,7 @@ msgstr "Avgrensingar:"
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
-#: src/workbook-control.c:233
+#: src/workbook-control.c:234
 msgid "Name"
 msgstr "Namn"
 
@@ -1527,7 +1527,7 @@ msgstr "Framgrunn"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formaterar ein celleregion basert på ein pre-definert mal"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4078
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4094
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
 msgid "Fourier Analysis"
 msgstr "Fourier analyse"
@@ -2514,12 +2514,12 @@ msgstr "_Arbeidsbok ..."
 msgid "_Zoom..."
 msgstr "F_orstørr ..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3218
+#: src/analysis-tools.c:195 src/analysis-tools.c:3234
 #, c-format
 msgid "Row %i"
 msgstr "Rad %i"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3210
+#: src/analysis-tools.c:198 src/analysis-tools.c:3226
 #, c-format
 msgid "Column %i"
 msgstr "Kolonne %i"
@@ -2714,111 +2714,111 @@ msgid "Rank"
 msgstr "Rang"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2828 src/analysis-tools.c:3008
-#: src/analysis-tools.c:3270
+#: src/analysis-tools.c:2829 src/analysis-tools.c:3024
+#: src/analysis-tools.c:3286
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2830
+#: src/analysis-tools.c:2831
 msgid "Anova: Single Factor"
 msgstr "Anova: Enkel faktor"
 
-#: src/analysis-tools.c:2831 src/analysis-tools.c:3273
+#: src/analysis-tools.c:2832 src/analysis-tools.c:3289
 msgid "SUMMARY"
 msgstr "SAMANDRAG"
 
-#: src/analysis-tools.c:2832
+#: src/analysis-tools.c:2833
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupper/Tell/Summer/Snitt/Varians"
 
-#: src/analysis-tools.c:2895
+#: src/analysis-tools.c:2889
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Kjelde til variasjon/Mellom grupper/Innan grupper/Total"
 
-#: src/analysis-tools.c:2900 src/analysis-tools.c:3090
-#: src/analysis-tools.c:3297
+#: src/analysis-tools.c:2894 src/analysis-tools.c:3106
+#: src/analysis-tools.c:3313
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-verdi/F kritisk"
 
-#: src/analysis-tools.c:3014
+#: src/analysis-tools.c:3030
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: To-faktor utan replikering"
 
-#: src/analysis-tools.c:3015
+#: src/analysis-tools.c:3031
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SUMMARY/Tal/Sum/Snitt/Varians"
 
-#: src/analysis-tools.c:3084
+#: src/analysis-tools.c:3100
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Kjelde til variasjon/Rader/Kolonner/Feil/Total"
 
-#: src/analysis-tools.c:3272
+#: src/analysis-tools.c:3288
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: To-faktor med replikering"
 
-#: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3293 src/analysis-tools.c:3303
+#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "Totalt"
 
-#: src/analysis-tools.c:3279
+#: src/analysis-tools.c:3295
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Tell/Summer/Snitt/Varians"
 
-#: src/analysis-tools.c:3289
+#: src/analysis-tools.c:3305
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Kjelde til variasjon/Rader/Kolonner/Interaksjon/Innan"
 
-#: src/analysis-tools.c:3757
+#: src/analysis-tools.c:3773
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/analysis-tools.c:3761
+#: src/analysis-tools.c:3777
 msgid "Too Small"
 msgstr "For liten"
 
-#: src/analysis-tools.c:3778
+#: src/analysis-tools.c:3794
 msgid "More"
 msgstr "Meir"
 
-#: src/analysis-tools.c:3786
+#: src/analysis-tools.c:3802
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/analysis-tools.c:3790
+#: src/analysis-tools.c:3806
 msgid "Too Large"
 msgstr "For stor"
 
-#: src/analysis-tools.c:3831 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3847 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/analysis-tools.c:3836
+#: src/analysis-tools.c:3852
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:3861
+#: src/analysis-tools.c:3877
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/analysis-tools.c:3863 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3879 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3866
+#: src/analysis-tools.c:3882
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Kumulativ %"
 
-#: src/analysis-tools.c:4098
+#: src/analysis-tools.c:4114
 msgid "Real"
 msgstr "Reell"
 
-#: src/analysis-tools.c:4099
+#: src/analysis-tools.c:4115
 msgid "Imaginary"
 msgstr "Imaginær"
 
@@ -2827,7 +2827,7 @@ msgstr "Imaginær"
 msgid "Error '%s' opening workbook stream"
 msgstr "Feil «%s» ved opning av arbeidsbok-straum"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3401
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml-fil.Treet er tomt?"
 
@@ -5158,7 +5158,7 @@ msgstr "%s er ikkje noko gyldig kjeldeområde"
 msgid "You cannot redefine a builtin name."
 msgstr "Du kan ikkje redefinere eit innebygd namn"
 
-#: src/dialogs/dialog-define-names.c:591
+#: src/dialogs/dialog-define-names.c:592
 msgid "Could not create the Name Guru."
 msgstr "Kunne ikkje opprette Namneveivisaren"
 
@@ -6502,7 +6502,7 @@ msgid "Scale"
 msgstr "Skalert"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3086
+#: src/workbook.c:1065 src/xml-io.c:3087
 msgid "Sheet"
 msgstr "Ark"
 
@@ -7228,23 +7228,23 @@ msgstr "allereide globalt definert"
 msgid "'%s' has a circular reference"
 msgstr "«%s» har ei sirkuler referanse"
 
-#: src/expr-name.c:415
+#: src/expr-name.c:418
 msgid "Builtin"
 msgstr "Innebygd"
 
-#: src/expr-name.c:515 src/expr-name.c:527
+#: src/expr-name.c:516 src/expr-name.c:528
 msgid "Error: no sheet"
 msgstr "Feil: ikkje noko ark"
 
-#: src/expr.c:551
+#: src/expr.c:557
 msgid "Internal type error"
 msgstr "Intern typefeil"
 
-#: src/expr.c:730
+#: src/expr.c:736
 msgid "Unknown operator"
 msgstr "Ukjent opertør"
 
-#: src/expr.c:959
+#: src/expr.c:965
 msgid "Unknown evaluation error"
 msgstr "Ukjent evalueringsfeil"
 
@@ -8689,20 +8689,20 @@ msgstr "Zimbabwe dollar"
 msgid "[Red]"
 msgstr "[Raud]"
 
-#: src/func.c:127
+#: src/func.c:131
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Kan ikkje opprette fila %s\n"
 
-#: src/func.c:284
+#: src/func.c:288
 msgid "Function implementation not available."
 msgstr "Funksjonsimplementering er ikkje tilgjengeleg."
 
-#: src/func.c:500
+#: src/func.c:504
 msgid "Unknown Function"
 msgstr "Ukjend funksjon"
 
-#: src/func.c:853
+#: src/func.c:857
 msgid "Function does not exist"
 msgstr "Funksjon eksisterar ikkje"
 
@@ -9318,7 +9318,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/functions/fn-date.c:1116
+#: src/functions/fn-date.c:1124
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9333,7 +9333,7 @@ msgid ""
 "@SEEALSO=WEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1160
+#: src/functions/fn-date.c:1168
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -9355,7 +9355,7 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1219
+#: src/functions/fn-date.c:1227
 msgid "Date / Time"
 msgstr "Dato / tid"
 
@@ -12989,45 +12989,69 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1235
+#, fuzzy
 msgid ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp returns a exponentially distributed random number. \n"
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandExp(0.5).\n"
+"RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(a)\n"
+"@DESCRIPTION=INT returnerar det største heiltalet som ikkje er høgare talet "
+"gitt som argument. Denne funksjonen er Excel kompatibel. \n"
+"@EXAMPLES=\n"
+"\n"
+"INT(7,2) er lik 7.\n"
+"\n"
+"INT(-5,5) er lik -6.\n"
+"\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1258
 msgid ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson returns a poisson distributed random number. \n"
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
 #: src/functions/fn-math.c:1284
+#, fuzzy
 msgid ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p,trials)\n"
-"@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
-"If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 RandBinom "
+"@FUNCTION=RANDBINOM\n"
+"@SYNTAX=RANDBINOM(p,trials)\n"
+"@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM "
 "returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBinom(0.5,2).\n"
+"RANDBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(a)\n"
+"@DESCRIPTION=INT returnerar det største heiltalet som ikkje er høgare talet "
+"gitt som argument. Denne funksjonen er Excel kompatibel. \n"
+"@EXAMPLES=\n"
+"\n"
+"INT(7,2) er lik 7.\n"
+"\n"
+"INT(-5,5) er lik -6.\n"
+"\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1314
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
-"@DESCRIPTION=RANDNEGBINOM returns a negitive binomialy distributed random "
+"@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random "
 "number. \n"
 "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures "
 "RANDNEGBINOM returns #NUM! error. \n"
@@ -13039,12 +13063,12 @@ msgstr ""
 
 #: src/functions/fn-math.c:1345
 msgid ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli returns a Bernoulli distributed random number. \n"
-"If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. \n"
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBernoulli(0.5).\n"
+"RANDBERNOULLI(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
@@ -16375,7 +16399,7 @@ msgstr "Feil ved opning av fil «%s» for lesing."
 msgid "Unable to mmap the file."
 msgstr "Ikkje i stand til å mmappe fila."
 
-#: src/plugin-util.c:318 src/xml-io.c:3367
+#: src/plugin-util.c:318 src/xml-io.c:3368
 msgid "Cannot get file size."
 msgstr "Klarar ikkje å få tak i filstorleik."
 
@@ -16968,17 +16992,20 @@ msgstr "Tolkningsfeil ved innlesing av data inn i ark"
 msgid "Error while trying to write csv file"
 msgstr "Feil ved skriving av cvs-fil"
 
-#: src/stf.c:438
-msgid "Text File import (customizable)"
-msgstr "Tekstfil import (eigendefinert)"
-
-#: src/stf.c:441
-msgid "Text File import (default csv)"
+#: src/stf.c:439
+#, fuzzy
+msgid "Text import (defaults to csv)"
 msgstr "Tekstfil import (standard csv)"
 
-#: src/stf.c:446
-msgid "Text File Export (*.csv)"
-msgstr "Tekstfil eksport (*.csv)"
+#: src/stf.c:443
+#, fuzzy
+msgid "Text import (configurable)"
+msgstr "Tekstfil import (eigendefinert)"
+
+#: src/stf.c:447
+#, fuzzy
+msgid "Text export (configurable)"
+msgstr "Tekstfil import (eigendefinert)"
 
 #: src/style.c:265 src/style.c:267
 msgid "<Has not been set>"
@@ -17046,27 +17073,37 @@ msgstr "fontmap2-fila di vart ikkje funne på den venta plassen i filsystemet."
 msgid "Cell %s is not permitted to be blank"
 msgstr "Celle %s har ikkje lov til å vere tom"
 
-#: src/validation.c:158
-#, c-format
-msgid "'%f' is not an integer"
-msgstr "«%d» er ikkje eit heiltal"
+#: src/validation.c:155
+#, fuzzy, c-format
+msgid "'%s' is an error"
+msgstr "«%s» er ikkje eit tal"
 
-#: src/validation.c:168
-#, c-format
-msgid "'%f' is not a number"
-msgstr "«%f» er ikkje eit tal"
+#: src/validation.c:165
+#, fuzzy, c-format
+msgid "'%s' is not a valid date"
+msgstr "%s er ikkje noko gyldig område"
 
-#: src/validation.c:175
+#: src/validation.c:167
+#, fuzzy, c-format
+msgid "'%s' is not a valid time"
+msgstr "«%s» er ikkje eit tal"
+
+#: src/validation.c:169
 #, c-format
 msgid "'%s' is not a number"
 msgstr "«%s» er ikkje eit tal"
 
-#: src/validation.c:259
+#: src/validation.c:182
+#, fuzzy, c-format
+msgid "'%s' is not an integer"
+msgstr "«%d» er ikkje eit heiltal"
+
+#: src/validation.c:275
 #, c-format
 msgid "%s is not true."
 msgstr "%s er ikkje sann."
 
-#: src/validation.c:272
+#: src/validation.c:288
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -17074,7 +17111,7 @@ msgstr ""
 "Den verdien er ugyldig.\n"
 "Begrensingar har vorte sett på innhaldet i denne cella."
 
-#: src/validation.c:279
+#: src/validation.c:295
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: validering"
 
@@ -17405,7 +17442,7 @@ msgstr "Ok"
 msgid "Define Name"
 msgstr "Definer namn"
 
-#: src/workbook-control.c:240
+#: src/workbook-control.c:241
 msgid "Address"
 msgstr "Adresse"
 
@@ -17664,32 +17701,38 @@ msgstr "Er ikkje ei autoformat malfil"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Feil ved forsøk på å bygge tre frå autoformat malfil"
 
-#: src/xml-io.c:2799
+#: src/xml-io.c:2800
 msgid "Unparsable xml in clipboard"
 msgstr "Utolkbar xml i utklippstavla"
 
-#: src/xml-io.c:2806
+#: src/xml-io.c:2807
 msgid "Clipboard is in unknown format"
 msgstr "Utklippstavla er i ukjent format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3212
+#: src/xml-io.c:3213
 msgid "Processing file..."
 msgstr "Prosesserar fil ..."
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3376
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Ikkje nok minne til å opprette zlib dekompresjon stadie."
 
-#: src/xml-io.c:3410
+#: src/xml-io.c:3411
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Er ikkje ei Gnumeric Arbeidsbok fil"
 
-#: src/xml-io.c:3467
+#: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
+
+#~ msgid "Text File Export (*.csv)"
+#~ msgstr "Tekstfil eksport (*.csv)"
+
+#~ msgid "'%f' is not a number"
+#~ msgstr "«%f» er ikkje eit tal"
 
 #~ msgid "TTitle :"
 #~ msgstr "TTittel : "

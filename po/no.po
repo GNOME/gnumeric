@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2002-03-02 12:02+0100\n"
+"POT-Creation-Date: 2002-03-09 16:44-0500\n"
 "PO-Revision-Date: 2002-03-02 11:58+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -504,7 +504,7 @@ msgstr "GNOME ordliste i PO-filformat"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Gir støtte for å lagre GNOME's ordbok som en PO-fil."
 
-#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -4257,7 +4257,8 @@ msgid "_Wrap text"
 msgstr "_Bryt tekst"
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "min &lt;= val &lt;= max         (between)"
+#, fuzzy
+msgid "min <= val <= max         (between)"
 msgstr "min &lt;= val &lt;= maks        (mellom)"
 
 #: src/dialogs/cell-format.glade.h:132
@@ -4265,28 +4266,33 @@ msgid "val != bound                  (not equal to)"
 msgstr "val != grense                 (ikke lik)"
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val &gt;  bound                  (greater than)"
-msgstr "verdi &gt; grense                (større enn)"
-
-#: src/dialogs/cell-format.glade.h:134
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "verdi &gt;= grense              (større enn eller lik)"
-
-#: src/dialogs/cell-format.glade.h:135
-msgid "val &lt;  bound                  (less than)"
+#, fuzzy
+msgid "val <  bound                  (less than)"
 msgstr "verdi &gt; grense                (mindre enn)"
 
-#: src/dialogs/cell-format.glade.h:136
-msgid "val &lt;= min || max &lt;= val (not between)"
+#: src/dialogs/cell-format.glade.h:134
+#, fuzzy
+msgid "val <= min || max <= val (not between)"
 msgstr "verdi &lt;= min || maks &lt;= verdi (ikke mellom)"
 
-#: src/dialogs/cell-format.glade.h:137
-msgid "val &lt;=bound                  (less than or equal to)"
+#: src/dialogs/cell-format.glade.h:135
+#, fuzzy
+msgid "val <=bound                  (less than or equal to)"
 msgstr "verdi &lt;= grense              (mindre enn eller lik)"
 
-#: src/dialogs/cell-format.glade.h:138
+#: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
 msgstr "verdi == grense              (lik)"
+
+#: src/dialogs/cell-format.glade.h:137
+#, fuzzy
+msgid "val >  bound                  (greater than)"
+msgstr "verdi &gt; grense                (større enn)"
+
+#: src/dialogs/cell-format.glade.h:138
+#, fuzzy
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "verdi &gt;= grense              (større enn eller lik)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5525,15 +5531,15 @@ msgstr "Kommentar"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Er du sikker på at du vil fjerne arket med navn «%s»?"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5580,24 +5586,28 @@ msgstr "Er du sikker på at du vil avbryte?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "&lt;- Remove"
-msgstr "&lt;-Fjern"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "&lt;- Remove all"
-msgstr "&lt;-Fjern alle"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "<- Remove"
+msgstr "Fjern"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+#, fuzzy
+msgid "<- Remove all"
+msgstr "&lt;-Fjern alle"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add -&gt;"
-msgstr "Legg til-&gt;"
+#, fuzzy
+msgid "Add ->"
+msgstr "Legg til"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all -&gt;"
+#, fuzzy
+msgid "Add all ->"
 msgstr "Legg til alle-&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
@@ -7087,14 +7097,6 @@ msgstr "Skriv inn nytt navn på _ark:"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Endre navn på arket"
-
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr "&gt;="
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr "&lt;="
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -8765,20 +8767,20 @@ msgstr "Zimbabwe dollar"
 msgid "[Red]"
 msgstr "[Rød]"
 
-#: src/func.c:127
+#: src/func.c:131
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Kan ikke opprette fil %s\n"
 
-#: src/func.c:284
+#: src/func.c:288
 msgid "Function implementation not available."
 msgstr "Funksjonsimplementasjon ikke tilgjengelig."
 
-#: src/func.c:500
+#: src/func.c:504
 msgid "Unknown Function"
 msgstr "Ukjent funksjon"
 
-#: src/func.c:853
+#: src/func.c:857
 msgid "Function does not exist"
 msgstr "Funksjonen eksisterer ikke"
 
@@ -9722,7 +9724,7 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1116
+#: src/functions/fn-date.c:1124
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9737,7 +9739,7 @@ msgid ""
 "@SEEALSO=WEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1160
+#: src/functions/fn-date.c:1168
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -9759,7 +9761,7 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1219
+#: src/functions/fn-date.c:1227
 msgid "Date / Time"
 msgstr "Dato / Klokkeslett"
 
@@ -18901,42 +18903,42 @@ msgstr "Din fontmap2-fil har ikke en gyldig oppføring for Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Din fontmap2-fil kunne ikke finnes på forventet lokasjon."
 
-#: src/validation.c:137
+#: src/validation.c:138
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Celle %s kan ikke være tom"
 
-#: src/validation.c:151
-#, c-format
-msgid "'%f' is not an integer"
-msgstr "«%f» er ikke et heltall"
-
-#: src/validation.c:161
+#: src/validation.c:155
 #, c-format
 msgid "'%s' is an error"
 msgstr "«%s» er en feil"
 
-#: src/validation.c:169
+#: src/validation.c:165
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "%s er ikke en gyldig dato"
 
-#: src/validation.c:171
+#: src/validation.c:167
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "«%s» er ikke et gyldig klokkeslett"
 
-#: src/validation.c:173
+#: src/validation.c:169
 #, c-format
 msgid "'%s' is not a number"
 msgstr "«%s» er ikke et tall"
 
-#: src/validation.c:265
+#: src/validation.c:182
+#, fuzzy, c-format
+msgid "'%s' is not an integer"
+msgstr "«%f» er ikke et heltall"
+
+#: src/validation.c:275
 #, c-format
 msgid "%s is not true."
 msgstr "%s er ikke sann"
 
-#: src/validation.c:278
+#: src/validation.c:288
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -18944,7 +18946,7 @@ msgstr ""
 "Denne verdien er ugyldig.\n"
 "Restriksjoner er satt for denne cellens innhold."
 
-#: src/validation.c:285
+#: src/validation.c:295
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: Validering"
 
@@ -19557,6 +19559,18 @@ msgstr "Er ikke en Gnumeric arbeidsbok"
 #: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
+
+#~ msgid "&lt;- Remove"
+#~ msgstr "&lt;-Fjern"
+
+#~ msgid "Add -&gt;"
+#~ msgstr "Legg til-&gt;"
+
+#~ msgid "&gt;="
+#~ msgstr "&gt;="
+
+#~ msgid "&lt;="
+#~ msgstr "&lt;="
 
 #~ msgid ""
 #~ "@FUNCTION=RandBinom\n"

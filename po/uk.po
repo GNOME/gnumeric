@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
-"POT-Creation-Date: 2002-01-30 22:58-0500\n"
+"POT-Creation-Date: 2002-03-09 16:44-0500\n"
 "PO-Revision-Date: 1999-12-08 14:44+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -258,7 +258,7 @@ msgid ""
 msgstr ""
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4524
-#: plugins/mps/mps.c:579 src/xml-io.c:3378
+#: plugins/mps/mps.c:579 src/xml-io.c:3379
 msgid "Reading file..."
 msgstr "Зчитування файлу..."
 
@@ -312,7 +312,7 @@ msgstr "Помилка п╕д час зчитування файлу DIF."
 msgid "Cannot get default sheet."
 msgstr "Неможливо отримати типову стор╕нку."
 
-#: plugins/dif/dif.c:398
+#: plugins/dif/dif.c:399
 msgid "Error while saving DIF file."
 msgstr "Помилка п╕д час збереження файлу DIF."
 
@@ -390,12 +390,12 @@ msgstr "Захищен╕ паролем книги ще не п╕дтримуються."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не вдалось знайти робочу книгу MS Excel"
 
-#: plugins/excel/ms-excel-write.c:3503
+#: plugins/excel/ms-excel-write.c:3511
 #, fuzzy, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Надто багато рядк╕в для цього формату"
 
-#: plugins/excel/ms-excel-write.c:3731
+#: plugins/excel/ms-excel-write.c:3737
 msgid "Can't open stream for writing\n"
 msgstr "Не вдалося в╕дкрити пот╕к для запису\n"
 
@@ -507,7 +507,7 @@ msgstr "Формат файлу Gnumeric"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr ""
 
-#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -636,7 +636,7 @@ msgstr "Обмеження"
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
-#: src/workbook-control.c:233
+#: src/workbook-control.c:234
 msgid "Name"
 msgstr "Назва"
 
@@ -1638,7 +1638,7 @@ msgstr "Передн╕й план"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Сформатувати д╕лянку ком╕рок в╕дпов╕дно до визначеного шаблону"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4078
+#: src/GNOME_Gnumeric.xml.h:94 src/analysis-tools.c:4094
 #: src/dialogs/fourier-analysis.glade.h:2 src/workbook-control-gui.c:3038
 msgid "Fourier Analysis"
 msgstr "Анал╕з Фур'╓"
@@ -2671,12 +2671,12 @@ msgstr "Книга..."
 msgid "_Zoom..."
 msgstr "Масштаб..."
 
-#: src/analysis-tools.c:195 src/analysis-tools.c:3218
+#: src/analysis-tools.c:195 src/analysis-tools.c:3234
 #, fuzzy, c-format
 msgid "Row %i"
 msgstr "Рядок %d"
 
-#: src/analysis-tools.c:198 src/analysis-tools.c:3210
+#: src/analysis-tools.c:198 src/analysis-tools.c:3226
 #, fuzzy, c-format
 msgid "Column %i"
 msgstr "Стовпчик %d"
@@ -2863,117 +2863,117 @@ msgid "Rank"
 msgstr "Ран╜"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2828 src/analysis-tools.c:3008
-#: src/analysis-tools.c:3270
+#: src/analysis-tools.c:2829 src/analysis-tools.c:3024
+#: src/analysis-tools.c:3286
 msgid "Anova"
 msgstr "Дисперс╕йний анал╕з"
 
-#: src/analysis-tools.c:2830
+#: src/analysis-tools.c:2831
 msgid "Anova: Single Factor"
 msgstr "Дисперсний анал╕з: однофакторний"
 
-#: src/analysis-tools.c:2831 src/analysis-tools.c:3273
+#: src/analysis-tools.c:2832 src/analysis-tools.c:3289
 msgid "SUMMARY"
 msgstr "ЗВЕДЕННЯ"
 
-#: src/analysis-tools.c:2832
+#: src/analysis-tools.c:2833
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Групи/К╕льк╕сть/Сума/Середн╓/Дисперс╕я"
 
-#: src/analysis-tools.c:2895
+#: src/analysis-tools.c:2889
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/Дисперсний анал╕з/Джерело дисперс╕╖/М╕ж групами/В групах/Всього"
 
-#: src/analysis-tools.c:2900 src/analysis-tools.c:3090
-#: src/analysis-tools.c:3297
+#: src/analysis-tools.c:2894 src/analysis-tools.c:3106
+#: src/analysis-tools.c:3313
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 "/Сума квадрат╕в/Степ╕нь свободи/Квадрат середнього/F/P-значення/F критичне"
 
-#: src/analysis-tools.c:3014
+#: src/analysis-tools.c:3030
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Дисперс╕йний анал╕з: двофакторний без в╕дтворення"
 
-#: src/analysis-tools.c:3015
+#: src/analysis-tools.c:3031
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/analysis-tools.c:3084
+#: src/analysis-tools.c:3100
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/analysis-tools.c:3272
+#: src/analysis-tools.c:3288
 msgid "Anova: Two-Factor With Replication"
 msgstr "Дисперс╕йний анал╕з: двофакторний з в╕дтворенням"
 
-#: src/analysis-tools.c:3277 src/analysis-tools.c:3287
-#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:74
+#: src/analysis-tools.c:3293 src/analysis-tools.c:3303
+#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:74
 #: src/dialogs/dialog-autoformat.c:78
 msgid "Total"
 msgstr "Загалом"
 
-#: src/analysis-tools.c:3279
+#: src/analysis-tools.c:3295
 #, fuzzy
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Групи/К╕льк╕сть/Сума/Середн╓/Дисперс╕я"
 
-#: src/analysis-tools.c:3289
+#: src/analysis-tools.c:3305
 #, fuzzy
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/Дисперсний анал╕з/Джерело дисперс╕╖/М╕ж групами/В групах/Всього"
 
-#: src/analysis-tools.c:3757
+#: src/analysis-tools.c:3773
 #, c-format
 msgid "<%s"
 msgstr ""
 
-#: src/analysis-tools.c:3761
+#: src/analysis-tools.c:3777
 msgid "Too Small"
 msgstr ""
 
-#: src/analysis-tools.c:3778
+#: src/analysis-tools.c:3794
 #, fuzzy
 msgid "More"
 msgstr "Перем╕стити"
 
-#: src/analysis-tools.c:3786
+#: src/analysis-tools.c:3802
 #, c-format
 msgid ">%s"
 msgstr ""
 
-#: src/analysis-tools.c:3790
+#: src/analysis-tools.c:3806
 #, fuzzy
 msgid "Too Large"
 msgstr "К-те найб╕льше"
 
-#: src/analysis-tools.c:3831 src/dialogs/histogram.glade.h:7
+#: src/analysis-tools.c:3847 src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr "Г╕стограма"
 
-#: src/analysis-tools.c:3836
+#: src/analysis-tools.c:3852
 msgid "Bin"
 msgstr "Дв╕йкове"
 
-#: src/analysis-tools.c:3861
+#: src/analysis-tools.c:3877
 msgid "Frequency"
 msgstr "Частота"
 
-#: src/analysis-tools.c:3863 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3879 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3866
+#: src/analysis-tools.c:3882
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Кумулятивний %"
 
-#: src/analysis-tools.c:4098
+#: src/analysis-tools.c:4114
 #, fuzzy
 msgid "Real"
 msgstr "Прямокутник"
 
-#: src/analysis-tools.c:4099
+#: src/analysis-tools.c:4115
 #, fuzzy
 msgid "Imaginary"
 msgstr "С╕чень"
@@ -2983,7 +2983,7 @@ msgstr "С╕чень"
 msgid "Error '%s' opening workbook stream"
 msgstr "Помилка \"%s\" в╕дкриття потоку книги"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3401
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3402
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Нев╕рний XML-файл. Дерево порожн╓?"
 
@@ -5355,7 +5355,7 @@ msgstr ""
 msgid "You cannot redefine a builtin name."
 msgstr ""
 
-#: src/dialogs/dialog-define-names.c:591
+#: src/dialogs/dialog-define-names.c:592
 msgid "Could not create the Name Guru."
 msgstr "Не вдалося створити ╫уру назв."
 
@@ -6722,7 +6722,7 @@ msgid "Scale"
 msgstr "Масштаб"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3086
+#: src/workbook.c:1065 src/xml-io.c:3087
 msgid "Sheet"
 msgstr "Аркуш"
 
@@ -7499,23 +7499,23 @@ msgstr "вже визначено глобально"
 msgid "'%s' has a circular reference"
 msgstr "\"%s\" м╕стить цикл╕чне посилання"
 
-#: src/expr-name.c:415
+#: src/expr-name.c:418
 msgid "Builtin"
 msgstr ""
 
-#: src/expr-name.c:515 src/expr-name.c:527
+#: src/expr-name.c:516 src/expr-name.c:528
 msgid "Error: no sheet"
 msgstr "Помилка: нема╓ аркуша"
 
-#: src/expr.c:551
+#: src/expr.c:557
 msgid "Internal type error"
 msgstr "Помилка внутр╕шнього типу"
 
-#: src/expr.c:730
+#: src/expr.c:736
 msgid "Unknown operator"
 msgstr "Нев╕домий оператор"
 
-#: src/expr.c:959
+#: src/expr.c:965
 msgid "Unknown evaluation error"
 msgstr "Нев╕дома помилка у вираз╕"
 
@@ -8962,20 +8962,20 @@ msgstr "Долар З╕мбабве"
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:127
+#: src/func.c:131
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Неможливо створити файл %s\n"
 
-#: src/func.c:284
+#: src/func.c:288
 msgid "Function implementation not available."
 msgstr ""
 
-#: src/func.c:500
+#: src/func.c:504
 msgid "Unknown Function"
 msgstr "Нев╕дома функц╕я"
 
-#: src/func.c:853
+#: src/func.c:857
 msgid "Function does not exist"
 msgstr "Функц╕╖ не ╕сну╓"
 
@@ -9665,7 +9665,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/functions/fn-date.c:1116
+#: src/functions/fn-date.c:1124
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9680,7 +9680,7 @@ msgid ""
 "@SEEALSO=WEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1160
+#: src/functions/fn-date.c:1168
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -9702,7 +9702,7 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1219
+#: src/functions/fn-date.c:1227
 msgid "Date / Time"
 msgstr "Дата / Час"
 
@@ -13234,45 +13234,63 @@ msgstr ""
 "@SEEALSO=COUNT"
 
 #: src/functions/fn-math.c:1235
+#, fuzzy
 msgid ""
-"@FUNCTION=RandExp\n"
-"@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp returns a exponentially distributed random number. \n"
+"@FUNCTION=RANDEXP\n"
+"@SYNTAX=RANDEXP(b)\n"
+"@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandExp(0.5).\n"
+"RANDEXP(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(рядок,к╕льк╕сть)\n"
+"@DESCRIPTION=REPT поверта╓ @к╕льк╕сть раз повторений @рядок.\n"
+"@EXAMPLES=\n"
+"REPT(\".\",3) equals \"...\".\n"
+"\n"
+"@SEEALSO=CONCATENATE"
 
 #: src/functions/fn-math.c:1258
 msgid ""
-"@FUNCTION=RandPoisson\n"
-"@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson returns a poisson distributed random number. \n"
+"@FUNCTION=RANDPOISSON\n"
+"@SYNTAX=RANDPOISSON(lambda)\n"
+"@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
 #: src/functions/fn-math.c:1284
+#, fuzzy
 msgid ""
-"@FUNCTION=RandBinom\n"
-"@SYNTAX=RandBinom(p,trials)\n"
-"@DESCRIPTION=RandBinom returns a binomialy distributed random number. \n"
-"If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 RandBinom "
+"@FUNCTION=RANDBINOM\n"
+"@SYNTAX=RANDBINOM(p,trials)\n"
+"@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM "
 "returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBinom(0.5,2).\n"
+"RANDBINOM(0.5,2).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(a)\n"
+"@DESCRIPTION=Функц╕я INT поверта╓ найб╕льше ц╕ле, яке не б╕льше ар╜ументу. "
+"Ця функц╕я сум╕сна з Excel. \n"
+"@EXAMPLES=\n"
+"INT(7.2) дор╕вню╓ 7.\n"
+"INT(-5.5) дор╕вню╓ -6.\n"
+"\n"
+"@SEEALSO=FLOOR, CEIL, ABS"
 
 #: src/functions/fn-math.c:1314
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
-"@DESCRIPTION=RANDNEGBINOM returns a negitive binomialy distributed random "
+"@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random "
 "number. \n"
 "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures "
 "RANDNEGBINOM returns #NUM! error. \n"
@@ -13284,12 +13302,12 @@ msgstr ""
 
 #: src/functions/fn-math.c:1345
 msgid ""
-"@FUNCTION=RandBernoulli\n"
-"@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli returns a Bernoulli distributed random number. \n"
-"If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. \n"
+"@FUNCTION=RANDBERNOULLI\n"
+"@SYNTAX=RANDBERNOULLI(p)\n"
+"@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. \n"
+"If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. \n"
 "@EXAMPLES=\n"
-"RandBernoulli(0.5).\n"
+"RANDBERNOULLI(0.5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
@@ -16667,7 +16685,7 @@ msgstr "Помилка п╕д час в╕дкривання файлу \"%s\" для зчитування."
 msgid "Unable to mmap the file."
 msgstr "Не вдалось в╕добразити файл в па'мят╕."
 
-#: src/plugin-util.c:318 src/xml-io.c:3367
+#: src/plugin-util.c:318 src/xml-io.c:3368
 msgid "Cannot get file size."
 msgstr "Неможливо отримати розм╕р файлу."
 
@@ -17274,18 +17292,19 @@ msgstr "Помилка анал╕зу даних в аркуш╕"
 msgid "Error while trying to write csv file"
 msgstr "Помилка при спроб╕ запису cvs-файлу"
 
-#: src/stf.c:438
+#: src/stf.c:439
 #, fuzzy
-msgid "Text File import (customizable)"
+msgid "Text import (defaults to csv)"
 msgstr "Експорт текстового файлу (*.cvs)"
 
-#: src/stf.c:441
+#: src/stf.c:443
 #, fuzzy
-msgid "Text File import (default csv)"
+msgid "Text import (configurable)"
 msgstr "Експорт текстового файлу (*.cvs)"
 
-#: src/stf.c:446
-msgid "Text File Export (*.csv)"
+#: src/stf.c:447
+#, fuzzy
+msgid "Text export (configurable)"
 msgstr "Експорт текстового файлу (*.cvs)"
 
 #: src/style.c:265 src/style.c:267
@@ -17331,33 +17350,43 @@ msgstr ""
 msgid "Cell %s is not permitted to be blank"
 msgstr ""
 
-#: src/validation.c:158
-#, c-format
-msgid "'%f' is not an integer"
-msgstr ""
-
-#: src/validation.c:168
+#: src/validation.c:155
 #, fuzzy, c-format
-msgid "'%f' is not a number"
+msgid "'%s' is an error"
 msgstr "Номер першо╖ стор╕нки:"
 
-#: src/validation.c:175
+#: src/validation.c:165
+#, fuzzy, c-format
+msgid "'%s' is not a valid date"
+msgstr "Номер першо╖ стор╕нки:"
+
+#: src/validation.c:167
+#, fuzzy, c-format
+msgid "'%s' is not a valid time"
+msgstr "Номер першо╖ стор╕нки:"
+
+#: src/validation.c:169
 #, fuzzy, c-format
 msgid "'%s' is not a number"
 msgstr "Номер першо╖ стор╕нки:"
 
-#: src/validation.c:259
+#: src/validation.c:182
+#, fuzzy, c-format
+msgid "'%s' is not an integer"
+msgstr "Номер першо╖ стор╕нки:"
+
+#: src/validation.c:275
 #, c-format
 msgid "%s is not true."
 msgstr ""
 
-#: src/validation.c:272
+#: src/validation.c:288
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
 msgstr ""
 
-#: src/validation.c:279
+#: src/validation.c:295
 #, fuzzy
 msgid "Gnumeric : Validation"
 msgstr "Джерело дисперс╕╖"
@@ -17692,7 +17721,7 @@ msgstr ""
 msgid "Define Name"
 msgstr "Визначити назви"
 
-#: src/workbook-control.c:240
+#: src/workbook-control.c:241
 msgid "Address"
 msgstr "Адреса"
 
@@ -17955,12 +17984,12 @@ msgstr "Не файлом шаблону автоформату"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Помилка п╕д час спроби побудувати дерево з файлу шаблону автоформату"
 
-#: src/xml-io.c:2799
+#: src/xml-io.c:2800
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "Вставити буфер обм╕ну"
 
-#: src/xml-io.c:2806
+#: src/xml-io.c:2807
 #, fuzzy
 msgid "Clipboard is in unknown format"
 msgstr "Python-файл \"%s\" ма╓ нев╕рний формат."
@@ -17968,21 +17997,28 @@ msgstr "Python-файл \"%s\" ма╓ нев╕рний формат."
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3212
+#: src/xml-io.c:3213
 msgid "Processing file..."
 msgstr "Обробка файла..."
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3376
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 
-#: src/xml-io.c:3410
+#: src/xml-io.c:3411
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Це не файл книги Gnumeric"
 
-#: src/xml-io.c:3467
+#: src/xml-io.c:3468
 msgid "Gnumeric XML file format"
 msgstr "Формат файлу Gnumeric"
+
+#~ msgid "Text File Export (*.csv)"
+#~ msgstr "Експорт текстового файлу (*.cvs)"
+
+#, fuzzy
+#~ msgid "'%f' is not a number"
+#~ msgstr "Номер першо╖ стор╕нки:"
 
 #~ msgid "_Data Analysis..."
 #~ msgstr "Анал╕з даних"

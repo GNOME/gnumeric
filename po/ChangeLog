@@ -1,3 +1,11 @@
+2002-03-09  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.5
+
+2002-03-09  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.40.
+
 2002-03-06  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.

@@ -64,7 +64,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.x\n"
-"POT-Creation-Date: 2002-02-26 17:50+0100\n"
+"POT-Creation-Date: 2002-03-09 16:44-0500\n"
 "PO-Revision-Date: 2002-02-28 15:03+0100\n"
 "Last-Translator: Karsten Weiss <knweiss@gmx.de>\n"
 "Language-Team: GNOME-DE <gnome-de@gnome.org>\n"
@@ -453,12 +453,12 @@ msgstr "Passwortgeschützte Arbeitsbücher werden noch nicht unterstützt."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es ist nicht möglich, ein gültiges MS-Excel-Arbeitsbuch aufzufinden."
 
-#: plugins/excel/ms-excel-write.c:3503
+#: plugins/excel/ms-excel-write.c:3511
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Zu viele Zeilen für dieses Format. (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3731
+#: plugins/excel/ms-excel-write.c:3737
 msgid "Can't open stream for writing\n"
 msgstr "Es ist nicht möglich, einen Stream zum Schreiben zu öffen.\n"
 
@@ -565,7 +565,7 @@ msgstr "GNOME Glossar-PO-Dateiformat"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Erlaubt GNOME Glossare im PO-Dateiformat zu speichern"
 
-#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -884,7 +884,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
-"@DESCRIPTION=Die BITOR Funktion gibt das Ergebnis der bitweisen ODER-Verknüpfung ihrer Argumente zurück.\n"
+"@DESCRIPTION=Die BITOR Funktion gibt das Ergebnis der bitweisen ODER-"
+"Verknüpfung ihrer Argumente zurück.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITXOR, BITAND"
@@ -5440,7 +5441,7 @@ msgstr "%s ist kein gültiger Quell-Bereich."
 msgid "You cannot redefine a builtin name."
 msgstr "Einen Builtin-Namen können Sie nicht umdefinieren."
 
-#: src/dialogs/dialog-define-names.c:591
+#: src/dialogs/dialog-define-names.c:592
 msgid "Could not create the Name Guru."
 msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
 
@@ -7592,7 +7593,7 @@ msgstr "'%s' hat zirkulärer Verweis"
 msgid "Builtin"
 msgstr "Eingebaut"
 
-#: src/expr-name.c:518 src/expr-name.c:530
+#: src/expr-name.c:516 src/expr-name.c:528
 msgid "Error: no sheet"
 msgstr "Fehler: kein Blatt"
 
@@ -9057,20 +9058,20 @@ msgstr "Simbabwe-Dollar"
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:127
+#: src/func.c:131
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Es ist nicht möglich, die Datei %s anzulegen\n"
 
-#: src/func.c:284
+#: src/func.c:288
 msgid "Function implementation not available."
 msgstr "Funktionen Implementierung nicht verfügbar."
 
-#: src/func.c:500
+#: src/func.c:504
 msgid "Unknown Function"
 msgstr "Unbekannte Funktion"
 
-#: src/func.c:853
+#: src/func.c:857
 msgid "Function does not exist"
 msgstr "Funktion existiert nicht"
 
@@ -9191,7 +9192,9 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr ""
 "\n"
-"Wenn keiner der Posten die Bedingungen erfüllt, gibt DGET einen #WERT!-Fehler zurück. Erfüllt mehr als ein Posten die Bedingungen, gibt DGET einen #ZAHL!-Fehler zurück\n"
+"Wenn keiner der Posten die Bedingungen erfüllt, gibt DGET einen #WERT!-"
+"Fehler zurück. Erfüllt mehr als ein Posten die Bedingungen, gibt DGET einen "
+"#ZAHL!-Fehler zurück\n"
 "@EXAMPLES=\n"
 "DGET(A1:C7, \"Gehalt\", A9:A10) ergibt 34323.\n"
 "DGET(A1:C7, \"Name\", A9:A10) ergibt \"Clark\".\n"
@@ -9458,13 +9461,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (Jahr;Monat;Tag)\n"
-"@DESCRIPTION=Berechnet die Anzahl Tage seit dem 1. Januar 1900 (die Datumsseriennummer) für die gegebenen Jahr, Monat und Tag.\n"
+"@DESCRIPTION=Berechnet die Anzahl Tage seit dem 1. Januar 1900 (die "
+"Datumsseriennummer) für die gegebenen Jahr, Monat und Tag.\n"
 "\n"
-"Wenn @Monat < 1 oder @Monat > 12, dann wird das Jahr korrigiert. Eine ähnliche Korrektur findet für Tage statt.\n"
+"Wenn @Monat < 1 oder @Monat > 12, dann wird das Jahr korrigiert. Eine "
+"ähnliche Korrektur findet für Tage statt.\n"
 "\n"
-"Das @Jahr sollte mindestens 1900 sein. Wenn @Jahr < 1900, dann wird 1900 + @Jahr angenommen.\n"
+"Das @Jahr sollte mindestens 1900 sein. Wenn @Jahr < 1900, dann wird 1900 + "
+"@Jahr angenommen.\n"
 "\n"
-"Wenn das übergebene Datum nicht gültig ist, dann gibt DATE den Fehler #ZAHL! zurürck.\n"
+"Wenn das übergebene Datum nicht gültig ist, dann gibt DATE den Fehler #ZAHL! "
+"zurürck.\n"
 "Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "DATE(2001; 3; 30) ergibt \"30/3/01\".\n"
@@ -9577,7 +9584,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(Datum,Monate)\n"
-"@DESCRIPTION=EDATE gibt die Seriennummer des Datums zurück, das die angegebene Anzahl von Monaten vor oder nach einem gegebenen Datum liegt.  @Datum ist das ist die Seriennummer des Anfangsdatums und @Monate ist die Anzahl von Monaten vor (negative Zahl) oder nach (positive Zahl) dem Anfangsdatum.\n"
+"@DESCRIPTION=EDATE gibt die Seriennummer des Datums zurück, das die "
+"angegebene Anzahl von Monaten vor oder nach einem gegebenen Datum liegt.  "
+"@Datum ist das ist die Seriennummer des Anfangsdatums und @Monate ist die "
+"Anzahl von Monaten vor (negative Zahl) oder nach (positive Zahl) dem "
+"Anfangsdatum.\n"
 "Diese Funktion ist Excel-kompatibel.\n"
 "Wenn @Monate keine Ganzzahl ist, werden Nachkommastellen abgeschnitten.\n"
 "@EXAMPLES=\n"
@@ -9674,7 +9685,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
-"@DESCRIPTION=Gibt eine Dezimalzahl zwischen 0 und 1 zurück, die die Tageszeit repräsentiert.\n"
+"@DESCRIPTION=Gibt eine Dezimalzahl zwischen 0 und 1 zurück, die die "
+"Tageszeit repräsentiert.\n"
 "Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "TIMEVALUE(\"3:05\") entspricht 0.128472.\n"
@@ -9975,7 +9987,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/functions/fn-date.c:1116
+#: src/functions/fn-date.c:1124
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -9990,7 +10002,7 @@ msgid ""
 "@SEEALSO=WEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1160
+#: src/functions/fn-date.c:1168
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -10012,7 +10024,7 @@ msgid ""
 "@SEEALSO=ISOWEEKNUM"
 msgstr ""
 
-#: src/functions/fn-date.c:1219
+#: src/functions/fn-date.c:1227
 msgid "Date / Time"
 msgstr "Datum / Zeit"
 
@@ -10329,7 +10341,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(izahl)\n"
-"@DESCRIPTION=IMAGINARY gibt den imaginären Koeffizienten einer komplexen Zahl zurück.\n"
+"@DESCRIPTION=IMAGINARY gibt den imaginären Koeffizienten einer komplexen "
+"Zahl zurück.\n"
 "Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMAGINARY(\"132-j\") ist gleich -1.\n"
@@ -10349,7 +10362,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(izahl)\n"
-"@DESCRIPTION=IMREAL gibt den reellen Koeffizienten einer komplexen Zahl zurück.\n"
+"@DESCRIPTION=IMREAL gibt den reellen Koeffizienten einer komplexen Zahl "
+"zurück.\n"
 "Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMREAL(\"132-j\") ist gleich 132.\n"
@@ -10389,7 +10403,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(izahl)\n"
-"@DESCRIPTION=IMCONJUGATE gibt das komplexe Konjugat einer komplexen Zahl zurück.\n"
+"@DESCRIPTION=IMCONJUGATE gibt das komplexe Konjugat einer komplexen Zahl "
+"zurück.\n"
 "Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMCONJUGATE(\"1-j\") ist gleich 1+j.\n"
@@ -10494,7 +10509,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(izahl)\n"
-"@DESCRIPTION=IMSUB gibt den Logarithmus einer komplexen Zahl zur Basis 2 zurück.\n"
+"@DESCRIPTION=IMSUB gibt den Logarithmus einer komplexen Zahl zur Basis 2 "
+"zurück.\n"
 "Diese Funktion ist Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "IMLOG2(\"3-j\") ist gleich 1,66096-0,46419j.\n"
@@ -16623,42 +16639,42 @@ msgid "Your fontmap2 file could not be found in the expected location."
 msgstr ""
 "Ihre fontmap2-Datei konnte nicht an der üblichen Stelle gefunden werden."
 
-#: src/validation.c:137
+#: src/validation.c:138
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Zelle %s darf nicht leer sein"
 
-#: src/validation.c:151
-#, c-format
-msgid "'%f' is not an integer"
-msgstr "'%f' ist keine Ganzzahl"
-
-#: src/validation.c:161
+#: src/validation.c:155
 #, c-format
 msgid "'%s' is an error"
 msgstr "'%s' ist ein Fehler"
 
-#: src/validation.c:169
+#: src/validation.c:165
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "%s ist kein gültiges Datum"
 
-#: src/validation.c:171
+#: src/validation.c:167
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "'%s' ist keine gültige Zeit"
 
-#: src/validation.c:173
+#: src/validation.c:169
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' ist keine Zahl"
 
-#: src/validation.c:265
+#: src/validation.c:182
+#, fuzzy, c-format
+msgid "'%s' is not an integer"
+msgstr "'%f' ist keine Ganzzahl"
+
+#: src/validation.c:275
 #, c-format
 msgid "%s is not true."
 msgstr "%s ist nicht wahr."
 
-#: src/validation.c:278
+#: src/validation.c:288
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -16666,7 +16682,7 @@ msgstr ""
 "Dieser Wert ist ungültig.\n"
 "Nur bestimmte Werte sind in dieser Zelle erlaubt."
 
-#: src/validation.c:285
+#: src/validation.c:295
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: Validierung"
 
