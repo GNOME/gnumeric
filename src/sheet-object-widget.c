@@ -79,8 +79,8 @@ sheet_widget_ ## n1 ## _new(Sheet *sheet) \
 \
 	sow = gtk_type_new (sheet_widget_ ## n1 ## _get_type ()); \
 \
-	sheet_object_widget_construct (sow, sheet); \
-	sheet_widget_ ##n1 ## _construct (sow, sheet); \
+	sheet_object_widget_construct (sow); \
+	sheet_widget_ ##n1 ## _construct (sow); \
 \
 	return SHEET_OBJECT (sow); \
 }
@@ -156,7 +156,7 @@ sheet_object_widget_class_init (GtkObjectClass *object_class)
 }
 
 static void
-sheet_object_widget_construct (SheetObjectWidget *sow, Sheet *sheet)
+sheet_object_widget_construct (SheetObjectWidget *sow)
 {
 	SheetObject *so = SHEET_OBJECT (sow);
 	so->type = SHEET_OBJECT_ACTION_CAN_PRESS;
@@ -179,7 +179,7 @@ sheet_object_widget_clone (SheetObject const *so, Sheet *sheet)
 	
 	new_sow = SHEET_OBJECT_WIDGET (gtk_type_new (GTK_OBJECT_TYPE (sow)));
 
-	sheet_object_widget_construct (new_sow, sheet);
+	sheet_object_widget_construct (new_sow);
 
 	return new_sow;
 }
@@ -209,7 +209,7 @@ sheet_widget_label_construct_with_label (SheetObjectWidget *sow, const char *tex
 }
 
 static void
-sheet_widget_label_construct (SheetObjectWidget *sow, Sheet *sheet)
+sheet_widget_label_construct (SheetObjectWidget *sow)
 {
 	sheet_widget_label_construct_with_label (sow, _("Label"));
 }
@@ -306,7 +306,7 @@ sheet_widget_frame_construct_with_label (SheetObjectWidget *sow, const char *tex
 }
 
 static void
-sheet_widget_frame_construct (SheetObjectWidget *sow, Sheet *sheet)
+sheet_widget_frame_construct (SheetObjectWidget *sow)
 {
 	sheet_widget_frame_construct_with_label (sow, _("Frame"));
 }
@@ -403,7 +403,7 @@ sheet_widget_button_construct_with_label (SheetObjectWidget *sow, const char *te
 }
 
 static void
-sheet_widget_button_construct (SheetObjectWidget *sow, Sheet *sheet)
+sheet_widget_button_construct (SheetObjectWidget *sow)
 {
 	sheet_widget_button_construct_with_label (sow, _("Button"));
 }
@@ -550,29 +550,34 @@ sheet_widget_checkbox_construct_with_range (SheetObjectWidget *sow,
 {
 	static int counter = 0;
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (sow);
-	CellRef ref;
+	ExprTree *expr = NULL;
 
 	g_return_if_fail (swc != NULL);
 
 	swc->label = label ? g_strdup (label) : g_strdup_printf ("CheckBox %d", ++counter);
 	swc->being_updated = FALSE;
 	swc->value = FALSE;
-	swc->dep.sheet = sheet;
+	swc->dep.sheet = NULL;
 	swc->dep.flags = checkbox_get_dep_type ();
 
-	ref.sheet = sheet;
-	ref.col = range->start.col;
-	ref.row = range->start.row;
-	ref.col_relative = ref.row_relative = FALSE;
-	swc->dep.expression = expr_tree_new_var (&ref);
+	if (range == NULL && sheet != NULL)
+		range = selection_first_range (sheet, NULL, NULL);
+
+	if (range != NULL && sheet != NULL) {
+		CellRef ref;
+		ref.sheet = sheet;
+		ref.col = range->start.col;
+		ref.row = range->start.row;
+		ref.col_relative = ref.row_relative = FALSE;
+		expr = expr_tree_new_var (&ref);
+	}
+	swc->dep.expression = expr;
 }
 
 static void
-sheet_widget_checkbox_construct (SheetObjectWidget *sow, Sheet *sheet)
+sheet_widget_checkbox_construct (SheetObjectWidget *sow)
 {
-	Range const * range = selection_first_range (sheet, NULL, NULL);
-
-	sheet_widget_checkbox_construct_with_range (sow, sheet, range, NULL);
+	sheet_widget_checkbox_construct_with_range (sow, NULL, NULL, NULL);
 }
 
 static void
@@ -603,11 +608,13 @@ sheet_widget_checkbox_toggled (GtkToggleButton *button,
 
 	if (swc->dep.expression && swc->dep.expression->any.oper == OPER_VAR) {
 		gboolean const new_val = gtk_toggle_button_get_active (button);
-		ExprVar	const *var = &swc->dep.expression->var;
-		Sheet *sheet = swc->sow.parent_object.sheet;
-		Cell *cell = sheet_cell_fetch (sheet, var->ref.col, var->ref.row);
+		CellRef	const *ref = &swc->dep.expression->var.ref;
+		Cell *cell = sheet_cell_fetch (ref->sheet, ref->col, ref->row);
 		sheet_cell_set_value (cell, value_new_bool (new_val), NULL);
-		workbook_recalc (sheet->workbook);
+
+		sheet_set_dirty (ref->sheet, TRUE);
+		workbook_recalc (ref->sheet->workbook);
+		sheet_update (ref->sheet);
 	}
 }
 
@@ -661,9 +668,7 @@ sheet_widget_checkbox_clone (SheetObject const *so, Sheet *new_sheet)
 		range.start.row = range.end.row = ref->row;
 
 		sheet_widget_checkbox_construct_with_range (new_sow,
-							    new_sheet,
-							    &range,
-							    swc->label);
+			new_sheet, &range, swc->label);
 	} else {
 		/* When the sheet of the object is different than the sheet of it's
 		 * input, we point the new object to the same input as the source
@@ -845,10 +850,7 @@ sheet_widget_checkbox_set_sheet (SheetObject *so, Sheet *sheet)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
 
-	g_return_val_if_fail (swc != NULL, TRUE);
-	g_return_val_if_fail (swc->dep.sheet == NULL, TRUE);
-
-	dependent_changed (&swc->dep, TRUE);
+	dependent_set_sheet (&swc->dep, sheet);
 	sheet_widget_checkbox_set_active (swc);
 
 	return FALSE;
@@ -858,8 +860,6 @@ static gboolean
 sheet_widget_checkbox_clear_sheet (SheetObject *so)
 {
 	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-
-	g_return_val_if_fail (swc != NULL, TRUE);
 
 	if (dependent_is_linked (&swc->dep))
 		dependent_unlink (&swc->dep, NULL);
@@ -979,13 +979,13 @@ radio_button_debug_name (Dependent const *dep, FILE *out)
 static DEPENDENT_MAKE_TYPE (radio_button, NULL)
 
 static void
-sheet_widget_radio_button_construct (SheetObjectWidget *sow, Sheet *sheet)
+sheet_widget_radio_button_construct (SheetObjectWidget *sow)
 {
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (sow);
 
 	swrb->being_updated = FALSE;
 
-	swrb->dep.sheet = sheet;
+	swrb->dep.sheet = NULL;
 	swrb->dep.flags = radio_button_get_dep_type ();
 	swrb->dep.expression = NULL;
 }
@@ -998,10 +998,40 @@ sheet_widget_radio_button_destroy (GtkObject *obj)
 	(*sheet_object_widget_class->destroy)(obj);
 }
 
+static void
+sheet_widget_radio_button_toggled (GtkToggleButton *button,
+				   SheetWidgetRadioButton *swrb)
+{
+	if (swrb->being_updated || !gtk_toggle_button_get_active (button))
+		return;
+#if 0
+	swrb->value = gtk_toggle_button_get_active (button);
+	sheet_widget_checkbox_set_active (swrb);
+#endif
+
+	if (swrb->dep.expression && swrb->dep.expression->any.oper == OPER_VAR) {
+		CellRef	const *ref = &swrb->dep.expression->var.ref;
+		Cell *cell = sheet_cell_fetch (ref->sheet, ref->col, ref->row);
+
+		int const new_val = 0;
+#if 0
+#endif
+
+		sheet_cell_set_value (cell, value_new_int (new_val), NULL);
+		sheet_set_dirty (ref->sheet, TRUE);
+		workbook_recalc (ref->sheet->workbook);
+		sheet_update (ref->sheet);
+	}
+}
+
 static GtkWidget *
 sheet_widget_radio_button_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
-	return gtk_radio_button_new_with_label (NULL, "RadioButton");
+	GtkWidget *w = gtk_radio_button_new_with_label (NULL, "RadioButton");
+	gtk_signal_connect (GTK_OBJECT (w),
+		"toggled",
+		GTK_SIGNAL_FUNC (sheet_widget_radio_button_toggled), sow);
+	return w;
 }
 
 static gboolean
@@ -1009,10 +1039,7 @@ sheet_widget_radio_button_set_sheet (SheetObject *so, Sheet *sheet)
 {
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (so);
 
-	g_return_val_if_fail (swrb != NULL, TRUE);
-	g_return_val_if_fail (swrb->dep.sheet == NULL, TRUE);
-
-	dependent_changed (&swrb->dep, TRUE);
+	dependent_set_sheet (&swrb->dep, sheet);
 
 	return FALSE;
 }
@@ -1077,13 +1104,13 @@ list_debug_name (Dependent const *dep, FILE *out)
 static DEPENDENT_MAKE_TYPE (list, NULL)
 
 static void
-sheet_widget_list_construct (SheetObjectWidget *sow, Sheet *sheet)
+sheet_widget_list_construct (SheetObjectWidget *sow)
 {
 	SheetWidgetList *swl = SHEET_WIDGET_LIST (sow);
 
 	swl->being_updated = FALSE;
 
-	swl->dep.sheet = sheet;
+	swl->dep.sheet = NULL;
 	swl->dep.flags = list_get_dep_type ();
 	swl->dep.expression = NULL;
 }
@@ -1107,10 +1134,7 @@ sheet_widget_list_set_sheet (SheetObject *so, Sheet *sheet)
 {
 	SheetWidgetList *swl = SHEET_WIDGET_LIST (so);
 
-	g_return_val_if_fail (swl != NULL, TRUE);
-	g_return_val_if_fail (swl->dep.sheet == NULL, TRUE);
-
-	dependent_changed (&swl->dep, TRUE);
+	dependent_set_sheet (&swl->dep, sheet);
 
 	return FALSE;
 }
@@ -1203,17 +1227,17 @@ static DEPENDENT_MAKE_TYPE (combo_output, NULL)
 /*-----------*/
 
 static void
-sheet_widget_combo_construct (SheetObjectWidget *sow, Sheet *sheet)
+sheet_widget_combo_construct (SheetObjectWidget *sow)
 {
 	SheetWidgetCombo *swc = SHEET_WIDGET_COMBO (sow);
 
 	swc->being_updated = FALSE;
 
-	swc->input_dep.sheet = sheet;
+	swc->input_dep.sheet = NULL;
 	swc->input_dep.flags = combo_input_get_dep_type ();
 	swc->input_dep.expression = NULL;
 
-	swc->output_dep.sheet = sheet;
+	swc->output_dep.sheet = NULL;
 	swc->output_dep.flags = combo_output_get_dep_type ();
 	swc->output_dep.expression = NULL;
 }
@@ -1243,8 +1267,8 @@ sheet_widget_combo_set_sheet (SheetObject *so, Sheet *sheet)
 	g_return_val_if_fail (swc->input_dep.sheet == NULL, TRUE);
 	g_return_val_if_fail (swc->output_dep.sheet == NULL, TRUE);
 
-	dependent_changed (&swc->input_dep, TRUE);
-	dependent_changed (&swc->output_dep, TRUE);
+	dependent_set_sheet (&swc->input_dep, sheet);
+	dependent_set_sheet (&swc->output_dep, sheet);
 
 	return FALSE;
 }

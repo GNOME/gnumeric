@@ -985,14 +985,20 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 			if (info) {
 				int i;
+				ColRowInfo *cri;
 
 				for (i = me->index; i < me->index + me->count; i++)
-					if (me->is_cols)
+					if (me->is_cols) {
 						sheet_col_set_size_pixels (me->sheet, i, info->size_pixels,
 									   info->hard_size);
-					else
+						cri = sheet_col_fetch (me->sheet, i);
+					} else {
 						sheet_row_set_size_pixels (me->sheet, i, info->size_pixels,
 									   info->hard_size);
+						cri = sheet_row_fetch (me->sheet, i);
+					}
+				if (cri != NULL)
+					cri->outline_level = info->outline_level;
 			}
 		}
 	} else {

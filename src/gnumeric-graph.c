@@ -49,10 +49,10 @@
 #define d(code)	
 #endif
 
-#define	MANAGER		  GNOME_Gnumeric_Graph_Manager_v3
-#define	MANAGER1(suffix)  GNOME_Gnumeric_Graph_Manager_v3_ ## suffix
-#define	CMANAGER1(suffix) CORBA_sequence_GNOME_Gnumeric_Graph_Manager_v3_ ## suffix
-#define	MANAGER_OAF	 "IDL:GNOME/Gnumeric/Graph/Manager_v3:1.0"
+#define	MANAGER		  GNOME_Gnumeric_Graph_Manager_v4
+#define	MANAGER1(suffix)  GNOME_Gnumeric_Graph_Manager_v4_ ## suffix
+#define	CMANAGER1(suffix) CORBA_sequence_GNOME_Gnumeric_Graph_Manager_v4_ ## suffix
+#define	MANAGER_OAF	 "IDL:GNOME/Gnumeric/Graph/Manager_v4:1.0"
 
 struct _GnmGraph {
 	SheetObjectContainer	parent;
