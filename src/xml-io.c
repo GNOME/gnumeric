@@ -635,7 +635,7 @@ xml_read_style_condition_chain (XmlParseContext *ctxt, xmlNodePtr tree)
 				if (s) {
 					pp = parse_pos_init (&pos, ctxt->wb,
 							     ctxt->sheet, 0, 0);
-					if ((expr = expr_parse_string (s, pp, NULL, NULL)) == NULL)
+					if ((expr = expr_parse_str_simple (s, pp)) == NULL)
 						fprintf (stderr, "xml_read_style_condition: empty/invalid expression. condition damaged!\n");
 					xmlFree (s);
 				} else
@@ -1845,9 +1845,7 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 	ParsePos pp;
 	ExprTree *expr;
 
-	expr = expr_parse_string (text,
-				  parse_pos_init_cell (&pp, cell),
-				  NULL, NULL);
+	expr = expr_parse_str_simple (text, parse_pos_init_cell (&pp, cell));
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,

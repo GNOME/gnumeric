@@ -177,18 +177,23 @@ name_refer_circular (char const *name, ExprTree *expr)
 		return name_refer_circular (name, nexpr->t.expr_tree);
 	}
 	case OPER_FUNCALL: {
-		GList *l = expr->func.arg_list;
-		while (l) {
+		ExprList *l = expr->func.arg_list;
+		for (; l ; l = l->next)
 			if (name_refer_circular (name, l->data))
 				return TRUE;
-			l = g_list_next (l);
-		}
 		break;
 	}
 	case OPER_CONSTANT:
 	case OPER_VAR:
 	case OPER_ARRAY:
 		break;
+	case OPER_SET: {
+		ExprList *l = expr->set.set;
+		for (; l ; l = l->next)
+			if (name_refer_circular (name, l->data))
+				return TRUE;
+		break;
+	}
 	}
 	return FALSE;
 }
@@ -203,7 +208,7 @@ name_refer_circular (char const *name, ExprTree *expr)
  * Absorbs the reference to @expr.
  **/
 NamedExpression *
-expr_name_add (ParsePos const *pp, const char *name,
+expr_name_add (ParsePos const *pp, char const *name,
 	       ExprTree *expr, char const **error_msg)
 {
 	NamedExpression *nexpr;
@@ -261,14 +266,14 @@ expr_name_add (ParsePos const *pp, const char *name,
  * Return value: The created NamedExpression.
  **/
 NamedExpression *
-expr_name_create (ParsePos const *pp, const char *name,
-		  const char *value, ParseError *error)
+expr_name_create (ParsePos const *pp, char const *name,
+		  char const *value, ParseError *error)
 {
 	NamedExpression *res;
 	char const *err = NULL;
 	ExprTree *tree;
 	
-	tree = expr_parse_string (value, pp, NULL, error);
+	tree = expr_parse_str (value, pp, GNM_PARSER_DEFAULT, NULL, error);
 	if (!tree)
 		return NULL;
 

@@ -974,7 +974,6 @@ applix_read_cells (ApplixReadState *state)
 
 			if (content_type == ';') {
 				gboolean	is_array = FALSE;
-				ParseError	perr;
 
 				if (*expr_string == '~') {
 					Sheet *start_sheet, *end_sheet;
@@ -1006,14 +1005,13 @@ applix_read_cells (ApplixReadState *state)
 					continue;
 				}
 
-				expr = gnumeric_expr_parser (expr_string+1,
+				expr = expr_parse_str (expr_string+1,
 					parse_pos_init_cell (&pos, cell),
 					GNM_PARSER_USE_APPLIX_REFERENCE_CONVENTIONS |
 					GNM_PARSER_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-					NULL, parse_error_init (&perr));
+					NULL, NULL);
 				if (expr == NULL) {
 					(void) applix_parse_error (state, "Invalid expression");
-					parse_error_free (&perr);
 					continue;
 				}
 

@@ -60,21 +60,12 @@
  */
 
 static void
-free_expr_list (GList *list)
+free_expr_list_list (GSList *list)
 {
-	GList *l;
+	GSList *l;
 	for (l = list; l; l = l->next)
-		expr_tree_unref (l->data);
-	g_list_free (list);
-}
-
-static void
-free_expr_list_list (GList *list)
-{
-	GList *l;
-	for (l = list; l; l = l->next)
-		free_expr_list (l->data);
-	g_list_free (list);
+		expr_list_unref (l->data);
+	g_slist_free (list);
 }
 
 typedef void (*ParseDeallocator) (void *);
@@ -144,7 +135,7 @@ register_allocation (void *data, ParseDeallocator freer)
   register_allocation ((expr), (ParseDeallocator)&expr_tree_unref)
 
 #define register_expr_list_allocation(list) \
-  register_allocation ((list), (ParseDeallocator)&free_expr_list)
+  register_allocation ((list), (ParseDeallocator)&expr_list_unref)
 
 #define register_expr_list_list_allocation(list) \
   register_allocation ((list), (ParseDeallocator)&free_expr_list_list)
@@ -214,15 +205,15 @@ typedef struct {
 	char array_col_separator;
 
 	/* flags */
-	gboolean use_excel_reference_conventions;
-	gboolean create_placeholder_for_unknown_func;
-	gboolean force_absolute_col_references;
-	gboolean force_absolute_row_references;
-	gboolean force_explicit_sheet_references;
+	gboolean use_excel_reference_conventions	: 1;
+	gboolean create_placeholder_for_unknown_func	: 1;
+	gboolean force_absolute_col_references		: 1;
+	gboolean force_absolute_row_references		: 1;
+	gboolean force_explicit_sheet_references	: 1;
 
 	/* The suggested format to use for this expression */
-	StyleFormat **desired_format;
-	ExprTree *result;
+	StyleFormat **desired_fmt;
+	ExprList *result;
 
 	ParseError *error;
 } ParserState;
@@ -246,10 +237,10 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
 }
 
 static ExprTree *
-build_array (GList *cols)
+build_array (GSList *cols)
 {
 	Value *array;
-	GList *row;
+	GSList *row;
 	int x, mx, y;
 
 	if (!cols) {
@@ -264,7 +255,7 @@ build_array (GList *cols)
 		row = row->next;
 	}
 
-	array = value_new_array_empty (mx, g_list_length (cols));
+	array = value_new_array_empty (mx, g_slist_length (cols));
 
 	y = 0;
 	while (cols) {
@@ -338,12 +329,12 @@ parse_string_as_value_or_name (ExprTree *str)
 static int
 gnumeric_parse_error (ParserState *state, ParseErrorID id, char *message, int end, int relative_begin)
 {
-	g_return_val_if_fail (state->error != NULL, ERROR);
-
-	state->error->id         = id;
-	state->error->message    = message;
-	state->error->begin_char = (end - relative_begin);
-	state->error->end_char   = end;
+	if (state->error != NULL) {
+		state->error->id         = id;
+		state->error->message    = message;
+		state->error->begin_char = (end - relative_begin);
+		state->error->end_char   = end;
+	}
 
 	return ERROR;
 }
@@ -370,10 +361,10 @@ int yyparse (void);
 %union {
 	ExprTree *tree;
 	CellRef  *cell;
-	GList    *list;
+	ExprList *list;
 	Sheet	 *sheet;
 }
-%type  <list>     arg_list array_row, array_cols
+%type  <list>     opt_exp arg_list array_row, array_cols
 %type  <tree>     exp array_exp string_opt_quote
 %token <tree>     STRING QUOTED_STRING CONSTANT CELLREF GTE LTE NE
 %token            SEPARATOR INVALID_TOKEN
@@ -390,17 +381,24 @@ int yyparse (void);
 %right '%'
 
 %%
-line:	  exp {
-		unregister_allocation ($1);
-		state->result = $1;
+line:	opt_exp exp {
+		unregister_allocation ($2);
+		state->result = expr_list_prepend ($1, $2);
 	}
 
 	| error 	{
 		if (state->result != NULL) {
-			expr_tree_unref (state->result);
+			expr_list_unref (state->result);
 			state->result = NULL;
 		}
 	}
+	;
+
+opt_exp : opt_exp exp ',' {
+	       unregister_allocation ($2);
+	       $$ = expr_list_prepend ($1, $2);
+	}
+	| { $$ = NULL; }
 	;
 
 exp:	  CONSTANT 	{ $$ = $1; }
@@ -444,7 +442,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		unregister_allocation ($1); expr_tree_unref ($1);
 
 		if (f == NULL) {
-			free_expr_list ($3);
+			expr_list_unref ($3);
 			YYERROR;
 		} else {
 			$$ = register_expr_allocation (expr_tree_new_funcall (f, $3));
@@ -610,23 +608,23 @@ cellref:  CELLREF {
 
 arg_list: exp {
 		unregister_allocation ($1);
-		$$ = g_list_prepend (NULL, $1);
+		$$ = g_slist_prepend (NULL, $1);
 		register_expr_list_allocation ($$);
         }
 	| exp SEPARATOR arg_list {
 		unregister_allocation ($3);
 		unregister_allocation ($1);
-		$$ = g_list_prepend ($3, $1);
+		$$ = g_slist_prepend ($3, $1);
 		register_expr_list_allocation ($$);
 	}
 	| SEPARATOR arg_list {
-		GList *tmp = $2;
+		GSList *tmp = $2;
 		unregister_allocation ($2);
 
 		if (tmp == NULL)
-			tmp = g_list_prepend (NULL, expr_tree_new_constant (value_new_empty ()));
+			tmp = g_slist_prepend (NULL, expr_tree_new_constant (value_new_empty ()));
 
-		$$ = g_list_prepend (tmp, expr_tree_new_constant (value_new_empty ()));
+		$$ = g_slist_prepend (tmp, expr_tree_new_constant (value_new_empty ()));
 		register_expr_list_allocation ($$);
 	}
         | { $$ = NULL; }
@@ -638,14 +636,14 @@ array_exp: CONSTANT		{ $$ = $1; }
 
 array_row: array_exp {
 		unregister_allocation ($1);
-		$$ = g_list_prepend (NULL, $1);
+		$$ = g_slist_prepend (NULL, $1);
 		register_expr_list_allocation ($$);
         }
 	| array_exp SEPARATOR array_row {
 		if (state->array_col_separator == ',') {
 			unregister_allocation ($3);
 			unregister_allocation ($1);
-			$$ = g_list_prepend ($3, $1);
+			$$ = g_slist_prepend ($3, $1);
 			register_expr_list_allocation ($$);
 		} else {
 			return gnumeric_parse_error (
@@ -658,7 +656,7 @@ array_row: array_exp {
 		if (state->array_col_separator == '\\') {
 			unregister_allocation ($3);
 			unregister_allocation ($1);
-			$$ = g_list_prepend ($3, $1);
+			$$ = g_slist_prepend ($3, $1);
 			register_expr_list_allocation ($$);
 		} else {
 			/* FIXME: Is this the right error to display? */
@@ -673,13 +671,13 @@ array_row: array_exp {
 
 array_cols: array_row {
 		unregister_allocation ($1);
-		$$ = g_list_prepend (NULL, $1);
+		$$ = g_slist_prepend (NULL, $1);
 		register_expr_list_list_allocation ($$);
         }
         | array_row ';' array_cols {
 		unregister_allocation ($3);
 		unregister_allocation ($1);
-		$$ = g_list_prepend ($3, $1);
+		$$ = g_slist_prepend ($3, $1);
 		register_expr_list_list_allocation ($$);
 	}
 	;
@@ -829,11 +827,9 @@ yylex (void)
 					state->expr_text - state->expr_backup, end - start);
 				return INVALID_TOKEN;
 			} else {
-				/*
-				 * For an exponent it's hard to highlight
-				 * the right region w/o it turning into an
-				 * ugly hack, for now the cursor is put
-				 * at the end.
+				/* For an exponent it's hard to highlight the
+				 * right region w/o it turning into an ugly
+				 * hack, for now the cursor is put at the end.
 				 */
 				gnumeric_parse_error (
 					state, PERR_OUT_OF_RANGE,
@@ -972,13 +968,30 @@ yyerror (char *s)
 	return 0;
 }
 
+/**
+ * expr_parse_str:
+ *
+ * @expr_text   : The string to parse.
+ * @flags       : See parse-utils for descriptions
+ * @desired_fmt : optionally NULL ptr to the best format for result
+ * @error       : optionally NULL ptr to store details of error.
+ *
+ * Parse a string. if @error is non-null it will be assumed that the
+ * caller has passed a pointer to a ParseError struct AND that it will
+ * take responsibility for freeing that struct and it's contents.
+ * with parse_error_free.
+ **/
 ExprTree *
-gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
-		      GnmExprParserFlags flags,
-		      StyleFormat **desired_format,
-		      ParseError *error)
+expr_parse_str (char const *expr_text, ParsePos const *pos,
+		GnmExprParserFlags flags,
+		StyleFormat **desired_fmt,
+	        ParseError *error)
 {
+	ExprTree *expr;
 	ParserState pstate;
+
+	g_return_val_if_fail (expr_text != NULL, NULL);
+
 	pstate.expr_text   = expr_text;
 	pstate.expr_backup = expr_text;
 	pstate.pos	   = pos;
@@ -994,9 +1007,9 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 	pstate.force_explicit_sheet_references		= flags & GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES;
 
 	pstate.result = NULL;
-	pstate.desired_format = desired_format;
-	if (pstate.desired_format)
-		*pstate.desired_format = NULL;
+	pstate.desired_fmt = desired_fmt;
+	if (pstate.desired_fmt)
+		*pstate.desired_fmt = NULL;
 
 	pstate.error = error;
 	
@@ -1013,31 +1026,52 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 
 	if (pstate.result != NULL) {
 		deallocate_assert_empty ();
-		if (desired_format) {
+
+#if 0
+		/* If this happens, something is very wrong */
+		if (pstate.error != NULL && pstate.error->message != NULL) {
+			g_warning ("An error occurred and the ExprTree is non-null! This should not happen");
+			g_warning ("Error message is %s (%d, %d)", pstate.error->message, pstate.error->begin_char,
+					pstate.error->end_char);
+		}
+#endif
+
+		if (desired_fmt != NULL) {
 			StyleFormat *format;
 			EvalPos tmp;
 
 			tmp.sheet = pos->sheet;
 			tmp.eval = pos->eval;
-			format = auto_style_format_suggest (pstate.result, &tmp);
-			if (format) {
+			format = auto_style_format_suggest (pstate.result->data, &tmp);
+			if (format != NULL) {
 				/* Override the format that came from a
 				 * constant somewhere inside.
 				 */
-				if (*desired_format)
-					style_format_unref (*desired_format);
-				*desired_format = format;
+				if (*desired_fmt != NULL)
+					style_format_unref (*desired_fmt);
+				*desired_fmt = format;
 			}
 		}
-		/* If this happens, something is very wrong */
-		if (pstate.error->message != NULL) {
-			g_warning ("An error occurred and the ExprTree is non-null! This should not happen");
-			g_warning ("Error message is %s (%d, %d)", pstate.error->message, pstate.error->begin_char,
-					pstate.error->end_char);
+
+		/* Do we have multiple expressions */
+		if (pstate.result->next != NULL) {
+			if (flags & GNM_PARSER_PERMIT_MULTIPLE_EXPRESSIONS)
+				expr = expr_tree_new_set (pstate.result);
+			else {
+				expr_list_unref (pstate.result);
+				gnumeric_parse_error (&pstate, PERR_MULTIPLE_EXPRESSIONS,
+					g_strdup (_("Multiple expressions are not supported in this context")),
+					(pstate.expr_text - pstate.expr_backup) + 1,
+					(pstate.expr_text - pstate.expr_backup));
+			}
+		} else {
+			/* Free the list, do not unref the content */
+			expr = pstate.result->data;
+			expr_list_free (pstate.result);
 		}
 	} else {
 		/* If there is no error message, attempt to be more detailed */
-		if (pstate.error->message == NULL) {
+		if (pstate.error != NULL && pstate.error->message == NULL) {
 			char const *last_token = pstate.expr_text - 1;
 
 			if (*last_token == '\0') {
@@ -1065,13 +1099,15 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 		}
 
 		deallocate_all ();
-		if (desired_format && *desired_format) {
-			style_format_unref (*desired_format);
-			*desired_format = NULL;
+		if (desired_fmt != NULL && *desired_fmt != NULL) {
+			style_format_unref (*desired_fmt);
+			*desired_fmt = NULL;
 		}
+
+		expr = NULL;
 	}
 
 	deallocate_uninit ();
 
-	return pstate.result;
+	return expr;
 }

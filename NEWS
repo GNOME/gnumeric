@@ -11,6 +11,8 @@ Andreas:
 Jody:
 	* Tricky corner cases for style applications.
 	* Rework sheetname quoting (Good idea Andreas)
+	* Support multiple expressions in the parser and clean up
+	  expression lists.
 
 --------------------------------------------------------------------------
 Gnumeric 0.76

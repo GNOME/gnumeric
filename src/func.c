@@ -276,7 +276,7 @@ extract_arg_types (FunctionDefinition *def)
 
 
 static Value *
-error_function_no_full_info (FunctionEvalInfo *ei, GList *expr_node_list)
+error_function_no_full_info (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
 	return value_new_error (ei->pos, _("Function implementation not available."));
 }
@@ -473,7 +473,7 @@ function_add_name_only (FunctionCategory *category,
 
 /* Handle unknown functions on import without losing their names */
 static Value *
-unknownFunctionHandler (FunctionEvalInfo *ei, GList *expr_node_list)
+unknownFunctionHandler (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
 	return value_new_error (ei->pos, gnumeric_err_NAME);
 }
@@ -744,14 +744,14 @@ free_values (Value **values, int top)
 /**
  * function_call_with_list:
  * @ei: EvalInfo containing valid fn_def!
- * @args: GList of ExprTree args.
+ * @args: ExprList of ExprTree args.
  *
  * Do the guts of calling a function.
  *
  * Return value:
  **/
 Value *
-function_call_with_list (FunctionEvalInfo *ei, GList *l)
+function_call_with_list (FunctionEvalInfo *ei, ExprList *l)
 {
 	FunctionDefinition const *fn_def;
 	int argc, arg;
@@ -769,7 +769,7 @@ function_call_with_list (FunctionEvalInfo *ei, GList *l)
 		return fn_def->fn.fn_nodes (ei, l);
 
 	/* Functions that take pre-computed Values */
-	argc = g_list_length (l);
+	argc = expr_list_length (l);
 	if (argc > fn_def->fn.args.max_args ||
 	    argc < fn_def->fn.args.min_args) {
 		return value_new_error (ei->pos,
@@ -841,7 +841,7 @@ function_def_call_with_values (EvalPos const *ep,
 		 * temporary ExprNodes with constants.
 		 */
 		ExprConstant *tree = NULL;
-		GList *l = NULL;
+		ExprList *l = NULL;
 		int i;
 
 		if (argc) {
@@ -853,7 +853,7 @@ function_def_call_with_values (EvalPos const *ep,
 				tree [i].ref_count = 1;
 				tree [i].value = values [i];
 
-				l = g_list_append (l, &(tree [i]));
+				l = expr_list_append (l, &(tree [i]));
 			}
 		}
 
@@ -861,7 +861,7 @@ function_def_call_with_values (EvalPos const *ep,
 
 		if (tree) {
 			g_free (tree);
-			g_list_free (l);
+			expr_list_free (l);
 		}
 
 	} else
@@ -979,7 +979,7 @@ function_iterate_do_value (EvalPos      const *ep,
  * @fp:               The position in a workbook at which to evaluate
  * @callback:         The routine to be invoked for every value computed
  * @callback_closure: Closure for the callback.
- * @expr_node_list:   a GList of ExprTrees (what a Gnumeric function would get).
+ * @expr_node_list:   a ExprList of ExprTrees (what a Gnumeric function would get).
  * @strict:           If TRUE, the function is considered "strict".  This means
  *                   that if an error value occurs as an argument, the iteration
  *                   will stop and that error will be returned.  If FALSE, an
@@ -998,12 +998,12 @@ function_iterate_do_value (EvalPos      const *ep,
  * Value found on the list (this means that ranges get properly expaned).
  */
 Value *
-function_iterate_argument_values (const EvalPos      *ep,
-				  FunctionIterateCB callback,
-				  void                    *callback_closure,
-				  GList                   *expr_node_list,
-				  gboolean                strict,
-				  gboolean		  ignore_blank)
+function_iterate_argument_values (EvalPos const		*ep,
+				  FunctionIterateCB	 callback,
+				  void			*callback_closure,
+				  ExprList		*expr_node_list,
+				  gboolean		 strict,
+				  gboolean		 ignore_blank)
 {
 	Value * result = NULL;
 

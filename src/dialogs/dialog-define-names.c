@@ -355,7 +355,8 @@ cb_name_guru_add (NameGuruState *state)
 	/* strip off optional preceding '=' */
 	if (NULL != (tmp = gnumeric_char_start_expr_p (expr_text)))
 		expr_text = tmp;
-	expr = expr_parse_string (expr_text, &state->pp, NULL, &perr);
+	expr = expr_parse_str (expr_text, &state->pp,
+		GNM_PARSER_DEFAULT, NULL, &perr);
 
 	/* If the expression is invalid */
 	if (expr == NULL) {

@@ -312,7 +312,7 @@ static char *help_concatenate = {
 };
 
 static Value *
-gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
+gnumeric_concatenate (FunctionEvalInfo *ei, ExprList *l)
 {
 	Value *v;
 	GString *s;
@@ -327,8 +327,8 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 		if (VALUE_IS_EMPTY_OR_ERROR (v))
 			goto error;
 		g_string_append (s, value_peek_string (v));
-		l = g_list_next (l);
 		value_release (v);
+		l = l->next;
 	}
 
 	v = value_new_string (s->str);

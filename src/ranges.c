@@ -1001,26 +1001,30 @@ global_range_dup (GlobalRange const *src)
 Value *
 global_range_parse (Sheet *sheet, char const *str)
 {
-	Value    *value = NULL;
-	ExprTree *expr = NULL;
 	ParsePos  pp;
-	ParseError errrec;
+	ExprTree *expr;
 
-	parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
-	expr = gnumeric_expr_parser (str, &pp,
-		GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES, NULL, parse_error_init (&errrec));
-	parse_error_free (&errrec);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (str != NULL, NULL);
+
+	expr = expr_parse_str (str,
+		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0),
+		GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES,
+		NULL, NULL);
+
 	if (expr != NULL)  {
-		value = expr_tree_get_range (expr);
+		Value * value = expr_tree_get_range (expr);
 		expr_tree_unref (expr);
+		return value;
 	}
-	return value;
+
+	return NULL;
 }
 
 /**
  * global_range_list_parse:
  * @sheet: Sheet where the range specification is relatively parsed to
- * @range_spec: a range or list of ranges to parse (ex: "A1", "A1:B1,C2,Sheet2!D2:D4")
+ * @str  : a range or list of ranges to parse (ex: "A1", "A1:B1,C2,Sheet2!D2:D4")
  *
  * Parses a list of ranges, relative to the @sheet and returns a list with the
  * results.
@@ -1028,32 +1032,41 @@ global_range_parse (Sheet *sheet, char const *str)
  * Returns a GSList containing Values of type VALUE_CELLRANGE, or NULL on failure
  */
 GSList *
-global_range_list_parse (Sheet *sheet, char const *range_spec)
+global_range_list_parse (Sheet *sheet, char const *str)
 {
-
-	char *copy, *range_copy, *r;
-	GSList *ranges = NULL;
+	ParsePos  pp;
+	ExprTree *expr;
+	GSList   *ranges = NULL;
+	Value	 *v;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (range_spec != NULL, NULL);
+	g_return_val_if_fail (str != NULL, NULL);
 
-	range_copy = copy = g_strdup (range_spec);
+	expr = expr_parse_str (str,
+		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0),
+		GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES |
+		GNM_PARSER_PERMIT_MULTIPLE_EXPRESSIONS, NULL, NULL);
 
-	while ((r = strtok (range_copy, ",")) != NULL){
-		Value *v;
-
-		v = global_range_parse (sheet, r);
-		if (!v){
-			range_list_destroy (ranges);
-			g_free (copy);
-			return NULL;
+	if (expr != NULL)  {
+		puts (expr_tree_as_string (expr, &pp));
+		if (expr->any.oper == OPER_SET) {
+			ExprList *l;
+			for (l = expr->set.set; l != NULL; l = l->next) {
+				v = expr_tree_get_range (l->data);
+				if (v == NULL) {
+					range_list_destroy (ranges);
+					ranges = NULL;
+					break;
+				} else
+					ranges = g_slist_prepend (ranges, v);
+			}
+		} else {
+			v = expr_tree_get_range (expr);
+			if (v != NULL)
+				ranges = g_slist_prepend (ranges, v);
 		}
-
-		ranges = g_slist_prepend (ranges, v);
-		range_copy = NULL;
+		expr_tree_unref (expr);
 	}
-
-	g_free (copy);
 
 	return g_slist_reverse (ranges);
 }

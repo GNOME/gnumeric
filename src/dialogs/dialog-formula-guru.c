@@ -645,7 +645,7 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 
 	/* If there were arguments initialize the fields */
 	if (expr != NULL) {
-		GList *l;
+		ExprList *l;
 		guint i = 0;
 		char *str;
 		ParsePos pos;

@@ -466,12 +466,12 @@ static char *help_iserror = {
  * directly
  */
 static Value *
-gnumeric_check_for_err (FunctionEvalInfo *ei, GList *expr_node_list,
+gnumeric_check_for_err (FunctionEvalInfo *ei, ExprList *expr_node_list,
 			Value ** err)
 {
 	Value * tmp;
 
-	if (g_list_length (expr_node_list) != 1) {
+	if (expr_list_length (expr_node_list) != 1) {
 		*err = value_new_error(ei->pos,
 				       _("Argument mismatch"));
 		return NULL;
@@ -487,7 +487,7 @@ gnumeric_check_for_err (FunctionEvalInfo *ei, GList *expr_node_list,
 }
 
 static Value *
-gnumeric_iserror (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_iserror (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
 	Value * res, *err = NULL;
 	res = gnumeric_check_for_err (ei, expr_node_list, &err);
@@ -522,7 +522,7 @@ static char *help_isna = {
  * the error handling mechanism
  */
 static Value *
-gnumeric_isna (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_isna (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
 	Value * res, *err = NULL;
 	gboolean b;
@@ -553,7 +553,7 @@ static char *help_iserr = {
 };
 
 static Value *
-gnumeric_iserr (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_iserr (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
 	Value * res, *err = NULL;
 	gboolean b;
@@ -591,7 +591,7 @@ static char *help_error_type = {
 };
 
 static Value *
-gnumeric_error_type (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_error_type (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
 	int retval = -1;
 	char const * mesg;
@@ -686,11 +686,11 @@ static char *help_isblank = {
 };
 
 static Value *
-gnumeric_isblank (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_isblank (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
 	gboolean result = FALSE;
 	ExprTree *expr;
-	if (g_list_length (expr_node_list) != 1)
+	if (expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
@@ -757,11 +757,11 @@ static char *help_islogical = {
 };
 
 static Value *
-gnumeric_islogical (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_islogical (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
 	enum Value_Class cl;
 
-	if (g_list_length (expr_node_list) != 1)
+	if (expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
@@ -787,9 +787,9 @@ static char *help_isnontext = {
 };
 
 static Value *
-gnumeric_isnontext (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_isnontext (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
-	if (g_list_length (expr_node_list) != 1)
+	if (expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
@@ -814,9 +814,9 @@ static char *help_isnumber = {
 };
 
 static Value *
-gnumeric_isnumber (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_isnumber (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
-	if (g_list_length (expr_node_list) != 1)
+	if (expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
@@ -863,11 +863,11 @@ static char *help_isref = {
 };
 
 static Value *
-gnumeric_isref (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_isref (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
 	ExprTree *t;
 
-	if (g_list_length (expr_node_list) != 1)
+	if (expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
@@ -895,9 +895,9 @@ static char *help_istext = {
 };
 
 static Value *
-gnumeric_istext (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_istext (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
-	if (g_list_length (expr_node_list) != 1)
+	if (expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 
@@ -962,9 +962,9 @@ static char *help_type = {
 };
 
 static Value *
-gnumeric_type (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_type (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
-	if (g_list_length (expr_node_list) != 1)
+	if (expr_list_length (expr_node_list) != 1)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));
 

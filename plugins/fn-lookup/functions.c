@@ -439,13 +439,13 @@ static char *help_choose = {
 };
 
 static Value *
-gnumeric_choose (FunctionEvalInfo *ei, GList *l)
+gnumeric_choose (FunctionEvalInfo *ei, ExprList *l)
 {
 	int     index;
 	int     argc;
 	Value  *v;
 
-	argc =  g_list_length (l);
+	argc =  expr_list_length (l);
 
 	if (argc < 1 || !l->data)
 		return value_new_error (ei->pos, _("#ARG!"));
@@ -461,13 +461,10 @@ gnumeric_choose (FunctionEvalInfo *ei, GList *l)
 
 	index = value_get_as_int(v);
 	value_release (v);
-	l = g_list_next (l);
-
-	while (l){
+	for (l = l->next; l != NULL ; l = l->next) {
 		index--;
 		if (!index)
 			return expr_eval (l->data, ei->pos, EVAL_PERMIT_NON_SCALAR);
-		l = g_list_next (l);
 	}
 	return value_new_error (ei->pos, gnumeric_err_VALUE);
 }
@@ -754,8 +751,8 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 	ExprTree *expr;
 	char	 *text = value_get_as_string (args[0]);
 
-	expr = expr_parse_string (text,
-		parse_pos_init_evalpos (&pp, ei->pos), NULL, NULL);
+	expr = expr_parse_str_simple (text,
+		parse_pos_init_evalpos (&pp, ei->pos));
 	g_free (text);
 
 	if (expr != NULL) {
@@ -848,7 +845,7 @@ static char *help_column = {
 };
 
 static Value *
-gnumeric_column (FunctionEvalInfo *ei, GList *nodes)
+gnumeric_column (FunctionEvalInfo *ei, ExprList *nodes)
 {
 	ExprTree *expr;
 
@@ -990,7 +987,7 @@ static char *help_row = {
 };
 
 static Value *
-gnumeric_row (FunctionEvalInfo *ei, GList *nodes)
+gnumeric_row (FunctionEvalInfo *ei, ExprList *nodes)
 {
 	ExprTree *expr;
 

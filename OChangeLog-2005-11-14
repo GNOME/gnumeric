@@ -1,3 +1,46 @@
+2001-11-25  Jody Goldberg <jody@gnome.org>
+
+	* src/eval.c (handle_tree_deps) : add OPER_SET.
+	* src/expr-name.c (name_refer_circular) :  ditto.
+	* src/expr.c (do_expr_tree_unref) : ditto.
+	(expr_tree_equal) : ditto.
+	(expr_eval_real) : ditto.
+	(expr_rewrite) : ditto.
+	(do_expr_tree_as_string) : ditto.
+	(expr_tree_new_funcall) : use ExprList.
+	(expr_parse_string) : delete.
+	(expr_tree_new_set) : new.
+	(expr_list_unref) : new.
+	(expr_list_equal) : new.
+	(expr_list_as_string) : new.
+
+	* src/gnumeric.h : Add ExprList and ExprSet
+
+	* src/parser.y (expr_parse_str) : renamed from gnumeric_expr_parser.
+	  Add support for multiple expressions.
+	(line) : add support for multiple expressions.
+
+	* src/ranges.c (global_range_parse) : Use expr_parse_str
+	(global_range_list_parse) : rewrite to use expr_parse_str and use the
+	  new multi-expression support in the parser.
+
+	* src/commands.c (cmd_area_set_text_redo) : Use expr_parse_str.
+	* src/xml-io.c (xml_read_style_condition_chain) : ditto.
+	(xml_cell_set_array_expr) : ditto.
+	* src/workbook-view.c (wb_view_auto_expr) : ditto.
+	* src/workbook-edit.c (wbcg_edit_finish) : ditto.
+	* src/sheet-object-widget.c (sheet_widget_checkbox_read_xml) : ditto.
+	* src/parse-util.c (parse_text_value_or_expr) : ditto.
+
+	* src/auto-format.c (do_af_suggest) : Use ExprList instead of GList
+	(do_af_suggest_list) : ditto.
+	* src/collect.c (collect_floats) : ditto.
+	(collect_floats_value) : ditto.
+	(float_range_function) : ditto.
+	* src/consolidate.c (simple_consolidate) : ditto.
+	(colrow_formula_args_build) : ditto.
+	(consolidate_apply) : ditto.
+
 2001-11-25  Abel Cheung  <maddog@linux.org.hk>
 
 	* configure.in: Removed zh_TW from ALL_LINGUAS. Traditional

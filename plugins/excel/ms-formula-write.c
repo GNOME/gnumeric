@@ -170,12 +170,11 @@ ms_formula_build_pre_data (ExcelSheet *sheet, ExprTree const *tree)
 
 	case OPER_FUNCALL:
 	{
-		GList  *l;
+		ExprList *l;
 		FormulaCacheEntry *fce;
 		const gchar *name = function_def_get_name (tree->func.func);
 
-		for (l = tree->func.arg_list; l;
-		     l = g_list_next (l))
+		for (l = tree->func.arg_list; l; l = l->next)
 			ms_formula_build_pre_data (sheet, l->data);
 
 		fce = get_formula_index (sheet, name);
@@ -456,7 +455,7 @@ write_ref (PolishData *pd, const CellRef *ref)
 static void
 write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
 {
-	GList   *args     = tree->func.arg_list;
+	ExprList *args     = tree->func.arg_list;
 	gint     num_args = 0;
 	gboolean prompt   = 0;
 	gboolean cmdequiv = 0;
@@ -477,9 +476,8 @@ write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
 		}
 	}
 
-	while (args) {
+	for (; args ; args = args->next) {
 		write_node (pd, args->data, 0);
-		args = g_list_next (args);
 		num_args++;
 	}
 

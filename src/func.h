@@ -106,7 +106,7 @@ void        function_def_count_args    (FunctionDefinition const *fn_def,
 char        function_def_get_arg_type  (FunctionDefinition const *fn_def,
                                         gint arg_idx);
 
-Value *function_call_with_list	     (FunctionEvalInfo *ei, GList *args);
+Value *function_call_with_list	     (FunctionEvalInfo *ei, ExprList *args);
 Value *function_call_with_values     (const EvalPos *ep, const gchar *name,
                                       gint argc, Value *values []);
 Value *function_def_call_with_values (EvalPos const *ep, FunctionDefinition const *fn,
@@ -118,7 +118,7 @@ typedef Value * (*FunctionIterateCB) (const EvalPos *ep,
 Value *function_iterate_argument_values	(const EvalPos     *ep,
                                          FunctionIterateCB  cb,
                                          gpointer           user_data,
-                                         GList             *expr_node_list,
+                                         ExprList          *expr_node_list,
                                          gboolean           strict,
                                          gboolean           ignore_blank);
 Value *function_iterate_do_value	(const EvalPos      *ep,

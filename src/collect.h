@@ -26,7 +26,7 @@ gnum_float *collect_floats_value (const Value *val, const EvalPos *ep,
 				  CollectFlags flags,
 				  int *n, Value **error);
 
-Value *float_range_function (GList *exprlist, FunctionEvalInfo *ei,
+Value *float_range_function (ExprList *exprlist, FunctionEvalInfo *ei,
 			     float_range_function_t func,
 			     CollectFlags flags,
 			     char const *func_error);

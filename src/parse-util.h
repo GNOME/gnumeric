@@ -51,6 +51,7 @@ typedef enum {
 	PERR_UNEXPECTED_TOKEN,
 	PERR_OUT_OF_RANGE,
 	PERR_SHEET_IS_REQUIRED,
+	PERR_MULTIPLE_EXPRESSIONS,
 } ParseErrorID;
 
 /* In parser.y  */
@@ -67,12 +68,9 @@ typedef enum {
 	GNM_PARSER_USE_APPLIX_REFERENCE_CONVENTIONS	= 1 << 0,
 	GNM_PARSER_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC	= 1 << 1,
 	GNM_PARSER_FORCE_ABSOLUTE_COL_REFERENCES	= 1 << 2,
-	GNM_PARSER_FORCE_ABSOLUTE_ROW_REFERENCES	= 1 << 2,
-	GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES	= 1 << 3,
+	GNM_PARSER_FORCE_ABSOLUTE_ROW_REFERENCES	= 1 << 3,
+	GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES	= 1 << 4,
+	GNM_PARSER_PERMIT_MULTIPLE_EXPRESSIONS		= 1 << 5,
 } GnmExprParserFlags;
-ExprTree *gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
-				GnmExprParserFlags flags,
-				StyleFormat **desired_format,
-				ParseError *pe);
 
 #endif /* GNUMERIC_PARSE_UTIL_H */

@@ -934,9 +934,8 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 		ParsePos pos;
 		ExprTree *expr;
 
-		expr = expr_parse_string (input_txt,
-			parse_pos_init (&pos, NULL, context->sheet, 0, 0),
-			NULL, NULL);
+		expr = expr_parse_str_simple (input_txt,
+			parse_pos_init (&pos, NULL, context->sheet, 0, 0));
 
 		if (expr == NULL) {
 			g_warning ("Could not read checkbox widget object. Could not parse expr\n");

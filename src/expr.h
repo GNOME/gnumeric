@@ -6,7 +6,7 @@
 #include "parse-util.h"
 #include "position.h"
 
-/* Warning: if you add something here, see do_expr_decode_tree ! */
+/* Warning: if you add something here, see do_expr_tree_to_string * ! */
 typedef enum {
 	OPER_EQUAL,		/* Compare value equal */
 	OPER_GT,		/* Compare value greather than  */
@@ -31,7 +31,8 @@ typedef enum {
 	OPER_UNARY_NEG,		/* Sign inversion */
 	OPER_UNARY_PLUS,	/* Mark as positive */
 	OPER_PERCENT,		/* Percentage (value/100) */
-	OPER_ARRAY		/* Array access */
+	OPER_ARRAY,		/* Array access */
+	OPER_SET		/* A set of expressions */
 } Operation;
 
 /* Shorthands for case statements.  Easy to read, easy to maintain.  */
@@ -53,7 +54,7 @@ struct _ExprFunction {
 	int       ref_count;
 
 	FunctionDefinition *func;
-	GList  *arg_list;
+	ExprList  *arg_list;
 };
 
 struct _ExprUnary {
@@ -101,6 +102,13 @@ struct _ExprArray {
 	} corner;
 };
 
+struct _ExprSet {
+	Operation const oper;
+	int       ref_count;
+
+	ExprList *set;
+};
+
 union _ExprTree {
 	struct {
 		Operation const oper;
@@ -114,6 +122,7 @@ union _ExprTree {
 	ExprName	name;
 	ExprVar		var;
 	ExprArray	array;
+	ExprSet		set;
 };
 
 /**
@@ -123,14 +132,17 @@ enum _FuncType { FUNCTION_ARGS, FUNCTION_NODES, FUNCTION_NAMEONLY };
 typedef enum _FuncType FuncType;
 
 typedef Value *(FunctionArgs)  (FunctionEvalInfo *ei, Value **args);
-typedef Value *(FunctionNodes) (FunctionEvalInfo *ei, GList *nodes);
+typedef Value *(FunctionNodes) (FunctionEvalInfo *ei, ExprList *nodes);
 
 struct _FunctionEvalInfo {
 	EvalPos const *pos;
 	FunctionDefinition const *func_def;
 };
 
-ExprTree   *expr_parse_string      (char const *expr, ParsePos const *pp,
+#define expr_parse_str_simple(expr_text, pp) \
+	expr_parse_str (expr_text, pp, GNM_PARSER_DEFAULT, NULL, NULL)
+ExprTree   *expr_parse_str	   (char const *expr, ParsePos const *pp,
+				    GnmExprParserFlags flags,
 				    StyleFormat **desired_format,
 				    ParseError *error);
 ExprTree   *expr_tree_duplicate    (ExprTree *expr);
@@ -140,11 +152,12 @@ ExprTree   *expr_tree_new_constant (Value *v);
 ExprTree   *expr_tree_new_error    (char const *txt);
 ExprTree   *expr_tree_new_unary    (Operation op, ExprTree *e);
 ExprTree   *expr_tree_new_binary   (ExprTree *l, Operation op, ExprTree *r);
-ExprTree   *expr_tree_new_funcall  (FunctionDefinition *func, GList *args);
+ExprTree   *expr_tree_new_funcall  (FunctionDefinition *func, ExprList *args);
 ExprTree   *expr_tree_new_name     (NamedExpression *name,
 				    Sheet *sheet_scope, Workbook *wb_scope);
 ExprTree   *expr_tree_new_var      (CellRef const *cr);
 ExprTree   *expr_tree_new_array	   (int x, int y, int rows, int cols);
+ExprTree   *expr_tree_new_set	   (ExprList *args);
 
 void	    expr_tree_ref	(ExprTree *tree);
 void	    expr_tree_unref	(ExprTree *tree);
@@ -199,5 +212,13 @@ FunctionDefinition *expr_tree_get_func_def (ExprTree const *expr);
 Value		   *expr_tree_get_range    (ExprTree const *expr) ;
 ExprTree const	   *expr_tree_first_func   (ExprTree const *expr);
 void		    expr_tree_boundingbox  (ExprTree const *expr, Range *bound);
+
+#define expr_list_append	g_slist_append
+#define expr_list_prepend	g_slist_prepend
+#define expr_list_length	g_slist_length
+#define expr_list_free		g_slist_free
+void 	 expr_list_unref	(ExprList *list);
+char    *expr_list_as_string	(ExprList const *list, ParsePos const *pp);
+gboolean expr_list_equal	(ExprList const *a, ExprList const *b);
 
 #endif /* GNUMERIC_EXPR_H */

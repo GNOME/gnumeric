@@ -115,7 +115,7 @@ callback_function_collect (const EvalPos *ep, Value *value, void *closure)
  * gnum_float.
  */
 static gnum_float *
-collect_floats (GList *exprlist, const EvalPos *ep, CollectFlags flags,
+collect_floats (ExprList *exprlist, const EvalPos *ep, CollectFlags flags,
 		int *n, Value **error)
 {
 	Value * err;
@@ -149,17 +149,17 @@ gnum_float *
 collect_floats_value (const Value *val, const EvalPos *ep,
 		      CollectFlags flags, int *n, Value **error)
 {
-	GList *exprlist;
+	ExprList *exprlist;
 	ExprTree *expr_val;
 	gnum_float *res;
 
 	expr_val = expr_tree_new_constant (value_duplicate (val));
-	exprlist = g_list_prepend (NULL, expr_val);
+	exprlist = expr_list_prepend (NULL, expr_val);
 
 	res = collect_floats (exprlist, ep, flags, n, error);
 
 	expr_tree_unref (expr_val);
-	g_list_free (exprlist);
+	expr_list_free (exprlist);
 
 	return res;
 }
@@ -168,7 +168,7 @@ collect_floats_value (const Value *val, const EvalPos *ep,
 /* ------------------------------------------------------------------------- */
 
 Value *
-float_range_function (GList *exprlist, FunctionEvalInfo *ei,
+float_range_function (ExprList *exprlist, FunctionEvalInfo *ei,
 		      float_range_function_t func,
 		      CollectFlags flags,
 		      char const *func_error)

@@ -34,6 +34,7 @@ typedef struct _ValueArray		ValueArray;
 
 typedef struct _RenderedValue		RenderedValue;
 
+typedef GSList 				ExprList;
 typedef union _ExprTree 		ExprTree;
 typedef struct _ExprConstant		ExprConstant;
 typedef struct _ExprFunction		ExprFunction;
@@ -42,6 +43,7 @@ typedef struct _ExprBinary		ExprBinary;
 typedef struct _ExprName		ExprName;
 typedef struct _ExprVar			ExprVar;
 typedef struct _ExprArray		ExprArray;
+typedef struct _ExprSet			ExprSet;
 typedef struct _ExprRelocateInfo	ExprRelocateInfo;
 typedef struct _ExprRewriteInfo 	ExprRewriteInfo;
 typedef struct _NamedExpression		NamedExpression;

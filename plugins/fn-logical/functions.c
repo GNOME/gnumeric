@@ -56,7 +56,7 @@ callback_function_and (const EvalPos *ep, Value *value, void *closure)
 }
 
 static Value *
-gnumeric_and (FunctionEvalInfo *ei, GList *nodes)
+gnumeric_and (FunctionEvalInfo *ei, ExprList *nodes)
 {
 	int result = -1;
 
@@ -140,7 +140,7 @@ callback_function_or (const EvalPos *ep, Value *value, void *closure)
 }
 
 static Value *
-gnumeric_or (FunctionEvalInfo *ei, GList *nodes)
+gnumeric_or (FunctionEvalInfo *ei, ExprList *nodes)
 {
 	int result = -1;
 
@@ -180,7 +180,7 @@ static char *help_if = {
 };
 
 static Value *
-gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_if (FunctionEvalInfo *ei, ExprList *expr_node_list)
 {
 	ExprTree *expr;
 	Value *value;
@@ -188,7 +188,7 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 	gboolean err;
 
 	/* Type checking */
-	args = g_list_length (expr_node_list);
+	args = expr_list_length (expr_node_list);
 	if (args < 1 || args > 3)
 		return value_new_error (ei->pos,
 					_("Invalid number of arguments"));

@@ -579,7 +579,7 @@ handle_tree_deps (Dependent *dep, CellPos const *pos,
 	 * more cunning handling of argument type matching.
 	 */
 	case OPER_FUNCALL: {
-		GList *l;
+		ExprList *l;
 
 		for (l = tree->func.arg_list; l; l = l->next)
 			handle_tree_deps (dep, pos, l->data, operation);
@@ -615,6 +615,15 @@ handle_tree_deps (Dependent *dep, CellPos const *pos,
 			/* Corner cell depends on the contents of the expr */
 			handle_tree_deps (dep, pos, tree->array.corner.expr, operation);
 		return;
+
+	case OPER_SET: {
+		ExprList *l;
+
+		for (l = tree->set.set; l; l = l->next)
+			handle_tree_deps (dep, pos, l->data, operation);
+		return;
+	}
+
 	default:
 		g_warning ("Unknown Operation type, dependencies lost");
 		break;

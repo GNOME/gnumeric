@@ -1,3 +1,80 @@
+2001-11-25  Jody Goldberg <jody@gnome.org>
+
+	* fn-eng.c (gnumeric_improduct) : s/GList/ExprList/
+	(gnumeric_imsum) : ditto.
+
+	* fn-financial.c (gnumeric_npv) : ditto.
+
+	* fn-information.c (gnumeric_check_for_err) : ditto.
+	(gnumeric_iserror) : ditto.
+	(gnumeric_isna) : ditto.
+	(gnumeric_iserr) : ditto.
+	(gnumeric_error_type) : ditto.
+	(gnumeric_isblank) : ditto.
+	(gnumeric_islogical) : ditto.
+	(gnumeric_isnontext) : ditto.
+	(gnumeric_isnumber) : ditto.
+	(gnumeric_isref) : ditto.
+	(gnumeric_istext) : ditto.
+	(gnumeric_type) : ditto.
+
+	* fn-logical.c (gnumeric_and) : ditto.
+	(gnumeric_or) : ditto.
+	(gnumeric_if) : ditto.
+
+	* fn-lookup.c (gnumeric_choose) : ditto.
+	(gnumeric_column) : ditto.
+	(gnumeric_row) : ditto.
+	 
+	* fn-math.c (gnumeric_gcd) : ditto.
+	(gnumeric_lcm) : ditto.
+	(gnumeric_sum) : ditto.
+	(gnumeric_suma) : ditto.
+	(gnumeric_sumsq) : ditto.
+	(gnumeric_multinomial) : ditto.
+	(gnumeric_product) : ditto.
+	(gnumeric_g_product) : ditto.
+	(gnumeric_subtotal) : ditto.
+	(gnumeric_seriessum) : ditto.
+	(gnumeric_sumproduct) : ditto.
+
+	* fn-stat.c (stat_helper) : ditto.
+	(make_list) : ditto.
+	(gnumeric_varp) : ditto.
+	(gnumeric_var) : ditto.
+	(gnumeric_stdev) : ditto.
+	(gnumeric_stdevp) : ditto.
+	(gnumeric_trimmean) : ditto.
+	(gnumeric_mode) : ditto.
+	(gnumeric_harmean) : ditto.
+	(gnumeric_geomean) : ditto.
+	(gnumeric_count) : ditto.
+	(gnumeric_counta) : ditto.
+	(gnumeric_average) : ditto.
+	(gnumeric_min) : ditto.
+	(gnumeric_max) : ditto.
+	(gnumeric_skew) : ditto.
+	(gnumeric_skewp) : ditto.
+	(gnumeric_kurt) : ditto.
+	(gnumeric_kurtp) : ditto.
+	(gnumeric_avedev) : ditto.
+	(gnumeric_devsq) : ditto.
+	(gnumeric_median) : ditto.
+	(gnumeric_large) : ditto.
+	(gnumeric_small) : ditto.
+	(gnumeric_ztest) : ditto.
+	(gnumeric_averagea) : ditto.
+	(gnumeric_maxa) : ditto.
+	(gnumeric_mina) : ditto.
+	(gnumeric_vara) : ditto.
+	(gnumeric_varpa) : ditto.
+	(gnumeric_stdeva) : ditto.
+	(gnumeric_stdevpa) : ditto.
+
+2001-11-25  Jody Goldberg <jody@gnome.org>
+
+	* fn-string.c (gnumeric_concatenate) : Just use ptr->next.
+
 2001-11-19  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* fn-financial.c (coupdaysnc): Implemented the frequency 1 for

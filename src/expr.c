@@ -22,6 +22,7 @@
 #include "number-match.h"
 #include "workbook.h"
 #include "gutils.h"
+#include "parse-util.h"
 
 /***************************************************************************/
 
@@ -45,12 +46,12 @@ ExprTree *
 expr_tree_new_error (char const *txt)
 {
 	FunctionDefinition *func;
-	GList *args = NULL;
+	ExprList *args = NULL;
 
 	if (strcmp (txt, gnumeric_err_NA) != 0) {
 		func = func_lookup_by_name ("ERROR", NULL);
-		args = g_list_prepend (NULL,
-				       expr_tree_new_constant (value_new_string (txt)));
+		args = g_slist_prepend (NULL,
+			expr_tree_new_constant (value_new_string (txt)));
 	} else
 		func = func_lookup_by_name ("NA", NULL);
 
@@ -59,7 +60,7 @@ expr_tree_new_error (char const *txt)
 }
 
 ExprTree *
-expr_tree_new_funcall (FunctionDefinition *func, GList *args)
+expr_tree_new_funcall (FunctionDefinition *func, ExprList *args)
 {
 	ExprFunction *ans;
 	g_return_val_if_fail (func, NULL);
@@ -168,33 +169,21 @@ expr_tree_new_array (int x, int y, int rows, int cols)
 	return (ExprTree *)ans;
 }
 
-/**
- * expr_parse_string:
- *
- * Parse a string. if @error is non-null it will be assumed that the
- * caller has passed a pointer to a ParseError struct AND that it will
- * take responsibility for freeing that struct and it's contents.
- * with parse_error_free.
- **/
 ExprTree *
-expr_parse_string (char const *expr_text, ParsePos const *pp,
-		   StyleFormat **desired_format, ParseError *error)
+expr_tree_new_set (ExprList *set)
 {
-	ExprTree   *expr;
-	ParseError errrec;
-	ParseError *perr = error ? error : &errrec;
+	ExprSet *ans;
 
-	g_return_val_if_fail (expr_text != NULL, NULL);
+	ans = g_new (ExprSet, 1);
+	if (!ans)
+		return NULL;
 
-	expr = gnumeric_expr_parser (expr_text, pp,
-		GNM_PARSER_DEFAULT, desired_format, parse_error_init (perr));
+	ans->ref_count = 1;
+	*((Operation *)&(ans->oper)) = OPER_SET;
+	ans->set = set;
 
-	if (error == NULL)
-		parse_error_free (perr);
-
-	return expr;
+	return (ExprTree *)ans;
 }
-
 
 static Cell *
 expr_tree_array_corner (ExprTree const *expr,
@@ -241,15 +230,10 @@ do_expr_tree_unref (ExprTree *expr)
 		value_release (expr->constant.value);
 		break;
 
-	case OPER_FUNCALL: {
-		GList *l;
-
-		for (l = expr->func.arg_list; l; l = l->next)
-			do_expr_tree_unref (l->data);
-		g_list_free (expr->func.arg_list);
+	case OPER_FUNCALL:
+		expr_list_unref (expr->func.arg_list);
 		func_unref (expr->func.func);
 		break;
-	}
 
 	case OPER_NAME:
 		expr_name_unref (expr->name.name);
@@ -270,6 +254,10 @@ do_expr_tree_unref (ExprTree *expr)
 			do_expr_tree_unref (expr->array.corner.expr);
 		}
 		break;
+	case OPER_SET:
+		expr_list_unref (expr->set.set);
+		break;
+
 	default:
 		g_warning ("do_expr_tree_unref error\n");
 		break;
@@ -331,14 +319,9 @@ expr_tree_equal (ExprTree const *a, ExprTree const *b)
 	case OPER_ANY_UNARY:
 		return expr_tree_equal (a->unary.value, b->unary.value);
 
-	case OPER_FUNCALL: {
-		GList *la = a->func.arg_list;
-		GList *lb = b->func.arg_list;
-		for (; la != NULL && lb != NULL; la = la->next, lb =lb->next)
-			if (!expr_tree_equal (la->data, lb->data))
-				return FALSE;
-		return (la == NULL) && (lb == NULL);
-	}
+	case OPER_FUNCALL:
+		return (a->func.func == b->func.func) &&
+			expr_list_equal (a->func.arg_list, b->func.arg_list);
 
 	case OPER_NAME:
 		return a->name.name == b->name.name;
@@ -371,6 +354,9 @@ expr_tree_equal (ExprTree const *a, ExprTree const *b)
 			expr_tree_equal (aa->corner.expr, ab->corner.expr);
 	}
 
+	case OPER_SET:
+		return expr_list_equal (a->set.set, b->set.set);
+
 	default :
 		g_assert_not_reached ();
 	}
@@ -384,7 +370,7 @@ eval_funcall (EvalPos const *pos, ExprTree const *expr,
 {
 	FunctionEvalInfo ei;
 	FunctionDefinition *fd;
-	GList *args;
+	ExprList *args;
 
 	g_return_val_if_fail (pos != NULL, NULL);
 	g_return_val_if_fail (expr != NULL, NULL);
@@ -975,6 +961,8 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 			return NULL;
 		return value_duplicate (a);
 	}
+	case OPER_SET:
+		g_warning ("Not implemented until 1.1");
 	}
 
 	return value_new_error (pos, _("Unknown evaluation error"));
@@ -1007,7 +995,7 @@ expr_eval (ExprTree const *expr, EvalPos const *pos,
  * creates a string representation.
  */
 static char *
-do_expr_tree_to_string (ExprTree const *expr, ParsePos const *pp,
+do_expr_tree_as_string (ExprTree const *expr, ParsePos const *pp,
 			int paren_level)
 {
 	static const struct {
@@ -1031,14 +1019,13 @@ do_expr_tree_to_string (ExprTree const *expr, ParsePos const *pp,
 		{ NULL, 0, 0, 0 }, /* Name     */
 		{ NULL, 0, 0, 0 }, /* Constant */
 		{ NULL, 0, 0, 0 }, /* Var      */
-		{ "-",  5, 0, 0 }, /* Unary - */
-		{ "+",  5, 0, 0 }, /* Unary + */
+		{ "-",  5, 0, 0 }, /* Unary -  */
+		{ "+",  5, 0, 0 }, /* Unary +  */
 		{ "%",  5, 0, 0 }, /* Percentage (NOT MODULO) */
-		{ NULL, 0, 0, 0 }  /* Array    */
+		{ NULL, 0, 0, 0 }, /* Array    */
+		{ NULL, 0, 0, 0 }  /* Set      */
 	};
-	int op;
-
-	op = expr->any.oper;
+	int const op = expr->any.oper;
 
 	switch (op) {
 	case OPER_ANY_BINARY: {
@@ -1046,9 +1033,9 @@ do_expr_tree_to_string (ExprTree const *expr, ParsePos const *pp,
 		char const *opname;
 		int const prec = operations[op].prec;
 
-		a = do_expr_tree_to_string (expr->binary.value_a, pp,
+		a = do_expr_tree_as_string (expr->binary.value_a, pp,
 					    prec - operations[op].assoc_left);
-		b = do_expr_tree_to_string (expr->binary.value_b, pp,
+		b = do_expr_tree_as_string (expr->binary.value_b, pp,
 					    prec - operations[op].assoc_right);
 		opname = operations[op].name;
 
@@ -1067,7 +1054,7 @@ do_expr_tree_to_string (ExprTree const *expr, ParsePos const *pp,
 		char const *opname;
 		int const prec = operations[op].prec;
 
-		a = do_expr_tree_to_string (expr->unary.value, pp,
+		a = do_expr_tree_as_string (expr->unary.value, pp,
 					    operations[op].prec);
 		opname = operations[op].name;
 
@@ -1087,52 +1074,16 @@ do_expr_tree_to_string (ExprTree const *expr, ParsePos const *pp,
 	}
 
 	case OPER_FUNCALL: {
-		FunctionDefinition *fd;
-		GList *arg_list, *l;
-		char *res, *sum;
-		char **args;
-		int  argc;
+		ExprList const * const arg_list = expr->func.arg_list;
 
-		fd = expr->func.func;
-		arg_list = expr->func.arg_list;
-		argc = g_list_length (arg_list);
-
-		if (argc) {
-			int i, len = 0;
-			char sep [2] = { '\0', '\0' };
-
-			sep [0] = format_get_arg_sep ();
-
-			i = 0;
-			args = g_malloc (sizeof (char *) * argc);
-			for (l = arg_list; l; l = l->next, i++) {
-				ExprTree *t = l->data;
-
-				args [i] = do_expr_tree_to_string (t, pp, 0);
-				len += strlen (args [i]) + 1;
-			}
-			len++;
-			sum = g_malloc (len + 2);
-
-			i = 0;
-			sum [0] = 0;
-			for (l = arg_list; l; l = l->next, i++) {
-				strcat (sum, args [i]);
-				if (l->next)
-					strcat (sum, sep);
-			}
-
-			res = g_strconcat (function_def_get_name (fd),
-					   "(", sum, ")", NULL);
+		if (arg_list != NULL) {
+			char *sum = expr_list_as_string (arg_list, pp);
+			char *res = g_strconcat (function_def_get_name (expr->func.func),
+				"(", sum, ")", NULL);
 			g_free (sum);
-
-			for (i = 0; i < argc; i++)
-				g_free (args [i]);
-			g_free (args);
-
 			return res;
 		} else
-			return g_strconcat (function_def_get_name (fd),
+			return g_strconcat (function_def_get_name (expr->func.func),
 					    "()", NULL);
 	}
 
@@ -1189,7 +1140,6 @@ do_expr_tree_to_string (ExprTree const *expr, ParsePos const *pp,
 	case OPER_ARRAY: {
 		int const x = expr->array.x;
 		int const y = expr->array.y;
-		char *res;
 		if (x != 0 || y != 0) {
 			Cell *corner = expr_tree_array_corner (expr,
 				pp->sheet, &pp->eval);
@@ -1198,18 +1148,18 @@ do_expr_tree_to_string (ExprTree const *expr, ParsePos const *pp,
 				tmp_pos.wb  = pp->wb;
 				tmp_pos.eval.col = pp->eval.col - x;
 				tmp_pos.eval.row = pp->eval.row - y;
-				res = do_expr_tree_to_string (
+				return do_expr_tree_as_string (
 					corner->base.expression->array.corner.expr,
 					&tmp_pos, 0);
 			} else
-				res = g_strdup ("<ERROR>");
-		} else {
-			res = do_expr_tree_to_string (
+				return g_strdup ("<ERROR>");
+		} else
+			return do_expr_tree_as_string (
 			    expr->array.corner.expr, pp, 0);
-		}
-
-		return res;
         }
+
+	case OPER_SET:
+		return expr_list_as_string (expr->set.set, pp);
 	}
 
 	g_warning ("ExprTree: This should not happen\n");
@@ -1221,7 +1171,7 @@ expr_tree_as_string (ExprTree const *expr, ParsePos const *pp)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 
-	return do_expr_tree_to_string (expr, pp, 0);
+	return do_expr_tree_as_string (expr, pp, 0);
 }
 
 typedef enum {
@@ -1496,18 +1446,18 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 
 	case OPER_FUNCALL: {
 		gboolean rewrite = FALSE;
-		GList *new_args = NULL;
-		GList *l;
+		ExprList *new_args = NULL;
+		ExprList *l;
 
 		for (l = expr->func.arg_list; l; l = l->next) {
 			ExprTree *arg = expr_rewrite (l->data, rwinfo);
-			new_args = g_list_append (new_args, arg);
+			new_args = expr_list_append (new_args, arg);
 			if (arg != NULL)
 				rewrite = TRUE;
 		}
 
 		if (rewrite) {
-			GList *m;
+			ExprList *m;
 
 			for (l = expr->func.arg_list, m = new_args; l; l = l->next, m = m->next) {
 				if (m->data == NULL)
@@ -1516,7 +1466,7 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 
 			return expr_tree_new_funcall (expr->func.func, new_args);
 		}
-		g_list_free (new_args);
+		g_slist_free (new_args);
 		return NULL;
 	}
 
@@ -1658,6 +1608,7 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 		}
 		return NULL;
 	}
+	case OPER_SET:
 	}
 
 	g_assert_not_reached ();
@@ -1761,7 +1712,7 @@ expr_tree_boundingbox (ExprTree const *expr, Range *bound)
 		break;
 
 	case OPER_FUNCALL: {
-		GList *l;
+		ExprList *l;
 		for (l = expr->func.arg_list; l; l = l->next)
 			expr_tree_boundingbox (l->data, bound);
 		break;
@@ -1827,4 +1778,59 @@ expr_tree_get_range (ExprTree const *expr)
 	default:
 		return NULL;
 	}
+}
+
+void
+expr_list_unref (ExprList *list)
+{
+	ExprList *l;
+	for (l = list; l; l = l->next)
+		do_expr_tree_unref (l->data);
+	expr_list_free (list);
+}
+
+gboolean
+expr_list_equal (ExprList const *la, ExprList const *lb)
+{
+	for (; la != NULL && lb != NULL; la = la->next, lb =lb->next)
+		if (!expr_tree_equal (la->data, lb->data))
+			return FALSE;
+	return (la == NULL) && (lb == NULL);
+}
+
+char *
+expr_list_as_string (ExprList const *list, ParsePos const *pp)
+{
+	int i, len = 0;
+	int argc = expr_list_length ((ExprList *)list);
+	char sep [2] = { '\0', '\0' };
+	char *sum, **args;
+	ExprList const *l;
+
+	sep [0] = format_get_arg_sep ();
+
+	i = 0;
+	args = g_malloc (sizeof (char *) * argc);
+	for (l = list; l; l = l->next, i++) {
+		ExprTree *t = l->data;
+
+		args [i] = do_expr_tree_as_string (t, pp, 0);
+		len += strlen (args [i]) + 1;
+	}
+	len++;
+	sum = g_malloc (len + 2);
+
+	i = 0;
+	sum [0] = 0;
+	for (l = list; l != NULL; l = l->next) {
+		strcat (sum, args [i++]);
+		if (l->next)
+			strcat (sum, sep);
+	}
+
+	for (i = 0; i < argc; i++)
+		g_free (args [i]);
+	g_free (args);
+
+	return sum;
 }

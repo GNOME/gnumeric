@@ -1254,7 +1254,7 @@ xml_sax_style_condition_expr (XMLSaxParseState *state, CHAR const **attrs)
 		ParsePos pos, *pp;
 		
 		pp = parse_pos_init (&pos, state->wb, state->sheet, 0, 0);
-		if ((expr = expr_parse_string (cexpr, pp, NULL, NULL)) == NULL)
+		if ((expr = expr_parse_str_simple (cexpr, pp)) == NULL)
 			g_warning ("XML-IO: empty/missing expression in StyleCondition");
 	} else
 		g_warning ("StyleConditionExpression without Expression!");
@@ -1386,9 +1386,7 @@ xml_cell_set_array_expr (Cell *cell, char const *text,
 	ParsePos pp;
 	ExprTree *expr;
 
-	expr = expr_parse_string (text,
-				  parse_pos_init_cell (&pp, cell),
-				  NULL, NULL);
+	expr = expr_parse_str_simple (text, parse_pos_init_cell (&pp, cell));
 
 	g_return_if_fail (expr != NULL);
 	cell_set_array_formula (cell->base.sheet,

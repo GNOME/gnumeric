@@ -10,18 +10,18 @@ typedef struct {
 } stat_closure_t;
 
 void setup_stat_closure     (stat_closure_t *cl);
-Value *callback_function_stat (const EvalPos *ep, Value *value,
+Value *callback_function_stat (EvalPos const *ep, Value *value,
 			       void *closure);
 
-Value *gnumeric_average     (FunctionEvalInfo *s, GList *nodes);
-Value *gnumeric_count       (FunctionEvalInfo *s, GList *nodes);
-Value *gnumeric_stdev       (FunctionEvalInfo *s, GList *nodes);
-Value *gnumeric_stdevp      (FunctionEvalInfo *s, GList *nodes);
-Value *gnumeric_var         (FunctionEvalInfo *s, GList *nodes);
-Value *gnumeric_varp        (FunctionEvalInfo *s, GList *nodes);
-Value *gnumeric_counta      (FunctionEvalInfo *s, GList *nodes);
-Value *gnumeric_min         (FunctionEvalInfo *s, GList *nodes);
-Value *gnumeric_max         (FunctionEvalInfo *s, GList *nodes);
+Value *gnumeric_average     (FunctionEvalInfo *s, ExprList *nodes);
+Value *gnumeric_count       (FunctionEvalInfo *s, ExprList *nodes);
+Value *gnumeric_stdev       (FunctionEvalInfo *s, ExprList *nodes);
+Value *gnumeric_stdevp      (FunctionEvalInfo *s, ExprList *nodes);
+Value *gnumeric_var         (FunctionEvalInfo *s, ExprList *nodes);
+Value *gnumeric_varp        (FunctionEvalInfo *s, ExprList *nodes);
+Value *gnumeric_counta      (FunctionEvalInfo *s, ExprList *nodes);
+Value *gnumeric_min         (FunctionEvalInfo *s, ExprList *nodes);
+Value *gnumeric_max         (FunctionEvalInfo *s, ExprList *nodes);
 
 Value *gnumeric_return_current_time (void);
 

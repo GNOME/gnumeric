@@ -1059,9 +1059,8 @@ gnm_graph_read_xml (SheetObject *so,
 			continue;
 
 		content = xmlNodeGetContent (tmp);
-		expr = expr_parse_string (content,
-			parse_pos_init (&pos, NULL, ctxt->sheet, 0, 0),
-			NULL, NULL);
+		expr = expr_parse_str_simple (content,
+			parse_pos_init (&pos, NULL, ctxt->sheet, 0, 0));
 		xmlFree (content);
 
 		g_return_val_if_fail (expr != NULL, TRUE);

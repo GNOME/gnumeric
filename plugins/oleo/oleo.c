@@ -243,9 +243,9 @@ oleo_parse_formula (const char *text, const Sheet *sheet, int col, int row)
 
 	parse_pos_init_cell (&pos, cell);
 
-	expr = expr_parse_string (oleo_get_gnumeric_expr (gnumeric_text,
-						      text, &pos),
-			       parse_pos_init_cell (&pos, cell),
+	expr = expr_parse_str (oleo_get_gnumeric_expr (gnumeric_text,
+						       text, &pos),
+			       &pos, GNM_PARSER_DEFAULT,
 			       NULL, parse_error_init (&error));
 
 	if (error.id!=PERR_NONE) {

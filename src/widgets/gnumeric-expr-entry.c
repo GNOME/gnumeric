@@ -739,8 +739,6 @@ gnumeric_expr_entry_parse (GnumericExprEntry *ee, ParsePos const *pp)
 	char const *text;
 	char *str;
 	ExprTree *expr;
-	ParseError err;
-	StyleFormat *desired_format;
 	int flags;
 
 	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (ee), NULL);
@@ -757,15 +755,10 @@ gnumeric_expr_entry_parse (GnumericExprEntry *ee, ParsePos const *pp)
 		flags |= GNM_PARSER_FORCE_ABSOLUTE_ROW_REFERENCES;
 	if (!(ee->flags & GNUM_EE_SHEET_OPTIONAL))
 		flags |= GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES;
-	expr = gnumeric_expr_parser (text, pp,
-		flags, &desired_format,
-		parse_error_init (&err));
 
-	/* FIXME : what to do with errors ? */
-	parse_error_free (&err);
-
+	expr = expr_parse_str (text, pp, flags, NULL, NULL);
 	if (expr == NULL)
-		return expr;
+		return NULL;
 
 	if (ee->flags & GNUM_EE_SINGLE_RANGE) {
 		Value *range = expr_tree_get_range (expr) ;

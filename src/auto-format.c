@@ -96,7 +96,7 @@ auto_format_function_result (FunctionDefinition *fd, AutoFormatTypes res)
 
 /* ------------------------------------------------------------------------- */
 
-static AutoFormatTypes do_af_suggest_list (GList *list,
+static AutoFormatTypes do_af_suggest_list (ExprList *list,
 					   EvalPos const *epos,
 					   char **explicit);
 
@@ -179,7 +179,7 @@ do_af_suggest (const ExprTree *expr, const EvalPos *epos, char **explicit)
 						   epos, explicit);
 
 		case AF_FIRST_ARG_FORMAT2: {
-			GList *l;
+			ExprList *l;
 			l = expr->func.arg_list;
 			if (l) l = l->next;
 			return do_af_suggest_list (l, epos, explicit);
@@ -257,7 +257,7 @@ do_af_suggest (const ExprTree *expr, const EvalPos *epos, char **explicit)
 }
 
 static AutoFormatTypes
-do_af_suggest_list (GList *list, const EvalPos *epos, char **explicit)
+do_af_suggest_list (ExprList *list, const EvalPos *epos, char **explicit)
 {
 	AutoFormatTypes typ = AF_UNKNOWN;
 	while (list && (typ == AF_UNKNOWN || typ == AF_UNITLESS)) {

@@ -566,7 +566,7 @@ simple_consolidate (FunctionDefinition *fd, GlobalRange const *dst, GSList const
 		
 	for (y = box.start.row; y <= box.end.row; y++) {
 		for (x = box.start.col; x <= box.end.col; x++) {
-			GList *args = NULL;
+			ExprList *args = NULL;
 			
 			for (l = src; l != NULL; l = l->next) {
 				GlobalRange const *gr = l->data;
@@ -611,7 +611,7 @@ simple_consolidate (FunctionDefinition *fd, GlobalRange const *dst, GSList const
 				prev_r = &val->v_range.cell;
 				prev_sheet = gr->sheet;
 				
-				args = g_list_append (args, expr_tree_new_constant (val));
+				args = expr_list_append (args, expr_tree_new_constant (val));
 			}
 			
 			/* There is no need to free 'args', it will be absorbed
@@ -777,11 +777,11 @@ col_consolidate (Consolidate *cs)
 	tree_free (tree);
 }
 
-static GList *
+static ExprList *
 colrow_formula_args_build (Value const *row_name, Value const *col_name, GSList *granges)
 {
 	GSList const *l;
-	GList *args = NULL;
+	ExprList *args = NULL;
 	
 	for (l = granges; l != NULL; l = l->next) {
 		GlobalRange *gr = l->data;
@@ -811,7 +811,7 @@ colrow_formula_args_build (Value const *row_name, Value const *col_name, GSList 
 				ref.row = ry;
 				ref.col_relative = ref.row_relative = FALSE;
 
-				args = g_list_append (args, expr_tree_new_var (&ref));
+				args = expr_list_append (args, expr_tree_new_var (&ref));
 			}
 
 		}
@@ -854,7 +854,7 @@ colrow_consolidate (Consolidate *cs)
 
 		for (m = cols; m != NULL && cs->dst->range.start.col + x < SHEET_MAX_COLS; m = m->next, x++) {
 			Value const *col_name = m->data;
-			GList *args;
+			ExprList *args;
 
 			if (cs->mode & CONSOLIDATE_COPY_LABELS) {
 				set_cell_value (cs->dst->sheet,

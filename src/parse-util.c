@@ -608,7 +608,8 @@ parse_text_value_or_expr (ParsePos const *pos, char const *text,
 	/* If it does not match known formats, see if it is an expression */
 	expr_start = gnumeric_char_start_expr_p (text);
 	if (NULL != expr_start && *expr_start) {
-		*expr = expr_parse_string (expr_start, pos, &desired_fmt, NULL);
+		*expr = expr_parse_str (expr_start, pos,
+			GNM_PARSER_DEFAULT, &desired_fmt, NULL);
 		if (*expr != NULL)
 			return desired_fmt;
 	}

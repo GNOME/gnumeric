@@ -137,30 +137,27 @@ func_struct_t functions[] = {
 	{ 1, 0xFF, "AAFEND", NORMAL, 0 }
 };
 
-/* Copied wholesale from Excel code */
-typedef GList    ParseList;
-
 static void
-parse_list_push (ParseList **list, ExprTree *pd)
+parse_list_push_expr (ExprList **list, ExprTree *pd)
 {
 	if (!pd)
-		printf ("FIXME: Pushing nothing onto excel function stack\n");
-	*list = g_list_prepend (*list, pd) ;
+		printf ("FIXME: Pushing nothing onto lotus function stack\n");
+	*list = expr_list_prepend (*list, pd) ;
 }
 static void
-parse_list_push_raw (ParseList **list, Value *v)
+parse_list_push_value (ExprList **list, Value *v)
 {
-	parse_list_push (list, expr_tree_new_constant (v));
+	parse_list_push_expr (list, expr_tree_new_constant (v));
 }
 
 static ExprTree *
-parse_list_pop (ParseList **list)
+parse_list_pop (ExprList **list)
 {
 	/* Get the head */
-	ParseList *tmp = g_list_nth (*list, 0);
+	ExprList *tmp = g_slist_nth (*list, 0);
 	if (tmp != NULL) {
 		ExprTree *ans = tmp->data ;
-		*list = g_list_remove (*list, ans) ;
+		*list = g_slist_remove (*list, ans) ;
 		return ans ;
 	}
 
@@ -171,17 +168,17 @@ parse_list_pop (ParseList **list)
 /**
  * Returns a new list composed of the last n items pop'd off the list.
  **/
-static ParseList *
-parse_list_last_n (ParseList **list, gint n)
+static ExprList *
+parse_list_last_n (ExprList **list, gint n)
 {
-	ParseList *l = NULL;
+	ExprList *l = NULL;
 	while (n-- > 0)
-		l = g_list_prepend (l, parse_list_pop (list));
+		l = expr_list_prepend (l, parse_list_pop (list));
 	return l;
 }
 
 static void
-parse_list_free (ParseList **list)
+parse_list_free (ExprList **list)
 {
 	while (*list)
 		expr_tree_unref (parse_list_pop (list));
@@ -239,7 +236,7 @@ find_function (guint16 idx)
 }
 
 static gint32
-make_function (GList **stack, guint16 idx, guint8 *data)
+make_function (ExprList **stack, guint16 idx, guint8 *data)
 {
 	gint32 ans, numargs;
 	func_struct_t *f = &functions[idx];
@@ -254,7 +251,7 @@ make_function (GList **stack, guint16 idx, guint8 *data)
 
 	if (f->special == NORMAL) {
 		FunctionDefinition *func;
-		GList  *args = parse_list_last_n (stack, numargs);
+		ExprList  *args = parse_list_last_n (stack, numargs);
 
 		/* FIXME : Do we need to support workbook local functions ? */
 		func = func_lookup_by_name (f->name, NULL);
@@ -263,23 +260,23 @@ make_function (GList **stack, guint16 idx, guint8 *data)
 			txt = g_strdup_printf ("[Function '%s']",
 					       f->name ? f->name : "?");
 			printf ("Unknown %s\n", txt);
-			parse_list_push (stack, expr_tree_new_error (txt));
+			parse_list_push_expr (stack, expr_tree_new_error (txt));
 			g_free (txt);
 
 			parse_list_free (&args);
 			return ans;
 		} else
-			parse_list_push (stack,
+			parse_list_push_expr (stack,
 					 expr_tree_new_funcall (func, args));
 	} else if (f->special == BINOP) {
 		ExprTree *l, *r;
 		r = parse_list_pop (stack);
 		l = parse_list_pop (stack);
-		parse_list_push (stack, expr_tree_new_binary (l, f->data, r));
+		parse_list_push_expr (stack, expr_tree_new_binary (l, f->data, r));
 	} else if (f->special == UNARY) {
 		ExprTree *r;
 		r = parse_list_pop (stack);
-		parse_list_push (stack, expr_tree_new_unary (f->data, r));
+		parse_list_push_expr (stack, expr_tree_new_unary (f->data, r));
 	} else
 		g_warning ("Unknown formula type");
 
@@ -291,7 +288,7 @@ ExprTree *
 lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 		     guint8 *data, guint32 len)
 {
-	GList    *stack = NULL;
+	ExprList *stack = NULL;
 	guint     i;
 	CellRef   a, b;
 	Value    *v;
@@ -302,12 +299,12 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 		switch (data[i]) {
 		case LOTUS_FORMULA_CONSTANT:
 			v = value_new_float (gnumeric_get_le_double (data + i + 1));
-			parse_list_push_raw (&stack, v);
+			parse_list_push_value (&stack, v);
 			i += 9;
 			break;
 		case LOTUS_FORMULA_VARIABLE:
 			get_cellref (&a, data + i + 1, data + i + 3, col, row);
-			parse_list_push (&stack, expr_tree_new_var (&a));
+			parse_list_push_expr (&stack, expr_tree_new_var (&a));
 			i += 5;
 			break;
 		case LOTUS_FORMULA_RANGE:
@@ -315,7 +312,7 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 			get_cellref (&b, data + i + 5, data + i + 7, col, row);
 
 			v = value_new_cellrange (&a, &b, col, row);
-			parse_list_push_raw (&stack, v);
+			parse_list_push_value (&stack, v);
 			i += 9;
 			break;
 		case LOTUS_FORMULA_RETURN:
@@ -328,7 +325,7 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 		{
 			gint16 num = gnumeric_get_le_int16 (data + i + 1);
 			v = value_new_int (num);
-			parse_list_push_raw (&stack, v);
+			parse_list_push_value (&stack, v);
 			i += 3;
 			break;
 		}
@@ -362,9 +359,8 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 				error = TRUE;
 				done  = TRUE;
 				g_warning ("Duff PTG");
-			} else {
+			} else
 				i += make_function (&stack, idx, data + i);
-			}
 		}
 		}
 	}
