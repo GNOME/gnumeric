@@ -35,6 +35,9 @@ sub copy_subsystem {
 
     my @sources;
 
+    my $have_cvsignore = (-r "$srcdir/.cvsignore");
+    push @sources, ".cvsignore" if $have_cvsignore;
+
     local (*SRC,*DST);
     open (SRC, "<$srcdir/Makefile.am") or
 	die "$0: Cannot read $srcdir/Makefile.am: $!\n";
@@ -77,15 +80,17 @@ sub copy_subsystem {
     close (*DST);
     &update_file ("$dstdir/Makefile.am");
 
-    open (DST, ">$dstdir/.cvsignore.new") or
-	die "$0: Cannot write $dstdir/.cvsignore.new: $!\n";
-    print STDERR "Creating $dstdir/.cvsignore...";
-    print DST "Makefile.in\n";
-    print DST "Makefile\n";
-    print DST ".deps\n";
-    print DST ".libs\n";
-    close (*DST);
-    &update_file ("$dstdir/.cvsignore");
+    if (!$have_cvsignore) {
+	open (DST, ">$dstdir/.cvsignore.new") or
+	    die "$0: Cannot write $dstdir/.cvsignore.new: $!\n";
+	print STDERR "Creating $dstdir/.cvsignore...";
+	print DST "Makefile.in\n";
+	print DST "Makefile\n";
+	print DST ".deps\n";
+	print DST ".libs\n";
+	close (*DST);
+	&update_file ("$dstdir/.cvsignore");
+    }
 
     foreach my $file (@sources) {
 	local (*SRC,*DST);

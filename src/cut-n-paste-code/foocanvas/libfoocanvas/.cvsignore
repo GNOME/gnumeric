@@ -1,4 +1,8 @@
-Makefile.in
+/* File import from foocanvas to gnumeric by import-foocanvas.  Do not edit.  */
+
+ID
 Makefile
-.deps
-.libs
+Makefile.in
+foo-canvas-marshal.c
+foo-canvas-marshal.h
+libfoocanvas.pc
