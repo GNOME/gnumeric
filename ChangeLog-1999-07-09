@@ -1,3 +1,9 @@
+1998-12-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_new): Use the new gnomeapp api.
+
+	* src/gnumeric-sheet.c: Use the new canvas.
+	
 1998-12-14  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_new): Use

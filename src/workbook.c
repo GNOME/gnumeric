@@ -1211,11 +1211,14 @@ workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb)
 Workbook *
 workbook_new (void)
 {
+	GnomeDockItem *item;
+	GtkWidget *toolbar;
+	
 	static GtkTargetEntry drag_types[] =
 	{
 		{ "text/uri-list", 0, 0 },
 	};
-	static gint n_drag_types = sizeof(drag_types)/sizeof(drag_types[0]);
+	static gint n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
 
 	Workbook *wb;
 
@@ -1238,7 +1241,11 @@ workbook_new (void)
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
 	gnome_app_create_toolbar_with_data (GNOME_APP (wb->toplevel), workbook_toolbar, wb);
-	gtk_toolbar_set_style (GTK_TOOLBAR (GNOME_APP (wb->toplevel)->toolbar), GTK_TOOLBAR_ICONS);
+
+	item = gnome_app_get_dock_item_by_name (GNOME_APP (wb->toplevel), GNOME_APP_TOOLBAR_NAME);
+	toolbar = gnome_dock_item_get_child (item);
+	
+	gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_ICONS);
 
 	/* Focus handling */
 	gtk_signal_connect_after (

@@ -841,7 +841,7 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 	
 	entry = workbook->ea_input;
 	gsheet = gnumeric_sheet_create (sheet_view, entry);
-	gtk_widget_set_usize (gsheet, 300, 100);
+	gtk_widget_set_usize (GTK_WIDGET (gsheet), 300, 100);
 	
 	/* FIXME: figure out some real size for the canvas scrolling region */
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (gsheet), 0, 0, 1000000, 1000000);
@@ -940,11 +940,13 @@ void
 gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 {
 	GnomeCanvas   *canvas = GNOME_CANVAS (gsheet);
-	int pixels, col, row;
+	int pixels, col, row, width, height;
 
 	/* Find out the last visible col and the last full visible column */
 	pixels = 0;
 	col = gsheet->top_col;
+	width = GTK_WIDGET (canvas)->allocation.width;
+	
 	do {
 		ColRowInfo *ci;
 		int cb;
@@ -952,10 +954,10 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 		ci = sheet_col_get_info (gsheet->sheet_view->sheet, col);
 		cb = pixels + ci->pixels;
 		
-		if (cb == canvas->width){
+		if (cb == width){
 			gsheet->last_visible_col = col;
 			gsheet->last_full_col = col;
-		} if (cb > canvas->width){
+		} if (cb > width){
 			gsheet->last_visible_col = col;
 			if (col == gsheet->top_col)
 				gsheet->last_full_col = gsheet->top_col;
@@ -964,11 +966,12 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 		}
 		pixels = cb;
 		col++;
-	} while (pixels < canvas->width);
+	} while (pixels < width);
 
 	/* Find out the last visible row and the last fully visible row */
 	pixels = 0;
 	row = gsheet->top_row;
+	height = GTK_WIDGET (canvas)->allocation.height;
 	do {
 		ColRowInfo *ri;
 		int cb;
@@ -976,10 +979,10 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 		ri = sheet_row_get_info (gsheet->sheet_view->sheet, row);
 		cb = pixels + ri->pixels;
 		
-		if (cb == canvas->height){
+		if (cb == height){
 			gsheet->last_visible_row = row;
 			gsheet->last_full_row = row;
-		} if (cb > canvas->height){
+		} if (cb > height){
 			gsheet->last_visible_row = row;
 			if (col == gsheet->top_row)
 				gsheet->last_full_row = gsheet->top_row;
@@ -988,7 +991,7 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 		}
 		pixels = cb;
 		row++;
-	} while (pixels < canvas->height);
+	} while (pixels < height);
 }
 
 static int
@@ -1086,7 +1089,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 		new_top_col = col;
 	} else if (col > gsheet->last_full_col){
 		ColRowInfo *ci;
-		int width = canvas->width;
+		int width = GTK_WIDGET (canvas)->allocation.width;
 		int allocated = 0;
 		int first_col;
 
@@ -1106,7 +1109,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 		new_top_row = row;
 	} else if (row > gsheet->last_full_row){
 		ColRowInfo *ri;
-		int height = canvas->height;
+		int height = GTK_WIDGET (canvas)->allocation.height;
 		int allocated = 0;
 		int first_row;
 

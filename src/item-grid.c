@@ -770,7 +770,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 	Sheet *sheet = item_grid->sheet;
 	int col, row, x, y;
-
+	int width, height;
+	
 	switch (event->type){
 	case GDK_ENTER_NOTIFY: {
 		int cursor;
@@ -803,7 +804,9 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		
 		gnome_canvas_get_scroll_offsets (canvas, &col, &row);
 
-		if (x < col || y < row || x >= col + canvas->width || y >= row + canvas->height){
+		width = GTK_WIDGET (canvas)->allocation.width;
+		height = GTK_WIDGET (canvas)->allocation.height;
+		if (x < col || y < row || x >= col + width || y >= row + height){
 			int dx = 0, dy = 0;
 
 			if (item_grid->selecting == ITEM_GRID_NO_SELECTION)
@@ -811,13 +814,13 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			
 			if (x < col)
 				dx = x - col;
-			else if (x >= col + canvas->width)
-				dx = x - canvas->width - col;
+			else if (x >= col + width)
+				dx = x - width - col;
 
 			if (y < row)
 				dy = y - row;
-			else if (y >= row + canvas->height)
-				dy = y - canvas->height - row;
+			else if (y >= row + height)
+				dy = y - height - row;
 			
 			if ((!dx || (dx < 0 && !gsheet->top_col) ||
 			     (dx >= 0 && gsheet->last_full_col == SHEET_MAX_COLS-1)) &&

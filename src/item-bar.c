@@ -212,7 +212,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 				bar_draw_cell (item_bar, drawable,
 					       sheet_row_selection_type (sheet, element),
 					       str, -x, 1 + total - y,
-					       item->canvas->width - x,
+					       GTK_WIDGET (item->canvas)->allocation.width - x,
 					       1 + total + pixels - y);
 			}
 		} else {
@@ -236,7 +236,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 					       sheet_col_selection_type (sheet, element),
 					       str, 1 + total - x, -y,
 					       1 + total + pixels - x,
-					       item->canvas->height - y);
+					       GTK_WIDGET (item->canvas)->allocation.height - y);
 			}
 		}
 		
@@ -313,20 +313,20 @@ static GnomeCanvasPoints *
 item_bar_get_line_points (ItemBar *item_bar, gdouble position)
 {
 	GnomeCanvasPoints *points;
-	GnomeCanvas *canvas = GNOME_CANVAS (item_bar->sheet_view->sheet_view);
+	GtkWidget *canvas = GTK_WIDGET (item_bar->sheet_view->sheet_view);
 	
 	points = gnome_canvas_points_new (2);
 
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
 		points->coords [0] = 0.0;
 		points->coords [1] = position;
-		points->coords [2] = canvas->width;
+		points->coords [2] = canvas->allocation.width;
 		points->coords [3] = position;
 	} else {
 		points->coords [0] = position;
 		points->coords [1] = 0.0;
 		points->coords [2] = position;
-		points->coords [3] = canvas->height;
+		points->coords [3] = canvas->allocation.height;
 	}
 
 	return points;
