@@ -1,5 +1,9 @@
 2000-08-22  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_clone_styles) : Init the style tables.
+
+2000-08-22  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet.c (sheet_clone_styles) : Patch leak.
 	(sheet_clone_selection) : Patch leak.
 

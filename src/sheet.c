@@ -3718,16 +3718,16 @@ sheet_clone_colrow_info_item (ColRowInfo *info, void *user_data)
 }
 
 static void
-sheet_clone_colrow_info (Sheet const *source_sheet, Sheet *new_sheet)
+sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 {
 	closure_clone_colrow closure;
 
-	closure.sheet = new_sheet;
+	closure.sheet = dst;
 	closure.is_column = TRUE;
-	col_row_foreach (&source_sheet->cols, 0, SHEET_MAX_COLS-1,
+	col_row_foreach (&src->cols, 0, SHEET_MAX_COLS-1,
 			 &sheet_clone_colrow_info_item, &closure);
 	closure.is_column = FALSE;
-	col_row_foreach (&source_sheet->rows, 0, SHEET_MAX_ROWS-1,
+	col_row_foreach (&src->rows, 0, SHEET_MAX_ROWS-1,
 			 &sheet_clone_colrow_info_item, &closure);
 }
 
@@ -3741,11 +3741,14 @@ sheet_clone_style_region (Sheet *sheet, StyleRegion *region)
 }
 
 static void
-sheet_clone_styles (Sheet const *source_sheet, Sheet *new_sheet)
+sheet_clone_styles (Sheet const *src, Sheet *dst)
 {
 	GList     *style_regions;
 
-	style_regions = sheet_get_style_list (source_sheet);
+	/* Init the style tables */
+	sheet_create_styles (dst);
+
+	style_regions = sheet_get_style_list (src);
 	style_regions = g_list_reverse (style_regions);
 
 	if (!style_regions)
@@ -3753,28 +3756,28 @@ sheet_clone_styles (Sheet const *source_sheet, Sheet *new_sheet)
 
 	for (; style_regions; style_regions = style_regions->next) {
 		StyleRegion *region = style_regions->data;
-		sheet_clone_style_region (new_sheet, region);
+		sheet_clone_style_region (dst, region);
 	}
 
 	g_list_free (style_regions);
 }
 
 static void
-sheet_clone_selection (Sheet const *source_sheet, Sheet *new_sheet)
+sheet_clone_selection (Sheet const *src, Sheet *dst)
 {
-	GList *selection = g_list_copy (source_sheet->selections);
+	GList *selection = g_list_copy (src->selections);
 
 	if (selection == NULL)
 		return;
 
 	/* A new sheet has A1 selected by default */
-	sheet_selection_reset_only (new_sheet);
+	sheet_selection_reset_only (dst);
 
 	selection = g_list_reverse (selection);
 	for (; selection; selection = selection->next) {
 		Range *range = selection->data;
 		g_return_if_fail (range != NULL);
-		sheet_selection_add_range (new_sheet,
+		sheet_selection_add_range (dst,
 					   range->start.col, range->start.row,
 					   range->start.col, range->start.row,
 					   range->end.col,   range->end.row);
@@ -3782,21 +3785,21 @@ sheet_clone_selection (Sheet const *source_sheet, Sheet *new_sheet)
 	g_list_free (selection);
 
 	/* Set the cursor position */
-	sheet_cursor_set (new_sheet,
-			  source_sheet->cursor.edit_pos.col,
-			  source_sheet->cursor.edit_pos.row,
-			  source_sheet->cursor.base_corner.col,
-			  source_sheet->cursor.base_corner.row,
-			  source_sheet->cursor.move_corner.col,
-			  source_sheet->cursor.move_corner.row);
+	sheet_cursor_set (dst,
+			  src->cursor.edit_pos.col,
+			  src->cursor.edit_pos.row,
+			  src->cursor.base_corner.col,
+			  src->cursor.base_corner.row,
+			  src->cursor.move_corner.col,
+			  src->cursor.move_corner.row);
 }
 
 static void
-sheet_clone_names (Sheet const *source_sheet, Sheet *new_sheet)
+sheet_clone_names (Sheet const *src, Sheet *dst)
 {
-	GList *names = g_list_copy (source_sheet->names);;
+	GList *names = g_list_copy (src->names);;
 
-	if (source_sheet->names == NULL)
+	if (src->names == NULL)
 		return;
 
 #if 0	/* Feature not implemented, not cloning it yet. */
@@ -3806,7 +3809,7 @@ sheet_clone_names (Sheet const *source_sheet, Sheet *new_sheet)
 		gchar *error;
 		g_return_if_fail (expresion != NULL);
 		text = expr_name_value (expresion);
-		if (!expr_name_create (new_sheet->workbook, new_sheet, expresion->name->str, text, &error))
+		if (!expr_name_create (dst->workbook, dst, expresion->name->str, text, &error))
 			g_warning ("Could not create expression. Sheet.c :%i, Error %s",
 				   __LINE__, error);
 	}
@@ -3815,7 +3818,7 @@ sheet_clone_names (Sheet const *source_sheet, Sheet *new_sheet)
 }
 
 static void
-sheet_clone_objects (Sheet const *source_sheet, Sheet *new_sheet)
+sheet_clone_objects (Sheet const *src, Sheet *dst)
 {
 	/* TODO: Clone objects */
 }
@@ -3824,11 +3827,11 @@ static void
 cb_sheet_cell_copy (gpointer unused, gpointer cell_param, gpointer new_sheet_param)
 {
 	Cell const *cell = (Cell const *) cell_param;
-	Sheet *new_sheet = (Sheet *) new_sheet_param;
+	Sheet *dst = (Sheet *) new_sheet_param;
 	Cell  *new_cell;
 	gboolean is_expr;
 
-	g_return_if_fail (new_sheet != NULL);
+	g_return_if_fail (dst != NULL);
 	g_return_if_fail (cell != NULL);
 
 	is_expr = cell_has_expr (cell);
@@ -3838,7 +3841,7 @@ cb_sheet_cell_copy (gpointer unused, gpointer cell_param, gpointer new_sheet_par
 			if (array->x == 0 && array->y == 0) {
 				ExprTree *expr = array->corner.func.expr;
 				expr_tree_ref (expr);
-				cell_set_array_formula (new_sheet,
+				cell_set_array_formula (dst,
 							cell->pos.row, cell->pos.col,
 							cell->pos.row + array->rows-1,
 							cell->pos.col + array->cols-1,
@@ -3852,24 +3855,23 @@ cb_sheet_cell_copy (gpointer unused, gpointer cell_param, gpointer new_sheet_par
 	}
 
 	new_cell = cell_copy (cell);
-	sheet_cell_insert (new_sheet, new_cell,
+	sheet_cell_insert (dst, new_cell,
 			   cell->pos.col, cell->pos.row, FALSE);
 	if (is_expr)
 		sheet_cell_expr_link (new_cell);
 }
 
 static void
-sheet_clone_cells (Sheet const *source_sheet, Sheet *new_sheet)
+sheet_clone_cells (Sheet const *src, Sheet *dst)
 {
-	g_hash_table_foreach (source_sheet->cell_hash,
-			      &cb_sheet_cell_copy, new_sheet);
+	g_hash_table_foreach (src->cell_hash, &cb_sheet_cell_copy, dst);
 }
 
 Sheet *
 sheet_duplicate	(Sheet const *src)
 {
 	Workbook *wb;
-	Sheet *new_sheet;
+	Sheet *dst;
 	char *name;
 
 	g_return_val_if_fail (src != NULL, NULL);
@@ -3878,28 +3880,28 @@ sheet_duplicate	(Sheet const *src)
 	wb = src->workbook;
 	name = workbook_sheet_get_free_name (wb, src->name_unquoted,
 					     TRUE, TRUE);
-	new_sheet = sheet_new (wb, name);
+	dst = sheet_new (wb, name);
 	g_free (name);
 
         /* Copy the print info */
-	print_info_free (new_sheet->print_info);
-	new_sheet->print_info = print_info_copy (src->print_info);
+	print_info_free (dst->print_info);
+	dst->print_info = print_info_copy (src->print_info);
 
-	sheet_clone_styles         (src, new_sheet);
-	sheet_clone_colrow_info    (src, new_sheet);
-	sheet_clone_selection      (src, new_sheet);
-	sheet_clone_names          (src, new_sheet);
-	sheet_clone_objects        (src, new_sheet);
-	sheet_clone_cells          (src, new_sheet);
+	sheet_clone_styles         (src, dst);
+	sheet_clone_colrow_info    (src, dst);
+	sheet_clone_selection      (src, dst);
+	sheet_clone_names          (src, dst);
+	sheet_clone_objects        (src, dst);
+	sheet_clone_cells          (src, dst);
 
 	/* Copy the solver */
-	solver_lp_copy (&src->solver_parameters, new_sheet);
+	solver_lp_copy (&src->solver_parameters, dst);
 
 	/* Force a respan and rerender */
-	sheet_set_zoom_factor (new_sheet, src->last_zoom_factor_used, TRUE);
+	sheet_set_zoom_factor (dst, src->last_zoom_factor_used, TRUE);
 
-	sheet_set_dirty (new_sheet, TRUE);
-	sheet_redraw_all (new_sheet);
+	sheet_set_dirty (dst, TRUE);
+	sheet_redraw_all (dst);
 
-	return new_sheet;
+	return dst;
 }
