@@ -141,7 +141,7 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 		data= gsf_input_read (input, 2, NULL);
 		if (data[0] == 0x09 && (data[1] & 0xf1) == 0) {
 			gsf_input_seek (input, -2, G_SEEK_CUR);
-			ms_excel_read_workbook (context, wbv, input);
+			excel_read_workbook (context, wbv, input);
 			return;
 		}
 
@@ -163,7 +163,7 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 		return;
 	}
 
-	ms_excel_read_workbook (context, wbv, stream);
+	excel_read_workbook (context, wbv, stream);
 	g_object_unref (G_OBJECT (stream));
 
 	excel_read_metadata (ole, "\05SummaryInformation", COMMAND_CONTEXT (context));
@@ -268,7 +268,7 @@ excel95_file_save (GnumFileSaver const *fs, IOContext *context,
 void
 plugin_init (void)
 {
-	ms_excel_read_init ();
+	excel_read_init ();
 }
 
 /*
@@ -279,5 +279,5 @@ void
 plugin_cleanup (void)
 {
 	destroy_xl_font_widths ();
-	ms_excel_read_cleanup ();
+	excel_read_cleanup ();
 }

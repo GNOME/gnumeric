@@ -1,3 +1,53 @@
+2002-10-21  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula) : Ok. take a 2nd crack at
+	  the externsheet handling in area3d and ref3d for biff7.  It seems
+	  like XL2k generates different idicies when exporting as XL95 than
+	  XL95 did.  So have a fall back.  If the theory that
+	    a+1 == -ixals, a, b are 0 based
+	  fails.  Go back to 
+	    a   == ixals, and a, b are 1 based
+
+2002-10-21  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (ms_excel_parse_formula) : improve readability of
+	  debug spew and send thing to stderr.
+	Fix handling of extern names and refrences.  This time I think we've
+	finally got it.
+
+2002-10-21  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c : tidy up naming conventions
+	    excel_read_<BIFFTAG>
+	  - Use fprintf to keep g_warning and printfs in sync
+	  - Use esheet for ExcelSheets and ewb for ExcelWorkbooks
+	  - Use Sheet and wb for the gnumeric variants
+	(ms_excel_sheet_new) : check to see if the sheet already exists
+	  in case it was implicitly created in a SUPBOOK or EXTERNSHEET.
+	  This will be useful when we start restoring external links shortly.
+	(ms_excel_workbook_attach) : delete.
+	(ms_excel_workbook_detach) : delete.
+	(ms_excel_sheet_destroy) : clear out the sheet local extensheet
+	  records for biff5.
+	(excel_read_BOUNDSHEET) : use ms_excel_sheet_new.
+	(excel_externsheet_v8) : rewrite to handle self ref.  Only partially
+	  done.
+	(supbook_get_sheet) : ditto.
+	(excel_read_EXTERNSHEET_v8) : ditto.
+	(excel_externsheet_v7) : fix to use local externsheets.
+	(excel_read_EXTERNSHEET_v7) : rewrite and prep for external
+	  references.
+	(excel_workbook_get_name) : work around 'self ref' records for biff8.
+	(excel_parse_name) : work on scoping.  works for biff7 not biff8.
+	(ms_excel_handle_delayed_NAMEs) : delete.  the externsheet records are
+	  enough.
+	(excel_read_EXTERNNAME) : builtin names are just short forms for
+	  names, they have special meanings to XL but no special behavior.
+	(excel_read_NAME) : ditto.  Use the new externsheet setup and drop all
+	  of the delayed parsing goo.
+	(excel_read_XCT) : new.  prep for external references.
+	(excel_read_CALCMODE) : new.  now that we support manual recalc.
+
 2002-10-17  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_excel_parse_NAME) : It looks like some

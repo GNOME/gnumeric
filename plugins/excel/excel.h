@@ -23,7 +23,7 @@ typedef enum { MS_BIFF_V2 = 2,
 	       MS_BIFF_V8 = 8, /* Excel 97 */
 	       MS_BIFF_V_UNKNOWN = 0} MsBiffVersion ;
 
-void ms_excel_read_workbook (IOContext *context,
+void excel_read_workbook (IOContext *context,
 			     WorkbookView *new_wb, GsfInput *input);
 /*
  * Here's why the state which is carried from excel_check_write to
@@ -42,8 +42,8 @@ void ms_excel_write_free_state (void *state);
 /* We need to use these for both read and write */
 typedef struct {
 	int r, g, b;
-} EXCEL_PALETTE_ENTRY;
-extern  EXCEL_PALETTE_ENTRY const excel_default_palette[];
+} ExcelPaletteEntry;
+extern  ExcelPaletteEntry const excel_default_palette[];
 #define EXCEL_DEF_PAL_LEN   56
 
 extern  char const *excel_builtin_formats[];

@@ -67,14 +67,14 @@
 
 static GIConv current_workbook_iconv = NULL;
 
-static guint style_color_to_rgb888 (const StyleColor *c);
+static guint style_color_to_rgb888 (StyleColor const *c);
 static gint  palette_get_index (ExcelWorkbook *wb, guint c);
 
 /**
  *  This function converts simple strings...
  **/
 int
-biff_convert_text (char **buf, const char *txt, MsBiffVersion ver)
+biff_convert_text (char **buf, char const *txt, MsBiffVersion ver)
 {
 	guint32 lp, len;
 
@@ -122,7 +122,7 @@ biff_convert_text (char **buf, const char *txt, MsBiffVersion ver)
  *  it returns the length of the string.
  **/
 int
-biff_put_text (BiffPut *bp, const char *txt, int len, MsBiffVersion ver,
+biff_put_text (BiffPut *bp, char const *txt, int len, MsBiffVersion ver,
 	       gboolean write_len, PutType how)
 {
 	guint8 data[4];
@@ -632,7 +632,7 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 		g_free(text);
 		ms_biff_put_var_seekto (bp, 14 + name_len);
 		len = ms_excel_write_formula (bp, esheet,
-			nexpr->t.expr_tree, 0, 0, 0);
+			nexpr->expr_tree, 0, 0, 0);
 
 		g_return_if_fail (len <= 0xffff);
 
@@ -829,10 +829,10 @@ biff_boundsheet_write_last (GsfOutput *output, guint32 pos,
 }
 
 /**
- * Convert EXCEL_PALETTE_ENTRY to guint representation used in BIFF file
+ * Convert ExcelPaletteEntry to guint representation used in BIFF file
  **/
 static guint
-palette_color_to_int (const EXCEL_PALETTE_ENTRY *c)
+palette_color_to_int (ExcelPaletteEntry const *c)
 {
 	return (c->b << 16) + (c->g << 8) + (c->r << 0);
 
@@ -842,7 +842,7 @@ palette_color_to_int (const EXCEL_PALETTE_ENTRY *c)
  * Convert StyleColor to guint representation used in BIFF file
  **/
 static guint
-style_color_to_rgb888 (const StyleColor *c)
+style_color_to_rgb888 (StyleColor const *c)
 {
 	return ((c->blue & 0xff00) << 8) + (c->green & 0xff00) + (c->red >> 8);
 
@@ -859,7 +859,7 @@ style_color_to_rgb888 (const StyleColor *c)
  * color is added to table.
  **/
 inline static void
-log_put_color (guint c, gboolean was_added, gint index, const char *tmpl)
+log_put_color (guint c, gboolean was_added, gint index, char const *tmpl)
 {
 	d(2, if (was_added) printf (tmpl, index, c););
 }
@@ -873,7 +873,7 @@ static void
 palette_put_defaults (ExcelWorkbook *wb)
 {
 	int i;
-	const EXCEL_PALETTE_ENTRY *epe;
+	ExcelPaletteEntry const *epe;
 	guint num;
 
 	for (i = 0; i < EXCEL_DEF_PAL_LEN; i++) {
@@ -957,7 +957,7 @@ palette_get_index (ExcelWorkbook *wb, guint c)
  * Add a color to palette if it is not already there
  **/
 static void
-put_color (ExcelWorkbook *wb, const StyleColor *c)
+put_color (ExcelWorkbook *wb, StyleColor const *c)
 {
 	TwoWayTable *twt = wb->pal->two_way_table;
 	gpointer pc = GUINT_TO_POINTER (style_color_to_rgb888 (c));
@@ -979,7 +979,7 @@ static void
 put_colors (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
 {
 	int i;
-	const StyleBorder * b;
+	StyleBorder const *b;
 
 	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_FORE));
 	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_BACK));
@@ -1075,9 +1075,9 @@ write_palette (BiffPut *bp, ExcelWorkbook *wb)
  * Return string description of font to print in debug log
  **/
 static char *
-excel_font_to_string (const ExcelFont *f)
+excel_font_to_string (ExcelFont const *f)
 {
-	const StyleFont *sf = f->style_font;
+	StyleFont const *sf = f->style_font;
 	static char buf[96];
 	guint nused;
 
@@ -1184,8 +1184,8 @@ excel_font_equal (gconstpointer a, gconstpointer b)
 	else if (!a || !b)
 		res = FALSE;	/* Recognize junk - inelegant, I know! */
 	else {
-		const ExcelFont *fa  = (const ExcelFont *) a;
-		const ExcelFont *fb  = (const ExcelFont *) b;
+		ExcelFont const *fa  = (ExcelFont const *) a;
+		ExcelFont const *fb  = (ExcelFont const *) b;
 		res = style_font_equal (fa->style_font, fb->style_font)
 			&& (fa->color == fb->color)
 			&& (fa->is_auto == fb->is_auto)
@@ -1247,7 +1247,7 @@ fonts_free (ExcelWorkbook *wb)
  * Get index of an ExcelFont
  **/
 static gint
-fonts_get_index (ExcelWorkbook *wb, const ExcelFont *f)
+fonts_get_index (ExcelWorkbook *wb, ExcelFont const *f)
 {
 	TwoWayTable *twt = wb->fonts->two_way_table;
 	return two_way_table_key_to_idx (twt, f);
@@ -1311,7 +1311,7 @@ gather_fonts (ExcelWorkbook *wb)
  * It would be useful to map well known fonts to Windows equivalents
  **/
 static void
-write_font (BiffPut *bp, ExcelWorkbook *wb, const ExcelFont *f)
+write_font (BiffPut *bp, ExcelWorkbook *wb, ExcelFont const *f)
 {
 	guint8 data[64];
 	StyleFont  *sf  = f->style_font;
@@ -1406,7 +1406,7 @@ write_fonts (BiffPut *bp, ExcelWorkbook *wb)
  **/
 static void
 after_put_format (StyleFormat *format, gboolean was_added, gint index,
-		  const char *tmpl)
+		  char const *tmpl)
 {
 	if (was_added) {
 		d (2, printf (tmpl, index, format););
@@ -1693,7 +1693,7 @@ gather_styles (ExcelWorkbook *wb)
  * consistency
  **/
 static int
-map_pattern_index_to_excel (int const i)
+map_pattern_index_to_excel (int i)
 {
 	static int const map_to_excel[] = {
 		 0,
@@ -1968,7 +1968,7 @@ static void
 build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 {
 	ExcelFont *f;
-	const StyleBorder *b;
+	StyleBorder const *b;
 	int pat;
 	StyleColor *pattern_color;
 	StyleColor *back_color;
@@ -2256,7 +2256,7 @@ write_xf (BiffPut *bp, ExcelWorkbook *wb)
 }
 
 int
-ms_excel_write_map_errcode (Value const * const v)
+ms_excel_write_map_errcode (Value const *v)
 {
 	char const * const mesg = v->v_err.mesg->str;
 	if (!strcmp (gnumeric_err_NULL, mesg))
@@ -2423,7 +2423,7 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
  * Write formula to file
  **/
 static void
-write_formula (BiffPut *bp, ExcelSheet *esheet, const Cell *cell, gint16 xf)
+write_formula (BiffPut *bp, ExcelSheet *esheet, Cell const *cell, gint16 xf)
 {
 	guint8   data[22];
 	guint8   lendat[2];
@@ -2750,7 +2750,7 @@ excel_write_margin (BiffPut *bp, guint16 op, double points)
  * Utility 
  */
 static double
-style_get_char_width (MStyle const *style, gboolean const is_default)
+style_get_char_width (MStyle const *style, gboolean is_default)
 {
 	return lookup_font_base_char_width (
 		mstyle_get_font_name (style), 20. * mstyle_get_font_size (style),

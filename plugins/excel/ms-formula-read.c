@@ -4,8 +4,9 @@
  *
  * Author:
  *    Michael Meeks (michael@ximian.com)
+ *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1998-2002 Michael Meeks
+ * (C) 1998-2002 Michael Meeks, Jody Goldberg
  */
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
@@ -434,9 +435,9 @@ static GnmExpr const *
 expr_tree_error (ExcelSheet const *esheet, int col, int row,
 		 char const *msg, char const *str)
 {
-	if (esheet != NULL && esheet->gnum_sheet != NULL) {
+	if (esheet != NULL && esheet->sheet != NULL) {
 		g_warning ("%s!%s : %s",
-			   esheet->gnum_sheet->name_unquoted,
+			   esheet->sheet->name_unquoted,
 			   cell_coord_name (col, row), msg);
 	} else if (col >= 0 && row >= 0) {
 		g_warning ("%s : %s", cell_coord_name (col, row), msg);
@@ -458,7 +459,7 @@ getRefV7 (CellRef *cr,
 {
 	guint16 const row = (guint16)(gbitrw & 0x3fff);
 
-	d (2, printf ("7In : 0x%x, 0x%x  at %s%s\n", col, gbitrw,
+	d (2, fprintf (stderr, "7In : 0x%x, 0x%x  at %s%s\n", col, gbitrw,
 		      cell_coord_name (curcol, currow), (shared?" (shared)":"")););
 
 	cr->sheet = NULL;
@@ -502,7 +503,7 @@ getRefV8 (CellRef *cr,
 {
 	guint8 const col = (guint8)(gbitcl & 0xff);
 
-	d (2, printf ("8In : 0x%x, 0x%x  at %s%s\n", row, gbitcl,
+	d (2, fprintf (stderr, "8In : 0x%x, 0x%x  at %s%s\n", row, gbitcl,
 		      cell_coord_name (curcol, currow), (shared?" (shared)":"")););
 
 	cr->sheet = NULL;
@@ -529,9 +530,9 @@ getRefV8 (CellRef *cr,
 static void
 parse_list_push (GnmExprList **list, GnmExpr const *pd)
 {
-	d (5, printf ("Push 0x%x\n", (int)pd););
+	d (5, fprintf (stderr, "Push 0x%x\n", (int)pd););
 	if (!pd)
-		printf ("FIXME: Pushing nothing onto excel function stack\n");
+		fprintf (stderr, "FIXME: Pushing nothing onto excel function stack\n");
 	*list = gnm_expr_list_prepend (*list, pd);
 }
 static void
@@ -548,7 +549,7 @@ parse_list_pop (GnmExprList **list)
 	if (tmp != NULL) {
 		GnmExpr const *ans = tmp->data;
 		*list = g_slist_remove (*list, ans);
-		d (5, printf ("Pop 0x%x\n", (int)ans););
+		d (5, fprintf (stderr, "Pop 0x%x\n", (int)ans););
 		return ans;
 	}
 
@@ -607,7 +608,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 			parse_list_free (&args);
 			parse_list_push_raw (stack,
 				value_new_error (NULL, _("Broken function")));
-			printf ("So much for that theory.\n");
+			fprintf (stderr, "So much for that theory.\n");
 			return FALSE;
 		}
 
@@ -623,7 +624,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 		const FormulaFuncData *fd = &formula_func_data[fn_idx];
 		GnmExprList *args;
 
-		d (2, printf ("Function '%s', args %d, templ: %d\n",
+		d (2, fprintf (stderr, "Function '%s', args %d, templ: %d\n",
 			      fd->prefix, numargs, fd->num_args););
 
 		/* Right args for multi-arg funcs. */
@@ -653,7 +654,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 			char *txt;
 			txt = g_strdup_printf ("[Function '%s']",
 					       fd->prefix?fd->prefix:"?");
-			printf ("Unknown %s\n", txt);
+			fprintf (stderr, "Unknown %s\n", txt);
 			parse_list_push_raw (stack, value_new_error (NULL, txt));
 			g_free (txt);
 
@@ -663,7 +664,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 		parse_list_push (stack, gnm_expr_new_funcall (name, args));
 		return TRUE;
 	} else
-		printf ("FIXME, unimplemented fn 0x%x, with %d args\n",
+		fprintf (stderr, "FIXME, unimplemented fn 0x%x, with %d args\n",
 			fn_idx, numargs);
 	return FALSE;
 }
@@ -675,11 +676,13 @@ static void
 ms_excel_dump_cellname (ExcelWorkbook const *ewb, ExcelSheet const *esheet,
 			int fn_col, int fn_row)
 {
-	if (esheet && esheet->gnum_sheet && esheet->gnum_sheet->name_unquoted)
-		printf ("%s!", esheet->gnum_sheet->name_unquoted);
-	else if (ewb && ewb->gnum_wb && workbook_get_filename (ewb->gnum_wb))
-		printf ("[%s]", workbook_get_filename (ewb->gnum_wb));
-	printf ("%s%d : ", col_name(fn_col), fn_row+1);
+	if (esheet && esheet->sheet && esheet->sheet->name_unquoted)
+		fprintf (stderr, "%s!", esheet->sheet->name_unquoted);
+	else if (ewb && ewb->gnum_wb && workbook_get_filename (ewb->gnum_wb)) {
+		fprintf (stderr, "[%s]", workbook_get_filename (ewb->gnum_wb));
+		return;
+	}
+	fprintf (stderr, "%s%d : ", col_name(fn_col), fn_row+1);
 }
 
 /* Binary operator tokens */
@@ -713,12 +716,12 @@ static GnmExprOp const unary_ops [] = {
  * Return a dynamicly allocated GnmExpr containing the formula, or NULL
  **/
 GnmExpr const *
-ms_excel_parse_formula (ExcelWorkbook const *ewb,
-			ExcelSheet const *esheet,
-			int fn_col, int fn_row,
-			guint8 const *mem, guint16 length,
-			gboolean shared,
-			gboolean *array_element)
+excel_parse_formula (ExcelWorkbook const *ewb,
+		     ExcelSheet const *esheet,
+		     int fn_col, int fn_row,
+		     guint8 const *mem, guint16 length,
+		     gboolean shared,
+		     gboolean *array_element)
 {
 	MsBiffVersion const ver = ewb->container.ver;
 
@@ -738,8 +741,8 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 	g_return_val_if_fail (ewb != NULL, NULL);
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 0) {
-		printf ("len = %d\n", length);
+	if (ms_excel_formula_debug > 1) {
+		fprintf (stderr, "--> len = %d\n", length);
 		ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
 		if (ms_excel_formula_debug > 2)
 			gsf_mem_dump (mem, length);
@@ -753,10 +756,10 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		if (ptg > FORMULA_PTG_MAX)
 			break;
 		d (5, {
-			printf ("Ptg : 0x%02x", ptg);
+			fprintf (stderr, "Ptg : 0x%02x", ptg);
 			if (ptg != ptgbase)
-				printf ("(0x%02x)", ptgbase);
-			printf ("\n");
+				fprintf (stderr, "(0x%02x)", ptgbase);
+			fprintf (stderr, "\n");
 		});
 
 		switch (ptgbase) {
@@ -767,12 +770,12 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 			top_left.row = GSF_LE_GET_GUINT16 (cur+0);
 			top_left.col = GSF_LE_GET_GUINT16 (cur+2);
-			sf = ms_excel_sheet_shared_formula (esheet, &top_left);
+			sf = excel_sheet_shared_formula (esheet, &top_left);
 
 			if (sf == NULL) {
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 3) {
-					printf ("Unknown shared formula @");
+					fprintf (stderr, "Unknown shared formula @");
 					ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
 				}
 #endif
@@ -784,7 +787,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 				if (array_element != NULL)
 					*array_element = TRUE;
 				else
-					printf ("EXCEL : unexpected array\n");
+					fprintf (stderr, "EXCEL : unexpected array\n");
 
 				parse_list_free (&stack);
 				return NULL;
@@ -792,10 +795,10 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_formula_debug > 0) {
-				printf ("Parse shared formula\n");
+				fprintf (stderr, "Parse shared formula\n");
 			}
 #endif
-			expr = ms_excel_parse_formula (ewb, esheet, fn_col, fn_row,
+			expr = excel_parse_formula (ewb, esheet, fn_col, fn_row,
 				sf->data, sf->data_len, TRUE, array_element);
 
 			parse_list_push (&stack, expr);
@@ -853,7 +856,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			break;
 
 		case FORMULA_PTG_PAREN:
-/*	  printf ("Ignoring redundant parenthesis ptg\n"); */
+/*	  fprintf (stderr, "Ignoring redundant parenthesis ptg\n"); */
 			ptg_length = 0;
 			break;
 
@@ -880,14 +883,14 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 				} /* else always warn */
 
 				ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
-				printf ("Hmm, ptgAttr of type 0 ??\n"
+				fprintf (stderr, "Hmm, ptgAttr of type 0 ??\n"
 					"I've seen a case where an instance of this with flag A and another with flag 3\n"
 					"bracket a 1x1 array formula.  please send us this file.\n"
 					"Flags = 0x%X\n", w);
 			} else if (grbit & 0x01) {
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 0) {
-					printf ("A volatile function: so what\n");
+					fprintf (stderr, "A volatile function: so what\n");
 				}
 #endif
 			} else if (grbit & 0x02) { /* AttrIf: 'optimised' IF function */
@@ -895,11 +898,11 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 				GnmExpr const *tr;
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 2) {
-					printf ("Optimised IF 0x%x 0x%x\n", grbit, w);
+					fprintf (stderr, "Optimised IF 0x%x 0x%x\n", grbit, w);
 					gsf_mem_dump (mem, length);
 				}
 #endif
-				tr = w ? ms_excel_parse_formula (ewb, esheet, fn_col, fn_row,
+				tr = w ? excel_parse_formula (ewb, esheet, fn_col, fn_row,
 					   cur+ptg_length, w, shared, NULL)
 					: expr_tree_string ("");
 				parse_list_push (&stack, tr);
@@ -912,7 +915,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 1) {
-					printf ("'Optimised' choose\n");
+					fprintf (stderr, "'Optimised' choose\n");
 					gsf_mem_dump (mem,length);
 				}
 #endif
@@ -921,12 +924,12 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 					len = GSF_LE_GET_GUINT16(data+2) - offset;
 #ifndef NO_DEBUG_EXCEL
 					if (ms_excel_formula_debug > 1) {
-						printf ("Get from %d len %d [ = 0x%x ]\n",
+						fprintf (stderr, "Get from %d len %d [ = 0x%x ]\n",
 							ptg_length+offset, len,
 							*(cur+ptg_length+offset));
 					}
 #endif
-					tr = ms_excel_parse_formula (ewb, esheet, fn_col, fn_row,
+					tr = excel_parse_formula (ewb, esheet, fn_col, fn_row,
 						cur+ptg_length+offset, len, shared, NULL);
 					data += 2;
 					parse_list_push (&stack, tr);
@@ -935,7 +938,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			} else if (grbit & 0x08) { /* AttrGoto */
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 2) {
-					printf ("Goto %d: cur = 0x%x\n", w,
+					fprintf (stderr, "Goto %d: cur = 0x%x\n", w,
 						(int)(cur-mem));
 					gsf_mem_dump (mem, length);
 				}
@@ -955,14 +958,14 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 				else
 #ifndef NO_DEBUG_EXCEL
 					if (ms_excel_formula_debug > 1) {
-						printf ("Redundant whitespace in formula 0x%x count %d\n", attrs, num_space);
+						fprintf (stderr, "Redundant whitespace in formula 0x%x count %d\n", attrs, num_space);
 					}
 #else
 				;
 #endif
 			} else {
 				ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
-				printf ("Unknown PTG Attr gr = 0x%x, w = 0x%x ptg = 0x%x\n", grbit, w, ptg);
+				fprintf (stderr, "Unknown PTG Attr gr = 0x%x, w = 0x%x ptg = 0x%x\n", grbit, w, ptg);
 				error = TRUE;
 			}
 		}
@@ -1001,7 +1004,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 					ptg_length = 2 + len;
 				}
 #if 0
-				printf ("v8+ PTG_STR '%s'\n", str);
+				fprintf (stderr, "v8+ PTG_STR '%s'\n", str);
 #endif
 			} else {
 				len = GSF_LE_GET_GUINT8 (cur);
@@ -1113,10 +1116,10 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 				parse_list_push (&stack, gnm_expr_new_cellref (&ref));
 			} else {
-				printf ("-------------------\n");
-				printf ("XL : Extended ptg %x\n", eptg_type);
+				fprintf (stderr, "-------------------\n");
+				fprintf (stderr, "XL : Extended ptg %x\n", eptg_type);
 				gsf_mem_dump (mem+2, length-2);
-				printf ("-------------------\n");
+				fprintf (stderr, "-------------------\n");
 			}
 		}
 		break;
@@ -1142,7 +1145,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 				/* no way to dump the content because we have
 				 * no idea how long it is
 				 */
-				printf ("An Array how interesting: (%d,%d)\n",
+				fprintf (stderr, "An Array how interesting: (%d,%d)\n",
 					cols, rows);
 			}
 #endif
@@ -1152,7 +1155,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 					val_type = GSF_LE_GET_GUINT8 (array_data);
 #ifndef NO_DEBUG_EXCEL
 					if (ms_excel_formula_debug > 5) {
-						printf ("\tArray elem type 0x%x (%d,%d)\n", val_type, lpx, lpy);
+						fprintf (stderr, "\tArray elem type 0x%x (%d,%d)\n", val_type, lpx, lpy);
 					}
 #endif
 					switch (val_type) {
@@ -1183,7 +1186,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 						if (str) {
 #ifndef NO_DEBUG_EXCEL
 							if (ms_excel_formula_debug > 5) {
-								printf ("\tString '%s'\n", str);
+								fprintf (stderr, "\tString '%s'\n", str);
 							}
 #endif
 							elem = value_new_string_nocopy (str);
@@ -1203,7 +1206,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 						break;
 
 					default :
-						printf ("FIXME: Duff array item type %d @ %s%d:%d,%d with %d\n",
+						fprintf (stderr, "FIXME: Duff array item type %d @ %s%d:%d,%d with %d\n",
 							val_type, col_name(fn_col), fn_row+1, lpx, lpy, elem_len);
 						gsf_mem_dump (array_data-elem_len-9, 9+elem_len+9);
 						elem = value_new_empty ();
@@ -1245,13 +1248,15 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 		case FORMULA_PTG_NAME: {
 			guint16 name_idx = GSF_LE_GET_GUINT16 (cur);
+
 			if (ver >= MS_BIFF_V8)
 				ptg_length = 4;  /* Docs are wrong, no ixti */
 			else
 				ptg_length = 14;
 
-			parse_list_push (&stack, ms_excel_workbook_get_name (ewb, -1, name_idx));
-			d (2, printf ("Name idx %hu\n", name_idx););
+			parse_list_push (&stack,
+				excel_workbook_get_name (ewb, esheet, name_idx, NULL));
+			d (2, fprintf (stderr, "Name idx %hu\n", name_idx););
 		}
 		break;
 
@@ -1323,23 +1328,34 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			ptg_length = 2;
 			break;
 
-		case FORMULA_PTG_NAME_X : { /* FIXME: Not using sheet_idx at all ... */
-			GnmExpr const *tree;
-			guint16 extn_name_idx; /* 1 based */
-			guint16 extn_sheet_idx;
+		case FORMULA_PTG_NAME_X : {
+			guint16 name_idx; /* 1 based */
+			gint16 sheet_idx;
+			Sheet *sheet;
 
-			extn_sheet_idx = GSF_LE_GET_GUINT16 (cur);
-			if (ver == MS_BIFF_V8) {
-				extn_name_idx  = GSF_LE_GET_GUINT16 (cur+2);
-/*				printf ("FIXME: v8 NameX : %d %d\n", extn_sheet_idx, extn_name_idx); */
+			sheet_idx = GSF_LE_GET_GINT16 (cur);
+			if (ewb->container.ver >= MS_BIFF_V8) {
+				Sheet *dummy;
+				excel_externsheet_v8 (ewb, sheet_idx, &sheet, &dummy);
+				if (sheet != dummy) {
+					g_warning ("A 3d name reference ?");
+				}
+				/* NOTE : for explicitly qualified sheet local names
+				 * Sheet1!name_local_to_sheet1
+				 * sheet may return (Sheet *)1.  This is intentional
+				 * excel_workbook_get_name handles it.
+				 */
+				name_idx  = GSF_LE_GET_GUINT16 (cur+2);
 				ptg_length = 6;
 			} else {
-				extn_name_idx  = GSF_LE_GET_GUINT16 (cur+10);
-/*				printf ("FIXME: v7 NameX : %d %d\n", extn_sheet_idx, extn_name_idx); */
+				sheet = excel_externsheet_v7 (ewb, esheet,
+							      sheet_idx);
+				name_idx  = GSF_LE_GET_GUINT16 (cur+10);
 				ptg_length = 24;
 			}
-			tree = ms_excel_workbook_get_name (ewb, extn_sheet_idx, extn_name_idx);
-			parse_list_push (&stack, tree);
+
+			parse_list_push (&stack,
+				excel_workbook_get_name (ewb, esheet, name_idx, sheet));
 		}
 		break;
 
@@ -1347,35 +1363,59 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			CellRef first, last;
 
 			if (ver >= MS_BIFF_V8) {
-				XLExternSheetV8 const *es = ms_excel_workbook_get_externsheet_v8 (ewb,
-					GSF_LE_GET_GUINT16 (cur));
-
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16 (cur + 2),
 					  GSF_LE_GET_GUINT16 (cur + 4),
 					  fn_col, fn_row, 0);
 				last = first;
-
-				/* Lose as little as possible on failure */
-				if (es != NULL) {
-					first.sheet = es->first_sheet;
-					last.sheet  = es->last_sheet;
-				} else
-					first.sheet = last.sheet = NULL;
+				excel_externsheet_v8 (ewb, GSF_LE_GET_GUINT16 (cur),
+					&first.sheet, &last.sheet);
 
 				ptg_length = 6;
 			} else {
-				gint16 ixals = (gint16)GSF_LE_GET_GUINT16 (cur);
+				gint16 a, b, ixals = GSF_LE_GET_GINT16 (cur);
+
 				getRefV7 (&first,
 					  GSF_LE_GET_GUINT8  (cur + 16),
 					  GSF_LE_GET_GUINT16 (cur + 14),
 					  fn_col, fn_row, 0);
 
 				last = first;
-				first.sheet = ms_excel_workbook_get_externsheet_v7 (ewb,
-					ixals, GSF_LE_GET_GUINT16 (cur + 10));
-				last.sheet  = ms_excel_workbook_get_externsheet_v7 (ewb,
-					ixals, GSF_LE_GET_GUINT16 (cur + 12));
+				/* ICKY guesswork */
+				if (ixals < 0) {
+					ixals = -ixals;
+					a = GSF_LE_GET_GINT16 (cur + 10);
+					b = GSF_LE_GET_GINT16 (cur + 12);
+
+					/* no way to represent a deleted sheet in gnumeric */
+					if (a == (gint16)0xffff || b == (gint16)0xffff) {
+						parse_list_push_raw (&stack,
+							value_new_error (NULL, gnumeric_err_REF));
+						break;
+					}
+
+					/* it is starting to look like XL95
+					 * generated by XL95 is different than
+					 * XL95 generated by XL2k
+					 */
+					if ((a+1) != ixals) {
+						/* try for a fall back (see 'scream 12-18-99.xls') */
+						if (a != ixals) {
+							/* now I am getting really pissed see
+							 * pivot-chart.xls.  I have no idea if this
+							 * is correct
+							 */
+							a = b = ixals;
+						}
+					} else
+						++a, ++b;
+				} else {
+					a = ixals;
+					b = GSF_LE_GET_GINT16 (cur + 12);
+				}
+				first.sheet = excel_externsheet_v7 (ewb, esheet, a);
+				if (a != b)
+					last.sheet = excel_externsheet_v7 (ewb, esheet, b);
 
 				ptg_length = 17;
 			}
@@ -1397,9 +1437,6 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			CellRef first, last;
 
 			if (ver >= MS_BIFF_V8) {
-				XLExternSheetV8 const *es = ms_excel_workbook_get_externsheet_v8 (ewb,
-					GSF_LE_GET_GUINT16 (cur));
-
 				getRefV8 (&first,
 					  GSF_LE_GET_GUINT16(cur+2),
 					  GSF_LE_GET_GUINT16(cur+6),
@@ -1408,17 +1445,12 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 					  GSF_LE_GET_GUINT16(cur+4),
 					  GSF_LE_GET_GUINT16(cur+8),
 					  fn_col, fn_row, 0);
-
-				/* Lose as little as possible on failure */
-				if (es != NULL) {
-					first.sheet = es->first_sheet;
-					last.sheet  = es->last_sheet;
-				} else
-					first.sheet = last.sheet = NULL;
+				excel_externsheet_v8 (ewb, GSF_LE_GET_GUINT16 (cur),
+					&first.sheet, &last.sheet);
 
 				ptg_length = 10;
 			} else {
-				gint16 ixals = (gint16)GSF_LE_GET_GUINT16 (cur);
+				gint16 a, b, ixals = GSF_LE_GET_GINT16 (cur);
 
 				getRefV7 (&first,
 					  GSF_LE_GET_GUINT8(cur+18),
@@ -1429,10 +1461,41 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 					  GSF_LE_GET_GUINT16(cur+16),
 					  fn_col, fn_row, 0);
 
-				first.sheet = ms_excel_workbook_get_externsheet_v7 (ewb,
-					ixals, GSF_LE_GET_GUINT16 (cur + 10));
-				last.sheet  = ms_excel_workbook_get_externsheet_v7 (ewb,
-					ixals, GSF_LE_GET_GUINT16 (cur + 12));
+				/* ICKY guesswork */
+				if (ixals < 0) {
+					ixals = -ixals;
+					a = GSF_LE_GET_GINT16 (cur + 10);
+					b = GSF_LE_GET_GINT16 (cur + 12);
+
+					/* no way to represent a deleted sheet in gnumeric */
+					if (a == (gint16)0xffff || b == (gint16)0xffff) {
+						parse_list_push_raw (&stack,
+							value_new_error (NULL, gnumeric_err_REF));
+						break;
+					}
+
+					/* it is starting to look like XL95
+					 * generated by XL95 is different than
+					 * XL95 generated by XL2k
+					 */
+					if ((a+1) != ixals) {
+						/* try for a fall back (see 'scream 12-18-99.xls') */
+						if (a != ixals) {
+							/* now I am getting really pissed see
+							 * pivot-chart.xls.  I have no idea if this
+							 * is correct
+							 */
+							a = b = ixals;
+						}
+					} else
+						++a, ++b;
+				} else {
+					a = ixals;
+					b = GSF_LE_GET_GINT16 (cur + 12);
+				}
+				first.sheet = excel_externsheet_v7 (ewb, esheet, a);
+				if (a != b)
+					last.sheet = excel_externsheet_v7 (ewb, esheet, b);
 
 				ptg_length = 20;
 			}
@@ -1458,13 +1521,13 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			g_warning ("EXCEL : Unhandled PTG 0x%x.", ptg);
 			error = TRUE;
 		}
-/*		printf ("Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length); */
+/*		fprintf (stderr, "Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length); */
 		cur      += ptg_length + 1;
 		len_left -= ptg_length + 1;
 	}
 
 	if (error) {
-		printf ("formula data : %s\n", (shared?" (shared)":"(NOT shared)"));
+		fprintf (stderr, "formula data : %s\n", (shared?" (shared)":"(NOT shared)"));
 		gsf_mem_dump (mem, length);
 
 		parse_list_free (&stack);
@@ -1486,7 +1549,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 	if (ms_excel_formula_debug > 0 && esheet != NULL) {
 		ParsePos pp;
 		GnmExpr const *expr = parse_list_pop (&stack);
-		parse_pos_init (&pp, NULL, esheet->gnum_sheet, fn_col, fn_row);
+		parse_pos_init (&pp, NULL, esheet->sheet, fn_col, fn_row);
 		puts (gnm_expr_as_string (expr, &pp));
 		return expr;
 	}

@@ -714,7 +714,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		if (ms_biff_query_peek_next (q, &op) && op == BIFF_IMDATA) {
 			printf ("Reading trailing IMDATA;\n");
 			ms_biff_query_next (q);
-			ms_excel_read_imdata (q);
+			excel_read_IMDATA (q);
 		}
 	}
 

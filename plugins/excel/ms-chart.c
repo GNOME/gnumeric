@@ -2502,7 +2502,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GObject
 			break;
 
 			default :
-				ms_excel_unexpected_biff (q, "Chart", ms_excel_chart_debug);
+				excel_unexpected_biff (q, "Chart", ms_excel_chart_debug);
 			};
 		}
 		state.prev_opcode = q->opcode;

@@ -22,14 +22,15 @@ typedef struct _ExcelSheet	ExcelSheet;
 struct _ExcelSheet {
 	MSContainer container;
 
-	Sheet		*gnum_sheet;
-	ExcelWorkbook	*wb;
+	Sheet		*sheet;
+	ExcelWorkbook	*ewb;
 	GHashTable	*shared_formulae, *tables;
+	GPtrArray	*externsheet_v7;
 
 	gboolean freeze_panes;
 };
 
-typedef struct _BiffBoundsheetData {
+typedef struct {
 	guint16 index;
 	guint32 streamStartPos;
 	MsBiffFileType type;
@@ -52,13 +53,12 @@ typedef struct {
 } XLDataTable;
 
 /* Use the upper left corner as the key to a collection of shared formulas */
-XLSharedFormula *ms_excel_sheet_shared_formula	(ExcelSheet const *sheet,
-						  CellPos const    *key);
-XLDataTable	*ms_excel_sheet_data_table	(ExcelSheet const *esheet,
-						 CellPos const    *key);
+XLSharedFormula *excel_sheet_shared_formula (ExcelSheet const *sheet,
+					     CellPos const    *key);
+XLDataTable	*excel_sheet_data_table	    (ExcelSheet const *esheet,
+					     CellPos const    *key);
 
-typedef struct _ExcelPalette
-{
+typedef struct {
 	int *red;
 	int *green;
 	int *blue;
@@ -66,8 +66,7 @@ typedef struct _ExcelPalette
 	StyleColor **gnum_cols;
 } ExcelPalette;
 
-typedef struct _BiffFontData
-{
+typedef struct {
 	guint16 index;
 	int height;         /* in 1/20ths of a point   */
 	int italic;         /* boolean                 */
@@ -79,12 +78,7 @@ typedef struct _BiffFontData
 	char *fontname;
 } BiffFontData;
 
-typedef struct _BiffExternSheetData {
-	Sheet *first_sheet;
-	Sheet *last_sheet;
-} XLExternSheetV8;
-
-typedef struct _BiffFormatData {
+typedef struct {
 	guint16 idx;
 	char *name;
 } BiffFormatData;
@@ -102,8 +96,8 @@ struct _ExcelWorkbook {
 	GHashTable	 *format_data; /* leave as a hash */
 	GPtrArray	 *names;
 	GPtrArray	 *supbooks;
-	GArray		 *extern_sheet_v8;
-	GPtrArray	 *extern_sheet_v7;
+	GArray		 *externsheet_v8;
+	GPtrArray	 *externsheet_v7;
 	ExcelPalette	 *palette;
 	char		**global_strings;
 	guint32		  global_string_max;
@@ -119,27 +113,25 @@ struct _ExcelWorkbook {
 char       *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
 char const *biff_get_error_text (guint8 err);
 
-GnmExpr const	 	*ms_excel_workbook_get_name  (ExcelWorkbook const *ewb,
-						      guint16 extern_index, guint16 name_idx);
-ExcelSheet		*ms_excel_workbook_get_sheet (ExcelWorkbook const *wb, guint idx);
-XLExternSheetV8 const	*ms_excel_workbook_get_externsheet_v8 (ExcelWorkbook const *wb,
-							       guint idx);
-Sheet 			*ms_excel_workbook_get_externsheet_v7 (ExcelWorkbook const *wb,
-							       int idx, guint sheet_index);
+GnmExpr const	*excel_workbook_get_name (ExcelWorkbook const *ewb,
+					  ExcelSheet const *esheet, guint16 i,
+					  Sheet *sheet);
+Sheet		*excel_externsheet_v7	 (ExcelWorkbook const *wb,
+					  ExcelSheet const *esheet, gint16 i);
+void		 excel_externsheet_v8	 (ExcelWorkbook const *wb,  gint16 i,
+					  Sheet **first, Sheet **last);
 
-MsBiffBofData * ms_biff_bof_data_new (BiffQuery * q);
-void ms_biff_bof_data_destroy (MsBiffBofData * data);
+MsBiffBofData  *ms_biff_bof_data_new     (BiffQuery * q);
+void		ms_biff_bof_data_destroy (MsBiffBofData * data);
 
-StyleColor  *ms_excel_palette_get (ExcelPalette const *pal, gint idx);
+StyleColor  *excel_palette_get (ExcelPalette const *pal, gint idx);
 
-void	    ms_excel_read_imdata (BiffQuery *q);
+void	    excel_read_IMDATA (BiffQuery *q);
 
 /* A utility routine to handle unexpected BIFF records */
-void          ms_excel_unexpected_biff (BiffQuery *q,
-					char const *state,
-					int debug_level);
+void excel_unexpected_biff (BiffQuery *q, char const *state, int debug_level);
 
-void ms_excel_read_cleanup (void);
-void ms_excel_read_init (void);
+void excel_read_cleanup (void);
+void excel_read_init (void);
 
 #endif

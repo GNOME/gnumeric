@@ -1208,6 +1208,7 @@ static Value *
 cb_countblank (Sheet *sheet, int col, int row,
 	       Cell *cell, void *user_data)
 {
+	cell_eval (cell);
 	if (!cell_is_blank (cell))
 		*((int *)user_data) -= 1;
 	return NULL;
@@ -1226,8 +1227,7 @@ gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 	if (start_sheet != end_sheet && end_sheet != NULL)
 		count *= 1 + abs (end_sheet->index_in_wb - start_sheet->index_in_wb);
 	workbook_foreach_cell_in_range (ei->pos, args[0],
-					CELL_ITER_IGNORE_BLANK,
-					&cb_countblank, &count);
+		CELL_ITER_IGNORE_BLANK, &cb_countblank, &count);
 
 	return value_new_int (count);
 }

@@ -15,11 +15,11 @@
 #include "ms-biff.h"
 
 GnmExpr const *
-ms_excel_parse_formula (ExcelWorkbook const *ewb,
-			ExcelSheet const *esheet,
-			int fn_col, int fn_row,
-			guint8 const *mem, guint16 length,
-			gboolean shared,
-			gboolean *array_element);
+excel_parse_formula (ExcelWorkbook const *ewb,
+		     ExcelSheet const *esheet,
+		     int fn_col, int fn_row,
+		     guint8 const *mem, guint16 length,
+		     gboolean shared,
+		     gboolean *array_element);
 
 #endif
