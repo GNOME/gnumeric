@@ -1,5 +1,11 @@
 2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* src/mathfunc.[ch]: Added random_beta, random_chisq, random_fdist,
+	random_geometric, random_hypergeometric, random_logarithmic, and
+	random_logistic.
+
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
 	* src/mathfunc.[ch]: Added random_gamma, random_pareto, random_laplace,
 	and random_weibull.
 

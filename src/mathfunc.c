@@ -4663,6 +4663,161 @@ random_pareto (gnum_float a, gnum_float b)
 }
 
 /*
+ * Generate a F-distributed number. From the GNU Scientific library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_fdist (gnum_float nu1, gnum_float nu2)
+{
+        gnum_float Y1 = random_gamma (nu1 / 2, 2.0);
+        gnum_float Y2 = random_gamma (nu2 / 2, 2.0);
+
+	return (Y1 * nu2) / (Y2 * nu1);
+}
+
+/*
+ * Generate a Beta-distributed number. From the GNU Scientific library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_beta (gnum_float a, gnum_float b)
+{
+        gnum_float x1 = random_gamma (a, 1.0);
+        gnum_float x2 = random_gamma (b, 1.0);
+
+	return x1 / (x1 + x2);
+}
+
+/*
+ * Generate a Chi-Square-distributed number. From the GNU Scientific library 
+ * 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_chisq (gnum_float nu)
+{
+        return 2 * random_gamma (nu / 2, 1.0);
+}
+
+/*
+ * Generate a logistic-distributed number. From the GNU Scientific library 
+ * 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_logistic (gnum_float a)
+{
+        gnum_float x;
+
+	do {
+	        x = random_01 ();
+	} while (x == 0 || x == 1);
+
+	return a * log (x / (1 - x));
+}
+
+/*
+ * Generate a geometric-distributed number. From the GNU Scientific library 
+ * 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_geometric (gnum_float p)
+{
+        gnum_float u;
+
+	if (p == 1)
+	        return 1;
+	do {
+	        u = random_01 ();
+	} while (u == 0);
+
+	return (unsigned int) (log (u) / log (1 - p) + 1);
+}
+
+/*
+ * Generate a hypergeometric-distributed number. From the GNU Scientific 
+ * library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
+{
+        unsigned int n = n1 + n2;
+
+	unsigned int i = 0;
+	unsigned int a = n1;
+	unsigned int b = n1 + n2;
+	unsigned int k = 0;
+
+	if (t > n)
+	        t = n;
+
+	if (t < n / 2) {
+	        for (i = 0 ; i < t ; i++) {
+		        gnum_float u = random_01 ();
+          
+			if (b * u < a) {
+			        k++;
+				if (k == n1)
+				        return k ;
+				a-- ;
+			}
+			b--;
+		}
+		return k;
+	} else {
+	        for (i = 0 ; i < n - t ; i++) {
+		        gnum_float u = random_01 ();
+          
+			if (b * u < a) {
+			        k++;
+				if (k == n1)
+				        return n1 - k;
+				a--;
+			}
+			b-- ;
+		}
+		return n1 - k;
+	}
+}
+
+
+/*
+ * Generate a logarithmic-distributed number. From the GNU Scientific library 
+ * 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_logarithmic (gnum_float p)
+{
+        gnum_float c, v;
+
+	c = log (1 - p);
+	do {
+	        v = random_01 ();
+	} while (v == 0);
+
+	if (v >= p)
+	        return 1;
+	else {
+	        gnum_float u, q;
+
+		do {
+		        u = random_01 ();
+		} while (u == 0);
+		q = 1 - exp (c * u);
+
+		if (v <= q * q)
+		        return (unsigned int) (1 + log (v) / log (q));
+		else if (v <= q)
+		        return 2;
+		else
+		        return 1;
+	}
+}
+
+/*
  * Generate 2^n being careful not to overflow
  */
 gnum_float

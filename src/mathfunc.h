@@ -105,20 +105,28 @@ gnum_float dnbinom (gnum_float x, gnum_float n, gnum_float p, gboolean give_log)
 gnum_float dhyper (gnum_float x, gnum_float r, gnum_float b, gnum_float n, gboolean give_log);
 
 /* Random number generation. */
-gnum_float random_01          (void);
-gnum_float random_poisson     (gnum_float lambda);
-gnum_float random_binomial    (gnum_float p, int trials);
-gnum_float random_negbinom    (gnum_float p, int f);
-gnum_float random_exponential (gnum_float b);
-gnum_float random_bernoulli   (gnum_float p);
-gnum_float random_normal      (void);
-gnum_float random_cauchy      (gnum_float a);
-gnum_float random_lognormal   (gnum_float zeta, gnum_float sigma);
-gnum_float random_weibull     (gnum_float a, gnum_float b);
-gnum_float random_laplace     (gnum_float a);
-gnum_float random_rayleigh    (gnum_float sigma);
-gnum_float random_gamma       (gnum_float a, gnum_float b);
-gnum_float random_pareto      (gnum_float a, gnum_float b);
+gnum_float random_01             (void);
+gnum_float random_poisson        (gnum_float lambda);
+gnum_float random_binomial       (gnum_float p, int trials);
+gnum_float random_negbinom       (gnum_float p, int f);
+gnum_float random_exponential    (gnum_float b);
+gnum_float random_bernoulli      (gnum_float p);
+gnum_float random_normal         (void);
+gnum_float random_cauchy         (gnum_float a);
+gnum_float random_lognormal      (gnum_float zeta, gnum_float sigma);
+gnum_float random_weibull        (gnum_float a, gnum_float b);
+gnum_float random_laplace        (gnum_float a);
+gnum_float random_rayleigh       (gnum_float sigma);
+gnum_float random_gamma          (gnum_float a, gnum_float b);
+gnum_float random_pareto         (gnum_float a, gnum_float b);
+gnum_float random_fdist          (gnum_float nu1, gnum_float nu2);
+gnum_float random_beta           (gnum_float a, gnum_float b);
+gnum_float random_logistic       (gnum_float a);
+gnum_float random_geometric      (gnum_float p);
+gnum_float random_hypergeometric (unsigned int n1, unsigned int n2, 
+				  unsigned int t);
+gnum_float random_logarithmic    (gnum_float p);
+gnum_float random_chisq          (gnum_float nu);
 
 /* ------------------------------------------------------------------------- */
 
