@@ -91,6 +91,8 @@ main (int argc, char *argv [])
 	cursors_shutdown ();
 	format_match_finish ();
 	format_color_shutdown ();
+
+	gnome_config_drop_all ();
 	return 0;
 }
 

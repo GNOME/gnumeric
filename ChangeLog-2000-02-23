@@ -1,3 +1,35 @@
+1998-10-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-grid.c (item_grid_event): Removed unused variables
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_start_cell_selection,
+	gnumeric_sheet_selection_extend,
+	gnumeric_sheet_selection_cursor_place): New routines for letting
+	the user use the mouse to select a cell range.  Invoked from
+	item-grid.c 
+
+	* src/item-grid.c (item_grid_event): Clean and reorgranize the
+	event handler, remove unused variables.
+
+	* src/gnumeric-sheet.c (selection_expand_horizontal): -1 now means
+	"shrink the selection", which means Left/Up keys shrink.
+	Right/Down expand. 
+	(selection_expand_vertical): likewise.
+
+	* src/format.c (format_number): Fixed memory leak: this is a
+	pretty bad construction: g_string_append (s, alloc_string()).  I
+	just did not see it coming.  Taking metal note of this. 
+
+	* src/number-match.c (format_create_regexp): Fixed memory leaks.
+	The strings returned by create_option_list need to be released. 
+
+	* src/style.c (style_color_new): Important bug fix:  The key I was
+	passing was a GdkColor, but our hash table stored StyleColors
+	inside. 
+
+	* src/format.c (append_year): Better fix, suggested by Morten
+	Welinder <terra@diku.dk> 
+
 1998-09-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/clipboard.c (clipboard_export_cell_region): Correct fix to

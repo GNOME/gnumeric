@@ -1,3 +1,9 @@
+/*
+ * expr.c: Expression evaluation in Gnumeriuc
+ *
+ * Author:
+ *   Miguel de Icaza (miguel@gnu.org).
+ */
 #include <config.h>
 #include <gnome.h>
 #include <math.h>

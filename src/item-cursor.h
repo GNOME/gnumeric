@@ -27,10 +27,14 @@ typedef struct {
 	int      tag;
 
 	/*
-	 * for the autofill mode:
-	 * Where the action started (base_x, base_y) and the
-	 * width and heigth of the selection when the autofill
-	 * started
+	 * For the autofill mode:
+	 *     Where the action started (base_x, base_y) and the
+	 *     width and heigth of the selection when the autofill
+	 *     started.
+	 *
+	 * For the anted mode:
+	 *     base_col and base_row are used to keep track of where
+	 *     the selection was started.
 	 */
 	int      base_x, base_y;
 	int      base_col, base_row;

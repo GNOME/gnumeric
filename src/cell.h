@@ -85,6 +85,7 @@ void        cell_set_format           (Cell *cell, char *format);
 void        cell_set_format_simple    (Cell *cell, char *format);
 void        cell_set_font             (Cell *cell, char *font_name);
 void        cell_set_style            (Cell *cell, Style *reference_style);
+void        cell_set_comment          (Cell *cell, char *str);
 void        cell_set_font_from_style  (Cell *cell, StyleFont *style_font);
 void        cell_set_foreground       (Cell *cell, gushort red, gushort green, gushort blue);
 void        cell_set_background       (Cell *cell, gushort red, gushort green, gushort blue);

@@ -237,16 +237,16 @@ StyleColor *
 style_color_new (gushort red, gushort green, gushort blue)
 {
 	StyleColor *sc;
-	GdkColor key;
-	
-	key.red   = red;
-	key.green = green;
-	key.blue  = blue;
+	StyleColor key;
+
+	key.color.red   = red;
+	key.color.green = green;
+	key.color.blue  = blue;
 
 	sc = g_hash_table_lookup (style_color_hash, &key);
 	if (!sc){
 		sc = g_new (StyleColor, 1);
-		sc->color = key;
+		sc->color = key.color;
 		sc->color.pixel = color_alloc (red, green, blue);
 
 		g_hash_table_insert (style_color_hash, sc, sc);

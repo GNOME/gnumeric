@@ -2,6 +2,13 @@
 
 GNOME Spread Sheet task list
 
+* Number formatting
+
+   The formatting code should take the current GtkFont for the cell
+   being formatted as well as the width allowed and take this into
+   account to render the number as well as possible given the space so
+   that for small regions, numbers in scientific notation are displayed.
+
 * Sheet
 
 * Auditing

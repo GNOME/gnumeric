@@ -562,7 +562,58 @@ item_grid_popup_menu (ItemGrid *item_grid, GdkEvent *event, int col, int row)
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, event->button.time);
 }
 
-		      
+static int
+item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col, int row, int x, int y)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
+	GnomeCanvas   *canvas = item->canvas;
+	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
+
+	/*
+	 * Range check first
+	 */
+	if (col > SHEET_MAX_COLS-1)
+		return 1;
+	if (row > SHEET_MAX_ROWS-1)
+		return 1;
+
+	/*
+	 * If we were already selecting a range of cells for a formula,
+	 * just reset the location to a new place.
+	 */
+	if (gsheet->selecting_cell){
+		gnumeric_sheet_selection_cursor_place (gsheet, col, row);
+		return 1;
+	}
+
+	/*
+	 * If the user is editing a formula (gnumeric_sheet_can_move_cursor)
+	 * then we enable the dynamic cell selection mode.
+	 */
+	if (gnumeric_sheet_can_move_cursor (gsheet)){
+		gnumeric_sheet_start_cell_selection (gsheet, col, row);
+		return 1;
+	}
+	
+	/*
+	 * This was a regular click on a cell on the spreadsheet.  Select it.
+	 */
+	sheet_accept_pending_input (sheet);
+
+	sheet_cursor_move (sheet, col, row);
+	if (!(event->button.state & GDK_CONTROL_MASK))
+		sheet_selection_reset_only (sheet);
+
+	item_grid->selecting = 1;
+	sheet_selection_append (sheet, col, row);
+	gnome_canvas_item_grab (item,
+				GDK_POINTER_MOTION_MASK |
+				GDK_BUTTON_RELEASE_MASK,
+				NULL,
+				event->button.time);
+	return 1;
+}
+
 /*
  * Handle the selection
  */
@@ -573,9 +624,9 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	GnomeCanvas *canvas = item->canvas;
 	ItemGrid *item_grid = ITEM_GRID (item);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 	Sheet *sheet = item_grid->sheet;
 	int col, row, x, y;
-	int scroll_x, scroll_y;
 
 	switch (event->type){
 	case GDK_ENTER_NOTIFY: {
@@ -594,93 +645,57 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (event->button.button == 1){
 			item_grid->selecting = 0;
 			gnome_canvas_item_ungrab (item, event->button.time);
+
+			/*
+			 * If we were selecting a cell range for a formula-entry
+			 */
+			if (gsheet->selecting_cell)
+				gnumeric_sheet_stop_cell_selection (gsheet);
+
 			return 1;
 		}
 		break;
 		
 	case GDK_MOTION_NOTIFY:
-		if (item_grid->selecting){
-			scroll_x = scroll_y = 0;
-			if (event->motion.x < 0){
-				event->motion.x = 0;
-				scroll_x = 1;
-			} if (event->motion.y < 0){
-				event->motion.y = 0;
-				scroll_y = 1;
-			}
-			convert (canvas, event->motion.x, event->motion.y, &x, &y);
-			if (!item_grid->selecting)
-				return 1;
-			
-			col = item_grid_find_col (item_grid, x, NULL);
-			row = item_grid_find_row (item_grid, y, NULL);
-			if (col > SHEET_MAX_COLS-1)
-				col = SHEET_MAX_COLS-1;
-			if (row > SHEET_MAX_ROWS-1)
-				row = SHEET_MAX_ROWS-1;
-			sheet_selection_extend_to (sheet, col, row);
+		convert (canvas, event->motion.x, event->motion.y, &x, &y);
+		col = item_grid_find_col (item_grid, x, NULL);
+		row = item_grid_find_row (item_grid, y, NULL);
+
+		if (gsheet->selecting_cell){
+			gnumeric_sheet_selection_extend (gsheet, col, row);
 			return 1;
-		} 
-		break;
+		}
+		
+		if (!item_grid->selecting)
+			return 1;
+		
+		if (event->motion.x < 0)
+			event->motion.x = 0;
+		if (event->motion.y < 0)
+			event->motion.y = 0;
+
+		if (col > SHEET_MAX_COLS-1)
+			col = SHEET_MAX_COLS-1;
+		if (row > SHEET_MAX_ROWS-1)
+			row = SHEET_MAX_ROWS-1;
+		
+		sheet_selection_extend_to (sheet, col, row);
+		return 1;
 		
 	case GDK_BUTTON_PRESS: {
 		Cell *cell;
 		
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 
+		convert (canvas, event->button.x, event->button.y, &x, &y);
+		col = item_grid_find_col (item_grid, x, NULL);
+		row = item_grid_find_row (item_grid, y, NULL);
+		
 		switch (event->button.button){
 		case 1:
-			convert (canvas, event->button.x, event->button.y, &x, &y);
-			col = item_grid_find_col (item_grid, x, NULL);
-			row = item_grid_find_row (item_grid, y, NULL);
-
-			sheet_accept_pending_input (sheet);
-			if (col > SHEET_MAX_COLS-1)
-				return 1;
-			if (row > SHEET_MAX_ROWS-1)
-				return 1;
-			
-			sheet_cursor_move (sheet, col, row);
-			if (!(event->button.state & GDK_CONTROL_MASK))
-				sheet_selection_reset_only (sheet);
-			
-			if ((cell = sheet_cell_get (sheet, col, row)) != NULL){
-				if (cell->comment || 1){
-					int xp;
-					
-					xp = sheet_col_get_distance (
-						sheet,
-						item_grid->left_col,
-						col+1);
-
-					if (x > xp - 6){
-						int yp;
-						
-						yp = sheet_col_get_distance (
-							sheet,
-							item_grid->top_row,
-							row);
-						if (y < yp + 6){
-							printf ("CLICK EN EL COMENTARIO\n");
-						}
-					}
-				}
-			}
-			
-			item_grid->selecting = 1;
-			sheet_selection_append (sheet, col, row);
-			gnome_canvas_item_grab (item,
-						GDK_POINTER_MOTION_MASK |
-						GDK_BUTTON_RELEASE_MASK,
-						NULL,
-						event->button.time);
-			return 1;
+			return item_grid_button_1 (sheet, event, item_grid, col, row, x, y);
 
 		case 3:
-			convert (canvas, event->button.x, event->button.y, &x, &y);
-			col = item_grid_find_col (item_grid, x, NULL);
-			row = item_grid_find_row (item_grid, y, NULL);
-
 			item_grid_popup_menu (item_grid, event, col, row);
 			return 1;
 		}

@@ -242,7 +242,7 @@ move_vertical_selection (GnumericSheet *gsheet, int count)
  * a cell range (if the cursor is in a spot in the expression
  * where it makes sense to have a cell reference), false if not.
  */
-static int
+int
 gnumeric_sheet_can_move_cursor (GnumericSheet *gsheet)
 {
 	GtkEntry *entry = GTK_ENTRY (gsheet->entry);
@@ -267,7 +267,7 @@ gnumeric_sheet_can_move_cursor (GnumericSheet *gsheet)
 }
 
 static void
-start_cell_selection (GnumericSheet *gsheet)
+start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
@@ -282,19 +282,40 @@ start_cell_selection (GnumericSheet *gsheet)
 		"Sheet", gsheet->sheet_view->sheet,
 		"Grid",  gsheet->item_grid,
 		"Style", ITEM_CURSOR_ANTED, NULL));
-	item_cursor_set_bounds (ITEM_CURSOR (gsheet->selection),
-				sheet->cursor_col,
-				sheet->cursor_row,
-				sheet->cursor_col,
-				sheet->cursor_row);
+	gsheet->selection->base_col = col;
+	gsheet->selection->base_row = row;
+	item_cursor_set_bounds (ITEM_CURSOR (gsheet->selection), col, row, col, row);
 				
 	gsheet->sel_cursor_pos = GTK_EDITABLE (gsheet->entry)->current_pos;
 	gsheet->sel_text_len = 0;
 }
 
 static void
-stop_cell_selection (GnumericSheet *gsheet)
+start_cell_selection (GnumericSheet *gsheet)
 {
+	Sheet *sheet = gsheet->sheet_view->sheet;
+
+	start_cell_selection_at (gsheet, sheet->cursor_col, sheet->cursor_row);
+}
+
+void
+gnumeric_sheet_start_cell_selection (GnumericSheet *gsheet, int col, int row)
+{
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+
+	if (gsheet->selecting_cell)
+		return;
+
+	start_cell_selection_at (gsheet, col, row);
+}
+
+void
+gnumeric_sheet_stop_cell_selection (GnumericSheet *gsheet)
+{
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+
 	if (!gsheet->selecting_cell)
 		return;
 	
@@ -342,7 +363,7 @@ gnumeric_sheet_destroy_editing_cursor (GnumericSheet *gsheet)
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	
-	stop_cell_selection (gsheet);
+	gnumeric_sheet_stop_cell_selection (gsheet);
 	
 	if (!gsheet->item_editor)
 		return;
@@ -394,6 +415,53 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 	gtk_editable_set_position (GTK_EDITABLE (gsheet->entry),
 				   gsheet->sel_cursor_pos +
 				   gsheet->sel_text_len);
+}
+
+/*
+ * Invoked by Item-Grid to extend the cursor selection
+ */
+void
+gnumeric_sheet_selection_extend (GnumericSheet *gsheet, int col, int row)
+{
+	ItemCursor *ic;
+	
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+	g_return_if_fail (gsheet->selecting_cell);
+	g_return_if_fail (col < SHEET_MAX_COLS);
+	g_return_if_fail (row < SHEET_MAX_ROWS);
+
+	ic = gsheet->selection;
+
+	selection_remove_selection_string (gsheet);
+	item_cursor_set_bounds (ic,
+				MIN (ic->base_col, col),
+				MIN (ic->base_row, row),
+				MAX (ic->base_col, col),
+				MAX (ic->base_row, row));
+	selection_insert_selection_string (gsheet);
+}
+
+/*
+ * Invoked by Item-Grid to place the selection cursor on a specific
+ * spot.
+ */
+void
+gnumeric_sheet_selection_cursor_place (GnumericSheet *gsheet, int col, int row)
+{
+	ItemCursor *ic;
+	
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+	g_return_if_fail (gsheet->selecting_cell);
+	g_return_if_fail (col < SHEET_MAX_COLS);
+	g_return_if_fail (row < SHEET_MAX_ROWS);
+	
+	ic = gsheet->selection;
+	
+	selection_remove_selection_string (gsheet);
+	item_cursor_set_bounds (ic, col, row, col, row);
+	selection_insert_selection_string (gsheet);
 }
 
 static void
@@ -467,19 +535,17 @@ selection_expand_horizontal (GnumericSheet *gsheet, int dir)
 	}
 
 	ic = gsheet->selection;
-	if (dir == -1){
-		if (ic->start_col == 0)
+	if (ic->end_col == SHEET_MAX_COLS-1)
 			return;
-	} else {
-		if (ic->end_col == SHEET_MAX_COLS-1)
-			return;
-	}
 
+	if (dir == -1 && ic->start_col == ic->end_col)
+		return;
+	
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
-				ic->start_col + (dir == -1 ? dir : 0),
+				ic->start_col,
 				ic->start_row,
-				ic->end_col  +  (dir == 1 ? dir : 0),
+				ic->end_col  + dir,
 				ic->end_row);
 	selection_insert_selection_string (gsheet);
 }
@@ -498,20 +564,18 @@ selection_expand_vertical (GnumericSheet *gsheet, int dir)
 
 	ic = gsheet->selection;
 	
-	if (dir == -1){
-		if (ic->start_row == 0)
-			return;
-	} else {
-		if (ic->end_row == SHEET_MAX_ROWS-1)
-			return;
-	}
+	if (ic->end_row == SHEET_MAX_ROWS-1)
+		return;
 
+	if (dir == -1 && ic->start_row == ic->end_row)
+		return;
+	
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
 				ic->start_col,
-				ic->start_row + (dir == -1 ? dir : 0),
+				ic->start_row,
 				ic->end_col,
-				ic->end_row + (dir == 1 ? dir : 0));	
+				ic->end_row + dir);
 	selection_insert_selection_string (gsheet);
 }
 
@@ -530,7 +594,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	if ((event->state & GDK_SHIFT_MASK) != 0){
 		if (cursor_move){
 			movefn_horizontal = selection_expand_horizontal;
-			movefn_vertical   = selection_expand_vertical;
+			movefn_vertical = selection_expand_vertical;
 		} else {
 			movefn_horizontal = move_horizontal_selection;
 			movefn_vertical   = move_vertical_selection;
@@ -550,9 +614,9 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	 */
 	if (cursor_move){
 		switch (event->keyval){
-		case GDK_Shift_L: case GDK_Shift_R:
-		case GDK_Alt_L:   case GDK_Alt_R:
-		case GDK_Control_L:   case GDK_Control_R:
+		case GDK_Shift_L:   case GDK_Shift_R:
+		case GDK_Alt_L:     case GDK_Alt_R:
+		case GDK_Control_L: case GDK_Control_R:
 			return 1;
 		}
 	}
@@ -694,7 +758,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			if (event->keyval >= 0x20 && event->keyval <= 0xff)
 			    sheet_start_editing_at_cursor (sheet);
 		}
-		stop_cell_selection (gsheet);
+		gnumeric_sheet_stop_cell_selection (gsheet);
 		
 		/* Forward the keystroke to the input line */
 		gtk_widget_event (gsheet->entry, (GdkEvent *) event);

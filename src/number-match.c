@@ -170,13 +170,21 @@ format_create_regexp (char *format, GByteArray **dest)
 				if (*(format+1) == 'm'){
 					if (*(format+2) == 'm'){
 						if (*(format+3) == 'm'){
-							g_string_append (regexp,
-									 create_option_list (month_long));
+							char *l;
+
+							l = create_option_list (month_long);
+							g_string_append (regexp, l);
+							g_free (l);
+
 							append_type (MATCH_MONTH_FULL);
 							format++;
 						} else {
-							g_string_append (regexp,
-									 create_option_list (month_short));
+							char *l;
+
+							l = create_option_list (month_short);
+							g_string_append (regexp, l);
+							g_free (l);
+							
 							append_type (MATCH_MONTH_SHORT);
 						}
 						format++;
@@ -203,11 +211,20 @@ format_create_regexp (char *format, GByteArray **dest)
 			if (*(format+1) == 'd'){
 				if (*(format+2) == 'd'){
 					if (*(format+3) == 'd'){
-						g_string_append (regexp, create_option_list (day_long));
+						char *l;
+
+						l = create_option_list (day_long);
+						g_string_append (regexp, l);
+						g_free (l);
+						
 						append_type (MATCH_DAY_FULL);
 						format++;
 					} else {
-						g_string_append (regexp, create_option_list (day_short));
+						char *l;
+
+						l = create_option_list (day_short);
+						g_string_append (regexp, l);
+						g_free (l);
 					}
 					format++;
 				} else {

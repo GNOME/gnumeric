@@ -6,6 +6,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <locale.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "eval.h"
@@ -298,7 +299,7 @@ cell_set_text_simple (Cell *cell, char *text)
 				
 			case 'E': case 'e': case '+': case ':': case '.': case ',':
 				if (*p == ',' || *p == '.')
-					if (lconv->decimal_point != *p){
+					if (*lconv->decimal_point != *p){
 						is_text = TRUE;
 						break;
 					}

@@ -90,10 +90,7 @@ append_year (GString *string, gchar *format, struct tm *time_split)
 	}
 	
 	if (format [2] != 'y' || format [3] != 'y'){
-		if (time_split->tm_year > 99)
-			sprintf (temp, "%04d", time_split + 1900);
-		else
-			sprintf (temp, "%02d", time_split->tm_year);
+		sprintf (temp, "%02d", time_split->tm_year % 100);
 		g_string_append (string, temp);
 		return 2;
 	}
@@ -926,8 +923,12 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 		}
 		format++;
 	}
-	if (!info.rendered && can_render_number)
-		g_string_append (result, do_render_number (number, &info));
+	if (!info.rendered && can_render_number){
+		char *rendered_string = do_render_number (number, &info);
+		
+		g_string_append (result, rendered_string);
+		g_free (rendered_string);
+	}
  finish:
 	res = g_strdup (result->str);
 	g_string_free (result, TRUE);
