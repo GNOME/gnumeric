@@ -177,10 +177,13 @@ void        workbook_recalc_all          (Workbook *wb);
 
 typedef gboolean (*WorkbookCallback)(Workbook *, gpointer data);
 
-void     workbook_foreach             (WorkbookCallback cback,
-				       gpointer data);
+void        workbook_foreach             (WorkbookCallback cback,
+					  gpointer data);
 
 CommandContext *workbook_command_context_gui (Workbook *wb);
+
+void        workbook_autosave_cancel     (Workbook *wb);
+void        workbook_autosave_set        (Workbook *wb, int minutes, gboolean prompt);
 
 /*
  * Feedback routines

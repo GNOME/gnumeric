@@ -259,7 +259,7 @@ workbook_do_destroy (Workbook *wb)
 		GTK_OBJECT (wb->toplevel),
 		GTK_SIGNAL_FUNC (workbook_set_focus), wb);
 
-	gtk_timeout_remove (wb->autosave_timer);
+	workbook_autosave_cancel (wb);
 
 	/*
 	 * Do all deletions that leave the workbook in a working
@@ -2277,14 +2277,9 @@ workbook_new (void)
 	wb = gtk_type_new (workbook_get_type ());
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->priv->table     = gtk_table_new (0, 0, 0);
-	wb->autosave = FALSE;
-	wb->autosave_prompt = TRUE;
-	wb->autosave_minutes = 15;
 
-	wb->autosave_timer = 
-	        gtk_timeout_add (wb->autosave_minutes*60000, 
-				 (GtkFunction) dialog_autosave_callback, wb);
-
+	workbook_autosave_set (wb, TRUE, 15);
+	
 	wb->show_horizontal_scrollbar = TRUE;
 	wb->show_vertical_scrollbar = TRUE;
 	wb->show_notebook_tabs = TRUE;
@@ -3078,4 +3073,52 @@ workbook_command_context_gui (Workbook *wb)
 	}
 
 	return wb->priv->gui_context;
+}
+
+/*
+ * Autosave
+ */
+static gint
+dialog_autosave_callback (gpointer *data)
+{
+        Workbook *wb = (Workbook *) data;
+
+	if (wb->autosave && workbook_is_dirty (wb)) {
+	        if (wb->autosave_prompt) {
+			if (!dialog_autosave_prompt (wb))
+				return 1;
+		}
+		workbook_save (workbook_command_context_gui (wb), wb);
+	}
+	return 1;
+}
+
+void
+workbook_autosave_cancel (Workbook *wb)
+{
+	if (wb->autosave_timer != -1)
+		gtk_timeout_remove (wb->autosave_timer);
+	wb->autosave_timer = -1;
+}
+
+void
+workbook_autosave_set (Workbook *wb, int minutes, gboolean prompt)
+{
+	if (wb->autosave_timer != -1){
+		gtk_timeout_remove (wb->autosave_timer);
+		wb->autosave_timer = -1;
+	}
+
+	wb->autosave_minutes = minutes;
+	wb->autosave_prompt = prompt;
+
+	if (minutes == 0)
+		wb->autosave = FALSE;
+	else {
+		wb->autosave = TRUE;
+
+		wb->autosave_timer = 
+			gtk_timeout_add (minutes * 60000, 
+					 (GtkFunction) dialog_autosave_callback, wb);
+	}
 }

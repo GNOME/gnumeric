@@ -1,5 +1,13 @@
 2000-02-07  Miguel de Icaza  <miguel@gnu.org>
 
+	* src/solver-lp.c: Tag strings for internationalization.
+	* src/analysis-tools.c: ditto.
+
+	* src/workbook.c (dialog_autosave_callback): Moved autosave code
+	here.
+	(workbook_autosave_cancel): Cancels autosaving.
+	(workbook_autosave_set): 
+
 	* src/dialogs/dialog-autosave.c (dialog_autosave): Change the
 	order here.
 	(dialog_autosave): Correct.  Help button does not mean OK.  Hook

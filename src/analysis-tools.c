@@ -308,7 +308,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 	cols = input_range->end.col - input_range->start.col + 1;
 	rows = input_range->end.row - input_range->start.row + 1;
 
-	prepare_output (wb, dao, "Correlations");
+	prepare_output (wb, dao, _("Correlations"));
 
 	set_cell (dao, 0, 0, "");
 
@@ -331,7 +331,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 			input_range->start.row++;
 		} else
 		        for (col=0; col<vars; col++) {
-			        sprintf (buf, "Column %d", col+1);
+			        sprintf (buf, _("Column %d"), col+1);
 				set_cell (dao, 0, col+1, buf);
 				set_cell (dao, col+1, 0, buf);
 			}
@@ -360,7 +360,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 			input_range->start.col++;
 		} else 
 		        for (col=0; col<vars; col++) {
-			        sprintf (buf, "Row %d", col+1);
+			        sprintf (buf, _("Row %d"), col+1);
 				set_cell (dao, 0, col+1, buf);
 				set_cell (dao, col+1, 0, buf);
 			}
@@ -383,7 +383,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 							  &data_sets[row],
 							  &error));
 				if (error)
-				        set_cell (dao, col+1, row+1, "#N/A");
+				        set_cell (dao, col+1, row+1, _("#N/A"));
 				else
 				        set_cell (dao, col+1, row+1, buf);
 			}
@@ -453,7 +453,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 	int        vars, cols, rows, col, row, i;
 	int        error;
 
-	prepare_output (wb, dao, "Covariances");
+	prepare_output (wb, dao, _("Covariances"));
 
 	cols = input_range->end.col - input_range->start.col + 1;
 	rows = input_range->end.row - input_range->start.row + 1;
@@ -479,7 +479,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 			input_range->start.row++;
 		} else
 		        for (col=0; col<vars; col++) {
-			        sprintf (buf, "Column %d", col+1);
+			        sprintf (buf, _("Column %d"), col+1);
 				set_cell (dao, 0, col+1, buf);
 				set_cell (dao, col+1, 0, buf);
 			}
@@ -508,7 +508,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 			input_range->start.col++;
 		} else 
 		        for (col=0; col<vars; col++) {
-			        sprintf (buf, "Row %d", col+1);
+			        sprintf (buf, _("Row %d"), col+1);
 				set_cell (dao, 0, col+1, buf);
 				set_cell (dao, col+1, 0, buf);
 			}
@@ -530,7 +530,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 							 &data_sets[row],
 							  &error));
 				if (error)
-				        set_cell (dao, col+1, row+1, "#N/A");
+				        set_cell (dao, col+1, row+1, _("#N/A"));
 				else
 				        set_cell (dao, col+1, row+1, buf);
 			}
@@ -625,27 +625,27 @@ summary_statistics (Workbook *wb, data_set_t *data_set, int vars,
 	float_t x;
 	int     col, error;
 
-	prepare_output (wb, dao, "Summary Statistics");
+	prepare_output (wb, dao, _("Summary Statistics"));
 
         set_cell (dao, 0, 0, "");
 	for (col=0; col<vars; col++) {
-	        sprintf (buf, "Column %d", col+1);
+	        sprintf (buf, _("Column %d"), col+1);
 		set_cell (dao, col+1, 0, buf);
 	}
 
-        set_cell (dao, 0, 1, "Mean");
-        set_cell (dao, 0, 2, "Standard Error");
-        set_cell (dao, 0, 3, "Median");
-        set_cell (dao, 0, 4, "Mode");
-        set_cell (dao, 0, 5, "Standard Deviation");
-        set_cell (dao, 0, 6, "Sample Variance");
-        set_cell (dao, 0, 7, "Kurtosis");
-        set_cell (dao, 0, 8, "Skewness");
-        set_cell (dao, 0, 9, "Range");
-        set_cell (dao, 0, 10, "Minimum");
-        set_cell (dao, 0, 11, "Maximum");
-        set_cell (dao, 0, 12, "Sum");
-        set_cell (dao, 0, 13, "Count");
+        set_cell (dao, 0, 1, _("Mean"));
+        set_cell (dao, 0, 2, _("Standard Error"));
+        set_cell (dao, 0, 3, _("Median"));
+        set_cell (dao, 0, 4, _("Mode"));
+        set_cell (dao, 0, 5, _("Standard Deviation"));
+        set_cell (dao, 0, 6, _("Sample Variance"));
+        set_cell (dao, 0, 7, _("Kurtosis"));
+        set_cell (dao, 0, 8, _("Skewness"));
+        set_cell (dao, 0, 9, _("Range"));
+        set_cell (dao, 0, 10, _("Minimum"));
+        set_cell (dao, 0, 11, _("Maximum"));
+        set_cell (dao, 0, 12, _("Sum"));
+        set_cell (dao, 0, 13, _("Count"));
 
 	for (col=0; col<vars; col++) {
 	        float_t var, stdev;
@@ -697,7 +697,7 @@ summary_statistics (Workbook *wb, data_set_t *data_set, int vars,
 		        x = kurt (&data_set[col], &error);
 			sprintf (buf, "%f", x);
 		} else
-		        sprintf (buf, "#N/A");
+		        sprintf (buf, _("#N/A"));
 		set_cell (dao, col+1, 7, buf);
 
 		/* Skewness */
@@ -705,7 +705,7 @@ summary_statistics (Workbook *wb, data_set_t *data_set, int vars,
 		        x = skew (&data_set[col], &error);
 			sprintf (buf, "%f", x);
 		} else
-		        sprintf (buf, "#N/A");
+		        sprintf (buf, _("#N/A"));
 		set_cell (dao, col+1, 8, buf);
 
 		/* Range */
@@ -738,21 +738,21 @@ confidence_level (Workbook *wb, data_set_t *data_set, int vars, float_t c_level,
         char    buf[256];
         int col;
 
-	prepare_output (wb, dao, "Confidence Level");
+	prepare_output (wb, dao, _("Confidence Level"));
 
 	for (col=0; col<vars; col++) {
 	        float_t stdev = sqrt ( (data_set[col].sqrsum - 
 				      data_set[col].sum2/data_set[col].n) /
 				     (data_set[col].n - 1));
 
-	        sprintf (buf, "Column %d", col+1);
+	        sprintf (buf, _("Column %d"), col+1);
 		set_cell (dao, col+1, 0, buf);
 
 		x = -qnorm (c_level / 2, 0, 1) * (stdev/sqrt (data_set[col].n));
 		sprintf (buf, "%f", x);
 		set_cell (dao, col+1, 2, buf);
 	}
-	sprintf (buf, "Confidence Level (%g%%)", c_level*100);
+	sprintf (buf, _("Confidence Level (%g%%)"), c_level*100);
         set_cell (dao, 0, 2, buf);
 }
 
@@ -764,10 +764,10 @@ kth_largest (Workbook *wb, data_set_t *data_set, int vars, int k,
         char    buf[256];
         int     col;
 
-	prepare_output (wb, dao, "Kth Largest");
+	prepare_output (wb, dao, _("Kth Largest"));
 
 	for (col=0; col<vars; col++) {
-	        sprintf (buf, "Column %d", col+1);
+	        sprintf (buf, _("Column %d"), col+1);
 		set_cell (dao, col+1, 0, buf);
 
 		data_set[col].array = 
@@ -778,7 +778,7 @@ kth_largest (Workbook *wb, data_set_t *data_set, int vars, int k,
 		sprintf (buf, "%f", x);
 		set_cell (dao, col+1, 2, buf);
 	}
-	sprintf (buf, "Largest (%d)", k);
+	sprintf (buf, _("Largest (%d)"), k);
         set_cell (dao, 0, 2, buf);
 }
 
@@ -790,10 +790,10 @@ kth_smallest (Workbook *wb, data_set_t *data_set, int vars, int k,
         char    buf[256];
         int     col;
 
-	prepare_output (wb, dao, "Kth Smallest");
+	prepare_output (wb, dao, _("Kth Smallest"));
 
 	for (col=0; col<vars; col++) {
-	        sprintf (buf, "Column %d", col+1);
+	        sprintf (buf, _("Column %d"), col+1);
 		set_cell (dao, col+1, 0, buf);
 
 		data_set[col].array = 
@@ -804,7 +804,7 @@ kth_smallest (Workbook *wb, data_set_t *data_set, int vars, int k,
 		sprintf (buf, "%f", x);
 		set_cell (dao, col+1, 2, buf);
 	}
-	sprintf (buf, "Smallest (%d)", k);
+	sprintf (buf, _("Smallest (%d)"), k);
         set_cell (dao, 0, 2, buf);
 }
 
@@ -889,7 +889,7 @@ int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 	char       buf[256];
 	float_t    x;
 
-	prepare_output (wb, dao, "Sample");
+	prepare_output (wb, dao, _("Sample"));
 
 	get_data (sheet, input_range, &data_set);
 
@@ -1000,7 +1000,7 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	float_t    mean1, mean2, var1, var2, z, p;
 	char       buf[256];
 
-	prepare_output (wb, dao, "z-Test");
+	prepare_output (wb, dao, _("z-Test"));
 
 	get_data (sheet, input_range1, &set_one);
 	get_data (sheet, input_range2, &set_two);
@@ -1027,19 +1027,19 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 		input_range1->start.row++;
 		input_range2->start.row++;
 	} else {
-	        set_cell (dao, 1, 0, "Variable 1");
-		set_cell (dao, 2, 0, "Variable 2");
+	        set_cell (dao, 1, 0, _("Variable 1"));
+		set_cell (dao, 2, 0, _("Variable 2"));
 	}
 
-        set_cell (dao, 0, 1, "Mean");
-        set_cell (dao, 0, 2, "Known Variance");
-        set_cell (dao, 0, 3, "Observations");
-        set_cell (dao, 0, 4, "Hypothesized Mean Difference");
-        set_cell (dao, 0, 5, "z");
-        set_cell (dao, 0, 6, "P (Z<=z) one-tail");
-        set_cell (dao, 0, 7, "z Critical one-tail");
-        set_cell (dao, 0, 8, "P (Z<=z) two-tail");
-        set_cell (dao, 0, 9, "z Critical two-tail");
+        set_cell (dao, 0, 1, _("Mean"));
+        set_cell (dao, 0, 2, _("Known Variance"));
+        set_cell (dao, 0, 3, _("Observations"));
+        set_cell (dao, 0, 4, _("Hypothesized Mean Difference"));
+        set_cell (dao, 0, 5, _("z"));
+        set_cell (dao, 0, 6, _("P (Z<=z) one-tail"));
+        set_cell (dao, 0, 7, _("z Critical one-tail"));
+        set_cell (dao, 0, 8, _("P (Z<=z) two-tail"));
+        set_cell (dao, 0, 9, _("z Critical two-tail"));
 
 	mean1 = set_one.sum / set_one.n;
 	mean2 = set_two.sum / set_two.n;
@@ -1133,7 +1133,7 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        return 1;
 	}
 
-	prepare_output (wb, dao, "t-Test");
+	prepare_output (wb, dao, _("t-Test"));
 
         set_cell (dao, 0, 0, "");
 
@@ -1157,21 +1157,21 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 		input_range1->start.row++;
 		input_range2->start.row++;
 	} else {
-	        set_cell (dao, 1, 0, "Variable 1");
-		set_cell (dao, 2, 0, "Variable 2");
+	        set_cell (dao, 1, 0, _("Variable 1"));
+		set_cell (dao, 2, 0, _("Variable 2"));
 	}
 
-        set_cell (dao, 0, 1, "Mean");
-        set_cell (dao, 0, 2, "Variance");
-        set_cell (dao, 0, 3, "Observations");
-        set_cell (dao, 0, 4, "Pearson Correlation");
-        set_cell (dao, 0, 5, "Hypothesized Mean Difference");
-        set_cell (dao, 0, 6, "df");
-        set_cell (dao, 0, 7, "t Stat");
-        set_cell (dao, 0, 8, "P (T<=t) one-tail");
-        set_cell (dao, 0, 9, "t Critical one-tail");
-        set_cell (dao, 0, 10, "P (T<=t) two-tail");
-        set_cell (dao, 0, 11, "t Critical two-tail");
+        set_cell (dao, 0, 1, _("Mean"));
+        set_cell (dao, 0, 2, _("Variance"));
+        set_cell (dao, 0, 3, _("Observations"));
+        set_cell (dao, 0, 4, _("Pearson Correlation"));
+        set_cell (dao, 0, 5, _("Hypothesized Mean Difference"));
+        set_cell (dao, 0, 6, _("df"));
+        set_cell (dao, 0, 7, _("t Stat"));
+        set_cell (dao, 0, 8, _("P (T<=t) one-tail"));
+        set_cell (dao, 0, 9, _("t Critical one-tail"));
+        set_cell (dao, 0, 10, _("P (T<=t) two-tail"));
+        set_cell (dao, 0, 11, _("t Critical two-tail"));
 
 	current_one = set_one.array;
 	current_two = set_two.array;
@@ -1277,7 +1277,7 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	float_t    mean1, mean2, var, var1, var2, t, p, df;
 	char       buf[256];
 
-	prepare_output (wb, dao, "t-Test");
+	prepare_output (wb, dao, _("t-Test"));
 
 	get_data (sheet, input_range1, &set_one);
 	get_data (sheet, input_range2, &set_two);
@@ -1304,21 +1304,21 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 		input_range1->start.row++;
 		input_range2->start.row++;
 	} else {
-	        set_cell (dao, 1, 0, "Variable 1");
-		set_cell (dao, 2, 0, "Variable 2");
+	        set_cell (dao, 1, 0, _("Variable 1"));
+		set_cell (dao, 2, 0, _("Variable 2"));
 	}
 
-        set_cell (dao, 0, 1, "Mean");
-        set_cell (dao, 0, 2, "Variance");
-        set_cell (dao, 0, 3, "Observations");
-        set_cell (dao, 0, 4, "Pooled Variance");
-        set_cell (dao, 0, 5, "Hypothesized Mean Difference");
-        set_cell (dao, 0, 6, "df");
-        set_cell (dao, 0, 7, "t Stat");
-        set_cell (dao, 0, 8, "P (T<=t) one-tail");
-        set_cell (dao, 0, 9, "t Critical one-tail");
-        set_cell (dao, 0, 10, "P (T<=t) two-tail");
-        set_cell (dao, 0, 11, "t Critical two-tail");
+        set_cell (dao, 0, 1, _("Mean"));
+        set_cell (dao, 0, 2, _("Variance"));
+        set_cell (dao, 0, 3, _("Observations"));
+        set_cell (dao, 0, 4, _("Pooled Variance"));
+        set_cell (dao, 0, 5, _("Hypothesized Mean Difference"));
+        set_cell (dao, 0, 6, _("df"));
+        set_cell (dao, 0, 7, _("t Stat"));
+        set_cell (dao, 0, 8, _("P (T<=t) one-tail"));
+        set_cell (dao, 0, 9, _("t Critical one-tail"));
+        set_cell (dao, 0, 10, _("P (T<=t) two-tail"));
+        set_cell (dao, 0, 11, _("t Critical two-tail"));
 
 	mean1 = set_one.sum / set_one.n;
 	mean2 = set_two.sum / set_two.n;
@@ -1403,7 +1403,7 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	float_t    mean1, mean2, var1, var2, t, p, df, c;
 	char       buf[256];
 
-	prepare_output (wb, dao, "t-Test");
+	prepare_output (wb, dao, _("t-Test"));
 
 	get_data (sheet, input_range1, &set_one);
 	get_data (sheet, input_range2, &set_two);
@@ -1430,20 +1430,20 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 		input_range1->start.row++;
 		input_range2->start.row++;
 	} else {
-	        set_cell (dao, 1, 0, "Variable 1");
-		set_cell (dao, 2, 0, "Variable 2");
+	        set_cell (dao, 1, 0, _("Variable 1"));
+		set_cell (dao, 2, 0, _("Variable 2"));
 	}
 
-        set_cell (dao, 0, 1, "Mean");
-        set_cell (dao, 0, 2, "Variance");
-        set_cell (dao, 0, 3, "Observations");
-        set_cell (dao, 0, 4, "Hypothesized Mean Difference");
-        set_cell (dao, 0, 5, "df");
-        set_cell (dao, 0, 6, "t Stat");
-        set_cell (dao, 0, 7, "P (T<=t) one-tail");
-        set_cell (dao, 0, 8, "t Critical one-tail");
-        set_cell (dao, 0, 9, "P (T<=t) two-tail");
-        set_cell (dao, 0, 10, "t Critical two-tail");
+        set_cell (dao, 0, 1, _("Mean"));
+        set_cell (dao, 0, 2, _("Variance"));
+        set_cell (dao, 0, 3, _("Observations"));
+        set_cell (dao, 0, 4, _("Hypothesized Mean Difference"));
+        set_cell (dao, 0, 5, _("df"));
+        set_cell (dao, 0, 6, _("t Stat"));
+        set_cell (dao, 0, 7, _("P (T<=t) one-tail"));
+        set_cell (dao, 0, 8, _("t Critical one-tail"));
+        set_cell (dao, 0, 9, _("P (T<=t) two-tail"));
+        set_cell (dao, 0, 10, _("t Critical two-tail"));
 
 	mean1 = set_one.sum / set_one.n;
 	mean2 = set_two.sum / set_two.n;
@@ -1530,7 +1530,7 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	float_t    mean1, mean2, var1, var2, f, p, df1, df2, c;
 	char       buf[256];
 
-	prepare_output (wb, dao, "F-Test");
+	prepare_output (wb, dao, _("F-Test"));
 
         set_cell (dao, 0, 0, "");
 
@@ -1554,20 +1554,20 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 		input_range1->start.row++;
 		input_range2->start.row++;
 	} else {
-	        set_cell (dao, 1, 0, "Variable 1");
-		set_cell (dao, 2, 0, "Variable 2");
+	        set_cell (dao, 1, 0, _("Variable 1"));
+		set_cell (dao, 2, 0, _("Variable 2"));
 	}
 
 	get_data (sheet, input_range1, &set_one);
 	get_data (sheet, input_range2, &set_two);
 
-        set_cell (dao, 0, 1, "Mean");
-        set_cell (dao, 0, 2, "Variance");
-        set_cell (dao, 0, 3, "Observations");
-        set_cell (dao, 0, 4, "df");
-        set_cell (dao, 0, 5, "F");
-        set_cell (dao, 0, 6, "P (F<=f) one-tail");
-        set_cell (dao, 0, 7, "F Critical one-tail");
+        set_cell (dao, 0, 1, _("Mean"));
+        set_cell (dao, 0, 2, _("Variance"));
+        set_cell (dao, 0, 3, _("Observations"));
+        set_cell (dao, 0, 4, _("df"));
+        set_cell (dao, 0, 5, _("F"));
+        set_cell (dao, 0, 6, _("P (F<=f) one-tail"));
+        set_cell (dao, 0, 7, _("F Critical one-tail"));
 
 	mean1 = set_one.sum / set_one.n;
 	mean2 = set_two.sum / set_two.n;
@@ -1644,7 +1644,7 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 	Value      **values, *v;
 	Cell       *cell;
 
-	prepare_output (wb, dao, "Random");
+	prepare_output (wb, dao, _("Random"));
 
 	switch (distribution) {
 	case DiscreteDistribution:
@@ -1789,7 +1789,7 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 		}
 	        break;
 	default:
-	        printf ("Not implemented yet.\n");
+	        printf (_("Not implemented yet.\n"));
 		break;
 	}
 
@@ -1885,42 +1885,42 @@ int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range_y,
 
 	if (err) return err;
 
-	prepare_output (wb, dao, "Regression");
+	prepare_output (wb, dao, _("Regression"));
 
-        set_cell (dao, 0, 0, "SUMMARY OUTPUT");
+        set_cell (dao, 0, 0, _("SUMMARY OUTPUT"));
 
-	set_cell (dao, 0, 2, "Regression Statistics");
-        set_cell (dao, 0, 3, "Multiple R");
-        set_cell (dao, 0, 4, "R Square");
-        set_cell (dao, 0, 5, "Adjusted R Square");
-        set_cell (dao, 0, 6, "Standard Error");
-        set_cell (dao, 0, 7, "Observations");
+	set_cell (dao, 0, 2, _("Regression Statistics"));
+        set_cell (dao, 0, 3, _("Multiple R"));
+        set_cell (dao, 0, 4, _("R Square"));
+        set_cell (dao, 0, 5, _("Adjusted R Square"));
+        set_cell (dao, 0, 6, _("Standard Error"));
+        set_cell (dao, 0, 7, _("Observations"));
 
-        set_cell (dao, 0, 9, "ANOVA");
-        set_cell (dao, 0, 11, "Regression");
-        set_cell (dao, 0, 12, "Residual");
-        set_cell (dao, 0, 13, "Total");
+        set_cell (dao, 0, 9, _("ANOVA"));
+        set_cell (dao, 0, 11, _("Regression"));
+        set_cell (dao, 0, 12, _("Residual"));
+        set_cell (dao, 0, 13, _("Total"));
 
-        set_cell (dao, 0, 16, "Intercept");
+        set_cell (dao, 0, 16, _("Intercept"));
 
 	for (i = 1; i <= xdim; i++){
-		sprintf (buf, "X Variable %d", i);
+		sprintf (buf, _("X Variable %d"), i);
 		set_cell (dao, 0, 16+i, buf);
 	}
 
-        set_cell (dao, 1, 10, "df");
-        set_cell (dao, 2, 10, "SS");
-        set_cell (dao, 3, 10, "MS");
-        set_cell (dao, 4, 10, "F");
-        set_cell (dao, 5, 10, "Significance F");
+        set_cell (dao, 1, 10, _("df"));
+        set_cell (dao, 2, 10, _("SS"));
+        set_cell (dao, 3, 10, _("MS"));
+        set_cell (dao, 4, 10, _("F"));
+        set_cell (dao, 5, 10, _("Significance F"));
 
-        set_cell (dao, 1, 15, "Coefficients");
-        set_cell (dao, 2, 15, "Standard Error");
-        set_cell (dao, 3, 15, "t Stat");
-        set_cell (dao, 4, 15, "P-value");
+        set_cell (dao, 1, 15, _("Coefficients"));
+        set_cell (dao, 2, 15, _("Standard Error"));
+        set_cell (dao, 3, 15, _("t Stat"));
+        set_cell (dao, 4, 15, _("P-value"));
 
-	set_cell (dao, 5, 15, "Lower 95%");
-        set_cell (dao, 6, 15, "Upper 95%");
+	set_cell (dao, 5, 15, _("Lower 95%"));
+        set_cell (dao, 6, 15, _("Upper 95%"));
 
 	for (i = 0; i < xdim; i++)
 		mean_xs[i] = setxs[i].sum / setxs[i].n;
@@ -2027,7 +2027,7 @@ int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range_y,
 
 	if (!intercept)
 		for (i = 2; i <= 6; i++)
-			set_cell (dao, i, 16, "#N/A"); 
+			set_cell (dao, i, 16, _("#N/A")); 
 	else{
 		float_t t;
 
@@ -2140,7 +2140,7 @@ int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval,
 	if ( (cols != 1 && rows != 1) || interval < 1)
 	        return 1;
 
-	prepare_output (wb, dao, "Moving Averages");
+	prepare_output (wb, dao, _("Moving Averages"));
 
 	prev = g_new (float_t, interval);
 
@@ -2165,7 +2165,7 @@ int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval,
 		        ++count;
 		        sum += prev[add_cursor];
 			++add_cursor;
-			sprintf (buf, "#N/A");
+			sprintf (buf, _("#N/A"));
 			set_cell (dao, 0, row++, buf);
 		}
 		current = current->next;
@@ -2212,7 +2212,7 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 	char       buf[256];
 	int        vars, cols, rows, col, i, n;
 
-	prepare_output (wb, dao, "Ranks");
+	prepare_output (wb, dao, _("Ranks"));
 
 	cols = input_range->end.col - input_range->start.col + 1;
 	rows = input_range->end.row - input_range->start.row + 1;
@@ -2220,7 +2220,7 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 	if (columns_flag) {
 	        vars = cols;
 		for (col=0; col<vars; col++) {
-		        set_cell (dao, col*4, 0, "Point");
+		        set_cell (dao, col*4, 0, _("Point"));
 			if (dao->labels_flag) {
 			        char *s;
 			        Cell *cell = sheet_cell_get
@@ -2231,11 +2231,11 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 				        set_cell (dao, col*4+1, 0, s);
 				}
 			} else {
-			        sprintf (buf, "Column %d", col+1);
+			        sprintf (buf, _("Column %d"), col+1);
 				set_cell (dao, col*4+1, 0, buf);
 			}
-			set_cell (dao, col*4+2, 0, "Rank");
-			set_cell (dao, col*4+3, 0, "Percent");
+			set_cell (dao, col*4+2, 0, _("Rank"));
+			set_cell (dao, col*4+3, 0, _("Percent"));
 		}
 		data_sets = g_new (data_set_t, vars);
 
@@ -2249,7 +2249,7 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 	} else {
 	        vars = rows;
 		for (col=0; col<vars; col++) {
-		        set_cell (dao, col*4, 0, "Point");
+		        set_cell (dao, col*4, 0, _("Point"));
 
 			if (dao->labels_flag) {
 			        char *s;
@@ -2261,11 +2261,11 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 				        set_cell (dao, col*4+1, 0, s);
 				}
 			} else {
-		                sprintf (buf, "Row %d", col+1);
+		                sprintf (buf, _("Row %d"), col+1);
 				set_cell (dao, col*4+1, 0, buf);
 			}
-			set_cell (dao, col*4+2, 0, "Rank");
-			set_cell (dao, col*4+3, 0, "Percent");
+			set_cell (dao, col*4+2, 0, _("Rank"));
+			set_cell (dao, col*4+3, 0, _("Percent"));
 		}
 		data_sets = g_new (data_set_t, vars);
 
@@ -2355,18 +2355,18 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 	float_t    ms_b, ms_w, f, p, f_c;
 	int        df_b, df_w, df_t;
 
-	prepare_output (wb, dao, "Anova");
+	prepare_output (wb, dao, _("Anova"));
 
 	cols = range->end.col - range->start.col + 1;
 	rows = range->end.row - range->start.row + 1;
 
-	set_cell (dao, 0, 0, "Anova: Single Factor");
-	set_cell (dao, 0, 2, "SUMMARY");
-	set_cell (dao, 0, 3, "Groups");
-	set_cell (dao, 1, 3, "Count");
-	set_cell (dao, 2, 3, "Sum");
-	set_cell (dao, 3, 3, "Average");
-	set_cell (dao, 4, 3, "Variance");
+	set_cell (dao, 0, 0, _("Anova: Single Factor"));
+	set_cell (dao, 0, 2, _("SUMMARY"));
+	set_cell (dao, 0, 3, _("Groups"));
+	set_cell (dao, 1, 3, _("Count"));
+	set_cell (dao, 2, 3, _("Sum"));
+	set_cell (dao, 3, 3, _("Average"));
+	set_cell (dao, 4, 3, _("Variance"));
 
 	if (columns_flag) {
 	        vars = cols;
@@ -2381,7 +2381,7 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 				        set_cell (dao, 0, col+4, s);
 				}
 			} else {
-			        sprintf (buf, "Column %d", col+1);
+			        sprintf (buf, _("Column %d"), col+1);
 				set_cell (dao, 0, col+4, buf);
 			}
 		}
@@ -2407,7 +2407,7 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 				        set_cell (dao, 0, col+4, s);
 				}
 			} else {
-		                sprintf (buf, "Row %d", col+1);
+		                sprintf (buf, _("Row %d"), col+1);
 				set_cell (dao, 0, col+4, buf);
 			}
 		}
@@ -2445,17 +2445,17 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 		set_cell (dao, 4, i+4, buf);
 	}
 
-	set_cell (dao, 0, vars+6, "ANOVA");
-	set_cell (dao, 0, vars+7, "Source of Variation");
-	set_cell (dao, 1, vars+7, "SS");
-	set_cell (dao, 2, vars+7, "df");
-	set_cell (dao, 3, vars+7, "MS");
-	set_cell (dao, 4, vars+7, "F");
-	set_cell (dao, 5, vars+7, "P-value");
-	set_cell (dao, 6, vars+7, "F critical");
-	set_cell (dao, 0, vars+8, "Between Groups");
-	set_cell (dao, 0, vars+9, "Within Groups");
-	set_cell (dao, 0, vars+11, "Total");
+	set_cell (dao, 0, vars+6, _("ANOVA"));
+	set_cell (dao, 0, vars+7, _("Source of Variation"));
+	set_cell (dao, 1, vars+7, _("SS"));
+	set_cell (dao, 2, vars+7, _("df"));
+	set_cell (dao, 3, vars+7, _("MS"));
+	set_cell (dao, 4, vars+7, _("F"));
+	set_cell (dao, 5, vars+7, _("P-value"));
+	set_cell (dao, 6, vars+7, _("F critical"));
+	set_cell (dao, 0, vars+8, _("Between Groups"));
+	set_cell (dao, 0, vars+9, _("Within Groups"));
+	set_cell (dao, 0, vars+11, _("Total"));
 
 	/* ANOVA */
 	mean = g_new (float_t, vars);
@@ -2546,17 +2546,17 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 	float_t    ms_r, ms_c, ms_e, f1, f2, p1, p2, f1_c, f2_c;
 	int        df_r, df_c, df_e, df_t;
 
-	prepare_output (wb, dao, "Anova");
+	prepare_output (wb, dao, _("Anova"));
 
 	cols = range->end.col - range->start.col + 1;
 	rows = range->end.row - range->start.row + 1;
 
-	set_cell (dao, 0, 0, "Anova: Two-Factor Without Replication");
-	set_cell (dao, 0, 2, "SUMMARY");
-	set_cell (dao, 1, 2, "Count");
-	set_cell (dao, 2, 2, "Sum");
-	set_cell (dao, 3, 2, "Average");
-	set_cell (dao, 4, 2, "Variance");
+	set_cell (dao, 0, 0, _("Anova: Two-Factor Without Replication"));
+	set_cell (dao, 0, 2, _("SUMMARY"));
+	set_cell (dao, 1, 2, _("Count"));
+	set_cell (dao, 2, 2, _("Sum"));
+	set_cell (dao, 3, 2, _("Average"));
+	set_cell (dao, 4, 2, _("Variance"));
 
 	data_sets = g_new (data_set_t, cols);
 	col_mean = g_new (float_t, cols);
@@ -2564,7 +2564,7 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 	        float_t v;
 
 	        get_data_groupped_by_columns (sheet, range, i, &data_sets[i]);
-	        sprintf (buf, "Column %d", i+1);
+	        sprintf (buf, _("Column %d"), i+1);
 		set_cell (dao, 0, i+4+rows, buf);
 	        sprintf (buf, "%d", data_sets[i].n);
 		set_cell (dao, 1, i+4+rows, buf);
@@ -2586,7 +2586,7 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 	        float_t v;
 
 	        get_data_groupped_by_rows (sheet, range, i, &data_sets[i]);
-	        sprintf (buf, "Row %d", i+1);
+	        sprintf (buf, _("Row %d"), i+1);
 		set_cell (dao, 0, i+3, buf);
 	        sprintf (buf, "%d", data_sets[i].n);
 		set_cell (dao, 1, i+3, buf);
@@ -2658,18 +2658,18 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 	f1_c = qf (alpha, df_r, df_e);
 	f2_c = qf (alpha, df_c, df_e);
 
-	set_cell (dao, 0, 6+rows+cols, "ANOVA");
-	set_cell (dao, 0, 7+rows+cols, "Source of Variation");
-	set_cell (dao, 1, 7+rows+cols, "SS");
-	set_cell (dao, 2, 7+rows+cols, "df");
-	set_cell (dao, 3, 7+rows+cols, "MS");
-	set_cell (dao, 4, 7+rows+cols, "F");
-	set_cell (dao, 5, 7+rows+cols, "P-value");
-	set_cell (dao, 6, 7+rows+cols, "F critical");
-	set_cell (dao, 0, 8+rows+cols, "Rows");
-	set_cell (dao, 0, 9+rows+cols, "Columns");
-	set_cell (dao, 0, 10+rows+cols, "Error");
-	set_cell (dao, 0, 12+rows+cols, "Total");
+	set_cell (dao, 0, 6+rows+cols, _("ANOVA"));
+	set_cell (dao, 0, 7+rows+cols, _("Source of Variation"));
+	set_cell (dao, 1, 7+rows+cols, _("SS"));
+	set_cell (dao, 2, 7+rows+cols, _("df"));
+	set_cell (dao, 3, 7+rows+cols, _("MS"));
+	set_cell (dao, 4, 7+rows+cols, _("F"));
+	set_cell (dao, 5, 7+rows+cols, _("P-value"));
+	set_cell (dao, 6, 7+rows+cols, _("F critical"));
+	set_cell (dao, 0, 8+rows+cols, _("Rows"));
+	set_cell (dao, 0, 9+rows+cols, _("Columns"));
+	set_cell (dao, 0, 10+rows+cols, _("Error"));
+	set_cell (dao, 0, 12+rows+cols, _("Total"));
 
 	sprintf (buf, "%f", ss_r);
 	set_cell (dao, 1, 8+rows+cols, buf);

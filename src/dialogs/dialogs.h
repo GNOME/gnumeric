@@ -89,26 +89,26 @@ typedef struct {
 } data_analysis_output_t;
 
 
-void   	 dialog_goto_cell       (Workbook  *wb);
-void   	 dialog_cell_format     (Workbook  *wb, Sheet *sheet);
-int    	 dialog_paste_special   (Workbook  *wb);
-void   	 dialog_insert_cells    (Workbook  *wb, Sheet *sheet);
-void   	 dialog_delete_cells    (Workbook  *wb, Sheet *sheet);
-void   	 dialog_zoom            (Workbook  *wb, Sheet *sheet);
-char   	*dialog_query_load_file (Workbook  *wb);
-void   	 dialog_about           (Workbook  *wb);
-void   	 dialog_define_names    (Workbook  *wb);
-void   	 dialog_cell_comment    (Workbook  *wb, Cell *cell);
-void   	 dialog_cell_sort       (Workbook  *wb, Sheet *sheet);
-char   	*dialog_function_wizard (Workbook  *wb, FunctionDefinition *fd);
-void   	 dialog_goal_seek       (Workbook  *wb, Sheet *sheet);
-void   	 dialog_solver          (Workbook  *wb, Sheet *sheet);
-void   	 dialog_printer_setup   (Workbook  *wb, Sheet *sheet);
-void   	 dialog_summary_update  (Workbook  *wb, SummaryInfo *sin);
-void     dialog_autocorrect     (Workbook  *wb);
-void   	 dialog_advanced_filter (Workbook  *wb);
-void   	 dialog_autosave        (Workbook  *wb);
-gint     dialog_autosave_callback (gpointer *data);
+void   	 dialog_goto_cell       (Workbook *wb);
+void   	 dialog_cell_format     (Workbook *wb, Sheet *sheet);
+int    	 dialog_paste_special   (Workbook *wb);
+void   	 dialog_insert_cells    (Workbook *wb, Sheet *sheet);
+void   	 dialog_delete_cells    (Workbook *wb, Sheet *sheet);
+void   	 dialog_zoom            (Workbook *wb, Sheet *sheet);
+char   	*dialog_query_load_file (Workbook *wb);
+void   	 dialog_about           (Workbook *wb);
+void   	 dialog_define_names    (Workbook *wb);
+void   	 dialog_cell_comment    (Workbook *wb, Cell *cell);
+void   	 dialog_cell_sort       (Workbook *wb, Sheet *sheet);
+char   	*dialog_function_wizard (Workbook *wb, FunctionDefinition *fd);
+void   	 dialog_goal_seek       (Workbook *wb, Sheet *sheet);
+void   	 dialog_solver          (Workbook *wb, Sheet *sheet);
+void   	 dialog_printer_setup   (Workbook *wb, Sheet *sheet);
+void   	 dialog_summary_update  (Workbook *wb, SummaryInfo *sin);
+void     dialog_autocorrect     (Workbook *wb);
+void   	 dialog_advanced_filter (Workbook *wb);
+void   	 dialog_autosave        (Workbook *wb);
+gboolean dialog_autosave_prompt (Workbook *wb);
 void     dialog_data_analysis   (Workbook *wb, Sheet *sheet);
 char   	*dialog_get_sheet_name  (Workbook *wb, const char *name);
 gboolean dialog_get_number      (Workbook *wb,

@@ -386,16 +386,16 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	int  row;
 
 	dao.type = NewSheetOutput;
-        prepare_output (wb, &dao, "Answer Report");
-	set_cell (&dao, 0, 0, "Gnumeric Solver Answer Report");
+        prepare_output (wb, &dao, _("Answer Report"));
+	set_cell (&dao, 0, 0, _("Gnumeric Solver Answer Report"));
 	if (param->problem_type == SolverMaximize)
-	        set_cell (&dao, 0, 1, "Target Cell (Maximize)");
+	        set_cell (&dao, 0, 1, _("Target Cell (Maximize)"));
 	else
-	        set_cell (&dao, 0, 1, "Target Cell (Minimize)");
-	set_cell (&dao, 0, 2, "Cell");
-	set_cell (&dao, 1, 2, "Name");
-	set_cell (&dao, 2, 2, "Original Value");
-	set_cell (&dao, 3, 2, "Final Value");
+	        set_cell (&dao, 0, 1, _("Target Cell (Minimize)"));
+	set_cell (&dao, 0, 2, _("Cell"));
+	set_cell (&dao, 1, 2, _("Name"));
+	set_cell (&dao, 2, 2, _("Original Value"));
+	set_cell (&dao, 3, 2, _("Final Value"));
 
 	/* Set `Cell' field */
 	set_cell (&dao, 0, 3, (char*) cell_name(param->target_cell->col->pos,
@@ -417,11 +417,11 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	g_free (str);
 	
 	row = 4;
-	set_cell (&dao, 0, row++, "Adjustable Cells");
-	set_cell (&dao, 0, row, "Cell");
-	set_cell (&dao, 1, row, "Name");
-	set_cell (&dao, 2, row, "Original Value");
-	set_cell (&dao, 3, row, "Final Value");
+	set_cell (&dao, 0, row++, _("Adjustable Cells"));
+	set_cell (&dao, 0, row, _("Cell"));
+	set_cell (&dao, 1, row, _("Name"));
+	set_cell (&dao, 2, row, _("Original Value"));
+	set_cell (&dao, 3, row, _("Final Value"));
 	row++;
 
 	while (cell_list != NULL) {
@@ -452,13 +452,13 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 		row++;
 	}
 
-	set_cell (&dao, 0, row++, "Constraints");
-	set_cell (&dao, 0, row, "Cell");
-	set_cell (&dao, 1, row, "Name");
-	set_cell (&dao, 2, row, "Cell Value");
-	set_cell (&dao, 3, row, "Formula");
-	set_cell (&dao, 4, row, "Status");
-	set_cell (&dao, 5, row, "Slack");
+	set_cell (&dao, 0, row++, _("Constraints"));
+	set_cell (&dao, 0, row, _("Cell"));
+	set_cell (&dao, 1, row, _("Name"));
+	set_cell (&dao, 2, row, _("Cell Value"));
+	set_cell (&dao, 3, row, _("Formula"));
+	set_cell (&dao, 4, row, _("Status"));
+	set_cell (&dao, 5, row, _("Slack"));
 
 	row++;
 	constraints = param->constraints;
@@ -489,9 +489,9 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 		lhs = value_get_as_float (cell->value);
 
 		if (fabs (lhs-rhs) < 0.0001)
-		        set_cell (&dao, 4, row, "Binding");
+		        set_cell (&dao, 4, row, _("Binding"));
 		else
-		        set_cell (&dao, 4, row, "Not Binding");
+		        set_cell (&dao, 4, row, _("Not Binding"));
 
 		/* Set `Slack' column */
 		sprintf(buf, "%f", fabs (lhs-rhs));
@@ -517,21 +517,21 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *init_tbl,
 	int  row=0, i;
 
 	dao.type = NewSheetOutput;
-        prepare_output (wb, &dao, "Sensitivity Report");
-	set_cell (&dao, 0, row++, "Gnumeric Solver Sensitivity Report");
-	set_cell (&dao, 0, row++, "Adjustable Cells");
-	set_cell (&dao, 2, row, "Final");
-	set_cell (&dao, 3, row, "Reduced");
-	set_cell (&dao, 4, row, "Objective");
-	set_cell (&dao, 5, row, "Allowable");
-	set_cell (&dao, 6, row++, "Allowable");
-	set_cell (&dao, 0, row, "Cell");
-	set_cell (&dao, 1, row, "Name");
-	set_cell (&dao, 2, row, "Value");
-	set_cell (&dao, 3, row, "Cost");
-	set_cell (&dao, 4, row, "Coefficient");
-	set_cell (&dao, 5, row, "Increase");
-	set_cell (&dao, 6, row++, "Decrease");
+        prepare_output (wb, &dao, _("Sensitivity Report"));
+	set_cell (&dao, 0, row++, _("Gnumeric Solver Sensitivity Report"));
+	set_cell (&dao, 0, row++, _("Adjustable Cells"));
+	set_cell (&dao, 2, row, _("Final"));
+	set_cell (&dao, 3, row, _("Reduced"));
+	set_cell (&dao, 4, row, _("Objective"));
+	set_cell (&dao, 5, row, _("Allowable"));
+	set_cell (&dao, 6, row++, _("Allowable"));
+	set_cell (&dao, 0, row, _("Cell"));
+	set_cell (&dao, 1, row, _("Name"));
+	set_cell (&dao, 2, row, _("Value"));
+	set_cell (&dao, 3, row, _("Cost"));
+	set_cell (&dao, 4, row, _("Coefficient"));
+	set_cell (&dao, 5, row, _("Increase"));
+	set_cell (&dao, 6, row++, _("Decrease"));
 
 	i = 2;
 	while (cell_list != NULL) {
@@ -566,19 +566,19 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *init_tbl,
 		i++;
 	}
 
-	set_cell (&dao, 0, row++, "Constraints");
-	set_cell (&dao, 2, row, "Final");
-	set_cell (&dao, 3, row, "Shadow");
-	set_cell (&dao, 4, row, "Constraint");
-	set_cell (&dao, 5, row, "Allowable");
-	set_cell (&dao, 6, row++, "Allowable");
-	set_cell (&dao, 0, row, "Cell");
-	set_cell (&dao, 1, row, "Name");
-	set_cell (&dao, 2, row, "Value");
-	set_cell (&dao, 3, row, "Price");
-	set_cell (&dao, 4, row, "R.H. Side");
-	set_cell (&dao, 5, row, "Increase");
-	set_cell (&dao, 6, row++, "Decrease");
+	set_cell (&dao, 0, row++, _("Constraints"));
+	set_cell (&dao, 2, row, _("Final"));
+	set_cell (&dao, 3, row, _("Shadow"));
+	set_cell (&dao, 4, row, _("Constraint"));
+	set_cell (&dao, 5, row, _("Allowable"));
+	set_cell (&dao, 6, row++, _("Allowable"));
+	set_cell (&dao, 0, row, _("Cell"));
+	set_cell (&dao, 1, row, _("Name"));
+	set_cell (&dao, 2, row, _("Value"));
+	set_cell (&dao, 3, row, _("Price"));
+	set_cell (&dao, 4, row, _("R.H. Side"));
+	set_cell (&dao, 5, row, _("Increase"));
+	set_cell (&dao, 6, row++, _("Decrease"));
 	
 	constraints = param->constraints;
 	while (constraints != NULL) {

@@ -30,41 +30,28 @@ prompt_on_off_toggled(GtkWidget *widget, Workbook *wb)
         wb->autosave_prompt = GTK_TOGGLE_BUTTON (widget)->active;
 }
 
-gint
-dialog_autosave_callback (gpointer *data)
+gboolean
+dialog_autosave_prompt (Workbook *wb)
 {
-        Workbook *wb = (Workbook *) data;
-
-	if (wb->autosave && workbook_is_dirty (wb)) {
-	        if (wb->autosave_prompt) {
-		        GladeXML  *gui = 
-			        glade_xml_new (GNUMERIC_GLADEDIR
-					       "/autosave-prompt.glade", NULL);
-			GtkWidget *dia;
-			gint      v;
-
-			dia = glade_xml_get_widget (gui, "AutoSavePrompt");
-			if (!dia) {
-			        printf("Corrupt file autosave-prompt.glade\n");
-				return 0;
-			}
-
-			v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
-			if (v != -1)
-			        gtk_object_destroy (GTK_OBJECT (dia));
-			gtk_object_unref (GTK_OBJECT (gui));
-			
-			if (v != 0)
-			        goto out;
-		}
-		workbook_save (workbook_command_context_gui (wb), wb);
+	GtkWidget *dia;
+	GladeXML *gui = glade_xml_new (GNUMERIC_GLADEDIR "/autosave-prompt.glade", NULL);
+	gint v;
+	
+	dia = glade_xml_get_widget (gui, "AutoSavePrompt");
+	if (!dia) {
+		printf("Corrupt file autosave-prompt.glade\n");
+		return 0;
 	}
-out:
-	wb->autosave_timer =
-	       gtk_timeout_add(wb->autosave_minutes*60000,
-			       (GtkFunction) dialog_autosave_callback, wb);
-
-	return 0;
+	
+	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
+	if (v != -1)
+		gtk_object_destroy (GTK_OBJECT (dia));
+	gtk_object_unref (GTK_OBJECT (gui));
+	
+	if (v == 0)
+		return TRUE;
+	else
+		return FALSE;
 }
 
 void
@@ -137,19 +124,14 @@ loop:
 			goto loop;
 		}
 	} else if (v == 2) {
-		GnomeHelpMenuEntry *help_ref = { "gnumeric", "autosave.html" };
+		GnomeHelpMenuEntry help_ref = { "gnumeric", "autosave.html" };
 		
 		gnome_help_display (NULL, &help_ref);
 		
 	} else if (v == 1) {
-	        wb->autosave = old_autosave;
-	        wb->autosave_prompt = old_prompt;
-		wb->autosave_minutes = old_minutes;
+		workbook_autosave_set (wb, old_minutes, old_prompt);
 	}
-	wb->autosave_timer = 
-		gtk_timeout_add(wb->autosave_minutes*60000,
-				(GtkFunction) dialog_autosave_callback, wb);
-	
+
 	if (v != -1)
 		gtk_object_destroy (GTK_OBJECT (dia));
 
