@@ -4460,13 +4460,11 @@ qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, g
 			gnum_float v = 2 * alpha;
 			if (v < -1.24 * R_DT_log (p))
 				x = powgnum (R_DT_qIv (p) * alpha * expgnum (lgammagnum (alpha) + alpha * M_LN2gnum),
-					     1 / alpha)
-					* scale / 2;
+					     1 / alpha) / 2;
 			else {
 				gnum_float x1 = qnorm (p, 0, 1, lower_tail, log_p);
 				gnum_float p1 = 0.222222 / v;
-				x = v * powgnum (x1 * sqrtgnum (p1) + 1 - p1, 3)
-					* scale / 2;
+				x = v * powgnum (x1 * sqrtgnum (p1) + 1 - p1, 3) / 2;
 			}
 			if (x <= 0) x = 1e-10;
 		} else if (i == 1) {
@@ -4496,7 +4494,7 @@ qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, g
 		if (x <= xlow || (have_xhigh && x >= xhigh))
 			continue;
 
-		e = pgamma (x, alpha, scale, lower_tail, log_p) - p;
+		e = pgamma (x, alpha, 1, lower_tail, log_p) - p;
 		if (!lower_tail) e = -e;
 #ifdef DEBUG_qgamma
 		printf ("  x=%.15g  e=%.15g  l=%.15g  h=%.15g\n",
@@ -4504,7 +4502,7 @@ qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, g
 #endif
 
 		if (e == 0)
-			return x;
+			goto done;
 		else if (e > 0) {
 			xhigh = x;
 			exhigh = e;
@@ -4519,7 +4517,7 @@ qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, g
 			gnum_float prec = (xhigh - xlow) / xmid;
 			if (prec < GNUM_EPSILON * 4) {
 				x = xmid;
-				e = pgamma (x, alpha, scale, lower_tail, log_p) - p;
+				e = pgamma (x, alpha, 1, lower_tail, log_p) - p;
 				goto done;
 			}
 
@@ -4528,7 +4526,7 @@ qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, g
 				gnum_float d =
 					log_p
 					? 0 /* FIXME? */
-					: dgamma (x, alpha, scale, log_p);
+					: dgamma (x, alpha, 1, log_p);
 				if (d) {
 					/*
 					 * Deliberately overshoot a bit to help
@@ -4560,7 +4558,7 @@ qgamma (gnum_float p, gnum_float alpha, gnum_float scale, gboolean lower_tail, g
 #ifdef DEBUG_qgamma
 	printf ("--> %.15g\n\n", x);
 #endif
-	return x;
+	return x * scale;
 }
 
 
