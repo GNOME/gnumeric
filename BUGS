@@ -8,17 +8,11 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - VALUE does not pass textfuns.xls; it also looks broken in the space-
-      handling department.
-
     - CHITEST now fails statfuns.xls.
 
     - src/functions/fn-string.c needs lots of TLC in argument handling.
 
     - defining file patterns in plugin spec overrides 'has_probe' flag silently.
-
-    - pasting with singleton destination circumvents checks for arrays and
-      merged cells.
 
     - Get the i18n XL patches verified and in
 	: smarter support for unicode characters that do not convert to the
@@ -138,7 +132,6 @@ Dialogs
     : As we auto add new entries for varargs we should make them visible.
     : Editing nested functions.  How best to express this.
     : Switching between multiple function at the same level.
-    : Better communication and handling of parse errors.
 
 Function Breakage
 -----------------

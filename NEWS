@@ -22,6 +22,8 @@ Jody:
 	* Fix some irritating mouse behaviors
 	* More system portability enhancements.
 	* Support fractions.
+	* Fix printing of borders.
+	* Improve checking for array/merged region division.
 
 Jon Kåre:
 	* New architecture for selecting cell ranges into dialogs.
