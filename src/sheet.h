@@ -186,6 +186,10 @@ Cell       *sheet_cell_fetch              (Sheet *sheet, int col, int row);
 void        sheet_cell_comment_link       (Cell *cell);
 void        sheet_cell_comment_unlink     (Cell *cell);
 
+void        sheet_reposition_comments_from_row (Sheet *sheet, int row);
+void        sheet_reposition_comments_from_col (Sheet *sheet, int col);
+void        sheet_recompute_spans_for_col      (Sheet *sheet, int col);
+
 void        sheet_cell_formula_link       (Cell *cell);
 void        sheet_cell_formula_unlink     (Cell *cell);
 gboolean    sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row,

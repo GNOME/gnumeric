@@ -3312,16 +3312,16 @@ sheet_restore_row_col_sizes (Sheet *sheet, gboolean const is_cols,
 
 		/* Reset to the default */
 		if (sizes[i] == 0.) {
-			ColRowCollection *infos = &(sheet->cols) : &(sheet->rows);
+			ColRowCollection *infos = is_cols ? &(sheet->cols) : &(sheet->rows);
 			ColRowInfo ***segment =
 				(ColRowInfo ***)&COLROW_GET_SEGMENT(infos, index+i);
 			int const sub = COLROW_SUB_INDEX (index+i);
 			ColRowInfo *cri = NULL;
 			if (*segment != NULL) {
-				ci = (*segment)[sub];
-				if (ci != NULL) {
+				cri = (*segment)[sub];
+				if (cri != NULL) {
 					(*segment)[sub] = NULL;
-					g_free (ci);
+					g_free (cri);
 				}
 			}
 		} else
