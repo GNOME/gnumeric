@@ -40,18 +40,9 @@ static GtkObjectClass *sheet_object_parent_class;
 static void
 cb_sheet_object_remove (GtkWidget *widget, GtkObject *so_view)
 {
-	Sheet *sheet;
-	SheetObject *so;
-	SheetControlGUI *scg;
-	WorkbookControl *wbc;
-
-	so = sheet_object_view_obj (so_view);
-	scg = sheet_object_view_control (so_view);
-	wbc = sc_wbc (SHEET_CONTROL (scg));
-	sheet = sc_sheet (SHEET_CONTROL (scg));
-
-	cmd_object_delete (wbc, so);
-	gtk_object_unref (GTK_OBJECT (so));
+	SheetControlGUI *scg = sheet_object_view_control (so_view);
+	WorkbookControl *wbc = sc_wbc (SHEET_CONTROL (scg));
+	cmd_object_delete (wbc, sheet_object_view_obj (so_view));
 }
 
 static void

@@ -4,10 +4,11 @@ Jiri Jirat:
 	* Fix the schema.
 
 Jody:
-	* Back port partial fix for named expressions.
+	* Backport partial fix for named expressions.
 	* Export copy/paste data to primary and clipboard to
 	  communicate with 1.1.x.
 	* Add warning dialog when we can't activate guppi.
+	* Backport fix for sheet object ref count error.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.9
