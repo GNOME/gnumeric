@@ -73,7 +73,9 @@ void scg_set_left_col		(SheetControlGUI *scg, int new_first_col);
 void scg_set_top_row		(SheetControlGUI *scg, int new_first_row);
 
 /* DO NOT USE THIS WITHOUT ALOT OF THOUGHT */
-GnumericSheet      *scg_primary_pane	(SheetControlGUI *scg);
+GnumericSheet      *scg_pane		(SheetControlGUI *scg, int pane);
+GnumericSheet      *scg_adjacent_pane	(SheetControlGUI *scg, int pane,
+					 gboolean adjacent_h);
 
 WorkbookControlGUI *scg_get_wbcg	(SheetControlGUI const *scg);
 

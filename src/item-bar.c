@@ -398,6 +398,12 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		int total = 1 + gsheet->row_offset.first - y;
 		int row = gsheet->row.first;
 
+		if (gsheet->pane->index == 2) {
+			int left, top;
+			gnome_canvas_get_scroll_offsets (canvas, &left, &top);
+			printf ("offset 0x%p = %d, %d\n", canvas, left, top);
+		}
+
 		rect.x = ib->indent - x;
 		rect.width = ib->cell_width;
 
@@ -600,9 +606,8 @@ set_cursor (ItemBar *ib, int x, int y)
 }
 
 static void
-item_bar_start_resize (ItemBar *ib)
+resize_bar_init (ItemBar *ib, GnumericSheet const * const gsheet)
 {
-	GnumericSheet const * const gsheet = ib->gsheet;
 	SheetControlGUI const * const scg = gsheet->scg;
 	Sheet const * const sheet = ((SheetControl *) scg)->sheet;
 	double const zoom = sheet->last_zoom_factor_used; /* * res / 72.; */
@@ -610,12 +615,12 @@ item_bar_start_resize (ItemBar *ib)
 	GnomeCanvasGroup * const group = GNOME_CANVAS_GROUP (canvas->root);
 	GnomeCanvasPoints * const points =
 		ib->resize_points = gnome_canvas_points_new (2);
-	GnomeCanvasItem * item =
-		gnome_canvas_item_new ( group,
-					gnome_canvas_line_get_type (),
-					"fill_color", "black",
-					"width_pixels", 1,
-					NULL);
+	GnomeCanvasItem * item;
+
+	item = gnome_canvas_item_new (group, gnome_canvas_line_get_type (),
+				      "fill_color", "black",
+				      "width_pixels", 1,
+				      NULL);
 	ib->resize_guide = GTK_OBJECT (item);
 
 	/* NOTE : Set the position of the stationary line here.
@@ -641,13 +646,22 @@ item_bar_start_resize (ItemBar *ib)
 		points->coords [3] = y;
 	}
 
-	item = gnome_canvas_item_new ( group,
-				       gnome_canvas_line_get_type (),
-				       "points", points,
-				       "fill_color", "black",
-				       "width_pixels", 1,
-				       NULL);
+	item = gnome_canvas_item_new (group, gnome_canvas_line_get_type (),
+				      "points", points,
+				      "fill_color", "black",
+				      "width_pixels", 1,
+				      NULL);
 	ib->resize_start = GTK_OBJECT (item);
+}
+
+static void
+item_bar_start_resize (ItemBar *ib)
+{
+	resize_bar_init (ib, ib->gsheet);
+#if 0
+	if (sheet_is_frozen (((SheetControl *) ib->gsheet->scg)->sheet))
+		resize_bar_init (ib, ib->gsheet);
+#endif
 }
 
 static void
@@ -679,7 +693,7 @@ item_bar_end_resize (ItemBar *ib, int new_size)
 		gnome_canvas_points_free (ib->resize_points);
 		ib->resize_points = NULL;
 	}
-	if (ib->resize_guide) {
+	if (ib->resize_start) {
 		gtk_object_destroy (ib->resize_start);
 		ib->resize_start = NULL;
 	}
@@ -1054,4 +1068,5 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 }
 
 E_MAKE_TYPE (item_bar, "ItemBar", ItemBar,
-	     item_bar_class_init, item_bar_init, GNOME_TYPE_CANVAS_ITEM);
+	     item_bar_class_init, item_bar_init,
+	     GNOME_TYPE_CANVAS_ITEM);

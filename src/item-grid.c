@@ -1103,4 +1103,5 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 }
 
 E_MAKE_TYPE (item_grid, "ItemGrid", ItemGrid,
-	     item_grid_class_init, item_grid_init, GNOME_TYPE_CANVAS_ITEM);
+	     item_grid_class_init, item_grid_init,
+	     GNOME_TYPE_CANVAS_ITEM);

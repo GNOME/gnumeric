@@ -103,7 +103,7 @@ static GtkObject *
 sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
-	GnumericSheet *gsheet = scg_primary_pane (scg);
+	GnumericSheet *gsheet = scg_pane (scg, 0);
 	GtkWidget *view_widget = SOW_CLASS(so)->create_widget (
 		SHEET_OBJECT_WIDGET (so), scg);
 	GnomeCanvasItem *view_item = gnome_canvas_item_new (

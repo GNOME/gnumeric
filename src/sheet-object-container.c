@@ -103,7 +103,7 @@ static GtkObject *
 sheet_object_container_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
-	GnumericSheet *gsheet = scg_primary_pane (scg);
+	GnumericSheet *gsheet = scg_pane (scg, 0);
 	SheetObjectContainer *soc;
 	BonoboViewFrame *view_frame;
 	GtkWidget	*view_widget;

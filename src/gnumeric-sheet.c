@@ -32,6 +32,7 @@
 #  include "sheet-object-container.h"
 #endif
 #include <gal/widgets/e-cursors.h>
+#include <gal/util/e-util.h>
 
 static GnomeCanvasClass *gsheet_parent_class;
 
@@ -630,7 +631,8 @@ gnumeric_sheet_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	(*GTK_WIDGET_CLASS (gsheet_parent_class)->size_allocate)(widget, allocation);
 
-	gsheet_compute_visible_region (GNUMERIC_SHEET (widget), FALSE);
+	/* Be extra careful, panes require a full recompute */
+	gsheet_compute_visible_region (GNUMERIC_SHEET (widget), TRUE);
 }
 
 typedef struct {
@@ -670,33 +672,18 @@ gnumeric_sheet_init (GnumericSheet *gsheet)
 
 	gsheet->ic = NULL;
 	gsheet->ic_attr = NULL;
+	gsheet->col.first = gsheet->col.last_full = gsheet->col.last_visible = 0;
+	gsheet->row.first = gsheet->row.last_full = gsheet->row.last_visible = 0;
+	gsheet->col_offset.first = gsheet->col_offset.last_full = gsheet->col_offset.last_visible = 0;
+	gsheet->row_offset.first = gsheet->row_offset.last_full = gsheet->row_offset.last_visible = 0;
 
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);
 }
 
-GtkType
-gnumeric_sheet_get_type (void)
-{
-	static GtkType gnumeric_sheet_type = 0;
-
-	if (!gnumeric_sheet_type) {
-		GtkTypeInfo gnumeric_sheet_info = {
-			"GnumericSheet",
-			sizeof (GnumericSheet),
-			sizeof (GnumericSheetClass),
-			(GtkClassInitFunc) gnumeric_sheet_class_init,
-			(GtkObjectInitFunc) gnumeric_sheet_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		gnumeric_sheet_type = gtk_type_unique (gnome_canvas_get_type (), &gnumeric_sheet_info);
-	}
-
-	return gnumeric_sheet_type;
-}
+E_MAKE_TYPE (gnumeric_sheet, "GnumericSheet", GnumericSheet,
+	     gnumeric_sheet_class_init, gnumeric_sheet_init,
+	     GNOME_TYPE_CANVAS);
 
 GnumericSheet *
 gnumeric_sheet_new (SheetControlGUI *scg, GnumericPane *pane)
@@ -718,10 +705,6 @@ gnumeric_sheet_new (SheetControlGUI *scg, GnumericPane *pane)
 
 	gsheet->scg = scg;
 	gsheet->pane = pane;
-	gsheet->row.first = gsheet->row.last_full = gsheet->row.last_visible = 0;
-	gsheet->col.first = gsheet->col.last_full = gsheet->col.last_visible = 0;
-	gsheet->row_offset.first = gsheet->row_offset.last_full = gsheet->row_offset.last_visible = 0;
-	gsheet->col_offset.first = gsheet->col_offset.last_full = gsheet->col_offset.last_visible = 0;
 
 	/* FIXME: figure out some real size for the canvas scrolling region */
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (gsheet), 0, 0,
@@ -970,15 +953,25 @@ gsheet_compute_visible_region (GnumericSheet *gsheet,
 	if (full_recompute) {
 		gsheet->col_offset.first = scg_colrow_distance_get (scg,
 			TRUE, 0, gsheet->col.first);
-		if (NULL != scg->pane->col.canvas)
-			gnome_canvas_scroll_to (scg->pane->col.canvas,
+		if (NULL != gsheet->pane->col.canvas)
+			gnome_canvas_scroll_to (gsheet->pane->col.canvas,
 				gsheet->col_offset.first, 0);
 
 		gsheet->row_offset.first = scg_colrow_distance_get (scg,
 			FALSE, 0, gsheet->row.first);
-		if (NULL != scg->pane->row.canvas)
-			gnome_canvas_scroll_to (scg->pane->row.canvas,
+		if (NULL != gsheet->pane->row.canvas) {
+			if (gsheet->pane->index == 2) {
+				printf ("to1[2] 0x%p = %d, %d\n", gsheet->pane->row.canvas,
+					0, gsheet->row_offset.first);
+			}
+			gnome_canvas_scroll_to (gsheet->pane->row.canvas,
 				0, gsheet->row_offset.first);
+			if (gsheet->pane->index == 2) {
+				int left, top;
+				gnome_canvas_get_scroll_offsets (gsheet->pane->row.canvas, &left, &top);
+				printf ("o3 0x%p = %d, %d\n", gsheet->pane->row.canvas, left, top);
+			}
+		}
 
 		gnome_canvas_scroll_to (GNOME_CANVAS (gsheet),
 					gsheet->col_offset.first,

@@ -39,6 +39,7 @@
 #include "sheet-object-bonobo.h"
 #endif
 
+#include <gal/util/e-util.h>
 #include <ctype.h>
 
 static GtkObjectClass *workbook_parent_class;
@@ -415,29 +416,6 @@ workbook_class_init (GtkObjectClass *object_class)
 	gtk_object_class_add_signals (object_class, workbook_signals, LAST_SIGNAL);
 
 	object_class->destroy = workbook_destroy;
-}
-
-GtkType
-workbook_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type) {
-		GtkTypeInfo info = {
-			"Workbook",
-			sizeof (Workbook),
-			sizeof (WorkbookClass),
-			(GtkClassInitFunc) workbook_class_init,
-			(GtkObjectInitFunc) workbook_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (gtk_object_get_type (), &info);
-	}
-
-	return type;
 }
 
 /**
@@ -1256,3 +1234,7 @@ workbook_sheet_rename (WorkbookControl *wbc,
 
 	return FALSE;
 }
+
+E_MAKE_TYPE (workbook, "Workbook", Workbook,
+	     workbook_class_init, workbook_init,
+	     GTK_TYPE_OBJECT);

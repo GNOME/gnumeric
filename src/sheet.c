@@ -806,6 +806,13 @@ sheet_update_only_grid (Sheet const *sheet)
 
 	if (p->reposition_objects.row < SHEET_MAX_ROWS ||
 	    p->reposition_objects.col < SHEET_MAX_COLS) {
+		if (sheet_is_frozen (sheet)) {
+			if (p->reposition_objects.col < sheet->frozen.bottom_right.col ||
+			    p->reposition_objects.row < sheet->frozen.bottom_right.row) {
+				SHEET_FOREACH_CONTROL(sheet, control,
+						      sc_resize (control, FALSE););
+			}
+		}
 		sheet_reposition_objects (sheet, &p->reposition_objects);
 		p->reposition_objects.row = SHEET_MAX_ROWS;
 		p->reposition_objects.col = SHEET_MAX_COLS;

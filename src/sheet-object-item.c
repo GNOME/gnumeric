@@ -24,7 +24,7 @@ static GtkObject *
 sheet_object_item_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
-	GnumericSheet *gsheet = scg_primary_pane (scg);
+	GnumericSheet *gsheet = scg_pane (scg, 0);
 	GnomeCanvasItem *so_view = NULL;
 
 	so_view = bonobo_client_site_new_item (

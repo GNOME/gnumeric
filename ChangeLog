@@ -1,3 +1,13 @@
+2001-07-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_update) : go one past the last
+	  visible in case the last visible == the last full.
+
+	* src/item-bar.c (item_bar_end_resize) : fix typo.
+
+	* src/sheet.c (sheet_update_only_grid) : force a resize after col/row
+	  resizes with frozen panes.
+
 2001-07-07  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/preview-grid.[ch] (marshal_POINTER__INT_INT): New, custom marshaller.

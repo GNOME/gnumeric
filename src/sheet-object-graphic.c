@@ -95,7 +95,7 @@ static GtkObject *
 sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
-	GnumericSheet *gsheet = scg_primary_pane (scg);
+	GnumericSheet *gsheet = scg_pane (scg, 0);
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	GnomeCanvasItem *item = NULL;
 
@@ -364,7 +364,7 @@ static GtkObject *
 sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
-	GnumericSheet *gsheet = scg_primary_pane (scg);
+	GnumericSheet *gsheet = scg_pane (scg, 0);
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	SheetObjectFilled  *sof = SHEET_OBJECT_FILLED (so);
 	GnomeCanvasItem *item = NULL;

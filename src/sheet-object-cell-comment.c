@@ -88,7 +88,7 @@ comment_get_points (SheetControlGUI *scg, SheetObject const *so)
 
 	for (i = 0; i < 3; i++)
 		/* FIXME : panes ? */
-		gnome_canvas_c2w (GNOME_CANVAS (scg_primary_pane (scg)),
+		gnome_canvas_c2w (GNOME_CANVAS (scg_pane (scg, 0)),
 				  points->coords [i*2],
 				  points->coords [i*2+1],
 				  &(points->coords [i*2]),
@@ -162,7 +162,7 @@ cell_comment_new_view (SheetObject *so, SheetControlGUI *scg)
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
 
 	/* FIXME : panes ? */
-	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (scg_primary_pane (scg))->root);
+	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (scg_pane (scg, 0))->root);
 	points = comment_get_points (scg, so);
 	item = gnome_canvas_item_new (
 		group, gnome_canvas_polygon_get_type (),

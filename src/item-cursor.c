@@ -25,15 +25,12 @@
 #include "ranges.h"
 #include "parse-util.h"
 #include <gal/widgets/e-cursors.h>
+#include <gal/util/e-util.h>
 
 #define ITEM_CURSOR_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_cursor_get_type (), ItemCursorClass))
 
 #define AUTO_HANDLE_SPACE	4
 #define CLIP_SAFETY_MARGIN      (AUTO_HANDLE_SPACE + 5)
-#define IS_LITTLE_SQUARE(item,x,y) \
-	(((x) > (item)->canvas_item.x2 - 6) && \
-	 ((item->auto_fill_handle_at_top && ((y) < (item)->canvas_item.y1 + 6)) || \
-	  ((y) > (item)->canvas_item.y2 - 6)))
 
 struct _ItemCursor {
 	GnomeCanvasItem canvas_item;
@@ -64,12 +61,12 @@ struct _ItemCursor {
 
 	/* Cached values of the last bounding box information used */
 	int      cached_x, cached_y, cached_w, cached_h;
-
-	int      visible:1;
-	int      use_color:1;
-	/* Location of auto fill handle */
-	int      auto_fill_handle_at_top:1;
 	int	 drag_button;
+
+	gboolean visible:1;
+	gboolean use_color:1;
+	gboolean auto_fill_handle_at_top:1;
+	gboolean auto_fill_handle_at_left:1;
 
 	GdkPixmap *stipple;
 	GdkColor  color;
@@ -204,9 +201,9 @@ item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, in
 
 	/* Clip the bounds of the cursor to the visible region of cells */
 	int const left = MAX (gsheet->col.first-1, item_cursor->pos.start.col);
-	int const right = MIN (gsheet->col.last_visible, item_cursor->pos.end.col);
+	int const right = MIN (gsheet->col.last_visible+1, item_cursor->pos.end.col);
 	int const top = MAX (gsheet->row.first-1, item_cursor->pos.start.row);
-	int const bottom = MIN (gsheet->row.last_visible, item_cursor->pos.end.row);
+	int const bottom = MIN (gsheet->row.last_visible+1, item_cursor->pos.end.row);
 
 	/* Erase the old cursor */
 	item_cursor_request_redraw (item_cursor);
@@ -307,9 +304,6 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 		draw_external = 1;
 		{
 			GnumericSheet const *gsheet = GNUMERIC_SHEET (item->canvas);
-			SheetControlGUI const *scg = gsheet->scg;
-			/* FIXME : too simplistic.  do better checking for
-			 * frozen panes */
 			if (item_cursor->pos.end.row <= gsheet->row.last_full)
 				draw_handle = 1;
 			else if (item_cursor->pos.start.row < gsheet->row.first)
@@ -566,12 +560,30 @@ item_cursor_setup_auto_fill (ItemCursor *item_cursor, ItemCursor const *parent, 
 	item_cursor->base.row = parent->pos.start.row;
 }
 
+static inline gboolean
+item_cursor_in_drag_handle (ItemCursor *ic, int x, int y)
+{
+	int const y_test = ic->auto_fill_handle_at_top 
+		? ic->canvas_item.y1
+		: ic->canvas_item.y2;
+
+	if ((y_test-AUTO_HANDLE_SPACE) <= y &&
+	    y <= (y_test+AUTO_HANDLE_SPACE)) {
+		int const x_test = ic->auto_fill_handle_at_left 
+			? ic->canvas_item.x1
+			: ic->canvas_item.x2;
+		return (x_test-AUTO_HANDLE_SPACE) <= x &&
+			x <= (x_test+AUTO_HANDLE_SPACE);
+	 }
+	return FALSE;
+}
+
 static void
 item_cursor_set_cursor (GnomeCanvas *canvas, ItemCursor *ic, int x, int y)
 {
 	int cursor;
 
-	if (IS_LITTLE_SQUARE (ic, x, y))
+	if (item_cursor_in_drag_handle (ic, x, y))
 		cursor = E_CURSOR_THIN_CROSS;
 	else
 		cursor = E_CURSOR_ARROW;
@@ -611,7 +623,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		 * determine which part of the cursor was clicked:
 		 * the border or the handlebox
 		 */
-		if (IS_LITTLE_SQUARE (ic, x, y))
+		if (item_cursor_in_drag_handle (ic, x, y))
 			style = ITEM_CURSOR_AUTOFILL;
 		else
 			style = ITEM_CURSOR_DRAG;
@@ -1295,39 +1307,6 @@ item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 }
 
-/*
- * Instance initialization
- */
-static void
-item_cursor_init (ItemCursor *item_cursor)
-{
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
-
-	item->x1 = 0;
-	item->y1 = 0;
-	item->x2 = 1;
-	item->y2 = 1;
-
-	item_cursor->pos.start.col = 0;
-	item_cursor->pos.end.col   = 0;
-	item_cursor->pos.start.row = 0;
-	item_cursor->pos.end.row   = 0;
-
-	item_cursor->col_delta = 0;
-	item_cursor->row_delta = 0;
-
-	item_cursor->tip       = NULL;
-
-	item_cursor->style = ITEM_CURSOR_SELECTION;
-	item_cursor->gc = NULL;
-	item_cursor->state = 0;
-	item_cursor->animation_timer = -1;
-
-	item_cursor->visible = TRUE;
-	item_cursor->auto_fill_handle_at_top = FALSE;
-	item_cursor->drag_button = -1;
-}
-
 static void
 item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
@@ -1349,9 +1328,7 @@ item_cursor_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_COLOR: {
 		GdkColor color;
-		char *color_name;
-
-		color_name = GTK_VALUE_STRING (*arg);
+		char *color_name = GTK_VALUE_STRING (*arg);
 		if (gnome_canvas_get_color (item->canvas, color_name, &color)){
 			item_cursor->color = color;
 			item_cursor->use_color = 1;
@@ -1400,25 +1377,37 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 	item_class->event       = item_cursor_event;
 }
 
-GtkType
-item_cursor_get_type (void)
+static void
+item_cursor_init (ItemCursor *item_cursor)
 {
-	static GtkType item_cursor_type = 0;
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
 
-	if (!item_cursor_type) {
-		GtkTypeInfo item_cursor_info = {
-			"ItemCursor",
-			sizeof (ItemCursor),
-			sizeof (ItemCursorClass),
-			(GtkClassInitFunc) item_cursor_class_init,
-			(GtkObjectInitFunc) item_cursor_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
+	item->x1 = 0;
+	item->y1 = 0;
+	item->x2 = 1;
+	item->y2 = 1;
 
-		item_cursor_type = gtk_type_unique (gnome_canvas_item_get_type (), &item_cursor_info);
-	}
+	item_cursor->pos.start.col = 0;
+	item_cursor->pos.end.col   = 0;
+	item_cursor->pos.start.row = 0;
+	item_cursor->pos.end.row   = 0;
 
-	return item_cursor_type;
+	item_cursor->col_delta = 0;
+	item_cursor->row_delta = 0;
+
+	item_cursor->tip = NULL;
+
+	item_cursor->style = ITEM_CURSOR_SELECTION;
+	item_cursor->gc = NULL;
+	item_cursor->state = 0;
+	item_cursor->animation_timer = -1;
+
+	item_cursor->visible = TRUE;
+	item_cursor->auto_fill_handle_at_top = FALSE;
+	item_cursor->auto_fill_handle_at_left = FALSE;
+	item_cursor->drag_button = -1;
 }
+
+E_MAKE_TYPE (item_cursor, "ItemCursor", ItemCursor,
+	     item_cursor_class_init, item_cursor_init,
+	     GNOME_TYPE_CANVAS_ITEM);
