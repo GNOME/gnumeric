@@ -1848,6 +1848,8 @@ cmd_paste_copy_undo (GnumericCommand *cmd, CommandContext *context)
 				   me->dst.range.start.col, me->dst.range.start.row,
 				   me->dst.range.end.col, me->dst.range.end.row);
 
+	sheet_set_dirty (me->dst.sheet, TRUE);
+	workbook_recalc (me->dst.sheet->workbook);
 	sheet_update (me->dst.sheet);
 
 	return FALSE;
