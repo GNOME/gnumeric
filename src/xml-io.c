@@ -3046,11 +3046,14 @@ xml_probe (const char *filename)
 		return FALSE;
 	}
 
-	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
+	/*
+	 * Do a bit of checking, get the namespaces, and check the top elem.
+	 */
+	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v3");
 	if (gmr == NULL)
 		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v2");
 	if (gmr == NULL)
-		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v3");
+		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
 
 	if (res->root->name == NULL || strcmp (res->root->name, "Workbook") || (gmr == NULL)){
 		xmlFreeDoc (res);
@@ -3173,11 +3176,13 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 		return -1;
 	}
 	/*
-	 * Do a bit of checking, get the namespaces, and chech the top elem.
+	 * Do a bit of checking, get the namespaces, and check the top elem.
 	 */
-	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
+	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v3");
 	if (gmr == NULL)
 		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v2");
+	if (gmr == NULL)
+		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
 	if (strcmp (res->root->name, "Workbook") || (gmr == NULL)) {
 		xmlFreeDoc (res);
 		gnumeric_error_read

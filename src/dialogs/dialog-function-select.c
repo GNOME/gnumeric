@@ -10,6 +10,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "func.h"
+#include "dialogs.h"
 #include "workbook.h"
 
 typedef struct {
