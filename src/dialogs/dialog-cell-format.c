@@ -319,7 +319,7 @@ setup_color_pickers (ColorPicker *picker,
 	cg = color_group_fetch (color_group, wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 	combo = color_combo_new (NULL, default_caption, default_color, cg);
 	g_signal_connect (G_OBJECT (combo),
-		"changed",
+		"color_changed",
 		G_CALLBACK (preview_update), state);
 	/* We don't need the functionality the button provides */
 	gtk_widget_set_sensitive (COLOR_COMBO (combo)->preview_button, FALSE);

@@ -1,3 +1,8 @@
+2002-03-16  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (setup_color_pickers) : The signal has changed
+	  name as well as signature.
+
 2002-03-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-solver.c (cb_dialog_solve_clicked): Store the status of
