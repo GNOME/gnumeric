@@ -652,7 +652,7 @@ xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree)
  		if ((side = xml_search_child (tree, StyleSideNames [lp])) != NULL)
  		{
  			/* FIXME: need to read the proper type */
- 			style [lp] = BORDER_THICK ;
+ 			style [lp] = BORDER_THICK;
  			xml_get_color_value (side, "Color", &color [lp]);
  		}
 	}

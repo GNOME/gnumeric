@@ -36,7 +36,6 @@ typedef struct {
 	GnomeCanvasItem *(*realize) (SheetObject *sheet_object,
 				     SheetView   *sheet_view);
 	void       (*update_bounds) (SheetObject *sheet_object);
-	void   (*creation_finished) (SheetObject *sheet_object);
 	void         (*start_popup) (SheetObject *sheet_object,
 				     GtkMenu     *menu);
 	void           (*end_popup) (SheetObject *sheet_object,

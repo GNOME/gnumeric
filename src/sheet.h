@@ -78,6 +78,7 @@ typedef enum {
 
 	/* Selection for the region for a Graphics object */
 	SHEET_MODE_CREATE_GRAPHIC,
+	SHEET_MODE_CREATE_CANVAS_ITEM,
 
 	SHEET_MODE_CREATE_BUTTON,
 	SHEET_MODE_CREATE_CHECKBOX,
@@ -133,6 +134,8 @@ struct _Sheet {
 
 	/* Objects */
 	SheetModeType mode;	/* Sheet mode */
+	void        *mode_data; /* Sheet per-mode data */
+	
 	GList       *objects;	/* List of objects in the spreadsheet */
 	GList       *coords;	/* During creation time: keeps click coordinates */
 	void        *current_object;

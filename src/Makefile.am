@@ -166,8 +166,12 @@ endif
 GNUMERIC_BONOBO_SOURCES = 			\
 	embeddable-grid.c			\
 	embeddable-grid.h			\
+	sheet-object-bonobo.c			\
+	sheet-object-bonobo.h			\
 	sheet-object-container.c		\
-	sheet-object-container.h
+	sheet-object-container.h		\
+	sheet-object-item.c			\
+	sheet-object-item.h
 
 BUILT_SOURCES = $(GNUMERIC_CORBA_GENERATED)
 

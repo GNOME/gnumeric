@@ -72,8 +72,8 @@ typedef struct {
 	 * valid color.
 	 * NB. Use StyleBorderOrient to get orientation
 	 **/
- 	StyleBorderType type[STYLE_ORIENT_MAX] ;
- 	StyleColor  *color[STYLE_ORIENT_MAX] ;
+ 	StyleBorderType type[STYLE_ORIENT_MAX];
+ 	StyleColor  *color[STYLE_ORIENT_MAX];
 } StyleBorder;
 
 /* Alignment definitions */

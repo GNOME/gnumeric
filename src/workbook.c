@@ -130,6 +130,15 @@ create_graphic_cmd (GtkWidget *widget, Workbook *wb)
 	sheet = workbook_get_current_sheet (wb);
 	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_GRAPHIC);
 }
+
+static void
+create_embedded_item_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_CANVAS_ITEM);
+}
 #endif
 
 #ifdef GNUMERIC_TEST_ACTIVE_OBJECT
@@ -1074,6 +1083,9 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Graphic"), N_("Creates a graphic in the spreadsheet"),
 		create_graphic_cmd, NULL, graphic_xpm),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Bobobo Item"), N_("Creates a Bonobo shaped item"),
+		create_embedded_item_cmd, NULL, graphic_xpm),
 #endif
 #ifdef GNUMERIC_TEST_ACTIVE_OBJECT
 	GNOMEUIINFO_ITEM_DATA (

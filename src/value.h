@@ -36,7 +36,7 @@ struct _Value {
 		} cell_range;
 
 		struct {
-			int x, y ;
+			int x, y;
 			Value ***vals;  /* Array [x][y] */
 		} array;
 		String      *str;

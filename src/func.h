@@ -108,9 +108,9 @@ FunctionDefinition *function_add_nodes (FunctionCategory *parent,
 GList *function_categories_get (void);
 
 typedef struct {
-	GPtrArray *sections ;
-	char      *help_copy ;
-	FunctionDefinition *fd ;
+	GPtrArray *sections;
+	char      *help_copy;
+	FunctionDefinition *fd;
 } TokenizedHelp;
 
 typedef struct {

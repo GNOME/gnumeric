@@ -861,8 +861,8 @@ value_area_foreach (EvalPosition const *ep, Value const *v,
         if (v->type != VALUE_ARRAY)
 		return (*callback)(ep, v, closure);
 
-	for (x = v->v.array.x ; --x >= 0 ;)
-		for (y = v->v.array.y; --y >= 0 ; )
+	for (x = v->v.array.x; --x >= 0;)
+		for (y = v->v.array.y; --y >= 0;)
 			if ((tmp = (*callback)(ep, v->v.array.vals [x][y], closure)) != NULL)
 				return tmp;
 

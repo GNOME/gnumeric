@@ -1,3 +1,27 @@
+1999-09-26  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/sheet-object.c (sheet_button_release): Load content from
+	bonobo objects here.
+	(sheet_view_object_unrealize): Keep the bookkeeping of realized
+	objects in the GnomeCanvasItem destroy handler.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_load_from_file):
+	New base class for SheetObjectContainer and SheetObjectBonobo
+
+	* src/sheet-object-container.c: Redid for reusing the new
+	hierarchy SheetObjectBonobo hierarchy.
+
+1999-09-25  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/sheet-object.c (create_object): handle
+	SHEET_MODE_CREATE_CANVAS_ITEM.
+
+	* src/sheet.h (Sheet::mode_data): new field to keep per-mode data
+	during the lifetime of the mode.
+
+	* src/sheet-object-item.c: New sheet-object type.  This one is
+	used for embedding Bonobo-based CanvasItems. 
+	
 1999-09-23  Lauris Kaplinski <lauris@ariman.ee>
 
 	* configure.in: add et to ALL_LINGUAS

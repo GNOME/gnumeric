@@ -17,6 +17,7 @@
 
 #ifdef ENABLE_BONOBO
 #    include "sheet-object-container.h"
+#    include "sheet-object-item.h"
 #endif
 #include "sheet-object-widget.h"
 
@@ -171,12 +172,8 @@ sheet_object_drop_file (GnumericSheet *gsheet, gint x, gint y, const char *fname
 		so = sheet_object_container_new (gsheet->sheet_view->sheet, pos.x, pos.y,
 						 pos.x + 100.0, pos.y + 100.0,
 						 mime_goad_id);
-		if (!sheet_object_container_land (so, fname, TRUE)) {
-			msg = g_strdup_printf ("Failed to bind or create client site for '%s'",
-					       mime_goad_id);
-			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
-			gtk_object_destroy (GTK_OBJECT (so));
-		}
+		sheet_object_bonobo_load_from_file (SHEET_OBJECT_BONOBO (so), fname);
+		sheet_object_bonobo_query_size (SHEET_OBJECT_BONOBO (so));
 	}
 	if (msg)
 		g_free (msg);
@@ -242,6 +239,12 @@ sheet_object_set_bounds (SheetObject *so, double tlx, double tly,
 	so->bbox_points->coords[3] = bry;
 }
 
+static void
+sheet_object_item_destroyed (GnomeCanvasItem *item, SheetObject *so)
+{
+	so->realized_list = g_list_remove (so->realized_list, item);
+}
+
 /*
  * sheet_view_object_realize
  *
@@ -266,7 +269,8 @@ sheet_view_object_realize (SheetView *sheet_view, SheetObject *so)
 	
 	gtk_signal_connect (GTK_OBJECT (item), "event",
 			    GTK_SIGNAL_FUNC (sheet_object_canvas_event), so);
-			    
+	gtk_signal_connect (GTK_OBJECT (item), "destroy",
+			    GTK_SIGNAL_FUNC (sheet_object_item_destroyed), so);
 	so->realized_list = g_list_prepend (so->realized_list, item);
 	return item;
 }
@@ -286,20 +290,14 @@ sheet_view_object_unrealize (SheetView *sheet_view, SheetObject *so)
 	g_return_if_fail (so != NULL);
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
-	l = so->realized_list;
-	while (l) {
-		GnomeCanvasItem *item   = GNOME_CANVAS_ITEM (l->data);
+	for (l = so->realized_list; l; l = l->next) {
+		GnomeCanvasItem *item   = GNOME_CANVAS_ITEM (so->realized_list->data);
 		GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
-		GList           *next   = l->next;
 
-		if (gsheet->sheet_view != sheet_view) {
-			l = next;
+		if (gsheet->sheet_view != sheet_view) 
 			continue;
-		}
 
 		gtk_object_destroy (GTK_OBJECT (item));
-		so->realized_list = g_list_remove (so->realized_list, item);
-		l = next;
 		break;
 	}
 }
@@ -458,11 +456,22 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 
 	case SHEET_MODE_CREATE_GRAPHIC:
 #ifdef ENABLE_BONOBO
-		o = sheet_object_graphic_new (
-			sheet, x1, y1, x2, y2);
+		o = sheet_object_container_new (
+			sheet, x1, y1, x2, y2, sheet->mode_data);
+		g_free (sheet->mode_data);
+		sheet->mode_data = NULL;
 		break;
 #endif
 
+	case SHEET_MODE_CREATE_CANVAS_ITEM:
+#ifdef ENABLE_BONOBO
+		o = sheet_object_item_new (
+			sheet, x1, y1, x2, y2, sheet->mode_data);
+		g_free (sheet->mode_data);
+		sheet->mode_data = NULL;
+#endif
+		break;
+		
 	case SHEET_MODE_CREATE_BUTTON:
 		o = sheet_object_create_button (sheet, x1, y1, x2, y2);
 		break;
@@ -550,6 +559,14 @@ sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet
 	SO_CLASS (sheet->current_object)->update_bounds (so);
 
 	sheet_finish_object_creation (sheet, so);
+	/*
+	 * Bonobo objects might want to load state from somewhere
+	 * to be useful
+	 */
+	if (IS_SHEET_OBJECT_BONOBO (so))
+		sheet_object_bonobo_load_from_file (
+			SHEET_OBJECT_BONOBO (so), NULL);
+	
 	sheet_object_start_editing   (so);
 	
 	return 1;
@@ -636,9 +653,6 @@ sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
 			GTK_SIGNAL_FUNC (sheet_motion_notify), sheet);
 
 	}
-
-	if (SO_CLASS (o)->creation_finished)
-		SO_CLASS (o)->creation_finished (o);
 }
 
 /*
@@ -694,11 +708,31 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 	}
 
 	switch (sheet->mode) {
+	case SHEET_MODE_CREATE_GRAPHIC:
+	case SHEET_MODE_CREATE_CANVAS_ITEM:
+	{
+		char *required_interfaces [2];
+		char *goad_id;
+
+		if (sheet->mode == SHEET_MODE_CREATE_CANVAS_ITEM)
+			required_interfaces [0] = "IDL:GNOME/Canvas/Item:1.0";
+		else
+			required_interfaces [0] = "IDL:GNOME/Embeddable:1.0";
+		required_interfaces [1] = NULL;
+		
+		goad_id = gnome_bonobo_select_goad_id (_("Select an object"), required_interfaces); 
+		if (goad_id == NULL){
+			sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
+			return;
+		}
+		sheet->mode_data = g_strdup (goad_id);
+	}
+	/* fall down */
+	   
 	case SHEET_MODE_CREATE_LINE:
 	case SHEET_MODE_CREATE_ARROW:
 	case SHEET_MODE_CREATE_OVAL:
 	case SHEET_MODE_CREATE_BOX:
-	case SHEET_MODE_CREATE_GRAPHIC:
 	case SHEET_MODE_CREATE_BUTTON:
 	case SHEET_MODE_CREATE_CHECKBOX:
 		for (l = sheet->sheet_views; l; l = l->next) {
@@ -711,7 +745,7 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 					    GTK_SIGNAL_FUNC (sheet_button_press), sheet);
 		}
 		break;
-
+		
 	default:
 		g_assert_not_reached ();
 	}

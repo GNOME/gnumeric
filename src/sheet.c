@@ -3787,7 +3787,7 @@ void
 sheet_set_selection (Sheet *sheet, SheetSelection const *ss)
 {
 	GList *l = sheet->sheet_views;
-	for ( ; l != NULL; l = l->next) {
+	for (; l != NULL; l = l->next) {
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 		gnumeric_sheet_set_selection (gsheet, ss);
 	}
