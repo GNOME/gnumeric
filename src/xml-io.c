@@ -2280,7 +2280,7 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 	workbook_recalc_all (wb);
 
 	xmlFreeDoc (res);
-	return -1;
+	return 0;
 }
 
 /*
