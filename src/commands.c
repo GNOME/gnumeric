@@ -40,6 +40,7 @@
 #include "dialogs.h"
 #include "border.h"
 #include "rendered-value.h"
+#include "dialogs/dialog-autocorrect.h"
 
 /*
  * NOTE : This is a work in progress

@@ -1,5 +1,7 @@
 2000-05-29  ERDI Gergo  <cactus@cactus.rulez.org>
 
+	* src/commands.c: Including dialogs/dialog-autocorrect.h (warning fix)
+
 	* src/workbook.c (workbook_create_standard_toobar): Turn off the
 	button reliefs on the toolbar
 
