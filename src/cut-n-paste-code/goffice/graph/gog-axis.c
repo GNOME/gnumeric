@@ -163,6 +163,8 @@ gog_axis_update (GogObject *obj)
 	GogAxis *axis = GOG_AXIS (obj);
 	double minima, maxima, logical_min, logical_max;
 	double range, step;
+	double old_min = axis->bound_min;
+	double old_max = axis->bound_max;
 
 	gog_debug (0, g_warning ("axis::update"););
 
@@ -194,20 +196,26 @@ gog_axis_update (GogObject *obj)
 
 	minima = axis->min_val;
 	maxima = axis->max_val;
-	range = fabs (maxima - minima);
-	if (gnumeric_sub_epsilon (range) < 0.) {
-		minima *= .9;
-		maxima *= 1.1;
+	if (minima < maxima) {
 		range = fabs (maxima - minima);
-	}
-	step  = pow (10, gnumeric_fake_trunc (log10 (range)));
-	if (range/step < 3)
-		step /= 5.;
+		if (gnumeric_sub_epsilon (range) < 0.) {
+			minima *= .9;
+			maxima *= 1.1;
+			range = fabs (maxima - minima);
+		}
+		step  = pow (10, gnumeric_fake_trunc (log10 (range)));
+		if (range/step < 3)
+			step /= 5.;
 
-	/* we want the bounds to be loose so jump up a step if we get too close */
-	axis->bound_min = step * floor (gnumeric_sub_epsilon (minima/step));
-	axis->bound_max = step * ceil (gnumeric_add_epsilon (maxima/step));
-	axis->bound_step = step;
+		/* we want the bounds to be loose so jump up a step if we get too close */
+		axis->bound_min = step * floor (gnumeric_sub_epsilon (minima/step));
+		axis->bound_max = step * ceil (gnumeric_add_epsilon (maxima/step));
+		axis->bound_step = step;
+	} else
+		axis->bound_min = axis->bound_max = axis->bound_step = 0.;
+
+	if (old_min != axis->bound_min || old_max != axis->bound_max)
+		gog_object_emit_changed (GOG_OBJECT (obj), TRUE);
 }
 
 static void
@@ -483,7 +491,7 @@ static unsigned
 gog_axis_num_markers (GogAxis *axis)
 {
 	if (axis->bound_step <= 0.)
-		return 1;
+		return 0;
 
 	return 1 + fabs (axis->bound_max - axis->bound_min) / (double)axis->bound_step;
 }
@@ -554,7 +562,7 @@ gog_axis_view_render (GogView *view, GogViewAllocation const *bbox)
 	ArtPoint pos;
 	GogAxis *axis = GOG_AXIS (view->model);
 	unsigned n;
-	double pre, post, step, bound;
+	double pre, post, step = 0, bound;
 	double line_width = gog_renderer_line_size (
 		view->renderer, axis->base.style->line.width) / 2;
 

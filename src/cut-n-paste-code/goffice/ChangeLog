@@ -1,4 +1,11 @@
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
 2003-09-09  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-styled-object.c (gog_styled_object_parent_changed) : set
+	  the interesting fields when all the parents are in place.
 
 	* graph/gog-renderer.h : Add an anchor parm to draw_text and clean up
 	  the semantics of size.
