@@ -26,6 +26,7 @@
 
 	* src/numbers.h (GNUM_FORMAT_G): Add.
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=162865
 	* src/wbcg-actions.c: Fix Help->Contents and Edit->Clear->Contents
 	accelerators.
 
