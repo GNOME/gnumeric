@@ -4,7 +4,8 @@
 	#171637.
 
 	* src/workbook-view.c (wbv_save_to_uri): Don't set the error if we
-	already have one.
+	already have one.  Together with libgsf and goffice changes, this
+	fixes #168581.
 
 2005-03-31  Jody Goldberg <jody@gnome.org>
 

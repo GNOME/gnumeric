@@ -65,6 +65,8 @@ Morten:
 	* Fix modality issue causing crashes.  [#170958]
 	* Use a better format for auto expressions.
 	* Improve undo description for rich text style changes.  [#171637]
+	* Don't destroy target file when loading a saver plugin fails.
+	  [#168581].
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
