@@ -457,7 +457,7 @@ gnm_expr_implicit_intersection (EvalPos const *pos, Value *v)
 Value *
 gnm_expr_array_intersection (Value *a)
 {
-	Value *tmp = value_duplicate (a->v_array.vals [0][0]);
+	Value *tmp = value_duplicate (a->v_array.vals[0][0]);
 	value_release (a);
 	return tmp;
 }
@@ -1025,7 +1025,7 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		char const *name;
 		int prec;	              /* Precedences -- should match parser.y  */
 		int assoc_left, assoc_right;  /* 0: no, 1: yes.  */
-	} operations [] = {
+	} operations[] = {
 		{ "=",  1, 1, 0 },
 		{ ">",  1, 1, 0 },
 		{ "<",  1, 1, 0 },
@@ -1150,8 +1150,8 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 			 * do it.
 			 */
 			if ((v->type == VALUE_INTEGER || v->type == VALUE_FLOAT) &&
-			    (res [0] == '-' || res [0] == '+') &&
-			    operations [GNM_EXPR_OP_UNARY_NEG].prec <= paren_level) {
+			    (res[0] == '-' || res[0] == '+') &&
+			    operations[GNM_EXPR_OP_UNARY_NEG].prec <= paren_level) {
 				char *new_res = g_strconcat ("(", res, ")", NULL);
 				g_free (res);
 				return new_res;
@@ -1889,33 +1889,33 @@ gnm_expr_list_as_string (GnmExprList const *list, ParsePos const *pp)
 {
 	int i, len = 0;
 	int argc = gnm_expr_list_length ((GnmExprList *)list);
-	char sep [2] = { '\0', '\0' };
+	char sep[2] = { '\0', '\0' };
 	char *sum, **args;
 	GnmExprList const *l;
 
-	sep [0] = format_get_arg_sep ();
+	sep[0] = format_get_arg_sep ();
 
 	i = 0;
 	args = g_malloc (sizeof (char *) * argc);
 	for (l = list; l; l = l->next, i++) {
 		GnmExpr *t = l->data;
 
-		args [i] = do_expr_as_string (t, pp, 0);
-		len += strlen (args [i]) + 1;
+		args[i] = do_expr_as_string (t, pp, 0);
+		len += strlen (args[i]) + 1;
 	}
 	len++;
 	sum = g_malloc (len + 2);
 
 	i = 0;
-	sum [0] = 0;
+	sum[0] = 0;
 	for (l = list; l != NULL; l = l->next) {
-		strcat (sum, args [i++]);
+		strcat (sum, args[i++]);
 		if (l->next)
 			strcat (sum, sep);
 	}
 
 	for (i = 0; i < argc; i++)
-		g_free (args [i]);
+		g_free (args[i]);
 	g_free (args);
 
 	return sum;
@@ -2112,7 +2112,7 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 	}
 
 	/*
-	 * Note: we have to use a variable for this because a non-shared none
+	 * Note: we have to use a variable for this because a non-shared node
 	 * might now exist anymore.
 	 */	   
 	if (wasshared) {
