@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-12 12:32-0500\n"
-"PO-Revision-Date: 2005-01-29 15:35+0100\n"
+"POT-Creation-Date: 2005-02-12 20:04+0100\n"
+"PO-Revision-Date: 2005-02-12 22:05+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3162,9 +3162,9 @@ msgstr "Načítač nemá metodu load_base.\n"
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader.c:107
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "Service '%s' not supported by l."
-msgstr "Služba '%s' není podporovaná načítačem."
+msgstr "Služba '%s' není podporována l."
 
 #: src/cut-n-paste-code/goffice/app/go-plugin-loader-module.c:44
 msgid "Module file name not given."
@@ -4112,9 +4112,8 @@ msgid "Box-Plot"
 msgstr "Graf"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:340
-#, fuzzy
 msgid "Invalid data."
-msgstr "Neplatný vzor vyhledávání."
+msgstr "Neplatná data."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:1
 msgid ""
@@ -4941,7 +4940,7 @@ msgstr "Kurzíva"
 #. * characters specific to the target alphabet.
 #: src/cut-n-paste-code/goffice/gui-utils/go-font-sel.c:446
 msgid "AaBbCcDdEe12345"
-msgstr ""
+msgstr "AaÁáBbCcČčDdĎd12345"
 
 #: src/cut-n-paste-code/goffice/gui-utils/go-font-sel.glade.h:1
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
@@ -14154,13 +14153,10 @@ msgstr ""
 "libdir := '%s'\n"
 
 #: src/mathfunc.c:7252
-#, fuzzy
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
-msgstr ""
-"Tato verze aplikace Gnumeric byla přeložena s nedostatečnou přesností ve "
-"funkci yngnum."
+msgstr "Tato verze Gnumericu byla přeložena s nedostatečnou přesností v gnm_yn."
 
 #: src/parser.y:298
 msgid "An array must have at least 1 element"
@@ -14627,9 +14623,8 @@ msgid "ENCODING"
 msgstr "KÓDOVÁNÍ"
 
 #: src/ssconvert.c:54
-#, fuzzy
 msgid "Optionally specify which importer to use"
-msgstr "Nepovinné určení, který exportér používat"
+msgstr "Nepovinné určení, který importér používat"
 
 #: src/ssconvert.c:56
 msgid "Optionally specify which exporter to use"
@@ -14678,13 +14673,13 @@ msgstr ""
 "Zkuste zobrazit seznam možností pomocí --list-exporters.\n"
 
 #: src/ssconvert.c:149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unknown importer '%s'.\n"
 "Try --list-importers to see a list of possibilities.\n"
 msgstr ""
-"Neznámý exportér '%s'.\n"
-"Zkuste zobrazit seznam možností pomocí --list-exporters.\n"
+"Neznámý importér '%s'.\n"
+"Zkuste zobrazit seznam možností pomocí --list-importers.\n"
 
 #: src/ssconvert.c:166
 #, c-format
