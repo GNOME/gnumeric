@@ -1,3 +1,8 @@
+1999-07-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/analysis-tools.c, src/dialog-analysis-tools.c,
+ 	src/dialogs.h: Implemented t-Test and z-Test tools.
+	
 1999-07-05  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/about.c (dialog_about): Added link to IGS web site.

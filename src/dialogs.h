@@ -60,4 +60,21 @@ int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 		   gboolean periodic_flag, int size,
 		   data_analysis_output_t *dao);
 
+int ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
+		       Range *input_range2, float_t mean_diff, float_t alpha,
+		       data_analysis_output_t *dao);
+
+int ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
+		       Range *input_range2, float_t mean_diff, float_t alpha,
+		       data_analysis_output_t *dao);
+
+int ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
+			Range *input_range2, float_t mean_diff, float_t alpha,
+			data_analysis_output_t *dao);
+
+int ztest_tool (Workbook *wb, Sheet *sheet, Range *range_input1, 
+		Range *range_input2, float_t mean_diff, 
+		float_t var1, float_t var2, float_t alpha,
+		data_analysis_output_t *dao);
+
 #endif /* GNUMERIC_DIALOGS_H */

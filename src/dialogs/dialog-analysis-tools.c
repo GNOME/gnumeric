@@ -22,6 +22,12 @@ dummy_fun (Workbook *wb, Sheet *sheet)
 	/* Nothing.  */
 }
 
+static void dialog_ztest_tool(Workbook *wb, Sheet *sheet);
+static void dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet);
+static void dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet);
+static void dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet);
+
+
 typedef void (*tool_fun_ptr_t)(Workbook *wb, Sheet *sheet);
 
 typedef struct {
@@ -47,6 +53,13 @@ tool_list_t tools[] = {
         { { "Covariance", NULL }, dummy_fun },
         { { "Descriptive Statistics", NULL }, dummy_fun },
         { { "Sampling", NULL }, dummy_fun },
+        { { "t-Test: Paired Two Sample for Means", NULL }, 
+	  dialog_ttest_paired_tool },
+        { { "t-Test: Two-Sample Assuming Equal Variances", NULL }, 
+	  dialog_ttest_eq_tool },
+        { { "t-Test: Two-Sample Assuming Unequal Variances", NULL }, 
+	  dialog_ttest_neq_tool },
+        { { "z-Test: Two Sample for Means", NULL }, dialog_ztest_tool },
 	{ { NULL, NULL }, NULL }
 };
 
@@ -327,6 +340,435 @@ tool_dialog_loop:
  	gnome_dialog_close (GNOME_DIALOG (dialog[ti]));
 }
 
+static GtkWidget *
+hbox_pack_label_and_entry(char *str, char *default_str,
+			  int entry_len, GtkWidget *vbox)
+{
+        GtkWidget *box, *label, *entry;
+
+        box = gtk_hbox_new (FALSE, 0);
+	entry = gtk_entry_new_with_max_length (entry_len);
+	label = gtk_label_new (str);
+	gtk_entry_set_text (GTK_ENTRY (entry), default_str);
+
+	gtk_box_pack_start_defaults (GTK_BOX (box), label);
+	gtk_box_pack_start_defaults (GTK_BOX (box), entry);
+	gtk_box_pack_start_defaults (GTK_BOX (vbox), box);
+
+	return entry;
+}
+
+static GtkWidget *
+new_dialog(char *name, GtkWidget *win)
+{
+        GtkWidget *dialog;
+
+        dialog = gnome_dialog_new (_(name),
+				   _("OK"),
+				   GNOME_STOCK_BUTTON_CANCEL,
+				   NULL);
+
+	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (win));
+
+	return dialog;
+}
+
+static void
+dialog_ztest_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box;
+	static GtkWidget *range1_entry, *range2_entry;
+	static GtkWidget *known_var1_entry, *known_var2_entry;
+	static GtkWidget *mean_diff_entry, *alpha_entry;
+
+	data_analysis_output_t  dao;
+	float_t mean_diff, alpha, var1, var2;
+
+	char  *text;
+	int   selection;
+	static Range range_input1, range_input2;
+	int   i=0, size;
+
+	if (!dialog) {
+	        dialog = new_dialog("z-Test: Two Sample for Means",
+				    wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		range1_entry = hbox_pack_label_and_entry
+		  ("Variable 1 Range:", "", 20, box);
+
+		range2_entry = hbox_pack_label_and_entry
+		  ("Variable 2 Range:", "", 20, box);
+
+		mean_diff_entry = hbox_pack_label_and_entry
+		  ("Hypothesized Mean Difference:", "0", 20, box);
+
+		known_var1_entry = hbox_pack_label_and_entry
+		  ("Variable 1 Variance (known):", "", 20, box);
+
+		known_var2_entry = hbox_pack_label_and_entry
+		  ("Variable 2 Variance (known):", "", 20, box);
+
+		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+							20, box);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range1_entry);
+
+ztest_dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
+	if (!parse_range (text, &range_input1.start_col,
+			  &range_input1.start_row,
+			  &range_input1.end_col,
+			  &range_input1.end_row)) {
+	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("You should introduce a valid cell range "
+				   "in 'Variable 1:'"));
+		gtk_widget_grab_focus (range1_entry);
+		gtk_entry_set_position(GTK_ENTRY (range1_entry), 0);
+		gtk_entry_select_region(GTK_ENTRY (range1_entry), 0, 
+				GTK_ENTRY(range1_entry)->text_length);
+		goto ztest_dialog_loop;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
+	if (!parse_range (text, &range_input2.start_col,
+			  &range_input2.start_row,
+			  &range_input2.end_col,
+			  &range_input2.end_row)) {
+	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("You should introduce a valid cell range "
+				   "in 'Variable 2:'"));
+		gtk_widget_grab_focus (range2_entry);
+		gtk_entry_set_position(GTK_ENTRY (range2_entry), 0);
+		gtk_entry_select_region(GTK_ENTRY (range2_entry), 0, 
+				GTK_ENTRY(range2_entry)->text_length);
+		goto ztest_dialog_loop;
+	}
+	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
+	mean_diff = atof(text);
+
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	alpha = atof(text);
+
+	text = gtk_entry_get_text (GTK_ENTRY (known_var1_entry));
+	var1 = atof(text);
+
+	text = gtk_entry_get_text (GTK_ENTRY (known_var2_entry));
+	var2 = atof(text);
+
+	/* TODO: radio buttos for outputs */
+	dao.type = NewSheetOutput;
+
+	ztest_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
+		    var1, var2, alpha, &dao);
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
+static void
+dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box;
+	static GtkWidget *range1_entry, *range2_entry;
+	static GtkWidget *mean_diff_entry, *alpha_entry;
+
+	data_analysis_output_t  dao;
+	float_t mean_diff, alpha;
+
+	char  *text;
+	int   selection;
+	static Range range_input1, range_input2;
+	int   i=0, size;
+
+	if (!dialog) {
+	        dialog = new_dialog("t-Test: Paired Two Sample for Means",
+				    wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		range1_entry = hbox_pack_label_and_entry
+		  ("Variable 1 Range:", "", 20, box);
+
+		range2_entry = hbox_pack_label_and_entry
+		  ("Variable 2 Range:", "", 20, box);
+
+		mean_diff_entry = hbox_pack_label_and_entry
+		  ("Hypothesized Mean Difference:", "0", 20, box);
+
+		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+							20, box);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range1_entry);
+
+ttest_dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
+	if (!parse_range (text, &range_input1.start_col,
+			  &range_input1.start_row,
+			  &range_input1.end_col,
+			  &range_input1.end_row)) {
+	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("You should introduce a valid cell range "
+				   "in 'Variable 1:'"));
+		gtk_widget_grab_focus (range1_entry);
+		gtk_entry_set_position(GTK_ENTRY (range1_entry), 0);
+		gtk_entry_select_region(GTK_ENTRY (range1_entry), 0, 
+				GTK_ENTRY(range1_entry)->text_length);
+		goto ttest_dialog_loop;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
+	if (!parse_range (text, &range_input2.start_col,
+			  &range_input2.start_row,
+			  &range_input2.end_col,
+			  &range_input2.end_row)) {
+	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("You should introduce a valid cell range "
+				   "in 'Variable 2:'"));
+		gtk_widget_grab_focus (range2_entry);
+		gtk_entry_set_position(GTK_ENTRY (range2_entry), 0);
+		gtk_entry_select_region(GTK_ENTRY (range2_entry), 0, 
+				GTK_ENTRY(range2_entry)->text_length);
+		goto ttest_dialog_loop;
+	}
+	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
+	mean_diff = atof(text);
+
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	alpha = atof(text);
+
+	/* TODO: radio buttos for outputs */
+	dao.type = NewSheetOutput;
+
+	ttest_paired_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
+			   alpha, &dao);
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
+static void
+dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box;
+	static GtkWidget *range1_entry, *range2_entry;
+	static GtkWidget *mean_diff_entry, *alpha_entry;
+
+	data_analysis_output_t  dao;
+	float_t mean_diff, alpha;
+
+	char  *text;
+	int   selection;
+	static Range range_input1, range_input2;
+	int   i=0, size;
+
+	if (!dialog) {
+	        dialog = new_dialog("t-Test: Two-Sample Assuming "
+				    "Equal Variances",
+				    wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		range1_entry = hbox_pack_label_and_entry
+		  ("Variable 1 Range:", "", 20, box);
+
+		range2_entry = hbox_pack_label_and_entry
+		  ("Variable 2 Range:", "", 20, box);
+
+		mean_diff_entry = hbox_pack_label_and_entry
+		  ("Hypothesized Mean Difference:", "0", 20, box);
+
+		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+							20, box);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range1_entry);
+
+ttest_dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
+	if (!parse_range (text, &range_input1.start_col,
+			  &range_input1.start_row,
+			  &range_input1.end_col,
+			  &range_input1.end_row)) {
+	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("You should introduce a valid cell range "
+				   "in 'Variable 1:'"));
+		gtk_widget_grab_focus (range1_entry);
+		gtk_entry_set_position(GTK_ENTRY (range1_entry), 0);
+		gtk_entry_select_region(GTK_ENTRY (range1_entry), 0, 
+				GTK_ENTRY(range1_entry)->text_length);
+		goto ttest_dialog_loop;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
+	if (!parse_range (text, &range_input2.start_col,
+			  &range_input2.start_row,
+			  &range_input2.end_col,
+			  &range_input2.end_row)) {
+	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("You should introduce a valid cell range "
+				   "in 'Variable 2:'"));
+		gtk_widget_grab_focus (range2_entry);
+		gtk_entry_set_position(GTK_ENTRY (range2_entry), 0);
+		gtk_entry_select_region(GTK_ENTRY (range2_entry), 0, 
+				GTK_ENTRY(range2_entry)->text_length);
+		goto ttest_dialog_loop;
+	}
+	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
+	mean_diff = atof(text);
+
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	alpha = atof(text);
+
+	/* TODO: radio buttos for outputs */
+	dao.type = NewSheetOutput;
+
+	ttest_eq_var_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
+			   alpha, &dao);
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
+static void
+dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet)
+{
+        static GtkWidget *dialog, *box;
+	static GtkWidget *range1_entry, *range2_entry;
+	static GtkWidget *mean_diff_entry, *alpha_entry;
+
+	data_analysis_output_t  dao;
+	float_t mean_diff, alpha;
+
+	char  *text;
+	int   selection;
+	static Range range_input1, range_input2;
+	int   i=0, size;
+
+	if (!dialog) {
+	        dialog = new_dialog("t-Test: Two-Sample Assuming "
+				    "Unequal Variances",
+				    wb->toplevel);
+
+		box = gtk_vbox_new (FALSE, 0);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		range1_entry = hbox_pack_label_and_entry
+		  ("Variable 1 Range:", "", 20, box);
+
+		range2_entry = hbox_pack_label_and_entry
+		  ("Variable 2 Range:", "", 20, box);
+
+		mean_diff_entry = hbox_pack_label_and_entry
+		  ("Hypothesized Mean Difference:", "0", 20, box);
+
+		alpha_entry = hbox_pack_label_and_entry("Alpha:", "0.95",
+							20, box);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show_all (dialog);
+
+        gtk_widget_grab_focus (range1_entry);
+
+ttest_dialog_loop:
+
+	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (selection == 1) {
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
+	if (!parse_range (text, &range_input1.start_col,
+			  &range_input1.start_row,
+			  &range_input1.end_col,
+			  &range_input1.end_row)) {
+	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("You should introduce a valid cell range "
+				   "in 'Variable 1:'"));
+		gtk_widget_grab_focus (range1_entry);
+		gtk_entry_set_position(GTK_ENTRY (range1_entry), 0);
+		gtk_entry_select_region(GTK_ENTRY (range1_entry), 0, 
+				GTK_ENTRY(range1_entry)->text_length);
+		goto ttest_dialog_loop;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
+	if (!parse_range (text, &range_input2.start_col,
+			  &range_input2.start_row,
+			  &range_input2.end_col,
+			  &range_input2.end_row)) {
+	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("You should introduce a valid cell range "
+				   "in 'Variable 2:'"));
+		gtk_widget_grab_focus (range2_entry);
+		gtk_entry_set_position(GTK_ENTRY (range2_entry), 0);
+		gtk_entry_select_region(GTK_ENTRY (range2_entry), 0, 
+				GTK_ENTRY(range2_entry)->text_length);
+		goto ttest_dialog_loop;
+	}
+	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
+	mean_diff = atof(text);
+
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	alpha = atof(text);
+
+	/* TODO: radio buttos for outputs */
+	dao.type = NewSheetOutput;
+
+	ttest_neq_var_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
+			    alpha, &dao);
+
+	workbook_focus_sheet(sheet);
+ 	gnome_dialog_close (GNOME_DIALOG (dialog));
+}
+
 
 static void
 selection_made(GtkWidget *clist, gint row, gint column,
@@ -384,6 +826,9 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 
 	if (selection == 0) {
 	        g_return_if_fail (tools[selected_row].fun != NULL);
-		tool_dialog_range(wb, sheet, selected_row);
+		if (selected_row >= 4)
+		  tools[selected_row].fun(wb, sheet);
+		else
+		  tool_dialog_range(wb, sheet, selected_row);
 	}
 }

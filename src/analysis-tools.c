@@ -916,3 +916,465 @@ int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 
 	return 0;
 }
+
+
+
+/************* z-Test: Two Sample for Means ******************************
+ *
+ * The results are given in a table which can be printed out in a new
+ * sheet, in a new workbook, or simply into an existing sheet.
+ *
+ * TODO: a new workbook output and output to an existing sheet
+ *
+ **/
+
+
+int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
+		Range *input_range2, float_t mean_diff, float_t known_var1,
+		float_t known_var2, float_t alpha,
+		data_analysis_output_t *dao)
+{
+        data_set_t set_one, set_two;
+	float_t    mean1, mean2, var1, var2, z, p;
+	char       buf[256];
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "z-Test");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
+
+	get_data(sheet, input_range1, &set_one);
+	get_data(sheet, input_range2, &set_two);
+
+        set_cell (dao, 0, 0, "");
+        set_cell (dao, 1, 0, "Variable 1");
+        set_cell (dao, 2, 0, "Variable 2");
+
+        set_cell (dao, 0, 1, "Mean");
+        set_cell (dao, 0, 2, "Known Variance");
+        set_cell (dao, 0, 3, "Observations");
+        set_cell (dao, 0, 4, "Hypothesized Mean Difference");
+        set_cell (dao, 0, 5, "z");
+        set_cell (dao, 0, 6, "P(Z<=z) one-tail");
+        set_cell (dao, 0, 7, "z Critical one-tail");
+        set_cell (dao, 0, 8, "P(Z<=z) two-tail");
+        set_cell (dao, 0, 9, "z Critical two-tail");
+
+	mean1 = set_one.sum / set_one.n;
+	mean2 = set_two.sum / set_two.n;
+	var1 = (set_one.sqrsum - set_one.sum2/set_one.n) / (set_one.n - 1);
+	var2 = (set_two.sqrsum - set_two.sum2/set_two.n) / (set_two.n - 1);
+	z = (mean1 - mean2 - mean_diff) / 
+	  sqrt(known_var1/set_one.n + known_var2/set_two.n);
+	p = 1 - pnorm(z, 0, 1);
+
+	/* Mean */
+	sprintf(buf, "%f", mean1);
+	set_cell(dao, 1, 1, buf);
+	sprintf(buf, "%f", mean2);
+	set_cell(dao, 2, 1, buf);
+
+	/* Known Variance */
+	sprintf(buf, "%f", known_var1);
+	set_cell(dao, 1, 2, buf);
+	sprintf(buf, "%f", known_var2);
+	set_cell(dao, 2, 2, buf);
+
+	/* Observations */
+	sprintf(buf, "%d", set_one.n);
+	set_cell(dao, 1, 3, buf);
+	sprintf(buf, "%d", set_two.n);
+	set_cell(dao, 2, 3, buf);
+
+	/* Hypothesized Mean Difference */
+	sprintf(buf, "%f", mean_diff);
+	set_cell(dao, 1, 4, buf);
+
+	/* z */
+	sprintf(buf, "%f", z);
+	set_cell(dao, 1, 5, buf);
+
+	/* P(Z<=z) one-tail */
+	sprintf(buf, "%f", p);
+	set_cell(dao, 1, 6, buf);
+
+	/* z Critical one-tail */
+	sprintf(buf, "%f", 0.0);    /* TODO */
+	set_cell(dao, 1, 7, buf);
+
+	/* P(Z<=z) two-tail */
+	sprintf(buf, "%f", 2*p);
+	set_cell(dao, 1, 8, buf);
+
+	/* z Critical two-tail */
+	sprintf(buf, "%f", 0.0);    /* TODO */
+	set_cell(dao, 1, 9, buf);
+
+	free_data_set (&set_one);
+	free_data_set (&set_two);
+
+        return 0;
+}
+
+
+/************* t-Test Tools ********************************************
+ *
+ * The t-Test tool set consists of three kinds of tests to test the
+ * mean of two variables.  The tests are: Student's t-test for paired
+ * sample, Student's t-test for two samples assuming equal variance
+ * and the same test assuming unequal variance.  The results are given
+ * in a table which can be printed out in a new sheet, in a new
+ * workbook, or simply into an existing sheet.
+ *
+ * TODO: a new workbook output and output to an existing sheet
+ *
+ **/
+
+
+
+/* t-Test: Paired Two Sample for Means.
+ */
+int
+ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
+		   Range *input_range2, float_t mean_diff, float_t alpha,
+		   data_analysis_output_t *dao)
+{
+        data_set_t set_one, set_two;
+	GSList     *current_one, *current_two;
+	float_t    mean1, mean2, pearson, var1, var2, t, p, df, sum_xy, sum;
+	float_t    dx, dm, M, Q, N, s;
+	char       buf[256];
+
+	get_data(sheet, input_range1, &set_one);
+	get_data(sheet, input_range2, &set_two);
+
+	if (set_one.n != set_two.n) {
+	        free_data_set(&set_one);
+		free_data_set(&set_two);
+	        return 1;
+	}
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "t-Test");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
+
+        set_cell (dao, 0, 0, "");
+        set_cell (dao, 1, 0, "Variable 1");
+        set_cell (dao, 2, 0, "Variable 2");
+
+        set_cell (dao, 0, 1, "Mean");
+        set_cell (dao, 0, 2, "Variance");
+        set_cell (dao, 0, 3, "Observations");
+        set_cell (dao, 0, 4, "Pearson Correlation");
+        set_cell (dao, 0, 5, "Hypothesized Mean Difference");
+        set_cell (dao, 0, 6, "df");
+        set_cell (dao, 0, 7, "t Stat");
+        set_cell (dao, 0, 8, "P(T<=t) one-tail");
+        set_cell (dao, 0, 9, "t Critical one-tail");
+        set_cell (dao, 0, 10, "P(T<=t) two-tail");
+        set_cell (dao, 0, 11, "t Critical two-tail");
+
+	current_one = set_one.array;
+	current_two = set_two.array;
+	sum = sum_xy = 0;
+	dx = dm = M = Q = N = 0;
+
+	while (current_one != NULL && current_two != NULL) {
+	        float_t x, y, d;
+
+		x = *((float_t *) current_one->data);
+		y = *((float_t *) current_two->data);
+		sum_xy += x*y;
+		d = x-y;
+		sum += d;
+		dx = d - M;
+		dm = dx / (N + 1);
+		M += dm;
+		Q += N * dx * dm;
+		N++;
+	        current_one = current_one->next;
+	        current_two = current_two->next;
+	}
+
+	mean1 = set_one.sum / set_one.n;
+	mean2 = set_two.sum / set_two.n;
+
+	var1 = (set_one.sqrsum - set_one.sum2/set_one.n) / (set_one.n - 1);
+	var2 = (set_two.sqrsum - set_two.sum2/set_two.n) / (set_two.n - 1);
+
+	df = set_one.n - 1;
+	pearson = ((set_one.n*sum_xy - set_one.sum*set_two.sum) /
+		   sqrt((set_one.n*set_one.sqrsum - set_one.sum2) *
+			(set_one.n*set_two.sqrsum - set_two.sum2)));
+	s = sqrt(Q / (N - 1));
+	t = (sum/set_one.n - mean_diff)/(s/sqrt(set_one.n));
+	p = 1.0 - pt(fabs(t), df);
+
+	/* Mean */
+	sprintf(buf, "%f", mean1);
+	set_cell(dao, 1, 1, buf);
+	sprintf(buf, "%f", mean2);
+	set_cell(dao, 2, 1, buf);
+
+	/* Variance */
+	sprintf(buf, "%f", var1);
+	set_cell(dao, 1, 2, buf);
+	sprintf(buf, "%f", var2);
+	set_cell(dao, 2, 2, buf);
+
+	/* Observations */
+	sprintf(buf, "%d", set_one.n);
+	set_cell(dao, 1, 3, buf);
+	sprintf(buf, "%d", set_two.n);
+	set_cell(dao, 2, 3, buf);
+
+	/* Pearson Correlation */
+	sprintf(buf, "%f", pearson);
+	set_cell(dao, 1, 4, buf);
+
+	/* Hypothesized Mean Difference */
+	sprintf(buf, "%f", mean_diff);
+	set_cell(dao, 1, 5, buf);
+
+	/* df */
+	sprintf(buf, "%f", df);
+	set_cell(dao, 1, 6, buf);
+
+	/* t */
+	sprintf(buf, "%f", t);
+	set_cell(dao, 1, 7, buf);
+
+	/* P(T<=t) one-tail */
+	sprintf(buf, "%f", p);
+	set_cell(dao, 1, 8, buf);
+
+	/* t Critical two-tail */
+	sprintf(buf, "%f", 0.0);     /* TODO */
+	set_cell(dao, 1, 9, buf);
+
+	/* P(T<=t) two-tail */
+	sprintf(buf, "%f", 2*p);
+	set_cell(dao, 1, 10, buf);
+
+	/* t Critical two-tail */
+	sprintf(buf, "%f", 0.0);     /* TODO */
+	set_cell(dao, 1, 11, buf);
+
+        free_data_set(&set_one);
+        free_data_set(&set_two);
+
+	return 0;
+}
+
+
+/* t-Test: Two-Sample Assuming Equal Variances.
+ */
+int
+ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
+		   Range *input_range2, float_t mean_diff, float_t alpha,
+		   data_analysis_output_t *dao)
+{
+        data_set_t set_one, set_two;
+	float_t    mean1, mean2, var, var1, var2, t, p, df;
+	char       buf[256];
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "t-Test");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
+
+	get_data(sheet, input_range1, &set_one);
+	get_data(sheet, input_range2, &set_two);
+
+        set_cell (dao, 0, 0, "");
+        set_cell (dao, 1, 0, "Variable 1");
+        set_cell (dao, 2, 0, "Variable 2");
+
+        set_cell (dao, 0, 1, "Mean");
+        set_cell (dao, 0, 2, "Variance");
+        set_cell (dao, 0, 3, "Observations");
+        set_cell (dao, 0, 4, "Pooled Variance");
+        set_cell (dao, 0, 5, "Hypothesized Mean Difference");
+        set_cell (dao, 0, 6, "df");
+        set_cell (dao, 0, 7, "t Stat");
+        set_cell (dao, 0, 8, "P(T<=t) one-tail");
+        set_cell (dao, 0, 9, "t Critical one-tail");
+        set_cell (dao, 0, 10, "P(T<=t) two-tail");
+        set_cell (dao, 0, 11, "t Critical two-tail");
+
+	mean1 = set_one.sum / set_one.n;
+	mean2 = set_two.sum / set_two.n;
+
+	var1 = (set_one.sqrsum - set_one.sum2/set_one.n) / (set_one.n - 1);
+	var2 = (set_two.sqrsum - set_two.sum2/set_two.n) / (set_two.n - 1);
+
+	var = (set_one.sqrsum+set_two.sqrsum - (set_one.sum+set_two.sum)*
+	       (set_one.sum+set_two.sum)/(set_one.n+set_two.n)) /
+	  (set_one.n+set_two.n-1);  /* TODO: Correct??? */
+
+	df = set_one.n + set_two.n - 2;
+	t = fabs(mean1 - mean2 - mean_diff) /
+	  sqrt(var1/set_one.n + var2/set_two.n);
+	p = 1.0 - pt(t, df);
+
+	/* Mean */
+	sprintf(buf, "%f", mean1);
+	set_cell(dao, 1, 1, buf);
+	sprintf(buf, "%f", mean2);
+	set_cell(dao, 2, 1, buf);
+
+	/* Variance */
+	sprintf(buf, "%f", var1);
+	set_cell(dao, 1, 2, buf);
+	sprintf(buf, "%f", var2);
+	set_cell(dao, 2, 2, buf);
+
+	/* Observations */
+	sprintf(buf, "%d", set_one.n);
+	set_cell(dao, 1, 3, buf);
+	sprintf(buf, "%d", set_two.n);
+	set_cell(dao, 2, 3, buf);
+
+	/* Pooled Variance */
+	sprintf(buf, "%f", var);
+	set_cell(dao, 1, 4, buf);
+
+	/* Hypothesized Mean Difference */
+	sprintf(buf, "%f", mean_diff);
+	set_cell(dao, 1, 5, buf);
+
+	/* df */
+	sprintf(buf, "%f", df);
+	set_cell(dao, 1, 6, buf);
+
+	/* t */
+	sprintf(buf, "%f", t);
+	set_cell(dao, 1, 7, buf);
+
+	/* P(T<=t) one-tail */
+	sprintf(buf, "%f", p);
+	set_cell(dao, 1, 8, buf);
+
+	/* t Critical two-tail */
+	sprintf(buf, "%f", 0.0);     /* TODO */
+	set_cell(dao, 1, 9, buf);
+
+	/* P(T<=t) two-tail */
+	sprintf(buf, "%f", 2*p);
+	set_cell(dao, 1, 10, buf);
+
+	/* t Critical two-tail */
+	sprintf(buf, "%f", 0.0);     /* TODO */
+	set_cell(dao, 1, 11, buf);
+
+        free_data_set(&set_one);
+        free_data_set(&set_two);
+
+	return 0;
+}
+
+
+/* t-Test: Two-Sample Assuming Unequal Variances.
+ */
+int
+ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
+		    Range *input_range2, float_t mean_diff, float_t alpha,
+		    data_analysis_output_t *dao)
+{
+        data_set_t set_one, set_two;
+	float_t    mean1, mean2, var1, var2, t, p, df, c;
+	char       buf[256];
+
+	if (dao->type == NewSheetOutput) {
+	        dao->sheet = sheet_new(wb, "t-Test");
+		dao->start_col = dao->start_row = 0;
+		workbook_attach_sheet(wb, dao->sheet);
+	}
+
+	get_data(sheet, input_range1, &set_one);
+	get_data(sheet, input_range2, &set_two);
+
+        set_cell (dao, 0, 0, "");
+        set_cell (dao, 1, 0, "Variable 1");
+        set_cell (dao, 2, 0, "Variable 2");
+
+        set_cell (dao, 0, 1, "Mean");
+        set_cell (dao, 0, 2, "Variance");
+        set_cell (dao, 0, 3, "Observations");
+        set_cell (dao, 0, 4, "Hypothesized Mean Difference");
+        set_cell (dao, 0, 5, "df");
+        set_cell (dao, 0, 6, "t Stat");
+        set_cell (dao, 0, 7, "P(T<=t) one-tail");
+        set_cell (dao, 0, 8, "t Critical one-tail");
+        set_cell (dao, 0, 9, "P(T<=t) two-tail");
+        set_cell (dao, 0, 10, "t Critical two-tail");
+
+	mean1 = set_one.sum / set_one.n;
+	mean2 = set_two.sum / set_two.n;
+
+	var1 = (set_one.sqrsum - set_one.sum2/set_one.n) / (set_one.n - 1);
+	var2 = (set_two.sqrsum - set_two.sum2/set_two.n) / (set_two.n - 1);
+
+	c = (var1/set_one.n) / (var1/set_one.n+var2/set_two.n);
+	df = 1.0 / ((c*c) / (set_one.n-1.0) + ((1-c)*(1-c)) / (set_two.n-1.0));
+
+	t = fabs(mean1 - mean2 - mean_diff) /
+	  sqrt(var1/set_one.n + var2/set_two.n);
+	p = 1.0 - pt(t, df);
+
+	/* Mean */
+	sprintf(buf, "%f", mean1);
+	set_cell(dao, 1, 1, buf);
+	sprintf(buf, "%f", mean2);
+	set_cell(dao, 2, 1, buf);
+
+	/* Variance */
+	sprintf(buf, "%f", var1);
+	set_cell(dao, 1, 2, buf);
+	sprintf(buf, "%f", var2);
+	set_cell(dao, 2, 2, buf);
+
+	/* Observations */
+	sprintf(buf, "%d", set_one.n);
+	set_cell(dao, 1, 3, buf);
+	sprintf(buf, "%d", set_two.n);
+	set_cell(dao, 2, 3, buf);
+
+	/* Hypothesized Mean Difference */
+	sprintf(buf, "%f", mean_diff);
+	set_cell(dao, 1, 4, buf);
+
+	/* df */
+	sprintf(buf, "%f", df);
+	set_cell(dao, 1, 5, buf);
+
+	/* t */
+	sprintf(buf, "%f", t);
+	set_cell(dao, 1, 6, buf);
+
+	/* P(T<=t) one-tail */
+	sprintf(buf, "%f", p);
+	set_cell(dao, 1, 7, buf);
+
+	/* t Critical two-tail */
+	sprintf(buf, "%f", 0.0);     /* TODO */
+	set_cell(dao, 1, 8, buf);
+
+	/* P(T<=t) two-tail */
+	sprintf(buf, "%f", 2*p);
+	set_cell(dao, 1, 9, buf);
+
+	/* t Critical two-tail */
+	sprintf(buf, "%f", 0.0);     /* TODO */
+	set_cell(dao, 1, 10, buf);
+
+        free_data_set(&set_one);
+        free_data_set(&set_two);
+
+	return 0;
+}
+
