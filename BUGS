@@ -84,6 +84,9 @@ Long term breakage
 
 - Parser : The single character '%' is parsed as an expression '0%'
 
+- format.c: we should resolve all the separators at gnumeric_setlocale time,
+  not every time we need them.
+
 Dialogs
 -------
 - Use color combos in format dialog.
