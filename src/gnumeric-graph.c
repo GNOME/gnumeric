@@ -497,8 +497,8 @@ gnm_graph_vector_finalize (GObject *obj)
 		/* vector->id = -1; leave the ID intact for debugging */
 	}
 
-	if (gnm_graph_vector_parent_class->destroy)
-		gnm_graph_vector_parent_class->destroy (obj);
+	if (gnm_graph_vector_parent_class->finalize)
+		gnm_graph_vector_parent_class->finalize (obj);
 }
 
 static void
@@ -1173,7 +1173,7 @@ gnm_graph_class_init (GObjectClass *object_class)
 	abort ();
 #endif
 
-	object_class->finalize = &gnm_graph_destroy;
+	object_class->finalize = &gnm_graph_finalize;
 
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->populate_menu = gnm_graph_populate_menu;
