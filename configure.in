@@ -38,7 +38,7 @@ dnl
 dnl Check doc/translating.sgml for a description of how to translate
 dnl and why we have so many translations.
 dnl
-ALL_LINGUAS="cs de en_GB es es_DO es_GT es_HN es_MX es_PA es_PE es_SV fr hu it ja ko no pt ru pl sk"
+ALL_LINGUAS="cs de en_GB es es_DO es_GT es_HN es_MX es_PA es_PE es_SV fr hu it ja ko no pt ru pl sk zh_TW.Big5"
 AM_GNU_GETTEXT
 AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
 
