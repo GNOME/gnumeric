@@ -38,7 +38,7 @@ msgstr "Електронна таблица"
 
 #: gnumeric.desktop.in.h:3
 msgid "The GNOME Spreadsheet"
-msgstr "Електронната таблица на ГНОМЕ"
+msgstr "Електронната таблица на GNOME"
 
 #: plugins/applix/applix-read.c:106
 msgid "Parse error while reading Applix file."

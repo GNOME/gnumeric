@@ -1,5 +1,10 @@
 2004-11-06  Alexander Shopov  <ash@contact.bg>
 
+	* bg.po: One bugfix just slipped the
+	previous commit.
+
+2004-11-06  Alexander Shopov  <ash@contact.bg>
+
 	* bg.po: Small bugfixes prompted by
 	Radostin Radnev <radnev@yahoo.com>
 
