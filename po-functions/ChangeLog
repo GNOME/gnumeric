@@ -1,3 +1,8 @@
+2005-02-20  Christian Rose  <menthos@menthos.com>
+
+	* POTFILES.in: Added UTF-8 encoding keyword that
+	intltool-update wanted, and sorted this file.
+
 2005-02-17  Jody Goldberg <jody@gnome.org>
 
 	* *.po : enable all fuzzy translations.  The validation will catch
