@@ -1,0 +1,34 @@
+#!/bin/sh -e
+
+prefix="@prefix@"
+exec_prefix="@exec_prefix@"
+sysconfdir="@sysconfdir@"
+datadir="@datadir@"
+libdir="@libdir@"
+
+DATADIRNAME="@DATADIRNAME@"
+
+gnumeric_version="@gnumeric_version@"
+gnumeric_prefix="@gnumeric_prefix@"
+gnumeric_sysconfdir="@gnumeric_sysconfdir@"
+gnumeric_datadir="@gnumeric_datadir@"
+gnumeric_libdir="@gnumeric_libdir@"
+gnumeric_icondir="@gnumeric_icondir@"
+gnumeric_localedir="@gnumeric_localedir@"
+
+outfile="`dirname $0`/gnumeric-paths.h"
+cat >$outfile <<EOF
+/* This file has been automatically generated.  Do not edit. */
+
+#ifndef GNUMERIC_PATHS_H
+#define GNUMERIC_PATHS_H
+
+#define GNUMERIC_PREFIX "$gnumeric_prefix"
+#define GNUMERIC_SYSCONFDIR "$gnumeric_sysconfdir"
+#define GNUMERIC_DATADIR "$gnumeric_datadir"
+#define GNUMERIC_LIBDIR "$gnumeric_libdir"
+#define GNUMERIC_ICONDIR "$gnumeric_icondir"
+#define GNUMERIC_LOCALEDIR "$gnumeric_localedir"
+
+#endif /* GNUMERIC_PATHS_H */
+EOF

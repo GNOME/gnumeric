@@ -697,6 +697,7 @@ Makefile
 icons/Makefile
 src/Makefile
 src/dialogs/Makefile
+src/gnumeric-paths.sh
 src/pixmaps/Makefile
 src/widgets/Makefile
 src/tools/Makefile

@@ -766,7 +766,7 @@ style_format_account (GString *res, FormatCharacteristics const *fmt)
 	if (fmt->num_decimals > 0) {
 		g_return_if_fail (fmt->num_decimals <= NUM_ZEROS);
 		g_string_append_c (num, '.');
-		g_string_append_len (res, zeros, fmt->num_decimals);
+		g_string_append_len (num, zeros, fmt->num_decimals);
 	}
 
 	/* The currency symbols with space after or before */

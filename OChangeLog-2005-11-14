@@ -1,3 +1,19 @@
+2003-07-01  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=116447
+	* src/formats.c (style_format_account) : fix typo.
+
+2003-06-30  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-paths.sh.in : Add exec_prefix
+
+2003-06-30  Jody Goldberg <jody@gnome.org>
+
+	For Ben Liblit
+	* configure.in : add src/gnumeric-paths.sh
+	* src/Makefile.am : Use src/gnumer-paths.sh and remove the all-local
+	  kludge.
+
 2003-07-01  Morten Welinder  <terra@gnome.org>
 
 	* src/graph.c (gnm_go_data_vector_load_values): Always set minimum

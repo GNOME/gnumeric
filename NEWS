@@ -15,6 +15,9 @@ Andreas:
 	* Update consolidate dialog
 	* Permit to ignore any columns during text import
 
+Ben Liblit:
+	* Another attempt at configure time path generation.
+
 Emmanuel Pacaud:
 	* New format selector for stf.
 	* support Ring plots
