@@ -1,3 +1,36 @@
+2000-05-06  Jody Goldberg <jgoldberg@home.com>
+
+	* POTFILES.in : Add
+	    graph/main.c
+	    graph/sample.c
+	    plugins/dif/dif.c
+	    plugins/excel/ms-excel-write.c
+	    plugins/gb/plugin.c
+	    plugins/gda/plugin-gda.c
+	    plugins/guile/plugin.c
+	    plugins/html/html.c
+	    plugins/lotus-123/lotus.c
+	    plugins/oleo/oleo.c
+	    plugins/perl/perl.c
+	    plugins/plan-perfect/pln.c
+	    plugins/sc/sc.c
+	    src/analysis-tools.c
+	    src/clipboard.c
+	    src/command-context-gui.c
+	    src/dialogs/dialog-advanced-filter.c
+	    src/dialogs/dialog-autosave.c
+	    src/dialogs/dialog-sheet-order.c
+	    src/history.c
+	    src/mathfunc.c
+	    src/parse-util.c
+	    src/plugin-util.c
+	    src/solver-lp.c
+	    src/widgets/widget-pixmap-combo.c
+	    src/workbook-view.c
+	    wizards/graphics/graphic-context.c
+	    wizards/graphics/graphic-type.c
+	    wizards/graphics/main.c
+
 2000-05-06  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Update.
