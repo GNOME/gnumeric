@@ -63,22 +63,6 @@ struct _StyleColor {
 	gushort  blue;
 };
 
-/* The order corresponds to the border_buttons name list
- * in dialog_cell_format_impl */
-enum _StyleBorderLocation {
-	STYLE_BORDER_TOP,	STYLE_BORDER_BOTTOM,
-	STYLE_BORDER_LEFT,	STYLE_BORDER_RIGHT,
-	STYLE_BORDER_REV_DIAG,STYLE_BORDER_DIAG,
-
-	/* These are special.
-	 * They are logical rather than actual borders, however, they
-	 * require extra lines to be drawn so they need to be here.
-	 */
-	STYLE_BORDER_HORIZ, STYLE_BORDER_VERT,
-
-	STYLE_BORDER_EDGE_MAX
-};
-
 void           style_init  	      (void);
 void	       style_shutdown         (void);
 

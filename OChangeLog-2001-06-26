@@ -1,3 +1,10 @@
+2000-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/border.c (style_border_draw) : Take a StyleBorderLocation rather
+	  than an MSTYLE_ELEMENT.  The fit is more natural.
+	(style_border_print) : ditto.
+	(style_border_get_orientation) : ditto.
+
 2000-12-30  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-gui.c (wbcg_size_pixels_set): Remove it.

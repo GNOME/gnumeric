@@ -9,6 +9,7 @@
 #include <config.h>
 #include "border.h"
 #include "color.h"
+#include "style.h"
 
 struct LineDotPattern {
 	gint const		elements;
@@ -347,7 +348,7 @@ style_border_unref (StyleBorder *border)
 }
 
 void
-style_border_draw (StyleBorder const * const border, MStyleElementType const t,
+style_border_draw (StyleBorder const * const border, StyleBorderLocation const t,
 		   GdkDrawable * const drawable,
 		   int x1, int y1, int x2, int y2,
 		   StyleBorder const * const extend_begin,
@@ -379,14 +380,13 @@ style_border_draw (StyleBorder const * const border, MStyleElementType const t,
 			    { { 1, 1}, { 1, 1 } }, /* DIAGONAL */
 			};
 
-			int const i = t-MSTYLE_BORDER_TOP;
-			int const * const o = (int *)&(offsets[i]);
+			int const * const o = (int *)&(offsets[t]);
 			int x = x1+o[0], y = y1+o[1];
 
 			if (extend_begin != NULL &&
 			    extend_begin->line_type != STYLE_BORDER_NONE) {
-				x += extension_begin[i][0][0];
-				y += extension_begin[i][0][1];
+				x += extension_begin[t][0][0];
+				y += extension_begin[t][0][1];
 			}
 
 			gdk_draw_line (drawable, gc, x, y, x2+o[2], y2+o[3]);
@@ -394,8 +394,8 @@ style_border_draw (StyleBorder const * const border, MStyleElementType const t,
 
 			if (extend_begin != NULL &&
 			    extend_begin->line_type != STYLE_BORDER_NONE) {
-				x1 += extension_begin[i][1][0];
-				y1 += extension_begin[i][1][1];
+				x1 += extension_begin[t][1][0];
+				y1 += extension_begin[t][1][1];
 			}
 		}
 		gdk_draw_line (drawable, gc, x1, y1, x2, y2);
@@ -403,7 +403,7 @@ style_border_draw (StyleBorder const * const border, MStyleElementType const t,
 }
 
 void
-style_border_print (StyleBorder const * const border, MStyleElementType const t,
+style_border_print (StyleBorder const * const border, StyleBorderLocation const t,
 		    GnomePrintContext *context,
 		    double x1, double y1, double x2, double y2,
 		    StyleBorder const * const extend_begin,
@@ -437,14 +437,13 @@ style_border_print (StyleBorder const * const border, MStyleElementType const t,
 			    { { 1, 1}, { 1, 1 } }, /* DIAGONAL */
 			};
 
-			int const i = t-MSTYLE_BORDER_TOP;
-			int const * const o = (int *)&(offsets[i]);
+			int const * const o = (int *)&(offsets[t]);
 			double x = x1+o[0], y = y1-o[1];
 
 			if (extend_begin != NULL &&
 			    extend_begin->line_type != STYLE_BORDER_NONE) {
-				x += extension_begin[i][0][0];
-				y -= extension_begin[i][0][1];
+				x += extension_begin[t][0][0];
+				y -= extension_begin[t][0][1];
 			}
 
 			gnome_print_moveto (context, x, y);
@@ -454,8 +453,8 @@ style_border_print (StyleBorder const * const border, MStyleElementType const t,
 
 			if (extend_begin != NULL &&
 			    extend_begin->line_type != STYLE_BORDER_NONE) {
-				x1 += extension_begin[i][1][0];
-				y1 -= extension_begin[i][1][1];
+				x1 += extension_begin[t][1][0];
+				y1 -= extension_begin[t][1][1];
 			}
 		}
 		gnome_print_moveto (context, x1, y1);
@@ -467,17 +466,17 @@ style_border_print (StyleBorder const * const border, MStyleElementType const t,
 }
 
 StyleBorderOrientation
-style_border_get_orientation (MStyleElementType type)
+style_border_get_orientation (StyleBorderLocation type)
 {
 	switch (type) {
-	case MSTYLE_BORDER_LEFT:
-	case MSTYLE_BORDER_RIGHT:
+	case STYLE_BORDER_LEFT:
+	case STYLE_BORDER_RIGHT:
 		return STYLE_BORDER_VERTICAL;
-	case MSTYLE_BORDER_DIAGONAL:
-	case MSTYLE_BORDER_REV_DIAGONAL:
+	case STYLE_BORDER_DIAG:
+	case STYLE_BORDER_REV_DIAG:
 		return STYLE_BORDER_DIAGONAL;
-	case MSTYLE_BORDER_TOP:
-	case MSTYLE_BORDER_BOTTOM:
+	case STYLE_BORDER_TOP:
+	case STYLE_BORDER_BOTTOM:
 	default:
 		return STYLE_BORDER_HORIZONTAL;
 	}

@@ -180,17 +180,17 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL);
 
 	if (top != NULL && top->line_type != STYLE_BORDER_NONE)
-		style_border_draw (top, MSTYLE_BORDER_TOP, drawable,
+		style_border_draw (top, STYLE_BORDER_TOP, drawable,
 				   x, y, x + w, y, left, NULL);
 	if (left != NULL && left->line_type != STYLE_BORDER_NONE)
-		style_border_draw (left, MSTYLE_BORDER_LEFT, drawable,
+		style_border_draw (left, STYLE_BORDER_LEFT, drawable,
 				   x, y, x, y + h, top, NULL);
 
 	if (diag != NULL && diag->line_type != STYLE_BORDER_NONE)
-		style_border_draw (diag, MSTYLE_BORDER_DIAGONAL, drawable,
+		style_border_draw (diag, STYLE_BORDER_DIAG, drawable,
 				   x, y + h, x + w, y, NULL, NULL);
 	if (rev_diag != NULL && rev_diag->line_type != STYLE_BORDER_NONE)
-		style_border_draw (rev_diag, MSTYLE_BORDER_REV_DIAGONAL, drawable,
+		style_border_draw (rev_diag, STYLE_BORDER_REV_DIAG, drawable,
 				   x, y, x + w, y + h, NULL, NULL);
 }
 

@@ -1,7 +1,9 @@
 Gnumeric 0.62
 
 Jody:
-	* Finish cursor handling for merged cells.
+	* Undo, persistance, cursor handling, and printing for merged cells
+	* Fix inverted objects
+	* Fix stupid memory corruption problem in the applix importer.
 
 Jon Kåre:
 	* Improve file save dialog.

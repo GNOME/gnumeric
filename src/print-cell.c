@@ -600,17 +600,17 @@ print_border (GnomePrintContext *context, MStyle *mstyle,
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL);
 
 	if (top)
-		style_border_print (top, MSTYLE_BORDER_TOP, context,
+		style_border_print (top, STYLE_BORDER_TOP, context,
 				   x, y, x + w, y, left, NULL);
 	if (left)
-		style_border_print (left, MSTYLE_BORDER_LEFT, context,
+		style_border_print (left, STYLE_BORDER_LEFT, context,
 				   x, y, x, y - h, top, NULL);
 
 	if (diag)
-		style_border_print (diag, MSTYLE_BORDER_DIAGONAL, context,
+		style_border_print (diag, STYLE_BORDER_DIAG, context,
 				   x, y - h, x + w, y, NULL, NULL);
 	if (rev_diag)
-		style_border_print (rev_diag, MSTYLE_BORDER_REV_DIAGONAL, context,
+		style_border_print (rev_diag, STYLE_BORDER_REV_DIAG, context,
 				   x, y, x + w, y - h, NULL, NULL);
 }
 
@@ -631,6 +631,8 @@ print_cell_background (GnomePrintContext *context, Sheet *sheet,
 	else if (extended_left) {
 		/* Fill the entire cell including left & excluding right grid line */
 		gnome_print_setrgbcolor (context, 1., 1., 1.);
+		/* FIXME : should not need the hack used in the drawing
+		 * code of +-1 to */
 		print_rectangle (context, x, y-1, w, h-1);
 	}
 

@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_BORDER_H
 #define GNUMERIC_BORDER_H
 
-#include "style.h"
+#include "gnumeric.h"
 #include <libgnomeprint/gnome-print.h>
 
 typedef enum {
@@ -32,6 +32,22 @@ typedef enum {
  	STYLE_BORDER_MAX
 } StyleBorderType;
 
+/* The order corresponds to the border_buttons name list
+ * in dialog_cell_format_impl */
+enum _StyleBorderLocation {
+	STYLE_BORDER_TOP,	STYLE_BORDER_BOTTOM,
+	STYLE_BORDER_LEFT,	STYLE_BORDER_RIGHT,
+	STYLE_BORDER_REV_DIAG,	STYLE_BORDER_DIAG,
+
+	/* These are special.
+	 * They are logical rather than actual borders, however, they
+	 * require extra lines to be drawn so they need to be here.
+	 */
+	STYLE_BORDER_HORIZ, STYLE_BORDER_VERT,
+
+	STYLE_BORDER_EDGE_MAX
+};
+
 struct _StyleBorder {
 	/* Key elements */
 	StyleBorderType	 line_type;
@@ -51,18 +67,18 @@ StyleBorder  *style_border_fetch (StyleBorderType const	 line_type,
 				  StyleBorderOrientation       orientation);
 gboolean style_border_visible_in_blank (StyleBorder const *border);
 
-StyleBorderOrientation style_border_get_orientation (MStyleElementType type);
+StyleBorderOrientation style_border_get_orientation (StyleBorderLocation type);
 
 gint   style_border_get_width   (StyleBorderType const line_type);
 void   style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type);
 GdkGC *style_border_get_gc      (StyleBorder *border, GdkWindow *window);
 
-void style_border_draw  (StyleBorder const * const st, MStyleElementType const t,
+void style_border_draw  (StyleBorder const * const st, StyleBorderLocation const t,
 			 GdkDrawable * const drawable,
 			 int x1, int y1, int x2, int y2,
 			 StyleBorder const * const extend_begin,
 			 StyleBorder const * const extend_end);
-void style_border_print (StyleBorder const * const border, MStyleElementType const t,
+void style_border_print (StyleBorder const * const border, StyleBorderLocation const t,
 			 GnomePrintContext *context,
 			 double x1, double y1, double x2, double y2,
 			 StyleBorder const * const extend_begin,

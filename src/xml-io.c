@@ -17,6 +17,7 @@
 #include "gnome-xml/xmlmemory.h"
 #include "color.h"
 #include "border.h"
+#include "style.h"
 #include "sheet-object.h"
 #include "sheet-object-cell-comment.h"
 #include "print-info.h"
