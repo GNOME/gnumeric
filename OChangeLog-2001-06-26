@@ -1,3 +1,30 @@
+2001-05-24  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (sheet_to_page_index): Rename view to
+	scg. Retrieve it from object data on table.
+	(sheet_to_page_index):
+	(wb_control_gui_focus_cur_sheet, cb_sheet_label_button_press,
+	cb_notebook_switch_page): Retrieve scg from object data on table.
+	(wbcg_sheet_add): Show and insert in notebook scg->table. scg no
+	longer is a GtkTable, it has one.
+
+	* src/sheet-control-gui.c (scg_parent_class): Change to
+	GtkObjectClass.
+	(cb_table_destroy): New function. Finish all table and canvas
+	dependent activities and set scg->table, scg->canvas to NULL.
+	(scg_init): Don't create table here.
+	(scg_construct): ..but here. Change terminology. Old: outer_table,
+	table. New: scg->table, inner_table. Add scg to scg->table as
+	object data. Add a destroy callback to scg->table.
+	(scg_destroy): Move parts to cb_table_destroy. Unref table if not
+	NULL.
+	(scg_class_init, GNUMERIC_MAKE_TYPE): Inherit from GtkObject
+	instead of GtkTable.
+	(scg_cursor_visible): Be prepared for scg->canvas being NULL
+
+	* src/sheet-control-gui.h (struct _SheetControlGUI,
+	SheetControlGUIClass): Inherit from GtkObject instead of GtkTable.
+
 2001-05-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_enable_recursive_dirty) : new function.

@@ -9,11 +9,14 @@
 #define SHEET_CONTROL_GUI_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), SHEET_CONTROL_GUI_TYPE))
 #define IS_SHEET_CONTROL_GUI(o)       (GTK_CHECK_TYPE((o), SHEET_CONTROL_GUI_TYPE))
 
+#define	SHEET_CONTROL_KEY	"SheetControl"
+
 typedef gboolean (*SheetControlGUISlideHandler) (SheetControlGUI *scg, int col, int row,
 						 gpointer user_data);
 
 struct _SheetControlGUI {
-	GtkTable  table;
+	GtkObject object;
+	GtkTable  *table;
 
 	Sheet          		*sheet;
 	WorkbookControlGUI	*wbcg;
@@ -67,7 +70,7 @@ struct _SheetControlGUI {
 };
 
 typedef struct {
-	GtkTableClass parent_class;
+	GtkObjectClass parent_class;
 } SheetControlGUIClass;
 
 GtkType    sheet_control_gui_get_type (void);

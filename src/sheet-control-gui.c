@@ -50,7 +50,7 @@
 #include <string.h>
 #include <gal/widgets/e-cursors.h>
 
-static GtkTableClass *scg_parent_class;
+static GtkObjectClass *scg_parent_class;
 
 void
 scg_redraw_all (SheetControlGUI *scg)
@@ -512,16 +512,28 @@ horizontal_scroll_offset_changed (GtkAdjustment *adj, int left, int is_hint,
 }
 
 static void
+cb_table_destroy (GtkObject *table, SheetControlGUI *scg)
+{
+	scg_mode_edit (scg); /* finish any object edits */
+	scg_unant (scg); /* Make sure that everything is unanted */
+
+ 	if (scg->wbcg) {
+		GtkWindow *toplevel = wb_control_gui_toplevel (scg->wbcg);
+
+		if (toplevel && (toplevel->focus_widget == scg->canvas))
+			gtk_window_set_focus (toplevel, NULL);
+	}
+	scg->table = NULL;
+	scg->canvas = NULL;
+}
+
+static void
 scg_init (SheetControlGUI *scg)
 {
-	GtkTable *table = GTK_TABLE (scg);
-
 	scg->sheet = NULL;
 	scg->slide_handler = NULL;
 	scg->slide_data = NULL;
 	scg->sliding = -1;
-	table->homogeneous = FALSE;
-	gtk_table_resize (table, 4, 4);
 
 	scg->comment.selected = NULL;
 	scg->comment.item = NULL;
@@ -537,29 +549,30 @@ static void
 scg_construct (SheetControlGUI *scg)
 {
 	GnomeCanvasGroup *root_group;
-	GtkTable  *outer_table = GTK_TABLE (scg);
-	GtkTable  *table = GTK_TABLE (gtk_table_new (2, 2, FALSE));
+	GtkTable  *inner_table;
 	Sheet *sheet = scg->sheet;
 	int i;
 
+	scg->table = GTK_TABLE (gtk_table_new (4, 4, FALSE));
+	inner_table = GTK_TABLE (gtk_table_new (2, 2, FALSE));
 	scg->col_canvas = new_canvas_bar (scg, TRUE, &scg->col_item);
-	gtk_table_attach (table, GTK_WIDGET (scg->col_canvas),
+	gtk_table_attach (inner_table, GTK_WIDGET (scg->col_canvas),
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_FILL,
 			  0, 0);
 
 	scg->row_canvas = new_canvas_bar (scg, FALSE, &scg->row_item);
-	gtk_table_attach (table, GTK_WIDGET (scg->row_canvas),
+	gtk_table_attach (inner_table, GTK_WIDGET (scg->row_canvas),
 			  0, 1, 1, 2,
 			  GTK_FILL, GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
 
 	scg->canvas = gnumeric_sheet_new (scg);
 	gtk_signal_connect_after (
-		GTK_OBJECT (scg), "size_allocate",
+		GTK_OBJECT (scg->table), "size_allocate",
 		GTK_SIGNAL_FUNC (scg_size_allocate), scg);
-	gtk_table_attach (table, scg->canvas,
+	gtk_table_attach (inner_table, scg->canvas,
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
@@ -569,7 +582,7 @@ scg_construct (SheetControlGUI *scg)
 	/* The select-all button */
 	scg->select_all_btn = gtk_button_new ();
 	GTK_WIDGET_UNSET_FLAGS (scg->select_all_btn, GTK_CAN_FOCUS);
-	gtk_table_attach (table, scg->select_all_btn, 0, 1, 0, 1,
+	gtk_table_attach (inner_table, scg->select_all_btn, 0, 1, 0, 1,
 			  GTK_FILL, GTK_FILL, 0, 0);
 	gtk_signal_connect (GTK_OBJECT (scg->select_all_btn), "clicked",
 			    GTK_SIGNAL_FUNC (button_select_all), scg);
@@ -586,15 +599,15 @@ scg_construct (SheetControlGUI *scg)
 			    GTK_SIGNAL_FUNC (horizontal_scroll_offset_changed),
 			    scg);
 
-	gtk_table_attach (outer_table, GTK_WIDGET (table),	0, 1, 0, 1,
+	gtk_table_attach (scg->table, GTK_WIDGET (inner_table), 0, 1, 0, 1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
-	gtk_table_attach (outer_table, scg->vs,			1, 2, 0, 1,
+	gtk_table_attach (scg->table, scg->vs,			1, 2, 0, 1,
 			  GTK_FILL,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
-	gtk_table_attach (outer_table, scg->hs,			0, 1, 1, 2,
+	gtk_table_attach (scg->table, scg->hs,			0, 1, 1, 2,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  GTK_FILL,
 			  0, 0);
@@ -623,6 +636,11 @@ scg_construct (SheetControlGUI *scg)
 		scg->control_points[i] = NULL;
 
 	scg_ant (scg);
+
+	/* Store some useful information */
+	gtk_object_set_data (GTK_OBJECT (scg->table), SHEET_CONTROL_KEY, scg);
+	gtk_signal_connect (GTK_OBJECT (scg->table), "destroy",
+			    GTK_SIGNAL_FUNC (cb_table_destroy), scg);
 }
 
 /* FIXME : Should be SheetControl */
@@ -647,9 +665,6 @@ scg_destroy (GtkObject *object)
 {
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (object);
 
-	scg_mode_edit (scg); /* finish any object edits */
-	scg_unant (scg); /* Make sure that everything is unanted */
-
 	/* Add shutdown code here */
 	if (scg->tip)
 		gtk_object_unref (GTK_OBJECT (scg->tip));
@@ -657,13 +672,9 @@ scg_destroy (GtkObject *object)
 	if (scg->sheet)
 		sheet_detach_scg (scg);
 
-	if (scg->wbcg) {
-		GtkWindow *toplevel = wb_control_gui_toplevel (scg->wbcg);
-
-		if (toplevel && (toplevel->focus_widget == scg->canvas))
-			gtk_window_set_focus (toplevel, NULL);
-	}
-
+	if (scg->table)
+		gtk_object_unref (GTK_OBJECT (scg->table));
+	
 	/* FIXME : Should we be pedantic and
 	 * 1) clear the control points
 	 * 2) remove ourselves from the sheets list of views ?
@@ -678,12 +689,12 @@ scg_class_init (SheetControlGUIClass *Class)
 	GtkObjectClass *object_class;
 
 	object_class = (GtkObjectClass *) Class;
-	scg_parent_class = gtk_type_class (gtk_table_get_type ());
+	scg_parent_class = gtk_type_class (gtk_object_get_type ());
 	object_class->destroy = scg_destroy;
 }
 
 GNUMERIC_MAKE_TYPE (sheet_control_gui, "SheetControlGUI", SheetControlGUI,
-		    scg_class_init, scg_init, gtk_table_get_type ())
+		    scg_class_init, scg_init, gtk_object_get_type ())
 
 void
 scg_unant (SheetControlGUI *scg)
@@ -1124,7 +1135,12 @@ cb_redraw_sel (Sheet *sheet, Range const *r, gpointer user_data)
 static void
 scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
+	GnumericSheet *gsheet;
+
+	if (!scg->canvas)
+		return;
+	
+	gsheet = GNUMERIC_SHEET (scg->canvas);
 	item_cursor_set_visibility (gsheet->item_cursor, is_visible);
 	selection_foreach_range (scg->sheet, TRUE, cb_redraw_sel, scg);
 }

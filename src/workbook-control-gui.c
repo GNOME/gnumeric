@@ -97,10 +97,12 @@ sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet, SheetControlGUI **r
 	g_return_val_if_fail (IS_SHEET (sheet), -1);
 
 	for ( ; NULL != (w = gtk_notebook_get_nth_page (wbcg->notebook, i)) ; i++) {
-		SheetControlGUI *view = SHEET_CONTROL_GUI (w);
-		if (view != NULL && view->sheet == sheet) {
+		GtkObject *obj = gtk_object_get_data (GTK_OBJECT (w),
+						      SHEET_CONTROL_KEY);
+		SheetControlGUI *scg = SHEET_CONTROL_GUI (obj);
+		if (scg != NULL && scg->sheet == sheet) {
 			if (res)
-				*res = view;
+				*res = scg;
 			return i;
 		}
 	}
@@ -126,11 +128,15 @@ wb_control_gui_toplevel (WorkbookControlGUI *wbcg)
 Sheet *
 wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg)
 {
+	GtkObject *table;
+	GtkObject *obj;
 	SheetControlGUI *scg;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
 
-	scg = SHEET_CONTROL_GUI (GTK_NOTEBOOK (wbcg->notebook)->cur_page->child);
+	table = GTK_OBJECT ((wbcg->notebook)->cur_page->child);
+	obj = gtk_object_get_data (table, SHEET_CONTROL_KEY);
+	scg = SHEET_CONTROL_GUI (obj);
 
 	g_return_val_if_fail (scg != NULL, NULL);
 
@@ -501,10 +507,14 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	}
 
 	if (event->button == 3) {
-		g_return_val_if_fail (IS_SHEET_CONTROL_GUI (child), FALSE);
+		GtkObject *obj;
 
-		sheet_menu_label_run (SHEET_CONTROL_GUI (child), event);
-		scg_take_focus (SHEET_CONTROL_GUI (child));
+		obj = gtk_object_get_data (GTK_OBJECT (child),
+					   SHEET_CONTROL_KEY);
+		g_return_val_if_fail (IS_SHEET_CONTROL_GUI (obj), FALSE);
+
+		sheet_menu_label_run (SHEET_CONTROL_GUI (obj), event);
+		scg_take_focus (SHEET_CONTROL_GUI (obj));
 		return TRUE;
 	}
 
@@ -552,11 +562,11 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 		GTK_SIGNAL_FUNC (cb_sheet_label_button_press), scg);
 
 	gtk_widget_show (sheet_label);
-	gtk_widget_show_all (GTK_WIDGET (scg));
+	gtk_widget_show_all (GTK_WIDGET (scg->table));
 
 	if (wbcg_ui_update_begin (wbcg)) {
 		gtk_notebook_insert_page (wbcg->notebook,
-			GTK_WIDGET (scg), sheet_label,
+			GTK_WIDGET (scg->table), sheet_label,
 			workbook_sheet_index_get (wb_control_workbook (wbc), sheet));
 		wbcg_ui_update_end (wbcg);
 	}
@@ -3071,7 +3081,11 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 		scg_rangesel_stop (wbcg->rangesel, TRUE);
 
 	if (wbcg_rangesel_possible (wbcg)) {
-		scg_take_focus (SHEET_CONTROL_GUI (page->child));
+		GtkObject *obj;
+
+		obj = gtk_object_get_data (GTK_OBJECT (page->child),
+					   SHEET_CONTROL_KEY);
+		scg_take_focus (SHEET_CONTROL_GUI (obj));
 		return;
 	}
 	if (wbcg->editing)
