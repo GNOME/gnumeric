@@ -706,7 +706,7 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 
 	style->valid_flags |= STYLE_FORE_COLOR | STYLE_PATTERN | STYLE_BACK_COLOR;
 	style->fore_color  = style_color_new (fore_red, fore_green, fore_blue);
-	style->fore_color  = style_color_new (back_red, back_green, back_blue);
+	style->back_color  = style_color_new (back_red, back_green, back_blue);
 }
 
 static struct {

@@ -5,6 +5,12 @@
 #define ITEM_GRID_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_grid_get_type ()))
 #define IS_ITEM_GRID(o)         (GTK_CHECK_TYPE((o), item_grid_get_type ()))
 
+typedef enum {
+	ITEM_GRID_NO_SELECTION,
+	ITEM_GRID_SELECTING_CELL_RANGE,
+	ITEM_GRID_SELECTING_FORMULA_RANGE
+} ItemGridSelectionType;
+
 typedef struct {
 	GnomeCanvasItem canvas_item;
 
@@ -15,7 +21,7 @@ typedef struct {
 	ColType    left_col;
 	RowType    top_row;
 
-	int        selecting;
+	ItemGridSelectionType selecting;
 	
 	/* Offset from spreadsheet origin in units */
 	long       top_offset;

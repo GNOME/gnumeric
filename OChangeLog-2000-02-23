@@ -1,3 +1,14 @@
+1998-10-02  Jakub Jelinek <jj@sunsite.ms.mff.cuni.cz>
+	
+	* src/dialog-cell-format.c (apply_coloring_format): fix,
+	fore_color was assigned twice, and back_color never. 
+
+1998-10-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-grid.h: ItemGridSelectionType: new enumeration type
+	used for item_grid->selecting to avoid shutting down entirely the
+	formula selection range on mouse release.
+
 1998-10-02 Vincent Renardias <vincent@waw.com>
 
 	* Changed 'es@mx' into 'es_MX' for locale stuff in

@@ -2,6 +2,10 @@
 
 GNOME Spread Sheet task list
 
+* Modified status
+
+   We need to keep track of modifications to the workbook.
+
 * Number formatting
 
    The formatting code should take the current GtkFont for the cell

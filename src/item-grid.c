@@ -23,6 +23,10 @@ enum {
 	ARG_SHEET_VIEW,
 };
 
+enum {
+	SELECTING_CELL_RANGE
+};
+
 static void
 item_grid_destroy (GtkObject *object)
 {
@@ -592,6 +596,7 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 	 */
 	if (gnumeric_sheet_can_move_cursor (gsheet)){
 		gnumeric_sheet_start_cell_selection (gsheet, col, row);
+		item_grid->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		return 1;
 	}
 	
@@ -604,7 +609,7 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 	if (!(event->button.state & GDK_CONTROL_MASK))
 		sheet_selection_reset_only (sheet);
 
-	item_grid->selecting = 1;
+	item_grid->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
 	sheet_selection_append (sheet, col, row);
 	gnome_canvas_item_grab (item,
 				GDK_POINTER_MOTION_MASK |
@@ -643,14 +648,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		
 	case GDK_BUTTON_RELEASE:
 		if (event->button.button == 1){
-			item_grid->selecting = 0;
+			item_grid->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);
-
-			/*
-			 * If we were selecting a cell range for a formula-entry
-			 */
-			if (gsheet->selecting_cell)
-				gnumeric_sheet_stop_cell_selection (gsheet);
 
 			return 1;
 		}
@@ -661,12 +660,12 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		col = item_grid_find_col (item_grid, x, NULL);
 		row = item_grid_find_row (item_grid, y, NULL);
 
-		if (gsheet->selecting_cell){
+		if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE){
 			gnumeric_sheet_selection_extend (gsheet, col, row);
 			return 1;
 		}
-		
-		if (!item_grid->selecting)
+
+		if (item_grid->selecting == ITEM_GRID_NO_SELECTION)
 			return 1;
 		
 		if (event->motion.x < 0)
@@ -725,7 +724,7 @@ item_grid_init (ItemGrid *item_grid)
 	item_grid->top_row  = 0;
 	item_grid->top_offset = 0;
 	item_grid->left_offset = 0;
-	item_grid->selecting = 0;
+	item_grid->selecting = ITEM_GRID_NO_SELECTION;
 }
 
 static void
