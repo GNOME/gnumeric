@@ -82,19 +82,50 @@ struct _PPS {
 
 #if OLE_MMAP
 #       define BBPTR(f,b)  ((f)->mem + (b+1)*BB_BLOCK_SIZE)
-#       define GET_SB_START_PTR(f,b) (BBPTR(f, g_array_index ((f)->sbf, BLP, (b)/(BB_BLOCK_SIZE/SB_BLOCK_SIZE))) \
-				      + (((b)%(BB_BLOCK_SIZE/SB_BLOCK_SIZE))*SB_BLOCK_SIZE))
 #else
 #       define BBPTR(f,b)  (get_block_ptr (f, b))
 #endif
+#       define GET_SB_START_PTR(f,b) (BBPTR(f, g_array_index ((f)->sbf, BLP, (b)/(BB_BLOCK_SIZE/SB_BLOCK_SIZE))) \
+				      + (((b)%(BB_BLOCK_SIZE/SB_BLOCK_SIZE))*SB_BLOCK_SIZE))
 
+
+#if !OLE_MMAP
+
+#define MAX_CACHED_BLOCKS  32
+
+typedef struct {
+	gboolean dirty;
+	int      usage;
+	guint8   *data;
+} BB_BLOCK_STR;
 
 static guint8 *
 get_block_ptr (MS_OLE *f, BLP b)
 {
+	BB_BLOCK_STR *attr;
+	size_t offset;
+
+	g_assert (f);
+	g_assert (b < f->bbattr->len);
+
+	/* Have we cached it ? */
+	attr = g_ptr_array_index (f->bbattr, b);
+	g_assert (attr);
+	
+	if (attr->data)
+		return attr->data;
+
 	/* Reads it in if neccessary */
-	return NULL;
+	offset = (b+1)*BB_BLOCK_SIZE;
+	lseek (f->file_des, offset, SEEK_SET);
+	attr->data = g_new (guint8, BB_BLOCK_SIZE);
+	read (f->file_des, attr->data, BB_BLOCK_SIZE);
+	attr->dirty = FALSE;
+	attr->usage = 0;
+
+	return attr->data;
 }
+#endif
 
 /* This is a list of big blocks which contain a flat description of all blocks in the file.
    Effectively inside these blocks is a FAT of chains of other BBs, so the theoretical max
@@ -346,7 +377,7 @@ extend_file (MS_OLE *f, guint blocks)
 	guint32 blk, lp;
 
 	g_assert (f);
-	file = f->file_descriptor;
+	file = f->file_des;
 
 	g_assert (munmap(f->mem, f->length) != -1);
 	/* Extend that file by blocks */
@@ -948,6 +979,18 @@ write_sb (MS_OLE *f)
 static int
 ms_ole_setup (MS_OLE *f)
 {
+#if !OLE_MMAP
+	int i;
+	f->bbattr = g_ptr_array_new ();
+	for (i=0;i<(f->length/BB_BLOCK_SIZE)+1;i++) {
+		BB_BLOCK_STR *attr = g_new (BB_BLOCK_STR, 1);
+		attr->dirty = FALSE;
+		attr->usage = 0;
+		attr->data  = 0;
+		g_ptr_array_add (f->bbattr, attr);
+	}
+#endif	
+
 	if (read_bb  (f) &&
 	    read_pps (f) &&
 	    read_sb  (f)) {
@@ -1010,32 +1053,39 @@ ms_ole_open (const char *name)
 #endif
 
 	f = new_null_msole();
-#if OLE_MMAP
-	f->file_descriptor = file = open (name, O_RDWR);
+	f->file_des = file = open (name, O_RDWR);
 	f->mode = 'w';
 	if (file == -1) {
-		f->file_descriptor = file = open (name, O_RDONLY);
+		f->file_des = file = open (name, O_RDONLY);
 		f->mode = 'r';
 		prot &= ~PROT_WRITE;
 	}
-	if (file == -1 || fstat(file, &st))
-	{
+	if ((file == -1) || fstat(file, &st) || !(S_ISREG(st.st_mode))) {
 		printf ("No such file '%s'\n", name);
 		g_free (f) ;
 		return 0;
 	}
 	f->length = st.st_size;
-	if (f->length<=0x4c)  /* Bad show */
-	{
+	if (f->length<=0x4c) { /* Bad show */
 		printf ("File '%s' too short\n", name);
 		close (file) ;
 		g_free (f) ;
 		return 0;
 	}
 
+#if OLE_MMAP
 	f->mem = mmap (0, f->length, prot, MAP_SHARED, file, 0);
+
+	if (!f->mem) {
+		printf ("Obscure internal error, leak.\n");
+		return 0;
+	}
 #else
-	f->mem = read (dfjlsdfj, first block only);
+	f->mem = g_new (guint8, BB_BLOCK_SIZE);
+	if (!f->mem || (read (file, f->mem, BB_BLOCK_SIZE)==-1)) {
+		printf ("Error opening file\n");
+		return 0;
+	}
 #endif
 
 	if (GET_GUINT32(f->mem    ) != 0xe011cfd0 ||
@@ -1091,7 +1141,7 @@ ms_ole_create (const char *name)
 
 	f = new_null_msole ();
 
-	f->file_descriptor  = file;
+	f->file_des  = file;
 	f->mode             = 'w';
 	fstat(file, &st);
 	f->length = st.st_size;
@@ -1164,7 +1214,7 @@ ms_ole_destroy (MS_OLE *f)
 
 #ifdef OLE_MMAP
 		munmap (f->mem, f->length);
-		close (f->file_descriptor);
+		close (f->file_des);
 #else
 #               error No destroy code yet	       
 #endif

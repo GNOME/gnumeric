@@ -448,6 +448,13 @@ biff_font_data_get_style_font (BIFF_FONT_DATA *fd)
 	int i;
 	char *fname1, *fname2 ;
 	StyleFont *ans ;
+
+	if (!fd->fontname) {
+#if EXCEL_DEBUG > 0
+		printf ("Curious no font name on %d\n", fd->index);
+#endif
+		return style_font_new (gnumeric_default_font->font_name, 1);
+	}
 	
 	/*
 	 * FIXME: instead of just copying the windows font into the cell, we 
