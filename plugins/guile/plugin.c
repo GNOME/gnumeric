@@ -27,6 +27,8 @@
 #include <assert.h>
 #include <stdio.h>
 #include <libguile.h>
+/* Deprecated, but we want gh_scm2newstr */
+#include <guile/gh.h>
 #include <gnome.h>
 
 #include "plugin.h"
@@ -79,6 +81,61 @@ scm_gnumeric_funcall (SCM funcname, SCM arglist)
 	return retsmob;
 }
 
+typedef struct {
+	SCM function;
+	SCM args;
+} GnmGuileCallRec;
+
+/* This gets called from scm_internal_stack_catch when calling scm_apply. */
+static SCM
+gnm_guile_helper (void *data)
+{
+	GnmGuileCallRec *ggcr = (GnmGuileCallRec *) data;
+	return scm_apply_0 (ggcr->function, ggcr->args);
+}
+
+/*
+ * This gets called if scm_apply throws an error.
+ *
+ * We use gh_scm2newstr to convert from Guile string to Scheme string. The
+ * GH interface is deprecated, but doing it in scm takes more code. We'll
+ * convert later if we have to.
+ */
+static SCM
+gnm_guile_catcher (void *data, SCM tag, SCM throw_args)
+{
+	const char *header = _("Guile error");
+	SCM smob;
+	SCM func;
+	SCM res;
+	char *guilestr = NULL;
+	char *msg;
+	char buf[256];
+	Value *v;
+	int len;
+
+	func = scm_c_eval_string ("gnm:error->string");
+	if (scm_procedure_p (func)) {
+		res = scm_apply (func, tag,
+				 scm_cons (throw_args, scm_listofnull));
+		if (scm_string_p (res))
+			guilestr = gh_scm2newstr (res, NULL);
+	}
+	
+	if (guilestr != NULL) {
+		snprintf (buf, sizeof buf, "%s: %s", header, guilestr);
+		free (guilestr);
+		msg = buf;
+	} else {
+		msg = (char *) header;
+	}
+
+	v = value_new_error (NULL, msg);
+	smob = make_new_smob (v);
+	value_release (v);
+	return smob;
+}
+
 static Value*
 func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
@@ -86,6 +143,7 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 	SCM args = SCM_EOL, result, function;
 	CellRef dummy = { 0, 0, 0, 0 };
 	EvalPos const *old_eval_pos;
+	GnmGuileCallRec ggcr;
 	int i, min, max;
 
 	g_return_val_if_fail (ei != NULL, NULL);
@@ -100,9 +158,13 @@ func_marshal_func (FunctionEvalInfo *ei, Value *argv[])
 	for (i = min - 1; i >= 0; --i)
 		args = scm_cons (value_to_scm (argv [i], dummy), args);
 
-	old_eval_pos = eval_pos;
-	eval_pos     = ei->pos;
-	result       = scm_apply (function, args, SCM_EOL);
+	old_eval_pos  = eval_pos;
+	eval_pos      = ei->pos;
+	ggcr.function = function;
+	ggcr.args     = args;
+	result        = scm_internal_stack_catch (SCM_BOOL_T,
+						  gnm_guile_helper, &ggcr,
+						  gnm_guile_catcher, NULL);
 	eval_pos     = old_eval_pos;
 
 	return scm_to_value (result);

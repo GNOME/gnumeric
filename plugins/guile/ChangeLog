@@ -1,3 +1,15 @@
+2002-03-28  Jon K Hellan  <hellan@acm.org>
+
+	* plugin.c (gnm_guile_helper): New function. Helper to call
+	scm_apply_0. 
+	(gnm_guile_catcher): New function. Receives error info from Guile
+	if Guile throws an error.
+	(func_marshal_func): Handle errors from Guile gracefully. The old
+	behaviour was to abort Gnumeric.
+
+	* gnumeric_startup.scm (gnm:error->string): New function. Returns
+	a string with Guile's error message.
+
 2002-03-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.2
