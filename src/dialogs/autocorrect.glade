@@ -76,7 +76,8 @@
 	  <class>GtkCheckButton</class>
 	  <name>checkbutton1</name>
 	  <can_focus>True</can_focus>
-	  <label>Correct TWo INitial CApitals                           </label>
+	  <has_focus>True</has_focus>
+	  <label>Correct _TWo INitial CApitals                           </label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	  <child>
@@ -90,7 +91,7 @@
 	  <class>GtkButton</class>
 	  <name>Exceptions</name>
 	  <can_focus>True</can_focus>
-	  <label>Exceptions...</label>
+	  <label>_Exceptions...</label>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
@@ -103,7 +104,7 @@
 	<class>GtkCheckButton</class>
 	<name>checkbutton2</name>
 	<can_focus>True</can_focus>
-	<label>Capitalize first letter of sentence</label>
+	<label>Capitalize _first letter of sentence</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -117,7 +118,7 @@
 	<class>GtkCheckButton</class>
 	<name>checkbutton3</name>
 	<can_focus>True</can_focus>
-	<label>Capitalize names of days</label>
+	<label>Capitalize _names of days</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -131,7 +132,7 @@
 	<class>GtkCheckButton</class>
 	<name>checkbutton4</name>
 	<can_focus>True</can_focus>
-	<label>Correct accidental use of cAPS LOCK key</label>
+	<label>Correct accidental use of _cAPS LOCK key</label>
 	<active>False</active>
 	<draw_indicator>True</draw_indicator>
 	<child>
@@ -166,8 +167,9 @@
 	  <widget>
 	    <class>GtkCheckButton</class>
 	    <name>checkbutton5</name>
+	    <sensitive>False</sensitive>
 	    <can_focus>True</can_focus>
-	    <label>Replace text when typed</label>
+	    <label>_Replace text when typed</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -205,7 +207,8 @@
 	      <widget>
 		<class>GtkLabel</class>
 		<name>label1</name>
-		<label>Replace:</label>
+		<sensitive>False</sensitive>
+		<label>Re_place:</label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
 		<xalign>0.5</xalign>
@@ -231,7 +234,8 @@
 	      <widget>
 		<class>GtkLabel</class>
 		<name>label2</name>
-		<label>With:</label>
+		<sensitive>False</sensitive>
+		<label>_With:</label>
 		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
 		<xalign>0.5</xalign>
@@ -257,6 +261,7 @@
 	      <widget>
 		<class>GtkEntry</class>
 		<name>entry1</name>
+		<sensitive>False</sensitive>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text_visible>True</text_visible>
@@ -281,6 +286,7 @@
 	      <widget>
 		<class>GtkEntry</class>
 		<name>entry2</name>
+		<sensitive>False</sensitive>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text_visible>True</text_visible>
@@ -324,7 +330,7 @@
 	      <columns>2</columns>
 	      <column_widths>80,80</column_widths>
 	      <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
-	      <show_titles>True</show_titles>
+	      <show_titles>False</show_titles>
 	      <shadow_type>GTK_SHADOW_IN</shadow_type>
 
 	      <widget>
@@ -363,6 +369,7 @@
 	<class>GtkButton</class>
 	<name>button1</name>
 	<can_default>True</can_default>
+	<has_default>True</has_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
       </widget>
