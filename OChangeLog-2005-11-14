@@ -1,3 +1,7 @@
+2004-09-02  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in (gnumeric_with_gnome): Fix typo.
+
 2004-09-05  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in (GConf): Fix typo.

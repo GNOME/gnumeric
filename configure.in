@@ -90,7 +90,7 @@ if test "x$gnumeric_with_gtk" = "xtrue" ; then
 		[ui_msg="None (missing gtk dependencies)" ; gnumeric_with_gtk=false ])
 fi 
 
-gnumeric_with_gnome=gnumeric_with_gtk
+gnumeric_with_gnome=$gnumeric_with_gtk
 if test "x$gnumeric_with_gtk" = "xtrue" ; then
 	AC_DEFINE(WITH_GTK, 1, [Define if UI is built])
 	gnumeric_reqs="$gnumeric_reqs $gnumeric_gtk_reqs"
