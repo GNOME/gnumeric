@@ -1,5 +1,9 @@
 2000-11-09  Jody Goldberg <jgoldberg@home.com>
 
+	* src/stf.c (stf_read_workbook) : We are passing an IOContext.
+
+2000-11-09  Jody Goldberg <jgoldberg@home.com>
+
 	* src/item-cursor.c (item_cursor_selection_event) : Make
 	  the double click handler smarter.  It now handles empties
 	  and checks both sides of a row/col.  Left/top is perfered to

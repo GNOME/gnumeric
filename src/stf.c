@@ -165,8 +165,8 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 	workbook_sheet_attach (book, sheet, NULL);
 
 	/* FIXME : how to do this cleanly ? */
-	if (IS_WORKBOOK_CONTROL_GUI (context))
-		dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context), filename, data);
+	if (IS_WORKBOOK_CONTROL_GUI (context->impl))
+		dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl), filename, data);
 
 	if (dialogresult != NULL) {
 		Range range;
