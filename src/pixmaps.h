@@ -10,6 +10,6 @@
 #include "pixmaps/oval.xpm"
 #include "pixmaps/bold.xpm"
 #include "pixmaps/italic.xpm"
-/* #include "pixmaps/graphic.xpm" */
+#include "pixmaps/graphic.xpm"
 
 #endif /* GNUMERIC_PIXMAPS_H */
