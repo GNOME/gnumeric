@@ -4,8 +4,6 @@
  * Author:
  *  Miguel de Icaza (miguel@kernel.org)
  *
- * We keep our own color context, as the color allocation might take place
- * before any of our Canvases are realized.
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -38,11 +36,8 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 	sc->color.red = red;
 	sc->color.green = green;
 	sc->color.blue = blue;
-	sc->red = red;
-	sc->green = green;
-	sc->blue = blue;
-	sc->name = NULL;
 	sc->color.pixel = e_color_alloc (red, green, blue);
+	sc->name = NULL;
 	sc->is_auto = is_auto;
 
 	/* Make a contrasting selection color with an alpha of .5 */
@@ -65,9 +60,9 @@ style_color_new (gushort red, gushort green, gushort blue)
 	StyleColor *sc;
 	StyleColor key;
 
-	key.red   = red;
-	key.green = green;
-	key.blue  = blue;
+	key.color.red   = red;
+	key.color.green = green;
+	key.color.blue  = blue;
 	key.is_auto = FALSE;
 
 	sc = g_hash_table_lookup (style_color_hash, &key);
@@ -150,7 +145,7 @@ style_color_auto_back (void)
 
 	if (!color)
 		color = style_color_new_uninterned (0xffff, 0xffff, 0xffff,
-						  TRUE);
+						    TRUE);
 	return style_color_ref (color);
 }
 
@@ -199,9 +194,9 @@ style_color_unref (StyleColor *sc)
 gint
 style_color_equal (const StyleColor *k1, const StyleColor *k2)
 {
-	if (k1->red   == k2->red &&
-	    k1->green == k2->green &&
-	    k1->blue  == k2->blue &&
+	if (k1->color.red   == k2->color.red &&
+	    k1->color.green == k2->color.green &&
+	    k1->color.blue  == k2->color.blue &&
 	    k1->is_auto == k2->is_auto)
 		return 1;
 
@@ -213,7 +208,7 @@ color_hash (gconstpointer v)
 {
 	const StyleColor *k = (const StyleColor *)v;
 
-	return (k->red << 24) | (k->green << 16) | (k->blue << 8) |
+	return (k->color.red << 16) ^ (k->color.green << 8) ^ (k->color.blue << 0) ^
 		(k->is_auto);
 }
 

@@ -331,9 +331,9 @@ sheet_object_graphic_print (SheetObject const *so, GnomePrintContext *ctx,
 		}
 
 		gnome_print_setrgbcolor (ctx,
-			sog->fill_color->red   / (double) 0xffff,
-			sog->fill_color->green / (double) 0xffff,
-			sog->fill_color->blue  / (double) 0xffff);
+			sog->fill_color->color.red   / (double) 0xffff,
+			sog->fill_color->color.green / (double) 0xffff,
+			sog->fill_color->color.blue  / (double) 0xffff);
 
 		if (sog->type == SHEET_OBJECT_ARROW) {
 			double phi;
@@ -1111,9 +1111,9 @@ sheet_object_filled_print (SheetObject const *so, GnomePrintContext *ctx,
 	if (sof->outline_color) {
 		gnome_print_setlinewidth (ctx, sog->width);
 		gnome_print_setrgbcolor (ctx,
-			sof->outline_color->red   / (double) 0xffff,
-			sof->outline_color->green / (double) 0xffff,
-			sof->outline_color->blue  / (double) 0xffff);
+			sof->outline_color->color.red   / (double) 0xffff,
+			sof->outline_color->color.green / (double) 0xffff,
+			sof->outline_color->color.blue  / (double) 0xffff);
 		gnome_print_newpath (ctx);
 		if (sog->type == SHEET_OBJECT_OVAL)
 			make_ellipse (ctx, start_x, end_x, start_y, end_y);
@@ -1125,9 +1125,9 @@ sheet_object_filled_print (SheetObject const *so, GnomePrintContext *ctx,
 
 	if (sog->fill_color) {
 		gnome_print_setrgbcolor (ctx,
-			sog->fill_color->red   / (double) 0xffff,
-			sog->fill_color->green / (double) 0xffff,
-			sog->fill_color->blue  / (double) 0xffff);
+			sog->fill_color->color.red   / (double) 0xffff,
+			sog->fill_color->color.green / (double) 0xffff,
+			sog->fill_color->color.blue  / (double) 0xffff);
 		gnome_print_newpath (ctx);
 		if (sog->type == SHEET_OBJECT_OVAL)
 			make_ellipse (ctx, start_x, end_x, start_y, end_y);

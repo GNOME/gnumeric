@@ -239,15 +239,15 @@ mstyle_element_dump (const MStyleElement *e)
 		break;
 	case MSTYLE_COLOR_BACK:
 		g_string_printf (ans, "\tbackground col %hx:%hx:%hx\n",
-				 e->u.color.any->red,
-				 e->u.color.any->green,
-				 e->u.color.any->blue);
+				 e->u.color.any->color.red,
+				 e->u.color.any->color.green,
+				 e->u.color.any->color.blue);
 		break;
 	case MSTYLE_COLOR_PATTERN:
 		g_string_printf (ans, "\tpattern col %hx:%hx:%hx\n",
-				 e->u.color.any->red,
-				 e->u.color.any->green,
-				 e->u.color.any->blue);
+				 e->u.color.any->color.red,
+				 e->u.color.any->color.green,
+				 e->u.color.any->color.blue);
 		break;
 	case MSTYLE_BORDER_TOP:
 	case MSTYLE_BORDER_BOTTOM:
@@ -267,9 +267,9 @@ mstyle_element_dump (const MStyleElement *e)
 
 	case MSTYLE_COLOR_FORE:
 		g_string_printf (ans, "\tforegnd col %hx:%hx:%hx\n",
-				 e->u.color.any->red,
-				 e->u.color.any->green,
-				 e->u.color.any->blue);
+				 e->u.color.any->color.red,
+				 e->u.color.any->color.green,
+				 e->u.color.any->color.blue);
 		break;
 	case MSTYLE_FONT_NAME:
 		g_string_printf (ans, "\tname '%s'\n", e->u.font.name->str);
@@ -1613,7 +1613,7 @@ mstyle_get_pango_attrs (const MStyle *mstyle, double zoom)
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 	if (0) {
 		const StyleColor *fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-		attr = pango_attr_foreground_new (fore->red, fore->green, fore->blue);
+		attr = pango_attr_foreground_new (fore->color.red, fore->color.green, fore->color.blue);
 		attr->start_index = 0;
 		attr->end_index = -1;
 		pango_attr_list_insert (res, attr);

@@ -372,9 +372,9 @@ style_border_set_pc (StyleBorder const * const border,
 	gnome_print_gsave (context);
 	style_border_set_pc_dash (border->line_type, context);
 	gnome_print_setrgbcolor (context,
-				 border->color->red   / (double) 0xffff,
-				 border->color->green / (double) 0xffff,
-				 border->color->blue  / (double) 0xffff);
+				 border->color->color.red   / (double) 0xffff,
+				 border->color->color.green / (double) 0xffff,
+				 border->color->color.blue  / (double) 0xffff);
 	return TRUE;
 }
 

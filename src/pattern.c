@@ -203,9 +203,9 @@ gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 #endif
 
 			gnome_print_setrgbcolor (context,
-				back_col->red * grey[pattern]    / (double) 0xffff,
-				back_col->green * grey[pattern]  / (double) 0xffff,
-				back_col->blue * grey[pattern]   / (double) 0xffff);
+				back_col->color.red * grey[pattern]    / (double) 0xffff,
+				back_col->color.green * grey[pattern]  / (double) 0xffff,
+				back_col->color.blue * grey[pattern]   / (double) 0xffff);
 		}
 
 		/* This is a special case where the user has selected
@@ -218,9 +218,9 @@ gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
 			gnome_print_setrgbcolor (context,
-				pat_col->red   / (double) 0xffff,
-				pat_col->green / (double) 0xffff,
-				pat_col->blue  / (double) 0xffff);
+				pat_col->color.red   / (double) 0xffff,
+				pat_col->color.green / (double) 0xffff,
+				pat_col->color.blue  / (double) 0xffff);
 
 		}
 #if 0

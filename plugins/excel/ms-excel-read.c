@@ -1410,7 +1410,7 @@ excel_palette_get (ExcelPalette const *pal, gint idx)
 		d (1, {
 			StyleColor *sc = pal->gnum_cols[idx];
 			fprintf (stderr,"New color in slot %d: RGB= %x,%x,%x\n",
-				idx, sc->red, sc->green, sc->blue);
+				idx, sc->color.red, sc->color.green, sc->color.blue);
 		});
 	}
 
@@ -1595,9 +1595,9 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, guint16 xfidx)
 	g_return_val_if_fail (back_color && pattern_color && font_color, NULL);
 
 	d (4, fprintf (stderr,"back = #%02x%02x%02x, pat = #%02x%02x%02x, font = #%02x%02x%02x, pat_style = %d\n",
-		      back_color->red>>8, back_color->green>>8, back_color->blue>>8,
-		      pattern_color->red>>8, pattern_color->green>>8, pattern_color->blue>>8,
-		      font_color->red>>8, font_color->green>>8, font_color->blue>>8,
+		      back_color->color.red>>8, back_color->color.green>>8, back_color->color.blue>>8,
+		      pattern_color->color.red>>8, pattern_color->color.green>>8, pattern_color->color.blue>>8,
+		      font_color->color.red>>8, font_color->color.green>>8, font_color->color.blue>>8,
 		      xf->fill_pattern_idx););
 
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, font_color);
@@ -3145,7 +3145,7 @@ excel_read_tab_color (BiffQuery *q, ExcelReadSheet *esheet)
 	 */
 	color_index = GSF_LE_GET_GUINT8 (q->data + 16);
 	color = excel_palette_get (esheet->container.ewb->palette, color_index);
-	contrast = color->red + color->green + color->blue;
+	contrast = color->color.red + color->color.green + color->color.blue;
 	if (contrast >= 0x18000)
 		text_color = style_color_black ();
 	else
@@ -3154,7 +3154,7 @@ excel_read_tab_color (BiffQuery *q, ExcelReadSheet *esheet)
 	if (color != NULL) {
 		d (1, fprintf (stderr,"%s tab colour = %04hx:%04hx:%04hx\n",
 			      esheet->sheet->name_unquoted,
-			      color->red, color->green, color->blue););
+			      color->color.red, color->color.green, color->color.blue););
 	}
 }
 
@@ -3726,9 +3726,9 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 			}
 			d (2, fprintf (stderr,"auto pattern color "
 				      "0x%x 0x%x 0x%x\n",
-				      pattern_color->red,
-				      pattern_color->green,
-				      pattern_color->blue););
+				      pattern_color->color.red,
+				      pattern_color->color.green,
+				      pattern_color->color.blue););
 			sheet_style_set_auto_pattern_color (
 				esheet->sheet, pattern_color);
 		}

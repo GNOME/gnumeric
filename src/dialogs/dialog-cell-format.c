@@ -2191,7 +2191,9 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 	} else {
 		StyleColor const * c = border->color;
 		state->border.edge[i].rgba =
-		    GNOME_CANVAS_COLOR (c->red>>8, c->green>>8, c->blue>>8);
+		    GNOME_CANVAS_COLOR (c->color.red >> 8,
+					c->color.green >> 8,
+					c->color.blue >> 8);
 		state->border.edge[i].is_auto_color = c->is_auto;
 		state->border.edge[i].pattern_index = border->line_type;
 		state->border.edge[i].is_selected = (border->line_type != STYLE_BORDER_NONE);

@@ -1021,7 +1021,7 @@ palette_color_to_int (ExcelPaletteEntry const *c)
 static guint
 style_color_to_rgb888 (StyleColor const *c)
 {
-	return ((c->blue & 0xff00) << 8) + (c->green & 0xff00) + (c->red >> 8);
+	return ((c->color.blue & 0xff00) << 8) + (c->color.green & 0xff00) + (c->color.red >> 8);
 
 }
 
