@@ -59,6 +59,7 @@
 
 #include <locale.h>
 #include <gsf/gsf-output.h>
+#include <string.h>
 
 typedef enum {
 	LATEX_NO_BORDER = 0,
@@ -141,33 +142,50 @@ static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
  * from Rasca's code to have most common first.
  */
 static void
-latex_fputs (char const *p, GsfOutput *output)
+latex_fputs (char const *text, GsfOutput *output)
 {
-	for (; *p; p++) {
+	char * encoded_text = NULL;
+	char * p;
+	gsize bytes_read;
+	gsize bytes_written;
+	GError * error = NULL;
+
+	encoded_text = g_convert_with_fallback
+		(text, strlen (text),
+		 "ISO-8859-1", "UTF-8", (gchar *)"?", 
+		 &bytes_read, &bytes_written, &error);
+	if (error != NULL)
+	{
+		g_warning ("UTF-8 to Latin1 conversion failed for:\n%s", text);
+		g_error_free (error);
+	}
+
+	for (p = encoded_text; *p; p++) {
 		switch (*p) {
-
+			
 			/* These are the classic TeX symbols $ & % # _ { } (see Lamport, p.15) */
-			case '$': case '&': case '%': case '#':
-			case '_': case '{': case '}':
-				gsf_output_printf (output, "\\%c", *p);
-				break;
+		case '$': case '&': case '%': case '#':
+		case '_': case '{': case '}':
+			gsf_output_printf (output, "\\%c", *p);
+			break;
 			/* These are the other special characters ~ ^ \ (see Lamport, p.15) */
-			case '^': case '~':
-				gsf_output_printf (output, "\\%c{ }", *p);
-				break;
-			case '\\':
-				gsf_output_puts (output, "$\\backslash$");
-				break;
+		case '^': case '~':
+			gsf_output_printf (output, "\\%c{ }", *p);
+			break;
+		case '\\':
+			gsf_output_puts (output, "$\\backslash$");
+			break;
 			/* Are these available only in LaTeX through mathmode? */
-			case '>': case '<':
-				gsf_output_printf (output, "$%c$", *p);
-				break;
-
-			default:
-				gsf_output_write (output, 1, p);
-				break;
+		case '>': case '<': case 'µ':
+			gsf_output_printf (output, "$%c$", *p);
+			break;
+			
+		default:
+			gsf_output_write (output, 1, p);
+			break;
 		}
 	}
+	g_free (encoded_text);
 }
 
 /**
@@ -181,9 +199,25 @@ latex_fputs (char const *p, GsfOutput *output)
  * We assume that htis will be set in Mathematics mode.
  */
 static void
-latex_math_fputs (char const *p, GsfOutput *output)
+latex_math_fputs (char const *text, GsfOutput *output)
 {
-	for (; *p; p++) {
+	char * encoded_text = NULL;
+	char * p;
+	gsize bytes_read;
+	gsize bytes_written;
+	GError * error = NULL;
+
+	encoded_text = g_convert_with_fallback
+		(text, strlen (text),
+		 "ISO-8859-1", "UTF-8", (gchar *)"?", 
+		 &bytes_read, &bytes_written, &error);
+	if (error != NULL)
+	{
+		g_warning ("UTF-8 to Latin1 conversion failed for:\n%s", text);
+		g_error_free (error);
+	}
+
+	for (p = encoded_text; *p; p++) {
 		switch (*p) {
 
 			/* These are the classic TeX symbols $ & % # (see Lamport, p.15) */
@@ -203,6 +237,7 @@ latex_math_fputs (char const *p, GsfOutput *output)
 				break;
 		}
 	}
+	g_free (encoded_text);
 }
 
 
@@ -277,13 +312,14 @@ latex2e_write_file_header(GsfOutput *output)
 "	                  %,landscape%\n"
 "                    ]{report}\n"
 "	\\usepackage[latin1]{inputenc}\n"
+"	\\usepackage{fullpage}\n"
 "	\\usepackage{color}\n"
-"        \\usepackage{array}\n"
+"       \\usepackage{array}\n"
 "	\\usepackage{longtable}\n"
-"        \\usepackage{calc}\n"
-"        \\usepackage{multirow}\n"
-"        \\usepackage{hhline}\n"
-"        \\usepackage{ifthen}\n"
+"       \\usepackage{calc}\n"
+"       \\usepackage{multirow}\n"
+"       \\usepackage{hhline}\n"
+"       \\usepackage{ifthen}\n"
 "\n"
 "	\\begin{document}\n"
 "\n"

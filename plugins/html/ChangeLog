@@ -1,3 +1,10 @@
+2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c (latex_fputs): convert cell content to latin1 
+	  before exporting
+	(latex_math_fputs): ditto
+	(latex2e_write_file_header): add fullpage package
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19
