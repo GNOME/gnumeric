@@ -5,6 +5,8 @@ Andreas:
 	* use value_as_string for array content
 
 Jody:
+	* Add Drachma to EURO.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=84930
 	* COUNT should only count ints and floats not bools
 

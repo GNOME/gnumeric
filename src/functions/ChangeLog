@@ -1,3 +1,7 @@
+2002-06-14  Jody Goldberg <jody@gnome.org>
+
+	* fn-financial.c (gnumeric_euro) : add drachma.
+
 2002-06-11  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=84930

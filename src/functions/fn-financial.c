@@ -2179,6 +2179,7 @@ static char *help_euro = {
 	   "    FIM     (Finland)\n"
 	   "    FRF     (France)\n"
 	   "    IEP     (Ireland)\n"
+	   "    GRD     (Greek)\n"
 	   "    ITL     (Italy)\n"
 	   "    LUF     (Luxemburg)\n"
 	   "    NLG     (Netherlands)\n"
@@ -2220,6 +2221,10 @@ gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 		        return value_new_float (5.94573);
 		else if (strncmp ("FRF", str, 3) == 0)
 		        return value_new_float (6.55957);
+		break;
+	case 'G':
+	        if (strncmp ("GRD", str, 3) == 0)
+		        return value_new_float (340.75);
 		break;
 	case 'I':
 	        if (strncmp ("IEP", str, 3) == 0)
