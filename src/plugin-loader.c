@@ -41,7 +41,7 @@ gnumeric_plugin_loader_init (GnumericPluginLoader *loader)
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
 
 	loader->plugin = NULL;
-	loader->is_loaded = FALSE;
+	loader->is_base_loaded = FALSE;
 	loader->n_loaded_services = 0;
 }
 
@@ -71,7 +71,6 @@ gnumeric_plugin_loader_unload_service_general_real (GnumericPluginLoader *loader
 	*ret_error = NULL;
 	service_general = &service->t.general;
 	service_general->plugin_func_init = NULL;
-	service_general->plugin_func_can_deactivate = NULL;
 	service_general->plugin_func_cleanup = NULL;
 }
 
@@ -143,8 +142,8 @@ static void
 gnumeric_plugin_loader_class_init (GnumericPluginLoaderClass *klass)
 {
 	klass->set_attributes = NULL;
-	klass->load = NULL;
-	klass->unload = NULL;
+	klass->load_base = NULL;
+	klass->unload_base = NULL;
 	klass->load_service_general = NULL;
 	klass->unload_service_general = gnumeric_plugin_loader_unload_service_general_real;
 	klass->load_service_file_opener = NULL;
@@ -166,7 +165,7 @@ GSF_CLASS (GnumericPluginLoader, gnumeric_plugin_loader,
 
 void
 gnumeric_plugin_loader_set_attributes (GnumericPluginLoader *loader,
-                                       GSList *attr_names, GSList *attr_values,
+                                       GHashTable *attrs,
                                        ErrorInfo **ret_error)
 {
 	ErrorInfo *error;
@@ -174,12 +173,12 @@ gnumeric_plugin_loader_set_attributes (GnumericPluginLoader *loader,
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
 	g_return_if_fail (ret_error != NULL);
 
-	PL_GET_CLASS(loader)->set_attributes (loader, attr_names, attr_values, &error);
+	PL_GET_CLASS(loader)->set_attributes (loader, attrs, &error);
 	*ret_error = error;
 }
 
 void
-gnumeric_plugin_loader_set_plugin (GnumericPluginLoader *loader, PluginInfo *plugin)
+gnumeric_plugin_loader_set_plugin (GnumericPluginLoader *loader, GnmPlugin *plugin)
 {
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
 	g_return_if_fail (plugin != NULL);
@@ -188,39 +187,29 @@ gnumeric_plugin_loader_set_plugin (GnumericPluginLoader *loader, PluginInfo *plu
 }
 
 void
-gnumeric_plugin_loader_load (GnumericPluginLoader *loader, ErrorInfo **ret_error)
+gnumeric_plugin_loader_load_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 {
 	GnumericPluginLoaderClass *gnumeric_plugin_loader_class;
 	ErrorInfo *error;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
 	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (!loader->is_base_loaded);
 
 	*ret_error = NULL;
-	if (loader->is_loaded) {
-		return;
-	}
-	plugin_load_dependencies (loader->plugin, &error);
+	gnumeric_plugin_loader_class = PL_GET_CLASS(loader);
+	g_return_if_fail (gnumeric_plugin_loader_class->load_base != NULL);
+	gnumeric_plugin_loader_class->load_base (loader, &error);
 	if (error == NULL) {
-		gnumeric_plugin_loader_class = PL_GET_CLASS(loader);
-		g_return_if_fail (gnumeric_plugin_loader_class->load != NULL);
-		gnumeric_plugin_loader_class->load (loader, &error);
-		if (error == NULL) {
-			loader->is_loaded = TRUE;
-			plugin_dependencies_inc_dependants (loader->plugin, DEPENDENCY_LOAD);
-			plugin_message (0, "Loaded plugin \"%s\".\n", plugin_info_peek_id (loader->plugin));
-		} else {
-			*ret_error = error;
-		}
+		loader->is_base_loaded = TRUE;
+		plugin_message (0, "Loaded plugin \"%s\".\n", gnm_plugin_get_id (loader->plugin));
 	} else {
-		*ret_error = error_info_new_str_with_details (
-		             _("Error while loading plugin dependencies."),
-		             error);
+		*ret_error = error;
 	}
 }
 
 void
-gnumeric_plugin_loader_unload (GnumericPluginLoader *loader, ErrorInfo **ret_error)
+gnumeric_plugin_loader_unload_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 {
 	GnumericPluginLoaderClass *gnumeric_plugin_loader_class;
 	ErrorInfo *error;
@@ -229,16 +218,15 @@ gnumeric_plugin_loader_unload (GnumericPluginLoader *loader, ErrorInfo **ret_err
 	g_return_if_fail (ret_error != NULL);
 
 	*ret_error = NULL;
-	if (!loader->is_loaded) {
+	if (!loader->is_base_loaded) {
 		return;
 	}
 	gnumeric_plugin_loader_class = PL_GET_CLASS(loader);
-	if (gnumeric_plugin_loader_class->unload != NULL) {
-		gnumeric_plugin_loader_class->unload (loader, &error);
+	if (gnumeric_plugin_loader_class->unload_base != NULL) {
+		gnumeric_plugin_loader_class->unload_base (loader, &error);
 		if (error == NULL) {
-			loader->is_loaded = FALSE;
-			plugin_dependencies_dec_dependants (loader->plugin, DEPENDENCY_LOAD);
-			plugin_message (0, "Unloaded plugin \"%s\".\n", plugin_info_peek_id (loader->plugin));
+			loader->is_base_loaded = FALSE;
+			plugin_message (0, "Unloaded plugin \"%s\".\n", gnm_plugin_get_id (loader->plugin));
 		} else {
 			*ret_error = error;
 		}
@@ -250,47 +238,40 @@ gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService
 {
 	GnumericPluginLoaderClass *gnumeric_plugin_loader_class;
 	ErrorInfo *error;
+	void (*load_service_method) (GnumericPluginLoader *, PluginService *, ErrorInfo **) = NULL;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
 	g_return_if_fail (service != NULL);
 	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (loader->is_base_loaded);
 
 	*ret_error = NULL;
 	gnumeric_plugin_loader_class = PL_GET_CLASS(loader);
-	gnumeric_plugin_loader_load (loader, &error);
-	if (error == NULL) {
-		void (*load_service_method) (GnumericPluginLoader *, PluginService *, ErrorInfo **) = NULL;
-
-		switch (service->service_type) {
-		case PLUGIN_SERVICE_GENERAL:
-			load_service_method = gnumeric_plugin_loader_class->load_service_general;
-			break;
-		case PLUGIN_SERVICE_FILE_OPENER:
-			load_service_method = gnumeric_plugin_loader_class->load_service_file_opener;
-			break;
-		case PLUGIN_SERVICE_FILE_SAVER:
-			load_service_method = gnumeric_plugin_loader_class->load_service_file_saver;
-			break;
-		case PLUGIN_SERVICE_FUNCTION_GROUP:
-			load_service_method = gnumeric_plugin_loader_class->load_service_function_group;
-			break;
-		case PLUGIN_SERVICE_PLUGIN_LOADER:
-			load_service_method = gnumeric_plugin_loader_class->load_service_plugin_loader;
-			break;
-		default:
-			g_assert_not_reached ();
-		}
-		if (load_service_method != NULL) {
-			load_service_method (loader, service, &error);
-			*ret_error = error;
-		} else {
-			*ret_error = error_info_new_str (
-			             _("Service not supported by loader."));
-		}
+	switch (service->service_type) {
+	case PLUGIN_SERVICE_GENERAL:
+		load_service_method = gnumeric_plugin_loader_class->load_service_general;
+		break;
+	case PLUGIN_SERVICE_FILE_OPENER:
+		load_service_method = gnumeric_plugin_loader_class->load_service_file_opener;
+		break;
+	case PLUGIN_SERVICE_FILE_SAVER:
+		load_service_method = gnumeric_plugin_loader_class->load_service_file_saver;
+		break;
+	case PLUGIN_SERVICE_FUNCTION_GROUP:
+		load_service_method = gnumeric_plugin_loader_class->load_service_function_group;
+		break;
+	case PLUGIN_SERVICE_PLUGIN_LOADER:
+		load_service_method = gnumeric_plugin_loader_class->load_service_plugin_loader;
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+	if (load_service_method != NULL) {
+		load_service_method (loader, service, &error);
+		*ret_error = error;
 	} else {
-		*ret_error = error_info_new_str_with_details (
-		             _("Error while loading plugin."),
-		             error);
+		*ret_error = error_info_new_str (
+		             _("Service not supported by loader."));
 	}
 
 	if (*ret_error == NULL) {
@@ -342,10 +323,11 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 	if (error == NULL) {
 		g_return_if_fail (loader->n_loaded_services > 0);
 		loader->n_loaded_services--;
+/* FIXME - do not unload plugins for now
 		if (loader->n_loaded_services == 0) {
-			gnumeric_plugin_loader_unload (loader, &error);
+			gnumeric_plugin_loader_unload_base (loader, &error);
 			error_info_free (error);
-		}
+		}*/
 	} else {
 		*ret_error = error;
 	}
@@ -368,9 +350,9 @@ gnumeric_plugin_loader_get_extra_info_list (GnumericPluginLoader *loader, GSList
 }
 
 gboolean
-gnumeric_plugin_loader_is_loaded (GnumericPluginLoader *loader)
+gnumeric_plugin_loader_is_base_loaded (GnumericPluginLoader *loader)
 {
 	g_return_val_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader), FALSE);
 
-	return loader->is_loaded;
+	return loader->is_base_loaded;
 }

@@ -21,7 +21,6 @@ typedef struct _PluginServicesData PluginServicesData;
 struct _PluginServiceGeneral {
 	/* fields available after loading */
 	void (*plugin_func_init) (PluginService *service, ErrorInfo **ret_error);
-	gboolean (*plugin_func_can_deactivate) (PluginService *service);
 	void (*plugin_func_cleanup) (PluginService *service, ErrorInfo **ret_error);
 };
 
@@ -89,6 +88,9 @@ struct _PluginServicePluginLoader {
 	                                        ErrorInfo **ret_error);
 };
 
+GType plugin_service_plugin_loader_get_type (PluginService *service,
+                                             ErrorInfo **ret_error);
+
 typedef enum {
 	PLUGIN_SERVICE_GENERAL,
 	PLUGIN_SERVICE_FILE_OPENER,
@@ -101,7 +103,7 @@ typedef enum {
 struct _PluginService {
 	gboolean is_active;
 	gboolean is_loaded;
-	PluginInfo *plugin;
+	GnmPlugin *plugin;
 	gpointer loader_data;
 	PluginServiceType service_type;
 	union {
@@ -116,15 +118,11 @@ struct _PluginService {
 
 PluginService *plugin_service_read (xmlNode *tree, ErrorInfo **ret_error);
 void           plugin_service_free (PluginService *service);
-void           plugin_service_set_plugin (PluginService *service, PluginInfo *plugin);
+void           plugin_service_set_plugin (PluginService *service, GnmPlugin *plugin);
 void           plugin_service_set_loader_data (PluginService *service, gpointer loader_data);
 void           plugin_service_clear_loader_data (PluginService *service);
 gpointer       plugin_service_get_loader_data (PluginService *service);
 void           plugin_service_activate (PluginService *service, ErrorInfo **ret_error);
-gboolean       plugin_service_can_deactivate (PluginService *service);
 void           plugin_service_deactivate (PluginService *service, ErrorInfo **ret_error);
-
-PluginServicesData *plugin_services_data_new (void);
-void                plugin_services_data_free (PluginServicesData *services_data);
 
 #endif /* GNUMERIC_PLUGIN_SERVICE_H */

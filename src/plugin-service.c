@@ -9,6 +9,7 @@
 #include "gnumeric.h"
 #include "plugin-service.h"
 
+#include "gutils.h"
 #include "workbook.h"
 #include "workbook-view.h"
 #include "func.h"
@@ -46,9 +47,6 @@ struct _InputFileSaveInfo {
 	FileFormatLevel format_level;
 };
 
-struct _PluginServicesData {
-	GHashTable *file_savers_hash;
-};
 
 static void plugin_service_init (PluginService *service, PluginServiceType service_type);
 static void plugin_service_load (PluginService *service, ErrorInfo **ret_error);
@@ -80,6 +78,22 @@ parse_format_level_str (const gchar *format_level_str, FileFormatLevel def)
 	return format_level;
 }
 
+static GHashTable *
+get_plugin_file_savers_hash (GnmPlugin *plugin)
+{
+	GHashTable *hash;
+
+	hash = g_object_get_data (G_OBJECT (plugin), "file_savers_hash");
+	if (hash == NULL) {
+		hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+		g_object_set_data_full (
+			G_OBJECT (plugin), "file_savers_hash",
+			hash, (GDestroyNotify) g_hash_table_destroy);
+	}
+
+	return hash;
+}
+
 /*
  * General
  */
@@ -98,7 +112,6 @@ plugin_service_general_read (xmlNode *tree, ErrorInfo **ret_error)
 	plugin_service_init (service, PLUGIN_SERVICE_GENERAL);
 	service_general = &service->t.general;
 	service_general->plugin_func_init = NULL;
-	service_general->plugin_func_can_deactivate = NULL;
 	service_general->plugin_func_cleanup = NULL;
 
 	return service;
@@ -136,19 +149,6 @@ plugin_service_general_initialize (PluginService *service, ErrorInfo **ret_error
 		             _("Error while loading plugin service."),
 		             error);
 	}
-}
-
-static gboolean
-plugin_service_general_can_deactivate (PluginService *service)
-{
-	PluginServiceGeneral *service_general;
-
-	g_return_val_if_fail (service != NULL, FALSE);
-	g_return_val_if_fail (service->service_type == PLUGIN_SERVICE_GENERAL, FALSE);
-
-	service_general = &service->t.general;
-	g_return_val_if_fail (service_general->plugin_func_can_deactivate != NULL, FALSE);
-	return service_general->plugin_func_can_deactivate (service);
 }
 
 static void
@@ -295,7 +295,7 @@ gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 					GHashTable *file_savers_hash;
 					GnumFileSaver *saver;
 
-					file_savers_hash = plugin_info_peek_services_data (pfo->service->plugin)->file_savers_hash;
+					file_savers_hash = get_plugin_file_savers_hash (pfo->service->plugin);
 					saver = (GnumFileSaver *) g_hash_table_lookup (file_savers_hash,
 					                                           save_info->saver_id_str);
 					if (saver != NULL) {
@@ -334,7 +334,7 @@ gnum_plugin_file_opener_new (PluginService *service)
 
 	service_file_opener = &service->t.file_opener;
 	opener_id = g_strdup_printf ("%s:%s",
-	                             plugin_info_peek_id (service->plugin),
+	                             gnm_plugin_get_id (service->plugin),
 	                             service_file_opener->id);
 	fo = GNUM_PLUGIN_FILE_OPENER (g_object_new (TYPE_GNUM_PLUGIN_FILE_OPENER, NULL));
 	gnum_file_opener_setup (GNUM_FILE_OPENER (fo), opener_id,
@@ -451,10 +451,10 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 					file_pattern->pattern_type = FILE_PATTERN_SHELL;
 				}
 				g_free (type_str);
-				file_patterns = g_list_prepend (file_patterns, file_pattern);
+				GNM_LIST_PREPEND (file_patterns, file_pattern);
 			}
 		}
-		file_patterns = g_list_reverse (file_patterns);
+		GNM_LIST_REVERSE (file_patterns);
 
 		save_info_node = e_xml_get_child_by_name (tree, (xmlChar *)"save_info");
 		if (save_info_node != NULL) {
@@ -535,15 +535,6 @@ plugin_service_file_opener_initialize (PluginService *service, ErrorInfo **ret_e
 			                                             service_file_opener->default_importer_priority);
 		}
 	}
-}
-
-static gboolean
-plugin_service_file_opener_can_deactivate (PluginService *service)
-{
-	g_return_val_if_fail (service != NULL, FALSE);
-	g_return_val_if_fail (service->service_type == PLUGIN_SERVICE_FILE_OPENER, FALSE);
-
-	return TRUE;
 }
 
 static void
@@ -641,7 +632,7 @@ gnum_plugin_file_saver_new (PluginService *service)
 
 	service_file_saver = &service->t.file_saver;
 	saver_id = g_strdup_printf ("%s:%s",
-	                             plugin_info_peek_id (service->plugin),
+	                             gnm_plugin_get_id (service->plugin),
 	                             service_file_saver->id);
 	fs = GNUM_PLUGIN_FILE_SAVER (g_object_new (TYPE_GNUM_PLUGIN_FILE_SAVER, NULL));
 	gnum_file_saver_setup (GNUM_FILE_SAVER (fs), saver_id,
@@ -763,18 +754,9 @@ plugin_service_file_saver_initialize (PluginService *service, ErrorInfo **ret_er
 		register_file_saver_as_default (service_file_saver->saver,
 		                                service_file_saver->default_saver_priority);
 	}
-	file_savers_hash = plugin_info_peek_services_data (service->plugin)->file_savers_hash;
+	file_savers_hash = get_plugin_file_savers_hash (service->plugin);
 	g_assert (g_hash_table_lookup (file_savers_hash, service_file_saver->id) == NULL);
-	g_hash_table_insert (file_savers_hash, service_file_saver->id, service_file_saver->saver);
-}
-
-static gboolean
-plugin_service_file_saver_can_deactivate (PluginService *service)
-{
-	g_return_val_if_fail (service != NULL, FALSE);
-	g_return_val_if_fail (service->service_type == PLUGIN_SERVICE_FILE_SAVER, FALSE);
-
-	return TRUE;
+	g_hash_table_insert (file_savers_hash, g_strdup (service_file_saver->id), service_file_saver->saver);
 }
 
 static void
@@ -789,7 +771,7 @@ plugin_service_file_saver_cleanup (PluginService *service, ErrorInfo **ret_error
 
 	*ret_error = NULL;
 	service_file_saver = &service->t.file_saver;
-	file_savers_hash = plugin_info_peek_services_data (service->plugin)->file_savers_hash;
+	file_savers_hash = get_plugin_file_savers_hash (service->plugin);
 	g_hash_table_remove (file_savers_hash, service_file_saver->id);
 	unregister_file_saver (service_file_saver->saver);
 }
@@ -850,9 +832,9 @@ plugin_service_function_group_read (xmlNode *tree, ErrorInfo **ret_error)
 			    (func_name = e_xml_get_string_prop_by_name (node, (xmlChar *)"name")) == NULL) {
 				continue;
 			}
-			function_name_list = g_list_prepend (function_name_list, func_name);
+			GNM_LIST_PREPEND (function_name_list, func_name);
 		}
-		function_name_list = g_list_reverse (function_name_list);
+		GNM_LIST_REVERSE (function_name_list);
 	}
 	if (group_id != NULL && category_name != NULL && function_name_list != NULL) {
 		PluginServiceFunctionGroup *service_function_group;
@@ -868,21 +850,18 @@ plugin_service_function_group_read (xmlNode *tree, ErrorInfo **ret_error)
 		GSList *error_list = NULL;
 
 		if (group_id == NULL) {
-			error_list = g_slist_prepend (error_list,
-			                             error_info_new_str (
-			                             _("Missing function group id.")));
+			GNM_SLIST_PREPEND (error_list, error_info_new_str (
+				_("Missing function group id.")));
 		}
 		if (category_name == NULL) {
-			error_list = g_slist_prepend (error_list,
-			                             error_info_new_str (
-			                             _("Missing function category name.")));
+			GNM_SLIST_PREPEND (error_list, error_info_new_str (
+				_("Missing function category name.")));
 		}
 		if (function_name_list == NULL) {
-			error_list = g_slist_prepend (error_list,
-			                             error_info_new_str (
-			                             _("Missing function category name.")));
+			GNM_SLIST_PREPEND (error_list, error_info_new_str (
+				_("Missing function category name.")));
 		}
-		error_list = g_slist_reverse (error_list);
+		GNM_SLIST_REVERSE (error_list);
 		*ret_error = error_info_new_from_error_list (error_list);
 
 		g_free (group_id);
@@ -979,31 +958,8 @@ plugin_service_function_group_initialize (PluginService *service, ErrorInfo **re
 		                                 &plugin_service_function_group_get_full_info_callback);
 		function_def_set_user_data (fn_def, (gpointer) service);
 	}
-}
-
-static gboolean
-plugin_service_function_group_can_deactivate (PluginService *service)
-{
-	PluginServiceFunctionGroup *service_function_group;
-	GList *l;
-	gboolean is_in_use = FALSE;
-
-	g_return_val_if_fail (service != NULL, FALSE);
-	g_return_val_if_fail (service->service_type == PLUGIN_SERVICE_FUNCTION_GROUP, FALSE);
-
-	service_function_group = &service->t.function_group;
-	for (l = service_function_group->function_name_list; l != NULL; l = l->next) {
-		FunctionDefinition *fn_def;
-
-		fn_def = func_lookup_by_name ((gchar *) l->data, NULL);
-		g_assert (fn_def != NULL);
-		if (func_get_ref_count (fn_def) != 0) {
-			is_in_use = TRUE;
-			break;
-		}
-	}
-
-	return !is_in_use;
+	/* FIXME - lock plugin for now (we need notifications from functions) */
+	gnm_plugin_use_ref (service->plugin);
 }
 
 static void
@@ -1063,16 +1019,14 @@ plugin_service_plugin_loader_free (PluginService *service)
 	g_free (service_plugin_loader->loader_id);
 }
 
-static GType
-plugin_service_plugin_loader_get_type_callback (gpointer callback_data, ErrorInfo **ret_error)
+GType
+plugin_service_plugin_loader_get_type (PluginService *service, ErrorInfo **ret_error)
 {
-	PluginService *service;
 	PluginServicePluginLoader *service_plugin_loader;
 	ErrorInfo *error;
 	GType loader_type;
 
 	*ret_error = NULL;
-	service = (PluginService *) callback_data;
 	service_plugin_loader = &service->t.plugin_loader;
 	plugin_service_load (service, &error);
 	if (error == NULL) {
@@ -1093,33 +1047,38 @@ static void
 plugin_service_plugin_loader_initialize (PluginService *service, ErrorInfo **ret_error)
 {
 	PluginServicePluginLoader *service_plugin_loader;
+	gchar *full_id;
 
 	g_return_if_fail (service != NULL);
 	g_return_if_fail (ret_error != NULL);
 
 	*ret_error = NULL;
 	service_plugin_loader = &service->t.plugin_loader;
-	plugin_loader_register_id_only (service_plugin_loader->loader_id,
-	                                &plugin_service_plugin_loader_get_type_callback,
-	                                (gpointer) service);
-}
-
-static gboolean
-plugin_service_plugin_loader_can_deactivate (PluginService *service)
-{
-	g_return_val_if_fail (service != NULL, FALSE);
-	g_return_val_if_fail (service->service_type == PLUGIN_SERVICE_PLUGIN_LOADER, FALSE);
-
-	return FALSE;
+	full_id = g_strconcat (
+		gnm_plugin_get_id (service->plugin), ":",
+		service_plugin_loader->loader_id,
+		NULL);
+	plugins_register_loader (full_id, service);
+	g_free (full_id);
 }
 
 static void
 plugin_service_plugin_loader_cleanup (PluginService *service, ErrorInfo **ret_error)
 {
+	PluginServicePluginLoader *service_plugin_loader;
+	gchar *full_id;
+
 	g_return_if_fail (service != NULL);
 	g_return_if_fail (ret_error != NULL);
 
 	*ret_error = NULL;
+	service_plugin_loader = &service->t.plugin_loader;
+	full_id = g_strconcat (
+		gnm_plugin_get_id (service->plugin), ":",
+		service_plugin_loader->loader_id,
+		NULL);
+	plugins_register_loader (full_id, service);
+	g_free (full_id);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1139,8 +1098,6 @@ plugin_service_init (PluginService *service, PluginServiceType service_type)
 static void
 plugin_service_load (PluginService *service, ErrorInfo **ret_error)
 {
-	ErrorInfo *error;
-
 	g_return_if_fail (service != NULL);
 	g_return_if_fail (ret_error != NULL);
 
@@ -1148,11 +1105,9 @@ plugin_service_load (PluginService *service, ErrorInfo **ret_error)
 	if (service->is_loaded) {
 		return;
 	}
-	plugin_load_service (service->plugin, service, &error);
-	if (error == NULL) {
+	gnm_plugin_load_service (service->plugin, service, ret_error);
+	if (*ret_error == NULL) {
 		service->is_loaded = TRUE;
-	} else {
-		*ret_error = error;
 	}
 }
 
@@ -1168,7 +1123,7 @@ plugin_service_unload (PluginService *service, ErrorInfo **ret_error)
 	if (!service->is_loaded) {
 		return;
 	}
-	plugin_unload_service (service->plugin, service, &error);
+	gnm_plugin_unload_service (service->plugin, service, &error);
 	if (error == NULL) {
 		service->is_loaded = FALSE;
 	} else {
@@ -1242,7 +1197,7 @@ plugin_service_free (PluginService *service)
 }
 
 void
-plugin_service_set_plugin (PluginService *service, PluginInfo *plugin)
+plugin_service_set_plugin (PluginService *service, GnmPlugin *plugin)
 {
 	g_return_if_fail (service != NULL);
 	g_return_if_fail (plugin != NULL);
@@ -1313,36 +1268,6 @@ plugin_service_activate (PluginService *service, ErrorInfo **ret_error)
 	}
 }
 
-gboolean
-plugin_service_can_deactivate (PluginService *service)
-{
-	gboolean can_deactivate = FALSE;
-
-	g_return_val_if_fail (service != NULL, FALSE);
-
-	switch (service->service_type) {
-	case PLUGIN_SERVICE_GENERAL:
-		can_deactivate = plugin_service_general_can_deactivate (service);
-		break;
-	case PLUGIN_SERVICE_FILE_OPENER:
-		can_deactivate = plugin_service_file_opener_can_deactivate (service);
-		break;
-	case PLUGIN_SERVICE_FILE_SAVER:
-		can_deactivate = plugin_service_file_saver_can_deactivate (service);
-		break;
-	case PLUGIN_SERVICE_FUNCTION_GROUP:
-		can_deactivate = plugin_service_function_group_can_deactivate (service);
-		break;
-	case PLUGIN_SERVICE_PLUGIN_LOADER:
-		can_deactivate = plugin_service_plugin_loader_can_deactivate (service);
-		break;
-	default:
-		g_assert_not_reached ();
-	}
-
-	return can_deactivate;
-}
-
 void
 plugin_service_deactivate (PluginService *service, ErrorInfo **ret_error)
 {
@@ -1383,24 +1308,4 @@ plugin_service_deactivate (PluginService *service, ErrorInfo **ret_error)
 	} else {
 		*ret_error = error;
 	}
-}
-
-PluginServicesData *
-plugin_services_data_new (void)
-{
-	PluginServicesData *services_data;
-
-	services_data = g_new (PluginServicesData, 1);
-	services_data->file_savers_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
-
-	return services_data;
-}
-
-void
-plugin_services_data_free (PluginServicesData *services_data)
-{
-	g_return_if_fail (services_data != NULL);
-
-	g_hash_table_destroy (services_data->file_savers_hash);
-	g_free (services_data);
 }

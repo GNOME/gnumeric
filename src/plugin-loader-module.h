@@ -23,7 +23,7 @@ GType gnumeric_plugin_loader_module_get_type (void);
 typedef struct {
 	guint32 magic_number;
 	gchar gnumeric_plugin_version[64];
-	PluginInfo *pinfo;
+	GnmPlugin *pinfo;
 } ModulePluginFileStruct;
 
 #define GNUMERIC_MODULE_PLUGIN_MAGIC_NUMBER             0x476e756d

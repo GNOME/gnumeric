@@ -8,6 +8,7 @@
 #include "gnumeric.h"
 #include "plugin-loader-module.h"
 
+#include "gutils.h"
 #include "file.h"
 #include "plugin.h"
 #include "plugin-service.h"
@@ -39,9 +40,9 @@ struct _GnumericPluginLoaderModuleClass {
 
 static GnumericPluginLoaderClass *parent_class = NULL;
 
-static void gnumeric_plugin_loader_module_set_attributes (GnumericPluginLoader *loader, GSList *attr_names, GSList *attr_values, ErrorInfo **ret_error);
-static void gnumeric_plugin_loader_module_load (GnumericPluginLoader *loader, ErrorInfo **ret_error);
-static void gnumeric_plugin_loader_module_unload (GnumericPluginLoader *loader, ErrorInfo **ret_error);
+static void gnumeric_plugin_loader_module_set_attributes (GnumericPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error);
+static void gnumeric_plugin_loader_module_load_base (GnumericPluginLoader *loader, ErrorInfo **ret_error);
+static void gnumeric_plugin_loader_module_unload_base (GnumericPluginLoader *loader, ErrorInfo **ret_error);
 
 static void gnumeric_plugin_loader_module_load_service_general (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_service_file_opener (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
@@ -53,30 +54,18 @@ static void gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPl
 
 static void
 gnumeric_plugin_loader_module_set_attributes (GnumericPluginLoader *loader,
-                                              GSList *attr_names, GSList *attr_values,
+                                              GHashTable *attrs,
                                               ErrorInfo **ret_error)
 {
 	GnumericPluginLoaderModule *loader_module;
 	gchar *module_file_name = NULL;
-	GSList *ln, *lv;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
 	g_return_if_fail (ret_error != NULL);
 
 	*ret_error = NULL;
 	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
-	for (ln = attr_names, lv = attr_values;
-	     ln != NULL && lv != NULL;
-	     ln = ln->next, lv = lv->next) {
-		gchar *name, *value;
-
-		name = (gchar *) ln->data;
-		value = (gchar *) lv->data;
-		if (strcmp ((gchar *) ln->data, "module_file") == 0) {
-			module_file_name = (gchar *) lv->data;
-		}
-	}
-
+	module_file_name = g_hash_table_lookup (attrs, "module_file");
 	if (module_file_name != NULL) {
 		loader_module->module_file_name = g_strdup (module_file_name);
 	} else {
@@ -86,7 +75,7 @@ gnumeric_plugin_loader_module_set_attributes (GnumericPluginLoader *loader,
 }
 
 static void
-gnumeric_plugin_loader_module_load (GnumericPluginLoader *loader, ErrorInfo **ret_error)
+gnumeric_plugin_loader_module_load_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 {
 	GnumericPluginLoaderModule *loader_module;
 
@@ -101,7 +90,7 @@ gnumeric_plugin_loader_module_load (GnumericPluginLoader *loader, ErrorInfo **re
 		ModulePluginFileStruct *plugin_file_struct = NULL;
 		gpointer plugin_init_func = NULL, plugin_cleanup_func = NULL;
 
-		full_module_file_name = g_build_filename (plugin_info_peek_dir_name (loader->plugin),
+		full_module_file_name = g_build_filename (gnm_plugin_get_dir_name (loader->plugin),
 							  loader_module->module_file_name, NULL);
 		handle = g_module_open (full_module_file_name, 0);
 		if (handle != NULL) {
@@ -154,7 +143,7 @@ gnumeric_plugin_loader_module_load (GnumericPluginLoader *loader, ErrorInfo **re
 }
 
 static void
-gnumeric_plugin_loader_module_unload (GnumericPluginLoader *loader, ErrorInfo **ret_error)
+gnumeric_plugin_loader_module_unload_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 {
 	GnumericPluginLoaderModule *loader_module;
 
@@ -190,11 +179,11 @@ gnumeric_plugin_loader_module_info_get_extra_info_list (GnumericPluginLoader *lo
 	g_return_val_if_fail (ret_keys_list != NULL && ret_values_list != NULL, 0);
 
 	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
-	keys_list = g_slist_prepend (keys_list, g_strdup (_("Loader")));
-	values_list = g_slist_prepend (values_list, g_strdup ("g_module"));
+	GNM_SLIST_PREPEND (keys_list, g_strdup (_("Loader")));
+	GNM_SLIST_PREPEND (values_list, g_strdup ("g_module"));
 	n_items++;
-	keys_list = g_slist_prepend (keys_list, g_strdup (_("Module file name")));
-	values_list = g_slist_prepend (values_list, g_strdup (loader_module->module_file_name));
+	GNM_SLIST_PREPEND (keys_list, g_strdup (_("Module file name")));
+	GNM_SLIST_PREPEND (values_list, g_strdup (loader_module->module_file_name));
 	n_items++;
 
 	*ret_keys_list = g_slist_reverse (keys_list);
@@ -232,8 +221,8 @@ gnumeric_plugin_loader_module_class_init (GnumericPluginLoaderModuleClass *klass
 	parent_class = gtk_type_class (PARENT_TYPE);
 
 	gnumeric_plugin_loader_class->set_attributes = gnumeric_plugin_loader_module_set_attributes;
-	gnumeric_plugin_loader_class->load = gnumeric_plugin_loader_module_load;
-	gnumeric_plugin_loader_class->unload = gnumeric_plugin_loader_module_unload;
+	gnumeric_plugin_loader_class->load_base = gnumeric_plugin_loader_module_load_base;
+	gnumeric_plugin_loader_class->unload_base = gnumeric_plugin_loader_module_unload_base;
 	gnumeric_plugin_loader_class->load_service_general = gnumeric_plugin_loader_module_load_service_general;
 	gnumeric_plugin_loader_class->load_service_file_opener = gnumeric_plugin_loader_module_load_service_file_opener;
 	gnumeric_plugin_loader_class->load_service_file_saver = gnumeric_plugin_loader_module_load_service_file_saver;
@@ -255,7 +244,6 @@ GSF_CLASS (GnumericPluginLoaderModule, gnumeric_plugin_loader_module,
 
 typedef struct {
 	void (*module_func_init) (ErrorInfo **ret_error);
-	gboolean (*module_func_can_deactivate) (void);
 	void (*module_func_cleanup) (ErrorInfo **ret_error);
 } ServiceLoaderDataGeneral;
 
@@ -272,17 +260,6 @@ gnumeric_plugin_loader_module_func_init (PluginService *service, ErrorInfo **ret
 	loader_data = (ServiceLoaderDataGeneral *) plugin_service_get_loader_data (service);
 	loader_data->module_func_init (&error);
 	*ret_error = error;
-}
-
-static gboolean
-gnumeric_plugin_loader_module_func_can_deactivate (PluginService *service)
-{
-	ServiceLoaderDataGeneral *loader_data;
-
-	g_return_val_if_fail (service != NULL, FALSE);
-
-	loader_data = (ServiceLoaderDataGeneral *) plugin_service_get_loader_data (service);
-	return loader_data->module_func_can_deactivate ();
 }
 
 static void
@@ -306,7 +283,7 @@ gnumeric_plugin_loader_module_load_service_general (GnumericPluginLoader *loader
                                                     ErrorInfo **ret_error)
 {
 	GnumericPluginLoaderModule *loader_module;
-	gpointer module_func_init = NULL, module_func_cleanup = NULL, module_func_can_deactivate = NULL;
+	gpointer module_func_init = NULL, module_func_cleanup = NULL;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
 	g_return_if_fail (service != NULL);
@@ -316,20 +293,17 @@ gnumeric_plugin_loader_module_load_service_general (GnumericPluginLoader *loader
 	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
 	g_module_symbol (loader_module->handle, "plugin_init_general", &module_func_init);
 	g_module_symbol (loader_module->handle, "plugin_cleanup_general", &module_func_cleanup);
-	g_module_symbol (loader_module->handle, "plugin_can_deactivate_general", &module_func_can_deactivate);
-	if (module_func_init != NULL && module_func_cleanup != NULL && module_func_can_deactivate != NULL) {
+	if (module_func_init != NULL && module_func_cleanup != NULL) {
 		PluginServiceGeneral *service_general;
 		ServiceLoaderDataGeneral *loader_data;
 
 		service_general = &service->t.general;
 		service_general->plugin_func_init = gnumeric_plugin_loader_module_func_init;
-		service_general->plugin_func_can_deactivate = gnumeric_plugin_loader_module_func_can_deactivate;
 		service_general->plugin_func_cleanup = gnumeric_plugin_loader_module_func_cleanup;
 
 		loader_data = g_new (ServiceLoaderDataGeneral, 1);
 		loader_data->module_func_init = module_func_init;
 		loader_data->module_func_cleanup = module_func_cleanup;
-		loader_data->module_func_can_deactivate = module_func_can_deactivate;
 		plugin_service_set_loader_data (service, (gpointer) loader_data);
 	} else {
 		*ret_error = error_info_new_printf (
@@ -344,11 +318,6 @@ gnumeric_plugin_loader_module_load_service_general (GnumericPluginLoader *loader
 			error_info_add_details (*ret_error,
 			                        error_info_new_str (
 			                        _("File doesn't contain \"plugin_cleanup_general\" function.")));
-		}
-		if (module_func_can_deactivate == NULL) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_str (
-			                        _("File doesn't contain \"plugin_can_deactivate_general\" function.")));
 		}
 	}
 }
@@ -688,10 +657,9 @@ gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPluginLoader *
 		plugin_service_set_loader_data (service, (gpointer) loader_data);
 	} else {
 		if (module_func_get_loader_type == NULL) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
-			                        _("Module doesn't contain \"%s\" function."),
-			                        func_name_get_loader_type));
+			*ret_error = error_info_new_printf (
+			             _("Module doesn't contain \"%s\" function."),
+			             func_name_get_loader_type);
 		}
 	}
 	g_free (func_name_get_loader_type);

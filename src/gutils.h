@@ -48,6 +48,23 @@ G_STMT_START { \
 		free_func (*v); \
 	g_free (vector); \
 } G_STMT_END
+#define GNM_LIST_FOREACH(list,valtype,val,stmnt) \
+G_STMT_START { \
+	GList *gnm_l; \
+	for (gnm_l = (list); gnm_l != NULL; gnm_l = gnm_l->next) { \
+		valtype *val = gnm_l->data; \
+		stmnt \
+		; \
+	} \
+} G_STMT_END
+#define GNM_LIST_PREPEND(list,item) \
+	(list = g_list_prepend (list, item))
+#define GNM_LIST_REMOVE(list,item) \
+	(list = g_list_remove (list, item))
+#define GNM_LIST_CONCAT(list_a,list_b) \
+	(list_a = g_list_concat (list_a, list_b))
+#define GNM_LIST_REVERSE(list) \
+	(list = g_list_reverse (list))
 
 GSList    *g_create_slist	     (gpointer item1, ...);
 void      g_slist_free_custom (GSList *list, GFreeFunc free_func);
@@ -64,6 +81,23 @@ G_STMT_START { \
 		(vector)[i] = (elem_type *) l->data; \
 	(vector)[size] = NULL; \
 } G_STMT_END
+#define GNM_SLIST_FOREACH(list,valtype,val,stmnt) \
+G_STMT_START { \
+	GSList *gnm_l; \
+	for (gnm_l = (list); gnm_l != NULL; gnm_l = gnm_l->next) { \
+		valtype *val = gnm_l->data; \
+		stmnt \
+		; \
+	} \
+} G_STMT_END
+#define GNM_SLIST_PREPEND(list,item) \
+	(list = g_slist_prepend (list, item))
+#define GNM_SLIST_REMOVE(list,item) \
+	(list = g_slist_remove (list, item))
+#define GNM_SLIST_CONCAT(list_a,list_b) \
+	(list_a = g_slist_concat (list_a, list_b))
+#define GNM_SLIST_REVERSE(list) \
+	(list = g_slist_reverse (list))
 
 #define   g_lang_score_is_better(score_a, score_b) (score_a < score_b)
 gint      g_lang_score_in_lang_list (gchar *lang, GList *lang_list);

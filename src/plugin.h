@@ -1,12 +1,9 @@
 #ifndef GNUMERIC_PLUGIN_H
 #define GNUMERIC_PLUGIN_H
 
-#include <sys/types.h>
-#include <libxml/tree.h>
 #include <gtk/gtktypeutils.h>
 #include "gnumeric.h"
 #include "error-info.h"
-#include "gutils.h"
 
 /*
  * Use "#define PLUGIN_DEBUG 0" to enable some plugin related debugging
@@ -14,73 +11,43 @@
 #undef PLUGIN_DEBUG
 */
 
-typedef struct _PluginInfo	PluginInfo;
-typedef struct _PluginService	PluginService;
+#define GNM_PLUGIN_TYPE        (gnm_plugin_get_type ())
+#define GNM_PLUGIN(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_TYPE, GnmPlugin))
+#define GNM_IS_PLUGIN(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_TYPE))
 
-struct _GnumericPluginLoader;
-struct _PluginServicesData;
+GType gnm_plugin_get_type (void);
 
-typedef enum {
-	DEPENDENCY_ACTIVATE,
-	DEPENDENCY_LOAD,
-	DEPENDENCY_LAST
-} PluginDependencyType;
+void         gnm_plugin_activate (GnmPlugin *pinfo, ErrorInfo **ret_error);
+void         gnm_plugin_deactivate (GnmPlugin *pinfo, ErrorInfo **ret_error);
+gboolean     gnm_plugin_is_active (GnmPlugin *pinfo);
+gboolean     gnm_plugin_can_deactivate (GnmPlugin *pinfo);
+void         gnm_plugin_load_service (GnmPlugin *pinfo, PluginService *service, ErrorInfo **ret_error);
+void         gnm_plugin_unload_service (GnmPlugin *pinfo, PluginService *service, ErrorInfo **ret_error);
+gboolean     gnm_plugin_is_loaded (GnmPlugin *pinfo);
+void         gnm_plugin_use_ref (GnmPlugin *pinfo);
+void         gnm_plugin_use_unref (GnmPlugin *pinfo);
+
+const gchar *gnm_plugin_get_dir_name (GnmPlugin *pinfo);
+const gchar *gnm_plugin_get_id (GnmPlugin *pinfo);
+const gchar *gnm_plugin_get_name (GnmPlugin *pinfo);
+const gchar *gnm_plugin_get_description (GnmPlugin *pinfo);
+gchar       *gnm_plugin_get_config_prefix (GnmPlugin *pinfo);
+gint         gnm_plugin_get_extra_info_list (GnmPlugin *pinfo, GSList **ret_keys_list, GSList **ret_values_list);
+GSList      *gnm_plugin_get_dependencies_ids (GnmPlugin *pinfo);
+
+/*
+ *
+ */
 
 void         plugins_init (CommandContext *context);
 void         plugins_shutdown (void);
-
-GSList       *gnumeric_extra_plugin_dirs (void);
-
-typedef GType (*PluginLoaderGetTypeCallback) (gpointer callback_data, ErrorInfo **ret_error);
-
-void         plugin_loader_register_type (const gchar *id_str, GType loader_type);
-void         plugin_loader_register_id_only (const gchar *id_str, PluginLoaderGetTypeCallback callback,
-                                             gpointer callback_data);
-GType      plugin_loader_get_type_by_id (const gchar *id_str, ErrorInfo **ret_error);
-gboolean     plugin_loader_is_available_by_id (const gchar *id_str);
-
-void         plugin_info_free (PluginInfo *pinfo);
-void         activate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error);
-void         deactivate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error);
-gboolean     plugin_can_deactivate (PluginInfo *pinfo);
-void         plugin_load_service (PluginInfo *pinfo, PluginService *service, ErrorInfo **ret_error);
-void         plugin_unload_service (PluginInfo *pinfo, PluginService *service, ErrorInfo **ret_error);
-void         plugin_load_dependencies (PluginInfo *pinfo, ErrorInfo **ret_error);
-void         plugin_inc_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
-void         plugin_dec_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
-void         plugin_dependencies_inc_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
-void         plugin_dependencies_dec_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
-
-PluginInfo  *plugin_db_get_plugin_info_by_plugin_id (const gchar *plugin_id);
-GSList       *plugin_db_get_known_plugin_id_list (void);
-GSList       *plugin_db_get_available_plugin_info_list (void);
-void         plugin_db_update_saved_active_plugin_id_list (void);
-void         plugin_db_init (ErrorInfo **ret_error);
-void         plugin_db_shutdown (ErrorInfo **ret_error);
-void         plugin_db_rescan (void);
-void         plugin_db_activate_plugin_list (GSList *plugins, ErrorInfo **ret_error);
-void         plugin_db_deactivate_plugin_list (GSList *plugins, ErrorInfo **ret_error);
-void         plugin_db_mark_plugin_for_deactivation (PluginInfo *pinfo, gboolean mark);
-gboolean     plugin_db_is_plugin_marked_for_deactivation (PluginInfo *pinfo);
-/*
- * For all plugin_info_get_* functions below you should free returned data after use
- */
-gchar       *plugin_info_get_dir_name (PluginInfo *pinfo);
-gchar       *plugin_info_get_id (PluginInfo *pinfo);
-gchar       *plugin_info_get_name (PluginInfo *pinfo);
-gchar       *plugin_info_get_description (PluginInfo *pinfo);
-gchar       *plugin_info_get_config_prefix (PluginInfo *pinfo);
-gint         plugin_info_get_extra_info_list (PluginInfo *pinfo, GSList **ret_keys_list, GSList **ret_values_list);
-gboolean     plugin_info_is_active (PluginInfo *pinfo);
-const gchar *plugin_info_peek_dir_name (PluginInfo *pinfo);
-const gchar *plugin_info_peek_id (PluginInfo *pinfo);
-const gchar *plugin_info_peek_name (PluginInfo *pinfo);
-const gchar *plugin_info_peek_description (PluginInfo *pinfo);
-const gchar *plugin_info_peek_loader_type_str (PluginInfo *pinfo);
-gboolean     plugin_info_provides_loader_by_type_str (PluginInfo *pinfo, const gchar *loader_type_str);
-gboolean     plugin_info_is_loaded (PluginInfo *pinfo);
-struct _PluginServicesData *plugin_info_peek_services_data (PluginInfo *pinfo);
-struct _GnumericPluginLoader *plugin_info_get_loader (PluginInfo *pinfo);
+void         plugins_register_loader (const gchar *id_str, PluginService *service);
+void         plugins_unregister_loader (const gchar *id_str);
+GnmPlugin   *plugins_get_plugin_by_id (const gchar *plugin_id);
+GSList      *plugins_get_available_plugins (void);
+void         plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins);
+void         plugin_db_mark_plugin_for_deactivation (GnmPlugin *pinfo, gboolean mark);
+gboolean     plugin_db_is_plugin_marked_for_deactivation (GnmPlugin *pinfo);
 
 void plugin_message (gint level, const gchar *format, ...);
 

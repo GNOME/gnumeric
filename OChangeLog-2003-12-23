@@ -1,3 +1,81 @@
+2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/gnumeric.h:
+	Added typedefs: GnmPlugin, PluginService, GnumericPluginLoader.
+
+	* src/gutils.h: New macros: GNM_LIST_FOREACH, GNM_LIST_PREPEND,
+	GNM_LIST_REMOVE, GNM_LIST_CONCAT, GNM_LIST_REVERSE,
+	GNM_SLIST_FOREACH, GNM_SLIST_PREPEND,
+	GNM_SLIST_REMOVE, GNM_SLIST_CONCAT, GNM_SLIST_REVERSE.
+
+	* src/gutils.c: Fixed typo in comment.
+
+	* src/plugin-loader-module.h: s/PluginInfo/GnmPlugin/
+
+	* src/plugin-loader-module.c:
+	(ServiceLoaderDataGeneral): Removed module_func_can_deactivate.
+	(gnumeric_plugin_loader_module_func_can_deactivate): Removed
+	(gnumeric_plugin_loader_module_set_attributes):
+	Adjusted to plugin-loader.c (read attributes from GHashTable).
+	s/..._load/..._load_base/
+	s/..._unload/..._unload_base/
+	Use new macros from gutils.h.
+
+	* src/plugin-loader.[ch]
+	s/..._load/..._load_base/
+	s/..._unload/..._unload_base/
+	s/is_loaded/is_base_loaded/
+	s/PluginInfo/GnmPlugin/
+	(GnumericPluginLoaderClass::set_attributes,
+	gnumeric_plugin_loader_set_attributes: Changed signature, read
+	attributes from GHashTable, not from two lists.
+	(gnumeric_plugin_loader_load_base): Ignore dependencies, now
+	GnmPlugin object is responsible for this.
+	(gnumeric_plugin_loader_unload_base): Ditto
+	(gnumeric_plugin_loader_load_service): Don't load base part of the
+	plugin, plugin takes care of this.
+
+	* src/plugin-service.[ch]:
+	s/PluginInfo/GnmPlugin/
+	(PluginServiceGeneral::plugin_func_can_deactivate,
+	plugin_service_can_deactivate,
+	plugin_service_*_can_deactivate,
+	plugin_services_data_new, plugin_services_data_free,
+	PluginServicesData, plugin_service_can_deactivate): Removed.
+	(plugin_service_plugin_loader_initialize): Use plugins_register_loader,
+	passing loader id as "plugin-id:loader-service-id".
+	(plugin_service_plugin_loader_cleanup): Ditto, plugins_unregister_loader.
+	Use new macros from gutils.h.
+
+	* src/plugin.[ch]
+	Cut down the number of public functions by 20.
+	Documented most public functions.
+	Made PluginInfo a GObject, renamed to GnmPlugin.
+	GnmPlugin sends signals on state change (active, loaded,
+	can_deactivate).
+	Removed _peek functions, no need for two types of getters.
+	Remember "plugin file state" only for plugins from previous Gnumeric
+	session (so that the list doesn't get bigger with every Gnumeric
+	version installing .../gnumeric/version/plugins/... directories).
+	Don't save known plugins separately, use the above list.
+	Store available plugins in hash table for faster lookups by id.
+	Ditto for loaders.
+	Removed strange *_init, *_shutdown functions, now everything is in
+	plugins_init and plugins_shutdown.
+	Automatically add plugin containing loader to the list of plugin
+	dependencies (it's easy because loader id is now:
+	plugin_id + ":" + service_id).
+	Detect cyclic dependencies during activation/deactivation.
+	Very simple method for determining whether plugin can be deactivated
+	- use "plugin usage counter" (increased by dependent plugins or plugin
+	services if something keeps references to plugin structures).
+	Validate plugin id, it may include only letters, digits and underscore.
+	Removed ugly enums/structs (PluginDependencyType,
+	PluginLoaderStaticInfo, PluginLoaderTypeInfo).
+	Other simplifications.
+	No new features.
+	Use new macros from gutils.h (it looks so much better).
+
 2002-08-04  Jody Goldberg <jody@gnome.org>
 
 	* src/expr-name.c (expr_name_set_scope) : handle the wb -> sheet

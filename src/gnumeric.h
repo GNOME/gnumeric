@@ -146,4 +146,9 @@ typedef struct _SearchReplace           SearchReplace;
 
 typedef struct _gnm_mem_chunk		gnm_mem_chunk;
 
+typedef struct _GnmPlugin            GnmPlugin;
+typedef struct _PluginService        PluginService;
+typedef struct _GnumericPluginLoader GnumericPluginLoader;
+
+
 #endif /* GNUMERIC_H */

@@ -184,7 +184,7 @@ g_string_list_copy (GList *list)
 }
 
 /**
- * g_string_list_copy:
+ * g_string_slist_copy:
  * @list: List of strings.
  *
  * Creates a copy of the given string list (strings are also copied using
