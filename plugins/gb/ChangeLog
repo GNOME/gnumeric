@@ -1,3 +1,7 @@
+2001-05-17  Jody Goldberg <jgoldberg@home.com>
+
+	* common.c : include str.h
+
 2001-05-03  Jody Goldberg <jgoldberg@home.com>
 
 	* excel-gb-selection.c (excel_gb_selection_interior) : signature

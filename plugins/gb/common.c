@@ -2,6 +2,7 @@
 #include <gbrun/libgbrun.h>
 
 #include "common.h"
+#include "str.h"
 
 GBValue *
 value_to_gb (Value *val)
