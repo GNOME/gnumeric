@@ -232,17 +232,15 @@ html_read_rows (htmlNodePtr cur, htmlDocPtr doc, Workbook *wb,
 }
 
 static void
-html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
+html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view, 
+		 GnmHtmlTableCtxt *tc)
 {
-	GnmHtmlTableCtxt tc;
 	Workbook *wb;
 	htmlNodePtr ptr, ptr2;
 
 	g_return_if_fail (cur != NULL);
 	g_return_if_fail (wb_view != NULL);
 
-	tc.sheet = NULL;
-	tc.row   = -1;
 	wb = wb_view_workbook (wb_view);
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (ptr->type != XML_ELEMENT_NODE)
@@ -256,23 +254,24 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
 			if (buf->use > 0) {
 				char *name;
 				name = g_strndup ((gchar *)buf->content, buf->use);
-				tc.sheet = html_get_sheet (name, wb);
+				tc->sheet = html_get_sheet (name, wb);
 				g_free (name);
 			}
 			xmlBufferFree (buf);
 		} else if (xmlStrEqual (ptr->name, (xmlChar *)"thead") ||
 			   xmlStrEqual (ptr->name, (xmlChar *)"tfoot") ||
 			   xmlStrEqual (ptr->name, (xmlChar *)"tbody")) {
-			html_read_rows (ptr, doc, wb, &tc);
+			html_read_rows (ptr, doc, wb, tc);
 		} else if (xmlStrEqual (ptr->name, (xmlChar *)"tr")) {
-			html_read_rows (cur, doc, wb, &tc);
+			html_read_rows (cur, doc, wb, tc);
 			break;
 		}
 	}
 }
 
 static void
-html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
+html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc,
+			WorkbookView *wb_view, GnmHtmlTableCtxt *tc)
 {
     if (cur == NULL) {
         xmlGenericError(xmlGenericErrorContext,
@@ -282,10 +281,12 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
 
     if (cur->type == XML_ELEMENT_NODE) {
 	    htmlNodePtr ptr;
-	    if (xmlStrEqual (cur->name, (xmlChar *)"table"))
-		    html_read_table (cur, doc, wb_view);
-	    for (ptr = cur->children; ptr != NULL ; ptr = ptr->next)
-		    html_search_for_tables (ptr, doc, wb_view);
+	    if (xmlStrEqual (cur->name, (xmlChar *)"table")) {
+		    html_read_table (cur, doc, wb_view, tc);
+	    } else {
+		    for (ptr = cur->children; ptr != NULL ; ptr = ptr->next)
+			    html_search_for_tables (ptr, doc, wb_view, tc);
+	    }
     }
 }
 
@@ -299,6 +300,7 @@ html_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	htmlParserCtxtPtr ctxt;
 	htmlDocPtr doc = NULL;
 	xmlCharEncoding enc;
+	GnmHtmlTableCtxt tc;
 
 	g_return_if_fail (input != NULL);
 
@@ -350,8 +352,10 @@ html_file_open (GnmFileOpener const *fo, IOContext *io_context,
 
 	if (doc != NULL) {
 		xmlNodePtr ptr;
+		tc.sheet = NULL;
+		tc.row   = -1;
 		for (ptr = doc->children; ptr != NULL ; ptr = ptr->next)
-			html_search_for_tables (ptr, doc, wb_view);
+			html_search_for_tables (ptr, doc, wb_view, &tc);
 		xmlFreeDoc (doc);
 	} else
 		gnumeric_io_error_info_set (io_context,
