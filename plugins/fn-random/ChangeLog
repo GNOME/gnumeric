@@ -1,3 +1,7 @@
+2002-08-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* functions.c (gnumeric_randdiscrete): Added RANDDISCRETE().
+
 2002-07-30  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* functions.c: Added SIMTABLE() function which interacts with risk

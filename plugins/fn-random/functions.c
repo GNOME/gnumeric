@@ -34,6 +34,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <expr.h>
 #include <sheet.h>
+#include <cell.h>
+#include <collect.h>
 
 #include "plugin.h"
 #include "plugin-util.h"
@@ -94,6 +96,136 @@ gnumeric_randuniform (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (a  +  ( random_01 ()  *  (b - a) ) );
+}
+
+/***************************************************************************/
+
+static const char *help_randdiscrete = {
+	N_("@FUNCTION=RANDDISCRETE\n"
+	   "@SYNTAX=RANDDISCRETE(val_range[,prob_range])\n"
+
+	   "@DESCRIPTION="
+	   "RANDDISCRETE returns one of the values in the @val_range. The "
+	   "probablilites for each value are given in the @prob_range.\n"
+	   "\n"
+	   "* If @prob_range is omitted, the uniform discrete distribution "
+	   "is assumed.\n"
+           "* If the sum of all values in @prob_range is other than one, "
+	   "RANDDISCRETE returns #NUM! error.\n"
+           "* If @val_range and @prob_range are not the same size, "
+	   "RANDDISCRETE returns #NUM! error.\n"
+	   "* If @val_range or @prob_range is not a range, RANDDISCRETE "
+	   "returns #VALUE! error.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "RANDDISCRETE(A1:A6) returns one of the values in the range A1:A6.\n"
+	   "\n"
+	   "@SEEALSO=RANDBETWEEN,RAND")
+};
+
+typedef struct {
+	gnum_float *prob;
+	int        ind;
+	gnum_float x;
+	gnum_float cum;
+	int        x_ind;
+	Value      *res;
+} randdiscrete_t;
+
+static Value *
+cb_randdiscrete (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	randdiscrete_t *p = (randdiscrete_t *) user_data;
+
+	if (p->res != NULL)
+		return NULL;
+
+	if (p->prob) {
+		if (p->x <= p->prob [p->ind] + p->cum)
+			if (cell != NULL)
+				p->res = value_duplicate (cell->value);
+			else
+				p->res = value_new_empty ();
+		else
+			p->cum += p->prob [p->ind];
+	} else if (p->ind == p->x_ind) {
+		if (cell != NULL)
+			p->res = value_duplicate (cell->value);
+		else
+			p->res = value_new_empty ();
+	}
+	(p->ind)++;
+		    
+	return NULL;
+}
+
+static Value *
+gnumeric_randdiscrete (FunctionEvalInfo *ei, Value **argv)
+{
+        Value          *value_range = argv[0];
+	Value          *prob_range  = argv[1];
+	Value          *ret;
+	int            cols, rows;
+	randdiscrete_t rd;
+
+	rd.prob  = NULL;
+	rd.ind   = 0;
+	rd.cum   = 0;
+	rd.res   = NULL;
+	rd.x_ind = 0;
+
+	if (value_range->type != VALUE_CELLRANGE ||
+	    (prob_range != NULL && prob_range->type != VALUE_CELLRANGE))
+	        return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	cols = value_range->v_range.cell.b.col
+		- value_range->v_range.cell.a.col + 1;
+	rows = value_range->v_range.cell.b.row
+		- value_range->v_range.cell.a.row + 1;
+
+	rd.x = random_01 ();
+
+	if (prob_range) {
+		int        n;
+		gnum_float sum;
+
+		if (prob_range->v_range.cell.b.col
+		    - prob_range->v_range.cell.a.col + 1 != cols
+		    || prob_range->v_range.cell.b.row
+		    - prob_range->v_range.cell.a.row + 1 != rows)
+			return value_new_error (ei->pos, gnumeric_err_NUM);
+
+		rd.prob = collect_floats_value (prob_range, ei->pos, 0, &n,
+						&ret);
+
+		/* Check that the cumulative probability equals to one. */
+		range_sum (rd.prob, n, &sum);
+		if (sum != 1) {
+			g_free (rd.prob);
+			return value_new_error (ei->pos, gnumeric_err_NUM);
+		}
+	} else
+		rd.x_ind = rd.x * cols * rows;
+
+	ret = sheet_foreach_cell_in_range
+		(eval_sheet (value_range->v_range.cell.a.sheet, ei->pos->sheet),
+		 CELL_ITER_ALL,
+		 value_range->v_range.cell.a.col,
+		 value_range->v_range.cell.a.row,
+		 value_range->v_range.cell.b.col,
+		 value_range->v_range.cell.b.row,
+		 cb_randdiscrete,
+		 &rd);
+
+	g_free (rd.prob);
+
+	if (ret != NULL) {
+		g_free (rd.res);
+	        return value_new_error (ei->pos, gnumeric_err_VALUE);
+	}
+
+	return rd.res;
+	
 }
 
 /***************************************************************************/
@@ -973,7 +1105,9 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_randcauchy, NULL, NULL, NULL },
         { "randchisq", "f", N_("nu"),   &help_randchisq,
 	  gnumeric_randchisq, NULL, NULL, NULL },
-        { "randexp", "f", N_("b"),         &help_randexp,
+ 	{ "randdiscrete", "r|r", N_("value_range,prob_range"),
+	  &help_randdiscrete, gnumeric_randdiscrete, NULL, NULL, NULL },
+	{ "randexp", "f", N_("b"),         &help_randexp,
 	  gnumeric_randexp, NULL, NULL, NULL },
         { "randexppow", "ff", N_("a,b"),         &help_randexppow,
 	  gnumeric_randexppow, NULL, NULL, NULL },

@@ -11,7 +11,7 @@ Jody:
 Jukka:
 	* New random distribution functions (mostly integrated from the 
 	  GNU Scientific Library with some minor modifications):
-	  RANDGAUSSIANTAIL() and RANDLANDAU().
+	  RANDDISCRETE(), RANDGAUSSIANTAIL() and RANDLANDAU().
 	* New random distributions for the random number generation tool:
 	  Gaussian Tail, Landau, and Uniform integer.
 	* New financial function, VDB(), integrated from the OpenOffice
