@@ -414,6 +414,30 @@ soi_free_image_fmt (gpointer data)
 }
 
 static void
+sheet_object_image_write_image (SheetObject const *so, const char *format,
+				GsfOutput *output, GError **err)
+{
+	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
+	GOImageType const *orig_fmt = soi_get_image_fmt (soi);
+	gboolean res = FALSE;
+	GdkPixbuf *pixbuf = soi_get_pixbuf (soi, 1.0);
+
+	if (strcmp (format, orig_fmt->name) == 0)
+		res = gsf_output_write (output, 
+					soi->bytes.len, soi->bytes.data);
+	else if (pixbuf)
+		res = gdk_pixbuf_save_to_callback (pixbuf,
+						   soi_gdk_pixbuf_save, output,
+						   format,
+						   err, NULL);
+	if (pixbuf)
+		g_object_unref (pixbuf);
+	if (!res && err && *err == NULL)
+		*err = g_error_new (gsf_output_error_id (), 0,
+				   _("Unknown failure while saving image"));
+}
+
+static void
 soi_cb_save_as (SheetObject *so, SheetControl *sc)
 {
 	WorkbookControlGUI *wbcg;
@@ -425,7 +449,6 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	GdkPixbuf *pixbuf = NULL;
 	guint i;
 	GError *err = NULL;
-	gboolean res;
 	SheetObjectImage *soi = SHEET_OBJECT_IMAGE (so);
 
 	g_return_if_fail (soi != NULL);
@@ -460,22 +483,11 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	output = go_file_create (uri, &err);
 	if (!output)
 		goto out;
-	if (sel_fmt == orig_fmt)
-		res = gsf_output_write (output, 
-					soi->bytes.len, soi->bytes.data);
-	else
-		res = gdk_pixbuf_save_to_callback (pixbuf,
-						   soi_gdk_pixbuf_save, output,
-						   sel_fmt->name,
-						   &err, NULL);
-
+	sheet_object_write_image (so, sel_fmt->name, output, &err);
 	gsf_output_close (output);
 	g_object_unref (output);
 
-	if (!res && err == NULL)
-		err = g_error_new (gsf_output_error_id (), 0,
-				   _("Unknown failure while saving image"));
-	if (!res)
+	if (err != NULL)
 		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
 
 out:
@@ -694,6 +706,13 @@ sheet_object_image_init (GObject *obj)
 	so->anchor.direction = SO_DIR_DOWN_RIGHT;
 }
 
-GSF_CLASS (SheetObjectImage, sheet_object_image,
+static void
+soi_imageable_init (SheetObjectImageableIface *soi_iface)
+{
+	soi_iface->write_image	= sheet_object_image_write_image;
+}
+
+GSF_CLASS_FULL (SheetObjectImage, sheet_object_image,
 	   sheet_object_image_class_init, sheet_object_image_init,
-	   SHEET_OBJECT_TYPE);
+	   SHEET_OBJECT_TYPE, 0,
+	   GSF_INTERFACE (soi_imageable_init, SHEET_OBJECT_IMAGEABLE_TYPE));

@@ -1,3 +1,19 @@
+2005-03-15  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object-image.c (sheet_object_image_write_image):
+	New. Implements SheetObjectImageable. Extracted from
+	soi_cb_save_as. 
+	(soi_cb_save_as): Use sheet_object_write_image.
+	(soi_imageable_init): SheetObjectImageable gobject voodoo.
+
+	* src/sheet-object.[ch] (sheet_object_imageable_get_type): New. For
+	the SheetObjectImageable interface.
+	(sheet_object_write_image): New. Method of SheetObjectImageable.
+
+	* src/sheet-object-impl.h: Add _SheetObjectImageableIface
+
+	* src/gnumeric.h: Add SheetObjectImageableIface
+
 2005-03-14  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_finalize): New function, split out from
