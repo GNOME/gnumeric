@@ -225,14 +225,6 @@ sheet_new (Workbook *wb, const char *name)
 	return sheet;
 }
 
-static gboolean
-cell_hash_free_cell (gpointer	key, gpointer	value, gpointer	user_data)
-{
-	cell_destroy (value);
-	g_free (key);
-	return TRUE;
-}
-
 /**
  * sheet_foreach_colrow:
  * @sheet	the sheet
@@ -2137,10 +2129,9 @@ sheet_cell_formula_unlink (Cell *cell)
  * Callback for sheet_cell_foreach_range to remove a set of cells.
  */
 static Value *
-cb_free_cell (Sheet *sheet, int col, int row, Cell *cell,
-	      void *user_data)
+cb_free_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	sheet_cell_remove_from_hash (sheet, cell);
+	sheet_cell_remove_internal (sheet, cell);
 	cell_destroy (cell);
 	return NULL;
 }
@@ -2156,6 +2147,7 @@ sheet_col_destroy (Sheet *sheet, int const col, gboolean free_cells)
 	ColRowInfo ***segment = (ColRowInfo ***)&COLROW_GET_SEGMENT(&(sheet->cols), col);
 	int const sub = COLROW_SUB_INDEX(col);
 	ColRowInfo *ci = NULL;
+
 	if (*segment == NULL)
 		return;
 	ci = (*segment)[sub];
@@ -2228,25 +2220,26 @@ sheet_destroy_contents (Sheet *sheet)
 
 	/* Clear the row spans 1st */
 	for (i = sheet->rows.max_used; i >= 0 ; --i)
-		row_destroy_span(sheet_row_get (sheet, i));
+		row_destroy_span (sheet_row_get (sheet, i));
 
 	/* Free the cells in a random order */
-	g_hash_table_foreach_remove (sheet->cell_hash, &cell_hash_free_cell, NULL);
+	printf ("Size=%d\n", g_hash_table_size (sheet->cell_hash));
 
 	/* Delete in ascending order to avoid decrementing max_used each time */
 	for (i = 0; i <= max_col; ++i)
-		sheet_col_destroy (sheet, i, FALSE);
+		sheet_col_destroy (sheet, i, TRUE);
 
 	for (i = 0; i <= max_row; ++i)
-		sheet_row_destroy (sheet, i, FALSE);
-
+		sheet_row_destroy (sheet, i, TRUE);
+	printf ("Size=%d\n", g_hash_table_size (sheet->cell_hash));
+	
 	/* Free segments too */
-	for (i = COLROW_SEGMENT_INDEX(max_col); i >= 0 ; --i)
+	for (i = COLROW_SEGMENT_INDEX (max_col); i >= 0 ; --i)
 		if ((tmp = g_ptr_array_index (sheet->cols.info, i)) != NULL) {
 			g_free (tmp);
 			g_ptr_array_index (sheet->cols.info, i) = NULL;
 		}
-	for (i = COLROW_SEGMENT_INDEX(max_row); i >= 0 ; --i)
+	for (i = COLROW_SEGMENT_INDEX (max_row); i >= 0 ; --i)
 		if ((tmp = g_ptr_array_index (sheet->rows.info, i)) != NULL) {
 			g_free (tmp);
 			g_ptr_array_index (sheet->rows.info, i) = NULL;
@@ -2275,13 +2268,6 @@ sheet_destroy (Sheet *sheet)
 		sheet->print_info = NULL;
 	}	
 
-	if (sheet->dependency_hash != NULL) {
-		if (g_hash_table_size (sheet->dependency_hash) != 0)
-			g_warning ("Dangling dependencies");
-		g_hash_table_destroy (sheet->dependency_hash);
-		sheet->dependency_hash = NULL;
-	}
-
 	if (sheet->objects) {
 		g_warning ("Reminder: need to destroy SheetObjects");
 	}
@@ -2297,10 +2283,19 @@ sheet_destroy (Sheet *sheet)
 	}
 	g_list_free (sheet->sheet_views);
 	sheet->sheet_views = NULL;
+	
 	g_list_free (sheet->comment_list);
 	sheet->comment_list = NULL;
 
 	sheet_destroy_contents (sheet);
+
+	if (sheet->dependency_hash != NULL) {
+		if (g_hash_table_size (sheet->dependency_hash) != 0)
+			g_warning ("Dangling dependencies");
+		g_hash_table_destroy (sheet->dependency_hash);
+		sheet->dependency_hash = NULL;
+	}
+
 	sheet_destroy_styles (sheet);
 
 	g_hash_table_destroy (sheet->cell_hash);
@@ -2388,7 +2383,7 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 				       start_col, start_row, end_col, end_row,
 				       assemble_clear_cell_list, &cb) == NULL) {
 		cb.l = g_list_reverse (cb.l);
-		cell_freeze_redraws();
+		cell_freeze_redraws ();
 
 		for (l = cb.l; l; l = l->next){
 			Cell *cell = l->data;
@@ -2396,7 +2391,7 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 			sheet_cell_remove (sheet, cell);
 			cell_destroy (cell);
 		}
-		cell_thaw_redraws();
+		cell_thaw_redraws ();
 		workbook_recalc (sheet->workbook);
 	} else 
 		gnumeric_no_modify_array_notice (sheet->workbook);

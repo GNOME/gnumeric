@@ -912,7 +912,7 @@ xml_set_print_hf (xmlNodePtr node, const char *name,
 }
 
 static void
-xml_get_print_hf (xmlNodePtr node, PrintHF * const hf)
+xml_get_print_hf (xmlNodePtr node, PrintHF *const hf)
 {
 	char *txt;
 	
@@ -920,16 +920,28 @@ xml_get_print_hf (xmlNodePtr node, PrintHF * const hf)
 	g_return_if_fail (node != NULL);
 
 	txt = xml_value_get (node, "Left");
-	if (txt)
+	if (txt){
+		if (hf->left_format)
+			g_free (hf->left_format);
+		
 		hf->left_format = g_strdup (txt);
-
+	}
+	
 	txt = xml_value_get (node, "Middle");
-	if (txt)
+	if (txt){
+		if (hf->middle_format)
+			g_free (hf->middle_format);
+		
 		hf->middle_format = g_strdup (txt);
+	}
 
 	txt = xml_value_get (node, "Right");
-	if (txt)
+	if (txt){
+		if (hf->right_format)
+			g_free (hf->right_format);
+		
 		hf->right_format = g_strdup (txt);
+	}
 }
 
 static xmlNodePtr

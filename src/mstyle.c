@@ -673,8 +673,10 @@ mstyle_verify (const MStyle *st)
 {
 	PrivateStyle *pst = (PrivateStyle *)st;
 	int j;
+
 	for (j = 0; j < MSTYLE_ELEMENT_MAX; j++) {
 		MStyleElement e = pst->elements[j];
+
 		g_return_val_if_fail (e.type <  MSTYLE_ELEMENT_MAX, FALSE);
 		g_return_val_if_fail (e.type != MSTYLE_ELEMENT_CONFLICT, FALSE);
 	}

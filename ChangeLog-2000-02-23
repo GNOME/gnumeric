@@ -1,3 +1,21 @@
+1999-10-24  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/xml-io.c (xml_get_print_hf): Plug memory leak.
+
+	* src/mstyle.c (mstyle_verify): Fixed.
+
+	* src/sheet.c (sheet_destroy_contents): Change the routine that
+	destroys the cells. 
+	(destroy_sheet_cell_cb): Proper cell destruction code.
+	(cb_free_cell): Make this routine free the cell *CORRECTLY*.
+	Please, do not break the code like this in the future.
+
+	* src/workbook.c (sheet_action_delete_sheet): Do not destroy the
+	sheet here.
+	(workbook_detach_sheet): Destroy the sheet here, before queuing a
+	recalc. 
+	(workbook_do_destroy): Do not kill the sheet here.
+
 1999-10-24  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/mstyle.c (MStyleElement): Make font.size float + shrink enums.
@@ -113,6 +131,7 @@
 
 	* src/Makefile.am (Gnumeric-impl.o): Do not use BUILT_SOURCES as
 	suggested by Tom.
+	($(GNUMERIC_CORBA_GENERATED)): Removed ugly hack 
 
 	* src/selection.c (cb_set_row_height): Include the fix from the
 	pre-style change

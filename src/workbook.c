@@ -299,7 +299,6 @@ workbook_do_destroy (Workbook *wb)
 			gtk_window_set_focus (GTK_WINDOW (wb->toplevel), NULL);
 
 			workbook_detach_sheet (sheet->workbook, sheet, TRUE);
-			sheet_destroy (sheet);
 
 			gtk_window_set_focus (GTK_WINDOW (wb->toplevel), NULL);
 		}
@@ -2242,7 +2241,6 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 	 * All is fine, remove the sheet
 	 */
 	workbook_detach_sheet (wb, current_sheet, FALSE);
-	sheet_destroy (current_sheet);
 
 	/*
 	 * Invalidate references to the deleted sheet from other sheets in the
@@ -2486,10 +2484,7 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet, gboolean force)
 		}
 	}
 
-	/*
-	 * Make the sheet drop its workbook pointer.
-	 */
-	sheet->workbook = NULL;
+	sheet_destroy (sheet);
 
 	/*
 	 * Queue a recalc

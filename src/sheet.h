@@ -68,7 +68,7 @@ typedef struct {
 #include "summary.h"
 #include "workbook.h"
 
-#define SHEET_MAX_ROWS (16 * 1024)
+#define SHEET_MAX_ROWS (64 * 1024)
 #define SHEET_MAX_COLS 256	/* 0 - 255 inclusive */
 
 typedef GList ColStyleList;

@@ -71,7 +71,7 @@ row_destroy_span (ColRowInfo *ri)
 }
 
 /*
- * sheet_cell_register_span
+ * cell_register_span
  * @cell:  The cell to register the span
  * @left:  the leftmost column used by the cell
  * @right: the rightmost column used by the cell
