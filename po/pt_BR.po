@@ -12,13 +12,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-05 01:55-0400\n"
-"PO-Revision-Date: 2004-10-04 00:06-0300\n"
+"POT-Creation-Date: 2004-10-05 11:41+0200\n"
+"PO-Revision-Date: 2004-10-07 01:50-0300\n"
 "Last-Translator: Afonso Celso Medina <medina@maua.,br>\n"
-"Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
+"Language-Team: Português/Brasil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.3.1\n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -350,7 +351,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:528
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -390,14 +391,14 @@ msgstr ""
 "@dividendo é o dividendo contínuo do ativo.\n"
 "\n"
 "* O valor retornado será expresso como a taxa de variação do valor da opção, "
-"por 100% de volatilidade. \n"
+"por 100% de variação em @taxa. \n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:592
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -431,6 +432,9 @@ msgstr ""
 "@DESCRIPTION=OPT_BS_CARRYCOST utiliza o modelo Black-Scholes para calcular a "
 "\"elasticidade\" de uma opção na modalidade européia de compra ou venda \n"
 "\n"
+"(A elasticidade de uma opção é a taxa de variação de seu preço em relação "
+"ao seu dividendo.)\n"
+"\n"
 "@tipo_compra_venda, pode ser 'c' ou 'p' para opção de compra ou venda, "
 "respectivamente.\n"
 "@preço_ativo é o preço de um ativo com preço de exercício @exercício.\n"
@@ -448,7 +452,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:662
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,"
@@ -474,10 +478,10 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
-"@SYNTAX=OPT_GARMAN_KOHLHAGEN(tipo_compra_venda,à_vista,exercício,tempo,"
+"@SYNTAX=OPT_GARMAN_KOHLHAGEN(tipo_compra_venda,preço_ativo,exercício,tempo,"
 "taxa_doméstica,taxa_externa,volatilidade[,custo_de_carregamento])\n"
 "@DESCRIPTION=OPT_GARMAN_KOHLHAGEN calcula o preço teórico de uma opção "
-"européia executada em @exercício com um preço à vista dado por @à_vista.\n"
+"européia executada em @exercício com um preço à vista dado por @preço_ativo.\n"
 "\n"
 "@tipo_compra_venda é c ou p indicando se a opção é de compra (call) ou venda "
 "(put)\n"
@@ -546,7 +550,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:793
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
 "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,"
@@ -568,14 +572,14 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
-"@SYNTAX=OPT_JUMP_DIFF(tipo_compra_venda,à_vista,exercício,tempo,taxa,"
+"@SYNTAX=OPT_JUMP_DIFF(tipo_compra_venda,preço_ativo,exercício,tempo,taxa,"
 "volatilidade,lambda,gamma)\n"
 "@DESCRIPTION=OPT_JUMP_DIFF modela o preço teórico de uma opção segundo o "
 "modelo do processo de Difusão com Salto - Jump Diffusion (Merton).\n"
 "\n"
 "@tipo_compra_venda é 'c' ou 'p' de modo a indicar se a opção é de compra "
 "(call) ou de venda (put).\n"
-"@à_vista é o preço à vista da opção.\n"
+"@preço_ativo é o preço à vista da opção.\n"
 "@exercício é o preço de exercício da opção.\n"
 "@tempo é o tempo de vencimento da opção expresso em anos.\n"
 "@taxa é a taxa de interesse anualizada.\n"
@@ -588,7 +592,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:887
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
 "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
@@ -648,7 +652,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:997
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
@@ -669,14 +673,14 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_RGW\n"
-"@SYNTAX=OPT_RGW(tipo_compra_venda,à_vista,exercício,t1,t2,taxa,d,"
+"@SYNTAX=OPT_RGW(tipo_compra_venda,preço_ativo,exercício,t1,t2,taxa,d,"
 "volatilidade)\n"
 "@DESCRIPTION=OPT_RGW modela o preço teórico de uma opção americana de acordo "
 "com a aproximação de Roll-Geske-Whaley, onde: \n"
 "\n"
 "@tipo_compra_venda é 'c' ou 'p' de modo a indicar se a opção é de compra "
 "(call) ou de venda (put).\n"
-"@à_vista é o preço à vista da opção\n"
+"@preço_ativo é o preço à vista da opção\n"
 "@exercício é o preço de exercício da opção\n"
 "@t1 é o tempo para o desembolso de dividendos - dividend payout\n"
 "@t2 é o tempo para expiração da opção.\n"
@@ -689,7 +693,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1051
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BAW_AMER\n"
 "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,"
@@ -713,7 +717,7 @@ msgstr ""
 "@FUNCTION=OPT_BAW_AMER\n"
 "@SYNTAX=OPT_BAW_AMER(tipo_compra_venda,preço_ativo,exercício,tempo,taxa,"
 "custo_de_carregamento,volatilidade)\n"
-"@DESCRIPTION=OPT_BAW_AMER modela o preço teórico de uma opção de acordo com "
+"@DESCRIPTION=OPT_BAW_AMER modela o preço teórico de uma opção utilizando "
 "a aproximação de Barone Adesie & Whaley.\n"
 "\n"
 "@tipo_compra_venda é 'c' ou 'p' de modo a indicar se a opção é de compra "
@@ -730,7 +734,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1234
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BJERSTENS\n"
 "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -771,7 +775,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1318
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
@@ -816,7 +820,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1366
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
 "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
@@ -857,7 +861,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1429
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
@@ -894,8 +898,8 @@ msgstr ""
 "@tipo_compra_venda é 'c' ou 'p' de modo a indicar se a opção é de compra "
 "(call) ou de venda (put).\n"
 "@preço_ativo é o preço à vista do ativo.\n"
+"@exercício é o preço de exercício da opção.\n"
 "@a é a quantia recebida por cada período com discutido acima.\n"
-"@exercício é o preço de exercício do ativo quando ele é executado.\n"
 "@tempo é o número de dias até a data de exercício.\n"
 "@taxa é a taxa de juros anualizada e livre de risco.\n"
 "@m é o número de unidades de tempo que a opção já atingiu a condição.\n"
@@ -907,7 +911,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1486
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
@@ -936,10 +940,10 @@ msgstr ""
 "@tipo_compra_venda é 'c' ou 'p' de modo a indicar se a opção é de compra "
 "(call) ou de venda (put).\n"
 "@preço_ativo é o preço à vista do ativo.\n"
+"@exercício é o preço de exercício do ativo quando ele é executado.\n"
 "@tempo1 é o tempo em anos até que o portador escolha uma opção de compra ou "
 "venda.\n"
 "@tempo2 é o tempo em anos até que a opção escolhida espira.\n"
-"@exercício é o preço de exercício do ativo quando ele é executado.\n"
 "@taxa é a taxa de juros anualizada e livre de risco.\n"
 "@custo_de_carregamento é o dividendo contínuo do ativo.\n"
 "@EXAMPLES=\n"
@@ -947,7 +951,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1547
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,"
@@ -1043,7 +1047,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1747
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
@@ -1072,6 +1076,7 @@ msgstr ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(tipo_compra_venda,preço_ativo,exercício1,"
 "exercício2,tempo1,tempo2,taxa,custo_de_carregamento,volatilidade)\n"
+"\n"
 "@DESCRIPTION=OPT_EXTENDIBLE_WRITER modela o preço teórico de opções "
 "estendíveis do vendedor. Estas opções são exercidas em um período inicial, "
 "@tempo1, ou o seu vencimento é estendido até @tempo2 se a opção está "
@@ -1092,7 +1097,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1809
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
 "@SYNTAX=OPT_2_ASSSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
@@ -1122,8 +1127,10 @@ msgstr ""
 "@SYNTAX=OPT_2_ASSET_CORRELATION(tipo_compra_venda,preço_ativo1,preço_ativo2, "
 "exercício1,exercício2,custo_de_carregamento1,custo_de_carregamento2,taxa,"
 "volatilidade1,volatilidade2,rho)\n"
+"\n"
 "@DESCRIPTION=OPT_2_ASSET_CORRELATION modela o preço teórico de opções de "
-"dois ativos com correlação @rho.\n"
+"dois ativos de correlação @rho.\n"
+"\n"
 "O payoff para uma compra é max(@preço_ativo2 - @exercício2,0) se "
 "@preço_ativo1 > @exercício1 ou 0 caso contrário.\n"
 "O payoff para uma venda é max(@exercício2 - @preço_ativo2,0) se "
@@ -1145,7 +1152,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1862
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EURO_EXCHANGE\n"
 "@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1172,7 +1179,6 @@ msgstr ""
 "rho)\n"
 "@DESCRIPTION=OPT_EURO_EXCHANGE modela o preço teórico de uma opção Européia "
 "para negociação de um ativo com quantidade @qty2 e preço @spot2 por outro, "
-"na quantidade @qty1 e preço @spot1.\n"
 "\n"
 "@tempo é a maturidade inicial da opção em anos.\n"
 "@taxa é a taxa de juros anualizada e livre de risco.\n"
@@ -1230,7 +1236,7 @@ msgstr ""
 "OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1949
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
 "@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, "
@@ -1254,9 +1260,11 @@ msgstr ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
 "@SYNTAX=OPT_SPREAD_APPROX(tipo_compra_venda,preço_fut1,preço_fut2,exercício, "
 "tempo,taxa,volatilidade1,volatilidade2,rho)\n"
+"\n"
 "@DESCRIPTION=OPT_SPREAD_APPROX modela o preço teórico de uma opção teórica "
 "na modalidade Européia de acordo com com o spread entre os dois contratos "
 "futuros.\n"
+"\n"
 "@tipo_compra_venda é 'c' ou 'p' de modo a indicar se a opção é de compra "
 "(call) ou de venda (put).\n"
 "@preço_fut1 & preço_fut2 são os preços futuros dos dois contratos.\n"
@@ -1272,7 +1280,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2002
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
 "@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,"
@@ -1300,9 +1308,11 @@ msgstr ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
 "@SYNTAX=OPT_FLOAT_STRK_LKBK(tipo_compra_venda,preço_ativo,preço_ativo_min,"
 "preço_ativo_max,tempo,taxa,custo_de_carregamento,volatilidade)\n"
+"\n"
 "@DESCRIPTION=OPT_FLOAT_STRK_LKBK modela o preço teórico de uma opção onde o "
-"portador dea opção pode executá-la no momento de expirar ao preço mais "
+"portador dessa opção pode executá-la no momento de expirar ao preço mais "
 "favorável observado durante a vida da opção do ativo envolvido.\n"
+"\n"
 "@tipo_compra_venda é 'c' ou 'p' de modo a indicar se a opção é de compra "
 "(call) ou de venda (put).\n"
 "@preço_ativo é o preço à vista do ativo.\n"
@@ -1318,7 +1328,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2067
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
 "@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_max,spot_min,strike,time,"
@@ -1346,9 +1356,11 @@ msgstr ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
 "@SYNTAX=OPT_FIXED_STRK_LKBK(tipo_compra_venda,preço_ativo,preço_ativo_min,"
 "preço_ativo_max,exercício,tempo,taxa,custo_de_carregamento,volatilidade)\n"
+"\n"
 "@DESCRIPTION=OPT_FIXED_STRK_LKBK modela o preço teórico de uma opção onde o "
-"portador dea opção pode executá-la no momento de expirar ao preço mais "
+"portador dessa opção pode executá-la no momento de expirar ao preço mais "
 "favorável observado durante a vida da opção do ativo envolvido.\n"
+"\n"
 "@tipo_compra_venda é 'c' ou 'p' de modo a indicar se a opção é de compra "
 "(call) ou de venda (put).\n"
 "@preço_ativo é o preço à vista do ativo.\n"
@@ -1365,7 +1377,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2147
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
 "@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, "
@@ -1391,6 +1403,7 @@ msgstr ""
 "@FUNCTION=OPT_BINOMIAL\n"
 "@SYNTAX=OPT_BINOMIAL(tipo_amer_euro,tipo_compra_venda,num_passos_tempo,"
 "preço_ativo, exercício,tempo,taxa,volatilidade,custo_de_carregamento)\n"
+"\n"
 "@DESCRIPTION=OPT_BINOMIAL modela o preço teórico de uma opção na modalidade "
 "americana ou européia utilizando uma árvore binária.\n"
 "\n"
@@ -1429,8 +1442,7 @@ msgid "a, b, rho"
 msgstr "a, b, rho"
 
 #: plugins/derivatives/options.c:2210
-msgid ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+msgid "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 "tipo_compra_venda, à_vista, exercício, tempo, taxa_doméstica, taxa_externa, "
 "volatilidade"
@@ -1448,8 +1460,7 @@ msgstr ""
 "gamma"
 
 #: plugins/derivatives/options.c:2225
-msgid ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 "tipo_compra_venda, à_vista, exercício, tempo, taxa, volatilidade, "
 "custo_de_carregamento, lambda"
@@ -1473,23 +1484,20 @@ msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr "tipo_compra_venda, à_vista, exercício, t1, t2, taxa, d, volatilidade"
 
 #: plugins/derivatives/options.c:2250
-msgid ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+msgid "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 "tipo_compra_venda, à_vista, alfa, tempo1, tempo, taxa, volatilidade, "
 "custo_de_carregamento"
 
 #: plugins/derivatives/options.c:2255
-msgid ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
+msgid "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 "tipo_compra_venda, à_vista, exercício, a, tempo, m, dt, taxa, "
 "custo_de_carregamento, volatilidade"
 
 #: plugins/derivatives/options.c:2260
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
-msgstr ""
-"à_vista, exercício, tempo1, tempo2, taxa, custo_de_carregamento, volatilidade"
+msgstr "à_vista, exercício, tempo1, tempo2, taxa, custo_de_carregamento, volatilidade"
 
 #: plugins/derivatives/options.c:2265
 msgid ""
@@ -1637,10 +1645,8 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Módulo para o Formato de Intercâmbio de Dados (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr ""
-"Lê e grava a informação armazenada no Formato de Intercâmbio de Dados (*.dif)"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgstr "Lê e grava a informação armazenada no Formato de Intercâmbio de Dados (*.dif)"
 
 #: plugins/excel/boot.c:183
 msgid "No Workbook or Book streams found."
@@ -1779,8 +1785,7 @@ msgstr ""
 
 #: plugins/excel/ms-formula-write.c:538
 #, c-format
-msgid ""
-"Too many arguments for function '%s', MS Excel can only handle %d not %d"
+msgid "Too many arguments for function '%s', MS Excel can only handle %d not %d"
 msgstr ""
 "Muitos argumentos para a função '%s', o MS EXCEL espera exatamente %d "
 "argumentos, não %d"
@@ -17847,8 +17852,7 @@ msgstr "Funções para a recuperação de informações de um banco de dados."
 
 #: plugins/gnome-db/plugin-gnomedb.c:26
 msgid "Could not run GNOME database configuration tool"
-msgstr ""
-"Não se pode carregar a ferramenta de configuração de Banco de Dados do GNOME"
+msgstr "Não se pode carregar a ferramenta de configuração de Banco de Dados do GNOME"
 
 #: plugins/gnome-db/plugin.xml.in.h:1
 msgid "Database UI services plugin"
@@ -18056,8 +18060,7 @@ msgstr "Seção BOUNDS inválida no arquivo."
 
 #: plugins/mps/plugin.xml.in.h:1
 msgid "Linear and integer program (*.mps) file format"
-msgstr ""
-"Formato de arquivo de problemas de programação linear e inteira (*.mps)"
+msgstr "Formato de arquivo de problemas de programação linear e inteira (*.mps)"
 
 #: plugins/mps/plugin.xml.in.h:2
 msgid "Linear and integer program expression format (MPS) module"
@@ -18342,10 +18345,8 @@ msgstr "Impossível corrigir posição para expressão '%s' @ '%s' porque '%s'"
 
 #: plugins/openoffice/openoffice-read.c:929
 #, c-format
-msgid ""
-"Unable to parse position for expression '%s' with value '%s' because '%s'"
-msgstr ""
-"Impossível corrigir posição para expressão '%s' com valor '%s' porque '%s'"
+msgid "Unable to parse position for expression '%s' with value '%s' because '%s'"
+msgstr "Impossível corrigir posição para expressão '%s' com valor '%s' porque '%s'"
 
 #: plugins/openoffice/openoffice-read.c:1115
 msgid "No stream named content.xml found."
@@ -18995,8 +18996,7 @@ msgstr "Cabeçalho"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "Please use the Print Setup dialog to edit this value."
-msgstr ""
-"Por favor, utilize o diálogo de Configurar Impressão para editar este valor."
+msgstr "Por favor, utilize o diálogo de Configurar Impressão para editar este valor."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:42
 msgid "Print Config"
@@ -19101,8 +19101,7 @@ msgid "This directory contains the pre-installed autoformat templates."
 msgstr "Esse diretório contém modelos de autoformatação pré-instalados."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:59
-msgid ""
-"This list contains all extra directories containing autoformat templates."
+msgid "This list contains all extra directories containing autoformat templates."
 msgstr ""
 "Essa lista contém todos os diretórios extras contendo modelos de "
 "autoformatação."
@@ -19237,15 +19236,13 @@ msgstr ""
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "bold."
-msgstr ""
-"Este valor determina se a fonte padrão para cabeçalhos e rodapés é negrito."
+msgstr "Este valor determina se a fonte padrão para cabeçalhos e rodapés é negrito."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:76
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "italic."
-msgstr ""
-"Este valor determina se a fonte padrão para cabeçalhos e rodapés é itálico."
+msgstr "Este valor determina se a fonte padrão para cabeçalhos e rodapés é itálico."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:77
 msgid ""
@@ -19275,8 +19272,7 @@ msgstr ""
 "editar este valor."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:80
-msgid ""
-"This variable determines whether to activate every new encountered plugin."
+msgid "This variable determines whether to activate every new encountered plugin."
 msgstr "Esta variável determina se é para ativar cada novo plugin encontrado."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:81
@@ -19453,8 +19449,7 @@ msgid "The default font size for new workbooks."
 msgstr "O tamanho da fonte padrão para novos WorkBooks."
 
 #: schemas/gnumeric-general.schemas.in.h:36
-msgid ""
-"The file menu shows a list of recently used functions. This is that list."
+msgid "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
 "O menu arquivo mostra uma lista das funções recentemente utilizadas. Essa é "
 "a lista."
@@ -19519,22 +19514,16 @@ msgstr ""
 "configurável."
 
 #: schemas/gnumeric-general.schemas.in.h:45
-msgid ""
-"This value determines the maximum number of items in the undo/redo list."
-msgstr ""
-"Este valor determina o número máximo de itens na lista de desfazer/refazer."
+msgid "This value determines the maximum number of items in the undo/redo list."
+msgstr "Este valor determina o número máximo de itens na lista de desfazer/refazer."
 
 #: schemas/gnumeric-general.schemas.in.h:46
-msgid ""
-"This value determines whether the default font for a new workbook is bold."
-msgstr ""
-"Este valor determina se a fonte padrão para um novo WorkBook é negrito."
+msgid "This value determines whether the default font for a new workbook is bold."
+msgstr "Este valor determina se a fonte padrão para um novo WorkBook é negrito."
 
 #: schemas/gnumeric-general.schemas.in.h:47
-msgid ""
-"This value determines whether the default font for a new workbook is italic."
-msgstr ""
-"Este valor determina se a fonte padrão para um novo WorkBook é itálico."
+msgid "This value determines whether the default font for a new workbook is italic."
+msgstr "Este valor determina se a fonte padrão para um novo WorkBook é itálico."
 
 #: schemas/gnumeric-general.schemas.in.h:48
 msgid ""
@@ -20042,29 +20031,24 @@ msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s para %.0f%%"
 
 #: src/commands.c:4413
-#, fuzzy
 msgid "Insert Object"
-msgstr "Insere objeto"
+msgstr "Insere o Objeto"
 
 #: src/commands.c:4473
-#, fuzzy
 msgid "Delete Object"
-msgstr "Excluir objeto"
+msgstr "Exclui o Objeto"
 
 #: src/commands.c:4563
-#, fuzzy
 msgid "Duplicate Object"
-msgstr "Duplicar"
+msgstr "Duplica o Objeto"
 
 #: src/commands.c:4564
-#, fuzzy
 msgid "Resize Object"
-msgstr "Redimensionar objeto"
+msgstr "Redimensiona o Objeto"
 
 #: src/commands.c:4565
-#, fuzzy
 msgid "Move Object"
-msgstr "Mover objeto"
+msgstr "Move o Objeto"
 
 #: src/commands.c:4636
 msgid "Format Object"
@@ -20127,24 +20111,20 @@ msgid "Changing summary info"
 msgstr "Mudando as informações do sumário"
 
 #: src/commands.c:5983
-#, fuzzy
 msgid "Pull Object to the Front"
-msgstr "Puxa o objeto para a frente"
+msgstr "Puxa o Objeto para a Frente"
 
 #: src/commands.c:5986
-#, fuzzy
 msgid "Pull Object Forward"
-msgstr "Puxa o objeto para frente"
+msgstr "Puxa o objeto para Frente"
 
 #: src/commands.c:5989
-#, fuzzy
 msgid "Push Object Backward"
-msgstr "Empurra o objeto para trás"
+msgstr "Empurra o Objeto para Trás"
 
 #: src/commands.c:5992
-#, fuzzy
 msgid "Push Object to the Back"
-msgstr "Empurra o objeto para trás"
+msgstr "Empurra o Objeto para Trás"
 
 #: src/commands.c:6107
 #, c-format
@@ -20527,24 +20507,20 @@ msgid "GNOME Office Graph"
 msgstr "Gráfico do GNOME Office"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:2
-#, fuzzy
 msgid "Pull f_orward"
-msgstr "Puxa para _Frente"
+msgstr "Puxar para _frente"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
-#, fuzzy
 msgid "Pull to _front"
-msgstr "Pu_xa para Frente"
+msgstr "Puxar para _frente"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:4
-#, fuzzy
 msgid "Push b_ackward"
-msgstr "Empurra para _Trás"
+msgstr "Empurrar para _Trás"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
-#, fuzzy
 msgid "Push to _back"
-msgstr "Em_purra para Trás"
+msgstr "Em_purrar para trás"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:7
@@ -20783,18 +20759,15 @@ msgstr "%"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:3
 msgid "How far the bars/cols overlap as a percentage of the width"
-msgstr ""
-"O quanto as barras/colunas se sobrepõem como uma porcentagem do comprimento"
+msgstr "O quanto as barras/colunas se sobrepõem como uma porcentagem do comprimento"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:4
-#, fuzzy
 msgid "O_verlap:"
 msgstr "_Sobrepor:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:5
 msgid "Separation between groups as a percentage of bar/col width"
-msgstr ""
-"Separação entre grupos como uma porcentagem da largura das barras/colunas"
+msgstr "Separação entre grupos como uma porcentagem da largura das barras/colunas"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:6
 msgid "_Gap:"
@@ -20850,23 +20823,19 @@ msgstr "Colunas Adjacentes"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:9
 msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
-msgstr ""
-"Barras 3D horizontais adjacentes e agrupadas por categorias de maior e menor."
+msgstr "Barras 3D horizontais adjacentes e agrupadas por categorias de maior e menor."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:10
 msgid "Adjacent horizontal bars grouped by major and minor categories."
-msgstr ""
-"Barras horizontais adjacentes e agrupadas por categorias de maior e menor."
+msgstr "Barras horizontais adjacentes e agrupadas por categorias de maior e menor."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:11
 msgid "Adjacent vertical 3D columns grouped by major and minor categories."
-msgstr ""
-"Barras 3D verticais adjacentes e agrupadas por categorias de maior e menor."
+msgstr "Barras 3D verticais adjacentes e agrupadas por categorias de maior e menor."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:12
 msgid "Adjacent vertical columns grouped by major and minor categories."
-msgstr ""
-"Barras verticais adjacentes e agrupadas por categorias de maior e menor."
+msgstr "Barras verticais adjacentes e agrupadas por categorias de maior e menor."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
 #: src/func.c:679
@@ -20935,8 +20904,7 @@ msgstr ""
 "em colunas verticais, agrupadas pelas categorias principais."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
-msgid ""
-"Minor categories stacked in horizontal 3D bars, grouped by major category."
+msgid "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
 "As categorias secundárias empilhadas como barras horizontais 3D, agrupadas "
 "pelas categorias principais."
@@ -20948,8 +20916,7 @@ msgstr ""
 "categorias principais."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:27
-msgid ""
-"Minor categories stacked in vertical 3D columns, grouped by major category."
+msgid "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
 "As categorias secundárias empilhadas como colunas verticais, agrupadas pelas "
 "categorias principais."
@@ -21121,8 +21088,7 @@ msgid "3D Split Pie"
 msgstr "Pizza 3D Separada"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:3
-msgid ""
-"Major totals as percentages with each wedge subdivided into secondary pies."
+msgid "Major totals as percentages with each wedge subdivided into secondary pies."
 msgstr ""
 "Os totais principais como porcentagens com cada fatia subdividida em pizzas "
 "secundárias."
@@ -21157,8 +21123,7 @@ msgstr "Porcentagem de cada contribuição representada no anel para cada série
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:9
 msgid "Percentage of each contributor in 3D pie."
-msgstr ""
-"Porcentagem de cada contribuidor representada como uma fatia de uma pizza 3D."
+msgstr "Porcentagem de cada contribuidor representada como uma fatia de uma pizza 3D."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:10
 msgid "Percentage of each contributor with 3D wedges split apart."
@@ -23001,7 +22966,7 @@ msgstr "Empacotamento debian."
 
 #: src/dialogs/dialog-about.c:103
 msgid "Original plugin engine."
-msgstr "Ferramenta original de plugin"
+msgstr "Ferramenta original de plugin."
 
 #: src/dialogs/dialog-about.c:105
 msgid "Custom UI tools"
@@ -23037,8 +23002,7 @@ msgstr "Ícones e imagens"
 
 #: src/dialogs/dialog-about.c:121
 msgid "The original value format engine and libgoffice work"
-msgstr ""
-"A ferramenta original de formatação de valores e trabalho no libgoffice"
+msgstr "A ferramenta original de formatação de valores e trabalho no libgoffice"
 
 #: src/dialogs/dialog-about.c:123
 msgid "The original text plugin"
@@ -23229,8 +23193,7 @@ msgstr "Impossível criar o diálogo da Ferramenta de Amostragem."
 
 #: src/dialogs/dialog-analysis-tools.c:1997 src/tools/analysis-tools.c:3326
 #: src/tools/analysis-tools.c:3405
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr "Deve haver o mesmo número de entradas para cada variável na regressão."
 
 #: src/dialogs/dialog-analysis-tools.c:2091
@@ -23284,8 +23247,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2837
 msgid "The given input range should contain at least two columns of data."
-msgstr ""
-"A região de entrada fornecida deve conter ao menos duas colunas de dados."
+msgstr "A região de entrada fornecida deve conter ao menos duas colunas de dados."
 
 #: src/dialogs/dialog-analysis-tools.c:2843
 msgid ""
@@ -23297,13 +23259,11 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2846
 msgid "The given input range should contain at least two rows of data."
-msgstr ""
-"A região de entrada fornecida deve conter ao menos duas linhas de dados."
+msgstr "A região de entrada fornecida deve conter ao menos duas linhas de dados."
 
 #: src/dialogs/dialog-analysis-tools.c:2853
 msgid "The number of data rows must be a multiple of the replication number."
-msgstr ""
-"O número de linhas de dados deve ser um múltiplo do número de replicações."
+msgstr "O número de linhas de dados deve ser um múltiplo do número de replicações."
 
 #: src/dialogs/dialog-analysis-tools.c:2923
 msgid "The number of rows per sample should be a positive integer."
@@ -23555,8 +23515,7 @@ msgstr "Ajustar o padrão de largura da coluna"
 
 #: src/dialogs/dialog-col-width.c:237
 #, c-format
-msgid ""
-"Set column width of selection on <span style='italic' weight='bold'>%s</span>"
+msgid "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 "Ajuste da largura da coluna da seleção em <span style='italic' weight='bold'>"
 "%s</span>"
@@ -23630,18 +23589,15 @@ msgstr "Você deve digitar um nome válido de célula em 'Célula com a Fórmula
 
 #: src/dialogs/dialog-goal-seek.c:374
 msgid "The cell named in 'Set Cell:' must contain a formula!"
-msgstr ""
-"A célula nomeada em 'Célula com a Fórmula:' precisa conter uma fórmula!"
+msgstr "A célula nomeada em 'Célula com a Fórmula:' precisa conter uma fórmula!"
 
 #: src/dialogs/dialog-goal-seek.c:387
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
-msgstr ""
-"Você deve digitar um nome válido de célula em 'Através da Célula Variável:'!"
+msgstr "Você deve digitar um nome válido de célula em 'Através da Célula Variável:'!"
 
 #: src/dialogs/dialog-goal-seek.c:400
 msgid "The cell named in 'By changing cell' must not contain a formula."
-msgstr ""
-"A célula nomeada em 'Através da Célula Variável' não deve conter uma fórmula."
+msgstr "A célula nomeada em 'Através da Célula Variável' não deve conter uma fórmula."
 
 #: src/dialogs/dialog-goal-seek.c:413
 msgid "The value given in 'To Value:' is not valid."
@@ -24233,8 +24189,7 @@ msgstr "Ajustar a altura padrão das linhas"
 
 #: src/dialogs/dialog-row-height.c:237
 #, c-format
-msgid ""
-"Set row height of selection on <span style='italic' weight='bold'>%s</span>"
+msgid "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 "Define a altura da linha da seleção em <span style='italic' weight='bold'>%"
 "s</span>"
@@ -24459,8 +24414,7 @@ msgstr ""
 "serão criados."
 
 #: src/dialogs/dialog-solver.c:832
-msgid ""
-"The Target Cell value specified does not converge!  The program is unbounded."
+msgid "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr "O valor da Função Objetivo não converge!  O problema é ilimitado."
 
 #: src/dialogs/dialog-solver.c:846
@@ -24730,10 +24684,8 @@ msgid "Copy format to right"
 msgstr "Copia o formato para a direita"
 
 #: src/dialogs/dialog-stf-format-page.c:399
-msgid ""
-"If this checkbox is selected, the column will be imported into Gnumeric."
-msgstr ""
-"Se está opção for selecionada, a coluna será importada para o Gnumeric."
+msgid "If this checkbox is selected, the column will be imported into Gnumeric."
+msgstr "Se está opção for selecionada, a coluna será importada para o Gnumeric."
 
 #: src/dialogs/dialog-stf-format-page.c:402
 msgid "At most 256 columns can be imported at one time."
@@ -24884,8 +24836,7 @@ msgstr "Formatação por coluna"
 
 #: src/dialogs/dialog-stf.glade.h:36
 msgid "Processing ends at this line, any subsequent lines will be ignored."
-msgstr ""
-"O processamento acaba nesta linha; qualquer linha subsequente será ignorada."
+msgstr "O processamento acaba nesta linha; qualquer linha subsequente será ignorada."
 
 #: src/dialogs/dialog-stf.glade.h:37
 msgid "S_ee two separators as one"
@@ -24900,10 +24851,8 @@ msgid "See two successive separators as one."
 msgstr "Ver dois separadores sucessivos como um."
 
 #: src/dialogs/dialog-stf.glade.h:40
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
-msgstr ""
-"Ver dois indicadores de texto sucessivos como um que não encerra a célula."
+msgid "See two successive text indicators as one that does not terminate the cell."
+msgstr "Ver dois indicadores de texto sucessivos como um que não encerra a célula."
 
 #: src/dialogs/dialog-stf.glade.h:41
 msgid "Semicolo_n (;)"
@@ -25236,8 +25185,7 @@ msgstr "Casas deci_mais:"
 
 #: src/dialogs/format-selector.glade.h:3
 msgid "Display amounts in traditional accounting styles."
-msgstr ""
-"Mostra valores monetários em estilos tradicionais do mercado financeiro."
+msgstr "Mostra valores monetários em estilos tradicionais do mercado financeiro."
 
 #: src/dialogs/format-selector.glade.h:4
 msgid "Display and input values as strings with no interpretation."
@@ -25263,8 +25211,7 @@ msgstr "Mostra horas do dia."
 
 #: src/dialogs/format-selector.glade.h:9
 msgid "Display values as closest fractional approximation."
-msgstr ""
-"Mostra valores o mais próximo possível de suas representações fracionárias."
+msgstr "Mostra valores o mais próximo possível de suas representações fracionárias."
 
 #: src/dialogs/format-selector.glade.h:10
 msgid "Display values as percentages."
@@ -26652,8 +26599,7 @@ msgid "Tabulate Dependency"
 msgstr "Tabular Dependência"
 
 #: src/dialogs/tabulate.glade.h:11
-msgid ""
-"Use down for first source, right for second, and multiple sheets for third"
+msgid "Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
 "Use abaixo para a primeira fonte, direita para a segunda e pastas múltiplas "
 "para a terceira"
@@ -26788,12 +26734,10 @@ msgstr "Arquivo de modelo inválido: %s"
 
 #: src/file.c:497
 msgid "Saving over old files of this type is disabled for safety."
-msgstr ""
-"Sobrescrever arquivos antigos deste tipo está desabilitado por segurança."
+msgstr "Sobrescrever arquivos antigos deste tipo está desabilitado por segurança."
 
 #: src/file.c:499
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Você pode desabilitar esta opção de segurança editando o arquivo plugin.xml "
 "apropriado."
@@ -27554,8 +27498,7 @@ msgstr "Arquivo xml inválido. A árvore está vazia?"
 
 #: src/format-template.c:786
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 "A região destino é pequena demais. Ela deve ter, no mínimo, %d linhas por %d "
 "colunas"
@@ -27570,8 +27513,7 @@ msgstr ""
 #: src/format-template.c:794
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
-msgstr ""
-"A região destino é pequena demais. Deveria ter no mínimo %d linhas de altura"
+msgstr "A região destino é pequena demais. Deveria ter no mínimo %d linhas de altura"
 
 #: src/func-builtin.c:34
 msgid ""
@@ -27757,14 +27699,15 @@ msgstr ""
 "%s"
 
 #: src/gui-file.c:406
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
 "\n"
 "Do you want to save over it?"
 msgstr ""
-"%s já existe.\n"
-"Deseja substituí-lo?"
+"Um arquivo chamado <i>%s<;i> já existe em %s.\n"
+"\n"
+"Deseja sobrescrevê-lo?"
 
 #: src/gui-file.c:464
 msgid "Images"
@@ -27811,8 +27754,7 @@ msgstr "Impossível abrir o arquivo '%s'"
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
-msgstr ""
-"Esta versão do Gnumeric foi compilada com uma precisão inadequada em yngnum."
+msgstr "Esta versão do Gnumeric foi compilada com uma precisão inadequada em yngnum."
 
 #: src/hlink.c:169
 msgid "Link target"
@@ -27919,8 +27861,7 @@ msgstr "Habilita algumas funções de depuração relacionadas às dependências
 
 #: src/main-application.c:79
 msgid "Enables some debugging functions for expression sharing"
-msgstr ""
-"Habilita algumas funções de depuração para compartilhamento de expressão"
+msgstr "Habilita algumas funções de depuração para compartilhamento de expressão"
 
 #: src/main-application.c:81
 msgid "Enables some print debugging behavior"
@@ -27940,8 +27881,7 @@ msgstr "Não mostra a tela de apresentação"
 
 #: src/main-application.c:91
 msgid "Exit immediately after loading the selected books (useful for testing)."
-msgstr ""
-"Sair imediatamente após carregar os livros selecionados (útil para teste)."
+msgstr "Sair imediatamente após carregar os livros selecionados (útil para teste)."
 
 #: src/main-application.c:122
 msgid ""
@@ -28131,8 +28071,7 @@ msgstr "Símbolo inválido %c"
 #: src/plugin.c:352
 #, c-format
 msgid "File contains plugin info with invalid id (%s), expected %s."
-msgstr ""
-"O arquivo contém informação de plugin com id inválido (%s), era esperado %s."
+msgstr "O arquivo contém informação de plugin com id inválido (%s), era esperado %s."
 
 #: src/plugin.c:356
 msgid "Couldn't read plugin info from file."
@@ -28244,8 +28183,7 @@ msgstr "Erro ao carregar dependências do plugin."
 #: src/plugin.c:1305
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
-msgstr ""
-"Ocorreram erros na leitura das informações de plugin do arquivo \"%s\"."
+msgstr "Ocorreram erros na leitura das informações de plugin do arquivo \"%s\"."
 
 #: src/plugin.c:1454
 #, c-format
@@ -30414,8 +30352,7 @@ msgstr "C_élulas..."
 
 #: src/wbcg-actions.c:1553
 msgid "Delete the selected cells, shifting others into their place"
-msgstr ""
-"Remove as células selecionadas, substituindo por outras em seus lugares"
+msgstr "Remove as células selecionadas, substituindo por outras em seus lugares"
 
 #: src/wbcg-actions.c:1559
 msgid "Select all cells in the spreadsheet"
@@ -30459,8 +30396,7 @@ msgstr "Selecionar _Entradas"
 
 #: src/wbcg-actions.c:1574
 msgid "Select all the cells are used by the current edit cell"
-msgstr ""
-"Seleciona todas as células que são utilizadas pela célula de edição atual"
+msgstr "Seleciona todas as células que são utilizadas pela célula de edição atual"
 
 #. Edit -> Fill
 #: src/wbcg-actions.c:1578
@@ -30476,8 +30412,7 @@ msgid "_Merge..."
 msgstr "_Mesclar..."
 
 #: src/wbcg-actions.c:1582
-msgid ""
-"Merges columnar data into a sheet creating duplicate sheets for each row"
+msgid "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Mescla dados das colunas em uma pasta, criando pastas duplicadas para cada "
 "linha"
@@ -30488,8 +30423,7 @@ msgstr "_Tabular Dependência..."
 
 #: src/wbcg-actions.c:1585
 msgid "Make a table of a cell's value as a function of other cells"
-msgstr ""
-"Faz uma tabela de valores de células a partir de uma função de outras células"
+msgstr "Faz uma tabela de valores de células a partir de uma função de outras células"
 
 #: src/wbcg-actions.c:1587
 msgid "_Series..."
@@ -30760,8 +30694,7 @@ msgstr "Seleção de Au_to ajuste"
 
 #: src/wbcg-actions.c:1721
 msgid "Ensure columns are just wide enough to display content"
-msgstr ""
-"Assegura que as colunas são largas o suficiente para mostrar o conteúdo"
+msgstr "Assegura que as colunas são largas o suficiente para mostrar o conteúdo"
 
 #: src/wbcg-actions.c:1724
 msgid "Hide the selected columns"
@@ -30839,8 +30772,7 @@ msgstr "Procurar por Obj_etivo..."
 
 #: src/wbcg-actions.c:1761
 msgid "Iteratively recalculate to find a target value"
-msgstr ""
-"Recalcula iterativamente uma fórmula para atingir um valor alvo fornecido"
+msgstr "Recalcula iterativamente uma fórmula para atingir um valor alvo fornecido"
 
 #: src/wbcg-actions.c:1763
 msgid "_Solver..."
@@ -32983,7 +32915,7 @@ msgstr "Processando arquivo..."
 
 #: src/xml-io.c:4251
 msgid "The file is not a Gnumeric Workbook file"
-msgstr "Não é um arquivo Gnumeric Workbook"
+msgstr "O arquivo não é um arquivo Gnumeric Workbook"
 
 #: src/xml-io.c:4288
 msgid "Failure saving file"
@@ -32993,24 +32925,3 @@ msgstr "Falha ao salvar arquivo"
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "exportador original lento Gnumeric XML (*.gnumeric)"
 
-#~ msgid ""
-#~ "Show\n"
-#~ "Sample"
-#~ msgstr ""
-#~ "Mostrar\n"
-#~ "Exemplo"
-
-#~ msgid "_Decrease"
-#~ msgstr "_Diminuir"
-
-#~ msgid "_Increase"
-#~ msgstr "_Aumentar"
-
-#~ msgid "Axes start _at:"
-#~ msgstr "_Os eixos começam em:"
-
-#~ msgid "Axes start at:"
-#~ msgstr "Os eixos começam em:"
-
-#~ msgid "rotation_spinner"
-#~ msgstr "rotation_spinner"
