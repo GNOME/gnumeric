@@ -1,5 +1,8 @@
 2002-03-29  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* src/sheet.c (sheet_delete_rows, sheet_delete_cols) : Fixed the
+	adjustments for Solver's parameters.
+
 	* src/sheet.c (sheet_insert_rows, sheet_insert_cols) : Fixed the
 	adjustments for Solver's parameters.
 
