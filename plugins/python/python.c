@@ -850,7 +850,7 @@ register_function (PyObject *m, PyObject *py_args)
  *
  * Method table.
  */
-static PyMethodDef gnumeric_funcs[] = {
+static const PyMethodDef gnumeric_funcs[] = {
 	{ "apply",             apply,             METH_VARARGS },
 	{ "register_function", register_function, METH_VARARGS },
 	{ NULL, NULL },

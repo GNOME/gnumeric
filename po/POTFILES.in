@@ -49,7 +49,6 @@ plugins/xbase/plugin.xml.in.h
 plugins/xml_sax/plugin.xml.in.h
 plugins/xml_sax/xml-sax-read.c
 src/GNOME_Gnumeric.xml.h
-src/analysis-tools.c
 src/bonobo-io.c
 src/cell.c
 src/clipboard.c
@@ -171,6 +170,7 @@ src/gnumeric-pane.c
 src/gui-clipboard.c
 src/gui-file.c
 src/gui-util.c
+src/gutils.c
 src/history.c
 src/item-bar.c
 src/item-cursor.c
@@ -202,6 +202,9 @@ src/stf-export.c
 src/stf-parse.c
 src/stf.c
 src/style.c
+src/tools/analysis-tools.c
+src/tools/solver/reports.c
+src/tools/solver/solver.c
 src/validation.c
 src/value-sheet.c
 src/value.c

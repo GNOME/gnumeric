@@ -3238,7 +3238,7 @@ static const char *help_sumproduct = {
 	   "products.  If an array entry is not numeric, the value zero is "
 	   "used instead. "
 	   "\n"
-	   "If arrays or range arguments do not have the same dimentions, "
+	   "If arrays or range arguments do not have the same dimensions, "
 	   "SUMPRODUCT returns #VALUE! error.\n"
 	   "This function is Excel compatible."
 	   "\n"

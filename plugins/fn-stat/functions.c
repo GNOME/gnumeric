@@ -2480,71 +2480,67 @@ static const char *help_prob = {
 static Value *
 gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 {
-	make_list_t  x_cl, prob_cl;
-	Value        *res;
-	gnum_float   sum, total_sum;
-	gnum_float   lower_limit, upper_limit;
-	GSList       *list1, *list2;
-
-	x_cl.entries = NULL;
-	prob_cl.entries = NULL;
-
-	if ((res = make_list (&x_cl, ei->pos, argv [0])) ||
-	    (res = make_list (&prob_cl, ei->pos, argv [1])))
-		goto error;
-
-	if (x_cl.n != prob_cl.n) {
-		res = value_new_error (ei->pos, gnumeric_err_NA);
-		goto error;
-	}
+	Value *res;
+	Value *error = NULL;
+	int i, prob_n, x_n;
+	gnum_float *prob_vals = NULL, *x_vals = NULL;
+	gnum_float lower_limit, upper_limit;
+	gnum_float total_sum = 0, sum = 0;
 
 	lower_limit = value_get_as_float (argv[2]);
 	upper_limit = argv[3] ? value_get_as_float (argv[3]) : lower_limit;
 
-	list1 = x_cl.entries;
-	list2 = prob_cl.entries;
-	sum = total_sum = 0;
+	prob_vals = collect_floats_value
+		(argv[0], ei->pos,
+		 COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS |
+		 COLLECT_IGNORE_BLANKS,
+		 &prob_n, &error);
+	if (error) {
+		res = error;
+		goto out;
+	}
 
-	while (list1 != NULL) {
-	        gnum_float  x, prob;
+	x_vals = collect_floats_value
+		(argv[1], ei->pos,
+		 COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS |
+		 COLLECT_IGNORE_BLANKS,
+		 &x_n, &error);
+	if (error) {
+		res = error;
+		goto out;
+	}
 
-		x = *((gnum_float *) list1->data);
-		prob = *((gnum_float *) list2->data);
+	if (x_n != prob_n) {
+		res = value_new_error (ei->pos, gnumeric_err_NA);
+		goto out;
+	}
 
+	for (i = 0; i < x_n; i++) {
+		gnum_float x = x_vals[i];
+		gnum_float prob = prob_vals[i];
+
+		/* FIXME: Check "0" behaviour with Excel and comment.  */
 		if (prob <= 0 || prob > 1) {
-			res= value_new_error (ei->pos, gnumeric_err_NUM);
-			goto error;
+			res = value_new_error (ei->pos, gnumeric_err_NUM);
+			goto out;
 		}
 
 		total_sum += prob;
 
 		if (x >= lower_limit && x <= upper_limit)
 		        sum += prob;
-
-		list1 = list1->next;
-		list2 = list2->next;
 	}
 
-	if (total_sum != 1) {
+	if (gnumabs (total_sum - 1) > 1e-6) {
 	        res = value_new_error (ei->pos, gnumeric_err_NUM);
-		goto error;
+		goto out;
 	}
 
 	res = value_new_float (sum);
 
-	{
-		GSList *tmp;
-
-		for (tmp = x_cl.entries; tmp; tmp = tmp->next)
-		        g_free (tmp->data);
-		g_slist_free (x_cl.entries);
-
-		for (tmp = prob_cl.entries; tmp; tmp = tmp->next)
-		        g_free (tmp->data);
-		g_slist_free (prob_cl.entries);
-	}
-
- error:
+ out:
+	g_free (x_vals);
+	g_free (prob_vals);
 	return res;
 }
 

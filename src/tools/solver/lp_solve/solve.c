@@ -5,14 +5,15 @@
 #include "lp-solve-debug.h"
 
 /* Globals used by solver */
-static short JustInverted;
+static gboolean JustInverted;
 static short Status;
-static short Doiter;
-static short DoInvert;
-static short Break_bb;
+static gboolean Doiter;
+static gboolean DoInvert;
+static gboolean Break_bb;
 
 
-static void ftran(lprec *lp, gnum_float *pcol)
+static void
+ftran (lprec *lp, gnum_float *pcol)
 {
         int        i, j, k, r, *rowp;
 	gnum_float theta, *valuep;
@@ -40,7 +41,8 @@ static void ftran(lprec *lp, gnum_float *pcol)
 } /* ftran */
 
 
-void btran(lprec *lp, gnum_float *row)
+void
+btran (lprec *lp, gnum_float *row)
 {
         int  i, j, k, *rowp;
 	gnum_float f, *valuep;
@@ -61,7 +63,8 @@ void btran(lprec *lp, gnum_float *row)
 } /* btran */
 
 
-static short isvalid(lprec *lp)
+static gboolean
+isvalid (lprec *lp)
 {
         int i, j, *rownum, *colnum;
 	int *num, row_nr;
@@ -99,7 +102,7 @@ static short isvalid(lprec *lp)
 	}
 
 	if (lp->valid)
-	        return(TRUE);
+	        return TRUE;
 
 	rownum = g_new0(int, lp->rows + 1);
 	colnum = g_new0(int, lp->columns + 1);
@@ -124,10 +127,11 @@ static short isvalid(lprec *lp)
 	g_free (rownum);
 	g_free (colnum);
 	lp->valid = TRUE;
-	return (TRUE);
+	return TRUE;
 } 
 
-static void resize_eta(lprec *lp, int min_size)
+static void
+resize_eta (lprec *lp, int min_size)
 {
         while (lp->eta_alloc <= min_size)
 	        lp->eta_alloc *= 1.5;
@@ -136,9 +140,8 @@ static void resize_eta(lprec *lp, int min_size)
 	lp->eta_row_nr = g_renew (int, lp->eta_row_nr, lp->eta_alloc + 1);
 } /* resize_eta */
 
-static void condensecol(lprec *lp,
-			int row_nr,
-			gnum_float *pcol)
+static void
+condensecol (lprec *lp, int row_nr, gnum_float *pcol)
 {
         int i, elnr, min_size;
   
@@ -162,7 +165,8 @@ static void condensecol(lprec *lp,
 } /* condensecol */
 
 
-static void addetacol(lprec *lp)
+static void
+addetacol (lprec *lp)
 {
         int  i, j, k;
 	gnum_float theta;
@@ -178,10 +182,11 @@ static void addetacol(lprec *lp)
 } /* addetacol */
 
 
-static void setpivcol(lprec *lp,
-		      short lower, 
-		      int   varin,
-		      gnum_float *pcol)
+static void
+setpivcol (lprec *lp,
+	   gboolean lower, 
+	   int   varin,
+	   gnum_float *pcol)
 {
         int  i, colnr;
   
@@ -214,9 +219,8 @@ static void setpivcol(lprec *lp,
 } /* setpivcol */
 
 
-static void minoriteration(lprec *lp,
-			   int colnr,
-			   int row_nr)
+static void
+minoriteration (lprec *lp, int colnr, int row_nr)
 {
         int  i, j, k, wk, varin, varout, elnr;
 	gnum_float piv = 0, theta;
@@ -271,10 +275,8 @@ static void minoriteration(lprec *lp,
 } /* minoriteration */
 
 
-static void rhsmincol(lprec *lp,
-		      gnum_float theta,
-		      int row_nr,
-		      int varin)
+static void
+rhsmincol (lprec *lp, gnum_float theta, int row_nr, int varin)
 {
         int  i, j, k, varout;
 	gnum_float f;
@@ -302,11 +304,12 @@ static void rhsmincol(lprec *lp,
 } /* rhsmincol */
 
 
-void invert(lprec *lp)
+void
+invert (lprec *lp)
 {
         int    i, j, v, wk, numit, varnr, row_nr, colnr, varin;
-	gnum_float   theta;
-	gnum_float   *pcol;
+	gnum_float theta;
+	gnum_float *pcol;
 	short  *frow;
 	short  *fcol;
 	int    *rownum, *col, *row;
@@ -315,7 +318,7 @@ void invert(lprec *lp)
 	if (lp->print_at_invert) 
 	        fprintf(stderr,
 			"Start Invert iter %d eta_size %d rhs[0] %g \n",
-			lp->iter, lp->eta_size, (double) - lp->rhs[0]); 
+			lp->iter, lp->eta_size, (double) -lp->rhs[0]); 
  
 	rownum = g_new0 (int, lp->rows + 1);
 	col = g_new0 (int, lp->rows + 1);
@@ -492,7 +495,7 @@ void invert(lprec *lp)
 	if (lp->print_at_invert) 
 	        fprintf(stderr,
 			"End Invert                eta_size %d rhs[0] %g\n",
-			lp->eta_size, (double) - lp->rhs[0]); 
+			lp->eta_size, (double) -lp->rhs[0]); 
 	
 	JustInverted = TRUE;
 	DoInvert = FALSE;
@@ -505,10 +508,11 @@ void invert(lprec *lp)
 	g_free (colnum);
 } /* invert */
 
-static short colprim(lprec *lp,
-		     int *colnr,
-		     short minit,
-		     gnum_float   *drow)
+static gboolean
+colprim (lprec *lp,
+	 int *colnr,
+	 gboolean minit,
+	 gnum_float   *drow)
 {
         int  varnr, i, j;
 	gnum_float f, dpiv;
@@ -564,11 +568,12 @@ static short colprim(lprec *lp,
 	return((*colnr) > 0);
 } /* colprim */
 
-static short rowprim(lprec      *lp,
-		     int        colnr,
-                     int        *row_nr,
-		     gnum_float *theta,
-		     gnum_float *pcol)
+static gboolean
+rowprim (lprec      *lp,
+	 int        colnr,
+	 int        *row_nr,
+	 gnum_float *theta,
+	 gnum_float *pcol)
 {
         int  i;
 	gnum_float f = -42, quot; 
@@ -658,11 +663,12 @@ static short rowprim(lprec      *lp,
 	return((*row_nr) > 0);
 } /* rowprim */
 
-static short rowdual(lprec *lp, int *row_nr)
+static gboolean
+rowdual (lprec *lp, int *row_nr)
 {
         int        i;
 	gnum_float f, g, minrhs;
-	short      artifs;
+	gboolean   artifs;
 
 	(*row_nr) = 0;
 	minrhs = -lp->epsb;
@@ -704,12 +710,13 @@ static short rowdual(lprec *lp, int *row_nr)
 	return((*row_nr) > 0);
 } /* rowdual */
 
-static short coldual(lprec      *lp,
-		     int        row_nr,
-		     int        *colnr,
-		     short      minit,
-		     gnum_float *prow,
-		     gnum_float *drow)
+static gboolean
+coldual (lprec      *lp,
+	 int        row_nr,
+	 int        *colnr,
+	 gboolean   minit,
+	 gnum_float *prow,
+	 gnum_float *drow)
 {
         int  i, j, k, r, varnr, *rowp, row;
 	gnum_float theta, quot, pivot, d, f, g, *valuep, value;
@@ -915,7 +922,8 @@ iteration (lprec      *lp,
 } /* iteration */
 
 
-static int solvelp(lprec *lp)
+static int
+solvelp (lprec *lp)
 {
         int        i, j, varnr;
 	gnum_float f, theta;
@@ -923,12 +931,10 @@ static int solvelp(lprec *lp)
 	gnum_float *drow, *prow, *Pcol;
 	gboolean   minit;
 	int        colnr, row_nr;
-	short      *test; 
 
 	drow = g_new0 (gnum_float, lp->sum + 1);
 	prow = g_new0 (gnum_float, lp->sum + 1);
 	Pcol = g_new0 (gnum_float, lp->rows + 1);
-	test = g_new0 (short, lp->sum +1); 
 
 	lp->iter = 0;
 	minit = FALSE;
@@ -1073,30 +1079,31 @@ static int solvelp(lprec *lp)
 	g_free (drow);
 	g_free (prow);
 	g_free (Pcol);
-	g_free (test);
 
 	return (Status);
 } /* solvelp */
 
 
-static short is_int(lprec *lp, int i)
+static gboolean
+is_int (lprec *lp, int i)
 {
-        gnum_float   value, error;
+        gnum_float value, error;
 
 	value = lp->solution[i];
-	error = value - (gnum_float)floor((double)value);
+	error = value - floorgnum (value);
 
 	if (error < lp->epsilon)
-	        return(TRUE);
+	        return TRUE;
 
 	if (error > (1 - lp->epsilon))
-	        return(TRUE);
+	        return TRUE;
 
-	return(FALSE);
+	return FALSE;
 } /* is_int */
 
 
-static void construct_solution(lprec *lp)
+static void
+construct_solution (lprec *lp)
 {
         int        i, j, basi;
 	gnum_float f;
@@ -1171,7 +1178,8 @@ static void construct_solution(lprec *lp)
 	}
 } /* construct_solution */
 
-static void calculate_duals(lprec *lp)
+static void
+calculate_duals (lprec *lp)
 {
         int i;
 
@@ -1199,9 +1207,10 @@ static void calculate_duals(lprec *lp)
 	}
 } /* calculate_duals */
 
-static void check_if_less(gnum_float x,
-			  gnum_float y,
-			  gnum_float value)
+static void
+check_if_less (gnum_float x,
+	       gnum_float y,
+	       gnum_float value)
 {
         if (x >= y) {
 	        fprintf(stderr,
@@ -1216,9 +1225,10 @@ static void check_if_less(gnum_float x,
 #if 0
 /* This is currently not used, J-P.
  */
-static void check_solution(lprec      *lp,
-			   gnum_float *upbo,
-			   gnum_float *lowbo)
+static void
+check_solution (lprec      *lp,
+		gnum_float *upbo,
+		gnum_float *lowbo)
 {
         int i;
 
@@ -1314,8 +1324,8 @@ milpsolve (lprec      *lp,
 
 	/* make shure we do not do memcpy(lp->basis, lp->basis ...) ! */
 	if (recursive) {
-	        memcpy (lp->basis, sbasis,  (lp->sum + 1)  * sizeof(short));
-		memcpy (lp->lower, slower,  (lp->sum + 1)  * sizeof(short));
+	        memcpy (lp->basis, sbasis,  (lp->sum + 1)  * sizeof(char));
+		memcpy (lp->lower, slower,  (lp->sum + 1)  * sizeof(char));
 		memcpy (lp->bas,   sbas,    (lp->rows + 1) * sizeof(int));
 	}
 
@@ -1522,7 +1532,7 @@ milpsolve (lprec      *lp,
 			lp_solve_debug_print_bounds(lp, upbo, lowbo);
 
 			if (lp->floor_first) {
-			        new_bound = ceil(lp->solution[notint]) - 1;
+			        new_bound = ceilgnum (lp->solution[notint]) - 1;
 
 				/* this bound might conflict */
 				if (new_bound < lowbo[notint]) {
@@ -1585,7 +1595,7 @@ milpsolve (lprec      *lp,
 				}
 			}
 			else { /* take ceiling first */
-			        new_bound = ceil(lp->solution[notint]);
+			        new_bound = ceilgnum (lp->solution[notint]);
 				/* this bound might conflict */
 				if (new_bound > upbo[notint]) {
 				        lp_solve_debug_print(lp,
@@ -1703,7 +1713,8 @@ milpsolve (lprec      *lp,
 } /* milpsolve */
 
 
-int lp_solve_solve(lprec *lp)
+int
+lp_solve_solve (lprec *lp)
 {
         int result, i;
 
@@ -1754,12 +1765,13 @@ int
 lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 {
         int        i, j, result, citer;
-	short      status, OrigFeas, AnyFeas, same_basis;
+	short      status;
+	gboolean   OrigFeas, AnyFeas, same_basis;
 	gnum_float *OrigObj, *ModObj, *SubGrad, *BestFeasSol;
 	gnum_float Zub, Zlb, Ztmp, pie;
 	gnum_float rhsmod, Step, SqrsumSubGrad;
 	int        *old_bas;
-	short      *old_lower;
+	char       *old_lower;
 
 	/* allocate mem */  
 	OrigObj     = g_new (gnum_float, lp->columns + 1);
@@ -1767,8 +1779,7 @@ lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 	SubGrad     = g_new0 (gnum_float, lp->nr_lagrange);
 	BestFeasSol = g_new0 (gnum_float, lp->sum + 1);
 	old_bas     = (int *) g_memdup (lp->bas, sizeof (int) * lp->rows + 1);
-	old_lower   = (short *) g_memdup (lp->lower,
-					  sizeof (short) * lp->sum + 1);
+	old_lower   = g_memdup (lp->lower, sizeof (char) * lp->sum + 1);
 
 	get_row(lp, 0, OrigObj);
  
@@ -1848,8 +1859,7 @@ lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 			i++;
 		}
 		if (!same_basis) {
-		        memcpy(old_lower, lp->lower,
-			       (lp->sum+1) * sizeof(short));
+		        memcpy(old_lower, lp->lower, (lp->sum+1) * sizeof(char));
 			memcpy(old_bas, lp->bas, (lp->rows+1) * sizeof(int));
 			pie *= 0.95;
 		}
