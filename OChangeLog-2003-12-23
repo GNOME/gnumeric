@@ -1,3 +1,8 @@
+2001-01-29  Fatih Demir	<kabalak@gmx.net>
+
+	* .cvsignore: Added the xml-i18n-* files and the intl
+		subdir to the ignores.
+
 2001-01-28  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/plugin.c, src/xml-io-autoft.c:
