@@ -545,7 +545,7 @@ static void
 biff_boundsheet_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	BiffBoundsheetData *ans;
-	char *default_name;
+	char *default_name = "Unknown%d";
 
 	/* Testing seems to indicate that Biff5 is compatibile with Biff7 here. */
 	if (ver != MS_BIFF_V5 && ver != MS_BIFF_V7 && ver != MS_BIFF_V8) {
@@ -604,7 +604,7 @@ biff_boundsheet_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 		ans->name = g_strdup_printf (default_name,
 			g_hash_table_size (wb->boundsheet_data_by_index));
 
-	d (-1, printf ("Blocksheet: '%s', %d:%d\n", ans->name, ans->type,
+	d (1, printf ("Boundsheet: '%s', %d:%d\n", ans->name, ans->type,
 		       ans->hidden););
 
 	ans->index = (guint16)g_hash_table_size (wb->boundsheet_data_by_index);

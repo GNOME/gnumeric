@@ -52,8 +52,13 @@ all:
 index.html: gnumeric/index.html
 	-cd $(srcdir) && cp gnumeric/index.html .
 
+# JEG : Nov 19 2001
+# YES THIS IS BROKEN
+# but I need to do a release, and jade is not cooperating.
 gnumeric/index.html: $(SGML_FILES)
-	-cd $(srcdir) && db2html gnumeric.sgml
+	-rm -rf $(srcdir)/gnumeric
+	-mkdir $(srcdir)/gnumeric
+	-cd $(srcdir)/gnumeric && jade -d '/usr/share/sgml/docbook/utils-0.6.9/docbook-utils.dsl#html' -t sgml -i html -o gnumeric ../gnumeric.sgml
 
 functions.sgml: func-list.sgml func-index.sgml func-header.sgml func-footer.sgml
 	cd $(srcdir) && cat func-header.sgml func-index.sgml func-list.sgml func-footer.sgml > functions.sgml
