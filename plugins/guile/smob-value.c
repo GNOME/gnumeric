@@ -9,9 +9,10 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <guile/gh.h>
+#include <stdlib.h>
 
-#include "value.h"
 #include "smob-value.h"
+#include "value.h" 
 
 static long value_tag;
 
@@ -77,6 +78,7 @@ print_value (SCM value_smob, SCM port, scm_print_state *pstate)
 
 	return 1;
 }
+
 	
 static SCM
 equalp_value (SCM value_smob_1, SCM value_smob_2)
@@ -89,7 +91,66 @@ equalp_value (SCM value_smob_1, SCM value_smob_2)
 
 	return flag;
 }
+
+static SCM
+scm_value_get_as_string (SCM value_smob)
+{
+	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
+		
+	if (v->v->type ==  VALUE_STRING)
+		return scm_makfrom0str (value_get_as_string (v->v));
+
+	return SCM_EOL;
+}
+
+static SCM
+scm_value_get_as_int (SCM value_smob)
+{
+	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
+	if (v->v->type ==  VALUE_INTEGER)
+		return scm_long2num (value_get_as_int (v->v));
+		
+	return SCM_EOL;
+}
+
+static SCM
+scm_value_get_as_float (SCM value_smob)
+{
+	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
+
+	if (v->v->type ==  VALUE_FLOAT)
+		return gh_double2scm (value_get_as_float (v->v));
+
+		return SCM_EOL;
+}
 	
+static SCM
+scm_value_get_as_list (SCM value_smob)
+{
+	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
+
+	if (v->v->type ==  VALUE_ARRAY)
+		{
+			int x, y, i, ii;
+			SCM list, *ls = &list;
+			
+			x = v->v->v_array.x;
+			y = v->v->v_array.y;
+
+			for (i = 0; i < y; i++)
+				for (ii = 0; i < x; i++)
+					{
+						*ls = scm_cons (value_get_as_float (v->v->v_array.vals[i][ii]), *ls); // FIXME
+						ls = SCM_CDRLOC (*ls);
+					}
+			*ls = SCM_EOL;
+			*ls = scm_reverse (*ls);
+			return list;
+		}
+
+	return SCM_EOL;
+}
+
 void
 init_value_type ()
 {
@@ -101,5 +162,11 @@ init_value_type ()
 	scm_set_smob_equalp (value_tag, equalp_value);
 	
 	scm_make_gsubr ("make-value", 1, 0, 0, make_value);
+	scm_make_gsubr ("value-get-as-string", 1, 0, 0, scm_value_get_as_string);
+	scm_make_gsubr ("value-get-as-int", 1, 0, 0, scm_value_get_as_int);
+	scm_make_gsubr ("value-get-as-float", 1, 0, 0, scm_value_get_as_float);
+	scm_make_gsubr ("value-get-as-list", 1, 0, 0, scm_value_get_as_list);
 }
+
+
 

@@ -7,7 +7,7 @@ INCLUDES = 					\
 
 gnumeric_plugin_LTLIBRARIES = gnum_guile.la
 gnum_guile_la_LDFLAGS = -module -avoid-version
-gnum_guile_la_SOURCES = guile-support.c plugin.c smob-value.c guile-support.h smob-value.h
+gnum_guile_la_SOURCES = smob-value.c guile-support.c plugin.c guile-support.h smob-value.h
 gnum_guile_la_LIBADD = $(GUILE_LIBS)
 
 Guilescriptsdir = $(gnumeric_guiledir)

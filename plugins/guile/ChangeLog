@@ -1,5 +1,16 @@
 2000-11-06  Ariel Rios  <ariel@arcavia.com>
 
+	* smob-value.c (scm_value_get_as_string): wrappers for Value.h equivalent.
+	(scm_value_get_as_int): Ditto.
+	(scm_value_get_as_float): Ditto.
+	(scm_value_get_as_list): Ditto. Need to be ckecked out!
+	Probably in this functions we should return SCM_ERROR instead of SCM_EOL
+	if the smob does not contains the required type.
+	(init_value_type): Add the previous functions
+	* smob-value.h (init_value_type): Correct prototype
+
+2000-11-06  Ariel Rios  <ariel@arcavia.com>
+
 	* smob-value.c (_SCM_Value): Remove scm and name values.
 	(make_value): Ditto. Also removed unused variables.
 	* Makefile.am: Compile smob-value.c
