@@ -638,7 +638,11 @@ sheet_button_press (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 		return 1;
 	}
-	
+
+	/*
+	 * FIXME: we need to connect to 'out of scope' type signals here and
+	 * finalize object creation then
+	 */
 	gtk_signal_connect (GTK_OBJECT (gsheet), "button_release_event",
 			    GTK_SIGNAL_FUNC (sheet_button_release), sheet);
 	gtk_signal_connect (GTK_OBJECT (gsheet), "motion_notify_event",
@@ -844,6 +848,8 @@ sheet_object_stop_editing (SheetObject *so)
 
 	if (so == sheet->current_object)
 		sheet_object_destroy_control_points (sheet);
+
+	sheet->current_object = NULL;
 }
 
 /*

@@ -44,7 +44,7 @@ sheet_object_bonobo_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (sheet_object_bonobo_parent_class)->destroy (object);
 
 	if (sob->client_site)
-		bonobo_object_destroy (BONOBO_OBJECT (sob->client_site));
+		bonobo_object_unref (BONOBO_OBJECT (sob->client_site));
 
 	g_free (sob->object_id);
 

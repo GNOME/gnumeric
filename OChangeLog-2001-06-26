@@ -1,3 +1,24 @@
+2000-07-12  Michael Meeks  <michael@helixcode.com>
+
+	* src/main.c (gnumeric_main): add bonobo_shutdown.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_destroy): unref not
+	destroy the bonobo object.
+
+	* src/sheet-object-container.c (item_destroyed): ditto.
+
+	* src/sheet-vector.c (sheet_vector_new): ditto.
+
+2000-07-07  Michael Meeks  <michael@helixcode.com>
+
+	* src/file.c (do_save_as, dialog_query_load_file): make check less
+	stringent for fnames if using bonobo.
+
+	* src/functions/fn-financial.c (coupdaybs): add brackets.
+
+	* src/sheet-object.c (sheet_object_stop_editing): NULL the
+	current_object.
+
 2000-07-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/history.c (history_menu_item_create) : Fix.

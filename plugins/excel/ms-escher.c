@@ -76,7 +76,7 @@ ms_escher_blip_destroy (EscherBlip *blip)
 	blip->repo_id = NULL;
 #ifdef ENABLE_BONOBO
 	if (blip->stream)
-		bonobo_object_destroy (BONOBO_OBJECT (blip->stream));
+		bonobo_object_unref (BONOBO_OBJECT (blip->stream));
 	blip->stream  = NULL;
 #else
 	g_free (blip->raw_data);

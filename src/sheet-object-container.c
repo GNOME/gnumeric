@@ -108,7 +108,7 @@ view_activated_cb (BonoboViewFrame *view_frame, gboolean activated, SheetObject 
 static void
 item_destroyed (GnomeCanvasItem *item, BonoboViewFrame *view_frame)
 {
-	bonobo_object_destroy (BONOBO_OBJECT (view_frame));
+	bonobo_object_unref (BONOBO_OBJECT (view_frame));
 }
 
 static GnomeCanvasItem *

@@ -487,7 +487,7 @@ gnumeric_bonobo_io_probe (const char *filename)
 
 	g_warning ("Type detection hack for now");
 	if ((p = strrchr (filename, '.')) &&
-	    g_strcasecmp (p + 1, "g2"))
+	    !g_strncasecmp (p + 1, "efs", 3))
 		return TRUE;
 	else
 		return FALSE;
@@ -500,6 +500,6 @@ gnumeric_bonobo_io_init (void)
 
 	file_format_register_open (100, desc, gnumeric_bonobo_io_probe,
 				   gnumeric_bonobo_read_workbook);
-	file_format_register_save (".gnumeric", desc, FILE_FL_AUTO,
+	file_format_register_save ("", desc, FILE_FL_AUTO,
 				   gnumeric_bonobo_write_workbook);
 }

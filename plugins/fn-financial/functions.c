@@ -191,11 +191,12 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 	}
 }
 
-/* Returns the number of days in the coupon period of the settlement date.
+/*
+ * Returns the number of days in the coupon period of the settlement date.
  * Currently, returns negative numbers if the branch is not implemented.
  */
 static float_t
-coupdays(GDate *settlement, GDate *maturity, int freq, int basis)
+coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 {
         GDateYear  sy, my;
 	GDateMonth sm, mm;
@@ -215,20 +216,21 @@ coupdays(GDate *settlement, GDate *maturity, int freq, int basis)
         case 3:
                 return 365.0 / freq;
         case 1:
-		sy = g_date_year (settlement);
-		my = g_date_year (maturity);
+		sy = g_date_year  (settlement);
+		my = g_date_year  (maturity);
 		sm = g_date_month (settlement);
 		mm = g_date_month (maturity);
-		sd = g_date_day (settlement);
-		md = g_date_day (maturity);
+		sd = g_date_day   (settlement);
+		md = g_date_day   (maturity);
 
 	        if (freq == 1) {
 		        if (g_date_is_leap_year (sy)) {
-			        if (sm == 1 || sm == 2)
+			        if (sm == 1 || sm == 2) {
 				        if (sm < mm || (sm == mm && sd < md))
 					        return 365.0;
 					else
 					        return 366.0;
+				}
 				if (mm == 1 || mm == 2)
 				        return 366.0;
 				if (sm < mm || (sm == mm && sd < md))
@@ -264,7 +266,8 @@ coupdays(GDate *settlement, GDate *maturity, int freq, int basis)
         }
 }
 
-/* Returns the number of days from the beginning of the coupon period to 
+/*
+ * Returns the number of days from the beginning of the coupon period to 
  * the settlement date.  Currently, returns negative numbers if the branch
  * is not implemented.
  */
@@ -276,12 +279,12 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 	GDateMonth sm, mm;
 	GDateDay   sd, md;
 
-	sy = g_date_year (settlement);
-	my = g_date_year (maturity);
+	sy = g_date_year  (settlement);
+	my = g_date_year  (maturity);
 	sm = g_date_month (settlement);
 	mm = g_date_month (maturity);
-	sd = g_date_day (settlement);
-	md = g_date_day (maturity);
+	sd = g_date_day   (settlement);
+	md = g_date_day   (maturity);
 
 	months = mm - sm;
 
@@ -289,15 +292,18 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 	case 0: /* US 30/360 */
 	        days = md - sd;
 
-	        if (! g_date_is_leap_year (sy) && g_date_is_leap_year(my)
-		    && mm == 2 && md == 29)
+	        if (! g_date_is_leap_year (sy) &&
+		    g_date_is_leap_year (my) &&
+		    mm == 2 && md == 29)
 		        --days;
-		else if (g_date_is_leap_year (sy) && ! g_date_is_leap_year(my)
-		    && mm == 2 && md == 28)
+		else if (g_date_is_leap_year (sy) &&
+			 !g_date_is_leap_year (my) &&
+			 mm == 2 && md == 28) {
 		        if (sd == 29 && sm == 2)
 			        return 0;
 			else
 			        days += 2;
+		}
 
 		d = 360 - months*30 - days;
 
@@ -309,16 +315,17 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 				        d = 360;
 				else
 				        d %= 360;
-		} else if (freq == 2)
+		} else if (freq == 2) {
 			if ((d % 180) == 0 && days)
 			        d = 180;
 			else
 			        d %= 180;
-		else
+		} else {
 			if ((d % 90) == 0 && days)
 			        d = 90;
 			else
 			        d %= 90;
+		}
 
 		return d;
 	case 1:
@@ -326,8 +333,9 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 	case 3:
 	        return -1;
 	case 4: /* European 30/360 */
-	        if (! g_date_is_leap_year (sy) && g_date_is_leap_year(my)
-		    && mm == 2 && md == 29)
+	        if (!g_date_is_leap_year (sy) &&
+		    g_date_is_leap_year (my) &&
+		    mm == 2 && md == 29)
 		        return 0;
 
 	        if (sd == 31)

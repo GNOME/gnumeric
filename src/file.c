@@ -239,7 +239,8 @@ file_finish_load (Workbook *wb)
 	if (wb != NULL) {
 		workbook_recalc (wb);
 
-		/* render and calc size of unrendered cells,
+		/*
+		 * render and calc size of unrendered cells,
 		 * then calc spans for everything
 		 */
 		workbook_calc_spans (wb, SPANCALC_RENDER|SPANCALC_RESIZE);
@@ -608,11 +609,13 @@ do_save_as (CommandContext *context, Workbook *wb, const char *name)
 	const char *base;
 	gboolean success = FALSE;
 
+#ifndef ENABLE_BONOBO
 	if (*name == 0 || name [strlen (name) - 1] == '/') {
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 				 _("Please enter a file name,\nnot a directory"));
 		return FALSE;
 	}
+#endif
 
 	current_saver = insure_saver (current_saver);
 	if (!current_saver) {
@@ -767,9 +770,11 @@ dialog_query_load_file (Workbook *wb)
 	if (accepted) {
 		char *name = gtk_file_selection_get_filename (fsel);
 
+#ifndef ENABLE_BONOBO
 		if (*name && name [strlen (name) - 1] == '/')
 			result = NULL;
 		else
+#endif
 			result = g_strdup (name);
 	} else
 		result = NULL;

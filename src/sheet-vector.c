@@ -359,7 +359,7 @@ sheet_vector_new (Sheet *sheet)
 
 	corba_vector = sheet_vector_corba_object_create (BONOBO_OBJECT (sheet_vector));
 	if (corba_vector == NULL) {
-		bonobo_object_destroy (BONOBO_OBJECT (sheet_vector));
+		bonobo_object_unref (BONOBO_OBJECT (sheet_vector));
 		return NULL;
 	}
 	
