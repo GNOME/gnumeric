@@ -109,6 +109,8 @@ GNUMERIC_CORBA_SOURCES =		\
 	Gnumeric-impl.c			\
 	$(GNUMERIC_CORBA_GENERATED) 
 
+Gnumeric-impl.c: Gnumeric.h
+
 $(GNUMERIC_CORBA_GENERATED): Gnumeric.idl
 	orbit-idl -I`gnome-config --datadir`/idl Gnumeric.idl
 
