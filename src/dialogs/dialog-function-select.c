@@ -194,7 +194,7 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 {
 	int i = 0;
 	GtkTreeIter p_iter;
-	FunctionCategory const * cat;
+	GnmFuncGroup const * cat;
 
 	gtk_tree_store_clear (state->model);
 
@@ -204,7 +204,7 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 			    CATEGORY, NULL,
 			    -1);
 
-	while ((cat = function_category_get_nth (i++)) != NULL) {
+	while ((cat = gnm_func_group_get_nth (i++)) != NULL) {
 		gtk_tree_store_append (state->model, &p_iter, NULL);
 		gtk_tree_store_set (state->model, &p_iter,
 				    CAT_NAME, _(cat->display_name->str),
@@ -332,7 +332,7 @@ cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection
 {
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
-	FunctionCategory const * cat;
+	GnmFuncGroup const * cat;
 	GList *funcs, *this_func;
 
 	gtk_list_store_clear (state->model_f);

@@ -36,7 +36,7 @@
 static GList *categories;
 static SymbolTable *global_symbol_table;
 
-static FunctionCategory *unknown_cat;
+static GnmFuncGroup *unknown_cat;
 static GSList *unknown_functions;
 
 void
@@ -82,6 +82,12 @@ func_def_cmp (gconstpointer a, gconstpointer b)
 	g_return_val_if_fail (fda->name != NULL, 0);
 	g_return_val_if_fail (fdb->name != NULL, 0);
 
+	if (fda->fn_group != NULL && fdb->fn_group != NULL) {
+		int res = strcmp (fda->fn_group->display_name->str, fdb->fn_group->display_name->str);
+		if (res != 0)
+			return res;
+	}
+
 	return g_ascii_strcasecmp (fda->name, fdb->name);
 }
 
@@ -91,6 +97,7 @@ function_dump_defs (char const *filename, gboolean as_def)
 	FILE *output_file;
 	unsigned i;
 	GPtrArray *ordered;
+	GnmFuncGroup const *group = NULL;
 
 	g_return_if_fail (filename != NULL);
 
@@ -99,7 +106,7 @@ function_dump_defs (char const *filename, gboolean as_def)
 		exit (1);
 	}
 
-	/* TODO : Use the translated names and split by category. */
+	/* TODO : Use the translated names and split by fn_group. */
 	ordered = g_ptr_array_new ();
 	g_hash_table_foreach (global_symbol_table->hash,
 		copy_hash_table_to_ptr_array, ordered);
@@ -139,8 +146,13 @@ function_dump_defs (char const *filename, gboolean as_def)
 				{ "Under development",		"FF6C00" },
 				{ "Unique to Gnumeric",		"44BE18" },
 			};
+			if (group != fd->fn_group) {
+				group = fd->fn_group;
+				fprintf (output_file, "<tr><td><h1>%s</h1></td></tr>\n", group->display_name->str);
+			}
+			fprintf (output_file, "<tr><td></td>\n");
 			fprintf (output_file,
-"<tr>\n    <td><a href =\"doc/gnumeric-%s.html\">%s</a></td>\n", fd->name, fd->name);
+"    <td><a href =\"doc/gnumeric-%s.html\">%s</a></td>\n", fd->name, fd->name);
 			fprintf (output_file,
 "    <td bgcolor=#%s><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s implementation\">%s</a></td>\n",
 implementation[fd->impl_status].colour_str, fd->name, implementation[fd->impl_status].name);
@@ -159,11 +171,22 @@ testing[fd->test_status].colour_str, fd->name, testing[fd->test_status].name);
 
 /* ------------------------------------------------------------------------- */
 
+static void
+gnm_func_group_free (GnmFuncGroup *fn_group)
+{
+	g_return_if_fail (fn_group != NULL);
+	g_return_if_fail (fn_group->functions == NULL);
+
+	string_unref (fn_group->internal_name);
+	string_unref (fn_group->display_name);
+	g_free (fn_group);
+}
+
 static gint
 function_category_compare (gconstpointer a, gconstpointer b)
 {
-	FunctionCategory const *cat_a = a;
-	FunctionCategory const *cat_b = b;
+	GnmFuncGroup const *cat_a = a;
+	GnmFuncGroup const *cat_b = b;
 	char *str_a, *str_b;
 
 	g_return_val_if_fail (cat_a->display_name != NULL, 0);
@@ -182,17 +205,17 @@ function_category_compare (gconstpointer a, gconstpointer b)
 	return strcoll (str_a, str_b);
 }
 
-FunctionCategory *
-function_get_category (char const *name)
+GnmFuncGroup *
+gnm_func_group_fetch (char const *name)
 {
-	return function_get_category_with_translation (name, _(name));
+	return gnm_func_group_fetch_with_translation (name, _(name));
 }
 
-FunctionCategory *
-function_get_category_with_translation (char const *name,
+GnmFuncGroup *
+gnm_func_group_fetch_with_translation (char const *name,
                                         char const *translation)
 {
-	FunctionCategory *cat = NULL;
+	GnmFuncGroup *cat = NULL;
 	char *int_name;
 	GList *l;
 
@@ -208,7 +231,7 @@ function_get_category_with_translation (char const *name,
 	}
 
 	if (l == NULL) {
-		cat = g_new (FunctionCategory, 1);
+		cat = g_new (GnmFuncGroup, 1);
 		cat->internal_name = string_get (int_name);
 		if (translation != NULL) {
 			cat->display_name = string_get (translation);
@@ -234,44 +257,32 @@ function_get_category_with_translation (char const *name,
 	return cat;
 }
 
-FunctionCategory *
-function_category_get_nth (int n)
+GnmFuncGroup *
+gnm_func_group_get_nth (int n)
 {
 	return g_list_nth_data (categories, n);
 }
 
-void
-function_category_add_func (FunctionCategory *category,
-			    GnmFunc *fn_def)
-{
-	g_return_if_fail (category != NULL);
-	g_return_if_fail (fn_def != NULL);
-
-	category->functions = g_list_append (category->functions, fn_def);
-}
-
 static void
-function_category_free (FunctionCategory *category)
+gnm_func_group_add_func (GnmFuncGroup *fn_group,
+			 GnmFunc *fn_def)
 {
-	g_return_if_fail (category != NULL);
-	g_return_if_fail (category->functions == NULL);
+	g_return_if_fail (fn_group != NULL);
+	g_return_if_fail (fn_def != NULL);
 
-	string_unref (category->internal_name);
-	string_unref (category->display_name);
-	g_free (category);
+	fn_group->functions = g_list_append (fn_group->functions, fn_def);
 }
 
 void
-function_category_remove_func (FunctionCategory *category,
-                               GnmFunc *fn_def)
+gnm_func_group_remove_func (GnmFuncGroup *fn_group, GnmFunc *func)
 {
-	g_return_if_fail (category != NULL);
-	g_return_if_fail (fn_def != NULL);
+	g_return_if_fail (fn_group != NULL);
+	g_return_if_fail (func != NULL);
 
-	category->functions = g_list_remove (category->functions, fn_def);
-	if (category->functions == NULL) {
-		categories = g_list_remove (categories, category);
-		function_category_free (category);
+	fn_group->functions = g_list_remove (fn_group->functions, func);
+	if (fn_group->functions == NULL) {
+		categories = g_list_remove (categories, fn_group);
+		gnm_func_group_free (fn_group);
 	}
 }
 
@@ -368,7 +379,7 @@ gnm_func_lookup (char const *name, Workbook const *optional_scope)
 }
 
 void
-function_remove (FunctionCategory *category, char const *name)
+function_remove (GnmFuncGroup *fn_group, char const *name)
 {
 	GnmFunc *func;
 	Symbol *sym;
@@ -379,7 +390,7 @@ function_remove (FunctionCategory *category, char const *name)
 
 	g_return_if_fail (func->ref_count == 0);
 
-	function_category_remove_func (category, func);
+	gnm_func_group_remove_func (fn_group, func);
 	sym = symbol_lookup (global_symbol_table, name);
 	symbol_unref (sym);
 
@@ -399,14 +410,14 @@ function_add_args
 function_add_nodes
 #endif
 GnmFunc *
-gnm_func_add (FunctionCategory *category,
+gnm_func_add (GnmFuncGroup *fn_group,
 	      GnmFuncDescriptor const *desc)
 {
 	static char const valid_tokens[] = "fsbraAES?|";
 	GnmFunc *func;
 	char const *ptr;
 
-	g_return_val_if_fail (category != NULL, NULL);
+	g_return_val_if_fail (fn_group != NULL, NULL);
 	g_return_val_if_fail (desc != NULL, NULL);
 
 	func = g_new (GnmFunc, 1);
@@ -450,8 +461,9 @@ gnm_func_add (FunctionCategory *category,
 		return NULL;
 	}
 
-	if (category != NULL)
-		function_category_add_func (category, func);
+	func->fn_group = fn_group;
+	if (fn_group != NULL)
+		gnm_func_group_add_func (fn_group, func);
 	symbol_install (global_symbol_table, func->name, SYMBOL_FUNCTION, func);
 
 	return func;
@@ -465,7 +477,7 @@ unknownFunctionHandler (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 }
 
 GnmFunc *
-gnm_func_add_stub (FunctionCategory *category,
+gnm_func_add_stub (GnmFuncGroup *fn_group,
 		   char const 	    *name,
 		   GnmFuncLoadDesc   load_desc,
 		   GnmFuncRefNotify  opt_ref_notify)
@@ -479,8 +491,9 @@ gnm_func_add_stub (FunctionCategory *category,
 	func->fn_type		= GNM_FUNC_TYPE_STUB;
 	func->fn.load_desc	= load_desc;
 
-	if (category != NULL)
-		function_category_add_func (category, func);
+	func->fn_group = fn_group;
+	if (fn_group != NULL)
+		gnm_func_group_add_func (fn_group, func);
 	symbol_install (global_symbol_table, func->name, SYMBOL_FUNCTION, func);
 
 	return func;
@@ -505,7 +518,7 @@ gnm_func_add_placeholder (char const *name, char const *type,
 	g_return_val_if_fail (func == NULL, func);
 
 	if (!unknown_cat)
-		unknown_cat = function_get_category (unknown_cat_name);
+		unknown_cat = gnm_func_group_fetch (unknown_cat_name);
 
 	memset (&desc, 0, sizeof (GnmFuncDescriptor));
 	desc.name	  = copy_name ? g_strdup (name) : name;
@@ -546,16 +559,16 @@ gnm_func_set_user_data (GnmFunc *func, gpointer user_data)
 }
 
 char const *
-gnm_func_get_name (GnmFunc const *fn_def)
+gnm_func_get_name (GnmFunc const *func)
 {
-	g_return_val_if_fail (fn_def != NULL, NULL);
+	g_return_val_if_fail (func != NULL, NULL);
 
-	return fn_def->name;
+	return func->name;
 }
 
 /**
  * function_def_count_args:
- * @fn_def: pointer to function definition
+ * @func: pointer to function definition
  * @min: pointer to min. args
  * @max: pointer to max. args
  *

@@ -941,7 +941,7 @@ struct _PluginServiceFunctionGroup {
 	gchar *category_name, *translated_category_name;
 	GSList *function_name_list;
 
-	FunctionCategory *category;
+	GnmFuncGroup	*func_group;
 	PluginServiceFunctionGroupCallbacks cbs;
 };
 
@@ -955,7 +955,7 @@ plugin_service_function_group_init (GObject *obj)
 	service_function_group->category_name = NULL;
 	service_function_group->translated_category_name = NULL;
 	service_function_group->function_name_list = NULL;
-	service_function_group->category = NULL;
+	service_function_group->func_group = NULL;
 }
 
 static void
@@ -1094,14 +1094,14 @@ plugin_service_function_group_activate (PluginService *service, ErrorInfo **ret_
 	PluginServiceFunctionGroup *service_function_group = GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	service_function_group->category = function_get_category_with_translation (
+	service_function_group->func_group = gnm_func_group_fetch_with_translation (
 		service_function_group->category_name,
 		service_function_group->translated_category_name);
 	GNM_SLIST_FOREACH (service_function_group->function_name_list, char, fname,
 		GnmFunc *fn_def;
 
 		fn_def = gnm_func_add_stub (
-			service_function_group->category, fname,
+			service_function_group->func_group, fname,
 			plugin_service_function_group_func_desc_load,
 			plugin_service_function_group_func_ref_notify);
 		gnm_func_set_user_data (fn_def, service);
@@ -1116,7 +1116,7 @@ plugin_service_function_group_deactivate (PluginService *service, ErrorInfo **re
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	GNM_SLIST_FOREACH (service_function_group->function_name_list, char, fname,
-		function_remove (service_function_group->category, fname);
+		function_remove (service_function_group->func_group, fname);
 	);
 	service->is_active = FALSE;
 }

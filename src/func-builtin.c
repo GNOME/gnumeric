@@ -134,28 +134,28 @@ func_builtin_init (void)
 	static GnmFuncDescriptor const builtins [] = {
 		{	"sum",		NULL,	N_("number,number,"),
 			&help_sum,	NULL,	gnumeric_sum,
-			NULL, NULL, NULL, 0,
+			NULL, NULL, NULL, GNM_FUNC_SIMPLE,
 			GNM_FUNC_IMPL_STATUS_COMPLETE,
 			GNM_FUNC_TEST_STATUS_BASIC
 		},
 		{	"product",		NULL,	N_("number,number,"),
 			&help_product,	NULL,	gnumeric_product,
-			NULL, NULL, NULL, 0,
+			NULL, NULL, NULL, GNM_FUNC_SIMPLE,
 			GNM_FUNC_IMPL_STATUS_COMPLETE,
 			GNM_FUNC_TEST_STATUS_BASIC
 		},
 		{	"gnumeric_version",	"",	"",
-			&help_gnumeric_version,	gnumeric_version, NULL,
-			NULL, NULL, NULL, 0,
-			GNM_FUNC_IMPL_STATUS_COMPLETE,
-			GNM_FUNC_TEST_STATUS_BASIC
+			&help_gnumeric_version,	gnumeric_version,
+			NULL, NULL, NULL, NULL, GNM_FUNC_SIMPLE,
+			GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC,
+			GNM_FUNC_TEST_STATUS_EXHAUSTIVE
 		},
 		{ NULL }
 	};
 
 	GnmFunc *func;
-	FunctionCategory *mathcat = function_get_category (mathcatname);
-	FunctionCategory *gnumericcat = function_get_category (gnumericcatname);
+	GnmFuncGroup *mathcat = gnm_func_group_fetch (mathcatname);
+	GnmFuncGroup *gnumericcat = gnm_func_group_fetch (gnumericcatname);
 
 	func = gnm_func_add (mathcat, builtins + 0);
 	auto_format_function_result (func, AF_FIRST_ARG_FORMAT);
@@ -172,7 +172,7 @@ static void
 shutdown_cat (const char *catname, GSList **funcs)
 {
 	GSList *tmp;
-	FunctionCategory *cat = function_get_category (catname);
+	GnmFuncGroup *cat = gnm_func_group_fetch (catname);
 
 	for (tmp = *funcs; tmp; tmp = tmp->next) {
 		GnmFunc *def = tmp->data;

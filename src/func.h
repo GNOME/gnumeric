@@ -12,21 +12,19 @@ void functions_shutdown (void);
 void function_dump_defs (char const *filename, gboolean def_or_state);
 
 /******************************************************************************/
-/* Function category support */
+/* Function group support */
 
-typedef struct _FunctionCategory FunctionCategory;
-struct _FunctionCategory {
+typedef struct _GnmFuncGroup GnmFuncGroup;
+struct _GnmFuncGroup {
 	String *internal_name, *display_name;
 	gboolean has_translation;
 	GList *functions;
 };
 
-FunctionCategory *function_get_category     (char const *name);
-FunctionCategory *function_get_category_with_translation (char const *name,
-                                                          char const *translation);
-FunctionCategory *function_category_get_nth (gint n);
-void function_category_add_func (FunctionCategory *, GnmFunc *);
-void function_category_remove_func (FunctionCategory *category, GnmFunc *fn_def);
+GnmFuncGroup *gnm_func_group_get_nth (gint n);
+GnmFuncGroup *gnm_func_group_fetch     		    (char const *name);
+GnmFuncGroup *gnm_func_group_fetch_with_translation (char const *name,
+						     char const *translation);
 
 /******************************************************************************/
 
@@ -150,15 +148,16 @@ struct _GnmFunc {
 		} args;
 		GnmFuncLoadDesc	load_desc;
 	} fn;
-	GnmFuncLink		linker;
-	GnmFuncUnlink		unlinker;
-	GnmFuncRefNotify	ref_notify;
-	GnmFuncImplStatus	impl_status;
-	GnmFuncTestStatus	test_status;
-	GnmFuncFlags		flags;
+	GnmFuncGroup		*fn_group; /* most recent it was assigned to */
+	GnmFuncLink		 linker;
+	GnmFuncUnlink		 unlinker;
+	GnmFuncRefNotify	 ref_notify;
+	GnmFuncImplStatus	 impl_status;
+	GnmFuncTestStatus	 test_status;
+	GnmFuncFlags		 flags;
 
-	gint         		ref_count;
-	gpointer     		user_data;
+	gint         		 ref_count;
+	gpointer     		 user_data;
 };
 
 struct _FunctionEvalInfo {
@@ -173,9 +172,9 @@ char const *gnm_func_get_name	     (GnmFunc const *fn_def);
 gpointer    gnm_func_get_user_data   (GnmFunc const *func);
 void        gnm_func_set_user_data   (GnmFunc *func, gpointer user_data);
 GnmFunc	   *gnm_func_lookup	     (char const *name, Workbook const *scope);
-GnmFunc    *gnm_func_add	     (FunctionCategory *category,
+GnmFunc    *gnm_func_add	     (GnmFuncGroup *group,
 				      GnmFuncDescriptor const *descriptor);
-GnmFunc    *gnm_func_add_stub	     (FunctionCategory *category,
+GnmFunc    *gnm_func_add_stub	     (GnmFuncGroup *group,
 				      char const *name,
 				      GnmFuncLoadDesc  load_desc,
 				      GnmFuncRefNotify opt_ref_notify);
@@ -183,7 +182,7 @@ GnmFunc    *gnm_func_add_placeholder (char const *name, char const *type,
 				      gboolean copy_name);
 
 /* TODO */
-void                function_remove     (FunctionCategory *category,
+void                function_remove     (GnmFuncGroup *group,
                                          char const *name);
 
 void        function_def_count_args    (GnmFunc const *fn_def,

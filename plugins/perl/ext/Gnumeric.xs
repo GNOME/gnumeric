@@ -135,12 +135,12 @@ register_function(name, args, named_args, help, subref)
     SV *subref
 
  PREINIT:
-    FunctionCategory *fncat;
+    GnmFuncGroup *fncat;
     GnmFuncDescriptor desc;
     GnmFunc *func;
 
  CODE:
-    fncat = function_get_category ("Perl plugin");
+    fncat = gnm_func_group_fetch ("Perl plugin");
     desc.fn_name     = name;
     desc.args	     = args;;
     desc.arg_names   = named_args;

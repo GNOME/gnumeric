@@ -28,6 +28,7 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "sheet-view.h"
 #include "selection.h"
 #include "commands.h"
 #include "value.h"
