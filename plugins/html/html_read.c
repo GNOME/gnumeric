@@ -276,17 +276,40 @@ html_file_open (GnmFileOpener const *fo, IOContext *io_context,
 {
 	guint8 const *buf;
 	gsf_off_t size;
-	int len;
+	int len, bomlen;
 	htmlParserCtxtPtr ctxt;
 	htmlDocPtr doc = NULL;
+	xmlCharEncoding enc;
 
 	g_return_if_fail (input != NULL);
 
 	size = gsf_input_size (input) - 4;
 	buf = gsf_input_read (input, 4, NULL);
 	if (buf != NULL) {
+		enc = xmlDetectCharEncoding(buf, 4);
+		bomlen = 0;
+		switch (enc) {	/* Skip byte order mark */
+		case XML_CHAR_ENCODING_UCS4BE:
+		case XML_CHAR_ENCODING_UCS4LE:
+		case XML_CHAR_ENCODING_UCS4_2143:
+		case XML_CHAR_ENCODING_UCS4_3412:
+		case XML_CHAR_ENCODING_EBCDIC:
+			bomlen = 4;
+			break;
+		case XML_CHAR_ENCODING_UTF16BE:
+		case XML_CHAR_ENCODING_UTF16LE:
+			bomlen = 2;
+			break;
+		case XML_CHAR_ENCODING_UTF8:
+			if (buf[0] == 0xef)
+				bomlen = 3;
+			else if (buf[0] == 0x3c)
+				bomlen = 4;
+			break;
+		}
 		ctxt = htmlCreatePushParserCtxt (NULL, NULL,
-			(char *)buf, 4, gsf_input_name (input), 0);
+			(char *)(buf + bomlen), 4 - bomlen,
+				 gsf_input_name (input), enc);
 
 		for (; size > 0 ; size -= len) {
 			len = 4096;
