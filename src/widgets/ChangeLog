@@ -1,5 +1,13 @@
 2002-04-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* gnumeric-cell-renderer-expr-entry.[ch] : make this widget a subclass
+	  of gnumeric-cell-renderer-text rather than 
+	  gtkcellrenderertext.
+	* gnumeric-cell-renderer-text.c : mark editable fields with a frame to
+	  make them more visible.
+
+2002-04-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	*  gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start): A
 	second cut at utf8 (or a first cut at the second half of this 
 	function)

@@ -63,6 +63,7 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer    *cell,
 {
 	GtkCellRendererText *celltext = (GtkCellRendererText *) cell;
 	GtkStateType state;
+	GdkGC *gc = gdk_gc_new (window);
 	
 	if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)
 	{
@@ -79,16 +80,13 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer    *cell,
 			state = GTK_STATE_NORMAL;
 	}
 
-	if ( state == GTK_STATE_SELECTED  && celltext->background_set)
+	if (celltext->background_set)
 	{
 		GdkColor color;
-		GdkGC *gc;
 		
 		color.red = celltext->background.red;
 		color.green = celltext->background.green;
 		color.blue = celltext->background.blue;
-		
-		gc = gdk_gc_new (window);
 		
 		gdk_gc_set_rgb_fg_color (gc, &color);
 		
@@ -99,9 +97,22 @@ gnumeric_cell_renderer_text_render (GtkCellRenderer    *cell,
 				    background_area->y + cell->ypad,
 				    background_area->width,
 				    background_area->height - 2 * cell->ypad);
-		
-		g_object_unref (G_OBJECT (gc));
 	}
+	
+	gdk_gc_set_rgb_fg_color (gc, &widget->style->bg[
+		     ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED) ?
+					 GTK_STATE_ACTIVE : GTK_STATE_INSENSITIVE]);
+	
+	if (celltext->editable) {
+		gdk_draw_rectangle (window, gc, FALSE,
+				    background_area->x,
+				    background_area->y,
+				    background_area->width - 1,
+				    background_area->height - 1);
+
+	}
+
+	g_object_unref (G_OBJECT (gc));
 
 	GTK_CELL_RENDERER_CLASS (parent_class)->render (cell, window, widget, background_area,
 							cell_area, expose_area, flags);

@@ -27,7 +27,7 @@
 static void gnumeric_cell_renderer_expr_entry_class_init    
             (GnumericCellRendererExprEntryClass *cell_expr_entry_class)           ;
 
-static GtkCellRendererTextClass *parent_class = NULL;
+static GnumericCellRendererTextClass *parent_class = NULL;
 
 static GtkCellEditable *gnumeric_cell_renderer_expr_entry_start_editing 
                                                              (GtkCellRenderer      *cell,
@@ -53,12 +53,12 @@ gnumeric_cell_renderer_expr_entry_get_type (void)
 				(GClassInitFunc)gnumeric_cell_renderer_expr_entry_class_init,
 				NULL,		/* class_finalize */
 				NULL,		/* class_data */
-				sizeof (GtkCellRendererText),
+				sizeof (GnumericCellRendererText),
 				0,              /* n_preallocs */
 				(GInstanceInitFunc) NULL,
 			};
 
-		cell_expr_entry_type = g_type_register_static (GTK_TYPE_CELL_RENDERER_TEXT, 
+		cell_expr_entry_type = g_type_register_static (GNUMERIC_TYPE_CELL_RENDERER_TEXT, 
 							       "GnumericCellRendererExprEntry", 
 							       &cell_expr_entry_info, 0);
 	}
@@ -124,14 +124,14 @@ gnumeric_cell_renderer_expr_entry_start_editing (GtkCellRenderer      *cell,
   celltext = GNUMERIC_CELL_RENDERER_EXPR_ENTRY (cell);
 
   /* If the cell isn't editable we return NULL. */
-  if (celltext->parent.editable == FALSE)
+  if (celltext->parent.parent.editable == FALSE)
     return NULL;
 
   gentry = gnumeric_expr_entry_new (celltext->wbcg, FALSE);
   gnm_expr_entry_set_scg (gentry, wbcg_cur_scg (celltext->wbcg));
   entry  = gnm_expr_entry_get_entry (gentry);
 
-  gtk_entry_set_text (entry, celltext->parent.text);
+  gtk_entry_set_text (entry, celltext->parent.parent.text);
   g_object_set_data_full (G_OBJECT (gentry), GNUMERIC_CELL_RENDERER_EXPR_ENTRY_PATH, g_strdup (path), g_free);
   
   gtk_editable_select_region (GTK_EDITABLE (entry), 0, -1);
