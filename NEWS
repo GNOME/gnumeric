@@ -25,7 +25,7 @@ Morten:
 	* Plugged gnumeric leaks too.
 	* Fixed parsing of numbers like "-4,885".  (We used to get -3115
 	  == -4 * 1000 + 885...)
-	
+	* Fixed formulae with leading dash, like "-995/5".
 
 Vlad Harchev
 	* Improve i18n support for XL import/export
