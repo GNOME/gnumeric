@@ -1,3 +1,7 @@
+2001-11-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* fn-financial.c: Documentation improvements.
+
 2001-11-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* fn-financial.c (coupdaysnc): Implemented the frequency 1 for
