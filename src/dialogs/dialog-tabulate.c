@@ -148,34 +148,34 @@ do_tabulation (Workbook *wb,
 			cell = sheet_cell_fetch (sheet, dims, row);
 		} else {
 			Sheet *thissheet = sheetdim ? sheets[index[2]] : sheet;
-			int col = (dims >= 0 ? index[0] + 1 : 1);
-			int row = (dims >= 1 ? index[1] + 1 : 1);
+			int row = (dims >= 1 ? index[0] + 1 : 1);
+			int col = (dims >= 2 ? index[1] + 1 : 1);
 
 			/* Fill-in top header.  */
-			if (row == 1 && dims >= 0) {
+			if (row == 1 && dims >= 2) {
 				cell = sheet_cell_fetch (sheet, col, 0);
 				sheet_cell_set_value (cell,
-						      value_new_float (values[0]),
-						      formats[0]);
+						      value_new_float (values[1]),
+						      formats[1]);
 			}
 
 			/* Fill-in left header.  */
 			if (col == 1 && dims >= 1) {
 				cell = sheet_cell_fetch (sheet, 0, row);
 				sheet_cell_set_value (cell,
-						      value_new_float (values[1]),
-						      formats[1]);
+						      value_new_float (values[0]),
+						      formats[0]);
 			}
 
 			/* Make a horizon line on top between header and table.  */
-			if (row == 1 && col == 1 && dims >= 0) {
+			if (row == 1 && col == 1) {
 				MStyle *mstyle = mstyle_new ();
 				Range range;
 				StyleBorder *border;
 
 				range.start.col = 0;
 				range.start.row = 0;
-				range.end.col   = counts[0];
+				range.end.col   = (dims >= 2 ? counts[1] : 1);
 				range.end.row   = 0;
 
 				border = style_border_fetch (STYLE_BORDER_MEDIUM,
@@ -187,7 +187,7 @@ do_tabulation (Workbook *wb,
 			}
 
 			/* Make a vertical line on left between header and table.  */
-			if (row == 1 && col == 1 && dims >= 1) {
+			if (row == 1 && col == 1) {
 				MStyle *mstyle = mstyle_new ();
 				Range range;
 				StyleBorder *border;
@@ -195,7 +195,7 @@ do_tabulation (Workbook *wb,
 				range.start.col = 0;
 				range.start.row = 0;
 				range.end.col   = 0;
-				range.end.row   = counts[1];;
+				range.end.row   = counts[0];;
 
 				border = style_border_fetch (STYLE_BORDER_MEDIUM,
 							     style_color_black (),
