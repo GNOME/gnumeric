@@ -1,3 +1,7 @@
+2001-06-18  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Update.
+
 2001-06-18  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.
@@ -43,7 +47,7 @@
 	* de.po: Update.
 
 	* da.po, es.po, et.po, fr.po, gl.po, hu.po, ja.po, ko.po, no.po,
-	pl.po, pt.po, ru.po, sk.po, sv.po: Add entry form old .desktop
+	pl.po, pt.po, ru.po, sk.po, sv.po: Add entry from old .desktop
 	file using xml-i18n-prepare.
 
 2001-05-26  Karl Eichwalder  <ke@suse.de>
