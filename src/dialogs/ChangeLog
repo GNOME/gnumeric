@@ -1,3 +1,9 @@
+2004-11-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=158207
+	* dialog-autocorrect.c (cb_remove_clicked): two 
+	  strings can be the same even if they differ as pointers.
+
 2004-11-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.93
