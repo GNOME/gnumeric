@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.9.3\n"
-"POT-Creation-Date: 1999-06-24 17:01-0500\n"
+"POT-Creation-Date: 1999-02-06 22:52-0600\n"
 "PO-Revision-Date: 1999-02-20 20:00+0800\n"
 "Last-Translator: Pofeng Lee <Pofeng.Lee@ms7.url.com.tw>\n"
 "Language-Team: Chinese <zh@li.org>\n"
@@ -36,8 +36,8 @@ msgstr "Excel(R) 95 檔案格式"
 msgid "Argument must be a Guile expression"
 msgstr "參數必須為 Guile 表示式"
 
-#: plugins/guile/plugin.c:241 src/expr.c:963 src/fn-sheet.c:35
-#: src/fn-string.c:291
+#: plugins/guile/plugin.c:241 src/expr.c:765 src/fn-sheet.c:34
+#: src/fn-string.c:314
 msgid "Invalid number of arguments"
 msgstr "引數個數錯誤"
 
@@ -223,51 +223,51 @@ msgstr "星期六"
 
 #: src/dates.c:38
 msgid "*Jan"
-msgstr ""
+msgstr "*一"
 
 #: src/dates.c:39
 msgid "*Feb"
-msgstr ""
+msgstr "*二"
 
 #: src/dates.c:40
 msgid "*Mar"
-msgstr ""
+msgstr "*三"
 
 #: src/dates.c:41
 msgid "*Apr"
-msgstr ""
+msgstr "*四"
 
 #: src/dates.c:42
 msgid "*May"
-msgstr ""
+msgstr "*五"
 
 #: src/dates.c:43
 msgid "*Jun"
-msgstr ""
+msgstr "*六"
 
 #: src/dates.c:44
 msgid "*Jul"
-msgstr ""
+msgstr "*七"
 
 #: src/dates.c:45
 msgid "*Aug"
-msgstr ""
+msgstr "*八"
 
 #: src/dates.c:46
 msgid "*Sep"
-msgstr ""
+msgstr "*九"
 
 #: src/dates.c:47
 msgid "*Oct"
-msgstr ""
+msgstr "*十"
 
 #: src/dates.c:48
 msgid "*Nov"
-msgstr ""
+msgstr "*十一"
 
 #: src/dates.c:49
 msgid "*Dec"
-msgstr ""
+msgstr "*十二"
 
 #: src/dates.c:55
 msgid "January"
@@ -353,7 +353,6 @@ msgstr "文字"
 msgid "Money"
 msgstr "金錢"
 
-#. 1. Categories
 #: src/dialog-cell-format.c:256
 msgid "Categories"
 msgstr "種類"
@@ -381,7 +380,7 @@ msgid "Left"
 msgstr "靠左"
 
 #: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
-#: src/workbook.c:995
+#: src/workbook.c:991
 msgid "Center"
 msgstr "置中"
 
@@ -410,7 +409,6 @@ msgstr "向下對齊"
 msgid "Vertical"
 msgstr "垂直"
 
-#. Horizontal alignment
 #: src/dialog-cell-format.c:430
 msgid "Horizontal"
 msgstr "水平"
@@ -606,80 +604,62 @@ msgid "Custom"
 msgstr "自訂"
 
 #: src/dialog-zoom.c:87
-#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "縮小參數至少要 50%"
 
 #: src/dialog-zoom.c:93
-#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "放大參數最多到 900%"
 
 #: src/dump.c:31
-#, c-format
 msgid "Can not create file %s\n"
-msgstr ""
+msgstr "無法建立檔案 %s\n"
 
-#: src/expr.c:133
-#, fuzzy
-msgid "Internal Error"
-msgstr "語法錯誤"
-
-#: src/expr.c:258
+#: src/expr.c:34
 msgid "Syntax error"
 msgstr "語法錯誤"
 
-#: src/expr.c:262
+#: src/expr.c:38
 msgid "Missing quote"
 msgstr "缺少引號"
 
-#: src/expr.c:266
+#: src/expr.c:42
 msgid "Impossible!"
-msgstr ""
+msgstr "不可能!"
 
-#: src/expr.c:936
-#, fuzzy
-msgid "Internal error"
-msgstr "語法錯誤"
-
-#: src/expr.c:1029 src/expr.c:1304 src/expr.c:1485 src/fn-misc.c:189
-#: src/fn-string.c:55 src/fn-string.c:77 src/fn-string.c:98
-#: src/fn-string.c:153 src/fn-string.c:187 src/fn-string.c:262
-#: src/fn-string.c:338 src/fn-string.c:373 src/fn-string.c:547
-#: src/fn-string.c:588 src/fn-string.c:649 src/fn-string.c:691
+#: src/expr.c:832 src/expr.c:1103 src/expr.c:1287 src/fn-misc.c:206
+#: src/fn-string.c:57 src/fn-string.c:82 src/fn-string.c:106
+#: src/fn-string.c:165 src/fn-string.c:201 src/fn-string.c:282
+#: src/fn-string.c:363 src/fn-string.c:401 src/fn-string.c:585
+#: src/fn-string.c:629 src/fn-string.c:700 src/fn-string.c:745
 msgid "Type mismatch"
 msgstr "形態不符 (Type mismatch) "
 
-#: src/expr.c:1108
+#: src/expr.c:903
 msgid "Function does not exist"
-msgstr ""
+msgstr "函式不存在"
 
-#: src/expr.c:1112
+#: src/expr.c:907
 msgid "Calling non-function"
-msgstr ""
+msgstr "不呼叫任何函式"
 
-#: src/expr.c:1247
+#: src/expr.c:1044
 msgid "Type error"
 msgstr "形態錯誤 (Type error)"
 
-#: src/expr.c:1278
-#, fuzzy
-msgid "Internal type error"
-msgstr "形態錯誤 (Type error)"
-
-#: src/expr.c:1469
+#: src/expr.c:1270
 msgid "Reference to newborn cell"
-msgstr ""
+msgstr "指到新的儲存格"
 
-#: src/expr.c:1497
+#: src/expr.c:1299
 msgid "Unknown evaluation error"
-msgstr ""
+msgstr "不明的執行錯誤"
 
-#: src/expr.c:1838
+#: src/expr.c:1611
 msgid "#Reference to deleted cell!"
 msgstr "#指到已刪除的格子!"
 
-#: src/expr.c:1863
+#: src/expr.c:1636
 msgid "#Reference to deleted range!"
 msgstr "#指到已刪除的範圍!"
 
@@ -693,13 +673,13 @@ msgstr "將活頁簿存為"
 
 #: src/file.c:327
 msgid "Sorry, there are no file savers loaded, I cannot save"
-msgstr ""
+msgstr "抱歉，沒有載入檔案儲存程式；無法儲存"
 
 #: src/file.c:380
 msgid "Load file"
 msgstr "載入檔案"
 
-#: src/fn-date.c:59
+#: src/fn-date.c:53
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -710,11 +690,11 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/fn-date.c:91
+#: src/fn-date.c:86
 msgid "Invalid month or year"
 msgstr "錯誤的年份或月份"
 
-#: src/fn-date.c:103
+#: src/fn-date.c:101
 msgid "Invalid day"
 msgstr "錯誤的日期"
 
@@ -728,7 +708,7 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 
-#: src/fn-date.c:131
+#: src/fn-date.c:132
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(serial_number,months)\n"
@@ -740,7 +720,7 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 
-#: src/fn-date.c:172
+#: src/fn-date.c:178
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -749,7 +729,7 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/fn-date.c:196
+#: src/fn-date.c:202
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -764,7 +744,7 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/fn-date.c:232
+#: src/fn-date.c:238
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -772,7 +752,7 @@ msgid ""
 "@SEEALSO=HOUR"
 msgstr ""
 
-#: src/fn-date.c:257
+#: src/fn-date.c:263
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -781,7 +761,7 @@ msgid ""
 "@SEEALSO=HOUR"
 msgstr ""
 
-#: src/fn-date.c:276
+#: src/fn-date.c:282
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -792,7 +772,7 @@ msgid ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/fn-date.c:301
+#: src/fn-date.c:307
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -803,7 +783,7 @@ msgid ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/fn-date.c:326
+#: src/fn-date.c:332
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -814,7 +794,7 @@ msgid ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 
-#: src/fn-date.c:351
+#: src/fn-date.c:357
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -824,7 +804,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 
-#: src/fn-date.c:376
+#: src/fn-date.c:382
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -834,7 +814,7 @@ msgid ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/fn-date.c:401
+#: src/fn-date.c:407
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -844,7 +824,7 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/fn-date.c:426
+#: src/fn-date.c:432
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number)\n"
@@ -854,7 +834,7 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/fn-date.c:451
+#: src/fn-date.c:457
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -869,15 +849,11 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/fn-date.c:484
+#: src/fn-date.c:490
 msgid "Unsupported method"
-msgstr ""
+msgstr "不支援的方法"
 
-#: src/fn-date.c:545 src/fn-string.c:1080
-msgid "Date / Time"
-msgstr ""
-
-#: src/fn-math.c:19
+#: src/fn-math.c:17
 msgid ""
 "@FUNCTION=NAME\n"
 "@SYNTAX=(b1, b2, ...)\n"
@@ -886,7 +862,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:182
+#: src/fn-math.c:180
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -895,7 +871,7 @@ msgid ""
 "@SEEALSO=LCM"
 msgstr ""
 
-#: src/fn-math.c:243
+#: src/fn-math.c:246
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -906,7 +882,7 @@ msgid ""
 "@SEEALSO=GCD"
 msgstr ""
 
-#: src/fn-math.c:297
+#: src/fn-math.c:303
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -917,7 +893,7 @@ msgid ""
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
 
-#: src/fn-math.c:316
+#: src/fn-math.c:323
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -930,11 +906,11 @@ msgid ""
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:338
+#: src/fn-math.c:346
 msgid "acos - domain error"
 msgstr "acos - 參數值域錯誤"
 
-#: src/fn-math.c:344
+#: src/fn-math.c:353
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -946,11 +922,11 @@ msgid ""
 "@SEEALSO=ACOS, DEGREES, RADIANS "
 msgstr ""
 
-#: src/fn-math.c:366
+#: src/fn-math.c:376
 msgid "acosh - domain error"
 msgstr "acosh - 參數值域錯誤"
 
-#: src/fn-math.c:372
+#: src/fn-math.c:383
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -962,11 +938,11 @@ msgid ""
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:393
+#: src/fn-math.c:405
 msgid "asin - domain error"
 msgstr "asin - 參數值域錯誤"
 
-#: src/fn-math.c:399
+#: src/fn-math.c:412
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -977,7 +953,7 @@ msgid ""
 "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:420
+#: src/fn-math.c:434
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -988,7 +964,7 @@ msgid ""
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:443
+#: src/fn-math.c:458
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -1001,11 +977,11 @@ msgid ""
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:466
+#: src/fn-math.c:482
 msgid "atanh: domain error"
 msgstr "atanh - 參數值域錯誤"
 
-#: src/fn-math.c:472
+#: src/fn-math.c:489
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -1017,7 +993,7 @@ msgid ""
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:496
+#: src/fn-math.c:514
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -1026,7 +1002,7 @@ msgid ""
 "@SEEALSO=ABS, FLOOR, INT"
 msgstr ""
 
-#: src/fn-math.c:515
+#: src/fn-math.c:534
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -1035,7 +1011,7 @@ msgid ""
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
 
-#: src/fn-math.c:580
+#: src/fn-math.c:603
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria)\n"
@@ -1044,7 +1020,7 @@ msgid ""
 "@SEEALSO=COUNTIF,SUM"
 msgstr ""
 
-#: src/fn-math.c:651
+#: src/fn-math.c:678
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -1055,7 +1031,7 @@ msgid ""
 "@SEEALSO=CEIL"
 msgstr ""
 
-#: src/fn-math.c:684
+#: src/fn-math.c:714
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -1066,7 +1042,7 @@ msgid ""
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/fn-math.c:704
+#: src/fn-math.c:735
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -1077,7 +1053,7 @@ msgid ""
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
 
-#: src/fn-math.c:725
+#: src/fn-math.c:757
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -1086,7 +1062,7 @@ msgid ""
 "@SEEALSO=RADIANS, PI"
 msgstr ""
 
-#: src/fn-math.c:746
+#: src/fn-math.c:779
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -1096,7 +1072,7 @@ msgid ""
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
 
-#: src/fn-math.c:773
+#: src/fn-math.c:807
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -1106,7 +1082,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:810
+#: src/fn-math.c:848
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -1117,7 +1093,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:854
+#: src/fn-math.c:894
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -1127,7 +1103,7 @@ msgid ""
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
 
-#: src/fn-math.c:884
+#: src/fn-math.c:927
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
@@ -1138,7 +1114,7 @@ msgid ""
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
 
-#: src/fn-math.c:911
+#: src/fn-math.c:951
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -1147,7 +1123,7 @@ msgid ""
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
 
-#: src/fn-math.c:940
+#: src/fn-math.c:983
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -1155,7 +1131,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 
-#: src/fn-math.c:963
+#: src/fn-math.c:1009
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -1164,7 +1140,7 @@ msgid ""
 "@SEEALSO=EXP"
 msgstr ""
 
-#: src/fn-math.c:990
+#: src/fn-math.c:1038
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -1173,11 +1149,11 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: src/fn-math.c:1008
+#: src/fn-math.c:1057
 msgid "log2: domain error"
 msgstr "log2: 參數值域錯誤"
 
-#: src/fn-math.c:1014
+#: src/fn-math.c:1064
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -1186,11 +1162,11 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: src/fn-math.c:1033
+#: src/fn-math.c:1084
 msgid "log10: domain error"
 msgstr "log10: 參數值域錯誤"
 
-#: src/fn-math.c:1039
+#: src/fn-math.c:1091
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -1199,7 +1175,7 @@ msgid ""
 "Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
 
-#: src/fn-math.c:1076
+#: src/fn-math.c:1131
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1208,7 +1184,7 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: src/fn-math.c:1097
+#: src/fn-math.c:1153
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -1218,7 +1194,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1115
+#: src/fn-math.c:1172
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1229,7 +1205,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/fn-math.c:1135
+#: src/fn-math.c:1193
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1240,7 +1216,7 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: src/fn-math.c:1155
+#: src/fn-math.c:1214
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -1249,7 +1225,7 @@ msgid ""
 "@SEEALSO=POW"
 msgstr ""
 
-#: src/fn-math.c:1178
+#: src/fn-math.c:1240
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1258,7 +1234,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1199
+#: src/fn-math.c:1336
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -1270,7 +1246,7 @@ msgid ""
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1224
+#: src/fn-math.c:1373
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -1279,7 +1255,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1246
+#: src/fn-math.c:1430
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -1288,7 +1264,7 @@ msgid ""
 "@SEEALSO=SUM"
 msgstr ""
 
-#: src/fn-math.c:1300
+#: src/fn-math.c:1489
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -1297,7 +1273,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1321
+#: src/fn-math.c:1546
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1308,7 +1284,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1341
+#: src/fn-math.c:1567
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1319,7 +1295,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1361
+#: src/fn-math.c:1588
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1328,7 +1304,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1380
+#: src/fn-math.c:1608
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1339,7 +1315,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1413
+#: src/fn-math.c:1642
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -1348,7 +1324,7 @@ msgid ""
 "@SEEALSO=ODD"
 msgstr ""
 
-#: src/fn-math.c:1444
+#: src/fn-math.c:1674
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -1357,7 +1333,7 @@ msgid ""
 "@SEEALSO=EVEN"
 msgstr ""
 
-#: src/fn-math.c:1475
+#: src/fn-math.c:1706
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -1367,7 +1343,7 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr ""
 
-#: src/fn-math.c:1506
+#: src/fn-math.c:1738
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -1376,7 +1352,7 @@ msgid ""
 "@SEEALSO=MOD"
 msgstr ""
 
-#: src/fn-math.c:1527
+#: src/fn-math.c:1760
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(num)\n"
@@ -1385,7 +1361,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1552
+#: src/fn-math.c:1786
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -1394,7 +1370,7 @@ msgid ""
 "@SEEALSO=PI"
 msgstr ""
 
-#: src/fn-math.c:1574
+#: src/fn-math.c:1811
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -1405,7 +1381,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: src/fn-math.c:1600
+#: src/fn-math.c:1843
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -1419,7 +1395,7 @@ msgid ""
 "@SEEALSO=ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1638
+#: src/fn-math.c:1882
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -1433,7 +1409,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1673
+#: src/fn-math.c:1918
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -1447,7 +1423,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN"
 msgstr ""
 
-#: src/fn-math.c:1711
+#: src/fn-math.c:1957
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -1460,7 +1436,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1755
+#: src/fn-math.c:2003
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -1473,11 +1449,11 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1799
+#: src/fn-math.c:2052
 msgid "#Unimplemented!"
-msgstr ""
+msgstr "#未實作的功\能!"
 
-#: src/fn-math.c:1830
+#: src/fn-math.c:2085
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -1491,12 +1467,12 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:1876 src/fn-math.c:1890 src/fn-math.c:1962 src/fn-math.c:1976
-#: src/fn-math.c:2048 src/fn-math.c:2062
+#: src/fn-math.c:2133 src/fn-math.c:2151 src/fn-math.c:2230 src/fn-math.c:2248
+#: src/fn-math.c:2327 src/fn-math.c:2345
 msgid "Array version not implemented!"
-msgstr ""
+msgstr "陣列版本未支援!"
 
-#: src/fn-math.c:1917
+#: src/fn-math.c:2182
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -1510,7 +1486,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2003
+#: src/fn-math.c:2279
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -1524,7 +1500,7 @@ msgid ""
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:2089
+#: src/fn-math.c:2376
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -1546,7 +1522,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2169
+#: src/fn-math.c:2473
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -1557,7 +1533,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2281
+#: src/fn-math.c:2595
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -1569,15 +1545,11 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/fn-math.c:2380
-msgid "Maths / Trig."
-msgstr ""
-
-#: src/fn-misc.c:21
+#: src/fn-misc.c:22
 msgid "Argument mismatch"
 msgstr "參數不符 (Argu mismatch) "
 
-#: src/fn-misc.c:35
+#: src/fn-misc.c:37
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(exp)\n"
@@ -1586,7 +1558,7 @@ msgid ""
 "@SEEALSO=ERROR"
 msgstr ""
 
-#: src/fn-misc.c:62
+#: src/fn-misc.c:66
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA()\n"
@@ -1594,7 +1566,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-misc.c:93
+#: src/fn-misc.c:98
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR()\n"
@@ -1603,7 +1575,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-misc.c:121
+#: src/fn-misc.c:126
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(exp)\n"
@@ -1611,7 +1583,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: src/fn-misc.c:159
+#: src/fn-misc.c:173
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -1619,17 +1591,13 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-misc.c:175
+#: src/fn-misc.c:192
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
 "@DESCRIPTION=Return the specified error\n"
 "\n"
 "@SEEALSO=ISERROR"
-msgstr ""
-
-#: src/fn-misc.c:199
-msgid "Miscellaneous"
 msgstr ""
 
 #: src/fn-sheet.c:15
@@ -1642,11 +1610,6 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-sheet.c:75
-#, fuzzy
-msgid "Sheet"
-msgstr "試算表(_S)"
-
 #: src/fn-string.c:17
 msgid ""
 "@FUNCTION=CHAR\n"
@@ -1655,7 +1618,7 @@ msgid ""
 "@SEEALSO=CODE"
 msgstr ""
 
-#: src/fn-string.c:39
+#: src/fn-string.c:40
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -1663,7 +1626,7 @@ msgid ""
 "@SEEALSO=CHAR"
 msgstr ""
 
-#: src/fn-string.c:62
+#: src/fn-string.c:66
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -1672,7 +1635,7 @@ msgid ""
 "@SEEALSO=LEN"
 msgstr ""
 
-#: src/fn-string.c:84
+#: src/fn-string.c:91
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -1680,7 +1643,7 @@ msgid ""
 "@SEEALSO=CHAR, CODE"
 msgstr ""
 
-#: src/fn-string.c:104
+#: src/fn-string.c:114
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -1689,7 +1652,7 @@ msgid ""
 "@SEEALSO=MID, RIGHT"
 msgstr ""
 
-#: src/fn-string.c:137
+#: src/fn-string.c:148
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -1697,7 +1660,7 @@ msgid ""
 "@SEEALSO=UPPER"
 msgstr ""
 
-#: src/fn-string.c:166
+#: src/fn-string.c:180
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -1706,11 +1669,11 @@ msgid ""
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
 
-#: src/fn-string.c:193 src/fn-string.c:595
+#: src/fn-string.c:209 src/fn-string.c:638
 msgid "Invalid arguments"
 msgstr "參數無效"
 
-#: src/fn-string.c:209
+#: src/fn-string.c:227
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -1719,7 +1682,7 @@ msgid ""
 "@SEEALSO=MID, LEFT"
 msgstr ""
 
-#: src/fn-string.c:246
+#: src/fn-string.c:265
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -1727,7 +1690,7 @@ msgid ""
 "@SEEALSO=LOWER"
 msgstr ""
 
-#: src/fn-string.c:276
+#: src/fn-string.c:298
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -1735,7 +1698,7 @@ msgid ""
 "@SEEALSO=LEFT, MID, RIGHT"
 msgstr ""
 
-#: src/fn-string.c:321
+#: src/fn-string.c:345
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -1744,12 +1707,12 @@ msgid ""
 msgstr ""
 
 #. start position too high or low
-#: src/fn-string.c:340 src/fn-string.c:415 src/fn-string.c:420
-#: src/fn-string.c:457
+#: src/fn-string.c:366 src/fn-string.c:445 src/fn-string.c:452
+#: src/fn-string.c:492
 msgid "Invalid argument"
 msgstr "參數無效"
 
-#: src/fn-string.c:356
+#: src/fn-string.c:384
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -1757,7 +1720,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-string.c:392
+#: src/fn-string.c:421
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -1766,7 +1729,7 @@ msgid ""
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 msgstr ""
 
-#: src/fn-string.c:426
+#: src/fn-string.c:460
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
@@ -1775,7 +1738,12 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-string.c:530
+#.
+#. * proper could be a LOT nicer
+#. * (e.g. "US Of A" -> "US of A", "Cent'S Worth" -> "Cent's Worth")
+#. * but this is how Excel does it
+#.
+#: src/fn-string.c:567
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -1783,7 +1751,7 @@ msgid ""
 "@SEEALSO=LOWER, UPPER"
 msgstr ""
 
-#: src/fn-string.c:569
+#: src/fn-string.c:609
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -1791,7 +1759,7 @@ msgid ""
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 msgstr ""
 
-#: src/fn-string.c:615
+#: src/fn-string.c:660
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -1800,7 +1768,7 @@ msgid ""
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
 
-#: src/fn-string.c:633
+#: src/fn-string.c:683
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -1808,7 +1776,7 @@ msgid ""
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 msgstr ""
 
-#: src/fn-string.c:678
+#: src/fn-string.c:731
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -1816,7 +1784,7 @@ msgid ""
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 msgstr ""
 
-#: src/fn-string.c:736
+#: src/fn-string.c:791
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -1825,7 +1793,7 @@ msgid ""
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
 
-#: src/fn-string.c:807
+#: src/fn-string.c:863
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num,[decimals])\n"
@@ -1833,7 +1801,7 @@ msgid ""
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
 
-#: src/fn-string.c:855
+#: src/fn-string.c:912
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -2057,12 +2025,10 @@ msgid "[h]:mm:ss"
 msgstr "[h]:mm:ss"
 
 #: src/formats.c:74
-#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: src/formats.c:75
-#, c-format
 msgid "0.00%"
 msgstr "0.00%"
 
@@ -2098,51 +2064,46 @@ msgstr "$#,##0.00_);($#,##0.00)"
 msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr "$#,##0.00_);[red]($#,##0.00)"
 
-#: src/gnumeric-sheet.c:911
-#, c-format
+#: src/gnumeric-sheet.c:899
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:914
-#, c-format
+#: src/gnumeric-sheet.c:902
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:917
-#, c-format
+#: src/gnumeric-sheet.c:905
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:920
-#, c-format
+#: src/gnumeric-sheet.c:908
 msgid "12%"
 msgstr "12%"
 
-#: src/gnumeric-sheet.c:923
-#, c-format
+#: src/gnumeric-sheet.c:911
 msgid "6%"
 msgstr "6%"
 
-#: src/gnumeric-sheet.c:926
+#: src/gnumeric-sheet.c:914
 msgid "Horizontal lines"
 msgstr "水平行數"
 
-#: src/gnumeric-sheet.c:929
+#: src/gnumeric-sheet.c:917
 msgid "Vertical lines"
 msgstr "垂直行數"
 
-#: src/gnumeric-sheet.c:932 src/gnumeric-sheet.c:935 src/gnumeric-sheet.c:938
-#: src/gnumeric-sheet.c:941
+#: src/gnumeric-sheet.c:920 src/gnumeric-sheet.c:923 src/gnumeric-sheet.c:926
+#: src/gnumeric-sheet.c:929
 msgid "Diagonal lines"
-msgstr ""
+msgstr "對角行數"
 
-#: src/gnumeric-sheet.c:944
+#: src/gnumeric-sheet.c:932
 msgid "Crossed diagonals"
-msgstr ""
+msgstr "交叉對角"
 
-#: src/gnumeric-sheet.c:947
+#: src/gnumeric-sheet.c:935
 msgid "Bricks"
-msgstr ""
+msgstr "組成元件"
 
 #: src/item-cursor.c:499
 msgid ""
@@ -2150,8 +2111,11 @@ msgid ""
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
+"您拖曳的儲存格將會蓋\過同一範圍內原有\n"
+"儲存格的內容，您確定要替換掉這塊區域\n"
+"的內容嗎？"
 
-#: src/item-cursor.c:580 src/item-grid.c:530 src/workbook.c:983
+#: src/item-cursor.c:580 src/item-grid.c:530 src/workbook.c:979
 msgid "Copy"
 msgstr "複製"
 
@@ -2165,29 +2129,29 @@ msgstr "複製格式"
 
 #: src/item-cursor.c:583
 msgid "Copy values"
-msgstr ""
+msgstr "複製數值"
 
 #: src/item-cursor.c:584
 msgid "Shift cells down and copy"
-msgstr ""
+msgstr "儲存格向下移位並複製"
 
 #: src/item-cursor.c:585
 msgid "Shift cells right and copy"
-msgstr ""
+msgstr "儲存格向右移位並複製"
 
 #: src/item-cursor.c:586
 msgid "Shift cells down and move"
-msgstr ""
+msgstr "儲存格向下移位並搬移"
 
 #: src/item-cursor.c:587
 msgid "Shift cells right and move"
-msgstr ""
+msgstr "儲存格向右移位並搬移"
 
-#: src/item-grid.c:529 src/workbook.c:980
+#: src/item-grid.c:529 src/workbook.c:976
 msgid "Cut"
 msgstr "剪下"
 
-#: src/item-grid.c:531 src/workbook.c:986
+#: src/item-grid.c:531 src/workbook.c:982
 msgid "Paste"
 msgstr "貼上"
 
@@ -2205,15 +2169,15 @@ msgstr "印出現在的函數定義"
 
 #: src/main.c:40
 msgid "FILE"
-msgstr ""
+msgstr "檔案"
 
 #: src/main.c:42
 msgid "Enables some debugging functions"
-msgstr ""
+msgstr "啟動除錯功\能"
 
 #: src/main.c:42
 msgid "LEVEL"
-msgstr ""
+msgstr "等級"
 
 #: src/number-match.c:150
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
@@ -2221,7 +2185,7 @@ msgstr "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 
 #: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
-msgstr ""
+msgstr "名稱"
 
 #: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "File"
@@ -2252,476 +2216,476 @@ msgid "Plugin is still in use.\n"
 msgstr "Plugin 仍在使用中。\n"
 
 #: src/sheet-view.c:337 src/sheet-view.c:411
-#, c-format
 msgid "Row: %d"
 msgstr "列: %d"
 
 #: src/sheet-view.c:344 src/sheet-view.c:383
-#, c-format
 msgid "Column: %s"
 msgstr "欄: %s"
 
-#: src/sheet.c:2565
+#. defaults
+#: src/sheet.c:670
+msgid "ERROR"
+msgstr "錯誤"
+
+#: src/sheet.c:2557
 msgid "The command `"
-msgstr ""
+msgstr "指令 `"
 
-#: src/sheet.c:2567
+#: src/sheet.c:2559
 msgid "' cannot be performed with multiple selections"
-msgstr ""
+msgstr "' 不能跨過數個區段執行"
 
-#: src/sheet.c:2582
+#: src/sheet.c:2574
 msgid "copy"
 msgstr "複製"
 
-#: src/sheet.c:2607
+#: src/sheet.c:2599
 msgid "cut"
 msgstr "剪下"
 
-#: src/sheet.c:2656
+#: src/sheet.c:2648
 msgid "paste"
 msgstr "貼上"
 
-#: src/sheet.c:3553
-#, c-format
+#: src/sheet.c:3545
 msgid "I was not able to activate object %s"
-msgstr ""
+msgstr "無法啟動 %s 物件"
 
-#: src/sheet.c:3565
+#: src/sheet.c:3557
 msgid "I was unable to the bind object"
-msgstr ""
+msgstr "無法聯結物件"
 
-#: src/workbook.c:373
+#: src/workbook.c:369
 msgid "Warning"
 msgstr "警告"
 
-#: src/workbook.c:381
-#, c-format
+#: src/workbook.c:377
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "活頁簿 %s 尚未儲存, 要儲存嗎 ?"
 
-#: src/workbook.c:384
+#: src/workbook.c:380
 msgid "Workbook has unsaved changes, save them?"
 msgstr "活頁簿尚未儲存, 要儲存嗎 ?"
 
-#: src/workbook.c:573
+#: src/workbook.c:569
 msgid "Insert cols"
 msgstr "插入欄"
 
-#: src/workbook.c:589
+#: src/workbook.c:585
 msgid "Insert rows"
 msgstr "插入列"
 
-#: src/workbook.c:682
+#: src/workbook.c:678
 msgid ">mm/dd/yyyy"
-msgstr ""
+msgstr ">mm/dd/yyyy"
 
-#: src/workbook.c:701
+#: src/workbook.c:697
 msgid ">hh:mm"
-msgstr ""
+msgstr ">hh:mm"
 
-#: src/workbook.c:786
+#: src/workbook.c:782
 msgid "_New"
 msgstr "開新檔案(_N)"
 
-#: src/workbook.c:786
+#: src/workbook.c:782
 msgid "Create a new spreadsheet"
 msgstr "建立新的試算表"
 
-#: src/workbook.c:797
+#: src/workbook.c:793
 msgid "Plu_g-ins..."
-msgstr ""
+msgstr "外加功\能 (_g)..."
 
-#: src/workbook.c:797
+#: src/workbook.c:793
 msgid "Gnumeric plugins"
-msgstr ""
+msgstr "Gnumeric 外加功\能"
 
-#: src/workbook.c:811
+#: src/workbook.c:807
 msgid "_All"
 msgstr "全部(_A)"
 
-#: src/workbook.c:812
+#: src/workbook.c:808
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "清除全部的格子的格式，註解，與內容"
 
-#: src/workbook.c:814
+#: src/workbook.c:810
 msgid "_Formats"
 msgstr "格式(_F)"
 
-#: src/workbook.c:815
+#: src/workbook.c:811
 msgid "Clear the selected cells' formats"
 msgstr "清除已選擇格子內的的格式"
 
-#: src/workbook.c:816
+#: src/workbook.c:812
 msgid "_Comments"
 msgstr "註解(_C)"
 
-#: src/workbook.c:817
+#: src/workbook.c:813
 msgid "Clear the selected cells' comments"
 msgstr "清除已選擇格子內的的註解"
 
-#: src/workbook.c:818
+#: src/workbook.c:814
 msgid "_Content"
 msgstr "內容(_C)"
 
-#: src/workbook.c:819
+#: src/workbook.c:815
 msgid "Clear the selected cells' contents"
 msgstr "清除已選擇格子內的內容"
 
-#: src/workbook.c:827
+#: src/workbook.c:823
 msgid "P_aste special..."
 msgstr "選擇性貼上(_A)..."
 
-#: src/workbook.c:828
+#: src/workbook.c:824
 msgid "C_lear"
 msgstr "清除(_L)"
 
-#: src/workbook.c:829
+#: src/workbook.c:825
 msgid "Clear the selected cell(s)"
 msgstr "清除所選擇的格子"
 
-#: src/workbook.c:833
+#: src/workbook.c:829
 msgid "_Select All"
 msgstr "全選(_S)"
 
-#: src/workbook.c:834
+#: src/workbook.c:830
 msgid "Select all cells in the spreadsheet"
 msgstr "選擇全部的格子"
 
-#: src/workbook.c:836
+#: src/workbook.c:832
 msgid "_Goto cell.."
 msgstr "跳格(_G)"
 
-#: src/workbook.c:837
+#: src/workbook.c:833
 msgid "Jump to a specified cell"
 msgstr "跳越至特定的格子"
 
-#: src/workbook.c:843
+#: src/workbook.c:839
 msgid "Insert object..."
-msgstr ""
+msgstr "插入物件..."
 
-#: src/workbook.c:844
+#: src/workbook.c:840
 msgid "Inserts a Bonobo object"
 msgstr "建立一個 Bonobo 物件"
 
-#: src/workbook.c:851
+#: src/workbook.c:847
 msgid "_Define cell names"
 msgstr "定義儲存格名稱(_D)"
 
-#: src/workbook.c:855
+#: src/workbook.c:851
 msgid "_Recalculate"
 msgstr "重新計算(_R)"
 
-#: src/workbook.c:856
+#: src/workbook.c:852
 msgid "Recalculate the spreadsheet"
 msgstr "重新計算整個試算表"
 
-#: src/workbook.c:864
+#: src/workbook.c:860
 msgid "_Zoom..."
 msgstr "縮放(_Z)"
 
-#: src/workbook.c:865
+#: src/workbook.c:861
 msgid "Zoom the spreadsheet in or out"
 msgstr "縮放試算表"
 
-#: src/workbook.c:872
+#: src/workbook.c:868
 msgid "Current _date"
 msgstr "現在日期(_D)"
 
-#: src/workbook.c:873
+#: src/workbook.c:869
 msgid "Insert the current data into the selected cell(s)"
 msgstr "在選定的儲存格中，寫入現在的日期"
 
-#: src/workbook.c:876
+#: src/workbook.c:872
 msgid "Current _time"
 msgstr "現在時刻(_T)"
 
-#: src/workbook.c:877
+#: src/workbook.c:873
 msgid "Insert the current time into the selected cell(s)"
 msgstr "在選定的儲存格中，寫入現在的時間"
 
-#: src/workbook.c:884 src/workbook.c:930
+#: src/workbook.c:880 src/workbook.c:926
 msgid "_Sheet"
 msgstr "試算表(_S)"
 
-#: src/workbook.c:884
+#: src/workbook.c:880
 msgid "Insert a new spreadsheet"
 msgstr "插入新的試算表"
 
-#: src/workbook.c:886 src/workbook.c:924
+#: src/workbook.c:882 src/workbook.c:920
 msgid "_Cells..."
 msgstr "儲存格(_C)..."
 
-#: src/workbook.c:886
+#: src/workbook.c:882
 msgid "Insert new cells"
 msgstr "插入新的儲存格"
 
-#: src/workbook.c:888
+#: src/workbook.c:884
 msgid "_Rows"
 msgstr "列(_R)"
 
-#: src/workbook.c:888
+#: src/workbook.c:884
 msgid "Insert new rows"
 msgstr "插入列"
 
-#: src/workbook.c:890
+#: src/workbook.c:886
 msgid "C_olumns"
 msgstr "欄(_O)"
 
-#: src/workbook.c:890
+#: src/workbook.c:886
 msgid "Insert new columns"
 msgstr "插入欄"
 
-#: src/workbook.c:895
+#: src/workbook.c:891
 msgid "_Add/modify comment"
 msgstr "增加/修改註解(_A)"
 
-#: src/workbook.c:896
+#: src/workbook.c:892
 msgid "Edit the selected cell's comment"
 msgstr "編輯儲存格的註解"
 
-#: src/workbook.c:897
+#: src/workbook.c:893
 msgid "_Special"
 msgstr "特別項目(_S)"
 
-#: src/workbook.c:906 src/workbook.c:912
+#: src/workbook.c:902 src/workbook.c:908
 msgid "_Autoadjust"
 msgstr "自動調整(_A)"
 
-#: src/workbook.c:907
+#: src/workbook.c:903
 msgid "_Width"
 msgstr "寬度(_W)"
 
-#: src/workbook.c:913
+#: src/workbook.c:909
 msgid "_Height"
 msgstr "高度(_H)"
 
-#: src/workbook.c:918
+#: src/workbook.c:914
 msgid "_Change name"
 msgstr "改變名稱(_C)"
 
-#: src/workbook.c:925
+#: src/workbook.c:921
 msgid "Modify the formatting of the selected cells"
 msgstr "更改儲存格的排列格式"
 
-#: src/workbook.c:928
+#: src/workbook.c:924
 msgid "C_olumn"
 msgstr "欄(_O)"
 
-#: src/workbook.c:929
+#: src/workbook.c:925
 msgid "_Row"
 msgstr "列(_R)"
 
-#: src/workbook.c:937
+#. Tools menu
+#: src/workbook.c:933
 msgid "_Sort"
 msgstr "排序(_S)"
 
-#: src/workbook.c:938
+#: src/workbook.c:934
 msgid "Sort the selected cells"
 msgstr "對所選的格子進行排序"
 
-#: src/workbook.c:939
+#: src/workbook.c:935
 msgid "_Goal Seek..."
-msgstr ""
+msgstr "搜尋目標 (_G)..."
 
-#: src/workbook.c:941
+#: src/workbook.c:937
 msgid "_Solver..."
-msgstr ""
+msgstr "解析器 (_S)..."
 
-#: src/workbook.c:957
+#: src/workbook.c:953
 msgid "_Insert"
 msgstr "插入(_I)"
 
-#: src/workbook.c:958
+#: src/workbook.c:954
 msgid "F_ormat"
 msgstr "格式(_O)"
 
-#: src/workbook.c:959
+#: src/workbook.c:955
 msgid "_Tools"
-msgstr ""
+msgstr "工具 (_T)..."
 
-#: src/workbook.c:968
+#: src/workbook.c:964
 msgid "New"
 msgstr "新的"
 
-#: src/workbook.c:968
+#: src/workbook.c:964
 msgid "Creates a new sheet"
 msgstr "建立新的試算表"
 
-#: src/workbook.c:971
+#: src/workbook.c:967
 msgid "Open"
 msgstr "開啟"
 
-#: src/workbook.c:971
+#: src/workbook.c:967
 msgid "Opens an existing workbook"
 msgstr "開啟已存在的工作表格"
 
-#: src/workbook.c:974
+#: src/workbook.c:970
 msgid "Save"
 msgstr "儲存"
 
-#: src/workbook.c:974
+#: src/workbook.c:970
 msgid "Saves the workbook"
 msgstr "儲存目前的工作表格"
 
-#: src/workbook.c:980
+#: src/workbook.c:976
 msgid "Cuts the selection to the clipboard"
 msgstr "將剪下的選定區移至剪貼簿"
 
-#: src/workbook.c:983
+#: src/workbook.c:979
 msgid "Copies the selection to the clipboard"
 msgstr "複製選定區至剪貼簿"
 
-#: src/workbook.c:986
+#: src/workbook.c:982
 msgid "Pastes the clipboard"
 msgstr "貼上剪貼簿的內容"
 
-#: src/workbook.c:992
+#: src/workbook.c:988
 msgid "Left align"
 msgstr "向左對齊"
 
-#: src/workbook.c:992
+#: src/workbook.c:988
 msgid "Left justifies the cell contents"
 msgstr "置左排列"
 
-#: src/workbook.c:995
+#: src/workbook.c:991
 msgid "Centers the cell contents"
 msgstr "置中排列"
 
-#: src/workbook.c:998
+#: src/workbook.c:994
 msgid "Right align"
 msgstr "向右對齊"
 
-#: src/workbook.c:998
+#: src/workbook.c:994
 msgid "Right justifies the cell contents"
 msgstr "置右排列"
 
-#: src/workbook.c:1003
+#: src/workbook.c:999
 msgid "Bold"
 msgstr "粗體"
 
-#: src/workbook.c:1003
+#: src/workbook.c:999
 msgid "Sets the bold font"
 msgstr "將字型設為粗體"
 
-#: src/workbook.c:1006
+#: src/workbook.c:1002
 msgid "Italic"
 msgstr "斜體"
 
-#: src/workbook.c:1006
+#: src/workbook.c:1002
 msgid "Makes the font italic"
 msgstr "將字型設為斜體"
 
-#: src/workbook.c:1013
+#: src/workbook.c:1009
 msgid "Graphic"
 msgstr "圖形"
 
-#: src/workbook.c:1013
+#: src/workbook.c:1009
 msgid "Creates a graphic in the spreadsheet"
 msgstr "在試算表中建立圖形"
 
-#: src/workbook.c:1017
+#: src/workbook.c:1013
 msgid "Line"
 msgstr "線段"
 
-#: src/workbook.c:1017
+#: src/workbook.c:1013
 msgid "Creates a line object"
 msgstr "建立一個線段物件"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1016
 msgid "Arrow"
 msgstr "箭頭"
 
-#: src/workbook.c:1020
+#: src/workbook.c:1016
 msgid "Creates an arrow object"
 msgstr "建立一個箭頭物件"
 
-#: src/workbook.c:1023
+#: src/workbook.c:1019
 msgid "Rectangle"
 msgstr "長方形"
 
-#: src/workbook.c:1023
+#: src/workbook.c:1019
 msgid "Creates a rectangle object"
 msgstr "建立一個長方形物件"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1022
 msgid "Ellipse"
 msgstr "橢圓形"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1022
 msgid "Creates an ellipse object"
 msgstr "建立一個橢圓形物件"
 
-#: src/workbook.c:1163
+#: src/workbook.c:1159
 msgid "You should introduce a valid cell name"
 msgstr "請使用合法的儲存格名稱"
 
-#: src/workbook.c:1172
+#: src/workbook.c:1168
 msgid "Column out of range"
 msgstr "欄的數目超出範圍"
 
-#: src/workbook.c:1178
+#: src/workbook.c:1174
 msgid "Row number out of range"
 msgstr "的數目超出範圍"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1264
 msgid "Selection must be a single range"
-msgstr ""
+msgstr "選取區必須在單一範圍"
 
-#: src/workbook.c:1378
+#: src/workbook.c:1374
 msgid "Sum"
 msgstr "總合"
 
-#: src/workbook.c:1379
+#: src/workbook.c:1375
 msgid "Min"
 msgstr "最小"
 
-#: src/workbook.c:1380
+#: src/workbook.c:1376
 msgid "Max"
 msgstr "最大"
 
-#: src/workbook.c:1381
+#: src/workbook.c:1377
 msgid "Average"
 msgstr "平均"
 
-#: src/workbook.c:1382
+#: src/workbook.c:1378
 msgid "Count"
 msgstr "總數"
 
-#: src/workbook.c:1588
+#: src/workbook.c:1570
 msgid "Untitled.gnumeric"
 msgstr "未命名.gnumeric"
 
-#: src/workbook.c:1688
+#: src/workbook.c:1667
 msgid "Zoom out"
 msgstr "縮小"
 
-#: src/workbook.c:1695
+#: src/workbook.c:1674
 msgid "Zoom in"
 msgstr "放大"
 
-#: src/workbook.c:1780
-#, c-format
+#: src/workbook.c:1759
 msgid "Are you sure you want to remove the sheet called `%s' "
-msgstr ""
+msgstr "確定要移除名為 `%s' 的試算表嗎?"
+
+#: src/workbook.c:1778
+msgid "Other sheets depend on the values on this sheet; I cannot remove it"
+msgstr "有其它試算表用到這個表的內容，無法移除此試算表"
+
+#: src/workbook.c:1798
+msgid "Add another sheet"
+msgstr "增加另一個試算表"
 
 #: src/workbook.c:1799
-msgid "Other sheets depend on the values on this sheet; I cannot remove it"
-msgstr ""
-
-#: src/workbook.c:1819
-msgid "Add another sheet"
-msgstr ""
-
-#: src/workbook.c:1820
 msgid "Remove this sheet"
-msgstr ""
+msgstr "移除此試算表"
 
-#: src/workbook.c:2077 src/workbook.c:2113
-#, c-format
+#: src/workbook.c:2056 src/workbook.c:2092
 msgid "Sheet %d"
 msgstr "工作頁 %d"
 
-#: src/workbook.c:2189
+#: src/workbook.c:2168
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
