@@ -1082,7 +1082,7 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 				else
 					break;
 
-			sprintf (buffer, is_lower ? "%s%.*" GNUM_FORMAT_e : "%s%.*E" GNUM_FORMAT_E,
+			sprintf (buffer, is_lower ? "%s%.*" GNUM_FORMAT_e : "%s%.*" GNUM_FORMAT_E,
 				 info.negative ? "-" :
 				 shows_plus ? "+" : "",
 				 prec, number);

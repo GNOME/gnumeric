@@ -307,7 +307,7 @@ build_array (GSList *cols)
 	return register_expr_allocation (expr_tree_new_constant (array));
 }
 
-static gboolean
+static ExprTree *
 parse_string_as_value (ExprTree *str)
 {
 	/*
@@ -315,15 +315,15 @@ parse_string_as_value (ExprTree *str)
 	 * float, err) if this succeeds, we store this as a Value otherwise, we
 	 * return a string.
 	 */
-	char const *txt = str->constant.value->v_str.val->str;
+	char const *txt = value_peek_string (str->constant.value);
 	Value *v = format_match_simple (txt);
 
 	if (v != NULL) {
-		value_release (str->constant.value);
-		str->constant.value = v;
-		return TRUE;
+		unregister_allocation (str);
+		expr_tree_unref (str);
+		return register_expr_allocation (expr_tree_new_constant (v));
 	}
-	return FALSE;
+	return str;
 }
 
 /**
@@ -340,13 +340,12 @@ parse_string_as_value_or_name (ExprTree *str)
 
 	expr_name = expr_name_lookup (state->pos, str->constant.value->v_str.val->str);
 	if (expr_name != NULL) {
-		unregister_allocation (str); expr_tree_unref (str);
+		unregister_allocation (str);
+		expr_tree_unref (str);
 		return register_expr_allocation (expr_tree_new_name (expr_name, NULL, NULL));
 	}
 
-	/* NOTE : parse_string_as_value modifies str in place */
-	parse_string_as_value (str);
-	return str;
+	return parse_string_as_value (str);
 }
 
 static int
@@ -658,7 +657,7 @@ arg_list: exp {
 	;
 
 array_exp: CONSTANT		{ $$ = $1; }
-	 | string_opt_quote	{ parse_string_as_value ($1); $$ = $1; }
+	 | string_opt_quote	{ $$ = parse_string_as_value ($1); }
 	 ;
 
 array_row: array_exp {

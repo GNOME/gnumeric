@@ -137,14 +137,41 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 
 		g_return_if_fail (font->gdk_font != NULL);
 
-		/* FIXME : how does one get the width of the
-		 * widest character used to display numbers?
-		 * Use 4 as the max width for now.  Count the
-		 * inter character spacing by measuring a
-		 * string with 10 digits
-		 */
-		font->approx_width.pixels = 
-			gdk_string_width (font->gdk_font, "4444444444") / 10.;
+		{
+			const char *teststr = "0123456789-+eE.";
+			const char *p1, *p2;
+			int w = 0, w1, w2, dw;
+			char buf[3];
+
+			for (p1 = teststr; *p1; p1++) {
+				buf[0] = *p1;
+				buf[1] = 0;
+				w1 = gdk_string_width (font->gdk_font, buf);
+				for (p2 = teststr; *p2; p2++) {
+					buf[1] = *p2;
+					buf[2] = 0;
+					w2 = gdk_string_width (font->gdk_font, buf);
+					dw = w2 - w1;
+					if (dw > w) {
+						w = dw;
+#ifdef DEBUG_FONT_WIDTH
+						fprintf (stderr, "   %s = %d", buf, w);
+#endif
+					}
+				}
+			}
+#ifdef DEBUG_FONT_WIDTH
+			g_warning ("%s%s%s: old=%.2f, new=%d.",
+				   font_name,
+				   font->is_bold ? " bold" : "",
+				   font->is_italic ? " italic" : "",
+				   gdk_string_width (font->gdk_font, "4444444444") / 10.,
+				   w);
+			font->approx_width.pixels = w;
+#endif
+
+		}
+
 #warning FIXME
 		font->approx_width.pts = font->approx_width.pixels;
 #if 0

@@ -1,3 +1,11 @@
+2002-03-19  Morten Welinder  <terra@diku.dk>
+
+	* src/style.c (style_font_new_simple): Work harder at getting widest character.
+
+	* src/format.c (format_number): Fix format breakage.  (Extra "E".)
+
+	* src/parser.y (parse_string_as_value): Clean up.
+
 2002-03-19  Juan Pablo Mendoza <jpablo@gnome.org>
 
 	* src/Makefile.am: Changue subdirs order to build pixmaps before
@@ -35,7 +43,8 @@
 
 2002-03-18  Jody Goldberg <jody@gnome.org>
 
-	* configure.in : bumpcanvas req topull in the canvas fixes changes.
+	* configure.in : bump canvas req to pull in the canvas fixes
+	changes.
 
 	* src/xml-io.c (xml_sheet_read) : look for sheet names in the right
 	  place.
