@@ -24,16 +24,16 @@ typedef struct {
 struct _SheetVector {
 	BonoboObject base;
 
-	Sheet  *sheet;
-	int len;
+	Sheet       *sheet;
+	int          len;
 
 	/*
 	 * A sheet vector consists of a group of ranges.  The user
 	 * can specify multiple non-contigous ranges as a single
 	 * serie.  
 	 */
-	int         n_blocks;	/* Number of Range blocks */
-	RangeBlock *blocks;	/* The blocks. */
+	int          n_blocks;	/* Number of Range blocks */
+	RangeBlock  *blocks;	/* The blocks. */
 
 	/*
 	 * This is passed by the Graph component as the
@@ -47,7 +47,7 @@ typedef struct {
 } SheetVectorClass;
 
 GtkType      sheet_vector_get_type      (void);
-SheetVector *sheet_vector_new           (Sheet *sheet);
+SheetVector *sheet_vector_new           (Sheet       *sheet);
 void         sheet_vector_reset         (SheetVector *sheet_vector);
 void         sheet_vector_append_range  (SheetVector *sheet_vector, Range *range);
 

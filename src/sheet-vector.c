@@ -226,7 +226,7 @@ static void
 impl_vector_set (PortableServer_Servant servant, CORBA_short pos,
 		 CORBA_double val, CORBA_Environment *ev)
 {
-	SheetVector *vec = vector_from_servant (servant);
+/*	SheetVector *vec = vector_from_servant (servant);*/
 
 	g_error ("Not implemented");
 }
@@ -311,7 +311,7 @@ sheet_vector_get_type (void)
 	return type;
 }
 
-GNOME_Gnumeric_Vector
+static GNOME_Gnumeric_Vector
 sheet_vector_corba_object_create (BonoboObject *object)
 {
 	POA_GNOME_Gnumeric_Vector *servant;
@@ -333,15 +333,17 @@ sheet_vector_corba_object_create (BonoboObject *object)
 }
 
 SheetVector *
-sheet_vector_new (void)
+sheet_vector_new (Sheet *sheet)
 {
 	SheetVector *sheet_vector;
 	GNOME_Gnumeric_Vector corba_vector;
 
 	sheet_vector = gtk_type_new (sheet_vector_get_type ());
 
+	sheet_vector->sheet = sheet;
+
 	corba_vector = sheet_vector_corba_object_create (BONOBO_OBJECT (sheet_vector));
-	if (corba_vector == NULL){
+	if (corba_vector == NULL) {
 		gtk_object_destroy (GTK_OBJECT (sheet_vector));
 		return NULL;
 	}
@@ -397,12 +399,17 @@ sheet_vector_attach (SheetVector *sheet_vector, Sheet *sheet)
 void
 sheet_vector_detach (SheetVector *sheet_vector)
 {
+	Sheet *sheet;
+
 	g_return_if_fail (sheet_vector != NULL);
 	g_return_if_fail (IS_SHEET_VECTOR (sheet_vector));
+
+	sheet = sheet_vector->sheet;
+	sheet_vector->sheet = NULL;
+
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_vector->sheet = NULL;
 	sheet->private->sheet_vectors = g_slist_remove (sheet->private->sheet_vectors, sheet_vector);
 }
 
