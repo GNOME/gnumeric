@@ -907,7 +907,7 @@ nfs_init (NumberFormatSelector *nfs)
 	gtk_widget_set_size_request (nfs->format.widget[F_LIST], -1, 100);
 	gtk_widget_set_size_request (nfs->format.widget[F_NEGATIVE], -1, 100);
 
-	/* use size group for better widget alignement */
+	/* use size group for better widget alignment */
 	nfs->format.size_group = gtk_size_group_new (GTK_SIZE_GROUP_HORIZONTAL);
 	gtk_size_group_add_widget (nfs->format.size_group,
 				   nfs->format.widget[F_SYMBOL_LABEL]);

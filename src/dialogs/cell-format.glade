@@ -115,7 +115,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label67">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">&lt;b&gt;Horizontal alignement&lt;/b&gt;</property>
+			  <property name="label" translatable="yes">&lt;b&gt;Horizontal alignment&lt;/b&gt;</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">True</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -392,7 +392,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label69">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">&lt;b&gt;Vertical alignement&lt;/b&gt;</property>
+			  <property name="label" translatable="yes">&lt;b&gt;Vertical alignment&lt;/b&gt;</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">True</property>
 			  <property name="justify">GTK_JUSTIFY_LEFT</property>
