@@ -50,7 +50,7 @@ Jukka:
 
 Morten:
 	* New Search Control Center.
-	* Find memory leaks.
+	* Find/Fix memory leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 0.71
