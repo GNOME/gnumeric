@@ -25,6 +25,9 @@
 #include <math.h>
 #include <string.h>
 #include <ranges.h>
+#include <sheet.h>
+#include <cell.h>
+#include <number-match.h>
 #include <libgnome/gnome-i18n.h>
 
 #ifndef USE_VALUE_POOLS
@@ -1044,6 +1047,385 @@ value_set_fmt (Value *v, StyleFormat const *fmt)
 	if (VALUE_FMT (v) != NULL)
 		style_format_unref (VALUE_FMT (v));
 	VALUE_FMT (v) = (StyleFormat *)fmt;
+}
+
+/****************************************************************************/
+
+gboolean
+criteria_test_equal (Value const *x, Value const *y)
+{
+	g_return_val_if_fail (x != NULL, FALSE);
+	g_return_val_if_fail (y != NULL, FALSE);
+        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
+	        if (value_get_as_float (x) == value_get_as_float (y))
+		        return 1;
+		else
+		        return 0;
+	else if (x->type == VALUE_STRING && y->type == VALUE_STRING
+		 && g_strcasecmp (x->v_str.val->str, y->v_str.val->str) == 0)
+	        return 1;
+	else
+	        return 0;
+}
+
+gboolean
+criteria_test_unequal (Value const *x, Value const *y)
+{
+	g_return_val_if_fail (x != NULL, FALSE);
+	g_return_val_if_fail (y != NULL, FALSE);
+        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
+	        if (value_get_as_float (x) != value_get_as_float (y))
+		        return 1;
+		else
+		        return 0;
+	else if (x->type == VALUE_STRING && y->type == VALUE_STRING
+		 && g_strcasecmp (x->v_str.val->str, y->v_str.val->str) != 0)
+	        return 1;
+	else
+	        return 0;
+}
+
+gboolean
+criteria_test_less (Value const *x, Value const *y)
+{
+	g_return_val_if_fail (x != NULL, FALSE);
+	g_return_val_if_fail (y != NULL, FALSE);
+        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
+	        if (value_get_as_float (x) < value_get_as_float (y))
+		        return 1;
+		else
+		        return 0;
+	else
+	        return 0;
+}
+
+gboolean
+criteria_test_greater (Value const *x, Value const *y)
+{
+	g_return_val_if_fail (x != NULL, FALSE);
+	g_return_val_if_fail (y != NULL, FALSE);
+        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
+	        if (value_get_as_float (x) > value_get_as_float (y))
+		        return 1;
+		else
+		        return 0;
+	else
+	        return 0;
+}
+
+gboolean
+criteria_test_less_or_equal (Value const *x, Value const *y)
+{
+	g_return_val_if_fail (x != NULL, FALSE);
+	g_return_val_if_fail (y != NULL, FALSE);
+        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
+	        if (value_get_as_float (x) <= value_get_as_float (y))
+		        return 1;
+		else
+		        return 0;
+	else
+	        return 0;
+}
+
+gboolean
+criteria_test_greater_or_equal (Value const *x, Value const *y)
+{
+	g_return_val_if_fail (x != NULL, FALSE);
+	g_return_val_if_fail (y != NULL, FALSE);
+        if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
+	        if (value_get_as_float (x) >= value_get_as_float (y))
+		        return 1;
+		else
+		        return 0;
+	else
+	        return 0;
+}
+
+/*
+ * Finds a column index of a field.
+ */
+int
+find_column_of_field (const EvalPos *ep, Value *database, Value *field)
+{
+        Sheet *sheet;
+        Cell  *cell;
+	gchar *field_name;
+	int   begin_col, end_col, row, n, column;
+	int   offset;
+
+	offset = database->v_range.cell.b.col -
+	  database->v_range.cell.a.col;
+
+	if (field->type == VALUE_INTEGER)
+	        return value_get_as_int (field) + offset - 1;
+
+	if (field->type != VALUE_STRING)
+	        return -1;
+
+	sheet = eval_sheet (database->v_range.cell.a.sheet, ep->sheet);
+	field_name = value_get_as_string (field);
+	column = -1;
+
+	/* find the column that is labeled after `field_name' */
+	begin_col = database->v_range.cell.a.col;
+	end_col = database->v_range.cell.b.col;
+	row = database->v_range.cell.a.row;
+
+	for (n = begin_col; n <= end_col; n++) {
+		char *txt;
+		gboolean match;
+
+	        cell = sheet_cell_get (sheet, n, row);
+		if (cell == NULL)
+		        continue;
+
+		txt = cell_get_rendered_text (cell);
+		match = (g_strcasecmp (field_name, txt) == 0);
+		g_free (txt);
+		if (match) {
+		        column = n;
+			break;
+		}
+	}
+
+	g_free (field_name);
+	return column;
+}
+
+/*
+ * Frees the allocated memory.
+ */
+void
+free_criterias (GSList *criterias)
+{
+        GSList *list = criterias;
+
+        while (criterias != NULL) {
+		GSList *l;
+	        database_criteria_t *criteria = criterias->data;
+
+		for (l = criteria->conditions; l; l = l->next) {
+			func_criteria_t *cond = l->data;
+			value_release (cond->x);
+			g_free (cond);
+		}
+
+		g_slist_free (criteria->conditions);
+		g_free (criteria);
+	        criterias = criterias->next;
+	}
+	g_slist_free (list);
+}
+
+void
+parse_criteria (char const *criteria, criteria_test_fun_t *fun,
+		Value **test_value)
+{
+	int len;
+
+        if (strncmp (criteria, "<=", 2) == 0) {
+	        *fun = (criteria_test_fun_t) criteria_test_less_or_equal;
+		len = 2;
+	} else if (strncmp (criteria, ">=", 2) == 0) {
+	        *fun = (criteria_test_fun_t) criteria_test_greater_or_equal;
+		len = 2;
+	} else if (strncmp (criteria, "<>", 2) == 0) {
+	        *fun = (criteria_test_fun_t) criteria_test_unequal;
+		len = 2;
+	} else if (*criteria == '<') {
+	        *fun = (criteria_test_fun_t) criteria_test_less;
+		len = 1;
+	} else if (*criteria == '=') {
+	        *fun = (criteria_test_fun_t) criteria_test_equal;
+		len = 1;
+	} else if (*criteria == '>') {
+	        *fun = (criteria_test_fun_t) criteria_test_greater;
+		len = 1;
+	} else {
+	        *fun = (criteria_test_fun_t) criteria_test_equal;
+		len = 0;
+	}
+
+	*test_value = format_match (criteria + len, NULL);
+	if (*test_value == NULL)
+		*test_value = value_new_string (criteria + len);
+}
+
+
+GSList *
+parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
+		      int   *field_ind)
+{
+	database_criteria_t *new_criteria;
+	GSList              *criterias = NULL;
+	GSList              *conditions;
+	Cell const          *cell;
+	func_criteria_t     *cond;
+	gchar               *cell_str;
+
+        int i, j;
+
+	for (i = b_row; i <= e_row; i++) {
+	        new_criteria = g_new (database_criteria_t, 1);
+		conditions = NULL;
+
+		for (j = b_col; j <= e_col; j++) {
+		        cell = sheet_cell_get (sheet, j, i);
+			if (cell_is_blank (cell))
+			        continue;
+
+			cond = g_new (func_criteria_t, 1);
+
+			/* Equality condition (in number format) */
+			if (VALUE_IS_NUMBER (cell->value)) {
+			        cond->x = value_duplicate (cell->value);
+				cond->fun =
+				  (criteria_test_fun_t) criteria_test_equal;
+				cond->column = field_ind[j - b_col];
+				conditions = g_slist_append (conditions, cond);
+				continue;
+			}
+
+			/* Other conditions (in string format) */
+			cell_str = cell_get_rendered_text (cell);
+			parse_criteria (cell_str, &cond->fun, &cond->x);
+			if (field_ind != NULL)
+			        cond->column = field_ind[j - b_col];
+			else
+			        cond->column = j - b_col;
+			g_free (cell_str);
+
+			conditions = g_slist_append (conditions, cond);
+		}
+
+		new_criteria->conditions = conditions;
+		criterias = g_slist_append (criterias, new_criteria);
+	}
+
+	return criterias;
+}
+
+/*
+ * Parses the criteria cell range.
+ */
+GSList *
+parse_database_criteria (const EvalPos *ep, Value *database,
+			 Value *criteria)
+{
+	Sheet               *sheet;
+	GSList              *criterias;
+	Cell const          *cell;
+
+        int   i;
+	int   b_col, b_row, e_col, e_row;
+	int   *field_ind;
+
+	sheet = eval_sheet (criteria->v_range.cell.a.sheet, ep->sheet);
+	b_col = criteria->v_range.cell.a.col;
+	b_row = criteria->v_range.cell.a.row;
+	e_col = criteria->v_range.cell.b.col;
+	e_row = criteria->v_range.cell.b.row;
+
+	field_ind = g_new (int, (e_col - b_col + 1));
+
+	/* Find the index numbers for the columns of criterias */
+	for (i = b_col; i <= e_col; i++) {
+	        cell = sheet_cell_get (sheet, i, b_row);
+		if (cell_is_blank (cell))
+		        continue;
+		field_ind[i - b_col] =
+		        find_column_of_field (ep, database, cell->value);
+		if (field_ind[i - b_col] == -1) {
+		        g_free (field_ind);
+			return NULL;
+		}
+	}
+
+	criterias = parse_criteria_range (sheet, b_col, b_row + 1,
+					  e_col, e_row,
+					  field_ind);
+
+	g_free (field_ind);
+	return criterias;
+}
+
+/* Finds the rows from the given database that match the criteria.
+ */
+GSList *
+find_rows_that_match (Sheet *sheet, int first_col, int first_row,
+		      int last_col, int last_row,
+		      GSList *criterias, gboolean unique_only)
+{
+	GSList *current, *conditions, *rows;
+	Cell const *test_cell;
+	int    row, add_flag;
+	rows = NULL;
+
+	for (row = first_row; row <= last_row; row++) {
+
+		current = criterias;
+		add_flag = 1;
+		for (current = criterias; current != NULL;
+		     current = current->next) {
+			database_criteria_t *current_criteria;
+
+			add_flag = 1;
+			current_criteria = current->data;
+			conditions = current_criteria->conditions;
+
+			while (conditions != NULL) {
+				func_criteria_t const *cond = conditions->data;
+
+				test_cell = sheet_cell_get (sheet,
+					first_col + cond->column, row);
+				if (cell_is_blank (test_cell))
+					continue;
+
+				if (!cond->fun (test_cell->value, cond->x)) {
+					add_flag = 0;
+					break;
+				}
+				conditions = conditions->next;
+			}
+
+			if (add_flag)
+				break;
+		}
+		if (add_flag) {
+			gint *p;
+
+			if (unique_only) {
+				GSList *c;
+				Cell   *cell;
+				gint    i, trow;
+				gchar  *t1, *t2;
+
+				for (c = rows; c != NULL; c = c->next) {
+					trow = *((gint *) c->data);
+					for (i = first_col; i <= last_col; i++) {
+						test_cell =
+							sheet_cell_get (sheet, i, trow);
+						cell =
+							sheet_cell_get (sheet, i, row);
+						t1 = cell_get_rendered_text (cell);
+						t2 = cell_get_rendered_text (test_cell);
+						if (strcmp (t1, t2) != 0)
+							goto row_ok;
+					}
+					goto filter_row;
+row_ok:
+					;
+				}
+			}
+			p = g_new (gint, 1);
+			*p = row;
+			rows = g_slist_prepend (rows, (gpointer) p);
+filter_row:
+			;
+		}
+	}
+
+	return g_slist_reverse (rows);
 }
 
 /****************************************************************************/

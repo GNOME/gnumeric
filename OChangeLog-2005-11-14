@@ -1,5 +1,14 @@
 2002-04-22  Morten Welinder  <terra@diku.dk>
 
+	* src/value.c (criteria_test_equal, criteria_test_unequal,
+	criteria_test_less, criteria_test_less_or_equal,
+	criteria_test_greater, criteria_test_greater_or_equal,
+	parse_criteria, parse_criteria_range, free_criterias,
+	find_rows_that_match, parse_database_criteria,
+	find_column_of_field): Move from fn-database.
+
+2002-04-22  Morten Welinder  <terra@diku.dk>
+
 	* src/expr-name.c (expr_name_shutdown): New function.
 
 	* src/libgnumeric.c (gnm_common_init, gnm_shutdown): Fix

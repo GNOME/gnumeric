@@ -25,11 +25,8 @@
 #include <gnumeric.h>
 #include <func.h>
 
-#include <func-util.h>
-#include <parse-util.h>
 #include <cell.h>
 #include <sheet.h>
-#include <str.h>
 #include <mathfunc.h>
 #include <rangefunc.h>
 #include <collect.h>

@@ -154,6 +154,42 @@ extern const ValueErr value_terminate_err;
 void value_array_set       (Value *array, int col, int row, Value *v);
 void value_array_resize    (Value *v, int width, int height);
 
+/* Type definitions and function prototypes for criteria functions.
+ * This includes the database functions and some mathematical functions
+ * like COUNTIF, SUMIF...
+ */
+gboolean criteria_test_equal            (Value const *x, Value const *y);
+gboolean criteria_test_unequal          (Value const *x, Value const *y);
+gboolean criteria_test_greater          (Value const *x, Value const *y);
+gboolean criteria_test_less             (Value const *x, Value const *y);
+gboolean criteria_test_greater_or_equal (Value const *x, Value const *y);
+gboolean criteria_test_less_or_equal    (Value const *x, Value const *y);
+
+/* FIXME: this stuff below ought to go elsewhere.  */
+typedef struct {
+        int    row;
+        GSList *conditions;
+} database_criteria_t;
+typedef gboolean (*criteria_test_fun_t) (Value const *x, Value const *y);
+typedef struct {
+        criteria_test_fun_t fun;
+        Value               *x;
+        int                 column;
+} func_criteria_t;
+void parse_criteria                 (char const *criteria,
+				     criteria_test_fun_t *fun,
+				     Value **test_value);
+GSList *parse_criteria_range        (Sheet *sheet, int b_col, int b_row,
+				     int e_col, int e_row,
+				     int   *field_ind);
+void free_criterias                 (GSList *criterias);
+GSList *find_rows_that_match        (Sheet *sheet, int first_col,
+				     int first_row, int last_col, int last_row,
+				     GSList *criterias, gboolean unique_only);
+GSList *parse_database_criteria     (const EvalPos *ep, Value *database, Value *criteria);
+int find_column_of_field (const EvalPos *ep, Value *database, Value *field);
+
+
 /* Some utility constants to make sure we all spell correctly */
 extern char const *gnumeric_err_NULL;
 extern char const *gnumeric_err_DIV0;
