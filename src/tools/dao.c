@@ -267,13 +267,17 @@ dao_set_cell_value (data_analysis_output_t *dao, int col, int row, Value *v)
 	 */
 	if (dao->type == RangeOutput &&
 	    (dao->cols > 1 || dao->rows > 1) &&
-	    (col >= dao->cols || row >= dao->rows))
+	    (col >= dao->cols || row >= dao->rows)) {
+		value_release (v);
 	        return;
+	}
 
 	col += dao->start_col;
 	row += dao->start_row;
-	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS)
+	if (col >= SHEET_MAX_COLS || row >= SHEET_MAX_ROWS) {
+		value_release (v);
 		return;
+	}
 
 	cell = sheet_cell_fetch (dao->sheet, col, row);
 

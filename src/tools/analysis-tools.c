@@ -3649,56 +3649,32 @@ destroy_items (gpointer data, gpointer user_data) {
 	g_free (data);
 }
 
-int
-histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
-		group_by_t group_by, gboolean bin_labels,
-		gboolean pareto, gboolean percentage, gboolean cumulative,
-		gboolean chart, histogram_calc_bin_info_t *bin_info,
-		data_analysis_output_t *dao)
+static gboolean
+analysis_tool_histogram_engine_run (data_analysis_output_t *dao, 
+				  analysis_tools_data_histogram_t *info, GPtrArray **bin_data)
 {
-	GSList *input_range;
+
 	GPtrArray *data = NULL;
-	GSList *bin_range;
-	GPtrArray *bin_data = NULL;
 	GSList *bin_list = NULL;
 	bin_t  *a_bin;
 	guint  i, j, row, col;
 	GSList * this;
 	gnum_float *this_value;
 
-	if (bin != NULL) {
-/* read bin data */
-		bin_range = g_slist_prepend (NULL, bin);
-		prepare_input_range (&bin_range, GROUPED_BY_ROW);
-		bin_data = new_data_set_list (bin_range, GROUPED_BY_BIN,
-					      TRUE, bin_labels, sheet);
-		for (i = 0; i < bin_data->len; i++) {
-			if (((data_set_t *)g_ptr_array_index (bin_data, i))->data->len != 1) {
-				range_list_destroy (input);
-				destroy_data_set_list (bin_data);
-				range_list_destroy (bin_range);
-				/* inconsistent bins */
-				return 2;
-			}
-		}
-	}
 
-/* read input data */
-	input_range = input;
-	prepare_input_range (&input_range, group_by);
-	data = new_data_set_list (input_range, group_by,
-				  TRUE, dao->labels_flag, sheet);
+	data = new_data_set_list (info->input, info->group_by,
+				  TRUE, info->labels, dao->sheet);
 
 /* set up counter structure */
-	if (bin != NULL) {
-		for (i=0; i < bin_data->len; i++) {
+	if (info->bin != NULL) {
+		for (i=0; i < (*bin_data)->len; i++) {
 			a_bin = g_new (bin_t, 1);
 			a_bin->limit = g_array_index (
-				((data_set_t *)g_ptr_array_index (bin_data, i))->data,
+				((data_set_t *)g_ptr_array_index ((*bin_data), i))->data,
 				gnum_float, 0);
 			a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
 			a_bin->counts = g_array_set_size (a_bin->counts, data->len);
-			a_bin->label = ((data_set_t *)g_ptr_array_index (bin_data, i))->label;
+			a_bin->label = ((data_set_t *)g_ptr_array_index ((*bin_data), i))->label;
 			a_bin->destroy_label = FALSE;
 			a_bin->last = FALSE;
 			a_bin->first = FALSE;
@@ -3713,7 +3689,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		char        *text;
 		Value       *val;
 
-		if (!bin_info->max_given) {
+		if (!info->max_given) {
 			value_set = FALSE;
 			for (i = 0; i < data->len; i++) {
 				GArray * the_data;
@@ -3722,18 +3698,18 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 				if (0 == range_max ((gnum_float *)the_data->data, the_data->len,
 						    &a_max)) {
 					if (value_set) {
-						if (a_max > bin_info->max)
-							bin_info->max = a_max;
+						if (a_max > info->max)
+							info->max = a_max;
 					} else {
-						bin_info->max = a_max;
+						info->max = a_max;
 						value_set = TRUE;
 					}
 				}
 			}
 			if (!value_set)
-				bin_info->max = 0.0;
+				info->max = 0.0;
 		}
-		if (!bin_info->min_given) {
+		if (!info->min_given) {
 			value_set = FALSE;
 			for (i = 0; i < data->len; i++) {
 				GArray * the_data;
@@ -3742,22 +3718,22 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 				if (0 == range_min ((gnum_float *)the_data->data, the_data->len,
 						    &a_min)) {
 					if (value_set) {
-						if (a_min < bin_info->min)
-							bin_info->min = a_min;
+						if (a_min < info->min)
+							info->min = a_min;
 					} else {
-						bin_info->min = a_min;
+						info->min = a_min;
 						value_set = TRUE;
 					}
 				}
 			}
 			if (!value_set)
-				bin_info->min = 0.0;
+				info->min = 0.0;
 		}
 
-		skip = (bin_info->max - bin_info->min) / bin_info->n;
-		for (i = 0; (int)i < bin_info->n;  i++) {
+		skip = (info->max - info->min) / info->n;
+		for (i = 0; (int)i < info->n;  i++) {
 			a_bin = g_new (bin_t, 1);
-			a_bin->limit = bin_info->max - i * skip;
+			a_bin->limit = info->max - i * skip;
 			a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
 			a_bin->counts = g_array_set_size (a_bin->counts, data->len);
 			a_bin->label = NULL;
@@ -3768,10 +3744,10 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 			bin_list = g_slist_prepend (bin_list, a_bin);
 		}
 		a_bin = g_new (bin_t, 1);
-		a_bin->limit = bin_info->min;
+		a_bin->limit = info->min;
 		a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
 		a_bin->counts = g_array_set_size (a_bin->counts, data->len);
-		val = value_new_float(bin_info->min);
+		val = value_new_float(info->min);
 		text = format_value (NULL, val, NULL, 10);
 		if (text) {
 			a_bin->label = g_strdup_printf (_("<%s"), text);
@@ -3787,20 +3763,20 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		a_bin->first = TRUE;
 		a_bin->strict = TRUE;
 		bin_list = g_slist_prepend (bin_list, a_bin);
-		bin_labels = FALSE;
+		info->bin_labels = FALSE;
 	}
 	a_bin = g_new (bin_t, 1);
 	a_bin->limit = 0.0;
 	a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
 	a_bin->counts = g_array_set_size (a_bin->counts, data->len);
 	a_bin->destroy_label = FALSE;
-	if (bin != NULL) {
+	if (info->bin != NULL) {
 		a_bin->label = _("More");
 	} else {
 		char        *text;
 		Value       *val;
 
-		val = value_new_float(bin_info->max);
+		val = value_new_float(info->max);
 		text = format_value (NULL, val, NULL, 10);
 		if (text) {
 			a_bin->label = g_strdup_printf (_(">%s"), text);
@@ -3844,21 +3820,19 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 	}
 
 /* sort if pareto */
-	if (pareto && (data->len > 0))
+	if (info->pareto && (data->len > 0))
 		bin_list = g_slist_sort (bin_list,
 					 (GCompareFunc) bin_pareto);
 
-	dao_prepare_output (wbc, dao, _("Histogram"));
-
 /* print labels */
-	row = dao->labels_flag ? 1 : 0;
-	if (!bin_labels)
+	row = info->labels ? 1 : 0;
+	if (!info->bin_labels)
 		dao_set_cell (dao, 0, row, _("Bin"));
 
 	this = bin_list;
 	while (this != NULL) {
 		row++;
-		if (bin_labels || ((bin_t *)this->data)->last || ((bin_t *)this->data)->first) {
+		if (info->bin_labels || ((bin_t *)this->data)->last || ((bin_t *)this->data)->first) {
 			dao_set_cell (dao, 0, row, ((bin_t *)this->data)->label);
 		} else {
 			dao_set_cell_float (dao, 0, row, ((bin_t *)this->data)->limit);
@@ -3873,15 +3847,15 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		gnum_float y = 0.0;
 		row = 0;
 
-		if (dao->labels_flag) {
+		if (info->labels) {
 			dao_set_cell (dao, col, row,
 				  ((data_set_t *)g_ptr_array_index (data, i))->label);
 			row++;
 		}
 		dao_set_cell (dao, col, row, _("Frequency"));
-		if (percentage)
+		if (info->percentage)
 			dao_set_cell (dao, ++l_col, row, _("%"));
-		if (cumulative)
+		if (info->cumulative)
 			/* xgettext:no-c-format */
 			dao_set_cell (dao, ++l_col, row, _("Cumulative %"));
 /* print data */
@@ -3894,12 +3868,12 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 			row ++;
 			dao_set_cell_float (dao, col, row,  x);
 			x /= ((data_set_t *)(g_ptr_array_index (data, i)))->data->len;
-			if (percentage) {
+			if (info->percentage) {
 				l_col++;
 				dao_set_percent (dao, l_col, row, l_col, row);
 				dao_set_cell_float (dao, l_col, row, x);
 			}
-			if (cumulative) {
+			if (info->cumulative) {
 				y += x;
 				l_col++;
 				dao_set_percent (dao, l_col, row, l_col, row);
@@ -3908,31 +3882,88 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 			this = this->next;
 		}
 		col++;
-		if (percentage)
+		if (info->percentage)
 			col++;
-		if (cumulative)
+		if (info->cumulative)
 			col++;
 	}
-	dao_set_italic (dao, 0, 0,  col - 1, dao->labels_flag ? 1 : 0);
-	dao_autofit_columns (dao);
+	dao_set_italic (dao, 0, 0,  col - 1, info->labels ? 1 : 0);
 
 /* finish up */
 	destroy_data_set_list (data);
-	range_list_destroy (input_range);
-	if (bin) {
-		destroy_data_set_list (bin_data);
-		range_list_destroy (bin_range);
-	}
 	g_slist_foreach (bin_list, destroy_items, NULL);
 	g_slist_free (bin_list);
 
+	if (*bin_data) {
+		destroy_data_set_list (*bin_data);
+		*bin_data = NULL;
+	}
 
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (dao->sheet);
-
-	if (chart)
+	if (info->chart)
 		g_warning ("TODO : tie this into the graph generator");
-	return 0;
+	return FALSE;
+}
+
+static gboolean
+analysis_tool_histogram_engine_check_bins (data_analysis_output_t *dao, 
+					   analysis_tools_data_histogram_t *info, 
+					   GPtrArray **bin_data_cont)
+{
+	GPtrArray *bin_data = NULL;
+	guint  i;
+
+	if (info->bin == NULL) 
+		return FALSE;
+
+	bin_data = new_data_set_list (info->bin, GROUPED_BY_BIN,
+				      TRUE, info->bin_labels, dao->sheet);
+	for (i = 0; i < bin_data->len; i++) {
+		if (((data_set_t *)g_ptr_array_index (bin_data, i))->data->len != 1) {
+			destroy_data_set_list (bin_data);
+			return TRUE;
+		}
+	}
+	*bin_data_cont = bin_data;
+
+	return FALSE;
+}
+
+gboolean 
+analysis_tool_histogram_engine (data_analysis_output_t *dao, gpointer specs, 
+			      analysis_tool_engine_t selector, gpointer result)
+{
+	analysis_tools_data_histogram_t *info = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Histogram (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		prepare_input_range (&info->input, info->group_by);
+		if (info->bin)
+			prepare_input_range (&info->bin, GROUPED_BY_ROW);
+		dao_adjust (dao, 
+			    1 + (1 + (info->cumulative ? 1 : 0) +
+				 (info->percentage ? 1 : 0)) * g_slist_length (info->input), 
+			    2 + (info->bin ? g_slist_length (info->bin) : info->n) +
+			    (info->labels ? 1 : 0));
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		range_list_destroy (info->input);
+		range_list_destroy (info->bin);
+		return FALSE;
+	case TOOL_ENGINE_LAST_VALIDITY_CHECK:
+		return analysis_tool_histogram_engine_check_bins (dao, specs, result);
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Histogram"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Histogram"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_histogram_engine_run (dao, specs, result);
+	}
+	return TRUE;  /* We shouldn't get here */
 }
 
 

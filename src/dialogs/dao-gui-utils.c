@@ -27,7 +27,7 @@
 
 #include <gnumeric-config.h>
 #include "dao-gui-utils.h"
-#include "analysis-tools.h"
+#include "tools.h"
 
 #include "value.h"
 #include "gui-util.h"

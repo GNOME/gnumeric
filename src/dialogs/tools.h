@@ -16,20 +16,40 @@
 #ifndef GNUMERIC_TOOLS_H
 #define GNUMERIC_TOOLS_H
 
-#include "analysis-tools.h"
-#include "regression.h"
-#include "random-generator.h"
-
-/*******************************************************************/
-/* Section 1: gui utility functions for the tools                  */
+#include "gnumeric.h"
+#include "numbers.h"
+#include "tools/dao.h"
 
 typedef enum {
-	TOOL_CORRELATION = 1,       /* use GenericToolState */
-	TOOL_COVARIANCE = 2,        /* use GenericToolState */
-	TOOL_RANK_PERCENTILE = 3,   /* use GenericToolState */
-	TOOL_HISTOGRAM = 5,   /* use GenericToolState */
-	TOOL_FOURIER = 6,   /* use GenericToolState */
-	TOOL_GENERIC = 10,          /* all smaller types are generic */
+	TOOL_ENGINE_UPDATE_DAO = 0,
+	TOOL_ENGINE_UPDATE_DESCRIPTOR,
+	TOOL_ENGINE_PREPARE_OUTPUT_RANGE,
+	TOOL_ENGINE_LAST_VALIDITY_CHECK,
+	TOOL_ENGINE_FORMAT_OUTPUT_RANGE,
+	TOOL_ENGINE_PERFORM_CALC,
+	TOOL_ENGINE_CLEAN_UP
+} analysis_tool_engine_t;
+
+typedef gboolean (* analysis_tool_engine) (data_analysis_output_t *dao, gpointer specs, 
+					   analysis_tool_engine_t selector, gpointer result);
+
+
+typedef enum {
+	GROUPED_BY_ROW = 0,
+	GROUPED_BY_COL = 1,
+	GROUPED_BY_AREA = 2,
+	GROUPED_BY_BIN = 3
+} group_by_t;
+
+
+
+typedef enum {
+	TOOL_CORRELATION = 1,
+	TOOL_COVARIANCE = 2, 
+	TOOL_RANK_PERCENTILE = 3,
+	TOOL_HISTOGRAM = 5,  
+	TOOL_FOURIER = 6,   
+	TOOL_GENERIC = 10,  
 	TOOL_DESC_STATS = 11,
 	TOOL_TTEST = 12,
 	TOOL_SAMPLING = 13,
@@ -77,227 +97,6 @@ void tool_load_selection (GenericToolState *state, gboolean allow_multiple);
 gboolean tool_destroy (GtkObject *w, GenericToolState  *state);
 void dialog_tool_init_buttons (GenericToolState *state, GCallback ok_function);
 void error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str);
-
-/*******************************************************************/
-/* Section 2: not undoable tools                                   */
-
-RegressionResult
-regression_tool           (WorkbookControl *context, Sheet *sheet,
-			   GSList *x_input, Value *y_input,
-			   group_by_t group_by,
-			   gnum_float alpha, data_analysis_output_t *dao,
-			   int intercept);
-int random_tool           (WorkbookControl *context, Sheet *sheet,
-			   int vars, int count, random_distribution_t distribution,
-			   random_tool_t *param, data_analysis_output_t *dao);
-int histogram_tool        (WorkbookControl *context, Sheet *sheet,
-			   GSList *input, Value *bin, group_by_t group_by,
-			   gboolean bin_labels, gboolean pareto, gboolean percentage,
-			   gboolean cumulative, gboolean chart,
-			   histogram_calc_bin_info_t *bin_info,
-			   data_analysis_output_t *dao);
-
-/*******************************************************************/
-/* Section 3: Undoable tools and their data structures             */
-
-typedef enum {
-	analysis_tools_noerr = 0,
-	analysis_tools_missing_data,
-	analysis_tools_too_few_cols,
-	analysis_tools_too_few_rows,
-	analysis_tools_replication_invalid
-} analysis_tools_error_code_t;
-
-
-#define ANALYSIS_TOOLS_DATA_GENERIC 	analysis_tools_error_code_t err;\
-	                                WorkbookControlGUI *wbcg;       \
-	                                GSList     *input;              \
-	                                group_by_t group_by;            \
-                                        gboolean   labels	
-
-/********************************************************************/
-/* Subsection 3a: Undoable Tools using the first  common generic data struct */
-
-typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
-} analysis_tools_data_generic_t;
-
-/**************** Correlation Tool ***************/
-
-gboolean analysis_tool_correlation_engine  (data_analysis_output_t *dao, gpointer specs, 
-					    analysis_tool_engine_t selector, gpointer result);
-
-
-/**************** Covariance Tool  ***************/
-
-gboolean analysis_tool_covariance_engine  (data_analysis_output_t *dao, gpointer specs, 
-					    analysis_tool_engine_t selector, gpointer result);
-
-
-/********************************************************************/
-/* Subsection 3b: Undoable Tools using the first  common generic    */
-/*                data struct augmented with some simple fields     */
-
-/************** Single Factor ANOVA  *************/
-
-typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
-	gnum_float alpha;
-} analysis_tools_data_anova_single_t;
-
-gboolean analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs, 
-					   analysis_tool_engine_t selector, gpointer result);
-
-/********** Descriptive Statistics Tool **********/
-
-typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
-        gboolean summary_statistics;
-        gboolean confidence_level;
-        gboolean kth_largest;
-        gboolean kth_smallest;
-        int      k_smallest;
-	int      k_largest;
-        gnum_float  c_level;
-} analysis_tools_data_descriptive_t;
-
-gboolean analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs, 
-					   analysis_tool_engine_t selector, gpointer result);
-
-
-/************** Moving Averages **** *************/
-
-typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
-	int interval;
-	int std_error_flag;
-} analysis_tools_data_moving_average_t;
-
-gboolean analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs, 
-					      analysis_tool_engine_t selector, gpointer result);
-
-
-/************** Exponential Smoothing  *************/
-
-typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
-	gnum_float damp_fact;
-	int std_error_flag;
-} analysis_tools_data_exponential_smoothing_t;
-
-gboolean analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao, gpointer specs, 
-					   analysis_tool_engine_t selector, gpointer result);
-
-
-/************** Fourier Analysis **** *************/
-
-typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
-	gboolean inverse;
-} analysis_tools_data_fourier_t;
-
-gboolean analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs, 
-				       analysis_tool_engine_t selector, gpointer result);
-
-
-/************** Sampling Tool **********************/
-
-typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
-	gboolean periodic;
-	guint size;
-	guint number;
-} analysis_tools_data_sampling_t;
-
-gboolean analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs, 
-				       analysis_tool_engine_t selector, gpointer result);
-
-
-/************** Ranking Tool *************************/
-
-typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC;
-	gboolean av_ties;
-} analysis_tools_data_ranking_t;
-
-gboolean analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer specs, 
-				       analysis_tool_engine_t selector, gpointer result);
-
-
-/********************************************************************/
-/* Subsection 3c: Undoable Tools using the second common generic    */
-/*                data struct augmented with some simple fields     */
-
-#define ANALYSIS_TOOLS_DATA_GENERIC_TWO_VARS	analysis_tools_error_code_t err;\
-	                                WorkbookControlGUI *wbcg;               \
-                                        Value *range_1;                         \
-                                        Value *range_2;                         \
-                                        gboolean   labels	
-
-/*********************** FTest ************************/
-
-typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC_TWO_VARS;
-	gnum_float alpha;
-} analysis_tools_data_ftest_t;
-
-gboolean analysis_tool_ftest_engine (data_analysis_output_t *dao, gpointer specs, 
-				     analysis_tool_engine_t selector, gpointer result);
-
-/*********************** TTest paired *****************/
-
-typedef struct {
-	ANALYSIS_TOOLS_DATA_GENERIC_TWO_VARS;
-	gnum_float alpha;
-	gnum_float mean_diff;
-	gnum_float var1;
-	gnum_float var2;
-} analysis_tools_data_ttests_t;
-
-gboolean analysis_tool_ttest_paired_engine (data_analysis_output_t *dao, gpointer specs, 
-				     analysis_tool_engine_t selector, gpointer result);
-
-
-/*********************** TTest equal varinaces *********/
-
-gboolean analysis_tool_ttest_eqvar_engine (data_analysis_output_t *dao, gpointer specs, 
-				     analysis_tool_engine_t selector, gpointer result);
-
-
-/*********************** TTest unequal varinaces *******/
-
-gboolean analysis_tool_ttest_neqvar_engine (data_analysis_output_t *dao, gpointer specs, 
-					    analysis_tool_engine_t selector, gpointer result);
-
-
-/*********************** ZTest ************************/
-
-gboolean analysis_tool_ztest_engine (data_analysis_output_t *dao, gpointer specs, 
-				     analysis_tool_engine_t selector, gpointer result);
-
-
-/********************************************************************/
-/* Subsection 3d: Undoable Tools using their own data struct        */
-
-/****************  2-Factor ANOVA  ***************/
-
-typedef struct {
-	analysis_tools_error_code_t err;
-	WorkbookControlGUI *wbcg;
-	Value     *input;
-	group_by_t group_by;
-	gboolean   labels;
-	GSList    *row_input_range;
-	GSList    *col_input_range;
-	gnum_float alpha;
-	gint       replication;
-	gint       rows;
-	guint       n_c;
-	guint       n_r;
-} analysis_tools_data_anova_two_factor_t;
-
-gboolean analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer specs, 
-					   analysis_tool_engine_t selector, gpointer result);
 
 
 

@@ -2699,69 +2699,51 @@ histogram_tool_update_sensitivity_cb (GtkWidget *dummy, HistogramToolState *stat
 static void
 histogram_tool_ok_clicked_cb (GtkWidget *button, HistogramToolState *state)
 {
-	data_analysis_output_t  dao;
-	GSList *input;
-	Value  *bin;
-        char   *text;
+	data_analysis_output_t  *dao;
+	analysis_tools_data_histogram_t  *data;
+
 	GtkWidget *w;
-	int pareto, cum, chart, err, bin_labels = 0, percent;
-	histogram_calc_bin_info_t bin_info = {FALSE, FALSE, 0, 0, 0};
-	histogram_calc_bin_info_t *bin_info_ptr = &bin_info;
 
-	if (state->warning_dialog != NULL)
-		gtk_widget_destroy (state->warning_dialog);
+	data = g_new0 (analysis_tools_data_histogram_t, 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
 
-	input = gnm_expr_entry_parse_as_list (
+	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	if (gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->predetermined_button))) {
 		w = glade_xml_get_widget (state->gui, "labels_2_button");
-		bin_labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-		bin = gnm_expr_entry_parse_as_value
-			(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet);
-		bin_info_ptr = NULL;
+		data->bin_labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+		data->bin = g_slist_prepend (NULL, gnm_expr_entry_parse_as_value
+					     (GNUMERIC_EXPR_ENTRY (state->input_entry_2), 
+					      state->sheet));
 	} else {
-		entry_to_int(state->n_entry, &bin_info.n,TRUE);
-		bin_info.max_given = (0 == entry_to_float (state->max_entry,
-							    &bin_info.max , TRUE));
-		bin_info.min_given = (0 == entry_to_float (state->min_entry,
-							    &bin_info.min , TRUE));
-		bin = NULL;
+		entry_to_int(state->n_entry, &data->n,TRUE);
+		data->max_given = (0 == entry_to_float (state->max_entry,
+							    &data->max , TRUE));
+	        data->min_given = (0 == entry_to_float (state->min_entry,
+							    &data->min , TRUE));
+		data->bin = NULL;
 	}
-
-        parse_output ((GenericToolState *) state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-	dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->gui, "pareto-button");
-	pareto = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->pareto = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->gui, "percentage-button");
-	percent  = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->percentage = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->gui, "cum-button");
-	cum = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->cumulative = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 	w = glade_xml_get_widget (state->gui, "chart-button");
-	chart = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->chart = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = histogram_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-			      input, bin,
-			      gnumeric_glade_group_value (state->gui, grouped_by_group),
-			      bin_labels, pareto, percent, cum, chart, bin_info_ptr, &dao);
-	switch (err) {
-	case 0:
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+			       dao, data, analysis_tool_histogram_engine))
 		gtk_widget_destroy (state->dialog);
-		break;
-        case 2:
-	        error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry_2),
-				_("Each row of the bin range should contain one numeric value\n"
-				  "(ignoring the label if applicable)."));
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
+
+/* 				_("Each row of the bin range should contain one numeric value\n" */
+/* 				  "(ignoring the label if applicable).")); */
 	return;
 }
 

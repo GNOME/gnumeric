@@ -3,9 +3,8 @@
 
 #include "gnumeric.h"
 #include "numbers.h"
-#include <widgets/gnumeric-expr-entry.h>
-#include <glade/glade.h>
 #include "dao.h"
+#include "tools.h"
 
 
 typedef enum {
@@ -68,6 +67,10 @@ typedef union {
         exponential_random_tool_t exponential;
         patterned_random_tool_t   patterned;
 } random_tool_t;
+
+int random_tool           (WorkbookControl *context, Sheet *sheet,
+			   int vars, int count, random_distribution_t distribution,
+			   random_tool_t *param, data_analysis_output_t *dao);
 
 
 #endif

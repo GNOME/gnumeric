@@ -4389,6 +4389,7 @@ cmd_analysis_tool_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 static gboolean
 cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
+	gpointer continuity = NULL;
 	CmdAnalysis_Tool *me = CMD_ANALYSIS_TOOL (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
@@ -4399,7 +4400,7 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 			&me->parent.cmd_descriptor))
 		return TRUE;
 	
-	if (me->engine (me->dao, me->specs, TOOL_ENGINE_LAST_VALIDITY_CHECK, NULL))
+	if (me->engine (me->dao, me->specs, TOOL_ENGINE_LAST_VALIDITY_CHECK, &continuity))
 		return TRUE;
 
 	switch (me->type) {
@@ -4422,13 +4423,15 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	if (me->engine (me->dao, me->specs, TOOL_ENGINE_FORMAT_OUTPUT_RANGE, NULL))
 		return TRUE;
 		
-	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PERFORM_CALC, NULL)) {
+	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PERFORM_CALC, &continuity)) {
 		if (me->type == RangeOutput) {
 			g_warning ("This is too late for failure! The target region has "
 				   "already been formatted!");
-			return FALSE;
 		} else
 			return TRUE;
+	}
+	if (continuity) {
+		g_warning ("There shouldn't be any data left in here!");
 	}
 	
 	dao_autofit_columns (me->dao);

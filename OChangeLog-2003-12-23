@@ -1,3 +1,11 @@
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c : cmd_analysis_tools allow the engines
+	  to carry info from TOOL_ENGINE_LAST_VALIDITY_CHECK to
+	  TOOL_ENGINE_PERFORM_CALC
+	* src/commands.h : include dialogs/tools.h rather than 
+	  tools/analysis-tools.h
+
 2002-03-31  Jody Goldberg <jody@gnome.org>
 
 	* src/gui-util.c (gnumeric_toolbar_new) : respect ui preferences.

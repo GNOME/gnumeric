@@ -48,7 +48,7 @@
 
 #define ADVANCED_FILTER_KEY         "advanced-filter-dialog"
 
-ANALYSISTOOLS_OUTPUT_GROUP       /* defined in analysis-tools.h */
+ANALYSISTOOLS_OUTPUT_GROUP       /* defined in dao-gui-utils.h */
 
 typedef struct {
 	GENERIC_TOOL_STATE

@@ -25,7 +25,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialogs.h"
-#include "analysis-tools.h"
+#include "tools.h"
 #include "random-generator.h"
 
 #include <workbook.h>
@@ -35,7 +35,6 @@
 #include <gui-util.h>
 #include <parse-util.h>
 #include <format.h>
-#include <tools.h>
 #include <dao-gui-utils.h>
 #include <sheet.h>
 #include <expr.h>

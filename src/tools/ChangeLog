@@ -1,3 +1,12 @@
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c : make histogram undoable
+	* analysis-tools.h : include the analysis-tools.c specific
+	  header info (rather than putting that into tools.h)
+	* random-generator.h : include tools.h, contain random_tools
+	  prototype
+	* dao.c (dao_set_cell_value) : plug leak
+
 2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* random-generator.[ch] : new files extracted from
