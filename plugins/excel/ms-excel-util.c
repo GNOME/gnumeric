@@ -381,7 +381,7 @@ get_locale_charset_name (void)
 	charset = nl_langinfo (_NL_CTYPE_CODESET_NAME);
 #elif defined(CODESET)
 	charset = nl_langinfo (CODESET);
-#elif
+#else
 	{
 		char* locale = setlocale(LC_CTYPE,NULL);
 		char* tmp = strchr(locale,'.');
