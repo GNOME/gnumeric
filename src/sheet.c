@@ -1355,6 +1355,15 @@ gen_col_blanks (Sheet *sheet, int start_col, int end_col,
 	return TRUE;
 }
 
+/*
+ * sheet_cell_get
+ * @sheet:  The sheet where we want to locate the cell
+ * @col:    the cell column
+ * @row:    the cell row
+ *
+ * Return value: a (Cell *) containing the Cell, or NULL if
+ * the cell does not exist
+ */
 Cell *
 sheet_cell_get (Sheet *sheet, int col, int row)
 {

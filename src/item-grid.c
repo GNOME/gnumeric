@@ -92,10 +92,10 @@ item_grid_reconfigure (GnomeCanvasItem *item)
 }
 
 /*
- * find_col: return the column where x belongs to
+ * item_grid_find_col: return the column where x belongs to
  */
-static int
-find_col (ItemGrid *item_grid, int x, int *col_origin)
+int
+item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 {
 	int col   = item_grid->left_col;
 	int pixel = item_grid->left_offset;
@@ -114,10 +114,10 @@ find_col (ItemGrid *item_grid, int x, int *col_origin)
 }
 
 /*
- * find_row: return the row where y belongs to
+ * item_grid_find_row: return the row where y belongs to
  */
-static int
-find_row (ItemGrid *item_grid, int y, int *row_origin)
+int
+item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 {
 	int row   = item_grid->top_row;
 	int pixel = item_grid->top_offset;
@@ -150,16 +150,16 @@ static void
 item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		     int x1, int y1, int width, int height, int col, int row)
 {
-	GnumericSheet *gsheet = GNUMERIC_SHEET (item_grid->sheet->sheet_view);
-	GnomeCanvas   *canvas = GNOME_CANVAS_ITEM (item_grid)->canvas;
-	GdkFont *font;
-	GdkGC *gc       = item_grid->gc;
-	GdkGC *white_gc = GTK_WIDGET (canvas)->style->white_gc;
-	Sheet *sheet = item_grid->sheet;
-	Cell  *cell, *clip_left, *clip_right;
-	Style *style;
-	int   x_offset, y_offset, text_base, pixels;
-	GdkRectangle rect;
+	GnomeCanvas   *canvas   = GNOME_CANVAS_ITEM (item_grid)->canvas;
+	GnumericSheet *gsheet   = GNUMERIC_SHEET (canvas);
+	GdkGC         *white_gc = GTK_WIDGET (canvas)->style->white_gc;
+	GdkGC         *gc       = item_grid->gc;
+	Sheet         *sheet    = item_grid->sheet;
+	GdkFont       *font;
+	Cell          *cell, *clip_left, *clip_right;
+	Style         *style;
+	int           x_offset, y_offset, text_base, pixels;
+	GdkRectangle  rect;
 	
 #if 0
 	item_debug_cross (drawable, gc, x1, y1, x1+width, y1+height);
@@ -314,8 +314,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	}
 	
 	max_paint_col = max_paint_row = 0;
-	paint_col = find_col (item_grid, x, &x_paint);
-	paint_row = find_row (item_grid, y, &y_paint);
+	paint_col = item_grid_find_col (item_grid, x, &x_paint);
+	paint_row = item_grid_find_row (item_grid, y, &y_paint);
 
 	col = paint_col;
 
@@ -356,7 +356,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	pd.y_paint   = -diff_y;
 	pd.drawable  = drawable;
 	pd.item_grid = item_grid;
-	pd.gsheet    = GNUMERIC_SHEET (item_grid->sheet->sheet_view);
+	pd.gsheet    = GNUMERIC_SHEET (item->canvas);
 
 #if 0
 	printf ("Painting the (%d,%d)-(%d,%d) region\n",
@@ -405,6 +405,148 @@ item_grid_translate (GnomeCanvasItem *item, double dx, double dy)
 	printf ("item_grid_translate %g, %g\n", dx, dy);
 }
 
+static void
+context_destroy_menu (GtkWidget *widget)
+{
+	gtk_widget_destroy (gtk_widget_get_toplevel (widget));
+}
+
+static void
+context_cut_cmd (GtkWidget *widget, ItemGrid *item_grid)
+{
+	sheet_selection_cut (item_grid->sheet);
+	context_destroy_menu (widget);
+}
+
+static void
+context_copy_cmd (GtkWidget *widget, ItemGrid *item_grid)
+{
+	sheet_selection_copy (item_grid->sheet);
+	context_destroy_menu (widget);
+}
+
+static void
+context_paste_cmd (GtkWidget *widget, ItemGrid *item_grid)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
+
+	sheet_selection_paste (item_grid->sheet,
+			      gsheet->cursor_col,
+			      gsheet->cursor_row,
+			      PASTE_DEFAULT);
+	context_destroy_menu (widget);
+}
+
+static void
+context_paste_special_cmd (GtkWidget *widget, ItemGrid *item_grid)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
+	int flags;
+
+	flags = dialog_paste_special ();
+	sheet_selection_paste (item_grid->sheet,
+			      gsheet->cursor_col,
+			      gsheet->cursor_row,
+			      flags);
+	context_destroy_menu (widget);
+}
+
+static void
+context_insert_cmd (GtkWidget *widget, ItemGrid *item_grid)
+{
+	context_destroy_menu (widget);
+}
+
+static void
+context_delete_cmd (GtkWidget *widget, ItemGrid *item_grid)
+{
+	context_destroy_menu (widget);
+}
+
+static void
+context_cell_format_cmd (GtkWidget *widget, ItemGrid *item_grid)
+{
+	context_destroy_menu (widget);
+}
+
+typedef enum {
+	IG_ALWAYS,
+	IG_HAVE_SELECTION,
+	IG_SEPARATOR,
+} popup_types;
+
+struct {
+	char         *name;
+	void         (*fn)(GtkWidget *widget, ItemGrid *item_grid);
+	popup_types  type;
+} item_grid_context_menu [] = {
+	{ N_("Cut"),           context_cut_cmd,           IG_ALWAYS         },
+	{ N_("Copy"),          context_copy_cmd,          IG_ALWAYS         },
+	{ N_("Paste"),         context_paste_cmd,         IG_HAVE_SELECTION },
+	{ N_("Paste special"), context_paste_special_cmd, IG_HAVE_SELECTION },
+	{ "",                  NULL,                      IG_SEPARATOR      },
+	{ N_("Insert"),        context_insert_cmd,        IG_ALWAYS  	    },
+	{ N_("Delete"),        context_delete_cmd,        IG_ALWAYS  	    },
+	{ N_("Cell format"),   context_cell_format_cmd,   IG_ALWAYS         },
+	{ NULL,                NULL,                      0 }
+};
+
+static GtkWidget *
+create_popup_menu (ItemGrid *item_grid, int include_paste)
+{
+	GtkWidget *menu, *item;
+	int i;
+
+	menu = gtk_menu_new ();
+	item = NULL;
+	
+	for (i = 0; item_grid_context_menu [i].name; i++){
+		switch (item_grid_context_menu [i].type){
+		case IG_SEPARATOR:
+			item = gtk_menu_item_new ();
+			break;
+			
+		case IG_HAVE_SELECTION:
+			if (!include_paste)
+				continue;
+			/* fall down */
+			
+		case IG_ALWAYS:
+			item = gtk_menu_item_new_with_label (
+				_(item_grid_context_menu [i].name));
+			break;
+		default:
+			g_warning ("Never reached");
+		}
+
+		gtk_signal_connect (
+			GTK_OBJECT (item), "activate",
+			GTK_SIGNAL_FUNC (item_grid_context_menu [i].fn),
+			item_grid);
+
+		gtk_widget_show (item);
+		gtk_menu_append (GTK_MENU (menu), item);
+	}
+
+	return menu;
+}	   
+		   
+static void
+item_grid_popup_menu (ItemGrid *item_grid, GdkEvent *event, int col, int row)
+{
+	GtkWidget *menu;
+	int show_paste;
+		
+	show_paste = item_grid->sheet->workbook->clipboard_contents != NULL;
+
+	menu = create_popup_menu (item_grid, show_paste);
+
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 3, event->button.time);
+}
+
+		      
 /*
  * Handle the selection
  */
@@ -416,13 +558,13 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	GnomeCanvas *canvas = item->canvas;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	Sheet *sheet = item_grid->sheet;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet->sheet_view);
+	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
 	int col, row, x, y;
 	int scroll_x, scroll_y;
 
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
-		if (event->button == 1){
+		if (event->button.button == 1){
 			item_grid->selecting = 0;
 			gnome_canvas_item_ungrab (item, event->button.time);
 			return 1;
@@ -430,7 +572,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 		
 	case GDK_MOTION_NOTIFY:
-		if (event->button == 1){
+		if (item_grid->selecting){
 			scroll_x = scroll_y = 0;
 			if (event->motion.x < 0){
 				event->motion.x = 0;
@@ -443,23 +585,23 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			if (!item_grid->selecting)
 				return 1;
 			
-			col = find_col (item_grid, event->motion.x, NULL);
-			row = find_row (item_grid, event->motion.y, NULL);
+			col = item_grid_find_col (item_grid, x, NULL);
+			row = item_grid_find_row (item_grid, y, NULL);
 			sheet_selection_extend_to (sheet, col, row);
 			return 1;
 		}
 		break;
 		
 	case GDK_BUTTON_PRESS:
-		switch (event->button){
+		switch (event->button.button){
 		case 1:
 			convert (canvas, event->button.x, event->button.y, &x, &y);
-			col = find_col (item_grid, event->button.x, NULL);
-			row = find_row (item_grid, event->button.y, NULL);
+			col = item_grid_find_col (item_grid, x, NULL);
+			row = item_grid_find_row (item_grid, y, NULL);
 			
 			gnumeric_sheet_accept_pending_output (gsheet);
 			gnumeric_sheet_cursor_set (gsheet, col, row);
-			if (!(event->button.state & GDK_SHIFT_MASK))
+			if (!(event->button.state & GDK_CONTROL_MASK))
 				sheet_selection_clear_only (sheet);
 			
 			item_grid->selecting = 1;
@@ -472,11 +614,18 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			return 1;
 
 		case 3:
-			
+			convert (canvas, event->button.x, event->button.y, &x, &y);
+			col = item_grid_find_col (item_grid, x, NULL);
+			row = item_grid_find_row (item_grid, y, NULL);
+
+			item_grid_popup_menu (item_grid, event, col, row);
+			return 1;
 		}
 	default:
 		return 0;	
 	}
+	
+	return 0;
 }
 
 /*

@@ -197,6 +197,14 @@ void        sheet_redraw_all          (Sheet *sheet);
 
 void        sheet_update_auto_expr    (Sheet *sheet);
 
+/* Sheet information manipulation */
+void        sheet_shift_column        (Sheet *sheet,
+				       int    column, int row,
+				       int    count);
+void        sheet_shift_row           (Sheet *sheet,
+				       int    column, int row,
+				       int    count);
+				       
 /*
  * Workbook
  */
@@ -214,6 +222,7 @@ int         workbook_parse_and_jump      (Workbook *wb, char *text);
  * Does any pending recalculations
  */
 void        workbook_recalc              (Workbook *wb);
+void        workbook_recalc_all          (Workbook *wb);
 
 /*
  * Callback routine: invoked when the first view ItemGrid

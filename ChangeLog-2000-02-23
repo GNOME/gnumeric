@@ -1,4 +1,28 @@
+1998-08-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-cursor.c (item_cursor_drag_event): Make the drag cursor
+	actually dragable. 
+
+	* src/item-grid.c (item_grid_event): Use the converted cordinates.
+	(item_grid_find_row, item_grid_find_col): Rename and export these
+	routines to be used by the ItemCursor.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key): Do not remove the
+	selection string when the input has been accepted.
+
+	* src/expr.c (expr_tree_ref): Strategy change:  Now every ExprTree
+	node is properly refcounted, as soon we will start sharing parts
+	of the ExprTree between cells.
+	(do_expr_decode_tree): Decoding an expression now takes into
+	account the precedence of the operators and uses paretheses only
+	when they are actually required.
+
 1998-08-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-grid.c (item_grid_event): Implemented context sensitive
+	menu for the grid.
+	(item_grid_event): Use <control> instead of <shift> for extending
+	a selection
 
 	* src/clipboard.c (clipboard_paste_region): After pasting, trigger
 	a recalculation. 

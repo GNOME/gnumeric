@@ -397,6 +397,10 @@ workbook_next_generation (Workbook *wb)
 		wb->generation++;
 }
 
+/*
+ * Computes all of the cells pending computation and
+ * any dependency.
+ */
 void
 workbook_recalc (Workbook *wb)
 {
@@ -422,3 +426,21 @@ workbook_recalc (Workbook *wb)
 		g_list_free (deps);
 	}
 }
+
+/*
+ * Recomputes all of the formulas.
+ */
+void
+workbook_recalc_all (Workbook *workbook)
+{
+	GList *l;
+	
+	for (l = workbook->formula_cell_list; l; l = l->next){
+		Cell *cell = l->data;
+
+		cell_queue_recalc (cell);
+	}
+	workbook_recalc (workbook);
+}
+
+

@@ -577,7 +577,6 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		direction = (event->state & GDK_SHIFT_MASK) ? 0 : 1;
 		horizontal = (event->keyval == GDK_Tab) ? 1 : 0;
 		
-		selection_remove_selection_string (gsheet);
 		walking_selection = sheet_selection_walk_step (
 			gsheet->sheet, direction, horizontal,
 			gsheet->cursor_col, gsheet->cursor_row,

@@ -764,6 +764,29 @@ cell_get_abs_col_row (CellRef *cell_ref, int eval_col, int eval_row, int *col, i
 		*row = cell_ref->row;
 }
 
+static int
+evaluate_level (Operation x)
+{
+	if (x == OP_EXP)
+		return 3;
+	if ((x==OP_MULT) || (x==OP_DIV))
+		return 2;
+	if ((x==OP_ADD)  || (x==OP_SUB)   || (x==OP_CONCAT))
+		return 1;
+	return 0;
+}
+
+static int
+bigger_prec (Operation parent, Operation this)
+{
+	int parent_level, this_level;
+
+	parent_level = evaluate_level (parent);
+	this_level   = evaluate_level (this);
+
+	return parent_level > this_level;
+}
+
 /*
  * Converts a parsed tree into its string representation
  * assuming that we are evaluating at col, row (This is
@@ -773,15 +796,13 @@ cell_get_abs_col_row (CellRef *cell_ref, int eval_col, int eval_row, int *col, i
  * This routine is pretty simple: it walks the ExprTree and
  * create a string representation.
  */
-char *
-expr_decode_tree (ExprTree *tree, int col, int row)
+static char *
+do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 {
 	static const char *binary_operation_names [] = {
 		"=", ">", "<", ">=", "<=", "<>",
 		"+", "-", "*", "/",  "^",  "&"
 	};
-
-	g_return_val_if_fail (tree != NULL, NULL);
 
 	switch (tree->oper){
 
@@ -801,10 +822,15 @@ expr_decode_tree (ExprTree *tree, int col, int row)
 		char *a, *b, *res;
 		char const *op;
 		
-		a = expr_decode_tree (tree->u.binary.value_a, col, row);
-		b = expr_decode_tree (tree->u.binary.value_b, col, row);
+		a = do_expr_decode_tree (tree->u.binary.value_a, col, row, tree->oper);
+		b = do_expr_decode_tree (tree->u.binary.value_b, col, row, tree->oper);
 		op = binary_operation_names [tree->oper];
-		res = g_copy_strings ("(", a, op, b, ")", NULL);
+
+		if (bigger_prec (parent_op, tree->oper))
+			res = g_copy_strings ("(", a, op, b, ")", NULL);
+		else
+			res = g_copy_strings (a, op, b, NULL);
+		
 		g_free (a);
 		g_free (b);
 		return res;
@@ -813,7 +839,7 @@ expr_decode_tree (ExprTree *tree, int col, int row)
 	case OP_NEG: {
 		char *res, *a;
 
-		a = expr_decode_tree (tree->u.value, col, row);
+		a = do_expr_decode_tree (tree->u.value, col, row, tree->oper);
 		res = g_copy_strings ("-", a);
 		g_free (a);
 		return res;
@@ -838,7 +864,7 @@ expr_decode_tree (ExprTree *tree, int col, int row)
 			for (l = arg_list; l; l = l->next){
 				ExprTree *t = l->data;
 				
-				args [i] = expr_decode_tree (t, col, row);
+				args [i] = do_expr_decode_tree (t, col, row, OP_CONSTANT);
 				len += strlen (args [i]) + 1;
 			}
 			len++;
@@ -889,4 +915,10 @@ expr_decode_tree (ExprTree *tree, int col, int row)
 	return g_strdup ("0");
 }
 
+char *
+expr_decode_tree (ExprTree *tree, int col, int row)
+{
+	g_return_val_if_fail (tree != NULL, NULL);
 
+	return do_expr_decode_tree (tree, col, row, OP_CONSTANT);
+}

@@ -138,8 +138,8 @@ item_cursor_configure_bounds (ItemCursor *item_cursor)
 		extra = 1;
 	else
 		extra = 0;
-	item->x2 = x + w + 1 + extra;
-	item->y2 = y + h + 1 + extra;
+	item->x2 = x + w + 2 + extra;
+	item->y2 = y + h + 2 + extra;
 
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
@@ -362,6 +362,10 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		convert (canvas, event->button.x, event->button.y, &x, &y);
 		
 		group = GNOME_CANVAS_GROUP (canvas->root);
+
+		/* determine which part of the cursor was clicked:
+		 * the border or the handlebox
+		 */
 		if ((x > item->x2 - 6) && (y > item->y2 - 6))
 			style = ITEM_CURSOR_AUTOFILL;
 		else
@@ -402,11 +406,39 @@ item_cursor_do_drop (ItemCursor *item_cursor)
 	printf ("DROP!\n");
 }
 
+static void
+item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
+				int start_col, int start_row,
+				int end_col,   int end_row)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_cursor);
+	GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
+	int watch_col, watch_row;
+	
+	item_cursor_set_bounds (item_cursor, start_col, start_row, end_col, end_row);
+
+	/* Now, make the range visible as well as we can guess */
+	if (start_col < item_cursor->start_col)
+		watch_col = start_col;
+	else 
+		watch_col = end_col;
+	
+	if (start_row < item_cursor->start_row)
+		watch_row = start_row;
+	else 
+		watch_row = end_row;
+
+	gnumeric_sheet_make_cell_visible (gsheet, watch_col, watch_row);
+}
+
 static gint
 item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 {
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item)->canvas;
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
-
+	int x, y, w, h;
+	int col, row;
+		
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
 		gnome_canvas_item_ungrab (item, event->button.time);
@@ -415,11 +447,20 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 		return TRUE;
 
 	case GDK_BUTTON_PRESS:
-		printf ("Strange.  I got a button press\n");
+		/* We actually never get this event: this kind of
+		 * cursor is created and grabbed
+		 */
 		return TRUE;
 
 	case GDK_MOTION_NOTIFY:
-		printf ("Moving!\n");
+		convert (canvas, event->button.x, event->button.y, &x, &y);
+		col = item_grid_find_col (item_cursor->item_grid, x, NULL);
+		row = item_grid_find_row (item_cursor->item_grid, y, NULL);
+		
+		w   = (item_cursor->end_col - item_cursor->start_col);
+		h   = (item_cursor->end_row - item_cursor->start_row);
+
+		item_cursor_set_bounds_visibly (item_cursor, col, row, col + w, row + h);
 		return TRUE;
 
 	default:
@@ -432,7 +473,6 @@ item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
 	
-	printf ("getting events!\n");
 	switch (item_cursor->style){
 	case ITEM_CURSOR_SELECTION:
 		return item_cursor_selection_event (item, event);
@@ -511,7 +551,7 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 				 GTK_ARG_WRITABLE, ARG_ITEM_GRID);
 	gtk_object_add_arg_type ("ItemCursor::Style", GTK_TYPE_INT,
 				 GTK_ARG_WRITABLE, ARG_STYLE);
-	
+
 	object_class->set_arg = item_cursor_set_arg;
 	object_class->destroy = item_cursor_destroy;
 

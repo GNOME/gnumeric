@@ -520,7 +520,3 @@ workbook_realized (Workbook *workbook, GdkWindow *window)
 {
 }
 
-void
-workbook_recalc_all (Workbook *workbook)
-{
-}
