@@ -1,9 +1,13 @@
-Gnumeric 0.32
+Gnumeric 0.31
 
 Jukka:
 	* Implemented ``Anova: Single Factor'' data analysis tool
 	* Implemented ``Anova: Two-Factor Without Replication'' data
 	  analysis tool
+
+Jody:
+	* Added HYPERLINK stub, fixed OFFSET.
+	* Bug fixes for Excel import.
 
 --------------------------------------------------------------------------
 
@@ -16,9 +20,10 @@ Jukka:
 	  analysis tools
 
 Jody:
-	* Added TRANSPOSE()
+	* Added TRANSPOSE(), MMULT()
 	* Constification.
 	* SplitArray exception for array formulas support.
+	* Better Excel emulation for insert/delete row/col menus.
 
 Miguel:
 	* New font selector widget for the new gnome-print information.

@@ -551,7 +551,7 @@ static char *help_columns = {
 	   "@SEEALSO=COLUMN,ROW,ROWS")
 };
 
-/* FIXME: Needs Array support to be enven slightly meaningful */
+/* FIXME: Needs Array support to be even slightly meaningful */
 static Value *
 gnumeric_columns (FunctionEvalInfo *ei, Value **args)
 {
@@ -567,7 +567,9 @@ static char *help_offset = {
 	   "The cell range starts at offset (col,row) from range, "
 	   "and is of height @height and width @width."
 	   "\n"
-	   "If range is neither a reference nor a range returns #VALUE!."
+	   "If range is neither a reference nor a range returns #VALUE!.  "
+	   "If either height or width is omitted the height or width"
+	   " of the reference is used."
 	   "\n"
 	   "@SEEALSO=COLUMN,COLUMNS,ROWS")
 };
@@ -577,7 +579,7 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 {
 	CellRef a;
 	CellRef b;
-	int tw, th;
+	int width, height;
 
 	g_return_val_if_fail (args [0]->type == VALUE_CELLRANGE, NULL);
 
@@ -588,16 +590,30 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 
 	memcpy (&b, &a, sizeof(CellRef));
 
-	tw = value_get_as_int (args[3]);
-	th = value_get_as_int (args[4]);
+	width = (args[3] != NULL)
+	    ? value_get_as_int (args[3])
+	    : value_area_get_width (&ei->pos, args [0]);
+	height = (args[4] != NULL)
+	    ? value_get_as_int (args[4])
+	    : value_area_get_height (&ei->pos, args [0]);
 
-	if (tw < 0 || th < 0)
+	if (width < 1 || height < 1)
 		return function_error (ei, gnumeric_err_VALUE);
 	else if (a.row < 0 || a.col < 0)
 		return function_error (ei, gnumeric_err_REF);
 
-	b.row += tw;
-	b.col += th;
+	/* Special case of a single cell */
+	if (width == 1 && height == 1)
+	{
+		/* FIXME FIXME : do we need to check for recalc here ?? */
+		Cell const * c =
+		    sheet_cell_fetch (eval_sheet (a.sheet, ei->pos.sheet),
+				      a.col, a.row);
+		return value_duplicate (c->value);
+	}
+
+	b.row += width-1;
+	b.col += height-1;
 	return value_new_cellrange (&a, &b);
 }
 
@@ -663,6 +679,31 @@ gnumeric_rows (FunctionEvalInfo *ei, Value **args)
 	return value_new_int (value_area_get_height (&ei->pos, args [0]));
 }
 
+/*****************************************************************************************/
+
+static char *help_hyperlink = {
+	N_("@FUNCTION=HYPERLINK\n"
+	   "@SYNTAX=HYPERLINK(reference)\n"
+
+	   "@DESCRIPTION="
+	   "The HYPERLINK function currently returns its 2nd argument, "
+	   "or if that is omitted the 1st argument."
+	   "\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_hyperlink (FunctionEvalInfo *ei, Value **args)
+{
+	Value const * v = args[1];
+	if (v == NULL)
+		v = args[0];
+	return value_duplicate (v);
+}
+
+/*****************************************************************************************/
+
 void lookup_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Data / Lookup"));
@@ -679,7 +720,7 @@ void lookup_functions_init()
 			    &help_hlookup, gnumeric_hlookup);
 	function_add_args  (cat, "lookup",    "?A|r", "val,range,range",
 			    &help_lookup,  gnumeric_lookup);
-	function_add_args  (cat, "offset",    "rffff","ref,row,col,hight,width",
+	function_add_args  (cat, "offset",    "rff|ff","ref,row,col,hight,width",
 			    &help_offset,  gnumeric_offset);
 	function_add_nodes (cat, "row",       "?",    "ref",
 			    &help_row,     gnumeric_row);
@@ -687,4 +728,6 @@ void lookup_functions_init()
 			    &help_rows,    gnumeric_rows);
 	function_add_args  (cat, "vlookup",   "?Af|b","val,range,col_idx,approx",
 			    &help_vlookup, gnumeric_vlookup);
+	function_add_args  (cat, "hyperlink",   "s|?","link_location, contents",
+			    &help_hyperlink, gnumeric_hyperlink);
 }

@@ -103,6 +103,30 @@
   </itemizedlist>
 
   </sect2>
+
+  <sect2>
+    <title>Array Formulas</title>
+    
+    <para>It is periodically useful or necessary to have an expression return
+    a matrix rather than a single value.  The first example most people think
+    of are matrix operations such as multiplication, transpose, and inverse.
+    A less obvious usage is for data retrieval routines (databases, realtime
+    data-feeds) or functions with vector results (yield curve calculations).
+    </para>
+    
+    <example id="arrayformulacreate">
+      <title>Entering an Array Formula</title>
+	<para>An array formula is currently entered by selecting the single
+	range in which to store the result, entering the array formula,
+	and hitting the magic combination, Ctrl-Shift-Enter.
+	</para>
+	<para>The result is displayed as :</para>
+
+      <programlisting>
+	={FUNCTION(ARGUMENTS)}(num_rows, num_cols)[row number][col number]
+      </programlisting>
+    </example>
+  </sect2>
 </sect1>
 
 

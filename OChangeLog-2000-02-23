@@ -1,3 +1,9 @@
+1999-07-13  Jody Goldberg  <jgoldberg@home.com>
+
+	* src/fn-lookup.c (gnumeric_lookup) : Support default args for
+	  width & height.  Return cell_value directly for 1x1 results.
+	(gnumeric_hyperlink) : Add stub.
+
 1999-07-13  Michael Meeks  <michael@edenproject.org>
 
 	* src/Makefile.am (GNUMERIC_BASE_SOURCES): add summary.[ch]
