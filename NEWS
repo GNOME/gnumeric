@@ -33,6 +33,7 @@ Jody:
 
 Jon:
 	* Cursor fixes and speedups.
+	* Python plugin enhancements.
 
 ERDI Gergo :
 	* Add a zoom element to the toolbar.
