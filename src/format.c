@@ -1384,10 +1384,8 @@ format_add_decimal (GnmFormat const *fmt)
 GnmFormat *
 format_toggle_thousands (GnmFormat const *fmt)
 {
-	FormatCharacteristics fc;
-	GString *newformat;
+	FormatCharacteristics fc = fmt->family_info;
 
-	fc = fmt->family_info;
 	fc.thousands_sep = !fc.thousands_sep;
 
 	switch (fmt->family) {

@@ -16,6 +16,9 @@ Gnumeric 1.2.12
 	* Fix crash when undoing a cut from a different workbook
 	* Fix validation crash due to excel import.
 	* Fix custom validation export.
+	* Fix crash xls export of empty input msgs
+	* Enable gnome-vfs load/save even for non-bonobo build
+	* Recommend building --without-bonobo to ensure that help works
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.11

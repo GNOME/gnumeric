@@ -52,9 +52,7 @@
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
-#ifdef WITH_BONOBO
 #include <gsf-gnome/gsf-input-gnomevfs.h>
-#endif
 
 #include <gsf/gsf-impl-utils.h>
 #include <locale.h>
@@ -572,9 +570,22 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 
 	if (filename_utf8) {
 		GError *err = NULL;
-		GsfOutputStdio *output;
+		GsfOutput   *output = NULL;
+		GnomeVFSURI *uri = gnome_vfs_uri_new (filename);
 
-		output = gsf_output_stdio_new (filename, &err);
+		/* cheesy mechanism to prefer stdio */
+		if (uri != NULL && uri->method_string != NULL &&
+		    0 != strcmp ("file", uri->method_string)) {
+			output = (GsfOutput *)gsf_output_gnomevfs_new (filename, &err);
+			g_warning ("vfs");
+		} else {
+			output = (GsfOutput *)gsf_output_stdio_new (filename, &err);
+			g_warning ("stdio");
+		}
+
+		if (uri != NULL)
+			gnome_vfs_uri_unref (uri);
+
 		if (output == NULL) {
 			char *str = g_strdup_printf (_("Can't open '%s' for writing: %s"),
 						     filename_utf8, err->message);
@@ -932,7 +943,6 @@ wb_view_new_from_file (char const *filename,
 		if (in_mem == NULL) {
 			in_stdio = gsf_input_stdio_new (filename, &err);
 			if (in_stdio == NULL) {
-#ifdef WITH_BONOBO
 				GsfInputGnomeVFS *in_vfs;
 				
 				g_error_free (err);
@@ -941,7 +951,6 @@ wb_view_new_from_file (char const *filename,
 				in_vfs = gsf_input_gnomevfs_new (filename, &err);
 				if (in_vfs != NULL)
 					input = GSF_INPUT (in_vfs);
-#endif
 			} else
 				input = GSF_INPUT (in_stdio);
 		} else

@@ -1,5 +1,12 @@
+2004-05-04  Jody Goldberg <jody@gnome.org>
+
+	* src/input-msg.c (gnm_input_msg_get_msg) : Add some safety for blank
+	  messages.
+	(gnm_input_msg_get_title) : ditto.
+
 2004-05-04  Morten Welinder  <terra@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=141805
 	* src/validation.c (validation_new): Make sure
 	VALIDATION_TYPE_CUSTOM is only paired with VALIDATION_OP_NONE.
 	(validation_eval): Balance recounting.

@@ -46,7 +46,8 @@ gnumeric_reqs="
 glib-2.0		>= 2.0.0
 gobject-2.0		>= 2.0.0
 gmodule-2.0		>= 2.0.0
-libgsf-1		>= 1.8.2
+libgsf-1		>= 1.9.0
+libgsf-gnome-1 		>= 1.9.0
 gtk+-2.0		>= 2.0.0
 libxml-2.0		>= 2.4.12
 libglade-2.0		>= 2.0.0
@@ -83,8 +84,7 @@ if test "x$bonobo_msg" = "xyes"; then
 	AC_DEFINE(WITH_BONOBO, 1, [Define if Bonobo is to be used])
 	gnumeric_reqs="$gnumeric_reqs
 libbonobo-2.0 >= 2.2.0
-libbonoboui-2.0 >= 2.2.0
-libgsf-gnome-1 >= 1.8.2"
+libbonoboui-2.0 >= 2.2.0"
 else
         gnumeric_bonobo_enabled=false
 fi
