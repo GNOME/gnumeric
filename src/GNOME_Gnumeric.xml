@@ -542,7 +542,7 @@
 		    _tip="Comparing two population means for two unpaired samples from pop. with unequal var.: t-test"/>
 	        <menuitem name="ToolZTest" verb=""
 		    _label="_Known Variances or Large Sample: Z-Test"
-		    _tip="Comparing two population means from pop. with known varinces or using a large sample: z- test"/>
+		    _tip="Comparing two population means from pop. with known variances or using a large sample: z- test"/>
 	    </submenu>
 	        <menuitem name="ToolsFTest" verb=""
 		    _label="_Two Variances: FTest"

@@ -3011,7 +3011,7 @@ static GnomeUIInfo workbook_menu_tools_two_means [] = {
 		cb_tools_ttest_unequal_var),
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Known Variances or Large Sample: Z-Test"),
-		N_("Comparing two population means from pop. with known varinces "
+		N_("Comparing two population means from pop. with known variances "
 		   "or using a large sample: z- test"),
 		cb_tools_ztest),
 
