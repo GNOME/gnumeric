@@ -1,3 +1,8 @@
+2001-04-18  Jody Goldberg <jgoldberg@home.com>
+
+	* xml-sax-read.c : s/xml2/xmlSax/ to correspond with naming
+	  convention.
+
 2001-04-15  Jody Goldberg <jgoldberg@home.com>
 
 	* xml-sax-read.c (xml2UnknownAttr) : warning.
