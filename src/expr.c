@@ -232,7 +232,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 			
 			values [arg] = v;
 		}
-		v = fd->fn (arg+1, values, error_string);
+		v = fd->fn (values, error_string);
 
 	free_list:
 		for (i = 0; i < arg; i++)

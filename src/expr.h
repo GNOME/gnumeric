@@ -116,7 +116,7 @@ typedef struct {
 	
 	Value *(*expr_fn)(void *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string);
 	
-	Value *(*fn)(int argc, Value *argv [], char **error_string);
+	Value *(*fn)(Value *argv [], char **error_string);
 } FunctionDefinition;
 
 /* For communication with yyparse */

@@ -14,7 +14,7 @@
 #include "utils.h"
 
 static Value *
-gnumeric_abs (int argc, Value *argv [], char **error_string)
+gnumeric_abs (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -25,7 +25,7 @@ gnumeric_abs (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_acos (int argc, Value *argv [], char **error_string)
+gnumeric_acos (Value *argv [], char **error_string)
 {
 	Value *v;
 	float_t t;
@@ -43,7 +43,7 @@ gnumeric_acos (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_acosh (int argc, Value *argv [], char **error_string)
+gnumeric_acosh (Value *argv [], char **error_string)
 {
 	Value *v;
 	float_t t;
@@ -61,7 +61,7 @@ gnumeric_acosh (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_asin (int argc, Value *argv [], char **error_string)
+gnumeric_asin (Value *argv [], char **error_string)
 {
 	Value *v;
 	float_t t;
@@ -79,7 +79,7 @@ gnumeric_asin (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_asinh (int argc, Value *argv [], char **error_string)
+gnumeric_asinh (Value *argv [], char **error_string)
 {
 	Value *v;
 
@@ -91,7 +91,7 @@ gnumeric_asinh (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_atan (int argc, Value *argv [], char **error_string)
+gnumeric_atan (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -102,7 +102,7 @@ gnumeric_atan (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_atanh (int argc, Value *argv [], char **error_string)
+gnumeric_atanh (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 	float_t t;
@@ -119,7 +119,7 @@ gnumeric_atanh (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_atan2 (int argc, Value *argv [], char **error_string)
+gnumeric_atan2 (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -131,7 +131,7 @@ gnumeric_atan2 (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_ceil (int argc, Value *argv [], char **error_string)
+gnumeric_ceil (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -142,7 +142,7 @@ gnumeric_ceil (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_cos (int argc, Value *argv [], char **error_string)
+gnumeric_cos (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -153,7 +153,7 @@ gnumeric_cos (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_cosh (int argc, Value *argv [], char **error_string)
+gnumeric_cosh (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -164,7 +164,18 @@ gnumeric_cosh (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_exp (int argc, Value *argv [], char **error_string)
+gnumeric_degrees (Value *argv [], char **error_string)
+{
+	Value *v = g_new (Value, 1);
+
+	v->type = VALUE_FLOAT;
+	v->v.v_float = (value_get_as_double (argv [0]) * 180.0) / M_PI;
+
+	return v;
+}
+
+static Value *
+gnumeric_exp (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -175,7 +186,7 @@ gnumeric_exp (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_floor (int argc, Value *argv [], char **error_string)
+gnumeric_floor (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -186,7 +197,7 @@ gnumeric_floor (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_int (int argc, Value *argv [], char **error_string)
+gnumeric_int (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 	float_t t;
@@ -200,29 +211,72 @@ gnumeric_int (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_log (int argc, Value *argv [], char **error_string)
+gnumeric_log (Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
+	Value *v;
+	float_t t;
 
+	t = value_get_as_double (argv [0]);
+	if (t < 0.0){
+		*error_string = _("log: domain error");
+		return NULL;
+	}
+	v = g_new (Value, 1);
 	v->type = VALUE_FLOAT;
-	v->v.v_float = log (value_get_as_double (argv [0]));
+	v->v.v_float = log (t);
 
 	return v;
 }
 
 static Value *
-gnumeric_log10 (int argc, Value *argv [], char **error_string)
+gnumeric_log2 (Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
+	Value *v;
+	float_t t;
 
+	t = value_get_as_double (argv [0]);
+	if (t < 0.0){
+		*error_string = _("log2: domain error");
+		return NULL;
+	}
+	v = g_new (Value, 1);
 	v->type = VALUE_FLOAT;
-	v->v.v_float = log10 (value_get_as_double (argv [0]));
+	v->v.v_float = log (t) / M_LN2;
 
 	return v;
 }
 
 static Value *
-gnumeric_sin (int argc, Value *argv [], char **error_string)
+gnumeric_log10 (Value *argv [], char **error_string)
+{
+	Value *v;
+	float_t t;
+
+	t = value_get_as_double (argv [0]);
+	if (t < 0.0){
+		*error_string = _("log10: domain error");
+		return NULL;
+	}
+	v = g_new (Value, 1);
+	v->type = VALUE_FLOAT;
+	v->v.v_float = log10 (t);
+
+	return v;
+}
+
+static Value *
+gnumeric_radians (Value *argv [], char **error_string)
+{
+	Value *v = g_new (Value, 1);
+
+	v->type = VALUE_FLOAT;
+	v->v.v_float = (value_get_as_double (argv [0]) * M_PI) / 180;
+
+	return v;
+}
+
+static Value *
+gnumeric_sin (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 	
@@ -233,7 +287,7 @@ gnumeric_sin (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_sinh (int argc, Value *argv [], char **error_string)
+gnumeric_sinh (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 	
@@ -243,8 +297,32 @@ gnumeric_sinh (int argc, Value *argv [], char **error_string)
 	return v;
 }
 
+typedef struct {
+	Sheet   *sheet;
+	int     eval_col, eval_row;
+	float_t total;
+} sum_data_t;
+
 static Value *
-gnumeric_tan (int argc, Value *argv [], char **error_string)
+gnumeric_sum (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	sum_data_t data;
+
+	data.sheet = tsheet;
+	data.eval_col = eval_col;
+	data.eval_row = eval_row;
+	data.total = 0.0;
+
+	for (; expr_node_list; expr_node_list = expr_node_list->next){
+	}
+
+
+	*error_string = _("SUM not yet implemented");
+	return NULL;
+}
+
+static Value *
+gnumeric_tan (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -255,7 +333,7 @@ gnumeric_tan (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_tanh (int argc, Value *argv [], char **error_string)
+gnumeric_tanh (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -266,7 +344,7 @@ gnumeric_tanh (int argc, Value *argv [], char **error_string)
 }
 
 static Value *
-gnumeric_pi (int argc, Value *argv [], char *error_string)
+gnumeric_pi (Value *argv [], char **error_string)
 {
 	Value *v = g_new (Value, 1);
 
@@ -277,27 +355,31 @@ gnumeric_pi (int argc, Value *argv [], char *error_string)
 }
 
 FunctionDefinition internal_functions [] = {
-	{ "abs",   "f",    VALUE_FLOAT, NULL, gnumeric_abs },
-	{ "acos",  "f",    VALUE_FLOAT, NULL, gnumeric_acos },
-	{ "acosh", "f",    VALUE_FLOAT, NULL, gnumeric_acosh },
-	{ "asin",  "f",    VALUE_FLOAT, NULL, gnumeric_asin },
-	{ "asinh", "f",    VALUE_FLOAT, NULL, gnumeric_asinh },
-	{ "atan",  "f",    VALUE_FLOAT, NULL, gnumeric_atan },
-	{ "atanh", "f",    VALUE_FLOAT, NULL, gnumeric_atanh },
-	{ "atan2", "ff",   VALUE_FLOAT, NULL, gnumeric_atan2 },
-	{ "cos",   "f",    VALUE_FLOAT, NULL, gnumeric_cos },
-	{ "cosh",  "f",    VALUE_FLOAT, NULL, gnumeric_cosh },
-	{ "ceil",  "f",    VALUE_FLOAT, NULL, gnumeric_ceil },
-	{ "exp",   "f",    VALUE_FLOAT, NULL, gnumeric_exp },
-	{ "floor", "f",    VALUE_FLOAT, NULL, gnumeric_floor },
-	{ "int",   "f",    VALUE_FLOAT, NULL, gnumeric_int },
-	{ "log",   "f",    VALUE_FLOAT, NULL, gnumeric_log },
-	{ "log10", "f",    VALUE_FLOAT, NULL, gnumeric_log10 },
-	{ "sin",   "f",    VALUE_FLOAT, NULL, gnumeric_sin },
-	{ "sinh",  "f",    VALUE_FLOAT, NULL, gnumeric_sinh },
-	{ "tan",   "f",    VALUE_FLOAT, NULL, gnumeric_tan },
-	{ "tanh",  "f",    VALUE_FLOAT, NULL, gnumeric_tanh },
-	{ "pi",    "",     VALUE_FLOAT, NULL, gnumeric_pi },
+	{ "abs",     "f",    VALUE_FLOAT, NULL, gnumeric_abs },
+	{ "acos",    "f",    VALUE_FLOAT, NULL, gnumeric_acos },
+	{ "acosh",   "f",    VALUE_FLOAT, NULL, gnumeric_acosh },
+	{ "asin",    "f",    VALUE_FLOAT, NULL, gnumeric_asin },
+	{ "asinh",   "f",    VALUE_FLOAT, NULL, gnumeric_asinh },
+	{ "atan",    "f",    VALUE_FLOAT, NULL, gnumeric_atan },
+	{ "atanh",   "f",    VALUE_FLOAT, NULL, gnumeric_atanh },
+	{ "atan2",   "ff",   VALUE_FLOAT, NULL, gnumeric_atan2 },
+	{ "cos",     "f",    VALUE_FLOAT, NULL, gnumeric_cos },
+	{ "cosh",    "f",    VALUE_FLOAT, NULL, gnumeric_cosh },
+	{ "ceil",    "f",    VALUE_FLOAT, NULL, gnumeric_ceil },
+	{ "degrees", "f",    VALUE_FLOAT, NULL, gnumeric_degrees },
+	{ "exp",     "f",    VALUE_FLOAT, NULL, gnumeric_exp },
+	{ "floor",   "f",    VALUE_FLOAT, NULL, gnumeric_floor },
+	{ "int",     "f",    VALUE_FLOAT, NULL, gnumeric_int },
+	{ "log",     "f",    VALUE_FLOAT, NULL, gnumeric_log },
+	{ "log2",    "f",    VALUE_FLOAT, NULL, gnumeric_log2 },
+	{ "log10",   "f",    VALUE_FLOAT, NULL, gnumeric_log10 },
+	{ "radians", "f",    VALUE_FLOAT, NULL, gnumeric_radians },
+	{ "sin",     "f",    VALUE_FLOAT, NULL, gnumeric_sin },
+	{ "sinh",    "f",    VALUE_FLOAT, NULL, gnumeric_sinh },
+	{ "sum",     0,      VALUE_FLOAT, gnumeric_sum, NULL },
+	{ "tan",     "f",    VALUE_FLOAT, NULL, gnumeric_tan },
+	{ "tanh",    "f",    VALUE_FLOAT, NULL, gnumeric_tanh },
+	{ "pi",      "",     VALUE_FLOAT, NULL, gnumeric_pi },
 	{ NULL, NULL },
 };
 

@@ -69,6 +69,7 @@ static int  yyerror (char *s);
 %token <tree>  NUMBER STRING FUNCALL CELLREF
 %left '-' '+' '&'
 %left '*' '/'
+%left NEG
 %left '!'
 %right '^'
 
@@ -118,6 +119,11 @@ exp:	  NUMBER 	{ $$ = $1 }
 		$$ = $2;
 	}
 
+        | '-' exp %prec NEG {
+		$$ = p_new (ExprTree);
+		$$->oper = OP_NEG;
+		$$->u.value = $2;
+	}
 	| exp '&' exp {
 		$$ = p_new (ExprTree);
 		$$->oper = OP_CONCAT;
