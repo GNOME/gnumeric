@@ -524,7 +524,7 @@ gnumeric_timevalue (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_hour = {
 	N_("@FUNCTION=HOUR\n"
-	   "@SYNTAX=HOUR (serial_number)\n"
+	   "@SYNTAX=HOUR (date)\n"
 
 	   "@DESCRIPTION="
 	   "HOUR converts a serial number to an hour.  The hour is returned as "
@@ -553,7 +553,7 @@ gnumeric_hour (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_minute = {
 	N_("@FUNCTION=MINUTE\n"
-	   "@SYNTAX=MINUTE (serial_number)\n"
+	   "@SYNTAX=MINUTE (date)\n"
 
 	   "@DESCRIPTION="
 	   "MINUTE converts a serial number to a minute.  The minute is "
@@ -583,7 +583,7 @@ gnumeric_minute (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_second = {
 	N_("@FUNCTION=SECOND\n"
-	   "@SYNTAX=SECOND (serial_number)\n"
+	   "@SYNTAX=SECOND (date)\n"
 
 	   "@DESCRIPTION="
 	   "SECOND converts a serial number to a second.  The second is "
@@ -613,7 +613,7 @@ gnumeric_second (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_year = {
 	N_("@FUNCTION=YEAR\n"
-	   "@SYNTAX=YEAR (serial_number)\n"
+	   "@SYNTAX=YEAR (date)\n"
 
 	   "@DESCRIPTION="
 	   "YEAR converts a serial number to a year.\n"
@@ -644,7 +644,7 @@ gnumeric_year (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_month = {
 	N_("@FUNCTION=MONTH\n"
-	   "@SYNTAX=MONTH (serial_number)\n"
+	   "@SYNTAX=MONTH (date)\n"
 
 	   "@DESCRIPTION="
 	   "MONTH converts a serial number to a month.\n"
@@ -675,7 +675,7 @@ gnumeric_month (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_day = {
 	N_("@FUNCTION=DAY\n"
-	   "@SYNTAX=DAY (serial_number)\n"
+	   "@SYNTAX=DAY (date)\n"
 
 	   "@DESCRIPTION="
 	   "DAY converts a serial number to a day of month.\n"
@@ -706,7 +706,7 @@ gnumeric_day (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_weekday = {
 	N_("@FUNCTION=WEEKDAY\n"
-	   "@SYNTAX=WEEKDAY (serial_number[, method])\n"
+	   "@SYNTAX=WEEKDAY (date[, method])\n"
 
 	   "@DESCRIPTION="
 	   "WEEKDAY converts a serial number to a weekday.\n"
@@ -979,7 +979,7 @@ static char const *help_networkdays = {
 	   "@start_date and @end_date including these dates. " 
 	   "Holidays are optionally supplied in @holidays.\n"
 	   "\n"
-	   "* NETWORKDAYS returns #NUM! if start_date or end_date are "
+	   "* NETWORKDAYS returns #NUM! if @start_date or @end_date are "
 	   "invalid.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
@@ -1106,8 +1106,7 @@ static char const *help_isoweeknum = {
 	   "week including days from two different years is assigned to the "
 	   "year which includes the most days. This means that Dec 31 could "
 	   "be in week 1 of the following year, and Jan 1 could be in week 52 "
-	   "or 53 of the previous year. ISOWEEKNUM returns the week number, "
-	   "while ISOYEAR returns the year the week is assigned to.\n"
+	   "or 53 of the previous year. ISOWEEKNUM returns the week number.\n"
 	   "\n"
 	   "* ISOWEEKNUM returns #NUM! if date is invalid.\n"
 	   "\n"
@@ -1142,7 +1141,7 @@ static char const *help_isoyear = {
 	   "year which includes the most days. This means that Dec 31 could "
 	   "be in week 1 of the following year, and Jan 1 could be in week 52 "
 	   "or 53 of the previous year. ISOYEAR returns the year the week is "
-	   "assigned to, while ISOWEEKNUM returns the week number.\n"
+	   "assigned to.\n"
 	   "\n"
 	   "* ISOYEAR returns #NUM! if date is invalid."
 	   "\n"
@@ -1186,13 +1185,13 @@ static char const *help_weeknum = {
 	   "@method.\n"
 	   "\n"
 	   "@method defaults to 1.\n\n"
-	   "  For method=1, week starts on Sunday, and days before first "
+	   "  For @method=1, week starts on Sunday, and days before first "
 	   "Sunday are in week 0.\n"
-	   "  For method=2, week starts on Monday, and days before first "
+	   "  For @method=2, week starts on Monday, and days before first "
 	   "Monday are in week 0.\n"
-	   "  For method=150, the ISO 8601 week number is returned.\n"
+	   "  For @method=150, the ISO 8601 week number is returned.\n"
 	   "\n"
-	   "* WEEKNUM returns #NUM! if date or method is invalid.\n"
+	   "* WEEKNUM returns #NUM! if @date or @method is invalid.\n"
 	   "* This function is Excel compatible, except that Excel does not "
 	   "support ISO 8601 week numbers.\n"
 	   "\n"
@@ -1224,7 +1223,7 @@ gnumeric_weeknum (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_yearfrac = {
 	N_("@FUNCTION=YEARFRAC\n"
-	   "@SYNTAX=WEEKNUM (start_date, end_date, basis)\n"
+	   "@SYNTAX=YEARFRAC (start_date, end_date, basis)\n"
 
 	   "@DESCRIPTION="
 	   "YEARFRAC returns the number of full days between @start_date and "
@@ -1252,7 +1251,7 @@ GnmFuncDescriptor const datetime_functions[] = {
 	  gnumeric_datevalue, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "datedif",     "ffs",  N_("date1,date2,Interval"), &help_datedif,
+	{ "datedif",     "ffs",  N_("date1,date2,interval"), &help_datedif,
 	  gnumeric_datedif, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -1264,7 +1263,7 @@ GnmFuncDescriptor const datetime_functions[] = {
 	  gnumeric_days360, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_UNITLESS,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "edate",       "ff",   N_("serial_number,months"), &help_edate,
+	{ "edate",       "ff",   N_("date,months"), &help_edate,
 	  gnumeric_edate, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_DATE,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
