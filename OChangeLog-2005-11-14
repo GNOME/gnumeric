@@ -1,5 +1,8 @@
 2003-05-12  Morten Welinder  <terra@gnome.org>
 
+	* src/stf.c (stf_open_and_read): Fix crash on errors and empty
+	files.  Fix return value for empty files.
+
 	* src/xml-io.c (gnumeric_xml_write_workbook): Fix broken object
 	handling.
 
