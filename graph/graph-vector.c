@@ -4,7 +4,7 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org).
  *
- * (C) 1999 International GNOME Support
+ * (C) 1999 Helix Code, Inc. (http://www.helixcode.com)
  */
 #include <config.h>
 #include <math.h>

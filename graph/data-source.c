@@ -4,7 +4,7 @@
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  *
- * (C) 1999 International GNOME Support, http://www.gnome-support.com
+ * (C) 1999 Helix Code, Inc (http://www.helixcode.com)
  */
 #include <config.h>
 #include "data-source.h"

@@ -5,7 +5,7 @@
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  *
- * (C) 1999 International GNOME Support
+ * (C) 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  */
 #include <config.h>
 #include <bonobo.h>

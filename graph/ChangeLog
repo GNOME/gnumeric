@@ -1,3 +1,11 @@
+2000-02-10  Miguel de Icaza  <miguel@gnu.org>
+
+	* graph-view-colbar.c (graph_view_colbar_draw): Pass a "last
+	field" flags.
+	(la_draw): Drive the plotting with flags.
+	Use MAP_Y routines to map coordinates. 
+	(graph_view_line_draw_nth_clustered): Do not map Y coordinates here.
+
 2000-02-09  Miguel de Icaza  <miguel@gnu.org>
 
 	* graph-view-colbar.c (graph_view_line_draw_nth_clustered): Added

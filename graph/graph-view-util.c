@@ -4,7 +4,7 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  *
- * Copyright 1999, International GNOME Support (http://www.gnome-support.com)
+ * Copyright 1999, 2000 Helix Code, Inc (http://www.helixcode.com)
  */
 #include <config.h>
 #include "src/portability.h"
@@ -31,6 +31,9 @@ symbol_draw (ViewDrawCtx *ctx, Symbol sym, int px, int py)
 	gboolean fill = FALSE;
 	const int dim = ctx->dim;
 	const int dim_h = dim / 2;
+
+	if (sym == SYMBOL_NONE)
+		return;
 	
 	switch (sym){
 	case SYMBOL_FILLED_SQUARE:
@@ -41,10 +44,6 @@ symbol_draw (ViewDrawCtx *ctx, Symbol sym, int px, int py)
 	}
 	
 	switch (sym){
-	case SYMBOL_POINT:
-		gdk_draw_point (ctx->drawable, ctx->gc, px, py);
-		break;
-
 	case SYMBOL_CROSS_1:
 		gdk_draw_line (
 			ctx->drawable, ctx->gc,

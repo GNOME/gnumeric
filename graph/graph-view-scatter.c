@@ -4,7 +4,7 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  *
- * Copyright 1999, International GNOME Support (http://www.gnome-support.com)
+ * Copyright 1999, 2000 Helix Code, Inc (http://www.helixcode.com)
  */
 #include <config.h>
 #include "Graph.h"

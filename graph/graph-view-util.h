@@ -2,7 +2,7 @@
 #define GRAPH_VIEW_UTIL_H
 
 typedef enum {
-	SYMBOL_POINT,
+	SYMBOL_NONE = -1,
 	SYMBOL_CROSS_1,
 	SYMBOL_CROSS_2,
 	SYMBOL_CIRCLE,
@@ -60,16 +60,16 @@ void   setup_view_ctx (ViewDrawCtx *ctx, GraphView *gv, GdkDrawable *d, GdkGC *g
  *
  * y axis also gets flipped.
  */
-#define CANVAS_MAP_X(ctx,xv) ((xv) - ctx->x + ctx->graph_view->bbox.x0)
-#define CANVAS_MAP_Y(ctx,yv) ((ctx->yl - yv) - ctx->y + ctx->graph_view->bbox.y0)
+#define CANVAS_MAP_X(ctx,xv) ((xv) - (ctx)->x + (ctx)->graph_view->bbox.x0)
+#define CANVAS_MAP_Y(ctx,yv) (((ctx)->yl - (yv)) - (ctx)->y + (ctx)->graph_view->bbox.y0)
 
-#define ADJUST_Y(ctx,y) (y - ctx->graph->low)
+#define ADJUST_Y(ctx,y) ((y) - (ctx)->graph->low)
 
 /*
  * Maps a x,y coordinate to a pixel value
  */
-#define MAP_X(ctx,xv) CANVAS_MAP_X (ctx, (((xv) * ctx->xl) / ctx->graph->x_size))
-#define MAP_Y(ctx,yv) CANVAS_MAP_Y (ctx, (((ADJUST_Y (ctx,yv)) * ctx->yl) / ctx->graph->y_size))
+#define MAP_X(ctx,xv) CANVAS_MAP_X ((ctx), (((xv) * (ctx)->xl) / (ctx)->graph->x_size))
+#define MAP_Y(ctx,yv) CANVAS_MAP_Y ((ctx), (((ADJUST_Y ((ctx),(yv))) * (ctx)->yl) / (ctx)->graph->y_size))
 
 #endif /* GRAPH_VIEW_UTIL_H */
 
