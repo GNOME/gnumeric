@@ -31,10 +31,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.2.2\n"
+"Project-Id-Version: gnumeric 1.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-22 10:14+0100\n"
-"PO-Revision-Date: 2005-03-22 10:13+0100\n"
+"POT-Creation-Date: 2005-03-30 10:22+0200\n"
+"PO-Revision-Date: 2005-03-30 10:20+0200\n"
 "Last-Translator: Frank Arnold <frank@scirocco-5v-turbo.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgid "Gnumeric Workbook viewer factory"
 msgstr "Gnumeric Arbeitsbuch-Betrachterfabrik"
 
 #. Keep in sync with .desktop file
-#: ../gnumeric.desktop.in.h:1 ../src/main-application.c:323
+#: ../gnumeric.desktop.in.h:1 ../src/main-application.c:331
 msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric Tabellenkalkulation"
 
@@ -113,56 +113,56 @@ msgstr "CORBA-Schnittstelle"
 msgid "Provides a CORBA scripting interface"
 msgstr "Stellt eine CORBA-Skriptschnittstelle zur Verfügung"
 
-#: ../plugins/derivatives/options.c:2258 ../plugins/derivatives/options.c:2263
-#: ../plugins/derivatives/options.c:2268 ../plugins/derivatives/options.c:2273
-#: ../plugins/derivatives/options.c:2288
+#: ../plugins/derivatives/options.c:2260 ../plugins/derivatives/options.c:2265
+#: ../plugins/derivatives/options.c:2270 ../plugins/derivatives/options.c:2275
+#: ../plugins/derivatives/options.c:2290
 msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 "Call_oder_Put; Kassapreis; Ausübungspreis; Laufzeit; Kurs; Volatilität; "
 "Übertragskosten"
 
-#: ../plugins/derivatives/options.c:2278 ../plugins/derivatives/options.c:2283
+#: ../plugins/derivatives/options.c:2280 ../plugins/derivatives/options.c:2285
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
 msgstr ""
 "Kassapreis; Ausübungspreis; Laufzeit; Kurs; Volatilität; Übertragskosten"
 
-#: ../plugins/derivatives/options.c:2293
+#: ../plugins/derivatives/options.c:2295
 msgid "a, b, rho"
 msgstr "a; b; Rho"
 
-#: ../plugins/derivatives/options.c:2298
+#: ../plugins/derivatives/options.c:2300
 msgid ""
 "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 "Call_oder_Put; Kassapreis; Ausübungspreis; Laufzeit; inländischer_Kurs; "
 "ausländischer_Kurs; Volatilität"
 
-#: ../plugins/derivatives/options.c:2303
+#: ../plugins/derivatives/options.c:2305
 msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
 msgstr ""
 "Call_oder_Put; Kassapreis; Ausübungspreis; Laufzeit1; Laufzeit2; Kurs; "
 "Volatilität; Übertragskosten"
 
-#: ../plugins/derivatives/options.c:2308
+#: ../plugins/derivatives/options.c:2310
 msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr ""
 "Call_oder_Put; Kassapreis; Ausübungspreis; Laufzeit; Kurs; Volatilität; "
 "Lambda; Gamma"
 
-#: ../plugins/derivatives/options.c:2313
+#: ../plugins/derivatives/options.c:2315
 msgid ""
 "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 "Call_oder_Put; Kassapreis; Ausübungspreis; Laufzeit; Kurs; Volatilität; "
 "Übertragskosten; Lambda"
 
-#: ../plugins/derivatives/options.c:2318 ../plugins/derivatives/options.c:2328
+#: ../plugins/derivatives/options.c:2320 ../plugins/derivatives/options.c:2330
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
 msgstr ""
 "Call_oder_Put; Kassapreis; Ausübungspreis; Laufzeit; Kurs; Übertragskosten; "
 "Volatilität"
 
-#: ../plugins/derivatives/options.c:2323
+#: ../plugins/derivatives/options.c:2325
 msgid ""
 "call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
 "kappa_e, kappa_f)"
@@ -170,33 +170,33 @@ msgstr ""
 "Call_oder_Put; p_t; f_t; x; Laufzeit1; Laufzeit2; v_s; v_e; v_f; Rho_se; "
 "Rho_sf; Rho_ef; Kappa_e; Kappa_f)"
 
-#: ../plugins/derivatives/options.c:2333
+#: ../plugins/derivatives/options.c:2335
 msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr ""
 "Call_oder_Put; Kassapreis; Ausübungspreis; Laufzeit1; Laufzeit2; Kurs; d; "
 "Volatilität"
 
-#: ../plugins/derivatives/options.c:2338
+#: ../plugins/derivatives/options.c:2340
 msgid ""
 "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 "Call_oder_Put; Kassapreis; Alpha; Laufzeit1; Laufzeit2; Kurs; Volatilität; "
 "Übertragskosten"
 
-#: ../plugins/derivatives/options.c:2343
+#: ../plugins/derivatives/options.c:2345
 msgid ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 "Call_oder_Put; Kassapreis; Ausübungspreis; a; Laufzeit; m; dt; Kurs; "
 "Übertragskosten; Volatilität"
 
-#: ../plugins/derivatives/options.c:2348
+#: ../plugins/derivatives/options.c:2350
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
 msgstr ""
 "Kassapreis; Ausübungspreis; Laufzeit1; Laufzeit2; Kurs; Übertragskosten; "
 "Volatilität"
 
-#: ../plugins/derivatives/options.c:2353
+#: ../plugins/derivatives/options.c:2355
 msgid ""
 "spot, strike_call, strike_put, time, time_call, time_put, rate, "
 "cost_of_carry, volatility"
@@ -204,7 +204,7 @@ msgstr ""
 "Kassapreis; Ausübungspreis_Call; Ausübungspreis_Put; Laufzeit; "
 "Laufzeit_Call; Laufzeit_Put; Kurs; Übertragskosten; Volatilität"
 
-#: ../plugins/derivatives/options.c:2358 ../plugins/derivatives/options.c:2363
+#: ../plugins/derivatives/options.c:2360 ../plugins/derivatives/options.c:2365
 msgid ""
 "type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
 "volatility"
@@ -212,7 +212,7 @@ msgstr ""
 "Call_oder_Put; Kassapreis; Ausübungspreis1; Ausübungspreis2; Laufzeit1; "
 "Laufzeit2; Kurs; Übertragskosten; Volatilität"
 
-#: ../plugins/derivatives/options.c:2368
+#: ../plugins/derivatives/options.c:2370
 msgid ""
 "type_flag, spot1, spot2, strike1, strike2, time, cost_of_carry1, "
 "cost_of_carry2, rate, volatility1, volatility2, rho"
@@ -221,7 +221,7 @@ msgstr ""
 "Laufzeit; Übertragskosten1; Übertragskosten2; Kurs; Volatilität1; "
 "Volatilität2; Rho"
 
-#: ../plugins/derivatives/options.c:2373 ../plugins/derivatives/options.c:2378
+#: ../plugins/derivatives/options.c:2375 ../plugins/derivatives/options.c:2380
 msgid ""
 "spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,cost_of_carry2,volatility1,"
 "volatility2,rho"
@@ -229,7 +229,7 @@ msgstr ""
 "Kassapreis1; Kassapreis2; Stückzahl1; Stückzahl2; Laufzeit; Kurs; "
 "Übertragskosten1; Übertragskosten2; Volatilität1; Volatilität2; Rho"
 
-#: ../plugins/derivatives/options.c:2383
+#: ../plugins/derivatives/options.c:2385
 msgid ""
 "call_put_flag,fut_price1,fut_price2,strike,time, rate,volatility1,"
 "volatility2,rho"
@@ -237,13 +237,13 @@ msgstr ""
 "Call_oder_Put; Zukunftspreis1; Zukunftspreis2; Ausübungspreis; Laufzeit; "
 "Kurs; Volatilität1; Volatilität2; Rho"
 
-#: ../plugins/derivatives/options.c:2388
+#: ../plugins/derivatives/options.c:2390
 msgid "call_put_flag,spot,spot_min,spot_max,time,rate,cost_of_carry,volatility"
 msgstr ""
 "Call_oder_Put; Kassapreis; Kassapreis_min; Kassapreis_max; Laufzeit; Kurs; "
 "Übertragskosten; Volatilität"
 
-#: ../plugins/derivatives/options.c:2393
+#: ../plugins/derivatives/options.c:2395
 msgid ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
 "volatility"
@@ -251,7 +251,7 @@ msgstr ""
 "Call_oder_Put; Kassapreis; Kassapreis_min; Kassapreis_max; Ausübungspreis; "
 "Laufzeit; Kurs; Übertragskosten; Volatilität"
 
-#: ../plugins/derivatives/options.c:2399
+#: ../plugins/derivatives/options.c:2401
 msgid ""
 "amer_euro_flag,call_put_flag,num_time_steps, spot, strike, time, rate, "
 "volatility, cost_of_carry"
@@ -273,8 +273,8 @@ msgstr "Finanzfunktionen"
 msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
-#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:5840
-#: ../plugins/mps/mps.c:547 ../src/xml-io.c:3972
+#: ../plugins/dif/dif.c:66 ../plugins/excel/ms-excel-read.c:5842
+#: ../plugins/mps/mps.c:547 ../src/xml-io.c:3928
 msgid "Reading file..."
 msgstr "Datei wird gelesen..."
 
@@ -348,15 +348,15 @@ msgstr ""
 "Lesen und Schreiben von Informationen, die im Data Interchange Format (*."
 "dif) gespeichert sind"
 
-#: ../plugins/excel/boot.c:181
+#: ../plugins/excel/boot.c:176
 msgid "No Workbook or Book streams found."
 msgstr "Keine Arbeitsbuch- oder Buch-Datenströme gefunden."
 
-#: ../plugins/excel/boot.c:230
+#: ../plugins/excel/boot.c:225
 msgid "Preparing to save..."
 msgstr "Vorbereiten auf das Speichern..."
 
-#: ../plugins/excel/boot.c:242
+#: ../plugins/excel/boot.c:237
 msgid "Saving file..."
 msgstr "Datei wird gespeichert..."
 
@@ -371,13 +371,13 @@ msgstr "Unerwartetes Attribut %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "Das XML-Dokument ist nicht wohlgeformt (\"well formed\")!"
 
-#: ../plugins/excel/ms-excel-read.c:1028 ../src/value.c:60
+#: ../plugins/excel/ms-excel-read.c:1030 ../src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#UNBEKANNT!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: ../plugins/excel/ms-excel-read.c:1110 ../plugins/excel/ms-excel-read.c:1122
+#: ../plugins/excel/ms-excel-read.c:1112 ../plugins/excel/ms-excel-read.c:1124
 #: ../plugins/oleo/oleo.c:343 ../plugins/psiconv/psiconv-read.c:510
 #: ../src/dialogs/dialog-sheet-order.c:475
 #: ../src/dialogs/dialog-sheet-order.c:479
@@ -385,27 +385,27 @@ msgstr "#UNBEKANNT!"
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: ../plugins/excel/ms-excel-read.c:1126
+#: ../plugins/excel/ms-excel-read.c:1128
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: ../plugins/excel/ms-excel-read.c:1130
+#: ../plugins/excel/ms-excel-read.c:1132
 #, c-format
 msgid "Chart%d"
 msgstr "Diagramm%d"
 
-#: ../plugins/excel/ms-excel-read.c:1133
+#: ../plugins/excel/ms-excel-read.c:1135
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: ../plugins/excel/ms-excel-read.c:2928
+#: ../plugins/excel/ms-excel-read.c:2930
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Name »%s« konnte nicht verarbeitet werden"
 
-#: ../plugins/excel/ms-excel-read.c:3024
+#: ../plugins/excel/ms-excel-read.c:3026
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -414,7 +414,7 @@ msgstr ""
 "DDE-Verknüpfungen werden nicht unterstützt.\n"
 "Der Name »%s« geht verloren.\n"
 
-#: ../plugins/excel/ms-excel-read.c:3030
+#: ../plugins/excel/ms-excel-read.c:3032
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -423,15 +423,15 @@ msgstr ""
 "OLE-Verknüpfungen werden nicht unterstützt.\n"
 "Der Name »%s« geht verloren.\n"
 
-#: ../plugins/excel/ms-excel-read.c:5147
+#: ../plugins/excel/ms-excel-read.c:5149
 msgid "external references"
 msgstr "externe Bezüge"
 
-#: ../plugins/excel/ms-excel-read.c:5171
+#: ../plugins/excel/ms-excel-read.c:5173
 msgid "No password supplied"
 msgstr "Kein Passwort angegeben"
 
-#: ../plugins/excel/ms-excel-read.c:6066
+#: ../plugins/excel/ms-excel-read.c:6071
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es konnte kein gültiges MS-Excel-Arbeitsbuch aufgefunden werden."
 
@@ -772,7 +772,7 @@ msgstr "Unbekanntes System"
 msgid "Unknown info_type"
 msgstr "Unbekannter Infotyp"
 
-#: ../plugins/fn-info/functions.c:1711 ../src/func.c:953
+#: ../plugins/fn-info/functions.c:1711 ../src/func.c:954
 msgid "Invalid number of arguments"
 msgstr "Ungültige Anzahl an Argumenten"
 
@@ -1387,7 +1387,7 @@ msgid "Functions for manipulating strings"
 msgstr "Funktionen zur Manipulation von Zeichenketten"
 
 #: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:154
-#: ../src/func.c:837
+#: ../src/func.c:838
 msgid "String"
 msgstr "Zeichenkette"
 
@@ -1930,70 +1930,70 @@ msgstr "Python-Ausnahme (%s: %s)"
 msgid "Python exception (%s)"
 msgstr "Python-Ausnahme (%s)"
 
-#: ../plugins/python-loader/python-loader.c:70
+#: ../plugins/python-loader/python-loader.c:71
 msgid "Python module name not given."
 msgstr "Der Name des Python-Moduls wurde nicht angegeben."
 
-#: ../plugins/python-loader/python-loader.c:88
+#: ../plugins/python-loader/python-loader.c:89
 #, c-format
 msgid "Error while opening file \"%s\" for writing."
 msgstr "Fehler beim Öffnen der Datei »%s«, um zu schreiben."
 
-#: ../plugins/python-loader/python-loader.c:92
+#: ../plugins/python-loader/python-loader.c:93
 #, c-format
 msgid "Error while opening file \"%s\" for reading."
 msgstr "Fehler beim Öffnen der Datei »%s«, um zu lesen."
 
-#: ../plugins/python-loader/python-loader.c:123
+#: ../plugins/python-loader/python-loader.c:124
 msgid "Cannot create new Python interpreter."
 msgstr "Neuer Python-Interpreter konnte nicht erstellt werden."
 
-#: ../plugins/python-loader/python-loader.c:144
+#: ../plugins/python-loader/python-loader.c:145
 #, c-format
 msgid "Module \"%s\" doesn't exist."
 msgstr "Das Modul »%s« existiert nicht."
 
-#: ../plugins/python-loader/python-loader.c:162
+#: ../plugins/python-loader/python-loader.c:163
 #, c-format
 msgid "Execution of module \"%s\" failed."
 msgstr "Die Ausführung des Moduls »%s« ist fehlgeschlagen."
 
-#: ../plugins/python-loader/python-loader.c:269
+#: ../plugins/python-loader/python-loader.c:270
 msgid "Some name"
 msgstr "Ein Name"
 
-#: ../plugins/python-loader/python-loader.c:331
-#: ../plugins/python-loader/python-loader.c:424
-#: ../plugins/python-loader/python-loader.c:647
-#: ../plugins/python-loader/python-loader.c:759
+#: ../plugins/python-loader/python-loader.c:332
+#: ../plugins/python-loader/python-loader.c:425
+#: ../plugins/python-loader/python-loader.c:648
+#: ../plugins/python-loader/python-loader.c:760
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Format der Python-Datei »%s« ungültig."
 
-#: ../plugins/python-loader/python-loader.c:335
-#: ../plugins/python-loader/python-loader.c:429
+#: ../plugins/python-loader/python-loader.c:336
+#: ../plugins/python-loader/python-loader.c:430
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Datei weist die »%s«-Funktion nicht auf."
 
-#: ../plugins/python-loader/python-loader.c:652
-#: ../plugins/python-loader/python-loader.c:764
+#: ../plugins/python-loader/python-loader.c:653
+#: ../plugins/python-loader/python-loader.c:765
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Datei weist kein »%s«-Wörterbuch nicht auf."
 
-#: ../plugins/python-loader/python-loader.c:657
-#: ../plugins/python-loader/python-loader.c:769
+#: ../plugins/python-loader/python-loader.c:658
+#: ../plugins/python-loader/python-loader.c:770
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objekt »%s« ist kein Wörterbuch."
 
-#: ../plugins/python-loader/python-loader.c:707 ../src/gnm-plugin.c:557
+#: ../plugins/python-loader/python-loader.c:708 ../src/gnm-plugin.c:557
 #, c-format
 msgid "Unknown action: %s"
 msgstr "Unbekannte Aktion: %s"
 
-#: ../plugins/python-loader/python-loader.c:712
+#: ../plugins/python-loader/python-loader.c:713
 #, c-format
 msgid "Not a valid function for action: %s"
 msgstr "Keine gültige Funktion für die Aktion: %s"
@@ -2106,7 +2106,7 @@ msgstr "Fehler beim Öffnen der xbase-Datei."
 #: ../plugins/xbase/boot.c:176 ../src/dialogs/dialog-goto-cell.c:289
 #: ../src/dialogs/dialog-search.c:447 ../src/dialogs/dialog-stf-export.c:444
 #: ../src/dialogs/print.glade.h:21 ../src/commands.c:4966
-#: ../src/print-info.c:398 ../src/workbook.c:1083 ../src/xml-io.c:3569
+#: ../src/print-info.c:398 ../src/workbook.c:1083 ../src/xml-io.c:3525
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -2146,7 +2146,7 @@ msgstr "EXPERIMENTELLES Gnumeric-SAX-XML-Dateiformat (*.gnumeric)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "EXPERIMENTELLES SAX-basiertes XML"
 
-#: ../plugins/xml_sax/plugin.xml.in.h:3 ../src/xml-io.c:4100
+#: ../plugins/xml_sax/plugin.xml.in.h:3 ../src/xml-io.c:4056
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric-XML (*.gnumeric)"
 
@@ -2163,7 +2163,7 @@ msgstr "Mehrfache Versionsangaben. %d wird angenommen"
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "Dateielement SheetNameIndex inkonsistent."
 
-#: ../plugins/xml_sax/xml-sax-read.c:1322 ../src/xml-io.c:2551
+#: ../plugins/xml_sax/xml-sax-read.c:1322 ../src/xml-io.c:2552
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Nicht unterstützter Objekttyp »%s«."
@@ -4841,7 +4841,7 @@ msgid "Double"
 msgstr "Doppelt"
 
 #: ../src/dialogs/dialog-cell-format.c:474 ../src/dialogs/dialog-search.c:158
-#: ../src/func.c:835 ../src/wbcg-actions.c:1951
+#: ../src/func.c:836 ../src/wbcg-actions.c:1951
 msgid "Number"
 msgstr "Zahl"
 
@@ -5147,7 +5147,7 @@ msgstr "Verknüpfung entfernen"
 msgid "Could not create the hyperlink dialog."
 msgstr "Der Verknüpfungsdialog konnte nicht erzeugt werden."
 
-#: ../src/dialogs/dialog-insert-cells.c:136 ../src/workbook-control-gui.c:538
+#: ../src/dialogs/dialog-insert-cells.c:136 ../src/workbook-control-gui.c:548
 msgid "Insert"
 msgstr "Einfügen"
 
@@ -5861,16 +5861,16 @@ msgid "Variable"
 msgstr "Variable"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:247
-#: ../src/workbook-control-gui.c:1852
+#: ../src/workbook-control-gui.c:1873
 msgid "Min"
 msgstr "Min"
 
-#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1854
+#: ../src/dialogs/dialog-simulation.c:237 ../src/workbook-control-gui.c:1875
 msgid "Average"
 msgstr "Mittel"
 
 #: ../src/dialogs/dialog-simulation.c:237 ../src/tools/simulation.c:249
-#: ../src/workbook-control-gui.c:1853
+#: ../src/workbook-control-gui.c:1874
 msgid "Max"
 msgstr "Max"
 
@@ -6031,7 +6031,7 @@ msgstr ""
 "Automatisch (wenn nötig, Anführungszeichen setzen)Immer\n"
 "Nie"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:8 ../src/gui-file.c:207
+#: ../src/dialogs/dialog-stf-export.glade.h:8 ../src/gui-file.c:206
 msgid "Character _encoding:"
 msgstr "_Zeichenkodierung:"
 
@@ -8816,7 +8816,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Bereich"
 
-#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1855
+#: ../src/tools/simulation.c:257 ../src/workbook-control-gui.c:1876
 msgid "Count"
 msgstr "Anzahl"
 
@@ -9300,20 +9300,20 @@ msgstr "Fett-kursiv"
 msgid "Italic"
 msgstr "Kursiv"
 
-#: ../src/application.c:309
+#: ../src/application.c:294
 msgid "Cut Object"
 msgstr "Objekt ausschneiden"
 
-#: ../src/clipboard.c:316 ../src/clipboard.c:328 ../src/clipboard.c:339
-#: ../src/clipboard.c:347
+#: ../src/clipboard.c:287 ../src/clipboard.c:299 ../src/clipboard.c:310
+#: ../src/clipboard.c:318
 msgid "Unable to paste"
 msgstr "Einfügen nicht möglich."
 
-#: ../src/clipboard.c:317
+#: ../src/clipboard.c:288
 msgid "Content can only be pasted by value or by link."
 msgstr "Inhalt kann nur als Wert oder Link eingefügt werden"
 
-#: ../src/clipboard.c:325
+#: ../src/clipboard.c:296
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -9326,7 +9326,7 @@ msgstr ""
 "Wählen Sie eine einzelne Zelle oder einen Bereich mit gleicher\n"
 "Form und Größe."
 
-#: ../src/clipboard.c:336
+#: ../src/clipboard.c:307
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -9339,7 +9339,7 @@ msgstr ""
 "Wählen Sie eine einzelne Zelle oder einen Bereich mit gleichem\n"
 "Umriss und gleicher Größe aus."
 
-#: ../src/clipboard.c:348
+#: ../src/clipboard.c:319
 msgid "result passes the sheet boundary"
 msgstr "Das Ergebnis überschreitet die Blattgrenzen."
 
@@ -9906,7 +9906,7 @@ msgstr "»%s« wurde bereits im Blatt definiert"
 msgid "'%s' is already defined in workbook"
 msgstr "»%s« wurde bereits im Arbeitsbuch definiert"
 
-#: ../src/file-autoft.c:89
+#: ../src/file-autoft.c:88
 #, c-format
 msgid "Invalid template file: %s"
 msgstr "Ungültige Template-Datei: %s"
@@ -10018,49 +10018,49 @@ msgstr ""
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: ../src/func.c:194
+#: ../src/func.c:195
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Es ist nicht möglich, die Datei %s anzulegen\n"
 
-#: ../src/func.c:441
+#: ../src/func.c:442
 msgid "Function implementation not available."
 msgstr "Funktionen Implementierung nicht verfügbar."
 
-#: ../src/func.c:654
+#: ../src/func.c:655
 msgid "Unknown Function"
 msgstr "Unbekannte Funktion"
 
-#: ../src/func.c:839
+#: ../src/func.c:840
 msgid "Boolean"
 msgstr "Wahrheitswert"
 
-#: ../src/func.c:841
+#: ../src/func.c:842
 msgid "Cell Range"
 msgstr "Zellbereich"
 
-#: ../src/func.c:843
+#: ../src/func.c:844
 msgid "Area"
 msgstr "Bereich"
 
 # CHECK
-#: ../src/func.c:845
+#: ../src/func.c:846
 msgid "Scalar or Blank"
 msgstr "Skalar oder leer"
 
-#: ../src/func.c:847
+#: ../src/func.c:848
 msgid "Scalar or Error"
 msgstr "Skalar oder Fehler"
 
-#: ../src/func.c:849
+#: ../src/func.c:850
 msgid "Scalar"
 msgstr "Skalar"
 
-#: ../src/func.c:851
+#: ../src/func.c:852
 msgid "Any"
 msgstr "Beliebig"
 
-#: ../src/func.c:1170
+#: ../src/func.c:1171
 msgid "Function does not exist"
 msgstr "Funktion existiert nicht"
 
@@ -10151,35 +10151,35 @@ msgstr ""
 "%.1f x %.1f Punkte\n"
 "%d x %d Pixel"
 
-#: ../src/gui-clipboard.c:121
+#: ../src/gui-clipboard.c:120
 msgid "clipboard"
 msgstr "Zwischenablage"
 
-#: ../src/gui-file.c:80
+#: ../src/gui-file.c:79
 msgid "Automatically detected"
 msgstr "Auto-Erkennung"
 
-#: ../src/gui-file.c:199
+#: ../src/gui-file.c:198
 msgid "Load file"
 msgstr "Datei laden"
 
-#: ../src/gui-file.c:222 ../src/gui-file.c:365
+#: ../src/gui-file.c:221 ../src/gui-file.c:364
 msgid "Select a file"
 msgstr "Eine Datei wählen"
 
-#: ../src/gui-file.c:247 ../src/gui-file.c:379
+#: ../src/gui-file.c:246 ../src/gui-file.c:378
 msgid "All Files"
 msgstr "Alle Dateien"
 
-#: ../src/gui-file.c:252 ../src/gui-file.c:384
+#: ../src/gui-file.c:251 ../src/gui-file.c:383
 msgid "Spreadsheets"
 msgstr "Tabellenkalkulationen"
 
-#: ../src/gui-file.c:278 ../src/gui-file.c:408
+#: ../src/gui-file.c:277 ../src/gui-file.c:407
 msgid "File _type:"
 msgstr "Datei_typ:"
 
-#: ../src/gui-file.c:325
+#: ../src/gui-file.c:324
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -10192,7 +10192,7 @@ msgstr ""
 "Dateien speichern oder ein anderes Dateiformat wählen.\n"
 "Wollen Sie nur das aktuelle Blatt speichern?"
 
-#: ../src/gui-file.c:459
+#: ../src/gui-file.c:458
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -10346,7 +10346,7 @@ msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Sofort nach dem Laden der angewählten Bücher beenden (nützlich zum Testen)."
 
-#: ../src/main-application.c:122
+#: ../src/main-application.c:130
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -10373,84 +10373,84 @@ msgstr ""
 "\n"
 "   Ihr Gnumeric-Team"
 
-#: ../src/main-application.c:191
+#: ../src/main-application.c:199
 msgid "Gdk debugging flags to set"
 msgstr "Zu setzende Gdk-Debugging-Flags"
 
-#: ../src/main-application.c:191 ../src/main-application.c:193
-#: ../src/main-application.c:205 ../src/main-application.c:207
+#: ../src/main-application.c:199 ../src/main-application.c:201
+#: ../src/main-application.c:213 ../src/main-application.c:215
 msgid "FLAGS"
 msgstr "FLAGS"
 
-#: ../src/main-application.c:193
+#: ../src/main-application.c:201
 msgid "Gdk debugging flags to unset"
 msgstr "Abzuschaltende Gdk-Debugging-Flags"
 
-#: ../src/main-application.c:195
+#: ../src/main-application.c:203
 msgid "X display to use"
 msgstr "Zu verwendende X-Anzeige"
 
-#: ../src/main-application.c:195
+#: ../src/main-application.c:203
 msgid "DISPLAY"
 msgstr "ANZEIGE"
 
-#: ../src/main-application.c:197
+#: ../src/main-application.c:205
 msgid "X screen to use"
 msgstr "Zu verwendender X-Bildschirm"
 
-#: ../src/main-application.c:197
+#: ../src/main-application.c:205
 msgid "SCREEN"
 msgstr "BILDSCHIRM"
 
-#: ../src/main-application.c:199
+#: ../src/main-application.c:207
 msgid "Make X calls synchronous"
 msgstr "X-Aufrufe synchron machen"
 
-#: ../src/main-application.c:201
+#: ../src/main-application.c:209
 msgid "Program name as used by the window manager"
 msgstr "Programmname wie vom Fenster-Manager verwendet"
 
-#: ../src/main-application.c:201
+#: ../src/main-application.c:209
 msgid "NAME"
 msgstr "NAME"
 
-#: ../src/main-application.c:203
+#: ../src/main-application.c:211
 msgid "Program class as used by the window manager"
 msgstr "Programmklasse wie vom Fenster-Manager verwendet"
 
-#: ../src/main-application.c:203
+#: ../src/main-application.c:211
 msgid "CLASS"
 msgstr "KLASSE"
 
-#: ../src/main-application.c:205
+#: ../src/main-application.c:213
 msgid "Gtk+ debugging flags to set"
 msgstr "Zu setzende Gtk+-Debugging-Flags"
 
-#: ../src/main-application.c:207
+#: ../src/main-application.c:215
 msgid "Gtk+ debugging flags to unset"
 msgstr "Abzuschaltende Gtk+-Debugging-Flags"
 
-#: ../src/main-application.c:209
+#: ../src/main-application.c:217
 msgid "Make all warnings fatal"
 msgstr "Alle Warnungen schwerwiegend machen"
 
-#: ../src/main-application.c:211
+#: ../src/main-application.c:219
 msgid "Load an additional Gtk module"
 msgstr "Ein zusätzliches Gtk-Modul laden"
 
-#: ../src/main-application.c:211
+#: ../src/main-application.c:219
 msgid "MODULE"
 msgstr "MODUL"
 
-#: ../src/main-application.c:217
+#: ../src/main-application.c:225
 msgid "Gnumeric options"
 msgstr "Gnumeric Optionen"
 
-#: ../src/main-application.c:219
+#: ../src/main-application.c:227
 msgid "GTK+ options"
 msgstr "GTK+ Optionen"
 
-#: ../src/main-application.c:292
+#: ../src/main-application.c:300
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -10461,7 +10461,7 @@ msgstr ""
 "datadir := »%s«\n"
 "libdir := »%s«\n"
 
-#: ../src/mathfunc.c:7433
+#: ../src/mathfunc.c:7446
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "gnm_yn."
@@ -10544,31 +10544,31 @@ msgid "Unexpected token %c"
 msgstr "Unerwartetes Zeichen %c"
 
 #. Note: we cannot have spaces in page numbers.
-#: ../src/print.c:604
+#: ../src/print.c:606
 msgid "&[PAGE]"
 msgstr "&[SEITE]"
 
-#: ../src/print.c:1147
+#: ../src/print.c:1149
 msgid "Print Region"
 msgstr "Bereich drucken"
 
-#: ../src/print.c:1307 ../src/wbcg-actions.c:1501
+#: ../src/print.c:1309 ../src/wbcg-actions.c:1501
 msgid "Print preview"
 msgstr "Druckvorschau"
 
-#: ../src/print.c:1319
+#: ../src/print.c:1321
 msgid "Printing failed"
 msgstr "Drucken fehlgeschlagen"
 
-#: ../src/print.c:1425
+#: ../src/print.c:1427
 msgid "Print Sheets"
 msgstr "Blätter drucken"
 
-#: ../src/print.c:1434
+#: ../src/print.c:1436
 msgid "Act_ive sheet"
 msgstr "Akt_ives Blatt"
 
-#: ../src/print.c:1434
+#: ../src/print.c:1436
 msgid "S_heets"
 msgstr "_Blätter"
 
@@ -10870,23 +10870,23 @@ msgstr "Objekt für »%s« kann nicht erzeugt werden"
 msgid "Could not load file: %s"
 msgstr "Datei konnte nicht geladen werden: %s"
 
-#: ../src/sheet-object-graph.c:202 ../src/sheet-object-image.c:350
-msgid "SVG (vector graphics)"
-msgstr "SVG (Vektorgrafik)"
-
-#: ../src/sheet-object-graph.c:203 ../src/sheet-object-image.c:346
-msgid "PNG (raster graphics)"
-msgstr "PNG (Pixelgrafik)"
-
-#: ../src/sheet-object-graph.c:204 ../src/sheet-object-image.c:348
-msgid "JPEG (photograph)"
-msgstr "JPEG (Fotografie)"
-
-#: ../src/sheet-object-graph.c:253 ../src/sheet-object-image.c:437
+#: ../src/sheet-object-graph.c:227 ../src/sheet-object-image.c:437
 msgid "Unknown failure while saving image"
 msgstr "Unbekannter Fehler beim Speichern des Bilds."
 
-#: ../src/sheet-object-graph.c:266 ../src/sheet-object-image.c:504
+#: ../src/sheet-object-graph.c:244 ../src/sheet-object-image.c:350
+msgid "SVG (vector graphics)"
+msgstr "SVG (Vektorgrafik)"
+
+#: ../src/sheet-object-graph.c:245 ../src/sheet-object-image.c:346
+msgid "PNG (raster graphics)"
+msgstr "PNG (Pixelgrafik)"
+
+#: ../src/sheet-object-graph.c:246 ../src/sheet-object-image.c:348
+msgid "JPEG (photograph)"
+msgstr "JPEG (Fotografie)"
+
+#: ../src/sheet-object-graph.c:288 ../src/sheet-object-image.c:504
 msgid "_Save as image"
 msgstr "Als Bild _speichern"
 
@@ -11804,11 +11804,11 @@ msgstr "_Neue Ansicht..."
 msgid "Create a new view of the workbook"
 msgstr "Eine neue Arbeitsbuchansicht erzeugen"
 
-#: ../src/wbcg-actions.c:1633 ../src/workbook-control-gui.c:1041
+#: ../src/wbcg-actions.c:1633 ../src/workbook-control-gui.c:1052
 msgid "_Freeze Panes"
 msgstr "_Flächen einfrieren"
 
-#: ../src/wbcg-actions.c:1634 ../src/workbook-control-gui.c:1044
+#: ../src/wbcg-actions.c:1634 ../src/workbook-control-gui.c:1055
 msgid "Freeze the top left of the sheet"
 msgstr "Den oberen linken Teil des Blattes einfrieren"
 
@@ -12327,7 +12327,7 @@ msgid "Remove an outline group"
 msgstr "Diese Übersichtsgruppe löschen"
 
 #. Data -> Filter
-#: ../src/wbcg-actions.c:1870 ../src/workbook-control-gui.c:1052
+#: ../src/wbcg-actions.c:1870 ../src/workbook-control-gui.c:1063
 msgid "Add _Auto Filter"
 msgstr "_Auto-Filter hinzufügen"
 
@@ -12361,8 +12361,8 @@ msgid "Import the text from a file"
 msgstr "Den Text aus einer Datei importieren"
 
 #. Standard Toolbar
-#: ../src/wbcg-actions.c:1885 ../src/workbook-control-gui.c:1851
-#: ../src/workbook-view.c:542
+#: ../src/wbcg-actions.c:1885 ../src/workbook-control-gui.c:1872
+#: ../src/workbook-view.c:582
 msgid "Sum"
 msgstr "Summe"
 
@@ -12953,27 +12953,27 @@ msgstr "Namen festlegen"
 msgid "Address"
 msgstr "Adresse"
 
-#: ../src/workbook-control-gui.c:338
+#: ../src/workbook-control-gui.c:339
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: ../src/workbook-control-gui.c:536
+#: ../src/workbook-control-gui.c:546
 msgid "Manage sheets..."
 msgstr "Blätter verwalten..."
 
-#: ../src/workbook-control-gui.c:539
+#: ../src/workbook-control-gui.c:549
 msgid "Append"
 msgstr "Anfügen"
 
-#: ../src/workbook-control-gui.c:540
+#: ../src/workbook-control-gui.c:550
 msgid "Duplicate"
 msgstr "Duplizieren"
 
-#: ../src/workbook-control-gui.c:541
+#: ../src/workbook-control-gui.c:551
 msgid "Remove"
 msgstr "Entfernen"
 
-#: ../src/workbook-control-gui.c:542
+#: ../src/workbook-control-gui.c:552
 msgid "Rename"
 msgstr "Umbenennen"
 
@@ -12983,77 +12983,81 @@ msgstr "Umbenennen"
 # 2001-07-15 06:44:59 CEST -ke-
 # hmmm, auftauen
 # 2001-12-24 -cm-
-#: ../src/workbook-control-gui.c:1040
+#: ../src/workbook-control-gui.c:1051
 msgid "Un_freeze Panes"
 msgstr "Flächen au_ftauen"
 
-#: ../src/workbook-control-gui.c:1043
+#: ../src/workbook-control-gui.c:1054
 msgid "Unfreeze the top left of the sheet"
 msgstr "Den oberen linken Teil des Blattes auftauen"
 
-#: ../src/workbook-control-gui.c:1051
+#: ../src/workbook-control-gui.c:1062
 msgid "Remove _Auto Filter"
 msgstr "_Auto-Filter entfernen"
 
-#: ../src/workbook-control-gui.c:1054
+#: ../src/workbook-control-gui.c:1065
 msgid "Remove a filter"
 msgstr "Einen Filter entfernen"
 
-#: ../src/workbook-control-gui.c:1055
+#: ../src/workbook-control-gui.c:1066
 msgid "Add a filter"
 msgstr "Einen Filter hinzufügen"
 
-#: ../src/workbook-control-gui.c:1066
+#: ../src/workbook-control-gui.c:1077
 msgid "_Undo"
 msgstr "_Rückgängig"
 
-#: ../src/workbook-control-gui.c:1067
+#: ../src/workbook-control-gui.c:1078
 msgid "_Redo"
 msgstr "_Wiederholen"
 
-#: ../src/workbook-control-gui.c:1195
+#: ../src/workbook-control-gui.c:1206
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Änderungen am Arbeitsbuch »%s« vor dem Schließen speichern?"
 
-#: ../src/workbook-control-gui.c:1199
+#: ../src/workbook-control-gui.c:1210
 msgid "Save changes to workbook before closing?"
 msgstr "Änderungen am Arbeitsbuch vor dem Schließen speichern?"
 
-#: ../src/workbook-control-gui.c:1205
+#: ../src/workbook-control-gui.c:1216
 msgid "If you close without saving, changes will be discarded."
 msgstr "Änderungen werden verworfen, falls Sie sie nicht speichern."
 
-#: ../src/workbook-control-gui.c:1212
+#: ../src/workbook-control-gui.c:1223
 msgid "Discard all"
 msgstr "Alle verwerfen"
 
-#: ../src/workbook-control-gui.c:1214 ../src/workbook-control-gui.c:1223
-#: ../src/workbook-control-gui.c:1231
+#: ../src/workbook-control-gui.c:1225 ../src/workbook-control-gui.c:1234
+#: ../src/workbook-control-gui.c:1242
 msgid "Discard"
 msgstr "Verwerfen"
 
-#: ../src/workbook-control-gui.c:1216
+#: ../src/workbook-control-gui.c:1227
 msgid "Save all"
 msgstr "Alle speichern"
 
-#: ../src/workbook-control-gui.c:1218 ../src/workbook-control-gui.c:1225
+#: ../src/workbook-control-gui.c:1229 ../src/workbook-control-gui.c:1236
 msgid "Don't quit"
 msgstr "Nicht beenden"
 
-#: ../src/workbook-control-gui.c:1233
+#: ../src/workbook-control-gui.c:1244
 msgid "Don't close"
 msgstr "Nicht schließen"
 
-#: ../src/workbook-control-gui.c:2234 ../src/workbook-control-gui.c:2249
+#: ../src/workbook-control-gui.c:1921
+msgid "Use maximum precision"
+msgstr "Höchste Genauigkeit verwenden"
+
+#: ../src/workbook-control-gui.c:2274 ../src/workbook-control-gui.c:2289
 msgid "_Re-Edit"
 msgstr "_Erneut bearbeiten"
 
-#: ../src/workbook-control-gui.c:2235 ../src/workbook-control-gui.c:2240
+#: ../src/workbook-control-gui.c:2275 ../src/workbook-control-gui.c:2280
 msgid "_Discard"
 msgstr "_Verwerfen"
 
-#: ../src/workbook-control-gui.c:2239 ../src/workbook-control-gui.c:2250
+#: ../src/workbook-control-gui.c:2279 ../src/workbook-control-gui.c:2290
 msgid "_Accept"
 msgstr "_Akzeptieren"
 
@@ -13071,76 +13075,76 @@ msgstr ""
 msgid "Unprotect the sheet to enable editing."
 msgstr "Den Schutz des Blatts entfernen um das Bearbeiten zu ermöglichen."
 
-#: ../src/workbook-view.c:276
+#: ../src/workbook-view.c:277
 #, c-format
 msgid "%dC"
 msgstr "%dS"
 
-#: ../src/workbook-view.c:278
+#: ../src/workbook-view.c:279
 #, c-format
 msgid "%dR"
 msgstr "%dZ"
 
-#: ../src/workbook-view.c:280
+#: ../src/workbook-view.c:281
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dZ x %dS"
 
-#: ../src/workbook-view.c:422
+#: ../src/workbook-view.c:460
 msgid "Internal ERROR"
 msgstr "Interner FEHLER"
 
-#: ../src/workbook-view.c:568
+#: ../src/workbook-view.c:608
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "»%s« konnte nicht zum Schreiben geöffnet werden: %s"
 
-#: ../src/workbook-view.c:592
+#: ../src/workbook-view.c:632
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "Beim Speichern von %s ist ein nicht erklärter Fehler aufgetreten"
 
-#: ../src/workbook-view.c:677 ../src/workbook-view.c:852
+#: ../src/workbook-view.c:717 ../src/workbook-view.c:885
 msgid "Default file saver is not available."
 msgstr "Der übliche Dateienspeicherer ist nicht verfügbar."
 
-#: ../src/workbook-view.c:798
+#: ../src/workbook-view.c:831
 msgid "Failed to create temporary file for sending."
 msgstr "Temporärdatei zum Verschicken konnte nicht angelegt werden."
 
-#: ../src/workbook-view.c:946
+#: ../src/workbook-view.c:979
 msgid "Unsupported file format."
 msgstr "Nicht unterstütztes Dateiformat."
 
-#: ../src/workbook-view.c:994
+#: ../src/workbook-view.c:1027
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Beim Öffnen von %s ist ein nicht erklärter Fehler aufgetreten"
 
-#: ../src/xml-io.c:3253
+#: ../src/xml-io.c:3211
 msgid "Unparsable xml in clipboard"
 msgstr "Nicht interpretierbares XML in der Zwischenablage"
 
-#: ../src/xml-io.c:3260
+#: ../src/xml-io.c:3218
 msgid "Clipboard is in unknown format"
 msgstr "Zwischenablage hat ein unbekanntes Format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: ../src/xml-io.c:3700
+#: ../src/xml-io.c:3656
 msgid "Processing file..."
 msgstr "Datei wird eingelesen..."
 
-#: ../src/xml-io.c:4020
+#: ../src/xml-io.c:3976
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Die Datei ist keine Gnumeric-Arbeitsbuch-Datei"
 
-#: ../src/xml-io.c:4057
+#: ../src/xml-io.c:4013
 msgid "Failure saving file"
 msgstr "Datei konnte nicht gespeichert werden"
 
-#: ../src/xml-io.c:4105
+#: ../src/xml-io.c:4061
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric) ursprünglicher, langsamer Export"
 
