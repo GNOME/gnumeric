@@ -1,5 +1,10 @@
 Gnumeric 1.4.1
 
+Jody:
+	* Saved charts were 1 pixel larger than the stated size [#157732]
+	* Fix path to chart icons for win32 [#160046]
+	* Fix sax export for Validation [Debian #283999]
+
 Morten:
 	* Add bugzilla version number to desktop file.  [#159371]
 	* Fix arrows' direction used for printing and saving.  [#159922]
