@@ -101,7 +101,10 @@ static const DistributionStrs distribution_strs[] = {
 	 * and discrete are the most commonly used, or what do you think? */
 
         { UniformDistribution,
-	  N_("Uniform"), N_("_Lower Bound:"),  N_("_Upper Bound:"), FALSE },
+	  N_("Uniform"), N_("_Lower Bound:"), N_("_Upper Bound:"), FALSE },
+        { UniformIntDistribution,
+	  N_("Uniform Integer"), N_("_Lower Bound:"), N_("_Upper Bound:"),
+	  FALSE },
         { NormalDistribution,
 	  N_("Normal"), N_("_Mean:"), N_("_Standard Deviation:"), FALSE },
         { DiscreteDistribution,
@@ -128,6 +131,8 @@ static const DistributionStrs distribution_strs[] = {
 	  N_("F"), N_("nu_1 Value:"), N_("nu_2 Value:"), FALSE },
 	{ GammaDistribution,
 	  N_("Gamma"), N_("_a Value:"), N_("_b Value:"), FALSE },
+	{ GaussianTailDistribution,
+	  N_("Gaussian Tail"), N_("_a Value:"), N_("_Sigma"), FALSE },
 	{ GeometricDistribution,
 	  N_("Geometric"), N_("_p Value:"), NULL, FALSE },
 	{ LandauDistribution,
@@ -290,6 +295,14 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
 			a_float > 0.0;
 		break;
+	case GaussianTailDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
+			b_float > 0.0;
+		break;
 	case RayleighDistribution:
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
@@ -399,6 +412,12 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 			(GNUMERIC_EXPR_ENTRY (state->par1_expr_entry), state->base.sheet);
 		ready = ready && disc_prob_range != NULL;
 		if (disc_prob_range != NULL) value_release (disc_prob_range);
+		break;
+	case UniformIntDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &from_val, FALSE) == 0 &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &to_val, FALSE) == 0 &&
+			from_val <= to_val;
 		break;
 	case UniformDistribution:
 	default:
@@ -596,6 +615,12 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
 				      &data->param.laplace.a, TRUE);
 		break;
+	case GaussianTailDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.gaussian_tail.a, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+				      &data->param.gaussian_tail.sigma, TRUE);
+		break;
 	case ChisqDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
 				      &data->param.chisq.nu, TRUE);
@@ -685,6 +710,12 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		data->param.discrete.range = gnm_expr_entry_parse_as_value (
 			GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
 			state->base.sheet);
+		break;
+	case UniformIntDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry),
+				     &data->param.uniform.lower_limit, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par2_entry),
+				     &data->param.uniform.upper_limit, TRUE);
 		break;
 	case UniformDistribution:
 	default:
