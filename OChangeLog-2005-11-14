@@ -1,7 +1,8 @@
 2005-03-12  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (render_number): Fix two trailing-zeros bugs.
-	
+	(render_number): Backport fix for 170000.
+
 2005-03-10  Jody Goldberg <jody@gnome.org>
 
 	* src/cell.c (cell_render_value) : pass the current zoom.

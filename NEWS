@@ -29,6 +29,7 @@ Morten:
 	* Fix SUBSTITUTE.  [#165996]
 	* Fix numeric inputs in xbase. [#166311]
 	* Fix #decimals issue for print page setup.
+	* Fix various old number rendering bugs.  [#170000]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.2

@@ -787,13 +787,15 @@ render_number (GString *result,
 	int right_allowed = info->right_allowed + info->right_optional;
 	int sigdig = 0;
 
+	number = gnumeric_add_epsilon (number);
+
 	if (right_allowed >= 0 && !info->has_fraction) {
 		/* Change "rounding" into "truncating".   */
 		/* Note, that we assume number >= 0 here. */
 		gnm_float delta = 5 * gpow10 (-right_allowed - 1);
 		number += delta;
 	}
-	frac_part = modfgnum (gnumeric_add_epsilon (number), &int_part);
+	frac_part = modfgnum (number, &int_part);
 
 	*num = '\0';
 	group = (info->group_thousands) ? 3 : -1;
@@ -851,7 +853,7 @@ render_number (GString *result,
 		frac_part *= 10.0;
 		digit = (gint)frac_part;
 		frac_part -= digit;
-		if (sigdig++ > GNUM_DIG) digit = 0;
+		if (++sigdig > GNUM_DIG) digit = 0;
 		g_string_append_c (result, digit + '0');
 	}
 
@@ -863,7 +865,7 @@ render_number (GString *result,
 		digit = (gint)frac_part;
 		frac_part -= digit;
 
-		if (sigdig++ > GNUM_DIG) digit = 0;
+		if (++sigdig > GNUM_DIG) digit = 0;
 
 		if (digit != 0) {
 			right_spaces -= zero_count + 1;
