@@ -252,7 +252,7 @@ sheet_object_container_new_file (Sheet *sheet, const char *fname)
 	SheetObject *so = NULL;
 	char        *msg;
 	char        *iid;
-	char        *required_ids [] = {
+	const char  *required_ids [] = {
 		"IDL:Bonobo/Embeddable:1.0",
 		NULL
 	};
@@ -269,8 +269,11 @@ sheet_object_container_new_file (Sheet *sheet, const char *fname)
 		if (so == NULL) {
 			msg = g_strdup_printf (_("can't create object for '%s'"), iid);
 			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
-		} else
-			sheet_object_bonobo_load_from_file (SHEET_OBJECT_BONOBO (so), fname);
+		} else {
+			if (sheet_object_bonobo_load_from_file (SHEET_OBJECT_BONOBO (so), fname))
+				sheet_object_realize (SHEET_OBJECT (so));
+		}
+
 	}
 
 	g_free (iid);

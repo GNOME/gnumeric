@@ -114,11 +114,13 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 			file = get_file_name ();
 		else
 			file = g_strdup (fname);
-		if (file)
+		if (file) {
 			Bonobo_PersistFile_load (pf, file, &ev);
+			if (BONOBO_EX (&ev))
+				g_warning ("Error '%s'", bonobo_exception_get_text (&ev));
+		}
 
-		Bonobo_Unknown_unref ((Bonobo_Unknown) pf, &ev);
-		CORBA_Object_release (pf, &ev);
+		bonobo_object_release_unref (pf, &ev);
 		g_free (file);
 
 		goto finish;
@@ -145,11 +147,13 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 					ps,
 					(Bonobo_Stream) bonobo_object_corba_objref (
 						BONOBO_OBJECT (stream)), "", &ev);
+				if (BONOBO_EX (&ev))
+					g_warning ("Error '%s'", bonobo_exception_get_text (&ev));
 			} else
 				g_warning ("Failed to open '%s'", file);
 		}
-		Bonobo_Unknown_unref ((Bonobo_Unknown) ps, &ev);
-		CORBA_Object_release (ps, &ev);
+
+		bonobo_object_release_unref (pf, &ev);
 		g_free (file);
 
 		goto finish;
@@ -158,7 +162,6 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 	return FALSE;
 
  finish:
-	sheet_object_realize (SHEET_OBJECT (sob));
 	CORBA_exception_free (&ev);
 	return TRUE;
 }
@@ -207,7 +210,6 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 	return TRUE;
 }
 
-#ifdef ENABLE_BONOBO
 static void
 sheet_object_bonobo_print (SheetObject *so, SheetObjectPrintInfo *pi)
 {
@@ -225,7 +227,27 @@ sheet_object_bonobo_print (SheetObject *so, SheetObjectPrintInfo *pi)
 
 	bonobo_print_client_render (bpc, pi->pd);
 }
-#endif
+
+static void
+open_cb (GtkMenuItem *item, SheetObjectBonobo *sheet_object)
+{
+	sheet_object_bonobo_load_from_file (sheet_object, NULL);
+}
+
+static void
+sheet_object_bonobo_populate_menu (SheetObject *sheet_object,
+				   GtkMenu     *menu)
+{
+	GtkWidget *item = gtk_menu_item_new_with_label (_("Open"));
+
+	gtk_signal_connect (GTK_OBJECT (item), "activate",
+			    (GtkSignalFunc) open_cb, sheet_object);
+
+	gtk_menu_append (menu, item);
+
+	if (sheet_object_bonobo_parent_class->populate_menu)
+		sheet_object_bonobo_parent_class->populate_menu (sheet_object, menu);
+}
 
 static void
 sheet_object_bonobo_class_init (GtkObjectClass *object_class)
@@ -237,9 +259,8 @@ sheet_object_bonobo_class_init (GtkObjectClass *object_class)
 	/* Object class method overrides */
 	object_class->destroy = sheet_object_bonobo_destroy;
 
-#ifdef ENABLE_BONOBO
 	sheet_object_class->print = sheet_object_bonobo_print;
-#endif
+	sheet_object_class->populate_menu = sheet_object_bonobo_populate_menu;
 }
 
 GtkType

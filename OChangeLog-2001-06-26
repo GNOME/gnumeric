@@ -1,3 +1,16 @@
+2000-10-26  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: Depend on gb-0.0.14 (CVS)
+
+2000-10-24  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object-bonobo.c: Remove #ifdef ENABLE_BONOBO's
+	(open_cb, sheet_object_bonobo_populate_menu): impl.
+	(sheet_object_bonobo_class_init): hook in.
+	(sheet_object_bonobo_load_from_file): upd.
+
+	* src/sheet-object-container.c (sheet_object_container_new_file): upd.
+
 2000-10-24  Michael Meeks  <michael@helixcode.com>
 
 	* src/gnumeric.xml: Start to separate out cmds / widgets, a very

@@ -32,7 +32,9 @@
 #include "expr.h"
 #include "func.h"
 
+#include "common.h"
 #include "streams.h"
+#include "excel-gb-application.h"
 #include "../excel/excel.h"
 
 #ifndef MAP_FAILED
@@ -48,66 +50,6 @@ typedef struct {
 } GBWorkbookData;
 
 int gb_debug = 0;
-
-static GBValue *
-value_to_gb (FunctionEvalInfo *ei, Value *val)
-{
-	if (val == NULL)
-		return NULL;
-
-	switch (val->type) {
-	case VALUE_EMPTY:
-		/* FIXME ?? what belongs here */
-		return gb_value_new_empty ();
- 
-	case VALUE_BOOLEAN:
-		return gb_value_new_boolean (val->v_bool.val);	
-			
-	case VALUE_ERROR:
-		/* FIXME ?? what belongs here */
-		return gb_value_new_string_chars (val->v_err.mesg->str);
-			
-	case VALUE_STRING:
-		return gb_value_new_string_chars (val->v_str.val->str);
-
-	case VALUE_INTEGER:
-		return gb_value_new_long (val->v_int.val);
-
-	case VALUE_FLOAT:
-		return gb_value_new_double (val->v_float.val);
-
-	default:
-		g_warning ("Unimplemented %d -> GB translation", val->type);
-
-		return gb_value_new_int (0);
-	}
-}
-
-static Value *
-gb_to_value (FunctionEvalInfo *ei, GBValue *v)
-{
-	switch (v->type) {
-	case GB_VALUE_EMPTY:
-	case GB_VALUE_NULL:
-		return value_new_empty ();
-
-	case GB_VALUE_INT:
-	case GB_VALUE_LONG:
-		return value_new_int (gb_value_get_as_long (v));
-
-	case GB_VALUE_SINGLE:
-	case GB_VALUE_DOUBLE:
-		return value_new_float (gb_value_get_as_double (v));
-
-	case GB_VALUE_STRING:
-		return value_new_string (v->v.s->str);
-
-	default:
-		g_warning ("Unimplemented GB %d -> gnumeric type mapping",
-			   v->type);
-		return value_new_error (ei->pos, "Unknown mapping");
-	}
-}
 
 static int
 dont_unload (PluginData *pd)
@@ -177,12 +119,17 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 	GBValue *gb_ans;
 	Value   *ans;
 	GBWorkbookData *wd;
+	ExcelGBApplication *app;
 
 	g_return_val_if_fail (ei != NULL, NULL);
 	g_return_val_if_fail (ei->func_def != NULL, NULL);
 
 	wd = function_def_get_user_data (ei->func_def);
 	g_return_val_if_fail (wd != NULL, NULL);
+
+	/* Register Excel objects with GB */
+	app = excel_gb_application_new (ei->pos->sheet->workbook);
+	gbrun_project_register_object (wd->proj, GBRUN_OBJECT (app));
 
 	for (l = nodes; l; l = l->next) {
 		/*
@@ -192,7 +139,7 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 		 */
 		Value *v = eval_expr (ei->pos, l->data, EVAL_STRICT);
 
-		args = g_slist_prepend (args, value_to_gb (ei, v));
+		args = g_slist_prepend (args, value_to_gb (v));
 		
 		value_release (v);
 	}
@@ -201,7 +148,7 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 
 	gb_ans = gbrun_project_invoke (wd->ec, wd->proj, ei->func_def->name, args);
 	if (gb_ans)
-		ans = gb_to_value (ei, gb_ans);
+		ans = gb_to_value (gb_ans);
 
 	else {
 		GBEvalContext *ec = GB_EVAL_CONTEXT (wd->ec);
@@ -223,6 +170,10 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 		gb_value_destroy (args->data);
 		args = g_slist_remove (args, args->data);
 	}
+
+	/* De-Register Excel objects with GB */
+	gbrun_project_deregister_object (wd->proj, GBRUN_OBJECT (app));
+	gtk_object_unref (GTK_OBJECT (app));
 
 	return ans;
 }
@@ -275,18 +226,20 @@ read_gb (CommandContext      *context,
 			   gbrun_eval_context_get_text (wd->ec));
 		return FALSE;
 	} else {
-		GSList *fns, *f;
-		FunctionCategory *cat;
+		{ /* 1. Register GB functions with Excel */
+			GSList *fns, *f;
+			FunctionCategory *cat;
 
-		cat = function_get_category ("GnomeBasic");
+			cat = function_get_category ("GnomeBasic");
 		
-		fns = gbrun_project_fn_names (wd->proj);
+			fns = gbrun_project_fn_names (wd->proj);
 
-		/* FIXME: Argh, this means we need per workbook functions; ha, ha ha. */
-		for (f = fns; f; f = f->next)
-			register_vb_function (wb, f->data, cat, wd);
+			/* FIXME: Argh, this means we need per workbook functions; ha, ha ha. */
+			for (f = fns; f; f = f->next)
+				register_vb_function (wb, f->data, cat, wd);
 		
-		g_slist_free (fns);
+			g_slist_free (fns);
+		}
 	}
 
 	/* Run the 'Main' function ( or whatever ) */
@@ -439,6 +392,8 @@ init_plugin (CommandContext *context, PluginData *pd)
 			   gb_eval_context_get_text (ec));
 		return PLUGIN_ERROR;
 	}
+
+	excel_gb_application_register_types ();
 
 /*	plugin_data_set_user_data (pd, gb_pd);*/
 

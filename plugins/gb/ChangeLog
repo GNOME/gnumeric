@@ -1,3 +1,9 @@
+2000-10-26  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am (EXTRA_DIST): add README gnumeric.gbp main.gba
+
+	* Lots and lots of lovely work.
+
 2000-10-21  Michael Meeks  <michael@helixcode.com>
 
 	* plugin.c (register_vb_function): implement.

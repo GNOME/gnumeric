@@ -4,33 +4,5 @@ that do not make use of manipulating any sort of OLE2 object such
 as Application, Workbook, Sheet etc. This leaves you only the built
 in functions.
 
-	To test the plugin try putting this in you home directory:
-
-file: gnumeric.gbp
-
-[snip]
-Module=main; main.gba
-Startup="Sub main"
-
-[snip]
-
-And:
-
-file: main.gbp
-
-[snip]
-count As Integer
-
-Sub Main ()
-	MsgBox "Initializing the Basic module"
-	count = 0
-End Sub
-
-Function getMain () As Integer
-	count = count + 1
-	getMain = count
-End Function
-
-[snip]
-
-	NB. each file must end with a blank line; this is a feature.
+	To test the plugin copy gnumeric.gbp and main.gbp to your
+home directory.

@@ -1,0 +1,33 @@
+count As Integer
+
+Sub Main ()
+	count = 0
+End Sub
+
+Function getMain () As Integer
+	count = count + 1
+	getMain = count
+End Function
+
+Function getA1 () As Variant
+	Dim WKS As Worksheet
+
+	WKS = Worksheets ("Sheet1")
+
+	WKS.Range ("C4").Select
+	WKS.Range ("B5:B8").Select
+	WKS.Range ("C9").Select
+	WKS.Range ("D7:D8").Select
+
+	WKS.Range ("F6:F9").Select
+	WKS.Range ("G6").Select
+	WKS.Range ("H7:H9").Select
+
+	WKS.Range ("J6:J9").Select
+	WKS.Range ("K9").Select
+	WKS.Range ("L6:L9").Select
+
+	getA1 = Worksheets ("Sheet1").Range ("A1").Text
+End Function
+
+

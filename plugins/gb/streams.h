@@ -1,5 +1,5 @@
 /**
- * streaole.h: Gnome Basic streaming support
+ * streams.h: Gnome Basic streaming support
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
