@@ -5,10 +5,14 @@ INCLUDES = 						\
 	-I$(top_srcdir)/src				\
 	$(GNOME_INCLUDEDIR)
 
-noinst_LIBRARIES = libole2.a
-libole2_a_SOURCES =		\
+lib_LTLIBRARIES = libole2.la
+
+libole2_la_SOURCES =		\
 	ms-ole.c		\
 	ms-ole.h		\
 	ms-ole-summary.c	\
 	ms-ole-summary.h
 
+
+libole2includedir      = $(includedir)/libole2
+libole2include_HEADERS = ms-ole.h

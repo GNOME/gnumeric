@@ -1,3 +1,8 @@
+1999-09-25  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* Makefile.am (lib_LT_LIBRARIES): Make libole2
+	install.
+
 1999-09-20  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ms-ole.c (ms_ole_open): fixed leak, updated.
