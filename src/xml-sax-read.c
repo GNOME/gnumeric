@@ -344,7 +344,7 @@ struct _XML2ParseState
 	Range	  style_range;
 	MStyle   *style;
 
-	int cell_row, cell_col;
+	CellPos cell;
 	int expr_id, array_rows, array_cols;
 	ValueType value_type;
 	char const *value_fmt;
@@ -530,24 +530,23 @@ xml2ParseSelection (XML2ParseState *state, CHAR const **attrs)
 
 	g_return_if_fail (col >= 0);
 	g_return_if_fail (row >= 0);
-	g_return_if_fail (state->cell_col < 0);
-	g_return_if_fail (state->cell_row < 0);
-	state->cell_col = col;
-	state->cell_row = row;
+	g_return_if_fail (state->cell.col < 0);
+	g_return_if_fail (state->cell.row < 0);
+	state->cell.col = col;
+	state->cell.row = row;
 }
 
 static void
 xml2FinishSelection (XML2ParseState *state)
 {
-	int const col = state->cell_col;
-	int const row = state->cell_row;
+	CellPos const pos = state->cell;
 
-	state->cell_col = state->cell_row = -1;
+	state->cell.col = state->cell.row = -1;
 
-	g_return_if_fail (col >= 0);
-	g_return_if_fail (row >= 0);
+	g_return_if_fail (pos.col >= 0);
+	g_return_if_fail (pos.row >= 0);
 
-	sheet_set_edit_pos (state->sheet, col, row);
+	sheet_set_edit_pos (state->sheet, pos.col, pos.row);
 }
 
 static void
@@ -768,8 +767,8 @@ xml2ParseCell (XML2ParseState *state, CHAR const **attrs)
 	char const *value_fmt = NULL;
 	int expr_id = -1;
 
-	g_return_if_fail (state->cell_row == -1);
-	g_return_if_fail (state->cell_col == -1);
+	g_return_if_fail (state->cell.row == -1);
+	g_return_if_fail (state->cell.col == -1);
 	g_return_if_fail (state->array_rows == -1);
 	g_return_if_fail (state->array_cols == -1);
 	g_return_if_fail (state->expr_id == -1);
@@ -799,8 +798,8 @@ xml2ParseCell (XML2ParseState *state, CHAR const **attrs)
 		state->array_rows = rows;
 	}
 
-	state->cell_row = row;
-	state->cell_col = col;
+	state->cell.row = row;
+	state->cell.col = col;
 	state->expr_id = expr_id;
 	state->value_type = value_type;
 	state->value_fmt = value_fmt;
@@ -889,8 +888,8 @@ xml2ParseCellContent (XML2ParseState *state)
 	gboolean is_new_cell, is_post_52_array = FALSE;
 	Cell *cell;
 
-	int const col = state->cell_col;
-	int const row = state->cell_row;
+	int const col = state->cell.col;
+	int const row = state->cell.row;
 	int const array_cols = state->array_cols;
 	int const array_rows = state->array_rows;
 	int const expr_id = state->expr_id;
@@ -900,7 +899,7 @@ xml2ParseCellContent (XML2ParseState *state)
 	gpointer expr = NULL;
 
 	/* Clean out the state before any error checking */
-	state->cell_row = state->cell_col = -1;
+	state->cell.row = state->cell.col = -1;
 	state->array_rows = state->array_cols = -1;
 	state->expr_id = -1;
 	state->value_type = 0;
@@ -1261,7 +1260,7 @@ xml2EndElement (XML2ParseState *state, const CHAR *name)
 		break;
 
 	case STATE_CELL :
-		if (state->cell_row >= 0 || state->cell_col >= 0)
+		if (state->cell.row >= 0 || state->cell.col >= 0)
 			xml2ParseCellContent (state);
 		break;
 
@@ -1360,7 +1359,7 @@ xml2StartDocument (XML2ParseState *state)
 	state->style_range_init = FALSE;
 	state->style = NULL;
 
-	state->cell_row = state->cell_col = -1;
+	state->cell.row = state->cell.col = -1;
 	state->array_rows = state->array_cols = -1;
 	state->expr_id = -1;
 	state->value_type = 0;

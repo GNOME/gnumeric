@@ -1,3 +1,11 @@
+2000-12-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (sheet_selection_walk_step) : support merged cells.
+	(walk_boundaries) : Rewrite to support intelligent walking of merged
+	  regions.
+
+	* src/sheet.c (sheet_set_edit_pos) : signature change.
+
 2000-12-18  Morten Welinder  <terra@diku.dk>
 
 	* src/eval.c (sheet_region_get_deps): Take a Range pointer, not a

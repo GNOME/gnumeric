@@ -2480,22 +2480,27 @@ sheet_make_cell_visible (Sheet *sheet, int col, int row)
 void
 sheet_set_edit_pos (Sheet *sheet, int col, int row)
 {
-	int old_col, old_row;
-	Range const *merged;
+	CellPos old;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
-	old_col = sheet->edit_pos.col;
-	old_row = sheet->edit_pos.row;
+	old = sheet->edit_pos;
 
-	if (old_col != col || old_row != row) {
+	if (old.col != col || old.row != row) {
+		Range const *merged = sheet_region_is_merge_cell (sheet, &old);
+
 		sheet->priv->edit_pos.location_changed =
 		sheet->priv->edit_pos.content_changed =
 		sheet->priv->edit_pos.format_changed = TRUE;
 
 		/* Redraw before change */
-		sheet_redraw_cell_region (sheet,
-					  old_col, old_row, old_col, old_row);
+		if (merged != NULL)
+			sheet_redraw_cell_region (sheet,
+						  merged->start.col, merged->start.row,
+						  merged->end.col, merged->end.row);
+		else
+			sheet_redraw_cell_region (sheet, old.col, old.row,
+						  old.col, old.row);
 		sheet->edit_pos_real.col = col;
 		sheet->edit_pos_real.row = row;
 
@@ -3938,7 +3943,7 @@ sheet_region_get_merged (Sheet *sheet, Range const *range)
  * The Range should NOT be freed.
  */
 Range const *
-sheet_region_get_merged_cell (Sheet *sheet, CellPos const *pos)
+sheet_region_get_merged_cell (Sheet const *sheet, CellPos const *pos)
 {
 	GSList *ptr;
 

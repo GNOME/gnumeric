@@ -91,8 +91,8 @@ void        sheet_cursor_set		(Sheet *sheet,
 					 int edit_col, int edit_row,
 					 int base_col, int base_row,
 					 int move_col, int move_row);
-void	    sheet_update_cursor_pos	(Sheet const *sheet);
 void        sheet_set_edit_pos		(Sheet *sheet, int col, int row);
+void	    sheet_update_cursor_pos	(Sheet const *sheet);
 void        sheet_make_cell_visible	(Sheet *sheet, int col, int row);
 
 /* Cell management */
@@ -314,7 +314,7 @@ gboolean     sheet_region_merge		(CommandContext *cc,
 gboolean     sheet_region_unmerge	(CommandContext *cc,
 					 Sheet *sheet, Range const *r);
 GSList      *sheet_region_get_merged	(Sheet *sheet, Range const *r);
-Range const * sheet_region_get_merged_cell (Sheet *sheet, CellPos const *pos);
+Range const * sheet_region_get_merged_cell (Sheet const *sheet, CellPos const *pos);
 Range const *sheet_region_is_merge_cell (Sheet const *sheet, CellPos const *pos);
 void	     sheet_region_adjacent_merge(Sheet const *sheet, CellPos const *pos,
 					 Range const **left, Range const **right);

@@ -1117,53 +1117,66 @@ selection_foreach_range (Sheet *sheet, gboolean from_start,
  * returns TRUE if the cursor leaves the boundary region.
  */
 static gboolean
-walk_boundaries (Range const * const bound,
-		 int const inc_x, int const inc_y,
-		 CellPos const * const current,
-		 CellPos       * const result)
+walk_boundaries (Sheet const *sheet, Range const * const bound,
+		 gboolean const forward, gboolean const horizontal,
+		 CellPos * const res)
 {
-	if (current->row + inc_y > bound->end.row){
-		if (current->col + 1 > bound->end.col)
-			goto overflow;
+	int const step = forward ? 1 : -1;
+	CellPos pos = sheet->edit_pos_real;
+	Range const *merge = sheet_region_is_merge_cell (sheet, &sheet->edit_pos);
 
-		result->row = bound->start.row;
-		result->col = current->col + 1;
-		return FALSE;
+	*res = pos;
+loop :
+	if (horizontal) {
+		if (merge != NULL)
+			pos.col = (forward) ? merge->end.col : merge->start.col;
+		if (pos.col + step > bound->end.col) {
+			if (pos.row + 1 > bound->end.row)
+				return TRUE;
+			pos.row++;
+			pos.col = bound->start.col;
+		} else if (pos.col + step < bound->start.col) {
+			if (pos.row - 1 < bound->start.row)
+				return TRUE;
+			pos.row--;
+			pos.col = bound->end.col;
+		} else
+			pos.col += step;
+	} else {
+		if (merge != NULL)
+			pos.row = (forward) ? merge->end.row : merge->start.row;
+		if (pos.row + step > bound->end.row) {
+			if (pos.col + 1 > bound->end.col)
+				return TRUE;
+			pos.row = bound->start.row;
+			pos.col++;
+		} else if (pos.row + step < bound->start.row) {
+			if (pos.col - 1 < bound->start.col)
+				return TRUE;
+			pos.row = bound->end.row;
+			pos.col--;
+		} else
+			pos.row += step;
+	}
+	merge = sheet_region_get_merged_cell (sheet, &pos);
+	if (merge != NULL) {
+		if (forward) {
+			if (pos.col != merge->start.col ||
+			    pos.row != merge->start.row)
+				goto loop;
+		} else if (horizontal) {
+			if (pos.col != merge->end.col ||
+			    pos.row != merge->start.row)
+				goto loop;
+		} else {
+			if (pos.col != merge->start.col ||
+			    pos.row != merge->end.row)
+				goto loop;
+		}
 	}
 
-	if (current->row + inc_y < bound->start.row){
-		if (current->col - 1 < bound->start.col)
-			goto overflow;
-
-		result->row = bound->end.row;
-		result->col = current->col - 1;
-		return FALSE;
-	}
-
-	if (current->col + inc_x > bound->end.col){
-		if (current->row + 1 > bound->end.row)
-			goto overflow;
-
-		result->row = current->row + 1;
-		result->col = bound->start.col;
-		return FALSE;
-	}
-
-	if (current->col + inc_x < bound->start.col){
-		if (current->row - 1 < bound->start.row)
-			goto overflow;
-		result->row = current->row - 1;
-		result->col = bound->end.col;
-		return FALSE;
-	}
-
-	result->row = current->row + inc_y;
-	result->col = current->col + inc_x;
+	*res = pos;
 	return FALSE;
-
-overflow:
-	*result = *current;
-	return TRUE;
 }
 
 void
@@ -1171,21 +1184,12 @@ sheet_selection_walk_step (Sheet *sheet,
 			   gboolean const forward,
 			   gboolean const horizontal)
 {
-	int const diff = forward ? 1 : -1;
-	int inc_x = 0, inc_y = 0;
 	int selections_count;
-	CellPos current, destination;
+	CellPos destination;
 	Range const *ss;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (sheet->selections != NULL);
-
-	current = sheet->edit_pos;
-
-	if (horizontal)
-		inc_x = diff;
-	else
-		inc_y = diff;
 
 	ss = sheet->selections->data;
 	selections_count = g_list_length (sheet->selections);
@@ -1212,18 +1216,19 @@ sheet_selection_walk_step (Sheet *sheet,
 		}
 
 		/* Ignore attempts to move outside the boundary region */
-		if (!walk_boundaries (&full_sheet, inc_x, inc_y,
-				      &current, &destination)) {
+		if (!walk_boundaries (sheet, &full_sheet, forward, horizontal,
+				      &destination)) {
 			sheet_selection_set (sheet,
 					     destination.col, destination.row,
 					     destination.col, destination.row,
 					     destination.col, destination.row);
-			sheet_make_cell_visible (sheet, destination.col, destination.row);
+			sheet_make_cell_visible (sheet, sheet->edit_pos.col,
+						 sheet->edit_pos.row);
 		}
 		return;
 	}
 
-	if (walk_boundaries (ss, inc_x, inc_y, &current, &destination)) {
+	if (walk_boundaries (sheet, ss, forward, horizontal, &destination)) {
 		if (forward) {
 			GList *tmp = g_list_last (sheet->selections);
 			sheet->selections =

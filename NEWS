@@ -1,5 +1,8 @@
 Gnumeric 0.62
 
+Jody:
+	* Finish cursor handling for merged cells.
+
 --------------------------------------------------------------------------
 Gnumeric 0.61
 

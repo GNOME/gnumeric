@@ -2258,7 +2258,6 @@ dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition
 	FormatState  *state;
 
 	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	gui = gnumeric_glade_xml_new (wbcg, "cell-format.glade");
