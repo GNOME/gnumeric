@@ -2,10 +2,10 @@
  * dialog-autosave.c:
  *
  * Authors:
- *        Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *        Jukka-Pekka Iivonen (iivonen@iki.fi)
  *        Miguel de Icaza (miguel@kernel.org)
  *
- * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi>
+ * (C) Copyright 2000 by Jukka-Pekka Iivonen (iivonen@iki.fi)
  **/
 #include <config.h>
 #include <gnome.h>
@@ -84,20 +84,20 @@ dialog_autosave (Workbook *wb)
 	}
 	
 	dia = glade_xml_get_widget (gui, "AutoSave");
-	if (!dia) {
+	p.minutes_entry = glade_xml_get_widget (gui, "minutes");
+	p.prompt_cb = glade_xml_get_widget (gui, "prompt_on_off");
+	autosave_on_off = glade_xml_get_widget (gui, "autosave_on_off");
+
+	if (!dia || !p.minutes_entry || !p.prompt_cb || !autosave_on_off) {
 		printf ("Corrupt file autosave.glade\n");
 		return;
 	}
 
-	p.minutes_entry = glade_xml_get_widget (gui, "minutes");
-	p.prompt_cb = glade_xml_get_widget (gui, "prompt_on_off");
 	sprintf(buf, "%d", wb->autosave_minutes);
 	gtk_entry_set_text (GTK_ENTRY (p.minutes_entry), buf);
 
 	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
 				      GTK_EDITABLE (p.minutes_entry));
-
-	autosave_on_off = glade_xml_get_widget (gui, "autosave_on_off");
 
 	gtk_signal_connect (GTK_OBJECT (autosave_on_off), "toggled",
 			    GTK_SIGNAL_FUNC (autosave_on_off_toggled),
