@@ -258,7 +258,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 
 			/* Set the fn name Bold */
 			cursor = f_desc;
-			for (i = 0; !isspace (*cursor); i++)
+			for (i = 0; !isspace ((unsigned char)*cursor); i++)
 				cursor++;
 
 			tag = gtk_text_buffer_create_tag (state->description,
@@ -278,7 +278,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 				if (*cursor == '@' || *cursor == '#') {
 					cursor++;
 					for (i = 0; *cursor
-						     && !isspace (*cursor); i++)
+						     && !isspace ((unsigned char)*cursor); i++)
 						cursor++;
 					tag = gtk_text_buffer_create_tag
 						(state->description,

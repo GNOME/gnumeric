@@ -1,3 +1,12 @@
+2002-07-30  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (random_01): Fix path of random device!
+
+2002-07-30  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (ran_gamma_int): Fix incorrect underflow
+	assumptions.
+
 2002-07-28  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/func-buildin.c: Function description clean up.

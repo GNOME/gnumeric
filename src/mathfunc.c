@@ -4610,11 +4610,11 @@ L420:
 /* FIXME: we need something that catches partials and EAGAIN.  */
 #define fullread read
 
-#define RANDOM_DEVICE "dev/urandom"
+#define RANDOM_DEVICE "/dev/urandom"
 
 /*
  * Conservative random number generator.  The result is (supposedly) uniform
- * and between 0 and 1.  (0 possible, 1 not.)  The result should have about
+ * and between 0 and 1.	 (0 possible, 1 not.)  The result should have about
  * 64 bits randomness.
  */
 gnum_float
@@ -4642,7 +4642,7 @@ random_01 (void)
 			return res;
 		}
 
-		/* It failed when it shouldn't.  Disable.  */
+		/* It failed when it shouldn't.	 Disable.  */
 		g_warning ("Reading from %s failed; reverting to pseudo-random.",
 			   RANDOM_DEVICE);
 		close (device_fd);
@@ -4693,16 +4693,16 @@ random_normal (void)
 static gnum_float
 random_gaussian (gnum_float sigma)
 {
-        return sigma * random_normal ();
+	return sigma * random_normal ();
 }
 
 gnum_float
 random_gaussian_pdf (gnum_float x, gnum_float sigma)
 {
-        gnum_float u = x / gnumabs (sigma);
+	gnum_float u = x / gnumabs (sigma);
 
 	return (1 / (sqrtgnum (2 * M_PIgnum) * gnumabs (sigma))) *
-	        expgnum (-u * u / 2);
+		expgnum (-u * u / 2);
 }
 
 /*
@@ -4724,13 +4724,13 @@ random_poisson (gnum_float lambda)
 gnum_float
 random_binomial (gnum_float p, int trials)
 {
-        gnum_float x = powgnum (1 - p, trials);
+	gnum_float x = powgnum (1 - p, trials);
 	gnum_float r = random_01 ();
 	gnum_float t = x;
 	gnum_float i = 0;
 
 	/* FIXME: I don't think this is sane for p near 1.  */
-	/* FIXME: how many times can this loop?  */
+	/* FIXME: how many times can this loop?	 */
 	while (r > t) {
 	      x *= (((trials - i) * p) / ((1 + i) * (1 - p)));
 	      i += 1;
@@ -4746,13 +4746,13 @@ random_binomial (gnum_float p, int trials)
 gnum_float
 random_negbinom (gnum_float p, int f)
 {
-        gnum_float x = powgnum (p, f);
+	gnum_float x = powgnum (p, f);
 	gnum_float r = random_01 ();
 	gnum_float t = x;
 	gnum_float i = 0;
 
 	/* FIXME: I don't think this is sane for p near 1.  */
-	/* FIXME: how many times can this loop?  */
+	/* FIXME: how many times can this loop?	 */
 	while (r > t) {
 	      x *= (((f + i) * (1 - p)) / (1 + i));
 	      i += 1;
@@ -4768,7 +4768,7 @@ random_negbinom (gnum_float p, int f)
 gnum_float
 random_exponential (gnum_float b)
 {
-        return -b * loggnum (random_01 ());
+	return -b * loggnum (random_01 ());
 }
 
 /*
@@ -4777,7 +4777,7 @@ random_exponential (gnum_float b)
 gnum_float
 random_bernoulli (gnum_float p)
 {
-        gnum_float r = random_01 ();
+	gnum_float r = random_01 ();
 
 	return (r <= p) ? 1.0 : 0.0;
 }
@@ -4789,10 +4789,10 @@ random_bernoulli (gnum_float p)
 gnum_float
 random_cauchy (gnum_float a)
 {
-        gnum_float u;
+	gnum_float u;
 
 	do {
-	        u = random_01 ();
+		u = random_01 ();
 	} while (u == 0.5);
 
 	return a * tangnum (M_PIgnum * u);
@@ -4806,12 +4806,12 @@ random_cauchy (gnum_float a)
 gnum_float
 random_lognormal (gnum_float zeta, gnum_float sigma)
 {
-        gnum_float u, v, r2, normal;
+	gnum_float u, v, r2, normal;
 
 	do {
-	        /* choose x,y in uniform square (-1,-1) to (+1,+1) */
+		/* choose x,y in uniform square (-1,-1) to (+1,+1) */
 
-	        u = -1 + 2 * random_01 ();
+		u = -1 + 2 * random_01 ();
 		v = -1 + 2 * random_01 ();
 
 		/* see if it is in the unit circle */
@@ -4831,10 +4831,10 @@ random_lognormal (gnum_float zeta, gnum_float sigma)
 gnum_float
 random_weibull (gnum_float a, gnum_float b)
 {
-        gnum_float x, z;
+	gnum_float x, z;
 
 	do {
-	        x = random_01 ();
+		x = random_01 ();
 	} while (x == 0.0);
 
 	z = powgnum (-loggnum (x), 1 / b);
@@ -4850,22 +4850,22 @@ random_weibull (gnum_float a, gnum_float b)
 gnum_float
 random_laplace (gnum_float a)
 {
-        gnum_float u;
+	gnum_float u;
 
 	do {
-	        u = 2 * random_01 () - 1.0;
+		u = 2 * random_01 () - 1.0;
 	} while (u == 0.0);
 
 	if (u < 0)
-	        return a * loggnum ( -u );
+		return a * loggnum (-u);
 	else
-	        return -a * loggnum ( u );
+		return -a * loggnum (u);
 }
 
 gnum_float
 random_laplace_pdf (gnum_float x, gnum_float a)
 {
-        return (1 / (2 * a)) * expgnum (-gnumabs (x) / a);
+	return (1 / (2 * a)) * expgnum (-gnumabs (x) / a);
 }
 
 /*
@@ -4876,17 +4876,17 @@ random_laplace_pdf (gnum_float x, gnum_float a)
 gnum_float
 random_rayleigh (gnum_float sigma)
 {
-        gnum_float u;
+	gnum_float u;
 
 	do {
-	        u = random_01 ();
+		u = random_01 ();
 	} while (u == 0.0);
 
 	return sigma * sqrtgnum (-2.0 * loggnum (u));
 }
 
 /*
- * Generate a Rayleigh tail distributed number.  From the GNU Scientific library
+ * Generate a Rayleigh tail distributed number.	 From the GNU Scientific library
  * 1.1.1.  The Rayleigh tail distribution has the form
  *   p(x) dx = (x / sigma^2) exp((a^2 - x^2)/(2 sigma^2)) dx
  *
@@ -4897,10 +4897,10 @@ random_rayleigh (gnum_float sigma)
 gnum_float
 random_rayleigh_tail (gnum_float a, gnum_float sigma)
 {
-        gnum_float u;
+	gnum_float u;
 
 	do {
-	        u = random_01 ();
+		u = random_01 ();
 	} while (u == 0.0);
 
 	return sqrtgnum (a * a - 2.0 * sigma * sigma * loggnum (u));
@@ -4920,23 +4920,23 @@ random_rayleigh_tail (gnum_float a, gnum_float sigma)
 static gnum_float
 gamma_frac (gnum_float a)
 {
-        /* This is exercise 16 from Knuth; see page 135, and the solution is
-	 * on page 551.  */
+	/* This is exercise 16 from Knuth; see page 135, and the solution is
+	 * on page 551.	 */
 
-        gnum_float x, q;
+	gnum_float x, q;
 	gnum_float p = M_Egnum / (a + M_Egnum);
 	do {
 		gnum_float v;
-	        gnum_float u = random_01 ();
+		gnum_float u = random_01 ();
 		do {
-		        v = random_01 ();
+			v = random_01 ();
 		} while (v == 0.0);
 
 		if (u < p) {
-		        x = powgnum (v, 1 / a);
+			x = powgnum (v, 1 / a);
 			q = expgnum (-x);
 		} else {
-		        x = 1 - loggnum (v);
+			x = 1 - loggnum (v);
 			q = powgnum (x, a - 1);
 		}
 	} while (random_01 () >= q);
@@ -4947,73 +4947,70 @@ gamma_frac (gnum_float a)
 static gnum_float
 gamma_large (gnum_float a)
 {
-        /* Works only if a > 1, and is most efficient if a is large
+	/*
+	 * Works only if a > 1, and is most efficient if a is large
 	 *
-	 * This algorithm, reported in Knuth, is attributed to Ahrens.  A
+	 * This algorithm, reported in Knuth, is attributed to Ahrens.	A
 	 * faster one, we are told, can be found in: J. H. Ahrens and
 	 * U. Dieter, Computing 12 (1974) 223-246.
 	 */
 
-         gnum_float sqa, x, y, v;
-	 sqa = sqrtgnum (2 * a - 1);
-	 do {
-	         do {
-		         y = tangnum (M_PIgnum * random_01 ());
-			 x = sqa * y + a - 1;
-		 } while (x <= 0);
-		 v = random_01 ();
-	 } while (v > (1 + y * y) * expgnum ((a - 1) * loggnum (x / (a - 1)) -
-					     sqa * y));
+	gnum_float sqa, x, y, v;
+	sqa = sqrtgnum (2 * a - 1);
+	do {
+		do {
+			y = tangnum (M_PIgnum * random_01 ());
+			x = sqa * y + a - 1;
+		} while (x <= 0);
+		v = random_01 ();
+	} while (v > (1 + y * y) * expgnum ((a - 1) * loggnum (x / (a - 1)) -
+					    sqa * y));
 
-	 return x;
+	return x;
 }
 
 static gnum_float
 ran_gamma_int (unsigned int a)
 {
-        if (a < 12) {
-	         unsigned int i;
-		 gnum_float   prod = 1;
+	if (a < 12) {
+		gnum_float prod;
 
-		 for (i = 0; i < a; i++) {
-		         gnum_float u;
+		do {
+			unsigned int i;
+			prod = 1;
 
-			 do {
-			         u = random_01 ();
-			 } while (u == 0.0);
-		         prod *= u;
-		 }
+			for (i = 0; i < a; i++)
+				prod *= random_01 ();
 
-		 /* FIXME: this assumption just isn't right.  */
+			/*
+			 * This handles the 0-probability event of getting
+			 * and actual zero as well as the possibility of
+			 * underflow.
+			 */
+		} while (prod == 0);
 
-		 /* Note: for 12 iterations we are safe against underflow,
-		  * since the smallest positive random number is O(2^-32).
-		  * This means the smallest possible product is
-		  * 2^(-12*32) = 10^-116 which is within the range of double
-		  * precision. */
-
-		 return -loggnum (prod);
+		return -loggnum (prod);
 	} else
-	         return gamma_large (a);
+		return gamma_large (a);
 }
 
 /*
- * Generate a Gamma distributed number.  From the GNU Scientific library 1.1.1.
+ * Generate a Gamma distributed number.	 From the GNU Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
 gnum_float
 random_gamma (gnum_float a, gnum_float b)
 {
-        /* assume a > 0 */
-	/* FIXME: why not simply a gnum_float?  */
-        unsigned int na = floorgnum (a);
+	/* assume a > 0 */
+	/* FIXME: why not simply a gnum_float?	*/
+	unsigned int na = floorgnum (a);
 
 	if (a == na)
-	        return b * ran_gamma_int (na);
+		return b * ran_gamma_int (na);
 	else if (na == 0)
-	        return b * gamma_frac (a);
+		return b * gamma_frac (a);
 	else
-	        return b * (ran_gamma_int (na) + gamma_frac (a - na));
+		return b * (ran_gamma_int (na) + gamma_frac (a - na));
 }
 
 /*
@@ -5023,10 +5020,10 @@ random_gamma (gnum_float a, gnum_float b)
 gnum_float
 random_pareto (gnum_float a, gnum_float b)
 {
-        gnum_float x;
+	gnum_float x;
 
 	do {
-	        x = random_01 ();
+		x = random_01 ();
 	} while (x == 0.0);
 
 	return b * powgnum (x, -1 / a);
@@ -5039,8 +5036,8 @@ random_pareto (gnum_float a, gnum_float b)
 gnum_float
 random_fdist (gnum_float nu1, gnum_float nu2)
 {
-        gnum_float Y1 = random_gamma (nu1 / 2, 2.0);
-        gnum_float Y2 = random_gamma (nu2 / 2, 2.0);
+	gnum_float Y1 = random_gamma (nu1 / 2, 2.0);
+	gnum_float Y2 = random_gamma (nu2 / 2, 2.0);
 
 	return (Y1 * nu2) / (Y2 * nu1);
 }
@@ -5052,8 +5049,8 @@ random_fdist (gnum_float nu1, gnum_float nu2)
 gnum_float
 random_beta (gnum_float a, gnum_float b)
 {
-        gnum_float x1 = random_gamma (a, 1.0);
-        gnum_float x2 = random_gamma (b, 1.0);
+	gnum_float x1 = random_gamma (a, 1.0);
+	gnum_float x2 = random_gamma (b, 1.0);
 
 	return x1 / (x1 + x2);
 }
@@ -5066,7 +5063,7 @@ random_beta (gnum_float a, gnum_float b)
 gnum_float
 random_chisq (gnum_float nu)
 {
-        return 2 * random_gamma (nu / 2, 1.0);
+	return 2 * random_gamma (nu / 2, 1.0);
 }
 
 /*
@@ -5077,10 +5074,10 @@ random_chisq (gnum_float nu)
 gnum_float
 random_logistic (gnum_float a)
 {
-        gnum_float x;
+	gnum_float x;
 
 	do {
-	        x = random_01 ();
+		x = random_01 ();
 	} while (x == 0 || x == 1);
 
 	return a * log (x / (1 - x));
@@ -5094,12 +5091,12 @@ random_logistic (gnum_float a)
 gnum_float
 random_geometric (gnum_float p)
 {
-        gnum_float u;
+	gnum_float u;
 
 	if (p == 1)
-	        return 1;
+		return 1;
 	do {
-	        u = random_01 ();
+		u = random_01 ();
 	} while (u == 0);
 
 	return floorgnum (loggnum (u) / log1pgnum (-p) + 1);
@@ -5113,7 +5110,7 @@ random_geometric (gnum_float p)
 gnum_float
 random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
 {
-        unsigned int n = n1 + n2;
+	unsigned int n = n1 + n2;
 
 	unsigned int i = 0;
 	unsigned int a = n1;
@@ -5123,29 +5120,29 @@ random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
 	/* FIXME: performance for large t?  */
 
 	if (t > n)
-	        t = n;
+		t = n;
 
 	if (t < n / 2) {
-	        for (i = 0 ; i < t ; i++) {
-		        gnum_float u = random_01 ();
+		for (i = 0 ; i < t ; i++) {
+			gnum_float u = random_01 ();
 
 			if (b * u < a) {
-			        k++;
+				k++;
 				if (k == n1)
-				        return k ;
+					return k ;
 				a-- ;
 			}
 			b--;
 		}
 		return k;
 	} else {
-	        for (i = 0 ; i < n - t ; i++) {
-		        gnum_float u = random_01 ();
+		for (i = 0 ; i < n - t ; i++) {
+			gnum_float u = random_01 ();
 
 			if (b * u < a) {
-			        k++;
+				k++;
 				if (k == n1)
-				        return n1 - k;
+					return n1 - k;
 				a--;
 			}
 			b-- ;
@@ -5163,29 +5160,29 @@ random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
 gnum_float
 random_logarithmic (gnum_float p)
 {
-        gnum_float c, v;
+	gnum_float c, v;
 
 	c = log1pgnum (-p);
 	do {
-	        v = random_01 ();
+		v = random_01 ();
 	} while (v == 0);
 
 	if (v >= p)
-	        return 1;
+		return 1;
 	else {
-	        gnum_float u, q;
+		gnum_float u, q;
 
 		do {
-		        u = random_01 ();
+			u = random_01 ();
 		} while (u == 0);
 		q = expm1gnum (c * u);
 
 		if (v <= q * q)
-		        return floorgnum (1 + loggnum (v) / loggnum (q));
+			return floorgnum (1 + loggnum (v) / loggnum (q));
 		else if (v <= q)
-		        return 2;
+			return 2;
 		else
-		        return 1;
+			return 1;
 	}
 }
 
@@ -5196,17 +5193,17 @@ random_logarithmic (gnum_float p)
 gnum_float
 random_tdist (gnum_float nu)
 {
-        if (nu <= 2) {
-	        gnum_float Y1 = random_normal ();
+	if (nu <= 2) {
+		gnum_float Y1 = random_normal ();
 		gnum_float Y2 = random_chisq (nu);
 
 		gnum_float t = Y1 / sqrtgnum (Y2 / nu);
 
 		return t;
 	} else {
-	        gnum_float Y1, Y2, Z, t;
+		gnum_float Y1, Y2, Z, t;
 		do {
-		        Y1 = random_normal ();
+			Y1 = random_normal ();
 			Y2 = random_exponential (1 / (nu / 2 - 1));
 
 			Z = Y1 * Y1 / (nu - 2);
@@ -5229,10 +5226,10 @@ random_tdist (gnum_float nu)
 gnum_float
 random_gumbel1 (gnum_float a, gnum_float b)
 {
-        gnum_float x;
+	gnum_float x;
 
 	do {
-	        x = random_01 ();
+		x = random_01 ();
 	} while (x == 0.0);
 
 	return (loggnum (b) - loggnum (-loggnum (x))) / a;
@@ -5246,10 +5243,10 @@ random_gumbel1 (gnum_float a, gnum_float b)
 gnum_float
 random_gumbel2 (gnum_float a, gnum_float b)
 {
-        gnum_float x;
+	gnum_float x;
 
 	do {
-	        x = random_01 ();
+		x = random_01 ();
 	} while (x == 0.0);
 
 	return powgnum (-b / loggnum (x), 1 / a);
@@ -5279,25 +5276,25 @@ random_gumbel2 (gnum_float a, gnum_float b)
 gnum_float
 random_levy (gnum_float c, gnum_float alpha)
 {
-        gnum_float u, v, t, s;
+	gnum_float u, v, t, s;
 
 	do {
-	        u = random_01 ();
+		u = random_01 ();
 	} while (u == 0.0);
 
 	u = M_PIgnum * (u - 0.5);
 
-	if (alpha == 1) {             /* cauchy case */
-	        t = tangnum (u);
+	if (alpha == 1) {	      /* cauchy case */
+		t = tangnum (u);
 		return c * t;
 	}
 
 	do {
-	        v = random_exponential (1.0);
+		v = random_exponential (1.0);
 	} while (v == 0);
 
-	if (alpha == 2) {            /* gaussian case */
-	        t = 2 * singnum (u) * sqrtgnum (v);
+	if (alpha == 2) {	     /* gaussian case */
+		t = 2 * singnum (u) * sqrtgnum (v);
 		return c * t;
 	}
 
@@ -5336,34 +5333,34 @@ random_levy (gnum_float c, gnum_float alpha)
 gnum_float
 random_levy_skew (gnum_float c, gnum_float alpha, gnum_float beta)
 {
-        gnum_float V, W, X;
+	gnum_float V, W, X;
 
 	if (beta == 0) /* symmetric case */
-	        return random_levy (c, alpha);
+		return random_levy (c, alpha);
 
 	do {
-	        V = random_01 ();
+		V = random_01 ();
 	} while (V == 0.0);
 
 	V = M_PIgnum * (V - 0.5);
 
 	do {
-	        W = random_exponential (1.0);
+		W = random_exponential (1.0);
 	} while (W == 0);
 
 	if (alpha == 1) {
-	        X = ((M_PI_2gnum + beta * V) * tangnum (V) -
+		X = ((M_PI_2gnum + beta * V) * tangnum (V) -
 		     beta * loggnum (M_PI_2gnum * W * cosgnum (V) /
 				     (M_PI_2gnum + beta * V))) / M_PI_2gnum;
 		return c * (X + beta * loggnum (c) / M_PI_2gnum);
 	} else {
-	        gnum_float t = beta * tangnum (M_PI_2gnum * alpha);
+		gnum_float t = beta * tangnum (M_PI_2gnum * alpha);
 		gnum_float B = atangnum (t) / alpha;
 		gnum_float S = powgnum (1 + t * t, 1 / (2 * alpha));
 
 		X = S * singnum (alpha * (V + B)) / powgnum (cosgnum (V),
 							     1 / alpha)
-		        * powgnum (cosgnum (V - alpha * (V + B)) / W,
+			* powgnum (cosgnum (V - alpha * (V + B)) / W,
 				   (1 - alpha) / alpha);
 		return c * X;
 	}
@@ -5372,7 +5369,7 @@ random_levy_skew (gnum_float c, gnum_float alpha, gnum_float beta)
 gnum_float
 random_exppow_pdf (gnum_float x, gnum_float a, gnum_float b)
 {
-        gnum_float lngamma = lgamma (1 + 1 / b) ;
+	gnum_float lngamma = lgamma (1 + 1 / b) ;
 
 	return (1 / (2 * a)) * expgnum (-powgnum (gnumabs (x / a),b) - lngamma);
 }
@@ -5403,25 +5400,25 @@ random_exppow_pdf (gnum_float x, gnum_float a, gnum_float b)
 gnum_float
 random_exppow (gnum_float a, gnum_float b)
 {
-        if (b < 1) {
-	        gnum_float u = random_01 ();
+	if (b < 1) {
+		gnum_float u = random_01 ();
 		gnum_float v = random_gamma (1 / b, 1.0);
 		gnum_float z = a * powgnum (v, 1 / b) ;
 
 		if (u > 0.5)
-		        return z;
+			return z;
 		else 
-		        return -z;
+			return -z;
 	} else if (b == 1) 
-	        return random_laplace (a);   /* Laplace distribution */
+		return random_laplace (a);   /* Laplace distribution */
 	else if (b < 2) {
-	        /* Use laplace distribution for rejection method */
-	        gnum_float x, y, h, ratio, u;
+		/* Use laplace distribution for rejection method */
+		gnum_float x, y, h, ratio, u;
 
 		/* Scale factor chosen by upper bound on ratio at b = 2 */
 		gnum_float s = 1.4489; 
 		do {
-		        x     = random_laplace (a);
+			x     = random_laplace (a);
 			y     = random_laplace_pdf (x, a);
 			h     = random_exppow_pdf (x, a, b);
 			ratio = h / (s * y);
@@ -5430,20 +5427,20 @@ random_exppow (gnum_float a, gnum_float b)
       
 		return x ;
 	} else if (b == 2)   /* Gaussian distribution */
-	        return random_gaussian (a / sqrtgnum (2.0));
+		return random_gaussian (a / sqrtgnum (2.0));
 	else {
-	        /* Use gaussian for rejection method */
-	        gnum_float x, y, h, ratio, u;
+		/* Use gaussian for rejection method */
+		gnum_float x, y, h, ratio, u;
 		const gnum_float sigma = a / sqrtgnum (2.0);
 
 		/* Scale factor chosen by upper bound on ratio at b = infinity.
 		 * This could be improved by using a rational function
 		 * approximation to the bounding curve. */
 
-		gnum_float s = 2.4091 ;  /* this is sqrt(pi) e / 2 */
+		gnum_float s = 2.4091 ;	 /* this is sqrt(pi) e / 2 */
 
 		do {
-		        x     = random_gaussian (sigma) ;
+			x     = random_gaussian (sigma) ;
 			y     = random_gaussian_pdf (x, sigma) ;
 			h     = random_exppow_pdf (x, a, b) ;
 			ratio = h / (s * y) ;
@@ -5462,36 +5459,36 @@ random_exppow (gnum_float a, gnum_float b)
 gnum_float
 random_gaussian_tail (gnum_float a, gnum_float sigma)
 {
-        /*
+	/*
 	 * Returns a gaussian random variable larger than a
 	 * This implementation does one-sided upper-tailed deviates.
 	 */
 
-        gnum_float s = a / sigma;
+	gnum_float s = a / sigma;
 
 	if (s < 1) {
-	        /* For small s, use a direct rejection method. The limit s < 1
+		/* For small s, use a direct rejection method. The limit s < 1
 		 * can be adjusted to optimise the overall efficiency */
 
-	        gnum_float x;
+		gnum_float x;
 
 		do {
-		        x = random_gaussian (1.0);
+			x = random_gaussian (1.0);
 		} while (x < s);
 		return x * sigma;
 	} else {
-	        /* Use the "supertail" deviates from the last two steps
+		/* Use the "supertail" deviates from the last two steps
 		 * of Marsaglia's rectangle-wedge-tail method, as described
 		 * in Knuth, v2, 3rd ed, pp 123-128.  (See also exercise 11,
 		 * p139, and the solution, p586.)
 		 */
 
-	        gnum_float u, v, x;
+		gnum_float u, v, x;
 
 		do {
-		        u = random_01 ();
+			u = random_01 ();
 			do {
-			        v = random_01 ();
+				v = random_01 ();
 			} while (v == 0.0);
 			x = sqrtgnum (s * s - 2 * loggnum (v));
 		} while (x * u > s);
@@ -5521,8 +5518,8 @@ random_gaussian_tail (gnum_float a, gnum_float sigma)
 gnum_float
 random_landau (void)
 {
-        static gnum_float F[982] = {
-	        00.000000, 00.000000, 00.000000, 00.000000, 00.000000,
+	static gnum_float F[982] = {
+		00.000000, 00.000000, 00.000000, 00.000000, 00.000000,
 		-2.244733, -2.204365, -2.168163, -2.135219, -2.104898,
 		-2.076740, -2.050397, -2.025605, -2.002150, -1.979866,
 		-1.958612, -1.938275, -1.918760, -1.899984, -1.881879,
@@ -5724,7 +5721,7 @@ random_landau (void)
 	int I, i;
 
 	do {
-	        X = random_01 ();
+		X = random_01 ();
 	} while (X == 0.0);
 	U = 1000.0 * X;
 	i = U;
@@ -5735,29 +5732,29 @@ random_landau (void)
 	I = i - 1;
 
 	if (I >= 70 && I <= 800)
-	        RANLAN = F[I] + U * (F[I + 1] - F[I]);
+		RANLAN = F[I] + U * (F[I + 1] - F[I]);
 	else if (I >= 7 && I <= 980)
-	        RANLAN = F[I] + U * (F[I + 1] - F[I] -
+		RANLAN = F[I] + U * (F[I + 1] - F[I] -
 				     0.25 * (1 - U) * (F[I + 2] - F[I + 1] -
 						       F[I] + F[I - 1]));
 	else if (I < 7) {
-	        V = loggnum (X);
+		V = loggnum (X);
 		U = 1 / V;
 		RANLAN = ((0.99858950 + (3.45213058E1 + 1.70854528E1 * U) * U) /
 			  (1 + (3.41760202E1 + 4.01244582 * U) * U)) *
-		        ( -loggnum ( -0.91893853 - V) - 1);
+			( -loggnum ( -0.91893853 - V) - 1);
 	} else {
-	        U = 1 - X;
+		U = 1 - X;
 		V = U * U;
 		if (X <= 0.999)
-		        RANLAN = (1.00060006 + 2.63991156E2 *
+			RANLAN = (1.00060006 + 2.63991156E2 *
 				  U + 4.37320068E3 * V) /
 			  ((1 + 2.57368075E2 * U + 3.41448018E3 * V) * U);
 		else
-		        RANLAN = (1.00001538 + 6.07514119E3 * U +
+			RANLAN = (1.00001538 + 6.07514119E3 * U +
 				  7.34266409E5 * V) /
 			  ((1 + 6.06511919E3 * U + 6.94021044E5 * V) * U);
-        }
+	}
 
 	return RANLAN;
 }
@@ -5929,7 +5926,7 @@ fact (int n)
  */
 
 /* This function implements the LU-Factorization method for solving
- * matrix determinants.  At first the given matrix, A, is converted to
+ * matrix determinants.	 At first the given matrix, A, is converted to
  * a product of a lower triangular matrix, L, and an upper triangluar
  * matrix, U, where A = L*U.  The lower triangular matrix, L, contains
  * ones along the main diagonal.
@@ -5945,7 +5942,7 @@ fact (int n)
 gnum_float
 mdeterm (gnum_float *A, int dim)
 {
-        int i, j, n;
+	int i, j, n;
 	gnum_float product, sum;
 	gnum_float *L, *U;
 
@@ -5957,27 +5954,27 @@ mdeterm (gnum_float *A, int dim)
 	/* Initialize the matrices with value zero, except fill the L's
 	 * main diagonal with ones */
 	for (i = 0; i < dim; i++)
-	        for (n = 0; n < dim; n++) {
-		        if (i == n)
-		                ARRAY (L, i, n) = 1;
+		for (n = 0; n < dim; n++) {
+			if (i == n)
+				ARRAY (L, i, n) = 1;
 			else
-		                ARRAY (L, i, n) = 0;
+				ARRAY (L, i, n) = 0;
 			ARRAY (U, i, n) = 0;
 		}
 
 	/* Determine L and U so that A=L*U */
 	for (n = 0; n < dim; n++) {
-	        for (i = n; i < dim; i++) {
-		        sum = 0;
+		for (i = n; i < dim; i++) {
+			sum = 0;
 			for (j = 0; j < n; j++)
-			        sum += ARRAY (U, j, i) * ARRAY (L, n, j);
+				sum += ARRAY (U, j, i) * ARRAY (L, n, j);
 			ARRAY (U, n, i) = ARRAY (A, n, i) - sum;
 		}
 
 		for (i = n + 1; i < dim; i++) {
-		        sum = 0;
+			sum = 0;
 			for (j = 0; j < i - 1; j++)
-			        sum += ARRAY (U, j, n) * ARRAY (L, i, j);
+				sum += ARRAY (U, j, n) * ARRAY (L, i, j);
 			ARRAY (L, i, n) = (ARRAY (A, i, n) - sum) /
 			  ARRAY (U, n, n);
 		}
@@ -5986,7 +5983,7 @@ mdeterm (gnum_float *A, int dim)
 	/* Calculate det(U) */
 	product = ARRAY (U, 0, 0);
 	for (i = 1; i < dim; i++)
-	        product *= ARRAY (U, i, i);
+		product *= ARRAY (U, i, i);
 
 #undef ARRAY
 
@@ -5996,7 +5993,7 @@ mdeterm (gnum_float *A, int dim)
 	return product;
 }
 
-/* Inverts a given matrix (A).  If the inversion was succesfull, minverse
+/* Inverts a given matrix (A).	If the inversion was succesfull, minverse
  * returns 0.  If there is no A^-1, the function returns 1.
  *
  * (C) Copyright 1999 by Jukka-Pekka Iivonen <iivonen@iki.fi>
@@ -6004,7 +6001,7 @@ mdeterm (gnum_float *A, int dim)
 int
 minverse (gnum_float *A, int dim, gnum_float *res)
 {
-        int     i, n, r, cols, rows;
+	int	i, n, r, cols, rows;
 	gnum_float *array, pivot;
 
 #define ARRAY(C,R) (*(array + (R) + (C) * rows))
@@ -6014,65 +6011,65 @@ minverse (gnum_float *A, int dim, gnum_float *res)
 	rows = dim;
 	array = g_new (gnum_float, cols * rows);
 	for (i = 0; i < cols; i++)
-	        for (n = 0; n < rows; n++)
-		        if (i < dim)
-			        ARRAY (i, n) = A[n + i * rows];
+		for (n = 0; n < rows; n++)
+			if (i < dim)
+				ARRAY (i, n) = A[n + i * rows];
 			else if (i - dim == n)
-			        ARRAY (i, n) = 1;
+				ARRAY (i, n) = 1;
 			else
-			        ARRAY (i, n) = 0;
+				ARRAY (i, n) = 0;
 
 	/* Pivot top-down */
 	for (r = 0; r < rows-1; r++) {
-	        /* Select pivot row */
-	        for (i = r; ARRAY (r, i) == 0; i++)
-		        if (i == rows) {
-			        g_free (array);
-			        return 1;
+		/* Select pivot row */
+		for (i = r; ARRAY (r, i) == 0; i++)
+			if (i == rows) {
+				g_free (array);
+				return 1;
 			}
 		if (i != r)
-		        for (n = 0; n < cols; n++) {
-			        gnum_float tmp = ARRAY (n, r);
+			for (n = 0; n < cols; n++) {
+				gnum_float tmp = ARRAY (n, r);
 				ARRAY (n, r) = ARRAY (n, i);
 				ARRAY (n, i) = tmp;
 			}
 
 		for (i = r + 1; i < rows; i++) {
-		        /* Calculate the pivot */
-		        pivot = -ARRAY (r, i) / ARRAY (r, r);
+			/* Calculate the pivot */
+			pivot = -ARRAY (r, i) / ARRAY (r, r);
 
 			/* Add the pivot row */
 			for (n = r; n < cols; n++)
-			        ARRAY (n, i) += pivot * ARRAY (n, r);
+				ARRAY (n, i) += pivot * ARRAY (n, r);
 		}
 	}
 
 	/* Pivot bottom-up */
 	for (r = rows - 1; r>0; r--) {
-	        for (i = r - 1; i >= 0; i--) {
-		        /* Calculate the pivot */
-		        pivot = -ARRAY (r, i) / ARRAY (r, r);
+		for (i = r - 1; i >= 0; i--) {
+			/* Calculate the pivot */
+			pivot = -ARRAY (r, i) / ARRAY (r, r);
 
 			/* Add the pivot row */
 			for (n = 0; n < cols; n++)
-			        ARRAY (n, i) += pivot * ARRAY (n, r);
+				ARRAY (n, i) += pivot * ARRAY (n, r);
 		}
 	}
 
 	for (r = 0; r < rows; r++) {
-	        pivot = ARRAY (r, r);
+		pivot = ARRAY (r, r);
 		for (i = 0; i < cols; i++)
-		        ARRAY (i, r) /= pivot;
+			ARRAY (i, r) /= pivot;
 	}
 
 	/* Fetch the results */
 	for (i = 0; i < dim; i++)
-	        for (n = 0; n < dim; n++)
-		        res[n + i * rows] = ARRAY (i + dim, n);
+		for (n = 0; n < dim; n++)
+			res[n + i * rows] = ARRAY (i + dim, n);
 #undef ARRAY
 	g_free (array);
 
-        return 0;
+	return 0;
 }
 
 
@@ -6083,14 +6080,14 @@ mmult (gnum_float *A, gnum_float *B, int cols_a, int rows_a, int cols_b,
        gnum_float *product)
 {
 	gnum_float tmp;
-        int     c, r, i;
+	int	c, r, i;
 
 	for (c = 0; c < cols_b; ++c) {
 		for (r = 0; r < rows_a; ++r) {
-		        tmp = 0;
+			tmp = 0;
 			for (i = 0; i < cols_a; ++i)
 				tmp += A[r + i * rows_a] * B[i + c * cols_a];
-		        product[r + c * rows_a] = tmp;
+			product[r + c * rows_a] = tmp;
 		}
 	}
 }
@@ -6098,32 +6095,32 @@ mmult (gnum_float *A, gnum_float *B, int cols_a, int rows_a, int cols_b,
 void
 stern_brocot (float val, int max_denom, int *res_num, int *res_denom)
 {
-        int an = 0, ad = 1;
+	int an = 0, ad = 1;
 	int bn = 1, bd = 1;
 	int n, d;
 	float sp, delta;
 
 	while ((d = ad + bd) <= max_denom) {
-	        sp = 1e-5 * d;/* Quick and dirty,  do adaptive later */
+		sp = 1e-5 * d;/* Quick and dirty,  do adaptive later */
 		n = an + bn;
 		delta = val * d - n;
 		if (delta > sp) {
-		        an = n;
+			an = n;
 			ad = d;
 		} else if (delta < -sp) {
-		        bn = n;
+			bn = n;
 			bd = d;
 		} else {
-		        *res_num = n;
+			*res_num = n;
 			*res_denom = d;
 			return;
 		}
 	}
 	if (bd > max_denom || gnumabs (val * ad - an) < gnumabs (val * bd - bn)) {
-	        *res_num = an;
+		*res_num = an;
 		*res_denom = ad;
 	} else {
-	        *res_num = bn;
+		*res_num = bn;
 		*res_denom = bd;
 	}
 }
