@@ -1,3 +1,24 @@
+2004-03-16  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+
+	* Makefile.am: restore data subdir
+	* data/Makefile.am: add error bars icons
+	*data/bar-*.png: new icons for error bars editor.
+	* goffice.c: (libgoffice_init): add GOD_ERROR_BAR_TYPE
+	* graph/Makefile.am: add gog-error-bar.*
+	* graph/goffice-graph.h: add GogErrorBar struct
+	* graph/gog-object-xml.c: (gog_object_write_property):
+	set success to FLASE when the object does not exist.
+	* graph/gog-series-impl.h: add populate_editor in GogSeriesClass
+	* graph/gog-series.c: (gog_series_editor): add pages for error bars.
+	* graph/gog-error-bar-prefs.glade:
+	* graph/gog-error-bar.[c,h]: new files.
+	* graph/plugins/plot_xy/gog-xy.c: (gog_2d_plot_update),
+	(gog_xy_plot_class_init), (gog_bubble_plot_class_init),
+	(gog_xy_view_render), (gog_xy_series_init),
+	(gog_xy_series_finalize), (gog_xy_series_set_property),
+	(gog_xy_series_get_property), (gog_xy_series_populate_editor),
+	(gog_xy_series_class_init): add support for error bars.
+
 2004-03-15  Morten Welinder  <terra@gnome.org>
 
 	* gui-utils/go-combo-box.c (go_combo_box_destroy): Plug leaks.
