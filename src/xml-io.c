@@ -33,8 +33,8 @@ static Sheet      *readXmlSheet     (parseXmlContextPtr ctxt, xmlNodePtr tree);
 static xmlNodePtr  writeXmlSheet    (parseXmlContextPtr ctxt, Sheet *sheet);
 static Workbook   *readXmlWorkbook  (parseXmlContextPtr ctxt, xmlNodePtr tree);
 static xmlNodePtr  writeXmlWorkbook (parseXmlContextPtr ctxt, Workbook *wb);
-static guint       ptrHash          (gconstpointer a);
-static gint        ptrCompare       (gconstpointer a, gconstpointer b);
+/* static guint       ptrHash          (gconstpointer a);
+static gint        ptrCompare       (gconstpointer a, gconstpointer b); */
 static void        nameFree         (gpointer key, gpointer value, gpointer user_data);
 
 /**
@@ -64,7 +64,7 @@ static const char *xmlGetValue(xmlNodePtr node, const char *name) {
  * Get a String value for a node either carried as an attibute or as
  * the content of a child.
  */
-static String *xmlGetStringValue(xmlNodePtr node, const char *name) {
+String *xmlGetStringValue(xmlNodePtr node, const char *name) {
     const char *val;
     String *ret;
     xmlNodePtr child;
@@ -115,7 +115,7 @@ static int xmlGetIntValue(xmlNodePtr node, const char *name, int *val) {
  * Get a float value for a node either carried as an attibute or as
  * the content of a child.
  */
-static int xmlGetFloatValue(xmlNodePtr node, const char *name, float *val) {
+int xmlGetFloatValue(xmlNodePtr node, const char *name, float *val) {
     const char *ret;
     xmlNodePtr child;
     float f;
@@ -167,7 +167,7 @@ static int xmlGetDoubleValue(xmlNodePtr node, const char *name, double *val) {
  * Get a set of coodinates for a node, carried as the content of a child.
  */
 
-static int xmlGetCoordinate(xmlNodePtr node, const char *name,
+int xmlGetCoordinate(xmlNodePtr node, const char *name,
 			    double *x, double *y) {
     xmlNodePtr child;
     float X, Y;
@@ -218,7 +218,7 @@ static int xmlGetCoordinates(xmlNodePtr node, const char *name,
  * Get a GnomeCanvasPoints for a node, carried as the content of a child.
  */
 
-static GnomeCanvasPoints *xmlGetGnomeCanvasPoints(xmlNodePtr node,
+GnomeCanvasPoints *xmlGetGnomeCanvasPoints(xmlNodePtr node,
                                                   const char *name) {
     GnomeCanvasPoints *ret = NULL;
     int res;
@@ -362,7 +362,7 @@ static void xmlSetIntValue(xmlNodePtr node, const char *name, int val) {
  * Set a float value for a node either carried as an attibute or as
  * the content of a child.
  */
-static void xmlSetFloatValue(xmlNodePtr node, const char *name, float val) {
+void xmlSetFloatValue(xmlNodePtr node, const char *name, float val) {
     const char *ret;
     xmlNodePtr child;
     char str[101];
@@ -388,7 +388,7 @@ static void xmlSetFloatValue(xmlNodePtr node, const char *name, float val) {
  * Set a double value for a node either carried as an attibute or as
  * the content of a child.
  */
-static void xmlSetDoubleValue(xmlNodePtr node, const char *name, double val) {
+void xmlSetDoubleValue(xmlNodePtr node, const char *name, double val) {
     const char *ret;
     xmlNodePtr child;
     char str[101];
@@ -580,7 +580,7 @@ int gnumericWriteXmlSheet(Sheet *sheet, const char *filename) {
     /*
      * Dump it.
      */
-    xmlSetCompressMode(9);
+    xmlSetDocCompressMode(xml, 9);
     ret = xmlSaveFile(filename, xml);
     xmlFreeDoc(xml);
     if (ret < 0) return(-1);
@@ -671,7 +671,7 @@ int gnumericWriteXmlWorkbook(Workbook *wb, const char *filename) {
     /*
      * Dump it.
      */
-    xmlSetCompressMode(9);
+    xmlSetDocCompressMode(xml, 9);
     ret = xmlSaveFile(filename, xml);
     xmlFreeDoc(xml);
     if (ret < 0) return(-1);
@@ -945,7 +945,7 @@ static Style *readXmlStyle(parseXmlContextPtr ctxt, xmlNodePtr tree,
 /*
  * Create an XML subtree of doc equivalent to the given StyleRegion.
  */
-static xmlNodePtr writeXmlStyleRegion(parseXmlContextPtr ctxt,
+/* static !!!*/ xmlNodePtr writeXmlStyleRegion(parseXmlContextPtr ctxt,
                                       StyleRegion *region) {
     xmlNodePtr cur, child;
     
@@ -1172,8 +1172,6 @@ static Cell *readXmlCell(parseXmlContextPtr ctxt, xmlNodePtr tree) {
 
     style = readXmlStyle (ctxt, tree->childs, NULL);
     if (style){
-	    Style *old_style = ret->style;
-	    
 	    style_merge_to (style, ret->style);
 	    style_destroy (ret->style);
 	    ret->style = style;
