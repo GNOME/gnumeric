@@ -74,6 +74,34 @@ callback_function_stat (const EvalPosition *ep, Value *value, void *closure)
 	return NULL;
 }
 
+Value *
+callback_function_make_list (const EvalPosition *ep, Value *value,
+			     void *closure)
+{
+	make_list_t *mm = closure;
+	float_t     x;
+	gpointer    p;
+
+	if (VALUE_IS_NUMBER (value))
+		x = value_get_as_float (value);
+	else
+	        x = 0;
+
+	p = g_new(float_t, 1);
+	*((float_t *) p) = x;
+	mm->entries = g_slist_append(mm->entries, p);
+	mm->n++;
+
+	return NULL;
+}
+
+void
+init_make_list_closure(make_list_t *p)
+{
+        p->n = 0;
+	p->entries = NULL;
+}
+
 static char *help_varp = {
 	N_("@FUNCTION=VARP\n"
 	   "@SYNTAX=VARP(b1, b2, ...)\n"
@@ -2073,78 +2101,56 @@ static char *help_prob = {
 static Value *
 gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 {
-        Value       *range_x = argv[0];
-        Value       *prob_range = argv[1];
-	stat_list_t items_x, items_prob;
-	Value       *ret;
-	float_t     sum, total_sum;
-	float_t     lower_limit, upper_limit;
-	GSList      *list1, *list2;
+	ExprTree     *tree;
+	GList        *expr_node_list;
+	make_list_t  x_cl, prob_cl;
+	EvalPosition ep;
+	Value        *err;
+	float_t      sum, total_sum;
+	float_t      lower_limit, upper_limit;
+	GSList       *list1, *list2;
 
-	items_x.num     = 0;
-	items_x.list    = NULL;
-	items_prob.num  = 0;
-	items_prob.list = NULL;
+	init_make_list_closure(&x_cl);
+	init_make_list_closure(&prob_cl);
 
-        if (range_x->type == VALUE_CELLRANGE) {
-		ret = sheet_cell_foreach_range (
-			eval_sheet (range_x->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
-			range_x->v.cell_range.cell_a.col,
-			range_x->v.cell_range.cell_a.row,
-			range_x->v.cell_range.cell_b.col,
-			range_x->v.cell_range.cell_b.row,
-			callback_function_list,
-			&items_x);
-		if (ret != NULL) {
-			list1 = items_x.list;
-			list2 = items_prob.list;
-			while (list1 != NULL) {
-			        g_free(list1->data);
-				list1 = list1->next;
-			}
-			while (list2 != NULL) {
-			        g_free(list2->data);
-				list2 = list2->next;
-			}
-			g_slist_free(items_x.list);
-			g_slist_free(items_prob.list);
+	tree = g_new(ExprTree, 1);
+	tree->u.constant = argv[0];
+	tree->oper = OPER_CONSTANT;
+	expr_node_list = g_list_append(NULL, tree);
 
-		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
-		}
-	} else
-		return value_new_error (&ei->pos, _("Array version not implemented!"));
+	err = function_iterate_argument_values
+	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
+			   ei->pos.eval_col, ei->pos.eval_row),
+	     callback_function_make_list, &x_cl, expr_node_list,
+	     TRUE);
 
-        if (prob_range->type == VALUE_CELLRANGE) {
-		ret = sheet_cell_foreach_range (
-			eval_sheet (prob_range->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
-			prob_range->v.cell_range.cell_a.col,
-			prob_range->v.cell_range.cell_a.row,
-			prob_range->v.cell_range.cell_b.col,
-			prob_range->v.cell_range.cell_b.row,
-			callback_function_list,
-			&items_prob);
-		if (ret != NULL) {
-			list1 = items_x.list;
-			list2 = items_prob.list;
-			while (list1 != NULL) {
-			        g_free(list1->data);
-				list1 = list1->next;
-			}
-			while (list2 != NULL) {
-			        g_free(list2->data);
-				list2 = list2->next;
-			}
-			g_slist_free(items_x.list);
-			g_slist_free(items_prob.list);
+	if (err != NULL)
+	        return value_new_error (&ei->pos, gnumeric_err_NA);
 
-		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
-		}
-	} else
-		return value_new_error (&ei->pos, _("Array version not implemented!"));
+	g_free(tree);
+	g_list_free(expr_node_list);
 
-	if (items_x.num != items_prob.num) {
-		list1 = items_x.list;
-		list2 = items_prob.list;
+	tree = g_new(ExprTree, 1);
+	tree->u.constant = argv[1];
+	tree->oper = OPER_CONSTANT;
+	expr_node_list = g_list_append(NULL, tree);
+
+	err = function_iterate_argument_values
+	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, 
+					   ei->pos.sheet),
+			   ei->pos.eval_col, ei->pos.eval_row),
+	     callback_function_make_list, &prob_cl, expr_node_list,
+	     TRUE);
+
+	if (err != NULL)
+	        return value_new_error (&ei->pos, gnumeric_err_NA);
+
+	g_free(tree);
+	g_list_free(expr_node_list);
+
+	if (x_cl.n != prob_cl.n) {
+		list1 = x_cl.entries;
+		list2 = prob_cl.entries;
 		while (list1 != NULL) {
 		        g_free(list1->data);
 			list1 = list1->next;
@@ -2153,8 +2159,8 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 		        g_free(list2->data);
 			list2 = list2->next;
 		}
-		g_slist_free(items_x.list);
-		g_slist_free(items_prob.list);
+		g_slist_free(x_cl.entries);
+		g_slist_free(prob_cl.entries);
 
 	        return value_new_error (&ei->pos, gnumeric_err_NA);
 	}
@@ -2165,8 +2171,8 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 	else
 	        upper_limit = value_get_as_float (argv[3]);
 
-	list1 = items_x.list;
-	list2 = items_prob.list;
+	list1 = x_cl.entries;
+	list2 = prob_cl.entries;
 	sum = total_sum = 0;
 
 	while (list1 != NULL) {
@@ -2176,7 +2182,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 		prob = *((float_t *) list2->data);
 
 		if (prob <= 0 || prob > 1)
-		        prob = 2; /* Force error in total sum check */
+		        return value_new_error (&ei->pos, gnumeric_err_NUM);
 
 		total_sum += prob;
 
@@ -2189,8 +2195,8 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 		list2 = list2->next;
 	}
 
-	g_slist_free(items_x.list);
-	g_slist_free(items_prob.list);
+	g_slist_free(x_cl.entries);
+	g_slist_free(prob_cl.entries);
 
 	if (total_sum != 1)
 	        return value_new_error (&ei->pos, gnumeric_err_NUM);
@@ -3235,9 +3241,8 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init (&ep, eval_sheet (argv[1]->v.cell_range.cell_a.sheet, ei->pos.sheet),
-			    argv[1]->v.cell_range.cell_a.col,
-			    argv[1]->v.cell_range.cell_a.row),
+	    (eval_pos_init (&ep, eval_sheet (ei->pos.sheet, ei->pos.sheet),
+			    ei->pos.eval_col, ei->pos.eval_row),
 	     callback_function_lrstat, &cl, expr_node_list,
 	     TRUE);
 
@@ -3256,9 +3261,8 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init (&ep, eval_sheet (argv[2]->v.cell_range.cell_a.sheet, ei->pos.sheet),
-			    argv[2]->v.cell_range.cell_a.col,
-			    argv[2]->v.cell_range.cell_a.row),
+	    (eval_pos_init (&ep, eval_sheet (ei->pos.sheet, ei->pos.sheet),
+			    ei->pos.eval_col, ei->pos.eval_row),
 	     callback_function_lrstat, &cl, expr_node_list,
 	     TRUE);
 
@@ -3302,52 +3306,20 @@ static char *help_frequency = {
 	   "@SEEALSO=")
 };
 
-typedef struct {
-        GSList    *entries;
-        int       n;
-} stat_freq_t;
-
-static Value *
-callback_function_freq (const EvalPosition *ep, Value *value, void *closure)
-{
-	stat_freq_t *mm = closure;
-	float_t     x;
-	gpointer    p;
-
-	if (VALUE_IS_NUMBER (value))
-		x = value_get_as_float (value);
-	else
-	        x = 0;
-
-	p = g_new(float_t, 1);
-	*((float_t *) p) = x;
-	mm->entries = g_slist_append(mm->entries, p);
-	mm->n++;
-
-	return NULL;
-}
-
-static void
-init_freq_closure(stat_freq_t *p)
-{
-        p->n = 0;
-	p->entries = NULL;
-}
-
 static Value *
 gnumeric_frequency (FunctionEvalInfo *ei, Value *argv [])
 {
 	ExprTree     *tree;
 	GList        *expr_node_list;
 	GSList       *current;
-	stat_freq_t  data_cl, bin_cl;
+	make_list_t  data_cl, bin_cl;
 	EvalPosition ep;
 	Value        *err, *res;
 	float_t      *bin_array;
 	int          *count, i;
 
-	init_freq_closure(&data_cl);
-	init_freq_closure(&bin_cl);
+	init_make_list_closure(&data_cl);
+	init_make_list_closure(&bin_cl);
 
 	tree = g_new(ExprTree, 1);
 	tree->u.constant = argv[0];
@@ -3355,11 +3327,9 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init(&ep, eval_sheet(argv[0]->v.cell_range.cell_a.sheet,
-					   ei->pos.sheet),
-			   argv[0]->v.cell_range.cell_a.col,
-			   argv[0]->v.cell_range.cell_a.row),
-	     callback_function_freq, &data_cl, expr_node_list,
+	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
+			   ei->pos.eval_col, ei->pos.eval_row),
+	     callback_function_make_list, &data_cl, expr_node_list,
 	     TRUE);
 
 	if (err != NULL)
@@ -3374,11 +3344,9 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init(&ep, eval_sheet(argv[1]->v.cell_range.cell_a.sheet,
-					   ei->pos.sheet),
-			   argv[1]->v.cell_range.cell_a.col,
-			   argv[1]->v.cell_range.cell_a.row),
-	     callback_function_freq, &bin_cl, expr_node_list,
+	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
+			   ei->pos.eval_col, ei->pos.eval_row),
+	     callback_function_make_list, &bin_cl, expr_node_list,
 	     TRUE);
 
 	if (err != NULL)
@@ -3442,12 +3410,12 @@ static char *help_intercept = {
 static Value *
 gnumeric_intercept (FunctionEvalInfo *ei, Value *argv [])
 {
-	ExprTree     *tree;
-	GList        *expr_node_list;
+	ExprTree      *tree;
+	GList         *expr_node_list;
 	stat_lrstat_t cl;
 	EvalPosition  ep;
         float_t       a, b, mean_x, mean_y, tmp;
-	Value        *err;
+	Value         *err;
 
 	init_lrstat_closure(&cl);
 
@@ -3457,10 +3425,8 @@ gnumeric_intercept (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init(&ep, eval_sheet(argv[0]->v.cell_range.cell_a.sheet,
-					   ei->pos.sheet),
-			   argv[0]->v.cell_range.cell_a.col,
-			   argv[0]->v.cell_range.cell_a.row),
+	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
+			   ei->pos.eval_col, ei->pos.eval_row),
 	     callback_function_lrstat, &cl, expr_node_list,
 	     TRUE);
 
@@ -3479,10 +3445,8 @@ gnumeric_intercept (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init(&ep, eval_sheet(argv[1]->v.cell_range.cell_a.sheet,
-					   ei->pos.sheet),
-			   argv[1]->v.cell_range.cell_a.col,
-			   argv[1]->v.cell_range.cell_a.row),
+	    (eval_pos_init(&ep, eval_sheet(ei->pos.sheet, ei->pos.sheet),
+			   ei->pos.eval_col, ei->pos.eval_row),
 	     callback_function_lrstat, &cl, expr_node_list,
 	     TRUE);
 

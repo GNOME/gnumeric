@@ -471,9 +471,9 @@ static char *help_npv = {
 };
 
 typedef struct {
-        guint32 num;
         float_t rate;
         float_t sum;
+        int     num;
 } financial_npv_t;
 
 static Value *
@@ -483,11 +483,11 @@ callback_function_npv (const EvalPosition *ep, Value *value, void *closure)
 
 	if (!VALUE_IS_NUMBER (value))
 		return NULL;
-
 	if (mm->num == 0) {
 		mm->rate = value_get_as_float (value);
 	} else
-		mm->sum += value_get_as_float (value) / pow (1 + mm->rate, mm->num);
+		mm->sum += value_get_as_float (value) /
+		        pow (1 + mm->rate, mm->num);
 	mm->num++;
         return NULL;
 }
@@ -713,19 +713,38 @@ void finance_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Financial"));
 
-	function_add_args  (cat, "dollarde", "ff", "fractional_dollar,fraction", &help_dollarde, gnumeric_dollarde);
-	function_add_args  (cat, "dollarfr", "ff", "decimal_dollar,fraction", &help_dollarfr, gnumeric_dollarfr);
-	function_add_args  (cat, "duration", "fff", "rate,pv,fv", &help_duration,    gnumeric_duration);
-	function_add_args  (cat, "effect", "ff",    "rate,nper",    &help_effect,   gnumeric_effect);
-	function_add_args  (cat, "fv", "fffff", "rate,nper,pmt,pv,type", &help_fv,  gnumeric_fv);
-	function_add_args  (cat, "ipmt", "ffffff", "rate,per,nper,pv,fv,type", &help_ipmt, gnumeric_ipmt);
-	function_add_args  (cat, "nominal", "ff",    "rate,nper",    &help_nominal, gnumeric_nominal);
-	function_add_args  (cat, "nper", "fffff", "rate,pmt,pv,fv,type", &help_nper, gnumeric_nper);
-        function_add_nodes (cat, "npv",      0,      "",             &help_npv,     gnumeric_npv);
-	function_add_args  (cat, "pmt", "fffff", "rate,nper,pv,fv,type", &help_pmt, gnumeric_pmt);
-	function_add_args  (cat, "ppmt", "ffffff", "rate,per,nper,pv,fv,type", &help_ppmt, gnumeric_ppmt);
-	function_add_args  (cat, "pv", "fffff", "rate,nper,pmt,fv,type", &help_pv,  gnumeric_pv);
-	function_add_args  (cat, "rate", "fff|fff", "rate,nper,pmt,fv,type,guess", &help_rate,  gnumeric_rate);
-	function_add_args  (cat, "sln", "fff", "cost,salvagevalue,life", &help_sln, gnumeric_sln);
-	function_add_args  (cat, "syd", "ffff", "cost,salvagevalue,life,period", &help_syd, gnumeric_syd);
+	function_add_args  (cat, "dollarde", "ff", 
+			    "fractional_dollar,fraction",
+			    &help_dollarde, gnumeric_dollarde);
+	function_add_args  (cat, "dollarfr", "ff",
+			    "decimal_dollar,fraction",
+			    &help_dollarfr, gnumeric_dollarfr);
+	function_add_args  (cat, "duration", "fff", "rate,pv,fv",
+			    &help_duration, gnumeric_duration);
+	function_add_args  (cat, "effect",   "ff",    "rate,nper",
+			    &help_effect,   gnumeric_effect);
+	function_add_args  (cat, "fv", "fffff", "rate,nper,pmt,pv,type",
+			    &help_fv,       gnumeric_fv);
+	function_add_args  (cat, "ipmt", "ffffff", "rate,per,nper,pv,fv,type",
+			    &help_ipmt,     gnumeric_ipmt);
+	function_add_args  (cat, "nominal", "ff",    "rate,nper",
+			    &help_nominal,  gnumeric_nominal);
+	function_add_args  (cat, "nper", "fffff", "rate,pmt,pv,fv,type",
+			    &help_nper,     gnumeric_nper);
+        function_add_nodes (cat, "npv",     0,      "",
+			    &help_npv,      gnumeric_npv);
+	function_add_args  (cat, "pmt", "fffff", "rate,nper,pv,fv,type",
+			    &help_pmt,      gnumeric_pmt);
+	function_add_args  (cat, "ppmt", "ffffff", "rate,per,nper,pv,fv,type",
+			    &help_ppmt,     gnumeric_ppmt);
+	function_add_args  (cat, "pv", "fffff", "rate,nper,pmt,fv,type",
+			    &help_pv,       gnumeric_pv);
+	function_add_args  (cat, "rate", "fff|fff",
+			    "rate,nper,pmt,fv,type,guess",
+			    &help_rate,     gnumeric_rate);
+	function_add_args  (cat, "sln", "fff", "cost,salvagevalue,life",
+			    &help_sln,      gnumeric_sln);
+	function_add_args  (cat, "syd", "ffff",
+			    "cost,salvagevalue,life,period",
+			    &help_syd,      gnumeric_syd);
 }

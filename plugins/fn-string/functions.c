@@ -909,12 +909,23 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	gchar *s;
 	static int barfed = 0;
 
+	float_t x;
+	int     i, n;
+
 	if (!barfed) {
 		g_warning ("GNUMERIC_DOLLAR is broken, it should use the "
 			   "format_value routine");
 		barfed = 1;
 	}
-	ag[0] = argv [0];
+	if (argv[1] != NULL) {
+	        x = 0.5;
+		n = value_get_as_int (argv[1]);
+		for (i=0; i<n; i++)
+		        x /= 10;
+		ag[0] = value_new_float (value_get_as_float(argv[0]) + x);
+	} else
+	        ag[0] = value_duplicate (argv[0]);
+
 	ag[1] = argv [1];
 	ag[2] = NULL;
 
@@ -931,7 +942,7 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	strncpy (&s [1], v->v.str->str, len);
 
 	string_unref (v->v.str);
-	if (neg){
+	if (neg) {
 		s [0] = '(';
 		s [len+1] = ')';
 	}
@@ -940,6 +951,8 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	s[len + 1 + neg] = '\0';
 	v->v.str = string_get (s);
 	g_free (s);
+	value_release(ag[0]);
+
 	return v;
 }
 
@@ -1201,14 +1214,14 @@ string_functions_init ()
 			    &help_rept,       gnumeric_rept);
 	function_add_args  (cat, "right",      "s|f",  "text,num_chars",
 			    &help_right,      gnumeric_right);
-	function_add_args  (cat, "search",     "ss|f",  "find,within[,start_num]",
+	function_add_args  (cat, "search",     "ss|f", "find,within[,start_num]",
 			    &help_search,     gnumeric_search);
 	function_add_args  (cat, "substitute", "sss|f","text,old,new,num",
 			    &help_substitute, gnumeric_substitute);
 	function_add_args  (cat, "t",          "?",    "value",
 			    &help_t,          gnumeric_t);
 	function_add_args  (cat, "text",       "?s",   "value,format_text",
-			    &help_text,          gnumeric_text);
+			    &help_text,       gnumeric_text);
 	function_add_args  (cat, "trim",       "s",    "text",
 			    &help_trim,       gnumeric_trim);
 	function_add_args  (cat, "upper",      "s",    "text",

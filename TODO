@@ -55,8 +55,7 @@ Gnumeric Spread Sheet task list
 
 * Fix the Following Functions
 
-    * CELL, DAVERAGE, DGET, DOLLAR, DOLLARDE, DOLLARFR, NPV,
-      PERCENTRANK, PROB, VLOOKUP
+    * CELL, DAVERAGE, DGET, DOLLARDE, DOLLARFR, PERCENTRANK, VLOOKUP
 
 * Printing
   * Save print information in workbook

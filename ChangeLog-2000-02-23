@@ -1,3 +1,13 @@
+1999-08-11  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-string.c: Fixed the rounding of DOLLAR() function.
+
+	* src/fn-financial.c: Some minor cleaning.
+
+	* src/func.h: Added prototypes for callback_function_make_list.
+	
+	* src/fn-stat.c: Fixed PROB() function.
+
 1999-08-11  Michael Meeks  <michael@imaginator.com>
 
 	* plugins/text/text-io.c: Prototypes updated.
