@@ -33,8 +33,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-static GList *categories = NULL;
-static SymbolTable *global_symbol_table = NULL;
+static GList *categories;
+static SymbolTable *global_symbol_table;
+
+static const char *unknown_cat_name = N_("Unknown Function");
+static GSList *unknown_functions;
 
 void
 functions_init (void)
@@ -46,6 +49,15 @@ functions_init (void)
 void
 functions_shutdown (void)
 {
+	FunctionCategory *unknown_cat =
+		function_get_category_with_translation (unknown_cat_name,
+							_(unknown_cat_name));
+	while (unknown_functions) {
+		FunctionDefinition *func = unknown_functions->data;
+		function_remove (unknown_cat, function_def_get_name (func));
+		unknown_functions = g_slist_remove (unknown_functions, func);
+	}
+
 	func_builtin_shutdown ();
 }
 
@@ -465,7 +477,8 @@ function_add_placeholder (char const *name, char const *type)
 
 	g_return_val_if_fail (func == NULL, func);
 
-	cat = function_get_category_with_translation ("Unknown Function", _("Unknown Function"));
+	cat = function_get_category_with_translation (unknown_cat_name,
+						      _(unknown_cat_name));
 
 	/*
 	 * TODO TODO TODO : should add a
@@ -476,6 +489,7 @@ function_add_placeholder (char const *name, char const *type)
 	func = function_add_nodes (cat, g_strdup (name),
 				   0, "...", NULL,
 				   &unknownFunctionHandler);
+	unknown_functions = g_slist_prepend (unknown_functions, func);
 
 	/* WISHLIST : it would be nice to have a log if these. */
 	g_warning ("Unknown %sfunction : %s", type, name);
@@ -652,6 +666,7 @@ function_def_get_arg_name (FunctionDefinition const *fn_def,
 	gchar **names, **o_names;
 	gchar *name;
 	gchar *translated_arguments;
+	gchar delimiter[2];
 
 	g_return_val_if_fail (arg_idx >= 0, NULL);
 	g_return_val_if_fail (fn_def != NULL, NULL);
@@ -663,9 +678,12 @@ function_def_get_arg_name (FunctionDefinition const *fn_def,
 		return NULL;
 
 	translated_arguments = _(fn_def->named_arguments);
-	names = g_strsplit (translated_arguments, 
-			    strcmp (translated_arguments, fn_def->named_arguments) == 0 ? 
-			    "," : format_get_arg_sep (), G_MAXINT);
+	delimiter[0] = 
+		strcmp (translated_arguments, fn_def->named_arguments) == 0
+		? ','
+		: format_get_arg_sep ();
+	delimiter[1] = 0;
+	names = g_strsplit (translated_arguments, delimiter, G_MAXINT);
 	o_names = names;
 
 	while (arg_idx-- && *names) {

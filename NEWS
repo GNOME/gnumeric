@@ -43,6 +43,7 @@ Morten:
 	* Fix DOLLAR.
 	* Fix ROW and COLUMN.
 	* Prevent gcc 2.96 compilation.
+	* Fix leaks for unknown function stubs.
 
 Jon Kåre:
 	* Install bonobo control

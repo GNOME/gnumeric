@@ -1,5 +1,10 @@
 2002-05-21  Morten Welinder  <terra@diku.dk>
 
+	* src/func.c (function_def_get_arg_name): Fix char/string type
+	mismatch.  Bad Andreas!
+	(functions_shutdown): Remove stubs for unknown functions.
+	(function_add_placeholder): Keep track of unknown functions.
+
 	* configure.in: Refuse to compile with gcc 2.96.
 
 2002-05-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
