@@ -1,8 +1,7 @@
 ## Process this file with automake to produce Makefile.in.
 
+# 'es' subdirectory is old an incomplete
 SUBDIRS = C 
-
-# 'es' subdirectory seems not yet to be ready; functions.sgml is missing
 
 EXTRA_DIST = 				\
 	translating.sgml		\
@@ -21,4 +20,5 @@ EXTRA_DIST = 				\
 	guile-gnumeric.txt		\
 	python-gnumeric.txt 		\
 	stf-export.txt 			\
-	stf-parser.txt 
+	stf-parser.txt 			\
+	sgmldocs.make
