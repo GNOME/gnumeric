@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-07-31 14:11-0400\n"
-"PO-Revision-Date: 2003-07-06 08:59-0600\n"
+"PO-Revision-Date: 2003-08-11 12:27-0600\n"
 "Last-Translator: Andreas J. Guelzow <aguelzow@taliesin.ca>\n"
 "Language-Team: gnome-i18n@gnome.org\n"
 "MIME-Version: 1.0\n"
@@ -18159,17 +18159,17 @@ msgstr ""
 
 #: src/dialogs/dialog-preferences.c:706
 msgid "The items on this page customize the behaviour of the undo/redo system."
-msgstr ""
+msgstr "The items on this page customise the behaviour of the undo/redo system."
 
 #: src/dialogs/dialog-preferences.c:856
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
-msgstr ""
+msgstr "The items on this page customise the inital settings of the sort dialog and the behaviour of the sort toolbar buttons."
 
 #: src/dialogs/dialog-preferences.c:1003
 msgid "The items on this page customize the new default workbook."
-msgstr ""
+msgstr "The items on this page customise the new default workbook."
 
 #: src/dialogs/dialog-preferences.c:1220
 msgid "The items on this page are related to the saving and opening of files."
@@ -18991,7 +18991,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:6
 msgid "Attempt to recognize columns in the text automatically."
-msgstr ""
+msgstr "Attempt to recognise columns in the text automatically."
 
 #: src/dialogs/dialog-stf.glade.h:7
 msgid "Ban_g (!)"
@@ -23095,7 +23095,7 @@ msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
-msgstr ""
+msgstr "/Mean/Known Variance/Observations/Hypothesised Mean Difference/Observed Mean Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
 
 #: src/tools/analysis-tools.c:1424
 #, c-format
@@ -23115,7 +23115,7 @@ msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
-msgstr ""
+msgstr "/Mean/Variance/Observations/Pearson Correlation/Hypothesised Mean Difference/ df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
 #: src/tools/analysis-tools.c:1614
 #, c-format
@@ -23133,7 +23133,7 @@ msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
-msgstr ""
+msgstr "/Mean/Variance/Observations/Pooled Variance/Hypothesised Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P(T<=t) two-tail/t Critical two-tail"
 
 #: src/tools/analysis-tools.c:1759 src/tools/analysis-tools.c:1897
 #, c-format
@@ -23145,7 +23145,7 @@ msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
-msgstr ""
+msgstr "/Mean/Variance/Observations/Hypothesised Mean Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 
 #: src/tools/analysis-tools.c:1955
 msgid "A data set is empty"
@@ -23880,11 +23880,11 @@ msgstr ""
 
 #: src/tools/solver/reports-write.c:915
 msgid "Minimize"
-msgstr ""
+msgstr "Minimise"
 
 #: src/tools/solver/reports-write.c:918
 msgid "Maximize"
-msgstr ""
+msgstr "Maximise"
 
 #: src/tools/solver/reports-write.c:921
 msgid "Equal to"

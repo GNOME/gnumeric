@@ -79,8 +79,10 @@ el_set_style_label (EditableLabel *el)
 {
 	GtkWidget * w = GTK_WIDGET (el);
 
-	gtk_widget_modify_base (w, GTK_STATE_NORMAL, &el->base);
-	gtk_widget_modify_text (w, GTK_STATE_NORMAL, &el->text);
+	gtk_widget_modify_base (w, GTK_STATE_NORMAL, 
+				el->base_set ? &el->base : NULL);
+	gtk_widget_modify_text (w, GTK_STATE_NORMAL, 
+				el->text_set ? &el->text : NULL);
 }
 
 static void
@@ -282,11 +284,13 @@ editable_label_set_color (EditableLabel *el, GdkColor *base_color, GdkColor *tex
 	if (base_color != NULL) {
 		el->base_set = TRUE; 
 		el->base = *base_color;
-	}
+	} else
+		el->base_set = FALSE;
 	if (text_color != NULL) {
 		el->text_set = TRUE; 
 		el->text  = *text_color;
-	}
+	} else
+		el->text_set = FALSE;
 
 	if (el->unedited_text == NULL) {
 		el_set_style_label (el);

@@ -1,3 +1,8 @@
+2003-08-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* widget-editable-label.c (el_set_style_label): use el->*_set
+	(editable_label_set_color): NULL means mark colours as not-set
+
 2003-08-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-cell-renderer-expr-entry.c: do not use depreciated gtk
