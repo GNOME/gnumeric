@@ -1,3 +1,14 @@
+2003-10-29  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (cb_axis_bound_changed) : update all the auto
+	  bounds when anything changes.
+
+2003-10-28  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_xy/gog-xy.c (gog_xy_view_render) : be lazy and
+	  do the clipping in the renderer rather than here.  It will make
+	  life easier when we add splines.
+
 2003-10-27  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=125619

@@ -139,7 +139,19 @@ draw_path (GogRendererGnomePrint *prend, ArtVpath const *path)
 }
 
 static void
-gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath const *path)
+setup_clip (GogRendererGnomePrint *prend, GogViewAllocation const *bound)
+{
+	gnome_print_gsave (prend->gp_context);
+	gnome_print_moveto (prend->gp_context, bound->x, -bound->y);
+	gnome_print_lineto (prend->gp_context, bound->x + bound->w, -bound->y);
+	gnome_print_lineto (prend->gp_context, bound->x + bound->w, -bound->y - bound->h);
+	gnome_print_lineto (prend->gp_context, bound->x, -bound->y - bound->h);
+	gnome_print_clip (prend->gp_context);
+}
+
+static void
+gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath const *path,
+				    GogViewAllocation const *bound)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -147,8 +159,12 @@ gog_renderer_gnome_print_draw_path (GogRenderer *renderer, ArtVpath const *path)
 	set_color (prend, style->line.color);
 	gnome_print_setlinewidth (prend->gp_context, 
 		gog_renderer_line_size (renderer, style->line.width));
+	if (bound != NULL)
+		setup_clip (prend, bound);
 	draw_path (prend, path);
 	gnome_print_stroke (prend->gp_context);
+	if (bound != NULL)
+		gnome_print_grestore (prend->gp_context);
 }
 
 static void
@@ -166,7 +182,8 @@ print_image (GogRendererGnomePrint *prend, GdkPixbuf *image, int w, int h)
 
 #define PIXBUF_SIZE 1024
 static void
-gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *path, gboolean narrow)
+gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
+				       gboolean narrow, GogViewAllocation const *bound)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (renderer);
 	GogStyle const *style = renderer->cur_style;
@@ -178,6 +195,9 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 	GOColor color;
 	ArtGradientLinear gradient;
 	ArtGradientStop stops[2];
+
+	if (bound != NULL)
+		setup_clip (prend, bound);
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE || with_outline) {
 		draw_path (prend, path);
@@ -316,6 +336,8 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 			gog_renderer_line_size (renderer, style->outline.width));
 		gnome_print_stroke (prend->gp_context);
 	}
+	if (bound != NULL)
+		gnome_print_grestore (prend->gp_context);
 }
 
 static void

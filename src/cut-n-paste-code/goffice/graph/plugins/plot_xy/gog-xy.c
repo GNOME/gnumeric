@@ -219,6 +219,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	double const *y_vals, *x_vals = NULL;
 	double x, y, x_min, x_max, x_off, x_scale, y_min, y_max, y_off, y_scale;
+	double prev_x, prev_y;
 	ArtVpath	path[3];
 	GogStyle const *style;
 	gboolean prev_valid, show_marks, show_lines;
@@ -281,27 +282,31 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 #warning move map into axis
 				x = x_off + x_scale * x;
 				y = y_off + y_scale * y;
-				if (show_lines) {
-					if (prev_valid) {
-						path[0].x = x;
-						path[0].y = y;
-						gog_renderer_draw_path (view->renderer, path, NULL);
-					}
+				if (prev_valid && show_lines) {
+					path[0].x = prev_x;
+					path[0].y = prev_y;
 					path[1].x = x;
 					path[1].y = y;
-					prev_valid = TRUE;
+					gog_renderer_draw_path (view->renderer, path, &view->residual);
 				}
 
 				/* draw marker after line */
-				if (prev_valid && show_marks)
-					gog_renderer_draw_marker (view->renderer, x, y);
+				if (prev_valid && show_marks &&
+				    x_min <= prev_x && prev_x <= x_max &&
+				    y_min <= prev_y && prev_y <= y_max)
+					gog_renderer_draw_marker (view->renderer, prev_x, prev_y);
+
+				prev_x = x;
+				prev_y = y;
+				prev_valid = TRUE;
 			} else
 				prev_valid = FALSE;
 		}
 
 		/* draw marker after line */
 		if (prev_valid && show_marks &&
-		    x_min <= x && x <= x_max && y_min <= y && y <= y_max)
+		    x_min <= prev_x && prev_x <= x_max &&
+		    y_min <= prev_y && prev_y <= y_max)
 			gog_renderer_draw_marker (view->renderer, x, y);
 
 		gog_renderer_pop_style (view->renderer);

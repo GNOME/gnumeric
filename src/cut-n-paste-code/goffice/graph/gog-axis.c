@@ -293,7 +293,7 @@ gog_axis_finalize (GObject *obj)
 }
 
 static double
-axis_get_entry (GogAxis const *axis, unsigned i, gboolean  *user_defined)
+axis_get_entry (GogAxis const *axis, unsigned i, gboolean *user_defined)
 {
 	GOData *dat = axis->source [i].data;
 	if (dat != NULL && IS_GO_DATA_SCALAR (dat)) {
@@ -440,6 +440,7 @@ cb_axis_toggle_changed (GtkToggleButton *toggle_button, GObject *axis)
 
 typedef struct {
 	GtkWidget *editor;
+	GtkToggleButton *toggle;
 	GogDataset *set;
 	unsigned dim;
 } ElemToggleData;
@@ -464,6 +465,20 @@ cb_enable_dim (GtkToggleButton *toggle_button, ElemToggleData *closure)
 }
 
 static void
+cb_axis_bound_changed (GogObject *axis, gboolean resize, ElemToggleData *closure)
+{
+	if (gtk_toggle_button_get_active (closure->toggle)) {
+		double bound = GOG_AXIS (closure->set)->auto_bound [closure->dim];
+		if (finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
+			char *str = g_strdup_printf ("%g", bound);
+			g_object_set (closure->editor, "text", str, NULL);
+			g_free (str);
+		} else
+			g_object_set (closure->editor, "text", "", NULL);
+	}
+}
+
+static void
 make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 		 GogDataAllocator *dalloc)
 {
@@ -485,11 +500,17 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 	closure->editor = editor;
 	closure->set = set;
 	closure->dim = dim;
+	closure->toggle = GTK_TOGGLE_BUTTON (toggle);
 	g_signal_connect_data (G_OBJECT (toggle),
 		"toggled",
 		G_CALLBACK (cb_enable_dim), closure,
 		(GClosureNotify)g_free, 0);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (toggle), dat == NULL);
+
+	g_signal_connect_data (G_OBJECT (set),
+		"changed",
+		G_CALLBACK (cb_axis_bound_changed), closure,
+		NULL, 0);
 
 	gtk_table_attach (table, toggle,
 		0, 1, dim + 1, dim + 2, GTK_FILL, 0, 5, 3);

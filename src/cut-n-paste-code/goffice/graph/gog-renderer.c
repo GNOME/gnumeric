@@ -362,6 +362,10 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 		g_param_spec_double ("logical_height_pts", "Logical Height Pts",
 			"Logical height of the drawing area in pts",
 			0, G_MAXDOUBLE, 0, G_PARAM_READWRITE));
+	g_object_class_install_property (gobject_klass, RENDERER_PROP_ZOOM,
+		g_param_spec_double ("zoom", "zoom Height Pts",
+			"global scale factor",
+			1., G_MAXDOUBLE, 1., G_PARAM_READWRITE));
 
 	renderer_signals [RENDERER_SIGNAL_REQUEST_UPDATE] = g_signal_new ("request-update",
 		G_TYPE_FROM_CLASS (renderer_klass),

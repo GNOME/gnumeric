@@ -38,7 +38,8 @@ static GnomeClient *master_client = NULL;
 static const char *program_argv0 = NULL;
 static const char *current_dir = NULL;
 
-static void set_clone_restart (GnomeClient *client)
+static void
+set_clone_restart (GnomeClient *client)
 {
 	GList *ptr, *workbooks;
 	char **argv;
