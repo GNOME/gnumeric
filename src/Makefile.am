@@ -103,6 +103,7 @@ GNUMERIC_BASE_SOURCES =				\
 	plugin.c				\
 	plugin.h				\
 	plugin-manager.c			\
+	portability.h				\
 	print.c					\
 	print.h					\
 	print-cell.c				\
@@ -253,4 +254,4 @@ idl_DATA = Gnumeric.idl Gnumeric-value.idl
 
 MYHACKAROUNDAUTOMAKE=$(shell echo $(GNUMERIC_CORBA_GENERATED))
 
-EXTRA_DIST = $(idl_DATA) $(MYHACKAROUNDAUTOMAKE)
+EXTRA_DIST = $(idl_DATA) $(MYHACKAROUNDAUTOMAKE) portability.h.in

@@ -36,6 +36,7 @@
 #include "format.h"
 #include "dates.h"
 #include "utils.h"
+#include "portability.h"
 
 /* Points to the locale information for number display */
 static struct lconv *lc = NULL;
@@ -98,49 +99,29 @@ append_year (GString *string, const guchar *format, const struct tm *time_split)
  * number of characters used.
  */
 static int
-append_month (GString *string, const guchar *format, const struct tm *time_split)
+append_month (GString *string, int n, const struct tm *time_split)
 {
 	char temp [3];
 
-	if (tolower (format [1]) != 'm'){
+	if (n == 1){
 		sprintf (temp, "%d", time_split->tm_mon+1);
-		g_string_append( string, temp);
+		g_string_append (string, temp);
 		return 1;
 	}
 
-	if (tolower (format [2]) != 'm')
-	{
+	if (n == 2){
 		sprintf (temp, "%02d", time_split->tm_mon+1);
 		g_string_append (string, temp);
 		return 2;
 	}
 
-	if (tolower (format [3]) != 'm'){
+	if (n == 3){
 		g_string_append (string, _(month_short [time_split->tm_mon])+1);
 		return 3;
 	}
 
 	g_string_append (string, _(month_long [time_split->tm_mon]));
 	return 4;
-}
-
-/*
- * Parses the hour field at the beginning of the format.  Returns the
- * number of characters used.
- */
-static int
-append_hour (GString *string, const guchar *format, const struct tm *time_split, int timeformat)
-{
-	char temp[3];
-
-	if (tolower (format [1]) != 'h'){
-	    sprintf (temp, "%d", timeformat ? (time_split->tm_hour % 12) : time_split->tm_hour);
-	    g_string_append (string, temp);
-	    return 1;
-	}
-	sprintf (temp, "%02d", timeformat ? (time_split->tm_hour % 12) : time_split->tm_hour);
-	g_string_append (string, temp);
-	return 2;
 }
 
 /*
@@ -175,45 +156,94 @@ append_day (GString *string, const guchar *format, const struct tm *time_split)
 }
 
 /*
- * Parses the minute field at the beginning of the format.  Returns the
- * number of characters used.
+ * Renders the hour.
  */
-static int
-append_minute (GString *string, const guchar *format, const struct tm *time_split)
+static void
+append_hour (GString *string, int n, const struct tm *time_split, int timeformat)
 {
-	char temp [3];
+	char *temp = g_alloca (n + 4);
 
-	if (tolower (format [1]) != 'm'){
-		sprintf (temp, "%d", time_split->tm_min);
-		g_string_append (string, temp);
-		return 1;
-	}
-
-	sprintf (temp, "%02d", time_split->tm_min);
+	sprintf (temp, "%0*d", n, timeformat ? (time_split->tm_hour % 12) : time_split->tm_hour);
 	g_string_append (string, temp);
 
-	return 2;
+	return;
 }
 
 /*
- * Parses the second field at the beginning of the format.  Returns the
- * number of characters used.
+ * Renders the hour.
  */
-static int
-append_second (GString *string, const guchar *format, const struct tm *time_split)
+static void
+append_hour_elapsed (GString *string, int n, const struct tm *time_split, int number)
 {
-	char temp[3];
+	char *temp = g_alloca (n + 4);
+	int hours;
 
-	if (tolower (format [1]) != 's'){
-		sprintf (temp, "%d", time_split->tm_sec);
-		g_string_append (string, temp);
-		return 1;
-	}
-
-	sprintf (temp, "%02d", time_split->tm_sec);
+	hours = number * 24 + time_split->tm_hour;
+	sprintf (temp, "%0*d", n, hours);
 	g_string_append (string, temp);
 
-	return 2;
+	return;
+}
+
+/*
+ * Renders the number of minutes.
+ */
+static void
+append_minute (GString *string, int n, const struct tm *time_split)
+{
+	char *temp = g_alloca (n + 4);
+
+	sprintf (temp, "%0*d", n, time_split->tm_min);
+	g_string_append (string, temp);
+
+	return;
+}
+
+/*
+ * Renders the number of minutes, in elapsed format
+ */
+static void
+append_minute_elapsed (GString *string, int n, const struct tm *time_split, int number)
+{
+	char *temp = g_alloca (n + 50);
+	int minutes;
+	
+	minutes = ((number * 24) + time_split->tm_hour) * 60 + time_split->tm_min;
+	
+	sprintf (temp, "%0*d", n, minutes);
+	g_string_append (string, temp);
+
+	return;
+}
+
+/*
+ * Renders the second field.
+ */
+static void
+append_second (GString *string, int n, const struct tm *time_split)
+{
+	char *temp = g_alloca (n + 4);
+	
+	sprintf (temp, "%0*d", n, time_split->tm_sec);
+	g_string_append (string, temp);
+
+	return;
+}
+
+/*
+ * Renders the second field in elapsed 
+ */
+static void
+append_second_elapsed (GString *string, int n, const struct tm *time_split, int number)
+{
+	char *temp = g_alloca (n + 50);
+	int seconds;
+	
+	seconds = (((number * 24 + time_split->tm_hour) * 60 + time_split->tm_min) * 60) + time_split->tm_sec;
+	sprintf (temp, "%0*d", n, seconds);
+	g_string_append (string, temp);
+
+	return;
 }
 
 #if 0
@@ -865,6 +895,8 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 	format_info_t info;
 	int can_render_number = 0;
 	int hour_seen = 0;
+	gboolean time_display_elapsed = FALSE;
+	gboolean ignore_further_elapsed = FALSE;
 	struct tm *time_split = 0;
 	char *res;
 
@@ -885,6 +917,12 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			c = CHAR_THOUSAND;
 
 		switch (c) {
+
+		case '[':
+			if (!ignore_further_elapsed)
+				time_display_elapsed = TRUE;
+			break;
+			
 		case '#':
 			can_render_number = 1;
 			if (info.decimal_separator_seen)
@@ -1019,15 +1057,29 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			break;
 
 		case 'M':
-		case 'm':
+		case 'm': {
+			int n;
+			
 			if (!time_split)
 				time_split = split_time (number);
-			if (hour_seen)
-				format += append_minute (result, format, time_split) - 1;
-			else
-				format += append_month (result, format, time_split) - 1;
-			break;
 
+			for (n = 1; format [1] == 'M' || format [1] == 'm'; format++)
+				n++;
+			if (format [1] == ']')
+				format++;
+			if (hour_seen || time_display_elapsed){
+				if (time_display_elapsed){
+					time_display_elapsed = FALSE;
+					ignore_further_elapsed = TRUE;
+					append_minute_elapsed (result, n, time_split, number);
+				}
+				else
+					append_minute (result, n, time_split);
+			} else
+				append_month (result, n, time_split);
+			break;
+		}
+		
 		case 'D':
 		case 'd':
 			if (!time_split)
@@ -1043,12 +1095,25 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			break;
 
 		case 'S':
-		case 's':
+		case 's': {
+			int n;
+			
 			if (!time_split)
 				time_split = split_time (number);
-			format += append_second (result, format, time_split) - 1;
-			break;
 
+			for (n = 1; format [1] == 's' || format [1] == 'S'; format++)
+				n++;
+			if (format [1] == ']')
+				format++;
+			if (time_display_elapsed){
+				time_display_elapsed = FALSE;
+				ignore_further_elapsed = TRUE;
+				append_second_elapsed (result, n, time_split, number);
+			} else
+				append_second (result, n, time_split);
+			break;
+		}
+		
 		case '*':
 		{
 			/* FIXME FIXME FIXME
@@ -1067,12 +1132,25 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 		}
 
 		case 'H':
-		case 'h':
+		case 'h': {
+			int n;
+
 			if (!time_split)
 				time_split = split_time (number);
-			format += append_hour (result, format, time_split, style_format_entry->want_am_pm) - 1;
+
+			for (n = 1; format [1] == 'h' || format [1] == 'H'; format++)
+				n++;
+			if (format [1] == ']')
+				format++;
+			if (time_display_elapsed){
+				time_display_elapsed = FALSE;
+				ignore_further_elapsed = TRUE;
+				append_hour_elapsed (result, n, time_split, number);
+			} else
+				append_hour (result, n, time_split, style_format_entry->want_am_pm);
 			hour_seen = TRUE;
 			break;
+		}
 
 		case 'A':
 		case 'a':
@@ -1207,9 +1285,19 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 		char *end = strchr (entry.format, ']');
 
 		if (end){
-			if (color)
-				*color = lookup_color (&entry.format [1], end);
-			entry.format = end+1;
+			char first_after_bracket = entry.format [1];
+
+			/*
+			 * Special [h*], [m*], [*s] is using for
+			 * measuring times, not for specifying colors.
+			 */
+			if (!(first_after_bracket == 'h' ||
+			      first_after_bracket == 's' ||
+			      first_after_bracket == 'm')){
+				if (color)
+					*color = lookup_color (&entry.format [1], end);
+				entry.format = end+1;
+			}
 		}
 	}
 

@@ -75,6 +75,9 @@ const char *cell_format_hour [] = {
 	N_("mm:ss"),
 	N_("mm:ss.0"),
 	N_("[h]:mm:ss"),
+	N_("[h]:mm"),
+	N_("[mm]:ss"),
+	N_("[ss]"),
 	NULL
 };
 

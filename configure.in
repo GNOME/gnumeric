@@ -19,6 +19,17 @@ GNOME_COMPILE_WARNINGS
 GNOME_X_CHECKS
 GNOME_XML_CHECK
 
+dnl
+dnl alloca tests
+dnl;
+AC_FUNC_ALLOCA
+if test $ac_cv_header_alloca_h = yes; then
+        GNUMERIC_HAVE_ALLOCA_H=1
+else
+        GNUMERIC_HAVE_ALLOCA_H=0
+fi
+AC_SUBST(GNUMERIC_HAVE_ALLOCA_H)
+
 AC_SUBST(QTTHREADS_LIB)
 AC_SUBST(TERMCAP_LIB)
 AC_SUBST(READLINE_LIB)
@@ -205,6 +216,7 @@ src/Makefile
 src/dialogs/Makefile
 src/widgets/Makefile
 src/functions/Makefile
+src/portability.h
 graph/Makefile
 wizards/Makefile
 wizards/graphics/Makefile

@@ -1,3 +1,10 @@
+1999-10-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/formats.c: Added new formats for elapsed setup.
+
+	* src/format.c (format_number): Add support for hour-elapsed,
+	minute-elapsed, and second-elapsed.
+
 1999-10-17  Morten Welinder  <terra@diku.dk>
 
 	* src/eval.c (cell_get_dependencies): Plug leak.
