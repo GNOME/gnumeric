@@ -923,7 +923,7 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 
 	while (*src->position && *src->position != parseoptions->terminator) {
 		char *field;
-		field = (char *)stf_parse_fixed_cell (src, parseoptions);
+		field = stf_parse_fixed_cell (src, parseoptions);
 
 		trim_spaces_inplace (field, parseoptions);
 
@@ -1340,43 +1340,32 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
  * unix line-terminated format. this means that CRLF (windows) will be converted to LF
  * and CR (Macintosh) to LF.
  * In addition to that form feed (\F) characters will be removed.
- * NOTE : This will not resize the buffer
+ * NOTE: This will not resize the buffer
  *
- * returns : TRUE on success, FALSE otherwise.
+ * returns: TRUE on success, FALSE otherwise.
  **/
 gboolean
-stf_parse_convert_to_unix (const char *data)
+stf_parse_convert_to_unix (char *data)
 {
 	const char *iterator = data;
-	char *dest = (char *) data;
-	int len = 0;
+	char *dest = data;
 
 	if (!iterator)
 		return FALSE;
 
 	while (*iterator) {
-
 		if (*iterator == '\r') {
-			const char *temp = iterator;
-
-			temp++;
-
-			if (*temp != '\n') {
-				*dest = '\n';
-				dest++;
-				len++;
-			}
+			*dest++ = '\n';
 			iterator++;
+			if (*iterator == '\n')
+				iterator++;
+			continue;
 		} else if (*iterator == '\f') {
-		
 			iterator++;
+			continue;
 		}
-		
-		*dest = *iterator;
 
-		iterator++;
-		dest++;
-		len++;
+		*dest++ = *iterator++;
 	}
 	*dest = '\0';
 
@@ -1427,9 +1416,9 @@ stf_parse_is_valid_data (const char *data)
  * 
  **/
 void
-stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_lines, char *data)
+stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_lines, const char *data)
 {
-	char *iterator = data;
+	const char *iterator = data;
 	GSList *list = NULL;
 	GSList *list_start = NULL;
 	int lines = 0;

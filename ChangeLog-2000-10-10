@@ -1,3 +1,12 @@
+2000-07-05  Morten Welinder  <terra@diku.dk>
+
+	* src/clipboard.c (x_selection_to_cell_region): Copy data and zero
+ 	terminate it.
+
+	* src/stf-parse.c (stf_parse_fixed_line): Kill unneeded cast.
+	(stf_parse_convert_to_unix): Unconstify.  Don't bother keeping
+ 	track of len.  Handle form-feeds better.
+
 2000-07-05  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/stf-parse.c:

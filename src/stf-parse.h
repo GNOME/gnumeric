@@ -120,10 +120,10 @@ int                 stf_parse_get_longest_row_width                   (StfParseO
 
 int                 stf_parse_get_colwidth                            (StfParseOptions_t *parseoptions, const char *data, int index);
 
-gboolean            stf_parse_convert_to_unix                         (const char *data);
+gboolean            stf_parse_convert_to_unix                         (char *data);
 gboolean            stf_parse_is_valid_data                           (const char *data);
 
-void                stf_parse_options_fixed_autodiscover              (StfParseOptions_t *parseoptions, int data_lines, char *data);
+void                stf_parse_options_fixed_autodiscover              (StfParseOptions_t *parseoptions, int data_lines, const char *data);
 
 /* Higher level functions, can be used for directly parsing into an application specific data container */
 Sheet              *stf_parse_sheet                                   (StfParseOptions_t *parseoptions, const char *data, Sheet *sheet);

@@ -398,12 +398,17 @@ paste_target_init (PasteTarget *pt, Sheet *sheet, Range const *r, int flags)
 }
 
 static CellRegion *
-x_selection_to_cell_region (CommandContext *context, char const * data,
+x_selection_to_cell_region (CommandContext *context, const char *src,
 			    int len)
 {
 	DialogStfResult_t *dialogresult;
 	CellRegion *cr = NULL;
 	CellRegion *crerr;
+	char *data;
+
+	data = g_new (char, len + 1);
+	memcpy (data, src, len);
+	data[len] = 0;
 
 	crerr         = g_new (CellRegion, 1);
 	crerr->list   = NULL;
@@ -412,15 +417,13 @@ x_selection_to_cell_region (CommandContext *context, char const * data,
 	crerr->styles = NULL;
 
 	if (!stf_parse_convert_to_unix (data)) {
-
-		g_free ( (char*) data);
+		g_free (data);
 		g_warning (_("Error while trying to pre-convert clipboard data"));
 		return crerr;
 	}
 
 	if (!stf_parse_is_valid_data (data)) {
-
-		g_free ( (char*) data);
+		g_free (data);
 		g_warning (_("This data on the clipboard does not seem to be valid text"));
 		return crerr;
 	}
@@ -434,8 +437,7 @@ x_selection_to_cell_region (CommandContext *context, char const * data,
 		cr = stf_parse_region (dialogresult->parseoptions, dialogresult->newstart);
 
 		if (cr == NULL) {
-
-			g_free ( (char*) data);
+			g_free (data);
 			g_warning (_("Parse error while trying to parse data into cellregion"));
 			return crerr;
 		}
@@ -466,13 +468,12 @@ x_selection_to_cell_region (CommandContext *context, char const * data,
 		}
 
 		stf_dialog_result_free (dialogresult);
-	}
-	else {
-
+	} else {
 		return crerr;
 	}
 
 	g_free (crerr);
+	g_free (data);
 
 	return cr;
 }
