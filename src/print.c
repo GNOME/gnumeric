@@ -1256,10 +1256,10 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 			preview = TRUE;
 			break;
 		case -1:
-  			return;
+			goto out;
 		default:
 			gtk_widget_destroy (gnome_print_dialog);
-			return;
+			goto out;
 		}
 		gnome_print_dialog_get_copies (GNOME_PRINT_DIALOG (gnome_print_dialog),
 					       &copies, &collate);
@@ -1333,6 +1333,8 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 		}
 	}
 
-	g_object_unref (G_OBJECT (gpm));
+ out:
+	if (gpm)
+		g_object_unref (G_OBJECT (gpm));
   	print_job_info_destroy (pj);
 }
