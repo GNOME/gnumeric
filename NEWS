@@ -6,6 +6,7 @@ Andreas:
 	* Properly handle output range preparation for analysis tools
 	  even if the user did not want it cleared. 
 	* Create ui to set protection of indiviual sheets.
+	* Make various edit actions check for locks first.
 	* Fix 85383.
 
 Jody:

@@ -235,6 +235,33 @@ cmd_cell_range_is_locked_effective (WorkbookControlGUI *wbcg, Sheet *sheet,
 }
 
 /**
+ * checks whether the selection is effectively locked
+ *
+ * static gboolean cmd_selection_is_locked_effective
+ *
+ *
+ * Do not use this function unless the sheet is part of the 
+ * workbook with the given wbcg (otherwise the results may be strange) 
+ *
+ */
+
+static gboolean 
+cmd_selection_is_locked_effective (WorkbookControlGUI *wbcg, Sheet *sheet, 
+				   GSList *selection)
+{
+	for (; selection; selection = selection->next) {
+		Range *range = (Range *)selection->data;
+		if (cmd_cell_range_is_locked_effective (wbcg, sheet, 
+							range->start.col, 
+							range->end.col - range->start.col + 1, 
+							range->start.row, 
+							range->end.row - range->start.row + 1))
+			return TRUE;
+	}
+	return FALSE;
+}
+
+/**
  * returns the cell position name depending on the preference setting
  *
  * char *cmd_cell_pos_name_utility
@@ -889,6 +916,11 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				       wbc, _("Set Text")))
 		return TRUE;
 
+	/* Check for locked cells */
+	if (cmd_selection_is_locked_effective (WORKBOOK_CONTROL_GUI (wbc), me->pos.sheet, 
+					       me->selection))
+		return TRUE;
+
 	/*
 	 * Only enter an array formula if
 	 *   1) the text is a formula
@@ -1102,11 +1134,24 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		: me->index;
 
 	last = first + me->count - 1;
-	me->saved_states = colrow_get_states (me->sheet, me->is_cols, first, last);
-	me->contents = clipboard_copy_range (me->sheet,
-		(me->is_cols)
+	(me->is_cols)
 		? range_init (&r, first, 0, last, SHEET_MAX_ROWS - 1)
-		: range_init (&r, 0, first, SHEET_MAX_COLS-1, last));
+		: range_init (&r, 0, first, SHEET_MAX_COLS-1, last);
+
+	/* Check for array subdivision */
+	if (!me->is_insert && sheet_range_splits_region 
+	    (me->sheet, &r, NULL, wbc, 
+	     (me->is_cols) ? _("Delete Columns") :  _("Delete Rows")))
+		return TRUE;
+
+	/* Check for locks */
+	if (!me->is_insert && cmd_cell_range_is_locked_effective
+	    (WORKBOOK_CONTROL_GUI (wbc), me->sheet, r.start.col, r.end.col - r.start.col + 1,
+	     r.start.row, r.end.row - r.start.row + 1))
+		return TRUE;
+	
+	me->saved_states = colrow_get_states (me->sheet, me->is_cols, first, last);
+	me->contents = clipboard_copy_range (me->sheet, &r);
 
 	if (me->is_insert) {
 		ColRowStateList *state = NULL;
