@@ -16544,12 +16544,11 @@ msgstr ""
 
 #: plugins/sample_datasource/plugin.xml.in.h:1
 msgid "A proof of concept external data source"
-msgstr ""
+msgstr "外部データソースの概念の検証用"
 
 #: plugins/sample_datasource/plugin.xml.in.h:3
-#, fuzzy
 msgid "Sample DataSource"
-msgstr "データ..."
+msgstr "データソースのサンプル"
 
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
@@ -16566,6 +16565,16 @@ msgid ""
 "ATL_LAST(\"IBM\")\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=atl_last\n"
+"@SYNTAX=ATL_LAST (tag)\n"
+"@DESCRIPTION=ATL_LASTはリアルタイムデータソースを実装したサンプルです。"
+"文字列tagを引き数にし、名前付きパイプ /tmp/atlをモニタリングしてtagの値を変更します。\n"
+"\n"
+"* この関数は一般の使用を意図していないのでデフォルトではオフになっています。\n"
+"\n"
+"@EXAMPLES=\n"
+"ATL_LAST(\"IBM\")\n"
+"@SEEALSO="
 
 #: plugins/sc/plugin.xml.in.h:1
 msgid "Imports SC/XSpread files"
@@ -16696,9 +16705,8 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:3
-#, fuzzy
 msgid "Activate New Plugins"
-msgstr "プラグインを有効にする(_C)"
+msgstr "プラグインを有効にする"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
 msgid "Allow Unfocused Range Selections"
