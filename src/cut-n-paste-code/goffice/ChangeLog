@@ -1,3 +1,7 @@
+2003-09-03  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-object-xml.c (gog_object_set_arg_full): Plug leak.
+
 2003-09-01  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-renderer-pixbuf.c (make_layout) : kludge a patch for font

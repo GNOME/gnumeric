@@ -153,9 +153,9 @@ gog_object_set_arg_full (char const *name, char const *val, GogObject *obj, xmlN
 	if (!success) {
 		g_warning ("could not convert string to type `%s' for property `%s'",
 			   g_type_name (prop_type), pspec->name);
-		g_value_unset (&res);
 	} else
 		g_object_set_property (G_OBJECT (obj), name, &res);
+	g_value_unset (&res);
 }
 
 void
