@@ -1,3 +1,9 @@
+2002-10-11  Jody Goldberg <jody@gnome.org>
+
+	* plugin.xml.in : add areas
+	* functions.c (gnumeric_areas) : new.  A quick simple implementation
+	  until the core can support more.
+
 2002-10-10  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (gnumeric_indirect) : always return a cell_range and use

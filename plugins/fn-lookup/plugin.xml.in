@@ -12,6 +12,7 @@
 			<_category>Lookup</_category>
 			<functions>
 				<function name="address"/>
+				<function name="areas"/>
 				<function name="choose"/>
 				<function name="column"/>
 				<function name="columns"/>

@@ -427,6 +427,80 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
+static char const *help_areas = {
+	N_("@FUNCTION=AREAS\n"
+	   "@SYNTAX=AREAS(references)\n"
+
+	   "@DESCRIPTION="
+	   "AREAS returns the number of areas in @reference. "
+	   "\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "AREAS((A1,B2,C3)) equals "
+	   "\3.\n"
+	   "\n"
+	   "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET")
+};
+
+/* TODO : we need to rethink EXPR_SET as an operator vs a value type */
+static Value *
+gnumeric_areas (FunctionEvalInfo *ei, GnmExprList *l)
+{
+	GnmExpr const *expr;
+	int res = -1;
+	int argc =  gnm_expr_list_length (l);
+
+	if (argc < 1 || l->data == NULL || argc > 1)
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	expr = l->data;
+
+restart :
+	switch (expr->any.oper) {
+	case GNM_EXPR_OP_CONSTANT:
+		if (expr->constant.value->type != VALUE_CELLRANGE)
+			break;
+
+	case GNM_EXPR_OP_CELLREF:
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
+		res = 1;
+		break;
+	case GNM_EXPR_OP_ANY_BINARY:
+	case GNM_EXPR_OP_ANY_UNARY:
+	case GNM_EXPR_OP_ARRAY:
+		break;
+
+	case GNM_EXPR_OP_FUNCALL: {
+		Value *v = gnm_expr_eval (expr, ei->pos,
+			GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+		if (expr->constant.value->type == VALUE_CELLRANGE)
+			res = 1;
+		value_release (v);
+		break;
+	}
+
+	case GNM_EXPR_OP_NAME:
+		if (expr->name.name->active && !expr->name.name->builtin) {
+			expr = expr->name.name->t.expr_tree;
+			goto restart;
+		}
+		break;
+
+	case GNM_EXPR_OP_SET:
+		res = gnm_expr_list_length (expr->set.set);
+		break;
+
+	default:
+		g_warning ("unknown expr type.");
+	};
+
+	if (res > 0)
+		return value_new_int (res);
+	return value_new_error (ei->pos, gnumeric_err_VALUE);
+}
+
+/***************************************************************************/
+
 static const char *help_choose = {
 	N_("@FUNCTION=CHOOSE\n"
 	   "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -732,7 +806,7 @@ static const char *help_indirect = {
 	   "If A1 contains 3.14 and A2 contains A1, then\n"
 	   "INDIRECT(A2) equals 3.14.\n"
 	   "\n"
-	   "@SEEALSO=")
+	   "@SEEALSO=AREAS,INDEX,")
 };
 
 static Value *
@@ -917,7 +991,7 @@ static const char *help_offset = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=COLUMN,COLUMNS,ROWS")
+	   "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS")
 };
 
 static Value *
@@ -1108,8 +1182,10 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 const ModulePluginFunctionInfo lookup_functions[] = {
 	{ "address",   "ff|ffs", N_("row_num,col_num,abs_num,a1,text"),
 	  &help_address,  gnumeric_address, NULL, NULL, NULL },
-        { "choose",     0,     N_("index,value,"),
-	  &help_choose,   NULL, gnumeric_choose, NULL, NULL },
+	{ "areas",	0,	N_("reference"),
+	  &help_areas,	NULL,	gnumeric_areas, NULL, NULL },
+        { "choose",     0,	N_("index,value,"),
+	  &help_choose,	NULL,	gnumeric_choose, NULL, NULL },
 	{ "column",     "|A",    N_("ref"),
 	  &help_column,   gnumeric_column, NULL, NULL, NULL },
 	{ "columns",   "A",    N_("ref"),
