@@ -289,7 +289,7 @@ figures/zoom.png
 lang = C
 locale = C
 omffile = gnumeric-C.omf
-entities += 					\
+entities = 					\
 	analysis-tools.xml			\
 	authors.xml				\
 	autocorrect.xml				\
@@ -310,12 +310,6 @@ entities += 					\
 	worksheet.xml
 #	functions.xml	# added in gnumeric-doc.make
 
-# include generated files to simplify installation
-# what the hell is going on in here
-#EXTRA_DIST = gnumeric.1	\
-#	functions.xml	\
-#	func.defs	\
-#	func-list.xml	\
-#	$(srcdir)/func-header.xml $(srcdir)/func-footer.xml
+EXTRA_DIST = gnumeric.1
 
 include $(top_srcdir)/doc/gnumeric-doc.make

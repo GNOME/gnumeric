@@ -193,7 +193,7 @@ sign_extend (guint16 num)
 
 /* FIXME: dodgy stuff, hacked for now */
 static void
-get_cellref (CellRef *ref, guint8 *dataa, guint8 *datab,
+get_cellref (CellRef *ref, guint8 const *dataa, guint8 const *datab,
 	     guint32 orig_col, guint32 orig_row)
 {
 	guint16 i;
@@ -236,7 +236,7 @@ find_function (guint16 idx)
 }
 
 static gint32
-make_function (GnmExprList **stack, guint16 idx, guint8 *data)
+make_function (GnmExprList **stack, guint16 idx, guint8 const *data)
 {
 	gint32 ans, numargs;
 	const func_struct_t *f = &functions[idx];
@@ -286,7 +286,7 @@ make_function (GnmExprList **stack, guint16 idx, guint8 *data)
 
 GnmExpr const *
 lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
-		     guint8 *data, guint32 len)
+		     guint8 const *data, guint32 len)
 {
 	GnmExprList *stack = NULL;
 	guint     i;

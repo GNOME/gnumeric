@@ -41,6 +41,7 @@ PKG_CHECK_MODULES(GNUMERIC,[
 glib-2.0	>= 2.0.0
 gobject-2.0	>= 2.0.0
 gmodule-2.0	>= 2.0.0
+libgsf-1	>= 0.0.0
 gtk+-2.0	>= 2.0.0
 libxml-2.0	>= 2.4.12
 libglade-2.0	>= 1.99.7
@@ -201,7 +202,7 @@ AC_ARG_WITH(excel,
 	fi
 )
 if test "$try_ole" = "true"; then
-	PKG_CHECK_MODULES(LIBOLE2, [libole2-2.0 >= 2.2.7 libgsf-1 >= 0.0.0],
+	PKG_CHECK_MODULES(LIBOLE2, [libole2-2.0 >= 2.2.7],
 		[excel_msg="yes"],
 		[excel_msg="NO.  libole2 problem"])
 fi

@@ -1,3 +1,15 @@
+2002-06-06  Jody Goldberg <jody@gnome.org>
+
+	* html_read.c (html_file_open) : convert to using libgsf.
+	  And rewrite to use libxml2's html parser.  We still need to walk the
+	  resulting parse tree.
+
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* boot.c : remove gnome.h
+	* font.c : ditto.
+	* roff.c : use libgnome/gnome-i18n.h
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

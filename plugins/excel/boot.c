@@ -26,6 +26,10 @@
 #include "ms-excel-util.h"
 #include "ms-excel-read.h"
 
+#include <gsf/gsf-input-stdio.h>
+#include <gsf/gsf-infile.h>
+#include <gsf/gsf-infile-msole.h>
+
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /* Used to toggle debug messages on & off */
@@ -50,34 +54,35 @@ gint ms_excel_object_debug = 0;
 
 MsExcelReadGbFn ms_excel_read_gb = NULL;
 
-gboolean excel_file_probe (GnumFileOpener const *fo, const char *filename, FileProbeLevel pl);
-void excel_file_open (GnumFileOpener const *fo, IOContext *context, WorkbookView *new_wb_view, const char *filename);
+gboolean excel_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
+void excel_file_open (GnumFileOpener const *fo, IOContext *context, WorkbookView *new_wb_view, GsfInput *input);
 void excel97_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
 void excel95_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
 void plugin_cleanup (void);
 
 gboolean
-excel_file_probe (GnumFileOpener const *fo, const char *filename, FileProbeLevel pl)
+excel_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	MsOle    *file;
+	GsfInfile *ole;
+	GsfInput *stream;
+	gboolean res = FALSE;
 
-	if (ms_ole_open (&file, filename) == MS_OLE_ERR_OK) {
-		MsOleErr     result;
-		MsOleStream *stream;
+	if (input == NULL)
+		return FALSE;
+	ole = gsf_infile_msole_new (input, NULL);
+	if (ole == NULL)
+		return FALSE;
 
-		result = ms_ole_stream_open (&stream, file, "/", "workbook", 'r');
-		ms_ole_stream_close (&stream);
-		if (result == MS_OLE_ERR_OK) {
-			ms_ole_destroy (&file);
-			return TRUE;
-		}
+	stream = gsf_infile_child_by_name (ole, "Workbook");
+	if (stream == NULL)
+		stream = gsf_infile_child_by_name (ole, "Book");
 
-		result = ms_ole_stream_open (&stream, file, "/", "book", 'r');
-		ms_ole_stream_close (&stream);
-		ms_ole_destroy (&file);
-		if (result == MS_OLE_ERR_OK)
-			return TRUE;
+	if (stream != NULL) {
+		g_object_unref (G_OBJECT (stream));
+		res = TRUE;
 	}
+	g_object_unref (G_OBJECT (ole));
+
 	return FALSE;
 }
 
@@ -92,24 +97,34 @@ excel_file_probe (GnumFileOpener const *fo, const char *filename, FileProbeLevel
  */
 void
 excel_file_open (GnumFileOpener const *fo, IOContext *context,
-                 WorkbookView *new_wb_view, const char *filename)
+                 WorkbookView *new_wb_view, GsfInput *input)
 {
-	MsOleErr  ole_error;
-	MsOle	 *f;
+	GsfInput *stream = NULL;
+	GError   *err = NULL;
+	GsfInfile *ole = gsf_infile_msole_new (input, &err);
 
-	ole_error = ms_ole_open (&f, filename);
-	if (ole_error != MS_OLE_ERR_OK) {
-		char const *msg = (ole_error == MS_OLE_ERR_INVALID ||
-				   ole_error == MS_OLE_ERR_FORMAT)
-		    ? _("This file is not an 'OLE' file.  It may be too old for Gnumeric to read.\nSorry, the management.")
-		    : _("Unexpected error reading the file");
-		ms_ole_destroy (&f);
-		gnumeric_io_error_read (context, msg);
+	if (ole == NULL) {
+		g_return_if_fail (err != NULL);
+		gnumeric_io_error_read (context, err->message);
+		g_error_free (err);
 		return;
 	}
 
-	puts (filename);
-	ms_excel_read_workbook (context, new_wb_view, f);
+	stream = gsf_infile_child_by_name (ole, "Workbook");
+	if (stream == NULL)
+		stream = gsf_infile_child_by_name (ole, "Book");
+
+	if (stream == NULL) {
+		gnumeric_io_error_read (context,
+			 _("No Workbook or Book streams found."));
+		g_object_unref (G_OBJECT (ole));
+		return;
+	}
+
+	ms_excel_read_workbook (context, new_wb_view, stream);
+#warning re-enable this when gsf handles doc metadata
+#warning TODO we can now support pre-ole files ! but first find a way to id them.
+#if 0
 	if (!gnumeric_io_error_occurred (context)) {
 		Workbook *wb = wb_view_workbook (new_wb_view);
 		ms_summary_read (f, wb->summary_info);
@@ -122,8 +137,9 @@ excel_file_open (GnumFileOpener const *fo, IOContext *context,
 				g_warning ("Failed to read Basic scripts");
 		}
 	}
+#endif
 
-	ms_ole_destroy (&f);
+	g_object_unref (G_OBJECT (ole));
 }
 
 /*

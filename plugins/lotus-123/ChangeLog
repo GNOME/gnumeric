@@ -1,3 +1,18 @@
+2002-06-07  Jody Goldberg <jody@gnome.org>
+
+	* lotus.c (record_new) : convert to libgsf.
+	(record_next) : ditto.
+	(record_destroy) : ditto.
+	(read_workbook) : ditto.
+	(lotus_read) : ditto.
+
+	* lotus-formula.c (get_cellref) : some constness.
+	(make_function) : ditto.
+	(lotus_parse_formula) : ditto.
+
+	* boot.c (lotus_file_open) : convert to libgsf.
+	(lotus_file_probe) : ditto.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

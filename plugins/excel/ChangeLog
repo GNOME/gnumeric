@@ -1,3 +1,30 @@
+2002-06-06  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_read_workbook) : convert to gsf.
+	  No need to handle the ole here.  Just take a GsfInput.  That way we
+	  can try to parse non ole files too :-)
+
+	* ms-biff.c (ms_biff_query_set_decrypt) : convert to Gsf.
+	(ms_biff_query_new) : ditto.
+	(ms_biff_query_peek_next) : ditto.
+	(ms_biff_query_next) : ditto.
+
+	* boot.c (excel_file_probe) : convert to GsfInput.
+	(excel_file_open) : ditto.
+
+	* biff-types.h : add a few under-documented opcodes.
+
+2002-05-28  Jody Goldberg <jody@gnome.org>
+
+	* ms-biff.c (ms_biff_query_peek_next) : we only need the opcode, not
+	  the length.
+
+2002-05-14  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=81766
+	* ms-excel-read.c (ms_excel_read_formula) : work around undocumented
+	  'feature' that will store a 0 length RECORD for empty strings.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

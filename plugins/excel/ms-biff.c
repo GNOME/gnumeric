@@ -14,6 +14,7 @@
 #include <gnumeric.h>
 #include <glib.h>
 #include <libole2/ms-ole.h>
+#include <gsf/gsf-input.h>
 
 #include "ms-biff.h"
 #include "biff-types.h"
@@ -230,24 +231,24 @@ ms_biff_query_set_decrypt (BiffQuery *q, char const *password)
 	/* pretend to decrypt the entire stream up till this point, it was not
 	 * encrypted, but do it anyway to keep the rc4 state in sync
 	 */
-	skip_bytes (q, 0, q->pos->position);
+	skip_bytes (q, 0, gsf_input_tell (q->input));
 
 	return TRUE;
 }
 
 BiffQuery *
-ms_biff_query_new (MsOleStream *ptr)
+ms_biff_query_new (GsfInput *input)
 {
 	BiffQuery *q;
 
-	g_return_val_if_fail (ptr != NULL, NULL);
+	g_return_val_if_fail (input != NULL, NULL);
 
 	q = g_new0 (BiffQuery, 1);
 	q->opcode        = 0;
 	q->length        = 0;
 	q->data_malloced = q->non_decrypted_data_malloced = FALSE;
 	q->data 	 = q->non_decrypted_data = NULL;
-	q->pos           = ptr;
+	q->input         = input;
 	q->is_encrypted  = FALSE;
 
 #if BIFF_DEBUG > 0
@@ -259,18 +260,18 @@ ms_biff_query_new (MsOleStream *ptr)
 gboolean
 ms_biff_query_peek_next (BiffQuery *q, guint16 *opcode)
 {
-	guint8 data[4];
+	guint8 const *data;
+
 	g_return_val_if_fail (opcode != NULL, 0);
+	g_return_val_if_fail (q != NULL, 0);
 
-	if (!q || (q->pos->position + 4 > q->pos->size))
+	data = gsf_input_read (q->input, 2, NULL);
+	if (data == NULL)
 		return FALSE;
-
-	if (!q->pos->read_copy (q->pos, data, 4))
-		return FALSE;
-
-	q->pos->lseek (q->pos, -4, MsOleSeekCur); /* back back off */
-
 	*opcode = MS_OLE_GET_GUINT16 (data);
+
+	gsf_input_seek (q->input, -2, GSF_SEEK_CUR);
+
 	return TRUE;
 }
 
@@ -280,10 +281,12 @@ ms_biff_query_peek_next (BiffQuery *q, guint16 *opcode)
 int
 ms_biff_query_next (BiffQuery *q)
 {
-	guint8  tmp[4];
+	guint8 const *data;
 	int ans = 1;
 
-	if (!q || q->pos->position >= q->pos->size)
+	g_return_val_if_fail (q != NULL, 0);
+
+	if (gsf_input_eof (q->input))
 		return 0;
 
 	if (q->data_malloced) {
@@ -297,24 +300,22 @@ ms_biff_query_next (BiffQuery *q)
 		q->non_decrypted_data_malloced = FALSE;
 	}
 
-	q->streamPos = q->pos->position;
-	if (!q->pos->read_copy (q->pos, tmp, 4))
-		return 0;
-	q->opcode = MS_OLE_GET_GUINT16 (tmp);
-	q->length = MS_OLE_GET_GUINT16 (tmp+2);
+	q->streamPos = gsf_input_tell (q->input);
+	data = gsf_input_read (q->input, 4, NULL);
+	if (data == NULL)
+		return FALSE;
+	q->opcode = MS_OLE_GET_GUINT16 (data);
+	q->length = MS_OLE_GET_GUINT16 (data + 2);
 	q->ms_op  = (q->opcode>>8);
 	q->ls_op  = (q->opcode&0xff);
 
-	if (q->length > 0 && !(q->data = q->pos->read_ptr(q->pos, q->length))) {
-		q->data = g_new (guint8, q->length);
-		if (!q->pos->read_copy (q->pos, q->data, q->length)) {
-			ans = 0;
-			g_free (q->data);
-			q->data = 0;
-			q->length = 0;
-		} else
-			q->data_malloced = TRUE;
-	}
+	/* no biff record should be larger than around 20,000 */
+	g_return_val_if_fail (q->length < 20000, 0);
+
+	if (q->length > 0) 
+		q->data = (guint8 *)gsf_input_read (q->input, q->length, NULL);
+	else
+		q->data = NULL;
 
 	if (q->is_encrypted) {
 		q->non_decrypted_data_malloced = q->data_malloced;

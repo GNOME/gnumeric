@@ -1,3 +1,51 @@
+2002-06-07  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wb_view_open) : convert to libgsf.
+
+	* src/stf.c (stf_open_and_read) : convert to libgsf.
+	(stf_preparse) : ditto.
+	(stf_read_workbook) : ditto.
+	(stf_read_workbook_auto_csvtab) : ditto.
+	(stf_read_default_probe) : ditto.
+
+	* src/stf-parse.c (stf_parse_is_valid_data) : actually disable the
+	  wide char support if it is not available.
+
+	* src/gutils.c (gnm_extension_pointer) : copied from libgnome to
+	  decrease our dependence on it.
+
+	* src/gui-util.c (gnumeric_editable_enters) : modernize a bit.
+
+	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_grab) : suppress
+	  warning.
+
+	* src/file.c (gnum_file_opener_probe_real) : Use libgsf.
+	(gnum_file_opener_open_real) : ditto.
+	(gnum_file_opener_probe) : ditto.
+	(gnum_file_opener_open) : ditto.
+	(gnum_file_saver_save_to_stream_real) : disable, we can move this out
+	  of here when GsfOutput comes online.
+
+	* src/collect.c (string_range_function) : suppress warning.
+
+	* src/cell.c (cell_set_array_formula) : Adjust to the signature change
+	  for gnm_expr_new_array.
+	* src/sheet-autofill.c (autofill_cell) : ditto.
+
+2002-06-07  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : require libgsf.
+
+	* src/xml-io.c (xml_check_version) : move the sanity checking here.
+	(gnumeric_xml_read_workbook) : rather than here.  Support GsfInput.
+	(xml_probe) : and here.
+	(gnumeric_xml_write_workbook_to_stream) : delete.
+
+2002-05-31  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_grab) : actually
+	  return the result.
+
 2002-06-01  Jody Goldberg <jody@gnome.org>
 
  	http://bugzilla.gnome.org/show_bug.cgi?id=83794

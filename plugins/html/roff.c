@@ -19,8 +19,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <errno.h>
-#include <gnome.h>
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "workbook-view.h"
@@ -33,6 +31,9 @@
 #include "io-context.h"
 #include "error-info.h"
 #include "plugin-util.h"
+#include <libgnome/gnome-i18n.h>
+
+#include <errno.h>
 
 /*
  * escape special characters .. needs work

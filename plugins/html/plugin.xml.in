@@ -8,15 +8,15 @@
 		<attribute name="module_file" value="html.la"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="html32" priority="100" probe="FALSE" open="TRUE" import="TRUE">
+		<service type="file_opener" id="html" priority="100" probe="FALSE" open="TRUE" import="TRUE">
 			<information>
-				<_description>HTML file made by gnumeric</_description>
+				<_description>HTML</_description>
 			</information>
 			<file_patterns>
 				<file_pattern type="shell_pattern" value="*.html"/>
 				<file_pattern type="shell_pattern" value="*.htm"/>
 			</file_patterns>
-			<save_info saver_id="html32" format_level="auto"/>
+			<save_info saver_id="html" format_level="auto"/>
 		</service>
 		<service type="file_saver" id="html32" file_extension="html" format_level="auto">
 			<information>

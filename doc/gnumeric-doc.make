@@ -7,7 +7,7 @@
 
 docname = gnumeric
 gnumeric_docdir  = $(top_srcdir)/doc
-entities = functions.xml
+entities += functions.xml
 
 functions.xml: func-list.xml $(srcdir)/func-header.xml $(srcdir)/func-footer.xml
 	cd $(srcdir) && cat $(srcdir)/func-header.xml func-list.xml $(srcdir)/func-footer.xml > "$@"
@@ -18,8 +18,12 @@ func-list.xml: func.defs $(gnumeric_docdir)/make-func-list.pl
 func.defs: 
 	LC_ALL="$(locale)" ; export LC_ALL ; $(top_builddir)/src/gnumeric --dump-func-defs="$@"
 
-# include generated files to simplify installation
-dist-hook::
-	mkdir $(distdir)/figures
-
 include $(gnumeric_docdir)/xmldocs.make
+
+# include generated files to simplify installation
+EXTRA_DIST +=		\
+	func.defs	\
+	func-list.xml	\
+	$(srcdir)/func-header.xml $(srcdir)/func-footer.xml
+
+#	functions.xml	# an entity, shipped via xmldocs.make

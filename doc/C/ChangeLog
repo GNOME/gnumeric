@@ -1,3 +1,7 @@
+2002-06-03  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : finally clean up the EXTRA_DIST situation.
+
 2002-06-01  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=81456

@@ -2,8 +2,8 @@
 #define GNUMERIC_PLUGIN_LOTUS_123_LOTUS_H
 
 #include <gnumeric.h>
-#include <io-context.h>
+#include <gsf/gsf.h>
 
-void lotus_read (IOContext *io_context, Workbook *wb, const gchar *filename);
+void lotus_read (IOContext *io_context, Workbook *wb, GsfInput *input);
 
 #endif

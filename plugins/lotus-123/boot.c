@@ -16,42 +16,34 @@
 #include <plugin-util.h>
 #include <module-plugin-defs.h>
 
-#include <stdio.h>
+#include <gsf/gsf-input.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean lotus_file_probe (GnumFileOpener const *fo, const gchar *file_name,
+gboolean lotus_file_probe (GnumFileOpener const *fo, GsfInput *input,
                            FileProbeLevel pl);
 void     lotus_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                          WorkbookView *wb_view, const char *filename);
+                          WorkbookView *wb_view, GsfInput *input);
 
 
 gboolean
-lotus_file_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeLevel pl)
+lotus_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	unsigned char magic[4];
-	FILE *f;
-	gint rcount;
-
-	f = fopen (file_name, "rb");
-	if (f == NULL) {
-		return FALSE;
-	}
-	rcount = fread (magic, 1, 4, f);
-	(void) fclose (f);
-
-	return rcount == 4 &&
-	       magic[0] == (LOTUS_BOF & 0xff) &&
-	       magic[1] == ((LOTUS_BOF >> 8) & 0xff) &&
-	       magic[2] == (2 & 0xff) &&
-	       magic[3] == ((2 >> 8) & 0xff);
+	char const *header = NULL;
+	if (!gsf_input_seek (input, 0, GSF_SEEK_SET))
+		header = gsf_input_read (input, 4, NULL);
+	return header != NULL &&
+	       header[0] == (LOTUS_BOF & 0xff) &&
+	       header[1] == ((LOTUS_BOF >> 8) & 0xff) &&
+	       header[2] == (2 & 0xff) &&
+	       header[3] == ((2 >> 8) & 0xff);
 }
 
 void
 lotus_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                 WorkbookView *wb_view, const char *file_name)
+                 WorkbookView *wb_view, GsfInput *input)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 
-	lotus_read (io_context, wb, file_name);
+	lotus_read (io_context, wb, input);
 }

@@ -23,7 +23,7 @@
 #include <error-info.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <stdio.h>
+#include <gsf/gsf-input.h>
 #include <string.h>
 
 #define LOTUS_DEBUG 0
@@ -112,19 +112,18 @@ cell_set_format_from_lotus_format (Cell *cell, int fmt)
 }
 
 typedef struct {
-	FILE    *f;
-	guint16  type;
-	guint16  len;
-	guint8  *data;
+	GsfInput *input;
+	guint16   type;
+	guint16   len;
+	guint8 const *data;
 } record_t;
 
 static record_t *
-record_new (FILE *f)
+record_new (GsfInput *input)
 {
 	record_t *r = g_new (record_t, 1);
-	r->f        = f;
-	/* Speed & determinism */
-	r->data     = g_new (guint8, 65540);
+	r->input    = input;
+	r->data     = NULL;
 	r->type     = 0;
 	r->len      = 0;
 	return r;
@@ -133,30 +132,29 @@ record_new (FILE *f)
 static gboolean
 record_next (record_t *r)
 {
-	guint8 hdata[8];
+	guint8 const *header;
+
 	g_return_val_if_fail (r != NULL, FALSE);
 
-	if (fread (hdata, 1, 4, r->f) != 4)
+	header = gsf_input_read (r->input, 4, NULL);
+	if (header == NULL)
 		return FALSE;
 
-	r->type = gnumeric_get_le_uint16 (hdata);
-	r->len  = gnumeric_get_le_uint16 (hdata + 2);
+	r->type = gnumeric_get_le_uint16 (header);
+	r->len  = gnumeric_get_le_uint16 (header + 2);
 
 #if LOTUS_DEBUG > 0
 	printf ("Record 0x%x length 0x%x\n", r->type, r->len);
 #endif
 
-	if (fread (r->data, 1, r->len, r->f) != r->len)
-		return FALSE;
-
-	return TRUE;
+	r->data = gsf_input_read (r->input, r->len, NULL);
+	return (r->data != NULL);
 }
 
 static void
 record_destroy (record_t *r)
 {
 	if (r) {
-		g_free (r->data);
 		r->data = NULL;
 		g_free (r);
 	}
@@ -204,7 +202,7 @@ attach_sheet (Workbook *wb, int idx)
 
 /* buf was old siag wb / sheet */
 static gboolean
-read_workbook (Workbook *wb, FILE *f)
+read_workbook (Workbook *wb, GsfInput *input)
 {
 	gboolean result = TRUE;
 	int sheetidx = 0;
@@ -213,7 +211,7 @@ read_workbook (Workbook *wb, FILE *f)
 
 	sheet = attach_sheet (wb, sheetidx++);
 
-	r = record_new (f);
+	r = record_new (input);
 
 	while (record_next (r)) {
 		Cell    *cell;
@@ -296,20 +294,9 @@ read_workbook (Workbook *wb, FILE *f)
 }
 
 void
-lotus_read (IOContext *io_context, Workbook *wb, const char *filename)
+lotus_read (IOContext *io_context, Workbook *wb, GsfInput *input)
 {
-	FILE *f;
-	ErrorInfo *error;
-
-	f = gnumeric_fopen_error_info (filename, "rb", &error);
-	if (f == NULL) {
-		gnumeric_io_error_info_set (io_context, error);
-		return;
-	}
-
-	if (!read_workbook (wb, f)) {
-		gnumeric_io_error_string (io_context, _("Error while reading lotus workbook."));
-	}
-
-	fclose (f);
+	if (!read_workbook (wb, input))
+		gnumeric_io_error_string (io_context,
+			_("Error while reading lotus workbook."));
 }

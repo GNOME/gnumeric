@@ -9,9 +9,9 @@
 #ifndef GNUMERIC_EXCEL_H
 #define GNUMERIC_EXCEL_H
 
-#include <libole2/ms-ole.h>
-
 #include "gnumeric.h"
+#include <libole2/ms-ole.h>
+#include <gsf/gsf.h>
 
 typedef gboolean (*MsExcelReadGbFn) (IOContext *context, Workbook *wb, MsOle *f);
 extern MsExcelReadGbFn ms_excel_read_gb;
@@ -24,8 +24,8 @@ typedef enum { MS_BIFF_V2 = 2,
 	       MS_BIFF_V8 = 8, /* Excel 97 */
 	       MS_BIFF_V_UNKNOWN = 0} MsBiffVersion ;
 
-extern void   ms_excel_read_workbook  (IOContext *context,
-                                       WorkbookView *new_wb, MsOle *file);
+void ms_excel_read_workbook (IOContext *context,
+			     WorkbookView *new_wb, GsfInput *input);
 /*
  * Here's why the state which is carried from excel_check_write to
  * ms_excel_write_workbook is void *: The state is actually an

@@ -5,6 +5,8 @@
  * EMail: thron@gmx.de
  * Copyright (c) 2001 Andreas J. Guelzow
  * EMail: aguelzow@taliesin.ca
+ * Copyright (c) 2002 Jody Goldberg
+ * EMail: jody@gnome.org
  *
  * Contributors :
  *   Almer. S. Tigelaar <almer1@dds.nl>
@@ -44,7 +46,9 @@
 #include "style-border.h"
 #include <rendered-value.h>
 
-#include <errno.h>
+#include <gsf/gsf-input.h>
+#include <libxml/HTMLparser.h>
+#include <libxml/HTMLtree.h>
 #include <ctype.h>
 #include <string.h>
 
@@ -53,90 +57,15 @@
 #define HTML_RIGHT	4
 #define HTML_CENTER	8
 
-static int
-has_prefix (guchar const *txt, guchar const *prefix)
-{
-	return strncmp (txt, prefix, strlen (prefix)) == 0;
-}
-
-static char *
-html_get_string (guchar const *s, int *flags, guchar const **last)
-{
-#define LINESIZE 1024
-	static char buf[LINESIZE];
-	char const *p;
-	char *q;
-
-	buf[0] = buf[LINESIZE - 1] = '\0';
-	if (!s)
-		return NULL;
-	q = buf;
-	p = s;
-	while (*p) {
-		if (*p == '<') {
-			if (!strncasecmp (p + 1, "/td>", 4)) {
-				p += 5;
-				break;
-			}
-			if (p[2] == '>') {
+#if 0
 				if (p[1] == 'i' || p[1] == 'I')
 					*flags |= HTML_ITALIC;
 				else if (p[1] == 'b' || p[1] == 'B')
 					*flags |= HTML_BOLD;
-			}
-			p = strchr (p, '>');
-			if (p == NULL)
-				break;
-		} else if (*p == '&') {
-			if (has_prefix (p, "&lt;")) {
-				*q++ = '<';
-				p += 3;
-			} else if (has_prefix (p, "&gt;")) {
-				*q++ = '>';
-				p += 3;
-			} else if (has_prefix (p, "&amp;")) {
-				*q++ = '&';
-				p += 4;
-			} else if (has_prefix (p, "&apos;")) {
-				*q++ = '\'';
-				p += 5;
-			} else if (has_prefix (p, "&quot;")) {
-				*q++ = '\"';
-				p += 5;
-			} else {
-				*q++ = *p;
-			}
-		} else if (*p == '\n') {
-			break;
-		} else {
-			*q++ = *p;
-		}
-		p++;
-	}
-	*last = p;
-	*q = '\0';
-	return buf;
-}
-
-/* quick utility to do a case insensitive search for tags */
-static char const *
-findtag (char const *buf, char const *tag)
-{
-	int n;
-	g_return_val_if_fail (*tag == '<', NULL);
-
-	n = strlen (tag);
-
-	--buf;
-	do {
-		buf = strchr (buf + 1, '<');
-	} while (buf != NULL && strncasecmp (buf, tag, n));
-	return buf;
-}
-
+#endif
 static void
-html32_read_buffer (IOContext *io_context, WorkbookView *wb_view, 
-		    guchar const *buf, int buf_size)
+html_read_buffer (IOContext *io_context, WorkbookView *wb_view, 
+		  guchar const *buf, int buf_size)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 	Sheet *sheet;
@@ -238,18 +167,164 @@ quick_hack :
 	}
 }
 
-void
-html32_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                  WorkbookView *wb_view, char const *file_name)
+static void
+html_search_for_tables (xmlNodePtr cur)
 {
-	guchar const *buf;
-	int buf_size, fd;
+#if 0
+    const htmlElemDesc * info;
 
-	g_return_if_fail (file_name != NULL);
+    if (cur == NULL) {
+        xmlGenericError(xmlGenericErrorContext,
+		"htmlNodeDumpFormatOutput : node == NULL\n");
+	return;
+    }
+    /*
+     * Special cases.
+     */
+    if (cur->type == XML_DTD_NODE)
+	return;
+    if (cur->type == XML_HTML_DOCUMENT_NODE) {
+	htmlDocContentDumpOutput(buf, (xmlDocPtr) cur, encoding);
+	return;
+    }
+    if (cur->type == HTML_TEXT_NODE) {
+	if (cur->content != NULL) {
+	    if (((cur->name == (const xmlChar *)xmlStringText) ||
+		 (cur->name != (const xmlChar *)xmlStringTextNoenc)) &&
+		((cur->parent == NULL) ||
+		 (!xmlStrEqual(cur->parent->name, BAD_CAST "script")))) {
+		xmlChar *buffer;
 
-	buf = gnumeric_mmap_open (io_context, file_name, &fd, &buf_size);
-	if (buf == NULL)
-		return;
-	html32_read_buffer (io_context, wb_view, buf, buf_size);
-	gnumeric_mmap_close (io_context, buf, fd, buf_size);
+		buffer = xmlEncodeEntitiesReentrant(doc, cur->content);
+		if (buffer != NULL) {
+		    xmlOutputBufferWriteString(buf, (const char *)buffer);
+		    xmlFree(buffer);
+		}
+	    } else {
+		xmlOutputBufferWriteString(buf, (const char *)cur->content);
+	    }
+	}
+	return;
+    }
+    /*
+     * Get specific HTML info for that node.
+     */
+    info = htmlTagLookup(cur->name);
+
+    xmlOutputBufferWriteString(buf, "<");
+    xmlOutputBufferWriteString(buf, (const char *)cur->name);
+    if (cur->properties != NULL)
+        htmlAttrListDumpOutput(buf, doc, cur->properties, encoding);
+
+    if ((info != NULL) && (info->empty)) {
+        xmlOutputBufferWriteString(buf, ">");
+	if ((format) && (!info->isinline) && (cur->next != NULL)) {
+	    if ((cur->next->type != HTML_TEXT_NODE) &&
+		(cur->next->type != HTML_ENTITY_REF_NODE) &&
+		(cur->parent != NULL) &&
+		(!xmlStrEqual(cur->parent->name, BAD_CAST "pre")))
+		xmlOutputBufferWriteString(buf, "\n");
+	}
+	return;
+    }
+    if (((cur->type == XML_ELEMENT_NODE) || (cur->content == NULL)) &&
+	(cur->children == NULL)) {
+        if ((info != NULL) && (info->saveEndTag != 0) &&
+	    (xmlStrcmp(BAD_CAST info->name, BAD_CAST "html")) &&
+	    (xmlStrcmp(BAD_CAST info->name, BAD_CAST "body"))) {
+	    xmlOutputBufferWriteString(buf, ">");
+	} else {
+	    xmlOutputBufferWriteString(buf, "></");
+	    xmlOutputBufferWriteString(buf, (const char *)cur->name);
+	    xmlOutputBufferWriteString(buf, ">");
+	}
+	if ((format) && (cur->next != NULL) &&
+            (info != NULL) && (!info->isinline)) {
+	    if ((cur->next->type != HTML_TEXT_NODE) &&
+		(cur->next->type != HTML_ENTITY_REF_NODE) &&
+		(cur->parent != NULL) &&
+		(!xmlStrEqual(cur->parent->name, BAD_CAST "pre")))
+		xmlOutputBufferWriteString(buf, "\n");
+	}
+	return;
+    }
+    xmlOutputBufferWriteString(buf, ">");
+    if ((cur->type != XML_ELEMENT_NODE) &&
+	(cur->content != NULL)) {
+	    /*
+	     * Uses the OutputBuffer property to automatically convert
+	     * invalids to charrefs
+	     */
+
+            xmlOutputBufferWriteString(buf, (const char *) cur->content);
+    }
+    if (cur->children != NULL) {
+        if ((format) && (info != NULL) && (!info->isinline) &&
+	    (cur->children->type != HTML_TEXT_NODE) &&
+	    (cur->children->type != HTML_ENTITY_REF_NODE) &&
+	    (cur->children != cur->last) &&
+	    (!xmlStrEqual(cur->name, BAD_CAST "pre")))
+	    xmlOutputBufferWriteString(buf, "\n");
+	htmlNodeListDumpOutput(buf, doc, cur->children, encoding, format);
+        if ((format) && (info != NULL) && (!info->isinline) &&
+	    (cur->last->type != HTML_TEXT_NODE) &&
+	    (cur->last->type != HTML_ENTITY_REF_NODE) &&
+	    (cur->children != cur->last) &&
+	    (!xmlStrEqual(cur->name, BAD_CAST "pre")))
+	    xmlOutputBufferWriteString(buf, "\n");
+    }
+    xmlOutputBufferWriteString(buf, "</");
+    xmlOutputBufferWriteString(buf, (const char *)cur->name);
+    xmlOutputBufferWriteString(buf, ">");
+    if ((format) && (info != NULL) && (!info->isinline) &&
+	(cur->next != NULL)) {
+        if ((cur->next->type != HTML_TEXT_NODE) &&
+	    (cur->next->type != HTML_ENTITY_REF_NODE) &&
+	    (cur->parent != NULL) &&
+	    (!xmlStrEqual(cur->parent->name, BAD_CAST "pre")))
+	    xmlOutputBufferWriteString(buf, "\n");
+    }
+#endif
+}
+
+void
+html_file_open (GnumFileOpener const *fo, IOContext *io_context,
+		WorkbookView *wb_view, GsfInput *input)
+{
+	guint8 const *buf;
+	int size, len;
+	htmlParserCtxtPtr ctxt;
+	htmlDocPtr doc = NULL;
+
+	g_return_if_fail (input != NULL);
+
+	size = gsf_input_size (input) - 4;
+	buf = gsf_input_read (input, 4, NULL);
+	if (buf != NULL) {
+		ctxt = htmlCreatePushParserCtxt (NULL, NULL,
+			buf, 4, gsf_input_name (input), 0);
+
+		for (; size > 0 ; size -= len) {
+			len = 4096;
+			if (len > size)
+				len =  size;
+		       buf = gsf_input_read (input, len, NULL);
+		       if (buf == NULL)
+			       break;
+		       htmlParseChunk (ctxt, buf, len, 0);
+		}
+
+		htmlParseChunk (ctxt, buf, 0, 1);
+		doc = ctxt->myDoc;
+		htmlFreeParserCtxt (ctxt);
+	}
+
+	if (doc != NULL) {
+		xmlNodePtr ptr;
+		for (ptr = doc->children; ptr != NULL ; ptr = ptr->next)
+			html_search_for_tables (ptr);
+		xmlFreeDoc (doc);
+	} else
+		gnumeric_io_error_info_set (io_context,
+			error_info_new_str (_("Unable to parse the html.")));
 }

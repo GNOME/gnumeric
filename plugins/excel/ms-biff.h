@@ -10,6 +10,7 @@
 #define GNUMERIC_BIFF_H
 
 #include <libole2/ms-ole.h>
+#include <gsf/gsf.h>
 #include "rc4.h"
 #include "md5.h"
 
@@ -31,7 +32,7 @@ typedef struct {
 	guint8	 *data, *non_decrypted_data;
 
 	guint32 streamPos;
-	MsOleStream *pos;
+	GsfInput *input;
 
 	gboolean is_encrypted;
 	RC4_KEY	 rc4_key;
@@ -41,7 +42,7 @@ typedef struct {
 } BiffQuery;
 
 /* Sets up a query on a stream */
-BiffQuery  *ms_biff_query_new         (MsOleStream *);
+BiffQuery  *ms_biff_query_new         (GsfInput *);
 gboolean    ms_biff_query_set_decrypt (BiffQuery *q, char const *password);
 
 /* Updates the BiffQuery structure with the next BIFF record

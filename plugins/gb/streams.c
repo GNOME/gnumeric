@@ -127,7 +127,7 @@ gb_ole_stream_new (MsOleVba *vba)
 
 
 GBLexerStream *
-gb_project_stream (gpointer *jody_broke_the_ctx, MsOle *f)
+gb_project_stream (IOContext *context, MsOle *f)
 {
 	MsOleStream   *s;
 	GBLexerStream *proj_stream;

@@ -50,6 +50,7 @@
 #endif
 
 #include <libgnome/gnome-i18n.h>
+#include <gsf/gsf-input.h>
 #include <locale.h>
 
 #undef G_LOG_DOMAIN
@@ -2152,8 +2153,11 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 				 *       clarifies the behaviour to be the std
 				 *       unicode format rather than the pure
 				 *       length version the docs describe.
+				 *
+				 * NOTE : Apparently some apps actually store a
+				 *        0 length string record for an empty.
 				 */
-				guint16 const len = MS_OLE_GET_GUINT16 (q->data);
+				guint16 const len = (q->data != NULL) ? MS_OLE_GET_GUINT16 (q->data) : 0;
 
 				if (len > 0)
 					v = biff_get_text (q->data + 2, len, NULL);
@@ -2320,6 +2324,8 @@ ms_excel_read_comment (BiffQuery *q, ExcelSheet *esheet)
 static void
 ms_excel_sheet_destroy (ExcelSheet *esheet, gboolean destroy_gnumeric_sheet)
 {
+	if (esheet == NULL)
+		return;
 	if (esheet->shared_formulae != NULL) {
 		g_hash_table_foreach_remove (esheet->shared_formulae,
 					     (GHRFunc)biff_shared_formula_destroy,
@@ -4554,35 +4560,17 @@ ms_excel_read_bof (BiffQuery	 *q,
 
 void
 ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
-                        MsOle *file)
+                        GsfInput *input)
 {
 	ExcelWorkbook *wb = NULL;
-	MsOleStream *stream;
-	MsOleErr     result;
 	BiffQuery *q;
 	MsBiffBofData *ver = NULL;
 	int current_sheet = 0;
 	char *problem_loading = NULL;
 
-	/* Find that book file */
-	/* Look for workbook before book so that we load the office97
-	 * format rather than office5 when there are multiple streams. */
-	result = ms_ole_stream_open (&stream, file, "/", "workbook", 'r');
-	if (result != MS_OLE_ERR_OK) {
-		ms_ole_stream_close (&stream);
-
-		result = ms_ole_stream_open (&stream, file, "/", "book", 'r');
-		if (result != MS_OLE_ERR_OK) {
-			ms_ole_stream_close (&stream);
-			gnumeric_io_error_read (context,
-				 _("No book or workbook streams found."));
-			return;
-		}
-	}
-
 	io_progress_message (context, _("Reading file..."));
-	value_io_progress_set (context, stream->size, N_BYTES_BETWEEN_PROGRESS_UPDATES);
-	q = ms_biff_query_new (stream);
+	value_io_progress_set (context, gsf_input_size (input), N_BYTES_BETWEEN_PROGRESS_UPDATES);
+	q = ms_biff_query_new (input);
 
 	while (problem_loading == NULL && ms_biff_query_next (q)) {
 		d (5, printf ("Opcode: 0x%x\n", q->opcode););
@@ -4839,7 +4827,6 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	ms_biff_query_destroy (q);
 	if (ver)
 		ms_biff_bof_data_destroy (ver);
-	ms_ole_stream_close (&stream);
 	io_progress_unset (context);
 
 	d (1, printf ("finished read\n"););
