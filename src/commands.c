@@ -1266,6 +1266,8 @@ cmd_format_destroy (GtkObject *cmd)
  * If borders is non NULL, then the StyleBorder references are passed,
  * the MStyle reference is also passed.
  *
+ * It absorbs the reference to the style.
+ *
  * Return value: TRUE if there was a problem
  **/
 gboolean

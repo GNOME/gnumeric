@@ -1,3 +1,10 @@
+2001-02-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/style-border.c (style_borders_row_draw) : init x.
+	(style_borders_row_print) : init x.
+
+	* src/print-cell.c (print_cell_range) : typo.
+
 2001-02-06  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/gui-clipboard.c (x_selection_to_cell_region):

@@ -1,3 +1,8 @@
+2001-02-06  Jody Goldberg <jgoldberg@home.com>
+
+	* html.c (html_fprintf) : escape more characters
+	(html_get_string) : unescape more characters.
+
 2001-02-03  Jody Goldberg <jgoldberg@home.com>
 
 	* html.c (html_read) : Make it suck slightly less.

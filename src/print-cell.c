@@ -777,7 +777,7 @@ print_cell_range (GnomePrintContext *context,
 				MERGE_DEBUG (r, " : unused -> active\n");
 
 				print_merged_range (context, sheet,
-						    x, y, &view, r);
+						    base_x, y, &view, r);
 			} else {
 				lag = &(ptr->next);
 				ptr = ptr->next;

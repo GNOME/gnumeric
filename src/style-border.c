@@ -552,7 +552,7 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 			Sheet const *sheet, gboolean draw_vertical)
 {
 	int o[2][2];
-	int col, next_x;
+	int col, next_x = x;
 	GdkGC *gc;
 
 	for (col = sr->start_col; col <= sr->end_col ; col++, x = next_x) {
@@ -627,7 +627,7 @@ style_borders_row_print (StyleBorder const * const * prev_vert,
 			 Sheet const *sheet, gboolean draw_vertical)
 {
 	int o[2][2], col;
-	float next_x;
+	float next_x = x;
 
 	for (col = sr->start_col; col <= sr->end_col ; col++, x = next_x) {
 		/* TODO : make this sheet agnostic.  Pass in an array of

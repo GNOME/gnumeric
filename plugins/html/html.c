@@ -70,6 +70,15 @@ html_fprintf (FILE *fp, const char *s)
 			case '>':
 				fprintf (fp, "&gt;");
 				break;
+			case '&':
+				fprintf (fp, "&amp;");
+				break;
+			case '\'':
+				fprintf (fp, "&apos;");
+				break;
+			case '\"':
+				fprintf (fp, "&quot;");
+				break;
 			default:
 				fprintf (fp, "%c", *p);
 				break;
@@ -383,6 +392,15 @@ html_get_string (char const *s, int *flags, char const **last)
 			} else if (strstr (p, "&gt;")) {
 				*q++ = '>';
 				p += 3;
+			} else if (strstr (p, "&amp;")) {
+				*q++ = '&';
+				p += 4;
+			} else if (strstr (p, "&apos;")) {
+				*q++ = '\'';
+				p += 5;
+			} else if (strstr (p, "&quot;")) {
+				*q++ = '\"';
+				p += 5;
 			} else {
 				*q++ = *p;
 			}

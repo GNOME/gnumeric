@@ -10,7 +10,10 @@ Release Critical
 - Fix Borders
     - diagonals
     - use new border code for autoformat-previews
+    - sheet_uniform is broken by the NULLing of border-none around cells with
+      backgrounds
     * use new border code for cell format dialog
+    * adjust to the different stroking techniques for rendering vs printing.
 
 Long term breakage
 ------------------
