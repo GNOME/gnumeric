@@ -354,8 +354,8 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 	gdk_gc_set_line_attributes (ic->gc, 1,
 		GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
-	gdk_gc_set_foreground (ic->gc, &gs_black);
-	gdk_gc_set_background (ic->gc, &gs_white);
+	gdk_gc_set_rgb_fg_color (ic->gc, &gs_black);
+	gdk_gc_set_rgb_bg_color (ic->gc, &gs_white);
 
 	if (draw_external) {
 		switch (draw_handle) {
@@ -455,8 +455,8 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	}
 
 	if (draw_center) {
-		gdk_gc_set_foreground (ic->gc, fore);
-		gdk_gc_set_background (ic->gc, back);
+		gdk_gc_set_rgb_fg_color (ic->gc, fore);
+		gdk_gc_set_rgb_bg_color (ic->gc, back);
 
 		if (draw_stippled) {
 			gdk_gc_set_fill (ic->gc, GDK_STIPPLED);

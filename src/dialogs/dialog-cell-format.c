@@ -387,7 +387,7 @@ setup_color_pickers (ColorPicker *picker,
 		(color_group,
 		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 
-	def_gc = def_sc ? &def_sc->color : &gs_black;
+	def_gc = def_sc ? &def_sc->color : &GTK_WIDGET (state->dialog)->style->black;
 
 	combo = color_combo_new (NULL, default_caption, def_gc, cg);
 	g_signal_connect (G_OBJECT (combo),
@@ -2813,7 +2813,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	int i, selected;
 	char const *name;
 	gboolean has_back;
-	GdkColor *default_border_color = &gs_black;
+	GdkColor *default_border_color;
 	int default_border_style = STYLE_BORDER_THIN;
 
 	GtkWidget *tmp, *dialog = glade_xml_get_widget (state->gui, "CellFormat");
@@ -2833,6 +2833,8 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	state->back.grid        = NULL;
 	state->back.style             = mstyle_new_default ();
 	state->back.pattern.cur_index = 0;
+
+	default_border_color = &GTK_WIDGET (state->dialog)->style->black;
 
 	if (pageno == FD_CURRENT)
 		pageno = fmt_dialog_page;

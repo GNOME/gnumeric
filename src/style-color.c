@@ -12,13 +12,14 @@
 #include <gtk/gtk.h>
 #include <gal/widgets/e-colors.h>
 
-static gboolean color_inited = FALSE;
+/* Public _unallocated_ colours, i.e., no valid .pixel.  */
+GdkColor gs_black      = { 0, 0x0000, 0x0000, 0x0000 };    /* "Black" */
+GdkColor gs_white      = { 0, 0xffff, 0xffff, 0xffff };    /* "White" */
+GdkColor gs_yellow     = { 0, 0xffff, 0xffff, 0xe0e0 };    /* "LightYellow" */
+GdkColor gs_lavender   = { 0, 0xe6e6, 0xe6e6, 0xfafa };    /* "lavender" */
+GdkColor gs_dark_gray  = { 0, 0x3333, 0x3333, 0x3333 };    /* "gray20" */
+GdkColor gs_light_gray = { 0, 0xc7c7, 0xc7c7, 0xc7c7 };    /* "gray78" */
 
-/* _Unallocated_ colours, i.e., no valid .pixel.  */
-GdkColor gs_yellow = { 0, 0xffff, 0xffff, 0xe0e0 };  /* "LightYellow" */
-
-/* Public colors: shared by all of our items in Gnumeric */
-GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray, gs_lavender;
 static GHashTable *style_color_hash;
 
 StyleColor *
@@ -218,31 +219,27 @@ color_hash (gconstpointer v)
 void
 gnumeric_color_init (void)
 {
-	e_color_init ();
+	GdkColor error;
 
-#warning "FIXME: Colours won't work on multiple screens."
 	/*
-	 * See http://bugzilla.ximian.com/show_bug.cgi?id=43377.  (We have
-	 * that problem for all gs_* colours.)
+	 * Make sure we can see bogus attempt at getting the pixel
+	 * value.  This is, by nature, not multi-head safe.
 	 */
-	gs_white = e_white;
-	gs_black = e_black;
-	e_color_alloc_name (NULL, "gray78",	 &gs_light_gray);
-	e_color_alloc_name (NULL, "gray20",	 &gs_dark_gray);
-	e_color_alloc_name (NULL, "lavender",	 &gs_lavender);
+	e_color_alloc_name (NULL, "cyan", &error);
+	gs_black.pixel = error.pixel;
+	gs_white.pixel = error.pixel;
+	gs_yellow.pixel =  error.pixel;
+	gs_lavender.pixel =  error.pixel;
+	gs_dark_gray.pixel =  error.pixel;
+	gs_light_gray.pixel =  error.pixel;
 
 	style_color_hash  = g_hash_table_new (color_hash,
 					      (GEqualFunc) style_color_equal);
-
-	color_inited = TRUE;
 }
 
 void
 gnumeric_color_shutdown (void)
 {
-	g_return_if_fail (color_inited);
-
-	color_inited = FALSE;
 	g_hash_table_destroy (style_color_hash);
 	style_color_hash = NULL;
 }

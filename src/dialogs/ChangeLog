@@ -2,6 +2,8 @@
 
 	* dialog-cell-format.c (cb_rotate_canvas_realize): Plug "white"
 	out of the style.
+	(setup_color_pickers): Plug "black" out of the style.
+	(fmt_dialog_impl): Ditto.
 
 	* dialog-stf-preview.c (stf_preview_draw_text,
 	stf_preview_get_displayed_rowcount):

@@ -334,7 +334,7 @@ preview_grid_realize (FooCanvasItem *item)
 	 * This makes the redraws when the canvas scrolls flicker less.
 	 */
 	style = gtk_style_copy (GTK_WIDGET (item->canvas)->style);
-	style->bg [GTK_STATE_NORMAL] = gs_white;
+	style->bg[GTK_STATE_NORMAL] = style->white;
 	gtk_widget_set_style (GTK_WIDGET (item->canvas), style);
 	g_object_unref (style);
 
@@ -343,8 +343,8 @@ preview_grid_realize (FooCanvasItem *item)
 	pg->gc.cell  = gdk_gc_new (window);
 	pg->gc.empty = gdk_gc_new (window);
 
-	gdk_gc_set_foreground (pg->gc.fill, &gs_white);
-	gdk_gc_set_background (pg->gc.fill, &gs_light_gray);
+	gdk_gc_set_rgb_fg_color (pg->gc.fill, &gs_white);
+	gdk_gc_set_rgb_bg_color (pg->gc.fill, &gs_light_gray);
 	gdk_gc_set_fill (pg->gc.cell, GDK_SOLID);
 
 	/* Initialize hard-coded defaults */

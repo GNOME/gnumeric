@@ -356,7 +356,7 @@ item_edit_realize (FooCanvasItem *item)
 
 	ie->fill_gc = gdk_gc_new (GTK_WIDGET (item->canvas)->window);
 	if (!gnumeric_background_set_gc (ie->style, ie->fill_gc, item->canvas, FALSE))
-		gdk_gc_set_foreground (ie->fill_gc, &gs_white);
+		gdk_gc_set_rgb_fg_color (ie->fill_gc, &gs_white);
 }
 
 static void

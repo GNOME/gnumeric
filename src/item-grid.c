@@ -152,10 +152,10 @@ item_grid_realize (FooCanvasItem *item)
 	ig->gc.empty = gdk_gc_new (window);
 	ig->gc.bound = gdk_gc_new (window);
 
-	gdk_gc_set_foreground (ig->gc.fill,  &gs_white);
-	gdk_gc_set_background (ig->gc.fill,  &gs_light_gray);
+	gdk_gc_set_rgb_fg_color (ig->gc.fill,  &gs_white);
+	gdk_gc_set_rgb_bg_color (ig->gc.fill,  &gs_light_gray);
 	gdk_gc_set_fill (ig->gc.cell, GDK_SOLID);
-	gdk_gc_set_foreground (ig->gc.bound, &gs_black);
+	gdk_gc_set_rgb_fg_color (ig->gc.bound, &gs_black);
 	gdk_gc_set_line_attributes (ig->gc.bound, 3, GDK_LINE_SOLID,
 				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
 }

@@ -150,12 +150,8 @@ gnumeric_background_set_gc (MStyle const *mstyle, GdkGC *gc,
 		}
 		return TRUE;
 	} else if (is_selected) {
-		/* No need to reset the gc to white if not selected
-		 * we only paint a cell packground if it is non-white */
-		values.fill = GDK_SOLID;
-		values.foreground = gs_lavender;
-		gdk_gc_set_values (gc, &values,
-			GDK_GC_FILL | GDK_GC_FOREGROUND);
+		gdk_gc_set_fill (gc, GDK_SOLID);
+		gdk_gc_set_rgb_fg_color (gc, &gs_lavender);
 	}
 	return FALSE;
 }
@@ -231,13 +227,13 @@ gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
 			gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);
-			gdk_gc_set_foreground (gc, &pat_col->color);
-			gdk_gc_set_background (gc, back);
+			gdk_gc_set_rgb_fg_color (gc, &pat_col->color);
+			gdk_gc_set_rgb_bg_color (gc, back);
 			gdk_gc_set_stipple (gc, gnumeric_pattern_get_stipple (pattern));
 			foo_canvas_set_stipple_origin (canvas, gc);
 		} else {
 			gdk_gc_set_fill (gc, GDK_SOLID);
-			gdk_gc_set_foreground (gc, back);
+			gdk_gc_set_rgb_fg_color (gc, back);
 		}
 #endif
 		return TRUE;

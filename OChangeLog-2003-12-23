@@ -1,10 +1,26 @@
 2003-05-20  Morten Welinder  <terra@gnome.org>
 
+	* src/style-border.c (style_border_set_gc_dash): Use
+	gdk_gc_set_rgb_fg_color, not gdk_gc_set_foreground.  USe
+	gdk_gc_set_rgb_bg_color, not gdk_gc_set_background.
+	(style_border_none_set_color): Ditto.
+	(style_border_get_gc): Ditto.
+
+	* src/item-grid.c (item_grid_realize): Ditto.
+	* src/item-cursor.c (item_cursor_draw): Ditto.
+	* src/pattern.c (gnumeric_background_set_pc): Ditto.  (#if 0'ed.)
+	(gnumeric_background_set_gc): Ditto, more or less.
+
+	* src/preview-grid.c (preview_grid_realize): Plug "white" out of
+	the style.  Use gdk_gc_set_rgb_fg_color, not
+	gdk_gc_set_foreground.
+
 	* src/gnumeric-canvas.c (gnm_canvas_realize): Plug "white" out of
 	the style.
 
-	* src/style-color.c (gnumeric_color_init): Make gs_yellow an
-	unallocated colour.  Eliminate unused gs_red.
+	* src/style-color.c (gnumeric_color_init): Make gs_yellow,
+	gs_white, gs_black, gs_dark_gray, gs_light_gray, and gs_lavender
+	unallocated colours.  Eliminate unused gs_red.
 
 	* src/item-bar.c (item_bar_realize): Use gdk_gc_set_rgb_fg_color,
 	not gdk_gc_set_foreground for multi-head support.
