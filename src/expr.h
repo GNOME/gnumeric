@@ -191,6 +191,7 @@ Value      *eval_expr            (Sheet *sheet, ExprTree *tree,
 extern Value *value_zero;
 Value       *value_new_float       (float_t f);
 Value       *value_new_int         (int i);
+Value       *value_new_bool        (gboolean b);
 Value       *value_new_string      (const char *str);
 Value       *value_new_cellrange   (const CellRef *a, const CellRef *b);
 

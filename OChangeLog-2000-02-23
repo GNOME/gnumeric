@@ -1,4 +1,25 @@
+Sun Jun 13 14:16:16 1999  Morten Welinder  <welinder@rentec.com>
+
+	* src/fn-information.c (gnumeric_isblank): Return boolean.
+	(gnumeric_iseven): Ditto.
+	(gnumeric_islogical): Ditto.
+	(gnumeric_isnontext): Ditto.
+	(gnumeric_isnumber): Ditto.
+	(gnumeric_isodd): Ditto.
+	(gnumeric_isref): Ditto.
+	(gnumeric_istext): Ditto.
+	(gnumeric_n): Ditto.
+
 1999-06-13  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (value_new_bool): New function.
+	(eval_expr): Return boolean Values.
+
+	* src/fn-logical.c (callback_function_and): Simplify.
+	(callback_function_or): Ditto.
+	(gnumeric_and): Simplify and return boolean Values.
+	(gnumeric_not): Ditto.
+	(gnumeric_if): Fix error case.  Simplify.
 
 	* src/cell.c (cell_comment_destroy): Free realized_list.
 

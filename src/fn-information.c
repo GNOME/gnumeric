@@ -220,7 +220,7 @@ gnumeric_isblank (struct FunctionDefinition *n,
 	/* TODO TODO TODO
 	 * Fill in the blank
 	 */
-	return value_new_int (result);
+	return value_new_bool (result);
 }
 
 
@@ -242,7 +242,7 @@ gnumeric_iseven (struct FunctionDefinition *n,
 	/* TODO TODO TODO
 	 * Fill in the blank
 	 */
-	return value_new_int (result);
+	return value_new_bool (result);
 }
 
 
@@ -264,7 +264,7 @@ gnumeric_islogical (struct FunctionDefinition *n,
 	/* TODO TODO TODO
 	 * Fill in the blank
 	 */
-	return value_new_int (result);
+	return value_new_bool (result);
 }
 
 
@@ -286,7 +286,7 @@ gnumeric_isnontext (struct FunctionDefinition *n,
 	/* TODO TODO TODO
 	 * Fill in the blank
 	 */
-	return value_new_int (result);
+	return value_new_bool (result);
 }
 
 
@@ -306,7 +306,7 @@ gnumeric_isnumber (struct FunctionDefinition *n,
 {
 	/* FIXME FIXME FIXME */
 	/* Do I need to run strtod on a string too ?? */
-	return value_new_int (VALUE_IS_NUMBER (argv [0]));
+	return value_new_bool (VALUE_IS_NUMBER (argv [0]));
 }
 
 
@@ -328,7 +328,7 @@ gnumeric_isodd (struct FunctionDefinition *n,
 	/* TODO TODO TODO
 	 * Fill in the blank
 	 */
-	return value_new_int (result);
+	return value_new_bool (result);
 }
 
 
@@ -350,7 +350,7 @@ gnumeric_isref (struct FunctionDefinition *n,
 	/* TODO TODO TODO
 	 * Fill in the blank
 	 */
-	return value_new_int (result);
+	return value_new_bool (result);
 }
 
 
@@ -372,7 +372,7 @@ gnumeric_istext (struct FunctionDefinition *n,
 	/* TODO TODO TODO
 	 * Fill in the blank
 	 */
-	return value_new_int (result);
+	return value_new_bool (result);
 }
 
 
@@ -394,7 +394,7 @@ gnumeric_n (struct FunctionDefinition *n,
 	/* TODO TODO TODO
 	 * Fill in the blank
 	 */
-	return value_new_int (result);
+	return value_new_bool (result);
 }
 
 

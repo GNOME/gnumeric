@@ -303,6 +303,14 @@ value_new_int (int i)
 }
 
 Value *
+value_new_bool (gboolean b)
+{
+	/* Currently our booleans are really just ints.  This will have to
+	   change if we want Excel's ISLOGICAL.  */
+	return value_new_int (b ? 1 : 0);
+}
+
+Value *
 value_new_string (const char *str)
 {
 	Value *v = g_new (Value, 1);
@@ -999,27 +1007,27 @@ eval_expr (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 
 		switch (tree->oper){
 		case OPER_EQUAL:
-			res = value_new_int (comp == IS_EQUAL);
+			res = value_new_bool (comp == IS_EQUAL);
 			break;
 
 		case OPER_GT:
-			res = value_new_int (comp == IS_GREATER);
+			res = value_new_bool (comp == IS_GREATER);
 			break;
 
 		case OPER_LT:
-			res = value_new_int (comp == IS_LESS);
+			res = value_new_bool (comp == IS_LESS);
 			break;
 
 		case OPER_LTE:
-			res = value_new_int (comp == IS_EQUAL || comp == IS_LESS);
+			res = value_new_bool (comp == IS_EQUAL || comp == IS_LESS);
 			break;
 
 		case OPER_GTE:
-			res = value_new_int (comp == IS_EQUAL || comp == IS_GREATER);
+			res = value_new_bool (comp == IS_EQUAL || comp == IS_GREATER);
 			break;
 
 		case OPER_NOT_EQUAL:
-			res = value_new_int (comp != IS_EQUAL);
+			res = value_new_bool (comp != IS_EQUAL);
 			break;
 
 		default:
