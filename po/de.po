@@ -35,8 +35,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62cvs\n"
-"POT-Creation-Date: 2001-02-11 20:09+0100\n"
-"PO-Revision-Date: 2001-02-11 20:18+01:00\n"
+"POT-Creation-Date: 2001-02-13 06:39+0100\n"
+"PO-Revision-Date: 2001-02-13 07:16+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -94,16 +94,16 @@ msgstr "#UNBEKANNT!"
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:3917
+#: plugins/excel/ms-excel-read.c:3918
 msgid "No book or workbook streams found."
 msgstr "Keine book- oder workbook-Streams gefunden."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4211
+#: plugins/excel/ms-excel-read.c:4212
 msgid "Password protected workbooks are not supported yet."
 msgstr "Passwortgeschützte Arbeitsbücher werden noch nicht unterstützt."
 
-#: plugins/excel/ms-excel-read.c:4332
+#: plugins/excel/ms-excel-read.c:4333
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kann kein gültiges MS-Excel-Arbeitsbuch auffinden."
 
@@ -857,17 +857,17 @@ msgstr ""
 msgid "Total"
 msgstr "Gesamt"
 
-#: src/analysis-tools.c:2809 src/workbook-control-gui.c:2935
+#: src/analysis-tools.c:2809 src/workbook-control-gui.c:2938
 msgid "Count"
 msgstr "Anzahl"
 
 #: src/analysis-tools.c:2810 src/gnumeric.xml.h:186
-#: src/workbook-control-gui.c:2199 src/workbook-control-gui.c:2931
+#: src/workbook-control-gui.c:2199 src/workbook-control-gui.c:2934
 #: src/workbook-view.c:512
 msgid "Sum"
 msgstr "Summe"
 
-#: src/analysis-tools.c:2811 src/workbook-control-gui.c:2934
+#: src/analysis-tools.c:2811 src/workbook-control-gui.c:2937
 msgid "Average"
 msgstr "Mittel"
 
@@ -1182,7 +1182,7 @@ msgstr "Zellen zusammenführen"
 #. Corrected below.
 #: src/commands.c:3133 src/dialogs/search-replace.glade.h:41
 msgid "Search and Replace"
-msgstr "Suchen und Ersetzen"
+msgstr "S_uchen und Ersetzen"
 
 #: src/corba-args.c:25
 msgid "Oaf options"
@@ -1789,9 +1789,11 @@ msgstr "_Zentriert"
 msgid "C_olor"
 msgstr "_Farbe"
 
+# _A is gone.
+# 2001-02-13 07:08:18 CET -ke-
 #: src/dialogs/cell-format.glade.h:20
 msgid "Center _across selection"
-msgstr "Über der _Auswahl zentrieren"
+msgstr "Ü_ber der Auswahl zentrieren"
 
 #: src/dialogs/cell-format.glade.h:21
 msgid "Color"
@@ -1827,7 +1829,7 @@ msgstr "Diagonale Streifen"
 
 #: src/dialogs/cell-format.glade.h:29
 msgid "Display the value exactly as it was entered"
-msgstr "Den Wert genauso darstellen, wie er eingegeben wurde"
+msgstr "Den Wert genauso darstellen, wie er eingegeben wurde."
 
 #: src/dialogs/cell-format.glade.h:30 src/dialogs/dialog-cell-format.c:1216
 #: src/dialogs/dialog-cell-format.c:1282
@@ -1847,13 +1849,16 @@ msgstr "Schrift"
 msgid "Foreground Solid"
 msgstr "Einfarbiger Vordergrund"
 
+# Checkit
+# This message doesn't make that much sense to me...
+# 2001-02-13 07:04:47 CET -ke-
 #: src/dialogs/cell-format.glade.h:34
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
 msgstr ""
-"Allgemein formatierte Zellen versuchen, ein dem Wert der Zelle "
-"entsprechendes Format auszuwählen."
+"Allgemeines Zellenformat.\n"
+"Versuch, ein dem Wert der Zelle entsprechendes Format auszuwählen."
 
 #: src/dialogs/cell-format.glade.h:35
 msgid "Horizontal"
@@ -1875,9 +1880,11 @@ msgstr "Innen horizontal"
 msgid "Inside Vertical"
 msgstr "Innen vertikal"
 
+# _r is gone.
+# 2001-02-13 07:08:59 CET -ke-
 #: src/dialogs/cell-format.glade.h:40
 msgid "J_ustify"
-msgstr "Aus_richten"
+msgstr "Ausrich_ten"
 
 #: src/dialogs/cell-format.glade.h:41
 msgid "Large Circles"
@@ -1971,7 +1978,7 @@ msgstr "Halbkreise"
 
 #: src/dialogs/cell-format.glade.h:63
 msgid "Shrin_k to fit"
-msgstr "Zum Einpassen schrumpfen"
+msgstr "Zum Ein_passen schrumpfen"
 
 #. There must be a better way than this
 #: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:1214
@@ -2060,9 +2067,11 @@ msgstr "Vertikale Streifen"
 msgid "Worksheet _protected"
 msgstr "Arbeitsblatt ge_schützt"
 
+# Shortcuts _B and _u are already gone (_Benutzerdefiniert; Br_uch).
+# 2001-02-13 07:01:41 CET -ke-
 #: src/dialogs/cell-format.glade.h:85
 msgid "_Accounting"
-msgstr "_Buchhaltung"
+msgstr "Bu_chhaltung"
 
 #: src/dialogs/cell-format.glade.h:86
 msgid "_Automatic"
@@ -2140,9 +2149,11 @@ msgstr "Wissensc_haftlich"
 msgid "_Style"
 msgstr "_Stil"
 
+# Shortcut _Z is already gone (_Zahl).
+# 2001-02-13 07:00:15 CET -ke-
 #: src/dialogs/cell-format.glade.h:105
 msgid "_Time"
-msgstr "_Zeit"
+msgstr "Zei_t"
 
 #: src/dialogs/cell-format.glade.h:106
 msgid "_Top"
@@ -3659,9 +3670,11 @@ msgstr "Einen Import-Filter wählen, um die Datei zu laden:"
 msgid "Import"
 msgstr "Import"
 
+# Frame title; shortcut doesn't work here
+# 2001-02-13 06:57:09 CET -ke-
 #: src/dialogs/insert-cells.glade.h:1
 msgid "Insert"
-msgstr "_Einfügen"
+msgstr "Einfügen"
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _column(s)"
@@ -11586,6 +11599,65 @@ msgstr "Details"
 msgid "Unable to open file '%s'"
 msgstr "Datei »%s« kann nicht geöffnet werden"
 
+#: src/gui-file.c:95
+msgid ""
+"Could not import file %s\n"
+"%%s"
+msgstr ""
+"Konnte Datei %s nicht importieren\n"
+"%%s"
+
+#: src/gui-file.c:105
+msgid "No sheets found"
+msgstr ""
+
+#: src/gui-file.c:237
+msgid "File format:"
+msgstr "Dateiformat:"
+
+#: src/gui-file.c:298
+#, c-format
+msgid ""
+"Workbook %s already exists.\n"
+"Do you want to save over it?"
+msgstr ""
+"Arbeitsbuch %s existiert bereits.\n"
+"Wollen Sie es beim Speichern überschreiben?"
+
+#: src/gui-file.c:341
+#, c-format
+msgid ""
+"%s\n"
+"is a directory name"
+msgstr ""
+"%s\n"
+"ist ein Verzeichnisname."
+
+#: src/gui-file.c:350
+#, c-format
+msgid ""
+"You do not have permission to save to\n"
+"%s"
+msgstr ""
+"Sie haben nicht die Rechte nach\n"
+"%s zu speichern."
+
+#: src/gui-file.c:368
+msgid ""
+"Please enter a file name,\n"
+"not a directory"
+msgstr ""
+"Bitte geben Sie einen Dateinamen ein,\n"
+"kein Verzeichnis."
+
+#: src/gui-file.c:407
+msgid "Save workbook as"
+msgstr "Arbeitsbuch speichern als"
+
+#: src/gui-file.c:457
+msgid "Load file"
+msgstr "Datei laden"
+
 #.
 #. * xgettext:
 #. * This string must translate to exactly the same strings as the
@@ -11637,24 +11709,20 @@ msgid "Copy _Values"
 msgstr "_Werte kopieren"
 
 #: src/item-cursor.c:922
-#, fuzzy
 msgid "Shift _Down and Copy"
-msgstr "Zellen nach unten verschieben und kopieren"
+msgstr "Na_ch unten versetzen und kopieren"
 
 #: src/item-cursor.c:924
-#, fuzzy
 msgid "Shift _Right and Copy"
-msgstr "Zellen nach rechts verschieben und kopieren"
+msgstr "Nach _rechts versetzen und kopieren"
 
 #: src/item-cursor.c:926
-#, fuzzy
 msgid "Shift Dow_n and Move"
-msgstr "Zellen nach unten verschieben und bewegen"
+msgstr "_Nach unten versetzen und verschieben"
 
 #: src/item-cursor.c:928
-#, fuzzy
 msgid "Shift Righ_t and Move"
-msgstr "Zellen nach rechts verschieben und bewegen"
+msgstr "Nach rech_ts versetzen und verschieben"
 
 #: src/item-cursor.c:933
 msgid "C_ancel"
@@ -12469,9 +12537,8 @@ msgid "Right justifies the cell contents"
 msgstr "Zelleninhalt rechts ausrichten"
 
 #: src/workbook-format-toolbar.c:422
-#, fuzzy
 msgid "Center across selection"
-msgstr "Über Auswahl zentrieren"
+msgstr "Über der Auswahl zentrieren"
 
 #: src/gnumeric.xml.h:120 src/workbook-format-toolbar.c:426
 msgid "Merge"
@@ -12950,9 +13017,8 @@ msgstr "Zu einer angegebenen Zelle springen"
 
 #. Default <F9> to recalculate
 #: src/gnumeric.xml.h:149 src/workbook-control-gui.c:1914
-#, fuzzy
 msgid "Recalculate"
-msgstr "Neu be_rechnen"
+msgstr "Neu bere_chnen"
 
 #: src/gnumeric.xml.h:150 src/workbook-control-gui.c:1915
 msgid "Recalculate the spreadsheet"
@@ -13037,9 +13103,11 @@ msgstr "Neue Zeilen einfügen"
 msgid "Insert new columns"
 msgstr "Neue Spalte(n) einfügen"
 
+# _Z is already gone (_Zeilen)
+# 2001-02-13 06:55:52 CET -ke-
 #: src/gnumeric.xml.h:13 src/workbook-control-gui.c:1976
 msgid "C_ells..."
-msgstr "_Zellen..."
+msgstr "Z_ellen..."
 
 #: src/gnumeric.xml.h:96 src/workbook-control-gui.c:1977
 msgid "Insert new cells"
@@ -13131,9 +13199,11 @@ msgstr "_Autoformat..."
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formatiert einen Bereich von Zellen nach einer vordefinierten Vorlage"
 
+# Shortcut _A is already gone (_Automatisch).
+# 2001-02-13 06:58:48 CET -ke-
 #: src/gnumeric.xml.h:249 src/workbook-control-gui.c:2081
 msgid "_Workbook..."
-msgstr "_Arbeitsbuch..."
+msgstr "A_rbeitsbuch..."
 
 #: src/gnumeric.xml.h:123 src/workbook-control-gui.c:2082
 msgid "Modify the workbook attributes"
@@ -13303,11 +13373,11 @@ msgstr ""
 "Die markierte Region in absteigender Ordnung sortieren, basierend auf der "
 "ersten markierten Spalte."
 
-#: src/workbook-control-gui.c:2932
+#: src/workbook-control-gui.c:2935
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook-control-gui.c:2933
+#: src/workbook-control-gui.c:2936
 msgid "Max"
 msgstr "Max"
 
@@ -13375,14 +13445,12 @@ msgid "About this application"
 msgstr "Info zu dieser Anwendung"
 
 #: src/gnumeric.xml.h:17
-#, fuzzy
 msgid "CenterAcrossSelection"
-msgstr "Über Auswahl zentrieren"
+msgstr "ÜberAuswahlzentrieren"
 
 #: src/gnumeric.xml.h:18
-#, fuzzy
 msgid "Centers across the selected cells"
-msgstr "Über Auswahl zentrieren"
+msgstr "Über den ausgewählten Zellen zentrieren"
 
 #: src/gnumeric.xml.h:19
 msgid "Centers the text in each selection"
@@ -13394,11 +13462,11 @@ msgstr "Höhe der markierten Zeilen ändern"
 
 #: src/gnumeric.xml.h:21
 msgid "Change the default column width"
-msgstr ""
+msgstr "Die vorgegebene Spaltenbreite ändern"
 
 #: src/gnumeric.xml.h:22
 msgid "Change the default row height"
-msgstr ""
+msgstr "Die vorgegebene Zeilenhöhe ändern"
 
 #: src/gnumeric.xml.h:23
 msgid "Change the order the sheets are displayed"
@@ -13535,12 +13603,10 @@ msgid "Graph Guru"
 msgstr "Grafen-Druide"
 
 #: src/gnumeric.xml.h:80
-#, fuzzy
 msgid "Hide _Column Headers"
 msgstr "S_paltenkopf verbergen"
 
 #: src/gnumeric.xml.h:82
-#, fuzzy
 msgid "Hide _Row Headers"
 msgstr "_Zeilenkopf verbergen"
 
@@ -13952,50 +14018,6 @@ msgstr "_Ansicht"
 
 #~ msgid "Path:"
 #~ msgstr "Pfad:"
-
-#~ msgid ""
-#~ "Could not import file %s\n"
-#~ "%%s"
-#~ msgstr ""
-#~ "Konnte Datei %s nicht importieren\n"
-#~ "%%s"
-
-#~ msgid "File format:"
-#~ msgstr "Dateiformat:"
-
-#~ msgid ""
-#~ "Workbook %s already exists.\n"
-#~ "Do you want to save over it?"
-#~ msgstr ""
-#~ "Arbeitsbuch %s existiert bereits.\n"
-#~ "Wollen Sie es beim Speichern überschreiben?"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "is a directory name"
-#~ msgstr ""
-#~ "%s\n"
-#~ "ist ein Verzeichnisname."
-
-#~ msgid ""
-#~ "You do not have permission to save to\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Sie haben nicht die Rechte nach\n"
-#~ "%s zu speichern."
-
-#~ msgid ""
-#~ "Please enter a file name,\n"
-#~ "not a directory"
-#~ msgstr ""
-#~ "Bitte geben Sie einen Dateinamen ein,\n"
-#~ "kein Verzeichnis."
-
-#~ msgid "Save workbook as"
-#~ msgstr "Arbeitsbuch speichern als"
-
-#~ msgid "Load file"
-#~ msgstr "Datei laden"
 
 #~ msgid "Couldn't determine size or modification date"
 #~ msgstr "Konnte Größe oder Änderungsdatum nicht bestimmen"

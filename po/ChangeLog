@@ -1,5 +1,7 @@
 2001-02-13  Karl Eichwalder  <ke@suse.de>
 
+	* de.po: Update; start to cleanup shortcuts.
+
 	* POTFILES.in: Add gui-file.c.
 
 2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
