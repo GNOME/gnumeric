@@ -129,13 +129,13 @@
 	        the different areas labeled.
 	      </para>
 	    </textobject>
+	    <caption>
+	      The different components of the <interface>File
+              Open</interface> dialog, shaded with boxes of different
+              colors and labeled with a letter.
+	    </caption>
 	  </mediaobject>
 	</screenshot>
-	<caption>
-	  The different components of the <interface>File
-          Open</interface> dialog, shaded with boxes of different
-          colors and labeled with a letter.
-	</caption>
       </figure>
 
       <para>

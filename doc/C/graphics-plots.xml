@@ -216,17 +216,17 @@
 	    all of the components.
           </para>
         </textobject>
+        <caption>
+          <para>
+	    This screenshot presents several of the major components of
+            <application>Gnumeric</application> graphs. These components
+            will be presented next in their containment hierarchy. The
+            hierarchy is used in the <interface>Graph Guru</interface> to
+            organize the components so a user can change all the
+            preferences.
+	  </para>
+        </caption>
       </mediaobject>
-      <caption>
-        <para>
-	  This screenshot presents several of the major components of
-          <application>Gnumeric</application> graphs. These components
-          will be presented next in their containment hierarchy. The
-          hierarchy is used in the <interface>Graph Guru</interface> to
-          organize the components so a user can change all the
-          preferences.
-	</para>
-      </caption>
     </screenshot>
   </figure>
 
@@ -260,13 +260,13 @@
             of each component and of their properties.
           </para>
         </textobject>
+        <caption>
+          <para>
+	    The hierarchy of graph component elements and the associated
+            properties. In this case, the element 'X-Axis2' is selected.
+	  </para>
+        </caption>
       </mediaobject>
-      <caption>
-        <para>
-	  The hierarchy of graph component elements and the associated
-          properties. In this case, the element 'X-Axis2' is selected.
-	</para>
-      </caption>
     </screenshot>
   </figure>
 
@@ -1111,21 +1111,21 @@
                         necessary to generate the plot.
                       </para>
                     </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        line plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        line plots, with the series plotted
+                        independently in the left plot, stacked in the
+                        middle plot, and proportionately stacked in the
+                        right plot.
+	              </para>
+                    </caption>
                   </mediaobject>
-                  <caption>
-                    <para>
-	              This screenshot shows a table of data and three
-                      line plots. The data consist of three series
-                      organized by row and starting with the words
-                      "Widgets", "Gadgets", and "Lumpets". Each of
-                      these series has values in five categories. The
-                      three graphs illustrate the three sub-types of
-                      line plots, with the series plotted
-                      independently in the left plot, stacked in the
-                      middle plot, and proportionately stacked in the
-                      right plot.
-	            </para>
-                  </caption>
                 </screenshot>
       </figure>
 
@@ -1395,17 +1395,17 @@
                         used to generate the plot.
                       </para>
                     </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a data table with two
+                        different series highlighted which are usable in
+                        a scatterplot. Each series is comprised of two
+                        lists of numeric values. The sceenshot also
+                        shows the scatterplot made from these two data
+                        series.
+	              </para>
+                    </caption>
                   </mediaobject>
-                  <caption>
-                    <para>
-	              This screenshot shows a data table with two
-                      different series highlighted which are usable in
-                      a scatterplot. Each series is comprised of two
-                      lists of numeric values. The sceenshot also
-                      shows the scatterplot made from these two data
-                      series.
-	            </para>
-                  </caption>
                 </screenshot>
       </figure>
 
@@ -1617,15 +1617,15 @@
                         resulting bubble plot.
                       </para>
                     </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a worksheet with a table
+                        of data with two series, each with three lists
+                        of numeric values. The screenshot also shows a
+                        bubble plot made from these two series.
+	              </para>
+                    </caption>
                   </mediaobject>
-                  <caption>
-                    <para>
-	              This screenshot shows a worksheet with a table
-                      of data with two series, each with three lists
-                      of numeric values. The screenshot also shows a
-                      bubble plot made from these two series.
-	            </para>
-                  </caption>
                 </screenshot>
       </figure>
 
@@ -1808,17 +1808,17 @@
                         data.
                       </para>
                     </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and a pie
+                        plot. The data consist of a single data series
+                        organized in a row and starting with the word
+                        "Widgets". The series has values in five
+                        categories. The legend includes the names of the
+                        different data categories.
+	              </para>
+                    </caption>
                   </mediaobject>
-                  <caption>
-                    <para>
-	              This screenshot shows a table of data and a pie
-                      plot. The data consist of a single data series
-                      organized in a row and starting with the word
-                      "Widgets". The series has values in five
-                      categories. The legend includes the names of the
-                      different data categories.
-	            </para>
-                  </caption>
                 </screenshot>
       </figure>
 
@@ -2006,21 +2006,21 @@
                         and a graph containing an area plot.
                       </para>
                     </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        area plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        area plots, with the series plotted
+                        independently in the left plot, stacked in the
+                        middle plot, and proportionately stacked in the
+                        right plot.
+	              </para>
+                    </caption>
                   </mediaobject>
-                  <caption>
-                    <para>
-	              This screenshot shows a table of data and three
-                      area plots. The data consist of three series
-                      organized by row and starting with the words
-                      "Widgets", "Gadgets", and "Lumpets". Each of
-                      these series has values in five categories. The
-                      three graphs illustrate the three sub-types of
-                      area plots, with the series plotted
-                      independently in the left plot, stacked in the
-                      middle plot, and proportionately stacked in the
-                      right plot.
-	            </para>
-                  </caption>
                 </screenshot>
       </figure>
 
@@ -2257,21 +2257,21 @@
                         plots made using those data. 
                       </para>
                     </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        bar plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        bar plots, with the series plotted
+                        independently in the left plot, stacked in the
+                        middle plot, and proportionately stacked in the
+                        right plot.
+	              </para>
+                    </caption>
                   </mediaobject>
-                  <caption>
-                    <para>
-	              This screenshot shows a table of data and three
-                      bar plots. The data consist of three series
-                      organized by row and starting with the words
-                      "Widgets", "Gadgets", and "Lumpets". Each of
-                      these series has values in five categories. The
-                      three graphs illustrate the three sub-types of
-                      bar plots, with the series plotted
-                      independently in the left plot, stacked in the
-                      middle plot, and proportionately stacked in the
-                      right plot.
-	            </para>
-                  </caption>
                 </screenshot>
       </figure>
 
@@ -2509,21 +2509,21 @@
                         plots made using those data. 
                       </para>
                     </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        column plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        column plots, with the series plotted
+                        independently in the left plot, stacked in the
+                        middle plot, and proportionately stacked in the
+                        right plot.
+	              </para>
+                    </caption>
                   </mediaobject>
-                  <caption>
-                    <para>
-	              This screenshot shows a table of data and three
-                      column plots. The data consist of three series
-                      organized by row and starting with the words
-                      "Widgets", "Gadgets", and "Lumpets". Each of
-                      these series has values in five categories. The
-                      three graphs illustrate the three sub-types of
-                      column plots, with the series plotted
-                      independently in the left plot, stacked in the
-                      middle plot, and proportionately stacked in the
-                      right plot.
-	            </para>
-                  </caption>
                 </screenshot>
       </figure>
 
@@ -2737,21 +2737,21 @@
                         those data.
                       </para>
                     </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and three
+                        radar plots. The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        three graphs illustrate the three sub-types of
+                        radar plots, with the top left plot including
+                        lines only, the top right plot including both
+                        lines and markers on the points, and the bottom
+                        middle plot using filled polygons.
+	              </para>
+                    </caption>
                   </mediaobject>
-                  <caption>
-                    <para>
-	              This screenshot shows a table of data and three
-                      radar plots. The data consist of three series
-                      organized by row and starting with the words
-                      "Widgets", "Gadgets", and "Lumpets". Each of
-                      these series has values in five categories. The
-                      three graphs illustrate the three sub-types of
-                      radar plots, with the top left plot including
-                      lines only, the top right plot including both
-                      lines and markers on the points, and the bottom
-                      middle plot using filled polygons.
-	            </para>
-                  </caption>
                 </screenshot>
       </figure>
 
@@ -2969,22 +2969,22 @@
                         data.
                       </para>
                     </textobject>
+                    <caption>
+                      <para>
+	                This screenshot shows a table of data and two
+                        ring plots. The data consist of a single data
+                        series organized in a row and starting with the
+                        word "Widgets". The data consist of three series
+                        organized by row and starting with the words
+                        "Widgets", "Gadgets", and "Lumpets". Each of
+                        these series has values in five categories. The
+                        two graphs illustrate the two sub-types of ring
+                        plots, the left most plot without any gaps and
+                        the right most plot having the outer plot with
+                        gaps.
+	              </para>
+                    </caption>
                   </mediaobject>
-                  <caption>
-                    <para>
-	              This screenshot shows a table of data and two
-                      ring plots. The data consist of a single data
-                      series organized in a row and starting with the
-                      word "Widgets". The data consist of three series
-                      organized by row and starting with the words
-                      "Widgets", "Gadgets", and "Lumpets". Each of
-                      these series has values in five categories. The
-                      two graphs illustrate the two sub-types of ring
-                      plots, the left most plot without any gaps and
-                      the right most plot having the outer plot with
-                      gaps.
-	            </para>
-                  </caption>
                 </screenshot>
       </figure>
 
@@ -3176,15 +3176,15 @@
 	        as defined values, references or expressions.
 	      </para>
 	    </textobject>
+	    <caption>
+	      <para>
+	        The data entry box widget allows users to enter data as
+	        defined values (e.g. "A name", 123, or {12,32,14}), as references
+	        (e.g. 'Sheet1!A2:B4'), or as expressions (e.g. sin({11,16}) ).
+	      </para>
+	    </caption>
 	  </mediaobject>
 	</screenshot>
-	<caption>
-	  <para>
-	    The data entry box widget allows users to enter data as
-	 defined values (e.g. "A name", 123, or {12,32,14}), as references
-	 (e.g. 'Sheet1!A2:B4'), or as expressions (e.g. sin({11,16}) ).
-	  </para>
-	</caption>
       </figure>
 
       Information can be inserted to the data entry box, first, by
@@ -3226,15 +3226,15 @@
 	        and the outline. 
 	      </para>
 	    </textobject>
+	    <caption>
+	      <para>
+	        This screenshot depicts the two elements of background
+	        panels which can be configured, the background fill
+	        and the outline. 
+	      </para>
+	    </caption>
 	  </mediaobject>
 	</screenshot>
-	<caption>
-	  <para>
-	    This screenshot depicts the two elements of background
-	    panels which can be configured, the background fill
-	    and the outline. 
-	  </para>
-	</caption>
       </figure>
 
       <para>
@@ -3271,14 +3271,14 @@
 	        for the pattern background panel fill.
 	      </para>
 	    </textobject>
+	    <caption>
+	      <para>
+	        This screenshot depicts the configuration properties for
+	        the pattern background panel fill.
+	      </para>
+	    </caption>
 	  </mediaobject>
 	</screenshot>
-	<caption>
-	  <para>
-	    This screenshot depicts the configuration properties for
-	    the pattern background panel fill.
-	  </para>
-	</caption>
       </figure>
 
       <para>
@@ -3320,14 +3320,14 @@
 	        for the gradient background panel fill.
 	      </para>
 	    </textobject>
+	    <caption>
+	      <para>
+	        This screenshot depicts the configuration properties for
+	        the gradient background panel fill. 
+	      </para>
+	    </caption>
 	  </mediaobject>
 	</screenshot>
-	<caption>
-	  <para>
-	    This screenshot depicts the configuration properties for
-	    the gradient background panel fill. 
-	  </para>
-	</caption>
       </figure>
 
       <para>
@@ -3372,14 +3372,14 @@
 	        for the image background panel fill.
 	      </para>
 	    </textobject>
+	    <caption>
+	      <para>
+	        This screenshot depicts the configuration properties for
+	        the image background panel fill. 
+	      </para>
+	    </caption>
 	  </mediaobject>
 	</screenshot>
-	<caption>
-	  <para>
-	    This screenshot depicts the configuration properties for
-	    the image background panel fill. 
-	  </para>
-	</caption>
       </figure>
 
       <para>
@@ -3434,15 +3434,15 @@
 	        Guru</interface>. 
 	      </para>
 	    </textobject>
+	    <caption>
+	      <para>
+	        This screenshot depicts the font configuration panel
+	        for titles and axis labels in the <interface>Graph
+	        Guru</interface>. 
+	      </para>
+	    </caption>
 	  </mediaobject>
 	</screenshot>
-	<caption>
-	  <para>
-	    This screenshot depicts the font configuration panel
-	    for titles and axis labels in the <interface>Graph
-	    Guru</interface>. 
-	  </para>
-	</caption>
       </figure>
 
       <para>
@@ -4141,21 +4141,20 @@
 	          which can be configured. 
 	        </para>
 	      </textobject>
+	      <caption>
+	        <para>
+	          The properties of a single value data series include an
+	          optional name, a required list of values and an optional
+	          list of labels. The name, in this case, is a reference
+	          to cell D7 in the first worksheet. The values are the
+	          contents of the cells in the range E7:I7. The labels are
+	          the contents of the cells in the range E6:I6. Note that
+	          there are as many cells in the labels range as in the
+	          values range.
+	        </para>
+	      </caption>
 	    </mediaobject>
 	  </screenshot>
-	  <caption>
-
-	    <para>
-	      The properties of a single value data series include an
-	      optional name, a required list of values and an optional
-	      list of labels. The name, in this case, is a reference
-	      to cell D7 in the first worksheet. The values are the
-	      contents of the cells in the range E7:I7. The labels are
-	      the contents of the cells in the range E6:I6. Note that
-	      there are as many cells in the labels range as in the
-	      values range.
-	    </para>
-	  </caption>
         </figure>
 
 	<para>
@@ -4361,14 +4360,14 @@
 	          which can be configured. 
 	        </para>
 	      </textobject>
+	      <caption>
+	        <para>
+	          Dual data series require two sets of values, an X list
+	          and a Y list.
+	        </para>
+	      </caption>
 	    </mediaobject>
 	  </screenshot>
-	  <caption>
-	    <para>
-	      Dual data series require two sets of values, an X list
-	      and a Y list.
-	    </para>
-	  </caption>
         </figure>
 
 	<para>

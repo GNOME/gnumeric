@@ -4,6 +4,8 @@
 	files-formats.xml, data-entry-external.xml, gui-menus.xml,
 	files-opening.xml, graphics-drawings.xml: Fixed dangling links, typos,
 	tags.
+	* files-opening.xml, graphics-plots.xml: Moved "caption" tags into
+	"mediaobject"s where they are valid.
 
 2004-09-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
