@@ -658,6 +658,59 @@ int main (int argc, char **argv)
 }
 
 static void
+decompress_vba (guint8 *data, guint32 len)
+{
+	#define BUF_SIZE 4096
+	#define BUF_BITS 6
+	#define BUF_MASK 0x3f
+
+	int      shift, i;
+	guint8   buffer[BUF_SIZE];
+	guint8  *ptr;
+	guint32  pos;
+
+	for (pos = 0; pos < BUF_SIZE; pos++)
+		buffer[pos] = ' ';
+
+	printf ("My compressed stream:\n");
+	dump (data, len);
+
+	ptr = data;
+	while (ptr < data + len) {
+		guint8 hdr = *ptr++;
+
+		for (shift = 0x01; shift < 0x100; shift = shift<<1) {
+			if (hdr & shift) {
+				guint16 dt = MS_OLE_GET_GUINT16 (ptr);
+				int lp, i;
+				printf ("|match 0x%x = %d, %d|\n", dt, (dt >> 9) + 1,
+					(dt & BUF_MASK));
+				/* Perhaps dt & SHIFT = dist. to end of run */
+				for (i = 16; i >= 0; i--) {
+					if (dt & (1 << i))
+						printf ("1");
+					else
+						printf ("0");
+					if (i == 8)
+						printf ("|");
+				}
+				printf ("\n");
+				for (lp = 0; lp < (dt & BUF_MASK); lp++) {
+					guint8 c = buffer[( (dt >> BUF_BITS) + lp ) % BUF_SIZE];
+					buffer [pos++ % BUF_SIZE] = c;
+					printf ("%c", c);
+				}
+				printf ("\n");
+				ptr += 2;
+			} else {
+				buffer [pos++ % BUF_SIZE] = *ptr;
+				printf ("%c", *ptr++);
+			}
+		}
+	}
+}
+
+static void
 dump_vba_module (MsOle *f, const char *path, const char *name)
 {
 	MsOleStream *s;
@@ -672,7 +725,7 @@ dump_vba_module (MsOle *f, const char *path, const char *name)
 	{
 		guint8  *data, *ptr;
 		guint32  i;
-
+		
 		data = g_new (guint8, s->size);
 		if (!s->read_copy (s, data, s->size)) {
 			printf ("Strange: failed read of module '%s%s'\n", path, name);
@@ -682,24 +735,8 @@ dump_vba_module (MsOle *f, const char *path, const char *name)
 		ptr = data;
 		i   = 0;
 		do {
-			if (!g_strncasecmp (ptr, "Attribut", 8)) {
-				guint8 *txt = g_new (guint8, s->size);
-				guint8 *p;
-				guint  j;
-
-				printf ("Possibly found the text !\n");
-				p = txt;
-				while (i < s->size) {
-					for (j = 0; j < 8 && i + j < s->size; j++, i++)
-						*p++ = *ptr++;
-					i++;
-					ptr++;
-				}
-				*p = '\0';
-				printf ("Text is '%s'\n", txt);
-				g_free (txt);
-				break;
-			}
+			if (!g_strncasecmp (ptr, "Attribut", 8))
+				decompress_vba (ptr - 1, s->size - (ptr - data));
 			ptr++; i++;
 		} while (i < s->size - 10);
 
