@@ -53,7 +53,7 @@ int exp_smoothing_tool    (WorkbookControl *context, Sheet *sheet,
 			   gnum_float damp_fact, int std_error_flag,
 			   data_analysis_output_t *dao);
 int ranking_tool          (WorkbookControl *context, Sheet *sheet,
-			   Range *input_range, int columns_flag,
+			   GSList *input, group_by_t group_by,
 			   data_analysis_output_t *dao);
 
 int anova_single_factor_tool        (WorkbookControl *context, Sheet *sheet,

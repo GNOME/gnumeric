@@ -1,3 +1,13 @@
+2001-11-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* tools.h : change argument list of ranking_tool
+	* rank.glade : add group by Areas
+	* dialog-analysis-tools.c (rank_tool_ok_clicked_cb) : use 
+	  gnumeric_expr_entry_parse_to_list rather than parse_range 
+	  (support references to other sheets)
+	(dialog_ranking_tool) : use tool_update_sensitivity_multiple_areas_cb
+
+
 2001-11-25  Jody Goldberg <jody@gnome.org>
 
 	* dialog-define-names.c (cb_name_guru_add) : Use expr_parse_str.

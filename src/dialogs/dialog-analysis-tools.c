@@ -1540,24 +1540,20 @@ static void
 rank_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 {
 	data_analysis_output_t  dao;
-	Range range;
         char   *text;
 	GtkWidget *w;
+	GSList *input;
 	gint err;
 
-	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
-	parse_range (text, &range.start.col,
-		     &range.start.row,
-		     &range.end.col,
-		     &range.end.row);
+	input = gnumeric_expr_entry_parse_to_list (
+		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
         parse_output (state, &dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = ranking_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-			    &range,
+	err = ranking_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
 			    gnumeric_glade_group_value (state->gui, grouped_by_group),
 			    &dao);
 	switch (err) {
@@ -1607,8 +1603,8 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init (state, "rank.glade", "RankPercentile",
 			      GTK_SIGNAL_FUNC (rank_tool_ok_clicked_cb),
-			      GTK_SIGNAL_FUNC (tool_update_sensitivity_cb),
-			      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL)) {
+			      GTK_SIGNAL_FUNC (tool_update_sensitivity_multiple_areas_cb),
+			      0)) {
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Could not create the Rank and  Percentile Tools dialog."));
 		g_free (state);

@@ -775,19 +775,6 @@ get_data_groupped_by_rows (Sheet *sheet, const Range *range, int row,
 	data->sum2 = data->sum * data->sum;
 }
 
-static void
-free_data_set (old_data_set_t *data)
-{
-        GSList *current = data->array;
-
-	while (current != NULL) {
-	        g_free (current->data);
-		current = current->next;
-	}
-
-	g_slist_free (data->array);
-}
-
 void
 prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao, const char *name)
 {
@@ -837,6 +824,22 @@ set_italic (data_analysis_output_t *dao, int col1, int row1,
 	range.end.row   = row2 + dao->start_row;
 
 	mstyle_set_font_italic (mstyle, TRUE);
+	sheet_style_apply_range (dao->sheet, &range, mstyle);
+}
+
+static void
+set_percent (data_analysis_output_t *dao, int col1, int row1,
+	    int col2, int row2)
+{
+	MStyle *mstyle = mstyle_new ();
+	Range  range;
+
+	range.start.col = col1 + dao->start_col;
+	range.start.row = row1 + dao->start_row;
+	range.end.col   = col2 + dao->start_col;
+	range.end.row   = row2 + dao->start_row;
+
+	mstyle_set_format_text (mstyle, "0.00%");
 	sheet_style_apply_range (dao->sheet, &range, mstyle);
 }
 
@@ -2748,124 +2751,77 @@ rank_compare (const rank_t *a, const rank_t *b)
 }
 
 int
-ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
-	      int columns_flag, data_analysis_output_t *dao)
+ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
+	      group_by_t group_by, data_analysis_output_t *dao)
 {
-        old_data_set_t *data_sets;
-	GSList     *current, *inner;
-	int        vars, cols, rows, col, i, n;
+	GSList *input_range = input;
+	GPtrArray *data = NULL;
+	guint n_data;
+
+	prepare_input_range (&input_range, group_by);
+	data = new_data_set_list (input_range, group_by,
+				  TRUE, dao->labels_flag, sheet);
 
 	prepare_output (wbc, dao, _("Ranks"));
 
-	cols = input_range->end.col - input_range->start.col + 1;
-	rows = input_range->end.row - input_range->start.row + 1;
-
-	if (columns_flag) {
-	        vars = cols;
-		for (col = 0; col < vars; col++) {
-		        set_cell (dao, col * 4, 0, _("Point"));
-			if (dao->labels_flag) {
-			        Cell *cell = sheet_cell_get
-					(sheet, input_range->start.col + col,
-					 input_range->start.row);
-				if (cell != NULL && cell->value != NULL)
-				        set_cell_value (dao, col * 4 + 1, 0, 
-							value_duplicate (cell->value));
-			} else {
-				set_cell_printf (dao, col * 4 + 1, 0, _("Column %d"), col + 1);
-			}
-			set_cell (dao, col * 4 + 2, 0, _("Rank"));
-			set_cell (dao, col * 4 + 3, 0, _("Percent"));
-		}
-		data_sets = g_new (old_data_set_t, vars);
-
-		if (dao->labels_flag)
-		        input_range->start.row++;
-
-		for (i = 0; i < vars; i++)
-		        get_data_groupped_by_columns (sheet,
-						      input_range, i,
-						      &data_sets[i]);
-	} else {
-	        vars = rows;
-		for (col = 0; col < vars; col++) {
-		        set_cell (dao, col * 4, 0, _("Point"));
-
-			if (dao->labels_flag) {
-			        Cell *cell = sheet_cell_get
-					(sheet, input_range->start.col,
-					 input_range->start.row + col);
-				if (cell != NULL && cell->value != NULL)
-				        set_cell_value (dao, col * 4 + 1, 0, 
-							value_duplicate (cell->value));
-			} else {
-				set_cell_printf (dao, col * 4 + 1, 0, _("Row %d"), col + 1);
-			}
-			set_cell (dao, col * 4 + 2, 0, _("Rank"));
-			set_cell (dao, col * 4 + 3, 0, _("Percent"));
-		}
-		data_sets = g_new (old_data_set_t, vars);
-
-		if (dao->labels_flag)
-		        input_range->start.col++;
-
-		for (i = 0; i < vars; i++)
-		        get_data_groupped_by_rows (sheet,
-						   input_range, i,
-						   &data_sets[i]);
-	}
-
-	for (i = 0; i < vars; i++) {
+	for (n_data = 0; n_data < data->len; n_data++) {
 	        rank_t *rank;
-	        n = 0;
-	        current = data_sets[i].array;
-		rank = g_new (rank_t, data_sets[i].n);
+		guint i, j;
+		data_set_t * this_data_set;
 
-		while (current != NULL) {
-		        gnum_float x = * ((gnum_float *) current->data);
+	        this_data_set = g_ptr_array_index (data, n_data);
 
-			rank[n].point = n + 1;
-			rank[n].x = x;
-			rank[n].rank = 1;
-			rank[n].same_rank_count = -1;
+		set_cell (dao, n_data * 4, 0, _("Point"));
+		set_cell (dao, n_data * 4+1, 0, this_data_set->label);
+		set_cell (dao, n_data * 4 + 2, 0, _("Rank"));
+		set_cell (dao, n_data * 4 + 3, 0, _("Percent"));
+		
+		rank = g_new (rank_t, this_data_set->data->len);
 
-			inner = data_sets[i].array;
-			while (inner != NULL) {
-			        gnum_float y = * ((gnum_float *) inner->data);
+		for (i = 0; i < this_data_set->data->len; i++) {
+		        gnum_float x = g_array_index (this_data_set->data, gnum_float, i);
+
+			rank[i].point = i + 1;
+			rank[i].x = x;
+			rank[i].rank = 1;
+			rank[i].same_rank_count = -1;
+
+			for (j = 0; j < this_data_set->data->len; j++) {
+			        gnum_float y = g_array_index (this_data_set->data, gnum_float, j);
 				if (y > x)
-				        rank[n].rank++;
+				        rank[i].rank++;
 				else if (y == x)
-				        rank[n].same_rank_count++;
-				inner = inner->next;
+				        rank[i].same_rank_count++;
 			}
-			n++;
-			current = current->next;
 		}
-		qsort (rank, data_sets[i].n,
+
+		qsort (rank, this_data_set->data->len,
 		       sizeof (rank_t), (void *) &rank_compare);
 
-		for (n = 0; n < data_sets[i].n; n++) {
+		set_percent (dao, n_data * 4 + 3, 1,
+			     n_data * 4 + 3, this_data_set->data->len);
+		for (i = 0; i < this_data_set->data->len; i++) {
 			/* Point number */
-			set_cell_int (dao, i * 4 + 0, n + 1, rank[n].point);
+			set_cell_int (dao, n_data * 4 + 0, i + 1, rank[i].point);
 
 			/* Value */
-			set_cell_float (dao, i * 4 + 1, n + 1, rank[n].x);
+			set_cell_float (dao, n_data * 4 + 1, i + 1, rank[i].x);
 
 			/* Rank */
-			set_cell_int (dao, i * 4 + 2, n + 1, rank[n].rank);
+			set_cell_float (dao, n_data * 4 + 2, i + 1, 
+					rank[i].rank + rank[i].same_rank_count/2.);
 
 			/* Percent */
-			set_cell_printf (dao, i * 4 + 3, n + 1,
-					 "%.2f%%",
-					 100.0 - (100.0 * (rank[n].rank - 1)/
-						  (data_sets[i].n - 1)));
+			set_cell_float_na (dao, n_data * 4 + 3, i + 1,
+					   1. - (rank[i].rank - 1.)/
+						    (this_data_set->data->len - 1.), 
+					   this_data_set->data->len != 0);
 		}
 		g_free (rank);
 	}
 
-	for (i = 0; i < vars; i++)
-	        free_data_set (&data_sets[i]);
-	g_free (data_sets);
+	destroy_data_set_list (data);
+	range_list_destroy (input_range);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);

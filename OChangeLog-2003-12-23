@@ -1,4 +1,15 @@
 2001-11-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c (free_data_set) : delete (obsolete)
+	(set_percent) new utility procedure to set cell format
+	(ranking_tool) rewrite to use new suport functions, to allow
+	  input references to other sheets, handle ties in ranks 
+	  according to statistical practice, set cell format for 
+	  percentile
+	
+
+2001-11-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/workbook-control-gui.c (show_gui) : use -geometry option from
 	  command line (if available) for first window
 	* src/main.h : new static variable x_geometry
