@@ -1,5 +1,11 @@
 2000-11-03  Jody Goldberg <jgoldberg@home.com>
 
+	* src/clipboard.c (clipboard_paste_region) : Optimize the styles for
+	  the entire target region in one swoop, rather than each tile
+	  individually.  This fixes the reported problem symptom.  I do not
+	  have a definite reason why it was failing before.  This may just be
+	  sweeping it under the rug.
+
 	* src/xml-io.c (xml_workbook_write) : Bump the xml version.
 
 	* src/format.c (format_value) : A string value takes precedence over

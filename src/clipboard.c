@@ -379,8 +379,6 @@ clipboard_paste_region (WorkbookControl *wbc,
 				boundary.end.row   = top + src_rows - 1;
 				sheet_style_attach_list (pt->sheet, content->styles, &boundary.start,
 							 (pt->paste_flags & PASTE_TRANSPOSE));
-
-				sheet_style_optimize (pt->sheet, boundary);
 			}
 
 			for (l = content->list; l; l = l->next) {
@@ -416,6 +414,8 @@ clipboard_paste_region (WorkbookControl *wbc,
 						    &rwinfo, c_copy, pt->paste_flags);
 			}
 		}
+
+	sheet_style_optimize (pt->sheet, pt->range);
 
         if (pt->paste_flags & (PASTE_FORMULAS|PASTE_VALUES)) {
 		GList *deps = sheet_region_get_deps (pt->sheet, pt->range);
