@@ -641,7 +641,7 @@ range_fragment_list_clip (const GList *ra, const Range *clip)
 
 				split = range_fragment (a->data, b->data);
 				if (split)
-					ranges = g_list_append (ranges, split);
+					ranges = g_list_concat (ranges, split);
 				done_split = TRUE;
 			}
 			b = next;

@@ -1,3 +1,8 @@
+1999-11-11  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/ranges.c (range_fragment_list_clip): Fix heinous range bug,
+	I need instant dental care.
+
 1999-11-12  Tuomas Kuosmanen  <tigert@gimp.org>
 
 	* src/pixmaps/money.xpm: New icon for "money" datatype.
