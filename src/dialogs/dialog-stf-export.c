@@ -111,7 +111,7 @@ stf_export_dialog_druid_format_page_finish (GnomeDruid *druid, GnomeDruidPage *p
  * returns : A pointer to the GnomeDruidPage indicated by @pos
  **/
 static GnomeDruidPage*
-stf_export_dialog_druid_position_to_page (StfE_DruidData_t *druid_data, StfE_DruidPosition_t pos)
+stf_export_dialog_druid_position_to_page (StfE_DruidData_t *druid_data, StfE_StfDialogPage pos)
 {
 	switch (pos) {
 	case DPG_SHEET  : return druid_data->sheet_page;
@@ -136,7 +136,7 @@ stf_export_dialog_druid_position_to_page (StfE_DruidData_t *druid_data, StfE_Dru
 static gboolean
 stf_export_dialog_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, StfE_DruidData_t *druid_data)
 {
-	StfE_DruidPosition_t newpos;
+	StfE_StfDialogPage newpos;
 	GnomeDruidPage *nextpage;
 
 	g_return_val_if_fail (page != NULL, FALSE);
@@ -188,7 +188,7 @@ stf_export_dialog_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, StfE
 static gboolean
 stf_export_dialog_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, StfE_DruidData_t *druid_data)
 {
-	StfE_DruidPosition_t newpos;
+	StfE_StfDialogPage newpos;
 	GnomeDruidPage *previouspage;
 
 	g_return_val_if_fail (page != NULL, FALSE);

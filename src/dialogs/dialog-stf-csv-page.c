@@ -1,5 +1,5 @@
 /*
- * dialog-stf.c : Controls the widget on the CSV (Comma Separated Value) page of the druid
+ * dialog-stf.c : Controls the widget on the CSV (Comma Separated Value) page.
  *
  * Copyright 2001 Almer S. Tigelaar <almer@gnome.org>
  * Copyright 2003 Morten Welinder <terra@gnome.org>
@@ -40,7 +40,7 @@
  **/
 static void
 csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
-			DruidPageData_t *pagedata)
+			StfDialogData *pagedata)
 {
 	StfParseOptions_t *parseoptions = pagedata->parseoptions;
 	RenderData_t *renderdata = pagedata->csv.renderdata;
@@ -109,7 +109,7 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
  * returns : nothing
  **/
 static void
-csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
+csv_page_custom_toggled (GtkCheckButton *button, StfDialogData *data)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button))) {
 		gtk_widget_set_sensitive   (GTK_WIDGET (data->csv.csv_customseparator), TRUE);
@@ -127,7 +127,7 @@ csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
 
 static void
 csv_page_textindicator_change (G_GNUC_UNUSED GtkWidget *widget,
-			       DruidPageData_t *data)
+			       StfDialogData *data)
 {
 	char *textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (data->csv.csv_textfield), 0, -1);
 	gunichar str_ind = g_utf8_get_char (textfieldtext);
@@ -142,7 +142,7 @@ csv_page_textindicator_change (G_GNUC_UNUSED GtkWidget *widget,
 }
 
 static void
-csv_page_parseoptions_to_gui (DruidPageData_t *pagedata)
+csv_page_parseoptions_to_gui (StfDialogData *pagedata)
 {
 	StfParseOptions_t *po = pagedata->parseoptions;
 
@@ -191,18 +191,14 @@ csv_page_parseoptions_to_gui (DruidPageData_t *pagedata)
 
 /**
  * stf_dialog_csv_page_prepare
- * @page : The druidpage that emitted the signal
- * @druid : The gnomedruid that houses @page
  * @data : mother struct
  *
  * Will prepare the csv page
  *
  * returns : nothing
  **/
-static void
-csv_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
-		  G_GNUC_UNUSED GnomeDruid *druid,
-		  DruidPageData_t *pagedata)
+void
+stf_dialog_csv_page_prepare (StfDialogData *pagedata)
 {
 	csv_page_parseoptions_to_gui (pagedata);
 
@@ -223,24 +219,14 @@ csv_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
  * returns : nothing
  **/
 void
-stf_dialog_csv_page_cleanup (DruidPageData_t *pagedata)
+stf_dialog_csv_page_cleanup (StfDialogData *pagedata)
 {
 	stf_preview_free (pagedata->csv.renderdata);
 	pagedata->csv.renderdata = NULL;
 }
 
-/**
- * stf_dialog_csv_page_init
- * @gui : The glade gui of the dialog
- * @pagedata : pagedata mother struct passed to signal handlers etc.
- *
- * This routine prepares/initializes all widgets on the CSV Page of the
- * Druid.
- *
- * returns : nothing
- **/
 void
-stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
+stf_dialog_csv_page_init (GladeXML *gui, StfDialogData *pagedata)
 {
 	g_return_if_fail (gui != NULL);
 	g_return_if_fail (pagedata != NULL);
@@ -312,8 +298,4 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->csv.csv_textfield),
 		"changed",
 		G_CALLBACK (csv_page_textindicator_change), pagedata);
-
-	g_signal_connect (G_OBJECT (pagedata->csv_page),
-		"prepare",
-		G_CALLBACK (csv_page_prepare), pagedata);
 }

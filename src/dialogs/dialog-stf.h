@@ -4,7 +4,6 @@
 #include "dialog-stf-preview.h"
 #include "gui-util.h"
 #include <stf-parse.h>
-#include <libgnomeui/gnome-druid.h>
 #include "widgets/widget-charmap-selector.h"
 #include "widgets/widget-locale-selector.h"
 #include "widgets/widget-format-selector.h"
@@ -79,18 +78,20 @@ typedef enum {
 	DPG_CSV,
 	DPG_FIXED,
 	DPG_FORMAT
-} DruidPosition_t;
+} StfDialogPage;
 
 /* The MOTHER struct, passed trough signal handlers etc
  * contains pointers to nearly all members in the druid
  */
 typedef struct {
-	DruidPosition_t       position;                                    /* Current position */
-
 	WorkbookControlGUI    *wbcg;
-	GtkWindow             *window;                                           /* The main window */
-	GnomeDruid            *druid;                                            /* The gnome druid */
-	GnomeDruidPage        *main_page, *csv_page, *fixed_page, *format_page;  /* Rest of the pages */
+	GtkDialog             *dialog;                                           /* The main window */
+	GtkNotebook           *notebook;
+	GtkWidget             *next_button;
+	GtkWidget             *back_button;
+	GtkWidget             *cancel_button;
+	GtkWidget             *help_button;
+	GtkWidget             *finish_button;
 
 	char                  *encoding;
 	gboolean               fixed_encoding;
@@ -111,7 +112,7 @@ typedef struct {
 
 	gboolean              canceled;   /* Indicates whether the user pressed cancel button */
 	StfParseOptions_t    *parseoptions;
-} DruidPageData_t;
+} StfDialogData;
 
 typedef struct {
 	char              *encoding;
@@ -139,10 +140,10 @@ void               stf_dialog_result_free               (DialogStfResult_t *dial
  * each page the opportunity to connect signal handlers and set the contents
  * of their Info_t record
  */
-void    stf_dialog_main_page_init                       (GladeXML *gui, DruidPageData_t *pagedata);
-void    stf_dialog_csv_page_init                        (GladeXML *gui, DruidPageData_t *pagedata);
-void    stf_dialog_fixed_page_init                      (GladeXML *gui, DruidPageData_t *pagedata);
-void    stf_dialog_format_page_init                     (GladeXML *gui, DruidPageData_t *pagedata);
+void    stf_dialog_main_page_init                       (GladeXML *gui, StfDialogData *pagedata);
+void    stf_dialog_csv_page_init                        (GladeXML *gui, StfDialogData *pagedata);
+void    stf_dialog_fixed_page_init                      (GladeXML *gui, StfDialogData *pagedata);
+void    stf_dialog_format_page_init                     (GladeXML *gui, StfDialogData *pagedata);
 
 /* CLEANUP functions
  *
@@ -150,9 +151,14 @@ void    stf_dialog_format_page_init                     (GladeXML *gui, DruidPag
  * Pages can free dynamic run-time data here
  * Not every page MUST have this, it is optional
  */
-void    stf_dialog_main_page_cleanup                    (DruidPageData_t *pagedata);
-void    stf_dialog_csv_page_cleanup                     (DruidPageData_t *pagedata);
-void    stf_dialog_fixed_page_cleanup                   (DruidPageData_t *pagedata);
-void    stf_dialog_format_page_cleanup                  (DruidPageData_t *pagedata);
+void    stf_dialog_main_page_cleanup                    (StfDialogData *pagedata);
+void    stf_dialog_csv_page_cleanup                     (StfDialogData *pagedata);
+void    stf_dialog_fixed_page_cleanup                   (StfDialogData *pagedata);
+void    stf_dialog_format_page_cleanup                  (StfDialogData *pagedata);
+
+void    stf_dialog_main_page_prepare                    (StfDialogData *pagedata);
+void    stf_dialog_csv_page_prepare                     (StfDialogData *pagedata);
+void    stf_dialog_fixed_page_prepare                   (StfDialogData *pagedata);
+void    stf_dialog_format_page_prepare                  (StfDialogData *pagedata);
 
 #endif /* GNUMERIC_DIALOG_STF_H */

@@ -1,5 +1,5 @@
 /*
- * dialog-stf-main-page.c : controls the widget on the main page of the druid
+ * dialog-stf-main-page.c : controls the widget on the main page
  *
  * Copyright 2001 Almer S. Tigelaar <almer@gnome.org>
  * Copyright 2003 Morten Welinder <terra@gnome.org>
@@ -31,7 +31,7 @@
  *************************************************************************************************/
 
 static gboolean
-main_page_set_encoding (DruidPageData_t *pagedata, const char *enc)
+main_page_set_encoding (StfDialogData *pagedata, const char *enc)
 {
 	char *utf8_data;
 	gsize bytes_read = -1;
@@ -68,7 +68,7 @@ main_page_set_encoding (DruidPageData_t *pagedata, const char *enc)
 
 
 static void
-main_page_update_preview (DruidPageData_t *pagedata)
+main_page_update_preview (StfDialogData *pagedata)
 {
 	RenderData_t *renderdata = pagedata->main.renderdata;
 
@@ -101,12 +101,12 @@ main_page_set_spin_button_adjustment (GtkSpinButton* spinbutton, int min, int ma
  * main_page_import_range_changed
  * @data : mother struct
  *
- * Updates the "number of lines to import" label on the main page of the druid
+ * Updates the "number of lines to import" label on the main page
  *
  * returns : nothing
  **/
 static void
-main_page_import_range_changed (DruidPageData_t *data)
+main_page_import_range_changed (StfDialogData *data)
 {
 	RenderData_t *renderdata = data->main.renderdata;
 	int startrow, stoprow;
@@ -146,7 +146,7 @@ main_page_import_range_changed (DruidPageData_t *data)
 
 static void
 encodings_changed_cb (CharmapSelector *cs, char const *new_charmap,
-		      DruidPageData_t *pagedata)
+		      StfDialogData *pagedata)
 {
 	if (main_page_set_encoding (pagedata, new_charmap)) {
 		main_page_import_range_changed (pagedata);
@@ -176,7 +176,7 @@ encodings_changed_cb (CharmapSelector *cs, char const *new_charmap,
  * returns : nothing
  **/
 static void
-main_page_startrow_changed (GtkSpinButton* button, DruidPageData_t *data)
+main_page_startrow_changed (GtkSpinButton* button, StfDialogData *data)
 {
 	main_page_import_range_changed (data);
 }
@@ -190,14 +190,14 @@ main_page_startrow_changed (GtkSpinButton* button, DruidPageData_t *data)
  **/
 static void
 main_page_stoprow_changed (GtkSpinButton* button,
-			   DruidPageData_t *data)
+			   StfDialogData *data)
 {
 	main_page_import_range_changed (data);
 }
 
 static void
 main_page_source_format_toggled (G_GNUC_UNUSED GtkWidget *widget,
-				 DruidPageData_t *data)
+				 StfDialogData *data)
 {
 	gboolean separated = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (data->main.main_separated));
@@ -208,7 +208,7 @@ main_page_source_format_toggled (G_GNUC_UNUSED GtkWidget *widget,
 
 static void
 cb_line_breaks (G_GNUC_UNUSED GtkWidget *widget,
-		DruidPageData_t *data)
+		StfDialogData *data)
 {
 	gboolean to_end = (gtk_spin_button_get_value_as_int (data->main.main_stoprow) ==
 			   (int)data->main.renderdata->lines->len);
@@ -233,9 +233,7 @@ cb_line_breaks (G_GNUC_UNUSED GtkWidget *widget,
 }
 
 /**
- * main_page_prepare
- * @page : format page
- * @druid : gnome druid hosting @page
+ * stf_dialog_main_page_prepare
  * @data : mother struct
  *
  * This will prepare the widgets on the format page before
@@ -243,17 +241,15 @@ cb_line_breaks (G_GNUC_UNUSED GtkWidget *widget,
  *
  * returns : nothing
  **/
-static void
-main_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
-		   G_GNUC_UNUSED GnomeDruid *druid,
-		   DruidPageData_t *pagedata)
+void
+stf_dialog_main_page_prepare (StfDialogData *pagedata)
 {
 	main_page_source_format_toggled (NULL, pagedata);
 	main_page_update_preview (pagedata);
 }
 
 static void
-main_page_parseoptions_to_gui (DruidPageData_t *pagedata)
+main_page_parseoptions_to_gui (StfDialogData *pagedata)
 {
 	StfParseOptions_t *po = pagedata->parseoptions;
 
@@ -305,23 +301,13 @@ main_page_parseoptions_to_gui (DruidPageData_t *pagedata)
  *************************************************************************************************/
 
 void
-stf_dialog_main_page_cleanup (DruidPageData_t *pagedata)
+stf_dialog_main_page_cleanup (StfDialogData *pagedata)
 {
 	stf_preview_free (pagedata->main.renderdata);
 }
 
-/**
- * stf_dialog_main_page_init
- * @gui : The glade gui of the dialog
- * @pagedata : pagedata mother struct passed to signal handlers etc.
- *
- * This routine prepares/initializes all widgets on the Main Page of the
- * Druid.
- *
- * returns : nothing
- **/
 void
-stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
+stf_dialog_main_page_init (GladeXML *gui, StfDialogData *pagedata)
 {
 	RenderData_t *renderdata;
 	GtkTreeViewColumn *column;
@@ -411,10 +397,6 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->main.line_break_mac),
 			  "toggled",
 			  G_CALLBACK (cb_line_breaks), pagedata);
-
-	g_signal_connect (G_OBJECT (pagedata->main_page),
-		"prepare",
-		G_CALLBACK (main_page_prepare), pagedata);
 
 	g_signal_connect (G_OBJECT (pagedata->main.charmap_selector),
 			  "charmap_changed",

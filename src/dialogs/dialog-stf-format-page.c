@@ -37,7 +37,7 @@
 /**                                                                                         * main_page_trim_toggled:                                                                  * @button: the toggle button the event handler is attached to                              * @data: mother struct                                                                     *                                                                                          **/
 static void
 format_page_trim_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu,
-				  DruidPageData_t *data)
+				  StfDialogData *data)
 {
 	StfTrimType_t trim;
 	int trimtype = gtk_option_menu_get_history (data->format.format_trim);
@@ -69,7 +69,7 @@ static void
 cb_col_clicked (GtkTreeViewColumn *column, gpointer _i)
 {
 	int i = GPOINTER_TO_INT (_i);
-	DruidPageData_t *pagedata =
+	StfDialogData *pagedata =
 		g_object_get_data (G_OBJECT (column), "pagedata");
 
 	gtk_clist_select_row (pagedata->format.format_collist, i, 0);
@@ -88,7 +88,7 @@ cb_col_clicked (GtkTreeViewColumn *column, gpointer _i)
  * returns : nothing
  **/
 static void
-format_page_update_preview (DruidPageData_t *pagedata)
+format_page_update_preview (StfDialogData *pagedata)
 {
 	RenderData_t *renderdata = pagedata->format.renderdata;
 	unsigned int ui;
@@ -124,7 +124,7 @@ format_page_update_preview (DruidPageData_t *pagedata)
 
 static void
 locale_changed_cb (LocaleSelector *ls, char const *new_locale,
-		      DruidPageData_t *pagedata)
+		      StfDialogData *pagedata)
 {
 	g_free (pagedata->locale);
 	pagedata->locale = g_strdup (new_locale);
@@ -151,7 +151,7 @@ static void
 format_page_collist_select_row (G_GNUC_UNUSED GtkCList *clist,
 				int row, G_GNUC_UNUSED int column,
 				G_GNUC_UNUSED GdkEventButton *event,
-				DruidPageData_t *data)
+				StfDialogData *data)
 {
 	StyleFormat *colformat = g_ptr_array_index (data->format.formats, row);
 
@@ -184,7 +184,7 @@ format_page_collist_select_row (G_GNUC_UNUSED GtkCList *clist,
 static void
 cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget, 
 			      char * fmt,
-			      DruidPageData_t *data)
+			      StfDialogData *data)
 {
 	if (data->format.index >= 0) {
 
@@ -210,9 +210,7 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 }
 
 /**
- * format_page_prepare
- * @page : format page
- * @druid : gnome druid hosting @page
+ * stf_dialog_format_page_prepare
  * @data : mother struct
  *
  * This will prepare the widgets on the format page before
@@ -220,10 +218,8 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
  *
  * returns : nothing
  **/
-static void
-format_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
-		     G_GNUC_UNUSED GnomeDruid *druid,
-		     DruidPageData_t *data)
+void
+stf_dialog_format_page_prepare (StfDialogData *data)
 {
 	int i;
 	StyleFormat *sf;
@@ -267,18 +263,8 @@ format_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
  * FORMAT EXPORTED FUNCTIONS
  *************************************************************************************************/
 
-/**
- * stf_dialog_format_page_cleanup
- * @pagedata : mother struct
- *
- * This should be called when the druid has finished to clean up resources
- * used. In this case the formats data pointers and the formats
- * itself will be freed
- *
- * returns : nothing
- **/
 void
-stf_dialog_format_page_cleanup (DruidPageData_t *pagedata)
+stf_dialog_format_page_cleanup (StfDialogData *pagedata)
 {
 	GPtrArray *formats = pagedata->format.formats;
 	if (formats) {
@@ -293,18 +279,8 @@ stf_dialog_format_page_cleanup (DruidPageData_t *pagedata)
 	stf_preview_free (pagedata->format.renderdata);
 }
 
-/**
- * stf_dialog_format_page_init
- * @gui : The glade gui of the dialog
- * @pagedata : pagedata mother struct passed to signal handlers etc.
- *
- * This routine prepares/initializes all widgets on the format Page of the
- * Druid.
- *
- * returns : nothing
- **/
 void
-stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
+stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 {
 	GtkMenu *menu;
 	GtkWidget * format_hbox;
@@ -363,8 +339,4 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			  "deactivate",
 			  G_CALLBACK (format_page_trim_menu_deactivate), pagedata);
 	format_page_trim_menu_deactivate (menu, pagedata);
-
-	g_signal_connect (G_OBJECT (pagedata->format_page),
-		"prepare",
-		G_CALLBACK (format_page_prepare), pagedata);
 }

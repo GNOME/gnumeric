@@ -56,10 +56,10 @@ typedef struct {
 typedef enum {
 	DPG_SHEET,
 	DPG_FORMAT
-} StfE_DruidPosition_t;
+} StfE_StfDialogPage;
 
 typedef struct {
-	StfE_DruidPosition_t   active_page;                /* The currently active page */
+	StfE_StfDialogPage   active_page;                /* The currently active page */
 
 	WorkbookControlGUI    *wbcg;
 	GtkWindow             *window;                     /* The main window */

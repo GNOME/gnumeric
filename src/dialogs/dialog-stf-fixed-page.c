@@ -39,7 +39,7 @@
  * result in the fixed_collist
  **/
 static void
-fixed_page_autodiscover (DruidPageData_t *pagedata)
+fixed_page_autodiscover (StfDialogData *pagedata)
 {
 	guint i = 1;
 	char *tset[2];
@@ -85,7 +85,7 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 }
 
 
-static void fixed_page_update_preview (DruidPageData_t *pagedata);
+static void fixed_page_update_preview (StfDialogData *pagedata);
 
 static gint
 cb_col_event (GtkWidget *button,
@@ -95,7 +95,7 @@ cb_col_event (GtkWidget *button,
 	int col = GPOINTER_TO_INT (_col);
 
 	if (event->type == GDK_BUTTON_PRESS) {
-		DruidPageData_t *data = g_object_get_data (G_OBJECT (button), "fixed-data");
+		StfDialogData *data = g_object_get_data (G_OBJECT (button), "fixed-data");
 		GdkEventButton *bevent = (GdkEventButton *)event;
 
 		if (bevent->button == 1) {
@@ -189,7 +189,7 @@ cb_col_event (GtkWidget *button,
  * returns : nothing
  **/
 static void
-fixed_page_update_preview (DruidPageData_t *pagedata)
+fixed_page_update_preview (StfDialogData *pagedata)
 {
 	StfParseOptions_t *parseoptions = pagedata->parseoptions;
 	RenderData_t *renderdata = pagedata->fixed.renderdata;
@@ -253,7 +253,7 @@ static void
 fixed_page_collist_select_row (GtkCList *clist, int row,
 			       G_GNUC_UNUSED int column,
 			       G_GNUC_UNUSED GdkEventButton *event,
-			       DruidPageData_t *data)
+			       StfDialogData *data)
 {
 	char *t[2];
 
@@ -276,7 +276,7 @@ fixed_page_collist_select_row (GtkCList *clist, int row,
  * returns : nothing
  **/
 static void
-fixed_page_colend_changed (GtkSpinButton *button, DruidPageData_t *data)
+fixed_page_colend_changed (GtkSpinButton *button, StfDialogData *data)
 {
 	char *text;
 
@@ -301,7 +301,7 @@ fixed_page_colend_changed (GtkSpinButton *button, DruidPageData_t *data)
  **/
 static void
 fixed_page_add_clicked (G_GNUC_UNUSED GtkButton *button,
-			DruidPageData_t *data)
+			StfDialogData *data)
 {
 	char *tget[1], *tset[2];
 	int colindex = GTK_CLIST (data->fixed.fixed_collist)->rows;
@@ -340,7 +340,7 @@ fixed_page_add_clicked (G_GNUC_UNUSED GtkButton *button,
  **/
 static void
 fixed_page_remove_clicked (G_GNUC_UNUSED GtkButton *button,
-			   DruidPageData_t *data)
+			   StfDialogData *data)
 {
 	int i;
 
@@ -371,7 +371,7 @@ fixed_page_remove_clicked (G_GNUC_UNUSED GtkButton *button,
  **/
 static void
 fixed_page_clear_clicked (G_GNUC_UNUSED GtkButton *button,
-			  DruidPageData_t *data)
+			  StfDialogData *data)
 {
 	char *tset[2];
 
@@ -398,7 +398,7 @@ fixed_page_clear_clicked (G_GNUC_UNUSED GtkButton *button,
  **/
 static void
 fixed_page_auto_clicked (G_GNUC_UNUSED GtkButton *button,
-			 DruidPageData_t *data)
+			 StfDialogData *data)
 {
 	fixed_page_autodiscover (data);
 
@@ -407,25 +407,18 @@ fixed_page_auto_clicked (G_GNUC_UNUSED GtkButton *button,
 
 /**
  * stf_dialog_fixed_page_prepare
- * @page : The druidpage that emitted the signal
- * @druid : The gnomedruid that houses @page
  * @data : mother struct
  *
  * Will prepare the fixed page
  *
  * returns : nothing
  **/
-static void
-fixed_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
-		    G_GNUC_UNUSED GnomeDruid *druid,
-		    DruidPageData_t *pagedata)
+void
+stf_dialog_fixed_page_prepare (StfDialogData *pagedata)
 {
 	GtkAdjustment *spinadjust;
 
 	stf_parse_options_set_trim_spaces (pagedata->parseoptions, TRIM_TYPE_NEVER);
-#if 0
-	stf_preview_set_startrow (pagedata->fixed.renderdata, GTK_RANGE (pagedata->fixed.fixed_scroll)->adjustment->value);
-#endif
 
 	spinadjust = gtk_spin_button_get_adjustment (pagedata->fixed.fixed_colend);
 	spinadjust->lower = 1;
@@ -450,23 +443,13 @@ fixed_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
  * returns : nothing
  **/
 void
-stf_dialog_fixed_page_cleanup (DruidPageData_t *pagedata)
+stf_dialog_fixed_page_cleanup (StfDialogData *pagedata)
 {
 	stf_preview_free (pagedata->fixed.renderdata);
 }
 
-/**
- * stf_dialog_fixed_page_init
- * @gui : The glade gui of the dialog
- * @pagedata : pagedata mother struct passed to signal handlers etc.
- *
- * This routine prepares/initializes all widgets on the fixed Page of the
- * Druid.
- *
- * returns : nothing
- **/
 void
-stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
+stf_dialog_fixed_page_init (GladeXML *gui, StfDialogData *pagedata)
 {
 	char *t[2];
 
@@ -515,8 +498,4 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->fixed.fixed_auto),
 		"clicked",
 		G_CALLBACK (fixed_page_auto_clicked), pagedata);
-
-	g_signal_connect (G_OBJECT (pagedata->fixed_page),
-		"prepare",
-		G_CALLBACK (fixed_page_prepare), pagedata);
 }
