@@ -760,6 +760,8 @@ src/cut-n-paste-code/Makefile
 src/cut-n-paste-code/egg/Makefile
 src/cut-n-paste-code/egg/menu/Makefile
 src/cut-n-paste-code/egg/toolbar/Makefile
+src/cut-n-paste-code/foocanvas/Makefile
+src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile
