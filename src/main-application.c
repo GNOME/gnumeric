@@ -16,7 +16,7 @@
 #include "libgnumeric.h"
 
 #include "command-context.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "io-context-gtk.h"
 /* TODO: Get rid of this one */
 #include "command-context-stderr.h"
@@ -50,7 +50,6 @@ static int gnumeric_show_version = FALSE;
 static int split_funcdocs = FALSE;
 static char *func_def_file = NULL;
 static char *func_state_file = NULL;
-static char *func_po_file = NULL;
 
 int gnumeric_no_splash = FALSE;
 

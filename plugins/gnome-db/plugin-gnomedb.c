@@ -21,7 +21,7 @@ view_data_sources (GnmAction const *action, WorkbookControl *wbc)
 
 	if (!g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 			    NULL, NULL, NULL, NULL))
-		gnumeric_notice (wbcg_toplevel (WORKBOOK_CONTROL_GUI (wbc)),
+		go_gtk_notice_dialog (wbcg_toplevel (WORKBOOK_CONTROL_GUI (wbc)),
 				 GTK_MESSAGE_INFO, 
 				 _("Could not run GNOME database configuration tool"));
 }

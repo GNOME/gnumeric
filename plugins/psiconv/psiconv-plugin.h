@@ -2,7 +2,7 @@
 #define PLUGIN_PSICONV_PLUGIN_H
 
 #include "gnumeric.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include <stdio.h>
 #include <gsf/gsf-input.h>
 

@@ -144,7 +144,7 @@ advanced_filter_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 				_("The given criteria are invalid."));
 		break;
 	case NO_RECORDS_FOUND:
-		gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
+		go_gtk_notice_nonmodal_dialog ((GtkWindow *) state->dialog,
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_INFO,
 					  _("No matching records were found."));

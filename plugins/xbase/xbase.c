@@ -6,7 +6,7 @@
 
 #include <gnm-format.h>
 #include <gutils.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
 
 #include <string.h>

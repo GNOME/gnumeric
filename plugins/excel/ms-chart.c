@@ -194,7 +194,7 @@ static gboolean
 BC_R(3d)(XLChartHandler const *handle,
 	 XLChartReadState *s, BiffQuery *q)
 {
-	d (0, {
+	d (1, {
 		guint16 const rotation = GSF_LE_GET_GUINT16 (q->data);	/* 0-360 */
 		guint16 const elevation = GSF_LE_GET_GUINT16 (q->data+2);	/* -90 - 90 */
 		guint16 const distance = GSF_LE_GET_GUINT16 (q->data+4);	/* 0 - 100 */

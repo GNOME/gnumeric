@@ -24,6 +24,9 @@ libgoffice_app_la_SOURCES = \
 	file.h				\
 	error-info.c			\
 	error-info.h			\
+	io-context.c			\
+	io-context.h			\
+	io-context-priv.h		\
 	go-cmd-context.c		\
 	go-cmd-context.h
 

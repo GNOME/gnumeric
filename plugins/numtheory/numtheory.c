@@ -449,6 +449,7 @@ static GnmFuncHelp const help_pfactor[] = {
 	   "\n"
 	   "The argument must be at least 2, or else a #VALUE! error is returned.\n"
 	   "\n"
+	   "@EXAMPLES=\n"
 	   "@SEEALSO=ITHPRIME")
     },
     { GNM_FUNC_HELP_END }
@@ -480,6 +481,7 @@ static GnmFuncHelp const help_nt_pi[] = {
 	   "NT_PI function returns the number of primes less than or equal "
 	   "to @n.\n"
 	   "\n"
+	   "@EXAMPLES=\n"
 	   "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA")
     },
     { GNM_FUNC_HELP_END }

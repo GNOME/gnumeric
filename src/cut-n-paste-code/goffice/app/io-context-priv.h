@@ -1,22 +1,17 @@
 #ifndef GNUMERIC_IO_CONTEXT_PRIV_H
 #define GNUMERIC_IO_CONTEXT_PRIV_H
 
-#include "gnumeric.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
 #include <goffice/app/go-cmd-context-impl.h>
-#include <stdio.h>
 
 #define IO_CONTEXT_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_IO_CONTEXT, IOContextClass))
 #define IS_IO_CONTEXT_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_IO_CONTEXT))
 
 typedef enum {
 	GNM_PROGRESS_HELPER_NONE,
-	GNM_PROGRESS_HELPER_FILE,
-	GNM_PROGRESS_HELPER_MEM,
 	GNM_PROGRESS_HELPER_COUNT,
 	GNM_PROGRESS_HELPER_VALUE,
-	GNM_PROGRESS_HELPER_WORKBOOK,
 	GNM_PROGRESS_HELPER_LAST
 } GnmProgressHelperType;
 

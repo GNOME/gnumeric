@@ -14,6 +14,7 @@ libgoffice_la_LIBADD = 				\
 libgoffice_la_SOURCES = 	\
 	goffice.c		\
 	goffice.h		\
+	goffice-priv.h		\
 	goffice-config.h
 
 EXTRA_DIST = goffice.mk goffice-plugins.mk

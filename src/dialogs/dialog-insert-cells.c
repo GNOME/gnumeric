@@ -162,7 +162,7 @@ dialog_insert_cells (WorkbookControlGUI *wbcg)
 	state->gui   = gui;
 	state->dialog = glade_xml_get_widget (state->gui, "Insert_cells");
 	if (state->dialog == NULL) {
-		gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
+		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Insert Cell dialog."));
 		g_free (state);
 		return ;

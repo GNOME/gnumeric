@@ -259,7 +259,7 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 		G_CALLBACK (cb_paste_special_response), state);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_paste_special_free);
-	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));

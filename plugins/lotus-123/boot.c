@@ -17,7 +17,7 @@
 #include <goffice/app/module-plugin-defs.h>
 #include <goffice/app/error-info.h>
 #include <gutils.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>

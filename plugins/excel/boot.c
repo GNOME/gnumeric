@@ -14,7 +14,7 @@
 
 #include <goffice/app/file.h>
 #include "libgnumeric.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"

@@ -108,25 +108,25 @@ cb_generate_po (gpointer key, Symbol *sym, gpointer array)
 		return;
 	}
 
-	ptr = fd->help[0].text;
+	ptr = dgettext ("gnumeric-functions", fd->help[0].text);
 	if (NULL == (ptr = strstr (ptr, "@FUNCTION="))) {
-		g_warning ("'%s' : missing @FUNCTION section", fd->name);
+		fprintf (stderr, "'%s' : missing @FUNCTION section", fd->name);
 		return;
 	}
 	if (NULL == (ptr = strstr (ptr, "@SYNTAX="))) {
-		g_warning ("'%s' : missing @SYNTAX section", fd->name);
+		fprintf (stderr, "'%s' : missing @SYNTAX section", fd->name);
 		return;
 	}
 	if (NULL == (ptr = strstr (ptr, "@DESCRIPTION="))) {
-		g_warning ("'%s' : missing @DESCRIPTION section", fd->name);
+		fprintf (stderr, "'%s' : missing @DESCRIPTION section", fd->name);
 		return;
 	}
 	if (NULL == (ptr = strstr (ptr, "@EXAMPLES="))) {
-		g_warning ("'%s' : missing @EXAMPLES section", fd->name);
+		fprintf (stderr, "'%s' : missing @EXAMPLES section", fd->name);
 		return;
 	}
 	if (NULL == (ptr = strstr (ptr, "@SEEALSO="))) {
-		g_warning ("'%s' : missing @SEEALSO section", fd->name);
+		fprintf (stderr, "'%s' : missing @SEEALSO section", fd->name);
 		return;
 	}
 }

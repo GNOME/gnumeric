@@ -19,36 +19,56 @@
 #ifndef GO_GUI_UTILS_H
 #define GO_GUI_UTILS_H
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtkmessagedialog.h>
 #include <glade/glade-xml.h>
 #include <gtk/gtkfilechooser.h>
 #include <goffice/app/goffice-app.h>
 
 G_BEGIN_DECLS
 
-void	   go_editable_enters (GtkWindow *window, GtkWidget *w);
+typedef struct {
+	char *name;
+	char *desc;
+	char *ext;
+	gboolean has_pixbuf_saver;
+} GOImageType;
 
-GtkWidget *go_gtk_button_new_with_stock_image (char const *text,
-					       char const *stock_id);
+void	   go_editable_enters (GtkWindow *window, GtkWidget *w);
 
 GladeXML  *go_libglade_new (char const *gladefile, char const *root,
 			    char const *domain, GOCmdContext *cc);
 
-GdkPixbuf *go_pixbuf_intelligent_scale (GdkPixbuf *pixbuf, 
-					guint width, guint height);
+GdkPixbuf *go_pixbuf_new_from_file	(char const *filename);
+GdkPixbuf *go_pixbuf_intelligent_scale	(GdkPixbuf *pixbuf, 
+					 guint width, guint height);
 
-void	   go_widget_disable_focus	  (GtkWidget *w);
-int	   go_measure_string		  (PangoContext *context,
-					   PangoFontDescription const *font_desc,
-					   char const *str);
+int	   go_pango_measure_string	(PangoContext *context,
+					 PangoFontDescription const *font_desc,
+					 char const *str);
 
-void       go_window_set_transient   (GtkWindow *parent, GtkWindow *window);
-void       gnumeric_non_modal_dialog (GtkWindow *toplevel, GtkWindow *dialog);
-char	  *gui_image_file_select     (GtkWindow *toplevel, const char *initial);
-GtkFileChooser *gui_image_chooser_new (gboolean is_save);
-void	   gnm_setup_label_atk	     (GtkWidget *label, GtkWidget *target);
-gboolean   gnumeric_dialog_file_selection (GtkWindow *toplevel, 
-					   GtkWidget *w);
+gint       go_gtk_dialog_run		(GtkDialog *dialog, GtkWindow *parent);
+void       go_gtk_notice_dialog		(GtkWindow *parent, GtkMessageType type, 
+					 char const *str);
+void       go_gtk_notice_nonmodal_dialog (GtkWindow *parent, GtkWidget **ref,
+					  GtkMessageType type, char const *str);
+gboolean   go_gtk_query_yes_no		(GtkWindow *toplevel, char const *message,
+					 gboolean default_answer);
+
+GtkWidget *go_gtk_button_new_with_stock (char const *text,
+					 char const *stock_id);
+void	   go_gtk_widget_disable_focus	(GtkWidget *w);
+void       go_gtk_window_set_transient  (GtkWindow *parent,   GtkWindow *window);
+void	   go_gtk_help_button_init	(GtkWidget *w, char const *data_dir,
+					 char const *app, char const *link);
+void       go_gtk_nonmodal_dialog	(GtkWindow *toplevel, GtkWindow *dialog);
+gboolean   go_gtk_file_sel_dialog	(GtkWindow *toplevel, GtkWidget *w);
+char	  *go_gtk_select_image		(GtkWindow *toplevel, const char *initial);
+char	  *gui_get_image_save_info	(GtkWindow *toplevel, GSList *formats, 
+					 GOImageType const **ret_format);
+gboolean   go_gtk_url_is_writeable	(GtkWindow *parent, char const *url,
+					 gboolean overwrite_by_default);
+
+void	   go_atk_setup_label	 	(GtkWidget *label, GtkWidget *target);
 
 G_END_DECLS
 

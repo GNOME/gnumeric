@@ -248,7 +248,7 @@ cb_scope_changed (G_GNUC_UNUSED GtkToggleButton *button, NameGuruState *state)
 	err = expr_name_set_scope (state->cur_name,
 		name_guru_scope_is_sheet (state) ? state->sheet : NULL);
 	if (err != NULL) {
-		gnumeric_notice (GTK_WINDOW (state->dialog),
+		go_gtk_notice_dialog (GTK_WINDOW (state->dialog),
 				 GTK_MESSAGE_ERROR, err);
 		g_free (err);
 		name_guru_display_scope (state); /* flip it back */
@@ -347,7 +347,7 @@ name_guru_add (NameGuruState *state)
 		if (perr.err == NULL)
 			return TRUE;
 
-		gnumeric_notice (GTK_WINDOW (state->dialog),
+		go_gtk_notice_dialog (GTK_WINDOW (state->dialog),
 				 GTK_MESSAGE_ERROR, perr.err->message);
 		gtk_widget_grab_focus (GTK_WIDGET (state->expr_entry));
 		parse_error_free (&perr);
@@ -358,7 +358,7 @@ name_guru_add (NameGuruState *state)
 	 * because it will be would disappear from the lists.
 	 */
 	if (gnm_expr_is_err (expr, GNM_ERROR_NAME)) {
-		gnumeric_notice (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
+		go_gtk_notice_dialog (GTK_WINDOW (state->dialog), GTK_MESSAGE_ERROR,
 			_("Why would you want to define a name to be #NAME?"));
 		gtk_widget_grab_focus (GTK_WIDGET (state->expr_entry));
 		parse_error_free (&perr);
@@ -548,7 +548,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 			       DEFINE_NAMES_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_name_guru_destroy);
-	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
@@ -579,7 +579,7 @@ dialog_define_names (WorkbookControlGUI *wbcg)
 
 	state = g_new0 (NameGuruState, 1);
 	if (name_guru_init (state, wbcg)) {
-		gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
+		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Name Guru."));
 		g_free (state);
 		return;

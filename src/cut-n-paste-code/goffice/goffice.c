@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/goffice.h>
+#include <goffice/goffice-priv.h>
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-plot-engine.h>
@@ -39,11 +40,52 @@
 #include <goffice/app/go-plugin-service.h>
 #include <gsf/gsf-utils.h>
 
+#warning remove when we get a configure.in
+#include <src/gnumeric-paths.h>
+
+#include <libintl.h>
+
 int goffice_graph_debug_level = 0;
+
+static char const *libgoffice_data_dir   = GNUMERIC_DATADIR;
+static char const *libgoffice_icon_dir   = GNUMERIC_ICONDIR;
+static char const *libgoffice_locale_dir = GNUMERIC_LOCALEDIR;
+/* static char const *libgoffice_lib_dir    = GNUMERIC_LIBDIR; */
+
+char const *
+go_sys_data_dir ()
+{
+	return libgoffice_data_dir;
+}
+char const *
+go_sys_icon_dir ()
+{
+	return libgoffice_data_dir;
+}
 
 void
 libgoffice_init (void)
 {
+	static gboolean initialized = FALSE;
+
+	if (initialized)
+		return;
+
+#ifdef G_OS_WIN32
+{
+	char *dir = g_win32_get_package_installation_directory (NULL, NULL);
+	libgoffice_data_dir = g_build_filename (dir,
+		"share", "goffice", LIBGOFFICE_VERSION, NULL);
+	libgoffice_icon_dir = g_build_filename (dir,
+		"share", "pixmaps", "gnumeric", NULL);
+	libgoffice_locale_dir = g_build_filename (dir,
+		"share", "locale", NULL);
+	libgoffice_lib_dir = g_build_filename (dir,
+		"lib", "goffice", LIBGOFFICE_VERSION, NULL);
+}
+#endif
+
+	bindtextdomain ("libgoffice", libgoffice_locale_dir);
 	go_fonts_init ();
 	go_math_init ();
 	gsf_init ();

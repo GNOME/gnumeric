@@ -339,7 +339,7 @@ soi_gdk_pixbuf_save (const gchar *buf,
 	return ok;
 }
 
-static GnmImageFormat std_fmts[] = {
+static GOImageType const std_fmts[] = {
 	{(char *) "png",  (char *) N_("PNG (raster graphics)"),   
 	 (char *) "png", TRUE},
 	{(char *) "jpeg", (char *) N_("JPEG (photograph)"),      
@@ -352,16 +352,16 @@ static GnmImageFormat std_fmts[] = {
 	 (char *) "wmf", FALSE}
 };
 
-static GnmImageFormat *
+static GOImageType *
 soi_get_image_fmt (SheetObjectImage *soi)
 {
-	GnmImageFormat *ret = g_new0 (GnmImageFormat, 1);
+	GOImageType *ret = g_new0 (GOImageType, 1);
 	GSList *l, *pixbuf_fmts;
 	guint i;
 	
 	ret->name = g_strdup (soi->type);
-	for (i = 0; i < sizeof std_fmts/sizeof std_fmts[0]; i++) {
-		GnmImageFormat *fmt = &std_fmts[i];
+	for (i = 0; i < G_N_ELEMENTS (std_fmts); i++) {
+		GOImageType const *fmt = &std_fmts[i];
 		
 		if (strcmp (soi->type, fmt->name) == 0) {
 			ret->desc = g_strdup (fmt->desc);
@@ -402,7 +402,7 @@ soi_get_image_fmt (SheetObjectImage *soi)
 static void
 soi_free_image_fmt (gpointer data)
 {
-	GnmImageFormat *fmt = (GnmImageFormat *) data;
+	GOImageType *fmt = (GOImageType *) data;
 
 	g_free (fmt->name);
 	g_free (fmt->desc);
@@ -417,7 +417,8 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	char *uri;
 	GsfOutput *output;
 	GSList *l = NULL;
-	GnmImageFormat *orig_fmt, *sel_fmt, *fmt;
+	GOImageType const *orig_fmt, *sel_fmt;
+	GOImageType *fmt;
 	GdkPixbuf *pixbuf = NULL;
 	guint i;
 	GError *err = NULL;
@@ -429,14 +430,14 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 	/* Put original format of image first in menu. */
 	orig_fmt = soi_get_image_fmt (soi);
 	sel_fmt  = orig_fmt;
-	l = g_slist_prepend (l, orig_fmt);
+	l = g_slist_prepend (l, (gpointer)orig_fmt);
 
 	/* Put jpeg and png in menu if we were able to render */
 	if ((pixbuf = soi_get_pixbuf (soi, 1.0)) != NULL) {
-		for (i = 0; i < sizeof std_fmts/sizeof std_fmts[0]; i++) {
+		for (i = 0; i < G_N_ELEMENTS (std_fmts); i++) {
 			if (strcmp (soi->type, std_fmts[i].name) != 0 &&
 			    std_fmts[i].has_pixbuf_saver) {
-				fmt = g_new0 (GnmImageFormat, 1);
+				fmt = g_new0 (GOImageType, 1);
 				fmt->name = g_strdup (std_fmts[i].name); 
 				fmt->desc = g_strdup (std_fmts[i].desc);
 				fmt->ext  = g_strdup (std_fmts[i].ext);
@@ -449,7 +450,7 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 
-	uri = gui_get_image_save_info (wbcg, l, &sel_fmt);
+	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &sel_fmt);
 	if (!uri)
 		goto out;
 

@@ -1315,9 +1315,8 @@ sheet_print_real (WorkbookControlGUI *wbcg, Sheet *sheet,
 			 * FIXME: not a great message, but at this point we don't
 			 * know *what* went wrong.
 			 */
-			gnumeric_notice (wbcg_toplevel (wbcg),
-					 GTK_MESSAGE_ERROR,
-					 _("Printing failed"));
+			go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
+				_("Printing failed"));
 		}
 	}
 	

@@ -42,7 +42,7 @@
 #include <style.h>
 #include <cell.h>
 #include <ranges.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
 
 #include <gsf/gsf-input.h>

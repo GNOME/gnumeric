@@ -287,7 +287,7 @@ cb_pm_button_directory_add_clicked (G_GNUC_UNUSED GtkButton *button,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 
-	if (gnumeric_dialog_file_selection (wbcg_toplevel (pm_gui->wbcg), GTK_WIDGET (fsel))) {
+	if (go_gtk_file_sel_dialog (wbcg_toplevel (pm_gui->wbcg), GTK_WIDGET (fsel))) {
 		char *path = gtk_file_chooser_get_filename (fsel);
 
 		if (!g_file_test (path, G_FILE_TEST_IS_DIR)) {
@@ -618,7 +618,7 @@ cb_active_toggled (G_GNUC_UNUSED GtkCellRendererToggle *celltoggle,
 			);
 			g_string_append (s, _("\nDo you want to activate this plugin together with its dependencies?"));
 			if (n_inactive_deps > 0) {
-				want_activate = gnumeric_dialog_question_yes_no (GTK_WINDOW (pm_gui->dialog_pm), s->str, TRUE);
+				want_activate = go_gtk_query_yes_no (GTK_WINDOW (pm_gui->dialog_pm), s->str, TRUE);
 			}
 			g_string_free (s, TRUE);
 		}

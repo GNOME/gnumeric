@@ -31,7 +31,7 @@
 #include "sheet-style.h"
 #include "style.h"
 #include "mstyle.h"
-#include "io-context-priv.h"
+#include <goffice/app/io-context-priv.h>
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
@@ -381,7 +381,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 /* 						      _("Some columns of data were" */
 /* 							" dropped since they exceeded" */
 /* 							" the available sheet size.")); */
-			gnumeric_notice (wbcg_toplevel (WORKBOOK_CONTROL_GUI (context->impl)),
+			go_gtk_notice_dialog (wbcg_toplevel (WORKBOOK_CONTROL_GUI (context->impl)),
 					 GTK_MESSAGE_WARNING,_("Some columns of data were"
 							       " dropped since they exceeded"
 							       " the available sheet size."));

@@ -200,14 +200,14 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 		cells[dims] = single_cell (dd->sheet, w);
 		if (!cells[dims]) {
-			gnumeric_notice (GTK_WINDOW (dd->dialog),
+			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a single valid cell as dependency cell"));
 			gnm_expr_entry_grab_focus (GNM_EXPR_ENTRY (w), TRUE);
 			goto error;
 		}
 		if (cell_has_expr (cells[dims])) {
-			gnumeric_notice (GTK_WINDOW (dd->dialog),
+			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("The dependency cells should not contain an expression"));
 			gnm_expr_entry_grab_focus (GNM_EXPR_ENTRY (w), TRUE);
@@ -216,7 +216,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 		if (get_table_float_entry (dd->source_table, row, COL_MIN, cells[dims],
 					   &(minima[dims]), &e_w, FALSE, 0.0)) {
-			gnumeric_notice (GTK_WINDOW (dd->dialog),
+			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as minimum"));
 			focus_on_entry (e_w);
@@ -225,7 +225,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 		if (get_table_float_entry (dd->source_table, row, COL_MAX, cells[dims],
 					   &(maxima[dims]), &e_w, FALSE, 0.0)) {
-			gnumeric_notice (GTK_WINDOW (dd->dialog),
+			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as maximum"));
 			focus_on_entry (e_w);
@@ -233,7 +233,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		}
 
 		if (maxima[dims] < minima[dims]) {
-			gnumeric_notice (GTK_WINDOW (dd->dialog),
+			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("The maximum value should be bigger than the minimum"));
 			focus_on_entry (e_w);
@@ -242,7 +242,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 		if (get_table_float_entry (dd->source_table, row, COL_STEP, cells[dims],
 					   &(steps[dims]), &e_w, TRUE, 1.0)) {
-			gnumeric_notice (GTK_WINDOW (dd->dialog),
+			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as step size"));
 			focus_on_entry (e_w);
@@ -250,7 +250,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		}
 
 		if (steps[dims] <= 0) {
-			gnumeric_notice (GTK_WINDOW (dd->dialog),
+			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("The step size should be positive"));
 			focus_on_entry (e_w);
@@ -261,7 +261,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	}
 
 	if (dims == 0) {
-		gnumeric_notice (GTK_WINDOW (dd->dialog),
+		go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 				 GTK_MESSAGE_ERROR,
 				 _("You should introduce one or more dependency cells"));
 		goto error;
@@ -271,7 +271,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		resultcell = single_cell (dd->sheet, dd->resultrangetext);
 
 		if (!resultcell) {
-			gnumeric_notice (GTK_WINDOW (dd->dialog),
+			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("You should introduce a single valid cell as result cell"));
 			gnm_expr_entry_grab_focus (dd->resultrangetext, TRUE);
@@ -279,7 +279,7 @@ tabulate_ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		}
 
 		if (!cell_has_expr (resultcell)) {
-			gnumeric_notice (GTK_WINDOW (dd->dialog),
+			go_gtk_notice_dialog (GTK_WINDOW (dd->dialog),
 					 GTK_MESSAGE_ERROR,
 					 _("The target cell should contain an expression"));
 			gnm_expr_entry_grab_focus (dd->resultrangetext, TRUE);

@@ -17,7 +17,7 @@
 #include <ranges.h>
 #include <mstyle.h>
 #include <sheet-style.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/error-info.h>
 #include <goffice/app/module-plugin-defs.h>

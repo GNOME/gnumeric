@@ -7,7 +7,7 @@
  *    Jon K Hellan  (hellan@acm.org)
  *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1998-2004 Michael Meeks, Jon K Hellan, Jody Goldberg
+ * (C) 1998-2005 Michael Meeks, Jon K Hellan, Jody Goldberg
  **/
 
 /*
@@ -52,7 +52,7 @@
 #include <print-info.h>
 #include <workbook-view.h>
 #include <workbook-priv.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 #include <command-context.h>
 #include <expr.h>
 #include <expr-impl.h>
@@ -89,7 +89,7 @@
 #define RASTER_BLIP_HDR_LEN 25
 #define VECTOR_BLIP_HDR_LEN 58
 
-#define N_ELEMENTS_BETWEEN_PROGRESS_UPDATES   20
+#define N_CELLS_BETWEEN_UPDATES   100
 
 typedef struct {
 	char const    *type;
@@ -4000,7 +4000,7 @@ excel_sheet_write_block (ExcelWriteSheet *esheet, guint32 begin, int nrows,
 					run_size = 0;
 				}
 				excel_write_cell (ewb, esheet, cell, xf);
-				workbook_io_progress_update (esheet->ewb->io_context, 1);
+				count_io_progress_update (esheet->ewb->io_context, 1);
 			}
 		}
 		if (run_size > 0)
@@ -4945,8 +4945,12 @@ excel_write_workbook (ExcelWriteState *ewb)
 
 	ms_biff_put_empty (ewb->bp, BIFF_EOF);
 
-	workbook_io_progress_set (ewb->io_context, ewb->gnum_wb,
-	                          N_ELEMENTS_BETWEEN_PROGRESS_UPDATES);
+	for (i = workbook_sheet_count (ewb->gnum_wb) ; i-- > 0 ;) {
+		Sheet const *sheet = workbook_sheet_by_index (ewb->gnum_wb, i);
+		n += g_hash_table_size (sheet->cell_hash);
+	}
+	count_io_progress_set (ewb->io_context,
+		n, N_CELLS_BETWEEN_UPDATES);
 	for (i = 0; i < ewb->sheets->len; i++)
 		excel_write_sheet (ewb, g_ptr_array_index (ewb->sheets, i));
 	io_progress_unset (ewb->io_context);

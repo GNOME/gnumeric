@@ -15,7 +15,7 @@
 #include "clipboard.h"
 #include "selection.h"
 #include "application.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
 #include "workbook-view.h"

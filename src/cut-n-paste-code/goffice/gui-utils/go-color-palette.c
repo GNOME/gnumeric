@@ -476,7 +476,7 @@ custom_colors :
 			&color_name, col, row + 1);
 	}
 
-	w = go_gtk_button_new_with_stock_image (_("Custom Color..."),
+	w = go_gtk_button_new_with_stock (_("Custom Color..."),
 		GTK_STOCK_SELECT_COLOR);
 	gtk_button_set_alignment (GTK_BUTTON (w), 0., .5);
 	gtk_table_attach (GTK_TABLE (table), w, 0, cols,

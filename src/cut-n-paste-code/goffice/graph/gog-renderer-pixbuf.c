@@ -43,6 +43,8 @@ struct _GogRendererPixbuf {
 
 	int 		 w, h;
 	int		 x_offset, y_offset;
+	double		 dpi_x, dpi_y;
+
 	GdkPixbuf 	*buffer;
 	guchar    	*pixels; /* from pixbuf */
 	int	   	 rowstride;
@@ -481,8 +483,7 @@ gog_renderer_pixbuf_get_pango_context (GogRendererPixbuf *prend)
 
 	font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
 	pango_ft2_font_map_set_resolution (font_map,
-					   gnm_app_display_dpi_get (TRUE),
-					   gnm_app_display_dpi_get (FALSE));
+		prend->dpi_x, prend->dpi_y);
 	prend->pango_context = pango_ft2_font_map_create_context  (font_map);
 	g_object_unref (font_map);
 
@@ -722,6 +723,7 @@ gog_renderer_pixbuf_init (GogRendererPixbuf *prend)
 {
 	prend->buffer = NULL;
 	prend->w = prend->h = 1; /* just in case */
+	prend->dpi_x = prend->dpi_y = 96.; /* arbitrary just in case */
 	prend->x_offset = prend->y_offset = 0;
 	prend->pango_layout = NULL;
 	prend->pango_context = NULL;
@@ -810,17 +812,15 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 	allocation.w = w;
 	allocation.h = h;
 	if (prend->w != w || prend->h != h) {
-		double dpi_x, dpi_y;
-
 		prend->w = w;
 		prend->h = h;
 		prend->base.scale_x = w / prend->base.logical_width_pts;
 		prend->base.scale_y = h / prend->base.logical_height_pts;
 		prend->base.scale = MIN (prend->base.scale_x, prend->base.scale_y);
 		prend->base.zoom  = zoom;
-		dpi_x = gog_renderer_pt2r_x (&prend->base, GO_IN_TO_PT ((double)1.))
+		prend->dpi_x = gog_renderer_pt2r_x (&prend->base, GO_IN_TO_PT ((double)1.))
 			/ zoom;
-		dpi_y = gog_renderer_pt2r_y (&prend->base, GO_IN_TO_PT ((double)1.))
+		prend->dpi_y = gog_renderer_pt2r_y (&prend->base, GO_IN_TO_PT ((double)1.))
 			/ zoom;
 
 		if (prend->buffer != NULL) {

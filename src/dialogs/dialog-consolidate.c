@@ -302,7 +302,7 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 	 * a suitable error message
 	 */
 	if (cs == NULL) {
-		gnumeric_notice_nonmodal (GTK_WINDOW (state->base.dialog),
+		go_gtk_notice_nonmodal_dialog (GTK_WINDOW (state->base.dialog),
 					  &state->base.warning_dialog,
 					  GTK_MESSAGE_ERROR,
 					  state->construct_error);
@@ -320,7 +320,7 @@ cb_consolidate_ok_clicked (GtkWidget *button, ConsolidateState *state)
 		    (button == state->base.ok_button))
 			gtk_widget_destroy (state->base.dialog);
 	} else {
-		gnumeric_notice_nonmodal (GTK_WINDOW (state->base.dialog),
+		go_gtk_notice_nonmodal_dialog (GTK_WINDOW (state->base.dialog),
 					  &state->base.warning_dialog,
 					  GTK_MESSAGE_ERROR,
 					  _("The output range overlaps "

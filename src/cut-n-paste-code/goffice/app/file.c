@@ -12,6 +12,7 @@
 #include <goffice/app/file.h>
 #include <goffice/app/file-priv.h>
 #include <goffice/app/error-info.h>
+#include <goffice/app/io-context.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-output.h>
@@ -74,13 +75,13 @@ gnm_file_opener_open_real (GnmFileOpener const *fo, gchar const *opt_enc,
 			   gpointer FIXME_FIXME_workbook_view,
 			   GsfInput *input)
 {
-	if (fo->open_func != NULL)
+	if (fo->open_func != NULL) {
 		if (fo->encoding_dependent)
 			((GnmFileOpenerOpenFuncWithEnc)fo->open_func) 
 				(fo, opt_enc, io_context, FIXME_FIXME_workbook_view, input);
 		else
 			fo->open_func (fo, io_context, FIXME_FIXME_workbook_view, input);
-	else
+	} else
 		gnumeric_io_error_unknown (io_context);
 }
 
@@ -282,21 +283,9 @@ gnm_file_opener_open (GnmFileOpener const *fo, gchar const *opt_enc,
 		      IOContext *io_context,
 		      gpointer FIXME_FIXME_workbook_view, GsfInput *input)
 {
-	const char *input_name;
-
 	g_return_if_fail (IS_GNM_FILE_OPENER (fo));
 	g_return_if_fail (GSF_IS_INPUT (input));
 
-	input_name = gsf_input_name (input);
-	if (input_name) {
-		/*
-		 * When we open a file, the input get a name that is its
-		 * absolute filename. 
-		 */
-		char *uri = go_shell_arg_to_uri (input_name);
-		workbook_set_uri (wb_view_workbook (FIXME_FIXME_workbook_view), uri);
-		g_free (uri);
-	}
 	GNM_FILE_OPENER_METHOD (fo, open) (fo, opt_enc, io_context, FIXME_FIXME_workbook_view, input);
 }
 
@@ -507,9 +496,7 @@ gnm_file_saver_save (GnmFileSaver const *fs, IOContext *io_context,
 		file_name = (char *) gsf_output_name (output);
 
 		if (file_name == NULL) {
-			ErrorInfo *save_error;
-
-			save_error = error_info_new_str(
+			ErrorInfo *save_error = error_info_new_str(
 				_("Not a valid UTF-8 filename."));
 			gnumeric_io_error_info_set (io_context, save_error);
 			return;
@@ -547,48 +534,6 @@ gnm_file_saver_set_overwrite_files (GnmFileSaver *fs, gboolean overwrite)
 	g_return_if_fail (IS_GNM_FILE_SAVER (fs));
 
 	fs->overwrite_files = overwrite;
-}
-
-/**
- * gnm_vrfy_uri_ext
- * @std_ext : Standard extension for the content type
- * @uri     : Uri
- * @new_uri : New uri
- *
- * Modifies given @uri by adding the extension @std_ext if needed.
- * If no @std_ext is given or @uri already has some extension,
- * it just copies @uri.
- *
- * Value in new_uri:  newly allocated string which you should free after 
- *                    use, containing (optionally) modified uri.
- *
- * Return Value:  FALSE if the uri has an extension not matching @std_ext
- */
-gboolean
-gnm_vrfy_uri_ext (gchar const *std_ext,
-		  gchar const *uri,
-		  gchar **new_uri)
-{
-	gchar *base;
-	gchar *user_ext;
-	gboolean res;
-
-	g_return_val_if_fail (uri != NULL, FALSE);
-	g_return_val_if_fail (new_uri != NULL, FALSE);
-
-	res      = TRUE;
-	base     = g_path_get_basename (uri);
-	user_ext = strrchr (base, '.');
-	if (std_ext != NULL && strlen (std_ext) > 0 && user_ext == NULL)
-		*new_uri = g_strconcat (uri, ".", std_ext, NULL);
-	else {
-		if (user_ext != NULL && std_ext != NULL)
-			res = !gnm_utf8_collate_casefold (user_ext + 1, std_ext);
-		*new_uri = g_strdup (uri);
-	}
-	g_free (base);
-
-	return res;
 }
 
 

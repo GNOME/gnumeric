@@ -251,7 +251,7 @@ gnm_dao_new (WorkbookControlGUI *wbcg, gchar *inplace_str)
 			  2, 3, 3, 4,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	gnm_setup_label_atk (gdao->output_range,
+	go_atk_setup_label (gdao->output_range,
 			     GTK_WIDGET (gdao->output_entry));
 	gtk_widget_show (GTK_WIDGET (gdao->output_entry));
 	/* Finished creating the output range expression entry */

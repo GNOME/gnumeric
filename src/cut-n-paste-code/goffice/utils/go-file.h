@@ -31,15 +31,16 @@ char *go_shell_arg_to_uri (const char *arg);
 char *go_basename_from_uri (const char *uri);
 char *go_dirname_from_uri (const char *uri, gboolean brief);
 
-GsfInput *go_file_open (char const *uri, GError **err);
-GsfOutput *go_file_create (char const *uri, GError **err);
+GsfInput  *go_file_open		(char const *uri, GError **err);
+GsfOutput *go_file_create	(char const *uri, GError **err);
+GSList	  *go_file_split_urls	(char const *data);
 
-GSList *go_file_split_uris (const char *data);
-
-gchar  *go_url_decode (gchar const *text);
-gchar  *go_url_encode (gchar const *text);
-GError *go_url_show   (gchar const *url);
-GError *go_url_mailto (gchar const *url);
+gchar	*go_url_decode		(gchar const *text);
+gchar	*go_url_encode		(gchar const *text);
+GError	*go_url_show		(gchar const *url);
+gboolean go_url_check_extension (gchar const *uri,
+				 gchar const *std_ext,
+				 gchar **new_uri);
 
 G_END_DECLS
 

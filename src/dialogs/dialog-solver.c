@@ -386,7 +386,7 @@ cb_dialog_model_type_clicked (G_GNUC_UNUSED GtkWidget *button,
 		l = qp_alg_name_list;
 		gtk_widget_set_sensitive (GTK_WIDGET (state->solve_button),
 					  FALSE);
-		gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
+		go_gtk_notice_nonmodal_dialog ((GtkWindow *) state->dialog,
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_INFO,
 					  _("Looking for a subject for your "
@@ -691,7 +691,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 	g_object_add_weak_pointer (G_OBJECT (state->dialog), (gpointer)&state);
 	switch (res->status) {
 	case SolverOptimal :
-		gnumeric_notice_nonmodal
+		go_gtk_notice_nonmodal_dialog
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
 			 GTK_MESSAGE_INFO,
@@ -700,7 +700,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 			   "satisfied.\n"));
 		if ((opt->sensitivity_report || opt->limits_report)
 		    && res->ilp_flag)
-			gnumeric_notice_nonmodal
+			go_gtk_notice_nonmodal_dialog
 				((GtkWindow *) state->dialog,
 				 &(state->warning_dialog),
 				 GTK_MESSAGE_INFO,
@@ -718,7 +718,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 				      opt->dual_program_report);
 		break;
 	case SolverUnbounded :
-		gnumeric_notice_nonmodal
+		go_gtk_notice_nonmodal_dialog
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
 			 GTK_MESSAGE_WARNING,
@@ -732,7 +732,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 				      opt->dual_program_report);
 		break;
 	case SolverInfeasible :
-		gnumeric_notice_nonmodal
+		go_gtk_notice_nonmodal_dialog
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
 			 GTK_MESSAGE_WARNING,
@@ -747,7 +747,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 				      opt->dual_program_report);
 		break;
 	case SolverMaxIterExc :
-		gnumeric_notice_nonmodal
+		go_gtk_notice_nonmodal_dialog
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
 			 GTK_MESSAGE_ERROR,
@@ -761,7 +761,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 				      opt->dual_program_report);
 		break;
 	case SolverMaxTimeExc :
-		gnumeric_notice_nonmodal
+		go_gtk_notice_nonmodal_dialog
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
 			 GTK_MESSAGE_ERROR,
@@ -774,7 +774,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 				      opt->dual_program_report);
 		break;
 	default:
-		gnumeric_notice_nonmodal
+		go_gtk_notice_nonmodal_dialog
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
 			 GTK_MESSAGE_ERROR, errmsg);
@@ -784,7 +784,7 @@ solver_reporting (SolverState *state, SolverResults *res, const gchar *errmsg)
 		g_object_remove_weak_pointer (G_OBJECT (state->dialog), (gpointer)&state);
 
 	if (err)
-		gnumeric_notice_nonmodal (state ? ((GtkWindow *) state->dialog) : NULL,
+		go_gtk_notice_nonmodal_dialog (state ? ((GtkWindow *) state->dialog) : NULL,
 			 &(state->warning_dialog), GTK_MESSAGE_ERROR, err);
 
 	return state != NULL;
@@ -845,7 +845,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 						     state->sheet);
 
 	if (target_range == NULL || input_range == NULL) {
-		gnumeric_notice_nonmodal
+		go_gtk_notice_nonmodal_dialog
 			((GtkWindow *) state->dialog,
 			  &(state->warning_dialog),
 			  GTK_MESSAGE_ERROR, _("You have not specified "
@@ -864,7 +864,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 	/* Check that the target cell type is number. */
 	if (! cell_is_number (param->target_cell)) {
-		gnumeric_notice_nonmodal
+		go_gtk_notice_nonmodal_dialog
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
 			 GTK_MESSAGE_ERROR, _("Target cell should contain "
@@ -947,7 +947,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		str = g_strdup_printf
 			(_("Constraint `%s' is for a cell that "
 			   "is not an input cell."), name);
-		gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
+		go_gtk_notice_nonmodal_dialog ((GtkWindow *) state->dialog,
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR, str);
 		g_free (str);
@@ -964,7 +964,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 	}
 	param->constraints = conv.c_list;
 	if (param->constraints == NULL) {
-		gnumeric_notice_nonmodal
+		go_gtk_notice_nonmodal_dialog
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
 			 GTK_MESSAGE_ERROR, _("No constraints defined for "
@@ -994,7 +994,7 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 
 		solver_results_free (res);
 	} else
-		gnumeric_notice_nonmodal (GTK_WINDOW (state->dialog),
+		go_gtk_notice_nonmodal_dialog (GTK_WINDOW (state->dialog),
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR, errmsg);
 out:
@@ -1348,7 +1348,7 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->cancelled      = TRUE;
 
 	if (dialog_init (state)) {
-		gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
+		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Solver dialog."));
 		g_free (state);
 		return;

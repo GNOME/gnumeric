@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include <goffice/app/error-info.h>
 #include "workbook-view.h"
 #include "workbook.h"

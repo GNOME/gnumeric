@@ -140,7 +140,7 @@ dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 			ret = (char *) target;
 			value_release (val);
 		} else {
-			gnumeric_notice (GTK_WINDOW (state->dialog), 
+			go_gtk_notice_dialog (GTK_WINDOW (state->dialog), 
 					 GTK_MESSAGE_ERROR,
 					 _("Not a range or name"));
 			gnm_expr_entry_grab_focus (gee, TRUE);
@@ -540,7 +540,7 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 
 	state->link = link;
 	if (dhl_init (state)) {
-		gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
+		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the hyperlink dialog."));
 		g_free (state);
 		return;
@@ -556,7 +556,7 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 			       DIALOG_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) dhl_free);
-	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show (state->dialog);

@@ -1,3 +1,39 @@
+2005-02-16  Jody Goldberg <jody@gnome.org>
+
+	* utils/go-file.c (go_url_check_extension) : pull down from gnumeric
+
+	* gui-utils/go-gui-utils.c (go_gtk_button_new_with_stock) : renamed
+	  from go_gtk_button_new_with_stock_image.
+	(go_libglade_new) : use go_sys_data_dir.
+	(go_gtk_widget_disable_focus) : renamed from go_widget_disable_focus.
+	(go_pango_measure_string) : renamed from go_measure_string.
+	(go_gtk_window_set_transient) : renamed from go_window_set_transient.
+	(go_gtk_nonmodal_dialog) : renamed from gnumeric_non_modal_dialog.
+	(go_gtk_file_sel_dialog) : renamed from gnumeric_dialog_file_selection.
+	(go_gtk_select_image) : renamed from gui_image_file_select.
+	(gui_get_image_save_info) : pulled in from gnumeric.
+	(go_atk_setup_label) : renamed from gnm_setup_label_atk.
+	(go_help_display) : pulled down from gnumeric and made generic.
+	(go_gtk_help_button_init) : ditto.
+	(go_gtk_url_is_writeable) : ditto.
+	(go_gtk_dialog_run) : pulled from gnumeric
+	(go_gtk_notice_dialog) : ditto.
+	(go_gtk_notice_nonmodal_dialog) : ditto.
+	(go_gtk_query_yes_no) : ditto.
+
+	* gui-utils/Makefile.am : Add libhtml_stub
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_init) : init the
+	  dpis.
+	(gog_renderer_pixbuf_get_pango_context) : use the stored calculated
+	  dpi rather than gconf
+	(gog_renderer_pixbuf_update) : store the dpi
+
+	* goffice.c (libgoffice_init) : init the paths.  We may want to expand
+	  this at some point to allow cmd-line or env-var override.
+	(go_sys_data_dir) : new.
+	(go_sys_icon_dir) : new.
+
 2005-02-15  Stepan Kasal  <kasal@ucw.cz>
 
 	* gui-utils/go-marshalers.list: Remove, merge with ...

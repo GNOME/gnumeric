@@ -12,7 +12,7 @@
 #include "bonobo-io.h"
 
 #include "command-context.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "workbook-control-component.h"
 #include "workbook-view.h"
 #include "workbook.h"

@@ -235,39 +235,39 @@ gog_error_bar_prefs (GogSeries *series,
 	
 	/* Display style */
 	cpx = go_combo_pixmaps_new (4);
-	pixbuf = gnumeric_load_pixbuf ("bar-none.png");
+	pixbuf = go_pixbuf_new_from_file ("bar-none.png");
 	go_combo_pixmaps_add_element  (cpx,
 				       pixbuf,
 				       GOG_ERROR_BAR_DISPLAY_NONE,
 				       _("No error bar displayed"));
 	if (horizontal) {
-		pixbuf = gnumeric_load_pixbuf ("bar-hplus.png");
+		pixbuf = go_pixbuf_new_from_file ("bar-hplus.png");
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
 					       _("Positive error bar displayed"));
-		pixbuf = gnumeric_load_pixbuf ("bar-hminus.png");
+		pixbuf = go_pixbuf_new_from_file ("bar-hminus.png");
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,
 					       _("Negative error bar displayed"));
-		pixbuf = gnumeric_load_pixbuf ("bar-hboth.png");
+		pixbuf = go_pixbuf_new_from_file ("bar-hboth.png");
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_BOTH,
 					       _("Full error bar displayed"));
 	} else {
-		pixbuf = gnumeric_load_pixbuf ("bar-vplus.png");
+		pixbuf = go_pixbuf_new_from_file ("bar-vplus.png");
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_POSITIVE,
 					       _("Positive error bar displayed"));
-		pixbuf = gnumeric_load_pixbuf ("bar-vminus.png");
+		pixbuf = go_pixbuf_new_from_file ("bar-vminus.png");
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_NEGATIVE,
 					       _("Negative error bar displayed"));
-		pixbuf = gnumeric_load_pixbuf ("bar-vboth.png");
+		pixbuf = go_pixbuf_new_from_file ("bar-vboth.png");
 		go_combo_pixmaps_add_element  (cpx,
 					       pixbuf,
 					       GOG_ERROR_BAR_DISPLAY_BOTH,

@@ -112,7 +112,7 @@ dialog_so_styled (WorkbookControlGUI *wbcg,
 		GNM_SO_STYLED_KEY);
 	g_object_set_data_full (G_OBJECT (dialog),
 		"state", state, (GDestroyNotify) dialog_so_styled_free);
-	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 		GTK_WINDOW (dialog));
 	wbcg_edit_attach_guru (state->wbcg, dialog);
 	gtk_widget_show (dialog);

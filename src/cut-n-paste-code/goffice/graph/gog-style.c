@@ -611,7 +611,7 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 
 	filename = style->fill.image.filename;
 	old_uri = filename ? go_filename_to_uri (filename) : NULL;
-	uri = gui_image_file_select (NULL, old_uri);
+	uri = go_gtk_select_image (NULL, old_uri);
 	g_free (old_uri);
 	if (uri == NULL)
 		return;

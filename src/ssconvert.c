@@ -17,7 +17,7 @@
 #include "gnm-plugin.h"
 #include "command-context-stderr.h"
 #include "command-context.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "workbook-view.h"
 #include <goffice/app/file.h>
 #include <goffice/utils/go-file.h>

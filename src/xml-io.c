@@ -38,7 +38,7 @@
 #include "validation.h"
 #include "sheet-merge.h"
 #include "sheet-filter.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook-view.h"

@@ -5,6 +5,7 @@
 #include <goffice/app/error-info.h>
 #include "command-context.h"
 #include <goffice/utils/numbers.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 #include "gutils.h"
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkcombo.h>
@@ -18,15 +19,7 @@
 
 #define GNM_ACTION_DEF(name)			\
 	void name (GtkAction *a, WorkbookControlGUI *wbcg)
-gboolean   gnumeric_dialog_question_yes_no (GtkWindow *toplevel,
-                                            char const *message,
-                                            gboolean default_answer);
-void       gnumeric_notice (GtkWindow *parent, GtkMessageType type, 
-			    char const *str);
-void       gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref,
-				     GtkMessageType type, char const *str);
 
-gint       gnumeric_dialog_run  (GtkWindow *parent, GtkDialog *dialog);
 GtkWidget* gnumeric_error_info_dialog_new (ErrorInfo *error);
 void       gnumeric_error_info_dialog_show (GtkWindow *parent,
                                             ErrorInfo *error);
@@ -79,7 +72,6 @@ GnmColor *go_combo_color_get_style_color (GtkWidget *color_combo);
 
 void gnumeric_help_display	(char const *link);
 void gnumeric_init_help_button	(GtkWidget *w, char const *link);
-void gnumeric_pbox_init_help	(GtkWidget *dialog, char const *link);
 
 char *gnumeric_textview_get_text (GtkTextView *text_view);
 void  gnumeric_textview_set_text (GtkTextView *text_view, char const *txt);

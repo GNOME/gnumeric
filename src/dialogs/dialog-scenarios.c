@@ -125,7 +125,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		rr = value_get_rangeref (cell_range);
 
 	if (rr == NULL) {
-		gnumeric_notice (GTK_WINDOW (state->base.dialog),
+		go_gtk_notice_dialog (GTK_WINDOW (state->base.dialog),
 				 GTK_MESSAGE_ERROR,
 				 _("Invalid changing cells"));
 		gnm_expr_entry_grab_focus (state->base.input_entry, TRUE);
@@ -133,7 +133,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	}
 
 	if (rr->a.sheet != state->base.sheet) {
-		gnumeric_notice (GTK_WINDOW (state->base.dialog),
+		go_gtk_notice_dialog (GTK_WINDOW (state->base.dialog),
 				 GTK_MESSAGE_ERROR,
 				 _("Changing cells should be on the current "
 				   "sheet only."));
@@ -145,13 +145,13 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	name = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 	if (scenario_name_used (state->base.sheet->scenarios, name)) {
 	        g_free (name);
-		gnumeric_notice (GTK_WINDOW (state->base.dialog),
+		go_gtk_notice_dialog (GTK_WINDOW (state->base.dialog),
 				 GTK_MESSAGE_ERROR,
 				 _("Scenario name already used"));
 		goto out;
 	} else if (check_name (name)) {
 	        g_free (name);
-		gnumeric_notice (GTK_WINDOW (state->base.dialog),
+		go_gtk_notice_dialog (GTK_WINDOW (state->base.dialog),
 				 GTK_MESSAGE_ERROR,
 				 _("Invalid scenario name"));
 		goto out;
@@ -177,7 +177,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	cmd_scenario_add (wbc, scenario, state->base.sheet);
 
 	if (res)
-		gnumeric_notice (GTK_WINDOW (state->base.dialog),
+		go_gtk_notice_dialog (GTK_WINDOW (state->base.dialog),
 				 GTK_MESSAGE_WARNING,
 				 _("Changing cells contain at least one "
 				   "expression that is not just a value. "
@@ -567,7 +567,7 @@ scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
 
 	if (results == NULL) {
-		gnumeric_notice (GTK_WINDOW (state->base.dialog),
+		go_gtk_notice_dialog (GTK_WINDOW (state->base.dialog),
 				 GTK_MESSAGE_ERROR,
 				 _("Results entry did not contain valid "
 				   "cell names."));
@@ -696,7 +696,7 @@ dialog_scenarios (WorkbookControlGUI *wbcg)
         return;
 
  error_out:
-	gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR, error_str);
+	go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR, error_str);
 	g_free (state->scenario_state);
 	g_free (state);
 

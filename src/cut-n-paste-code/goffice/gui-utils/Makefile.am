@@ -1,4 +1,11 @@
 noinst_LTLIBRARIES = libgoffice-gui-utils.la
+if WITH_WIN32
+    noinst_LTLIBRARIES += libhtmlhelp-stub.la
+
+    libhtmlhelp_stub_la_SOURCES = htmlhelp-stub.c htmlhelp-stub.h
+    libhtmlhelp_stub_la_LIBADD = -luuid -lhtmlhelp
+    libhtmlhelp_stub_la_LDFLAGS = -no-undefined -Wl,libhtmlhelp-stub.def
+endif
 
 libgoffice_gui_utils_la_SOURCES =	\
 	go-combo-box.c			\
@@ -36,3 +43,5 @@ gladedir   = $(gnumeric_gladedir)
 glade_DATA = \
 	go-font-sel.glade 	\
 	go-format-sel.glade 
+
+EXTRA_DIST = htmlhelp-stub.c htmlhelp-stub.h

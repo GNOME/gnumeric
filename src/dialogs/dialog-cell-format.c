@@ -2123,7 +2123,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 			validation_rebuild_validation (state);
 
 		if (state->validation.valid < 0) {
-			if (gnumeric_dialog_question_yes_no (
+			if (go_gtk_query_yes_no (
 				    GTK_WINDOW (state->dialog),
 				    _ ("The validation criteria are unusable. Disable validation?"), FALSE))
 			{
@@ -2491,7 +2491,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_fmt_dialog_dialog_destroy);
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
-	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 }

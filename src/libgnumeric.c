@@ -93,6 +93,7 @@ gnm_pre_parse_init (char const* gnumeric_binary)
 #endif
 
 	bindtextdomain (GETTEXT_PACKAGE, gnumeric_locale_dir);
+	bindtextdomain (GETTEXT_PACKAGE "-functions", gnumeric_locale_dir);
 	textdomain (GETTEXT_PACKAGE);
 
 	/* Force all of the locale segments to update from the environment.

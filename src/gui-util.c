@@ -48,100 +48,6 @@
 
 #include <string.h>
 
-gboolean
-gnumeric_dialog_question_yes_no (GtkWindow *parent,
-                                 gchar const *message,
-                                 gboolean default_answer)
-{
-	GtkWidget *dialog = gtk_message_dialog_new (parent,
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_QUESTION,
-		GTK_BUTTONS_YES_NO,
-		message);
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog),
-		default_answer ? GTK_RESPONSE_YES : GTK_RESPONSE_NO);
-	return gnumeric_dialog_run (parent, 
-				    GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
-}
-/*
- * TODO:
- * Get rid of trailing newlines /whitespace.
- */
-void
-gnumeric_notice (GtkWindow *parent, GtkMessageType type, char const *str)
-{
-	GtkWidget *dialog;
-
-	dialog = gtk_message_dialog_new (parent,
-                                         GTK_DIALOG_DESTROY_WITH_PARENT, type,
-					 GTK_BUTTONS_OK, str);
-	gtk_label_set_use_markup (GTK_LABEL (GTK_MESSAGE_DIALOG (dialog)->label), TRUE);
-
-	gnumeric_dialog_run (parent, GTK_DIALOG (dialog));
-}
-
-void
-gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref, GtkMessageType type, char const *str)
-{
-	GtkWidget *dialog;
-
-	if (*ref != NULL)
-		gtk_widget_destroy (*ref);
-
-	*ref = dialog = gtk_message_dialog_new (parent, GTK_DIALOG_DESTROY_WITH_PARENT, type,
-					 GTK_BUTTONS_OK, str);
-
-	g_signal_connect_object (G_OBJECT (dialog),
-		"response",
-		G_CALLBACK (gtk_widget_destroy), G_OBJECT (dialog), 0);
-	g_signal_connect (G_OBJECT (dialog),
-		"destroy",
-		G_CALLBACK (gtk_widget_destroyed), ref);
-
-	gtk_widget_show (dialog);
-
-	return;
-}
-
-static gint
-cb_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
-{
-	if(e->keyval == GDK_Escape) {
-		gtk_dialog_response (GTK_DIALOG (w), GTK_RESPONSE_CANCEL);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-/**
- * gnumeric_dialog_run
- *
- * Pop up a dialog as child of a window.
- */
-gint
-gnumeric_dialog_run (GtkWindow *parent, GtkDialog *dialog)
-{
-	gint      result;
-
-	g_return_val_if_fail (GTK_IS_DIALOG (dialog), GTK_RESPONSE_NONE);
-
-	if (parent) {
-		g_return_val_if_fail (GTK_IS_WINDOW (parent), GTK_RESPONSE_NONE);
-
-		go_window_set_transient (parent, GTK_WINDOW (dialog));
-	}
-
-	g_signal_connect (G_OBJECT (dialog),
-		"key-press-event",
-		G_CALLBACK (cb_modal_dialog_keypress), NULL);
-
-	while ((result = gtk_dialog_run (dialog)) >= 0)
-	       ;
-	gtk_widget_destroy (GTK_WIDGET (dialog));
-	return result;
-}
-
 #define ERROR_INFO_MAX_LEVEL 9
 #define ERROR_INFO_TAG_NAME "errorinfotag%i"
 
@@ -248,7 +154,7 @@ void
 gnumeric_error_info_dialog_show (GtkWindow *parent, ErrorInfo *error)
 {
 	GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
-	gnumeric_dialog_run (parent, GTK_DIALOG (dialog));
+	go_gtk_dialog_run (GTK_DIALOG (dialog), parent);
 }
 
 typedef struct {
@@ -660,86 +566,10 @@ go_combo_color_get_style_color (GtkWidget *go_combo_color)
 	return sc;
 }
 
-#ifdef WITH_GNOME
-#include <libgnome/gnome-help.h>
-#elif defined(G_OS_WIN32)
-#include "htmlhelp-stub.h"
-static GHashTable* context_help_map = NULL;
-#endif
-void
-gnumeric_help_display (char const *link)
-{
-        g_return_if_fail (link != NULL);
-#ifdef WITH_GNOME
-	gnome_help_display ("gnumeric", link, NULL);
-#elif defined(G_OS_WIN32)
-	{
-		guint id;
-		gchar *chm_file;
-
-		if (!context_help_map) {
-			FILE *fh;
-			gchar *mapfile, sect[1024];
-			guint id;
-
-			context_help_map = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-			mapfile = gnm_sys_data_dir ("doc/C/gnumeric.hhmap");
-			fh = fopen (mapfile, "r");
-			if (fh) {
-				while (!feof(fh)) {
-					if (fscanf (fh, "%s %d", sect, &id) == 2)
-						g_hash_table_insert (context_help_map, g_strdup (sect), (gpointer)id);
-				}
-				fclose (fh);
-			}
-			else
-				g_warning ("Cannot open 'doc/C/gnumeric.hhmap'");
-		}
-
-		id = (guint) g_hash_table_lookup (context_help_map, link);
-		if (id)
-		{
-			chm_file = gnm_sys_data_dir ("doc/C/gnumeric.chm");
-			HtmlHelp_ (GetDesktopWindow (), chm_file, HH_HELP_CONTEXT, id);
-			g_free (chm_file);
-		}
-	}
-#else
-	g_warning ("TODO : launch help browser for %s", link);
-#endif
-}
-
-static void
-cb_help (GtkWidget *button, char const *link)
-{
-	gnumeric_help_display (link);
-}
-
 void
 gnumeric_init_help_button (GtkWidget *w, char const *link)
 {
-	GtkWidget *parent = gtk_widget_get_parent (w);
-	if (GTK_IS_BUTTON_BOX (parent))
-		gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (parent),
-						    w, TRUE);
-
-	g_signal_connect (G_OBJECT (w),
-		"clicked",
-		G_CALLBACK (cb_help), (gpointer) link);
-}
-
-static void
-gnumeric_help_pbox_goto (void *ignore, int ignore2, char const *link)
-{
-	gnumeric_help_display (link);
-}
-
-void
-gnumeric_pbox_init_help (GtkWidget *dialog, char const *link)
-{
-	g_signal_connect (G_OBJECT (dialog),
-		"help",
-		G_CALLBACK (gnumeric_help_pbox_goto), (gpointer)link);
+	go_gtk_help_button_init (w, gnm_sys_data_dir (NULL), "gnumeric", link);
 }
 
 char *
@@ -1079,7 +909,7 @@ gnumeric_dialog_add_button (GtkDialog *dialog, const gchar* text, const gchar* s
 	g_return_val_if_fail (text != NULL, NULL);
 	g_return_val_if_fail (stock_id != NULL, NULL);
 
-	button = go_gtk_button_new_with_stock_image (text, stock_id);
+	button = go_gtk_button_new_with_stock (text, stock_id);
 	g_return_val_if_fail (button != NULL, NULL);
 
 	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);

@@ -32,7 +32,7 @@
 #include "command-context.h"
 #include "ranges.h"
 #include "xml-io.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include <string.h>
 #include <goffice/utils/go-libxml-extras.h>
 #include <libxml/parser.h>

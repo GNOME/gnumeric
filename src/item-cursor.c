@@ -901,7 +901,7 @@ item_cursor_target_region_ok (ItemCursor *ic)
 	if (sv_is_region_empty_or_selected (sc->view, &ic->pos))
 		return TRUE;
 
-	return gnumeric_dialog_question_yes_no
+	return go_gtk_query_yes_no
 		(wbcg_toplevel (ic->scg->wbcg),
 		 _("The cells dragged will overwrite the contents of the\n"
 		   "existing cells in that range.  Do you want me to replace\n"

@@ -14,7 +14,7 @@
 #include "gnumeric-paths.h"
 #include <goffice/app/go-plugin.h>
 #include "command-context-stderr.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "workbook-view.h"
 #include <goffice/app/file.h>
 #include "workbook.h"

@@ -16,7 +16,7 @@
 #include <glib/gi18n.h>
 #include <gnumeric.h>
 #include <goffice/app/file.h>
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "workbook-view.h"
 #include "workbook.h"
 #include "cell.h"

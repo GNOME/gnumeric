@@ -8,7 +8,7 @@
  *    Jody Goldberg (jody@gnome.org)
  *
  * (C) 1998-2001 Michael Meeks
- *          2002 Jody Goldberg
+ *     2002-2005 Jody Goldberg
  */
 
 #include <gnumeric-config.h>
@@ -31,7 +31,7 @@
 #include <expr-name.h>
 #include <str.h>
 #include <parse-util.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 
 #include <gsf/gsf-utils.h>
 #include <glib/gi18n.h>

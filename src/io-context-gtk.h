@@ -4,7 +4,7 @@
 #include <stdarg.h>
 #include "gui-gnumeric.h"
 #include <gtk/gtkwindow.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 
 typedef struct _IOContextGtk IOContextGtk;
 typedef struct _IOContextGtkClass IOContextGtkClass;

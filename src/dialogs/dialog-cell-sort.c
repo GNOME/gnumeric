@@ -1201,7 +1201,7 @@ dialog_cell_sort (WorkbookControlGUI *wbcg)
                                              GTK_ICON_SIZE_LARGE_TOOLBAR,
                                              "Gnumeric-Cell-Sort");
 	if (dialog_init (state)) {
-		gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
+		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Cell-Sort dialog."));
 		g_free (state);
 		return;

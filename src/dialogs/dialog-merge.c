@@ -266,7 +266,7 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		else
 			text = g_strdup_printf (_("%i fields are not part of the merge zone!"),
 						field_problems);
-		gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
+		go_gtk_notice_nonmodal_dialog ((GtkWindow *) state->dialog,
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR,
 					  text);
@@ -286,7 +286,7 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 						"%i and proceed?"), min_length, max_length,
 					      min_length);
 
-		if (gnumeric_dialog_question_yes_no (
+		if (go_gtk_query_yes_no (
 			    GTK_WINDOW (state->dialog), text, TRUE)) {
 			g_slist_foreach (data_list, cb_merge_trim_data, &min_length);
 			g_free (text);
@@ -449,7 +449,7 @@ dialog_merge (WorkbookControlGUI *wbcg)
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) cb_merge_destroy);
-	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));

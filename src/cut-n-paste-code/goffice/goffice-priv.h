@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goffice.h : 
+ * goffice-priv.h : 
  *
- * Copyright (C) 2003-2005 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,16 +18,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#ifndef GOFFICE_H
-#define GOFFICE_H
+#ifndef GOFFICE_PRIV_H
+#define GOFFICE_PRIV_H
 
 #include <glib.h>
 
 G_BEGIN_DECLS
 
-void libgoffice_init     (void);
-void libgoffice_shutdown (void);
+char const *go_sys_data_dir (void);
+char const *go_sys_icon_dir (void);
 
 G_END_DECLS
 
-#endif /* GOFFICE_H */
+#endif /* GOFFICE_PRIV_H */

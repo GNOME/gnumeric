@@ -38,7 +38,7 @@
 #include <style-color.h>
 #include <parse-util.h>
 #include <goffice/app/module-plugin-defs.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>
@@ -397,7 +397,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			ref.col_relative = (tmp & 0x4000) ? TRUE : FALSE;
 			ref.row_relative = (tmp & 0x2000) ? TRUE : FALSE;
 			if (ref.row_relative)
-				ref.row = ((gint16)(tmp & 0x1fff) << 3) >> 3;
+				ref.row = (int)(((gint16)((tmp & 0x1fff) << 3)) >> 3);
 			else
 				ref.row = tmp & 0x1fff;
 			expr = gnm_expr_new_cellref (&ref);
@@ -415,7 +415,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			a.col_relative = (tmp & 0x4000) ? TRUE : FALSE;
 			a.row_relative = (tmp & 0x2000) ? TRUE : FALSE;
 			if (a.row_relative)
-				a.row = ((gint16)(tmp & 0x1fff) << 3) >> 3;
+				a.row = (int)(((gint16)((tmp & 0x1fff) << 3)) >> 3);
 			else
 				a.row = tmp & 0x1fff;
 
@@ -425,7 +425,7 @@ qpro_parse_formula (QProReadState *state, int col, int row,
 			b.col_relative = (tmp & 0x4000) ? TRUE : FALSE;
 			b.row_relative = (tmp & 0x2000) ? TRUE : FALSE;
 			if (b.row_relative)
-				b.row = ((gint16)(tmp & 0x1fff) << 3) >> 3;
+				b.row = (int)(((gint16)((tmp & 0x1fff) << 3)) >> 3);
 			else
 				b.row = tmp & 0x1fff;
 

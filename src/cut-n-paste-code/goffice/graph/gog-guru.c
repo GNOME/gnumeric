@@ -21,6 +21,7 @@
  * USA
  */
 #include <goffice/goffice-config.h>
+#include <goffice/goffice-priv.h>
 
 #include <goffice/graph/gog-guru.h>
 #include <goffice/graph/gog-object.h>
@@ -163,7 +164,7 @@ get_pixbuf (char const *image_file)
 		cache = g_hash_table_new_full (g_str_hash, g_str_equal,
 					       NULL, g_object_unref);
 
-	pixbuf = gnumeric_load_pixbuf (image_file);
+	pixbuf = go_pixbuf_new_from_file (image_file);
 	g_hash_table_insert (cache, (gpointer)image_file, pixbuf);
 
 	return pixbuf;
@@ -1316,9 +1317,10 @@ graph_guru_init (GraphGuruState *s)
 	s->button_navigate = graph_guru_init_button (s, "button_navigate");
 	s->button_ok	   = graph_guru_init_ok_button (s);
 
-	gnumeric_init_help_button (
-		glade_xml_get_widget (s->gui, "help_button"),
-		"sect-graphics-plots");
+#warning FIXME move the docs down to libgoffice
+	go_gtk_help_button_init	(glade_xml_get_widget (s->gui, "help_button"),
+				 go_sys_data_dir (), "gnumeric",
+				 "sect-graphics-plots");
 
 	return FALSE;
 }
@@ -1384,7 +1386,7 @@ gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) graph_guru_state_destroy);
-	gnumeric_non_modal_dialog (toplevel, GTK_WINDOW (state->dialog));
+	go_gtk_nonmodal_dialog (toplevel, GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));
 
 	return state->dialog;

@@ -23,6 +23,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-file.h"
+#include "go-glib-extras.h"
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-output-stdio.h>
@@ -273,7 +274,7 @@ go_file_create (char const *uri, GError **err)
 /* Adapted from gtkfilechooserdefault.c.  Unfortunately it is static there.  */
 
 GSList *
-go_file_split_uris (const char *data)
+go_file_split_urls (const char *data)
 {
   GSList *uris;
   const char *p, *q;
@@ -479,3 +480,46 @@ go_url_show (gchar const *url)
 #endif
 #endif
 }
+
+/**
+ * go_url_check_extension
+ * @uri     : Uri
+ * @std_ext : Standard extension for the content type
+ * @new_uri : New uri
+ *
+ * Modifies given @uri by adding the extension @std_ext if needed.
+ * If no @std_ext is given or @uri already has some extension,
+ * it just copies @uri.
+ *
+ * Value in new_uri:  newly allocated string which you should free after 
+ *                    use, containing (optionally) modified uri.
+ *
+ * Return Value:  FALSE if the uri has an extension not matching @std_ext
+ */
+gboolean
+go_url_check_extension (gchar const *uri,
+			gchar const *std_ext,
+			gchar **new_uri)
+{
+	gchar *base;
+	gchar *user_ext;
+	gboolean res;
+
+	g_return_val_if_fail (uri != NULL, FALSE);
+	g_return_val_if_fail (new_uri != NULL, FALSE);
+
+	res      = TRUE;
+	base     = g_path_get_basename (uri);
+	user_ext = strrchr (base, '.');
+	if (std_ext != NULL && strlen (std_ext) > 0 && user_ext == NULL)
+		*new_uri = g_strconcat (uri, ".", std_ext, NULL);
+	else {
+		if (user_ext != NULL && std_ext != NULL)
+			res = !gnm_utf8_collate_casefold (user_ext + 1, std_ext);
+		*new_uri = g_strdup (uri);
+	}
+	g_free (base);
+
+	return res;
+}
+

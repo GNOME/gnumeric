@@ -14,6 +14,7 @@
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/file.h>
 #include <goffice/app/file-priv.h>
+#include <goffice/app/io-context.h>
 #include <goffice/utils/go-glib-extras.h>
 #include <goffice/utils/go-libxml-extras.h>
 
@@ -494,8 +495,8 @@ gnm_plugin_file_opener_open (GnmFileOpener const *fo, gchar const *unused_enc,
 		                        _("Error while reading file.")));
 		return;
 	}
-	g_return_if_fail (service_file_opener->cbs.plugin_func_file_open != NULL);
 
+	g_return_if_fail (service_file_opener->cbs.plugin_func_file_open != NULL);
 	service_file_opener->cbs.plugin_func_file_open (fo, pfo->service, io_context, FIXME_FIXME_workbook_view, input);
 }
 
@@ -760,14 +761,15 @@ gnm_plugin_file_saver_save (GnmFileSaver const *fs, IOContext *io_context,
 	g_return_if_fail (GSF_IS_OUTPUT (output));
 
 	plugin_service_load (pfs->service, &error);
-	if (error == NULL) {
-		g_return_if_fail (service_file_saver->cbs.plugin_func_file_save != NULL);
-		service_file_saver->cbs.plugin_func_file_save (fs, pfs->service, io_context, FIXME_FIXME_workbook_view, output);
-	} else {
+	if (error != NULL) {
 		gnumeric_io_error_info_set (io_context, error);
 		gnumeric_io_error_push (io_context, error_info_new_str (
 		                        _("Error while saving file.")));
+		return;
 	}
+
+	g_return_if_fail (service_file_saver->cbs.plugin_func_file_save != NULL);
+	service_file_saver->cbs.plugin_func_file_save (fs, pfs->service, io_context, FIXME_FIXME_workbook_view, output);
 }
 
 static void

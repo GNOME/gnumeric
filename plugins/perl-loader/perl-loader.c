@@ -20,7 +20,7 @@
 #include "value.h"
 #include "expr.h"
 #include "expr-impl.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-plugin-loader.h>

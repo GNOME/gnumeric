@@ -691,7 +691,7 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_autoformat_destroy);
-	gnumeric_non_modal_dialog (wbcg_toplevel (state->wbcg),
+	go_gtk_nonmodal_dialog (wbcg_toplevel (state->wbcg),
 				   GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	/* not show all or the scrollbars will appear */

@@ -14,7 +14,7 @@
 #include "gnumeric.h"
 #include "gui-util.h"
 #include "io-context-gtk.h"
-#include "io-context-priv.h"
+#include <goffice/app/io-context-priv.h>
 #include "application.h"
 #include "libgnumeric.h"
 #include "dialogs.h"

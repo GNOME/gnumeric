@@ -11,7 +11,7 @@
 #include <gnumeric.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 #include <sheet.h>
 #include <ranges.h>
 #include <value.h>

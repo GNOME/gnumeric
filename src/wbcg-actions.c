@@ -52,7 +52,7 @@
 #include "workbook-control-gui-priv.h"
 #include "workbook-control.h"
 #include "workbook-cmd-format.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "dialogs/dialogs.h"
 #include "sheet-object-image.h"
 #include "sheet-object-widget.h"
@@ -356,7 +356,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, GnmSearchReplace *sr, ...)
 			 old_text,
 			 new_text);
 
-		gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR, err);
+		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR, err);
 		g_free (err);
 		break;
 	}
@@ -918,7 +918,7 @@ static GNM_ACTION_DEF (cb_autosum)
 
 static GNM_ACTION_DEF (cb_insert_image)
 {
-	char *uri = gui_image_file_select (wbcg_toplevel (wbcg), NULL);
+	char *uri = go_gtk_select_image (wbcg_toplevel (wbcg), NULL);
 
 	if (uri) {
 		GError *err = NULL;

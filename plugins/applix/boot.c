@@ -29,7 +29,7 @@
 #include <goffice/app/module-plugin-defs.h>
 #include <workbook-view.h>
 #include <workbook.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 
 #include <gsf/gsf-input.h>
 #include <string.h>

@@ -53,7 +53,7 @@
 #include <value.h>
 #include <hlink.h>
 #include <application.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 #include <command-context.h>
 #include <sheet-object-cell-comment.h>
 #include <sheet-object-widget.h>

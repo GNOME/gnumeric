@@ -1,11 +1,10 @@
 #ifndef GNUMERIC_IO_CONTEXT_H
 #define GNUMERIC_IO_CONTEXT_H
 
-#include "gnumeric.h"
+#include <goffice/app/goffice-app.h>
 #include <glib-object.h>
 #include <stdarg.h>
 
-/* typedef struct _IOContext IOContext; */
 typedef struct _IOContextClass IOContextClass;
 
 #define TYPE_IO_CONTEXT    (io_context_get_type ())
@@ -36,9 +35,6 @@ void       count_io_progress_update (IOContext *io_context, gint inc);
 
 void       value_io_progress_set    (IOContext *io_context, gint total, gint step);
 void       value_io_progress_update (IOContext *io_context, gint value);
-
-void       workbook_io_progress_set    (IOContext *io_context, Workbook const *wb, gint step);
-void       workbook_io_progress_update (IOContext *io_context, gint inc);
 
 void       io_progress_unset      (IOContext *io_context);
 

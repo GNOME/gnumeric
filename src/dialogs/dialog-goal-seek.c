@@ -356,7 +356,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	target = gnm_expr_entry_parse_as_value (state->set_cell_entry,
 						state->sheet);
 	if (target == NULL) {
-		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
+		go_gtk_notice_nonmodal_dialog (GTK_WINDOW(state->dialog),
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR,
 					  _("You should introduce a valid cell "
@@ -368,7 +368,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	state->set_cell = sheet_cell_get (r->a.sheet, r->a.col, r->a.row);
 	value_release (target);
 	if (state->set_cell == NULL || !cell_has_expr (state->set_cell)) {
-		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
+		go_gtk_notice_nonmodal_dialog (GTK_WINDOW(state->dialog),
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR,
 					  _("The cell named in 'Set Cell:' "
@@ -381,7 +381,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	target = gnm_expr_entry_parse_as_value (state->change_cell_entry,
 						state->sheet);
 	if (target == NULL) {
-		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
+		go_gtk_notice_nonmodal_dialog (GTK_WINDOW(state->dialog),
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR,
 					  _("You should introduce a valid cell "
@@ -394,7 +394,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	state->change_cell = sheet_cell_fetch (r->a.sheet, r->a.col, r->a.row);
 	value_release (target);
 	if (cell_has_expr (state->change_cell)) {
-		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
+		go_gtk_notice_nonmodal_dialog (GTK_WINDOW(state->dialog),
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR,
 					  _("The cell named in 'By changing cell' "
@@ -407,7 +407,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	format = mstyle_get_format (cell_get_mstyle (state->set_cell));
 	if (entry_to_float_with_format (GTK_ENTRY(state->to_value_entry),
 					&state->target_value, TRUE, format)){
-		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
+		go_gtk_notice_nonmodal_dialog (GTK_WINDOW(state->dialog),
 					  &(state->warning_dialog),
 					  GTK_MESSAGE_ERROR,
 					  _("The value given in 'To Value:' "
@@ -651,7 +651,7 @@ dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->cancelled = TRUE;
 
 	if (dialog_init (state)) {
-		gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
+		go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR,
 				 _("Could not create the Goal-Seek dialog."));
 		g_free (state);
 		return;

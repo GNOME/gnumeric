@@ -24,7 +24,7 @@
 #include "expr.h"
 #include "expr-impl.h"
 #include "func.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "gnm-plugin.h"
 
 #include <goffice/app/go-plugin.h>

@@ -16,7 +16,7 @@
 #include "dialogs.h"
 #include "sheet.h"
 #include "application.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "command-context.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
@@ -291,7 +291,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	}
 
 	/* Show file selector */
-	if (!gnumeric_dialog_file_selection (wbcg_toplevel (wbcg), GTK_WIDGET (fsel)))
+	if (!go_gtk_file_sel_dialog (wbcg_toplevel (wbcg), GTK_WIDGET (fsel)))
 		goto out;
 
 	uri = gtk_file_chooser_get_uri (fsel);
@@ -309,152 +309,6 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		gui_file_read (wbcg, uri, fo, encoding);
 		g_free (uri);
 	}
-}
-
-/*
- * Check if it makes sense to try saving.
- * If it's an existing file and writable for us, ask if we want to overwrite.
- * We check for other problems, but if we miss any, the saver will report.
- * So it doesn't have to be bulletproof.
- *
- * FIXME: The message boxes should really be children of the file selector,
- * not the workbook.
- */
-static gboolean
-go_file_is_writable (char const *uri, GtkWindow *parent)
-{
-	gboolean result = TRUE;
-	char *filename;
-
-	if (uri == NULL || uri[0] == '\0')
-		result = FALSE;
-
-	filename = go_filename_from_uri (uri);
-	if (!filename)
-		return TRUE;  /* Just assume writable.  */
-
-#ifndef G_IS_DIR_SEPARATOR
-/* Recent glib 2.6 addition.  */
-#define G_IS_DIR_SEPARATOR(c) ((c) == G_DIR_SEPARATOR || (c) == '/')
-#endif
-	if (G_IS_DIR_SEPARATOR (filename [strlen (filename) - 1]) ||
-	    g_file_test (filename, G_FILE_TEST_IS_DIR)) {
-		char *msg = g_strdup_printf (_("%s\nis a directory name"), uri);
-		gnumeric_notice (parent, GTK_MESSAGE_ERROR, msg);
-		g_free (msg);
-		result = FALSE;
-	} else if (access (filename, W_OK) != 0 && errno != ENOENT) {
-		char *msg = g_strdup_printf (
-		      _("You do not have permission to save to\n%s"),
-		      uri);
-		gnumeric_notice (parent, GTK_MESSAGE_ERROR, msg);
-		g_free (msg);
-		result = FALSE;
-	} else if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
-		char *dirname = go_dirname_from_uri (uri, TRUE);
-		char *basename = go_basename_from_uri (uri);
-		char *msg = g_markup_printf_escaped (
-			_("A file called <i>%s</i> already exists in %s.\n\n"
-			  "Do you want to save over it?"),
-			basename, dirname);
-		GtkWidget *dialog = gtk_message_dialog_new_with_markup
-			(parent,
-			 GTK_DIALOG_DESTROY_WITH_PARENT,
-			 GTK_MESSAGE_WARNING,
-			 GTK_BUTTONS_OK_CANCEL,
-			 msg);
-		gtk_dialog_set_default_response (GTK_DIALOG (dialog),
-						 gnm_app_prefs->file_overwrite_default_answer
-						 ? GTK_RESPONSE_OK
-						 : GTK_RESPONSE_CANCEL);
-		result = gnumeric_dialog_run (parent, GTK_DIALOG (dialog))
-			== GTK_RESPONSE_OK;
-		g_free (dirname);
-		g_free (basename);
-		g_free (msg);
-	}
-
-	g_free (filename);
-	return result;
-}
-
-char *
-gui_get_image_save_info (WorkbookControlGUI *wbcg,
-			 GSList *formats, 
-			 GnmImageFormat **ret_format)
-{
-	GtkFileChooser *fsel;
-	GnmImageFormat *sel_format = NULL;
-	GtkComboBox *format_combo = NULL;
-	char *uri = NULL;
-
-	fsel = gui_image_chooser_new (TRUE);
-	g_object_set (G_OBJECT (fsel), "title", _("Save as"), NULL);
-	
-	/* Make format chooser */
-	if (formats && ret_format) {
-		GtkWidget *label;
-		GtkWidget *box = gtk_hbox_new (FALSE, 5);
-		GSList *l;
-		int i;
-
-		format_combo = GTK_COMBO_BOX (gtk_combo_box_new_text ());
-		if (*ret_format)
-			sel_format = *ret_format;
-		for (l = formats, i = 0; l != NULL; l = l->next, i++) {
-			gtk_combo_box_append_text 
-				(format_combo, 
-				 ((GnmImageFormat *) (l->data))->desc);
-			if (l->data == (void *)sel_format)
-				gtk_combo_box_set_active (format_combo, i);
-		}
-		if (gtk_combo_box_get_active (format_combo) < 0)
-			gtk_combo_box_set_active (format_combo, 0);
-		
-		label = gtk_label_new_with_mnemonic (_("File _type:"));
-		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
-		gtk_box_pack_start (GTK_BOX (box),  GTK_WIDGET (format_combo),
-				    TRUE, TRUE, 0);
-		gtk_label_set_mnemonic_widget (GTK_LABEL (label), 
-					       GTK_WIDGET (format_combo));
-		gtk_file_chooser_set_extra_widget (fsel, box);
-	}
-
-	/* Show file selector */
- loop:
-	if (!gnumeric_dialog_file_selection (wbcg_toplevel (wbcg), GTK_WIDGET (fsel)))
-		goto out;
-	uri = gtk_file_chooser_get_uri (fsel);
-	if (format_combo) {
-		char *new_uri = NULL;
-
-		sel_format = g_slist_nth_data (
-			formats, gtk_combo_box_get_active (format_combo));
-		if (!gnm_vrfy_uri_ext (sel_format->ext,
-				       uri, &new_uri) &&
-		    !gnumeric_dialog_question_yes_no 
-		    (GTK_WINDOW (fsel),
-		     _("The given file extension does not match the"
-		       " chosen file type. Do you want to use this name"
-		       " anyway?"), TRUE)) {
-			g_free (new_uri);
-			g_free (uri);
-			uri = NULL;
-			goto out;
-		} else {
-			g_free (uri);
-			uri = new_uri;
-		}
-		*ret_format = sel_format;
-	}
-	if (!go_file_is_writable (uri, GTK_WINDOW (fsel))) {
-		g_free (uri);
-		uri = NULL;
-		goto loop;
-	}
- out:
-	gtk_widget_destroy (GTK_WIDGET (fsel));
-	return uri;
 }
 
 static gboolean
@@ -475,7 +329,7 @@ check_multiple_sheet_support_if_needed (GnmFileSaver *fs,
 
 		sheets = workbook_sheets (wb_view_workbook (wb_view));
 		if (g_list_length (sheets) > 1) {
-			ret_val = gnumeric_dialog_question_yes_no (
+			ret_val = go_gtk_query_yes_no (
 				parent, msg, TRUE);
 		}
 		g_list_free (sheets);
@@ -590,15 +444,15 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		char *uri2 = NULL;
 
 		/* Show file selector */
-		if (!gnumeric_dialog_file_selection (wbcg_toplevel (wbcg), GTK_WIDGET (fsel)))
+		if (!go_gtk_file_sel_dialog (wbcg_toplevel (wbcg), GTK_WIDGET (fsel)))
 			goto out;
 		fs = g_list_nth_data (savers, gtk_combo_box_get_active (format_combo));
 		if (!fs)
 			goto out;
 		uri = gtk_file_chooser_get_uri (fsel);
-		if (!gnm_vrfy_uri_ext (gnm_file_saver_get_extension (fs), 
+		if (!go_url_check_extension (gnm_file_saver_get_extension (fs), 
 				       uri, &uri2) &&
-		    !gnumeric_dialog_question_yes_no (GTK_WINDOW (fsel),
+		    !go_gtk_query_yes_no (GTK_WINDOW (fsel),
 						      _("The given file extension does not match the"
 							" chosen file type. Do you want to use this name"
 							" anyway?"), TRUE)) {
@@ -611,7 +465,8 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		g_free (uri);
 		uri = uri2;
 
-		if (go_file_is_writable (uri, GTK_WINDOW (fsel)))
+		if (go_gtk_url_is_writeable (GTK_WINDOW (fsel), uri,
+					     gnm_app_prefs->file_overwrite_default_answer))
 			break;
 
 		g_free (uri);

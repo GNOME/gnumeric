@@ -40,7 +40,7 @@
 #include <mstyle.h>
 #include <gnm-format.h>
 #include <command-context.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 #include <goffice/utils/go-units.h>
 #include <goffice/utils/datetime.h>
 

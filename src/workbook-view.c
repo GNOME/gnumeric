@@ -45,7 +45,7 @@
 #include "position.h"
 #include "cell.h"
 #include "gutils.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "command-context.h"
 
 #include <gsf/gsf.h>
@@ -912,11 +912,17 @@ wb_view_new_from_input  (GsfInput *input,
 	}
 
 	if (optional_fmt != NULL) {
+		char const *input_name;
 		Workbook *new_wb;
 		gboolean old;
 
 		new_wbv = workbook_view_new (NULL);
 		new_wb = wb_view_workbook (new_wbv);
+		if (NULL != (input_name = gsf_input_name (input))) {
+			char *uri = go_shell_arg_to_uri (input_name);
+			workbook_set_uri (new_wb, uri);
+			g_free (uri);
+		}
 
 		/* disable recursive dirtying while loading */
 		old = workbook_enable_recursive_dirty (new_wb, FALSE);

@@ -569,7 +569,7 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 	stf_export_dialog_sheet_page_init (&state);
 	stf_export_dialog_format_page_init (&state);
 	if (state.sheets.non_empty == 0) {
-		gnumeric_notice (wbcg_toplevel (wbcg),  GTK_MESSAGE_ERROR, 
+		go_gtk_notice_dialog (wbcg_toplevel (wbcg),  GTK_MESSAGE_ERROR, 
 				 _("This workbook does not contain any "
 				   "exportable content."));
 	} else {
@@ -585,8 +585,7 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 					  "clicked",
 					  G_CALLBACK (cb_next_page), &state);
 
-		gnumeric_dialog_run (wbcg_toplevel (wbcg), 
-				     GTK_DIALOG (state.window));
+		go_gtk_dialog_run (GTK_DIALOG (state.window), wbcg_toplevel (wbcg));
 	}
 	g_object_unref (G_OBJECT (state.gui));
 

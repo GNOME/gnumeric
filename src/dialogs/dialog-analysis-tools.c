@@ -195,7 +195,7 @@ typedef struct {
 void
 error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
 {
-        gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
+        go_gtk_notice_nonmodal_dialog ((GtkWindow *) state->dialog,
 				  &(state->warning_dialog),
 				  GTK_MESSAGE_ERROR, err_str);
 
@@ -373,7 +373,7 @@ dialog_tool_init (GenericToolState *state,
 					  GTK_WIDGET (state->input_entry));
 		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), 
 					       GTK_WIDGET (state->input_entry));
-		gnm_setup_label_atk (widget, GTK_WIDGET (state->input_entry));
+		go_atk_setup_label (widget, GTK_WIDGET (state->input_entry));
 		gtk_widget_show (GTK_WIDGET (state->input_entry));
 	}
 
@@ -408,7 +408,7 @@ dialog_tool_init (GenericToolState *state,
 					  GTK_WIDGET (state->input_entry_2));
 		gtk_label_set_mnemonic_widget (GTK_LABEL (widget), 
 					       GTK_WIDGET (state->input_entry_2));
-		gnm_setup_label_atk (widget, GTK_WIDGET (state->input_entry_2));
+		go_atk_setup_label (widget, GTK_WIDGET (state->input_entry_2));
 		gtk_widget_show (GTK_WIDGET (state->input_entry_2));
 	}
 
@@ -424,7 +424,7 @@ dialog_tool_init (GenericToolState *state,
 	return FALSE;
 
  dialog_tool_init_error:
-	gnumeric_notice (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR, error_str);
+	go_gtk_notice_dialog (wbcg_toplevel (wbcg), GTK_MESSAGE_ERROR, error_str);
 	g_free (state);
 	return TRUE;
 }

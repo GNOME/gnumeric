@@ -30,7 +30,7 @@
 #include <workbook-priv.h>
 #include <workbook-view.h>
 #include <goffice/app/module-plugin-defs.h>
-#include <io-context.h>
+#include <goffice/app/io-context.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
 #include <glib/gi18n.h>

@@ -31,7 +31,7 @@
 #include "sheet-object-graph.h"
 #include "sheet-object-image.h"
 #include "graph.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "application.h"
 #include "gutils.h"
 

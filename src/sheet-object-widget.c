@@ -957,7 +957,7 @@ sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
 		GNM_EE_ABS_ROW | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
 		GNM_EE_MASK);
 	gnm_expr_entry_load_from_dep (state->expression, &swa->dep);
-	gnm_setup_label_atk (glade_xml_get_widget (state->gui, "label_linkto"),
+	go_atk_setup_label (glade_xml_get_widget (state->gui, "label_linkto"),
 			     GTK_WIDGET (state->expression));
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
 			  1, 2, 0, 1,
@@ -1574,7 +1574,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 		GNM_EE_ABS_ROW | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
 		GNM_EE_MASK);
 	gnm_expr_entry_load_from_dep (state->expression, &swc->dep);
-	gnm_setup_label_atk (glade_xml_get_widget (state->gui, "label_linkto"),
+	go_atk_setup_label (glade_xml_get_widget (state->gui, "label_linkto"),
 			     GTK_WIDGET (state->expression));
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
 			  1, 2, 0, 1,

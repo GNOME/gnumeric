@@ -198,31 +198,32 @@ sog_gsf_gdk_pixbuf_save (const gchar *buf,
 static void
 sog_cb_save_as (SheetObject *so, SheetControl *sc)
 {
+	static GOImageType const fmts[] = {
+		{(char *) "svg",  (char *) N_("SVG (vector graphics)"), (char *) "svg", FALSE},
+		{(char *) "png",  (char *) N_("PNG (raster graphics)"), (char *) "png", TRUE},
+		{(char *) "jpeg", (char *) N_("JPEG (photograph)"),     (char *) "jpg", TRUE}
+	};
+
 	WorkbookControlGUI *wbcg;
 	char *uri;
 	GError *err = NULL;
 	gboolean ret = FALSE;
 	GsfOutput *output;
 	GSList *l = NULL;
-	GnmImageFormat fmts[] = {
-		{(char *) "svg",  (char *) N_("SVG (vector graphics)"), (char *) "svg", FALSE},
-		{(char *) "png",  (char *) N_("PNG (raster graphics)"), (char *) "png", TRUE},
-		{(char *) "jpeg", (char *) N_("JPEG (photograph)"),     (char *) "jpg", TRUE}
-	};
-	GnmImageFormat *sel_fmt = &fmts[0];
+	GOImageType const *sel_fmt = &fmts[0];
 	guint i;
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 
 	g_return_if_fail (sog != NULL);
 
-	for (i = 0; i < sizeof fmts / sizeof fmts[0]; i++)
-		l = g_slist_prepend (l, &fmts[i]);
+	for (i = 0; i < G_N_ELEMENTS (fmts); i++)
+		l = g_slist_prepend (l, (gpointer) (fmts + i));
 	l = g_slist_reverse (l);
 
 	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
 
 #warning this violate model gui barrier
-	uri = gui_get_image_save_info (wbcg, l, &sel_fmt);
+	uri = gui_get_image_save_info (wbcg_toplevel (wbcg), l, &sel_fmt);
 	if (!uri)
 		goto out;
 	output = go_file_create (uri, &err);

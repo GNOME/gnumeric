@@ -34,6 +34,13 @@
 static GnmAppPrefs prefs;
 GnmAppPrefs const *gnm_app_prefs = &prefs;
 
+/* #define NO_DEBUG_GCONF */
+#ifndef NO_DEBUG_GCONF
+#define d(code)	do { code } while (0)
+#else
+#define d(code)
+#endif
+
 #ifdef WITH_GNOME
 #include <goffice/utils/format.h>
 #include <value.h>
@@ -92,13 +99,13 @@ go_conf_get (char const *key, GConfValueType t)
 	GConfValue *val = gconf_client_get (gnm_app_get_gconf_client (), key, &err);
 
 	if (err != NULL) {
-		g_warning ("Unable to load key '%s' : because %s",
-			   key, err->message);
+		d (g_warning ("Unable to load key '%s' : because %s",
+			   key, err->message););
 		g_error_free (err);
 		return NULL;
 	}
 	if (val == NULL) {
-		g_warning ("Unable to load key '%s'", key);
+		d (g_warning ("Unable to load key '%s'", key););
 		return NULL;
 	}
 
@@ -128,7 +135,7 @@ go_conf_load_bool (char const *key, gboolean default_val)
 		res = gconf_value_get_bool (val);
 		gconf_value_free (val);
 	} else {
-		g_warning ("Using default value '%s'", default_val ? "true" : "false");
+		d (g_warning ("Using default value '%s'", default_val ? "true" : "false"););
 		return default_val;
 	}
 	return res;
@@ -150,7 +157,7 @@ go_conf_load_int (char const *key, int minima, int maxima, int default_val)
 		}
 	}
 	if (val == NULL) {
-		g_warning ("Using default value '%d'", default_val);
+		d (g_warning ("Using default value '%d'", default_val););
 		return default_val;
 	}
 	return res;
@@ -173,7 +180,7 @@ go_conf_load_double (char const *key,
 		}
 	}
 	if (val == NULL) {
-		g_warning ("Using default value '%g'", default_val);
+		d (g_warning ("Using default value '%g'", default_val););
 		return default_val;
 	}
 	return res;

@@ -11,14 +11,9 @@
  *
  * (C) 2000-2002 Jody Goldberg
  */
-#include <gnumeric-config.h>
-#include "gnumeric.h"
+#include <goffice/goffice-config.h>
 #include "io-context-priv.h"
-
-#include "sheet.h"
-#include "workbook.h"
-#include "command-context.h"
-#include "gui-util.h"
+#include "go-cmd-context.h"
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkmain.h>
@@ -373,49 +368,6 @@ count_io_progress_update (IOContext *ioc, gint inc)
 	ioc->helper.v.count.last = current;
 
 	complete = (gdouble)current / total;
-	io_progress_update (ioc, complete);
-}
-
-void
-workbook_io_progress_set (IOContext *ioc, Workbook const *wb, gint step)
-{
-	gint n = 0;
-	GList *sheets, *l;
-
-	g_return_if_fail (IS_IO_CONTEXT (ioc));
-	g_return_if_fail (IS_WORKBOOK (wb));
-
-	sheets = workbook_sheets (wb);
-	for (l = sheets; l != NULL; l = l->next) {
-		Sheet *sheet = l->data;
-		n += g_hash_table_size (sheet->cell_hash);
-	}
-	g_list_free (sheets);
-
-	ioc->helper.helper_type = GNM_PROGRESS_HELPER_WORKBOOK;
-	ioc->helper.v.workbook.n_elements = MAX (n, 1);
-	ioc->helper.v.workbook.last = -step;
-	ioc->helper.v.workbook.current = 0;
-	ioc->helper.v.workbook.step = step;
-}
-
-void
-workbook_io_progress_update (IOContext *ioc, gint inc)
-{
-	gdouble complete;
-
-	g_return_if_fail (IS_IO_CONTEXT (ioc));
-	g_return_if_fail (ioc->helper.helper_type == GNM_PROGRESS_HELPER_WORKBOOK);
-
-	ioc->helper.v.workbook.current += inc;
-	if (ioc->helper.v.workbook.current - ioc->helper.v.workbook.last
-	    < ioc->helper.v.workbook.step) {
-		return;
-	}
-	ioc->helper.v.workbook.last = ioc->helper.v.workbook.current;
-
-	complete = 1.0 * ioc->helper.v.workbook.current
-	           / ioc->helper.v.workbook.n_elements;
 	io_progress_update (ioc, complete);
 }
 

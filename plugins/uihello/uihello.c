@@ -22,7 +22,7 @@ hello_message (GnmAction const *action, WorkbookControl *wbc)
 	char *msg = g_strdup_printf (
 		_("This is message from the \"%s\" plugin."),
 		gnm_plugin_get_name (PLUGIN));
-	gnumeric_notice (wbcg_toplevel (WORKBOOK_CONTROL_GUI (wbc)), GTK_MESSAGE_INFO, msg);
+	go_gtk_notice_dialog (wbcg_toplevel (WORKBOOK_CONTROL_GUI (wbc)), GTK_MESSAGE_INFO, msg);
 	g_free (msg);
 }
 

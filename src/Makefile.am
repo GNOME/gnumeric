@@ -71,9 +71,6 @@ GNUMERIC_BASE =					\
 	command-context-stderr.h		\
 	consolidate.c				\
 	consolidate.h				\
-	io-context.c				\
-	io-context.h				\
-	io-context-priv.h			\
 	complex.h				\
 	complex.c				\
 	dependent.h				\
@@ -297,12 +294,6 @@ gnumeric_LDADD = 				\
 gnumeric_LDFLAGS = -export-dynamic
 if WITH_WIN32
     gnumeric_LDFLAGS += -Wl,--export-all-symbols,--output-def,gnumeric.def,--out-implib,gnumeric.exe.a,
-
-    lib_LTLIBRARIES += libhtmlhelp-stub.la
-
-    libhtmlhelp_stub_la_SOURCES = htmlhelp-stub.c htmlhelp-stub.h
-    libhtmlhelp_stub_la_LIBADD = -luuid -lhtmlhelp
-    libhtmlhelp_stub_la_LDFLAGS = -no-undefined -Wl,libhtmlhelp-stub.def
 endif
 
 gnumeric_app_libs =				\
@@ -383,6 +374,7 @@ EXTRA_DIST = GNOME_Gnumeric-gtk.xml.in				\
 	    main-component.c					\
 	    $(GNUMERIC_GNOME) README.gnm_float			\
 	    gnumeric-paths.sh.in ssconvert.c ssindex.c gnumeric.rc
+
 DISTCLEANFILES = GNOME_Gnumeric-gtk.xml
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c

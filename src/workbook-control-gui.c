@@ -66,7 +66,7 @@
 #include "sheet-object-image.h"
 #include "gnumeric-gconf.h"
 #include "filter.h"
-#include "io-context.h"
+#include <goffice/app/io-context.h>
 #include "stf.h"
 #include "rendered-value.h"
 #include "sort.h"
@@ -189,7 +189,7 @@ wbcg_toplevel (WorkbookControlGUI *wbcg)
 void
 wbcg_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
 {
-	go_window_set_transient (wbcg_toplevel (wbcg), window);
+	go_gtk_window_set_transient (wbcg_toplevel (wbcg), window);
 }
 
 /*#warning merge these and clarfy whether we want the visible scg, or the logical (view) scg */
@@ -1116,7 +1116,7 @@ wbcg_get_password (GOCmdContext *cc, char const* filename)
 static void
 wbcg_error_error (GOCmdContext *cc, GError *err)
 {
-	gnumeric_notice (wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc)),
+	go_gtk_notice_dialog (wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc)),
 		GTK_MESSAGE_ERROR, err->message);
 }
 
@@ -1220,8 +1220,7 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 
 		gtk_dialog_add_button (GTK_DIALOG(d), GTK_STOCK_SAVE, GTK_RESPONSE_YES);
 		gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
-		button = gnumeric_dialog_run (wbcg_toplevel (wbcg), 
-					      GTK_DIALOG (d));
+		button = go_gtk_dialog_run (GTK_DIALOG (d), wbcg_toplevel (wbcg));
 		g_free (msg);
 
 		switch (button) {
@@ -2032,10 +2031,10 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		WorkbookView *wbv;
 		IOContext *ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (wbcg));
 		char *cdata = g_strndup (selection_data->data, selection_data->length);
-		GSList *l, *uris = go_file_split_uris (cdata);
+		GSList *l, *urls = go_file_split_urls (cdata);
 
 		g_free (cdata);
-		for (l = uris; l; l = l-> next) {
+		for (l = urls; l; l = l-> next) {
 			const char *uri_str = l->data;
 			GError *err = NULL;
 			GsfInput *input = go_file_open (uri_str, &err);
@@ -2055,7 +2054,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		}
 		g_object_unref (ioc);
 
-		gnm_slist_free_custom (uris, (GFreeFunc)g_free);
+		gnm_slist_free_custom (urls, (GFreeFunc)g_free);
 	} else if (!strcmp (target_type, "GNUMERIC_SHEET")) {
 		/* The user wants to reorder the sheets but hasn't dropped
 		 * the sheet onto a label. Never mind. We figure out
@@ -2085,7 +2084,7 @@ wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 	box2  = gtk_hbox_new (FALSE, 0);
 
 	/* Set a reasonable width for the selection box. */
-	len = go_measure_string (
+	len = go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		GTK_WIDGET (entry)->style->font_desc,
 		cell_coord_name (SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1));
@@ -2155,7 +2154,7 @@ wbcg_create_status_area (WorkbookControlGUI *wbcg)
 	wbcg->auto_expr_label = tmp = gtk_label_new ("");
 	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
 	gtk_widget_ensure_style (tmp);
-	gtk_widget_set_size_request (tmp, go_measure_string (
+	gtk_widget_set_size_request (tmp, go_pango_measure_string (
 			gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 			tmp->style->font_desc,
 			"W") * 15, -1);
@@ -2170,7 +2169,7 @@ wbcg_create_status_area (WorkbookControlGUI *wbcg)
 
 	wbcg->status_text = tmp = gtk_statusbar_new ();
 	gtk_widget_ensure_style (tmp);
-	gtk_widget_set_size_request (tmp, go_measure_string (
+	gtk_widget_set_size_request (tmp, go_pango_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		tmp->style->font_desc, "W") * 15, -1);
 
