@@ -117,8 +117,8 @@ excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 }
 
 static void
-excel_read_metadata (Workbook  *wb, GsfInfile *ole,
-		     char const *name, GnmCmdContext *context)
+excel_read_metadata (Workbook  *wb, GsfInfile *ole, char const *name,
+		     IOContext *context)
 {
 	GError   *err = NULL;
 	GsfInput *stream = gsf_infile_child_by_name (GSF_INFILE (ole), name);
@@ -126,7 +126,7 @@ excel_read_metadata (Workbook  *wb, GsfInfile *ole,
 	if (stream != NULL) {
 		gsf_msole_metadata_read (stream, &err);
 		if (err != NULL) {
-			gnm_cmd_context_error_import (context, err->message);
+			gnm_io_warning (context, err->message);
 			g_error_free (err);
 		}
 		gsf_input_seek (stream, 0, G_SEEK_SET);
@@ -188,8 +188,8 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 	excel_read_workbook (context, wbv, stream, &is_double_stream_file);
 	g_object_unref (G_OBJECT (stream));
 
-	excel_read_metadata (wb, ole, "\05SummaryInformation", GNM_CMD_CONTEXT (context));
-	excel_read_metadata (wb, ole, "\05DocumentSummaryInformation", GNM_CMD_CONTEXT (context));
+	excel_read_metadata (wb, ole, "\05SummaryInformation", context);
+	excel_read_metadata (wb, ole, "\05DocumentSummaryInformation", context);
 
 	/* See if there are any macros to keep around */
 	stream = gsf_infile_child_by_name (GSF_INFILE (ole), "\01CompObj");

@@ -1,3 +1,11 @@
+2004-06-26  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (excel_read_metadata) : Failure is a warning, not
+	  catastrophic
+
+	* ms-chart.c (ms_excel_chart_write) : do not write FBI
+	(chart_write_axis_sets) : Handle transposed X-Y (bars)
+
 2004-06-22  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (extract_gog_object_style) : handle no fmt for axis.
