@@ -1,3 +1,10 @@
+2002-02-11  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=69328
+	* src/expr-name.c (expr_name_remove) : If nothing is using the name
+	  then the unlink unrefs it and it was deleted before we could clear
+	  it.  Add a ref wrapper to ensurethat we can clear things.
+
 2002-02-10  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (cmd_set_text) : doh!

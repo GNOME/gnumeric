@@ -10,6 +10,9 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=70327
 	* Applix font indicies are 0 based.
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=69328
+	* Crash when deleting unused named expression.
+
 Morten:
 	* Back-port DATE2UNIX fix.
 
