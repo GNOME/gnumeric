@@ -137,6 +137,9 @@ DialogStfResult_t *stf_dialog                           (WorkbookControlGUI *wbc
 							 int data_len);
 void               stf_dialog_result_free               (DialogStfResult_t *dialogresult);
 
+void    stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
+						CellRegion *cr);
+
 /* INIT FUNCTIONS
  *
  * These are called when the Dialog is created and give

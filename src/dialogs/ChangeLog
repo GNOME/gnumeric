@@ -1,3 +1,8 @@
+2003-07-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf.c (stf_dialog_result_attach_formats_to_cr): new
+	* dialog-stf.h (stf_dialog_result_attach_formats_to_cr): new
+
 2003-07-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=117903

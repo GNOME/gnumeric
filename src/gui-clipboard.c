@@ -121,33 +121,10 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 					   _("clipboard"), data, data_len);
 
 		if (dialogresult != NULL) {
-			unsigned int col, targetcol;
-
 			cr = stf_parse_region (dialogresult->parseoptions, dialogresult->text, NULL);
+			g_return_val_if_fail (cr != NULL, cellregion_new (NULL));
 
-			if (cr == NULL) {
-				g_warning (_("Parse error while trying to parse data into cellregion"));
-				return cellregion_new (NULL);
-			}
-
-			targetcol = 0;
-			for (col = 0; col < dialogresult->parseoptions->formats->len; col++) {
-				if (dialogresult->parseoptions->col_import_array[col]) {
-					StyleFormat *sf = g_ptr_array_index 
-						(dialogresult->parseoptions->formats, col);
-					StyleRegion *sr = g_new (StyleRegion, 1);
-
-					sr->range.start.col = targetcol;
-					sr->range.start.row = 0;
-					sr->range.end.col   = targetcol;
-					sr->range.end.row   = dialogresult->rowcount - 1;
-					sr->style = mstyle_new_default ();
-					mstyle_set_format (sr->style, sf);
-					targetcol++;
-
-					cr->styles = g_slist_prepend (cr->styles, sr);
-				}
-			}
+			stf_dialog_result_attach_formats_to_cr (dialogresult, cr);
 
 			stf_dialog_result_free (dialogresult);
 		} else {

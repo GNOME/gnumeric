@@ -1,3 +1,13 @@
+2003-07-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/commands.c (cmd_text_to_columns*): new
+	* src/commands.h (cmd_text_to_columns): new
+	* src/gui-clipboard.c 
+	(text_to_cell_region): use stf_dialog_result_attach_formats_to_cr
+	* src/stf.c (stf_text_to_columns) use stf_parse_region and
+	  stf_dialog_result_attach_formats_to_cr rather than 
+	  stf_store_results
+
 2003-07-22  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-widget.c (sheet_widget_button_set_label) : remove

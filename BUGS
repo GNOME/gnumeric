@@ -441,7 +441,6 @@ Misc stuff that should be fixed
     - Sheet object configuration changes.
     - Sheet object creation                (Isn't this already done ?)
     - Workbook attr changes
-    - Data->Text to columns
 
 - cols/rows
     : Make unhide smarter to find hidden regions on either side of

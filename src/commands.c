@@ -5745,6 +5745,135 @@ cmd_data_shuffle (WorkbookControl *wbc, data_shuffling_t *sc, Sheet *sheet)
 
 /******************************************************************/
 
+#define CMD_TEXT_TO_COLUMNS_TYPE        (cmd_text_to_columns_get_type ())
+#define CMD_TEXT_TO_COLUMNS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_TEXT_TO_COLUMNS_TYPE, CmdTextToColumns))
+
+typedef struct
+{
+	GnumericCommand cmd;
+
+	CellRegion      *content;
+	PasteTarget      dst;
+	Range            src;
+	Sheet           *src_sheet;
+	ColRowStateList *saved_sizes;
+} CmdTextToColumns;
+
+GNUMERIC_MAKE_COMMAND (CmdTextToColumns, cmd_text_to_columns);
+
+static gboolean
+cmd_text_to_columns_impl (GnumericCommand *cmd, WorkbookControl *wbc,
+		     gboolean is_undo)
+{
+	CmdTextToColumns *me = CMD_TEXT_TO_COLUMNS (cmd);
+	CellRegion *content;
+	SheetView *sv;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->content != NULL, TRUE);
+
+	content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
+	if (clipboard_paste_region (me->content, &me->dst, COMMAND_CONTEXT (wbc))) {
+		/* There was a problem, avoid leaking */
+		cellregion_free (content);
+		return TRUE;
+	}
+
+	cellregion_free (me->content);
+
+	if (is_undo) {
+		colrow_set_states (me->dst.sheet, FALSE,
+			me->dst.range.start.row, me->saved_sizes);
+		colrow_state_list_destroy (me->saved_sizes);
+		me->saved_sizes = NULL;
+	} else {
+		me->saved_sizes = colrow_get_states (me->dst.sheet,
+			FALSE, me->dst.range.start.row, me->dst.range.end.row);
+		rows_height_update (me->dst.sheet, &me->dst.range, FALSE);
+	}
+
+	me->content = content;
+
+	/* Make the newly pasted content the selection (this queues a redraw) */
+	sv = sheet_get_view (me->dst.sheet, wb_control_view (wbc));
+	sv_selection_reset (sv);
+	sv_selection_add_range (sv,
+		me->dst.range.start.col, me->dst.range.start.row,
+		me->dst.range.start.col, me->dst.range.start.row,
+		me->dst.range.end.col, me->dst.range.end.row);
+	sv_make_cell_visible (sv,
+		me->dst.range.start.col, me->dst.range.start.row, FALSE);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_text_to_columns_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	return cmd_text_to_columns_impl (cmd, wbc, TRUE);
+}
+
+static gboolean
+cmd_text_to_columns_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	return cmd_text_to_columns_impl (cmd, wbc, FALSE);
+}
+
+static void
+cmd_text_to_columns_finalize (GObject *cmd)
+{
+	CmdTextToColumns *me = CMD_TEXT_TO_COLUMNS (cmd);
+
+	if (me->saved_sizes)
+		me->saved_sizes = colrow_state_list_destroy (me->saved_sizes);
+	if (me->content) {
+		cellregion_free (me->content);
+		me->content = NULL;
+	}
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_text_to_columns (WorkbookControl *wbc,
+		     Range const *src, Sheet *src_sheet, 
+		     Range const *target, Sheet *target_sheet, 
+		     CellRegion *content)
+{
+	GObject *obj;
+	CmdTextToColumns *me;
+
+	g_return_val_if_fail (content != NULL, TRUE);
+
+	obj = g_object_new (CMD_TEXT_TO_COLUMNS_TYPE, NULL);
+	me = CMD_TEXT_TO_COLUMNS (obj);
+
+	/* Store the specs for the object */
+	me->cmd.sheet = (src_sheet == target_sheet ? src_sheet : NULL);
+	me->cmd.size = 1;  /* FIXME?  */
+	me->cmd.cmd_descriptor = g_strdup_printf (_("Text (%s) to Columns (%s)"),
+						  undo_global_range_name (src_sheet, src),
+						  undo_global_range_name (target_sheet, target));
+	me->dst.range = *target;
+	me->dst.sheet = target_sheet;
+	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
+	me->src = *src;
+	me->src_sheet = src_sheet;
+	me->content = content;
+	me->saved_sizes = NULL;
+
+	/* Check array subdivision & merged regions */
+	if (sheet_range_splits_region (target_sheet, &me->dst.range,
+				       NULL, COMMAND_CONTEXT (wbc), me->cmd.cmd_descriptor)) {
+		g_object_unref (G_OBJECT (me));
+		return TRUE;
+	}
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+
 #if 0
 #define CMD_FREEZE_PANES_TYPE        (cmd_freeze_panes_get_type ())
 #define CMD_FREEZE_PANES(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_FREEZE_PANES_TYPE, CmdFreezePanes))

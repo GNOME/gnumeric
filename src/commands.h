@@ -129,4 +129,11 @@ gboolean cmd_scenario_mngr (WorkbookControl *wbc, struct _scenario_cmd_t *sc, Sh
 struct _data_shuffling_t;
 gboolean cmd_data_shuffle (WorkbookControl *wbc, struct _data_shuffling_t *sc, Sheet *sheet);
 
+
+gboolean cmd_text_to_columns (WorkbookControl *wbc,
+			      Range const *src, Sheet *src_sheet, 
+			      Range const *target, Sheet *target_sheet, 
+			      CellRegion *content);
+
+
 #endif /* GNUMERIC_COMMANDS_H */

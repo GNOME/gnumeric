@@ -28,6 +28,9 @@
 #include <command-context.h>
 #include <gui-util.h>
 #include <gdk/gdkkeysyms.h>
+#include <sheet-style.h>
+#include <mstyle.h>
+#include <clipboard.h>
 
 /**********************************************************************************************
  * DIALOG CONTROLLING CODE
@@ -447,3 +450,42 @@ stf_dialog_result_free (DialogStfResult_t *dialogresult)
 
 	g_free (dialogresult);
 }
+
+/**
+ * stf_dialog_result_attach_formats_to_cr
+ * @dialogresult: a dialogresult struct
+ * @cr: a cell region
+ *
+ * Attach the formats of the dialogresult to the given cell region.
+ *
+ * returns: nothing
+ **/
+void    
+stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
+					CellRegion *cr)
+{
+	unsigned int col, targetcol;
+	
+	g_return_if_fail (dialogresult != NULL);
+	g_return_if_fail (cr != NULL);
+
+	targetcol = 0;
+	for (col = 0; col < dialogresult->parseoptions->formats->len; col++) {
+		if (dialogresult->parseoptions->col_import_array[col]) {
+			StyleFormat *sf = g_ptr_array_index 
+				(dialogresult->parseoptions->formats, col);
+			StyleRegion *sr = g_new (StyleRegion, 1);
+			
+			sr->range.start.col = targetcol;
+			sr->range.start.row = 0;
+			sr->range.end.col   = targetcol;
+			sr->range.end.row   = dialogresult->rowcount - 1;
+			sr->style = mstyle_new_default ();
+			mstyle_set_format (sr->style, sf);
+			targetcol++;
+			
+			cr->styles = g_slist_prepend (cr->styles, sr);
+		}
+	}
+}
+
