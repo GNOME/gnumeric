@@ -40,7 +40,7 @@ date_init (void)
 	GDate* date = g_date_new_dmy (1, 1, 1900);
 	date_origin = g_date_get_julian (date) - 1;
 
-	/* Day 0 means 1st of January of 1900 */
+	/* Day 0 means 1st of January of 1904 */
 	g_date_set_dmy (date, 1, 1, 1904);
 	date_origin_1904 = g_date_get_julian (date);
 	g_date_free (date);

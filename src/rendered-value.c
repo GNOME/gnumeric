@@ -135,7 +135,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 		} else
 			dynamic_width = FALSE;
 		str = format_value (format, cell->value, &color, col_width,
-				    workbook_date_conv (cell->base.sheet->workbook));
+				    cell->base.sheet ? workbook_date_conv (cell->base.sheet->workbook) : NULL);
 	} else {
 		g_warning ("No format: serious error");
 		str = g_strdup ("Error");

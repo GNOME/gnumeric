@@ -1,3 +1,8 @@
+2003-01-03  Jody Goldberg <jody@gnome.org>
+
+	* src/rendered-value.c (rendered_value_new) : handle preview grid's
+	  use without a sheet.
+
 2003-01-02  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (xml_workbook_write) : export quick hack for 1904 date
