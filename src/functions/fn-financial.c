@@ -1050,7 +1050,7 @@ static Value *
 gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t settlement, maturity, discount;
-	float_t res, dsm, divisor;
+	float_t dsm, divisor;
 
 	settlement = get_serial_date (argv[0]);
 	maturity = get_serial_date (argv[1]);
@@ -1963,6 +1963,156 @@ gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static char *help_price = {
+	N_("@FUNCTION=PRICE\n"
+	   "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)\n"
+	   "@DESCRIPTION="
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+/*
+  <jody> Available frequencies : 1 = annual, 2 = semi, 4 = quarterly.
+  <jody> Available daycount basis 0 = 30/360 1 = Act/Act 2 = Act/360 3 = Act/365
+  4 = 30E/360
+*/
+
+static Value *
+gnumeric_price (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_yield = {
+	N_("@FUNCTION=YIELD\n"
+	   "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)\n"
+	   "@DESCRIPTION="
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_yielddisc = {
+	N_("@FUNCTION=YIELDDISC\n"
+	   "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)\n"
+	   "@DESCRIPTION="
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_yielddisc (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_yieldmat = {
+	N_("@FUNCTION=YIELDMAT\n"
+	   "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)\n"
+	   "@DESCRIPTION="
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_yieldmat (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_oddfprice = {
+	N_("@FUNCTION=ODDFPRICE\n"
+	   "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency,basis)\n"
+	   "@DESCRIPTION="
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_oddfyield = {
+	N_("@FUNCTION=ODDFYIELD\n"
+	   "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency,basis)\n"
+	   "@DESCRIPTION="
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_oddfyield (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_oddlprice = {
+	N_("@FUNCTION=ODDLPRICE\n"
+	   "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequency,basis)\n"
+	   "@DESCRIPTION="
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_oddlprice (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
+static char *help_oddlyield = {
+	N_("@FUNCTION=ODDLYIELD\n"
+	   "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,frequency,basis)\n"
+	   "@DESCRIPTION="
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
+{
+	return value_new_error (&ei->pos, "#UNIMPLEMENTED!");
+}
+
+/***************************************************************************/
+
 void
 finance_functions_init (void)
 {
@@ -2020,11 +2170,26 @@ finance_functions_init (void)
 			    &help_nper,     gnumeric_nper);
         function_add_nodes (cat, "npv",     0,      "",
 			    &help_npv,      gnumeric_npv);
+        function_add_args  (cat, "oddfprice", "????fffff",
+			    "settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency,basis",
+			    &help_oddfprice,  gnumeric_oddfprice);
+        function_add_args  (cat, "oddfyield", "????fffff",
+			    "settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency,basis",
+			    &help_oddfyield,  gnumeric_oddfyield);
+        function_add_args  (cat, "oddlprice", "???fffff",
+			    "settlement,maturity,last_interest,rate,yld,redemption,frequency,basis",
+			    &help_oddlprice,  gnumeric_oddlprice);
+        function_add_args  (cat, "oddlyield", "???fffff",
+			    "settlement,maturity,last_interest,rate,pr,redemption,frequency,basis",
+			    &help_oddlyield,  gnumeric_oddlyield);
 	function_add_args  (cat, "pmt", "fff|ff", "rate,nper,pv[,fv,type]",
 			    &help_pmt,      gnumeric_pmt);
 	function_add_args  (cat, "ppmt", "ffff|ff",
 			    "rate,per,nper,pv[,fv,type]",
 			    &help_ppmt,     gnumeric_ppmt);
+        function_add_args  (cat, "price", "??fff|ff",
+			    "settle,mat,rate,yield,redemption_price,frequency,basis",
+			    &help_price, gnumeric_price);
 	function_add_args  (cat, "pricedisc", "??ff|f",
 			    "settlement,maturity,discount,redemption[,basis]",
 			    &help_pricedisc,  gnumeric_pricedisc);
@@ -2049,10 +2214,19 @@ finance_functions_init (void)
 			    &help_tbilleq,  gnumeric_tbilleq);
         function_add_args  (cat, "tbillprice", "??f",
 			    "settlement,maturity,discount",
-			    &help_tbillprice,  gnumeric_tbillprice);
+			    &help_tbillprice, gnumeric_tbillprice);
         function_add_args  (cat, "tbillyield", "??f",
 			    "settlement,maturity,pr",
-			    &help_tbillyield,  gnumeric_tbillyield);
+			    &help_tbillyield, gnumeric_tbillyield);
+        function_add_args  (cat, "yield", "??fff|ff",
+			    "settle,mat,rate,price,redemption_price,frequency,basis",
+			    &help_yield, gnumeric_yield);
+        function_add_args  (cat, "yielddisc", "??fff",
+			    "settlement,maturity,pr,redemption,basis",
+			    &help_yielddisc,  gnumeric_yielddisc);
+        function_add_args  (cat, "yieldmat", "???fff",
+			    "settlement,maturity,issue,rate,pr,basis",
+			    &help_yieldmat,  gnumeric_yieldmat);
         function_add_args  (cat, "xirr", "AA|f", "values,dates[,guess]",
 			    &help_xirr,     gnumeric_xirr);
         function_add_args  (cat, "xnpv", "fAA", "rate,values,dates",

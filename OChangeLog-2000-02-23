@@ -1,3 +1,10 @@
+1999-12-18  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-financial.c (gnumeric_yieldmat,
+ 	gnumeric_yielddisc, gnumeric_oddlyield, gnumeric_oddfyield,
+ 	gnumeric_oddfprice, gnumeric_oddlprice, gnumeric_yield,
+ 	gnumeric_price): New skeleton function.
+
 1999-12-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_number) : Supress printing a '-' if the format
