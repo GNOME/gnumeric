@@ -14,7 +14,7 @@ Release Critical
     : support array evaluation for =LARGE and friends
     http://bugzilla.gnome.org/show_bug.cgi?id=159581
     : undo has dep leaks
-    : Ivan's win32 build patch
+    : uwe paradox patch
 
 Worries
 -------
@@ -806,22 +806,24 @@ Short Term Goals
     32.10) research the other xl object flags.
     32.11) remove update_view_bounds and have the model emit a		(DONE)
     	   bound_changed signal
-    32.12) double click to bring up prefs dialog
+    32.12) double click to bring up prefs dialog			(DONE)
     32.13) selecting object with other objects on top of it should
    	   hide them while editing
     32.14) ngettext for insert/delete objects undo message
     32.15) Check the stacking of ctrl pts when moving multiple selections
+    32.16) event handling for check boxes
 
 33) Win32
     33.1) Make gnumeric build with only gtk and available libraries	(DONE)
     33.2) Drawing past row 1800 or so
     33.3) Shift-keyup from B1300 does not redraw properly
-    33.4) License in installer should be GPL, not LGPL
-    33.5) no menu entry for Gnumeric
-    33.6) broken header in 1st page of installer
-    33.7) no charts (although about box does work)
+    33.4) License in installer should be GPL, not LGPL			(DONE)
+    33.5) no menu entry for Gnumeric					(DONE)
+    33.6) broken header in 1st page of installer			(DONE)
+    33.7) no charts (although about box does work)			(DONE)
     33.8) prefs dialog is useless in non-gnome build
-    33.9) printing is zoomed in non-gnome build
+    33.9) printing is zoomed in non-gnome build				(DONE)
+    33.10) Cursor shape changes oddly
 
 Misc stuff that should be fixed
 -------------------------------

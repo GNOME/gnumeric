@@ -1,6 +1,9 @@
 #ifndef GNUMERIC_LIBGNUMERIC_H
 #define GNUMERIC_LIBGNUMERIC_H
 
+#ifdef WIN32
+#define POPT_STATIC
+#endif
 #include <popt.h>
 
 extern int	 gnumeric_debugging;

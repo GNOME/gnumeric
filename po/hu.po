@@ -1214,7 +1214,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-complex/functions.c:119
-#, fuzzy
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -16552,9 +16551,8 @@ msgid "_Pattern:"
 msgstr "Minta"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
-#, fuzzy
 msgid "_Select..."
-msgstr "_Kijelölés"
+msgstr "_Kijelölés..."
 
 # #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
 # interfaces/memory.glade.h:18 interfaces/memory.glade.h:29
@@ -22822,7 +22820,7 @@ msgstr "Lap átnevezése"
 
 #: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1589
 msgid "_Duplicate"
-msgstr "_Megkettőzés"
+msgstr "Meg_kettőzés"
 
 #: src/dialogs/shuffle.glade.h:1
 msgid "Data Shuffling"
@@ -26978,15 +26976,15 @@ msgstr "S_zerkesztés"
 
 #: src/wbcg-actions.c:1413
 msgid "C_lear"
-msgstr "Tartalom tö_rlése"
+msgstr "Tartalom törlé_se"
 
 #: src/wbcg-actions.c:1415
 msgid "S_heet"
-msgstr "M_unkalap"
+msgstr "Munk_alap"
 
 #: src/wbcg-actions.c:1416
 msgid "_Select"
-msgstr "_Kijelölés"
+msgstr "Ki_jelölés"
 
 #: src/wbcg-actions.c:1417
 #, fuzzy
@@ -27190,7 +27188,6 @@ msgid "Print the current file"
 msgstr "A jelenlegi fájl nyomtatása"
 
 #: src/wbcg-actions.c:1499
-#, fuzzy
 msgid "Proper_ties..."
 msgstr "_Adatlap..."
 
@@ -27199,9 +27196,8 @@ msgid "Edit descriptive information"
 msgstr "A dokumentumot leíró adatok szerkesztése"
 
 #: src/wbcg-actions.c:1502
-#, fuzzy
 msgid "Pre_ferences..."
-msgstr "_Beállítások..."
+msgstr "Beá_llítások..."
 
 #: src/wbcg-actions.c:1503
 msgid "Change Gnumeric Preferences"

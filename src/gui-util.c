@@ -9,6 +9,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
+#include "libgnumeric.h"
 #include "gui-util.h"
 
 #include "workbook-control-gui-priv.h"
@@ -780,6 +781,9 @@ go_combo_color_get_style_color (GtkWidget *go_combo_color)
 
 #ifdef WITH_GNOME
 #include <libgnome/gnome-help.h>
+#elif defined(G_OS_WIN32)
+#include "htmlhelp-stub.h"
+static GHashTable* context_help_map = NULL;
 #endif
 void
 gnumeric_help_display (char const *link)
@@ -787,6 +791,38 @@ gnumeric_help_display (char const *link)
         g_return_if_fail (link != NULL);
 #ifdef WITH_GNOME
 	gnome_help_display ("gnumeric", link, NULL);
+#elif defined(G_OS_WIN32)
+	{
+		guint id;
+		gchar *chm_file;
+
+		if (!context_help_map) {
+			FILE *fh;
+			gchar *mapfile, sect[1024];
+			guint id;
+
+			context_help_map = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+			mapfile = gnm_sys_data_dir ("doc/C/gnumeric.hhmap");
+			fh = fopen (mapfile, "r");
+			if (fh) {
+				while (!feof(fh)) {
+					if (fscanf (fh, "%s %d", sect, &id) == 2)
+						g_hash_table_insert (context_help_map, g_strdup (sect), (gpointer)id);
+				}
+				fclose (fh);
+			}
+			else
+				g_warning ("Cannot open 'doc/C/gnumeric.hhmap'");
+		}
+
+		id = (guint) g_hash_table_lookup (context_help_map, link);
+		if (id)
+		{
+			chm_file = gnm_sys_data_dir ("doc/C/gnumeric.chm");
+			HtmlHelp_ (GetDesktopWindow (), chm_file, HH_HELP_CONTEXT, id);
+			g_free (chm_file);
+		}
+	}
 #else
 	g_warning ("TODO : launch help browser for %s", link);
 #endif

@@ -33,7 +33,7 @@ static char const *ssconvert_export_id = NULL;
 #ifdef WIN32
 #define POPT_STATIC
 #endif
-const struct poptOption
+struct poptOption
 ssconvert_popt_options[] = {
 	{ NULL, '\0', POPT_ARG_INTL_DOMAIN, (char *)GETTEXT_PACKAGE, 0, NULL, NULL },
 
@@ -167,6 +167,11 @@ main (int argc, char const *argv [])
 	poptContext ctx;
 
 	gnm_pre_parse_init (argv[0]);
+
+#ifdef G_OS_WIN32
+	ssconvert_popt_options[2].arg = &gnumeric_lib_dir;
+	ssconvert_popt_options[3].arg = &gnumeric_data_dir;
+#endif
 
 	ctx = poptGetContext (NULL, argc, argv, ssconvert_popt_options, 0);
 	while (poptGetNextOpt (ctx) > 0)

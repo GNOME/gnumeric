@@ -50,11 +50,7 @@ static char *func_state_file = NULL;
 
 int gnumeric_no_splash = FALSE;
 
-/* Even given popt.h, compiler won't be able to resolve the popt macros
-   as const expressions in the initializer without this decl on win32 */
-extern struct poptOption poptHelpOptions[];
-
-static struct poptOption const
+static struct poptOption
 gnumeric_popt_options[] = {
 	{ "version", 'v', POPT_ARG_NONE, &gnumeric_show_version, 0,
 	  N_("Display Gnumeric's version"), NULL  },
@@ -219,6 +215,18 @@ gnumeric_arg_parse (int argc, char const *argv [])
 	};
 
 	int i;
+
+#ifdef G_OS_WIN32
+	gnumeric_popt_options[1].arg = &gnumeric_lib_dir;
+	gnumeric_popt_options[2].arg = &gnumeric_data_dir;
+	gnumeric_popt_options[5].arg = &gnumeric_debugging;
+	gnumeric_popt_options[6].arg = &dependency_debugging;
+	gnumeric_popt_options[7].arg = &expression_sharing_debugging;
+	gnumeric_popt_options[8].arg = &print_debugging;
+	gnumeric_popt_options[9].arg = &x_geometry;
+	gnumeric_popt_options[10].arg = &gnumeric_no_splash;
+	gnumeric_popt_options[11].arg = &immediate_exit_flag;
+#endif
 
 	/* no need to init gtk when dumping function info */
 	for (i = 0 ; i < argc ; i++)

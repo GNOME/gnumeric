@@ -5,6 +5,7 @@
 SUBDIRS = tools cut-n-paste-code
 
 bin_PROGRAMS =
+lib_LTLIBRARIES =
 
 check_PROGRAMS =
 #check_PROGRAMS += test-pango number-match
@@ -319,6 +320,12 @@ gnumeric_LDADD = 				\
 gnumeric_LDFLAGS = -export-dynamic
 if WITH_WIN32
     gnumeric_LDFLAGS += -Wl,--export-all-symbols,--output-def,gnumeric.def,--out-implib,gnumeric.exe.a,
+
+    lib_LTLIBRARIES += libhtmlhelp-stub.la
+
+    libhtmlhelp_stub_la_SOURCES = htmlhelp-stub.c htmlhelp-stub.h
+    libhtmlhelp_stub_la_LIBADD = -luuid -lhtmlhelp
+    libhtmlhelp_stub_la_LDFLAGS = -no-undefined -Wl,libhtmlhelp-stub.def
 endif
 
 gnumeric_app_libs =				\

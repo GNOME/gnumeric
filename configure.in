@@ -369,6 +369,11 @@ if test $struct_timeval_works = no ; then
 	fi
 fi
 
+AC_CHECK_FUNC(gettimeofday,
+	[AC_DEFINE(HAVE_GETTIMEOFDAY, 1,
+		[Define if the gettimeofday function is available]
+	)])
+
 dnl src/functions/fn-math.c uses M_PI
 
 AC_MSG_CHECKING([whether M_PI is available])

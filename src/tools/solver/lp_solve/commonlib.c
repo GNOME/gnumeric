@@ -3,8 +3,10 @@
 
 #ifdef INTEGERTIME
 # include <time.h>
-#else
+#elif HAVE_GETTIMEOFDAY
 # include <sys/time.h>
+#else
+# include <sys/timeb.h>
 #endif
 
 #include <stdlib.h>
@@ -281,12 +283,17 @@ double timeNow()
   return((double)time(NULL));
 #elif defined CLOCKTIME
   return((double)clock()/CLOCKS_PER_SEC /* CLK_TCK */);
-#else
+#elif HAVE_GETTIMEOFDAY
   struct timeval buf;
   struct timezone tzbuf;
 
   gettimeofday(&buf,&tzbuf);
   return((double)buf.tv_sec+((double) buf.tv_usec)/1000000.0);
+#else
+  struct timeb buf;
+
+  ftime(&buf);
+  return((double)buf.time+((double) buf.millitm)/1000.0);
 #endif
 }
 
