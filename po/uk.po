@@ -590,7 +590,7 @@ msgstr "Грудень"
 #: src/dialogs/dialog-analysis-tools.c:74
 #: src/dialogs/dialog-analysis-tools.c:1897
 msgid "Anova: Single Factor"
-msgstr ""
+msgstr "Дисперсний анал╕з: однофакторний"
 
 #: src/dialogs/dialog-analysis-tools.c:76
 #: src/dialogs/dialog-analysis-tools.c:1985
@@ -1838,7 +1838,7 @@ msgstr "За форматом"
 
 #: src/dialogs/cell-format.glade.h:41
 msgid "_Top"
-msgstr "Вгору"
+msgstr "Зверху"
 
 #: src/dialogs/cell-format.glade.h:42
 msgid "C_enter"
@@ -2630,7 +2630,7 @@ msgstr ""
 
 #: src/functions/fn-date.c:559
 msgid "Unsupported method"
-msgstr ""
+msgstr "Метод не п╕дтриму╓ться"
 
 #: src/functions/fn-date.c:620
 msgid ""
@@ -4202,10 +4202,17 @@ msgid ""
 "\n"
 "@SEEALSO=ERROR"
 msgstr ""
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=ISERROR поверта╓ значення ╤СТИНА, якщо вираз м╕стить помилку.\n"
+"Ця функц╕я сум╕сна з Excel. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=ERROR"
 
 #: src/functions/fn-information.c:355
 msgid "Argument mismatch"
-msgstr ""
+msgstr "В╕дсутн╕й аргумент"
 
 #: src/functions/fn-information.c:386
 msgid ""
@@ -4355,6 +4362,13 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=ISLOGICAL\n"
+"@SYNTAX=ISLOGICAL()\n"
+"@DESCRIPTION=ISLOGICAL поверта╓ ╤СТИНА, якщо значення ╓ лог╕чним. Ця "
+"функц╕я сум╕сна з Excel. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-information.c:650
 msgid ""
@@ -4366,6 +4380,13 @@ msgid ""
 "\n"
 "@SEEALSO=ISTEXT"
 msgstr ""
+"@FUNCTION=ISNONTEXT\n"
+"@SYNTAX=ISNONTEXT()\n"
+"@DESCRIPTION=ISNONTEXT поверта╓ ╤СТИНА, якщо значення не текстове. Ця функц╕я "
+"сум╕сна з Excel. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=ISTEXT"
 
 #: src/functions/fn-information.c:676
 msgid ""
@@ -4377,6 +4398,13 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=ISNUMBER\n"
+"@SYNTAX=ISNUMBER()\n"
+"@DESCRIPTION=ISNUMBER поверта╓ ╤СТИНА, якщо значення числове. Ця функц╕я "
+"сум╕сна з Excel. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-information.c:702
 msgid ""
@@ -4410,6 +4438,13 @@ msgid ""
 "\n"
 "@SEEALSO=ISNONTEXT"
 msgstr ""
+"@FUNCTION=ISTEXT\n"
+"@SYNTAX=ISTEXT()\n"
+"@DESCRIPTION=ISTEXT поверта╓ ╤СТИНА, якщо значення тектове. Ця функц╕я "
+"сум╕сна з Excel. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=ISNONTEXT"
 
 #: src/functions/fn-information.c:780
 msgid ""
@@ -4477,7 +4512,7 @@ msgstr ""
 #: src/functions/fn-lookup.c:471 src/functions/fn-lookup.c:575
 #: src/functions/fn-lookup.c:582 src/functions/fn-string.c:524
 msgid "Type Mismatch"
-msgstr ""
+msgstr "Несп╕впад╕ння тип╕в"
 
 #: src/functions/fn-logical.c:106
 msgid ""
@@ -4515,7 +4550,7 @@ msgstr ""
 
 #: src/functions/fn-logical.c:227
 msgid "Logical"
-msgstr ""
+msgstr "Лог╕чне"
 
 #: src/functions/fn-lookup.c:19
 msgid ""
@@ -7705,19 +7740,19 @@ msgstr "Скоп╕ювати значення"
 
 #: src/item-cursor.c:672
 msgid "Shift cells down and copy"
-msgstr ""
+msgstr "Зсунути ком╕рки донизу та скоп╕ювати"
 
 #: src/item-cursor.c:673
 msgid "Shift cells right and copy"
-msgstr ""
+msgstr "Зсунути ком╕рки праворуч та скоп╕ювати"
 
 #: src/item-cursor.c:674
 msgid "Shift cells down and move"
-msgstr ""
+msgstr "Зсунути ком╕рки донизу та перенести"
 
 #: src/item-cursor.c:675
 msgid "Shift cells right and move"
-msgstr ""
+msgstr "Зсунути ком╕рки праворуч та перенести"
 
 #: src/item-grid.c:621
 msgid "Cu_t"
@@ -7737,7 +7772,7 @@ msgstr ""
 
 #: src/item-grid.c:632
 msgid "_Insert..."
-msgstr "Встивити..."
+msgstr "Вставити..."
 
 #: src/item-grid.c:634 src/workbook.c:1052
 msgid "_Delete..."
@@ -7749,7 +7784,7 @@ msgstr "Очистити вм╕ст"
 
 #: src/item-grid.c:641
 msgid "_Format Cells..."
-msgstr ""
+msgstr "Формат ком╕рок..."
 
 #. Column specific functions
 #: src/item-grid.c:645
@@ -7758,11 +7793,11 @@ msgstr "Ширина стовпчика..."
 
 #: src/item-grid.c:647 src/item-grid.c:655
 msgid "_Hide"
-msgstr ""
+msgstr "Прибрати"
 
 #: src/item-grid.c:649 src/item-grid.c:657
 msgid "_Unhide"
-msgstr ""
+msgstr "Показати"
 
 #. Row specific functions (Note some of the labels are duplicated
 #: src/item-grid.c:653
@@ -8076,7 +8111,7 @@ msgstr "Клав╕ша"
 
 #: src/sheet-object.c:728 src/workbook.c:971
 msgid "Select an object"
-msgstr ""
+msgstr "Вибрати об'╓кт"
 
 #: src/sheet-view.c:369
 #, c-format
@@ -8095,7 +8130,7 @@ msgstr "Внутр╕шня ПОМИЛКА"
 #: src/sheet.c:3127
 #, c-format
 msgid "I was not able to activate object %s"
-msgstr ""
+msgstr "Не було можливост╕ актив╕зувати об'╓кт %s"
 
 #: src/sheet.c:3139
 msgid "I was unable to the bind object"
@@ -8623,11 +8658,11 @@ msgstr "Створю╓ кнопку"
 
 #: src/workbook.c:1255
 msgid "Checkbox"
-msgstr ""
+msgstr "Контрольний блок"
 
 #: src/workbook.c:1255
 msgid "Creates a checkbox"
-msgstr ""
+msgstr "Створю╓ контрольний блок"
 
 #: src/workbook.c:1262
 msgid "Creates a line object"
@@ -8659,27 +8694,27 @@ msgstr "Створю╓ ел╕пс"
 
 #: src/workbook.c:1483
 msgid "You should introduce a valid cell name"
-msgstr ""
+msgstr "Вам необх╕дно ввести в╕рну назву ком╕рки"
 
 #: src/workbook.c:1492
 msgid "Column out of range"
-msgstr ""
+msgstr "Номер стовпчика поза д╕апазоном"
 
 #: src/workbook.c:1498
 msgid "Row number out of range"
-msgstr ""
+msgstr "Номер рядка поза д╕апазоном"
 
 #: src/workbook.c:1685
 msgid "Sum"
-msgstr ""
+msgstr "Сума"
 
 #: src/workbook.c:1688
 msgid "Average"
-msgstr ""
+msgstr "Середн╓"
 
 #: src/workbook.c:1689
 msgid "Count"
-msgstr ""
+msgstr "К╕льк╕сть"
 
 #: src/workbook.c:2096
 #, c-format
