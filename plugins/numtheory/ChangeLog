@@ -1,3 +1,8 @@
+2001-05-22  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* numtheory.c: reverted 'Moebius' to 'M\xe9bius' as asked by Jody,
+	  until a correct solution is found
+
 2001-05-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.65
