@@ -99,6 +99,7 @@ glade_DATA = 				\
 	function-select.glade 		\
 	graph-guru.glade		\
 	goalseek.glade			\
+	goto.glade			\
 	hf-config.glade			\
 	histogram.glade			\
 	insert-cells.glade		\
