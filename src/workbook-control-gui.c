@@ -3996,10 +3996,21 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 	menu = gtk_menu_new ();
 
 	for (i = 0; quick_compute_routines [i].displayed_name; i++) {
+		ParsePos pp;
+		const char *expr = quick_compute_routines [i].function;
+		const GnmExpr *new_auto_expr;
+
+		/* Test the expression...  */
+		parse_pos_init (&pp, wb_control_workbook (WORKBOOK_CONTROL (wbcg)), NULL, 0, 0);
+		new_auto_expr = gnm_expr_parse_str_simple (expr, &pp);
+		if (!new_auto_expr)
+			continue;
+		gnm_expr_unref (new_auto_expr);
+
 		item = gtk_menu_item_new_with_label (
 			_(quick_compute_routines [i].displayed_name));
 		gtk_object_set_data (GTK_OBJECT (item), "expr",
-			(char *)quick_compute_routines [i].function);
+			(char *)expr);
 		gtk_object_set_data (GTK_OBJECT (item), "name",
 			(char *)_(quick_compute_routines [i].displayed_name));
 		g_signal_connect (G_OBJECT (item),

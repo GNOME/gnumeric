@@ -1,3 +1,9 @@
+2002-05-03  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-control-gui.c (cb_select_auto_expr): Filter out
+	expressions that don't parse.  (Probably because some plugin
+	wasn't loaded.)
+
 2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-general.schemas : add max-initial-clauses schema
