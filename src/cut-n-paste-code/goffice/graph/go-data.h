@@ -22,6 +22,7 @@
 #define GO_DATA_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/utils/goffice-utils.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
@@ -34,6 +35,7 @@ GType go_data_get_type (void);
 gboolean  go_data_needs_recalc	(GOData const *dat);
 GOData	 *go_data_dup		(GOData const *src);
 gboolean  go_data_eq		(GOData const *a, GOData const *b);
+GOFormat *go_data_preferred_fmt (GOData const *dat);
 char     *go_data_as_str	(GOData const *dat);
 gboolean  go_data_from_str	(GOData *dat, char const *str);
 

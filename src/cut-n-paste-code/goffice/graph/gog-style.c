@@ -1050,6 +1050,7 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 		dst->fill.u.image.filename = g_strdup (dst->fill.u.image.filename);
 
 	dst->interesting_fields = src->interesting_fields;
+	dst->needs_obj_defaults = src->needs_obj_defaults;
 }
 
 /**
@@ -1142,6 +1143,7 @@ static void
 gog_style_init (GogStyle *style)
 {
 	style->interesting_fields = GOG_STYLE_ALL;
+	style->needs_obj_defaults = TRUE;
 	style->marker.mark = go_marker_new ();
 	style->marker.auto_shape =
 	style->marker.auto_outline_color =
@@ -1506,6 +1508,8 @@ gog_style_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
 	GogStyle *style = GOG_STYLE (gpd);
 	xmlNode *ptr;
 
+	/* while reloading no need to reapply settings */
+	style->needs_obj_defaults = FALSE;
 	for (ptr = node->xmlChildrenNode ; ptr != NULL ; ptr = ptr->next) {
 		if (xmlIsBlankNode (ptr) || ptr->name == NULL)
 			continue;

@@ -134,6 +134,14 @@ excel_chart_series_delete (XLChartSeries *series)
 	g_free (series);
 }
 
+static void
+BC_R(get_style) (XLChartReadState *s)
+{
+	if (s->style == NULL) {
+		s->style = gog_style_new ();
+		s->style->needs_obj_defaults = FALSE;
+	}
+}
 
 static int
 BC_R(top_state) (XLChartReadState *s)
@@ -368,8 +376,7 @@ BC_R(areaformat)(XLChartHandler const *handle,
 #if 0 
 	/* 18 */ "5%"
 #endif
-	if (s->style == NULL)
-		s->style = gog_style_new ();
+	BC_R(get_style) (s);
 	if (pattern > 0) {
 		s->style->fill.type = GOG_FILL_STYLE_PATTERN;
 		s->style->fill.is_auto = auto_format;
@@ -971,8 +978,7 @@ BC_R(lineformat)(XLChartHandler const *handle,
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+8);
 
-	if (s->style == NULL) 
-		s->style = gog_style_new ();
+	BC_R(get_style) (s);
 	switch (GSF_LE_GET_GUINT16 (q->data+6)) {
 	default :
 	case -1 : s->style->line.width = 0; /* hairline */
@@ -1026,8 +1032,7 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+10);
 	gboolean const auto_color = (flags & 0x01) ? TRUE : FALSE;
 
-	if (s->style == NULL)
-		s->style = gog_style_new ();
+	BC_R(get_style) (s);
 	marker = go_marker_new ();
 
 	d (0, fprintf (stderr, "Marker = %s\n", ms_chart_marker [shape]););
@@ -1680,6 +1685,7 @@ XL_gog_series_set_dim (GogSeries *series, GogMSDimType ms_type, GOData *val)
 			return;
 		}
 	g_warning ("Unexpected val for dim %d", ms_type);
+	g_object_unref (val);
 }
 
 static gboolean

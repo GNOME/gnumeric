@@ -1,3 +1,10 @@
+2003-12-18  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (XL_gog_series_set_dim) : Don't leak data we're not
+	  expecting.
+	(BC_R(get_style)) : new.  creates the style as necessary, and flags it
+	  to ignore the object's default settings.
+
 2003-12-13  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=127625

@@ -75,6 +75,7 @@ typedef struct {
 struct _GogStyle {
 	GObject	base;
 	GogStyleFlag	interesting_fields;
+	gboolean	needs_obj_defaults;
 
 	GogStyleLine	outline, line;
 	struct {

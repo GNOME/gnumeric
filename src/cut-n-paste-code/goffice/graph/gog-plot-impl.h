@@ -68,10 +68,8 @@ typedef struct {
 	GogAxisSet (*axis_set_pref)     (GogPlot const *plot);
 	gboolean   (*axis_set_is_valid) (GogPlot const *plot, GogAxisSet type);
 	gboolean   (*axis_set_assign)   (GogPlot *plot, GogAxisSet type);
-	GOData	  *(*axis_bounds) 	(GogPlot *plot, GogAxisType axis,
-					 double *min, double *max,
-					 double *logical_min, double *logical_max,
-					 gboolean *is_discrete);
+	GOData	  *(*axis_get_bounds) 	(GogPlot *plot, GogAxisType axis,
+					 GogPlotBoundInfo *bounds);
 
 	gboolean   (*supports_vary_style_by_element) (GogPlot const *plot);
 } GogPlotClass;

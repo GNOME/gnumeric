@@ -31,7 +31,7 @@ typedef struct {
 	GogPlot	base;
 
 	struct {
-		double minimum, maximum;
+		double minima, maxima;
 	} x, y;
 	gboolean	default_style_has_markers;
 	gboolean	default_style_has_lines;

@@ -6,6 +6,8 @@ libgoffice_utils_la_SOURCES =	\
 	go-color.h		\
 	go-font.c		\
 	go-font.h		\
+	go-format.c		\
+	go-format.h		\
 	go-gradient.c		\
 	go-gradient.h		\
 	go-marker.c		\

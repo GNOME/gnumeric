@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * goffice-utils.h: 
+ * go-format.h : 
  *
  * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
  *
@@ -18,21 +18,23 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+#ifndef GO_FORMAT_H
+#define GO_FORMAT_H
 
-#ifndef GOFFICE_UTILS_H
-#define GOFFICE_UTILS_H
-
-#include <glib.h>
+#include <goffice/utils/goffice-utils.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
-typedef guint32			GOColor;
-typedef struct _GOFont		GOFont;
-typedef struct _GOPattern	GOPattern;
-typedef struct _GOMarker	GOMarker;
-typedef struct _GnmFormat	GOFormat; /* pull this down after rewrite */
-
+void        go_format_ref		 (GOFormat *fmt);
+void        go_format_unref		 (GOFormat *fmt);
+char	   *go_format_value   		 (GOFormat const *fmt, double val);
+GOFormat   *go_format_general		 (void);
+GOFormat   *go_format_default_date	 (void);
+GOFormat   *go_format_default_time	 (void);
+GOFormat   *go_format_default_percentage (void);
+GOFormat   *go_format_default_money	 (void);
 
 G_END_DECLS
 
-#endif /* GOFFICE_UTILS_H */
+#endif /* GO_FORMAT_H */

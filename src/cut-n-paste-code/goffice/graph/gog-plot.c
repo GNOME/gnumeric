@@ -349,22 +349,19 @@ gog_plot_foreach_elem (GogPlot *plot, GogEnumFunc func, gpointer data)
 
 GOData *
 gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
-			  double *minima, double *maxima,
-			  double *logical_minima, double *logical_maxima,
-			  gboolean *is_discrete)
+			  GogPlotBoundInfo *bounds)
 {
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 
 	g_return_val_if_fail (klass != NULL, NULL);
+	g_return_val_if_fail (bounds != NULL, NULL);
 
-	*logical_maxima = gnm_nan;
-	*logical_minima = gnm_nan;
-	*minima =  DBL_MAX;
-	*maxima = -DBL_MAX;
-	*is_discrete = FALSE;
-	return (klass->axis_bounds) (plot, axis, minima, maxima,
-				     logical_minima, logical_maxima,
-				     is_discrete);
+	bounds->val.minima =  DBL_MAX;
+	bounds->val.maxima = -DBL_MAX;
+	bounds->logical.maxima = gnm_nan;
+	bounds->logical.minima = gnm_nan;
+	bounds->is_discrete = FALSE;
+	return (klass->axis_get_bounds) (plot, axis, bounds);
 }
 
 gboolean

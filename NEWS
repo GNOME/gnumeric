@@ -15,8 +15,12 @@ Jody:
 	* Use the right font when editing.
 	http://bugzilla.gnome.org/show_bug.cgi?id=127625
 	* kludge around mystery inconsistent autfilters in xls
+	* Patch a leak in the pattern selector
+	* Fix a potential crash when changing labels on axis
 	http://bugzilla.gnome.org/show_bug.cgi?id=127734
 	* Modernize the sylk importer
+	http://bugzilla.gnome.org/show_bug.cgi?id=129444
+	* Fix xls import of plot styles that override defaults
 
 Jukka:
 	* GLPK upgrade to version 4.2

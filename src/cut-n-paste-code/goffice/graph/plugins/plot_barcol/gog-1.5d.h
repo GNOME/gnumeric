@@ -39,7 +39,7 @@ typedef struct {
 
 	/* cached content */
 	unsigned num_series, num_elements;
-	double   minimum, maximum; /* meaning varies depending on type */
+	double   maxima, minima; /* meaning varies depending on type */
 	gboolean implicit_index;
 } GogPlot1_5d;
 typedef struct {

@@ -57,7 +57,9 @@ gog_line_series_init_style (GogStyledObject *gso, GogStyle *style)
 	GogSeries *series = GOG_SERIES (gso);
 
 	series_parent_klass->init_style (gso, style);
-	if (style->marker.auto_shape && series->plot != NULL) {
+	if (style->needs_obj_defaults &&
+	    style->marker.auto_shape &&
+	    series->plot != NULL) {
 		GogLinePlot const *line = GOG_LINE_PLOT (series->plot);
 		if (!line->default_style_has_markers) {
 			GOMarker *m = go_marker_new ();
@@ -65,6 +67,7 @@ gog_line_series_init_style (GogStyledObject *gso, GogStyle *style)
 			gog_style_set_marker (style, m);
 			style->marker.auto_shape = FALSE;
 		}
+		style->needs_obj_defaults = FALSE;
 	}
 }
 static void
@@ -92,12 +95,12 @@ gog_line_update_stacked_and_percentage (GogPlot1_5d *model,
 					double **vals, unsigned const *lengths)
 {
 	unsigned i, j;
-	double abs_sum, minimum, maximum, sum, tmp;
+	double abs_sum, minima, maxima, sum, tmp;
 
 	for (i = model->num_elements ; i-- > 0 ; ) {
 		abs_sum = sum = 0.;
-		minimum =  DBL_MAX;
-		maximum = -DBL_MAX;
+		minima =  DBL_MAX;
+		maxima = -DBL_MAX;
 		for (j = 0 ; j < model->num_series ; j++) {
 			if (i >= lengths[j])
 				continue;
@@ -106,22 +109,22 @@ gog_line_update_stacked_and_percentage (GogPlot1_5d *model,
 				continue;
 			sum += tmp;
 			abs_sum += fabs (tmp);
-			if (minimum > sum)
-				minimum = sum;
-			if (maximum < sum)
-				maximum = sum;
+			if (minima > sum)
+				minima = sum;
+			if (maxima < sum)
+				maxima = sum;
 		}
 		if ((model->type == GOG_1_5D_AS_PERCENTAGE) &&
 		    (gnumeric_sub_epsilon (abs_sum) > 0.)) {
-			if (model->minimum > minimum / abs_sum)
-				model->minimum = minimum / abs_sum;
-			if (model->maximum < maximum / abs_sum)
-				model->maximum = maximum / abs_sum;
+			if (model->minima > minima / abs_sum)
+				model->minima = minima / abs_sum;
+			if (model->maxima < maxima / abs_sum)
+				model->maxima = maxima / abs_sum;
 		} else {
-			if (model->minimum > minimum)
-				model->minimum = minimum;
-			if (model->maximum < maximum)
-				model->maximum = maximum;
+			if (model->minima > minima)
+				model->minima = minima;
+			if (model->maxima < maxima)
+				model->maxima = maxima;
 		}
 	}
 }

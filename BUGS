@@ -8,6 +8,7 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=129444	[embedded newline printing]
     : Check the manual recalc flag on xls export
     http://bugzilla.gnome.org/show_bug.cgi?id=128524	[invalid xl export]
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
@@ -40,6 +41,7 @@ Pending Patches
 2) Font handling
 3) Rework plugin system down to libgoffice.
 4) Function docs
+    4.1) Use multiple tagged paragraphs
 5) GtkUIManager
 6) Jump to zip file
     6.1) move existing code into plugin (easy)

@@ -132,16 +132,16 @@ gog_barcol_update_stacked_and_percentage (GogPlot1_5d *model,
 		}
 
 		if (GOG_1_5D_STACKED == model->type) {
-			if (model->minimum > neg_sum)
-				model->minimum = neg_sum;
-			if (model->maximum < pos_sum)
-				model->maximum = pos_sum;
+			if (model->minima > neg_sum)
+				model->minima = neg_sum;
+			if (model->maxima < pos_sum)
+				model->maxima = pos_sum;
 		} else {
 			tmp = pos_sum / (pos_sum - neg_sum);
-			if (model->minimum > (tmp - 1.))
-				model->minimum = tmp - 1.;
-			if (model->maximum < tmp)
-				model->maximum = tmp;
+			if (model->minima > (tmp - 1.))
+				model->minima = tmp - 1.;
+			if (model->maxima < tmp)
+				model->maxima = tmp;
 		}
 	}
 }

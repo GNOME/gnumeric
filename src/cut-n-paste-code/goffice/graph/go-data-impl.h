@@ -40,11 +40,12 @@ struct _GOData {
 typedef struct {
 	GObjectClass base;
 
-	GOData	*(*dup)		 (GOData const *src);
-	gboolean (*eq)		 (GOData const *a, GOData const *b);
-	char    *(*as_str)	 (GOData const *dat);
-	gboolean (*from_str)	 (GOData *dat, char const *str);
-	void	 (*emit_changed) (GOData *dat);
+	GOData	  *(*dup)	    (GOData const *src);
+	gboolean   (*eq)	    (GOData const *a, GOData const *b);
+	GOFormat  *(*preferred_fmt) (GOData const *dat);
+	char      *(*as_str)	    (GOData const *dat);
+	gboolean   (*from_str)	    (GOData *dat, char const *str);
+	void	   (*emit_changed)  (GOData *dat);
 
 	/* signals */
 	void (*changed)	(GOData *dat);

@@ -616,7 +616,7 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 
 	widget = pixmap_combo_new (elements, 4, 4, TRUE);
 	for (i = 0; i < G_N_ELEMENTS (elements); i++)
-		g_free (elements[i].inline_gdkpixbuf);
+		g_free ((char *)elements[i].inline_gdkpixbuf);
 	gnm_combo_box_set_tearable (GNM_COMBO_BOX (widget), FALSE);
 
 	g_free ((char *)elements [i-1].untranslated_tooltip);

@@ -72,8 +72,6 @@ go_data_finalize (GOData *obj)
 static void
 go_data_class_init (GODataClass *klass)
 {
-	GObjectClass *gobj_klass = (GObjectClass *)klass;
-
 	go_data_signals [CHANGED] = g_signal_new ("changed",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
@@ -83,8 +81,11 @@ go_data_class_init (GODataClass *klass)
 		G_TYPE_NONE, 0);
 	klass->dup = go_data_dup_real;
 #if 0
-	gobj_klass->finalize = go_data_finalize;
-	parent_klass = g_type_class_peek_parent (klass);
+	{
+		GObjectClass *gobj_klass = (GObjectClass *)klass;
+		gobj_klass->finalize = go_data_finalize;
+		parent_klass = g_type_class_peek_parent (klass);
+	}
 #endif
 }
 
@@ -133,6 +134,22 @@ go_data_eq (GOData const *a, GOData const *b)
 
 		return (*a_klass->eq) (a, b);
 	}
+}
+
+/**
+ * go_data_prefered_fmt :
+ * @dat : #GOData
+ *
+ * Returns the fmt preferred by the the data
+ **/
+GOFormat *
+go_data_preferred_fmt (GOData const *dat)
+{
+	GODataClass const *klass = GO_DATA_GET_CLASS (dat);
+	g_return_val_if_fail (klass != NULL, NULL);
+	if (klass->preferred_fmt)
+		return (*klass->preferred_fmt) (dat);
+	return NULL;
 }
 
 /**

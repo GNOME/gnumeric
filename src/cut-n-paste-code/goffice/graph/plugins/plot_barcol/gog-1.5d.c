@@ -125,16 +125,16 @@ gog_plot1_5d_update (GogObject *obj)
 	GogPlot1_5dClass *klass = GOG_PLOT1_5D_GET_CLASS (obj);
 	GogSeries1_5d const *series;
 	unsigned i, num_elements, num_series;
-	double **vals, minimum, maximum;
-	double old_minimum, old_maximum;
+	double **vals, minima, maxima;
+	double old_minima, old_maxima;
 	unsigned *lengths;
 	GSList *ptr;
 	GOData *index_dim = NULL;
 
-	old_minimum =  model->minimum;
-	old_maximum =  model->maximum;
-	model->minimum =  DBL_MAX;
-	model->maximum = -DBL_MAX;
+	old_minima =  model->minima;
+	old_maxima =  model->maxima;
+	model->minima =  DBL_MAX;
+	model->maxima = -DBL_MAX;
 	num_elements = num_series = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
@@ -146,11 +146,11 @@ gog_plot1_5d_update (GogObject *obj)
 			num_elements = series->num_elements;
 		if (GOG_1_5D_NORMAL == model->type) {
 			go_data_vector_get_minmax (GO_DATA_VECTOR (
-				series->base.values[1].data), &minimum, &maximum);
-			if (model->minimum > minimum)
-				model->minimum = minimum;
-			if (model->maximum < maximum)
-				model->maximum = maximum;
+				series->base.values[1].data), &minima, &maxima);
+			if (model->minima > minima)
+				model->minima = minima;
+			if (model->maxima < maxima)
+				model->maxima = maxima;
 		}
 		index_dim = GOG_SERIES (series)->values[0].data;
 	}
@@ -168,7 +168,7 @@ gog_plot1_5d_update (GogObject *obj)
 	model->num_series = num_series;
 
 	if (num_elements <= 0 || num_series <= 0)
-		model->minimum = model->maximum = 0.;
+		model->minima = model->maxima = 0.;
 	else if (model->type != GOG_1_5D_NORMAL) {
 		vals = g_alloca (num_series * sizeof (double *));
 		lengths = g_alloca (num_series * sizeof (unsigned));
@@ -187,7 +187,7 @@ gog_plot1_5d_update (GogObject *obj)
 		klass->update_stacked_and_percentage (model, vals, lengths);
 	}
 
-	if (old_minimum != model->minimum || old_maximum != model->maximum)
+	if (old_minima != model->minima || old_maxima != model->maxima)
 		gog_axis_bound_changed (
 			gog_plot1_5d_get_value_axis (model), GOG_OBJECT (model));
 
@@ -197,28 +197,26 @@ gog_plot1_5d_update (GogObject *obj)
 }
 
 static GOData *
-gog_plot1_5d_axis_bounds (GogPlot *plot, GogAxisType axis,
-			  double *min, double *max,
-			  double *logical_min, double *logical_max,
-			  gboolean *is_discrete)
+gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
+			      GogPlotBoundInfo *bounds)
 {
 	GogPlot1_5d *model = GOG_PLOT1_5D (plot);
 	if (axis == gog_axis_get_atype (gog_plot1_5d_get_value_axis (model))) {
-		*min = model->minimum;
-		*max = model->maximum;
+		bounds->val.minima = model->minima;
+		bounds->val.maxima = model->maxima;
 		if (model->type == GOG_1_5D_AS_PERCENTAGE) {
-			*logical_min = -1.;
-			*logical_max = 1.;
+			bounds->logical.minima = -1.;
+			bounds->logical.maxima =  1.;
 		}
 		return NULL;
 	} else if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
 		GSList *ptr;
 
-		*min = 0;
-		*max = model->num_elements;
-		*logical_min = 0;
-		*logical_max = gnm_nan;
-		*is_discrete = TRUE;
+		bounds->val.minima = 0.;
+		bounds->val.maxima = model->num_elements;
+		bounds->logical.minima = 0.;
+		bounds->logical.maxima = gnm_nan;
+		bounds->is_discrete    = TRUE;
 
 		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
 			if (gog_series_is_valid (GOG_SERIES (ptr->data)))
@@ -285,7 +283,7 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type = gog_series1_5d_get_type ();
-	plot_klass->axis_bounds	      = gog_plot1_5d_axis_bounds;
+	plot_klass->axis_get_bounds   = gog_plot1_5d_axis_get_bounds;
 	plot_klass->axis_set_pref     = gog_plot1_5d_axis_set_pref;
 	plot_klass->axis_set_is_valid = gog_plot1_5d_axis_set_is_valid;
 	plot_klass->axis_set_assign   = gog_plot1_5d_axis_set_assign;

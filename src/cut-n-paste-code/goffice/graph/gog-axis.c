@@ -32,6 +32,7 @@
 #include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/go-data.h>
+#include <goffice/utils/go-format.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
@@ -322,14 +323,13 @@ gog_axis_update (GogObject *obj)
 	GSList *ptr;
 	GogAxis *axis = GOG_AXIS (obj);
 	int expon;
-	double range, step, mant;
-	double minima, maxima, logical_min, logical_max;
+	double range, step, mant, minima, maxima;
 	double old_min = axis->auto_bound [AXIS_ELEM_MIN];
 	double old_max = axis->auto_bound [AXIS_ELEM_MAX];
 	GOData *labels;
-	gboolean is_discrete;
 	gboolean user_defined;
 	double tmp;
+	GogPlotBoundInfo bounds;
 
 	gog_debug (0, g_warning ("axis::update"););
 
@@ -342,34 +342,34 @@ gog_axis_update (GogObject *obj)
 	axis->max_val  = -DBL_MAX;
 	axis->min_contrib = axis->max_contrib = NULL;
 	for (ptr = axis->contributors ; ptr != NULL ; ptr = ptr->next) {
-		labels = gog_plot_get_axis_bounds (GOG_PLOT (ptr->data), axis->type,
-			&minima, &maxima, &logical_min, &logical_max, &is_discrete);
+		labels = gog_plot_get_axis_bounds (GOG_PLOT (ptr->data),
+						   axis->type, &bounds);
 
 		/* value dimensions have more information than index dimensions.
 		 * At least thats what I am guessing today*/
-		if (!is_discrete)
+		if (!bounds.is_discrete)
 			axis->is_discrete = FALSE;
 		else if (axis->labels == NULL && labels != NULL) {
 			axis->labels = GO_DATA_VECTOR (labels);
 			g_object_ref (labels);
 		}
 
-		if (axis->min_val > minima) {
-			axis->min_val = minima;
-			axis->logical_min_val = logical_min;
+		if (axis->min_val > bounds.val.minima) {
+			axis->min_val = bounds.val.minima;
+			axis->logical_min_val = bounds.logical.minima;
 			axis->min_contrib = ptr->data;
 		} else if (axis->min_contrib == ptr->data) {
 			axis->min_contrib = NULL;
-			axis->min_val = minima;
+			axis->min_val = bounds.val.minima;
 		}
 
-		if (axis->max_val < maxima) {
-			axis->max_val = maxima;
-			axis->logical_max_val = logical_max;
+		if (axis->max_val < bounds.val.maxima) {
+			axis->max_val = bounds.val.maxima;
+			axis->logical_max_val = bounds.logical.maxima;
 			axis->max_contrib = ptr->data;
 		} else if (axis->max_contrib == ptr->data) {
 			axis->max_contrib = NULL;
-			axis->max_val = maxima;
+			axis->max_val = bounds.val.maxima;
 		}
 	}
 
@@ -958,7 +958,7 @@ gog_axis_get_marker (GogAxis *axis, unsigned i)
 		if (fabs (val) < major_tick / 10.0)
 			val = 0.;
 
-		return g_strdup_printf ("%g", val);
+		return go_format_value (NULL, val);
 	}
 }
 

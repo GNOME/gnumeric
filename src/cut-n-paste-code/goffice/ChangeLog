@@ -1,3 +1,21 @@
+2003-12-18  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=129445
+	* graph/gog-style.c (gog_style_assign) : transfer the
+	  needs_obj_defaults field.
+	(gog_style_init) : init needs_obj_defaults field to TRUE.
+	(gog_style_persist_dom_load) : persisted styles do not need object
+	  defaults.
+	* graph/plugins/plot_barcol/gog-line.c (gog_line_series_init_style) :
+	  respect the needs_obj_defaults.
+	* graph/plugins/plot_xy/gog-xy.c (gog_xy_series_init_style) : ditto.
+
+	* graph/gog-axis.c (gog_axis_get_marker) : Use go_format to handle the
+	  markers.
+
+	* utils/go-format.c : A quick cheesy wrapper to GnmFormat in
+	  preparation for sucking it down here.
+
 2003-12-14  Jody Goldberg <jody@gnome.org>
 
 	* utils/go-pattern.c (go_pattern_selector) : fix leak.

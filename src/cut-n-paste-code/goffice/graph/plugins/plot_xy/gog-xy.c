@@ -106,14 +106,14 @@ gog_xy_plot_update (GogObject *obj)
 		if (x_max < tmp_max) x_max = tmp_max;
 	}
 
-	if (model->x.minimum != x_min || model->x.maximum != x_max) {
-		model->x.minimum = x_min;
-		model->x.maximum = x_max;
+	if (model->x.minima != x_min || model->x.maxima != x_max) {
+		model->x.minima = x_min;
+		model->x.maxima = x_max;
 		gog_axis_bound_changed (model->base.axis[0], GOG_OBJECT (model));
 	}
-	if (model->y.minimum != y_min || model->y.maximum != y_max) {
-		model->y.minimum = y_min;
-		model->y.maximum = y_max;
+	if (model->y.minima != y_min || model->y.maxima != y_max) {
+		model->y.minima = y_min;
+		model->y.maxima = y_max;
 		gog_axis_bound_changed (model->base.axis[1], GOG_OBJECT (model));
 	}
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
@@ -140,21 +140,19 @@ gog_xy_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
 }
 
 static GOData *
-gog_xy_plot_axis_bounds (GogPlot *plot, GogAxisType axis,
-			 double *minima, double *maxima,
-			 double *logical_min, double *logical_max,
-			 gboolean *is_discrete)
+gog_xy_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
+			     GogPlotBoundInfo *bounds)
 {
 	GogXYPlot *model = GOG_XY_PLOT (plot);
 
 	if (axis == GOG_AXIS_X) {
 		GSList *ptr;
 
-		*minima = model->x.minimum;
-		*maxima = model->x.maximum;
-		*is_discrete = model->x.minimum > model->x.maximum ||
-			!finite (model->x.minimum) ||
-			!finite (model->x.maximum);
+		bounds->val.minima = model->x.minima;
+		bounds->val.maxima = model->x.maxima;
+		bounds->is_discrete = model->x.minima > model->x.maxima ||
+			!finite (model->x.minima) ||
+			!finite (model->x.maxima);
 
 		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
 			if (gog_series_is_valid (GOG_SERIES (ptr->data)))
@@ -163,8 +161,8 @@ gog_xy_plot_axis_bounds (GogPlot *plot, GogAxisType axis,
 	} 
 	
 	if (axis == GOG_AXIS_Y) {
-		*minima = model->y.minimum;
-		*maxima = model->y.maximum;
+		bounds->val.minima = model->y.minima;
+		bounds->val.maxima = model->y.maxima;
 	}
 	return NULL;
 }
@@ -243,7 +241,7 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 	plot_klass->axis_set_pref     = gog_xy_plot_axis_set_pref;
 	plot_klass->axis_set_is_valid = gog_xy_plot_axis_set_is_valid;
 	plot_klass->axis_set_assign   = gog_xy_plot_axis_set_assign;
-	plot_klass->axis_bounds	      = gog_xy_plot_axis_bounds;
+	plot_klass->axis_get_bounds   = gog_xy_plot_axis_get_bounds;
 }
 
 static void
@@ -431,7 +429,7 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 	GogXYPlot const *xy;
 
 	series_parent_klass->init_style (gso, style);
-	if (series->plot == NULL)
+	if (!style->needs_obj_defaults || series->plot == NULL)
 		return;
 	xy = GOG_XY_PLOT (series->plot);
 
@@ -445,6 +443,7 @@ gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 		style->line.color = 0;
 		style->line.auto_color = FALSE;
 	}
+	style->needs_obj_defaults = FALSE;
 }
 
 static void

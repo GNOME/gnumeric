@@ -22,9 +22,18 @@
 #define GOG_PLOT_H
 
 #include <goffice/graph/goffice-graph.h>
+#include <goffice/utils/goffice-utils.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
+
+typedef struct {
+	struct {
+		double minima, maxima;
+	} val, logical;
+	gboolean is_discrete;
+	GOFormat *fmt;
+} GogPlotBoundInfo;
 
 #define GOG_PLOT_TYPE	(gog_plot_get_type ())
 #define GOG_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PLOT_TYPE, GogPlot))
@@ -40,9 +49,7 @@ unsigned  gog_plot_get_cardinality (GogPlot *);
 void      gog_plot_foreach_elem    (GogPlot *,
 				    GogEnumFunc handler, gpointer data);
 GOData	 *gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
-				    double *min, double *max,
-				    double *logical_min, double *logical_max,
-				    gboolean *is_discrete);
+				    GogPlotBoundInfo *bounds);
 
 gboolean  gog_plot_supports_vary_style_by_element (GogPlot const *plot);
 
