@@ -2437,16 +2437,16 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 #endif
 }
 
-static void
+static gboolean
 ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 {
 	guint32 const blankSheetPos = q->streamPos + q->length + 4;
 	PrintInformation *pi;
 
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (sheet->gnum_sheet != NULL);
-	g_return_if_fail (sheet->gnum_sheet->print_info != NULL);
+	g_return_val_if_fail (wb != NULL, NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (sheet->gnum_sheet != NULL, NULL);
+	g_return_val_if_fail (sheet->gnum_sheet->print_info != NULL, NULL);
 
 	pi = sheet->gnum_sheet->print_info;
 
@@ -2483,7 +2483,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 					printf ("Serious error detaching sheet '%s'\n",
 						sheet->gnum_sheet->name);
 			}
-			return;
+			return TRUE;
 			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
@@ -2757,6 +2757,8 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		ms_excel_sheet_destroy (sheet);
 	sheet = NULL;
 	printf ("Error, hit end without EOF\n");
+
+	return FALSE;
 }
 
 Sheet *
@@ -2951,8 +2953,9 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 				{
 					ExcelSheet *sheet = ms_excel_workbook_get_sheet (wb, current_sheet);
 					ms_excel_sheet_set_version (sheet, ver->version);
-					ms_excel_read_sheet   (sheet, q, wb);
-					ms_excel_sheet_realize_objs (sheet);
+					if (ms_excel_read_sheet   (sheet, q, wb))
+						ms_excel_sheet_realize_objs (sheet);
+					ms_excel_sheet_destroy_objs (sheet);
 					current_sheet++;
 				}
 			} else if (ver->type == eBiffTChart)

@@ -6,6 +6,7 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
+ *
  **/
 
 #include "config.h"
@@ -38,17 +39,19 @@ typedef struct
 } MSObj;
 
 gboolean ms_parse_object_anchor (int pos[4],
-				 Sheet const * sheet, guint8 const * data);
+				 Sheet  const * sheet,
+				 guint8 const * data);
 
 gboolean ms_obj_realize(MSObj * obj,
 			ExcelWorkbook  *wb, ExcelSheet * sheet);
 
 void     ms_excel_sheet_realize_objs (ExcelSheet *sheet);
+void     ms_excel_sheet_destroy_objs (ExcelSheet *sheet);
 
-MSObj * ms_read_OBJ (BiffQuery *q,
-		     ExcelWorkbook * wb, Sheet * sheet);
+MSObj   *ms_read_OBJ (BiffQuery *q,
+		      ExcelWorkbook * wb, Sheet * sheet);
 
-void ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb);
+void     ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb);
 
 
 #endif /* GNUMERIC_MS_OBJ_H */

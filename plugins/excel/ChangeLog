@@ -1,7 +1,20 @@
 1999-09-25  Michael Meeks  <michael@nuclecu.unam.mx>
 
+	* Makefile.am (ole_LDADD): use libole2.la
+
+	* ms-obj.c (ms_obj_realize): remove object destruction.
+	(ms_obj_destroy): add. (ms_excel_sheet_destroy_objs): Create.
+	(ms_excel_sheet_realize_objs): remove list free.
+
+	* ms-excel-read.c (ms_excel_read_sheet): add return type
+	to save possible cock-up. (ms_excel_read_workbook): only
+	realize objects if loaded OK.
+
+1999-09-25  Michael Meeks  <michael@nuclecu.unam.mx>
+
 	* ole.c (decompress_vba): an idea.
 	(dump_vba_module): + hooks.
+	
 1999-09-25  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ole.c (decompress_vba): remove unused + clean headers.

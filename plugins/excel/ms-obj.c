@@ -112,8 +112,15 @@ ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 	break;
 	};
 
-	g_free (obj);
 	return FALSE;
+}
+
+static void
+ms_obj_destroy (MSObj *obj)
+{
+	if (obj) {
+		g_free (obj);
+	}
 }
 
 /**
@@ -132,6 +139,17 @@ ms_excel_sheet_realize_objs (ExcelSheet *sheet)
 
 	for (l = sheet->obj_queue; l; l = g_list_next (l))
 		ms_obj_realize (l->data, sheet->wb, sheet);
+}
+
+void
+ms_excel_sheet_destroy_objs (ExcelSheet *sheet)
+{
+	GList *l;
+
+	g_return_if_fail (sheet != NULL);
+
+	for (l = sheet->obj_queue; l; l = g_list_next (l))
+		ms_obj_destroy (l->data);
 
 	g_list_free (sheet->obj_queue);
 	sheet->obj_queue = NULL;
