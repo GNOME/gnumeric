@@ -73,8 +73,8 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/lib/gnumeric/plugins/*
 %{prefix}/share/locale/*/*
 %{prefix}/share/gnome/apps/Applications/gnumeric.desktop
-%{prefix}/share/help/gnumeric/C/*
-%{prefix}/share/help/gnumeric/images/*
+%{prefix}/share/gnome/help/gnumeric/C/*
+%{prefix}/share/gnome/help/gnumeric/images/*
 %{prefix}/share/idl/Gnumeric.idl
 %{prefix}/share/mc/templates/*
 %{prefix}/share/mime-info/*
