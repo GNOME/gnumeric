@@ -74,8 +74,10 @@ IMAGES = @STRIP_BEGIN@ 						\
 	link_add_16.png 		link_add_24.png		\
 	link_delete_16.png 					\
 	link_edit_16.png 					\
-					link_external_24.png 	\
-					link_internal_24.png 	\
+	link_external_16.png		link_external_24.png 	\
+	link_internal_16.png		link_internal_24.png 	\
+	link_email_16.png		link_email_24.png 	\
+	link_url_16.png			link_url_24.png 	\
 	\
 	@STRIP_END@
 
@@ -178,7 +180,13 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_link_delete_16			$(srcdir)/link_delete_16.png			\
 	gnm_link_edit_16			$(srcdir)/link_edit_16.png			\
 	gnm_link_external_24			$(srcdir)/link_external_24.png			\
+	gnm_link_external_16			$(srcdir)/link_external_16.png			\
 	gnm_link_internal_24			$(srcdir)/link_internal_24.png			\
+	gnm_link_internal_16			$(srcdir)/link_internal_16.png			\
+	gnm_link_email_24			$(srcdir)/link_email_24.png			\
+	gnm_link_email_16			$(srcdir)/link_email_16.png			\
+	gnm_link_url_24				$(srcdir)/link_url_24.png			\
+	gnm_link_url_16				$(srcdir)/link_url_16.png			\
 	@STRIP_END@
 
 pixbuf_file = $(top_builddir)/src/pixmaps/gnumeric-stock-pixbufs.h
