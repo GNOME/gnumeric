@@ -46,7 +46,7 @@ lp_solve_set_constr_mat (lprec *lp, int col, int row, gnum_float value)
 }
 
 void
-lp_solve_set_constr_rhs (lprec *lp, int row, int value)
+lp_solve_set_constr_rhs (lprec *lp, int row, gnum_float value)
 {
         set_rh (lp, row + 1, value);
 }
