@@ -445,8 +445,13 @@ draw_format_preview (FormatState *state)
 
 	g_return_if_fail (state->format.preview != NULL);
 
-	sf = mstyle_get_format (state->result);
-	g_return_if_fail (sf != NULL);
+	if (mstyle_is_element_set (state->result, MSTYLE_FORMAT))
+		sf = mstyle_get_format (state->result);
+	else if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT))
+		sf = mstyle_get_format (state->style);
+
+	if (sf == NULL)
+		return;
 
 	/* TODO : Do I need to free this ? */
 	preview = format_value (sf, state->value, &preview_color);
@@ -671,7 +676,13 @@ cb_format_changed (GtkObject *obj, FormatState *state)
 static void
 cb_format_entry (GtkEditable *w, FormatState *state)
 {
-	state->format.spec = gtk_entry_get_text (GTK_ENTRY (w));
+	gchar const *tmp = gtk_entry_get_text (GTK_ENTRY (w));
+
+	/* If the format didn't change don't react */
+	if (!g_strcasecmp (state->format.spec, tmp))
+		return;
+
+	state->format.spec = tmp;
 	mstyle_set_format (state->result, state->format.spec);
 	fmt_dialog_changed (state);
 }
@@ -849,6 +860,8 @@ fmt_dialog_init_format_page (FormatState *state)
 		if (i == page)
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp), TRUE);
 	}
+
+	draw_format_preview (state);
 }
 
 /*****************************************************************************/

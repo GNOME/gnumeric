@@ -1,5 +1,6 @@
 #include "config.h"
 #include "pattern.h"
+#include "color.h"
 
 typedef struct {
 	char pattern [8];
@@ -107,6 +108,10 @@ gnumeric_background_set_gc (MStyle *mstyle, GdkGC *gc,
 			gdk_gc_set_foreground (gc, &back_col->color);
 		}
 		return TRUE;
+	} else {
+		/* Set this in case we have a spanning column */
+		gdk_gc_set_fill (gc, GDK_SOLID);
+		gdk_gc_set_foreground (gc, &gs_white);
 	}
 	return FALSE;
 }

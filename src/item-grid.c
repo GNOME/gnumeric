@@ -232,13 +232,15 @@ item_grid_invert_gc (ItemGrid *item_grid)
 static void
 item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 		       int x, int y, int w, int h,
-		       gboolean const extended_right)
+		       gboolean const extended_right,
+		       gboolean const extended_left)
 {
 	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_TOP))
 		style_border_draw (drawable,
 				   mstyle_get_border (mstyle, MSTYLE_BORDER_TOP),
 				   x, y, x + w, y);
-	if (mstyle_is_element_set (mstyle, MSTYLE_BORDER_LEFT))
+	if (!extended_left &&
+	    mstyle_is_element_set (mstyle, MSTYLE_BORDER_LEFT))
 		style_border_draw (drawable, 
 				   mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT),
 				   x, y, x, y + h);
@@ -300,7 +302,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	/* Draw cell contents BEFORE border */
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 
-	item_grid_draw_border (drawable, mstyle, x1, y1, w, h, count > 1);
+	item_grid_draw_border (drawable, mstyle, x1, y1, w, h, count > 1, FALSE);
 
 	mstyle_unref (mstyle);
 
@@ -310,7 +312,8 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 static void
 item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			    ColRowInfo *ci, ColRowInfo *ri, int col, int row,
-			    int x, int y)
+			    int x, int y,
+			    int const span_count)
 {
 	MStyle *mstyle;
 	GdkGC  *gc = item_grid->empty_gc;
@@ -323,7 +326,9 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    x, y, ci->pixels+1, ri->pixels+1);
 
-	item_grid_draw_border (drawable, mstyle, x, y, ci->pixels, ri->pixels, FALSE);
+	item_grid_draw_border (drawable, mstyle, x, y, ci->pixels, ri->pixels,
+			       span_count > 1,
+			       span_count > 0);
 
 	mstyle_unref (mstyle);
 }
@@ -340,6 +345,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	int col, row;
 	int x_paint, y_paint, real_x;
 	int diff_x, diff_y;
+	int span_count = 0;
 
 	if (x < 0){
 		g_warning ("x < 0\n");
@@ -409,9 +415,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			if (cell == NULL){
 				item_grid_paint_empty_cell (
 					drawable, item_grid, ci, ri,
-					col, row, x_paint, y_paint);
+					col, row, x_paint, y_paint,
+					--span_count);
 			} else {
-				item_grid_draw_cell (
+				span_count = item_grid_draw_cell (
 					drawable, item_grid, cell,
 					x_paint, y_paint);
 			}

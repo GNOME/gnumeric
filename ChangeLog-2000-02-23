@@ -1,5 +1,14 @@
 1999-11-10  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cell-draw.c (cell_draw) : Correct problem with spanning columns.
+
+	* src/pattern.c (gnumeric_background_set_gc) : Always set the GC
+	  in case a spanning column needs it.
+
+	* src/item-grid.c (item_grid_draw) : Improve support for spanning
+	  columns going to the right.  We are still broken in that spanning
+	  columns to the left will skip borders.
+
 	* src/dialogs/cell-format.glade : Improve layout for big fonts.
 
 1999-11-07  Miguel de Icaza  <miguel@gnu.org>

@@ -191,7 +191,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
 		/* Set the clip rectangle */
 		gdk_gc_set_clip_rectangle (gc, &rect);
 		
-		if (gnumeric_background_set_gc (mstyle, gc, canvas))
+		if (gnumeric_background_set_gc (mstyle, gc, canvas) || end_col != start_col)
 			gdk_draw_rectangle (drawable, gc, TRUE,
 					    rect.x, rect.y, rect.width, rect.height);
 
@@ -295,7 +295,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
 		/* Set the clip rectangle */
 		gdk_gc_set_clip_rectangle (gc, &rect);
 
-		if (gnumeric_background_set_gc (mstyle, gc, canvas))
+		if (gnumeric_background_set_gc (mstyle, gc, canvas) || end_col != start_col)
 			gdk_draw_rectangle (drawable, gc, TRUE,
 					    rect.x, rect.y, rect.width, rect.height);
 
