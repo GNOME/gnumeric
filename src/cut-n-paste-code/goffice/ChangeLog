@@ -1,5 +1,10 @@
 2003-08-21  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-object.c (gog_object_dup) : doh! dst = src works better
+	  than src = src.
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.1.20
 
 2003-08-21  Jody Goldberg <jody@gnome.org>

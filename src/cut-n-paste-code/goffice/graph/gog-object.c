@@ -210,7 +210,7 @@ gog_object_dup (GogObject const *src, GogObject *new_parent)
 		if (props[n]->flags & GOG_PARAM_PERSISTENT) {
 			g_value_init (&val, props[n]->value_type);
 			g_object_get_property (G_OBJECT (src), props[n]->name, &val);
-			g_object_set_property (G_OBJECT (src), props[n]->name, &val);
+			g_object_set_property (G_OBJECT (dst), props[n]->name, &val);
 			g_value_unset (&val);
 		}
 
