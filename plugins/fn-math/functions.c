@@ -1662,6 +1662,54 @@ gnumeric_factdouble (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_fib = {
+	N_("@FUNCTION=FIB\n"
+	   "@SYNTAX=FIB(number)\n"
+
+	   "@DESCRIPTION="
+	   "FIB function computes Fibonacci numbers.\n"
+	   "\n"
+	   "* If @number is not an integer, it is truncated.\n"
+	   "* If @number is negative or zero FIB returns #NUM! error.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "FIB(12) equals 144.\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_fib (FunctionEvalInfo *ei, Value **argv)
+
+{
+	static int fibs[47];
+	static int fib_count = sizeof (fibs) / sizeof (fibs[0]);
+	static gboolean inited = FALSE;
+
+	int n = value_get_as_int (argv[0]);
+	if (n <= 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM );
+
+	if (n < fib_count) {
+		if (!inited) {
+			int i;
+			fibs[1] = fibs[2] = 1;
+			for (i = 3; i < fib_count; i++)
+				fibs[i] = fibs[i - 1] + fibs[i - 2];
+			inited = TRUE;
+		}
+		return value_new_int (fibs[n]);
+	} else {
+		gnum_float s5 = sqrtgnum (5.0);
+		gnum_float r1 = (1 + s5) / 2;
+		gnum_float r2 = (1 - s5) / 2;
+		// Use the Binet form.
+		return value_new_float ((powgnum (r1, n) - powgnum (r2, n)) / s5);
+	}
+}
+
+/***************************************************************************/
+
 static const char *help_quotient = {
 	N_("@FUNCTION=QUOTIENT\n"
 	   "@SYNTAX=QUOTIENT(numerator,denumerator)\n"
@@ -3075,6 +3123,8 @@ const ModulePluginFunctionInfo math_functions[] = {
 	  gnumeric_fact, NULL, NULL, NULL },
 	{ "factdouble", "f", N_("number"), &help_factdouble,
 	  gnumeric_factdouble, NULL, NULL, NULL },
+	{ "fib", "f", N_("number"), &help_fib,
+	  gnumeric_fib, NULL, NULL, NULL },
 	{ "combin",  "ff", N_("n,k"),      &help_combin,
 	  gnumeric_combin, NULL, NULL, NULL },
 	{ "floor",   "f|f", N_("number"),  &help_floor,

@@ -29,6 +29,7 @@
 				<function name="exp"/>
 				<function name="fact"/>
 				<function name="factdouble"/>
+				<function name="fib"/>
 				<function name="combin"/>
 				<function name="floor"/>
 				<function name="gcd"/>

@@ -28,6 +28,7 @@ Morten:
 	* Leak plugging in support libraries.
 	* Speeding up a few string value constructions.
 	* Really make autocorrect utf8 safe.
+	* Add FIB function.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.8
