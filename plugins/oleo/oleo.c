@@ -15,7 +15,12 @@
 #include <cell.h>
 #include <value.h>
 #include <parse-util.h>
+#include <expr.h>
 #include <plugin-util.h>
+#include <sheet-style.h>
+#include <mstyle.h>
+#include <ranges.h>
+#include <number-match.h>
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -26,37 +31,76 @@
 
 #define OLEO_DEBUG 0
 
-static Sheet *
-attach_sheet (Workbook *wb, int idx)
-{
-	Sheet *sheet;
-	char  *sheet_name;
-
-	sheet_name = g_strdup_printf (_("Sheet%d"), idx);
-	sheet = sheet_new (wb, sheet_name);
-	g_free (sheet_name);
-	workbook_sheet_attach (wb, sheet, NULL);
-
-	return sheet;
-}
-
 #define OLEO_TO_GNUMERIC(a) ((a) - 1)
 #define GNUMERIC_TO_OLEO(a) ((a) + 1)
 
-static Cell *
-oleo_insert_value (Sheet *sheet, guint32 col, guint32 row, Value *val)
+/* Copied from Lotus-123 plugin */
+static void
+append_zeros (char *s, int n) {
+
+	if (n > 0) {
+		s = s + strlen (s);
+		*s++ = '.';
+		while (n--)
+			*s++ = '0';
+		*s = 0;
+	}
+}
+
+
+static void
+oleo_set_format (Sheet *sheet, guint32 col, guint32 row,
+		 char value_type, int precision, char adjust)
 {
-	Cell *cell;
+	char fmt_string[100];
+	Range range;
+	MStyle *mstyle = mstyle_new_default ();
 
-	g_return_val_if_fail (val != NULL, NULL);
-	g_return_val_if_fail (sheet != NULL, NULL);
+	if (!sheet)
+		return;
 
-	cell = sheet_cell_fetch (sheet, OLEO_TO_GNUMERIC (col),
-				        OLEO_TO_GNUMERIC (row));
+	range_init_full_sheet (&range);
+	if (col >= 0)
+		range.start.col = range.end.col = OLEO_TO_GNUMERIC (col);
+	if (row >= 0)
+		range.start.row = range.end.row = OLEO_TO_GNUMERIC (row);
 
-	g_return_val_if_fail (cell != NULL, NULL);
-	cell_set_value (cell, val, NULL);
-	return cell;
+	switch (value_type) {
+		case 'F': case 'D':
+		strcpy (fmt_string, "0");
+		append_zeros (fmt_string, precision);
+		break;
+
+	case '%':
+		strcpy (fmt_string, "0");
+		append_zeros (fmt_string, precision);
+		strcat (fmt_string, "%");
+		break;
+
+	default:
+		strcpy (fmt_string, "");
+	}
+
+	switch (adjust) {
+	case 'R':
+		mstyle_set_align_h (mstyle, HALIGN_RIGHT);
+		break;
+	case 'L':
+		mstyle_set_align_h (mstyle, HALIGN_LEFT);
+		break;
+	}
+
+	if (fmt_string[0])
+		mstyle_set_format_text (mstyle, fmt_string);
+
+#if OLEO_DEBUG > 0
+	g_warning ("(%d, %d) -> (%d, %d): %c %s\n",
+		   range.start.row, range.start.col,
+		   range.end.row, range.end.col,
+		   adjust, fmt_string);
+#endif /* OLEO_DEBUG */
+
+	sheet_style_set_range (sheet, &range, mstyle);
 }
 
 /* adapted from Oleo */
@@ -79,8 +123,7 @@ astol (char **ptr)
 	if (*s == '-') {
 		s++;
 		sign = -1;
-	}
-	else if (*s == '+')
+	} else if (*s == '+')
 		s++;
 
 	/* FIXME -- this is silly and assumed 32 bit ints.  */
@@ -96,75 +139,249 @@ astol (char **ptr)
 }
 
 static void
+oleo_get_ref_value (int *start, unsigned char *start_relative,
+		    int *end, unsigned char *end_relative,
+		    char const **spec)
+{
+	char *s = (char *)*spec;
+
+	if (*s == '[') {		/* Relative row or col */
+		*start_relative = TRUE;
+		s++;
+		*start = astol (&s);
+		s++;			/* Skip ']' */
+	} else if (isdigit (*s) || *s == '-') {
+		*start_relative = FALSE;
+		*start = OLEO_TO_GNUMERIC (astol (&s));
+	} else {
+		*start_relative = TRUE;
+		*start = 0;
+	}
+
+	if (*s == ':') {
+		s++;
+		if (*s == '[') {
+			*end_relative = TRUE;
+			s++;
+			*end = astol (&s);
+			s++;			/* Skip ']' */
+		} else {
+			*end_relative = FALSE;
+			*end = OLEO_TO_GNUMERIC (astol (&s));
+		}
+	} else {
+		*end = *start;
+		*end_relative = *start_relative;
+	}
+	*spec = s;
+}
+
+
+static char const *
+oleo_get_gnumeric_expr (char *g_expr, const char *o_expr,
+			ParsePos const *cur_pos)
+{
+	char const *from = o_expr;
+	char *to = g_expr;
+
+	while (*from) {
+		*to = '\0';
+		if (*from == 'r') {
+			CellRef start, end;
+			char *name;
+
+			from++;
+			oleo_get_ref_value (&start.row, &start.row_relative,
+					   &end.row, &end.row_relative, &from);
+
+			if (*from == 'c') {
+				from++;
+				oleo_get_ref_value (&start.col, &start.col_relative,
+						    &end.col, &end.col_relative, &from);
+			} else {
+				start.col = 0;
+				start.col_relative = TRUE;
+				end.col = start.col;
+				end.col_relative = start.col_relative;
+			}
+
+			name = cellref_name (&start, cur_pos, TRUE);
+
+			strcat (to, name);
+			g_free (name);
+			if (!cellref_equal (&start, &end)) {
+				strcat (to, ":");
+				name = cellref_name (&end, cur_pos, TRUE);
+				strcat (to, name);
+				g_free (name);
+			}
+			to += strlen (to);
+		} else
+			*to++=*from++;
+	}
+	*to = '\0';
+
+#if OLEO_DEBUG > 0
+	g_warning ("\"%s\"->\"%s\"\n", o_expr, g_expr);
+#endif /* OLEO_DEBUG */
+
+	return g_expr;
+}
+
+
+static ExprTree *
+oleo_parse_formula (const char *text, const Sheet *sheet, int col, int row)
+{
+	ParsePos pos;
+	ParseError error;
+	ExprTree *expr;
+	char gnumeric_text[2048];
+
+	const Cell *cell = sheet_cell_fetch ((Sheet *)sheet,
+					   OLEO_TO_GNUMERIC (col),
+					   OLEO_TO_GNUMERIC (row));
+
+	parse_pos_init_cell (&pos, cell);
+
+	expr = expr_parse_string (oleo_get_gnumeric_expr (gnumeric_text,
+						      text, &pos),
+			       parse_pos_init_cell (&pos, cell),
+			       NULL, parse_error_init (&error));
+
+	if (error.id!=PERR_NONE) {
+		g_warning ("%s \"%s\" at %s!%s\n",  error.message, gnumeric_text,
+			   sheet->name_unquoted,
+			   cell_coord_name (OLEO_TO_GNUMERIC (col), OLEO_TO_GNUMERIC (row)));
+	}
+	parse_error_free (&error);
+
+	return expr;
+}
+
+static void
 oleo_deal_with_cell (char *str, Sheet *sheet, int *ccol, int *crow)
 {
-	char *ptr = str + 1, *cval = NULL;
+	Cell *cell;
+	ExprTree *expr = NULL;
+	char *ptr = str + 1, *cval = NULL, *formula = NULL;
+
 	while (*ptr) {
 		int quotes = 0;
-	        if (*ptr != ';') {
+		if (*ptr != ';') {
 #if OLEO_DEBUG > 0
-		   	fprintf (stderr, "ptr : %s\n", ptr);
+			g_warning ("ptr : %s\n", ptr);
 #endif
-		   	break;
+			break;
 		}
 		*ptr++ = '\0';
 		switch (*ptr++) {
-		case 'c' :
-			*ccol = astol (&ptr);
-		   	break;
-		case 'r' :
-			*crow = astol (&ptr);
-		   	break;
+		case 'c' : *ccol = astol (&ptr); break;
+		case 'r' : *crow = astol (&ptr); break;
 		case 'K' :
-		   cval = ptr;
-		   quotes = 0;
-		   while (*ptr && (*ptr != ';' || quotes > 0))
-		   	if (*ptr++ == '"')
-		   		quotes = !quotes;
-		   	break;
+			cval = ptr;
+			quotes = 0;
+			while (*ptr && (*ptr != ';' || quotes > 0))
+				if (*ptr++ == '"')
+					quotes = !quotes;
+			break;
+
+		case 'E' :
+			formula = ptr;
+			while (*ptr && *ptr != ';')
+				ptr++;
+			break;
+
 		default:
 #if OLEO_DEBUG > 0
-			fprintf (stderr, "oleo: Don't know how to deal with C; '%c'\n",
-				 *ptr);
+			g_warning ("oleo: Don't know how to deal with C; '%c'\n",
+				   *ptr);
 #endif
-		        ptr = ""; /* I wish C had multilevel break */
-		        break;
+			ptr = ""; /* I wish C had multilevel break */
+			break;
 		}
 
-	   if (!*ptr)
-	      break;
+		if (!*ptr)
+			break;
 	}
+
+	cell = sheet_cell_fetch (sheet,
+		OLEO_TO_GNUMERIC (*ccol), OLEO_TO_GNUMERIC (*crow));
+
+	if (formula)
+		expr = oleo_parse_formula (formula, sheet, *ccol, *crow);
 
 	if (cval) {
-		char *error = NULL;
-		long result;
-		result = strtol(cval, &error, 10);
+		Value *val = format_match_simple (cval);
 
-		if (!*error)
-			oleo_insert_value (sheet, *ccol, *crow,
-					   value_new_int (result));
-		else {
-			double double_result = g_strtod (cval, &error);
-		        if (!*error)
-		     		oleo_insert_value (sheet, *ccol, *crow,
-						   value_new_float (double_result));
-	        	else {
-				char *last = cval + strlen(cval) - 1;
-				if (*cval == '"' && *last == '"') {
-		   			*last = 0;
-		   			oleo_insert_value (sheet, *ccol, *crow,
-							   value_new_string (cval + 1));
-				}
-			else
-		  		oleo_insert_value (sheet, *ccol, *crow,
-						   value_new_string (cval));
-			}
+		if (val == NULL) {
+			char *last = cval + strlen (cval) - 1;
+			if (*cval == '"' && *last == '"') {
+				*last = 0;
+				val = value_new_string (cval + 1);
+			} else
+				val = value_new_string (cval);
 		}
+
+		if (expr)
+			cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
+		else
+			cell_set_value (cell, val, NULL);
 	} else {
 #if OLEO_DEBUG > 0
-		fprintf (stderr, "oleo: cval is NULL.\n");
+		g_warning ("oleo: cval is NULL.\n");
 #endif
+		/* We can still store the expression, even if the value is missing */
+		if (expr != NULL)
+			cell_set_expr (cell, expr, NULL);
 	}
+	if (expr)
+		expr_tree_unref (expr);
+}
+
+
+/* NOTE : We don't care to much about formatting as such, but we need to
+ * parse the command as it may update current row/column
+ */
+static void
+oleo_deal_with_format (char *str, Sheet *sheet, int *ccol, int *crow)
+{
+	char *ptr = str + 1, val_type = 0, adj = 0;
+	int row = -1, col = -1, prec = 0;
+	while (*ptr) {
+		if (*ptr != ';') {
+#if OLEO_DEBUG > 0
+			g_warning ("ptr : %s\n", ptr);
+#endif
+			break;
+		}
+		*ptr++ = '\0';
+		switch (*ptr++) {
+		case 'c' : col = *ccol = astol (&ptr); break;
+		case 'r' : row = *crow = astol (&ptr); break;
+		case 'F':
+			val_type = *ptr++;
+			if (isdigit (*ptr))
+				prec = astol (&ptr);
+			if (*ptr)
+				adj = *ptr++;
+		}
+		if (!*ptr)
+			break;
+	}
+	oleo_set_format (sheet, col, row, val_type, prec, adj);
+}
+
+static Sheet *
+oleo_new_sheet (Workbook *wb, int idx)
+{
+	char  *sheet_name = g_strdup_printf (_("Sheet%d"), idx);
+	Sheet *sheet = sheet_new (wb, sheet_name);
+	g_free (sheet_name);
+	workbook_sheet_attach (wb, sheet, NULL);
+
+	/* Ensure that things get rendered and spanned */
+	sheet_flag_recompute_spans (sheet);
+	return sheet;
 }
 
 void
@@ -183,14 +400,16 @@ oleo_read (IOContext *io_context, Workbook *wb, const gchar *filename)
 		return;
 	}
 
-	sheet = attach_sheet (wb, sheetidx++);
+	sheet = oleo_new_sheet (wb, sheetidx++);
 
 	while (1) {
 		char *n;
-		fgets(str, 2000, f);
+		fgets (str, 2000, f);
 		str[2000] = 0;
-		if (feof(f)) break;
-		n = strchr(str, '\n');
+		if (feof (f))
+			break;
+
+		n = strchr (str, '\n');
 		if (n)
 			*n = 0;
 		else
@@ -199,16 +418,18 @@ oleo_read (IOContext *io_context, Workbook *wb, const gchar *filename)
 		switch (str[0]) {
 
 		case '#': /* Comment */
-			continue;
+			break;
 
-		case 'C': /* Cell */
-			oleo_deal_with_cell (str, sheet, &ccol, &crow);
+		case 'C': oleo_deal_with_cell (str, sheet, &ccol, &crow);
+			break;
+
+		case 'F': oleo_deal_with_format (str, sheet, &ccol, &crow);
 			break;
 
 		default: /* unknown */
 #if OLEO_DEBUG > 0
-			fprintf (stderr, "oleo: Don't know how to deal with %c.\n",
-				 str[0]);
+			g_warning ("oleo: Don't know how to deal with %c.\n",
+				   str[0]);
 #endif
 			break;
 		}

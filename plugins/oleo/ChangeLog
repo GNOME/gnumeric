@@ -1,3 +1,14 @@
+2001-09-18  Jody Goldberg <jgoldberg@home.com>
+	
+	* oleo.c : reformat to match gnumeric standards and use some of the
+	  utilities supplied by core gnumeric.
+
+2001-09-18  Jody Goldberg <jgoldberg@home.com>
+	http://bugzilla.gnome.org/show_bug.cgi?id=60468
+	Committed path#2 by toralf@kscanners.no (Toralf Lund)
+
+	* oleo.c : update to handle expressions and basic formatting.
+
 2001-08-24  Jody Goldberg <jgolberg@home.com>
 
 	* boot.c : prune includes.
