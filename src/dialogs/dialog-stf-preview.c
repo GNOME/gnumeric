@@ -61,7 +61,7 @@ stf_preview_draw_text (GnomeCanvasGroup *group, const char *text,
 	canvastext = GNOME_CANVAS_TEXT (gnome_canvas_item_new (group,
 							       gnome_canvas_text_get_type (),
 							       "text", text,
-							       "font_gdk", font,
+/* 							       "font_gdk", font, */
 							       "fill_color", color,
 							       "anchor", GTK_ANCHOR_NW,
 							       "x", x,

@@ -1,3 +1,7 @@
+2002-03-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-preview.c (stf_preview_draw_text): use default font
+
 2002-03-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf.glade : fix crash causing errors
