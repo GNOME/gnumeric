@@ -175,16 +175,28 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 	}
 	if (rich_str) { /* The data for this appears after the string */
 		guint16 formatting_runs = MS_OLE_GET_GUINT16(ptr);
+		static int warned = FALSE;
+
 		(*byte_length) += 2;
-		printf ("FIXME: rich string support unimplemented: discarding %d runs\n", formatting_runs);
 		(*byte_length) += formatting_runs*4; /* 4 bytes per */
 		ptr+= 2;
+
+		if (!warned)
+			printf ("FIXME: rich string support unimplemented:"
+				"discarding %d runs\n", formatting_runs);
+		warned = TRUE;
 	}
 	if (ext_str) { /* NB this data always comes after the rich_str data */
 		guint32 len_ext_rst = MS_OLE_GET_GUINT32(ptr); /* A byte length */
+		static int warned = FALSE;
+
 		(*byte_length) += 4 + len_ext_rst;
 		ptr+= 4;
-		printf ("FIXME: extended string support unimplemented: ignoring %d bytes\n", len_ext_rst);
+
+		if (!warned)
+			printf ("FIXME: extended string support unimplemented:"
+				"ignoring %d bytes\n", len_ext_rst);
+		warned = TRUE;
 	}
 
 #ifndef NO_DEBUG_EXCEL
@@ -853,7 +865,7 @@ StyleColor *
 ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 {
 	/* return black on failure */
-	g_return_val_if_fail (NULL != pal, style_color_new (0, 0, 0));
+	g_return_val_if_fail (pal != NULL, style_color_new (0, 0, 0));
 
 	/* NOTE : not documented but seems close
 	 * If you find a normative reference please forward it.
@@ -878,7 +890,8 @@ ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 		return style_color_new (0xffff, 0xffff, 0xffff);
 
 	idx -= 8;
-	g_return_val_if_fail (0 <= idx && idx <= pal->length, NULL);
+	g_return_val_if_fail (idx >= 0 && idx < pal->length,
+			      style_color_new (0, 0, 0));
 
 	if (pal->gnum_cols[idx] == NULL) {
 		gushort r, g, b;
@@ -893,7 +906,7 @@ ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 		}
 #endif
 		pal->gnum_cols[idx] = style_color_new (r, g, b);
-		g_return_val_if_fail (pal->gnum_cols[idx], NULL);
+		g_return_val_if_fail (pal->gnum_cols[idx], style_color_new (0, 0, 0));
 	}
 
 	style_color_ref (pal->gnum_cols[idx]);
@@ -1283,9 +1296,14 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 	xf->format = (data & 0x0008) ? eBiffFLotus : eBiffFMS;
 	xf->parentstyle = (data & 0xfff0) >> 4;
 
-	if (xf->xftype == eBiffXCell && xf->parentstyle != 0)
-		g_warning ("EXCEL : Aha! this sheet has an example of a 'parent' xf 0x%x != 0",
-			   xf->parentstyle);
+	if (xf->xftype == eBiffXCell && xf->parentstyle != 0) {
+		static int warned = FALSE;
+		if (!warned) {
+			g_warning ("FIXME: unsupported xf parent style xf 0x%x != 0",
+				   xf->parentstyle);
+			warned = TRUE;
+		}
+	}
 
 	data = MS_OLE_GET_GUINT16 (q->data + 6);
 	subdata = data & 0x0007;
