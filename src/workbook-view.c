@@ -575,6 +575,8 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 
 #ifdef WITH_GNOME
 		{
+			GnomeVFSURI * uri = gnome_vfs_uri_new(filename);
+
 			/* cheesy mechanism to prefer stdio */
 			if (uri != NULL && uri->method_string != NULL &&
 			    0 != strcmp ("file", uri->method_string)) {
