@@ -1,3 +1,14 @@
+2001-05-07  Almer S. Tigelaar  <almer@gnome.org>
+    
+    	* src/parser.y (gnumeric_expr_parser): Display which
+    	token caused the parse error. And display more detailed
+    	error messages for paren matching errors using
+    	check_parens.
+   	(find_matching_close): Utility function for paren matching.
+    	(check_parens): Renamed from find_bracket. Replace bracket
+    	with paren everywhere for consistency.
+    	(yylex): Kill paren matching here.
+ 
 2001-05-07  Morten Welinder  <terra@diku.dk>
 
 	* src/item-grid.c (drag_start): Plug leak.

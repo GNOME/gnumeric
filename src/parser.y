@@ -646,12 +646,12 @@ parse_ref_or_string (const char *string)
  * @c: 
  * 
  * Returns a pointer to character c in str.
- * Callers should check weather p points to a \0 !
+ * Callers should check weather p is '\0'!
  **/
 static const char *
 find_char (const char *str, char c)
 {
-	const char *p = str;
+	const char *p;
 
 	for (p = str; *p && *p != c; p++) {
 		if (*p == '\\' && p[1])
@@ -661,60 +661,48 @@ find_char (const char *str, char c)
 	return p;
 }	
 
-/**
- * find_bracket
- * @str: String to search
- * @bropen: Opening bracket
- * @brclose: Closing bracket
- * @seek_close: Should we verify if there are enough closing brackets? (if not, verify opening brackets)
- * @stop_after: If not -1 will stop after scanning this number of chars. Useful when seek_close is FALSE.
- *
- * This routine will attempt to find out wethere the bracket just before @str (or just after the end of @str)
- * has matching closing (or opening) bracket. If it has it will return TRUE, otherwise it will
- * return FALSE.
- **/
-static gboolean
-find_bracket (const char *str, char bropen, char brclose, gboolean seek_close, int stop_after)
+static char const *
+find_matching_close (char const *str, char const **res)
 {
-	const char *p        = str;
-	int         brk_cnt  = 1;
-	int         stop_cnt = 0;
-
-	for (p = str; *p; seek_close ? p++ : p--) {
-		
-		if (*p == '\\' && p[1]) {
-			seek_close ? p++ : p--;
-			
-			if (stop_after != -1)
-				if (++stop_cnt > stop_after)
-					break;
-		}
-			
-		if (*p == bropen)
-			seek_close ? brk_cnt++ : brk_cnt--;
-		if (*p == brclose)
-			seek_close ? brk_cnt-- : brk_cnt++;
-
-		if (brk_cnt == 0)
-			return TRUE;
-
-		if (stop_after != -1)
-			if (++stop_cnt > stop_after)
-				break;
+	for (; *str; str++) {
+		if (*str == '(') {
+			char const *tmp = str;
+			str = find_matching_close (str + 1, res);
+			if (*str != ')' && *res == NULL) {
+				*res = tmp;
+				return str;
+			}
+		} else if (*str == ')')
+			return str;
+		else if (*str == '\'' || *str == '\"')
+			str = find_char (str + 1, *str);
 	}
 
-	/*
-	 * 1 Means that this bracket is the offending bracket
-	 * w/o a matching closing or opening bracket.
-	 * If the number is higher than one this means that the
-	 * 'problematic' bracket is nested deeper in the expression,
-	 * in that case we return TRUE! (and wait for the next call which
-	 * should operate on a more deeply nested bracket)
-	 */
-	if (brk_cnt == 1) 
-		return FALSE;
-	else /* No need to check for brk_cnt < 1 that will never happen */
-		return TRUE;
+	return str;
+}
+
+/**
+ * check_parens
+ * @str: String to search
+ *
+ * Check all paren in a string, produce an error if there are to many
+ * or not enough parens.
+ **/
+static void
+check_parens (ParserState *pstate, const char *str)
+{
+	char const *res = NULL;
+	char const *last = find_matching_close (str, &res);
+
+	if (*last) {
+		gnumeric_parse_error (
+			pstate, g_strdup (_("Could not find matching opening parenthesis")),
+			(last - str) + 2, 1);
+	} else if (res != NULL) {
+		gnumeric_parse_error (
+			pstate, g_strdup (_("Could not find matching closing parenthesis")),
+			(res - str) + 2, 1);
+	}
 }
 
 int
@@ -730,30 +718,8 @@ yylex (void)
 	start = state->expr_text;
 	c = (unsigned char) (*state->expr_text++);
 
-	/* There must be a matching ) for every ( */
-	if (c == '(') {
-		if (!find_bracket (state->expr_text, '(', ')', TRUE, -1)) {
-			gnumeric_parse_error (
-				state, g_strdup (_("Could not find matching closing bracket")),
-				(state->expr_text - state->expr_backup) + 1, 1);
-			return INVALID_TOKEN;
-		}
-
+	if (c == '(' || c == ')')
 		return c;
-	}
-	
-	/* There must be a matching ( for every ) */
-	if (c == ')') {
-		if (!find_bracket (state->expr_text - 2, '(', ')', FALSE,
-				   state->expr_text - state->expr_backup)) {
-			gnumeric_parse_error (
-				state, g_strdup (_("Could not find matching opening bracket")),
-				(state->expr_text - state->expr_backup) + 1, 1);
-			return INVALID_TOKEN;
-		}
-		
-		return c;
-	}
 
 	if (state->use_excel_reference_conventions) {
 		if (c == ':')
@@ -950,6 +916,7 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 		      ParseError *error)
 {
 	ParserState pstate;
+	const char *last_token;
 
 	pstate.expr_text   = expr_text;
 	pstate.expr_backup = expr_text;
@@ -979,6 +946,30 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 	state = &pstate;
 	yyparse ();
 	state = NULL;
+
+	/* Set too the last encountered token */
+	last_token = pstate.expr_text - 1;
+
+	/* If something went wrong, see if we can give a more specific
+	 * error messages.
+	 */	
+	if (!pstate.error->message && !pstate.result) {
+		if (*last_token != '\0') {
+			gnumeric_parse_error (
+				&pstate, g_strdup_printf (_("Unexpected token %c"), *last_token),
+				(last_token - pstate.expr_backup) + 1, 1);
+		} else {
+			/* First check for paren errors */
+			check_parens (&pstate, pstate.expr_backup);
+
+			/* Set a general error message */
+			if (!pstate.error->message)
+				gnumeric_parse_error (
+					&pstate, g_strdup (_("Invalid expression")),
+					(pstate.expr_text - pstate.expr_backup) + 1,
+					(pstate.expr_text - pstate.expr_backup));
+		}
+	}
 
 	if (pstate.result != NULL) {
 		deallocate_assert_empty ();
@@ -1013,17 +1004,6 @@ gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 #ifndef KEEP_DEALLOCATION_STACK_BETWEEN_CALLS
 	deallocate_uninit ();
 #endif
-
-	/* Something went wrong, but no detailed error
-	 * message was provided, create a general "catch all"
-	 * error message
-	 */
-	if (!pstate.error->message && !pstate.result) {
-		gnumeric_parse_error (
-			&pstate, g_strdup (_("Invalid expression")),
-			pstate.expr_text - pstate.expr_backup,
-			pstate.expr_text - pstate.expr_backup - 1);
-	}
 
 	/* If this happens, something is very wrong */
 	if (pstate.error->message && pstate.result) {
