@@ -367,41 +367,6 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 	}
 }
 
-static int
-coupnum(GDate *settlement, GDate *maturity, int freq, int basis)
-{
-        int        years, months, days;
-	GDateYear  sy;
-	GDateMonth sm;
-	GDateDay   sd;
-
-	sy = g_date_year (settlement);
-	sm = g_date_month (settlement);
-	sd = g_date_day (settlement);
-
-	years = g_date_year (maturity) - sy;
-	months = g_date_month (maturity) - sm;
-	days = g_date_day (maturity) - sd
-	        + (g_date_is_leap_year (sy) && sd==28 && sm==2);
-
-	if (freq == 1)
-	        return years + (months > 0) + (months == 0 && days > 0);
-	else if (freq == 2)
-	        return years*2
-		        + (months > 6) + (months == 6 && days > 0)
-		        + (months > 0) + (months == 0 && days > 0)
-		        - (months <= -6);
-	else
-	        return years*4
-		        + (months > 9) + (months == 9 && days > 0)
-		        + (months > 6) + (months == 6 && days > 0)
-		        + (months > 3) + (months == 3 && days > 0)
-		        + (months > 0) + (months == 0 && days > 0)
-		        - (months <= -3)
-		        - (months <= -6)
-		        - (months <= -9);
-}
-
 static GDateDay
 days_in_month(GDateYear year, GDateMonth month)
 {
@@ -427,6 +392,46 @@ days_in_month(GDateYear year, GDateMonth month)
 	default:
 	        return 0;
 	}
+}
+
+static int
+coupnum(GDate *settlement, GDate *maturity, int freq, int basis)
+{
+        int        years, months, days;
+	GDateYear  sy, my;
+	GDateMonth sm, mm;
+	GDateDay   sd, md;
+
+	sy = g_date_year  (settlement);
+	sm = g_date_month (settlement);
+	sd = g_date_day   (settlement);
+	my = g_date_year  (maturity);
+	mm = g_date_month (maturity);
+	md = g_date_day   (maturity);
+
+	years = my - sy;
+	months = mm - sm;
+	if (md == days_in_month (my, mm) && sd == days_in_month (sy, sm))
+	        days = 0;
+	else
+	        days = md - sd + (g_date_is_leap_year (sy) && sd==28 && sm==2);
+
+	if (freq == 1)
+	        return years + (months > 0) + (months == 0 && days > 0);
+	else if (freq == 2)
+	        return years*2
+		        + (months >  6) + (months ==  6 && days > 0)
+		        + (months >  0) + (months ==  0 && days > 0)
+		        - (months < -6) - (months == -6 && days < 0);
+	else
+	        return years*4
+		        + (months >  9) + (months ==  9 && days > 0)
+		        + (months >  6) + (months ==  6 && days > 0)
+		        + (months >  3) + (months ==  3 && days > 0)
+		        + (months >  0) + (months ==  0 && days > 0)
+		        - (months < -3) - (months == -3 && days < 0)
+		        - (months < -6) - (months == -6 && days < 0)
+		        - (months < -9) - (months == -9 && days < 0);
 }
 
 static GDate *

@@ -1,3 +1,8 @@
+2000-07-18  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-financial.c (coupnum): Fixed frequency two and
+	four.  This functions should work now completely.
+
 2000-07-16  Jody Goldberg <jgoldberg@home.com>
 
 	* src/border.c (style_border_draw) : Improve the look of diagonal double
