@@ -274,8 +274,6 @@ general_linear_regression (gnum_float **xss, int xdim,
 	int i,j;
 	RegressionResult regerr;
 
-	printf ("n=%d  xdim=%d\n", n, xdim);
-
 	if (regression_stat)
 		memset (regression_stat, 0, sizeof (regression_stat_t));
 
@@ -369,11 +367,15 @@ general_linear_regression (gnum_float **xss, int xdim,
 		err = range_sumsq (residuals, n, &regression_stat->ss_resid);
 		g_assert (err == 0);
 
+		regression_stat->sqr_r = (regression_stat->ss_total == 0)
+			? 1
+			: 1 - regression_stat->ss_resid / regression_stat->ss_total;
 		/* FIXME: we want to guard against division by zero.  */
-		regression_stat->sqr_r = 1 - (regression_stat->ss_resid / regression_stat->ss_total);
 		regression_stat->adj_sqr_r = 1 - regression_stat->ss_resid * (n - 1) / 
 			((n - xdim) * regression_stat->ss_total);
-		regression_stat->var = (regression_stat->ss_resid / (n - xdim));
+		regression_stat->var = (n == xdim)
+			? 0
+			: regression_stat->ss_resid / (n - xdim);
 
 		ALLOC_MATRIX (LU, xdim, xdim);
 		one_scaled = g_new (gnum_float, xdim);
@@ -391,7 +393,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 				e[i] = one_scaled[i];
 				backsolve (LU, P, e, xdim, inv);
 
-				if (inv[i] <= 0) {
+				if (inv[i] < 0) {
 					/*
 					 * If this happens, something is really
 					 * wrong, numerically.

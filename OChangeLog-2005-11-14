@@ -1,3 +1,8 @@
+2002-03-01  Morten Welinder  <terra@diku.dk>
+
+	* src/regression.c (general_linear_regression): Fix ->var in the
+	trivial n==xdim case.
+
 2002-02-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* commands.h (cmd_reorganize_sheets) : new
