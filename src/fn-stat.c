@@ -1838,8 +1838,6 @@ gnumeric_poisson (struct FunctionDefinition *i, Value *argv [], char **error_str
 		return NULL;
 	}
 
-	x = value_get_as_int (argv [0]);      /* Hint, think */
-	mean = value_get_as_double (argv [1]);
 	cuml = value_get_bool (argv[2], &err) ;
 
 	if (cuml) {
@@ -1888,5 +1886,4 @@ FunctionDefinition stat_functions [] = {
 /*
  * Mode, Median: Use large hash table :-)
  *
- * Engineering: Bessel functions: use C fns: j0, y0 etc.
  */

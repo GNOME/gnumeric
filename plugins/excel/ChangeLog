@@ -1,3 +1,7 @@
+1999-03-26  Michael Meeks  <michael@imaginator.com>
+
+	* ms-formula.c: Removed duplicate for fn 0x65
+	
 1999-03-24  Thomas Meeks  <thomas@imaginator.com>
 
 	* ms-formula.c: Added mappings for Address, Area, Hyperlink,

@@ -161,6 +161,7 @@ functions_init (void)
 	install_symbols (stat_functions);
 	install_symbols (finance_functions);
 	install_symbols (eng_functions);
+	install_symbols (lookup_functions);
 }
 
 void

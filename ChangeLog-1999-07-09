@@ -1,3 +1,32 @@
+1999-03-26  Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-eng.c (gnumeric_delta): Fix memory leak
+	(gnumeric_gestep): Cleaned to better arg. model
+	(bin/oct/dec/hex2...): Cleaned similarly
+
+	* src/fn-stat.c (gnumeric_poisson): Cleaned
+
+	* src/fn-string.c (string_and_optional_int): Removed.
+	(gnumeric_left, gnumeric_right, gnumeric_find),
+	(gnumeric_fixed, gnumeric_dollar, gnumeric_substitute):
+	Updated to optional argument types.
+	(gnumeric_clean): Moved from fn-misc.c
+
+	* src/fn-misc.c (gnumeric_clean): Moved to fn-string.c
+
+	* src/expr.c (cell_ref_make_absolute): Makes a CellRef
+	absolute.
+	(eval_funcall): Added range token 'r' for lookup
+	functions, makes reference absolute so can be used
+	downstream without trouble.
+
+	* src/expr.h: Added range comments
+
+	* src/fn-lookup.c: Created
+	(lookup_simliar, gnumeric_vlookup):
+	Implements VLOOKUP.
+	(gnumeric_hlookup): Implements HLOOKUP.
+
 1999-03-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-financial.c: dollarde, dollarfr, and npv added.

@@ -102,41 +102,6 @@ gnumeric_len (struct FunctionDefinition *i, Value *argv [], char **error_string)
 	return value_int (strlen (argv [0]->v.str->str));
 }
 
-static Value *
-string_and_optional_int (Sheet *sheet, GList *l, int eval_col, int eval_row, char **error, int *count)
-{
-	int argc = g_list_length (l);
-	Value *v, *vs;
-	
-	if (argc < 1 || argc > 2){
-		*error = _("Invalid number of arguments");
-		return NULL;
-	}
-
-	vs = eval_expr (sheet, l->data, eval_col, eval_row, error);
-	if (vs == NULL)
-		return NULL;
-
-	if (vs->type != VALUE_STRING){
-		value_release (vs);
-		*error = _("Type mismatch");
-		return NULL;
-	}
-	
-	if (argc == 1){
-		*count = 1;
-	} else {
-		v = eval_expr (sheet, l->next->data,
-			       eval_col, eval_row, error);
-		if (v == NULL)
-			return NULL;
-		*count = value_get_as_int (v);
-		value_release (v);
-	}
-
-	return vs;
-}
-
 static char *help_left = {
 	N_("@FUNCTION=LEFT\n"
 	   "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -149,23 +114,20 @@ static char *help_left = {
 };
 
 static Value *
-gnumeric_left (void *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_left (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *vs, *v;
+	Value *v ;
 	int count;
 	char *s;
 
-	vs = string_and_optional_int (sheet, expr_node_list, eval_col, eval_row,
-				      error_string, &count);
-
-	if (vs == NULL)
-		return NULL;
+	if (argv[1])
+		count = value_get_as_int(argv[1]) ;
+	else
+		count = 1;
 			
 	s = g_malloc (count + 1);
-	strncpy (s, vs->v.str->str, count);
+	strncpy (s, argv[0]->v.str->str, count);
 	s [count] = 0;
-
-	value_release (vs);
 
 	v = value_str (s);
 	g_free (s);
@@ -264,27 +226,24 @@ static char *help_right = {
 };
 
 static Value *
-gnumeric_right (void *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_right (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *vs, *v;
+	Value *v ;
 	int count, len;
 	char *s;
 
-	vs = string_and_optional_int (sheet, expr_node_list, eval_col, eval_row,
-				      error_string, &count);
+	if (argv[1])
+		count = value_get_as_int(argv[1]) ;
+	else
+		count = 1;
 
-	if (vs == NULL)
-		return NULL;
-
-	len = strlen (vs->v.str->str);
+	len = strlen (argv[0]->v.str->str);
 	if (count > len)
 		count = len;
 	
 	s = g_malloc (count + 1);
-	strncpy (s, vs->v.str->str+len-count, count);
+	strncpy (s, argv[0]->v.str->str+len-count, count);
 	s [count] = 0;
-
-	value_release (vs);
 
 	v = value_str (s);
 	g_free (s);
@@ -409,39 +368,46 @@ gnumeric_rept (struct FunctionDefinition *i, Value *argv [], char **error_string
 
 	return v;
 }
-/*
+
 static char *help_clean = {
 	N_("@FUNCTION=CLEAN\n"
 	   "@SYNTAX=CLEAN(string)\n"
 
-	   "@DESCRIPTION=Returns @string without non-printable characters\n"
-	   "@SEEALSO=CHAR, TRIM")
+	   "@DESCRIPTION="
+	   "Cleans the string from any non-printable characters."
+	   "\n"
+	   
+	   "@SEEALSO=")
 };
 
 static Value *
-gnumeric_clean (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_clean (FunctionDefinition *fn, Value *argv [], char **error_string)
 {
-	Value *v;
-	gchar *s, *p;
-
-	if (argv [0]->type != VALUE_STRING) {
+	Value *res;
+	char *copy, *p, *q;
+	
+	if (argv [0]->type != VALUE_STRING){
 		*error_string = _("Type mismatch");
 		return NULL;
 	}
-
-	s = p = argv[0]->v.str->str;
-	while (*p) {
-		if (isprint(*p)) *s++ = *p;
+	p = argv [0]->v.str->str;
+	copy = q = g_malloc (strlen (p) + 1);
+	
+	while (*p){
+		if (isprint (*p))
+			*q++ = *p;
 		p++;
 	}
-	*s = '\0';
+	*q = 0;
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (argv[0]->v.str->str);
-	return v;
+	res = g_new (Value, 1);
+	res->type = VALUE_STRING;
+	res->v.str = string_get (copy);
+	g_free (copy);
+
+	return res;
 }
-*/
+
 static char *help_find = {
 	N_("@FUNCTION=FIND\n"
 	   "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -451,35 +417,29 @@ static char *help_find = {
 };
 
 static Value *
-gnumeric_find (void *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+gnumeric_find (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v1, *v2, *ret;
+	Value *ret ;
 	int count;
 	char *s, *p;
 
-	if ( expr_node_list == NULL) {
-		*error_string = _("Invalid number of arguments") ;
-		return NULL ;
-	}
-	if ( (v1 = eval_expr (sheet, expr_node_list->data, eval_col, eval_row, error_string))
-	     == NULL) return NULL ;
-	if ( (v2 = string_and_optional_int (sheet, g_list_next(expr_node_list), 
-					    eval_col, eval_row, error_string, &count) )
-	     ==NULL ) return NULL;
-	if ( count > strlen(v2->v.str->str) ||
+	if (argv[2])
+		count = value_get_as_int(argv[2]) ;
+	else
+		count = 1 ;
+
+	if ( count > strlen(argv[1]->v.str->str) ||
 	     count == 0) { /* start position too high or low */
 		*error_string = _("Invalid argument") ;
 		return NULL ;
 	}
 
 	g_assert (count >= 1) ;
-	s = v2->v.str->str + count - 1;
-	if ( (p = strstr(s, v1->v.str->str)) == NULL ) {
+	s = argv[1]->v.str->str + count - 1;
+	if ( (p = strstr(s, argv[0]->v.str->str)) == NULL ) {
 		*error_string = _("Invalid argument") ;
 		return NULL ;
 	}
-	value_release (v1);
-	value_release (v2);
 
 	ret = g_new(Value, 1);
 	ret->type = VALUE_INTEGER;
@@ -489,7 +449,7 @@ gnumeric_find (void *sheet, GList *expr_node_list, int eval_col, int eval_row, c
 
 static char *help_fixed = {
 	N_("@FUNCTION=FIXED\n"
-	   "@SYNTAX=FIXED(num, decimals, no_commas)\n"
+	   "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
 
 	   "@DESCRIPTION=Returns @num as a formatted string with @decimals numbers "
 	   "after the decimal point, omitting commas if requested by @no_commas\n"
@@ -497,45 +457,26 @@ static char *help_fixed = {
 };
 
 static Value *
-gnumeric_fixed (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_fixed (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v;
 	gchar *s, *p, *f;
-	gint dec = 2, commas = TRUE, tmp;
+	gint dec, commas, tmp;
 	float_t num;
 
-	if (l == NULL || 
-	    ( v = eval_expr (sheet, l->data, eval_col, eval_row, error_string) )
-	    == NULL) {
-		*error_string = _("Invalid number of arguments");
-		return NULL;
-	}
-	num = value_get_as_double (v);
-	value_release (v);
-	if ( (l = g_list_next(l)) != NULL && l->data != NULL &&
-	     (v = eval_expr (sheet, l->data, eval_col, eval_row, error_string))
-	     != NULL) {
-		if (v->type != VALUE_INTEGER &&
-		    v->type != VALUE_FLOAT ) {
-			value_release (v);
-			*error_string = _("Type mismatch");
-			return NULL;
-		}
-		dec = value_get_as_int (v);
-		value_release (v);
-	}
-	if ( (l = g_list_next(l)) != NULL && l->data != NULL &&
-	     (v = eval_expr (sheet, l->data, eval_col, eval_row, error_string))
-	     != NULL) {
-		commas = !value_get_bool (v, &tmp);
-		if (tmp) {
-			*error_string = _("Type mismatch");
-			return NULL;
-		}
-		value_release (v);
-	}
+	num = value_get_as_double (argv[0]);
+	if (argv[1])
+		dec = value_get_as_int (argv[1]);
+	else
+		dec = 2 ;
+
+	if (argv[2])
+		commas = !value_get_bool (argv[2], &tmp);
+	else
+		commas = TRUE ;
+
 	if (dec >= 1000) { /* else buffer under-run */
-		*error_string = _("Invlaid argument") ;
+		*error_string = _("Invalid argument") ;
 		return NULL ;
 		/*
 	} else if (lc->thousands_sep[1] != '\0') {
@@ -812,7 +753,7 @@ static char *help_substitute = {
 };
 
 static Value *
-gnumeric_substitute (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_substitute (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	Value *v ;
 	gchar *text, *old, *new, *p ,*f ;
@@ -820,65 +761,14 @@ gnumeric_substitute (void *sheet, GList *l, int eval_col, int eval_row, char **e
 	guint oldlen, newlen, len, inst ;
 	struct subs_string *s ;
 
-	if ( l == NULL) {
-		*error_string = _("Invalid number of arguments") ;
-		return NULL ;
-	} else if ((v =eval_expr(sheet,l->data,eval_col,eval_row,error_string))==NULL) {
-		return NULL ;
-	} else if (v->type != VALUE_STRING) {
-		*error_string = _("Invalid argument") ;
-		return NULL ;
-	}
-	text = value_string (v) ;
-	value_release (v) ;
+	text = value_string (argv[0]) ;
+	old  = value_string (argv[1]) ;
+	new  = value_string (argv[2]) ;
 
-	if ( (l = g_list_next(l)) == NULL) {
-		*error_string = _("Invalid number of arguments") ;
-		g_free (text) ;
-		return NULL ;
-	} else if ((v =eval_expr(sheet,l->data,eval_col,eval_row,error_string))==NULL) {
-		g_free (text) ;
-		return NULL ;
-	} else if (v->type != VALUE_STRING) {
-		*error_string = _("Invalid argument") ;
-		g_free (text) ;
-		return NULL ;
-	}
-	old = value_string (v) ;
-	value_release (v) ;
-
-	if ( (l = g_list_next(l)) == NULL) {
-		*error_string = _("Invalid number of arguments") ;
-		g_free (text) ;
-		g_free (old) ;
-		return NULL ;
-	} else if ((v=eval_expr(sheet,l->data,eval_col,eval_row,error_string))==NULL) {
-		g_free (text) ;
-		g_free (old) ;
-		return NULL;
-	} else if (v->type != VALUE_STRING) {
-		*error_string = _("Invalid argument") ;
-		g_free (text) ;
-		g_free (old) ;
-		return NULL ;
-	}
-	new = value_string (v) ;
-	value_release (v) ;
-
-	if ( (l = g_list_next(l)) == NULL ||
-	     (v=eval_expr(sheet,l->data,eval_col,eval_row,error_string))==NULL ) {
+	if (argv[3])
+		num = value_get_as_int (argv[3]) ;
+	else
 		num = 0 ;
-	} else {
-		num = value_get_as_int (v) ;
-		value_release (v) ;
-		if (num < 0) {
-			*error_string = _("Invalid argument") ;
-			g_free (text) ;
-			g_free (old) ;
-			g_free (new) ;
-			return NULL ;
-		}
-	}
 
 	oldlen = strlen (old) ;
 	newlen = strlen (new) ;
@@ -926,20 +816,23 @@ gnumeric_substitute (void *sheet, GList *l, int eval_col, int eval_row, char **e
 
 static char *help_dollar = {
 	N_("@FUNCTION=DOLLAR\n"
-	   "@SYNTAX=DOLLAR(num,decimals)\n"
+	   "@SYNTAX=DOLLAR(num,[decimals])\n"
 	   "@DESCRIPTION=Returns @num formatted as currency \n"
 	   "@SEEALSO=FIXED, TEXT, VALUE")
 };
 
 static Value *
-gnumeric_dollar (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_dollar (struct FunctionDefinition *i, Value *argv [], char **error_string)
 /* FIXME: should use lc->[pn]_sign_posn, mon_thousands_sep, negative_sign */
 {
-	Value *v ;
+	Value *v, *ag[3] ;
 	guint len, neg ;
 	gchar *s ;
 
-	v = gnumeric_fixed (sheet, l, eval_col, eval_row, error_string) ;
+	ag[0] = argv[0] ;
+	ag[1] = argv[1] ;
+	ag[2] = NULL ;
+	v = gnumeric_fixed (i, ag, error_string) ;
 	if (v == NULL)
 		return NULL ;
 	g_assert (v->type == VALUE_STRING) ;
@@ -961,27 +854,27 @@ gnumeric_dollar (void *sheet, GList *l, int eval_col, int eval_row, char **error
 }
 
 FunctionDefinition string_functions [] = {
-	{ "char",       "f",   "number",            &help_char,       NULL, gnumeric_char },
-/*	{ "clean",      "s",   "text",              &help_clean,      NULL, gnumeric_clean }, // already is in fn-misc.c !?! */
-	{ "code",       "s",   "text",              &help_code,       NULL, gnumeric_code },
-	{ "concatenate",0,     "text1,text2",       &help_concatenate,gnumeric_concatenate, NULL },
-	{ "dollar",     0,     "num,decimals",      &help_dollar,     gnumeric_dollar, NULL },
-	{ "exact",      "ss",  "text1,text2",       &help_exact,      NULL, gnumeric_exact },
-	{ "find",       "ssf", "text1,text2,num",   &help_find,       gnumeric_find, NULL },
-	{ "fixed",      0,     "num,decs,no_commas",&help_fixed,      gnumeric_fixed, NULL },
-	{ "left",       0,     "text,num_chars",    &help_left,       gnumeric_left, NULL },
-	{ "len",        "s",   "text",              &help_len,        NULL, gnumeric_len },
-	{ "lower",      "s",   "text",              &help_lower,      NULL, gnumeric_lower },
-	{ "proper",     "s",   "text",              &help_proper,     NULL, gnumeric_proper },
-        { "mid",        "sff", "text,pos,num",      &help_mid,        NULL, gnumeric_mid },
-	{ "replace",    "sffs","old,start,num,new", &help_replace,    NULL,gnumeric_replace },
-	{ "rept",       "sf",  "text,num",          &help_rept,       NULL, gnumeric_rept },
-	{ "right",      0,     "text,num_chars",    &help_right,      gnumeric_right, NULL },
-	{ "substitute", 0,     "text,old,new,num",  &help_substitute, gnumeric_substitute, NULL },
-	{ "t",          "?",   "value",             &help_t,          NULL, gnumeric_t },
-	{ "trim",       "s",   "text",              &help_trim,       NULL, gnumeric_trim },
-	{ "upper",      "s",   "text",              &help_upper,      NULL, gnumeric_upper },
-	{ "value",      "s",   "text",              &help_value,      NULL, gnumeric_value },
+	{ "char",       "f",    "number",            &help_char,       NULL, gnumeric_char },
+	{ "clean",      "s",    "text",              &help_clean,      NULL, gnumeric_clean },
+	{ "code",       "s",    "text",              &help_code,       NULL, gnumeric_code },
+	{ "concatenate",0,      "text1,text2",       &help_concatenate,gnumeric_concatenate, NULL },
+	{ "dollar",     "f|f",  "num,decimals",      &help_dollar,     NULL, gnumeric_dollar },
+	{ "exact",      "ss",   "text1,text2",       &help_exact,      NULL, gnumeric_exact },
+	{ "find",       "ss|f", "text1,text2,num",   &help_find,       NULL, gnumeric_find },
+	{ "fixed",      "f|fb", "num,decs,no_commas",&help_fixed,      NULL, gnumeric_fixed },
+	{ "left",       "s|f",  "text,num_chars",    &help_left,       NULL, gnumeric_left },
+	{ "len",        "s",    "text",              &help_len,        NULL, gnumeric_len },
+	{ "lower",      "s",    "text",              &help_lower,      NULL, gnumeric_lower },
+	{ "proper",     "s",    "text",              &help_proper,     NULL, gnumeric_proper },
+        { "mid",        "sff",  "text,pos,num",      &help_mid,        NULL, gnumeric_mid },
+	{ "replace",    "sffs", "old,start,num,new", &help_replace,    NULL, gnumeric_replace },
+	{ "rept",       "sf",   "text,num",          &help_rept,       NULL, gnumeric_rept },
+	{ "right",      "s|f",  "text,num_chars",    &help_right,      NULL, gnumeric_right },
+	{ "substitute", "sss|f","text,old,new,num",  &help_substitute, NULL, gnumeric_substitute },
+	{ "t",          "?",    "value",             &help_t,          NULL, gnumeric_t },
+	{ "trim",       "s",    "text",              &help_trim,       NULL, gnumeric_trim },
+	{ "upper",      "s",    "text",              &help_upper,      NULL, gnumeric_upper },
+	{ "value",      "s",    "text",              &help_value,      NULL, gnumeric_value },
 	{ NULL, NULL },
 };
 

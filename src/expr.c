@@ -408,6 +408,20 @@ value_get_as_int (Value *v)
 	return (int) v->v.v_float;
 }
 
+static void
+cell_ref_make_absolute (CellRef *cell_ref, int eval_col, int eval_row)
+{
+	g_return_if_fail (cell_ref != NULL);
+
+	if (cell_ref->col_relative)
+		cell_ref-> col = eval_col + cell_ref->col;
+
+	if (cell_ref->row_relative)
+		cell_ref->row = eval_row + cell_ref->row;
+	cell_ref->row_relative = 0 ;
+	cell_ref->col_relative = 0 ;
+}
+
 static Value *
 eval_cell_value (Sheet *sheet, Value *value)
 {
@@ -498,7 +512,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 
 		values = g_new (Value *, fn_argc_max);
 		
-		for (arg = 0; l; l = l->next, arg++, arg_type++){
+		for (arg = 0; l; l = l->next, arg++, arg_type++) {
 			ExprTree *t = (ExprTree *) l->data;
 			
 			v = eval_expr (sheet, t, eval_col, eval_row, error_string);
@@ -520,8 +534,15 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 					*error_string = _("Type mismatch");
 					return NULL;
 				}
+			case 'r':
+				if (v->type != VALUE_CELLRANGE) {
+					free_values (values, arg);
+					*error_string = _("Type mismatch");
+					return NULL;
+				}
+				cell_ref_make_absolute (&v->v.cell_range.cell_a, eval_col, eval_row) ;
+				cell_ref_make_absolute (&v->v.cell_range.cell_b, eval_col, eval_row) ;
 			}
-			
 			values [arg] = v;
 		}
 		while (arg<fn_argc_max)

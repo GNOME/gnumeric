@@ -112,6 +112,7 @@ struct FunctionDefinition {
 	 * f for float
 	 * s for string
 	 * b for boolean
+	 * r for cell range eg. A1:C3
 	 * ? for any kind
 	 *  For optional arguments do:
 	 * "ff|ss" where the strings are optional

@@ -40,9 +40,9 @@ static char *help_ = {
  * FIXME: In the long term this needs optimising.
  **/
 static Value *
-val_to_base (Value *value, int src_base, int dest_base, int places ,char **error_string)
+val_to_base (Value *value, Value *val_places, int src_base, int dest_base, char **error_string)
 {
-	int lp, max, bit, neg ;
+	int lp, max, bit, neg, places ;
 	char *p, *ans ;
 	char *err="\0", buffer[40], *str ;
 	double v ;
@@ -51,6 +51,17 @@ val_to_base (Value *value, int src_base, int dest_base, int places ,char **error
 		*error_string = _("Base error") ;
 		return NULL ;
 	}
+
+	if (val_places) {
+		if (val_places->type != VALUE_INTEGER &&
+		    val_places->type != VALUE_FLOAT) {
+			*error_string = _("#VALUE!") ;
+			return NULL ;
+		}
+		places = value_get_as_int (val_places) ;
+	}
+	else
+		places = 0 ;
 
 /*	printf ("Type: %d\n", value->type) ; */
 	switch (value->type){
@@ -130,41 +141,6 @@ val_to_base (Value *value, int src_base, int dest_base, int places ,char **error
 	return value_str(ans) ;
 }
 
-static Value *
-val_to_base_place (void *sheet, GList *l, int eval_col, int eval_row, char **error_string,
-		   int src_base, int dest_base)
-{
-	int argc = g_list_length (l) ;
-	Value *ans, *num, *val_places=0 ;
-	int places = -1 ;
-
-	if (argc < 1 || argc > 2 || !l->data) {
-		*error_string = _("Invalid number of arguments") ;
-		return NULL ;
-	}
-
-	if (!(num = eval_expr (sheet, l->data, eval_col, eval_row, error_string)))
-		return NULL ;
-
-	l = g_list_next(l) ;
-	if (l && l->data) {
-		val_places = eval_expr (sheet, l->data, eval_col, eval_row, error_string) ;
-		if (!val_places)
-			return NULL ;
-		else if (val_places->type != VALUE_INTEGER &&
-		    val_places->type != VALUE_FLOAT) {
-			*error_string = _("#VALUE!") ;
-			return NULL ;
-		}
-		places = value_get_as_int (val_places) ;
-		value_release (val_places) ;
-	}
-	
-	ans = val_to_base (num, src_base, dest_base, places, error_string) ;
-	value_release (num) ;
-	return ans ;
-}
-
 static char *help_bin2dec = {
 	N_("@FUNCTION=BIN2DEC\n"
 	   "@SYNTAX=BIN2DEC(x)\n"
@@ -180,7 +156,7 @@ static char *help_bin2dec = {
 static Value *
 gnumeric_bin2dec (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], 2, 10, -1, error_string) ;
+	return val_to_base (argv[0], NULL, 2, 10, error_string) ;
 }
 
 static char *help_bin2oct = {
@@ -197,10 +173,9 @@ static char *help_bin2oct = {
 };
 
 static Value *
-gnumeric_bin2oct (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_bin2oct (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base_place (sheet, l, eval_col, eval_row, error_string,
-				  2, 8) ;
+	return val_to_base (argv[0], argv[1], 2, 8, error_string) ;
 }
 
 static char *help_bin2hex = {
@@ -217,10 +192,9 @@ static char *help_bin2hex = {
 };
 
 static Value *
-gnumeric_bin2hex (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_bin2hex (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base_place (sheet, l, eval_col, eval_row, error_string,
-				  2, 16) ;
+	return val_to_base (argv[0], argv[1], 2, 16, error_string) ;
 }
 
 static char *help_dec2bin = {
@@ -237,10 +211,9 @@ static char *help_dec2bin = {
 };
 
 static Value *
-gnumeric_dec2bin (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_dec2bin (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base_place (sheet, l, eval_col, eval_row, error_string,
-				  10, 2) ;
+	return val_to_base (argv[0], argv[1], 10, 2, error_string) ;
 }
 
 static char *help_dec2oct = {
@@ -257,10 +230,9 @@ static char *help_dec2oct = {
 };
 
 static Value *
-gnumeric_dec2oct (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_dec2oct (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base_place (sheet, l, eval_col, eval_row, error_string,
-				  10, 8) ;
+	return val_to_base (argv[0], argv[1], 10, 8, error_string) ;
 }
 
 static char *help_dec2hex = {
@@ -277,10 +249,9 @@ static char *help_dec2hex = {
 };
 
 static Value *
-gnumeric_dec2hex (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_dec2hex (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base_place (sheet, l, eval_col, eval_row, error_string,
-				  10, 16) ;
+	return val_to_base (argv[0], argv[1], 10, 16, error_string) ;
 }
 
 static char *help_oct2dec = {
@@ -298,7 +269,7 @@ static char *help_oct2dec = {
 static Value *
 gnumeric_oct2dec (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], 8, 10, -1, error_string) ;
+	return val_to_base (argv[0], NULL, 8, 10, error_string) ;
 }
 
 static char *help_oct2bin = {
@@ -315,10 +286,9 @@ static char *help_oct2bin = {
 };
 
 static Value *
-gnumeric_oct2bin (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_oct2bin (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base_place (sheet, l, eval_col, eval_row, error_string,
-				  8, 2) ;
+	return val_to_base (argv[0], argv[1], 8, 2, error_string) ;
 }
 
 static char *help_oct2hex = {
@@ -335,10 +305,9 @@ static char *help_oct2hex = {
 };
 
 static Value *
-gnumeric_oct2hex (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_oct2hex (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base_place (sheet, l, eval_col, eval_row, error_string,
-				  8, 16) ;
+	return val_to_base (argv[0], argv[1], 8, 16, error_string) ;
 }
 
 static char *help_hex2bin = {
@@ -355,10 +324,9 @@ static char *help_hex2bin = {
 };
 
 static Value *
-gnumeric_hex2bin (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_hex2bin (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base_place (sheet, l, eval_col, eval_row, error_string,
-				  16, 2) ;
+	return val_to_base (argv[0], argv[1], 16, 2, error_string) ;
 }
 
 static char *help_hex2oct = {
@@ -375,10 +343,9 @@ static char *help_hex2oct = {
 };
 
 static Value *
-gnumeric_hex2oct (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_hex2oct (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base_place (sheet, l, eval_col, eval_row, error_string,
-				  16, 8) ;
+	return val_to_base (argv[0], argv[1], 16, 8, error_string) ;
 }
 
 static char *help_hex2dec = {
@@ -396,7 +363,7 @@ static char *help_hex2dec = {
 static Value *
 gnumeric_hex2dec (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	return val_to_base (argv[0], 16, 10, -1, error_string) ;
+	return val_to_base (argv[0], NULL, 16, 10, error_string) ;
 }
 
 static char *help_besselj = {
@@ -595,6 +562,8 @@ gnumeric_delta (struct FunctionDefinition *i, Value *argv [], char **error_strin
 		return NULL ;
 	}
 	       
+	if (!argv[1])
+		value_release (vy) ;
 	return value_int (ans) ;
 }
 
@@ -614,35 +583,17 @@ static char *help_gestep = {
 
 
 static Value *
-gnumeric_gestep (void *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_gestep (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
 	int ans = 0 ;
-	int argc = g_list_length (l) ;
 	Value *vx, *vy ;
 
-	if (argc < 1 || argc > 2 || !l->data) {
-		*error_string = _("Invalid number of arguments") ;
-		return NULL ;
-	}
-
-	vx = eval_expr (sheet, l->data, eval_col, eval_row, error_string) ;
-	if (vx->type != VALUE_INTEGER &&
-	    vx->type != VALUE_FLOAT) {
-		*error_string = _("#VALUE!") ;
-		return NULL ;
-	}
-	
-	l = g_list_next(l) ;
-	if (l && l->data) {
-		vy = eval_expr (sheet, l->data, eval_col, eval_row, error_string) ;
-		if (vy->type != VALUE_INTEGER &&
-		    vy->type != VALUE_FLOAT) {
-			*error_string = _("#VALUE!") ;
-			return NULL ;
-		}
-	}
+	vx = argv[0] ;
+	if (argv[1])
+		vy = argv[1] ;
 	else
 		vy = value_int (0) ;
+
 	switch (vx->type)
 	{
 	case VALUE_INTEGER:
@@ -682,8 +633,8 @@ gnumeric_gestep (void *sheet, GList *l, int eval_col, int eval_row, char **error
 		return NULL ;
 	}
 	       
-	value_release (vx) ;
-	value_release (vy) ;
+	if (!argv[1])
+		value_release (vy) ;
 	return value_int (ans) ;
 }
 
@@ -692,7 +643,7 @@ static char *help_sqrtpi = {
 	   "@SYNTAX=SQRTPI(x)\n"
 
 	   "@DESCRIPTION="
-	   "The SQRTPI returns the square root of PI * x. "
+	   "The SQRTPI function returns the square root of PI * x. "
 	   "\n"
 
 	   "if x < 0 a #NUM! error is returned."
@@ -715,21 +666,21 @@ FunctionDefinition eng_functions [] = {
 	{ "bessely",   "ff",   "xnum,ynum",   &help_bessely, NULL, gnumeric_bessely },
 	{ "besselj",   "ff",   "xnum,ynum",   &help_besselj, NULL, gnumeric_besselj },
 	{ "bin2dec",   "?",    "number",      &help_bin2dec, NULL, gnumeric_bin2dec },
-	{ "bin2hex",   0,      "xnum,ynum",   &help_bin2hex, gnumeric_bin2hex, NULL },
-	{ "bin2oct",   0,      "xnum,ynum",   &help_bin2oct, gnumeric_bin2oct, NULL },
-	{ "dec2bin",   0,      "xnum,ynum",   &help_dec2bin, gnumeric_dec2bin, NULL },
-	{ "dec2oct",   0,      "xnum,ynum",   &help_dec2oct, gnumeric_dec2oct, NULL },
-	{ "dec2hex",   0,      "xnum,ynum",   &help_dec2hex, gnumeric_dec2hex, NULL },
+	{ "bin2hex",   "?|f",  "xnum,ynum",   &help_bin2hex, NULL, gnumeric_bin2hex },
+	{ "bin2oct",   "?|f",  "xnum,ynum",   &help_bin2oct, NULL, gnumeric_bin2oct },
+	{ "dec2bin",   "?|f",  "xnum,ynum",   &help_dec2bin, NULL, gnumeric_dec2bin },
+	{ "dec2oct",   "?|f",  "xnum,ynum",   &help_dec2oct, NULL, gnumeric_dec2oct },
+	{ "dec2hex",   "?|f",  "xnum,ynum",   &help_dec2hex, NULL, gnumeric_dec2hex },
 	{ "delta",     "f|f",  "xnum,ynum",   &help_delta,   NULL, gnumeric_delta },
 	{ "erf",       "f|f",  "lower,upper", &help_erf,     NULL, gnumeric_erf  },
 	{ "erfc",      "f",    "number",      &help_erfc,    NULL, gnumeric_erfc },
-	{ "gestep",    0,      "xnum,ynum",   &help_gestep,  gnumeric_gestep, NULL },
-	{ "hex2bin",   0,      "xnum,ynum",   &help_hex2bin, gnumeric_hex2bin, NULL },
+	{ "gestep",    "f|f",  "xnum,ynum",   &help_gestep,  NULL, gnumeric_gestep },
+	{ "hex2bin",   "?|f",  "xnum,ynum",   &help_hex2bin, NULL, gnumeric_hex2bin },
 	{ "hex2dec",   "?",    "number",      &help_hex2dec, NULL, gnumeric_hex2dec },
-	{ "hex2oct",   0,      "xnum,ynum",   &help_hex2oct, gnumeric_hex2oct, NULL },
-	{ "oct2bin",   0,      "xnum,ynum",   &help_oct2bin, gnumeric_oct2bin, NULL },
+	{ "hex2oct",   "?|f",  "xnum,ynum",   &help_hex2oct, NULL, gnumeric_hex2oct },
+	{ "oct2bin",   "?|f",  "xnum,ynum",   &help_oct2bin, NULL, gnumeric_oct2bin },
 	{ "oct2dec",   "?",    "number",      &help_oct2dec, NULL, gnumeric_oct2dec },
-	{ "oct2hex",   0,      "xnum,ynum",   &help_oct2hex, gnumeric_oct2hex, NULL },
+	{ "oct2hex",   "?|f",  "xnum,ynum",   &help_oct2hex, NULL, gnumeric_oct2hex },
 	{ "sqrtpi",    "f",    "number",      &help_sqrtpi,  NULL, gnumeric_sqrtpi },
 	/* besseli */
 	/* besselk */
@@ -740,5 +691,4 @@ FunctionDefinition eng_functions [] = {
 /*
  * Mode, Median: Use large hash table :-)
  *
- * Engineering: Bessel functions: use C fns: j0, y0 etc.
  */
