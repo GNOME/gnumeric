@@ -1,3 +1,7 @@
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
 2003-12-22  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (BC_R(ifmt)) : pull in axis value format.

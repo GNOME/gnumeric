@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-26 22:20-0500\n"
+"POT-Creation-Date: 2003-12-23 16:12-0500\n"
 "PO-Revision-Date: 2003-11-12 11:25+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -1017,8 +1017,8 @@ msgstr "Finanční deriváty"
 msgid "Functions related to financial derivatives"
 msgstr "Funkce spojené s finančními deriváty"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5336
-#: plugins/mps/mps.c:549 src/xml-io.c:4004
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5362
+#: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Načítá se soubor..."
 
@@ -1112,40 +1112,40 @@ msgstr "Neočekávaný atribut %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "XML dokument není syntakticky správný!"
 
-#: plugins/excel/ms-excel-read.c:1003 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1008 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#NEZNÁMÝ!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1094 plugins/excel/ms-excel-read.c:1105
+#: plugins/excel/ms-excel-read.c:1099 plugins/excel/ms-excel-read.c:1110
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "List %d"
 
-#: plugins/excel/ms-excel-read.c:1108
+#: plugins/excel/ms-excel-read.c:1113
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1111
+#: plugins/excel/ms-excel-read.c:1116
 #, c-format
 msgid "Chart%d"
 msgstr "Graf%d"
 
-#: plugins/excel/ms-excel-read.c:1114
+#: plugins/excel/ms-excel-read.c:1119
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2827
+#: plugins/excel/ms-excel-read.c:2841
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Chyba při zpracování názvu '%s'"
 
-#: plugins/excel/ms-excel-read.c:2883
+#: plugins/excel/ms-excel-read.c:2897
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1154,7 +1154,7 @@ msgstr ""
 "Odkazy DDE nejsou podporovány.\n"
 "Název '%s' bude ztracen.\n"
 
-#: plugins/excel/ms-excel-read.c:2889
+#: plugins/excel/ms-excel-read.c:2903
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1163,23 +1163,19 @@ msgstr ""
 "Odkazy OLE nejsou podporovány.\n"
 "Název '%s' bude ztracen.\n"
 
-#: plugins/excel/ms-excel-read.c:2947
-msgid "Failure parsing AutoFilter."
-msgstr "Chyba při zpracování AutoFiltru."
-
-#: plugins/excel/ms-excel-read.c:4731
+#: plugins/excel/ms-excel-read.c:4757
 msgid "external references"
 msgstr "externí odkazy"
 
-#: plugins/excel/ms-excel-read.c:5482
+#: plugins/excel/ms-excel-read.c:5508
 msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
-#: plugins/excel/ms-excel-read.c:5486
+#: plugins/excel/ms-excel-read.c:5512
 msgid "Invalid password"
 msgstr "Neplatné heslo"
 
-#: plugins/excel/ms-excel-read.c:5587
+#: plugins/excel/ms-excel-read.c:5613
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodařilo se nalézt platný sešit MS Excel"
 
@@ -8251,9 +8247,9 @@ msgstr "%s verze %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:670
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:594
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:591
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
 msgid "Automatic"
@@ -17017,7 +17013,7 @@ msgstr "Objektivní funkce:"
 msgid "Constraints:"
 msgstr "Omezení:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5736
+#: plugins/mps/mps.c:247 src/commands.c:5740
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -17702,20 +17698,15 @@ msgstr "Importuje soubory MultiPlan (SYLK)"
 msgid "MultiPlan (SYLK)"
 msgstr "MultiPlan (SYLK)"
 
-#: plugins/sylk/sylk.c:372
+#: plugins/sylk/sylk.c:461
 msgid "Not SYLK file"
 msgstr "Není soubor SYLK"
 
-#: plugins/sylk/sylk.c:384
+#: plugins/sylk/sylk.c:474
 msgid "error parsing line\n"
 msgstr "chyba při zpracování řádku\n"
 
-#: plugins/sylk/sylk.c:408
-#, c-format
-msgid "Imported %s"
-msgstr "Importovaný %s"
-
-#: plugins/sylk/sylk.c:424
+#: plugins/sylk/sylk.c:530
 msgid "Error while reading sheet."
 msgstr "Chyba při čtení listu."
 
@@ -17740,10 +17731,10 @@ msgstr "Toto je zpráva ze zásuvného modulu \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Chyba při otevírání souboru Xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4561
+#: plugins/xbase/boot.c:175 src/commands.c:4565
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
-#: src/xml-io.c:3594
+#: src/xml-io.c:3726
 msgid "Sheet"
 msgstr "List"
 
@@ -18433,7 +18424,7 @@ msgstr "Tučné"
 msgid "Borders"
 msgstr "Okraje"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:423
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:424
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "Tlačítko"
@@ -18797,7 +18788,7 @@ msgstr "Formátuje oblast buněk podle předdefinované šablony"
 msgid "Fourier Analysis"
 msgstr "Fourierova analýza"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:196
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:197
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "Rámec"
@@ -18961,8 +18952,8 @@ msgid "Jump to a specified cell"
 msgstr "Přejde na zadanou buňku"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:619
-#: src/sheet-object-graphic.c:1437 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:728
+#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Titulek"
 
@@ -19129,7 +19120,7 @@ msgid "Print Preview"
 msgstr "Náhled před tiskem"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1322 src/workbook-control-gui.c:3342
+#: src/print.c:1318 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "Náhled před tiskem"
@@ -19380,7 +19371,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Statistická ana_lýza"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4033
-#: src/workbook-control-gui.c:4830 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4853 src/workbook-view.c:540
 msgid "Sum"
 msgstr "Součet"
 
@@ -20309,138 +20300,138 @@ msgstr "Změnit velikost objektu"
 msgid "Move object"
 msgstr "Přesunout objekt"
 
-#: src/commands.c:4805
+#: src/commands.c:4809
 msgid "Reordering Sheets"
 msgstr "Změna pořadí listů"
 
-#: src/commands.c:4808
+#: src/commands.c:4812
 msgid "Renaming Sheets"
 msgstr "Přejmenování listů"
 
-#: src/commands.c:4811
+#: src/commands.c:4815
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Připojuji %i listů"
 
-#: src/commands.c:4815
+#: src/commands.c:4819
 msgid "Changing Tab Colors"
 msgstr "Změna barev záložky"
 
-#: src/commands.c:4818
+#: src/commands.c:4822
 msgid "Changing Sheet Protection"
 msgstr "Změna ochrany listu"
 
-#: src/commands.c:4821
+#: src/commands.c:4825
 msgid "Delete sheets"
 msgstr "Odstranit listy"
 
-#: src/commands.c:4824
+#: src/commands.c:4828
 msgid "Delete a sheet"
 msgstr "Odstranit list"
 
-#: src/commands.c:4827
+#: src/commands.c:4831
 msgid "Reorganizing Sheets"
 msgstr "Reorganizace listů"
 
-#: src/commands.c:4977
+#: src/commands.c:4981
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Smazání komentáře %s"
 
-#: src/commands.c:4978
+#: src/commands.c:4982
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Nastavení komentáře %s"
 
-#: src/commands.c:5358
+#: src/commands.c:5362
 #, c-format
 msgid "Merging data into %s"
 msgstr "Spojení dat do %s"
 
-#: src/commands.c:5460
+#: src/commands.c:5464
 msgid "Changing summary info"
 msgstr "Změna souhrnných informací"
 
-#: src/commands.c:5551
+#: src/commands.c:5555
 msgid "Raise object"
 msgstr "Přesun objektu výše"
 
-#: src/commands.c:5554
+#: src/commands.c:5558
 msgid "Lower object"
 msgstr "Přesun objektu níže"
 
-#: src/commands.c:5557
+#: src/commands.c:5561
 msgid "Raise object to top"
 msgstr "Přesun objektu nahoru"
 
-#: src/commands.c:5560
+#: src/commands.c:5564
 msgid "Lower object to bottom"
 msgstr "Přesun objektu dolů"
 
-#: src/commands.c:5675
+#: src/commands.c:5679
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavení stránky pro %s"
 
-#: src/commands.c:5677
+#: src/commands.c:5681
 msgid "Page Setup For All Sheets"
 msgstr "Nastavení stránky pro všechny listy"
 
-#: src/commands.c:5793
+#: src/commands.c:5797
 msgid "has a circular reference"
 msgstr "obsahuje cyklický odkaz"
 
-#: src/commands.c:5816
+#: src/commands.c:5820
 #, c-format
 msgid "Define Name %s"
 msgstr "Definovat název %s"
 
-#: src/commands.c:5819
+#: src/commands.c:5823
 #, c-format
 msgid "Update Name %s"
 msgstr "Aktualizovat název %s"
 
-#: src/commands.c:5883
+#: src/commands.c:5887
 msgid "Add scenario"
 msgstr "Přidat scénář"
 
-#: src/commands.c:5958
+#: src/commands.c:5962
 msgid "Scenario Show"
 msgstr "Zobrazení Scénáře"
 
-#: src/commands.c:6022
+#: src/commands.c:6026
 msgid "Shuffle Data"
 msgstr "Zamíchat data"
 
 #. FIXME?
-#: src/commands.c:6133
+#: src/commands.c:6137
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) do sloupců (%s)"
 
 #. Fill in the header titles.
-#: src/commands.c:6280 src/dialogs/solver.glade.h:24
+#: src/commands.c:6284 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Řešitel"
 
-#: src/commands.c:6367
+#: src/commands.c:6371
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Hledání cíle (%s)"
 
-#: src/commands.c:6509
+#: src/commands.c:6513
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplikuji %s"
 
-#: src/commands.c:6589
+#: src/commands.c:6593
 msgid "Tabulating Dependencies"
 msgstr "Tabeluji závislosti"
 
-#: src/commands.c:6665
+#: src/commands.c:6669
 msgid "Reconfigure Graph"
 msgstr "Přenastavit graf"
 
@@ -20470,7 +20461,7 @@ msgid "O_utside"
 msgstr "_Okolo"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:567
 msgid "_Cross"
 msgstr "_Napříč"
 
@@ -20502,30 +20493,40 @@ msgstr "_Okolo"
 msgid "_Show Labels"
 msgstr "_Zobrazit jmenovky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:499
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:563
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:500
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:564
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:501
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
 msgid "Ma_jor Ticks"
 msgstr "H_lavní značky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:502
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:566
 msgid "Mi_nor Ticks"
 msgstr "Ve_dlejší značky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:572
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:644
+msgid "Details"
+msgstr "Podrobnosti"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:677
 msgid "Bounds"
 msgstr "Hranice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:577
-msgid "Details"
-msgstr "Podrobnosti"
+#. TOO CHEESY to go into production
+#. * We need a way to toggle auto vs user formats
+#. * but the selector is too tall already
+#. * disable for now
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:692
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:699
+#: src/dialogs/dialog-stf.glade.h:21
+msgid "Format"
+msgstr "Formát"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:183
 msgid "Legend"
@@ -20844,13 +20845,13 @@ msgstr "Výchozí"
 msgid "Guppi"
 msgstr "Guppi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:277
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:288
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Titulky"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:279
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:290
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -20891,7 +20892,7 @@ msgstr "SloupecSloucovéhoGrafu"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:87
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:90
 msgid "PlotLine"
 msgstr "ČárovýGraf"
 
@@ -20899,7 +20900,7 @@ msgstr "ČárovýGraf"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:200
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:203
 msgid "PlotArea"
 msgstr "PlošnýGraf"
 
@@ -21270,15 +21271,15 @@ msgstr "Engine kreslení prstenců"
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:62
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:61
 msgid "PlotXY"
 msgstr "GrafXY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:230
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:258
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:232
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
 msgid "Y"
 msgstr "Y"
 
@@ -21930,7 +21931,7 @@ msgstr "První písmeno"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2163 src/format.c:2292 src/format.c:2298 src/format.c:2374
+#: src/format.c:2178 src/format.c:2307 src/format.c:2313 src/format.c:2389
 #: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Všeobecné"
@@ -22469,7 +22470,7 @@ msgstr "Tříděný interval má _hlavičku"
 msgid "Sort..."
 msgstr "Setřídit..."
 
-#: src/dialogs/cell-sort.glade.h:7
+#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-stf-export.glade.h:39
 msgid "_Preserves Formats"
 msgstr "Zachovat _formáty"
 
@@ -23176,29 +23177,29 @@ msgstr "Validační kritérium je nepoužitelné. Vypnout ověření?"
 msgid "Clear Background"
 msgstr "Vymazat pozadí"
 
-#: src/dialogs/dialog-cell-sort.c:119 src/dialogs/dialog-cell-sort.c:124
+#: src/dialogs/dialog-cell-sort.c:145
 #, c-format
 msgid "Column %s"
 msgstr "Sloupec %s"
 
-#: src/dialogs/dialog-cell-sort.c:121 src/dialogs/dialog-cell-sort.c:126
+#: src/dialogs/dialog-cell-sort.c:147
 #, c-format
 msgid "Row %s"
 msgstr "Řádek %s"
 
-#: src/dialogs/dialog-cell-sort.c:718
+#: src/dialogs/dialog-cell-sort.c:1039
 msgid "Row/Column"
 msgstr "Řádek/Sloupec"
 
-#: src/dialogs/dialog-cell-sort.c:738
+#: src/dialogs/dialog-cell-sort.c:1059
 msgid "Case Sensitive"
 msgstr "Rozlišovat malá a velká písmena"
 
-#: src/dialogs/dialog-cell-sort.c:751
+#: src/dialogs/dialog-cell-sort.c:1079
 msgid "By Value"
 msgstr "Podle hodnoty"
 
-#: src/dialogs/dialog-cell-sort.c:883
+#: src/dialogs/dialog-cell-sort.c:1214
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Nelze vytvořit dialog pro třídění buněk."
 
@@ -24015,16 +24016,16 @@ msgid "Variable"
 msgstr "Proměnná"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:4831
+#: src/workbook-control-gui.c:4854
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4833
+#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4856
 msgid "Average"
 msgstr "Průměr"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:4832
+#: src/workbook-control-gui.c:4855
 msgid "Max"
 msgstr "Max"
 
@@ -24051,7 +24052,8 @@ msgid "Could not create the Simulation dialog."
 msgstr "Nelze vytvořit dialog pro Simulaci."
 
 #: src/dialogs/dialog-solver.c:100
-msgid "Revised Simplex (GLPK 3.2)"
+#, fuzzy
+msgid "Revised Simplex (GLPK 4.2)"
 msgstr "Revidovaný Simplex (GLPK 3.2)"
 
 #: src/dialogs/dialog-solver.c:101
@@ -24304,7 +24306,7 @@ msgstr "Neznámé znaky:"
 msgid "Windows (carriage return + linefeed)"
 msgstr "Windows (carriage return + linefeed)"
 
-#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf-export.glade.h:40 src/dialogs/dialog-stf.glade.h:64
 msgid "`"
 msgstr "`"
 
@@ -24464,10 +24466,6 @@ msgstr "_Dokončit"
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "Fixed"
 msgstr "Pevný"
-
-#: src/dialogs/dialog-stf.glade.h:21
-msgid "Format"
-msgstr "Formát"
 
 #: src/dialogs/dialog-stf.glade.h:22
 msgid "Fr_om line:"
@@ -26560,7 +26558,7 @@ msgid "Yellow"
 msgstr "Žlutá"
 
 #. Array of arrays ??
-#: src/format.c:2055
+#: src/format.c:2070
 msgid "ARRAY"
 msgstr "POLE"
 
@@ -27485,7 +27483,7 @@ msgstr "Uložit sešit jako"
 msgid "Multiple errors\n"
 msgstr "Vícenásobné chyby\n"
 
-#: src/gui-util.c:806
+#: src/gui-util.c:808
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Soubor '%s' nelze otevřít"
@@ -28151,19 +28149,19 @@ msgstr "&[PAGE]"
 msgid "Print Region"
 msgstr "Oblast tisku"
 
-#: src/print.c:1240
+#: src/print.c:1238
 msgid "Print Sheets"
 msgstr "Tisknuté listy"
 
-#: src/print.c:1248
+#: src/print.c:1246
 msgid "Act_ive sheet"
 msgstr "Akt_ivní list"
 
-#: src/print.c:1248
+#: src/print.c:1246
 msgid "S_heets"
 msgstr "_Listy"
 
-#: src/print.c:1334
+#: src/print.c:1330
 msgid "Printing failed"
 msgstr "Tisk selhal"
 
@@ -28332,35 +28330,30 @@ msgstr "nelze vytvořit objekt pro '%s'"
 msgid "Could not load file: %s"
 msgstr "Nelze načíst soubor: %s"
 
-#: src/sheet-object-graph.c:162
+#: src/sheet-object-graph.c:163
 msgid "Save graph as image"
 msgstr "Uložit graf jako obrázek"
 
-#: src/sheet-object-graph.c:201
+#: src/sheet-object-graph.c:202
 msgid "Sorry, gnumeric can only save graphs as png images"
 msgstr "Lituji, gnumeric umí ukládat grafy jen jako obrázky png"
 
-#: src/sheet-object-graph.c:219
+#: src/sheet-object-graph.c:220
 msgid "_Save as image"
 msgstr "_Uložit jako obrázek"
 
-#: src/sheet-object-graphic.c:939 src/sheet-object-graphic.c:958
+#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
 msgid "Transparent"
 msgstr "Průhledný"
 
-#: src/sheet-object-widget.c:1142
+#: src/sheet-object-widget.c:1143
 #, c-format
 msgid "CheckBox %d"
 msgstr "Zaškrtávací okénko %d"
 
-#: src/sheet-object-widget.c:1575 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1576 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Rádiový přepínač"
-
-#: src/sheet-object.c:530
-#, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Nepodporovaný typ objektu '%s'"
 
 #. Oh, yeah?
 #: src/sheet-style.c:492
@@ -29008,7 +29001,7 @@ msgstr "Strmost"
 msgid "Range"
 msgstr "Interval"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:4834
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4857
 msgid "Count"
 msgstr "Počet"
 
@@ -30131,11 +30124,11 @@ msgstr "Vědecké"
 msgid "Special"
 msgstr "Speciální"
 
-#: src/widgets/widget-format-selector.c:935
+#: src/widgets/widget-format-selector.c:955
 msgid "Negative Number Format"
 msgstr "Formát záporného čísla"
 
-#: src/widgets/widget-format-selector.c:966
+#: src/widgets/widget-format-selector.c:986
 msgid "Number Formats"
 msgstr "Formáty čísla"
 
@@ -31033,28 +31026,28 @@ msgstr "Vrátí poslední operaci"
 msgid "Redo the operation"
 msgstr "Opakuje vrácenou operaci"
 
-#: src/workbook-control-gui.c:5127
+#: src/workbook-control-gui.c:5150
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Soubor \"%s\" má neznámý formát."
 
-#: src/workbook-control-gui.c:5173
+#: src/workbook-control-gui.c:5196
 msgid "Send"
 msgstr "Poslat"
 
-#: src/workbook-control-gui.c:5173
+#: src/workbook-control-gui.c:5196
 msgid "Send the current file in email"
 msgstr "Pošle aktuální soubor elektronickou poštou"
 
-#: src/workbook-control-gui.c:5413 src/workbook-control-gui.c:5428
+#: src/workbook-control-gui.c:5436 src/workbook-control-gui.c:5451
 msgid "_Re-Edit"
 msgstr "Znovu _upravit"
 
-#: src/workbook-control-gui.c:5414 src/workbook-control-gui.c:5419
+#: src/workbook-control-gui.c:5437 src/workbook-control-gui.c:5442
 msgid "_Discard"
 msgstr "Za_hodit"
 
-#: src/workbook-control-gui.c:5418 src/workbook-control-gui.c:5429
+#: src/workbook-control-gui.c:5441 src/workbook-control-gui.c:5452
 msgid "_Accept"
 msgstr "_Přijmout"
 
@@ -31242,32 +31235,43 @@ msgstr "Již existuje list s názvem"
 msgid "You may not use this name twice"
 msgstr "Nemůžete použít jeden název dvakrát"
 
-#: src/xml-io.c:3297
+#: src/xml-io.c:2728
+#, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Nepodporovaný typ objektu '%s'"
+
+#: src/xml-io.c:3429
 msgid "Unparsable xml in clipboard"
 msgstr "Obsah schránky v XML není možné zpracovat"
 
-#: src/xml-io.c:3304
+#: src/xml-io.c:3436
 msgid "Clipboard is in unknown format"
 msgstr "Obsah schránky má neznámý formát."
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3725
+#: src/xml-io.c:3857
 msgid "Processing file..."
 msgstr "Zpracovává se soubor..."
 
-#: src/xml-io.c:4052
+#: src/xml-io.c:4184
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Toto není soubor se sešitem Gnumeric"
 
-#: src/xml-io.c:4089
+#: src/xml-io.c:4221
 msgid "Failure saving file"
 msgstr "Chyba při ukládání souboru."
 
-#: src/xml-io.c:4122
+#: src/xml-io.c:4254
 msgid "Gnumeric XML file format"
 msgstr "Souborový formát Gnumeric XML"
+
+#~ msgid "Failure parsing AutoFilter."
+#~ msgstr "Chyba při zpracování AutoFiltru."
+
+#~ msgid "Imported %s"
+#~ msgstr "Importovaný %s"
 
 #~ msgid ""
 #~ "Interpolate between multi-dimensional points,with markers at each point."

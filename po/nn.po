@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.99.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-26 22:20-0500\n"
+"POT-Creation-Date: 2003-12-23 16:12-0500\n"
 "PO-Revision-Date: 2002-01-15 03:14+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: Norwegian/Nynorsk <no@li.org>\n"
@@ -710,8 +710,8 @@ msgstr "Finansielle avleiingar"
 msgid "Functions related to financial derivatives"
 msgstr "Funksjonar relatert finansielle avleiingar"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5336
-#: plugins/mps/mps.c:549 src/xml-io.c:4004
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5362
+#: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Les fil ..."
 
@@ -807,73 +807,68 @@ msgstr ""
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet er ikkje rett utforma!"
 
-#: plugins/excel/ms-excel-read.c:1003 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1008 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#UKJEND!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1094 plugins/excel/ms-excel-read.c:1105
+#: plugins/excel/ms-excel-read.c:1099 plugins/excel/ms-excel-read.c:1110
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Ark%d"
 
-#: plugins/excel/ms-excel-read.c:1108
+#: plugins/excel/ms-excel-read.c:1113
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1111
+#: plugins/excel/ms-excel-read.c:1116
 #, c-format
 msgid "Chart%d"
 msgstr "Diagram%d"
 
-#: plugins/excel/ms-excel-read.c:1114
+#: plugins/excel/ms-excel-read.c:1119
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2827
+#: plugins/excel/ms-excel-read.c:2841
 #, fuzzy, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Feil ved lagring av fil."
 
-#: plugins/excel/ms-excel-read.c:2883
+#: plugins/excel/ms-excel-read.c:2897
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2889
+#: plugins/excel/ms-excel-read.c:2903
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2947
-#, fuzzy
-msgid "Failure parsing AutoFilter."
-msgstr "Feil ved lagring av fil."
-
-#: plugins/excel/ms-excel-read.c:4731
+#: plugins/excel/ms-excel-read.c:4757
 #, fuzzy
 msgid "external references"
 msgstr "sirkuler referanse"
 
-#: plugins/excel/ms-excel-read.c:5482
+#: plugins/excel/ms-excel-read.c:5508
 msgid "No password supplied"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:5486
+#: plugins/excel/ms-excel-read.c:5512
 #, fuzzy
 msgid "Invalid password"
 msgstr "Ugyldig uttrykk."
 
-#: plugins/excel/ms-excel-read.c:5587
+#: plugins/excel/ms-excel-read.c:5613
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Finn ikkje gyldig MS Excel arbeidsbok"
 
@@ -5756,9 +5751,9 @@ msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:670
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:594
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:591
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
 msgid "Automatic"
@@ -13172,7 +13167,7 @@ msgstr "Objektiv funksjon"
 msgid "Constraints:"
 msgstr "Avgrensingar:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5736
+#: plugins/mps/mps.c:247 src/commands.c:5740
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -13827,20 +13822,15 @@ msgstr "Importerar MultiPlan (SYLK) filer"
 msgid "MultiPlan (SYLK)"
 msgstr "MultiPlan (SYLK)"
 
-#: plugins/sylk/sylk.c:372
+#: plugins/sylk/sylk.c:461
 msgid "Not SYLK file"
 msgstr "Ikkje ei SYLK-fil"
 
-#: plugins/sylk/sylk.c:384
+#: plugins/sylk/sylk.c:474
 msgid "error parsing line\n"
 msgstr "feil ved tolking av linje\n"
 
-#: plugins/sylk/sylk.c:408
-#, c-format
-msgid "Imported %s"
-msgstr "Importerte %s"
-
-#: plugins/sylk/sylk.c:424
+#: plugins/sylk/sylk.c:530
 msgid "Error while reading sheet."
 msgstr "Feil under lesing av ark."
 
@@ -13865,10 +13855,10 @@ msgstr ""
 msgid "Error while opening xbase file."
 msgstr "Feil ved opning av xbase-fil."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4561
+#: plugins/xbase/boot.c:175 src/commands.c:4565
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
-#: src/xml-io.c:3594
+#: src/xml-io.c:3726
 msgid "Sheet"
 msgstr "Ark"
 
@@ -14522,7 +14512,7 @@ msgstr "Feit"
 msgid "Borders"
 msgstr "Kantlinjer"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:423
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:424
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "Knapp"
@@ -14901,7 +14891,7 @@ msgstr "Formaterar ein celleregion basert på ein pre-definert mal"
 msgid "Fourier Analysis"
 msgstr "Fourier analyse"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:196
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:197
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "Ramme"
@@ -15074,8 +15064,8 @@ msgid "Jump to a specified cell"
 msgstr "Gå til gitt kolonne"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:619
-#: src/sheet-object-graphic.c:1437 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:728
+#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Etikett"
 
@@ -15249,7 +15239,7 @@ msgid "Print Preview"
 msgstr "Førehandsvising av utskrift"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1322 src/workbook-control-gui.c:3342
+#: src/print.c:1318 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "Førehandsvising av utskrift"
@@ -15523,7 +15513,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Statistisk anal_yse"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4033
-#: src/workbook-control-gui.c:4830 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4853 src/workbook-view.c:540
 msgid "Sum"
 msgstr "Sum"
 
@@ -16493,151 +16483,151 @@ msgstr "Endre objektstorleik"
 msgid "Move object"
 msgstr "Flytt objekt"
 
-#: src/commands.c:4805
+#: src/commands.c:4809
 #, fuzzy
 msgid "Reordering Sheets"
 msgstr "Omorganiser ark"
 
-#: src/commands.c:4808
+#: src/commands.c:4812
 #, fuzzy
 msgid "Renaming Sheets"
 msgstr "Endre namn"
 
-#: src/commands.c:4811
+#: src/commands.c:4815
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "Endre namn"
 
-#: src/commands.c:4815
+#: src/commands.c:4819
 #, fuzzy
 msgid "Changing Tab Colors"
 msgstr "Endrar formatet på %s"
 
-#: src/commands.c:4818
+#: src/commands.c:4822
 msgid "Changing Sheet Protection"
 msgstr ""
 
-#: src/commands.c:4821
+#: src/commands.c:4825
 #, fuzzy
 msgid "Delete sheets"
 msgstr "Slett celler"
 
-#: src/commands.c:4824
+#: src/commands.c:4828
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "Slett objekt"
 
-#: src/commands.c:4827
+#: src/commands.c:4831
 #, fuzzy
 msgid "Reorganizing Sheets"
 msgstr "Skriv ut ark"
 
-#: src/commands.c:4977
+#: src/commands.c:4981
 #, fuzzy, c-format
 msgid "Clearing comment of %s"
 msgstr "Endrar formatet på %s"
 
-#: src/commands.c:4978
+#: src/commands.c:4982
 #, fuzzy, c-format
 msgid "Setting comment of %s"
 msgstr "Set noverande dato i %s"
 
-#: src/commands.c:5358
+#: src/commands.c:5362
 #, fuzzy, c-format
 msgid "Merging data into %s"
 msgstr "Flettar %s"
 
-#: src/commands.c:5460
+#: src/commands.c:5464
 #, fuzzy
 msgid "Changing summary info"
 msgstr "Endrar formatet på %s"
 
-#: src/commands.c:5551
+#: src/commands.c:5555
 #, fuzzy
 msgid "Raise object"
 msgstr "Endre objektstorleik"
 
-#: src/commands.c:5554
+#: src/commands.c:5558
 #, fuzzy
 msgid "Lower object"
 msgstr "Flytt objekt"
 
-#: src/commands.c:5557
+#: src/commands.c:5561
 #, fuzzy
 msgid "Raise object to top"
 msgstr "Endre objektstorleik"
 
-#: src/commands.c:5560
+#: src/commands.c:5564
 msgid "Lower object to bottom"
 msgstr ""
 
-#: src/commands.c:5675
+#: src/commands.c:5679
 #, fuzzy, c-format
 msgid "Page Setup For %s"
 msgstr "Utskriftsoppsett"
 
-#: src/commands.c:5677
+#: src/commands.c:5681
 #, fuzzy
 msgid "Page Setup For All Sheets"
 msgstr "Skriv ut ark"
 
-#: src/commands.c:5793
+#: src/commands.c:5797
 #, fuzzy
 msgid "has a circular reference"
 msgstr "«%s» har ei sirkuler referanse"
 
-#: src/commands.c:5816
+#: src/commands.c:5820
 #, fuzzy, c-format
 msgid "Define Name %s"
 msgstr "Definer namn"
 
-#: src/commands.c:5819
+#: src/commands.c:5823
 #, c-format
 msgid "Update Name %s"
 msgstr ""
 
-#: src/commands.c:5883
+#: src/commands.c:5887
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:5958
+#: src/commands.c:5962
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6022
+#: src/commands.c:6026
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:6133
+#: src/commands.c:6137
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Slett kolonner"
 
 #. Fill in the header titles.
-#: src/commands.c:6280 src/dialogs/solver.glade.h:24
+#: src/commands.c:6284 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Løysar"
 
-#: src/commands.c:6367
+#: src/commands.c:6371
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "Målsøk"
 
-#: src/commands.c:6509
+#: src/commands.c:6513
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "_Lag kopi"
 
-#: src/commands.c:6589
+#: src/commands.c:6593
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "Tilleggsmoduldetaljar"
 
-#: src/commands.c:6665
+#: src/commands.c:6669
 #, fuzzy
 msgid "Reconfigure Graph"
 msgstr "Set opp verktylinjer"
@@ -16673,7 +16663,7 @@ msgid "O_utside"
 msgstr "Oversikt"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:567
 #, fuzzy
 msgid "_Cross"
 msgstr "L_ukk"
@@ -16713,33 +16703,43 @@ msgstr "Oversikt"
 msgid "_Show Labels"
 msgstr "_Etikettar"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:499
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:563
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_inimum"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:500
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:564
 #, fuzzy
 msgid "M_ax"
 msgstr "Maks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:501
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:502
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:566
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:572
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:644
+#, fuzzy
+msgid "Details"
+msgstr "_Gøym detaljar"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:677
 #, fuzzy
 msgid "Bounds"
 msgstr "Bakgrunn"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:577
-#, fuzzy
-msgid "Details"
-msgstr "_Gøym detaljar"
+#. TOO CHEESY to go into production
+#. * We need a way to toggle auto vs user formats
+#. * but the selector is too tall already
+#. * disable for now
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:692
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:699
+#: src/dialogs/dialog-stf.glade.h:21
+msgid "Format"
+msgstr "Format"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:183
 #, fuzzy
@@ -17108,13 +17108,13 @@ msgstr "Slett"
 msgid "Guppi"
 msgstr "Gruppe"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:277
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:288
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Etikettar"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:279
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:290
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -17156,7 +17156,7 @@ msgstr ""
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:87
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:90
 #, fuzzy
 msgid "PlotLine"
 msgstr "_Teikn"
@@ -17165,7 +17165,7 @@ msgstr "_Teikn"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:200
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:203
 #, fuzzy
 msgid "PlotArea"
 msgstr "_Teikn"
@@ -17554,16 +17554,16 @@ msgstr ""
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:62
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:61
 #, fuzzy
 msgid "PlotXY"
 msgstr "_Teikn"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:230
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:258
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:232
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
 msgid "Y"
 msgstr ""
 
@@ -18235,7 +18235,7 @@ msgstr "_Første bokstav"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2163 src/format.c:2292 src/format.c:2298 src/format.c:2374
+#: src/format.c:2178 src/format.c:2307 src/format.c:2313 src/format.c:2389
 #: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Allment"
@@ -18842,7 +18842,7 @@ msgstr ""
 msgid "Sort..."
 msgstr "Sorter ..."
 
-#: src/dialogs/cell-sort.glade.h:7
+#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-stf-export.glade.h:39
 #, fuzzy
 msgid "_Preserves Formats"
 msgstr "Hald _på bokstavstorleik"
@@ -19581,32 +19581,32 @@ msgstr ""
 msgid "Clear Background"
 msgstr "Klar bakgrunn"
 
-#: src/dialogs/dialog-cell-sort.c:119 src/dialogs/dialog-cell-sort.c:124
+#: src/dialogs/dialog-cell-sort.c:145
 #, fuzzy, c-format
 msgid "Column %s"
 msgstr "Kolonne: %s"
 
-#: src/dialogs/dialog-cell-sort.c:121 src/dialogs/dialog-cell-sort.c:126
+#: src/dialogs/dialog-cell-sort.c:147
 #, c-format
 msgid "Row %s"
 msgstr "Rad %s"
 
-#: src/dialogs/dialog-cell-sort.c:718
+#: src/dialogs/dialog-cell-sort.c:1039
 #, fuzzy
 msgid "Row/Column"
 msgstr "Kolonne"
 
-#: src/dialogs/dialog-cell-sort.c:738
+#: src/dialogs/dialog-cell-sort.c:1059
 #, fuzzy
 msgid "Case Sensitive"
 msgstr "Skil mellom små og store _bokstavar"
 
-#: src/dialogs/dialog-cell-sort.c:751
+#: src/dialogs/dialog-cell-sort.c:1079
 #, fuzzy
 msgid "By Value"
 msgstr "Vilkårleg verdi"
 
-#: src/dialogs/dialog-cell-sort.c:883
+#: src/dialogs/dialog-cell-sort.c:1214
 #, fuzzy
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Kunne ikkje opprette målsøkingsdialogen."
@@ -20482,16 +20482,16 @@ msgid "Variable"
 msgstr "X-variablar:"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:4831
+#: src/workbook-control-gui.c:4854
 msgid "Min"
 msgstr "Minst"
 
-#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4833
+#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4856
 msgid "Average"
 msgstr "Snitt"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:4832
+#: src/workbook-control-gui.c:4855
 msgid "Max"
 msgstr "Maks"
 
@@ -20521,7 +20521,7 @@ msgid "Could not create the Simulation dialog."
 msgstr "Kunne ikkje opprette målsøkingsdialogen."
 
 #: src/dialogs/dialog-solver.c:100
-msgid "Revised Simplex (GLPK 3.2)"
+msgid "Revised Simplex (GLPK 4.2)"
 msgstr ""
 
 #: src/dialogs/dialog-solver.c:101
@@ -20781,7 +20781,7 @@ msgstr "Ukjent opertør"
 msgid "Windows (carriage return + linefeed)"
 msgstr "Windows (linjeskift + vognretur)"
 
-#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf-export.glade.h:40 src/dialogs/dialog-stf.glade.h:64
 msgid "`"
 msgstr "`"
 
@@ -20948,10 +20948,6 @@ msgstr "_Fullfør"
 #, fuzzy
 msgid "Fixed"
 msgstr "Fil/"
-
-#: src/dialogs/dialog-stf.glade.h:21
-msgid "Format"
-msgstr "Format"
 
 #: src/dialogs/dialog-stf.glade.h:22
 #, fuzzy
@@ -23242,7 +23238,7 @@ msgid "Yellow"
 msgstr "gul"
 
 #. Array of arrays ??
-#: src/format.c:2055
+#: src/format.c:2070
 msgid "ARRAY"
 msgstr "ARRAY"
 
@@ -24293,7 +24289,7 @@ msgstr "Lagre arbeidsbok som"
 msgid "Multiple errors\n"
 msgstr "Fleire feilmeldingar"
 
-#: src/gui-util.c:806
+#: src/gui-util.c:808
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Kan ikkje opne fila «%s»"
@@ -24967,19 +24963,19 @@ msgstr "&[SIDE]"
 msgid "Print Region"
 msgstr "Skriv ut område"
 
-#: src/print.c:1240
+#: src/print.c:1238
 msgid "Print Sheets"
 msgstr "Skriv ut ark"
 
-#: src/print.c:1248
+#: src/print.c:1246
 msgid "Act_ive sheet"
 msgstr "Akt_ive ark"
 
-#: src/print.c:1248
+#: src/print.c:1246
 msgid "S_heets"
 msgstr "Ark"
 
-#: src/print.c:1334
+#: src/print.c:1330
 msgid "Printing failed"
 msgstr "Utskrift mislukkast."
 
@@ -25153,36 +25149,31 @@ msgstr "Kan ikkje oppretta objekt for «%s»"
 msgid "Could not load file: %s"
 msgstr "Kunne ikkje laste fila %s"
 
-#: src/sheet-object-graph.c:162
+#: src/sheet-object-graph.c:163
 msgid "Save graph as image"
 msgstr ""
 
-#: src/sheet-object-graph.c:201
+#: src/sheet-object-graph.c:202
 msgid "Sorry, gnumeric can only save graphs as png images"
 msgstr ""
 
-#: src/sheet-object-graph.c:219
+#: src/sheet-object-graph.c:220
 #, fuzzy
 msgid "_Save as image"
 msgstr "Vel ei heil kolonne"
 
-#: src/sheet-object-graphic.c:939 src/sheet-object-graphic.c:958
+#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
 msgid "Transparent"
 msgstr "Gjennomsiktig"
 
-#: src/sheet-object-widget.c:1142
+#: src/sheet-object-widget.c:1143
 #, c-format
 msgid "CheckBox %d"
 msgstr "Avmerkingsboks %d"
 
-#: src/sheet-object-widget.c:1575 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1576 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Radioknapp"
-
-#: src/sheet-object.c:530
-#, fuzzy, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Ustøtta laster-type «%s»."
 
 #. Oh, yeah?
 #: src/sheet-style.c:492
@@ -25829,7 +25820,7 @@ msgstr ""
 msgid "Range"
 msgstr "_Område"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:4834
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4857
 msgid "Count"
 msgstr "Tal på"
 
@@ -27022,12 +27013,12 @@ msgstr "Vit_skapleg"
 msgid "Special"
 msgstr "S_pesial"
 
-#: src/widgets/widget-format-selector.c:935
+#: src/widgets/widget-format-selector.c:955
 #, fuzzy
 msgid "Negative Number Format"
 msgstr "Negativt tal:"
 
-#: src/widgets/widget-format-selector.c:966
+#: src/widgets/widget-format-selector.c:986
 #, fuzzy
 msgid "Number Formats"
 msgstr "Bruk _nummerformat"
@@ -27990,30 +27981,30 @@ msgstr "Angre på operasjonen"
 msgid "Redo the operation"
 msgstr "Gjer om operasjonen"
 
-#: src/workbook-control-gui.c:5127
+#: src/workbook-control-gui.c:5150
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Fila «%s» har ukjent format"
 
-#: src/workbook-control-gui.c:5173
+#: src/workbook-control-gui.c:5196
 msgid "Send"
 msgstr "Send"
 
-#: src/workbook-control-gui.c:5173
+#: src/workbook-control-gui.c:5196
 msgid "Send the current file in email"
 msgstr "Send gjeldande fil i e-post"
 
-#: src/workbook-control-gui.c:5413 src/workbook-control-gui.c:5428
+#: src/workbook-control-gui.c:5436 src/workbook-control-gui.c:5451
 #, fuzzy
 msgid "_Re-Edit"
 msgstr "Rediger på nytt"
 
-#: src/workbook-control-gui.c:5414 src/workbook-control-gui.c:5419
+#: src/workbook-control-gui.c:5437 src/workbook-control-gui.c:5442
 #, fuzzy
 msgid "_Discard"
 msgstr "Forkast"
 
-#: src/workbook-control-gui.c:5418 src/workbook-control-gui.c:5429
+#: src/workbook-control-gui.c:5441 src/workbook-control-gui.c:5452
 #, fuzzy
 msgid "_Accept"
 msgstr "Godta"
@@ -28209,34 +28200,46 @@ msgstr "Det finst alt eit ark med dette namnet"
 msgid "You may not use this name twice"
 msgstr ""
 
-#: src/xml-io.c:3297
+#: src/xml-io.c:2728
+#, fuzzy, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Ustøtta laster-type «%s»."
+
+#: src/xml-io.c:3429
 msgid "Unparsable xml in clipboard"
 msgstr "Utolkbar xml i utklippstavla"
 
-#: src/xml-io.c:3304
+#: src/xml-io.c:3436
 msgid "Clipboard is in unknown format"
 msgstr "Utklippstavla er i ukjent format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3725
+#: src/xml-io.c:3857
 msgid "Processing file..."
 msgstr "Prosesserar fil ..."
 
-#: src/xml-io.c:4052
+#: src/xml-io.c:4184
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Er ikkje ei Gnumeric Arbeidsbok fil"
 
-#: src/xml-io.c:4089
+#: src/xml-io.c:4221
 #, fuzzy
 msgid "Failure saving file"
 msgstr "Feil ved lagring av fil."
 
-#: src/xml-io.c:4122
+#: src/xml-io.c:4254
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
+
+#, fuzzy
+#~ msgid "Failure parsing AutoFilter."
+#~ msgstr "Feil ved lagring av fil."
+
+#~ msgid "Imported %s"
+#~ msgstr "Importerte %s"
 
 #, fuzzy
 #~ msgid "TODO : Unfinished"

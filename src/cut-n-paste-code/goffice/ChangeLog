@@ -1,3 +1,7 @@
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
 2003-12-22  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-axis.c (gog_axis_editor) : set the current format.

@@ -1,3 +1,7 @@
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.3
+
 2003-12-20  Jon K Hellan  <hellan@acm.org>
 
 	* widget-format-selector.c (struct _NumberFormatSelector): Add

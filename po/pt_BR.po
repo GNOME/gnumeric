@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-26 22:20-0500\n"
+"POT-Creation-Date: 2003-12-23 16:12-0500\n"
 "PO-Revision-Date: 2003-10-02 11:57-0400\n"
 "Last-Translator: Johnny Birnfeld <akiractb@icqmail.com>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
@@ -737,8 +737,8 @@ msgstr "Derivadas Financeiras"
 msgid "Functions related to financial derivatives"
 msgstr "Funções relativas a derivadas financeiras"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5336
-#: plugins/mps/mps.c:549 src/xml-io.c:4004
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5362
+#: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Lendo arquivo..."
 
@@ -834,40 +834,40 @@ msgstr "Atributo inesperado %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "Documento XML mal-formado!"
 
-#: plugins/excel/ms-excel-read.c:1003 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1008 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#DESCONHECIDO!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1094 plugins/excel/ms-excel-read.c:1105
+#: plugins/excel/ms-excel-read.c:1099 plugins/excel/ms-excel-read.c:1110
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Planilha%d"
 
-#: plugins/excel/ms-excel-read.c:1108
+#: plugins/excel/ms-excel-read.c:1113
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: plugins/excel/ms-excel-read.c:1111
+#: plugins/excel/ms-excel-read.c:1116
 #, c-format
 msgid "Chart%d"
 msgstr "Gráfico%d"
 
-#: plugins/excel/ms-excel-read.c:1114
+#: plugins/excel/ms-excel-read.c:1119
 #, c-format
 msgid "Module%d"
 msgstr "Módulo%d"
 
-#: plugins/excel/ms-excel-read.c:2827
+#: plugins/excel/ms-excel-read.c:2841
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Falha gramaticando arquivo '%s'"
 
-#: plugins/excel/ms-excel-read.c:2883
+#: plugins/excel/ms-excel-read.c:2897
 #, fuzzy, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -876,7 +876,7 @@ msgstr ""
 "links DDE não são suportados.\n"
 "Nome '%s' será perdido.\n"
 
-#: plugins/excel/ms-excel-read.c:2889
+#: plugins/excel/ms-excel-read.c:2903
 #, fuzzy, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -885,23 +885,19 @@ msgstr ""
 "Links OLE não são suportados.\n"
 "Nome '%s' será perdido.\n"
 
-#: plugins/excel/ms-excel-read.c:2947
-msgid "Failure parsing AutoFilter."
-msgstr "Falha analisando gramática do AutoFiltro."
-
-#: plugins/excel/ms-excel-read.c:4731
+#: plugins/excel/ms-excel-read.c:4757
 msgid "external references"
 msgstr "referências externas"
 
-#: plugins/excel/ms-excel-read.c:5482
+#: plugins/excel/ms-excel-read.c:5508
 msgid "No password supplied"
 msgstr "Nenhuma senha entrada"
 
-#: plugins/excel/ms-excel-read.c:5486
+#: plugins/excel/ms-excel-read.c:5512
 msgid "Invalid password"
 msgstr "Senha inválida"
 
-#: plugins/excel/ms-excel-read.c:5587
+#: plugins/excel/ms-excel-read.c:5613
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Impossível localizar workbooks MS Excel válidos"
 
@@ -6020,9 +6016,9 @@ msgstr "%s versão %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:670
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:594
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:591
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
 msgid "Automatic"
@@ -13906,7 +13902,7 @@ msgstr "Função objetivo:"
 msgid "Constraints:"
 msgstr "Restrições:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5736
+#: plugins/mps/mps.c:247 src/commands.c:5740
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -14592,20 +14588,15 @@ msgstr "Importa arquivos MultiPlan (SYLK)"
 msgid "MultiPlan (SYLK)"
 msgstr "MultiPlan (SYLK)"
 
-#: plugins/sylk/sylk.c:372
+#: plugins/sylk/sylk.c:461
 msgid "Not SYLK file"
 msgstr "Não é um arquivo SYLK"
 
-#: plugins/sylk/sylk.c:384
+#: plugins/sylk/sylk.c:474
 msgid "error parsing line\n"
 msgstr "erro analisando linha\n"
 
-#: plugins/sylk/sylk.c:408
-#, c-format
-msgid "Imported %s"
-msgstr "Importou %s"
-
-#: plugins/sylk/sylk.c:424
+#: plugins/sylk/sylk.c:530
 msgid "Error while reading sheet."
 msgstr "Erro ao ler planilha."
 
@@ -14630,10 +14621,10 @@ msgstr "Essa é uma mensagem do plugin \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Erro ao abrir arquivo xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4561
+#: plugins/xbase/boot.c:175 src/commands.c:4565
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
-#: src/xml-io.c:3594
+#: src/xml-io.c:3726
 msgid "Sheet"
 msgstr "Planilha"
 
@@ -15323,7 +15314,7 @@ msgstr "Negrito"
 msgid "Borders"
 msgstr "Bordas"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:423
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:424
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "Botão"
@@ -15691,7 +15682,7 @@ msgstr "Formatar uma região de céluas de acordo com um modelo pré-definido"
 msgid "Fourier Analysis"
 msgstr "Análise de Fourier"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:196
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:197
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "Quadro"
@@ -15856,8 +15847,8 @@ msgid "Jump to a specified cell"
 msgstr "Ir para uma célula específica"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:619
-#: src/sheet-object-graphic.c:1437 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:728
+#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Rótulo"
 
@@ -16030,7 +16021,7 @@ msgid "Print Preview"
 msgstr "Visualizar Impressão"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1322 src/workbook-control-gui.c:3342
+#: src/print.c:1318 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "Visualizar impressão"
@@ -16296,7 +16287,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Métodos estatísticos"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4033
-#: src/workbook-control-gui.c:4830 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4853 src/workbook-view.c:540
 msgid "Sum"
 msgstr "Soma"
 
@@ -17236,142 +17227,142 @@ msgstr "Redimensionar objeto"
 msgid "Move object"
 msgstr "Mover objeto"
 
-#: src/commands.c:4805
+#: src/commands.c:4809
 msgid "Reordering Sheets"
 msgstr "Reordenando Planilhas"
 
-#: src/commands.c:4808
+#: src/commands.c:4812
 msgid "Renaming Sheets"
 msgstr "Renomeando Planilhas"
 
-#: src/commands.c:4811
+#: src/commands.c:4815
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Anexando %i Planilhas"
 
-#: src/commands.c:4815
+#: src/commands.c:4819
 #, fuzzy
 msgid "Changing Tab Colors"
 msgstr "Mudando Cores da Tabulação"
 
-#: src/commands.c:4818
+#: src/commands.c:4822
 msgid "Changing Sheet Protection"
 msgstr "Mudando Proteção da Planilha"
 
-#: src/commands.c:4821
+#: src/commands.c:4825
 msgid "Delete sheets"
 msgstr "Excluir planilhas"
 
-#: src/commands.c:4824
+#: src/commands.c:4828
 msgid "Delete a sheet"
 msgstr "Excluir uma plnilha"
 
-#: src/commands.c:4827
+#: src/commands.c:4831
 msgid "Reorganizing Sheets"
 msgstr "Reorganizando Planilhas"
 
-#: src/commands.c:4977
+#: src/commands.c:4981
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Apagando comentário de %s"
 
-#: src/commands.c:4978
+#: src/commands.c:4982
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Definindo comentário de %s"
 
-#: src/commands.c:5358
+#: src/commands.c:5362
 #, c-format
 msgid "Merging data into %s"
 msgstr "Mesclando dados no %s"
 
-#: src/commands.c:5460
+#: src/commands.c:5464
 msgid "Changing summary info"
 msgstr "Mudando informações do sumário"
 
-#: src/commands.c:5551
+#: src/commands.c:5555
 msgid "Raise object"
 msgstr "Aumentar tamanho do objeto"
 
-#: src/commands.c:5554
+#: src/commands.c:5558
 msgid "Lower object"
 msgstr "Diminuir tamanho do objeto"
 
-#: src/commands.c:5557
+#: src/commands.c:5561
 #, fuzzy
 msgid "Raise object to top"
 msgstr "Aumentar tamanho do objeto ao máximo"
 
-#: src/commands.c:5560
+#: src/commands.c:5564
 #, fuzzy
 msgid "Lower object to bottom"
 msgstr "Diminuir tamanho do objeto ao mínimo"
 
-#: src/commands.c:5675
+#: src/commands.c:5679
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Configurar Página Para %s"
 
-#: src/commands.c:5677
+#: src/commands.c:5681
 msgid "Page Setup For All Sheets"
 msgstr "Configurar Página para Todas as Planilhas"
 
-#: src/commands.c:5793
+#: src/commands.c:5797
 msgid "has a circular reference"
 msgstr "tem uma referência circular"
 
-#: src/commands.c:5816
+#: src/commands.c:5820
 #, c-format
 msgid "Define Name %s"
 msgstr "Definir Nome %s"
 
-#: src/commands.c:5819
+#: src/commands.c:5823
 #, c-format
 msgid "Update Name %s"
 msgstr "Atualizar Nome %s"
 
-#: src/commands.c:5883
+#: src/commands.c:5887
 msgid "Add scenario"
 msgstr "Adicionar cenário"
 
-#: src/commands.c:5958
+#: src/commands.c:5962
 msgid "Scenario Show"
 msgstr "Mostrar cenário"
 
-#: src/commands.c:6022
+#: src/commands.c:6026
 #, fuzzy
 msgid "Shuffle Data"
 msgstr "Dados Embaralhados"
 
 #. FIXME?
-#: src/commands.c:6133
+#: src/commands.c:6137
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Texto (%s) para Colunas (%s)"
 
 #. Fill in the header titles.
-#: src/commands.c:6280 src/dialogs/solver.glade.h:24
+#: src/commands.c:6284 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Resolvedor"
 
-#: src/commands.c:6367
+#: src/commands.c:6371
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr ""
 
-#: src/commands.c:6509
+#: src/commands.c:6513
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicando %s"
 
-#: src/commands.c:6589
+#: src/commands.c:6593
 msgid "Tabulating Dependencies"
 msgstr "Tabulando Dependências"
 
-#: src/commands.c:6665
+#: src/commands.c:6669
 #, fuzzy
 msgid "Reconfigure Graph"
 msgstr "Configurar barras de ferramentas"
@@ -17407,7 +17398,7 @@ msgid "O_utside"
 msgstr "Contorno"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:567
 #, fuzzy
 msgid "_Cross"
 msgstr "_Fechar"
@@ -17447,33 +17438,43 @@ msgstr "Contorno"
 msgid "_Show Labels"
 msgstr "Rótu_los"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:499
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:563
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_ín"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:500
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:564
 #, fuzzy
 msgid "M_ax"
 msgstr "Máximo"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:501
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:502
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:566
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:572
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:644
+#, fuzzy
+msgid "Details"
+msgstr "Propriedades do plugin"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:677
 #, fuzzy
 msgid "Bounds"
 msgstr "Segundo Plano"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:577
-#, fuzzy
-msgid "Details"
-msgstr "Propriedades do plugin"
+#. TOO CHEESY to go into production
+#. * We need a way to toggle auto vs user formats
+#. * but the selector is too tall already
+#. * disable for now
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:692
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:699
+#: src/dialogs/dialog-stf.glade.h:21
+msgid "Format"
+msgstr "Formato"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:183
 msgid "Legend"
@@ -17797,13 +17798,13 @@ msgstr "Padrão"
 msgid "Guppi"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:277
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:288
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Rótulos"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:279
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:290
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -17844,7 +17845,7 @@ msgstr ""
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:87
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:90
 #, fuzzy
 msgid "PlotLine"
 msgstr "Grá_fico"
@@ -17853,7 +17854,7 @@ msgstr "Grá_fico"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:200
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:203
 #, fuzzy
 msgid "PlotArea"
 msgstr "Área"
@@ -18217,16 +18218,16 @@ msgstr ""
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:62
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:61
 #, fuzzy
 msgid "PlotXY"
 msgstr "Grá_fico"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:230
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:258
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:232
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
 msgid "Y"
 msgstr ""
 
@@ -18898,7 +18899,7 @@ msgstr "_Primeira Letra"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2163 src/format.c:2292 src/format.c:2298 src/format.c:2374
+#: src/format.c:2178 src/format.c:2307 src/format.c:2313 src/format.c:2389
 #: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Geral"
@@ -19506,7 +19507,7 @@ msgstr ""
 msgid "Sort..."
 msgstr "Ordenar..."
 
-#: src/dialogs/cell-sort.glade.h:7
+#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-stf-export.glade.h:39
 #, fuzzy
 msgid "_Preserves Formats"
 msgstr "Preservar caixa"
@@ -20250,32 +20251,32 @@ msgstr ""
 msgid "Clear Background"
 msgstr "Limpar fundo"
 
-#: src/dialogs/dialog-cell-sort.c:119 src/dialogs/dialog-cell-sort.c:124
+#: src/dialogs/dialog-cell-sort.c:145
 #, fuzzy, c-format
 msgid "Column %s"
 msgstr "Coluna: %s"
 
-#: src/dialogs/dialog-cell-sort.c:121 src/dialogs/dialog-cell-sort.c:126
+#: src/dialogs/dialog-cell-sort.c:147
 #, c-format
 msgid "Row %s"
 msgstr "Linha: %s"
 
-#: src/dialogs/dialog-cell-sort.c:718
+#: src/dialogs/dialog-cell-sort.c:1039
 #, fuzzy
 msgid "Row/Column"
 msgstr "Coluna"
 
-#: src/dialogs/dialog-cell-sort.c:738
+#: src/dialogs/dialog-cell-sort.c:1059
 #, fuzzy
 msgid "Case Sensitive"
 msgstr "Diferenciar maiúsculas de minúsculas"
 
-#: src/dialogs/dialog-cell-sort.c:751
+#: src/dialogs/dialog-cell-sort.c:1079
 #, fuzzy
 msgid "By Value"
 msgstr "Valor"
 
-#: src/dialogs/dialog-cell-sort.c:883
+#: src/dialogs/dialog-cell-sort.c:1214
 #, fuzzy
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Impossível criar o diálogo do Resolvedor."
@@ -21150,16 +21151,16 @@ msgid "Variable"
 msgstr "Variáveis X:"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:4831
+#: src/workbook-control-gui.c:4854
 msgid "Min"
 msgstr "Mínimo"
 
-#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4833
+#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4856
 msgid "Average"
 msgstr "Média"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:4832
+#: src/workbook-control-gui.c:4855
 msgid "Max"
 msgstr "Máximo"
 
@@ -21189,7 +21190,7 @@ msgid "Could not create the Simulation dialog."
 msgstr "Impossível criar o diálogo do Resolvedor."
 
 #: src/dialogs/dialog-solver.c:100
-msgid "Revised Simplex (GLPK 3.2)"
+msgid "Revised Simplex (GLPK 4.2)"
 msgstr ""
 
 #: src/dialogs/dialog-solver.c:101
@@ -21450,7 +21451,7 @@ msgstr "Operador desconhecido"
 msgid "Windows (carriage return + linefeed)"
 msgstr "Windows (retorno de carro + avanço de linha)"
 
-#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf-export.glade.h:40 src/dialogs/dialog-stf.glade.h:64
 msgid "`"
 msgstr "`"
 
@@ -21619,10 +21620,6 @@ msgstr "_Fim"
 #, fuzzy
 msgid "Fixed"
 msgstr "Arquivo/"
-
-#: src/dialogs/dialog-stf.glade.h:21
-msgid "Format"
-msgstr "Formato"
 
 #: src/dialogs/dialog-stf.glade.h:22
 #, fuzzy
@@ -23955,7 +23952,7 @@ msgid "Yellow"
 msgstr "amarelo"
 
 #. Array of arrays ??
-#: src/format.c:2055
+#: src/format.c:2070
 msgid "ARRAY"
 msgstr "VETOR"
 
@@ -25012,7 +25009,7 @@ msgstr "Salvar workbook como"
 msgid "Multiple errors\n"
 msgstr "Múltiplos erros"
 
-#: src/gui-util.c:806
+#: src/gui-util.c:808
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Impossível abrir o arquivo '%s'"
@@ -25681,19 +25678,19 @@ msgstr "&[PÁGINA]"
 msgid "Print Region"
 msgstr "Intervalo de Impressão"
 
-#: src/print.c:1240
+#: src/print.c:1238
 msgid "Print Sheets"
 msgstr "Imprimir planilhas"
 
-#: src/print.c:1248
+#: src/print.c:1246
 msgid "Act_ive sheet"
 msgstr "Planilha at_iva"
 
-#: src/print.c:1248
+#: src/print.c:1246
 msgid "S_heets"
 msgstr "_Planilhas"
 
-#: src/print.c:1334
+#: src/print.c:1330
 msgid "Printing failed"
 msgstr "Falha de impressão"
 
@@ -25870,36 +25867,31 @@ msgstr "não pode criar objeto para '%s'"
 msgid "Could not load file: %s"
 msgstr "Impossível carregar arquivo: %s"
 
-#: src/sheet-object-graph.c:162
+#: src/sheet-object-graph.c:163
 msgid "Save graph as image"
 msgstr ""
 
-#: src/sheet-object-graph.c:201
+#: src/sheet-object-graph.c:202
 msgid "Sorry, gnumeric can only save graphs as png images"
 msgstr ""
 
-#: src/sheet-object-graph.c:219
+#: src/sheet-object-graph.c:220
 #, fuzzy
 msgid "_Save as image"
 msgstr "Selecionar uma imagem"
 
-#: src/sheet-object-graphic.c:939 src/sheet-object-graphic.c:958
+#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
 msgid "Transparent"
 msgstr "Transparente"
 
-#: src/sheet-object-widget.c:1142
+#: src/sheet-object-widget.c:1143
 #, c-format
 msgid "CheckBox %d"
 msgstr "Caixa de verificação %d"
 
-#: src/sheet-object-widget.c:1575 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1576 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Botão de rádio"
-
-#: src/sheet-object.c:530
-#, fuzzy, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Tipo de carregador não suportado \"%s\"."
 
 #. Oh, yeah?
 #: src/sheet-style.c:492
@@ -26559,7 +26551,7 @@ msgstr ""
 msgid "Range"
 msgstr "Inte_rvalo"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:4834
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4857
 msgid "Count"
 msgstr "Contagem"
 
@@ -27751,12 +27743,12 @@ msgstr "_Científico"
 msgid "Special"
 msgstr "Es_pecial"
 
-#: src/widgets/widget-format-selector.c:935
+#: src/widgets/widget-format-selector.c:955
 #, fuzzy
 msgid "Negative Number Format"
 msgstr "Número negat_ivo:"
 
-#: src/widgets/widget-format-selector.c:966
+#: src/widgets/widget-format-selector.c:986
 #, fuzzy
 msgid "Number Formats"
 msgstr "Aplicar Formatos de _Números"
@@ -28717,28 +28709,28 @@ msgstr "Desfazer a operção"
 msgid "Redo the operation"
 msgstr "Refazer a operação"
 
-#: src/workbook-control-gui.c:5127
+#: src/workbook-control-gui.c:5150
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Arquivo \"%s\" tem formato desconhecido."
 
-#: src/workbook-control-gui.c:5173
+#: src/workbook-control-gui.c:5196
 msgid "Send"
 msgstr "Enviar"
 
-#: src/workbook-control-gui.c:5173
+#: src/workbook-control-gui.c:5196
 msgid "Send the current file in email"
 msgstr "Enviar o arquivo atual por e-mail"
 
-#: src/workbook-control-gui.c:5413 src/workbook-control-gui.c:5428
+#: src/workbook-control-gui.c:5436 src/workbook-control-gui.c:5451
 msgid "_Re-Edit"
 msgstr "_Re-Editar"
 
-#: src/workbook-control-gui.c:5414 src/workbook-control-gui.c:5419
+#: src/workbook-control-gui.c:5437 src/workbook-control-gui.c:5442
 msgid "_Discard"
 msgstr "_Descartar"
 
-#: src/workbook-control-gui.c:5418 src/workbook-control-gui.c:5429
+#: src/workbook-control-gui.c:5441 src/workbook-control-gui.c:5452
 msgid "_Accept"
 msgstr "_Aceitar"
 
@@ -28928,34 +28920,45 @@ msgstr "Já há uma planilha chamada"
 msgid "You may not use this name twice"
 msgstr "Você não pode usar esse nome duas vezes"
 
-#: src/xml-io.c:3297
+#: src/xml-io.c:2728
+#, fuzzy, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Tipo de carregador não suportado \"%s\"."
+
+#: src/xml-io.c:3429
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "Cola conteúdo da Área de Transferência"
 
-#: src/xml-io.c:3304
+#: src/xml-io.c:3436
 msgid "Clipboard is in unknown format"
 msgstr "Área de transferência está em formato desconhecido."
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3725
+#: src/xml-io.c:3857
 msgid "Processing file..."
 msgstr "Processando arquivo..."
 
-#: src/xml-io.c:4052
+#: src/xml-io.c:4184
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Não é um arquivo Gnumeric Workbook"
 
-#: src/xml-io.c:4089
+#: src/xml-io.c:4221
 msgid "Failure saving file"
 msgstr "Falha ao salvar arquivo"
 
-#: src/xml-io.c:4122
+#: src/xml-io.c:4254
 msgid "Gnumeric XML file format"
 msgstr "Formato de arquivo XML Gnumeric"
+
+#~ msgid "Failure parsing AutoFilter."
+#~ msgstr "Falha analisando gramática do AutoFiltro."
+
+#~ msgid "Imported %s"
+#~ msgstr "Importou %s"
 
 #~ msgid "TODO : Unfinished"
 #~ msgstr "AFAZER: Não terminado"

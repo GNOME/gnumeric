@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AC_PACKAGE_NAME AC_PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-26 22:20-0500\n"
+"POT-Creation-Date: 2003-12-23 16:12-0500\n"
 "PO-Revision-Date: 2003-08-12 22:15+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
@@ -704,8 +704,8 @@ msgstr ""
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5336
-#: plugins/mps/mps.c:549 src/xml-io.c:4004
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5362
+#: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "파일을 읽는 중..."
 
@@ -795,71 +795,66 @@ msgstr ""
 msgid "XML document not well formed!"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:1003 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1008 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#모름!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1094 plugins/excel/ms-excel-read.c:1105
+#: plugins/excel/ms-excel-read.c:1099 plugins/excel/ms-excel-read.c:1110
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "시트%d"
 
-#: plugins/excel/ms-excel-read.c:1108
+#: plugins/excel/ms-excel-read.c:1113
 #, c-format
 msgid "Macro%d"
 msgstr "매크로%d"
 
-#: plugins/excel/ms-excel-read.c:1111
+#: plugins/excel/ms-excel-read.c:1116
 #, c-format
 msgid "Chart%d"
 msgstr "도표%d"
 
-#: plugins/excel/ms-excel-read.c:1114
+#: plugins/excel/ms-excel-read.c:1119
 #, c-format
 msgid "Module%d"
 msgstr "모듈%d"
 
-#: plugins/excel/ms-excel-read.c:2827
+#: plugins/excel/ms-excel-read.c:2841
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2883
+#: plugins/excel/ms-excel-read.c:2897
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2889
+#: plugins/excel/ms-excel-read.c:2903
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:2947
-#, fuzzy
-msgid "Failure parsing AutoFilter."
-msgstr "파일 닫기 에러, 에러: %s"
-
-#: plugins/excel/ms-excel-read.c:4731
+#: plugins/excel/ms-excel-read.c:4757
 msgid "external references"
 msgstr "외부 참조"
 
-#: plugins/excel/ms-excel-read.c:5482
+#: plugins/excel/ms-excel-read.c:5508
 msgid "No password supplied"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:5486
+#: plugins/excel/ms-excel-read.c:5512
 msgid "Invalid password"
 msgstr "열쇠글이 틀렸습니다"
 
-#: plugins/excel/ms-excel-read.c:5587
+#: plugins/excel/ms-excel-read.c:5613
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "제대로 된 MS 엑셀 워크북을 찾을 수 없음"
 
@@ -5276,9 +5271,9 @@ msgstr ""
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:670
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:594
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:591
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
 msgid "Automatic"
@@ -10872,7 +10867,7 @@ msgstr ""
 msgid "Constraints:"
 msgstr ""
 
-#: plugins/mps/mps.c:247 src/commands.c:5736
+#: plugins/mps/mps.c:247 src/commands.c:5740
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -11464,20 +11459,15 @@ msgstr "MultiPlan (SYLK) 파일을 가져옵니다"
 msgid "MultiPlan (SYLK)"
 msgstr "MultiPlan (SYLK)"
 
-#: plugins/sylk/sylk.c:372
+#: plugins/sylk/sylk.c:461
 msgid "Not SYLK file"
 msgstr "SYLK 파일이 아님"
 
-#: plugins/sylk/sylk.c:384
+#: plugins/sylk/sylk.c:474
 msgid "error parsing line\n"
 msgstr "줄 분석 오류\n"
 
-#: plugins/sylk/sylk.c:408
-#, c-format
-msgid "Imported %s"
-msgstr "%s 가져오기"
-
-#: plugins/sylk/sylk.c:424
+#: plugins/sylk/sylk.c:530
 msgid "Error while reading sheet."
 msgstr "시트를 읽는중 오류"
 
@@ -11503,10 +11493,10 @@ msgstr "\"%s\" 플러그인의 메세지 입니다."
 msgid "Error while opening xbase file."
 msgstr "xbase 파일을 여는 중 오류."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4561
+#: plugins/xbase/boot.c:175 src/commands.c:4565
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
-#: src/xml-io.c:3594
+#: src/xml-io.c:3726
 msgid "Sheet"
 msgstr "시트"
 
@@ -12153,7 +12143,7 @@ msgstr "강조"
 msgid "Borders"
 msgstr "테두리"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:423
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:424
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "단추"
@@ -12525,7 +12515,7 @@ msgstr ""
 msgid "Fourier Analysis"
 msgstr "푸리에 분석"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:196
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:197
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "프레임"
@@ -12694,8 +12684,8 @@ msgid "Jump to a specified cell"
 msgstr "주어진 셀로 가기"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:619
-#: src/sheet-object-graphic.c:1437 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:728
+#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "꼬리표"
 
@@ -12864,7 +12854,7 @@ msgid "Print Preview"
 msgstr "인쇄 미리보기"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1322 src/workbook-control-gui.c:3342
+#: src/print.c:1318 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "인쇄 미리보기"
@@ -13131,7 +13121,7 @@ msgid "Statistical Anal_ysis"
 msgstr "통계 분석(_Y)"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4033
-#: src/workbook-control-gui.c:4830 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4853 src/workbook-view.c:540
 msgid "Sum"
 msgstr "합계"
 
@@ -14065,128 +14055,128 @@ msgstr "선 그림"
 msgid "Move object"
 msgstr "객채 이동"
 
-#: src/commands.c:4805
+#: src/commands.c:4809
 #, fuzzy
 msgid "Reordering Sheets"
 msgstr "시트 순서바꾸기"
 
-#: src/commands.c:4808
+#: src/commands.c:4812
 #, fuzzy
 msgid "Renaming Sheets"
 msgstr "시트 이름바꾸기"
 
-#: src/commands.c:4811
+#: src/commands.c:4815
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "시트 이름바꾸기"
 
-#: src/commands.c:4815
+#: src/commands.c:4819
 #, fuzzy
 msgid "Changing Tab Colors"
 msgstr "%s 파일을 생성할 수 없습니다\n"
 
-#: src/commands.c:4818
+#: src/commands.c:4822
 msgid "Changing Sheet Protection"
 msgstr "시트 보호막 변경"
 
-#: src/commands.c:4821
+#: src/commands.c:4825
 #, fuzzy
 msgid "Delete sheets"
 msgstr "셀 지움"
 
-#: src/commands.c:4824
+#: src/commands.c:4828
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "시트 삭제(_l)"
 
-#: src/commands.c:4827
+#: src/commands.c:4831
 #, fuzzy
 msgid "Reorganizing Sheets"
 msgstr "시트 인쇄"
 
-#: src/commands.c:4977
+#: src/commands.c:4981
 #, fuzzy, c-format
 msgid "Clearing comment of %s"
 msgstr "%s 파일을 생성할 수 없습니다\n"
 
-#: src/commands.c:4978
+#: src/commands.c:4982
 #, fuzzy, c-format
 msgid "Setting comment of %s"
 msgstr "열 %s 삭제"
 
-#: src/commands.c:5358
+#: src/commands.c:5362
 #, fuzzy, c-format
 msgid "Merging data into %s"
 msgstr "셀 이동"
 
-#: src/commands.c:5460
+#: src/commands.c:5464
 #, fuzzy
 msgid "Changing summary info"
 msgstr "%s 파일을 생성할 수 없습니다\n"
 
-#: src/commands.c:5551
+#: src/commands.c:5555
 #, fuzzy
 msgid "Raise object"
 msgstr "선 그림"
 
-#: src/commands.c:5554
+#: src/commands.c:5558
 #, fuzzy
 msgid "Lower object"
 msgstr "객체 삽입"
 
-#: src/commands.c:5557
+#: src/commands.c:5561
 #, fuzzy
 msgid "Raise object to top"
 msgstr "선 그림"
 
-#: src/commands.c:5560
+#: src/commands.c:5564
 msgid "Lower object to bottom"
 msgstr ""
 
-#: src/commands.c:5675
+#: src/commands.c:5679
 #, fuzzy, c-format
 msgid "Page Setup For %s"
 msgstr "인쇄 설정"
 
-#: src/commands.c:5677
+#: src/commands.c:5681
 #, fuzzy
 msgid "Page Setup For All Sheets"
 msgstr "시트 인쇄"
 
-#: src/commands.c:5793
+#: src/commands.c:5797
 msgid "has a circular reference"
 msgstr ""
 
-#: src/commands.c:5816
+#: src/commands.c:5820
 #, fuzzy, c-format
 msgid "Define Name %s"
 msgstr "이름 정하기"
 
-#: src/commands.c:5819
+#: src/commands.c:5823
 #, c-format
 msgid "Update Name %s"
 msgstr ""
 
-#: src/commands.c:5883
+#: src/commands.c:5887
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:5958
+#: src/commands.c:5962
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6022
+#: src/commands.c:6026
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:6133
+#: src/commands.c:6137
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "열 지움"
 
 #. Fill in the header titles.
-#: src/commands.c:6280 src/dialogs/solver.glade.h:24
+#: src/commands.c:6284 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
@@ -14194,22 +14184,22 @@ msgstr "열 지움"
 msgid "Solver"
 msgstr "해결"
 
-#: src/commands.c:6367
+#: src/commands.c:6371
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "목표 찾기..."
 
-#: src/commands.c:6509
+#: src/commands.c:6513
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "빼끼기(_D)"
 
-#: src/commands.c:6589
+#: src/commands.c:6593
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "플러그인 의존성"
 
-#: src/commands.c:6665
+#: src/commands.c:6669
 msgid "Reconfigure Graph"
 msgstr ""
 
@@ -14244,7 +14234,7 @@ msgid "O_utside"
 msgstr "외곽선"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:567
 #, fuzzy
 msgid "_Cross"
 msgstr "닫기(_C)"
@@ -14284,33 +14274,43 @@ msgstr "외곽선"
 msgid "_Show Labels"
 msgstr "꼬리표(_L)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:499
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:563
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "최소(_I)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:500
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:564
 #, fuzzy
 msgid "M_ax"
 msgstr "최대값"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:501
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:502
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:566
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:572
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:644
+#, fuzzy
+msgid "Details"
+msgstr "파일 상세설명(_F)"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:677
 #, fuzzy
 msgid "Bounds"
 msgstr "바탕색"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:577
-#, fuzzy
-msgid "Details"
-msgstr "파일 상세설명(_F)"
+#. TOO CHEESY to go into production
+#. * We need a way to toggle auto vs user formats
+#. * but the selector is too tall already
+#. * disable for now
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:692
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:699
+#: src/dialogs/dialog-stf.glade.h:21
+msgid "Format"
+msgstr "형식"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:183
 #, fuzzy
@@ -14667,13 +14667,13 @@ msgstr "기본값"
 msgid "Guppi"
 msgstr "묶음"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:277
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:288
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "꼬리표"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:279
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:290
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -14715,7 +14715,7 @@ msgstr ""
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:87
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:90
 #, fuzzy
 msgid "PlotLine"
 msgstr "플롯 모드"
@@ -14724,7 +14724,7 @@ msgstr "플롯 모드"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:200
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:203
 #, fuzzy
 msgid "PlotArea"
 msgstr "플롯 모드"
@@ -15107,16 +15107,16 @@ msgstr ""
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:62
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:61
 #, fuzzy
 msgid "PlotXY"
 msgstr "플롯 모드"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:230
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:258
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:232
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
 msgid "Y"
 msgstr ""
 
@@ -15789,7 +15789,7 @@ msgstr "첫 글자"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2163 src/format.c:2292 src/format.c:2298 src/format.c:2374
+#: src/format.c:2178 src/format.c:2307 src/format.c:2313 src/format.c:2389
 #: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "일반"
@@ -16364,7 +16364,7 @@ msgstr ""
 msgid "Sort..."
 msgstr "정렬..."
 
-#: src/dialogs/cell-sort.glade.h:7
+#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-stf-export.glade.h:39
 #, fuzzy
 msgid "_Preserves Formats"
 msgstr "증가"
@@ -17089,30 +17089,30 @@ msgstr ""
 msgid "Clear Background"
 msgstr "바탕 지우기"
 
-#: src/dialogs/dialog-cell-sort.c:119 src/dialogs/dialog-cell-sort.c:124
+#: src/dialogs/dialog-cell-sort.c:145
 #, c-format
 msgid "Column %s"
 msgstr "열 %s"
 
-#: src/dialogs/dialog-cell-sort.c:121 src/dialogs/dialog-cell-sort.c:126
+#: src/dialogs/dialog-cell-sort.c:147
 #, c-format
 msgid "Row %s"
 msgstr "행 %s"
 
-#: src/dialogs/dialog-cell-sort.c:718
+#: src/dialogs/dialog-cell-sort.c:1039
 msgid "Row/Column"
 msgstr "행/열"
 
-#: src/dialogs/dialog-cell-sort.c:738
+#: src/dialogs/dialog-cell-sort.c:1059
 msgid "Case Sensitive"
 msgstr "대소문자 구분"
 
-#: src/dialogs/dialog-cell-sort.c:751
+#: src/dialogs/dialog-cell-sort.c:1079
 #, fuzzy
 msgid "By Value"
 msgstr "값"
 
-#: src/dialogs/dialog-cell-sort.c:883
+#: src/dialogs/dialog-cell-sort.c:1214
 #, fuzzy
 msgid "Could not create the Cell-Sort dialog."
 msgstr "인자 값을 구할 수 없습니다"
@@ -17968,16 +17968,16 @@ msgid "Variable"
 msgstr "변수"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:4831
+#: src/workbook-control-gui.c:4854
 msgid "Min"
 msgstr "최소값"
 
-#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4833
+#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4856
 msgid "Average"
 msgstr "평균"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:4832
+#: src/workbook-control-gui.c:4855
 msgid "Max"
 msgstr "최대값"
 
@@ -18005,8 +18005,9 @@ msgid "Could not create the Simulation dialog."
 msgstr "인자 값을 구할 수 없습니다"
 
 #: src/dialogs/dialog-solver.c:100
-msgid "Revised Simplex (GLPK 3.2)"
-msgstr ""
+#, fuzzy
+msgid "Revised Simplex (GLPK 4.2)"
+msgstr "중국어 간체 (GBK)"
 
 #: src/dialogs/dialog-solver.c:101
 msgid "Simplex (LP Solve 3.2)"
@@ -18249,7 +18250,7 @@ msgstr "모르는 연산자"
 msgid "Windows (carriage return + linefeed)"
 msgstr "윈도우즈 (CR+LF)"
 
-#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf-export.glade.h:40 src/dialogs/dialog-stf.glade.h:64
 msgid "`"
 msgstr "`"
 
@@ -18409,10 +18410,6 @@ msgstr "마침(_I)"
 #, fuzzy
 msgid "Fixed"
 msgstr "파일/"
-
-#: src/dialogs/dialog-stf.glade.h:21
-msgid "Format"
-msgstr "형식"
 
 #: src/dialogs/dialog-stf.glade.h:22
 msgid "Fr_om line:"
@@ -20728,7 +20725,7 @@ msgid "Yellow"
 msgstr "황색"
 
 #. Array of arrays ??
-#: src/format.c:2055
+#: src/format.c:2070
 msgid "ARRAY"
 msgstr "배열"
 
@@ -21640,7 +21637,7 @@ msgstr "워크북을 다른 이름으로 저장"
 msgid "Multiple errors\n"
 msgstr "곱하기"
 
-#: src/gui-util.c:806
+#: src/gui-util.c:808
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "파일 '%s'을(를) 열 수 없습니다"
@@ -22311,19 +22308,19 @@ msgstr "&[PAGE]"
 msgid "Print Region"
 msgstr "인쇄 미리보기"
 
-#: src/print.c:1240
+#: src/print.c:1238
 msgid "Print Sheets"
 msgstr "시트 인쇄"
 
-#: src/print.c:1248
+#: src/print.c:1246
 msgid "Act_ive sheet"
 msgstr "시트 활성화(_I)"
 
-#: src/print.c:1248
+#: src/print.c:1246
 msgid "S_heets"
 msgstr "시트(_H)"
 
-#: src/print.c:1334
+#: src/print.c:1330
 msgid "Printing failed"
 msgstr "인쇄 실패"
 
@@ -22499,36 +22496,31 @@ msgstr ""
 "파일 %s를 읽을 수 없습니다\n"
 "%%s"
 
-#: src/sheet-object-graph.c:162
+#: src/sheet-object-graph.c:163
 msgid "Save graph as image"
 msgstr ""
 
-#: src/sheet-object-graph.c:201
+#: src/sheet-object-graph.c:202
 msgid "Sorry, gnumeric can only save graphs as png images"
 msgstr ""
 
-#: src/sheet-object-graph.c:219
+#: src/sheet-object-graph.c:220
 #, fuzzy
 msgid "_Save as image"
 msgstr "전체 열 선택"
 
-#: src/sheet-object-graphic.c:939 src/sheet-object-graphic.c:958
+#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
 msgid "Transparent"
 msgstr "투명"
 
-#: src/sheet-object-widget.c:1142
+#: src/sheet-object-widget.c:1143
 #, fuzzy, c-format
 msgid "CheckBox %d"
 msgstr "체크상자"
 
-#: src/sheet-object-widget.c:1575 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1576 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "라디오단추"
-
-#: src/sheet-object.c:530
-#, fuzzy, c-format
-msgid "Unsupported object type '%s'"
-msgstr "지원되지 않는 파이썬 형식: %s"
 
 #. Oh, yeah?
 #: src/sheet-style.c:492
@@ -23147,7 +23139,7 @@ msgstr "첨도"
 msgid "Range"
 msgstr "범위"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:4834
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4857
 msgid "Count"
 msgstr "개수"
 
@@ -24316,12 +24308,12 @@ msgstr "과학(_S)"
 msgid "Special"
 msgstr "특별한 기능(_P)"
 
-#: src/widgets/widget-format-selector.c:935
+#: src/widgets/widget-format-selector.c:955
 #, fuzzy
 msgid "Negative Number Format"
 msgstr "음수(_i):"
 
-#: src/widgets/widget-format-selector.c:966
+#: src/widgets/widget-format-selector.c:986
 #, fuzzy
 msgid "Number Formats"
 msgstr "형식 복사"
@@ -25227,30 +25219,30 @@ msgstr "동작 취소"
 msgid "Redo the operation"
 msgstr "동작 다시실행"
 
-#: src/workbook-control-gui.c:5127
+#: src/workbook-control-gui.c:5150
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "\"%s\" 파일은 모르는 형식입니다."
 
-#: src/workbook-control-gui.c:5173
+#: src/workbook-control-gui.c:5196
 msgid "Send"
 msgstr "보냄"
 
-#: src/workbook-control-gui.c:5173
+#: src/workbook-control-gui.c:5196
 msgid "Send the current file in email"
 msgstr "현재 파일을 메일로 보냅니다"
 
-#: src/workbook-control-gui.c:5413 src/workbook-control-gui.c:5428
+#: src/workbook-control-gui.c:5436 src/workbook-control-gui.c:5451
 #, fuzzy
 msgid "_Re-Edit"
 msgstr "필터(_F)..."
 
-#: src/workbook-control-gui.c:5414 src/workbook-control-gui.c:5419
+#: src/workbook-control-gui.c:5437 src/workbook-control-gui.c:5442
 #, fuzzy
 msgid "_Discard"
 msgstr "무시"
 
-#: src/workbook-control-gui.c:5418 src/workbook-control-gui.c:5429
+#: src/workbook-control-gui.c:5441 src/workbook-control-gui.c:5452
 #, fuzzy
 msgid "_Accept"
 msgstr "승인"
@@ -25450,35 +25442,47 @@ msgstr "같은 이름을 가진 시트가 있습니다"
 msgid "You may not use this name twice"
 msgstr "이 이름을 두번 쓸 수 없습니다"
 
-#: src/xml-io.c:3297
+#: src/xml-io.c:2728
+#, fuzzy, c-format
+msgid "Unsupported object type '%s'"
+msgstr "지원되지 않는 파이썬 형식: %s"
+
+#: src/xml-io.c:3429
 #, fuzzy
 msgid "Unparsable xml in clipboard"
 msgstr "클립보드 내용 붙이기"
 
-#: src/xml-io.c:3304
+#: src/xml-io.c:3436
 msgid "Clipboard is in unknown format"
 msgstr "모르는 클립보드 형식"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3725
+#: src/xml-io.c:3857
 msgid "Processing file..."
 msgstr "파일 처리중..."
 
-#: src/xml-io.c:4052
+#: src/xml-io.c:4184
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Gnumeric 워크북 파일이 아닙니다"
 
-#: src/xml-io.c:4089
+#: src/xml-io.c:4221
 #, fuzzy
 msgid "Failure saving file"
 msgstr "파일 닫기 에러, 에러: %s"
 
-#: src/xml-io.c:4122
+#: src/xml-io.c:4254
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 파일 형식"
+
+#, fuzzy
+#~ msgid "Failure parsing AutoFilter."
+#~ msgstr "파일 닫기 에러, 에러: %s"
+
+#~ msgid "Imported %s"
+#~ msgstr "%s 가져오기"
 
 #~ msgid "TODO : Unfinished"
 #~ msgstr "할 일 : 끝나지 않음"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-08 01:13+0100\n"
+"POT-Creation-Date: 2003-12-23 16:12-0500\n"
 "PO-Revision-Date: 2003-12-08 01:14+0100\n"
 "Last-Translator: Slobodan Sredojević <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
@@ -708,8 +708,8 @@ msgstr "Finansijski izvodi"
 msgid "Functions related to financial derivatives"
 msgstr "Funkcije u vezi sa finansijskim izvodima"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5336
-#: plugins/mps/mps.c:549 src/xml-io.c:4134
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5362
+#: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Učitava datoteku..."
 
@@ -803,40 +803,40 @@ msgstr "Neočekivani atribut %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "XML dokument nije dobro oformljen!"
 
-#: plugins/excel/ms-excel-read.c:1003 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1008 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#NEPOZNAT!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1094 plugins/excel/ms-excel-read.c:1105
+#: plugins/excel/ms-excel-read.c:1099 plugins/excel/ms-excel-read.c:1110
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Tabela%d"
 
-#: plugins/excel/ms-excel-read.c:1108
+#: plugins/excel/ms-excel-read.c:1113
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1111
+#: plugins/excel/ms-excel-read.c:1116
 #, c-format
 msgid "Chart%d"
 msgstr "Grafikon%d"
 
-#: plugins/excel/ms-excel-read.c:1114
+#: plugins/excel/ms-excel-read.c:1119
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2827
+#: plugins/excel/ms-excel-read.c:2841
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Greška pri obradi imena '%s'"
 
-#: plugins/excel/ms-excel-read.c:2883
+#: plugins/excel/ms-excel-read.c:2897
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -845,7 +845,7 @@ msgstr ""
 "DDE veze nisu podržane.\n"
 "Ime „%s“ će biti izgubljeno.\n"
 
-#: plugins/excel/ms-excel-read.c:2889
+#: plugins/excel/ms-excel-read.c:2903
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -854,24 +854,20 @@ msgstr ""
 "OLE veze nisu podržane.\n"
 "Ime „%s“ će biti izgubljeno.\n"
 
-#: plugins/excel/ms-excel-read.c:2947
-msgid "Failure parsing AutoFilter."
-msgstr "Neuspeh prilikom obrade Automatskog filtra."
-
-#: plugins/excel/ms-excel-read.c:4731
+#: plugins/excel/ms-excel-read.c:4757
 msgid "external references"
 msgstr "Spoljnje upućivanje."
 
-#: plugins/excel/ms-excel-read.c:5482
+#: plugins/excel/ms-excel-read.c:5508
 msgid "No password supplied"
 msgstr "Lozinka nije uneta"
 
-#: plugins/excel/ms-excel-read.c:5486
+#: plugins/excel/ms-excel-read.c:5512
 msgid "Invalid password"
 msgstr "Pogrešna lozinka"
 
 # Da nije mozda "imeniku" a ne "direktorijumu"?
-#: plugins/excel/ms-excel-read.c:5587
+#: plugins/excel/ms-excel-read.c:5613
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Ne može da pronađe ispravnu MS EXcel radnu svesku"
 
@@ -3372,8 +3368,8 @@ msgstr "Inženjerske funkcije"
 #: plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr ""
-"Funkcije koje rade sa kompleksnim brojevima, osnovnim pretvaranjima i više od "
-"toga"
+"Funkcije koje rade sa kompleksnim brojevima, osnovnim pretvaranjima i više "
+"od toga"
 
 #: plugins/fn-financial/functions.c:306
 msgid ""
@@ -4900,9 +4896,9 @@ msgstr "%s verzija %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:670
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:594
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:591
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
 msgid "Automatic"
@@ -10824,20 +10820,15 @@ msgstr "Uvozi MultiPlan (SYLK) datoteke"
 msgid "MultiPlan (SYLK)"
 msgstr "MultiPlan (SYLK)"
 
-#: plugins/sylk/sylk.c:372
+#: plugins/sylk/sylk.c:461
 msgid "Not SYLK file"
 msgstr "Ovo nije SYLK datoteka"
 
-#: plugins/sylk/sylk.c:384
+#: plugins/sylk/sylk.c:474
 msgid "error parsing line\n"
 msgstr "Greška pri obradi linije\n"
 
-#: plugins/sylk/sylk.c:408
-#, c-format
-msgid "Imported %s"
-msgstr "Uvežen %s"
-
-#: plugins/sylk/sylk.c:424
+#: plugins/sylk/sylk.c:530
 msgid "Error while reading sheet."
 msgstr "Greška prilikom učitavanja tabele."
 
@@ -10865,7 +10856,7 @@ msgstr "Greška prilikom otvaranja xbase datoteke."
 #: plugins/xbase/boot.c:175 src/commands.c:4565
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
-#: src/xml-io.c:3724
+#: src/xml-io.c:3726
 msgid "Sheet"
 msgstr "Tabela"
 
@@ -11018,8 +11009,8 @@ msgid ""
 "The autocorrect engine does not correct the inital caps for words in this "
 "list."
 msgstr ""
-"Sistem za automatsko ispravljanje ne ispravlja početna slova za reči koje su u "
-"ovom spisku."
+"Sistem za automatsko ispravljanje ne ispravlja početna slova za reči koje su "
+"u ovom spisku."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:27
 msgid "The configuration of gnome-print. Do not edit this variable."
@@ -11359,10 +11350,10 @@ msgid ""
 "simple one-cell edit (size of 1). The undo list will be truncated when its "
 "total size exceeds this configurable value."
 msgstr ""
-"Ova vrednost određuje dužinu „Opozovi“ spiska. Svaka radnja ima veličinu koja "
-"je za nju vezana, kako bi se poredila sa memorijskim zahtevom vezanim za "
-"prosto uređenje jednog polja (veličine 1). „Opozovi“ spisak će biti odsečen "
-"kada njegova ukupna vrednost nadmaši ovu podesivu vrednost."
+"Ova vrednost određuje dužinu „Opozovi“ spiska. Svaka radnja ima veličinu "
+"koja je za nju vezana, kako bi se poredila sa memorijskim zahtevom vezanim "
+"za prosto uređenje jednog polja (veličine 1). „Opozovi“ spisak će biti "
+"odsečen kada njegova ukupna vrednost nadmaši ovu podesivu vrednost."
 
 #: schemas/gnumeric-general.schemas.in.h:45
 msgid ""
@@ -12066,7 +12057,7 @@ msgid "Jump to a specified cell"
 msgstr "Skoči do određenog polja"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:619
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:728
 #: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Oznaka"
@@ -12491,7 +12482,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Statistička anal_iza"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4033
-#: src/workbook-control-gui.c:4830 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4853 src/workbook-view.c:540
 msgid "Sum"
 msgstr "Suma"
 
@@ -13576,7 +13567,7 @@ msgid "O_utside"
 msgstr "Sp_olja"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:567
 msgid "_Cross"
 msgstr "_Krst"
 
@@ -13608,30 +13599,40 @@ msgstr "Sp_olja"
 msgid "_Show Labels"
 msgstr "P_rikaži oznake"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:499
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:563
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "_Minimalno"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:500
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:564
 msgid "M_ax"
 msgstr "M_aksimalno"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:501
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
 msgid "Ma_jor Ticks"
 msgstr "Gla_vne crtice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:502
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:566
 msgid "Mi_nor Ticks"
 msgstr "Sp_oredne crtice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:572
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:644
+msgid "Details"
+msgstr "Detalji"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:677
 msgid "Bounds"
 msgstr "Ograničenja"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:577
-msgid "Details"
-msgstr "Detalji"
+#. TOO CHEESY to go into production
+#. * We need a way to toggle auto vs user formats
+#. * but the selector is too tall already
+#. * disable for now
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:692
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:699
+#: src/dialogs/dialog-stf.glade.h:21
+msgid "Format"
+msgstr "Formatiranje"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:183
 msgid "Legend"
@@ -13953,13 +13954,13 @@ msgstr "Podrazumevano"
 msgid "Guppi"
 msgstr "Gupi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:277
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:288
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Oznake"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:279
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:290
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -14000,7 +14001,7 @@ msgstr "TrakaKolona"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:87
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:90
 msgid "PlotLine"
 msgstr "CrtanaLinija"
 
@@ -14008,7 +14009,7 @@ msgstr "CrtanaLinija"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:200
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:203
 msgid "PlotArea"
 msgstr "CrtanaPovrš"
 
@@ -14376,15 +14377,15 @@ msgstr "Sistem za iscrtavanje prstena"
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:62
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:61
 msgid "PlotXY"
 msgstr "CrtežXY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:230
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:258
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:232
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
 msgid "Y"
 msgstr "Y"
 
@@ -15036,7 +15037,7 @@ msgstr "Prvo slovo"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2163 src/format.c:2292 src/format.c:2298 src/format.c:2374
+#: src/format.c:2178 src/format.c:2307 src/format.c:2313 src/format.c:2389
 #: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Opšte"
@@ -15577,7 +15578,7 @@ msgstr "Opseg za uređivanje sadrži _zaglavlje"
 msgid "Sort..."
 msgstr "Poređaj..."
 
-#: src/dialogs/cell-sort.glade.h:7
+#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-stf-export.glade.h:39
 msgid "_Preserves Formats"
 msgstr "Oču_vava formate"
 
@@ -16287,29 +16288,29 @@ msgstr "Merilo ispravnosti je neupotrebljivo. Isključiti proveru ispravnosti?"
 msgid "Clear Background"
 msgstr "Očisti sliku u pozadini"
 
-#: src/dialogs/dialog-cell-sort.c:119 src/dialogs/dialog-cell-sort.c:124
+#: src/dialogs/dialog-cell-sort.c:145
 #, c-format
 msgid "Column %s"
 msgstr "Kolona %s"
 
-#: src/dialogs/dialog-cell-sort.c:121 src/dialogs/dialog-cell-sort.c:126
+#: src/dialogs/dialog-cell-sort.c:147
 #, c-format
 msgid "Row %s"
 msgstr "Red %s"
 
-#: src/dialogs/dialog-cell-sort.c:718
+#: src/dialogs/dialog-cell-sort.c:1039
 msgid "Row/Column"
 msgstr "Red/kolona"
 
-#: src/dialogs/dialog-cell-sort.c:738
+#: src/dialogs/dialog-cell-sort.c:1059
 msgid "Case Sensitive"
 msgstr "Razlikuje mala i velika slova"
 
-#: src/dialogs/dialog-cell-sort.c:751
+#: src/dialogs/dialog-cell-sort.c:1079
 msgid "By Value"
 msgstr "Po vrednosti"
 
-#: src/dialogs/dialog-cell-sort.c:883
+#: src/dialogs/dialog-cell-sort.c:1214
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Ne mogu da obrazujem prozorče za alatku „Poredak“."
 
@@ -17131,16 +17132,16 @@ msgid "Variable"
 msgstr "Promenljiva"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:4831
+#: src/workbook-control-gui.c:4854
 msgid "Min"
 msgstr "Najmanja vrednost"
 
-#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4833
+#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4856
 msgid "Average"
 msgstr "Prosek"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:4832
+#: src/workbook-control-gui.c:4855
 msgid "Max"
 msgstr "Najveća vrednost"
 
@@ -17430,7 +17431,7 @@ msgstr "Nepoznati znakovi:"
 msgid "Windows (carriage return + linefeed)"
 msgstr "Vindouz (znak za novi red + znak za novu liniju)"
 
-#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf-export.glade.h:40 src/dialogs/dialog-stf.glade.h:64
 msgid "`"
 msgstr "`"
 
@@ -17595,10 +17596,6 @@ msgstr "_Završi"
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "Fixed"
 msgstr "Utvrđeno"
-
-#: src/dialogs/dialog-stf.glade.h:21
-msgid "Format"
-msgstr "Formatiranje"
 
 #: src/dialogs/dialog-stf.glade.h:22
 msgid "Fr_om line:"
@@ -17820,9 +17817,9 @@ msgid ""
 "in GTK+, libgnomeui, libgnomeprintui, libbonoboui, and Gnumeric at the time "
 "of writing, ultimo May 2003."
 msgstr ""
-"Podrška za više monitora je isključena u Gnumerik-u zbog brojnih grešaka u gtk"
-"+, libgnomeui, libgnomeprintui i libbonoboui bibliotekama i samom Gnumerik-"
-"u. Maj 2003."
+"Podrška za više monitora je isključena u Gnumerik-u zbog brojnih grešaka u "
+"gtk+, libgnomeui, libgnomeprintui i libbonoboui bibliotekama i samom "
+"Gnumerik-u. Maj 2003."
 
 #: src/dialogs/dialog-view.c:95
 #, c-format
@@ -18495,8 +18492,8 @@ msgid ""
 "Gnumeric (unless needed by another plugin)."
 msgstr ""
 "Dodatak sada ne može biti zaustavljen jer je u upotrebi. Pored svega, ako Vi "
-"štiklirate kućicu ispod, dodatak neće biti pokrenut nakon ponovnog pokretanja "
-"programa (sve dok ga, eventualno, nezatraži drugi dodatak)."
+"štiklirate kućicu ispod, dodatak neće biti pokrenut nakon ponovnog "
+"pokretanja programa (sve dok ga, eventualno, nezatraži drugi dodatak)."
 
 #: src/dialogs/plugin-manager.glade.h:10
 msgid "_Activate All"
@@ -19197,7 +19194,8 @@ msgstr "Rastojanje vrha strelice do krajnje tačke, mereno duž kraka"
 
 #: src/dialogs/so-arrow.glade.h:8
 msgid "Distance of trailing point from outside edge of shaft"
-msgstr "Rastojanje vrha strelice do krajnje tačke, mereno od spoljne ivice kraka"
+msgstr ""
+"Rastojanje vrha strelice do krajnje tačke, mereno od spoljne ivice kraka"
 
 #: src/dialogs/so-arrow.glade.h:9
 msgid "Line Width:"
@@ -19608,7 +19606,8 @@ msgstr "Neispravna datoteka sa šablonom: %s"
 
 #: src/file.c:481
 msgid "Saving over old files of this type is disabled for safety."
-msgstr "Čuvanje preko starih datoteka ove vrste je onemogućeno zbog sigurnosti."
+msgstr ""
+"Čuvanje preko starih datoteka ove vrste je onemogućeno zbog sigurnosti."
 
 #: src/file.c:483
 msgid ""
@@ -19692,7 +19691,7 @@ msgid "Yellow"
 msgstr "Žuta"
 
 #. Array of arrays ??
-#: src/format.c:2055
+#: src/format.c:2070
 msgid "ARRAY"
 msgstr "NIZ"
 
@@ -20586,7 +20585,7 @@ msgstr "Sačuvaj radnu svesku kao"
 msgid "Multiple errors\n"
 msgstr "Višestruke greške\n"
 
-#: src/gui-util.c:806
+#: src/gui-util.c:808
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Ne može da otvori datoteku '%s'"
@@ -20736,7 +20735,8 @@ msgstr "Ne prikazuj uvodni ekran"
 
 #: src/main-application.c:84
 msgid "Exit immediately after loading the selected books (useful for testing)."
-msgstr "Izađi odmah nakon učitavanja izabranih tabela (korisno za isprobavanje)."
+msgstr ""
+"Izađi odmah nakon učitavanja izabranih tabela (korisno za isprobavanje)."
 
 #: src/main-application.c:114
 msgid ""
@@ -21114,7 +21114,8 @@ msgstr "Dodatak nema identifikaciju."
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr ""
-"Greška u postavljanju početnih vrednosti za sistem za učitavanje dodatka(„%s“)."
+"Greška u postavljanju početnih vrednosti za sistem za učitavanje dodatka(„%"
+"s“)."
 
 #: src/plugin.c:924 src/plugin.c:1081
 msgid "Detected cyclic plugin dependencies."
@@ -21179,7 +21180,8 @@ msgstr "Greška prilikom čitanja informacija o dostupnim dodacima."
 
 #: src/plugin.c:1622
 msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr "Greška prilikom zaustavljanja dodataka koji se više ne nalaze na disku."
+msgstr ""
+"Greška prilikom zaustavljanja dodataka koji se više ne nalaze na disku."
 
 #: src/plugin.c:1643
 #, c-format
@@ -22048,7 +22050,8 @@ msgid ""
 "in your model (maybe your last round # is too high)."
 msgstr ""
 "Izlazna promenljiva nije proizvela brojnu vrednost. Proverite izlazne "
-"promenljive u vašem modelu (možda je Vaše poslednje zaokruživanje # preveliko)."
+"promenljive u vašem modelu (možda je Vaše poslednje zaokruživanje # "
+"preveliko)."
 
 #: src/tools/simulation.c:242
 msgid "Simulation Report"
@@ -22082,7 +22085,7 @@ msgstr ""
 msgid "Range"
 msgstr "Opseg"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:4834
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4857
 msgid "Count"
 msgstr "Broj, zbir"
 
@@ -23210,11 +23213,11 @@ msgstr "Inženjerski"
 msgid "Special"
 msgstr "Naročito"
 
-#: src/widgets/widget-format-selector.c:935
+#: src/widgets/widget-format-selector.c:955
 msgid "Negative Number Format"
 msgstr "Format negativnih brojeva"
 
-#: src/widgets/widget-format-selector.c:966
+#: src/widgets/widget-format-selector.c:986
 msgid "Number Formats"
 msgstr "Formati brojeva"
 
@@ -24113,28 +24116,28 @@ msgstr "Opozovi radnju"
 msgid "Redo the operation"
 msgstr "Ponovi radnju"
 
-#: src/workbook-control-gui.c:5127
+#: src/workbook-control-gui.c:5150
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Datoteka „%s“ ima nepoznat format."
 
-#: src/workbook-control-gui.c:5173
+#: src/workbook-control-gui.c:5196
 msgid "Send"
 msgstr "Pošalji"
 
-#: src/workbook-control-gui.c:5173
+#: src/workbook-control-gui.c:5196
 msgid "Send the current file in email"
 msgstr "Pošalji tekuću datoteku e-poštom"
 
-#: src/workbook-control-gui.c:5413 src/workbook-control-gui.c:5428
+#: src/workbook-control-gui.c:5436 src/workbook-control-gui.c:5451
 msgid "_Re-Edit"
 msgstr "Pr_euredi"
 
-#: src/workbook-control-gui.c:5414 src/workbook-control-gui.c:5419
+#: src/workbook-control-gui.c:5437 src/workbook-control-gui.c:5442
 msgid "_Discard"
 msgstr "_Odbaci"
 
-#: src/workbook-control-gui.c:5418 src/workbook-control-gui.c:5429
+#: src/workbook-control-gui.c:5441 src/workbook-control-gui.c:5452
 msgid "_Accept"
 msgstr "_Prihvati"
 
@@ -24327,32 +24330,38 @@ msgstr "Ne možete koristiti ovo ime dva puta"
 msgid "Unsupported object type '%s'"
 msgstr "Nepodržana vrsta objekta „%s“"
 
-#: src/xml-io.c:3427
+#: src/xml-io.c:3429
 msgid "Unparsable xml in clipboard"
 msgstr "Na spisku isečaka je XML dokument koji se ne može raščlaniti"
 
-#: src/xml-io.c:3434
+#: src/xml-io.c:3436
 msgid "Clipboard is in unknown format"
 msgstr "Nepoznat format je na spisku isečaka"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3855
+#: src/xml-io.c:3857
 msgid "Processing file..."
 msgstr "Obrađuje datoteku..."
 
-#: src/xml-io.c:4182
+#: src/xml-io.c:4184
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Datoteka nije Gnumerik radna sveska"
 
-#: src/xml-io.c:4219
+#: src/xml-io.c:4221
 msgid "Failure saving file"
 msgstr "Greška pri snimanju datoteke"
 
-#: src/xml-io.c:4252
+#: src/xml-io.c:4254
 msgid "Gnumeric XML file format"
 msgstr "Gnumerik XML format datoteke"
+
+#~ msgid "Failure parsing AutoFilter."
+#~ msgstr "Neuspeh prilikom obrade Automatskog filtra."
+
+#~ msgid "Imported %s"
+#~ msgstr "Uvežen %s"
 
 #~ msgid "TODO : Unfinished"
 #~ msgstr "URADITI : Nedovršeno"

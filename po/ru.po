@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-12-20 20:47+0300\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-12-23 16:12-0500\n"
 "PO-Revision-Date: 2003-12-20 22:32+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -6450,7 +6450,7 @@ msgstr "%s версия %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:628
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:670
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:591
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
@@ -14697,7 +14697,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -15472,23 +15472,31 @@ msgstr "Размер шрифта используемого по умолчан
 
 #: schemas/gnumeric-dialogs.schemas.in.h:30
 msgid "The default header/footer font is bold."
-msgstr "По умолчанию для заголовков и сносок используется полужирное начертание шрифта."
+msgstr ""
+"По умолчанию для заголовков и сносок используется полужирное начертание "
+"шрифта."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "The default header/footer font is italic."
-msgstr "По умолчанию для заголовков и сносок используется наклонное начертание шрифта."
+msgstr ""
+"По умолчанию для заголовков и сносок используется наклонное начертание "
+"шрифта."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:32
 msgid ""
 "The default page footer for new documents that can be modified using the "
 "page setup dialog."
-msgstr "Сноска на странице используемая по умолчанию для новых документов, может быть изменена с помощью диалога настройки страницы."
+msgstr ""
+"Сноска на странице используемая по умолчанию для новых документов, может "
+"быть изменена с помощью диалога настройки страницы."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:33
 msgid ""
 "The default page header for new documents that can be modified using the "
 "page setup dialog."
-msgstr "Заголовок для страницы используемый по умолчанию для новых документов, может быть изменён с помощью диалога настройки страницы."
+msgstr ""
+"Заголовок для страницы используемый по умолчанию для новых документов, может "
+"быть изменён с помощью диалога настройки страницы."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:34
 msgid ""
@@ -16471,7 +16479,7 @@ msgid "Jump to a specified cell"
 msgstr "Перейти к указанной ячейке"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:689
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:728
 #: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Метка"
@@ -16895,7 +16903,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Статистический анализ"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4033
-#: src/workbook-control-gui.c:4852 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4853 src/workbook-view.c:540
 msgid "Sum"
 msgstr "Сумма"
 
@@ -17983,7 +17991,7 @@ msgid "O_utside"
 msgstr "Снаружи"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:558
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:567
 msgid "_Cross"
 msgstr ""
 
@@ -18015,35 +18023,40 @@ msgstr "Снаружи"
 msgid "_Show Labels"
 msgstr "Показать метки"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:554
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:563
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "Мин"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:555
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:564
 msgid "M_ax"
 msgstr "Макс"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:556
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
 msgid "Ma_jor Ticks"
 msgstr "Основные деления"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:557
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:566
 msgid "Mi_nor Ticks"
 msgstr "Вспомогательные деления"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:635
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:644
+msgid "Details"
+msgstr "Подробности"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:677
 msgid "Bounds"
 msgstr "Границы"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:638
+#. TOO CHEESY to go into production
+#. * We need a way to toggle auto vs user formats
+#. * but the selector is too tall already
+#. * disable for now
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:692
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:699
 #: src/dialogs/dialog-stf.glade.h:21
 msgid "Format"
 msgstr "Формат"
-
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:647
-msgid "Details"
-msgstr "Подробности"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:183
 msgid "Legend"
@@ -18363,13 +18376,13 @@ msgstr "По умолчанию"
 msgid "Guppi"
 msgstr "Guppi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:275
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:288
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Метки"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:277
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:290
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -18769,16 +18782,16 @@ msgstr "Модуль отображения кольцевой диаграмм�
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:62
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:61
 #, fuzzy
 msgid "PlotXY"
 msgstr "Начертить"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:228
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:258
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:230
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
 msgid "Y"
 msgstr "Y"
 
@@ -19430,7 +19443,7 @@ msgstr "Первая буква"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2163 src/format.c:2292 src/format.c:2298 src/format.c:2374
+#: src/format.c:2178 src/format.c:2307 src/format.c:2313 src/format.c:2389
 #: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Общий"
@@ -19970,7 +19983,7 @@ msgstr ""
 msgid "Sort..."
 msgstr "Сортировка..."
 
-#: src/dialogs/cell-sort.glade.h:7
+#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-stf-export.glade.h:39
 msgid "_Preserves Formats"
 msgstr "Сохраняет форматы"
 
@@ -20220,14 +20233,14 @@ msgstr "John Gotts, пакеты rpm."
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:66
 #, fuzzy
-msgid "Andreas J. Glzow, Gnumeric hacker."
+msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Andreas J. Guelzow, программист Gnumeric."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:69
 #, fuzzy
-msgid "Jon Kre Hellan, Gnumeric hacker."
+msgid "Jon Kåre Hellan, Gnumeric hacker."
 msgstr "Jon K Hellan, программист Gnumeric."
 
 #: src/dialogs/dialog-about.c:70
@@ -20681,29 +20694,29 @@ msgstr ""
 msgid "Clear Background"
 msgstr "Очистить фон"
 
-#: src/dialogs/dialog-cell-sort.c:119 src/dialogs/dialog-cell-sort.c:124
+#: src/dialogs/dialog-cell-sort.c:145
 #, c-format
 msgid "Column %s"
 msgstr "Столбец %s"
 
-#: src/dialogs/dialog-cell-sort.c:121 src/dialogs/dialog-cell-sort.c:126
+#: src/dialogs/dialog-cell-sort.c:147
 #, c-format
 msgid "Row %s"
 msgstr "Строка %s"
 
-#: src/dialogs/dialog-cell-sort.c:718
+#: src/dialogs/dialog-cell-sort.c:1039
 msgid "Row/Column"
 msgstr "Строка/Столбец"
 
-#: src/dialogs/dialog-cell-sort.c:738
+#: src/dialogs/dialog-cell-sort.c:1059
 msgid "Case Sensitive"
 msgstr "Чувствительно к регистру"
 
-#: src/dialogs/dialog-cell-sort.c:751
+#: src/dialogs/dialog-cell-sort.c:1079
 msgid "By Value"
 msgstr "По значению"
 
-#: src/dialogs/dialog-cell-sort.c:883
+#: src/dialogs/dialog-cell-sort.c:1214
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Невозможно создать диалог сортировки ячеек."
 
@@ -21510,16 +21523,16 @@ msgid "Variable"
 msgstr "Переменная"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:4853
+#: src/workbook-control-gui.c:4854
 msgid "Min"
 msgstr "Мин"
 
-#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4855
+#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4856
 msgid "Average"
 msgstr "Среднее"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:4854
+#: src/workbook-control-gui.c:4855
 msgid "Max"
 msgstr "Макс"
 
@@ -21796,7 +21809,7 @@ msgstr "Неизвестные символы:"
 msgid "Windows (carriage return + linefeed)"
 msgstr "Windows (возврат каретки + конец строки)"
 
-#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf-export.glade.h:40 src/dialogs/dialog-stf.glade.h:64
 msgid "`"
 msgstr "`"
 
@@ -24064,7 +24077,7 @@ msgid "Yellow"
 msgstr "Жёлтый"
 
 #. Array of arrays ??
-#: src/format.c:2055
+#: src/format.c:2070
 msgid "ARRAY"
 msgstr "МАССИВ"
 
@@ -24989,7 +25002,7 @@ msgstr "Сохранить книгу как"
 msgid "Multiple errors\n"
 msgstr "Множество ошибок\n"
 
-#: src/gui-util.c:806
+#: src/gui-util.c:808
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Не удалось открыть файл '%s'"
@@ -26492,7 +26505,7 @@ msgstr ""
 msgid "Range"
 msgstr "Диапазон"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:4856
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4857
 msgid "Count"
 msgstr "Количество"
 
@@ -27613,11 +27626,11 @@ msgstr "Научный"
 msgid "Special"
 msgstr "Специальный"
 
-#: src/widgets/widget-format-selector.c:935
+#: src/widgets/widget-format-selector.c:955
 msgid "Negative Number Format"
 msgstr "Формат отрицательного числа"
 
-#: src/widgets/widget-format-selector.c:966
+#: src/widgets/widget-format-selector.c:986
 msgid "Number Formats"
 msgstr "Числовые форматы"
 
@@ -28509,28 +28522,28 @@ msgstr "Откат операции"
 msgid "Redo the operation"
 msgstr "Повтор отмененной операции"
 
-#: src/workbook-control-gui.c:5149
+#: src/workbook-control-gui.c:5150
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Неизвестный формат файла \"%s\"."
 
-#: src/workbook-control-gui.c:5195
+#: src/workbook-control-gui.c:5196
 msgid "Send"
 msgstr "Отправить"
 
-#: src/workbook-control-gui.c:5195
+#: src/workbook-control-gui.c:5196
 msgid "Send the current file in email"
 msgstr "Отправить текущий файл по эл.почте"
 
-#: src/workbook-control-gui.c:5435 src/workbook-control-gui.c:5450
+#: src/workbook-control-gui.c:5436 src/workbook-control-gui.c:5451
 msgid "_Re-Edit"
 msgstr "Переправить"
 
-#: src/workbook-control-gui.c:5436 src/workbook-control-gui.c:5441
+#: src/workbook-control-gui.c:5437 src/workbook-control-gui.c:5442
 msgid "_Discard"
 msgstr "Отказаться"
 
-#: src/workbook-control-gui.c:5440 src/workbook-control-gui.c:5451
+#: src/workbook-control-gui.c:5441 src/workbook-control-gui.c:5452
 msgid "_Accept"
 msgstr "Принять"
 

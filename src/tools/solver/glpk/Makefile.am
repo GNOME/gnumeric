@@ -1,4 +1,4 @@
-SUBDIRS = source
+SUBDIRS = source include
 
 INCLUDES =						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-11-26 22:20-0500\n"
+"POT-Creation-Date: 2003-12-23 16:12-0500\n"
 "PO-Revision-Date: 2003-07-23 23:51+0800\n"
 "Last-Translator: Hasbullah Bin Pit <sebol@ikhlas.com>\n"
 "Language-Team: Projek Gabai <gabai-penyumbang@lists.sourceforge.org>\n"
@@ -706,8 +706,8 @@ msgstr "Terbitan Kewangan"
 msgid "Functions related to financial derivatives"
 msgstr "Fungsi berkait dengan terbitan kewangan"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5336
-#: plugins/mps/mps.c:549 src/xml-io.c:4004
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5362
+#: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Membaca fail..."
 
@@ -801,40 +801,40 @@ msgstr "Atribut dijangka %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "Dokumen XML tidak sempurna!"
 
-#: plugins/excel/ms-excel-read.c:1003 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1008 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#ENTAH!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1094 plugins/excel/ms-excel-read.c:1105
+#: plugins/excel/ms-excel-read.c:1099 plugins/excel/ms-excel-read.c:1110
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Helaian%d"
 
-#: plugins/excel/ms-excel-read.c:1108
+#: plugins/excel/ms-excel-read.c:1113
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1111
+#: plugins/excel/ms-excel-read.c:1116
 #, c-format
 msgid "Chart%d"
 msgstr "Carta%d"
 
-#: plugins/excel/ms-excel-read.c:1114
+#: plugins/excel/ms-excel-read.c:1119
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2827
+#: plugins/excel/ms-excel-read.c:2841
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Gagal menghantar nama '%s'"
 
-#: plugins/excel/ms-excel-read.c:2883
+#: plugins/excel/ms-excel-read.c:2897
 #, fuzzy, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -843,7 +843,7 @@ msgstr ""
 "Pautan DDE  tak disokong.\n"
 "Nama '%s' akan hilang.\n"
 
-#: plugins/excel/ms-excel-read.c:2889
+#: plugins/excel/ms-excel-read.c:2903
 #, fuzzy, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -852,23 +852,19 @@ msgstr ""
 "Pautan OLE  tak disokong.\n"
 "Nama '%s' akan hilang.\n"
 
-#: plugins/excel/ms-excel-read.c:2947
-msgid "Failure parsing AutoFilter."
-msgstr "Gagal menghantar AutoTapis."
-
-#: plugins/excel/ms-excel-read.c:4731
+#: plugins/excel/ms-excel-read.c:4757
 msgid "external references"
 msgstr "rujukan luaran"
 
-#: plugins/excel/ms-excel-read.c:5482
+#: plugins/excel/ms-excel-read.c:5508
 msgid "No password supplied"
 msgstr "Tiada katalaluan dibekalkan"
 
-#: plugins/excel/ms-excel-read.c:5486
+#: plugins/excel/ms-excel-read.c:5512
 msgid "Invalid password"
 msgstr "Katalaluan tidak sah"
 
-#: plugins/excel/ms-excel-read.c:5587
+#: plugins/excel/ms-excel-read.c:5613
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Tak dapat menjumpai bukukerja MS Excel yang sah"
 
@@ -4880,9 +4876,9 @@ msgstr "%s versi %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:670
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
-#: src/cut-n-paste-code/goffice/utils/go-marker.c:594
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:591
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
 msgid "Automatic"
@@ -10230,7 +10226,7 @@ msgstr "Fungsi Objektif:"
 msgid "Constraints:"
 msgstr "Pengekangan:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5736
+#: plugins/mps/mps.c:247 src/commands.c:5740
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1032
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -10818,20 +10814,15 @@ msgstr "Import fail MultiPlan (SYLK)"
 msgid "MultiPlan (SYLK)"
 msgstr "MultiPlan (SYLK)"
 
-#: plugins/sylk/sylk.c:372
+#: plugins/sylk/sylk.c:461
 msgid "Not SYLK file"
 msgstr "Bukan fail SYLK"
 
-#: plugins/sylk/sylk.c:384
+#: plugins/sylk/sylk.c:474
 msgid "error parsing line\n"
 msgstr "ralat menghantar baris\n"
 
-#: plugins/sylk/sylk.c:408
-#, c-format
-msgid "Imported %s"
-msgstr "Diimport %s"
-
-#: plugins/sylk/sylk.c:424
+#: plugins/sylk/sylk.c:530
 msgid "Error while reading sheet."
 msgstr "Ralat bila membaca helaian."
 
@@ -10856,10 +10847,10 @@ msgstr ""
 msgid "Error while opening xbase file."
 msgstr "Ralat bila membuka fail xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4561
+#: plugins/xbase/boot.c:175 src/commands.c:4565
 #: src/dialogs/dialog-goto-cell.c:290 src/dialogs/dialog-search.c:397
 #: src/dialogs/print.glade.h:21 src/print-info.c:474 src/workbook.c:1053
-#: src/xml-io.c:3594
+#: src/xml-io.c:3726
 msgid "Sheet"
 msgstr "Helaian"
 
@@ -11509,7 +11500,7 @@ msgstr "Bold"
 msgid "Borders"
 msgstr "Sempadan"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:423
+#: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:424
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
 msgstr "Butang"
@@ -11879,7 +11870,7 @@ msgstr ""
 msgid "Fourier Analysis"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:196
+#: src/GNOME_Gnumeric.xml.h:103 src/sheet-object-widget.c:197
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "Bingkai"
@@ -12052,8 +12043,8 @@ msgid "Jump to a specified cell"
 msgstr "Lompat ke sel dinyatakan"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:619
-#: src/sheet-object-graphic.c:1437 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:728
+#: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Label"
 
@@ -12222,7 +12213,7 @@ msgid "Print Preview"
 msgstr "Pralihat Cetakan"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1322 src/workbook-control-gui.c:3342
+#: src/print.c:1318 src/workbook-control-gui.c:3342
 #: src/workbook-control-gui.c:3997
 msgid "Print preview"
 msgstr "Pralihat cetakan"
@@ -12498,7 +12489,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Anal_isis Stastikal"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4033
-#: src/workbook-control-gui.c:4830 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4853 src/workbook-view.c:540
 msgid "Sum"
 msgstr "Jumlahkan"
 
@@ -13458,122 +13449,122 @@ msgstr "Ubahsaiz objek"
 msgid "Move object"
 msgstr ""
 
-#: src/commands.c:4805
+#: src/commands.c:4809
 msgid "Reordering Sheets"
 msgstr ""
 
-#: src/commands.c:4808
+#: src/commands.c:4812
 msgid "Renaming Sheets"
 msgstr "Menukarnama Helaian"
 
-#: src/commands.c:4811
+#: src/commands.c:4815
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "Menukarnama Helaian"
 
-#: src/commands.c:4815
+#: src/commands.c:4819
 msgid "Changing Tab Colors"
 msgstr "Menukar Warna Tab"
 
-#: src/commands.c:4818
+#: src/commands.c:4822
 msgid "Changing Sheet Protection"
 msgstr ""
 
-#: src/commands.c:4821
+#: src/commands.c:4825
 #, fuzzy
 msgid "Delete sheets"
 msgstr "Padam sel"
 
-#: src/commands.c:4824
+#: src/commands.c:4828
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "Pa_dam objek"
 
-#: src/commands.c:4827
+#: src/commands.c:4831
 msgid "Reorganizing Sheets"
 msgstr ""
 
-#: src/commands.c:4977
+#: src/commands.c:4981
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Mengosongkan komen bagi %s"
 
-#: src/commands.c:4978
+#: src/commands.c:4982
 #, c-format
 msgid "Setting comment of %s"
 msgstr "menetapkan komen bagi %s"
 
-#: src/commands.c:5358
+#: src/commands.c:5362
 #, fuzzy, c-format
 msgid "Merging data into %s"
 msgstr "Mencantum %s"
 
-#: src/commands.c:5460
+#: src/commands.c:5464
 msgid "Changing summary info"
 msgstr ""
 
-#: src/commands.c:5551
+#: src/commands.c:5555
 msgid "Raise object"
 msgstr "Angkat objek"
 
-#: src/commands.c:5554
+#: src/commands.c:5558
 #, fuzzy
 msgid "Lower object"
 msgstr "Selit objek"
 
-#: src/commands.c:5557
+#: src/commands.c:5561
 #, fuzzy
 msgid "Raise object to top"
 msgstr "Ubahsaiz objek"
 
-#: src/commands.c:5560
+#: src/commands.c:5564
 msgid "Lower object to bottom"
 msgstr ""
 
-#: src/commands.c:5675
+#: src/commands.c:5679
 #, fuzzy, c-format
 msgid "Page Setup For %s"
 msgstr "T_etapan cetak"
 
-#: src/commands.c:5677
+#: src/commands.c:5681
 #, fuzzy
 msgid "Page Setup For All Sheets"
 msgstr "T_etapan cetak"
 
-#: src/commands.c:5793
+#: src/commands.c:5797
 msgid "has a circular reference"
 msgstr ""
 
-#: src/commands.c:5816
+#: src/commands.c:5820
 #, fuzzy, c-format
 msgid "Define Name %s"
 msgstr "Takrif Nama"
 
-#: src/commands.c:5819
+#: src/commands.c:5823
 #, c-format
 msgid "Update Name %s"
 msgstr ""
 
-#: src/commands.c:5883
+#: src/commands.c:5887
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:5958
+#: src/commands.c:5962
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6022
+#: src/commands.c:6026
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:6133
+#: src/commands.c:6137
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Tels ke Kolum"
 
 #. Fill in the header titles.
-#: src/commands.c:6280 src/dialogs/solver.glade.h:24
+#: src/commands.c:6284 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
@@ -13581,22 +13572,22 @@ msgstr "Tels ke Kolum"
 msgid "Solver"
 msgstr "Simpan Sebagai..."
 
-#: src/commands.c:6367
+#: src/commands.c:6371
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "_Siri"
 
-#: src/commands.c:6509
+#: src/commands.c:6513
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "Laman Bertindan"
 
-#: src/commands.c:6589
+#: src/commands.c:6593
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "_Cetak..."
 
-#: src/commands.c:6665
+#: src/commands.c:6669
 msgid "Reconfigure Graph"
 msgstr ""
 
@@ -13632,7 +13623,7 @@ msgid "O_utside"
 msgstr "_Fail"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:567
 #, fuzzy
 msgid "_Cross"
 msgstr "_Tutup"
@@ -13674,33 +13665,43 @@ msgstr "_Fail"
 msgid "_Show Labels"
 msgstr "_Label"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:499
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:563
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:500
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:564
 #, fuzzy
 msgid "M_ax"
 msgstr "Max"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:501
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:565
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:502
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:566
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:572
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:644
+#, fuzzy
+msgid "Details"
+msgstr "Sorok Perincian"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:677
 #, fuzzy
 msgid "Bounds"
 msgstr "LatarBelakang"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:577
-#, fuzzy
-msgid "Details"
-msgstr "Sorok Perincian"
+#. TOO CHEESY to go into production
+#. * We need a way to toggle auto vs user formats
+#. * but the selector is too tall already
+#. * disable for now
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:692
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:699
+#: src/dialogs/dialog-stf.glade.h:21
+msgid "Format"
+msgstr "Format"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:183
 #, fuzzy
@@ -14068,13 +14069,13 @@ msgstr ""
 msgid "Guppi"
 msgstr "Guppi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:277
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:288
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Label"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:279
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:290
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -14117,7 +14118,7 @@ msgstr ""
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:87
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:90
 #, fuzzy
 msgid "PlotLine"
 msgstr "_Plot"
@@ -14126,7 +14127,7 @@ msgstr "_Plot"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:200
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:203
 #, fuzzy
 msgid "PlotArea"
 msgstr "_Plot"
@@ -14505,16 +14506,16 @@ msgstr ""
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:62
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:61
 #, fuzzy
 msgid "PlotXY"
 msgstr "_Plot"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:230
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:258
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:232
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:260
 msgid "Y"
 msgstr ""
 
@@ -15182,7 +15183,7 @@ msgstr "_Tapis"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2163 src/format.c:2292 src/format.c:2298 src/format.c:2374
+#: src/format.c:2178 src/format.c:2307 src/format.c:2313 src/format.c:2389
 #: src/plugin-service.c:200 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Umum"
@@ -15766,7 +15767,7 @@ msgstr ""
 msgid "Sort..."
 msgstr "Isih..."
 
-#: src/dialogs/cell-sort.glade.h:7
+#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-stf-export.glade.h:39
 #, fuzzy
 msgid "_Preserves Formats"
 msgstr "_Borang"
@@ -16487,31 +16488,31 @@ msgstr ""
 msgid "Clear Background"
 msgstr "Latar _Belakang"
 
-#: src/dialogs/dialog-cell-sort.c:119 src/dialogs/dialog-cell-sort.c:124
+#: src/dialogs/dialog-cell-sort.c:145
 #, c-format
 msgid "Column %s"
 msgstr "Kolum %s"
 
-#: src/dialogs/dialog-cell-sort.c:121 src/dialogs/dialog-cell-sort.c:126
+#: src/dialogs/dialog-cell-sort.c:147
 #, c-format
 msgid "Row %s"
 msgstr "Baris %s"
 
-#: src/dialogs/dialog-cell-sort.c:718
+#: src/dialogs/dialog-cell-sort.c:1039
 #, fuzzy
 msgid "Row/Column"
 msgstr "K_olum"
 
-#: src/dialogs/dialog-cell-sort.c:738
+#: src/dialogs/dialog-cell-sort.c:1059
 msgid "Case Sensitive"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:751
+#: src/dialogs/dialog-cell-sort.c:1079
 #, fuzzy
 msgid "By Value"
 msgstr "Nilai"
 
-#: src/dialogs/dialog-cell-sort.c:883
+#: src/dialogs/dialog-cell-sort.c:1214
 #, fuzzy
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Tidak dapat cipta fail sementara"
@@ -17363,17 +17364,17 @@ msgid "Variable"
 msgstr "Pembolehubah"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:4831
+#: src/workbook-control-gui.c:4854
 #, fuzzy
 msgid "Min"
 msgstr "Man"
 
-#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4833
+#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4856
 msgid "Average"
 msgstr "Purata"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:4832
+#: src/workbook-control-gui.c:4855
 msgid "Max"
 msgstr "Max"
 
@@ -17400,7 +17401,7 @@ msgid "Could not create the Simulation dialog."
 msgstr "Tak dapat mencipta dialog Simulasi."
 
 #: src/dialogs/dialog-solver.c:100
-msgid "Revised Simplex (GLPK 3.2)"
+msgid "Revised Simplex (GLPK 4.2)"
 msgstr ""
 
 #: src/dialogs/dialog-solver.c:101
@@ -17642,7 +17643,7 @@ msgstr "Operator tidak diketahui"
 msgid "Windows (carriage return + linefeed)"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf-export.glade.h:40 src/dialogs/dialog-stf.glade.h:64
 msgid "`"
 msgstr ""
 
@@ -17801,10 +17802,6 @@ msgstr "_Tamat"
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "Fixed"
 msgstr "Tetap"
-
-#: src/dialogs/dialog-stf.glade.h:21
-msgid "Format"
-msgstr "Format"
 
 #: src/dialogs/dialog-stf.glade.h:22
 msgid "Fr_om line:"
@@ -19972,7 +19969,7 @@ msgid "Yellow"
 msgstr "Kuning"
 
 #. Array of arrays ??
-#: src/format.c:2055
+#: src/format.c:2070
 msgid "ARRAY"
 msgstr ""
 
@@ -20863,7 +20860,7 @@ msgstr "Simpan bukukerja sebagai"
 msgid "Multiple errors\n"
 msgstr "Banyak ralat\n"
 
-#: src/gui-util.c:806
+#: src/gui-util.c:808
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Tak dapat membuka fail '%s'"
@@ -21500,19 +21497,19 @@ msgstr ""
 msgid "Print Region"
 msgstr ""
 
-#: src/print.c:1240
+#: src/print.c:1238
 msgid "Print Sheets"
 msgstr ""
 
-#: src/print.c:1248
+#: src/print.c:1246
 msgid "Act_ive sheet"
 msgstr "Helaian aktif"
 
-#: src/print.c:1248
+#: src/print.c:1246
 msgid "S_heets"
 msgstr "_Helaian"
 
-#: src/print.c:1334
+#: src/print.c:1330
 msgid "Printing failed"
 msgstr "Cetakan gagal"
 
@@ -21681,36 +21678,31 @@ msgstr ""
 msgid "Could not load file: %s"
 msgstr "Tak dapat memuatkan fail: %s "
 
-#: src/sheet-object-graph.c:162
+#: src/sheet-object-graph.c:163
 msgid "Save graph as image"
 msgstr ""
 
-#: src/sheet-object-graph.c:201
+#: src/sheet-object-graph.c:202
 msgid "Sorry, gnumeric can only save graphs as png images"
 msgstr ""
 
-#: src/sheet-object-graph.c:219
+#: src/sheet-object-graph.c:220
 #, fuzzy
 msgid "_Save as image"
 msgstr "Pilih satu fail imej"
 
-#: src/sheet-object-graphic.c:939 src/sheet-object-graphic.c:958
+#: src/sheet-object-graphic.c:944 src/sheet-object-graphic.c:963
 msgid "Transparent"
 msgstr "Telus"
 
-#: src/sheet-object-widget.c:1142
+#: src/sheet-object-widget.c:1143
 #, c-format
 msgid "CheckBox %d"
 msgstr ""
 
-#: src/sheet-object-widget.c:1575 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1576 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "ButangRadio"
-
-#: src/sheet-object.c:530
-#, fuzzy, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Jenis Python tidak disokong: %s"
 
 #. Oh, yeah?
 #: src/sheet-style.c:492
@@ -22312,7 +22304,7 @@ msgstr ""
 msgid "Range"
 msgstr "Range"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:4834
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4857
 msgid "Count"
 msgstr "Kira"
 
@@ -23445,11 +23437,11 @@ msgstr "Saintifik"
 msgid "Special"
 msgstr "Istimewa"
 
-#: src/widgets/widget-format-selector.c:935
+#: src/widgets/widget-format-selector.c:955
 msgid "Negative Number Format"
 msgstr "Format Nombor Negatif"
 
-#: src/widgets/widget-format-selector.c:966
+#: src/widgets/widget-format-selector.c:986
 msgid "Number Formats"
 msgstr "Format Nombor"
 
@@ -24347,31 +24339,31 @@ msgstr "Nyahcara operasi"
 msgid "Redo the operation"
 msgstr "Ulangcara operasi"
 
-#: src/workbook-control-gui.c:5127
+#: src/workbook-control-gui.c:5150
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr ""
 
-#: src/workbook-control-gui.c:5173
+#: src/workbook-control-gui.c:5196
 msgid "Send"
 msgstr "Kirim"
 
-#: src/workbook-control-gui.c:5173
+#: src/workbook-control-gui.c:5196
 #, fuzzy
 msgid "Send the current file in email"
 msgstr "Kirim laman semasa dengan emel"
 
-#: src/workbook-control-gui.c:5413 src/workbook-control-gui.c:5428
+#: src/workbook-control-gui.c:5436 src/workbook-control-gui.c:5451
 #, fuzzy
 msgid "_Re-Edit"
 msgstr "Ulang-Edit"
 
-#: src/workbook-control-gui.c:5414 src/workbook-control-gui.c:5419
+#: src/workbook-control-gui.c:5437 src/workbook-control-gui.c:5442
 #, fuzzy
 msgid "_Discard"
 msgstr "_Dimatikan"
 
-#: src/workbook-control-gui.c:5418 src/workbook-control-gui.c:5429
+#: src/workbook-control-gui.c:5441 src/workbook-control-gui.c:5452
 #, fuzzy
 msgid "_Accept"
 msgstr "Terima"
@@ -24569,34 +24561,45 @@ msgstr "Terdapat helaian bernama"
 msgid "You may not use this name twice"
 msgstr ""
 
-#: src/xml-io.c:3297
+#: src/xml-io.c:2728
+#, fuzzy, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Jenis Python tidak disokong: %s"
+
+#: src/xml-io.c:3429
 msgid "Unparsable xml in clipboard"
 msgstr "Xml tak boleh dihantar pada papanklip"
 
-#: src/xml-io.c:3304
+#: src/xml-io.c:3436
 msgid "Clipboard is in unknown format"
 msgstr "Format Papanklip tidak diketahui"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3725
+#: src/xml-io.c:3857
 msgid "Processing file..."
 msgstr "Memproses fail..."
 
-#: src/xml-io.c:4052
+#: src/xml-io.c:4184
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Adalah bukan fail Bukukerja Gnumeric"
 
-#: src/xml-io.c:4089
+#: src/xml-io.c:4221
 #, fuzzy
 msgid "Failure saving file"
 msgstr "Ralat berlaku ketika menyimpan fail ."
 
-#: src/xml-io.c:4122
+#: src/xml-io.c:4254
 msgid "Gnumeric XML file format"
 msgstr "Format fail XML Gnumeric"
+
+#~ msgid "Failure parsing AutoFilter."
+#~ msgstr "Gagal menghantar AutoTapis."
+
+#~ msgid "Imported %s"
+#~ msgstr "Diimport %s"
 
 # ui/galeon.glade.h:247
 #, fuzzy

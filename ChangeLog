@@ -1,5 +1,9 @@
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.2.3
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
 	* gnumeric.keys.in : expand our claims.
 	* gnumeric.mime : apparently duplicates are not a good idea.
 

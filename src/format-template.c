@@ -25,6 +25,7 @@
 #include "format-template.h"
 
 #include "mstyle.h"
+#include "gutils.h"
 #include "sheet.h"
 #include "sheet-style.h"
 #include "style-border.h"
