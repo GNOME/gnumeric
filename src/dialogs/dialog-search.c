@@ -281,25 +281,16 @@ is_checked (GladeXML *gui, const char *name)
 }
 
 static void
-cb_selection_changed (int row, gpointer closure)
+cursor_change (ETable *et, int row, DialogState *dd)
 {
-	/* Silly, eh?  */
-	*(int *)closure = row;
-}
-
-static void
-selection_changed (GtkWidget *w, DialogState *dd)
-{
-	int matchno = -1;
-	e_selection_model_foreach (E_SELECTION_MODEL (dd->e_table->selection),
-				   cb_selection_changed,
-				   &matchno);
+	int matchno = row;
+	int lastmatch = dd->matches->len - 1;
 
 	gtk_widget_set_sensitive (dd->prev_button, matchno > 0);
 	gtk_widget_set_sensitive (dd->next_button,
-				  matchno >= 0 && matchno < (int)dd->matches->len - 1);
+				  matchno >= 0 && matchno < lastmatch);
 
-	if (matchno >= 0) {
+	if (matchno >= 0 && matchno <= lastmatch) {
 		SearchFilterResult *item = g_ptr_array_index (dd->matches, matchno);
 		Sheet *sheet = item->ep.sheet;
 		int col = item->ep.eval.col;
@@ -312,6 +303,7 @@ selection_changed (GtkWidget *w, DialogState *dd)
 		sheet_make_cell_visible (sheet, col, row, FALSE);
 	}
 }
+
 
 static void
 search_clicked (GtkWidget *widget, DialogState *dd)
@@ -397,7 +389,6 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 		e_selection_model_select_single_row (E_SELECTION_MODEL (dd->e_table->selection),
 						     0);
 		e_table_set_cursor_row (dd->e_table, 0);
-		selection_changed (NULL, dd);
 	}
 
 	gtk_notebook_set_page (dd->notebook, dd->notebook_matches_page);
@@ -535,9 +526,9 @@ dialog_search (WorkbookControlGUI *wbcg)
 	gnome_dialog_editable_enters
 		(dialog, GTK_EDITABLE (glade_xml_get_widget (gui, "searchtext")));
 
-	gtk_signal_connect (GTK_OBJECT (dd->e_table->selection),
-			    "selection_changed",
-			    GTK_SIGNAL_FUNC (selection_changed),
+	gtk_signal_connect (GTK_OBJECT (dd->e_table),
+			    "cursor_change",
+			    GTK_SIGNAL_FUNC (cursor_change),
 			    dd);
 
 	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "search_button")),
@@ -566,7 +557,7 @@ dialog_search (WorkbookControlGUI *wbcg)
 	gtk_signal_connect (GTK_OBJECT (dd->rangetext), "focus-in-event",
 			    GTK_SIGNAL_FUNC (range_focused), dd);
 
-	selection_changed (NULL, dd);
+	cursor_change (dd->e_table, 0, dd);
 	gtk_widget_show_all (dialog->vbox);
 	gnumeric_expr_entry_set_scg (dd->rangetext,
 				     wb_control_gui_cur_sheet (wbcg));

@@ -12,6 +12,7 @@ Jody:
 
 Morten:
 	* Make sure Linux ends up using IEEE_754 code in mathfunc.c.
+	* Fix search crash.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.1
