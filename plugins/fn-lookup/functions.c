@@ -768,11 +768,9 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 	}
 
 	if (a1_style)
-		error = !cellref_a1_get (&ref, text, ei->pos->eval.col,
-					 ei->pos->eval.row);
+		error = !cellref_a1_get (&ref, text, &ei->pos->eval);
 	else
-		error = !cellref_r1c1_get (&ref, text, ei->pos->eval.col,
-					   ei->pos->eval.row);
+		error = !cellref_r1c1_get (&ref, text, &ei->pos->eval);
 	g_free (text);
 
 	if (error)

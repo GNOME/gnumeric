@@ -9,6 +9,7 @@
 #include <math.h>
 #include "gnumeric.h"
 #include "parse-util.h"
+#include "func-util.h"
 #include "func.h"
 #include "cell.h"
 #include "mathfunc.h"
@@ -852,14 +853,6 @@ static char *help_fact = {
 	   "@SEEALSO=")
 };
 
-float_t
-fact (int n)
-{
-	if (n == 0)
-		return 1;
-	return (n * fact (n - 1));
-}
-
 static Value *
 gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
 {
@@ -903,22 +896,6 @@ static char *help_combin = {
 	   "\n"
 	   "@SEEALSO=")
 };
-
-float_t
-combin (int n, int k)
-{
-	if (n >= 15) {
-		float_t res;
-
-		res = exp (lgamma (n + 1) - lgamma (k + 1) - lgamma (n - k + 1));
-		return floor (res + 0.5);  /* Round, just in case.  */
-	} else {
-		float_t res;
-
-		res = fact (n) / fact (k) / fact (n - k);
-		return res;
-	}
-}
 
 static Value *
 gnumeric_combin (FunctionEvalInfo *ei, Value **argv)

@@ -11,6 +11,7 @@
 #include <glade/glade.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "func-util.h"
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "workbook.h"
@@ -21,7 +22,6 @@
 
 #define OK               0
 #define N_COLUMNS_ERROR  1
-
 
 static gboolean unique_only_flag;
 

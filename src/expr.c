@@ -40,26 +40,25 @@ expr_tree_new_constant (Value *v)
 ExprTree *
 expr_tree_new_error (char const *txt)
 {
-	Symbol *func;
+	FunctionDefinition *func;
 	GList *args = NULL;
 
-	if (strcmp (txt, gnumeric_err_NA) == 0) {
-		func = symbol_lookup (global_symbol_table, "NA");
-	} else {
-		func = symbol_lookup (global_symbol_table, "ERROR");
+	if (strcmp (txt, gnumeric_err_NA) != 0) {
+		func = func_lookup_by_name ("ERROR", NULL);
 		args = g_list_prepend (NULL,
 				       expr_tree_new_constant (value_new_string (txt)));
-	}
+	} else
+		func = func_lookup_by_name ("NA", NULL);
 
-	symbol_ref (func);
+	func_ref (func);
 	return expr_tree_new_funcall (func, args);
 }
 
 ExprTree *
-expr_tree_new_funcall (Symbol *sym, GList *args)
+expr_tree_new_funcall (FunctionDefinition *func, GList *args)
 {
 	ExprFunction *ans;
-	g_return_val_if_fail (sym, NULL);
+	g_return_val_if_fail (func, NULL);
 
 	ans = g_new (ExprFunction, 1);
 	if (!ans)
@@ -67,7 +66,7 @@ expr_tree_new_funcall (Symbol *sym, GList *args)
 
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = OPER_FUNCALL;
-	ans->symbol = sym;;
+	ans->func = func;;
 	ans->arg_list = args;
 
 	return (ExprTree *)ans;
@@ -271,7 +270,7 @@ do_expr_tree_unref (ExprTree *tree)
 		for (l = tree->func.arg_list; l; l = l->next)
 			do_expr_tree_unref (l->data);
 		g_list_free (tree->func.arg_list);
-		symbol_unref (tree->func.symbol);
+		func_unref (tree->func.func);
 		break;
 	}
 
@@ -333,19 +332,13 @@ eval_funcall (EvalPos const *pos, ExprTree const *tree,
 	      ExprEvalFlags flags)
 {
 	FunctionEvalInfo ei;
-	Symbol const *sym;
 	FunctionDefinition *fd;
 	GList *args;
 
 	g_return_val_if_fail (pos != NULL, NULL);
 	g_return_val_if_fail (tree != NULL, NULL);
 
-	sym = tree->func.symbol;
-
-	if (sym->type != SYMBOL_FUNCTION)
-		return value_new_error (pos, _("Internal error"));
-
-	fd = (FunctionDefinition *)sym->data;
+	fd = tree->func.func;
 	ei.func_def = fd;
 	ei.pos = pos;
 	args = tree->func.arg_list;
@@ -1121,7 +1114,7 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 		char **args;
 		int  argc;
 
-		fd = tree->func.symbol->data;
+		fd = tree->func.func;
 		arg_list = tree->func.arg_list;
 		argc = g_list_length (arg_list);
 
@@ -1166,7 +1159,7 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 
 	case OPER_VAR: {
 		CellRef const *cell_ref = &tree->var.ref;
-		return cellref_name (cell_ref, pp);
+		return cellref_name (cell_ref, pp, FALSE);
 	}
 
 	case OPER_CONSTANT: {
@@ -1176,8 +1169,10 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 		case VALUE_CELLRANGE: {
 			char *a, *b, *res;
 
-			a = cellref_name (&v->v_range.cell.a, pp);
-			b = cellref_name (&v->v_range.cell.b, pp);
+			a = cellref_name (&v->v_range.cell.a, pp, FALSE);
+			b = cellref_name (&v->v_range.cell.b, pp,
+					  v->v_range.cell.a.sheet ==
+					  v->v_range.cell.b.sheet);
 
 			res = g_strconcat (a, ":", b, NULL);
 
@@ -1490,8 +1485,7 @@ expr_rewrite (ExprTree        const *expr,
 					expr_tree_ref ((m->data = l->data));
 			}
 
-			symbol_ref (expr->func.symbol);
-			return expr_tree_new_funcall (expr->func.symbol, new_args);
+			return expr_tree_new_funcall (expr->func.func, new_args);
 		}
 		g_list_free (new_args);
 		return NULL;
@@ -1591,16 +1585,10 @@ expr_rewrite (ExprTree        const *expr,
 FunctionDefinition *
 expr_tree_get_func_def (ExprTree const *expr)
 {
-	Symbol const *sym;
-
 	g_return_val_if_fail (expr != NULL, NULL);
+	g_return_val_if_fail (expr->any.oper == OPER_FUNCALL, NULL);
 
-	sym = expr->func.symbol;
-
-	g_return_val_if_fail (sym, NULL);
-	g_return_val_if_fail (sym->type == SYMBOL_FUNCTION, NULL);
-
-	return sym->data;
+	return expr->func.func;
 }
 
 ExprTree const *

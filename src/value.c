@@ -374,7 +374,7 @@ value_get_as_checked_bool (Value const *v)
 	
 	result = value_get_as_bool (v, &err);
 	
-	g_assert (!err);
+	g_return_val_if_fail (!err, FALSE);
 	
 	return result;
 }

@@ -23,20 +23,20 @@ func_plusone (FunctionEvalInfo *ei, Value *argv [])
 static int
 can_unload (PluginData *pd)
 {
-	Symbol *sym;
+	FunctionDefinition *func;
 
-	sym = symbol_lookup (global_symbol_table, "plusone");
-	return sym->ref_count <= 1;
+	func = func_lookup_by_name ("plusone", NULL);
+	return func != NULL && func->ref_count <= 1;
 }
 
 static void
 cleanup_plugin (PluginData *pd)
 {
-	Symbol *sym;
+	FunctionDefinition *func;
 
-	sym = symbol_lookup (global_symbol_table, "plusone");
-	if (sym)
-		symbol_unref (sym);
+	func = func_lookup_by_name ("plusone", NULL);
+	if (func)
+		func_unref (func);
 }
 
 PluginInitResult

@@ -157,8 +157,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	format_match_init ();
 	format_color_init ();
 	cursors_init ();
-	global_symbol_init ();
-	constants_init ();
 	auto_format_init ();
 	functions_init ();
 	expr_name_init ();

@@ -26,4 +26,4 @@ endif
 
 SUBDIRS = excel lotus-123 oleo sc sylk text ff-csv xbase html dif plan-perfect \
 	$(PYTHON_DIR) $(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
-	sample numtheory gda
+	sample numtheory gda xml2

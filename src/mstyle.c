@@ -864,7 +864,7 @@ mstyle_set_border (MStyle *st, MStyleElementType t,
 
 }
 
-const MStyleBorder *
+MStyleBorder *
 mstyle_get_border (const MStyle *st, MStyleElementType t)
 {
 	g_return_val_if_fail (mstyle_is_element_set (st, t), NULL);

@@ -26,7 +26,6 @@
 #include <libole2/ms-ole-vba.h>
 
 #include "gnumeric.h"
-#include "symbol.h"
 #include "plugin.h"
 #include "expr.h"
 #include "func.h"

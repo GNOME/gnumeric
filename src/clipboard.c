@@ -41,15 +41,15 @@
  * paste_cell: Pastes a cell in the spreadsheet
  *
  * @dest_sheet:  The sheet where the pasting will be done
- * @new_cell:    A new cell (not linked into the sheet, or wb->expr_list)
  * @target_col:  Column to put the cell into
  * @target_row:  Row to put the cell into.
+ * @new_cell:    A new cell (not linked into the sheet, or wb->expr_list)
  * @paste_flags: Bit mask that describes the paste options.
  */
 static void
 paste_cell (Sheet *dest_sheet,
 	    int target_col, int target_row,
-	    int col_offset, int row_offset,
+	    ExprRewriteInfo *rwinfo,
 	    CellCopy *c_copy, int paste_flags)
 {
 	if ((paste_flags & (PASTE_FORMULAS | PASTE_VALUES))){
@@ -63,7 +63,7 @@ paste_cell (Sheet *dest_sheet,
 
 			if (cell_has_expr (new_cell)) {
 				if (paste_flags & PASTE_FORMULAS) {
-					cell_relocate (new_cell, col_offset, row_offset, TRUE);
+					cell_relocate (new_cell, rwinfo);
 
 					/* FIXME : do this at a range level too */
 					sheet_cell_changed (new_cell);
@@ -171,11 +171,24 @@ clipboard_paste_region (CommandContext *context,
 			int const left = repeat_horizontal * src_cols + pt->range.start.col;
 			int const top = repeat_vertical * src_rows + pt->range.start.row;
 			CellCopyList *l;
-			int col_offset = 0, row_offset = 0;
+			ExprRewriteInfo   rwinfo;
+			ExprRelocateInfo *rinfo;
+
+			rwinfo.type = EXPR_REWRITE_RELOCATE;
+			rinfo = &rwinfo.u.relocate;
+			rinfo->origin_sheet = rinfo->target_sheet = pt->sheet;
 
 			if (pt->paste_flags & PASTE_EXPR_RELOCATE) {
-				col_offset = left - content->base_col;
-				row_offset = top - content->base_row;
+				rinfo->origin.start.col = content->base_col;
+				rinfo->origin.end.col = content->base_col + content->cols -1;
+				rinfo->origin.start.row = content->base_row;
+				rinfo->origin.end.row = content->base_row + content->rows -1;
+				rinfo->col_offset = left - content->base_col;
+				rinfo->row_offset = top - content->base_row;
+			} else {
+				rinfo->origin = pt->range;
+				rinfo->col_offset = 0;
+				rinfo->row_offset = 0;
 			}
 
 			/* Move the styles on here so we get correct formats before recalc */
@@ -184,8 +197,8 @@ clipboard_paste_region (CommandContext *context,
 
 				boundary.start.col = left;
 				boundary.start.row = top;
-				boundary.end.col   = left + src_cols;
-				boundary.end.row   = top + src_rows;
+				boundary.end.col   = left + src_cols - 1;
+				boundary.end.row   = top + src_rows - 1;
 				sheet_style_attach_list (pt->sheet, content->styles, &boundary.start,
 							 (pt->paste_flags & PASTE_TRANSPOSE));
 
@@ -205,10 +218,17 @@ clipboard_paste_region (CommandContext *context,
 					target_row += c_copy->row_offset;
 				}
 
-				paste_cell (pt->sheet,
-					    target_col, target_row,
-					    col_offset, row_offset,
-					    c_copy, pt->paste_flags);
+				rinfo->pos.sheet = pt->sheet;
+				if (pt->paste_flags & PASTE_EXPR_RELOCATE) {
+					rinfo->pos.eval.col = content->base_col + c_copy->col_offset;
+					rinfo->pos.eval.row = content->base_row + c_copy->row_offset;
+				} else {
+					rinfo->pos.eval.col = target_col;
+					rinfo->pos.eval.row = target_row;
+				}
+
+				paste_cell (pt->sheet, target_col, target_row,
+					    &rwinfo, c_copy, pt->paste_flags);
 			}
 		}
 

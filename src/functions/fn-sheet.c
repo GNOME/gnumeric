@@ -99,11 +99,35 @@ gnumeric_selection (FunctionEvalInfo *ei, Value *argv [])
 
 /***************************************************************************/
 
+static char *help_gnumeric_version = {
+	N_("@FUNCTION=GNUMERIC_VERSION\n"
+	   "@SYNTAX=GNUMERIC_VERSION()\n"
+
+	   "@DESCRIPTION="
+	   "Return the version of gnumeric as a string."
+
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_version (FunctionEvalInfo *ei, Value *argv [])
+{
+	return value_new_float (atof (GNUMERIC_VERSION));
+}
+
+/***************************************************************************/
+
 void
 sheet_functions_init (void)
 {
-	FunctionCategory *cat = function_get_category (_("Sheet"));
+	FunctionCategory *cat0 = function_get_category (_("Sheet"));
+	FunctionCategory *cat1 = function_get_category (_("Gnumeric"));
 
-	function_add_args (cat, "selection", "b",  "permit_intersection",
+	function_add_args (cat0, "selection", "b",  "permit_intersection",
 			   &help_selection, gnumeric_selection);
+	function_add_args (cat1, "gnumeric_version", "",  "",
+			   &help_gnumeric_version, gnumeric_version);
 }

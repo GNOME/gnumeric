@@ -104,21 +104,21 @@ execSQL (void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **
 
 	node = expr_node_list->data;
 	g_print("1. node->oper = %d\n", node->oper);
-	db_name = expr_decode_tree(node, sheet, eval_col, eval_row);
+	db_name = expr_tree_as_string(node, sheet, eval_col, eval_row);
 	db_name[strlen(db_name)-1] = '\0';
 	g_print("1. node: value = '%s'\n", &db_name[1]);
 
 	expr_node_list = g_list_next(expr_node_list);
 	node = expr_node_list->data;
 	g_print("2. node->oper = %d\n", node->oper);
-	user = expr_decode_tree(node, sheet, eval_col, eval_row);
+	user = expr_tree_as_string(node, sheet, eval_col, eval_row);
 	user[strlen(user)-1] = '\0';
 	g_print("2. node: value = '%s'\n", &user[1]);
 
 	expr_node_list = g_list_next(expr_node_list);
 	node = expr_node_list->data;
 	g_print("3.node->oper = %d\n", node->oper);
-	password = expr_decode_tree(node, sheet, eval_col, eval_row);
+	password = expr_tree_as_string(node, sheet, eval_col, eval_row);
 	password[strlen(password)-1] = '\0';
 	g_print("3. node: value = '%s'\n", &password[1]);
 
@@ -231,20 +231,20 @@ static FunctionDefinition plugin_functionp[] ={
 static int
 can_unload (PluginData *pd)
 {
-	Symbol *sym;
+	FunctionDefinition *func;
 
-	sym = symbol_lookup (global_symbol_table, "execSQL");
-	return sym->ref_count <= 1;
+	func = func_lookup_by_name ("execSQL", NULL);
+	return func != NULL && func->ref_count <= 1;
 }
 
 static void
 cleanup_plugin (PluginData *pd)
 {
-	Symbol *sym;
+	FunctionDefinition *func;
 
-	sym = symbol_lookup (global_symbol_table, "execSQL");
-	if (sym)
-		symbol_unref(sym);
+	func = func_lookup_by_name ("execSQL", NULL);
+	if (func)
+		func_unref (func);
 }
 
 PluginInitResult

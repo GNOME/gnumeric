@@ -771,7 +771,7 @@ find_decimal_char (char const *str)
 			/* These ones do not have any argument */
 		case '#': case '?': case '0': case '%':
 		case '-': case '+': case ')': case '£':
-		case ':': case '$':
+		case ':': case '$': case '¥': case '¤':
 		case 'M': case 'm': case 'D': case 'd':
 		case 'Y': case 'y': case 'S': case 's':
 		case '*': case 'h': case 'H': case 'A':
@@ -920,7 +920,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 	GString *result = g_string_new ("");
 	const char *format = style_format_entry->format;
 	format_info_t info;
-	int can_render_number = 0;
+	gboolean can_render_number = FALSE;
 	int hour_seen = 0;
 	gboolean time_display_elapsed = FALSE;
 	gboolean ignore_further_elapsed = FALSE;
@@ -959,13 +959,13 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			break;
 
 		case '#':
-			can_render_number = 1;
+			can_render_number = TRUE;
 			if (info.decimal_separator_seen)
 				info.right_optional++;
 			break;
 
 		case '?':
-			can_render_number = 1;
+			can_render_number = TRUE;
 			if (info.decimal_separator_seen)
 				info.right_spaces++;
 			else
@@ -973,7 +973,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			break;
 
 		case '0':
-			can_render_number = 1;
+			can_render_number = TRUE;
 			if (info.decimal_separator_seen){
 				info.right_req++;
 				info.right_allowed++;
@@ -987,7 +987,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 		case CHAR_DECIMAL: {
 			int c = *(format+1);
 
-			can_render_number = 1;
+			can_render_number = TRUE;
 			if (c && (c != '0' && c != '#' && c != '?'))
 				number /= 1000;
 			else
@@ -1007,7 +1007,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 		}
 
 		case 'E': case 'e':
-			can_render_number = 1;
+			can_render_number = TRUE;
 			info.scientific = *format;
 			for (format++; *format;){
 				if (*format == '+'){
@@ -1040,7 +1040,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 
 		/* percent */
 		case '%':
-			can_render_number = 1;
+			can_render_number = TRUE;
 			number *= 100;
 			info.append_after_number = "%";
 			break;
@@ -1087,6 +1087,14 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 
 		case '$':
 		case '£':
+		case '¥':
+		case '¤':
+			if (can_render_number && !info.rendered) {
+				char *ntxt;
+				ntxt = do_render_number (number, &info);
+				g_string_append (result, ntxt);
+				g_free (ntxt);
+			}
 			g_string_append_c (result, *format);
 			break;
 
@@ -1101,6 +1109,12 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			break;
 
 		case '_':
+			if (can_render_number && !info.rendered) {
+				char *ntxt;
+				ntxt = do_render_number (number, &info);
+				g_string_append (result, ntxt);
+				g_free (ntxt);
+			}
 			if (*(format+1))
 				format++;
 			g_string_append_c (result, ' ');

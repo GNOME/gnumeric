@@ -1,6 +1,4 @@
-/* vim: set sw=8:
- * $Id$
- */
+/* vim: set sw=8: */
 
 /*
  * parse-util.c: Various utility routines to parse or produce
@@ -37,7 +35,7 @@
 
 /* Can remove sheet since local references have NULL sheet */
 char *
-cellref_name (CellRef const *cell_ref, ParsePos const *pp)
+cellref_name (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname)
 {
 	static char buffer [sizeof (long) * 4 + 4];
 	char *p = buffer;
@@ -70,7 +68,7 @@ cellref_name (CellRef const *cell_ref, ParsePos const *pp)
 	sprintf (p, "%d", row+1);
 
 	/* If it is a non-local reference, add the path to the external sheet */
-	if (sheet != NULL) {
+	if (sheet != NULL && !no_sheetname) {
 		char *s;
 	        
 		s = g_strconcat (sheet->name_quoted, "!", buffer, NULL);
@@ -88,7 +86,7 @@ cellref_name (CellRef const *cell_ref, ParsePos const *pp)
 }
 
 gboolean
-cellref_a1_get (CellRef *out, const char *in, int parse_col, int parse_row)
+cellref_a1_get (CellRef *out, const char *in, CellPos const *pos)
 {
 	int col = 0;
 	int row = 0;
@@ -134,12 +132,12 @@ cellref_a1_get (CellRef *out, const char *in, int parse_col, int parse_row)
 
 	/* Setup the cell reference information */
 	if (out->row_relative)
-		out->row = row - parse_row;
+		out->row = row - pos->row;
 	else
 		out->row = row;
 
 	if (out->col_relative)
-		out->col = col - parse_col;
+		out->col = col - pos->col;
 	else
 		out->col = col;
 
@@ -183,15 +181,15 @@ r1c1_get_item (int *num, unsigned char *rel, const char * *const in)
 }
 
 gboolean
-cellref_r1c1_get (CellRef *out, const char *in, int parse_col, int parse_row)
+cellref_r1c1_get (CellRef *out, const char *in, CellPos const *pos)
 {
 	g_return_val_if_fail (in != NULL, FALSE);
 	g_return_val_if_fail (out != NULL, FALSE);
 
 	out->row_relative = FALSE;
 	out->col_relative = FALSE;
-	out->col = parse_col;
-	out->row = parse_row;
+	out->col = pos->col;
+	out->row = pos->row;
 	out->sheet = NULL;
 
 	if (!*in)
@@ -227,10 +225,10 @@ cellref_r1c1_get (CellRef *out, const char *in, int parse_col, int parse_row)
  * Return value: TRUE if no format errors found.
  **/
 gboolean
-cellref_get (CellRef *out, const char *in, int parse_col, int parse_row)
+cellref_get (CellRef *out, const char *in, CellPos const *pos)
 {
-	return (cellref_a1_get (out, in, parse_col, parse_row)) ||
-		cellref_r1c1_get (out, in, parse_col, parse_row);
+	return  cellref_a1_get (out, in, pos) ||
+		cellref_r1c1_get (out, in, pos);
 }
 
 /****************************************************************************/

@@ -106,16 +106,25 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 	for (; *format; format++){
 		switch (*format){
 		case '_':
-			if (*(format+1))
+			if (format[1]) {
+				g_string_append_c (regexp, ' ');
 				format++;
+			}
+			break;
+
+		case '*':
+			if (format[1]) {
+				g_string_append_c (regexp, '[');
+				g_string_append_c (regexp, format[1]);
+				g_string_append_c (regexp, ']');
+				g_string_append_c (regexp, '*');
+				format++;
+			}
 			break;
 
 		case 'P': case 'p':
 			if (tolower (*(format+1)) == 'm')
 				format++;
-			break;
-
-		case '*':
 			break;
 
 		case '\\':
@@ -139,8 +148,10 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 			}
 
 		case ']' :
+		case '$' :
 		case '£' :
-		case '$':
+		case '¥' :
+		case '¤' :
 			g_string_append_c (regexp, '\\');
 			g_string_append_c (regexp, *format);
 			break;

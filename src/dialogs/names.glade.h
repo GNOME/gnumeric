@@ -5,7 +5,11 @@
  */
 
 gchar *s = N_("Define Name");
-gchar *s = N_("Names in workbook:");
+gchar *s = N_("Names in ");
+gchar *s = N_("Workbook\n"
+              "Sheet\n"
+              "");
+gchar *s = N_("Workbook");
 gchar *s = N_("Add");
 gchar *s = N_("Delete");
 gchar *s = N_("Refers to:");

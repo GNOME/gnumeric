@@ -2,7 +2,6 @@
 #include <glib.h>
 #include <stdio.h>
 #include "numbers.h"
-#include "symbol.h"
 #include "str.h"
 #include "expr.h"
 

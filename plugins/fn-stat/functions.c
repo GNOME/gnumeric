@@ -12,6 +12,7 @@
 #include "regression.h"
 #include "numbers.h"
 #include "parse-util.h"
+#include "func-util.h"
 #include "func.h"
 #include "cell.h"
 #include "collect.h"
@@ -1408,7 +1409,7 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	if (p1.cols != p2.cols || p1.rows != p2.rows)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	ret = function_iterate_do_value (ei->pos, (FunctionIterateCallback)
+	ret = function_iterate_do_value (ei->pos, (FunctionIterateCB)
 					 callback_function_chitest_actual,
 					 &p1, argv[0],
 					 TRUE, TRUE);
@@ -1419,7 +1420,7 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	p2.current_cell = p1.columns->data;
 	p2.next_col = p1.columns->next;
 
-	ret = function_iterate_do_value (ei->pos, (FunctionIterateCallback)
+	ret = function_iterate_do_value (ei->pos, (FunctionIterateCB)
 					 callback_function_chitest_theoretical,
 					 &p2, argv[1],
 					 TRUE, TRUE);
@@ -3178,7 +3179,7 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 		        return value_new_error (ei->pos, gnumeric_err_NUM);
 	}
 
-	ret = function_iterate_do_value (ei->pos, (FunctionIterateCallback)
+	ret = function_iterate_do_value (ei->pos, (FunctionIterateCB)
 					 callback_function_percentrank,
 					 &p, argv[0],
 					 TRUE, TRUE);

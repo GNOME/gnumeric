@@ -83,7 +83,7 @@ init_plugin (CommandContext *context, PluginData *pd)
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
-	file_format_register_open (50, 
+	file_format_register_open (50,
 				   _("Lotus file format (*.wk1)"),
 				   &lotus_probe, &lotus_load);
 

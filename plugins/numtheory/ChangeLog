@@ -1,3 +1,7 @@
+2000-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* numtheory.c : Use func_lookup_by_name.
+
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.56

@@ -300,15 +300,8 @@ workbook_do_destroy (Workbook *wb)
 	wb->undo_commands = NULL;
 	wb->redo_commands = NULL;
 
-	/* Release the clipboard if it is associated with this workbook */
-	{
-		Sheet *tmp_sheet;
-		if ((tmp_sheet = application_clipboard_sheet_get ()) != NULL &&
-		    tmp_sheet->workbook == wb)
-			application_clipboard_clear ();
-	}
-
 	workbook_deps_destroy (wb);
+	expr_name_invalidate_refs_wb (wb);
 
 	/*
 	 * All formulas are going to be removed.  Unqueue them before removing
@@ -330,7 +323,6 @@ workbook_do_destroy (Workbook *wb)
 		expr_tree_unref (wb->auto_expr);
 		wb->auto_expr = NULL;
 	}
-
 
 	gtk_window_set_focus (GTK_WINDOW (wb->toplevel), NULL);
 	/* Detach and destroy all sheets.  */
@@ -375,9 +367,7 @@ workbook_do_destroy (Workbook *wb)
 	if (wb->filename)
 	       g_free (wb->filename);
 
-	symbol_table_destroy (wb->symbol_names);
-
-	expr_name_clean_workbook (wb);
+	wb->names = expr_name_list_destroy (wb->names);
 
 	gtk_object_unref (GTK_OBJECT (wb->priv->gui_context));
 
@@ -2316,7 +2306,6 @@ workbook_init (GtkObject *object)
 	wb->sheets       = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 	wb->current_sheet= NULL;
 	wb->names        = NULL;
-	wb->symbol_names = symbol_table_new ();
 	wb->max_iterations = 1;
 	wb->summary_info   = summary_info_new ();
 	summary_info_default (wb->summary_info);
@@ -3706,11 +3695,9 @@ workbook_delete_sheet (Sheet *sheet)
 	workbook_view_clear_redo (wb);
 	workbook_view_set_undo_redo_state (wb, NULL, NULL);
 
+	/* Important to do these BEFORE detaching the sheet */
 	sheet_deps_destroy (sheet);
-
-	/* Clear the cliboard to avoid dangling references to the deleted sheet */
-	if (sheet == application_clipboard_sheet_get ())
-		application_clipboard_clear ();
+	expr_name_invalidate_refs_sheet (sheet);
 
 	/*
 	 * All is fine, remove the sheet

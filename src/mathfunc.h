@@ -127,9 +127,10 @@ void    mmult   (float_t *A, float_t *B, int cols_a, int rows_a, int cols_b,
 /* ------------------------------------------------------------------------- */
 
 /* Misc. */
-float_t     gpow10                 (int n);
-int         gcd                    (int a, int b);
-
+float_t     gpow10 (int n);
+int         gcd    (int a, int b);
+float_t     combin (int n, int k);
+float_t     fact   (int n);
 
 /* ------------------------------------------------------------------------- */
 

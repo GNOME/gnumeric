@@ -16,6 +16,7 @@
 #include "rendered-value.h"
 #include "gnumeric-util.h"
 #include "parse-util.h"
+#include "format.h"
 
 /**
  * cell_dirty : Mark the sheet containing the cell as being dirty.
@@ -182,15 +183,15 @@ cell_content_changed (Cell *cell)
 
 /*
  * cell_relocate:
- * @cell	 : The cell that is changing position
- * @check_bounds : Should expressions be bounds checked.
+ * @cell   : The cell that is changing position
+ * @rwinfo : An OPTIONAL pointer to allow for bounds checking and relocation
  *
  * This routine is used to move a cell to a different location:
  *
  * Auxiliary items canvas items attached to the cell are moved.
  */
 void
-cell_relocate (Cell *cell, int col_offset, int row_offset, gboolean check_bounds)
+cell_relocate (Cell *cell, ExprRewriteInfo *rwinfo)
 {
 	g_return_if_fail (cell != NULL);
 
@@ -199,6 +200,8 @@ cell_relocate (Cell *cell, int col_offset, int row_offset, gboolean check_bounds
 
 	/* 2. If the cell contains a formula, relocate the formula */
 	if (cell_has_expr (cell)) {
+		ExprTree *expr = cell->u.expression;
+
 		if (cell_expr_is_linked (cell))
 			sheet_cell_expr_unlink (cell);
 
@@ -211,37 +214,19 @@ cell_relocate (Cell *cell, int col_offset, int row_offset, gboolean check_bounds
 		 * WARNING WARNING WARNING
 		 */
 		/* If cell was part of an array, reset the corner pointer */
-		if (cell->u.expression->any.oper == OPER_ARRAY) {
-			int const x = cell->u.expression->array.x;
-			int const y = cell->u.expression->array.y;
+		if (expr->any.oper == OPER_ARRAY) {
+			int const x = expr->array.x;
+			int const y = expr->array.y;
 			if (x != 0 || y != 0)
-				cell->u.expression->array.corner.cell =
+				expr->array.corner.cell =
 					sheet_cell_get (cell->sheet,
 							cell->col_info->pos - x,
 							cell->row_info->pos - y);
 		}
 
-		/*
-		 * We do not actually need to change any references
-		 * the move is from its current location to its current
-		 * location.  All the move is doing is a bounds check.
-		 */
-		if (check_bounds) {
-			ExprRewriteInfo   rwinfo;
-			ExprRelocateInfo *rinfo;
-			ExprTree    	 *expr = cell->u.expression;
-
-			rwinfo.type = EXPR_REWRITE_RELOCATE;
-			rinfo = &rwinfo.u.relocate;
-			rinfo->origin.start.col = rinfo->origin.end.col =
-				cell->col_info->pos - col_offset;
-			rinfo->origin.start.row = rinfo->origin.end.row =
-				cell->row_info->pos - row_offset;
-			rinfo->origin_sheet = rinfo->target_sheet = cell->sheet;
-			rinfo->col_offset = col_offset;
-			rinfo->row_offset = row_offset;
-			eval_pos_init (&rinfo->pos, cell->sheet, &rinfo->origin.start);
-			expr = expr_rewrite (expr, &rwinfo);
+		/* bounds check, and adjust local references from the cell */
+		if (rwinfo != NULL) {
+			expr = expr_rewrite (expr, rwinfo);
 
 			if (expr != NULL) {
 				/* expression was unlinked above */
@@ -300,8 +285,7 @@ cell_set_text (Cell *cell, char const *text)
 		cell->format = format;
 		cell_render_value (cell);
 	} else {		/* String was an expression */
-		/* FIXME */
-		cell_set_expr (cell, expr, format ? format->format : NULL);
+		cell_set_expr (cell, expr, format);
 		if (format) style_format_unref (format);
 		expr_tree_unref (expr);
 	}
@@ -323,21 +307,20 @@ cell_set_text (Cell *cell, char const *text)
  */
 void
 cell_set_text_and_value (Cell *cell, String *text,
-			 Value *v, char const * optional_format)
+			 Value *v, StyleFormat *opt_fmt)
 {
 	g_return_if_fail (cell);
 	g_return_if_fail (text);
 	g_return_if_fail (v);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
+	if (opt_fmt != NULL)
+		style_format_ref (opt_fmt);
+
 	cell_dirty (cell);
 	cell_cleanout (cell);
 
-	/* FIXME : When we remerge the number recognition and the formating
-	 * this should be a StyleFormat
-	 */
-	if (optional_format)
-		cell->format = style_format_new (optional_format);
+	cell->format = opt_fmt;
 	cell->u.entered_text = string_ref (text);
 	cell->value = v;
 	cell_render_value (cell);
@@ -360,13 +343,16 @@ cell_set_text_and_value (Cell *cell, String *text,
  * NOTE : This DOES NOT check for array partitioning.
  */
 void
-cell_assign_value (Cell *cell, Value *v, char const * optional_format)
+cell_assign_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 {
 	g_return_if_fail (cell);
 	g_return_if_fail (v);
 
-	if (optional_format)
-		cell->format = style_format_new (optional_format);
+	if (cell->format)
+		style_format_unref (cell->format);
+	if (opt_fmt)
+		style_format_ref (opt_fmt);
+	cell->format = opt_fmt;
 
 	if (cell->value != NULL)
 		value_release (cell->value);
@@ -395,17 +381,19 @@ cell_assign_value (Cell *cell, Value *v, char const * optional_format)
  * NOTE : This DOES check for array partitioning.
  */
 void
-cell_set_value (Cell *cell, Value *v, char const * optional_format)
+cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 {
 	g_return_if_fail (cell);
 	g_return_if_fail (v);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
+	if (opt_fmt)
+		style_format_ref (opt_fmt);
+
 	cell_dirty (cell);
 	cell_cleanout (cell);
 
-	if (optional_format)
-		cell->format = style_format_new (optional_format);
+	cell->format = opt_fmt;
 	cell->value = v;
 	cell_render_value (cell);
 
@@ -415,7 +403,11 @@ cell_set_value (Cell *cell, Value *v, char const * optional_format)
 		char *tmp = g_strconcat ("\'", v->v_str.val->str, NULL);
 		cell->u.entered_text = string_get (tmp);
 		g_free (tmp);
+	} else if (opt_fmt) {
+		/* If available use the supplied format */
+		cell->u.entered_text = string_get (format_value (opt_fmt, v, NULL, NULL));
 	} else
+		/* Fall back on using the format applied to the cell */
 		cell->u.entered_text = string_ref (cell->rendered_value->rendered_text);
 }
 
@@ -472,12 +464,12 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v)
  * 	- link the expression into the master list.
  */
 static void
-cell_set_expr_internal (Cell *cell, ExprTree *expr, char const *optional_format)
+cell_set_expr_internal (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
 {
-	StyleFormat * fmt;
+	if (opt_fmt != NULL)
+		style_format_ref (opt_fmt);
 
 	expr_tree_ref (expr);
-	fmt = (optional_format != NULL) ? style_format_new (optional_format) : NULL;
 
 	cell_dirty (cell);
 	cell_cleanout (cell);
@@ -485,9 +477,9 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr, char const *optional_format)
 	if (cell->u.expression)
 		expr_tree_unref (cell->u.expression);
 
+	cell->format = opt_fmt;
 	cell->u.expression = expr;
 	cell->cell_flags |= CELL_HAS_EXPRESSION;
-	cell->format = fmt;
 
 	/* Until the value is recomputed, we put in this value.  */
 	cell->value = value_new_error (NULL, gnumeric_err_RECALC);
@@ -508,12 +500,12 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr, char const *optional_format)
  *           using this.
  */
 void
-cell_set_expr_unsafe (Cell *cell, ExprTree *expr, char const *optional_format)
+cell_set_expr_unsafe (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (expr != NULL);
 
-	cell_set_expr_internal (cell, expr, optional_format);
+	cell_set_expr_internal (cell, expr, opt_fmt);
 	cell_formula_changed (cell, TRUE);
 }
 
@@ -522,11 +514,11 @@ cell_set_expr_unsafe (Cell *cell, ExprTree *expr, char const *optional_format)
  *      checks for array subdivision.
  */
 void
-cell_set_expr (Cell *cell, ExprTree *expr, char const *optional_format)
+cell_set_expr (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
 {
 	g_return_if_fail (!cell_is_partial_array (cell));
 
-	cell_set_expr_unsafe (cell, expr, optional_format);
+	cell_set_expr_unsafe (cell, expr, opt_fmt);
 }
 
 /**

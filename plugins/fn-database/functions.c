@@ -8,6 +8,7 @@
 #include <math.h>
 #include <glib.h>
 #include "parse-util.h"
+#include "func-util.h"
 #include "func.h"
 #include "cell.h"
 #include "rendered-value.h"

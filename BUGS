@@ -4,14 +4,12 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Parser is incorrectly giving precedence to function names during look up.
-  eg it is impossible to have a sheet named 'exp'.
-- Changing the size of all rows/cols creates big xml files.
 - Changing an expression name that is in use causes a crash.
-
+- Changing the size of all rows/cols creates big xml files.
+- Click-and-release on the border of a selection causes an empty "moving
+  cells" undo record.
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE.
-
 - Importing fixed-width text (try "ls -l" output) with space stripping
   essentially requires columns to be selected right-to-left because
   stripping is done too early and mangles columns.
@@ -19,9 +17,6 @@ Release Critical
 Long term breakage
 ------------------
 - The max row/col canvas scroll size is still hard coded.
-
-- Click-and-release on the border of a selection causes an empty "moving
-  cells" undo record.
 
 - Increase/Decrease precision toolbar buttons should look at the displayed
   precision for the edit cell and assign the changed value to the entire
@@ -74,8 +69,8 @@ Dialogs
     : typing in the function list should jump to an entry that starts with the
       requested letter.
 - Formula Guru
-    : maintaining visibility of entries when the window is scrollable.
-    : Editing nested funtions
+    : As we auto add new entries for varargs we should make them visible.
+    : Editing nested funtions.  How best to express this.
     : Switching between multiple function at the same level.
     : Better communication and handling of parse errors.
 

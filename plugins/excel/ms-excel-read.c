@@ -1136,7 +1136,7 @@ ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
 	xf = g_ptr_array_index (p, xfidx);
 
 	g_return_val_if_fail (xf, NULL);
-	/* FIXME : What is the difference between cell & style formats ?? */
+	/* FIXME : when we can handle styles too deal with this correctly */
 	/* g_return_val_if_fail (xf->xftype == MS_BIFF_X_CELL, NULL); */
 	return xf;
 }
@@ -1443,7 +1443,9 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 	MStyleBorder const * b;
 #endif
 	Range   range;
-	MStyle * const * const mstyle  =
+	MStyleBorder *border;
+	MStyle *existing_style, *restore_style = NULL;
+	MStyle *const * const mstyle  =
 	    ms_excel_get_style_from_xf (sheet, xfidx);
 	if (mstyle == NULL)
 		return;
@@ -1459,7 +1461,30 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 	range.start.row = row;
 	range.end       = range.start;
 
+	existing_style = sheet_style_compute (sheet->gnum_sheet, col, row);
+
+	/* if this region already had a border applied do not over ride it */
+	border = mstyle_get_border (existing_style, MSTYLE_BORDER_TOP);
+	if (border != NULL && border->line_type != STYLE_BORDER_NONE) {
+		restore_style = mstyle_new();
+		mstyle_set_border (restore_style, MSTYLE_BORDER_TOP,
+				   style_border_ref (border));
+	}
+
+	border = mstyle_get_border (existing_style, MSTYLE_BORDER_LEFT);
+	if (border != NULL && border->line_type != STYLE_BORDER_NONE) {
+		if (restore_style == NULL)
+			restore_style = mstyle_new();
+		mstyle_set_border (restore_style, MSTYLE_BORDER_LEFT,
+				   style_border_ref (border));
+	}
+
 	sheet_style_attach (sheet->gnum_sheet, range, mstyle[0]);
+
+	if (restore_style != NULL)
+		sheet_style_attach (sheet->gnum_sheet, range, restore_style);
+	mstyle_unref (existing_style);
+
 #if UNDERSTAND_DUAL_BORDERS
 	printf ("%s%d == %hd\n", col_name(col), row+1, xfidx);
 	b = mstyle_get_border (mstyle[0], MSTYLE_BORDER_LEFT);

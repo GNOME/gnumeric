@@ -639,39 +639,37 @@ unknownFunctionHandler (FunctionEvalInfo *ei, GList *expr_node_list)
 	return value_new_error (ei->pos, gnumeric_err_NAME);
 }
 
-static Symbol *
+static FunctionDefinition *
 excel_formula_build_dummy_handler(char const * const name,
 				  char const * const type)
 {
-	Symbol * symbol = symbol_lookup (global_symbol_table, name);
-	if (!symbol) {
-		FunctionCategory *cat =
-			function_get_category (_("Unknown Function"));
-		/*
-		 * TODO TODO TODO : should add a
-		 *    function_add_{nodes,args}_fake
-		 * This will allow a user to load a missing
-		 * plugin to supply missing functions.
-		 */
-		function_add_nodes (cat, g_strdup (name),
-				    "", "...", NULL,
-				    &unknownFunctionHandler);
-		symbol = symbol_lookup (global_symbol_table,
-					name);
+	FunctionCategory *cat;
+	FunctionDefinition *func = func_lookup_by_name (name, NULL);
 
-		/* We just added it, it better be there */
-		g_assert (symbol);
+	g_return_val_if_fail (func == NULL, func);
 
-		/* WISHLIST : it would be nice to have a log if these. */
-		g_warning ("EXCEL unknown %sfunction : %s", type, name);
-	}
+	cat = function_get_category (_("Unknown Function"));
 
-	return symbol;
+	/*
+	 * TODO TODO TODO : should add a
+	 *    function_add_{nodes,args}_fake
+	 * This will allow a user to load a missing
+	 * plugin to supply missing functions.
+	 */
+	func = function_add_nodes (cat, g_strdup (name),
+				   "", "...", NULL,
+				   &unknownFunctionHandler);
+
+	/* WISHLIST : it would be nice to have a log if these. */
+	g_warning ("EXCEL unknown %sfunction : %s", type, name);
+
+	return func;
 }
+
 static gboolean
 make_function (ParseList **stack, int fn_idx, int numargs)
 {
-	Symbol *name=NULL;
+	FunctionDefinition *name = NULL;
 
 	if (fn_idx == 0xff) {
 		/*
@@ -702,12 +700,12 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 			return FALSE;
 		}
 
-		name = symbol_lookup (global_symbol_table, f_name);
-		if (!name)
+		/* FIXME : Add support for workbook local functions */
+		name = func_lookup_by_name (f_name, NULL);
+		if (name == NULL)
 			name = excel_formula_build_dummy_handler(f_name, "");
 
 		expr_tree_unref (tmp);
-		symbol_ref (name);
 		parse_list_push (stack, expr_tree_new_funcall (name, args));
 		return TRUE ;
 	} else if (fn_idx >= 0 && fn_idx < FORMULA_FUNC_DATA_LEN) {
@@ -737,9 +735,12 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 				  fd->prefix);
 
 		args = parse_list_last_n (stack, numargs);
-		if (fd->prefix)
-			name = excel_formula_build_dummy_handler(fd->prefix,
-								 "Builtin ");
+		if (fd->prefix) {
+			name = func_lookup_by_name (fd->prefix, NULL);
+			if (name == NULL)
+				name = excel_formula_build_dummy_handler(fd->prefix,
+									 "Builtin ");
+		}
 		/* This should not happen */
 		if (!name) {
 			char *txt;
@@ -752,18 +753,7 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 			parse_list_free (&args);
 			return FALSE;
 		}
-		if (name->type == SYMBOL_FUNCTION) {
-			symbol_ref (name);
-			parse_list_push (stack,
-					 expr_tree_new_funcall (name, args));
-		} else {
-			if (args) {
-				printf ("Ignoring args for %s\n", fd->prefix);
-				parse_list_free (&args);
-			}
-			parse_list_push_raw (stack,
-					     value_duplicate (name->data));
-		}
+		parse_list_push (stack, expr_tree_new_funcall (name, args));
 		return TRUE ;
 	} else
 		printf ("FIXME, unimplemented fn 0x%x, with %d args\n",

@@ -4030,6 +4030,30 @@ gcd (int a, int b)
 }
 
 
+float_t
+combin (int n, int k)
+{
+	if (n >= 15) {
+		float_t res;
+
+		res = exp (lgamma (n + 1) - lgamma (k + 1) - lgamma (n - k + 1));
+		return floor (res + 0.5);  /* Round, just in case.  */
+	} else {
+		float_t res;
+
+		res = fact (n) / fact (k) / fact (n - k);
+		return res;
+	}
+}
+
+float_t
+fact (int n)
+{
+	if (n == 0)
+		return 1;
+	return (n * fact (n - 1));
+}
+
 /*
  ---------------------------------------------------------------------
   Matrix functions

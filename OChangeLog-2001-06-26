@@ -1,3 +1,94 @@
+2000-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-sheet.c (GNUMERIC_VERSION) : new function.
+
+	* src/workbook.c (workbook_do_destroy) : No need to release the
+	  clipboard here.  The Sheet does it for us.
+
+	* src/workbook-format-toolbar.c : Add Fill to the default money
+	  format.
+
+	* src/symbol.c : The only symbols are functions.  The global table
+	  should not be world visible.
+
+	* src/sheet.c (sheet_flag_status_update_cell) : Take a CellPos.
+	(sheet_get_extent_cb) : Use Cell::pos rather than adding an
+	  indirection.
+	(cb_set_cell_content) : Use StyleFormat.
+	(sheet_cell_set_value) : Call sheet_flag_status_update_cell.
+	(sheet_cell_set_value) : Ditto.
+	(sheet_destroy) : Prepare to clear out named expressions.
+	(colrow_move) : Handle changes in cell_relocate signature.
+	(sheet_move_range) : Ditto.
+
+	* src/sheet-autofill.c : Use StyleFormats.
+
+	* src/position.c (parse_pos_init) : Global position are permitted.
+
+	* src/parser.y : Large change.  Do not automaticlly look for function
+	  names or named expressions in the lexer.  The lexer returns STRING
+	  and QUOTED_STRING.  The parser then does the appropriate lookups to
+	  potentially convert to something else.  This allows us to have sheet
+	  names that are the same as functions.
+
+	* src/parse-util.c (cellref_name) : Add flag to optionally disable the
+	  addition of the sheet name.  This is useful when printing
+	  Sheet2!A1:A3 rather than Sheet2!A1:Sheet2!A3.
+
+	* src/number-match.c (format_create_regexp) : Handle fill formats.
+
+	* src/mstyle.c (mstyle_get_border) : Fix constness.
+
+	* src/mathfunc.c (combin, fact) : Moved these here from
+	  functions/fn-math.c
+
+	* src/main.c (gnumeric_main) : No more constants_init, or
+	  global_symbol_init.
+
+	* src/func.c () : Reorg.  Remove some dead code.  Begin adding
+	  workbook local function support, Begin adding volatile, and
+	  semi-volatile functions.  Move the use of SymbolTable internal
+	  in preparation for eliminating it.
+
+	* src/format.c (format_number) : Improve support for pound, yen, and euro.
+	  Remember to produce a number when we hit spacing.
+
+	* src/expr.c : Have ExprFunc refer directly to the FunctionDefinition
+	  We still use a SymbolTable internally, but that will be merged out
+	  later.
+
+	* src/expr-name.c : Major reorg.  Not complete.
+
+	* src/corba-sheet.c (fill_corba_value) : Adjust to changes in
+	  cellref_name signature.
+
+	* src/commands.c (cmd_set_date_time_undo) : No need to manually call
+	  update_cell_flag.  cell_remove, and cell_set_text do that for us.
+	(cmd_set_date_time_redo) : Ditto.
+	  Use StyleFormat.
+
+	* src/clipboard.c (paste_cell) : Take the ExprRewriteInfo as an
+	  argument.
+	(clipboard_paste_region) : Init the ExprRewriteInfo.  We need to do
+	  this here rather than in cell_relocate because we may be moving a
+	  region, not just a single cell, and references within the region
+	  should not be changed.
+
+	* src/cell.c (cell_relocate) : Take the relocation info as an
+	  argument.  Non NULL indicates a request to check bounds.  We can not
+	  do this at the cell level. becuase we may be moving a block rather
+	  than just a single cell, and references into the block should NOT be
+	  rewritten.
+	(cell_set_text_and_value) : Take a StyleFormat.
+	(cell_assign_value) : Ditto.
+	(cell_set_value) : Ditto.
+	(cell_set_expr_internal) : Ditto.
+	(cell_set_expr_unsafe) : Ditto.
+	(cell_set_expr) : Ditto.
+
+	* src/auto-format.c (do_af_suggest) : Expression now refers directly
+	  to functionDef.
+
 2000-06-22  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/sheet-object-item.c (sheet_object_item_new): Add OAF support
@@ -20,6 +111,11 @@
 
 	* TODO: Updated the status of the build-in functions.
 	
+2000-06-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/value.c (value_get_as_checked_bool) : Use g_return_val_if_fail
+	  rather than assert.  A log entry is better than a crash.
+
 2000-06-26  JP Rosevear  <jpr@arcavia.com>
 
 	* src/value.c (value_get_as_checked_bool): New function that

@@ -1,6 +1,4 @@
-/* vim: set sw=8:
- * $Id$
- */
+/* vim: set sw=8: */
 
 /*
  * commands.c: Handlers to undo & redo commands
@@ -1292,10 +1290,6 @@ cmd_set_date_time_undo (GnumericCommand *cmd, CommandContext *context)
 	} else
 		sheet_cell_remove (sheet, cell, TRUE);
 
-	/* see if we need to update status */
-	sheet_flag_status_update_cell (me->pos.sheet,
-				       me->pos.eval.col, me->pos.eval.row);
-
 	sheet_set_dirty (sheet, TRUE);
 	workbook_recalc (sheet->workbook);
 	sheet_update (sheet);
@@ -1309,7 +1303,7 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 	CmdSetDateTime *me = CMD_SET_DATE_TIME (cmd);
 	Value *v;
 	Cell *cell;
-	char const * prefered_format;
+	StyleFormat *prefered_format;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->contents == NULL, TRUE);
@@ -1324,12 +1318,12 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 		 * translators should be aware that the leading character of the
 		 * result will be ignored.
 		 */
-		prefered_format = _(">mm/dd/yyyy");
+		prefered_format = style_format_new (_(">mm/dd/yyyy") + 1);
 	} else {
 		v = value_new_float (datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
 
 		/* FIXME : See comment above */
-		prefered_format = _(">hh:mm");
+		prefered_format = style_format_new (_(">hh:mm") + 1);
 	}
 
 	/* Get the cell (creating it if needed) */
@@ -1338,11 +1332,8 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 	/* Save contents */
 	me->contents = (cell->value) ? cell_get_entered_text (cell) : NULL;
 
-	sheet_cell_set_value (cell, v, prefered_format+1);
-
-	/* see if we need to update status */
-	sheet_flag_status_update_cell (me->pos.sheet,
-				       me->pos.eval.col, me->pos.eval.row);
+	sheet_cell_set_value (cell, v, prefered_format);
+	style_format_unref (prefered_format);
 
 	sheet_set_dirty (me->pos.sheet, TRUE);
 	workbook_recalc (me->pos.sheet->workbook);

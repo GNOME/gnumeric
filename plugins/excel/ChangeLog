@@ -1,3 +1,13 @@
+2000-06-27  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-formula-write.c (write_node) : Handle new ExprFunction.
+
+	* ms-formula-read.c (excel_formula_build_dummy_handle) : Use
+	  function_lookup_by_name.
+
+	* ms-excel-read.c (ms_excel_set_xf) : Right borders dominate left
+	  borders.
+
 2000-06-23  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_sheet_append_comment) : Add a lag variable

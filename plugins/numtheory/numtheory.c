@@ -373,10 +373,9 @@ can_unload (PluginData *pd)
 	int i, excess = 0;
 
 	for (i = 0; i < function_count; i++) {
-		Symbol *sym;
-		sym = symbol_lookup (global_symbol_table,
-				     function_names[i]);
-		excess += sym ? sym->ref_count - 1 : 0;
+		FunctionDefinition *func;
+		func = func_lookup_by_name (function_names[i], NULL);
+		excess += func ? func->ref_count - 1 : 0;
 	}
 
 	return excess == 0;
@@ -388,10 +387,10 @@ cleanup_plugin (PluginData *pd)
 	int i;
 
 	for (i = 0; i < function_count; i++) {
-		Symbol *sym;
-		sym = symbol_lookup (global_symbol_table,
-				     function_names[i]);
-		if (sym) symbol_unref (sym);
+		FunctionDefinition *func;
+		func = func_lookup_by_name (function_names[i], NULL);
+		if (func)
+			func_unref (func);
 	}
 
 	g_free (prime_table);

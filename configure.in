@@ -420,6 +420,8 @@ plugins/text/Makefile
 plugins/xbase/Makefile
 plugins/html/Makefile
 plugins/dif/Makefile
+plugins/xml2/Makefile
+plugins/applix/Makefile
 plugins/plan-perfect/Makefile
 plugins/gda/Makefile
 intl/Makefile

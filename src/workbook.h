@@ -12,7 +12,6 @@
 #define IS_WORKBOOK_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), WORKBOOK_TYPE))
 
 #include "gnumeric.h"
-#include "symbol.h"
 #include "summary.h"
 #include "file.h"
 
@@ -55,9 +54,6 @@ struct _Workbook {
 	int        max_iterations;
 
 	guint8     generation;
-
-	/* The Symbol table used for naming cell ranges in the workbook */
-	SymbolTable *symbol_names;
 
 	/* Attached summary information */
 	SummaryInfo *summary_info;

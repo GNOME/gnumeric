@@ -14,7 +14,6 @@
 #include <string.h>
 #include <ctype.h>
 #include "numbers.h"
-#include "symbol.h"
 #include "expr.h"
 #include "parse-util.h"
 #include "gnumeric.h"
@@ -83,7 +82,7 @@ range_parse (Sheet *sheet, const char *range, gboolean strict)
 /* Pulled from dialog-analysis-tools.c
  * Should be merged with range_parse
  */
-int
+gboolean
 parse_range (const char *text, int *start_col, int *start_row,
 	     int *end_col, int *end_row)
 {

@@ -16,7 +16,6 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "number-match.h"
-#include "symbol.h"
 #include "expr.h"
 #include "expr-name.h"
 #include "sheet.h"
@@ -26,6 +25,7 @@
 #include "auto-format.h"
 #include "style.h"
 
+#define YYDEBUG 1
 /* ------------------------------------------------------------------------- */
 /* Allocation with disposal-on-error */
 
@@ -195,10 +195,7 @@ static const char *parser_expr;
 static ParseErr parser_error;
 
 /* Location where the parsing is taking place */
-static int parser_col, parser_row;
-
-/* The workbook context */
-static Workbook *parser_wb;
+static const ParsePos *parser_pos;
 
 /* The suggested format to use for this expression */
 static StyleFormat **parser_desired_format;
@@ -274,6 +271,49 @@ build_array (GList *cols)
 	return register_expr_allocation (expr_tree_new_constant (array));
 }
 
+static gboolean
+parse_string_as_value (ExprTree *str)
+{
+	char const *txt = str->constant.value->v_str.val->str;
+	/*
+	 * Try to match the entered text against any of the known number
+	 * formating codes, if this succeeds, we store this as a float +
+	 * format, otherwise, we return a string.  Be extra careful with empty
+	 * strings (""),  They may match some formats ....
+	 */
+	if (txt[0] != '\0') {
+		Value *v;
+
+		if (parser_desired_format && *parser_desired_format == NULL)
+			v = format_match (txt, parser_desired_format);
+		else
+			v = format_match (txt, NULL);
+
+		if (v != NULL) {
+			value_release (str->constant.value);
+			str->constant.value = v;
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+static ExprTree *
+parse_string_as_value_or_name (ExprTree *str)
+{
+	NamedExpression *exprn;
+
+	if (parse_string_as_value (str));
+		return str;
+
+	exprn = expr_name_lookup (parser_pos, str->constant.value->v_str.val->str);
+	if (exprn == NULL)
+		return str;
+
+	unregister_allocation (str); expr_tree_unref (str);
+	return register_expr_allocation (expr_tree_new_name (exprn));
+}
+
 /* Make byacc happier */
 int yyparse(void);
 
@@ -287,7 +327,7 @@ int yyparse(void);
 }
 %type  <tree>     exp array_exp
 %type  <list>     arg_list array_row, array_cols
-%token <tree>     NUMBER STRING FUNCALL CONSTANT CELLREF GTE LTE NE
+%token <tree>     STRING QUOTED_STRING CONSTANT CELLREF GTE LTE NE
 %token            SEPARATOR
 %type  <tree>     cellref
 %type  <sheet>    sheetref opt_sheetref
@@ -310,10 +350,10 @@ line:	  exp {
 	| error 	{ parser_error = PARSE_ERR_SYNTAX; }
 	;
 
-exp:	  NUMBER 	{ $$ = $1; }
-	| STRING        { $$ = $1; }
+exp:	  CONSTANT 	{ $$ = $1; }
+	| QUOTED_STRING { $$ = $1; }
+	| STRING        { $$ = parse_string_as_value_or_name ($1); }
         | cellref       { $$ = $1; }
-	| CONSTANT      { $$ = $1; }
 	| exp '+' exp	{ $$ = build_binop ($1, OPER_ADD,       $3); }
 	| exp '-' exp	{ $$ = build_binop ($1, OPER_SUB,       $3); }
 	| exp '*' exp	{ $$ = build_binop ($1, OPER_MULT,      $3); }
@@ -338,18 +378,29 @@ exp:	  NUMBER 	{ $$ = $1; }
 		free_expr_list_list ($2);
 	}
 
-	| FUNCALL '(' arg_list ')' {
+	| STRING '(' arg_list ')' {
+		FunctionDefinition *func = func_lookup_by_name (
+			$1->constant.value->v_str.val->str,
+			parser_pos->wb);
+
 		unregister_allocation ($3);
-		$$ = $1;
-		$$->func.arg_list = $3;
+		unregister_allocation ($1); expr_tree_unref ($1);
+
+		if (func == NULL) {
+			/* TODO : Get rid of ParseErr and replace it with something richer. */
+			parser_error = PARSE_ERR_SYNTAX;
+                        return ERROR;
+		}
+
+		$$ = register_expr_allocation (expr_tree_new_funcall (func, $3));
 	}
 	;
 
 sheetref: STRING SHEET_SEP {
-		Sheet *sheet = sheet_lookup_by_name (parser_wb, $1->constant.value->v_str.val->str);
-		/* TODO : Get rid of ParseErr and replace it with something richer. */
+		Sheet *sheet = sheet_lookup_by_name (parser_pos->wb, $1->constant.value->v_str.val->str);
 		unregister_allocation ($1); expr_tree_unref ($1);
 		if (sheet == NULL) {
+			/* TODO : Get rid of ParseErr and replace it with something richer. */
 			parser_error = PARSE_ERR_SYNTAX;
                         return ERROR;
 		}
@@ -402,7 +453,7 @@ cellref:  CELLREF {
 		$$ = register_expr_allocation
 			(expr_tree_new_constant
 			 (value_new_cellrange (&($1->var.ref), &($3->var.ref),
-					       parser_col, parser_row)));
+					       parser_pos->eval.col, parser_pos->eval.row)));
 		expr_tree_unref ($3);
 		expr_tree_unref ($1);
 	}
@@ -415,7 +466,7 @@ cellref:  CELLREF {
 		$$ = register_expr_allocation
 			(expr_tree_new_constant
 			 (value_new_cellrange (&($2->var.ref), &($5->var.ref),
-					       parser_col, parser_row)));
+					       parser_pos->eval.col, parser_pos->eval.row)));
 
 		expr_tree_unref ($5);
 		expr_tree_unref ($2);
@@ -446,8 +497,8 @@ arg_list: exp {
         | { $$ = NULL; }
 	;
 
-array_exp:	  NUMBER 	{ $$ = $1; }
-		| STRING        { $$ = $1; }
+array_exp:	  CONSTANT	{ $$ = $1; }
+		| STRING        { parse_string_as_value ($1); $$ = $1; }
 	;
 
 array_row: array_exp {
@@ -489,115 +540,33 @@ array_cols: array_row {
 	}
 	;
 %%
-
-static int
-return_cellref (char *p)
-{
-	CellRef   ref;
-
-	if (cellref_get (&ref, p, parser_col, parser_row)) {
-		yylval.tree = register_expr_allocation (expr_tree_new_var (&ref));
-		return CELLREF;
-	} else
-		return 0;
-}
-
-static int
-make_string_return (char const *string, gboolean const possible_number)
-{
-	Value *v;
-	gboolean want_format;
-
-	/*
-	 * Try to match the entered text against any
-	 * of the known number formating codes, if this
-	 * succeeds, we store this as a float + format,
-	 * otherwise, we return a string.
-	 * Be extra careful with empty strings (""),  They may
-	 * match some formats ....
-	 */
-
-	want_format = parser_desired_format && (*parser_desired_format == NULL);
-	if (possible_number && string[0] != '\0' &&
-	    (v = format_match (string, want_format ? parser_desired_format : NULL))) {
-		/* Nothing further.  */
-	} else
-		v = value_new_string (string);
-
-	yylval.tree = register_expr_allocation (expr_tree_new_constant (v));
-	return (v->type == VALUE_STRING) ? STRING : CONSTANT;
-}
-
-static int
-return_symbol (Symbol *sym)
-{
-	ExprTree *e = NULL;
-	int type = STRING;
-
-	switch (sym->type){
-	case SYMBOL_FUNCTION:
-		symbol_ref (sym);
-		e = expr_tree_new_funcall (sym, NULL);
-		type = FUNCALL;
-		break;
-
-	case SYMBOL_VALUE:
-		e = expr_tree_new_constant (value_duplicate (sym->data));
-		type = CONSTANT;
-		break;
-
-	default:
-		g_assert_not_reached ();
-	} /* switch */
-
-	yylval.tree = register_expr_allocation (e);
-	return type;
-}
-
-static int
-return_name (NamedExpression *exprn)
-{
-	yylval.tree = register_expr_allocation (expr_tree_new_name (exprn));
-	return CONSTANT;
-}
-
 /**
- * try_symbol:
+ * parse_ref_or_string :
  * @string: the string to try.
- * @try_cellref_and_number: If it may be a cellref or a number.
  *
- * Attempts to figure out what @string refers to.
- * if @try_cellref_and_number is TRUE it will also attempt to match the
- * string as a cellname reference or a number.
+ * Attempt to parse the text as a cellref, if it fails
+ * return a string.
+ * DO NOT attempt to do higher level lookups here.
+ *     - sheet names
+ *     - function names
+ *     - expression names
+ *     - value parsing
+ * must all be handled by the parser not the lexer.
  */
 static int
-try_symbol (char *string, gboolean try_cellref_and_number)
+parse_ref_or_string (char *string)
 {
-	Symbol *sym;
-	int v;
+	CellRef   ref;
+	Value *v = NULL;
 
-	if (try_cellref_and_number){
-		v = return_cellref (string);
-		if (v)
-			return v;
+	if (cellref_get (&ref, string, &parser_pos->eval)) {
+		yylval.tree = register_expr_allocation (expr_tree_new_var (&ref));
+		return CELLREF;
 	}
 
-	sym = symbol_lookup (global_symbol_table, string);
-	if (sym)
-		return return_symbol (sym);
-
-	{ /* Name ? */
-		/*
-		 * FIXME: we need a good bit of work to get sheet
-		 * scope names working well
-		 */
-		NamedExpression *name = expr_name_lookup (parser_wb, NULL,
-						   string);
-		if (name)
-			return return_name (name);
-	}
-
-	return make_string_return (string, try_cellref_and_number);
+	v = value_new_string (string);
+	yylval.tree = register_expr_allocation (expr_tree_new_constant (v));
+	return STRING;
 }
 
 int
@@ -677,13 +646,14 @@ yylex (void)
 		/* Return the value to the parser */
 		yylval.tree = register_expr_allocation (expr_tree_new_constant (v));
 		parser_expr = tmp;
-		return NUMBER;
+		return CONSTANT;
 	}
 
 	case '\'':
 	case '"': {
 		char *string, *s;
 		char quotes_end = c;
+		Value *v;
 
                 p = parser_expr;
                 while(*parser_expr && *parser_expr != quotes_end) {
@@ -708,9 +678,10 @@ yylex (void)
 		*s = 0;
 		parser_expr++;
 
-		return make_string_return (string, FALSE);
+		v = value_new_string (string);
+		yylval.tree = register_expr_allocation (expr_tree_new_constant (v));
+		return QUOTED_STRING;
 	}
-
 	}
 
 	if (isalpha ((unsigned char)c) || c == '_' || c == '$'){
@@ -727,7 +698,7 @@ yylex (void)
 		str = alloca (len + 1);
 		strncpy (str, start, len);
 		str [len] = 0;
-		return try_symbol (str, TRUE);
+		return parse_ref_or_string (str);
 	}
 
 	if (c == '\n' || c == 0)
@@ -778,9 +749,7 @@ gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 
 	parser_error = PARSE_OK;
 	parser_expr = expr;
-	parser_wb    = pp->wb;
-	parser_col   = pp->eval.col;
-	parser_row   = pp->eval.row;
+	parser_pos  = pp;
 	parser_desired_format = desired_format;
 	parser_result = result;
 

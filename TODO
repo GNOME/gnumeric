@@ -9,8 +9,6 @@ Gnumeric Spread Sheet task list
    This belongs in application.c.
 
 * Component
-
-   Make sheet_selection_changed_hook execute a list of hooks 
    Remove the hard-coded workbook hooks from the sheet.
    Initialize the hooks on the workbook_new routine.
 
@@ -21,14 +19,10 @@ Gnumeric Spread Sheet task list
    to split this sort of thing.
 
 * Cell editing
-
    * Support for entering multi-line cells, and <Alt-Enter> adding an
      embedded newline.
 
    * Colouring a parsed formula for editing.
-
-   * The mouse can select a range as the current argument while editing a
-     formula without changing to a different cell.
 
    * C-Insert: Copy, S-Insert: Paste, S-Delete: cut; test.
 
@@ -40,7 +34,6 @@ Gnumeric Spread Sheet task list
       ODDLPRICE, ODDLYIELD, PRICE, VDB, YIELD, YIELDDISC, and YIELDMAT.
 
 * Fix the Following Functions
-
     * CELL, COUPDAYS, DURATION, and FALSE()
 
 * Printing
@@ -49,7 +42,6 @@ Gnumeric Spread Sheet task list
   * Print setup: 
     * Options buttons
     * Improve layout 
-    * Provide GUI for margin editing.
     * Provide preview of the headers/footers
     * Make sure scaling works.
   * Add the missing options to the Print Dialog
@@ -58,8 +50,8 @@ Gnumeric Spread Sheet task list
   * patterns.
 
 * Font dialog
-
   * Get the list of *valid* fonts from GnomePrint
+  * Filter font list by font encoding.
   * Create a simplistic dialog (to map to font-bold yes/no).
 
 * when copying and entire row or col we should also copy the row/col size.
@@ -69,7 +61,6 @@ Gnumeric Spread Sheet task list
   it boundaries.
 
 * Number formatting
-
    The formatting code should take the current GtkFont for the cell
    being formatted as well as the width allowed and take this into
    account to render the number as well as possible given the space so
@@ -78,11 +69,11 @@ Gnumeric Spread Sheet task list
    - '*' does not work
    - 'General' is rather stupid.  It needs to take the size of the cell into account.
 
-    FIXME : The formating is still incomplete.
+    FIXME : The formating is incomplete.
 	  - It does not support seconds fractions.
 	  - It incorrectly accepts mmm:ss as some sort of minute spec.
 	  - Add/remove decimal buttons on the toolbar are screwed for
-	    items with different formats formegatives.
+	    items with different formats for negatives.
 	  - There is too much replicated code for generating formats
 	    and recognizing them in the format dialog.
 
@@ -93,17 +84,12 @@ Gnumeric Spread Sheet task list
 	    be used.
 
 * Sheet
-
    Should be possible to bind a name by typing the name on the
    region box and applying it to the selection
    
 ** Column sizes
-
    Columns should have an "auto-grow-up-to-this-point" feature.  Beyond that
    size, it would truncate as it does now.
-
-** Parser
-   * Improve error reporting.
 
 ** Cell data entry:
    double click on cell allows editing as in main editing box.
@@ -112,13 +98,11 @@ Gnumeric Spread Sheet task list
    column to the depth of the column to the left ??
 
 ** Headers for Columns and Rows
-
    The captions should be customizable, ie instead of "A1", it should
    be possible to display "Sales".  We can use this with Michael's
    name support. 
 
 ** Captions (ItemBar)
-
    It should be possible to set the dimensions of the cols, rows to
    contain information as "min_points", "max_points".  
 
@@ -128,7 +112,6 @@ Gnumeric Spread Sheet task list
    Write the sheet auditing code.
 
 * Searching
-
    Searching text on the spreadsheet.
 
 * EDITING
@@ -151,83 +134,61 @@ Gnumeric Spread Sheet task list
     Bloqued/Hidden
 
 * File Load/Save
-
-  * Support for popular formats.  
+  - Support for popular formats.  
     I have the specs for the XS3 format.  SC should be
     trivial to support as well (from the guile sources)
-
-  * star office, kspread ?
-
-  * Add "hints" to the file save routine based on the registered
+  - star office, kspread ?
+  - Add "hints" to the file save routine based on the registered
     formats.
-
-  * Supply default extension to use with a write operation
-  * Improve error handling and display in file_read routines.
-  * Add ability to send warnings, and progress while loading.
-  * Improve handling of unknown fonts and functions when importing.
+  - Supply default extension to use with a write operation
+  - Improve error handling and display in file_read routines.
+  - Add ability to send warnings, and progress while loading.
+  - Improve handling of unknown fonts and functions when importing.
 
 * Display Engine
-  * drawing double line borders is broken
-  * merged cells.
-  * Continue cleaning cursor code.
+  - drawing double line borders is broken
+  - merged cells.
+  - Continue cleaning cursor code.
+  - Merged Cell support required intervention for cursors
+    and supporting vertical continuations.
 
 * Unicode support throughout
 
 * Workbooks:
-    * Consider addition of a cursor warping operation to jump between
-      open workbooks.
+  - Consider addition of a cursor warping operation to jump between
+    open workbooks.
 
 ** Notebook:
-
-   Clicking on it chooses it		(DONE)
-   Double clicking changes the name	(DONE)
-   Right clicking gets:
-     insert				(DONE)
-     delete				(DONE)
-     rename				(DONE)
-     reorder				(DONE)
-     copy		*(TODO)
-
- - Decrease flicker when paging between sheets.
- - Enable capability to select multiple sheets.
+  - Copy sheet dialog.
+  - Improve exit so that we do not redraw each sheet in sequence as we close.
+  - Decrease flicker when paging between sheets.
+  - Enable capability to select multiple sheets.
 
 * Sheet Objects
-
-  * Load / save, print of all objects + Bonobo objects.
+  - Load / save, print of all objects + Bonobo objects.
 
 * Office compatibility
+  - Write an XML plugin to output 'Publish as Web' style XML for
+    Office 2000 and 'explorer' compatibility.
 
-Write an XML plugin to output 'Publish as Web' style XML for
-Office 2000 and 'explorer' compatibility.
+* Parser
+  - fully support R[-1]C[3] type references
+   - Improve error reporting.
 
 * Internals
-
-  * Hack R[-1]C[3] type references fully into the parser.
-
-* Internals
-
-   Our current setup is *slow*.
-
    When filling large regions (ie, select, enter data, control-enter),
    we are taking ages.  In those cases, we could probably:
-
-      1. Preallocate all cells.
-      2. Pre-parse formulas
-      3. Pre-render contents.
-
-* Rendering
-
- * Have a 'merged cell' structure that can be overridden
- * have a 'user-set' feature for 'merge cells'
+      1. Start using speciallized allocators for Cell, ExprTree, Value
+      2. Do async rendering of cells. eg when they are being displayed or during an idle handler.
 
 * Calculation
-
-  * Rework 'Name' dependencies so we can re-express names.
-
-  * Dependancies for - CELL, INDIRECT functions.
+  - Rework 'Name' dependencies so we can re-express names.
+  - Dependancies for - CELL, INDIRECT functions.
 		     - Sheet objects
-
-  * Rethink 'generation' mechanism.  It currently forces all cells to
+  - Implicit iteration.  For an array expression that returns scalar results
+    which takes a range as a scalar argument, apply the expression to each element
+    of the input range.
+  - Rethink 'generation' mechanism.  It currently forces all cells to
     be recalculated when the value of any of them change.
     ie
 	a1 : sum (b2:c3)
@@ -241,10 +202,6 @@ Office 2000 and 'explorer' compatibility.
 	to only manually recalc a cell that has its recalc flag set.  However,
 	in order to support that we need mark all cells that directly or indirectly
 	depend on a cell as requiring recalc when a cell changes.
-
-    * Implicit iteration.  For an array expression that returns scalar results
-      which takes a range as a scalar argument, apply the expression to each element
-      of the input range.
 
 * Make checks for inserting rows/cols more intelligent in the face of multiple
   selections.  Currently it just checks the first selected range for
@@ -260,42 +217,33 @@ Office 2000 and 'explorer' compatibility.
 * Html export
   * Export style information for blank cells.
 
-* Cell Changed
-  * The graphics code uses a "cell has been modified" hook, and it
-    scans the list of vectors for ranges that are covered, and need to
-    be notified of changes.
-
-    Needs to be optimized.
-
 * Graphics component
-
-  * Need to support list of series plotted (little box on the right)
-
-  * Need to support all kinds of captions
-
-  * Need to provide menu/toolbar merging facilities with the graph component with 
+  - Scatter plots are not being scaled to the dimensions of the allocated
+    size for the graph inside the layout.
+  - Stacked, and Stacked 100% are not working for line plots.
+  - Need to support labels for categories (series)
+  - Need to support list of series plotted (little box on the right)
+  - Need to support all kinds of captions
+  - Need to support axis drawing with all their features
+  - Need to support pie-charts
+  - Need to add 3D support
+  - Need to add editing-facilities to each data plot type.
+  - Need to provide menu/toolbar merging facilities with the graph component with 
     Gnumeric
-
-  * Add printing support (not fun)
+  - Add printing support (not fun)
 
 * Graph Druid
-
-  * Need to finish the druid: manual data entry, better druiding,
-
-  * Need to split the druid from the Gnumeric linking stage
+  - Need to high-light current graph type on the first page
+  - Need to finish the druid: manual data entry, better druiding,
+  - Need to split the druid from the Gnumeric linking stage
 
 * Gnumeric-side graph support
-
-  * Need to save the settings for the plots.  Perhaps the druid?
-
-  * Need to restore the setting from the plots. 
-
-  * Add component printing support.
+  - Need to save the settings for the plots.  Perhaps the druid?
+  - Need to restore the setting from the plots. 
+  - Add component printing support.
 
 * Sheet Object and Graphics support
-
-  * Handle ownership of objects: from the druid to the "finish"
+  - Handle ownership of objects: from the druid to the "finish"
     creation routine in the sheet-object.c code
-
-  * Remove the sheet_object_set_type_full thing, and simplify the API
+  - Remove the sheet_object_set_type_full thing, and simplify the API
     everywhere by requiting the mode_data argument.

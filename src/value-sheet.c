@@ -9,7 +9,6 @@
 #include <gnome.h>
 #include "value.h"
 #include "parse-util.h"
-#include "symbol.h"
 #include "eval.h"
 #include "expr.h"
 #include "cell.h"
@@ -341,11 +340,4 @@ value_area_foreach (EvalPos const *ep, Value const *v,
 				return tmp;
 
 	return NULL;
-}
-
-void
-constants_init (void)
-{
-	symbol_install (global_symbol_table, "GNUMERIC_VERSION", SYMBOL_VALUE,
-			value_new_float (atof (GNUMERIC_VERSION)));
 }

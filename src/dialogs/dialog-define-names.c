@@ -17,7 +17,6 @@
 #define LIST_KEY "name_list_data"
 
 typedef struct {
-	Workbook  *wb;
 	GladeXML  *gui;
 	GtkWidget *dia;
 	GtkList   *list;
@@ -25,23 +24,20 @@ typedef struct {
 	GtkEntry  *value;
 	GList     *expr_names;
 	gint       selected;
+
+	Workbook  *wb;
 } state_t;
 
 static void
 update_edit (state_t *state)
 {
-	/* ICK!  parse names as if we are in A1 ?? Why ? */
-	static CellPos const pos = {0,0};
 	gint          i = state->selected;
 	NamedExpression     *expr_name;
 	Sheet        *sheet;
-	EvalPos  ep;
 	char         *txt;
 
 	sheet = state->wb->current_sheet;
 	g_return_if_fail (sheet != NULL);
-
-	eval_pos_init (&ep, sheet, &pos);
 
 	expr_name = g_list_nth (state->expr_names, i)->data;
 	if (expr_name->name && expr_name->name->str)
@@ -84,25 +80,26 @@ static void
 fill_list (state_t *state)
 {
 	GList *names;
-	GList *items = NULL;
+	GtkContainer *list;
 
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->list != NULL);
 
+	list = GTK_CONTAINER (state->list);
+	g_return_if_fail (list != NULL);
+
 	state->selected   = -1;
 
 	/* FIXME: scoping issues here */
-	state->expr_names = names = expr_name_list (state->wb, NULL, FALSE);
+	names = state->expr_names = expr_name_list (state->wb, NULL, FALSE);
 
-	while (names) {
+	for (; names != NULL ; names = g_list_next (names)) {
 		NamedExpression *expr_name = names->data;
 		GtkWidget *li = gtk_list_item_new_with_label (expr_name->name->str);
 		gtk_object_set_data (GTK_OBJECT (li), LIST_KEY, expr_name);
-		gtk_widget_show (GTK_WIDGET (li));
-		items = g_list_append (items, li);
-		names = g_list_next (names);
+		gtk_container_add (list, li);
 	}
-	gtk_list_append_items (state->list, items);
+	gtk_widget_show_all (GTK_WIDGET (state->list));
 }
 
 static void
@@ -126,40 +123,32 @@ empty_list (state_t *state)
 static void
 remove_name (GtkWidget *widget, state_t *state)
 {
-/*	gint i;
+	gint i;
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (widget != NULL);
 
 	i = state->selected;
 	if (i >= 0) {
-		GList *na           = g_list_nth (state->expr_names, i);
-		GList *it           = g_list_nth (state->list_items, i);
-		GList *l;
+		GList *na = g_list_nth (state->expr_names, i);
 
-		g_return_if_fail (it != NULL && na != NULL);
-		g_return_if_fail (it->data != NULL && na->data != NULL);
+		g_return_if_fail (na != NULL);
+		g_return_if_fail (na->data != NULL);
 
 		expr_name_remove (na->data);
 		state->expr_names = g_list_remove (state->expr_names, na->data);
 
-		l = g_list_append (NULL, it->data);
-		gtk_list_remove_items (state->list, l);
-		g_list_free (l);
-		state->list_items = g_list_remove (state->list_items, it->data);
-
 		gtk_entry_set_text (state->name, "");
 		gtk_entry_set_text (state->value, "");
-		}*/
-	g_warning ("Unimplemented, need to sweep sheets to check for usage");
+	}
 }
 
 static gboolean
 grab_text_ok (state_t *state, gboolean update_list)
 {
-	gchar        *name;
-	gchar        *value;
 	NamedExpression     *expr_name;
-	char         *error;
+	ExprTree     *expr;
+	gchar        *name, *value, *error;
+	ParsePos      pos, *pp;
 
 	g_return_val_if_fail (state != NULL, FALSE);
 
@@ -169,14 +158,29 @@ grab_text_ok (state_t *state, gboolean update_list)
 	if (!name || (name[0] == '\0'))
 		return TRUE;
 
-	/* FIXME: we need to be able to select names scope ideally */
-	expr_name = expr_name_lookup (state->wb, NULL, name);
-	if (expr_name)
-		expr_name_remove (expr_name);
+	/* FIXME : Need to be able to control scope.
+	 *        1) sheet
+	 *        2) workbook
+	 *        3) global
+	 *
+	 * default to workbook for now.
+	 */
+	pp = parse_pos_init (&pos, state->wb, NULL, 0, 0);
 
-	/* FIXME: and here */
-	expr_name = expr_name_create (state->wb, NULL, name,
-				      value, &error);
+	expr_name = expr_name_lookup (pp, name);
+
+	expr = expr_parse_string (value, pp, NULL, &error);
+
+	/* If name already exists replace the its content */
+	if (expr_name) {
+		if (!expr_name->builtin) {
+			expr_tree_unref (expr_name->t.expr_tree);
+			expr_name->t.expr_tree = expr;
+		} else
+			gnumeric_notice (state->wb, GNOME_MESSAGE_BOX_ERROR,
+					 _("You can not redefine a builtin name."));
+	} else
+		expr_name = expr_name_add (state->wb, NULL, name, expr, &error);
 
 	if (expr_name == NULL) {
 		if (error)

@@ -53,9 +53,7 @@ struct _Cell {
 Cell       *cell_copy                    (Cell const *cell);
 void        cell_destroy                 (Cell *cell);
 void        cell_content_changed         (Cell *cell);
-void        cell_relocate                (Cell *cell,
-					  int col_offset, int row_offset,
-					  gboolean check_bounds);
+void        cell_relocate                (Cell *cell, ExprRewriteInfo *rwinfo);
 
 /**
  * Cell state checking
@@ -77,15 +75,15 @@ gboolean    cell_is_partial_array       (Cell const * cell);
  */
 void        cell_set_text                (Cell *cell, char const *text);
 void        cell_set_text_and_value      (Cell *cell, String *text,
-					  Value *v, char const * optional_format);
-void        cell_assign_value            (Cell *cell, Value *v, char const * optional_format);
+					  Value *v, StyleFormat *opt_fmt);
+void        cell_assign_value            (Cell *cell, Value *v, StyleFormat *opt_fmt);
 void        cell_set_value               (Cell *cell,
-					  Value *v, char const * optional_format);
+					  Value *v, StyleFormat *opt_fmt);
 void        cell_set_expr_and_value      (Cell *cell, ExprTree *expr, Value *v);
 void        cell_set_expr                (Cell *cell, ExprTree *formula,
-					  char const * optional_format);
+					  StyleFormat *opt_fmt);
 void	    cell_set_expr_unsafe 	 (Cell *cell, ExprTree *expr,
-					  char const *optional_format);
+					  StyleFormat *opt_fmt);
 void        cell_set_array_formula       (Sheet *sheet, int rowa, int cola,
 					  int rowb, int colb,
 					  ExprTree *formula,

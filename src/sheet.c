@@ -358,7 +358,7 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 	max_col = right;
 
 	/* Is there an existing span ? */
-	span = row_span_get (cell->row_info, cell->col_info->pos);
+	span = row_span_get (cell->row_info, cell->pos.col);
 	if (span != NULL) {
 		Cell const * const other = span->cell;
 		int other_left, other_right;
@@ -579,27 +579,25 @@ sheet_reposition_comments (Sheet const * const sheet,
  *    selected region.
  *
  * @sheet :
- * @col :
- * @row :
+ * @pos :
  *
  * Will cause the format toolbar, the edit area, and the auto expressions to be
  * updated if appropriate.
  */
 void
-sheet_flag_status_update_cell (Sheet const *sheet,
-			       int col, int row)
+sheet_flag_status_update_cell (Sheet const *sheet, CellPos const *pos)
 {
 	/* if a part of the selected region changed value update
 	 * the auto expressions
 	 */
-	if (sheet_is_cell_selected (sheet, col, row))
+	if (sheet_is_cell_selected (sheet, pos->col, pos->row))
 		sheet->priv->selection_content_changed = TRUE;
 
 	/* If the edit cell changes value update the edit area
 	 * and the format toolbar
 	 */
-	if (col == sheet->cursor.edit_pos.col &&
-	    row == sheet->cursor.edit_pos.row)
+	if (pos->col == sheet->cursor.edit_pos.col &&
+	    pos->row == sheet->cursor.edit_pos.row)
 		sheet->priv->edit_pos_changed = TRUE;
 }
 
@@ -834,11 +832,11 @@ sheet_get_extent_cb (gpointer key, gpointer value, gpointer data)
 			range->end.row = cell->row_info->pos;
 
 		span = row_span_get (cell->row_info, cell->pos.col);
-		tmp = (span != NULL) ? span->left : cell->col_info->pos;
+		tmp = (span != NULL) ? span->left : cell->pos.col;
 		if (tmp < range->start.col)
 			range->start.col = tmp;
 
-		tmp = (span != NULL) ? span->right : cell->col_info->pos;
+		tmp = (span != NULL) ? span->right : cell->pos.col;
 		if (tmp > range->end.col)
 			range->end.col = tmp;
 	}
@@ -1102,17 +1100,12 @@ cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
 {
 	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
-	if (info->expr != NULL) {
-		StyleFormat *f = info->format;
-		/* FIXME: don't use f->format.  */
-		cell_set_expr (cell, info->expr, f ? f->format : NULL);
-	} else {
-		StyleFormat *f = info->format;
-		/* FIXME: don't use f->format.  */
+	if (info->expr != NULL)
+		cell_set_expr (cell, info->expr, info->format);
+	else
 		cell_set_text_and_value (cell, info->entered_text,
 					 value_duplicate (info->val),
-					 f ? f->format : NULL);
-	}
+					 info->format);
 	return NULL;
 }
 
@@ -1178,23 +1171,18 @@ sheet_cell_set_text (Cell *cell, char const *str)
 					   str, &val, &expr,
 					   cell_get_format (cell));
 	if (expr != NULL) {
-		/* FIXME */
-		cell_set_expr (cell, expr, format ? format->format : NULL);
-		if (format) style_format_unref (format);
+		cell_set_expr (cell, expr, format);
 		expr_tree_unref (expr);
 	} else {
 		String *string = string_get (str);
-		/* FIXME */
-		cell_set_text_and_value (cell, string, val,
-					 format ? format->format : NULL);
-		if (format)
-			style_format_unref (format);
+		cell_set_text_and_value (cell, string, val, format);
 		string_unref (string);
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE);
 		cell_content_changed (cell);
 	}
-	sheet_flag_status_update_cell (cell->sheet,
-				       cell->pos.col, cell->pos.row);
+	if (format)
+		style_format_unref (format);
+	sheet_flag_status_update_cell (cell->sheet, &cell->pos);
 }
 
 void
@@ -1202,14 +1190,28 @@ sheet_cell_set_expr (Cell *cell, ExprTree *expr)
 {
 	/* No need to do anything until recalc */
 	cell_set_expr (cell, expr, NULL);
+	sheet_flag_status_update_cell (cell->sheet, &cell->pos);
 }
 
+/*
+ * sheet_cell_set_value : Stores (WITHOUT COPYING) the supplied value.  It marks the
+ *          sheet as dirty.
+ *
+ * The value is rendered, spans are calculated, and the rendered string
+ * is stored as if that is what the user had entered.  It queues a redraw
+ * and checks to see if the edit region or selection content changed.
+ *
+ * If an optional format is supplied it is stored for later use.
+ *
+ * NOTE : This DOES check for array partitioning.
+ */
 void
-sheet_cell_set_value (Cell *cell, Value *v, char const *optional_format)
+sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 {
-	cell_set_value (cell, v, optional_format);
+	cell_set_value (cell, v, opt_fmt);
 	sheet_cell_calc_span (cell, SPANCALC_RESIZE);
 	cell_content_changed (cell);
+	sheet_flag_status_update_cell (cell->sheet, &cell->pos);
 }
 
 /**
@@ -1983,7 +1985,7 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 		sheet_redraw_cell_region (sheet,
 					  cell->pos.col, cell->pos.row,
 					  cell->pos.col, cell->pos.row);
-		sheet_flag_status_update_cell (sheet, cell->pos.col, cell->pos.row);
+		sheet_flag_status_update_cell (sheet, &cell->pos);
 	}
 
 	sheet_cell_remove_simple (sheet, cell);
@@ -2280,7 +2282,9 @@ sheet_destroy (Sheet *sheet)
 	sheet_vectors_shutdown (sheet);
 #endif
 	sheet_deps_destroy (sheet);
+	expr_name_invalidate_refs_sheet (sheet);
 	sheet_destroy_contents (sheet);
+	sheet->names = expr_name_list_destroy (sheet->names);
 
 	/* Clear the cliboard to avoid dangling references to the deleted sheet */
 	if (sheet == application_clipboard_sheet_get ())
@@ -2289,8 +2293,6 @@ sheet_destroy (Sheet *sheet)
 	sheet_destroy_styles (sheet);
 
 	g_hash_table_destroy (sheet->cell_hash);
-
-	expr_name_clean_sheet (sheet);
 
 	sheet->signature = 0;
 
@@ -2810,7 +2812,7 @@ colrow_move (Sheet *sheet,
 		cell = cells->data;
 
 		sheet_cell_add_to_hash (sheet, cell);
-		cell_relocate (cell, 0, 0, FALSE);
+		cell_relocate (cell, NULL);
 		cell_content_changed (cell);
 	}
 }
@@ -3241,7 +3243,7 @@ sheet_move_range (CommandContext *context,
 			sheet_cell_expr_link (cell);
 
 		/* Move comments */
-		cell_relocate (cell, 0, 0, FALSE);
+		cell_relocate (cell, NULL);
 		cell_content_changed (cell);
 	}
 

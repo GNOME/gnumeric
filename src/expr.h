@@ -2,7 +2,6 @@
 #define GNUMERIC_EXPR_H
 
 #include "gnumeric.h"
-#include "symbol.h"
 #include "numbers.h"
 #include "position.h"
 
@@ -52,7 +51,7 @@ struct _ExprFunction {
 	Operation const oper;
 	int       ref_count;
 
-	Symbol *symbol;
+	FunctionDefinition *func;
 	GList  *arg_list;
 };
 
@@ -155,7 +154,7 @@ ExprTree   *expr_tree_new_constant (Value *v);
 ExprTree   *expr_tree_new_error    (char const *txt);
 ExprTree   *expr_tree_new_unary    (Operation op, ExprTree *e);
 ExprTree   *expr_tree_new_binary   (ExprTree *l, Operation op, ExprTree *r);
-ExprTree   *expr_tree_new_funcall  (Symbol *sym, GList *args);
+ExprTree   *expr_tree_new_funcall  (FunctionDefinition *func, GList *args);
 ExprTree   *expr_tree_new_name     (NamedExpression const *name);
 ExprTree   *expr_tree_new_var      (CellRef const *cr);
 ExprTree   *expr_tree_new_array	   (int x, int y, int rows, int cols);
@@ -177,10 +176,12 @@ struct _ExprRelocateInfo {
 struct _ExprRewriteInfo {
 	enum { EXPR_REWRITE_SHEET,
 	       EXPR_REWRITE_WORKBOOK,
+	       EXPR_REWRITE_NAME,
 	       EXPR_REWRITE_RELOCATE } type;
 	union {
 		Sheet           *sheet;
 		Workbook        *workbook;
+		NamedExpression *name;
 		ExprRelocateInfo relocate;
 	} u;
 };
@@ -211,9 +212,5 @@ Value       *expr_implicit_intersection (EvalPos const *pos,
 
 FunctionDefinition *expr_tree_get_func_def (ExprTree const *expr);
 ExprTree const *    expr_tree_first_func (ExprTree const *expr);
-
-/* Setup of the symbol table */
-void         functions_init        (void);
-void         constants_init        (void);
 
 #endif /* GNUMERIC_EXPR_H */

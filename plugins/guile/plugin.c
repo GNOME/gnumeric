@@ -16,7 +16,6 @@
 #include <guile/gh.h>
 
 #include "gnumeric.h"
-#include "symbol.h"
 #include "plugin.h"
 #include "expr.h"
 #include "gutils.h"

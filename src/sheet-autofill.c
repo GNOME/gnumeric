@@ -84,9 +84,9 @@ typedef struct {
 } AutoFillList;
 
 typedef struct _FillItem {
-	FillType   type;
-	Cell      *reference;
-	char	  *fmt;
+	FillType     type;
+	Cell        *reference;
+	StyleFormat *fmt;
 
 	union {
 		ExprTree *formula;
@@ -202,7 +202,6 @@ fill_item_destroy (FillItem *fi)
 	case FILL_MONTHS:
 	case FILL_YEARS:
 	case FILL_NUMBER:
-		g_free (fi->fmt);
 		break;
 
 	case FILL_STRING_CONSTANT:
@@ -248,6 +247,8 @@ fill_item_new (Cell *cell)
 
 	if (value_type == VALUE_INTEGER || value_type == VALUE_FLOAT){
 		FillType fill = FILL_NUMBER;
+
+		/* Use display format to recognize iteration types */
 		char *fmt = cell_get_format (cell);
 		if (fmt != NULL) {
 			FormatCharacteristics info;
@@ -270,10 +271,11 @@ fill_item_new (Cell *cell)
 					fill = (tmp == NULL) ? FILL_YEARS : FILL_MONTHS;
 				}
 			}
+			g_free (fmt);
 		}
 		fi->type    = fill;
 		fi->v.value = value;
-		fi->fmt = fmt;
+		fi->fmt = cell->format;
 
 		return fi;
 	}

@@ -12,8 +12,6 @@
 #include "symbol.h"
 #include "gutils.h"
 
-SymbolTable *global_symbol_table;
-
 /**
  * symbol_lookup:
  * @st: The symbol table where lookup takes place
@@ -28,25 +26,6 @@ symbol_lookup (SymbolTable *st, const char *str)
 	g_return_val_if_fail (st != NULL, NULL);
 	
 	sym = (Symbol *) g_hash_table_lookup (st->hash, str);
-	return sym;
-}
-
-Symbol *
-symbol_lookup_substr (SymbolTable *st, const char *buffer, int len)
-{
-	char *str;
-	Symbol *sym;
-	
-	g_return_val_if_fail (buffer != NULL, NULL);
-	g_return_val_if_fail (st != NULL, NULL);
-	
-	str = g_new (char, len + 1);
-	strncpy (str, buffer, len);
-	str [len] = 0;
-
-	sym = symbol_lookup (st, str);
-	g_free (str);
-	
 	return sym;
 }
 
@@ -80,38 +59,6 @@ symbol_install (SymbolTable *st, const char *str, SymbolType type, void *data)
 	
 	return sym;
 }
-
-gboolean
-symbol_is_unused (Symbol *sym)
-{
-	g_return_val_if_fail (sym != NULL, FALSE);
-	g_return_val_if_fail (sym->ref_count > 0, FALSE);
-
-	return sym->ref_count <= 1;
-}
-
-void
-symbol_remove (SymbolTable *st, Symbol *sym)
-{
-	g_return_if_fail (st != NULL);
-	g_return_if_fail (sym != NULL);
-	g_return_if_fail (st->hash != NULL);
-	g_return_if_fail (sym->ref_count > 0);
-	g_return_if_fail (symbol_is_unused (sym));
-
-	g_hash_table_remove (st->hash, sym);
-
-	if (sym->str)
-		g_free (sym->str);
-	sym->str  = NULL;
-	sym->data = NULL;
-	sym->type = 0;
-	sym->ref_count = -1;
-	sym->st = NULL;
-
-	g_free (sym);
-}
-
 
 /**
  * symbol_ref:
@@ -172,10 +119,4 @@ symbol_table_destroy (SymbolTable *st)
 
 	g_hash_table_destroy (st->hash);
 	g_free (st);
-}
-
-void
-global_symbol_init (void)
-{
-	global_symbol_table = symbol_table_new ();
 }

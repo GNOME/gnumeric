@@ -48,7 +48,7 @@
  * No need to translate the decimal point or thousands seperator
  * that is handled automaticly.
  */
-static const char *money_format   = N_("_($ #,##0.00_);($ #,##0.00)");
+static const char *money_format   = N_("_($* #,##0.00_);($* #,##0.00)");
 static const char *percent_format = N_("0.00%");
 
 static void

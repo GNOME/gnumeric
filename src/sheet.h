@@ -291,7 +291,7 @@ void	    sheet_redraw_headers          (Sheet const *sheet,
 					   gboolean const col, gboolean const row,
 					   Range const * r /* optional == NULL */);
 
-void	    sheet_flag_status_update_cell (Sheet const *sheet, int col, int row);
+void	    sheet_flag_status_update_cell (Sheet const *sheet, CellPos const *pos);
 void	    sheet_flag_status_update_range(Sheet const *sheet, Range const *range);
 void        sheet_flag_selection_change   (Sheet const *sheet);
 void        sheet_update                  (Sheet const *sheet);
@@ -332,7 +332,7 @@ void        sheet_destroy_cell_select_cursor (Sheet *sheet, gboolean clear_strin
  * division of arrays.
  */
 void sheet_cell_set_expr  (Cell *cell, ExprTree *expr);
-void sheet_cell_set_value (Cell *cell, Value *v, char const *optional_format);
+void sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt);
 void sheet_cell_set_text  (Cell *cell, char const *str);
 void sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str);
 

@@ -13,7 +13,6 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "func.h"
-#include "symbol.h"
 #include "plugin.h"
 #include "gutils.h"
 #include "value.h"

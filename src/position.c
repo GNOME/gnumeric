@@ -1,6 +1,4 @@
-/* vim: set sw=8:
- * $Id$
- */
+/* vim: set sw=8: */
 
 /*
  * position.c: Utility routines for various types of positional
@@ -70,7 +68,12 @@ eval_pos_init_cellref (EvalPos *dest, EvalPos const *src,
 ParsePos *
 parse_pos_init (ParsePos *pp, Workbook *wb, Sheet *sheet, int col, int row)
 {
-	g_return_val_if_fail (wb || sheet, NULL);
+	/* Global */
+	if (wb == NULL && sheet == NULL)
+		return NULL;
+
+	/* Either sheet or workbook, not both */
+	g_return_val_if_fail ((sheet != NULL) != (wb != NULL), NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
 
 	pp->sheet = sheet;

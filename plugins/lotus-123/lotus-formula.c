@@ -7,20 +7,14 @@
  **/
 #include <stdio.h>
 #include <unistd.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <fcntl.h>
-#include <assert.h>
 #include <config.h>
-#include <stdio.h>
 #include <ctype.h>
-#include <gnome.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "main.h"
 #include "sheet.h"
 #include "expr.h"
+#include "func.h"
 #include "value.h"
 
 #include "lotus.h"
@@ -264,33 +258,24 @@ make_function (GList **stack, guint16 idx, guint8 *data)
 	}
 
 	if (f->special == NORMAL) {
-		Symbol *sym;
+		FunctionDefinition *func;
 		GList  *args = parse_list_last_n (stack, numargs);
 
-		sym = symbol_lookup (global_symbol_table, f->name);
-		if (!sym) {
+		/* FIXME : Do we need to support workbook local functions ? */
+		func = func_lookup_by_name (f->name, NULL);
+		if (!func) {
 			char *txt;
 			txt = g_strdup_printf ("[Function '%s']",
-					       f->name?f->name:"?");
+					       f->name ? f->name : "?");
 			printf ("Unknown %s\n", txt);
 			parse_list_push (stack, expr_tree_new_error (txt));
 			g_free (txt);
 
 			parse_list_free (&args);
 			return ans;
-		}
-		if (sym->type == SYMBOL_FUNCTION) {
-			symbol_ref (sym);
+		} else
 			parse_list_push (stack,
-					 expr_tree_new_funcall (sym, args));
-		} else {
-			if (args) {
-				printf ("Ignoring args for %s\n", f->name);
-				parse_list_free (&args);
-			}
-			parse_list_push_raw (stack,
-					     value_duplicate (sym->data));
-		}
+					 expr_tree_new_funcall (func, args));
 	} else if (f->special == BINOP) {
 		ExprTree *l, *r;
 		r = parse_list_pop (stack);
@@ -390,4 +375,3 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 	}
 	return parse_list_pop (&stack);
 }
-
