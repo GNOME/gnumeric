@@ -1,3 +1,13 @@
+2003-09-22  Jody Goldberg <jody@gnome.org>
+
+	* configure.in :  require libgsf 1.9.0 because it works around changes
+	  in libxml2 semantics for 2.6.0 that break our sax based importers.
+
+	* src/style.c (style_font_new_simple) : cache the font height too.
+
+	* src/sheet.c (cb_max_cell_height) : be smarter.  There is no need to
+	  render a cell whose value does not wrap.
+
 2003-09-22  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (format_boolean): Use function.

@@ -534,7 +534,7 @@ clipboard_copy_range (Sheet *sheet, Range const *r)
 		clipboard_prepend_cell, cr);
 	comments = sheet_objects_get (sheet, r, cell_comment_get_type ());
 	g_slist_foreach (comments, (GFunc)clipboard_prepend_comment, cr);
-	g_slist_free(comments);
+	g_slist_free (comments);
 
 	cr->styles = sheet_style_get_list (sheet, r);
 

@@ -1072,16 +1072,29 @@ static Value *
 cb_max_cell_height (Sheet *sheet, int col, int row, Cell *cell,
 		   int *max)
 {
-	if (!cell_is_merged (cell)) {
-		int height;
+	int height;
+	if (cell_is_merged (cell))
+		return NULL;
 
-		if (cell->rendered_value == NULL)
+	if (cell->rendered_value == NULL) {
+		MStyle const *style = sheet_style_get (sheet, col, row);
+
+		/* rendering is expensive.  Unwrapped cells will be the same
+		 * height as their font */
+		if (mstyle_get_wrap_text (style)) {
 			cell_render_value (cell, TRUE);
-
+			height = cell_rendered_height (cell);
+		} else {
+			StyleFont *font = mstyle_get_font (style, sheet->context,
+				sheet->last_zoom_factor_used);
+			height = font->height;
+			style_font_unref (font);
+		}
+	} else
 		height = cell_rendered_height (cell);
-		if (height > *max)
-			*max = height;
-	}
+
+	if (height > *max)
+		*max = height;
 	return NULL;
 }
 

@@ -21,6 +21,16 @@ Pending Patches
     http://bugzilla.gnome.org/show_bug.cgi?id=84062
     - XIM menu, blocking on gtk changes
 
+1.3 Architecture Changes
+------------------------
+
+1) Format and number match rewrite
+2) Font handling
+3) Rework plugin system down to libgoffice.
+4) Function docs
+5) GtkUIManager
+6) Jump to zip file
+
 Short Term Goals
 ----------------
 

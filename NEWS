@@ -24,6 +24,9 @@ Jody:
 	* Provide a cleaner work around for 
 	    http://bugzilla.gnome.org/show_bug.cgi?id=121543
 	* Re-enable the probe functions in plugins
+	* Big performance improvement when autosizing row heights.
+	* Fix recalc for ISBLANK
+	* Emergency release of libgsf-1.9.0 to handle changes in libxml 2.6.0
 
 Nick Lamb:
 	* Improve import of ancient xls.

@@ -114,6 +114,7 @@ style_font_new_simple (PangoContext *context,
 {
 	StyleFont *font;
 	StyleFont key;
+	int height;
 
 	if (font_name == NULL) {
 		g_warning ("font_name == NULL, using %s", DEFAULT_FONT);
@@ -181,6 +182,9 @@ style_font_new_simple (PangoContext *context,
 			}
 		}
 
+		font->gnome_print_font = gnm_font_find_closest_from_weight_slant (font_name,
+			bold ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR, italic, size_pts);
+
 		font->pango.font_descr = pango_font_describe (font->pango.font);
 
 		font->pango.layout  = pango_layout_new (context);
@@ -190,9 +194,9 @@ style_font_new_simple (PangoContext *context,
 		font->pango.metrics = pango_font_get_metrics (font->pango.font,
 							      gtk_get_default_language ());
 
-		font->gnome_print_font = gnm_font_find_closest_from_weight_slant (font_name,
-			bold ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR, italic, size_pts);
-
+		height = pango_font_metrics_get_ascent (font->pango.metrics) +
+			 pango_font_metrics_get_descent (font->pango.metrics);
+		font->height = PANGO_PIXELS (height);
 		font->approx_width.pixels.digit = calc_font_width (font, "0123456789");
 		font->approx_width.pixels.decimal = calc_font_width (font, ".,");
 		font->approx_width.pixels.hash = calc_font_width (font, "#");

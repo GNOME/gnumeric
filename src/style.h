@@ -46,6 +46,7 @@ struct _StyleFont {
 			double digit, decimal, sign, E, e, hash;
 		} pixels, pts;
 	} approx_width;
+	double	 height;
 	struct {
 		PangoContext		*context;
 		PangoFontMetrics	*metrics;

@@ -1522,10 +1522,16 @@ gnumeric_isblank (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 		CellRef const *ref = &expr->cellref.ref;
 		Sheet const *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
 		CellPos pos;
+		Cell const *cell;
 
 		cellref_get_abs_pos (ref, &ei->pos->eval, &pos);
-		result = cell_is_empty (sheet_cell_get (sheet, pos.col,
-							pos.row));
+		cell = sheet_cell_get (sheet, pos.col, pos.row);
+
+		if (cell != NULL) {
+			cell_eval (cell);
+			result = cell_is_empty (cell);
+		} else
+			result = TRUE;
 	}
 	return value_new_bool (result);
 }

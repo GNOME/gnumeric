@@ -1,3 +1,9 @@
+2003-09-22  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_isblank) : simple fix to a long standing
+	  recalc bug.  We should look into how to make this a value function,
+	  and to see how it should handle ranges.
+
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.0
