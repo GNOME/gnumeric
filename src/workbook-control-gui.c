@@ -1777,6 +1777,23 @@ cb_data_validate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 #endif
 
 static void
+cb_data_hide_detail (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+}
+static void
+cb_data_show_detail (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+}
+static void
+cb_data_add_group (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+}
+static void
+cb_data_remove_group (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+}
+
+static void
 cb_help_about (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	dialog_about (wbcg);
@@ -2279,6 +2296,22 @@ static GnomeUIInfo workbook_menu_tools [] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo workbook_menu_data_outline [] = {
+	GNOMEUIINFO_ITEM_NONE (N_("_Hide Detail"),
+		N_("Collapse an outline group"),
+		cb_data_hide_detail),
+	GNOMEUIINFO_ITEM_NONE (N_("_Show Detail"),
+		N_("Uncollapse an outline group"),
+		cb_data_show_detail),
+	GNOMEUIINFO_ITEM_NONE (N_("_Group..."),
+		N_("Add an outline group"),
+		cb_data_add_group),
+	GNOMEUIINFO_ITEM_NONE (N_("_Ungroup..."),
+		N_("Remove an outline group"),
+		cb_data_remove_group),
+	GNOMEUIINFO_END
+};
+
 /* Data menu */
 static GnomeUIInfo workbook_menu_data [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("_Sort"),
@@ -2292,6 +2325,10 @@ static GnomeUIInfo workbook_menu_data [] = {
 		N_("Validate input with preset criteria"),
 		cb_data_validate),
 #endif
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_SUBTREE(N_("_Group and Outline"),   workbook_menu_data_outline),
 
 	GNOMEUIINFO_END
 };
@@ -2476,6 +2513,10 @@ static BonoboUIVerb verbs [] = {
 #if 0
 	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
 #endif
+	BONOBO_UI_UNSAFE_VERB ("DataOutlineHideDetail", cb_data_hide_detail),
+	BONOBO_UI_UNSAFE_VERB ("DataOutlineShowDetail", cb_data_show_detail),
+	BONOBO_UI_UNSAFE_VERB ("DataOutlineAddGroup", cb_data_add_group),
+	BONOBO_UI_UNSAFE_VERB ("DataOutlineRemoveGroup", cb_data_remove_group),
 
 	BONOBO_UI_UNSAFE_VERB ("AutoSum", cb_autosum),
 	BONOBO_UI_UNSAFE_VERB ("FunctionGuru", cb_formula_guru),
@@ -3299,7 +3340,8 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 
 	bonobo_ui_component_add_verb_list_with_data (wbcg->uic, verbs, wbcg);
 
-	bonobo_ui_util_set_ui (wbcg->uic, GNOME_DATADIR, "gnumeric.xml", "gnumeric");
+	/* TODO : switch to gnumeric_sys_data_dir */
+	bonobo_ui_util_set_ui (wbcg->uic, GNOME_DATADIR, "GNOME_Gnumeric.xml", "gnumeric");
 
 	TOGGLE_REGISTER (display_formulas, SheetDisplayFormulas);
 	TOGGLE_REGISTER (hide_zero, SheetHideZeros);

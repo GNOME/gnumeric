@@ -1,5 +1,9 @@
 2001-04-13  Jody Goldberg <jgoldberg@home.com>
 
+	* idl/Makefile.am (dist-hook) : automate removing the generated files.
+
+	* src/workbook-control-gui.c (workbook_menu_data_outline) : new menu.
+
 	* src/Makefile.am : workbook-control-bonobo is not ready for prime
 	  time.
 

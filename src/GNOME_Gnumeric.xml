@@ -435,6 +435,25 @@
 		_label="_Filter..."
 		_tip="Filter data with given criteria"/>
 
+	    <submenu name="Outline" _label="_Group and Outline">
+
+		<menuitem name="DataOutlineHideDetail" verb=""
+		    _label="_Hide Detail"
+		    _tip="Collapse an outline group"/>
+
+		<menuitem name="DataOutlineShowDetail" verb=""
+		    _label="_Show Detail"
+		    _tip="Uncollapse an outline group"/>
+
+		<menuitem name="DataOutlineAddGroup" verb=""
+		    _label="_Group"
+		    _tip="Add an outline group"/>
+
+		<menuitem name="DataOutlineRemoveGroup" verb=""
+		    _label="_Ungroup"
+		    _tip="Remove an outline group"/>
+
+	    </submenu>
 	</submenu>
 
 	<submenu name="Help" _label="_Help">
