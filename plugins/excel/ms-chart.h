@@ -15,9 +15,9 @@
 
 /* Reads charts */
 gboolean ms_excel_chart (BiffQuery *q, MSContainer *container,
-			    MsBiffVersion ver, GtkObject *so);
+			    MsBiffVersion ver, GObject *so);
 
 /* A wrapper which reads and checks the BOF record then calls ms_excel_chart */
-gboolean ms_excel_read_chart (BiffQuery *q, MSContainer *container, GtkObject *so);
+gboolean ms_excel_read_chart (BiffQuery *q, MSContainer *container, GObject *so);
 
 #endif /* GNUMERIC_MS_CHART_H */

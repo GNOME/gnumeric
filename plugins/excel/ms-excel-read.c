@@ -2161,7 +2161,7 @@ ms_sheet_map_color (ExcelSheet const *esheet, MSObj const *obj, MSObjAttrID id)
 	return style_color_new ((r << 8) | r, (g << 8) | g, (b << 8) | b);
 }
 
-static GtkObject *
+static GObject *
 ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 {
 	SheetObject *so = NULL;
@@ -2239,14 +2239,14 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 						g_warning ("Failed to load '%s' from "
 							   "stream: %s", blip->obj_id,
 							   bonobo_exception_get_text (&ev));
-						gtk_object_unref (GTK_OBJECT (so));
+						g_object_unref (G_OBJECT (so));
 						so = NULL;
 					}
 					CORBA_exception_free (&ev);
 				} else {
 					g_warning ("Could not set object iid '%s'!",
 						   blip->obj_id);
-					gtk_object_unref (GTK_OBJECT (so));
+					g_object_unref (G_OBJECT (so));
 					so = NULL;
 				}
 			}
@@ -2287,7 +2287,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		return NULL;
 	}
 
-	return so ? GTK_OBJECT (so) : NULL;
+	return so ? G_OBJECT (so) : NULL;
 }
 
 static ExprTree *
@@ -3844,7 +3844,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 #endif
 				ms_excel_chart (q, sheet_container (esheet),
 						esheet->container.ver,
-						GTK_OBJECT (graph));
+						G_OBJECT (graph));
 			} else
 				puts ("EXCEL: How are we seeing chart records in a sheet ?");
 			continue;
@@ -4484,7 +4484,7 @@ ms_excel_read_bof (BiffQuery *q,
 					NULL;
 #endif
 		ms_excel_chart (q, &wb->container, ver->version,
-				GTK_OBJECT (graph));
+				G_OBJECT (graph));
 	} else if (ver->type == MS_BIFF_TYPE_VBModule ||
 		 ver->type == MS_BIFF_TYPE_Macrosheet) {
 		/* Skip contents of Module, or MacroSheet */

@@ -84,7 +84,7 @@ struct _MSObj
 	int id;
 
 	/* Type specific parameters */
-	GtkObject	*gnum_obj;
+	GObject		*gnum_obj;
 	int		 excel_type;
 	char const	*excel_type_name;
 

@@ -226,6 +226,7 @@ init_xl_font_widths (void)
 	    { 95, 102, "Haettenscheiler" },
 	    { 103, 110, "HE_TERMINAL" },
 	    { 95, 102, "Helvetica" },
+	    { 95, 102, "Helv" },
 	    { 95, 102, "Helvetica-Black" },
 	    { 95, 102, "Helvetica-Light" },
 	    { 95, 102, "Helvetica-Narrow" },

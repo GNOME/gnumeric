@@ -2358,7 +2358,7 @@ chart_realize_obj (MSContainer *container, MSObj *obj)
 	return FALSE;
 }
 
-static GtkObject *
+static GObject *
 chart_create_obj  (MSContainer *container, MSObj *obj)
 {
 	return NULL;
@@ -2377,7 +2377,7 @@ chart_get_fmt (MSContainer const *container, guint16 indx)
 }
 
 gboolean
-ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObject *graph)
+ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GObject *graph)
 {
 	static MSContainerClass const vtbl = {
 		chart_realize_obj,
@@ -2543,7 +2543,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 }
 
 gboolean
-ms_excel_read_chart (BiffQuery *q, MSContainer *container, GtkObject *graph)
+ms_excel_read_chart (BiffQuery *q, MSContainer *container, GObject *graph)
 {
 	MsBiffBofData *bof;
 	gboolean res = TRUE;

@@ -11,7 +11,7 @@ typedef struct _MSObj MSObj;
 typedef struct
 {
 	gboolean      (*realize_obj) (MSContainer *container, MSObj *obj);
-	GtkObject   * (*create_obj)  (MSContainer *container, MSObj *obj);
+	GObject     * (*create_obj)  (MSContainer *container, MSObj *obj);
 	ExprTree    * (*parse_expr)  (MSContainer *container,
 				      guint8 const *data, int length);
 	Sheet	    * (*sheet)	     (MSContainer const *container);

@@ -1,3 +1,11 @@
+2002-01-31  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-util.c (init_xl_font_widths) : add Helv.
+
+	* ms-excel-read.c (ms_sheet_create_obj) : GObject vs GtkObject
+	* ms-obj.c (ms_obj_delete) : ditto.
+	* ms-chart.c (ms_excel_read_chart) : ditto.
+
 2002-01-30  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (ms_excel_parse_formula) : give a warning when

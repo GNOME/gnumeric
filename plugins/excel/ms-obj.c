@@ -233,7 +233,7 @@ ms_obj_delete (MSObj *obj)
 {
 	if (obj) {
 		if (obj->gnum_obj) {
-			gtk_object_unref (obj->gnum_obj);
+			g_object_unref (obj->gnum_obj);
 			obj->gnum_obj = NULL;
 		}
 		if (obj->attrs) {
