@@ -86,7 +86,7 @@ wbcc_set_zoom_factor (WorkbookControlComponent *wbcc, double new_zoom_factor)
 	   zoomed inside Nautilus, the select_all_button wasn't resized.
 	   We've got to find out why these things happen and find a less
 	   disgusting fix.  */
-	gtk_idle_add ((GtkFunction) gtk_widget_queue_resize, wbcg->notebook);
+	g_idle_add ((GSourceFunc) gtk_widget_queue_resize, wbcg->notebook);
 	wbcg_focus_cur_scg (wbcg);
 
 	bonobo_zoomable_report_zoom_level_changed

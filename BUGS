@@ -113,15 +113,21 @@ Pending Patches
 	1.19.5) Extend Guru to support changing precedence
     1.20) GogStyle Editor page
 	1.20.1) fill type
+	    1.20.1.1) none					(DONE)
+	    1.20.1.2) solid					(DONE)
+	    1.20.1.3) basic gradients				(DONE)
+	    1.20.1.4) advanced gradients 		{Jean Befort}
+	    1.20.1.5) pixmaps fills			{Jean Befort}
+	    1.20.1.6) patterns
 	1.20.2) outline style
     1.21) themes
-	1.21.1) Actually use the themes to initialize styles
+	1.21.1) Actually use the themes to initialize styles	(DONE)
 	1.21.2) load from xml
 	1.21.3) selector for graphs
 	1.21.4) How to change a graph's theme
     1.22) Legend
 	1.22.1) Set up cardinality framework.			(DONE)
-	1.22.2) 
+	1.22.2) smarter layout
     1.23) simple chart layout
 	1.23.1) In ChartView::size_allocate use the positions	(DONE)
 	1.23.2) For compass placement use the alignment flags	(DONE)

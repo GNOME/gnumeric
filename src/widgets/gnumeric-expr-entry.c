@@ -653,7 +653,7 @@ gnm_expr_expr_find_range (GnmExprEntry *gee)
 				if (*ptr == '\\' && ptr[1])
 					ptr = g_utf8_next_char (ptr+1);
 			if (*ptr == quote)
-				ptr = g_utf8_next_char (ptr+1);
+				ptr = g_utf8_next_char (ptr);
 
 		} else {
 			/* rangerefs cannot start in the middle of a sequence

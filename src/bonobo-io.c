@@ -60,7 +60,7 @@ gnm_persist_stream_load (PortableServer_Servant  servant,
 	object        = bonobo_object_from_servant (servant);
 	wbc = GNM_PERSIST_STREAM (object)->wbc;
 	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
-	input = gsf_input_bonobo_new (stream, NULL);
+	input = GSF_INPUT (gsf_input_bonobo_new (stream, NULL));
 	wb_view = wb_view_new_from_input  (input, NULL, ioc, NULL);
 	if (gnumeric_io_error_occurred (ioc) || wb_view == NULL) {
 		gnumeric_io_error_display (ioc);

@@ -1,3 +1,8 @@
+2003-06-06  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_expr_find_range) : go to the
+	  character after the quote, not the one after that.
+
 2003-06-05  Morten Welinder  <terra@gnome.org>
 
 	* widget-charmap-selector.c (charmap_selector_set_encoding): New

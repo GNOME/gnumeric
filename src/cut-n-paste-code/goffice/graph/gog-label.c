@@ -32,11 +32,10 @@
 #include <gsf/gsf-impl-utils.h>
 
 struct _GogLabel {
-	GogObject	base;
+	GogStyledObject	base;
 
 	GODataScalar	*text;
 	gboolean	 allow_markup;
-	GogStyle	*style;
 };
 
 typedef struct {

@@ -1,3 +1,7 @@
+2003-06-06  Jody Goldberg <jody@gnome.org>
+
+	* src/bonobo-io.c (gnm_persist_stream_load) : warning suppression.
+
 2003-06-06  Morten Welinder  <terra@gnome.org>
 
 	* src/item-bar.c (struct _ItemBar): Add normal_font_ascent and
