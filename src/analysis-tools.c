@@ -40,9 +40,8 @@
 
 /*************************************************************************/
 /*
- *  data_set_t: a new data set format to (optionally) keep track of missing
- *  observations. data_set_t is destined to replace old_data_set_t as the
- *  data carrier
+ *  data_set_t: a data set format (optionally) keeping track of missing
+ *  observations. 
  *
  */
 
@@ -486,21 +485,25 @@ check_input_range_list_homogeneity (GSList *input_range)
 	return state.hom;
 }
 
+/*
+ *  check_data_for_missing:
+ *  @data:
+ *
+ *  Check whether any data is missing
+ *
+ */
+static gboolean
+check_data_for_missing (GPtrArray *data)
+{
+	guint i;
 
+	for (i = 0; i < data->len; i++) {
+		if (((data_set_t *)g_ptr_array_index (data, i))->missing != NULL)
+			return TRUE;
+	}
 
-/**********************************************************************/
-
-typedef struct {
-        GSList  *array;
-        gnum_float sum;
-        gnum_float sum2;    /* square of the sum */
-        gnum_float sqrsum;
-        gnum_float min;
-        gnum_float max;
-        int     n;
-} old_data_set_t;
-
-
+	return FALSE;
+}
 
 /***** Some general routines ***********************************************/
 
@@ -658,52 +661,6 @@ set_cell_text_row (data_analysis_output_t *dao, int col, int row, const char *te
 	g_free (orig_copy);
 }
 
-static void
-get_data_groupped_by_columns (Sheet *sheet, const Range *range, int col,
-			      old_data_set_t *data)
-{
-        gpointer p;
-	Cell     *cell;
-	Value    *v;
-	gnum_float  x;
-	int      row;
-
-	data->sum = 0;
-	data->sum2 = 0;
-	data->sqrsum = 0;
-	data->n = 0;
-	data->array = NULL;
-
-	for (row = range->start.row; row <= range->end.row; row++) {
-		cell = sheet_cell_get (sheet, col + range->start.col, row);
-		if (cell != NULL && cell->value != NULL) {
-			v = cell->value;
-			if (VALUE_IS_NUMBER (v))
-				x = value_get_as_float (v);
-			else
-				x = 0;
-
-			p = g_new (gnum_float, 1);
-			* ((gnum_float *) p) = x;
-			data->array = g_slist_append (data->array, p);
-			data->sum += x;
-			data->sqrsum += x * x;
-			if (data->n == 0) {
-				data->min = x;
-				data->max = x;
-			} else {
-				if (data->min > x)
-					data->min = x;
-				if (data->max < x)
-					data->max = x;
-			}
-			data->n++;
-		}
-	}
-
-	data->sum2 = data->sum * data->sum;
-}
-
 /* Callbacks for write */
 static Value *
 WriteData_ForeachCellCB (Sheet *sheet, int col, int row,
@@ -735,44 +692,6 @@ write_data (WorkbookControl *wbc, data_analysis_output_t *dao, GArray *data)
 
 	sheet_foreach_cell_in_range (dao->sheet, FALSE, st_col, st_row, end_col, end_row,
 				     (ForeachCellCB)&WriteData_ForeachCellCB, data);
-}
-
-
-static void
-get_data_groupped_by_rows (Sheet *sheet, const Range *range, int row,
-			   old_data_set_t *data)
-{
-        gpointer p;
-	Cell     *cell;
-	Value    *v;
-	gnum_float  x;
-	int      col;
-
-	data->sum = 0;
-	data->sum2 = 0;
-	data->sqrsum = 0;
-	data->n = 0;
-	data->array = NULL;
-
-	for (col = range->start.col; col <= range->end.col; col++) {
-		cell = sheet_cell_get (sheet, col, row + range->start.row);
-		if (cell != NULL && cell->value != NULL) {
-			v = cell->value;
-			if (VALUE_IS_NUMBER (v))
-				x = value_get_as_float (v);
-			else
-				x = 0;
-
-			p = g_new (gnum_float, 1);
-			* ((gnum_float *) p) = x;
-			data->array = g_slist_append (data->array, p);
-			data->sum += x;
-			data->sqrsum += x * x;
-			data->n++;
-		}
-	}
-
-	data->sum2 = data->sum * data->sum;
 }
 
 void
@@ -2993,21 +2912,62 @@ finish_anova_single_factor_tool:
  **/
 
 int
-anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
+anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 				 gnum_float alpha,
 				 data_analysis_output_t *dao)
 {
-        old_data_set_t *data_sets;
-	int        cols, rows, i, n;
-	gnum_float    *row_mean, *col_mean, mean, sum;
-	gnum_float    ss_r, ss_c, ss_e, ss_t;
+	GSList *row_input_range = NULL;
+	GSList *col_input_range = NULL;
+	GPtrArray *row_data = NULL;
+	GPtrArray *col_data = NULL;
+
+	int        i, n, error;
+	int        cols;
+	int        rows;
+	gnum_float    cm,  sum = 0;
+	gnum_float    ss_r = 0, ss_c = 0, ss_e = 0, ss_t = 0;
 	gnum_float    ms_r, ms_c, ms_e, f1, f2, p1, p2, f1_c, f2_c;
 	int        df_r, df_c, df_e, df_t;
 
+	row_input_range = g_slist_prepend (NULL, value_duplicate (input));
+	prepare_input_range (&row_input_range, GROUPED_BY_ROW);
+	if (dao->labels_flag) {
+		GSList *list = row_input_range;
+		row_input_range = g_slist_remove_link (row_input_range, list);
+		range_list_destroy (list);
+	}
+	col_input_range = g_slist_prepend (NULL, input);
+	prepare_input_range (&col_input_range, GROUPED_BY_COL);
+	if (dao->labels_flag) {
+		GSList *list = col_input_range;
+		col_input_range = g_slist_remove_link (col_input_range, list);
+		range_list_destroy (list);
+	}
+	if (col_input_range == NULL || row_input_range == NULL || 
+	    col_input_range->next == NULL || row_input_range->next == NULL) {
+		range_list_destroy (col_input_range);
+		range_list_destroy (row_input_range);
+		return 3; 
+	}
+
+	row_data = new_data_set_list (row_input_range, GROUPED_BY_ROW,
+				  FALSE, dao->labels_flag, sheet);
+	col_data = new_data_set_list (col_input_range, GROUPED_BY_COL,
+				  FALSE, dao->labels_flag, sheet);
+	if (check_data_for_missing (row_data) || 
+	    check_data_for_missing (col_data)) {
+		range_list_destroy (col_input_range);
+		range_list_destroy (row_input_range);
+		destroy_data_set_list (row_data);
+		destroy_data_set_list (col_data);
+		return 2; 
+	}
+
 	prepare_output (wbc, dao, _("Anova"));
 
-	cols = range->end.col - range->start.col + 1;
-	rows = range->end.row - range->start.row + 1;
+	cols = col_data->len;
+	rows = row_data->len;
+	n = rows * cols;
 
 	set_cell (dao, 0, 0, _("Anova: Two-Factor Without Replication"));
 	set_cell_text_row (dao, 0, 2, _("/SUMMARY"
@@ -3016,86 +2976,59 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *rang
 					"/Average"
 					"/Variance"));
 
-	data_sets = g_new (old_data_set_t, cols);
-	col_mean = g_new (gnum_float, cols);
+	for (i = 0; i < rows; i++) {
+	        gnum_float v;
+		data_set_t *data_set;
+		gnum_float *the_data;
+
+		data_set = (data_set_t *)g_ptr_array_index (row_data, i);
+		the_data = (gnum_float *)data_set->data->data;
+
+		set_cell (dao, 0, i + 3, data_set->label);
+		set_cell_int (dao, 1, i + 3, data_set->data->len);
+		error = range_sum (the_data, data_set->data->len, &v);
+		sum +=  v;
+		ss_r += v * v/ data_set->data->len;
+		set_cell_float_na (dao, 2, i + 3, v, error == 0);
+		set_cell_float_na (dao, 3, i + 3,  v / data_set->data->len, 
+				   error == 0 && data_set->data->len != 0);
+		error = range_var_est (the_data, data_set->data->len , &v);
+		set_cell_float_na (dao, 4, i + 3, v, error == 0);
+		
+		error = range_sumsq (the_data, data_set->data->len, &v);
+		ss_t += v;
+	}
+	
 	for (i = 0; i < cols; i++) {
 	        gnum_float v;
+		data_set_t *data_set;
+		gnum_float *the_data;
 
-	        get_data_groupped_by_columns (sheet, range, i, &data_sets[i]);
-		set_cell_printf (dao, 0, i + 4 + rows, _("Column %d"), i + 1);
-		set_cell_int (dao, 1, i + 4 + rows, data_sets[i].n);
-		set_cell_float (dao, 2, i + 4 + rows, data_sets[i].sum);
-		set_cell_float (dao, 3, i + 4 + rows, data_sets[i].sum / data_sets[i].n);
-		v = (data_sets[i].sqrsum - data_sets[i].sum2 / data_sets[i].n) /
-			(data_sets[i].n - 1);
-		set_cell_float (dao, 4, i + 4 + rows, v);
-		col_mean[i] = data_sets[i].sum / data_sets[i].n;
+		data_set = (data_set_t *)g_ptr_array_index (col_data, i);
+		the_data = (gnum_float *)data_set->data->data;
+
+		set_cell (dao, 0, i + 4 + rows, data_set->label);
+		set_cell_int (dao, 1, i + 4 + rows, data_set->data->len);
+		error = range_sum (the_data, data_set->data->len, &v);
+		ss_c += v * v/ data_set->data->len;
+		set_cell_float_na (dao, 2, i + 4 + rows, v, error == 0);
+		set_cell_float_na (dao, 3, i + 4 + rows, v / data_set->data->len, 
+				   error == 0 && data_set->data->len != 0);
+		error = range_var_est (the_data, data_set->data->len , &v);
+		set_cell_float_na (dao, 4, i + 4 + rows, v, error == 0);
 	}
-	g_free (data_sets);
 
-	data_sets = g_new (old_data_set_t, rows);
-	row_mean = g_new (gnum_float, rows);
-	for (i = n = sum = 0; i < rows; i++) {
-	        gnum_float v;
+	cm = sum * sum / n;
+	ss_t -= cm;
+	ss_r -= cm;
+	ss_c -= cm;
+	ss_e = ss_t - ss_r - ss_c;
 
-	        get_data_groupped_by_rows (sheet, range, i, &data_sets[i]);
-		set_cell_printf (dao, 0, i + 3, _("Row %d"), i + 1);
-		set_cell_int (dao, 1, i + 3, data_sets[i].n);
-		set_cell_float (dao, 2, i + 3, data_sets[i].sum);
-		set_cell_float (dao, 3, i + 3, data_sets[i].sum / data_sets[i].n);
-		v = (data_sets[i].sqrsum - data_sets[i].sum2 / data_sets[i].n) /
-			(data_sets[i].n - 1);
-		set_cell_float (dao, 4, i + 3, v);
-		n += data_sets[i].n;
-		sum += data_sets[i].sum;
-		row_mean[i] = data_sets[i].sum / data_sets[i].n;
-	}
-	ss_e = ss_t = 0;
-	mean = sum / n;
-	for (i = 0; i < rows; i++) {
-	        GSList *current = data_sets[i].array;
-		gnum_float t, x;
-		n = 0;
-
-	        while (current != NULL) {
-		        x = * ((gnum_float *) current->data);
-			t = x - col_mean[n] - row_mean[i] + mean;
-			t *= t;
-			ss_e += t;
-			t = x - mean;
-			t *= t;
-			ss_t += t;
-			n++;
-			current = current->next;
-		}
-	}
-	g_free (data_sets);
-
-	ss_r = ss_c = 0;
-	for (i = 0; i < rows; i++) {
-	        gnum_float t;
-
-		t = row_mean[i] - mean;
-		t *= t;
-	        ss_r += t;
-	}
-	ss_r *= cols;
-	for (i = 0; i < cols; i++) {
-	        gnum_float t;
-
-		t = col_mean[i] - mean;
-		t *= t;
-	        ss_c += t;
-	}
-	g_free (col_mean);
-	g_free (row_mean);
-
-	ss_c *= rows;
 
 	df_r = rows - 1;
 	df_c = cols - 1;
 	df_e = (rows - 1) * (cols - 1);
-	df_t = (rows * cols) - 1;
+	df_t = n - 1;
 	ms_r = ss_r / df_r;
 	ms_c = ss_c / df_c;
 	ms_e = ss_e / df_e;
@@ -3103,8 +3036,8 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *rang
 	f2   = ms_c / ms_e;
 	p1   = 1.0 - pf (f1, df_r, df_e);
 	p2   = 1.0 - pf (f2, df_c, df_e);
-	f1_c = qf (alpha, df_r, df_e);
-	f2_c = qf (alpha, df_c, df_e);
+	f1_c = qf (1 - alpha, df_r, df_e);
+	f2_c = qf (1 - alpha, df_c, df_e);
 
 	set_cell_text_col (dao, 0, 6 + rows + cols, _("/ANOVA"
 						      "/Source of Variation"
@@ -3122,20 +3055,29 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *rang
 	set_cell_float (dao, 1, 8 + rows + cols, ss_r);
 	set_cell_float (dao, 1, 9 + rows + cols, ss_c);
 	set_cell_float (dao, 1, 10 + rows + cols, ss_e);
-	set_cell_float (dao, 1, 12 + rows + cols, ss_t);
+	set_cell_float (dao, 1, 11 + rows + cols, ss_t);
 	set_cell_int (dao, 2, 8 + rows + cols, df_r);
 	set_cell_int (dao, 2, 9 + rows + cols, df_c);
 	set_cell_int (dao, 2, 10 + rows + cols, df_e);
-	set_cell_int (dao, 2, 12 + rows + cols, df_t);
+	set_cell_int (dao, 2, 11 + rows + cols, df_t);
 	set_cell_float (dao, 3, 8 + rows + cols, ms_r);
 	set_cell_float (dao, 3, 9 + rows + cols, ms_c);
 	set_cell_float (dao, 3, 10 + rows + cols, ms_e);
-	set_cell_float (dao, 4, 8 + rows + cols, f1);
-	set_cell_float (dao, 4, 9 + rows + cols, f2);
-	set_cell_float (dao, 5, 8 + rows + cols, p1);
-	set_cell_float (dao, 5, 9 + rows + cols, p2);
+	set_cell_float_na (dao, 4, 8 + rows + cols, f1, ms_e != 0);
+	set_cell_float_na (dao, 4, 9 + rows + cols, f2, ms_e != 0);
+	set_cell_float_na (dao, 5, 8 + rows + cols, p1, ms_e != 0);
+	set_cell_float_na (dao, 5, 9 + rows + cols, p2, ms_e != 0);
 	set_cell_float (dao, 6, 8 + rows + cols, f1_c);
 	set_cell_float (dao, 6, 9 + rows + cols, f2_c);
+
+	set_italic (dao, 1, 2, 4, 2);
+	set_italic (dao, 1, 7 + rows + cols, 6, 7 + rows + cols);
+	set_italic (dao, 0, 0, 0, 11 + rows + cols);
+
+	range_list_destroy (col_input_range);
+	range_list_destroy (row_input_range);
+	destroy_data_set_list (row_data);
+	destroy_data_set_list (col_data);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
@@ -3151,243 +3093,436 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *rang
  *
  **/
 
+static char *
+make_label (Sheet *sheet, int col, int row, char *default_format, int index, 
+	    gboolean read_cell)
+{
+	char *rendered_text = NULL;
+	if (read_cell) {
+		Cell *cell;
+		cell = sheet_cell_get (sheet, col, row);
+		if (cell)
+			rendered_text = cell_get_rendered_text (cell);	
+	}
+	if (rendered_text != NULL) {
+		if (strlen (rendered_text) == 0)
+			g_free (rendered_text);
+		else
+			return rendered_text;
+	}
+	return g_strdup_printf (default_format, index);
+}
+
 int
-anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
+anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 			      int rows_per_sample, gnum_float alpha,
 			      data_analysis_output_t *dao)
 {
-	int           cols, rows, i, j, k, n, a, b;
-	int           count, gr_count, tot_count;
-	gnum_float    sum, sqrsum, x, v;
-	gnum_float    gr_sum, gr_sqrsum;
-	gnum_float    tot_sum, tot_sqrsum;
-	int           *col_count;
-	gnum_float    *col_sum, *col_sqrsum;
-	gnum_float    col_sum_sqrsum, gr_sum_sqrsum, sample_sum_sqrsum;
-	gnum_float    df_col, df_gr, df_inter, df_within;
-	gnum_float    ss_col, ss_gr, ss_inter, ss_within, ss_tot;
-	gnum_float    ms_col, ms_gr, ms_inter, ms_within;
-	gnum_float    f_col, f_gr, f_inter;
-	gnum_float    p_col, p_gr, p_inter;
-	Cell          *cell;
+	guint           rows, i_c, i_r;
+	guint           n_r, n_c, n = 0;
+	GPtrArray *col_labels = NULL;
+	GPtrArray *row_labels = NULL;
+	GPtrArray *row_data = NULL;
+	Value *input_cp;
+	gint df_r, df_c, df_rc, df_e, df_total;
+	gnum_float ss_r = 0.0, ss_c = 0.0, ss_rc = 0.0, ss_e = 0.0, ss_total = 0.0;
+	gnum_float ms_r, ms_c, ms_rc, ms_e;
+	gnum_float f_r, f_c, f_rc;
+	gnum_float p_r, p_c, p_rc;
+	gnum_float cm = 0.0;
+	guint max_sample_size = 0;
+	guint missing_observations = 0;
+	gboolean empty_sample = FALSE;
+	gint return_value = 0;
 
-	cols = range->end.col - range->start.col + 1;
-	rows = range->end.row - range->start.row + 1;
+	rows = input->v_range.cell.b.row - input->v_range.cell.a.row + 
+		(dao->labels_flag ? 0 : 1);
+	n_r = rows/rows_per_sample;
+	n_c = input->v_range.cell.b.col - input->v_range.cell.a.col + 
+		(dao->labels_flag ? 0 : 1);
 
 	/* Check that correct number of rows per sample */
-	if (rows_per_sample == 0)
-	        return 1;
-	if ((rows - 1) % rows_per_sample != 0)
+	if (rows % rows_per_sample != 0)
 	        return 1;
 
 	/* Check that at least two columns of data are given */
-	if (cols < 3)
+	if (n_c < 2)
+	        return 3;
+	/* Check that at least two data rows of data are given */
+	if (n_r < 2)
 	        return 3;
 
-	/* Check that the data contains numbers only */
-	for (i = 1; i < rows; i++) {
-	       for (j = 1; j < cols; j++) {
-		       cell = sheet_cell_get (sheet, range->start.col + j,
-						     range->start.row + i);
-			      if (cell == NULL
-				  || !VALUE_IS_NUMBER (cell->value))
-				      return 2;
-	       }
+	if (dao->labels_flag) {
+		input->v_range.cell.a.row += 1;
+		input->v_range.cell.a.col += 1;
 	}
+
+	col_labels = g_ptr_array_new ();
+	g_ptr_array_set_size (col_labels, n_c);
+	for (i_c = 0; i_c < n_c; i_c++) 
+		g_ptr_array_index (col_labels, i_c) = make_label (
+			sheet, input->v_range.cell.a.col + i_c,
+			input->v_range.cell.a.row - 1,
+			_("Column %i"), i_c + 1, dao->labels_flag);
+	row_labels = g_ptr_array_new ();
+	g_ptr_array_set_size (row_labels, n_r);
+	for (i_r = 0; i_r < n_r; i_r++) 
+		g_ptr_array_index (row_labels, i_r) = make_label (
+			sheet, 
+			input->v_range.cell.a.col - 1,
+			input->v_range.cell.a.row + i_r * rows_per_sample,
+			_("Row %i"), i_r + 1, dao->labels_flag);
+
+	input_cp = value_duplicate (input);
+	input_cp->v_range.cell.b.row = input_cp->v_range.cell.a.row + 
+		rows_per_sample - 1;
+	row_data = g_ptr_array_new ();
+	while (input_cp->v_range.cell.a.row < input->v_range.cell.b.row) {
+		GPtrArray *col_data = NULL;
+		GSList *col_input_range = NULL;
+		
+		col_input_range = g_slist_prepend (NULL, value_duplicate (input_cp));
+		prepare_input_range (&col_input_range, GROUPED_BY_COL);
+		col_data = new_data_set_list (col_input_range, GROUPED_BY_COL,
+				  TRUE, FALSE, sheet);
+		g_ptr_array_add (row_data, col_data);
+		range_list_destroy (col_input_range);
+		input_cp->v_range.cell.a.row += rows_per_sample;
+		input_cp->v_range.cell.b.row += rows_per_sample;
+	}	
+	value_release (input_cp);
+
+/* We have loaded the data, we should now check for missing observations */
+	
+	for (i_r = 0; i_r < n_r; i_r++) {
+		GPtrArray *data = NULL;
+
+		data = g_ptr_array_index (row_data, i_r);
+		for (i_c = 0; i_c < n_c; i_c++) {
+			data_set_t *cell_data;
+			guint num;
+			
+			cell_data = g_ptr_array_index (data, i_c);
+			num = cell_data->data->len;
+			if (num == 0) 
+				empty_sample = TRUE;
+			else {
+				if (num > max_sample_size)
+					max_sample_size = num;
+				missing_observations += (rows_per_sample - num);
+			}
+		}
+	}
+
+	if (empty_sample) {
+		return_value =  4;
+		goto anova_two_factor_with_r_tool_end;
+	}
+
+	missing_observations -= ((rows_per_sample - max_sample_size) * n_c * n_r);
+
+/* We are ready to create the summary table */
 
 	prepare_output (wbc, dao, _("Anova"));
 
 	set_cell (dao, 0, 0, _("Anova: Two-Factor With Replication"));
 	set_cell (dao, 0, 2, _("SUMMARY"));
-
-	col_count = g_new (int, cols);
-	col_sum = g_new (gnum_float, cols);
-	col_sqrsum = g_new (gnum_float, cols);
-
-	for (i = 1; i < cols; i++) {
-	       cell = sheet_cell_get (sheet, range->start.col+i,
-				      range->start.row);
-	       if (cell->value != NULL)
-		       set_cell_value (dao, i, 2, cell->value);
-	       col_count[i - 1] = 0;
-	       col_sum[i - 1] = 0;
-	       col_sqrsum[i - 1] = 0;
+	for (i_c = 0; i_c < n_c; i_c++)
+		set_cell (dao, 1 + i_c, 2, 
+			 (char *)g_ptr_array_index (col_labels, i_c));
+	for (i_r = 0; i_r < n_r; i_r++) {
+/* POST-RELEASE-FIX:  Next 2 commands should be fused */
+		set_cell_text_col (dao, 0, 3 + i_r * 6, _("/SUMMARY"
+							"/Count"
+							"/Sum"
+							"/Average"
+							"/Variance"));
+		set_cell (dao, 0, 3 + i_r * 6, 
+			 (char *)g_ptr_array_index (row_labels, i_r));
 	}
-	set_italic (dao, 1, 2, i - 1, 2);
-	set_cell (dao, i, 2, _("Total"));
+	set_cell (dao, 1 + n_c, 2, _("Total"));
+/* POST-RELEASE-FIX:  Next 2 commands should be fused */
+	set_cell_text_col (dao, 0, 3 + n_r * 6, _("/SUMMARY"
+					"/Count"
+					"/Sum"
+					"/Average"
+					"/Variance"));
+	set_cell (dao, 0, 3 + n_r * 6, _("Total"));
 
-	tot_count = 0;
-	tot_sum = 0;
-	tot_sqrsum = 0;
+/* POST-RELEASE-FIX:  We should be using / notation for the next 7 commands */
+	set_cell (dao, 0, n_r * 6 + 10, _("ANOVA"));
+	set_cell (dao, 0, n_r * 6 + 11, _("Source of Variation"));
+/* POST-RELEASE-FIX:  this should be Rows rather than Sample */
+	set_cell (dao, 0, n_r * 6 + 12, _("Sample"));
+	set_cell (dao, 0, n_r * 6 + 13, _("Columns"));
+	set_cell (dao, 0, n_r * 6 + 14, _("Interaction"));
+	set_cell (dao, 0, n_r * 6 + 15, _("Within"));
+	set_cell (dao, 0, n_r * 6 + 17, _("Total"));
 
-	sample_sum_sqrsum = 0;
+	set_cell_text_row (dao, 1,  n_r * 6 + 11, _("/SS"
+						    "/df"
+						    "/MS"
+						    "/F"
+						    "/P-value"
+						    "/F critical"));
 
-	gr_sum_sqrsum = 0;
+	for (i_r = 0; i_r < n_r; i_r++) {
+		GPtrArray *data = NULL;
+		gnum_float row_sum = 0.0;
+		gnum_float row_sum_sq = 0.0;
+		guint row_cnt = 0;
 
-	for (i = n = 0; i < rows - 1; i += rows_per_sample) {
-	       cell = sheet_cell_get (sheet, range->start.col,
-				      range->start.row + i + 1);
+		data = g_ptr_array_index (row_data, i_r);
+		for (i_c = 0; i_c < n_c; i_c++) {
+			data_set_t *cell_data;
+			gnum_float v;
+			int error;
+			int num;
+			gnum_float *the_data;
+			
+			cell_data = g_ptr_array_index (data, i_c);
+			the_data = (gnum_float *)cell_data->data->data;
+			num = cell_data->data->len;
+			row_cnt += num;
 
-	       /* Print the names of the groups */
-	       if (cell != NULL)
-		       set_cell_value (dao, 0, n * 6 + 3, cell->value);
-	       set_italic (dao, 0, n * 6 + 3, 0, n * 6 + 3);
+			set_cell_int (dao, 1 + i_c, 4 + i_r * 6, num);
+			error = range_sum (the_data, num, &v);
+			row_sum += v;
+			ss_rc += v * v / num;
+			set_cell_float_na (dao, 1 + i_c, 5 + i_r * 6, v, error == 0);
+			set_cell_float_na (dao, 1 + i_c, 6 + i_r * 6, v / num, 
+					   error == 0 && num > 0);
+			error = range_var_est (the_data, num , &v);
+			set_cell_float_na (dao, 1 + i_c, 7 + i_r * 6, v, error == 0);
 
-	       set_cell (dao, 0, n * 6 + 4, "Count");
-	       set_cell (dao, 0, n * 6 + 5, "Sum");
-	       set_cell (dao, 0, n * 6 + 6, "Average");
-	       set_cell (dao, 0, n * 6 + 7, "Variance");
-
-	       gr_count = 0;
-	       gr_sum = 0;
-	       gr_sqrsum = 0;
-
-	       for (j = 1; j < cols; j++) {
-		      count = 0;
-		      sum = 0;
-		      sqrsum = 0;
-		      for (k = 0; k < rows_per_sample; k++) {
-			      cell = sheet_cell_get (sheet, range->start.col + j,
-						     range->start.row + k + 1 +
-						     n * rows_per_sample);
-			      ++count;
-			      x = value_get_as_float (cell->value);
-			      sum += x;
-			      sqrsum += x * x;
-			      col_count[j - 1]++;
-			      col_sum[j - 1] += x;
-			      col_sqrsum[j - 1] += x * x;
-		      }
-		      v = (sqrsum - (sum * sum) / count) / (count - 1);
-		      gr_count += count;
-		      gr_sum += sum;
-		      gr_sqrsum += sqrsum;
-
-  		      sample_sum_sqrsum += sum * sum;
-
-		      tot_count += count;
-		      tot_sum += sum;
-		      tot_sqrsum += sqrsum;
-
-		      set_cell_int   (dao, j, n * 6 + 4, count);
-		      set_cell_float (dao, j, n * 6 + 5, sum);
-		      set_cell_float (dao, j, n * 6 + 6, sum / count);
-		      set_cell_float (dao, j, n * 6 + 7, v);
-	       }
-	       v = (gr_sqrsum - (gr_sum * gr_sum) / gr_count) / (gr_count - 1);
-	       set_cell_int   (dao, j, n * 6 + 4, gr_count);
-	       set_cell_float (dao, j, n * 6 + 5, gr_sum);
-	       set_cell_float (dao, j, n * 6 + 6, gr_sum / gr_count);
-	       set_cell_float (dao, j, n * 6 + 7, v);
-
-	       gr_sum_sqrsum += (gr_sum * gr_sum);
-
-	       ++n;
+			error = range_sumsq (the_data, num, &v);
+			row_sum_sq += v;
+		}
+		cm += row_sum;
+		n += row_cnt;
+		ss_r += row_sum * row_sum / row_cnt;
+		ss_total += row_sum_sq;
+		set_cell_int (dao, 1 + n_c, 4 + i_r * 6, row_cnt);
+		set_cell_float (dao, 1 + n_c, 5 + i_r * 6, row_sum);
+		set_cell_float (dao, 1 + n_c, 6 + i_r * 6, row_sum / row_cnt);
+		set_cell_float (dao, 1 + n_c, 7 + i_r * 6, 
+				(row_sum_sq - row_sum * row_sum / row_cnt) / (row_cnt - 1));
 	}
 
-	set_cell (dao, 0, n * 6 + 3, _("Total"));
-	set_italic (dao, 0, n * 6 + 3, 0, n * 6 + 3);
-	set_cell (dao, 0, n * 6 + 4, _("Count"));
-	set_cell (dao, 0, n * 6 + 5, _("Sum"));
-	set_cell (dao, 0, n * 6 + 6, _("Average"));
-	set_cell (dao, 0, n * 6 + 7, _("Variance"));
+	for (i_c = 0; i_c < n_c; i_c++) {
+		gnum_float col_sum = 0.0;
+		gnum_float col_sum_sq = 0.0;
+		guint col_cnt = 0;
 
-	col_sum_sqrsum = 0;
+		for (i_r = 0; i_r < n_r; i_r++) {
+			data_set_t *cell_data;
+			gnum_float v;
+			int error;
+			gnum_float *the_data;
+			GPtrArray *data = NULL;
+			
+			data = g_ptr_array_index (row_data, i_r);
+			cell_data = g_ptr_array_index (data, i_c);
+			the_data = (gnum_float *)cell_data->data->data;
 
-	for (i = 1; i < cols; i++) {
-	        v = (col_sqrsum[i - 1] - (col_sum[i - 1] * col_sum[i - 1]) /
-		     col_count[i - 1]) / (col_count[i - 1] - 1);
-	        set_cell_int   (dao, i, n * 6 + 4, col_count[i - 1]);
-	        set_cell_float (dao, i, n * 6 + 5, col_sum[i - 1]);
-	        set_cell_float (dao, i, n * 6 + 6, col_sum[i - 1] / col_count[i - 1]);
-	        set_cell_float (dao, i, n * 6 + 7, v);
-		col_sum_sqrsum +=  (col_sum[i - 1] * col_sum[i - 1]);
+			col_cnt += cell_data->data->len;
+			error = range_sum (the_data, cell_data->data->len, &v);
+			col_sum += v;
+
+			error = range_sumsq (the_data, cell_data->data->len, &v);
+			col_sum_sq += v;			
+		}
+		ss_c += col_sum * col_sum / col_cnt;
+		set_cell_int (dao, 1 + i_c, 4 + n_r * 6, col_cnt);
+		set_cell_float (dao, 1 + i_c, 5 + n_r * 6, col_sum);
+		set_cell_float (dao, 1 + i_c, 6 + n_r * 6, col_sum / col_cnt);
+		set_cell_float (dao, 1 + i_c, 7 + n_r * 6, 
+				(col_sum_sq - col_sum * col_sum / col_cnt) / (col_cnt - 1));
 	}
 
-	a = (rows - 1) / rows_per_sample;
-	b = cols -1;
-	ss_gr = (gr_sum_sqrsum - (tot_sum * tot_sum) / a) / (b * rows_per_sample) ;
-	ss_col = (col_sum_sqrsum - (tot_sum * tot_sum) / b) / (a * rows_per_sample) ;
-	ss_within = tot_sqrsum - sample_sum_sqrsum / rows_per_sample;
-	ss_tot = tot_sqrsum - (tot_sum * tot_sum) / (a * b * rows_per_sample);
-	ss_inter = ss_tot - ss_within - ss_col - ss_gr;
+	set_cell_int (dao, 1 + n_c, 4 + n_r * 6, n);
+	set_cell_float (dao, 1 + n_c, 5 + n_r * 6, cm);
+	set_cell_float (dao, 1 + n_c, 6 + n_r * 6, cm / n);
+	cm = cm * cm/ n;
+	set_cell_float   (dao, 1 + n_c, 7 + n_r * 6, (ss_total - cm) / (n - 1));
+	
+	df_r = n_r - 1;
+	df_c = n_c - 1;
+	df_rc = df_r * df_c;
+	df_total = n - 1;
+	df_e = df_total - df_rc - df_c - df_r;
 
-	df_gr = a - 1;
-	df_col = b - 1;
-	df_inter = (a -1) * (b - 1);
-	df_within = a * b * (rows_per_sample - 1);
+	if (missing_observations > 0) {
+		/* Oh bother: there is some data missing which means we have to: */
+		/* -- Estimate the missing values                                */
+                /* -- Recalculate the values obtained towards the SS             */
+		/* We couldn't do that above because the Summary table should    */
+                /* contain the real values                                       */
 
-	ms_gr = ss_gr / df_gr;
-	ms_col = ss_col / df_col;
-	ms_inter = ss_inter / df_inter;
-	ms_within = ss_within / df_within;
+		/* Estimate the missing values */
 
-	f_gr = ms_gr / ms_within;
-	f_col = ms_col / ms_within;
-	f_inter = ms_inter / ms_within;
+		for (i_r = 0; i_r < n_r; i_r++) {
+			GPtrArray *data = NULL;
+			
+			data = g_ptr_array_index (row_data, i_r);
+			for (i_c = 0; i_c < n_c; i_c++) {
+				data_set_t *cell_data;
+				guint num, error;
+				
+				cell_data = g_ptr_array_index (data, i_c);
+				num = cell_data->data->len;
+				if (num < max_sample_size) {
+					gnum_float *the_data, v;
+					guint i;
 
-	p_gr = 1.0 - pf (f_gr, df_gr, df_within);
-	p_col = 1.0 - pf (f_col, df_col, df_within);
-	p_inter = 1.0 - pf (f_inter, df_inter, df_within);
+					the_data = (gnum_float *)cell_data->data->data;
+					error = range_average (the_data, num, &v);
+					for (i = num; i < max_sample_size; i++)
+						g_array_append_val (cell_data->data, v);
+				}
+			}
+		}
 
-	set_cell (dao, 0, n * 6 + 10, _("ANOVA"));
-	set_cell (dao, 0, n * 6 + 11, _("Source of Variation"));
-	set_cell (dao, 0, n * 6 + 12, _("Sample"));
-	set_cell (dao, 0, n * 6 + 13, _("Columns"));
-	set_cell (dao, 0, n * 6 + 14, _("Interaction"));
-	set_cell (dao, 0, n * 6 + 15, _("Within"));
-	set_cell (dao, 0, n * 6 + 17, _("Total"));
+		/* Recalculate the values obtained towards the SS */
 
-	set_cell (dao, 1, n * 6 + 11, _("SS"));
-	set_cell_float (dao, 1, n * 6 + 12, ss_gr);
-	set_cell_float (dao, 1, n * 6 + 13, ss_col);
-	set_cell_float (dao, 1, n * 6 + 14, ss_inter);
-	set_cell_float (dao, 1, n * 6 + 15, ss_within);
-	set_cell_float (dao, 1, n * 6 + 17, ss_tot);
+		ss_r = 0;
+		ss_c = 0;
+		ss_rc = 0;
+		ss_total = 0;
+		cm = 0;
+		n = 0;
 
-	set_cell (dao, 2, n * 6 + 11, _("df"));
-	set_cell_int   (dao, 2, n * 6 + 12, df_gr);
-	set_cell_int   (dao, 2, n * 6 + 13, df_col);
-	set_cell_int   (dao, 2, n * 6 + 14, df_inter);
-	set_cell_int   (dao, 2, n * 6 + 15, df_within);
-	set_cell_int   (dao, 2, n * 6 + 17, tot_count-1);
+		for (i_r = 0; i_r < n_r; i_r++) {
+			GPtrArray *data = NULL;
+			gnum_float row_sum = 0.0;
+			gnum_float row_sum_sq = 0.0;
+			guint row_cnt = 0;
+			
+			data = g_ptr_array_index (row_data, i_r);
+			for (i_c = 0; i_c < n_c; i_c++) {
+				data_set_t *cell_data;
+				gnum_float v;
+				int error;
+				int num;
+				gnum_float *the_data;
+				
+				cell_data = g_ptr_array_index (data, i_c);
+				the_data = (gnum_float *)cell_data->data->data;
+				num = cell_data->data->len;
+				row_cnt += num;
+				
+				error = range_sum (the_data, num, &v);
+				row_sum += v;
+				ss_rc += v * v / num;
+			
+				error = range_sumsq (the_data, num, &v);
+				row_sum_sq += v;
+			}
+			cm += row_sum;
+			n += row_cnt;
+			ss_r += row_sum * row_sum / row_cnt;
+			ss_total += row_sum_sq;
+		}
+		
+		for (i_c = 0; i_c < n_c; i_c++) {
+			gnum_float col_sum = 0.0;
+			guint col_cnt = 0;
+			
+			for (i_r = 0; i_r < n_r; i_r++) {
+				data_set_t *cell_data;
+				gnum_float v;
+				int error;
+				gnum_float *the_data;
+				GPtrArray *data = NULL;
+				
+				data = g_ptr_array_index (row_data, i_r);
+				cell_data = g_ptr_array_index (data, i_c);
+				the_data = (gnum_float *)cell_data->data->data;
+				
+				col_cnt += cell_data->data->len;
+				error = range_sum (the_data, cell_data->data->len, &v);
+				col_sum += v;
+			}
+			ss_c += col_sum * col_sum / col_cnt;
+		}
+		
+		cm = cm * cm/ n;
+	}
 
-	/* Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within */
-	/* should all be the same */
+	ss_r = ss_r - cm;
+	ss_c = ss_c - cm;
+	ss_rc = ss_rc - ss_r - ss_c - cm;
+	ss_total = ss_total - cm;
+	ss_e = ss_total - ss_r - ss_c - ss_rc;
 
-	set_cell (dao, 3, n * 6 + 11, _("MS"));
-	set_cell_float (dao, 3, n * 6 + 12, ms_gr);
-	set_cell_float (dao, 3, n * 6 + 13, ms_col);
-	set_cell_float (dao, 3, n * 6 + 14, ms_inter);
-	set_cell_float (dao, 3, n * 6 + 15, ms_within);
+	set_cell_float (dao, 1, n_r * 6 + 12, ss_r);
+	set_cell_float (dao, 1, n_r * 6 + 13, ss_c);
+	set_cell_float (dao, 1, n_r * 6 + 14, ss_rc);
+	set_cell_float (dao, 1, n_r * 6 + 15, ss_e);
+	set_cell_float (dao, 1, n_r * 6 + 17, ss_total);
 
+	set_cell_int   (dao, 2, n_r * 6 + 12, df_r);
+	set_cell_int   (dao, 2, n_r * 6 + 13, df_c);
+	set_cell_int   (dao, 2, n_r * 6 + 14, df_rc);
+	set_cell_int   (dao, 2, n_r * 6 + 15, df_e);
+	set_cell_int   (dao, 2, n_r * 6 + 17, df_total);
 
-	set_cell (dao, 4, n * 6 + 11, _("F"));
-	set_cell_float (dao, 4, n * 6 + 12, f_gr);
-	set_cell_float (dao, 4, n * 6 + 13, f_col);
-	set_cell_float (dao, 4, n * 6 + 14, f_inter);
+	ms_r = ss_r / df_r;
+	ms_c = ss_c / df_c;
+	ms_rc = ss_rc / df_rc;
+	ms_e = ss_e / df_e;
 
+	set_cell_float_na (dao, 3, n_r * 6 + 12, ms_r, df_r > 0);
+	set_cell_float_na (dao, 3, n_r * 6 + 13, ms_c, df_c > 0);
+	set_cell_float_na (dao, 3, n_r * 6 + 14, ms_rc, df_rc > 0);
+	set_cell_float_na (dao, 3, n_r * 6 + 15, ms_e, df_e > 0);
 
-	set_cell (dao, 5, n * 6 + 11, _("P-value"));
-	set_cell_float (dao, 5, n * 6 + 12, p_gr);
-	set_cell_float (dao, 5, n * 6 + 13, p_col);
-	set_cell_float (dao, 5, n * 6 + 14, p_inter);
+	f_r = ms_r / ms_e;
+	f_c = ms_c / ms_e;
+	f_rc = ms_rc / ms_e;
 
-	set_cell (dao, 6, n * 6 + 11, _("F crit"));
-	set_cell_float (dao, 6, n * 6 + 12, qf (alpha, df_gr, df_within));
-	set_cell_float (dao, 6, n * 6 + 13, qf (alpha, df_col, df_within));
-	set_cell_float (dao, 6, n * 6 + 14, qf (alpha, df_inter, df_within));
+	set_cell_float_na (dao, 4, n_r * 6 + 12, f_r, ms_e != 0 && df_r > 0);
+	set_cell_float_na (dao, 4, n_r * 6 + 13, f_c, ms_e != 0 && df_c > 0);
+	set_cell_float_na (dao, 4, n_r * 6 + 14, f_rc, ms_e != 0 && df_rc > 0);
 
-	set_italic (dao, 0, n * 6 + 11, 6, n * 6 + 11);
+	p_r = 1.0 - pf (f_r, df_r, df_e);
+	p_c = 1.0 - pf (f_c, df_c, df_e);
+	p_rc = 1.0 - pf (f_rc, df_rc, df_e);
 
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
+	set_cell_float_na (dao, 5, n_r * 6 + 12, p_r, ms_e != 0 && df_r > 0 && df_e > 0);
+	set_cell_float_na (dao, 5, n_r * 6 + 13, p_c, ms_e != 0 && df_c > 0 && df_e > 0);
+	set_cell_float_na (dao, 5, n_r * 6 + 14, p_rc, ms_e != 0 && df_rc > 0 && df_e > 0);
 
-	g_free (col_count);
-	g_free (col_sum);
-	g_free (col_sqrsum);
+	set_cell_float_na (dao, 6, n_r * 6 + 12, qf (1 - alpha, df_r, df_e), 
+			   df_r > 0 && df_e > 0);
+	set_cell_float_na (dao, 6, n_r * 6 + 13, qf (1 - alpha, df_c, df_e), 
+			   df_c > 0 && df_e > 0);
+	set_cell_float_na (dao, 6, n_r * 6 + 14, qf (1 - alpha, df_rc, df_e), 
+			   df_rc > 0 && df_e > 0);
 
-	return 0;
+	set_italic (dao, 0, n_r * 6 + 11, 6, n_r * 6 + 11);
+	set_italic (dao, 0, 2, 1 + n_c, 2);
+	set_italic (dao, 0, 0, 0, 17 + n_r * 6);
+
+ anova_two_factor_with_r_tool_end:
+
+	for (i_r = 0; i_r < row_data->len; i_r++)
+		destroy_data_set_list (g_ptr_array_index (row_data, i_r));
+	g_ptr_array_free (row_data, TRUE);
+
+	for (i_c = 0; i_c < n_c; i_c++)
+		g_free (g_ptr_array_index (col_labels, i_c));
+	g_ptr_array_free (col_labels, TRUE);
+	for (i_r = 0; i_r < n_r; i_r++)
+		g_free (g_ptr_array_index (row_labels, i_r));
+	g_ptr_array_free (row_labels, TRUE);
+
+	if (return_value == 0) {
+		sheet_set_dirty (dao->sheet, TRUE);
+		sheet_update (dao->sheet);
+	}
+
+	return return_value;
 }
 
 
@@ -3453,8 +3588,8 @@ destroy_items (gpointer data, gpointer user_data) {
 
 int
 histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
-		group_by_t group_by,
-		gboolean bin_labels, gboolean pareto, gboolean cumulative,
+		group_by_t group_by, gboolean bin_labels, 
+		gboolean pareto, gboolean percentage, gboolean cumulative,
 		gboolean chart, data_analysis_output_t *dao)
 {
 	GSList *input_range;
@@ -3561,30 +3696,47 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 
 	col = 1;
 	for (i = 0; i < data->len; i++) {
+		guint l_col = col;
+		gnum_float y = 0.0;
 		row = 0;
+
 		if (dao->labels_flag) {
 			set_cell (dao, col, row, 
 				  ((data_set_t *)g_ptr_array_index (data, i))->label);
 			row++;
 		}
 		set_cell (dao, col, row, _("Frequency"));
+		if (percentage)
+			set_cell (dao, ++l_col, row, _("%"));		
 		if (cumulative)
 			/* xgettext:no-c-format */
-			set_cell (dao, col+1, row, _("Cumulative %"));
+			set_cell (dao, ++l_col, row, _("Cumulative %"));
 /* print data */
 		this = bin_list;
 		while (this != NULL) {
 			gnum_float x;
-
+			
+			l_col = col;
 			x = g_array_index (((bin_t *)this->data)->counts, gnum_float, i);
 			row ++;
 			set_cell_float (dao, col, row,  x);
 			x = x/(((data_set_t *)(g_ptr_array_index (data, i)))->data->len);
-			if (cumulative)
-				set_cell_float (dao, col + 1, row, x);
+			if (percentage) {
+				l_col++;
+				set_percent (dao, l_col, row, l_col, row);
+				set_cell_float (dao, l_col, row, x);
+			}
+			if (cumulative) {
+				y += x;
+				l_col++;
+				set_percent (dao, l_col, row, l_col, row);
+				set_cell_float (dao, l_col, row, y);
+			}
 			this = this->next;
 		}
 		col++;
+		if (percentage)
+			col++;
 		if (cumulative)
 			col++;
 	}

@@ -323,6 +323,20 @@
 
       <widget>
 	<class>GtkCheckButton</class>
+	<name>percentage-button</name>
+	<can_focus>True</can_focus>
+	<label>_Percentage</label>
+	<active>False</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkCheckButton</class>
 	<name>cum-button</name>
 	<can_focus>True</can_focus>
 	<label>C_umulative Percentages</label>

@@ -1,5 +1,20 @@
 2001-12-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/analysis-tools.c : delete old_data_set_t
+	(get_data_groupped_by_columns) : deleted
+	(get_data_groupped_by_rows) : deleted
+	(check_data_for_missing) : new utility routine
+	(make_label) : new utility routine
+	(anova_two_factor_without_r_tool) : support input from 
+	  several sheets and support label choices
+	(anova_two_factor_with_r_tool) : ditto, plus support missing 
+	  observations
+	(histogram_tool) Add percentage column and format percentages
+	  as such
+	
+
+2001-12-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/parser.y (expr_parse_str) Initialize expr to NULL
 
 2001-12-02  Andreas J. Guelzow <aguelzow@taliesin.ca>

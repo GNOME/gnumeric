@@ -1,3 +1,22 @@
+2001-12-03  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* anova-two.glade : activate labels button and change (1 - alpha)
+	  to alpha
+	* histogram.glade : add percentages checkbox (# 62164)
+	* dialog-analysis-tools.c : format all preentered numbers according
+	  to the locale (# 65404)
+	(float_to_entry) : new utility proc.
+	(int_to_entry) : ditto
+	(anova_two_factor_tool_ok_clicked_cb) : support input from various
+	  sheets
+	(anova_two_factor_tool_update_sensitivity_cb) : ditto
+	(tool_update_sensitivity_cb) : deleted
+	(tool_update_sensitivity_global_cb) : renamed tool_update_sensitivity_cb
+	(histogramr_tool_ok_clicked_cb) : add percentages checkbox 
+	  (# 62164)
+	* tools.h : change arguments for anova_two_factor_without_r_tool,
+	  anova_two_factor_with_r_tool and histogram_tool
+
 2001-11-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* tools.h : change argument list of ranking_tool

@@ -3,7 +3,8 @@ Gnumeric 0.77
 Andreas:
 	* Fix problem in search & search/replace tool #64989
 	* Permit input from other sheets in Random Number Generator 
-	  (discrete distribution) and Rank and Percentile Tools
+	  (discrete distribution), Rank and Percentile Tools and 
+	  2-factor ANOVAs
 	* Check for valid input in Random Number Generator tool
 	* Fix parsing error in analysis tools expecting sheet references
           when none is given
@@ -14,6 +15,10 @@ Andreas:
 	* Fix crash on copy between different invocations of gnumeric
 	* Fix search in comments (# 65159)
 	* Fix crash in parser (# 65896)
+	* Format all numbers preentered in analysis tools dialogs
+	  according to locale (# 65404)
+	* In histogram tool add percentage column and format all 
+	  percentages appropriately (# 62164)
 
 Jody:
 	* Tricky corner cases for style applications.
