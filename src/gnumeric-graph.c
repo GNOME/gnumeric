@@ -595,7 +595,7 @@ cb_check_range_for_pure_string (EvalPos const *ep, Value const *v, void *user)
  */
 GnmGraphVector *
 gnm_graph_vector_new (GnmGraph *graph, ExprTree *expr, gboolean has_header,
-		      Sheet *sheet)
+		      GnmGraphVectorType type, Sheet *sheet)
 {
 	CORBA_Environment ev;
 	PortableServer_Servant serv = CORBA_OBJECT_NIL;
@@ -624,11 +624,11 @@ gnm_graph_vector_new (GnmGraph *graph, ExprTree *expr, gboolean has_header,
 	case GNM_VECTOR_STRING :
 	case GNM_VECTOR_DATE :
 		g_warning ("Date vectors aren't supported yet");
-		type = GNM_VECTOR_SCALAR :
+		type = GNM_VECTOR_SCALAR;
 		break;
 	default :
 		g_warning ("Unknown vector type");
-		type = GNM_VECTOR_SCALAR :
+		type = GNM_VECTOR_SCALAR;
 	};
 	vector->type = type;
 	vector->is_column = value_area_get_width (&ep, vector->value) == 1;
