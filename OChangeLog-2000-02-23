@@ -1,3 +1,14 @@
+1999-12-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/eval.[ch] (cell_add_explicit_dependency) : New function.
+
+	* src/functions/fn-lookup.c (gnumeric_indirect) : Clear all
+	  dependencies the calling cell has and regenerate them anytime the
+	  function is called.  This is somewhat wasteful but is IMO a better
+	  space time trade off than penalizing all depends to be able to flag
+	  which dep is an indirection dep.  This method may cause problems if
+	  multiple indirection calls are using in a single expression.
+
 1999-12-08  Jon K Hellan  <hellan@acm.org>
 
 	* src/style.h: Declare style_font_equal, style_font_hash_func.

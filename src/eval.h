@@ -22,7 +22,10 @@ typedef struct {
 } DependencyRange;
 
 /* Registers all of the dependencies this cell has */
-void    cell_add_dependencies    (Cell *cell);
+void    cell_add_dependencies       (Cell *cell);
+
+/* Explicitly add a dependency */
+void    cell_add_explicit_dependency (Cell *cell, CellRef const *a);
 
 /* Removes this cell from the list of dependencies */
 void    cell_drop_dependencies   (Cell *cell);

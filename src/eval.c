@@ -312,6 +312,13 @@ cell_add_dependencies (Cell *cell)
 	add_tree_deps (cell, cell->parsed_node);
 }
 
+/* Explicitly add a dependency */
+void
+cell_add_explicit_dependency (Cell *cell, CellRef const *a)
+{
+	add_cell_range_deps (cell, a, a);
+}
+
 /*
  * List used by cell_drop_dependencies and dependency_remove_cell
  * to accumulate all of the "dead" DependencyRange structures.

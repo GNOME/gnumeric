@@ -11,7 +11,7 @@
 #include "numbers.h"
 #include "utils.h"
 #include "func.h"
-
+#include "eval.h"
 
 /***************************************************************************/
 
@@ -657,7 +657,7 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 {
 	char*          text;
 	gboolean       a1_style;
-	Cell          *cell;
+	Cell          *dest_cell, *calling_cell;
 	CellRef        ref;
 	int            col, row;
 	gboolean       error = FALSE;
@@ -686,12 +686,28 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 
 	cell_get_abs_col_row (&ref, ei->pos.eval_col, ei->pos.eval_row,
 			      &col, &row);
-	cell = sheet_cell_get (ei->pos.sheet, col, row);
+	dest_cell = sheet_cell_get (ei->pos.sheet, col, row);
 
-	if (!cell)
+	/* This is not terribly pretty.  We really just want to remove the
+	 * dependency on the indirected cell.  However, that would require a
+	 * space penalty to be paid by all dependancies to flag which depend was
+	 * a result of the indirection.  So I propose that we just clear all
+	 * deps from this cell and then add them again.
+	 *
+	 * FIXME FIXME FIXME : This will not work for multiple indirection calls
+	 * in a single expression.
+	 */
+	calling_cell = sheet_cell_get (ei->pos.sheet,
+				       ei->pos.eval_col, ei->pos.eval_row);
+
+	cell_drop_dependencies (calling_cell);
+	cell_add_dependencies (calling_cell);
+	cell_add_explicit_dependency (calling_cell, &ref);
+
+	if (!dest_cell)
 		return value_new_int (0);
 	else
-		return value_duplicate (cell->value);
+		return value_duplicate (dest_cell->value);
 }
 
 
