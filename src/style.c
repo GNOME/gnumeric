@@ -159,7 +159,6 @@ style_font_new_simple (PangoContext *context,
 		/* One reference for the cache, one for the caller. */
 		font->ref_count = 2;
 
-		g_object_ref (context);
 		desc = pango_context_get_font_description (context);
 		pango_font_description_set_family (desc, font_name);
 		pango_font_description_set_weight (desc,
@@ -179,7 +178,6 @@ style_font_new_simple (PangoContext *context,
 			}
 
 			if (font->pango.font == NULL) {
-				g_object_unref (context);
 				font->pango.font_descr = NULL;
 				g_hash_table_insert (style_font_negative_hash,
 						     font, font);

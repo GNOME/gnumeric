@@ -1,3 +1,8 @@
+2005-01-13  Morten Welinder  <terra@gnome.org>
+
+	* src/style.c (style_font_new_simple): Don't ref and unref the
+	context.
+
 2005-01-13  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* src/graph.c: (gnm_go_data_matrix_load_values): don't write data outside of
