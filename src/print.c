@@ -744,7 +744,7 @@ sheet_print (Sheet *sheet, gboolean preview,
 	gnome_print_master_set_copies(gpm, copies, collate);
 	pj->print_context = gnome_print_master_get_context(gpm);
 
-	/* perfrom actual printing */
+	/* perform actual printing */
 	switch (pj->range) {
 		
 	case PRINT_ACTIVE_SHEET:

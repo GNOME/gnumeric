@@ -6,6 +6,7 @@ Release Critical
 ----------------
 - gnumeric depends on unreleased gnome-print
 - gnumeric depends on unreleased bonobo
+- text in print-preview is vertically offset.
 
 Long term breakage
 ------------------

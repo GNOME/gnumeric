@@ -31,6 +31,7 @@ Jody
 	  for 64, 65 and the background colour in WINDOW2.  It appears to
 	  override the grid line colour and possibly the contrast nature
 	  of 64.  What does 65 become then ?
+	* Map bottom & right borders to top and left.
 
 Frank
 	* Summary:
