@@ -69,7 +69,7 @@ static void
 format_page_update_preview (DruidPageData_t *pagedata)
 {
 	FormatInfo_t *info = pagedata->format_info;
-	GList *list;
+	GPtrArray *lines;
 	GSList *iterator;
 
 	stf_preview_colformats_clear (info->format_run_renderdata);
@@ -79,9 +79,9 @@ format_page_update_preview (DruidPageData_t *pagedata)
 		iterator = g_slist_next (iterator);
 	}
 
-	list = stf_parse_general (info->format_run_parseoptions, pagedata->cur);
+	lines = stf_parse_general (info->format_run_parseoptions, pagedata->cur);
 
-	stf_preview_render (info->format_run_renderdata, list,
+	stf_preview_render (info->format_run_renderdata, lines,
 			    info->format_run_displayrows,
 			    pagedata->colcount);
 

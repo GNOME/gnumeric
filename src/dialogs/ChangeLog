@@ -1,5 +1,9 @@
 2003-06-02  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf-preview.c (stf_preview_render): Switch from list
+	<list<string>> to ptrarray<ptrarray<string>>, gaining random
+	access.  All callers changed.
+
 	* dialog-view.c (dialog_new_view): Use gnm_link_button_and_entry.
 
 2003-05-31  Jody Goldberg <jody@gnome.org>

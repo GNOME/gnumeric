@@ -43,7 +43,7 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 {
 	CsvInfo_t *info = data->csv_info;
 	StfParseOptions_t *parseoptions = info->csv_run_parseoptions;
-	GList *list;
+	GPtrArray *lines;
 	GSList *sepstr;
 	GString *sepc = g_string_new (NULL);
 	int i;
@@ -96,9 +96,9 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 	for (i = 0; i < data->colcount + 1; i++)
 		stf_preview_colwidths_add (info->csv_run_renderdata, stf_parse_get_colwidth (parseoptions, data->cur, i));
 
-	list = stf_parse_general (parseoptions, data->cur);
+	lines = stf_parse_general (parseoptions, data->cur);
 
-	stf_preview_render (info->csv_run_renderdata, list,
+	stf_preview_render (info->csv_run_renderdata, lines,
 			    info->csv_run_displayrows,
 			    data->colcount);
 }

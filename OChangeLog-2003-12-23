@@ -1,5 +1,10 @@
 2003-06-02  Morten Welinder  <terra@gnome.org>
 
+	* src/stf-parse.c (stf_parse_general_free): New function.
+	(stf_parse_general): Switch from list <list<string>> to
+	ptrarray<ptrarray<string>>, gaining random access.  All callers
+	changed.
+
 	* src/style.c (style_font_new_simple): Take a pango context
 	argument also instead of producing a bogus one.
 	(style_font_new): Ditto.  Improve fall-back scheme.
@@ -18,7 +23,7 @@
 	* src/commands.c (cmd_analysis_tool): Clarify memory ownership
 	rules and adhere to them.  Plug leak.
 
-	* src/item-edit.c (ie_layout): Hande ->layout properly so it
+	* src/item-edit.c (ie_layout): Handle ->layout properly so it
 	doesn't get leaked.
 
 2003-06-01  Jody Goldberg <jody@gnome.org>

@@ -299,23 +299,23 @@ stf_preview_draw_grid (RenderData_t *renderdata, int rowcount, int colcount)
  * returns : the bottom position of the row
  **/
 static double
-stf_preview_render_row (RenderData_t *renderdata, double rowy, GList *row, int colcount)
+stf_preview_render_row (RenderData_t *renderdata, double rowy, GPtrArray *row, unsigned int colcount)
 {
-	GList *iterator = row;
 	double xpos = 0.0;
 	double textwidth = 0;
-	int col = 0;
+	unsigned int col = 0;
 
-	if (iterator == NULL) { /* empty row */
-
+	if (row->len == 0) { /* empty row */
 		return rowy + CELL_VPAD + renderdata->charheight;
 	}
 
-
 	for (col = 0; col <= colcount; col++)  {
 		int widthwanted;
+		const char *data = (col < row->len)
+			? g_ptr_array_index (row, col)
+			: NULL;
 
-		if (iterator != NULL && iterator->data != NULL) {
+		if (data) {
 			char *text = NULL;
 
 			/*
@@ -326,8 +326,8 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GList *row, int c
 			 * are drawn on a local display. We therefore simply truncate
 			 * the string if it is 'too large' to display.
 			 */
-			if (strlen (iterator->data) > X_OVERFLOW_PROTECT - 1)
-				text = g_strndup (iterator->data, X_OVERFLOW_PROTECT - 1);
+			if (strlen (data) > X_OVERFLOW_PROTECT - 1)
+				text = g_strndup (data, X_OVERFLOW_PROTECT - 1);
 
 			/* In case the active color differs from the inactive color
 			 * this code can be activated
@@ -339,7 +339,7 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GList *row, int c
 			 */
 
 			textwidth = stf_preview_draw_text (renderdata->group,
-							   text ? text : iterator->data,
+							   text ? text : data,
 							   TEXT_COLOR,
 							   xpos + (CELL_HPAD / 2),
 							   rowy + (CELL_VPAD / 2));
@@ -357,8 +357,6 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GList *row, int c
 
 
 		xpos += CELL_HPAD;
-
-		iterator = g_list_next (iterator);
 	}
 
 	return rowy + CELL_VPAD + renderdata->charheight;
@@ -367,7 +365,7 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GList *row, int c
 /**
  * stf_preview_format_recalc_colwidths
  * @renderdata : renderdata struct
- * @data : a list containing lists with strings
+ * @lines : Lines as from stf_parse_general.
  * @colcount : number of items in each list in @data
  *
  * This routine will iterate trough the list and calculate the ACTUAL widths
@@ -379,47 +377,35 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GList *row, int c
  * returns : nothing. (swaps renderdata->temp and renderdata->colwidths);
  **/
 static void
-stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GList *data, int colcount)
+stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GPtrArray *lines, int colcount)
 {
 	GArray *newwidths;
-	GList *iterator;
 	gint i;
 	gint *widths = g_alloca ((colcount + 1) * sizeof (gint));
+	unsigned int row;
 
 	for (i = 0; i <= colcount; i++) {
 		widths[i] = g_array_index (renderdata->colwidths, int, i);
 	}
 
-	iterator = data;
-	while (iterator) {
-		GList *subiterator = iterator->data;
-		int col;
+	for (row = 0; row < lines->len; row++) {
+		GPtrArray *line = g_ptr_array_index (lines, row);
+		unsigned int col;
 
-		for (col = 0; col <= colcount; col++)  {
-			int width;
-
-			if (!subiterator || !subiterator->data) {
-
-				subiterator = g_list_next (subiterator);
-				continue;
-			}
+		for (col = 0; col < line->len; col++)  {
+			const char *text = g_ptr_array_index (line, col);
 
 			/* New width calculation */
-			width = style_font_string_width(gnumeric_default_font,subiterator->data) / renderdata->charwidth;
+			int width = style_font_string_width (gnumeric_default_font, text) / renderdata->charwidth;
 
 			if (width > widths[col])
 				widths[col] = width;
-
-			subiterator = g_list_next (subiterator);
 		}
-
-		iterator = g_list_next (iterator);
 	}
 
 	newwidths = g_array_new (FALSE, FALSE, sizeof (int));
 
 	for (i = 0; i <= colcount; i++) {
-
 		g_array_append_val (newwidths, widths[i]);
 	}
 
@@ -435,7 +421,7 @@ stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GList *data, int 
 /**
  * stf_preview_format_line
  * @renderdata : renderdata struct
- * @data : a list containing strings
+ * @data : a GPtrArray containing strings
  * @colcount : number of items in @list
  *
  * formats a single list of strings
@@ -443,26 +429,20 @@ stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GList *data, int 
  * returns : nothing
  **/
 static void
-stf_preview_format_line (RenderData_t *renderdata, GList *data, int colcount)
+stf_preview_format_line (RenderData_t *renderdata, GPtrArray *data)
 {
-	int col;
-	GList *iterator = data;
+	unsigned int col;
 
-	for (col = 0; col <= colcount; col++)  {
+	for (col = 0; col < data->len; col++)  {
 		Value *value;
-		StyleFormat *sf;
+		StyleFormat *sf = g_ptr_array_index (renderdata->colformats, col);
+		char *text = g_ptr_array_index (data, col);
 		char *celltext;
 
-		if (!iterator || !iterator->data) {
-			iterator = g_list_next (iterator);
-			continue;
-		}
-
-		sf = g_ptr_array_index (renderdata->colformats, col);
-
 		/* Formatting */
-		if (NULL == (value = format_match (iterator->data, sf, renderdata->date_conv)))
-			value = value_new_string (iterator->data);
+		value = format_match (text, sf, renderdata->date_conv);
+		if (NULL == value)
+			value = value_new_string (text);
 
 		/* if the format is general honour the parse format */
 		if (style_format_is_general (sf))
@@ -472,35 +452,30 @@ stf_preview_format_line (RenderData_t *renderdata, GList *data, int colcount)
 		value_release (value);
 
 		/* Replacement of old data */
-		g_free (iterator->data);
-		iterator->data = celltext;
-
-		iterator = g_list_next (iterator);
+		g_free (text);
+		g_ptr_array_index (data, col) = celltext;
 	}
 }
 
 /**
  * stf_preview_render
  * @renderdata : a renderdata struct
- * @list : a list containing the rows of of data to display
- * @rowcount : number of rows in @list
- * @colcount : number of cols in @list
+ * @lines : lines as from stf_parse_general.
+ * @colcount : (maximum) number of cols in @list
  *
  * This will render a preview on the canvas.
  *
  * returns : nothing
  *
- * NOTE: This will destroy the list and its contents.
+ * NOTE: This will destroy the lines structure.
  *
  **/
 void
-stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int colcount)
+stf_preview_render (RenderData_t *renderdata, GPtrArray *lines, int rowcount, int colcount)
 {
 	GnomeCanvasItem *centerrect;
-	GList *iterator;
-	GList *captions;
-	int i;
 	double ypos = 0.0;
+	unsigned int i;
 
 	g_return_if_fail (renderdata != NULL);
 	g_return_if_fail (renderdata->canvas != NULL);
@@ -510,7 +485,7 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
 		renderdata->group = NULL;
 	}
 
-	if (rowcount < 1 || list == NULL)
+	if (lines->len < 1)
 		goto done;
 
 	/*
@@ -527,30 +502,30 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
 							   NULL));
 
 	if (renderdata->formatted)
-		stf_preview_format_recalc_colwidths (renderdata, list, colcount);
+		stf_preview_format_recalc_colwidths (renderdata, lines, colcount);
 
 	/* Generate column captions and prepend them */
-	captions = NULL;
-	for (i = 0; i <= colcount; i++) {
-		char *text = g_strdup_printf (_(COLUMN_CAPTION), i);
+	{
+		int i;
+		GPtrArray *captions = g_ptr_array_new ();
 
-		captions = g_list_append (captions, text);
+		for (i = 0; i <= colcount; i++) {
+			char *text = g_strdup_printf (_(COLUMN_CAPTION), i);
+			g_ptr_array_add (captions, text);
+		}
+		ypos = stf_preview_render_row (renderdata, ypos, captions, colcount);
+		for (i = 0; i <= colcount; i++)
+			g_free (g_ptr_array_index (captions, i));
+		g_ptr_array_free (captions, TRUE);
 	}
 
-	ypos = stf_preview_render_row (renderdata, ypos, captions, colcount);
-
 	/* Render line by line */
-	iterator = list;
-	i = 1;
- 	while (iterator) {
-		if (i >= renderdata->startrow) {
-			if (renderdata->formatted && iterator->data != NULL)
-				stf_preview_format_line (renderdata, iterator->data, colcount);
-			ypos = stf_preview_render_row (renderdata, ypos, iterator->data, colcount);
-		}
+ 	for (i = renderdata->startrow; i <= lines->len; i++) {
+		GPtrArray *line = g_ptr_array_index (lines, i - 1);
 
-		iterator = g_list_next (iterator);
-		i++;
+		if (renderdata->formatted && line->len)
+			stf_preview_format_line (renderdata, line);
+		ypos = stf_preview_render_row (renderdata, ypos, line, colcount);
 	}
 
 	stf_preview_draw_grid (renderdata, rowcount, colcount);
@@ -568,13 +543,6 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
 		stf_preview_get_table_pixel_width (renderdata),
 		stf_preview_get_table_pixel_height (renderdata, rowcount));
 
-	iterator = captions;
-	while (iterator) {
-		g_free (iterator->data);
-		iterator = g_list_next (iterator);
-	}
-	g_list_free (captions);
-
 	/* Swap the actual column widths with the set columnwidths */
 	if (renderdata->formatted) {
 		GArray *dummy         = renderdata->temp;
@@ -583,20 +551,7 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
 	}
 
  done:
-	/* Free all the data */
-	iterator = list;
-	while (iterator) {
-		GList *subiterator = iterator->data;
-
-		while (subiterator) {
-			g_free ((char *) subiterator->data);
-			subiterator = g_list_next (subiterator);
-		}
-
-		g_list_free (iterator->data);
-		iterator = g_list_next (iterator);
-	}
-	g_list_free (list);
+	stf_parse_general_free (lines);
 }
 
 /******************************************************************************************************************

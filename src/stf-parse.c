@@ -573,29 +573,27 @@ stf_parse_eat_separators (Source_t *src, StfParseOptions_t *parseoptions)
  * stf_parse_csv_line:
  *
  * This will parse one line from the current @src->position.
- * It will return a GList with the cell contents as strings.
- * NOTE :
- * 1) The calling routine is responsible for freeing the strings in the GList
- * 2) The calling routine is responsible for freeing the list itself.
+ * NOTE: The calling routine is responsible for freeing the result.
  *
- * returns : a list with char*'s
+ * returns : a GPtrArray of char*'s
  **/
-static GList *
+static GPtrArray *
 stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 {
-	GList *list = NULL;
+	GPtrArray *line;
 	int col = 0;
 
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 
+	line = g_ptr_array_new ();
 	while (*src->position != '\0' && !compare_terminator (src->position, parseoptions)) {
 		char *field = stf_parse_csv_cell (src, parseoptions);
 		if (parseoptions->duplicates)
 			stf_parse_eat_separators (src, parseoptions);
 		
 		trim_spaces_inplace (field, parseoptions);
-		list = g_list_prepend (list, field);
+		g_ptr_array_add (line, field);
 
 		if (++col >= SHEET_MAX_COLS) {
 			g_warning (WARN_TOO_MANY_COLS, col);
@@ -603,7 +601,7 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 		}
 	}
 
-	return g_list_reverse (list);
+	return line;
 }
 
 /**
@@ -654,17 +652,14 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
  * stf_parse_fixed_line:
  *
  * This will parse one line from the current @src->position.
- * It will return a GList with the cell contents as strings.
- * NOTE :
- * 1) The calling routine is responsible for freeing the string in the GList
- * 2) The calling routine is responsible for freeing the list itself.
- *
- * returns : a list with char*'s
+ * It will return a GPtrArray with the cell contents as strings.
+
+ * NOTE: The calling routine is responsible for freeing result.
  **/
-static GList *
+static GPtrArray *
 stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 {
-	GList *list = NULL;
+	GPtrArray *line;
 	int col = 0;
 
 	g_return_val_if_fail (src != NULL, NULL);
@@ -673,11 +668,12 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 	src->linepos = 0;
 	src->splitpos = 0;
 
+	line = g_ptr_array_new ();
 	while (*src->position != '\0' && !compare_terminator (src->position, parseoptions)) {
 		char *field = stf_parse_fixed_cell (src, parseoptions);
 
 		trim_spaces_inplace (field, parseoptions);
-		list = g_list_prepend (list, field);
+		g_ptr_array_add (line, field);
 
 		if (++col >= SHEET_MAX_COLS) {
 			g_warning (WARN_TOO_MANY_COLS, col);
@@ -687,35 +683,39 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 		src->splitpos++;
 	}
 
-	return g_list_reverse (list);
+	return line;
 }
+
+void
+stf_parse_general_free (GPtrArray *lines)
+{
+	unsigned lineno;
+	for (lineno = 0; lineno < lines->len; lineno++) {
+		GPtrArray *line = g_ptr_array_index (lines, lineno);
+		unsigned field;
+		for (field = 0; field < line->len; field++) {
+			char *text = g_ptr_array_index (line, field);
+			g_free (text);
+		}
+		g_ptr_array_free (line, TRUE);
+	}
+	g_ptr_array_free (lines, TRUE);
+}
+
 
 /**
  * stf_parse_general:
  *
- * The GList that is returned contains smaller GLists.
- * The format is more or less :
+ * Returns a GPtrArray of lines, where each line is itself a
+ * GPtrArray of strings.
  *
- * GList (Top-level)
- *  |------>GList (Sub)
- *  |------>GList (Sub)
- *  |------>GList (Sub)
- *
- * Every Sub-GList represents a parsed line and contains
- * strings as data. if a Sub-GList is NULL this means the line
- * was empty.
- * NOTE : The calling routine has to free *a lot* of stuff by
- *        itself :
- *        1) The data of each Sub-GList item (with g_free) these are all strings.
- *        2) The sub-GList's themselves (with g_slist_free).
- *        3) The top level GList.
- *
- * returns : a GList with Sub-GList's containing celldata.
+ * The caller must free this entire structure, for example by calling
+ * stf_parse_general_free.
  **/
-GList *
+GPtrArray *
 stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 {
-	GList *l = NULL;
+	GPtrArray *lines;
 	Source_t src;
 	int row;
 
@@ -727,8 +727,9 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 	src.position = data;
 	row = 0;
 
+	lines = g_ptr_array_new ();
 	while (*src.position != '\0') {
-		GList *r;
+		GPtrArray *line;
 
 		if (++row >= SHEET_MAX_ROWS) {
 				g_warning (WARN_TOO_MANY_ROWS, row);
@@ -739,15 +740,15 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 			if (row > parseoptions->parselines)
 				break;
 
-		r = parseoptions->parsetype == PARSE_TYPE_CSV
+		line = parseoptions->parsetype == PARSE_TYPE_CSV
 			? stf_parse_csv_line (&src, parseoptions)
 			: stf_parse_fixed_line (&src, parseoptions);
-		l = g_list_prepend (l, r);
 
+		g_ptr_array_add (lines, line);
 		src.position++;
 	}
 
-	return g_list_reverse (l);
+	return lines;
 }
 
 /**
@@ -1295,41 +1296,42 @@ gboolean
 stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet,
 		 int start_col, int start_row)
 {
-	StyleFormat *fmt;
-	Value *v;
-	GList *res, *l, *mres, *m;
-	char  *text;
-	int col, row;
+	int row;
+	unsigned int lrow;
 	GnmDateConventions const *date_conv;
+	GPtrArray *lines;
 
 	g_return_val_if_fail (parseoptions != NULL, FALSE);
 	g_return_val_if_fail (data != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	date_conv = workbook_date_conv (sheet->workbook);
-	res = stf_parse_general (parseoptions, data);
-	for (row = start_row, l = res; l != NULL; l = l->next, row++) {
-		mres = l->data;
+
+	lines = stf_parse_general (parseoptions, data);
+	for (row = start_row, lrow = 0; lrow < lines->len ; row++, lrow++) {
+		int col;
+		unsigned int lcol;
+		GPtrArray *line = g_ptr_array_index (lines, lrow);
+		StyleFormat *fmt;
 
 		/* format is the same for the entire column */
 		fmt = mstyle_get_format (sheet_style_get (sheet, start_col, row));
 
-		for (col = start_col, m = mres; m != NULL; m = m->next, col++) {
-			text = m->data;
+		for (col = start_col, lcol = 0; lcol < line->len; col++, lcol++) {
+			char *text = g_ptr_array_index (line, lcol);
+
 			if (text) {
-				v = format_match (text, fmt, date_conv);
-				if (v == NULL)
+				Value *v = format_match (text, fmt, date_conv);
+				if (v == NULL) {
 					v = value_new_string_nocopy (text);
-				else
-					g_free (text);
+					g_ptr_array_index (line, lcol) = NULL;
+				}
 				cell_set_value (sheet_cell_fetch (sheet, col, row), v);
 			}
 		}
-
-		g_list_free (mres);
 	}
 
-	g_list_free (res);
+	stf_parse_general_free (lines);
 	return TRUE;
 }
 
@@ -1337,21 +1339,20 @@ CellRegion *
 stf_parse_region (StfParseOptions_t *parseoptions, char const *data)
 {
 	CellRegion *cr;
-	GList *res, *l;
 	CellCopyList *content = NULL;
-	int row, colhigh = 0;
+	unsigned int row, colhigh = 0;
+	GPtrArray *lines;
 
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 
-	res = stf_parse_general (parseoptions, data);
-	for (row = 0, l = res; l != NULL; l = l->next, row++) {
-		GList *mres = l->data;
-		GList *m;
-		int col;
+	lines = stf_parse_general (parseoptions, data);
+	for (row = 0; row < lines->len; row++) {
+		GPtrArray *line = g_ptr_array_index (lines, row);
+		unsigned int col;
 
-		for (col = 0, m = mres; m != NULL; m = m->next, col++) {
-			char *text = m->data;
+		for (col = 0; col < line->len; col++) {
+			char *text = g_ptr_array_index (line, col);
 
 			if (text) {
 				CellCopy *ccopy;
@@ -1387,14 +1388,14 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data)
 				ccopy->comment = NULL;
 
 				content = g_list_prepend (content, ccopy);
+
+				g_ptr_array_index (line, col) = NULL;
 			}
 		}
 		if (col > colhigh)
 			colhigh = col;
-		g_list_free (mres);
 	}
-
-	g_list_free (res);
+	stf_parse_general_free (lines);
 
 	cr = cellregion_new (NULL);
 	cr->content = content;

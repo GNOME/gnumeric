@@ -83,8 +83,9 @@ void stf_parse_options_fixed_splitpositions_add        (StfParseOptions_t *parse
 
 /* USING the stf structs to actually do some parsing, these are the lower-level functions and utility functions */
 
-GList              *stf_parse_general                                 (StfParseOptions_t *parseoptions,
+GPtrArray          *stf_parse_general                                 (StfParseOptions_t *parseoptions,
 								       char const *data);
+void                stf_parse_general_free                            (GPtrArray *lines);
 
 int                 stf_parse_get_rowcount                            (StfParseOptions_t *parseoptions,
 								       char const *data);

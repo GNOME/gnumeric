@@ -98,7 +98,7 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 {
 	FixedInfo_t *info = pagedata->fixed_info;
 	StfParseOptions_t *parseoptions = pagedata->fixed_info->fixed_run_parseoptions;
-	GList *list;
+	GPtrArray *lines;
 	char *t[2];
 	int i, temp;
 
@@ -115,9 +115,9 @@ fixed_page_update_preview (DruidPageData_t *pagedata)
 	for (i = 0; i < pagedata->colcount + 1; i++)
 		stf_preview_colwidths_add (info->fixed_run_renderdata, stf_parse_get_colwidth (parseoptions, pagedata->cur, i));
 
-	list = stf_parse_general (parseoptions, pagedata->cur);
+	lines = stf_parse_general (parseoptions, pagedata->cur);
 
-	stf_preview_render (info->fixed_run_renderdata, list,
+	stf_preview_render (info->fixed_run_renderdata, lines,
 			    info->fixed_run_displayrows,
 			    pagedata->colcount);
 }
