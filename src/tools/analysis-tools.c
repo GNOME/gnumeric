@@ -43,6 +43,128 @@
 
 /*************************************************************************/
 /*
+ *  dao
+ *
+ */
+
+static char *
+dao_range_name (data_analysis_output_t *dao)
+{
+			Range range;
+			range_init (&range, dao->start_col, dao->start_row,
+				    dao->start_col + dao->cols - 1, 
+				    dao->start_row + dao->rows - 1);
+			return global_range_name (dao->sheet, &range);
+}
+
+static char *
+dao_command_descriptor (data_analysis_output_t *dao, char const *format, gpointer result)
+{
+	char *rangename = NULL;
+	char **text;
+
+	g_return_val_if_fail (result != NULL, NULL);
+
+	text = ((char **)result);
+	if (*text != NULL)
+		g_free (*text);
+	switch (dao->type) {
+	case NewSheetOutput:
+		*text = g_strdup_printf (format, _("New Sheet"));
+		break;
+	case NewWorkbookOutput:
+		*text = g_strdup_printf (format, _("New Workbook"));
+		break;
+	case RangeOutput:
+	default:
+		rangename = dao_range_name (dao);
+		*text = g_strdup_printf (format, rangename);
+		g_free (rangename);
+		break;;
+	}
+	return *text;
+}
+
+static void
+dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
+{
+	if (dao->cols == 1)
+		dao->cols = cols;
+	else
+		dao->cols = MIN (cols, dao->cols);
+	if (dao->rows == 1)
+		dao->rows = rows;
+	else
+		dao->rows = MIN (rows, dao->rows);
+}
+
+void
+prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao, const char *name)
+{
+	char *unique_name;
+
+/* FIXME:  we don't need the wbc argument to prepare_output*/
+	if (wbc == NULL)
+		wbc = dao->wbc; 
+
+	if (dao->type == NewSheetOutput) {
+		Workbook *wb = wb_control_workbook (wbc);
+		unique_name = workbook_sheet_get_free_name (wb, name, FALSE, FALSE);
+	        dao->sheet = sheet_new (wb, unique_name);
+		g_free (unique_name);
+		dao->start_col = dao->start_row = 0;
+		dao->rows = SHEET_MAX_ROWS;
+		dao->cols = SHEET_MAX_COLS;
+		workbook_sheet_attach (wb, dao->sheet, NULL);
+	} else if (dao->type == NewWorkbookOutput) {
+		Workbook *wb = workbook_new ();
+		dao->sheet = sheet_new (wb, name);
+		dao->start_col = dao->start_row = 0;
+		dao->rows = SHEET_MAX_ROWS;
+		dao->cols = SHEET_MAX_COLS;
+		workbook_sheet_attach (wb, dao->sheet, NULL);
+		dao->wbc = wb_control_wrapper_new (wbc, NULL, wb);
+	}
+	if (dao->rows == 0 || (dao->rows == 1 && dao->cols == 1))
+		dao->rows = SHEET_MAX_ROWS - dao->start_row;
+	if (dao->cols == 0 || (dao->rows == 1 && dao->cols == 1))
+		dao->rows = SHEET_MAX_COLS - dao->start_col;
+	dao->offset_col = 0;
+	dao->offset_row = 0;
+}
+
+static gboolean
+format_output (data_analysis_output_t *dao, char const *cmd)
+{
+	int clear_flags = 0;
+	Range range;
+
+	if (!dao->clear_outputrange)
+		return FALSE;
+
+	range_init (&range, dao->start_col, dao->start_row,
+		    dao->start_col + dao->cols - 1, 
+		    dao->start_row + dao->rows - 1);
+	
+	if (dao->type == RangeOutput && sheet_range_splits_region (dao->sheet, &range, NULL,
+								   dao->wbc, cmd))
+		return TRUE;
+
+	if (!dao->retain_format)
+		clear_flags |= CLEAR_FORMATS;
+	if (!dao->retain_comments)
+		clear_flags |= CLEAR_COMMENTS;
+	
+	sheet_clear_region (dao->wbc, dao->sheet,
+			    range.start.col, range.start.row,
+			    range.end.col, range.end.row,
+			    clear_flags | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS |
+			    CLEAR_VALUES | CLEAR_MERGES);
+	return FALSE;
+}
+
+/*************************************************************************/
+/*
  *  data_set_t: a data set format (optionally) keeping track of missing
  *  observations.
  *
@@ -541,6 +663,9 @@ set_cell_value (data_analysis_output_t *dao, int col, int row, Value *v)
 {
         Cell *cell;
 
+	col += dao->offset_col;
+	row += dao->offset_row;
+
 	/* Check that the output is in the given range, but allow singletons
 	 * to expand
 	 */
@@ -726,26 +851,6 @@ write_data (WorkbookControl *wbc, data_analysis_output_t *dao, GArray *data)
 				     (ForeachCellCB)&WriteData_ForeachCellCB, data);
 }
 
-void
-prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao, const char *name)
-{
-	char *unique_name;
-
-	if (dao->type == NewSheetOutput) {
-		Workbook *wb = wb_control_workbook (wbc);
-		unique_name = workbook_sheet_get_free_name (wb, name, FALSE, FALSE);
-	        dao->sheet = sheet_new (wb, unique_name);
-		g_free (unique_name);
-		dao->start_col = dao->start_row = 0;
-		workbook_sheet_attach (wb, dao->sheet, NULL);
-	} else if (dao->type == NewWorkbookOutput) {
-		Workbook *wb = workbook_new ();
-		dao->sheet = sheet_new (wb, name);
-		dao->start_col = dao->start_row = 0;
-		workbook_sheet_attach (wb, dao->sheet, NULL);
-		(void)wb_control_wrapper_new (wbc, NULL, wb);
-	}
-}
 
 void
 autofit_column (data_analysis_output_t *dao, int col)
@@ -2830,12 +2935,10 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
  *
  **/
 
-int
-anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
-			  GSList *input, group_by_t group_by,
-			  gnum_float alpha, data_analysis_output_t *dao)
+static gboolean 
+analysis_tool_anova_single_engine_run (data_analysis_output_t *dao, gpointer specs)
 {
-	GSList *input_range;
+	analysis_tools_data_anova_single_t *info = specs;
 	GPtrArray *data = NULL;
 	guint index, i;
 	gint error;
@@ -2847,12 +2950,10 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 	gnum_float *ss_terms = NULL;
 	int        df_b, df_w, df_t;
 
-	input_range = input;
-	prepare_input_range (&input_range, group_by);
-	data = new_data_set_list (input_range, group_by,
-				  TRUE, dao->labels_flag, sheet);
+	prepare_input_range (&info->input, info->group_by);
+	data = new_data_set_list (info->input, info->group_by,
+				  TRUE, info->labels, dao->sheet);
 
-	prepare_output (wbc, dao, _("Anova"));
 
 	set_cell (dao, 0, 0, _("Anova: Single Factor"));
 	set_cell (dao, 0, 2, _("SUMMARY"));
@@ -2864,9 +2965,8 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_italic (dao, 0, 0, 0, data->len + 11);
 	set_italic (dao, 0, 3, 4, 3);
 
-	dao->start_row += 4;
-	dao->rows -= 4;
-	if ((dao->type == RangeOutput) &&  (dao->rows <= 0))
+	dao->offset_row += 4;
+	if (dao->rows <= dao->offset_row)
 		goto finish_anova_single_factor_tool;
 
 	/* SUMMARY & ANOVA calculation*/
@@ -2906,9 +3006,8 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 		error = range_sumsq (the_data, current_data->data->len, &x);
 	}
 
-	dao->start_row += data->len + 2;
-	dao->rows -= data->len + 2;
-	if ((dao->type == RangeOutput) &&  (dao->rows <= 0))
+	dao->offset_row += data->len + 2;
+	if (dao->rows <= dao->offset_row)
 		goto finish_anova_single_factor_tool;
 
 
@@ -2958,7 +3057,7 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 	ms_w = ss_w / df_w;
 	f    = ms_b / ms_w;
 	p    = pf (f, df_b, df_w, FALSE, FALSE);
-	f_c  = qf (alpha, df_b, df_w, FALSE, FALSE);
+	f_c  = qf (info->alpha, df_b, df_w, FALSE, FALSE);
 
 	set_cell_float (dao, 1, 2, ss_b);
 	set_cell_float (dao, 1, 3, ss_w);
@@ -2976,16 +3075,56 @@ finish_anova_single_factor_tool:
 
 	if (treatment_mean != NULL)
 		g_free (treatment_mean);
+
+	dao->offset_row = 0;
+	dao->offset_col = 0;
 	autofit_columns (dao, 0, 6);
 
 	destroy_data_set_list (data);
-	range_list_destroy (input_range);
 
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
-
-        return 0;
+        return FALSE;
 }
+
+
+static gboolean 
+analysis_tool_anova_single_engine_clean (data_analysis_output_t *dao, gpointer specs)
+{
+	analysis_tools_data_anova_single_t *info = specs;
+
+	range_list_destroy (info->input);
+	info->input = NULL;
+	return FALSE;
+}
+
+
+gboolean 
+analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs, 
+				   analysis_tool_engine_t selector, gpointer result)
+{
+	analysis_tools_data_anova_single_t *info = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Single Factor ANOVA (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		prepare_input_range (&info->input, info->group_by);
+		dao_adjust (dao, 7, 11 + g_slist_length (info->input));
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_anova_single_engine_clean (dao, specs);
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		prepare_output (NULL, dao, _("Anova"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return format_output (dao, _("Single Factor ANOVA"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_anova_single_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
+}
+
 
 
 /************* Anova: Two-Factor Without Replication Tool ****************

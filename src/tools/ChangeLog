@@ -1,3 +1,21 @@
+2002-03-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.c (dao_range_name) : new utility
+	(dao_command_descriptor) : new utility
+	(dao_adjust) : new utility
+	(prepare_output) : set all variables to sensible values
+	  to avoid unneccessary type checks elsewhere
+	(format_output) : utility clearing output range as
+	  appropriate.
+	(anova_single_factor_tool) : change into an engine
+	  callable by cmd_analysis_tool, renamed to 
+	  analysis_tool_anova_single_engine_run
+	(analysis_tool_anova_single_engine_clean) : new
+	(analysis_tool_anova_single_engine) : selector function
+	* analysis-tools.h : some rearrangments, new 
+	  analysis_tool_engine_t type, added fields to 
+	  data_analysis_output_type_t
+
 2002-03-08  Morten Welinder  <terra@diku.dk>
 
 	* analysis-tools.c (dao_set_cell_comment): New function.

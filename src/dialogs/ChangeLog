@@ -1,3 +1,11 @@
+2002-03-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* anova-one.glade : add more output options
+	* dialog-analysis-tools.c : support new options in one-factor
+	  anova and use cmd_analysis_tool
+	* tools.h : replace anova_single_factor_tool with 
+	  analysis_tool_anova_single_engine
+
 2002-03-10  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-solver.c (cb_dialog_solve_clicked): Made the status of

@@ -6,6 +6,38 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <glade/glade.h>
 
+typedef enum {
+        NewSheetOutput, NewWorkbookOutput, RangeOutput, InPlaceOutput
+} data_analysis_output_type_t;
+
+typedef struct {
+        data_analysis_output_type_t type;
+        Sheet                       *sheet;
+        int                         start_col, cols;
+        int                         start_row, rows;
+	int                         offset_col, offset_row;
+        gboolean                    labels_flag; /* deprecated, will be removed */
+	gboolean                    autofit_flag : 1;
+	gboolean                    clear_outputrange : 1;
+	gboolean                    retain_format : 1;
+	gboolean                    retain_comments : 1;
+	WorkbookControl             *wbc;
+} data_analysis_output_t;
+
+typedef enum {
+	TOOL_ENGINE_UPDATE_DAO = 0,
+	TOOL_ENGINE_UPDATE_DESCRIPTOR = 1,
+	TOOL_ENGINE_PREPARE_OUTPUT_RANGE = 2,
+	TOOL_ENGINE_FORMAT_OUTPUT_RANGE = 3,
+	TOOL_ENGINE_PERFORM_CALC = 4,
+	TOOL_ENGINE_CLEAN_UP   = 5
+} analysis_tool_engine_t;
+
+typedef gboolean (* analysis_tool_engine) (data_analysis_output_t *dao, gpointer specs, 
+					   analysis_tool_engine_t selector, gpointer result);
+
+
+
 
 /* the following enum and char *[] must stay synchronized! */
 typedef enum {
@@ -94,18 +126,6 @@ typedef union {
         patterned_random_tool_t   patterned;
 } random_tool_t;
 
-typedef enum {
-        NewSheetOutput, NewWorkbookOutput, RangeOutput, InPlaceOutput
-} data_analysis_output_type_t;
-
-typedef struct {
-        data_analysis_output_type_t type;
-        Sheet                       *sheet;
-        int                         start_col, cols;
-        int                         start_row, rows;
-        gboolean                    labels_flag;
-	gboolean                    autofit_flag;
-} data_analysis_output_t;
 
 typedef struct {
 	gboolean max_given;
@@ -141,6 +161,9 @@ typedef enum {
 	GnumericExprEntry *input_entry;\
 	GnumericExprEntry *input_entry_2;\
 	GnumericExprEntry *output_entry;\
+        GtkWidget *clear_outputrange_button;\
+        GtkWidget *retain_format_button;\
+        GtkWidget *retain_comments_button;\
 	GtkWidget *ok_button;\
 	GtkWidget *cancel_button;\
 	GtkWidget *apply_button;\

@@ -32,6 +32,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <string.h>
+#include <commands.h>
 
 /**********************************************/
 /*  Generic guru items */
@@ -235,13 +236,17 @@ int
 parse_output (GenericToolState *state, data_analysis_output_t *dao)
 {
         Value *output_range;
-	GtkWidget *autofitbutton;
+	GtkWidget *button;
 
 	dao->start_col = 0;
 	dao->start_row = 0;
-	dao->cols = 0;
-	dao->rows = 0;
+	dao->cols = SHEET_MAX_COLS;
+	dao->rows = SHEET_MAX_ROWS;
 	dao->sheet = NULL;
+	dao->autofit_flag = TRUE;
+	dao->clear_outputrange = TRUE;
+	dao->retain_format = TRUE;
+	dao->retain_comments = TRUE;
 
 	switch (gnumeric_glade_group_value (state->gui, output_group)) {
 	case 0:
@@ -288,14 +293,22 @@ parse_output (GenericToolState *state, data_analysis_output_t *dao)
 		break;
 	}
 
-	autofitbutton = glade_xml_get_widget (state->gui, "autofit_button");
-
-	if (autofitbutton != NULL) {
+	button = glade_xml_get_widget (state->gui, "autofit_button");
+	if (button != NULL)
 		dao->autofit_flag = gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (autofitbutton));
-	} else {
-		dao->autofit_flag = TRUE;
-	}
+			GTK_TOGGLE_BUTTON (button));
+
+	if (state->clear_outputrange_button != NULL) 
+		dao->clear_outputrange = gtk_toggle_button_get_active (
+			GTK_TOGGLE_BUTTON (button));
+
+	if (state->retain_format_button != NULL)
+		dao->retain_format = gtk_toggle_button_get_active (
+			GTK_TOGGLE_BUTTON (button));
+
+	if (state->retain_comments_button != NULL)
+		dao->retain_comments = gtk_toggle_button_get_active (
+			GTK_TOGGLE_BUTTON (button));
 
 	return 0;
 }
@@ -397,7 +410,12 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 	state->new_sheet  = glade_xml_get_widget (state->gui, "newsheet-button");
 	state->new_workbook  = glade_xml_get_widget (state->gui, "newworkbook-button");
 	state->output_range  = glade_xml_get_widget (state->gui, "outputrange-button");
-
+	state->clear_outputrange_button = glade_xml_get_widget 
+		(state->gui, "clear_outputrange_button");
+	state->retain_format_button = glade_xml_get_widget 
+		(state->gui, "retain_format_button");
+	state->retain_comments_button = glade_xml_get_widget 
+		(state->gui, "retain_comments_button");
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "output-table"));
 	state->output_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->output_entry,
@@ -3755,38 +3773,29 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 static void
 anova_single_tool_ok_clicked_cb (GtkWidget *button, AnovaSingleToolState *state)
 {
-	data_analysis_output_t  dao;
-        char   *text;
+	data_analysis_output_t  *dao;
 	GtkWidget *w;
-	gnum_float alpha;
-	GSList *input;
 	gint err;
+	analysis_tools_data_anova_single_t *data;
 
-	input = gnm_expr_entry_parse_as_list (
+	data = g_new0 (analysis_tools_data_anova_single_t, 1);
+	dao  = g_new0 (data_analysis_output_t  , 1);
+
+	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
-        parse_output ((GenericToolState *)state, &dao);
+        parse_output ((GenericToolState *)state, dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha, FALSE);
+	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, FALSE);
 
-	err = anova_single_factor_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-					input,
-					gnumeric_glade_group_value (state->gui,
-								      grouped_by_group),
-					alpha, &dao);
-	switch (err) {
-	case 0:
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+				dao, data, analysis_tool_anova_single_engine))
 		gtk_widget_destroy (state->dialog);
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
+
 	return;
 }
 
@@ -3820,6 +3829,10 @@ anova_single_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaSingleToolState 
 
 	input_1_ready = (input_range != NULL);
 	output_ready =  ((i != 2) || (output_range != NULL));
+
+	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
 
 	ready = (input_1_ready &&
                  (err == 0) && (alpha > 0) && (alpha < 1) &&

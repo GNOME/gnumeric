@@ -63,9 +63,6 @@ int ranking_tool          (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, group_by_t group_by,
 			   gboolean av_ties_flag,
 			   data_analysis_output_t *dao);
-int anova_single_factor_tool (WorkbookControl *context, Sheet *sheet,
-			      GSList *input, group_by_t group_by,
-			      gnum_float alpha, data_analysis_output_t *dao);
 int anova_two_factor_without_r_tool (WorkbookControl *context, Sheet *sheet,
 				     Value *input, gnum_float alpha,
 				     data_analysis_output_t *dao);
@@ -78,5 +75,17 @@ int histogram_tool        (WorkbookControl *context, Sheet *sheet,
 			   gboolean cumulative, gboolean chart,
 			   histogram_calc_bin_info_t *bin_info,
 			   data_analysis_output_t *dao);
+
+/* Undoable tools and their data structures below this line */
+
+typedef struct {
+	GSList     *input;
+	group_by_t group_by;
+	gnum_float alpha;
+        gboolean   labels;	
+} analysis_tools_data_anova_single_t;
+
+gboolean analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs, 
+					   analysis_tool_engine_t selector, gpointer result);
 
 #endif
