@@ -18,7 +18,7 @@ typedef enum {
 	SO_ANCHOR_PTS_FROM_COLROW_END		= 0x21,
 
 	/* only allowed for Anchors 2-3 to support fixed size */
-	SO_ANCHOR_PTS_ABSOLUTE			= 0x30,
+	SO_ANCHOR_PTS_ABSOLUTE			= 0x30
 } SheetObjectAnchorType;
 
 typedef enum {
@@ -32,7 +32,7 @@ typedef enum {
 	SO_DIR_H_MASK 	  = 0x01,
 	SO_DIR_RIGHT	  = 0x01,
 	SO_DIR_V_MASK	  = 0x10,
-	SO_DIR_DOWN  	  = 0x10,
+	SO_DIR_DOWN  	  = 0x10
 } SheetObjectDirection;
 
 struct _SheetObjectAnchor {

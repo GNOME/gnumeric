@@ -1448,7 +1448,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 
 	static const eng_convert_unit_t weight_units[] = {
 	        { "g",    1.0 },
-		{ "sg",   one_g_to_sg, },
+		{ "sg",   one_g_to_sg },
 		{ "lbm",  one_g_to_lbm },
 		{ "u",    one_g_to_u },
 		{ "ozm",  one_g_to_ozm },

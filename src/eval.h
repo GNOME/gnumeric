@@ -28,7 +28,7 @@ typedef enum {
 
 	/* Types */
 	DEPENDENT_CELL 		  = 0x00000001,
-	DEPENDENT_TYPE_MASK	  = 0x00000fff,
+	DEPENDENT_TYPE_MASK	  = 0x00000fff
 } DependentFlags;
 
 #define dependent_type(dep)		((dep)->flags & DEPENDENT_TYPE_MASK)

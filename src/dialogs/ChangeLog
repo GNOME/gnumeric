@@ -1,3 +1,10 @@
+2002-01-08  Morten Welinder  <terra@diku.dk>
+
+	* dialog-cell-format.c (fmt_dialog_enable_widgets): Kill comma
+	before closing brace.
+	(fmt_dialog_impl): Ditto.
+	* dialog-zoom.c (dialog_zoom_impl): Ditto.
+
 2002-01-08  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* moving-averages.glade : Enable standard error checkbox

@@ -57,7 +57,7 @@ typedef struct {
 typedef enum {
 	FREQ_DIRECTION_NONE,
 	FREQ_DIRECTION_HORIZONTAL,
-	FREQ_DIRECTION_VERTICAL,
+	FREQ_DIRECTION_VERTICAL
 } FreqDirection;
 
 typedef struct {

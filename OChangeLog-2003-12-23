@@ -1,3 +1,12 @@
+2002-01-08  Morten Welinder  <terra@diku.dk>
+
+	* src/eval.h (DependentFlags): Kill comma before closing brace.
+	* src/clipboard.h (CellCopyType): Ditto.
+	* src/format-template.h (FreqDirection): Ditto.
+	* src/sheet-object.h (SheetObjectDirection,
+	SheetObjectAnchorType): Ditto.
+	* src/symbol.h (SymbolType): Ditto.
+
 2002-01-08  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* analysis-tools.c (average_tool) : calculate standard errors

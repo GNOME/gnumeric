@@ -2,7 +2,7 @@
 #define GNUMERIC_SYMBOL_H
 
 typedef enum {
-	SYMBOL_FUNCTION,
+	SYMBOL_FUNCTION
 } SymbolType;
 
 typedef struct {

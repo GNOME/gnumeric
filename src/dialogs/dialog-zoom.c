@@ -62,9 +62,9 @@ dialog_zoom_impl (WorkbookControlGUI *wbcg, Sheet *cur_sheet, GladeXML  *gui)
 		{ "radio_100", 1. },
 		{ "radio_75", .75 },
 		{ "radio_50", .50 },
-		{ "radio_25", .25 },
+		{ "radio_25", .25 }
 	};
-	radio_cb_data	cb_data[NUM_RADIO_BUTTONS];
+	radio_cb_data cb_data[NUM_RADIO_BUTTONS];
 
 	GtkCList *list;
 	GtkWidget *dialog, *focus_target;

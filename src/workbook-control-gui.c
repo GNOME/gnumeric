@@ -3847,6 +3847,7 @@ show_gui (WorkbookControlGUI *wbcg)
 	int y_loc = 0;
 	gdouble fx, fy;
 	GdkGeometry geometry;
+	GdkWindowHints size_hints = GDK_HINT_MAX_SIZE;
 	
 	fx = gnome_config_get_float_with_default (
 		"Gnumeric/Placement/WindowRelativeSizeX=0.75", NULL);
@@ -3878,6 +3879,7 @@ show_gui (WorkbookControlGUI *wbcg)
 			if (result & YNegative)
 				y_loc = gdk_screen_height () - height + y_loc;
 			gtk_widget_set_uposition (GTK_WIDGET (wbcg->toplevel), x_loc, y_loc);
+			size_hints |= GDK_HINT_POS;
 		}
 
 	} else {	
@@ -3898,7 +3900,7 @@ show_gui (WorkbookControlGUI *wbcg)
 	geometry.max_width  = sx;
 	geometry.max_height = sy;
 	gtk_window_set_geometry_hints (wbcg->toplevel, NULL,
-				       &geometry, GDK_HINT_MAX_SIZE);
+				       &geometry, size_hints);
 	x_geometry = NULL;
 	gtk_widget_show_all (GTK_WIDGET (wbcg->toplevel));
 

@@ -664,7 +664,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 		/* Special */
 		{ F_MAX_WIDGET },
 		/* Custom */
-		{ F_ENTRY, F_LIST_SCROLL, F_LIST, F_DELETE, F_MAX_WIDGET },
+		{ F_ENTRY, F_LIST_SCROLL, F_LIST, F_DELETE, F_MAX_WIDGET }
 	};
 
 	int const old_page = state->format.current_type;
@@ -2565,7 +2565,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	    { "line_pattern_thin", STYLE_BORDER_THIN },
 	    { "line_pattern_double", STYLE_BORDER_DOUBLE },
 
-	    { NULL },
+	    { NULL }
 	};
 	static char const * const pattern_buttons[] = {
 	    "gp_solid", "gp_75grey", "gp_50grey",

@@ -42,7 +42,7 @@ enum {
 
 typedef enum {
 	CELL_COPY_TYPE_CELL,
-	CELL_COPY_TYPE_TEXT,
+	CELL_COPY_TYPE_TEXT
 } CellCopyType;
 
 typedef struct {
