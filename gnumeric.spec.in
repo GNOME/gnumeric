@@ -33,15 +33,16 @@ Excel, you should be ready to use Gnumeric.  We have tried to clone all of
 the good features and stay as compatible as possible with Excel in terms of 
 usability. Hopefully we left the bugs behind :).
 
-%package devel
-Summary: Files necessary to develop gnumeric-based applications.
-Group: Development/Libraries
+# Don't even think about it. -- MW
+#%package devel
+#Summary: Files necessary to develop gnumeric-based applications.
+#Group: Development/Libraries
 
-%description devel
-The gnumeric-devel package includes files necessary to develop gnumeric-based
-applications.
+#%description devel
+#The gnumeric-devel package includes files necessary to develop gnumeric-based
+#applications.
 
-Install gnumeric-devel if you want to develop programs which will use gnumeric.
+#Install gnumeric-devel if you want to develop programs which will use gnumeric.
 
 %prep
 %setup -q
@@ -97,7 +98,7 @@ fi
 %config %{prefix}/share/gnome/apps/Applications/gnumeric.desktop
 %{prefix}/share/gnome/help/gnumeric/C/images/*
 %{prefix}/share/gnome/help/gnumeric/C/*.*
-%{prefix}/share/gnome/ui/gnumeric.xml
+%{prefix}/share/gnome/ui/GNOME_gnumeric.xml
 %{prefix}/share/gnumeric/%{version}/autoformat-templates/*/*.xml
 %{prefix}/share/gnumeric/%{version}/glade/*.glade
 %{prefix}/share/gnumeric/%{version}/python/*
@@ -109,13 +110,16 @@ fi
 %{prefix}/share/oaf/GNOME_Gnumeric.oafinfo
 %{prefix}/share/pixmaps/gnumeric/*
 %{prefix}/share/pixmaps/*.png
-
-%files devel
-%defattr (-, bin, bin)
-
 %{prefix}/lib/gnumericConf.sh
 %{prefix}/share/gnumeric/%{version}/idl/*.idl
-%{prefix}/lib/gnumeric/%{version}/plugins/*/*.la
+
+# Don't even think about it.  -MW
+#%files devel
+#%defattr (-, bin, bin)
+#%{prefix}/lib/gnumericConf.sh
+#%{prefix}/share/gnumeric/%{version}/idl/*.idl
+# This is really silly.  The .la files are useless for plugins.
+##%{prefix}/lib/gnumeric/%{version}/plugins/*/*.la
 
 %changelog
 * Tue Feb 20 2001 John Gotts <jgotts@linuxsavvy.com>
