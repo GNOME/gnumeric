@@ -324,8 +324,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 						*col1 = pos_l;
 					} else
 						remain_left = 0;
-				} else
-				    pos_l = margin_a = ci->margin_a;
+				}
 			} else
 				remain_left = 0;
 
@@ -340,11 +339,9 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 						*col2 = pos_r;
 					} else
 						max_col = remain_right = 0;
-				} else
-					margin_b = ci->margin_b;
+				}
 			} else
 				remain_right = 0;
-
 		} /* for */
 		break;
 	} /* case HALIGN_CENTER */

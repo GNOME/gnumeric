@@ -5,6 +5,9 @@ Jody:
 	* Re-enable #REF generation for relocations.
 	* Fix inside -> inside relative ref relocations that go out of bounds
 	* remove warnings from underline combo in the cell format dialog.
+	*
+	http://bugzilla.gnome.org/show_bug.cgi?id=74705
+	* Fix span calc when spanning through hidden columns with content.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=75193
 	* DOM importer missed sheet scoped names.
