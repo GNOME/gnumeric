@@ -189,6 +189,9 @@ gnumeric.spec
 Makefile
 icons/Makefile
 src/Makefile
+src/dialogs/Makefile
+src/widgets/Makefile
+src/functions/Makefile
 wizards/Makefile
 wizards/graphics/Makefile
 doc/Makefile

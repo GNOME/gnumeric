@@ -37,6 +37,9 @@ INCLUDES = 						\
         -DGNUMERIC_GLADEDIR=\""$(gladedir)"\"           \
 	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"		\
 	-I$(includedir)				 	\
+	-I$(srcdir)/widgets				\
+	-I$(srcdir)/functions				\
+	-I$(srcdir)/dialogs				\
 	$(EXTRA_GNOME_CFLAGS)				\
 	$(GUILE_INCS)
 
@@ -60,23 +63,6 @@ GNUMERIC_BASE_SOURCES =				\
 	cursors.h				\
 	dates.c					\
 	dates.h					\
-	dialog-analysis-tools.c			\
-	dialog-cell-comment.c			\
-	dialog-cell-format.c			\
-	dialog-cell-sort.c			\
-	dialog-function-select.c		\
-	dialog-function-wizard.c		\
-	dialog-goal-seek.c			\
-	dialog-goto-cell.c			\
-	dialog-insert-cells.c			\
-	dialog-define-names.c			\
-	dialog-delete-cells.c			\
-	dialog-paste-special.c			\
-	dialog-printer-setup.c			\
-	dialog-summary.c			\
-	dialog-solver.c				\
-	dialog-zoom.c				\
-	dialogs.h				\
 	dump.c					\
 	dump.h					\
 	eval.h					\
@@ -91,18 +77,6 @@ GNUMERIC_BASE_SOURCES =				\
 	formats.c				\
 	func.c					\
 	func.h					\
-	fn-database.c				\
-	fn-date.c				\
-	fn-eng.c				\
-	fn-financial.c				\
-	fn-information.c			\
-	fn-logical.c				\
-	fn-lookup.c				\
-	fn-math.c				\
-	fn-misc.c				\
-	fn-sheet.c				\
-	fn-stat.c				\
-	fn-string.c				\
 	format.c				\
 	format.h				\
 	goal-seek.c				\
@@ -171,10 +145,6 @@ GNUMERIC_BASE_SOURCES =				\
 	utils.h					\
 	value.c					\
 	value.h					\
-	widget-editable-label.c			\
-	widget-editable-label.h			\
-	widget-font-selector.c			\
-	widget-font-selector.h			\
 	workbook.c				\
 	workbook.h				\
 	xml-io.c				\
@@ -262,21 +232,7 @@ dist-hook:
 idldir   = $(datadir)/idl
 idl_DATA = Gnumeric.idl
 
-gladedir   = $(datadir)/gnumeric/glade
-glade_DATA = 				\
-	font-sel.glade			\
-	hf-config.glade			\
-	import.glade			\
-	print.glade 			\
-	summary.glade			\
-	names.glade
-
-glade_msgs = 				\
-	font-sel.glade.h		\
-	hf-config.glade.h		\
-	import.glade.h			\
-	print.glade.h
 
 MYHACKAROUNDAUTOMAKE=$(shell echo $(GNUMERIC_CORBA_GENERATED))
 
-EXTRA_DIST = $(idl_DATA) $(glade_DATA) $(glade_msgs) $(MYHACKAROUNDAUTOMAKE)
+EXTRA_DIST = $(idl_DATA) $(MYHACKAROUNDAUTOMAKE)
