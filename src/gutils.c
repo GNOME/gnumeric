@@ -297,9 +297,15 @@ g_lang_score_in_lang_list (gchar *lang, GList *lang_list)
 }
 
 gint
-gnumeric_strcase_equal (gconstpointer v, gconstpointer v2)
+gnumeric_strcase_equal (gconstpointer v1, gconstpointer v2)
 {
-	return g_strcasecmp ((gchar const *) v, (gchar const *)v2) == 0;
+	/* FIXME: this is expensive!  */
+	char *s1 = g_utf8_casefold (v1, -1);
+	char *s2 = g_utf8_casefold (v2, -1);
+	int res = (strcmp (s1, s2) == 0);
+	g_free (s1);
+	g_free (s2);
+	return res;
 }
 
 /* a char* hash function from ASU */

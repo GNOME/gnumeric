@@ -1,6 +1,7 @@
 2002-08-06  Morten Welinder  <terra@diku.dk>
 
-	* src/gutils.c (gnumeric_strescape): Make utf8 safe.
+	* src/gutils.c (gnumeric_strcase_equal): Make utf8 safe.
+	(gnumeric_strescape): Make utf8 safe.
 
 2002-08-06  Jody Goldberg <jody@gnome.org>
 
