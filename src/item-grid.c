@@ -94,7 +94,11 @@ item_grid_unrealize (GnomeCanvasItem *item)
 	ItemGrid *item_grid = ITEM_GRID (item);
 	
 	gdk_gc_unref (item_grid->grid_gc);
+	gdk_gc_unref (item_grid->fill_gc);
+	gdk_gc_unref (item_grid->gc);
 	item_grid->grid_gc = 0;
+	item_grid->fill_gc = 0;
+	item_grid->gc = 0;
 	
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)(item);
