@@ -1,3 +1,8 @@
+2002-03-16  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_workbook_destroy) : we can have NULL
+	  names as place holders.
+
 2002-03-15  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_excel_sheet_destroy) : make deleting the

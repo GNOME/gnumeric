@@ -2411,7 +2411,8 @@ ms_excel_workbook_destroy (ExcelWorkbook *ewb)
 	ewb->XF_cell_records = NULL;
 
 	for (lp = 0; lp < ewb->names->len; lp++)
-		expr_name_unref (g_ptr_array_index (ewb->names, lp));
+		if (g_ptr_array_index (ewb->names, lp) != NULL)
+			expr_name_unref (g_ptr_array_index (ewb->names, lp));
 	g_ptr_array_free (ewb->names, TRUE);
 	ewb->names = NULL;
 
