@@ -1,3 +1,11 @@
+2000-06-13  Morten Welinder  <terra@diku.dk>
+
+	* src/stf-parse.c (trim_spaces_inplace): New function.
+	(stf_parse_fixed_cell): Don't trim spaces here.
+	(stf_parse_fixed_line): Trim here.
+	(stf_parse_csv_cell): Don't trim spaces here.
+	(stf_parse_csv_line): Trim here.
+
 2000-06-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/stf-parse.c (stf_parse_options_set_trim_spaces) : patch typo.

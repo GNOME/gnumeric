@@ -1052,13 +1052,3 @@ stf_preview_get_char_at_x (RenderData_t *renderdata, double x)
 
 	return -1;
 }
-
-
-
-
-
-
-
-
-
-

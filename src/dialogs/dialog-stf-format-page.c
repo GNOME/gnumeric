@@ -183,30 +183,30 @@ format_page_sublist_select_row (GtkCList *clist, int row, int column, GdkEventBu
 static void
 format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 {
-	GSList *listitem;
 	FormatInfo_t *info = data->format_info;
-	char *format = gtk_editable_get_chars (GTK_EDITABLE (entry), 0, -1);
-	char *t[1];
-	int i, found;
-	
+
 	if (info->format_run_index >= 0) {
+		int i, found;
+		char *t[1];
+		GSList *listitem;
+		char *format = gtk_editable_get_chars (GTK_EDITABLE (entry), 0, -1);
 
 		listitem = g_slist_nth (info->format_run_list, info->format_run_index);
 		g_return_if_fail (listitem != NULL);
 
 		if (strcmp (listitem->data, format) != 0)
 			stf_cache_options_invalidate (info->format_run_cacheoptions);
-		
+
 		if (listitem->data)
 			g_free (listitem->data);
 		listitem->data = format;
 
 		gtk_clist_set_text (info->format_collist, info->format_run_index, 1, format);
-		
+
 		gtk_clist_set_column_width (info->format_collist,
 					    1,
 					    gtk_clist_optimal_column_width (info->format_collist, 1));
-					    
+
 		found = 0;
 		for (i = 0; i < info->format_sublist->rows; i++) {
 			gtk_clist_get_text (info->format_sublist, i, 0, t);
@@ -215,12 +215,12 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 				break;
 			}
 		}
-		
+
 		info->format_run_manual_change = TRUE;
 		gtk_clist_select_row (info->format_sublist, found, 0);
 		gnumeric_clist_moveto (info->format_sublist, found);
 	}
-		
+
 	format_page_update_preview (data);
 }
 
@@ -247,18 +247,18 @@ stf_dialog_format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 	int listcount, i;
 
 	data->colcount = stf_parse_get_colcount (info->format_run_parseoptions, data->cur);
-	
+
 	listcount = g_slist_length (info->format_run_list);
 
 	/* If necessary add new items (non-visual) */
 	while (listcount <= data->colcount) {
-		info->format_run_list = g_slist_append (info->format_run_list, (char*) g_strdup (cell_formats[0][0]));
+		info->format_run_list = g_slist_append (info->format_run_list, g_strdup (cell_formats[0][0]));
 		listcount++;
 	}
-	
+
 	/* Add new items visual */
 	gtk_clist_clear (info->format_collist);
-	
+
 	for (i = 0; i <= data->colcount; i++) {
 		t[0] = g_strdup_printf ("%d", i);
 		t[1] = g_slist_nth_data (info->format_run_list, i);
@@ -278,13 +278,13 @@ stf_dialog_format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 	stf_cache_options_set_range (info->format_run_cacheoptions,
 				     info->format_run_renderdata->startrow - 1,
 				     (info->format_run_renderdata->startrow - 1) + stf_preview_get_displayed_rowcount (info->format_run_renderdata));
-	
+
 	info->format_run_manual_change = TRUE;
 	gtk_clist_select_row (info->format_collist, 0, 0);
 	gnumeric_clist_moveto (info->format_collist, 0);
-	
+
 	info->format_run_index = 0;
-	
+
 	t[0] = g_slist_nth_data (info->format_run_list, 0);
 	gtk_entry_set_text (info->format_format, t[0]);
 }

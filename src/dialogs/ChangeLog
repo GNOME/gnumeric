@@ -1,3 +1,8 @@
+2000-06-13  Morten Welinder  <terra@diku.dk>
+
+	* dialog-stf-format-page.c (format_page_format_changed): Plug
+ 	leak.
+
 2000-06-13  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-function-select.c (dialog_function_select_impl) : Plug leak.

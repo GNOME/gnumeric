@@ -29,8 +29,8 @@
 #include "clipboard.h"
 
 /* Some nice warning messages */
-#define WARN_TOO_MANY_ROWS "Too many rows in data to parse : %d"
-#define WARN_TOO_MANY_COLS "Too many columns in data to parse : %d"
+#define WARN_TOO_MANY_ROWS _("Too many rows in data to parse: %d")
+#define WARN_TOO_MANY_COLS _("Too many columns in data to parse: %d")
 
 /* CacheItem_t struct, used for the caching engine */
 typedef struct {
@@ -167,7 +167,7 @@ stf_parse_options_set_lines_to_parse (StfParseOptions_t *parseoptions, int lines
 /**
  * stf_parse_options_set_trim_spaces:
  * @parseoptions: a parse options struct
- * @trim_spaces: wether you want to trim spaces or not
+ * @trim_spaces: whether you want to trim spaces or not
  * 
  * If enabled will trim spaces in every parsed field on left and right
  * sides.
@@ -645,6 +645,27 @@ stf_cache_options_valid (StfCacheOptions_t *cacheoptions)
  * STF PARSE : The actual routines that do the 'trick'
  *******************************************************************************************************/
 
+static void
+trim_spaces_inplace (char *field, const StfParseOptions_t *parseoptions)
+{
+	unsigned char *s = (unsigned char *)field;
+
+	if (!s) return;
+
+	if (isspace (*s) && parseoptions->trim_spaces & TRIM_TYPE_LEFT) {
+		unsigned char *tmp = s;
+		while (isspace (*tmp)) tmp++;
+		strcpy (s, tmp);
+	}
+
+	if (parseoptions->trim_spaces & TRIM_TYPE_RIGHT) {
+		int len = strlen (s);
+		while (len && isspace (s[len - 1]))
+			s[--len] = 0;
+	}
+}
+
+
 /**
  * stf_parse_csv_is_separator
  * @character : pointer to the character to check
@@ -721,15 +742,6 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 
 	res = g_string_new ("");
 
-	/*
-	 * Skip initial spaces
-	 */
-	if (parseoptions->trim_spaces & TRIM_TYPE_LEFT) {
-
-		while (*cur && *cur != parseoptions->terminator && *cur == ' ')
-			cur++;
-	}
-	
 	while (*cur && *cur != parseoptions->terminator) {
 
 		if (!sawstringterm) {
@@ -768,20 +780,6 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 		cur++;
 	}
 
-	/*
-	 * Skip trailing spaces
-	 */
-	if (parseoptions->trim_spaces & TRIM_TYPE_RIGHT) {
-		int cnt;
-		
-		for (cnt = res->len - 1; cnt >= 0; cnt--) {
-	
-			if (res->str[cnt] != ' ')
-				break;
-		}
-		g_string_truncate (res, cnt + 1);
-	}
-	
 	/* Only skip over cell terminators, not line terminators or terminating nulls*/
 	if (*cur != parseoptions->terminator && *cur)
 		cur++;
@@ -823,8 +821,9 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 
 	while (*src->position && *src->position != parseoptions->terminator) {
-
 		field = stf_parse_csv_cell (src, parseoptions);
+
+		trim_spaces_inplace (field, parseoptions);
 
 		if (list != NULL) {
 
@@ -870,17 +869,7 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 	else
 		splitval = -1;
 
-	/*
-	 * Skip leading spaces
-	 */
-	if (parseoptions->trim_spaces & TRIM_TYPE_LEFT) {
-
-		while (*cur && *cur != parseoptions->terminator && *cur == ' ')
-			cur++;
-	}
-	
 	while (*cur && *cur != parseoptions->terminator  && splitval != src->linepos) {
-
 		g_string_append_c (res, *cur);
 
 		src->linepos++;
@@ -888,23 +877,6 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 		len++;
 	}
 
-	/*
-	 * Remove trailing spaces from the string
-	 */
-	if (parseoptions->trim_spaces & TRIM_TYPE_RIGHT) {
-		int cnt;
-
-		for (cnt = res->len - 1; cnt >= 0; cnt--) {
-			
-			if (res->str[cnt] != ' ') {
-
-				break;
-			}
-		}
-		
-		g_string_truncate (res, cnt + 1);
-	}
-	
 	src->position = cur;
 
 	if (len != 0) {
@@ -935,7 +907,6 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 {
 	GSList *list = NULL;
 	GSList *listend = NULL;
-	char *field;
 	int col = 0;
 
 	g_return_val_if_fail (src != NULL, NULL);
@@ -945,14 +916,14 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 	src->splitpos = 0;
 
 	while (*src->position && *src->position != parseoptions->terminator) {
+		char *field;
+		field = (char *)stf_parse_fixed_cell (src, parseoptions);
 
-		field = stf_parse_fixed_cell (src, parseoptions);
-		
+		trim_spaces_inplace (field, parseoptions);
+
 		if (list != NULL) {
-
 			listend = g_slist_append (listend, field)->next;
 		} else {
-
 			list = g_slist_append (list, field);
 			listend = list;
 		}
