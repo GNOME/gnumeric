@@ -1010,7 +1010,7 @@ gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
 	if (p.N - 1 == 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-        return value_new_float (sqrt(p.Q / (p.N - 1)));
+        return value_new_float (sqrt (p.Q / (p.N - 1)));
 }
 
 /***************************************************************************/
@@ -1078,7 +1078,7 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 	if (p.N == 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-        return value_new_float (sqrt(p.Q / p.N));
+        return value_new_float (sqrt (p.Q / p.N));
 }
 
 /***************************************************************************/
