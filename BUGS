@@ -16,6 +16,11 @@ Pending Patches
 Long term breakage
 ------------------
 
+- There is something rotten in value_area_get_width and value_area_get_height.
+  Why do these clip?  Do the clip as intended?  Should clipping occur when
+  called from, say, COUNTBLANK?  And why was this 300 pound gorilla blocking
+  my way?  This dame had a lot to answer for.
+
 - Add dirty flags to workbook too, adding a sheet should make workbook dirty
   not the new sheet.
 
