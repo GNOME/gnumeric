@@ -930,7 +930,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->ccombo_back), GTK_RELIEF_NORMAL);
 	color_combo_box_set_preview_relief (COLOR_COMBO (state->ccombo_back), GTK_RELIEF_NORMAL);
 	color_combo_set_instant_apply 
-		(COLOR_COMBO (state->ccombo_back, FALSE));
+		(COLOR_COMBO (state->ccombo_back), FALSE);
 
 	cg = color_group_fetch ("fore_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	state->ccombo_fore = color_combo_new  (gdk_pixbuf_new_from_inline (-1, gnm_font,
@@ -941,7 +941,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->ccombo_fore), GTK_RELIEF_NORMAL);
 	color_combo_box_set_preview_relief (COLOR_COMBO (state->ccombo_fore), GTK_RELIEF_NORMAL);
 	color_combo_set_instant_apply 
-		(COLOR_COMBO (state->ccombo_fore, FALSE));
+		(COLOR_COMBO (state->ccombo_fore), FALSE);
 
 	populate_sheet_list (state);
 
