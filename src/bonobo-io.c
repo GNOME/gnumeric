@@ -55,6 +55,10 @@ typedef struct {
 	z_stream             zstream;
 } StreamIOCtxt;
 
+typedef int (*StreamDeserializer) (StreamIOCtxt *sc,
+				   IOContext *ioc,
+				   WorkbookView *wb_view);
+
 static int
 get_raw_bytes_from_stream (StreamIOCtxt *sc, char *buffer, int len)
 {
@@ -187,52 +191,61 @@ hack_xmlSAXParseFile (StreamIOCtxt *sc)
 	return ret;
 }
 
-void
-gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
-				  Bonobo_Stream              stream,
-				  Bonobo_Persist_ContentType type,
-				  void                      *data,
-				  CORBA_Environment         *ev)
+static int
+deserialize_wb_from_xml_stream (StreamIOCtxt *sc, IOContext *ioc,
+				     WorkbookView *wb_view)
 {
-	WorkbookControl *wbc;
-	WorkbookView       *wb_view;
-	Workbook           *wb;
-	Workbook           *old_wb;
 	xmlDoc             *doc;
 	xmlNs              *gmr;
 	GnumericXMLVersion  version;
-	StreamIOCtxt       sc;
 	XmlParseContext    *xc;
-	CommandContext     *cc;
-	IOContext     *ioc;
-	char           infbuf[16384];
 
-	g_return_if_fail (data != NULL);
-	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (data));
-	wbc  = WORKBOOK_CONTROL (data);
+	/*
+	 * Load the stream into an XML tree.
+	 */
+	doc = hack_xmlSAXParseFile (sc);
+	if (!doc) {
+		g_warning ("Failed to parse file");
+		return -1;
+	}
+	if (!doc->xmlRootNode) {
+		xmlFreeDoc (doc);
+		g_warning ("Invalid xml file. Tree is empty ?");
+		return -1;
+	}
+
+	/*
+	 * Do a bit of checking, get the namespaces, and check the top elem.
+	 */
+	gmr = xml_check_version (doc, &version);
+	if (!gmr) {
+		xmlFreeDoc (doc);
+		return -1;
+	}
+	xc = xml_parse_ctx_new_full (doc, gmr, version, NULL, NULL, NULL);
+	xml_workbook_read (ioc, wb_view, xc, doc->xmlRootNode);
 	
-	/* FIXME: Probe for file type */
+	xml_parse_ctx_destroy (xc);
+	xmlFreeDoc (doc);
+
+	return gnumeric_io_error_occurred (ioc) ? -1 : 0;
+}
+
+static int
+read_from_stream (StreamDeserializer sdeserializer, Bonobo_Stream stream,
+		  IOContext *ioc,  WorkbookView *wb_view,
+		  CORBA_Environment *ev)
+
+{
+	StreamIOCtxt       sc;
+	char           infbuf[16384];
 	
 	CORBA_exception_init (ev);
-
-	old_wb = wb_control_workbook (wbc);
-	/* FIXME: Investigate why a freshly loaded workbook is !pristine in
-	 * the viewer component. For now, just drop the test
-	 */
-#if FALSE
-	if (!workbook_is_pristine (old_wb)) {
-		/* No way to interact properly with user */
-		g_warning ("Old workbook has unsaved changes.");
-		goto exit_error;
-	}
-#endif
-		
-	wb_view = wb_control_view (wbc);
 
 	sc.bstream = stream;
 	sc.ev     = ev;
 	sc.compressed = check_gzip_header (&sc);
-
+	
 	if (sc.compressed) {
 		if (!init_for_inflate (&sc, infbuf, sizeof infbuf))
 					goto exit_error;
@@ -241,47 +254,12 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 		if (BONOBO_EX (ev))
 			goto exit_error;
 	}
-	
-	/*
-	 * Load the stream into an XML tree.
-	 */
-	doc = hack_xmlSAXParseFile (&sc);
-	if (!doc) {
-		g_warning ("Failed to parse file");
-		goto exit_error;
-	}
-	if (!doc->xmlRootNode) {
-		xmlFreeDoc (doc);
-		g_warning ("Invalid xml file. Tree is empty ?");
-		goto exit_error;
-	}
-	/*
-	 * Do a bit of checking, get the namespaces, and check the top elem.
-	 */
-	gmr = xml_check_version (doc, &version);
-	if (!gmr) {
-		xmlFreeDoc (doc);
-		goto exit_error;
-	}
-	xc = xml_parse_ctx_new_full (doc, gmr, version, NULL, NULL, NULL);
-	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
-	xml_workbook_read (ioc, wb_view, xc, doc->xmlRootNode);
-	
-	xml_parse_ctx_destroy (xc);
-	xmlFreeDoc (doc);
 
-	if (gnumeric_io_error_occurred (ioc)) {
-		g_object_unref (G_OBJECT (ioc));
+	if (sdeserializer (&sc, ioc, wb_view) != 0)
 		goto exit_error;
-	}	
 
-	g_object_unref (G_OBJECT (ioc));
-
-	wb = wb_control_workbook (wbc);
-	workbook_recalc (wb);
-	sheet_update (wb_view_cur_sheet (wb_view));
 	return;
-
+	
 exit_error:
 	/* Propagate exceptions which are in the PersistStream interface */
 	if (BONOBO_EX (ev)) {
@@ -297,6 +275,63 @@ exit_error:
 	/* This may be a bad exception to throw, but they're all bad */
 	CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 			     ex_Bonobo_Persist_WrongDataType, NULL);
+}
+
+void
+gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
+				  Bonobo_Stream              stream,
+				  Bonobo_Persist_ContentType type,
+				  void                      *data,
+				  CORBA_Environment         *ev)
+{
+	WorkbookControl *wbc;
+	WorkbookView    *wb_view;
+	Workbook        *wb;
+	IOContext       *ioc;
+	gboolean         old;
+	Workbook        *old_wb;
+
+	g_return_if_fail (data != NULL);
+	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (data));	
+	wbc = WORKBOOK_CONTROL (data);
+
+	/* FIXME: Probe for file type */
+	
+	wb_view = workbook_view_new (NULL);
+	wb      = wb_view_workbook (wb_view);
+
+	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
+	/* disable recursive dirtying while loading */
+	old = workbook_enable_recursive_dirty (wb, FALSE);
+	read_from_stream (deserialize_wb_from_xml_stream, stream, ioc,
+			  wb_view, ev);
+	workbook_enable_recursive_dirty (wb, old);
+	g_object_unref (G_OBJECT (ioc));
+	if (BONOBO_EX (ev)) {	
+		workbook_unref (wb);		
+		return;
+	}
+
+	workbook_set_dirty (wb, FALSE);
+	
+	old_wb = wb_control_workbook (wbc);
+	
+	if (workbook_is_dirty (old_wb)) {
+		/* No way to interact properly with user */
+		g_warning ("Old workbook has unsaved changes.");
+		/* FIXME: Do something about it when the viewer has a real
+		 *        read only mode. For now, it doesn't mean a thing. */
+		/* goto exit_error; */
+	}
+	g_object_ref (G_OBJECT (wbc));
+	workbook_unref (old_wb);		
+	workbook_control_set_view (wbc, wb_view, NULL);
+	workbook_control_init_state (wbc);
+	workbook_recalc (wb);
+	g_return_if_fail (!workbook_is_dirty (wb));
+	sheet_update (wb_view_cur_sheet (wb_view));
+	return;
+
 }
 
 #ifdef GNOME2_CONVERSION_COMPLETE
