@@ -1213,7 +1213,7 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 	GList *row;
 	int   last_col_gen = -1, last_row_gen = -1;
 	int   cont;
-	
+
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE); 
 	g_return_val_if_fail (callback != NULL, FALSE);
@@ -1243,10 +1243,10 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 		last_col_gen = ci->pos;
 
 		last_row_gen = -1;
-		for (row = (GList *) ci->data; row; row = row->data){
+		for (row = (GList *) ci->data; row; row = row->next){
 			Cell *cell = (Cell *) row->data;
 			int  row_pos = cell->row->pos;
-			
+
 			if (row_pos < start_row)
 				continue;
 
@@ -1299,7 +1299,7 @@ CRowSort (gconstpointer a, gconstpointer b)
 	Cell *ca = (Cell *) a;
 	Cell *cb = (Cell *) b;
 
-	return cb->row->pos - ca->row->pos;
+	return ca->row->pos - cb->row->pos;
 }
 
 Cell *

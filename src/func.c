@@ -120,16 +120,16 @@ function_iterate_argument_values (Sheet                   *sheet,
 
 	for (; result && expr_node_list; expr_node_list = expr_node_list->next){
 		ExprTree *tree = (ExprTree *) expr_node_list->data;
-		Value *value;
+		Value *val;
 
-		value = eval_expr (sheet, tree, eval_col, eval_row, error_string);
+		val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
 
 		result = function_iterate_do_value (
 			sheet, callback, callback_closure,
-			eval_col, eval_row, value,
+			eval_col, eval_row, val,
 			error_string);
 		
-		value_release (value);
+		value_release (val);
 	}
 	return result;
 }
