@@ -1,5 +1,10 @@
 2001-10-04  Jody Goldberg <jgoldberg@home.com>
 
+	* src/number-match.c (format_create_regexp) : handle embedded strings
+	  properly.
+
+2001-10-04  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook-control-gui.c (zoom_changed) : Start searching for the
 	  assigned text at the current list item.
 	(cb_change_zoom) : adjust to new signal from the gnm_combo_text.

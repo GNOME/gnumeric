@@ -113,13 +113,6 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 
 	for (; *format; format++) {
 		switch (*format) {
-		case '_':
-			if (format[1]) {
-				g_string_append (regexp, "[ ]?");
-				format++;
-			}
-			break;
-
 		case '*':
 			if (format[1]) {
 				g_string_append_c (regexp, '[');
@@ -155,6 +148,8 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 				break;
 			}
 
+		case '^': 
+		case '|':
 		case ']' :
 		case '$' :
 		case '£' :
@@ -172,13 +167,6 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 		case '(':
 		case ')':
 			g_string_append_c (regexp, '\\');
-			g_string_append_c (regexp, *format);
-			break;
-
-		case ':':
-		case '/':
-		case '-':
-		case ' ':
 			g_string_append_c (regexp, *format);
 			break;
 
@@ -396,6 +384,26 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 			break;
 		}
 
+		case '@':
+			g_string_append (regexp, ".*");
+			break;
+
+		case '_':
+			if (format[1]) {
+				g_string_append (regexp, "[ ]?");
+				format++;
+			}
+			break;
+
+		/* these were here explicitly before adding default.
+		 * Leave them explicit for now as documentation.
+		 */
+		case ':':
+		case '/':
+		case '-':
+		case ' ':
+		default :
+			g_string_append_c (regexp, *format);
 		}
 	}
 

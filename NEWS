@@ -20,11 +20,12 @@ Jody:
 	* Parse using the assigned fmt before checking the builtins.
 	* Enable basic attributes when importing shapes from XL.
 	* Add simple bucketing of range dependencies.
-	* Add minor formating extension.
+	* Formating extensions and corrections.
 	* Some simple recalc tuning speeds things up by a factor of 2.
 	* Basic version of just in time rendering for another factor of 2.
 	* Cleanup the DOM based xml import/export utilities.
 	* Remove irritating frame around bonobo objects.
+	* Make the sheet object control points prettier.
 	* Off by 1 pixel/pt error when handling right/center alignment.
 	* Improve sheet object menus.
 	* Reworked the Text Combo,
