@@ -1175,14 +1175,10 @@ biff_format_data_destroy (gpointer key, BiffFormatData *d, gpointer userdata)
 	return 1;
 }
 
-/*
- * We must not try and parse the data until we have
- * read all the sheets in (for inter-sheet references in names).
- */
 static void
-ms_excel_add_name (ExcelWorkbook *wb, NamedExpression *nexpr)
+ms_excel_add_name (ExcelWorkbook *ewb, NamedExpression *nexpr)
 {
-	g_ptr_array_add (wb->name_data, nexpr);
+	g_ptr_array_add (ewb->names, nexpr);
 }
 
 ExprTree *
@@ -1193,7 +1189,7 @@ ms_excel_workbook_get_name (ExcelWorkbook const *ewb, int idx)
 
 	g_return_val_if_fail (ewb, NULL);
 
-	a = ewb->name_data;
+	a = ewb->names;
 
 	if (a == NULL || idx < 0 || (int)a->len <= idx ||
 	    (nexpr = g_ptr_array_index (a, idx)) == NULL) {
@@ -2343,7 +2339,7 @@ ms_wb_get_fmt (MSContainer const *container, guint16 indx)
 }
 
 static ExcelWorkbook *
-ms_excel_workbook_new (MsBiffVersion ver)
+ms_excel_workbook_new (MsBiffVersion ver, IOContext *context)
 {
 	static MSContainerClass const vtbl = {
 		NULL, NULL,
@@ -2356,6 +2352,8 @@ ms_excel_workbook_new (MsBiffVersion ver)
 
 	ms_container_init (&ans->container, &vtbl, NULL);
 	ans->container.ver = ver;
+
+	ans->context = context;
 
 	ans->extern_sheet_v8 = NULL;
 	ans->extern_sheet_v7 = NULL;
@@ -2370,13 +2368,14 @@ ms_excel_workbook_new (MsBiffVersion ver)
 						  (GCompareFunc)biff_guint16_equal);
 	ans->excel_sheets     = g_ptr_array_new ();
 	ans->XF_cell_records  = g_ptr_array_new ();
-	ans->name_data        = g_ptr_array_new ();
+	ans->names        = g_ptr_array_new ();
 	ans->format_data      = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 						  (GCompareFunc)biff_guint16_equal);
 	ans->palette          = ms_excel_default_palette ();
 	ans->global_strings   = NULL;
-	ans->global_string_max  = 0;
+	ans->global_string_max = 0;
 
+	ans->delayed_names = NULL;
 	ans->warn_unsupported_graphs = TRUE;
 	return ans;
 }
@@ -2404,9 +2403,9 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 			biff_xf_data_destroy (g_ptr_array_index (wb->XF_cell_records, lp));
 	g_ptr_array_free (wb->XF_cell_records, TRUE);
 
-	if (wb->name_data) {
-		g_ptr_array_free (wb->name_data, TRUE);
-		wb->name_data = NULL;
+	if (wb->names) {
+		g_ptr_array_free (wb->names, TRUE);
+		wb->names = NULL;
 	}
 
 	g_hash_table_foreach_remove (wb->font_data,
@@ -2511,9 +2510,64 @@ ms_excel_builtin_name (guint8 const *ptr)
 	return NULL;
 }
 
+typedef struct {
+	char	 *name;
+	int	  sheet_index;
+	guint8   *expr_data;
+	unsigned  expr_len;
+
+	int name_index;
+} MSDelayedNameParse;
+
+static NamedExpression *
+ms_excel_parse_NAME (ExcelWorkbook *ewb, int sheet_index,
+		     char *name, guint8 const *expr_data, unsigned expr_len)
+{
+	ParsePos pp;
+	ExprTree *expr;
+	NamedExpression *nexpr;
+	char const *err = NULL;
+
+	/* I think it is ok to pass sheet = NULL */
+	expr = ms_excel_parse_formula (ewb, NULL, 0, 0,
+				       expr_data, expr_len, FALSE, NULL);
+	if (expr == NULL)
+		expr = expr_tree_new_constant ( value_new_error (NULL, gnumeric_err_REF));
+
+	parse_pos_init (&pp, ewb->gnum_wb, NULL, 0, 0);
+	if (sheet_index > 0)
+		pp.sheet = workbook_sheet_by_index (ewb->gnum_wb, sheet_index-1);
+	nexpr = expr_name_add (&pp, name, expr, &err);
+	if (nexpr != NULL)
+		return nexpr;
+
+	gnm_io_warning (ewb->context, err);
+	return nexpr;
+}
+
+static void
+ms_excel_handle_delayed_NAMEs (ExcelWorkbook *ewb)
+{
+	GSList *ptr = ewb->delayed_names;
+	for (; ptr != NULL ; ptr = ptr->next) {
+		MSDelayedNameParse *delay = ptr->data;
+		g_ptr_array_index (ewb->names, delay->name_index) =
+			ms_excel_parse_NAME (ewb, delay->sheet_index,
+		     delay->name, delay->expr_data, delay->expr_len);
+
+		g_free (delay->expr_data);
+		g_free (delay->name);
+		g_free (delay);
+	}
+
+	g_slist_free (ewb->delayed_names);
+	ewb->delayed_names = NULL;
+}
+
 static void
 ms_excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 {
+	MSDelayedNameParse *delay = NULL;
 	NamedExpression *nexpr = NULL;
 	guint16 flags		= MS_OLE_GET_GUINT16 (q->data);
 	/*guint8  kb_shortcut	= MS_OLE_GET_GUINT8  (q->data + 2); */
@@ -2541,25 +2595,30 @@ ms_excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 		if (cname != NULL)
 			nexpr = expr_name_lookup (NULL, cname);
 	} else if (NULL != (name = biff_get_text (ptr, name_len, NULL))) {
-		ParsePos pp;
-		ExprTree *expr;
-
-		/* I think it is ok to pass sheet = NULL */
-		expr = ms_excel_parse_formula (ewb, NULL, 0, 0,
-			expr_data, expr_len, FALSE, NULL);
-
-		if (expr == NULL)
-			expr = expr_tree_new_constant (
-				value_new_error (NULL, gnumeric_err_REF));
-
-		parse_pos_init (&pp, ewb->gnum_wb, NULL, 0, 0);
-		if (sheet_index > 0)
-			pp.sheet = workbook_sheet_by_index (ewb->gnum_wb, sheet_index-1),
-		nexpr = expr_name_add (&pp, name, expr, NULL);
+		/* Versions of XL <= Excel5 had boundsheet records after the
+		 * name declarations.  Without those we do not know how many
+		 * sheets there are and can not create them effectively.
+		 * So we blob up the names without parsing them, then handle
+		 * them at EOF for the initial BOF.
+		 */
+		if (ewb->container.ver <= MS_BIFF_V7) {
+			delay = g_new (MSDelayedNameParse, 1);
+			delay->name = name;
+			delay->sheet_index = sheet_index;
+			delay->expr_len = expr_len;
+			delay->expr_data = g_malloc (expr_len);
+			memcpy (delay->expr_data, expr_data, expr_len);
+			/* reverse before parsing */
+			ewb->delayed_names = g_slist_prepend (ewb->delayed_names, delay);
+		} else
+			nexpr = ms_excel_parse_NAME (ewb, sheet_index,
+				name, expr_data, expr_len);
 	}
 
 	/* nexpr is potentially NULL if there was an error */
 	ms_excel_add_name (ewb,  nexpr);
+	if (delay != NULL)
+		delay->name_index = ewb->names->len - 1;
 
 	d (5, {
 		guint8  menu_txt_len	= MS_OLE_GET_GUINT8  (q->data + 10);
@@ -4224,7 +4283,7 @@ ms_excel_externsheet_v8 (BiffQuery const *q, ExcelWorkbook *ewb)
 	g_return_if_fail (ewb->extern_sheet_v8 == NULL);
 	num = MS_OLE_GET_GUINT16 (q->data);
 
-	d (-1, printf ("ExternSheet (%d entries)\n", num););
+	d (1, printf ("ExternSheet (%d entries)\n", num););
 	d (10, ms_ole_dump (q->data, q->length););
 
 	ewb->extern_sheet_v8 = g_array_set_size (
@@ -4236,13 +4295,15 @@ ms_excel_externsheet_v8 (BiffQuery const *q, ExcelWorkbook *ewb)
 		first	  = MS_OLE_GET_GUINT16 (q->data + 2 + i * 6 + 2);
 		last	  = MS_OLE_GET_GUINT16 (q->data + 2 + i * 6 + 4);
 
-		d (-1, printf ("ExternSheet: %hd First sheet %d, Last sheet %d\n",
+		d (1, printf ("ExternSheet: %hd First sheet %d, Last sheet %d\n",
 			      sup_index, first, last););
 
-		if (sup_index >= 0 &&
-		    first != 0xfffe && last != 0xfffe) { /* record for local names */
-			first_sheet = workbook_sheet_by_index (ewb->gnum_wb, first);
-			last_sheet  = workbook_sheet_by_index (ewb->gnum_wb, last);
+		if (sup_index >= 0) {
+			if (first != 0xfffe || last != 0xfffe) {
+				first_sheet = workbook_sheet_by_index (ewb->gnum_wb, first);
+				last_sheet  = workbook_sheet_by_index (ewb->gnum_wb, last);
+			} else /* record for local names */
+				first_sheet = last_sheet = NULL;
 		} else {
 			first_sheet = last_sheet = NULL;
 			g_warning ("external references not supported yet.");
@@ -4291,10 +4352,10 @@ ms_excel_externsheet_v7 (BiffQuery const *q, ExcelWorkbook *ewb)
 }
 
 static ExcelWorkbook *
-ms_excel_read_bof (BiffQuery *q,
+ms_excel_read_bof (BiffQuery	 *q,
 		   ExcelWorkbook *ewb,
-		   WorkbookView *wb_view,
-		   IOContext *context,
+		   WorkbookView	 *wb_view,
+		   IOContext	 *context,
 		   MsBiffBofData **version, int *current_sheet)
 {
 	/* The first BOF seems to be OK, the rest lie ? */
@@ -4309,7 +4370,7 @@ ms_excel_read_bof (BiffQuery *q,
 		ver->version = vv;
 
 	if (ver->type == MS_BIFF_TYPE_Workbook) {
-		ewb = ms_excel_workbook_new (ver->version);
+		ewb = ms_excel_workbook_new (ver->version, context);
 		ewb->gnum_wb = wb_view_workbook (wb_view);
 		if (ver->version >= MS_BIFF_V8) {
 			guint32 ver = MS_OLE_GET_GUINT32 (q->data + 4);
@@ -4475,6 +4536,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 
 		case BIFF_EOF: /* FIXME: Perhaps we should finish here ? */
+			ms_excel_handle_delayed_NAMEs (wb);
 			d (0, printf ("End of worksheet spec.\n"););
 			break;
 

@@ -1,3 +1,20 @@
+2002-03-08  Jody Goldberg <jody@gnome.org>
+
+
+	* ms-excel-read.c (ms_excel_workbook_new) : store an iocontext.
+	  init the delayed name list for xl95.
+	(ms_excel_parse_NAME) : split out of.
+	(ms_excel_read_NAME) : here.
+	(ms_excel_handle_delayed_NAMEs) : new.
+	(ms_excel_externsheet_v8) : be quiet.
+	(ms_excel_read_workbook) : check for delayed names on EOF.
+
+2002-03-07  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_externsheet_v8) : don't warn for local
+	  name records.
+	(ms_excel_read_NAME) : typo.
+
 2002-03-07  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c : revamp extensheet handling and name import.

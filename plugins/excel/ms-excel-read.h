@@ -83,7 +83,8 @@ typedef struct _BiffFormatData {
 
 typedef struct _ExcelWorkbook
 {
-	MSContainer container;
+	MSContainer  container;
+	IOContext   *context;
 
 	GPtrArray	 *excel_sheets;
 	GHashTable	 *boundsheet_data_by_stream;
@@ -91,7 +92,7 @@ typedef struct _ExcelWorkbook
 	GPtrArray	 *XF_cell_records;
 	GHashTable	 *font_data;
 	GHashTable	 *format_data; /* leave as a hash */
-	GPtrArray	 *name_data;
+	GPtrArray	 *names;
 	GArray		 *extern_sheet_v8;
 	GPtrArray	 *extern_sheet_v7;
 	ExcelPalette	 *palette;
@@ -99,6 +100,7 @@ typedef struct _ExcelWorkbook
 	guint32		  global_string_max;
 
 	gboolean warn_unsupported_graphs : 1;
+	GSList		 *delayed_names;
 
 	/**
 	 * Gnumeric parallel workbook
