@@ -1066,9 +1066,8 @@ workbook_queue_all_recalc (Workbook *wb)
 /**
  * dependent_eval :
  * @dep :
- *
  */
-void
+gboolean
 dependent_eval (Dependent *dep)
 {
 	if (dep->flags & DEPENDENT_NEEDS_RECALC) {
@@ -1077,18 +1076,20 @@ dependent_eval (Dependent *dep)
 		if (t != DEPENDENT_CELL) {
 			DependentClass *klass = g_ptr_array_index (dep_classes, t);
 
-			g_return_if_fail (klass);
+			g_return_val_if_fail (klass, FALSE);
 			(*klass->eval) (dep);
 		} else {
 			gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
 
 			/* This should always be the top of the stack */
-			g_return_if_fail (finished);
+			g_return_val_if_fail (finished, FALSE);
 		}
 
 		/* Don't clear flag until after in case we iterate */
 		dep->flags &= ~DEPENDENT_NEEDS_RECALC;
+		return TRUE;
 	}
+	return FALSE;
 }
 
 /**
@@ -1103,10 +1104,14 @@ dependent_eval (Dependent *dep)
 void
 workbook_recalc (Workbook *wb)
 {
+	gboolean redraw = FALSE;
+
 	g_return_if_fail (IS_WORKBOOK (wb));
 
-	WORKBOOK_FOREACH_DEPENDENT (wb, dep, dependent_eval (dep););
-	WORKBOOK_FOREACH_SHEET (wb, sheet, sheet_redraw_all (sheet, FALSE););
+	WORKBOOK_FOREACH_DEPENDENT (wb, dep, redraw |= dependent_eval (dep););
+	if (redraw) {
+		WORKBOOK_FOREACH_SHEET (wb, sheet, sheet_redraw_all (sheet, FALSE););
+	}
 }
 
 /**

@@ -56,13 +56,13 @@ guint32 dependent_type_register  (DependentClass const *klass);
 void dependent_types_init	 (void);
 void dependent_types_shutdown	 (void);
 
-void dependent_set_expr		 (Dependent *dependent, ExprTree *expr);
-void dependent_link		 (Dependent *dep, CellPos const *pos);
-void dependent_unlink		 (Dependent *dep, CellPos const *pos);
-void dependent_unlink_sheet	 (Sheet *sheet);
-void dependent_eval		 (Dependent *dep);
-void dependent_changed		 (Dependent *dep, gboolean queue_recalc);
-void cb_dependent_queue_recalc	 (Dependent *dep, gpointer ignore);
+void	 dependent_set_expr	   (Dependent *dependent, ExprTree *expr);
+void	 dependent_link		   (Dependent *dep, CellPos const *pos);
+void	 dependent_unlink	   (Dependent *dep, CellPos const *pos);
+void	 dependent_unlink_sheet	   (Sheet *sheet);
+gboolean dependent_eval		   (Dependent *dep);
+void	 dependent_changed	   (Dependent *dep, gboolean queue_recalc);
+void	 cb_dependent_queue_recalc (Dependent *dep, gpointer ignore);
 
 void cell_add_dependencies	 (Cell *cell);
 void cell_drop_dependencies	 (Cell *cell);

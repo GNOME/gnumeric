@@ -1541,7 +1541,6 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 		return NULL;
 
 	case OPER_VAR:
-	{
 		if (rwinfo->type == EXPR_REWRITE_SHEET) {
 			if (expr->var.ref.sheet == rwinfo->u.sheet)
 				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
@@ -1569,7 +1568,6 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 				return expr_tree_new_var (&res);
 			}
 		}
-	}
 
 	case OPER_CONSTANT: {
 		Value const *v = expr->constant.value;

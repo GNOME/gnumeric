@@ -1,5 +1,10 @@
 2001-09-19  Jody Goldberg <jgoldberg@home.com>
 
+	* src/eval.c (workbook_recalc) : only redraw if something recalced.
+	(dependent_eval) : return flag if something recalced.
+
+2001-09-19  Jody Goldberg <jgoldberg@home.com>
+
 	* src/cell-draw.c (cell_draw) : off by 1.
 	* src/print-cell.c (print_cell) : off by 1.
 
