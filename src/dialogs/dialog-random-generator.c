@@ -149,6 +149,8 @@ static const DistributionStrs distribution_strs[] = {
 	  N_("Poisson"), N_("_Lambda:"), NULL, FALSE },
      	{ RayleighDistribution,
 	  N_("Rayleigh"), N_("_Sigma:"), NULL, FALSE },
+     	{ RayleighTailDistribution,
+	  N_("Rayleigh Tail"), N_("_a Value:"), N_("_Sigma:"), FALSE },
 	{ TdistDistribution,
 	  N_("T"), N_("nu Value:"), NULL, FALSE },
 	{ Gumbel1Distribution,
@@ -287,6 +289,14 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 		ready = ready &&
 			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
 			a_float > 0.0;
+		break;
+	case RayleighTailDistribution:
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par1_entry), &a_float, FALSE) == 0 &&
+			a_float > 0.0;
+		ready = ready &&
+			entry_to_float (GTK_ENTRY (state->par2_entry), &b_float, FALSE) == 0 &&
+			b_float > 0.0;
 		break;
 	case ParetoDistribution:
 		ready = ready &&
@@ -585,6 +595,12 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	case RayleighDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
 				      &data->param.rayleigh.sigma, TRUE);
+		break;
+	case RayleighTailDistribution:
+		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
+				      &data->param.rayleigh_tail.a, TRUE);
+		err = entry_to_float (GTK_ENTRY (state->par2_entry), 
+				      &data->param.rayleigh_tail.sigma, TRUE);
 		break;
 	case LognormalDistribution:
 		err = entry_to_float (GTK_ENTRY (state->par1_entry), 
