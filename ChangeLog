@@ -1,3 +1,13 @@
+2000-11-17  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/preview-grid-controller.c, src/preview-grid-controller.h
+	(preview_grid_controller_new) : Extra selected parameters,
+	if set a red rectangle will be drawn over the preview to indicate
+	the selected state.
+
+	* src/dialogs/dialog-autoformat.c (previews_load): Adjust so
+	the selected preview will be drawn in selected state.
+
 2000-11-16  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_month_before_day) : Add config test.

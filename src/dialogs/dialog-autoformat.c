@@ -423,7 +423,8 @@ previews_load (AutoFormatInfo *info, int topindex)
 									   PREVIEW_ROWS, PREVIEW_COLS, 16, 42,
 									   cb_get_row_height, cb_get_col_width,
 									   cb_get_cell_content, cb_get_cell_style,
-									   ft, info->gridlines->active);
+									   ft, info->gridlines->active,
+									   (topindex + i == info->preview_index));
 
 
 			{
@@ -433,13 +434,14 @@ previews_load (AutoFormatInfo *info, int topindex)
 
 				g_free (name);
 			}
+			
 			/*
 			 * Make sure the canvas and frame are visible
 			 */
 			gtk_widget_show (GTK_WIDGET (info->canvas[i]));
 
 			if (topindex + i == info->preview_index)
-				gtk_frame_set_shadow_type (info->frame[i], GTK_SHADOW_IN);
+				gtk_frame_set_shadow_type (info->frame[i], GTK_SHADOW_IN);	
 			else
 				gtk_frame_set_shadow_type (info->frame[i], GTK_SHADOW_OUT);
 

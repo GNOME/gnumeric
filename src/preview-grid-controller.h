@@ -22,7 +22,7 @@ PreviewGridController*     preview_grid_controller_new          (GnomeCanvas *ca
 								 PGridCtlGetColWidth get_col_width_cb,
 								 PGridCtlGetCellContent get_cell_content_cb,
 								 PGridCtlGetCellStyle get_cell_style_cb,
-								 gpointer cb_data, gboolean gridlines);
+								 gpointer cb_data, gboolean gridlines, gboolean selected);
 void                       preview_grid_controller_free         (PreviewGridController *controller);
 
 void                       preview_grid_controller_force_redraw (PreviewGridController *controller);

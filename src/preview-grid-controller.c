@@ -43,6 +43,7 @@ struct _PreviewGridController{
 	GnomeCanvas *canvas;
 	PreviewGrid *grid;
 	GnomeCanvasRect *rect;
+	GnomeCanvasRect *selection_rect;
 
 	int rows;
 	int cols;
@@ -379,6 +380,8 @@ preview_grid_controller_force_redraw (PreviewGridController *controller)
  * @get_cell_text_cb: Callback to retrieve cell text
  * @get_cell_style_cb: Callback to retrieve cell style
  * @cb_data: Data passed to callback functions
+ * @gridlines: Show gridlines?
+ * @selected: If set a red rectangle will be drawn over the preview.
  *
  * Create a new grid controller
  *
@@ -391,7 +394,7 @@ preview_grid_controller_new (GnomeCanvas *canvas,
 			     PGridCtlGetColWidth get_col_width_cb,
 			     PGridCtlGetCellContent get_cell_content_cb,
 			     PGridCtlGetCellStyle get_cell_style_cb,
-			     gpointer cb_data, gboolean gridlines)
+			     gpointer cb_data, gboolean gridlines, gboolean selected)
 {
 	PreviewGridController *controller = g_new0 (PreviewGridController, 1);
 
@@ -418,7 +421,7 @@ preview_grid_controller_new (GnomeCanvas *canvas,
 	 * the absolute bottom of the canvas's region. Look at src/dialogs/autoformat.glade for
 	 * the original canvas dimensions (look at the scrolledwindow that houses each canvas)
 	 */
-    	controller->rect = GNOME_CANVAS_RECT (gnome_canvas_item_new (gnome_canvas_root (canvas),
+	controller->rect = GNOME_CANVAS_RECT (gnome_canvas_item_new (gnome_canvas_root (canvas),
 								     gnome_canvas_rect_get_type (),
 								     "x1", -4.5, "y1", -4.5,
 								     "x2", 215.5, "y2", 85.5,
@@ -438,6 +441,19 @@ preview_grid_controller_new (GnomeCanvas *canvas,
 								"RenderGridlines", gridlines,
 								NULL));
 
+	/*
+	 * The numbers used here are a little less then the ones used for the centering
+	 * rect above. This rect is only drawn when the grid is 'selected'
+	 */
+	if (selected)
+		controller->selection_rect = GNOME_CANVAS_RECT (gnome_canvas_item_new (gnome_canvas_root (canvas),
+										       gnome_canvas_rect_get_type (),
+										       "x1", -7.0, "y1", -3.5,
+										       "x2", 217.0, "y2", 84.5,
+										       "width_pixels", (int) 1,
+										       "outline_color", "red",
+										       "fill_color", NULL,
+										       NULL));
 	/*
 	 * Set the scroll region to a nice value
 	 */
