@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-10-29 21:48+0100\n"
-"PO-Revision-Date: 2003-10-29 21:50+0200\n"
+"POT-Creation-Date: 2003-10-31 11:14+0100\n"
+"PO-Revision-Date: 2003-10-31 11:17+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8419,7 +8419,7 @@ msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:528
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:549
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:114
 #: src/dialogs/dialog-cell-format.c:2278 src/dialogs/dialog-cell-format.c:2283
 #: src/dialogs/dialog-cell-format.c:2293 src/workbook-format-toolbar.c:837
@@ -19174,7 +19174,7 @@ msgid "Jump to a specified cell"
 msgstr "Gå till specifierad cell"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:578
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:599
 #: src/sheet-object-graphic.c:1442 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Rubrik"
@@ -20683,7 +20683,7 @@ msgid "O_utside"
 msgstr "Ui_tanför"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:475
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:490
 msgid "_Cross"
 msgstr "_Kors"
 
@@ -20715,29 +20715,29 @@ msgstr "_Utanför"
 msgid "_Show Labels"
 msgstr "_Visa etiketter"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:471
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:486
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:472
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:487
 msgid "M_ax"
 msgstr "M_ax"
 
 # ZZZ
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:473
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:488
 msgid "Ma_jor Ticks"
 msgstr "S_tora skalstreck"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:474
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:489
 msgid "Mi_nor Ticks"
 msgstr "S_må skalstreck"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:556
 msgid "Bounds"
 msgstr "Gränser"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:540
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:561
 msgid "Details"
 msgstr "Detaljer"
 
@@ -28450,28 +28450,28 @@ msgstr "Ogiltigt eftersläpande omvänt snedstreck i ersättning."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "kan inte utföras med flera valda intervall"
 
-#: src/session.c:110
+#: src/session.c:111
 #, c-format
 msgid "Save changes to workbook '%s' before logging out?"
 msgstr "Spara ändringar i arbetsbok \"%s\" innan stängning?"
 
-#: src/session.c:114
+#: src/session.c:115
 msgid "Save changes to workbook before logging out?"
 msgstr "Spara ändringar i arbetsbok innan stängning?"
 
-#: src/session.c:119
+#: src/session.c:120
 msgid "If you do not save, changes may be discarded."
 msgstr "Om du stänger utan att spara kommer alla ändringar att försvinna."
 
-#: src/session.c:121
+#: src/session.c:122
 msgid "Do not save any"
 msgstr "Spara inga"
 
-#: src/session.c:123 src/session.c:126
+#: src/session.c:124 src/session.c:127
 msgid "Do not save"
 msgstr "Spara inte"
 
-#: src/session.c:128
+#: src/session.c:129
 msgid "Do not log out"
 msgstr "Stäng inte"
 
@@ -28685,8 +28685,8 @@ msgid "Error while trying to write csv file"
 msgstr "Fel vid skrivning av csv-fil"
 
 #: src/stf.c:458
-msgid "Comma or tab separated files (CSV/TSV)"
-msgstr "Komma- eller tabseparerad fil (CSV/TSV)"
+msgid "Comma or tab separated values (CSV/TSV)"
+msgstr "Komma- eller tabseparerade värden (CSV/TSV)"
 
 #: src/stf.c:462
 msgid "Text import (configurable)"
@@ -28697,8 +28697,8 @@ msgid "Text export (configurable)"
 msgstr "Textexport (konfigurerbar)"
 
 #: src/stf.c:470
-msgid "Comma separated files (CSV)"
-msgstr "Kommaseparerad fil (CSV)"
+msgid "Comma separated values (CSV)"
+msgstr "Kommaseparerade värden (CSV)"
 
 #: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3296
 #, c-format
