@@ -24,7 +24,7 @@
 #include <value.h>
 #include <gutils.h>
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #include <gnumeric-graph.h>
 #endif
 #include <xml-io.h>
@@ -57,7 +57,7 @@ char const *const ms_vector_purpose_type_name [] =
 typedef struct _ExcelChartSeries
 {
 	struct {
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 		GnmGraphVectorType type;
 #endif
 		int count, remote_ID;
@@ -125,13 +125,13 @@ excel_chart_series_new (void)
 	series->xml = NULL;
 	for (i = MS_VECTOR_PURPOSE_MAX; i-- > 0 ; ) {
 		series->vector [i].remote_ID = -1;
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 		series->vector [i].type = GNM_VECTOR_AUTO; /* may be reset later */
 #endif
 	}
 
 	/* labels are always strings */
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	series->vector [MS_VECTOR_PURPOSE_LABELS].type = GNM_VECTOR_STRING;
 #endif
 
@@ -156,7 +156,7 @@ excel_chart_series_write_xml (ExcelChartSeries *series,
 	xmlAddChild (data, series->xml);
 	for (i = 0 ; i < MS_VECTOR_PURPOSE_MAX; i++ )
 		if (series->vector [i].remote_ID >= 0) {
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 			xmlNode *v = gnm_graph_series_add_dimension (series->xml,
 				ms_vector_purpose_type_name [i]);
 			if (v != NULL)
@@ -344,7 +344,7 @@ BC_R(ai)(ExcelChartHandler const *handle,
 			g_return_val_if_fail (sheet != NULL, FALSE);
 			g_return_val_if_fail (s->currentSeries != NULL, TRUE);
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 			s->currentSeries->vector [purpose].remote_ID =
 				gnm_graph_add_vector (s->graph, expr,
 					s->currentSeries->vector [purpose].type,
@@ -1723,7 +1723,7 @@ BC_R(vector_details)(ExcelChartReadState *s, BiffQuery *q, ExcelChartSeries *ser
 		     MS_VECTOR_PURPOSE purpose,
 		     int type_offset, int count_offset, char const *name)
 {
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	GnmGraphVectorType type;
 	guint16 e_type = MS_OLE_GET_GUINT16 (q->data + type_offset);
 
@@ -1827,7 +1827,7 @@ BC_R(seriestext)(ExcelChartHandler const *handle,
 	/* A quick heuristic */
 	if (s->currentSeries != NULL &&
 	    s->currentSeries->vector [MS_VECTOR_PURPOSE_LABELS].remote_ID == -1) {
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 		s->currentSeries->vector [MS_VECTOR_PURPOSE_LABELS].type = GNM_VECTOR_STRING;
 
 		s->currentSeries->vector [MS_VECTOR_PURPOSE_LABELS].remote_ID =
@@ -2417,7 +2417,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GObject
 	state.xml.currentChartGroup = NULL;
 	state.xml.dataFormat = NULL;
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	if (graph != NULL)
 		state.graph = GNUMERIC_GRAPH (graph);
 	else
@@ -2524,7 +2524,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GObject
 		state.prev_opcode = q->opcode;
 	}
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	if (state.graph != NULL)
 		gnm_graph_import_specification (state.graph, state.xml.doc);
 #endif

@@ -25,7 +25,7 @@
 #include <gal/widgets/widget-color-combo.h>
 #include <glade/glade.h>
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #	include <bonobo.h>
 #	include "workbook-private.h"
 #endif
@@ -856,7 +856,7 @@ gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog)
 		G_CALLBACK (cb_non_modal_dialog_keypress), NULL);
 }
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 /*
  * gnumeric_inject_widget_into_bonoboui :
  *

@@ -32,7 +32,7 @@
 #include "sheet-object-graphic.h"
 #include "gui-util.h"
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #include <bonobo.h>
 #endif
 #include <libgnome/gnome-i18n.h>
@@ -124,7 +124,7 @@ cmd_create_ellipse (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	create_object_command (wbcg, sheet_object_box_new (TRUE));
 }
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 static GnomeUIInfo workbook_object_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Label"), N_("Creates a label"),

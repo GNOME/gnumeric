@@ -36,7 +36,7 @@
 #include "gnm-marshalers.h"
 #include "style-color.h"
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #include <bonobo/bonobo-persist-file.h>
 #include "sheet-object-container.h"
 #include "sheet-object-bonobo.h"
@@ -350,7 +350,7 @@ workbook_init (GObject *object)
 #if 0
 	workbook_corba_setup (wb);
 #endif
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #ifdef GNOME2_CONVERSION_COMPLETE
 	workbook_bonobo_setup (wb);
 #endif

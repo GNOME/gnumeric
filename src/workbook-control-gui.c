@@ -69,7 +69,7 @@
 #include "src/plugin-util.h"
 #include "sheet-object-image.h"
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #include "sheet-object-container.h"
 #ifdef ENABLE_EVOLUTION
 #include <idl/Evolution-Composer.h>
@@ -763,7 +763,7 @@ wbcg_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo)
 	gtk_combo_stack_push_item (ur_stack (wbc, is_undo), text);
 }
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 static void
 change_menu_state (GtkWidget *menu_item, gboolean state)
 {
@@ -877,7 +877,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 
 	g_return_if_fail (wbcg != NULL);
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 	if (MS_INSERT_COLS & flags)
 		change_menu_sensitivity (wbcg->menu_item_insert_cols,
 					 sheet->priv->enable_insert_cols);
@@ -947,7 +947,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 		 * we don't reset it when the label changes */
 		char const* label = sheet_is_frozen (sheet)
 			? _("Un_freeze Panes") : _("_Freeze Panes");
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 		change_menu_label (wbcg->menu_item_freeze_panes,
 				   NULL, label);
 #else
@@ -961,7 +961,7 @@ static void
 wbcg_menu_state_sensitivity (WorkbookControl *wbc, gboolean sensitive)
 {
  	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	CORBA_Environment ev;
 #endif
 
@@ -970,7 +970,7 @@ wbcg_menu_state_sensitivity (WorkbookControl *wbc, gboolean sensitive)
 		return;
 	wbcg->toolbar_is_sensitive = sensitive;
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	CORBA_exception_init (&ev);
 	bonobo_ui_component_set_prop (wbcg->uic, "/commands/MenuBar",
 				      "sensitive", sensitive ? "1" : "0", &ev);
@@ -1007,7 +1007,7 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	g_return_if_fail (wbcg != NULL);
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 	change_menu_label (wbcg->menu_item_undo, _("Undo"), undo);
 	change_menu_label (wbcg->menu_item_redo, _("Redo"), redo);
 #else
@@ -1024,7 +1024,7 @@ wbcg_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet)
 	if (!wbcg_ui_update_begin (wbcg))
 		return;
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 	change_menu_state (wbcg->menu_item_sheet_display_formulas,
 		sheet->display_formulas);
 	change_menu_state (wbcg->menu_item_sheet_hide_zero,
@@ -1073,7 +1073,7 @@ wbcg_menu_state_sheet_count (WorkbookControl *wbc)
 	/* Scrollable if there are more than 3 tabs */
 	gtk_notebook_set_scrollable (wbcg->notebook, sheet_count > 3);
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 	change_menu_sensitivity (wbcg->menu_item_sheet_remove, multi_sheet);
 #else
 	change_menu_sensitivity (wbcg, "/commands/SheetRemove", multi_sheet);
@@ -1138,7 +1138,7 @@ wbcg_progress_set (CommandContext *cc, gfloat val)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	gtk_progress_bar_update (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
 #else
 	gnome_appbar_set_progress_percentage (wbcg->appbar, val);
@@ -1151,7 +1151,7 @@ wbcg_progress_message_set (CommandContext *cc, gchar const *msg)
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
 	GtkProgressBar *progress;
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	progress = GTK_PROGRESS_BAR (wbcg->progress_bar);
 #else
 	progress = gnome_appbar_get_progress (wbcg->appbar);
@@ -1380,7 +1380,7 @@ cb_file_save_as (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	gui_file_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
 }
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #ifdef ENABLE_EVOLUTION
 static void
 cb_file_send (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -2067,7 +2067,7 @@ cb_sheet_order (GtkWidget *widget, WorkbookControlGUI *wbcg)
         dialog_sheet_order (wbcg);
 }
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 static gboolean
 toggle_util (Bonobo_UIComponent_EventType type,
 	     char const *state, gboolean *flag)
@@ -2616,7 +2616,7 @@ cb_sort_descending (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	sort_by_rows (wbcg, 1);
 }
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #ifdef GNOME2_CONVERSION_COMPLETE
 static void
 cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -2671,7 +2671,7 @@ cb_insert_shaped_component (GtkWidget *widget, WorkbookControlGUI *wbcg)
 #endif
 #endif
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 /*
  * Hide/show some toolbar items depending on the toolbar orientation
  */
@@ -3515,7 +3515,7 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 		"pop",
 		G_CALLBACK (cb_redo_combo), wbcg);
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	gnumeric_inject_widget_into_bonoboui (wbcg, undo, "/StandardToolbar/EditUndo");
 	gnumeric_inject_widget_into_bonoboui (wbcg, redo, "/StandardToolbar/EditRedo");
 	gnumeric_inject_widget_into_bonoboui (wbcg, zoom, "/StandardToolbar/SheetZoom");
@@ -3907,7 +3907,7 @@ workbook_setup_sheets (WorkbookControlGUI *wbcg)
 	gtk_widget_show (w);
 }
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 static void
 setup_progress_bar (WorkbookControlGUI *wbcg)
 {
@@ -4031,7 +4031,7 @@ workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
 	frame2 = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame2), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (frame2), tmp);
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	gnumeric_inject_widget_into_bonoboui (wbcg, frame1, "/status/AutoExpr");
 	gnumeric_inject_widget_into_bonoboui (wbcg, frame2, "/status/Status");
 #else
@@ -4049,7 +4049,7 @@ workbook_setup_status_area (WorkbookControlGUI *wbcg)
 	/*
 	 * Create the GnomeAppBar
 	 */
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	setup_progress_bar (wbcg);
 #else
 	wbcg->appbar = GNOME_APPBAR (
@@ -4380,12 +4380,12 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		{ (char *)"text/uri-list", 0, 0 }
 	};
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	BonoboUIContainer *ui_container;
 #endif
 	GtkWidget *tmp;
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	tmp  = bonobo_window_new ("Gnumeric", "Gnumeric");
 #else
 	tmp  = gnome_app_new ("Gnumeric", "Gnumeric");
@@ -4399,7 +4399,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 
 	workbook_setup_edit_area (wbcg);
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 	/* Do BEFORE setting up UI bits in the non-bonobo case */
 	workbook_setup_status_area (wbcg);
 

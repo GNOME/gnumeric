@@ -60,7 +60,7 @@
 #include <locale.h>
 #include <math.h>
 #include <limits.h>
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #include <bonobo/bonobo-exception.h>
 #endif
 

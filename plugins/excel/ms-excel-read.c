@@ -45,7 +45,7 @@
 #include <sheet-object-widget.h>
 #include <sheet-object-graphic.h>
 #include <sheet-object-image.h>
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #  include <gnumeric-graph.h>
 #endif
 
@@ -392,7 +392,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	}
 
 	case 0x05: { /* Chart */
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 		so = SHEET_OBJECT (gnm_graph_new (wb));
 #else
 		so = sheet_object_box_new (FALSE);  /* placeholder */
@@ -3823,7 +3823,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 			 */
 			if (q->opcode == BIFF_CHART_units) {
 				GObject *graph =
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 					gnm_graph_new (esheet->wb->gnum_wb);
 #else
 					NULL;

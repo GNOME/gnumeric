@@ -17,12 +17,12 @@
 #include <gtk/gtkmenuitem.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app-helper.h>
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #include <bonobo.h>
 #endif
 
 /* Command callback called on activation of a file history menu item. */
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 
 #define UGLY_GNOME_UI_KEY "HistoryFilename"
 
@@ -80,7 +80,7 @@ history_item_label (const gchar *name, const gint accel_number)
 /*
  * Create a history menu item in a menu at a given position.
  */
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 static void
 history_menu_item_create (WorkbookControlGUI *wbcg, gchar *name, gint accel_number,
 			  GtkWidget *menu, gint pos)
@@ -105,7 +105,7 @@ history_menu_item_create (WorkbookControlGUI *wbcg, gchar *name, gint accel_numb
 }
 #endif
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 typedef struct {
 	GtkWidget *menu;
 	gint      pos;
@@ -211,7 +211,7 @@ history_menu_insert_items (WorkbookControlGUI *wbcg, GList *name_list)
 }
 #endif
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 /*
  * Remove the history list items from the file menu of the workbook
  * specified.
@@ -296,7 +296,7 @@ history_menu_setup (WorkbookControlGUI *wbcg, GList *name_list)
 {
 	g_return_if_fail (name_list != NULL);
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	/* Insert the items */
 	history_menu_insert_items (wbcg, name_list);
 #else
@@ -324,7 +324,7 @@ history_control_fill (WorkbookControl *control, GList *name_list, gboolean need_
 		if (need_sep)
 			history_menu_setup (wbcg, name_list);
 		else {
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 			MenuPos mp;
 			history_menu_locate_separator (wbcg, &mp);
 			(mp.pos)++;

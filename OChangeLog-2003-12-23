@@ -1,3 +1,29 @@
+2002-04-13  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-file.c: s/ENABLE_BONOBO/WITH_BONOBO/
+
+	* src/gui-util.c: Ditto.
+
+	* src/history.c: Ditto.
+
+	* src/main.c: Ditto.
+
+	* src/sheet.c: Ditto.
+
+	* src/sheet-object.c: Ditto.
+
+	* src/workbook-control-gui.c: Ditto.
+
+	* src/workbook-format-toolbar.c: Ditto.
+
+	* src/workbook-object-toolbar.c: 
+
+	* src/workbook.c: Ditto.
+
+	* src/workbook-private.c: Ditto.
+
+	* src/xml-io.c: Ditto.
+
 2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-general.schemas : add 2 undo preference settings

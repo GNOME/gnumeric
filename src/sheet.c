@@ -188,7 +188,7 @@ sheet_new (Workbook *wb, char const *name)
 
 	sheet = g_new0 (Sheet, 1);
 	sheet->priv = g_new0 (SheetPrivate, 1);
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	sheet->priv->corba_server = NULL;
 #endif
 

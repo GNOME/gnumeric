@@ -46,7 +46,7 @@
 #include <time.h>
 #include <gtk/gtkmain.h>
 #include <locale.h>
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #include "bonobo-io.h"
 /* DO NOT include embeddable-grid.h.  It causes odd depends in the non-bonobo
  * case */
@@ -61,7 +61,7 @@ extern gboolean EmbeddableGridFactory_init (void);
 #include <libgnomeui/gnome-window-icon.h>
 #endif
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #include <bonobo.h>
 #endif
 #include <libgnome/gnome-i18n.h>
@@ -225,7 +225,7 @@ main (int argc, char *argv [])
 	/* The statically linked in file formats */
 	xml_init ();
 	stf_init ();
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #ifdef GNOME2_CONVERSION_COMPLETE
 	gnumeric_bonobo_io_init ();
 #endif
@@ -263,7 +263,7 @@ main (int argc, char *argv [])
 		return retval;
 	}
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #if 0
 	/* Activate object factories and init connections to POA */
 	if (!WorkbookFactory_init ())
@@ -280,7 +280,7 @@ main (int argc, char *argv [])
 	else
 		startup_files = NULL;
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	bonobo_activate ();
 #endif
  	wbc = workbook_control_gui_new (NULL, NULL);

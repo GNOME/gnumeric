@@ -808,7 +808,7 @@ sheet_objects_clear (Sheet const *sheet, Range const *r, GType t)
 	}
 }
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 /* Do NOT include the relevant header files,
  * they introduce automake depends in the non-bonobo build.
  */
@@ -822,7 +822,7 @@ sheet_object_register (void)
 	SHEET_OBJECT_GRAPHIC_TYPE;
 	SHEET_OBJECT_FILLED_TYPE;
 	CELL_COMMENT_TYPE;
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 #ifdef GNOME2_CONVERSION_COMPLETE
 	sheet_object_bonobo_get_type ();
 	gnm_graph_get_type ();

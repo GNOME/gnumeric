@@ -397,7 +397,7 @@ cb_format_dec_indent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 	}
 }
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 static GnomeUIInfo workbook_format_toolbar [] = {
 	/* Placeholder: font selector */
         /* Placeholder: size selector */
@@ -591,7 +591,7 @@ disable_focus (GtkWidget *base, void *closure)
 	GTK_WIDGET_UNSET_FLAGS (base, GTK_CAN_FOCUS);
 }
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 /*
  * Some toolbar items are too damn wide to put into the toolbar
  * if it is vertical.
@@ -751,7 +751,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	GList *l;
 	int i, len;
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 	GtkWidget *font_button;
 	GtkWidget *toolbar = gnumeric_toolbar_new (wbcg,
 		workbook_format_toolbar, "FormatToolbar", 2, 0, 0);
@@ -863,7 +863,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 
 	style_color_unref (sc_auto_font);
 	
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 	gnumeric_inject_widget_into_bonoboui (wbcg, fontsel, "/FormatToolbar/FontName");
 	gnumeric_inject_widget_into_bonoboui (wbcg, fontsize, "/FormatToolbar/FontSize");
 	gnumeric_inject_widget_into_bonoboui (wbcg, border_combo, "/FormatToolbar/BorderSelector");
@@ -899,7 +899,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 #endif
 }
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 static void
 workbook_format_toolbutton_update (WorkbookControlGUI *wbcg,
 				   char const *path, gboolean state)
@@ -977,7 +977,7 @@ workbook_format_halign_feedback_set (WorkbookControlGUI *wbcg,
 void
 workbook_feedback_set (WorkbookControlGUI *wbcg)
 {
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 	GtkToolbar *toolbar;
 #endif
 	MStyle 		*style;
@@ -999,7 +999,7 @@ workbook_feedback_set (WorkbookControlGUI *wbcg)
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_SIZE));
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_NAME));
 
-#ifndef ENABLE_BONOBO
+#ifndef WITH_BONOBO
 	toolbar = GTK_TOOLBAR (wbcg->format_toolbar);
 	g_return_if_fail (toolbar);
 

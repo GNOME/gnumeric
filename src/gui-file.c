@@ -348,7 +348,7 @@ gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		return wb_view_save (wb_view, COMMAND_CONTEXT (wbcg));
 }
 
-#ifdef ENABLE_BONOBO
+#ifdef WITH_BONOBO
 static GnumFileSaver *
 ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
