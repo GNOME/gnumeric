@@ -65,6 +65,8 @@ GNOME Spread Sheet task list
 
 * Display Engine
 
+* Unicode support throughout
+
 ** item-edit
 
    This should be improved to use a cell rendering routine.

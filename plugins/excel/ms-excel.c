@@ -27,14 +27,25 @@
 #include "ms-excel.h"
 
 #define STRNPRINTF(ptr,n) { int xxxlp; printf ("'") ; for (xxxlp=0;xxxlp<(n);xxxlp++) printf ("%c", (ptr)[xxxlp]) ; printf ("'\n") ; }
-// This needs proper unicode support !
+// FIXME: This needs proper unicode support ! current support is a guess
 static char *ms_get_biff_text (BYTE *ptr, int length)
 {
-  int lp ;
-  char *ans = (char *)malloc(sizeof(char)*length+1) ;
+  int lp, unicode ;
+  char *ans ;
+  BYTE *inb ;
 
+  if (!length) 
+    return 0 ;
+
+  ans = (char *)malloc(sizeof(char)*length+1) ;
+
+  unicode = (ptr[0] == 0x1) ; // Magic unicode number 
+  inb = unicode?ptr+1:ptr ;
   for (lp=0;lp<length;lp++)
-    ans[lp] = (char)ptr[lp] ;
+    {
+      ans[lp] = (char) *inb ;
+      inb+=unicode?2:1 ;
+    }
   ans[lp] = 0 ;
   return ans ;
 }
@@ -128,8 +139,15 @@ static BIFF_FONT_DATA *new_biff_font_data (BIFF_QUERY *q)
 		     ((data == 0x21) &  eBiffFUSingleAcc) |
 		     ((data == 0x22) &  eBiffFUDoubleAcc) ) ;
   fd->fontname   = ms_get_biff_text (q->data + 15, GETBYTE(q->data + 14)) ;
+  //  dump (q->data, q->length) ;
   printf ("Insert fount '%s' size %5.2f\n", fd->fontname, fd->height*20.0) ;
   return fd ;
+}
+
+static void free_biff_font_data (BIFF_FONT_DATA *p)
+{
+  free (p->fontname) ;
+  free (p) ;
 }
 
 static MS_EXCEL_PALETTE *new_ms_excel_palette (BIFF_QUERY *q)
@@ -144,7 +162,7 @@ static MS_EXCEL_PALETTE *new_ms_excel_palette (BIFF_QUERY *q)
   pal->green  = (int *)malloc(sizeof(int)*len) ;
   pal->blue   = (int *)malloc(sizeof(int)*len) ;
   printf ("New palette with %d entries\n", len) ;
-  for (lp=0;lp<pal->length;lp++)
+  for (lp=0;lp<len;lp++)
     {
       LONG num  = BIFF_GETLONG(q->data+2+lp*4) ;
       pal->red[lp]   = (num & 0x00ff0000) >> 16 ;
@@ -153,6 +171,14 @@ static MS_EXCEL_PALETTE *new_ms_excel_palette (BIFF_QUERY *q)
       printf ("Colour %d : (%d,%d,%d)\n", lp, pal->red[lp], pal->green[lp], pal->blue[lp]) ;
     }
   return pal ;
+}
+
+static void free_ms_excel_palette (MS_EXCEL_PALETTE *pal)
+{
+  free (pal->red) ;
+  free (pal->green) ;
+  free (pal->blue) ;
+  free (pal) ;
 }
 
 typedef struct _BIFF_XF_DATA
@@ -182,9 +208,11 @@ static void ms_excel_set_cell_colors (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF
 {
   MS_EXCEL_PALETTE *p = sheet->wb->palette ;
   int col ;
-    
+
+  if (!p || !xf) return ;
+
   col = xf->foregnd_col ;
-  if (p && col>=0 && col < sheet->wb->palette->length)
+  if (col>=0 && col < sheet->wb->palette->length)
     {
       printf ("FG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]) ;
       cell_set_foreground (cell, p->red[col], p->green[col], p->blue[col]) ;
@@ -192,7 +220,7 @@ static void ms_excel_set_cell_colors (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF
   else
     printf ("FG col out of range %d\n", col) ;
   col = xf->backgnd_col ;
-  if (p && col>=0 && col < sheet->wb->palette->length)
+  if (col>=0 && col < sheet->wb->palette->length)
     {
       printf ("BG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]) ;
       cell_set_background (cell, p->red[col], p->green[col], p->blue[col]) ;
@@ -214,7 +242,7 @@ static void ms_excel_set_cell_font (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_D
 	{
 	  BIFF_FONT_DATA *fd = ptr->data ;
 	  StyleFont *sf ;
-	  printf ("Found font '%s'\n", fd->fontname) ;
+	  //	  printf ("Found font '%s'\n", fd->fontname) ;
 	  cell_set_font (cell, fd->fontname) ;	  
 	}
       idx++ ;
@@ -238,7 +266,7 @@ static void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx)
       return ;
     }
   ptr = g_list_first (sheet->wb->XF_records) ;
-  printf ("Looking for %d\n", xfidx) ;
+  //  printf ("Looking for %d\n", xfidx) ;
   cnt =  16+5 ; // Magic number ... :-)
   while (ptr)
     {
@@ -250,7 +278,7 @@ static void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx)
 	}
       if (cnt == xfidx) // Well set it up then ! FIXME: hack !
 	{
-	  printf ("Found the style !\n") ;
+	  //	  printf ("Found the style !\n") ;
 	  cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ, 1) ;
 	  ms_excel_set_cell_colors (sheet, cell, xf) ;
 	  ms_excel_set_cell_font (sheet, cell, xf) ;
@@ -423,8 +451,10 @@ static MS_EXCEL_WORKBOOK *new_ms_excel_workbook ()
   MS_EXCEL_WORKBOOK *ans = (MS_EXCEL_WORKBOOK *)malloc(sizeof(MS_EXCEL_WORKBOOK)) ;
   ans->gnum_wb         = NULL ;
   ans->boundsheet_data = NULL ;
+  ans->font_data       = NULL ;
   ans->excel_sheets    = NULL ;
   ans->XF_records      = NULL ;
+  ans->palette         = NULL ;
   return ans ;
 }
 
@@ -454,6 +484,21 @@ static void free_ms_excel_workbook (MS_EXCEL_WORKBOOK *wb)
       ptr = ptr->next ;
     }
   g_list_free (wb->XF_records) ;
+
+  ptr = g_list_first(wb->font_data) ;
+  while (ptr)
+    {
+      BIFF_FONT_DATA *dat ;
+      dat = ptr->data ;
+      free_biff_font_data (dat) ;
+      ptr = ptr->next ;
+    }
+  g_list_free (wb->font_data) ;
+
+  if (wb->palette)
+    free_ms_excel_palette (wb->palette) ;
+
+  free (wb) ;
 }
 
 static void ms_excel_read_cell  (BIFF_QUERY *q, MS_EXCEL_SHEET *sheet)
