@@ -157,7 +157,7 @@ register_vb_function (Workbook         *opt_workbook,
 }
 
 static gboolean
-read_gb (CommandContext      *context,
+read_gb (gpointer            *jody_broke_the_context,
 	 Workbook            *wb,
 	 GBLexerStream       *proj_stream,
 	 GBRunStreamProvider *provider,
@@ -166,7 +166,6 @@ read_gb (CommandContext      *context,
 	GBWorkbookData   *wd;
 	GBProject        *gb_proj;
 
-	g_return_val_if_fail (context != NULL, FALSE);
 	g_return_val_if_fail (proj_stream != NULL, FALSE);
 
 	/* FIXME: leak for Morten */
@@ -253,19 +252,18 @@ stream_provider (GBRunEvalContext *ec,
  * Return value: TRUE on success.
  **/
 static gboolean
-read_ole2_gb (CommandContext *context, Workbook *wb, MsOle *f)
+read_ole2_gb (gpointer *jody_broke_the_context, Workbook *wb, MsOle *f)
 {
 	GBLexerStream *proj_stream;
 
 	g_return_val_if_fail (f != NULL, -1);
 	g_return_val_if_fail (wb != NULL, -1);
-	g_return_val_if_fail (context != NULL, -1);
 
-	proj_stream = gb_project_stream (context, f);
+	proj_stream = gb_project_stream (jody_broke_the_context, f);
 	if (!proj_stream)
 		return TRUE;
 
-	return read_gb (context, wb, proj_stream, stream_provider, f);
+	return read_gb (jody_broke_the_context, wb, proj_stream, stream_provider, f);
 }
 
 static GBLexerStream *
@@ -366,7 +364,7 @@ init_plugin (CommandContext *context, PluginData *pd)
 	proj_name = g_strdup_printf ("%s/gnumeric.gbp", g_get_home_dir ());
 	if (g_file_exists (proj_name)) {
 		proj_stream = file_to_stream (proj_name);
-		if (!read_gb (context, NULL, proj_stream, file_provider, NULL))
+		if (!read_gb (NULL, NULL, proj_stream, file_provider, NULL))
 			g_warning ("Error in project '%s'", proj_name);
 	}
 	g_free (proj_name);

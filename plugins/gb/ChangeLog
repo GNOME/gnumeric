@@ -1,3 +1,8 @@
+2000-11-02  Michael Meeks  <michael@helixcode.com>
+
+	* excel-gb-range.c (excel_gb_range_clear): cripple this function
+	until the command context is sorted out.
+
 2000-10-26  Michael Meeks  <michael@helixcode.com>
 
 	* excel-gb-range.c (excel_gb_range_set_arg): fix.

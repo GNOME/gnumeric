@@ -14,6 +14,7 @@
 #include "cell.h"
 #include "rendered-value.h"
 #include "parse-util.h"
+#include "commands.h"
 #include "command-context-corba.h"
 #include "selection.h"
 
@@ -159,18 +160,9 @@ excel_gb_range_clear (GBRunEvalContext *ec,
 		      GBRunObject      *object,
 		      GBValue         **args)
 {
-	ExcelGBRange   *range = EXCEL_GB_RANGE (object);
-	/* FIXME: we need to have our own evalcontext with this on ! */
-	CommandContext *context= command_context_corba_new ();
+/*	ExcelGBRange *range = EXCEL_GB_RANGE (object);*/
 
-	sheet_clear_region (context, range->sheet,
-			    range->range.start.col,
-			    range->range.start.row,
-			    range->range.end.col,
-			    range->range.end.row,
-			    CLEAR_VALUES | CLEAR_FORMATS | CLEAR_COMMENTS);
-
-	gtk_object_unref (GTK_OBJECT (context));
+	g_warning ("We need a way to cope with the command context");
 
 	return gb_value_new_empty ();
 }

@@ -36,6 +36,6 @@ struct _GBOleStreamClass {
 GtkType        gb_ole_stream_get_type (void);
 GBLexerStream *gb_ole_stream_new      (MsOleVba *vba);
 
-GBLexerStream *gb_project_stream      (CommandContext *ctx, MsOle *f);
+GBLexerStream *gb_project_stream      (gpointer *jody_broke_the_ctx, MsOle *f);
 
 #endif

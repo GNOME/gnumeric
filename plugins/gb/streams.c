@@ -127,14 +127,13 @@ gb_ole_stream_new (MsOleVba *vba)
 
 
 GBLexerStream *
-gb_project_stream (CommandContext *ctx, MsOle *f)
+gb_project_stream (gpointer *jody_broke_the_ctx, MsOle *f)
 {
 	MsOleStream   *s;
 	GBLexerStream *proj_stream;
 	guint8        *data;
 
 	g_return_val_if_fail (f != NULL, NULL);
-	g_return_val_if_fail (ctx != NULL, NULL);
 
 	if (ms_ole_stream_open (&s, f, "/_VBA_PROJECT_CUR", "PROJECT", 'r') !=
 	    MS_OLE_ERR_OK) {
