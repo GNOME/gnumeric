@@ -71,6 +71,8 @@ static void
 layout_view_class_init (GtkObjectClass *object_class)
 {
 	object_class->destroy = layout_view_destroy;
+
+	layout_view_parent_class = gtk_type_class (gnome_view_get_type ());
 }
 
 static void

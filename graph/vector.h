@@ -4,7 +4,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/gnome-object.h>
-#include "src/Gnumeric.h"
+#include "Graph.h"
 
 BEGIN_GNOME_DECLS
 
@@ -16,7 +16,7 @@ BEGIN_GNOME_DECLS
 
 typedef GNOME_Gnumeric_DoubleVec   *(*VectorGetNumFn)(CORBA_short low, CORBA_short high, void *data);
 typedef GNOME_Gnumeric_VecValueVec *(*VectorGetValFn)(CORBA_short low, CORBA_short high, void *data);
-typedef void (*VectorSetFn) (CORBA_short pos, double val, CORBA_Environment *ev, void *data);
+typedef gboolean (*VectorSetFn) (CORBA_short pos, double val, CORBA_Environment *ev, void *data);
 typedef CORBA_short (*VectorLenFn) (void *data);
 typedef CORBA_boolean (*VectorTypeFn)(void *data);
 

@@ -33,6 +33,8 @@ struct _GraphView {
 	 * The Graphic repository
 	 */
 	Graph    *graph;
+
+	GdkGC    *fill_gc, *outline_gc;
 };
 
 typedef struct {

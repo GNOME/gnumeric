@@ -48,11 +48,16 @@ static void
 graph_view_realize (GnomeCanvasItem *item)
 {
 	GraphView *graph_view;
+	GdkWindow *window;
 	
 	if (graph_view_parent_class->realize)
 		(*graph_view_parent_class->realize)(item);
 
 	graph_view = GRAPH_VIEW (item);
+
+	window = GTK_WIDGET (item->canvas)->window;
+	graph_view->outline_gc = gdk_gc_new (window);
+	graph_view->fill_gc = gdk_gc_new (window);
 }
 
 static void

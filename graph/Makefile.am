@@ -47,7 +47,9 @@ graph_LDADD =			\
 	$(INTLLIBS)
 
 sample_SOURCES =		\
-	sample.c
+	sample.c		\
+	vector.c		\
+	vector.h		\
 	$(GRAPH_CORBA_GENERATED)
 
 sample_LDADD =			\

@@ -26,24 +26,6 @@ graph_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (graph_parent_class)->destroy (object);
 }
 
-static void
-graph_update (Graph *graph, int dirty_flags)
-{
-	GSList *l;
-
-	graph->dirty_flags |= dirty_flags;
-
-	if (graph->frozen)
-		return;
-
-	for (l = graph->views; l; l = l->next){
-		GraphView *graph_view = GRAPH_VIEW (l->data);
-
-		graph_view_update (graph_view, graph->dirty_flags);
-	}
-	graph->dirty_flags = 0;
-}
-
 static GNOME_Graph_ChartType
 impl_graph_get_chart_type (PortableServer_Servant servant, CORBA_Environment *ev)
 {
@@ -139,18 +121,10 @@ graph_compute_stacked_dimensions (Graph *graph)
 	graph_set_low_high (graph, low, high);
 }
 
-static void
-impl_graph_set_chart_type (PortableServer_Servant servant,
-			   GNOME_Graph_ChartType value,
-			   CORBA_Environment *ev)
+void
+graph_update_dimensions (Graph *graph)
 {
-	Graph *graph = graph_from_servant (servant);
-
-	if (graph->chart_type == value)
-		return;
-	
-	graph->chart_type = value;
-	switch (value){
+	switch (graph->chart_type){
 	case GNOME_Graph_CHART_TYPE_CLUSTERED:
 		graph_compute_dimensions (graph);
 		break;
@@ -167,6 +141,21 @@ impl_graph_set_chart_type (PortableServer_Servant servant,
 		break;
 	}
 	
+}	
+
+static void
+impl_graph_set_chart_type (PortableServer_Servant servant,
+			   GNOME_Graph_ChartType value,
+			   CORBA_Environment *ev)
+{
+	Graph *graph = graph_from_servant (servant);
+
+	if (graph->chart_type == value)
+		return;
+	
+	graph->chart_type = value;
+
+	graph_update_dimensions (graph);
 	graph_update (graph, DIRTY_TYPE | DIRTY_SHAPE);
 }
 
@@ -482,3 +471,25 @@ graph_new (Layout *layout)
 
 	return graph;
 }
+
+void
+graph_update (Graph *graph, int dirty_flags)
+{
+	GSList *l;
+
+	graph->dirty_flags |= dirty_flags;
+
+	if (graph->frozen)
+		return;
+
+	if (graph->dirty_flags & DIRTY_DATA)
+		graph_update_dimensions (graph);
+		
+	for (l = graph->views; l; l = l->next){
+		GraphView *graph_view = GRAPH_VIEW (l->data);
+
+		graph_view_update (graph_view, graph->dirty_flags);
+	}
+	graph->dirty_flags = 0;
+}
+

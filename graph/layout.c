@@ -83,6 +83,8 @@ impl_add_series (PortableServer_Servant servant, GNOME_Gnumeric_Vector vector, C
 	
 	layout->vectors [layout->n_series] = graph_vector_new (vector, NULL, NULL, 0);
 	layout->n_series++;
+
+	graph_update (layout->graph, DIRTY_DATA);
 }
 
 static void

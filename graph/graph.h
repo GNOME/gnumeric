@@ -58,13 +58,15 @@ typedef struct {
 #define DIRTY_BBOX  1
 #define DIRTY_TYPE  2
 #define DIRTY_SHAPE 4
+#define DIRTY_DATA  8
+#define DIRTY_ALL (DIRTY_BBOX | DIRTY_TYPE | DIRTY_SHAPE | DIRTY_DATA)
 
-#define DIRTY_ALL (DIRTY_BBOX | DIRTY_TYPE | DIRTY_SHAPE)
 
 GtkType      graph_get_type      (void);
 Graph       *graph_new           (Layout *layout);
 
 void         graph_bind_view     (Graph *graph, GraphView *graph_view);
+void         graph_update        (Graph *graph, int dirty_flags);
 
 END_GNOME_DECLS
 

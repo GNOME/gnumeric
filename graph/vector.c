@@ -7,7 +7,7 @@
  * (C) 1999 International GNOME Support
  */
 #include <config.h>
-#include "src/Gnumeric.h"
+#include "Graph.h"
 #include <bonobo/gnome-object.h>
 #include "vector.h"
 
@@ -58,8 +58,11 @@ impl_vector_set (PortableServer_Servant servant, CORBA_short pos,
 		 CORBA_double val, CORBA_Environment *ev)
 {
 	Vector *vec = vector_from_servant (servant);
-
-	vec->set (pos, val, ev, vec->user_data);
+	
+	if (vec->set (pos, val, ev, vec->user_data))
+		return;
+	else
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Vector_Failed, NULL);
 }
 
 static void
