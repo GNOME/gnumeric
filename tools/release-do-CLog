@@ -1,0 +1,38 @@
+#!/usr/bin/perl -w
+
+use strict;
+
+die "$0: must be run from top-level directory.\n"
+    unless -r "configure.in" && -r 'ChangeLog';
+
+my $email = $ARGV[0];
+my $newversion = $ARGV[1];
+die "$0: you must supply an email address and the new version as argument.\n"
+    unless $email && $newversion;
+
+my $name = $ENV{'NAME'};
+die "$0: you must define \$NAME.\n"
+    unless defined $name;
+
+my ($y,$m,$d) = (localtime (time))[5,4,3];
+$y += 1900;
+$m++;
+my $date = sprintf ("%04d-%02d-%02d", $y, $m, $d);
+
+my $entry = "$date  $name <$email>\n\n\t* Release $newversion\n\n";
+
+my @clogs = split (' ', `find . -name ChangeLog -print`);
+foreach my $filename (@clogs) {
+    local (*SRC);
+    local (*DST);
+    print "Updating $filename...\n";
+
+    open (*SRC, "<$filename") || die "$0: failed to read $filename: $!\n";
+    open (*DST, ">$filename.tmp") || die "$0: failed to write $filename.tmp: $!\n";
+    print DST $entry;
+    foreach (<SRC>) { print DST; }
+    close (*DST);
+    close (*SRC);
+
+    rename ("$filename.tmp", $filename);
+}
