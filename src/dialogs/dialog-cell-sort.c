@@ -606,7 +606,7 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 						if (sort_flow.header) {
 							for (i = 0; i < end_col - start_col + 1; i++) {
 								if (!strcmp (txt, g_list_nth_data (sort_flow.colnames_header, i))) {
-									division = i;
+									division = start_col + i;
 									break;
 								}
 							}
@@ -622,7 +622,7 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 						if (sort_flow.header) {
 							for (i = 0; i < end_row - start_row + 1; i++) {
 								if (!strcmp (txt, g_list_nth_data (sort_flow.rownames_header, i))) {
-									division = i;
+									division = start_row + i;
 									break;
 								}
 							}
