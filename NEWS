@@ -8,6 +8,9 @@ Almer:
 	* Equalize the look of all the dialogs.
 	* More work on group/ungroup.
 
+Ariel:
+	* Rewrite guile plugin to use guile 1.5 or later.
+
 Andreas:
 	* Rewrite descriptive statistics, correlation and covariance
 	  analysis improving error checks and labels for data sets.
