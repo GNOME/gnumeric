@@ -12,9 +12,15 @@
 #include "format.h"
 #include "color.h"
 
-#define DEFAULT_FONT      "-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*"
-#define DEFAULT_BOLD_FONT "-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-*-*"
-#define DEFAULT_ITALIC_FONT "-adobe-helvetica-medium-o-normal--*-120-*-*-*-*-*-*"
+#define DEFAULT_FONT \
+	"-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*," \
+	"-*-*-medium-r-normal--12-*-*-*-*-*-*-*,*"
+#define DEFAULT_BOLD_FONT \
+	"-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-*-*," \
+	"-*-*-bold-r-normal--12-*-*-*-*-*-*-*,*"
+#define DEFAULT_ITALIC_FONT \
+	"-adobe-helvetica-medium-o-normal--*-120-*-*-*-*-*-*," \
+	"-*-*-medium-o-normal--12-*-*-*-*-*-*-*,*"
 #define DEFAULT_SIZE 12
 
 static GHashTable *style_format_hash;

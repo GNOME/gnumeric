@@ -1,3 +1,15 @@
+1999-06-01 Akira Higuchi <a-higuti@math.sci.hokudai.ac.jp>
+
+	* src/gnumeric-util.c (font_change_component): Extend the size of
+	the array components[] so that it can handle very long fontset
+	names.
+	
+	* src/style.c: Change the default font names.
+	
+	* src/workbook.c: Add gtk_widget_ensure_style() call, which is
+	necessary to knowing if a fontset is supplied for the label
+	widget.
+
 1999-06-01  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-stat.c (callback_function_trimmean): Cleanup.

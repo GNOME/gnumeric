@@ -123,7 +123,8 @@ range_contains (Range *range, int col, int row)
 char *
 font_change_component (const char *fontname, int idx, char *newvalue)
 {
-	char *components [15];
+	/* FIXME: don't work well for a comma-sepated fontset name */
+	char *components [15*10];
 	char *new = g_strdup (fontname), *res;
 	char *p = new;
 	int  n = 0, i, len;
@@ -134,6 +135,8 @@ font_change_component (const char *fontname, int idx, char *newvalue)
 			*p = 0;
 			p++;
 			components [n++] = p;
+			if (n >= sizeof(components)/sizeof(components[0]))
+				break;
 		}
 	}
 

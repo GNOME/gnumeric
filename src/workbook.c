@@ -1438,6 +1438,7 @@ workbook_setup_auto_calc (Workbook *wb)
 	canvas = gnome_canvas_new ();
 
 	l = gtk_label_new ("Info");
+	gtk_widget_ensure_style (l);
 	
 	/* The canvas that displays text */
 	root = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
