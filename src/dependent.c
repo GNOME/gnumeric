@@ -416,7 +416,7 @@ search_cell_deps (gpointer key, gpointer value, gpointer closure)
 	if (!range_contains (range, c->col, c->row))
 		return;
 
-	for (l = deprange->cell_list; l; l = l->next){
+	for (l = deprange->cell_list; l; l = l->next) {
 		Cell *cell = l->data;
 
 		c->list = g_list_prepend (c->list, cell);

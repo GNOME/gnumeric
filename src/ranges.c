@@ -242,28 +242,6 @@ range_list_foreach_area (Sheet *sheet, GSList *ranges,
 }
 
 /**
- * range_contains:
- * @range: range to operate on
- * @col:   column,
- * @row:   row co-ordinate
- * 
- * Determine if a range contains a col,row co-ordinate.
- * 
- * Return value: TRUE if co-ordinate contained.
- **/
-gboolean inline
-range_contains (Range const *range, int col, int row)
-{
-	if ((row <= range->end.row)   &&
-	    (row >= range->start.row) &&
-	    (col >= range->start.col) &&
-	    (col <= range->end.col))
-		return TRUE;
-
-	return FALSE;
-}
-
-/**
  * range_adjacent:
  * @a: First range
  * @b: Second range

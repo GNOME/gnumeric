@@ -786,8 +786,8 @@ mstyle_set_pattern (MStyle *st, int pattern)
 {
 	g_return_if_fail (st != NULL);
 
-/*	MSTYLE_ELEMENTS (st) [MSTYLE_PATTERN].type = MSTYLE_PATTERN;
-	MSTYLE_ELEMENTS (st) [MSTYLE_PATTERN].u.pattern = pattern;	*/
+	MSTYLE_ELEMENTS (st) [MSTYLE_PATTERN].type = MSTYLE_PATTERN;
+	MSTYLE_ELEMENTS (st) [MSTYLE_PATTERN].u.pattern = pattern;
 }
 
 int

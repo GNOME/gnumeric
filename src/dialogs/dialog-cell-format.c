@@ -42,6 +42,7 @@ static GSList *background_radio_list;
 
 static GtkWidget *foreground_cs;
 static GtkWidget *background_cs;
+static PatternSelector *pattern_selector;
 
 /* Points to the first cell in the selection */
 static Cell *first_cell;
@@ -599,9 +600,9 @@ create_foreground_radio (GtkWidget *prop_win)
 }
 
 static GtkWidget *
-create_background_radio (GtkWidget *prop_win)
+create_background_radio (GtkWidget *prop_win, MStyle *mstyle)
 {
-	GtkWidget *frame, *table, *r1, *r2, *r3, *r4, *p;
+	GtkWidget *frame, *table, *r1, *r2, *r3, *r4;
 	int e = GTK_FILL | GTK_EXPAND;
 	
 	frame = gtk_frame_new (_("Background configuration"));
@@ -628,7 +629,11 @@ create_background_radio (GtkWidget *prop_win)
 	make_color_picker_notify (background_cs, prop_win);
 	
 	/* Create the pattern preview */
-	p = pattern_selector_new (0);
+/*	if (mstyle_is_element_set (mstyle, MSTYLE_PATTERN))
+		pattern_selector = PATTERN_SELECTOR (pattern_selector_new (
+		  mstyle_get_pattern (mstyle)));
+		  else*/
+		pattern_selector = PATTERN_SELECTOR (pattern_selector_new (0));
 	
 	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 4, 2);
@@ -636,7 +641,8 @@ create_background_radio (GtkWidget *prop_win)
 	gtk_table_attach (GTK_TABLE (table), r4, 0, 1, 4, 5, e, 0, 4, 2);
 
 	gtk_table_attach (GTK_TABLE (table), background_cs, 1, 2, 1, 2, 0, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), p, 0, 2, 3, 4, GTK_FILL | GTK_EXPAND, GTK_FILL|GTK_EXPAND, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (pattern_selector), 0, 2, 3, 4,
+			  GTK_FILL | GTK_EXPAND, GTK_FILL|GTK_EXPAND, 0, 0);
 	return frame;
 }
 
@@ -662,7 +668,7 @@ set_color_picker_from_style (GnomeColorPicker *cp, const StyleColor *col)
 
 static GtkWidget *
 create_coloring_page (GtkWidget *prop_win,
-		      MStyle    *style,
+		      MStyle    *mstyle,
 		      GtkWidget **focus_widget)
 {
 	GtkTable *t;
@@ -672,21 +678,21 @@ create_coloring_page (GtkWidget *prop_win,
 	t = (GtkTable *) gtk_table_new (0, 0, 0);
 
 	fore = create_foreground_radio (prop_win);
-	back = create_background_radio (prop_win);
+	back = create_background_radio (prop_win, mstyle);
 
-	if (mstyle_is_element_set (style, MSTYLE_COLOR_FORE) &&
-	    !mstyle_is_element_conflict (style, MSTYLE_COLOR_FORE)) {
+	if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_FORE) &&
+	    !mstyle_is_element_conflict (mstyle, MSTYLE_COLOR_FORE)) {
 		gtk_radio_button_select (foreground_radio_list, 1);
 		set_color_picker_from_style (GNOME_COLOR_PICKER (foreground_cs),
-					     mstyle_get_color (style, MSTYLE_COLOR_FORE));
+					     mstyle_get_color (mstyle, MSTYLE_COLOR_FORE));
 	} else
 		gtk_radio_button_select (foreground_radio_list, 2);
 
-	if (mstyle_is_element_set (style, MSTYLE_COLOR_BACK) &&
-	    !mstyle_is_element_conflict (style, MSTYLE_COLOR_BACK)) {
+	if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK) &&
+	    !mstyle_is_element_conflict (mstyle, MSTYLE_COLOR_BACK)) {
 		gtk_radio_button_select (background_radio_list, 1);
 		set_color_picker_from_style (GNOME_COLOR_PICKER (background_cs),
-					     mstyle_get_color (style, MSTYLE_COLOR_BACK));
+					     mstyle_get_color (mstyle, MSTYLE_COLOR_BACK));
 	} else
 		gtk_radio_button_select (background_radio_list, 3);
 
@@ -704,7 +710,7 @@ create_coloring_page (GtkWidget *prop_win,
 }
 	
 static void
-apply_coloring_format (Sheet *sheet, MStyle *style)
+apply_coloring_format (Sheet *sheet, MStyle *mstyle)
 {
 	double rd, gd, bd, ad;
 	gushort fore_change = FALSE, back_change = FALSE;
@@ -719,7 +725,7 @@ apply_coloring_format (Sheet *sheet, MStyle *style)
 	 * case 0 means no foreground
 	 */
 	case 0:
-		mstyle_unset_element (style, MSTYLE_COLOR_FORE);
+		mstyle_unset_element (mstyle, MSTYLE_COLOR_FORE);
 		fore_change = FALSE;
 		break;
 	/*
@@ -742,14 +748,13 @@ apply_coloring_format (Sheet *sheet, MStyle *style)
 
 	/*
 	 * Now, the background
-	 * FIXME: What is going on with the cell patterns?
 	 */
 	switch (gtk_radio_group_get_selected (background_radio_list)) {
 	/*
 	 * case 0 means no background
 	 */
 	case 0:
-		mstyle_unset_element (style, MSTYLE_COLOR_BACK);
+		mstyle_unset_element (mstyle, MSTYLE_COLOR_BACK);
 		back_change = FALSE;
 		break;
 
@@ -773,7 +778,8 @@ apply_coloring_format (Sheet *sheet, MStyle *style)
 		back_green = 0xffff;
 		back_blue = 0xffff;
 		
-		g_warning ("Pattern rendering unimplemented");
+		if (pattern_selector)
+			mstyle_set_pattern (mstyle, pattern_selector->selected_item);
 		back_change = TRUE;
 		break;
 	/*
@@ -785,11 +791,11 @@ apply_coloring_format (Sheet *sheet, MStyle *style)
 	}
 
 	if (fore_change)
-		mstyle_set_color (style, MSTYLE_COLOR_FORE, 
+		mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, 
 				  style_color_new (fore_red, fore_green, fore_blue));
 
 	if (back_change)
-		mstyle_set_color (style, MSTYLE_COLOR_BACK, 
+		mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, 
 				  style_color_new (back_red, back_green, back_blue));
 }
 

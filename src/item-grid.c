@@ -252,6 +252,24 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 			     x+w, y+h, x, y);
 }
 
+static void
+item_grid_set_gc_stipple (GdkGC *gc, MStyle *mstyle)
+{
+	GdkPixmap *stipple;
+	int p = mstyle_get_pattern (mstyle) - 1;
+
+/*	if (p == 0)*/
+		return;
+
+	stipple = gdk_pixmap_create_from_data (NULL, gnumeric_sheet_patterns
+					       [p].pattern, 8, 8, 1,
+					       &mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color,
+					       &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color);
+	
+	gdk_gc_set_stipple (gc, stipple);
+	gdk_gc_set_fill    (gc, GDK_STIPPLED);
+}
+
 /*
  * Draw a cell.  It gets pixel level coordinates
  *
@@ -286,23 +304,14 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 
 	w = cell->col->pixels;
 	h = cell->row->pixels;
-	if (mstyle_is_element_set (mstyle, MSTYLE_PATTERN)) {
-#if 0
-		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
-		int p = mstyle_get_pattern (mstyle) - 1;
-		/*
-		 * Next two lines are commented since the pattern display code of the cell
-		 * have not been tested (written?)
-		 */
-		gdk_gc_set_stipple (gc, GNUMERIC_SHEET (item->canvas)->patterns [p]);
-		gdk_gc_set_fill    (gc, GDK_STIPPLED);
-#endif
+/*	if (mstyle_is_element_set (mstyle, MSTYLE_PATTERN)) {
+		item_grid_set_gc_stipple (gc, mstyle);
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    x1, y1, w, h);
 				    
 		gdk_gc_set_fill    (gc, GDK_SOLID);
 		gdk_gc_set_stipple (gc, NULL);
-	}
+		}*/
 
 	/* Draw cell contents BEFORE border */
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
@@ -320,19 +329,27 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			    int x, int y)
 {
 	MStyle *mstyle;
+	GdkGC  *gc = item_grid->empty_gc;
 	
 	mstyle = sheet_style_compute (item_grid->sheet, col, row);
 
-/*	if (style->valid_flags & (STYLE_PATTERN | STYLE_FORE_COLOR)) {
-		 FIXME: set the GC here
+/*	if (mstyle_is_element_set (mstyle, MSTYLE_PATTERN)) {
+		item_grid_set_gc_stipple (gc, mstyle);
+		gdk_draw_rectangle (drawable, gc, TRUE,
+				    x + ci->margin_a, y + ri->margin_b,
+				    ci->pixels - ci->margin_b,
+				    ri->pixels - ri->margin_b);
+				    
+		gdk_gc_set_fill    (gc, GDK_SOLID);
+		gdk_gc_set_stipple (gc, NULL);
 		}*/
 
 	if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK) &&
 	    mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)) {
-		gdk_gc_set_foreground (item_grid->empty_gc,
+		gdk_gc_set_foreground (gc,
 				       &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color);
 		gdk_draw_rectangle (
-			drawable, item_grid->empty_gc, TRUE,
+			drawable, gc, TRUE,
 			x + ci->margin_a, y + ri->margin_b,
 			ci->pixels - ci->margin_b,
 			ri->pixels - ri->margin_b);

@@ -10,8 +10,8 @@ Plugin system:
 Number formatting code:
 	Chris Lahey 
 
-Excel file loading code:
-	Michael Meeks (michael@imaginator.com)
+Excel Import / Export, Styles & other engine bits.
+	Michael Meeks (mmeeks@gnu.org)
 
 Financial functions code:
 	Vladimir Vuksan	<vuksan@veus.hr>
@@ -33,3 +33,6 @@ Original CSV code:
 
 Engine & Excel enhancements:
 	Jody Goldberg <jgoldberg@home.com>
+
+Bug killer par excelence,
+	Morten Welinder <terra@diku.dk>

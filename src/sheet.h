@@ -15,10 +15,6 @@ typedef struct {
 typedef struct {
 	CellPos start, end;
 } Range;
-#define range_equal(a,b) (((Range *)(a))->start.row == ((Range *)(b))->start.row && \
-			  ((Range *)(a))->end.row   == ((Range *)(b))->end.row && \
-			  ((Range *)(a))->start.col == ((Range *)(b))->start.col && \
-			  ((Range *)(a))->end.col   == ((Range *)(b))->end.col)
 
 typedef struct {
 	int dummy;
