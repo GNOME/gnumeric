@@ -1,20 +1,60 @@
 
 GNOME Spread Sheet task list
 
+* Parser
+  
+  The parser should understand the Excel syntax for expressions.  This
+is the API we need:
+
+GList *evaluate (Sheet     *sheet, 
+		 char      *expression, 
+		 Type      *result_type,
+		 ValueType *val, 
+		 char      **error_string);
+
+Input values:
+	Sheet		Is the Sheet the cell is part of.
+	expression	Is the expression to be evaluated
+
+Return value:
+	GList *		A list of any cells referenced.
+
+Output values (pointed destination holds result)
+	result_type	Is set us the type of the expression, check
+			the header files for details.
+	val		The val union set properly to the computed expression
+			if no error was set.
+	error_string	if error_string is NULL, then no error was found,
+			otherwise it points to the error string that gets
+			displayed by the spreadsheet.
+
+ The expressions parsed should be compatible with what Excel accepts.
+
 * Information formatting
 
-	Given a structure like this:
+	Given the Cell structure in cell.h:
 
-	struct {
-		int type;	/* string or number */
-		union {
-			char   *string_value;
-			double number_value;
-		}
-	}
+	if the Cell->content_type is either VALUE_INTEGER or VALUE_FLOAT,
+        produce a formatted string based Excel-compatible format.
 
-    And an Excel-like format, render the value with the specified
-format specifier.
+	I should mention again this: The format that the routine takes
+	should be compatible with the Excel format.
+
+	Desired API:
+
+	char *format_number (Value value, GdkColor *computed_color)
+
+	Input values:
+		value	The value that is either a VALUE_INTEGER or
+			a VALUE_FLOAT
+
+	Returned value:
+	char*		The formatted string.
+
+	Other Output values:
+	computed_color	This is a GdkColor set to the color computed
+			by the format_number routine (yes, the format
+			can include colors for certain conditions).
 
 * Engine
 

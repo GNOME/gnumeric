@@ -47,7 +47,7 @@ typedef enum {
 	HALIGN_GENERAL =     1,
 	HALIGN_LEFT    =     2,
 	HALIGN_RIGHT   =     4,
-	HALIGN_CENTER  =     8
+	HALIGN_CENTER  =     8,
 	HALIGN_FILL    =  0x10,
 	HALIGN_JUSTIFY =  0x20
 } StyleHAlignFlags;
@@ -76,26 +76,5 @@ typedef struct {
 	unsigned int valign:4;
 	unsigned int orientation:4;
 } Style;
-
-typedef struct {
-	int   row;
-	int   height;
-	Style style;
-} RowStyle;
-
-typedef struct {
-	int   col;
-	int   width;
-	Style style;
-} ColStyle;
-
-typedef struct {
-	int    sheet;
-	Style  style;
-} SheetStyle;
-
-typedef struct {
-	Style  style;
-} WorkbookStyle;
 
 #endif /* GNUMERIC_STYLE_H */
