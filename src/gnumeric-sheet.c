@@ -15,15 +15,19 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "color.h"
+#include "cursors.h"
 
 #define CURSOR_COL(gsheet) gsheet->sheet_view->sheet->cursor_col
 #define CURSOR_ROW(gsheet) gsheet->sheet_view->sheet->cursor_row
 
 /* Public colors: shared by all of our items in Gnumeric */
+
 GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray;
+
 
 static GnomeCanvasClass *sheet_parent_class;
 static void stop_cell_selection (GnumericSheet *gsheet);
+
 
 static void
 gnumeric_sheet_destroy (GtkObject *object)
@@ -793,21 +797,25 @@ gnumeric_sheet_pattern_t gnumeric_sheet_patterns [GNUMERIC_SHEET_PATTERNS] = {
 	  { 0x80, 0x80, 0x80, 0xff, 0x04, 0x04, 0x04, 0xff } },
 };
 
+
 static void
 gnumeric_sheet_realize (GtkWidget *widget)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
-	GdkWindow *window = widget->window;
+	GdkWindow *window;
 	int i;
 	
 	if (GTK_WIDGET_CLASS (sheet_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (sheet_parent_class)->realize)(widget);
 
+	window = widget->window;
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
 
 	for (i = 0; i < GNUMERIC_SHEET_PATTERNS; i++)
 		gsheet->patterns [i] = gdk_bitmap_create_from_data (
 			window, gnumeric_sheet_patterns [i].pattern, 8, 8);
+
+/*	gdk_window_set_cursor (window, gnumeric_cursors [0]); */
 }
 
 void
@@ -986,6 +994,15 @@ gnumeric_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	(*GTK_WIDGET_CLASS (sheet_parent_class)->size_allocate)(widget, allocation);
 
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (widget));
+}
+
+static gint
+gnumeric_button_press (GtkWidget *widget, GdkEventButton *event)
+{
+	if (!GTK_WIDGET_HAS_FOCUS (widget))
+		gtk_widget_grab_focus (widget);
+
+	return FALSE;
 }
 
 static void

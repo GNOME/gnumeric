@@ -26,7 +26,7 @@ enum {
 	ARG_0,
 	ARG_SHEET,		/* The Sheet * argument */
 	ARG_ITEM_GRID,		/* The ItemGrid * argument */
-	ARG_STYLE               /* The style type */
+	ARG_STYLE,              /* The style type */
 };
 
 static void
@@ -365,7 +365,18 @@ item_cursor_translate (GnomeCanvasItem *item, double dx, double dy)
 	printf ("item_cursor_translate %g, %g\n", dx, dy);
 }
 
-#define convert(c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
+
+static void
+item_cursor_setup_auto_fill (ItemCursor *item_cursor, ItemCursor *parent, int x, int y)
+{
+	item_cursor->base_x = x;
+	item_cursor->base_y = y;
+	
+	item_cursor->base_cols = parent->end_col - parent->start_col;
+	item_cursor->base_rows = parent->end_row - parent->start_row;
+	item_cursor->base_col = parent->start_col;
+	item_cursor->base_row = parent->start_row;
+}
 
 static gint
 item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
@@ -380,8 +391,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		GnomeCanvasGroup *group;
 		int style;
 
-		printf ("cursor: got event\n");
-		convert (canvas, event->button.x, event->button.y, &x, &y);
+		gnome_canvas_w2c (
+			canvas, event->button.x, event->button.y, &x, &y);
 		
 		group = GNOME_CANVAS_GROUP (canvas->root);
 
@@ -400,12 +411,15 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			"ItemCursor::Grid",  item_cursor->item_grid,
 			"ItemCursor::Style", style,
 			NULL);
+
+		if (style == ITEM_CURSOR_AUTOFILL)
+			item_cursor_setup_auto_fill (
+				ITEM_CURSOR (new_item), item_cursor, x, y);
+		
 		item_cursor_set_bounds (
 			ITEM_CURSOR (new_item),
 			item_cursor->start_col, item_cursor->start_row,
 			item_cursor->end_col,   item_cursor->end_row);
-		
-		printf ("Creating new cursor!\n");
 		
 		gnome_canvas_update_now (canvas);
 		gnome_canvas_item_grab (
@@ -561,7 +575,6 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 		
 	switch (event->type){
 	case GDK_BUTTON_RELEASE:
-		printf ("button release\n");
 		gnome_canvas_item_ungrab (item, event->button.time);
 		item_cursor_do_drop (item_cursor, event);
 		gtk_object_destroy (GTK_OBJECT (item));
@@ -574,7 +587,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 		return TRUE;
 
 	case GDK_MOTION_NOTIFY:
-		convert (canvas, event->button.x, event->button.y, &x, &y);
+		gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
 		if (x < 0)
 			x = 0;
 		if (y < 0)
@@ -594,12 +607,48 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static gint
-item_cursor_autofill (GnomeCanvasItem *item, GdkEvent *event)
+item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 {
+	GnomeCanvas *canvas = item->canvas;
+	ItemCursor *item_cursor = ITEM_CURSOR (item);
+	int col, row, x, y;
+	
 	switch (event->type){
-	case GDK_BUTTON_RELEASE:
+	case GDK_BUTTON_RELEASE: {
+		Sheet *sheet = item_cursor->sheet;
+		
 		gnome_canvas_item_ungrab (item, event->button.time);
+		sheet_autofill (sheet, 
+				item_cursor->base_col,  item_cursor->base_row,
+				item_cursor->base_cols, item_cursor->base_rows,
+				item_cursor->end_col,   item_cursor->end_row);
+				
 		gtk_object_destroy (GTK_OBJECT (item));
+		
+		return TRUE;
+	}
+
+	case GDK_MOTION_NOTIFY:
+		gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
+		col = item_grid_find_col (item_cursor->item_grid, x, NULL);
+		row = item_grid_find_row (item_cursor->item_grid, y, NULL);
+
+
+		if ((item_cursor->base_x - x) > (item_cursor->base_y - y)){
+			item_cursor_set_bounds_visibly (
+				item_cursor,
+				item_cursor->base_col,
+				item_cursor->base_row,
+				item_cursor->base_col + item_cursor->base_cols,
+				row);
+		} else {
+			item_cursor_set_bounds_visibly (
+				item_cursor,
+				item_cursor->base_col,
+				item_cursor->base_row,
+				col,
+				item_cursor->base_row + item_cursor->base_rows);
+		}
 		return TRUE;
 
 	default:
@@ -620,7 +669,7 @@ item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 		return item_cursor_drag_event (item, event);
 		
 	case ITEM_CURSOR_AUTOFILL:
-		return item_cursor_autofill (item, event);
+		return item_cursor_autofill_event (item, event);
 		
 	default:
 		return FALSE;

@@ -424,29 +424,58 @@ format_destroy (StyleFormat *format)
 	format->format_list = NULL;  
 }
 
-static char *format_colors [] = {
-	N_("black"),
-	N_("blue"),
-	N_("cyan"),
-	N_("green"),
-	N_("magenta"),
-	N_("red"),
-	N_("white"),
-	N_("yellow"),
-	NULL
+static struct {
+	char       *name;
+	StyleColor *color;
+} format_colors [] = {
+	{ N_("black")   },
+	{ N_("blue")    },
+	{ N_("cyan")    },
+	{ N_("green")   },
+	{ N_("magenta") },
+	{ N_("red")     },
+	{ N_("white")   },
+	{ N_("yellow")  },
+	{ NULL, NULL }
 };
 
-static char *
+void
+format_color_init (void)
+{
+	int i;
+
+	for (i = 0; format_colors [i].name; i++){
+		StyleColor *sc;
+		GdkColor c;
+		
+		gdk_color_parse (format_colors [i].name, &c);
+		sc = style_color_new (c.red, c.green, c.blue);
+		
+		format_colors [i].color = sc;
+	}
+}
+
+void
+format_color_shutdown (void)
+{
+	int i;
+
+	for (i = 0; format_colors [i].name; i++)
+		style_color_unref (format_colors [i].color);
+}
+
+static StyleColor *
 lookup_color (char *str, char *end)
 {
 	int i;
 
-	for (i = 0; format_colors [i]; i++){
-		int len = strlen (format_colors [i]);
+	for (i = 0; format_colors [i].name; i++){
+		int len = strlen (format_colors [i].name);
 
-		if ((strncasecmp (format_colors [i], str, len) == 0) ||
-		    (strncasecmp (_(format_colors [i]), str, len) == 0)){
-			return format_colors [i];
+		if ((strncasecmp (format_colors [i].name, str, len) == 0) ||
+		    (strncasecmp (_(format_colors [i].name), str, len) == 0)){
+			style_color_ref (format_colors [i].color);
+			return format_colors [i].color;
 		}
 	}
 	return NULL;
@@ -1101,15 +1130,15 @@ check_valid (StyleFormatEntry *entry, Value *value)
 }
 
 gchar *
-format_value (StyleFormat *format, Value *value, char **color_name)
+format_value (StyleFormat *format, Value *value, StyleColor **color)
 {
 	char *v = NULL;
 	StyleFormatEntry entry;
 	GList *list;
 	int is_general = 0;
 	
-	if (color_name)
-		*color_name = NULL;
+	if (color)
+		*color = NULL;
 	
 	/* get format */
 	for (list = format->format_list; list; list = g_list_next (list))
@@ -1126,8 +1155,8 @@ format_value (StyleFormat *format, Value *value, char **color_name)
 		char *end = strchr (entry.format, ']');
       
 		if (end){
-			if (color_name)
-				*color_name = lookup_color (&entry.format [1], end);
+			if (color)
+				*color = lookup_color (&entry.format [1], end);
 			entry.format = end+1;
 		}
 	}

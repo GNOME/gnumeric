@@ -26,6 +26,16 @@ typedef struct {
 	int      state;
 	int      tag;
 
+	/*
+	 * for the autofill mode:
+	 * Where the action started (base_x, base_y) and the
+	 * width and heigth of the selection when the autofill
+	 * started
+	 */
+	int      base_x, base_y;
+	int      base_col, base_row;
+	int      base_cols, base_rows;
+	
 	/* Cached values of the last bounding box information used */
 	int      cached_x, cached_y, cached_w, cached_h;
 

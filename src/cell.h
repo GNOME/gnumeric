@@ -23,25 +23,27 @@ typedef struct {
 
 
 typedef struct {
-	void       *sheet;
-	ColRowInfo *col;
-	ColRowInfo *row;
+	void        *sheet;
+	ColRowInfo  *col;
+	ColRowInfo  *row;
 
 	/* Text as entered by the user */
-	String    *entered_text;
+	String     *entered_text;
 	
 	/* Type of the content and the actual parsed content */
-	ExprTree  *parsed_node;	/* Parse tree with the expression */
-	Value     *value;	/* Last value computed */
-	Style     *style;
-	
-	/* computed versions of the cell contents */
-	String    *text;	/* Text rendered and displayed */
-	int       width;	/* Width of text */
-	int       height;	/* Height of text */
+	ExprTree   *parsed_node;	/* Parse tree with the expression */
+	Value      *value;		/* Last value computed */
+	Style      *style;		/* The Cell's style */
 
-	int       flags;
-	char      generation;
+	StyleColor *render_color;       /* If a manually entered color has been selected */
+
+	/* computed versions of the cell contents */
+	String     *text;	/* Text rendered and displayed */
+	int        width;	/* Width of text */
+	int        height;	/* Height of text */
+
+	int        flags;
+	char       generation;
 } Cell;
 
 typedef GList CellList;

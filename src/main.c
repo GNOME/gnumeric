@@ -3,6 +3,7 @@
 #include "gnumeric.h"
 #include "xml-io.h"
 #include "plugin.h"
+#include "format.h"
 #include "color.h"
 
 /* If set, the file to load at startup time */
@@ -42,9 +43,12 @@ main (int argc, char *argv [])
 	color_init ();
 	string_init ();
 	style_init ();
+	format_color_init ();
+	cursors_init ();
 	symbol_init ();
 	constants_init ();
 	functions_init ();
+	autofill_init  ();
 	plugins_init ();
 
 	if (startup_file)
@@ -57,6 +61,8 @@ main (int argc, char *argv [])
 
 	gtk_main ();
 
+	cursors_shutdown ();
+	format_color_shutdown ();
 	return 0;
 }
 

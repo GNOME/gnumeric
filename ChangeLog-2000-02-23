@@ -1,3 +1,29 @@
+1998-09-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_realize): Fix: initilaize
+	the GdkWindow pointer after we have invoked our parent method.
+
+	* src/cursors.c: New file.  Loads the various cursors used by
+	Gnumeric. 
+
+	* src/item-cursor.c (item_cursor_autofill_event): Implement the
+	cursor growing autofill rules. 
+
+1998-09-12  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/workbook.c (workbook_setup_sheets): Dont let the workbooks
+	take the focus.
+	(do_focus_sheet): Do focus the current sheet on
+	page change. 
+	(workbook_setup_signals): Focus the GnumericSheet if no widget has
+	the focus. 
+
+	* src/cell.c (cell_draw): Use the value-specified color.
+
+	* src/format.c (lookup_color, format_color_init,
+	format_color_shutdown): New routines to use StyleColors instead of
+	color names. 
+
 1998-09-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (queue_cell, cell_freeze_redraws, cell_thaw_redraws):

@@ -390,11 +390,21 @@ static GnomeUIInfo workbook_toolbar [] = {
 };
 
 static void
+do_focus_sheet (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, Workbook *wb)
+{
+	workbook_focus_current_sheet (wb);
+}
+
+static void
 workbook_setup_sheets (Workbook *wb)
 {
 	wb->notebook = gtk_notebook_new ();
+	GTK_WIDGET_UNSET_FLAGS (wb->notebook, GTK_CAN_FOCUS);
+	gtk_signal_connect_after (GTK_OBJECT (wb->notebook), "switch_page",
+				  GTK_SIGNAL_FUNC(do_focus_sheet), wb);
+				  
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (wb->notebook), GTK_POS_BOTTOM);
-
+		
 	gtk_table_attach (GTK_TABLE (wb->table), wb->notebook,
 			  0, WB_COLS, WB_EA_SHEETS, WB_EA_SHEETS+1,
 			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
@@ -438,7 +448,6 @@ wb_input_finished (GtkEntry *entry, Workbook *wb)
 {
 	Sheet *sheet;
 	
-	printf ("FOCUS!\n");
 	sheet = workbook_get_current_sheet (wb);
 
 	sheet_set_current_value (sheet);
@@ -595,7 +604,7 @@ change_auto_expr_menu (GtkWidget *widget, GdkEventButton *event, Workbook *wb)
 			gtk_object_set_data (GTK_OBJECT (item), "expr",
 					     quick_compute_routines [i].function);
 			gtk_object_set_data (GTK_OBJECT (item), "name",
-					     quick_compute_routines [i].displayed_name);
+					     _(quick_compute_routines [i].displayed_name));
 		}
 	}
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, 0, NULL, 1, event->time);
@@ -659,6 +668,13 @@ workbook_auto_expr_label_set (Workbook *wb, char *text)
 	g_free (res);
 }
 
+static void
+workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb)
+{
+	if (!window->focus_widget)
+		workbook_focus_current_sheet (wb);
+}
+
 /*
  * Sets up the workbook.
  * Right now it is adding some decorations to the window,
@@ -675,7 +691,7 @@ workbook_new (void)
 	wb->table     = gtk_table_new (0, 0, 0);
 
 	wb->max_iterations = 1;
-	
+
 	workbook_setup_status_area (wb);
 	workbook_setup_edit_area (wb);
 	workbook_setup_sheets (wb);
@@ -683,9 +699,13 @@ workbook_new (void)
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
 	gnome_app_create_toolbar_with_data (GNOME_APP (wb->toplevel), workbook_toolbar, wb);
 	gtk_toolbar_set_style (GTK_TOOLBAR (GNOME_APP (wb->toplevel)->toolbar), GTK_TOOLBAR_ICONS);
+
+	/* Focus handling */
+	gtk_signal_connect_after (
+		GTK_OBJECT (wb->toplevel), "set_focus",
+		GTK_SIGNAL_FUNC (workbook_set_focus), wb);
+
 	
-/*	gtk_accel_group_attach (GTK_OBJECT (wb->toplevel)); */
-		
 	/* Set the default operation to be performed over selections */
 	workbook_set_auto_expr (wb, "SUM", "SUM(SELECTION())");
 
@@ -765,7 +785,7 @@ workbook_new_with_sheets (int sheet_count)
 		Sheet *sheet;
 		char name [80];
 
-		snprintf (name, sizeof (name), "Sheet %d", i);
+		snprintf (name, sizeof (name), _("Sheet %d"), i);
 		sheet = sheet_new (wb, name);
 		workbook_attach_sheet (wb, sheet);
 
@@ -774,10 +794,7 @@ workbook_new_with_sheets (int sheet_count)
 	}
 
 	workbook_focus_current_sheet (wb);
-#if 0
-	focus = SHEET_VIEW (first_sheet->sheet_views->data)->sheet_view;
-	gtk_window_set_focus (GTK_WINDOW (wb->toplevel), focus);
-#endif
+
 	return wb;
 }
 

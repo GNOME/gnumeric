@@ -20,6 +20,8 @@ GNUMERIC_BASE_SOURCES =			\
 	clipboard.h			\
 	color.c				\
 	color.h				\
+	cursors.c			\
+	cursors.h			\
 	dialog-cell-format.c		\
 	dialog-goto-cell.c		\
 	dialog-insert-cells.c		\
@@ -61,6 +63,8 @@ GNUMERIC_BASE_SOURCES =			\
 	plugin-manager.c		\
 	sheet.c				\
 	sheet.h				\
+	sheet-autofill.c		\
+	sheet-autofill.h		\
 	sheet-object.c			\
 	sheet-object.h			\
 	sheet-view.c			\

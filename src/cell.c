@@ -174,14 +174,20 @@ cell_set_rendered_text (Cell *cell, char *rendered_text)
 void
 cell_render_value (Cell *cell)
 {
-	char *color_name;
+	StyleColor *color;
 	char *str;
 	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->value != NULL);
 
-	str = format_value (cell->style->format, cell->value, NULL);
-		
+	if (cell->render_color){
+		style_color_unref (cell->render_color);
+		cell->render_color = NULL;
+	}
+	
+	str = format_value (cell->style->format, cell->value, &color);
+	cell->render_color = color;
+	
 	cell_set_rendered_text (cell, str);
 	g_free (str);
 }
@@ -299,10 +305,13 @@ cell_destroy (Cell *cell)
 		expr_tree_unref (cell->parsed_node);
 	}
 
-	string_unref    (cell->entered_text);
-	string_unref    (cell->text);
-	style_destroy   (cell->style);
-	value_release   (cell->value);
+	if (cell->render_color)
+		style_color_unref (cell->render_color);
+	
+	string_unref  (cell->entered_text);
+	string_unref  (cell->text);
+	style_destroy (cell->style);
+	value_release (cell->value);
 }
 
 void
@@ -833,9 +842,12 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	if (cell->style->valid_flags & STYLE_BACK_COLOR)
 		gdk_gc_set_background (gc, &cell->style->back_color->color);
 
-	if (cell->style->valid_flags & STYLE_FORE_COLOR)
-		gdk_gc_set_foreground (gc, &cell->style->fore_color->color);
-
+	if (cell->render_color)
+		gdk_gc_set_foreground (gc, &cell->render_color->color);
+	else {
+		if (cell->style->valid_flags & STYLE_FORE_COLOR)
+			gdk_gc_set_foreground (gc, &cell->style->fore_color->color);
+	}
 	
 	/* if a number overflows, do special drawing */
 	if (width < cell->width && cell_is_number (cell)){

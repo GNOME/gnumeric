@@ -340,7 +340,7 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 	/* 1.2 Fill the category list */
 	gtk_clist_freeze (GTK_CLIST (number_cat_list));
 	for (i = 0; cell_formats [i].name; i++){
-		char *text [1] = { cell_formats [i].name };
+		char *text [1] = { _(cell_formats [i].name) };
 		
 		gtk_clist_append (GTK_CLIST (number_cat_list), text);
 	}
