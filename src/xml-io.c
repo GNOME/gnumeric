@@ -85,7 +85,6 @@ xml_value_get (xmlNodePtr node, const char *name)
 	return NULL;
 }
 
-#if 0
 /*
  * Get a String value for a node either carried as an attibute or as
  * the content of a child.
@@ -102,7 +101,6 @@ xml_get_value_string (xmlNodePtr node, const char *name)
 	g_free (val);
 	return ret;
 }
-#endif
 
 /*
  * Get an integer value for a node either carried as an attibute or as
@@ -1727,6 +1725,127 @@ xml_write_styles (parse_xml_context_t *ctxt, GList *l)
 	return cur;
 }
 
+static void
+xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree, 
+		 SolverParameters *param)
+{
+	SolverConstraint *c;
+	xmlNodePtr       child;
+	int              col, row;
+	String           *s;
+
+	xml_get_value_int (tree, "TargetCol", &col);
+	xml_get_value_int (tree, "TargetRow", &row);
+	if (col >= 0 && row >= 0)
+	        param->target_cell = sheet_cell_fetch (sheet, col, row);
+
+	xml_get_value_int (tree, "ProblemType", (int *) &param->problem_type);
+	s = xml_get_value_string (tree, "Inputs");
+	param->input_entry_str = g_new (char, strlen (s->str) + 1);
+	strcpy (param->input_entry_str, s->str);
+	string_unref (s);	
+
+	child = xml_search_child (tree, "Constr");
+	param->constraints = NULL;
+	while (child != NULL) {
+	        int type, cols, rows;
+	        c = g_new (SolverConstraint, 1);
+		xml_get_value_int (child, "Lcol", &c->lhs_col);
+		xml_get_value_int (child, "Lrow", &c->lhs_row);
+		xml_get_value_int (child, "Rcol", &c->rhs_col);
+		xml_get_value_int (child, "Rrow", &c->rhs_row);
+		xml_get_value_int (child, "Cols", &cols);
+		xml_get_value_int (child, "Rows", &rows);
+		xml_get_value_int (child, "Type", &type);
+		switch (type) {
+		case 1:
+		        c->type = "<=";
+			break;
+		case 2:
+		        c->type = ">=";
+			break;
+		case 4:
+		        c->type = "=";
+			break;
+		case 8:
+		        c->type = "Int";
+			break;
+		case 16:
+		        c->type = "Bool";
+			break;
+		default:
+		        c->type = "<=";
+			break;
+		}
+		param->constraints = g_slist_append (param->constraints, c);
+		child = xml_search_child (child, "Constr");
+	}
+}
+
+static xmlNodePtr
+xml_write_solver (parse_xml_context_t *ctxt, SolverParameters *param)
+{
+	xmlNodePtr       cur;
+	xmlNodePtr       constr;
+	xmlNodePtr       prev = NULL;
+	SolverConstraint *c;
+	GSList           *constraints;
+	String           *s;
+
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Solver", NULL);
+	if (param->target_cell != NULL) {
+	        xml_set_value_int (cur, "TargetCol",
+				   param->target_cell->col->pos);
+	        xml_set_value_int (cur, "TargetRow",
+				   param->target_cell->row->pos);
+	} else {
+	        xml_set_value_int (cur, "TargetCol", -1);
+	        xml_set_value_int (cur, "TargetRow", -1);
+	}
+
+	xml_set_value_int (cur, "ProblemType", param->problem_type);
+
+	s = string_get (param->input_entry_str);
+	xml_set_value_string (cur, "Inputs", s);
+	string_unref (s);
+
+	constraints = param->constraints;
+	while (constraints) {
+	        c = (SolverConstraint *) constraints->data;
+
+		constr = xmlNewDocNode (ctxt->doc, ctxt->ns, "Constr", NULL);
+		xml_set_value_int (constr, "Lcol", c->lhs_col);
+		xml_set_value_int (constr, "Lrow", c->lhs_row);
+		xml_set_value_int (constr, "Rcol", c->rhs_col);
+		xml_set_value_int (constr, "Rrow", c->rhs_row);
+		xml_set_value_int (constr, "Cols", 1);
+		xml_set_value_int (constr, "Rows", 1);
+
+		if (strcmp (c->type, "<=") == 0)
+		        xml_set_value_int (constr, "Type", 1);
+		else if (strcmp (c->type, ">=") == 0)
+		        xml_set_value_int (constr, "Type", 2);
+		else if (strcmp (c->type, "=") == 0)
+		        xml_set_value_int (constr, "Type", 4);
+		else if (strcmp (c->type, "Int") == 0)
+		        xml_set_value_int (constr, "Type", 8);
+		else if (strcmp (c->type, "Bool") == 0)
+		        xml_set_value_int (constr, "Type", 16);
+		else
+		        xml_set_value_int (constr, "Type", 0);
+
+		if (!prev)
+		        xmlAddChild (cur, constr);
+		else
+		        xmlAddChild (prev, constr);
+
+		prev = constr;
+		constraints = constraints->next;
+	}
+
+	return cur;
+}
+
 /*
  * Create an XML subtree of doc equivalent to the given Sheet.
  */
@@ -1742,6 +1861,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	xmlNodePtr objects;
 	xmlNodePtr printinfo;
 	xmlNodePtr styles;
+	xmlNodePtr solver;
 	GList     *style_regions;
 
 	char str [50];
@@ -1847,6 +1967,13 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	cells = xmlNewChild (cur, ctxt->ns, "Cells", NULL);
 	ctxt->parent = cells;
 	g_hash_table_foreach (sheet->cell_hash, xml_write_cell_to, ctxt);
+
+	/*
+	 * Solver informations
+	 */
+	solver = xml_write_solver (ctxt, &sheet->solver_parameters);
+	if (solver)
+		xmlAddChild (cur, solver);
 
 	return cur;
 }
@@ -2016,6 +2143,13 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 			cells = cells->next;
 		}
 	}
+
+	/*
+	 * Solver informations
+	 */
+	child = xml_search_child (tree, "Solver");
+	if (child != NULL)
+	        xml_read_solver (ret, ctxt, child, &(ret->solver_parameters));
 
 	cell_deep_thaw_redraws ();
 

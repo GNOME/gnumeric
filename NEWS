@@ -4,6 +4,8 @@ Jukka:
 	* Added `>=' and `=' constraint support for the Solver tool.
 	* Added `Int' constraints support by implementing the
 	  Branch-And-Bound algorithm
+	* The Solver parameters are now saved/loaded when the workbook
+	  is saved/loaded
 	* Implemented `Answer Reports' generation for Solver.
 	* Started implementation of `Sensitivity Reports' generation for
 	  Solver

@@ -45,6 +45,7 @@ struct _SolverParameters {
         Cell               *target_cell;
         CellList           *input_cells;
         GSList             *constraints;
+        char               *input_entry_str;
         SolverOptions      options;
 };
 
