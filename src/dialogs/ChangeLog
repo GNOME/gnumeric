@@ -1,3 +1,15 @@
+2004-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-export.glade: add tool tips and new buttons
+	* dialog-stf-export.c (gnm_tree_model_iter_prev): new
+	(move_element): simplify
+	(cb_sheet_up): change arguments of move_element
+	(cb_sheet_down): ditto
+	(cb_sheet_top): new
+	(cb_sheet_bottom): new
+	(stf_export_dialog_sheet_page_init): setup `top' and
+	  `bottom' buttons
+
 2004-10-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=156710

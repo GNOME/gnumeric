@@ -220,6 +220,7 @@
 			  <child>
 			    <widget class="GtkButton" id="sheet_select_all">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Select all non-empty sheets for export.</property>
 			      <property name="can_focus">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -294,6 +295,7 @@
 			  <child>
 			    <widget class="GtkButton" id="sheet_select_none">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Deselect all sheets for export.</property>
 			      <property name="can_focus">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
@@ -379,8 +381,25 @@
 			  <property name="spacing">0</property>
 
 			  <child>
+			    <widget class="GtkButton" id="sheet_top">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Move the selected sheet to the top of the list of to be exported sheets to be exported first.</property>
+			      <property name="can_focus">True</property>
+			      <property name="label">gtk-goto-top</property>
+			      <property name="use_stock">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			      <property name="focus_on_click">True</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+			  <child>
 			    <widget class="GtkButton" id="sheet_up">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Raise the selected sheet in the list of to be exported sheets to be exported earlier.</property>
 			      <property name="can_focus">True</property>
 			      <property name="label">gtk-go-up</property>
 			      <property name="use_stock">True</property>
@@ -397,8 +416,26 @@
 			  <child>
 			    <widget class="GtkButton" id="sheet_down">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Lower the sselected heet in the list of to be exported sheets to be exported later.</property>
 			      <property name="can_focus">True</property>
 			      <property name="label">gtk-go-down</property>
+			      <property name="use_stock">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			      <property name="focus_on_click">True</property>
+			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">False</property>
+			      <property name="fill">False</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkButton" id="sheet_bottom">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Move the selected sheet to the end of the list of to be exported exported sheets to be exported last.</property>
+			      <property name="can_focus">True</property>
+			      <property name="label">gtk-goto-bottom</property>
 			      <property name="use_stock">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
