@@ -2,6 +2,10 @@
 
 	* dialog-function-wizard.c (formula_guru_set_rolled_state) : Functions
 	  with no args can not be rolled.
+	(cb_formula_guru_clicked) : Disengage the guru before finishing the
+	  edit.  Then manually destroy the dialog.  If we do not do this the
+	  act of finished editing destroy the guru too early, and we ignore
+	  the input.
 
 	* names.glade : Use GtkDialog rather than GnomeDialog
 	* dialog-define-names.c (name_guru_init) : Use

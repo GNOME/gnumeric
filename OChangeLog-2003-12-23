@@ -1,5 +1,8 @@
 2000-07-04  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-edit.c (workbook_edit_detach_guru) : Nat having a
+	  guru in place is not an error.
+
 	* src/clipboard.c (x_selection_received) : No need to sheet_update or
 	  recalc.  cmd_paste_copy handles that.
 

@@ -366,8 +366,11 @@ cb_formula_guru_clicked (GtkWidget *button, FormulaGuruState *state)
 		return;
 	}
 
-	/* Accept for OK, reject for cancel */
+	/* Detach BEFORE we finish editing */
+	workbook_edit_detach_guru (state->wb);
 	workbook_finish_editing (state->wb, button == state->ok_button);
+
+	gtk_widget_destroy (state->dialog);
 }
 
 static void

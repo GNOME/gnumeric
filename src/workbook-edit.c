@@ -325,7 +325,9 @@ workbook_edit_detach_guru (Workbook *wb)
 {
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (wb->priv != NULL);
-	g_return_if_fail (wb->priv->edit_line.guru != NULL);
+
+	if (wb->priv->edit_line.guru == NULL)
+		return;
 
 	workbook_set_entry (wb, NULL);
 	wb->priv->edit_line.guru = NULL;
