@@ -1,4 +1,4 @@
-<sect1>
+<sect1 id="worksheet">
   <title>The Worksheet</title>
   
   <para>After opening up gnumeric, you're presented with a view of a
@@ -106,7 +106,7 @@
 	  <listitem><para>Select every cell in the worksheet.</para></listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><guisubmenu>Clear -></guisubmenu></term>
+	  <term><guisubmenu>Clear -&gt;</guisubmenu></term>
 	  <listitem>
 	    <para>
 	      <variablelist>
@@ -204,7 +204,7 @@
       </varlistentry>
 
       <varlistentry>
-	<term
+	<term>
 	  <guiicon><inlinegraphic fileref="images/stock-save.png"></inlinegraphic>
 	    Save
 	  </guiicon>
