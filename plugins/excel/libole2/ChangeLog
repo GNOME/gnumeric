@@ -1,3 +1,7 @@
+1999-09-27  Arturo Tena <arturo@directmail.org>
+
+	* Makefile.am: install missing headers.
+
 1999-09-26  Arturo Tena <arturo@directmail.org>
 
 	* ms-ole.c (characterise_block): Added recognized block type.

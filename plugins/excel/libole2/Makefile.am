@@ -18,7 +18,10 @@ libole2_la_SOURCES =		\
 	$(libole2_sources)
 
 libole2includedir      = $(includedir)/libole2
-libole2include_HEADERS = ms-ole.h
+libole2include_HEADERS =	\
+	libole2.h		\
+	ms-ole-summary.h	\
+	ms-ole.h
 
 else
 lib_LIBRARIES = libole2.a
