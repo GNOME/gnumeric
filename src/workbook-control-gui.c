@@ -3668,23 +3668,24 @@ wbcg_finalize (GObject *obj)
 }
 
 static gboolean
-cb_scroll_wheel_support (GtkWidget *ignored, GdkEventButton *button,
+cb_scroll_wheel_support (GtkWidget *ignored, GdkEventScroll *event,
 			 WorkbookControlGUI *wbcg)
 {
 	/* scroll always operates on pane 0 */
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	GnumericCanvas *gcanvas = scg_pane (scg, 0);
 
-	if (button->button != 4 && button->button != 5)
+	if (!GTK_WIDGET_REALIZED (ignored))
 		return FALSE;
 
 	/* Roll Up or Left */
 	/* Roll Down or Right */
-	if ((button->state & GDK_MOD1_MASK)) {
+	if ((event->state & GDK_MOD1_MASK)) {
 		int col = (gcanvas->last_full.col - gcanvas->first.col) / 4;
 		if (col < 1)
 			col = 1;
-		if (button->button == 4)
+		if (event->direction == GDK_SCROLL_UP ||
+		    event->direction == GDK_SCROLL_LEFT)
 			col = gcanvas->first.col - col;
 		else
 			col = gcanvas->first.col + col;
@@ -3693,7 +3694,8 @@ cb_scroll_wheel_support (GtkWidget *ignored, GdkEventButton *button,
 		int row = (gcanvas->last_full.row - gcanvas->first.row) / 4;
 		if (row < 1)
 			row = 1;
-		if (button->button == 4)
+		if (event->direction == GDK_SCROLL_UP ||
+		    event->direction == GDK_SCROLL_LEFT)
 			row = gcanvas->first.row - row;
 		else
 			row = gcanvas->first.row + row;
@@ -4293,7 +4295,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		"set_focus",
 		G_CALLBACK (wbcg_set_focus), wbcg);
 	g_signal_connect (G_OBJECT (wbcg->toplevel),
-		"button-release-event",
+		"scroll-event",
 		G_CALLBACK (cb_scroll_wheel_support), wbcg);
 	g_signal_connect (G_OBJECT (wbcg->toplevel),
 		"realize",

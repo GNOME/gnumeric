@@ -608,12 +608,3 @@ stf_dialog_result_free (DialogStfResult_t *dialogresult)
 
 	g_free (dialogresult);
 }
-
-
-
-
-
-
-
-
-
