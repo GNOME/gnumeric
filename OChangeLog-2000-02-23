@@ -1,3 +1,8 @@
+1999-09-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/widgets/gnumeric-toolbar.c (gnumeric_toolbar_class_init):
+	Parent class is GtkToolbar, not itself.
+
 1999-09-17  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/workbook.c (create_format_toolbar): Make the size of the
