@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.54\n"
-"POT-Creation-Date: 2000-06-18 23:27-0400\n"
-"PO-Revision-Date: 2000-05-23 20:31+02:00\n"
+"POT-Creation-Date: 2000-06-19 21:04+0200\n"
+"PO-Revision-Date: 2000-06-19 21:02+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -123,11 +123,11 @@ msgstr "Passordbeskyttede arbeidsbÅ¯ker er ikke stÅ¯ttet ennÅÂ."
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finne en gyldig MS Excel arbeidsbok"
 
-#: plugins/excel/ms-excel-write.c:3374
+#: plugins/excel/ms-excel-write.c:3383
 msgid "Too many rows for this format"
 msgstr "For mange rader for dette formatet"
 
-#: plugins/excel/ms-excel-write.c:3457
+#: plugins/excel/ms-excel-write.c:3466
 msgid "Can't open stream for writing\n"
 msgstr "Kan ikke ÅÂpne strÅ¯mmen for skriving\n"
 
@@ -1053,37 +1053,34 @@ msgid "Error"
 msgstr "Feil"
 
 #: src/clipboard.c:127
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"Dette omrÅÂdet kan ikke limes inn i utvalget fordi det \n"
-"har en forskjellig form (%dRx%dC vs %dRx%dC)\n"
+"mÂlet er ikke en lik multippel av kildekolonner (%d mot %d)\n"
 "\n"
-"PrÅ¯v ÅÂ velg en enkel celle eller et omrÅÂde med samme form og stÅ¯rrelse."
+"Pr¯v Â velge en enkel celle eller et omrÂde med samme form og st¯rrelse."
 
 #: src/clipboard.c:130 src/clipboard.c:141 src/clipboard.c:148
-#, fuzzy
 msgid "Unable to paste"
-msgstr "Kunne ikke kjÅ¯re mmap pÅÂ filen"
+msgstr "Kunne ikke lime inn"
 
 #: src/clipboard.c:138
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"Dette omrÅÂdet kan ikke limes inn i utvalget fordi det \n"
-"har en forskjellig form (%dRx%dC vs %dRx%dC)\n"
+"mÂlet er ikke en lik multippel av kilderader (%d mot %d)\n"
 "\n"
-"PrÅ¯v ÅÂ velg en enkel celle eller et omrÅÂde med samme form og stÅ¯rrelse."
+"Pr¯v Â velge en enkel celle eller et omrÂde med samme form og st¯rrelse."
 
 #: src/clipboard.c:149
 msgid "result passes the sheet boundary"
-msgstr ""
+msgstr "resulatet gÂr utenfor arkgrensen"
 
 #: src/clipboard.c:397
 msgid "Error while trying to pre-convert clipboard data"
@@ -1098,21 +1095,19 @@ msgid "Parse error while trying to parse data into cellregion"
 msgstr "Fortolkningsfeil under forsÅ¯k pÅÂ ÅÂ lese data inn i celleregionen"
 
 #: src/cmd-edit.c:313
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n"
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"Dette omrÅÂdet kan ikke limes inn i utvalget fordi det \n"
-"har en forskjellig form (%dRx%dC vs %dRx%dC)\n"
+"mÂlet har en annen form (%dRx%dC) enn kilden (%dRx%dC)\n"
 "\n"
-"PrÅ¯v ÅÂ velg en enkel celle eller et omrÅÂde med samme form og stÅ¯rrelse."
+"Pr¯v Â velge en enkel celle eller et omrÂde med samme form og st¯rrelse."
 
 #: src/cmd-edit.c:318
-#, fuzzy
 msgid "Unable to paste into selection"
-msgstr "Kunne ikke kjÅ¯re mmap pÅÂ filen"
+msgstr "Kunne ikke lime inn i utvalget"
 
 #: src/cmd-edit.c:355 src/workbook.c:1534
 msgid "Paste"
@@ -1120,12 +1115,11 @@ msgstr "Lim inn"
 
 #: src/command-context.c:116
 msgid "Would split an array."
-msgstr ""
+msgstr "Vil dele en tabell."
 
 #: src/commands.c:409 src/commands.c:506
-#, fuzzy
 msgid "Set Text"
-msgstr "Enkel tekst"
+msgstr "Sett tekst"
 
 #: src/commands.c:433
 #, c-format
@@ -1179,14 +1173,13 @@ msgid "Deleting row %d"
 msgstr "Sletter rad %d"
 
 #: src/commands.c:918
-#, fuzzy
 msgid "Undo Clear"
-msgstr "TÅ¯m"
+msgstr "Angre t¯m"
 
 #. TODO : Something more descriptive ? maybe the range name
 #: src/commands.c:989 src/sheet.c:2364
 msgid "Clear"
-msgstr "TÅ¯m"
+msgstr "T¯m"
 
 #: src/commands.c:1177
 msgid "Format cells"
@@ -1195,7 +1188,7 @@ msgstr "Formater celler"
 #: src/commands.c:1248
 #, c-format
 msgid "Rename sheet '%s' '%s'"
-msgstr "Endre navn pÅÂ ark '%s' '%s'"
+msgstr "Endre navn pÂ ark '%s' '%s'"
 
 #. FIXME : the '>' prefix is intended to give the translators
 #. * a chance to provide a locale specific date format.
@@ -1214,9 +1207,8 @@ msgid ">hh:mm"
 msgstr ">tt:mm"
 
 #: src/commands.c:1378
-#, fuzzy
 msgid "Set Date/Time"
-msgstr "Dato / Klokkeslett"
+msgstr "Sett dato/klokkeslett"
 
 #: src/commands.c:1393
 #, c-format
@@ -1229,14 +1221,12 @@ msgid "Setting current time in %s"
 msgstr "Setter aktiv tid i %s"
 
 #: src/commands.c:1490
-#, fuzzy
 msgid "Setting width of columns"
-msgstr "Setter hÅ¯yden for kolonne %s"
+msgstr "Setter bredden for kolonnene"
 
 #: src/commands.c:1491
-#, fuzzy
 msgid "Setting height of rows"
-msgstr "Setter hÅ¯yden for rad %d"
+msgstr "Setter h¯yden for radene"
 
 #: src/commands.c:1585
 #, c-format
@@ -1271,7 +1261,7 @@ msgstr "Limer inn i %s"
 
 #: src/commands.c:2099
 msgid "Autofill"
-msgstr ""
+msgstr "Autofyll"
 
 #: src/corba-args.c:33
 msgid "Oaf options"
@@ -2270,14 +2260,12 @@ msgid "Sort"
 msgstr "SortÅÈr"
 
 #: src/dialogs/cell-sort.glade.h:13
-#, fuzzy
 msgid "Right-Left"
-msgstr "HÅ¯yre"
+msgstr "H¯yre-venstre"
 
 #: src/dialogs/cell-sort.glade.h:14
-#, fuzzy
 msgid "Top-Bottom"
-msgstr "Nederst"
+msgstr "Topp-bunn"
 
 #: src/dialogs/cell-sort.glade.h:15
 msgid "Advanced Sort Options"
@@ -2285,7 +2273,7 @@ msgstr "Avanserte alternativer for sortering"
 
 #: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:600
 msgid "Sort by"
-msgstr "SortÅÈr etter"
+msgstr "Sorter etter"
 
 #: src/dialogs/cell-sort.glade.h:17 src/solver-lp.c:1059 src/solver-lp.c:1111
 msgid "Value"
@@ -2297,11 +2285,11 @@ msgstr "Tekst"
 
 #: src/dialogs/cell-sort.glade.h:19
 msgid "Entries are"
-msgstr "OppfÅ¯ringer er"
+msgstr "Oppf¯ringer er"
 
 #: src/dialogs/cell-sort.glade.h:20
 msgid "Case sensitive"
-msgstr "FÅ¯lsomme for smÅÂ-/store bokstaver"
+msgstr "F¯lsomme for smÂ-/store bokstaver"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -2507,9 +2495,8 @@ msgid "You should introduce a valid cell range in 'Input Range:'"
 msgstr "Du mÅÂ oppgi et gyldig celleomrÅÂde i 'InndataomrÅÂde:'"
 
 #: src/dialogs/dialog-analysis-tools.c:516
-#, fuzzy
 msgid "Output options:"
-msgstr "Utskriftsalternativer"
+msgstr "Utskriftsalternativer:"
 
 #: src/dialogs/dialog-analysis-tools.c:518
 msgid "New Sheet"
@@ -2747,9 +2734,9 @@ msgid "delete cells"
 msgstr "slett celler"
 
 #: src/dialogs/dialog-function-wizard.c:323
-#, fuzzy, c-format
+#, c-format
 msgid "Value%d"
-msgstr "Verdi"
+msgstr "Verdi%d"
 
 #: src/dialogs/dialog-function-wizard.c:330 src/functions/fn-string.c:1337
 msgid "String"
@@ -3168,18 +3155,16 @@ msgstr ""
 "linjen."
 
 #: src/dialogs/dialog-stf.glade.h:10
-#, fuzzy
 msgid "Formatting options"
-msgstr "Utskriftsalternativer"
+msgstr "Formateringssalternativer"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "Trim :"
-msgstr ""
+msgstr "Trim:"
 
 #: src/dialogs/dialog-stf.glade.h:12
-#, fuzzy
 msgid "Original data type :"
-msgstr "Original datatype"
+msgstr "Original datatype:"
 
 #: src/dialogs/dialog-stf.glade.h:13
 msgid ""
@@ -3188,6 +3173,10 @@ msgid ""
 "On left side only\n"
 "On right side only\n"
 msgstr ""
+"Alltid (Begge sider)\n"
+"Aldri\n"
+"Kun pÂ venstre side\n"
+"Kun pÂ h¯yre side\n"
 
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "_Separated"
@@ -3198,9 +3187,8 @@ msgid "Fixed wi_dth"
 msgstr "Fast bre_dde"
 
 #: src/dialogs/dialog-stf.glade.h:20
-#, fuzzy
 msgid "Lines to import"
-msgstr "%d linjer ÅÂ importere"
+msgstr "Linjer som skal importeres"
 
 #: src/dialogs/dialog-stf.glade.h:21
 msgid "Fr_om line :"
@@ -3289,7 +3277,7 @@ msgstr "S_e pÅÂ to separatorer som en"
 
 #: src/dialogs/dialog-stf.glade.h:40
 msgid "_Adjacent quotes escaped"
-msgstr ""
+msgstr "_Etterf¯lgende hermetegn overses"
 
 #: src/dialogs/dialog-stf.glade.h:41
 msgid "Te_xt indicator : "
@@ -3351,9 +3339,8 @@ msgid "_Format :"
 msgstr "_Format:"
 
 #: src/dialogs/dialog-workbook-attr.c:165
-#, fuzzy
 msgid "Workbook Attributes"
-msgstr "Endre atributtene for arbeidsboken"
+msgstr "Atributter for arbeidsbok"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3438,9 +3425,8 @@ msgstr "AaBbCcDdEe12345"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/formula-guru.glade.h:7
-#, fuzzy
 msgid "Formula Guru"
-msgstr "Formel"
+msgstr "Formelguru"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3599,173 +3585,173 @@ msgstr "_Juster til"
 msgid "_Fit to:"
 msgstr "_Tilpass til:"
 
-#: src/dialogs/print.glade.h:14
-#, c-format
-msgid "% of normal size"
-msgstr "% av normal stÅ¯rrelse"
-
 #: src/dialogs/print.glade.h:15
+#, no-c-format
+msgid "% of normal size"
+msgstr "% av normal st¯rrelse"
+
+#: src/dialogs/print.glade.h:16
 msgid "page(s) wide by"
 msgstr "side(r) bredere med "
 
-#: src/dialogs/print.glade.h:16
-msgid "tall"
-msgstr "hÅ¯y"
-
 #: src/dialogs/print.glade.h:17
-msgid "Fi_rst page number:"
-msgstr "F_Å¯rste sidenummer:"
+msgid "tall"
+msgstr "h¯y"
 
 #: src/dialogs/print.glade.h:18
+msgid "Fi_rst page number:"
+msgstr "F¯_rste sidenummer:"
+
+#: src/dialogs/print.glade.h:19
 msgid "Page"
 msgstr "Side"
 
-#: src/dialogs/print.glade.h:19
+#: src/dialogs/print.glade.h:20
 msgid "Center on page"
 msgstr "Senter pÅÂ siden"
 
-#: src/dialogs/print.glade.h:20
+#: src/dialogs/print.glade.h:21
 msgid "_Horizontally"
 msgstr "_Horisontalt"
 
-#: src/dialogs/print.glade.h:21
+#: src/dialogs/print.glade.h:22
 msgid "_Vertically"
 msgstr "_Vertikalt"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:23
 msgid "_Left:"
 msgstr "_Venstre:"
 
-#: src/dialogs/print.glade.h:23
-#, fuzzy
-msgid "_Right:"
-msgstr "_HÅ¯yre"
-
 #: src/dialogs/print.glade.h:24
-#, fuzzy
-msgid "_Units:"
-msgstr "_Med:"
+msgid "_Right:"
+msgstr "H¯y_re:"
 
 #: src/dialogs/print.glade.h:25
+msgid "_Units:"
+msgstr "_Enheter:"
+
+#: src/dialogs/print.glade.h:26
 msgid ""
 "pts\n"
 "mm\n"
 "cm\n"
 "In\n"
 msgstr ""
-
-#: src/dialogs/print.glade.h:30
-msgid "_Top:"
-msgstr "Åÿ_verst:"
+"pts\n"
+"mm\n"
+"cm\n"
+"in\n"
 
 #: src/dialogs/print.glade.h:31
+msgid "_Top:"
+msgstr "ÿ_verst:"
+
+#: src/dialogs/print.glade.h:32
 msgid "He_ader:"
 msgstr "To_pptekst:"
 
-#: src/dialogs/print.glade.h:32
-#, fuzzy
-msgid "_Footer:"
-msgstr "_Bunntekst"
-
 #: src/dialogs/print.glade.h:33
+msgid "_Footer:"
+msgstr "_Bunntekst:"
+
+#: src/dialogs/print.glade.h:34
 msgid "_Bottom:"
 msgstr "_Nederst:"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:35
 msgid "Paper _size:"
 msgstr "Papir_stÅ¯rrelse:"
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:36
 msgid "Margins"
 msgstr "Marger"
 
-#: src/dialogs/print.glade.h:36 src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:37 src/dialogs/print.glade.h:42
 msgid "sample goes here"
 msgstr "eksempel kommer her"
 
-#: src/dialogs/print.glade.h:37
+#: src/dialogs/print.glade.h:38
 msgid "Header"
 msgstr "Topptekst"
 
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:39
 msgid "Customize _header"
 msgstr "Rediger _topptekst"
 
-#: src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:40
 msgid "Customize _footer"
 msgstr "Rediger _bunntekst"
 
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:41
 msgid "Footer:"
 msgstr "Bunntekst:"
 
-#: src/dialogs/print.glade.h:42
+#: src/dialogs/print.glade.h:43
 msgid "Headers and footers"
 msgstr "Topp- og bunntekst"
 
-#: src/dialogs/print.glade.h:43
+#: src/dialogs/print.glade.h:44
 msgid "Print _area:"
 msgstr "Utskrifts_omrÅÂde:"
 
-#: src/dialogs/print.glade.h:44
+#: src/dialogs/print.glade.h:45
 msgid "Titles to print"
 msgstr "Titler som skal skrives ut"
 
-#: src/dialogs/print.glade.h:45
+#: src/dialogs/print.glade.h:46
 msgid "_Columns to repeat on the left side:"
 msgstr "_Kolonner som skal repeteres pÅÂ venstre side:"
 
-#: src/dialogs/print.glade.h:46
+#: src/dialogs/print.glade.h:47
 msgid "_Rows to repeat on the upper region:"
 msgstr "_Rader som skal repeteres i Å¯vre region:"
 
-#: src/dialogs/print.glade.h:47 src/dialogs/print.glade.h:56
+#: src/dialogs/print.glade.h:48 src/dialogs/print.glade.h:57
 #: src/workbook.c:1519
 msgid "Print"
 msgstr "Skriv ut"
 
-#: src/dialogs/print.glade.h:48
+#: src/dialogs/print.glade.h:49
 msgid "Row and co_lumn headings"
 msgstr "Rad og kolonnetitler"
 
-#: src/dialogs/print.glade.h:49 src/workbook.c:1198
+#: src/dialogs/print.glade.h:50 src/workbook.c:1198
 msgid "Co_mments"
 msgstr "Ko_mmentarer"
 
-#: src/dialogs/print.glade.h:50
+#: src/dialogs/print.glade.h:51
 msgid "_Grid lines"
 msgstr "_Linjer for rutenett"
 
-#: src/dialogs/print.glade.h:51
+#: src/dialogs/print.glade.h:52
 msgid "_Black and white"
 msgstr "_Sort / Hvitt"
 
-#: src/dialogs/print.glade.h:52
+#: src/dialogs/print.glade.h:53
 msgid "Page order"
 msgstr "SiderekkefÅ¯lge"
 
-#: src/dialogs/print.glade.h:53
+#: src/dialogs/print.glade.h:54
 msgid "_Down, then right"
 msgstr "Ne_d, sÅÂ til hÅ¯yre"
 
-#: src/dialogs/print.glade.h:54
+#: src/dialogs/print.glade.h:55
 msgid "R_ight, then down"
 msgstr "HÅ¯_yre, sÅÂ ned"
 
-#: src/dialogs/print.glade.h:55 src/functions/fn-sheet.c:105
+#: src/dialogs/print.glade.h:56 src/functions/fn-sheet.c:105
 #: src/workbook.c:768
 msgid "Sheet"
 msgstr "Ark"
 
-#: src/dialogs/print.glade.h:57 src/print.c:987 src/workbook.c:1176
+#: src/dialogs/print.glade.h:58 src/print.c:987 src/workbook.c:1176
 #: src/workbook.c:1522
 msgid "Print preview"
 msgstr "ForhÅÂndsvisning"
 
-#: src/dialogs/print.glade.h:58
-#, fuzzy
+#: src/dialogs/print.glade.h:59
 msgid "Options"
-msgstr "_Alternativer"
+msgstr "Alternativer"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -4338,14 +4324,12 @@ msgid "mmm-yyyy"
 msgstr "mmm-yyyy"
 
 #: src/formats.c:75
-#, fuzzy
 msgid "mmmm-yy"
-msgstr "mmm-yy"
+msgstr "mmmm-yy"
 
 #: src/formats.c:76
-#, fuzzy
 msgid "mmmm-yyyy"
-msgstr "mmm-yyyy"
+msgstr "mmmm-yyyy"
 
 #: src/formats.c:77 src/formats.c:98
 msgid "m/d/yy h:mm"
@@ -4389,12 +4373,11 @@ msgstr "yyyy-mmm-dd"
 
 #: src/formats.c:87
 msgid "yy"
-msgstr ""
+msgstr "yy"
 
 #: src/formats.c:88
-#, fuzzy
 msgid "yyyy"
-msgstr "m/d/yyyy"
+msgstr "yyyy"
 
 #: src/formats.c:94
 msgid "h:mm AM/PM"
@@ -5808,17 +5791,6 @@ msgstr ""
 "@DESCRIPTION=DAVERAGE-funksjonen returnerer gjennomsnittet av verdiene i en "
 "liste eller en database som passer til de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:499
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5830,16 +5802,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,felt,kriterie)\n"
 "@DESCRIPTION=DCOUNT-funksjonen teller cellene som inneholder tall i en "
 "database som passer de oppgitte betingelsene. \n"
-
-#: src/functions/fn-database.c:568
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5853,16 +5815,6 @@ msgstr ""
 "@DESCRIPTION=DCOUNTA-funksjonen teller cellene som inneholder data i en "
 "database som passer de oppgitte betingelsene. \n"
 
-#: src/functions/fn-database.c:629
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5874,17 +5826,6 @@ msgstr ""
 "@SYNTAX=DGET(database,felt,kriterie)\n"
 "@DESCRIPTION=DGET-funksjonen returnerer en enkelt verdi fra en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:687
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -5898,16 +5839,6 @@ msgstr ""
 "@DESCRIPTION=DMAX-funksjonen returnerer det stÅ¯rste tallet i en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:755
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5920,15 +5851,6 @@ msgstr ""
 "@DESCRIPTION=DMIN-funksjonen returnerer det minste tallet i en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:826
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -5940,14 +5862,6 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,felt,kriterie)\n"
 "@DESCRIPTION=DPRODUCT-funksjonen returnerer produktet av tallene i en "
 "kolonne som tilfredstiller de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:896
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -5963,15 +5877,6 @@ msgstr ""
 "en populasjon basert pÅÂ et utvalg. Populasjonen bestÅÂr av tall som til- "
 "fredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:964
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5986,15 +5891,6 @@ msgstr ""
 "basert pÅÂ hele populasjonen. Populasjonenen bestÅÂr av tall som til- "
 "fredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:1030
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -6006,15 +5902,6 @@ msgstr ""
 "@SYNTAX=DSUM(database,felt,kriterie)\n"
 "@DESCRIPTION=DSUM-funksjonen returnerer summen av tallene i en kolonne som "
 "mÅ¯ter de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:1097
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -6030,15 +5917,6 @@ msgstr ""
 "basert pÅÂ et utvalg. Populasjonene bestÅÂr av tall som mÅ¯ter de "
 "spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:1165
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -6052,15 +5930,6 @@ msgstr ""
 "@DESCRIPTION=DVARP-funksjonen returnerer variansen til en populasjon basert "
 "pÅÂ hele populasjonene. Populasjonene bestÅÂr av tall som mÅ¯ter de "
 "spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:1233
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -13961,9 +13830,8 @@ msgstr ""
 "Det er sannsynligvis for en annen versjon av Gnumeric enn '%s'."
 
 #: src/plugin.c:184
-#, fuzzy
 msgid "Plugin is still in use."
-msgstr "Tillegget er fremdeles i bruk.\n"
+msgstr "Tillegget er fremdeles i bruk."
 
 #: src/print-info.c:21 src/print-info.c:24 src/print-info.c:25
 #: src/print-info.c:274
@@ -14061,14 +13929,12 @@ msgid "S_heets"
 msgstr "Ar_k"
 
 #: src/print.c:998
-#, fuzzy
 msgid "Printing failed"
-msgstr "Manglende fil %s"
+msgstr "Feil ved utskrift"
 
 #: src/selection.c:150
-#, fuzzy
 msgid "cannot be performed with multiple selections"
-msgstr "Kommandoen '%s' kan ikke utfÅ¯res pÅÂ flere utvalg"
+msgstr "kan ikke utf¯res pÂ flere utvalg"
 
 #. FIXME FIXME : disable copying part of an array
 #: src/selection.c:576
@@ -14112,24 +13978,20 @@ msgid "Internal ERROR"
 msgstr "Intern FEIL"
 
 #: src/sheet.c:2845 src/sheet.c:2854
-#, fuzzy
 msgid "Insert Columns"
-msgstr "Sett inn _kolonn(er)"
+msgstr "Sett inn kolonner"
 
 #: src/sheet.c:2924
-#, fuzzy
 msgid "Delete Columns"
-msgstr "Slett _kolonn(er)"
+msgstr "Slett kolonner"
 
 #: src/sheet.c:2993 src/sheet.c:3002
-#, fuzzy
 msgid "Insert Rows"
 msgstr "Sett inn rader"
 
 #: src/sheet.c:3072
-#, fuzzy
 msgid "Delete Rows"
-msgstr "Slett _rad(er)"
+msgstr "Slett rader"
 
 #: src/solver-lp.c:889
 msgid "Answer Report"
@@ -14279,7 +14141,7 @@ msgstr "Tekstfil eksport (*.csv)"
 
 #: src/style.c:444 src/style.c:446
 msgid "<Has not been set>"
-msgstr ""
+msgstr "<Er ikke satt>"
 
 #: src/style.c:449
 #, fuzzy, c-format
@@ -14318,11 +14180,11 @@ msgstr ""
 
 #: src/style.c:466
 msgid "does not have a valid entry for Helvetica"
-msgstr ""
+msgstr "finner ikke en gyldig oppf¯ring for Helvetica"
 
 #: src/style.c:467
 msgid "could not be found in the expected location"
-msgstr ""
+msgstr "kunne ikke finnes pÂ forventet lokasjon"
 
 #: src/value.c:545
 msgid "Terminate"
@@ -14509,9 +14371,8 @@ msgstr "Du oppga en ugyldig verdi for radhÅ¯yde. Den mÅÂ vÅÊre stÅ¯rre enn 0"
 #. * that is handled automaticly.
 #.
 #: src/workbook-format-toolbar.c:51
-#, fuzzy
 msgid "_($ #,##0.00_);($ #,##0.00)"
-msgstr "$#,##0.00_);($#,##0.00)"
+msgstr "_($ #,##0.00_);($ #,##0.00)"
 
 #: src/workbook-format-toolbar.c:343
 msgid "Sets the bold font"
@@ -15152,21 +15013,18 @@ msgstr ""
 "kolonnen som er valgt."
 
 #: src/workbook.c:1571
-#, fuzzy
 msgid "Create a Graph"
-msgstr "Lager et grafikk objekt"
+msgstr "Lager en graf"
 
 #: src/workbook.c:1571
-#, fuzzy
 msgid "Invokes the graph guru to help create a graph"
-msgstr "Starter grafikk-hjelperen for ÅÂ lage grafikk"
+msgstr "Starter grafikkguruen for Â hjelpe med Â lage en graf"
 
 #: src/workbook.c:1574
 msgid "Insert Object"
 msgstr "Sett inn objekt"
 
 #: src/workbook.c:1574
-#, fuzzy
 msgid "Inserts an object into the spreadsheet"
 msgstr "Setter inn et objekt i regnearket"
 
@@ -15175,7 +15033,6 @@ msgid "Insert shaped object"
 msgstr "Setter inn et formet objekt"
 
 #: src/workbook.c:1577
-#, fuzzy
 msgid "Inserts a shaped object into the spreadsheet"
 msgstr "Setter inn et formet objekt i regnearket"
 
@@ -15601,57 +15458,3 @@ msgstr "Steg 3 av 3: Tilpass grafikk"
 #: wizards/graphics/main.c:175
 msgid "Unable to launch the graphics service"
 msgstr "Kunne ikke starte grafikktjenesten"
-
-#~ msgid "Unknown"
-#~ msgstr "Ukjent"
-
-#~ msgid "Formula Wizard"
-#~ msgstr "Formelveiviser"
-
-#~ msgid "label2"
-#~ msgstr "etikett2"
-
-#~ msgid "label3"
-#~ msgstr "etikett3"
-
-#~ msgid "label8"
-#~ msgstr "etikett8"
-
-#~ msgid "label7"
-#~ msgstr "etikett7"
-
-#~ msgid "label9"
-#~ msgstr "etikett9"
-
-#~ msgid "window2"
-#~ msgstr "vindu2"
-
-#~ msgid "_Print"
-#~ msgstr "_Skriv ut"
-
-#~ msgid "Print previe_w"
-#~ msgstr "Forh_ÅÂndsvisning"
-
-#~ msgid "Embedded Sheet"
-#~ msgstr "Innbakt ark"
-
-#~ msgid ""
-#~ "@FUNCTION=PV\n"
-#~ "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
-#~ "@DESCRIPTION=PV calculates the present value of an investment.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=FV"
-#~ msgstr ""
-#~ "@FUNCTION=PV\n"
-#~ "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
-#~ "@DESCRIPTION=PV kalkulerer nÅÂvÅÊrende verdi av en investering.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO=FV"
-
-#~ msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
-#~ msgstr "(([-+]?[0-9,])+?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
-
-#~ msgid "paste"
-#~ msgstr "lim inn"
