@@ -1,3 +1,7 @@
+2002-03-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c (cmd_analysis_tool) : set me->parent.size
+	
 2002-03-18  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c : typo. (Thanks frob)

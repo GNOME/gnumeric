@@ -4463,7 +4463,9 @@ cmd_analysis_tool (WorkbookControl *wbc, Sheet *sheet,
 	me->parent.sheet = NULL;
 	me->type = dao->type;
 
-	me->parent.size = 1;  /* FIXME  */
+	/* We divide by 2 since many cells will be empty*/
+	me->parent.size = 1 + dao->rows * dao->cols / 2; 
+
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
