@@ -311,7 +311,7 @@ wb_view_auto_expr (WorkbookView *wbv, char const *descr, char const *expression)
 	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
 	ExprTree *new_auto_expr;
 	ParsePos pp;
-	ParseErr res;
+	ParseError perr;
 
 	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
 	gnumeric_setlocale (LC_NUMERIC, "C");
@@ -322,10 +322,10 @@ wb_view_auto_expr (WorkbookView *wbv, char const *descr, char const *expression)
 	textdomain ("C");
 
 	parse_pos_init (&pp, wb_view_workbook (wbv), NULL, 0, 0);
-	res = gnumeric_expr_parser (expression, &pp, TRUE, FALSE, NULL,
-				    &new_auto_expr);
+	new_auto_expr = gnumeric_expr_parser (expression, &pp, TRUE, FALSE, NULL,
+					      parse_error_init (&perr));
+	parse_error_free (&perr);
 
-	g_return_if_fail (res == PARSE_OK);
 	g_return_if_fail (new_auto_expr != NULL);
 
 	textdomain (old_msg_locale);

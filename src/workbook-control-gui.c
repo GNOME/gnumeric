@@ -1451,8 +1451,8 @@ insert_bonobo_object (WorkbookControlGUI *wbcg, char const **interfaces)
 			scg_mode_create_object (scg, so);
 			return;
 		}
-		msg = g_strconcat (_("Unable to create object of type \'"),
-				   obj_id, "\'", NULL);
+		msg = g_strdup_printf (_("Unable to create object of type \'%s\'"),
+				       obj_id);
 		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
 		g_free (msg);
 	}
@@ -1981,7 +1981,7 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SUBTREE(N_("_Name"), workbook_menu_names),
 
-	GNOMEUIINFO_ITEM_STOCK (N_("_Add\\modify comment..."),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Add / Modify comment..."),
 		N_("Edit the selected cell's comment"),
 		cb_insert_comment, "Menu_Gnumeric_CommentEdit"),
 

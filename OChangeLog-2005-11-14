@@ -1,3 +1,10 @@
+2001-02-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/parser.y : Move the state information into a struct so that we
+	  can eventually get rid of the statics.
+	Take a 'ParseError' as a place to return more detailed information
+	  about parsing errors (Not used yet).
+
 2001-02-10  Jon K Hellan  <hellan@acm.org>
 
 	* src/print.c: Illustrate margin definitions.
@@ -11,6 +18,9 @@
 	(xml_read_print_margins): Use it.
 
 2001-02-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (insert_bonobo_object) : help
+	  translators.
 
 	* src/sheet-style.c (foreach_tile) : Only apply to applicable row or
 	  col tile segments.

@@ -6,6 +6,8 @@ Release Critical
 ----------------
 
 - Autoformat draw borders!
+- Audit the tile iterators to ensure that we only apply to target regions
+  even for row/col tiles.
 
 Long term breakage
 ------------------

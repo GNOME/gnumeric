@@ -40,17 +40,17 @@ StyleFormat *parse_text_value_or_expr (EvalPos const *pos,
 char const * gnumeric_char_start_expr_p (char const * c);
 
 /* In parser.y  */
-typedef enum {
-	PARSE_OK,
-	PARSE_ERR_NO_QUOTE,
-	PARSE_ERR_SYNTAX,
-	PARSE_ERR_UNKNOWN
-} ParseErr;
-ParseErr    gnumeric_expr_parser   (const char *expr,
-				    const ParsePos *pp,
-				    gboolean use_excel_range_conventions,
-				    gboolean create_place_holder_for_unknown_func,
-				    StyleFormat **desired_format,
-				    ExprTree **result);
+typedef struct {
+	char *message;
+	int start_char, end_char;
+} ParseError;
+ParseError *parse_error_init (ParseError *pe);
+void        parse_error_free (ParseError *pe);
+
+ExprTree *gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
+				gboolean use_excel_range_conventions,
+				gboolean create_place_holder_for_unknown_func,
+				StyleFormat **desired_format,
+				ParseError *pe);
 
 #endif /* GNUMERIC_PARSE_UTIL_H */

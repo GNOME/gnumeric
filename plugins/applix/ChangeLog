@@ -1,3 +1,8 @@
+2001-02-09  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_cells) : Adjust to new signature for
+	  parser.
+
 2001-01-11  Jody Goldberg <jgoldberg@home.com>
 
 	* applix-read.c (applix_parse_style) : remove the border shifting

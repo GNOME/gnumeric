@@ -548,3 +548,20 @@ parse_text_value_or_expr (EvalPos const *pos, char const *text,
 
 	return desired_format;
 }
+
+
+ParseError *
+parse_error_init (ParseError *pe)
+{
+	pe->message = NULL;
+	return pe;
+}
+
+void
+parse_error_free (ParseError *pe)
+{
+	if (pe->message != NULL) {
+		g_free (pe->message)
+		pe->message = NULL;
+	}
+}

@@ -189,26 +189,29 @@ unregister_allocation (const void *data)
 static int  yylex (void);
 static int  yyerror (char *s);
 
-/* The expression being parsed */
-static const char *parser_expr;
+typedef struct {
+	/* The expression being parsed */
+	char const *expr_text;
+
+	/* Location where the parsing is taking place */
+	ParsePos const *pos;
+
+	/* Locale info. */
+	char decimal_point;
+	char separator;
+	char array_col_separator;
+
+	/* flags */
+	gboolean use_excel_reference_conventions;
+	gboolean create_place_holder_for_unknown_func;
+
+	/* The suggested format to use for this expression */
+	StyleFormat **desired_format;
+	ExprTree *result;
+} ParserState;
 
 /* The error returned from the */
-static ParseErr parser_error;
-
-/* Location where the parsing is taking place */
-static const ParsePos *parser_pos;
-
-/* The suggested format to use for this expression */
-static StyleFormat **parser_desired_format;
-
-/* Locale info.  */
-static char parser_decimal_point;
-static char parser_separator;
-static char parser_array_col_separator;
-static gboolean parser_use_excel_reference_conventions;
-static gboolean parser_create_place_holder_for_unknown_func;
-
-static ExprTree **parser_result;
+static ParserState *state;
 
 static ExprTree *
 build_unary_op (Operation op, ExprTree *expr)
@@ -233,7 +236,7 @@ build_array (GList *cols)
 	int x, mx, y;
 
 	if (!cols) {
-		parser_error = PARSE_ERR_SYNTAX;
+		/* parser_error = PARSE_ERR_SYNTAX; */
 		return NULL;
 	}
 
@@ -262,7 +265,7 @@ build_array (GList *cols)
 			row = row->next;
 		}
 		if (x < mx || row) {
-			parser_error = PARSE_ERR_SYNTAX;
+			/* parser_error = PARSE_ERR_SYNTAX; */
 			value_release (array);
 			return NULL;
 		}
@@ -304,7 +307,7 @@ parse_string_as_value_or_name (ExprTree *str)
 {
 	NamedExpression *expr_name;
 
-	expr_name = expr_name_lookup (parser_pos, str->constant.value->v_str.val->str);
+	expr_name = expr_name_lookup (state->pos, str->constant.value->v_str.val->str);
 	if (expr_name != NULL) {
 		unregister_allocation (str); expr_tree_unref (str);
 		return register_expr_allocation (expr_tree_new_name (expr_name));
@@ -319,7 +322,7 @@ static int
 gnumeric_parse_error (void)
 {
 	/* TODO : Get rid of ParseErr and replace it with something richer. */
-	parser_error = PARSE_ERR_SYNTAX;
+	/* parser_error = PARSE_ERR_SYNTAX; */
 	return ERROR;
 }
 
@@ -353,14 +356,13 @@ int yyparse (void);
 %%
 line:	  exp {
 		unregister_allocation ($1);
-		*parser_result = $1;
+		state->result = $1;
 	}
 
 	| error 	{
-		parser_error = PARSE_ERR_SYNTAX;
-		if (*parser_result) {
-			expr_tree_unref (*parser_result);
-			*parser_result = NULL;
+		if (state->result != NULL) {
+			expr_tree_unref (state->result);
+			state->result = NULL;
 		}
 	}
 	;
@@ -396,10 +398,10 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| STRING '(' arg_list ')' {
 		const char *name = $1->constant.value->v_str.val->str;
 		FunctionDefinition *f = func_lookup_by_name (name,
-			parser_pos->wb);
+			state->pos->wb);
 
 		/* THINK TODO: Do we want to make this workbook-local??  */
-		if (f == NULL && parser_create_place_holder_for_unknown_func)
+		if (f == NULL && state->create_place_holder_for_unknown_func)
 			f = function_add_placeholder (name, "");
 
 		unregister_allocation ($3);
@@ -415,7 +417,7 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| sheetref string_opt_quote {
 		NamedExpression *expr_name;
 		char *name = $2->constant.value->v_str.val->str;
-		ParsePos pos = *parser_pos;
+		ParsePos pos = *state->pos;
 		
 		pos.sheet = $1;
 		expr_name = expr_name_lookup (&pos, name);
@@ -431,7 +433,7 @@ string_opt_quote : STRING
 		 ;
 
 sheetref: string_opt_quote SHEET_SEP {
-		Sheet *sheet = sheet_lookup_by_name (parser_pos->wb, $1->constant.value->v_str.val->str);
+		Sheet *sheet = sheet_lookup_by_name (state->pos->wb, $1->constant.value->v_str.val->str);
 		unregister_allocation ($1); expr_tree_unref ($1);
 		if (sheet == NULL)
 			return gnumeric_parse_error ();
@@ -481,7 +483,7 @@ cellref:  CELLREF {
 		$$ = register_expr_allocation
 			(expr_tree_new_constant
 			 (value_new_cellrange (&($1->var.ref), &($3->var.ref),
-					       parser_pos->eval.col, parser_pos->eval.row)));
+					       state->pos->eval.col, state->pos->eval.row)));
 		expr_tree_unref ($3);
 		expr_tree_unref ($1);
 	}
@@ -494,7 +496,7 @@ cellref:  CELLREF {
 		$$ = register_expr_allocation
 			(expr_tree_new_constant
 			 (value_new_cellrange (&($2->var.ref), &($5->var.ref),
-					       parser_pos->eval.col, parser_pos->eval.row)));
+					       state->pos->eval.col, state->pos->eval.row)));
 
 		expr_tree_unref ($5);
 		expr_tree_unref ($2);
@@ -535,7 +537,7 @@ array_row: array_exp {
 		register_expr_list_allocation ($$);
         }
 	| array_exp SEPARATOR array_row {
-		if (parser_array_col_separator == ',') {
+		if (state->array_col_separator == ',') {
 			unregister_allocation ($3);
 			unregister_allocation ($1);
 			$$ = g_list_prepend ($3, $1);
@@ -544,7 +546,7 @@ array_row: array_exp {
 			return gnumeric_parse_error ();
 	}
 	| array_exp '\\' array_row {
-		if (parser_array_col_separator == '\\') {
+		if (state->array_col_separator == '\\') {
 			unregister_allocation ($3);
 			unregister_allocation ($1);
 			$$ = g_list_prepend ($3, $1);
@@ -587,7 +589,7 @@ parse_ref_or_string (const char *string)
 	CellRef   ref;
 	Value *v = NULL;
 
-	if (cellref_get (&ref, string, &parser_pos->eval)) {
+	if (cellref_get (&ref, string, &state->pos->eval)) {
 		yylval.tree = register_expr_allocation (expr_tree_new_var (&ref));
 		return CELLREF;
 	}
@@ -604,39 +606,39 @@ yylex (void)
 	const char *start;
 	gboolean is_number = FALSE;
 
-        while (isspace ((unsigned char)*parser_expr))
-                parser_expr++;
+        while (isspace ((unsigned char)*state->expr_text))
+                state->expr_text++;
 
-	start = parser_expr;
-	c = (unsigned char) (*parser_expr++);
+	start = state->expr_text;
+	c = (unsigned char) (*state->expr_text++);
         if (c == '(' || c == ')')
                 return c;
 
-	if (parser_use_excel_reference_conventions) {
+	if (state->use_excel_reference_conventions) {
 		if (c == ':')
 			return RANGE_SEP;
 		if (c == '!')
 			return SHEET_SEP;
 	} else {
 		/* Treat '..' as range sep (A1..C3) */
-		if (c == '.' && *parser_expr == '.') {
-			parser_expr++;
+		if (c == '.' && *state->expr_text == '.') {
+			state->expr_text++;
 			return RANGE_SEP;
 		}
 		if (c == ':')
 			return SHEET_SEP;
 	}
 
-	if (c == parser_separator)
+	if (c == state->separator)
 		return SEPARATOR;
 
-	if (c == parser_decimal_point) {
+	if (c == state->decimal_point) {
 		/* Could be a number or a stand alone  */
-		if (!isdigit ((unsigned char)(*parser_expr)))
+		if (!isdigit ((unsigned char)(*state->expr_text)))
 			return c;
 		is_number = TRUE;
 	} else if (isdigit (c)) {
-		while (isdigit ((c = (unsigned char)(*parser_expr++))))
+		while (isdigit ((c = (unsigned char)(*state->expr_text++))))
 			;
 		is_number = TRUE;
 	}
@@ -644,7 +646,7 @@ yylex (void)
 	if (is_number) {
 		Value *v = NULL;
 
-		if (c == parser_decimal_point || tolower (c) == 'e') {
+		if (c == state->decimal_point || tolower (c) == 'e') {
 			/* This is float */
 			char *end;
 			double d;
@@ -654,7 +656,7 @@ yylex (void)
 			if (start != end) {
 				if (errno != ERANGE) {
 					v = value_new_float ((gnum_float)d);
-					parser_expr = end;
+					state->expr_text = end;
 				}
 			}
 		} else {
@@ -673,7 +675,7 @@ yylex (void)
 					     */
 					}
 					v = value_new_int (l);
-					parser_expr = end;
+					state->expr_text = end;
 				}
 			}
 		}
@@ -694,17 +696,17 @@ yylex (void)
 		char quotes_end = c;
 		Value *v;
 
-                p = parser_expr;
-                while(*parser_expr && *parser_expr != quotes_end) {
-                        if (*parser_expr == '\\' && parser_expr [1])
-                                parser_expr++;
-                        parser_expr++;
+                p = state->expr_text;
+                while(*state->expr_text && *state->expr_text != quotes_end) {
+                        if (*state->expr_text == '\\' && state->expr_text [1])
+                                state->expr_text++;
+                        state->expr_text++;
                 }
-                if (!*parser_expr)
+                if (!*state->expr_text)
 			return gnumeric_parse_error ();
 
-		s = string = (char *) alloca (1 + parser_expr - p);
-		while (p != parser_expr){
+		s = string = (char *) alloca (1 + state->expr_text - p);
+		while (p != state->expr_text){
 			if (*p== '\\'){
 				p++;
 				*s++ = *p++;
@@ -712,7 +714,7 @@ yylex (void)
 				*s++ = *p++;
 		}
 		*s = 0;
-		parser_expr++;
+		state->expr_text++;
 
 		v = value_new_string (string);
 		yylval.tree = register_expr_allocation (expr_tree_new_constant (v));
@@ -721,16 +723,16 @@ yylex (void)
 	}
 
 	if (isalpha ((unsigned char)c) || c == '_' || c == '$'){
-		const char *start = parser_expr - 1;
+		const char *start = state->expr_text - 1;
 		char *str;
 		int  len;
 
-		while (isalnum ((unsigned char)*parser_expr) || *parser_expr == '_' ||
-		       *parser_expr == '$' ||
-		       (parser_use_excel_reference_conventions && *parser_expr == '.'))
-			parser_expr++;
+		while (isalnum ((unsigned char)*state->expr_text) || *state->expr_text == '_' ||
+		       *state->expr_text == '$' ||
+		       (state->use_excel_reference_conventions && *state->expr_text == '.'))
+			state->expr_text++;
 
-		len = parser_expr - start;
+		len = state->expr_text - start;
 		str = alloca (len + 1);
 		strncpy (str, start, len);
 		str [len] = 0;
@@ -741,20 +743,20 @@ yylex (void)
 		return 0;
 
 	if (c == '<'){
-		if (*parser_expr == '='){
-			parser_expr++;
+		if (*state->expr_text == '='){
+			state->expr_text++;
 			return LTE;
 		}
-		if (*parser_expr == '>'){
-			parser_expr++;
+		if (*state->expr_text == '>'){
+			state->expr_text++;
 			return NE;
 		}
 		return c;
 	}
 
 	if (c == '>'){
-		if (*parser_expr == '='){
-			parser_expr++;
+		if (*state->expr_text == '='){
+			state->expr_text++;
 			return GTE;
 		}
 		return c;
@@ -772,47 +774,50 @@ yyerror (char *s)
 	return 0;
 }
 
-ParseErr
-gnumeric_expr_parser (const char *expr, const ParsePos *pp,
+ExprTree *
+gnumeric_expr_parser (char const *expr_text, ParsePos const *pos,
 		      gboolean use_excel_range_conventions,
 		      gboolean create_place_holder_for_unknown_func,
-		      StyleFormat **desired_format, ExprTree **result)
+		      StyleFormat **desired_format,
+		      ParseError *error)
 {
-	g_return_val_if_fail (pp, PARSE_ERR_UNKNOWN);
-	g_return_val_if_fail (expr, PARSE_ERR_UNKNOWN);
-	g_return_val_if_fail (result, PARSE_ERR_UNKNOWN);
+	ParserState pstate;
 
-	parser_error = PARSE_OK;
-	parser_expr = expr;
-	parser_pos  = pp;
-	parser_desired_format = desired_format;
-	parser_result = result;
-	*parser_result = NULL;
+	pstate.expr_text = expr_text;
+	pstate.pos	= pos;
 
-	if (parser_desired_format)
-		*parser_desired_format = NULL;
+	pstate.decimal_point	   = format_get_decimal ();
+	pstate.separator 	   = format_get_arg_sep ();
+	pstate.array_col_separator = format_get_col_sep ();
 
-	parser_use_excel_reference_conventions = use_excel_range_conventions;
-	parser_create_place_holder_for_unknown_func = create_place_holder_for_unknown_func;
+	pstate.use_excel_reference_conventions	    = use_excel_range_conventions;
+	pstate.create_place_holder_for_unknown_func = create_place_holder_for_unknown_func;
 
-	parser_decimal_point		= format_get_decimal ();
-	parser_separator		= format_get_arg_sep ();
-	parser_array_col_separator	= format_get_col_sep ();
+	pstate.result = NULL;
+	pstate.desired_format = desired_format;
+	if (pstate.desired_format)
+		*pstate.desired_format = NULL;
 
 	if (deallocate_stack == NULL)
 		deallocate_init ();
 
-	yyparse ();
+	g_return_val_if_fail (pstate.pos != NULL, NULL);
+	g_return_val_if_fail (pstate.expr_text != NULL, NULL);
+	g_return_val_if_fail (state == NULL, NULL);
 
-	if (parser_error == PARSE_OK) {
+	state = &pstate;
+	yyparse ();
+	state = NULL;
+
+	if (pstate.result != NULL) {
 		deallocate_assert_empty ();
 		if (desired_format) {
 			StyleFormat *format;
-			EvalPos pos;
+			EvalPos tmp;
 
-			pos.sheet = pp->sheet;
-			pos.eval = pp->eval;
-			format = auto_style_format_suggest (*parser_result, &pos);
+			tmp.sheet = pos->sheet;
+			tmp.eval = pos->eval;
+			format = auto_style_format_suggest (pstate.result, &tmp);
 			if (format) {
 				/*
 				 * Override the format that came from a
@@ -825,7 +830,7 @@ gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 		}
 	} else {
 #if 0
-		fprintf (stderr, "Unable to parse '%s'\n", expr);
+		fprintf (stderr, "Unable to parse '%s'\n", expr_text);
 #endif
 		deallocate_all ();
 		if (desired_format && *desired_format) {
@@ -838,5 +843,5 @@ gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 	deallocate_uninit ();
 #endif
 
-	return parser_error;
+	return pstate.result;
 }

@@ -268,7 +268,7 @@
 
 	    <menuitem name="InsertComment" verb=""
 		pixtype="stock" pixname="Gnumeric_CommentAdd"
-		_label="_Add / modify comment..."
+		_label="_Add / Modify comment..."
 		_tip="Edit the selected cell's comment"/>
 
 	    <submenu name="Special" _label="S_pecial">
@@ -574,7 +574,7 @@
 	<toolitem type="toggle" name="FontItalic"
 	    pixtype="stock" pixname="Italic"
 	    _label="Italicize"
-	    _tip="Makes font italic"
+	    _tip="Make font italic"
 	    _accel="*Control*i"
 	    verb="FontItalic"/>
 

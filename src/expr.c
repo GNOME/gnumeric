@@ -184,30 +184,23 @@ expr_tree_get_const_str (ExprTree const *expr)
 }
 
 ExprTree *
-expr_parse_string (char const *expr, ParsePos const *pp,
+expr_parse_string (char const *expr_text, ParsePos const *pp,
 		   StyleFormat **desired_format, char **error_msg)
 {
-	ExprTree *tree;
-	g_return_val_if_fail (expr != NULL, NULL);
+	ExprTree   *tree;
+	ParseError  perr;
 
-	switch (gnumeric_expr_parser (expr, pp, TRUE, FALSE, desired_format, &tree)) {
-	case PARSE_OK:
-		*error_msg = NULL;
-		return tree;
+	g_return_val_if_fail (expr_text != NULL, NULL);
 
-	case PARSE_ERR_SYNTAX:
+	tree = gnumeric_expr_parser (expr_text, pp, TRUE, FALSE, desired_format,
+				     parse_error_init (&perr));
+	/* TODO : use perr when we populate it */
+	if (tree == NULL)
 		*error_msg = _("Syntax error");
-		break;
-
-	case PARSE_ERR_NO_QUOTE:
-		*error_msg = _("Missing quote");
-		break;
-	default:
-		g_assert_not_reached ();
-		*error_msg = _("Impossible!");
-		break;
-	}
-	return NULL;
+	else
+		*error_msg = NULL;
+	parse_error_free (&perr);
+	return tree;
 }
 
 
