@@ -47,18 +47,25 @@
 /* Generic stuff **********************************************************/
 
 static scenario_t *
-find_scenario (GList *scenarios, gchar *name)
+find_scenario (GList *scenarios, gchar *name, gboolean *all_deleted)
 {
-	scenario_t *s;
+	scenario_t *s, *res = NULL;
+ 
+	if (all_deleted)
+		*all_deleted = TRUE;
 
 	while (scenarios != NULL) {
 		s = (scenario_t *) scenarios->data;
 
 		if (strcmp (s->name, name) == 0)
-			return s;
+			res = s;
+		else if (all_deleted)
+			*all_deleted &= s->marked_deleted;
+
 		scenarios = scenarios->next;
 	}
-	return NULL;
+
+	return res;
 }
 
 /* Scenario: Show **********************************************************/
@@ -71,7 +78,7 @@ scenario_show (WorkbookControl        *wbc,
 	scenario_t *s;
 	int        i, j, cols;
 
-	s = find_scenario (dao->sheet->scenarios, name);
+	s = find_scenario (dao->sheet->scenarios, name, NULL);
 	if (s == NULL)
 		return;
 
@@ -103,6 +110,7 @@ scenario_new (gchar *name, gchar *comment)
 	s->comment        = comment;
 	s->changing_cells = NULL;
 	s->cell_sel_str   = NULL;
+	s->marked_deleted = FALSE;
 
 	return s;
 }
@@ -250,17 +258,16 @@ scenario_free_all (GList *list)
 	g_list_free (list);
 }
 
-void
-scenario_delete (WorkbookControl        *wbc,
-		 gchar                  *name,
-		 data_analysis_output_t *dao)
+gboolean
+scenario_mark_deleted (GList *scenarios, gchar *name)
 {
 	scenario_t *s;
+	gboolean   all_deleted;
 
-	s = find_scenario (dao->sheet->scenarios, name);
-	dao->sheet->scenarios = g_list_remove (dao->sheet->scenarios,
-					       (gpointer) s);
-	scenario_free (s);
+	s = find_scenario (scenarios, name, &all_deleted);
+	s->marked_deleted = TRUE;
+
+	return all_deleted;
 }
 
 /* Scenario: Insert columns(s)/row(s) *************************************/
@@ -355,13 +362,40 @@ scenario_delete_rows (GList *list, int row, int count)
 	}
 }
 
-/* Scenario: Ok button pressed ********************************************/
+/* Scenario Manager: Ok/Cancel buttons************************************/
 
+/* Ok button pressed. */
 void
-scenarios_ok (WorkbookControl        *wbc,
-	      data_analysis_output_t *dao)
+scenario_manager_ok (Sheet *sheet)
 {
-	sheet_redraw_all (dao->sheet, TRUE);
+	GList *cur, *scenarios = sheet->scenarios;
+	GList *list = NULL;
+
+	/* Update scenarios (free the deleted ones). */
+	for (cur = scenarios; cur != NULL; cur = cur->next) {
+		scenario_t *s = (scenario_t *) cur->data;
+
+		if (s->marked_deleted)
+			scenario_free (s);
+		else
+			list = g_list_append (list, s);
+	}
+	g_list_free (scenarios);
+	sheet->scenarios = list;
+
+	sheet_redraw_all (sheet, TRUE);
+}
+
+/* Cancel button pressed. */
+void
+scenario_recover_all (GList *scenarios)
+{
+	while (scenarios) {
+		scenario_t *s = (scenario_t *) scenarios->data;
+
+		s->marked_deleted = FALSE;
+		scenarios = scenarios->next;
+	}
 }
 
 /* Scenario: Create summary report ***************************************/
@@ -375,7 +409,8 @@ rm_fun_cb (gpointer key, gpointer value, gpointer user_data)
 
 void
 scenario_summary (WorkbookControl        *wbc,
-		  Sheet                  *sheet)
+		  Sheet                  *sheet,
+		  Sheet                  **new_sheet)
 {
 	data_analysis_output_t dao;
 	GList                  *cur;
@@ -466,4 +501,6 @@ scenario_summary (WorkbookControl        *wbc,
 					 gs_white.blue),
 			style_color_new (gs_dark_gray.red, gs_dark_gray.green,
 					 gs_dark_gray.blue));
+
+	*new_sheet = dao.sheet;
 }
