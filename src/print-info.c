@@ -385,7 +385,7 @@ destroy_formats (void)
 }
 
 void
-print_info_save (PrintInformation *pi)
+print_info_save (PrintInformation const *pi)
 {
 	gnome_config_push_prefix ("/Gnumeric/Print/");
 
@@ -713,7 +713,7 @@ print_info_margin_copy (PrintUnit *src_print_unit, PrintUnit *dst_print_unit)
 }
 
 PrintInformation *
-print_info_copy (PrintInformation *src_pi)
+print_info_dup (PrintInformation const *src_pi)
 {
 	PrintInformation *dst_pi;
 

@@ -4371,7 +4371,7 @@ sheet_duplicate	(Sheet const *src)
 
         /* Copy the print info */
 	print_info_free (dst->print_info);
-	dst->print_info = print_info_copy (src->print_info);
+	dst->print_info = print_info_dup (src->print_info);
 
 	sheet_style_set_auto_pattern_color (
 		dst, sheet_style_get_auto_pattern_color (src));

@@ -104,9 +104,9 @@ typedef struct {
 } HFRenderInfo;
 
 PrintInformation *print_info_new         (void);
-void              print_info_save        (PrintInformation *pi);
+PrintInformation *print_info_dup	 (PrintInformation const *pi);
 void              print_info_free        (PrintInformation *pi);
-PrintInformation *print_info_copy        (PrintInformation *src_pi);
+void              print_info_save        (PrintInformation const *pi);
 
 PrintHF          *print_hf_new           (char const *left,
 					  char const *middle,
