@@ -1,3 +1,9 @@
+2004-12-09  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c (gnm_pane_object_start_resize) : Add an
+	  'is_creation' argument to avoid pretending we're creating an object
+	  when clicking and releasing on the lower right resize marker.
+
 2004-12-08  Jody Goldberg <jody@gnome.org>
 
 	* src/hlink.c (gnm_hlink_url_activate) : use go_url_show

@@ -4,6 +4,8 @@ Jody:
 	* Saved charts were 1 pixel larger than the stated size [#157732]
 	* Fix path to chart icons for win32 [#160046]
 	* Fix sax export for Validation [Debian #283999]
+	* Fix unintended object resize when clicking on the lower right resize
+	  handle of existing object
 
 Morten:
 	* Add bugzilla version number to desktop file.  [#159371]

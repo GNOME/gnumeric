@@ -467,7 +467,6 @@ go_url_show (gchar const *url)
 			"firefox",
 			"mozilla-firebird",
 			"mozilla",
-			"mozilla-1.6",
 			"netscape",
 			"konqueror",
 			"xterm -e w3m",
@@ -483,14 +482,16 @@ go_url_show (gchar const *url)
 	if (browser != NULL) {
 		gint    argc;
 		gchar **argv = NULL;
-		char   *tmp = g_strconcat (browser, " %1");
+		char   *cmd_line = g_strconcat (browser, " %1", NULL);
 
-		if (g_shell_parse_argv (tmp, &argc, &argv, &err)) {
+		if (g_shell_parse_argv (cmd_line, &argc, &argv, &err)) {
 			/* check for '%1' in an argument and substitute the url
 			 * otherwise append it */
 			gint i;
+			char *tmp;
+
 			for (i = 1 ; i < argc ; i++)
-				if (0 == strcmp (argv[i], "%1")) {
+				if (NULL != (tmp = strstr (argv[i], "%1"))) {
 					g_free (argv[i]);
 					argv[i] = g_strdup (clean_url ? (char const *)clean_url : url);
 					break;
@@ -503,7 +504,9 @@ go_url_show (gchar const *url)
 			}
 			g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
 				NULL, NULL, NULL, &err);
+			g_strfreev (argv);
 		}
+		g_free (cmd_line);
 	}
 	g_free (browser);
 	g_free (clean_url);
