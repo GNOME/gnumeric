@@ -1,0 +1,4 @@
+2005-02-13  Jody Goldberg <jody@gnome.org>
+
+	* el.po : Do not translate the token keys
+
