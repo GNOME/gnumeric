@@ -1,3 +1,7 @@
+1998-07-06  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* configure.in: Remove duplicated AM_GNU_GETTEXT.
+
 Sat Jul  4 15:07:49 PDT 1998 Manish Singh <yosh@gimp.org>
 
 	* fixed up intl autoconf stuff
