@@ -12,7 +12,7 @@ appicon_DATA = gnome-gnumeric.png \
                gnome-application-x-gnumeric.png \
                gnome-application-x-xls.png
 
-Applicationsdir = $(datadir)/gnome/apps/Applications
+Applicationsdir = $(datadir)/applications/
 Applications_in_files = gnumeric.desktop.in
 Applications_DATA = gnumeric.desktop
 @INTLTOOL_DESKTOP_RULE@
