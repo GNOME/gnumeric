@@ -99,6 +99,14 @@
     </para>
   </tip> 
 
+  <para>
+    Normally the specified settings apply only to the current sheet. 
+    Select another sheet at the bottom of the 
+    <interface>Page Setup Dialog</interface> or select 
+    <guilabel>Apply to all sheets of this workbook.</guilabel>
+  </para>
+
+
   <sect2 id="print-setup-page">
     <title>Page Setup Dialog - Page</title>
 
@@ -113,8 +121,18 @@
     </figure>
 
     <para>
-      Select portrait or landscape to suit the best layout for your
-      document.
+      Select the paper size and page orientation (portrait or landscape)
+      to suit the best layout for your document.
+    </para>
+
+    <para>
+      Specify the required margins of the page. Nothing  will be printed 
+      inside these margins, not even page numbers.
+    </para>
+    <para>
+    The margins will be measured in the same units (centimetres, millimetres,
+    points or inches) as the paper size. Change the unit in the paper and 
+    layout section to best fit your needs.
     </para>
 
     <para>
@@ -124,38 +142,16 @@
     </para>
 
     <para>
-      The <interface>Fit to</interface> option is not available yet.
-    </para>
-
-  </sect2>
-
-
-  <sect2 id="print-setup-margins">
-    <title>Page Setup Dialog - Margins</title>
-
-    <figure id="print-setup-margins-fig">
-      <title><interface>Page Setup Dialog - Margins</interface></title>
-      <mediaobject>
-	<imageobject>
-	  <imagedata fileref="figures/printing-setup-margins"
-		     format="PNG" srccredit="Thomas Miesbauer" />
-	</imageobject>
-      </mediaobject>
-    </figure>
-
-    <para>
-      Adjust the margins by clicking on the arrow buttons for each
-      margin. You will see the <interface>preview pane</interface>
-      follow your changes.
+      Select the <interface>Fit to</interface> option to have the document 
+      automatically scaled. When scaling, the aspect ratio will be preserved.
+      Therefore less pages than specified might be printed.
     </para>
 
     <para>
-    You may set the margin to be measured in centimetres, millimetres,
-    points or inches.
+      You may also specify whether the page is centered horizontally 
+      and/or vertically on the printable part of the page.
     </para>
-
   </sect2>
-
 
   <sect2 id="print-setup-header">
     <title>Page Setup Dialog - Headers and Footers</title>
@@ -171,8 +167,27 @@
     </figure>
 
     <para>
+      Select the space available for the header and footer. If you do not 
+      provide sufficient space for the header and footer, they will not 
+      print even if you chose a style for them.  
+    </para>
+
+    <para>
       Click on the option menu to choose from a range of different
-      header and footer styles.  Customize the header or footer by
+      header and footer styles.  
+    </para>
+    <tip>
+      <title>TIP</title>
+
+      <para>
+        You can choose the font in which the header and footer is printed by
+        selecting a default header/footer font the preferences (see in <xref
+        linkend="sect-configuration-preferences" />).
+      </para>
+    </tip> 
+
+    <para>
+      Customize the header or footer by
       choosing the last option on the menu. 
     </para>
     
@@ -352,7 +367,7 @@
     <mediaobject>
       <imageobject>
 	<imagedata fileref="figures/printing-preview" format="PNG"
-		   srccredit="Thomas Canty" />
+		   srccredit="Thomas Miesbauer" />
       </imageobject>
     </mediaobject>
   </figure>
