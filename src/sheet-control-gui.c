@@ -86,8 +86,8 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 	min_col = MAX (first_visible_col, min_col);
 	max_col = MIN (last_visible_col, max_col);
 
-	x = sheet_col_get_distance (sheet, gsheet->top_col, min_col+1);
-	y = sheet_col_get_distance (sheet, gsheet->top_row, first_visible_row+1);
+	x = sheet_col_get_distance (sheet, gsheet->top_col, min_col);
+	y = sheet_col_get_distance (sheet, gsheet->top_row, first_visible_row);
 	w = sheet_col_get_distance (sheet, min_col, max_col+1);
 	h = sheet_col_get_distance (sheet, first_visible_row, last_visible_row+1);
 

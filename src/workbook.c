@@ -5,6 +5,9 @@
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
+#include "xml-io.h"
+
+#include "pixmaps.h"
 
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
@@ -16,6 +19,36 @@
 Workbook *current_workbook;
 
 static void
+workbook_new_cmd (void)
+{
+}
+
+static void
+workbook_open_cmd (void)
+{
+}
+
+static void
+workbook_save_cmd (void)
+{
+}
+
+static void
+left_align_cmd (void)
+{
+}
+
+static void
+right_align_cmd (void)
+{
+}
+
+static void
+center_cmd (void)
+{
+}
+
+static void
 quit_cmd (void)
 {
 	gtk_main_quit ();
@@ -24,8 +57,7 @@ quit_cmd (void)
 static void
 save_cmd (GtkWidget *widget, Workbook *wb)
 {
-	
-/*        gnumericWriteXmlWorkbook (wb, "default.wb"); */
+        gnumericWriteXmlWorkbook (wb, "default.wb");
 }
 
 static void
@@ -217,6 +249,39 @@ static GnomeUIInfo workbook_menu [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("View"),   NULL, &workbook_menu_view },
 	{ GNOME_APP_UI_SUBTREE, N_("Insert"), NULL, &workbook_menu_insert },
 	{ GNOME_APP_UI_SUBTREE, N_("Format"), NULL, &workbook_menu_format },
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo workbook_toolbar [] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("New"),
+				N_("Create a new sheet"),
+				workbook_new_cmd, GNOME_STOCK_PIXMAP_NEW),
+	GNOMEUIINFO_ITEM_STOCK (N_("Open"),
+				N_("Opens an existing workbook"),
+				workbook_open_cmd, GNOME_STOCK_PIXMAP_OPEN),
+	GNOMEUIINFO_ITEM_STOCK (N_("Save"),
+				N_("Saves the workbook"),
+				workbook_save_cmd, GNOME_STOCK_PIXMAP_SAVE),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_STOCK (N_("Cut"),
+				N_("Cuts the selection to the clipboard"),
+				cut_cmd, GNOME_STOCK_PIXMAP_CUT),
+	GNOMEUIINFO_ITEM_STOCK (N_("Copy"),
+				N_("Copies the selection to the clipboard"),
+				copy_cmd, GNOME_STOCK_PIXMAP_COPY),
+	GNOMEUIINFO_ITEM_STOCK (N_("Paste"),
+				N_("Pastes the clipboard"),
+				paste_cmd, GNOME_STOCK_PIXMAP_PASTE),
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_ITEM_DATA (N_("Left align"),
+			       N_("Sets the cell alignment to the left"),
+			       left_align_cmd, NULL, align_left),
+	GNOMEUIINFO_ITEM_DATA (N_("Center"),
+				N_("Centers the cell contents"),
+				center_cmd, NULL, align_center),
+	GNOMEUIINFO_ITEM_DATA (N_("Right align"),
+				N_("Sets the cell alignment to the right"),
+				right_align_cmd, NULL, align_right),
 	GNOMEUIINFO_END
 };
 
@@ -512,6 +577,9 @@ workbook_new (void)
 	workbook_setup_sheets (wb);
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
+	gnome_app_create_toolbar_with_data (GNOME_APP (wb->toplevel), workbook_toolbar, wb);
+	gtk_toolbar_set_style (GTK_TOOLBAR (GNOME_APP (wb->toplevel)->toolbar), GTK_TOOLBAR_ICONS);
+	
 /*	gtk_accel_group_attach (GTK_OBJECT (wb->toplevel)); */
 		
 	/* Set the default operation to be performed over selections */

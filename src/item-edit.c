@@ -72,6 +72,9 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	gdk_draw_rectangle (drawable, canvas->style->white_gc, TRUE,
 			    dx + 1, dy + 1, wd - 1, hd - 1);
 
+	/* The margin, plus the pixel consumed by the border */
+	dx += ci->margin_a + 1;
+	
 	first_part_len = gdk_text_width (font, text, cursor_pos);
 	gdk_draw_text (drawable, font, canvas->style->black_gc,
 		       dx, dy + hd - font->descent, text, cursor_pos);

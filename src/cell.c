@@ -8,6 +8,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "gnumeric-sheet.h"
 #include "eval.h"
 #include "format.h"
 
@@ -52,7 +53,7 @@ cell_set_formula (Cell *cell, char *text)
  * This routine changes the alignment of a cell to those specified.
  */
 void
-cell_set_alignment (Cell *cell, int halign, int valign, int orient)
+cell_set_alignment (Cell *cell, int halign, int valign, int orient, int auto_return)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->style != NULL);
@@ -65,7 +66,10 @@ cell_set_alignment (Cell *cell, int halign, int valign, int orient)
 	cell->style->halign = halign;
 	cell->style->valign = valign;
 	cell->style->orientation = orient;
-
+	cell->style->fit_in_cell = auto_return;
+	
+	cell_calc_dimensions (cell);
+	
 	cell_queue_redraw (cell);
 }
 
@@ -73,7 +77,6 @@ void
 cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 {
 	GdkFont *font;
-	int height;
 	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (style_font != NULL);
@@ -85,10 +88,7 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 
 	font = style_font->font;
 	
-	height = font->ascent + font->descent;
-	
-	if (!cell->row->hard_size)
-		sheet_row_set_internal_height (cell->sheet, cell->row, height);
+	cell_calc_dimensions (cell);
 	
 	cell_queue_redraw (cell);
 }
@@ -393,6 +393,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	    cell->style->fit_in_cell ||
 	    cell->style->valign == VALIGN_JUSTIFY ||
 	    cell->style->halign == HALIGN_JUSTIFY ||
+	    cell->style->halign == HALIGN_FILL    ||
 	    cell_contents_fit_inside_column (cell)){
 		*col1 = *col2 = cell->col->pos;
 		return;
@@ -402,7 +403,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	align = cell_get_horizontal_align (cell);
 	row   = cell->row->pos;
 
-	switch (cell->style->halign){
+	switch (align){
 	case HALIGN_LEFT:
 		*col1 = *col2 = cell->col->pos;
 		pos = cell->col->pos + 1;
@@ -475,7 +476,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 			ColRowInfo *ci;
 			Cell *left_sibling, *right_sibling;
 
-			if (*col1 - 1 > 0){
+			if (*col1 - 1 >= 0){
 				left_sibling = sheet_cell_get (sheet, *col1 - 1, row);
 
 				if (left_sibling)
@@ -508,7 +509,11 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 				left_right = 0;
 			
 		} /* for */
-
+		break;
+		
+	default:
+		g_warning ("Unknown horizontal alignment type\n");
+		*col1 = *col2 = cell->col->pos;
 	} /* case HALIGN_CENTER */
 			
 	} /* switch */
@@ -569,12 +574,13 @@ calc_text_dimensions (int is_number, Style *style, char *text, int cell_w, int c
 					
 					used = gdk_text_width (font, ideal_cut_spot, n);
 				} else {
-					used = 0;
+					used = len;
 				}
-				*h += CELL_TEXT_INTER_SPACE + font_height;
+				printf ("Anadiendo %d pixeles\n", font_height);
+				*h += font_height;
 				ideal_cut_spot = NULL;
-			} 
-			used += len;
+			} else
+				used += len;
 
 			if (*p == ' ')
 				last_was_cut_point = TRUE;
@@ -622,11 +628,259 @@ cell_calc_dimensions (Cell *cell)
 		cell->width = cell->col->margin_a + cell->col->margin_b;
 }
 
-#if 0
-void
-cell_draw (GdkDrawable *drawable, GdkFont *font, GdkGc *gc,
-	   Style *style, int   x_offset, int y_offset, int width, char  *text)
+static void
+draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font, int x1, int y1, int text_base, int width, int height)
 {
+	GdkRectangle rect;
+	int len = gdk_string_width (font, "#");
+	int total, offset;
 	
+	rect.x = x1;
+	rect.y = y1;
+	rect.width = width;
+	rect.height = height;
+	gdk_gc_set_clip_rectangle (gc, &rect);
+	
+	offset = x1 + width - len;
+	for (total = len;  offset > len; total += len){
+		gdk_draw_text (drawable, font, gc, x1 + offset, text_base, "#", 1);
+		offset -= len;
+	} 
 }
-#endif
+
+static GList *
+cell_split_text (GdkFont *font, char *text, int width)
+{
+	GList *list;
+	char *p, *line, *line_begin, *ideal_cut_spot = NULL;
+	int  line_len, used, last_was_cut_point;
+
+	list = NULL;
+	used = 0;
+	last_was_cut_point = FALSE;
+	for (line_begin = p = text; *p; p++){
+		int len;
+
+		if (last_was_cut_point && *p != ' ')
+			ideal_cut_spot = p;
+
+		len = gdk_text_width (font, p, 1);
+
+		/* If we have overflowed, do the wrap */
+		if (used + len > width){
+			char *begin = line_begin;
+			
+			if (ideal_cut_spot){
+				int n = p - ideal_cut_spot + 1;
+
+				line_len = ideal_cut_spot - line_begin;
+				used = gdk_text_width (font, ideal_cut_spot, n);
+				line_begin = ideal_cut_spot;
+			} else {
+				used = len;
+				line_len = p - line_begin;
+				line_begin = p;
+			}
+			
+			line = g_malloc (line_len + 1);
+			memcpy (line, begin, line_len);
+			line [line_len] = 0;
+			list = g_list_append (list, line);
+
+			ideal_cut_spot = NULL;
+		} else
+			used += len;
+
+		if (*p == ' ')
+			last_was_cut_point = TRUE;
+		else
+			last_was_cut_point = FALSE;
+	}
+	if (*line_begin){
+		line_len = p - line_begin;
+		line = g_malloc (line_len);
+		memcpy (line, line_begin, line_len);
+		line [line_len] = 0;
+		list = g_list_append (list, line);
+	}
+
+	return list;
+}
+
+void
+cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
+{
+	Style        *style = cell->style;
+	GdkFont      *font = style->font->font;
+	SheetView    *sheet_view = sv;
+	GdkGC        *white_gc = GTK_WIDGET (sheet_view->sheet_view)->style->white_gc;
+	GdkRectangle rect;
+	
+	int start_col, end_col;
+	int width, height;
+	int text_base = y1 + cell->row->pixels - cell->row->margin_b - font->descent + 1;
+	int font_height;
+	int halign;
+	int do_multi_line;
+	char *text;
+
+	cell_get_span (cell, &start_col, &end_col);
+
+	width  = COL_INTERNAL_WIDTH (cell->col);
+	height = ROW_INTERNAL_HEIGHT (cell->row);
+
+	gdk_gc_set_function (gc, GDK_COPY);
+
+	font_height = font->ascent + font->descent;
+	
+	halign = cell_get_horizontal_align (cell);
+	text = CELL_TEXT_GET (cell);
+
+	if ((cell->style->valid_flags & STYLE_COLOR) && cell->style->color){
+		gdk_gc_set_background (gc, &cell->style->color->background);
+	}
+	
+	/* if a number overflows, do special drawing */
+	if (width < cell->width && cell_is_number (cell)){
+		draw_overflow (drawable, gc, font, x1 + cell->col->margin_a, y1, text_base,
+			       width, height);
+		return;
+	}
+
+	if (halign == HALIGN_JUSTIFY || style->valign == VALIGN_JUSTIFY || style->fit_in_cell)
+		do_multi_line = TRUE;
+	else
+		do_multi_line = FALSE;
+
+	if (do_multi_line){
+		GList *lines, *l;
+		int cell_pixel_height = ROW_INTERNAL_HEIGHT (cell->row);
+		int line_count, x_offset, y_offset, inter_space;
+		
+		lines = cell_split_text (font, text, width);
+		line_count = g_list_length (lines);
+
+		rect.x = x1;
+		rect.y = y1;
+		rect.height = cell->height;
+		rect.width = cell->width;
+		gdk_gc_set_clip_rectangle (gc, &rect);
+		
+		switch (style->valign){
+		case VALIGN_TOP:
+			y_offset = 0;
+			inter_space = font_height;
+			break;
+			
+		case VALIGN_BOTTOM:
+			y_offset = cell_pixel_height - (line_count * font_height);
+			inter_space = font_height;
+			break;
+			
+		case VALIGN_CENTER:
+			y_offset = (cell_pixel_height - (line_count * font_height))/2;
+			inter_space = font_height;
+			break;
+			
+		case VALIGN_JUSTIFY:
+			y_offset = 0;
+			inter_space = font_height + 
+				(cell_pixel_height - (line_count * font_height))
+				/ line_count;
+			break;
+		default:
+			g_warning ("Unhandled cell vertical alignment\n");
+			y_offset = 0;
+			inter_space = font_height;
+		}
+
+		y_offset += font_height - 1;
+		for (l = lines; l; l = l->next){
+			char *str = l->data;
+
+			switch (halign){
+			case HALIGN_LEFT:
+			case HALIGN_JUSTIFY:
+				x_offset = cell->col->margin_a;
+				break;
+				
+			case HALIGN_RIGHT:
+				x_offset = cell->col->pixels - cell->col->margin_b - gdk_string_width (font, str);
+				break;
+
+			case HALIGN_CENTER:
+				x_offset = (cell->col->pixels - cell->width) / 2;
+				break;
+			default:
+				g_warning ("Multi-line justification style not supported\n");
+				x_offset = cell->col->margin_a;
+			}
+			/* Advance one pixel for the border */
+			x_offset++;
+			gc = GTK_WIDGET (sheet_view->sheet_view)->style->black_gc;
+			gdk_draw_text (drawable, font, gc, x1 + x_offset, y1 + y_offset, str, strlen (str));
+			y_offset += inter_space;
+			
+			g_free (str);
+		}
+		g_list_free (lines);
+		
+	} else {
+		int x, diff, total, len;
+
+		/*
+		 * x1, y1 are relative to this cell origin, but the cell might be using
+		 * columns to the left (if it is set to right justify or center justify)
+		 * compute the pixel difference 
+		 */
+		if (start_col != cell->col->pos)
+			diff = -sheet_col_get_distance (cell->sheet, start_col, cell->col->pos);
+		else
+			diff = 0;
+
+		/* This rectangle has the whole area used by this cell */
+		rect.x = x1 + 1 + diff;
+		rect.y = y1 + 1;
+		rect.width  = sheet_col_get_distance (cell->sheet, start_col, end_col+1) - 2;
+		rect.height = cell->row->pixels - 2;
+		
+		/* Set the clip rectangle */
+		gdk_gc_set_clip_rectangle (gc, &rect);
+		gdk_draw_rectangle (drawable, white_gc, TRUE,
+				    rect.x, rect.y, rect.width, rect.height);
+
+		len = 0;
+		switch (halign){
+		case HALIGN_FILL:
+			printf ("FILL!\n");
+			len = gdk_string_width (font, text);
+			/* fall down */
+			
+		case HALIGN_LEFT:
+			x = cell->col->margin_a;
+			break;
+
+		case HALIGN_RIGHT:
+			x = cell->col->pixels - cell->col->margin_b - cell->width;
+			break;
+
+		case HALIGN_CENTER:
+			x = (cell->col->pixels - cell->width)/2;
+			break;
+			
+		default:
+			g_warning ("Single-line justification style not supported\n");
+			x = cell->col->margin_a;
+			break;
+		}
+
+		total = 0;
+		do {
+			gdk_draw_text (drawable, font, gc, 1 + x1 + x, text_base, text, strlen (text));
+			x1 += len;
+			total += len;
+		} while (halign == HALIGN_FILL && total < rect.width);
+	}
+}
+
+

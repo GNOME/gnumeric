@@ -166,19 +166,15 @@ typedef struct {
  */
 static void
 item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
-		     int x1, int y1, int width, int height, int col, int row)
+		     int x1, int y1, ColRowInfo *ci, ColRowInfo *ri, int col, int row)
 {
-	GnomeCanvas   *canvas   = GNOME_CANVAS_ITEM (item_grid)->canvas;
-	GdkGC         *white_gc = GTK_WIDGET (canvas)->style->white_gc;
-	GdkGC         *gc       = item_grid->gc;
-	Sheet         *sheet    = item_grid->sheet;
-	GdkFont       *font;
-	Cell          *cell, *clip_left, *clip_right;
-	Style         *style;
-	int           x_offset, y_offset, text_base, pixels;
-	GdkRectangle  rect;
-	int           halign;
-	int           cell_is_selected;
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_grid)->canvas;
+	GdkGC       *gc     = item_grid->gc;
+	Sheet       *sheet  = item_grid->sheet;
+	Cell        *cell;
+	int         cell_is_selected;
+	int         width = ci->pixels;
+	int         height = ri->pixels;
 	
 	cell_is_selected = sheet_selection_is_cell_selected (sheet, col, row);
 		
@@ -200,95 +196,8 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		return;
 	}
 
-	/* The offsets where we start drawing the text */
-	x_offset = y_offset = 0;
-
-	/* True if we have a sibling cell in the direction where we paint */
-	clip_left  = NULL;
-	clip_right = NULL;
-	
-	style = cell->style;
-	font = style->font->font;
-
-	halign = cell_get_horizontal_align (cell);
-
-	switch (halign){
-	case HALIGN_LEFT:
-		if (col < SHEET_MAX_COLS-1)
-			clip_right = sheet_cell_get (sheet, col+1, row);
-		x_offset = cell->col->margin_a;
-		break;
-		
-	case HALIGN_RIGHT:
-		if (col > 0)
-			clip_left = sheet_cell_get (sheet, col-1, row);
-		x_offset = cell->col->pixels - cell->width - (cell->col->margin_b + cell->col->margin_a);
-		break;
-		
-	case HALIGN_CENTER:
-		if (col > 0)
-			clip_left = sheet_cell_get (sheet, col-1, row);
-		if (col < SHEET_MAX_COLS-1)
-			clip_right = sheet_cell_get (sheet, col-1, row);
-		x_offset = (cell->col->pixels - cell->width)/2;
-		break;
-		
-	case HALIGN_FILL:
-		if (col < SHEET_MAX_COLS-1)
-			clip_right = sheet_cell_get (sheet, col-1, row);
-		clip_left = clip_right = (Cell *) TRUE;
-		x_offset = cell->col->margin_a;
-		break;
-			
-	case HALIGN_JUSTIFY:
-		g_warning ("No horizontal justification supported yet\n");
-		break;
-	}
-
-	if ((cell->style->valid_flags & STYLE_COLOR) && cell->style->color){
-		gdk_gc_set_foreground (gc, &cell->style->color->foreground);
-		gdk_gc_set_background (gc, &cell->style->color->background);
-	} else 
-		gdk_gc_set_foreground (gc, &item_grid->default_color);
-
-	text_base = y1 + cell->row->pixels - cell->row->margin_b - font->descent + 1;
-
 	gdk_gc_set_foreground (gc, &item_grid->default_color);
-	gdk_gc_set_function (gc, GDK_COPY);
-	
-	if (clip_left || clip_right){
-		rect.x = x1;
-		rect.y = y1;
-		rect.width = width;
-		rect.height = height;
-		gdk_gc_set_clip_rectangle (gc, &rect);
-	} else
-		gdk_gc_set_clip_rectangle (gc, NULL);
-
-	gdk_draw_rectangle (drawable, white_gc, TRUE,
-			    x1 + x_offset, 
-			    y1 + cell->row->margin_a,
-			    cell->width - (cell->col->margin_a + cell->col->margin_b),
-			    height - (cell->row->margin_a + cell->row->margin_b));
-
-	pixels = 0;
-	if (!cell->entered_text){
-		printf ("No entered text in cell %d,%d\n", cell->col->pos, cell->row->pos);
-		return;
-	}
-
-	do {
-		char *text;
-
-		text = CELL_TEXT_GET (cell);
-		gdk_draw_text (drawable, font, gc,
-			       x1 + x_offset,
-			       text_base + y_offset,
-			       text, strlen (text));
-		
-		pixels += cell->width;
-	} while (style->halign == HALIGN_FILL &&
-		 pixels < cell->col->pixels);
+	cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 
 	/*
 	 * If the cell is selected, turn the inverse video on
@@ -398,8 +307,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			ri = sheet_row_get_info (sheet, row);
 			item_grid_draw_cell (drawable, item_grid,
 					     x_paint, y_paint,
-					     ci->pixels,
-					     ri->pixels,
+					     ci,
+					     ri, 
 					     col, row);
 			y_paint += ri->pixels;
 		}

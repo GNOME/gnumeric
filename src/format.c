@@ -792,7 +792,7 @@ do_render_number (gdouble number, format_info_t *info)
 	else
 		decimal_point = "";
 
-#ifdef 0
+#if 0
 	printf ("Rendering: %g with:\n", number);
 	printf ("left_req:    %d\n"
 		"right_req:   %d\n"
@@ -1128,7 +1128,6 @@ format_value (StyleFormat *format, Value *value, char **color_name)
 	/* Try to parse a color specification */
 	if (entry.format [0] == '['){
 		char *end = strchr (entry.format, ']');
-		char *color;
       
 		if (end){
 			if (color_name)

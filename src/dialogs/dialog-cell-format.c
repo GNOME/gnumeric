@@ -27,6 +27,7 @@ static GtkWidget *font_widget;
 /* There point to the radio groups in the format/alignment page */
 static GSList *hradio_list;
 static GSList *vradio_list;
+static GtkWidget *auto_return;
 
 /* Points to the first cell in the selection */
 static Cell *first_cell;
@@ -406,8 +407,21 @@ static align_def_t vertical_aligns [] = {
 	{ NULL, 0 }
 };
 
+static void
+do_disable (GtkWidget *widget, GtkWidget *op)
+{
+	int v;
+	
+	if (GTK_TOGGLE_BUTTON (widget)->active)
+		v = FALSE;
+	else
+		v = TRUE;
+	
+	gtk_widget_set_sensitive (op, v);
+}
+
 static GtkWidget *
-make_radio_selection (GtkWidget *prop_win, char *title, align_def_t *array, GSList **dest_list)
+make_radio_selection (GtkWidget *prop_win, char *title, align_def_t *array, GSList **dest_list, GtkWidget *disable)
 {
 	GtkWidget *frame, *vbox;
 	GSList *group;
@@ -422,6 +436,11 @@ make_radio_selection (GtkWidget *prop_win, char *title, align_def_t *array, GSLi
 		item = gtk_radio_button_new_with_label (group, _(array->name));
 		group = gtk_radio_button_group (GTK_RADIO_BUTTON (item));
 		gtk_box_pack_start_defaults (GTK_BOX (vbox), item);
+
+		if (disable && strcmp (array->name, "Fill") == 0){
+			gtk_signal_connect (GTK_OBJECT (item), "toggled",
+					    GTK_SIGNAL_FUNC (do_disable), disable);
+		}
 	}
 	
 	*dest_list = group;
@@ -439,28 +458,35 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 {
 	GtkTable *t;
 	GtkWidget *w;
-	int ha, va, ok = 0;
+	int ha, va, autor, ok = 0;
 	GList *l;
 	GSList *sl;
 	
 	t = (GtkTable *) gtk_table_new (0, 0, 0);
 
-	/* Horizontal alignment */
-	w = make_radio_selection (prop_win, _("Horizontal"), horizontal_aligns, &hradio_list);
-	gtk_table_attach (t, w, 0, 1, 0, 2, 0, GTK_FILL, 4, 0);
-
 	/* Vertical alignment */
-	w = make_radio_selection (prop_win, _("Vertical"), vertical_aligns, &vradio_list);
+	w = make_radio_selection (prop_win, _("Vertical"), vertical_aligns, &vradio_list, NULL);
 	gtk_table_attach (t, w, 1, 2, 0, 1, 0, GTK_FILL, 4, 0);
 
+	/* Horizontal alignment */
+	w = make_radio_selection (prop_win, _("Horizontal"), horizontal_aligns, &hradio_list, w);
+	gtk_table_attach (t, w, 0, 1, 0, 2, 0, GTK_FILL, 4, 0);
+
+	auto_return = gtk_check_button_new_with_label ("Auto return");
+	gtk_table_attach (t, auto_return, 0, 3, 2, 3, 0, 0, 0, 0);
+	
 	/* Check if all cells have the same properties */
 	if (cells){
-		ha = ((Cell *) (cells->data))->style->halign;
-		va = ((Cell *) (cells->data))->style->valign;
+		ha    = ((Cell *) (cells->data))->style->halign;
+		va    = ((Cell *) (cells->data))->style->valign;
+		autor = ((Cell *) (cells->data))->style->fit_in_cell;
+		
 		for (ok = 1, l = cells; l; l = l->next){
 			Cell *cell = l->data;
 			
-			if (cell->style->halign != ha || cell->style->valign != va){
+			if (cell->style->halign != ha ||
+			    cell->style->valign != va ||
+			    cell->style->fit_in_cell != autor){
 				ok = 0;
 				break;
 			}
@@ -481,6 +507,9 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 					gtk_radio_button_select (vradio_list, n);
 					break;
 				}
+
+			if (autor)
+				gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (auto_return));
 		}
 	}
 
@@ -506,17 +535,18 @@ static void
 apply_align_format (Style *style, Sheet *sheet, CellList *cells)
 {
 	int i;
-	int halign, valign;
+	int halign, valign, autor;
 
 	i = gtk_radio_group_get_selected (hradio_list);
 	halign = horizontal_aligns [i].flag;
 	i = gtk_radio_group_get_selected (vradio_list);
 	valign = vertical_aligns [i].flag;
-	
+	autor = GTK_TOGGLE_BUTTON (auto_return)->active;
+
 	for (; cells; cells = cells->next){
 		Cell *cell = cells->data;
 		
-		cell_set_alignment (cell, halign, valign, ORIENT_HORIZ);
+		cell_set_alignment (cell, halign, valign, ORIENT_HORIZ, autor);
 	}
 	style->halign = halign;
 	style->valign = valign;

@@ -48,7 +48,6 @@ typedef GList CellList;
 
 #define CELL_TEXT_GET(cell) ((cell)->text ? cell->text->str : cell->entered_text->str)
 #define CELL_IS_FORMULA(cell) (cell->entered_text->str [0] == '=')
-#define CELL_TEXT_INTER_SPACE 2
 
 typedef struct {
 	int col_offset, row_offset; /* Position of the cell */
@@ -69,7 +68,7 @@ void        cell_set_formula          (Cell *cell, char *text);
 void        cell_set_format           (Cell *cell, char *format);
 void        cell_set_font             (Cell *cell, char *font_name);
 void        cell_set_font_from_style  (Cell *cell, StyleFont *style_font);
-void        cell_set_alignment        (Cell *cell, int halign, int valign, int orientation);
+void        cell_set_alignment        (Cell *cell, int halign, int valign, int orientation, int auto_return);
 void        cell_set_rendered_text    (Cell *cell, char *rendered_text);
 void        cell_formula_relocate     (Cell *cell, int target_col, int target_row);
 void        cell_get_span             (Cell *cell, int *col1, int *col2);
@@ -81,6 +80,10 @@ void        cell_destroy              (Cell *cell);
 void        cell_formula_changed      (Cell *cell);
 void        cell_queue_redraw         (Cell *cell);
 int         cell_get_horizontal_align (Cell *cell);
+
+void        cell_draw                 (Cell *cell, void *sheet_view,
+				       GdkGC *gc, GdkDrawable *drawable,
+				       int x, int y);
 
 void        calc_text_dimensions      (int is_number, Style *style, char *text,
 				       int cell_w, int cell_h, int *h, int *w);
