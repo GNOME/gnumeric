@@ -1,5 +1,7 @@
 1999-09-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* samples/statfuns.xls: Updated the second PERCENTRANK test.
+	
 	* src/functions/fn-stat.c: Added stubs for LOGEST and GROWTH.
 
 1999-09-20  Morten Welinder  <terra@diku.dk>
