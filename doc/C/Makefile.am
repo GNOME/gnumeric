@@ -32,8 +32,8 @@ SGML_FILES =			\
 	worksheet.sgml
 
 PERL_FILES = 			\
-	make-index.pl		\
-	make-docbook.pl	
+	make-func-index.pl	\
+	make-func-list.pl	
 
 EXTRA_DIST = \
 	topic.dat		\
@@ -56,13 +56,13 @@ gnumeric/index.html: $(SGML_FILES)
 functions.sgml: func-list.sgml func-index.sgml func-header.sgml func-footer.sgml
 	cd $(srcdir) && cat func-header.sgml func-index.sgml func-list.sgml func-footer.sgml > functions.sgml
 
-func-list.sgml: func.defs make-docbook.pl
-	cd $(srcdir) && perl make-docbook.pl func.defs > func-list.sgml
+func-list.sgml: func.defs make-func-list.pl
+	cd $(srcdir) && perl make-func-list.pl func.defs > func-list.sgml
 
-func-index.sgml: func.defs make-index.pl
-	cd $(srcdir) && perl make-index.pl func.defs > func-index.sgml
+func-index.sgml: func.defs make-func-index.pl
+	cd $(srcdir) && perl make-func-index.pl func.defs > func-index.sgml
 
-make-func.defs: 
+func.defs: 
 	gnumericdir=`cd $(top_builddir)/src && pwd`; \
 	cd $(srcdir) && $$gnumericdir/$(gnumeric) --dump-func-defs=func.defs
 
