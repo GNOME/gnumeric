@@ -11,10 +11,9 @@ J.H.M. Dassen (Ray):
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=96617
 	* fix undo for object drags on initial selection.
-
 	* fix crash when validating 'between' and 'not-between' conditions
-
 	* fix bound check when exporting to XL95 to actually warn
+	* POISSON is defined for x == 0
 
 Morten:
 	* Fix GAMMAINV.
