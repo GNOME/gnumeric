@@ -226,13 +226,14 @@ cb_dialog_goto_selection_changed (GtkTreeSelection *the_selection, GotoState *st
 			char *where_to;
 			
 			if (NULL == sheet)
-				sheet = wb_control_cur_sheet ( WORKBOOK_CONTROL (state->wbcg)), 
-			parse_pos_init (&pp, state->wb, sheet, 0, 0),
+				sheet = wb_control_cur_sheet ( WORKBOOK_CONTROL (state->wbcg));
+
+			parse_pos_init (&pp, state->wb, sheet, 0, 0);
 			where_to = expr_name_as_string  (name, &pp, gnm_expr_conventions_default);
 			if (wb_control_parse_and_jump (WORKBOOK_CONTROL (state->wbcg), where_to))
-				gtk_entry_set_text (GTK_ENTRY (gnome_entry_gtk_entry (
-								       state->goto_text)),
-                                            where_to);
+				gtk_entry_set_text (
+					GTK_ENTRY (gnome_entry_gtk_entry (state->goto_text)),
+					where_to);
 			g_free (where_to);
 			return;
 		}

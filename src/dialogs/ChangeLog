@@ -1,3 +1,8 @@
+2002-12-05  Jody Goldberg <jody@gnome.org>
+
+	* dialog-goto-cell.c (cb_dialog_goto_selection_changed) : fix
+	  silliness.
+
 2002-12-04  Jody Goldberg <jody@gnome.org>
 
 	* Makefile.am : add autofilter
