@@ -112,7 +112,7 @@ typedef struct _FillItem {
 		Value    *value;
 		String   *str;
 		struct {
-			AutoFillList *list;
+			AutoFillList const *list;
 			int           num;
 			int           was_i18n;
 		} list;
@@ -135,7 +135,7 @@ typedef struct _FillItem {
 static GList *autofill_lists;
 
 static void
-autofill_register_list (const char *const *list)
+autofill_register_list (char const *const *list)
 {
 	AutoFillList *afl;
 	const char *const *p = list;
@@ -150,39 +150,46 @@ autofill_register_list (const char *const *list)
 	autofill_lists = g_list_prepend (autofill_lists, afl);
 }
 
-static AutoFillList *
-matches_list (const String *str, int *n, int *is_i18n)
+static gboolean
+in_list (AutoFillList const *afl, char const *s, int *n, int *is_i18n)
+{
+	int i;
+
+	for (i = 0; i < afl->count; i++) {
+		const char *english_text, *translated_text;
+
+		english_text = afl->items [i];
+		if (english_text [0] == '*')
+			english_text++;
+
+		if ((g_strcasecmp (english_text, s) == 0)) {
+			*is_i18n = FALSE;
+			*n = i;
+			return TRUE;
+		}
+
+		translated_text = _(afl->items [i]);
+		if (*translated_text == '*')
+			translated_text++;
+
+		if (g_strcasecmp (translated_text, s) == 0) {
+			*is_i18n = TRUE;
+			*n = i;
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
+static AutoFillList const *
+matches_list (char const *s, int *n, int *is_i18n)
 {
 	GList *l;
-	const char *s = str->str;
-
-	for (l = autofill_lists; l; l = l->next) {
-		AutoFillList *afl = l->data;
-		int i;
-
-		for (i = 0; i < afl->count; i++) {
-			const char *english_text, *translated_text;
-
-			english_text = afl->items [i];
-			if (*english_text == '*')
-				english_text++;
-
-			if ((g_strcasecmp (english_text, s) == 0)) {
-				*is_i18n = FALSE;
-				*n = i;
-				return afl;
-			}
-
-			translated_text = _(afl->items [i]);
-			if (*translated_text == '*')
-				translated_text++;
-
-			if (g_strcasecmp (translated_text, s) == 0) {
-				*is_i18n = TRUE;
-				*n = i;
-				return afl;
-			}
-		}
+	for (l = autofill_lists; l != NULL; l = l->next) {
+		AutoFillList const *afl = l->data;
+		if (in_list (afl, s, n, is_i18n))
+			return afl;
 	}
 	return NULL;
 }
@@ -332,13 +339,13 @@ fill_item_new (Sheet *sheet, int col, int row)
 	}
 
 	if (value_type == VALUE_STRING) {
-		AutoFillList *list;
+		AutoFillList const *list;
 		int  num, pos, i18;
 
 		fi->type = FILL_STRING_CONSTANT;
 		fi->v.str = string_ref (value->v_str.val);
 
-		list = matches_list (value->v_str.val, &num, &i18);
+		list = matches_list (value->v_str.val->str, &num, &i18);
 		if (list) {
 			fi->type = FILL_STRING_LIST;
 			fi->v.list.list = list;
@@ -478,8 +485,22 @@ type_is_compatible (FillItem *last, FillItem *current)
 		return FALSE;
 
 	if (last->type == FILL_STRING_LIST) {
-		if (last->v.list.list != current->v.list.list)
-			return FALSE;
+		/* It is possible the item is in multiple lists.  If things
+		 * disagree see if we are in the previous list, and convert
+		 * eg May
+		 */
+		if (last->v.list.list != current->v.list.list) {
+			int num, is_i18n;
+			if (in_list (last->v.list.list,
+				     current->v.list.list->items [current->v.list.num],
+				     &num, &is_i18n)) {
+				current->v.list.list = last->v.list.list;
+				current->v.list.num = num;
+				current->v.list.was_i18n = is_i18n;
+			} else
+				return FALSE;
+		}
+
 		if (last->v.list.was_i18n != current->v.list.was_i18n)
 			return FALSE;
 	}
@@ -661,7 +682,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		n %= delta->v.list.list->count;
 
 		if (n < 0)
-			n = (delta->v.list.list->count + n);
+			n += delta->v.list.list->count;
 
 		text = delta->v.list.list->items [n];
 		if (delta->v.list.was_i18n)

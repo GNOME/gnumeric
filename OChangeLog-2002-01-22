@@ -1,5 +1,10 @@
 2001-11-04  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-autofill.c (type_is_compatible) : Handle list items being
+	  in multiple lists.
+	(in_list) : new, split from.
+	(match_list) : new, split from.
+
 	* src/gui-clipboard.c (x_selection_handler) : Better interaction with
 	  'Klipper'
 
