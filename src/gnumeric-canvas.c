@@ -631,8 +631,7 @@ gnumeric_sheet_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	(*GTK_WIDGET_CLASS (gsheet_parent_class)->size_allocate)(widget, allocation);
 
-	/* Be extra careful, panes require a full recompute */
-	gsheet_compute_visible_region (GNUMERIC_SHEET (widget), TRUE);
+	gsheet_compute_visible_region (GNUMERIC_SHEET (widget), FALSE);
 }
 
 typedef struct {
@@ -1043,8 +1042,9 @@ gsheet_compute_visible_region (GnumericSheet *gsheet,
 		gsheet->row.last_full = SHEET_MAX_ROWS-1;
 	}
 
-	/* Update the scrollbar sizes */
-	scg_scrollbar_config (SHEET_CONTROL (scg));
+	/* Update the scrollbar sizes for the primary pane */
+	if (gsheet->pane->index == 0)
+		scg_scrollbar_config (SHEET_CONTROL (scg));
 
 	/* Force the cursor to update its bounds relative to the new visible region */
 	item_cursor_reposition (gsheet->item_cursor);

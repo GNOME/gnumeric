@@ -400,8 +400,12 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 
 		if (gsheet->pane->index == 2) {
 			int left, top;
-			gnome_canvas_get_scroll_offsets (canvas, &left, &top);
-			printf ("offset 0x%p = %d, %d\n", canvas, left, top);
+			gnome_canvas_get_scroll_offsets (GNOME_CANVAS (canvas),
+							 &left, &top);
+			printf ("o1 0x%p (0x%p) = %d, %d\n",
+				canvas,
+				gtk_layout_get_vadjustment (GTK_LAYOUT (canvas)),
+				left, top);
 		}
 
 		rect.x = ib->indent - x;
