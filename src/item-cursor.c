@@ -26,6 +26,8 @@
 #include "commands.h"
 #include "ranges.h"
 #include "parse-util.h"
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-cursors.h>
 #include <gal/util/e-util.h>
 

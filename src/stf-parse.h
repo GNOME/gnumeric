@@ -2,7 +2,10 @@
 #define GNUMERIC_STF_PARSE_H
 
 #include <stdlib.h>
-#include <gnome.h>
+#include <string.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "sheet.h"
 #include "cell.h"

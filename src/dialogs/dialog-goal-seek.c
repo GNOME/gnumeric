@@ -6,9 +6,10 @@
  *   Morten Welinder (terra@diku.dk)
  */
 
-
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <math.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"

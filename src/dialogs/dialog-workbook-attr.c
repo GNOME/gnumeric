@@ -7,7 +7,10 @@
  **/
 
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 #include "sheet.h"
 #include "style-color.h"

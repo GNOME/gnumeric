@@ -6,7 +6,7 @@
  *  Miguel de Icaza (miguel@gnu.org)
  */
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
 #include <locale.h>
 #include <string.h>
 #include <ctype.h>

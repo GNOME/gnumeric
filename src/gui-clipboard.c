@@ -21,7 +21,8 @@
 #include "dialog-stf.h"
 #include "stf-parse.h"
 
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <locale.h>
 #include <string.h>
 #include <ctype.h>

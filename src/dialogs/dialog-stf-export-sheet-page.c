@@ -7,6 +7,9 @@
  */
 
 #include <config.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include "workbook.h"
 #include "sheet.h"
 

@@ -8,7 +8,8 @@
  *    Miguel de Icaza (miguel@gnu.org).
  */
 #include <config.h>
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnomeui/gnome-init.h>
 #include "gnumeric.h"
 #include "sheet.h"
 #include "workbook.h"

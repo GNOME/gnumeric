@@ -44,9 +44,12 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <zlib.h>
+#include <string.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/widgets/e-colors.h>
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
 #include <locale.h>
 #include <math.h>
 #include <limits.h>

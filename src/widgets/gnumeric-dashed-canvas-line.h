@@ -2,7 +2,7 @@
 #define GNUMERIC_DASHED_CANVAS_LINE_H
 
 /* dashed Line item for the canvas */
-#include <gnome.h>
+#include <libgnomeui/libgnomeui.h>
 #include "style-border.h"
 
 #define GNUMERIC_TYPE_DASHED_CANVAS_LINE\

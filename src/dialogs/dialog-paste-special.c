@@ -6,7 +6,9 @@
  *  MIguel de Icaza (miguel@gnu.org)
  */
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "clipboard.h"

@@ -7,8 +7,10 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
 #include <gdk/gdkkeysyms.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include "expr-name.h"
 #include "eval.h"
 #include "value.h"

@@ -15,8 +15,11 @@
 #include "cell.h"
 #include "value.h"
 
-#include <gnome.h>
+#include <glib.h>
 #include <string.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
 #include <gal/widgets/e-colors.h>
 
 #define AGGRESSIVE_CACHING

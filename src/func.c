@@ -9,7 +9,9 @@
  */
 #include <config.h>
 #include <string.h>
-#include <gnome.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <math.h>
 #include "func.h"
 #include "portability.h"

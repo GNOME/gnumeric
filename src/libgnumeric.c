@@ -11,7 +11,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <gnome.h>
+#include <glib.h>
 #include <locale.h>
 #include "gnumeric.h"
 #include "xml-io.h"

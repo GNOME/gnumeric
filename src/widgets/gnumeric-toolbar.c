@@ -7,7 +7,7 @@
  *   Miguel de Icaza (miguel@gnu.org)
  */
 #include <config.h>
-#include <gnome.h>
+#include <libgnomeui/libgnomeui.h>
 #include "gnumeric-toolbar.h"
 
 static GtkObjectClass *gnumeric_toolbar_parent_class;

@@ -26,7 +26,6 @@
 #include "sheet-object-bonobo.h"
 
 #include <math.h>
-#include <gnome.h>
 #include <gdk/gdkkeysyms.h>
 #include <bonobo/bonobo-item-container.h>
 #include <bonobo/bonobo-view-frame.h>

@@ -12,7 +12,9 @@
 
 #include <config.h>
 #include <glib.h>
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-config.h>
 #include <string.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>

@@ -19,7 +19,8 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <math.h>
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 Value *
 value_new_empty (void)

@@ -6,7 +6,7 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <libgnomeui/libgnomeui.h>
 #include "utils-dialog.h"
 
 /*

@@ -7,7 +7,7 @@
  *   Michael Meeks (mmeeks@gnu.org)
  */
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
 #include "gnumeric.h"
@@ -20,6 +20,8 @@
 #include "sheet-object-container.h"
 #include "sheet-object-widget.h"
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <bonobo/bonobo-item-container.h>
 #include <bonobo/bonobo-view-frame.h>

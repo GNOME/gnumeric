@@ -26,7 +26,9 @@
 #include <dirent.h>
 #include <string.h>
 #include <errno.h>
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
+#include <libgnome/gnome-i18n.h>
 
 #include <gal/util/e-util.h>
 

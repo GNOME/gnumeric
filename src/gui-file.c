@@ -19,7 +19,7 @@
 
 #include <errno.h>
 #include <sys/stat.h>
-#include <gnome.h>
+#include <gtk/gtk.h>
 #include <glade/glade.h>
 
 static gint

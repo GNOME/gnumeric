@@ -30,7 +30,8 @@
 #include "commands.h"
 
 #include <gal/util/e-util.h>
-#include <gnome.h> /* Ick.  This is required to get _("") */
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 #define WBC_CLASS(o) WORKBOOK_CONTROL_CLASS ((o)->context.gtk_object.klass)
 #define WBC_VIRTUAL_FULL(func, handle, arglist, call)		\

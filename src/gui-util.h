@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_GNUMERIC_UTIL_H
 #define GNUMERIC_GNUMERIC_UTIL_H
 
-#include <gnome.h>
+#include <libgnomeui/libgnomeui.h>
 #include <glade/glade-xml.h>
 #include "workbook-control-gui.h"
 #include "error-info.h"

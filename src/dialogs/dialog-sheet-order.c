@@ -8,7 +8,8 @@
  */
 #include <config.h>
 #include <glib.h>
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"

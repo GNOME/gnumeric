@@ -35,7 +35,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
-#include <gnome.h>
+#include <glib.h>
 
 /* Can remove sheet since local references have NULL sheet */
 char *

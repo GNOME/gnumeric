@@ -7,7 +7,9 @@
  *   Miguel de Icaza (miguel@gnu.org)
  */
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <liboaf/liboaf.h>
 #include <bonobo.h>
 #include "sheet.h"

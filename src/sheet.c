@@ -38,7 +38,8 @@
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>

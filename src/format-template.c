@@ -28,7 +28,9 @@
 #include "style-border.h"
 #include "command-context.h"
 #include "ranges.h"
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
 
 /******************************************************************************
  * Hash table related callbacks and functions

@@ -1,5 +1,6 @@
 #include <config.h>
-#include <gnome.h>
+#include <stdio.h>
+#include <glib.h>
 #include "number-match.h"
 
 int

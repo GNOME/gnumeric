@@ -5,7 +5,7 @@
  *   Miguel de Icaza (miguel@kernel.org)
  */
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
 #include <gdk/gdkkeysyms.h>
 #include <bonobo/bonobo-ui-component.h>
 #include "gnumeric.h"

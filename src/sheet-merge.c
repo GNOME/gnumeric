@@ -33,7 +33,8 @@
 #include "expr.h"
 #include "command-context.h"
 
-#include <gnome.h> /*for translation */
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 static gint
 range_row_cmp (Range const *a, Range const *b)

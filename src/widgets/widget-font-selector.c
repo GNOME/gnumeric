@@ -7,7 +7,10 @@
  *   Almer S. Tigelaar (almer@gnome.org)
  */
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/libgnomeui.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "widget-font-selector.h"

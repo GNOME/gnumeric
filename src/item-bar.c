@@ -23,6 +23,8 @@
 #include "parse-util.h"
 #include "commands.h"
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 
 static GnomeCanvasItemClass *item_bar_parent_class;

@@ -8,7 +8,7 @@
  * i18n of printing: Copyright 2001 by Vlad Harchev <hvv@hippo.ru>
  */
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
 #include <locale.h>
 #include <libgnomeprint/gnome-print.h>
 #include "gnumeric.h"

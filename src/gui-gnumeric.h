@@ -2,7 +2,7 @@
 #define GUI_GNUMERIC_H
 
 #include "gnumeric.h"
-#include <gnome.h>
+#include <libgnomeui/libgnomeui.h>
 
 typedef struct _ItemCursor		ItemCursor;
 typedef struct _ItemGrid		ItemGrid;

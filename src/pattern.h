@@ -2,7 +2,7 @@
 #define GNUMERIC_PATTERN_H
 
 #include "style.h"
-#include <gnome.h>
+#include <libgnomeui/libgnomeui.h>
 #include <libgnomeprint/gnome-print.h>
 
 #define GNUMERIC_SHEET_PATTERNS 25

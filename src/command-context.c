@@ -10,7 +10,8 @@
 #include "command-context-priv.h"
 
 #include <gal/util/e-util.h>
-#include <gnome.h> /* Ick.  This is required to get _("") */
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 #define CC_CLASS(o) COMMAND_CONTEXT_CLASS (GTK_OBJECT (o)->klass)
 

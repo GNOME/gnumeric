@@ -7,7 +7,9 @@
  *
  */
 #include <config.h>
-#include <gnome.h>
+#include <string.h>
+#include <stdio.h>
+#include <glib.h>
 #include <libgnomeprint/gnome-font.h>
 #include "global-gnome-font.h"
 

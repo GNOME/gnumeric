@@ -14,7 +14,9 @@
 #include "datetime.h"
 #include "sheet.h"
 
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-config.h>
 #include <string.h>
 
 static PrintHF predefined_formats [] = {

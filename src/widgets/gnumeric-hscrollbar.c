@@ -24,7 +24,6 @@
 #include "parse-util.h"
 #include "gnumeric-hscrollbar.h"
 
-#include <gnome.h>
 #include <gal/util/e-util.h>
 
 enum {

@@ -11,7 +11,7 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
 #include <string.h>
 #include <math.h>
 #include "mathfunc.h"
@@ -29,6 +29,9 @@
 #include "regression.h"
 #include "sheet-style.h"
 #include "workbook.h"
+
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 typedef struct {
         GSList  *array;

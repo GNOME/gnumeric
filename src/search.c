@@ -7,7 +7,10 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <string.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <ctype.h>
 #include "ranges.h"
 #include "search.h"

@@ -8,7 +8,7 @@
  *
  */
 #include <config.h>
-#include <gnome.h>
+#include <libgnomeui/libgnomeui.h>
 #include <gdk/gdkkeysyms.h>
 #include "widget-editable-label.h"
 

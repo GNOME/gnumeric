@@ -9,7 +9,7 @@
  */
 
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
 #include <liboaf/liboaf.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-object-directory.h>

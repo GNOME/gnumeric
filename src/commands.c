@@ -55,6 +55,8 @@
 #include "sheet-object.h"
 #include "sheet-control-gui.h"
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 
 #define MAX_DESCRIPTOR_WIDTH 15

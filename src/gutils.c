@@ -11,7 +11,9 @@
 #include "sheet.h"
 #include "ranges.h"
 
-#include <gnome.h> /* for config */
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-config.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

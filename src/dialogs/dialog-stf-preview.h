@@ -2,7 +2,7 @@
 #define GNUMERIC_DIALOG_STF_PREVIEW_H
 
 #include <config.h>
-#include <gnome.h>
+#include <libgnomeui/libgnomeui.h>
 
 #include "sheet.h"
 #include "stf.h"

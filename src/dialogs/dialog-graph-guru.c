@@ -30,6 +30,8 @@
 #include "workbook-edit.h"
 #include "sheet-control-gui.h"
 #include "sheet-object.h"
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 typedef struct
 {

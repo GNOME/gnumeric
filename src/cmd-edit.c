@@ -36,7 +36,9 @@
 #include "commands.h"
 #include "clipboard.h"
 
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <gtk/gtk.h>
 
 /**
  * cmd_select_all:

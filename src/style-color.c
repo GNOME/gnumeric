@@ -8,7 +8,7 @@
  * before any of our Canvases are realized.
  */
 #include <config.h>
-#include <gnome.h>
+#include <gtk/gtk.h>
 #include "style-color.h"
 #include <gal/widgets/e-colors.h>
 

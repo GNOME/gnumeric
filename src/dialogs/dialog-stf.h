@@ -2,7 +2,7 @@
 #define GNUMERIC_DIALOG_STF_H
 
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
 #include <glade/glade.h>
 
 #include <stdlib.h>

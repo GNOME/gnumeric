@@ -14,7 +14,10 @@
 #include <ctype.h>
 #include <string.h>
 #include <errno.h>
-#include <gnome.h>
+#include <stdlib.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include "gnumeric.h"
 #include "number-match.h"
 #include "expr.h"

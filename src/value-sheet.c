@@ -5,6 +5,7 @@
  *   Miguel de Icaza (miguel@gnu.org).
  */
 #include <config.h>
+#include <glib.h>
 #include "value.h"
 #include "ranges.h"
 #include "str.h"
@@ -13,7 +14,8 @@
 #include "workbook.h"
 #include "parse-util.h"
 
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 /* Debugging utility to print a Value */
 void

@@ -6,7 +6,10 @@
  *
  */
 #include <config.h>
-#include <gnome.h>
+#include <gtk/gtk.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-config.h>
+#include <libgnomeui/gnome-stock.h>
 #include "application.h"
 #include "clipboard.h"
 #include "selection.h"

@@ -6,7 +6,7 @@
  *
  */
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
 
 #include "application.h"
 #include "history.h"

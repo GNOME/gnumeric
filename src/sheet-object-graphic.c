@@ -7,7 +7,9 @@
  *   Miguel de Icaza (miguel@kernel.org)
  */
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeprint/gnome-print.h>
 #include <math.h>

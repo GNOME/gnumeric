@@ -26,6 +26,8 @@
 #include "sheet-private.h"
 #include "sheet-control.h"
 #include "gnumeric-util.h"
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 /*
  * Quick utility routine to test intersect of line segments.

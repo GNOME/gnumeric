@@ -24,7 +24,6 @@
 #include "gnumeric-vscrollbar.h"
 
 #include <gal/util/e-util.h>
-#include <gnome.h>
 
 enum {
 	OFFSET_CHANGED,

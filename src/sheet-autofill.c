@@ -33,7 +33,8 @@
 #include <ctype.h>
 #include <errno.h>
 #include <stdlib.h>
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 typedef enum {
 

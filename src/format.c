@@ -21,8 +21,8 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <math.h>
@@ -47,6 +47,9 @@
 #include "datetime.h"
 #include "mathfunc.h"
 #include "str.h"
+#include <gtk/gtk.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 /***************************************************************************/
 

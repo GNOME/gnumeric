@@ -8,7 +8,11 @@
  *
  */
 #include <config.h>
-#include <gnome.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-paper.h>
+#include <libgnomeui/libgnomeui.h>
 #include <libgnomeprint/gnome-printer.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-printer-dialog.h>
