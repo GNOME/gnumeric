@@ -1,3 +1,11 @@
+gnumeric (1.2.13-1) unstable; urgency=high
+
+  * New upstream bugfix release.
+  * High urgency upload as gnumeric is involved in the cupsys transition for
+    sarge.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed, 23 Jun 2004 19:06:13 +0200
+
 gnumeric (1.2.12-3) unstable; urgency=medium
 
   * [debian/control] Tightened libgda2-dev and libgnomedb2-dev build
