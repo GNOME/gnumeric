@@ -263,7 +263,7 @@ clipboard_paste_region (CellRegion const *content,
 			GnmCmdContext *cc)
 {
 	int repeat_horizontal, repeat_vertical, clearFlags;
-	int dst_cols, dst_rows, src_cols, src_rows, tmp;
+	int dst_cols, dst_rows, src_cols, src_rows;
 	int i, j;
 	GnmRange const *r;
 	gboolean has_content, adjust_merges = TRUE;
