@@ -22,16 +22,8 @@ libfoocanvas_a_LIBADD = \
 
 libfoocanvasincludedir = $(includedir)/libfoocanvas-1.0/libfoocanvas
 
-marshal_sources =				\
-	foo-canvas-marshal.c			\
-	foo-canvas-marshal.h
-
-BUILT_SOURCES =					\
-	$(marshal_sources)
-
 
 libfoocanvas_a_SOURCES =			\
-	$(BUILT_SOURCES)			\
 	foo-canvas-i18n.h			\
 	foo-canvas-line.c			\
 	foo-canvas-pixbuf.c			\
@@ -45,9 +37,16 @@ libfoocanvas_a_SOURCES =			\
 
 $(libfoocanvas_2_a_OBJECTS): $(marshal_sources)
 
+marshal_sources =				\
+	foo-canvas-marshal.c			\
+	foo-canvas-marshal.h
+
+BUILT_SOURCES =					\
+	$(marshal_sources)
+
 foo-canvas-marshal.h: foo-canvas-marshal.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=foo_canvas_marshal > $@
-foo-canvas-marshal.c: foo-canvas-marshal.list $(GLIB_GENMARSHAL) foo-canvas-marshal.h
+foo-canvas-marshal.c: foo-canvas-marshal.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --body --prefix=foo_canvas_marshal > $@
 
 EXTRA_DIST = \
@@ -65,6 +64,7 @@ dist-hook:
 noinst_HEADERS = \
 	foo-canvas-i18n.h \
 	foo-canvas-line.h \
+	foo-canvas-marshal.h \
 	foo-canvas-pixbuf.h \
 	foo-canvas-polygon.h \
 	foo-canvas-rect-ellipse.h \

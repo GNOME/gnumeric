@@ -65,6 +65,10 @@ typedef struct {
 
 	/* Anchor */
 	GtkAnchorType anchor;
+
+	/* Approximation method used for transformations */
+	GdkInterpType interp_type;
+
 } PixbufPrivate;
 
 /* Object argument IDs */
@@ -81,31 +85,32 @@ enum {
 	PROP_X_IN_PIXELS,
 	PROP_Y,
 	PROP_Y_IN_PIXELS,
-	PROP_ANCHOR
+	PROP_ANCHOR,
+	PROP_INTERP_TYPE
 };
 
 static void foo_canvas_pixbuf_class_init (FooCanvasPixbufClass *class);
 static void foo_canvas_pixbuf_init (FooCanvasPixbuf *cpb);
 static void foo_canvas_pixbuf_destroy (GtkObject *object);
 static void foo_canvas_pixbuf_set_property (GObject *object,
-					      guint param_id,
-					      const GValue *value,
-					      GParamSpec *pspec);
+					    guint param_id,
+					    const GValue *value,
+					    GParamSpec *pspec);
 static void foo_canvas_pixbuf_get_property (GObject *object,
-					      guint param_id,
-					      GValue *value,
-					      GParamSpec *pspec);
+					    guint param_id,
+					    GValue *value,
+					    GParamSpec *pspec);
 
 static void foo_canvas_pixbuf_update    (FooCanvasItem *item,
-					   double i2w_dx, double i2w_dy,
-					   int flags);
+					 double i2w_dx, double i2w_dy,
+					 int flags);
 static void foo_canvas_pixbuf_draw      (FooCanvasItem *item, GdkDrawable *drawable,
-				           GdkEventExpose *expose);
+					 GdkEventExpose *expose);
 static double foo_canvas_pixbuf_point   (FooCanvasItem *item, double x, double y, int cx, int cy,
-					   FooCanvasItem **actual_item);
+					 FooCanvasItem **actual_item);
 static void foo_canvas_pixbuf_translate (FooCanvasItem *item, double dx, double dy);
 static void foo_canvas_pixbuf_bounds    (FooCanvasItem *item,
-					   double *x1, double *y1, double *x2, double *y2);
+					 double *x1, double *y1, double *x2, double *y2);
 
 static FooCanvasItemClass *parent_class;
 
@@ -234,6 +239,13 @@ foo_canvas_pixbuf_class_init (FooCanvasPixbufClass *class)
                                     GTK_TYPE_ANCHOR_TYPE,
                                     GTK_ANCHOR_NW,
                                     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+        g_object_class_install_property
+                (gobject_class,
+                 PROP_INTERP_TYPE,
+                 g_param_spec_enum ("interp_type", NULL, NULL,
+                                    GDK_TYPE_INTERP_TYPE,
+                                    GDK_INTERP_BILINEAR,
+                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
 	object_class->destroy = foo_canvas_pixbuf_destroy;
 
@@ -258,6 +270,7 @@ foo_canvas_pixbuf_init (FooCanvasPixbuf *gcp)
 	priv->x = 0.0;
 	priv->y = 0.0;
 	priv->anchor = GTK_ANCHOR_NW;
+	priv->interp_type = GDK_INTERP_BILINEAR;
 }
 
 /* Destroy handler for the pixbuf canvas item */
@@ -296,9 +309,9 @@ foo_canvas_pixbuf_destroy (GtkObject *object)
 /* Set_property handler for the pixbuf canvas item */
 static void
 foo_canvas_pixbuf_set_property (GObject            *object,
-				  guint               param_id,
-				  const GValue       *value,
-				  GParamSpec         *pspec)
+				guint               param_id,
+				const GValue       *value,
+				GParamSpec         *pspec)
 {
 	FooCanvasItem *item;
 	FooCanvasPixbuf *gcp;
@@ -412,6 +425,12 @@ foo_canvas_pixbuf_set_property (GObject            *object,
 		foo_canvas_item_request_update (item);
 		break;
 
+	case PROP_INTERP_TYPE:
+		priv->interp_type = g_value_get_enum (value);
+		priv->need_xform_update = TRUE;
+		foo_canvas_item_request_update (item);
+		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
@@ -421,9 +440,9 @@ foo_canvas_pixbuf_set_property (GObject            *object,
 /* Get_property handler for the pixbuf canvasi item */
 static void
 foo_canvas_pixbuf_get_property (GObject            *object,
-				  guint               param_id,
-				  GValue             *value,
-				  GParamSpec         *pspec)
+				guint               param_id,
+				GValue             *value,
+				GParamSpec         *pspec)
 {
 	FooCanvasPixbuf *gcp;
 	PixbufPrivate *priv;
@@ -481,6 +500,10 @@ foo_canvas_pixbuf_get_property (GObject            *object,
 
 	case PROP_ANCHOR:
 		g_value_set_enum (value, priv->anchor);
+		break;
+
+	case PROP_INTERP_TYPE:
+		g_value_set_enum (value, priv->interp_type);
 		break;
 
 	default:
@@ -683,7 +706,7 @@ foo_canvas_pixbuf_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	    gdk_pixbuf_get_height (priv->pixbuf) != h) {
 		pixbuf = gdk_pixbuf_scale_simple  (priv->pixbuf,
 						   w, h,
-						   GDK_INTERP_BILINEAR);
+						   priv->interp_type);
 	} else {
 		pixbuf = g_object_ref (priv->pixbuf);
 	}

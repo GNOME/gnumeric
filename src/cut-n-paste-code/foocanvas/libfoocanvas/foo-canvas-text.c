@@ -85,6 +85,7 @@ enum {
 	PROP_CLIP_WIDTH,
 	PROP_CLIP_HEIGHT,
 	PROP_CLIP,
+	PROP_WRAP_WIDTH,
 	PROP_X_OFFSET,
 	PROP_Y_OFFSET,
 
@@ -412,6 +413,12 @@ foo_canvas_text_class_init (FooCanvasTextClass *class)
                  g_param_spec_boolean ("clip", NULL, NULL,
 				       FALSE,
 				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+        g_object_class_install_property
+                (gobject_class,
+                 PROP_WRAP_WIDTH,
+                 g_param_spec_double ("wrap_width", NULL, NULL,
+				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
+				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_X_OFFSET,
@@ -957,8 +964,6 @@ foo_canvas_text_set_property (GObject            *object,
 
 	case PROP_CLIP_WIDTH:
 		text->clip_width = fabs (g_value_get_double (value));
-		pango_layout_set_width (text->layout,
-			text->clip_width * PANGO_SCALE);
 		break;
 
 	case PROP_CLIP_HEIGHT:
@@ -968,6 +973,12 @@ foo_canvas_text_set_property (GObject            *object,
 	case PROP_CLIP:
 		text->clip = g_value_get_boolean (value);
 		break;
+
+	case PROP_WRAP_WIDTH: {
+		double w = fabs (g_value_get_double (value));
+		pango_layout_set_width (text->layout, w * PANGO_SCALE);
+		break;
+	}
 
 	case PROP_X_OFFSET:
 		text->xofs = g_value_get_double (value);
@@ -1199,6 +1210,11 @@ foo_canvas_text_get_property (GObject            *object,
 
 	case PROP_CLIP:
 		g_value_set_boolean (value, text->clip);
+		break;
+
+	case PROP_WRAP_WIDTH:
+		g_value_set_double (value,
+			pango_layout_get_width (text->layout) / PANGO_SCALE);
 		break;
 
 	case PROP_X_OFFSET:
