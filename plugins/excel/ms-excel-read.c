@@ -1389,7 +1389,9 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 }
 
 static void
-ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row, guint16 xfidx)
+ms_excel_set_xf_segment (ExcelSheet *sheet,
+			 int start_col, int end_col,
+			 int start_row, int end_row, guint16 xfidx)
 {
 	Range   range;
 	MStyle * const mstyle  = ms_excel_get_style_from_xf (sheet, xfidx);
@@ -1397,9 +1399,9 @@ ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row,
 		return;
 
 	range.start.col = start_col;
-	range.start.row = row;
+	range.start.row = start_row;
 	range.end.col   = end_col;
-	range.end.row   = row;
+	range.end.row   = end_row;
 	sheet_style_set_range (sheet->gnum_sheet, &range, mstyle);
 
 #ifndef NO_DEBUG_EXCEL
@@ -1725,7 +1727,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 2) {
 		printf ("XF(%d) : Font %d, Format %d, Fore %d, Back %d, Pattern = %d\n",
-			wb->XF_cell_records->len,
+			wb->XF_cell_records->len - 1,
 			xf->font_idx,
 			xf->format_idx,
 			xf->pat_foregnd_col,
@@ -2219,6 +2221,7 @@ ms_sheet_obj_create (MSContainer *container, MSObj *obj)
 	case 0x0B : so = sheet_widget_checkbox_new (sheet); break; /* CheckBox*/
 	case 0x0C : so = sheet_widget_radio_button_new (sheet); break; /* OptionButton */
 	case 0x0E : so = sheet_widget_label_new (sheet);    break; /* Label */
+	case 0x10 : so = sheet_object_box_new (FALSE);  break; /* Spinner */
 	case 0x12 : so = sheet_widget_list_new (sheet);     break; /* List */
 	case 0x14 : so = sheet_widget_combo_new (sheet);    break; /* Combo */
 
@@ -2854,9 +2857,6 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 	/* TODO : Columns actually set the size even when it is the default.
 	 *        Which approach is better ?
 	 */
-	/* TODO : We should store the default row style too.
-	 *        Which has precedence rows or cols ??
-	 */
 	if (!is_std_height) {
 		double hu = get_row_height_units (height);
 		sheet_row_set_size_pts (sheet->gnum_sheet, row, hu, TRUE);
@@ -2866,7 +2866,9 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 		colrow_set_visibility (sheet->gnum_sheet, FALSE, FALSE, row, row);
 
 	if (flags & 0x80) {
-		ms_excel_set_xf_segment (sheet, 0, SHEET_MAX_COLS-1, row, xf);
+		if (xf != 0)
+			ms_excel_set_xf_segment (sheet, 0, SHEET_MAX_COLS-1,
+						 row, row, xf);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
 			printf ("row %d has flags 0x%x a default style %hd;\n",
@@ -2936,7 +2938,10 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 						 outline_level, collapsed);
 	}
 
-	/* TODO : We should associate a style region with the columns */
+	if (xf != 0)
+		ms_excel_set_xf_segment (sheet, firstcol, lastcol,
+					 0, SHEET_MAX_ROWS-1, xf);
+
 	if (hidden)
 		colrow_set_visibility (sheet->gnum_sheet, TRUE, FALSE,
 					firstcol, lastcol);
@@ -3054,13 +3059,13 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			if (prev_xf != xf_index) {
 				if (prev_xf >= 0)
 					ms_excel_set_xf_segment (sheet, i + 1, range_end,
-								 row, prev_xf);
+								 row, row, prev_xf);
 				prev_xf = xf_index;
 				range_end = i;
 			}
 		} while (--i >= firstcol);
 		ms_excel_set_xf_segment (sheet, firstcol, range_end,
-					 row, prev_xf);
+					 row, row, prev_xf);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 2) {
 			printf ("\n");

@@ -1,5 +1,11 @@
 2001-05-05  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-excel-read.c (ms_excel_set_xf_segment) : support multiple rows.
+	(ms_excel_read_row) : use here.
+	(ms_excel_read_cell) : and here.
+	(ms_excel_read_colinfo) : start using it here too.
+	(ms_sheet_obj_create) : Add a place holder for a spinner.
+
 	* ms-excel-write.c (pre_cell) : XL does not differentiate between
 	  parse and display formats.  When exporting a cell with General that
 	  has a parse format create a new XF with the parse format as the
