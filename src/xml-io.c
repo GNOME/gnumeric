@@ -236,7 +236,7 @@ xml_node_set_int (xmlNodePtr node, const char *name, int val)
 {
 	char str[4 * sizeof (int)];
 	sprintf (str, "%d", val);
-	xmlSetProp (node, name, str);
+	xml_node_set_cstr (node, name, str);
 }
 
 /* Get a double value for a node carried as an attibute */
@@ -273,7 +273,7 @@ xml_node_set_double (xmlNodePtr node, const char *name, double val,
 	else
 		snprintf (str, 100 + DBL_DIG, "%f", val);
 
-	xmlSetProp (node, name, str);
+	xml_node_set_cstr (node, name, str);
 }
 
 static gboolean
@@ -486,7 +486,7 @@ xml_node_set_color (xmlNodePtr node, const char *name, StyleColor *val)
 {
 	char str[4 * sizeof (val->color)];
 	sprintf (str, "%X:%X:%X", val->color.red, val->color.green, val->color.blue);
-	xmlSetProp (node, name, str);
+	xml_node_set_cstr (node, name, str);
 }
 
 void
