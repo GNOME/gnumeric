@@ -21,6 +21,7 @@ struct _GnmPyInterpreter {
 	GObject parent_instance;
 
 	PyThreadState *py_thread_state;
+	PyObject      *stringio_class;
 	GnmPlugin *plugin;
 };
 
@@ -42,12 +43,19 @@ static void
 gnm_py_interpreter_init (GnmPyInterpreter *interpreter)
 {
 	interpreter->py_thread_state = NULL;
+	interpreter->stringio_class  = NULL;
 	interpreter->plugin = NULL;
 }
 
 static void
 gnm_py_interpreter_finalize (GObject *obj)
 {
+	GnmPyInterpreter *interpreter = GNM_PY_INTERPRETER (obj);
+
+	if (interpreter->stringio_class != NULL) {
+		Py_DECREF (interpreter->stringio_class);
+	}
+
 	parent_class->finalize (obj);
 }
 
@@ -147,22 +155,24 @@ read_file (FILE *f)
 }
 
 static void 
-run_print_string (const char *cmd, FILE *stdout_f)
+run_print_string (const char *cmd, PyObject *stdout_obj)
 {
 	PyObject *m, *d, *v;
-	m = PyImport_AddModule((char *) "__main__");
+	m = PyImport_AddModule ((char *) "__main__");
 	if (m == NULL)
 		return;
-	d = PyModule_GetDict(m);
+	d = PyModule_GetDict (m);
 	v = PyRun_String ((char *) cmd, Py_single_input, d, d);
 	if (!v)
-		PyErr_Print();
-	if (Py_FlushLine())
-		PyErr_Clear();
-	if (v && v != Py_None && stdout_f)
-		PyObject_Print (v, stdout_f, Py_PRINT_RAW);
+		PyErr_Print ();
+	if (Py_FlushLine () != 0)
+		PyErr_Clear ();
+	if (v && v != Py_None && stdout_obj) {
+		if (PyFile_WriteObject (v, stdout_obj, Py_PRINT_RAW) != 0)
+			PyErr_Clear ();
+	}
 	if (v) {
-		Py_DECREF(v);
+		Py_DECREF (v);
 	}
 }
 
@@ -171,9 +181,9 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
                                char **opt_stdout, char **opt_stderr)
 {
 	PyObject *sys_module, *sys_module_dict;
-	PyObject *saved_stdout_obj = NULL, *stdout_obj,
-	         *saved_stderr_obj = NULL, *stderr_obj;
-	FILE *stdout_f = NULL, *stderr_f = NULL;
+	PyObject *saved_stdout_obj = NULL, *stdout_obj = NULL,
+	         *saved_stderr_obj = NULL, *stderr_obj = NULL;
+	PyObject *py_str;
 
 	g_return_if_fail (GNM_IS_PY_INTERPRETER (interpreter));
 
@@ -183,34 +193,63 @@ gnm_py_interpreter_run_string (GnmPyInterpreter *interpreter, const char *cmd,
 	g_return_if_fail (sys_module != NULL);
 	sys_module_dict = PyModule_GetDict (sys_module);
 	g_return_if_fail (sys_module_dict != NULL);
+	if (interpreter->stringio_class == NULL) {
+		PyObject *stringio_module, *stringio_module_dict;
+
+		stringio_module = PyImport_ImportModule ((char *) "StringIO");
+		g_return_if_fail (stringio_module != NULL);
+		stringio_module_dict = PyModule_GetDict (stringio_module);
+		g_return_if_fail (stringio_module_dict != NULL);
+		interpreter->stringio_class 
+			= PyDict_GetItemString (stringio_module_dict,
+						(char *) "StringIO");
+		g_return_if_fail (interpreter->stringio_class != NULL);
+		Py_INCREF (interpreter->stringio_class);
+	}
 	if (opt_stdout != NULL) {
-		stdout_f = tmpfile ();
-		stdout_obj = PyFile_FromFile (stdout_f, (char *) "<stdout>", (char *) "a", NULL);
-		saved_stdout_obj = PyDict_GetItemString (sys_module_dict, (char *) "stdout");
+		stdout_obj = PyInstance_New(interpreter->stringio_class,
+					    NULL, NULL);
+		saved_stdout_obj = PyDict_GetItemString (sys_module_dict, 
+							 (char *) "stdout");
 		g_assert (saved_stdout_obj != NULL);
 		Py_INCREF (saved_stdout_obj);
-		PyDict_SetItemString (sys_module_dict, (char *) "stdout", stdout_obj);
+		PyDict_SetItemString (sys_module_dict, (char *) "stdout", 
+				      stdout_obj);
 	}
 	if (opt_stderr != NULL) {
-		stderr_f = tmpfile ();
-		stderr_obj = PyFile_FromFile (stderr_f, (char *) "<stderr>", (char *) "a", NULL);
-		saved_stderr_obj = PyDict_GetItemString (sys_module_dict, (char *) "stderr");
+		stderr_obj = PyInstance_New(interpreter->stringio_class,
+					    NULL, NULL);
+		saved_stderr_obj = PyDict_GetItemString (sys_module_dict, 
+							 (char *) "stderr");
 		g_assert (saved_stderr_obj != NULL);
 		Py_INCREF (saved_stderr_obj);
-		PyDict_SetItemString (sys_module_dict, (char *) "stderr", stderr_obj);
+		PyDict_SetItemString (sys_module_dict, (char *) "stderr", 
+				      stderr_obj);
 	}
-	run_print_string (cmd, stdout_f);
+	run_print_string (cmd, stdout_obj);
 	if (opt_stdout != NULL) {
-		PyDict_SetItemString (sys_module_dict, (char *) "stdout", saved_stdout_obj);
+		PyDict_SetItemString (sys_module_dict, (char *) "stdout", 
+				      saved_stdout_obj);
 		Py_DECREF (saved_stdout_obj);
-		*opt_stdout = read_file (stdout_f);
-		fclose (stdout_f);
+		py_str = PyObject_CallMethod (stdout_obj, (char *) "getvalue", 
+					      NULL);
+		if (py_str)
+			*opt_stdout = g_strdup (PyString_AsString (py_str));
+		else
+			*opt_stdout = NULL;
+		Py_DECREF (stdout_obj);
 	}
 	if (opt_stderr != NULL) {
-		PyDict_SetItemString (sys_module_dict, (char *) "stderr", saved_stderr_obj);
+		PyDict_SetItemString (sys_module_dict, (char *) "stderr",
+				      saved_stderr_obj);
 		Py_DECREF (saved_stderr_obj);
-		*opt_stderr = read_file (stderr_f);
-		fclose (stderr_f);
+		py_str = PyObject_CallMethod (stderr_obj, (char *) "getvalue", 
+					      NULL);
+		if (py_str)
+			*opt_stderr = g_strdup (PyString_AsString (py_str));
+		else
+			*opt_stderr = NULL;
+		Py_DECREF (stderr_obj);
 	}
 }
 

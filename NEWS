@@ -80,6 +80,9 @@ Jon Kåre:
  	  table/spreadsheet fails.
         * Import incomplete html fragments, as produced by
 	* e.g. Mozilla, from clipboard.
+	* Fix bugs in Python loader.
+	* Polish Python console.
+	* Add workbook_new() to Python bindings.
 
 Joseph Pingenot:
 	* Spin buttons

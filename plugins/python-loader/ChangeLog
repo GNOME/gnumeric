@@ -1,3 +1,19 @@
+2003-07-23  Jon K Hellan  <hellan@acm.org>
+
+	* py-console.c (app_cline_entered): Don't interpret empty string.
+	(app_run_string): New. Factored out of app_cline_entered.
+	(show_python_console): Raise window if it already exists.
+
+	* gnm-py-interpreter.c (struct _GnmPyInterpreter): Add
+	stringio_class member.
+	(gnm_py_interpreter_init): Initialize stringio_class member.
+	(gnm_py_interpreter_finalize): Unref stringio_class member.
+	(run_print_string): Use PyFile_WriteObject instead of
+	PyObject_Print.
+	(gnm_py_interpreter_run_string): Use Python StringIO class instead
+	of temp files. It's tidier, and Python would try to write to the
+	temp files after they were closed.
+
 2003-07-22  Morten Welinder  <terra@gnome.org>
 
 	* gnm-py-interpreter.c (run_print_string): Add braces around

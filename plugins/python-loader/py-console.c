@@ -34,6 +34,7 @@ typedef struct {
 	GtkTextView *text_view;
 	GtkTextMark *text_end;
 	GnmPyInterpreter *cur_interpreter;
+	GtkWidget   *win;
 } App;
 
 static App *app = NULL;
@@ -77,20 +78,13 @@ app_interpreter_changed (GnmPyInterpreterSelector *sel)
 	}
 }
 
-static void
-app_cline_entered (GnmPyCommandLine *cline)
+static void 
+app_run_string (char *cmd)
 {
-	const char *cmd;
-	char *msg;
 	char *stdout_str, *stderr_str;
 
-	g_return_if_fail (app != NULL);
-
-	cmd = gtk_entry_get_text (GTK_ENTRY (cline));
-	msg = g_strdup_printf (">>> %s\n", cmd);
-	app_text_print (msg, FORMAT_COMMAND, FALSE);
-	g_free (msg);
-	gnm_py_interpreter_run_string (app->cur_interpreter, cmd, &stdout_str, &stderr_str);
+	gnm_py_interpreter_run_string (app->cur_interpreter, cmd, 
+				       &stdout_str, &stderr_str);
 	if (stdout_str != NULL && stdout_str[0] != '\0') {
 		app_text_print (stdout_str, FORMAT_STDOUT,
 		                stdout_str[strlen (stdout_str) - 1] != '\n');
@@ -104,6 +98,23 @@ app_cline_entered (GnmPyCommandLine *cline)
 }
 
 static void
+app_cline_entered (GnmPyCommandLine *cline)
+{
+	char *cmd, *msg;
+
+	g_return_if_fail (app != NULL);
+
+	cmd = g_strstrip (g_strdup (gtk_entry_get_text (GTK_ENTRY (cline))));
+	msg = g_strdup_printf (">>> %s\n", cmd);
+	app_text_print (msg, FORMAT_COMMAND, FALSE);
+	g_free (msg);
+	if (strlen (cmd) != 0)
+		app_run_string (cmd);
+	g_free (cmd);
+	return;
+}
+
+static void
 cb_clear (GtkButton *button, gpointer data)
 {
 	gtk_text_buffer_set_text (app->text_buffer, "", -1);
@@ -112,17 +123,18 @@ cb_clear (GtkButton *button, gpointer data)
 void
 show_python_console (WorkbookControlGUI *wbcg)
 {
-	GtkWidget *win, *vbox, *sc_win, *hbox, *sel, *cline, *w;
+	GtkWidget *vbox, *sc_win, *hbox, *sel, *cline, *w;
 	GtkTextIter enditer;
 	PangoFontDescription *font_desc;
 
 	if (app != NULL) {
+		gtk_window_present (GTK_WINDOW (app->win));
 		return;
 	}
 
 	app = g_new (App, 1);
-	win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title (GTK_WINDOW (win), _("Gnumeric Python console"));
+	app->win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (app->win), _("Gnumeric Python console"));
 	vbox = gtk_vbox_new (FALSE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 0);
@@ -131,7 +143,7 @@ show_python_console (WorkbookControlGUI *wbcg)
 		gnm_py_interpreter_selector_get_current (GNM_PY_INTERPRETER_SELECTOR (sel));
 	g_signal_connect_object (
 		sel, "interpreter_changed", G_CALLBACK (app_interpreter_changed),
-		win, 0);
+		app->win, 0);
 	w = gtk_label_new_with_mnemonic (_("E_xecute in:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), sel);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 4);
@@ -182,11 +194,11 @@ show_python_console (WorkbookControlGUI *wbcg)
 	gtk_box_pack_start (GTK_BOX (hbox), cline, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
 
-	gtk_container_add (GTK_CONTAINER (win), vbox);
+	gtk_container_add (GTK_CONTAINER (app->win), vbox);
 	gtk_widget_grab_focus (cline);
-	gtk_window_set_default_size (GTK_WINDOW (win), 600, 400);
+	gtk_window_set_default_size (GTK_WINDOW (app->win), 600, 400);
 	g_signal_connect (
-		win, "delete_event", G_CALLBACK (cb_delete_app), NULL);
+		app->win, "delete_event", G_CALLBACK (cb_delete_app), NULL);
 
-	gtk_widget_show_all (win);
+	gtk_widget_show_all (app->win);
 }
