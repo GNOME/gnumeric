@@ -38,6 +38,32 @@ static GnomeClient *master_client = NULL;
 static const char *program_argv0 = NULL;
 static const char *current_dir = NULL;
 
+static void set_clone_restart (GnomeClient *client)
+{
+	GList *ptr, *workbooks;
+	char **argv;
+	int count = 1;
+
+	argv = g_new0 (char *, 
+		       2 + g_list_length (application_workbook_list ()));
+
+	argv[0] = (char *) program_argv0;
+
+	workbooks = g_list_copy (application_workbook_list ());
+	for (ptr = workbooks; ptr != NULL ; ptr = ptr->next) {
+		Workbook *wb = ptr->data;
+		if (wb->file_format_level == FILE_FL_AUTO) {
+			argv[count] = wb->filename;
+			count++;
+		}
+	}
+	
+	gnome_client_set_clone_command (client, count, argv);
+	gnome_client_set_restart_command (client, count, argv);
+
+	g_free (argv);
+}
+
 static void 
 interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type, gpointer shutdown)
 {
@@ -141,7 +167,10 @@ interaction_function (GnomeClient *client, gint key, GnomeDialogType dialog_type
  finished:
 	g_list_free (workbooks);
 
+	set_clone_restart (client);
+
 	gnome_interaction_key_return (key, do_not_cancel);
+
 }
 
 static gboolean
@@ -150,7 +179,6 @@ client_save_yourself_cb (GnomeClient *client, int phase,
 			 gboolean end, GnomeInteractStyle interaction,
 			 gboolean fast, gpointer data)
 {
-	char *argv[2];
 	gboolean res = TRUE;
 
 	if (!end)
@@ -165,12 +193,7 @@ client_save_yourself_cb (GnomeClient *client, int phase,
 						  GNOME_DIALOG_NORMAL, 
 						  interaction_function,
 						  NULL);
-	argv[0] = (char *) program_argv0;
-	argv[1] = NULL; /* FIXME: We should be adding all the open file names */
-	
-	gnome_client_set_clone_command (client, 1, argv);
-	gnome_client_set_restart_command (client, 1, argv);
-	
+	set_clone_restart (client);	
 	return res;
 }
 

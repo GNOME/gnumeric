@@ -1,3 +1,9 @@
+2003-08-10  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/session.c (set_clone_restart): new
+	(interaction_function): call set_clone_restart
+	(client_save_yourself_cb): call set_clone_restart
+
 2003-08-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/sheet-object-graphic.c: replace helpfile address 
