@@ -1,3 +1,9 @@
+2000-03-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_selection_event) : Be more careful
+	  handling selecting the cursor from the external or internal edge
+	  this will avoid what seems like an off by one error. Thanks Jacob.
+
 2000-03-11  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/Makefile.am: Cleaned Makefile.

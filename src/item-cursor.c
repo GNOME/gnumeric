@@ -521,7 +521,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	GnomeCanvas *canvas = item->canvas;
 	GnomeCanvasItem *new_item;
-	ItemCursor *item_cursor = ITEM_CURSOR (item);
+	ItemCursor *ic = ITEM_CURSOR (item);
 	int x, y;
 
 	switch (event->type){
@@ -551,7 +551,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		 * determine which part of the cursor was clicked:
 		 * the border or the handlebox
 		 */
-		if (IS_LITTLE_SQUARE (item_cursor, x, y))
+		if (IS_LITTLE_SQUARE (ic, x, y))
 			style = ITEM_CURSOR_AUTOFILL;
 		else
 			style = ITEM_CURSOR_DRAG;
@@ -559,14 +559,14 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		new_item = gnome_canvas_item_new (
 			group,
 			item_cursor_get_type (),
-			"ItemCursor::Sheet", item_cursor->sheet,
-			"ItemCursor::Grid",  item_cursor->item_grid,
+			"ItemCursor::Sheet", ic->sheet,
+			"ItemCursor::Grid",  ic->item_grid,
 			"ItemCursor::Style", style,
 			NULL);
 
 		if (style == ITEM_CURSOR_AUTOFILL)
 			item_cursor_setup_auto_fill (
-				ITEM_CURSOR (new_item), item_cursor, x, y);
+				ITEM_CURSOR (new_item), ic, x, y);
 
 		if (x < 0)
 			x = 0;
@@ -574,19 +574,42 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			y = 0;
 		/*
 		 * Capture the offset of the current cell relative to
-		 * the upper left corner
+		 * the upper left corner.  Be careful handling the position
+		 * of the cursor.  it is possible to select the exterior or
+		 * interior of the cursor edge which behaves as if the cursor
+		 * selection was offset by one.
 		 */
-		ITEM_CURSOR (new_item)->col_delta =
-		    item_grid_find_col (item_cursor->item_grid, x, NULL) -
-		    item_cursor->pos.start.col;
-		ITEM_CURSOR (new_item)->row_delta =
-		    item_grid_find_row (item_cursor->item_grid, y, NULL) -
-		    item_cursor->pos.start.row,
+		{
+			int d_col =
+			    item_grid_find_col (ic->item_grid, x, NULL) -
+			    ic->pos.start.col;
+			int d_row =
+			    item_grid_find_row (ic->item_grid, y, NULL) -
+			    ic->pos.start.row;
+
+			if (d_col < 0)
+				d_col = 0;
+			else {
+				int tmp = ic->pos.end.col - ic->pos.start.col;
+				if (d_col > tmp)
+					d_col = tmp;
+			}
+			ITEM_CURSOR (new_item)->col_delta = d_col;
+
+			if (d_row < 0)
+				d_row = 0;
+			else {
+				int tmp = ic->pos.end.row - ic->pos.start.row;
+				if (d_row > tmp)
+					d_row = tmp;
+			}
+			ITEM_CURSOR (new_item)->row_delta = d_row;
+		}
 
 		item_cursor_set_bounds (
 			ITEM_CURSOR (new_item),
-			item_cursor->pos.start.col, item_cursor->pos.start.row,
-			item_cursor->pos.end.col,   item_cursor->pos.end.row);
+			ic->pos.start.col, ic->pos.start.row,
+			ic->pos.end.col,   ic->pos.end.row);
 
 		gnome_canvas_update_now (canvas);
 		gnome_canvas_item_grab (
