@@ -803,6 +803,7 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 	if (!GOG_IS_BUBBLE_PLOT (model))
 		for (j = 0, ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, j++) {
 				if (markers[j] != NULL) {
+					series = ptr->data;
 					style = GOG_STYLED_OBJECT (series)->style;
 					gog_renderer_push_style (view->renderer, style);
 					for (k = 0; k < num_markers[j]; k++)

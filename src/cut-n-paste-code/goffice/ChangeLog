@@ -1,3 +1,11 @@
+2004-08-31  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=151529
+	* graph/plugins/plot_xy/gog-xy.c (gog_xy_view_render): set series to to
+	right value for marker drawing.
+	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render): use
+	right index when walking through path for marker drawing.
+								  
 2004-08-30  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-plot-engine.c (gog_plot_new_by_name): Ick.  We need to

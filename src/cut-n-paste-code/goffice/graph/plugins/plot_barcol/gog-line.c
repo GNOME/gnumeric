@@ -485,11 +485,11 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			gog_renderer_push_style (view->renderer, styles[i]);
 
 			for (j = 0; j < lengths[i]; j++) {
-				x = path[i][j].x;
-				y = path[i][j].y;
+				x = path[i][j + 1].x;
+				y = path[i][j + 1].y;
 				if (x_margin_min <= x && x <= x_margin_max &&
 				    y_margin_min <= y && y <= y_margin_max &&
-				    path[i][j].code != ART_MOVETO_OPEN)
+				    path[i][j].code != ART_MOVETO_OPEN) 
 					gog_renderer_draw_marker (view->renderer, x, y);
 			}
 			gog_renderer_pop_style (view->renderer);
