@@ -2922,7 +2922,7 @@ cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		GNM_CMD_CONTEXT (wbc));
 
 	if (me->cmd.size == 1)
-		me->cmd.size += (g_list_length (me->content->content) +
+		me->cmd.size += (g_slist_length (me->content->content) +
 				    g_slist_length (me->content->styles) +
 				    1);
 	if (me->inverse_autofill)

@@ -1262,7 +1262,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 					cell_set_value(ccopy->u.cell, v);
 					ccopy->comment = NULL;
 
-					content = g_list_prepend (content, ccopy);
+					content = g_slist_prepend (content, ccopy);
 					targetcol++;
 					if (targetcol > colhigh)
 						colhigh = targetcol;

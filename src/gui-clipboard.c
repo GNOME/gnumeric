@@ -111,7 +111,7 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 		ccopy->comment = NULL;
 
 		cr = cellregion_new (NULL);
-		cr->content = g_list_prepend (cr->content, ccopy);
+		cr->content = g_slist_prepend (cr->content, ccopy);
 		cr->cols = cr->rows = 1;
 
 		g_free (data_converted);

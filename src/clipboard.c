@@ -264,6 +264,7 @@ clipboard_paste_region (CellRegion const *content,
 {
 	int repeat_horizontal, repeat_vertical, clearFlags;
 	int dst_cols, dst_rows, src_cols, src_rows, tmp;
+	int i, j;
 	GnmRange const *r;
 	gboolean has_content, adjust_merges = TRUE;
 
@@ -362,11 +363,11 @@ clipboard_paste_region (CellRegion const *content,
 				    clearFlags, cc);
 	}
 
-	for (tmp = repeat_vertical; repeat_horizontal-- > 0 ; repeat_vertical = tmp)
-		while (repeat_vertical-- > 0) {
-			int const left = repeat_horizontal * src_cols + pt->range.start.col;
-			int const top = repeat_vertical * src_rows + pt->range.start.row;
-			CellCopyList *l;
+	for (i = 0; i < repeat_horizontal ; i++)
+		for (j = 0; j < repeat_vertical ; j++) {
+			int const left = i * src_cols + pt->range.start.col;
+			int const top = j * src_rows + pt->range.start.row;
+			CellCopyList *ptr;
 			GnmExprRewriteInfo   rwinfo;
 			GnmExprRelocateInfo *rinfo;
 
@@ -416,8 +417,8 @@ clipboard_paste_region (CellRegion const *content,
 			}
 
 
-			for (l = content->content; l; l = l->next) {
-				CellCopy *c_copy = l->data;
+			for (ptr = content->content; ptr; ptr = ptr->next) {
+				CellCopy *c_copy = ptr->data;
 				int target_col = left;
 				int target_row = top;
 
@@ -477,7 +478,7 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, GnmCell *cell, void *use
 	else
 		copy->comment = NULL;
 
-	cr->content = g_list_prepend (cr->content, copy);
+	cr->content = g_slist_prepend (cr->content, copy);
 
 	/* Check for array division */
 	if (!cr->not_as_content && NULL != (a = cell_is_array (cell))) {
@@ -587,12 +588,12 @@ cellregion_new (Sheet *origin_sheet)
 void
 cellregion_free (CellRegion *cr)
 {
-	CellCopyList *l;
+	CellCopyList *ptr;
 
 	g_return_if_fail (cr != NULL);
 
-	for (l = cr->content; l; l = l->next) {
-		CellCopy *this_cell = l->data;
+	for (ptr = cr->content; ptr; ptr = ptr->next) {
+		CellCopy *this_cell = ptr->data;
 
 		if (this_cell->type == CELL_COPY_TYPE_CELL) {
 			/* The cell is not really in the rows or columns */
@@ -606,7 +607,7 @@ cellregion_free (CellRegion *cr)
 			g_free (this_cell->comment);
 		g_free (this_cell);
 	}
-	g_list_free (cr->content);
+	g_slist_free (cr->content);
 	cr->content = NULL;
 
 	if (cr->styles != NULL) {
@@ -634,7 +635,7 @@ char *
 cellregion_to_string (PangoContext *context, CellRegion const *cr)
 {
 	GString *all, *line;
-	GList *l;
+	CellCopyList *ptr;
 	char ***data, *return_val;
 	int col, row;
 
@@ -645,8 +646,8 @@ cellregion_to_string (PangoContext *context, CellRegion const *cr)
 	for (row = 0; row < cr->rows; row++)
 		data[row] = g_new0 (char *, cr->cols);
 
-	for (l = cr->content; l; l = l->next) {
-		CellCopy *c_copy = l->data;
+	for (ptr = cr->content; ptr; ptr = ptr->next) {
+		CellCopy *c_copy = ptr->data;
 		char *v;
 
 		if (c_copy->type != CELL_COPY_TYPE_TEXT) {

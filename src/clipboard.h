@@ -56,7 +56,7 @@ typedef struct {
 	char *comment;
 } CellCopy;
 
-typedef GList CellCopyList;
+typedef GSList CellCopyList;
 
 struct _CellRegion {
 	Sheet		*origin_sheet; /* can be NULL */

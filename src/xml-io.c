@@ -3265,7 +3265,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 	}
 	style_format_unref (value_fmt);
 
-	cr->content = g_list_prepend (cr->content, cc);
+	cr->content = g_slist_prepend (cr->content, cc);
 }
 
 /**
