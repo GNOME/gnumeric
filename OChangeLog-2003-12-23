@@ -1,5 +1,9 @@
 2002-12-30  Morten Welinder  <terra@diku.dk>
 
+	* src/format-template.c: Import CC2XML and CXML2C macros from
+	xml-io.c and use them.
+	(xml_read_format_col_row_info): Constify.
+
 	* src/parse-util.h: Delete
 	GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC flag.
 

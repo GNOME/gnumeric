@@ -37,6 +37,9 @@
 #include <libxml/parser.h>
 #include <gal/util/e-xml-utils.h>
 
+#define CC2XML(s) ((const xmlChar *)(s))
+#define CXML2C(s) ((const char *)(s))
+
 /******************************************************************************
  * Hash table related callbacks and functions
  ******************************************************************************
@@ -499,19 +502,19 @@ format_template_clone (FormatTemplate const *ft)
 }
 
 static void
-xml_read_format_col_row_info (FormatColRowInfo *info, xmlNodePtr parent, xmlChar *type)
+xml_read_format_col_row_info (FormatColRowInfo *info, xmlNodePtr parent, const xmlChar *type)
 {
 	xmlNode *tmp;
 
 	parent = e_xml_get_child_by_name (parent, type);
 	g_return_if_fail (parent != NULL);
 
-	tmp = e_xml_get_child_by_name (parent, (xmlChar *)"Placement");
+	tmp = e_xml_get_child_by_name (parent, CC2XML ("Placement"));
 	g_return_if_fail (tmp != NULL);
 	xml_node_get_int  (tmp, "offset", &info->offset);
 	xml_node_get_int  (tmp, "offset_gravity", &info->offset_gravity);
 
-	tmp = e_xml_get_child_by_name (parent, (xmlChar *)"Dimensions");
+	tmp = e_xml_get_child_by_name (parent, CC2XML ("Dimensions"));
 	g_return_if_fail (tmp != NULL);
 	xml_node_get_int (tmp, "size", &info->size);
 }
@@ -525,10 +528,10 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 
 	g_return_val_if_fail (!strcmp (tree->name, "Member"), FALSE);
 	member = format_template_member_new ();
-	xml_read_format_col_row_info (&member->col, tree, (xmlChar *)"Col");
-	xml_read_format_col_row_info (&member->row, tree, (xmlChar *)"Row");
+	xml_read_format_col_row_info (&member->col, tree, CC2XML ("Col"));
+	xml_read_format_col_row_info (&member->row, tree, CC2XML ("Row"));
 
-	child = e_xml_get_child_by_name (tree, (xmlChar *)"Frequency");
+	child = e_xml_get_child_by_name (tree, CC2XML ("Frequency"));
 	g_return_val_if_fail (child != NULL, FALSE);
 
 	if (xml_node_get_int (child, "direction", &tmp))
@@ -540,7 +543,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 	if (xml_node_get_int (child, "edge", &tmp))
 		format_template_member_set_edge (member, tmp);
 
-	child = e_xml_get_child_by_name (tree, (xmlChar *)"Style");
+	child = e_xml_get_child_by_name (tree, CC2XML ("Style"));
 	g_return_val_if_fail (child != NULL, FALSE);
 	member->mstyle = xml_read_style (ctxt, child);
 
@@ -562,9 +565,9 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 		xmlChar *name   = xml_node_get_cstr (child, "name");
 		xmlChar *descr  = xml_node_get_cstr (child, "description");
 
-		format_template_set_author (ft, (char const *)author);
-		format_template_set_name (ft,  (char const *)name);
-		format_template_set_description (ft,  (char const *)descr);
+		format_template_set_author (ft, CXML2C (author));
+		format_template_set_name (ft,  CXML2C (name));
+		format_template_set_description (ft,  CXML2C (descr));
 
 		xmlFree (author);
 		xmlFree (name);
@@ -572,7 +575,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 	} else
 		return FALSE;
 
-	child = e_xml_get_child_by_name (tree, (xmlChar *)"Members");
+	child = e_xml_get_child_by_name (tree, CC2XML ("Members"));
 	if (child == NULL)
 		return FALSE;
 	for (child = child->xmlChildrenNode; child != NULL ; child = child->next)
@@ -612,7 +615,7 @@ format_template_new_from_file (char const *filename, CommandContext *cc)
 	}
 	if (doc->xmlRootNode != NULL) {
 		xmlNs *ns = xmlSearchNsByHref (doc, doc->xmlRootNode,
-			(xmlChar *)"http://www.gnome.org/gnumeric/format-template/v1");
+			CC2XML ("http://www.gnome.org/gnumeric/format-template/v1"));
 		if (ns != NULL && !strcmp (doc->xmlRootNode->name, "FormatTemplate")) {
 			XmlParseContext *ctxt = xml_parse_ctx_new (doc, ns, NULL);
 
@@ -647,11 +650,11 @@ format_colrow_info_write_xml (FormatColRowInfo const *info,
 	xmlNode *tmp, *container;
 
 	container = xmlNewChild (parent, parent->ns, type, NULL);
-	tmp = xmlNewChild (container, container->ns, (xmlChar *)"Placement", NULL);
+	tmp = xmlNewChild (container, container->ns, CC2XML ("Placement"), NULL);
 	xml_node_set_int (tmp, "offset", info->offset);
 	xml_node_set_int (tmp, "offset_gravity", info->offset_gravity);
 
-	tmp = xmlNewChild (container, container->ns, (xmlChar *)"Dimensions", NULL);
+	tmp = xmlNewChild (container, container->ns, CC2XML ("Dimensions"), NULL);
 	xml_node_set_int (tmp, "size", info->size);
 
 	return container;
@@ -665,14 +668,14 @@ xml_write_format_template_member (XmlParseContext *ctxt, TemplateMember *member)
 {
 	xmlNode *tmp, *member_node;
 
-	member_node = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Member", NULL);
+	member_node = xmlNewDocNode (ctxt->doc, ctxt->ns, CC2XML ("Member"), NULL);
 	if (member_node == NULL)
 		return NULL;
 
 	format_colrow_info_write_xml (&member->col, member_node, "Col", ctxt);
 	format_colrow_info_write_xml (&member->row, member_node, "Row", ctxt);
 
-	tmp = xmlNewChild (member_node, member_node->ns, (xmlChar *)"Frequency" , NULL);
+	tmp = xmlNewChild (member_node, member_node->ns, CC2XML ("Frequency") , NULL);
 	xml_node_set_int (tmp, "direction", member->direction);
 	xml_node_set_int (tmp, "repeat", member->repeat);
 	xml_node_set_int (tmp, "skip", member->skip);
@@ -690,22 +693,22 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate const *
 	xmlNs   *ns;
 	GSList  *member;
 
-	root = xmlNewDocNode (ctxt->doc, NULL, (xmlChar *)"FormatTemplate", NULL);
+	root = xmlNewDocNode (ctxt->doc, NULL, CC2XML ("FormatTemplate"), NULL);
 	if (root == NULL)
 		return NULL;
 
 	ns = xmlNewNs (root,
-		(xmlChar *)"http://www.gnome.org/gnumeric/format-template/v1",
-		(xmlChar *)"gmr");
+		       CC2XML ("http://www.gnome.org/gnumeric/format-template/v1"),
+		       CC2XML ("gmr"));
 	xmlSetNs (root, ns);
 	ctxt->ns = ns;
 
-	child = xmlNewChild (root, ns, (xmlChar *)"Information", NULL);
+	child = xmlNewChild (root, ns, CC2XML ("Information"), NULL);
 	xml_node_set_cstr (child, "author", ft->author);
 	xml_node_set_cstr (child, "name", ft->name);
 	xml_node_set_cstr (child, "description", ft->description);
 
-	child = xmlNewChild (root, ns, (xmlChar *)"Members", NULL);
+	child = xmlNewChild (root, ns, CC2XML ("Members"), NULL);
 	for (member = ft->members ; member != NULL ; member = member->next)
 		xmlAddChild (child,
 			xml_write_format_template_member (ctxt, member->data));
@@ -734,7 +737,7 @@ format_template_save (FormatTemplate const *ft, CommandContext *cc)
 	io_context = gnumeric_io_context_new (cc);
 	file = gnumeric_fopen (io_context, ft->filename, "w");
 	if (file != NULL) {
-		xmlDoc *doc = xmlNewDoc ((xmlChar *)"1.0");
+		xmlDoc *doc = xmlNewDoc (CC2XML ("1.0"));
 		if (doc != NULL) {
 			XmlParseContext *ctxt = xml_parse_ctx_new (doc, NULL, NULL);
 			doc->xmlRootNode = xml_write_format_template_members (ctxt, ft);
