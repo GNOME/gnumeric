@@ -638,15 +638,15 @@ sheet_get_extent (Sheet const *sheet)
 	/*
 	 *  Print can't handle stuff outside these walls.
 	 */
-	if (r.end.col   > sheet->cols.max_used)
-		r.end.col   = sheet->cols.max_used;
+	if (r.end.col > sheet->cols.max_used)
+		r.end.col = sheet->cols.max_used;
 	if (r.start.col > r.end.col)
 		r.start.col = r.end.col;
 	if (r.start.col < 0)
 		r.start.col = 0;
 
-	if (r.end.row   > sheet->rows.max_used)
-		r.end.row   = sheet->rows.max_used;
+	if (r.end.row > sheet->rows.max_used)
+		r.end.row = sheet->rows.max_used;
 	if (r.start.row > r.end.row)
 		r.start.row = r.end.row;
 	if (r.start.row < 0)
@@ -3332,10 +3332,6 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
-	/* Is there any work to do? */
-	if (sheet->cols.max_used < 0)
-		return FALSE;
-
 	/* 0. Walk cells in displaced col and ensure arrays aren't divided. */
 	if (col > 0)	/* No need to test leftmost column */
 		if (sheet_cell_foreach_range (sheet, TRUE, col, 0,
@@ -3404,10 +3400,6 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
 
-	/* Is there any work to do? */
-	if (sheet->cols.max_used < 0)
-		return FALSE;
-
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
 	if (!sheet_check_for_partial_array (sheet, 0, col, 
 					    SHEET_MAX_ROWS-1, col+count-1))
@@ -3473,10 +3465,6 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
-
-	/* Is there any work to do? */
-	if (sheet->rows.max_used < 0)
-		return FALSE;
 
 	/* 0. Walk cells in displaced row and ensure arrays aren't divided. */
 	if (row > 0)	/* No need to test leftmost column */
@@ -3546,10 +3534,6 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (count != 0, TRUE);
-
-	/* Is there any work to do? */
-	if (sheet->rows.max_used < 0)
-		return FALSE;
 
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
 	if (!sheet_check_for_partial_array (sheet, row, 0, 
