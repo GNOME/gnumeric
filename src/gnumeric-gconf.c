@@ -631,5 +631,52 @@ gnm_gconf_set_file_ask_single_sheet_save (gboolean val)
 			       val, NULL);
 }
 
+gboolean
+gnm_gconf_get_sort_default_by_case (void)
+{
+	return gconf_client_get_bool (application_get_gconf_client (), 
+				      GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE,
+				      NULL);
+}
 
+void
+gnm_gconf_set_sort_default_by_case (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (), 
+			       GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE,
+			       val, NULL);
+}
+
+
+gboolean
+gnm_gconf_get_sort_default_retain_formats (void)
+{
+	return gconf_client_get_bool (application_get_gconf_client (), 
+				      GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM,
+				      NULL);
+}
+
+void
+gnm_gconf_set_sort_default_retain_formats (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (), 
+			       GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM,
+			       val, NULL);
+}
+
+gboolean
+gnm_gconf_get_sort_default_ascending (void)
+{
+	return gconf_client_get_bool (application_get_gconf_client (), 
+				      GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING,
+				      NULL);
+}
+
+void
+gnm_gconf_set_sort_default_ascending (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (), 
+			       GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING,
+			       val, NULL);
+}
 

@@ -1,3 +1,11 @@
+2002-04-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas : add sort schemas
+	* src/gnumeric-gconf-priv.h : add sort related keys
+	* src/gnumeric-gconf.[ch] : add sort-related get/set methods
+	* src/sort.[ch] : use preferences, add preserve formats flags
+	* src/workbook-control-gui.c (sort_by_rows) : use preferences
+	
 2002-04-25  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (set_acetate_coords) : work around some

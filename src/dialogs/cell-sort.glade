@@ -71,7 +71,7 @@
             <property name="homogeneous">no</property>
             <property name="row_spacing">4</property>
             <property name="column_spacing">4</property>
-            <property name="n-rows">3</property>
+            <property name="n-rows">4</property>
             <property name="n-columns">2</property>
             <property name="visible">yes</property>
 
@@ -234,8 +234,8 @@
 		<packing>
 		    <property name="left_attach">0</property>
 		    <property name="right_attach">2</property>
-		    <property name="top_attach">2</property>
-		    <property name="bottom_attach">3</property>
+		    <property name="top_attach">3</property>
+		    <property name="bottom_attach">4</property>
 		    <property name="x_padding">0</property>
 		    <property name="y_padding">0</property>
 		    <property name="x_options">expand|fill</property>
@@ -267,6 +267,37 @@
 		    <property name="right_attach">1</property>
 		    <property name="top_attach">1</property>
 		    <property name="bottom_attach">2</property>
+		    <property name="x_padding">0</property>
+		    <property name="y_padding">0</property>
+		    <property name="x_options">expand|fill</property>
+		    <property name="y_options">fill</property>
+                  </packing>
+                </child>
+
+                <child>
+                  <widget class="GtkFrame" id="frame4">
+                    <property name="label" translatable="yes">Options</property>
+                    <property name="label_xalign">0</property>
+                    <property name="shadow">GTK_SHADOW_ETCHED_IN</property>
+                    <property name="visible">yes</property>
+
+                    <child>
+                      <widget class="GtkCheckButton" id="retain_format_button">
+                        <property name="border_width">4</property>
+                        <property name="can_focus">yes</property>
+                        <property name="label" translatable="yes">_Preserve Formating</property>
+                        <property name="active">no</property>
+                        <property name="draw_indicator">yes</property>
+                        <property name="visible">yes</property>
+                        <property name="use_underline">yes</property>
+                      </widget>
+                    </child>
+                  </widget>
+                  <packing>
+		    <property name="left_attach">0</property>
+		    <property name="right_attach">2</property>
+		    <property name="top_attach">2</property>
+		    <property name="bottom_attach">3</property>
 		    <property name="x_padding">0</property>
 		    <property name="y_padding">0</property>
 		    <property name="x_options">expand|fill</property>

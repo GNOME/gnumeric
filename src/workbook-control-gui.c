@@ -2588,7 +2588,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 	for (i=0; i < numclause; i++) {
 		clause[i].offset = i;
 		clause[i].asc = asc;
-		clause[i].cs = FALSE;
+		clause[i].cs = gnm_gconf_get_sort_default_by_case ();
 		clause[i].val = TRUE;
 	}
 
@@ -2597,6 +2597,8 @@ sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 	data->range = sel;
 	data->num_clause = numclause;
 	data->clauses = clause;
+
+	data->retain_formats = gnm_gconf_get_sort_default_retain_formats ();
 
 	/* Hard code sorting by row.  I would prefer not to, but user testing
 	 * indicates

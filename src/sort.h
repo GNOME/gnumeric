@@ -16,6 +16,7 @@ typedef struct {
 	int         num_clause;
 	SortClause *clauses;
 	gboolean    top;
+	gboolean retain_formats;
 } SortData;
 
 void        sort_clause_destroy (SortClause *clause);

@@ -36,6 +36,7 @@ Andreas:
 	* Add lowering and raising of sheet objects (except widgets).
 	* Fix http://bugzilla.gnome.org/show_bug.cgi?id=79809
 	* Add lowering and raising of sheet objects (except widgets) to top and bottom.
+	* Fix http://bugzilla.gnome.org/show_bug.cgi?id=62127
 
 Jody:
 	* Add password dialog to support encrypted input.

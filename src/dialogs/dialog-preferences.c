@@ -783,6 +783,113 @@ GtkWidget *pref_undo_page_initializer (PrefState *state, gpointer data,
 }
 
 /*******************************************************************************************/
+/*                     Sort Preferences Page                                              */
+/*******************************************************************************************/
+
+static void 
+pref_sort_page_open (PrefState *state, gpointer data, 
+		     GtkNotebook *notebook, gint page_num)
+{
+	dialog_pref_load_description (state, 
+				      _("The items on this page customize the "
+					"inital settings of the sort dialog and "
+					"the behaviour of the sort toolbar buttons."));
+}
+
+static void
+cb_pref_sort_set_retain_formats (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			     GtkToggleButton *button)
+{
+	gboolean is_set_gconf = gconf_client_get_bool (gconf,
+						       GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM, 
+						       NULL);
+	gboolean is_set_button = gtk_toggle_button_get_active (button);
+	if (is_set_gconf != is_set_button)
+		gtk_toggle_button_set_active (button, is_set_gconf);
+}
+
+static void 
+cb_pref_sort_retain_formats_toggled(GtkToggleButton *button, PrefState *state)
+{
+		gconf_client_set_bool (state->gconf,
+				       GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM,
+				       gtk_toggle_button_get_active (button), 
+				       NULL);
+}
+
+static void
+cb_pref_sort_set_case (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			     GtkToggleButton *button)
+{
+	gboolean is_set_gconf = gconf_client_get_bool (gconf,
+						       GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE, 
+						       NULL);
+	gboolean is_set_button = gtk_toggle_button_get_active (button);
+	if (is_set_gconf != is_set_button)
+		gtk_toggle_button_set_active (button, is_set_gconf);
+}
+
+static void 
+cb_pref_sort_case_toggled(GtkToggleButton *button, PrefState *state)
+{
+		gconf_client_set_bool (state->gconf,
+				       GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE,
+				       gtk_toggle_button_get_active (button), 
+				       NULL);
+}
+
+static void
+cb_pref_sort_set_ascending (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			     GtkToggleButton *button)
+{
+	gboolean is_set_gconf = gconf_client_get_bool (gconf,
+						       GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING, 
+						       NULL);
+	gboolean is_set_button = gtk_toggle_button_get_active (button);
+	if (is_set_gconf != is_set_button)
+		gtk_toggle_button_set_active (button, is_set_gconf);
+}
+
+static void 
+cb_pref_sort_ascending_toggled(GtkToggleButton *button, PrefState *state)
+{
+		gconf_client_set_bool (state->gconf,
+				       GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING,
+				       gtk_toggle_button_get_active (button), 
+				       NULL);
+}
+
+static 
+GtkWidget *pref_sort_page_initializer (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num)
+{
+	GtkWidget *page = gtk_table_new (3, 2, FALSE);
+	gint row = 0;
+
+	/* Retain Formats check box */
+	dialog_pref_create_checkbox (GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM, 
+				     "/schemas" GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM, 
+				     page, row++, state,
+				     cb_pref_sort_set_retain_formats,
+				     cb_pref_sort_retain_formats_toggled);
+	/* Sort by Case check box */
+	dialog_pref_create_checkbox (GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE, 
+				     "/schemas" GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE, 
+				     page, row++, state,
+				     cb_pref_sort_set_case,
+				     cb_pref_sort_case_toggled);
+	/* Sort Ascending check box */
+	dialog_pref_create_checkbox (GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING, 
+				     "/schemas" GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING, 
+				     page, row++, state,
+				     cb_pref_sort_set_ascending,
+				     cb_pref_sort_ascending_toggled);
+
+	gtk_widget_show_all (page);
+	return page;
+}
+
+/*******************************************************************************************/
 /*                     Window Preferences Page                                              */
 /*******************************************************************************************/
 
@@ -1103,6 +1210,7 @@ static page_info_t page_info[] = {
 	{NULL, "Gnumeric_ObjectCombo", pref_window_page_initializer, pref_window_page_open, NULL},
 	{NULL, GTK_STOCK_FLOPPY, pref_file_page_initializer, pref_file_page_open, NULL},
 	{NULL, GTK_STOCK_UNDO, pref_undo_page_initializer, pref_undo_page_open, NULL},
+	{NULL, GTK_STOCK_SORT_ASCENDING, pref_sort_page_initializer, pref_sort_page_open, NULL},
 	{NULL, GTK_STOCK_PREFERENCES, pref_tree_initializer, pref_tree_page_open, pref_tree_data},
 	{NULL, GTK_STOCK_DIALOG_ERROR, pref_tree_initializer, pref_tree_page_open, pref_tree_data_danger},
 	{NULL, NULL, NULL, NULL, NULL},

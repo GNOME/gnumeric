@@ -71,7 +71,10 @@
 
 #define GNUMERIC_GCONF_XML_COMPRESSION "/apps/gnumeric/core/xml/compression-level"
 
-
+#define GNUMERIC_GCONF_SORT_DIRECTORY "/apps/gnumeric/core/sort"
+#define GNUMERIC_GCONF_SORT_DEFAULT_BY_CASE GNUMERIC_GCONF_SORT_DIRECTORY "/default/by-case"
+#define GNUMERIC_GCONF_SORT_DEFAULT_RETAIN_FORM GNUMERIC_GCONF_SORT_DIRECTORY "/default/retain-formats"
+#define GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING GNUMERIC_GCONF_SORT_DIRECTORY "/default/ascending"
 
 #include <gconf/gconf-client.h>
 

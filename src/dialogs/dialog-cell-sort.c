@@ -37,6 +37,7 @@
 #include <sort.h>
 #include <sheet.h>
 #include <workbook-edit.h>
+#include <gnumeric-gconf.h>
 #include <widgets/gnumeric-cell-renderer-toggle.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <value.h>
@@ -75,6 +76,7 @@ typedef struct {
 	GtkWidget *cell_sort_row_rb;
 	GtkWidget *cell_sort_col_rb;
 	GtkWidget *cell_sort_header_check;
+	GtkWidget *retain_format_check;
 	GdkPixbuf *image_ascending;
 	GdkPixbuf *image_descending;
 
@@ -158,6 +160,7 @@ append_data (SortFlowState *state, int i, int index)
 	gchar *str;
 	GtkTreeIter iter;
 	Sheet *sheet = state->sel->v_range.cell.a.sheet;
+	gboolean sort_asc = gnm_gconf_get_sort_default_ascending ();
 
 	str  = state->is_cols
 		? col_row_name (sheet, i, index, state->header, TRUE)
@@ -165,9 +168,10 @@ append_data (SortFlowState *state, int i, int index)
 	gtk_list_store_append (state->model, &iter);
 	gtk_list_store_set (state->model, &iter,
 			    ITEM_NAME,  str,
-			    ITEM_DESCENDING, FALSE,
-			    ITEM_DESCENDING_IMAGE, state->image_ascending,
-			    ITEM_CASE_SENSITIVE, FALSE,
+			    ITEM_DESCENDING, !sort_asc,
+			    ITEM_DESCENDING_IMAGE, sort_asc ? state->image_ascending 
+			    : state->image_descending,
+			    ITEM_CASE_SENSITIVE, gnm_gconf_get_sort_default_by_case (),
 			    ITEM_SORT_BY_VALUE, TRUE,
 			    ITEM_MOVE_FORMAT, TRUE,
 			    ITEM_NUMBER, i,
@@ -364,6 +368,8 @@ cb_dialog_ok_clicked (GtkWidget *button, SortFlowState *state)
 	data->num_clause = state->sort_items;
 	data->clauses = array;
 	data->top = state->is_cols;
+	data->retain_formats = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->retain_format_check));
 
 	cmd_sort (WORKBOOK_CONTROL (state->wbcg), data);
 
@@ -754,6 +760,12 @@ dialog_init (SortFlowState *state)
 	g_signal_connect (G_OBJECT (state->cell_sort_header_check),
 		"toggled",
 		G_CALLBACK (cb_update_sensitivity), state);
+
+	state->retain_format_check = glade_xml_get_widget (state->gui, 
+							    "retain_format_button");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->retain_format_check),
+				      gnm_gconf_get_sort_default_retain_formats ());
+
 
 /* Set-up buttons */
 	state->up_button  = glade_xml_get_widget (state->gui, "up_button");

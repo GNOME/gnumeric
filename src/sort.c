@@ -179,7 +179,9 @@ sort_permute (WorkbookControl *context, SortData *data, const int *perm, int len
 
 	pt.sheet = data->sheet;
 #warning adding the flag causes 59144, why did I add it in the first place ?
-	pt.paste_flags = PASTE_FORMATS | PASTE_CONTENT; /* | PASTE_EXPR_RELOCATE; */
+	pt.paste_flags = PASTE_CONTENT; /* | PASTE_EXPR_RELOCATE; */
+	if (!data->retain_formats)
+		pt.paste_flags = pt.paste_flags | PASTE_FORMATS;
 
 #ifdef DEBUG_SORT
 	fprintf (stderr, "Permutation:");

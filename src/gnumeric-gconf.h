@@ -103,6 +103,17 @@ void     gnm_gconf_set_file_overwrite_default_answer (gboolean val);
 gboolean gnm_gconf_get_file_ask_single_sheet_save (void);
 void     gnm_gconf_set_file_ask_single_sheet_save (gboolean val);
 
+/* sort */
+
+gboolean gnm_gconf_get_sort_default_by_case (void);
+void     gnm_gconf_set_sort_default_by_case (gboolean val);
+
+gboolean gnm_gconf_get_sort_default_retain_formats (void);
+void     gnm_gconf_set_sort_default_retain_formats (gboolean val);
+
+gboolean gnm_gconf_get_sort_default_ascending (void);
+void     gnm_gconf_set_sort_default_ascending (gboolean val);
+
 /* others */
 gnum_float gnm_gconf_get_horizontal_dpi (void);
 void     gnm_gconf_set_horizontal_dpi  (gnum_float val);
