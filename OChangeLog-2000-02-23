@@ -1,3 +1,9 @@
+2000-02-18  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* /src/dialogs/dialog-stf.glade :
+	Corrected a minor spelling error on the first page of 
+	the druid.
+
 2000-02-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/dialog-autosave.c: Added a few checks for the
