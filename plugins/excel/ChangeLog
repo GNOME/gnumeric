@@ -1,3 +1,8 @@
+1999-09-26  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_cell:COLINFO) : Seems like
+	  XL periodically sends column widths for phantom columns.
+
 1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ms-excel-read.c (biff_name_data_new): add sheet scope.
