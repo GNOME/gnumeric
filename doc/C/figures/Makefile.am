@@ -234,8 +234,6 @@ EXTRA_DIST = \
      printing-preview.png \
      printing-setup-header-config.png \
      printing-setup-header.png \
-     printing-setup-margins.png \
-     printing-setup-page-1.png \
      printing-setup-page.png \
      printing-setup-sheet.png \
      selection-1.png \

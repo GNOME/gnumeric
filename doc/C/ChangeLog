@@ -1,3 +1,9 @@
+2003-11-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* figures/printing-setup-margins.png: delete
+	* figures/printing-setup-page-1.png: delete
+	* figures/Makefile.am: remove deleted files
+
 2003-11-02  Jody Goldberg <jody@gnome.org>
 
 	* welcome.xml : minor edits.
