@@ -1,5 +1,13 @@
 2000-11-11  Michael Meeks  <michael@helixcode.com>
 
+	* src/gnumeric.xml: fiddle, lots of strange mangling, needs HEAD
+	bonobo to look at all good.
+	
+	* src/xml-io.c (xml_write_sheet_object): free the node nicely in
+	the failure case.
+
+2000-11-11  Michael Meeks  <michael@helixcode.com>
+
 	* configure.in (LIBS): add gnome-config --cflags idl to the default
 	IDL_FLAGS.
 

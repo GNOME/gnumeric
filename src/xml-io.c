@@ -1788,8 +1788,8 @@ xml_write_sheet_object (XmlParseContext *ctxt, SheetObject *object)
 						     object->bbox_points);
 			if (!ok) {
 				g_warning ("Error serializing bonobo sheet object");
-				g_warning ("Since libxml fails to implement xmlRemoveNode we"
-					   " are pretty stuffed");
+				xmlUnlinkNode (cur);
+				xmlFreeNode (cur);
 			}
 		} else
 			cur = NULL;

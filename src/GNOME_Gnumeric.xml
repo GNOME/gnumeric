@@ -371,7 +371,8 @@
 
 	</menu>
 
-	<dockitem name="StandardToolbar" homogeneous="0"  band_num="1" look="icons" relief="none">
+	<dockitem name="StandardToolbar" behavior="exclusive" homogeneous="0"
+	band_num="1" look="icons" relief="none">
 
 		<toolitem name="New" pixtype="stock" pixname="New"
 		 _label="New" _tip="Create a new workbook"
@@ -437,22 +438,23 @@
 
 		<toolitem name="GraphGuru" pixtype="stock" pixname="Gnumeric_GraphGuru"
 		 _label="Graph Guru" _tip="Invoke the graph guru to create a graph"
-		 verb="GraphGuru"/>
+		 verb="GraphGuru" behavior="pack-end"/>
 
 		<toolitem name="InsertComponent" pixtype="stock" pixname="Gnumeric_InsertComponent"
 		 _label="Insert Component" _tip="Insert an object into the spreadsheet"
-		 verb="InsertComponent"/>
+		 verb="InsertComponent" behavior="pack-end"/>
 
 		<toolitem name="InsertShapedComponent" pixtype="stock" pixname="Gnumeric_InsertShapedComponent"
 		 _label="Insert Shaped Component" _tip="Insert a shaped component into the spreadsheet"
-		 verb="InsertShapedComponent"/>
+		 verb="InsertShapedComponent" behavior="pack-end"/>
 
 		<control name="SheetZoom" 
 			 _tip="Zoom the spreadsheet in or out" 
-			 vdisplay="none"/>
+			 vdisplay="none" behavior="pack-end"/>
 	</dockitem>
 
-	<dockitem name="FormatToolbar" band_num="2" homogeneous="0" look="icons" relief="none">
+	<dockitem name="FormatToolbar" band_num="2" behavior="exclusive"
+	homogeneous="0" look="icons" relief="none">
 
 		<control name="FontName"  _tip="Font selector"  
 			 vdisplay="button" verb="FontSelect" pixtype="stock" 
@@ -512,15 +514,15 @@
 
 		<separator/>
 
-		<control name="BorderSelector" _tip="Borders"/>
+		<control name="BorderSelector" _tip="Borders" behavior="pack-end"/>
 
-		<control name="BackgroundColor" _tip="Background"/>
+		<control name="BackgroundColor" _tip="Background" behavior="pack-end"/>
 
-		<control name="ForegroundColor" _tip="Foreground"/>
-
+		<control name="ForegroundColor" _tip="Foreground" behavior="pack-end"/>
 	</dockitem>
 
-	<dockitem name="ObjectToolbar" band_num="3" homogeneous="0" look="icons" relief="none">
+	<dockitem name="ObjectToolbar" band_num="2" placement="left"
+	homogeneous="0" look="icons" relief="none">
 
 		<toolitem name="Label" pixtype="stock" pixname="Gnumeric_Label"
 		 _label="Label" _tip="Create a label" verb="CreateLabel"/>
