@@ -3373,6 +3373,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 		ExprRewriteInfo rwinfo;
 		ExprTree *newtree; 
 		
+		rwinfo.type = EXPR_REWRITE_RELOCATE;
 		memcpy (&rwinfo.u.relocate, info, sizeof (ExprRelocateInfo));
 		eval_pos_init_cell (&rwinfo.u.relocate.pos, cell);
 

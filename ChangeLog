@@ -1,7 +1,17 @@
 2000-05-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook.c (workbook_expr_relocate) : Add missing
+	  initialization.
+
+	* src/file.c (file_finish_load) : New function to finish loading after
+	  a read or import.
+	(workbook_read) : Use here.
+	(workbook_import) : And here.
+
 	* src/sheet.c (sheet_get_extent) : Disable the use of
 	  sheet_style_get_extent until it is more intelligent.
+	(sheet_{insert,delete}_{cols,rows}) : Flag that the range content has
+	  changed so that the status areas will be updated.
 
 	* configure.in : Produce a Using OAF message in the non-bonobo case
 	  too.  Limit xml to version 1.x for now.

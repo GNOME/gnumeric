@@ -2833,8 +2833,9 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 	/* 5. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
 
-	/* 6. Notify sheet of pending update */
+	/* 6. Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
+	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 	if (sheet->priv->reposition_col_comment > col)
 		sheet->priv->reposition_col_comment = col;
 
@@ -2903,8 +2904,9 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 	/* 6. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
 
-	/* 7. Notify sheet of pending update */
+	/* 7. Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
+	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 	if (sheet->priv->reposition_col_comment > col)
 		sheet->priv->reposition_col_comment = col;
 
@@ -2977,8 +2979,9 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 	/* 5. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
 
-	/* 6. Notify sheet of pending update */
+	/* 6. Notify sheet of pending updates */
 	sheet->priv->recompute_visibility = TRUE;
+	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 	if (sheet->priv->reposition_row_comment > row)
 		sheet->priv->reposition_row_comment = row;
 
@@ -3049,6 +3052,7 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 
 	/* 7. Notify sheet of pending update */
 	sheet->priv->recompute_visibility = TRUE;
+	sheet_flag_status_update_range (sheet, &reloc_info.origin);
 	if (sheet->priv->reposition_row_comment > row)
 		sheet->priv->reposition_row_comment = row;
 

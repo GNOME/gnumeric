@@ -237,6 +237,26 @@ workbook_try_read (CommandContext *context, const char *filename)
 	return wb;
 }
 
+static Workbook *
+file_finish_load (Workbook *wb)
+{
+	if (wb != NULL) {
+		workbook_recalc (wb);
+
+		/* render and calc size of unrendered cells,
+		 * then calc spans for everything
+		 */
+		workbook_calc_spans (wb, SPANCALC_RENDER|SPANCALC_RESIZE);
+
+		/* FIXME : This should not be needed */
+		workbook_set_dirty (wb, FALSE);
+
+		sheet_update (wb->current_sheet);
+	}
+
+	return wb;
+}
+
 /**
  * workbook_read:
  * @filename: the file's URI
@@ -268,21 +288,7 @@ workbook_read (CommandContext *context, const char *filename)
 				       gnumeric_xml_write_workbook);
 	}
 
-	if (wb != NULL) {
-		workbook_recalc (wb);
-
-		/* render and calc size of unrendered cells,
-		 * then calc spans for everything
-		 */
-		workbook_calc_spans (wb, SPANCALC_RENDER|SPANCALC_RESIZE);
-
-		/* FIXME : This should not be needed */
-		workbook_set_dirty (wb, FALSE);
-
-		sheet_update (wb->current_sheet);
-	}
-
-	return wb;
+	return file_finish_load (wb);
 }
 
 static void
@@ -377,7 +383,7 @@ workbook_import (CommandContext *context, Workbook *parent,
 
 	gtk_object_unref (GTK_OBJECT (gui));
 
-	return wb;
+	return file_finish_load (wb);
 }
 
 static void
