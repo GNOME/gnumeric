@@ -10,44 +10,15 @@ char const *gnm_extension_pointer (char const * path);
 void     gnumeric_time_counter_push (void);
 gdouble  gnumeric_time_counter_pop (void);
 
+typedef gpointer (*GnmMapFunc) (gpointer value);
+
 void	  g_ptr_array_insert (GPtrArray *array, gpointer value, int index);
+GList    *g_list_map         (GList *list, GnmMapFunc map_func);
 GList    *g_create_list	     (gpointer item1, ...);
 gint      g_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func);
 void      g_list_free_custom (GList *list, GFreeFunc free_func);
-GList    *g_string_list_copy (GList *list);
+#define   g_string_list_copy(list) g_list_map (list, g_strdup)
 GList    *g_strsplit_to_list (const gchar *string, const gchar *delimiter);
-#define   g_list_to_vector(vector,elem_type,list_expr) \
-G_STMT_START { \
-	GList *list, *l; \
-	gint size, i; \
-	list = (list_expr); \
-	size = g_list_length (list); \
-	(vector) = g_new (elem_type *, size + 1); \
-	for (l = list, i = 0; l != NULL; l = l->next, i++) \
-		(vector)[i] = (elem_type *) l->data; \
-	(vector)[size] = NULL; \
-} G_STMT_END
-#define   g_list_to_vector_custom(vector,elem_type,list_expr,conv_func) \
-G_STMT_START { \
-	GList *list, *l; \
-	gint size, i; \
-	list = (list_expr); \
-	size = g_list_length (list); \
-	(vector) = g_new (elem_type *, size + 1); \
-	for (l = list, i = 0; l != NULL; l = l->next, i++) \
-		(vector)[i] = (elem_type *) conv_func (l->data); \
-	(vector)[size] = NULL; \
-} G_STMT_END
-#define   g_vector_free_custom(vector_expr,elem_type,free_func_expr) \
-G_STMT_START { \
-	elem_type **vector, **v; \
-	GFreeFunc free_func; \
-	vector = (vector_expr); \
-	free_func = (free_func_expr); \
-	for (v = vector; *v != NULL; v++) \
-		free_func (*v); \
-	g_free (vector); \
-} G_STMT_END
 #define GNM_LIST_FOREACH(list,valtype,val,stmnt) \
 G_STMT_START { \
 	GList *gnm_l; \
@@ -65,22 +36,14 @@ G_STMT_START { \
 	(list_a = g_list_concat (list_a, list_b))
 #define GNM_LIST_REVERSE(list) \
 	(list = g_list_reverse (list))
+#define GNM_LIST_SORT(list,cmp_func) \
+	(list = g_list_sort (list, cmp_func))
 
+GSList   *g_slist_map        (GSList *list, GnmMapFunc map_func);
 GSList    *g_create_slist	     (gpointer item1, ...);
 void      g_slist_free_custom (GSList *list, GFreeFunc free_func);
-GSList    *g_string_slist_copy (GSList *list);
+#define   g_string_slist_copy(list) g_slist_map (list, g_strdup)
 GSList    *g_strsplit_to_slist (const gchar *string, const gchar *delimiter);
-#define   g_slist_to_vector(vector,elem_type,list_expr) \
-G_STMT_START { \
-	GSList *list, *l; \
-	gint size, i; \
-	list = (list_expr); \
-	size = g_slist_length (list); \
-	(vector) = g_new (elem_type *, size + 1); \
-	for (l = list, i = 0; l != NULL; l = l->next, i++) \
-		(vector)[i] = (elem_type *) l->data; \
-	(vector)[size] = NULL; \
-} G_STMT_END
 #define GNM_SLIST_FOREACH(list,valtype,val,stmnt) \
 G_STMT_START { \
 	GSList *gnm_l; \
@@ -98,6 +61,10 @@ G_STMT_START { \
 	(list_a = g_slist_concat (list_a, list_b))
 #define GNM_SLIST_REVERSE(list) \
 	(list = g_slist_reverse (list))
+#define GNM_SLIST_SORT(list,cmp_func) \
+	(list = g_slist_sort (list, cmp_func))
+
+#define GNM_SIZEOF_ARRAY(array) (sizeof (array) / sizeof ((array)[0]))
 
 #define   g_lang_score_is_better(score_a, score_b) (score_a < score_b)
 gint      g_lang_score_in_lang_list (gchar *lang, GList *lang_list);

@@ -11,117 +11,96 @@
 #include "error-info.h"
 #include "plugin.h"
 
-typedef struct _PluginServiceGeneral PluginServiceGeneral;
-typedef struct _PluginServiceFileOpener PluginServiceFileOpener;
-typedef struct _PluginServiceFileSaver PluginServiceFileSaver;
-typedef struct _PluginServiceFunctionGroup PluginServiceFunctionGroup;
-typedef struct _PluginServicePluginLoader PluginServicePluginLoader;
-typedef struct _PluginServicesData PluginServicesData;
 
-struct _PluginServiceGeneral {
-	/* fields available after loading */
+#define GNM_PLUGIN_SERVICE_TYPE         (plugin_service_get_type ())
+#define GNM_PLUGIN_SERVICE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_TYPE, PluginService))
+#define GNM_IS_PLUGIN_SERVICE(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_TYPE))
+
+GType plugin_service_get_type (void);
+
+
+#define GNM_PLUGIN_SERVICE_GENERAL_TYPE  (plugin_service_general_get_type ())
+#define GNM_PLUGIN_SERVICE_GENERAL(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_GENERAL_TYPE, PluginServiceGeneral))
+#define GNM_IS_PLUGIN_SERVICE_GENERAL(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_GENERAL_TYPE))
+
+GType plugin_service_general_get_type (void);
+typedef struct _PluginServiceGeneral PluginServiceGeneral;
+typedef struct {
 	void (*plugin_func_init) (PluginService *service, ErrorInfo **ret_error);
 	void (*plugin_func_cleanup) (PluginService *service, ErrorInfo **ret_error);
-};
-
-typedef struct _InputFilePattern InputFilePattern;
-typedef struct _InputFileSaveInfo InputFileSaveInfo;
-
-struct _PluginServiceFileOpener {
-	gchar *id;
-	gint priority;
-	gboolean has_probe;
-	gboolean can_open;
-	gboolean can_import;
-	gint   default_importer_priority;
-	gchar *description;
-	GList *file_patterns;      /* list of InputFilePattern */
-	InputFileSaveInfo *save_info;
-
-	GnumFileOpener *opener;
-	/* fields available after loading */
-	gboolean (*plugin_func_file_probe) (GnumFileOpener const *fo, PluginService *service,
-	                                    GsfInput *input, FileProbeLevel pl);
-	void (*plugin_func_file_open) (GnumFileOpener const *fo, PluginService *service,
-	                               IOContext *io_context, WorkbookView *wbv,
-	                               GsfInput *input);
-};
-
-struct _PluginServiceFileSaver {
-	gchar *id;
-	gchar *file_extension;
-	FileFormatLevel format_level;
-	gchar *description;
-	gint   default_saver_priority;
-	FileSaveScope save_scope;
-	gboolean overwrite_files;
-
-	GnumFileSaver *saver;
-	/* fields available after loading */
-	void  (*plugin_func_file_save) (GnumFileSaver const *fs, PluginService *service,
-	                                IOContext *io_context, WorkbookView *wbv,
-	                                const gchar *file_name);
-};
-
-struct _PluginServiceFunctionGroup {
-	gchar *group_id;
-	gchar *category_name, *translated_category_name;
-	GList *function_name_list;
-
-	FunctionCategory *category;
-	/* fields available after loading */
-	gboolean (*plugin_func_get_full_function_info) (PluginService *service,
-	                                                const gchar *fn_name,
-							const gchar **args_ptr,
-	                                                const gchar **arg_names_ptr,
-	                                                const gchar ***help_ptr,
-	                                                FunctionArgs     *fn_args_ptr,
-	                                                FunctionNodes    *fn_nodes_ptr,
-							FuncLinkHandle   *link,
-							FuncUnlinkHandle *unlink);
-};
-
-struct _PluginServicePluginLoader {
-	gchar *loader_id;
-	/* fields available after loading */
-	GType (*plugin_func_get_loader_type) (PluginService *service,
-	                                        ErrorInfo **ret_error);
-};
-
-GType plugin_service_plugin_loader_get_type (PluginService *service,
-                                             ErrorInfo **ret_error);
-
-typedef enum {
-	PLUGIN_SERVICE_GENERAL,
-	PLUGIN_SERVICE_FILE_OPENER,
-	PLUGIN_SERVICE_FILE_SAVER,
-	PLUGIN_SERVICE_FUNCTION_GROUP,
-	PLUGIN_SERVICE_PLUGIN_LOADER,
-	PLUGIN_SERVICE_LAST
-} PluginServiceType;
-
-struct _PluginService {
-	gboolean is_active;
-	gboolean is_loaded;
-	GnmPlugin *plugin;
-	gpointer loader_data;
-	PluginServiceType service_type;
-	union {
-		PluginServiceGeneral general;
-		PluginServiceFileOpener file_opener;
-		PluginServiceFileSaver file_saver;
-		PluginServiceFunctionGroup function_group;
-		PluginServicePluginLoader plugin_loader;
-	} t;
-};
+} PluginServiceGeneralCallbacks;
 
 
-PluginService *plugin_service_read (xmlNode *tree, ErrorInfo **ret_error);
-void           plugin_service_free (PluginService *service);
+#define GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE  (plugin_service_file_opener_get_type ())
+#define GNM_PLUGIN_SERVICE_FILE_OPENER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE, PluginServiceFileOpener))
+#define GNM_IS_PLUGIN_SERVICE_FILE_OPENER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FILE_OPENER_TYPE))
+
+GType plugin_service_file_opener_get_type (void);
+typedef struct _PluginServiceFileOpener PluginServiceFileOpener;
+typedef struct {
+	/* plugin_func_file_probe may be NULL */
+	gboolean (*plugin_func_file_probe) (
+	         GnumFileOpener const *fo, PluginService *service,
+	         GsfInput *input, FileProbeLevel pl);
+	void     (*plugin_func_file_open) (
+	         GnumFileOpener const *fo, PluginService *service,
+	         IOContext *io_context, WorkbookView *wbv, GsfInput *input);
+} PluginServiceFileOpenerCallbacks;
+
+
+#define GNM_PLUGIN_SERVICE_FILE_SAVER_TYPE  (plugin_service_file_saver_get_type ())
+#define GNM_PLUGIN_SERVICE_FILE_SAVER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FILE_SAVER_TYPE, PluginServiceFileSaver))
+#define GNM_IS_PLUGIN_SERVICE_FILE_SAVER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FILE_SAVER_TYPE))
+
+GType plugin_service_file_saver_get_type (void);
+typedef struct _PluginServiceFileSaver PluginServiceFileSaver;
+typedef struct {
+	void  (*plugin_func_file_save) (
+	      GnumFileSaver const *fs, PluginService *service,
+	      IOContext *io_context, WorkbookView *wbv, const gchar *file_name);
+} PluginServiceFileSaverCallbacks;
+
+
+#define GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE  (plugin_service_function_group_get_type ())
+#define GNM_PLUGIN_SERVICE_FUNCTION_GROUP(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE, PluginServiceFunctionGroup))
+#define GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE))
+
+GType plugin_service_function_group_get_type (void);
+typedef struct _PluginServiceFunctionGroup PluginServiceFunctionGroup;
+typedef struct {
+	gboolean (*plugin_func_get_full_function_info) (
+	         PluginService    *service,
+	         const gchar      *fn_name,
+	         const gchar     **args_ptr,
+	         const gchar     **arg_names_ptr,
+	         const gchar    ***help_ptr,
+	         FunctionArgs     *fn_args_ptr,
+	         FunctionNodes    *fn_nodes_ptr,
+	         FuncLinkHandle   *link,
+	         FuncUnlinkHandle *unlink);
+} PluginServiceFunctionGroupCallbacks;
+
+
+#define GNM_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE  (plugin_service_plugin_loader_get_type ())
+#define GNM_PLUGIN_SERVICE_PLUGIN_LOADER(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE, PluginServicePluginLoader))
+#define GNM_IS_PLUGIN_SERVICE_PLUGIN_LOADER(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_PLUGIN_LOADER_TYPE))
+
+GType plugin_service_plugin_loader_get_type (void);
+typedef struct _PluginServicePluginLoader PluginServicePluginLoader;
+typedef struct {
+	GType (*plugin_func_get_loader_type) (
+	      PluginService *service, ErrorInfo **ret_error);
+} PluginServicePluginLoaderCallbacks;
+
+
+GType plugin_service_plugin_loader_generate_type (PluginService *service,
+                                                  ErrorInfo **ret_error);
+
+PluginService *plugin_service_new (xmlNode *tree, ErrorInfo **ret_error);
+const char    *plugin_service_get_id (PluginService *service);
 void           plugin_service_set_plugin (PluginService *service, GnmPlugin *plugin);
-void           plugin_service_set_loader_data (PluginService *service, gpointer loader_data);
-void           plugin_service_clear_loader_data (PluginService *service);
-gpointer       plugin_service_get_loader_data (PluginService *service);
+GnmPlugin     *plugin_service_get_plugin (PluginService *service);
+gpointer       plugin_service_get_cbs (PluginService *service);
 void           plugin_service_activate (PluginService *service, ErrorInfo **ret_error);
 void           plugin_service_deactivate (PluginService *service, ErrorInfo **ret_error);
 

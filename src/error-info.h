@@ -17,4 +17,10 @@ void         error_info_print			  (ErrorInfo *error);
 char const  *error_info_peek_message		  (ErrorInfo *error);
 GSList       *error_info_peek_details		  (ErrorInfo *error);
 
+#define GNM_INIT_RET_ERROR_INFO(ret_error) \
+G_STMT_START { \
+	g_assert (ret_error != NULL); \
+	*ret_error = NULL; \
+} G_STMT_END
+
 #endif /* GNUMERIC_ERROR_INFO_H */

@@ -57,14 +57,10 @@ gnumeric_plugin_loader_module_set_attributes (GnumericPluginLoader *loader,
                                               GHashTable *attrs,
                                               ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderModule *loader_module;
+	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
 	gchar *module_file_name = NULL;
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
-	g_return_if_fail (ret_error != NULL);
-
-	*ret_error = NULL;
-	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
 	module_file_name = g_hash_table_lookup (attrs, "module_file");
 	if (module_file_name != NULL) {
 		loader_module->module_file_name = g_strdup (module_file_name);
@@ -77,13 +73,9 @@ gnumeric_plugin_loader_module_set_attributes (GnumericPluginLoader *loader,
 static void
 gnumeric_plugin_loader_module_load_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderModule *loader_module;
+	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
-	g_return_if_fail (ret_error != NULL);
-
-	*ret_error = NULL;
-	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
 	if (g_module_supported ()) {
 		gchar *full_module_file_name;
 		GModule *handle;
@@ -145,13 +137,9 @@ gnumeric_plugin_loader_module_load_base (GnumericPluginLoader *loader, ErrorInfo
 static void
 gnumeric_plugin_loader_module_unload_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderModule *loader_module;
+	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
-	g_return_if_fail (ret_error != NULL);
-
-	*ret_error = NULL;
-	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
 	if (loader_module->plugin_cleanup_func != NULL) {
 		loader_module->plugin_cleanup_func ();
 	}
@@ -171,14 +159,12 @@ gnumeric_plugin_loader_module_info_get_extra_info_list (GnumericPluginLoader *lo
                                                         GSList **ret_keys_list,
                                                         GSList **ret_values_list)
 {
-	GnumericPluginLoaderModule *loader_module;
+	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
 	GSList *keys_list = NULL, *values_list = NULL;
 	gint n_items = 0;
 
-	g_return_val_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader), 0);
 	g_return_val_if_fail (ret_keys_list != NULL && ret_values_list != NULL, 0);
 
-	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
 	GNM_SLIST_PREPEND (keys_list, g_strdup (_("Loader")));
 	GNM_SLIST_PREPEND (values_list, g_strdup ("g_module"));
 	n_items++;
@@ -204,11 +190,8 @@ gnumeric_plugin_loader_module_init (GnumericPluginLoaderModule *loader_module)
 static void
 gnumeric_plugin_loader_module_destroy (GtkObject *obj)
 {
-	GnumericPluginLoaderModule *loader_module;
+	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (obj);
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (obj));
-
-	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (obj);
 	g_free (loader_module->module_file_name);
 }
 
@@ -253,11 +236,10 @@ gnumeric_plugin_loader_module_func_init (PluginService *service, ErrorInfo **ret
 	ErrorInfo *error;
 	ServiceLoaderDataGeneral *loader_data;
 
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_GENERAL (service));
 
-	*ret_error = NULL;
-	loader_data = (ServiceLoaderDataGeneral *) plugin_service_get_loader_data (service);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	loader_data->module_func_init (&error);
 	*ret_error = error;
 }
@@ -268,11 +250,10 @@ gnumeric_plugin_loader_module_func_cleanup (PluginService *service, ErrorInfo **
 	ErrorInfo *error;
 	ServiceLoaderDataGeneral *loader_data;
 
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_GENERAL (service));
 
-	*ret_error = NULL;
-	loader_data = (ServiceLoaderDataGeneral *) plugin_service_get_loader_data (service);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	loader_data->module_func_cleanup (&error);
 	*ret_error = error;
 }
@@ -282,29 +263,26 @@ gnumeric_plugin_loader_module_load_service_general (GnumericPluginLoader *loader
                                                     PluginService *service,
                                                     ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderModule *loader_module;
+	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
 	gpointer module_func_init = NULL, module_func_cleanup = NULL;
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_GENERAL (service));
 
-	*ret_error = NULL;
-	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
 	g_module_symbol (loader_module->handle, "plugin_init_general", &module_func_init);
 	g_module_symbol (loader_module->handle, "plugin_cleanup_general", &module_func_cleanup);
 	if (module_func_init != NULL && module_func_cleanup != NULL) {
-		PluginServiceGeneral *service_general;
+		PluginServiceGeneralCallbacks *cbs;
 		ServiceLoaderDataGeneral *loader_data;
 
-		service_general = &service->t.general;
-		service_general->plugin_func_init = gnumeric_plugin_loader_module_func_init;
-		service_general->plugin_func_cleanup = gnumeric_plugin_loader_module_func_cleanup;
+		cbs = plugin_service_get_cbs (service);
+		cbs->plugin_func_init = gnumeric_plugin_loader_module_func_init;
+		cbs->plugin_func_cleanup = gnumeric_plugin_loader_module_func_cleanup;
 
 		loader_data = g_new (ServiceLoaderDataGeneral, 1);
 		loader_data->module_func_init = module_func_init;
 		loader_data->module_func_cleanup = module_func_cleanup;
-		plugin_service_set_loader_data (service, (gpointer) loader_data);
+		g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
 	} else {
 		*ret_error = error_info_new_printf (
 		             _("Module file \"%s\" has invalid format."),
@@ -339,10 +317,10 @@ gnumeric_plugin_loader_module_func_file_probe (GnumFileOpener const *fo, PluginS
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
-	g_return_val_if_fail (service != NULL, FALSE);
+	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_OPENER (service), FALSE);
 	g_return_val_if_fail (input != NULL, FALSE);
 
-	loader_data = (ServiceLoaderDataFileOpener *) plugin_service_get_loader_data (service);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	return loader_data->module_func_file_probe (fo, input, pl);
 }
 
@@ -353,10 +331,10 @@ gnumeric_plugin_loader_module_func_file_open (GnumFileOpener const *fo, PluginSe
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
-	g_return_if_fail (service != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_OPENER (service));
 	g_return_if_fail (input != NULL);
 
-	loader_data = (ServiceLoaderDataFileOpener *) plugin_service_get_loader_data (service);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	loader_data->module_func_file_open (fo, io_context, wbv, input);
 }
 
@@ -365,58 +343,37 @@ gnumeric_plugin_loader_module_load_service_file_opener (GnumericPluginLoader *lo
                                                         PluginService *service,
                                                         ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderModule *loader_module;
-	PluginServiceFileOpener *service_file_opener;
+	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
 	gchar *func_name_file_probe, *func_name_file_open;
 	gpointer module_func_file_probe = NULL, module_func_file_open = NULL;
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_OPENER (service));
 
-	*ret_error = NULL;
-	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
-	service_file_opener = &service->t.file_opener;
-	if (service_file_opener->has_probe) {
-		func_name_file_probe = g_strdup_printf ("%s_file_probe", service_file_opener->id);
-		g_module_symbol (loader_module->handle, func_name_file_probe, &module_func_file_probe);
-	} else {
-		func_name_file_probe = NULL;
-		module_func_file_probe = NULL;
-	}
-	func_name_file_open = g_strdup_printf ("%s_file_open", service_file_opener->id);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	func_name_file_probe = g_strconcat (
+		plugin_service_get_id (service), "_file_probe", NULL);
+	g_module_symbol (loader_module->handle, func_name_file_probe, &module_func_file_probe);
+	func_name_file_open = g_strconcat (
+		plugin_service_get_id (service), "_file_open", NULL);
 	g_module_symbol (loader_module->handle, func_name_file_open, &module_func_file_open);
-	if ((!service_file_opener->has_probe || module_func_file_probe != NULL) &&
-	    module_func_file_open != NULL) {
+	if (module_func_file_open != NULL) {
+		PluginServiceFileOpenerCallbacks *cbs;
 		ServiceLoaderDataFileOpener *loader_data;
 
-		if (service_file_opener->has_probe) {
-			service_file_opener->plugin_func_file_probe = gnumeric_plugin_loader_module_func_file_probe;
-		} else {
-			service_file_opener->plugin_func_file_probe = NULL;
-		}
-		service_file_opener->plugin_func_file_open = gnumeric_plugin_loader_module_func_file_open;
+		cbs = plugin_service_get_cbs (service);
+		cbs->plugin_func_file_probe = gnumeric_plugin_loader_module_func_file_probe;
+		cbs->plugin_func_file_open = gnumeric_plugin_loader_module_func_file_open;
 
 		loader_data = g_new (ServiceLoaderDataFileOpener, 1);
 		loader_data->module_func_file_probe = module_func_file_probe;
 		loader_data->module_func_file_open = module_func_file_open;
-		plugin_service_set_loader_data (service, (gpointer) loader_data);
+		g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
 	} else {
 		*ret_error = error_info_new_printf (
 		             _("Module file \"%s\" has invalid format."),
 		             loader_module->module_file_name);
-		if (service_file_opener->has_probe && module_func_file_probe == NULL) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
-			                        _("File doesn't contain \"%s\" function."),
-			                        func_name_file_probe));
-		}
-		if (module_func_file_open == NULL) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
-			                        _("File doesn't contain \"%s\" function."),
-			                        func_name_file_open));
-		}
+		error_info_add_details (*ret_error, error_info_new_printf (
+			_("File doesn't contain \"%s\" function."), func_name_file_open));
 	}
 	g_free (func_name_file_probe);
 	g_free (func_name_file_open);
@@ -438,10 +395,10 @@ gnumeric_plugin_loader_module_func_file_save (GnumFileSaver const *fs, PluginSer
 {
 	ServiceLoaderDataFileSaver *loader_data;
 
-	g_return_if_fail (service != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_SAVER (service));
 	g_return_if_fail (file_name != NULL);
 
-	loader_data = (ServiceLoaderDataFileSaver *) plugin_service_get_loader_data (service);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	loader_data->module_func_file_save (fs, io_context, wbv, file_name);
 }
 
@@ -450,28 +407,26 @@ gnumeric_plugin_loader_module_load_service_file_saver (GnumericPluginLoader *loa
                                                        PluginService *service,
                                                        ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderModule *loader_module;
-	PluginServiceFileSaver *service_file_saver;
+	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
 	gchar *func_name_file_save;
 	gpointer module_func_file_save = NULL;
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_SAVER (service));
 
-	*ret_error = NULL;
-	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
-	service_file_saver = &service->t.file_saver;
-	func_name_file_save = g_strdup_printf ("%s_file_save", service_file_saver->id);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	func_name_file_save = g_strconcat (
+		plugin_service_get_id (service), "_file_save", NULL);
 	g_module_symbol (loader_module->handle, func_name_file_save, &module_func_file_save);
 	if (module_func_file_save != NULL) {
+		PluginServiceFileSaverCallbacks *cbs;
 		ServiceLoaderDataFileSaver *loader_data;
 
-		service_file_saver->plugin_func_file_save = gnumeric_plugin_loader_module_func_file_save;
+		cbs = plugin_service_get_cbs (service);
+		cbs->plugin_func_file_save = gnumeric_plugin_loader_module_func_file_save;
 
 		loader_data = g_new (ServiceLoaderDataFileSaver, 1);
 		loader_data->module_func_file_save = module_func_file_save;
-		plugin_service_set_loader_data (service, (gpointer) loader_data);
+		g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
 	} else {
 		*ret_error = error_info_new_printf (
 		             _("Module file \"%s\" has invalid format."),
@@ -509,10 +464,10 @@ gnumeric_plugin_loader_module_func_get_full_function_info (PluginService *servic
 	ServiceLoaderDataFunctionGroup *loader_data;
 	gpointer func_index_ptr;
 
-	g_return_val_if_fail (service != NULL, FALSE);
+	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service), FALSE);
 	g_return_val_if_fail (fn_name != NULL, FALSE);
 
-	loader_data = (ServiceLoaderDataFunctionGroup *) plugin_service_get_loader_data (service);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	if (g_hash_table_lookup_extended (loader_data->function_indices, (gpointer) fn_name,
 	                                  NULL, &func_index_ptr)) {
 		ModulePluginFunctionInfo *fn_info;
@@ -536,25 +491,23 @@ gnumeric_plugin_loader_module_load_service_function_group (GnumericPluginLoader 
                                                            PluginService *service,
                                                            ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderModule *loader_module;
-	PluginServiceFunctionGroup *service_function_group;
+	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
 	gchar *fn_info_array_name;
 	ModulePluginFunctionInfo *module_fn_info_array = NULL;
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
-	*ret_error = NULL;
-	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
-	service_function_group = &service->t.function_group;
-	fn_info_array_name = g_strdup_printf ("%s_functions", service_function_group->group_id);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	fn_info_array_name = g_strconcat (
+		plugin_service_get_id (service), "_functions", NULL);
 	g_module_symbol (loader_module->handle, fn_info_array_name, (gpointer) &module_fn_info_array);
 	if (module_fn_info_array != NULL) {
+		PluginServiceFunctionGroupCallbacks *cbs;
 		ServiceLoaderDataFunctionGroup *loader_data;
 		gint i;
 
-		service_function_group->plugin_func_get_full_function_info = &gnumeric_plugin_loader_module_func_get_full_function_info;
+		cbs = plugin_service_get_cbs (service);
+		cbs->plugin_func_get_full_function_info = &gnumeric_plugin_loader_module_func_get_full_function_info;
 
 		loader_data = g_new (ServiceLoaderDataFunctionGroup, 1);
 		loader_data->module_fn_info_array = module_fn_info_array;
@@ -564,7 +517,7 @@ gnumeric_plugin_loader_module_load_service_function_group (GnumericPluginLoader 
 			                     (gpointer) module_fn_info_array[i].fn_name,
 			                     GINT_TO_POINTER (i));
 		}
-		plugin_service_set_loader_data (service, (gpointer) loader_data);
+		g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
 	} else {
 		*ret_error = error_info_new_printf (
 		             _("Module file \"%s\" has invalid format."),
@@ -587,11 +540,10 @@ gnumeric_plugin_loader_module_unload_service_function_group (GnumericPluginLoade
 	ServiceLoaderDataFunctionGroup *loader_data;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
-	*ret_error = NULL;
-	loader_data = (ServiceLoaderDataFunctionGroup *) plugin_service_get_loader_data (service);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	g_hash_table_destroy (loader_data->function_indices);
 	parent_class->unload_service_function_group (loader, service, ret_error);
 }
@@ -612,11 +564,10 @@ gnumeric_plugin_loader_module_func_get_loader_type (PluginService *service,
 	ErrorInfo *error;
 	GType loader_type;
 
-	g_return_val_if_fail (service != NULL, 0);
-	g_return_val_if_fail (ret_error != NULL, 0);
+	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_PLUGIN_LOADER (service), 0);
 
-	*ret_error = NULL;
-	loader_data = (ServiceLoaderDataPluginLoader *) plugin_service_get_loader_data (service);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	loader_type = loader_data->module_func_get_loader_type (&error);
 	if (error == NULL) {
 		return loader_type;
@@ -631,30 +582,27 @@ gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPluginLoader *
                                                           PluginService *service,
                                                           ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderModule *loader_module;
-	PluginServicePluginLoader *service_plugin_loader;
+	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
 	gchar *func_name_get_loader_type;
 	gpointer module_func_get_loader_type = NULL;
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_PLUGIN_LOADER (service));
 
-	*ret_error = NULL;
-	loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
-	service_plugin_loader = &service->t.plugin_loader;
-	func_name_get_loader_type = g_strdup_printf ("%s_get_loader_type",
-	                                             service_plugin_loader->loader_id);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	func_name_get_loader_type = g_strconcat (
+			plugin_service_get_id (service), "_get_loader_type", NULL);
 	g_module_symbol (loader_module->handle, func_name_get_loader_type,
 	                 &module_func_get_loader_type);
 	if (module_func_get_loader_type != NULL) {
+		PluginServicePluginLoaderCallbacks *cbs;
 		ServiceLoaderDataPluginLoader *loader_data;
 
-		service_plugin_loader->plugin_func_get_loader_type = gnumeric_plugin_loader_module_func_get_loader_type;
+		cbs = plugin_service_get_cbs (service);
+		cbs->plugin_func_get_loader_type = gnumeric_plugin_loader_module_func_get_loader_type;
 
 		loader_data = g_new (ServiceLoaderDataPluginLoader, 1);
 		loader_data->module_func_get_loader_type = module_func_get_loader_type;
-		plugin_service_set_loader_data (service, (gpointer) loader_data);
+		g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
 	} else {
 		if (module_func_get_loader_type == NULL) {
 			*ret_error = error_info_new_printf (

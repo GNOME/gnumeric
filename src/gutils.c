@@ -161,49 +161,37 @@ g_list_free_custom (GList *list, GFreeFunc free_func)
 }
 
 /**
- * g_string_list_copy:
- * @list: List of strings.
- *
- * Creates a copy of the given string list (strings are also copied using
- * g_strdup).
- *
- * Return value: new copy of the list which you should free after use using
- *               function e_free_string_list()
+ * g_list_map:
+ * @list        : list of some items
+ * @map_func    : mapping function
  */
 GList *
-g_string_list_copy (GList *list)
+g_list_map (GList *list, GnmMapFunc map_func)
 {
-	GList *list_copy = NULL, *l;
+	GList *list_copy = NULL;
 
-	for (l = list; l != NULL; l = l->next) {
-		list_copy = g_list_prepend (list_copy, g_strdup ((gchar *) l->data));
-	}
-	list_copy = g_list_reverse (list_copy);
+	GNM_LIST_FOREACH (list, void, value,
+		GNM_LIST_PREPEND (list_copy, map_func (value))
+	);
 
-	return list_copy;
+	return g_list_reverse (list_copy);
 }
 
 /**
- * g_string_slist_copy:
- * @list: List of strings.
- *
- * Creates a copy of the given string list (strings are also copied using
- * g_strdup).
- *
- * Return value: new copy of the list which you should free after use using
- *               function e_free_string_list()
+ * g_slist_map:
+ * @list        : list of some items
+ * @map_func    : mapping function
  */
 GSList *
-g_string_slist_copy (GSList *list)
+g_slist_map (GSList *list, GnmMapFunc map_func)
 {
-	GSList *list_copy = NULL, *l;
+	GSList *list_copy = NULL;
 
-	for (l = list; l != NULL; l = l->next) {
-		list_copy = g_slist_prepend (list_copy, g_strdup ((gchar *) l->data));
-	}
-	list_copy = g_slist_reverse (list_copy);
+	GNM_SLIST_FOREACH (list, void, value,
+		GNM_SLIST_PREPEND (list_copy, map_func (value))
+	);
 
-	return list_copy;
+	return g_slist_reverse (list_copy);
 }
 
 /**

@@ -1,3 +1,83 @@
+2002-07-27  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/gutils.c:
+	Converted g_string_[s]list_copy to more general functions,
+	g_[s]list_map.
+
+	* src/gutils.h:
+	(g_[s]list_map): New
+	(g_[s]tring_list_copy): Converted to macro (using g_[s]list_map)
+	(g_list_to_vector, g_list_to_vector_custom, g_vector_free_custom,
+	g_slist_to_vector):
+	Removed
+	(GNM_[S]LIST_SORT): New members of GNM_[S]LIST_* family.
+	(GNM_SIZEOF_ARRAY): New macro
+
+	* src/error-info.h:
+	(GNM_INIT_RET_ERROR_INFO):
+	New macro, I plan to add some extra code here.
+
+	* src/plugin-service.[ch]
+	PluginService and PluginService* are GObjects now
+	(with three virtual methods: read_xml, activate, deactivate).
+	All implementation details are hidden. Every PluginService* exposes
+	only service-specific PluginService*Callbacks struct (returned by
+	plugin_service_get_cbs function) for use by plugin loaders.
+	Placed "id" attribute in PluginService struct instead of
+	duplicating it in other structs.
+	(plugin_service_{get,set,clear}_loader_data): Removed
+	s/plugin_service_read/plugin_service_new/
+
+	* src/plugin.c
+	Adjusted to plugin-service.h changes
+	(struct _GnmPlugin): Replace vectors with SLists.
+	(plugins_shutdown): Destroy all plugins (g_object_unref).
+	Use GNM_INIT_RET_ERROR_INFO everywhere.
+
+	* src/plugin-loader.c
+	(gnumeric_plugin_loader_unload_service_general_real,
+	gnumeric_plugin_loader_unload_service_file_opener_real,
+	gnumeric_plugin_loader_unload_service_file_saver_real,
+	gnumeric_plugin_loader_unload_service_function_group_real,
+	gnumeric_plugin_loader_unload_service_plugin_loader_real):
+	Set callbacks using plugin_service_get_cbs and PluginService*Callbacks
+	structs, instead of settings PluginService* fields directly (they are
+	private now).
+	(gnumeric_plugin_loader_load_service,
+	gnumeric_plugin_loader_unload_service)
+	Use RTTI to select (un)loading method.
+	(gnumeric_plugin_loader_set_attributes,
+	gnumeric_plugin_loader_load_base,
+	gnumeric_plugin_loader_unload_base):
+	Use GNM_INIT_RET_ERROR_INFO macro everywhere.
+
+	* src/plugin-loader-module.c
+	(gnumeric_plugin_loader_module_set_attributes,
+	gnumeric_plugin_loader_module_load_base,
+	gnumeric_plugin_loader_module_unload_base,
+	gnumeric_plugin_loader_module_info_get_extra_info_list,
+	gnumeric_plugin_loader_module_destroy,
+	gnumeric_plugin_loader_module_func_init,
+	gnumeric_plugin_loader_module_func_clean,
+	gnumeric_plugin_loader_module_load_service_general,
+	gnumeric_plugin_loader_module_func_file_probe,
+	gnumeric_plugin_loader_module_func_file_open,
+	gnumeric_plugin_loader_module_load_service_file_opener,
+	gnumeric_plugin_loader_module_func_file_save,
+	gnumeric_plugin_loader_module_load_service_file_saver,
+	gnumeric_plugin_loader_module_func_get_full_function_info,
+	gnumeric_plugin_loader_module_load_service_function_group,
+	gnumeric_plugin_loader_module_unload_service_function_group,
+	gnumeric_plugin_loader_module_func_get_loader_type,
+	gnumeric_plugin_loader_module_load_service_plugin_loader):
+	Use g_object data instead of plugin_service_[gs]et_loader_data.
+	Set callbacks using plugin_service_get_cbs and PluginService*Callbacks
+	structs, instead of settings PluginService* fields directly (they are
+	private now).
+	"has_probe" field has been removed, always get a pointer to 
+    *_file_probe pointer function if it's available.
+	Less assertions, use GNM_INIT_RET_ERROR_INFO macro everywhere.
+
 2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/gnumeric.h:
