@@ -211,7 +211,7 @@ gnumeric_expr_entry_set_scg (GnumericExprEntry *expr_entry,
 				GTK_OBJECT (scg), "destroy",
 				GTK_SIGNAL_FUNC (cb_scg_destroy), expr_entry);
 
-		expr_entry->target_sheet = scg->sheet;
+		expr_entry->target_sheet = sc_sheet (SHEET_CONTROL (scg));
 	} else
 		expr_entry->target_sheet = NULL;
 
