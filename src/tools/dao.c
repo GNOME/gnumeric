@@ -702,6 +702,24 @@ dao_set_colrow_state_list (data_analysis_output_t *dao, gboolean is_cols,
 				   list);
 }
 
+void
+dao_append_date (GString *buf)
+{
+	GDate     date;
+	GTimeVal  t;
+	struct tm tm_s;
+	gchar     *tmp;
+
+	g_get_current_time (&t);
+	g_date_set_time (&date, t.tv_sec);
+	g_date_to_struct_tm (&date, &tm_s);
+	tm_s.tm_sec  = t.tv_sec % 60;
+	tm_s.tm_min  = (t.tv_sec / 60) % 60;
+	tm_s.tm_hour = (t.tv_sec / 3600) % 24;
+	tmp = asctime (&tm_s);
+	g_string_append (buf, tmp);
+}
+
 /**
  * dao_write_header: Writes the titles of a report.
  * @dao:
@@ -717,10 +735,6 @@ dao_write_header (data_analysis_output_t *dao, gchar *toolname,
 		  gchar *title, Sheet *sheet)
 {
 	GString   *buf;
-	GDate     date;
-	GTimeVal  t;
-	struct tm tm_s;
-	gchar     *tmp;
 
 	buf = g_string_new ("");
 	g_string_sprintfa (buf, "%s %s %s %s", 
@@ -737,14 +751,7 @@ dao_write_header (data_analysis_output_t *dao, gchar *toolname,
 
 	buf = g_string_new ("");
 	g_string_append (buf, _("Report Created: "));
-	g_get_current_time (&t);
-	g_date_set_time (&date, t.tv_sec);
-	g_date_to_struct_tm (&date, &tm_s);
-	tm_s.tm_sec  = t.tv_sec % 60;
-	tm_s.tm_min  = (t.tv_sec / 60) % 60;
-	tm_s.tm_hour = (t.tv_sec / 3600) % 24;
-	tmp = asctime (&tm_s);
-	g_string_append (buf, tmp);
+	dao_append_date (buf);
 	dao_set_cell (dao, 0, 2, buf->str);
 	g_string_free (buf, FALSE);
 

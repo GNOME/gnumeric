@@ -19,6 +19,8 @@ typedef struct {
 	GSList   *list_inputs;
 	GSList   *list_outputs;
 	gchar    **cellnames;
+
+	GTimeVal          start, end;
 } simulation_t;
 
 gchar *
