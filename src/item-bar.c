@@ -166,8 +166,6 @@ item_bar_realize (GnomeCanvasItem *item)
 		item_bar->change_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	else
 		item_bar->change_cursor = gdk_cursor_new (GDK_SB_V_DOUBLE_ARROW);
-	item_bar->guru_cursor = gdk_cursor_new (GDK_LEFT_PTR);
-
 	item_bar_calc_size (item_bar);
 }
 
@@ -181,7 +179,6 @@ item_bar_unrealize (GnomeCanvasItem *item)
 	gdk_gc_unref (item_bar->shade);
 	gdk_cursor_destroy (item_bar->change_cursor);
 	gdk_cursor_destroy (item_bar->normal_cursor);
-	gdk_cursor_destroy (item_bar->guru_cursor);
 	item_bar_fonts_unref (item_bar);
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)
@@ -595,9 +592,7 @@ set_cursor (ItemBar *ib, int x, int y)
 	if (!canvas->window)
 		return;
 
-	if (workbook_edit_has_guru (ib->scg->wbcg)) {
-		cursor = ib->guru_cursor;
-	} else {
+	if (!workbook_edit_has_guru (ib->scg->wbcg)) {
 		if (ib->is_col_header) {
 			major = x;
 			minor = y;

@@ -1,3 +1,10 @@
+2001-05-06  Jon K Hellan  <hellan@acm.org>
+
+	* src/item-bar.h:  We don't need guru_cursor.
+
+	* src/item-bar.c (item_bar_realize, item_bar_unrealize,
+	set_cursor): Ditto
+
 2001-05-05  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-merge.c (sheet_merge_add) : update the edit_pos if

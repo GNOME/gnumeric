@@ -15,7 +15,6 @@ struct _ItemBar {
 	GdkGC           *gc, *lines, *shade; /* Draw gc */
 	GdkCursor       *normal_cursor;
 	GdkCursor       *change_cursor;
-	GdkCursor       *guru_cursor;
 
 	StyleFont	*normal_font, *bold_font;
 	GtkWidget       *tip;			/* Tip for scrolling */
