@@ -3,15 +3,16 @@
 # Juan Carlos Castro y Castro <jcastro@vialink.com.br>, 2001
 # Johnny Birnfeld <akiractb@icqmail.com>, 2003
 # Afonso Celso Medina <medina@maua.br>, 2004.
+# Raphael Higino <raphaelh@uai.com.br>, 2004.
 # 
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-18 04:05+0100\n"
-"PO-Revision-Date: 2004-03-18 09:32-0300\n"
-"Last-Translator: Raphael Higino <raphaelh@uai.com.br>\n"
+"POT-Creation-Date: 2004-03-21 04:20+0100\n"
+"PO-Revision-Date: 2004-03-21 03:38-0300\n"
+"Last-Translator: Afonso Celso Medina <medina@maua.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1169,7 +1170,7 @@ msgstr "Derivativos Financeiros"
 msgid "Functions related to financial derivatives"
 msgstr "Funções relativas a derivativos financeiros"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5517
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5522
 #: plugins/mps/mps.c:549 src/xml-io.c:4136
 msgid "Reading file..."
 msgstr "Lendo arquivo..."
@@ -1265,40 +1266,40 @@ msgstr "Atributo inesperado %s::%s == '%s'."
 msgid "XML document not well formed!"
 msgstr "Documento XML mal-formado!"
 
-#: plugins/excel/ms-excel-read.c:1043 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1044 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#DESCONHECIDO!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1134 plugins/excel/ms-excel-read.c:1145
+#: plugins/excel/ms-excel-read.c:1135 plugins/excel/ms-excel-read.c:1146
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
 #: src/dialogs/dialog-sheet-order.c:440 src/dialogs/dialog-sheet-order.c:444
 #, c-format
 msgid "Sheet%d"
 msgstr "Pasta%d"
 
-#: plugins/excel/ms-excel-read.c:1148
+#: plugins/excel/ms-excel-read.c:1149
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: plugins/excel/ms-excel-read.c:1151
+#: plugins/excel/ms-excel-read.c:1152
 #, c-format
 msgid "Chart%d"
 msgstr "Gráfico%d"
 
-#: plugins/excel/ms-excel-read.c:1154
+#: plugins/excel/ms-excel-read.c:1155
 #, c-format
 msgid "Module%d"
 msgstr "Módulo%d"
 
-#: plugins/excel/ms-excel-read.c:2951
+#: plugins/excel/ms-excel-read.c:2952
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Falha processando o arquivo '%s'"
 
-#: plugins/excel/ms-excel-read.c:3007
+#: plugins/excel/ms-excel-read.c:3008
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1307,7 +1308,7 @@ msgstr ""
 "Links DDE não são suportados.\n"
 "O nome '%s' será perdido.\n"
 
-#: plugins/excel/ms-excel-read.c:3013
+#: plugins/excel/ms-excel-read.c:3014
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1316,15 +1317,15 @@ msgstr ""
 "Links OLE não são suportados.\n"
 "O nome '%s' será perdido.\n"
 
-#: plugins/excel/ms-excel-read.c:4877
+#: plugins/excel/ms-excel-read.c:4882
 msgid "external references"
 msgstr "referências externas"
 
-#: plugins/excel/ms-excel-read.c:4902
+#: plugins/excel/ms-excel-read.c:4907
 msgid "No password supplied"
 msgstr "Nenhuma senha fornecida"
 
-#: plugins/excel/ms-excel-read.c:5750
+#: plugins/excel/ms-excel-read.c:5755
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Impossível localizar um WorkBook do MS Excel válido"
 
@@ -1338,7 +1339,7 @@ msgstr ""
 "Nós já escrevemos um trecho para um texto que foi truncado devido a "
 "problemas de codificação."
 
-#: plugins/excel/ms-excel-write.c:3806
+#: plugins/excel/ms-excel-write.c:3805
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1347,7 +1348,7 @@ msgstr ""
 "Algum conteúdo será perdido quando salvar no formato MS-EXCEL (tm) 95. Ele "
 "suporta apenas %d colunas e esse WorkBook tem %d"
 
-#: plugins/excel/ms-excel-write.c:3813
+#: plugins/excel/ms-excel-write.c:3812
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1356,11 +1357,11 @@ msgstr ""
 "Algum conteúdo será perdido quando salvar no formato MS-EXCEL (tm). Ele "
 "suporta apenas %d colunas e esse WorkBook tem %d"
 
-#: plugins/excel/ms-excel-write.c:4331
+#: plugins/excel/ms-excel-write.c:4330
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Não pode abrir o 'Livro' atual para escrita\n"
 
-#: plugins/excel/ms-excel-write.c:4351
+#: plugins/excel/ms-excel-write.c:4350
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Não pode abrir o 'WorkBook' para escrita\n"
 
@@ -17531,7 +17532,8 @@ msgstr "Seção BOUNDS inválida no arquivo."
 
 #: plugins/mps/plugin.xml.in.h:1
 msgid "Linear and integer program (*.mps) file format"
-msgstr "Formato de arquivo de problemas de programação linear e inteira (*.mps)"
+msgstr ""
+"Formato de arquivo de problemas de programação linear e inteira (*.mps)"
 
 #: plugins/mps/plugin.xml.in.h:2
 msgid "Linear and integer program expression format (MPS) module"
@@ -21782,7 +21784,7 @@ msgid "_Bubbles scaled to"
 msgstr "_Bolhas escalonadas para"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
-msgid "_Size reprented by:"
+msgid "_Size represented by:"
 msgstr "_Tamanho representado por:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:9
