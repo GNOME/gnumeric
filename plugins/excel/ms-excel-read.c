@@ -28,8 +28,8 @@
 #include "excel.h"
 #include "ms-ole.h"
 #include "ms-biff.h"
-#include "ms-formula.h"
-#include "ms-excel.h"
+#include "ms-formula-read.h"
+#include "ms-excel-read.h"
 #include "ms-obj.h"
 #include "ms-escher.h"
 

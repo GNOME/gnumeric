@@ -16,8 +16,7 @@
 
 #include "excel.h"
 #include "ms-biff.h"
-#include "ms-excel.h"
-#include "ms-formula.h"
+#include "ms-formula-read.h"
 
 #define FORMULA_DEBUG 0
 

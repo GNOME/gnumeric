@@ -19,12 +19,12 @@ libexcel_a_SOURCES =		\
 	escher-types.h		\
 	ms-escher.c		\
 	ms-escher.h		\
-	ms-excel.c		\
-	ms-excel.h		\
+	ms-excel-read.c		\
+	ms-excel-read.h		\
 	ms-excel-write.c	\
 	ms-excel-write.h	\
-	ms-formula.c		\
-	ms-formula.h		\
+	ms-formula-read.c	\
+	ms-formula-read.h	\
 	ms-obj.c		\
 	ms-obj.h
 

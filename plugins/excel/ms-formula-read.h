@@ -9,7 +9,7 @@
 
 #include <glib.h>
 
-#include "ms-excel.h"
+#include "ms-excel-read.h"
 #include "ms-biff.h"
 
 ExprTree *

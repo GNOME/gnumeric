@@ -1,5 +1,22 @@
 1999-05-15  Michael Meeks  <michael@imaginator.com>
 
+	* ms-excel.[ch] -> ms-excel-read.[ch],
+
+	* ms-formula.[ch] -> ms-formual-read.[ch]
+
+	* All files incldes updated to obey above.
+	
+	* ms-biff.c (ms_biff_put_new): Implemented,
+	(ms_biff_put_destroy): Implemented.
+	Various other functions updated / fixed.
+
+	* ms-excel-write.c (ms_excel_write_workbook): Change stream name
+	depending on the version.
+	Close streams / directory entries correctly.
+	(write_workbook): Created.
+
+1999-05-15  Michael Meeks  <michael@imaginator.com>
+
 	* Makefile.am: stop 'ole' being installed.
 
 1999-05-15  Michael Meeks  <michael@imaginator.com>

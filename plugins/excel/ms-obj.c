@@ -27,7 +27,7 @@
 
 #include "excel.h"
 #include "ms-biff.h"
-#include "ms-excel.h"
+#include "ms-excel-read.h"
 #include "ms-excel-biff.h"
 #include "ms-obj.h"
 

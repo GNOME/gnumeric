@@ -94,6 +94,10 @@ typedef struct _BIFF_PUT
 /* Sets up a record on a stream */
 extern BIFF_PUT      *ms_biff_put_new        (MS_OLE_STREAM *);
 extern void           ms_biff_put_destroy    (BIFF_PUT *);
+/**
+ * If between the 'next' and 'commit' ls / ms_op are changed they will be
+ * written correctly.
+ **/
 /* For known length records shorter than 0x2000 bytes. */
 extern guint8        *ms_biff_put_len_next   (BIFF_PUT *, guint16 opcode, guint32 len);
 extern void           ms_biff_put_len_commit (BIFF_PUT *);
