@@ -21,6 +21,9 @@ Jukka:
 	* Help button of autosave doesn't kill the dialog any more.
 	* Added `Filter' submenu into the `Data' menu.
 
+Morten:
+	* Cleanup various functions' improper access to internal strings.
+
 --------------------------------------------------------------------------
 Gnumeric 0.74
 
