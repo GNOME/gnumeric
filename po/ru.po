@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-02-10 12:56-0600\n"
+"POT-Creation-Date: 1999-02-10 17:34-0600\n"
 "PO-Revision-Date: 1999-02-03 14:42-0600\n"
 "Last-Translator: Valek Filippov <val@comptek.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -2284,15 +2284,19 @@ msgstr "Увеличить"
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr ""
 
-#: src/workbook.c:1473
+#: src/workbook.c:1465
+msgid "Other sheets depend on the values on this sheet, I can not remove it"
+msgstr ""
+
+#: src/workbook.c:1485
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:1474
+#: src/workbook.c:1486
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:1698 src/workbook.c:1726
+#: src/workbook.c:1739 src/workbook.c:1767
 #, c-format
 msgid "Sheet %d"
 msgstr "Таблица %d"
