@@ -2572,12 +2572,9 @@ style_format_default_time (void)
 GnmFormat *
 style_format_default_date_time (void)
 {
-	if (!default_date_time_fmt) {
-		char *tmp = g_strconcat (cell_formats[FMT_DATE][0], " ",
-					 cell_formats[FMT_TIME][0], NULL);
-		default_date_time_fmt = style_format_new_XL (tmp, FALSE);
-		g_free (tmp);
-	}
+	if (!default_date_time_fmt)
+		default_date_time_fmt =
+			style_format_new_XL (cell_formats[FMT_TIME][4], FALSE);
 
 	return default_date_time_fmt;
 }
