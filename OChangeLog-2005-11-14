@@ -1,3 +1,12 @@
+2003-10-26  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_probe) : rework to use sax.
+	(xml_dom_read_warning) : new.
+	(xml_dom_read_error) : new.
+	(xml_init) : setup.
+	(gnumeric_xml_read_workbook) : cheesy mechanism to send errors to the
+	  iocontext.
+
 2003-10-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-dialogs.schemas.in: add schemas for header/footer

@@ -3832,17 +3832,73 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	return input;
 }
 
-/*
- * We parse and do some limited validation of the XML file, if this
- * passes, then we return TRUE
+/* We parse and do some limited validation of the XML file, if this passes,
+ * then we return TRUE
  */
+
+typedef enum {
+	XML_PROBE_STATE_PROBING,
+	XML_PROBE_STATE_ERR,
+	XML_PROBE_STATE_SUCCESS
+} GnmXMLProbeState;
+
+static void
+xml_probe_start_element (GnmXMLProbeState *state, xmlChar const *name, xmlChar const **atts)
+{
+	int len = strlen (name);
+
+	*state = XML_PROBE_STATE_ERR;
+	if (len < 8)
+		return;
+	if (strcmp (name+len-8, "Workbook"))
+		return;
+	/* Do we want to get fancy and check namespace ? */
+	*state = XML_PROBE_STATE_SUCCESS;
+}
+
+static void
+xml_probe_problem (GnmXMLProbeState *state, char const *msg, ...)
+{
+	*state = XML_PROBE_STATE_ERR;
+}
+
+static IOContext *io_context = NULL;
+static void
+xml_dom_read_warning (gpointer state, char const *fmt, ...)
+{
+	va_list args;
+	va_start (args, fmt);
+	if (gnumeric_io_warning_occurred (io_context))
+		gnumeric_io_error_push (io_context,
+			error_info_new_vprintf (GNM_ERROR, fmt, args));
+	else
+		gnm_io_warning_varargs (io_context, fmt, args);
+	va_end (args);
+}
+
+static void
+xml_dom_read_error (gpointer state, char const *fmt, ...)
+{
+	ErrorInfo *ei;
+	va_list args;
+	va_start (args, fmt);
+	ei = error_info_new_vprintf (GNM_ERROR, fmt, args);
+	va_end (args);
+
+	if (gnumeric_io_error_occurred (io_context))
+		gnumeric_io_error_push (io_context, ei);
+	else
+		gnumeric_io_error_info_set (io_context, ei);
+}
+
+
+static xmlSAXHandler xml_sax_prober;
 static gboolean
 xml_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	int ret;
-	xmlDocPtr res;
-	xmlParserCtxt *ctxt;
-	GnumericXMLVersion version;
+	xmlParserCtxt *parse_context;
+	GnmXMLProbeState is_gnumeric_xml = XML_PROBE_STATE_PROBING;
+	char const *buf;
 
 	if (pl == FILE_PROBE_FILE_NAME) {
 		char const *name = gsf_input_name (input);
@@ -3862,6 +3918,7 @@ xml_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 			 g_ascii_strcasecmp (name, "xml") == 0));
 	}
 
+/* probe by content */
 	if (gsf_input_seek (input, 0, G_SEEK_SET))
 		return FALSE;
 
@@ -3869,34 +3926,29 @@ xml_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	input = maybe_gunzip (input);
 	input = maybe_convert (input, TRUE);
 	gsf_input_seek (input, 0, G_SEEK_SET);
-	ctxt = gsf_xml_parser_context (input);
 
-	if (ctxt) {
-		/* Do a silent call to the XML parser. */
-		ctxt->sax->comment    = NULL;
-		ctxt->sax->warning    = NULL;
-		ctxt->sax->error      = NULL;
-		ctxt->sax->fatalError = NULL;
+	buf = gsf_input_read (input, 4, NULL);
+	if (buf == NULL)
+		goto unref_input;
+	parse_context = xmlCreatePushParserCtxt (&xml_sax_prober, &is_gnumeric_xml,
+		(char *)buf, 4, gsf_input_name (input));
+	if (parse_context == NULL)
+		goto unref_input;
 
-		xmlParseDocument (ctxt);
-		ret = ctxt->wellFormed;
-		res = ctxt->myDoc;
-		xmlFreeParserCtxt (ctxt);
-	} else {
-		ret = FALSE;
-		res = NULL;
-	}
+	do {
+		buf = gsf_input_read (input, 1, NULL);
+		if (buf != NULL)
+			xmlParseChunk (parse_context, (char *)buf, 1, 0);
+		else
+			is_gnumeric_xml = XML_PROBE_STATE_ERR;
+	} while (is_gnumeric_xml == XML_PROBE_STATE_PROBING);
 
-	if (ret && res && res->xmlRootNode != NULL)
-		ret = NULL != xml_check_version (res, &version);
-	else
-		ret = FALSE;
-	if (res)
-		xmlFreeDoc (res);
+	xmlFreeParserCtxt (parse_context);
 
+unref_input:
 	g_object_unref (input);
 
-	return ret;
+	return is_gnumeric_xml == XML_PROBE_STATE_SUCCESS;
 }
 
 /*
@@ -3911,7 +3963,7 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
                             GsfInput *input)
 {
 	xmlParserCtxtPtr pctxt;
-	xmlDocPtr res;
+	xmlDocPtr res = NULL;
 	xmlNsPtr gmr;
 	XmlParseContext *ctxt;
 	GnumericXMLVersion    version;
@@ -3939,6 +3991,12 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 	if (buf) {
 		pctxt = xmlCreatePushParserCtxt (NULL, NULL,
 			(char *)buf, 4, gsf_input_name (input));
+		/* ick global, no easy way to add user data to stock DOM parser
+		 * and override the warnings */
+		io_context = context;
+		pctxt->sax->warning    = (warningSAXFunc) xml_dom_read_warning;
+		pctxt->sax->error      = (errorSAXFunc) xml_dom_read_warning;
+		pctxt->sax->fatalError = (fatalErrorSAXFunc) xml_dom_read_error;
 
 		for (; size > 0 ; size -= len) {
 			len = XML_INPUT_BUFFER_SIZE;
@@ -3952,9 +4010,8 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 		}
 		xmlParseChunk (pctxt, (char *)buf, 0, 1);
 		res = pctxt->myDoc;
+		io_context = NULL;
 		xmlFreeParserCtxt (pctxt);
-	} else {
-		res = NULL;
 	}
 
 	g_object_unref (input);
@@ -4047,4 +4104,10 @@ xml_init (void)
 	            FILE_FL_AUTO, gnumeric_xml_write_workbook);
 	gnm_file_opener_register (opener, 50);
 	gnm_file_saver_register_as_default (xml_saver, 50);
+
+	xml_sax_prober.comment    = NULL;
+	xml_sax_prober.warning    = NULL;
+	xml_sax_prober.error      = (errorSAXFunc) xml_probe_problem;
+	xml_sax_prober.fatalError = (fatalErrorSAXFunc) xml_probe_problem;
+	xml_sax_prober.startElement = (startElementSAXFunc) xml_probe_start_element;
 }

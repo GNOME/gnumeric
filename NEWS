@@ -34,6 +34,8 @@ Jody:
 	* Add epsilon _before_ we scale formats with elapsed hours
 	http://bugzilla.gnome.org/show_bug.cgi?id=125421
 	* Tune insert col/row above frozen panes
+	http://bugzilla.gnome.org/show_bug.cgi?id=124930
+	* Be more lenient about invalid xml, but put errors in gui
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

@@ -8,7 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=124930	[warn about xml parse errors]
     http://bugzilla.gnome.org/show_bug.cgi?id=124315	[line plot ignores axis]
     - Verify histogram tool.  Feels fubar.
     : text in boxes for text-xls/pivot.xls is white ??

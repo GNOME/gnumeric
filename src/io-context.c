@@ -434,9 +434,14 @@ gnm_io_warning (G_GNUC_UNUSED IOContext *context,
 	va_list args;
 
 	va_start (args, fmt);
-	context->info = error_info_new_vprintf (GNM_WARNING, fmt, args);
+	gnm_io_warning_varargs (context, fmt, args);
 	va_end (args);
+}
 
+void
+gnm_io_warning_varargs (IOContext *context, char const *fmt, va_list args)
+{
+	context->info = error_info_new_vprintf (GNM_WARNING, fmt, args);
 	context->warning_occurred = TRUE;
 }
 
