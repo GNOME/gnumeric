@@ -18,6 +18,7 @@ Jody:
 	* Rework dependent relocation.
 	* Improve event handling during sheet-object editing.
 	* Add dependency support for 3d references.  needs work on delete.
+	* More polish to dependency engine.
 
 Jukka:
 	* More solver improvements.
