@@ -97,12 +97,99 @@ callback_function_and (Sheet *sheet, Value *value, char **error_string, void *cl
 	return TRUE;
 }
 
+#if 0
+/* help template */
+static char *help_ = {
+	N_("<function></function>"
+	   "<syntax>(b1, b2, ...)</syntax>n"
+
+	   "<description>"
+	   ""
+	   "<p>"
+
+	   ""
+	   ""
+	   "<p>"
+	   
+	   ""
+	   ""
+	   ""
+	   "</description>"
+	   "<seealso></seealso>")
+};
+
+#endif
+
+static char *help_floor = {
+	N_("<function>FLOOR</function>"
+	   "<syntax>FLOOR(b1)</syntax>n"
+
+	   "<description>The FLOOR function rounds b1 down to the next nearest"
+	   "integer."
+	   "<p>"
+
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "<p>"
+	   
+	   "</description>"
+	   "<seealso>CEIL, ABS</seealso>")
+};
+
+static char *help_ceil = {
+	N_("<function>CEIL</function>"
+	   "<syntax>CEIL(b1)</syntax>n"
+
+	   "<description>The CEIL function rounds b1 up to the next nearest"
+	   "integer."
+	   "<p>"
+
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "<p>"
+	   
+	   "</description>"
+	   "<seealso>ABS, FLOOR</seealso>")
+};
+
+static char *help_abs = {
+	N_("<function>ABS</function>"
+	   "<syntax>ABS(b1)</syntax>n"
+
+	   "<description>Implements the Absolute Value function:  the result is "
+	   "to drop the negative sign (if present).  This can be done for "
+	   "integers and floating point numbers.<p>"
+
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "<p>"
+	   
+	   "</description>"
+	   "<seealso>CEIL, FLOOR</seealso>")
+};
+
+static char *help_or = {
+	N_("<function>OR</function>"
+	   "<syntax>OR(b1, b2, ...)</syntax>n"
+
+	   "<description>Implements the logical OR function: the result is TRUE "
+	   "if any of the expression evaluates to TRUE, otherwise it returns "
+	   "FALSE.<p>"
+
+	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
+	   "If an integer or floating point value is provided zero is considered "
+	   "FALSE and anything else is TRUE.<p>"
+	   
+	   "If the values contain strings or empty cells those values are "
+	   "ignored.  If no logical values are provided, then the error '#VALUE!' "
+	   "is returned. "
+	   "</description>"
+	   "<seealso>AND</seealso>")
+};
+
 static char *help_and = {
 	N_("<function>AND</function>"
 	   "<syntax>AND(b1, b2, ...)</syntax>n"
 
 	   "<description>Implements the logical AND function: the result is TRUE "
-	   "if all of the expression evaluate to TRUE, otherwise it returns "
+	   "if all of the expression evaluates to TRUE, otherwise it returns "
 	   "FALSE.<p>"
 
 	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
