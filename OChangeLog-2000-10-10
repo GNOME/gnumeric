@@ -1,3 +1,11 @@
+2000-05-31  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/dialogs/dialog-stf.c :
+	(stf_dialog_druid_page_cancel) : Remove misplaced gtk_main_quit.
+
+	* src/dialogs/dialog-stf-export.c :
+	(stf_export_dialog_druid_page_cancel) : Idem.
+
 2000-06-01  Kenneth Christiansen <kenneth@gnu.org>
 
         * po/desk.pl, po/update.pl: Two new scripts for helping 

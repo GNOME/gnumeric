@@ -108,7 +108,6 @@ stf_dialog_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid, DruidPage
 	gtk_widget_grab_focus (no_button);
 	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
 
-	gtk_main_quit ();
 	return (ret==1);
 }
 
