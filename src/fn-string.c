@@ -168,13 +168,11 @@ gnumeric_lower (struct FunctionDefinition *i,
 		return NULL;
 	}
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
 	p = s = g_strdup (argv [0]->v.str->str);
 	for (; *p; p++){
 		*p = tolower (*p);
 	}
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 
 	return v;
@@ -287,14 +285,12 @@ gnumeric_upper (struct FunctionDefinition *i,
 		return NULL;
 	}
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
 	p = s = g_strdup (argv [0]->v.str->str);
 
 	for (;*p; p++){
 		*p = toupper (*p);
 	}
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 
 	return v;
@@ -341,9 +337,7 @@ gnumeric_concatenate (Sheet *sheet, GList *l,
 		l = g_list_next (l);
 	}
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 
 	return v;
@@ -376,15 +370,13 @@ gnumeric_rept (struct FunctionDefinition *i,
 	}
 
 	len = strlen (argv[0]->v.str->str);
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
 	p = s = g_new (gchar, 1 + len * num);
 	while (num--) {
 		strncpy (p, argv[0]->v.str->str, len);
 		p += len;
 	}
 	*p = '\0';
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 
 	return v;
@@ -405,7 +397,7 @@ static Value *
 gnumeric_clean (FunctionDefinition *fn, Value *argv [], char **error_string)
 {
 	Value *res;
-	char *copy, *p, *q;
+	unsigned char *copy, *p, *q;
 
 	if (argv [0]->type != VALUE_STRING){
 		*error_string = _("Type mismatch");
@@ -421,9 +413,7 @@ gnumeric_clean (FunctionDefinition *fn, Value *argv [], char **error_string)
 	}
 	*q = 0;
 
-	res = g_new (Value, 1);
-	res->type = VALUE_STRING;
-	res->v.str = string_get (copy);
+	res = value_new_string (copy);
 	g_free (copy);
 
 	return res;
@@ -444,7 +434,6 @@ static Value *
 gnumeric_find (struct FunctionDefinition *i,
 	       Value *argv [], char **error_string)
 {
-	Value *ret;
 	int count;
 	char *s, *p;
 
@@ -466,10 +455,7 @@ gnumeric_find (struct FunctionDefinition *i,
 		return NULL;
 	}
 
-	ret = g_new(Value, 1);
-	ret->type = VALUE_INTEGER;
-	ret->v.v_int = count + p - s;
-	return ret;
+	return value_new_int (count + p - s);
 }
 
 static char *help_fixed = {
@@ -569,9 +555,7 @@ gnumeric_fixed (struct FunctionDefinition *i,
 		}
 	}
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
 	return v;
 }
@@ -618,9 +602,7 @@ gnumeric_proper (struct FunctionDefinition *i,
 		s++;
 	}
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (p);
+	v = value_new_string (p);
 	g_free (p);
 	return v;
 }
@@ -669,9 +651,7 @@ gnumeric_replace (struct FunctionDefinition *i,
 
 	s [newlen+oldlen-num] = '\0';
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 
 	g_free(s);
 
@@ -691,17 +671,14 @@ static Value *
 gnumeric_t (struct FunctionDefinition *i,
 	    Value *argv [], char **error_string)
 {
-	Value *v;
-
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-
-	if (argv [0]->type == VALUE_STRING)
-		v->v.str = string_get (argv[0]->v.str->str);
-	else
-		v->v.str = string_get ("");
-
-	return v;
+	if (argv [0]->type == VALUE_STRING) {
+		Value *v;
+		v = g_new (Value, 1);
+		v->type = VALUE_STRING;
+		v->v.str = string_ref (argv[0]->v.str);
+		return v;
+	} else
+		return value_new_string ("");
 }
 
 static char *help_trim = {
@@ -746,9 +723,7 @@ gnumeric_trim (struct FunctionDefinition *i,
 
 	*dest = '\0';
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (new);
+	v = value_new_string (new);
 	g_free(new);
 
 	return v;
@@ -768,15 +743,11 @@ gnumeric_value (struct FunctionDefinition *i,
 		Value *argv [], char **error_string)
 /* FIXME: in Excel, VALUE("$1, 000") = 1000, and dates etc. supported */
 {
-	Value *v;
 	if (argv[0]->type != VALUE_STRING) {
 		*error_string = _("Type mismatch");
 		return NULL;
 	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = value_get_as_float (argv[0]);
-	return v;
+	return value_new_float (value_get_as_float (argv[0]));
 }
 
 struct subs_string {
@@ -879,9 +850,7 @@ gnumeric_substitute (struct FunctionDefinition *i,
 	} else
 		p = text;
 
-	v = g_new (Value, 1);
-	v->type = VALUE_STRING;
-	v->v.str = string_get (p);
+	v = value_new_string (p);
 
 	g_free (new);
 	g_free (old);

@@ -1,5 +1,12 @@
 1999-06-12  Morten Welinder  <terra@diku.dk>
 
+	* src/fn-string.c: Use value_new_string where appropriate.
+	(gnumeric_clean): Use unsigned chars.
+	(gnumeric_t): Speed improvement.
+
+	* src/file.c (workbook_read): After a workbook has been read, it
+ 	is to be considered "clean", i.e., unchanged.
+
 	* src/number-match.c (print_regex_error): Add a few missing breaks.
 
 	* src/utils.c (gnumeric_strcase_hash): Use unsigned chars.

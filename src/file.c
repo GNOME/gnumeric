@@ -150,8 +150,10 @@ workbook_read (const char *filename)
 		if ((*fo->probe) (filename)){
 			w = (*fo->open) (filename);
 
-			if (w)
+			if (w) {
+				workbook_mark_clean (w);
 				break;
+			}
 		}
 	}
 
