@@ -4,6 +4,8 @@
  * Author:
  *   Tom Dyas (tdyas@romulus.rutgers.edu)
  */
+
+#include <config.h>
 #include <gnome.h>
 #include <glib.h>
 

@@ -1,7 +1,6 @@
 gnumeric_pythondir = $(gnumeric_datadir)/python
 INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 		\
-    -DGNUMERIC_VERSION=\""$(gnumeric_version)"\"	\
     -I$(includedir)	-I$(top_srcdir)/src		\
     $(PY_CFLAGS)					\
     $(GNOME_INCLUDEDIR)

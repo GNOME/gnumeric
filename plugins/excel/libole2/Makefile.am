@@ -21,7 +21,6 @@ else
 ## Following is when libole2-src is compiled from gnumeric
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
 	$(GNOME_INCLUDEDIR)				\

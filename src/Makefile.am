@@ -26,7 +26,6 @@ endif
 
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-DGNUMERIC_VERSION=\""$(gnumeric_version)"\"	\
 	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)/"\"	\
 	-DGNUMERIC_LIBDIR=\""$(gnumeric_libdir)/"\"	\
 	-I$(includedir)				 	\

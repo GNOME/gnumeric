@@ -14,6 +14,8 @@
 #undef HAVE_IEEEFP_H
 #undef ENABLE_GNOME
 
+#undef GNUMERIC_VERSION
+
 @BOTTOM@
 /* This is from libglade */
 

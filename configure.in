@@ -212,6 +212,9 @@ gnumeric_gladedir="${gnumeric_datadir}glade/"
 test "x$gnumeric_prefix" = xNONE && gnumeric_prefix=$ac_default_prefix
 test "x$gnumeric_exec_prefix" = xNONE && gnumeric_exec_prefix=$gnumeric_prefix
 
+dnl Export to config.h
+AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "$gnumeric_version")
+
 AC_SUBST(gnumeric_prefix)
 AC_SUBST(gnumeric_exec_prefix)
 AC_SUBST(gnumeric_datadir)

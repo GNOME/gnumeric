@@ -1,7 +1,6 @@
 gnumeric_guiledir  = $(gnumeric_datadir)/guile
 INCLUDES = 					\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-    -DGNUMERIC_VERSION=\""$(VERSION)"\"		\
     -I$(includedir)	-I$(top_srcdir)/src	\
     $(GUILE_INCS)				\
     $(GNOME_INCLUDEDIR)

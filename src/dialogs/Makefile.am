@@ -13,7 +13,6 @@ gnumeric_libdir = $(datadir)/gnumeric/$(gnumeric_version)
 INCLUDES = 						\
 	-I$(srcdir)/..					\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
 	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"		\
 	-I$(includedir)				 	\
 	$(EXTRA_GNOME_CFLAGS)				\

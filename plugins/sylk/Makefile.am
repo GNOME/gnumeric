@@ -1,6 +1,5 @@
 INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 		\
-    -DGNUMERIC_VERSION=\""$(gnumeric_version)"\"	\
     -I$(includedir)	-I$(top_srcdir)/src		\
     $(GNOME_INCLUDEDIR)
 

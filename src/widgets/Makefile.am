@@ -1,7 +1,6 @@
 INCLUDES = 						\
 	-I$(srcdir)/..					\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-DGNUMERIC_VERSION=\""$(gnumeric_version)"\"	\
         -DGNUMERIC_GLADEDIR=\""$(gnumeric_gladedir)"\"	\
 	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"		\
 	-I$(includedir)				 	\
@@ -24,6 +23,6 @@ libwidgets_a_SOURCES =				\
 	widget-font-selector.c			\
 	widget-font-selector.h			\
 	gnumeric-dashed-canvas-line.c		\
- 	gnumeric-dashed-canvas-line.h		\
- 	gtk-combo-text.c			\
- 	gtk-combo-text.h
+	gnumeric-dashed-canvas-line.h		\
+	gtk-combo-text.c			\
+	gtk-combo-text.h

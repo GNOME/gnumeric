@@ -1,3 +1,23 @@
+2000-05-01  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* configure.in:
+	Export GNUMERIC_VERSION
+	
+	* acconfig.h:
+	Undefine GNUMERIC_VERSION
+
+	* */Makefile.am:
+	Removed -DGNUMERIC_VERSION, now located in config.h
+
+	* src/functions/Makefile.am, src/dialogs/Makefile.am : 	
+	VERSION changed to gnumeric_version.
+
+	* plugins/excel/libole2/Makefile.am, plugins/guile/Makefile.am :
+	ditto
+	
+	* plugins/perl/Makefile.am :
+	ditto
+
 2000-04-30  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/workbook.c (workbook_new_with_sheets): Put a space there, to

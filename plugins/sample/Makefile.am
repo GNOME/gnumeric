@@ -5,7 +5,6 @@
 # The standard preprocessor defines and includes
 INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 		\
-    -DGNUMERIC_VERSION=\""$(gnumeric_version)"\"	\
     -I$(includedir)	-I$(top_srcdir)/src		\
     $(GNOME_INCLUDEDIR)
 
