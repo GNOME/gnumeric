@@ -1509,34 +1509,28 @@ int
 ms_excel_write_workbook (MsOle *file, Workbook *wb,
 			 eBiff_version ver)
 {
-	MsOleDirectory *dir;
-	MsOleStream    *str;
-	BiffPut *bp;
-	char *strname;
+	MsOleErr     result;
+	char        *strname;
+	MsOleStream *str;
+	BiffPut     *bp;
 
-	g_return_val_if_fail (wb, 0);
-	g_return_val_if_fail (file, 0);
-	g_return_val_if_fail (ver>=eBiffV7, 0);
+	g_return_val_if_fail (wb != NULL, 0);
+	g_return_val_if_fail (file != NULL, 0);
+	g_return_val_if_fail (ver >= eBiffV7, 0);
 
 	if (!file || !wb) {
 		printf ("Can't write Null pointers\n");
 		return 0;
 	}
 
-	if (ver>=eBiffV8)
+	if (ver >= eBiffV8)
 		strname = "Workbook";
 	else
 		strname = "Book";
-	dir = ms_ole_directory_create (ms_ole_get_root (file),
-				       strname,
-				       MsOlePPSStream);
-	if (!dir) {
-		printf ("Can't create stream\n");
-		return 0;
-	}
 
-	str = ms_ole_stream_open (dir, 'w');
-	if (!str) {
+	result = ms_ole_stream_open (&str, file, "/", strname, 'w');
+
+	if (result != MS_OLE_ERR_OK) {
 		printf ("Can't open stream for writing\n");
 		return 0;
 	}
@@ -1551,9 +1545,13 @@ ms_excel_write_workbook (MsOle *file, Workbook *wb,
 		ms_biff_put_commit (bp);
 	}
 
-	ms_biff_put_destroy    (bp);
+	ms_biff_put_destroy (bp);
 
-	ms_ole_stream_close (str);
-	ms_ole_directory_destroy (dir);
+	ms_ole_stream_close (&str);
+
 	return 1;
 }
+
+
+
+

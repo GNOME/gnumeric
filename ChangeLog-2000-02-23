@@ -1,3 +1,12 @@
+1999-09-19  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/workbook.c (about_cmd): make static.
+
+	* src/sheet-object-container.c (sheet_object_container_load): fix
+	return value.
+
+	* src/workbook.c (create_format_toolbar): cast to widget not entry.
+
 1999-09-19  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-stat.c (callback_function_make_list): Static.

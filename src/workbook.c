@@ -120,7 +120,7 @@ plugins_cmd (GtkWidget *widget, Workbook *wb)
 	gtk_widget_show(pm);
 }
 
-void
+static void
 about_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_about (wb);
@@ -2198,7 +2198,7 @@ create_format_toolbar (Workbook *wb)
 	gtk_widget_show (wb->priv->size_widget);
 
 	len = gdk_string_measure (wb->priv->size_widget->style->font, "000000");
-	gtk_widget_set_usize (GTK_ENTRY (wb->priv->size_widget), len, 0);
+	gtk_widget_set_usize (GTK_WIDGET (wb->priv->size_widget), len, 0);
 	gtk_signal_connect (
 		GTK_OBJECT (wb->priv->size_widget), "activate",
 		GTK_SIGNAL_FUNC (change_font_size_in_selection_cmd), wb);

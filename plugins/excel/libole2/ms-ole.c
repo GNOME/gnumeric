@@ -14,7 +14,15 @@
 #include <assert.h>
 #include <ctype.h>
 #include <glib.h>
-#include "ms-ole.h"
+
+#define  MS_OLE_H_IMPLEMENTATION
+#	include "ms-ole.h"
+#undef   MS_OLE_H_IMPLEMENTATION
+
+#ifndef MAP_FAILED
+/* Someone needs their head examining - BSD ? */
+#	define MAP_FAILED ((void *)-1)
+#endif
 
 /* Implementational detail - not for global header */
 
@@ -26,6 +34,33 @@
 
 #define BB_BLOCK_SIZE     512
 #define SB_BLOCK_SIZE      64
+
+/**
+ * Structure describing an OLE file
+ **/
+struct _MsOle
+{
+	int        ref_count;
+	guint8    *mem ;
+	guint32    length ;
+	
+	char       mode;
+	int        file_des;
+	int        dirty;
+	GArray    *bb;     /* Big  blocks status  */
+#if !OLE_MMAP
+	GPtrArray *bbattr; /* Pointers to block structures */
+#endif
+	GArray    *sb;     /* Small block status  */
+	GArray    *sbf;    /* The small block file */
+	guint32    num_pps;/* Count of number of property sets */
+	GList     *pps;    /* Property Storage -> struct _PPS, always 1 valid entry or NULL */
+};
+
+typedef guint32 PPS_IDX ;
+typedef enum _PPSType { MsOlePPSStorage = 1,
+			MsOlePPSStream  = 2,
+			MsOlePPSRoot    = 5} PPSType ;
 
 #if OLE_DEBUG > 0
 /* Very grim, but quite necessary */
@@ -53,7 +88,11 @@ my_array_hack (GArray *a, guint s, guint32 idx)
 
 typedef struct _PPS PPS;
 
+#define PPS_SIG 0x13579753
+#define IS_PPS(p) (((PPS *)(p))->sig == PPS_SIG)
+
 struct _PPS {
+	int      sig;
 	char    *name;
 	GList   *children;
 	PPS     *parent;
@@ -628,6 +667,7 @@ pps_decode_tree (MsOle *f, PPS_IDX p, PPS *parent)
 		return;
 
 	pps           = g_new (PPS, 1);
+	pps->sig      = PPS_SIG;
 	mem           = get_pps_ptr (f, p, FALSE);
 	if (!mem) {
 		printf ("Serious directory error %d\n", p);
@@ -1122,6 +1162,20 @@ new_null_msole ()
 	return f;
 }
 
+void
+ms_ole_ref (MsOle *f)
+{
+	g_return_if_fail (f != NULL);
+	f->ref_count++;
+}
+
+void
+ms_ole_unref (MsOle *f)
+{
+	g_return_if_fail (f != NULL);
+	f->ref_count--;
+}
+
 /**
  * ms_ole_open:
  * @name: name of OLE2 file to open
@@ -1131,85 +1185,89 @@ new_null_msole ()
  * 
  * Return value: a handle to the file or NULL on failure.
  **/
-MsOle *
-ms_ole_open (const char *name)
+MsOleErr
+ms_ole_open (MsOle **f, const char *name)
 {
 	struct stat st;
 	int prot = PROT_READ | PROT_WRITE;
 	int file;
-	MsOle *f;
+
+	if (!f)
+		return MS_OLE_ERR_BADARG;
 
 #if OLE_DEBUG > 0
 	printf ("New OLE file '%s'\n", name);
 #endif
 
-	f = new_null_msole();
-	f->file_des = file = open (name, O_RDWR);
-	f->mode = 'w';
+	*f = new_null_msole();
+	(*f)->file_des = file = open (name, O_RDWR);
+	(*f)->ref_count = 0;
+	(*f)->mode = 'w';
 	if (file == -1) {
-		f->file_des = file = open (name, O_RDONLY);
-		f->mode = 'r';
+		(*f)->file_des = file = open (name, O_RDONLY);
+		(*f)->mode = 'r';
 		prot &= ~PROT_WRITE;
 	}
 	if ((file == -1) || fstat(file, &st) || !(S_ISREG(st.st_mode))) {
 		printf ("No such file '%s'\n", name);
 		g_free (f) ;
-		return 0;
+		return MS_OLE_ERR_EXIST;
 	}
-	f->length = st.st_size;
-	if (f->length<=0x4c) { /* Bad show */
+	(*f)->length = st.st_size;
+	if ((*f)->length<=0x4c) { /* Bad show */
 		printf ("File '%s' too short\n", name);
 		close (file) ;
 		g_free (f) ;
-		return 0;
+		return MS_OLE_ERR_FORMAT;
 	}
 
 #if OLE_MMAP
-	f->mem = mmap (0, f->length, prot, MAP_SHARED, file, 0);
+	(*f)->mem = mmap (0, (*f)->length, prot, MAP_SHARED, file, 0);
 
-	if (!f->mem) {
+	if (!(*f)->mem) {
 		printf ("Obscure internal error, leak.\n");
 		g_free (f);
-		return 0;
-	} else if (f->mem == MAP_FAILED) {
+		return MS_OLE_ERR_MEM;
+	} else if ((*f)->mem == MAP_FAILED) {
 		g_warning ("Failed to mmap '%s' copy it to an mmappable mount point", name);
 		g_free (f);
-		return 0;
+		return MS_OLE_ERR_MEM;
 	}
 #else
-	f->mem = g_new (guint8, BB_BLOCK_SIZE);
-	if (!f->mem || (read (file, f->mem, BB_BLOCK_SIZE)==-1)) {
+	(*f)->mem = g_new (guint8, BB_BLOCK_SIZE);
+	if (!(*f)->mem || (read (file, (*f)->mem, BB_BLOCK_SIZE)==-1)) {
 		printf ("Error opening file\n");
-		return 0;
+		return MS_OLE_ERR_EXIST;
 	}
 #endif
 
-	if (MS_OLE_GET_GUINT32(f->mem    ) != 0xe011cfd0 ||
-	    MS_OLE_GET_GUINT32(f->mem + 4) != 0xe11ab1a1)
+	if (MS_OLE_GET_GUINT32((*f)->mem    ) != 0xe011cfd0 ||
+	    MS_OLE_GET_GUINT32((*f)->mem + 4) != 0xe11ab1a1)
 	{
 #if OLE_DEBUG > 0
 		printf ("Failed OLE2 magic number %x %x\n",
-			MS_OLE_GET_GUINT32(f->mem), MS_OLE_GET_GUINT32(f->mem+4));
+			MS_OLE_GET_GUINT32((*f)->mem), MS_OLE_GET_GUINT32((*f)->mem+4));
 #endif
 		ms_ole_destroy (f);
-		return 0;
+		return MS_OLE_ERR_FORMAT;
 	}
-	if (f->length%BB_BLOCK_SIZE)
-		printf ("Warning file '%s':%d non-integer number of blocks\n", name, f->length);
+	if ((*f)->length % BB_BLOCK_SIZE)
+		printf ("Warning file '%s':%d non-integer number of blocks\n",
+			name, (*f)->length);
 
-	if (!ms_ole_setup(f)) {
+	if (!ms_ole_setup (*f)) {
 		printf ("'%s' : duff file !\n", name);
 		ms_ole_destroy (f);
-		return 0;
+		return MS_OLE_ERR_FORMAT;
 	}
 
-	g_assert (f->bb->len < f->length/BB_BLOCK_SIZE);
+	g_assert ((*f)->bb->len < (*f)->length/BB_BLOCK_SIZE);
 
 #if OLE_DEBUG > 0
 	printf ("New OLE file '%s'\n", name);
 #endif
 	/* If writing then when destroy commit it */
-	return f;
+	return MS_OLE_ERR_OK;
 }
 
 /**
@@ -1220,89 +1278,97 @@ ms_ole_open (const char *name)
  *
  * Return value: pointer to new file or NULL on failure.
  **/
-MsOle *
-ms_ole_create (const char *name)
+MsOleErr
+ms_ole_create (MsOle **f, const char *name)
 {
 	struct stat st;
 	int file, zero=0;
-	MsOle *f;
 	int init_blocks = 1, lp;
 
+	if (!f)
+		return MS_OLE_ERR_BADARG;
+
 	if ((file = open (name, O_RDWR|O_CREAT|O_TRUNC|O_NONBLOCK,
-			  S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP)) == -1)
-	{
+			  S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP)) == -1) {
 		printf ("Can't create file '%s'\n", name);
-		return 0;
+		return MS_OLE_ERR_PERM;
 	}
 
-	if ((lseek (file, BB_BLOCK_SIZE*init_blocks - 1, SEEK_SET)==(off_t)-1) ||
-	    (write (file, &zero, 1)==-1))
-	{
-		printf ("Serious error extending file to %d bytes\n", BB_BLOCK_SIZE*init_blocks);
-		return 0;
+	if ((lseek (file, BB_BLOCK_SIZE * init_blocks - 1,
+		    SEEK_SET) == (off_t)-1) ||
+	    (write (file, &zero, 1) == -1)) {
+		printf ("Serious error extending file to %d bytes\n",
+			BB_BLOCK_SIZE*init_blocks);
+		return MS_OLE_ERR_SPACE;
 	}
 
-	f = new_null_msole ();
+	*f = new_null_msole ();
 
-	f->file_des  = file;
-	f->mode             = 'w';
-	fstat(file, &st);
-	f->length = st.st_size;
-	if (f->length%BB_BLOCK_SIZE)
-		printf ("Warning file %d non-integer number of blocks\n", f->length);
+	(*f)->ref_count = 0;
+	(*f)->file_des  = file;
+	(*f)->mode             = 'w';
+	fstat (file, &st);
+	(*f)->length = st.st_size;
+	if ((*f)->length % BB_BLOCK_SIZE)
+		printf ("Warning file %d non-integer number of blocks\n",
+			(*f)->length);
 
 #if OLE_MMAP
-	f->mem  = mmap (0, f->length, PROT_READ|PROT_WRITE, MAP_SHARED, file, 0);
-	if (!f->mem)
-	{
-		printf ("Serious error mapping file to %d bytes\n", BB_BLOCK_SIZE*init_blocks);
+	(*f)->mem  = mmap (0, (*f)->length, PROT_READ|PROT_WRITE, MAP_SHARED,
+			   file, 0);
+	if (!(*f)->mem) {
+		printf ("Serious error mapping file to %d bytes\n",
+			BB_BLOCK_SIZE * init_blocks);
 		close (file);
 		g_free (f);
-		return 0;
+		return MS_OLE_ERR_EXIST;
 	}
 #else
-	f->mem  = g_new (guint8, BB_BLOCK_SIZE);
+	(*f)->mem  = g_new (guint8, BB_BLOCK_SIZE);
 #endif
 	/* The header block */
-	for (lp=0;lp<BB_BLOCK_SIZE/4;lp++)
-		MS_OLE_SET_GUINT32(f->mem + lp*4, (lp<(0x52/4))?0:UNUSED_BLOCK);
+	for (lp = 0; lp < BB_BLOCK_SIZE / 4; lp++)
+		MS_OLE_SET_GUINT32((*f)->mem + lp * 4,
+				   (lp < (0x52 / 4)) ? 0: UNUSED_BLOCK);
 
-	MS_OLE_SET_GUINT32(f->mem, 0xe011cfd0); /* Magic number */
-	MS_OLE_SET_GUINT32(f->mem + 4, 0xe11ab1a1);
+	MS_OLE_SET_GUINT32((*f)->mem,     0xe011cfd0); /* Magic number */
+	MS_OLE_SET_GUINT32((*f)->mem + 4, 0xe11ab1a1);
 
 	/* More magic numbers */
-	MS_OLE_SET_GUINT32(f->mem + 0x18, 0x0003003e);
-	MS_OLE_SET_GUINT32(f->mem + 0x1c, 0x0009fffe);
-	MS_OLE_SET_GUINT32(f->mem + 0x20, 0x6); 
-	MS_OLE_SET_GUINT32(f->mem + 0x38, 0x00001000); 
-/*	MS_OLE_SET_GUINT32(f->mem + 0x40, 0x1);  */
-	MS_OLE_SET_GUINT32(f->mem + 0x44, 0xfffffffe); 
+	MS_OLE_SET_GUINT32((*f)->mem + 0x18, 0x0003003e);
+	MS_OLE_SET_GUINT32((*f)->mem + 0x1c, 0x0009fffe);
+	MS_OLE_SET_GUINT32((*f)->mem + 0x20, 0x6); 
+	MS_OLE_SET_GUINT32((*f)->mem + 0x38, 0x00001000); 
+/*	MS_OLE_SET_GUINT32((*f)->mem + 0x40, 0x1);  */
+	MS_OLE_SET_GUINT32((*f)->mem + 0x44, 0xfffffffe); 
 
-	SET_NUM_BBD_BLOCKS  (f, 0);
-	SET_ROOT_STARTBLOCK (f, END_OF_CHAIN);
-	SET_SBD_STARTBLOCK  (f, END_OF_CHAIN);
+	SET_NUM_BBD_BLOCKS  (*f, 0);
+	SET_ROOT_STARTBLOCK (*f, END_OF_CHAIN);
+	SET_SBD_STARTBLOCK  (*f, END_OF_CHAIN);
 
 	{
 		PPS *p;
 
-		f->bb  = g_array_new (FALSE, FALSE, sizeof(BLP));
-		f->sb  = g_array_new (FALSE, FALSE, sizeof(BLP));
-		f->sbf = g_array_new (FALSE, FALSE, sizeof(BLP));
+		(*f)->bb  = g_array_new (FALSE, FALSE, sizeof(BLP));
+		(*f)->sb  = g_array_new (FALSE, FALSE, sizeof(BLP));
+		(*f)->sbf = g_array_new (FALSE, FALSE, sizeof(BLP));
 		p           = g_new(PPS, 1);
+		p->sig      = PPS_SIG;
 		p->name     = g_strdup ("Root Entry");
 		p->start    = END_OF_CHAIN;
 		p->type     = MsOlePPSRoot;
 		p->size     = 0;
 		p->children = NULL;
 		p->parent   = NULL;
-		f->pps = g_list_append (0, p);
-		f->num_pps = 1;
+		(*f)->pps = g_list_append (0, p);
+		(*f)->num_pps = 1;
 #if !OLE_MMAP
-		f->bbattr   = g_ptr_array_new ();
+		(*f)->bbattr   = g_ptr_array_new ();
 #endif
 	}
-	g_assert (f->bb->len < f->length/BB_BLOCK_SIZE);
-	return f;
+	g_assert ((*f)->bb->len < (*f)->length/BB_BLOCK_SIZE);
+
+	return MS_OLE_ERR_OK;
 }
 
 
@@ -1328,14 +1394,18 @@ destroy_pps (GList *l)
  * Closes @f and truncates any free blocks.
  **/
 void
-ms_ole_destroy (MsOle *f)
+ms_ole_destroy (MsOle **ptr)
 {
+	MsOle *f = *ptr;
 #if !OLE_MMAP
 	guint32 i;
 #endif
 #if OLE_DEBUG > 0
 	printf ("FIXME: should truncate to remove unused blocks\n");
 #endif
+	if (f->ref_count != 0)
+		g_warning ("Unclosed files exist on this OLE stream");
+
 	if (f) {
 		if (f->dirty)
 			ms_ole_cleanup (f);
@@ -1366,6 +1436,7 @@ ms_ole_destroy (MsOle *f)
 		printf ("Closing OLE file\n");
 #endif
 	}
+	*ptr = NULL;
 }
 
 void
@@ -1407,7 +1478,7 @@ check_stream (MsOleStream *s)
 	g_return_if_fail (p);
 	blk = p->start;
 	idx = 0;
-	if (s->strtype == MsOleSmallBlock) {
+	if (s->type == MsOleSmallBlock) {
 		while (blk != END_OF_CHAIN) {
 			g_assert (g_array_index (s->blocks, BLP, idx) ==
 				  blk);
@@ -1649,7 +1720,7 @@ ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 		src = BB_R_PTR(s->file, block) + offset;
 		
 		memcpy (ptr, src, cpylen);
-		ptr   += cpylen;
+		ptr    += cpylen;
 		length -= cpylen;
 		
 		offset = 0;
@@ -1714,7 +1785,7 @@ ms_ole_append_block (MsOleStream *s)
 	BLP lastblk = END_OF_CHAIN;
 	BLP eoc     = END_OF_CHAIN;
 
-	if (s->strtype==MsOleSmallBlock) {
+	if (s->type==MsOleSmallBlock) {
 		if (!s->blocks)
 			s->blocks = g_array_new (FALSE, FALSE, sizeof(BLP));
 
@@ -1883,7 +1954,7 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 			/* Convert the file to BBlocks */
 			s->size     = 0;
 			s->position = 0;
-			s->strtype  = MsOleLargeBlock;
+			s->type  = MsOleLargeBlock;
 			g_array_free (s->blocks, TRUE);
 			s->blocks   = 0;
 
@@ -1908,6 +1979,173 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 	return length;
 }
 
+
+/**
+ * pps_create:
+ * @p: returned pps.
+ * @parent: parent pps
+ * @name: its name
+ * @type: the type.
+ * 
+ * Creates a storage or stream.
+ * 
+ * Return value: error status
+ **/
+static MsOleErr
+pps_create (GList **p, GList *parent, const char *name, PPSType type)
+{
+	PPS *pps, *par;
+
+	if (!p || !parent || !parent->data || !name) {
+		g_warning ("duff arguments to pps_create");
+		return MS_OLE_ERR_BADARG;
+	}
+
+	pps  = g_new (PPS, 1);
+	if (!pps)
+		return MS_OLE_ERR_MEM;
+	
+	pps->sig      = PPS_SIG;
+	pps->name     = g_strdup (name);
+	pps->type     = type;
+	pps->size     = 0;
+	pps->start    = END_OF_CHAIN;
+	pps->children = NULL;
+	pps->parent   = parent->data;
+	
+	par = (PPS *)parent->data;
+	par->children = g_list_insert_sorted (par->children, pps,
+					      (GCompareFunc)pps_compare_func);
+	*p = g_list_find (par->children, pps);
+
+	return MS_OLE_ERR_OK;
+}
+
+
+/**
+ * find_in_pps:
+ * @l: the parent storage chain element.
+ * 
+ * Find the right Stream ... John 4:13-14 ...
+ * in a storage
+ * 
+ * Return value: NULL if not found or pointer
+ * to the child list
+ **/
+static GList *
+find_in_pps (GList *l, const char *name)
+{
+	PPS   *pps;
+	GList *cur;
+
+	g_return_val_if_fail (l != NULL, NULL);
+	g_return_val_if_fail (l->data != NULL, NULL);
+	pps = l->data;
+	g_return_val_if_fail (IS_PPS (pps), NULL);
+	
+	if (pps->type == MsOlePPSStorage ||
+	    pps->type == MsOlePPSRoot)
+		cur = pps->children;
+	else {
+		g_warning ("trying to enter a stream '%s'",
+			   pps->name?pps->name:"no name");
+		return NULL;
+	}
+	
+	for ( ;cur ; cur = g_list_next (cur)) {
+		PPS *pps = cur->data;
+		g_return_val_if_fail (IS_PPS (pps), NULL);
+		
+		if (!pps->name)
+			continue;
+		
+		if (!g_strcasecmp (pps->name, name))
+			return cur;
+	}
+	return NULL;
+}
+
+
+/**
+ * path_to_pps:
+ * @pps:  pointer to pps to return value in
+ * @f:    ole file hande
+ * @path: path to find
+ * @file: file to find in path
+ * @create_if_not_found: :-)
+ * 
+ * Locates a stream or storage with the given path
+ * 
+ * Return value: error status
+ **/
+static MsOleErr
+path_to_pps (PPS **pps, MsOle *f, const char *path,
+	     const char *file,
+	     gboolean create_if_not_found)
+{
+	guint     lp;
+	gchar   **dirs;
+	GList    *cur, *parent;
+
+	g_return_val_if_fail (f != NULL, MS_OLE_ERR_BADARG);
+	g_return_val_if_fail (path != NULL, MS_OLE_ERR_BADARG);
+	
+	dirs = g_strsplit (path, "/", -1);
+	g_return_val_if_fail (dirs != NULL, MS_OLE_ERR_BADARG);
+
+	parent = cur = f->pps;
+
+	for (lp = 0; dirs[lp]; lp++) {
+		if (dirs[lp][0] == '\0' || !cur) {
+			g_free (dirs[lp]);
+			continue;
+		}
+
+		parent = cur;
+
+		cur = find_in_pps (parent, dirs[lp]);
+		
+		if (!cur && create_if_not_found &&
+		    pps_create (&cur, parent, dirs[lp], MsOlePPSStorage) !=
+		    MS_OLE_ERR_OK)
+			cur = NULL;
+		/* else carry on not finding them before dropping out */
+
+		g_free (dirs[lp]);
+	}
+	g_free (dirs);
+
+	if (!cur || !cur->data)
+		return MS_OLE_ERR_EXIST;
+
+	parent = cur;
+	cur = find_in_pps (parent, file);
+
+	/* now the file */
+	if (!cur) {
+		if (create_if_not_found) {
+			MsOleErr result;
+			result = pps_create (&cur, parent, file, MsOlePPSStream);
+			if (result == MS_OLE_ERR_OK) {
+				*pps = cur->data;
+				g_return_val_if_fail (IS_PPS (cur->data),
+						      MS_OLE_ERR_INVALID);
+				return MS_OLE_ERR_OK;
+			} else
+				return result;
+		}
+		return MS_OLE_ERR_EXIST;
+	}
+
+	if (cur && cur->data) {
+		*pps = cur->data;
+		g_return_val_if_fail (IS_PPS (cur->data), MS_OLE_ERR_INVALID);
+		return MS_OLE_ERR_OK;
+	}
+
+	return MS_OLE_ERR_EXIST;
+}
+
 /**
  * ms_ole_stream_open:
  * @d: directory entry handle
@@ -1918,27 +2156,33 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
  * 
  * Return value: handle to an stream.
  **/
-MsOleStream *
-ms_ole_stream_open (MsOleDirectory *d, char mode)
+MsOleErr
+ms_ole_stream_open (MsOleStream ** const stream, MsOle *f,
+		    const char *path, const char *fname, char mode)
 {
-	PPS    *p;
-	MsOle *f=d->file;
+	PPS         *p;
 	MsOleStream *s;
 	int lp, panic=0;
+	MsOleErr     result;
 
-	if (!d || !f)
-		return 0;
+	if (!stream)
+		return MS_OLE_ERR_BADARG;
+	*stream = NULL;
+
+	if (!path || !f)
+		return MS_OLE_ERR_BADARG;
 
 	if (mode == 'w' && f->mode != 'w') {
 		printf ("Opening stream '%c' when file is '%c' only\n",
 			mode, f->mode);
-		return NULL;
+		return MS_OLE_ERR_PERM;
 	}
 
-	p           = d->pps->data;
+	if ((result = path_to_pps (&p, f, path, fname, (mode == 'w'))) !=
+	    MS_OLE_ERR_OK)
+		return result;
 
 	s           = g_new0 (MsOleStream, 1);
-	s->dir      = d;
 	s->file     = f;
 	s->pps      = p;
 	s->position = 0;
@@ -1948,8 +2192,7 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 #if OLE_DEBUG > 0
 	printf ("Parsing blocks\n");
 #endif
-	if (s->size>=BB_THRESHOLD)
-	{
+	if (s->size >= BB_THRESHOLD) {
 		BLP b = p->start;
 
 		s->read_copy = ms_ole_read_copy_bb;
@@ -1959,7 +2202,7 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 		s->write     = ms_ole_write_bb;
 
 		s->blocks    = g_array_new (FALSE, FALSE, sizeof(BLP));
-		s->strtype   = MsOleLargeBlock;
+		s->type   = MsOleLargeBlock;
 		for (lp = 0; !panic & (lp < (s->size + BB_BLOCK_SIZE - 1) / BB_BLOCK_SIZE); lp++) {
 			g_array_append_val (s->blocks, b);
 #if OLE_DEBUG > 1
@@ -1982,7 +2225,6 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 					printf ("Warning: unused block in '%s'\n", p->name);
 #endif
 			} else
-				
 				b = NEXT_BB (f, b);
 		}
 		if (b != END_OF_CHAIN) {
@@ -1997,9 +2239,7 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 				b = next;
 			}
 		}
-	}
-	else
-	{
+	} else {
 		BLP b = p->start;
 
 		s->read_copy = ms_ole_read_copy_sb;
@@ -2013,7 +2253,7 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 		else
 			s->blocks = NULL;
 
-		s->strtype   = MsOleSmallBlock;
+		s->type   = MsOleSmallBlock;
 
 		for (lp = 0; !panic & (lp < (s->size + SB_BLOCK_SIZE - 1) / SB_BLOCK_SIZE); lp++) {
 			g_array_append_val (s->blocks, b);
@@ -2053,145 +2293,35 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 				printf ("Panic: even more serious block error\n");
 		}
 	}
-	return s;
-}
+	*stream = s;
+	ms_ole_ref (s->file);
 
-/**
- * ms_ole_stream_open_name:
- * @f: Ole file
- * @name: name of file in @f including path if needed
- * @mode: mode of opening stream
- * 
- * Opens the stream with name @name in directory @d
- * mode is 'r' for read only or 'w' for write only.
- * The most common usage of this is:
- * s = ms_ole_stream_open_name (ms_ole_get_root (f),
- *                              "MyStreamName", 'r');
- * 
- * Return value: handle to opened stream.
- **/
-MsOleStream *
-ms_ole_stream_open_name (MsOle *f, const char *name, char mode)
-{
-	MsOleDirectory *dir;
-
-	g_return_val_if_fail (f != NULL, NULL);
-     
-	if (!name)
-		return NULL;
-	dir = ms_ole_path_decode (f, name);
-
-	if (dir)
-		return ms_ole_stream_open (dir, mode);
-
-#if OLE_DEBUG > 0
-	printf ("Stream '%s' not found\n", name);
-#endif
-	ms_ole_directory_destroy (dir);
-	return NULL;
-}
-
-/**
- * ms_ole_path_decode:
- * @f: Ole file handle
- * @path: The path we want a directory entry handle for
- * 
- *   This function the stream or storage in the 
- * OLE file with the path specified.
- * 
- * Return value: Handle to the storage or file or NULL
- *               on failure.
- **/
-MsOleDirectory *
-ms_ole_path_decode (MsOle *f, const char *path)
-{
-	guint lp;
-	gchar **dirs;
-	MsOleDirectory *dir;
-	gboolean found;
-
-	g_return_val_if_fail (f != NULL, NULL);
-	g_return_val_if_fail (path != NULL, NULL);
-
-	dirs = g_strsplit (path, "/", -1);
-	g_return_val_if_fail (dirs != NULL, NULL);
-
-	dir = ms_ole_get_root (f);
-	ms_ole_directory_enter (dir);
-
-	for (lp = 0; dir && dirs[lp]; lp++) {
-
-		if (dirs[lp][0] == '\0')
-			continue;
-
-		found = FALSE;
-		do {
-
-			g_return_val_if_fail (dir != NULL, NULL);
-			if (g_strcasecmp (dir->name, dirs[lp]) == 0)
-				found = TRUE;
-
-		} while (!found && ms_ole_directory_next(dir));
-
-		if (found) {
-			g_free (dirs[lp]);
-			dirs[lp] = 0;
-			if (dir->type == MsOlePPSStorage)
-				ms_ole_directory_enter (dir);
-		} else {
-#if OLE_DEBUG > 0
-			printf ("Stream '%s' not found\n", name);
-#endif
-			ms_ole_directory_destroy (dir);
-			dir = NULL;
-		}
-	}
-
-	while (dirs[lp])
-		g_free (dirs[lp++]);
-	g_free (dirs);
-
-	return dir;
-}
-
-/**
- * ms_ole_file_decode:
- * @f: Ole file handle
- * @path: path within it
- * @file: file name in path
- * 
- * Return value: handle to file or NULL on failure.
- **/
-MsOleDirectory *
-ms_ole_file_decode (MsOle *f, const char *path, const char *file)
-{
-	char *tmp;
-	MsOleDirectory *ans;
-
-	if (path[strlen(path)-1] == '/')
-		tmp = g_strconcat (path, file, NULL);
-	else
-		tmp = g_strconcat (path, "/", file, NULL);
-
-	ans = ms_ole_path_decode (f, tmp);
-	g_free (tmp);
-	return ans;
+	return MS_OLE_ERR_OK;
 }
 
 /**
  * ms_ole_stream_copy:
  * @s: stream to be copied
  * 
- * Duplicates stream handle @s
+ * Duplicates stream _handle_ @s
  * 
  * Return value: copy of @s
  **/
-MsOleStream *
-ms_ole_stream_copy (MsOleStream *s)
+MsOleErr
+ms_ole_stream_duplicate (MsOleStream **s, const MsOleStream * const stream)
 {
-	MsOleStream *ans = g_new (MsOleStream, 1);
-	memcpy (ans, s, sizeof(MsOleStream));
-	return ans;
+	if (!s || !stream)
+		return MS_OLE_ERR_BADARG;
+
+	g_warning ("Do NOT use this function, it is unsafe with the blocks array");
+
+	if (!(*s = g_new (MsOleStream, 1)))
+		return MS_OLE_ERR_MEM;
+
+	memcpy (*s, stream, sizeof (MsOleStream));
+	ms_ole_ref (stream->file);
+
+	return MS_OLE_ERR_OK;
 }
 
 /**
@@ -2201,232 +2331,22 @@ ms_ole_stream_copy (MsOleStream *s)
  * Closes stream @s and de-allocates resources.
  * 
  **/
-void
-ms_ole_stream_close (MsOleStream *s)
+MsOleErr
+ms_ole_stream_close (MsOleStream **s)
 {
-	if (s) {
-		if (s->file && s->file->mode == 'w')
-			((PPS *)s->pps)->size = s->size;
+	if (*s) {
+		if ((*s)->file && (*s)->file->mode == 'w')
+			((PPS *)(*s)->pps)->size = (*s)->size;
 
-		if (s->blocks)
-			g_array_free (s->blocks, TRUE);
-		g_free (s);
+		if ((*s)->blocks)
+			g_array_free ((*s)->blocks, TRUE);
+
+		ms_ole_unref ((*s)->file);
+
+		g_free (*s);
+		*s = NULL;
+
+		return MS_OLE_ERR_OK;
 	}
+	return MS_OLE_ERR_BADARG;
 }
-
-static MsOleDirectory *
-pps_to_dir (MsOle *f, GList *l, MsOleDirectory *d)
-{
-	PPS *p;
-	MsOleDirectory *dir;
-
-	g_return_val_if_fail (f, 0);
-	g_return_val_if_fail (l, 0);
-	g_return_val_if_fail (f->pps, 0);
-	g_return_val_if_fail (l->data, 0);
-	
-	p = l->data;
-	if (d)
-		dir = d;
-	else
-		dir = g_new (MsOleDirectory, 1);
-	dir->name   = p->name;
-	dir->type   = p->type;
-	dir->pps    = l;
-	dir->length = p->size;
-	dir->file   = f;
-	dir->first  = 0;
-	return dir;
-}
-
-/**
- * ms_ole_get_root:
- * @f: ole file
- * 
- * Returns the root directory handle for ole file @f
- * 
- * Return value: root directory handle. 
- **/
-MsOleDirectory *
-ms_ole_get_root (MsOle *f)
-{
-	return pps_to_dir (f, f->pps, NULL);
-}
-
-/**
- * ms_ole_directory_next:
- * @d: current stream / storage pointer.
- * 
- * Finds the next entry in the parent directory ( storage )
- * and moves @d to point to it
- * 
- * Return value: FALSE if at the end of the parent directory
- * TRUE if a new valid stream/storage is found.
- **/
-/*
- * This navigates by offsets from the primary_entry
- */
-gboolean
-ms_ole_directory_next (MsOleDirectory *d)
-{
-	if (!d || !d->file || !d->pps)
-		return FALSE;
-
-	if (d->first) /* Hack for now */
-		d->first = 0;
-	else
-		d->pps = g_list_next (d->pps);
-
-	if (!d->pps || !d->pps->data ||
-	    !((PPS *)d->pps->data)->name)
-		return ms_ole_directory_next (d);
-	pps_to_dir (d->file, d->pps, d);
-	
-#if OLE_DEBUG > 0
-	printf ("Forward next '%s' %d %d\n", d->name, d->type, d->length);
-#endif
-	return TRUE;
-}
-
-/**
- * ms_ole_directory_copy:
- * @d: directory pointer
- * 
- * Duplicate @d
- * 
- * Return value: copy of @d
- **/
-MsOleDirectory *
-ms_ole_directory_copy (const MsOleDirectory *d)
-{
-	g_return_val_if_fail (d != NULL, NULL);
-
-	return pps_to_dir (d->file, d->pps, NULL);
-}
-
-/**
- * ms_ole_directory_enter:
- * @d: the current directory.
- * 
- * If @d points to a sub-directory ( storage ) then
- * this moves @d to point to the first sub entry in
- * that directory.
- **/
-void
-ms_ole_directory_enter (MsOleDirectory *d)
-{
-	MsOle *f;
-	PPS    *p;
-	if (!d || !d->file || !d->pps)
-		return;
-
-	f = d->file;
-	p = d->pps->data;
-
-	d->first = 1;
-
-	if (d->type != MsOlePPSStorage &&
-	    d->type != MsOlePPSRoot) {
-		printf ("Bad type %d %d entering '%s'\n", d->type, MsOlePPSRoot, d->name);
-		return;
-	}
-
-	if (p->children)
-		d->pps = p->children;
-        else
-		printf ("Can't enter '%s'\n", p->name);
-	return;
-}
-
-/**
- * ms_ole_directory_unlink:
- * @d: directory pointer.
- * 
- * Removes a directory.
- **/
-void
-ms_ole_directory_unlink (MsOleDirectory *d)
-{
-	MsOle *f;
-	if (!d || !d->file || !d->pps)
-		return;
-	
-	f = d->file;
-
-	d->file->dirty = 1;
-
-/* Only problem is: have to find its parent in the tree. */
-/*	if (d->pps != d->primary_entry) {
-		PPS *p = g_ptr_array_index (f->pps, d->pps);
-		if (p->next == PPS_END_OF_CHAIN &&
-		    p->prev == PPS_END_OF_CHAIN) {  Little, lost & loosely attached
-			g_free (p->name);
-			p->name = 0;
-		}
-	}
-	else */
-	printf ("FIXME: Unlink unimplemented\n");
-}
-
-/**
- * ms_ole_directory_create:
- * @d: parent directory
- * @name: name of new item
- * @type: type of new item
- * 
- * This creates a stream/storage inside the directory pointed to by @d
- * with name @name and its type is defined by @type
- *
- * Return value: pointer to newly created item or NULL on failure
- **/
-MsOleDirectory *
-ms_ole_directory_create (MsOleDirectory *d, char *name, PPSType type)
-{
-	/* Find a free PPS */
-	PPS *p;
-	PPS *dp;
-
-	if (!d || !d->pps || !d->pps->data ||
-	    !d->file || d->file->mode != 'w') {
-		printf ("Trying to write to readonly file\n");
-		return NULL;
-	}
-
-	if (!name) {
-		printf ("No name!\n");
-		return NULL;
-	}
-
-	d->file->dirty = 1;
-
-	dp = d->pps->data;
-	p  = g_new (PPS, 1);
-	p->name     = g_strdup (name);
-	p->type     = type;
-	p->size     = 0;
-	p->start    = END_OF_CHAIN;
-	p->children = NULL;
-	p->parent   = dp;
-	
-	dp->children = g_list_insert_sorted (dp->children, p,
-					     (GCompareFunc)pps_compare_func);
-
-	printf ("Created file with name '%s'\n", name);
-	return pps_to_dir (d->file, g_list_find (dp->children, p), 0);
-}
-
-/**
- * ms_ole_directory_destroy:
- * @d: directory to remove.
- * 
- * Destroys the directory pointed to by @d
- * NB. don't use this pointer afterwards.
- **/
-void
-ms_ole_directory_destroy (MsOleDirectory *d)
-{
-	if (d)
-		g_free (d);
-}
-
-

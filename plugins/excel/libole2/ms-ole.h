@@ -35,13 +35,21 @@
 /* Whether to use memory mapped IO */
 #define OLE_MMAP  1
 
+typedef enum { MS_OLE_ERR_OK,
+	       MS_OLE_ERR_EXIST,
+	       MS_OLE_ERR_INVALID,
+	       MS_OLE_ERR_FORMAT,
+	       MS_OLE_ERR_PERM,
+	       MS_OLE_ERR_MEM,
+	       MS_OLE_ERR_SPACE,
+	       MS_OLE_ERR_BADARG } MsOleErr;
+
 /* Block pointer */
 typedef guint32 BLP;
 
 /* Forward declarations of types */
-typedef struct _MsOle           MsOle;
+typedef struct _MsOle          MsOle;
 typedef struct _MsOleStream    MsOleStream;
-typedef struct _MsOleDirectory MsOleDirectory;
 
 typedef enum { MsOleSeekSet, MsOleSeekCur, MsOleSeekEnd } MsOleSeek;
 #ifdef G_HAVE_GINT64
@@ -52,72 +60,25 @@ typedef enum { MsOleSeekSet, MsOleSeekCur, MsOleSeekEnd } MsOleSeek;
         typedef guint32 MsOlePos;
 #endif
 
-typedef guint32 PPS_IDX ;
-typedef enum _PPSType { MsOlePPSStorage = 1,
-			MsOlePPSStream  = 2,
-			MsOlePPSRoot    = 5} PPSType ;
-
-/**
- * Structure describing an OLE file
- **/
-struct _MsOle
-{
-	guint8    *mem ;
-	guint32    length ;
-
-	/**
-	 * To be considered private
-	 **/
-	char       mode;
-	int        file_des;
-	int        dirty;
-	GArray    *bb;     /* Big  blocks status  */
-#if !OLE_MMAP
-	GPtrArray *bbattr; /* Pointers to block structures */
-#endif
-	GArray    *sb;     /* Small block status  */
-	GArray    *sbf;    /* The small block file */
-	guint32    num_pps;/* Count of number of property sets */
-	GList     *pps;    /* Property Storage -> struct _PPS, always 1 valid entry or NULL */
-};
+#ifndef MS_OLE_H_IMPLEMENTATION
+	struct _MsOle {
+		int dummy;
+	};
+#endif /* MS_OLE_H_IMPLEMENTATION */
 
 /* Create new OLE file */
-extern MsOle           *ms_ole_create      (const char *name) ;
+extern MsOleErr ms_ole_create      (MsOle **, const char *name) ;
 /* Open existing OLE file */
-extern MsOle           *ms_ole_open        (const char *name) ;
-/* Get a root directory handle */
-extern MsOleDirectory  *ms_ole_get_root    (MsOle *);
-extern void             ms_ole_destroy     (MsOle *ptr) ;
-extern MsOleDirectory  *ms_ole_path_decode (MsOle *, const char *path);
-extern MsOleDirectory  *ms_ole_file_decode (MsOle *, const char *path, const char *file);
-
-struct _MsOleDirectory
-{
-	char     *name;
-	MsOlePos  length;
-	PPSType   type;
-	GList    *pps;
-	int       first;
-	/* Private */
-	MsOle    *file ;
-};
-
-/* Directory manipulation API */
-extern MsOleDirectory *ms_ole_directory_new     (MsOle *) ;
-extern gboolean        ms_ole_directory_next    (MsOleDirectory *) ;
-extern void            ms_ole_directory_enter   (MsOleDirectory *) ;
-/* Pointer to the directory in which to create a new stream / storage object */
-extern MsOleDirectory *ms_ole_directory_create  (MsOleDirectory *d,
-						 char *name,
-						 PPSType type) ;
-extern MsOleDirectory *ms_ole_directory_copy    (const MsOleDirectory *);
-extern void            ms_ole_directory_unlink  (MsOleDirectory *) ;
-extern void            ms_ole_directory_destroy (MsOleDirectory *) ;
+extern MsOleErr ms_ole_open        (MsOle **, const char *name) ;
+extern void     ms_ole_ref         (MsOle *);
+extern void     ms_ole_unref       (MsOle *);
+extern void     ms_ole_destroy     (MsOle **);
 
 struct _MsOleStream
 {
+	enum { MsOleSmallBlock, MsOleLargeBlock } type;
+
 	MsOlePos        size; /* Size in bytes */
-	MsOleDirectory *dir;  /* directory handle for this file */
 
 	/**
 	 * Attempts to copy length bytes into *ptr, returns true if
@@ -142,22 +103,23 @@ struct _MsOleStream
 	 * PRIVATE
 	 **/
 	MsOle      *file ;
-	void       *pps ;   /* Straight PPS * */
+	void       *pps ;     /* Straight PPS * */
 	GArray     *blocks;   /* A list of the blocks in the file if NULL: no file */
 	MsOlePos    position; /* Current offset into file. Points to the next byte to read */
-	enum { MsOleSmallBlock, MsOleLargeBlock } strtype; /* Type of stream */
 };
 
 /* Mode = 'r' or 'w' */
-extern MsOleStream *ms_ole_stream_open      (MsOleDirectory *d, char mode) ;
-extern MsOleStream *ms_ole_stream_open_name (MsOle *f, const char *name, char mode) ;
-extern MsOleStream *ms_ole_stream_copy      (MsOleStream *);
-extern void ms_ole_stream_close             (MsOleStream *) ;
+extern MsOleErr ms_ole_stream_open       (MsOleStream ** const stream, MsOle *f,
+					  const char *path, const char *fname, char mode);
+extern MsOleErr ms_ole_stream_close      (MsOleStream ** const stream);
+extern MsOleErr ms_ole_stream_duplicate  (MsOleStream ** const copy,
+					  const MsOleStream * const stream);
+extern MsOleErr ms_ole_storage_unlink    (MsOle *f, const char *path);
+extern MsOleErr ms_ole_stream_unlink     (MsOle *f, const char *path);
+extern MsOleErr ms_ole_storage_directory (char ***names, const char *path);
 
 extern void dump (guint8 const *ptr, guint32 len) ;
 
 /* Do not use */
 extern void ms_ole_debug (MsOle *, int magic);
 #endif
-
-

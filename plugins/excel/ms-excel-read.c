@@ -2717,43 +2717,6 @@ biff_get_externsheet_name(ExcelWorkbook *wb, guint16 idx, gboolean get_first)
 	return bsd->sheet->gnum_sheet;
 }
 
-/**
- * Find a stream with the correct name
- **/
-static MsOleStream *
-find_workbook (MsOle *ptr)
-{
-	/* Find the right Stream ... John 4:13-14 */
-	MsOleDirectory *d = ms_ole_get_root (ptr);
-
-	ms_ole_directory_enter (d);
-
-	/*
-	 * The thing to seek; first the kingdom of God, then this:
-	 */
-	while (ms_ole_directory_next (d)) {
-		if (d->type == MsOlePPSStream) {
-			int hit = 0;
-
-			/*
-			 * printf ("Checking '%s'\n", d->name);
-			 */
-			hit |= (g_strncasecmp (d->name, "book", 4) == 0);
-			hit |= (g_strncasecmp (d->name, "workbook", 8) == 0);
-			if (hit) {
-				MsOleStream *stream;
-				printf (" '%s' ", d->name);
-				stream = ms_ole_stream_open (d, 'r');
-				ms_ole_directory_destroy (d);
-				return stream;
-			}
-		}
-	}
-	printf ("No Excel file found\n");
-	ms_ole_directory_destroy (d);
-	return 0;
-}
-
 /*
  * see S59DEC.HM,
  */
@@ -2807,6 +2770,7 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 {
 	ExcelWorkbook *wb = NULL;
 	MsOleStream *stream;
+	MsOleErr     result;
 	BiffQuery *q;
 	BIFF_BOF_DATA *ver = 0;
 	int current_sheet = 0;
@@ -2815,7 +2779,18 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 /*	cell_deep_freeze_dependencies (); */
 
 	/* Find that book file */
-	stream = find_workbook (file);
+	result = ms_ole_stream_open (&stream, file, "/", "book", 'r');
+	if (result != MS_OLE_ERR_OK) {
+		ms_ole_stream_close (&stream);
+
+		result = ms_ole_stream_open (&stream, file, "/", "workbook", 'r');
+		if (result != MS_OLE_ERR_OK) {
+			ms_ole_stream_close (&stream);
+			g_warning ("No Excel stream found: wierd");
+			return FALSE;
+		}
+	}
+
 	q = ms_biff_query_new (stream);
 
 	while (ms_biff_query_next (q)) {
@@ -3237,8 +3212,7 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 	ms_biff_query_destroy (q);
 	if (ver)
 		ms_biff_bof_data_destroy (ver);
-	ms_ole_stream_close (stream);
-
+	ms_ole_stream_close (&stream);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {

@@ -1,3 +1,20 @@
+1999-09-19  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* Makefile.am: comment out ole.
+
+	* ms-summary.c (sum_name_to_excel): made static.
+
+	* ms-excel-write.c (ms_excel_write_workbook): updated.
+
+	* ms-excel-read.c (ms_excel_read_workbook): use better API.
+	(find_workbook): removed.
+
+	* ms-biff.c (ms_biff_query_copy): Updated duplicate.
+
+	* boot.c (excel_probe, excel_save, excel_load): new ole api.
+
+	* ms-excel-write.c (ms_excel_write_workbook): fix leak.
+
 1999-09-18  Morten Welinder  <terra@diku.dk>
 
 	* ole.c (cur_dir, delim): static.

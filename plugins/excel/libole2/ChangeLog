@@ -1,3 +1,18 @@
+1999-09-19  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* Makefile.am: Killed storage.
+
+	* gnome-storage-ole.[ch]: Killed.
+
+	* ms-ole-summary.c (ms_ole_summary_open): 
+
+	* ms-ole.c (MAP_FAILED): Hack for wierd systems.
+	(ms_ols_*directory*): Destroyed, all new API. This time its permanant.
+	will allow clean VFS integration & simple leak free usage. It cleans
+	the header file & namespace and improves performance.
+	(path_to_pps, pps_create): helper functions.
+	(pps_create, pps_decode_tree): PPS signature for debugging.
+
 1999-09-17  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ms-ole-summary.c (ms_ole_summary_set_string): Remove verbose

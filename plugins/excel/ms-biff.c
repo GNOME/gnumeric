@@ -109,13 +109,21 @@ BiffQuery *
 ms_biff_query_copy (const BiffQuery *p)
 {
 	BiffQuery *bf = g_new (BiffQuery, 1);
+
 	memcpy (bf, p, sizeof (BiffQuery));
-	if (p->data_malloced)
-	{
+
+	if (p->data_malloced) {
 		bf->data = (guint8 *)g_malloc (p->length);
 		memcpy (bf->data, p->data, p->length);
 	}
-	bf->pos=ms_ole_stream_copy (p->pos);
+
+	if (ms_ole_stream_duplicate (&bf->pos, p->pos) !=
+	    MS_OLE_ERR_OK) {
+		g_free (bf->data);
+		g_free (bf);
+		return NULL;
+	}
+
 	return bf;
 }
 

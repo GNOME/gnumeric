@@ -61,7 +61,7 @@ excel_to_gnumeric (guint32 type)
  *  converts it back to an MsOleSummaryPID.
  *
 **/
-MsOleSummaryPID
+static MsOleSummaryPID
 sum_name_to_excel (gchar *name)
 {
 	gint	 i, j;

@@ -340,7 +340,7 @@ sheet_object_container_load (SheetObject *so,
 	
 	soc->client_site = gnome_client_site_new (so->sheet->workbook->gnome_container);
 	if (!soc->repoid)
-		return NULL;
+		return FALSE;
 	soc->object_server = gnome_object_activate_with_goad_id (NULL, soc->repoid, 0, NULL);
 
 	if (!soc->object_server)

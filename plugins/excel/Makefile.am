@@ -37,18 +37,18 @@ libexcel_a_SOURCES =		\
 	ms-summary.c		\
 	ms-summary.h
 
-noinst_PROGRAMS =		\
-	ole
-
-ole_SOURCES =			\
-	ole.c
-
-
-ole_LDADD =			\
-	ms-biff.o		\
-	libole2/libole2.a	\
-        $(GNOME_LIBDIR)		\
-        $(GNOME_LIBS)		\
-        $(INTLLIBS)
-
+#noinst_PROGRAMS =		\
+#	ole
+#
+#ole_SOURCES =			\
+#	ole.c
+#
+#
+#ole_LDADD =			\
+#	ms-biff.o		\
+#	libole2/libole2.a	\
+#        $(GNOME_LIBDIR)		\
+#        $(GNOME_LIBS)		\
+#        $(INTLLIBS)
+#
 SUBDIRS = libole2

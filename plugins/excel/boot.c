@@ -22,16 +22,13 @@ extern int ms_excel_read_debug;
 static gboolean
 excel_probe (const char *filename)
 {
-	MsOle *f;
-	int res;
+	MsOle    *f;
+	MsOleErr  result;
 	
-	f = ms_ole_open (filename);
+	result = ms_ole_open (&f, filename);
+	ms_ole_destroy (&f);
 
-	res = f != NULL;
-
-	ms_ole_destroy (f);
-
-	return res;
+	return result == MS_OLE_ERR_OK;
 }
 
 static gboolean
@@ -39,10 +36,13 @@ excel_load (Workbook *wb, const char *filename)
 {
 	MsOle *f;
 	gboolean ret;
+	MsOleErr  result;
 	
-	f = ms_ole_open (filename);
-	if (!f)
+	result = ms_ole_open (&f, filename);
+	if (result != MS_OLE_ERR_OK) {
+		ms_ole_destroy (&f);
 		return FALSE;
+	}
 
 	printf ("Opening '%s' ", filename);
 	ret = ms_excel_read_workbook (wb, f);
@@ -57,7 +57,7 @@ excel_load (Workbook *wb, const char *filename)
 		g_free(name);
 	}
 
-	ms_ole_destroy (f);
+	ms_ole_destroy (&f);
 
 	return ret;
 }
@@ -69,6 +69,7 @@ excel_save (Workbook *wb, const char *filename, eBiff_version ver)
 	MsOle *f;
 	int ans;
 	struct stat s;
+	MsOleErr result;
 
 	if ((stat (filename, &s) != -1)) {
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
@@ -76,14 +77,15 @@ excel_save (Workbook *wb, const char *filename, eBiff_version ver)
 		return 0;
 	}
 	
-	f = ms_ole_create (filename);
+	result = ms_ole_create (&f, filename);
 
-	if (!f) {
+	if (result != MS_OLE_ERR_OK) {
 		char *str = g_strdup_printf ("%s %s",
 					     _("Can't open"),
 					     filename);
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, str);
 
+		ms_ole_destroy (&f);
 		g_free (str);
 		return 0;
 	}
@@ -92,11 +94,13 @@ excel_save (Workbook *wb, const char *filename, eBiff_version ver)
 
         ms_summary_write (f, wb->summary_info);
 
-	ms_ole_destroy (f);
+	ms_ole_destroy (&f);
+
 	if (ans)
 		printf ("Written successfully\n");
 	else
 		printf ("Error whilst writing\n");
+
 	return ans;
 }
 

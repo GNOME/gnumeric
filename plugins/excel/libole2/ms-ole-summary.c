@@ -225,10 +225,12 @@ MsOleSummary *
 ms_ole_summary_open (MsOle *f)
 {
 	MsOleStream *s;
+	MsOleErr     result;
 	g_return_val_if_fail (f != NULL, NULL);
 
-	s = ms_ole_stream_open_name (f, "SummaryInformation", 'r');
-	if (!s)
+	result = ms_ole_stream_open (&s, f, "/",
+				     "SummaryInformation", 'r');
+	if (result != MS_OLE_ERR_OK || !s)
 		return NULL;
 
 	return ms_ole_summary_open_stream (s);
@@ -285,21 +287,14 @@ ms_ole_summary_create_stream (MsOleStream *s)
 MsOleSummary *
 ms_ole_summary_create (MsOle *f)
 {
-	MsOleDirectory	*dir;
-	MsOleStream	*s;
+	MsOleStream *s;
+	MsOleErr     result;
 
 	g_return_val_if_fail (f != NULL, NULL);
 
-	dir = ms_ole_directory_create (ms_ole_get_root (f),
-				       "SummaryInformation",
-				       MsOlePPSStream);
-	if (!dir) {
-		printf ("ms_ole_summary_create: Can't create stream\n");
-		return NULL;
-	}
-
-	s = ms_ole_stream_open (dir, 'w');
-	if (!s) {
+	result = ms_ole_stream_open (&s, f, "/",
+				     "SummaryInformation", 'w');
+	if (result != MS_OLE_ERR_OK || !s) {
 		printf ("ms_ole_summary_create: Can't open stream for writing\n");
 		return NULL;
 	}
@@ -343,8 +338,7 @@ void ms_ole_summary_close (MsOleSummary *si)
 	si->items = NULL;
 
 	if (si->s)
-		ms_ole_stream_close (si->s);
-	si->s = NULL;
+		ms_ole_stream_close (&si->s);
 
 	g_free (si);
 }
