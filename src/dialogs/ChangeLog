@@ -1,3 +1,7 @@
+2001-09-06  Morten Welinder  <terra@diku.dk>
+
+	* dialog-about.c (dialog_about): Kill stale link.
+
 2001-09-04  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (fmt_dialog_impl) : init the border selector

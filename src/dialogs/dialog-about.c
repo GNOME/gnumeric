@@ -24,7 +24,7 @@
 void
 dialog_about (WorkbookControlGUI *wbcg)
 {
-        GtkWidget *about, *l, *href, *hbox;
+        GtkWidget *about, *hbox;
 
         const gchar *authors[] = {
 		N_("Miguel de Icaza, creator."),
@@ -85,12 +85,18 @@ dialog_about (WorkbookControlGUI *wbcg)
 				 NULL);
 
 	hbox = gtk_hbox_new (TRUE, 0);
-	l = gnome_href_new ("http://www.gnumeric.org",
-			    _("Gnumeric Home Page"));
-	href = gnome_href_new ("http://www.ximian.com/apps/gnumeric.php3",
-			       _("Contract Support"));
-	gtk_box_pack_start (GTK_BOX (hbox), l, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), href, FALSE, FALSE, 0);
+	{
+		GtkWidget *href = gnome_href_new ("http://www.gnumeric.org",
+						  _("Gnumeric Home Page"));
+		gtk_box_pack_start (GTK_BOX (hbox), href, FALSE, FALSE, 0);
+	}
+#ifdef WEB_BIT_ROT
+	{
+		GtkWidget *href = gnome_href_new ("http://www.ximian.com/apps/gnumeric.php3",
+						  _("Contract Support"));
+		gtk_box_pack_start (GTK_BOX (hbox), href, FALSE, FALSE, 0);
+	}
+#endif
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (about)->vbox),
 			    hbox, TRUE, FALSE, 0);
 	gtk_widget_show_all (hbox);
