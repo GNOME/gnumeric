@@ -13,13 +13,17 @@
 			<functions>
 				<function name="pdfbernoulli"/>
 				<function name="pdfbeta"/>
+				<function name="pdfbinom"/>
 				<function name="pdfcauchy"/>
 				<function name="pdfexp"/>
 				<function name="pdfexppow"/>
 				<function name="pdfgamma"/>
 				<function name="pdflandau"/>
 				<function name="pdflaplace"/>
+				<function name="pdfnegbinom"/>
+				<function name="pdfpoisson"/>
 				<function name="pdfrayleigh"/>
+				<function name="pdfweibull"/>
 				<function name="rand"/>
 				<function name="randbernoulli"/>
 				<function name="randbeta"/>

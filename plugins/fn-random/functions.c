@@ -153,6 +153,8 @@ static const char *help_randpoisson = {
            "@DESCRIPTION="
            "RANDPOISSON returns a poisson-distributed random number. "
            "\n"
+           "If @lambda < 0 RANDPOISSON returns #NUM! error. "
+           "\n"
            "@EXAMPLES=\n"
            "RANDPOISSON(3).\n"
            "\n"
@@ -168,6 +170,37 @@ gnumeric_randpoisson (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
         return value_new_float (random_poisson (x));
+}
+
+/***************************************************************************/
+
+static const char *help_pdfpoisson = {
+        N_("@FUNCTION=PDFPOISSON\n"
+           "@SYNTAX=PDFPOISSON(k,lambda)\n"
+
+           "@DESCRIPTION="
+           "PDFPOISSON returns the probability p(k) of obtaining @k from "
+	   "a Poisson distribution with mean @mu."
+           "\n"
+           "If @k < 0 PDFPOISSON returns #NUM! error. "
+           "If @lambda < 0 PDFPOISSON returns #NUM! error. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RANDPOISSON(1,3).\n"
+           "\n"
+           "@SEEALSO=RANDPOISSON")
+};
+
+static Value *
+gnumeric_pdfpoisson (FunctionEvalInfo *ei, Value **argv)
+{
+	int        k = value_get_as_int (argv[0]);
+	gnum_float x = value_get_as_float (argv[1]);
+
+	if (x < 0 || k < 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_poisson_pdf (k, x));
 }
 
 /***************************************************************************/
@@ -191,13 +224,46 @@ static const char *help_randbinom = {
 static Value *
 gnumeric_randbinom (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float p = value_get_as_float (argv[0]);
-	int     trials = value_get_as_int (argv[1]);
+	gnum_float p      = value_get_as_float (argv[0]);
+	int        trials = value_get_as_int (argv[1]);
 
 	if (p < 0 || p > 1 || trials < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
         return value_new_float (random_binomial (p, trials));
+}
+
+/***************************************************************************/
+
+static const char *help_pdfbinom = {
+        N_("@FUNCTION=PDFBINOM\n"
+           "@SYNTAX=PDFBINOM(k,p,trials)\n"
+
+           "@DESCRIPTION="
+           "PDFBINOM returns the probability p(k) of obtaining @k from a "
+	   "binomial distribution with parameters @p and @n. "
+           "\n"
+           "If @k < 0 PDFBINOM returns #NUM! error. "
+           "If @p < 0 or @p > 1 PDFBINOM returns #NUM! error. "
+           "If @trials < 0 PDFBINOM returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "PDFBINOM(2,0.5,4).\n"
+           "\n"
+           "@SEEALSO=RANDBINOM")
+};
+
+static Value *
+gnumeric_pdfbinom (FunctionEvalInfo *ei, Value **argv)
+{
+	int        k      = value_get_as_int (argv[0]);
+	gnum_float p      = value_get_as_float (argv[1]);
+	int        trials = value_get_as_int (argv[2]);
+
+	if (p < 0 || p > 1 || trials < 0 || k < 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_binomial_pdf (k, p, trials));
 }
 
 /***************************************************************************/
@@ -264,6 +330,39 @@ gnumeric_randnegbinom (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
         return value_new_float (random_negbinom (p, failures));
+}
+
+/***************************************************************************/
+
+static const char *help_pdfnegbinom = {
+        N_("@FUNCTION=PDFNEGBINOM\n"
+           "@SYNTAX=PDFNEGBINOM(k,p,failures)\n"
+
+           "@DESCRIPTION="
+           "PDFNEGBINOM returns the probability p(k) of obtaining @k from "
+	   "a negative binomial distribution with parameters @p and @n."
+           "\n"
+           "If @k < 0 PDFNEGBINOM returns #NUM! error. "
+           "If @p < 0 or @p > 1, PDFNEGBINOM returns #NUM! error. "
+           "If @failures PDFNEGBINOM returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "PDFNEGBINOM(1,0.5,2).\n"
+           "\n"
+           "@SEEALSO=RANDNEGBINOM")
+};
+
+static Value *
+gnumeric_pdfnegbinom (FunctionEvalInfo *ei, Value **argv)
+{
+	int        k        = value_get_as_int (argv[0]);
+	gnum_float p        = value_get_as_float (argv[1]);
+	int        failures = value_get_as_int (argv[2]);
+
+	if (p < 0 || p > 1 || failures < 0 || k < 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_negative_binomial_pdf (k, p, failures));
 }
 
 /***************************************************************************/
@@ -460,6 +559,32 @@ gnumeric_randweibull (FunctionEvalInfo *ei, Value **argv)
 	gnum_float b = value_get_as_float (argv[1]);
 
         return value_new_float (random_weibull (a, b));
+}
+
+/***************************************************************************/
+
+static const char *help_pdfweibull = {
+        N_("@FUNCTION=PDFWEIBULL\n"
+           "@SYNTAX=PDFWEIBULL(x,a,b)\n"
+
+           "@DESCRIPTION="
+           "PDFWEIBULL returns the probability density p(x) at @x for a "
+	   "Weibull distribution with scale @a and exponent @b. "
+           "\n"
+           "@EXAMPLES=\n"
+           "PDFWEIBULL(0.7,1,2).\n"
+           "\n"
+           "@SEEALSO=RANDWEIBULL")
+};
+
+static Value *
+gnumeric_pdfweibull (FunctionEvalInfo *ei, Value **argv)
+{
+	gnum_float x = value_get_as_float (argv[0]);
+	gnum_float a = value_get_as_float (argv[1]);
+	gnum_float b = value_get_as_float (argv[2]);
+
+        return value_new_float (random_weibull_pdf (x, a, b));
 }
 
 /***************************************************************************/
@@ -1122,6 +1247,8 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_pdfbernoulli, NULL, NULL, NULL },
         { "pdfbeta", "fff", N_("x,a,b"),         &help_pdfbeta,
 	  gnumeric_pdfbeta, NULL, NULL, NULL },
+        { "pdfbinom", "fff", N_("k,p,trials"), &help_pdfbinom,
+	  gnumeric_pdfbinom, NULL, NULL, NULL },
         { "pdfcauchy", "ff", N_("x,a"),   &help_pdfcauchy,
 	  gnumeric_pdfcauchy, NULL, NULL, NULL },
         { "pdfexp", "ff", N_("x,mu"),         &help_pdfexp,
@@ -1134,8 +1261,14 @@ const ModulePluginFunctionInfo random_functions[] = {
 	  gnumeric_pdflandau, NULL, NULL, NULL },
         { "pdflaplace", "ff", N_("x,a"), &help_pdflaplace,
 	  gnumeric_pdflaplace, NULL, NULL, NULL },
+        { "pdfnegbinom", "fff", N_("k,p,failures"), &help_pdfnegbinom,
+	  gnumeric_pdfnegbinom, NULL, NULL, NULL },
+        { "pdfpoisson", "ff", N_("k,lambda"), &help_pdfpoisson,
+	  gnumeric_pdfpoisson, NULL, NULL, NULL },
         { "pdfrayleigh", "ff", N_("x,sigma"), &help_pdfrayleigh,
 	  gnumeric_pdfrayleigh, NULL, NULL, NULL },
+        { "pdfweibull", "fff", N_("x,a,b"), &help_pdfweibull,
+	  gnumeric_pdfweibull, NULL, NULL, NULL },
 	{ "rand",    "", "",           &help_rand,
 	  gnumeric_rand, NULL, NULL, NULL },
         { "randbernoulli", "f", N_("p"),   &help_randbernoulli,
