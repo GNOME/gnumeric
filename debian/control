@@ -12,7 +12,7 @@ Build-Depends: debhelper (>= 4.1.87), dh-buildinfo, gettext, bison, flex,
  libgsf-gnome-1-dev (>= 1.9.1-4),
  libart-2.0-dev (>= 2.3.16-5),
  python2.3-dev, python-gtk2-dev,
- libgda2-dev (>= 1.0.3-2), libgnomedb2-dev (>= 1.0.4-3)
+ libgda2-dev (>= 1.0.4-1), libgnomedb2-dev (>= 1.0.4-4)
 Standards-Version: 3.6.1
 
 Package: gnumeric
