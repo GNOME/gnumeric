@@ -18,9 +18,6 @@ typedef struct {
 	GtkSpinButton   *main_stoprow;
 	GtkLabel        *main_lines;
 	GtkWidget       *main_data_container;
-	GtkCheckButton  *main_2x_indicator;
-	GtkCombo        *main_textindicator;
-	GtkEntry        *main_textfield;
 	GtkCheckButton  *line_break_unix;
 	GtkCheckButton  *line_break_windows;
 	GtkCheckButton  *line_break_mac;
@@ -38,6 +35,9 @@ typedef struct {
 	GtkCheckButton  *csv_custom;
 	GtkEntry        *csv_customseparator;
 	GtkCheckButton  *csv_duplicates;
+	GtkCheckButton  *csv_2x_indicator;
+	GtkCombo        *csv_textindicator;
+	GtkEntry        *csv_textfield;
 	GtkWidget       *csv_data_container;
 
 	/* Page members that are created at run-time */

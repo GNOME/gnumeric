@@ -194,36 +194,14 @@ main_page_stoprow_changed (GtkSpinButton* button,
 }
 
 static void
-main_page_stringindicator_change (G_GNUC_UNUSED GtkWidget *widget,
-				  DruidPageData_t *data)
-{
-	char *textfieldtext;
-	gunichar str_ind;
-
-	textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (data->main.main_textfield), 0, -1);
-	str_ind = g_utf8_get_char (textfieldtext);
-	if (str_ind != '\0')
-	     stf_parse_options_csv_set_stringindicator (data->parseoptions,
-							str_ind);
-	g_free (textfieldtext);
-
-	stf_parse_options_csv_set_indicator_2x_is_single  (data->parseoptions,
-							   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.main_2x_indicator)));
-}
-
-static void
 main_page_source_format_toggled (G_GNUC_UNUSED GtkWidget *widget,
 				 DruidPageData_t *data)
 {
-	gboolean active = gtk_toggle_button_get_active
+	gboolean separated = gtk_toggle_button_get_active
 		(GTK_TOGGLE_BUTTON (data->main.main_separated));
 
-	gtk_widget_set_sensitive (GTK_WIDGET (data->main.main_2x_indicator), active);
-	gtk_widget_set_sensitive (GTK_WIDGET (data->main.main_textindicator), active);
-	gtk_widget_set_sensitive (GTK_WIDGET (data->main.main_textfield), active);
-
 	stf_parse_options_set_type (data->parseoptions,
-				    active ? PARSE_TYPE_CSV : PARSE_TYPE_FIXED);
+				    separated ? PARSE_TYPE_CSV : PARSE_TYPE_FIXED);
 }
 
 static void
@@ -356,9 +334,6 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->main.main_stoprow   = GTK_SPIN_BUTTON  (glade_xml_get_widget (gui, "main_stoprow"));
 	pagedata->main.main_lines     = GTK_LABEL        (glade_xml_get_widget (gui, "main_lines"));
 	pagedata->main.main_data_container =              glade_xml_get_widget (gui, "main_data_container");
-	pagedata->main.main_2x_indicator  = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "main_2x_indicator"));
-	pagedata->main.main_textindicator = GTK_COMBO    (glade_xml_get_widget (gui, "main_textindicator"));
-	pagedata->main.main_textfield     = GTK_ENTRY    (glade_xml_get_widget (gui, "main_textfield"));
 	pagedata->main.line_break_unix    = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "line_break_unix"));
 	pagedata->main.line_break_windows = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "line_break_windows"));
 	pagedata->main.line_break_mac     = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "line_break_mac"));
@@ -421,12 +396,6 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->main.main_stoprow),
 		"changed",
 		G_CALLBACK (main_page_stoprow_changed), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->main.main_2x_indicator),
-		"toggled",
-		G_CALLBACK (main_page_stringindicator_change), pagedata);
-	g_signal_connect (G_OBJECT (pagedata->main.main_textfield),
-		"changed",
-		G_CALLBACK (main_page_stringindicator_change), pagedata);
 	g_signal_connect (G_OBJECT (pagedata->main.main_separated),
 		"toggled",
 		G_CALLBACK (main_page_source_format_toggled), pagedata);

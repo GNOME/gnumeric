@@ -1,3 +1,8 @@
+2003-06-20  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-csv-page.c (csv_page_textindicator_change): Move from
+	main page.  (Saves screen real-estate there.)
+
 2003-06-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-format-page.c (locale_changed_cb): implement

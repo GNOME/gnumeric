@@ -124,6 +124,23 @@ csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
 	csv_page_global_change (NULL, data);
 }
 
+
+static void
+csv_page_textindicator_change (G_GNUC_UNUSED GtkWidget *widget,
+			       DruidPageData_t *data)
+{
+	char *textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (data->csv.csv_textfield), 0, -1);
+	gunichar str_ind = g_utf8_get_char (textfieldtext);
+	if (str_ind != '\0')
+	     stf_parse_options_csv_set_stringindicator (data->parseoptions,
+							str_ind);
+	g_free (textfieldtext);
+
+	stf_parse_options_csv_set_indicator_2x_is_single  (data->parseoptions,
+							   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_2x_indicator)));
+	csv_page_global_change (NULL, data);
+}
+
 static void
 csv_page_parseoptions_to_gui (DruidPageData_t *pagedata)
 {
@@ -240,6 +257,9 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->csv.csv_bang            = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_bang"));
 	pagedata->csv.csv_custom          = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_custom"));
 	pagedata->csv.csv_customseparator = GTK_ENTRY        (glade_xml_get_widget (gui, "csv_customseparator"));
+	pagedata->csv.csv_2x_indicator  = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_2x_indicator"));
+	pagedata->csv.csv_textindicator = GTK_COMBO    (glade_xml_get_widget (gui, "csv_textindicator"));
+	pagedata->csv.csv_textfield     = GTK_ENTRY    (glade_xml_get_widget (gui, "csv_textfield"));
 
 	pagedata->csv.csv_duplicates    = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_duplicates"));
 	pagedata->csv.csv_data_container  =                   glade_xml_get_widget (gui, "csv_data_container");
@@ -286,6 +306,12 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_signal_connect (G_OBJECT (pagedata->csv.csv_duplicates),
 		"toggled",
 		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->csv.csv_2x_indicator),
+		"toggled",
+		G_CALLBACK (csv_page_textindicator_change), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->csv.csv_textfield),
+		"changed",
+		G_CALLBACK (csv_page_textindicator_change), pagedata);
 
 	g_signal_connect (G_OBJECT (pagedata->csv_page),
 		"prepare",
