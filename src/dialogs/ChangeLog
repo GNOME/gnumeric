@@ -1,3 +1,7 @@
+2000-09-24    <michael@thomas.home>
+
+	* dialog-graph-guru.c (cb_graph_guru_clicked): update to item container.
+
 2000-09-20  JP Rosevear  <jpr@helixcode.com>
 
 	* dialog-workbook-attr.c (cb_attr_dialog_dialog_destroy): Disconnect

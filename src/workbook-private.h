@@ -26,7 +26,7 @@ struct _WorkbookPrivate {
 	BonoboObject bonobo_object;
 
 	/* A BonoboContainer */
-	BonoboContainer   *bonobo_container;
+	BonoboItemContainer   *bonobo_container;
 
 	BonoboPersistFile *persist_file;
 	

@@ -17,7 +17,7 @@
 #include "gnumeric-util.h"
 #include "sheet-object-container.h"
 #include "sheet-object-widget.h"
-#include <bonobo/bonobo-container.h>
+#include <bonobo/bonobo-item-container.h>
 #include <bonobo/bonobo-view-frame.h>
 #include <bonobo/bonobo-client-site.h>
 #include <bonobo/bonobo-embeddable.h>

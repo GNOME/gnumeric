@@ -2378,7 +2378,7 @@ workbook_persist_file_save (BonoboPersistFile *ps, const CORBA_char *filename, v
 static void
 workbook_bonobo_setup (Workbook *wb)
 {
-	wb->priv->bonobo_container = BONOBO_CONTAINER (bonobo_container_new ());
+	wb->priv->bonobo_container = BONOBO_ITEM_CONTAINER (bonobo_item_container_new ());
 	wb->priv->persist_file = bonobo_persist_file_new (
 		workbook_persist_file_load,
 		workbook_persist_file_save,

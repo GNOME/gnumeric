@@ -196,8 +196,8 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 
 		/* Configure our container */
 		client_site = bonobo_client_site_new (state->wb->priv->bonobo_container);
-		bonobo_container_add (state->wb->priv->bonobo_container,
-				      BONOBO_OBJECT (client_site));
+		bonobo_item_container_add (state->wb->priv->bonobo_container,
+					   BONOBO_OBJECT (client_site));
 
 		if (bonobo_client_site_bind_embeddable (client_site, state->object_server)) {
 			Sheet *sheet = state->wb->current_sheet;
