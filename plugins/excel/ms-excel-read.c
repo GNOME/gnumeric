@@ -2318,7 +2318,7 @@ ms_sheet_obj_anchor_to_pos (double pixels[4], guint8 const *raw_anchor,
 }
 
 static gboolean
-ms_sheet_obj_realize (MSObj *obj, MSContainer *container)
+ms_sheet_obj_realize (MSContainer *container, MSObj *obj)
 {
 	double   position[4];
 	ExcelSheet *sheet;

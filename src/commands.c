@@ -955,6 +955,7 @@ cmd_clear_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				    r->end.col, r->end.row,
 				    me->clear_flags|CLEAR_NOCHECKARRAY);
 	}
+	me->old_content = g_slist_reverse (me->old_content);
 
 	sheet_set_dirty (me->sheet, TRUE);
 	workbook_recalc (me->sheet->workbook);

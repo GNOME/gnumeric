@@ -1,5 +1,10 @@
 2000-11-01  Jody Goldberg <jgoldberg@home.com>
 
+	* src/commands.c (cmd_clear_redo) : reverse the content list to keep
+	  it in sync with the range list.
+
+2000-11-01  Jody Goldberg <jgoldberg@home.com>
+
 	* src/xml-io.c (xml_read_cell) : Default the parse format to General.
 	  Eventually we can simply cell_set_value to not guess that the
 	  display format == the parse format.  However, that will require
