@@ -3247,7 +3247,7 @@ static char *help_ftest = {
 	   "@SYNTAX=FTEST(array1,array2)\n"
 
 	   "@DESCRIPTION="
-	   "FTEST function returns the one-tailed probability that the "
+	   "FTEST function returns the two-tailed probability that the "
 	   "variances in the given two data sets are not significantly "
 	   "different. "
 	   "This function is Excel compatible. "
