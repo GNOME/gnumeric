@@ -8,6 +8,7 @@ Jody:
 
 Morten:
 	* New function COLUMNNUMBER.
+	* Fix ABRs in imported pcre code.
 
 --------------------------------------------------------------------------
 

@@ -66,6 +66,9 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
     print DST "/* This file has been programatically changed.  */\n";
     print DST "/* This makes the following file fall under GPL license, see $where.  */\n\n";
 
+    my $backchar_fix = 0;
+    my $backchar_indent = '';
+
     while (<SRC>) {
 	s/\@PCRE_MAJOR\@/$PCRE_MAJOR/;
 	s/\@PCRE_MINOR\@/$PCRE_MINOR/;
@@ -108,6 +111,28 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
 	}
 
 	s{(md->utf8)}{1 /* $1 */};
+
+	# Bug fix.
+	if (/while\s*\(eptr\s*>=\s*pp\)/ ... /^\s*\}\s*$/) {
+	    if (/match\s*\(eptr--/) {
+		$backchar_fix = 1;
+		s/eptr--/eptr/;
+	    } elsif (/return rrc;/ && $backchar_fix < 2) {
+		$_ .= "${backchar_indent}else {\n" .
+		    "${backchar_indent}    if (eptr == pp) break;\n";
+		$_ .= "${backchar_indent}    eptr--;\n" if $backchar_fix == 1;
+		$_ .= "${backchar_indent}}\n";
+		$backchar_fix = 2;
+	    }
+
+	    if (/^(\s*)if/) {
+		$backchar_indent = $1;
+	    }
+
+	    if (/^\s*\}\s*$/) {
+		$backchar_fix = 0;
+	    }
+	}
 
 	print DST;
     }

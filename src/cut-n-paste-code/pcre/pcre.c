@@ -5858,6 +5858,9 @@ for (;;)
           {
           if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
                MATCH_NOMATCH) return rrc;
+          else {
+              if (eptr == pp) break;
+          }
           eptr -= length;
           }
         return MATCH_NOMATCH;
@@ -6016,8 +6019,12 @@ for (;;)
             }
           while (eptr >= pp)
             {
-            if ((rrc = match(eptr--, ecode, offset_top, md, ims, eptrb, 0)) !=
+            if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
                  MATCH_NOMATCH) return rrc;
+            else {
+                if (eptr == pp) break;
+                eptr--;
+            }
             BACKCHAR(eptr)
             }
           }
@@ -6034,8 +6041,12 @@ for (;;)
             }
           while (eptr >= pp)
             {
-            if ((rrc = match(eptr--, ecode, offset_top, md, ims, eptrb, 0)) !=
+            if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
                  MATCH_NOMATCH) return rrc;
+            else {
+                if (eptr == pp) break;
+                eptr--;
+            }
             }
           }
 
@@ -6128,8 +6139,12 @@ for (;;)
           }
         while (eptr >= pp)
           {
-          if ((rrc = match(eptr--, ecode, offset_top, md, ims, eptrb, 0)) !=
+          if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
                MATCH_NOMATCH) return rrc;
+          else {
+              if (eptr == pp) break;
+              eptr--;
+          }
           BACKCHAR(eptr)
           }
         return MATCH_NOMATCH;
@@ -6255,6 +6270,9 @@ for (;;)
            {
            if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
                 MATCH_NOMATCH) return rrc;
+           else {
+               if (eptr == pp) break;
+           }
            eptr -= len;
            }
           return MATCH_NOMATCH;
@@ -6314,8 +6332,12 @@ for (;;)
           eptr++;
           }
         while (eptr >= pp)
-          if ((rrc = match(eptr--, ecode, offset_top, md, ims, eptrb, 0)) !=
+          if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
                MATCH_NOMATCH) return rrc;
+          else {
+              if (eptr == pp) break;
+              eptr--;
+          }
         return MATCH_NOMATCH;
         }
       /* Control never gets here */
@@ -6347,8 +6369,12 @@ for (;;)
           eptr++;
           }
         while (eptr >= pp)
-         if ((rrc = match(eptr--, ecode, offset_top, md, ims, eptrb, 0)) !=
+         if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
               MATCH_NOMATCH) return rrc;
+         else {
+             if (eptr == pp) break;
+             eptr--;
+         }
         return MATCH_NOMATCH;
         }
       }
@@ -6509,6 +6535,9 @@ for (;;)
             {
             if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
                  MATCH_NOMATCH) return rrc;
+            else {
+                if (eptr == pp) break;
+            }
             eptr--;
             BACKCHAR(eptr);
             }
@@ -6526,6 +6555,9 @@ for (;;)
             {
             if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
                  MATCH_NOMATCH) return rrc;
+            else {
+                if (eptr == pp) break;
+            }
             eptr--;
             }
           }
@@ -6614,6 +6646,9 @@ for (;;)
             {
             if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
                 MATCH_NOMATCH) return rrc;
+            else {
+                if (eptr == pp) break;
+            }
             eptr--;
             BACKCHAR(eptr);
             }
@@ -6631,6 +6666,9 @@ for (;;)
             {
             if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
                 MATCH_NOMATCH) return rrc;
+            else {
+                if (eptr == pp) break;
+            }
             eptr--;
             }
           }
@@ -7070,8 +7108,12 @@ for (;;)
 
         while (eptr >= pp)
           {
-          if ((rrc = match(eptr--, ecode, offset_top, md, ims, eptrb, 0)) !=
+          if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
                MATCH_NOMATCH) return rrc;
+          else {
+              if (eptr == pp) break;
+              eptr--;
+          }
           BACKCHAR(eptr);
           }
         }
@@ -7159,8 +7201,12 @@ for (;;)
 
         while (eptr >= pp)
           {
-          if ((rrc = match(eptr--, ecode, offset_top, md, ims, eptrb, 0)) !=
+          if ((rrc = match(eptr, ecode, offset_top, md, ims, eptrb, 0)) !=
                MATCH_NOMATCH) return rrc;
+          else {
+              if (eptr == pp) break;
+              eptr--;
+          }
           }
         }
 
