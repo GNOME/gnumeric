@@ -1662,6 +1662,9 @@ wbcg_set_toolbar_visible (GtkWidget *w, int visible)
 	if (w == NULL)
 		return -1;
 
+	g_print ("length=%d\n",
+		 g_list_length (gtk_container_get_children (w)));
+
 	is_visible = GTK_WIDGET_VISIBLE (w);
 	switch (visible) {
 	case -1:

@@ -1,6 +1,9 @@
 2004-04-05  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_add_menus_toolbars): Identify toolbars.
+	(cb_handlebox_popup): Remove this.
+	(cb_handlebox_dock_status): Fiddle with style to work around
+	gtk_handle_box bug.
 
 	* src/workbook-control-gui.c (wbcg_set_standard_toolbar_visible,
 	wbcg_set_format_toolbar_visible, wbcg_set_object_toolbar_visible,
