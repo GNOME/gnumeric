@@ -34,18 +34,28 @@ typedef struct {
 	GSList *views;
 
 	int      frozen;
-	gboolean need_update;
+	int      dirty_flags;
 
 	/*
 	 * Number of series we hold
 	 */
-	int      n_series;
-	Series   *series;
+	int         n_series;
+	GraphVector *vectors;
+
+	/*
+	 * Series boundings
+	 */
+	double      low, high;
+	double      real_low, real_high;
 } Graph;
 
 typedef struct {
 	GnomeObjectClass parent_class;
 } GraphClass;
+
+#define DIRTY_BBOX  1
+#define DIRTY_TYPE  2
+#define DIRTY_SHAPE 4
 
 GtkType     graph_get_type      (void);
 Graph      *graph_new           (void);

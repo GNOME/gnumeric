@@ -188,6 +188,9 @@ module GNOME {
 			//
 			void freeze ();
 			void thaw ();
+
+			void reset_series ();
+			void add_series (in string label, in Vector vector);
 		};
 	};
 };

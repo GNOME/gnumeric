@@ -26,11 +26,12 @@ module GNOME {
 		};
 
 		union VecValue switch (short) {
-		case VALUE_BOOLEAN: boolean v_bool;
 		case VALUE_FLOAT:   double v_float;
-		case VALUE_INTEGER: long v_int;
 		case VALUE_STRING:  string str;
 		};
+
+		typedef sequence<VecValue> VecValueVec;
+		typedef sequence<double>   DoubleVec;
 	};
 };
 	

@@ -10,10 +10,6 @@
 #define IS_GRAPH_VIEW(o)       (GTK_CHECK_TYPE ((o), GRAPH_VIEW_TYPE))
 #define IS_GRAPH_VIEW_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GRAPH_VIEW_TYPE))
 
-#define DIRTY_BBOX  1
-#define DIRTY_TYPE  2
-#define DIRTY_SHAPE 4
-
 struct _GraphView {
 	GnomeCanvasItem base;
 

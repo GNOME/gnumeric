@@ -25,21 +25,21 @@ graph_destroy (GtkObject *object)
 }
 
 static void
-graph_update (Graph *graph)
+graph_update (Graph *graph, int dirty_flags)
 {
 	GSList *l;
 
-	if (graph->frozen){
-		graph->need_update = TRUE;
+	graph->dirty_flags |= dirty_flags;
+
+	if (graph->frozen)
 		return;
-	}
-	
+
 	for (l = graph->views; l; l = l->next){
 		GraphView *graph_view = GRAPH_VIEW (l->data);
 
-		graph_view_update (graph_view);
+		graph_view_update (graph_view, graph->dirty_flags);
 	}
-	graph->need_update = FALSE;
+	graph->dirty_flags = 0;
 }
 
 GNOME_Graph_ChartType
@@ -50,8 +50,96 @@ impl_graph_get_chart_type (PortableServer_Servant servant, CORBA_Environment * e
 	return graph->chart_type;
 }
 
+static void
+graph_compute_divisions (Graph *graph)
+{
+	const int n = graph->n_series;
+	int i;
+	int len = 0;
+
+	/* Compute max lenght */
+	for (i = 0; i < n; i++){
+		int l;
+
+		l = graph_vector_count (graph->vectors [i]);
+
+		if (l > len)
+			len = l;
+	}
+	if (len == 0)
+		len = 1;
+	
+	graph->divisions = len;
+}
+
+static void
+graph_set_low_high (Graph *graph, double low, double high)
+{
+	graph->low = low;
+	graph->high = high;
+	graph->real_low = low;
+	graph->real_high = high;
+}
+
+static void
+graph_compute_dimensions (Graph *graph)
+{
+	const int n = graph->n_series;
+	double low = 0.0, high = 0.0;
+	int i;
+
+	graph_compute_divisions (graph);
+	
+	for (i = 0; i < n; i++){
+		double l, h;
+		
+		graph_vector_low_high (graph->vectors [i], &l, &h);
+		if (l < low)
+			low = l;
+		if (h > high)
+			high = h;
+	}
+	graph_set_low_high (graph, low, high);
+}
+
+static void
+graph_compute_stacked_dimensions (Graph *graph)
+{
+	const int n = graph->n_series;
+	int len = 0;
+	double high, low;
+
+	graph_compute_divisions (graph);
+	high = low = 0.0;
+	
+	for (x = 0; x < len; x++){
+		double s_high;
+		doublw s_low;
+
+		s_high = s_low = 0.0;
+		
+		for (i = 0; i < n; i++){
+			double v;
+			
+			v = graph_vector_get_double (graph->vectors [i], x);
+
+			if (v < 0)
+				s_low += v;
+			else
+				s_high += v;
+		}
+		if (s_low < low)
+			low = s_low;
+		if (s_high > high)
+			high = s_high;
+	}
+	graph_set_low_high (graph, low, high);
+}
+
 void
-impl_graph_set_chart_type (PortableServer_Servant servant, GNOME_Graph_ChartType value, CORBA_Environment * ev)
+impl_graph_set_chart_type (PortableServer_Servant servant,
+			   GNOME_Graph_ChartType value,
+			   CORBA_Environment * ev)
 {
 	Graph *graph = graph_from_servant (servant);
 
@@ -61,13 +149,16 @@ impl_graph_set_chart_type (PortableServer_Servant servant, GNOME_Graph_ChartType
 	graph->chart_type = value;
 	switch (value){
 	case GNOME_Graph_CHART_TYPE_CLUSTERED:
+		graph_compute_dimensions (graph);
 		break;
 		
 	case GNOME_Graph_CHART_TYPE_STACKED:
-		graph_compute_series_sum_max (graph);
+		graph_compute_stacked_dimensions (graph);
+		break;
 		
 	case GNOME_Graph_CHART_TYPE_STACKED_FULL:
-		
+		graph_compute_stacked_dimensions (graph);
+		break;
 	}
 	
 	graph_update (graph);
@@ -258,8 +349,8 @@ impl_graph_thaw (PortableServer_Servant servant, CORBA_Environment * ev)
 	Graph *graph = graph_from_servant (servant);
 
 	graph->frozen--;
-	if (graph->frozen == 0 && graph->need_update)
-		graph_update (graph);
+	if ((graph->frozen == 0) && (graph->dirty_flags != 0))
+		graph_update (graph, 0);
 }
 
 static void
@@ -309,6 +400,7 @@ graph_class_init (GtkObjectClass *object_class)
 static void
 graph_init (GtkObject *object)
 {
+	graph->dirty_flags = 0;
 }
 
 GtkType
