@@ -1,3 +1,8 @@
+2002-03-23  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* lpkit.[ch] (unscale, lp_solve_is_feasible, get_constraint_value,
+	lp_solve_reset_basis, lp_solve_get_row, mat_elm): Removed.
+
 2002-03-22  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solve.c (iteration): Add checking of the elapsed time.

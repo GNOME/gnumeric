@@ -1,11 +1,25 @@
 /*
-  Main header file of the LP_SOLVE toolkit.
-  
-  Original by Jeroen Dirks, 21-2-95
-  Maintained by Michel Berkelaar
-
-  Glib & Gnumeric bindings by Jukka-Pekka Iivonen, 2002
-*/
+ * Main header file of the LP_SOLVE toolkit.
+ *
+ * Original by Jeroen Dirks, 21-2-95
+ * Maintained by Michel Berkelaar
+ *
+ * Glib & Gnumeric bindings by Jukka-Pekka Iivonen, 2002
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
 
 #include <glib.h>
 #include "numbers.h"
@@ -16,7 +30,7 @@
 #include <glib.h>
 
 
-#define DEFNUMINV 50
+#define DEFNUMINV        50
 #define INITIAL_MAT_SIZE 10000
 
 /* lag_solve extra status values */
@@ -280,8 +294,6 @@ typedef struct _lprec
 
 /* function interface for the user */
 
-lprec *lp_solve_init (int n_vars, int n_constraints);
-
 lprec      *lp_solve_make_lp (int rows, int columns);
 /* create and initialise a lprec structure
    defaults:
@@ -294,9 +306,6 @@ lprec      *lp_solve_make_lp (int rows, int columns);
    no scaling
    default basis */
 
-lprec      *read_lp_file (FILE *input, gboolean verbose, nstring lp_name);
-/* create and read an .lp file from input (input must be open) */
-
 void       lp_solve_delete_lp (lprec *lp);
 /* Remove problem from memory */
 
@@ -306,35 +315,12 @@ void lp_solve_set_max_iter (lprec *lp, int max);
 void lp_solve_set_max_time (lprec *lp, int max, gnum_float st);
 /* Set the maximum time. */
 
-lprec      *copy_lp (lprec *lp);
-/* copy a lp structure */
-
 void       lp_solve_set_mat (lprec *lp, int row, int column, gnum_float value);
 /* fill in element (Row,Column) of the matrix
    Row in [0..Rows] and Column in [1..Columns] */
 
 void       lp_solve_set_obj_fn (lprec *lp, int col, gnum_float value);
 /* set the objective function of the matrix */
-void       str_set_obj_fn (lprec *lp, char *row);
-/* The same, but with string input */
-
-void       lp_solve_add_constraint (lprec *lp, gnum_float *row,
-				    SolverConstraintType constr_type,
-				    gnum_float rh);
-/* Add a constraint to the problem,
-   row is the constraint row,
-   rh is the right hand side,
-   constr_type is the type of constraint (SolverLE (<=), SolverGE(>=), 
-   SolverEQ(=)) */
-void       str_add_constraint (lprec *lp, char *row_string, 
-			       SolverConstraintType constr_type,
-			       gnum_float rh);
-/* The same, but with string input */
-
-/* add a Lagrangian constraint of form Row' x contype Rhs */
-void       str_add_lag_con (lprec *lp, char *row,
-			    SolverConstraintType con_type, gnum_float rhs);
-/* The same, but with string input */
 
 void       lp_solve_set_upbo (lprec *lp, int column, gnum_float value);
 /* Set the upperbound of a variable */
@@ -359,30 +345,11 @@ void       lp_solve_set_constr_type (lprec *lp, int row,
 				     SolverConstraintType con_type);
 /* Set the type of constraint in row Row (SolverLE, SolverGE, SolverEQ) */
 
-void       set_row_name (lprec *lp, int row, nstring new_name);
-/* Set the name of a constraint row, make sure that the name has < 25 characters */
-
-void       set_col_name (lprec *lp, int column, nstring new_name);
-/* Set the name of a varaible column, make sure that the name has < 25
- * characters */
-
 void       lp_solve_auto_scale (lprec *lp);
 /* Automatic scaling of the problem */
 
 SolverStatus lp_solve_solve (lprec *lp);
 /* Solve the problem */
-
-gnum_float mat_elm (lprec *lp, int row, int column);
-/* get a single element from the matrix */
-
-void       lp_solve_get_row (lprec *lp, int row_nr, gnum_float *row);
-/* fill row with the row row_nr from the problem */
-
-void       get_column (lprec *lp, int col_nr, gnum_float *column);
-/* fill column with the column col_nr from the problem */
-
-gboolean   lp_solve_is_feasible (lprec *lp, gnum_float *values);
-/* returns TRUE if the vector in values is a feasible solution to the lp */
 
 void       lp_solve_print_lp (lprec *lp);
 /* Print the current problem, only usefull in very small (test) problems. 
@@ -390,12 +357,6 @@ void       lp_solve_print_lp (lprec *lp);
 
 void       lp_solve_print_solution (lprec *lp);
 /* Print the solution to stdout */
-
-void       print_duals (lprec *lp);
-/* Print the dual variables of the solution */
-
-void       print_scales (lprec *lp);
-/* If scaling is used, print the scaling factors */
 
 gnum_float lp_solve_get_solution (lprec *lp, int column);
 /* returns the value of a variable at the given column */
@@ -405,10 +366,6 @@ gnum_float lp_solve_get_value_of_obj_fn (lprec *lp);
 
 gnum_float lp_solve_get_dual (lprec *lp, int row);
 /* returns the value of a dual. */
-
-void lp_solve_set_constr_mat (lprec *lp, int col, int row, gnum_float value);
-void lp_solve_set_constr_rhs (lprec *lp, int row, gnum_float value);
-void lp_solve_set_constr_type (lprec *lp, int row, SolverConstraintType type);
 
 /* functions used internaly by the lp toolkit */
 void       lp_solve_unscale_columns (lprec *lp);

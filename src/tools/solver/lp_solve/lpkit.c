@@ -1,3 +1,26 @@
+/*
+ * lpkit.c: LP SOLVE Toolkit.
+ *
+ * Authors:
+ *   Jeroen Dirks (jeroend@tor.numetrix.com)
+ *   Michel Berkelaar (michel@ics.ele.tue.nl)
+ *   Jukka-Pekka Iivonen (jiivonen@hutcs.cs.hut.fi)
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License, version 2, as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
 #include <glib.h>
 #include "lpkit.h"
 #include "lpglob.h"
@@ -446,101 +469,7 @@ lp_solve_set_constr_type (lprec *lp, int row, SolverConstraintType con_type)
 	        g_print ("Constraint type not (yet) implemented");
 }
 
-#if 0
-gnum_float
-mat_elm (lprec *lp, int row, int column)
-{
-        gnum_float value;
-	int elmnr;
-	if (row < 0 || row > lp->rows)
-	        g_print ("Row out of range in mat_elm");
-	if (column < 1 || column > lp->columns)
-	        g_print ("Column out of range in mat_elm");
-	value = 0;
-	elmnr = lp->col_end[column-1];
-	while (lp->mat[elmnr].row_nr != row && elmnr < lp->col_end[column])
-	        elmnr++;
-	if (elmnr != lp->col_end[column]) {
-	        value = lp->mat[elmnr].value;
-		if (lp->ch_sign[row])
-		        value = -value;
-		if (lp->scaling_used)
-		        value /= lp->scale[row] * lp->scale[lp->rows + column];
-	}
-	return (value);
-}
-#endif
-
-void
-lp_solve_get_row (lprec *lp, int row_nr, gnum_float *row)
-{
-        int i, j;
-	
-	if (row_nr <0 || row_nr > lp->rows)
-	        g_print ("Row nr. out of range in get_row");
-	for (i = 1; i <= lp->columns; i++) {
-	        row[i] = 0;
-		for (j = lp->col_end[i - 1]; j < lp->col_end[i]; j++)
-		        if (lp->mat[j].row_nr == row_nr)
-			        row[i] = lp->mat[j].value;
-		if (lp->scaling_used)
-		        row[i] /= lp->scale[lp->rows + i] * lp->scale[row_nr];
-	}
-	if (lp->ch_sign[row_nr])
-	        for (i = 0; i <= lp->columns; i++)
-		        if (row[i] != 0)
-			        row[i] = -row[i];
-}
-
-#if 0
-gboolean
-lp_solve_is_feasible (lprec *lp, gnum_float *values)
-{
-        int        i, elmnr;
-	gnum_float *this_rhs;
-	gnum_float dist;
-
-	if (lp->scaling_used) {
-	        for (i = lp->rows + 1; i <= lp->sum; i++)
-		        if (values[i - lp->rows] < lp->orig_lowbo[i] *
-			    lp->scale[i]
-			    || values[i - lp->rows] > lp->orig_upbo[i] *
-			    lp->scale[i])
-			        return FALSE;
-	} else {
-	        for (i = lp->rows + 1; i <= lp->sum; i++)
-		        if (values[i - lp->rows] < lp->orig_lowbo[i]
-			    || values[i - lp->rows] > lp->orig_upbo[i])
-			        return FALSE;
-	}
-	this_rhs = g_new (gnum_float, lp->rows + 1);
-	if (lp->columns_scaled) {
-	        for (i = 1; i <= lp->columns; i++)
-		        for (elmnr = lp->col_end[i - 1];
-			     elmnr < lp->col_end[i]; elmnr++)
-			        this_rhs[lp->mat[elmnr].row_nr] +=
-				        lp->mat[elmnr].value * values[i] /
-				        lp->scale[lp->rows + i];
-	} else {
-	        for (i = 1; i <= lp->columns; i++)
-		        for (elmnr = lp->col_end[i - 1];
-			     elmnr < lp->col_end[i]; elmnr++)
-			        this_rhs[lp->mat[elmnr].row_nr] +=
-				        lp->mat[elmnr].value * values[i];
-	}
-	for (i = 1; i <= lp->rows; i++) {
-	        dist = lp->orig_rh[i] - this_rhs[i];
-		my_round (dist, 0.001); /* ugly constant, MB */
-		if ((lp->orig_upbo[i] == 0 && dist != 0) || dist < 0) {
-		        g_free (this_rhs);
-			return FALSE;
-		}     
-	} 
-	g_free (this_rhs);
-	return TRUE;
-}
-#endif
-
+/* This is useful for debugging. */
 void
 lp_solve_print_lp (lprec *lp)
 {
@@ -678,53 +607,6 @@ lp_solve_unscale_columns (lprec *lp)
 	lp->eta_valid = FALSE;
 }
 
-#if 0
-void
-unscale (lprec *lp)
-{
-        int i, j;
-  
-	if (lp->scaling_used) {
-	        /* unscale mat */
-	        for (j = 1; j <= lp->columns; j++)
-		        for (i = lp->col_end[j - 1]; i < lp->col_end[j]; i++)
-			        lp->mat[i].value /= lp->scale[lp->rows + j];
-
-		/* unscale bounds */
-		for (i = lp->rows + 1; i <= lp->sum; i++) { /* was <, changed 
-							     * by PN */
-		        if (lp->orig_lowbo[i] != 0)
-			        lp->orig_lowbo[i] *= lp->scale[i];
-			if (lp->orig_upbo[i] != lp->infinite)
-			        lp->orig_upbo[i] *= lp->scale[i];
-		}
-    
-		/* unscale the matrix */
-		for (j = 1; j <= lp->columns; j++)
-		        for (i = lp->col_end[j-1]; i < lp->col_end[j]; i++)
-			        lp->mat[i].value /= 
-					lp->scale[lp->mat[i].row_nr];
-
-		/* unscale the rhs! */
-		for (i = 0; i <= lp->rows; i++)
-		        lp->orig_rh[i] /= lp->scale[i];
-
-		/* and don't forget to unscale the upper and lower 
-		 * bounds ... */
-		for (i = 0; i <= lp->rows; i++) {
-		        if (lp->orig_lowbo[i] != 0)
-			        lp->orig_lowbo[i] /= lp->scale[i];
-			if (lp->orig_upbo[i] != lp->infinite)
-			        lp->orig_upbo[i] /= lp->scale[i];
-		}
-
-		g_free (lp->scale);
-		lp->scaling_used = FALSE;
-		lp->eta_valid = FALSE;
-	}
-}
-#endif
-
 void
 lp_solve_auto_scale (lprec *lp)
 {
@@ -827,20 +709,7 @@ lp_solve_auto_scale (lprec *lp)
 	lp->eta_valid = FALSE;
 }
 
-#if 0
-void
-lp_solve_reset_basis (lprec *lp)
-{
-        lp->basis_valid = FALSE;
-}
-
-gnum_float
-get_constraint_value (lprec *lp, int row)
-{
-        return lp->best_solution[row + 1];
-}
-#endif
-
+/* This is useful for debugging. */
 void
 lp_solve_print_solution (lprec *lp)
 {
