@@ -65,11 +65,11 @@ gnumeric_abs (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
 static char *help_acos = {
 	N_("@FUNCTION=ACOS\n"
-	   "@SYNTAX=ACOS(b1)\n"
+	   "@SYNTAX=ACOS(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ACOS function calculates the arc cosine of b1; that "
-	   " is the value whose cosine is b1.  If b1  falls  outside  the "
+	   "The ACOS function calculates the arc cosine of x; that "
+	   " is the value whose cosine is x.  If x  falls  outside  the "
 	   " range -1 to 1, ACOS fails and returns the error 'acos - domain error'. "
 	   " The value it returns is in radians. "
 	   "\n"
@@ -94,12 +94,12 @@ gnumeric_acos (struct FunctionDefinition *i, Value *argv [], char **error_string
 
 static char *help_acosh = {
 	N_("@FUNCTION=ACOSH\n"
-	   "@SYNTAX=ACOSH(b1)\n"
+	   "@SYNTAX=ACOSH(x)\n"
 
 	   "@DESCRIPTION="
 	   "The ACOSH  function  calculates  the inverse hyperbolic "
-	   "cosine of b1; that is the value whose hyperbolic cosine  is "
-	   "b1.   If  b1  is less than 1.0, acosh() returns the error     "
+	   "cosine of x; that is the value whose hyperbolic cosine is "
+	   "x. If x is less than 1.0, acosh() returns the error "
 	   " 'acosh - domain error'"
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
@@ -193,11 +193,11 @@ gnumeric_and (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 
 static char *help_asin = {
 	N_("@FUNCTION=ASIN\n"
-	   "@SYNTAX=ASIN(b1)\n"
+	   "@SYNTAX=ASIN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ASIN function calculates the arc sine of b1; that is "
-	   "the value whose sine is b1.  If b1 falls outside  the  range "
+	   "The ASIN function calculates the arc sine of x; that is "
+	   "the value whose sine is x. If x falls outside  the  range "
 	   "-1 to 1, ASIN fails and returns the error 'asin - domain error'   "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
@@ -221,11 +221,11 @@ gnumeric_asin (struct FunctionDefinition *i, Value *argv [], char **error_string
 
 static char *help_asinh = {
 	N_("@FUNCTION=ASINH\n"
-	   "@SYNTAX=ASINH(b1)\n"
+	   "@SYNTAX=ASINH(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ASIN  function  calculates  the inverse hyperbolic "
-	   " sine of b1; that is the value whose hyperbolic sine is b1. "
+	   "The ASINH  function  calculates  the inverse hyperbolic "
+	   " sine of x; that is the value whose hyperbolic sine is x. "
 	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
@@ -242,11 +242,11 @@ gnumeric_asinh (struct FunctionDefinition *i, Value *argv [], char **error_strin
 
 static char *help_atan = {
 	N_("@FUNCTION=ATAN\n"
-	   "@SYNTAX=ATAN(b1)\n"
+	   "@SYNTAX=ATAN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The ATAN function calculates the arc tangent of b1; that "
-	   " is the value whose tangent is b1."
+	   "The ATAN function calculates the arc tangent of x; that "
+	   " is the value whose tangent is x."
 	   "Return value is in radians."
 	   "\n"
 
@@ -265,12 +265,12 @@ gnumeric_atan (struct FunctionDefinition *i, Value *argv [], char **error_string
 
 static char *help_atanh = {
 	N_("@FUNCTION=ATANH\n"
-	   "@SYNTAX=ATANH(b1)\n"
+	   "@SYNTAX=ATANH(x)\n"
 
 	   "@DESCRIPTION="
 	   "The  ATANH  function  calculates  the inverse hyperbolic "
-	   "tangent of b1; that is the value whose  hyperbolic  tangent "
-	   "is  b1.   If  the  absolute value of b1 is greater than 1.0, "
+	   "tangent of x; that is the value whose  hyperbolic  tangent "
+	   "is  x.   If  the  absolute value of x is greater than 1.0, "
 	   " ATANH returns an error of 'atanh: domain error'      "
 	   "\n"
 
@@ -294,7 +294,7 @@ gnumeric_atanh (struct FunctionDefinition *i, Value *argv [], char **error_strin
 }
 
 static char *help_atan2 = {
-	N_("@FUNCTION=ATAN2"
+	N_("@FUNCTION=ATAN2\n"
 	   "@SYNTAX=ATAN2(b1,b2)\n"
 
 	   "@DESCRIPTION="
@@ -306,7 +306,6 @@ static char *help_atan2 = {
 	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."  
 	   "\n"
 	   "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS")
 };
@@ -320,7 +319,7 @@ gnumeric_atan2 (struct FunctionDefinition *i, Value *argv [], char **error_strin
 
 static char *help_average = {
 	N_("@FUNCTION=AVERAGE\n"
-	   "@SYNTAX=AVERAGE(value1, value2,...)"
+	   "@SYNTAX=AVERAGE(value1, value2,...)\n"
 
 	   "@DESCRIPTION="
 	   "Computes the average of all the values and cells referenced in the "
@@ -365,10 +364,10 @@ gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_ro
 
 static char *help_ceil = {
 	N_("@FUNCTION=CEIL\n"
-	   "@SYNTAX=CEIL(b1)\n"
+	   "@SYNTAX=CEIL(x)\n"
 
-	   "@DESCRIPTION=The CEIL function rounds b1 up to the next nearest"
-	   "integer."
+	   "@DESCRIPTION=The CEIL function rounds x up to the next nearest "
+	   "integer.\n"
 
 	   "Performing this function on a string or empty cell simply does nothing."
 	   "\n"
@@ -383,12 +382,12 @@ gnumeric_ceil (struct FunctionDefinition *i, Value *argv [], char **error_string
 }
 
 static char *help_bin2dec = {
-	N_("@FUNCTION=BIN2DEC("
-	   "@SYNTAX=BIN2DEC(b1)\n"
+	N_("@FUNCTION=BIN2DEC\n"
+	   "@SYNTAX=BIN2DEC(x)\n"
 
 	   "@DESCRIPTION="
-	   "The BIN2DEC function coverts a binary number "
-	   "in string or number to its decimal equilivent."
+	   "The BIN2DEC function converts a binary number "
+	   "in string or number to its decimal equivalent."
 	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing."
@@ -434,10 +433,10 @@ gnumeric_bin2dec (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_cos = {
 	N_("@FUNCTION=COS\n"
-	   "@SYNTAX=COS(b1)\n"
+	   "@SYNTAX=COS(x)\n"
 
 	   "@DESCRIPTION="
-	   "The  COS  function  returns  the cosine of b1, where b1 is "
+	   "The  COS  function  returns  the cosine of x, where x is "
            "given in radians.  "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
@@ -454,12 +453,12 @@ gnumeric_cos (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
 static char *help_cosh = {
 	N_("@FUNCTION=COSH\n"
-	   "@SYNTAX=COSH(b1)\n"
+	   "@SYNTAX=COSH(x)\n"
 
 	   "@DESCRIPTION="
-	   "The COSH  function  returns the hyperbolic cosine of b1, "
-	   " which is defined mathematically as (exp(b1) + exp(-b1)) / 2.   "
-	   " b1 is in radians. "
+	   "The COSH  function  returns the hyperbolic cosine of x, "
+	   " which is defined mathematically as (exp(x) + exp(-x)) / 2.   "
+	   " x is in radians. "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
@@ -523,11 +522,11 @@ gnumeric_count (void *tsheet, GList *expr_node_list, int eval_col, int eval_row,
 
 static char *help_degrees = {
 	N_("@FUNCTION=DEGREES\n"
-	   "@SYNTAX=DEGREES(b1)\n"
+	   "@SYNTAX=DEGREES(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the number of degrees equilivent to "
-	   " b1 radians."
+	   "Computes the number of degrees equivalent to "
+	   " x radians."
 	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
@@ -544,11 +543,11 @@ gnumeric_degrees (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_exp = {
 	N_("@FUNCTION=EXP\n"
-	   "@SYNTAX=EXP(b1)\n"
+	   "@SYNTAX=EXP(x)\n"
 
 	   "@DESCRIPTION="
 	   "Computes the value of e(the base of natural logarithmns) raised "
-	   "to the power of b1. "
+	   "to the power of x. "
 	   "\n"
 	   "Performing this function on a string or empty cell returns an error."
 	   "\n"
@@ -571,10 +570,10 @@ fact (int n)
 
 static char *help_fact = {
 	N_("@FUNCTION=FACT\n"
-	   "@SYNTAX=FACT(b1)\n"
+	   "@SYNTAX=FACT(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the factorial of b1. ie, b1!"
+	   "Computes the factorial of x. ie, x!"
 	   "\n"
 	   "Performing this function on a string or empty cell returns an error"
 	   "\n"
@@ -618,9 +617,9 @@ gnumeric_fact (struct FunctionDefinition *id, Value *argv [], char **error_strin
 
 static char *help_floor = {
 	N_("@FUNCTION=FLOOR\n"
-	   "@SYNTAX=FLOOR(b1)\n"
+	   "@SYNTAX=FLOOR(x)\n"
 
-	   "@DESCRIPTION=The FLOOR function rounds b1 down to the next nearest"
+	   "@DESCRIPTION=The FLOOR function rounds x down to the next nearest"
 	   "integer."
 	   "\n"
 
@@ -642,7 +641,7 @@ static char *help_int = {
 	   "@DESCRIPTION="
 	   "The INT function round b1 now to the nearest int. "
 	   "Where 'nearest' implies being closer to zero. "
-	   "Eqilivent to FLOOR(b1) for b1 >0, amd CEIL(b1) "
+	   "Equivalent to FLOOR(b1) for b1 >0, amd CEIL(b1) "
 	   "for b1 < 0. " 
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing."
@@ -663,10 +662,10 @@ gnumeric_int (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
 static char *help_log = {
 	N_("@FUNCTION=LOG\n"
-	   "@SYNTAX=LOG(b1)\n"
+	   "@SYNTAX=LOG(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the natural logarithm  of b1. "
+	   "Computes the natural logarithm  of x. "
 	   "\n"
 	   "Performing this function on a string or empty cell returns an error. "
 	   "\n"
@@ -688,10 +687,10 @@ gnumeric_log (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
 static char *help_log2 = {
 	N_("@FUNCTION=LOG2"
-	   "@SYNTAX=LOG2(b1)\n"
+	   "@SYNTAX=LOG2(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the base-2 logarithm  of b1. "
+	   "Computes the base-2 logarithm  of x. "
 	   "\n"
 	   "Performing this function on a string or empty cell returns an error. "
 	   "\n"
@@ -713,10 +712,10 @@ gnumeric_log2 (struct FunctionDefinition *i, Value *argv [], char **error_string
 
 static char *help_log10 = {
 	N_("@FUNCTION=LOG10"
-	   "@SYNTAX=LOG10(b1)\n"
+	   "@SYNTAX=LOG10(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the base-10 logarithm  of b1. "
+	   "Computes the base-10 logarithm  of x. "
 	   "\n"
 
 	   "Performing this function on a string or empty cell returns an error. "
@@ -925,11 +924,11 @@ gnumeric_or (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, ch
 
 static char *help_radians = {
 	N_("@FUNCTION=RADIANS\n"
-	   "@SYNTAX=RADIANS(b1)\n"
+	   "@SYNTAX=RADIANS(x)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the number of radians equilivent to  "
-	   "b1 degrees. "
+	   "Computes the number of radians equivalent to  "
+	   "x degrees. "
 	   "\n"
 
 	   "Performing this function on a string or empty cell simply does nothing. "
@@ -946,10 +945,10 @@ gnumeric_radians (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_sin = {
 	N_("@FUNCTION=SIN\n"
-	   "@SYNTAX=SIN(b1)\n"
+	   "@SYNTAX=SIN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The SIN function returns the sine of b1, where b1 is given "
+	   "The SIN function returns the sine of x, where x is given "
            " in radians. "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
@@ -966,12 +965,12 @@ gnumeric_sin (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
 static char *help_sinh = {
 	N_("@FUNCTION=SINH\n"
-	   "@SYNTAX=SINH(b1)\n"
+	   "@SYNTAX=SINH(x)\n"
 
 	   "@DESCRIPTION="
-	   "The SINH  function  returns  the  hyperbolic sine of b1, "
-	   "which is defined mathematically as (exp(b1) - exp(-b1)) / 2. "
-	   " b1 is in radians. "
+	   "The SINH  function  returns  the  hyperbolic sine of x, "
+	   "which is defined mathematically as (exp(x) - exp(-x)) / 2. "
+	   " x is in radians. "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
@@ -1051,10 +1050,10 @@ gnumeric_sum (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 
 static char *help_tan = {
 	N_("@FUNCTION=TAN\n"
-	   "@SYNTAX=TAN(b1)\n"
+	   "@SYNTAX=TAN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The TAN function  returns the tangent of b1, where b1 is "
+	   "The TAN function  returns the tangent of x, where x is "
 	   "given in radians. "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
@@ -1071,11 +1070,11 @@ gnumeric_tan (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
 static char *help_tanh = {
 	N_("@FUNCTION=TANH\n"
-	   "@SYNTAX=TANH(b1)\n"
+	   "@SYNTAX=TANH(x)\n"
 
 	   "@DESCRIPTION="
-	   " The TANH function returns the hyperbolic tangent of b1, "
-	   " which is defined mathematically as sinh(b1) / cosh(b1). "
+	   " The TANH function returns the hyperbolic tangent of x, "
+	   " which is defined mathematically as sinh(x) / cosh(x). "
 	   "\n"
 	   "Performing this function on a string or empty cell simply does nothing. "
 	   "This function only takes one argument."
