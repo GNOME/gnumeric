@@ -64,7 +64,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	    (event->state & (GDK_SHIFT_MASK|GDK_CONTROL_MASK)))
 		return FALSE;
 
-	if (scg_rangesel_possible (gsheet->scg)) {
+	if (wbcg_rangesel_possible (wbcg)) {
 		/* Ignore a few keys to avoid killing range selection cursor */
 		switch (event->keyval) {
 		case GDK_Shift_L:   case GDK_Shift_R:
@@ -150,7 +150,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	 */
 	case GDK_KP_Enter:
 	case GDK_Return:
-		if (wbcg->editing &&
+		if (wbcg_rangesel_possible (wbcg) &&
 		    (event->state == GDK_CONTROL_MASK ||
 		     event->state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
 		     event->state == GDK_MOD1_MASK))
@@ -185,7 +185,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		break;
 
 	case GDK_F4:
-		if (wbcg->editing && gsheet->sel_cursor)
+		if (gsheet->sel_cursor)
 			wbcg_edit_toggle_absolute (wbcg);
 		break;
 

@@ -558,7 +558,7 @@ is_pointer_on_division (ItemBar const *item_bar, int pos, int *the_total, int *t
 			 * it as the cursor in the entry is moved.  The current
 			 * approach recalculates the state every time.
 			 */
-			if (!scg_rangesel_possible (item_bar->scg) &&
+			if (!wbcg_rangesel_possible (item_bar->scg->wbcg) &&
 			    (total - 4 < pos) && (pos < total + 4)) {
 				if (the_total)
 					*the_total = total;

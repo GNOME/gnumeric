@@ -400,7 +400,7 @@ static void
 scg_select_all (SheetControlGUI *scg)
 {
 	Sheet *sheet = scg->sheet;
-	gboolean const rangesel = scg_rangesel_possible (scg);
+	gboolean const rangesel = wbcg_rangesel_possible (scg->wbcg);
 
 	if (!rangesel) {
 		if (!wbcg_edit_has_guru (scg->wbcg)) {
@@ -422,7 +422,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 {
 	Sheet *sheet = scg->sheet;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
-	gboolean const rangesel = scg_rangesel_possible (scg);
+	gboolean const rangesel = wbcg_rangesel_possible (scg->wbcg);
 
 	if (!rangesel)
 		wbcg_edit_finish (scg->wbcg, FALSE);
@@ -2024,34 +2024,6 @@ scg_stop_editing (SheetControlGUI *scg)
 {
 	scg_rangesel_stop (scg, FALSE);
 	gnumeric_sheet_stop_editing (GNUMERIC_SHEET (scg->canvas));
-}
-
-/**
- * scg_rangesel_possible
- * @scg : the sheet control gui
- *
- * Returns true if the cursor keys should be used to select
- * a cell range (if the cursor is in a spot in the expression
- * where it makes sense to have a cell reference), false if not.
- */
-gboolean
-scg_rangesel_possible (SheetControlGUI const *scg)
-{
-	WorkbookControlGUI const *wbcg;
-
-	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), FALSE);
-
-	wbcg = scg->wbcg;
-	if (wbcg_edit_entry_redirect_p (wbcg))
-		return TRUE;
-
-	if (!wbcg->editing)
-		return FALSE;
-
-	if (scg->rangesel.active)
-		return TRUE;
-
-	return wbcg_editing_expr (wbcg);
 }
 
 /**

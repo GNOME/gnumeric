@@ -126,7 +126,6 @@ void scg_make_cell_visible	(SheetControlGUI  *scg, int col, int row,
 void scg_create_editor		(SheetControlGUI *scg);
 void scg_stop_editing		(SheetControlGUI *scg);
 
-gboolean scg_rangesel_possible	    (SheetControlGUI const *scg);
 void	 scg_rangesel_start	    (SheetControlGUI *scg, int col, int row);
 void	 scg_rangesel_stop	    (SheetControlGUI *scg, gboolean clear_str);
 void	 scg_rangesel_extend_to	    (SheetControlGUI *scg, int col, int row);

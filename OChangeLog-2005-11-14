@@ -1,5 +1,24 @@
 2001-05-16  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-bar.c (is_pointer_on_division) : Use
+	  wbcg_rangesel_possible.
+	* src/item-grid.c (item_grid_button_1) :  ditto.
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : ditto.
+	* src/sheet-control-gui.c (scg_select_all) : ditto.
+	(scg_colrow_select) : ditto.
+	(scg_construct) : ensure we start with focus.
+	(scg_rangesel_possible) : move from here.
+
+	* src/workbook-control-gui.c (wbcg_rangesel_possible) : to here.
+	(cb_notebook_switch_page) : expand the logic slightly to correct gurus.
+
+	* src/workbook-edit.c (wbcg_edit_finish) : always check for rangesel.
+
+	* src/parse-util.c (gnumeric_char_start_expr_p) : improve handling of
+	  NULL.
+
+2001-05-16  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook-edit.c (wbcg_edit_finish) : stop the current rangesel,
 	  not rangesel on the current display sheet.
 

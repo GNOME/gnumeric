@@ -241,7 +241,12 @@ cellref_get (CellRef *out, char const *in, CellPos const *pos)
 char const *
 gnumeric_char_start_expr_p (char const * c)
 {
-	char c0 = *c;
+	char c0;
+	
+	if (NULL == c)
+		return NULL;
+
+	c0 = *c;
 
 	if (c0 == '=' || c0 == '@')
 		return c + 1;

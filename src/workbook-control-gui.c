@@ -172,6 +172,28 @@ cb_autosave (gpointer *data)
 	return TRUE;
 }
 
+/**
+ * wbcg_rangesel_possible
+ * @wbcg : the workbook control gui
+ *
+ * Returns true if the cursor keys should be used to select
+ * a cell range (if the cursor is in a spot in the expression
+ * where it makes sense to have a cell reference), false if not.
+ */
+gboolean
+wbcg_rangesel_possible (WorkbookControlGUI const *wbcg)
+{
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
+
+	if (wbcg_edit_entry_redirect_p (wbcg) || NULL != wbcg->rangesel)
+		return TRUE;
+
+	if (!wbcg->editing)
+		return FALSE;
+
+	return wbcg_editing_expr (wbcg);
+}
+
 gboolean
 wb_control_gui_is_editing (WorkbookControlGUI const *wbcg)
 {
@@ -545,6 +567,7 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 		sheet_object_new_view (ptr->data, scg);
 	scg_adjust_preferences (scg);
 	scg_set_zoom_factor (scg);
+	scg_take_focus (scg);
 }
 
 static void
@@ -1490,6 +1513,7 @@ cb_edit_goto (GtkWidget *unused, WorkbookControlGUI *wbcg)
 static void
 cb_edit_recalc (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
+	/* sheet_dump_dependencies (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))); */
 	workbook_recalc_all (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
 }
 
@@ -3041,17 +3065,16 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	if (wbcg->updating_ui)
 		return;
 
-	if (wbcg->editing) {
-		/* If we are not at a subexpression boundary then finish editing */
-		if (NULL != wbcg->rangesel)
-			scg_rangesel_stop (wbcg->rangesel, TRUE);
+	/* If we are not at a subexpression boundary then finish editing */
+	if (NULL != wbcg->rangesel)
+		scg_rangesel_stop (wbcg->rangesel, TRUE);
 
-		if (wbcg_editing_expr (wbcg)) {
-			scg_take_focus (SHEET_CONTROL_GUI (page->child));
-			return;
-		}
-		wbcg_edit_finish (wbcg, FALSE);
+	if (wbcg_rangesel_possible (wbcg)) {
+		scg_take_focus (SHEET_CONTROL_GUI (page->child));
+		return;
 	}
+	if (wbcg->editing)
+		wbcg_edit_finish (wbcg, FALSE);
 
 	/* if we are not selecting a range for an expression update */
 	sheet = wb_control_gui_focus_cur_sheet (wbcg);

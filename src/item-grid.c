@@ -773,10 +773,10 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		return 1;
 	}
 
-	/* If the user is editing a formula (scg_rangesel_possible) then we
+	/* If the user is editing a formula (wbcg_rangesel_possible) then we
 	 * enable the dynamic cell selection mode.
 	 */
-	if (scg_rangesel_possible (scg)) {
+	if (wbcg_rangesel_possible (scg->wbcg)) {
 		scg_rangesel_start (scg, col, row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnome_canvas_item_grab (item,

@@ -148,6 +148,10 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	if (wbcg->edit_line.guru != NULL)
 		gtk_widget_destroy (wbcg->edit_line.guru);
 
+	/* Remove the range selection cursor if it exists */
+	if (NULL != wbcg->rangesel)
+		scg_rangesel_stop (wbcg->rangesel, !accept);
+
 	if (!wbcg->editing)
 		return TRUE;
 
@@ -210,10 +214,6 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		/* Reload the entry widget with the original contents */
 		wb_view_edit_line_set (wbv, wbc);
 	}
-
-	/* Remove the range selection cursor if it exists */
-	if (NULL != wbcg->rangesel)
-		scg_rangesel_stop (wbcg->rangesel, FALSE);
 
 	/* Stop editing */
 	wbcg->editing = FALSE;
