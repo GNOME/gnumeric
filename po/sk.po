@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2002-06-03 12:58+0200\n"
-"PO-Revision-Date: 2002-06-03 12:59+0200\n"
+"POT-Creation-Date: 2002-06-04 11:06+0200\n"
+"PO-Revision-Date: 2002-06-04 11:36+0200\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
-msgstr "Zošiť Gnumeric"
+msgstr "Zošit Gnumeric"
 
 #: GNOME_Gnumeric.server.in.in.h:2
 msgid "Gnumeric Workbook Viewer"
@@ -14726,36 +14726,36 @@ msgid "_Wrap text"
 msgstr "Za_lamovať text"
 
 #: src/dialogs/cell-format.glade.h:129
-msgid "min <= val <= max         (between)"
-msgstr "min <= hodnota <= max       (medzi)"
+msgid "min &lt;= val &lt;= max         (between)"
+msgstr "min &lt;= hodnota &lt;= max       (medzi)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "hodnota != hranica                  (rovná)"
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "val <  bound                  (less than)"
-msgstr "hodnota <  hranica                 (menšia)"
+msgid "val &gt;  bound                  (greater than)"
+msgstr "hodnota &gt;  hranica                 (väčšia)"
 
 #: src/dialogs/cell-format.glade.h:132
-msgid "val <= min || max <= val (not between)"
-msgstr "hodnota <= min || max <= hodnota (nie medzi)"
+msgid "val &gt;=bound                  (greater than or equal to)"
+msgstr "hodnota &gt;= hranica                 (väčšia alebo rovná)"
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val <=bound                  (less than or equal to)"
-msgstr "hodnota <= hranica                 (menšia alebo rovná)"
+msgid "val &lt;  bound                  (less than)"
+msgstr "hodnota &lt;  hranica                 (menšia)"
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val == bound                 (equal to)"
-msgstr "hodnota == hranica                 (rovná)"
+msgid "val &lt;= min || max &lt;= val (not between)"
+msgstr "hodnota &lt;= min || max &lt;= hodnota (nie medzi)"
 
 #: src/dialogs/cell-format.glade.h:135
-msgid "val >  bound                  (greater than)"
-msgstr "hodnota >  hranica                 (väčšia)"
+msgid "val &lt;=bound                  (less than or equal to)"
+msgstr "hodnota &lt;= hranica                 (menšia alebo rovná)"
 
 #: src/dialogs/cell-format.glade.h:136
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "hodnota >= hranica                 (väčšia alebo rovná)"
+msgid "val == bound                 (equal to)"
+msgstr "hodnota == hranica                 (rovná)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -16039,15 +16039,15 @@ msgstr "Odstránenie listov nie je možné vrátiť. Chcete pokračovať?"
 msgid "Default"
 msgstr "Štandardné"
 
-#: src/dialogs/dialog-solver.c:80 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:80
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:81 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:81
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:82 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:82 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -16147,25 +16147,25 @@ msgstr "Chýbajúci súbor %s"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2
+msgid "&lt;- Remove"
+msgstr "&lt;- Odstrániť"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "&lt;- Remove all"
+msgstr "&lt;- Odstrániť všetko"
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "<- Remove"
-msgstr "<- Odstrániť"
-
-#: src/dialogs/dialog-stf-export.glade.h:4
-msgid "<- Remove all"
-msgstr "<- Odstrániť všetky"
-
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add ->"
-msgstr "Pridať ->"
+msgid "Add -&gt;"
+msgstr "Pridať -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all ->"
-msgstr "Pridať všetky ->"
+msgid "Add all -&gt;"
+msgstr "Pridať všetko -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -17584,6 +17584,14 @@ msgstr "Nastaviť vyplnený objekt"
 #: src/dialogs/so-scrollbar.glade.h:1
 msgid "Scrollbar Configure"
 msgstr "Nastavenie posuvníka"
+
+#: src/dialogs/solver.glade.h:1
+msgid "&gt;="
+msgstr "&gt;= "
+
+#: src/dialogs/solver.glade.h:2
+msgid "&lt;="
+msgstr "&lt;="
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Integer (Discrete)"
@@ -21938,6 +21946,18 @@ msgstr "Nie je súbor so zošitom Gnumeric"
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
 
+#~ msgid "<- Remove"
+#~ msgstr "<- Odstrániť"
+
+#~ msgid "<- Remove all"
+#~ msgstr "<- Odstrániť všetky"
+
+#~ msgid "Add ->"
+#~ msgstr "Pridať ->"
+
+#~ msgid "Add all ->"
+#~ msgstr "Pridať všetky ->"
+
 #~ msgid "Text import (defaults to csv)"
 #~ msgstr "Import textového súboru (štandardne csv)"
 
@@ -22009,23 +22029,11 @@ msgstr "Súborový formát Gnumeric XML"
 #~ msgid "Each sample must contain the same number of rows."
 #~ msgstr "Každý výber musí obsahovať rovnaký počet riadkov."
 
-#~ msgid "&lt;- Remove"
-#~ msgstr "&lt;- Odstrániť"
-
-#~ msgid "Add -&gt;"
-#~ msgstr "Pridať -&gt;"
-
 #~ msgid "Workbook Attributes"
 #~ msgstr "Vlastnosti zošita"
 
 #~ msgid "Header/Footer Config"
 #~ msgstr "Nastaveni hlavičky/pätičky"
-
-#~ msgid "&gt;="
-#~ msgstr "&gt;= "
-
-#~ msgid "&lt;="
-#~ msgstr "&lt;="
 
 #~ msgid "Detailed error message"
 #~ msgstr "Detailná chybová správa"
