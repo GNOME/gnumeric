@@ -1,3 +1,8 @@
+1998-10-03  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
+
+	* autogen.sh: Modified hack that patches libtool to work with
+	srcdir != builddir
+
 1998-10-02  Richard Hestilow <hestgray@ionet.net>
 	
 	* plugins/stat/stat.c: added new function NVARIANCE
