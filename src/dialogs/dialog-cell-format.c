@@ -2,8 +2,9 @@
 /**
  * dialog-cell-format.c:  Implements a dialog to format cells.
  *
- * Author:
+ * Authors:
  *  Jody Goldberg <jgoldberg@home.com>
+ *  Almer S. Tigelaar <almer@gnome.org>
  **/
 
 #include <config.h>
@@ -1142,10 +1143,9 @@ fmt_dialog_init_align_page (FormatState *state)
 				  (h == HALIGN_LEFT || h == HALIGN_RIGHT));
 
 	/* Catch changes to the spin box */
-	(void) gtk_signal_connect (
-		GTK_OBJECT (w),
-		"changed", GTK_SIGNAL_FUNC (cb_indent_changed),
-		state);
+	gtk_signal_connect (GTK_OBJECT (w), "changed",
+			    GTK_SIGNAL_FUNC (cb_indent_changed),
+			    state);
 
 	/* Catch <return> in the spin box */
 	gnome_dialog_editable_enters (
@@ -1155,6 +1155,25 @@ fmt_dialog_init_align_page (FormatState *state)
 
 /*****************************************************************************/
 
+static void
+cb_font_changed (GtkWidget *widget, MStyle *mstyle, FormatState *state)
+{
+	g_return_if_fail (state != NULL);
+
+	if (!state->enable_edit)
+		return;
+
+	mstyle_replace_element (mstyle, state->result, MSTYLE_FONT_NAME);
+	mstyle_replace_element (mstyle, state->result, MSTYLE_FONT_SIZE);
+	mstyle_replace_element (mstyle, state->result, MSTYLE_FONT_BOLD);
+	mstyle_replace_element (mstyle, state->result, MSTYLE_FONT_ITALIC);
+	mstyle_replace_element (mstyle, state->result, MSTYLE_FONT_UNDERLINE);
+	mstyle_replace_element (mstyle, state->result, MSTYLE_FONT_STRIKETHROUGH);
+	mstyle_replace_element (mstyle, state->result, MSTYLE_COLOR_FORE);
+				
+	fmt_dialog_changed (state);
+}
+
 /*
  * A callback to set the font color.
  * It is called whenever the color combo changes value.
@@ -1162,8 +1181,6 @@ fmt_dialog_init_align_page (FormatState *state)
 static void
 cb_font_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
 {
-	GtkStyle *style;
-
 	if (!state->enable_edit)
 		return;
 
@@ -1171,54 +1188,16 @@ cb_font_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatS
 	state->font.color.g = c->green;
 	state->font.color.b = c->blue;
 
-	style = gtk_style_copy (state->font.selector->font_preview->style);
-	style->fg[GTK_STATE_NORMAL] = *c;
-	style->fg[GTK_STATE_ACTIVE] = *c;
-	style->fg[GTK_STATE_PRELIGHT] = *c;
-	style->fg[GTK_STATE_SELECTED] = *c;
-	gtk_widget_set_style (state->font.selector->font_preview, style);
-	gtk_style_unref (style);
-
-	mstyle_set_color (state->result, MSTYLE_COLOR_FORE,
-			  picker_style_color (&state->font.color));
-	fmt_dialog_changed (state);
-}
-
-static void
-cb_font_changed (GtkWidget *widget, GtkStyle *previous_style, FormatState *state)
-{
-	FontSelector *font_sel;
-	GnomeFont const *gnome_font;
-
-	g_return_if_fail (state != NULL);
-
-	font_sel = state->font.selector;
-	g_return_if_fail (font_sel != NULL);
-
-	gnome_font = font_sel->gnome_font;
-	if (!gnome_font)
-		return;
-
-	if (state->enable_edit && font_sel->size >= 1.) {
-		gchar const * const family_name = gnome_font_get_family_name (gnome_font);
-		GnomeFontWeight const weight_code = gnome_font_get_weight_code (gnome_font);
-
-		mstyle_set_font_name   (state->result, family_name);
-		mstyle_set_font_size   (state->result, font_sel->size);
-		mstyle_set_font_bold   (state->result, weight_code >= GNOME_FONT_BOLD);
-		mstyle_set_font_italic (state->result, gnome_font_is_italic (gnome_font));
-
-		fmt_dialog_changed (state);
-	}
+	font_selector_set_color (state->font.selector, picker_style_color (&state->font.color));
 }
 
 static void
 cb_font_strike_toggle (GtkToggleButton *button, FormatState *state)
 {
 	if (state->enable_edit) {
-		mstyle_set_font_strike (state->result,
-					gtk_toggle_button_get_active (button));
-		fmt_dialog_changed (state);
+		font_selector_set_strike (
+			state->font.selector,
+			gtk_toggle_button_get_active (button));
 	}
 }
 
@@ -1239,8 +1218,7 @@ cb_font_underline_changed (GtkEditable *w, FormatState *state)
 	else if (g_strcasecmp (tmp, _("None")))
 		g_warning ("Invalid underline style, assuming NONE");
 
-	mstyle_set_font_uline (state->result, res);
-	fmt_dialog_changed (state);
+	font_selector_set_underline (state->font.selector, res);
 }
 
 /* Manually insert the font selector, and setup signals */
@@ -1270,15 +1248,10 @@ fmt_dialog_init_font_page (FormatState *state)
 	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
 				      GTK_EDITABLE (font_widget->font_size_entry));
 
-	/* When the font preview changes flag we know the style has changed.
-	 * This catches color and font changes
-	 */
-	gtk_signal_connect (GTK_OBJECT (font_widget->font_preview),
-			    "style_set",
-			    GTK_SIGNAL_FUNC (cb_font_changed), state);
-
 	state->font.selector = FONT_SELECTOR (font_widget);
 
+	font_selector_set_value (state->font.selector, state->value);
+	
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_NAME))
 		font_selector_set_name (state->font.selector,
 					mstyle_get_font_name (state->style));
@@ -1303,26 +1276,32 @@ fmt_dialog_init_font_page (FormatState *state)
 		case UNDERLINE_DOUBLE :val = _("Double"); break;
 		};
 		gtk_entry_set_text (GTK_ENTRY (combo->entry), val);
+		font_selector_set_underline (state->font.selector, mstyle_get_font_uline (state->style));
 
 		gtk_signal_connect (GTK_OBJECT (combo->entry),
 				    "changed", GTK_SIGNAL_FUNC (cb_font_underline_changed),
 				    state);
 	}
 
-	/* Setup the strikethrough button, and assign the current value */
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_STRIKETHROUGH))
 		strikethrough = mstyle_get_font_strike (state->style);
 
 	state->font.strikethrough = GTK_CHECK_BUTTON (strike);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (strike), strikethrough);
+	font_selector_set_strike (state->font.selector, strikethrough);
+
 	gtk_signal_connect (GTK_OBJECT (strike), "toggled",
 			    GTK_SIGNAL_FUNC (cb_font_strike_toggle),
 			    state);
 
-	/* Set the resolution scaling factor */
-	font_selector_set_screen_res (state->font.selector,
-				      application_display_dpi_get (TRUE),
-				      application_display_dpi_get (FALSE));
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_COLOR_FORE))
+		font_selector_set_color (
+			state->font.selector,
+			style_color_ref (mstyle_get_color (state->style, MSTYLE_COLOR_FORE)));
+
+	gtk_signal_connect (GTK_OBJECT (font_widget), "font_changed",
+			    GTK_SIGNAL_FUNC (cb_font_changed),
+			    state);
 }
 
 /*****************************************************************************/

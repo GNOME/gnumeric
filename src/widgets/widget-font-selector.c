@@ -2,17 +2,22 @@
  * A font selector widget.  This is a simplified version of the
  * GnomePrint font selector widget.
  *
- * Author:
+ * Authors:
  *   Miguel de Icaza (miguel@gnu.org)
+ *   Almer S. Tigelaar (almer@gnome.org)
  */
 #include <config.h>
+#include <gnome.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "widget-font-selector.h"
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
 #include <string.h>
 #include "../global-gnome-font.h"
+
+#include "value.h"
+#include "mstyle.h"
+#include "preview-grid.h"
+#include "style-color.h"
 
 /*
  * Inside this file we define a number of aliases for the
@@ -27,55 +32,21 @@ typedef FontSelectorClass FsClass;
 
 static GtkHBoxClass *fs_parent_class;
 
+/* Signals we emit */
+enum {
+	FONT_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint fs_signals [LAST_SIGNAL] = { 0 };
+
 static void
 reload_preview (FontSelector *fs)
 {
-	 char *name = gtk_entry_get_text (GTK_ENTRY (fs->font_name_entry));
-	 GtkStyle *style;
-	 GnomeFont *gnome_font;
-	 GnomeDisplayFont *display_font;
+	gtk_signal_emit (GTK_OBJECT (fs), fs_signals [FONT_CHANGED], fs->mstyle, NULL);
 
-	 gnome_font = gnome_font_new_closest (
-		 name,
-		 fs->is_bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
-		 fs->is_italic,
-		 fs->size);
-	 if (!gnome_font) {
-		 g_warning ("Uh oh, cannot get the font!");
-		 return;
-	 }
-
-	 display_font = gnome_get_display_font (
-		 name,
-		 fs->is_bold ? GNOME_FONT_BOLD : GNOME_FONT_BOOK,
-		 fs->is_italic,
-		 fs->size,
-		 fs->resolution_adjustment_factor);
-
-	 if (!display_font) {
-		 gtk_object_unref (GTK_OBJECT (gnome_font));
-		 g_warning ("Uh oh, cannot get the display font");
-		 return;
-	 }
-
-	 if (gnome_display_font_get_gdk_font (display_font) == NULL) {
-		 gtk_object_unref (GTK_OBJECT (gnome_font));
-		 return;
-	 }
-
-	 if (fs->gnome_font)
-		 gtk_object_unref (GTK_OBJECT (fs->gnome_font));
-
-	 fs->gnome_font = gnome_font;
-	 fs->display_font = display_font;
-
-	 style = gtk_style_copy (fs->font_preview->style);
-	 gdk_font_unref (style->font);
-	 style->font = gnome_display_font_get_gdk_font (display_font);
-	 gdk_font_ref (style->font);
-
-	 gtk_widget_set_style (fs->font_preview, style);
-	 gtk_style_unref (style);
+	gnome_canvas_request_redraw (fs->font_preview_canvas, INT_MIN, INT_MIN,
+				     INT_MAX/2, INT_MAX/2);
 }
 
 /*
@@ -100,6 +71,7 @@ font_selected (GtkCList *font_list, int col, int row, GdkEvent *event, FontSelec
 	 gtk_clist_get_text (font_list, GPOINTER_TO_INT (font_list->selection->data), 0, &text);
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_name_entry), text);
 
+	 mstyle_set_font_name (fs->mstyle, text);
 	 reload_preview (fs);
 }
 
@@ -140,19 +112,21 @@ style_selected (GtkCList *style_list, int col, int row, GdkEvent *event, FontSel
 
 	 switch (row) {
 	 case 0:
-		 fs->is_bold = fs->is_italic = FALSE;
+		 mstyle_set_font_bold (fs->mstyle, FALSE);
+		 mstyle_set_font_italic (fs->mstyle, FALSE);
 		 break;
 	 case 1:
-		 fs->is_bold = TRUE;
-		 fs->is_italic = FALSE;
+		 mstyle_set_font_bold (fs->mstyle, TRUE);
+		 mstyle_set_font_italic (fs->mstyle, FALSE);
 		 break;
 
 	 case 2:
-		 fs->is_bold = fs->is_italic = TRUE;
+		 mstyle_set_font_bold (fs->mstyle, TRUE);
+		 mstyle_set_font_italic (fs->mstyle, TRUE);
 		 break;
 	 case 3:
-		 fs->is_italic = TRUE;
-		 fs->is_bold = FALSE;
+		 mstyle_set_font_bold (fs->mstyle, FALSE);
+		 mstyle_set_font_italic (fs->mstyle, TRUE);
 		 break;
 	 }
 
@@ -188,7 +162,7 @@ size_selected (GtkCList *size_list, int col, int row, GdkEvent *event, FontSelec
 	 row = GPOINTER_TO_INT (size_list->selection->data);
 	 gtk_clist_get_text (size_list, row, 0, &text);
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), text);
-	 fs->size = atof (text);
+	 mstyle_set_font_size (fs->mstyle, atof (text));
 }
 
 static void
@@ -199,8 +173,8 @@ size_changed (GtkEntry *entry, FontSelector *fs)
 
 	 text = gtk_entry_get_text (entry);
 	 size = atof (text);
-	 if (size > 0 && size < 128) {
-		 fs->size = size;
+	 if (size >= 1. && size < 128) {
+		 mstyle_set_font_size (fs->mstyle, size);
 		 reload_preview (fs);
 	 }
 }
@@ -230,14 +204,50 @@ fs_fill_font_size_list (FontSelector *fs)
 		GTK_SIGNAL_FUNC (size_changed), fs);
 }
 
+static int
+cb_get_row_height (int row, FontSelector *fs)
+{
+	return fs->height;
+}
+
+static int
+cb_get_col_width (int col, FontSelector *fs)
+{
+	return fs->width;
+}
+
+static MStyle *
+cb_get_cell_style (int row, int col, FontSelector *fs)
+{
+	mstyle_ref (fs->mstyle);
+	return fs->mstyle;
+}
+
+static Value *
+cb_get_cell_value (int row, int col, FontSelector *fs)
+{
+	/*
+	 * FIXME: :-( Why don't Value *'s support refcounting?
+	 */
+	return value_duplicate (fs->value);
+}
+
+static void
+canvas_size_changed (GtkWidget *widget, GtkAllocation *allocation, FontSelector *fs)
+{
+	fs->width  = allocation->width - 1;
+	fs->height = allocation->height - 1;
+	
+	gnome_canvas_set_scroll_region (fs->font_preview_canvas, 0, 0,
+					fs->width, fs->height);
+	reload_preview (fs);
+}
+
 static void
 fs_init (FontSelector *fs)
 {
 	GtkWidget *toplevel;
 	GtkWidget *old_parent;
-
-	fs->gnome_font = NULL;
-	fs->display_font = NULL;
 
 	fs->gui = glade_xml_new (GNUMERIC_GLADEDIR "/font-sel.glade", NULL);
 	if (!fs->gui) {
@@ -251,16 +261,38 @@ fs_init (FontSelector *fs)
 	gtk_widget_destroy (old_parent);
 	gtk_widget_queue_resize (toplevel);
 
-	fs->size = 10;
-	fs->is_bold = fs->is_italic = FALSE;
-	fs->resolution_adjustment_factor = 1.;
+	fs->width = fs->height = 1;
 	fs->font_name_entry  = glade_xml_get_widget (fs->gui, "font-name-entry");
 	fs->font_style_entry = glade_xml_get_widget (fs->gui, "font-style-entry");
 	fs->font_size_entry  = glade_xml_get_widget (fs->gui, "font-size-entry");
 	fs->font_name_list  = glade_xml_get_widget (fs->gui, "font-name-list");
 	fs->font_style_list = glade_xml_get_widget (fs->gui, "font-style-list");
 	fs->font_size_list  = glade_xml_get_widget (fs->gui, "font-size-list");
-	fs->font_preview = glade_xml_get_widget (fs->gui, "preview-entry");
+	
+	fs->font_preview_canvas = GNOME_CANVAS (glade_xml_get_widget (fs->gui, "font-preview-canvas"));
+	fs->font_preview_grid = PREVIEW_GRID (gnome_canvas_item_new (
+		gnome_canvas_root (fs->font_preview_canvas),
+		preview_grid_get_type (),
+		"GetRowHeightCb", cb_get_row_height,
+		"GetColWidthCb", cb_get_col_width, 
+		"GetCellStyleCb", cb_get_cell_style,
+		"GetCellValueCb", cb_get_cell_value,
+		"RenderGridlines", FALSE,
+		"DefaultRowHeight", 1,
+		"DefaultColWidth", 1,
+		"CbData", fs,
+		NULL));
+		
+	gtk_signal_connect (
+		GTK_OBJECT (fs->font_preview_canvas), "size-allocate",
+		GTK_SIGNAL_FUNC (canvas_size_changed), fs);
+
+	fs->mstyle = mstyle_new_default ();
+	fs->value  = value_new_string ("AaBbCcDdEe12345");
+	mstyle_set_align_v   (fs->mstyle, VALIGN_CENTER);
+	mstyle_set_align_h   (fs->mstyle, HALIGN_CENTER);
+	mstyle_set_font_size (fs->mstyle, 10);
+
 	fs_fill_font_style_list (fs);
 	fs_fill_font_name_list (fs);
 	fs_fill_font_size_list (fs);
@@ -271,8 +303,9 @@ fs_destroy (GtkObject *object)
 {
 	FontSelector *fs = FONT_SELECTOR (object);
 
-	if (fs->gnome_font)
-		gtk_object_unref (GTK_OBJECT (fs->gnome_font));
+	if (fs->mstyle)
+		mstyle_unref (fs->mstyle);
+		
 	((GtkObjectClass *)fs_parent_class)->destroy (object);
 }
 
@@ -282,6 +315,17 @@ fs_class_init (GtkObjectClass *Class)
 	Class->destroy = fs_destroy;
 
 	fs_parent_class = gtk_type_class (gtk_hbox_get_type ());
+
+	fs_signals [FONT_CHANGED] =
+		gtk_signal_new (
+			"font_changed",
+			GTK_RUN_LAST,
+			Class->type,
+			GTK_SIGNAL_OFFSET (FontSelectorClass, font_changed),
+			gtk_marshal_NONE__POINTER,
+			GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+			
+	gtk_object_class_add_signals (Class, fs_signals, LAST_SIGNAL);
 }
 
 GtkType
@@ -322,6 +366,21 @@ select_row (GtkWidget *list, int row)
 	GtkCList *cl = GTK_CLIST (list);
 
 	gtk_clist_select_row (cl, row, 0);
+}
+
+void
+font_selector_set_value (FontSelector *fs, const Value *v)
+{
+	g_return_if_fail (fs != NULL);
+	g_return_if_fail (IS_FONT_SELECTOR (fs));
+	
+	value_release (fs->value);
+	if (v)
+		fs->value = value_duplicate (v);
+	else
+		fs->value = value_new_string ("AaBbCcDdEe12345");
+
+	reload_preview (fs);
 }
 
 void
@@ -367,6 +426,40 @@ font_selector_set_style (FontSelector *fs,
 			n = 0;
 	}
 	select_row (fs->font_style_list, n);
+
+	mstyle_set_font_bold   (fs->mstyle, is_bold);
+	mstyle_set_font_italic (fs->mstyle, is_italic);
+	reload_preview (fs);
+}
+
+void
+font_selector_set_strike (FontSelector *fs, gboolean strikethrough)
+{
+	g_return_if_fail (fs != NULL);
+	g_return_if_fail (IS_FONT_SELECTOR (fs));
+
+	mstyle_set_font_strike (fs->mstyle, strikethrough);
+	reload_preview (fs);
+}
+
+void
+font_selector_set_underline (FontSelector *fs, StyleUnderlineType sut)
+{
+	g_return_if_fail (fs != NULL);
+	g_return_if_fail (IS_FONT_SELECTOR (fs));
+
+	mstyle_set_font_uline (fs->mstyle, sut);
+	reload_preview (fs);
+}
+
+void
+font_selector_set_color (FontSelector *fs, StyleColor *color)
+{
+	g_return_if_fail (fs != NULL);
+	g_return_if_fail (IS_FONT_SELECTOR (fs));
+
+	mstyle_set_color (fs->mstyle, MSTYLE_COLOR_FORE, color);
+	reload_preview (fs);
 }
 
 void
@@ -392,13 +485,3 @@ font_selector_set_points (FontSelector *fs,
 		g_free (buffer);
 	}
 }
-
-void
-font_selector_set_screen_res (FontSelector *fs, float h_dpi, float v_dpi)
-{
-	g_return_if_fail (IS_FONT_SELECTOR (fs));
-
-	fs->resolution_adjustment_factor = MIN(h_dpi, v_dpi) / 72.;
-	reload_preview (fs);
-}
-

@@ -1,3 +1,18 @@
+2001-07-07  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-cell-format.c (cb_font_changed): Adjust to handle
+	new parameters.
+	(cb_font_preview_color): Pass to font selector.
+	(cb_font_strike_toggle): Idem.
+	(cb_font_underline_changed): Idem.
+	(fmt_dialog_init_font_page): Initialize the font selector's
+	properties correctly including the forecolor.
+	No need to set the scaling size anymore.
+	(fmt_dialog_init_align_page): Remove superfluous void.
+
+	* font-sel.glade: Replace the GtkEntry previously used for
+	previewing with a GnomeCanvas inside a GtkScrolledWindow.
+
 2001-07-05  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-autosave.c (prompt_on_off_toggled): Burn.

@@ -1,3 +1,29 @@
+2001-07-07  Almer S. Tigelaar  <almer@gnome.org>
+
+	* widget-font-selector.c (reload_preview): Drastically revise, burned
+	most of the existing code. Emits the font_changed signal.
+	(font_selected): Set name directly on MStyle.
+	(style_selected): Idem for bold/italic.
+	(size_selected): Idem for size.
+	(size_changed): Idem.
+	(cb_get_row_height): Callback for newly integrated preview-grid. Returns
+	dynamically determined row height of a single cell.
+	(cb_get_col_width): Idem for column width.
+	(cb_get_cell_style): Idem for the style.
+	(cb_get_cell_value): Idem for previewing text.
+	(canvas_size_changed): Callback to cope for changes in size of the canvas,
+	the information collected here is used in cb_get_{col/row}_{width/height}
+	(fs_init): Remove gnome-font stuff and initializations of other, removed,
+	fs members. Create a preview-grid instead.
+	(fs_destroy): Unref preview mstyle and remove the gnome-font code.
+	(fs_class_init): Initialize new font_changed signal.
+	(font_selector_set_value): New, set preview value.
+	(font_selector_set_style): Set on MStyle directly.
+	(font_selector_set_strike): New, set strikethrough argument.
+	(font_selector_set_underline): New, set underline style.
+	(font_selector_set_color): New, set font (fore) color of text.
+	(font_selector_set_screen_res): Burn.
+	
 2001-06-28  Jody Goldberg <jgoldberg@home>
 
 	* Release 0.67
