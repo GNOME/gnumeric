@@ -4005,3 +4005,140 @@ cmd_object_move (WorkbookControl *wbc, SheetObject *so,
 
 	return command_push_undo (wbc, object);
 }
+
+/******************************************************************/
+
+#define CMD_REORGANIZE_SHEETS_TYPE        (cmd_reorganize_sheets_get_type ())
+#define CMD_REORGANIZE_SHEETS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_REORGANIZE_SHEETS_TYPE, CmdReorganizeSheets))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	Workbook *wb;
+	GSList      *old_order;
+	GSList      *new_order;
+	GSList      *old_names;
+	GSList      *new_names;
+} CmdReorganizeSheets;
+
+GNUMERIC_MAKE_COMMAND (CmdReorganizeSheets, cmd_reorganize_sheets);
+
+static gboolean
+cmd_reorganize_sheets_apply (GSList *new_order,  GSList *new_names)
+{
+	GSList *this = new_order;
+	gint old_pos, new_pos = 0;
+	while (this) {
+		Sheet *sheet = this->data;
+		Workbook *wb = sheet->workbook;
+		old_pos = workbook_sheet_index_get (wb, sheet);
+		if (new_pos != old_pos) {
+			g_ptr_array_remove_index (wb->sheets, old_pos);
+			g_ptr_array_insert (wb->sheets, sheet, new_pos);
+			WORKBOOK_FOREACH_CONTROL (wb, view, control,
+						  wb_control_sheet_move (control, 
+									 sheet, new_pos););
+			sheet_set_dirty (sheet, TRUE);
+		}
+		new_pos++;
+		this = this->next;
+	}
+	return FALSE;
+}
+
+
+static gboolean
+cmd_reorganize_sheets_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdReorganizeSheets *me = CMD_REORGANIZE_SHEETS (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	return cmd_reorganize_sheets_apply (me->old_order,  me->old_names);
+}
+
+static gboolean
+cmd_reorganize_sheets_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdReorganizeSheets *me = CMD_REORGANIZE_SHEETS (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	return cmd_reorganize_sheets_apply (me->new_order, me->new_names);
+}
+
+static void        
+cmd_reorganize_free_names (gpointer data, gpointer user_data)
+{
+	g_free (data);
+}
+
+
+static void
+cmd_reorganize_sheets_finalize (GObject *cmd)
+{
+	CmdReorganizeSheets *me = CMD_REORGANIZE_SHEETS (cmd);
+
+	if (me->old_order)
+		g_slist_free (me->old_order);
+	me->old_order = NULL;
+	if (me->new_order)
+		g_slist_free (me->new_order);
+	me->new_order = NULL;
+	if (me->old_names) {
+		g_slist_foreach (me->old_names, cmd_reorganize_free_names, NULL);
+		g_slist_free (me->old_names);
+	}
+	me->old_names = NULL;
+	if (me->new_names) {
+		g_slist_foreach (me->old_names, cmd_reorganize_free_names, NULL);
+		g_slist_free (me->new_names);
+	}
+	me->new_names = NULL;
+
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_order, 
+		       GSList *old_names, GSList *new_names)
+{
+	GObject *obj;
+	CmdReorganizeSheets *me;
+	Workbook *wb = wb_control_workbook (wbc);
+
+	obj = g_object_new (CMD_REORGANIZE_SHEETS_TYPE, NULL);
+	me = CMD_REORGANIZE_SHEETS (obj);
+
+	/* Store the specs for the object */
+	me->wb = wb;
+	me->old_order = old_order;
+	me->new_order = new_order;
+	me->old_names = old_names;
+	me->new_names = new_names;
+
+	me->parent.sheet = NULL;
+	me->parent.size = 1;
+	if (new_order == NULL ) {
+		if (new_names == NULL)
+			me->parent.cmd_descriptor = g_strdup ("Nothing to do?");
+		else if (new_names->next == NULL)
+			me->parent.cmd_descriptor = g_strdup_printf (_("Rename sheet '%s' '%s'"), 
+								     (char *)old_names->data,
+								     (char *)new_names->data);
+		else
+			me->parent.cmd_descriptor = g_strdup (_("Renaming Sheets"));		
+	} else {
+		if (new_names == NULL)
+			me->parent.cmd_descriptor = g_strdup (_("Reordering Sheets"));
+		else
+			me->parent.cmd_descriptor = g_strdup (_("Reorganizing Sheets"));
+	}
+			
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/

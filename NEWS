@@ -26,6 +26,10 @@ Andreas:
 	* Port and redesign sort dialog
 	* Reenable the expr entry widgets in gurus
 	* Fix about dialog
+	* Convert lots of dialogs to use the new expr entry
+	  widget correctly
+	* Add help buttons to various dialogs
+	* Make reordering of sheets undoable
 
 Jody:
 	* Initial port to gnome2.

@@ -574,6 +574,11 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
 		"clicked",
 		G_CALLBACK (cancel_clicked), dd);
+/* FIXME: Add correct helpfile address */
+	gnumeric_init_help_button (
+		glade_xml_get_widget (gui, "help_button"),
+		"fill-tabulate.html");
+
 	g_signal_connect (G_OBJECT (dialog),
 		"destroy",
 		G_CALLBACK (dialog_destroy), dd);

@@ -37,9 +37,6 @@ gboolean cmd_paste_cut		(WorkbookControl *wbc,
 gboolean cmd_paste_copy		(WorkbookControl *wbc,
 				 PasteTarget const *pt, CellRegion *content);
 
-gboolean cmd_rename_sheet	(WorkbookControl *wbc,
-				 char const *old_name, char const *new_name);
-
 gboolean cmd_sort		(WorkbookControl *wbc, SortData *data);
 
 gboolean cmd_format		(WorkbookControl *wbc, Sheet *sheet,
@@ -86,5 +83,9 @@ gboolean cmd_object_delete	(WorkbookControl *wbc, SheetObject *so);
 gboolean cmd_object_move	(WorkbookControl *wbc, SheetObject *so,
 				 SheetObjectAnchor const *old_anchor,
 				 gboolean resize);
+
+gboolean cmd_rename_sheet (WorkbookControl *wbc, const char *old_name, const char *new_name);
+gboolean cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_order, 
+				GSList *old_names, GSList *new_names);
 
 #endif /* GNUMERIC_COMMANDS_H */

@@ -52,7 +52,6 @@ Long term breakage
 - Missing undo/redo for
     - Add/duplicate sheet.
     - Remove sheet.
-    - Reorder sheets.
     - Delete Comment.
     - Freeze panes.
     - Changing summary info.

@@ -1,3 +1,16 @@
+2002-02-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* tabulate.glade : add help button
+	* dialog-tabulate.c (dialog_tabulate) : ditto
+	* dialog-sheet-order.c (get_selected_sheet) : deleted
+	(location_of_iter) : new
+	(cb_selection_changed) : don't affect the real sheets
+	(move_cb) : don't move the real sheets
+	(cb_close_clicked) : replaced by cb_cancel_clicked
+	(cb_ok_clicked) : new
+	(cb_sheet_order_destroy) : free old_order
+	(sheet_order_dialog) : set-up more buttons
+
 2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-tabulate.c (ok_clicked) : lots of changes to use the new expr entry
