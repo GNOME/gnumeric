@@ -121,7 +121,6 @@
 		<application>Gnumeric</application> supports
 		incrementing the date by month, date, or year.
 	      </para>
-	      <note>
 		<para>
 		  While <application>Gnumeric</application> will
 		  increment days of the month, if you do 11/14/2001
@@ -129,7 +128,6 @@
 		  of the month and increment to 1/14/2002 instead of
 		  the day difference.
 		</para>
-	      </note>
 	    </listitem>
 	  </varlistentry>
 	</variablelist>

@@ -1,3 +1,12 @@
+2001-12-28 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* files.sgml : add text export druid
+	* figures/file-formats-import-list.png : updated
+	* figures/files-csv-import-ex1.png : new figure
+	* figures/files-csv-export-ex2.png : new figure
+	* figures/files-csv-export-ex1.pn : new figure
+	* autofill.sgml: remove compile warning
+
 2001-12-28  Kevin Breit  <mrproper@ximian.com>
 
 	* autofill.sgml: Increased the amount of info about fill types
