@@ -16,11 +16,13 @@ Morten:
 	  result faster, and fail less often.
 
 Miguel
-	*
+	* Worked on other things
 
 Michael
 	* Re-wrote the OLE block layer again...
-	* Tentative alpha Excel sheet writing ( --debug=1 )
+	* Tentative alpha Excel sheet writing
+	 - Only Excel 95 tested
+	 - only basic numbers and text are stored.
 	* Fix writing code to preserve sheet order.
 
 Nick Lamb

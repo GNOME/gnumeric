@@ -119,8 +119,7 @@ excel_init (void)
 
 	/* We register Excel format with a precendence of 100 */
 	file_format_register_open (100, descr, excel_probe, excel_load);
-	if (gnumeric_debugging > 0) {
+	if (gnumeric_debugging > 0)
 		file_format_register_save (".xls", descr2, excel_save_98);
-		file_format_register_save (".xls", descr3, excel_save_95);
-	}
+	file_format_register_save (".xls", descr3, excel_save_95);
 }

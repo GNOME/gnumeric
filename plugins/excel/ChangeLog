@@ -1,3 +1,11 @@
+1999-06-01  Michael Meeks  <michael@edenproject.org>
+
+	* boot.c (excel_init): Put Excel 95 on by default.
+
+	* ms-excel-write.c (write_bits): Added WINDOW1 bit.
+	(write_fonts): Add slight difference in duplicate fonts.
+	(write_xf_record): Added more fields.
+
 1999-05-31  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-write.c (biff_bof_write): Fixed _major_

@@ -36,6 +36,7 @@
 typedef struct _XF       XF;
 typedef struct _FONTS    FONTS;
 typedef struct _SHEET    SHEET;
+typedef struct _FORMATS  FORMATS;
 typedef struct _PALETTE  PALETTE;
 typedef struct _WORKBOOK WORKBOOK;
 
@@ -52,6 +53,7 @@ struct _WORKBOOK {
 	eBiff_version  ver;
 	PALETTE       *pal;
 	FONTS         *fonts;
+	FORMATS       *formats;
 };
 
 /**
@@ -274,7 +276,18 @@ write_bits (BIFF_PUT *bp, eBiff_version ver)
 	BIFF_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
 
-	/* Window1 ! */
+	/* See: S59E17.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_WINDOW1, 18);
+	BIFF_SET_GUINT16 (data+  0, 0x01e0);
+	BIFF_SET_GUINT16 (data+  2, 0x005a);
+	BIFF_SET_GUINT16 (data+  4, 0x3fcf);
+	BIFF_SET_GUINT16 (data+  6, 0x2a4e);
+	BIFF_SET_GUINT16 (data+  8, 0x0038); /* various flags */
+	BIFF_SET_GUINT16 (data+ 10, 0x0000); /* selected tab */
+	BIFF_SET_GUINT16 (data+ 12, 0x0000); /* displayed tab */
+	BIFF_SET_GUINT16 (data+ 14, 0x0001);
+	BIFF_SET_GUINT16 (data+ 16, 0x0258);
+	ms_biff_put_commit (bp);
 
 	/* See: S59DCA.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_PANE, 2);
@@ -414,6 +427,8 @@ palette_free (PALETTE *pal)
 	}
 }
 
+#define FONT_MAGIC 0
+
 struct _FONTS {
 	GHashTable *StyleFont_to_idx;
 };
@@ -426,7 +441,7 @@ write_fonts (BIFF_PUT *bp, WORKBOOK *wb)
 	guint8 data[64];
 	int lp;
 	
-	for (lp=0;lp<8;lp++) { /* FIXME: Magic minimum fonts */
+	for (lp=0;lp<5;lp++) { /* FIXME: Magic minimum fonts */
 		fonts->StyleFont_to_idx = g_hash_table_new (g_direct_hash,
 							    g_direct_equal);
 		/* Kludge for now ... */
@@ -436,7 +451,12 @@ write_fonts (BIFF_PUT *bp, WORKBOOK *wb)
 		BIFF_SET_GUINT16(data + 2, (0<<1) + (0<<3)); /* italic, struck */
 /*		BIFF_SET_GUINT16(data + 4, PALETTE_BLACK); */
 		BIFF_SET_GUINT16(data + 4, 0x7fff); /* Magic ! */
-		BIFF_SET_GUINT16(data + 6, 0x190); /* Normal boldness */
+
+		if (lp%1)
+			BIFF_SET_GUINT16(data + 6, 0x190); /* Normal boldness */
+		else
+			BIFF_SET_GUINT16(data + 6, 0x2bc); /* Magic boldness  */
+
 		BIFF_SET_GUINT16(data + 8, 0); /* 0: Normal, 1; Super, 2: Sub script*/
 		BIFF_SET_GUINT16(data +10, 0); /* No underline */
 		BIFF_SET_GUINT16(data +12, 0); /* ? */
@@ -454,7 +474,7 @@ write_fonts (BIFF_PUT *bp, WORKBOOK *wb)
 static guint32
 fonts_get_index (FONTS *fonts, StyleFont *sf)
 {
-	return 0;
+	return FONT_MAGIC;
 }
 
 static void
@@ -463,6 +483,50 @@ fonts_free (FONTS *fonts)
 	if (fonts) {
 		g_free (fonts->StyleFont_to_idx);
 		g_free (fonts);
+	}
+}
+
+#define FORMAT_MAGIC 0
+
+struct _FORMATS {
+	GHashTable *StyleFormat_to_idx;
+};
+
+/* See S59D8E.HTM */
+static FORMATS *
+write_formats (BIFF_PUT *bp, WORKBOOK *wb)
+{
+	FORMATS *formats = g_new (FORMATS, 1);
+	guint8 data[64];
+	int lp;
+	
+	for (lp=0;lp<5;lp++) { /* FIXME: Magic minimum fonts */
+		formats->StyleFormat_to_idx = g_hash_table_new (g_direct_hash,
+								g_direct_equal);
+		/* Kludge for now ... */
+		ms_biff_put_var_next (bp, BIFF_FORMAT);
+		
+		BIFF_SET_GUINT16 (data, 0);
+		biff_put_text (bp, "0", eBiffV7, TRUE);
+		
+		ms_biff_put_commit (bp);
+	}
+
+	return formats;
+}
+
+static guint32
+formats_get_index (FORMATS *formats, StyleFormat *sf)
+{
+	return FORMAT_MAGIC;
+}
+
+static void
+formats_free (FORMATS *formats)
+{
+	if (formats) {
+		g_free (formats->StyleFormat_to_idx);
+		g_free (formats);
 	}
 }
 
@@ -484,11 +548,17 @@ write_xf_record (BIFF_PUT *bp, Style *style, eBiff_version ver)
 		ms_biff_put_var_next (bp, BIFF_XF_OLD);
 
 	if (ver >= eBiffV8) {
+		BIFF_SET_GUINT16(data+0, fonts_get_index (0, 0));
+		BIFF_SET_GUINT16(data+2, formats_get_index (0, 0));
 		BIFF_SET_GUINT16(data+18, (PALETTE_WHITE<<7) + PALETTE_WHITE);
 		ms_biff_put_var_write (bp, data, 24);
 	} else {
+		BIFF_SET_GUINT16(data+0, fonts_get_index (0, 0));
+		BIFF_SET_GUINT16(data+2, formats_get_index (0, 0));
+		BIFF_SET_GUINT16(data+4, 0xfff5); /* FIXME: Magic */
+		BIFF_SET_GUINT16(data+6, 0xf420);
 		BIFF_SET_GUINT16(data+8,  (PALETTE_WHITE<<7) + PALETTE_WHITE);
-		ms_biff_put_var_write (bp, data, 20);
+		ms_biff_put_var_write (bp, data, 16);
 	}
 	ms_biff_put_commit (bp);
 }
@@ -501,6 +571,9 @@ static XF *
 write_xf (BIFF_PUT *bp, WORKBOOK *wb)
 {
 	int lp;
+	guint32 style_magic[6] = { 0xff038010, 0xff068011, 0xff058012, 0xff008000,
+				   0xff048013, 0xff078014 };
+
 	/* FIXME: Scan through all the Styles... */
 	XF *xf = g_new (XF, 1);
 	xf->Style_to_idx = g_hash_table_new (g_direct_hash,
@@ -508,6 +581,13 @@ write_xf (BIFF_PUT *bp, WORKBOOK *wb)
 	/* Need at least 16 apparently */
 	for (lp=0;lp<16;lp++)
 		write_xf_record (bp, NULL, wb->ver);
+
+	/* See: S59DEA.HTM */
+	for (lp=0;lp<6;lp++) {
+		guint8 *data = ms_biff_put_len_next (bp, BIFF_STYLE, 4);
+		BIFF_SET_GUINT32 (data, style_magic[lp]); /* cop out */
+		ms_biff_put_commit (bp);
+	}
 	return xf;
 }
 
@@ -781,9 +861,10 @@ write_workbook (BIFF_PUT *bp, Workbook *gwb, eBiff_version ver)
 	write_externsheets    (bp, wb);
 	write_bits            (bp, ver);
 
-	wb->fonts = write_fonts (bp, wb);
+	wb->fonts   = write_fonts (bp, wb);
+	wb->formats = write_formats (bp, wb);
 	write_xf (bp, wb);
-	wb->pal   = write_palette (bp, wb);
+	wb->pal     = write_palette (bp, wb);
 
 	for (lp=0;lp<wb->sheets->len;lp++) {
 		s = g_ptr_array_index (wb->sheets, lp);
