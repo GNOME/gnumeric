@@ -2310,7 +2310,7 @@ gnm_float pbinom(gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gbo
     x = floorgnum(x + 1e-7);
     if (x < 0.0) return R_DT_0;
     if (n <= x) return R_DT_1;
-    return pbeta(1 - p, n - x, x + 1, lower_tail, log_p);
+    return pbeta (p, x + 1, n - x, !lower_tail, log_p);
 }
 
 /* ------------------------------------------------------------------------ */

@@ -12,6 +12,7 @@ Morten:
 	* A few multihead fixes.
 	* Upgrade to R's development version.
 	* Fix pgeom.  (Fixes precision of GEOMDIST.)
+	* Fix pbinom.  (Fixes precision of BINOMDIST.)
 	* Replace R's pbeta function.  (Fixes precision of BETADIST,
 	  BETAINV, FINV.)
 	* Replace R's pcauchy function.  (Fixes precision of CAUCHY.)

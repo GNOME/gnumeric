@@ -1,5 +1,9 @@
 2004-04-12  Morten Welinder  <terra@gnome.org>
 
+	* import-R (import_file): Improve precision of a pbeta call.
+
+2004-04-12  Morten Welinder  <terra@gnome.org>
+
 	* import-R: Do not import pf.
 
 2004-04-09  Morten Welinder  <terra@gnome.org>
