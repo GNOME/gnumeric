@@ -5,7 +5,7 @@ EXTRA_DIST = \
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA)
 
 appicondir = $(datadir)/pixmaps
-appicon_DATA = gnome-gnumeric.png
+appicon_DATA = gnome-gnumeric.png gnome-gnumeric-xl.png
 
 Applicationsdir = $(datadir)/apps/Applications
 Applications_DATA = gnumeric.desktop
