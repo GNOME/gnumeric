@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-15 12:42-0500\n"
-"PO-Revision-Date: 2005-02-15 11:36-0400\n"
+"POT-Creation-Date: 2005-02-16 11:57-0500\n"
+"PO-Revision-Date: 2005-02-16 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgid "Gnumeric Workbook viewer factory"
 msgstr "Gnumeric Workbook viewer factory"
 
 #. Keep in sync with .desktop file
-#: gnumeric.desktop.in.h:1 src/main-application.c:314
+#: gnumeric.desktop.in.h:1 src/main-application.c:313
 msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric Spreadsheet"
 
@@ -417,11 +417,11 @@ msgstr ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
 "rows, and this workbook has %d"
 
-#: plugins/excel/ms-excel-write.c:4986
+#: plugins/excel/ms-excel-write.c:4990
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Couldn't open stream 'Book' for writing\n"
 
-#: plugins/excel/ms-excel-write.c:5006
+#: plugins/excel/ms-excel-write.c:5010
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Couldn't open stream 'Workbook' for writing\n"
 
@@ -1507,7 +1507,7 @@ msgstr "Objective function:"
 msgid "Constraints:"
 msgstr "Constraints:"
 
-#: plugins/mps/mps.c:245 src/cut-n-paste-code/goffice/graph/gog-guru.c:1065
+#: plugins/mps/mps.c:245 src/cut-n-paste-code/goffice/graph/gog-guru.c:1066
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:497 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:443
@@ -1672,8 +1672,8 @@ msgstr ""
 "d columns, and sheet '%s' has %d"
 
 #: plugins/openoffice/plugin.xml.in.h:1
-msgid "Open/Star Calc (*.sxc)"
-msgstr "Open/Star Calc (*.sxc)"
+msgid "Open/Star Calc (*.sxc, *.ods)"
+msgstr "Open/Star Calc (*.sxc, *.ods)"
 
 #: plugins/openoffice/plugin.xml.in.h:2
 msgid "Open/Star Office spreadsheet"
@@ -1687,15 +1687,15 @@ msgstr "OpenCalc/StarCalc"
 msgid "OpenOffice OASIS _UNFINISHED_"
 msgstr "OpenOffice OASIS _UNFINISHED_"
 
-#: plugins/paradox/paradox.c:72 plugins/paradox/paradox.c:121
+#: plugins/paradox/paradox.c:73 plugins/paradox/paradox.c:122
 msgid "Error while opening paradox file."
 msgstr "Error while opening paradox file."
 
-#: plugins/paradox/paradox.c:119
+#: plugins/paradox/paradox.c:120
 msgid "Could not allocate memory for record."
 msgstr "Could not allocate memory for record."
 
-#: plugins/paradox/paradox.c:219
+#: plugins/paradox/paradox.c:220
 #, c-format
 msgid "Field type %d is not supported."
 msgstr "Field type %d is not supported."
@@ -2950,15 +2950,15 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Use UTF-8 in LaTeX Export"
 
-#: src/cut-n-paste-code/goffice/app/file.c:513
+#: src/cut-n-paste-code/goffice/app/file.c:500
 msgid "Not a valid UTF-8 filename."
 msgstr "Not a valid UTF-8 filename."
 
-#: src/cut-n-paste-code/goffice/app/file.c:523
+#: src/cut-n-paste-code/goffice/app/file.c:510
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "Saving over old files of this type is disabled for safety."
 
-#: src/cut-n-paste-code/goffice/app/file.c:525
+#: src/cut-n-paste-code/goffice/app/file.c:512
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -3175,20 +3175,20 @@ msgstr "Unable to close module file \"%s\"."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Module doesn't contain \"%s\" function."
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:155
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:849
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:156
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:851
 msgid "Error while loading plugin service."
 msgstr "Error while loading plugin service."
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:163
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:164
 msgid "Initializing function inside plugin returned error."
 msgstr "Initializing function inside plugin returned error."
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:181
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:182
 msgid "Cleanup function inside plugin returned error."
 msgstr "Cleanup function inside plugin returned error."
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:191
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:192
 #: src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:74
 #: src/cut-n-paste-code/goffice/utils/format.c:2105
 #: src/cut-n-paste-code/goffice/utils/format.c:2419
@@ -3198,54 +3198,54 @@ msgstr "Cleanup function inside plugin returned error."
 msgid "General"
 msgstr "General"
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:342
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:343
 msgid "File opener has no description"
 msgstr "File opener has no description"
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:374
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:375
 #, c-format
 msgid "File opener - %s"
 msgstr "File opener - %s"
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:494
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:495
 msgid "Error while reading file."
 msgstr "Error while reading file."
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:660
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:661
 msgid "File saver has no description"
 msgstr "File saver has no description"
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:706
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:707
 #, c-format
 msgid "File saver - %s"
 msgstr "File saver - %s"
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:769
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:767
 msgid "Error while saving file."
 msgstr "Error while saving file."
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:884
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:886
 msgid "Plugin loader"
 msgstr "Plugin loader"
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:908
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:910
 msgid "GObject loader"
 msgstr "GObject loader"
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:1015
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:1017
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "No \"type\" attribute on \"service\" element."
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:1021
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:1023
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Unknown service type: %s."
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:1037
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:1039
 msgid "Error reading service information."
 msgstr "Error reading service information."
 
-#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:1099
+#: src/cut-n-paste-code/goffice/app/go-plugin-service.c:1101
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -3533,25 +3533,25 @@ msgstr "Graph"
 msgid "Chart"
 msgstr "Chart"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1092
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Step 1 of 2: Select Chart Type"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1099
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1100
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Step 2 of 2: Customize Chart"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1104
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1105
 msgid "Customize Chart"
 msgstr "Customize Chart"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1180
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1181
 #: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1435
 #: src/wbcg-actions.c:1593
 msgid "_Insert"
 msgstr "_Insert"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1238
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1239
 msgid "_Plot Type"
 msgstr "_Plot Type"
 
@@ -3621,7 +3621,7 @@ msgid "Point"
 msgstr "Point"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:159
-#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:367
+#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:372
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
@@ -4929,24 +4929,71 @@ msgstr "Preview"
 msgid "Size:"
 msgstr "Size:"
 
-#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:130
-#: src/gui-util.c:539
+#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:135
+#: src/gui-util.c:445
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Unable to open file '%s'"
 
-#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:402
-#: src/gui-file.c:246 src/gui-file.c:542
+#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:407
+#: src/gui-file.c:246 src/gui-file.c:378
 msgid "All Files"
 msgstr "All Files"
 
-#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:407
+#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:412
 msgid "Images"
 msgstr "Images"
 
-#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:445
+#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:449
 msgid "Select an Image"
 msgstr "Select an Image"
+
+#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:467
+msgid "Save as"
+msgstr "Save as"
+
+#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:489
+#: src/gui-file.c:277 src/gui-file.c:407
+msgid "File _type:"
+msgstr "File _type:"
+
+#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:510
+#: src/gui-file.c:456
+msgid ""
+"The given file extension does not match the chosen file type. Do you want to "
+"use this name anyway?"
+msgstr ""
+"The given file extension does not match the chosen file type. Do you want to "
+"use this name anyway?"
+
+#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:672
+#, c-format
+msgid ""
+"%s\n"
+"is a directory name"
+msgstr ""
+"%s\n"
+"is a directory name"
+
+#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:678
+#, c-format
+msgid ""
+"You do not have permission to save to\n"
+"%s"
+msgstr ""
+"You do not have permission to save to\n"
+"%s"
+
+#: src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c:687
+#, c-format
+msgid ""
+"A file called <i>%s</i> already exists in %s.\n"
+"\n"
+"Do you want to save over it?"
+msgstr ""
+"A file named <i>%s</i> already exists in %s.\n"
+"\n"
+"Do you want to overwrite it?"
 
 #: src/cut-n-paste-code/goffice/utils/format.c:86
 msgid "*Sun"
@@ -8642,16 +8689,16 @@ msgid "Variable"
 msgstr "Variable"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:247
-#: src/workbook-control-gui.c:1832
+#: src/workbook-control-gui.c:1831
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1834
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1833
 msgid "Average"
 msgstr "Average"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:249
-#: src/workbook-control-gui.c:1833
+#: src/workbook-control-gui.c:1832
 msgid "Max"
 msgstr "Max"
 
@@ -8946,23 +8993,23 @@ msgstr "_Unknown characters:"
 msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr "Autodiscovery did not find any columns in the text. Try manually"
 
-#: src/dialogs/dialog-stf-fixed-page.c:69
+#: src/dialogs/dialog-stf-fixed-page.c:68
 msgid "Merge with column on _left"
 msgstr "Merge with column on _left"
 
-#: src/dialogs/dialog-stf-fixed-page.c:71
+#: src/dialogs/dialog-stf-fixed-page.c:70
 msgid "Merge with column on _right"
 msgstr "Merge with column on _right"
 
-#: src/dialogs/dialog-stf-fixed-page.c:74
+#: src/dialogs/dialog-stf-fixed-page.c:73
 msgid "_Split this column"
 msgstr "_Split this column"
 
-#: src/dialogs/dialog-stf-fixed-page.c:77
+#: src/dialogs/dialog-stf-fixed-page.c:76
 msgid "_Widen this column"
 msgstr "_Widen this column"
 
-#: src/dialogs/dialog-stf-fixed-page.c:79
+#: src/dialogs/dialog-stf-fixed-page.c:78
 msgid "_Narrow this column"
 msgstr "_Narrow this column"
 
@@ -11483,7 +11530,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Range"
 
-#: src/tools/simulation.c:257 src/workbook-control-gui.c:1835
+#: src/tools/simulation.c:257 src/workbook-control-gui.c:1834
 msgid "Count"
 msgstr "Count"
 
@@ -13800,60 +13847,15 @@ msgstr "Automatically detected"
 msgid "Load file"
 msgstr "Load file"
 
-#: src/gui-file.c:221 src/gui-file.c:528
+#: src/gui-file.c:221 src/gui-file.c:364
 msgid "Select a file"
 msgstr "Select a file"
 
-#: src/gui-file.c:251 src/gui-file.c:547
+#: src/gui-file.c:251 src/gui-file.c:383
 msgid "Spreadsheets"
 msgstr "Spreadsheets"
 
-#: src/gui-file.c:277 src/gui-file.c:414 src/gui-file.c:571
-msgid "File _type:"
-msgstr "File _type:"
-
-#: src/gui-file.c:342
-#, c-format
-msgid ""
-"%s\n"
-"is a directory name"
-msgstr ""
-"%s\n"
-"is a directory name"
-
-#: src/gui-file.c:348
-#, c-format
-msgid ""
-"You do not have permission to save to\n"
-"%s"
-msgstr ""
-"You do not have permission to save to\n"
-"%s"
-
-#: src/gui-file.c:357
-#, c-format
-msgid ""
-"A file called <i>%s</i> already exists in %s.\n"
-"\n"
-"Do you want to save over it?"
-msgstr ""
-"A file named <i>%s</i> already exists in %s.\n"
-"\n"
-"Do you want to overwrite it?"
-
-#: src/gui-file.c:392
-msgid "Save as"
-msgstr "Save as"
-
-#: src/gui-file.c:437 src/gui-file.c:620
-msgid ""
-"The given file extension does not match the chosen file type. Do you want to "
-"use this name anyway?"
-msgstr ""
-"The given file extension does not match the chosen file type. Do you want to "
-"use this name anyway?"
-
-#: src/gui-file.c:470
+#: src/gui-file.c:324
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -13865,7 +13867,7 @@ msgstr ""
 "different file format.\n"
 "Do you want to save only current sheet?"
 
-#: src/gui-util.c:157
+#: src/gui-util.c:63
 msgid "Multiple errors\n"
 msgstr "Multiple errors\n"
 
@@ -13939,69 +13941,69 @@ msgstr "Shift Righ_t and Move"
 msgid "C_ancel"
 msgstr "C_ancel"
 
-#: src/main-application.c:60 src/ssconvert.c:44 src/ssindex.c:51
+#: src/main-application.c:59 src/ssconvert.c:44 src/ssindex.c:51
 msgid "Display Gnumeric's version"
 msgstr "Display Gnumeric's version"
 
-#: src/main-application.c:62 src/ssconvert.c:47 src/ssindex.c:54
+#: src/main-application.c:61 src/ssconvert.c:47 src/ssindex.c:54
 msgid "Set the root library directory"
 msgstr "Set the root library directory"
 
-#: src/main-application.c:64 src/ssconvert.c:49 src/ssindex.c:56
+#: src/main-application.c:63 src/ssconvert.c:49 src/ssindex.c:56
 msgid "Adjust the root data directory"
 msgstr "Adjust the root data directory"
 
-#: src/main-application.c:67 src/main-application.c:69
+#: src/main-application.c:66 src/main-application.c:68
 msgid "Dumps the function definitions"
 msgstr "Dumps the function definitions"
 
-#: src/main-application.c:67 src/main-application.c:69
+#: src/main-application.c:66 src/main-application.c:68
 msgid "FILE"
 msgstr "FILE"
 
-#: src/main-application.c:71
-msgid "Generate new help an po files"
+#: src/main-application.c:70
+msgid "Generate new help and po files"
 msgstr "Generate new help and po files"
 
-#: src/main-application.c:74
+#: src/main-application.c:73
 msgid "Enables some debugging functions"
 msgstr "Enables some debugging functions"
 
-#: src/main-application.c:74 src/main-application.c:77
-#: src/main-application.c:79 src/main-application.c:81
+#: src/main-application.c:73 src/main-application.c:76
+#: src/main-application.c:78 src/main-application.c:80
 msgid "LEVEL"
 msgstr "LEVEL"
 
-#: src/main-application.c:77
+#: src/main-application.c:76
 msgid "Enables some dependency related debugging functions"
 msgstr "Enables some dependency related debugging functions"
 
-#: src/main-application.c:79
+#: src/main-application.c:78
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Enables some debugging functions for expression sharing"
 
-#: src/main-application.c:81
+#: src/main-application.c:80
 msgid "Enables some print debugging behavior"
 msgstr "Enables some print debugging behaviour"
 
-#: src/main-application.c:84
+#: src/main-application.c:83
 msgid "Specify the size and location of the initial window"
 msgstr "Specify the size and location of the initial window"
 
-#: src/main-application.c:84
+#: src/main-application.c:83
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "WIDTHxHEIGHT+XOFF+YOFF"
 
-#: src/main-application.c:88
+#: src/main-application.c:87
 msgid "Don't show splash screen"
 msgstr "Don't show splash screen"
 
-#: src/main-application.c:91
+#: src/main-application.c:90
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Exit immediately after loading the selected books (useful for testing)."
 
-#: src/main-application.c:122
+#: src/main-application.c:121
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -14025,84 +14027,84 @@ msgstr ""
 "\n"
 "-- The Gnumeric Team."
 
-#: src/main-application.c:191
+#: src/main-application.c:190
 msgid "Gdk debugging flags to set"
 msgstr "Gdk debugging flags to set"
 
-#: src/main-application.c:191 src/main-application.c:193
-#: src/main-application.c:205 src/main-application.c:207
+#: src/main-application.c:190 src/main-application.c:192
+#: src/main-application.c:204 src/main-application.c:206
 msgid "FLAGS"
 msgstr "FLAGS"
 
-#: src/main-application.c:193
+#: src/main-application.c:192
 msgid "Gdk debugging flags to unset"
 msgstr "Gdk debugging flags to unset"
 
-#: src/main-application.c:195
+#: src/main-application.c:194
 msgid "X display to use"
 msgstr "X display to use"
 
-#: src/main-application.c:195
+#: src/main-application.c:194
 msgid "DISPLAY"
 msgstr "DISPLAY"
 
-#: src/main-application.c:197
+#: src/main-application.c:196
 msgid "X screen to use"
 msgstr "X screen to use"
 
-#: src/main-application.c:197
+#: src/main-application.c:196
 msgid "SCREEN"
 msgstr "SCREEN"
 
-#: src/main-application.c:199
+#: src/main-application.c:198
 msgid "Make X calls synchronous"
 msgstr "Make X calls synchronous"
 
-#: src/main-application.c:201
+#: src/main-application.c:200
 msgid "Program name as used by the window manager"
 msgstr "Program name as used by the window manager"
 
-#: src/main-application.c:201
+#: src/main-application.c:200
 msgid "NAME"
 msgstr "NAME"
 
-#: src/main-application.c:203
+#: src/main-application.c:202
 msgid "Program class as used by the window manager"
 msgstr "Program class as used by the window manager"
 
-#: src/main-application.c:203
+#: src/main-application.c:202
 msgid "CLASS"
 msgstr "CLASS"
 
-#: src/main-application.c:205
+#: src/main-application.c:204
 msgid "Gtk+ debugging flags to set"
 msgstr "Gtk+ debugging flags to set"
 
-#: src/main-application.c:207
+#: src/main-application.c:206
 msgid "Gtk+ debugging flags to unset"
 msgstr "Gtk+ debugging flags to unset"
 
-#: src/main-application.c:209
+#: src/main-application.c:208
 msgid "Make all warnings fatal"
 msgstr "Make all warnings fatal"
 
-#: src/main-application.c:211
+#: src/main-application.c:210
 msgid "Load an additional Gtk module"
 msgstr "Load an additional Gtk module"
 
-#: src/main-application.c:211
+#: src/main-application.c:210
 msgid "MODULE"
 msgstr "MODULE"
 
-#: src/main-application.c:217
+#: src/main-application.c:216
 msgid "Gnumeric options"
 msgstr "Gnumeric options"
 
-#: src/main-application.c:219
+#: src/main-application.c:218
 msgid "GTK+ options"
 msgstr "GTK+ options"
 
-#: src/main-application.c:283
+#: src/main-application.c:282
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -14206,19 +14208,19 @@ msgstr "Print Region"
 msgid "Print preview"
 msgstr "Print preview"
 
-#: src/print.c:1320
+#: src/print.c:1319
 msgid "Printing failed"
 msgstr "Printing failed"
 
-#: src/print.c:1426
+#: src/print.c:1425
 msgid "Print Sheets"
 msgstr "Print Sheets"
 
-#: src/print.c:1435
+#: src/print.c:1434
 msgid "Act_ive sheet"
 msgstr "Act_ive sheet"
 
-#: src/print.c:1435
+#: src/print.c:1434
 msgid "S_heets"
 msgstr "S_heets"
 
@@ -14510,23 +14512,23 @@ msgstr "can't create object for '%s'"
 msgid "Could not load file: %s"
 msgstr "Could not load file: %s"
 
-#: src/sheet-object-graph.c:208 src/sheet-object-image.c:347
+#: src/sheet-object-graph.c:202 src/sheet-object-image.c:347
 msgid "SVG (vector graphics)"
 msgstr "SVG (vector graphics)"
 
-#: src/sheet-object-graph.c:209 src/sheet-object-image.c:343
+#: src/sheet-object-graph.c:203 src/sheet-object-image.c:343
 msgid "PNG (raster graphics)"
 msgstr "PNG (raster graphics)"
 
-#: src/sheet-object-graph.c:210 src/sheet-object-image.c:345
+#: src/sheet-object-graph.c:204 src/sheet-object-image.c:345
 msgid "JPEG (photograph)"
 msgstr "JPEG (photograph)"
 
-#: src/sheet-object-graph.c:252 src/sheet-object-image.c:473
+#: src/sheet-object-graph.c:253 src/sheet-object-image.c:474
 msgid "Unknown failure while saving image"
 msgstr "Unknown failure while saving image"
 
-#: src/sheet-object-graph.c:265 src/sheet-object-image.c:488
+#: src/sheet-object-graph.c:266 src/sheet-object-image.c:489
 msgid "_Save as image"
 msgstr "_Save as image"
 
@@ -15957,7 +15959,7 @@ msgid "Import the text from a file"
 msgstr "Import the text from a file"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1892 src/workbook-control-gui.c:1831
+#: src/wbcg-actions.c:1892 src/workbook-control-gui.c:1830
 #: src/workbook-view.c:542
 msgid "Sum"
 msgstr "Sum"
@@ -16595,15 +16597,15 @@ msgstr "Don't quit"
 msgid "Don't close"
 msgstr "Don't close"
 
-#: src/workbook-control-gui.c:2238 src/workbook-control-gui.c:2253
+#: src/workbook-control-gui.c:2237 src/workbook-control-gui.c:2252
 msgid "_Re-Edit"
 msgstr "_Re-Edit"
 
-#: src/workbook-control-gui.c:2239 src/workbook-control-gui.c:2244
+#: src/workbook-control-gui.c:2238 src/workbook-control-gui.c:2243
 msgid "_Discard"
 msgstr "_Discard"
 
-#: src/workbook-control-gui.c:2243 src/workbook-control-gui.c:2254
+#: src/workbook-control-gui.c:2242 src/workbook-control-gui.c:2253
 msgid "_Accept"
 msgstr "_Accept"
 
@@ -16657,11 +16659,11 @@ msgstr "Default file saver is not available."
 msgid "Failed to create temporary file for sending."
 msgstr "Failed to create temporary file for sending."
 
-#: src/workbook-view.c:940
+#: src/workbook-view.c:946
 msgid "Unsupported file format."
 msgstr "Unsupported file format."
 
-#: src/workbook-view.c:988
+#: src/workbook-view.c:994
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "An unexplained error happened while opening %s"
