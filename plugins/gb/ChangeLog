@@ -1,5 +1,7 @@
 2001-05-17  Jody Goldberg <jgoldberg@home.com>
 
+	* plugin.c : include sheet.h
+
 	* common.c : include str.h
 
 2001-05-03  Jody Goldberg <jgoldberg@home.com>

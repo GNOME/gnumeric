@@ -34,6 +34,7 @@
 #include "module-plugin-defs.h"
 #include "expr.h"
 #include "func.h"
+#include "sheet.h"
 
 #include "common.h"
 #include "streams.h"
