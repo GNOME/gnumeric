@@ -1,3 +1,13 @@
+2002-07-07  Jon K Hellan  <hellan@acm.org>
+
+	* smob-value.c (scm_value_get_as_string): Do type conversion
+	instead of failing for VALUE_BOOLEAN, VALUE_INTEGER and
+	VALUE_FLOAT.
+	(scm_value_get_as_int): Do type conversion instead of failing for
+	VALUE_BOOLEAN and VALUE_FLOAT.
+	(scm_value_get_as_float): Do type conversion instead of failing
+	for VALUE_BOOLEAN and VALUE_INTEGER.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

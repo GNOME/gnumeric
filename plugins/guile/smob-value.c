@@ -211,7 +211,10 @@ scm_value_get_as_string (SCM value_smob)
 {
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
 
-	if (v->v->type ==  VALUE_STRING)
+	if (v->v->type == VALUE_STRING ||
+            v->v->type == VALUE_BOOLEAN ||
+            v->v->type == VALUE_INTEGER ||
+            v->v->type == VALUE_FLOAT)
 		return scm_makfrom0str (value_get_as_string (v->v));
 
 	return SCM_EOL;
@@ -221,7 +224,9 @@ static SCM
 scm_value_get_as_int (SCM value_smob)
 {
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
-	if (v->v->type ==  VALUE_INTEGER)
+	if (v->v->type == VALUE_BOOLEAN ||
+            v->v->type == VALUE_INTEGER ||
+            v->v->type == VALUE_FLOAT)
 		return scm_long2num (value_get_as_int (v->v));
 
 	return SCM_EOL;
@@ -232,10 +237,9 @@ scm_value_get_as_float (SCM value_smob)
 {
 	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
 
-	if (v->v->type ==  VALUE_FLOAT)
-		/*
-		return gh_double2scm (value_get_as_float (v->v));
-		*/
+	if (v->v->type == VALUE_BOOLEAN ||
+            v->v->type == VALUE_INTEGER ||
+            v->v->type == VALUE_FLOAT)
 		return scm_i_dbl2big (value_get_as_float (v->v));
 
 	return SCM_EOL;
