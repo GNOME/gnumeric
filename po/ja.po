@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.2\n"
 "POT-Creation-Date: 2002-01-10 23:59+0900\n"
-"PO-Revision-Date: 2002-01-11 00:51+0900\n"
+"PO-Revision-Date: 2002-01-11 00:57+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -6929,7 +6929,7 @@ msgstr ""
 #, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
-msgstr "対象範囲が小さすぎます。最低 %2$d 列 %1$d 行にする必要があります"
+msgstr "対象範囲が小さすぎます。最低 %d 行 %d 列にして下さい。"
 
 #: src/format-template.c:877
 #, c-format
