@@ -13,7 +13,7 @@
 
 # Adapted from script by daniel.savard@gmail.com
 
-# Utterly untested, btw.
+# Almost completely untested, btw.
 # PLEASE BACKUP YOUR FILES FIRST!
 
 my_file=$1
@@ -32,7 +32,7 @@ then
 fi
 
 if [ -w "$my_file" ]; then
-    gzip < "$my_file" | conv -f ISO8859-1 -t UTF-8 | sed s/'<?xml version="1.0"?>'/'<?xml version="1.0" encoding="UTF-8"?>'/ | gzip > $tmp
+    gunzip < "$my_file" | iconv -f ISO8859-1 -t UTF-8 | sed s/'<?xml version="1.0"?>'/'<?xml version="1.0" encoding="UTF-8"?>'/ | gzip > $tmp
     mv $tmp "$my_file"
 fi
 
