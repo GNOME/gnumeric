@@ -231,7 +231,7 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 		     range_equal (r, m)))
 			sel_descr = cell_pos_name (&r->start);
 		else
-			snprintf (buffer, sizeof (buffer), _("%dLx%dC"),
+			snprintf (buffer, sizeof (buffer), _("%dR x %dC"),
 				  r->end.row - r->start.row + 1,
 				  r->end.col - r->start.col + 1);
 

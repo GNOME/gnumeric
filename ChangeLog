@@ -1,4 +1,11 @@
+2001-09-25  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-view.c (wb_view_selection_desc) : fix old typo.
+
 2001-09-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/formats.c (cell_format_classify) : parse first, search list later.
+	  This ensures that we find the right precision and such.
 
 	* src/number-match.c (format_create_regexp) : fix matching for
 	  non-separated numbers.  This still needs work.  The regexp is
