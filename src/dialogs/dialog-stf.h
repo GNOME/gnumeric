@@ -139,14 +139,16 @@ typedef struct {
 } DialogStfResult_t;
 
 /* This is the main function which handles all the dialog import stuff */
-DialogStfResult_t *dialog_stf                                      (CommandContext *context, const char *filename, const char *data);
-void               dialog_stf_result_free                          (DialogStfResult_t *dialogresult);
+DialogStfResult_t *stf_dialog                           (CommandContext *context, const char *filename,
+							 const char *data);
+void               stf_dialog_result_free               (DialogStfResult_t *dialogresult);
 
 /* UTILITY FUNCTIONS
  *
  * These are utility functions that can be used by the separate pages
  */
-void    dialog_stf_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanvasRect *rectangle, double width, double height);
+void    stf_dialog_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanvasRect *rectangle,
+							 double width, double height);
 
 /* INIT FUNCTIONS
  *
@@ -154,10 +156,10 @@ void    dialog_stf_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, Gn
  * each page the opportunity to connect signal handlers and set the contents
  * of their Info_t record
  */
-void    main_page_init                                  (GladeXML *gui, DruidPageData_t *pagedata);
-void    csv_page_init                                   (GladeXML *gui, DruidPageData_t *pagedata);
-void    fixed_page_init                                 (GladeXML *gui, DruidPageData_t *pagedata);
-void    format_page_init                                (GladeXML *gui, DruidPageData_t *pagedata);
+void    stf_dialog_main_page_init                       (GladeXML *gui, DruidPageData_t *pagedata);
+void    stf_dialog_csv_page_init                        (GladeXML *gui, DruidPageData_t *pagedata);
+void    stf_dialog_fixed_page_init                      (GladeXML *gui, DruidPageData_t *pagedata);
+void    stf_dialog_format_page_init                     (GladeXML *gui, DruidPageData_t *pagedata);
 
 /* PREPARE functions
  *
@@ -167,9 +169,12 @@ void    format_page_init                                (GladeXML *gui, DruidPag
  * NOTE : These are signal handlers which are directly coupled to
  *        the corresponding page. (in dialog_stf()) Don't call them directly!
  */
-void    csv_page_prepare                                (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data);
-void    fixed_page_prepare                              (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data);
-void    format_page_prepare                             (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data);
+void    stf_dialog_csv_page_prepare                     (GnomeDruidPage *page, GnomeDruid *druid,
+							 DruidPageData_t *data);
+void    stf_dialog_fixed_page_prepare                   (GnomeDruidPage *page, GnomeDruid *druid,
+							 DruidPageData_t *data);
+void    stf_dialog_format_page_prepare                  (GnomeDruidPage *page, GnomeDruid *druid,
+							 DruidPageData_t *data);
 
 /* CLEANUP functions
  *
@@ -177,17 +182,8 @@ void    format_page_prepare                             (GnomeDruidPage *page, G
  * Pages can free dynamic run-time data here
  * Not every page MUST have this, it is optional
  */
-void    csv_page_cleanup                                (DruidPageData_t *pagedata);
-void    fixed_page_cleanup                              (DruidPageData_t *pagedata);
-void    format_page_cleanup                             (DruidPageData_t *pagedata);
+void    stf_dialog_csv_page_cleanup                     (DruidPageData_t *pagedata);
+void    stf_dialog_fixed_page_cleanup                   (DruidPageData_t *pagedata);
+void    stf_dialog_format_page_cleanup                  (DruidPageData_t *pagedata);
  
 #endif /* GNUMERIC_DIALOG_STF_H */
-
-
-
-
-
-
-
-
-

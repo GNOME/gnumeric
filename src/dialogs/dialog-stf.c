@@ -33,7 +33,7 @@
  **********************************************************************************************/
  
 /**
- * dialog set_center_prevent_rectangle_size
+ * stf_dialog_set_scroll_region_and_prevent_center
  * @canvas : canvas where the @rectangle is located on
  * @rectangle : a rectangle on the @canvas which can be used for centering purposes
  * @height : the height of the region which is covered on the canvas
@@ -47,7 +47,7 @@
  * returns : nothing
  **/
 void
-dialog_stf_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanvasRect *rectangle, double width, double height)
+stf_dialog_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanvasRect *rectangle, double width, double height)
 {
 	int canvaswidth, canvasheight;
 	double rectwidth, rectheight;
@@ -84,7 +84,7 @@ dialog_stf_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanva
  **********************************************************************************************/
 
 /**
- * dialog_stf_druid_page_cancel
+ * stf_dialog_druid_page_cancel
  * @page : Active druid page
  * @druid : The parent Druid widget
  * @data : mother struct 
@@ -94,7 +94,7 @@ dialog_stf_set_scroll_region_and_prevent_center (GnomeCanvas *canvas, GnomeCanva
  * returns : TRUE if the user actually wants to cancel, FALSE otherwise.
  **/
 static gboolean
-dialog_stf_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
+stf_dialog_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
 {
 	GtkWidget *dialog, *no_button;
 	int ret;
@@ -113,7 +113,7 @@ dialog_stf_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid, DruidPage
 }
 
 /** 
- * dialog_stf_druid_position_to_page
+ * stf_dialog_druid_position_to_page
  * @pagedata : mother struct
  * @pos : Position in the druid
  *
@@ -122,7 +122,7 @@ dialog_stf_druid_page_cancel (GnomeDruidPage *page, GnomeDruid *druid, DruidPage
  * returns : A pointer to the GnomeDruidPage indicated by @pos
  **/
 static GnomeDruidPage*
-dialog_stf_druid_position_to_page (DruidPageData_t *pagedata, DruidPosition_t pos) 
+stf_dialog_druid_position_to_page (DruidPageData_t *pagedata, DruidPosition_t pos) 
 {
 	switch (pos) {
 	case DPG_MAIN   : return pagedata->main_page;
@@ -136,7 +136,7 @@ dialog_stf_druid_position_to_page (DruidPageData_t *pagedata, DruidPosition_t po
 }
 
 /** 
- * dialog_stf_set_initial_keyboard_focus
+ * stf_dialog_set_initial_keyboard_focus
  * @pagedata : mother struct
  *
  * Sets keyboard focus to the an appropriate widget on the page.
@@ -144,7 +144,7 @@ dialog_stf_druid_position_to_page (DruidPageData_t *pagedata, DruidPosition_t po
  * returns : nothing
  **/
 static void
-dialog_stf_set_initial_keyboard_focus (DruidPageData_t *pagedata)
+stf_dialog_set_initial_keyboard_focus (DruidPageData_t *pagedata)
 {
 	GtkWidget *focus_widget = NULL;
 	
@@ -174,7 +174,7 @@ dialog_stf_set_initial_keyboard_focus (DruidPageData_t *pagedata)
 }
 
 /**
- * dialog_stf_druid_page_next
+ * stf_dialog_druid_page_next
  * @page : A druid page
  * @druid : The druid itself
  * @data : mother struct
@@ -185,7 +185,7 @@ dialog_stf_set_initial_keyboard_focus (DruidPageData_t *pagedata)
  * returns : always TRUE, because it always sets the new page manually
  **/
 static gboolean
-dialog_stf_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
+stf_dialog_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
 {
 	DruidPosition_t newpos;
 	GnomeDruidPage *nextpage;
@@ -228,7 +228,7 @@ dialog_stf_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageDa
 		return FALSE;
 	}
 
-        nextpage = dialog_stf_druid_position_to_page (data, newpos);
+        nextpage = stf_dialog_druid_position_to_page (data, newpos);
 	if (!nextpage) {
 		g_warning ("Page Cycle Error : Invalid page");
 		return FALSE;
@@ -237,7 +237,7 @@ dialog_stf_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageDa
 	gnome_druid_set_page (druid, nextpage);
 	data->position = newpos;
 
-	dialog_stf_set_initial_keyboard_focus (data);
+	stf_dialog_set_initial_keyboard_focus (data);
 	if (newpos == DPG_FORMAT) {
 		gnome_druid_set_show_finish (data->druid, TRUE);
 		gtk_widget_grab_default (data->druid->finish);
@@ -247,7 +247,7 @@ dialog_stf_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageDa
 }
 
 /**
- * dialog_stf_druid_page_previous
+ * stf_dialog_druid_page_previous
  * @page : a druid page
  * @druid : a druid
  * @data : mother struct
@@ -257,7 +257,7 @@ dialog_stf_druid_page_next (GnomeDruidPage *page, GnomeDruid *druid, DruidPageDa
  * returns : always TRUE, because it always cycles to the previous page manually
  **/
 static gboolean
-dialog_stf_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
+stf_dialog_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
 {
 	DruidPosition_t newpos;
 	GnomeDruidPage *nextpage;
@@ -279,7 +279,7 @@ dialog_stf_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 	if (newpos == DPG_MAIN) 
 		gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE);
 	
-        nextpage = dialog_stf_druid_position_to_page (data, newpos);
+        nextpage = stf_dialog_druid_position_to_page (data, newpos);
 	if (!nextpage) {
 		g_warning ("Page Cycle Error : Invalid page");
 		return FALSE;
@@ -288,7 +288,7 @@ dialog_stf_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 	gnome_druid_set_page (data->druid, nextpage);
 	data->position = newpos;
 
-	dialog_stf_set_initial_keyboard_focus (data);
+	stf_dialog_set_initial_keyboard_focus (data);
 	if (newpos == DPG_MAIN) 
 		gnome_druid_set_buttons_sensitive (druid, FALSE, TRUE, TRUE);
 	else
@@ -297,7 +297,7 @@ dialog_stf_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 }
 
 /**
- * dialog_stf_druid_cancel
+ * stf_dialog_druid_cancel
  * @druid : a druid
  * @data : mother struct
  * 
@@ -306,14 +306,14 @@ dialog_stf_druid_page_previous (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
  * returns : nothing
  **/
 static void
-dialog_stf_druid_cancel (GnomeDruid *druid, DruidPageData_t *data)
+stf_dialog_druid_cancel (GnomeDruid *druid, DruidPageData_t *data)
 {
 	data->canceled = TRUE;
 	gtk_main_quit ();
 }
 
 /**
- * dialog_stf_check_escape
+ * stf_dialog_check_escape
  * @druid : a druid
  * @event : the event
  * 
@@ -322,7 +322,7 @@ dialog_stf_druid_cancel (GnomeDruid *druid, DruidPageData_t *data)
  * returns : TRUE if we handled the keypress, FALSE if we pass it on.
  **/
 static gint
-dialog_stf_check_escape (GnomeDruid *druid, GdkEventKey *event,
+stf_dialog_check_escape (GnomeDruid *druid, GdkEventKey *event,
 			 DruidPageData_t *data)
 {
 	if (event->keyval == GDK_Escape) {
@@ -333,25 +333,25 @@ dialog_stf_check_escape (GnomeDruid *druid, GdkEventKey *event,
 }
 
 /**
- * dialog_stf_format_page_druid_finish
+ * stf_dialog_format_page_druid_finish
  * @druid : a druid
  * @page : a druidpage
  * @data : mother struct
  *
  * Stops the druid but does not set the cancel property of @data.
- * The main routine (dialog_stf()) will know that the druid has successfully
+ * The main routine (stf_dialog()) will know that the druid has successfully
  * been completed.
  *
  * returns : nothing
  **/
 static void
-dialog_stf_druid_format_page_finish (GnomeDruid *druid, GnomeDruidPage *page, DruidPageData_t *data)
+stf_dialog_druid_format_page_finish (GnomeDruid *druid, GnomeDruidPage *page, DruidPageData_t *data)
 {
 	gtk_main_quit ();
 }
 
 /**
- * dialog_stf_attach_page_signals
+ * stf_dialog_attach_page_signals
  * @gui : the glade gui of the dialog
  * @pagedata : mother struct
  * 
@@ -364,7 +364,7 @@ dialog_stf_druid_format_page_finish (GnomeDruid *druid, GnomeDruidPage *page, Dr
  * returns : nothing
  **/
 static void
-dialog_stf_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
+stf_dialog_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 {
 	pagedata->window     = GTK_WINDOW  (glade_xml_get_widget (gui, "window"));
 	pagedata->druid      = GNOME_DRUID (glade_xml_get_widget (gui, "druid"));
@@ -382,90 +382,90 @@ dialog_stf_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 
 	gtk_signal_connect (GTK_OBJECT (pagedata->main_page), 
 			    "next", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_next),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_next),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (pagedata->csv_page), 
 			    "next", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_next),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_next),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (pagedata->fixed_page), 
 			    "next", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_next),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_next),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (pagedata->format_page), 
 			    "next", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_next),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_next),
 			    pagedata);		  
 
 	gtk_signal_connect (GTK_OBJECT (pagedata->main_page), 
 			    "back", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_previous),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_previous),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (pagedata->csv_page), 
 			    "back", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_previous),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_previous),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (pagedata->fixed_page), 
 			    "back", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_previous),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_previous),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (pagedata->format_page), 
 			    "back", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_previous),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_previous),
 			    pagedata);
 
 	gtk_signal_connect (GTK_OBJECT (pagedata->main_page), 
 			    "cancel", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_cancel),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_cancel),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (pagedata->csv_page), 
 			    "cancel", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_cancel),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_cancel),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (pagedata->fixed_page), 
 			    "cancel", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_cancel),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_cancel),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (pagedata->format_page), 
 			    "cancel", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_page_cancel),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_cancel),
 			    pagedata);
 			    
 	gtk_signal_connect (GTK_OBJECT (pagedata->format_page), 
 			    "finish", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_format_page_finish),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_format_page_finish),
 			    pagedata);
 
 	gtk_signal_connect (GTK_OBJECT (pagedata->csv_page), 
 			    "prepare", 
-			    GTK_SIGNAL_FUNC (csv_page_prepare),
+			    GTK_SIGNAL_FUNC (stf_dialog_csv_page_prepare),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (pagedata->fixed_page), 
 			    "prepare", 
-			    GTK_SIGNAL_FUNC (fixed_page_prepare),
+			    GTK_SIGNAL_FUNC (stf_dialog_fixed_page_prepare),
 			    pagedata);
 	gtk_signal_connect (GTK_OBJECT (pagedata->format_page), 
 			    "prepare", 
-			    GTK_SIGNAL_FUNC (format_page_prepare),
+			    GTK_SIGNAL_FUNC (stf_dialog_format_page_prepare),
 			    pagedata);
 			    
 	/* Signals for the druid itself */
 
 	gtk_signal_connect (GTK_OBJECT (pagedata->druid), 
 			    "cancel", 
-			    GTK_SIGNAL_FUNC (dialog_stf_druid_cancel),
+			    GTK_SIGNAL_FUNC (stf_dialog_druid_cancel),
 			    pagedata);
 
 	/* And for the surrounding window */
 
 	gtk_signal_connect (GTK_OBJECT (pagedata->window),
 			    "key_press_event",
-			    GTK_SIGNAL_FUNC (dialog_stf_check_escape),
+			    GTK_SIGNAL_FUNC (stf_dialog_check_escape),
 			    pagedata);
 }
 
 /** 
- * dialog_stf_editables_enter
+ * stf_dialog_editables_enter
  * @pagedata : mother struct
  *
  * Make <Ret> in text fields activate default.
@@ -473,7 +473,7 @@ dialog_stf_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
  * returns : nothing
  **/
 static void
-dialog_stf_editables_enter (DruidPageData_t *pagedata)
+stf_dialog_editables_enter (DruidPageData_t *pagedata)
 {
 	gnumeric_editable_enters
 		(pagedata->window,
@@ -496,7 +496,7 @@ dialog_stf_editables_enter (DruidPageData_t *pagedata)
 }
 
 /**
- * dialog_stf
+ * stf_dialog
  * @context : a Commandcontext (can be NULL)
  * @filename : name of the file we are importing (or data)
  * @data : the data itself
@@ -507,7 +507,7 @@ dialog_stf_editables_enter (DruidPageData_t *pagedata)
  * returns : A DialogStfResult_t struct on success, NULL otherwise. 
  **/
 DialogStfResult_t*
-dialog_stf (CommandContext *context, const char *filename, const char *data)
+stf_dialog (CommandContext *context, const char *filename, const char *data)
 {
 	GladeXML *gui;
 	DialogStfResult_t *dialogresult;
@@ -550,16 +550,16 @@ dialog_stf (CommandContext *context, const char *filename, const char *data)
 	pagedata.fixed_info  = &fixed_info;
 	pagedata.format_info = &format_info;
 
-	main_page_init   (gui, &pagedata);
-	csv_page_init    (gui, &pagedata);
-	fixed_page_init  (gui, &pagedata);
-	format_page_init (gui, &pagedata);
+	stf_dialog_main_page_init   (gui, &pagedata);
+	stf_dialog_csv_page_init    (gui, &pagedata);
+	stf_dialog_fixed_page_init  (gui, &pagedata);
+	stf_dialog_format_page_init (gui, &pagedata);
 
-	dialog_stf_attach_page_signals (gui, &pagedata);
+	stf_dialog_attach_page_signals (gui, &pagedata);
 
-	dialog_stf_editables_enter (&pagedata);	
+	stf_dialog_editables_enter (&pagedata);	
 
-	dialog_stf_set_initial_keyboard_focus (&pagedata);
+	stf_dialog_set_initial_keyboard_focus (&pagedata);
 	gtk_widget_grab_default (pagedata.druid->next);
 	
 	gnumeric_set_transient (context, pagedata.window);
@@ -585,18 +585,17 @@ dialog_stf (CommandContext *context, const char *filename, const char *data)
 			fixed_info.fixed_run_parseoptions= NULL;
 		}
 
-		dialogresult->formats      = format_info.format_run_list;
+		dialogresult->formats = format_info.format_run_list;
 	}
 
 	/* Quick Note, if the parseoptions members of either the csv page or
 	 * fixed page have been set to NULL when calling the cleanup function
-	 * they will not attempt to free it, this will be done in dialog_stf_result_free
+	 * they will not attempt to free it, this will be done in stf_dialog_result_free
 	 * instead
 	 */
-	csv_page_cleanup    (&pagedata);
-	fixed_page_cleanup  (&pagedata);
-	
-	format_page_cleanup (&pagedata);
+	stf_dialog_csv_page_cleanup    (&pagedata);
+	stf_dialog_fixed_page_cleanup  (&pagedata);
+	stf_dialog_format_page_cleanup (&pagedata);
 	
 	gtk_widget_destroy (GTK_WIDGET (pagedata.window));
 	gtk_object_unref (GTK_OBJECT (gui));
@@ -605,7 +604,7 @@ dialog_stf (CommandContext *context, const char *filename, const char *data)
 }
 
 /**
- * dialog_stf_result_free
+ * stf_dialog_result_free
  * @dialogresult : a dialogresult struct
  *
  * This routine will properly free the members of @dialogresult and
@@ -614,7 +613,7 @@ dialog_stf (CommandContext *context, const char *filename, const char *data)
  * returns : nothing
  **/
 void
-dialog_stf_result_free (DialogStfResult_t *dialogresult)
+stf_dialog_result_free (DialogStfResult_t *dialogresult)
 {
 	GSList *iterator;
 

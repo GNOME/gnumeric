@@ -229,7 +229,7 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
  *************************************************************************************************/
 
 /**
- * format_page_prepare
+ * stf_dialog_format_page_prepare
  * @page : format page
  * @druid : gnome druid hosting @page
  * @data : mother struct
@@ -240,7 +240,7 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
  * returns : nothing
  **/
 void
-format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
+stf_dialog_format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *data)
 {
 	FormatInfo_t *info = data->format_info;
 	char *t[2];
@@ -289,7 +289,7 @@ format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *d
 }
 
 /**
- * format_page_cleanup
+ * stf_dialog_format_page_cleanup
  * @pagedata : mother struct
  *
  * This should be called when the druid has finished to clean up resources
@@ -298,7 +298,8 @@ format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *d
  *
  * returns : nothing
  **/
-void format_page_cleanup (DruidPageData_t *pagedata)
+void
+stf_dialog_format_page_cleanup (DruidPageData_t *pagedata)
 {
 	FormatInfo_t *info = pagedata->format_info;
 
@@ -309,7 +310,7 @@ void format_page_cleanup (DruidPageData_t *pagedata)
 }
 
 /**
- * format_page_init
+ * stf_dialog_format_page_init
  * @gui : The glade gui of the dialog
  * @pagedata : pagedata mother struct passed to signal handlers etc.
  *
@@ -319,7 +320,7 @@ void format_page_cleanup (DruidPageData_t *pagedata)
  * returns : nothing
  **/
 void
-format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
+stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 {
 	FormatInfo_t *info;
 	const char * const * const * mainiterator = cell_formats;

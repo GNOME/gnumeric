@@ -419,7 +419,7 @@ fixed_page_remove_clicked (GtkButton *button, DruidPageData_t *data)
  *************************************************************************************************/
 
 /**
- * fixed_page_prepare
+ * stf_dialog_fixed_page_prepare
  * @page : The druidpage that emmitted the signal
  * @druid : The gnomedruid that houses @page
  * @data : mother struct
@@ -429,7 +429,7 @@ fixed_page_remove_clicked (GtkButton *button, DruidPageData_t *data)
  * returns : nothing
  **/
 void
-fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *pagedata)
+stf_dialog_fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *pagedata)
 {
 	FixedInfo_t *info = pagedata->fixed_info;
 	GtkAdjustment *spinadjust;
@@ -456,7 +456,7 @@ fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *pa
 }
 
 /**
- * fixed_page_cleanup
+ * stf_dialog_fixed_page_cleanup
  * @pagedata : mother struct
  *
  * Will cleanup fixed page run-time data
@@ -464,7 +464,7 @@ fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *pa
  * returns : nothing
  **/
 void
-fixed_page_cleanup (DruidPageData_t *pagedata)
+stf_dialog_fixed_page_cleanup (DruidPageData_t *pagedata)
 {
 	FixedInfo_t *info = pagedata->fixed_info;
 
@@ -480,7 +480,7 @@ fixed_page_cleanup (DruidPageData_t *pagedata)
 }
 
 /**
- * fixed_page_init
+ * stf_dialog_fixed_page_init
  * @gui : The glade gui of the dialog
  * @pagedata : pagedata mother struct passed to signal handlers etc.
  *
@@ -490,7 +490,7 @@ fixed_page_cleanup (DruidPageData_t *pagedata)
  * returns : nothing
  **/
 void
-fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
+stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 {
 	FixedInfo_t *info;
 	char *t[2];

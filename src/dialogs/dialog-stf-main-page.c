@@ -31,7 +31,7 @@ main_page_set_spin_button_adjustment (GtkSpinButton* spinbutton, int min, int ma
 }
 
 /**
- * set_center_prevent_rectangle_size
+ * main_page_set_scroll_region_and_prevent_center
  * @data : a mother struct
  *
  * This is merely a hack to prevent the canvas from centering on the text if the text 
@@ -53,7 +53,7 @@ main_page_set_scroll_region_and_prevent_center (DruidPageData_t *data)
 			NULL);
 	textwidth += TEXT_OFFSET;
 	
-	dialog_stf_set_scroll_region_and_prevent_center (info->main_canvas,
+	stf_dialog_set_scroll_region_and_prevent_center (info->main_canvas,
 							 info->main_run_rect,
 							 textwidth,
 							 textheight);
@@ -140,7 +140,7 @@ main_page_stoprow_changed (GtkSpinButton* button, DruidPageData_t *data)
  *************************************************************************************************/
 
 /**
- * main_page_init
+ * stf_dialog_main_page_init
  * @gui : The glade gui of the dialog
  * @pagedata : pagedata mother struct passed to signal handlers etc.
  *
@@ -150,7 +150,7 @@ main_page_stoprow_changed (GtkSpinButton* button, DruidPageData_t *data)
  * returns : nothing
  **/
 void
-main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
+stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 {
 	MainInfo_t *info = pagedata->main_info;
 	char *label;

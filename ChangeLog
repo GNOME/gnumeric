@@ -1,3 +1,19 @@
+2000-03-25  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/dialogs/dialog-stf.h, src/dialogs/dialog-stf.c : Added a
+	stf_dialog prefix to all functions and changed dialog_stf into
+	stf_dialog, this makes more sense as the same naming convention
+	was used in src/stf-parse.[ch] and src/dialogs/dialog-stf-preview.[ch]
+	
+	* src/dialogs/dialog-stf-main-page.c : idem
+	* src/dialogs/dialog-stf-csv-page.c : idem
+	* src/dialogs/dialog-stf-fixed-page.c : idem
+	* src/dialogs/dialog-stf-format-page.c : idem
+	* src/dialogs/dialog-stf-preview.c : idem
+
+	* src/stf.c : Uses the renamed functions
+	* src/clipboard.c : idem
+	
 2000-03-24  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/file.c (workbook_import): Destroy the toplevel not the

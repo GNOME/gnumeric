@@ -144,7 +144,7 @@ csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
  *************************************************************************************************/
 
 /**
- * csv_page_prepare
+ * stf_dialog_csv_page_prepare
  * @page : The druidpage that emmitted the signal
  * @druid : The gnomedruid that houses @page
  * @data : mother struct
@@ -154,7 +154,7 @@ csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
  * returns : nothing
  **/
 void
-csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *pagedata)
+stf_dialog_csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *pagedata)
 {
 	CsvInfo_t *info = pagedata->csv_info;
 
@@ -177,7 +177,7 @@ csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *page
 }
 
 /**
- * csv_page_cleanup
+ * stf_dialog_csv_page_cleanup
  * @pagedata : mother struct
  *
  * Will cleanup csv page run-time data
@@ -185,7 +185,7 @@ csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageData_t *page
  * returns : nothing
  **/
 void
-csv_page_cleanup (DruidPageData_t *pagedata)
+stf_dialog_csv_page_cleanup (DruidPageData_t *pagedata)
 {
 	CsvInfo_t *info = pagedata->csv_info;
 
@@ -202,7 +202,7 @@ csv_page_cleanup (DruidPageData_t *pagedata)
 }
  
 /**
- * csv_page_init
+ * stf_dialog_csv_page_init
  * @gui : The glade gui of the dialog
  * @pagedata : pagedata mother struct passed to signal handlers etc.
  *
@@ -212,7 +212,7 @@ csv_page_cleanup (DruidPageData_t *pagedata)
  * returns : nothing
  **/
 void
-csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
+stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 {
 	CsvInfo_t *info;
 

@@ -151,7 +151,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 
 	workbook_attach_sheet (book, sheet);
 	
-	dialogresult = dialog_stf (context, filename, data);
+	dialogresult = stf_dialog (context, filename, data);
 
 	if (dialogresult != NULL) {
 		Range range;
@@ -208,7 +208,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 
 	if (dialogresult != NULL) {
 
-		dialog_stf_result_free (dialogresult);
+		stf_dialog_result_free (dialogresult);
 	
 		return 0;
 	} else

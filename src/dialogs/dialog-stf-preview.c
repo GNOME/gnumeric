@@ -594,7 +594,7 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 							       "fill_color", "white",
 							       NULL));
 							       
-	dialog_stf_set_scroll_region_and_prevent_center (renderdata->canvas,
+	stf_dialog_set_scroll_region_and_prevent_center (renderdata->canvas,
 							 centerrect,
 							 stf_preview_get_table_pixel_width (renderdata),
 							 stf_preview_get_table_pixel_height (renderdata, rowcount));

@@ -239,7 +239,7 @@ x_selection_to_cell_region (CommandContext *context, char const * data,
 		return crerr;
 	}
 
-	dialogresult = dialog_stf (context, "clipboard", data);
+	dialogresult = stf_dialog (context, "clipboard", data);
 
 	if (dialogresult != NULL) {
 		GSList *iterator;
@@ -279,7 +279,7 @@ x_selection_to_cell_region (CommandContext *context, char const * data,
 			col++;
 		}
 
-		dialog_stf_result_free (dialogresult);
+		stf_dialog_result_free (dialogresult);
 	}
 	else {
 	
