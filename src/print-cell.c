@@ -241,10 +241,19 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 {
 	RenderedValue *rv, *cell_rv = cell->rendered_value;
 	PangoLayout *layout, *cell_layout = cell_rv->layout;
-	GdkRectangle  rect;
 	GdkColor *color; 
 	gint x;
 	gint y;
+	ColRowInfo const * const ci = cell->col_info;
+	ColRowInfo const * const ri = cell->row_info;
+
+	/* Get the sizes exclusive of margins and grids */
+	/* FIXME : all callers will eventually pass in their cell size */
+	/* Note: +1 because size_pixels includes right gridline.  */
+	if (width < 0) /* DEPRECATED */
+		width  = ci->size_pts - (ci->margin_b + ci->margin_a + 1);
+	if (height < 0) /* DEPRECATED */
+		height = ri->size_pts - (ri->margin_b + ri->margin_a + 1);
 
 	/* Create a rendered value for printing */
 	rv = rendered_value_new ((GnmCell *)cell, mstyle, TRUE, pcontext);
@@ -254,16 +263,17 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 	pango_layout_set_attributes (layout, 
 				     pango_layout_get_attributes (cell_layout));
 
-	if (cell_calc_layout (cell, rv, TRUE,
-			      (int)x1, (int)y1, (int)width, (int)height, (int)h_center,
-			      &rect, &color, &x, &y)) {
+	if (cell_calc_layout (cell, rv, -1,
+			      (int)width, (int)height, (int)h_center,
+			      &color, &x, &y)) {
+		double x0 = x1 + 1 + ci->margin_a;
+		double y0 = y1 - (1 + ri->margin_a);
+
 		/* Clip the printed rectangle */
 		gnome_print_gsave (context);
 		print_make_rectangle_path (context,
-					   rect.x - 1,
-					   rect.y - rect.height - 1,
-					   rect.x + rect.width + 1,
-					   rect.y + 1);
+					   x0 - 1, y0 - height,
+					   x0 + width, y0 + 1);
 		gnome_print_clip (context);
 
 		/* Set the font colour */
@@ -272,7 +282,7 @@ print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
 					 color->green / (double) 0xffff,
 					 color->blue  / (double) 0xffff);
 
-		gnome_print_moveto (context, x, y);
+		gnome_print_moveto (context, x1 + x, y1 + y);
 		gnome_print_pango_layout (context, layout);
 		gnome_print_grestore (context);
 	}

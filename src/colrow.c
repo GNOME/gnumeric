@@ -416,6 +416,7 @@ cb_clear_variable_width_content (Sheet *sheet, int col, int row, GnmCell *cell)
 {
 	if (cell->rendered_value != NULL &&
 	    cell->rendered_value->variable_width) {
+		cell->row_info->needs_respan = TRUE;
 		rendered_value_destroy (cell->rendered_value);
 		cell->rendered_value = NULL;
 	}

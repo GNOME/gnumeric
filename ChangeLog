@@ -1,5 +1,17 @@
 2004-09-22  Morten Welinder  <terra@gnome.org>
 
+	* src/colrow.c (cb_clear_variable_width_content): Force a redraw.
+
+	* src/cell-draw.c (cell_calc_layout): Drop rect argument.  Replace
+	printing argument by y_direction argument.  Drop x1 and y1
+	arguments.  Callers changed.
+	(cell_calc_layout): Insert zero_width_space characters in the
+	right spot.
+
+	* src/print-cell.c (print_cell_NEW): Use size_pts.
+
+2004-09-22  Morten Welinder  <terra@gnome.org>
+
 	* src/print-cell.c (print_merged_range, print_cell): Take extra
 	PangoContext argument.  All callers changed.
 	(print_cell_range): Create a pango context.
