@@ -1,6 +1,9 @@
 Makefile.in
 Makefile
 .deps
+.libs
 gnumeric
 test-format
-test-parser parser.c
+test-parser
+parser.c
+number-match

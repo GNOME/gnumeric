@@ -1,0 +1,7 @@
+Makefile
+Makefile.in
+.deps
+.libs
+*.lo
+libperl.la
+xsinit.c

@@ -15,3 +15,5 @@ stamp-h
 Makefile
 stamp.h
 stamp-h.in
+xlibtool
+xltmain.sh
