@@ -571,12 +571,14 @@ search_filter_matching (SearchReplace *sr, const GPtrArray *cells)
 			SearchFilterResult *item = g_new (SearchFilterResult, 1);
 			item->ep = *ep;
 			item->cell = cell_res.cell;
+			item->comment = NULL;
 			g_ptr_array_add (result, item);
 		}
 
 		if (search_replace_comment (sr, ep, FALSE, &comment_res)) {
 			SearchFilterResult *item = g_new (SearchFilterResult, 1);
 			item->ep = *ep;
+			item->cell = NULL;
 			item->comment = comment_res.comment;
 			g_ptr_array_add (result, item);
 		}

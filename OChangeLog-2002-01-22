@@ -1,3 +1,8 @@
+2001-11-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	
+	* src/search.c (search_filter_matching) initialize pointers to 
+	  NULL
+	
 2001-11-29  Abel Cheung  <maddog@linux.org.hk>
 
 	* configure.in: Re-added zh_TW into ALL_LINGUAS, verified
