@@ -1,3 +1,7 @@
+2003-08-04  Andreas Guelzow <aguelzow@taliesin.ca>
+
+	* POTFILES.in: Added src/session.c
+
 2003-08-06  Pablo Gonzalo del Campo  <pablodc@bigfoot.com>
 
         * es.po: Updated Spanish translation by

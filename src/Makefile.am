@@ -191,6 +191,8 @@ GNUMERIC_BASE =					\
 	search.c				\
 	selection.c				\
 	selection.h				\
+	session.c				\
+	session.h				\
 	sheet.c					\
 	sheet.h					\
 	sheet-view.c		  		\

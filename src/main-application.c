@@ -25,6 +25,7 @@
 #include "gui-file.h"
 #include "gnumeric-gconf.h"
 #include "gnumeric-paths.h"
+#include "session.h"
 
 #include <gtk/gtkmain.h>
 
@@ -143,6 +144,8 @@ main (int argc, char *argv [])
 			GNUMERIC_VERSION, GNUMERIC_DATADIR, GNUMERIC_LIBDIR);
 		return 0;
 	}
+
+	gnm_session_init (argv[0]);
 
 	with_gui = !func_def_file && !func_state_file;
 	if (with_gui) {

@@ -290,6 +290,7 @@ src/print-info.c
 src/print.c
 src/search.c
 src/selection.c
+src/session.c
 src/sheet-autofill.c
 src/sheet-control-gui.c
 src/sheet-filter.c
