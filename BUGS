@@ -8,8 +8,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - Data->Sort does not work when "Right-left" is selected.
-
     - defining file patterns in plugin spec overrides 'has_probe' flag silently.
 
     - smarter support for unicode characters that do not convert to the

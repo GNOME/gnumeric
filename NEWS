@@ -39,6 +39,7 @@ Morten:
 	* Fixed MID, FIND, LEFT, RIGHT, LOWER, UPPER, PROPER, CLEAN, LEN,
 	  EXACT, REPT.
 	* Improve signed-vs-unsigned situation.
+	* Fixed sorting dialog in the by-row case.
 
 Vlad Harchev
 	* Improve i18n support for XL import/export

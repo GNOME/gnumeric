@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
+#include <ctype.h>
 #include "gnumeric.h"
 #include "workbook-view.h"
 #include "gnumeric-util.h"
@@ -110,7 +111,7 @@ col_row_name_list (Sheet *sheet, int start, int end,
 }
 
 static gint
-string_pos_in_list (gchar *str, GList *list)
+string_pos_in_list (const char *str, GList *list)
 {
 	GList *l;
 	int i = 0;
@@ -230,7 +231,7 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	return orderbox;
 }
 
-static char *
+static const char *
 order_box_get_text (OrderBox *orderbox)
 {
 	return gtk_entry_get_text (GTK_ENTRY (
@@ -238,7 +239,8 @@ order_box_get_text (OrderBox *orderbox)
 }
 
 static void
-order_box_get_clause (OrderBox *orderbox, SortClause *clause) {
+order_box_get_clause (OrderBox *orderbox, SortClause *clause)
+{
 	clause->asc = gtk_radio_group_get_selected (orderbox->group);
 	clause->cs  = orderbox->cs;
 	clause->val = orderbox->val;
@@ -287,9 +289,9 @@ dialog_cell_sort_ok (SortFlow *sf)
 	array = g_new (SortClause, sf->num_clause);
 	for (lp = 0; lp < sf->num_clause; lp++) {
 		int division;
-		char *txt = order_box_get_text (sf->clauses [lp]);
+		const char *txt = order_box_get_text (sf->clauses[lp]);
 
-		order_box_get_clause (sf->clauses [lp], &array [lp]);
+		order_box_get_clause (sf->clauses[lp], &array[lp]);
 		if (strlen (txt)) {
 			division = -1;
 			if (sf->top) {
@@ -302,8 +304,15 @@ dialog_cell_sort_ok (SortFlow *sf)
 				if (sf->header)
 					division = divstart + string_pos_in_list (
 						txt, sf->rownames_header);
-				else
-					division = atoi(txt) - 1;
+				else {
+					/*
+					 * FIXME: this is a bit of a hack.  We need
+					 * to skip "Row ".
+					 */
+					while (*txt && !isdigit ((unsigned char)*txt))
+						txt++;
+					division = atoi (txt) - 1;
+				}
 			}
 			if (division < divstart || division > divend) {
 				gnumeric_notice (sf->wbcg,
@@ -311,17 +320,19 @@ dialog_cell_sort_ok (SortFlow *sf)
 						 sf->top
 						 ? _("Column must be within range")
 						 : _("Row must be within range"));
+				g_free (array);
 				return TRUE;
 			}
-			array [lp].offset = division - divstart;
+			array[lp].offset = division - divstart;
 		} else if (lp <= 0) {
 			gnumeric_notice (sf->wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 sf->top
 					 ? _("First column must be valid")
 					 : _("First row must be valid"));
+			g_free (array);
 			return TRUE;
 		} else	/* Just duplicate the last condition: slow but sure */
-			array [lp].offset = array [lp - 1].offset;
+			array[lp].offset = array[lp - 1].offset;
 	}
 
 	if (sf->header) {
@@ -348,12 +359,12 @@ dialog_cell_sort_del_clause (SortFlow *sf)
 {
 	if (sf->num_clause > 1) {
 		sf->num_clause--;
-		order_box_remove  (sf->clauses [sf->num_clause]);
-		order_box_destroy (sf->clauses [sf->num_clause]);
+		order_box_remove  (sf->clauses[sf->num_clause]);
+		order_box_destroy (sf->clauses[sf->num_clause]);
 /* FIXME: bit nasty ! */
 		gtk_container_queue_resize (GTK_CONTAINER (sf->dialog));
 		gtk_widget_show_all (sf->dialog);
-		sf->clauses [sf->num_clause] = NULL;
+		sf->clauses[sf->num_clause] = NULL;
 	} else
 		gnumeric_notice (sf->wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("At least one clause is required."));
@@ -371,10 +382,10 @@ dialog_cell_sort_add_clause(SortFlow *sf, WorkbookControlGUI *wbcg)
 				 _("Maximum number of clauses has been reached."));
 	else {
 		if (sf->header)
-			sf->clauses [sf->num_clause] = order_box_new (sf->clause_box, _("then by"),
+			sf->clauses[sf->num_clause] = order_box_new (sf->clause_box, _("then by"),
 								      sf->colnames_header, TRUE, wbcg);
 		else
-			sf->clauses [sf->num_clause] = order_box_new (sf->clause_box, _("then by"),
+			sf->clauses[sf->num_clause] = order_box_new (sf->clause_box, _("then by"),
 								      sf->colnames_plain, TRUE, wbcg);
 
 		gtk_widget_show_all (sf->dialog);
@@ -402,25 +413,25 @@ dialog_cell_sort_header_toggled (GtkWidget *widget, SortFlow *sf)
 		if (sf->header) {
 			if (sf->top)
 				gtk_combo_set_popdown_strings
-					(GTK_COMBO (sf->clauses [i]->rangetext),
+					(GTK_COMBO (sf->clauses[i]->rangetext),
 					 sf->colnames_header);
 			else
 				gtk_combo_set_popdown_strings
-					(GTK_COMBO (sf->clauses [i]->rangetext),
+					(GTK_COMBO (sf->clauses[i]->rangetext),
 					 sf->rownames_header);
 		} else {
 			if (sf->top)
 				gtk_combo_set_popdown_strings
-					(GTK_COMBO (sf->clauses [i]->rangetext),
+					(GTK_COMBO (sf->clauses[i]->rangetext),
 					 sf->colnames_plain);
 			else
 				gtk_combo_set_popdown_strings
-					(GTK_COMBO (sf->clauses [i]->rangetext),
+					(GTK_COMBO (sf->clauses[i]->rangetext),
 					 sf->rownames_plain);
 		}
 		if (i > 0)
 			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (
-				sf->clauses [i]->rangetext)->entry), "");
+				sf->clauses[i]->rangetext)->entry), "");
 	}
 }
 
@@ -437,13 +448,13 @@ dialog_cell_sort_rows_toggled(GtkWidget *widget, SortFlow *sf)
 		for (i=0; i<sf->num_clause; i++) {
 			if (sf->header)
 				gtk_combo_set_popdown_strings
-					(GTK_COMBO (sf->clauses [i]->rangetext), sf->rownames_header);
+					(GTK_COMBO (sf->clauses[i]->rangetext), sf->rownames_header);
 			else
 				gtk_combo_set_popdown_strings
-					(GTK_COMBO (sf->clauses [i]->rangetext), sf->rownames_plain);
+					(GTK_COMBO (sf->clauses[i]->rangetext), sf->rownames_plain);
 			if (i > 0)
 				gtk_entry_set_text
-					(GTK_ENTRY (GTK_COMBO (sf->clauses [i]->rangetext)->entry), "");
+					(GTK_ENTRY (GTK_COMBO (sf->clauses[i]->rangetext)->entry), "");
 		}
 	}
 }
@@ -460,13 +471,13 @@ dialog_cell_sort_cols_toggled (GtkWidget *widget, SortFlow *sf)
 		for (i = 0; i < sf->num_clause; i++) {
 			if (sf->header)
 				gtk_combo_set_popdown_strings
-					(GTK_COMBO (sf->clauses [i]->rangetext), sf->colnames_header);
+					(GTK_COMBO (sf->clauses[i]->rangetext), sf->colnames_header);
 			else
 				gtk_combo_set_popdown_strings
-					(GTK_COMBO (sf->clauses [i]->rangetext), sf->colnames_plain);
+					(GTK_COMBO (sf->clauses[i]->rangetext), sf->colnames_plain);
 			if (i > 0)
 				gtk_entry_set_text
-					(GTK_ENTRY (GTK_COMBO (sf->clauses [i]->rangetext)->entry), "");
+					(GTK_ENTRY (GTK_COMBO (sf->clauses[i]->rangetext)->entry), "");
 		}
 	}
 }
@@ -555,14 +566,14 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 				   sort_flow.clause_box, 0, 1, 0, 1);
 
 	for (lp = 0; lp < sort_flow.num_clause; lp++) {
-		sort_flow.clauses [lp] = order_box_new (sort_flow.clause_box,
+		sort_flow.clauses[lp] = order_box_new (sort_flow.clause_box,
 							lp
 							? _("then by")
 							: _("Sort by"),
 							sort_flow.colnames_plain,
 							lp ? TRUE : FALSE, wbcg);
 	}
-	order_box_set_default (sort_flow.clauses [0]);
+	order_box_set_default (sort_flow.clauses[0]);
 
 	/* Hook up the signals */
 	gtk_signal_connect (GTK_OBJECT (check), "toggled",
@@ -603,7 +614,7 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 		gtk_object_destroy (GTK_OBJECT (sort_flow.dialog));
 
 	for (lp = 0; lp < sort_flow.num_clause; lp++)
-		order_box_destroy (sort_flow.clauses [lp]);
+		order_box_destroy (sort_flow.clauses[lp]);
 
 	e_free_string_list (sort_flow.colnames_plain);
 	e_free_string_list (sort_flow.colnames_header);

@@ -1034,7 +1034,6 @@ solver_sensitivity_report (WorkbookControl *wbc, Sheet *sheet, gnum_float *x,
         CellList               *cell_list = param->input_cells;
 
 	Cell *cell;
-	char *str;
 	int  row = 0, i;
 
 	dao.type = NewSheetOutput;
