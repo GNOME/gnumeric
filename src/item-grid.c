@@ -337,6 +337,7 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 				gdk_gc_set_foreground (gc, &pat_col->color);
 				gdk_gc_set_background (gc, &back_col->color);
 				gdk_gc_set_stipple (gc, gnumeric_pattern_get_stipple (pattern));
+				gnome_canvas_set_stipple_origin (item_grid->canvas_item.canvas, gc);
 			} else {
 				gdk_gc_set_fill (gc, GDK_SOLID);
 				gdk_gc_set_foreground (gc, &back_col->color);
@@ -344,11 +345,11 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 
 			/* Ignore margins. Fill the entire cell */
 			gdk_draw_rectangle (drawable, gc, TRUE,
-					    x, y, ci->pixels, ri->pixels);
+					    x, y, ci->pixels+1, ri->pixels+1);
 		}
 	}
 
-	item_grid_draw_border (drawable, mstyle, x, y, ci->pixels, ri->pixels, FALSE);
+	item_grid_draw_border (drawable, mstyle, x, y, ci->pixels+1, ri->pixels+1, FALSE);
 
 	mstyle_unref (mstyle);
 }
