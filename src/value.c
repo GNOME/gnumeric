@@ -88,20 +88,39 @@ value_new_cellrange (const CellRef *a, const CellRef *b)
 }
 
 Value *
-value_new_array (guint width, guint height)
+value_new_array (guint cols, guint rows)
 {
 	int x, y;
 
 	Value *v = g_new (Value, 1);
 	v->type = VALUE_ARRAY;
-	v->v.array.x = width;
-	v->v.array.y = height;
-	v->v.array.vals = g_new (Value **, width);
+	v->v.array.x = cols;
+	v->v.array.y = rows;
+	v->v.array.vals = g_new (Value **, cols);
 
-	for (x = 0; x < width; x++){
-		v->v.array.vals [x] = g_new (Value *, height);
-		for (y = 0; y < height; y++)
+	for (x = 0; x < cols; x++){
+		v->v.array.vals [x] = g_new (Value *, rows);
+		for (y = 0; y < rows; y++)
 			v->v.array.vals[x][y] = value_new_int (0);
+	}
+	return v;
+}
+
+Value *
+value_new_array_empty (guint cols, guint rows)
+{
+	int x, y;
+
+	Value *v = g_new (Value, 1);
+	v->type = VALUE_ARRAY;
+	v->v.array.x = cols;
+	v->v.array.y = rows;
+	v->v.array.vals = g_new (Value **, cols);
+
+	for (x = 0; x < cols; x++){
+		v->v.array.vals [x] = g_new (Value *, rows);
+		for (y = 0; y < rows; y++)
+			v->v.array.vals[x][y] = NULL;
 	}
 	return v;
 }
@@ -724,7 +743,7 @@ value_array_set (Value *array, guint col, guint row, Value *v)
 	g_return_if_fail (array->v.array.y > row);
 	g_return_if_fail (array->v.array.x > col);
 
-	if (array->v.array.vals[col][row])
+	if (array->v.array.vals[col][row] != NULL)
 		value_release (array->v.array.vals[col][row]);
 	array->v.array.vals[col][row] = v;
 }

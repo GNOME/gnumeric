@@ -26,14 +26,8 @@
 
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
-/* Used to locate cells in a sheet */
-typedef struct {
-	int col;
-	int row;
-} CellPos;
-
 void
-sheet_redraw_all (Sheet *sheet)
+sheet_redraw_all (Sheet const *sheet)
 {
 	GList *l;
 
@@ -45,7 +39,7 @@ sheet_redraw_all (Sheet *sheet)
 }
 
 void
-sheet_redraw_cols (Sheet *sheet)
+sheet_redraw_cols (Sheet const *sheet)
 {
 	GList *l;
 
@@ -57,7 +51,7 @@ sheet_redraw_cols (Sheet *sheet)
 }
 
 void
-sheet_redraw_rows (Sheet *sheet)
+sheet_redraw_rows (Sheet const *sheet)
 {
 	GList *l;
 
@@ -462,7 +456,7 @@ sheet_row_get_info (Sheet *sheet, int row)
 }
 
 void
-sheet_compute_visible_ranges (Sheet *sheet)
+sheet_compute_visible_ranges (Sheet const *sheet)
 {
 	GList *l;
 
@@ -1071,7 +1065,7 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 /**
  * sheet_update_controls:
  *
- * This routine is ran every time the selection has changed.  It checks
+ * This routine is run every time the selection has changed.  It checks
  * what the status of various toolbar feedback controls should be
  */
 void
@@ -1083,16 +1077,14 @@ sheet_update_controls (Sheet *sheet)
 
 	cells = sheet_selection_to_list (sheet);
 
-	if (cells){
+	if (cells) {
 		Cell *cell = cells->data;
 
 		bold_first = cell->style->font->is_bold;
 		italic_first = cell->style->font->is_italic;
 		
 		l = cells->next;
-	}
-	else
-	{
+	} else {
 		/*
 		 * If no cells are on the selection, use the first cell
 		 * in the range to compute the values
@@ -1100,7 +1092,7 @@ sheet_update_controls (Sheet *sheet)
 		SheetSelection *ss = sheet->selections->data;
 		Style *style;
 
-		style = sheet_style_compute (sheet, ss->start_col, ss->start_row, NULL);
+		style = sheet_style_compute (sheet, ss->user.start.col, ss->user.start.row, NULL);
 		bold_first = style->font->is_bold;
 		italic_first = style->font->is_italic;
 		style_destroy (style);
@@ -1160,12 +1152,12 @@ sheet_col_selection_type (Sheet *sheet, int col)
 	for (l = sheet->selections; l != NULL; l = l->next){
 		ss = l->data;
 
-		if (ss->start_col > col ||
-		    ss->end_col < col)
+		if (ss->user.start.col > col ||
+		    ss->user.end.col < col)
 			continue;
 
-		if (ss->start_row == 0 &&
-		    ss->end_row == SHEET_MAX_ROWS-1)
+		if (ss->user.start.row == 0 &&
+		    ss->user.end.row == SHEET_MAX_ROWS-1)
 			return ITEM_BAR_FULL_SELECTION;
 
 		ret = ITEM_BAR_PARTIAL_SELECTION;
@@ -1193,12 +1185,12 @@ sheet_row_selection_type (Sheet *sheet, int row)
 	for (l = sheet->selections; l != NULL; l = l->next){
 		ss = l->data;
 
-		if (ss->start_row > row ||
-		    ss->end_row < row)
+		if (ss->user.start.row > row ||
+		    ss->user.end.row < row)
 			continue;
 
-		if (ss->start_col == 0 &&
-		    ss->end_col == SHEET_MAX_COLS-1)
+		if (ss->user.start.col == 0 &&
+		    ss->user.end.col == SHEET_MAX_COLS-1)
 			return ITEM_BAR_FULL_SELECTION;
 
 		ret = ITEM_BAR_PARTIAL_SELECTION;
@@ -1216,7 +1208,7 @@ sheet_row_selection_type (Sheet *sheet, int row)
  * for the old contents and the new contents.
  */
 void
-sheet_redraw_cell_region (Sheet *sheet,
+sheet_redraw_cell_region (Sheet const *sheet,
 			  int start_col, int start_row,
 			  int end_col,   int end_row)
 {
@@ -1236,15 +1228,15 @@ sheet_redraw_cell_region (Sheet *sheet,
 }
 
 void
-sheet_redraw_selection (Sheet *sheet, SheetSelection *ss)
+sheet_redraw_selection (Sheet const *sheet, SheetSelection const *ss)
 {
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (ss != NULL);
 
 	sheet_redraw_cell_region (sheet,
-				  ss->start_col, ss->start_row,
-				  ss->end_col, ss->end_row);
+				  ss->user.start.col, ss->user.start.row,
+				  ss->user.end.col, ss->user.end.row);
 }
 
 int
@@ -1553,7 +1545,7 @@ sheet_selection_walk_step (Sheet *sheet, int forward, int horizontal,
 		ss = sheet->selections->data;
 
 		/* If there is no selection besides the cursor, plain movement */
-		if (ss->start_col == ss->end_col && ss->start_row == ss->end_row){
+		if (ss->user.start.col == ss->user.end.col && ss->user.start.row == ss->user.end.row){
 			walk_boundaries (0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
 					 inc_x, inc_y, current_col, current_row,
 					 new_col, new_row);
@@ -1561,14 +1553,14 @@ sheet_selection_walk_step (Sheet *sheet, int forward, int horizontal,
 		}
 	}
 
-	if (!sheet->walk_info.current)
-		sheet->walk_info.current = sheet->selections->data;
+	if (!sheet->cursor_selection)
+		sheet->cursor_selection = sheet->selections->data;
 
-	ss = sheet->walk_info.current;
+	ss = sheet->cursor_selection;
 
 	overflow = walk_boundaries_wrapped (
-		ss->start_col, ss->start_row,
-		ss->end_col,   ss->end_row,
+		ss->user.start.col, ss->user.start.row,
+		ss->user.end.col,   ss->user.end.row,
 		inc_x, inc_y, current_col, current_row,
 		new_col, new_row);
 
@@ -1583,14 +1575,14 @@ sheet_selection_walk_step (Sheet *sheet, int forward, int horizontal,
 			p = 0;
 
 		ss = g_list_nth (sheet->selections, p)->data;
-		sheet->walk_info.current = ss;
+		sheet->cursor_selection = ss;
 
 		if (forward){
-			*new_col = ss->start_col;
-			*new_row = ss->start_row;
+			*new_col = ss->user.start.col;
+			*new_row = ss->user.start.row;
 		} else {
-			*new_col = ss->end_col;
-			*new_row = ss->end_row;
+			*new_col = ss->user.end.col;
+			*new_row = ss->user.end.row;
 		}
 	}
 	return TRUE;
@@ -2258,7 +2250,8 @@ assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
  * to the structure being manipulated by the sheet_cell_foreach_range routine
  */
 void
-sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
+		    void *closure)
 {
 	struct sheet_clear_region_callback_data cb;
 	GList *l;
@@ -2310,7 +2303,8 @@ clear_cell_content (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
  * Clears the contents in a region of cells
  */
 void
-sheet_clear_region_content (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+sheet_clear_region_content (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
+			    void *closure)
 {
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -2347,7 +2341,8 @@ clear_cell_comments (Sheet *sheet, int col, int row, Cell *cell, void *user_data
  * Removes all of the comments in the cells in the specified range.
  **/
 void
-sheet_clear_region_comments (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+sheet_clear_region_comments (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
+			     void *closure)
 {
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -2372,7 +2367,8 @@ clear_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 }
 
 void
-sheet_clear_region_formats (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+sheet_clear_region_formats (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
+			    void *closure)
 {
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -2615,7 +2611,7 @@ sheet_shift_row (Sheet *sheet, int col, int row, int count)
 	col_count = g_list_length (sheet->cols_info);
 
 	if (count < 0){
-		sheet_clear_region (sheet, col, row, col - count - 1, row);
+		sheet_clear_region (sheet, col, row, col - count - 1, row, NULL);
 		cur_col = colrow_closest_above (sheet->cols_info, col);
 	} else
 		cur_col = g_list_nth (sheet->cols_info, col_count - 1);
@@ -2961,7 +2957,7 @@ sheet_shift_col (Sheet *sheet, int col, int row, int count)
 		return;
 
 	if (count < 0){
-		sheet_clear_region (sheet, col, row, col, row -count - 1);
+		sheet_clear_region (sheet, col, row, col, row -count - 1, NULL);
 		ci = sheet_col_get_info (sheet, col);
 		row_list = ci->data;
 		cur_row = colrow_closest_above (row_list, row);
@@ -3065,10 +3061,10 @@ sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int
 	g_return_if_fail (start_row <= end_row);
 
 	sr = g_new (StyleRegion, 1);
-	sr->range.start_col = start_col;
-	sr->range.start_row = start_row;
-	sr->range.end_col = end_col;
-	sr->range.end_row = end_row;
+	sr->range.start.col = start_col;
+	sr->range.start.row = start_row;
+	sr->range.end.col = end_col;
+	sr->range.end.row = end_row;
 	sr->style = style;
 
 	sheet->style_list = g_list_prepend (sheet->style_list, sr);
@@ -3215,7 +3211,7 @@ sheet_cursor_set (Sheet *sheet, int base_col, int base_row, int start_col, int s
  * @is_array:    A flag to differentiate between filling and array formulas.
  *
  * Checks to ensure that none of the ranges being filled contain a subset of
- * and array-formula.
+ * an array-formula.
  */
 void
 sheet_fill_selection_with (Sheet *sheet, const char *str,
@@ -3232,8 +3228,8 @@ sheet_fill_selection_with (Sheet *sheet, const char *str,
 	{
 		SheetSelection *ss = l->data;
 		if (!range_check_for_partial_array (sheet,
-						    ss->start_row,ss->start_col,
-						    ss->end_row, ss->end_col)) {
+						    ss->user.start.row,ss->user.start.col,
+						    ss->user.end.row, ss->user.end.col)) {
 			gnumeric_no_modify_array_notice (sheet->workbook);
 			return;
 		}
@@ -3253,13 +3249,13 @@ sheet_fill_selection_with (Sheet *sheet, const char *str,
 		ExprTree *expr =
 			expr_parse_string (str + 1,
 					   parse_pos_init (&pp, sheet->workbook,
-							   ss->start_col,
-							   ss->start_row),
+							   ss->user.start.col,
+							   ss->user.start.row),
 					   NULL, &error_string);
 		if (expr) {
 			cell_set_array_formula (sheet,
-						ss->start_row, ss->start_col,
-						ss->end_row, ss->end_col,
+						ss->user.start.row, ss->user.start.col,
+						ss->user.end.row, ss->user.end.col,
 						expr);
 			workbook_recalc (sheet->workbook);
 			return;
@@ -3274,9 +3270,9 @@ sheet_fill_selection_with (Sheet *sheet, const char *str,
 	for (; l; l = l->next){
 		SheetSelection *ss = l->data;
 
-		for (col = ss->start_col; col <= ss->end_col; col++)
-			for (row = ss->start_row; row <=
-			     ss->end_row; row++)
+		for (col = ss->user.start.col; col <= ss->user.end.col; col++)
+			for (row = ss->user.start.row; row <=
+			     ss->user.end.row; row++)
 				sheet_set_text (sheet, col, row, str);
 	}
 }
@@ -3592,4 +3588,14 @@ sheet_insert_object (Sheet *sheet, char *repoid)
 	}
 
 #endif
+}
+
+void
+sheet_set_selection (Sheet *sheet, SheetSelection const *ss)
+{
+	GList *l = sheet->sheet_views;
+	for ( ; l != NULL; l = l->next) {
+		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+		gnumeric_sheet_set_selection (gsheet, ss);
+	}
 }

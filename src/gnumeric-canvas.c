@@ -122,7 +122,7 @@ gnumeric_sheet_cursor_set (GnumericSheet *gsheet, int col, int row)
  * placed at base_col, base_row
  */
 void
-gnumeric_sheet_set_selection (GnumericSheet *gsheet, SheetSelection *ss)
+gnumeric_sheet_set_selection (GnumericSheet *gsheet, SheetSelection const *ss)
 {
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (ss != NULL);
@@ -130,9 +130,9 @@ gnumeric_sheet_set_selection (GnumericSheet *gsheet, SheetSelection *ss)
 
 	sheet_cursor_set (
 		gsheet->sheet_view->sheet,
-		ss->base_col, ss->base_row,
-		ss->start_col, ss->start_row,
-		ss->end_col, ss->end_row);
+		ss->base.col, ss->base.row,
+		ss->user.start.col, ss->user.start.row,
+		ss->user.end.col, ss->user.end.row);
 }
 
 /*

@@ -9,70 +9,92 @@
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
-
+#include "selection.h"
 
 static char *help_selection = {
 	N_("@FUNCTION=SELECTION\n"
-	   "@SYNTAX=SELECTION(x)\n"
+	   "@SYNTAX=SELECTION(permit_intersection)\n"
 
 	   "@DESCRIPTION="
-	   "The SELECTION function returns a list with the values in the current mouse cursor. "
-	   "This is usually used to implement on-the-flight computation of values."
+	   "The SELECTION function returns a list with the values in the current selection. "
+	   "This is usually used to implement on-the-fly computation of values."
+	   "If @permit_intersection is TRUE the user specifed selection "
+	   "ranges are returned, EVEN IF THEY OVERLAP.  If @permit_intersection is FALSE "
+	   "a distict set of regions is returned, however, there may be more of them than "
+	   "the user initially specified."
+
 	   "\n"
 	   "@SEEALSO=")
 };
 
-static Value *
-gnumeric_selection  (FunctionEvalInfo *ei, GList *expr_node_list)
+typedef struct
 {
-	Value *value;
-	GList *l;
-	int numrange, i;
-	Sheet *sheet;
-	
-	/* Type checking */
-	if (expr_node_list != NULL)
-		return value_new_error (&ei->pos, _("Invalid number of arguments"));
+	GSList * res;
+	int	index;
+} selection_accumulator;
 
-	sheet = ei->pos.sheet;
-	numrange = g_list_length (sheet->selections);
-	value = value_new_array (numrange, 1);
-	
-	i = 0;
-	for (l = sheet->selections; l; l = l->next){
-		SheetSelection *ss = (SheetSelection *) l->data;
-		Value *single_value;
-		CellRef *cell_ref;
+static void
+accumulate_regions (Sheet *sheet, 
+		    int start_col, int start_row,
+		    int end_col,   int end_row,
+		    void *closure)
+{
+	selection_accumulator *accum = closure;
+	CellRef a, b;
 
-		single_value = value->v.array.vals [i++][0];
-		single_value->type = VALUE_CELLRANGE;
+	/* Fill it in */
+	/* start */
+	a.sheet = sheet;
+	a.col_relative = 0;
+	a.row_relative = 0;
+	a.col = start_col;
+	a.row = start_row;
 
-		/* Fill it in */
-		/*   start */
-		cell_ref = &single_value->v.cell_range.cell_a;
-		cell_ref->sheet = sheet;
-		cell_ref->col_relative = 0;
-		cell_ref->row_relative = 0;
-		
-		cell_ref->col = ss->start_col;
-		cell_ref->row = ss->start_row;
+	/* end */
+	b.sheet = sheet;
+	b.col_relative = 0;
+	b.row_relative = 0;
+	b.col = end_col;
+	b.row = end_row;
 
-		/*   end */
-		cell_ref = &single_value->v.cell_range.cell_b;
-		cell_ref->sheet = sheet;
-		cell_ref->col_relative = 0;
-		cell_ref->row_relative = 0;
-		
-		cell_ref->col = ss->end_col;
-		cell_ref->row = ss->end_row;
+	accum->res = g_slist_prepend (accum->res,
+				      value_new_cellrange(&a, &b));
+	accum->index++;
+}
+
+/* This routine is used to implement the auto_expr functionality.  It is called
+ * to provide the selection to the defined functions.
+ */
+static Value *
+gnumeric_selection (FunctionEvalInfo *ei, Value *argv [])
+{
+	Sheet * const sheet = ei->pos.sheet;
+	gboolean const permit_intersection = argv [0]->v.v_bool;
+	Value * res;
+	int i;
+
+	selection_accumulator accum;
+	accum.res = NULL;
+	accum.index = 0;
+	selection_apply (sheet, &accumulate_regions,
+			 permit_intersection, &accum);
+
+	i = accum.index;
+	res = value_new_array_empty (i, 1);
+	while (i-- > 0) {
+		/* pop the 1st element off the list */
+		Value *range = accum.res->data;
+		accum.res = g_slist_remove (accum.res, range);
+
+		value_array_set (res, i, 0, range);
 	}
-
-	return value;
+	return res;
 }
 
 void sheet_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Sheet"));
 
-	function_add_nodes (cat, "selection", 0,    "", &help_selection, gnumeric_selection);
+	function_add_args (cat, "selection", "b",  "permit_intersection",
+			   &help_selection, gnumeric_selection);
 }

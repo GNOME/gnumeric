@@ -75,13 +75,13 @@ dependency_equal (gconstpointer v, gconstpointer v2)
 
 	if (r1->sheet != r2->sheet)
 		return 0;
-	if (r1->range.start_col != r2->range.start_col)
+	if (r1->range.start.col != r2->range.start.col)
 		return 0;
-	if (r1->range.start_row != r2->range.start_row)
+	if (r1->range.start.row != r2->range.start.row)
 		return 0;
-	if (r1->range.end_col != r2->range.end_col)
+	if (r1->range.end.col != r2->range.end.col)
 		return 0;
-	if (r1->range.end_row != r2->range.end_row)
+	if (r1->range.end.row != r2->range.end.row)
 		return 0;
 
 	return 1;
@@ -95,8 +95,8 @@ dependency_hash_func (gconstpointer v)
 {
 	const DependencyRange *r = v;
 
-	return ((((r->range.start_row << 8) + r->range.end_row) << 8) +
-		(r->range.start_col << 8) + (r->range.end_col));
+	return ((((r->range.start.row << 8) + r->range.end.row) << 8) +
+		(r->range.start.col << 8) + (r->range.end.col));
 }
 
 /*
@@ -151,8 +151,8 @@ add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
 	int row = cell->row->pos;
 
 	/* Convert to absolute cordinates */
-	cell_get_abs_col_row (a, col, row, &range.range.start_col, &range.range.start_row);
-	cell_get_abs_col_row (b, col, row, &range.range.end_col,   &range.range.end_row);
+	cell_get_abs_col_row (a, col, row, &range.range.start.col, &range.range.start.row);
+	cell_get_abs_col_row (b, col, row, &range.range.end.col,   &range.range.end.row);
 
 	range.ref_count = 0;
 	if (b->sheet && a->sheet != b->sheet)
@@ -250,9 +250,9 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 			Cell * corner = tree->u.array.corner.cell;
 			range.ref_count = 0;
 			range.sheet = cell->sheet;
-			range.range.start_col = range.range.end_col =
+			range.range.start.col = range.range.end.col =
 			    corner->col->pos;
-			range.range.start_row = range.range.end_row =
+			range.range.start.row = range.range.end.row =
 			    corner->row->pos;
 			add_cell_range_dep (cell, &range);
 		} else

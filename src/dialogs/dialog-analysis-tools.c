@@ -305,10 +305,10 @@ parse_output(int output, Sheet *sheet,
 	Range range;
 
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
-	if (output == 2 && !parse_range (text, &range.start_col,
-			  &range.start_row,
-			  &range.end_col,
-			  &range.end_row)) {
+	if (output == 2 && !parse_range (text, &range.start.col,
+			  &range.start.row,
+			  &range.end.col,
+			  &range.end.row)) {
 	        error_in_entry(wb, entry, 
 			       "You should introduce a valid cell range "
 			       "in 'Into a Range:'");
@@ -324,10 +324,10 @@ parse_output(int output, Sheet *sheet,
 		break;
 	case 2:
 	        dao->type = RangeOutput;
-		dao->start_col = range.start_col;
-		dao->start_row = range.start_row;
-		dao->cols = range.end_col-range.start_col+1;
-		dao->rows = range.end_row-range.start_row+1;
+		dao->start_col = range.start.col;
+		dao->start_row = range.start.row;
+		dao->cols = range.end.col-range.start.col+1;
+		dao->rows = range.end.row-range.start.row+1;
 		dao->sheet = sheet;
 		break;
 	}
@@ -445,10 +445,10 @@ correlation_dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start_col,
-			  &range.start_row,
-			  &range.end_col,
-			  &range.end_row)) {
+	if (!parse_range (text, &range.start.col,
+			  &range.start.row,
+			  &range.end.col,
+			  &range.end.row)) {
 	        error_in_entry(wb, range_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Range:'"));
@@ -525,10 +525,10 @@ covariance_dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start_col,
-			  &range.start_row,
-			  &range.end_col,
-			  &range.end_row)) {
+	if (!parse_range (text, &range.start.col,
+			  &range.start.row,
+			  &range.end.col,
+			  &range.end.row)) {
 	        error_in_entry(wb, range_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Range:'"));
@@ -629,10 +629,10 @@ sampling_dialog_loop:
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start_col,
-			  &range.start_row,
-			  &range.end_col,
-			  &range.end_row)) {
+	if (!parse_range (text, &range.start.col,
+			  &range.start.row,
+			  &range.end.col,
+			  &range.end.row)) {
 	        error_in_entry(wb, range_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Range:'"));
@@ -719,10 +719,10 @@ stat_dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start_col,
-			  &range.start_row,
-			  &range.end_col,
-			  &range.end_row)) {
+	if (!parse_range (text, &range.start.col,
+			  &range.start.row,
+			  &range.end.col,
+			  &range.end.row)) {
 	        error_in_entry(wb, range_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Range:'"));
@@ -741,7 +741,7 @@ stat_dialog_loop:
 
 	labels = label_row_flag;
 	if (labels)
-	        range.start_row++;
+	        range.start.row++;
 
 	if (descriptive_stat_tool(wb, sheet, &range, !i, &ds, &dao))
 	        goto stat_dialog_loop;
@@ -822,10 +822,10 @@ ztest_dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start_col,
-			  &range_input1.start_row,
-			  &range_input1.end_col,
-			  &range_input1.end_row)) {
+	if (!parse_range (text, &range_input1.start.col,
+			  &range_input1.start.row,
+			  &range_input1.end.col,
+			  &range_input1.end.row)) {
 	        error_in_entry(wb, range1_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 1:'"));
@@ -833,10 +833,10 @@ ztest_dialog_loop:
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start_col,
-			  &range_input2.start_row,
-			  &range_input2.end_col,
-			  &range_input2.end_row)) {
+	if (!parse_range (text, &range_input2.start.col,
+			  &range_input2.start.row,
+			  &range_input2.end.col,
+			  &range_input2.end.row)) {
 	        error_in_entry(wb, range2_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 2:'"));
@@ -933,10 +933,10 @@ ttest_dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start_col,
-			  &range_input1.start_row,
-			  &range_input1.end_col,
-			  &range_input1.end_row)) {
+	if (!parse_range (text, &range_input1.start.col,
+			  &range_input1.start.row,
+			  &range_input1.end.col,
+			  &range_input1.end.row)) {
 	        error_in_entry(wb, range1_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 1:'"));
@@ -944,10 +944,10 @@ ttest_dialog_loop:
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start_col,
-			  &range_input2.start_row,
-			  &range_input2.end_col,
-			  &range_input2.end_row)) {
+	if (!parse_range (text, &range_input2.start.col,
+			  &range_input2.start.row,
+			  &range_input2.end.col,
+			  &range_input2.end.row)) {
 	        error_in_entry(wb, range2_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 2:'"));
@@ -1038,10 +1038,10 @@ ttest_dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start_col,
-			  &range_input1.start_row,
-			  &range_input1.end_col,
-			  &range_input1.end_row)) {
+	if (!parse_range (text, &range_input1.start.col,
+			  &range_input1.start.row,
+			  &range_input1.end.col,
+			  &range_input1.end.row)) {
 	        error_in_entry(wb, range1_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 1:'"));
@@ -1049,10 +1049,10 @@ ttest_dialog_loop:
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start_col,
-			  &range_input2.start_row,
-			  &range_input2.end_col,
-			  &range_input2.end_row)) {
+	if (!parse_range (text, &range_input2.start.col,
+			  &range_input2.start.row,
+			  &range_input2.end.col,
+			  &range_input2.end.row)) {
 	        error_in_entry(wb, range2_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 2:'"));
@@ -1144,10 +1144,10 @@ ttest_dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start_col,
-			  &range_input1.start_row,
-			  &range_input1.end_col,
-			  &range_input1.end_row)) {
+	if (!parse_range (text, &range_input1.start.col,
+			  &range_input1.start.row,
+			  &range_input1.end.col,
+			  &range_input1.end.row)) {
 	        error_in_entry(wb, range1_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 1:'"));
@@ -1155,10 +1155,10 @@ ttest_dialog_loop:
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start_col,
-			  &range_input2.start_row,
-			  &range_input2.end_col,
-			  &range_input2.end_row)) {
+	if (!parse_range (text, &range_input2.start.col,
+			  &range_input2.start.row,
+			  &range_input2.end.col,
+			  &range_input2.end.row)) {
 	        error_in_entry(wb, range2_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 2:'"));
@@ -1244,10 +1244,10 @@ ftest_dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start_col,
-			  &range_input1.start_row,
-			  &range_input1.end_col,
-			  &range_input1.end_row)) {
+	if (!parse_range (text, &range_input1.start.col,
+			  &range_input1.start.row,
+			  &range_input1.end.col,
+			  &range_input1.end.row)) {
 	        error_in_entry(wb, range1_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 1:'"));
@@ -1255,10 +1255,10 @@ ftest_dialog_loop:
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start_col,
-			  &range_input2.start_row,
-			  &range_input2.end_col,
-			  &range_input2.end_row)) {
+	if (!parse_range (text, &range_input2.start.col,
+			  &range_input2.start.row,
+			  &range_input2.end.col,
+			  &range_input2.end.row)) {
 	        error_in_entry(wb, range2_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 2:'"));
@@ -1598,10 +1598,10 @@ dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start_col,
-			  &range_input1.start_row,
-			  &range_input1.end_col,
-			  &range_input1.end_row)) {
+	if (!parse_range (text, &range_input1.start.col,
+			  &range_input1.start.row,
+			  &range_input1.end.col,
+			  &range_input1.end.row)) {
 	        error_in_entry(wb, range1_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 1:'"));
@@ -1609,10 +1609,10 @@ dialog_loop:
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start_col,
-			  &range_input2.start_row,
-			  &range_input2.end_col,
-			  &range_input2.end_row)) {
+	if (!parse_range (text, &range_input2.start.col,
+			  &range_input2.start.row,
+			  &range_input2.end.col,
+			  &range_input2.end.row)) {
 	        error_in_entry(wb, range2_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Variable 2:'"));
@@ -1627,8 +1627,8 @@ dialog_loop:
 
 	labels = label_row_flag;
 	if (labels) {
-	        range_input1.start_row++;
-	        range_input2.start_row++;
+	        range_input1.start.row++;
+	        range_input2.start.row++;
 	}
 
 	if (regression_tool (wb, sheet, &range_input1,
@@ -1697,10 +1697,10 @@ dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start_col,
-			  &range.start_row,
-			  &range.end_col,
-			  &range.end_row)) {
+	if (!parse_range (text, &range.start.col,
+			  &range.start.row,
+			  &range.end.col,
+			  &range.end.row)) {
 	        error_in_entry(wb, range_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Range Input:'"));
@@ -1715,8 +1715,8 @@ dialog_loop:
 
 	labels = label_row_flag;
 	if (labels) {
-	        range.start_row++;
-	        range.start_row++;
+	        range.start.row++;
+	        range.start.row++;
 	}
 
 	if (average_tool (wb, sheet, &range, interval,
@@ -1786,10 +1786,10 @@ dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start_col,
-			  &range.start_row,
-			  &range.end_col,
-			  &range.end_row)) {
+	if (!parse_range (text, &range.start.col,
+			  &range.start.row,
+			  &range.end.col,
+			  &range.end.row)) {
 	        error_in_entry(wb, range_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Range:'"));
@@ -1871,10 +1871,10 @@ dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start_col,
-			  &range.start_row,
-			  &range.end_col,
-			  &range.end_row)) {
+	if (!parse_range (text, &range.start.col,
+			  &range.start.row,
+			  &range.end.col,
+			  &range.end.row)) {
 	        error_in_entry(wb, range_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Range:'"));
@@ -1957,10 +1957,10 @@ dialog_loop:
 	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start_col,
-			  &range.start_row,
-			  &range.end_col,
-			  &range.end_row)) {
+	if (!parse_range (text, &range.start.col,
+			  &range.start.row,
+			  &range.end.col,
+			  &range.end.row)) {
 	        error_in_entry(wb, range_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Range:'"));

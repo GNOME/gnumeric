@@ -102,8 +102,8 @@ get_data(Sheet *sheet, Range *range, data_set_t *data)
 	data->n = 0;
 	data->array = NULL;
 
-	for (col=range->start_col; col<=range->end_col; col++)
-	        for (row=range->start_row; row<=range->end_row; row++) {
+	for (col=range->start.col; col<=range->end.col; col++)
+	        for (row=range->start.row; row<=range->end.row; row++) {
 		        cell = sheet_cell_get(sheet, col, row);
 			if (cell != NULL && cell->value != NULL) {
 			        v = cell->value;
@@ -149,7 +149,7 @@ get_data_groupped_by_columns(Sheet *sheet, Range *range, int col,
 	data->n = 0;
 	data->array = NULL;
 
-	for (row=range->start_row; row<=range->end_row; row++) {
+	for (row=range->start.row; row<=range->end.row; row++) {
 	       cell = sheet_cell_get(sheet, col, row);
 	       if (cell != NULL && cell->value != NULL) {
 		       v = cell->value;
@@ -195,7 +195,7 @@ get_data_groupped_by_rows(Sheet *sheet, Range *range, int row,
 	data->n = 0;
 	data->array = NULL;
 
-	for (col=range->start_col; col<=range->end_col; col++) {
+	for (col=range->start.col; col<=range->end.col; col++) {
 	       cell = sheet_cell_get(sheet, col, row);
 	       if (cell != NULL && cell->value != NULL) {
 		       v = cell->value;
@@ -304,8 +304,8 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 	int        vars, cols, rows, col, row, i;
 	int        error;
 
-	cols = input_range->end_col - input_range->start_col + 1;
-	rows = input_range->end_row - input_range->start_row + 1;
+	cols = input_range->end.col - input_range->start.col + 1;
+	rows = input_range->end.row - input_range->start.row + 1;
 
 	prepare_output(wb, dao, "Correlations");
 
@@ -318,8 +318,8 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 			for (col=0; col<vars; col++) {
 			        char *s;
 			        cell = sheet_cell_get
-				  (sheet, input_range->start_col+col, 
-				   input_range->start_row);
+				  (sheet, input_range->start.col+col, 
+				   input_range->start.row);
 				if (cell != NULL && cell->value != NULL) {
 				        s = value_get_as_string(cell->value);
 				        set_cell (dao, 0, col+1, s);
@@ -327,7 +327,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 				} else
 				        return 1;
 			}
-			input_range->start_row++;
+			input_range->start.row++;
 		} else
 		        for (col=0; col<vars; col++) {
 			        sprintf(buf, "Column %d", col+1);
@@ -347,8 +347,8 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 			for (col=0; col<vars; col++) {
 			        char *s;
 			        cell = sheet_cell_get
-				  (sheet, input_range->start_col,
-				   input_range->start_row+col);
+				  (sheet, input_range->start.col,
+				   input_range->start.row+col);
 				if (cell != NULL && cell->value != NULL) {
 				        s = value_get_as_string(cell->value);
 				        set_cell (dao, 0, col+1, s);
@@ -356,7 +356,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 				} else
 				        return 1;
 			}
-			input_range->start_col++;
+			input_range->start.col++;
 		} else 
 		        for (col=0; col<vars; col++) {
 			        sprintf(buf, "Row %d", col+1);
@@ -453,8 +453,8 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 
 	prepare_output(wb, dao, "Covariances");
 
-	cols = input_range->end_col - input_range->start_col + 1;
-	rows = input_range->end_row - input_range->start_row + 1;
+	cols = input_range->end.col - input_range->start.col + 1;
+	rows = input_range->end.row - input_range->start.row + 1;
 
 	set_cell (dao, 0, 0, "");
 
@@ -465,8 +465,8 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 			for (col=0; col<vars; col++) {
 			        char *s;
 			        cell = sheet_cell_get
-				  (sheet, input_range->start_col+col, 
-				   input_range->start_row);
+				  (sheet, input_range->start.col+col, 
+				   input_range->start.row);
 				if (cell != NULL && cell->value != NULL) {
 				        s = value_get_as_string(cell->value);
 				        set_cell (dao, 0, col+1, s);
@@ -474,7 +474,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 				} else
 				        return 1;
 			}
-			input_range->start_row++;
+			input_range->start.row++;
 		} else
 		        for (col=0; col<vars; col++) {
 			        sprintf(buf, "Column %d", col+1);
@@ -494,8 +494,8 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 			for (col=0; col<vars; col++) {
 			        char *s;
 			        cell = sheet_cell_get
-				  (sheet, input_range->start_col,
-				   input_range->start_row+col);
+				  (sheet, input_range->start.col,
+				   input_range->start.row+col);
 				if (cell != NULL && cell->value != NULL) {
 				        s = value_get_as_string(cell->value);
 				        set_cell (dao, 0, col+1, s);
@@ -503,7 +503,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 				} else
 				        return 1;
 			}
-			input_range->start_col++;
+			input_range->start.col++;
 		} else 
 		        for (col=0; col<vars; col++) {
 			        sprintf(buf, "Row %d", col+1);
@@ -816,8 +816,8 @@ descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
         data_set_t *data_sets;
         int        vars, cols, rows, i;
 
-	cols = input_range->end_col - input_range->start_col + 1;
-	rows = input_range->end_row - input_range->start_row + 1;
+	cols = input_range->end.col - input_range->start.col + 1;
+	rows = input_range->end.row - input_range->start.row + 1;
 
 	if (columns_flag) {
 	        vars = cols;
@@ -1007,21 +1007,21 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        char *s;
 		Cell *cell;
 
-		cell = sheet_cell_get(sheet, input_range1->start_col, 
-				      input_range1->start_row);
+		cell = sheet_cell_get(sheet, input_range1->start.col, 
+				      input_range1->start.row);
 		if (cell != NULL && cell->value != NULL) {
 		        s = value_get_as_string(cell->value);
 			set_cell (dao, 1, 0, s);
 		}
-		cell = sheet_cell_get(sheet, input_range2->start_col, 
-				      input_range2->start_row);
+		cell = sheet_cell_get(sheet, input_range2->start.col, 
+				      input_range2->start.row);
 		if (cell != NULL && cell->value != NULL) {
 		        s = value_get_as_string(cell->value);
 			set_cell (dao, 2, 0, s);
 		}
 
-		input_range1->start_row++;
-		input_range2->start_row++;
+		input_range1->start.row++;
+		input_range2->start.row++;
 	} else {
 	        set_cell (dao, 1, 0, "Variable 1");
 		set_cell (dao, 2, 0, "Variable 2");
@@ -1137,21 +1137,21 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        char *s;
 		Cell *cell;
 
-		cell = sheet_cell_get(sheet, input_range1->start_col, 
-				      input_range1->start_row);
+		cell = sheet_cell_get(sheet, input_range1->start.col, 
+				      input_range1->start.row);
 		if (cell != NULL && cell->value != NULL) {
 		        s = value_get_as_string(cell->value);
 			set_cell (dao, 1, 0, s);
 		}
-		cell = sheet_cell_get(sheet, input_range2->start_col, 
-				      input_range2->start_row);
+		cell = sheet_cell_get(sheet, input_range2->start.col, 
+				      input_range2->start.row);
 		if (cell != NULL && cell->value != NULL) {
 		        s = value_get_as_string(cell->value);
 			set_cell (dao, 2, 0, s);
 		}
 
-		input_range1->start_row++;
-		input_range2->start_row++;
+		input_range1->start.row++;
+		input_range2->start.row++;
 	} else {
 	        set_cell (dao, 1, 0, "Variable 1");
 		set_cell (dao, 2, 0, "Variable 2");
@@ -1284,21 +1284,21 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        char *s;
 		Cell *cell;
 
-		cell = sheet_cell_get(sheet, input_range1->start_col, 
-				      input_range1->start_row);
+		cell = sheet_cell_get(sheet, input_range1->start.col, 
+				      input_range1->start.row);
 		if (cell != NULL && cell->value != NULL) {
 		        s = value_get_as_string(cell->value);
 			set_cell (dao, 1, 0, s);
 		}
-		cell = sheet_cell_get(sheet, input_range2->start_col, 
-				      input_range2->start_row);
+		cell = sheet_cell_get(sheet, input_range2->start.col, 
+				      input_range2->start.row);
 		if (cell != NULL && cell->value != NULL) {
 		        s = value_get_as_string(cell->value);
 			set_cell (dao, 2, 0, s);
 		}
 
-		input_range1->start_row++;
-		input_range2->start_row++;
+		input_range1->start.row++;
+		input_range2->start.row++;
 	} else {
 	        set_cell (dao, 1, 0, "Variable 1");
 		set_cell (dao, 2, 0, "Variable 2");
@@ -1410,21 +1410,21 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        char *s;
 		Cell *cell;
 
-		cell = sheet_cell_get(sheet, input_range1->start_col, 
-				      input_range1->start_row);
+		cell = sheet_cell_get(sheet, input_range1->start.col, 
+				      input_range1->start.row);
 		if (cell != NULL && cell->value != NULL) {
 		        s = value_get_as_string(cell->value);
 			set_cell (dao, 1, 0, s);
 		}
-		cell = sheet_cell_get(sheet, input_range2->start_col, 
-				      input_range2->start_row);
+		cell = sheet_cell_get(sheet, input_range2->start.col, 
+				      input_range2->start.row);
 		if (cell != NULL && cell->value != NULL) {
 		        s = value_get_as_string(cell->value);
 			set_cell (dao, 2, 0, s);
 		}
 
-		input_range1->start_row++;
-		input_range2->start_row++;
+		input_range1->start.row++;
+		input_range2->start.row++;
 	} else {
 	        set_cell (dao, 1, 0, "Variable 1");
 		set_cell (dao, 2, 0, "Variable 2");
@@ -1534,21 +1534,21 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        char *s;
 		Cell *cell;
 
-		cell = sheet_cell_get(sheet, input_range1->start_col, 
-				      input_range1->start_row);
+		cell = sheet_cell_get(sheet, input_range1->start.col, 
+				      input_range1->start.row);
 		if (cell != NULL && cell->value != NULL) {
 		        s = value_get_as_string(cell->value);
 			set_cell (dao, 1, 0, s);
 		}
-		cell = sheet_cell_get(sheet, input_range2->start_col, 
-				      input_range2->start_row);
+		cell = sheet_cell_get(sheet, input_range2->start.col, 
+				      input_range2->start.row);
 		if (cell != NULL && cell->value != NULL) {
 		        s = value_get_as_string(cell->value);
 			set_cell (dao, 2, 0, s);
 		}
 
-		input_range1->start_row++;
-		input_range2->start_row++;
+		input_range1->start.row++;
+		input_range2->start.row++;
 	} else {
 	        set_cell (dao, 1, 0, "Variable 1");
 		set_cell (dao, 2, 0, "Variable 2");
@@ -1885,8 +1885,8 @@ int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval,
 	int        cols, rows, row, add_cursor, del_cursor, count;
 
 	/* TODO: Standard error output */
-	cols = range->end_col - range->start_col + 1;
-	rows = range->end_row - range->start_row + 1;
+	cols = range->end.col - range->start.col + 1;
+	rows = range->end.row - range->start.row + 1;
 
 	if ((cols != 1 && rows != 1) || interval < 1)
 	        return 1;
@@ -1965,8 +1965,8 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 
 	prepare_output(wb, dao, "Ranks");
 
-	cols = input_range->end_col - input_range->start_col + 1;
-	rows = input_range->end_row - input_range->start_row + 1;
+	cols = input_range->end.col - input_range->start.col + 1;
+	rows = input_range->end.row - input_range->start.row + 1;
 
 	if (columns_flag) {
 	        vars = cols;
@@ -1975,8 +1975,8 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 			if (dao->labels_flag) {
 			        char *s;
 			        Cell *cell = sheet_cell_get
-				  (sheet, input_range->start_col+col, 
-				   input_range->start_row);
+				  (sheet, input_range->start.col+col, 
+				   input_range->start.row);
 				if (cell != NULL && cell->value != NULL) {
 				        s = value_get_as_string(cell->value);
 				        set_cell (dao, col*4+1, 0, s);
@@ -1991,7 +1991,7 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 		data_sets = g_new(data_set_t, vars);
 
 		if (dao->labels_flag)
-		        input_range->start_row++;
+		        input_range->start.row++;
 
 		for (i=0; i<vars; i++)
 		        get_data_groupped_by_columns(sheet,
@@ -2005,8 +2005,8 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 			if (dao->labels_flag) {
 			        char *s;
 			        Cell *cell = sheet_cell_get
-				  (sheet, input_range->start_col, 
-				   input_range->start_row+col);
+				  (sheet, input_range->start.col, 
+				   input_range->start.row+col);
 				if (cell != NULL && cell->value != NULL) {
 				        s = value_get_as_string(cell->value);
 				        set_cell (dao, col*4+1, 0, s);
@@ -2021,7 +2021,7 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
 		data_sets = g_new(data_set_t, vars);
 
 		if (dao->labels_flag)
-		        input_range->start_col++;
+		        input_range->start.col++;
 
 		for (i=0; i<vars; i++)
 		        get_data_groupped_by_rows(sheet,
@@ -2107,8 +2107,8 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 
 	prepare_output(wb, dao, "Anova");
 
-	cols = range->end_col - range->start_col + 1;
-	rows = range->end_row - range->start_row + 1;
+	cols = range->end.col - range->start.col + 1;
+	rows = range->end.row - range->start.row + 1;
 
 	set_cell (dao, 0, 0, "Anova: Single Factor");
 	set_cell (dao, 0, 2, "SUMMARY");
@@ -2124,8 +2124,8 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 			if (dao->labels_flag) {
 			        char *s;
 			        Cell *cell = sheet_cell_get
-				  (sheet, range->start_col+col, 
-				   range->start_row);
+				  (sheet, range->start.col+col, 
+				   range->start.row);
 				if (cell != NULL && cell->value != NULL) {
 				        s = value_get_as_string(cell->value);
 				        set_cell (dao, 0, col+4, s);
@@ -2138,7 +2138,7 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 		data_sets = g_new(data_set_t, vars);
 
 		if (dao->labels_flag)
-		        range->start_row++;
+		        range->start.row++;
 
 		for (i=0; i<vars; i++)
 		        get_data_groupped_by_columns(sheet,
@@ -2150,8 +2150,8 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 			if (dao->labels_flag) {
 			        char *s;
 			        Cell *cell = sheet_cell_get
-				  (sheet, range->start_col, 
-				   range->start_row+col);
+				  (sheet, range->start.col, 
+				   range->start.row+col);
 				if (cell != NULL && cell->value != NULL) {
 				        s = value_get_as_string(cell->value);
 				        set_cell (dao, 0, col+4, s);
@@ -2164,7 +2164,7 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 		data_sets = g_new(data_set_t, vars);
 
 		if (dao->labels_flag)
-		        range->start_col++;
+		        range->start.col++;
 
 		for (i=0; i<vars; i++)
 		        get_data_groupped_by_rows(sheet,
@@ -2297,8 +2297,8 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 
 	prepare_output(wb, dao, "Anova");
 
-	cols = range->end_col - range->start_col + 1;
-	rows = range->end_row - range->start_row + 1;
+	cols = range->end.col - range->start.col + 1;
+	rows = range->end.row - range->start.row + 1;
 
 	set_cell (dao, 0, 0, "Anova: Two-Factor Without Replication");
 	set_cell (dao, 0, 2, "SUMMARY");

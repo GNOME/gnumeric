@@ -14,7 +14,6 @@ void	    sheet_selection_set		 (Sheet *sheet,
 					  int end_col, int end_row);
 void        sheet_selection_reset        (Sheet *sheet);
 void        sheet_selection_reset_only   (Sheet *sheet);
-int         sheet_selection_equal        (SheetSelection *a, SheetSelection *b);
 void        sheet_selection_append_range (Sheet *sheet,
 					  int base_col,  int base_row,
 					  int start_col, int start_row,
@@ -47,5 +46,15 @@ void        sheet_selection_extend_horizontal (Sheet *sheet, int count, gboolean
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count, gboolean jump_to_boundaries);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 gboolean    sheet_verify_selection_simple     (Sheet *sheet, const char *command_name);
+
+/* new style foreach function */
+typedef void (*SelectionApplyFunc) (Sheet *sheet, 
+				    int start_col, int start_row,
+				    int end_col,   int end_row,
+				    void *closure);
+
+void selection_apply (Sheet *sheet, SelectionApplyFunc const func,
+		      gboolean allow_intersection,
+		      void *closure);
 
 #endif /* GNUMERIC_SELECTION_H */

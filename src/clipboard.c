@@ -16,6 +16,7 @@
 #include "gnumeric-util.h"
 #include "clipboard.h"
 #include "eval.h"
+#include "selection.h"
 #include "render-ascii.h"
 
 /*
@@ -136,7 +137,8 @@ do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
 		sheet_clear_region (dest_sheet,
 				    dest_col, dest_row,
 				    dest_col + paste_width - 1,
-				    dest_row + paste_height - 1);
+				    dest_row + paste_height - 1,
+				    NULL);
 
 	/* If no operations are defined, we clear the area */
 	if (!(paste_flags & PASTE_OPER_MASK))
@@ -285,13 +287,13 @@ sheet_paste_selection (Sheet *sheet, CellRegion *content, SheetSelection *ss, cl
 	int        end_col, end_row;
 
 	/* Compute the bigger bounding box (selection u clipboard-region) */
-	if (ss->end_col - ss->start_col + 1 > content->cols)
-		paste_width = ss->end_col - ss->start_col + 1;
+	if (ss->user.end.col - ss->user.start.col + 1 > content->cols)
+		paste_width = ss->user.end.col - ss->user.start.col + 1;
 	else
 		paste_width = content->cols;
 
-	if (ss->end_row - ss->start_row + 1 > content->rows)
-		paste_height = ss->end_row - ss->start_row + 1;
+	if (ss->user.end.row - ss->user.start.row + 1 > content->rows)
+		paste_height = ss->user.end.row - ss->user.start.row + 1;
 	else
 		paste_height = content->rows;
 

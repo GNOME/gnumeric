@@ -1,4 +1,9 @@
-Gnumeric 0.33
+Jody:
+	* Improve selection to correctly handle overlapping ranges.
+
+--------------------------------------------------------------------------
+
+Gnumeric 0.33, 0.34, 0.35
 
 Jukka:
 	* Implemented ACCRINT, ACCRINTM, DISC, FVSCHEDULE, INTRATE,
@@ -7,6 +12,9 @@ Jukka:
 
 Miguel:
 	* Implemented Print Preview
+
+Jody:
+	* Bug fixes.
 
 --------------------------------------------------------------------------
 

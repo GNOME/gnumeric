@@ -17,6 +17,7 @@
 #include "sheet-object.h"
 #include "item-cursor.h"
 #include "utils.h"
+#include "selection.h"
 
 static GtkTableClass *sheet_view_parent_class;
 
@@ -233,8 +234,8 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int column, int modifiers, 
 			SheetSelection *ss = sheet->selections->data;
 			int start_col, end_col;
 			
-			start_col = MIN (ss->base_col, column);
-			end_col = MAX (ss->base_col, column);
+			start_col = MIN (ss->base.col, column);
+			end_col = MAX (ss->base.col, column);
 			
 			sheet_selection_set (sheet,
 					     start_col, 0,
@@ -288,8 +289,8 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, She
 			SheetSelection *ss = sheet->selections->data;
 			int start_row, end_row;
 			
-			start_row = MIN (ss->base_row, row);
-			end_row = MAX (ss->base_row, row);
+			start_row = MIN (ss->base.row, row);
+			end_row = MAX (ss->base.row, row);
 			
 			sheet_selection_set (sheet,
 					     0, start_row,

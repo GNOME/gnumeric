@@ -4,10 +4,23 @@
 typedef struct _Workbook	Workbook;
 typedef struct _Sheet		Sheet;
 
+/* Used to locate cells in a sheet */
 typedef struct {
-	int start_col, start_row;
-	int end_col, end_row;
+	int col, row;
+} CellPos;
+
+typedef struct {
+	CellPos start, end;
 } Range;
+
+typedef struct {
+	/* TODO : Remove this.  It should be part of the sheet cursor
+	 * data structures */
+        CellPos base;
+
+	/* This range may overlap other regions in the selection list */
+        Range user;
+} SheetSelection;
 
 typedef struct {
 	Sheet *sheet;
@@ -29,12 +42,6 @@ typedef struct {
 	int       row;
 } ParsePosition;
 
-typedef struct {
-	int        base_col, base_row;
-	int        start_col, start_row;
-	int        end_col, end_row;
-} SheetSelection;
-
 #ifdef ENABLE_BONOBO
 #    include <bonobo/gnome-container.h>
 #endif
@@ -53,8 +60,6 @@ typedef struct {
 #define SHEET_MAX_COLS 256
 
 typedef GList ColStyleList;
-
-gboolean   range_contains (Range *range, int col, int row);
 
 typedef struct {
 	Range  range;
@@ -103,7 +108,12 @@ struct _Sheet {
 	int         max_col_used;
 	int         max_row_used;
 
-	int         cursor_col, cursor_row;
+	/* Cursor information */
+	/* TODO switch to CellPos */
+	int         cursor_col, cursor_row; /* Where the cursor is */
+	SheetSelection *cursor_selection;
+	/* TODO : seperate cursor handling from selection */
+/*	CellPos  selection_corner;*/	/* A corner of the current selection */
 	
 	/* The list of cells that have a comment */
 	GList       *comment_list;
@@ -127,11 +137,6 @@ struct _Sheet {
 	
 	gboolean    modified;
 	
-	/* For walking through a selection */
-	struct {
-		SheetSelection *current;
-	} walk_info;
-
         /* Solver parameters */
         SolverParameters solver_parameters;
 
@@ -224,16 +229,20 @@ double      sheet_col_get_unit_distance   (Sheet *sheet, int from_col, int to_co
  
 void        sheet_clear_region            (Sheet *sheet,
 				           int start_col, int start_row,
-				           int end_col,   int end_row);
+				           int end_col,   int end_row,
+					   void *closure);
 void        sheet_clear_region_formats    (Sheet *sheet,
 				           int start_col, int start_row,
-				           int end_col,   int end_row);
+				           int end_col,   int end_row,
+					   void *closure);
 void        sheet_clear_region_content    (Sheet *sheet,
 				           int start_col, int start_row,
-				           int end_col,   int end_row);
+				           int end_col,   int end_row,
+					   void *closure);
 void        sheet_clear_region_comments   (Sheet *sheet,
 				           int start_col, int start_row,
-				           int end_col,   int end_row);	
+				           int end_col,   int end_row,
+					   void *closure);	
 
 /* Sets the width/height of a column row in terms of pixels */
 void        sheet_col_set_width           (Sheet *sheet,
@@ -252,20 +261,21 @@ void        sheet_col_set_selection       (Sheet *sheet,
 					   ColRowInfo *ci, int value);
 void        sheet_row_set_selection       (Sheet *sheet,
 					   ColRowInfo *ri, int value);
+void        sheet_set_selection           (Sheet *sheet, SheetSelection const *ss);
 				       
 Style      *sheet_style_compute           (Sheet *sheet,
 					   int col, int row,
 					   int *non_default_style_flags);
 
 /* Redraw */
-void        sheet_compute_visible_ranges  (Sheet *sheet);
-void        sheet_redraw_cell_region      (Sheet *sheet,
+void        sheet_compute_visible_ranges  (Sheet const *sheet);
+void        sheet_redraw_cell_region      (Sheet const *sheet,
 				           int start_col, int start_row,
 				           int end_col,   int end_row);
-void	    sheet_redraw_cols		  (Sheet *sheet);
-void	    sheet_redraw_rows		  (Sheet *sheet);
-void        sheet_redraw_selection        (Sheet *sheet, SheetSelection *ss);
-void        sheet_redraw_all              (Sheet *sheet);
+void	    sheet_redraw_cols		  (Sheet const *sheet);
+void	    sheet_redraw_rows		  (Sheet const *sheet);
+void        sheet_redraw_selection        (Sheet const *sheet, SheetSelection const *ss);
+void        sheet_redraw_all              (Sheet const *sheet);
 				       
 void        sheet_update_auto_expr        (Sheet *sheet);
 

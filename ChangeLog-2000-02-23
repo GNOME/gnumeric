@@ -34,6 +34,41 @@
 
 	* src/functions/fn-*: Started adding examples to all functions.
 
+1999-09-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/*.c : Have Range use CellPos, and SheetSelection use Range.
+
+	* src/functions/fn-sheet.c (gnumeric_selection) :
+	  Switch to selection_apply.
+
+	* src/sheet.c (sheet_set_selection) : Keep GNUMERIC_SHEET_VIEW
+	  local to sheet.c
+
+	* src/selection.c (sheet_selection_change,
+			   selection_append_range,
+			   sheet_selection_extend_to) :
+	  Use sheet_set_selection.
+
+	* src/dialogs/dialog-cell-format.c (apply_font_format,
+					    cell_properties_apply) :
+	  adjust to changes in SheetSelection.
+
+	* src/functions/fn-sheet.c (gnumeric_selection) : Switch to
+	  selection_apply.
+
+	* src/gnumeric-util.c (range_contains) : Ditto. Const.
+
+	* src/selection.c (sheet_selection_clear,
+			   sheet_selection_clear_comments,
+			   sheet_selection_clear_content,
+			   sheet_selection_clear_formats) :
+	  Use selection_apply.
+	(selection_apply) : New function to abstracting selections enabling
+	  correct support for overlapping selection regions.
+	(sheet_selection_to_list) : Use selection_apply.
+
+	* src/value.c (value_new_array_empty) : New function.
+
 1999-09-08  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/sheet-object.c (control_point_handle_event): substantialy

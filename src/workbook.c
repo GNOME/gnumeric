@@ -254,18 +254,20 @@ cb_sheet_do_erase (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
 
-	sheet_clear_region (sheet, 0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1);
+	sheet_clear_region (sheet, 0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1, NULL);
 }
 
 static void
 dump_dep (gpointer key, gpointer value, gpointer closure)
 {
-	DependencyRange const *deprange = key;
-	Range const *range = &(deprange->range);
+	DependencyRange const * const deprange = key;
+	Range const * const range = &(deprange->range);
 
-	printf ("\t%d : %s%d:%s%d\n", deprange->ref_count,
-		col_name(range->start_col), range->start_row+1,
-		col_name(range->end_col), range->end_row+1);
+	/* 2 calls to col_name.  It uses a static buffer */
+	printf ("\t%d : %s%d:", deprange->ref_count,
+		col_name(range->start.col), range->start.row+1);
+	printf ("%s%d\n",
+		col_name(range->end.col), range->end.row+1);
 }
 static void
 workbook_do_destroy (Workbook *wb)
@@ -667,6 +669,8 @@ insert_cols_cmd (GtkWidget *unused, Workbook *wb)
 	Sheet *sheet;
 	int cols;
 
+	/* FIXME : No need to check simplicty.  XL applies for each
+	 * non-discrete selected region, (use selection_apply) */
 	sheet = workbook_get_current_sheet (wb);
 	if (!sheet_verify_selection_simple (sheet, _("Insert cols")))
 		return;
@@ -674,9 +678,8 @@ insert_cols_cmd (GtkWidget *unused, Workbook *wb)
 	ss = sheet->selections->data;
 
 	/* FIXME FIXME : Have we have selected rows rather than columns */
-
-	cols = ss->end_col - ss->start_col + 1;
-	sheet_insert_col (sheet, ss->start_col, cols);
+	cols = ss->user.end.col - ss->user.start.col + 1;
+	sheet_insert_col (sheet, ss->user.start.col, cols);
 }
 
 static void
@@ -686,6 +689,8 @@ insert_rows_cmd (GtkWidget *unused, Workbook *wb)
 	Sheet *sheet;
 	int rows;
 
+	/* FIXME : No need to check simplicty.  XL applies for each
+	 * non-discrete selected region, (use selection_apply) */
 	sheet = workbook_get_current_sheet (wb);
 	if (!sheet_verify_selection_simple (sheet, _("Insert rows")))
 		return;
@@ -693,9 +698,8 @@ insert_rows_cmd (GtkWidget *unused, Workbook *wb)
 	ss = sheet->selections->data;
 
 	/* FIXME FIXME : Have we have selected columns rather than rows */
-
-	rows = ss->end_row - ss->start_row + 1;
-	sheet_insert_row (sheet, ss->start_row, rows);
+	rows = ss->user.end.row - ss->user.start.row + 1;
+	sheet_insert_row (sheet, ss->user.start.row, rows);
 }
 
 static void
@@ -1590,11 +1594,11 @@ static struct {
 	char *displayed_name;
 	char *function;
 } quick_compute_routines [] = {
-	{ N_("Sum"),   	       "SUM(SELECTION())" },
-	{ N_("Min"),   	       "MIN(SELECTION())" },
-	{ N_("Max"),   	       "MAX(SELECTION())" },
-	{ N_("Average"),       "AVERAGE(SELECTION())" },
-	{ N_("Count"),         "COUNT(SELECTION())" },
+	{ N_("Sum"),   	       "SUM(SELECTION(FALSE))" },
+	{ N_("Min"),   	       "MIN(SELECTION(FALSE))" },
+	{ N_("Max"),   	       "MAX(SELECTION(FALSE))" },
+	{ N_("Average"),       "AVERAGE(SELECTION(FALSE))" },
+	{ N_("Count"),         "COUNT(SELECTION(FALSE))" },
 	{ NULL, NULL }
 };
 
@@ -1621,9 +1625,9 @@ workbook_set_auto_expr (Workbook *wb,
 }
 
 /*
- * A utility to temporarily remove a workbook auto expr.  The current expression
- * and description are returned to the caller in @expr and @desc so that they
- * can be reset via sheet_resume_auto_expr later.  The caller takes is
+ * A utility to temporarily remove a workbook auto expr.  The current
+ * expression and description are returned to the caller in @expr and @desc so
+ * that they can be reset via sheet_resume_auto_expr later.  The caller is
  * responsible for managing the string and expression until they are returned
  * to the workbook via sheet_suspend_auto_expr.
  */

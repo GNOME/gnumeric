@@ -115,18 +115,6 @@ run_popup_menu (GdkEvent *event, int button, char **strings)
 	return i;
 }
 
-gboolean
-range_contains (Range *range, int col, int row)
-{
-	if ((col >= range->start_col) &&
-	    (row >= range->start_row) &&
-	    (col <= range->end_col)   &&
-	    (row <= range->end_row))
-		return TRUE;
-
-	return FALSE;
-}
-
 
 static char *
 font_change_component_1 (const char *fontname, int idx,

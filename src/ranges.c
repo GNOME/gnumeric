@@ -223,3 +223,36 @@ range_set_style (GSList *ranges, Style *style)
 		sheet_style_attach (a.sheet, a.col, a.row, b.col, b.row, style);
 	}
 }
+
+gboolean
+range_contains (Range const *range, int col, int row)
+{
+	if ((col >= range->start.col) &&
+	    (row >= range->start.row) &&
+	    (col <= range->end.col)   &&
+	    (row <= range->end.row))
+		return TRUE;
+
+	return FALSE;
+}
+
+void
+range_dump (Range const * src)
+{
+	/* keep these as 2 print statements, because
+	 * col_name uses a static buffer */
+	fprintf (stderr, "%s%d",
+		col_name(src->start.col),
+		src->start.row + 1);
+	fprintf (stderr, ":%s%d\n",
+		col_name(src->end.col),
+		src->end.row + 1);
+}
+
+Range*
+range_duplicate (Range const * src)
+{
+	Range * res = g_new (Range, 1);
+	*res = *src;
+	return res;
+}

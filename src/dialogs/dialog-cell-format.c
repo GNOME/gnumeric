@@ -573,15 +573,15 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 		GList *rl;
 		
 		/* Special case, the whole spreadsheet */
-		if (ss->start_row == 0 && ss->end_row == SHEET_MAX_ROWS-1)
+		if (ss->user.start.row == 0 && ss->user.end.row == SHEET_MAX_ROWS-1)
 			sheet_row_set_internal_height (sheet, &sheet->default_row_style, height);
 
 		for (rl = sheet->rows_info; rl; rl = rl->next){
 			ColRowInfo *ri = rl->data;
 
-			if (ri->pos < ss->start_row)
+			if (ri->pos < ss->user.start.row)
 				break;
-			if (ri->pos > ss->end_row)
+			if (ri->pos > ss->user.end.row)
 				break;
 			
 			sheet_row_set_internal_height (sheet, ri, height);
@@ -978,8 +978,8 @@ cell_properties_apply (GtkObject *w, int page, CellList *cells)
 		
 		sheet_style_attach (
 			sheet,
-			ss->start_col, ss->start_row,
-			ss->end_col,   ss->end_row,
+			ss->user.start.col, ss->user.start.row,
+			ss->user.end.col,   ss->user.end.row,
 			style);
 	}
 }

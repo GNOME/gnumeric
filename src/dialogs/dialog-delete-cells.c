@@ -27,18 +27,18 @@ dialog_delete_cells (Workbook *wb, Sheet *sheet)
 		return;
 
 	ss = sheet->selections->data;
-	cols = ss->end_col - ss->start_col + 1;
-	rows = ss->end_row - ss->start_row + 1;
+	cols = ss->user.end.col - ss->user.start.col + 1;
+	rows = ss->user.end.row - ss->user.start.row + 1;
 
 	/* short circuit the dialog if an entire row/column is selected */
-	if (ss->start_row == 0 && ss->end_row  >= SHEET_MAX_ROWS-1)
+	if (ss->user.start.row == 0 && ss->user.end.row  >= SHEET_MAX_ROWS-1)
 	{
-		sheet_delete_col (sheet, ss->start_col, cols);
+		sheet_delete_col (sheet, ss->user.start.col, cols);
 		return;
 	}
-	if (ss->start_col == 0 && ss->end_col  >= SHEET_MAX_COLS-1)
+	if (ss->user.start.col == 0 && ss->user.end.col  >= SHEET_MAX_COLS-1)
 	{
-		sheet_delete_row (sheet, ss->start_row, rows);
+		sheet_delete_row (sheet, ss->user.start.row, rows);
 		return;
 	}
 
@@ -61,20 +61,20 @@ dialog_delete_cells (Workbook *wb, Sheet *sheet)
 		return;
 
 	if (state [0]){
-		sheet_shift_rows (sheet, ss->start_col, ss->start_row, ss->end_row, -cols);
+		sheet_shift_rows (sheet, ss->user.start.col, ss->user.start.row, ss->user.end.row, -cols);
 		return;
 	}
 
 	if (state [1]){
-		sheet_shift_cols (sheet, ss->start_col, ss->end_col, ss->start_row, -rows);
+		sheet_shift_cols (sheet, ss->user.start.col, ss->user.end.col, ss->user.start.row, -rows);
 		return;
 	}
 
 	if (state [2]){
-		sheet_delete_row (sheet, ss->start_row, rows);
+		sheet_delete_row (sheet, ss->user.start.row, rows);
 		return;
 	}
 
 	/* default */
-	sheet_delete_col (sheet, ss->start_col, cols);
+	sheet_delete_col (sheet, ss->user.start.col, cols);
 }
