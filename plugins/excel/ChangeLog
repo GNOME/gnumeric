@@ -1,3 +1,11 @@
+2002-03-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_sheet_destroy) : make deleting the
+	  gnum_sheet optional.
+
+	* ms-excel-read.c (ms_excel_parse_NAME) : add a ref.
+	(ms_excel_workbook_destroy) : don't leak the sheets, or the names.
+
 2002-03-15  Andreas J. Guelzow <aguelzow@taiesin.ca>
 
 	* ms-excel-read.c : calculate desired tab_text_color upon reading of

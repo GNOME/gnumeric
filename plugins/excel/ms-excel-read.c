@@ -2300,7 +2300,7 @@ ms_excel_read_comment (BiffQuery *q, ExcelSheet *esheet)
 }
 
 static void
-ms_excel_sheet_destroy (ExcelSheet *esheet)
+ms_excel_sheet_destroy (ExcelSheet *esheet, gboolean destroy_gnumeric_sheet)
 {
 	if (esheet->shared_formulae != NULL) {
 		g_hash_table_foreach_remove (esheet->shared_formulae,
@@ -2310,7 +2310,7 @@ ms_excel_sheet_destroy (ExcelSheet *esheet)
 		esheet->shared_formulae = NULL;
 	}
 
-	if (esheet->gnum_sheet) {
+	if (destroy_gnumeric_sheet && esheet->gnum_sheet != NULL) {
 		sheet_destroy (esheet->gnum_sheet);
 		esheet->gnum_sheet = NULL;
 	}
@@ -2367,7 +2367,7 @@ ms_excel_workbook_new (MsBiffVersion ver, IOContext *context)
 						  (GCompareFunc)biff_guint16_equal);
 	ans->excel_sheets     = g_ptr_array_new ();
 	ans->XF_cell_records  = g_ptr_array_new ();
-	ans->names        = g_ptr_array_new ();
+	ans->names            = g_ptr_array_new ();
 	ans->format_data      = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 						  (GCompareFunc)biff_guint16_equal);
 	ans->palette          = ms_excel_default_palette ();
@@ -2388,58 +2388,66 @@ ms_excel_workbook_get_sheet (ExcelWorkbook const *wb, guint idx)
 }
 
 static void
-ms_excel_workbook_destroy (ExcelWorkbook *wb)
+ms_excel_workbook_destroy (ExcelWorkbook *ewb)
 {
 	unsigned lp;
 
-	g_hash_table_foreach_remove (wb->boundsheet_data_by_stream,
-				     (GHRFunc)biff_boundsheet_data_destroy,
-				     wb);
-	g_hash_table_destroy (wb->boundsheet_data_by_index);
-	g_hash_table_destroy (wb->boundsheet_data_by_stream);
-	if (wb->XF_cell_records)
-		for (lp = 0; lp < wb->XF_cell_records->len; lp++)
-			biff_xf_data_destroy (g_ptr_array_index (wb->XF_cell_records, lp));
-	g_ptr_array_free (wb->XF_cell_records, TRUE);
+	g_hash_table_foreach_remove (ewb->boundsheet_data_by_stream,
+		(GHRFunc)biff_boundsheet_data_destroy, ewb);
+	g_hash_table_destroy (ewb->boundsheet_data_by_index);
+	g_hash_table_destroy (ewb->boundsheet_data_by_stream);
+	ewb->boundsheet_data_by_index = NULL;
+	ewb->boundsheet_data_by_stream = NULL;
 
-	if (wb->names) {
-		g_ptr_array_free (wb->names, TRUE);
-		wb->names = NULL;
-	}
+	for (lp = 0; lp < ewb->excel_sheets->len; lp++)
+		ms_excel_sheet_destroy (
+			g_ptr_array_index (ewb->excel_sheets, lp), FALSE);
+	g_ptr_array_free (ewb->excel_sheets, TRUE);
+	ewb->excel_sheets = NULL;
 
-	g_hash_table_foreach_remove (wb->font_data,
-				     (GHRFunc)biff_font_data_destroy,
-				     wb);
-	g_hash_table_destroy (wb->font_data);
+	for (lp = 0; lp < ewb->XF_cell_records->len; lp++)
+		biff_xf_data_destroy (g_ptr_array_index (ewb->XF_cell_records, lp));
+	g_ptr_array_free (ewb->XF_cell_records, TRUE);
+	ewb->XF_cell_records = NULL;
 
-	g_hash_table_foreach_remove (wb->format_data,
+	for (lp = 0; lp < ewb->names->len; lp++)
+		expr_name_unref (g_ptr_array_index (ewb->names, lp));
+	g_ptr_array_free (ewb->names, TRUE);
+	ewb->names = NULL;
+
+	g_hash_table_foreach_remove (ewb->font_data,
+		(GHRFunc)biff_font_data_destroy, ewb);
+	g_hash_table_destroy (ewb->font_data);
+	ewb->font_data = NULL;
+
+	g_hash_table_foreach_remove (ewb->format_data,
 				     (GHRFunc)biff_format_data_destroy,
-				     wb);
-	g_hash_table_destroy (wb->format_data);
+				     ewb);
+	g_hash_table_destroy (ewb->format_data);
 
-	if (wb->palette && wb->palette != ms_excel_default_palette ()) {
-		ms_excel_palette_destroy (wb->palette);
-		wb->palette = NULL;
+	if (ewb->palette && ewb->palette != ms_excel_default_palette ()) {
+		ms_excel_palette_destroy (ewb->palette);
+		ewb->palette = NULL;
 	}
 
-	if (wb->extern_sheet_v8) {
-		g_array_free (wb->extern_sheet_v8, TRUE);
-		wb->extern_sheet_v8 = NULL;
+	if (ewb->extern_sheet_v8) {
+		g_array_free (ewb->extern_sheet_v8, TRUE);
+		ewb->extern_sheet_v8 = NULL;
 	}
-	if (wb->extern_sheet_v7) {
-		g_ptr_array_free (wb->extern_sheet_v7, TRUE);
-		wb->extern_sheet_v7 = NULL;
+	if (ewb->extern_sheet_v7) {
+		g_ptr_array_free (ewb->extern_sheet_v7, TRUE);
+		ewb->extern_sheet_v7 = NULL;
 	}
 
-	if (wb->global_strings) {
+	if (ewb->global_strings) {
 		unsigned i;
-		for (i = 0; i < wb->global_string_max; i++)
-			g_free (wb->global_strings[i]);
-		g_free (wb->global_strings);
+		for (i = 0; i < ewb->global_string_max; i++)
+			g_free (ewb->global_strings[i]);
+		g_free (ewb->global_strings);
 	}
 
-	ms_container_finalize (&wb->container);
-	g_free (wb);
+	ms_container_finalize (&ewb->container);
+	g_free (ewb);
 }
 
 /**
@@ -2537,8 +2545,15 @@ ms_excel_parse_NAME (ExcelWorkbook *ewb, int sheet_index,
 	if (sheet_index > 0)
 		pp.sheet = workbook_sheet_by_index (ewb->gnum_wb, sheet_index-1);
 	nexpr = expr_name_add (&pp, name, expr, &err);
-	if (nexpr != NULL)
+	if (nexpr != NULL) {
+		/* Add a ref to keep it around after the excel-sheet/wb goes
+		 * away.  externames do not get references and are unrefed
+		 * after import finishes, which destyroys them if they are not
+		 * in use.
+		 */
+		expr_name_ref (nexpr);
 		return nexpr;
+	}
 
 	gnm_io_warning (ewb->context, err);
 	return nexpr;
@@ -2711,6 +2726,7 @@ ms_excel_externname (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *esheet)
 
 	if (name != NULL) {
 		nexpr = expr_name_new (name, FALSE);
+		nexpr->active = FALSE;
 		g_free (name);
 	}
 	ms_excel_add_name (wb, nexpr);
@@ -4424,7 +4440,7 @@ ms_excel_read_bof (BiffQuery	 *q,
 				d (1, printf ("Blank or broken sheet %d\n", *current_sheet););
 
 				if (ms_excel_workbook_detach (esheet->wb, esheet))
-					ms_excel_sheet_destroy (esheet);
+					ms_excel_sheet_destroy (esheet, TRUE);
 			}
 
 			(*current_sheet)++;
