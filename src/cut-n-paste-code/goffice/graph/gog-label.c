@@ -146,7 +146,6 @@ gog_label_get_elem (GogDataset const *set, int dim_i)
 static void
 gog_label_dim_changed (GogDataset *set, int dim_i)
 {
-	g_warning ("gog_label_dim_changed %p (%d)", set, dim_i);
 	gog_object_emit_changed (GOG_OBJECT (set), TRUE);
 }
 

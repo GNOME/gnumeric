@@ -224,7 +224,7 @@ make_layout (GogRendererPixbuf *prend, char const *text)
 
 	layout = pango_layout_new (prend->pango_context);
 
-	gog_debug (-1, {
+	gog_debug (0, {
 		char *msg = pango_font_description_to_string (
 			prend->base.cur_style->font.font->desc);
 		g_warning (msg);
@@ -232,18 +232,17 @@ make_layout (GogRendererPixbuf *prend, char const *text)
 	});
 
 	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_font_description (layout,
+		prend->base.cur_style->font.font->desc);
+
+	attr = pango_attr_scale_new (prend->base.zoom *
+#warning COMPLETE CRAP.  This should not be necessary.  but scale seems to override size, rather than modify it
+		pango_font_description_get_size (prend->base.cur_style->font.font->desc) /
+		(PANGO_SCALE * 10)); /* assume base size == 10 */
+	attr->start_index = 0;
+	attr->end_index = -1;
 
 	attrs = pango_attr_list_new ();
-
-	attr = pango_attr_font_desc_new (
-		prend->base.cur_style->font.font->desc);
-	attr->start_index = 0;
-	attr->end_index = -1;
-	pango_attr_list_insert (attrs, attr);
-
-	attr = pango_attr_scale_new (prend->base.zoom);
-	attr->start_index = 0;
-	attr->end_index = -1;
 	pango_attr_list_insert (attrs, attr);
 
 	pango_layout_set_attributes (layout, attrs);

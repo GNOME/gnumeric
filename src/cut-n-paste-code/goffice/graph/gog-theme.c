@@ -375,6 +375,12 @@ gog_themes_init	(void)
 	gog_theme_add_element (theme, style,
 		map_area_series_solid_default, "GogSeries", NULL);
 
+	/* labels */
+	style = gog_style_new ();
+	style->outline.width = -1; /* none */
+	style->fill.type = GOG_FILL_STYLE_NONE;
+	gog_theme_add_element (theme, style, NULL, "GogLabel", NULL);
+
 /* Guppi */
 	theme = gog_theme_new (_("Guppi"));
 	gog_theme_register (theme, FALSE);
@@ -418,6 +424,12 @@ gog_themes_init	(void)
 	/* FIXME : not really true, will want to split area from line */
 	gog_theme_add_element (theme, style,
 		map_area_series_solid_guppi, "GogSeries", NULL);
+
+	/* labels */
+	style = gog_style_new ();
+	style->outline.width = -1; /* none */
+	style->fill.type = GOG_FILL_STYLE_NONE;
+	gog_theme_add_element (theme, style, NULL, "GogLabel", NULL);
 }
 
 void

@@ -770,7 +770,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			 GnmExprEvalFlags flags)
 {
 	GnmFunc const *fn_def;
-	int	  argc, i, optional, iter_count, iter_width = 0, iter_height = 0;
+	int	  argc, i, iter_count, iter_width = 0, iter_height = 0;
 	char	  arg_type;
 	Value	 **args, *tmp = NULL;
 	GnmExpr  *expr;
@@ -795,16 +795,14 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 					_("Invalid number of arguments"));
 	}
 
-	optional = 0;
 	args = g_alloca (sizeof (Value *) * fn_def->fn.args.max_args);
 	iter_count = (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) ? 0 : -1;
 
 	for (i = 0; l; l = l->next, ++i) {
 		arg_type = fn_def->fn.args.arg_types[i];
-		expr = l->data;
-
-		if (i >= fn_def->fn.args.min_args)
-			optional = GNM_EXPR_EVAL_PERMIT_EMPTY;
+		/* expr is always non-null, missing args are encoded as
+		 * const = empty */
+		expr = l->data; 
 
 		if (arg_type == 'A' || arg_type == 'r') {
 			if (expr->any.oper == GNM_EXPR_OP_CELLREF) {
@@ -815,7 +813,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 #warning do we need to force an eval here ?
 			} else {
 				tmp = args[i] = gnm_expr_eval (expr, ei->pos,
-					optional | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+					GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 				if (tmp->type == VALUE_CELLRANGE) {
 					cellref_make_abs (&tmp->v_range.cell.a,
 							  &tmp->v_range.cell.a,
@@ -832,7 +830,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		}
 
 		/* force scalars whenever we are certain */
-		tmp = args[i] = gnm_expr_eval (expr, ei->pos, optional |
+		tmp = args[i] = gnm_expr_eval (expr, ei->pos,
 		       ((iter_count >= 0 || arg_type == '?')
 			       ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR
 			       : GNM_EXPR_EVAL_SCALAR_NON_EMPTY));
@@ -917,7 +915,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			break;
 		}
 	}
-
+ 
 	while (i < fn_def->fn.args.max_args)
 		args [i++] = NULL;
 

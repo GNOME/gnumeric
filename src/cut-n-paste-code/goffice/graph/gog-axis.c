@@ -155,7 +155,7 @@ gog_axis_update (GogObject *obj)
 	GSList *ptr;
 	GogAxis *axis = GOG_AXIS (obj);
 
-	g_warning ("axis::update");
+	gog_debug (0, g_warning ("axis::update"););
 
 	for (ptr = axis->contributors ; ptr != NULL ; ptr = ptr->next) {
 	}

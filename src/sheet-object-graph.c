@@ -50,6 +50,7 @@
 #include <libfoocanvas/foo-canvas-polygon.h>
 #include <libfoocanvas/foo-canvas-text.h>
 #include <math.h>
+#include <string.h>
 
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-graph-key"
 
@@ -123,6 +124,83 @@ sheet_object_graph_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 
 	gnm_pane_object_register (so, item);
 	return G_OBJECT (item);
+}
+
+ 
+/* 
+ * The following are useful formats to save in:
+ *  png
+ *  svg
+ *  eps
+ *
+ * TODO: Add svg renderer and (possibly) eps renderer.  We may also
+ * use a new instance of pixbufrenderer to save as png. This would
+ * allow the user to specify size of the saved image, if that's
+ * wanted.
+ */
+static void
+cb_save_as (GtkWidget *widget, GObject *obj_view)
+{
+	SheetObjectGraph *sog;
+	GdkPixbuf *pixbuf;
+	SheetControl *sc;
+	WorkbookControlGUI *wbcg;
+	GtkFileSelection *fsel;
+
+	sog = SHEET_OBJECT_GRAPH (sheet_object_view_obj (obj_view));
+
+	g_return_if_fail (sog != NULL);
+	g_return_if_fail (IS_GOG_RENDERER_PIXBUF (sog->renderer));
+
+	pixbuf = gog_renderer_pixbuf_get (GOG_RENDERER_PIXBUF (sog->renderer));
+	g_return_if_fail (pixbuf != NULL);
+
+	sc  = sheet_object_view_control (obj_view);
+	wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
+	fsel = GTK_FILE_SELECTION (gtk_file_selection_new 
+				   (_("Save graph as image")));
+	/* Show file selector */
+	if (gnumeric_dialog_file_selection (wbcg, fsel)) {
+		const gchar *fname = gtk_file_selection_get_filename (fsel);
+		const gchar *base = g_path_get_basename (fname);
+		const gchar *extension = strrchr (base, '.');
+		gchar  *fullname;
+		GError *err = NULL;
+		gboolean ret;
+
+		if (extension == NULL) {
+			fullname = g_strdup_printf ("%s.%s", fname, "png");
+		} else {
+			if (strcmp (extension, ".png") != 0) {
+				gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
+						 _("Sorry, gnumeric can only save graphs as png images"));
+				return;
+			}
+			fullname = g_strdup (fname);
+		}
+		ret   = gdk_pixbuf_save (pixbuf, fullname, "png", &err, NULL);
+		if (!ret)
+			cmd_context_error (COMMAND_CONTEXT (wbcg), err);
+		g_free (fullname);
+	}
+}
+
+static void
+sheet_object_graph_populate_menu (SheetObject *so,
+				  GObject *obj_view,
+				  GtkMenu *menu)
+{
+	GtkWidget *item, *image;
+
+	item = gtk_image_menu_item_new_with_mnemonic (_("_Save as image"));
+	image = gtk_image_new_from_stock (GTK_STOCK_SAVE_AS, 
+					  GTK_ICON_SIZE_MENU);
+	gtk_widget_show (image);
+	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+	g_signal_connect (G_OBJECT (item), "activate",
+			  G_CALLBACK (cb_save_as), obj_view);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
+	SHEET_OBJECT_CLASS (parent_klass)->populate_menu (so, obj_view, menu);
 }
 
 static void
@@ -294,6 +372,7 @@ sheet_object_graph_class_init (GObjectClass *klass)
 
 	/* SheetObject class method overrides */
 	so_class->new_view	     = sheet_object_graph_new_view;
+	so_class->populate_menu	     = sheet_object_graph_populate_menu;
 	so_class->update_view_bounds = sheet_object_graph_update_bounds;
 	so_class->read_xml	     = sheet_object_graph_read_xml;
 	so_class->write_xml	     = sheet_object_graph_write_xml;

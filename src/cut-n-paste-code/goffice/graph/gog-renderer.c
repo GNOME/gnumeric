@@ -282,7 +282,9 @@ cb_font_removed (GogRenderer *rend, GOFont const *font)
 
 	g_return_if_fail (klass != NULL);
 
-	g_warning ("notify a '%s' that %p is invalid",  G_OBJECT_TYPE_NAME (rend), font);
+	gog_debug (0, g_warning ("notify a '%s' that %p is invalid", 
+				 G_OBJECT_TYPE_NAME (rend), font););
+
 	if (klass->font_removed)
 		(klass->font_removed) (rend, font);
 }

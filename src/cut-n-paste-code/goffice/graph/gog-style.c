@@ -863,7 +863,7 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 void
 gog_style_set_font (GogStyle *style, PangoFontDescription *desc)
 {
-	GOFont const *font = go_font_new_by_desc  (desc);
+	GOFont const *font = go_font_new_by_desc (desc);
 	if (font != NULL) {
 		go_font_unref (style->font.font);
 		style->font.font = font;
