@@ -1,3 +1,8 @@
+1999-08-15  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_path_decode): Stop it trying to 'enter' streams :-)
+	(ms_ole_directory_enter): Add more flowery debug.
+
 1999-08-14  Michael Meeks  <michael@imaginator.com>
 
 	* gnome-stream-ole.c (gnome_stream_ole_open_create): Fix cockups

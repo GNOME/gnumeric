@@ -2125,7 +2125,8 @@ ms_ole_path_decode (MsOle *f, const char *path)
 		if (found) {
 			g_free (dirs[lp]);
 			dirs[lp] = 0;
-			ms_ole_directory_enter (dir);
+			if (dir->type == MsOlePPSStorage)
+				ms_ole_directory_enter (dir);
 		} else {
 #if OLE_DEBUG > 0
 			printf ("Stream '%s' not found\n", name);
@@ -2314,7 +2315,7 @@ ms_ole_directory_enter (MsOleDirectory *d)
 
 	if (d->type != MsOlePPSStorage &&
 	    d->type != MsOlePPSRoot) {
-		printf ("Bad type %d %d\n", d->type, MsOlePPSRoot);
+		printf ("Bad type %d %d entering '%s'\n", d->type, MsOlePPSRoot, d->name);
 		return;
 	}
 
