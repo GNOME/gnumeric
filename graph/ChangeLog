@@ -1,3 +1,7 @@
+1999-11-09  Michael Meeks  <mmeeks@gnu.org>
+
+	* Makefile.am: Fixup graph.gnorba install
+
 1999-11-07  Miguel de Icaza  <miguel@gnu.org>
 
 	* graph-view-scatter.c: Wrote most of this file.

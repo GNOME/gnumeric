@@ -11,7 +11,6 @@ bin_PROGRAMS = graph
 
 noinst_PROGRAMS = sample
 
-
 GRAPH_CORBA_GENERATED = 		\
 	Graph-common.c			\
 	Graph-skels.c			\
@@ -62,6 +61,9 @@ $(GRAPH_CORBA_GENERATED): Graph.idl $(top_srcdir)/src/Gnumeric-value.idl $(top_s
 
 idldir   = $(datadir)/idl
 idl_DATA = Graph.idl
+
+gnorbadir = $(sysconfdir)/CORBA/servers
+gnorba_DATA = graph.gnorba
 
 MYHACKAROUNDAUTOMAKE=$(shell echo $(GNUMERIC_CORBA_GENERATED))
 
