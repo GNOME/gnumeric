@@ -37,6 +37,9 @@ Jon Kåre:
 Joshua R. Odom:
 	* Reorganize the custom pixmaps.
 
+Morten:
+	Fix DATE2UNIX.  (Bug 70814.)
+
 --------------------------------------------------------------------------
 Gnumeric 1.0.3
 
