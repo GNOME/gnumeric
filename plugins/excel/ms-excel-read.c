@@ -1780,24 +1780,25 @@ ms_excel_get_name (ExcelWorkbook *wb, int name_idx)
 static void
 ms_excel_read_name (BiffQuery *q, ExcelWorkbook *wb)
 {
-	guint16 flags = BIFF_GET_GUINT16(q->data);
 	guint16 fn_grp_idx;
+	guint16 flags          = BIFF_GET_GUINT16 (q->data);
 #if 0
-	guint8  kb_shortcut = BIFF_GET_GUINT8(q->data+2);
+	guint8  kb_shortcut    = BIFF_GET_GUINT8  (q->data + 2);
 #endif
-	guint8  name_len = BIFF_GET_GUINT8(q->data+3);
-	guint16 name_def_len  = BIFF_GET_GUINT16(q->data+4);
-	guint8 *name_def_data = q->data+14+name_def_len;
+	guint8  name_len       = BIFF_GET_GUINT8  (q->data + 3);
+	guint16 name_def_len   = BIFF_GET_GUINT16 (q->data + 4);
+	guint8 *name_def_data  = q->data + 15 + name_def_len;
 #if 0
-	guint16 sheet_idx = BIFF_GET_GUINT16(q->data+6);
-	guint16 ixals = BIFF_GET_GUINT16(q->data+8); /* dup */
+	guint16 sheet_idx      = BIFF_GET_GUINT16 (q->data + 6);
+	guint16 ixals          = BIFF_GET_GUINT16 (q->data + 8); /* dup */
 #endif
-	guint8  menu_txt_len = BIFF_GET_GUINT8(q->data+10);
-	guint8  descr_txt_len = BIFF_GET_GUINT8(q->data+11);
-	guint8  help_txt_len = BIFF_GET_GUINT8(q->data+12);
-	guint8  status_txt_len = BIFF_GET_GUINT8(q->data+13);
+	guint8  menu_txt_len   = BIFF_GET_GUINT8  (q->data + 10);
+	guint8  descr_txt_len  = BIFF_GET_GUINT8  (q->data + 11);
+	guint8  help_txt_len   = BIFF_GET_GUINT8  (q->data + 12);
+	guint8  status_txt_len = BIFF_GET_GUINT8  (q->data + 13);
 	char *name, *menu_txt, *descr_txt, *help_txt, *status_txt;
-	guint8 *ptr;
+	guint8   *ptr;
+	ExprTree *tree;
 
 /*	g_assert (ixals==sheet_idx); */
 	ptr = q->data + 14;
@@ -1865,6 +1866,8 @@ ms_excel_read_name (BiffQuery *q, ExcelWorkbook *wb)
 	if (ms_excel_read_debug>1) {
 		printf ("NAME %d : %s\n", wb->internal_names->len, name);
 	}
+	tree = ms_excel_parse_formula (NULL, name_def_data,
+				       0, 0, FALSE, name_def_len, NULL);
 #endif
 }
 

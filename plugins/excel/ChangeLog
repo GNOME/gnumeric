@@ -1,5 +1,8 @@
 1999-07-06  Michael Meeks  <michael@edenproject.org>
 
+	* ms-excel-read.c (ms_excel_read_name): Fix up Names definition
+	offset, start to manualy merge name stuff.
+
 	* ole.c: Fix summary reading code: works now, try it on a
 	SummaryInformation stream.
 
