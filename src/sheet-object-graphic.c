@@ -37,7 +37,7 @@ typedef enum {
 #define SHEET_OBJECT_GRAPHIC_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_GRAPHIC_TYPE))
 
 typedef struct {
-	SheetObject  parent_object;
+	SheetObject  sheet_object;
 	GdkColor    *fill_color;
 	double       width;
 	double       a, b, c;
@@ -582,7 +582,7 @@ sheet_object_graphic_init (GtkObject *obj)
 	
 	sog = SHEET_OBJECT_GRAPHIC (obj);
 	sog->fill_color = g_new (GdkColor, 1);
-	e_color_alloc_name ("white", sog->fill_color);
+	e_color_alloc_name ("black", sog->fill_color);
 	sog->width = 1.0;
 	sog->a = 8.0;
 	sog->b = 10.0;
@@ -606,7 +606,7 @@ E_MAKE_TYPE (sheet_object_graphic, "SheetObjectGraphic", SheetObjectGraphic,
 #define IS_SHEET_OBJECT_FILLED_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_FILLED_TYPE, SheetObjectFilledClass))
 
 typedef struct {
-	SheetObjectGraphic parent_object;
+	SheetObjectGraphic sheet_object_graphic;
 
 	GdkColor *outline_color;
 } SheetObjectFilled;
@@ -1036,8 +1036,9 @@ sheet_object_filled_init (GtkObject *obj)
 	SheetObjectFilled *sof;
 	
 	sof = SHEET_OBJECT_FILLED (obj);
-	sof->outline_color = g_new0 (GdkColor, 1);
-	e_color_alloc_gdk (sof->outline_color);
+	sof->outline_color = g_new (GdkColor, 1);
+	e_color_alloc_name ("black", sof->outline_color);
+	e_color_alloc_name ("white", sof->sheet_object_graphic.fill_color);
 }
 
 E_MAKE_TYPE (sheet_object_filled, "SheetObjectFilled", SheetObjectFilled,

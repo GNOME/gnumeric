@@ -1,3 +1,10 @@
+2001-09-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_init) : Init the
+	  fill colour for lines and arrows to black.
+	(sheet_object_filled_init) : Use a name rather than assuming 0 = black
+	  for outline colour, and convert the fill colour to white.
+
 2001-09-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/eval.c (workbook_recalc) : only redraw if something recalced.
