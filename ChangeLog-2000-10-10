@@ -1,3 +1,9 @@
+2000-09-18  Michael Meeks  <michael@helixcode.com>
+
+	* src/Makefile.am (INCLUDES): add GNOME_DATADIR
+
+	* src/workbook.c (workbook_new): use it.
+
 2000-09-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_row_size_fit_pixels) : PUTRID KLUDGE.
