@@ -1,3 +1,8 @@
+2001-12-01  Abel Cheung  <maddog@linux.org.hk>
+
+	* zh_TW.po: Replaced with my own translation.
+	* zh_CN.po: Renamed from zh_CN.GB2312.po .
+
 2001-11-30  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Translated some more.

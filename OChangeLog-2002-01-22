@@ -1,3 +1,7 @@
+2001-12-01  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Renamed zh_CN.GB2312 to zh_CN in ALL_LINGUAS .
+
 2001-11-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/search.c (search_filter_matching) initialize pointers to
