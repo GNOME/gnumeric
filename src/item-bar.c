@@ -594,7 +594,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	{
 		gboolean needs_ungrab = FALSE;
 
-		if (item_bar->start_selection > 0) {
+		if (item_bar->start_selection >= 0) {
 			needs_ungrab = TRUE;
 			item_bar->start_selection = -1;
 		}
