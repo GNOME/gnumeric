@@ -3,8 +3,11 @@
   <para>The data analysis tools package contains tools for
   statistical data analysis, random number generation and data
   sampling.  To use these tools, select the apropriate tool
-  from the <guimenu>Tools</guimenu> menu or its <guimenuitem>Statistical Analysis</guimenuitem>
-  submenu. The tools are described below.</para>
+  from the <guimenuitem>Statistical Analysis</guimenuitem>
+  submenu of the <guimenu>Tools</guimenu> menu. The random number 
+  generation tool is available from the <guimenuitem>Fill</guimenuitem>
+  submenu of the <guimenu>Edit</guimenu> menu.
+  The tools are described below.</para>
 
 <figure id="analysistools">
     <title>Data Analysis Tools </title>
