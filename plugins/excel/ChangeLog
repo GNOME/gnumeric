@@ -1,8 +1,7 @@
 1999-09-24  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_palette_get) : Change my guess
-	  at what metric to use when selecting white vs black as a contrasting
-	  colour.  Use component discrete, rather than a crude luminosity.
+	  at what the therhold pseudo-luminosity is.
 
 1999-09-23  Michael Meeks  <michael@nuclecu.unam.mx>
 

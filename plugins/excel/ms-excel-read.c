@@ -867,17 +867,22 @@ ms_excel_palette_get (ExcelPalette *pal, guint idx, StyleColor *contrast)
 			/* Is the contrast colour closer to black or white based
 			 * on this VERY loose metric.
 			 */
-			int const guess =
-			    ((contrast->color.red > 0x7fff)   ? 1 : -1) +
-			    ((contrast->color.green > 0x7fff) ? 1 : -1) +
-			    ((contrast->color.blue> 0x7fff)   ? 1 : -1);
+			unsigned const guess =
+			    contrast->color.red +
+			    contrast->color.green +
+			    contrast->color.blue;
 
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_color_debug > 1) {
-				printf ("Contrast : %d\n", guess);
+				printf ("Contrast 0x%x 0x%x 0x%x : 0x%x\n", 
+					contrast->color.red, 
+					contrast->color.green,
+					contrast->color.blue,
+					guess);
 			}
 #endif
-			if (guess < 0) {
+			/* guess the minimum hacked pseudo-luminosity */
+			if (guess < (0x20000)) {
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_color_debug > 1) {
 					puts("White");
