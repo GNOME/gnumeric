@@ -2724,6 +2724,21 @@ cb_scroll_wheel_support (GtkWidget *w, GdkEventButton *event,
 	return FALSE;
 }
 
+/*
+ * Make current control size the default. Toplevel would resize
+ * spontaneously. This makes it stay the same size until user resizes.
+ */
+static void cb_realize (GtkWindow *toplevel, WorkbookControlGUI *wbcg)
+{
+	GtkAllocation *allocation;
+
+	g_return_if_fail (GTK_IS_WINDOW (toplevel));
+
+	allocation = &GTK_WIDGET (toplevel)->allocation;
+	gtk_window_set_default_size (toplevel,
+				     allocation->width, allocation->height);
+}
+
 static void
 workbook_setup_sheets (WorkbookControlGUI *wbcg)
 {
@@ -3053,6 +3068,8 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 			    "button-release-event",
 			    GTK_SIGNAL_FUNC (cb_scroll_wheel_support),
 			    wbcg);
+	gtk_signal_connect (GTK_OBJECT (wbcg->toplevel), "realize",
+			    GTK_SIGNAL_FUNC (cb_realize), wbcg);
 #if 0
 	/* Enable toplevel as a drop target */
 
@@ -3066,8 +3083,6 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 			    GTK_SIGNAL_FUNC (filenames_dropped), wb);
 #endif
 
-	/* Now that everything is initialized set the size */
-	/* TODO : use gnome-config ? */
 	gtk_window_set_policy (wbcg->toplevel, TRUE, TRUE, FALSE);
 
 	/* Init autosave */

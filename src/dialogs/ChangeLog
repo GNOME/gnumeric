@@ -1,3 +1,8 @@
+2001-01-05  Jon K Hellan  <hellan@acm.org>
+
+	* import.glade, plugin-manager.glade, analysis-tools.glade
+	(AnalysisTools): Use browse selection mode in list.
+
 2000-12-27  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-define-names.c (cb_name_guru_add) : bug 36049

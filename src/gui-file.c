@@ -52,7 +52,6 @@ gui_file_import (WorkbookControlGUI *wbcg, const char *filename)
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 
 	clist = GTK_CLIST (glade_xml_get_widget (gui, "import-clist"));
-	gtk_clist_set_selection_mode (clist, GTK_SELECTION_SINGLE);
 
 	for (row = 0, l = file_format_get_openers (); l; l = l->next){
 		FileOpener *fo = l->data;

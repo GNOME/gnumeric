@@ -1,3 +1,14 @@
+2001-01-05  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-file.c (gui_file_import): Do not set selection
+	mode. That belongs in the Glade file.
+
+	* src/workbook-control-gui.c (cb_realize): New callback
+	function. Make current control size the default. Toplevel would
+	resize spontaneously. This makes it stay the same size until user
+	resizes. 
+	(workbook_control_gui_init): Connect cb_realize to realize signal.
+
 2001-01-06  Kenneth Christiansen  <kenneth@gnu.org>
 
         * configure.in, macros/autogen.sh:
