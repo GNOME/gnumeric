@@ -1,7 +1,6 @@
 plugins/stat/stat.c
 src/about.c
 src/dates.c
-src/dialog-cell-comment.c
 src/dialog-cell-format.c
 src/dialog-define-names.c
 src/dialog-delete-cells.c
