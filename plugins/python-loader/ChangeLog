@@ -1,3 +1,29 @@
+2002-07-27  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* python-loader.c (initialize_python_if_needed,
+	gnumeric_plugin_loader_python_set_attributes,
+	gnumeric_plugin_loader_python_load_base,
+	gnumeric_plugin_loader_python_unload_base,
+	gnumeric_plugin_loader_python_init,
+	gnumeric_plugin_loader_python_func_file_probe,
+	gnumeric_plugin_loader_python_func_file_open,
+	gnumeric_plugin_loader_python_load_service_file_opener,
+	gnumeric_plugin_loader_python_func_file_saver,
+	gnumeric_plugin_loader_python_load_service_file_saver,
+	call_python_function_args, call_python_function_nodes,
+	gnumeric_plugin_loader_python_func_get_full_function_info,
+	gnumeric_plugin_loader_python_load_service_function_group,
+	gnumeric_plugin_loader_python_unload_service_function_group,
+	python_get_loader_type):
+	Less assertions, GNM_INIT_RET_ERROR_INFO macro.
+	Use g_object data instead of plugin_service_get_loader_data.
+	"has_probe" field has been removed, always get a pointer to
+	*_file_probe pointer function if it's available.
+	Use g_object data instead of plugin_service_[gs]et_loader_data.
+	Set callbacks using plugin_service_get_cbs and PluginService*Callbacks
+	structs, instead of settings PluginService* fields directly (they are
+	private now).
+
 2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".

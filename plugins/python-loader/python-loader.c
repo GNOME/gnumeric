@@ -110,14 +110,10 @@ initialize_python_if_needed (void)
 static void
 gnumeric_plugin_loader_python_set_attributes (GnumericPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderPython *loader_python;
+	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
 	gchar *module_name = NULL;
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader));
-	g_return_if_fail (ret_error != NULL);
-
-	*ret_error = NULL;
-	loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
 	module_name = g_hash_table_lookup (attrs, "module_name");
 	if (module_name != NULL) {
 		loader_python->module_name = g_strdup (module_name);
@@ -130,7 +126,7 @@ gnumeric_plugin_loader_python_set_attributes (GnumericPluginLoader *loader, GHas
 static void
 gnumeric_plugin_loader_python_load_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderPython *loader_python;
+	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
 	const gchar *python_file_extensions[]
 		= {"py", "pyc", "pyo", NULL}, **file_ext;
 	InterpreterInfo *py_interpreter_info;
@@ -138,12 +134,8 @@ gnumeric_plugin_loader_python_load_base (GnumericPluginLoader *loader, ErrorInfo
 	FILE *f;
 	ErrorInfo *open_error;
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader));
-	g_return_if_fail (ret_error != NULL);
-
-	*ret_error = NULL;
+	GNM_INIT_RET_ERROR_INFO (ret_error);
 	g_object_set_data (G_OBJECT (loader->plugin), "python-loader", loader);
-	loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
 	initialize_python_if_needed ();
 
 	py_interpreter_info = create_python_interpreter (loader->plugin);
@@ -203,14 +195,10 @@ gnumeric_plugin_loader_python_load_base (GnumericPluginLoader *loader, ErrorInfo
 static void
 gnumeric_plugin_loader_python_unload_base (GnumericPluginLoader *loader, ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderPython *loader_python;
+	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader));
-	g_return_if_fail (ret_error != NULL);
-
-	*ret_error = NULL;
+	GNM_INIT_RET_ERROR_INFO (ret_error);
 	g_object_steal_data (G_OBJECT (loader->plugin), "python-loader");
-	loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
 	destroy_python_interpreter (loader_python->py_interpreter_info);
 }
 
@@ -219,14 +207,12 @@ gnumeric_plugin_loader_python_info_get_extra_info_list (GnumericPluginLoader *lo
                                                         GSList **ret_keys_list,
                                                         GSList **ret_values_list)
 {
-	GnumericPluginLoaderPython *loader_python;
+	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
 	GSList *keys_list = NULL, *values_list = NULL;
 	gint n_items = 0;
 
-	g_return_val_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader), 0);
 	g_return_val_if_fail (ret_keys_list != NULL && ret_values_list != NULL, 0);
 
-	loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
 	keys_list = g_slist_prepend (keys_list, g_strdup (_("Loader")));
 	values_list = g_slist_prepend (values_list, g_strdup ("python"));
 	n_items++;
@@ -252,11 +238,8 @@ gnumeric_plugin_loader_python_init (GnumericPluginLoaderPython *loader_python)
 static void
 gnumeric_plugin_loader_python_destroy (GtkObject *obj)
 {
-	GnumericPluginLoaderPython *loader_python;
+	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (obj);
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (obj));
-
-	loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (obj);
 	g_free (loader_python->module_name);
 }
 
@@ -308,10 +291,10 @@ gnumeric_plugin_loader_python_func_file_probe (
 	PyObject *input_wrapper;
 	gboolean result;
 
-	g_return_val_if_fail (service != NULL, FALSE);
+	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_OPENER (service), FALSE);
 	g_return_val_if_fail (input != NULL, FALSE);
 
-	loader_data = (ServiceLoaderDataFileOpener *) plugin_service_get_loader_data (service);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (loader->plugin);
 	input_wrapper = pygobject_new (G_OBJECT (input));
 	if (input_wrapper == NULL) {
@@ -354,11 +337,11 @@ gnumeric_plugin_loader_python_func_file_open (GnumFileOpener const *fo,
 	PyObject *open_result = NULL;
 	PyObject *input_wrapper;
 
-	g_return_if_fail (service != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_OPENER (service));
 	g_return_if_fail (input != NULL);
 
-	loader_data = (ServiceLoaderDataFileOpener *) plugin_service_get_loader_data (service);
-	SWITCH_TO_PLUGIN (service->plugin);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
+	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	sheet = sheet_new (wb_view_workbook (wb_view), _("Some name"));
 	input_wrapper = pygobject_new (G_OBJECT (input));
 	if (input_wrapper != NULL) {
@@ -384,63 +367,44 @@ gnumeric_plugin_loader_python_load_service_file_opener (GnumericPluginLoader *lo
                                                         PluginService *service,
                                                         ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderPython *loader_python;
-	PluginServiceFileOpener *service_file_opener;
+	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
 	gchar *func_name_file_probe, *func_name_file_open;
 	PyObject *python_func_file_probe, *python_func_file_open;
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader));
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_OPENER (service));
 
-	*ret_error = NULL;
-	loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
 	switch_python_interpreter_if_needed (loader_python->py_interpreter_info);
-	service_file_opener = &service->t.file_opener;
-	if (service_file_opener->has_probe) {
-		func_name_file_probe = g_strdup_printf ("%s_file_probe", service_file_opener->id);
-		python_func_file_probe = PyDict_GetItemString (loader_python->main_module_dict,
-		                                               func_name_file_probe);
-		clear_python_error_if_needed ();
-	} else {
-		func_name_file_probe = NULL;
-		python_func_file_probe = NULL;
-	}
-	func_name_file_open = g_strdup_printf ("%s_file_open", service_file_opener->id);
+	func_name_file_probe = g_strconcat (
+		plugin_service_get_id (service), "_file_probe", NULL);
+	python_func_file_probe = PyDict_GetItemString (loader_python->main_module_dict,
+	                                               func_name_file_probe);
+	clear_python_error_if_needed ();
+	func_name_file_open = g_strconcat (
+		plugin_service_get_id (service), "_file_open", NULL);
 	python_func_file_open = PyDict_GetItemString (loader_python->main_module_dict,
 	                                              func_name_file_open);
 	clear_python_error_if_needed ();
-	if ((!service_file_opener->has_probe || python_func_file_probe != NULL) &&
-	    python_func_file_open != NULL) {
+	if (python_func_file_open != NULL) {
+		PluginServiceFileOpenerCallbacks *cbs;
 		ServiceLoaderDataFileOpener *loader_data;
 
-		if (service_file_opener->has_probe) {
-			service_file_opener->plugin_func_file_probe = gnumeric_plugin_loader_python_func_file_probe;
-		} else {
-			service_file_opener->plugin_func_file_probe = NULL;
-		}
-		service_file_opener->plugin_func_file_open = gnumeric_plugin_loader_python_func_file_open;
+		cbs = plugin_service_get_cbs (service);
+		cbs->plugin_func_file_probe = gnumeric_plugin_loader_python_func_file_probe;
+		cbs->plugin_func_file_open = gnumeric_plugin_loader_python_func_file_open;
 
 		loader_data = g_new (ServiceLoaderDataFileOpener, 1);
 		loader_data->python_func_file_probe = python_func_file_probe;
 		loader_data->python_func_file_open = python_func_file_open;
-		plugin_service_set_loader_data (service, (gpointer) loader_data);
+		g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
 	} else {
 		*ret_error = error_info_new_printf (
 		             _("Python file \"%s\" has invalid format."),
 		             loader_python->module_name);
-		if (service_file_opener->has_probe && python_func_file_probe == NULL) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
-			                        _("File doesn't contain \"%s\" function."),
-			                        func_name_file_probe));
-		}
-		if (python_func_file_open == NULL) {
-			error_info_add_details (*ret_error,
-			                        error_info_new_printf (
-			                        _("File doesn't contain \"%s\" function."),
-			                        func_name_file_open));
-		}
+		error_info_add_details (*ret_error,
+		                        error_info_new_printf (
+		                        _("File doesn't contain \"%s\" function."),
+		                        func_name_file_open));
 	}
 	g_free (func_name_file_probe);
 	g_free (func_name_file_open);
@@ -463,11 +427,11 @@ gnumeric_plugin_loader_python_func_file_save (GnumFileSaver const *fs, PluginSer
 	PyObject *py_workbook;
 	PyObject *save_result;
 
-	g_return_if_fail (service != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_SAVER (service));
 	g_return_if_fail (file_name != NULL);
 
-	saver_data = (ServiceLoaderDataFileSaver *) plugin_service_get_loader_data (service);
-	SWITCH_TO_PLUGIN (service->plugin);
+	saver_data = g_object_get_data (G_OBJECT (service), "loader_data");
+	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	py_workbook = py_new_Workbook_object (wb_view_workbook (wb_view));
 	save_result = PyObject_CallFunction
 		(saver_data->python_func_file_save,
@@ -485,31 +449,29 @@ gnumeric_plugin_loader_python_load_service_file_saver (GnumericPluginLoader *loa
                                                        PluginService *service,
                                                        ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderPython *loader_python;
-	PluginServiceFileSaver *service_file_saver;
+	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
 	gchar *func_name_file_save;
 	PyObject *python_func_file_save;
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader));
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FILE_SAVER (service));
 
-	*ret_error = NULL;
-	loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
 	switch_python_interpreter_if_needed (loader_python->py_interpreter_info);
-	service_file_saver = &service->t.file_saver;
-	func_name_file_save = g_strdup_printf ("%s_file_save", service_file_saver->id);
+	func_name_file_save = g_strconcat (
+		plugin_service_get_id (service), "_file_save", NULL);
 	python_func_file_save = PyDict_GetItemString (loader_python->main_module_dict,
 	                                              func_name_file_save);
 	clear_python_error_if_needed ();
 	if (python_func_file_save != NULL) {
+		PluginServiceFileSaverCallbacks *cbs;
 		ServiceLoaderDataFileSaver *saver_data;
 
-		service_file_saver->plugin_func_file_save = gnumeric_plugin_loader_python_func_file_save;
+		cbs = plugin_service_get_cbs (service);
+		cbs->plugin_func_file_save = gnumeric_plugin_loader_python_func_file_save;
 
 		saver_data = g_new (ServiceLoaderDataFileSaver, 1);
 		saver_data->python_func_file_save = python_func_file_save;
-		plugin_service_set_loader_data (service, (gpointer) saver_data);
+		g_object_set_data (G_OBJECT (service), "loader_data", saver_data);
 	} else {
 		*ret_error = error_info_new_printf (
 		             _("Python file \"%s\" has invalid format."),
@@ -550,8 +512,8 @@ call_python_function_args (FunctionEvalInfo *ei, Value **args)
 
 	fndef = ei->func_call->func;
 	service = (PluginService *) function_def_get_user_data (fndef);
-	loader_data = (ServiceLoaderDataFunctionGroup *) plugin_service_get_loader_data (service);
-	SWITCH_TO_PLUGIN (service->plugin);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
+	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	fn_info_tuple = PyDict_GetItemString (loader_data->python_fn_info_dict,
 	                                      (gchar *) function_def_get_name (fndef));
 	g_assert (fn_info_tuple != NULL);
@@ -580,8 +542,8 @@ call_python_function_nodes (FunctionEvalInfo *ei, GnmExprList *expr_tree_list)
 
 	fndef = ei->func_call->func;
 	service = (PluginService *) function_def_get_user_data (fndef);
-	loader_data = (ServiceLoaderDataFunctionGroup *) plugin_service_get_loader_data (service);
-	SWITCH_TO_PLUGIN (service->plugin);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
+	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	python_fn = PyDict_GetItemString (loader_data->python_fn_info_dict,
 	                                  (gchar *) function_def_get_name (fndef));
 
@@ -643,11 +605,11 @@ gnumeric_plugin_loader_python_func_get_full_function_info (PluginService *servic
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *fn_info_obj;
 
-	g_return_val_if_fail (service != NULL, FALSE);
+	g_return_val_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service), FALSE);
 	g_return_val_if_fail (fn_name != NULL, FALSE);
 
-	loader_data = (ServiceLoaderDataFunctionGroup *) plugin_service_get_loader_data (service);
-	SWITCH_TO_PLUGIN (service->plugin);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
+	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	fn_info_obj = PyDict_GetItemString (loader_data->python_fn_info_dict, (gchar *) fn_name);
 	if (fn_info_obj == NULL) {
 		clear_python_error_if_needed ();
@@ -695,33 +657,31 @@ gnumeric_plugin_loader_python_load_service_function_group (GnumericPluginLoader 
                                                            PluginService *service,
                                                            ErrorInfo **ret_error)
 {
-	GnumericPluginLoaderPython *loader_python;
-	PluginServiceFunctionGroup *service_function_group;
+	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
 	gchar *fn_info_dict_name;
 	PyObject *python_fn_info_dict;
 
-	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader));
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
-	*ret_error = NULL;
-	loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
 	switch_python_interpreter_if_needed (loader_python->py_interpreter_info);
-	service_function_group = &service->t.function_group;
-	fn_info_dict_name = g_strdup_printf ("%s_functions", service_function_group->group_id);
+	fn_info_dict_name = g_strconcat (
+		plugin_service_get_id (service), "_functions", NULL);
 	python_fn_info_dict = PyDict_GetItemString (loader_python->main_module_dict,
 	                                             fn_info_dict_name);
 	clear_python_error_if_needed ();
 	if (python_fn_info_dict != NULL && PyDict_Check (python_fn_info_dict)) {
+		PluginServiceFunctionGroupCallbacks *cbs;
 		ServiceLoaderDataFunctionGroup *loader_data;
 
-		service_function_group->plugin_func_get_full_function_info =
+		cbs = plugin_service_get_cbs (service);
+		cbs->plugin_func_get_full_function_info =
 			&gnumeric_plugin_loader_python_func_get_full_function_info;
 
 		loader_data = g_new (ServiceLoaderDataFunctionGroup, 1);
 		loader_data->python_fn_info_dict = (PyObject *) python_fn_info_dict;
 		Py_INCREF (loader_data->python_fn_info_dict);
-		plugin_service_set_loader_data (service, (gpointer) loader_data);
+		g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
 	} else {
 		*ret_error = error_info_new_printf (
 		             _("Python file \"%s\" has invalid format."),
@@ -749,12 +709,11 @@ gnumeric_plugin_loader_python_unload_service_function_group (GnumericPluginLoade
 	ServiceLoaderDataFunctionGroup *loader_data;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader));
-	g_return_if_fail (service != NULL);
-	g_return_if_fail (ret_error != NULL);
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
-	*ret_error = NULL;
-	loader_data = (ServiceLoaderDataFunctionGroup *) plugin_service_get_loader_data (service);
-	SWITCH_TO_PLUGIN (service->plugin);
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
+	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	Py_DECREF (loader_data->python_fn_info_dict);
 }
 
@@ -763,7 +722,6 @@ gnumeric_plugin_loader_python_unload_service_function_group (GnumericPluginLoade
 GType
 python_get_loader_type (ErrorInfo **ret_error)
 {
-	*ret_error = NULL;
-
+	GNM_INIT_RET_ERROR_INFO (ret_error);
 	return TYPE_GNUMERIC_PLUGIN_LOADER_PYTHON;
 }
