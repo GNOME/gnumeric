@@ -94,6 +94,7 @@ solver_results_init (const SolverParameters *sp)
 	res->n_constraints     = sp->n_constraints;
 	res->n_nonzeros_in_obj = 0;
 	res->n_nonzeros_in_mat = 0;
+	res->n_iterations      = 0;
 	res->time_user         = 0;
 	res->time_system       = 0;
 	res->time_real         = 0;
@@ -633,6 +634,7 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 	res->time_system += buf.tms_stime / (gnum_float) sysconf (_SC_CLK_TCK);
 	res->time_real   += end.tv_sec + end.tv_usec /
 	        (gnum_float) G_USEC_PER_SEC;
+	res->n_iterations = alg->get_iterations_fn (program);
 
 	solver_prepare_reports (program, res, sheet);
 	if (res->status == SolverOptimal) {

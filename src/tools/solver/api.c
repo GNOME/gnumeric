@@ -299,6 +299,14 @@ w_lp_solve_get_dual (SolverProgram program, int row)
         return lp->p->duals [row + 1];
 }
 
+static int
+w_lp_solve_get_iterations (SolverProgram program)
+{
+	lp_solve_t *lp = (lp_solve_t *) program;
+
+        return lp->p->total_iter;
+}
+
 static gboolean
 w_lp_solve_set_option (SolverProgram program, SolverOptionType option,
 		       const gboolean *b_value,
@@ -546,6 +554,12 @@ w_glpk_get_dual (SolverProgram program, int row)
 	return x;
 }
 
+static int
+w_glpk_get_iterations (SolverProgram program)
+{
+        return -1;
+}
+
 gboolean
 w_glpk_set_option (SolverProgram program, SolverOptionType option,
 		   const gboolean *b_value,
@@ -712,6 +726,7 @@ const SolverLPAlgorithm lp_algorithm [] = {
 		(solver_lp_get_obj_fn_value_fn*) w_lp_solve_get_value_of_obj_fn,
 		(solver_lp_get_obj_fn_var_fn*)   w_lp_solve_get_solution,
 		(solver_lp_get_shadow_prize_fn*) w_lp_solve_get_dual,
+		(solver_lp_get_iterations_fn*)   w_lp_solve_get_iterations,
 		(solver_lp_set_option_fn*)       w_lp_solve_set_option,
 		(solver_lp_print_fn*)            w_lp_solve_print_lp
 	},
@@ -732,6 +747,7 @@ const SolverLPAlgorithm lp_algorithm [] = {
 		(solver_lp_get_obj_fn_value_fn*) w_glpk_get_value_of_obj_fn,
 		(solver_lp_get_obj_fn_var_fn*)   w_glpk_get_solution,
 		(solver_lp_get_shadow_prize_fn*) w_glpk_get_dual,
+		(solver_lp_get_iterations_fn*)   w_glpk_iterations,
 		(solver_lp_set_option_fn*)       w_glpk_set_option,
 		(solver_lp_print_fn*)            w_glpk_print_lp
 	},

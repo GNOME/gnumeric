@@ -1,3 +1,12 @@
+2002-06-12  Jukka Pekka  <jiivonen@cs145201.pp.htv.fi>
+
+	* reports-write.c (solver_performance_report): Added the printing
+	of the number of iterations needed.
+
+	* solver.c (solver_run): Store nbr of iterations that was needed.
+
+	* api.c (w_lp_solve_get_iterations): Wrote.
+
 2002-05-30  Jukka-Pekka Iivonen  <jiivonen@cs145201.pp.htv.fi>
 
 	* reports.c (solver_reports): Program report generation can now

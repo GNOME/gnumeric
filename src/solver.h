@@ -95,6 +95,8 @@ typedef gboolean
 					 const int *i_value);
 typedef void
         (solver_lp_print_fn)            (SolverProgram p);
+typedef int
+        (solver_lp_get_iterations_fn)   (SolverProgram p);
 
 
 typedef struct {
@@ -112,6 +114,7 @@ typedef struct {
         solver_lp_get_obj_fn_value_fn *get_obj_fn_value_fn;
         solver_lp_get_obj_fn_var_fn   *get_obj_fn_var_fn;
         solver_lp_get_shadow_prize_fn *get_shadow_prize_fn;
+	solver_lp_get_iterations_fn   *get_iterations_fn;
         solver_lp_set_option_fn       *set_option_fn;
         solver_lp_print_fn            *print_fn;
 } SolverLPAlgorithm;
@@ -172,6 +175,7 @@ typedef struct {
         int              n_constraints;
         int              n_nonzeros_in_mat;
         int              n_nonzeros_in_obj;
+	int              n_iterations;
         gnum_float       time_user;
         gnum_float       time_system;
         gnum_float       time_real;
