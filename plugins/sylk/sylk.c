@@ -452,6 +452,7 @@ sylk_read_workbook (CommandContext *context, Workbook *book,
 
 	workbook_attach_sheet (book, src.sheet);
 	g_free (name);
+	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, NULL);
 
 	result = sylk_parse_sheet (context, &src);
 

@@ -38,6 +38,7 @@
 #include "gnumeric.h"
 #include "symbol.h"
 #include "summary.h"
+#include "file.h"
 
 typedef struct _WorkbookPrivate WorkbookPrivate;
 struct _Workbook {
@@ -69,7 +70,8 @@ struct _Workbook {
 	/* } End view specific elements */
 
 	char       *filename;
-	gboolean    needs_name;
+	FileFormatLevel file_format_level;
+	FileFormatSave  file_save_fn;
 
 	/* Undo support */
 	GSList	   *undo_commands;
@@ -150,6 +152,8 @@ void        workbook_set_attributev      (Workbook *wb, GList *list);
 GtkArg     *workbook_get_attributev      (Workbook *wb, guint *n_args);
 
 gboolean    workbook_set_filename        (Workbook *, const char *);
+gboolean    workbook_set_saveinfo        (Workbook *,  const char *,
+					  FileFormatLevel, FileFormatSave);
 Workbook   *workbook_try_read            (CommandContext *context,
 					  const char *filename);
 Workbook   *workbook_read                (CommandContext *context,

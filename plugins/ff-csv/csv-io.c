@@ -23,6 +23,10 @@
 #include "file.h"
 #include "command-context.h"
 
+static int
+csv_write_workbook (CommandContext *context, Workbook *wb,
+		    const char *filename);
+
 typedef struct {
 	char const *data, *cur;
 	int         len;
@@ -188,6 +192,9 @@ csv_read_workbook (CommandContext *context, Workbook *book,
 
 		if (result != 0)
 			workbook_detach_sheet (book, src.sheet, TRUE);
+		else
+			workbook_set_saveinfo (book, filename, FILE_FL_MANUAL,
+					       csv_write_workbook);
 
 		munmap((char *)data, len);
 	} else {
@@ -323,7 +330,8 @@ init_plugin (CommandContext *context, PluginData *pd)
 	file_format_register_open (1, desc, NULL, csv_read_workbook);
 
 	desc = _("Comma Separated Value format (*.csv)");
-	file_format_register_save (".csv", desc, csv_write_workbook);
+	file_format_register_save (".csv", desc, FILE_FL_MANUAL,
+				   csv_write_workbook);
 
 	desc = _("Comma Separated Value (CSV) module");
 

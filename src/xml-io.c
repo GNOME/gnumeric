@@ -2945,7 +2945,8 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 	ctxt.doc = res;
 	ctxt.ns = gmr;
 	xml_workbook_read (wb, &ctxt, res->root);
-	workbook_set_filename (wb, (char *) filename);
+	workbook_set_saveinfo (wb, (char *) filename, FILE_FL_AUTO,
+			       gnumeric_xml_write_workbook);
 	workbook_recalc_all (wb);
 	
 	xmlFreeDoc (res);
@@ -3001,6 +3002,7 @@ xml_init (void)
 	char *desc = _("Gnumeric XML file format");
 
 	file_format_register_open (50, desc, xml_probe, gnumeric_xml_read_workbook);
-	file_format_register_save (".gnumeric", desc, gnumeric_xml_write_workbook);
+	file_format_register_save (".gnumeric", desc, FILE_FL_AUTO,
+				   gnumeric_xml_write_workbook);
 }
 

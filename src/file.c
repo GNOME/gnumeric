@@ -25,6 +25,7 @@ struct _FileOpener {
 struct _FileSaver {
 	char            *extension;
 	char            *format_description;
+	FileFormatLevel level;
 	FileFormatSave  save;
 };
 
@@ -103,13 +104,14 @@ file_format_unregister_open (FileFormatProbe probe, FileFormatOpen open)
  * file_format_register_save:
  * @extension: An extension that is usually used by this format
  * @format_description: A description of this format
+ * @level: The file format level 
  * @save_fn: A function that should be used to save
  *
  * This routine registers a file format save routine with Gnumeric
  */
 void
 file_format_register_save (char *extension, const char *format_description,
-			   FileFormatSave save_fn)
+			   FileFormatLevel level, FileFormatSave save_fn)
 {
 	FileSaver *fs = g_new (FileSaver, 1);
 
@@ -118,14 +120,31 @@ file_format_register_save (char *extension, const char *format_description,
 	fs->extension = extension;
 	fs->format_description =
 		format_description ? g_strdup (format_description) : NULL;
-	fs->save = save_fn;
+	fs->level = level;
+	fs->save  = save_fn;
 
 	gnumeric_file_savers = g_list_append (gnumeric_file_savers, fs);
 }
 
 /**
+ * cb_unregister_save:
+ * @wb:   Workbook
+ * @save: The format saver which will be removed
+ *
+ * Set file format level to manual for workbooks which had this saver set.
+ */
+static void
+cb_unregister_save (Workbook *wb, FileFormatSave save)
+{
+	if (wb->file_save_fn == save) {
+		wb->file_format_level = FILE_FL_MANUAL;
+		wb->file_save_fn = NULL;
+	}
+}
+
+/**
  * file_format_unregister_save:
- * @probe: The routine that was used to save
+ * @save: The routine that was used to save
  *
  * This function is used to remove a registered format saver from gnumeric
  */
@@ -134,6 +153,8 @@ file_format_unregister_save (FileFormatSave save)
 {
 	GList *l;
 
+	workbook_foreach ((WorkbookCallback) cb_unregister_save, save);
+	
 	for (l = gnumeric_file_savers; l; l = l->next){
 		FileSaver *fs = l->data;
 
@@ -240,7 +261,8 @@ workbook_read (CommandContext *context, const char *filename)
 		g_free (template);
 	} else {
 		wb = workbook_new_with_sheets (1);
-		workbook_set_filename (wb, filename);
+		workbook_set_saveinfo (wb, filename, FILE_FL_NEW,
+				       gnumeric_xml_write_workbook);
 	}
 
 	return wb;
@@ -330,8 +352,6 @@ workbook_import (CommandContext *context, Workbook *parent,
 			wb = NULL;
 		} else {
 			workbook_mark_clean (wb);
-			/* We will want to change the name before saving */
-			wb->needs_name = TRUE;
 		}
 	}
 
@@ -468,6 +488,25 @@ fs_key_event (GtkFileSelection *fsel, GdkEventKey *event)
 		return 0;
 }
 
+/*
+ * fs_set_filename
+ * @fsel  file selection dialog
+ * @wb    workbook
+ * Set default filename in the file selection dialog.
+ * Set it to the workbook file name sans extension.
+ */
+static void
+fs_set_filename (GtkFileSelection *fsel, Workbook *wb)
+{
+	char *name = g_strdup (wb->filename);
+	char *p = strrchr (name, '.');
+
+	if (p)
+		*p = '\0';
+	gtk_file_selection_set_filename (fsel, name);
+	g_free (name);
+}
+
 gboolean
 workbook_save_as (CommandContext *context, Workbook *wb)
 {
@@ -484,7 +523,7 @@ workbook_save_as (CommandContext *context, Workbook *wb)
 	gtk_window_set_transient_for (GTK_WINDOW (fsel), 
 				      GTK_WINDOW (wb->toplevel));
 	if (wb->filename)
-		gtk_file_selection_set_filename (fsel, wb->filename);
+		fs_set_filename (fsel, wb);
 
 	/* Choose the format */
 	format_selector = make_format_chooser ();
@@ -538,7 +577,10 @@ workbook_save_as (CommandContext *context, Workbook *wb)
 				/* Files are expected to be in standard C format.  */
 				if (current_saver->save (context, wb, name)
 				    == 0) {
-					workbook_set_filename (wb, name);
+					workbook_set_saveinfo
+						(wb, name,
+						 current_saver->level,
+						 current_saver->save);
 					workbook_mark_clean (wb);
 					success = TRUE;
 				}
@@ -559,16 +601,20 @@ workbook_save (CommandContext *context, Workbook *wb)
 {
 	char *template;
 	gboolean ret;
-
+	FileFormatSave save_fn;
+	
 	g_return_val_if_fail (wb != NULL, FALSE);
 
-	if (wb->needs_name)
+	if (wb->file_format_level < FILE_FL_AUTO)
 		return workbook_save_as (context, wb);
 
 	template = g_strdup_printf (_("Could not save to file %s\n%%s"),
 				    wb->filename);
 	command_context_push_template (context, template);
-	ret = (gnumeric_xml_write_workbook (context, wb, wb->filename) == 0);
+	save_fn = wb->file_save_fn;
+	if (!save_fn)
+		save_fn = gnumeric_xml_write_workbook;
+	ret = ((save_fn) (context, wb, wb->filename) == 0);
 	if (ret == TRUE) 
 		workbook_mark_clean (wb);
 

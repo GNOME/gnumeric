@@ -55,18 +55,12 @@ lotus_probe (const char *filename)
 static int
 lotus_load (CommandContext *context, Workbook *wb, const char *filename)
 {
-	char *name, *p;
 	int ret;
 
 	ret = lotus_read (context, wb, filename);
 
-	if (ret == 0) {
-		if ((p = filename_ext (filename)) != NULL)
-			*p = '\0'; /* remove "wk1" */
-		name = g_strconcat (p, "gnumeric", NULL);
-		workbook_set_filename (wb, name);
-		g_free (name);
-	}
+	if (ret == 0)
+		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, NULL);
 
 	return ret;
 }
@@ -83,8 +77,8 @@ lotus_cleanup_plugin (PluginData *pd)
 	file_format_unregister_open (lotus_probe, lotus_load);
 }
 
-#define LOTUS_TITLE _("Lotus 123 file import/export plugin")
-#define LOTUS_DESCR _("This plugin is used for Lotus 123 file import/export")
+#define LOTUS_TITLE _("Lotus 123 file import plugin")
+#define LOTUS_DESCR _("This plugin is used for Lotus 123 file import")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)

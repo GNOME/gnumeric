@@ -72,6 +72,9 @@ Workbook_sheet_lookup (PortableServer_Servant servant, const CORBA_char * name, 
 	return corba_sheet (sheet, ev);
 }
 
+/*
+ * FIXME: This breaks the link between name, saver and level.
+ */
 static void
 Workbook_set_filename (PortableServer_Servant servant, const CORBA_char * name, CORBA_Environment * ev)
 {

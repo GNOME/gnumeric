@@ -1,3 +1,9 @@
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (xbase_load): No longer change filename extension to
+	".gnumeric". Set save info. Tag as MANUAL.
+	(XBASE_TITLE, XBASE_DESCR): No, we haven't got export.
+
 2000-02-22  Morten Welinder  <terra@diku.dk>
 
 	* boot.c (xbase_field_as_value): Change assert to g_assert.

@@ -24,6 +24,10 @@
 #include "file.h"
 #include "command-context.h"
 
+static int
+dif_write_workbook (CommandContext *context,
+		    Workbook *wb, const char *filename);
+
 typedef struct {
 	char const *data, *cur;
 	int         len;
@@ -281,7 +285,9 @@ dif_read_workbook (CommandContext *context,
 			gnumeric_error_read
 				(context , _("DIF : Failed to load sheet"));
 			result = -1;
-		}
+		} else
+			workbook_set_saveinfo (book, filename, FILE_FL_MANUAL,
+					       dif_write_workbook);
 
 		munmap((char *)data, len);
 	} else {
@@ -470,7 +476,8 @@ init_plugin (CommandContext *context, PluginData * pd)
 	file_format_register_open (1, desc, NULL, dif_read_workbook);
 
 	desc = _("Data Interchange Format (*.dif)");
-	file_format_register_save (".dif", desc, dif_write_workbook);
+	file_format_register_save (".dif", desc, FILE_FL_MANUAL,
+				   dif_write_workbook);
 
 	if (plugin_data_init (pd, dif_can_unload, dif_cleanup_plugin,
 			      DIF_TITLE, DIF_DESCR))

@@ -1,3 +1,9 @@
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (lotus_load): No longer change filename extension to
+	".gnumeric". Set save info, tag as manual.
+	(LOTUS_TITLE, LOTUS_DESCR): No, we haven't got export.
+
 2000-01-31  Jon K Hellan  <hellan@acm.org>
 
 	* lotus.c (read_workbook): Add CommandContext.

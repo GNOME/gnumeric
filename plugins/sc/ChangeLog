@@ -1,3 +1,7 @@
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* sc.c (sc_read_workbook): Set save info, tag as MANUAL.
+
 2000-03-04  Morten Welinder  <terra@diku.dk>
 
 	* sc.c (sc_parse_sheet): Fix argument to isalpha.

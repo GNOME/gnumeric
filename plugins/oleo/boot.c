@@ -55,18 +55,12 @@ oleo_probe (const char *filename)
 static int
 oleo_load (CommandContext *context, Workbook *wb, const char *filename)
 {
-	char *name, *p;
 	int ret;
 
 	ret = oleo_read (context, wb, filename);
 
-	if (ret == 0) {
-		if ((p = filename_ext (filename)) != NULL)
-			*p = '\0'; /* remove "oleo" */
-		name = g_strconcat (p, "gnumeric", NULL);
-		workbook_set_filename (wb, name);
-		g_free (name);
-	}
+	if (ret == 0)
+		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, NULL);
 
 	return ret;
 }
@@ -84,7 +78,7 @@ oleo_cleanup_plugin (PluginData *pd)
 }
 
 #define OLEO_TITLE _("GNU Oleo import plugin")
-#define OLEO_DESCR _("This plugin enables importion of GNU Oleo documents")
+#define OLEO_DESCR _("This plugin enables import of GNU Oleo documents")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)

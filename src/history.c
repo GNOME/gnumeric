@@ -65,7 +65,8 @@ history_item_label (const gchar *name, const gint accel_number)
 
 	for (i = strlen (label) - 1; i >= 0; i--)
 		if (label [i] == '.') {
-			label [i] = '\0';
+			if (strcmp (label + i, ".gnumeric") == 0)
+				label [i] = '\0';
 			break;
 		}
 

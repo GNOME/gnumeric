@@ -361,7 +361,8 @@ text_read_workbook (CommandContext *context, Workbook *wb,
 
 	ret = readTextWorkbook (context, wb, filename, FALSE);
 	if (ret == 0) {
-		workbook_set_filename (wb, filename);
+		workbook_set_saveinfo (wb, filename,
+				       FILE_FL_MANUAL, text_write_workbook);
 		workbook_recalc_all (wb);
 	}
 
@@ -435,7 +436,7 @@ text_init (void)
 				   NULL,
 				   text_read_workbook);
 
-	file_format_register_save (".txt", desc,
+	file_format_register_save (".txt", desc, FILE_FL_MANUAL,
 				   text_write_workbook);
 }
 

@@ -284,8 +284,9 @@ workbook_do_destroy (Workbook *wb)
 
 	workbook_autosave_cancel (wb);
 
-	if (!wb->needs_name)
-		workbook_view_history_update (workbook_list, wb->filename);
+	if (wb->file_format_level > FILE_FL_NEW)
+		workbook_view_history_update (workbook_list,
+					      wb->filename);
 
 	/*
 	 * Do all deletions that leave the workbook in a working
@@ -528,7 +529,7 @@ workbook_is_pristine (Workbook *wb)
 #ifdef ENABLE_BONOBO
 	    wb->workbook_views ||
 #endif
-	    wb->eval_queue || !wb->needs_name)
+	    wb->eval_queue || (wb->file_format_level > FILE_FL_NEW))
 		return FALSE;
 
 	/* Check if we seem to contain anything */
@@ -2402,9 +2403,10 @@ workbook_new (void)
 	do {
 		char *name = g_strdup_printf (_("Book%d.gnumeric"), ++count);
 		is_unique = workbook_set_filename (wb, name);
-		g_free (name);
+		g_free (name);		
 	} while (!is_unique);
-	wb->needs_name = TRUE;
+	wb->file_format_level = FILE_FL_NEW;
+	wb->file_save_fn      = gnumeric_xml_write_workbook;
 
 	workbook_setup_status_area (wb);
 	workbook_setup_edit_area (wb);
@@ -3015,7 +3017,41 @@ workbook_set_filename (Workbook *wb, const char *name)
 
 	workbook_view_set_title (wb, g_basename (name));
 
-	wb->needs_name = FALSE;
+	return TRUE;
+}
+
+/**
+ * workbook_set_saveinfo:
+ * @wb: the workbook to modify
+ * @name: the file name for this worksheet.
+ * @level: the file format level - new, manual or auto
+ *
+ * Provided level is at least as high as current level,
+ * calls workbook_set_filename, and sets level and saver.
+ *
+ * Returns : TRUE if save info was set succesfully.
+ *
+ * FIXME : Add a check to ensure the name is unique.
+ */
+gboolean
+workbook_set_saveinfo (Workbook *wb, const char *name,
+		       FileFormatLevel level, FileFormatSave save_fn)
+{
+	g_return_val_if_fail (wb != NULL, FALSE);
+	g_return_val_if_fail (name != NULL, FALSE);
+	g_return_val_if_fail (level > FILE_FL_NONE && level <= FILE_FL_AUTO,
+			      FALSE);
+	g_return_val_if_fail (save_fn != NULL, FALSE);
+
+	if (level < wb->file_format_level)
+		return FALSE;
+
+	if (!workbook_set_filename (wb, name))
+		return FALSE;
+	wb->file_format_level = level;
+	wb->file_save_fn = save_fn;
+	workbook_view_set_title (wb, g_basename (name));
+
 	return TRUE;
 }
 

@@ -1,3 +1,7 @@
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* pln.c (pln_read_workbook): Set filename, tag it as MANUAL.
+
 2000-02-15  Jon K Hellan  <hellan@acm.org>
 
 	* pln.c: include cell.h, workbook.h

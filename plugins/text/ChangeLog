@@ -1,3 +1,8 @@
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* text-io.c (text_read_workbook): Set save info. Tag as MANUAL.
+	(text_init): Tag saver as MANUAL.
+
 2000-01-31  Jon K Hellan  <hellan@acm.org>
 
 	* text-io.c (text_write_workbook): Call gnumeric_error_save on

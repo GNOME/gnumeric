@@ -908,6 +908,8 @@ pln_read_workbook (CommandContext *context, Workbook *book, char const *filename
 
 		if (result != 0)
 			workbook_detach_sheet (book, src.sheet, TRUE);
+		else
+			workbook_set_filename (book, filename, FILE_FL_MANUAL);
 
 		munmap((char *)data, len);
 	} else {

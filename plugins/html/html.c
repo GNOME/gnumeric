@@ -383,7 +383,8 @@ html_read (CommandContext *context, Workbook *wb, const char *filename)
 
 	g_return_val_if_fail (filename != NULL, -1);
 
-	workbook_set_filename (wb, filename);
+	workbook_set_saveinfo (wb, filename, FILE_FL_AUTO,
+			       html_write_wb_html32);
 
 	fp = fopen (filename, "r");
 	if (!fp) {

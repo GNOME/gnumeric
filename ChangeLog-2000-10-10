@@ -1,3 +1,50 @@
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* src/file.[ch] (file_format_register_save): Add "level" parameter.
+
+	* src/file.h: (FileFormatLevel): Add the enum. At the best level,
+	the save command saves to the given name without asking.  At the
+	worst level, no name has been assigned.
+	
+	* src/file.c (_FileSaver): Add "level" member.
+	(file_format_unregister_save): Set level to manual for workbooks
+	which had this saver set.
+	(cb_unregister_save): New function. Helper for
+	file_format_unregister_save. 
+	(workbook_read): Set save info. Tag as new.
+	(workbook_import): No longer set needs_name - importer will have
+	set file_format_level.
+	(fs_set_filename): New function: Set default filename in the file
+	selection dialog.
+	(workbook_save_as): Use fs_set_filename. Set save info.
+	(workbook_save): Punt to workbook_save_as if file_format_level <
+	AUTO. Save using wb->file_save_fn.
+
+	* src/workbook.[ch] (workbook_set_saveinfo): New function. Set
+	filename, level and save function, but do nothing if we already
+	have info at a higher level.
+	
+	* src/workbook.h (struct _Workbook): Replace needs_name with
+	file_format_level. Add file_save_fn member. Include file.h
+	(workbook_set_saveinfo): Add "level" parameter.
+
+	* src/workbook.c (workbook_do_destroy): Insert in history list
+	when file format level > "new". We used to test needs_name.
+	(workbook_is_pristine): Test file_format_level > "new" instead of
+	needs_name true.
+	(workbook_new): Tag workbook as new. Set save function.
+	(workbook_set_filename): needs_name has no longer exists. Don't
+	set it.
+
+	* src/xml-io.c (gnumeric_xml_read_workbook): Set save info. Tag as
+	AUTO.
+	(xml_init): Tag saver as AUTO.
+
+	* src/corba-workbook.c (Workbook_set_filename): Add FIXME comment.
+
+	* src/history.c (history_item_label): Strip extension only when it
+	is ".gnumeric".
+
 2000-03-22  Jody Goldberg <jgoldberg@home.com>
 
 	* src/functions/fn-lookup.c (gnumeric_index) : The current

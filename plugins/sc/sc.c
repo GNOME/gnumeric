@@ -418,6 +418,7 @@ sc_read_workbook (CommandContext *context, Workbook *book,
 	src.sheet = sheet_new (book, name);
 
 	workbook_attach_sheet (book, src.sheet);
+	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, NULL);
 	g_free (name);
 
 	result = sc_parse_sheet (context, &src);

@@ -24,6 +24,9 @@
 
 extern int ms_excel_read_debug;
 
+static int
+excel_save_95 (CommandContext *context, Workbook *wb, const char *filename);
+
 static gboolean
 excel_probe (const char *filename)
 {
@@ -76,14 +79,13 @@ excel_load (CommandContext *context, Workbook *wb, const char *filename)
 
 	result = ms_excel_read_workbook (context, wb, f);
 	if (result == 0) {
-		char *name = g_strconcat (filename, ".gnumeric", NULL);
 		ms_summary_read (f, wb->summary_info);
 
 		if (ms_excel_read_debug > 0)
 			summary_info_dump (wb->summary_info);
 
-		workbook_set_filename (wb, name);
-		g_free(name);
+		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL,
+				       excel_save_95);
 	}
 
 	ms_ole_destroy (&f);
@@ -167,8 +169,10 @@ excel_init (void)
 	/* We register Excel format with a precendence of 100 */
 	file_format_register_open (100, descr, excel_probe, excel_load);
 	if (gnumeric_debugging > 0)
-		file_format_register_save (".xls", descr2, excel_save_98);
-	file_format_register_save (".xls", descr3, excel_save_95);
+		file_format_register_save (".xls", descr2, FILE_FL_MANUAL,
+					   excel_save_98);
+	file_format_register_save (".xls", descr3, FILE_FL_MANUAL,
+				   excel_save_95);
 }
 
 void

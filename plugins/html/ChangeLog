@@ -1,3 +1,10 @@
+2000-03-23  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (html_init): Tag html savers as AUTO, the others as
+	WRITE_ONLY.
+
+	* html.c (html_read): Set save info, tag as AUTO.
+
 2000-03-04  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am : disable ps.[ch], epsf.[ch].

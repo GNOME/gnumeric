@@ -156,13 +156,10 @@ xbase_load (CommandContext *context, Workbook *wb, const char *filename)
 		*p = '\0'; /* remove "dbf" */
 
 	rec = record_new (file);
-	sheet = sheet_new (wb, name);
-	p = name;
-	name = g_strconcat (p, "gnumeric", NULL);
-	g_free (p);
-	workbook_attach_sheet (wb, sheet);
-	workbook_set_filename (wb, name);
+	sheet = sheet_new (wb, g_basename (name));
 	g_free (name);
+	workbook_attach_sheet (wb, sheet);
+	workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, NULL);
 
 	cell_deep_freeze_redraws ();
 
@@ -205,8 +202,8 @@ xbase_cleanup_plugin (PluginData *pd)
 	file_format_unregister_open (xbase_probe, xbase_load);
 }
 
-#define XBASE_TITLE _("XBase file import/export plugin")
-#define XBASE_DESCR _("This plugin enables XBase file import/export")
+#define XBASE_TITLE _("XBase file import plugin")
+#define XBASE_DESCR _("This plugin enables XBase file import")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
