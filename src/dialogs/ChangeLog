@@ -1,3 +1,9 @@
+2002-04-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* preferences.glade : move tabs to left on Jody's request
+	* dialog-preferences.c : add history pref and number of sheets
+	  pref
+
 2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-function-select.c : move defines into gnumeric-gconf.h

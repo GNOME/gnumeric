@@ -134,6 +134,10 @@ typedef struct {
 static pref_tree_data_t pref_tree_data[] = { 
 	{FUNCTION_SELECT_GCONF_NUM_OF_RECENT, NULL, 
 	                      "/schemas" FUNCTION_SELECT_GCONF_NUM_OF_RECENT},
+	{GNUMERIC_GCONF_FILE_HISTORY_N, NULL, 
+	                      "/schemas" GNUMERIC_GCONF_FILE_HISTORY_N},
+	{GNUMERIC_GCONF_WORKBOOK_NSHEETS, NULL, 
+	                      "/schemas" GNUMERIC_GCONF_WORKBOOK_NSHEETS},
 	{NULL, NULL, NULL}
 };
 

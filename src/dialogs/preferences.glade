@@ -71,7 +71,7 @@
 	      <property name="can_focus">True</property>
 	      <property name="show_tabs">True</property>
 	      <property name="show_border">True</property>
-	      <property name="tab_pos">GTK_POS_TOP</property>
+	      <property name="tab_pos">GTK_POS_LEFT</property>
 	      <property name="scrollable">False</property>
 	      <property name="tab_hborder">2</property>
 	      <property name="tab_vborder">2</property>
