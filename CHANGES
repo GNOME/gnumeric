@@ -21,13 +21,16 @@ Jukka:
 	- SUMIF() and N().
 
 Morten:
+	* Found everyones memory leaks
 
 Sean
 
 Michael
 	* Fixed up function wizard.
-	* Improved Excel writing code now imports simple
-	stuff to Excel too.
+	* Improved Excel writing code 
+	  - Formulae should import into Excel.
+	  - Text / numbers work nicely.
+	* Prettified 'sort' slightly.
 
 Nick Lamb
 

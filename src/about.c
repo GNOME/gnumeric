@@ -29,14 +29,15 @@ dialog_about (Workbook *wb)
 		N_("Adrian Likins, Documentation, debugging."),
 		N_("Jakub Jelinek, Gnumeric hacker."),
 		N_("Michael Meeks, Excel and OLE2 importing."),
-		N_("Sean Atkinson, Excel functions."),
-		N_("Bruno Unna, Excel code."),
+		N_("Jody Goldberg, Excel hacker."),
+		N_("Sean Atkinson, Functions and X-Base importing."),
 		N_("Mark Probst, Guile support."),
 		N_("Vincent Renardias, CSV support."),
 		N_("Vladimir Vuksan, financial functions."),
 		N_("Takashi Matsuda, simple text plugin."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
 		N_("Morten Welinder, Gnumeric hacker."),
+		N_("Bruno Unna, Excel bits."),
 		NULL
 	};
 

@@ -1,3 +1,10 @@
+1999-07-07  Michael Meeks  <michael@edenproject.org>
+
+	* src/about.c (dialog_about): Add Jody, updated Sean.
+
+	* src/dialog-cell-sort.c (dialog_cell_sort): Stop degenerate
+	cases from producing confusing 'Add / Remove clause' boxes.
+
 1999-07-05  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/Gnumeric.idl: Use new interface name.

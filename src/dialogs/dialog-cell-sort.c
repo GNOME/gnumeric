@@ -344,7 +344,7 @@ void dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 				order_box_set_default(sort_flow.clauses[lp]);
 		}
 
-		{
+		if (end_col - start_col > 1) { /* only one or two cols wide */
 			GtkWidget *hb = gtk_hbox_new(0, 0);
 			GtkWidget *button;
 			button = gtk_button_new_with_label("Add clause");
