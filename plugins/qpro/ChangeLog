@@ -1,0 +1,5 @@
+1999-11-17  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* dump-qpro.c, qpro.h, quattro-pro.txt: Initial
+	Quattro Pro import work (not yet referenced outside this dir)
+
