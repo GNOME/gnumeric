@@ -1,3 +1,8 @@
+2000-06-26  Morten Welinder  <terra@diku.dk>
+
+	* src/format.c (lookup_color): Don't double translate.  Compare
+ 	the right number of characters.
+
 2000-06-26  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-object-bonobo.c (get_file_name): return non-filenames

@@ -476,13 +476,14 @@ format_color_shutdown (void)
 static StyleColor *
 lookup_color (const char *str, const char *end)
 {
-	int i;
+	int i, len;
 
+	len = end - str;
 	for (i = 0; format_colors [i].name; i++){
-		char const *pre = _(format_colors [i].name);
+		char const *pre = format_colors [i].name;
 		char const *post = _(pre);
-		if ((strcasecmp (format_colors [i].name, str) == 0) ||
-		    (pre != post && strcasecmp (_(format_colors [i].name), str) == 0)){
+		if ((g_strncasecmp (pre, str, len) == 0 && pre[len] == 0) ||
+		    (pre != post && g_strncasecmp (post, str, len) == 0 && post[len] == 0)) {
 			style_color_ref (format_colors [i].color);
 			return format_colors [i].color;
 		}
