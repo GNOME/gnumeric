@@ -875,15 +875,14 @@ sst_read_string (char **output, BiffQuery *q, guint32 offset)
 	guint32  new_offset;
 	guint32  total_len;
 	guint32  total_end_len;
-	/* Will be locally scoped when gdb gets its act together */
-		gboolean header;
-		gboolean use_utf16;
-		gboolean ext_str = FALSE;
-		gboolean rich_str = FALSE;
-		guint32  chars_left;
-		guint32  pre_len, end_len;
-		guint32  get_len;
-		char    *str;
+	gboolean header;
+	gboolean use_utf16;
+	gboolean ext_str = FALSE;
+	gboolean rich_str = FALSE;
+	guint32  chars_left;
+	guint32  pre_len, end_len;
+	guint32  get_len;
+	char    *str;
 
 	g_return_val_if_fail (q != NULL &&
 			      q->data != NULL &&
@@ -920,7 +919,7 @@ sst_read_string (char **output, BiffQuery *q, guint32 offset)
 		else
 			get_len = chars_left;
 		total_len -= get_len;
-		g_assert (get_len >= 0);
+		g_return_val_if_fail (get_len >= 0, 0);
 
 		/* FIXME: split this simple bit out of here, it makes more sense damnit */
 		str = ms_biff_get_chars ((char *)(q->data + new_offset + pre_len), get_len, use_utf16);

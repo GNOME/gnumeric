@@ -1,3 +1,12 @@
+2003-10-08  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (conditional_set_double) : Use the new const val GOData
+	  to support manual axis bounds and invert the logic to be correct.
+	(BC_R(seriestext)) : store the text associated with axis and chart
+	  labels.
+	(BC_R(end)) : free strings associated with text records if they
+	  haven't been used yet.
+
 2003-09-30  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_HLINK) : typo 0x80 rather than 0x8 was

@@ -35,6 +35,7 @@
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-plot-engine.h>
+#include <goffice/graph/go-data-simple.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-pattern.h>
 #include <goffice/utils/go-marker.h>
@@ -76,10 +77,11 @@ typedef struct {
 
 	int		 style_element;
 
-	gboolean	frame_for_grid;
-	int		plot_counter;
-	XLChartSeries  *currentSeries;
-	GPtrArray	 *series;
+	gboolean	 frame_for_grid;
+	int		 plot_counter;
+	XLChartSeries	*currentSeries;
+	GPtrArray	*series;
+	char		*text;
 } XLChartReadState;
 
 typedef struct {
@@ -1034,13 +1036,44 @@ static gboolean
 BC_R(objectlink)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-	d (2, {
 	guint16 const purpose = GSF_LE_GET_GUINT16 (q->data);
+	GogObject *label;
+	
+	if (s->text == NULL)
+		return FALSE;
+
+	if (purpose == 1) {
+		g_return_val_if_fail (s->chart != NULL, FALSE);
+		label = gog_object_add_by_name (GOG_OBJECT (s->chart), "Title", NULL);
+	} else if (purpose == 2 || purpose == 3 || purpose == 7) {
+		GSList *axes;
+		GogAxisType t;
+
+		g_return_val_if_fail (s->chart != NULL, FALSE);
+
+		switch (purpose) {
+		case 2: t = GOG_AXIS_Y; break;
+		case 3: t = GOG_AXIS_X; break;
+		case 7: t = GOG_AXIS_Z; break;
+		}
+		axes = gog_chart_get_axis (s->chart, t);
+
+		g_return_val_if_fail (axes != NULL, FALSE);
+
+		label = gog_object_add_by_name (GOG_OBJECT (axes->data), "Label", NULL);
+	}
+
+	if (label != NULL) {
+		gog_dataset_set_dim (GOG_DATASET (label), 0,
+			go_data_scalar_str_new (s->text, TRUE), NULL);
+		s->text = NULL;
+	}
+
+	d (2, {
 	guint16 const series_num = GSF_LE_GET_GUINT16 (q->data+2);
 	guint16 const pt_num = GSF_LE_GET_GUINT16 (q->data+2);
 
-	switch (purpose)
-	{
+	switch (purpose) {
 	case 1 : fprintf (stderr, "TEXT is chart title\n"); break;
 	case 2 : fprintf (stderr, "TEXT is Y axis title\n"); break;
 	case 3 : fprintf (stderr, "TEXT is X axis title\n"); break;
@@ -1330,12 +1363,15 @@ BC_R(seriestext)(XLChartHandler const *handle,
 		s->currentSeries->data [GOG_MS_DIM_LABELS].data =
 			gnm_go_data_scalar_new_expr (
 				ms_container_sheet (s->container.parent),
-				gnm_expr_new_constant (value_new_string (str)));
-	}
-
-	/* TODO : handle axis and chart titles */
-
-	g_free (str);
+				gnm_expr_new_constant (value_new_string_nocopy (str)));
+	} else if (BC_R(top_state) (s) == BIFF_CHART_text) {
+		if (s->text != NULL) {
+			g_warning ("multiple seriestext associated with 1 text record ?");
+			g_free (str);
+		} else
+			s->text = str;
+	} else
+		g_free (str);
 
 	return FALSE;
 }
@@ -1553,11 +1589,13 @@ conditional_set_double (gboolean flag, guint8 const *data,
 			gchar const *name, unsigned dim, GogObject *axis)
 {
 	GOData *dat;
-	if (!flag) {
+	if (flag) {
 		dat = NULL;
 		d (1, fprintf (stderr, "%s = Auto\n", name););
 	} else {
 		double const val = gsf_le_get_double (data);
+		gog_dataset_set_dim (GOG_DATASET (axis), dim,
+			go_data_scalar_val_new (val), NULL);
 		d (1, fprintf (stderr, "%s = %f\n", name, val););
 	}
 }
@@ -1712,6 +1750,13 @@ BC_R(end)(XLChartHandler const *handle,
 		} else
 			g_object_unref (s->style);
 		s->style = NULL;
+		break;
+
+	case BIFF_CHART_text :
+		if (s->text != NULL) {
+			g_free (s->text);
+			s->text = NULL;
+		}
 		break;
 
 	default :
@@ -1904,6 +1949,7 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	state.currentSeries = NULL;
 	state.series	    = g_ptr_array_new ();
 	state.plot_counter  = -1;
+	state.text	    = NULL;
 
 	if (NULL != (state.sog = sog)) {
 		state.graph = sheet_object_graph_get_gog (sog);
