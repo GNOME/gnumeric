@@ -382,7 +382,7 @@ micro_hash_release (MicroHash *hash_table)
 static void
 micro_hash_init (MicroHash *hash_table, gpointer key)
 {
-	hash_table->num_elements = 0;
+	hash_table->num_elements = 1;
 	hash_table->num_buckets = 1;
 	hash_table->u.singleton = g_slist_prepend (NULL, key);
 }
@@ -483,11 +483,6 @@ typedef struct {
 	DepCollection	deps;	/* Must be first */
 } DependencyAny;
 
-typedef enum {
-	REMOVE_DEPS = 0,
-	ADD_DEPS = 1
-} DepOperation;
-
 static guint
 deprange_hash (DependencyRange const *r)
 {
@@ -497,83 +492,63 @@ deprange_hash (DependencyRange const *r)
 static gint
 deprange_equal (DependencyRange const *r1, DependencyRange const *r2)
 {
-	if (r1->range.start.col != r2->range.start.col)
-		return 0;
-	if (r1->range.start.row != r2->range.start.row)
-		return 0;
-	if (r1->range.end.col != r2->range.end.col)
-		return 0;
-	if (r1->range.end.row != r2->range.end.row)
-		return 0;
-
-	return 1;
+	return range_equal (&(r1->range), &(r2->range));
 }
-
 
 static guint
-depsingle_hash (gconstpointer key)
+depsingle_hash (DependencySingle const *depsingle)
 {
-	DependencySingle const *d = (DependencySingle const *) key;
-
-	return (d->pos.row << 8) ^ d->pos.col;
+	return (depsingle->pos.row << 8) ^ depsingle->pos.col;
 }
-
 static gint
-depsingle_equal (gconstpointer ai, gconstpointer bi)
+depsingle_equal (DependencySingle const *a, DependencySingle const *b)
 {
-	DependencySingle const *a = (DependencySingle const *)ai;
-	DependencySingle const *b = (DependencySingle const *)bi;
-
-	return (a->pos.row == b->pos.row &&
-		a->pos.col == b->pos.col);
+	return (a->pos.row == b->pos.row && a->pos.col == b->pos.col);
 }
 
 static void
-handle_cell_single_dep (Dependent *dep, CellPos const *pos,
-			CellRef const *a, DepOperation operation)
+link_single_dep (Dependent *dep, CellPos const *pos, CellRef const *a)
 {
-	DependencyContainer *deps;
-	DependencySingle *single;
 	DependencySingle lookup;
+	DependencySingle *single;
+	DependencyContainer *deps = eval_sheet (a->sheet, dep->sheet)->deps;
 
-	if (a->sheet == NULL)
-		deps = dep->sheet->deps;
-	else
-		deps = a->sheet->deps;
+	/* Inserts if it is not already there */
+	cellref_get_abs_pos (a, pos, &lookup.pos);
+	single = g_hash_table_lookup (deps->single_hash, &lookup);
+	if (single == NULL) {
+		single  = g_new (DependencySingle, 1);
+		*single = lookup;
+		dep_collection_init (single->deps, dep);
+		g_hash_table_insert (deps->single_hash, single, single);
+	} else
+		dep_collection_insert (single->deps, dep);
+}
+
+static void
+unlink_single_dep (Dependent *dep, CellPos const *pos, CellRef const *a)
+{
+	DependencySingle lookup;
+	DependencySingle *single;
+	DependencyContainer *deps = eval_sheet (a->sheet, dep->sheet)->deps;
 
 	if (!deps)
 		return;
 
-	/* Convert to absolute cordinates */
 	cellref_get_abs_pos (a, pos, &lookup.pos);
-
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
-
-	if (operation == ADD_DEPS) {
-		if (single) {
-			/* Inserts if it is not already there */
-			dep_collection_insert (single->deps, dep);
-		} else {
-			single  = g_new (DependencySingle, 1);
-			*single = lookup;
-			dep_collection_init (single->deps, dep);
-			g_hash_table_insert (deps->single_hash, single, single);
+	if (single != NULL) {
+		dep_collection_remove (single->deps, dep);
+		if (dep_collection_is_empty (single->deps)) {
+			g_hash_table_remove (deps->single_hash, single);
+			g_free (single);
 		}
-	} else { /* Remove */
-		if (single) {
-			dep_collection_remove (single->deps, dep);
-			if (dep_collection_is_empty (single->deps)) {
-				g_hash_table_remove (deps->single_hash, single);
-				g_free (single);
-			}
-		} else
-			;/* Referenced twice and list killed already */
 	}
 }
 
 static void
-add_range_dep (DependencyContainer *deps, Dependent *dep,
-	       DependencyRange const *r)
+link_range_dep (DependencyContainer *deps, Dependent *dep,
+		DependencyRange const *r)
 {
 	int i = r->range.start.row / BUCKET_SIZE;
 	int const end = r->range.end.row / BUCKET_SIZE;
@@ -589,7 +564,6 @@ add_range_dep (DependencyContainer *deps, Dependent *dep,
 			result = NULL;
 		} else {
 			result = g_hash_table_lookup (deps->range_hash[i], r);
-
 			if (result) {
 				/* Inserts if it is not already there */
 				dep_collection_insert (result->deps, dep);
@@ -606,8 +580,8 @@ add_range_dep (DependencyContainer *deps, Dependent *dep,
 }
 
 static void
-drop_range_dep (DependencyContainer *deps, Dependent *dep,
-		DependencyRange const *r)
+unlink_range_dep (DependencyContainer *deps, Dependent *dep,
+		  DependencyRange const *r)
 {
 	int i = r->range.start.row / BUCKET_SIZE;
 	int const end = r->range.end.row / BUCKET_SIZE;
@@ -628,104 +602,59 @@ drop_range_dep (DependencyContainer *deps, Dependent *dep,
 	}
 }
 
-/*
- * Add the dependency of Dependent dep on the range
- * enclose by CellRef a and CellRef b
- *
- * We compute the location from @pos
- */
 static void
-handle_cell_range_deps (Dependent *dep, CellPos const *pos,
-			CellRef const *a, CellRef const *b, DepOperation operation)
+link_cellrange_dep (Dependent *dep, CellPos const *pos,
+		    CellRef const *a, CellRef const *b)
 {
 	DependencyRange range;
-	DependencyContainer *depsa, *depsb;
+	DependencyContainer *depsa = eval_sheet (a->sheet, dep->sheet)->deps;
+	DependencyContainer *depsb = eval_sheet (b->sheet, dep->sheet)->deps;
 
 	cellref_get_abs_pos (a, pos, &range.range.start);
 	cellref_get_abs_pos (b, pos, &range.range.end);
 	range_normalize (&range.range);
 
-	depsa = eval_sheet (a->sheet, dep->sheet)->deps;
-	if (operation)
-		add_range_dep  (depsa, dep, &range);
-	else
-		drop_range_dep (depsa, dep, &range);
+	link_range_dep (depsa, dep, &range);
 
-	depsb = eval_sheet (b->sheet, dep->sheet)->deps;
-	if (depsa != depsb) {
-		/* FIXME: we need to iterate sheets between to be correct */
-		if (operation)
-			add_range_dep  (depsb, dep, &range);
-		else
-			drop_range_dep (depsb, dep, &range);
-	}
+	/* FIXME: we need to iterate sheets between to be correct */
+	if (depsa != depsb)
+		link_range_dep  (depsb, dep, &range);
 }
-
-/*
- * Adds the dependencies for a Value
- */
 static void
-handle_value_deps (Dependent *dep, CellPos const *pos,
-		   Value const *value, DepOperation operation)
+unlink_cellrange_dep (Dependent *dep, CellPos const *pos,
+		      CellRef const *a, CellRef const *b)
 {
-	switch (value->type) {
-	case VALUE_EMPTY:
-	case VALUE_STRING:
-	case VALUE_INTEGER:
-	case VALUE_FLOAT:
-	case VALUE_BOOLEAN:
-	case VALUE_ERROR:
-		/* Constants have no dependencies */
-		break;
+	DependencyRange range;
+	DependencyContainer *depsa = eval_sheet (a->sheet, dep->sheet)->deps;
+	DependencyContainer *depsb = eval_sheet (b->sheet, dep->sheet)->deps;
 
-		/* Check every element of the array */
-	case VALUE_ARRAY:
-	{
-		int x, y;
+	cellref_get_abs_pos (a, pos, &range.range.start);
+	cellref_get_abs_pos (b, pos, &range.range.end);
+	range_normalize (&range.range);
 
-		for (x = 0; x < value->v_array.x; x++)
-			for (y = 0; y < value->v_array.y; y++)
-				handle_value_deps (dep, pos,
-						   value->v_array.vals [x] [y],
-						   operation);
-		break;
-	}
-	case VALUE_CELLRANGE:
-		handle_cell_range_deps (dep, pos,
-			&value->v_range.cell.a,
-			&value->v_range.cell.b,
-			operation);
-		break;
-	default:
-		g_warning ("Unknown Value type, dependencies lost");
-		break;
-	}
+	unlink_range_dep (depsa, dep, &range);
+
+	/* FIXME: we need to iterate sheets between to be correct */
+	if (depsa != depsb)
+		unlink_range_dep (depsb, dep, &range);
 }
 
-/*
- * This routine walks the expression tree looking for cell references
- * and cell range references.
- */
 static void
-handle_tree_deps (Dependent *dep, CellPos const *pos,
-		  ExprTree *tree, DepOperation operation)
+link_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
 {
 	switch (tree->any.oper) {
 	case OPER_ANY_BINARY:
-		handle_tree_deps (dep, pos, tree->binary.value_a, operation);
-		handle_tree_deps (dep, pos, tree->binary.value_b, operation);
+		link_expr_dep (dep, pos, tree->binary.value_a);
+		link_expr_dep (dep, pos, tree->binary.value_b);
 		return;
-
-	case OPER_ANY_UNARY:
-		handle_tree_deps (dep, pos, tree->unary.value, operation);
-		return;
-
-	case OPER_VAR:
-		handle_cell_single_dep (dep, pos, &tree->var.ref, operation);
-		return;
+	case OPER_ANY_UNARY : return link_expr_dep (dep, pos, tree->unary.value);
+	case OPER_VAR	    : return link_single_dep (dep, pos, &tree->var.ref);
 
 	case OPER_CONSTANT:
-		handle_value_deps (dep, pos, tree->constant.value, operation);
+		if (VALUE_CELLRANGE == tree->constant.value->type)
+			link_cellrange_dep (dep, pos,
+				&tree->constant.value->v_range.cell.a,
+				&tree->constant.value->v_range.cell.b);
 		return;
 
 	/*
@@ -734,39 +663,23 @@ handle_tree_deps (Dependent *dep, CellPos const *pos,
 	 */
 	case OPER_FUNCALL: {
 		ExprList *l;
-
-		if (operation == ADD_DEPS) {
-			if (tree->func.func->link) {
-				EvalPos		 ep;
-				FunctionEvalInfo fei;
-				fei.pos = eval_pos_init (&ep, dep->sheet, pos);
-				fei.func_def  = tree->func.func;
-				fei.func_call = (ExprFunction const *)tree;
-				tree->func.func->link (&fei);
-			}
-		} else {
-			if (tree->func.func->unlink) {
-				EvalPos		 ep;
-				FunctionEvalInfo fei;
-				fei.pos = eval_pos_init (&ep, dep->sheet, pos);
-				fei.func_def  = tree->func.func;
-				fei.func_call = (ExprFunction const *)tree;
-				tree->func.func->unlink (&fei);
-			}
+		if (tree->func.func->link) {
+			EvalPos		 ep;
+			FunctionEvalInfo fei;
+			fei.pos = eval_pos_init (&ep, dep->sheet, pos);
+			fei.func_def  = tree->func.func;
+			fei.func_call = (ExprFunction const *)tree;
+			tree->func.func->link (&fei);
 		}
-
 		for (l = tree->func.arg_list; l; l = l->next)
-			handle_tree_deps (dep, pos, l->data, operation);
+			link_expr_dep (dep, pos, l->data);
 		return;
 	}
 
 	case OPER_NAME:
-		if (operation == ADD_DEPS)
-			expr_name_add_dep (tree->name.name, dep);
-		else
-			expr_name_remove_dep (tree->name.name, dep);
+		expr_name_add_dep (tree->name.name, dep);
 		if (!tree->name.name->builtin && tree->name.name->active)
-			handle_tree_deps (dep, pos, tree->name.name->t.expr_tree, operation);
+			link_expr_dep (dep, pos, tree->name.name->t.expr_tree);
 		return;
 
 	case OPER_ARRAY:
@@ -784,17 +697,98 @@ handle_tree_deps (Dependent *dep, CellPos const *pos,
 			a.col   = pos->col - tree->array.x;
 			a.row   = pos->row - tree->array.y;
 
-			handle_cell_single_dep (dep, pos, &a, operation);
+			link_single_dep (dep, pos, &a);
 		} else
 			/* Corner cell depends on the contents of the expr */
-			handle_tree_deps (dep, pos, tree->array.corner.expr, operation);
+			link_expr_dep (dep, pos, tree->array.corner.expr);
 		return;
 
 	case OPER_SET: {
 		ExprList *l;
 
 		for (l = tree->set.set; l; l = l->next)
-			handle_tree_deps (dep, pos, l->data, operation);
+			link_expr_dep (dep, pos, l->data);
+		return;
+	}
+
+	default:
+		g_warning ("Unknown Operation type, dependencies lost");
+		break;
+	}
+}
+
+static void
+unlink_expr_dep (Dependent *dep, CellPos const *pos, ExprTree *tree)
+{
+	switch (tree->any.oper) {
+	case OPER_ANY_BINARY:
+		unlink_expr_dep (dep, pos, tree->binary.value_a);
+		unlink_expr_dep (dep, pos, tree->binary.value_b);
+		return;
+
+	case OPER_ANY_UNARY : unlink_expr_dep (dep, pos, tree->unary.value);
+		return;
+	case OPER_VAR	    : unlink_single_dep (dep, pos, &tree->var.ref);
+		return;
+
+	case OPER_CONSTANT:
+		if (VALUE_CELLRANGE == tree->constant.value->type)
+			unlink_cellrange_dep (dep, pos,
+				&tree->constant.value->v_range.cell.a,
+				&tree->constant.value->v_range.cell.b);
+		return;
+
+	/*
+	 * FIXME: needs to be taught implicit intersection +
+	 * more cunning handling of argument type matching.
+	 */
+	case OPER_FUNCALL: {
+		ExprList *l;
+		if (tree->func.func->unlink) {
+			EvalPos		 ep;
+			FunctionEvalInfo fei;
+			fei.pos = eval_pos_init (&ep, dep->sheet, pos);
+			fei.func_def  = tree->func.func;
+			fei.func_call = (ExprFunction const *)tree;
+			tree->func.func->unlink (&fei);
+		}
+		for (l = tree->func.arg_list; l; l = l->next)
+			unlink_expr_dep (dep, pos, l->data);
+		return;
+	}
+
+	case OPER_NAME:
+		expr_name_remove_dep (tree->name.name, dep);
+		if (!tree->name.name->builtin && tree->name.name->active)
+			unlink_expr_dep (dep, pos, tree->name.name->t.expr_tree);
+		return;
+
+	case OPER_ARRAY:
+		if (tree->array.x != 0 || tree->array.y != 0) {
+			/* Non-corner cells depend on the corner */
+			CellRef a;
+
+			/* We cannot support array expressions unless
+			 * we have a position.
+			 */
+			g_return_if_fail (pos != NULL);
+
+			a.col_relative = a.row_relative = FALSE;
+			a.sheet = dep->sheet;
+			a.col   = pos->col - tree->array.x;
+			a.row   = pos->row - tree->array.y;
+
+			unlink_single_dep (dep, pos, &a);
+		} else
+			/* Corner cell depends on the contents of the expr */
+			unlink_expr_dep (dep, pos, tree->array.corner.expr);
+		return;
+
+	case OPER_SET: {
+		ExprList *l;
+
+		for (l = tree->set.set; l; l = l->next)
+			unlink_expr_dep (dep, pos, l->data);
 		return;
 	}
 
@@ -832,7 +826,7 @@ dependent_link (Dependent *dep, CellPos const *pos)
 	sheet->deps->dependent_list = dep;
 	dep->flags |= DEPENDENT_IS_LINKED;
 
-	handle_tree_deps (dep, pos, dep->expression, ADD_DEPS);
+	link_expr_dep (dep, pos, dep->expression);
 }
 
 /**
@@ -859,7 +853,7 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 	/* A good idea would be to flag dependents with links outside the
 	 * current sheet and book (both) and use that to save time later.
 	 */
-	handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
+	unlink_expr_dep (dep, pos, dep->expression);
 
 	dep->flags &= ~(DEPENDENT_IS_LINKED | DEPENDENT_NEEDS_RECALC);
 	if (dep->sheet->deps != NULL) {
@@ -893,9 +887,9 @@ dependent_unlink_sheet (Sheet *sheet)
 	 * current sheet or book and use that to save time later.
 	 */
 	SHEET_FOREACH_DEPENDENT (sheet, dep, {
-		handle_tree_deps (dep, dependent_is_cell (dep)
+		unlink_expr_dep (dep, dependent_is_cell (dep)
 			? &DEP_TO_CELL (dep)->pos : &dummy,
-			dep->expression, REMOVE_DEPS);
+			dep->expression);
 		dep->flags &= ~(DEPENDENT_IS_LINKED | DEPENDENT_NEEDS_RECALC);
 	});
 }
@@ -1395,10 +1389,12 @@ static void
 dump_dependent_list (GSList *l)
 {
 	printf ("(");
-	for (; l; l = l->next) {
+	while (l != NULL) {
 		Dependent *dep = l->data;
 		dependent_debug_name (dep, stdout);
-		printf (", ");
+		l = l->next;
+		if (l != NULL)
+			printf (", ");
 	}
 	printf (")\n");
 }
@@ -1411,7 +1407,7 @@ dump_range_dep (gpointer key, gpointer value, gpointer closure)
 
 	/* 2 calls to col_name and row_name.  It uses a static buffer */
 	printf ("\t%s:", cell_pos_name (&range->start));
-	printf ("%s -> ", cell_pos_name (&range->end));
+	printf ("%s <- ", cell_pos_name (&range->end));
 
 	dep_collection_foreach_list (deprange->deps, list,
 		dump_dependent_list (list););
@@ -1422,7 +1418,7 @@ dump_single_dep (gpointer key, gpointer value, gpointer closure)
 {
 	DependencySingle *depsingle = key;
 
-	printf ("\t%s -> ", cell_pos_name (&depsingle->pos));
+	printf ("\t%s <- ", cell_pos_name (&depsingle->pos));
 
 	dep_collection_foreach_list (depsingle->deps, list,
 		dump_dependent_list (list););
