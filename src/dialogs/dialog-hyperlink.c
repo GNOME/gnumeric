@@ -413,15 +413,7 @@ dhl_init (HyperlinkState *state)
 					0, pixbuf,
 					1, _(type[i].label),
 					-1);
-/*		GtkWidget *elem = gtk_image_menu_item_new_with_mnemonic (_(type[i].label));
-		GtkWidget *image = gtk_image_new_from_stock (type[i].image_name,
-			GTK_ICON_SIZE_MENU);
-		gtk_widget_show (image);
-		gtk_image_menu_item_set_image (
-			GTK_IMAGE_MENU_ITEM (elem),
-			image);
-		g_object_set_data (G_OBJECT (elem), "type-index", GINT_TO_POINTER(i));
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), elem);*/
+
 		if (strcmp (G_OBJECT_TYPE_NAME (state->link),
 			    type [i].name) == 0)
 			select = i;

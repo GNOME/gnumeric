@@ -1323,14 +1323,14 @@ dialog_init (SolverState *state)
 	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (state->constraint_list)), "changed",
 			  G_CALLBACK (constraint_select_click), state);
 	gtk_tree_view_set_reorderable (state->constraint_list, TRUE);
-	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
-	gtk_tree_view_set_model(state->constraint_list, GTK_TREE_MODEL(store));
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+	gtk_tree_view_set_model (state->constraint_list, GTK_TREE_MODEL(store));
 	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes(
+	column = gtk_tree_view_column_new_with_attributes (
 								_("Subject to the Constraints:"),
 								renderer, "text", 0, NULL);
-	gtk_tree_view_column_set_expand(column, TRUE);
-	gtk_tree_view_append_column(state->constraint_list, column);
+	gtk_tree_view_column_set_expand (column, TRUE);
+	gtk_tree_view_append_column (state->constraint_list, column);
 
 /* dialog */
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);

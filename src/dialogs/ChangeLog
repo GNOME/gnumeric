@@ -1,3 +1,11 @@
+2004-05-26  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* dialog-cell-format.c: (fmt_dialog_init_font_page): replaced
+	GnmComboText by GoComboText.
+	* dialog-hyperlink.c: (dhl_init): removed old commented code.
+	* dialog-solver.c: (dialog_init): added missing spaces.
+	* font-sel.glade: replaced GtkCList by GtkTreeView
+
 2004-05-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-sheet-order.c: add handling of "visible" column 

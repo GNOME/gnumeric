@@ -54,10 +54,10 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/widget-font-selector.h>
 #include <widgets/gnumeric-dashed-canvas-line.h>
-#include <widgets/gnumeric-combo-text.h>
 #include <widgets/widget-format-selector.h>
 #include <goffice/gui-utils/go-combo-color.h>
 #include <goffice/gui-utils/go-combo-box.h>
+#include <goffice/gui-utils/go-combo-text.h>
 #include <libart_lgpl/art_alphagamma.h>
 #include <libart_lgpl/art_pixbuf.h>
 #include <libart_lgpl/art_rgb_pixbuf_affine.h>
@@ -1008,7 +1008,7 @@ fmt_dialog_init_font_page (FormatState *state)
 					  mstyle_get_font_size (state->style));
 
 	for (i = 0; i < (int)G_N_ELEMENTS (underline_types); i++)
-		gnm_combo_text_add_item	(GNM_COMBO_TEXT (uline), _(underline_types[i].Cname));
+		go_combo_text_add_item	(GO_COMBO_TEXT (uline), _(underline_types[i].Cname));
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_UNDERLINE)) {
 		StyleUnderlineType ut = mstyle_get_font_uline (state->style);
 		uline_str = _(underline_types[ut].Cname);
@@ -1016,8 +1016,8 @@ fmt_dialog_init_font_page (FormatState *state)
 			mstyle_get_font_uline (state->style));
 	} else
 		uline_str = "";
-	gnm_combo_text_set_text	(GNM_COMBO_TEXT (uline), uline_str,
-		GNM_COMBO_TEXT_FROM_TOP);
+	go_combo_text_set_text	(GO_COMBO_TEXT (uline), uline_str,
+		GO_COMBO_TEXT_FROM_TOP);
 	g_signal_connect (G_OBJECT (uline),
 		"entry_changed",
 		G_CALLBACK (cb_font_underline_changed), state);
