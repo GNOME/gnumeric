@@ -691,7 +691,9 @@ solver_performance_report (WorkbookControl *wbc,
 	dao_set_cell_value (&dao, 3, 19, value_new_float (res->time_system));
 
 	/* Set the `Real Time'. */
-	dao_set_cell_value (&dao, 4, 19, value_new_float (res->time_real));
+	dao_set_cell_value (&dao, 4, 19,0
+			    value_new_float (gnumeric_fake_round
+					     (res->time_real * 100) / 100.0));
 
 
 	/*

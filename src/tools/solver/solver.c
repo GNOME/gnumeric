@@ -41,6 +41,8 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/times.h>
 #include <libgnome/gnome-i18n.h>
 
 /* ------------------------------------------------------------------------- */
@@ -326,7 +328,7 @@ get_col_nbr (SolverResults *res, CellPos *pos)
  */
 static SolverProgram
 lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
-		   SolverResults *res, SolverLPAlgorithm *alg, 
+		   SolverResults *res, SolverLPAlgorithm *alg, gnum_float start_time,
 		   gchar **errmsg)
 {
         SolverProgram     program;
@@ -440,7 +442,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 	if (alg->set_option_fn (program, SolverOptMaxIter, NULL, NULL,
 				&(param->options.max_iter)))
 	        return NULL;
-	if (alg->set_option_fn (program, SolverOptMaxTimeSec, NULL, NULL,
+	if (alg->set_option_fn (program, SolverOptMaxTimeSec, NULL, &start_time,
 				&(param->options.max_time_sec)))
 	        return NULL;
 
@@ -562,23 +564,33 @@ solver_run (WorkbookControl *wbc, Sheet *sheet,
 	SolverResults     *res;
 	Cell              *cell;
 	int               i;
-	GTimeVal          start, end;
 	gnum_float        lhs, rhs;
+	GTimeVal          start, end;
+	struct tms        buf;
 
 	g_get_current_time (&start);
+	times (&buf);
 	if (check_program_definition_failures (sheet, param, &res, errmsg))
 	        return NULL;
 
+	res->time_user   = - buf.tms_utime / (gnum_float) sysconf (_SC_CLK_TCK);
+	res->time_system = - buf.tms_stime / (gnum_float) sysconf (_SC_CLK_TCK);
+	res->time_real   = - (start.tv_sec +
+			      start.tv_usec / (gnum_float) G_USEC_PER_SEC);
 	save_original_values (res, param, sheet);
 
-	program              = lp_qp_solver_init (sheet, param, res, alg, errmsg);
+	program              = lp_qp_solver_init (sheet, param, res, alg, 
+						  -res->time_real, errmsg);
 	if (program == NULL)
 	        return NULL;
 
         res->status = alg->solve_fn (program);
 	g_get_current_time (&end);
-	res->time_real = end.tv_sec - start.tv_sec
-	        + (end.tv_usec - start.tv_usec) / (gnum_float) G_USEC_PER_SEC;
+	times (&buf);
+	res->time_user   += buf.tms_utime / (gnum_float) sysconf (_SC_CLK_TCK);
+	res->time_system += buf.tms_stime / (gnum_float) sysconf (_SC_CLK_TCK);
+	res->time_real   += end.tv_sec + end.tv_usec /
+	        (gnum_float) G_USEC_PER_SEC;
 
 	solver_prepare_reports (program, res, sheet);
 	if (res->status == SolverOptimal) {

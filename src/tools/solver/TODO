@@ -19,7 +19,6 @@ Usability fixes:
 Feature enhancements:
   * add options:
     - algorithm selection
-    - max time
     - rounding of close zeros
     - obj. fn. range
     - show iteration results
@@ -31,7 +30,6 @@ Feature enhancements:
     - fix constraints: allowable decrease
   * performance report:
     - add options used
-    - fix user & system time reporting
   * dual program report:
     - implement generation of a report that gives the dual of the program
   * MPS plugin:

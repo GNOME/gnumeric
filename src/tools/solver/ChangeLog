@@ -1,3 +1,14 @@
+2002-03-22  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* api.c (w_lp_solve_set_option): Max time setting added.
+
+	* solver.c (lp_qp_solver_init): Added start time argument.
+	(solver_run): Fixed the user and system time reporting.  Passes
+	now the start time to lp_qp_solver_init.
+
+	* reports-write.c (solver_performance_report): Added rounding of
+	real time.
+
 2002-03-20  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.c (solver_results_init): Bug fix: Allocate using total #
