@@ -654,6 +654,11 @@
 
 	    </submenu>
 
+	    <menuitem name="PivotTable" verb=""
+	        pixtype="stock" pixname="Gnumeric_PivotTable"
+		_label="_PivotTable..."
+		_tip="Create a pivot table"/>
+
 	    <submenu name="ExternalData" _label="Get _External Data">
 		<menuitem name="DataImportText" verb=""
 		    pixtype="stock" pixname="gtk-dnd"

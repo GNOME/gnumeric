@@ -1,5 +1,9 @@
 2002-12-08  Jon K Hellan  <hellan@acm.org>
 
+	* src/GNOME_Gnumeric.xml: Add Pivot table command.
+
+2002-12-08  Jon K Hellan  <hellan@acm.org>
+
 	* GNOME_Gnumeric.server.in.in: Install gnumeric-component to
 	libexec.
 
