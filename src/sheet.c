@@ -3353,6 +3353,7 @@ col_row_info_init (Sheet *sheet, double pts, int margin_a, int margin_b,
 	cri->hard_size = FALSE;
 	cri->visible = TRUE;
 	cri->spans = NULL;
+	cri->size_pts = pts;
 	colrow_compute_pixels_from_pts (sheet, cri, (void *)is_horizontal);
 }
 

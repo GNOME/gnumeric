@@ -1,3 +1,7 @@
+2000-02-16  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet.c (col_row_info_init): Fix typo
+
 2000-02-15  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-math.c (gnumeric_mmult): Fix row/col confusion.
