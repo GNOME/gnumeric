@@ -1,14 +1,14 @@
 # gnumeric translation to Catalan.
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Softcatalà <tradgnome@softcatala.org>, 2000-2002.
-#
+# Jordi Negrevernis i Font <jorneg@retemail.es>, 2002, 2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.71\n"
+"Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-07 01:25-0500\n"
-"PO-Revision-Date: 2003-08-31 22:07+0100\n"
+"POT-Creation-Date: 2004-11-10 12:46+0100\n"
+"PO-Revision-Date: 2003-10-31 18:34+0100\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg@retemail.es>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -814,19 +814,19 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=opt_bs_put\n"
-"@SYNTAX=opt_bs_put(strike,price,volatilitat,dies_al_venciment,tipus)\n"
-"@DESCRIPTION=Utilitza el model Black-Scholes per a calcular el preu "
-"d'unEuropeu posant l'opció struck en @strike d'un actiu amb el pre @preu.  "
-"@volatilitat és la volatilitat anual, en tant per cent, d'un actiu per el "
-"període a través de la data de l'exercici.  @dies_al_venciment el nombre "
-"dedies a l'exercici, i @tipus és la taxa de l'interés lliure de risc a la "
-"data de l'exercici, en percentatge.\n"
-"El valor retornat serà eexpressat en les mateixes unitats com @strike i "
-"@preu.\n"
-"@EXAMPLES=\n"
+"@FUNCIÓ=opt_bs_call\n"
+"@SINTAXI=opt_bs_call(strike,preu,volatilitat,dies_al_venciment,tipus)\n"
+"@DESCRIPCIÓ=Utilitza el model Black-Scholes per fer el càlcul del preu d'un "
+"Europeu anomenant a l'opció struck com @strike d'un actiu amb preu @preu.  "
+"@volatilitat és la volatilitat anual, en percentatge, de l'actiu pel periode "
+"entre la data de l'exercici.  @dies_al_venciment el nombre de dies "
+"aexercitar, i @taxa és la taxa d'interés de risc a la data d'exercici, "
+"enpercentatge.\n"
+"El valor retornat serà espressat en les mateixes unitats que @strike "
+"i@preu.\n"
+"@EXEMPLES=\n"
 "\n"
-"@SEEALSO=opt_bs_call, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
+"@SEEALSO=opt_bs_put, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 
@@ -858,19 +858,19 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCTION=opt_bs_put\n"
-"@SYNTAX=opt_bs_put(strike,price,volatilitat,dies_al_venciment,tipus)\n"
-"@DESCRIPTION=Utilitza el model Black-Scholes per a calcular el preu "
-"d'unEuropeu posant l'opció struck en @strike d'un actiu amb el pre @preu.  "
-"@volatilitat és la volatilitat anual, en tant per cent, d'un actiu per el "
-"període a través de la data de l'exercici.  @dies_al_venciment el nombre "
-"dedies a l'exercici, i @tipus és la taxa de l'interés lliure de risc a la "
-"data de l'exercici, en percentatge.\n"
-"El valor retornat serà eexpressat en les mateixes unitats com @strike i "
-"@preu.\n"
-"@EXAMPLES=\n"
+"@FUNCIÓ=opt_bs_call\n"
+"@SINTAXI=opt_bs_call(strike,preu,volatilitat,dies_al_venciment,tipus)\n"
+"@DESCRIPCIÓ=Utilitza el model Black-Scholes per fer el càlcul del preu d'un "
+"Europeu anomenant a l'opció struck com @strike d'un actiu amb preu @preu.  "
+"@volatilitat és la volatilitat anual, en percentatge, de l'actiu pel periode "
+"entre la data de l'exercici.  @dies_al_venciment el nombre de dies "
+"aexercitar, i @taxa és la taxa d'interés de risc a la data d'exercici, "
+"enpercentatge.\n"
+"El valor retornat serà espressat en les mateixes unitats que @strike "
+"i@preu.\n"
+"@EXEMPLES=\n"
 "\n"
-"@SEEALSO=opt_bs_call, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
+"@SEEALSO=opt_bs_put, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 
@@ -1189,19 +1189,19 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
-"@FUNCIÓ=opt_bs_call\n"
-"@SINTAXI=opt_bs_call(strike,preu,volatilitat,dies_al_venciment,tipus)\n"
-"@DESCRIPCIÓ=Utilitza el model Black-Scholes per fer el càlcul del preu d'un "
-"Europeu anomenant a l'opció struck com @strike d'un actiu amb preu @preu.  "
-"@volatilitat és la volatilitat anual, en percentatge, de l'actiu pel periode "
-"entre la data de l'exercici.  @dies_al_venciment el nombre de dies "
-"aexercitar, i @taxa és la taxa d'interés de risc a la data d'exercici, "
-"enpercentatge.\n"
-"El valor retornat serà espressat en les mateixes unitats que @strike "
-"i@preu.\n"
-"@EXEMPLES=\n"
+"@FUNCTION=opt_bs_put\n"
+"@SYNTAX=opt_bs_put(strike,price,volatilitat,dies_al_venciment,tipus)\n"
+"@DESCRIPTION=Utilitza el model Black-Scholes per a calcular el preu "
+"d'unEuropeu posant l'opció struck en @strike d'un actiu amb el pre @preu.  "
+"@volatilitat és la volatilitat anual, en tant per cent, d'un actiu per el "
+"període a través de la data de l'exercici.  @dies_al_venciment el nombre "
+"dedies a l'exercici, i @tipus és la taxa de l'interés lliure de risc a la "
+"data de l'exercici, en percentatge.\n"
+"El valor retornat serà eexpressat en les mateixes unitats com @strike i "
+"@preu.\n"
+"@EXAMPLES=\n"
 "\n"
-"@SEEALSO=opt_bs_put, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
+"@SEEALSO=opt_bs_call, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 
@@ -2778,13 +2778,13 @@ msgstr ""
 #: plugins/fn-complex/functions.c:1593 plugins/fn-complex/functions.c:1596
 #: plugins/fn-complex/functions.c:1599 plugins/fn-complex/functions.c:1602
 msgid "inumber"
-msgstr ""
+msgstr "numeroi"
 
 #: plugins/fn-complex/functions.c:1496 plugins/fn-complex/functions.c:1511
 #: plugins/fn-complex/functions.c:1523 plugins/fn-complex/functions.c:1526
 #: plugins/fn-complex/functions.c:1539
 msgid "inumber,inumber"
-msgstr ""
+msgstr "numeroi,numeroi"
 
 #: plugins/fn-complex/plugin.xml.in.h:1
 msgid "Complex"
@@ -16710,14 +16710,15 @@ msgstr ""
 #: plugins/gnome-db/plugin-gnomedb.c:25
 msgid "Could not run GNOME database configuration tool"
 msgstr ""
+"No s'ha pogut executar l'eina de configuració de bases de dades de GNOME"
 
 #: plugins/gnome-db/plugin.xml.in.h:1
 msgid "Database UI services plugin"
-msgstr ""
+msgstr "Connector del servei IU de base de dades"
 
 #: plugins/gnome-db/plugin.xml.in.h:2
 msgid "GNOME-DB"
-msgstr ""
+msgstr "BD-GNOME"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
@@ -16817,7 +16818,7 @@ msgstr "XHTML (*.xhtml)"
 
 #: plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
-msgstr ""
+msgstr "Rang XHTML - per a exportació al porta-retalls"
 
 #: plugins/lotus-123/boot.c:73
 msgid "Error while reading lotus workbook."
@@ -17360,12 +17361,11 @@ msgstr "Habilita la creació de funcions en PERL"
 msgid "Perl"
 msgstr "Perl"
 
-# src/functions/fn-financial.c:2153
 #
 #: plugins/perl-func/plugin.xml.in.h:2
 #, fuzzy
 msgid "Perl functions"
-msgstr "Financeres"
+msgstr "Funcions de Python"
 
 #: plugins/perl-func/plugin.xml.in.h:3
 #, fuzzy
@@ -17493,7 +17493,7 @@ msgstr "No s'ha pogut carregar el fitxer: %s"
 #: plugins/python-loader/gnm-python.c:145
 #, c-format
 msgid "Could not initialize Python bindings for Gtk+, etc: %s"
-msgstr ""
+msgstr "No s'ha pogut iniciar els enllaços amb Gtk+, etc: %s"
 
 #: plugins/python-loader/gnm-python.c:159
 #, fuzzy, c-format
@@ -17608,9 +17608,9 @@ msgid "Unknown action: %s"
 msgstr "Funció desconeguda"
 
 #: plugins/python-loader/python-loader.c:739
-#, c-format
+#, fuzzy, c-format
 msgid "Not a valid function for action: %s"
-msgstr ""
+msgstr "No és una funció vàlida per al verb: %s"
 
 #: plugins/qpro/plugin.xml.in.h:1
 msgid "Imports Quatro Pro (tm) files"
@@ -17650,11 +17650,11 @@ msgstr ""
 
 #: plugins/sample_datasource/plugin.xml.in.h:1
 msgid "A proof of concept external data source"
-msgstr ""
+msgstr "Una prova de concepte d'una font externa de base de dades"
 
 #: plugins/sample_datasource/plugin.xml.in.h:3
 msgid "Sample DataSource"
-msgstr ""
+msgstr "Mostra de font de dades"
 
 #: plugins/sample_datasource/sample_datasource.c:272
 #, no-c-format
@@ -17721,11 +17721,11 @@ msgstr "S'ha produït un error mentre es llegia el full"
 
 #: plugins/uihello/plugin.xml.in.h:1
 msgid "Hello World plugin using ui service"
-msgstr ""
+msgstr "Connector 'Hola Món' utilitzant el servei iu"
 
 #: plugins/uihello/plugin.xml.in.h:2
 msgid "UI Hello"
-msgstr ""
+msgstr "Hola IU"
 
 #: plugins/uihello/uihello.c:22
 #, c-format
@@ -17819,6 +17819,7 @@ msgid "Activate New Plugins"
 msgstr "Activa els nous connectors"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:708
 msgid "Allow Unfocused Range Selections"
 msgstr "Permet seleccions de rang sense focus"
 
@@ -17967,6 +17968,7 @@ msgid "List of recently used functions."
 msgstr "Llista de funcions usades darrerament."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
+#: src/dialogs/dialog-preferences.c:699
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Longitud màxima de la llista de funcions usades darrerament"
 
@@ -18057,12 +18059,16 @@ msgid ""
 "The default page footer for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
+"El peu de pàgina per defecte per a nous documents es pot modificar usant el "
+"diàleg de configuració de la pàgina."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:54
 msgid ""
 "The default page header for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
+"La capçalera de pàgina per defecte per a nous documents es pot modificar "
+"usant el diàleg de configuració de la pàgina."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:55
 msgid ""
@@ -18171,14 +18177,11 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:72
-#, fuzzy
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print row and column headers. Please use the Print Setup dialog to edit "
 "this value."
 msgstr ""
-"Aquest valor determina si el diàleg de configuració de la impressora "
-"s'aplica a totes les fulles simultàniament."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:73
 msgid ""
@@ -18246,6 +18249,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Temps mort entre auto recàlcul d'expressions"
 
 #: schemas/gnumeric-general.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:704
 msgid "Autocomplete"
 msgstr "Autocompleta"
 
@@ -18260,6 +18264,7 @@ msgstr ""
 "sigui el butó per defecte."
 
 #: schemas/gnumeric-general.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:616
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Nivell de compressió per defecte dels fitxers Gnumeric"
 
@@ -18268,23 +18273,28 @@ msgid "Default Font Size"
 msgstr "Mida de la lletra per defecte"
 
 #: schemas/gnumeric-general.schemas.in.h:6
+#: src/dialogs/dialog-preferences.c:564
 msgid "Default Horizontal Window Size"
 msgstr "Mida horitzontal de la finestra per defecte"
 
 #
 #: schemas/gnumeric-general.schemas.in.h:7
+#: src/dialogs/dialog-preferences.c:572
 msgid "Default Number of Sheets"
 msgstr "Número de fulles per defecte"
 
 #: schemas/gnumeric-general.schemas.in.h:8
+#: src/dialogs/dialog-preferences.c:621
 msgid "Default To Overwriting Files"
 msgstr "Defecte per sobreescriure fitxers"
 
 #: schemas/gnumeric-general.schemas.in.h:9
+#: src/dialogs/dialog-preferences.c:560
 msgid "Default Vertical Window Size"
 msgstr "Mida per defecte de la finestra vertical"
 
 #: schemas/gnumeric-general.schemas.in.h:10
+#: src/dialogs/dialog-preferences.c:568
 msgid "Default Zoom Factor"
 msgstr "Factor de zoom per defecte"
 
@@ -18293,6 +18303,7 @@ msgid "Default font name"
 msgstr "Nom de la font per defecte"
 
 #: schemas/gnumeric-general.schemas.in.h:12
+#: src/dialogs/dialog-preferences.c:662
 msgid "Horizontal DPI"
 msgstr "DPI Horitzontal"
 
@@ -18308,6 +18319,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:14
+#: src/dialogs/dialog-preferences.c:612
 msgid "Length of File History"
 msgstr "Longitud del fitxer Historia"
 
@@ -18320,24 +18332,29 @@ msgid "List of recently used files"
 msgstr "Llista de fitxers usats darrerament"
 
 #: schemas/gnumeric-general.schemas.in.h:17
+#: src/dialogs/dialog-preferences.c:580
 msgid "Live Scrolling"
 msgstr "Desplaçament en temps real"
 
 #
 #: schemas/gnumeric-general.schemas.in.h:18
+#: src/dialogs/dialog-preferences.c:474
 msgid "Maximal Undo Size"
 msgstr "Mida màxima de Desfer"
 
 #
 #: schemas/gnumeric-general.schemas.in.h:19
+#: src/dialogs/dialog-preferences.c:515
 msgid "Number of Automatic Clauses"
 msgstr "Número de Clàusules automàtiques"
 
 #: schemas/gnumeric-general.schemas.in.h:20
+#: src/dialogs/dialog-preferences.c:478
 msgid "Number of Undo Items"
 msgstr "Número de elements de Desfer"
 
 #: schemas/gnumeric-general.schemas.in.h:21
+#: src/dialogs/dialog-preferences.c:741
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Prefereix PORTAPAPERS a Selecció PRINCIPAL"
 
@@ -18372,6 +18389,7 @@ msgstr ""
 "d'ordenació."
 
 #: schemas/gnumeric-general.schemas.in.h:27
+#: src/dialogs/dialog-preferences.c:482
 msgid "Show Sheet Name in Undo List"
 msgstr "Ensenya el nom de la fulla en la llista Desfer"
 
@@ -18385,7 +18403,8 @@ msgstr ""
 "variable determina si s'avisarà a l'usuari quan només una sola fulla d'un "
 "llibre de treball estigui desant."
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/wbcg-actions.c:1903
+#: schemas/gnumeric-general.schemas.in.h:29
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1903
 msgid "Sort Ascending"
 msgstr "Ordena de forma ascendent"
 
@@ -18396,6 +18415,7 @@ msgstr "Ordena distingint les majúscules i minúscules"
 
 #
 #: schemas/gnumeric-general.schemas.in.h:31
+#: src/dialogs/dialog-preferences.c:519
 msgid "Sorting Preserves Formats"
 msgstr "Ordenació preserva els formats"
 
@@ -18548,14 +18568,17 @@ msgstr ""
 "text"
 
 #: schemas/gnumeric-general.schemas.in.h:55
+#: src/dialogs/dialog-preferences.c:576
 msgid "Transition Keys"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:56
+#: src/dialogs/dialog-preferences.c:666
 msgid "Vertical DPI"
 msgstr "DPI Vertical"
 
 #: schemas/gnumeric-general.schemas.in.h:57
+#: src/dialogs/dialog-preferences.c:625
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Avisa quan s'exporti a un format de només una fulla"
 
@@ -18591,6 +18614,7 @@ msgstr ""
 "instal·lat el paquet ucs LaTeX."
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:630
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Usa UTF-8 en exportació a LaTeX"
 
@@ -18863,7 +18887,7 @@ msgstr "S'està especificant l'amplada de les columnes %s per defecte"
 msgid "Setting height of rows %s to default"
 msgstr "S'està especificant l'alçada de les files %s per defecte"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "S'està ordenant"
 
@@ -19330,7 +19354,7 @@ msgstr "<b>Previsualització</b>"
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
 #, fuzzy
 msgid "<b>Position</b>"
-msgstr "<b>Previsualització</b>"
+msgstr "Orientació"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
 #, fuzzy
@@ -19396,15 +19420,15 @@ msgstr "Divendres"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
-msgstr ""
+msgstr "Eix X"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
-msgstr ""
+msgstr "Eix Y"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
-msgstr ""
+msgstr "Eix Z"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 msgid "Circular-Axis"
@@ -19623,7 +19647,7 @@ msgid "%d x %d"
 msgstr "%dR x %dC"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:763
 msgid "Font"
 msgstr "Tipus de lletra"
 
@@ -19633,10 +19657,11 @@ msgid "Style"
 msgstr "Estil"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:1
+#, fuzzy
 msgid ""
 "2 Colors\n"
 "Brightness"
-msgstr ""
+msgstr "Claretat"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:3
 #, fuzzy
@@ -19661,8 +19686,9 @@ msgstr "Contorn"
 
 #
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
+#, fuzzy
 msgid "Co_lor:"
-msgstr "Co_lor:"
+msgstr "Color:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid ""
@@ -19770,7 +19796,7 @@ msgstr "Opcions"
 msgid ""
 "stretched\n"
 "wallpaper"
-msgstr "Fons de l'escriptori"
+msgstr "estirat"
 
 #
 #. TODO : have a look at apple's themes
@@ -20317,9 +20343,8 @@ msgid "Dotted Radar"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:4
-#, fuzzy
 msgid "Radar"
-msgstr "Error estàndard"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:5
 msgid "Radar plot with dots."
@@ -20368,13 +20393,13 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:337
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:489
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:369
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:339
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:491
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:371
 msgid "Z"
@@ -20489,28 +20514,32 @@ msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
 msgstr ""
+"Interpola linialment entre punts multi-dimensionals, amb marcadors per a "
+"cada punt."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Linearly interpolate between multi-dimensional points."
-msgstr ""
+msgstr "Interpola linialment entre punts multi-dimensionals."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
 #, fuzzy
 msgid "Markers at each point."
-msgstr "Barres apilades"
+msgstr "Punts interpolats marcats"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
+#, fuzzy
 msgid "Multi-dimensional points with circle at each point."
 msgstr ""
+"Interpola entre punts multi-dimensionals, amb marcadors per a cada punt."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Plot X, Y and bubble size."
-msgstr ""
+msgstr "Dibuixa X, Y i deforma mida."
 
 #. really 3_1
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "XY"
-msgstr ""
+msgstr "XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 #, fuzzy
@@ -21237,8 +21266,9 @@ msgstr "Opcions"
 
 #: src/dialogs/anova-one.glade.h:6 src/dialogs/mean-tests.glade.h:13
 #: src/dialogs/variance-tests.glade.h:9
+#, fuzzy
 msgid "_Alpha:"
-msgstr "_Alfa:"
+msgstr "_alfa:"
 
 #
 #: src/dialogs/anova-one.glade.h:7 src/dialogs/correlation.glade.h:5
@@ -21333,10 +21363,11 @@ msgstr "Abast d'_entrada:"
 msgid "Rows per _sample:"
 msgstr "Nombre de Files _Per Mostra:"
 
+#
 #: src/dialogs/anova-two.glade.h:9
 #, fuzzy
 msgid "_Alpha: "
-msgstr "_Alfa:"
+msgstr "_Alfa ="
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
@@ -21596,7 +21627,7 @@ msgstr "Comentari de la cel·la"
 #: src/dialogs/cell-format.glade.h:1 src/dialogs/names.glade.h:1
 #: src/dialogs/view.glade.h:1
 msgid "    "
-msgstr ""
+msgstr "    "
 
 #: src/dialogs/cell-format.glade.h:13
 #, fuzzy
@@ -22328,8 +22359,9 @@ msgid "Plugin system, localization."
 msgstr ""
 
 #: src/dialogs/dialog-about.c:98
+#, fuzzy
 msgid "J.H.M. Dassen (Ray)"
-msgstr ""
+msgstr "J.H.M. Dassen (Ray), empaquetador per debian."
 
 #: src/dialogs/dialog-about.c:99
 #, fuzzy
@@ -22432,9 +22464,8 @@ msgid "Chris Lahey"
 msgstr ""
 
 #: src/dialogs/dialog-about.c:121
-#, fuzzy
 msgid "The original value format engine and libgoffice work"
-msgstr "Chris Lahey, motor de format de nombres."
+msgstr ""
 
 #: src/dialogs/dialog-about.c:122
 msgid "Takashi Matsuda"
@@ -22530,8 +22561,9 @@ msgid "Paradox Importer"
 msgstr "Paràmetres"
 
 #: src/dialogs/dialog-about.c:144
+#, fuzzy
 msgid "Arturo Tena"
-msgstr ""
+msgstr "Artuno Tena, suport per l'OLE."
 
 #: src/dialogs/dialog-about.c:145
 msgid "Initial work on OLE2 for libgsf"
@@ -22568,8 +22600,9 @@ msgid "Telecommunications functions"
 msgstr "Funcions d'Informació"
 
 #: src/dialogs/dialog-about.c:152
+#, fuzzy
 msgid "Daniel Veillard"
-msgstr ""
+msgstr "Daniel Veillard, suport de XML."
 
 #: src/dialogs/dialog-about.c:153
 #, fuzzy
@@ -23543,12 +23576,17 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Directori"
 
-#: src/dialogs/dialog-preferences.c:442
+#: src/dialogs/dialog-preferences.c:455
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "Els elements en aquesta pàgina personalitzen l'entorn del sistema undo/redo."
 
-#: src/dialogs/dialog-preferences.c:477
+#: src/dialogs/dialog-preferences.c:470
+#, fuzzy
+msgid "Length of Undo Descriptors"
+msgstr "Longitud dels descriptors de Desfér"
+
+#: src/dialogs/dialog-preferences.c:498
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -23556,26 +23594,32 @@ msgstr ""
 "Els elements en aquesta pàgina personalitzen les configuracions inicials "
 "deldiàleg i de l'entorn dels botons de la barra d'eines"
 
-#: src/dialogs/dialog-preferences.c:515
+#
+#: src/dialogs/dialog-preferences.c:523
+#, fuzzy
+msgid "Sorting is Case-Sensitive"
+msgstr "Ordena distingint les majúscules i minúscules"
+
+#: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
 msgstr ""
 "Els elements en aquest pàgina personalitzen el nou llibre de treball "
 "perdefecte."
 
-#: src/dialogs/dialog-preferences.c:555
+#: src/dialogs/dialog-preferences.c:596
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 "Els elements en aquesta pàgina estan relacionats amb els fitxers oberts "
 "idesats."
 
-#: src/dialogs/dialog-preferences.c:593
+#: src/dialogs/dialog-preferences.c:646
 #, fuzzy
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr ""
 "Els elements en aquesta pàgina estan relacionats amb els fitxers oberts "
 "idesats."
 
-#: src/dialogs/dialog-preferences.c:625
+#: src/dialogs/dialog-preferences.c:682
 #, fuzzy
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
@@ -23584,42 +23628,42 @@ msgstr ""
 "Els elements en aquesta pàgina estan relacionats amb els fitxers oberts "
 "idesats."
 
-#: src/dialogs/dialog-preferences.c:660
+#: src/dialogs/dialog-preferences.c:724
 #, fuzzy
 msgid "The items on this page arerelated to copy. cut and paste."
 msgstr ""
 "Els elements en aquesta pàgina estan relacionats amb els fitxers oberts "
 "idesats."
 
-#: src/dialogs/dialog-preferences.c:698
+#: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:699
+#: src/dialogs/dialog-preferences.c:765
 #, fuzzy
 msgid "Files"
 msgstr "_Fitxer"
 
-#: src/dialogs/dialog-preferences.c:700
+#: src/dialogs/dialog-preferences.c:766
 #, fuzzy
 msgid "Tools"
 msgstr "_Eines"
 
-#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Desfés"
 
-#: src/dialogs/dialog-preferences.c:702
+#: src/dialogs/dialog-preferences.c:768
 #, fuzzy
 msgid "Windows"
 msgstr "Amaga files"
 
-#: src/dialogs/dialog-preferences.c:703
+#: src/dialogs/dialog-preferences.c:769
 #, fuzzy
 msgid "Header/Footer"
 msgstr "Capçaleres i peus de pàgina"
 
-#: src/dialogs/dialog-preferences.c:705
+#: src/dialogs/dialog-preferences.c:771
 #, fuzzy
 msgid "Screen"
 msgstr "Pantalla %d"
@@ -24016,6 +24060,8 @@ msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
 msgstr ""
+"Per a reemplaçar totes les fulles existents, esborreu per favor el llibre de "
+"treball actual i creeu-ne un de nou!"
 
 #: src/dialogs/dialog-sheet-order.c:925
 msgid "The sheet order has changed. Do you want to update the list?"
@@ -24386,7 +24432,7 @@ msgstr ""
 #: src/dialogs/dialog-stf-fixed-page.c:74
 #, fuzzy
 msgid "_Split this column"
-msgstr "Especifica el final d'aquesta columna"
+msgstr "Selecciona una columna completa"
 
 #: src/dialogs/dialog-stf-fixed-page.c:77
 #, fuzzy
@@ -24439,6 +24485,8 @@ msgstr "D'esquerra a dreta"
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
 msgstr ""
+"Si aquest quadre de verificació és seleccionat, la columna s'importarà en el "
+"Gnumeric."
 
 #: src/dialogs/dialog-stf-format-page.c:601
 #: src/dialogs/dialog-stf-preview.h:27
@@ -24480,7 +24528,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: src/dialogs/dialog-stf.glade.h:12
 msgid "C_ustom"
@@ -25025,7 +25073,7 @@ msgstr "S_ímbol:"
 
 #: src/dialogs/format-selector.glade.h:16
 msgid "Select an appropriate format automatically."
-msgstr ""
+msgstr "Selecciona un format apropiat automàticament."
 
 #: src/dialogs/format-selector.glade.h:17
 msgid "Specify an XL-style format directly"
@@ -25067,7 +25115,7 @@ msgstr "Selector de funcions"
 
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
-msgstr ""
+msgstr "Seleccioneu una funció per a afegir:"
 
 #: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
 #: src/wbcg-actions.c:1600
@@ -25086,11 +25134,11 @@ msgstr "(_Mínim):"
 
 #: src/dialogs/goalseek.glade.h:4
 msgid "<span weight=\"bold\">Goal</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Objectiu</span>"
 
 #: src/dialogs/goalseek.glade.h:5
 msgid "<span weight=\"bold\">Last Result</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Últim resultat</span>"
 
 #
 #: src/dialogs/goalseek.glade.h:6
@@ -25225,7 +25273,7 @@ msgstr "Bins _Predeterminats"
 
 #: src/dialogs/hyperlink.glade.h:2
 msgid "<small>Optional</small>"
-msgstr ""
+msgstr "<small>Opcional</small>"
 
 #: src/dialogs/hyperlink.glade.h:3
 msgid "Email _Address:"
@@ -25260,7 +25308,7 @@ msgstr "Adreça _Web:"
 
 #: src/dialogs/insert-cells.glade.h:1
 msgid "<span weight=\"bold\">Insert Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Afegeix Mètode</span>"
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _row(s)"
@@ -25401,7 +25449,7 @@ msgstr "3"
 #: src/dialogs/moving-averages.glade.h:3
 #, fuzzy
 msgid "C_olumns"
-msgstr "Columnes"
+msgstr "C_olumna"
 
 #: src/dialogs/moving-averages.glade.h:6 src/tools/analysis-tools.c:3731
 #: src/tools/analysis-tools.c:3734
@@ -25458,11 +25506,11 @@ msgstr "_Actualitza"
 
 #: src/dialogs/pivottable.glade.h:1
 msgid "Layout"
-msgstr ""
+msgstr "Format"
 
 #: src/dialogs/pivottable.glade.h:2
 msgid "Layout:"
-msgstr ""
+msgstr "Format:"
 
 #: src/dialogs/pivottable.glade.h:3
 msgid "PivotTable Guru : Gnumeric"
@@ -25842,12 +25890,12 @@ msgstr "_Cel·les Canviades:"
 #: src/dialogs/scenario-manager.glade.h:3
 #, fuzzy
 msgid "<span weight=\"bold\">Changing Cells</span>"
-msgstr "<span weight=\"bold\">Criteri</span>"
+msgstr "<span weight=\"bold\">Canvia Cel·les que Contenen</span>"
 
 #: src/dialogs/scenario-manager.glade.h:4
 #, fuzzy
 msgid "<span weight=\"bold\">Comment</span>"
-msgstr "<span weight=\"bold\">Criteri</span>"
+msgstr "<span weight=\"bold\">Objectiu</span>"
 
 #: src/dialogs/scenario-manager.glade.h:5
 #, fuzzy
@@ -26073,15 +26121,15 @@ msgstr "_Cadenes"
 
 #: src/dialogs/search-replace.glade.h:2
 msgid "<span weight=\"bold\">Change Cells Containing</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Canvia Cel·les que Contenen</span>"
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Miscel·lània</span>"
 
 #: src/dialogs/search-replace.glade.h:4
 msgid "<span weight=\"bold\">Search Text Type</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Cerca Tipus de Text</span>"
 
 #: src/dialogs/search-replace.glade.h:6
 msgid "Ask before each change"
@@ -26258,7 +26306,7 @@ msgstr "_Area"
 msgid ""
 "   \n"
 "   <span weight=\"bold\">Rounds</span>"
-msgstr "<span weight=\"bold\">Opcions d'Ordenació</span>"
+msgstr "<span weight=\"bold\">Objectiu</span>"
 
 #: src/dialogs/simulation.glade.h:3
 #, fuzzy
@@ -26287,7 +26335,7 @@ msgstr "Cerca Min."
 #: src/dialogs/simulation.glade.h:8
 #, fuzzy
 msgid "First round #:"
-msgstr "Primer pla"
+msgstr "Primera Ronda #:"
 
 #
 #: src/dialogs/simulation.glade.h:9
@@ -26301,8 +26349,9 @@ msgid "Iterations:"
 msgstr "Iteracions:"
 
 #: src/dialogs/simulation.glade.h:11
+#, fuzzy
 msgid "Last round #:"
-msgstr ""
+msgstr "Última Ronda#:"
 
 #
 #: src/dialogs/simulation.glade.h:12
@@ -26816,7 +26865,7 @@ msgstr "CADENA"
 #. 2002/08/04 Updated to match iso 4217
 #: src/formats.c:391
 msgid "United Arab Emirates, Dirhams"
-msgstr ""
+msgstr "Emirats Àrabs Units, Dirhams"
 
 #: src/formats.c:392
 msgid "Afghanistan, Afghanis"
@@ -26828,7 +26877,7 @@ msgstr "Albania, Lek "
 
 #: src/formats.c:394
 msgid "Armenia, Drams"
-msgstr ""
+msgstr "Armènia, Drams"
 
 #: src/formats.c:395
 msgid "Netherlands Antilles, Guilders"
@@ -26854,11 +26903,11 @@ msgstr "Guilder d'Aruba"
 
 #: src/formats.c:400
 msgid "Azerbaijan, Manats"
-msgstr ""
+msgstr "Azerbaijan, Manats"
 
 #: src/formats.c:401
 msgid "Bosnia and Herzegovina, Convertible Marka"
-msgstr ""
+msgstr "Bàsnia i Herzegovina, Marka Convertible"
 
 #: src/formats.c:402
 #, fuzzy
@@ -27810,11 +27859,10 @@ msgstr "Propietats del marc"
 msgid "Line/Arrow Properties"
 msgstr "Propietats de la Fletxa/Línia"
 
-#
 #: src/GNOME_Gnumeric-gtk.xml.in.h:1
 #, fuzzy
 msgid "FormatToolbar"
-msgstr "_Barra d'eines"
+msgstr "F_ormat"
 
 #
 #: src/GNOME_Gnumeric-gtk.xml.in.h:2
@@ -27825,7 +27873,7 @@ msgstr "Carregador GObject "
 #: src/GNOME_Gnumeric-gtk.xml.in.h:3
 #, fuzzy
 msgid "StandardToolbar"
-msgstr "_Errors estàndards"
+msgstr "Error estàndard"
 
 #: src/gnumeric-pane.c:130
 #, fuzzy, c-format
@@ -29125,10 +29173,12 @@ msgstr "Text a les columnes"
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr ""
+"Només una columna de dades <b>input</b> pot ser analitzada al mateix temps, "
+"no %d"
 
 #: src/stf.c:302
 msgid "There is no data to convert"
-msgstr ""
+msgstr "No hi ha cap data per a convertir"
 
 #: src/stf.c:322
 msgid "Error while trying to parse data into sheet"
@@ -30612,7 +30662,7 @@ msgstr "Informe Creat: "
 
 #: src/wbcg-actions.c:1483
 msgid "_About"
-msgstr "_Sobre"
+msgstr "_Quant a"
 
 #: src/wbcg-actions.c:1484
 msgid "About this application"
@@ -30894,10 +30944,11 @@ msgstr "Co_mentari..."
 msgid "Edit the selected cell's comment"
 msgstr "Edita el comentari de les cel·les seleccionades"
 
+#
 #: src/wbcg-actions.c:1629
 #, fuzzy
 msgid "_Find..."
-msgstr "_Amplada..."
+msgstr "_Imprimeix..."
 
 #
 #: src/wbcg-actions.c:1630
@@ -31882,8 +31933,9 @@ msgid "Align left"
 msgstr "Alineament"
 
 #: src/wbcg-actions.c:2070
+#, fuzzy
 msgid "_Center"
-msgstr "_Centre"
+msgstr "Centra"
 
 #: src/wbcg-actions.c:2071 src/wbc-gtk.c:325
 #, fuzzy
@@ -31910,10 +31962,11 @@ msgstr "Centra a través de la Selecció"
 msgid "Center horizontally across the selection"
 msgstr "Centra _a través de la selecció"
 
+#
 #: src/wbcg-actions.c:2080
 #, fuzzy
 msgid "_Merge and Center"
-msgstr "_Verticalment"
+msgstr "Centre de Cerca"
 
 #: src/wbcg-actions.c:2081
 msgid "Merge the selection into 1 cell, and center horizontaly."
@@ -32091,7 +32144,7 @@ msgstr "Estableix l'Alineació Horitzontal"
 #: src/wbc-gtk.c:375 src/wbc-gtk.c:376
 #, fuzzy
 msgid "Vertical Alignment"
-msgstr "Estableix l'Alineació Horitzontal"
+msgstr "Alineació Vertical"
 
 #: src/wbc-gtk.c:473
 msgid "Undo the last action"
@@ -33728,9 +33781,8 @@ msgid "A green list template"
 msgstr ""
 
 #: templates/autoformat/autoformat.List.lila.xml.in.h:2
-#, fuzzy
 msgid "Lila"
-msgstr "_Linial"
+msgstr ""
 
 #: templates/autoformat/autoformat.List.lila.xml.in.h:3
 #, fuzzy
@@ -33741,11 +33793,6 @@ msgstr "Nom de la plantilla"
 #, fuzzy
 msgid "A simple list template"
 msgstr "Nom de la plantilla"
-
-#
-#, fuzzy
-#~ msgid "Various"
-#~ msgstr "Variables"
 
 # src/functions/fn-stat.c:184
 #
@@ -33777,6 +33824,28 @@ msgstr "Nom de la plantilla"
 #~ "\n"
 #~ "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 
+#~ msgid "x,n,M,N"
+#~ msgstr "x,n,M,N"
+
+# src/functions/fn-information.c:546 src/functions/fn-string.c:67
+# src/functions/fn-string.c:94 src/functions/fn-string.c:119
+# src/functions/fn-string.c:184 src/functions/fn-string.c:222
+# src/functions/fn-string.c:308 src/functions/fn-string.c:396
+# src/functions/fn-string.c:434 src/functions/fn-string.c:626
+# src/functions/fn-string.c:674 src/functions/fn-string.c:774
+# src/functions/fn-string.c:805
+#~ msgid "Type mismatch"
+#~ msgstr "Tipus discordant"
+
+#~ msgid "Data Sources..."
+#~ msgstr "Fonts de dades..."
+
+#~ msgid "View and manage data sources"
+#~ msgstr "Mostra i maneja fonts de dades"
+
+#~ msgid "HTML"
+#~ msgstr "HTML"
+
 # src/functions/fn-information.c:297
 #~ msgid "Unknown verb: %s"
 #~ msgstr "Verb desconegut: %s"
@@ -33787,6 +33856,9 @@ msgstr "Nom de la plantilla"
 #
 #~ msgid "Python console"
 #~ msgstr "Consola de Python"
+
+#~ msgid "Quatro Pro"
+#~ msgstr "Quatro Pro"
 
 #~ msgid "Hello World"
 #~ msgstr "Hola Món"
@@ -33804,39 +33876,233 @@ msgstr "Nom de la plantilla"
 #~ "'últim' com el final del període d'aquesta magnitud després d'un canvi "
 #~ "sense canvis."
 
-#, fuzzy
-#~ msgid "Internal"
-#~ msgstr "In_terval:"
+#~ msgid "Add a scenario"
+#~ msgstr "Afegeix un escenari"
+
+#~ msgid "Align the contents to the left and decrease the indent"
+#~ msgstr "Alinea els continguts a l'esquerra i disminueix el sagnat"
+
+#~ msgid "Align the contents to the left and increase the indent"
+#~ msgstr "Alinea els continguts a l'esquerra i incrementa el sagnat"
+
+#~ msgid "Center across the selected cells"
+#~ msgstr "Centra a través de les cel·les seleccionades"
+
+#
+#~ msgid "Chart Guru"
+#~ msgstr "Guru dels dibuixos"
+
+#~ msgid "Comparing two population means for two paired samples: t-test"
+#~ msgstr ""
+#~ "Comparant dues mitjanes de població amb dues mostres aparellades: t-test "
+
+#~ msgid ""
+#~ "Comparing two population means for two unpaired samples from populations "
+#~ "with equal variances: t-test"
+#~ msgstr ""
+#~ "Comparant dues mitjanes de població amb dues mostres desaparellades des "
+#~ "de pop. amb equivalent var: t-test"
+
+#~ msgid ""
+#~ "Comparing two population means for two unpaired samples from populations "
+#~ "with unequal variances: t-test"
+#~ msgstr ""
+#~ "Comparant dues mitjanes de població amb dues mostres desaparellades des "
+#~ "de pop. amb desiguals variances: t-test"
+
+#~ msgid ""
+#~ "Comparing two population means from populations with known variances or "
+#~ "using a large sample: z-test"
+#~ msgstr ""
+#~ "Comparant dues mitjanes de població des de pop. amb variances conegudes o "
+#~ "utilitzant una mostra gran: z-test"
+
+#~ msgid "Copy the selection to the clipboard"
+#~ msgstr "Copia la selecció al porta-retalls"
+
+#~ msgid "Create a new shared view of the workbook"
+#~ msgstr "Crea una nova vista compartida del llibre de treball"
+
+#~ msgid "Cut the selection to the clipboard"
+#~ msgstr "Retalla la selecció al porta-retalls"
+
+#
+#~ msgid "Exponential smoothing"
+#~ msgstr "Exponencial"
+
+#~ msgid "Font selector"
+#~ msgstr "Selector de tipus de lletra"
+
+#
+#~ msgid "Hyperlink"
+#~ msgstr "HiperEnllaç"
+
+#~ msgid "Insert Component"
+#~ msgstr "Insereix un Element"
+
+#~ msgid "Insert Shaped Component"
+#~ msgstr "Insereix un component amb Forma"
+
+#
+#~ msgid "Insert a function into the selected cell"
+#~ msgstr "Insereix l'hora actual a les cel·les seleccionades"
+
+#~ msgid "Insert a shaped component into the spreadsheet"
+#~ msgstr "Insereix un element amb forma al full de difusió"
+
+#~ msgid "Insert an object into the spreadsheet"
+#~ msgstr "Insereix un objecte al full de difusió"
+
+#~ msgid "Inserts a Bonobo object"
+#~ msgstr "Insereix un objecte Bonobo"
+
+#
+#~ msgid "Inserts a Shaped Bonobo object"
+#~ msgstr "Insereix un objecte Bonobo amb forma"
+
+#~ msgid "Launch the Chart Guru"
+#~ msgstr "Executa el Guru dels gràfics"
+
+#~ msgid "Left align"
+#~ msgstr "Alinea a l'esquerra"
+
+#~ msgid "Money"
+#~ msgstr "Diners"
+
+#
+#~ msgid "Moving average"
+#~ msgstr "Mitjana mòbil"
+
+#~ msgid "New"
+#~ msgstr "Nou"
+
+#~ msgid "One Factor Analysis of Variance"
+#~ msgstr "Una Anàlisi de Factor de la Variança"
+
+#~ msgid "P_aste Special..."
+#~ msgstr "E_nganxa de forma Especial..."
+
+#~ msgid "Paste the contents of the clipboard"
+#~ msgstr "Enganxa els continguts del porta-retalls"
+
+#~ msgid "Percent"
+#~ msgstr "Percent"
+
+#~ msgid "Print"
+#~ msgstr "Imprimeix"
+
+#
+#~ msgid "Print Pre_view..."
+#~ msgstr "Vista prè_via a la impressió..."
+
+#~ msgid "Print Preview"
+#~ msgstr "Vista prèvia a la impressió"
+
+#~ msgid "Print the workbook"
+#~ msgstr "Imprimeix el llibre de treball"
+
+#~ msgid "Radio Button"
+#~ msgstr "Botó de ràdio"
 
 #
 #, fuzzy
-#~ msgid "How to handle unknown characters"
-#~ msgstr "Caràcters desconeguts:"
+#~ msgid "Ranks and _Percentiles..."
+#~ msgstr "Rangs i _Percentils"
+
+#~ msgid "Right align"
+#~ msgstr "Alinea a la dreta"
+
+#~ msgid "Save"
+#~ msgstr "Desa"
+
+#
+#~ msgid "Save _As..."
+#~ msgstr "_Anomena i Desa..."
+
+#~ msgid "Search and Replace..."
+#~ msgstr "Cerca i reemplaça..."
+
+#
+#~ msgid "Search..."
+#~ msgstr "Cerca..."
+
+#~ msgid "Set the format of the selected cells to monetary"
+#~ msgstr "Defineix el format de les cel·les seleccionades com a monetari"
+
+#~ msgid "Set the format of the selected cells to percentage"
+#~ msgstr "Defineix el format de les cel·les seleccionades com a percentatge"
 
 #, fuzzy
-#~ msgid "_Split"
-#~ msgstr "Divideix"
+#~ msgid "Spin Button"
+#~ msgstr "Botó"
 
-#, fuzzy
-#~ msgid "_Widen"
-#~ msgstr "_Oculta"
+#~ msgid "Two Factor Analysis of Variance"
+#~ msgstr "Dues Anàlisi de Factor de la Variança"
 
-#, fuzzy
-#~ msgid "_Narrow"
-#~ msgstr "Fletxa"
-
-#~ msgid ""
-#~ "Trim leading and trailing spaces from each column, if you are unsure you "
-#~ "should leave this at the default setting."
-#~ msgstr ""
-#~ "Suprimeix els espais de davant i de cua per a cada columna, si no esteu "
-#~ "segurs hauríeu de deixar-ho al paràmetre per defecte."
-
-#~ msgid "_Insert..."
-#~ msgstr "_Insereix..."
+#~ msgid "_Close"
+#~ msgstr "_Tanca"
 
 #~ msgid "_Delete..."
 #~ msgstr "_Suprimeix"
+
+#
+#~ msgid "_Function..."
+#~ msgstr "_Funció..."
+
+#, fuzzy
+#~ msgid "_Known Variances or Large Sample: Z-Test..."
+#~ msgstr "_Variances Conegudes o Mostres Grans: Z-Test"
+
+#~ msgid "_New"
+#~ msgstr "_Nou"
+
+#
+#~ msgid "_Object..."
+#~ msgstr "_Objecte..."
+
+#
+#~ msgid "_Open..."
+#~ msgstr "_Obre..."
+
+#
+#~ msgid "_Quit"
+#~ msgstr "_Sortir"
+
+#~ msgid "_Save"
+#~ msgstr "_Desa"
+
+#
+#~ msgid "_Shaped Object"
+#~ msgstr "_Objecte amb Forma"
+
+#
+#~ msgid "About the Gnumeric spreadsheet program"
+#~ msgstr "Quant al programa de fulla de càlcul Gnumeric"
+
+#~ msgid "C_lear Cells"
+#~ msgstr "Esborra Ce_l·les"
+
+#
+#~ msgid "Cu_t Cells"
+#~ msgstr "Re_talla les Cel·les"
+
+#
+#~ msgid "Print Previe_w..."
+#~ msgstr "Vista prè_via a la impressió..."
+
+#
+#~ msgid "Search Workbook"
+#~ msgstr "Cerca en el Llibre de treball"
+
+#
+#~ msgid "View descriptive information"
+#~ msgstr "Mostra la Informació descriptiva"
+
+#~ msgid "_Copy Cells"
+#~ msgstr "_Còpia les cel·les"
+
+#~ msgid "_Paste Cells"
+#~ msgstr "_Enganxa les Cel·les"
 
 #
 #~ msgid "Raise object"
@@ -33848,6 +34114,11 @@ msgstr "Nom de la plantilla"
 
 #~ msgid "Lower object to bottom"
 #~ msgstr "Objecte de sota al final"
+
+#
+#, fuzzy
+#~ msgid "_Map:"
+#~ msgstr "_Buit:"
 
 #~ msgid ""
 #~ "Show\n"
@@ -33862,165 +34133,26 @@ msgstr "Nom de la plantilla"
 #~ msgid "_Increase"
 #~ msgstr "_Incrementa"
 
-#~ msgid "Send _Email"
-#~ msgstr "Envia _Correu"
-
-#~ msgid "All"
-#~ msgstr "Tot"
-
-#~ msgid "Formats"
-#~ msgstr "Formats"
-
-#~ msgid "Paste special"
-#~ msgstr "Enganxa de forma especial"
-
-#~ msgid "Print setup"
-#~ msgstr "Configuració d'impressió"
-
-#~ msgid "Arrow Length:"
-#~ msgstr "Llargada Fletxa:"
-
-#~ msgid "Arrow Tip:"
-#~ msgstr "Punta de la Fletxa:"
-
-#~ msgid "Arrow Width:"
-#~ msgstr "Amplada Fletxa:"
-
-#~ msgid "Distance from tip of arrowhead to the center point"
-#~ msgstr ""
-#~ "Distància des de l'extrem de la punta de la fletxa fins al centre del punt"
-
-#~ msgid ""
-#~ "Distance from tip of arrowhead to trailing point, measured along shaft"
-#~ msgstr ""
-#~ "Distància des de la punta de la fletxa fins el punt arrossegat, mesurat "
-#~ "através de la punta"
-
-#~ msgid "Distance of trailing point from outside edge of shaft"
-#~ msgstr "Distància del punt arrossegat des de fora del canto de la punta"
-
-#~ msgid "Border _Width:"
-#~ msgstr "Amplada del marge"
-
-#~ msgid "Configure Filled Object"
-#~ msgstr "Configura els Objectes Omplenats"
-
-#
-#~ msgid "F_ill Color:"
-#~ msgstr "Color de farc_iment:"
-
-#~ msgid "O_utline Color:"
-#~ msgstr "C_olor del contorn"
-
-#
-#~ msgid "Open..."
-#~ msgstr "Obre..."
-
-#
-#~ msgid "Transparent"
-#~ msgstr "Transposa"
-
-#~ msgid "The 2 input ranges must have the same size."
-#~ msgstr "Els 2 rangs d'entrada han de tenir la mateixa mida"
-
-#~ msgid ""
-#~ "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean "
-#~ "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-"
-#~ "tail/t Critical two-tail"
-#~ msgstr ""
-#~ "/Mitjana/Variança/Observacions/Correlació de Pearson/Diferència mitjana "
-#~ "hipotètica/df/Estadístic t/P (T<=t) una cua/t crítica una cua/P (T<=t) "
-#~ "dues cues/t crítica dues cues"
-
-#
-#~ msgid "Search..."
-#~ msgstr "Cerca..."
-
-#~ msgid "Search and Replace..."
-#~ msgstr "Cerca i reemplaça..."
-
-#, fuzzy
-#~ msgid "_Known Variances or Large Sample: Z-Test..."
-#~ msgstr "_Variances Conegudes o Mostres Grans: Z-Test"
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "Quatro Pro"
-#~ msgstr "Quatro Pro"
-
-#
-#, fuzzy
-#~ msgid "_Map:"
-#~ msgstr "_Buit:"
-
-#~ msgid "This locale uses '\\' rather than ',' to separate array columns."
-#~ msgstr ""
-#~ "Aquesta configuració local usa '\\' en comptes de ',' per a separar les "
-#~ "columnes d'arrays."
-
-#~ msgid "This locale uses ',' rather than '\\' to separate array columns."
-#~ msgstr ""
-#~ "Aquesta configuració local usa ',' en comptes de '\\' per a separar les "
-#~ "columnes d'arrays."
-
-#~ msgid "A data set is empty"
-#~ msgstr "Una entrada de dada està buida"
-
-#~ msgid "Left align"
-#~ msgstr "Alinea a l'esquerra"
-
-#~ msgid "Center"
-#~ msgstr "Centra"
-
-#~ msgid "Right align"
-#~ msgstr "Alinea a la dreta"
-
-#~ msgid "Center across the selected cells"
-#~ msgstr "Centra a través de les cel·les seleccionades"
-
-#~ msgid "Gnumeric XML file format"
-#~ msgstr "Format de fitxer Gnumeric XML"
-
-#~ msgid "Format as alternative Number"
-#~ msgstr "Format com a Número alternatiu"
-
-#, fuzzy
-#~ msgid "(Filename in invalid encoding)"
-#~ msgstr "El valor donat en 'a Valor:' no és vàlid."
-
-#~ msgid "Format as Money"
-#~ msgstr "Format com els Diners"
-
-#~ msgid "Launch the Chart Guru"
-#~ msgstr "Executa el Guru dels gràfics"
-
-#~ msgid "Money"
-#~ msgstr "Diners"
-
-#~ msgid "Set the format of the selected cells to monetary"
-#~ msgstr "Defineix el format de les cel·les seleccionades com a monetari"
-
-#~ msgid "Percent"
-#~ msgstr "Percent"
-
-#~ msgid "Set the format of the selected cells to percentage"
-#~ msgstr "Defineix el format de les cel·les seleccionades com a percentatge"
-
-#~ msgid "x,n,M,N"
-#~ msgstr "x,n,M,N"
-
 #
 #, fuzzy
 #~ msgid "2 Color"
 #~ msgstr "Color"
 
+#, fuzzy
+#~ msgid "Fill from start color to a darker/lighter version of that color"
+#~ msgstr ""
+#~ "Omple des del color de començament fins a una versió més fosca/clara "
+#~ "d'aquest color"
+
+#~ msgid "Fill from start color to end color"
+#~ msgstr "Omple des del color de començament fins al final"
+
 #~ msgid "Gradient"
 #~ msgstr "Pendent"
 
-#
-#~ msgid "Image"
-#~ msgstr "Imatge"
+#, fuzzy
+#~ msgid "wallpaper"
+#~ msgstr "Fons de l'escriptori"
 
 #, fuzzy
 #~ msgid "1.5d Charts"
@@ -34029,6 +34161,30 @@ msgstr "Nom de la plantilla"
 #, fuzzy
 #~ msgid "XY Charts"
 #~ msgstr "Gràfics de pastís."
+
+#
+#~ msgid "A_utofit Columns"
+#~ msgstr "A_utoajusta les Columnes"
+
+#
+#~ msgid "List _Range:"
+#~ msgstr "_Rang de la llista:"
+
+#~ msgid "N_ew Workbook"
+#~ msgstr "N_ou Llibre de treball"
+
+#~ msgid "_New Sheet"
+#~ msgstr "_Nou full"
+
+#~ msgid "_Output Range:"
+#~ msgstr "_Rang de Sortida:"
+
+#~ msgid "Retain Output Range Formatting"
+#~ msgstr "Formatant de Rang de Sortida Retingut"
+
+#
+#~ msgid "_Alpha = "
+#~ msgstr "_Alfa = "
 
 #~ msgid "begins with"
 #~ msgstr "comença amb"
@@ -34111,356 +34267,16 @@ msgstr "Nom de la plantilla"
 #~ msgid "val >= bound                  (greater than or equal)"
 #~ msgstr "val >= límit                  (més gran que o igual a)"
 
-#, fuzzy
-#~ msgid "SUM"
-#~ msgstr "RESUM"
+#
+#~ msgid "_Right-Left"
+#~ msgstr "_Dreta-Esquerra"
 
 #~ msgid "Formulas"
 #~ msgstr "Fórmules"
 
-#~ msgid "Always"
-#~ msgstr "Sempre"
-
-#~ msgid "Bang (!)"
-#~ msgstr "Exclamació (!)"
-
-#~ msgid "Colon (:)"
-#~ msgstr "Dos punts (:)"
-
-#~ msgid "Comma (,)"
-#~ msgstr "Coma (,)"
-
-#~ msgid "Escape"
-#~ msgstr "Escape"
-
-#~ msgid "Hyphen (-)"
-#~ msgstr "Guió (-)"
-
-#~ msgid "Macintosh (carriage return)"
-#~ msgstr "Macintosh (retorn de carro)"
-
-#~ msgid "Never"
-#~ msgstr "Mai"
-
-#~ msgid "Pipe (|)"
-#~ msgstr "Barra vertical (|)"
-
-#~ msgid "Semicolon (;)"
-#~ msgstr "Punt i coma (;)"
-
-#~ msgid "Slash (/)"
-#~ msgstr "Barra diagonal (/)"
-
-#~ msgid "Space"
-#~ msgstr "Espai"
-
-#~ msgid "Unix (linefeed)"
-#~ msgstr "Unix (nova línia)"
-
-#~ msgid "Always (Both Sides)"
-#~ msgstr "Sempre (Tots els costats)"
-
-#~ msgid "On left side only"
-#~ msgstr "A l'esquerra només"
-
-#~ msgid "On right side only"
-#~ msgstr "A la dreta només"
-
-#
 #, fuzzy
-#~ msgid "_Series"
-#~ msgstr "_Sèries"
-
-#~ msgid "Define names"
-#~ msgstr "Defineix els noms"
-
-#
-#~ msgid "Definition"
-#~ msgstr "Definició"
-
-#
-#, fuzzy
-#~ msgid "Size of _sample:"
-#~ msgstr "Mida de la _Mostra:"
-
-#
-#~ msgid "_Random Numbers"
-#~ msgstr "Números aleatoris:"
-
-#~ msgid "="
-#~ msgstr "="
-
-#~ msgid "Int"
-#~ msgstr "Enter"
-
-#~ msgid ""
-#~ "Please enter a file name,\n"
-#~ "not a directory"
-#~ msgstr ""
-#~ "Introduïu un nom de fitxer,\n"
-#~ "no un directori"
-
-#~ msgid ""
-#~ "This version of Gnumeric has been compiled with inadequate precision in "
-#~ "modfgnum."
-#~ msgstr ""
-#~ "Aquesta versió del Gnumeric ha estat compilada amb una precisió "
-#~ "inadequadaen modfgnum."
-
-#
-#~ msgid ""
-#~ "This version of Gnumeric has been compiled with inadequate precision in "
-#~ "frexpgnum."
-#~ msgstr ""
-#~ "Aquesta versió del Gnumeric ha estat compilada amb la precisió inadequada "
-#~ "enfrexpgnum."
-
-#, fuzzy
-#~ msgid "Formatting"
-#~ msgstr "F_ormat"
-
-#~ msgid "File \"%s\" has unknown format."
-#~ msgstr "El fitxer \"%s\" té un format desconegut."
-
-#, fuzzy
-#~ msgid "The filename given is not valid in the current encoding."
-#~ msgstr "El valor donat en 'a Valor:' no és vàlid."
-
-#
-#~ msgid "Invalid password"
-#~ msgstr "Contrasenya no vàlida"
-
-# src/functions/fn-information.c:546 src/functions/fn-string.c:67
-# src/functions/fn-string.c:94 src/functions/fn-string.c:119
-# src/functions/fn-string.c:184 src/functions/fn-string.c:222
-# src/functions/fn-string.c:308 src/functions/fn-string.c:396
-# src/functions/fn-string.c:434 src/functions/fn-string.c:626
-# src/functions/fn-string.c:674 src/functions/fn-string.c:774
-# src/functions/fn-string.c:805
-#~ msgid "Type mismatch"
-#~ msgstr "Tipus discordant"
-
-#~ msgid "Add a scenario"
-#~ msgstr "Afegeix un escenari"
-
-#~ msgid "Align the contents to the left and decrease the indent"
-#~ msgstr "Alinea els continguts a l'esquerra i disminueix el sagnat"
-
-#~ msgid "Align the contents to the left and increase the indent"
-#~ msgstr "Alinea els continguts a l'esquerra i incrementa el sagnat"
-
-#
-#~ msgid "Chart Guru"
-#~ msgstr "Guru dels dibuixos"
-
-#~ msgid "Comparing two population means for two paired samples: t-test"
-#~ msgstr ""
-#~ "Comparant dues mitjanes de població amb dues mostres aparellades: t-test "
-
-#~ msgid ""
-#~ "Comparing two population means for two unpaired samples from populations "
-#~ "with equal variances: t-test"
-#~ msgstr ""
-#~ "Comparant dues mitjanes de població amb dues mostres desaparellades des "
-#~ "de pop. amb equivalent var: t-test"
-
-#~ msgid ""
-#~ "Comparing two population means for two unpaired samples from populations "
-#~ "with unequal variances: t-test"
-#~ msgstr ""
-#~ "Comparant dues mitjanes de població amb dues mostres desaparellades des "
-#~ "de pop. amb desiguals variances: t-test"
-
-#~ msgid ""
-#~ "Comparing two population means from populations with known variances or "
-#~ "using a large sample: z-test"
-#~ msgstr ""
-#~ "Comparant dues mitjanes de població des de pop. amb variances conegudes o "
-#~ "utilitzant una mostra gran: z-test"
-
-#~ msgid "Copy the selection to the clipboard"
-#~ msgstr "Copia la selecció al porta-retalls"
-
-#~ msgid "Create a new shared view of the workbook"
-#~ msgstr "Crea una nova vista compartida del llibre de treball"
-
-#~ msgid "Cut the selection to the clipboard"
-#~ msgstr "Retalla la selecció al porta-retalls"
-
-#
-#~ msgid "Exponential smoothing"
-#~ msgstr "Exponencial"
-
-#~ msgid "Font selector"
-#~ msgstr "Selector de tipus de lletra"
-
-#
-#~ msgid "Hyperlink"
-#~ msgstr "HiperEnllaç"
-
-#~ msgid "Insert Component"
-#~ msgstr "Insereix un Element"
-
-#~ msgid "Insert Shaped Component"
-#~ msgstr "Insereix un component amb Forma"
-
-#
-#~ msgid "Insert a function into the selected cell"
-#~ msgstr "Insereix l'hora actual a les cel·les seleccionades"
-
-#~ msgid "Insert a shaped component into the spreadsheet"
-#~ msgstr "Insereix un element amb forma al full de difusió"
-
-#~ msgid "Insert an object into the spreadsheet"
-#~ msgstr "Insereix un objecte al full de difusió"
-
-#~ msgid "Inserts a Bonobo object"
-#~ msgstr "Insereix un objecte Bonobo"
-
-#
-#~ msgid "Inserts a Shaped Bonobo object"
-#~ msgstr "Insereix un objecte Bonobo amb forma"
-
-#
-#~ msgid "Moving average"
-#~ msgstr "Mitjana mòbil"
-
-#~ msgid "New"
-#~ msgstr "Nou"
-
-#~ msgid "One Factor Analysis of Variance"
-#~ msgstr "Una Anàlisi de Factor de la Variança"
-
-#~ msgid "P_aste Special..."
-#~ msgstr "E_nganxa de forma Especial..."
-
-#~ msgid "Paste the contents of the clipboard"
-#~ msgstr "Enganxa els continguts del porta-retalls"
-
-#~ msgid "Print"
-#~ msgstr "Imprimeix"
-
-#
-#~ msgid "Print Pre_view..."
-#~ msgstr "Vista prè_via a la impressió..."
-
-#~ msgid "Print Preview"
-#~ msgstr "Vista prèvia a la impressió"
-
-#~ msgid "Print the workbook"
-#~ msgstr "Imprimeix el llibre de treball"
-
-#~ msgid "Radio Button"
-#~ msgstr "Botó de ràdio"
-
-#
-#, fuzzy
-#~ msgid "Ranks and _Percentiles..."
-#~ msgstr "Rangs i _Percentils"
-
-#~ msgid "Save"
-#~ msgstr "Desa"
-
-#
-#~ msgid "Save _As..."
-#~ msgstr "_Anomena i Desa..."
-
-#, fuzzy
-#~ msgid "Spin Button"
-#~ msgstr "Botó"
-
-#~ msgid "Two Factor Analysis of Variance"
-#~ msgstr "Dues Anàlisi de Factor de la Variança"
-
-#~ msgid "_Close"
-#~ msgstr "_Tanca"
-
-#
-#~ msgid "_Function..."
-#~ msgstr "_Funció..."
-
-#~ msgid "_New"
-#~ msgstr "_Nou"
-
-#
-#~ msgid "_Object..."
-#~ msgstr "_Objecte..."
-
-#
-#~ msgid "_Open..."
-#~ msgstr "_Obre..."
-
-#
-#~ msgid "_Print..."
-#~ msgstr "_Imprimeix..."
-
-#
-#~ msgid "_Quit"
-#~ msgstr "_Sortir"
-
-#~ msgid "_Save"
-#~ msgstr "_Desa"
-
-#
-#~ msgid "_Shaped Object"
-#~ msgstr "_Objecte amb Forma"
-
-#
-#~ msgid "About the Gnumeric spreadsheet program"
-#~ msgstr "Sobre el programa de fulla de càlcul Gnumeric"
-
-#~ msgid "C_lear Cells"
-#~ msgstr "Esborra Ce_l·les"
-
-#
-#~ msgid "Cu_t Cells"
-#~ msgstr "Re_talla les Cel·les"
-
-#
-#~ msgid "Print Previe_w..."
-#~ msgstr "Vista prè_via a la impressió..."
-
-#
-#~ msgid "Search Workbook"
-#~ msgstr "Cerca en el Llibre de treball"
-
-#
-#~ msgid "View descriptive information"
-#~ msgstr "Mostra la Informació descriptiva"
-
-#~ msgid "_Copy Cells"
-#~ msgstr "_Còpia les cel·les"
-
-#~ msgid "_Paste Cells"
-#~ msgstr "_Enganxa les Cel·les"
-
-#
-#~ msgid "A_utofit Columns"
-#~ msgstr "A_utoajusta les Columnes"
-
-#
-#~ msgid "List _Range:"
-#~ msgstr "_Rang de la llista:"
-
-#~ msgid "N_ew Workbook"
-#~ msgstr "N_ou Llibre de treball"
-
-#~ msgid "_New Sheet"
-#~ msgstr "_Nou full"
-
-#~ msgid "_Output Range:"
-#~ msgstr "_Rang de Sortida:"
-
-#~ msgid "Retain Output Range Formatting"
-#~ msgstr "Formatant de Rang de Sortida Retingut"
-
-#
-#~ msgid "_Alpha = "
-#~ msgstr "_Alfa = "
-
-#
-#~ msgid "_Right-Left"
-#~ msgstr "_Dreta-Esquerra"
+#~ msgid "SUM"
+#~ msgstr "RESUM"
 
 #
 #~ msgid "_Put:"
@@ -34500,6 +34316,9 @@ msgstr "Nom de la plantilla"
 #~ msgid "Jakub Jelinek, Gnumeric hacker."
 #~ msgstr "Jakub Jelinek, expert en Gnumeric."
 
+#~ msgid "Chris Lahey, number format engine."
+#~ msgstr "Chris Lahey, motor de format de nombres."
+
 #~ msgid "Michael Meeks, Excel and OLE2 importing."
 #~ msgstr "Michael Meeks, importació d'Excel i OLE2."
 
@@ -34532,6 +34351,27 @@ msgstr "Nom de la plantilla"
 #~ msgid "_Variable 2 Range"
 #~ msgstr "_Abast de la variable 2"
 
+#~ msgid "Send _Email"
+#~ msgstr "Envia _Correu"
+
+#~ msgid "All"
+#~ msgstr "Tot"
+
+#~ msgid "Formats"
+#~ msgstr "Formats"
+
+#~ msgid "Paste special"
+#~ msgstr "Enganxa de forma especial"
+
+#
+#, fuzzy
+#~ msgid "Various"
+#~ msgstr "Variables"
+
+#, fuzzy
+#~ msgid "Internal"
+#~ msgstr "In_terval:"
+
 #~ msgid "_Inputs:"
 #~ msgstr "_Entrades:"
 
@@ -34555,11 +34395,23 @@ msgstr "Nom de la plantilla"
 #~ msgid "Add all ->"
 #~ msgstr "Afegeix-los tots ->"
 
+#~ msgid "Always"
+#~ msgstr "Sempre"
+
 #~ msgid "Available sheets"
 #~ msgstr "Fulls disponibles"
 
+#~ msgid "Bang (!)"
+#~ msgstr "Exclamació (!)"
+
 #~ msgid "Character encoding:"
 #~ msgstr "Codificació dels caràcters:"
+
+#~ msgid "Colon (:)"
+#~ msgstr "Dos punts (:)"
+
+#~ msgid "Comma (,)"
+#~ msgstr "Coma (,)"
 
 #~ msgid ""
 #~ "Customize the export format. The line terminator is the character "
@@ -34571,8 +34423,23 @@ msgstr "Nom de la plantilla"
 #~ "que s'inclogui el caràcter de cometes per cada cel·la depèn del valor "
 #~ "escollit per les cometes."
 
+#~ msgid "Escape"
+#~ msgstr "Escape"
+
 #~ msgid "Exporting structured text"
 #~ msgstr "S'està exportant text estructurat"
+
+#~ msgid "Hyphen (-)"
+#~ msgstr "Guió (-)"
+
+#~ msgid "Macintosh (carriage return)"
+#~ msgstr "Macintosh (retorn de carro)"
+
+#~ msgid "Never"
+#~ msgstr "Mai"
+
+#~ msgid "Pipe (|)"
+#~ msgstr "Barra vertical (|)"
 
 #~ msgid ""
 #~ "Please select which sheets you want to export from the current workbook. "
@@ -34581,8 +34448,51 @@ msgstr "Nom de la plantilla"
 #~ "Seleccioneu quins fulls voleu exportar del llibre de treball actual. "
 #~ "Seran exportats en el mateix ordre que la llista d'exportació."
 
+#~ msgid "Semicolon (;)"
+#~ msgstr "Punt i coma (;)"
+
 #~ msgid "Sheets to export"
 #~ msgstr "Fulls per exportar"
+
+#~ msgid "Slash (/)"
+#~ msgstr "Barra diagonal (/)"
+
+#~ msgid "Space"
+#~ msgstr "Espai"
+
+#~ msgid "Unix (linefeed)"
+#~ msgstr "Unix (nova línia)"
+
+#, fuzzy
+#~ msgid "_Split"
+#~ msgstr "Divideix"
+
+#, fuzzy
+#~ msgid "_Widen"
+#~ msgstr "_Oculta"
+
+#, fuzzy
+#~ msgid "_Narrow"
+#~ msgstr "Fletxa"
+
+#~ msgid "At most 256 columns can be imported at one time."
+#~ msgstr "Com a màxim es poden importat de cop 256 columnes."
+
+#~ msgid "Always (Both Sides)"
+#~ msgstr "Sempre (Tots els costats)"
+
+#~ msgid "On left side only"
+#~ msgstr "A l'esquerra només"
+
+#~ msgid "On right side only"
+#~ msgstr "A la dreta només"
+
+#~ msgid ""
+#~ "Trim leading and trailing spaces from each column, if you are unsure you "
+#~ "should leave this at the default setting."
+#~ msgstr ""
+#~ "Suprimeix els espais de davant i de cua per a cada columna, si no esteu "
+#~ "segurs hauríeu de deixar-ho al paràmetre per defecte."
 
 #~ msgid ""
 #~ "Multi-display support in Gnumeric has been turned off due to multiple "
@@ -34592,6 +34502,11 @@ msgstr "Nom de la plantilla"
 #~ "El suport multi-display en Gnumeric s'ha eliminat degut a múltiples "
 #~ "errors en GTK+, libgnomeui, libgnomeprintui, libbonoboui, i Gnumeric cap "
 #~ "al May 2003."
+
+#
+#, fuzzy
+#~ msgid "_Series"
+#~ msgstr "_Sèries"
 
 #, fuzzy
 #~ msgid "a _Column"
@@ -34617,15 +34532,29 @@ msgstr "Nom de la plantilla"
 #~ msgid "_Clear Output Range"
 #~ msgstr "_Esborra el Rang de Sortida"
 
+#~ msgid "Define names"
+#~ msgstr "Defineix els noms"
+
 #
-#~ msgid "_Alpha ="
-#~ msgstr "_Alfa ="
+#~ msgid "Definition"
+#~ msgstr "Definició"
 
 #~ msgid "Page order"
 #~ msgstr "Ordre de les pàgines"
 
+#~ msgid "Print setup"
+#~ msgstr "Configuració d'impressió"
+
 #~ msgid "Scale"
 #~ msgstr "Escala"
+
+#
+#~ msgid "Size of _Sample:"
+#~ msgstr "Mida de la _Mostra:"
+
+#
+#~ msgid "_Random Numbers"
+#~ msgstr "Números aleatoris:"
 
 #, fuzzy
 #~ msgid "Inputs:"
@@ -34645,11 +34574,52 @@ msgstr "Nom de la plantilla"
 #~ msgid "_Variables"
 #~ msgstr "Variables"
 
+#~ msgid "Arrow Length:"
+#~ msgstr "Llargada Fletxa:"
+
+#~ msgid "Arrow Tip:"
+#~ msgstr "Punta de la Fletxa:"
+
+#~ msgid "Arrow Width:"
+#~ msgstr "Amplada Fletxa:"
+
+#~ msgid "Distance from tip of arrowhead to the center point"
+#~ msgstr ""
+#~ "Distància des de l'extrem de la punta de la fletxa fins al centre del punt"
+
+#~ msgid ""
+#~ "Distance from tip of arrowhead to trailing point, measured along shaft"
+#~ msgstr ""
+#~ "Distància des de la punta de la fletxa fins el punt arrossegat, mesurat "
+#~ "através de la punta"
+
+#~ msgid "Distance of trailing point from outside edge of shaft"
+#~ msgstr "Distància del punt arrossegat des de fora del canto de la punta"
+
+#~ msgid "Border _Width:"
+#~ msgstr "Amplada del marge"
+
+#~ msgid "Configure Filled Object"
+#~ msgstr "Configura els Objectes Omplenats"
+
+#
+#~ msgid "F_ill Color:"
+#~ msgstr "Color de farc_iment:"
+
+#~ msgid "O_utline Color:"
+#~ msgstr "C_olor del contorn"
+
 #~ msgid "<="
 #~ msgstr "<="
 
+#~ msgid "="
+#~ msgstr "="
+
 #~ msgid ">="
 #~ msgstr ">="
+
+#~ msgid "Int"
+#~ msgstr "Enter"
 
 #~ msgid "Elsewhere"
 #~ msgstr "En una altra part:"
@@ -34666,8 +34636,43 @@ msgstr "Nom de la plantilla"
 #~ msgid "_Unshared"
 #~ msgstr "_Descomparteix"
 
+#~ msgid "Format as alternative Number"
+#~ msgstr "Format com a Número alternatiu"
+
+#~ msgid ""
+#~ "Please enter a file name,\n"
+#~ "not a directory"
+#~ msgstr ""
+#~ "Introduïu un nom de fitxer,\n"
+#~ "no un directori"
+
 #~ msgid "Save workbook as"
 #~ msgstr "Desa el llibre de treball com"
+
+#~ msgid ""
+#~ "This version of Gnumeric has been compiled with inadequate precision in "
+#~ "modfgnum."
+#~ msgstr ""
+#~ "Aquesta versió del Gnumeric ha estat compilada amb una precisió "
+#~ "inadequadaen modfgnum."
+
+#
+#~ msgid ""
+#~ "This version of Gnumeric has been compiled with inadequate precision in "
+#~ "frexpgnum."
+#~ msgstr ""
+#~ "Aquesta versió del Gnumeric ha estat compilada amb la precisió inadequada "
+#~ "enfrexpgnum."
+
+#~ msgid "This locale uses '\\' rather than ',' to separate array columns."
+#~ msgstr ""
+#~ "Aquesta configuració local usa '\\' en comptes de ',' per a separar les "
+#~ "columnes d'arrays."
+
+#~ msgid "This locale uses ',' rather than '\\' to separate array columns."
+#~ msgstr ""
+#~ "Aquesta configuració local usa ',' en comptes de '\\' per a separar les "
+#~ "columnes d'arrays."
 
 #~ msgid "Unable to unmap the file, error : %s"
 #~ msgstr "No es pot fer un unmap al fitxer, error : %s"
@@ -34680,6 +34685,39 @@ msgstr "Nom de la plantilla"
 
 #~ msgid "cannot be performed with multiple ranges selected"
 #~ msgstr "No es pot realitzar amb seleccions d'àmbit múltiples"
+
+#~ msgid "_Insert..."
+#~ msgstr "_Insereix..."
+
+#
+#~ msgid "Open..."
+#~ msgstr "Obre..."
+
+#~ msgid "Save graph as image"
+#~ msgstr "Desa el gràfic com a imatge"
+
+#~ msgid "Sorry, gnumeric can only save graphs as png images"
+#~ msgstr ""
+#~ "Perdoneu, però el Gnumeric només pot desar el gràfics com a imatges png"
+
+#
+#~ msgid "Transparent"
+#~ msgstr "Transposa"
+
+#~ msgid "The 2 input ranges must have the same size."
+#~ msgstr "Els 2 rangs d'entrada han de tenir la mateixa mida"
+
+#~ msgid ""
+#~ "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean "
+#~ "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-"
+#~ "tail/t Critical two-tail"
+#~ msgstr ""
+#~ "/Mitjana/Variança/Observacions/Correlació de Pearson/Diferència mitjana "
+#~ "hipotètica/df/Estadístic t/P (T<=t) una cua/t crítica una cua/P (T<=t) "
+#~ "dues cues/t crítica dues cues"
+
+#~ msgid "A data set is empty"
+#~ msgstr "Una entrada de dada està buida"
 
 #, fuzzy
 #~ msgid "Choose Custom Color"
@@ -34702,6 +34740,9 @@ msgstr "Nom de la plantilla"
 #~ msgid "Undo the operation"
 #~ msgstr "Desfés l'operació"
 
+#~ msgid "File \"%s\" has unknown format."
+#~ msgstr "El fitxer \"%s\" té un format desconegut."
+
 #~ msgid "Send"
 #~ msgstr "Envia"
 
@@ -34714,18 +34755,47 @@ msgstr "Nom de la plantilla"
 #~ msgid "Set Font Size"
 #~ msgstr "Seleccioneu la Mida de la lletra"
 
+#~ msgid "Format as Money"
+#~ msgstr "Format com els Diners"
+
+#, fuzzy
+#~ msgid "The filename given is not valid in the current encoding."
+#~ msgstr "El valor donat en 'a Valor:' no és vàlid."
+
+#~ msgid "Gnumeric XML file format"
+#~ msgstr "Format de fitxer Gnumeric XML"
+
 #~ msgid "Failure parsing AutoFilter."
 #~ msgstr "S'ha produït un error analitzant l'autofiltre."
+
+#
+#~ msgid "Invalid password"
+#~ msgstr "Contrasenya no vàlida"
 
 #~ msgid "Imported %s"
 #~ msgstr "S'ha importat %s"
 
+#~ msgid "Sans Regular"
+#~ msgstr "Sans Regular"
+
 #~ msgid "TODO : Unfinished"
 #~ msgstr "PERFER: Inacabat"
+
+#~ msgid "Interpolate between multi-dimensional points."
+#~ msgstr "Interpola entre punts multi-dimensionals."
 
 #, fuzzy
 #~ msgid "Interpolated points"
 #~ msgstr "Iteracions"
+
+#~ msgid "Linearly interpolated points"
+#~ msgstr "Punts interpolats linialment"
+
+#~ msgid "Marked linearly interpolated points"
+#~ msgstr "Punts interpolats linialment marcats"
+
+#~ msgid "Plot one series per axis."
+#~ msgstr "Dibuixa una sèrie per eix."
 
 #
 #~ msgid "Results:"
@@ -34773,355 +34843,3 @@ msgstr "Nom de la plantilla"
 
 #~ msgid "Sheet 1"
 #~ msgstr "Pàgina 1"
-
-#
-#, fuzzy
-#~ msgid "XYPlot"
-#~ msgstr "Traçar"
-
-# src/functions/fn-financial.c:535
-#
-#, fuzzy
-#~ msgid ""
-#~ "@FUNCTION=AMORDEGRC\n"
-#~ "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
-#~ "basis])\n"
-#~ "@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting "
-#~ "period.\n"
-#~ "\n"
-#~ "@settlement is the settlement date of the security. @maturity is the "
-#~ "maturity date of the security. @basis is the type of day counting system "
-#~ "you want to use:\n"
-#~ "\n"
-#~ "  0  US 30/360\n"
-#~ "  1  actual days/actual days\n"
-#~ "  2  actual days/360\n"
-#~ "  3  actual days/365\n"
-#~ "  4  European 30/360\n"
-#~ "\n"
-#~ "* If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! error.\n"
-#~ "* If @basis is omitted, US 30/360 is applied.\n"
-#~ "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=AMORDEGRC\n"
-#~ "@SYNTAX=AMORDEGRC(cost,data_d'adquisició,primer_període,salvament,període,"
-#~ "taxa[,base])\n"
-#~ "@DESCRIPTION=AMORDEGRC retorna la depreciació per cada període comptat."
-#~ "@pagament és la data de pagament d'un títol. @venciment és la data de "
-#~ "venciment d'un títol. @base és la manera de comptar els dies que volem "
-#~ "utilitzar:\n"
-#~ "\n"
-#~ "0  US 30/360\n"
-#~ "1  dies actuals/dies actuals\n"
-#~ "2  dies actuals/360\n"
-#~ "3  dies actuals/365\n"
-#~ "4  Europeu 30/360\n"
-#~ "\n"
-#~ "Si @frequència no es correspon amb 1,2, o 4, AMORDEGRC retorna un error "
-#~ "detipus #NUM!. Si @base s'omet, s'aplica el sistema US 30/360. Si @base "
-#~ "noestà entre 0 i 4, es torna un error de tipus #NUM!\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-# src/functions/fn-financial.c:535
-#
-#, fuzzy
-#~ msgid ""
-#~ "@FUNCTION=AMORLINC\n"
-#~ "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
-#~ "basis])\n"
-#~ "@DESCRIPTION=AMORLINC returns the depreciation for each accounting "
-#~ "period.\n"
-#~ "\n"
-#~ "@settlement is the settlement date of the security. @maturity is the "
-#~ "maturity date of the security. @basis is the type of day counting system "
-#~ "you want to use:\n"
-#~ "\n"
-#~ "  0  US 30/360\n"
-#~ "  1  actual days/actual days\n"
-#~ "  2  actual days/360\n"
-#~ "  3  actual days/365\n"
-#~ "  4  European 30/360\n"
-#~ "\n"
-#~ "* If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! error.\n"
-#~ "* If @basis is omitted, US 30/360 is applied.\n"
-#~ "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=AMORLINC\n"
-#~ "@SYNTAX=AMORLINC(cost,data_d'adquisició,primer_període,salvament,període,"
-#~ "taxa[,base])\n"
-#~ "@DESCRIPTION=AMORLINC retorna la depreciació per cada període a comptar."
-#~ "@pagament és la data de pagament d'un títol. @venciment és la data de "
-#~ "venciment d'un títol. @base és la manera de comptar els dies que volem "
-#~ "utilitzar:\n"
-#~ "\n"
-#~ "0  US 30/360\n"
-#~ "1  dies actuals/dies actuals\n"
-#~ "2  dies actuals/360\n"
-#~ "3  dies actuals/365\n"
-#~ "4  Europeu 30/360\n"
-#~ "\n"
-#~ "Si @frequència no es correspon amb 1,2, o 4, AMORLINC retorna un error "
-#~ "detipus #NUM!. Si @base s'omet, s'aplica el sistema US 30/360. Si @base "
-#~ "noestà entre 0 i 4, es torna un error de tipus #NUM!\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-# src/functions/fn-math.c:3386
-#~ msgid "Maths / Trig."
-#~ msgstr "Matemàtiques / Trigonomètriques"
-
-#~ msgid "Random"
-#~ msgstr "Aleatori"
-
-#~ msgid "Error: could not initialize connection pool"
-#~ msgstr "Error: no s'ha pogut inicialitzar el 'pool' de connexió"
-
-#~ msgid ""
-#~ "@FUNCTION=atl_last\n"
-#~ "@SYNTAX=atl_last(tag)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=NAME\n"
-#~ "@SYNTAX=(b1, b2, ...)\n"
-#~ "@DESCRIPTION\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid "Insert a new spreadsheet"
-#~ msgstr "Insereix en un nou full de difusió"
-
-#~ msgid "_Risk Simulation..."
-#~ msgstr "_Simulació de Risc"
-
-#
-#~ msgid "Adding a sheet"
-#~ msgstr "Afegint un altre full"
-
-# src/functions/fn-information.c:317
-#~ msgid "Adding sheet '%s'"
-#~ msgstr "Afegint el full '%s'"
-
-#~ msgid "Rename sheet '%s' '%s'"
-#~ msgstr "Renanomena el full '%s' '%s'"
-
-#~ msgid "Not available..."
-#~ msgstr "No disponible..."
-
-#
-#~ msgid "S_tart Color:"
-#~ msgstr "Color _Inici:"
-
-#~ msgid "Select an _image file:"
-#~ msgstr "Selecciona un fitxer d'_imatge"
-
-#~ msgid "Top left to bottom right"
-#~ msgstr "Amunt a l'esquerra cap a abaix a la dreta"
-
-#~ msgid "Top right to bottom left"
-#~ msgstr "Adalt dreta cap a abaix esquerra"
-
-#~ msgid "Top to bottom"
-#~ msgstr "D'amunt cap avall"
-
-#
-#~ msgid "_End Color:"
-#~ msgstr "_Color Final:"
-
-#~ msgid "_Fill type:"
-#~ msgstr "Tipus de _farciment"
-
-#~ msgid "Bar/Col Charts"
-#~ msgstr "Gràfic de Bar/Col"
-
-#
-#~ msgid "Background Color"
-#~ msgstr "Color de fons"
-
-#~ msgid "C_enter"
-#~ msgstr "C_entre"
-
-#~ msgid "Effects"
-#~ msgstr "Efectes"
-
-#
-#~ msgid "Message:"
-#~ msgstr "Missatge:"
-
-#
-#~ msgid "_Color:"
-#~ msgstr "_Color:"
-
-#~ msgid "_Degrees"
-#~ msgstr "_Graus"
-
-#~ msgid "_Style"
-#~ msgstr "_Estil"
-
-#~ msgid "Add the entered area to the list of source areas"
-#~ msgstr "Afegeix l'àrea entrada a la llista d'àrees origen"
-
-#~ msgid "D_elete"
-#~ msgstr "S_uprimeix"
-
-#~ msgid "Product"
-#~ msgstr "Producte"
-
-#~ msgid "Stdev (sample)"
-#~ msgstr "Stdev (mostra)"
-
-#~ msgid "Stdevp (population)"
-#~ msgstr "Stdevp (població)"
-
-#~ msgid "Var (sample)"
-#~ msgstr "Var (mostra)"
-
-#~ msgid "Varp (population)"
-#~ msgstr "Varp (població)"
-
-#
-#~ msgid "_Destination:"
-#~ msgstr "_Destinació:"
-
-#
-#~ msgid "FillSeries"
-#~ msgstr "Series d'omplir"
-
-#~ msgid "Deletion of sheets is not undoable. Do you want to proceed?"
-#~ msgstr "No habilitat per esborrar fulls. Vols que procedeixi per a tal?"
-
-#~ msgid "You cannot have more than %d columns in this version of Gnumeric."
-#~ msgstr "No podeu tenir més de %d columnes en aquesta versió del Gnumeric."
-
-#~ msgid "Add a new column"
-#~ msgstr "Afegeix una nova columna"
-
-#
-#~ msgid "Co_lumn end: "
-#~ msgstr "Final de co_lumna: "
-
-# src/functions/fn-information.c:847
-#~ msgid "Column formatting"
-#~ msgstr "Formatatge de columnes"
-
-#~ msgid "Data type and number of lines"
-#~ msgstr "Tipus de dades i nombre de línies"
-
-#~ msgid "Fixed width customization"
-#~ msgstr "Personalització d'amplada fixa"
-
-#~ msgid "Importing structured text"
-#~ msgstr "S'està important text estructurat"
-
-#~ msgid "Remove selected column"
-#~ msgstr "Suprimeix la columna seleccionada"
-
-#~ msgid "Separation customization"
-#~ msgstr "Personalització del separador"
-
-#~ msgid ""
-#~ "Automatically select an appropriate format depending on the value of the "
-#~ "cell."
-#~ msgstr ""
-#~ "Selecciona automàticament un format apropiat que depèn del valor de la "
-#~ "cel·la."
-
-#~ msgid "Cust_om"
-#~ msgstr "Pers_onalitzat"
-
-#~ msgid "De_lete Format"
-#~ msgstr "Su_primeix el format"
-
-#~ msgid "Sp_ecial"
-#~ msgstr "Es_pecial"
-
-#~ msgid "Te_xt"
-#~ msgstr "Te_xt"
-
-#~ msgid "_Number"
-#~ msgstr "_Nombre"
-
-#~ msgid "_Percentage"
-#~ msgstr "_Percentatge"
-
-#~ msgid "_Time"
-#~ msgstr "_Hora"
-
-#~ msgid "Options:"
-#~ msgstr "Opcions:"
-
-#~ msgid "Error saving to temporary file."
-#~ msgstr "S'ha produït un error en desar a un fitxer temporal."
-
-#~ msgid "Cannot get temporary file size."
-#~ msgstr "No es pot aconseguir la mida del fitxer temporal."
-
-#~ msgid "Saving file to stream."
-#~ msgstr "S'està guardant el fitxer en un flux"
-
-#~ msgid "Error reading temporary file."
-#~ msgstr "S'ha produït un error en llegir el fitxer temporal."
-
-#
-#~ msgid "Exception occurred while saving to stream."
-#~ msgstr "S'ha produït una excepció en desar a un flux."
-
-#~ msgid ";[Red]"
-#~ msgstr ";[Vermell]"
-
-#~ msgid "_);("
-#~ msgstr "_);("
-
-#~ msgid "_);[Red]("
-#~ msgstr "_);[Vermell]("
-
-#~ msgid "Parse error while trying to parse data into cellregion"
-#~ msgstr ""
-#~ "S'ha produït un error d'anàlisi en processar les dades d'una regió de "
-#~ "cel·les"
-
-#~ msgid "Which file format would you like?"
-#~ msgstr "Quin format de fitxer desitgeu?"
-
-#~ msgid "Too many columns in data to parse: %d"
-#~ msgstr "Hi ha massa columnes a les dades per analitzar: %d"
-
-#~ msgid "Cancelled"
-#~ msgstr "Cancel·lat"
-
-#~ msgid "Are you sure you want to remove the sheet called `%s'?"
-#~ msgstr "Esteu segurs que voleu eliminar el full anumenat `%s'?"
-
-#~ msgid "Duplicate this sheet"
-#~ msgstr "Duplica aquest full"
-
-#~ msgid "Rename this sheet"
-#~ msgstr "Reanomena aquest full"
-
-#~ msgid "Remove this sheet"
-#~ msgstr "Elimina aquest full"
-
-#~ msgid "Remove selected cells, shifting other into their place"
-#~ msgstr ""
-#~ "Suprimeix les cel·les seleccionades, desplaçant les altres al seu lloc"
-
-#, fuzzy
-#~ msgid "Create a pivot table."
-#~ msgstr "Crea una etiqueta"
-
-#
-#~ msgid "Format with thousands separator"
-#~ msgstr "Format amb el separador de milers"
