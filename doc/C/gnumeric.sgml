@@ -10,6 +10,7 @@
 <!entity printing SYSTEM "printing.sgml">
 <!entity autofill SYSTEM "autofill.sgml">
 <!entity introduction SYSTEM "introduction.sgml">
+<!entity worksheet SYSTEM "worksheet.sgml">
 <!entity files SYSTEM "files.sgml">
 <!entity autosave SYSTEM "autosave.sgml">
 <!entity functions SYSTEM "functions.sgml">
@@ -58,8 +59,13 @@
 </bookinfo>
 
    <chapter id="introduction">
-     <title>Introduction.</title> 
+     <title>Introduction</title> 
       &introduction;
+   </chapter>
+
+   <chapter id="worksheet">
+     <title>Worksheets.</title> 
+      &worksheet;
    </chapter>
 
   <chapter id="editing">

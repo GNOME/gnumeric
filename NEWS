@@ -1,7 +1,7 @@
 Gnumeric 0.99.1
 
 Andreas:
-	* Improve analysis tools documentation
+	* Improve documentation incl. analysis tools & worksheet
 	* Implement merges and spans in html exporter
 	* Make output from HTML4.0 and HTML3.2 exporters validate 
 	* Fix copy multiple cells to single merged cell (#67298)

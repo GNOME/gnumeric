@@ -1,3 +1,13 @@
+2001-12-23 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* introduction.sgml : split into introduction.sgml and
+	  worksheet.sgml, incorporating some of the old unused,
+	  worksheet.sgml.
+	* gnumeric.sgml : support split
+	* worksheet.sgml : minor updates, still severely out of date
+	* figures/worksheet-info-1.png : updated
+	* figures/worksheet-running-calc-1.png : updated
+
 2001-12-22 Wayne Schuller <k_wayne@linuxpower.org>
 
 	* introduction.sgml : Improve 
