@@ -450,7 +450,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 {
 	static GogObjectRole const roles[] = {
 		{ N_("Label"), "GogLabel", 0,
-		  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
+		  GOG_POSITION_COMPASS, GOG_POSITION_S|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
 		  NULL, NULL, NULL, NULL, NULL, NULL },
 	};
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;

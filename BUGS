@@ -18,7 +18,7 @@ Release Critical
 
 * Charts
     - Index axis labels (1.14.12)
-    - connect up or disable axis editor (1.14.{10,11,13})
+    - connect up or disable axis editor (1.14.{11,13})
     - Get 'auto' working for fills so that we don't wipe a users selection when
       merging the theme.
 
@@ -131,7 +131,7 @@ Short Term Goals
 	1.11.4)	sub type with no-marker by default
     1.12) X/Y (Scatter) Plot
 	1.12.1) Add simple implementation			(DONE)
-	1.12.2) Take marker sizes into accound at bounds
+	1.12.2) Take marker sizes into account at bounds
 	1.12.3) Bounds on 1 axis explicitly clip the other
 	1.12.4) Splined interpolation
 	1.12.5) Bubbles
@@ -151,7 +151,7 @@ Short Term Goals
 	1.14.7) Draw ticks and allocate space for them		(DONE)
 	1.14.8) Honour the in/out tick flags
 	1.14.9) Make the major labels optional			(DONE)
-	1.14.10) Add a font selector to the editor
+	1.14.10) Add a font selector to the editor		(DONE)
 	1.14.11) Value formating (at least percentage and date)
 	1.14.12) Support index type axis
 	1.14.13) Support inverted axis

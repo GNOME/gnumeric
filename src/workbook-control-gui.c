@@ -5539,7 +5539,8 @@ cb_graph_dim_editor_update (G_GNUC_UNUSED GnmExprEntry *gee,
 static void
 cb_graph_dim_entry_unmap (GnmExprEntry *gee, GraphDimEditor *editor)
 {
-	cb_graph_dim_editor_update (gee, FALSE, editor);
+	if (GTK_WIDGET_SENSITIVE (gee))
+		cb_graph_dim_editor_update (gee, FALSE, editor);
 }
 
 static gpointer

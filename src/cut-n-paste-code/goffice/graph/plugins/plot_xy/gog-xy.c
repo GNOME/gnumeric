@@ -65,6 +65,7 @@ gog_xy_plot_update (GogObject *obj)
 	GogXYSeries const *series;
 	double x_min, x_max, y_min, y_max, tmp_min, tmp_max;
 	GSList *ptr;
+	gboolean is_index = FALSE;
 
 	x_min = y_min = DBL_MAX;
 	x_max = y_max = DBL_MIN;
@@ -73,17 +74,32 @@ gog_xy_plot_update (GogObject *obj)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 
-		if (series->base.values[0].data != NULL) {
-			go_data_vector_get_minmax (GO_DATA_VECTOR (
-				series->base.values[0].data), &tmp_min, &tmp_max);
-			if (x_min > tmp_min) x_min = tmp_min;
-			if (x_max < tmp_max) x_max = tmp_max;
-		}
-
 		go_data_vector_get_minmax (GO_DATA_VECTOR (
 			series->base.values[1].data), &tmp_min, &tmp_max);
 		if (y_min > tmp_min) y_min = tmp_min;
 		if (y_max < tmp_max) y_max = tmp_max;
+
+		if (series->base.values[0].data != NULL) {
+			go_data_vector_get_minmax (GO_DATA_VECTOR (
+				series->base.values[0].data), &tmp_min, &tmp_max);
+
+			if (!finite (tmp_min) || !finite (tmp_max) ||
+			    tmp_min > tmp_max) {
+				tmp_min = 1;
+				tmp_max = go_data_vector_get_len (
+					GO_DATA_VECTOR (series->base.values[1].data));
+
+				is_index = TRUE;
+			}
+		} else {
+			tmp_min = 1;
+			tmp_max = go_data_vector_get_len (
+				GO_DATA_VECTOR (series->base.values[1].data));
+			is_index = TRUE;
+		}
+
+		if (x_min > tmp_min) x_min = tmp_min;
+		if (x_max < tmp_max) x_max = tmp_max;
 	}
 
 	if (model->x.minimum != x_min || model->x.maximum != x_max) {
@@ -173,7 +189,7 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 static void
 gog_xy_plot_init (GogXYPlot *xy)
 {
-	xy->base.vary_style_by_element = TRUE;
+	xy->base.vary_style_by_element = FALSE;
 }
 
 GSF_CLASS (GogXYPlot, gog_xy_plot,
@@ -189,9 +205,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogXYPlot const *model = GOG_XY_PLOT (view->model);
 	GogXYSeries const *series;
-	unsigned n, tmp;
+	unsigned i, n, tmp;
 	GSList *ptr;
-	double const *x_vals, *y_vals;
+	double const *y_vals, *x_vals = NULL;
 	double x, y, x_min, x_max, x_off, x_scale, y_min, y_max, y_off, y_scale;
 	ArtVpath	path[3];
 	GogStyle const *style;
@@ -222,18 +238,20 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 
-		x_vals = go_data_vector_get_values (
-			GO_DATA_VECTOR (series->base.values[0].data));
 		y_vals = go_data_vector_get_values (
 			GO_DATA_VECTOR (series->base.values[1].data));
 		n = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[0].data));
-		tmp = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->base.values[1].data));
+		if (series->base.values[0].data) {
+			x_vals = go_data_vector_get_values (
+				GO_DATA_VECTOR (series->base.values[0].data));
+			tmp = go_data_vector_get_len (
+				GO_DATA_VECTOR (series->base.values[0].data));
+			if (n > tmp)
+				n = tmp;
+		}
 
-		if (n > tmp)
-			n = tmp;
-		if (tmp <= 0)
+		if (n <= 0)
 			continue;
 
 		style = GOG_STYLED_OBJECT (series)->style;
@@ -244,10 +262,14 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		prev_valid = FALSE;
 		gog_renderer_push_style (view->renderer, style);
-		while (n-- > 0) {
-			x = *x_vals++;
+		for (i = 1 ; i <= n ; i++) {
+			x = x_vals ? *x_vals++ : i;
 			y = *y_vals++;
-			if (finite (x) && finite (y)) {
+			if (finite (y)) {
+
+#warning KLUDGE need to differentiate between missing and non-numeric string
+				if (!finite (x))
+					x = i;
 #warning move map into axis
 				x = x_off + x_scale * x;
 				y = y_off + y_scale * y;
@@ -305,16 +327,17 @@ gog_xy_series_update (GogObject *obj)
 	GogXYSeries *series = GOG_XY_SERIES (obj);
 	unsigned old_num = series->base.num_elements;
 
-	if (series->base.values[0].data != NULL) {
-		x_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
-		x_len = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[0].data));
-	}
 	if (series->base.values[1].data != NULL) {
 		y_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
 		y_len = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->base.values[1].data));
 	}
+	if (series->base.values[0].data != NULL) {
+		x_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
+		x_len = go_data_vector_get_len (
+			GO_DATA_VECTOR (series->base.values[0].data));
+	} else
+		x_len = y_len;
 	series->base.num_elements = MIN (x_len, y_len);
 
 	/* queue plot for redraw */

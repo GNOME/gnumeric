@@ -5,6 +5,10 @@
 
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
+	* graph/plugins/plot_xy/gog-xy.c (gog_xy_view_render) : support index
+	  axis for X.
+	(gog_xy_series_update) : ditto.
+
 	* graph/gog-axis.c (gog_axis_editor) : we want font too.
 	  Align the Auto header nicely.
 	(make_dim_editor) : some initial work to give the Auto button's some

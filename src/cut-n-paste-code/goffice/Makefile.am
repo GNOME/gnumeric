@@ -1,4 +1,4 @@
-SUBDIRS = graph utils data
+SUBDIRS = graph utils # data
 
 noinst_LTLIBRARIES = libgoffice.la
 

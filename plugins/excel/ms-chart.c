@@ -958,10 +958,13 @@ BC_R(lineformat)(XLChartHandler const *handle,
 	style->line.auto_color = (flags & 0x01) ? TRUE : FALSE;
 	style->line.pattern    = GSF_LE_GET_GUINT16 (q->data+4);
 
+#if 0
+	DAMN not working
 	if (s->axis != NULL)
 		g_object_set (G_OBJECT (s->axis),
 			"major-tick-labeled",	((flags & 0x04) ? TRUE : FALSE),
 			NULL);
+#endif
 
 	d (0, fprintf (stderr, "Lines are %f pts wide.\n", s->style->line.width););
 	d (0, fprintf (stderr, "Lines have a %s pattern.\n",
