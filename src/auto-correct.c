@@ -152,7 +152,7 @@ autocorrect_tool (char const *command)
 		skip_first_letter:
 			/* We need to find the end of a sentence assume ',' is not */
 			for (p = s; *p != '\0' &&
-			     !(ispunct (*p) || strchr (not_punct, *p)) ; p++)
+			     !(ispunct (*p) && NULL == strchr (not_punct, *p)) ; p++)
 				;
 			if (*p == '\0')
 				break;
