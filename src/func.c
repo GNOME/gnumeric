@@ -330,6 +330,82 @@ cell_ref_make_absolute (CellRef *cell_ref,
 	cell_ref->col_relative = 0;
 }
 
+inline static Value *
+function_marshal_arg (FunctionEvalInfo *ei,
+		      ExprTree         *t,
+		      char              arg_type,
+		      gboolean         *type_mismatch)
+{
+	Value *v;
+
+	*type_mismatch = FALSE;
+
+	/*
+	 *  This is so we don't dereference 'A1' by accident
+	 * when we want a range instead.
+	 */
+	if (t->oper == OPER_VAR &&
+	    (arg_type == 'A' ||
+	     arg_type == 'r'))
+		v = value_new_cellrange (&t->u.ref, &t->u.ref);
+	else
+		v = eval_expr (ei, t);
+		
+	switch (arg_type) {
+
+	case 'f':
+	case 'b':
+		if (v->type == VALUE_CELLRANGE) {
+			v = expr_implicit_intersection (&ei->pos, v);
+			if (v == NULL)
+				break;
+		}
+
+		if (v->type != VALUE_INTEGER &&
+		    v->type != VALUE_FLOAT &&
+		    v->type != VALUE_BOOLEAN)
+			*type_mismatch = TRUE;
+		break;
+
+	case 's':
+		if (v->type == VALUE_CELLRANGE) {
+			v = expr_implicit_intersection (&ei->pos, v);
+			if (v == NULL)
+				break;
+		}
+
+		if (v->type != VALUE_STRING)
+			*type_mismatch = TRUE;
+		break;
+
+	case 'r':
+		if (v->type != VALUE_CELLRANGE)
+			*type_mismatch = TRUE;
+		else {
+			cell_ref_make_absolute (&v->v.cell_range.cell_a, &ei->pos);
+			cell_ref_make_absolute (&v->v.cell_range.cell_b, &ei->pos);
+		}
+		break;
+
+	case 'a':
+		if (v->type != VALUE_ARRAY)
+			*type_mismatch = TRUE;
+		break;
+
+	case 'A':
+		if (v->type != VALUE_ARRAY &&
+		    v->type != VALUE_CELLRANGE)
+			*type_mismatch = TRUE;
+			
+		if (v->type == VALUE_CELLRANGE) {
+			cell_ref_make_absolute (&v->v.cell_range.cell_a, &ei->pos);
+			cell_ref_make_absolute (&v->v.cell_range.cell_b, &ei->pos);
+		}
+		break;
+	}
+
+	return v;
+}
 /**
  * function_call_with_list:
  * @ei: EvalInfo containing valid fd!
@@ -369,75 +445,15 @@ function_call_with_list (FunctionEvalInfo        *ei,
 	values = g_new (Value *, fn_argc_max);
 
 	for (arg = 0; l; l = l->next, ++arg) {
-		char      arg_type;
-		ExprTree *t = (ExprTree *) l->data;
-		gboolean type_mismatch = FALSE;
-		Value *v;
-		
+		char     arg_type;
+		gboolean type_mismatch;
+
 		arg_type = function_def_get_arg_type (fd, arg);
 
-		if ((arg_type != 'A' &&            /* This is so a cell reference */
-		     arg_type != 'r') ||           /* can be converted to a cell range */
-		    !t || (t->oper != OPER_VAR)) { /* without being evaluated */
-			v = eval_expr (ei, t);
-/*			if ((v = eval_expr_real (ei, t)) == NULL) this shouldn't have been neccessary
-			goto free_list;*/
-		} else {
-			g_assert (t->oper == OPER_VAR);
-			v = value_new_cellrange (&t->u.ref, &t->u.ref);
-		}
-		
-		switch (arg_type) {
-		case 'f':
-		case 'b':
-			if (v->type == VALUE_CELLRANGE) {
-				v = expr_implicit_intersection (&ei->pos, v);
-				if (v == NULL)
-					break;
-			}
+		values [arg] = function_marshal_arg (ei, l->data, arg_type,
+						     &type_mismatch);
 
-			if (v->type != VALUE_INTEGER &&
-			    v->type != VALUE_FLOAT &&
-			    v->type != VALUE_BOOLEAN)
-				type_mismatch = TRUE;
-			break;
-
-		case 's':
-			if (v->type == VALUE_CELLRANGE) {
-				v = expr_implicit_intersection (&ei->pos, v);
-				if (v == NULL)
-					break;
-			}
-
-			if (v->type != VALUE_STRING)
-				type_mismatch = TRUE;
-			break;
-
-		case 'r':
-			if (v->type != VALUE_CELLRANGE)
-				type_mismatch = TRUE;
-			else {
-				cell_ref_make_absolute (&v->v.cell_range.cell_a, &ei->pos);
-				cell_ref_make_absolute (&v->v.cell_range.cell_b, &ei->pos);
-			}
-			break;
-		case 'a':
-			if (v->type != VALUE_ARRAY)
-				type_mismatch = TRUE;
-			break;
-		case 'A':
-			if (v->type != VALUE_ARRAY &&
-			    v->type != VALUE_CELLRANGE)
-				type_mismatch = TRUE;
-			
-			if (v->type == VALUE_CELLRANGE) {
-				cell_ref_make_absolute (&v->v.cell_range.cell_a, &ei->pos);
-				cell_ref_make_absolute (&v->v.cell_range.cell_b, &ei->pos);
-			}
-			break;
-		}
-		values [arg] = v;
-		if (type_mismatch || v == NULL) {
+		if (type_mismatch || values [arg] == NULL) {
 			free_values (values, arg + 1);
 			return value_new_error (&ei->pos, gnumeric_err_VALUE);
 		}
@@ -446,7 +462,6 @@ function_call_with_list (FunctionEvalInfo        *ei,
 		values [arg++] = NULL;
 	v = fd->fn.fn_args (ei, values);
 	
-/*free_list:*/
 	free_values (values, arg);
 	return v;	
 }

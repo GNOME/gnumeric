@@ -247,7 +247,7 @@ expr_to_scm (ExprTree *expr, CellRef cell_ref)
 
 		case OPER_VAR :
 			return scm_cons(scm_symbolfrom0str("var"),
-					cell_ref_to_scm(expr->u.constant->v.cell, cell_ref));
+					cell_ref_to_scm(expr->u.ref, cell_ref));
 
 		/* FIXME : default : */
 	}

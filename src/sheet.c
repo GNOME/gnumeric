@@ -617,6 +617,19 @@ sheet_get_extent (Sheet const *sheet)
 
 	sheet_style_get_extent (&r, sheet);
 
+	/*
+	 *  Print can't handle stuff outside these walls.
+	 */
+	if (r.end.col   > sheet->cols.max_used)
+		r.end.col   = sheet->cols.max_used;
+	if (r.start.col > r.end.col)
+		r.start.col = r.end.col;
+
+	if (r.end.row   > sheet->rows.max_used)
+		r.end.row   = sheet->rows.max_used;
+	if (r.start.row > r.end.row)
+		r.start.row = r.end.row;
+
 	return r;
 }
 

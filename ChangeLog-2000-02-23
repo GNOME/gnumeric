@@ -1,3 +1,11 @@
+2000-01-02  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/func.c (function_marshal_arg): Split from
+	(function_call_with_list): to make it sweeter.
+
+	* src/sheet.c (sheet_get_extent): clip range to the max_used boundary,
+	naff but gets round print problems for now.
+
 2000-01-02  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/clipboard.c (x_selection_to_cell_region): the last element
