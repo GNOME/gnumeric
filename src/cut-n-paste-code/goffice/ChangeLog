@@ -1,5 +1,11 @@
 2003-08-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* graph/gog-style-prefs.glade: shuffle fill-image widgets
+	* graph/gog-guru.glade: increase default size and increase
+	  default style portion
+
+2003-08-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* graph/gog-style-prefs.glade: align fill-image widgets
 
 2003-08-12  Andreas J. Guelzow  <aguelzow@taliesin.ca>
