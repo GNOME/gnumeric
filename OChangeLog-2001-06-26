@@ -1,3 +1,8 @@
+2001-05-22  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-edit.c (wbcg_editing_expr): Use renamed function
+	gnumeric_expr_entry_rangesel_meaningful.
+
 2001-05-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* file.c

@@ -486,14 +486,28 @@ gnumeric_expr_entry_toggle_absolute (GnumericExprEntry *expr_entry)
 }
 
 /**
- * gnumeric_expr_entry_at_subexpr_boundary_p
+ * gnumeric_expr_entry_rangesel_meaningful
  * @expr_entry:   a #GnumericExprEntry
  * 
- * Returns TRUE if the current position is at an expression boundary.
- * eg '=sum', or 'bob' are not while '=sum(' is.
+ * Returns TRUE if a range selection is meaningful at current position.
+ * eg it isn't at '=sum', or 'bob', but it is at '=sum('.
+ *
+ * NOTE:
+ * Removed ')' and ':' from the set of characters where a range selection
+ * may start. This is to fix bug report 54828:
+ * "1) Start Gnumeric
+ *  2) Navigate to cell C5
+ *  3) Enter something like "=SUOM(A1:A10)"
+ *  4) Try to move backwards with the left arrow key (which normally takes
+ *     you backwards through the text you entered)
+ *  for some reason you start navigating on the sheet with the
+ *  rangesel cursor. I think it's sensible to start rangesel mode if we had
+ * typed "=SUOM(", But in this case there is no reason at all to jump into
+ * rangesel mode because the expression is closed/finished."
+ * 2000-05-22 Jon Kåre Hellan <hellan@acm.org>
  **/
 gboolean
-gnumeric_expr_entry_at_subexpr_boundary_p (GnumericExprEntry *entry)
+gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *entry)
 {
 	int cursor_pos;
 
@@ -506,8 +520,8 @@ gnumeric_expr_entry_at_subexpr_boundary_p (GnumericExprEntry *entry)
 		return FALSE;
 
 	switch (GTK_ENTRY (entry)->text [cursor_pos-1]){
-	case ':': case ',': case '=':
-	case '(': case ')': case '<': case '>':
+	case ',': case '=':
+	case '(': case '<': case '>':
 	case '+': case '-': case '*': case '/':
 	case '^': case '&': case '%': case '!':
 		return TRUE;

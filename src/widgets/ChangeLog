@@ -1,3 +1,10 @@
+2001-05-22  Jon K Hellan  <hellan@acm.org>
+
+	* gnumeric-expr-entry.[ch]
+	(gnumeric_expr_entry_at_subexpr_boundary_p): Rename to
+	gnumeric_expr_entry_rangesel_meaningful.
+	Rangesel after ':' or ')' do not make sense. Return FALSE. 
+
 2001-05-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.65

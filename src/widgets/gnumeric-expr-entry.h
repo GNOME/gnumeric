@@ -68,8 +68,8 @@ void gnumeric_expr_entry_rangesel_stopped (GnumericExprEntry *expr_entry,
 void gnumeric_expr_entry_set_absolute (GnumericExprEntry *expr_entry);
 void gnumeric_expr_entry_toggle_absolute (GnumericExprEntry *expr_entry);
 
-/* Is this GtkEntry editing at a subexpression boundary */
-gboolean  gnumeric_expr_entry_at_subexpr_boundary_p (GnumericExprEntry *entry);
+/* Is a range selection meaningful here? */
+gboolean  gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *entry);
 
 
 #endif

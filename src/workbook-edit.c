@@ -472,8 +472,7 @@ gboolean
 wbcg_editing_expr (WorkbookControlGUI const *wbcg)
 {
 	return (wbcg->edit_line.guru != NULL) ||
-	    gnumeric_expr_entry_at_subexpr_boundary_p (
-		    wbcg_get_entry (wbcg));
+	    gnumeric_expr_entry_rangesel_meaningful (wbcg_get_entry (wbcg));
 }
 
 gboolean
