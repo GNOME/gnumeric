@@ -278,7 +278,7 @@ init_xl_font_widths (void)
 	    {  96, 104, "Optimum" },
 	    {  86,  92, "Palatino" },
 	    {  81,  87, "Roman" },
-	    { 109, 117, "Sans" }, /* alias for bitstream */
+	    {  92,  96,	"Sans" },
 	    { 109, 117, "Sans Regular" }, /* alias for bitstream */
 	    {  69,  74, "Script" },
 	    { 142, 152, "Serpentine" },

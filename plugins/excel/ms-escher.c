@@ -1114,6 +1114,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 
 	/* lets be really careful */
 	g_return_val_if_fail (6*num_properties + COMMON_HEADER_LEN <= h->len, TRUE);
+	g_return_val_if_fail (data != NULL, TRUE);
 
 	for (i = 0; i < num_properties; ++i, fopte += 6) {
 		guint16 const tmp = GSF_LE_GET_GUINT32(fopte);
