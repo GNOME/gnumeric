@@ -1,3 +1,8 @@
+2004-10-29  Morten Welinder  <terra@gnome.org>
+
+	* cut-n-paste/pcre/pcre.c (ord2utf8): Fix ABR.  (Fixed in PCRE
+	5.0, but I don't want to upgrade right now.)
+
 2004-10-27  Morten Welinder  <terra@gnome.org>
 
 	* utils/go-line.c (go_line_clip_vpath): Make sure "reject" is
