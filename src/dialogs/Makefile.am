@@ -128,6 +128,7 @@ glade_DATA = 				\
 	so-arrow.glade			\
 	so-checkbox.glade		\
 	so-fill.glade			\
+	so-frame.glade			\
 	so-scrollbar.glade		\
 	simulation.glade		\
 	solver.glade			\

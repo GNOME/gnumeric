@@ -8,6 +8,8 @@ Andreas:
 
 Chris Benedict:
 	* Do not allow all sheets in a workbook to be deleted.
+	* Implement a simple configuration dialog for the frame
+	  sheet object
 
 dorami@bu.iij4u.or.jp:
 	* Add InputMethod support for better international key support

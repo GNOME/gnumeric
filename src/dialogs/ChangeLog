@@ -1,3 +1,8 @@
+2002-10-15 Chris Benedict <cbenedic@csa.concordia.ab.ca>
+
+	* Makefile.am : added in the so-frame.glade.
+
+
 2002-10-14  Jody Goldberg <jody@gnome.org>
 
 	* dialog-workbook-attr.c : support for recalc and iteration

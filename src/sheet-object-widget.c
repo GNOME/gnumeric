@@ -346,8 +346,147 @@ sheet_widget_frame_read_xml (SheetObject *so,
 	return FALSE;
 }
 
+typedef struct {
+  	GladeXML           *gui;
+  	GtkWidget          *dialog;
+  	GtkWidget          *label;
+	
+  	char               *old_label;
+  	GtkWidget          *old_focus;
+	
+  	WorkbookControlGUI *wbcg;
+  	SheetWidgetFrame   *swc;
+  	Sheet		   *sheet;
+} FrameConfigState;
+
+static gboolean
+cb_frame_config_destroy (GtkObject *w, FrameConfigState *state)
+{
+ 	g_return_val_if_fail (w != NULL, FALSE);
+ 	g_return_val_if_fail (state != NULL, FALSE);
+	
+ 	wbcg_edit_detach_guru (state->wbcg);
+	
+ 	if (state->gui != NULL) {
+ 		g_object_unref (G_OBJECT (state->gui));
+ 		state->gui = NULL;
+ 	}
+	
+ 	g_free (state->old_label);
+ 	state->old_label = NULL;
+ 	state->dialog = NULL;
+ 	g_free (state); 
+	
+ 	return FALSE;
+}
+
+static void
+cb_frame_config_ok_clicked (GtkWidget *button, FrameConfigState *state)
+{
+  	gtk_widget_destroy (state->dialog);
+}
+
+static void
+cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
+{
+  	GList *list;
+  	SheetWidgetFrame *swc;
+  	swc = state->swc;
+  	if (swc->label)
+  		g_free(swc->label);
+  	swc->label = g_strdup(state->old_label);
+  	list = swc->sow.parent_object.realized_list;
+  	for(;list!=NULL;list=list->next){
+		gtk_frame_set_label 
+			(GTK_FRAME(GNOME_CANVAS_WIDGET(list->data)->widget), 
+			 state->old_label);
+  	}
+  	
+  	gtk_widget_destroy (state->dialog);
+}
+
+static void
+cb_frame_label_changed(GtkWidget *entry, FrameConfigState *state)
+{
+  	GList *list;
+  	SheetWidgetFrame *swc;
+  	gchar const *text;
+	
+  	text = gtk_entry_get_text(GTK_ENTRY(entry));
+  	swc = state->swc;
+  	if (swc->label)
+  		g_free(swc->label);
+  	
+	swc->label = g_strdup(text);
+  	for (list = swc->sow.parent_object.realized_list; list != NULL; 
+	     list = list->next){
+		gtk_frame_set_label
+			(GTK_FRAME(GNOME_CANVAS_WIDGET(list->data)->widget),
+			 text);
+	}
+}
+
+static void
+sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
+{
+  	SheetWidgetFrame *swc = SHEET_WIDGET_FRAME (so);
+  	WorkbookControlGUI   *wbcg = scg_get_wbcg (SHEET_CONTROL_GUI (sc));
+  	FrameConfigState *state;
+  	GtkWidget *table;
+	
+  	g_return_if_fail (swc != NULL);
+	
+  	/* Only pop up one copy per workbook */
+  	if (gnumeric_dialog_raise_if_exists (wbcg, SHEET_OBJECT_CONFIG_KEY))
+  		return;
+	
+  	state = g_new (FrameConfigState, 1);
+  	state->swc = swc;
+  	state->wbcg = wbcg;
+  	state->sheet = sc_sheet	(sc);
+  	state->old_focus = NULL;
+  	state->old_label = g_strdup(swc->label);
+  	state->gui = gnumeric_glade_xml_new (wbcg, "so-frame.glade");
+  	state->dialog = glade_xml_get_widget (state->gui, "so_frame");
+	
+	table = glade_xml_get_widget(state->gui, "table");
+	
+  	state->label = glade_xml_get_widget (state->gui, "entry");
+	
+  	gtk_entry_set_text (GTK_ENTRY(state->label),swc->label);
+	gtk_editable_select_region (GTK_EDITABLE(state->label),0,-1);
+	
+  	g_signal_connect (G_OBJECT(state->label),
+			  "changed",
+			  G_CALLBACK (cb_frame_label_changed), state);
+	
+  	g_signal_connect (G_OBJECT (state->dialog),
+			  "destroy",
+			  G_CALLBACK (cb_frame_config_destroy), state);
+	
+  	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, 
+							  "ok_button")),
+			  "clicked",
+			  G_CALLBACK (cb_frame_config_ok_clicked), state);
+  	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, 
+							  "cancel_button")),
+			  "clicked",
+			  G_CALLBACK (cb_frame_config_cancel_clicked), state);
+  	gnumeric_init_help_button (
+  		glade_xml_get_widget (state->gui, "help_button"),
+  		"so-frame.html");
+  	
+	
+  	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+  			       SHEET_OBJECT_CONFIG_KEY);
+	
+  	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	
+  	gtk_widget_show (state->dialog);
+}
+
 SOW_MAKE_TYPE (frame, Frame,
-	       NULL,
+	       &sheet_widget_frame_user_config,
 	       NULL,
 	       NULL,
 	       &sheet_widget_frame_clone,
