@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-12 01:05-0400\n"
-"PO-Revision-Date: 2004-10-12 11:36-0400\n"
+"POT-Creation-Date: 2004-10-14 12:46-0400\n"
+"PO-Revision-Date: 2004-10-14 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -8823,7 +8823,7 @@ msgstr "%s version %s"
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #. Color
 #: plugins/fn-info/functions.c:1324
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1445
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1447
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:224
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:119
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:822
@@ -18169,6 +18169,10 @@ msgstr "Paradox"
 msgid "Paradox database or primary index file"
 msgstr "Paradox database or primary index file"
 
+#: plugins/perl/ext/Gnumeric.xs:144
+msgid "Perl plugin"
+msgstr "Perl plugin"
+
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
 msgstr "Enables the creation of functions in Perl"
@@ -19969,41 +19973,41 @@ msgstr "Logarithm mapping"
 msgid "Details"
 msgstr "Details"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1455
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1457
 msgid "Categories between _ticks"
 msgstr "Categories between _ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1456
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1458
 msgid "Categories between _labels"
 msgstr "Categories between _labels"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1457
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1459
 msgid "_Cross at category #"
 msgstr "_Cross at category #"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1463
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1479
 msgid "Bounds"
 msgstr "Bounds"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1468
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1467
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1469
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1468
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1470
 msgid "Ma_jor Ticks"
 msgstr "Ma_jor Ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1469
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1471
 msgid "Mi_nor Ticks"
 msgstr "Mi_nor Ticks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1470
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1472
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
 msgid "_Cross"
 msgstr "_Cross"
@@ -20012,22 +20016,22 @@ msgstr "_Cross"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1492
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1499
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1494
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1501
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Format"
 msgstr "Format"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1528 src/wbcg-actions.c:1911
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1530 src/wbcg-actions.c:1911
 msgid "Label"
 msgstr "Label"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1531
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1533
 msgid "MinorGrid"
 msgstr "MinorGrid"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1534
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1536
 msgid "MajorGrid"
 msgstr "MajorGrid"
 
@@ -22791,54 +22795,58 @@ msgid "SheetObject improvement"
 msgstr "SheetObject improvement"
 
 #: src/dialogs/dialog-about.c:129
+msgid "Support for non-Latin languages"
+msgstr "Support for non-Latin languages"
+
+#: src/dialogs/dialog-about.c:131
 msgid "Many plot types for charting engine."
 msgstr "Many plot types for charting engine."
 
-#: src/dialogs/dialog-about.c:131
+#: src/dialogs/dialog-about.c:133
 msgid "canvas support"
 msgstr "canvas support"
 
-#: src/dialogs/dialog-about.c:133 src/dialogs/dialog-about.c:139
+#: src/dialogs/dialog-about.c:135 src/dialogs/dialog-about.c:141
 msgid "Guile support"
 msgstr "Guile support"
 
-#: src/dialogs/dialog-about.c:135
+#: src/dialogs/dialog-about.c:137
 msgid "HTML, troff, LaTeX exporters"
 msgstr "HTML, troff, LaTeX exporters"
 
-#: src/dialogs/dialog-about.c:137
+#: src/dialogs/dialog-about.c:139
 msgid "original CSV support, French localization"
 msgstr "original CSV support, French localization"
 
-#: src/dialogs/dialog-about.c:141
+#: src/dialogs/dialog-about.c:143
 msgid "Paradox Importer"
 msgstr "Paradox Importer"
 
-#: src/dialogs/dialog-about.c:143
+#: src/dialogs/dialog-about.c:145
 msgid "Initial work on OLE2 for libgsf"
 msgstr "Initial work on OLE2 for libgsf"
 
-#: src/dialogs/dialog-about.c:145
+#: src/dialogs/dialog-about.c:147
 msgid "Consolidation and Structured Text importer"
 msgstr "Consolidation and Structured Text importer"
 
-#: src/dialogs/dialog-about.c:147
+#: src/dialogs/dialog-about.c:149
 msgid "Pieces of MS Excel import"
 msgstr "Pieces of MS Excel import"
 
-#: src/dialogs/dialog-about.c:149
+#: src/dialogs/dialog-about.c:151
 msgid "Initial XML support"
 msgstr "Initial XML support"
 
-#: src/dialogs/dialog-about.c:151
+#: src/dialogs/dialog-about.c:153
 msgid "Some financial functions"
 msgstr "Some financial functions"
 
-#: src/dialogs/dialog-about.c:153
+#: src/dialogs/dialog-about.c:155
 msgid "All round powerhouse"
 msgstr "All-around powerhouse"
 
-#: src/dialogs/dialog-about.c:261
+#: src/dialogs/dialog-about.c:263
 msgid "About Gnumeric"
 msgstr "About Gnumeric"
 
@@ -27520,7 +27528,7 @@ msgstr "Multiple errors\n"
 msgid "Unable to open file '%s'"
 msgstr "Unable to open file '%s'"
 
-#: src/gutils.c:540
+#: src/gutils.c:538
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
@@ -28518,20 +28526,20 @@ msgstr "EMF (extended metafile)"
 msgid "WMF (windows metafile)"
 msgstr "WMF (windows metafile)"
 
-#: src/sheet-object-widget.c:251 src/wbcg-actions.c:1914
+#: src/sheet-object-widget.c:257 src/wbcg-actions.c:1914
 msgid "Frame"
 msgstr "Frame"
 
-#: src/sheet-object-widget.c:482 src/wbcg-actions.c:1947
+#: src/sheet-object-widget.c:496 src/wbcg-actions.c:1947
 msgid "Button"
 msgstr "Button"
 
-#: src/sheet-object-widget.c:1193
+#: src/sheet-object-widget.c:1304
 #, c-format
 msgid "CheckBox %d"
 msgstr "CheckBox %d"
 
-#: src/sheet-object-widget.c:1633 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1750 src/wbcg-actions.c:1950
 msgid "RadioButton"
 msgstr "RadioButton"
 
@@ -31382,7 +31390,7 @@ msgstr "Nothing"
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 
-#: src/wbc-gtk.c:1104
+#: src/wbc-gtk.c:1118
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Show/Hide toolbar %s"
