@@ -1,5 +1,8 @@
 2001-10-12  Morten Welinder  <terra@diku.dk>
 
+	* configure.in (gal): Require 0.14 because the new search code
+ 	uses E-table.
+
 	* src/workbook-control-gui.c: Add the F7 accelerator for
  	non-Bonobo also.
 
