@@ -1,4 +1,4 @@
-1999-11-21  Arturo Tena  <arturo@directmail.org>
+1999-11-16  Arturo Tena  <arturo@directmail.org>
 
 	* ms-ole.c (pps_create): Added MsOle *f parameter, this fix a bug when
 	  creating more than 4 PPS's. All callers changed.
