@@ -1,5 +1,8 @@
 2000-12-04  Morten Welinder  <terra@diku.dk>
 
+	* src/sheet-object-widget.c (sheet_widget_checkbox_user_config):
+ 	Plug leak.
+
 	* src/number-match.c (print_regex_error): Print error code
  	numerically if our switch does not catch it.  Catch REG_EBOL and
  	REG_EEOL.  Print errors to stderr.

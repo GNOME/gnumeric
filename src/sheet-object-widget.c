@@ -501,6 +501,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *sheet_view)
 		char *text = expr_tree_as_string (swc->dep.expression,
 			parse_pos_init (&pp, NULL, so->sheet, 0, 0));
 		gtk_entry_set_text (GTK_ENTRY (state->entry), text);
+		g_free (text);
 	}
 
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
