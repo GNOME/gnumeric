@@ -1,5 +1,8 @@
 2002-06-21  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-component.c (wbcc_sheet_focus) : move to new
+	signature.
+
 	* src/application.c (gnumeric_application_finalize) : do not free the
 	  clipboard here.  It is too late.
 

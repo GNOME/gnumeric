@@ -137,7 +137,9 @@ wbcc_undo_redo_labels (WorkbookControl *wbc,
 		       char const *undo, char const *redo) {}
 
 static void
-wbcc_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags) {}
+wbcc_menu_state_update (WorkbookControl *wbc, int flags) {
+
+}
 
 static void
 wbcc_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *sheet) {}
