@@ -617,8 +617,10 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
+#if 0
 	{ GNOME_APP_UI_ITEM, N_("_Define cell names"), NULL, define_cell_cmd },
 	GNOMEUIINFO_SEPARATOR,
+#endif
 	
 	{ GNOME_APP_UI_ITEM, N_("_Recalculate"), NULL, recalc_cmd, NULL, NULL,
 	  0, 0, GDK_F9, 0 },

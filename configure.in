@@ -1,7 +1,7 @@
 AC_INIT(src/gnumeric.h)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(gnumeric,0.3)
+AM_INIT_AUTOMAKE(gnumeric,0.4)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
 
@@ -37,6 +37,14 @@ dnl ## internationalization support
 ALL_LINGUAS="es es_MX fr ko pt it hu cz"
 AM_GNU_GETTEXT
 AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
+
+dnl
+dnl Compatibility with old Gtk+ (will be removed when new Gtk+ and gnome-libs go out).
+dnl
+OLD_LIBS="$LIBS"
+LIBS="$LIBS $GTK_LIBS"
+AC_CHECK_FUNC(gtk_selection_add_target, AC_DEFINE(HAVE_GTK_SELECTION_ADD_TARGET))
+LIBS="$OLD_LIBS"
 
 dnl
 dnl Check for Perl
