@@ -330,11 +330,15 @@
 		_label="_Graph"
 		_tip="Invoke the graph guru to create a graph"/>
 
-	    <menuitem name="InsertObject" verb=""
-		pixtype="stock" pixname="Gnumeric_InsertShapedComponent"
+	    <menuitem name="InsertComponent" verb=""
+		pixtype="stock" pixname="Gnumeric_InsertComponent"
 		_label="_Object"
 		_tip="Inserts a Bonobo object"/>
 
+	    <menuitem name="InsertShapedComponent" verb=""
+		pixtype="stock" pixname="Gnumeric_InsertShapedComponent"
+		_label="_Shaped Object"
+		_tip="Inserts a Shaped Bonobo object"/>
 	    <separator/>
 
 	    <submenu name="Names" _label="_Name">

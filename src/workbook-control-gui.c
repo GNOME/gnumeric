@@ -2017,41 +2017,6 @@ cb_insert_cells (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	dialog_insert_cells (wbcg, wb_control_cur_sheet (wbc));
 }
 
-#ifdef ENABLE_BONOBO
-static void
-insert_bonobo_object (WorkbookControlGUI *wbcg, char const **interfaces)
-{
-	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	SheetControl *sc = (SheetControl *) scg;
-	char  *obj_id, *msg;
-	SheetObject *so = NULL;
-
-	obj_id = bonobo_selector_select_id (_("Select an object to add"),
-					    interfaces);
-
-	if (obj_id != NULL) {
-		so = sheet_object_container_new_object (
-			sc->sheet->workbook, obj_id);
-
-		if (so != NULL) {
-			scg_mode_create_object (scg, so);
-			return;
-		}
-		msg = g_strdup_printf (_("Unable to create object of type \'%s\'"),
-				       obj_id);
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
-		g_free (msg);
-	}
-	scg_mode_edit (sc);
-}
-
-static void
-cb_insert_bonobo_object (GtkWidget *widget, WorkbookControlGUI *wbcg)
-{
-	insert_bonobo_object (wbcg, NULL);
-}
-#endif
-
 static void
 cb_insert_comment (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -2437,25 +2402,48 @@ cb_launch_graph_guru (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-select_component_id (WorkbookControlGUI *wbcg, char const *interface)
+insert_bonobo_object (WorkbookControlGUI *wbcg, char const **interfaces)
 {
-	char const *required_interfaces [2];
+	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
+	SheetControl *sc = (SheetControl *) scg;
+	char  *obj_id, *msg;
+	SheetObject *so = NULL;
 
-	required_interfaces [0] = interface;
-	required_interfaces [1] = NULL;
-	insert_bonobo_object (wbcg, required_interfaces);
+	obj_id = bonobo_selector_select_id (_("Select an object to add"),
+					    interfaces);
+
+	if (obj_id != NULL) {
+		so = sheet_object_container_new_object (
+			sc->sheet->workbook, obj_id);
+
+		if (so != NULL) {
+			scg_mode_create_object (scg, so);
+			return;
+		}
+		msg = g_strdup_printf (_("Unable to create object of type \'%s\'"),
+				       obj_id);
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		g_free (msg);
+	}
+	scg_mode_edit (sc);
 }
 
 static void
 cb_insert_component (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	select_component_id (wbcg, "IDL:Bonobo/Embeddable:1.0");
+	static char const *required_interfaces [2] = {
+		"IDL:Bonobo/Embeddable:1.0", NULL
+	};
+	insert_bonobo_object (wbcg, required_interfaces);
 }
 
 static void
 cb_insert_shaped_component (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	select_component_id (wbcg, "IDL:Bonobo/Canvas/Item:1.0");
+	static char const *required_interfaces [2] = {
+		"IDL:Bonobo/Canvas/Item:1.0", NULL
+	};
+	insert_bonobo_object (wbcg, required_interfaces);
 }
 #endif
 
@@ -3080,7 +3068,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("InsertRows", cb_insert_rows),
 	BONOBO_UI_UNSAFE_VERB ("InsertColumns", cb_insert_cols),
 	BONOBO_UI_UNSAFE_VERB ("InsertCells", cb_insert_cells),
-	BONOBO_UI_UNSAFE_VERB ("InsertObject", cb_insert_bonobo_object),
 	BONOBO_UI_UNSAFE_VERB ("InsertComment", cb_insert_comment),
 
 	BONOBO_UI_UNSAFE_VERB ("ColumnAutoSize",
