@@ -8,7 +8,9 @@ Release Critical
 ----------------
 
 - validate expression names to ensure that they are not simple values (eg TRUE)
+
 - check the implementation of seriessum returning NULL seems bad
+  [MW: got some stuff]
 
 Pending Patches
 ---------------
