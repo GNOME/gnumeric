@@ -1,3 +1,7 @@
+2005-02-16  Jon K Hellan  <hellan@acm.org>
+
+	* Makefile.in.in (all-no): Fix typo.
+
 2005-02-15  Jody Goldberg <jody@gnome.org>
 
 	* ca.po, cs.po, da.po, de.po, el.po, en_CA.po, en_GB.po, es.po, et.po,
