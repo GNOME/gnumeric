@@ -21,7 +21,7 @@ typedef struct {
 	Sheet      *sheet;
 
 	/* Where are we */
-	int        col, row, col_span;
+	int        col, row, col_span, row_span;
 	int        pixel_span;
 
 	MStyle    *mstyle;

@@ -1,3 +1,8 @@
+1999-11-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-edit.c (item_edit_draw) : Fix fence post problem is
+	  previous patch.  Add currently unused 'row_span' in preparation.
+
 1999-11-23  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-edit.c (item_edit_draw) : Avoid crashing when we hit the
