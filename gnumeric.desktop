@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Gnumeric spreadsheet
+Name[da]=Gnumeric
 Name[de]=Gnumeric Tabellenkalkulation
 Name[es]=Gnumeric
 Name[fr]=Tableur Gnumeric
@@ -9,6 +10,7 @@ Name[no]=Gnumeric regneark
 Name[pt]=Gnumeric
 Name[pl]=Gnumeric
 Comment=Spreadsheet
+Comment[da]=Regneark
 Comment[de]=Gnumeric Tabellenkalkulation
 Comment[es]=Hoja de cálculo
 Comment[fr]=Tableur Gnumeric
