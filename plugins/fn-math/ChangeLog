@@ -1,3 +1,10 @@
+2003-07-05  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (callback_function_criteria) : new eval semantics do not
+	  guarantee that range content is evaluated before being called.
+	(callback_function_sumif) : ditto.
+	(callback_function_sumxy) : ditto.
+
 2003-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* functions.c: spelling fixes

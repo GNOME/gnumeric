@@ -1,3 +1,8 @@
+2003-07-05  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (cb_randdiscrete) : new evaluation semantics do not
+	  guarantee that range content will be evaluated before being called.
+
 2003-06-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* plugin.xml.in: Change to `Random Numbers' category

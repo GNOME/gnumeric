@@ -141,17 +141,19 @@ cb_randdiscrete (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 		return NULL;
 
 	if (p->prob) {
-		if (p->x <= p->prob [p->ind] + p->cum)
-			if (cell != NULL)
+		if (p->x <= p->prob [p->ind] + p->cum) {
+			if (cell != NULL) {
+				cell_eval (cell);
 				p->res = value_duplicate (cell->value);
-			else
+			} else
 				p->res = value_new_empty ();
-		else
+		} else
 			p->cum += p->prob [p->ind];
 	} else if (p->ind == p->x_ind) {
-		if (cell != NULL)
+		if (cell != NULL) {
+			cell_eval (cell);
 			p->res = value_duplicate (cell->value);
-		else
+		} else
 			p->res = value_new_empty ();
 	}
 	(p->ind)++;

@@ -58,9 +58,9 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
         gnm_float  x;
 	gpointer    p;
 
-	if (cell == NULL || cell->value == NULL)
+	if (cell == NULL)
 	        return NULL;
-
+	cell_eval (cell);
         switch (cell->value->type) {
 	case VALUE_ERROR:
 		return VALUE_TERMINATE;
@@ -106,9 +106,9 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 	Value           *v;
 
 	mm->total_num++;
-	if (cell == NULL || cell->value == NULL)
+	if (cell == NULL)
 	        return NULL;
-
+	cell_eval (cell);
         switch (cell->value->type) {
 	case VALUE_BOOLEAN:
 	case VALUE_INTEGER:
@@ -626,7 +626,8 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 	if (++(mm->total_num) != GPOINTER_TO_INT (mm->current->data))
 		return NULL;
 
-	if (cell != NULL && cell->value != NULL)
+	if (cell != NULL) {
+		cell_eval (cell);
 		switch (cell->value->type) {
 		case VALUE_BOOLEAN:	v = cell->value->v_bool.val ? 1 : 0;
 			break;
@@ -640,6 +641,7 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 		default:
 			return VALUE_TERMINATE;
 		}
+	}
 	mm->sum += v;
 	mm->current = mm->current->next;
 
@@ -2717,7 +2719,7 @@ callback_function_mmult_validate (Sheet *sheet, int col, int row,
         int *item_count = user_data;
 
 	cell_eval (cell);
-	if (cell->value == NULL || !VALUE_IS_NUMBER (cell->value))
+	if (!VALUE_IS_NUMBER (cell->value))
 	        return VALUE_TERMINATE;
 
 	++(*item_count);

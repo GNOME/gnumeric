@@ -46,6 +46,7 @@ Jody:
 	* Rationalize and document the SheetObject::print interface
 	* Cleanup line/arrow/filled sheet object config dialogs
 	* An initial implementation of bonobo-less File -> Send To
+	* Recalc fix for functions that did not use the collect utils
 
 Jon Kåre:
 	* Improve color combo.

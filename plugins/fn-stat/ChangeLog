@@ -1,3 +1,9 @@
+2003-07-05  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (callback_function_rank) : new eval semantics do not
+	  guarantee that range content has been evaluated before calling.
+	(callback_function_list) : ditto.
+
 2003-07-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* functions.c : ssmedian is GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC

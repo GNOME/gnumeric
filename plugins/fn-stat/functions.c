@@ -344,7 +344,8 @@ callback_function_rank (Sheet *sheet, int col, int row,
         stat_rank_t *p = user_data;
 	gnm_float  x;
 
-	if (cell == NULL || cell->value == NULL)
+	cell_eval (cell);
+	if (cell->value == NULL)
 	        return NULL;
 
 	switch (cell->value->type) {
@@ -2796,9 +2797,8 @@ callback_function_list (Sheet *sheet, int col, int row,
         stat_list_t *mm = user_data;
 	gnm_float *p;
 
-	if (cell == NULL || cell->value == NULL)
-	        return NULL;
-	if (!VALUE_IS_NUMBER (cell->value))
+	cell_eval (cell);
+	if (cell->value == NULL || !VALUE_IS_NUMBER (cell->value))
 		return NULL;
 
 	p = g_new (gnm_float, 1);
