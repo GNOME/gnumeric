@@ -952,7 +952,7 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 	StyleColor *fore, *back, *basefore;
 	int back_index;
 	
-	g_return_if_fail (cell->value);
+	g_return_if_fail (xf);
 	
 	if (xfidx == 0) {
 /*		printf ("Normal cell formatting\n"); */

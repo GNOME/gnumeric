@@ -2,6 +2,7 @@
 
 	* ms-excel-read.c (ms_excel_formula_shared): Fixup previous patch.
 	(ms_excel_read_formula): Re-arrange logic.
+	(ms_excel_set_cell_xf): Add check on 'xf' back in ...
 
 1999-07-11  Michael Meeks  <michael@edenproject.org>
 
