@@ -1258,7 +1258,11 @@ ms_excel_sheet_set_comment (MS_EXCEL_SHEET * sheet, int col, int row, char *text
 {
 	if (text)
 	{
-		Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+		Cell *cell = sheet_cell_get (sheet->gnum_sheet, col, row);
+		if (!cell) {
+			cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+			cell_set_text_simple (cell, "");
+		}
 		sheet->blank = 0 ;
 		cell_set_comment (cell, text);
 	}

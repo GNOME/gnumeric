@@ -1,3 +1,13 @@
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.h: Commented sheet_cell_get vs. _fetch.
+
+	* src/expr.c (do_expr_tree_unref, value_string, value_release),
+	(eval_cell_value, do_expr_tree_invalidate_references): 
+	Clean: Added 'default' cases with warnings.
+	(value_get_as_double, value_get_as_int, value_get_bool): Changed
+	to safer / faster switch statement from if.
+
 1999-05-07  Michael Meeks  <michael@imaginator.com>
 
 	* src/corba-workbook.c (corba_sheet): Add CORBA_Environment

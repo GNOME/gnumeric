@@ -253,7 +253,9 @@ int         sheet_cell_foreach_range      (Sheet *sheet, int only_existing,
 				           int end_col, int end_row,
 				           sheet_cell_foreach_callback callback,
 				           void *closure);
+ /* Returns NULL if doesn't exist */
 Cell       *sheet_cell_get                (Sheet *sheet, int col, int row);
+ /* Returns new Cell if doesn't exist */
 Cell       *sheet_cell_fetch              (Sheet *sheet, int col, int row);
 void        sheet_cell_comment_link       (Cell *cell);
 void        sheet_cell_comment_unlink     (Cell *cell);

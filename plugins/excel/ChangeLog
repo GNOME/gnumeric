@@ -1,3 +1,11 @@
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
+	* ms-formula.c (ms_excel_parse_formula): Hack at ARRAY
+	functionality...
+
+	* ms-excel.c (ms_excel_sheet_set_comment): Fix for setting
+	comments on blank cells; was fatal.
+
 1999-05-07  Michael Meeks  <michael@imaginator.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Fixed horrible bug

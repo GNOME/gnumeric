@@ -104,6 +104,9 @@ do_expr_tree_unref (ExprTree *tree)
 	case OPER_ANY_UNARY:
 		do_expr_tree_unref (tree->u.value);
 		break;
+	default:
+		g_warning ("do_expr_tree_unref error\n");
+		break;
 	}
 
 	g_free (tree);
@@ -145,6 +148,9 @@ value_string (const Value *value)
 
 	case VALUE_CELLRANGE:
 		break;
+	default:
+		g_warning ("value_string problem\n");
+		break;
 	}
 
 	return g_strdup ("Internal problem");
@@ -181,6 +187,9 @@ value_release (Value *value)
 	case VALUE_CELLRANGE:
 		break;
 
+	default:
+		g_warning ("value_release problem\n");
+		break;
 	}
 	g_free (value);
 }
@@ -216,6 +225,9 @@ value_copy_to (Value *dest, const Value *source)
 	}
 	case VALUE_CELLRANGE:
 		dest->v.cell_range = source->v.cell_range;
+		break;
+	default:
+		g_warning ("value_copy_to problem\n");
 		break;
 	}
 }
@@ -307,68 +319,80 @@ value_get_bool (const Value *v, int *err)
 {
 	*err = 0;
 
-	if (v->type == VALUE_STRING)
+	switch (v->type) {
+	case VALUE_STRING:
 		return atoi (v->v.str->str);
 
-	if (v->type == VALUE_CELLRANGE){
+	case VALUE_CELLRANGE:
 		*err = 1;
 		return 0;
-	}
-
-	if (v->type == VALUE_INTEGER)
+		
+	case VALUE_INTEGER:
 		return v->v.v_int != 0;
 
-	if (v->type == VALUE_FLOAT)
+	case VALUE_FLOAT:
 		return v->v.v_float != 0.0;
 
-	if (v->type == VALUE_ARRAY)
+	case VALUE_ARRAY:
 		return 0;
-
-	g_warning ("Unhandled value in value_get_boolean");
-
+	default:
+		g_warning ("Unhandled value in value_get_boolean");
+		break;
+	}
 	return 0;
 }
 
 float_t
 value_get_as_double (const Value *v)
 {
-	if (v->type == VALUE_STRING){
+	switch (v->type)
+	{
+	case VALUE_STRING:
 		return atof (v->v.str->str);
-	}
 
-	if (v->type == VALUE_CELLRANGE){
+	case VALUE_CELLRANGE:
 		g_warning ("Getting range as a double: what to do?");
 		return 0.0;
-	}
 
-	if (v->type == VALUE_INTEGER)
+	case VALUE_INTEGER:
 		return (float_t) v->v.v_int;
-
-	if (v->type == VALUE_ARRAY)
+		
+	case VALUE_ARRAY:
 		return 0.0;
 
-	return (float_t) v->v.v_float;
+	case VALUE_FLOAT:
+		return (float_t) v->v.v_float;
+	default:
+		g_warning ("value_get_as_double type error\n");
+		break;
+	}
+	return 0.0;
 }
 
 int
 value_get_as_int (const Value *v)
 {
-	if (v->type == VALUE_STRING){
+	switch (v->type)
+	{
+	case VALUE_STRING:
 		return atoi (v->v.str->str);
-	}
 
-	if (v->type == VALUE_CELLRANGE){
+	case VALUE_CELLRANGE:
 		g_warning ("Getting range as a double: what to do?");
 		return 0.0;
-	}
 
-	if (v->type == VALUE_INTEGER)
+	case VALUE_INTEGER:
 		return v->v.v_int;
 
-	if (v->type == VALUE_ARRAY)
+	case VALUE_ARRAY:
 		return 0.0;
 
-	return (int) v->v.v_float;
+	case VALUE_FLOAT:
+		return (int) v->v.v_float;
+	default:
+		g_warning ("value_get_as_int unknown type\n");
+		break;
+	}
 }
 
 Value *
@@ -574,6 +598,9 @@ eval_cell_value (Sheet *sheet, Value *value)
 
 	case VALUE_CELLRANGE:
 		res->v.cell_range = value->v.cell_range;
+		break;
+	default:
+		g_warning ("eval_cell_value error\n");
 		break;
 	}
 	return res;
@@ -1617,6 +1644,9 @@ do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_frob_r
 			fprintf (stderr, "Reminder: FIXME in do_expr_tree_invalidate_references\n");
 			/* ??? */
 			return NULL;
+		default:
+			g_warning ("do_expr_tree_invalidate_references error\n");
+			break;
 		}
 		g_assert_not_reached ();
 		return NULL;

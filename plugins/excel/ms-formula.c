@@ -815,15 +815,20 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			if (last)  g_free (last) ;
 			break ;
 		}
-/*		case FORMULA_PTG_ARRAY:
+		case FORMULA_PTG_ARRAY:
 		{
+			Value *v;
 			guint16 cols=BIFF_GETBYTE(cur+0);
 			guint16 rows=BIFF_GETWORD(cur+1);
 			guint16 lpx,lpy;
 			guint8 *data=cur+3;
-			GString *ans = g_string_new ("{");
-			ptg_length = 3;
+			
+
 			if (cols==0) cols=256;
+			v = value_array_new (cols, rows);
+			ptg_length = 3;
+			printf ("An Array how interesting: (%d,%d)\n", cols, rows);
+			dump (mem, length);
 #ifdef 0
 			for (lpy=0;lpy<rows;lpy++) {
 				for (lpx=0;lpx<cols;lpx++) {
@@ -849,11 +854,9 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				}
 			}
 #endif
-			g_string_append (ans, "}");
-			parse_list_push_raw (&stack, ans->str, NO_PRECEDENCE);
-			g_string_free (ans, FALSE);
+			parse_list_push_raw (&stack, v);
 			break;
-			}*/
+		}
 		case FORMULA_PTG_FUNC:
 		{
 			if (!make_function (&stack, BIFF_GETWORD(cur), -1)) error = 1 ;
