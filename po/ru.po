@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.54+\n"
-"POT-Creation-Date: 2000-06-24 14:07+0000\n"
-"PO-Revision-Date: 2000-06-24 14:09+00:00\n"
+"POT-Creation-Date: 2000-06-27 22:18+0000\n"
+"PO-Revision-Date: 2000-06-27 22:21+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -206,7 +206,7 @@ msgstr "Включить доступ к базам данных"
 #: src/functions/fn-information.c:669 src/functions/fn-information.c:695
 #: src/functions/fn-information.c:744 src/functions/fn-information.c:773
 #: src/functions/fn-information.c:836 src/functions/fn-logical.c:194
-#: src/functions/fn-lookup.c:469 src/functions/fn-string.c:343
+#: src/functions/fn-string.c:343
 msgid "Invalid number of arguments"
 msgstr "Неверное число аргументов"
 
@@ -4164,23 +4164,23 @@ msgstr "белый"
 msgid "yellow"
 msgstr "желтый"
 
-#: src/format.c:1405
+#: src/format.c:1406
 msgid "0.0########"
 msgstr "0.0########"
 
 #. Is it a boolean
-#: src/format.c:1419 src/number-match.c:885 src/value-sheet.c:34
-#: src/value.c:398
+#: src/format.c:1420 src/number-match.c:885 src/value-sheet.c:34
+#: src/value.c:413
 msgid "TRUE"
 msgstr "ИСТИНА"
 
-#: src/format.c:1419 src/number-match.c:887 src/value-sheet.c:34
-#: src/value.c:398
+#: src/format.c:1420 src/number-match.c:887 src/value-sheet.c:34
+#: src/value.c:413
 msgid "FALSE"
 msgstr "ЛОЖЬ"
 
 #. Array of arrays ??
-#: src/format.c:1432
+#: src/format.c:1433
 msgid "ARRAY"
 msgstr "МАССИВ"
 
@@ -7493,7 +7493,7 @@ msgstr ""
 msgid "Engineering"
 msgstr "Инженерные"
 
-#: src/functions/fn-financial.c:197
+#: src/functions/fn-financial.c:223
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -7518,7 +7518,7 @@ msgid ""
 "@SEEALSO=ACCRINTM"
 msgstr ""
 
-#: src/functions/fn-financial.c:255
+#: src/functions/fn-financial.c:281
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -7544,7 +7544,7 @@ msgid ""
 "@SEEALSO=ACCRINT"
 msgstr ""
 
-#: src/functions/fn-financial.c:305
+#: src/functions/fn-financial.c:331
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -7572,7 +7572,7 @@ msgid ""
 "@SEEALSO=RECEIVED, DATE"
 msgstr ""
 
-#: src/functions/fn-financial.c:365
+#: src/functions/fn-financial.c:391
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -7595,7 +7595,7 @@ msgid ""
 "@SEEALSO=INTRATE"
 msgstr ""
 
-#: src/functions/fn-financial.c:417
+#: src/functions/fn-financial.c:443
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -7620,7 +7620,7 @@ msgid ""
 "@SEEALSO=PRICEMAT"
 msgstr ""
 
-#: src/functions/fn-financial.c:467
+#: src/functions/fn-financial.c:493
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -7643,7 +7643,7 @@ msgid ""
 "@SEEALSO=PRICEDISC"
 msgstr ""
 
-#: src/functions/fn-financial.c:522
+#: src/functions/fn-financial.c:548
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -7684,7 +7684,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:568
+#: src/functions/fn-financial.c:594
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -7728,11 +7728,11 @@ msgstr ""
 "\n"
 "@SEEALSO=NOMINAL"
 
-#: src/functions/fn-financial.c:609
+#: src/functions/fn-financial.c:635
 msgid "effect - domain error"
 msgstr "effect - ошибка диапазона"
 
-#: src/functions/fn-financial.c:617
+#: src/functions/fn-financial.c:643
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -7764,11 +7764,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EFFECT"
 
-#: src/functions/fn-financial.c:647
+#: src/functions/fn-financial.c:673
 msgid "nominal - domain error"
 msgstr "nominal - ошибка диапазона"
 
-#: src/functions/fn-financial.c:656
+#: src/functions/fn-financial.c:682
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -7787,7 +7787,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: src/functions/fn-financial.c:690
+#: src/functions/fn-financial.c:716
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -7813,7 +7813,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
 
-#: src/functions/fn-financial.c:744
+#: src/functions/fn-financial.c:770
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -7841,7 +7841,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SLN,SYD"
 
-#: src/functions/fn-financial.c:792
+#: src/functions/fn-financial.c:818
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -7882,11 +7882,11 @@ msgstr ""
 "SLN(10000,700,10) равняется $930\n"
 "@SEEALSO=SYD"
 
-#: src/functions/fn-financial.c:836
+#: src/functions/fn-financial.c:862
 msgid "sln - domain error"
 msgstr "sln - ошибка диапазона"
 
-#: src/functions/fn-financial.c:844
+#: src/functions/fn-financial.c:870
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -7932,11 +7932,11 @@ msgstr ""
 "SYD(5000, 200, 5, 2) равняется 1280.00\n"
 "@SEEALSO=SLN"
 
-#: src/functions/fn-financial.c:890
+#: src/functions/fn-financial.c:916
 msgid "syd - domain error"
 msgstr "syd - ошибка диапазона"
 
-#: src/functions/fn-financial.c:900
+#: src/functions/fn-financial.c:926
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -7958,7 +7958,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARFR"
 
-#: src/functions/fn-financial.c:942
+#: src/functions/fn-financial.c:968
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -7980,7 +7980,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARDE"
 
-#: src/functions/fn-financial.c:984
+#: src/functions/fn-financial.c:1010
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -7998,7 +7998,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: src/functions/fn-financial.c:1043
+#: src/functions/fn-financial.c:1069
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -8013,7 +8013,7 @@ msgid ""
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1088
+#: src/functions/fn-financial.c:1114
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -8029,7 +8029,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1129
+#: src/functions/fn-financial.c:1155
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -8044,7 +8044,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1170
+#: src/functions/fn-financial.c:1196
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -8060,7 +8060,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:1265
+#: src/functions/fn-financial.c:1291
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -8095,7 +8095,7 @@ msgstr ""
 "IRR(A1:A8) равняется 0.04375.\n"
 "@SEEALSO=FV,NPV,PV"
 
-#: src/functions/fn-financial.c:1370
+#: src/functions/fn-financial.c:1396
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -8120,11 +8120,11 @@ msgstr ""
 "\n"
 "@SEEALSO=FV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:1399
+#: src/functions/fn-financial.c:1425
 msgid "pv - domain error"
 msgstr "pv - ошибка диапазона"
 
-#: src/functions/fn-financial.c:1415
+#: src/functions/fn-financial.c:1441
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -8148,7 +8148,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: src/functions/fn-financial.c:1469
+#: src/functions/fn-financial.c:1495
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -8173,7 +8173,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: src/functions/fn-financial.c:1528
+#: src/functions/fn-financial.c:1554
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -8214,7 +8214,7 @@ msgstr ""
 "0.224838.\n"
 "@SEEALSO=IRR,XNPV"
 
-#: src/functions/fn-financial.c:1632
+#: src/functions/fn-financial.c:1658
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -8240,7 +8240,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:1671
+#: src/functions/fn-financial.c:1697
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -8251,7 +8251,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1700
+#: src/functions/fn-financial.c:1726
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -8267,7 +8267,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1747
+#: src/functions/fn-financial.c:1773
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -8283,7 +8283,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1796
+#: src/functions/fn-financial.c:1822
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -8317,7 +8317,7 @@ msgstr ""
 "можете удвоить свои сбережения только к концу 12-ого года.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1845
+#: src/functions/fn-financial.c:1871
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -8339,7 +8339,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1882
+#: src/functions/fn-financial.c:1908
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -8354,7 +8354,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1926
+#: src/functions/fn-financial.c:1952
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -8400,7 +8400,7 @@ msgstr ""
 "EURO(\"DEM\") возвращает 1.95583.\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2008
+#: src/functions/fn-financial.c:2034
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)\n"
@@ -8416,7 +8416,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2032
+#: src/functions/fn-financial.c:2058
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)\n"
@@ -8432,7 +8432,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2050
+#: src/functions/fn-financial.c:2076
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)\n"
@@ -8448,7 +8448,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2068
+#: src/functions/fn-financial.c:2094
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)\n"
@@ -8464,7 +8464,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2086
+#: src/functions/fn-financial.c:2112
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -8482,7 +8482,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2104
+#: src/functions/fn-financial.c:2130
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,f"
@@ -8500,7 +8500,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2122
+#: src/functions/fn-financial.c:2148
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequ"
@@ -8518,7 +8518,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2140
+#: src/functions/fn-financial.c:2166
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,freque"
@@ -8536,7 +8536,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2158
+#: src/functions/fn-financial.c:2184
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)"
@@ -8555,7 +8555,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORLINC"
 
-#: src/functions/fn-financial.c:2176
+#: src/functions/fn-financial.c:2202
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
@@ -8572,7 +8572,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AMORDEGRC"
 
-#: src/functions/fn-financial.c:2194
+#: src/functions/fn-financial.c:2220
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -8590,7 +8590,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2213
+#: src/functions/fn-financial.c:2239
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -8607,7 +8607,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2232
+#: src/functions/fn-financial.c:2281
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -8625,7 +8625,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2251
+#: src/functions/fn-financial.c:2300
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -8641,7 +8641,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-financial.c:2269
+#: src/functions/fn-financial.c:2318
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -8657,7 +8657,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2287
+#: src/functions/fn-financial.c:2336
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
@@ -8675,7 +8675,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2306
+#: src/functions/fn-financial.c:2355
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -8693,7 +8693,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-financial.c:2325
+#: src/functions/fn-financial.c:2374
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -8711,7 +8711,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2344
+#: src/functions/fn-financial.c:2393
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -8729,7 +8729,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2363
+#: src/functions/fn-financial.c:2412
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -8747,7 +8747,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DB"
 
-#: src/functions/fn-financial.c:2386
+#: src/functions/fn-financial.c:2435
 msgid "Financial"
 msgstr "Финансовые"
 
@@ -9212,8 +9212,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: src/functions/fn-logical.c:102 src/functions/fn-lookup.c:464
-#: src/functions/fn-lookup.c:472 src/functions/fn-string.c:525
+#: src/functions/fn-logical.c:102 src/functions/fn-string.c:525
 msgid "Type Mismatch"
 msgstr "Несоответствие типов"
 
@@ -9277,11 +9276,30 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-logical.c:231
+#: src/functions/fn-logical.c:228
+msgid ""
+"@FUNCTION=TRUE\n"
+"@SYNTAX=TRUE()\n"
+"@DESCRIPTION=TRUE returns boolean value true.  This function is Excel "
+"compatible. \n"
+"@EXAMPLES=\n"
+"TRUE() equals TRUE.\n"
+"\n"
+"@SEEALSO=FALSE"
+msgstr ""
+"@FUNCTION=TRUE\n"
+"@SYNTAX=TRUE()\n"
+"@DESCRIPTION=Возвращает значение логической истины (TRUE). Эта функция Excel-совместима. \n"
+"@EXAMPLES=\n"
+"TRUE() равняется TRUE.\n"
+"\n"
+"@SEEALSO=FALSE"
+
+#: src/functions/fn-logical.c:253
 msgid "Logical"
 msgstr "Логические"
 
-#: src/functions/fn-lookup.c:20
+#: src/functions/fn-lookup.c:310
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -9320,7 +9338,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:137
+#: src/functions/fn-lookup.c:427
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -9340,11 +9358,11 @@ msgstr ""
 "\n"
 "@SEEALSO=IF"
 
-#: src/functions/fn-lookup.c:161
+#: src/functions/fn-lookup.c:451
 msgid "#ARG!"
 msgstr "#ARG!"
 
-#: src/functions/fn-lookup.c:188
+#: src/functions/fn-lookup.c:478
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate])\n"
@@ -9361,7 +9379,7 @@ msgid ""
 "@SEEALSO=HLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:344
+#: src/functions/fn-lookup.c:542
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate])\n"
@@ -9377,7 +9395,7 @@ msgid ""
 "@SEEALSO=VLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:430
+#: src/functions/fn-lookup.c:606
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -9393,7 +9411,7 @@ msgid ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:531
+#: src/functions/fn-lookup.c:673
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -9414,7 +9432,7 @@ msgid ""
 "@SEEALSO=LOOKUP"
 msgstr ""
 
-#: src/functions/fn-lookup.c:671
+#: src/functions/fn-lookup.c:733
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -9438,7 +9456,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:740
+#: src/functions/fn-lookup.c:802
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference,[row, col, area])\n"
@@ -9450,7 +9468,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:786
+#: src/functions/fn-lookup.c:848
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -9473,7 +9491,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:838
+#: src/functions/fn-lookup.c:900
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -9495,7 +9513,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:863
+#: src/functions/fn-lookup.c:925
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -9519,7 +9537,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:926
+#: src/functions/fn-lookup.c:988
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -9541,7 +9559,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:978
+#: src/functions/fn-lookup.c:1040
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -9563,7 +9581,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:1003
+#: src/functions/fn-lookup.c:1065
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(reference)\n"
@@ -9575,7 +9593,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:1028
+#: src/functions/fn-lookup.c:1090
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -9592,7 +9610,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: src/functions/fn-lookup.c:1075
+#: src/functions/fn-lookup.c:1137
 msgid "Data / Lookup"
 msgstr "Данные / Поиск"
 
@@ -12293,7 +12311,7 @@ msgstr ""
 #: src/functions/fn-stat.c:1649
 msgid ""
 "@FUNCTION=FINV\n"
-"@SYNTAX=TINV(p,dof)\n"
+"@SYNTAX=FINV(p,dof1,dof2)\n"
 "@DESCRIPTION=FINV function returns the inverse of the F probability "
 "distribution.\n"
 "If @p < 0 or @p > 1 FINV returns #NUM! error. If @dof1 < 1 or @dof2 < 1 FINV "
@@ -12304,10 +12322,9 @@ msgid ""
 "@SEEALSO=FDIST"
 msgstr ""
 "@FUNCTION=FINV\n"
-"@SYNTAX=TINV(p,dof)\n"
+"@SYNTAX=FINV(p,dof1,dof2)\n"
 "@DESCRIPTION=Функция FINV возвращает инверсию F-распределения вероятности.\n"
-"Если @p < 0 или @p > 1, возвращается ошибка #NUM!. Если @dof1 < 1 или @dof2 "
-"< 1, возвращается ошибка #NUM!. Эта функция Excel-совместима. \n"
+"Если @p < 0 или @p > 1, FINV возвращает ошибку #NUM!. Если @dof1 < 1 или @dof2 < 1, FINV возвращает ошибку #NUM!. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "FINV(0.2,2,4) равняется 2.472135955.\n"
 "\n"
@@ -14695,7 +14712,8 @@ msgstr "<Не был установлен>"
 #. "could not be found in the expected location"
 #: src/style.c:451
 msgid "Gnumeric failed to find a suitable default font.\n"
-msgstr "Gnumeric не удалось найти подходящий шрифт используемый по умолчанию.\n"
+msgstr ""
+"Gnumeric не удалось найти подходящий шрифт используемый по умолчанию.\n"
 
 #: src/style.c:473
 msgid "does not have a valid entry for Helvetica"
@@ -14705,7 +14723,7 @@ msgstr "нет подходящей записи для шрифта Helvetica"
 msgid "could not be found in the expected location"
 msgstr "невозможно найти в ожидаемом месте"
 
-#: src/value.c:545
+#: src/value.c:560
 msgid "Terminate"
 msgstr "Закончить"
 
