@@ -1,3 +1,10 @@
+gnumeric (1.2.10-1) unstable; urgency=medium
+
+  * New upstream bugfix release reverting an incomplete patch to the duration 
+    functions that disabled them. (Closes: #243168)
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 12 Apr 2004 16:13:48 +0200
+
 gnumeric (1.2.9-1) unstable; urgency=medium
 
   * New upstream bugfix release.
