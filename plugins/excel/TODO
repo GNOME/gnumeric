@@ -25,6 +25,7 @@ Michael
 	* glib
 		* g_get_double ( instead of biff_getdouble )
 		* g_str_case_hash ( case insensitive g_str_hash )
+	* Styles - special 'merge' only for visible parts of blank cells...
 
 Jody
 	* Where do the anchor points for objects come from.

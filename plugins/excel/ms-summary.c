@@ -159,61 +159,8 @@ read_records (MsOleStream *s, guint32 type)
 void
 ms_summary_read (MsOle *f, SummaryInfo *sin)
 {
-	/* Dwords, GUID, DW, FileTimes, DW */
-	guint8 data[HEADER_LEN];
-	int lp, num_records;
-	MsOleStream *s;
-	MsOlePos header;
-	
-	s = ms_ole_stream_open_name (ms_ole_get_root (f),
-				     "SummaryInformation", 'r');
-
-	if (!s || (HEADER_LEN > s->size) ||
-	    !s->read_copy (s, data, HEADER_LEN)) {
-#if SUMMARY_DEBUG > 0
-		printf ("Error opening SummaryInformation\n");
-#endif
-		return;
-	}
-
-	num_records = MS_OLE_GET_GUINT32 (data + 0x34);
-
-#if SUMMARY_DEBUG > 0
-	printf ("Summary info header len 0x%x = 0x%x records\n",
-		HEADER_LEN, num_records);
-	dump (data, HEADER_LEN);
-#endif
-
-	header = HEADER_LEN;
-	for (lp = 0; lp < num_records; lp++) {
-		guint8 data[8];
-		MsOlePos p;
-		guint32 type;
-		SummaryItem *sit;
-
-		s->lseek (s, header, MsOleSeekSet);
-		
-		if (!s->read_copy (s, data, 8)) {
-			printf ("Error reading record\n");
-			return;
-		}
-		header+= 8;
-
-		p = ((0x0b + 2) * 8) - HEADER_LEN +
-			MS_OLE_GET_GUINT32 (data + 4);
-		s->lseek (s, p, MsOleSeekSet);
-
-		type = MS_OLE_GET_GUINT32 (data);
-
-		if ((sit = read_records (s, type)))
-			summary_info_add (sin, sit);
-#if SUMMARY_DEBUG > 0
-		else
-			printf ("Error on this record:\n");
-
-		printf (" Record type %x at offset 0x%x\n", type,
-			MS_OLE_GET_GUINT32 (data + 4));
-#endif
-	}
+/*	MsOleSummary *si = ms_ole_summary_open (f);
+	Broken it temporarily... :-)
+	ms_ole_summary_destroy (f); */
 }
 

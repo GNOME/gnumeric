@@ -1,3 +1,7 @@
+1999-07-21  Michael Meeks  <michael@edenproject.org>
+
+	* src/main.c: Remove xbase include.
+
 1999-07-20  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/expr.c (value_area_fetch_x_y) : make value_zero local.
@@ -72,7 +76,6 @@
 
 	* src/xml-io.c (xml_write_summary, xml_read_summary): Created.
 	(xml_workbook_read, xml_write_summary): Added summary stuff.
-
 
 1999-07-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 

@@ -18,7 +18,6 @@
 #include "main.h"
 
 #include "../plugins/excel/boot.h"
-#include "../plugins/xbase/boot.h"
 #include <glade/glade.h>
 #include <glade/glade-xml.h>
 
