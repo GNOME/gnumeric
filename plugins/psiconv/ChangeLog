@@ -1,3 +1,11 @@
+2001-09-18  Jody Goldberg <jgoldberg@home.com>
+
+	* psiconv-read.c (value_new_from_psi_cel) : renamed from set_value,
+	  and restructured to generate but not assign the value.
+	(add_cell) : Use set_expr_and_value where appropriate.
+	(add_workbook) : queue everything for recalc, although we probably
+	  don't need it given the use of set_expr_value.
+
 2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml: Removed

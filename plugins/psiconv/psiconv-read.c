@@ -219,28 +219,28 @@ set_style(Sheet *sheet, int row, int col,
 	sheet_style_set_pos(sheet,col,row,style);
 }
 
-static void
-set_value(Cell *cell, const psiconv_sheet_cell psi_cell)
+static Value *
+value_new_from_psi_cell(Cell *cell, const psiconv_sheet_cell psi_cell)
 {
-	Value *v;
-	if (psi_cell->type == psiconv_cell_int) 
-		v = value_new_int(psi_cell->data.dat_int);
-	else if (psi_cell->type == psiconv_cell_float) 
-		v = value_new_float(psi_cell->data.dat_float);
-	else if (psi_cell->type == psiconv_cell_string) 
-		v = value_new_string(psi_cell->data.dat_string);
-	else if (psi_cell->type == psiconv_cell_bool) 
-		v = value_new_bool(psi_cell->data.dat_bool);
-	else if (psi_cell->type == psiconv_cell_blank) 
-		v = value_new_empty();
-	else if (psi_cell->type == psiconv_cell_error) 
+	switch (psi_cell->type) {
+	case psiconv_cell_int :
+		return value_new_int(psi_cell->data.dat_int);
+	case psiconv_cell_float :
+		return value_new_float(psi_cell->data.dat_float);
+	case psiconv_cell_string :
+		return value_new_string(psi_cell->data.dat_string);
+	case psiconv_cell_bool :
+		return value_new_bool(psi_cell->data.dat_bool);
+	case psiconv_cell_blank :
+		return value_new_empty();
+	case psiconv_cell_error :
 		/* TODO: value_new_error */
-		v = value_new_empty();
-	else 
+		return value_new_empty();
+	default :
 		/* TODO: value_new_error */
-		v = value_new_empty();
-	if (v) 
-		cell_set_value(cell,v,NULL);
+		return value_new_empty();
+	}
+	return NULL;
 }
 
 static ExprTree *
@@ -412,37 +412,53 @@ parse_subexpr(const psiconv_formula psi_formula)
 	return NULL;
 }
 
-static void
-set_expr(Cell *cell, const psiconv_formula psi_formula)
+static ExprTree *
+expr_new_from_formula (const psiconv_sheet_cell psi_cell,
+		       const psiconv_formula_list psi_formulas)
 {
-	ExprTree *expr = parse_subexpr(psi_formula);
-	if (expr)
-		cell_set_expr(cell,expr,NULL);
+	psiconv_formula formula;
+
+	formula = psiconv_get_formula (psi_formulas, psi_cell->ref_formula);
+
+	return (formula != NULL) ?  return parse_subexpr (formula) : NULL;
 }
 
 static void
-add_cell(Sheet *sheet, const psiconv_sheet_cell psi_cell,
-         const psiconv_formula_list psi_formulas, const MStyle * default_style)
+add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
+	  const psiconv_formula_list psi_formulas, const MStyle * default_style)
 {
 	Cell *cell;
+	Value *val;
+	ExprTree *tree;
 	psiconv_formula psi_formula;
 
-	cell = sheet_cell_fetch(sheet,psi_cell->column,psi_cell->row);
+	cell = sheet_cell_fetch (sheet, psi_cell->column, psi_cell->row);
 	if (!cell)
 		return;
 
-	/* set_expr might fail, so we do the set_value even if there is an
-	   formula associated with this cell */
-	set_value(cell,psi_cell);
+	val = value_new_from_psi_cell (psi_cell);
 
-	if (psi_cell->calculated) {
-		/* If psiconv_list_get fails, something is very wrong... */
-		if ((psi_formula = psiconv_get_formula(psi_formulas,
-		                                   psi_cell->ref_formula))) {
-			set_expr(cell,psi_formula);
-			/* TODO: Is this the right function to call? */
-			cell_eval_content(cell);
-		}
+	if (psi_cell->calculated)
+		expr = expr_new_from_formula (psi_cell, psi_formulas);
+
+	if (expr != NULL) {
+		/* TODO : is there a notion of parse format ?
+		 * How does it store a user entered date ?
+		 */
+		if (value != NULL)
+			cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
+		else
+			cell_set_expr (cell, expr, NULL);
+	} else if (value != NULL) {
+		/* TODO : is there a notion of parse format ?
+		 * How does it store a user entered date ?
+		 */
+		cell_set_value (cell, val, NULL);
+	} else {
+		/* TODO : send this warning to iocontext with details of
+		 * which sheet and cell.
+		 */
+		g_warning ("Cell with no value or expression ?");
 	}
 
 	/* TODO: Perhaps this must be moved above set_format */
@@ -458,6 +474,10 @@ add_cells(Sheet *sheet, const psiconv_sheet_cell_list psi_cells,
 	psiconv_u32 i;
 	psiconv_sheet_cell psi_cell;
 	
+	/* FIXME : Without seeing the psiconv code this seems
+	 * VERY inefficent.  index & len are O(n) operations on lists.
+	 * Why not just walk the list ?
+	 */
 	for (i = 0; i < psiconv_list_length(psi_cells); i++) {
 		/* If psiconv_list_get fails, something is very wrong... */
 		if ((psi_cell = psiconv_list_get(psi_cells,i)))
@@ -510,6 +530,8 @@ add_workbook(Workbook *wb, psiconv_sheet_workbook_section psi_workbook)
 			add_worksheet(wb,psi_worksheet,i,
 			              psi_workbook->formulas);
 	}
+
+	workbook_queue_all_recalc (wb);
 }
 
 static void
