@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.3\n"
-"POT-Creation-Date: 2002-01-21 16:38+0300\n"
+"POT-Creation-Date: 2002-01-21 23:04-0500\n"
 "PO-Revision-Date: 2002-01-21 17:53+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
@@ -128,8 +128,8 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:375
-#, c-format
+#: plugins/derivatives/options.c:376
+#, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_call_rho\n"
 "@SYNTAX=opt_bs_call_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -150,8 +150,8 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:398
-#, c-format
+#: plugins/derivatives/options.c:400
+#, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_put_rho\n"
 "@SYNTAX=opt_bs_put_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -172,7 +172,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:421
+#: plugins/derivatives/options.c:423
 msgid ""
 "@FUNCTION=opt_bs_call_theta\n"
 "@SYNTAX=opt_bs_call_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -192,7 +192,7 @@ msgid ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:444
+#: plugins/derivatives/options.c:446
 msgid ""
 "@FUNCTION=opt_bs_put_theta\n"
 "@SYNTAX=opt_bs_put_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -212,7 +212,7 @@ msgid ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:467
+#: plugins/derivatives/options.c:469
 msgid ""
 "@FUNCTION=opt_bs_gamma\n"
 "@SYNTAX=opt_bs_gamma(strike,price,volatility,days_to_maturity,rate)\n"
@@ -233,7 +233,8 @@ msgid ""
 "opt_bs_vega"
 msgstr ""
 
-#: plugins/derivatives/options.c:490
+#: plugins/derivatives/options.c:493
+#, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_vega\n"
 "@SYNTAX=opt_bs_bega(strike,price,volatility,days_to_maturity,rate)\n"
@@ -289,8 +290,8 @@ msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
 msgstr ""
-"Файл DIF содержит больше максимального числа столбцов %d. Оставшиеся "
-"столбцы игнорируются."
+"Файл DIF содержит больше максимального числа столбцов %d. Оставшиеся столбцы "
+"игнорируются."
 
 #: plugins/dif/dif.c:315
 #, c-format
@@ -325,7 +326,9 @@ msgstr "Модуль Data Interchange Format (DIF)"
 #: plugins/dif/plugin.xml.in.h:3
 msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr "Читает и записывает информацию сохранённую в формате Data Interchange Format (*.dif)"
+msgstr ""
+"Читает и записывает информацию сохранённую в формате Data Interchange Format "
+"(*.dif)"
 
 #: plugins/excel/boot.c:104
 msgid ""
@@ -914,7 +917,9 @@ msgstr "Теория чисел"
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
 "simple bitwise operations"
-msgstr "Несколько основных утилит для простых чисел, Пи, фи, сигма. Также содержит некоторые простые операции с битами."
+msgstr ""
+"Несколько основных утилит для простых чисел, Пи, фи, сигма. Также содержит "
+"некоторые простые операции с битами."
 
 #: plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
@@ -1012,7 +1017,8 @@ msgstr "Функции Python"
 
 #: plugins/py-func/plugin.xml.in.h:3
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr "Образец дополнения Python предоставляющий несколько (бесполезных) функций."
+msgstr ""
+"Образец дополнения Python предоставляющий несколько (бесполезных) функций."
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -1475,7 +1481,7 @@ msgstr "Создать полосу прокрутки"
 msgid "Create an arrow"
 msgstr "Создать стрелку"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1391
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1392
 #: src/workbook-control-gui.c:2734
 msgid "Cu_t"
 msgstr "Вырезать"
@@ -2307,7 +2313,7 @@ msgid "_Content"
 msgstr "Содержимое"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1030
-#: src/sheet-control-gui.c:1393 src/workbook-control-gui.c:2738
+#: src/sheet-control-gui.c:1394 src/workbook-control-gui.c:2738
 msgid "_Copy"
 msgstr "Скопировать"
 
@@ -2323,7 +2329,7 @@ msgstr "Данные"
 msgid "_Define..."
 msgstr "Определить..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1411
+#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1412
 #: src/workbook-control-gui.c:2755
 msgid "_Delete..."
 msgstr "Удаление..."
@@ -2394,8 +2400,8 @@ msgstr "Группы и структуры"
 msgid "_Help"
 msgstr "Справка"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1434
-#: src/sheet-control-gui.c:1442 src/workbook-control-gui.c:2876
+#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1435
+#: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2876
 #: src/workbook-control-gui.c:2895
 msgid "_Hide"
 msgstr "Скрыть"
@@ -2453,7 +2459,7 @@ msgstr "Открыть..."
 msgid "_Paired Samples: T-Test"
 msgstr "Парные выборки: T-тест"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1395
+#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1396
 #: src/workbook-control-gui.c:2742
 msgid "_Paste"
 msgstr "Вставить"
@@ -2568,8 +2574,8 @@ msgstr "Откат"
 msgid "_Ungroup"
 msgstr "Разгруппировать"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1436
-#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2879
+#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1437
+#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2879
 #: src/workbook-control-gui.c:2898
 msgid "_Unhide"
 msgstr "Показать"
@@ -4278,28 +4284,28 @@ msgid "val != bound                  (not equal to)"
 msgstr "значение != bound  (не равно)                         "
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val >  bound                  (greater than)"
-msgstr "значение > bound  (больше чем)"
-
-#: src/dialogs/cell-format.glade.h:134
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "значение >= bound  (больше чем или равно)"
-
-#: src/dialogs/cell-format.glade.h:135
 msgid "val <  bound                  (less than)"
 msgstr "значение < bound  (меньше чем)                         "
 
-#: src/dialogs/cell-format.glade.h:136
+#: src/dialogs/cell-format.glade.h:134
 msgid "val <= min || max <= val (not between)"
 msgstr "значение <= мин. || макс. <= значение (не между)"
 
-#: src/dialogs/cell-format.glade.h:137
+#: src/dialogs/cell-format.glade.h:135
 msgid "val <=bound                  (less than or equal to)"
 msgstr "значение <= bound  (меньше чем или равно)"
 
-#: src/dialogs/cell-format.glade.h:138
+#: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
 msgstr "значение == bound  (равно)                         "
+
+#: src/dialogs/cell-format.glade.h:137
+msgid "val >  bound                  (greater than)"
+msgstr "значение > bound  (больше чем)"
+
+#: src/dialogs/cell-format.glade.h:138
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "значение >= bound  (больше чем или равно)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5538,15 +5544,15 @@ msgstr "Комментарий"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Вы действительно хотите удалить таблицу `%s' ?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5589,21 +5595,21 @@ msgstr "Вы должны выбрать хотя бы одну таблицу для экспорта"
 msgid "Are you sure you want to cancel?"
 msgstr "Вы действительно хотите отменить действие?"
 
-#: src/dialogs/dialog-stf-export.glade.h:1
-msgid "<- Remove"
-msgstr "<- Удалить"
-
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "<- Remove all"
-msgstr "<- Удалить все"
-
-#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:1
+#: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "<- Remove"
+msgstr "<- Удалить"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+msgid "<- Remove all"
+msgstr "<- Удалить все"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "Add ->"
@@ -9749,7 +9755,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
-"@DESCRIPTION=Возвращает число не выходных и не праздничных дней между @start_date и @end_date.  Праздники дополнительно задаются в @holidays.\n"
+"@DESCRIPTION=Возвращает число не выходных и не праздничных дней между "
+"@start_date и @end_date.  Праздники дополнительно задаются в @holidays.\n"
 "Возвращает #NUM если @start_date или @end_date не правильные.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
@@ -10883,7 +10890,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
-"@DESCRIPTION=Функция DELTA проверяет числовое равенство двух аргументов, возвращая 1 в случае равенства. @y - необязательный аргумент, по умолчанию равен 0.\n"
+"@DESCRIPTION=Функция DELTA проверяет числовое равенство двух аргументов, "
+"возвращая 1 в случае равенства. @y - необязательный аргумент, по умолчанию "
+"равен 0.\n"
 "Если любой из аргументов не является числом, возвращается ошибка #VALUE!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
@@ -10910,7 +10919,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
-"@DESCRIPTION=Функция GESTEP проверяет неравенство @x >= @y, возвращает 1 если оно соблюдается и 0 в противном случае. @y - необязательный параметр и по умолчанию равно 0.\n"
+"@DESCRIPTION=Функция GESTEP проверяет неравенство @x >= @y, возвращает 1 "
+"если оно соблюдается и 0 в противном случае. @y - необязательный параметр и "
+"по умолчанию равно 0.\n"
 "Если любой из аргументов не является числом, возвращается ошибка #VALUE!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
@@ -11157,7 +11168,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
-"@DESCRIPTION=Функция EFFECT вычисляет действительную процентную ставку для заданной номинальной процентной ставки.\n"
+"@DESCRIPTION=Функция EFFECT вычисляет действительную процентную ставку для "
+"заданной номинальной процентной ставки.\n"
 "Действительная процентная ставка вычисляется по формуле:\n"
 "\n"
 "         ( 1 + @r / @nper) ^ @nper - 1\n"
@@ -12555,7 +12567,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
-"@DESCRIPTION=ERROR.TYPE возвращает номер ошибки соответствующий данному значению ошибки. Номера для ошибок следующие\n"
+"@DESCRIPTION=ERROR.TYPE возвращает номер ошибки соответствующий данному "
+"значению ошибки. Номера для ошибок следующие\n"
 "#DIV/0!    2\n"
 "#VALUE!    3\n"
 "#REF!      4\n"
@@ -13033,9 +13046,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
-"@DESCRIPTION=Функция ADDRESS возвращает для заданных строки и столбца адрес ячейки в виде текста.\n"
-"Если @abs_num = 1 или опущено, ADDRESS возвращает абсолютную ссылку. Если @abs_num =2, ADDRESS возвращает абсолютную строку и относительный столбец. Если @abs_num = 3, ADDRESS возвращает относительную строку и абсолютный столбец. Если @abs_num = 4, ADDRESS возвращает относительную ссылку. Если @abs_num > 4, ADDRESS ошибку #NUM!.\n"
-"@a1 - логическое значение, указывающее стиль ссылки. Если @a1 имеет значение TRUE или опущено, ADDRESS возвращает ссылки в стиле A1, т.е. $D$4. В противном случае ADDRESS возвращает ссылки в стиле R1C1, т.е. R4C4.\n"
+"@DESCRIPTION=Функция ADDRESS возвращает для заданных строки и столбца адрес "
+"ячейки в виде текста.\n"
+"Если @abs_num = 1 или опущено, ADDRESS возвращает абсолютную ссылку. Если "
+"@abs_num =2, ADDRESS возвращает абсолютную строку и относительный столбец. "
+"Если @abs_num = 3, ADDRESS возвращает относительную строку и абсолютный "
+"столбец. Если @abs_num = 4, ADDRESS возвращает относительную ссылку. Если "
+"@abs_num > 4, ADDRESS ошибку #NUM!.\n"
+"@a1 - логическое значение, указывающее стиль ссылки. Если @a1 имеет значение "
+"TRUE или опущено, ADDRESS возвращает ссылки в стиле A1, т.е. $D$4. В "
+"противном случае ADDRESS возвращает ссылки в стиле R1C1, т.е. R4C4.\n"
 "@text указывает название книги используемое как внешняя ссылка.\n"
 "Если @row_num < 1 или @col_num < 1, ADDRESS возвращает ошибку #NUM!.\n"
 "@EXAMPLES=\n"
@@ -13438,7 +13458,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
-"@DESCRIPTION=Функция ACOS вычисляет арккосинус @x; косинус этой величины равен @x. Значение результата возвращается в радианах. Если @x не принадлежит диапазону от -1 до 1, ACOS не вычисляется и возвращает ошибку #NUM.\n"
+"@DESCRIPTION=Функция ACOS вычисляет арккосинус @x; косинус этой величины "
+"равен @x. Значение результата возвращается в радианах. Если @x не "
+"принадлежит диапазону от -1 до 1, ACOS не вычисляется и возвращает ошибку "
+"#NUM.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
 "ACOS(0.1) равняется 1.470629.\n"
@@ -13462,7 +13485,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=Функция ACOSH вычисляет обратный гиперболический косинус @x; гиперболический косинус этой величины равен @x.  Если @x меньше чем 1.0, ACOSH() возвращает ошибку #NUM!.\n"
+"@DESCRIPTION=Функция ACOSH вычисляет обратный гиперболический косинус @x; "
+"гиперболический косинус этой величины равен @x.  Если @x меньше чем 1.0, "
+"ACOSH() возвращает ошибку #NUM!.\n"
 "Эта функция совместима с Excel. \n"
 "@EXAMPLES=\n"
 "ACOSH(2) равняется 1.31696.\n"
@@ -13486,7 +13511,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
-"@DESCRIPTION=Функция ASIN(х) вычисляет арксинус @x; синус ее результата равен @x.  Если @x не принадлежит диапазону от -1 до 1, ASIN не вычисляется и возвращает ошибку #NUM!.\n"
+"@DESCRIPTION=Функция ASIN(х) вычисляет арксинус @x; синус ее результата "
+"равен @x.  Если @x не принадлежит диапазону от -1 до 1, ASIN не вычисляется "
+"и возвращает ошибку #NUM!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
 "ASIN(0.5) равняется 0.523599.\n"
@@ -13558,7 +13585,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=Функция ATANH(х) вычисляет обратный гиперболический тангенс @x; гиперболический тангенс этой величины равен @x.  Если абсолютное значение @x больше чем 1.0,  ATANH возвращает ошибку #NUM!.\n"
+"@DESCRIPTION=Функция ATANH(х) вычисляет обратный гиперболический тангенс @x; "
+"гиперболический тангенс этой величины равен @x.  Если абсолютное значение @x "
+"больше чем 1.0,  ATANH возвращает ошибку #NUM!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
 "ATANH(0.5) равняется 0.549306.\n"
@@ -14585,7 +14614,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
-"@DESCRIPTION=Функция QUOTIENT возвращает целую часть частного от деления. @num - делимое, @dem - делитель.\n"
+"@DESCRIPTION=Функция QUOTIENT возвращает целую часть частного от деления. "
+"@num - делимое, @dem - делитель.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
 "QUOITENT(23,5) равняется 4.\n"
@@ -14656,8 +14686,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
-"@DESCRIPTION=Функция RANDBETWEEN возвращает случайное целое число в диапазоне между @bottom и @top. \n"
-"Если @bottom или @top не целые, дробная часть отбрасывается. Если @bottom > @top RANDBETWEEN возвращает ошибку #NUM!.\n"
+"@DESCRIPTION=Функция RANDBETWEEN возвращает случайное целое число в "
+"диапазоне между @bottom и @top. \n"
+"Если @bottom или @top не целые, дробная часть отбрасывается. Если @bottom > "
+"@top RANDBETWEEN возвращает ошибку #NUM!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
 "RANDBETWEEN(3,7).\n"
@@ -14760,8 +14792,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
-"@DESCRIPTION=Функция ROUNDUP округляет заданное число вверх. @number -- число, которые вы хотите округлить, @digits -- число цифр, до которого надо произвести округление.\n"
-"Если @digits > 0, @number округляется до заданного числа цифр. Если @digits = 0или не указано, @number округляется вверх до указанного числа разрядов слева от десятичной точки.\n"
+"@DESCRIPTION=Функция ROUNDUP округляет заданное число вверх. @number -- "
+"число, которые вы хотите округлить, @digits -- число цифр, до которого надо "
+"произвести округление.\n"
+"Если @digits > 0, @number округляется до заданного числа цифр. Если @digits "
+"= 0или не указано, @number округляется вверх до указанного числа разрядов "
+"слева от десятичной точки.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
 "ROUNDUP(5.5) равняется 6.\n"
@@ -14863,12 +14899,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
-"@DESCRIPTION=Функция SUMX2MY2 возвращает сумму разностей квадратов соответствующих значений в двух массивах. @array1 -- первый массив или диапазон значений данных, @array2 -- второй массив или диапазон значений данных. Уравнение для SUMX2MY2:  SUM(x^2-y^2).\n"
+"@DESCRIPTION=Функция SUMX2MY2 возвращает сумму разностей квадратов "
+"соответствующих значений в двух массивах. @array1 -- первый массив или "
+"диапазон значений данных, @array2 -- второй массив или диапазон значений "
+"данных. Уравнение для SUMX2MY2:  SUM(x^2-y^2).\n"
 "Строки и пустые ячейки игнорируются.\n"
-"Если @array1 и @array2 имеют различный размер, SUMX2MY2 возвращают ошибку #N/A!.\n"
+"Если @array1 и @array2 имеют различный размер, SUMX2MY2 возвращают ошибку #N/"
+"A!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ... A5 содержат числа 11, 15, 17, 21 и 43, а ячейки B1, B2, ... B5 содержат числа 13, 22, 31, 33 и 39. Тогда\n"
+"Допустим, что ячейки A1, A2, ... A5 содержат числа 11, 15, 17, 21 и 43, а "
+"ячейки B1, B2, ... B5 содержат числа 13, 22, 31, 33 и 39. Тогда\n"
 "SUMX2MY2(A1:A5,B1:B5) равняется -1299.\n"
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
@@ -14902,12 +14943,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
-"@DESCRIPTION=Функция SUMX2PY2 возвращает сумму сумм квадратов соответствующих значений двух массивов. @array1 -- первый массив или набор данных, @array2 -- второй массив или набор данных. Уравнение для SUMX2PY2: SUM(x^2+y^2).\n"
+"@DESCRIPTION=Функция SUMX2PY2 возвращает сумму сумм квадратов "
+"соответствующих значений двух массивов. @array1 -- первый массив или набор "
+"данных, @array2 -- второй массив или набор данных. Уравнение для SUMX2PY2: "
+"SUM(x^2+y^2).\n"
 "Строки и пустые ячейки просто игнорируется.\n"
-"Если @array1 и @array2 имеют различный размер, SUMX2PY2 возвращает ошибку #N/A!.\n"
+"Если @array1 и @array2 имеют различный размер, SUMX2PY2 возвращает ошибку #N/"
+"A!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ... A5 содержат числа 11, 15, 17, 21 и 43 и ячейкиB1, B2, ... B5 содержат числа 13, 22, 31, 33 и 39. Тогда\n"
+"Допустим, что ячейки A1, A2, ... A5 содержат числа 11, 15, 17, 21 и 43 и "
+"ячейкиB1, B2, ... B5 содержат числа 13, 22, 31, 33 и 39. Тогда\n"
 "SUMX2PY2(A1:A5,B1:B5) равняется 7149.\n"
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
@@ -14934,12 +14980,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
-"@DESCRIPTION=Функция SUMXMY2 возвращает сумму квадратов разностей соответствующих значений в двух массивах. @array1 -- первый массив или набор данных, @array2 -- второй массив или набор данных. Уравнение для SUMXMY2: SUM (x-y)^2.\n"
+"@DESCRIPTION=Функция SUMXMY2 возвращает сумму квадратов разностей "
+"соответствующих значений в двух массивах. @array1 -- первый массив или набор "
+"данных, @array2 -- второй массив или набор данных. Уравнение для SUMXMY2: "
+"SUM (x-y)^2.\n"
 "Строки и пустые ячейки игнорируются.\n"
-"Если @array1 и @array2 имеют различный размер, SUMXMY2 возвращает ошибку #N/A!.\n"
+"Если @array1 и @array2 имеют различный размер, SUMXMY2 возвращает ошибку #N/"
+"A!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ... A5 содержат числа 11, 15, 17, 21 и 43, а ячейки B1, B2, ... B5 содержат числа 13, 22, 31, 33 и 39. Тогда\n"
+"Допустим, что ячейки A1, A2, ... A5 содержат числа 11, 15, 17, 21 и 43, а "
+"ячейки B1, B2, ... B5 содержат числа 13, 22, 31, 33 и 39. Тогда\n"
 "SUMXMY2(A1:A5,B1:B5) равняется 409.\n"
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
@@ -15584,11 +15635,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
-"@DESCRIPTION=MODE возвращает наиболее частое число в наборе данных. Если в наборе есть несколько одинаково часто встречающихся чисел, возвращается первое из них.\n"
-"Строки и пустые ячейки игнорируются. Если набор данных не содержит дубликатов, MODE возвращает ошибку #N/A!.\n"
+"@DESCRIPTION=MODE возвращает наиболее частое число в наборе данных. Если в "
+"наборе есть несколько одинаково часто встречающихся чисел, возвращается "
+"первое из них.\n"
+"Строки и пустые ячейки игнорируются. Если набор данных не содержит "
+"дубликатов, MODE возвращает ошибку #N/A!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1,A2...A5 содержат числа 11.4, 17.3, 11.4, 25.9 и 40.1. Тогда\n"
+"Допустим, что ячейки A1,A2...A5 содержат числа 11.4, 17.3, 11.4, 25.9 и "
+"40.1. Тогда\n"
 "MODE(A1:A5) равняется 11.4.\n"
 "\n"
 "@SEEALSO=AVERAGE,MEDIAN"
@@ -16770,8 +16825,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
-"@DESCRIPTION=Функция PROB возвращает вероятность того, что значения в диапазоне или массиве находятся в заданных пределах. Если @upper_limit не задан, PROB возвращает вероятность того, что значения в @x_range равняются @lower_limit.\n"
-"Если сумма вероятностей в @prob_range <=0 или > 1, PROB возвращает ошибку #NUM!. Если @x_range и @prob_range содержат различное число данных, PROB возвращает ошибку #N/A!.\n"
+"@DESCRIPTION=Функция PROB возвращает вероятность того, что значения в "
+"диапазоне или массиве находятся в заданных пределах. Если @upper_limit не "
+"задан, PROB возвращает вероятность того, что значения в @x_range равняются "
+"@lower_limit.\n"
+"Если сумма вероятностей в @prob_range <=0 или > 1, PROB возвращает ошибку "
+"#NUM!. Если @x_range и @prob_range содержат различное число данных, PROB "
+"возвращает ошибку #N/A!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -16796,11 +16856,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
-"@DESCRIPTION=Функция STEYX возвращает стандартную ошибку предсказанного значения y для каждого x в регрессии.\n"
-"Если @known_y's и @known_x's пусты или имеют различное число аргументов, то STEYX возвращает ошибку #N/A!.\n"
+"@DESCRIPTION=Функция STEYX возвращает стандартную ошибку предсказанного "
+"значения y для каждого x в регрессии.\n"
+"Если @known_y's и @known_x's пусты или имеют различное число аргументов, то "
+"STEYX возвращает ошибку #N/A!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1, а ячейки B1, B2, ... B5 23.2, 25.8, 29.9, 33.5 и 42.7.  Тогда\n"
+"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и "
+"40.1, а ячейки B1, B2, ... B5 23.2, 25.8, 29.9, 33.5 и 42.7.  Тогда\n"
 "STEYX(A1:A5,B1:B5) равняется 1.101509979.\n"
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
@@ -16885,10 +16948,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
-"@DESCRIPTION=MAXA возвращает наибольшее значение из переданных аргументов.  В вычислении участвуют числа, текст и логические значения. Если ячейка содержит текст или аргумент вычисляется как ЛОЖЬ (FALSE), его значение принимается равным 0.  Если аргумент вычисляется как ИСТИНА (TRUE), он считается единицей (1).  Пустые ячейки не учитываются.\n"
+"@DESCRIPTION=MAXA возвращает наибольшее значение из переданных аргументов.  "
+"В вычислении участвуют числа, текст и логические значения. Если ячейка "
+"содержит текст или аргумент вычисляется как ЛОЖЬ (FALSE), его значение "
+"принимается равным 0.  Если аргумент вычисляется как ИСТИНА (TRUE), он "
+"считается единицей (1).  Пустые ячейки не учитываются.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ..., A5 содержат числа и строки 11.4, 17.3, \"ошибка\", 25.9 и 40.1. Тогда\n"
+"Допустим, что ячейки A1, A2, ..., A5 содержат числа и строки 11.4, 17.3, "
+"\"ошибка\", 25.9 и 40.1. Тогда\n"
 "MAXA(A1:A5) равняется 40.1.\n"
 "\n"
 "@SEEALSO=MAX,MINA"
@@ -17061,8 +17129,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
-"@DESCRIPTION=Функция PERCENTRANK возвращает ранг точки данных в наборе. @array - диапазон числовых значений, @x - точка данных, которую вы хотите ранжировать, необязательный параметр @significance указывает число значащих цифр в возвращаемом значении. Если @significance опущено, PERCENTRANK возвращает 3 цифры.\n"
-"Если @array не содержит указанной точки, PERCENTRANK возвращает ошибку #NUM!. Если @x не совпадает ни с одним значением в @array или @x совпадает больше одного раза, PERCENTRANK интерполирует возвращаемое значение.\n"
+"@DESCRIPTION=Функция PERCENTRANK возвращает ранг точки данных в наборе. "
+"@array - диапазон числовых значений, @x - точка данных, которую вы хотите "
+"ранжировать, необязательный параметр @significance указывает число значащих "
+"цифр в возвращаемом значении. Если @significance опущено, PERCENTRANK "
+"возвращает 3 цифры.\n"
+"Если @array не содержит указанной точки, PERCENTRANK возвращает ошибку "
+"#NUM!. Если @x не совпадает ни с одним значением в @array или @x совпадает "
+"больше одного раза, PERCENTRANK интерполирует возвращаемое значение.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
@@ -17452,11 +17526,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
-"@DESCRIPTION=Функция FORECAST возвращает ожидаемое в будущем значение в соответствии с текущим значением используя простую линейную регрессию. Ожидаемое будущее значение это значение y для заданного значения x (@x).\n"
-"Если @known_x или @known_y не содержат элементов данных или имеют различное число элементов данных, FORECAST возвращает ошибку #N/A!. Если дисперсия @known_x равна 0, FORECAST возвращает ошибку #DIV/0!.\n"
+"@DESCRIPTION=Функция FORECAST возвращает ожидаемое в будущем значение в "
+"соответствии с текущим значением используя простую линейную регрессию. "
+"Ожидаемое будущее значение это значение y для заданного значения x (@x).\n"
+"Если @known_x или @known_y не содержат элементов данных или имеют различное "
+"число элементов данных, FORECAST возвращает ошибку #N/A!. Если дисперсия "
+"@known_x равна 0, FORECAST возвращает ошибку #DIV/0!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1, а ячейки B1, B2, ... B5 23.2, 25.8, 29.9, 33.5 и 42.7. Тогда\n"
+"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и "
+"40.1, а ячейки B1, B2, ... B5 23.2, 25.8, 29.9, 33.5 и 42.7. Тогда\n"
 "FORECAST(7,A1:A5,B1:B5) равняется -10.859397661.\n"
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
@@ -17481,11 +17560,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
-"@DESCRIPTION=Функция INTERCEPT вычисляет точку, в которой линия линейной регрессии пересекает ось ординат.\n"
-"Если @known_x или @known_y не содержат данных или содержат различное число элементов данных, INTERCEPT возвращает ошибку #N/A!.  Если дисперсия @known_x = 0, INTERCEPT возвращает ошибку #DIV/0!.\n"
+"@DESCRIPTION=Функция INTERCEPT вычисляет точку, в которой линия линейной "
+"регрессии пересекает ось ординат.\n"
+"Если @known_x или @known_y не содержат данных или содержат различное число "
+"элементов данных, INTERCEPT возвращает ошибку #N/A!.  Если дисперсия "
+"@known_x = 0, INTERCEPT возвращает ошибку #DIV/0!.\n"
 "Эта функция совместима с Excel.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и 40.1, а ячейки B1, B2, ... B5 -- числа 23.2, 25.8, 29.9, 33.5 и 42.7. Тогда\n"
+"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11.4, 17.3, 21.3, 25.9 и "
+"40.1, а ячейки B1, B2, ... B5 -- числа 23.2, 25.8, 29.9, 33.5 и 42.7. Тогда\n"
 "INTERCEPT(A1:A5,B1:B5) равняется -20.785117212.\n"
 "\n"
 "@SEEALSO=FORECAST,TREND"
@@ -18871,17 +18954,17 @@ msgstr "Недопустимая завершающая обратная косая в заменяющей строке."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "не может быть выполнено при множественных выделениях"
 
-#: src/sheet-control-gui.c:554
+#: src/sheet-control-gui.c:555
 #, c-format
 msgid "Row: %s"
 msgstr "Строка: %s"
 
-#: src/sheet-control-gui.c:569
+#: src/sheet-control-gui.c:570
 #, c-format
 msgid "Column: %s"
 msgstr "Столбец: %s"
 
-#: src/sheet-control-gui.c:1397
+#: src/sheet-control-gui.c:1398
 msgid "Paste _Special"
 msgstr "Специальная вставка"
 
@@ -18892,41 +18975,41 @@ msgstr "Специальная вставка"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1409
+#: src/sheet-control-gui.c:1410
 msgid "_Insert..."
 msgstr "Вставка..."
 
-#: src/sheet-control-gui.c:1413
+#: src/sheet-control-gui.c:1414
 msgid "_Insert Column(s)"
 msgstr "Вставить столбцы"
 
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1416
 msgid "_Delete Column(s)"
 msgstr "Удалить столбцы"
 
-#: src/sheet-control-gui.c:1417
+#: src/sheet-control-gui.c:1418
 msgid "_Insert Row(s)"
 msgstr "Вставить строки"
 
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1420
 msgid "_Delete Row(s)"
 msgstr "Удалить строки"
 
-#: src/sheet-control-gui.c:1422
+#: src/sheet-control-gui.c:1423
 msgid "Clear Co_ntents"
 msgstr "Очистить содержимое"
 
-#: src/sheet-control-gui.c:1428
+#: src/sheet-control-gui.c:1429
 msgid "_Format Cells..."
 msgstr "Формат ячеек..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1432
+#: src/sheet-control-gui.c:1433
 msgid "Column _Width..."
 msgstr "Ширина столбца..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1440
+#: src/sheet-control-gui.c:1441
 msgid "_Row Height..."
 msgstr "Высота строки..."
 

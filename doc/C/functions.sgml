@@ -103,7 +103,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ACOS function calculates the arc cosine of @x; that is the value whose cosine is @x.  If @x  falls  outside  the range -1 to 1, ACOS fails and returns the NUM! error. The value it returns is in radians.</para>
+        <para>ACOS function calculates the arc cosine of @x; that is the value whose cosine is @x.  If @x  falls  outside  the range -1 to 1, ACOS fails and returns the #NUM! error. The value it returns is in radians.</para>
         <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -134,7 +134,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ACOSH  function  calculates  the inverse hyperbolic cosine of @x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, ACOSH() returns the NUM! error.</para>
+        <para>ACOSH  function  calculates  the inverse hyperbolic cosine of @x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, ACOSH() returns the #NUM! error.</para>
         <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -166,7 +166,7 @@
       <refsect1>
         <title>Description</title>
         <para>ADDRESS returns a cell address as text for specified row and column numbers.</para>
-        <para>If @abs_num is 1 or omitted, ADDRESS returns absolute reference. If @abs_num is 2 ADDRESS returns absolute row and relative column.  If @abs_num is 3 ADDRESS returns relative row and absolute column. If @abs_num is 4 ADDRESS returns relative reference. If @abs_num is greater than 4 ADDRESS returns #NUM! error.</para>        <para>@a1 is a logical value that specifies the reference style.  If @a1 is TRUE or omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise ADDRESS returns an R1C1-style reference, i.e. R4C4.</para>        <para>@text specifies the name of the worksheet to be used as the external reference.</para>        <para>If @row_num or @col_num is less than one, ADDRESS returns #NUM! error.</para>
+        <para>If @abs_num is 1 or omitted, ADDRESS returns absolute reference. If @abs_num is 2 ADDRESS returns absolute row and relative column.  If @abs_num is 3 ADDRESS returns relative row and absolute column. If @abs_num is 4 ADDRESS returns relative reference. If @abs_num is greater than 4 ADDRESS returns #VALUE! error.</para>        <para>@a1 is a logical value that specifies the reference style.  If @a1 is TRUE or omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise ADDRESS returns an R1C1-style reference, i.e. R4C4.</para>        <para>@text specifies the name of the worksheet to be used as the external reference.</para>        <para>If @row_num or @col_num is less than one, ADDRESS returns #VALUE! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -275,7 +275,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ASIN function calculates the arc sine of @x; that is the value whose sine is @x. If @x falls outside  the  range -1 to 1, ASIN fails and returns the NUM! error.</para>
+        <para>ASIN function calculates the arc sine of @x; that is the value whose sine is @x. If @x falls outside  the  range -1 to 1, ASIN fails and returns the #NUM! error.</para>
         <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -405,7 +405,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ATANH function calculates the inverse hyperbolic tangent of @x; that is the value whose hyperbolic tangent is @x. If the absolute value of @x is greater than 1.0, ATANH returns NUM! error.</para>
+        <para>ATANH function calculates the inverse hyperbolic tangent of @x; that is the value whose hyperbolic tangent is @x. If the absolute value of @x is greater than 1.0, ATANH returns #NUM! error.</para>
         <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -1516,12 +1516,12 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>COUPDAYBS returns the number of days from the beginning of the coupon period to the settlement date. @settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPDAYBS returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
+        <para>COUPDAYBS returns the number of days from the beginning of the coupon period to the settlement date.</para>
+        <para>@settlement is the settlement date of the security.</para>        <para>@maturity is the maturity date of the security.</para>        <para>@frequency is the number of coupon payments per year.</para>        <para>@eom = TRUE handles end of month maturity dates special.</para>        <para>Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.</para>        <para>@basis is the type of day counting system you want to use:</para>        <para></para>        <para>0  MSRB 30/360 (MSRB Rule G33 (e))</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para>5  European+ 30/360</para>        <para>(see the gnumeric manual for a detailed description of these bases)</para>        <para></para>        <para>If @frequency is invalid, COUPDAYBS returns #NUM! error.</para>        <para>If @basis is omitted, MSRB 30/360 is applied.</para>        <para>If @basis is invalid, #NUM! error is returned.</para>        <para></para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para></para>
+        <para>COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 89</para>        <para>COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 0</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
@@ -1539,16 +1539,16 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>COUPDAYS(settlement,maturity,frequency[,basis])</synopsis>
+      <synopsis>COUPDAYS(settlement,maturity,frequency[,basis,eom])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>COUPDAYS returns the number of days in the coupon period of the settlement date.@settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPDAYS returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
+        <para>COUPDAYS returns the number of days in the coupon period of the settlement date.</para>
+        <para>@settlement is the settlement date of the security.</para>        <para>@maturity is the maturity date of the security.</para>        <para>@frequency is the number of coupon payments per year.</para>        <para>@eom = TRUE handles end of month maturity dates special.</para>        <para>Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.</para>        <para>@basis is the type of day counting system you want to use:</para>        <para></para>        <para>0  MSRB 30/360 (MSRB Rule G33 (e))</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para>5  European+ 30/360</para>        <para>(see the gnumeric manual for a detailed description of these bases)</para>        <para></para>        <para>If @frequency is invalid, COUPDAYS returns #NUM! error.</para>        <para>If @basis is omitted, MSRB 30/360 is applied.</para>        <para>If @basis is invalid, #NUM! error is returned.</para>        <para></para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para></para>
+        <para>COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 90</para>        <para>COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 90</para>        <para>COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,1,FALSE) = 91</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
@@ -1566,16 +1566,16 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>COUPDAYSNC(settlement,maturity,frequency[,basis])</synopsis>
+      <synopsis>COUPDAYSNC(settlement,maturity,frequency[,basis,eom])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>COUPDAYSNC returns the number of days from the settlement date to the next coupon date. @settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPDAYSNC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
+        <para>COUPDAYSNC returns the number of days from the settlement date to the next coupon date.</para>
+        <para>@settlement is the settlement date of the security.</para>        <para>@maturity is the maturity date of the security.</para>        <para>@frequency is the number of coupon payments per year.</para>        <para>@eom = TRUE handles end of month maturity dates special.</para>        <para>Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.</para>        <para>@basis is the type of day counting system you want to use:</para>        <para></para>        <para>0  MSRB 30/360 (MSRB Rule G33 (e))</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para>5  European+ 30/360</para>        <para>(see the gnumeric manual for a detailed description of these bases)</para>        <para></para>        <para>If @frequency is invalid, COUPDAYSNC returns #NUM! error.</para>        <para>If @basis is omitted, MSRB 30/360 is applied.</para>        <para>If @basis is invalid, #NUM! error is returned.</para>        <para></para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para></para>
+        <para>COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0) = 1</para>        <para>COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 89</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
@@ -1593,16 +1593,16 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>COUPNCD(settlement,maturity,frequency[,basis])</synopsis>
+      <synopsis>COUPNCD(settlement,maturity,frequency[,basis,eom])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>COUPNCD returns the coupon date following settlement.@settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPNCD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
+        <para>COUPNCD returns the coupon date following settlement.</para>
+        <para>@settlement is the settlement date of the security.</para>        <para>@maturity is the maturity date of the security.</para>        <para>@frequency is the number of coupon payments per year.</para>        <para>@eom = TRUE handles end of month maturity dates special.</para>        <para>Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.</para>        <para>@basis is the type of day counting system you want to use:</para>        <para></para>        <para>0  MSRB 30/360 (MSRB Rule G33 (e))</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para>5  European+ 30/360</para>        <para>(see the gnumeric manual for a detailed description of these bases)</para>        <para></para>        <para>If @frequency is invalid, COUPNCD returns #NUM! error.</para>        <para>If @basis is omitted, MSRB 30/360 is applied.</para>        <para>If @basis is invalid, #NUM! error is returned.</para>        <para></para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para></para>
+        <para>COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 30-Nov-2002</para>        <para>COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 28-Feb-2003</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
@@ -1620,16 +1620,16 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>COUPNUM(settlement,maturity,frequency[,basis])</synopsis>
+      <synopsis>COUPNUM(settlement,maturity,frequency[,basis,eom])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>COUPNUM returns the numbers of coupons to be paid between the settlement and maturity dates, rounded up.@settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
+        <para>COUPNUM returns the numbers of coupons to be paid between the settlement and maturity dates, rounded up.</para>
+        <para>@settlement is the settlement date of the security.</para>        <para>@maturity is the maturity date of the security.</para>        <para>@frequency is the number of coupon payments per year.</para>        <para>@eom = TRUE handles end of month maturity dates special.</para>        <para>Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. 6 = bimonthly, 12 = monthly.</para>        <para>@basis is the type of day counting system you want to use:</para>        <para></para>        <para>0  MSRB 30/360 (MSRB Rule G33 (e))</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para>5  European+ 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! error. If @basis is omitted, MSRB 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para></para>
+        <para>COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0) = 6</para>        <para>COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 5</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
@@ -1647,16 +1647,16 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>COUPPCD(settlement,maturity,frequency[,basis])</synopsis>
+      <synopsis>COUPPCD(settlement,maturity,frequency[,basis,eom])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>COUPPCD returns the coupon date preceeding settlement.@settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @frequency is other than 1, 2, or 4, COUPPCD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned.</para>
+        <para>COUPPCD returns the coupon date preceeding settlement.</para>
+        <para>@settlement is the settlement date of the security.</para>        <para>@maturity is the maturity date of the security.</para>        <para>@frequency is the number of coupon payments per year.</para>        <para>@eom = TRUE handles end of month maturity dates special.</para>        <para>Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.</para>        <para>@basis is the type of day counting system you want to use:</para>        <para></para>        <para>0  MSRB 30/360 (MSRB Rule G33 (e))</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para>5  European+ 30/360</para>        <para>(see the gnumeric manual for a detailed description of these bases)</para>        <para></para>        <para>If @frequency is invalid, COUPPCD returns #NUM! error.</para>        <para>If @basis is omitted, MSRB 30/360 is applied.</para>        <para>If @basis is invalid, #NUM! error is returned.</para>        <para></para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para></para>
+        <para>COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 31-AUG-2002</para>        <para>COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 29-Nov-2002</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
@@ -2241,7 +2241,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>DELTA function tests for numerical equivalence of two arguments returning 1 in case of equality.  @y is optional, and defaults to 0.</para>
+        <para>DELTA function tests for numerical equivalence of two arguments, returning 1 in case of equality.  @y is optional, and defaults to 0.</para>
         <para>If either argument is non-numeric returns a #VALUE! error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -2303,7 +2303,11 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error. @EXAMPLES=</para>        <para>DGET(A1:C7, "Salary", A9:A10) equals 34323.</para>        <para>DGET(A1:C7, "Name", A9:A10) equals "Clark".</para>        <para></para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error.</para>
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para>DGET(A1:C7, "Salary", A9:A10) equals 34323.</para>        <para>DGET(A1:C7, "Name", A9:A10) equals "Clark".</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DCOUNT">DCOUNT</link>.
@@ -2894,7 +2898,7 @@
       <refsect1>
         <title>Description</title>
         <para>ERROR.TYPE returns an error number corresponding to the given error value.  The error numbers for error values are</para>
-        <para>#DIV/0!    2</para>        <para>#VALUE!    3</para>        <para>#REF!      4</para>        <para>#NAME!     5</para>        <para>#NUM!      6</para>        <para>#NA!       7</para>        <para>This function is Excel compatible.</para>
+        <para>#DIV/0!    2</para>        <para>#VALUE!    3</para>        <para>#REF!      4</para>        <para>#NAME?     5</para>        <para>#NUM!      6</para>        <para>#N/A       7</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -3119,7 +3123,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>FACTDOUBLE function returns the double factorial of a @number.</para>
+        <para>FACTDOUBLE function returns the double factorial of a @number, i.e., x!!.</para>
         <para>If @number is not an integer, it is truncated.  If @number is negative FACTDOUBLE returns #NUM! error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -3376,7 +3380,7 @@
       <refsect1>
         <title>Description</title>
         <para>FORECAST function estimates a future value according to existing values using simple linear regression.  The estimated future value is a y-value for a given x-value (@x).</para>
-        <para>If @known_x or @known_y contains no data entries or different number of data entries, FORECAST returns #N/A! error. If the variance of the @known_x is zero, FORECAST returns #DIV/0 error.</para>        <para>This function is Excel compatible.</para>
+        <para>If @known_x or @known_y contains no data entries or different number of data entries, FORECAST returns #N/A error. If the variance of the @known_x is zero, FORECAST returns #DIV/0 error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -3692,7 +3696,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>GESTEP function test for if @x is &gt;= @y, returning 1 if it is so, and 0 otherwise @y is optional, and defaults to 0.</para>
+        <para>GESTEP function test for if @x is &gt;= @y, returning 1 if it is so, and 0 otherwise. @y is optional, and defaults to 0.</para>
         <para>If either argument is non-numeric returns a #VALUE! error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -4719,7 +4723,7 @@
       <refsect1>
         <title>Description</title>
         <para>INTERCEPT function calculates the point where the linear regression line intersects the y-axis.</para>
-        <para>If @known_x or @known_y contains no data entries or different number of data entries, INTERCEPT returns #N/A! error. If the variance of the @known_x is zero, INTERCEPT returns #DIV/0 error.</para>        <para>This function is Excel compatible.</para>
+        <para>If @known_x or @known_y contains no data entries or different number of data entries, INTERCEPT returns #N/A error. If the variance of the @known_x is zero, INTERCEPT returns #DIV/0 error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5072,6 +5076,34 @@
 
 
 
+  <refentry id="gnumeric-ISOWEEKNUM">
+    <refmeta>
+      <refentrytitle>ISOWEEKNUM</refentrytitle>
+    </refmeta>
+    <refnamediv>
+      <refname>ISOWEEKNUM</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ISOWEEKNUM (date)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>ISOWEEKNUM returns the ISO 8601 week number of @date.</para>
+        <para>Returns #NUM! if date is invalid.</para>        <para>An ISO 8601 week starts on Monday. Weeks are numbered from 1. A week including days from two different years is assigned to the year which includes the most days. This means that Dec 31 could be in week 1 of the following year, and Jan 1 could be in week 52 or 53 of the previous year.</para>
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para>If A1 contains 12/21/00 then ISOWEEKNUM(A1)=51</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-WEEKNUM">WEEKNUM</link>.
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
   <refentry id="gnumeric-ISPMT">
     <refmeta>
       <refentrytitle>ISPMT</refentrytitle>
@@ -5266,7 +5298,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>LCM(2,13) equlas to 26.</para>        <para>LCM(4,7,5) equals to 140.</para>        <para></para>
+        <para>LCM(2,13) equals to 26.</para>        <para>LCM(4,7,5) equals to 140.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-GCD">GCD</link>.
@@ -5705,7 +5737,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then</para>        <para>MINA(A1:A5) equals 0.</para>        <para></para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then</para>        <para>MAXA(A1:A5) equals 40.1.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-MAX">MAX</link>,
@@ -5876,12 +5908,12 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>MINA returns the smallest value of the given arguments.  Numbers, text and logical values are included in the calculation, blank cells are not.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.</para>
+        <para>MINA returns the smallest value of the given arguments.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.</para>
         <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then</para>        <para>MAXA(A1:A5) equals 40.1.</para>        <para></para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then</para>        <para>MINA(A1:A5) equals 0.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-MIN">MIN</link>,
@@ -6053,7 +6085,7 @@
       <refsect1>
         <title>Description</title>
         <para>MODE returns the most common number of the data set. If the data set has many most common numbers MODE returns the first one of them.</para>
-        <para>Strings and empty cells are simply ignored. If the data set does not contain any duplicates MODE returns #N/A! error.</para>        <para>This function is Excel compatible.</para>
+        <para>Strings and empty cells are simply ignored. If the data set does not contain any duplicates MODE returns #N/A error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -6258,7 +6290,7 @@
       <refsect1>
         <title>Description</title>
         <para>NETWORKDAYS returns the number of non-weekend non-holidays between @start_date and @end_date.  Holidays optionally supplied in @holidays.</para>
-        <para>Returns #NUM if start_date or end_date are invalid.</para>        <para>This function is Excel compatible.</para>
+        <para>Returns #NUM! if start_date or end_date are invalid.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7180,12 +7212,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>PROB(range_x,prob_range,lower_limit[,upper_limit])</synopsis>
+      <synopsis>PROB(x_range,prob_range,lower_limit[,upper_limit])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
         <para>PROB function returns the probability that values in a range or an array are between two limits. If @upper_limit is not given, PROB returns the probability that values in @x_range are equal to @lower_limit.</para>
-        <para>If the sum of the probabilities in @prob_range is not equal to 1 PROB returns #NUM! error. If any value in @prob_range is &lt;=0 or &gt; 1, PROB returns #NUM! error. If @x_range and @prob_range contain a different number of data entries, PROB returns #N/A! error.</para>        <para>This function is Excel compatible.</para>
+        <para>If the sum of the probabilities in @prob_range is not equal to 1 PROB returns #NUM! error. If any value in @prob_range is &lt;=0 or &gt; 1, PROB returns #NUM! error. If @x_range and @prob_range contain a different number of data entries, PROB returns #N/A error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7325,12 +7357,12 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>QUOTIENT(num,den)</synopsis>
+      <synopsis>QUOTIENT(numerator,denumerator)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>QUOTIENT function returns the integer portion of a division.  @num is the divided and @den is the divisor.</para>
-        <para>This function is Excel compatible.</para>
+        <para>QUOTIENT function returns the integer portion of a division.  @numerator is the divided number and</para>
+        <para>@denumerator is the divisor.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7443,7 +7475,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>RANDBETWEEN function returns a random integer number between @bottom and @top.</para>
+        <para>RANDBETWEEN function returns a random integer number between and including @bottom and @top.</para>
         <para>If @bottom or @top is non-integer, they are truncated. If @bottom &gt; @top, RANDBETWEEN returns #NUM! error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -7816,7 +7848,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ROUNDDOWN function rounds a given @number down, towards zero. @number is the number you want rounded down and @digits is the number of digits to which you want to round that number.</para>
+        <para>ROUNDDOWN function rounds a given @number down. @number is the number you want rounded down and @digits is the number of digits to which you want to round that number.</para>
         <para>If @digits is greater than zero, @number is rounded down to the given number of digits. If @digits is zero or omitted, @number is rounded down to the nearest integer. If @digits is less than zero, @number is rounded down to the left of the decimal point.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -7845,7 +7877,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>ROUNDUP function rounds a given number up, away from zero. @number is the number you want rounded up and @digits is the number of digits to which you want to round that number.</para>
+        <para>ROUNDUP function rounds a given number up. @number is the number you want rounded up and @digits is the number of digits to which you want to round that number.</para>
         <para>If @digits is greater than zero, @number is rounded up to the given number of digits. If @digits is zero or omitted, @number is rounded up to the nearest integer. If @digits is less than zero, @number is rounded up to the left of the decimal point.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -8056,7 +8088,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>SERIESSUM function returns the sum of a power series.  @x is the base of the power serie, @n is the initial power to raise @x, @m is the increment to the power for each term in the series, and @coefficients is the coefficents by which each successive power of @x is multiplied.</para>
+        <para>SERIESSUM function returns the sum of a power series.  @x is the base of the power series, @n is the initial power to raise @x, @m is the increment to the power for each term in the series, and @coefficients is the coefficents by which each successive power of @x is multiplied.</para>
         <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -8537,7 +8569,7 @@
       <refsect1>
         <title>Description</title>
         <para>STEYX function returns the standard error of the predicted y-value for each x in the regression.</para>
-        <para>If @known_y's and @known_x's are empty or have a different number of arguments then STEYX returns #N/A! error.</para>        <para>This function is Excel compatible.</para>
+        <para>If @known_y's and @known_x's are empty or have a different number of arguments then STEYX returns #N/A error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -8771,7 +8803,7 @@
       <refsect1>
         <title>Description</title>
         <para>SUMX2MY2 function returns the sum of the difference of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2MY2 is SUM (x^2-y^2).</para>
-        <para>Strings and empty cells are simply ignored.</para>        <para>If @array1 and @array2 have different number of data points, SUMX2MY2 returns #N/A! error.</para>        <para>This function is Excel compatible.</para>
+        <para>Strings and empty cells are simply ignored.</para>        <para>If @array1 and @array2 have different number of data points, SUMX2MY2 returns #N/A error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -8800,7 +8832,7 @@
       <refsect1>
         <title>Description</title>
         <para>SUMX2PY2 function returns the sum of the sum of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2PY2 is SUM (x^2+y^2).</para>
-        <para>Strings and empty cells are simply ignored.</para>        <para>If @array1 and @array2 have different number of data points, SUMX2PY2 returns #N/A! error.</para>        <para>This function is Excel compatible.</para>
+        <para>Strings and empty cells are simply ignored.</para>        <para>If @array1 and @array2 have different number of data points, SUMX2PY2 returns #N/A error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -8829,7 +8861,7 @@
       <refsect1>
         <title>Description</title>
         <para>SUMXMY2 function returns the sum of squares of differences of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMXMY2 is SUM (x-y)^2.</para>
-        <para>Strings and empty cells are simply ignored.</para>        <para>If @array1 and @array2 have different number of data points, SUMXMY2 returns #N/A! error.</para>        <para>This function is Excel compatible.</para>
+        <para>Strings and empty cells are simply ignored.</para>        <para>If @array1 and @array2 have different number of data points, SUMXMY2 returns #N/A error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -9749,6 +9781,34 @@
         <link linkend="gnumeric-TIME">TIME</link>,
         <link linkend="gnumeric-NOW">NOW</link>,
         <link linkend="gnumeric-YEAR">YEAR</link>.
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry id="gnumeric-WEEKNUM">
+    <refmeta>
+      <refentrytitle>WEEKNUM</refentrytitle>
+    </refmeta>
+    <refnamediv>
+      <refname>WEEKNUM</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>WEEKNUM (date, method)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>WEEKNUM returns the week number of @date according to the given @method.</para>
+        <para></para>        <para>@method defaults to 1.</para>        <para>For method=1, week starts on Sunday, and days before first Sunday are in week 0.</para>        <para>For method=2, week starts on Monday, and days before first Monday are in week 0.</para>        <para>For method=150, the ISO 8601 week number is returned.</para>        <para></para>        <para>Returns #NUM! if date or method is invalid.</para>        <para>This function is Excel compatible, except that Excel does not support ISO 8601 week numbers.</para>
+    </refsect1>      <refsect1>
+        <title>Examples</title>
+        <para></para>
+        <para>If A1 contains 12/21/00 then WEEKNUM(A1,2)=51</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ISOWEEKNUM">ISOWEEKNUM</link>.
       </para>
     </refsect1>
   </refentry>

@@ -1,5 +1,9 @@
 2002-01-21  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.0.3
+
+2002-01-21  Jody Goldberg <jody@gnome.org>
+
 	* ms-obj.c (ms_object_attr_get_*) : new.
 	(ms_obj_read_biff8_obj) : read scrollbar attributes.
 

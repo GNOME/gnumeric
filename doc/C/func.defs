@@ -40,7 +40,7 @@ If @issue date or @maturity date is not valid, ACCRINTM returns #NUM! error. If 
 
 @FUNCTION=ACOS
 @SYNTAX=ACOS(x)
-@DESCRIPTION=ACOS function calculates the arc cosine of @x; that is the value whose cosine is @x.  If @x  falls  outside  the range -1 to 1, ACOS fails and returns the NUM! error. The value it returns is in radians.
+@DESCRIPTION=ACOS function calculates the arc cosine of @x; that is the value whose cosine is @x.  If @x  falls  outside  the range -1 to 1, ACOS fails and returns the #NUM! error. The value it returns is in radians.
 This function is Excel compatible.
 @EXAMPLES=
 ACOS(0.1) equals 1.470629.
@@ -50,7 +50,7 @@ ACOS(-0.1) equals 1.670964.
 
 @FUNCTION=ACOSH
 @SYNTAX=ACOSH(x)
-@DESCRIPTION=ACOSH  function  calculates  the inverse hyperbolic cosine of @x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, ACOSH() returns the NUM! error.
+@DESCRIPTION=ACOSH  function  calculates  the inverse hyperbolic cosine of @x; that is the value whose hyperbolic cosine is @x. If @x is less than 1.0, ACOSH() returns the #NUM! error.
 This function is Excel compatible. 
 @EXAMPLES=
 ACOSH(2) equals 1.31696.
@@ -61,10 +61,10 @@ ACOSH(5.3) equals 2.35183.
 @FUNCTION=ADDRESS
 @SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])
 @DESCRIPTION=ADDRESS returns a cell address as text for specified row and column numbers. 
-If @abs_num is 1 or omitted, ADDRESS returns absolute reference. If @abs_num is 2 ADDRESS returns absolute row and relative column.  If @abs_num is 3 ADDRESS returns relative row and absolute column. If @abs_num is 4 ADDRESS returns relative reference. If @abs_num is greater than 4 ADDRESS returns #NUM! error. 
+If @abs_num is 1 or omitted, ADDRESS returns absolute reference. If @abs_num is 2 ADDRESS returns absolute row and relative column.  If @abs_num is 3 ADDRESS returns relative row and absolute column. If @abs_num is 4 ADDRESS returns relative reference. If @abs_num is greater than 4 ADDRESS returns #VALUE! error. 
 @a1 is a logical value that specifies the reference style.  If @a1 is TRUE or omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise ADDRESS returns an R1C1-style reference, i.e. R4C4. 
 @text specifies the name of the worksheet to be used as the external reference.  
-If @row_num or @col_num is less than one, ADDRESS returns #NUM! error. 
+If @row_num or @col_num is less than one, ADDRESS returns #VALUE! error. 
 @EXAMPLES=
 ADDRESS(5,4) equals "$D$5".
 ADDRESS(5,4,4) equals "D5".
@@ -119,7 +119,7 @@ AND(A1>3,A2<2) equals TRUE.
 
 @FUNCTION=ASIN
 @SYNTAX=ASIN(x)
-@DESCRIPTION=ASIN function calculates the arc sine of @x; that is the value whose sine is @x. If @x falls outside  the  range -1 to 1, ASIN fails and returns the NUM! error.
+@DESCRIPTION=ASIN function calculates the arc sine of @x; that is the value whose sine is @x. If @x falls outside  the  range -1 to 1, ASIN fails and returns the #NUM! error.
 This function is Excel compatible. 
 @EXAMPLES=
 ASIN(0.5) equals 0.523599.
@@ -159,7 +159,7 @@ ATAN2(-0.5,2.0) equals 1.815775.
 
 @FUNCTION=ATANH
 @SYNTAX=ATANH(x)
-@DESCRIPTION=ATANH function calculates the inverse hyperbolic tangent of @x; that is the value whose hyperbolic tangent is @x. If the absolute value of @x is greater than 1.0, ATANH returns NUM! error.
+@DESCRIPTION=ATANH function calculates the inverse hyperbolic tangent of @x; that is the value whose hyperbolic tangent is @x. If the absolute value of @x is greater than 1.0, ATANH returns #NUM! error.
 This function is Excel compatible.
 @EXAMPLES=
 ATANH(0.5) equals 0.549306.
@@ -633,91 +633,165 @@ COUNTIF(A1:A5,">28") equals 2.
 
 @FUNCTION=COUPDAYBS
 @SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])
-@DESCRIPTION=COUPDAYBS returns the number of days from the beginning of the coupon period to the settlement date. @settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+@DESCRIPTION=COUPDAYBS returns the number of days from the beginning of the coupon period to the settlement date.
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@frequency is the number of coupon payments per year.
+@eom = TRUE handles end of month maturity dates special.
+Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.
+@basis is the type of day counting system you want to use:
 
-0  US 30/360
+0  MSRB 30/360 (MSRB Rule G33 (e))
 1  actual days/actual days
 2  actual days/360
 3  actual days/365
 4  European 30/360
+5  European+ 30/360
+(see the gnumeric manual for a detailed description of these bases)
 
-If @frequency is other than 1, 2, or 4, COUPDAYBS returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+If @frequency is invalid, COUPDAYBS returns #NUM! error.
+If @basis is omitted, MSRB 30/360 is applied.
+If @basis is invalid, #NUM! error is returned.
+
 @EXAMPLES=
+COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 89
+COUPDAYBS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 0
 
 @SEEALSO=
 
 @FUNCTION=COUPDAYS
-@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])
-@DESCRIPTION=COUPDAYS returns the number of days in the coupon period of the settlement date.@settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])
+@DESCRIPTION=COUPDAYS returns the number of days in the coupon period of the settlement date.
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@frequency is the number of coupon payments per year.
+@eom = TRUE handles end of month maturity dates special.
+Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.
+@basis is the type of day counting system you want to use:
 
-0  US 30/360
+0  MSRB 30/360 (MSRB Rule G33 (e))
 1  actual days/actual days
 2  actual days/360
 3  actual days/365
 4  European 30/360
+5  European+ 30/360
+(see the gnumeric manual for a detailed description of these bases)
 
-If @frequency is other than 1, 2, or 4, COUPDAYS returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+If @frequency is invalid, COUPDAYS returns #NUM! error.
+If @basis is omitted, MSRB 30/360 is applied.
+If @basis is invalid, #NUM! error is returned.
+
 @EXAMPLES=
+COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0) = 90
+COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 90
+COUPDAYS (DATE(2002,11,29),DATE(2004,2,29),4,1,FALSE) = 91
 
 @SEEALSO=
 
 @FUNCTION=COUPDAYSNC
-@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])
-@DESCRIPTION=COUPDAYSNC returns the number of days from the settlement date to the next coupon date. @settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])
+@DESCRIPTION=COUPDAYSNC returns the number of days from the settlement date to the next coupon date.
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@frequency is the number of coupon payments per year.
+@eom = TRUE handles end of month maturity dates special.
+Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.
+@basis is the type of day counting system you want to use:
 
-0  US 30/360
+0  MSRB 30/360 (MSRB Rule G33 (e))
 1  actual days/actual days
 2  actual days/360
 3  actual days/365
 4  European 30/360
+5  European+ 30/360
+(see the gnumeric manual for a detailed description of these bases)
 
-If @frequency is other than 1, 2, or 4, COUPDAYSNC returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+If @frequency is invalid, COUPDAYSNC returns #NUM! error.
+If @basis is omitted, MSRB 30/360 is applied.
+If @basis is invalid, #NUM! error is returned.
+
 @EXAMPLES=
+COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0) = 1
+COUPDAYSNC (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 89
 
 @SEEALSO=
 
 @FUNCTION=COUPNCD
-@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])
-@DESCRIPTION=COUPNCD returns the coupon date following settlement.@settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])
+@DESCRIPTION=COUPNCD returns the coupon date following settlement.
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@frequency is the number of coupon payments per year.
+@eom = TRUE handles end of month maturity dates special.
+Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.
+@basis is the type of day counting system you want to use:
 
-0  US 30/360
+0  MSRB 30/360 (MSRB Rule G33 (e))
 1  actual days/actual days
 2  actual days/360
 3  actual days/365
 4  European 30/360
+5  European+ 30/360
+(see the gnumeric manual for a detailed description of these bases)
 
-If @frequency is other than 1, 2, or 4, COUPNCD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+If @frequency is invalid, COUPNCD returns #NUM! error.
+If @basis is omitted, MSRB 30/360 is applied.
+If @basis is invalid, #NUM! error is returned.
+
 @EXAMPLES=
+COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 30-Nov-2002
+COUPNCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 28-Feb-2003
 
 @SEEALSO=
 
 @FUNCTION=COUPNUM
-@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])
-@DESCRIPTION=COUPNUM returns the numbers of coupons to be paid between the settlement and maturity dates, rounded up.@settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])
+@DESCRIPTION=COUPNUM returns the numbers of coupons to be paid between the settlement and maturity dates, rounded up.
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@frequency is the number of coupon payments per year.
+@eom = TRUE handles end of month maturity dates special.
+Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. 6 = bimonthly, 12 = monthly.
+@basis is the type of day counting system you want to use:
 
-0  US 30/360
+0  MSRB 30/360 (MSRB Rule G33 (e))
 1  actual days/actual days
 2  actual days/360
 3  actual days/365
 4  European 30/360
+5  European+ 30/360
 
-If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! error. If @basis is omitted, MSRB 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
 @EXAMPLES=
-
+COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0) = 6
+COUPNUM (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 5
 @SEEALSO=
 
 @FUNCTION=COUPPCD
-@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])
-@DESCRIPTION=COUPPCD returns the coupon date preceeding settlement.@settlement is the settlement date of the security. @maturity is the maturity date of the security. @frequency is the number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system you want to use:
+@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])
+@DESCRIPTION=COUPPCD returns the coupon date preceeding settlement.
+@settlement is the settlement date of the security.
+@maturity is the maturity date of the security.
+@frequency is the number of coupon payments per year.
+@eom = TRUE handles end of month maturity dates special.
+Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly, 6 = bimonthly, 12 = monthly.
+@basis is the type of day counting system you want to use:
 
-0  US 30/360
+0  MSRB 30/360 (MSRB Rule G33 (e))
 1  actual days/actual days
 2  actual days/360
 3  actual days/365
 4  European 30/360
+5  European+ 30/360
+(see the gnumeric manual for a detailed description of these bases)
 
-If @frequency is other than 1, 2, or 4, COUPPCD returns #NUM! error. If @basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, #NUM! error is returned. 
+If @frequency is invalid, COUPPCD returns #NUM! error.
+If @basis is omitted, MSRB 30/360 is applied.
+If @basis is invalid, #NUM! error is returned.
+
 @EXAMPLES=
+COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 31-AUG-2002
+COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 29-Nov-2002
 
 @SEEALSO=
 
@@ -965,7 +1039,7 @@ DEGREES(2.5) equals 143.2394.
 
 @FUNCTION=DELTA
 @SYNTAX=DELTA(x[,y])
-@DESCRIPTION=DELTA function tests for numerical equivalence of two arguments returning 1 in case of equality.  @y is optional, and defaults to 0.
+@DESCRIPTION=DELTA function tests for numerical equivalence of two arguments, returning 1 in case of equality.  @y is optional, and defaults to 0.
 If either argument is non-numeric returns a #VALUE! error.
 This function is Excel compatible.
 @EXAMPLES=
@@ -1005,7 +1079,8 @@ Age     Salary
 <30
 >40     >46000
 
-If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error. @EXAMPLES=
+If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error. 
+@EXAMPLES=
 DGET(A1:C7, "Salary", A9:A10) equals 34323.
 DGET(A1:C7, "Name", A9:A10) equals "Clark".
 
@@ -1347,9 +1422,9 @@ ERROR("#OWN ERROR").
 #DIV/0!    2
 #VALUE!    3
 #REF!      4
-#NAME!     5
+#NAME?     5
 #NUM!      6
-#NA!       7
+#N/A       7
 This function is Excel compatible. 
 @EXAMPLES=
 ERROR.TYPE(NA()) equals 7.
@@ -1435,7 +1510,7 @@ FACT(9) equals 362880.
 
 @FUNCTION=FACTDOUBLE
 @SYNTAX=FACTDOUBLE(number)
-@DESCRIPTION=FACTDOUBLE function returns the double factorial of a @number. 
+@DESCRIPTION=FACTDOUBLE function returns the double factorial of a @number, i.e., x!!.
 If @number is not an integer, it is truncated.  If @number is negative FACTDOUBLE returns #NUM! error.
 This function is Excel compatible. 
 @EXAMPLES=
@@ -1525,7 +1600,7 @@ FLOOR(-5,2) equals #NUM!.
 @FUNCTION=FORECAST
 @SYNTAX=FORECAST(x,known_y's,known_x's)
 @DESCRIPTION=FORECAST function estimates a future value according to existing values using simple linear regression.  The estimated future value is a y-value for a given x-value (@x). 
-If @known_x or @known_y contains no data entries or different number of data entries, FORECAST returns #N/A! error. If the variance of the @known_x is zero, FORECAST returns #DIV/0 error.
+If @known_x or @known_y contains no data entries or different number of data entries, FORECAST returns #N/A error. If the variance of the @known_x is zero, FORECAST returns #DIV/0 error.
 This function is Excel compatible.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
@@ -1628,7 +1703,7 @@ GEOMEAN(A1:A5) equals 21.279182482.
 
 @FUNCTION=GESTEP
 @SYNTAX=GESTEP(x[,y])
-@DESCRIPTION=GESTEP function test for if @x is >= @y, returning 1 if it is so, and 0 otherwise @y is optional, and defaults to 0.
+@DESCRIPTION=GESTEP function test for if @x is >= @y, returning 1 if it is so, and 0 otherwise. @y is optional, and defaults to 0.
 If either argument is non-numeric returns a #VALUE! error.
 This function is Excel compatible.
 @EXAMPLES=
@@ -1968,7 +2043,7 @@ INT(-5.5) equals -6.
 @FUNCTION=INTERCEPT
 @SYNTAX=INTERCEPT(known_y's,known_x's)
 @DESCRIPTION=INTERCEPT function calculates the point where the linear regression line intersects the y-axis.  
-If @known_x or @known_y contains no data entries or different number of data entries, INTERCEPT returns #N/A! error. If the variance of the @known_x is zero, INTERCEPT returns #DIV/0 error.
+If @known_x or @known_y contains no data entries or different number of data entries, INTERCEPT returns #N/A error. If the variance of the @known_x is zero, INTERCEPT returns #DIV/0 error.
 This function is Excel compatible.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
@@ -2096,6 +2171,15 @@ ISODD(3) equals TRUE.
 
 @SEEALSO=ISEVEN
 
+@FUNCTION=ISOWEEKNUM
+@SYNTAX=ISOWEEKNUM (date)
+@DESCRIPTION=ISOWEEKNUM returns the ISO 8601 week number of @date.
+Returns #NUM! if date is invalid.
+An ISO 8601 week starts on Monday. Weeks are numbered from 1. A week including days from two different years is assigned to the year which includes the most days. This means that Dec 31 could be in week 1 of the following year, and Jan 1 could be in week 52 or 53 of the previous year.
+@EXAMPLES=
+If A1 contains 12/21/00 then ISOWEEKNUM(A1)=51
+@SEEALSO=WEEKNUM
+
 @FUNCTION=ISPMT
 @SYNTAX=ISPMT(rate,per,nper,pv)
 @DESCRIPTION=ISPMT function returns the interest paid on a given period. 
@@ -2164,7 +2248,7 @@ LARGE(A1:A5,4) equals 17.3.
 If any of the arguments is less than one, LCM returns #NUM! error.
 This function is Excel compatible. 
 @EXAMPLES=
-LCM(2,13) equlas to 26.
+LCM(2,13) equals to 26.
 LCM(4,7,5) equals to 140.
 
 @SEEALSO=GCD
@@ -2315,7 +2399,7 @@ MAX(A1:A5) equals 40.1.
 This function is Excel compatible.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
-MINA(A1:A5) equals 0.
+MAXA(A1:A5) equals 40.1.
 
 @SEEALSO=MAX,MINA
 
@@ -2369,11 +2453,11 @@ MIN(A1:A5) equals 11.4.
 
 @FUNCTION=MINA
 @SYNTAX=MINA(number1,number2,...)
-@DESCRIPTION=MINA returns the smallest value of the given arguments.  Numbers, text and logical values are included in the calculation, blank cells are not.  If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
+@DESCRIPTION=MINA returns the smallest value of the given arguments.  Numbers, text and logical values are included in the calculation too. If the cell contains text or the argument evaluates to FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that empty cells are not counted.
 This function is Excel compatible.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers and strings 11.4, 17.3, "missing", 25.9, and 40.1.  Then
-MAXA(A1:A5) equals 40.1.
+MINA(A1:A5) equals 0.
 
 @SEEALSO=MIN,MAXA
 
@@ -2425,7 +2509,7 @@ MOD(23,7) equals 2.
 @FUNCTION=MODE
 @SYNTAX=MODE(n1, n2, ...)
 @DESCRIPTION=MODE returns the most common number of the data set. If the data set has many most common numbers MODE returns the first one of them. 
-Strings and empty cells are simply ignored. If the data set does not contain any duplicates MODE returns #N/A! error.
+Strings and empty cells are simply ignored. If the data set does not contain any duplicates MODE returns #N/A error.
 This function is Excel compatible.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 11.4, 25.9, and 40.1.  Then
@@ -2495,7 +2579,7 @@ NEGBINOMDIST(2,5,0.55) equals 0.152872629.
 @FUNCTION=NETWORKDAYS
 @SYNTAX=NETWORKDAYS (start_date,end_date,holidays)
 @DESCRIPTION=NETWORKDAYS returns the number of non-weekend non-holidays between @start_date and @end_date.  Holidays optionally supplied in @holidays.
-Returns #NUM if start_date or end_date are invalid.
+Returns #NUM! if start_date or end_date are invalid.
 This function is Excel compatible. 
 @EXAMPLES=
 NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) equals 33.
@@ -2847,9 +2931,9 @@ If @settlement date or @maturity date is not valid, PRICEMAT returns #NUM! error
 @SEEALSO=PRICEDISC
 
 @FUNCTION=PROB
-@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])
+@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])
 @DESCRIPTION=PROB function returns the probability that values in a range or an array are between two limits. If @upper_limit is not given, PROB returns the probability that values in @x_range are equal to @lower_limit.
-If the sum of the probabilities in @prob_range is not equal to 1 PROB returns #NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns #NUM! error. If @x_range and @prob_range contain a different number of data entries, PROB returns #N/A! error.
+If the sum of the probabilities in @prob_range is not equal to 1 PROB returns #NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns #NUM! error. If @x_range and @prob_range contain a different number of data entries, PROB returns #N/A error.
 This function is Excel compatible.
 @EXAMPLES=
 
@@ -2898,8 +2982,9 @@ QUARTILE(A1:A5,1) equals 17.3.
 @SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL
 
 @FUNCTION=QUOTIENT
-@SYNTAX=QUOTIENT(num,den)
-@DESCRIPTION=QUOTIENT function returns the integer portion of a division.  @num is the divided and @den is the divisor.
+@SYNTAX=QUOTIENT(numerator,denumerator)
+@DESCRIPTION=QUOTIENT function returns the integer portion of a division.  @numerator is the divided number and 
+@denumerator is the divisor.
 This function is Excel compatible. 
 @EXAMPLES=
 QUOTIENT(23,5) equals 4.
@@ -2935,7 +3020,7 @@ RandBernoulli(0.5).
 
 @FUNCTION=RANDBETWEEN
 @SYNTAX=RANDBETWEEN(bottom,top)
-@DESCRIPTION=RANDBETWEEN function returns a random integer number between @bottom and @top.
+@DESCRIPTION=RANDBETWEEN function returns a random integer number between and including @bottom and @top.
 If @bottom or @top is non-integer, they are truncated. If @bottom > @top, RANDBETWEEN returns #NUM! error.
 This function is Excel compatible. 
 @EXAMPLES=
@@ -3067,7 +3152,7 @@ ROUND(1501.15,-2) equals 1500.0.
 
 @FUNCTION=ROUNDDOWN
 @SYNTAX=ROUNDDOWN(number[,digits])
-@DESCRIPTION=ROUNDDOWN function rounds a given @number down, towards zero. @number is the number you want rounded down and @digits is the number of digits to which you want to round that number. 
+@DESCRIPTION=ROUNDDOWN function rounds a given @number down. @number is the number you want rounded down and @digits is the number of digits to which you want to round that number. 
 If @digits is greater than zero, @number is rounded down to the given number of digits. If @digits is zero or omitted, @number is rounded down to the nearest integer. If @digits is less than zero, @number is rounded down to the left of the decimal point.
 This function is Excel compatible. 
 @EXAMPLES=
@@ -3080,7 +3165,7 @@ ROUNDDOWN(1501.15,-2) equals 1500.0.
 
 @FUNCTION=ROUNDUP
 @SYNTAX=ROUNDUP(number[,digits])
-@DESCRIPTION=ROUNDUP function rounds a given number up, away from zero. @number is the number you want rounded up and @digits is the number of digits to which you want to round that number. 
+@DESCRIPTION=ROUNDUP function rounds a given number up. @number is the number you want rounded up and @digits is the number of digits to which you want to round that number. 
 If @digits is greater than zero, @number is rounded up to the given number of digits. If @digits is zero or omitted, @number is rounded up to the nearest integer. If @digits is less than zero, @number is rounded up to the left of the decimal point.
 This function is Excel compatible.
 @EXAMPLES=
@@ -3150,7 +3235,7 @@ If @permit_intersection is TRUE the user specifed selection ranges are returned,
 
 @FUNCTION=SERIESSUM
 @SYNTAX=SERIESSUM(x,n,m,coefficients)
-@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is the base of the power serie, @n is the initial power to raise @x, @m is the increment to the power for each term in the series, and @coefficients is the coefficents by which each successive power of @x is multiplied.
+@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is the base of the power series, @n is the initial power to raise @x, @m is the increment to the power for each term in the series, and @coefficients is the coefficents by which each successive power of @x is multiplied.
 This function is Excel compatible.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 1.23, 2.32, 2.98, 3.42, and 4.33.  Then
@@ -3316,7 +3401,7 @@ STDEVPA(A1:A5) equals 13.523697719.
 @FUNCTION=STEYX
 @SYNTAX=STEYX(known_y's,known_x's)
 @DESCRIPTION=STEYX function returns the standard error of the predicted y-value for each x in the regression.
-If @known_y's and @known_x's are empty or have a different number of arguments then STEYX returns #N/A! error.
+If @known_y's and @known_x's are empty or have a different number of arguments then STEYX returns #N/A error.
 This function is Excel compatible.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
@@ -3415,7 +3500,7 @@ SUMSQ(A1:A5) equals 2925.
 @SYNTAX=SUMX2MY2(array1,array2)
 @DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2MY2 is SUM (x^2-y^2). 
 Strings and empty cells are simply ignored.
-If @array1 and @array2 have different number of data points, SUMX2MY2 returns #N/A! error.
+If @array1 and @array2 have different number of data points, SUMX2MY2 returns #N/A error.
 This function is Excel compatible.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  Then
@@ -3427,7 +3512,7 @@ SUMX2MY2(A1:A5,B1:B5) equals -1299.
 @SYNTAX=SUMX2PY2(array1,array2)
 @DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2PY2 is SUM (x^2+y^2). 
 Strings and empty cells are simply ignored.
-If @array1 and @array2 have different number of data points, SUMX2PY2 returns #N/A! error.
+If @array1 and @array2 have different number of data points, SUMX2PY2 returns #N/A error.
 This function is Excel compatible.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  Then
@@ -3439,7 +3524,7 @@ SUMX2PY2(A1:A5,B1:B5) equals 7149.
 @SYNTAX=SUMXMY2(array1,array2)
 @DESCRIPTION=SUMXMY2 function returns the sum of squares of differences of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMXMY2 is SUM (x-y)^2. 
 Strings and empty cells are simply ignored.
-If @array1 and @array2 have different number of data points, SUMXMY2 returns #N/A! error.
+If @array1 and @array2 have different number of data points, SUMXMY2 returns #N/A error.
 This function is Excel compatible.
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, and 43 and the cells B1, B2, ..., B5 hold numbers 13, 22, 31, 33, and 39.  Then
@@ -3753,6 +3838,21 @@ This function is Excel compatible.
 WEEKDAY("10/24/1968") equals 5 (Thursday).
 
 @SEEALSO=DAY, MONTH, TIME, NOW, YEAR
+
+@FUNCTION=WEEKNUM
+@SYNTAX=WEEKNUM (date, method)
+@DESCRIPTION=WEEKNUM returns the week number of @date according to the given @method.
+
+@method defaults to 1.
+For method=1, week starts on Sunday, and days before first Sunday are in week 0.
+For method=2, week starts on Monday, and days before first Monday are in week 0.
+For method=150, the ISO 8601 week number is returned.
+
+Returns #NUM! if date or method is invalid.
+This function is Excel compatible, except that Excel does not support ISO 8601 week numbers.
+@EXAMPLES=
+If A1 contains 12/21/00 then WEEKNUM(A1,2)=51
+@SEEALSO=ISOWEEKNUM
 
 @FUNCTION=WEIBULL
 @SYNTAX=WEIBULL(x,alpha,beta,cumulative)

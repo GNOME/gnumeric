@@ -6,11 +6,10 @@
 # Yukihiro Nakai <nakai@gnome.gr.jp>, 2000-2001.
 # Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2002.
 # 
-#, no-wrap
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.3\n"
-"POT-Creation-Date: 2002-01-22 00:53+0900\n"
+"POT-Creation-Date: 2002-01-21 23:04-0500\n"
 "PO-Revision-Date: 2002-01-22 00:50+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -135,8 +134,8 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:375
-#, c-format
+#: plugins/derivatives/options.c:376
+#, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_call_rho\n"
 "@SYNTAX=opt_bs_call_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -157,8 +156,8 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:398
-#, c-format
+#: plugins/derivatives/options.c:400
+#, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_put_rho\n"
 "@SYNTAX=opt_bs_put_rho(strike,price,volatility,days_to_maturity,rate)\n"
@@ -179,7 +178,7 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:421
+#: plugins/derivatives/options.c:423
 msgid ""
 "@FUNCTION=opt_bs_call_theta\n"
 "@SYNTAX=opt_bs_call_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -199,7 +198,7 @@ msgid ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:444
+#: plugins/derivatives/options.c:446
 msgid ""
 "@FUNCTION=opt_bs_put_theta\n"
 "@SYNTAX=opt_bs_put_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -219,7 +218,7 @@ msgid ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma"
 msgstr ""
 
-#: plugins/derivatives/options.c:467
+#: plugins/derivatives/options.c:469
 msgid ""
 "@FUNCTION=opt_bs_gamma\n"
 "@SYNTAX=opt_bs_gamma(strike,price,volatility,days_to_maturity,rate)\n"
@@ -240,7 +239,8 @@ msgid ""
 "opt_bs_vega"
 msgstr ""
 
-#: plugins/derivatives/options.c:490
+#: plugins/derivatives/options.c:493
+#, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_vega\n"
 "@SYNTAX=opt_bs_bega(strike,price,volatility,days_to_maturity,rate)\n"
@@ -1483,7 +1483,7 @@ msgstr "スクロールバーの作成"
 msgid "Create an arrow"
 msgstr "矢印オブジェクトの作成"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1391
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1392
 #: src/workbook-control-gui.c:2734
 msgid "Cu_t"
 msgstr "切り取り(_T)"
@@ -2309,7 +2309,7 @@ msgid "_Content"
 msgstr "内容(_C)"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1030
-#: src/sheet-control-gui.c:1393 src/workbook-control-gui.c:2738
+#: src/sheet-control-gui.c:1394 src/workbook-control-gui.c:2738
 msgid "_Copy"
 msgstr "コピー(_C)"
 
@@ -2325,7 +2325,7 @@ msgstr "データ(_D)"
 msgid "_Define..."
 msgstr "定義(_D)..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1411
+#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1412
 #: src/workbook-control-gui.c:2755
 msgid "_Delete..."
 msgstr "削除(_D)..."
@@ -2396,8 +2396,8 @@ msgstr "グループとアウトライン(_G)"
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1434
-#: src/sheet-control-gui.c:1442 src/workbook-control-gui.c:2876
+#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1435
+#: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2876
 #: src/workbook-control-gui.c:2895
 msgid "_Hide"
 msgstr "隠す(_H)"
@@ -2455,7 +2455,7 @@ msgstr "開く(_O)..."
 msgid "_Paired Samples: T-Test"
 msgstr "対のサンプル: T-検定(_P)"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1395
+#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1396
 #: src/workbook-control-gui.c:2742
 msgid "_Paste"
 msgstr "貼付け(_P)"
@@ -2570,8 +2570,8 @@ msgstr "元に戻す(_U)"
 msgid "_Ungroup"
 msgstr "グループ化解除(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1436
-#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2879
+#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1437
+#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2879
 #: src/workbook-control-gui.c:2898
 msgid "_Unhide"
 msgstr "出す(_U)"
@@ -19508,17 +19508,17 @@ msgstr "置換する中に不正なバックスラッシュ '\\' があります。"
 msgid "cannot be performed with multiple ranges selected"
 msgstr "複数選択のもとで実行できません"
 
-#: src/sheet-control-gui.c:554
+#: src/sheet-control-gui.c:555
 #, c-format
 msgid "Row: %s"
 msgstr "行: %s"
 
-#: src/sheet-control-gui.c:569
+#: src/sheet-control-gui.c:570
 #, c-format
 msgid "Column: %s"
 msgstr "列: %s"
 
-#: src/sheet-control-gui.c:1397
+#: src/sheet-control-gui.c:1398
 msgid "Paste _Special"
 msgstr "特別貼り付け(_S)"
 
@@ -19529,41 +19529,41 @@ msgstr "特別貼り付け(_S)"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1409
+#: src/sheet-control-gui.c:1410
 msgid "_Insert..."
 msgstr "挿入(_I)..."
 
-#: src/sheet-control-gui.c:1413
+#: src/sheet-control-gui.c:1414
 msgid "_Insert Column(s)"
 msgstr "列を挿入(_I)"
 
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1416
 msgid "_Delete Column(s)"
 msgstr "列を削除(_D)"
 
-#: src/sheet-control-gui.c:1417
+#: src/sheet-control-gui.c:1418
 msgid "_Insert Row(s)"
 msgstr "行を挿入(_I)"
 
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1420
 msgid "_Delete Row(s)"
 msgstr "行を削除(_D)"
 
-#: src/sheet-control-gui.c:1422
+#: src/sheet-control-gui.c:1423
 msgid "Clear Co_ntents"
 msgstr "内容を消去(_N)"
 
-#: src/sheet-control-gui.c:1428
+#: src/sheet-control-gui.c:1429
 msgid "_Format Cells..."
 msgstr "セルの書式設定(_F)..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1432
+#: src/sheet-control-gui.c:1433
 msgid "Column _Width..."
 msgstr "列の幅(_W)..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1440
+#: src/sheet-control-gui.c:1441
 msgid "_Row Height..."
 msgstr "行の高さ(_R)..."
 
