@@ -1,3 +1,7 @@
+2001-10-04  Ole Laursen  <olau@hardworking.dk>
+
+	* da.po: Updated Danish translation.
+
 2001-10-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
         * POTFILES.in : Add mean-tests.glade, variance-tests.glade, sampling.glade
