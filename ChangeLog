@@ -1,5 +1,8 @@
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
+	* src/style-border.c (style_border_none_set_color) : Morten found the
+	  colour leak.  While we're here lets fix the the GC warnings.
+
 	* src/sheet-object-graphic.c : Add a quicky line based polygon object.
 
 2002-08-11  Jody Goldberg <jody@gnome.org>

@@ -178,8 +178,11 @@ style_border_none_set_color (StyleColor *color)
 
 	nc = none->color;
 	none->color = color;
-	gdk_gc_set_foreground (none->gc, &none->color->color);
+	style_color_ref (color);
 	style_color_unref (nc);
+
+	if (none->gc)
+		gdk_gc_set_foreground (none->gc, &none->color->color);
 }
 
 /**

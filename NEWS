@@ -26,6 +26,7 @@ Jody:
 	* Enable and patch the plan perfect importer.
 	* Fix ref-count problem with cell comments.
 	* Ultra basic support for Excel 95 Polygon objects.
+	* Fix colour leak with grid colour change, and small warning.
 
 Jukka:
 	* New random distribution functions (mostly integrated from the 
