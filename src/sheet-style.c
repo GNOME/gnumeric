@@ -676,14 +676,14 @@ sheet_range_apply_style (Sheet       *sheet,
 			 const Range *range,
 			 MStyle      *style)
 {
-	gboolean const size_change =
+	gboolean const font_change =
 	    (mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
 	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
 	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC) ||
 	     mstyle_is_element_set  (style, MSTYLE_FONT_UNDERLINE) ||
 	     mstyle_is_element_set  (style, MSTYLE_FONT_SIZE));
 	gboolean const format_change =
-	    mstyle_is_element_set (style, MSTYLE_FORMAT)
+	    mstyle_is_element_set (style, MSTYLE_FORMAT);
 
 	SpanCalcFlags spanflags =
 	format_change ? SPANCALC_RENDER|SPANCALC_RESIZE
@@ -695,7 +695,7 @@ sheet_range_apply_style (Sheet       *sheet,
 	sheet_range_calc_spans (sheet, *range, spanflags);
 
 	if (format_change || font_change)
-		rows_height_update (me->sheet, l->data);
+		rows_height_update (sheet, range);
 
 	sheet_redraw_range (sheet, range);
 }

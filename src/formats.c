@@ -148,6 +148,7 @@ CurrencySymbol const currency_symbols[] =
 	{ "", "None" },	/* These fist three elements */
 	{ "$", "$" },	/* Must stay in this order */
 	{ "£", "£" },
+	/* TODO : Add yen and euro */
 
 	/* The first column has three letter acronyms
 	 * for each currency.  They MUST start with '[$'
@@ -196,6 +197,7 @@ CurrencySymbol const currency_symbols[] =
 	{N_("[$EGP]"), N_("Egyptian pound") },
 	{N_("[$ESP]"), N_("Spanish peseta") },
 	{N_("[$ETB]"), N_("Ethiopian birr") },
+	{N_("[$EUR]"), N_("Euro") },
 	{N_("[$FIM]"), N_("Finnish markka") },
 	{N_("[$FJD]"), N_("Fiji dollar") },
 	{N_("[$FKP]"), N_("Falkland Islands pound") },

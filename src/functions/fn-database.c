@@ -10,6 +10,7 @@
 #include "parse-util.h"
 #include "func.h"
 #include "cell.h"
+#include "rendered-value.h"
 
 /* Type definitions */
 

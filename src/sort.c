@@ -13,6 +13,7 @@
 #include "workbook-view.h"
 #include "parse-util.h"
 #include "sort.h"
+#include "rendered-value.h"
 #include "value.h"
 
 #include <stdlib.h>

@@ -113,11 +113,11 @@ struct _FunctionEvalInfo {
 
 /* Transition functions */
 EvalPosition     *eval_pos_init       (EvalPosition *pp, Sheet *s, CellPos const *pos);
-EvalPosition     *eval_pos_cell       (EvalPosition *pp, Cell *);
+EvalPosition     *eval_pos_cell       (EvalPosition *pp, Cell const * cell);
 EvalPosition     *eval_pos_cellref    (EvalPosition *dest,
 				       EvalPosition const *src, CellRef const *);
 ParsePosition    *parse_pos_init      (ParsePosition *pp, Workbook *wb, Sheet *sheet, int col, int row);
-ParsePosition    *parse_pos_cell      (ParsePosition *pp, Cell *);
+ParsePosition    *parse_pos_cell      (ParsePosition *pp, Cell const * cell);
 ParsePosition    *parse_pos_evalpos   (ParsePosition *pp, EvalPosition const *pos);
 
 /*

@@ -23,6 +23,7 @@
 #include "sheet-object-graphic.h"
 #include "print-info.h"
 #include "xml-io.h"
+#include "rendered-value.h"
 #include "file.h"
 #include "expr.h"
 #include "expr-name.h"

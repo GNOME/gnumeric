@@ -33,7 +33,7 @@ eval_pos_init (EvalPosition *eval_pos, Sheet *sheet, CellPos const *pos)
 }
 
 EvalPosition *
-eval_pos_cell (EvalPosition *eval_pos, Cell *cell)
+eval_pos_cell (EvalPosition *eval_pos, Cell const *cell)
 {
 	CellPos pos;
 	g_return_val_if_fail (cell != NULL, NULL);
@@ -73,7 +73,7 @@ parse_pos_init (ParsePosition *pp, Workbook *wb, Sheet *sheet, int col, int row)
 }
 
 ParsePosition *
-parse_pos_cell (ParsePosition *pp, Cell *cell)
+parse_pos_cell (ParsePosition *pp, Cell const *cell)
 {
 	g_return_val_if_fail (pp != NULL, NULL);
 	g_return_val_if_fail (cell != NULL, NULL);

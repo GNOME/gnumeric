@@ -29,6 +29,8 @@
 #include "cell.h"
 #include "sheet.h"
 #include "format.h"
+#include "value.h"
+#include "parse-util.h"
 #include "sheet-view.h"
 
 /*

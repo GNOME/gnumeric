@@ -38,6 +38,7 @@
 #include "widgets/gtk-combo-text.h"
 #include "wizard.h"
 #include "gutils.h"
+#include "rendered-value.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
