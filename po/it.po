@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
 "POT-Creation-Date: 2000-10-10 11:30-0400\n"
-"PO-Revision-Date: 2000-10-04 05:02+02:00\n"
+"PO-Revision-Date: 2000-10-26 03:21+02:00\n"
 "Last-Translator: Leandro Noferini <lnoferin@cybervalley.org>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -1618,20 +1618,17 @@ msgid "N_ew Workbook"
 msgstr "N_uova Cartella di lavoro"
 
 #: src/dialogs/analysis-tools.glade.h:19
-#, fuzzy
 msgid "T-Test: Paired Two Sample for Means"
-msgstr "t-Test: Doppia Campionatura pari per ??Mezzi??"
+msgstr "t-Test: Doppia Campionatura pari per le Medie"
 
 #: src/dialogs/analysis-tools.glade.h:21 src/dialogs/analysis-tools.glade.h:34
 #: src/dialogs/analysis-tools.glade.h:45
-#, fuzzy
 msgid "_Hypothesized Mean Difference:"
-msgstr "Principale Differenza Ipotizzata:"
+msgstr "Differenza Media _Ipotizzata:"
 
 #: src/dialogs/analysis-tools.glade.h:30
-#, fuzzy
 msgid "T-Test: Assuming Equal Variances"
-msgstr "t-Test: Doppia Campionatura con Varianza Uguale"
+msgstr "T-Test: Assumo Varianza Uguale"
 
 #: src/dialogs/analysis-tools.glade.h:32 src/dialogs/analysis-tools.glade.h:47
 #: src/dialogs/analysis-tools.glade.h:75
@@ -1639,9 +1636,8 @@ msgid "_Labels in First Row           "
 msgstr "_Etichetta nella prima riga"
 
 #: src/dialogs/analysis-tools.glade.h:41
-#, fuzzy
 msgid "T-Test: Assuming Unequal Variances"
-msgstr "t-Test: Doppia Campionatura con Varianza Disuguale"
+msgstr "T-Test: Assumo Varianza Disuguale"
 
 #: src/dialogs/analysis-tools.glade.h:54 src/dialogs/analysis-tools.glade.h:85
 #: src/dialogs/analysis-tools.glade.h:96
@@ -2205,21 +2201,19 @@ msgstr "Destra"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Outline"
-msgstr ""
+msgstr "Outline"
 
 #: src/dialogs/cell-format.glade.h:73
-#, fuzzy
 msgid "Inside Vertical"
-msgstr "Verticale"
+msgstr "Verticale Interno"
 
 #: src/dialogs/cell-format.glade.h:74
 msgid "Inside"
 msgstr "Dentro"
 
 #: src/dialogs/cell-format.glade.h:75
-#, fuzzy
 msgid "Inside Horizontal"
-msgstr "Orizzontale"
+msgstr "Orizzontale Interno"
 
 #: src/dialogs/cell-format.glade.h:76 src/workbook-object-toolbar.c:151
 msgid "Line"
@@ -2262,27 +2256,27 @@ msgid "Pick a Pattern color"
 msgstr "Scegli un colore per il motivo"
 
 #: src/dialogs/cell-format.glade.h:91
-#, c-format
+#, no-c-format
 msgid "75% Grey"
 msgstr "75% di grigio"
 
 #: src/dialogs/cell-format.glade.h:92
-#, c-format
+#, no-c-format
 msgid "50% Grey"
 msgstr "50% di grigio"
 
 #: src/dialogs/cell-format.glade.h:93
-#, c-format
+#, no-c-format
 msgid "25% Grey"
 msgstr "25% di grigio"
 
 #: src/dialogs/cell-format.glade.h:94
-#, c-format
+#, no-c-format
 msgid "12.5% Grey"
 msgstr "12,5% di grigio"
 
 #: src/dialogs/cell-format.glade.h:95
-#, c-format
+#, no-c-format
 msgid "6.25% Grey"
 msgstr "6,25% di grigio"
 
@@ -2529,9 +2523,8 @@ msgid "Sampling"
 msgstr "Campionamento"
 
 #: src/dialogs/dialog-analysis-tools.c:107
-#, fuzzy
 msgid "t-Test: Paired Two Sample for Means"
-msgstr "t-Test: Doppia Campionatura pari per ??Mezzi??"
+msgstr "t-Test: Doppia Campionatura pari per Medie"
 
 #: src/dialogs/dialog-analysis-tools.c:109
 msgid "t-Test: Two-Sample Assuming Equal Variances"
@@ -2543,9 +2536,8 @@ msgstr "t-Test: Doppia Campionatura con Varianza Disuguale"
 
 #: src/dialogs/dialog-analysis-tools.c:113
 #: src/dialogs/dialog-analysis-tools.c:1013
-#, fuzzy
 msgid "z-Test: Two Sample for Means"
-msgstr "z-Test: Doppia Campionatura per ??Mezzi??"
+msgstr "z-Test: Doppia Campionatura per Medie"
 
 #: src/dialogs/dialog-analysis-tools.c:121
 msgid "Discrete"
@@ -2595,9 +2587,8 @@ msgid "_p value:"
 msgstr "Valore _p:"
 
 #: src/dialogs/dialog-analysis-tools.c:129
-#, fuzzy
 msgid "N_umber of trials"
-msgstr "Numero di Variabili:"
+msgstr "N_umero di Variabili:"
 
 #: src/dialogs/dialog-analysis-tools.c:131
 msgid "Negative Binomial"
@@ -2624,9 +2615,8 @@ msgid "_Upper bound:"
 msgstr "Limite _Superiore:"
 
 #: src/dialogs/dialog-analysis-tools.c:319
-#, fuzzy
 msgid "Confidence Level for Mean"
-msgstr "Livello ??a Confidenza per Mezzi??"
+msgstr "Livello di esperienza per Medie"
 
 #: src/dialogs/dialog-analysis-tools.c:320
 msgid "0.95"
@@ -2796,7 +2786,6 @@ msgid "Input X Range:"
 msgstr "Intervallo dell'Input di X:"
 
 #: src/dialogs/dialog-analysis-tools.c:2008
-#, fuzzy
 msgid "Confidence Level:"
 msgstr "Livello d'esperienza:"
 
@@ -2827,12 +2816,11 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2317
 msgid "Fourier analysis is not implemented yet.  Sorry."
-msgstr ""
+msgstr "L'analisi di Fourier non è ancora implementata. Scusa."
 
 #: src/dialogs/dialog-analysis-tools.c:2426
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Bin Range:'"
-msgstr "Devi inserire un intervallo di celle valido in 'Intervallo:'"
+msgstr "Devi inserire un intervallo di celle valido in 'Intervallo Binario:'"
 
 #: src/dialogs/dialog-analysis-tools.c:2454
 #: src/dialogs/dialog-analysis-tools.c:2905
@@ -2841,11 +2829,11 @@ msgstr "L'intervallo immesso contiene dati non numerici."
 
 #: src/dialogs/dialog-analysis-tools.c:2459
 msgid "Given bin range contains non-numeric data."
-msgstr ""
+msgstr "L'intervallo binario dato contiene dati non numerici."
 
 #: src/dialogs/dialog-analysis-tools.c:2900
 msgid "Each sample should contain the same number of rows (`Rows per sample:')"
-msgstr ""
+msgstr "Ogni campionatura dovrebbe contenere lo stesso numero di colonne (`Colonne per campionature:')"
 
 #: src/dialogs/dialog-analysis-tools.c:2910
 msgid ""
@@ -7368,9 +7356,8 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1011
-#, fuzzy
 msgid "nominal - domain error"
-msgstr "asin - errore di dominio"
+msgstr "nominale - errore di dominio"
 
 #: src/functions/fn-financial.c:1020
 #, fuzzy
@@ -7443,9 +7430,8 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1200
-#, fuzzy
 msgid "sln - domain error"
-msgstr "asin - errore di dominio"
+msgstr "sln - errore di dominio"
 
 #: src/functions/fn-financial.c:1208
 msgid ""
@@ -7474,9 +7460,8 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1254
-#, fuzzy
 msgid "syd - domain error"
-msgstr "acos - errore di dominio"
+msgstr "syd - errore di dominio"
 
 #: src/functions/fn-financial.c:1264
 #, fuzzy
@@ -7626,9 +7611,8 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1802
-#, fuzzy
 msgid "pv - domain error"
-msgstr "acos - errore di dominio"
+msgstr "pv - errore di dominio"
 
 #: src/functions/fn-financial.c:1818
 msgid ""
@@ -8088,7 +8072,7 @@ msgstr ""
 
 #: src/functions/fn-financial.c:2916
 msgid "Financial"
-msgstr ""
+msgstr "Finanziarie"
 
 #: src/functions/fn-information.c:72
 #, fuzzy
@@ -13630,11 +13614,11 @@ msgstr "Riordina questo foglio"
 
 #: src/xml-io.c:3336
 msgid "Invalid xml clipboard data. Tree is empty ?"
-msgstr ""
+msgstr "I dati xml della clipboard non sono validi. L'albero è vuoto?"
 
 #: src/xml-io-autoft.c:456 src/xml-io.c:3378
 msgid "Invalid xml file. Tree is empty ?"
-msgstr ""
+msgstr "File xml non valido. L'albero è vuoto?"
 
 #: src/xml-io.c:3386
 msgid "Is not an Gnumeric Workbook file"
