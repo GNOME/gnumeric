@@ -310,55 +310,53 @@ parse_database_criteria (const EvalPos *ep, Value *database,
 	return criterias;
 }
 
-/* Finds the cells from the given column that match the criteria.
+/**
+ * find_cells_that_match :
+ * Finds the cells from the given column that match the criteria.
  */
 static GSList *
 find_cells_that_match (Sheet *sheet, Value *database,
-		       int field, GSList *criterias)
+		       int col, GSList *criterias)
 {
-	GSList *current, *conditions, *cells;
-        int    row, first_row, last_row, add_flag;
-	last_row = database->v_range.cell.b.row;
+	GSList *ptr, *condition, *cells;
+	int    row, first_row, last_row;
+	gboolean add_flag;
+
 	cells = NULL;
+	/* TODO : Why ignore the first row ? */
 	first_row = database->v_range.cell.a.row + 1;
+	last_row  = database->v_range.cell.b.row;
 
-	for (row=first_row; row<=last_row; row++) {
-	       Cell   *cell, *test_cell;
+	for (row = first_row; row <= last_row; row++) {
+		Cell *cell = sheet_cell_get (sheet, col, row);
+		if (cell == NULL || cell->value == NULL)
+			continue;
 
-	       cell = sheet_cell_get(sheet, field, row);
-	       if (cell == NULL || cell->value == NULL)
-		       continue;
-	       current = criterias;
-	       add_flag = 1;
-	       for (current = criterias; current != NULL;
-		    current=current->next) {
-		       database_criteria_t *current_criteria;
+		add_flag = TRUE;
+		for (ptr = criterias; ptr != NULL; ptr = ptr->next) {
+			database_criteria_t const *current_criteria = ptr->data;
 
-		       add_flag = 1;
-		       current_criteria = current->data;
-		       conditions = current_criteria->conditions;
+			add_flag = TRUE;
+			condition = current_criteria->conditions;
 
-		       while (conditions != NULL) {
-			       func_criteria_t *cond = conditions->data;
+			for (;condition != NULL ; condition = condition->next) {
+				func_criteria_t const *cond = condition->data;
+				Cell const *tmp = sheet_cell_get (sheet,
+					cond->column, row);
 
-			       test_cell =
-				 sheet_cell_get(sheet, cond->column, row);
-			       if (test_cell == NULL ||
-				   test_cell->value == NULL)
-				       continue;
+				if (tmp != NULL && tmp->value != NULL) {
+					if (! cond->fun (tmp->value, cond->x)) {
+						add_flag = FALSE;
+						break;
+					}
+				}
+			}
 
-			       if (! cond->fun (test_cell->value, cond->x)) {
-				       add_flag = 0;
-				       break;
-			       }
-			       conditions = conditions->next;
-		       }
-
-		       if (add_flag)
-			       break;
-	       }
-	       if (add_flag)
-		       cells = g_slist_append(cells, cell);
+			if (add_flag)
+				break;
+		}
+		if (add_flag)
+			cells = g_slist_append (cells, cell);
 	}
 
 	return cells;
@@ -373,74 +371,74 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 		      GSList *criterias, gboolean unique_only)
 {
 	GSList *current, *conditions, *rows;
-        int    row, add_flag;
+	int    row, add_flag;
 	rows = NULL;
 
 	for (row=first_row; row<=last_row; row++) {
-	       Cell   *test_cell;
+		Cell   *test_cell;
 
-	       current = criterias;
-	       add_flag = 1;
-	       for (current = criterias; current != NULL;
-		    current=current->next) {
-		       database_criteria_t *current_criteria;
+		current = criterias;
+		add_flag = 1;
+		for (current = criterias; current != NULL;
+		     current=current->next) {
+			database_criteria_t *current_criteria;
 
-		       add_flag = 1;
-		       current_criteria = current->data;
-		       conditions = current_criteria->conditions;
+			add_flag = 1;
+			current_criteria = current->data;
+			conditions = current_criteria->conditions;
 
-		       while (conditions != NULL) {
-			       func_criteria_t *cond = conditions->data;
+			while (conditions != NULL) {
+				func_criteria_t *cond = conditions->data;
 
-			       test_cell =
-				 sheet_cell_get(sheet,
-						first_col + cond->column, row);
-			       if (test_cell == NULL ||
-				   test_cell->value == NULL)
-				       continue;
+				test_cell =
+					sheet_cell_get(sheet,
+						       first_col + cond->column, row);
+				if (test_cell == NULL ||
+				    test_cell->value == NULL)
+					continue;
 
-			       if (! cond->fun (test_cell->value, cond->x)) {
-				       add_flag = 0;
-				       break;
-			       }
-			       conditions = conditions->next;
-		       }
+				if (! cond->fun (test_cell->value, cond->x)) {
+					add_flag = 0;
+					break;
+				}
+				conditions = conditions->next;
+			}
 
-		       if (add_flag)
-			       break;
-	       }
-	       if (add_flag) {
-		       gint *p;
+			if (add_flag)
+				break;
+		}
+		if (add_flag) {
+			gint *p;
 
-		       if (unique_only) {
-			       GSList *c;
-			       Cell   *cell;
-			       gint    i, trow;
-			       gchar  *t1, *t2;
+			if (unique_only) {
+				GSList *c;
+				Cell   *cell;
+				gint    i, trow;
+				gchar  *t1, *t2;
 
-			       for (c=rows; c != NULL; c=c->next) {
-				       trow = *((gint *) c->data);
-				       for (i=first_col; i<=last_col; i++) {
-					      test_cell =
-						sheet_cell_get(sheet, i, trow);
-					      cell =
-						sheet_cell_get(sheet, i, row);
-					      t1 = cell_get_rendered_text (cell);
-					      t2 = cell_get_rendered_text (test_cell);
-					      if (strcmp (t1, t2) != 0)
-						      goto row_ok;
-				       }
-				       goto filter_row;
-			       row_ok:
-				       ;
-			       }
-		       }
-		       p = g_new (gint, 1);
-		       *p = row;
-		       rows = g_slist_append(rows, (gpointer) p);
-	       filter_row:
-		       ;
-	       }
+				for (c=rows; c != NULL; c=c->next) {
+					trow = *((gint *) c->data);
+					for (i=first_col; i<=last_col; i++) {
+						test_cell =
+							sheet_cell_get(sheet, i, trow);
+						cell =
+							sheet_cell_get(sheet, i, row);
+						t1 = cell_get_rendered_text (cell);
+						t2 = cell_get_rendered_text (test_cell);
+						if (strcmp (t1, t2) != 0)
+							goto row_ok;
+					}
+					goto filter_row;
+row_ok:
+					;
+				}
+			}
+			p = g_new (gint, 1);
+			*p = row;
+			rows = g_slist_append(rows, (gpointer) p);
+filter_row:
+			;
+		}
 	}
 
 	return rows;
