@@ -2,6 +2,18 @@
 
 Gnumeric Spread Sheet task list
 
+* Component
+
+   Make sheet_selection_changed_hook execute a list of hooks 
+   Remove the hardcoded workbook hooks from the sheet.
+   Initialize the hooks on the workbook_new routine.
+
+   The model is somewhat broken.  sheet_new creates a sheet_view by
+   default. 
+
+   I think we need something like: workbook_new and workbook_view_new
+   to split this sort of thing.
+
 * Cell editing
 
    Pressing F4 when editing a cell formula, should switch a cell
@@ -45,6 +57,19 @@ Gnumeric Spread Sheet task list
 
 ** Cell data entry:
    double click on cell allows editing as in main editing box.
+
+** Headers for Columns and Rows
+
+   The captions should be customizable, ie instaed of "A1", it should
+   be possible to display "Sales".  We can use this with Michael's
+   name support. 
+
+** Captions (ItemBar)
+
+   It should be possible to set the dimensions of the cols, rows to
+   contain information as "min_points", "max_points".  
+
+   Interesting side effect: min_points == max_points means "fixed". 
 
 * Auditing
    Write the sheet auditing code.

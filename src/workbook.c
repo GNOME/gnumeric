@@ -176,15 +176,11 @@ italic_cmd (GtkWidget *widget, Workbook *wb)
 	change_selection_font (wb, -1, t->active);
 }
 
-/*
- * Temporary hack:
- */
-void (*graphic_wizard_hook)(Workbook *wb) = 0;
-
 #ifdef ENABLE_BONOBO
 static void
 create_graphic_cmd (GtkWidget *widget, Workbook *wb)
 {
+#if 0
 	Sheet *sheet;
 
 	if (graphic_wizard_hook){
@@ -194,6 +190,7 @@ create_graphic_cmd (GtkWidget *widget, Workbook *wb)
 		sheet = workbook_get_current_sheet (wb);
 		sheet_set_mode_type (sheet, SHEET_MODE_CREATE_GRAPHIC);
 	}
+#endif
 }
 #endif
 
@@ -807,10 +804,12 @@ filenames_dropped (GtkWidget * widget,
 static void
 insert_object_cmd (GtkWidget *widget, Workbook *wb)
 {
+#if 0
 	Sheet *sheet = workbook_get_current_sheet (wb);
 	char *repoid = "IDL:Sample/server:1.0";
 
-/*	sheet_insert_object (sheet, repoid); */
+	sheet_insert_object (sheet, repoid);
+#endif
 }
 #endif
 
@@ -1590,6 +1589,37 @@ workbook_configure_minimized_pixmap (Workbook *wb)
 	/* FIXME: Use the new function provided by Raster */
 }
 
+Workbook *
+workbook_core_new (void)
+{
+	Workbook *wb;
+
+	wb = g_new0 (Workbook, 1);
+	
+	wb->sheets    = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
+	wb->print_info = print_info_new ();
+	wb->symbol_names = symbol_table_new ();
+	wb->max_iterations = 1;
+
+	/* Set the default operation to be performed over selections */
+	wb->auto_expr      = NULL;
+	wb->auto_expr_desc = NULL;
+	workbook_set_auto_expr (wb,
+		_(quick_compute_routines [0].displayed_name),
+		quick_compute_routines [0].function);
+
+	workbook_count++;
+	workbook_list = g_list_prepend (workbook_list, wb);
+
+#ifdef ENABLE_BONOBO
+	wb->gnome_container = GNOME_CONTAINER (gnome_container_new ());
+#endif
+
+	workbook_corba_setup (wb);
+
+	return wb;
+}
+
 /**
  * workbook_new:
  *
@@ -1600,6 +1630,7 @@ workbook_new (void)
 {
 	GnomeDockItem *item;
 	GtkWidget *toolbar;
+	Workbook *wb;
 
 	static GtkTargetEntry drag_types[] =
 	{
@@ -1607,21 +1638,12 @@ workbook_new (void)
 	};
 	static gint n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
 
-	Workbook *wb;
-
-	wb = g_new0 (Workbook, 1);
+	wb = workbook_core_new ();
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
-	wb->sheets    = g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
 	wb->table     = gtk_table_new (0, 0, 0);
 	
-	wb->print_info = print_info_new ();
-	
-	wb->symbol_names = symbol_table_new ();
-
-	gtk_window_set_policy(GTK_WINDOW(wb->toplevel), 1, 1, 0);
+	gtk_window_set_policy (GTK_WINDOW(wb->toplevel), 1, 1, 0);
 	gtk_window_set_default_size (GTK_WINDOW(wb->toplevel), 600, 400);
-
-	wb->max_iterations = 1;
 
 	workbook_set_title (wb, _("Untitled.gnumeric"));
 
@@ -1672,25 +1694,9 @@ workbook_new (void)
 		GTK_OBJECT (wb->toplevel), "delete_event",
 		GTK_SIGNAL_FUNC (workbook_delete_event), wb);
 
-	/* Set the default operation to be performed over selections */
-	wb->auto_expr      = NULL;
-	wb->auto_expr_desc = NULL;
-	workbook_set_auto_expr (wb,
-		_(quick_compute_routines [0].displayed_name),
-		quick_compute_routines [0].function);
-
-	workbook_count++;
-
-	workbook_list = g_list_prepend (workbook_list, wb);
 
 	gtk_widget_show_all (wb->table);
 
-#ifdef ENABLE_BONOBO
-	wb->gnome_container = GNOME_CONTAINER (gnome_container_new ());
-#endif
-
-	workbook_corba_setup (wb);
-	
 	return wb;
 }
 
@@ -2154,7 +2160,6 @@ Workbook *
 workbook_new_with_sheets (int sheet_count)
 {
 	Workbook *wb;
-	Sheet *first_sheet = 0;
 	int i;
 
 	wb = workbook_new ();
@@ -2166,9 +2171,6 @@ workbook_new_with_sheets (int sheet_count)
 		snprintf (name, sizeof (name), _("Sheet%d"), i);
 		sheet = sheet_new (wb, name);
 		workbook_attach_sheet (wb, sheet);
-
-		if (!first_sheet)
-			first_sheet = sheet;
 	}
 
 	workbook_focus_current_sheet (wb);

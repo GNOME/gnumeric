@@ -1,3 +1,6 @@
+1999-07-09  Miguel de Icaza  <miguel@gnu.org>
+
+	* ms-excel-write.c (biff_put_text): Intiialize variable.
 
 1999-07-09  Jody Goldberg  <jgoldberg@home.com>
 

@@ -56,6 +56,7 @@ biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
 	g_return_val_if_fail (bp, 0);
 	g_return_val_if_fail (txt, 0);
 
+	ans = 0;
 	len = strlen (txt);
 /*	printf ("Write '%s' len = %d\n", txt, len); */
 

@@ -144,6 +144,34 @@ sheet_rename (Sheet *sheet, const char *new_name)
 	sheet->name = g_strdup (new_name);
 }
 
+SheetView *
+sheet_new_sheet_view (Sheet *sheet)
+{
+	SheetView *sheet_view;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	sheet_view = sheet_view_new (sheet);
+	gtk_object_ref (GTK_OBJECT (sheet_view));
+
+	sheet->sheet_views = g_list_prepend (sheet->sheet_views, sheet_view);
+
+	return sheet_view;
+}
+
+void
+sheet_destroy_sheet_view (Sheet *sheet, SheetView *sheet_view)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (sheet_view != NULL);
+	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	
+	sheet->sheet_views = g_list_remove (sheet->sheet_views, sheet_view);
+	gtk_object_unref (GTK_OBJECT (sheet_view));
+}
+
 Sheet *
 sheet_new (Workbook *wb, const char *name)
 {
@@ -173,10 +201,7 @@ sheet_new (Workbook *wb, const char *name)
 	if (0)
 		sheet_init_dummy_stuff (sheet);
 
-	sheet_view = sheet_view_new (sheet);
-	gtk_object_ref (GTK_OBJECT (sheet_view));
-
-	sheet->sheet_views = g_list_prepend (sheet->sheet_views, sheet_view);
+	sheet_view = sheet_new_sheet_view (sheet);
 
 	sheet_selection_append (sheet, 0, 0);
 

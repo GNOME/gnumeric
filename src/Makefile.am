@@ -186,6 +186,8 @@ GNUMERIC_CORBA_GENERATED = 			\
 	Gnumeric.h
 
 GNUMERIC_BONOBO_SOURCES = 			\
+	embeddable-grid.c			\
+	embeddable-grid.h			\
 	sheet-object-container.c		\
 	sheet-object-container.h
 

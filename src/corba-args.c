@@ -9,12 +9,11 @@
 #include <config.h>
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
-#include "gnumeric.h"
+#include <bonobo/gnome-bonobo.h>
+#include "sheet.h"
 #include "main.h"
-#include "main.h"
-#ifdef ENABLE_BONOBO
-#   include <bonobo/gnome-bonobo.h>
-#endif
+#include "embeddable-grid.h"
+#include "corba.h"
 
 void
 gnumeric_arg_parse (int argc, char *argv [])
@@ -33,4 +32,6 @@ gnumeric_arg_parse (int argc, char *argv [])
 	if (!WorkbookFactory_init ()){
 		g_warning (_("Could not initialize the Gnumeric Workbook factory"));
 	}
+
+	EmbeddableGridFactory_init ();
 }

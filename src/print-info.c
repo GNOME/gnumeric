@@ -12,6 +12,7 @@
 #include "gnumeric.h"
 #include "ranges.h"
 #include "print-info.h"
+#include "format.h"
 
 PrintHF *
 print_hf_new (const char *style_name,
@@ -336,38 +337,65 @@ unit_name_to_unit (const char *s)
 }
 
 static void
-render_tab (GString *target, HFRenderInfo *info)
+render_tab (GString *target, HFRenderInfo *info, const char *args)
 {
 	g_string_append (target, info->sheet->name);
 }
 
 static void
-render_page (GString *target, HFRenderInfo *info)
+render_page (GString *target, HFRenderInfo *info, const char *args)
 {
 	g_string_sprintfa (target, "%d", info->page);
 }
 
 static void
-render_pages (GString *target, HFRenderInfo *info)
+render_pages (GString *target, HFRenderInfo *info, const char *args)
 {
 	g_string_sprintfa (target, "%d", info->pages);
 }
 
 static void
-render_date (GString *target, HFRenderInfo *info)
+render_value_with_format (GString *target, const char *number_format, HFRenderInfo *info)
 {
-	g_string_append (target, "{date goes here}");
+	StyleFormat *format;
+	char *text;
+	
+	format = style_format_new (number_format);
+	
+	text = format_value (format, info->date_time, NULL);
+	g_string_append (target, text);
+	g_free (text);
+	style_format_unref (format);
 }
 
 static void
-render_time (GString *target, HFRenderInfo *info)
+render_date (GString *target, HFRenderInfo *info, const char *args)
 {
-	g_string_append (target, "{time goes here}");
+	const char *date_format;
+
+	if (args)
+		date_format = args;
+	else
+		date_format = "dd-mmm-yyyy";
+	
+	render_value_with_format (target, date_format, info);
+}
+
+static void
+render_time (GString *target, HFRenderInfo *info, const char *args)
+{
+	const char *time_format;
+
+	if (args)
+		time_format = args;
+	else
+		time_format = "hh:mm";
+	render_value_with_format (target, time_format, info);
 }
 
 static struct {
 	char *name;
-	void (*render)(GString *target, HFRenderInfo *info);
+	void (*render)(GString *target, HFRenderInfo *info, const char *args);
 } render_ops [] = {
 	{ N_("tab"),   render_tab   },
 	{ N_("page"),  render_page  },
@@ -377,9 +405,14 @@ static struct {
 	{ NULL },
 };
 
+/*
+ * Renders an opcode.  The opcodes can take an argument by adding trailing ':'
+ * to the opcode and then a number format code
+ */
 static void
-render_opcode (GString *target, const char *opcode, HFRenderInfo *info, HFRenderType render_type)
+render_opcode (GString *target, char *opcode, HFRenderInfo *info, HFRenderType render_type)
 {
+	char *args;
 	int i;
 	
 	for (i = 0; render_ops [i].name; i++){
@@ -400,9 +433,15 @@ render_opcode (GString *target, const char *opcode, HFRenderInfo *info, HFRender
 		/*
 		 * opcode then comes from a the user interface
 		 */
+		args = strchr (opcode, ':');
+		if (args){
+			*args = 0;
+			args++;
+		}
+		
 		if ((strcasecmp (render_ops [i].name, opcode) == 0) ||
 		    (strcasecmp (_(render_ops [i].name), opcode) == 0)){
-			(*render_ops [i].render)(target, info);
+			(*render_ops [i].render)(target, info, args);
 		}
 		    
 	}
@@ -413,13 +452,14 @@ hf_format_render (const char *format, HFRenderInfo *info, HFRenderType render_ty
 {
 	GString *result;
 	const char *p;
-
+	char *str;
+	
 	g_return_val_if_fail (format != NULL, NULL);
 	
 	result = g_string_new ("");
 	for (p = format; *p; p++){
 		if (*p == '&' && *(p+1) == '['){
-			char *start;
+			const char *start;
 
 			p += 2;
 			start = p;
@@ -437,9 +477,9 @@ hf_format_render (const char *format, HFRenderInfo *info, HFRenderType render_ty
 			g_string_append_c (result, *p);
 	}
 
-	p = result->str;
+	str = result->str;
 	g_string_free (result, FALSE);
 	
-	return p;
+	return str;
 }
 		  

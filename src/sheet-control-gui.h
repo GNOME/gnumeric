@@ -10,7 +10,10 @@
 #define SHEET_VIEW_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), SHEET_VIEW_TYPE))
 #define IS_SHEET_VIEW(o)       (GTK_CHECK_TYPE((o), SHEET_VIEW_TYPE))
 
-typedef struct {
+struct _SheetView;
+typedef struct _SheetView SheetView;
+
+struct _SheetView {
 	GtkTable  table;
 
 	Sheet            *sheet;
@@ -43,7 +46,7 @@ typedef struct {
 
 	/* Tip for scrolling */
 	GtkWidget        *tip;
-} SheetView;
+};
 
 GtkType          sheet_view_get_type              (void);
 GtkWidget       *sheet_view_new                   (Sheet *sheet);
@@ -66,9 +69,19 @@ GnomeCanvasItem *sheet_view_comment_create_marker (SheetView *sheet_view,
 void             sheet_view_comment_relocate      (SheetView *sheet_view,
 						   int col, int row,
 						   GnomeCanvasItem *o);
+void             sheet_view_set_header_visibility (SheetView *sheet_view,
+						   gboolean col_headers_visible,
+						   gboolean row_headers_visible);
 
 typedef struct {
 	GtkTableClass parent_class;
 } SheetViewClass;
+
+/*
+ * These actually belong in sheet.h, but the structure dependency
+ * forces me to put them here
+ */
+SheetView *sheet_new_sheet_view     (Sheet *sheet);
+void       sheet_destroy_sheet_view (Sheet *sheet, SheetView *sheet_view);
 
 #endif /* GNUMERIC_SHEET_VIEW_H */

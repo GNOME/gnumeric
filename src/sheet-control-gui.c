@@ -432,6 +432,15 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 }
 
 static void
+sheet_view_init (SheetView *sheet_view)
+{
+	GtkTable *table = GTK_TABLE (sheet_view);
+	
+	table->homogeneous = FALSE;
+	gtk_table_resize (table, 4, 4);
+}
+
+static void
 sheet_view_construct (SheetView *sheet_view)
 {
 	GnomeCanvasGroup *root_group;
@@ -532,17 +541,56 @@ sheet_view_construct (SheetView *sheet_view)
 			  GTK_FILL,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			  0, 0);
-	
-	
 }
 
-static void
-sheet_view_init (SheetView *sheet_view)
+void
+sheet_view_set_header_visibility (SheetView *sheet_view,
+				  gboolean col_headers_visible,
+				  gboolean row_headers_visible)
 {
-	GtkTable *table = GTK_TABLE (sheet_view);
+	g_return_if_fail (sheet_view != NULL);
+	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
 
-	table->homogeneous = FALSE;
-	gtk_table_resize (table, 4, 4);
+	if (col_headers_visible){
+		if (!GTK_WIDGET_VISIBLE (GTK_WIDGET (sheet_view->col_canvas)))
+			gtk_widget_show (GTK_WIDGET (sheet_view->col_canvas));
+	} else {
+		if (GTK_WIDGET_VISIBLE (GTK_WIDGET (sheet_view->col_canvas)))
+			gtk_widget_hide (GTK_WIDGET (sheet_view->col_canvas));
+	}
+	
+	if (row_headers_visible){
+		if (!GTK_WIDGET_VISIBLE (GTK_WIDGET (sheet_view->row_canvas)))
+			gtk_widget_show (GTK_WIDGET (sheet_view->row_canvas));
+	} else {
+		if (GTK_WIDGET_VISIBLE (GTK_WIDGET (sheet_view->row_canvas)))
+			gtk_widget_hide (GTK_WIDGET (sheet_view->row_canvas));
+	}
+}
+
+void
+sheet_view_scrollbar_display (SheetView *sheet_view,
+			      gboolean show_col_scrollbar,
+			      gboolean show_row_scrollbar)
+{
+	g_return_if_fail (sheet_view != NULL);
+	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+
+	if (show_col_scrollbar){
+		if (!GTK_WIDGET_VISIBLE (sheet_view->hs))
+			gtk_widget_show (sheet_view->hs);
+	} else {
+		if (GTK_WIDGET_VISIBLE (sheet_view->hs))
+			gtk_widget_hide (sheet_view->hs);
+	}
+	
+	if (show_row_scrollbar){
+		if (!GTK_WIDGET_VISIBLE (sheet_view->vs))
+			gtk_widget_show (sheet_view->vs);
+	} else {
+		if (GTK_WIDGET_VISIBLE (sheet_view->vs))
+			gtk_widget_hide (sheet_view->vs);
+	}
 }
 
 GtkWidget *
@@ -552,6 +600,7 @@ sheet_view_new (Sheet *sheet)
 
 	sheet_view = gtk_type_new (sheet_view_get_type ());
 	sheet_view->sheet = sheet;
+
 	sheet_view_construct (sheet_view);
 	
 	return GTK_WIDGET (sheet_view);

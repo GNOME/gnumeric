@@ -84,7 +84,7 @@ Sheet_cursor_set (PortableServer_Servant servant,
 		  const CORBA_long start_row,
 		  const CORBA_long end_col,
 		  const CORBA_long end_row,
-		  CORBA_Environment * ev)
+		  CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -97,7 +97,7 @@ Sheet_cursor_set (PortableServer_Servant servant,
 }
 
 static void
-Sheet_cursor_move (PortableServer_Servant servant, const CORBA_long col, const CORBA_long row, CORBA_Environment * ev)
+Sheet_cursor_move (PortableServer_Servant servant, const CORBA_long col, const CORBA_long row, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	
@@ -108,7 +108,7 @@ Sheet_cursor_move (PortableServer_Servant servant, const CORBA_long col, const C
 }
 
 static void
-Sheet_make_cell_visible (PortableServer_Servant servant, const CORBA_long col, const CORBA_long row, CORBA_Environment * ev)
+Sheet_make_cell_visible (PortableServer_Servant servant, const CORBA_long col, const CORBA_long row, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -119,7 +119,7 @@ Sheet_make_cell_visible (PortableServer_Servant servant, const CORBA_long col, c
 }
 
 static void
-Sheet_select_all (PortableServer_Servant servant, CORBA_Environment * ev)
+Sheet_select_all (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
        
@@ -127,7 +127,7 @@ Sheet_select_all (PortableServer_Servant servant, CORBA_Environment * ev)
 }
 
 static CORBA_boolean
-Sheet_is_all_selected (PortableServer_Servant servant, CORBA_Environment * ev)
+Sheet_is_all_selected (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -135,7 +135,7 @@ Sheet_is_all_selected (PortableServer_Servant servant, CORBA_Environment * ev)
 }
 
 static void
-Sheet_selection_reset (PortableServer_Servant servant, CORBA_Environment * ev)
+Sheet_selection_reset (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -145,7 +145,7 @@ Sheet_selection_reset (PortableServer_Servant servant, CORBA_Environment * ev)
 static void
 Sheet_selection_append (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
-			CORBA_Environment * ev)
+			CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -159,7 +159,7 @@ static void
 Sheet_selection_append_range (PortableServer_Servant servant,
 			      const CORBA_long start_col, const CORBA_long start_row,
 			      const CORBA_long end_col, const CORBA_long end_row,
-			      CORBA_Environment * ev)
+			      CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -171,7 +171,7 @@ Sheet_selection_append_range (PortableServer_Servant servant,
 }
 
 static void
-Sheet_selection_copy (PortableServer_Servant servant, CORBA_Environment * ev)
+Sheet_selection_copy (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -179,7 +179,7 @@ Sheet_selection_copy (PortableServer_Servant servant, CORBA_Environment * ev)
 }
 
 static void
-Sheet_selection_cut (PortableServer_Servant servant, CORBA_Environment * ev)
+Sheet_selection_cut (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -189,7 +189,7 @@ Sheet_selection_cut (PortableServer_Servant servant, CORBA_Environment * ev)
 static void
 Sheet_selection_paste (PortableServer_Servant servant,
 		       const CORBA_long dest_col, const CORBA_long dest_row,
-		       const CORBA_long paste_flags, CORBA_Environment * ev)
+		       const CORBA_long paste_flags, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -203,7 +203,7 @@ static void
 Sheet_clear_region (PortableServer_Servant servant,
 		    const CORBA_long start_col, const CORBA_long start_row,
 		    const CORBA_long end_col, const CORBA_long end_row,
-		    CORBA_Environment * ev)
+		    CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -216,7 +216,7 @@ static void
 Sheet_clear_region_content (PortableServer_Servant servant,
 			    const CORBA_long start_col, const CORBA_long start_row,
 			    const CORBA_long end_col, const CORBA_long end_row,
-			    CORBA_Environment * ev)
+			    CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -228,7 +228,7 @@ static void
 Sheet_clear_region_comments (PortableServer_Servant servant,
 			     const CORBA_long start_col, const CORBA_long start_row,
 			     const CORBA_long end_col, const CORBA_long end_row,
-			     CORBA_Environment * ev)
+			     CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -240,7 +240,7 @@ static void
 Sheet_clear_region_formats (PortableServer_Servant servant,
 			    const CORBA_long start_col, const CORBA_long start_row,
 			    const CORBA_long end_col, const CORBA_long end_row,
-			    CORBA_Environment * ev)
+			    CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -252,7 +252,7 @@ static void
 Sheet_cell_set_value (PortableServer_Servant servant,
 		      const CORBA_long col, const CORBA_long row,
 		      const GNOME_Gnumeric_Value *value,
-		      CORBA_Environment * ev)
+		      CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -357,7 +357,7 @@ fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, COR
 static GNOME_Gnumeric_Value *
 Sheet_cell_get_value (PortableServer_Servant servant,
 		      const CORBA_long col, const CORBA_long row,
-		      CORBA_Environment * ev)
+		      CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	GNOME_Gnumeric_Value *value;
@@ -374,7 +374,7 @@ Sheet_cell_get_value (PortableServer_Servant servant,
 static void
 Sheet_cell_set_text (PortableServer_Servant servant,
 		     const CORBA_long col, const CORBA_long row,
-		     const CORBA_char * text, CORBA_Environment * ev)
+		     const CORBA_char * text, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -390,7 +390,7 @@ static CORBA_char *
 Sheet_cell_get_text (PortableServer_Servant servant,
 		     const CORBA_long col,
 		     const CORBA_long row,
-		     CORBA_Environment * ev)
+		     CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -414,7 +414,7 @@ Sheet_cell_set_formula (PortableServer_Servant servant,
 			const CORBA_long col,
 			const CORBA_long row,
 			const CORBA_char * formula,
-			CORBA_Environment * ev)
+			CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -431,7 +431,7 @@ Sheet_cell_set_format (PortableServer_Servant servant,
 		       const CORBA_long col,
 		       const CORBA_long row,
 		       const CORBA_char * format,
-		       CORBA_Environment * ev)
+		       CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -447,7 +447,7 @@ static CORBA_char *
 Sheet_cell_get_format (PortableServer_Servant servant,
 		       const CORBA_long col,
 		       const CORBA_long row,
-		       CORBA_Environment * ev)
+		       CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -469,7 +469,7 @@ Sheet_cell_set_font (PortableServer_Servant servant,
 		     const CORBA_long row,
 		     const CORBA_char * font,
 		     const CORBA_short points,
-		     CORBA_Environment * ev)
+		     CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -482,7 +482,7 @@ Sheet_cell_set_font (PortableServer_Servant servant,
 }
 
 static CORBA_char *
-Sheet_cell_get_font (PortableServer_Servant servant, const CORBA_long col, const CORBA_long row, CORBA_Environment * ev)
+Sheet_cell_get_font (PortableServer_Servant servant, const CORBA_long col, const CORBA_long row, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -501,7 +501,7 @@ Sheet_cell_get_font (PortableServer_Servant servant, const CORBA_long col, const
 static void
 Sheet_cell_set_comment (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
-			const CORBA_char * comment, CORBA_Environment * ev)
+			const CORBA_char * comment, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -516,7 +516,7 @@ Sheet_cell_set_comment (PortableServer_Servant servant,
 static CORBA_char *
 Sheet_cell_get_comment (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
-			CORBA_Environment * ev)
+			CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -534,7 +534,7 @@ Sheet_cell_get_comment (PortableServer_Servant servant,
 static void
 Sheet_cell_set_foreground (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
-			   const CORBA_char * color, CORBA_Environment * ev)
+			   const CORBA_char * color, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -552,7 +552,7 @@ Sheet_cell_set_foreground (PortableServer_Servant servant,
 static CORBA_char *
 Sheet_cell_get_foreground (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
-			   CORBA_Environment * ev)
+			   CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -564,7 +564,7 @@ Sheet_cell_get_foreground (PortableServer_Servant servant,
 static void
 Sheet_cell_set_background (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
-			   const CORBA_char * color, CORBA_Environment * ev)
+			   const CORBA_char * color, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -582,7 +582,7 @@ Sheet_cell_set_background (PortableServer_Servant servant,
 static CORBA_char *
 Sheet_cell_get_background (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
-			   CORBA_Environment * ev)
+			   CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -594,7 +594,7 @@ Sheet_cell_get_background (PortableServer_Servant servant,
 static void
 Sheet_cell_set_pattern (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
-			const CORBA_long pattern, CORBA_Environment * ev)
+			const CORBA_long pattern, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -609,7 +609,7 @@ Sheet_cell_set_pattern (PortableServer_Servant servant,
 static CORBA_long
 Sheet_cell_get_pattern (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
-			CORBA_Environment * ev)
+			CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -629,7 +629,7 @@ Sheet_cell_set_alignment (PortableServer_Servant servant,
 			  const CORBA_long col, const CORBA_long row,
 			  const CORBA_long halign, const CORBA_long valign,
 			  const CORBA_long orientation, const CORBA_boolean auto_return,
-			  CORBA_Environment * ev)
+			  CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
@@ -699,11 +699,10 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 			  const CORBA_long col, const CORBA_long row,
 			  CORBA_long * halign, CORBA_long * valign,
 			  CORBA_long * orientation, CORBA_boolean * auto_return,
-			  CORBA_Environment * ev)
+			  CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
-	int h, v;
 	
 	verify_col (col);
 	verify_row (row);
@@ -763,7 +762,7 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 }
 
 static void
-Sheet_set_dirty (PortableServer_Servant servant, const CORBA_boolean is_dirty, CORBA_Environment * ev)
+Sheet_set_dirty (PortableServer_Servant servant, const CORBA_boolean is_dirty, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -773,7 +772,7 @@ Sheet_set_dirty (PortableServer_Servant servant, const CORBA_boolean is_dirty, C
 static void
 Sheet_insert_col (PortableServer_Servant servant,
 		  const CORBA_long col, const CORBA_long count,
-		  CORBA_Environment * ev)
+		  CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -784,7 +783,7 @@ Sheet_insert_col (PortableServer_Servant servant,
 static void
 Sheet_delete_col (PortableServer_Servant servant,
 		  const CORBA_long col, const CORBA_long count,
-		  CORBA_Environment * ev)
+		  CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -795,7 +794,7 @@ Sheet_delete_col (PortableServer_Servant servant,
 static void
 Sheet_insert_row (PortableServer_Servant servant,
 		  const CORBA_long row, const CORBA_long count,
-		  CORBA_Environment * ev)
+		  CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -806,7 +805,7 @@ Sheet_insert_row (PortableServer_Servant servant,
 static void
 Sheet_delete_row (PortableServer_Servant servant,
 		  const CORBA_long row, const CORBA_long count,
-		  CORBA_Environment * ev)
+		  CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -818,7 +817,7 @@ static void
 Sheet_shift_rows (PortableServer_Servant servant,
 		  const CORBA_long col, const CORBA_long start_row,
 		  const CORBA_long end_row, const CORBA_long count,
-		  CORBA_Environment * ev)
+		  CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -833,7 +832,7 @@ static void
 Sheet_shift_cols (PortableServer_Servant servant,
 		  const CORBA_long col,
 		  const CORBA_long start_row, const CORBA_long end_row,
-		  const CORBA_long count, CORBA_Environment * ev)
+		  const CORBA_long count, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
@@ -915,10 +914,10 @@ static void
 Sheet_range_set_text (PortableServer_Servant servant,
 		      const CORBA_char *range,
 		      const CORBA_char *text,
-		      CORBA_Environment * ev)
+		      CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
-	GSList *ranges, *l;
+	GSList *ranges;
 
 	verify_range (sheet, range, &ranges);
 
@@ -937,10 +936,10 @@ static void
 Sheet_range_set_formula (PortableServer_Servant servant,
 			 const CORBA_char *range,
 			 const CORBA_char *formula,
-			 CORBA_Environment * ev)
+			 CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
-	GSList *ranges, *l;
+	GSList *ranges;
 
 	verify_range (sheet, range, &ranges);
 
@@ -959,10 +958,10 @@ static void
 Sheet_range_set_format (PortableServer_Servant servant,
 			const CORBA_char *range,
 			const CORBA_char *format,
-			CORBA_Environment * ev)
+			CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
-	GSList *ranges, *l;
+	GSList *ranges;
 	Style *style;
 
 	verify_range (sheet, range, &ranges);
@@ -983,6 +982,46 @@ Sheet_range_set_format (PortableServer_Servant servant,
 	cell_thaw_redraws ();
 	
 	range_list_destroy (ranges);
+}
+
+static CORBA_long
+Sheet_max_cols_used (PortableServer_Servant servant, CORBA_Environment *ev)
+{
+	Sheet *sheet = sheet_from_servant (servant);
+
+	return sheet->max_col_used;
+}
+
+static CORBA_long
+Sheet_max_rows_used (PortableServer_Servant servant, CORBA_Environment *ev)
+{
+	Sheet *sheet = sheet_from_servant (servant);
+
+	return sheet->max_row_used;
+}
+
+static CORBA_double
+Sheet_col_width (PortableServer_Servant servant, CORBA_long col, CORBA_Environment *ev)
+{
+	Sheet *sheet = sheet_from_servant (servant);
+	ColRowInfo *ci;
+	
+	verify_col_val (col, 0.0);
+
+	ci = sheet_col_get_info (sheet, col);
+	return ci->units;
+}
+
+static CORBA_double
+Sheet_row_height (PortableServer_Servant servant, CORBA_long row, CORBA_Environment *ev)
+{
+	Sheet *sheet = sheet_from_servant (servant);
+	ColRowInfo *ri;
+
+	verify_row_val (row, 0.0);
+
+	ri = sheet_row_get_info (sheet, row);
+	return ri->units;
 }
 
 static void
@@ -1043,8 +1082,8 @@ Sheet_corba_class_init (void)
 	gnome_gnumeric_sheet_epv.delete_col = Sheet_delete_col;
 	gnome_gnumeric_sheet_epv.insert_row = Sheet_insert_row;
 	gnome_gnumeric_sheet_epv.delete_row = Sheet_delete_row;
-	gnome_gnumeric_sheet_epv.shift_cols = sheet_shift_cols;
-	gnome_gnumeric_sheet_epv.shift_rows = sheet_shift_rows;
+	gnome_gnumeric_sheet_epv.shift_cols = Sheet_shift_cols;
+	gnome_gnumeric_sheet_epv.shift_rows = Sheet_shift_rows;
 
 	/*
 	 * Region based routines
@@ -1055,6 +1094,14 @@ Sheet_corba_class_init (void)
 	gnome_gnumeric_sheet_epv.range_set_format = Sheet_range_set_format;
 
 	gnome_gnumeric_sheet_epv.set_dirty = Sheet_set_dirty;
+
+	/*
+	 * Information
+	 */
+	gnome_gnumeric_sheet_epv.max_cols_used = Sheet_max_cols_used;
+	gnome_gnumeric_sheet_epv.max_rows_used = Sheet_max_rows_used;
+	gnome_gnumeric_sheet_epv.row_height    = Sheet_row_height;
+	gnome_gnumeric_sheet_epv.col_width     = Sheet_col_width;
 }
 
 void

@@ -407,6 +407,7 @@ void sheet_insert_object (Sheet *sheet, char *repoid);
  * Workbook
  */
 Workbook   *workbook_new                 (void);
+Workbook   *workbook_core_new            (void);
 void        workbook_destroy             (Workbook *wb);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
 

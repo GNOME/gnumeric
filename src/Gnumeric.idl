@@ -1,6 +1,5 @@
 
-#include <gnome-factory.idl>
-#include <gnome-unknown.idl> 
+#include <bonobo.idl>
 
 module GNOME {
 	module Gnumeric {
@@ -186,6 +185,13 @@ module GNOME {
 					    in long start_row, in long end_row,
 					    in long count);
 			
+			// 
+			// Information
+			//
+			long max_cols_used ();
+			long max_rows_used ();
+			double col_width  (in long col);
+			double row_height (in long row);
 		};
 
 		interface Workbook : GNOME::Unknown {
@@ -223,6 +229,13 @@ module GNOME {
 
 		interface WorkbookFactory : GNOME::GenericFactory {
 			Workbook read (in string filename);
+		};
+		
+		interface Grid : GNOME::Embeddable {
+			Sheet get_sheet ();
+			
+			void set_header_visibility (in boolean cols, in boolean rows);
+			void get_header_visibility (out boolean cols, out boolean rows);
 		};
 	};
 };

@@ -1342,10 +1342,10 @@ void
 calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w, int cell_h, int *h, int *w)
 {
 	StyleFont *style_font = style->font;
-	GnomeFont *gnome_font = style_font->dfont->gnome_font;
+	GdkFont *gdk_font = style_font->dfont->gdk_font;
 	int text_width, font_height;
 	
-	text_width = gnome_font_get_width_string (gnome_font, text);
+	text_width = gdk_string_measure (gdk_font, text);
 	font_height = style_font_get_height (style_font);
 	
 	if (text_width < cell_w || is_number){
@@ -1372,17 +1372,14 @@ calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w,
 			if (last_was_cut_point && *p != ' ')
 				ideal_cut_spot = p;
 			
-			len = gnome_font_get_width (gnome_font, *p);
+			len = gdk_text_measure (gdk_font, p, 1);
 
 			/* If we have overflowed the cell, wrap */
 			if (used + len > cell_w){
 				if (ideal_cut_spot){
 					int n = p - ideal_cut_spot;
-					char *copy = alloca (n + 1);
-
-					strncpy (copy, ideal_cut_spot, n);
-					copy [n] = 0;
-					used = gnome_font_get_width_string (gnome_font, copy);
+					used = gdk_text_measure (
+						gdk_font, ideal_cut_spot, n);
 				} else {
 					used = len;
 				}

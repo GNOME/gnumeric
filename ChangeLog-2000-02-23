@@ -1,3 +1,57 @@
+1999-07-09  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/sheet-view.c (sheet_view_construct): Reverted last plan.  We
+	do need a sheet_view_construct, as we require sheet_view->sheet to
+	be set. 
+
+1999-07-08  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/cell.c (calc_text_dimensions): Use gdk_fonts for measuring
+	the strings on the screen.  Basically, back out using GnomeFont here.
+
+	* src/print-info.c (render_date, render_time): Finished
+	implementing.  
+	(render_opcode): Enable argument mechanism to extend the number of
+	possible formats.  Excel accepts stuff like &[DATE], we extend
+	this to accept &[DATE:mmmm-yyyy].  The argument for &[DATE] and
+	&[TIME] is a regular Gnumeric formatting code (ie, compattible
+	with the cell formating in Excel).
+
+	* src/sheet-view.h: Change style to suit forward declaration
+	structure. 
+
+	* src/sheet.h: Use forward declaration for SheetView.
+
+	* src/sheet.c (sheet_new_sheet_view, sheet_destroy_sheet_view):
+	New routines for managing the sheet views.
+
+	* src/sheet-view.c: Killed sheet_view_construct, there was nothing
+	really required there.  Moved all the code to sheet_view_init.
+	(sheet_view_scrollbar_display, sheet_view_set_header_visibility):
+	New routines that control the visibility of the various gadgets of
+	a SheetView.
+
+	* embeddable-grid.c, embeddable-grid.h: New files.  They implement
+	the Bonobo GnomeEmbeddable interfaces for embedding Gnumeric in
+	applications. 
+
+	* src/workbook.c (workbook_new, workbook_core_new): Split this
+	routine in two:  GUI independant and GUI dependant.  The next step
+	is to provide multiple views of a workbook (although, I am not
+	sure I want this).
+	(workbook_new_with_sheets): Kill dead code.
+
+	* src/corba-sheet.c (Sheet_row_height, Sheet_col_width,
+	Sheet_max_cols_used, Sheet_max_rows_used): New methods.
+
+	* src/Gnumeric.idl (Sheet): new methods max_cols_used,
+	max_rows_used, col_width, row_height.
+
+	(Grid): New interface for embeddable grids.
+
+	* src/print-info.c (hf_format_render): Rendering routine for the
+	header and footers formats. 
+
 1999-07-09  Michael Meeks  <michael@edenproject.org>
 
 	* src/Gnumeric.idl: Add GNOME::Unknown back in.
