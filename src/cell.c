@@ -699,22 +699,29 @@ char *
 cell_get_format (Cell const *cell)
 {
 	char   *result = NULL;
-	MStyle *mstyle = cell_get_mstyle (cell);
+	MStyle *mstyle;
+	
+	g_return_val_if_fail (cell != NULL, g_strdup ("General"));
+
+	mstyle = cell_get_mstyle (cell);
 
 	if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
-		char const *format;
-		format = mstyle_get_format (mstyle)->format;
+		StyleFormat const *format = mstyle_get_format (mstyle);
 
 		/* FIXME: we really should distinguish between "not assigned"
-		   and "assigned General".  */
+		 * and "assigned General".
+		 *
+		 * 8/20/00 JEG : Do we still need this test ?
+		 */
 		if (format) {
 			/* If the format is General it may have been over
 			 * ridden by the format used to parse the input text.
 			 */
-			if (strcmp (format, "General") != 0)
-				result = g_strdup (format);
-			else if (cell->format)
-				result = g_strdup (cell->format->format);
+			result = style_format_as_XL (format, FALSE);
+			if (!strcmp (result, "General") != 0 && cell->format != NULL) {
+				g_free (result);
+				result = style_format_as_XL (cell->format, FALSE);
+			}
 		}
 	}
 

@@ -2,6 +2,7 @@
 #define GNUMERIC_WORKBOOK_PRIVATE_H
 
 #include "workbook.h"
+#include <gnome.h>
 
 /*
  * Here we should put all the variables that are internal

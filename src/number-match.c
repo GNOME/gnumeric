@@ -82,6 +82,7 @@ typedef enum {
 	MATCH_AMPM,
 	MATCH_STRING_CONSTANT,
 	MATCH_NUMBER,
+	MATCH_NUMBER_DECIMALS,
 	MATCH_PERCENT,
 } MatchType;
 
@@ -95,8 +96,8 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 	char *str;
 	int hour_seen = FALSE;
 
-	char *thousands_sep = format_get_thousand ();
-	char *decimal = format_get_decimal ();
+	char const thousands_sep = format_get_thousand ();
+	char const decimal = format_get_decimal ();
 
 	g_return_val_if_fail (format != NULL, NULL);
 
@@ -180,9 +181,9 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 			while (*format == '#' || *format == '0' || *format == '.' ||
 			       *format == '-' || *format == 'E' || *format == 'e' ||
 			       *format == '+' || *format == '?' || *format == ',') {
-				if (*format == *thousands_sep)
+				if (*format == ',')
 					include_sep = TRUE;
-				else if (*format == *decimal)
+				else if (*format == '.')
 					include_decimal = TRUE;
 				format++;
 			}
@@ -199,16 +200,18 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 				 * as a result $1000 would not be recognized.
 				 */
 				g_string_append (regexp, "([-+]?[0-9]+(\\");
-				g_string_append_c (regexp, *thousands_sep);
+				g_string_append_c (regexp, thousands_sep);
 				g_string_append (regexp, "[0-9]{3})*)");
 			} else
 				g_string_append (regexp, "([-+]?[0-9]*)");
-			if (include_decimal) {
-				g_string_append (regexp, "?\\");
-				g_string_append_c (regexp, *decimal);
-				g_string_append (regexp, "[0-9]+([Ee][-+][0-9]+)?");
-			}
+
 			append_type (MATCH_NUMBER);
+			if (include_decimal) {
+				g_string_append (regexp, "?(\\");
+				g_string_append_c (regexp, decimal);
+				g_string_append (regexp, "[0-9]+([Ee][-+][0-9]+)?)");
+				append_type (MATCH_NUMBER_DECIMALS);
+			}
 			break;
 		}
 
@@ -481,7 +484,7 @@ format_match_define (const char *format)
 	}
 
 	fp = g_new (format_parse_t, 1);
-	fp->format = style_format_new (format);
+	fp->format = style_format_new_XL (format, FALSE);
 	fp->format_str = g_strdup (format);
 	fp->regexp_str = regexp;
 	fp->regexp     = r;
@@ -666,8 +669,8 @@ compute_value (const char *s, const regmatch_t *mp,
 	int month, day, year, year_short;
 	int hours, minutes, seconds;
 
-	char *thousands_sep = format_get_thousand ();
-	/* char *decimal = format_get_decimal (); */
+	char const thousands_sep = format_get_thousand ();
+	char const decimal = format_get_decimal ();
 
 	month = day = year = year_short = -1;
 	hours = minutes = seconds = -1;
@@ -711,20 +714,24 @@ compute_value (const char *s, const regmatch_t *mp,
 			break;
 
 		case MATCH_NUMBER:
+		{
+			char *ptr = str;
+			number = 0;
+			do
 			{
-				char *ptr = str;
-				number = 0;
-				do
-				{
-					/*
-					 * FIXME FIXME FIXME
-					 * How to format 10,00.3 ??
-					 */
-					number *= 1000.;
-					number += strtod (ptr, &ptr);
-				} while (*(ptr++) == *thousands_sep);
+				number *= 1000.;
+				number += strtod (ptr, &ptr);
+			} while (*(ptr++) == thousands_sep);
 
-				idx += 3;
+			idx += 2;
+			is_number = TRUE;
+			break;
+		}
+
+		case MATCH_NUMBER_DECIMALS:
+			if (*str == decimal) {
+				char *end;
+				number += strtod (str, &end);
 				is_number = TRUE;
 			}
 			break;

@@ -394,8 +394,9 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 
 	/* Check for thousands seperator */
 	if (ptr[0] == '#') {
-		ptr = strcmp_inc (ptr+1, format_get_thousand());
-		if (ptr == NULL)
+		if (ptr[1] == ',')
+			++ptr;
+		else
 			return FMT_UNKNOWN;
 		ptr = strncmp_inc (ptr, "##", 2);
 		if (ptr == NULL)
@@ -408,10 +409,9 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	++ptr;
 
 	/* Check for decimals */
-	tmp = strcmp_inc (ptr, format_get_decimal());
-	if (tmp != NULL) {
+	if (ptr [0] == '.') {
 		num_decimals = 0;
-		ptr = tmp;
+		ptr++;
 		while (ptr[num_decimals] == '0')
 			++num_decimals;
 		ptr += num_decimals;

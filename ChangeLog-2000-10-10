@@ -1,3 +1,90 @@
+2000-08-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/number-match.c (format_create_regexp) : Improve regexps.
+
+	* src/formats.c (cell_format_is_number) : Format always uses standard
+	  decimal chars.
+
+	* src/format.c (gnumeric_setlocale) : New routine that clears cached
+	  locale info.
+	(format_get_decimal) : Improve use mon_decimal.
+	(format_get_thousand) : Improve use mon_thousands_sep.
+	(format_get_arg_sep) : New func.
+	(format_get_col_sep) : New func.
+	(format_destroy) : Use GPtrArray.
+	(render_number) : Improve localization.
+	(format_add_thousand) : rename format_toggle_thousands. De-localize.
+	(find_decimal_char) : De-localize.
+	(format_remove_decimal) : Ditto.
+	(format_add_decimal) : Ditto.
+	(format_number) : Ditto.
+
+	* src/expr.c (do_expr_tree_to_string) : Use format_get_arg_sep.
+
+	* src/cell.c (cell_get_format) : Update for the changes to StyleFormat.
+
+	* src/auto-format.c (auto_style_format_suggest) :
+	  style_format_new -> style_format_new_XL
+
+	* src/mstyle.c (mstyle_element_dump) : There is no direct access to
+	  the format string anymore.
+	(mstyle_set_format_text) : Add a warning.
+
+	* src/gutils.[ch] (float_get_from_range) : Delete.
+	(int_get_from_range) : Ditto.
+
+	* src/parser.y : Revamp lexer to use strtol, and strtod for number
+	  parsing.  Begin hooks for supporting row & col selection. (3:4 or A:B)
+
+	* src/print-info.c (render_value_with_format) : Changes to StyleFormat.
+
+	* src/sheet.h : Move SpanCalcFlags.
+	* src/gnumeric.h : here.
+
+	* src/style.[ch] : Privatize StyleFormat, move it to format.[ch]
+
+	* src/value.c (value_get_as_string) : Correctly localize things for
+	  output.
+
+	* src/workbook-format-toolbar.c (modify_cell_format) : format
+	  modification callback modifies the StyleFormat.
+
+	* src/workbook.c (workbook_set_auto_expr) : Use gnumeric_setlocale.
+
+	* src/xml-io.c (xml_workbook_read) : Use gnumeric_setlocale.
+	(xml_workbook_write) : Ditto.
+	(xml_read_cell) : Use style_format_new_XL.
+	(xml_write_cell_and_position) : Store the number formats in non localized XL form.
+	(xml_write_style) : Ditto.
+
+	* src/dialogs/dialog-cell-format.c (fmt_dialog_init_format_page) :
+	  Display localized number formats.
+	(fillin_negative_samples) : Not need to localize generated number
+	  formats.
+
+	* src/dialogs/dialog-function-wizard.c (formula_guru_set_expr) : Use
+	  format_get_arg_sep.
+
+	* src/dialogs/dialog-stf-format-page.c
+	  (stf_dialog_format_page_prepare) : StyleFormats are now explicitly
+	  stored in a locale neutral format.
+
+	* src/functions/fn-string.c (gnumeric_text) : changes to
+	  style_format_new.
+
+	* src/functions/fn-financial.c (coupdayb) : Silence some warnings.
+
+	* src/functions/fn-information.c (translate_cell_format) : This should
+	  now work for different locales.
+
+2000-08-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/number-match.c (compute_value) : Extend the match algorithms to
+	  handle the new regexps.
+
+	* src/format.c (format_get_thousand) : provide a better default for
+	  countries using ',' as a decimal point.
+
 2000-08-20  Owen Taylor  <otaylor@redhat.com>
 
 	* TODO.xml: Change "simple" to "small" as required by

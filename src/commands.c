@@ -26,6 +26,7 @@
 #include "commands.h"
 #include "application.h"
 #include "sheet.h"
+#include "format.h"
 #include "workbook.h"
 #include "workbook-view.h"
 #include "ranges.h"
@@ -1318,12 +1319,12 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 		 * translators should be aware that the leading character of the
 		 * result will be ignored.
 		 */
-		prefered_format = style_format_new (_(">mm/dd/yyyy") + 1);
+		prefered_format = style_format_new_XL (_(">mm/dd/yyyy") + 1, TRUE);
 	} else {
 		v = value_new_float (datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
 
 		/* FIXME : See comment above */
-		prefered_format = style_format_new (_(">hh:mm") + 1);
+		prefered_format = style_format_new_XL (_(">hh:mm") + 1, TRUE);
 	}
 
 	/* Get the cell (creating it if needed) */

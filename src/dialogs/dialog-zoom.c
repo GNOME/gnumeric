@@ -12,6 +12,7 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "workbook.h"
+#include "sheet.h"
 
 #define NUM_RADIO_BUTTONS	5
 #define GLADE_FILE "dialog-zoom.glade"

@@ -1,9 +1,7 @@
 #ifndef GNUMERIC_WORKBOOK_H
 #define GNUMERIC_WORKBOOK_H
 
-#include <gtk/gtkobject.h>
 #include <gtk/gtkwidget.h>
-#include <gnome.h>
 
 #define WORKBOOK_TYPE        (workbook_get_type ())
 #define WORKBOOK(o)          (GTK_CHECK_CAST ((o), WORKBOOK_TYPE, Workbook))

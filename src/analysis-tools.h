@@ -1,6 +1,9 @@
 #ifndef GNUMERIC_ANALYSIS_TOOLS_H
 #define GNUMERIC_ANALYSIS_TOOLS_H
 
+#include "numbers.h"
+#include "gnumeric.h"
+
 typedef struct {
         gboolean summary_statistics;
         gboolean confidence_level;

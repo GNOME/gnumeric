@@ -8,7 +8,6 @@
 #include <gnome.h>
 #include <math.h>
 #include <string.h>
-#include <locale.h>
 #include "gnumeric.h"
 #include "expr.h"
 #include "expr-name.h"
@@ -1115,16 +1114,10 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 		argc = g_list_length (arg_list);
 
 		if (argc) {
-			struct lconv *locinfo;
 			int i, len = 0;
+			char sep [2] = { '\0', '\0' };
 
-			/* Use comma as the arg seperator unless the decimal point is a
-			 * comma, in which case use a semi-colon
-			 */
-			char *sep = ",";
-			locinfo = localeconv ();
-			if (locinfo->decimal_point && !strcmp (locinfo->decimal_point, ","))
-			    sep = ";";
+			sep [0] = format_get_arg_sep ();
 
 			i = 0;
 			args = g_malloc (sizeof (char *) * argc);

@@ -9,6 +9,7 @@
 #include <gnome.h>
 #include <string.h>
 #include "gnumeric.h"
+#include "style.h"
 #include "format.h"
 #include "color.h"
 #include "application.h"
@@ -17,7 +18,6 @@
 #undef DEBUG_REF_COUNT
 #undef DEBUG_FONTS
 
-static GHashTable *style_format_hash;
 static GHashTable *style_font_hash;
 static GHashTable *style_font_negative_hash;
 static GHashTable *style_color_hash;
@@ -25,87 +25,6 @@ static GHashTable *style_color_hash;
 StyleFont *gnumeric_default_font;
 StyleFont *gnumeric_default_bold_font;
 StyleFont *gnumeric_default_italic_font;
-
-StyleFormat *
-style_format_new (const char *name)
-{
-	StyleFormat *format;
-
-	g_return_val_if_fail (name != NULL, NULL);
-
-	format = (StyleFormat *) g_hash_table_lookup (style_format_hash, name);
-
-	if (!format) {
-		format = g_new0 (StyleFormat, 1);
-		format->format = g_strdup (name);
-		format_compile (format);
-		g_hash_table_insert (style_format_hash, format->format, format);
-	}
-	format->ref_count++;
-
-	return format;
-}
-
-void
-style_format_ref (StyleFormat *sf)
-{
-	g_return_if_fail (sf != NULL);
-
-	sf->ref_count++;
-}
-
-void
-style_format_unref (StyleFormat *sf)
-{
-	g_return_if_fail (sf->ref_count > 0);
-
-	sf->ref_count--;
-	if (sf->ref_count != 0)
-		return;
-
-	g_hash_table_remove (style_format_hash, sf->format);
-
-	format_destroy (sf);
-	g_free (sf->format);
-	g_free (sf);
-}
-
-gboolean
-style_format_is_general(StyleFormat const *sf)
-{
-	/* FIXME : Seems like some internal lists are hard coding the non
-	 * translated form.  Check for both until that is fixed.
-	 */
-	return
-	    0 == strcmp (sf->format, _("General")) ||
-	    0 == strcmp (sf->format, "General");
-}
-
-#ifdef DEBUG_FONTS
-#include <X11/Xlib.h>
-#include <X11/Xatom.h>
-#include "gdk/gdkprivate.h" /* Sorry */
-
-static char *
-my_gdk_actual_font_name (GdkFont *font)
-{
-	GdkFontPrivate *private;
-	Atom atom, font_atom;
-
-	private = (GdkFontPrivate *)font;
-	font_atom = XInternAtom (private->xdisplay, "FONT", True);
-	if (font_atom != None) {
-		if (XGetFontProperty (private->xfont, font_atom, &atom) == True) {
-			char *xname, *gname;
-			xname = XGetAtomName (private->xdisplay, atom);
-			gname = g_strdup ((xname && *xname) ? xname : "<unspecified>");
-			XFree (xname);
-			return gname;
-		}
-	}
-	return NULL;
-}
-#endif
 
 StyleFont *
 style_font_new_simple (const char *font_name, double size, double scale,
@@ -487,7 +406,7 @@ font_init (void)
 void
 style_init (void)
 {
-	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	number_format_init ();
 	style_font_hash   = g_hash_table_new (style_font_hash_func, 
 					      style_font_equal);
 	style_color_hash  = g_hash_table_new (color_hash, color_equal);
@@ -538,8 +457,7 @@ style_shutdown (void)
 	style_font_unref (gnumeric_default_font);
 	gnumeric_default_font = NULL;
 
-	g_hash_table_destroy (style_format_hash);
-	style_format_hash = NULL;
+	number_format_shutdown ();
 	g_hash_table_destroy (style_font_hash);
 	style_font_hash = NULL;
 	g_hash_table_destroy (style_color_hash);

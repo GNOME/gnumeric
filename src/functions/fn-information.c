@@ -12,6 +12,7 @@
 #include "func.h"
 #include "cell.h"
 #include "workbook.h"
+#include "format.h"
 #include "number-match.h"
 #include <sys/utsname.h>
 
@@ -126,18 +127,28 @@ static translate_t translate_table[] = {
 };
 
 static Value *
-translate_cell_format (StyleFormat *format)
+translate_cell_format (StyleFormat const *format)
 {
 	int i;
+	char *fmt;
 
-	if (!format || !format->format)
+	if (format == NULL)
 		return value_new_string ("G");
 
+	fmt = style_format_as_XL (format, FALSE);
+
+	/*
+	 * TODO : What does this do in different locales ??
+	 */
 	for (i = 0; i < sizeof (translate_table)/sizeof(translate_t); i++) {
 		const translate_t *t = &translate_table[i];
-		if (!g_strcasecmp (format->format, t->format))
+		if (!g_strcasecmp (fmt, t->format)) {
+			g_free (fmt);
 			return value_new_string (t->output);
+		}
 	}
+
+	g_free (fmt);
 	return value_new_string ("G");
 }
 

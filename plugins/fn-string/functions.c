@@ -741,7 +741,7 @@ static char *help_text = {
 static Value *
 gnumeric_text (FunctionEvalInfo *ei, Value **args)
 {
-	StyleFormat *format  = style_format_new (args[1]->v_str.val->str);
+	StyleFormat *format  = style_format_new_XL (args[1]->v_str.val->str, TRUE);
 	Value *res, *tmp = NULL;
 	Value const *arg  = args[0];
 	gboolean ok = FALSE;

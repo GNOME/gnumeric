@@ -9,6 +9,7 @@
 #include "str.h"
 #include "border.h"
 #include "pattern.h"
+#include "format.h"
 #include "main.h"
 
 #define STYLE_DEBUG (style_debugging > 2)
@@ -238,8 +239,13 @@ mstyle_element_dump (const MStyleElement *e)
 			g_string_sprintf (ans, "%s blank", mstyle_names [e->type]);
 		break;
 	case MSTYLE_FORMAT:
-		g_string_sprintf (ans, "format '%s'", e->u.format->format);
+	{
+		char *fmt = style_format_as_XL (e->u.format, TRUE);
+		g_string_sprintf (ans, "format '%s'", fmt);
+		g_free (fmt);
+
 		break;
+	}
 	default:
 		g_string_sprintf (ans, "%s", mstyle_names [e->type]);
 		break;
@@ -1058,7 +1064,11 @@ mstyle_set_format_text (MStyle *style, const char *format)
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (format != NULL);
 
-	sf = style_format_new (format);
+	/* FIXME FIXME FIXME : This is a potential problem
+	 * I am not sure people are feeding us only translated formats.
+	 * This entire function should be deleted.
+	 */
+	sf = style_format_new_XL (format, FALSE);
 	mstyle_set_format (style, sf);
 	style_format_unref (sf);
 }

@@ -258,17 +258,16 @@ workbook_cmd_format_as_percent (GtkWidget *widget, Workbook *wb)
  * The routines that modify the format of a cell using the
  * helper routines in format.c.
  */
-typedef char *(*format_modify_fn) (const char *format);
+typedef char *(*format_modify_fn) (StyleFormat const *format);
 	
 static Value *
 modify_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *closure)
 {
 	MStyle *mstyle = sheet_style_compute (sheet, col, row);
-	StyleFormat *sf = mstyle_get_format (mstyle);
 	format_modify_fn modify_format = closure;
 	char *new_fmt;
 		
-	new_fmt = (*modify_format) (sf->format);
+	new_fmt = (*modify_format) (mstyle_get_format (mstyle));
 	if (new_fmt == NULL) {
 		mstyle_unref (mstyle);
 		return NULL;
@@ -319,19 +318,19 @@ do_modify_format (Workbook *wb, format_modify_fn modify_fn)
 static void
 workbook_cmd_format_add_thousands (GtkWidget *widget, Workbook *wb)
 {
-	do_modify_format (wb, format_add_thousand);
+	do_modify_format (wb, &format_toggle_thousands);
 }
 
 static void
 workbook_cmd_format_add_decimals (GtkWidget *widget, Workbook *wb)
 {
-	do_modify_format (wb, format_add_decimal);
+	do_modify_format (wb, &format_add_decimal);
 }
 
 static void
 workbook_cmd_format_remove_decimals (GtkWidget *widget, Workbook *wb)
 {
-	do_modify_format (wb, format_remove_decimal);
+	do_modify_format (wb, &format_remove_decimal);
 }
 
 static GnomeUIInfo workbook_format_toolbar [] = {

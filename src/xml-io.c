@@ -36,6 +36,7 @@
 #include "selection.h"
 #include "clipboard.h"
 #include "command-context.h"
+#include "format.h"
 
 /*
  * A parsing context.
@@ -891,8 +892,11 @@ xml_write_style (XmlParseContext *ctxt,
 /*		if (!style_is_default_back (mstyle_get_color (style, MSTYLE_COLOR_PATTERN)))*/
 			xml_set_color_value (cur, "PatternColor", mstyle_get_color (style, MSTYLE_COLOR_PATTERN));
 	}
-	if (mstyle_is_element_set (style, MSTYLE_FORMAT))
-		xml_set_value (cur, "Format", mstyle_get_format (style)->format);
+	if (mstyle_is_element_set (style, MSTYLE_FORMAT)) {
+		char *fmt = style_format_as_XL (mstyle_get_format (style), FALSE);
+		xml_set_value (cur, "Format", fmt);
+		g_free (fmt);
+	}
 
 	if (mstyle_is_element_set (style, MSTYLE_FONT_NAME) ||
 	    mstyle_is_element_set (style, MSTYLE_FONT_SIZE) ||
@@ -1941,9 +1945,11 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 		if (!cell_has_expr (cell)) {
 			xml_set_value_int (cur, "ValueType",
 					   cell->value->type);
-			if (cell->format)
-				xmlSetProp (cur, "ValueFormat",
-					    cell->format->format);
+			if (cell->format) {
+				char *fmt = style_format_as_XL (cell->format, FALSE);
+				xmlSetProp (cur, "ValueFormat", fmt);
+				g_free (fmt);
+			}
 		}
 	}
 
@@ -2118,7 +2124,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 
 				fmt = xml_value_get (tree, "ValueFormat");
 				if (fmt != NULL) {
-					value_fmt = style_format_new (fmt);
+					value_fmt = style_format_new_XL (fmt, FALSE);
 					g_free (fmt);
 				}
 			}
@@ -2941,8 +2947,8 @@ xml_workbook_write (XmlParseContext *ctxt, Workbook *wb)
 		ctxt->ns = gmr;
 	}
 
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
+	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
+	gnumeric_setlocale (LC_NUMERIC, "C");
 	old_msg_locale = g_strdup (textdomain (NULL));
 	textdomain ("C");
 
@@ -2997,7 +3003,7 @@ xml_workbook_write (XmlParseContext *ctxt, Workbook *wb)
 
 	textdomain (old_msg_locale);
 	g_free (old_msg_locale);
-	setlocale (LC_NUMERIC, old_num_locale);
+	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 
 	return cur;
@@ -3046,8 +3052,8 @@ xml_workbook_read (Workbook *wb, XmlParseContext *ctxt, xmlNodePtr tree)
 	}
 	ctxt->wb = wb;
 
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
+	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
+	gnumeric_setlocale (LC_NUMERIC, "C");
 	old_msg_locale = g_strdup (textdomain (NULL));
 	textdomain ("C");
 
@@ -3118,7 +3124,7 @@ xml_workbook_read (Workbook *wb, XmlParseContext *ctxt, xmlNodePtr tree)
 
 	textdomain (old_msg_locale);
 	g_free (old_msg_locale);
-	setlocale (LC_NUMERIC, old_num_locale);
+	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 
 	return TRUE;

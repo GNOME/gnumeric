@@ -33,7 +33,6 @@
 #include "rendered-value.h"
 
 #ifdef ENABLE_BONOBO
-#    include "sheet-vector.h"
 #    include <libgnorba/gnorba.h>
 #endif
 
@@ -2283,9 +2282,6 @@ sheet_destroy (Sheet *sheet)
 	g_list_free (sheet->comment_list);
 	sheet->comment_list = NULL;
 
-#ifdef ENABLE_BONOBO
-	sheet_vectors_shutdown (sheet);
-#endif
 	sheet_deps_destroy (sheet);
 	expr_name_invalidate_refs_sheet (sheet);
 	sheet_destroy_contents (sheet);

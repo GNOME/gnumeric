@@ -12,13 +12,14 @@
 #include <config.h>
 #include <ctype.h>
 #include <string.h>
-#include <locale.h>
+#include <errno.h>
 #include <gnome.h>
 #include "gnumeric.h"
 #include "number-match.h"
 #include "expr.h"
 #include "expr-name.h"
 #include "sheet.h"
+#include "format.h"
 #include "application.h"
 #include "parse-util.h"
 #include "gutils.h"
@@ -600,13 +601,14 @@ int
 yylex (void)
 {
 	int c;
-	const char *p, *tmp;
-	int is_float, digits;
+	const char *start;
+	gboolean is_number = FALSE;
 
-        while(isspace ((unsigned char)*parser_expr))
+        while (isspace ((unsigned char)*parser_expr))
                 parser_expr++;
 
-	c = *parser_expr++;
+	start = parser_expr;
+	c = (unsigned char) (*parser_expr++);
         if (c == '(' || c == ')')
                 return c;
 
@@ -616,6 +618,7 @@ yylex (void)
 		if (c == '!')
 			return SHEET_SEP;
 	} else {
+		/* Treat '..' as range sep (A1..C3) */
 		if (c == '.' && *parser_expr == '.') {
 			parser_expr++;
 			return RANGE_SEP;
@@ -627,57 +630,56 @@ yylex (void)
 	if (c == parser_separator)
 		return SEPARATOR;
 
-	/* Translate locale's decimal marker into a dot.  */
-	if (c == parser_decimal_point)
-		c = '.';
+	if (c == parser_decimal_point) {
+		/* Could be a number or a stand alone  */
+		if (!isdigit ((unsigned char)(*parser_expr)))
+			return c;
+		is_number = TRUE;
+	} else if (isdigit (c)) {
+		while (isdigit ((c = (unsigned char)(*parser_expr++))))
+			;
+		is_number = TRUE;
+	}
 
-	switch (c){
-        case '0': case '1': case '2': case '3': case '4': case '5':
-	case '6': case '7': case '8': case '9': case '.': {
-		Value *v;
+	if (is_number) {
+		Value *v = NULL;
 
-		is_float = c == '.';
-		p = parser_expr-1;
-		tmp = parser_expr;
-
-		digits = 1;
-		while (isdigit ((unsigned char)*tmp) ||
-		       (!is_float && *tmp == parser_decimal_point && ++is_float)){
-			tmp++;
-			digits++;
-		}
-
-		/* Can't store it in a gint32 */
-		is_float |= (digits > 9);
-
-		if (*tmp == 'e' || *tmp == 'E') {
-			is_float = 1;
-			tmp++;
-			if (*tmp == '-' || *tmp == '+')
-				tmp++;
-			while (isdigit ((unsigned char)*tmp))
-				tmp++;
-		}
-
-		/* Ok, we have skipped over a number, now load its value */
-		if (is_float) {
-			float_t f;
-			float_get_from_range (p, tmp, &f);
-			v = value_new_float (f);
+		if (c == parser_decimal_point) {
+			/* This is float */
+			char *end;
+			double d = strtod (start, &end);
+			if (start != end && errno != ERANGE) {
+				v = value_new_float ((float_t)d);
+				parser_expr = end;
+			}
 		} else {
-			int i;
-			int_get_from_range (p, tmp, &i);
-			v = value_new_int (i);
+			/* This could be a row range ref or an integer */
+			char *end;
+			long l = strtol (start, &end, 10);
+			if (start != end && errno != ERANGE) {
+				/* Check for a Row range ref (3:4 == A3:IV4) */
+				if (*end == ':' && l < SHEET_MAX_COLS) {
+				    /* TODO : adjust parser to allow returning
+				     * a range, not just a cellref
+				     */
+				}
+				v = value_new_int (l);
+				parser_expr = end;
+			}
 		}
 
-		/* Return the value to the parser */
+		/* Very odd string,  Could be a bound problem.  Trigger an error */
+		if (v == NULL)
+			return c;
+
 		yylval.tree = register_expr_allocation (expr_tree_new_constant (v));
-		parser_expr = tmp;
 		return CONSTANT;
 	}
 
+	switch (c){
 	case '\'':
 	case '"': {
+		const char *p;
 		char *string, *s;
 		char quotes_end = c;
 		Value *v;
@@ -767,8 +769,6 @@ gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 		      gboolean create_place_holder_for_unknown_func,
 		      StyleFormat **desired_format, ExprTree **result)
 {
-	struct lconv *locinfo;
-
 	g_return_val_if_fail (pp, PARSE_ERR_UNKNOWN);
 	g_return_val_if_fail (expr, PARSE_ERR_UNKNOWN);
 	g_return_val_if_fail (result, PARSE_ERR_UNKNOWN);
@@ -785,20 +785,9 @@ gnumeric_expr_parser (const char *expr, const ParsePos *pp,
 	parser_use_excel_reference_conventions = use_excel_range_conventions;
 	parser_create_place_holder_for_unknown_func = create_place_holder_for_unknown_func;
 
-	locinfo = localeconv ();
-	if (locinfo->decimal_point && locinfo->decimal_point[0] &&
-	    locinfo->decimal_point[1] == 0)
-		parser_decimal_point = locinfo->decimal_point[0];
-	else
-		parser_decimal_point = '.';
-
-	if (parser_decimal_point == ',') {
-		parser_separator = ';';
-		parser_array_col_separator = '\\'; /* ! */
-	} else {
-		parser_separator = ',';
-		parser_array_col_separator = ',';
-	}
+	parser_decimal_point		= format_get_decimal ();
+	parser_separator		= format_get_arg_sep ();
+	parser_array_col_separator	= format_get_col_sep ();
 
 	if (deallocate_stack == NULL)
 		deallocate_init ();

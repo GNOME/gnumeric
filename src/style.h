@@ -39,12 +39,6 @@ enum _StyleOrientation {
 	ORIENT_VERT_VERT_TEXT2 = 8
 };
 
-struct _StyleFormat {
-	int      ref_count;
-        GList    *format_list;  /* Of type StyleFormatEntry. */
-	char     *format;
-};
-
 struct _StyleFont {
 	int                ref_count;
 	char              *font_name;
@@ -87,11 +81,6 @@ enum _StyleBorderLocation {
 void           style_init  	      (void);
 void	       style_shutdown         (void);
 
-StyleFormat   *style_format_new       (const char *name);
-void           style_format_ref       (StyleFormat *sf);
-void           style_format_unref     (StyleFormat *sf);
-gboolean       style_format_is_general(StyleFormat const *sf);
-				      
 StyleFont     *style_font_new         (const char *font_name,
 				       double size, double scale,
 				       gboolean bold, gboolean italic);

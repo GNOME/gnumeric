@@ -25,6 +25,7 @@
 #include "cell.h"
 #include "colrow.h"
 #include "value.h"
+#include "format.h"
 #include "sheet-private.h"
 #include "cell-comment.h"
 #include "rendered-value.h"
@@ -479,12 +480,16 @@ Sheet_cell_get_format (PortableServer_Servant servant,
 	CORBA_char *ans;
 	Sheet *sheet = sheet_from_servant (servant);
 	MStyle *mstyle;
+	char *fmt;
 
 	verify_col_val (col, NULL);
 	verify_row_val (row, NULL);
 
 	mstyle = sheet_style_compute (sheet, col, row);
-	ans = CORBA_string_dup (mstyle_get_format (mstyle)->format);
+	/* FIXME : Can this be localized ?? */
+	fmt = style_format_as_XL (mstyle_get_format (mstyle), FALSE);
+	ans = CORBA_string_dup (fmt);
+	g_free (fmt);
 	mstyle_unref (mstyle);
 
 	return ans;

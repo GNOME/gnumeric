@@ -14,6 +14,7 @@
 #include "dialogs.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "sheet.h"
 #include "commands.h"
 #include "cmd-edit.h"
 

@@ -6,6 +6,7 @@
  *
  */
 #include <config.h>
+#include <gnome.h>
 #include "application.h"
 #include "clipboard.h"
 #include "selection.h"

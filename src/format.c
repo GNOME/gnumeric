@@ -32,23 +32,77 @@
 #ifdef HAVE_IEEEFP_H
 #    include <ieeefp.h>
 #endif
-#include "gnumeric.h"
+#include "style.h"
 #include "format.h"
+#include "expr.h"
 #include "dates.h"
 #include "parse-util.h"
 #include "portability.h"
 #include "datetime.h"
 #include "mathfunc.h"
 
+/***************************************************************************/
+
 /* Points to the locale information for number display */
 static struct lconv *lc = NULL;
 
-#define DECIMAL_CHAR_OF_LC(lc) ((lc)->decimal_point[0] ? (lc)->decimal_point[0] : '.')
-#define THOUSAND_CHAR_OF_LC(lc) ((lc)->thousands_sep[0] ? (lc)->thousands_sep[0] : ',')
-#define CHAR_DECIMAL (CHAR_MAX + 1)
-#define CHAR_THOUSAND (CHAR_MAX + 2)
+char const *
+gnumeric_setlocale (int category, char const *val)
+{
+	lc = NULL;
+	return setlocale (category, val);
+}
 
-static void style_entry_free (gpointer data, gpointer user_data);
+char
+format_get_decimal (void)
+{
+	char res;
+	if (lc == NULL)
+		lc = localeconv ();
+
+	res = lc->mon_decimal_point [0];
+	return (res != '\0') ? res : '.';
+}
+
+char
+format_get_thousand (void)
+{
+	char res;
+	if (lc == NULL)
+		lc = localeconv ();
+
+	res = lc->mon_thousands_sep [0];
+	if (res != '\0')
+		return res;
+
+	/* Provide a decent default for countries using ',' as a decimal */
+	if (format_get_decimal () != ',')
+		return ',';
+	return '.';
+}
+
+/* Use comma as the arg seperator unless the decimal point is a
+ * comma, in which case use a semi-colon
+ */
+char
+format_get_arg_sep (void)
+{
+	if (format_get_decimal () == ',')
+		return ';';
+	return ',';
+}
+
+char
+format_get_col_sep  (void)
+{
+	if (format_get_decimal () == ',')
+		return '\\';
+	return ',';
+}
+/***************************************************************************/
+
+/* WARNING : Global */
+static GHashTable *style_format_hash = NULL;
 
 typedef struct {
         char     *format;
@@ -56,6 +110,12 @@ typedef struct {
         char      restriction_type;
         int       restriction_value;
 } StyleFormatEntry;
+
+struct _StyleFormat {
+	int        ref_count;
+	char      *format;
+        GPtrArray *entries;  /* Of type StyleFormatEntry. */
+};
 
 /*
  * The returned string is newly allocated.
@@ -337,7 +397,7 @@ typedef struct
  * This routine should always return, it cannot fail, in the worst
  * case it should just downgrade to simplistic formatting
  */
-void
+static void
 format_compile (StyleFormat *format)
 {
 	GString *string = g_string_new ("");
@@ -403,19 +463,10 @@ format_compile (StyleFormat *format)
 		temp = g_new (StyleFormatEntry, 1);
 		*temp = standard_entries[i];
 		pre_parse_format (temp);
-		format->format_list = g_list_append (format->format_list, temp);
+		format->entries = g_list_append (format->entries, temp);
 	}
 
 	g_string_free (string, TRUE);
-}
-
-static void
-style_entry_free (gpointer data, gpointer user_data)
-{
-	StyleFormatEntry *entry = data;
-
-	g_free (entry->format);
-	g_free (entry);
 }
 
 /*
@@ -428,9 +479,15 @@ style_entry_free (gpointer data, gpointer user_data)
 void
 format_destroy (StyleFormat *format)
 {
-	g_list_foreach (format->format_list, style_entry_free, NULL);
-	g_list_free (format->format_list);
-	format->format_list = NULL;
+	int i;
+	for (i = format->entries->len; i-- > 0 ; ) {
+		StyleFormatEntry *entry = g_ptr_array (format->entries, i);
+		g_free (entry->format);
+		g_free (entry);
+	}
+
+	g_ptr_array_free (format->entries, FALSE);
+	format->entries = NULL;
 }
 
 static struct {
@@ -508,7 +565,7 @@ render_number (gdouble number,
 	gint zero_count;
 	gdouble temp;
 	int group = 0;
-	char c1000;
+	char thousands_sep;
 	static gdouble beyond_precision = 0;
 
 	if (!beyond_precision)
@@ -524,7 +581,7 @@ render_number (gdouble number,
 		number += delta;
 	}
 
-	c1000 = (lc->thousands_sep[0]) ? lc->thousands_sep[0] : ',';
+	thousands_sep = format_get_thousand ();
 
 	for (temp = number; temp >= 1.0; temp /= 10.0) {
 		int digit;
@@ -533,7 +590,7 @@ render_number (gdouble number,
 			group++;
 			if (group == 4){
 				group = 1;
-				g_string_prepend_c (number_string, c1000);
+				g_string_prepend_c (number_string, thousands_sep);
 			}
 		}
 
@@ -560,7 +617,7 @@ render_number (gdouble number,
 		g_string_prepend_c (number_string, '-');
 
 	if (decimal > 0)
-		g_string_append (number_string, lc->decimal_point);
+		g_string_append_c (number_string, format_get_decimal ());
 	else
 		g_string_append (number_string, show_decimal);
 
@@ -602,7 +659,7 @@ render_number (gdouble number,
 }
 
 typedef struct {
-	char *decimal_point, *append_after_number;
+	char *append_after_number;
 	int  right_optional, right_spaces, right_req, right_allowed;
 	int  left_spaces, left_req;
 	int  scientific;
@@ -716,37 +773,34 @@ split_time (gdouble number)
 	return &tm;
 }
 
+/*********************************************************************/
 /*
  * Returns a new format string with the thousand separator
  * or NULL if the format string already contains the thousand
  * separator
  */
 char *
-format_add_thousand (const char *format_string)
+format_toggle_thousands (StyleFormat const *fmt)
 {
+	/* NOTE : FIXME ??
+	 * This is not compatible with MS excel (tm)'s behavior.
+	 * They assign the 'Comma' Style.  obliterating the current format
+	 * complely.
+	 */
 	char *b;
 
-	if (!lc)
-		lc = localeconv ();
+	if (strcmp (fmt->format, "General") == 0)
+		return g_strdup ("#,##0");
 
-	if (strcmp (format_string, "General") == 0){
-		char *s = g_strdup ("#!##0");
-
-		s [1] = THOUSAND_CHAR_OF_LC (lc);
-		return s;
-	}
-
-	if (strchr (format_string, THOUSAND_CHAR_OF_LC (lc)) != NULL)
+	if (strchr (fmt->format, ',') != NULL)
 		return NULL;
 
-	b = g_malloc (strlen (format_string) + 7);
+	b = g_malloc (strlen (fmt->format) + 7);
 	if (!b)
 		return NULL;
 
-	strcpy (b, "#!##0");
-	b [1] = THOUSAND_CHAR_OF_LC (lc);
-
-	strcpy (&b[5], format_string);
+	strcpy (b, "#,##0");
+	strcpy (&b[5], fmt->format);
 
 	return b;
 }
@@ -758,13 +812,11 @@ format_add_thousand (const char *format_string)
 static char const *
 find_decimal_char (char const *str)
 {
-	char dc = DECIMAL_CHAR_OF_LC (lc);
-
 	for (;*str; str++){
-		if (*str == dc)
+		if (*str == '.')
 			return str;
 
-		if (*str == THOUSAND_CHAR_OF_LC (lc))
+		if (*str == ',')
 			continue;
 
 		switch (*str){
@@ -815,14 +867,12 @@ find_decimal_char (char const *str)
  * Returns NULL if the new format would not change things
  */
 char *
-format_remove_decimal (const char *format_string)
+format_remove_decimal (StyleFormat const *fmt)
 {
 	int offset = 1;
 	char *ret, *p;
 	char const *tmp;
-
-	if (!lc)
-		lc = localeconv ();
+	char const *format_string = fmt->format;
 
 	/*
 	 * Consider General format as 0. with several optional decimal places.
@@ -862,14 +912,12 @@ format_remove_decimal (const char *format_string)
  * Returns NULL if the new format would not change things
  */
 char *
-format_add_decimal (const char *format_string)
+format_add_decimal (StyleFormat const *fmt)
 {
 	char const *pre = NULL;
 	char const *post = NULL;
 	char *res;
-
-	if (!lc)
-		lc = localeconv ();
+	char const *format_string = fmt->format;
 
 	if (strcmp (format_string, "General") == 0) {
 		format_string = "0";
@@ -907,12 +955,14 @@ format_add_decimal (const char *format_string)
 		return NULL;
 
 	strncpy (res, format_string, pre - format_string);
-	res [pre-format_string + 0] = DECIMAL_CHAR_OF_LC(lc);
+	res [pre-format_string + 0] = '.';
 	res [pre-format_string + 1] = '0';
 	strcpy (res + (pre - format_string) + 2, post);
 
 	return res;
 }
+
+/*********************************************************************/
 
 static gchar *
 format_number (gdouble number, const StyleFormatEntry *style_format_entry)
@@ -928,9 +978,6 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 	char *res;
 	gdouble signed_number;
 
-	if (!lc)
-		lc = localeconv ();
-
 	memset (&info, 0, sizeof (info));
 	signed_number = number;
 	if (number < 0.0){
@@ -940,10 +987,6 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 
 	while (*format){
 		int c = *format;
-		if (c == DECIMAL_CHAR_OF_LC (lc))
-			c = CHAR_DECIMAL;
-		else if (c == THOUSAND_CHAR_OF_LC (lc))
-			c = CHAR_THOUSAND;
 
 		switch (c) {
 
@@ -984,7 +1027,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			}
 			break;
 
-		case CHAR_DECIMAL: {
+		case '.': {
 			int c = *(format+1);
 
 			can_render_number = TRUE;
@@ -995,12 +1038,10 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			break;
 		}
 
-		case CHAR_THOUSAND: {
+		case ',': {
 			if (!can_render_number) {
-				char c = lc->thousands_sep [0];
-				if (c == 0)
-					c = ',';
-				g_string_append_c (result, c);
+				char const sep = format_get_thousand ();
+				g_string_append_c (result, sep);
 			} else
 				info.comma_separator_seen = TRUE;
 			break;
@@ -1336,8 +1377,8 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 {
 	char *v = NULL;
 	StyleFormatEntry entry;
-	GList *list;
 	gboolean is_general = FALSE;
+	int i;
 
 	g_return_val_if_fail (value != NULL, "<ERROR>");
 
@@ -1345,7 +1386,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 		*color = NULL;
 
 	/* get format */
-	for (list = format->format_list; list; list = g_list_next (list))
+	for (list = format->entries; list; list = g_list_next (list))
 		if (check_valid (list->data, value))
 			break;
 
@@ -1394,9 +1435,9 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 		is_general = TRUE;
 	}
 
-	/* FIXME: what about translated "General"?  */
+	/* No need to translate we always store in C locale */
 	if (strcmp (entry.format, "General") == 0)
-		is_general = TRUE;
+	    is_general = TRUE;
 
 	/*
 	 * Use top left corner of an array result.
@@ -1460,20 +1501,82 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 	return v;
 }
 
-char *
-format_get_thousand (void)
+void
+number_format_init (void)
 {
-	if (!lc)
-		lc = localeconv ();
-
-	return (lc)->thousands_sep[0] ? (lc)->thousands_sep : ",";
+	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
+}
+void
+number_format_shutdown (void)
+{
+	g_hash_table_destroy (style_format_hash);
+	style_format_hash = NULL;
 }
 
-char *
-format_get_decimal (void)
-{
-	if (!lc)
-		lc = localeconv ();
+/****************************************************************************/
 
-	return (lc)->decimal_point[0] ? (lc)->decimal_point : ".";
+/**
+ * style_format_new_XL :
+ */
+StyleFormat *
+style_format_new_XL (const char *name, gboolean delocalize)
+{
+	StyleFormat *format;
+
+	g_return_val_if_fail (name != NULL, NULL);
+
+	format = (StyleFormat *) g_hash_table_lookup (style_format_hash, name);
+
+	if (!format) {
+		format = g_new0 (StyleFormat, 1);
+		format->format = g_strdup (name);
+		format_compile (format);
+		g_hash_table_insert (style_format_hash, format->format, format);
+	}
+	format->ref_count++;
+
+	return format;
 }
+
+/**
+ * style_format_as_XL :
+ *
+ * The caller is responsible for freeing the resulting string.
+ */
+char *
+style_format_as_XL (StyleFormat const *fmt, gboolean localized)
+{
+	/* TODO : add localization support */
+	return g_strdup (fmt->format);
+}
+
+void
+style_format_ref (StyleFormat *sf)
+{
+	g_return_if_fail (sf != NULL);
+
+	sf->ref_count++;
+}
+
+void
+style_format_unref (StyleFormat *sf)
+{
+	g_return_if_fail (sf->ref_count > 0);
+
+	sf->ref_count--;
+	if (sf->ref_count != 0)
+		return;
+
+	g_hash_table_remove (style_format_hash, sf->format);
+
+	format_destroy (sf);
+	g_free (sf->format);
+	g_free (sf);
+}
+
+gboolean
+style_format_is_general(StyleFormat const *sf)
+{
+	return 0 == strcmp (sf->format, "General");
+}
+

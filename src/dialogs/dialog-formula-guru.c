@@ -32,6 +32,7 @@
 #include "cell.h"
 #include "expr.h"
 #include "func.h"
+#include "format.h"
 #include <locale.h>
 
 #define MAX_ARGS_DISPLAYED 4
@@ -92,8 +93,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 	GtkEntry *entry;
 	GString *str;
 	int pos = 0, i;
-	char sep;
-	struct lconv *locinfo;
+	char const sep = format_get_arg_sep ();
 
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->fd != NULL);
@@ -106,14 +106,6 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 	str = g_string_new ("="); /* FIXME use prefix string */
 	g_string_append (str, function_def_get_name (state->fd));
 	g_string_append_c (str, '(');
-
-	/* Use comma as the arg seperator unless the decimal point is a
-	 * comma, in which case use a semi-colon
-	 */
-	sep = ',';
-	locinfo = localeconv ();
-	if (locinfo->decimal_point && !strcmp (locinfo->decimal_point, ","))
-	    sep = ';';
 
 	for (i = 0; i < state->args->len; i++) {
 		ArgumentState *as = g_ptr_array_index (state->args, i);

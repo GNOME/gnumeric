@@ -308,13 +308,14 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 		d = 360 - months*30 - days;
 
 	        if (freq == 1) {
-			if (d >= 360)
+			if (d >= 360) {
 			        if (days == 0 && months == 0)
 				        d = 0;
 			        else if (d % 360 == 0)
 				        d = 360;
 				else
 				        d %= 360;
+			}
 		} else if (freq == 2) {
 			if ((d % 180) == 0 && days)
 			        d = 180;

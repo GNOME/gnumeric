@@ -16,6 +16,7 @@
 #include "workbook-private.h"
 #include "gnumeric-util.h"
 #include "application.h"
+#include "sheet.h"
 #include "widgets/gtk-combo-stack.h"
 
 void

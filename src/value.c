@@ -8,12 +8,12 @@
  */
 
 #include <config.h>
-#include <locale.h>
 #include <gnome.h>
 #include "gnumeric.h"
 #include "value.h"
 #include "parse-util.h"
 #include "style.h"
+#include "format.h"
 #include <stdlib.h>
 #include <errno.h>
 
@@ -434,20 +434,6 @@ value_get_as_checked_bool (Value const *v)
 char *
 value_get_as_string (const Value *value)
 {
-	static char *separator;
-
-	if (!separator){
-		struct lconv *locinfo;
-		
-		locinfo = localeconv ();
-		if (locinfo->decimal_point &&
-		    locinfo->decimal_point [0] == ',' &&
-		    locinfo->decimal_point [1] == 0)
-			separator = ";";
-		else
-			separator = ",";
-	}
-
 	if (value == NULL)
 		return g_strdup ("");
 
@@ -471,6 +457,8 @@ value_get_as_string (const Value *value)
 		return g_strdup_printf ("%.*g", DBL_DIG, value->v_float.val);
 
 	case VALUE_ARRAY: {
+		char const row_sep = format_get_arg_sep ();
+		char const col_sep = format_get_col_sep ();
 		GString *str = g_string_new ("{");
 		guint x, y;
 		char *ans;
@@ -484,7 +472,7 @@ value_get_as_string (const Value *value)
 						      v->type == VALUE_INTEGER,
 						      "Duff Array contents");
 				if (x)
-					g_string_sprintfa (str, separator);
+					g_string_append_c (str, row_sep);
 				if (v->type == VALUE_STRING)
 					g_string_sprintfa (str, "\"%s\"",
 							   v->v_str.val->str);
@@ -493,7 +481,7 @@ value_get_as_string (const Value *value)
 							   value_get_as_float (v));
 			}
 			if (y < value->v_array.y-1)
-				g_string_sprintfa (str, ";");
+				g_string_append_c (str, col_sep);
 		}
 		g_string_sprintfa (str, "}");
 		ans = str->str;

@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_FILE_H
 #define GNUMERIC_FILE_H
 
-#include "sheet.h"
+#include "gnumeric.h"
 
 /*
  * File format levels. They are ordered. When we save a file, we

@@ -12,7 +12,7 @@
 #include "expr.h"
 #include "cell.h"
 #include "workbook.h"
-#include "style.h"
+#include "format.h"
 
 /* ------------------------------------------------------------------------- */
 /*
@@ -317,7 +317,7 @@ auto_style_format_suggest (const ExprTree *expr, const EvalPos *epos)
 	StyleFormat *result = NULL;
 	format = auto_format_suggest (expr, epos);
 	if (format) {
-		result = style_format_new (format);
+		result = style_format_new_XL (format, FALSE);
 		g_free (format);
 	}
 	return result;

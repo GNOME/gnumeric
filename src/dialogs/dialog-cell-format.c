@@ -379,17 +379,15 @@ draw_format_preview (FormatState *state)
 			g_string_append_c (new_format, ' ');
 
 	case FMT_NUMBER :
-		if (state->format.use_separator) {
-			g_string_append_c (new_format, '#');
-			g_string_append (new_format, format_get_thousand ());
-			g_string_append (new_format, "##0");
-		} else
+		if (state->format.use_separator)
+			g_string_append (new_format, "#,##0");
+		else
 			g_string_append_c (new_format, '0');
 
 		if (state->format.num_decimals > 0) {
 			g_return_if_fail (state->format.num_decimals <= 30);
 
-			g_string_append (new_format, format_get_decimal ());
+			g_string_append_c (new_format, '.');
 			g_string_append (new_format, zeros + 30-state->format.num_decimals);
 		}
 
@@ -421,25 +419,21 @@ draw_format_preview (FormatState *state)
 		g_string_append (new_format, "_(");
 		g_string_append (new_format,
 				 currency_symbols[state->format.currency_index].symbol);
-		g_string_append (new_format, "*#");
-		g_string_append (new_format, format_get_thousand ());
-		g_string_append (new_format, "##0");
+		g_string_append (new_format, "*#,##0");
 		if (state->format.num_decimals > 0) {
 			g_return_if_fail (state->format.num_decimals <= 30);
 
-			g_string_append (new_format, format_get_decimal ());
+			g_string_append_c (new_format, '.');
 			g_string_append (new_format, zeros + 30-state->format.num_decimals);
 		}
 		g_string_append (new_format, "_);_(");
 		g_string_append (new_format,
 				 currency_symbols[state->format.currency_index].symbol);
-		g_string_append (new_format, "*(#");
-		g_string_append (new_format, format_get_thousand ());
-		g_string_append (new_format, "##0");
+		g_string_append (new_format, "*(#,##0");
 		if (state->format.num_decimals > 0) {
 			g_return_if_fail (state->format.num_decimals <= 30);
 
-			g_string_append (new_format, format_get_decimal ());
+			g_string_append_c (new_format, '.');
 			g_string_append (new_format, zeros + 30-state->format.num_decimals);
 		}
 		g_string_append (new_format, ");_(");
@@ -456,7 +450,7 @@ draw_format_preview (FormatState *state)
 		if (state->format.num_decimals > 0) {
 			g_return_if_fail (state->format.num_decimals <= 30);
 
-			g_string_append (new_format, format_get_decimal ());
+			g_string_append_c (new_format, '.');
 			g_string_append (new_format, zeros + 30-state->format.num_decimals);
 		}
 		if (page == FMT_PERCENT)
@@ -516,17 +510,20 @@ fillin_negative_samples (FormatState *state, int const page)
 		"(%s%s3%s210%s%s)",
 		"(%s%s3%s210%s%s)"
 	};
-	char const * const sep = state->format.use_separator
-		? format_get_thousand () : "";
 	int const n = 30 - state->format.num_decimals;
 
-	char const * const decimal = (state->format.num_decimals > 0)
-		? format_get_decimal () : "";
 	char const *space = "", *currency;
+	char const *decimal = "";
+	char const *thousand_sep = "";
 
 	GtkCList *cl;
 	char buf[50];
 	int i;
+
+	if (state->format.use_separator)
+		thousand_sep = ",";
+	if (state->format.num_decimals > 0)
+		decimal = ".";
 
 	g_return_if_fail (page == 1 || page == 2);
 	g_return_if_fail (state->format.num_decimals <= 30);
@@ -548,7 +545,7 @@ fillin_negative_samples (FormatState *state, int const page)
 		currency = "";
 
 	for (i = 4; --i >= 0 ; ) {
-		sprintf (buf, formats[i], currency, space, sep, decimal, decimals + n);
+		sprintf (buf, formats[i], currency, space, thousand_sep, decimal, decimals + n);
 		gtk_clist_set_text (cl, i, 0, buf);
 	}
 
@@ -832,12 +829,15 @@ fmt_dialog_init_format_page (FormatState *state)
 	FormatCharacteristics info;
 
 	/* Get the current format */
-	char const * format = cell_formats [0][0];
-	if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT))
-		format = mstyle_get_format (state->style)->format;
+	char const * format;
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT)) {
+		StyleFormat const *fmt = mstyle_get_format (state->style);
+		format = style_format_as_XL (fmt, TRUE);
+	} else
+		format = g_strdup (cell_formats [0][0]);
 
 	state->format.preview = NULL;
-	state->format.spec = g_strdup (format);
+	state->format.spec = format;
 
 	/* The handlers will set the format family later.  -1 flags that
 	 * all widgets are already hidden. */

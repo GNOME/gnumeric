@@ -42,6 +42,7 @@
 #include "gutils.h"
 #include "rendered-value.h"
 #include "cmd-edit.h"
+#include "format.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
@@ -2062,8 +2063,8 @@ workbook_set_auto_expr (Workbook *wb,
 	if (wb->auto_expr)
 		expr_tree_unref (wb->auto_expr);
 
-	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
-	setlocale (LC_NUMERIC, "C");
+	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
+	gnumeric_setlocale (LC_NUMERIC, "C");
 	old_msg_locale = g_strdup (textdomain (NULL));
 
 	res = gnumeric_expr_parser (expression,
@@ -2079,7 +2080,7 @@ workbook_set_auto_expr (Workbook *wb,
 
 	textdomain (old_msg_locale);
 	g_free (old_msg_locale);
-	setlocale (LC_NUMERIC, old_num_locale);
+	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 }
 

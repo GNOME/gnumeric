@@ -57,14 +57,6 @@ typedef enum {
 	SHEET_MODE_OBJECT_SELECTED,
 } SheetModeType;
 
-typedef enum {
-    SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */
-    SPANCALC_RESIZE	= 0x1,	/* Calculate the size of the rendered result */
-    SPANCALC_RENDER	= 0x2,	/* render and size any unrendered cells */
-    SPANCALC_RE_RENDER	= 0x4,	/* render of all cells */
-    SPANCALC_NO_DRAW	= 0x8,	/* Do not */
-} SpanCalcFlags;
-
 typedef struct _SheetPrivate SheetPrivate;
 
 struct _Sheet {
@@ -381,7 +373,5 @@ void  sheet_clear_region (CommandContext *context,
 			  int start_col, int start_row,
 			  int end_col, int end_row,
 			  int clear_flags);
-
-void sheet_vectors_shutdown    (Sheet *sheet);
 
 #endif /* GNUMERIC_SHEET_H */

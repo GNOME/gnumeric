@@ -517,7 +517,8 @@ render_value_with_format (GString *target, const char *number_format, HFRenderIn
 	StyleFormat *format;
 	char *text;
 	
-	format = style_format_new (number_format);
+	/* TODO : Check this assumption.  Is it a localized format ?? */
+	format = style_format_new_XL (number_format, FALSE);
 	
 	text = format_value (format, info->date_time, NULL, NULL);
 

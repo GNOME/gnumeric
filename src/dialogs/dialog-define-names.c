@@ -13,6 +13,7 @@
 #include "dialogs.h"
 #include "expr.h"
 #include "expr-name.h"
+#include "sheet.h"
 #include "workbook.h"
 #include "workbook-edit.h"
 #include "gnumeric-util.h"

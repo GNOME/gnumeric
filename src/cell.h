@@ -98,7 +98,7 @@ void        cell_set_mstyle              (Cell const *cell, MStyle *mstyle);
 char *      cell_get_format              (Cell const *cell);
 void        cell_set_format              (Cell *cell, char const *format);
 
-void        cell_make_value              (Cell *cell);	/* FIXME : This is crap ?! */
+void        cell_make_value              (Cell *cell);
 void        cell_render_value            (Cell *cell);
 
 #endif /* GNUMERIC_CELL_H */
