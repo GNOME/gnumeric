@@ -100,10 +100,10 @@ extern char *gnumeric_data_dir;
 void
 gnm_common_init (gboolean fast)
 {
-	mathfunc_init ();
 	g_object_new (GNM_APP_TYPE, NULL);
 	plugin_services_init ();
 	libgoffice_init ();
+	mathfunc_init ();
 	gnm_string_init ();
 	mstyle_init ();
 	gnm_conf_init (fast);

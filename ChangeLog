@@ -1,3 +1,11 @@
+2004-08-17  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (mathfunc_init): Greatly simplify using goffice
+	code.
+
+	* src/libgnumeric.c (gnm_common_init): Init mathfunc after
+	goffice.
+
 2004-08-19  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Bumped the libgsf-gnome-1 requirement to make it

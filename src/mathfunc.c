@@ -61,8 +61,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <locale.h>
-#include <signal.h>
 #include <string.h>
+#include <goffice/utils/go-math.h>
 
 #if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
 /* Make sure we have this symbol defined, since the existance of either
@@ -105,84 +105,27 @@ void
 mathfunc_init (void)
 {
 	const char *bug_url = "http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric";
-	char *old_locale;
-	double d;
-#ifdef SIGFPE
-	void (*signal_handler)(int) = (void (*)(int))signal (SIGFPE, SIG_IGN);
-#endif
 
-	gnm_pinf = HUGE_VAL;
-	if (gnm_pinf > 0 && !finitegnum (gnm_pinf))
-		goto have_pinf;
+	gnm_pinf = go_pinf;
+	if (finitegnum (gnm_pinf) || !(gnm_pinf > 0)) {
+		g_error ("Failed to generate +Inf.  Please report at %s",
+			 bug_url);
+		abort ();
+	}
 
-#if defined(INFINITY) && defined(__STDC_IEC_559__)
-	gnm_pinf = INFINITY;
-	if (gnm_pinf > 0 && !finitegnum (gnm_pinf))
-		goto have_pinf;
-#endif
+	gnm_ninf = go_ninf;
+	if (finitegnum (gnm_ninf) || !(gnm_ninf < 0)) {
+		g_error ("Failed to generate -Inf.  Please report at %s",
+			 bug_url);
+		abort ();
+	}
 
-	/* Try sscanf with fixed strings.  */
-	old_locale = setlocale (LC_ALL, "C");
-	if (sscanf ("Inf", "%lf", &d) != 1 &&
-	    sscanf ("+Inf", "%lf", &d) != 1)
-		d = 0;
-	setlocale (LC_ALL, old_locale);
-	gnm_pinf = d;
-	if (gnm_pinf > 0 && !finitegnum (gnm_pinf))
-		goto have_pinf;
-
-	/* Try overflow.  */
-	gnm_pinf = (HUGE_VAL * HUGE_VAL);
-	if (gnm_pinf > 0 && !finitegnum (gnm_pinf))
-		goto have_pinf;
-
-	g_error ("Failed to generate +Inf.  Please report at %s",
-		 bug_url);
-	abort ();
-
- have_pinf:
-	/* ---------------------------------------- */
-
-	gnm_ninf = -gnm_pinf;
-	if (gnm_ninf < 0 && !finitegnum (gnm_ninf))
-		goto have_ninf;
-
-	g_error ("Failed to generate -Inf.  Please report at %s",
-		 bug_url);
-	abort ();
-
- have_ninf:
-	/* ---------------------------------------- */
-
-	gnm_nan = gnm_pinf * 0.0;
-	if (isnangnum (gnm_nan))
-		goto have_nan;
-
-	/* Try sscanf with fixed strings.  */
-	old_locale = setlocale (LC_ALL, "C");
-	if (sscanf ("NaN", "%lf", &d) != 1 &&
-	    sscanf ("NAN", "%lf", &d) != 1 &&
-	    sscanf ("+NaN", "%lf", &d) != 1 &&
-	    sscanf ("+NAN", "%lf", &d) != 1)
-		d = 0;
-	setlocale (LC_ALL, old_locale);
-	gnm_nan = d;
-	if (isnangnum (gnm_nan))
-		goto have_nan;
-
-	gnm_nan = gnm_pinf / gnm_pinf;
-	if (isnangnum (gnm_nan))
-		goto have_nan;
-
-	g_error ("Failed to generate NaN.  Please report at %s",
-		 bug_url);
-	abort ();
-
- have_nan:
-#ifdef SIGFPE
-	signal (SIGFPE, signal_handler);
-#endif
-	return;
+	gnm_nan = go_nan;
+	if (!isnangnum (gnm_nan)) {
+		g_error ("Failed to generate NaN.  Please report at %s",
+			 bug_url);
+		abort ();
+	}
 }
 
 /*
