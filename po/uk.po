@@ -1175,24 +1175,20 @@ msgid "Undo Clear"
 msgstr "В╕дм╕нити очищення"
 
 #: src/commands.c:1301
-#, fuzzy
 msgid "contents"
-msgstr "Вм╕ст"
+msgstr "вм╕ст"
 
 #: src/commands.c:1303
-#, fuzzy
 msgid "formats"
-msgstr "Формати"
+msgstr "формати"
 
 #: src/commands.c:1305
-#, fuzzy
 msgid "comments"
-msgstr "Коментар╕"
+msgstr "коментар╕"
 
 #: src/commands.c:1321
-#, fuzzy
 msgid "all"
-msgstr "високий"
+msgstr "вс╕"
 
 #: src/commands.c:1328
 #, fuzzy, c-format
@@ -1310,9 +1306,9 @@ msgid "Collapse rows"
 msgstr ""
 
 #: src/commands.c:2367
-#, fuzzy, c-format
+#, c-format
 msgid "Moving %s"
-msgstr "Перем╕щення ком╕рок"
+msgstr "Перем╕щення %s"
 
 #: src/commands.c:2376 src/commands.c:2560
 msgid "is beyond sheet boundaries"
@@ -1341,14 +1337,14 @@ msgid "Autoformatting %s"
 msgstr "Автоформатування"
 
 #: src/commands.c:2979
-#, fuzzy, c-format
+#, c-format
 msgid "Unmerging %s"
-msgstr "Роз'╓днати ком╕рки"
+msgstr "Роз'╓днання %s"
 
 #: src/commands.c:3117
-#, fuzzy, c-format
+#, c-format
 msgid "Merging %s"
-msgstr "Перем╕щення ком╕рок"
+msgstr "Злиття %s"
 
 #. Corrected below.
 #: src/commands.c:3555 src/dialogs/search-replace.glade.h:41
