@@ -8,6 +8,7 @@ $Id$
 Workbook:
    Style .  style
    Sheet[]  sheets
+   Summary  summary information
 
 -------------- Style : specific rendering informations --------------
 Style
@@ -73,6 +74,13 @@ Cell
    ColRowInfo *row /* should save the pos value */
    char      *entered_text
    int       flags /* should it be save ? Don't think so */
+
+------------ Summary : long list of items and their values -----------
+
+Summary
+   Item[]
+      name
+      val-int / val-string ( + val-datestamp in future )
 
 ============================================================================
 

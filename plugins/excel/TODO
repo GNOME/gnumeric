@@ -10,10 +10,7 @@ Michael
 		* Colours
 		* Fonts etc.
 		* Cell borders...
-	* Summary:
-		* implement & test summary write,
-		* beef up the number of recognised tokens
-	* Remove silly name record in writing ( after debugging is done )
+	* Remove silly name record in Excel writing ( after debugging is done )
 	* Split panes.
 	* Use same XML as Office 2000 for elegance (?)
 	* Investigate VB streams, and their lengths.
@@ -27,15 +24,20 @@ Michael
 	support and to provide a generic sensible sub-query offset.
 	* Fix VLookup so the lookfuns.xls works.
 	* Fix INDEX, AREAS, INDIRECT.
-	* Fixup csv import...
 	* Get scalability to large sheets sorted
-	* Test: sample.xls, Zero31.xls
+	* Fully clean ms-biff to remove duff padding stuff.
 
 Jody
 	* Where do the anchor points for objects come from.
 	* HEADER, FOOTER import.
 	* Check the record lengths on the biff records BEFORE use.
 	* More version size changes for NAME
+
+Frank
+	* Summary:
+		* implement & test summary write,
+		* beef up the number of recognised tokens
+	* Expand the summary dialog.
 
 * Excel importing
 

@@ -1,6 +1,10 @@
+
+This file rapidly gets out of date: see ../TODO
+
 Graphics:
-	Embedding of graphics will be done by using first
-	Guppi and eventually Guppi trough the Baboon document model.
+
+	Embedding of graphs and charts will be implemented via
+	Guppi through the Baboon document model.
 
 	Guppi information:
 

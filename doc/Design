@@ -42,7 +42,7 @@
       
       <para>
 	Gnumeric should be compatible as much as possible with
-	Microsoft Excel in terms of the user.  This means formulas and
+	Microsoft Excel in terms of the user.  This means formulae and
 	expressions should be compatible unless we find a serious
 	design problem in Excel.
       </para>
@@ -51,9 +51,9 @@
 	An example of a design problem in Excel is the fact that
 	various internal functions have limits on the number of
 	arguments they can take: this is just bad coding and this sort
-	of limitations is unacceptable in Gnumeric.  When writing code
+	of limitation is unacceptable in Gnumeric.  When writing code
 	for Gnumeric, no hard coded limits should be set (currently
-	Gnumeric breaks this rule by having hardcoded in a few places
+	Gnumeric breaks this rule by having hardcoded, in a few places,
 	the maximum number of columns to be 256).
       </para>
       
@@ -82,7 +82,7 @@
 	    <para>
 	      Item Sheets are the repository of information: cells are
 	      kept here, information on the columns and rows is kept
-	      here, and the styles attached to the regions is also
+	      here, and the styles attached to the regions are also
 	      kept here.
 	    </para>
 	    
@@ -223,8 +223,8 @@
       
 	<para>
 	  Currently Gnumeric does not provide any way to keep these
-	  references, a possible scheme for saving correctly these
-	  cells would be to keep in a special list any formula being
+	  references, a possible scheme for saving these cells correctly 
+	  would be to keep in a special list any formula being
 	  saved that has a reference count bigger than one and keep
 	  track of these duplicates and generate formula references in
 	  the output file rather than outputing the actual formula.
@@ -272,6 +272,13 @@
 
       <sect1>
 	<title>Plugins</title>
+
+	<para>
+	  Gnumeric's plugin API is very simple. Every plugin must have
+	  one function: init_plugin see
+	  <filename>gnumeric/src/plugin.h</filename> for the full details.
+	</para>
+ 
       </sect1>
   </chapter>
 </book>

@@ -86,6 +86,10 @@ Gnumeric Spread Sheet task list
    be possible to display "Sales".  We can use this with Michael's
    name support. 
 
+   Instead this should be done with split-pane support in tandem with
+   disabling the standard caption rendering. This would give a far more
+   flexible approach : Michael.
+
 ** Captions (ItemBar)
 
    It should be possible to set the dimensions of the cols, rows to
@@ -153,11 +157,6 @@ Gnumeric Spread Sheet task list
    Right clicking gets:
      insert
 
-** Summary Information
-   Load this from the Excel stream.
-   Make a Bonobo component to update it.
-   Load/Save to XML.
-
 * Sheets
 
 When adding a sheet or renaming a sheet, should we reparse everything?
@@ -176,10 +175,6 @@ at *all*.
 
 Rewrite all cell style support, for memory efficiency and speed.
 Rewrite background pixmap handling to take 2 colours: FG & BG.
-
-* Names
-
-Update xml-io to read/write name tables.
 
 * Office compatibility
 
@@ -200,3 +195,6 @@ Office 2000 and 'explorer' compatibility.
     client might find this problem without being able to do anything
     about it, nor knowing about the error condition.
 
+  * Improved style architecture
+
+    Possibly needed for better Excel export

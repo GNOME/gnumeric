@@ -1,3 +1,10 @@
+1999-08-10  Michael Meeks  <michael@imaginator.com>
+
+	* TODO, DEPENDS, doc/Future-Roadmap, doc/Design: Updated,
+	and added short plugin design section.
+
+	* doc/saving.txt: Added short section on Summary Information.
+
 1999-08-10  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-math.c: Finished ROMAN().  Gnumeric now supports all the
