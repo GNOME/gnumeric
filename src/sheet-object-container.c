@@ -113,6 +113,26 @@ item_destroyed (GnomeCanvasItem *item, BonoboViewFrame *view_frame)
 		bonobo_object_unref (BONOBO_OBJECT (view_frame));
 }
 
+static void
+sheet_object_container_destroy (GtkObject *object)
+{
+	SheetObjectBonobo *sob = SHEET_OBJECT_BONOBO (object);
+
+	if (sob != NULL && sob->object_server != NULL) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		bonobo_object_release_unref (
+			bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
+			&ev);
+		CORBA_exception_free (&ev);
+
+		sob->object_server = NULL;
+	}
+
+	(*GTK_OBJECT_CLASS(sheet_object_container_parent_class)->destroy) (object);
+}
+
 static GnomeCanvasItem *
 sheet_object_container_new_view (SheetObject *so, SheetView *sheet_view)
 {
@@ -186,6 +206,7 @@ sheet_object_container_class_init (GtkObjectClass *object_class)
 	sheet_object_container_parent_class = gtk_type_class (sheet_object_get_type ());
 
 	/* SheetObject class method overrides */
+	object_class->destroy = sheet_object_container_destroy;
 	sheet_object_class->new_view = sheet_object_container_new_view;
 	sheet_object_class->update_bounds = sheet_object_container_update_bounds;
 }

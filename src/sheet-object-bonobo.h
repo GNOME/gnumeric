@@ -53,7 +53,6 @@ gboolean           sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob,
 gboolean           sheet_object_bonobo_load           (SheetObjectBonobo *sob,
 						       BonoboStream *stream);
 void               sheet_object_bonobo_query_size     (SheetObjectBonobo *sob);
-void               sheet_object_bonobo_new_from_oid   (Sheet *sheet, char *obj_id);
 
 #endif /* GNUMERIC_SHEET_OBJECT_ITEM_H */
 

@@ -172,7 +172,7 @@ get_row_name (int n)
 
 static void
 bar_draw_cell (ItemBar const * const item_bar,
-	       GdkDrawable *drawable, ItemBarSelectionType const type,
+	       GdkDrawable *drawable, ColRowSelectionType const type,
 	       char const * const str, GdkRectangle * rect)
 {
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item_bar)->canvas);
@@ -182,19 +182,19 @@ bar_draw_cell (ItemBar const * const item_bar,
 
 	switch (type){
 	default:
-	case ITEM_BAR_NO_SELECTION:
+	case COL_ROW_NO_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		gc = canvas->style->bg_gc [GTK_STATE_ACTIVE];
 		font = style_font_gdk_font (item_bar->normal_font);
 		break;
 
-	case ITEM_BAR_PARTIAL_SELECTION:
+	case COL_ROW_PARTIAL_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		gc = canvas->style->dark_gc [GTK_STATE_PRELIGHT];
 		font = style_font_gdk_font (item_bar->bold_font);
 		break;
 
-	case ITEM_BAR_FULL_SELECTION:
+	case COL_ROW_FULL_SELECTION:
 		shadow = GTK_SHADOW_IN;
 		gc = canvas->style->dark_gc [GTK_STATE_NORMAL];
 		font = style_font_gdk_font (item_bar->bold_font);

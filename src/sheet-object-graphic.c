@@ -103,6 +103,18 @@ sheet_object_graphic_new_view (SheetObject *so, SheetView *sheet_view)
 }
 
 static void
+sheet_object_graphic_update_bounds (SheetObject *so)
+{
+	GList *l;
+
+	for (l = so->realized_list; l; l = l->next){
+		GnomeCanvasItem *item = l->data;
+
+		gnome_canvas_item_set (item, "points", so->bbox_points, NULL);
+	}
+}
+
+static void
 sheet_object_graphic_class_init (GtkObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
@@ -113,8 +125,9 @@ sheet_object_graphic_class_init (GtkObjectClass *object_class)
 	object_class->destroy = sheet_object_graphic_destroy;
 
 	/* SheetObject class method overrides */
-	sheet_object_class->new_view = sheet_object_graphic_new_view;
-	sheet_object_class->print   = sheet_object_graphic_print;
+	sheet_object_class->update_bounds = &sheet_object_graphic_update_bounds;
+	sheet_object_class->new_view	  = &sheet_object_graphic_new_view;
+	sheet_object_class->print         = &sheet_object_graphic_print;
 }
 
 GtkType
@@ -156,7 +169,7 @@ sheet_object_create_line (Sheet *sheet, gboolean is_arrow,
 	so = SHEET_OBJECT (sog);
 
 	sheet_object_construct (so, sheet);
-	sheet_object_set_bounds (so, 0, 0, 0, 0);
+	sheet_object_set_bounds (so, 0, 0, 40, 40);
 
 	sog->type  = is_arrow ? SHEET_OBJECT_ARROW : SHEET_OBJECT_LINE;
 	sog->color = string_get (color);
@@ -176,12 +189,32 @@ sheet_object_filled_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (sheet_object_filled_parent_class)->destroy (object);
 }
 
+static void
+sheet_object_filled_update_bounds (SheetObject *so)
+{
+	GList *l;
+	double x1, y1, x2, y2;
+
+	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
+
+	for (l = so->realized_list; l; l = l->next){
+		GnomeCanvasItem *item = l->data;
+
+		gnome_canvas_item_set (
+			item,
+			"x1", x1, "y1", y1,
+			"x2", x2, "y2", y2,
+			NULL);
+	}
+}
+
 static GnomeCanvasItem *
 sheet_object_filled_new_view (SheetObject *so, SheetView *sheet_view)
 {
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	SheetObjectFilled  *sof = SHEET_OBJECT_FILLED (so);
 	GnomeCanvasItem *item = NULL;
+	double x1, y1, x2, y2;
 	GtkType type;
 	
 	g_return_val_if_fail (so != NULL, NULL);
@@ -201,34 +234,19 @@ sheet_object_filled_new_view (SheetObject *so, SheetView *sheet_view)
 		g_assert_not_reached ();
 	}
 
+	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
+
 	item = gnome_canvas_item_new (
 		sheet_view->object_group,
 		type,
+		"x1", x1, "y1", y1,
+		"x2", x2, "y2", y2,
 		"fill_color",    sof->fill_color ? sof->fill_color->str : NULL,
 		"outline_color", sog->color->str,
 		"width_units",   (double) sog->width,
 		NULL);
 
 	return item;
-}
-
-static void
-sheet_object_filled_update_bounds (SheetObject *so)
-{
-	GList *l;
-	double x1, y1, x2, y2;
-
-	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
-
-	for (l = so->realized_list; l; l = l->next){
-		GnomeCanvasItem *item = l->data;
-
-		gnome_canvas_item_set (
-			item,
-			"x1", x1, "y1", y1,
-			"x2", x2, "y2", y2,
-			NULL);
-	}
 }
 
 static void
@@ -261,7 +279,7 @@ sheet_object_create_filled (Sheet *sheet, int type,
 
 	so = gtk_type_new (sheet_object_filled_get_type ());
 	sheet_object_construct  (so, sheet);
-	sheet_object_set_bounds (so, 0, 0, 0, 0);
+	sheet_object_set_bounds (so, 0, 0, 40, 40);
 
 	sof = SHEET_OBJECT_FILLED (so);
 	sog = SHEET_OBJECT_GRAPHIC (so);

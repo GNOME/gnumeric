@@ -7,12 +7,6 @@
 #define ITEM_BAR_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_bar_get_type (), ItemBarType))
 #define IS_ITEM_BAR(o)         (GTK_CHECK_TYPE((o), item_bar_get_type ()))
 
-typedef enum {
-	ITEM_BAR_NO_SELECTION,
-	ITEM_BAR_PARTIAL_SELECTION,
-	ITEM_BAR_FULL_SELECTION
-} ItemBarSelectionType;
-
 typedef struct {
 	GnomeCanvasItem  canvas_item;
 	SheetView       *sheet_view;

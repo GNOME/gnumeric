@@ -748,7 +748,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		break;
 
 	case GDK_F2:
-		workbook_start_editing_at_cursor (wb, FALSE, FALSE);
+		workbook_start_editing_at_cursor (wb, FALSE, TRUE);
 		/* fall down */
 
 	default:

@@ -1804,7 +1804,7 @@ sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
 		cl.border_valid [i] = TRUE;
 	}
 
-	selection_foreach_range (sheet, sheet_unique_cb, &cl);
+	(void) selection_foreach_range (sheet, TRUE, sheet_unique_cb, &cl);
 
 	if (!mstyle_is_element_conflict (cl.mstyle, MSTYLE_BORDER_REV_DIAGONAL))
 		border_mask (&cl, STYLE_BORDER_REV_DIAG,

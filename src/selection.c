@@ -1072,8 +1072,16 @@ selection_contains_colrow (Sheet *sheet, int colrow, gboolean is_col)
 	return FALSE;
 }
 
+/*
+ * selection_foreach_range :
+ * @sheet : The whose selection is being iterated.
+ * @from_start : Iterate from start to end or end to start.
+ * @range_cb : A function to call for each sheet.
+ * @user_data :
+ *
+ */
 gboolean
-selection_foreach_range (Sheet *sheet,
+selection_foreach_range (Sheet *sheet, gboolean from_start,
 			 gboolean (*range_cb) (Sheet *sheet,
 					       Range const *range,
 					       gpointer user_data),
@@ -1084,11 +1092,18 @@ selection_foreach_range (Sheet *sheet,
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	for (l = sheet->selections; l; l = g_list_next (l)) {
-		SheetSelection *ss = l->data;
-		if (!range_cb (sheet, &ss->user, user_data))
-			return FALSE;
-	}
+	if (from_start) 
+		for (l = sheet->selections; l != NULL; l = l->next) {
+			SheetSelection *ss = l->data;
+			if (!range_cb (sheet, &ss->user, user_data))
+				return FALSE;
+		}
+	else
+		for (l = g_list_last (sheet->selections); l != NULL; l = l->prev) {
+			SheetSelection *ss = l->data;
+			if (!range_cb (sheet, &ss->user, user_data))
+				return FALSE;
+		}
 	return TRUE;
 }
 
@@ -1232,3 +1247,113 @@ sheet_selection_walk_step (Sheet *sheet,
 	sheet_set_edit_pos (sheet, destination.col, destination.row);
 	sheet_make_cell_visible (sheet, destination.col, destination.row);
 }
+
+ColRowSelectionType
+sheet_col_selection_type (Sheet const *sheet, int col)
+{
+	SheetSelection *ss;
+	GList *l;
+	int ret = COL_ROW_NO_SELECTION;
+
+	g_return_val_if_fail (sheet != NULL, COL_ROW_NO_SELECTION);
+	g_return_val_if_fail (IS_SHEET (sheet), COL_ROW_NO_SELECTION);
+
+	if (sheet->selections == NULL)
+		return COL_ROW_NO_SELECTION;
+
+	for (l = sheet->selections; l != NULL; l = l->next){
+		ss = l->data;
+
+		if (ss->user.start.col > col ||
+		    ss->user.end.col < col)
+			continue;
+
+		if (ss->user.start.row == 0 &&
+		    ss->user.end.row == SHEET_MAX_ROWS-1)
+			return COL_ROW_FULL_SELECTION;
+
+		ret = COL_ROW_PARTIAL_SELECTION;
+	}
+
+	return ret;
+}
+
+ColRowSelectionType
+sheet_row_selection_type (Sheet const *sheet, int row)
+{
+	SheetSelection *ss;
+	GList *l;
+	int ret = COL_ROW_NO_SELECTION;
+
+	g_return_val_if_fail (sheet != NULL, COL_ROW_NO_SELECTION);
+	g_return_val_if_fail (IS_SHEET (sheet), COL_ROW_NO_SELECTION);
+
+	if (sheet->selections == NULL)
+		return COL_ROW_NO_SELECTION;
+
+	for (l = sheet->selections; l != NULL; l = l->next){
+		ss = l->data;
+
+		if (ss->user.start.row > row ||
+		    ss->user.end.row < row)
+			continue;
+
+		if (ss->user.start.col == 0 &&
+		    ss->user.end.col == SHEET_MAX_COLS-1)
+			return COL_ROW_FULL_SELECTION;
+
+		ret = COL_ROW_PARTIAL_SELECTION;
+	}
+
+	return ret;
+}
+
+/*
+ * sheet_selection_full_cols :
+ *
+ * @sheet :
+ *
+ * returns TRUE if all of the selected cols in the selection fully selected ?
+ */
+gboolean
+sheet_selection_full_cols (Sheet const *sheet)
+{
+	GList *l;
+
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+
+	for (l = sheet->selections; l != NULL; l = l->next){
+		SheetSelection const *ss = l->data;
+		Range const *r = &ss->user;
+		if (r->start.row != 0 || r->end.row < SHEET_MAX_ROWS - 1)
+			return FALSE;
+	}
+
+	return TRUE;
+}
+/*
+ * sheet_selection_full_rows :
+ *
+ * @sheet :
+ *
+ * returns TRUE if all of the selected rows in the selection fully selected ?
+ */
+gboolean
+sheet_selection_full_rows (Sheet const *sheet)
+{
+	GList *l;
+
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+
+	for (l = sheet->selections; l != NULL; l = l->next){
+		SheetSelection const *ss = l->data;
+		Range const *r = &ss->user;
+		if (r->start.col != 0 || r->end.col < SHEET_MAX_COLS - 1)
+			return FALSE;
+	}
+
+	return TRUE;
+}
+

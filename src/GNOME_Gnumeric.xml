@@ -54,10 +54,10 @@
 
 		<submenu name="Edit" _label="_Edit">
 
-			<menuitem name="EditUndo" verb="" _label="_Undo" _descr="Undo the last action"
+			<menuitem name="Undo" verb="EditUndo" _label="_Undo" _descr="Undo the last action"
 			pixtype="stock" pixname="Menu_Undo" accel="&lt;Control&gt;z"/>
 	
-			<menuitem name="EditRedo" verb="" _label="_Redo" _descr="Redo the undone action"
+			<menuitem name="Redo" verb="EditRedo" _label="_Redo" _descr="Redo the undone action"
 			pixtype="stock" pixname="Menu_Redo" accel="&lt;Control&gt;r"/>
 
 			<menuitem/>

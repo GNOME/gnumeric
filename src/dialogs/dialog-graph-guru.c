@@ -39,6 +39,7 @@ typedef struct
 {
 	BonoboObjectClient		*object_server;
 	GNOME_Gnumeric_Graph_Manager	 manager;
+	Bonobo_Control		 	 control;
 
 	/* GUI accessors */
 	GladeXML    *gui;
@@ -53,21 +54,57 @@ typedef struct
 	int current_page;
 	gboolean valid;
 
+	gboolean is_columns;
+	GPtrArray *series;
+
 	/* external state */
 	Workbook *wb;
 } GraphGuruState;
 
-static gboolean
-cb_graph_guru_destroy (GtkObject *w, GraphGuruState *state)
+static void
+graph_guru_state_destroy (GraphGuruState *state)
 {
-	g_return_val_if_fail (w != NULL, FALSE);
-	g_return_val_if_fail (state != NULL, FALSE);
+	g_return_if_fail (state != NULL);
 
 	workbook_edit_detach_guru (state->wb);
 
 	if (state->gui != NULL) {
 		gtk_object_unref (GTK_OBJECT (state->gui));
 		state->gui = NULL;
+	}
+
+	/* Release the series objects */
+	if (state->series != NULL) {
+		int i = state->series->len;
+		while (i-- > 0) {
+			gpointer *elem = g_ptr_array_index (state->series, i);
+			gtk_object_unref (GTK_OBJECT (elem));
+		}
+		g_ptr_array_free (state->series, TRUE);
+		state->series = NULL;
+	}
+
+	if (state->control != CORBA_OBJECT_NIL) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		Bonobo_Control_unref (state->control, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("Problems releasing the graph selector control");
+		CORBA_exception_free (&ev);
+
+		state->control = CORBA_OBJECT_NIL;
+	}
+	if (state->manager != CORBA_OBJECT_NIL) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		GNOME_Gnumeric_Graph_Manager_unref (state->manager, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("Problems releasing the graph manager");
+		CORBA_exception_free (&ev);
+
+		state->manager = CORBA_OBJECT_NIL;
 	}
 
 	/* Handle window manger closing the dialog.
@@ -78,6 +115,12 @@ cb_graph_guru_destroy (GtkObject *w, GraphGuruState *state)
 	state->dialog = NULL;
 
 	g_free (state);
+}
+
+static gboolean
+cb_graph_guru_destroy (GtkObject *w, GraphGuruState *state)
+{
+	graph_guru_state_destroy (state);
 	return FALSE;
 }
 
@@ -178,19 +221,17 @@ static GtkWidget *
 get_selector_control (GraphGuruState *state)
 {
 	CORBA_Environment	 ev;
-	Bonobo_Control		 control;
 	Bonobo_Unknown           corba_uih;
 	GtkWidget *res = NULL;
 
 	CORBA_exception_init (&ev);
-	control = GNOME_Gnumeric_Graph_Manager_getTypeSelectControl (state->manager, &ev);
+	state->control = GNOME_Gnumeric_Graph_Manager_getTypeSelectControl (state->manager, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		return NULL;
-
-	corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (state->wb->priv->uih));
-	res =  bonobo_widget_new_control_from_objref (control, corba_uih);
-
 	CORBA_exception_free (&ev);
+
+	corba_uih = bonobo_ui_compat_get_container (state->wb->priv->uih);
+	res =  bonobo_widget_new_control_from_objref (state->control, corba_uih);
 
 	return res;
 }
@@ -247,6 +288,7 @@ graph_guru_init_manager (GraphGuruState *state)
 					  NULL, 0, NULL, &ev);
 
 	state->manager = CORBA_OBJECT_NIL;
+	state->control = CORBA_OBJECT_NIL;
 	if (o != CORBA_OBJECT_NIL) {
 		state->object_server = bonobo_object_client_from_corba (o);
 		if (state->object_server != NULL)
@@ -260,6 +302,71 @@ graph_guru_init_manager (GraphGuruState *state)
 	return (state->manager == CORBA_OBJECT_NIL);
 }
 
+
+static gboolean
+cb_create_series_from_range(Sheet *sheet,
+			    Range const *src,
+			    gpointer user_data)
+{
+	CORBA_Environment ev;
+	GNOME_Gnumeric_VectorScalarNotify subscriber;
+
+	GraphGuruState *state = user_data;
+	GraphSeries *series;
+	Range vector;
+	int i, count;
+
+	CORBA_exception_init (&ev);
+
+	vector = *src;
+
+	if (state->is_columns) {
+		count = vector.end.col - vector.start.col;
+		vector.end.col = vector.start.col;
+	} else {
+		count = vector.end.row - vector.start.row;
+		vector.end.row = vector.start.row;
+	}
+
+	for (i = 0 ; i <= count ; i++) {
+		series = graph_series_new (sheet, &vector);
+		subscriber = GNOME_Gnumeric_Graph_Manager_addVectorScalar (
+			state->manager,
+			graph_series_servant (series), &ev);
+		graph_series_set_subscriber (series, subscriber);
+		g_ptr_array_add (state->series, series);
+
+		if (state->is_columns)
+			vector.end.col = ++vector.start.col;
+		else
+			vector.end.row = ++vector.start.row;
+	}
+
+	CORBA_exception_free (&ev);
+	return TRUE;
+}
+
+static gboolean
+graph_guru_guess_series (GraphGuruState *state)
+{
+	Sheet *sheet;
+	Range const * r;
+	int num_rows, num_cols;
+
+	sheet = state->wb->current_sheet;
+	r = selection_first_range (sheet, TRUE);
+	num_rows = r->end.row - r->start.row;
+	num_cols = r->end.col - r->start.col;
+
+	/* Excel docs claim that rows == cols uses rows */
+	state->is_columns = num_cols < num_rows;
+	state->series = g_ptr_array_new ();
+	(void) selection_foreach_range (sheet, FALSE,
+					&cb_create_series_from_range, state);
+
+	return FALSE;
+}
+
 /**
  * dialog_graph_guru
  * @wb : The workbook to use as a parent window.
@@ -269,36 +376,21 @@ graph_guru_init_manager (GraphGuruState *state)
 void
 dialog_graph_guru (Workbook *wb)
 {
-	CORBA_Environment ev;
-	GNOME_Gnumeric_VectorScalarNotify subscriber;
-
 	GraphGuruState *state;
-	Range const * r;
-	GraphSeries *series;
-	Sheet *sheet;
 
 	g_return_if_fail (wb != NULL);
 
 	state = g_new(GraphGuruState, 1);
 	state->wb	= wb;
 	state->valid	= FALSE;
-	if (graph_guru_init_manager (state) || graph_guru_init (state)) {
-		g_free (state);
+	state->series   = NULL;
+	if (graph_guru_init_manager (state) || graph_guru_init (state) ||
+	    graph_guru_guess_series (state)) {
+		graph_guru_state_destroy (state);
 		return;
 	}
 
+
 	/* Ok everything is hooked up. Let-er rip */
 	state->valid = TRUE;
-
-	sheet = state->wb->current_sheet;
-
-	/* FIXME : add the logic. to autodetect a series */
-	r = selection_first_range (sheet, TRUE);
-	series = graph_series_new (sheet, r);
-
-	CORBA_exception_init (&ev);
-	subscriber = GNOME_Gnumeric_Graph_Manager_addVectorScalar (
-		state->manager, graph_series_servant (series), &ev);
-	graph_series_set_subscriber (series, subscriber);
-	CORBA_exception_free (&ev);
 }

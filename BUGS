@@ -7,6 +7,18 @@ Release Critical
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE in expressions.
 - The translate/untranslate routines for formats need to be written
+
+Post 0.57 Changes
+-----------------
+- Model View Controller
+- Fix Borders
+
+Long term breakage
+------------------
+- We should put the sensitization/desensitization of the toolbars
+  on a timer/idle hander so that it will not trigger until a second
+  or so after the edit starts/ends.  This will decrease the irritating
+  flashing when entering data quickly.
 - The currency list in the format dialog needs to be sorted for the locale
 - When applying a currency symbol we need to store the NON-localized id.
 - Increase/Decrease precision toolbar buttons should look at the displayed
@@ -19,18 +31,7 @@ Release Critical
   font size and things like that.
 - Copy sheet, and insert new sheet both append to the end of the sheet list
   rather than inserting before the current sheet.
-- print : repeat row/col does not handle overlap, or case where the repeat
-          is already on the page.
-        : sheets in wrong order
-	: titles not clipped.
 
-Post 0.57 Changes
------------------
-- Model View Controller
-- Fix Borders
-
-Long term breakage
-------------------
 - formats with AM/PM need to be internationalized.
 - We need to generate the date formats depending on locale.
 

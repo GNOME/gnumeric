@@ -286,9 +286,6 @@ void        sheet_move_range              (CommandContext *context,
 char       *sheet_name_quote              (const char *unquoted_name);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
-int         sheet_col_selection_type      (Sheet const *sheet, int col);
-int         sheet_row_selection_type      (Sheet const *sheet, int row);
-
 /* Utilities for various flavours of cursor */
 void        sheet_show_cursor                (Sheet *sheet);
 void        sheet_hide_cursor                (Sheet *sheet);

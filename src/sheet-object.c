@@ -4,6 +4,7 @@
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  *   Michael Meeks   (mmeeks@gnu.org)
+ *   Jody Goldberg   (jgoldberg@home.com)
  */
 #include <config.h>
 #include <gnome.h>
@@ -17,13 +18,8 @@
 #include "cursors.h"
 
 #ifdef ENABLE_BONOBO
-#    include <bonobo.h>
-#    include "sheet-object-container.h"
-#    include "sheet-object-item.h"
-#    include "workbook.h"
-#    include "workbook-private.h"
+#include <bonobo.h>
 #endif
-#include "sheet-object-widget.h"
 
 /* Pulls the GnumericSheet from a SheetView */
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
@@ -59,22 +55,6 @@ sheet_object_destroy (GtkObject *object)
 	(*sheet_object_parent_class->destroy)(object);
 }
 
-/**
- * sheet_object_update_bounds:
- * @so: The sheet object
- *
- * This is a default implementation for lightweight objects.
- * The process or re-realizing the object will use the new
- * set of co-ordinates.
- *
- **/
-static void
-sheet_object_update_bounds (SheetObject *so)
-{
-	sheet_object_unrealize (so);
-	sheet_object_realize   (so);
-}
-
 static void
 sheet_object_class_init (GtkObjectClass *object_class)
 {
@@ -83,7 +63,7 @@ sheet_object_class_init (GtkObjectClass *object_class)
 	sheet_object_parent_class = gtk_type_class (gtk_object_get_type ());
 
 	object_class->destroy = sheet_object_destroy;
-	sheet_object_class->update_bounds = sheet_object_update_bounds;
+	sheet_object_class->update_bounds = NULL;
 	sheet_object_class->populate_menu = sheet_object_populate_menu;
 	sheet_object_class->print         = NULL;
 	sheet_object_class->user_config   = NULL;
@@ -375,12 +355,14 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 	so = sheet->new_object;
 	sheet_set_dirty (sheet, TRUE);
 
+	/* If there has been some motion use the press and release coords */
 	if (closure->has_been_sized) {
 		x1 = closure->x;
 		y1 = closure->y;
 		gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
 					      event->x, event->y, &x2, &y2);
 	} else {
+	/* Otherwise translate default size to use release point as top left */
 		sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
 		x2 -= x1;	 y2 -= y1;
 		x1 = closure->x; y1 = closure->y;
@@ -389,8 +371,6 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 	sheet_object_set_bounds (so, x1, y1, x2, y2);
 	SO_CLASS(so)->update_bounds (so);
 	sheet_object_realize (so);
-
-	sheet->new_object = NULL;
 
 	gtk_signal_disconnect_by_func (
 		GTK_OBJECT (gsheet),
@@ -402,17 +382,8 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 	gtk_object_destroy (GTK_OBJECT (closure->item));
 	g_free (closure);
 
-#ifdef ENABLE_BONOBO
-	/*
-	 * FIXME : Michael why is this here ??
-	 * Bonobo objects might want to load state from somewhere
-	 * to be useful
-	 */
-	if (IS_SHEET_OBJECT_BONOBO (so))
-		sheet_object_bonobo_load_from_file (
-			SHEET_OBJECT_BONOBO (so), NULL);
-#endif
-
+	/* move object from creation to edit mode */
+	sheet->new_object = NULL;
 	sheet_mode_edit_object (so);
 
 	return TRUE;
@@ -475,17 +446,15 @@ sheet_mode_clear (Sheet *sheet)
 		sheet->new_object = NULL;
 	}
 	sheet_object_stop_editing (sheet->current_object);
-	return TRUE;
-}
 
-/*
- * sheet_mode_edit:
- * @sheet:  The sheet
- */
-void
-sheet_mode_edit	(Sheet *sheet)
-{
 #ifdef ENABLE_BONOBO
+	/* FIXME FIXME FIXME : JEG 11/Sep/2000
+	 * Michael :
+	 * Should we have a virtual void SheetObject::set_active(gboolean) ?
+	 * then move this down into SheetObjectbonobo ?
+	 * We could also remove active_object_frame from Sheet.
+	 * That seems like it belongs at a view level.
+	 */
 	if (sheet->active_object_frame) {
 		bonobo_view_frame_view_deactivate (sheet->active_object_frame);
 		if (sheet->active_object_frame != NULL)
@@ -493,15 +462,30 @@ sheet_mode_edit	(Sheet *sheet)
 		sheet->active_object_frame = NULL;
 	}
 #endif
+	return TRUE;
+}
+
+/*
+ * sheet_mode_edit:
+ * @sheet:  The sheet
+ *
+ * Put @sheet into the standard state 'edit mode'.  This shuts down
+ * any object editing and frees any objects that are created but not
+ * realized.
+ */
+void
+sheet_mode_edit	(Sheet *sheet)
+{
 	sheet_mode_clear (sheet);
 	sheet_show_cursor (sheet);
 }
 
 /*
  * sheet_mode_edit_object
+ * @so : The SheetObject to select.
  *
- * Makes the object the currently selected object and prepares it for
- * user edition.
+ * Makes @so the currently selected object and prepares it for
+ * user editing.
  */
 void
 sheet_mode_edit_object (SheetObject *so)
@@ -519,6 +503,13 @@ sheet_mode_edit_object (SheetObject *so)
 	}
 }
 
+/**
+ * sheet_mode_create_object :
+ * @so : The object the needs to be placed
+ *
+ * Takes a newly created SheetObject that has not yet been realized and
+ * prepares to place it on the sheet.
+ */
 void
 sheet_mode_create_object (SheetObject *so)
 {

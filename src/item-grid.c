@@ -437,14 +437,14 @@ context_cell_format_cmd (GtkWidget *widget, Sheet *sheet)
 static void
 context_column_width (GtkWidget *widget, Sheet *sheet)
 {
-	workbook_cmd_format_column_width (widget, sheet->workbook);
+	sheet_dialog_set_column_width (widget, sheet->workbook);
 	context_destroy_menu (widget);
 }
 
 static void
 context_row_height (GtkWidget *widget, Sheet *sheet)
 {
-	workbook_cmd_format_row_height (widget, sheet->workbook);
+	sheet_dialog_set_row_height (widget, sheet->workbook);
 	context_destroy_menu (widget);
 }
 

@@ -60,10 +60,21 @@ char       *selection_to_string    (Sheet *sheet,
 gboolean      selection_is_simple   (CommandContext *context, Sheet const *sheet,
 				     char const *command_name);
 Range const * selection_first_range (Sheet const *sheet, gboolean const permit_complex);
-gboolean    selection_foreach_range (Sheet *sheet,
+gboolean    selection_foreach_range (Sheet *sheet, gboolean from_start,
 				     gboolean (*range_cb) (Sheet *sheet,
 							   Range const *range,
 							   gpointer user_data),
 				     gpointer user_data);
+
+typedef enum {
+	COL_ROW_NO_SELECTION,
+	COL_ROW_PARTIAL_SELECTION,
+	COL_ROW_FULL_SELECTION
+} ColRowSelectionType;
+
+ColRowSelectionType sheet_col_selection_type  (Sheet const *sheet, int col);
+ColRowSelectionType sheet_row_selection_type  (Sheet const *sheet, int row);
+gboolean	    sheet_selection_full_cols (Sheet const *sheet);
+gboolean	    sheet_selection_full_rows (Sheet const *sheet);
 
 #endif /* GNUMERIC_SELECTION_H */

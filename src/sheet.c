@@ -1240,66 +1240,6 @@ sheet_update_zoom_controls (Sheet *sheet)
 					    sheet->last_zoom_factor_used);
 }
 
-int
-sheet_col_selection_type (Sheet const *sheet, int col)
-{
-	SheetSelection *ss;
-	GList *l;
-	int ret = ITEM_BAR_NO_SELECTION;
-
-	g_return_val_if_fail (sheet != NULL, ITEM_BAR_NO_SELECTION);
-	g_return_val_if_fail (IS_SHEET (sheet), ITEM_BAR_NO_SELECTION);
-
-	if (sheet->selections == NULL)
-		return ITEM_BAR_NO_SELECTION;
-
-	for (l = sheet->selections; l != NULL; l = l->next){
-		ss = l->data;
-
-		if (ss->user.start.col > col ||
-		    ss->user.end.col < col)
-			continue;
-
-		if (ss->user.start.row == 0 &&
-		    ss->user.end.row == SHEET_MAX_ROWS-1)
-			return ITEM_BAR_FULL_SELECTION;
-
-		ret = ITEM_BAR_PARTIAL_SELECTION;
-	}
-
-	return ret;
-}
-
-int
-sheet_row_selection_type (Sheet const *sheet, int row)
-{
-	SheetSelection *ss;
-	GList *l;
-	int ret = ITEM_BAR_NO_SELECTION;
-
-	g_return_val_if_fail (sheet != NULL, ITEM_BAR_NO_SELECTION);
-	g_return_val_if_fail (IS_SHEET (sheet), ITEM_BAR_NO_SELECTION);
-
-	if (sheet->selections == NULL)
-		return ITEM_BAR_NO_SELECTION;
-
-	for (l = sheet->selections; l != NULL; l = l->next){
-		ss = l->data;
-
-		if (ss->user.start.row > row ||
-		    ss->user.end.row < row)
-			continue;
-
-		if (ss->user.start.col == 0 &&
-		    ss->user.end.col == SHEET_MAX_COLS-1)
-			return ITEM_BAR_FULL_SELECTION;
-
-		ret = ITEM_BAR_PARTIAL_SELECTION;
-	}
-
-	return ret;
-}
-
 /****************************************************************************/
 
 /*

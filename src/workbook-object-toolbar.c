@@ -207,7 +207,7 @@ workbook_create_object_toolbar (Workbook *wb)
 		GTK_TOOLBAR (toolbar),
 		name,
 		behavior,
-		GNOME_DOCK_TOP, 2, 0, 0);
+		GNOME_DOCK_TOP, 3, 0, 0);
 #else
 	toolbar = gnumeric_toolbar_new (
 		workbook_object_toolbar,

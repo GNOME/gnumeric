@@ -694,8 +694,11 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 	workbook_recalc (me->sheet->workbook);
 	sheet_update (me->sheet);
 
-	/* Ins/Del Row/Col unants things */
+	/* Ins/Del Row/Col unants things, and clears the cut selection */
 	application_clipboard_unant ();
+	if (NULL == application_clipboard_contents_get ())
+		application_clipboard_clear (TRUE);
+
 
 	return trouble;
 }
@@ -743,8 +746,10 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 	workbook_recalc (me->sheet->workbook);
 	sheet_update (me->sheet);
 
-	/* Ins/Del Row/Col unants things */
+	/* Ins/Del Row/Col unants things, and clears the cut selection */
 	application_clipboard_unant ();
+	if (NULL == application_clipboard_contents_get ())
+		application_clipboard_clear (TRUE);
 
 	return trouble;
 }

@@ -29,34 +29,25 @@
 #include "dependent.h"
 #include "expr.h"
 #include "value.h"
+#include "ranges.h"
 #include "gnumeric-type-util.h"
-
-typedef struct {
-	POA_GNOME_Gnumeric_VectorScalar	servant;
-	GraphSeries *series;
-} VectorScalar;
-typedef struct {
-	POA_GNOME_Gnumeric_VectorDate	servant;
-	GraphSeries *series;
-} VectorDate;
-typedef struct {
-	POA_GNOME_Gnumeric_VectorString	servant;
-	GraphSeries *series;
-} VectorString;
 
 typedef enum { SERIES_SCALAR, SERIES_DATE, SERIES_STRING } GraphSeriesType;
 struct _GraphSeries {
-	GtkObject obj;
-
-	Dependent dep;
+	GtkObject 	obj;
+	Dependent 	dep;
 
 	GraphSeriesType type;
+	gboolean	is_column;
+
 	CORBA_Object    vector_ref;
 	union {
-		VectorScalar	scalar;
-		VectorDate	date;
-		VectorString	string;
-	} vector;
+		POA_GNOME_Gnumeric_VectorScalar		scalar;
+		POA_GNOME_Gnumeric_VectorDate		date;
+		POA_GNOME_Gnumeric_VectorString		string;
+	} servant;
+
+	/* The remote server monitoring this series */
 	union {
 		GNOME_Gnumeric_VectorScalarNotify	scalar;
 		GNOME_Gnumeric_VectorDateNotify		date;
@@ -74,6 +65,7 @@ typedef struct {
 #define IS_GRAPH_SERIES(o)       (GTK_CHECK_TYPE ((o), GRAPH_SERIES_TYPE))
 #define IS_GRAPH_SERIES_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GRAPH_SERIES_TYPE))
 #define DEP_TO_GRAPH_SERIES(ptr) (GraphSeries *)(((void *)ptr) - GTK_STRUCT_OFFSET(GraphSeries, dep))
+#define SERVANT_TO_GRAPH_SERIES(ptr) (GraphSeries *)(((void *)ptr) - GTK_STRUCT_OFFSET(GraphSeries, servant))
 
 static GtkType graph_series_get_type (void);
 
@@ -95,8 +87,16 @@ graph_series_seq_scalar (GraphSeries *series)
 	values = GNOME_Gnumeric_SeqScalar__alloc ();
 	values->_length = values->_maximum = i;
 	values->_buffer = CORBA_sequence_CORBA_double_allocbuf (i);
-	while (i-- > 0)
-		values->_buffer [i] = value_get_as_float (value_area_get_x_y (&pos, v, 0, i));
+
+	/* FIXME : This is dog slow */
+	while (i-- > 0) {
+		Value const *elem = series->is_column
+			? value_area_get_x_y (&pos, v, 0, i)
+			: value_area_get_x_y (&pos, v, i, 0);
+		values->_buffer [i] = value_get_as_float (elem);
+	}
+
+	value_release (v);
 
 	return values;
 }
@@ -116,8 +116,14 @@ graph_series_seq_date (GraphSeries *series)
 	values = GNOME_Gnumeric_SeqDate__alloc ();
 	values->_length = values->_maximum = i;
 	values->_buffer = CORBA_sequence_CORBA_long_allocbuf (i);
-	while (i-- > 0)
-		values->_buffer [i] = value_get_as_int (value_area_get_x_y (&pos, v, 0, i));
+
+	/* FIXME : This is dog slow */
+	while (i-- > 0) {
+		Value const *elem = series->is_column
+			? value_area_get_x_y (&pos, v, 0, i)
+			: value_area_get_x_y (&pos, v, i, 0);
+		values->_buffer [i] = value_get_as_int (elem);
+	}
 
 	return values;
 }
@@ -137,8 +143,13 @@ graph_series_seq_string (GraphSeries *series)
 	values = GNOME_Gnumeric_SeqString__alloc ();
 	values->_length = values->_maximum = i;
 	values->_buffer = CORBA_sequence_CORBA_string_allocbuf (i);
+
+	/* FIXME : This is dog slow */
 	while (i-- > 0) {
-		char *tmp = value_get_as_string (value_area_get_x_y (&pos, v, 0, i));
+		Value const *elem = series->is_column
+			? value_area_get_x_y (&pos, v, 0, i)
+			: value_area_get_x_y (&pos, v, i, 0);
+		char * tmp = value_get_as_string (elem);
 		values->_buffer [i] = CORBA_string_dup (tmp);
 		g_free (tmp);
 	}
@@ -172,9 +183,9 @@ impl_vector_scalar_value (PortableServer_Servant servant,
 			  CORBA_char **name,
 			  CORBA_Environment *ev)
 {
-	GraphSeries *series = GRAPH_SERIES (((VectorScalar *) servant)->series);
+	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
 
-	g_return_if_fail (series != NULL);
+	g_return_if_fail (GRAPH_SERIES (series) != NULL);
 	g_return_if_fail (series->type == SERIES_SCALAR);
 
 	*name = CORBA_string_dup ("BOBO");
@@ -187,9 +198,9 @@ impl_vector_date_value (PortableServer_Servant servant,
 			CORBA_char **name,
 			CORBA_Environment *ev)
 {
-	GraphSeries *series = GRAPH_SERIES (((VectorScalar *) servant)->series);
+	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
 
-	g_return_if_fail (series != NULL);
+	g_return_if_fail (GRAPH_SERIES (series) != NULL);
 	g_return_if_fail (series->type == SERIES_DATE);
 
 	*name = CORBA_string_dup ("BOBO");
@@ -202,9 +213,9 @@ impl_vector_string_value (PortableServer_Servant servant,
 			  CORBA_char **name,
 			  CORBA_Environment *ev)
 {
-	GraphSeries *series = GRAPH_SERIES (((VectorScalar *) servant)->series);
+	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
 
-	g_return_if_fail (series != NULL);
+	g_return_if_fail (GRAPH_SERIES (series) != NULL);
 	g_return_if_fail (series->type == SERIES_STRING);
 
 	*name = CORBA_string_dup ("BOBO");
@@ -219,9 +230,9 @@ impl_vector_scalar_changed (PortableServer_Servant servant,
 			    const GNOME_Gnumeric_SeqScalar *vals,
 			    CORBA_Environment *ev)
 {
-	GraphSeries *series = GRAPH_SERIES (((VectorScalar *) servant)->series);
+	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
 
-	g_return_if_fail (series != NULL);
+	g_return_if_fail (GRAPH_SERIES (series) != NULL);
 	g_return_if_fail (series->type == SERIES_STRING);
 
 	g_warning ("Gnumeric : scalar series changed remotely (%p)", series);
@@ -233,9 +244,9 @@ impl_vector_date_changed (PortableServer_Servant servant,
 			  const GNOME_Gnumeric_SeqDate *vals,
 			  CORBA_Environment *ev)
 {
-	GraphSeries *series = GRAPH_SERIES (((VectorScalar *) servant)->series);
+	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
 
-	g_return_if_fail (series != NULL);
+	g_return_if_fail (GRAPH_SERIES (series) != NULL);
 	g_return_if_fail (series->type == SERIES_DATE);
 
 	g_warning ("Gnumeric : date series changed remotely (%p)", series);
@@ -247,9 +258,9 @@ impl_vector_string_changed (PortableServer_Servant servant,
 			    const GNOME_Gnumeric_SeqString *vals,
 			    CORBA_Environment *ev)
 {
-	GraphSeries *series = GRAPH_SERIES (((VectorScalar *) servant)->series);
+	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
 
-	g_return_if_fail (series != NULL);
+	g_return_if_fail (GRAPH_SERIES (series) != NULL);
 	g_return_if_fail (series->type == SERIES_STRING);
 
 	g_warning ("Gnumeric : string series changed remotely (%p)", series);
@@ -304,7 +315,7 @@ graph_series_destroy (GtkObject *object)
 {
 	GraphSeries *series = GRAPH_SERIES(object);
 
-	printf ("Destroying %p\n", object);
+	printf ("Destroying series %p\n", object);
 	dependent_unlink (&series->dep, NULL);
 	if (series->dep.expression != NULL) {
 		expr_tree_unref (series->dep.expression);
@@ -379,6 +390,14 @@ graph_series_new (Sheet *sheet, Range const *r)
 	series = gtk_type_new (graph_series_get_type ());
 
 	printf ("series::new () = 0x%p\n", series);
+	series->type = type;
+	series->is_column = (r->start.col == r->end.col);
+	if (range_has_header (sheet, r, series->is_column)) {
+		puts ("has name");
+	} else {
+		puts ("generate name");
+	}
+
 	series->dep.sheet = sheet;
 	series->dep.flags = graph_series_get_dep_type ();
 	series->dep.expression = expr_tree_new_constant (
@@ -386,26 +405,22 @@ graph_series_new (Sheet *sheet, Range const *r)
 	dependent_changed (&series->dep, NULL, TRUE);
 
 	CORBA_exception_init (&ev);
-
 	switch (type) {
 	case SERIES_SCALAR :
-		serv = &series->vector.scalar;
-		series->vector.scalar.series = series;
-		series->vector.scalar.servant.vepv = &vector_scalar_vepv;
+		serv = &series->servant.scalar;
+		series->servant.scalar.vepv = &vector_scalar_vepv;
 		POA_GNOME_Gnumeric_VectorScalar__init (serv, &ev);
 		break;
 
 	case SERIES_DATE :
-		serv = &series->vector.date;
-		series->vector.date.series = series;
-		series->vector.date.servant.vepv = &vector_date_vepv;
+		serv = &series->servant.date;
+		series->servant.date.vepv = &vector_date_vepv;
 		POA_GNOME_Gnumeric_VectorDate__init (serv, &ev);
 		break;
 
 	case SERIES_STRING :
-		serv = &series->vector.string;
-		series->vector.string.series = series;
-		series->vector.string.servant.vepv = &vector_string_vepv;
+		serv = &series->servant.string;
+		series->servant.string.vepv = &vector_string_vepv;
 		POA_GNOME_Gnumeric_VectorString__init (serv, &ev);
 		break;
 

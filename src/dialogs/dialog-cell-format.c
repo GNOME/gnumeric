@@ -2281,7 +2281,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	state->result		= mstyle_new ();
 	state->selection_mask	= 0;
 
-	(void) selection_foreach_range (sheet,
+	(void) selection_foreach_range (sheet, TRUE,
 					&fmt_dialog_selection_type,
 					&state->selection_mask);
 	state->selection_mask	= 1 << state->selection_mask;

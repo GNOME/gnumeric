@@ -1320,9 +1320,11 @@ expr_tree_as_string (ExprTree const *tree, ParsePos const *pp)
 }
 
 enum CellRefRelocate {
-	CELLREF_NO_RELOCATE = 0,
-	CELLREF_RELOCATE = 1,
-	CELLREF_RELOCATE_ERR = 2,
+	CELLREF_NO_RELOCATE,
+	CELLREF_RELOCATE_ERR,
+	CELLREF_RELOCATE_COL,
+	CELLREF_RELOCATE_ROW,
+	CELLREF_RELOCATE_BOTH,
 };
 
 static enum CellRefRelocate
@@ -1404,12 +1406,23 @@ cellref_relocate (CellRef *ref,
 	if (ref->row_relative)
 		row -= rinfo->pos.eval.row;
 
-	if (ref->sheet != ref_sheet || ref->col != col || ref->row != row) {
+	if (ref->sheet != ref_sheet) {
 		ref->sheet = ref_sheet;
 		ref->col = col;
 		ref->row = row;
-		return CELLREF_RELOCATE;
+		return CELLREF_RELOCATE_BOTH;
+	} else if (ref->col != col) {
+		ref->col = col;
+		if (ref->row != row) {
+			ref->row = row;
+			return CELLREF_RELOCATE_BOTH;
+		}
+		return CELLREF_RELOCATE_COL;
+	} else if (ref->row != row) {
+		ref->row = row;
+		return CELLREF_RELOCATE_ROW;
 	}
+
 	return CELLREF_NO_RELOCATE;
 }
 
@@ -1429,26 +1442,51 @@ cellrange_relocate (const Value *v,
 	switch (cellref_relocate (&ref_a, rinfo)) {
 	case CELLREF_NO_RELOCATE :
 		break;
-	case CELLREF_RELOCATE :
-		needs_reloc++;
-		break;
-
 	case CELLREF_RELOCATE_ERR :
 		return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+	case CELLREF_RELOCATE_COL :
+		/* FIXME : We should only do this if the start ? end ?
+		 * col is included in the translation region (figure this out
+		 * in relation to abs/rel references)
+		 * The current code relocates too much.  If you cut B2 and
+		 * paste it into B3 the source region A1:B2 will resize to
+		 * A1:B3 even though it should not.
+		 * This is correct for insert/delete row/col but not when dealing
+		 * with cut & paste.
+		 */
+		if (rinfo->row_offset == 0)
+			needs_reloc = 2;
+		break;
+	case CELLREF_RELOCATE_ROW :
+		/* FIXME : */
+		if (rinfo->col_offset == 0)
+			needs_reloc = 2;
+		break;
+	case CELLREF_RELOCATE_BOTH :
+		needs_reloc++;
 	}
 	switch (cellref_relocate (&ref_b, rinfo)) {
 	case CELLREF_NO_RELOCATE :
 		break;
-	case CELLREF_RELOCATE :
-		needs_reloc++;
-		break;
-
 	case CELLREF_RELOCATE_ERR :
 		return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+	case CELLREF_RELOCATE_COL :
+		/* FIXME : */
+		if (rinfo->row_offset == 0) {
+			needs_reloc = 2;
+		}
+		break;
+	case CELLREF_RELOCATE_ROW :
+		/* FIXME : */
+		if (rinfo->col_offset == 0)
+			needs_reloc = 2;
+		break;
+	case CELLREF_RELOCATE_BOTH :
+		needs_reloc++;
 	}
 
 	/* Only relocate if both ends of the range need relocation */
-	if (needs_reloc == 2) {
+	if (needs_reloc >= 2) {
 		Value *res;
 		/* Dont allow creation of 3D references */
 		if (ref_a.sheet == ref_b.sheet)
@@ -1581,12 +1619,12 @@ expr_rewrite (ExprTree        const *expr,
 			switch (cellref_relocate (&res, &rwinfo->u.relocate)) {
 			case CELLREF_NO_RELOCATE :
 				return NULL;
-
-			case CELLREF_RELOCATE :
-				return expr_tree_new_var (&res);
-
 			case CELLREF_RELOCATE_ERR :
 				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+			case CELLREF_RELOCATE_COL :
+			case CELLREF_RELOCATE_ROW :
+			case CELLREF_RELOCATE_BOTH :
+				return expr_tree_new_var (&res);
 			}
 		}
 	}

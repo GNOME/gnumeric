@@ -14,6 +14,7 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "workbook.h"
+#include "workbook-cmd-format.h"
 #include "cell.h"
 #include "selection.h"
 #include "style.h"
@@ -369,56 +370,22 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, She
 	sheet_update (sheet);
 }
 
-struct closure_colrow_resize {
-	gboolean	 is_cols;
-	ColRowIndexList *selection;
-};
-
-static gboolean
-cb_colrow_resize (Sheet *sheet, Range const *r, gpointer user_data)
-{
-	struct closure_colrow_resize *info = user_data;
-	int first, last;
-
-	if (info->is_cols) {
-		if (r->start.row != 0 || r->end.row < SHEET_MAX_ROWS - 1)
-			return TRUE;
-		first = r->start.col;
-		last = r->end.col;
-	} else {
-		if (r->start.col != 0 || r->end.col < SHEET_MAX_COLS - 1)
-			return TRUE;
-		first = r->start.row;
-		last = r->end.row;
-	}
-
-	info->selection = col_row_get_index_list (first, last, info->selection);
-	return TRUE;
-}
-
 static void
-sheet_view_col_size_changed (ItemBar *item_bar, int col, int new_width,
+sheet_view_col_size_changed (ItemBar *item_bar, int col, int new_size_pixels,
 			     SheetView *sheet_view)
 {
-	Sheet		*sheet = sheet_view->sheet;
-	ColRowIndexList *selection = NULL;
-	ItemBarSelectionType const type = sheet_col_selection_type (sheet, col);
+	Sheet *sheet = sheet_view->sheet;
 
 	/*
-	 * If the column that changed size is completely selected (top to
-	 * bottom) then resize all other columns which are fully selected too.
+	 * If all cols in the selection are completely selected (top to bottom)
+	 * then resize all of them, otherwise just resize the selected col.
 	 */
- 	if (type == ITEM_BAR_FULL_SELECTION) {
-		struct closure_colrow_resize	closure;
-		closure.is_cols = TRUE;
-		closure.selection = NULL;
-		selection_foreach_range (sheet, &cb_colrow_resize, &closure);
-		selection = closure.selection;
+ 	if (!sheet_selection_full_cols (sheet)) {
+		ColRowIndexList *sel = col_row_get_index_list (col, col, NULL);
+		cmd_resize_row_col (workbook_command_context_gui (sheet->workbook),
+				    sheet, TRUE, sel, new_size_pixels);
 	} else
-		selection = col_row_get_index_list (col, col, NULL);
-
-	cmd_resize_row_col (workbook_command_context_gui (sheet->workbook),
-			    sheet, TRUE, selection, new_width);
+		workbook_cmd_format_column_width (sheet, new_size_pixels);
 }
 
 static void
@@ -457,29 +424,25 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, She
 }
 
 static void
-sheet_view_row_size_changed (ItemBar *item_bar, int row, int new_height,
+sheet_view_row_size_changed (ItemBar *item_bar, int row, int new_size_pixels,
 			     SheetView *sheet_view)
 {
-	Sheet		*sheet = sheet_view->sheet;
-	ColRowIndexList *selection = NULL;
-	ItemBarSelectionType const type = sheet_row_selection_type (sheet, row);
+	Sheet *sheet = sheet_view->sheet;
 
 	/*
-	 * If the row that changed size is completely selected (left to
-	 * right) then resize all other rows which are fully selected too.
+	 * If all rows in the selection are completely selected (left to right)
+	 * then resize all of them, otherwise just resize the selected row.
 	 */
- 	if (type == ITEM_BAR_FULL_SELECTION) {
-		struct closure_colrow_resize	closure;
-		closure.is_cols = FALSE;
-		closure.selection = NULL;
-		selection_foreach_range (sheet, &cb_colrow_resize, &closure);
-		selection = closure.selection;
+ 	if (!sheet_selection_full_rows (sheet)) {
+		ColRowIndexList *sel = col_row_get_index_list (row, row, NULL);
+		cmd_resize_row_col (workbook_command_context_gui (sheet->workbook),
+				    sheet, FALSE, sel, new_size_pixels);
 	} else
-		selection = col_row_get_index_list (row, row, NULL);
-
-	cmd_resize_row_col (workbook_command_context_gui (sheet->workbook),
-			    sheet, FALSE, selection, new_height);
+		workbook_cmd_format_row_height (sheet, new_size_pixels);
 }
+
+/***************************************************************************/
+
 
 static void
 button_select_all (GtkWidget *the_button, SheetView *sheet_view)

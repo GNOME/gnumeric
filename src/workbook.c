@@ -230,6 +230,22 @@ create_embedded_item_cmd (GtkWidget *widget, Workbook *wb)
 	select_component_id (wb->current_sheet,
 			     "IDL:Bonobo/Canvas/Item:1.0");
 }
+static void
+create_bonobo_object (GtkWidget *widget, Workbook *wb)
+{
+	char  *obj_id;
+	Sheet *sheet = wb->current_sheet;
+
+	obj_id = bonobo_selector_select_id (
+		_("Select an object to add"), NULL);
+
+	if (obj_id != NULL)
+		sheet_mode_create_object (
+			sheet_object_container_new_object (sheet, obj_id));
+	else
+		sheet_mode_edit	(sheet);
+}
+
 
 static void
 launch_graph_guru (GtkWidget *widget, Workbook *wb)
@@ -1112,25 +1128,6 @@ sort_descend_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 #ifdef ENABLE_BONOBO
-static void
-insert_object_cmd (GtkWidget *widget, Workbook *wb)
-{
-	char  *obj_id;
-
-	obj_id = bonobo_selector_select_id (
-		_("Select an object to add"), NULL);
-
-	if (obj_id == NULL)
-		return;
-
-	/* FIXME : This is different.  I don't see
-	 *  a sheetobject in there.  Why ?
-	 */
-	sheet_object_bonobo_new_from_oid (wb->current_sheet, obj_id);
-}
-#endif
-
-#ifdef ENABLE_BONOBO
 
 BonoboUIVerb verbs [] = {
 
@@ -1178,13 +1175,13 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("InsertRows", insert_rows_cmd),
 	BONOBO_UI_VERB ("InsertColumns", insert_cols_cmd),
 	BONOBO_UI_VERB ("InsertCells", insert_cells_cmd),
-	BONOBO_UI_VERB ("InsertObject", insert_object_cmd),
+	BONOBO_UI_VERB ("InsertObject", create_bonobo_object),
 	BONOBO_UI_VERB ("InsertComment", workbook_edit_comment),
 	
 	BONOBO_UI_VERB ("ColumnAutoSize",
 		workbook_cmd_format_column_auto_fit),
 	BONOBO_UI_VERB ("ColumnSize",
-		workbook_cmd_format_column_width),
+		sheet_dialog_set_column_width),
 	BONOBO_UI_VERB ("ColumnHide",
 		workbook_cmd_format_column_hide),
 	BONOBO_UI_VERB ("ColumnUnhide",
@@ -1195,7 +1192,7 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("RowAutoSize",
 		workbook_cmd_format_row_auto_fit),
 	BONOBO_UI_VERB ("RowSize",
-		workbook_cmd_format_row_height),
+		sheet_dialog_set_row_height),
 	BONOBO_UI_VERB ("RowHide",
 		workbook_cmd_format_row_hide),
 	BONOBO_UI_VERB ("RowUnhide",
@@ -1330,11 +1327,11 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	GNOMEUIINFO_MENU_COPY_ITEM(copy_cmd, NULL),
 	GNOMEUIINFO_MENU_PASTE_ITEM(paste_cmd, NULL),
 
-	GNOMEUIINFO_SEPARATOR,
-
 	GNOMEUIINFO_ITEM_NONE(N_("P_aste special..."),
 		N_("Paste with optional filters and transformations"),
 		&paste_special_cmd),
+
+	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_SUBTREE(N_("C_lear"), workbook_menu_edit_clear),
 
@@ -1417,7 +1414,7 @@ static GnomeUIInfo workbook_menu_insert [] = {
 #ifdef ENABLE_BONOBO
 	GNOMEUIINFO_ITEM_NONE(N_("_Object..."),
 		N_("Inserts a Bonobo object"),
-		insert_object_cmd),
+		create_bonobo_object),
 #endif
 
 	GNOMEUIINFO_SEPARATOR,
@@ -1438,9 +1435,9 @@ static GnomeUIInfo workbook_menu_format_column [] = {
 	GNOMEUIINFO_ITEM_NONE(N_("_Auto fit selection"),
 		NULL,
 		&workbook_cmd_format_column_auto_fit),
-	GNOMEUIINFO_ITEM_NONE(N_("_Width"),
+	GNOMEUIINFO_ITEM_NONE(N_("_Width..."),
 		NULL,
-		&workbook_cmd_format_column_width),
+		&sheet_dialog_set_column_width),
 	GNOMEUIINFO_ITEM_NONE(N_("_Hide"),
 		NULL,
 		&workbook_cmd_format_column_hide),
@@ -1457,9 +1454,9 @@ static GnomeUIInfo workbook_menu_format_row [] = {
 	GNOMEUIINFO_ITEM_NONE(N_("_Auto fit selection"),
 		NULL,
 		&workbook_cmd_format_row_auto_fit),
-	GNOMEUIINFO_ITEM_NONE(N_("_Height"),
+	GNOMEUIINFO_ITEM_NONE(N_("_Height..."),
 		NULL,
-		&workbook_cmd_format_row_height),
+		&sheet_dialog_set_row_height),
 	GNOMEUIINFO_ITEM_NONE(N_("_Hide"),
 		NULL,
 		&workbook_cmd_format_row_hide),

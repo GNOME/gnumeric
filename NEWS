@@ -6,10 +6,10 @@ Almer:
 	* New Autoformat dialog.
 
 Chema:
-	* Copy sheet.
+	* Sheet copy routine
 
 Hardy Falk:
-	* Output the cells in row/col sequence, taher than by hash.
+	* Output the cells in row/col sequence, rather than by hash.
 
 Jody:
 	* Applix support mostly functional.
@@ -21,8 +21,9 @@ Jody:
 	* Correct handling of number formating in intl locales.
 	* Lots of formating bugs.
 	* Handle strings used as arguments to numeric operators.
-	* Begin support for non-cell dependencies.
+	* Support for non-cell dependencies.
 	* Improve performance and decrease memory for large row/col resizes.
+	* Bug fixes for ins/del row/col & cut&paste
 
 John Gill:
 	* Double click fill support.

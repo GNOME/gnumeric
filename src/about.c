@@ -102,6 +102,6 @@ dialog_about (Workbook *wb)
 		GTK_SIGNAL_FUNC (cb_closed), (gpointer) workbook_get_toplevel (wb));
 
 	/* Close on click, close with parent */
-	gnumeric_dialog_show (workbook_get_toplevel (wb),
+	gnumeric_dialog_show (GTK_OBJECT (workbook_get_toplevel (wb)),
 			      GNOME_DIALOG (about), TRUE, TRUE);
 }

@@ -22,15 +22,22 @@
 void
 workbook_view_set_paste_special_state (Workbook *wb, gboolean enable)
 {
+#ifndef ENABLE_BONOBO
 	g_return_if_fail (wb != NULL);
 
-#ifndef ENABLE_BONOBO
 	gtk_widget_set_sensitive (
 		wb->priv->menu_item_paste_special, enable);
 #else
-	/* FIXME : How to avoid hard coding the menu name here. */
-	bonobo_ui_handler_menu_set_sensitivity (wb->priv->uih,
-		"/Edit/Paste special...", enable);
+	CORBA_Environment  ev;
+
+	g_return_if_fail (wb != NULL);
+
+	CORBA_exception_init (&ev);
+	bonobo_ui_container_set_prop (bonobo_ui_compat_get_container (wb->priv->uih),
+				      "/commands/EditPasteSpecial",
+				      "sensitive", enable ? "1" : "0",
+				      &ev);
+	CORBA_exception_free (&ev);
 #endif
 }
 
@@ -40,32 +47,45 @@ change_menu_label (
 		   GtkWidget *menu_item,
 #else
 		   Workbook const * const wb,
-		   char const * const path,
+		   char const * const verb_path,
+		   char const * const menu_path, /* FIXME we need verb level labels. */
 #endif
 		   char const * const prefix,
 		   char const * suffix)
 {
+	gboolean  sensitive = TRUE;
 	gchar    *text;
+
 #ifndef ENABLE_BONOBO
 	GtkBin   *bin = GTK_BIN(menu_item);
 	GtkLabel *label = GTK_LABEL(bin->child);
 
 	g_return_if_fail (label != NULL);
-
-	gtk_widget_set_sensitive (menu_item, suffix != NULL);
 #else
-	bonobo_ui_handler_menu_set_sensitivity (wb->priv->uih, path, suffix != NULL);
+	CORBA_Environment  ev;
+
+	g_return_if_fail (wb != NULL);
 #endif
 
-	if (suffix == NULL)
+	if (suffix == NULL) {
 		suffix = _("Nothing");
+		sensitive = FALSE;
+	}
 
-	/* Limit the size of the descriptor to 30 characters */
 	text = g_strdup_printf ("%s : %s", prefix, suffix);
+
 #ifndef ENABLE_BONOBO
 	gtk_label_set_text (label, text);
+	gtk_widget_set_sensitive (menu_item, sensitive);
 #else
-	bonobo_ui_handler_menu_set_label (wb->priv->uih, path, text);
+	CORBA_exception_init (&ev);
+
+	bonobo_ui_container_set_prop (bonobo_ui_compat_get_container (wb->priv->uih),
+				      verb_path,
+				      "sensitive", sensitive ? "1" : "0", &ev);
+	bonobo_ui_container_set_prop (bonobo_ui_compat_get_container (wb->priv->uih),
+				      menu_path, "label", text, &ev);
+	CORBA_exception_free (&ev);
 #endif
 	g_free (text);
 }
@@ -81,9 +101,10 @@ workbook_view_set_undo_redo_state (Workbook const * const wb,
 	change_menu_label (wb->priv->menu_item_undo, _("Undo"), undo_suffix);
 	change_menu_label (wb->priv->menu_item_redo, _("Redo"), redo_suffix);
 #else
-	/* FIXME : How to avoid hard coding the menu name here. */
-	change_menu_label (wb, "/Edit/Undo", _("Undo"), undo_suffix);
-	change_menu_label (wb, "/Edit/Redo", _("Redo"), redo_suffix);
+	change_menu_label (wb, "/commands/EditUndo", "/menu/Edit/Undo",
+			   _("Undo"), undo_suffix);
+	change_menu_label (wb, "/commands/EditRedo", "/menu/Edit/Redo",
+			   _("Redo"), redo_suffix);
 #endif
 }
 

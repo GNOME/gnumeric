@@ -813,7 +813,6 @@ static int
 print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
 {
 	int pages;
-	GList  *l;
 
 #ifdef ENABLE_BONOBO
 	render_sheet_objects (sheet, pj);
@@ -825,6 +824,8 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
 		pages = print_range_right_then_down (sheet, r, pj, output);
 	
 #ifdef ENABLE_BONOBO
+	{
+	GList  *l;
 	for (l = pj->sheet_objects; l; l = l->next) {
 		SheetObjectPrintInfo *pi = l->data;
 
@@ -834,6 +835,7 @@ print_sheet_range (Sheet *sheet, Range r, PrintJobInfo *pj, gboolean output)
 	}
 	g_list_free (pj->sheet_objects);
 	pj->sheet_objects = NULL;
+	}
 #endif
 
 	return pages;

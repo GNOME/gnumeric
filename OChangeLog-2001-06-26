@@ -1,3 +1,83 @@
+2000-09-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-view.c (sheet_view_row_size_changed) : Use
+	  sheet_selection_full_rows and workbook_cmd_format_row_height.
+	(sheet_view_col_size_changed) : Use
+	  sheet_selection_full_cols and workbook_cmd_format_column_width.
+
+	* src/item-grid.c (context_row_height) : Use sheet_dialog_set_row_height.
+	(context_col_width) : Use sheet_dialog_set_column_width.
+
+	* src/workbook-cmd-format.c (sheet_dialog_set_column_width) : Split
+	  the gui into here.
+	(workbook_cmd_format_column_width) : And the action into here.  Use
+	  the appropriate commands to get undo support.
+	(workbook_cmd_format_column_auto_fit) : Use workbook_cmd_format_column_width.
+	(sheet_dialog_set_row_height) : Split the gui into here.
+	(workbook_cmd_format_row_height) : And the action into here.  Use
+	  the appropriate commands to get undo support.
+	(workbook_cmd_format_row_auto_fit) : Use workbook_cmd_format_row_height.
+
+	* src/selection.c (sheet_row_selection_type) : moved from sheet.c
+	(sheet_col_selection_type) : moved from sheet.c
+	(sheet_selection_full_cols) : new routine.
+	(sheet_selection_full_rows) : new routine.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Don't jump
+	  directly to the edit line with F2.  Start editing in sheet first.
+
+	* src/selection.c (selection_foreach_range) : Add the option of
+	  iterating the list backwards.
+
+	* src/workbook-cmd-format.c (cb_colrow_collect) : New function.
+
+	* src/workbook-cmd-format.c (workbook_cmd_format_column_width) : Fix.
+	(workbook_cmd_format_row_height) : Fix.
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_update_bounds) :
+	  new function.
+	(sheet_object_filled_new_view) : Set the bounds when a new view is
+	  constructed.  DO NOT rely on the realized list, new objects are not
+	  added until AFTER construction.
+	* src/sheet-object.c (sheet_object_update_bounds) : delete.
+
+2000-09-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (cellref_relocate) : Return more information so that we
+	  can differentiate relocating rows, cols, or both.
+	(cellrange_relocate) : Use the new information to extend the
+	  heuristic for when to relocate a range.  In the past we assumed that
+	  unless both ends of the range were moving we should not do the
+	  relocation.  It seems that there are other cases which will also
+	  relocate.  When inserting/deleting rows/cols or cutting a region
+	  that includes an entire side of the source region we should
+	  relocate.
+	  Sadly this patch is incomplete.  It relocates too much now.
+	  If you cut B2 and paste it into B3 the source region A1:B2 will
+	  resize to A1:B3 even though it should not.  At least ins/del row/col
+	  will now work.
+
+2000-09-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (create_bonobo_object) : Fixed.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_new_from_oid) :
+	  Delete duplicate function.
+
+2000-09-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_ins_del_row_col_{undo,redo}) : Insert/delete
+	  rows/cols clears the cut buffer.  Copies are preserved.
+
+	* src/sheet-object.c (cb_obj_create_button_release) :  remove the
+	  bonobo specific file handling.  That is to be done earlier
+	  or in a different place.  This routine is strictly for placement,
+	  not content.
+	(sheet_mode_clear) : Move the deactivation here for now.  Hopefully
+	  move it to a virtual.
+
+	* src/about.c (dialog_about) : suppress warning.
+
 2000-09-12  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet-object-widget.c (checkbox_eval): Plug leak.

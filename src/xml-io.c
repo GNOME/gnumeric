@@ -1907,11 +1907,12 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 				parse_pos_init_cell (&pp, cell));
 			text = g_strconcat ("=", tmp, NULL);
 			g_free (tmp);
-		} else {
+		} else
 			text = value_get_as_string (cell->value);
-		}
 
 		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
+
+		/* FIXME : Remove this useless node.  set the content directly */
 		child = xmlNewChild (cur, ctxt->ns, "Content", tstr);
 		if (tstr)
 			xmlFree (tstr);
