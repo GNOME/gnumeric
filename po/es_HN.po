@@ -885,14 +885,12 @@ msgid "25% Grey"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:93
-#, fuzzy, c-format
 msgid "12.5% Grey"
-msgstr "12.5%"
+msgstr "Gris 12.5%"
 
 #: src/dialogs/cell-format.glade.h:94
-#, fuzzy, c-format
 msgid "6.25% Grey"
-msgstr "6.25%"
+msgstr "Gris 6.25%"
 
 #: src/dialogs/cell-format.glade.h:95
 msgid "Horizontal Stripe"
@@ -2758,7 +2756,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-date.c:219
-#, fuzzy
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -2784,6 +2781,8 @@ msgstr ""
 "fracción del día, y es convertida en horas, minutos y segundos\n"
 "Por ejemplo: .0 representa el inicio del día, mientras que 0.5 representa "
 "mediodía\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:262
@@ -4901,9 +4900,19 @@ msgid ""
 "\n"
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
+"@FUNCTION=ABS\n"
+"@SYNTAX=ABS(b1)\n"
+"@DESCRIPTION=Implementa la función Valor Absoluto: el resultado se obtiene "
+"abandonando el signo negativo (si presente). Se aplica a números enteros y a "
+"coma flotante.\n"
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"ABS(7) es igual a 7.\n"
+"ABS(-3.14) es igual a 3.14.\n"
+"\n"
+"@SEEALSO=CEIL, FLOOR"
 
 #: src/functions/fn-math.c:270
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -4921,13 +4930,15 @@ msgstr ""
 "@SYNTAX=ACOSH(x)\n"
 "@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
 "sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
+"devuelve el error #NUM!. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"ACOS(0.1) es igual a 1.470629.\n"
+"ACOS(-0.1) es igual a 1.670964.\n"
+"\n"
 "@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-math.c:302
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -4944,13 +4955,15 @@ msgstr ""
 "@SYNTAX=ACOSH(x)\n"
 "@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
 "sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
+"devuelve el error #NUM! "
+"Esta función es compatible con Excel.\n"
+"@EXAMPLES=\n"
+"ACOSH(2) equals 1.31696.\n"
+"ACOSH(5.3) equals 2.35183.\n"
+"\n"
 "@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-math.c:333
-#, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -4963,17 +4976,8 @@ msgid ""
 "\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-math.c:364
-#, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -4984,17 +4988,8 @@ msgid ""
 "ASINH(0.5) equals 0.481212.ASINH(1.0) equals 0.881374.\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-math.c:388
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -5005,17 +5000,8 @@ msgid ""
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=ATANH\n"
-"@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=La función ATANH calcula la tangente hiperbólica inversa de x; "
-"o sea el valor cuya tangente hiperbólica es x. Si el valor absoluto de x es "
-"superior a 1,0 ATANH devuelve el error 'atanh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:411
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -5031,13 +5017,14 @@ msgstr ""
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=La función ATANH calcula la tangente hiperbólica inversa de x; "
 "o sea el valor cuya tangente hiperbólica es x. Si el valor absoluto de x es "
-"superior a 1,0 ATANH devuelve el error 'atanh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
+"superior a 1,0 ATANH devuelve el error #NUM!. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"ATANH(0.5) es igial a 0.549306.\n"
+"ATANH(0.8) es igual a 1.098612.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:443
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -5049,14 +5036,6 @@ msgid ""
 "ATAN2(0.5,1.0) equals 1.107149.ATAN2(-0.5,2.0) equals 1.815775.\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=ATANH\n"
-"@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=La función ATANH calcula la tangente hiperbólica inversa de x; "
-"o sea el valor cuya tangente hiperbólica es x. Si el valor absoluto de x es "
-"superior a 1,0 ATANH devuelve el error 'atanh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:471
 msgid ""
@@ -5121,7 +5100,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:770
-#, fuzzy
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -5133,17 +5111,8 @@ msgid ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-math.c:794
-#, fuzzy
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -5154,14 +5123,6 @@ msgid ""
 "COSH(0.5) equals 1.127626.COSH(1) equals 1.543081.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-math.c:819
 msgid ""
@@ -5345,7 +5306,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1269
-#, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -5356,17 +5316,8 @@ msgid ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-math.c:1292
-#, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -5378,14 +5329,6 @@ msgid ""
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-math.c:1315
 msgid ""
@@ -5470,7 +5413,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1520
-#, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -5481,17 +5423,8 @@ msgid ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-math.c:1543
-#, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -5503,14 +5436,6 @@ msgid ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=ATANH\n"
-"@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=La función ATANH calcula la tangente hiperbólica inversa de x; "
-"o sea el valor cuya tangente hiperbólica es x. Si el valor absoluto de x es "
-"superior a 1,0 ATANH devuelve el error 'atanh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1566
 msgid ""
@@ -6071,7 +5996,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:486
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -6083,17 +6007,8 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-stat.c:513
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
@@ -6106,14 +6021,6 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-stat.c:546
 msgid ""
@@ -6621,7 +6528,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:1943
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -6635,14 +6541,6 @@ msgid ""
 "\n"
 "@SEEALSO=POISSON"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/functions/fn-stat.c:1988
 msgid ""
@@ -7434,7 +7332,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-string.c:493
-#, fuzzy
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
@@ -7450,6 +7347,9 @@ msgstr ""
 "@DESCRIPTION=Devuelve @num como una cadena formateada con @decimales "
 "decimales después del punto de separación de las decimales. El separador de "
 "los miles (la coma) no se usará si se pide @sin_separador .\n"
+"@EXAMPLES=\n"
+"FIXED(1234.567,2) es igual a \"1,234.57\".\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-string.c:600
