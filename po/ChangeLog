@@ -1,3 +1,7 @@
+2002-03-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* POTFILES.in : removed analysis-tools.glade
+	
 2002-03-25  Christian Rose  <menthos@menthos.com>
 
 	* POTFILES.in: Added missing files.

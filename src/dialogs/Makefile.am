@@ -73,7 +73,6 @@ base_files =					\
 gladedir   = $(gnumeric_libdir)/glade
 glade_DATA = 				\
 	advanced-filter.glade		\
-	analysis-tools.glade		\
 	anova-one.glade			\
 	anova-two.glade			\
 	autocorrect.glade		\
