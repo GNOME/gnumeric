@@ -308,6 +308,7 @@ src/stf.c
 src/style.c
 src/tools/analysis-tools.c
 src/tools/dao.c
+src/tools/fill-series.c
 src/tools/random-generator.c
 src/tools/scenarios.c
 src/tools/simulation.c
