@@ -1998,9 +1998,8 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		}
 		xmlFree (content);
 	} else if (shared_expr_index > 0) {
-		gpointer expr =
-		    g_hash_table_lookup (ctxt->expr_map,
-					 GINT_TO_POINTER (shared_expr_index));
+		gpointer expr = g_hash_table_lookup (ctxt->expr_map,
+			GINT_TO_POINTER (shared_expr_index));
 
 		if (expr != NULL)
 			cell_set_expr (ret, expr, NULL);
