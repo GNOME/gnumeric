@@ -95,7 +95,7 @@ graphic_context_destroy (WizardGraphicContext *gc)
 	g_return_if_fail (gc != NULL);
 	g_return_if_fail (IS_GRAPHIC_CONTEXT (gc));
 
-	gtk_object_unref (GTK_OBJECT (gc->dialog_toplevel));
+	gtk_object_destroy (GTK_OBJECT (gc->dialog_toplevel));
 	gtk_object_unref (GTK_OBJECT (gc->gui));
 
 	if (gc->data_range)
