@@ -231,6 +231,7 @@ grip_item_a11y_class_init (AtkObjectClass *klass)
 static AtkObject *
 go_dock_item_grip_get_accessible (GtkWidget *widget)
 {
+#if 0
 	AtkObject *accessible;
 	static GType a11y_type = 0;
 
@@ -257,6 +258,9 @@ go_dock_item_grip_get_accessible (GtkWidget *widget)
 
 	return go_a11y_set_atk_object_ret (
 		widget, g_object_new (a11y_type, NULL));
+#else
+	return NULL;
+#endif
 }
 
 static void
@@ -321,7 +325,9 @@ go_dock_item_grip_class_init (GoDockItemGripClass *klass)
 	gobject_class->dispose = go_dock_item_grip_dispose;
 
 	widget_class->expose_event = go_dock_item_grip_expose;
+#if 0
 	widget_class->get_accessible = go_dock_item_grip_get_accessible;
+#endif
 	widget_class->key_press_event = go_dock_item_grip_key_press_event;
 
 	klass->activate = go_dock_item_grip_activate;

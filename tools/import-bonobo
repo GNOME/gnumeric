@@ -81,6 +81,14 @@ foreach my $file (@files) {
 
 	s/go_ui_marshal_/gnm__/g;
 
+	if (/^go_dock_item_grip_get_accessible\b/ ... /^\}/) {
+	    $_ = "$_\n#if 0" if /^\{/;
+	    $_ = "#else\n\treturn NULL;\n#endif\n$_" if /^\}/;
+	}
+	if (/= go_dock_item_grip_get_accessible;/) {
+	    $_ = "#if 0\n$_\n#endif";
+	}
+
 	if (0 && /^E_MAKE_TYPE/ ... /\)/) {
 	    $def = '' if /^E_MAKE_TYPE/;
 	    $def .= $_;
