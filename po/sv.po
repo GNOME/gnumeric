@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-06-12 13:13+0200\n"
-"PO-Revision-Date: 2003-06-12 13:18+0200\n"
+"POT-Creation-Date: 2003-06-12 17:17+0200\n"
+"PO-Revision-Date: 2003-06-12 17:19+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5438,6 +5438,7 @@ msgstr ""
 "@avräkning är avräkningsdatumet för säkerheten. @mognad är mognadsdatumet "
 "för säkerheten. @investering är priset för säkerheten som betalades vid "
 "@avräkning och @utlösande är summan som ska fås vid @mognad. \n"
+"\n"
 "@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  Amerikanskt 30/360\n"
@@ -5456,11 +5457,11 @@ msgstr ""
 "@EXAMPLES=\n"
 "\n"
 "Om du hade en förbindelse med avräkningsdatumet 15 april 2000, "
-"mognadsdatumet 30 september 2000, en investering på 1000000 kr, "
-"utlösandevärdet 1035250 kr är (då verkliga/verkliga används) "
+"mognadsdatumet 30 september 2000, en investering på 100.000 kr, "
+"utlösandevärdet 103.525 kr är (då verkliga/verkliga används) "
 "förbindelsereduceringshastigheten:\n"
-"=INTRATE(36631; 36799; 1000000; 1035250; 1) vilket är lika med 0,0767 eller "
-"7,68%\n"
+"=INTRATE(36631; 36799; 100000; 103525; 1) vilket är lika med 0,0648 eller "
+"6,48%\n"
 "@SEEALSO=RECEIVED, DATE"
 
 #: plugins/fn-financial/functions.c:544
@@ -5608,8 +5609,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(avräkning;mognad;start;hastighet;avkastning[;bas])\n"
-"@DESCRIPTION=PRICEDISC beräknar och returnerar priset per $100 värde av en "
-"säkerhet. Säkerheten betalar inte ränta vid mognad.\n"
+"@DESCRIPTION=PRICEMAT beräknar och returnerar priset per $100 värde av en "
+"säkerhet. Säkerheten betalar ränta vid mognad.\n"
 "\n"
 "@avräkning är avräkningsdatumet för säkerheten. @mognad är mognadsdatumet "
 "för säkerheten. @reducering är hastigheten som säkerheten reduceras. "
@@ -5623,12 +5624,12 @@ msgstr ""
 "3  verkliga dagar/365\n"
 "4  Europeiskt 30/360\n"
 "\n"
-"* Om datumen @avräkning eller @mognad inte är giltiga returnerar PRICEDISC "
+"* Om datumen @avräkning eller @mognad inte är giltiga returnerar PRICEMAT "
 "felvärdet #NUM!.\n"
 "* Om @bas utelämnas används amerikanskt 30/360-system.\n"
-"* Om @bas < 0 eller @bas > 4 returnerar PRICEDISC felvärdet #NUM!.\n"
+"* Om @bas < 0 eller @bas > 4 returnerar PRICEMAT felvärdet #NUM!.\n"
 "* Om @avräkning är efter @mognad eller om de är identiska returnerar "
-"PRICEDISC felvärdet #NUM!.\n"
+"PRICEMAT felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -5731,8 +5732,11 @@ msgstr ""
 "\n"
 "där:\n"
 "\n"
-"* @r = nominell räntesats (angiven i årliga villkor)\n"
-"* @antper = antalet perioder som används för sammanräkning\n"
+"@r = nominell räntesats (angiven i årliga villkor)\n"
+"@antper = antalet perioder som används för sammanräkning\n"
+"\n"
+"* Om @r < 0, returnerar EFFECT felvärdet #NUM!.\n"
+"* Om @antper <= 0, returnerar EFFECT felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "Kreditkort brukar till exempel ange en ÅPS (årlig procentsats) som är en "
@@ -5775,8 +5779,11 @@ msgstr ""
 "@antper * (( 1 + @r ) ^ (1 / @antper) - 1 )\n"
 "där:\n"
 "\n"
-"* @r = effektiv räntesats\n"
-"* @antper = antalet perioder som används för sammanräkning\n"
+"@r = effektiv räntesats\n"
+"@antper = antalet perioder som används för sammanräkning\n"
+"\n"
+"* Om @r < 0, returnerar NOMINAL felvärdet #NUM!.\n"
+"* Om @antper <= 0, returnerar NOMINAL felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6180,7 +6187,7 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=TBILLEQ,TBILLYIELD"
+"@SEEALSO=TBILLEQ,TBILLPRICE"
 
 #: plugins/fn-financial/functions.c:1401
 msgid ""
@@ -6269,8 +6276,8 @@ msgstr ""
 "en periodisk ränta, @nper är antalet perioder. @bet är betalningen varje "
 "period, @fv är det framtida värdet och @typ anger när betalning sker.\n"
 "\n"
-"* Om typ = 1 sker betalning i början av perioden.\n"
-"* Om typ = 0 (eller utelämnas) sker betalning i slutet av perioden.\n"
+"* Om @typ = 1 sker betalning i början av perioden.\n"
+"* Om @typ = 0 (eller utelämnas) sker betalning i slutet av perioden.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=FV"
@@ -17770,7 +17777,7 @@ msgstr ""
 "kommer att sparas."
 
 #: schemas/gnumeric-general.schemas.in.h:29 src/GNOME_Gnumeric.xml.h:226
-#: src/workbook-control-gui.c:4067
+#: src/workbook-control-gui.c:4068
 msgid "Sort Ascending"
 msgstr "Sortera stigande"
 
@@ -17949,7 +17956,7 @@ msgid "About this application"
 msgstr "Om detta program"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1515
-#: src/workbook-control-gui.c:3941
+#: src/workbook-control-gui.c:3942
 msgid "Add _Auto Filter"
 msgstr "Lägg till _autofilter"
 
@@ -17957,15 +17964,15 @@ msgstr "Lägg till _autofilter"
 msgid "Add a scenario"
 msgstr "Lägg till ett scenario"
 
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3902
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3903
 msgid "Add an outline group"
 msgstr "Lägg till en konturgrupp"
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3942
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3943
 msgid "Add or remove a filter"
 msgstr "Lägg till eller ta bort filter"
 
-#: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3947
+#: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3948
 msgid "Advanced _Filter..."
 msgstr "Avancerat _filter..."
 
@@ -17981,7 +17988,7 @@ msgstr "Justera innehållet till vänster och öka indragningen"
 msgid "Arrow"
 msgstr "Pil"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3858
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3859
 msgid "Auto _Correct..."
 msgstr "Autorätta..."
 
@@ -17993,11 +18000,11 @@ msgstr "Auto_fyll"
 msgid "Automatically fill the current selection"
 msgstr "Fyll den aktuella markeringen automatiskt"
 
-#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3859
+#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3860
 msgid "Automatically perform simple spell checking"
 msgstr "Utför en enkel stavningskontroll automatiskt"
 
-#: src/GNOME_Gnumeric.xml.h:14 src/workbook-control-gui.c:3862
+#: src/GNOME_Gnumeric.xml.h:14 src/workbook-control-gui.c:3863
 msgid "Automatically save the current document at regular intervals"
 msgstr "Spara det aktuella dokumentet automatiskt med regelbundna mellanrum"
 
@@ -18103,11 +18110,11 @@ msgstr "Ko_mmentarer..."
 msgid "Co_mments"
 msgstr "Ko_mmentarer"
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3817
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3818
 msgid "Co_variance"
 msgstr "Ko_varians"
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3896
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3897
 msgid "Collapse an outline group"
 msgstr "Fäll ihop en konturgrupp"
 
@@ -18116,34 +18123,34 @@ msgid "Combo Box"
 msgstr "Flervalslista"
 
 #: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3789
-msgid "Comparing two population means for two paired samples.: t-test"
-msgstr "Jämför två populationsmedelvärden för tvåparade prover: t-test"
+msgid "Comparing two population means for two paired samples: t-test"
+msgstr "Jämför två populationsmedelvärden för två parade prover: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3793
 msgid ""
-"Comparing two population means for two unpaired samples from pop. with equal "
-"var.: t-test"
+"Comparing two population means for two unpaired samples from populations "
+"with equal variances: t-test"
 msgstr ""
 "Jämför två populationsmedelvärden för två oparade prover från populationer "
 "med lika varians: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3798
 msgid ""
-"Comparing two population means for two unpaired samples from pop. with "
-"unequal var.: t-test"
+"Comparing two population means for two unpaired samples from populations "
+"with unequal variances: t-test"
 msgstr ""
 "Jämför två populationsmedelvärden för två oparade prover från populationer "
 "med olika varians: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3803
 msgid ""
-"Comparing two population means from pop. with known variances or using a "
-"large sample: z- test"
+"Comparing two population means from populations with known variances or "
+"using a large sample: z-test"
 msgstr ""
 "Jämför två populationsmedelvärden för populationer med kända varianser eller "
 "använder ett stort prov: z-test"
 
-#: src/GNOME_Gnumeric.xml.h:46 src/workbook-control-gui.c:3845
+#: src/GNOME_Gnumeric.xml.h:46 src/workbook-control-gui.c:3846
 msgid "Comparing two population variances"
 msgstr "Jämför två populationsvarianser"
 
@@ -18151,12 +18158,12 @@ msgstr "Jämför två populationsvarianser"
 msgid "Configure toolbars"
 msgstr "Konfigurera verktygsrader"
 
-#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3973
+#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3974
 msgid "Consolidate regions using a function"
 msgstr "Konsolidera områden genom att använda en funktion"
 
 #: src/GNOME_Gnumeric.xml.h:49 src/sheet-view.c:309
-#: src/workbook-control-gui.c:4033
+#: src/workbook-control-gui.c:4034
 msgid "Copy"
 msgstr "Kopiera"
 
@@ -18164,13 +18171,13 @@ msgstr "Kopiera"
 msgid "Copy the selection"
 msgstr "Kopiera markeringen"
 
-#: src/GNOME_Gnumeric.xml.h:51 src/workbook-control-gui.c:4033
+#: src/GNOME_Gnumeric.xml.h:51 src/workbook-control-gui.c:4034
 msgid "Copy the selection to the clipboard"
 msgstr "Kopiera markeringen till urklipp"
 
 #: src/GNOME_Gnumeric.xml.h:52 src/dialogs/covariance.glade.h:3
 #: src/tools/analysis-tools.c:894 src/tools/analysis-tools.c:897
-#: src/workbook-control-gui.c:3818
+#: src/workbook-control-gui.c:3819
 msgid "Covariance"
 msgstr "Kovarians"
 
@@ -18207,7 +18214,7 @@ msgid "Create a new shared view of the workbook"
 msgstr "Skapa en ny delad vy av arbetsboken"
 
 #: src/GNOME_Gnumeric.xml.h:61 src/workbook-control-gui.c:3370
-#: src/workbook-control-gui.c:4009
+#: src/workbook-control-gui.c:4010
 msgid "Create a new workbook"
 msgstr "Skapa en ny arbetsbok"
 
@@ -18250,7 +18257,7 @@ msgid "Current _time"
 msgstr "Aktuell _tid"
 
 #: src/GNOME_Gnumeric.xml.h:71 src/sheet-view.c:334 src/sheet-view.c:337
-#: src/workbook-control-gui.c:4030
+#: src/workbook-control-gui.c:4031
 msgid "Cut"
 msgstr "Klipp ut"
 
@@ -18258,7 +18265,7 @@ msgstr "Klipp ut"
 msgid "Cut the selection"
 msgstr "Klipp ut markeringen"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:4030
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:4031
 msgid "Cut the selection to the clipboard"
 msgstr "Klipp ut markeringen till urklipp"
 
@@ -18279,7 +18286,7 @@ msgstr "Minska antalet visade decimaler"
 msgid "Display _Formulas"
 msgstr "Visa _formler"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3911
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3912
 msgid "Display _Outlines"
 msgstr "Visa _konturer"
 
@@ -18287,7 +18294,7 @@ msgstr "Visa _konturer"
 msgid "Display the value of a formula or the formula itself"
 msgstr "Visa värdet på ett uttryck eller själva uttycket"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:4064
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:4065
 msgid "Edit a function in the current cell"
 msgstr "Redigera en funktion i den aktuella cellen."
 
@@ -18324,11 +18331,11 @@ msgstr "Försäkra att rader är precis så höga som behövs för att visa inne
 msgid "Exponential smoothing"
 msgstr "Exponentiell utjämning"
 
-#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3824
+#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3825
 msgid "F_orecasting"
 msgstr "F_örutsägelse"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:4000
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:4001
 msgid "F_ormat"
 msgstr "F_ormat"
 
@@ -18336,7 +18343,7 @@ msgstr "F_ormat"
 msgid "Fill according to a linear or exponential series"
 msgstr "Fyll enligt en linjär eller exponentiell serie"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:3948
+#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:3949
 msgid "Filter data with given criteria"
 msgstr "Filtrera data efter givna kriterier"
 
@@ -18364,7 +18371,7 @@ msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formatera ett cellområde enligt en fördefinierad mall"
 
 #: src/GNOME_Gnumeric.xml.h:98 src/dialogs/fourier-analysis.glade.h:3
-#: src/workbook-control-gui.c:3827
+#: src/workbook-control-gui.c:3828
 msgid "Fourier Analysis"
 msgstr "Fourieranalys"
 
@@ -18379,7 +18386,7 @@ msgid "Freeze the top left of the sheet"
 msgstr "Frys övre vänstra på bladet"
 
 #: src/GNOME_Gnumeric.xml.h:101 src/dialogs/function-select.glade.h:3
-#: src/workbook-control-gui.c:4063
+#: src/workbook-control-gui.c:4064
 msgid "Function"
 msgstr "Funktion"
 
@@ -18387,7 +18394,7 @@ msgstr "Funktion"
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Generera slumptal ur ett urval av distributioner"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3983
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3984
 msgid "Get _External Data"
 msgstr "Hämta _externa data"
 
@@ -18427,15 +18434,15 @@ msgstr "Dölj markerade rader"
 msgid "Hyper_link..."
 msgstr "Hyper_länk..."
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:4055
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:4056
 msgid "Hyperlink"
 msgstr "Hyperlänk"
 
-#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3933
+#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3934
 msgid "Import _Text File..."
 msgstr "Importera _textfil..."
 
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:3934
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:3935
 msgid "Import the text from a file"
 msgstr "Importera texten från en fil"
 
@@ -18461,7 +18468,7 @@ msgid "Insert Shaped Component"
 msgstr "Infoga ett format objekt"
 
 #: src/GNOME_Gnumeric.xml.h:121 src/workbook-control-gui.c:3636
-#: src/workbook-control-gui.c:4056
+#: src/workbook-control-gui.c:4057
 msgid "Insert a Hyperlink"
 msgstr "Lägg in en hyperlink"
 
@@ -18527,11 +18534,11 @@ msgstr "Ta oåterkalligen bort ett blad"
 msgid "Italic"
 msgstr "Kursiv"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3868
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3869
 msgid "Iteratively recalculate to find a target value"
 msgstr "Iterera mot ett målvärde"
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:3872
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:3873
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Iterera under bivillkor mot ett målvärde"
 
@@ -18545,7 +18552,7 @@ msgid "Label"
 msgstr "Rubrik"
 
 #: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:3622
-#: src/workbook-control-gui.c:4077
+#: src/workbook-control-gui.c:4078
 msgid "Launch the Chart Guru"
 msgstr "Starta diagramgurun"
 
@@ -18562,7 +18569,7 @@ msgid "Left align"
 msgstr "Vänsterjusterat"
 
 #: src/GNOME_Gnumeric.xml.h:145 src/dialogs/cell-format.glade.h:55
-#: src/dialogs/dialog-stf-main-page.c:321 src/workbook-object-toolbar.c:161
+#: src/dialogs/dialog-stf-main-page.c:317 src/workbook-object-toolbar.c:161
 msgid "Line"
 msgstr "Linje"
 
@@ -18586,7 +18593,7 @@ msgstr "Gör eventuella dolda kolumner i markeringen synliga"
 msgid "Make any hidden rows in the selection visible"
 msgstr "Gör eventuella dolda rader i markeringen synliga"
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:3853
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:3854
 msgid "Manage available plugin modules"
 msgstr "Hantera tillgängliga insticksmoduler."
 
@@ -18625,7 +18632,7 @@ msgstr "Valuta"
 msgid "Moving average"
 msgstr "Rullande medelvärde"
 
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:4009
+#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:4010
 msgid "New"
 msgstr "Nytt"
 
@@ -18633,19 +18640,19 @@ msgstr "Nytt"
 msgid "One Factor Analysis of Variance"
 msgstr "Enkelfaktoranalys av varians"
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:4012
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:4013
 msgid "Open"
 msgstr "Öppna"
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:4012
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:4013
 msgid "Open a file"
 msgstr "Öppna en fil"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3917
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3918
 msgid "Outlines _Below"
 msgstr "Konturer _nedanför"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3923
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3924
 msgid "Outlines _Right"
 msgstr "Konturer till _höger"
 
@@ -18658,12 +18665,12 @@ msgstr "K_listra in special..."
 msgid "Page Set_up..."
 msgstr "Sid_egenskaper..."
 
-#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:3970
+#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:3971
 msgid "Parse the text in the selection into data"
 msgstr "Tolka texten i urvalet som data"
 
 #: src/GNOME_Gnumeric.xml.h:169 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:4036
+#: src/workbook-control-gui.c:4037
 msgid "Paste"
 msgstr "Klistra in"
 
@@ -18671,7 +18678,7 @@ msgstr "Klistra in"
 msgid "Paste the clipboard"
 msgstr "Klistrar in från urklipp"
 
-#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:4036
+#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:4037
 msgid "Paste the contents of the clipboard"
 msgstr "Klistra in innehållet i urklipp"
 
@@ -18679,7 +18686,7 @@ msgstr "Klistra in innehållet i urklipp"
 msgid "Paste with optional filters and transformations"
 msgstr "Klistra in med filter och transformationer"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3815
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3816
 msgid "Pearson Correlation"
 msgstr "Pearson-korrelation"
 
@@ -18687,7 +18694,7 @@ msgstr "Pearson-korrelation"
 msgid "Percent"
 msgstr "Procent"
 
-#: src/GNOME_Gnumeric.xml.h:175 src/workbook-control-gui.c:3839
+#: src/GNOME_Gnumeric.xml.h:175 src/workbook-control-gui.c:3840
 msgid "Periodic and random samples"
 msgstr "Periodiska och slumpmässiga prover"
 
@@ -18696,7 +18703,7 @@ msgid "Preferen_ces..."
 msgstr "I_nställningar..."
 
 #: src/GNOME_Gnumeric.xml.h:177 src/dialogs/print.glade.h:14
-#: src/workbook-control-gui.c:4021
+#: src/workbook-control-gui.c:4022
 msgid "Print"
 msgstr "Skriv ut"
 
@@ -18704,13 +18711,13 @@ msgstr "Skriv ut"
 msgid "Print Pre_view..."
 msgstr "Förhands_granska..."
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:4024
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:4025
 msgid "Print Preview"
 msgstr "Förhandsgranska"
 
 #: src/GNOME_Gnumeric.xml.h:180 src/GNOME_Gnumeric_Component.xml.h:6
 #: src/dialogs/print.glade.h:16 src/print.c:1336
-#: src/workbook-control-gui.c:3384 src/workbook-control-gui.c:4024
+#: src/workbook-control-gui.c:3384 src/workbook-control-gui.c:4025
 msgid "Print preview"
 msgstr "Förhandsgranskning"
 
@@ -18718,7 +18725,7 @@ msgstr "Förhandsgranskning"
 msgid "Print the current file"
 msgstr "Skriv ut aktuell fil"
 
-#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:4021
+#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:4022
 msgid "Print the workbook"
 msgstr "Skriv ut arbetsboken"
 
@@ -18739,7 +18746,7 @@ msgstr "Radioknapp"
 msgid "Ranks and _Percentiles"
 msgstr "Ranger och _percentiler"
 
-#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:3833
+#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:3834
 msgid "Ranks, placements and percentiles"
 msgstr "Ranger, placeringar och percentiler"
 
@@ -18760,15 +18767,15 @@ msgstr "Räkna om kalkylbladet"
 msgid "Rectangle"
 msgstr "Rektangel"
 
-#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:4300
+#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:4301
 msgid "Redo the undone action"
 msgstr "Gör om ångrat kommando"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:3836
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:3837
 msgid "Regression Analysis"
 msgstr "Regressionsanalys"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3905
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3906
 msgid "Remove an outline group"
 msgstr "Ta bort en konturgrupp"
 
@@ -18797,7 +18804,7 @@ msgstr "_Blad"
 msgid "S_pecial"
 msgstr "S_pecial"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:4015
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:4016
 msgid "Save"
 msgstr "Spara"
 
@@ -18805,7 +18812,7 @@ msgstr "Spara"
 msgid "Save _As..."
 msgstr "Spara s_om..."
 
-#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:4015
+#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:4016
 msgid "Save the current workbook"
 msgstr "Spara aktuell arbetsbok"
 
@@ -18813,7 +18820,7 @@ msgstr "Spara aktuell arbetsbok"
 msgid "Save the current workbook with a different name"
 msgstr "Spara den aktuella arbetsboken under ett annat namn"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:3882
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:3883
 msgid "Sce_narios"
 msgstr "Sce_narier"
 
@@ -18896,19 +18903,19 @@ msgstr "Ändra formateringen på markerade celler till procentformat"
 msgid "Setup the page settings for your current printer"
 msgstr "Ställ in sidinställningarna för din aktuella skrivare"
 
-#: src/GNOME_Gnumeric.xml.h:225 src/workbook-control-gui.c:3945
+#: src/GNOME_Gnumeric.xml.h:225 src/workbook-control-gui.c:3946
 msgid "Show all filtered and hidden rows"
 msgstr "Visa alla filtrerade och dolda rader"
 
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:4070
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:4071
 msgid "Sort Descending"
 msgstr "Sortera fallande"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3957
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3958
 msgid "Sort the selected region"
 msgstr "Sortera det markerade området"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:4068
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:4069
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
@@ -18916,7 +18923,7 @@ msgstr ""
 "Sortera det markerade området i stigande ordning, utgående från den först "
 "markerade kolumnen"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:4071
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:4072
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -18932,21 +18939,21 @@ msgstr "Sampling"
 msgid "Split merged ranges of cells"
 msgstr "Dela sammanslagna cellområden"
 
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3888
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3889
 msgid "Statistical Anal_ysis"
 msgstr "Statistisk anal_ys"
 
 #: src/GNOME_Gnumeric.xml.h:234 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:4060 src/workbook-control-gui.c:4832
+#: src/workbook-control-gui.c:4061 src/workbook-control-gui.c:4833
 #: src/workbook-view.c:516
 msgid "Sum"
 msgstr "Summa"
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:4061
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:4062
 msgid "Sum into the current cell"
 msgstr "Summera i nuvarande cell"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3878
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3879
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -18966,7 +18973,7 @@ msgstr "Växla huruvida kolumnrubriker ska visas"
 msgid "Toggle whether or not to display gridlines"
 msgstr "Växla huruvida rutnätslinjer ska visas"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3912
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3913
 msgid "Toggle whether or not to display outline groups"
 msgstr "Växla huruvida konturgrupper ska visas"
 
@@ -18978,11 +18985,11 @@ msgstr "Växla huruvida radrubriker ska visas"
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Växla huruvida nollor ska visas som blanksteg"
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3924
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3925
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Växla huruvida kolumnkonturer ska visas till vänster eller höger"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3918
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3919
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Växla huruvida radkonturer ska visas överst eller nederst"
 
@@ -18990,11 +18997,11 @@ msgstr "Växla huruvida radkonturer ska visas överst eller nederst"
 msgid "Two Factor Analysis of Variance"
 msgstr "Tvåfaktoranalys av varians"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3842
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3843
 msgid "Two _Means"
 msgstr "Två _medelvärden"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3899
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3900
 msgid "Uncollapse an outline group"
 msgstr "Fäll ihop en konturgrupp"
 
@@ -19002,27 +19009,27 @@ msgstr "Fäll ihop en konturgrupp"
 msgid "Underline"
 msgstr "Understrykning"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:4297
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:4298
 msgid "Undo the last action"
 msgstr "Ångra det senaste kommandot"
 
 #: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:3792
-msgid "Unpaired Samples, _Equal Var.: T-Test"
+msgid "Unpaired Samples, _Equal Variances: T-Test"
 msgstr "Oparade prover, _lika varians: t-test"
 
 #: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3797
-msgid "Unpaired Samples, _Unequal Var.: T-Test"
+msgid "Unpaired Samples, _Unequal Variances: T-Test"
 msgstr "Oparade prover, _olika varians: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3964
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3965
 msgid "Validate input with preset criteria"
 msgstr "Validera indata med förinställda kriterier"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3830
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3831
 msgid "Various frequency tables"
 msgstr "Diverse frekvenstabeller"
 
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3821
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3822
 msgid "Various summary statistics"
 msgstr "Diverse statistiksammanfattningar"
 
@@ -19031,11 +19038,11 @@ msgid "View, delete and report different scenarios"
 msgstr "Visa, ta bort och rapportera olika scenarier"
 
 #: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3567
-#: src/workbook-control-gui.c:4303
+#: src/workbook-control-gui.c:4304
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zooma in eller ut i kalkylbladet"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3812
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3813
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
@@ -19051,7 +19058,7 @@ msgstr "_Lägg till..."
 msgid "_All"
 msgstr "_Allt"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3861
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3862
 msgid "_Auto Save..."
 msgstr "_Autospara..."
 
@@ -19084,7 +19091,7 @@ msgstr "St_äng"
 msgid "_Columns"
 msgstr "_Kolumner"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3972
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3973
 msgid "_Consolidate..."
 msgstr "_Konsolidera..."
 
@@ -19097,12 +19104,12 @@ msgstr "_Innehåll"
 msgid "_Copy"
 msgstr "_Kopiera"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3814
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3815
 msgid "_Correlation"
 msgstr "_Korrelation"
 
 #: src/GNOME_Gnumeric.xml.h:271 src/dialogs/pivottable.glade.h:8
-#: src/workbook-control-gui.c:4002
+#: src/workbook-control-gui.c:4003
 msgid "_Data"
 msgstr "_Data"
 
@@ -19115,7 +19122,7 @@ msgstr "_Definiera..."
 msgid "_Delete..."
 msgstr "_Ta bort..."
 
-#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3820
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3821
 msgid "_Descriptive Statistics"
 msgstr "_Beskrivande statistik"
 
@@ -19141,7 +19148,7 @@ msgstr "_Arkiv"
 msgid "_Fill"
 msgstr "_Fyll"
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3962
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3963
 msgid "_Filter"
 msgstr "_Filter"
 
@@ -19149,7 +19156,7 @@ msgstr "_Filter"
 msgid "_Formats"
 msgstr "_Formatering"
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3826
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3827
 msgid "_Fourier Analysis"
 msgstr "_Fourieranalys"
 
@@ -19166,7 +19173,7 @@ msgstr "_Funktion..."
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3867
+#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3868
 msgid "_Goal Seek..."
 msgstr "_Målsökning..."
 
@@ -19174,11 +19181,11 @@ msgstr "_Målsökning..."
 msgid "_Goto cell..."
 msgstr "_Gå till cell.."
 
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3976
+#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3977
 msgid "_Group and Outline"
 msgstr "_Grupp och kontur"
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3901
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3902
 msgid "_Group..."
 msgstr "_Gruppera..."
 
@@ -19192,11 +19199,11 @@ msgstr "_Hjälp"
 msgid "_Hide"
 msgstr "_Dölj"
 
-#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:3895
+#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:3896
 msgid "_Hide Detail"
 msgstr "_Dölj detaljer"
 
-#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3829
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3830
 msgid "_Histogram"
 msgstr "_Histogram"
 
@@ -19205,7 +19212,7 @@ msgid "_Image..."
 msgstr "_Bild..."
 
 #: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3480
-#: src/workbook-control-gui.c:3999
+#: src/workbook-control-gui.c:4000
 msgid "_Insert"
 msgstr "_Infoga"
 
@@ -19258,11 +19265,11 @@ msgstr "_Parade prover: t-test"
 msgid "_Paste"
 msgstr "Klistra i_n"
 
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3978
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3979
 msgid "_PivotTable..."
 msgstr "_Pivottabell..."
 
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3852
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3853
 msgid "_Plug-ins..."
 msgstr "_Insticksmoduler..."
 
@@ -19282,7 +19289,7 @@ msgstr "_Slumptalsgenerator..."
 msgid "_Redo"
 msgstr "_Gör om"
 
-#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:3835
+#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:3836
 msgid "_Regression"
 msgstr "_Regression"
 
@@ -19292,7 +19299,7 @@ msgstr "_Regression"
 msgid "_Remove"
 msgstr "_Ta bort"
 
-#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3877
+#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3878
 msgid "_Risk Simulation..."
 msgstr "_Risksimulering..."
 
@@ -19312,7 +19319,7 @@ msgstr "_Rad"
 msgid "_Rows"
 msgstr "_Rader"
 
-#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3838
+#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3839
 msgid "_Sampling"
 msgstr "_Sampling"
 
@@ -19337,19 +19344,19 @@ msgstr "_Format objekt"
 msgid "_Sheet"
 msgstr "_Blad"
 
-#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3944
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3945
 msgid "_Show All"
 msgstr "_Visa alla"
 
-#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3898
+#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3899
 msgid "_Show Detail"
 msgstr "_Visa detaljer"
 
-#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3871
+#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3872
 msgid "_Solver..."
 msgstr "_Problemlösare..."
 
-#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3956
+#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3957
 msgid "_Sort..."
 msgstr "_Sortera..."
 
@@ -19365,7 +19372,7 @@ msgstr "_Standardbredd"
 msgid "_Tabulate Dependency..."
 msgstr "_Tabuleringsberoende..."
 
-#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3969
+#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3970
 msgid "_Text to Columns..."
 msgstr "_Text till kolumner..."
 
@@ -19373,7 +19380,7 @@ msgstr "_Text till kolumner..."
 msgid "_Toolbars..."
 msgstr "_Verktygsrader..."
 
-#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:4001
+#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:4002
 msgid "_Tools"
 msgstr "Verk_tyg"
 
@@ -19381,7 +19388,7 @@ msgstr "Verk_tyg"
 msgid "_Two Factor"
 msgstr "_Dubbelfaktor"
 
-#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3844
+#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3845
 msgid "_Two Variances: FTest"
 msgstr "_Två varianser: FTest"
 
@@ -19389,7 +19396,7 @@ msgstr "_Två varianser: FTest"
 msgid "_Undo"
 msgstr "_Ångra"
 
-#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3904
+#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3905
 msgid "_Ungroup..."
 msgstr "_Avgruppera..."
 
@@ -19399,7 +19406,7 @@ msgstr "_Avgruppera..."
 msgid "_Unhide"
 msgstr "_Visa"
 
-#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3963
+#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3964
 msgid "_Validate..."
 msgstr "_Validera..."
 
@@ -20738,7 +20745,7 @@ msgstr "_Nytt blad"
 #: src/dialogs/anova-two.glade.h:18 src/dialogs/correlation.glade.h:15
 #: src/dialogs/covariance.glade.h:15 src/dialogs/descriptive-stats.glade.h:25
 #: src/dialogs/exp-smoothing.glade.h:18
-#: src/dialogs/fourier-analysis.glade.h:16 src/dialogs/mean-tests.glade.h:25
+#: src/dialogs/fourier-analysis.glade.h:16 src/dialogs/mean-tests.glade.h:24
 #: src/dialogs/random-generation.glade.h:15 src/dialogs/rank.glade.h:18
 #: src/dialogs/regression.glade.h:19 src/dialogs/variance-tests.glade.h:17
 msgid "_Output Range:"
@@ -20824,7 +20831,7 @@ msgstr "_Områden"
 #: src/dialogs/descriptive-stats.glade.h:20
 #: src/dialogs/exp-smoothing.glade.h:13
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:25
-#: src/dialogs/mean-tests.glade.h:21 src/dialogs/moving-averages.glade.h:15
+#: src/dialogs/mean-tests.glade.h:20 src/dialogs/moving-averages.glade.h:15
 #: src/dialogs/rank.glade.h:13 src/dialogs/regression.glade.h:15
 #: src/dialogs/sampling.glade.h:19
 msgid "_Input"
@@ -20845,7 +20852,7 @@ msgstr "_Indataområde:"
 #: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
 #: src/dialogs/descriptive-stats.glade.h:22
 #: src/dialogs/exp-smoothing.glade.h:15
-#: src/dialogs/fourier-analysis.glade.h:13 src/dialogs/mean-tests.glade.h:23
+#: src/dialogs/fourier-analysis.glade.h:13 src/dialogs/mean-tests.glade.h:22
 #: src/dialogs/moving-averages.glade.h:17 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:21
 #: src/dialogs/variance-tests.glade.h:15
@@ -20857,7 +20864,7 @@ msgstr "_Rubriker"
 #: src/dialogs/descriptive-stats.glade.h:24
 #: src/dialogs/exp-smoothing.glade.h:17
 #: src/dialogs/fourier-analysis.glade.h:15 src/dialogs/histogram.glade.h:27
-#: src/dialogs/mean-tests.glade.h:24 src/dialogs/moving-averages.glade.h:18
+#: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:18
 #: src/dialogs/random-generation.glade.h:14 src/dialogs/rank.glade.h:17
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:22
 msgid "_Output"
@@ -21657,7 +21664,7 @@ msgid "Add the entered area to the list of source areas"
 msgstr "Lägg till det angivna området till listan över källområden"
 
 #: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:248
-#: src/workbook-control-gui.c:4835
+#: src/workbook-control-gui.c:4836
 msgid "Average"
 msgstr "Medelvärde"
 
@@ -21670,7 +21677,7 @@ msgid "Clear the list of source areas"
 msgstr "Töm listan med källområden"
 
 #: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:264
-#: src/workbook-control-gui.c:4836
+#: src/workbook-control-gui.c:4837
 msgid "Count"
 msgstr "Antal"
 
@@ -21699,12 +21706,12 @@ msgid "In _top row"
 msgstr "I _översta raden"
 
 #: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:248
-#: src/tools/simulation.c:256 src/workbook-control-gui.c:4834
+#: src/tools/simulation.c:256 src/workbook-control-gui.c:4835
 msgid "Max"
 msgstr "Max"
 
 #: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:248
-#: src/tools/simulation.c:254 src/workbook-control-gui.c:4833
+#: src/tools/simulation.c:254 src/workbook-control-gui.c:4834
 msgid "Min"
 msgstr "Min"
 
@@ -22323,7 +22330,7 @@ msgid "Number Formats"
 msgstr "Talformat"
 
 #: src/dialogs/dialog-cell-format.c:1262
-#: src/dialogs/dialog-stf-main-page.c:330
+#: src/dialogs/dialog-stf-main-page.c:326
 msgid "Text"
 msgstr "Text"
 
@@ -23461,17 +23468,17 @@ msgstr ""
 msgid "You cannot have more than %d columns in this version of Gnumeric."
 msgstr "Du kan inte ha fler än %d kolumner i den här versionen av Gnumeric."
 
-#: src/dialogs/dialog-stf-main-page.c:134
+#: src/dialogs/dialog-stf-main-page.c:137
 #, c-format
 msgid "%d of %d lines to import"
 msgstr "%d av %d rader att importera"
 
-#: src/dialogs/dialog-stf-main-page.c:153
+#: src/dialogs/dialog-stf-main-page.c:158
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr "Data är inte korrekta i kodning %s; välj en annan kodning."
 
-#: src/dialogs/dialog-stf-main-page.c:343
+#: src/dialogs/dialog-stf-main-page.c:338
 #, c-format
 msgid "Data (from %s)"
 msgstr "Data (från %s)"
@@ -23837,7 +23844,7 @@ msgstr "Förstoring"
 msgid "Sheets"
 msgstr "Blad"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4260
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4261
 msgid "Zoom"
 msgstr "Zooma"
 
@@ -24180,40 +24187,40 @@ msgid "Testing the Difference of 2 Means"
 msgstr "Testar skillnaden mellan 2 medelvärden"
 
 #: src/dialogs/mean-tests.glade.h:14
-msgid "Unknown _Pop. Var. are:"
-msgstr "Okända _populationsvarianser är:"
-
-#: src/dialogs/mean-tests.glade.h:15
-msgid "Variable _1 Pop. Variance:"
+msgid "Variable _1 Population Variance:"
 msgstr "Populationsvarians för variabel _1:"
 
-#: src/dialogs/mean-tests.glade.h:16 src/dialogs/variance-tests.glade.h:12
+#: src/dialogs/mean-tests.glade.h:15 src/dialogs/variance-tests.glade.h:12
 msgid "Variable _1 Range:"
 msgstr "Område för variabel _1:"
 
-#: src/dialogs/mean-tests.glade.h:17
-msgid "Variable _2 Pop. Variance:"
+#: src/dialogs/mean-tests.glade.h:16
+msgid "Variable _2 Population Variance:"
 msgstr "Populationsvarians för variabel _2:"
 
-#: src/dialogs/mean-tests.glade.h:18 src/dialogs/variance-tests.glade.h:13
+#: src/dialogs/mean-tests.glade.h:17 src/dialogs/variance-tests.glade.h:13
 msgid "Variable _2 Range:"
 msgstr "Område för variabel _2:"
 
-#: src/dialogs/mean-tests.glade.h:19
+#: src/dialogs/mean-tests.glade.h:18
 msgid "Variables are:"
 msgstr "Variabler är:"
 
-#: src/dialogs/mean-tests.glade.h:20
+#: src/dialogs/mean-tests.glade.h:19
 msgid "_Alpha ="
 msgstr "_Alfa ="
 
-#: src/dialogs/mean-tests.glade.h:22
+#: src/dialogs/mean-tests.glade.h:21
 msgid "_Known"
 msgstr "_Känd"
 
-#: src/dialogs/mean-tests.glade.h:26
+#: src/dialogs/mean-tests.glade.h:25
 msgid "_Paired"
 msgstr "_Parad"
+
+#: src/dialogs/mean-tests.glade.h:26
+msgid "_Population Variances are:"
+msgstr "Populationsvarianser är:"
 
 #: src/dialogs/mean-tests.glade.h:27
 msgid "_Populations"
@@ -28718,403 +28725,403 @@ msgstr "Indikatorutfyllnad"
 msgid "Spacing around indicator"
 msgstr "Utfyllnad runt indikatorn"
 
-#: src/widgets/widget-charmap-selector.c:71
+#: src/widgets/widget-charmap-selector.c:69
 msgid "Arabic"
 msgstr "Arabiska"
 
-#: src/widgets/widget-charmap-selector.c:72
+#: src/widgets/widget-charmap-selector.c:70
 msgid "Baltic"
 msgstr "Baltiska"
 
-#: src/widgets/widget-charmap-selector.c:73
+#: src/widgets/widget-charmap-selector.c:71
 msgid "Central European"
 msgstr "Centraleuropeiska"
 
-#: src/widgets/widget-charmap-selector.c:74
+#: src/widgets/widget-charmap-selector.c:72
 msgid "Chinese"
 msgstr "Chinesiska"
 
-#: src/widgets/widget-charmap-selector.c:75
+#: src/widgets/widget-charmap-selector.c:73
 msgid "Cyrillic"
 msgstr "Kyrilliska"
 
-#: src/widgets/widget-charmap-selector.c:76
+#: src/widgets/widget-charmap-selector.c:74
 msgid "Greek"
 msgstr "Grekiska"
 
-#: src/widgets/widget-charmap-selector.c:77
+#: src/widgets/widget-charmap-selector.c:75
 msgid "Hebrew"
 msgstr "Hebreiska"
 
-#: src/widgets/widget-charmap-selector.c:78
+#: src/widgets/widget-charmap-selector.c:76
 msgid "Indian"
 msgstr "Indiska"
 
-#: src/widgets/widget-charmap-selector.c:79
+#: src/widgets/widget-charmap-selector.c:77
 msgid "Japanese"
 msgstr "Japanska"
 
-#: src/widgets/widget-charmap-selector.c:80
+#: src/widgets/widget-charmap-selector.c:78
 msgid "Korean"
 msgstr "Koreanska"
 
-#: src/widgets/widget-charmap-selector.c:81
+#: src/widgets/widget-charmap-selector.c:79
 msgid "Turkish"
 msgstr "Turkiska"
 
-#: src/widgets/widget-charmap-selector.c:82
+#: src/widgets/widget-charmap-selector.c:80
 msgid "Unicode"
 msgstr "Unicode"
 
-#: src/widgets/widget-charmap-selector.c:83
+#: src/widgets/widget-charmap-selector.c:81
 msgid "Vietnamese"
 msgstr "Vietnamesiska"
 
-#: src/widgets/widget-charmap-selector.c:84
+#: src/widgets/widget-charmap-selector.c:82
 msgid "Western"
 msgstr "Västlig"
 
-#: src/widgets/widget-charmap-selector.c:85
+#: src/widgets/widget-charmap-selector.c:83
 msgid "Other"
 msgstr "Annan"
 
-#: src/widgets/widget-charmap-selector.c:115
+#: src/widgets/widget-charmap-selector.c:113
 msgid "Arabic (IBM-864)"
 msgstr "Arabiska (IBM-864)"
 
-#: src/widgets/widget-charmap-selector.c:116
+#: src/widgets/widget-charmap-selector.c:114
 msgid "Arabic (IBM-864-I)"
 msgstr "Arabiska (IBM-864-I)"
 
-#: src/widgets/widget-charmap-selector.c:117
+#: src/widgets/widget-charmap-selector.c:115
 msgid "Arabic (ISO-8859-6)"
 msgstr "Arabiska (ISO-8859-6)"
 
-#: src/widgets/widget-charmap-selector.c:118
+#: src/widgets/widget-charmap-selector.c:116
 msgid "Arabic (ISO-8859-6-E)"
 msgstr "Arabiska (ISO-8859-6-E)"
 
-#: src/widgets/widget-charmap-selector.c:120
+#: src/widgets/widget-charmap-selector.c:118
 msgid "Arabic (ISO-8859-6-I)"
 msgstr "Arabiska (ISO-8859-6-I)"
 
-#: src/widgets/widget-charmap-selector.c:121
+#: src/widgets/widget-charmap-selector.c:119
 msgid "Arabic (MacArabic)"
 msgstr "Arabiska (MacArabic)"
 
-#: src/widgets/widget-charmap-selector.c:122
+#: src/widgets/widget-charmap-selector.c:120
 msgid "Arabic (Windows-1256)"
 msgstr "Arabiska (Windows-1256)"
 
-#: src/widgets/widget-charmap-selector.c:123
+#: src/widgets/widget-charmap-selector.c:121
 msgid "Armenian (ARMSCII-8)"
 msgstr "Armeniska (ARMSCII-8)"
 
-#: src/widgets/widget-charmap-selector.c:124
+#: src/widgets/widget-charmap-selector.c:122
 msgid "Baltic (ISO-8859-13)"
 msgstr "Baltiska (ISO-8859-13)"
 
-#: src/widgets/widget-charmap-selector.c:125
+#: src/widgets/widget-charmap-selector.c:123
 msgid "Baltic (ISO-8859-4)"
 msgstr "Baltiska (ISO-8859-4)"
 
-#: src/widgets/widget-charmap-selector.c:126
+#: src/widgets/widget-charmap-selector.c:124
 msgid "Baltic (Windows-1257)"
 msgstr "Baltiska (Windows-1257)"
 
-#: src/widgets/widget-charmap-selector.c:127
+#: src/widgets/widget-charmap-selector.c:125
 msgid "Celtic (ISO-8859-14)"
 msgstr "Keltiska (ISO-8859-14)"
 
-#: src/widgets/widget-charmap-selector.c:128
+#: src/widgets/widget-charmap-selector.c:126
 msgid "Central European (IBM-852)"
 msgstr "Centraleuropeiska (IBM-852)"
 
-#: src/widgets/widget-charmap-selector.c:129
+#: src/widgets/widget-charmap-selector.c:127
 msgid "Central European (ISO-8859-2)"
 msgstr "Celntraleuropeiska (ISO-8859-2)"
 
-#: src/widgets/widget-charmap-selector.c:130
+#: src/widgets/widget-charmap-selector.c:128
 msgid "Central European (MacCE)"
 msgstr "Centraleuropeiska (MacCE)"
 
-#: src/widgets/widget-charmap-selector.c:131
+#: src/widgets/widget-charmap-selector.c:129
 msgid "Central European (Windows-1250)"
 msgstr "Centraleuropeiska (Windows-1250)"
 
-#: src/widgets/widget-charmap-selector.c:132
+#: src/widgets/widget-charmap-selector.c:130
 msgid "Chinese Simplified (GB18030)"
 msgstr "Kinesiska förenklad (GB18030)"
 
-#: src/widgets/widget-charmap-selector.c:133
+#: src/widgets/widget-charmap-selector.c:131
 msgid "Chinese Simplified (GB2312)"
 msgstr "Kinesiska förenklad (GB2312)"
 
-#: src/widgets/widget-charmap-selector.c:134
+#: src/widgets/widget-charmap-selector.c:132
 msgid "Chinese Simplified (GBK)"
 msgstr "Kinesiska förenklad (GBK)"
 
-#: src/widgets/widget-charmap-selector.c:135
+#: src/widgets/widget-charmap-selector.c:133
 msgid "Chinese Simplified (HZ)"
 msgstr "Kinesiska förenklad (HZ)"
 
-#: src/widgets/widget-charmap-selector.c:136
+#: src/widgets/widget-charmap-selector.c:134
 msgid "Chinese Simplified (Windows-936)"
 msgstr "Kinesiska förenklad (Windows-936)"
 
-#: src/widgets/widget-charmap-selector.c:137
+#: src/widgets/widget-charmap-selector.c:135
 msgid "Chinese Traditional (Big5)"
 msgstr "Kinesiska traditionell (Big5)"
 
-#: src/widgets/widget-charmap-selector.c:138
+#: src/widgets/widget-charmap-selector.c:136
 msgid "Chinese Traditional (Big5-HKSCS)"
 msgstr "Kinesiska traditionell (Big5-HKSCS)"
 
-#: src/widgets/widget-charmap-selector.c:139
+#: src/widgets/widget-charmap-selector.c:137
 msgid "Chinese Traditional (EUC-TW)"
 msgstr "Kinesiska traditionell (EUC-TW)"
 
-#: src/widgets/widget-charmap-selector.c:140
+#: src/widgets/widget-charmap-selector.c:138
 msgid "Croatian (MacCroatian)"
 msgstr "Croatiska (MacCroatian)"
 
-#: src/widgets/widget-charmap-selector.c:141
+#: src/widgets/widget-charmap-selector.c:139
 msgid "Cyrillic (IBM-855)"
 msgstr "Kyrilliska (IBM-855)"
 
-#: src/widgets/widget-charmap-selector.c:142
+#: src/widgets/widget-charmap-selector.c:140
 msgid "Cyrillic (ISO-8859-5)"
 msgstr "Kyrilliska (ISO-8859-5)"
 
-#: src/widgets/widget-charmap-selector.c:143
+#: src/widgets/widget-charmap-selector.c:141
 msgid "Cyrillic (ISO-IR-111)"
 msgstr "Kyrilliska (ISO-IR-111)"
 
-#: src/widgets/widget-charmap-selector.c:144
+#: src/widgets/widget-charmap-selector.c:142
 msgid "Cyrillic (KOI8-R)"
 msgstr "Kyrilliska (KOI8-R)"
 
-#: src/widgets/widget-charmap-selector.c:145
+#: src/widgets/widget-charmap-selector.c:143
 msgid "Cyrillic (MacCyrillic)"
 msgstr "Kyrilliska (MacCyrillic)"
 
-#: src/widgets/widget-charmap-selector.c:146
+#: src/widgets/widget-charmap-selector.c:144
 msgid "Cyrillic (Windows-1251)"
 msgstr "Kyrilliska (Windows-1251)"
 
-#: src/widgets/widget-charmap-selector.c:147
+#: src/widgets/widget-charmap-selector.c:145
 msgid "Russian (CP-866)"
 msgstr "Ryska (CP-866)"
 
-#: src/widgets/widget-charmap-selector.c:148
+#: src/widgets/widget-charmap-selector.c:146
 msgid "Ukrainian (KOI8-U)"
 msgstr "Ukrainska (KOI8-U)"
 
-#: src/widgets/widget-charmap-selector.c:149
+#: src/widgets/widget-charmap-selector.c:147
 msgid "Ukrainian (MacUkrainian)"
 msgstr "Ukrainska (MacUkrainian)"
 
-#: src/widgets/widget-charmap-selector.c:150
+#: src/widgets/widget-charmap-selector.c:148
 msgid "English (ASCII)"
 msgstr "Engelska (ASCII)"
 
-#: src/widgets/widget-charmap-selector.c:151
+#: src/widgets/widget-charmap-selector.c:149
 msgid "Farsi (MacFarsi)"
 msgstr "Farsi (MacFarsi)"
 
-#: src/widgets/widget-charmap-selector.c:152
+#: src/widgets/widget-charmap-selector.c:150
 msgid "Georgian (GEOSTD8)"
 msgstr "Georgiska (GEOSTD8)"
 
-#: src/widgets/widget-charmap-selector.c:153
+#: src/widgets/widget-charmap-selector.c:151
 msgid "Greek (ISO-8859-7)"
 msgstr "Grekiska (ISO-8859-7)"
 
-#: src/widgets/widget-charmap-selector.c:154
+#: src/widgets/widget-charmap-selector.c:152
 msgid "Greek (MacGreek)"
 msgstr "Grekiska (MacGreek)"
 
-#: src/widgets/widget-charmap-selector.c:155
+#: src/widgets/widget-charmap-selector.c:153
 msgid "Greek (Windows-1253)"
 msgstr "Grekiska (Windows-1253)"
 
-#: src/widgets/widget-charmap-selector.c:156
+#: src/widgets/widget-charmap-selector.c:154
 msgid "Gujarati (MacGujarati)"
 msgstr "Gujarati (MacGujarati)"
 
-#: src/widgets/widget-charmap-selector.c:157
+#: src/widgets/widget-charmap-selector.c:155
 msgid "Gurmukhi (MacGurmukhi)"
 msgstr "Gurmukhi (MacGurmukhi)"
 
-#: src/widgets/widget-charmap-selector.c:158
+#: src/widgets/widget-charmap-selector.c:156
 msgid "Hebrew (IBM-862)"
 msgstr "Hebreiska (IBM-862)"
 
-#: src/widgets/widget-charmap-selector.c:159
+#: src/widgets/widget-charmap-selector.c:157
 msgid "Hebrew (ISO-8859-8-E)"
 msgstr "Hebreiska (ISO-8859-8-E)"
 
-#: src/widgets/widget-charmap-selector.c:160
+#: src/widgets/widget-charmap-selector.c:158
 msgid "Hebrew (ISO-8859-8-I)"
 msgstr "Hebreiska (ISO-8859-8-I)"
 
-#: src/widgets/widget-charmap-selector.c:161
+#: src/widgets/widget-charmap-selector.c:159
 msgid "Hebrew (MacHebrew)"
 msgstr "Hebreiska (MacHebrew)"
 
-#: src/widgets/widget-charmap-selector.c:162
+#: src/widgets/widget-charmap-selector.c:160
 msgid "Hebrew (Windows-1255)"
 msgstr "Hebreiska (Windows-1253)"
 
-#: src/widgets/widget-charmap-selector.c:163
+#: src/widgets/widget-charmap-selector.c:161
 msgid "Hindi (MacDevanagari)"
 msgstr "Hindi (MacDevanagari)"
 
-#: src/widgets/widget-charmap-selector.c:164
+#: src/widgets/widget-charmap-selector.c:162
 msgid "Icelandic (MacIcelandic)"
 msgstr "Isländska (MacIcelandic)"
 
-#: src/widgets/widget-charmap-selector.c:165
+#: src/widgets/widget-charmap-selector.c:163
 msgid "Japanese (EUC-JP)"
 msgstr "Japanska (EUC-JP)"
 
-#: src/widgets/widget-charmap-selector.c:166
+#: src/widgets/widget-charmap-selector.c:164
 msgid "Japanese (ISO-2022-JP)"
 msgstr "Japanska (ISO-2022-JP)"
 
-#: src/widgets/widget-charmap-selector.c:167
+#: src/widgets/widget-charmap-selector.c:165
 msgid "Japanese (Shift_JIS)"
 msgstr "Japanska (Shift_JIS)"
 
-#: src/widgets/widget-charmap-selector.c:168
+#: src/widgets/widget-charmap-selector.c:166
 msgid "Korean (EUC-KR)"
 msgstr "Koreanska (EUC-KR)"
 
-#: src/widgets/widget-charmap-selector.c:169
+#: src/widgets/widget-charmap-selector.c:167
 msgid "Korean (ISO-2022-KR)"
 msgstr "Koreanska (ISO-2022-KR)"
 
-#: src/widgets/widget-charmap-selector.c:170
+#: src/widgets/widget-charmap-selector.c:168
 msgid "Korean (JOHAB)"
 msgstr "Koreanska (JOHAB)"
 
-#: src/widgets/widget-charmap-selector.c:171
+#: src/widgets/widget-charmap-selector.c:169
 msgid "Korean (UHC)"
 msgstr "Koreanska (UHC)"
 
-#: src/widgets/widget-charmap-selector.c:172
+#: src/widgets/widget-charmap-selector.c:170
 msgid "Nordic (ISO-8859-10)"
 msgstr "Nordiska (ISO-8859-10)"
 
-#: src/widgets/widget-charmap-selector.c:173
+#: src/widgets/widget-charmap-selector.c:171
 msgid "Romanian (MacRomanian)"
 msgstr "Rumänska (MacRomanian)"
 
-#: src/widgets/widget-charmap-selector.c:174
+#: src/widgets/widget-charmap-selector.c:172
 msgid "Romanian (ISO-8859-16)"
 msgstr "Rumänska (ISO-8859-16)"
 
-#: src/widgets/widget-charmap-selector.c:175
+#: src/widgets/widget-charmap-selector.c:173
 msgid "South European (ISO-8859-3)"
 msgstr "Sydeuropeiska (ISO-8859-3)"
 
-#: src/widgets/widget-charmap-selector.c:176
+#: src/widgets/widget-charmap-selector.c:174
 msgid "Thai (TIS-620)"
 msgstr "Thai (TIS-620)"
 
-#: src/widgets/widget-charmap-selector.c:177
+#: src/widgets/widget-charmap-selector.c:175
 msgid "Turkish (IBM-857)"
 msgstr "Turkiska (IBM-857)"
 
-#: src/widgets/widget-charmap-selector.c:178
+#: src/widgets/widget-charmap-selector.c:176
 msgid "Turkish (ISO-8859-9)"
 msgstr "Turkiska (ISO-8859-9)"
 
-#: src/widgets/widget-charmap-selector.c:179
+#: src/widgets/widget-charmap-selector.c:177
 msgid "Turkish (MacTurkish)"
 msgstr "Turkiska (MacTurkish)"
 
-#: src/widgets/widget-charmap-selector.c:180
+#: src/widgets/widget-charmap-selector.c:178
 msgid "Turkish (Windows-1254)"
 msgstr "Turkiska (Windows-1254)"
 
-#: src/widgets/widget-charmap-selector.c:181
+#: src/widgets/widget-charmap-selector.c:179
 msgid "Unicode (UTF-7)"
 msgstr "Unicode (UTF-7)"
 
-#: src/widgets/widget-charmap-selector.c:182
+#: src/widgets/widget-charmap-selector.c:180
 msgid "Unicode (UTF-8)"
 msgstr "Unicode (UTF-8)"
 
-#: src/widgets/widget-charmap-selector.c:183
+#: src/widgets/widget-charmap-selector.c:181
 msgid "Unicode (UTF-16BE)"
 msgstr "Unicode (UTF-16BE)"
 
-#: src/widgets/widget-charmap-selector.c:184
+#: src/widgets/widget-charmap-selector.c:182
 msgid "Unicode (UTF-16LE)"
 msgstr "Unicode (UTF-16LE)"
 
-#: src/widgets/widget-charmap-selector.c:185
+#: src/widgets/widget-charmap-selector.c:183
 msgid "Unicode (UTF-32BE)"
 msgstr "Unicode (UTF-32BE)"
 
-#: src/widgets/widget-charmap-selector.c:186
+#: src/widgets/widget-charmap-selector.c:184
 msgid "Unicode (UTF-32LE)"
 msgstr "Unicode (UTF-32LE)"
 
-#: src/widgets/widget-charmap-selector.c:187
+#: src/widgets/widget-charmap-selector.c:185
 msgid "User Defined"
 msgstr "Egendefinierad"
 
-#: src/widgets/widget-charmap-selector.c:188
+#: src/widgets/widget-charmap-selector.c:186
 msgid "Vietnamese (TCVN)"
 msgstr "Vietnamesiska (TVCN)"
 
-#: src/widgets/widget-charmap-selector.c:189
+#: src/widgets/widget-charmap-selector.c:187
 msgid "Vietnamese (VISCII)"
 msgstr "Vietnamesiska (VISCII)"
 
-#: src/widgets/widget-charmap-selector.c:190
+#: src/widgets/widget-charmap-selector.c:188
 msgid "Vietnamese (VPS)"
 msgstr "Vietnamesiska (VPS)"
 
-#: src/widgets/widget-charmap-selector.c:191
+#: src/widgets/widget-charmap-selector.c:189
 msgid "Vietnamese (Windows-1258)"
 msgstr "Vietnamesiska (Windows-1258)"
 
-#: src/widgets/widget-charmap-selector.c:192
+#: src/widgets/widget-charmap-selector.c:190
 msgid "Visual Hebrew (ISO-8859-8)"
 msgstr "Visuell Hebreiska (ISO-8859-8)"
 
-#: src/widgets/widget-charmap-selector.c:193
+#: src/widgets/widget-charmap-selector.c:191
 msgid "Western (IBM-850)"
 msgstr "Västlig (IBM-850)"
 
-#: src/widgets/widget-charmap-selector.c:194
+#: src/widgets/widget-charmap-selector.c:192
 msgid "Western (ISO-8859-1)"
 msgstr "Västlig (ISO-8859-1)"
 
-#: src/widgets/widget-charmap-selector.c:195
+#: src/widgets/widget-charmap-selector.c:193
 msgid "Western (ISO-8859-15)"
 msgstr "Västlig (ISO-8859-15)"
 
-#: src/widgets/widget-charmap-selector.c:196
+#: src/widgets/widget-charmap-selector.c:194
 msgid "Western (MacRoman)"
 msgstr "Västlig (MacRoman)"
 
-#: src/widgets/widget-charmap-selector.c:197
+#: src/widgets/widget-charmap-selector.c:195
 msgid "Western (Windows-1252)"
 msgstr "Västlig (Windows-1252)"
 
-#: src/widgets/widget-charmap-selector.c:406
+#: src/widgets/widget-charmap-selector.c:413
 msgid "Locale: "
 msgstr "Locale: "
 
-#: src/widgets/widget-charmap-selector.c:446
+#: src/widgets/widget-charmap-selector.c:452
 msgid "Conversion Direction"
 msgstr "Konverteringsriktning"
 
-#: src/widgets/widget-charmap-selector.c:447
+#: src/widgets/widget-charmap-selector.c:453
 msgid "This value determines which iconv test to perform."
 msgstr "Det här värdet avgör vilket ikonv-test som skall utföras."
 
@@ -29193,13 +29200,13 @@ msgstr "Ta bort ett filter"
 msgid "Add a filter"
 msgstr "Lägg till ett filter"
 
-#: src/workbook-control-gui.c:1537 src/workbook-control-gui.c:4043
-#: src/workbook-control-gui.c:4275
+#: src/workbook-control-gui.c:1537 src/workbook-control-gui.c:4044
+#: src/workbook-control-gui.c:4276
 msgid "Undo"
 msgstr "Ångra"
 
-#: src/workbook-control-gui.c:1538 src/workbook-control-gui.c:4046
-#: src/workbook-control-gui.c:4282
+#: src/workbook-control-gui.c:1538 src/workbook-control-gui.c:4047
+#: src/workbook-control-gui.c:4283
 msgid "Redo"
 msgstr "Gör om"
 
@@ -29342,56 +29349,56 @@ msgstr "Använd aktuell markerking för att skapa namn"
 msgid "Add a new scenario"
 msgstr "Infoga ett nytt scenarium"
 
-#: src/workbook-control-gui.c:3832
+#: src/workbook-control-gui.c:3833
 msgid "Ranks And _Percentiles"
 msgstr "Ranger och _percentiler"
 
-#: src/workbook-control-gui.c:3959
+#: src/workbook-control-gui.c:3960
 msgid "Sh_uffle..."
 msgstr "Bl_anda..."
 
-#: src/workbook-control-gui.c:3960
+#: src/workbook-control-gui.c:3961
 msgid "Shuffle cells, rows or columns"
 msgstr "Blanda celer, rader eller kolumner"
 
-#: src/workbook-control-gui.c:3979
+#: src/workbook-control-gui.c:3980
 msgid "Create a pivot table."
 msgstr "Skapa en pivottabell."
 
-#: src/workbook-control-gui.c:4043
+#: src/workbook-control-gui.c:4044
 msgid "Undo the operation"
 msgstr "Ångra kommandot"
 
-#: src/workbook-control-gui.c:4046
+#: src/workbook-control-gui.c:4047
 msgid "Redo the operation"
 msgstr "Gör om kommandot"
 
-#: src/workbook-control-gui.c:4076
+#: src/workbook-control-gui.c:4077
 msgid "Chart Guru"
 msgstr "Diagramguru"
 
-#: src/workbook-control-gui.c:5127
+#: src/workbook-control-gui.c:5128
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Filen \"%s\" har ett ogiltigt format."
 
-#: src/workbook-control-gui.c:5178
+#: src/workbook-control-gui.c:5179
 msgid "Send"
 msgstr "Skicka"
 
-#: src/workbook-control-gui.c:5178
+#: src/workbook-control-gui.c:5179
 msgid "Send the current file in email"
 msgstr "Skicka den aktuella filen med e-post"
 
-#: src/workbook-control-gui.c:5419 src/workbook-control-gui.c:5434
+#: src/workbook-control-gui.c:5420 src/workbook-control-gui.c:5435
 msgid "_Re-Edit"
 msgstr "Redigera _om"
 
-#: src/workbook-control-gui.c:5420 src/workbook-control-gui.c:5425
+#: src/workbook-control-gui.c:5421 src/workbook-control-gui.c:5426
 msgid "_Discard"
 msgstr "_Förkasta"
 
-#: src/workbook-control-gui.c:5424 src/workbook-control-gui.c:5435
+#: src/workbook-control-gui.c:5425 src/workbook-control-gui.c:5436
 msgid "_Accept"
 msgstr "_Acceptera"
 
@@ -29579,6 +29586,16 @@ msgstr "Fel vid sparande av fil"
 #: src/xml-io.c:3951
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid ""
+#~ "Comparing two population means from pop. with known variances or using a "
+#~ "large sample: z- test"
+#~ msgstr ""
+#~ "Jämför två populationsmedelvärden för populationer med kända varianser "
+#~ "eller använder ett stort prov: z-test"
+
+#~ msgid "Unknown _Pop. Var. are:"
+#~ msgstr "Okända _populationsvarianser är:"
 
 #~ msgid "Is not an Gnumeric Workbook file"
 #~ msgstr "Är inte en Gnumeric-arbetsboksfil"
@@ -32118,13 +32135,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "permit_intersection"
 #~ msgstr "tillåt_överlappning"
-
-#~ msgid ""
-#~ "Comparing two population means from pop. with known variances or using a "
-#~ "large sample: z-test"
-#~ msgstr ""
-#~ "Jämför två populationsmedelvärden för populationer med kända varianser "
-#~ "eller använder ett stort prov: z-test"
 
 #~ msgid ""
 #~ "Comparing two population means from pop. with known varinces or using a "
