@@ -45,6 +45,7 @@
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static int    atl_fd = -1;
+static char * atl_filename = NULL;
 static FILE  *atl_file = NULL;
 static guint  atl_source = 0;
 static GHashTable *watched_values = NULL;
@@ -91,9 +92,6 @@ watched_value_fetch (char const *tag)
 }
 
 /***************************************************************************/
-/* quick and dirty data source that reads from a named pipe
- */
-#define PIPE_FILE	"/tmp/atl"
 
 static void
 cb_watcher_queue_recalc (gpointer key, gpointer value, gpointer closure)
@@ -141,13 +139,20 @@ void
 plugin_init (void)
 {
 	GIOChannel *channel = NULL;
+	char *filename;
 
 	fprintf (stderr, ">>>>>>>>>>>>>>>>>>>>>>>>>>>> LOAD ATL\n");
 	g_return_if_fail (atl_fd < 0);
 
+	filename = g_strdup_printf ("%s/%s", g_get_home_dir (), "atl");
+
 	/* NOTE : better to use popen here, but this is fine for testing */
-	mkfifo (PIPE_FILE, S_IRUSR | S_IWUSR);
-	atl_fd = open (PIPE_FILE, O_RDWR|O_NONBLOCK);
+	if (mkfifo (filename, S_IRUSR | S_IWUSR) == 0) {
+		atl_filename = filename;
+		atl_fd = open (atl_filename, O_RDWR|O_NONBLOCK);
+	} else
+		g_free (filename);
+
 	if (atl_fd >= 0) {
 		atl_file = fdopen (atl_fd, "r");
 		channel = g_io_channel_unix_new (atl_fd);
@@ -171,21 +176,27 @@ void
 plugin_cleanup (void)
 {
 	fprintf (stderr, "UNLOAD ATL >>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-	g_return_if_fail (atl_fd >= 0);
 
 	if (atl_source) {
 		g_source_remove (atl_source);
 		atl_source = 0;
 	}
+
+	if (atl_filename) {
+		unlink (atl_filename);
+		g_free (atl_filename);
+		atl_filename = NULL;
+	}
+
 	if (atl_fd >= 0) {
 		close (atl_fd);
 		atl_fd = -1;
 	}
+
 	if (atl_file != NULL) {
 		fclose (atl_file);
 		atl_file = NULL;
 	}
-	unlink (PIPE_FILE);
 
 	g_hash_table_destroy (watched_values);
 	watched_values = NULL;

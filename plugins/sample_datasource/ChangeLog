@@ -1,3 +1,13 @@
+2003-03-18  Morten Welinder  <terra@diku.dk>
+
+	* sample_datasource.c (plugin_init): Handle failure of mkfifo.
+	Keep track of filename used.
+	(plugin_cleanup): Ditto.
+
+	(plugin_init): Use a named pipe in the home directory, not in /tmp
+	(because that is a security risk, at least when not done
+	carefully)
+
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.16
