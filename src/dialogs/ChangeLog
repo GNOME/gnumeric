@@ -1,3 +1,8 @@
+2002-04-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-workbook-attr.c : do not use GnomePropertyBox
+	* workbook-attr.glade : ditto
+
 2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* Makefile.am : added so-fill.glade

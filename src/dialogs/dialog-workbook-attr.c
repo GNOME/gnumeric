@@ -37,6 +37,7 @@
 #include <application.h>
 #include <workbook-control.h>
 #include <workbook-view.h>
+#include <workbook-edit.h>
 #include <workbook.h>
 #include <commands.h>
 
@@ -44,16 +45,19 @@
 #include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 
+#define WORKBOOK_ATTRIBUTE_KEY "workbook-attribute-dialog"
+
 typedef struct _AttrState
 {
 	GladeXML	 *gui;
-	GnomePropertyBox *dialog;
-	gint		  page_signal;
+	GtkWidget        *dialog;
+	GtkWidget        *notebook;
+	GtkWidget        *ok_button;
+	GtkWidget        *apply_button;
+	gboolean         destroying;
 
 	WorkbookView     *wbv;
 	WorkbookControlGUI	 *wbcg;
-
-	gboolean	  enable_edit;
 
 	struct {
 		GtkToggleButton	*show_hsb;
@@ -62,22 +66,17 @@ typedef struct _AttrState
 		GtkToggleButton	*autocomplete;
 		GtkToggleButton	*is_protected;
 	} view;
+	struct {
+		gboolean	show_hsb;
+		gboolean	show_vsb;
+		gboolean	show_tabs;
+		gboolean	autocomplete;
+		gboolean	is_protected;
+	} old;
 } AttrState;
 
 /*****************************************************************************/
 /* Some utility routines shared by all pages */
-
-/*
- * A utility routine to help mark the attributes as being changed
- * VERY stupid for now.
- */
-static void
-attr_dialog_changed (AttrState *state)
-{
-	/* Catch all the pseudo-events that take place while initializing */
-	if (state->enable_edit)
-		gnome_property_box_changed (state->dialog);
-}
 
 /* Default to the 'View' page but remember which page we were on between
  * invocations */
@@ -89,16 +88,17 @@ static int attr_dialog_page = 0;
  */
 static void
 cb_page_select (GtkNotebook *notebook, GtkNotebookPage *page,
-		gint page_num, gpointer user_data)
+		gint page_num,  AttrState *state)
 {
-	attr_dialog_page = page_num;
+	if (!state->destroying)
+		attr_dialog_page = page_num;
 }
 
 /*****************************************************************************/
 
 /* Handler for the apply button */
 static void
-cb_attr_dialog_dialog_apply (GtkObject *w, int page, AttrState *state)
+cb_attr_dialog_dialog_apply (GtkWidget *button, AttrState *state)
 {
 	state->wbv->show_horizontal_scrollbar =
 		gtk_toggle_button_get_active (state->view.show_hsb);
@@ -114,15 +114,35 @@ cb_attr_dialog_dialog_apply (GtkObject *w, int page, AttrState *state)
 	wb_view_prefs_update (state->wbv);
 }
 
+static void
+cb_attr_dialog_dialog_close (GtkWidget *button, AttrState *state)
+{
+	state->destroying = TRUE;
+	gtk_widget_destroy (state->dialog);
+}
+
+static void
+cb_attr_dialog_dialog_ok (GtkWidget *button, AttrState *state)
+{
+	cb_attr_dialog_dialog_apply (button, state);
+	cb_attr_dialog_dialog_close (button, state);	
+}
+
 /* Handler for destroy */
 static gboolean
 cb_attr_dialog_dialog_destroy (GtkObject *w, AttrState *state)
 {
-	GnomePropertyBox *box = state->dialog;
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
 
-	g_signal_handler_disconnect (GTK_OBJECT (box->notebook),
-		state->page_signal);
-	g_object_unref (G_OBJECT (state->gui));
+	wbcg_edit_detach_guru (state->wbcg);
+
+	if (state->gui != NULL) {
+		g_object_unref (G_OBJECT (state->gui));
+		state->gui = NULL;
+	}
+
+	state->dialog = NULL;
 	g_free (state);
 
 	return FALSE;
@@ -133,17 +153,30 @@ cb_attr_dialog_dialog_destroy (GtkObject *w, AttrState *state)
 static void
 cb_toggled (GtkWidget *widget, AttrState *state)
 {
-	attr_dialog_changed (state);
+	gboolean changed = !((gtk_toggle_button_get_active (state->view.show_hsb) 
+			    == state->old.show_hsb) &&
+		(gtk_toggle_button_get_active (state->view.show_vsb) 
+		 == state->old.show_vsb) &&
+		(gtk_toggle_button_get_active (state->view.show_tabs) 
+		 == state->old.show_tabs) &&
+		(gtk_toggle_button_get_active (state->view.autocomplete) 
+					       == state->old.autocomplete) &&
+		(gtk_toggle_button_get_active (state->view.is_protected) 
+		 == state->old.is_protected));
+	gtk_widget_set_sensitive (state->ok_button, changed);
+	gtk_widget_set_sensitive (state->apply_button, changed);
 }
 
 static GtkToggleButton *
-attr_dialog_init_toggle (AttrState *state, char const *name, gboolean val)
+attr_dialog_init_toggle (AttrState *state, char const *name, gboolean val,
+			 gboolean *storage)
 {
 	GtkWidget *w = glade_xml_get_widget (state->gui, name);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), val);
 	g_signal_connect (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_toggled), state);
+	*storage = val;
 
 	return GTK_TOGGLE_BUTTON (w);
 }
@@ -153,69 +186,77 @@ attr_dialog_init_view_page (AttrState *state)
 {
 	state->view.show_hsb     = attr_dialog_init_toggle (state,
 		"WorkbookView::show_horizontal_scrollbar",
-		state->wbv->show_horizontal_scrollbar);
+		state->wbv->show_horizontal_scrollbar,
+		&state->old.show_hsb);
 	state->view.show_vsb     = attr_dialog_init_toggle (state,
 		"WorkbookView::show_vertical_scrollbar",
-		state->wbv->show_vertical_scrollbar);
+		state->wbv->show_vertical_scrollbar,
+		&state->old.show_vsb);
 	state->view.show_tabs    = attr_dialog_init_toggle (state,
 		"WorkbookView::show_notebook_tabs",
-		state->wbv->show_notebook_tabs);
+		state->wbv->show_notebook_tabs,
+		&state->old.show_tabs);
 	state->view.autocomplete = attr_dialog_init_toggle (state,
 		"WorkbookView::do_auto_completion",
-		state->wbv->do_auto_completion);
+		state->wbv->do_auto_completion,
+		&state->old.autocomplete);
 	state->view.is_protected = attr_dialog_init_toggle (state,
 		"WorkbookView::workbook_protected",
-		state->wbv->is_protected);
+		state->wbv->is_protected,
+		&state->old.is_protected);
 }
 
 /*****************************************************************************/
 
-/*
- * NOTE: We have to set the dialog title here. Looks like <title> in glade
- * file doesn't work for property dialogs.
- */
 static void
 attr_dialog_impl (AttrState *state)
 {
 	GtkWidget *dialog = glade_xml_get_widget (state->gui, "WorkbookAttr");
 	g_return_if_fail (dialog != NULL);
 
-	gtk_window_set_title (GTK_WINDOW (dialog), _("Workbook Attributes"));
-
 	/* Initialize */
-	state->dialog			= GNOME_PROPERTY_BOX (dialog);
-
-	state->enable_edit		= FALSE;  /* Enable below */
+	state->dialog			= dialog;
+	state->notebook                 = glade_xml_get_widget (state->gui, "notebook");
+	state->destroying               = FALSE;
 
 	attr_dialog_init_view_page (state);
 
 	/* Select the same page the last invocation used */
 	gtk_notebook_set_page (
-		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (dialog)->notebook),
+		GTK_NOTEBOOK (state->notebook),
 		attr_dialog_page);
-	state->page_signal = g_signal_connect (
-		G_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
+        g_signal_connect (
+		G_OBJECT (state->notebook),
 		"switch_page",
-		G_CALLBACK (cb_page_select), NULL);
+		G_CALLBACK (cb_page_select), state);
 
-	/* FIXME : do we have real docs for this ? */
-	gnumeric_pbox_init_help	(dialog, "format-menu.html");
 
-	g_signal_connect (G_OBJECT (dialog),
-		"apply",
-		G_CALLBACK (cb_attr_dialog_dialog_apply), state);
+	state->ok_button = glade_xml_get_widget (state->gui, "ok_button");
+	g_signal_connect (G_OBJECT (state->ok_button),
+			  "clicked",
+			  G_CALLBACK (cb_attr_dialog_dialog_ok), state);
+	state->apply_button = glade_xml_get_widget (state->gui, "apply_button");
+	g_signal_connect (G_OBJECT (state->apply_button),
+			  "clicked",
+			  G_CALLBACK (cb_attr_dialog_dialog_apply), state);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "close_button")),
+			  "clicked",
+			  G_CALLBACK (cb_attr_dialog_dialog_close), state);
+/* FIXME: Add correct helpfile address */
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "help_button"),
+		"workbook-attributes.html");
+
 	g_signal_connect (G_OBJECT (dialog),
 		"destroy",
 		G_CALLBACK (cb_attr_dialog_dialog_destroy), state);
 
-	/* Ok, edit events from now on are real */
-	state->enable_edit = TRUE;
+	cb_toggled (NULL, state);
 
-	/* Make it modal */
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-
-	/* Bring up the dialog */
-	gnumeric_dialog_show (state->wbcg, GTK_DIALOG (dialog), FALSE, TRUE);
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       WORKBOOK_ATTRIBUTE_KEY);
+	gtk_widget_show (state->dialog);
 }
 
 void
@@ -225,6 +266,9 @@ dialog_workbook_attr (WorkbookControlGUI *wbcg)
 	AttrState    *state;
 
 	g_return_if_fail (wbcg != NULL);
+
+	if (gnumeric_dialog_raise_if_exists (wbcg, WORKBOOK_ATTRIBUTE_KEY))
+		return;
 
 	gui = gnumeric_glade_xml_new (wbcg, "workbook-attr.glade");
         if (gui == NULL)
