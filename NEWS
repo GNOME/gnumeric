@@ -34,8 +34,12 @@ Jon Kåre:
 	* Use desktop font for row and column titles, fixing 98666.
 	* Fix bugs in the bonobo control version of Gnumeric.
 	* Install the bonobo control in libexec.
+	* No longer pretend to support the Bonoobo/PersistFile interface.
 	* Fix key navigation and scrollbar scrolling in auto-filter combos.
 	* Clean up editable-label some more.
+	* Improve image loading. With libwmf-0.2.8 and gtk+-2.1.2 or
+	  later, Gnumeric can now display Windows Metafile images -
+	  common in Excel documents.
 
 Morten:
 	* Improve qpro importer.
