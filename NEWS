@@ -3,6 +3,12 @@ Gnumeric 1.1.4
 Andreas:
 	* Improve printing dialogs.
 
+Jody
+	http://bugzilla.gnome.org/show_bug.cgi?id=79925
+	* Only grab if selection succeeds.
+	* Fix drawing glitch when creating unshared views not at A1
+	* Copy freeze state and outline info
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.3
 

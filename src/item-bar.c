@@ -820,6 +820,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			    !wbcg_edit_entry_redirect_p (wbcg))
 				break;
 
+			/* If we're editing it is possible for this to fail */
+			if (!scg_colrow_select (scg, is_cols, element, e->button.state))
+				break;
+
 			ib->start_selection = element;
 			gnm_canvas_slide_init (gcanvas);
 			gnm_simple_canvas_grab (item,
@@ -828,8 +832,6 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				ib->normal_cursor,
 				e->button.time);
 
-			scg_colrow_select (scg, is_cols,
-					   element, e->button.state);
 		}
 		break;
 

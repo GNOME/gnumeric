@@ -4368,12 +4368,11 @@ sheet_dup (Sheet const *src)
 	sheet_clone_selection      (src, dst);
 	sheet_clone_names          (src, dst);
 	sheet_clone_cells          (src, dst);
+	sheet_object_clone_sheet   (src, dst, NULL);
 
 	if (sheet_is_frozen (src))
 		sheet_freeze_panes (dst,
 			&src->frozen_top_left, &src->unfrozen_top_left);
-
-	sheet_object_clone_sheet   (src, dst, NULL);
 
 	/* Copy the solver */
 	solver_param_destroy (dst->solver_parameters);

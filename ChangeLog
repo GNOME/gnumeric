@@ -1,3 +1,11 @@
+2002-05-02  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=79925
+	* src/sheet-control-gui.c (scg_colrow_select) : flag failures to
+	  initiate a selection
+	* src/item-bar.c (item_bar_event) : only grab if the selection is
+	  successful.
+
 2002-05-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/print.c (sheet_print) : pass updated print-config to print-dialog
