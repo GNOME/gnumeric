@@ -517,9 +517,18 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 	START_LOCALE_SWITCH;
 
 	/* Hide widgets from old page */
-	if (old_page >= 0)
-		for (i = 0; (tmp = contents[old_page][i]) != F_MAX_WIDGET ; ++i)
-			gtk_widget_hide (nfs->format.widget[tmp]);
+	if (old_page >= 0) {
+		int i, j;
+		FormatWidget wi, wj;
+		for (i = 0; (wi = contents[old_page][i]) != F_MAX_WIDGET ; ++i) {
+			for (j = 0; (wj = contents[page][j]) != F_MAX_WIDGET ; ++j)
+				if (wi == wj)
+					goto stays;
+			gtk_widget_hide (nfs->format.widget[wi]);
+		stays:
+			; /* No more */
+		}
+	}
 
 	/* Set the default format if appropriate */
 	if (page == FMT_GENERAL || page == FMT_ACCOUNT || page == FMT_FRACTION || page == FMT_TEXT) {
@@ -537,9 +546,9 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 	nfs->format.current_type = page;
 	for (i = 0; (tmp = contents[page][i]) != F_MAX_WIDGET ; ++i) {
 		GtkWidget *w = nfs->format.widget[tmp];
-		gtk_widget_show (w);
 
-		if (tmp == F_LIST) {
+		switch (tmp) {
+		case F_LIST: {
 			int start = 0, end = -1;
 			GtkTreeIter select;
 
@@ -580,14 +589,29 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 			if (select.stamp != 0)
 				gtk_tree_selection_select_iter (
 					nfs->format.formats.selection, &select);
-		} else if (tmp == F_NEGATIVE)
+
+			break;
+		}
+
+		case F_NEGATIVE:
 			fillin_negative_samples (nfs);
-		else if (tmp == F_DECIMAL_SPIN)
+			break;
+
+		case F_DECIMAL_SPIN:
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (nfs->format.widget[F_DECIMAL_SPIN]),
-				nfs->format.num_decimals);
-		else if (tmp == F_SEPARATOR)
+						   nfs->format.num_decimals);
+			break;
+
+		case F_SEPARATOR:
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (nfs->format.widget[F_SEPARATOR]),
-				nfs->format.use_separator);
+						      nfs->format.use_separator);
+			break;
+
+		default:
+			; /* Nothing */
+		}
+
+		gtk_widget_show (w);
 	}
 
 #if 0

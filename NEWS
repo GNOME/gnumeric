@@ -65,6 +65,7 @@ Morten:
 	* Fix cell entry display for strings with initial quote.
 	* Fix YIELDDISC and ODDFPRICE.
 	* Implement ODDFYIELD.
+	* Reduce flicker in format selector widgets.
 
 --------------------------------------------------------------------------
 
