@@ -1,5 +1,10 @@
 2002-04-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/GNOME_Gnumeric.xml : Change menu text for Sheet Reorder/Manage
+	* src/workbook-control-gui.c : Change tooltip for Sheet Manage
+
+2002-04-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* schemas/gnumeric-general.schemas : add history and n of sheets 
 	  preferences
 	* src/Makefile.am : add src/rangefunc-strings.[ch]

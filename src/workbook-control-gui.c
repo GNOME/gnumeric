@@ -2808,7 +2808,7 @@ static GnomeUIInfo workbook_menu_edit_sheet [] = {
 		cb_sheet_name),
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Manage Sheets..."),
-		N_("Change the order the sheets are displayed"),
+		N_("Manage the sheets in this workbook"),
 		cb_sheet_order),
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Remove"),
@@ -3002,7 +3002,7 @@ static GnomeUIInfo workbook_menu_format_sheet [] = {
 		N_("Rename the current sheet"),
 		cb_sheet_name),
 	GNOMEUIINFO_ITEM_NONE (N_("_Manage Sheets..."),
-		N_("Change the order the sheets are displayed"),
+		N_("Manage the sheets in this workbook"),
 		cb_sheet_order),
 
 	/* Default <Ctrl-`> (control backquote) to insert toggle formula/value display */

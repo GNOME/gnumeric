@@ -457,8 +457,8 @@
 		    _tip="Rename the current sheet"/>
 
 		<menuitem name="SheetReorder" verb=""
-		    _label="Re-_Order Sheets..."
-		    _tip="Change the order the sheets are displayed" />
+		    _label="_Manage Sheets..."
+		    _tip="Manage the sheets in this workbook" />
 
 		<menuitem name="SheetDisplayFormulas"	verb="" />
 		<menuitem name="SheetHideZeros"		verb="" />
