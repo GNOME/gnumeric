@@ -356,7 +356,7 @@ ms_ole_create (const char *name)
 	guint32 sbd_startblock  = 0, zero = 0;
 	char title[] ="Root Entry";
 
-	if ((file = open (name, O_RDWR|O_CREAT|O_TRUNC|O_NONBLOCK,
+	if ((file = open (name, O_RDONLY|O_CREAT|O_TRUNC|O_NONBLOCK,
 			  S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP)) == -1)
 	{
 		printf ("Can't create file '%s'\n", name);

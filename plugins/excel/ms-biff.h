@@ -21,9 +21,22 @@ typedef guint64 DLONG ;
 		        (*(p+2)<<16)+ \
 		        (*(p+3)<<24))
 #define BIFF_GETDLONG(p) (DLONG)(BIFF_GETLONG(p)+(((DLONG)BIFF_GETLONG(p+4))<<32))
-/* Endianness hack only work on Intel ! */
-#define BIFF_GETDOUBLE(p) (*((double*)(p)))
 
+#if G_BYTE_ORDER == G_LITTLE_ENDIAN
+        #define BIFF_GETDOUBLE(p) (*((double*)(p)))
+#else
+static double biff_getdouble(guint8 *p)
+{
+    double d;
+    int i;
+    guint8 *t = (guint8 *)&d + 8;
+
+    for (i = 0; i < 8; i++)
+        *--t = *p++;
+    return d;
+}
+        #define BIFF_GETDOUBLE(p) (biff_getdouble(p))
+#endif
 /**
  * Returns query data, it is imperative that copies of
  * 'data *' should _not_ be kept.
@@ -39,7 +52,7 @@ typedef struct _BIFF_QUERY
   guint32 streamPos ;     /* count of bytes into the stream */
   MS_OLE_STREAM *pos ;
 } BIFF_QUERY ;
-
+ 
 /* Sets up a query on a stream */
 extern BIFF_QUERY *ms_biff_query_new (MS_OLE_STREAM *) ;
 /* Duplicates this query, so chaining can re-commence here */

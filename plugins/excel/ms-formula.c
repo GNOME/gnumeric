@@ -26,10 +26,25 @@
  * formula PTG, prefix, middle, suffix, precedence
  **/
 FORMULA_OP_DATA formula_op_data[] = {
-  { 0x03, 0, "+", 0, 8 },
-  { 0x04, 0, "-", 0, 8 },
-  { 0x05, 0, "*", 0, 32 },
-  { 0x06, 0, "/", 0, 16 }
+  /* Binary operator tokens */
+  { 0x03, 1, "+",  30  }, /* ptgAdd : Addition */
+  { 0x04, 1, "-",  30  }, /* ptgSub : Subtraction */
+  { 0x05, 1, "*",  48 }, /* ptgMul : Multiplication */
+  { 0x06, 1, "/",  32 }, /* ptgDiv : Division */
+  { 0x07, 1, "^",  60 }, /* ptgPower : Exponentiation */
+  { 0x09, 1, "<",  24 }, /* ptgLT : Less Than */
+  { 0x0a, 1, "<=", 24 }, /* ptgLTE : Less Than or Equal */
+  { 0x0b, 1, "=",  20 }, /* ptgEQ : Equal */
+  { 0x0c, 1, ">=", 24 }, /* ptgGTE : Greater Than or Equal */
+  { 0x0d, 1, ">" , 24 }, /* ptgGT : Greater Than */
+  { 0x0e, 1, "<>", 20 }, /* ptgNE : Not Equal */
+  { 0x0f, 1, " " , 62 }, /* ptgIsect : Intersection */
+  { 0x10, 1, "," , 62 }, /* ptgUnion : Union */
+  { 0x11, 1, ":" , 63 }, /* ptgRange : Range */
+  /* Unary operator tokens */
+  { 0x12, 0, "+",  64 }, /* ptgUplus : Unary Plus */
+  { 0x13, 0, "-",  64 }, /* ptgUminux : Unary Minus */
+  { 0x14, 0, "%",  64 }  /* ptgPercent : Percent Sign */
 } ;
 #define FORMULA_OP_DATA_LEN   (sizeof(formula_op_data)/sizeof(FORMULA_OP_DATA))
 
@@ -43,7 +58,11 @@ FORMULA_FUNC_DATA formula_func_data[] =
   { 0x04, "SUM (", 0,  ")", 1, 0 },
   { 0x05, "AVERAGE (", 0,  ")", 1, 0 },
   { 0x06, "MIN (", 0,  ")", 1, 0 },
-  { 0x07, "MAX (", 0,  ")", 1, 0 }
+  { 0x07, "MAX (", 0,  ")", 1, 0 },
+  { 0x24, "AND (", 0,  ")", 1, 0 },
+  { 0x25, "OR (",  0,  ")", 1, 0 },
+  { 0x65, "HLOOKUP (", 0, ")", 1, 0 },
+  { 0x66, "VLOOKUP (", 0, ")", 1, 0 }
 };
 #define FORMULA_FUNC_DATA_LEN (sizeof(formula_func_data)/sizeof(FORMULA_FUNC_DATA))
 
@@ -211,6 +230,8 @@ static char *parse_list_to_equation (PARSE_LIST *list)
 	return "Stack too short" ;
       if (!pd->name)
 	return "No data in stack entry" ;
+      if (list->length>1)
+	return "Too much data on stack\n" ;
 
       formula = (char *)g_malloc(strlen(pd->name)+2) ;
       if (!formula)
@@ -323,6 +344,35 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	    g_free (ref) ;
 	  }
 	  break ;
+	case FORMULA_PTG_REF_3D:
+	  {
+	    CellRef *ref ;
+	    char *buffer ;
+	    
+	    /* Need to look at EXTERNSHEETS, these need to go into gnum_sheet struct, S59DA9.HTM and then be referenced */
+
+	    if (sheet->ver == eBiffV8)
+	      {
+		printf ("FIXME: proper sheet names needed from EXTERNSHEET table\n") ;
+		ref = getRefV8 (sheet, BIFF_GETWORD(cur+2), BIFF_GETWORD(cur + 4), fn_col, fn_row) ;
+		ptg_length = 6 ;
+	      }
+	    else
+	      {
+		printf ("FIXME: Biff V7 3D refs are ugly !\n") ;
+		error = 1 ;
+		ref = 0 ;
+		ptg_length = 16 ;
+	      }
+	    if (ref)
+	      {
+		buffer = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row) ;
+		parse_list_push_raw(stack, buffer, NO_PRECEDENCE) ;
+		printf ("%s\n", buffer) ;
+		g_free (ref) ;
+	      }
+	  }
+	  break ;
 	case FORMULA_PTG_AREA:
 	  {
 	    CellRef *first, *last ;
@@ -403,14 +453,31 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	    ptg_length = 2 ;
 	  }
 	  break ;
+	case FORMULA_PTG_INT:
+	  {
+	    char buf[8]; /* max. "65535" */
+	    guint16 num = BIFF_GETWORD(cur) ;
+	    sprintf(buf,"%u",num);
+	    parse_list_push_raw (stack, strdup(buf), NO_PRECEDENCE) ;
+	    ptg_length = 2 ;
+	  }
+	  break;
+	case FORMULA_PTG_BOOL:
+	  {
+	    parse_list_push_raw (stack, strdup(BIFF_GETBYTE(cur) ? "TRUE" : "FALSE" ), NO_PRECEDENCE) ;
+	    ptg_length = 1 ;
+	  }
+	  break ;
 	case FORMULA_PTG_STR:
 	{ /* FIXME: Len should only be a byte but seems to be a word ! */
 		guint32 len = BIFF_GETWORD(cur) ;
-		char *str = (char *)g_malloc(len+1) ;
+		char *str = (char *)g_malloc(len+3) ;
 		guint32 lp ;
 		for (lp=0;lp<len;lp++)
-			str[lp] = BIFF_GETBYTE(cur+2+lp) ;
-		str[lp] = 0 ;
+			str[lp+1] = BIFF_GETBYTE(cur+2+lp) ;
+		str[lp]   = '"' ;
+		str[lp+1] = '\0' ;
+		str[0]    = '"' ;
 		parse_list_push_raw (stack, str, NO_PRECEDENCE) ;
 		printf ("Found string '%s'\n", str) ;
 		ptg_length = 2 + len ;
@@ -425,36 +492,37 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 	      {
 		if (ptgbase == formula_op_data[lp].formula_ptg)
 		  {
-		    PARSE_DATA *arg1, *arg2 ;
+		    PARSE_DATA *arg1=0, *arg2 ;
 		    GList *tmp ;
 		    char buffer[2048] ;
 		    FORMULA_OP_DATA *fd = &formula_op_data[lp] ;
 		    int bracket_arg2 ;
 		    int bracket_arg1 ;
 
+		    buffer[0] = '\0' ; /* Terminate string */
 		    arg2 = parse_list_pop (stack) ;
-		    arg1 = parse_list_pop (stack) ;
-
 		    bracket_arg2 = arg2->precedence<fd->precedence ;
-		    bracket_arg1 = arg1->precedence<fd->precedence ;
-
-		    strcpy (buffer, fd->prefix?fd->prefix:"") ;
-		    if (bracket_arg1)
-		      strcat (buffer, "(") ;
-		    strcat (buffer, arg1->name) ;
-		    if (bracket_arg1)
-		      strcat (buffer, ")") ;
+                    if (fd->infix)
+		    {
+		      arg1 = parse_list_pop (stack) ;
+		      bracket_arg1 = arg1->precedence<fd->precedence ; 
+		      if (bracket_arg1)
+		        strcat (buffer, "(") ;
+		      strcat (buffer, arg1->name) ;
+		      if (bracket_arg1)
+		        strcat (buffer, ")") ;
+		    }
 		    strcat (buffer, fd->mid?fd->mid:"") ;
 		    if (bracket_arg2)
 		      strcat (buffer, "(") ;
 		    strcat (buffer, arg2->name) ;
 		    if (bracket_arg2)
 		      strcat (buffer, ")") ;
-		    strcat (buffer, fd->suffix?fd->suffix:"") ;
 
 		    printf ("Op : '%s'\n", buffer) ;
 		    parse_list_push_raw(stack, strdup (buffer), fd->precedence) ;
-		    parse_data_free (arg1) ;
+		    if (fd->infix)
+		      parse_data_free (arg1) ;
 		    parse_data_free (arg2) ;
 		    break ;
 		  }

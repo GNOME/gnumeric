@@ -1,3 +1,18 @@
+1999-02-04  Michael Meeks  <michael@imaginator.com>
+
+	* plugins/excel/ms-biff.h: Added a biff_getdouble function for
+	G_BIG_ENDIAN machines, since I don't have one... [begs forgiveness]
+	
+1999-02-03  Sean Atkinson  <sca20@cam.ac.uk>
+
+	* plugins/excel/ms-formula.c (ms_excel_parse_formula):
+	FORMULA_PTG_INT and FORMULA_PTG_BOOL added
+
+	* plugins/excel/ms-formula.c:
+	Implemented remaining binary operators and unary operators +,-,%
+	interpolated operator precedences.
+	formula_func_data[] : added AND, OR, V/H LOOKUP functions
+	
 1999-02-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c (workbook_configure_minimized_pixmap): Provide an
