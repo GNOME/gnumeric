@@ -13,4 +13,5 @@ void       gtk_radio_button_select      (GSList *group, int n);
 char      *font_get_bold_name           (char *fontname);
 char      *font_get_italic_name         (char *fontname);
 char      *font_change_component        (char *fontname, int idx, char *value);
+
 #endif /* GNUMERIC_GNUMERIC_UTIL_H */

@@ -30,7 +30,7 @@ main ()
 	
 	for (i = 0; exp [i]; i++){
 		printf ("Expression: %s;  ", exp [i]);
-		node = expr_parse_string (exp [i], 0, 0, NULL, &error);
+		node = expr_parse_string (exp [i], 0, 0, 0, NULL, &error);
 		if (node == NULL){
 			printf ("parse error: %s\n", error);
 			continue;

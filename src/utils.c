@@ -91,41 +91,6 @@ cell_name (int col, int row)
 }
 
 char *
-cellref_name (CellRef *cell_ref, int eval_col, int eval_row)
-{
-	static char buffer [sizeof (long) * 4];
-	char *p = buffer;
-	int col, row;
-	
-	if (cell_ref->col_relative)
-		col = eval_col + cell_ref->col;
-	else {
-		*p++ = '$';
-		col = cell_ref->col;
-	}
-	
-	if (col <= 'Z'-'A'){
-		*p++ = col + 'A';
-	} else {
-		int a = col / ('Z'-'A'+1);
-		int b = col % ('Z'-'A'+1);
-		
-		*p++ = a + 'A' - 1;
-		*p++ = b + 'A';
-	}
-	if (cell_ref->row_relative)
-		row = eval_row + cell_ref->row;
-	else {
-		*p++ = '$';
-		row = cell_ref->row;
-	}
-
-	sprintf (p, "%d", row+1);
-
-	return buffer;
-}
-
-char *
 col_name (int col)
 {
 	static char buffer [20];

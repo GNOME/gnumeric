@@ -1040,7 +1040,7 @@ workbook_set_auto_expr (Workbook *wb, char *description, char *expression)
 		expr_tree_unref (wb->auto_expr);
 		string_unref (wb->auto_expr_desc);
 	}
-	wb->auto_expr = expr_parse_string (expression, 0, 0, NULL, &error);
+	wb->auto_expr = expr_parse_string (expression, 0, 0, 0, NULL, &error);
 	wb->auto_expr_desc = string_get (description);
 
 	return error;

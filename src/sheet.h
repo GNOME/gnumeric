@@ -333,6 +333,11 @@ void        sheet_fill_selection_with     (Sheet *sheet, char *text);
 void        sheet_show_cursor             (Sheet *sheet);
 void        sheet_hide_cursor             (Sheet *sheet);
 
+char      *cellref_name                   (CellRef *cell_ref,
+					   Sheet *eval_sheet,
+					   int eval_col,
+					   int eval_row);
+
 /*
  * Workbook
  */

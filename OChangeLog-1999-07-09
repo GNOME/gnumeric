@@ -1,3 +1,16 @@
+1998-11-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-autofill.c (autofill_cell): Simplify by using
+	cell_set_formula_tree 
+
+	* src/expr.c (expr_parse_string): Take a sheet argument
+	(expr_decode_tree): Same
+	
+	* sheet.c (cellref_name): Now takes a sheet argument and decodes the
+	cellref depending on the sheet.
+	
+	* cell.c (CellRef): Now they include the sheet location.
+	
 1998-11-28  Michael Meeks    <mejm2@cam.ac.uk>
 
 	* plugins/excel/ms-ole.c, plugins/excel/ms-ole.h: Total re-write

@@ -20,12 +20,12 @@
 	
 /* Allocation with disposal-on-error */ 
 static void *alloc_buffer    (int size);
-static void register_symbol  (Symbol *sym);
-static void alloc_clean      (void);
-static void alloc_glist      (GList *l); 
-static void forget_glist     (GList *list);
-static void forget_tree      (ExprTree *tree);
-static void alloc_list_free  (void); 
+static void  register_symbol (Symbol *sym);
+static void  alloc_clean     (void);
+static void  alloc_glist     (GList *l); 
+static void  forget_glist    (GList *list);
+static void  forget_tree     (ExprTree *tree);
+static void  alloc_list_free (void); 
 static void *v_new (void);
 	
 #define ERROR -1
@@ -67,7 +67,6 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
   return res;
 }
 
-		
 %}
 
 %union {
@@ -225,7 +224,8 @@ return_cellref (char *p)
 	
 	ref->col_relative = col_relative;
 	ref->row_relative = row_relative;
-
+	ref->sheet = parser_sheet;
+	
 	e->u.constant = v;
 	
 	yylval.tree = e;

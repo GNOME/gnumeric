@@ -512,13 +512,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 	}
 		
 	case FILL_FORMULA: {
-		char *text, *formula;
-		
-		text = expr_decode_tree (fi->v.formula, cell->col->pos, cell->row->pos);
-		formula = g_copy_strings ("=", text, NULL);
-		cell_set_text (cell, formula);
-		g_free (text);
-		g_free (formula);
+		cell_set_formula_tree (cell, fi->v.formula);
 		return;
 	}
 	

@@ -73,13 +73,18 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	gnome_config_drop_all ();
 }
 
+#ifdef HAVE_GUILE
 int
 main (int argc, char *argv [])
 {
-#ifdef HAVE_GUILE
 	scm_boot_guile(argc, argv, gnumeric_main, 0);
-#else
-	gnumeric_main(0, argc, argv);
-#endif
 	return 0;
 }
+#else
+int
+main (int argc, char *argv [])
+{
+	gnumeric_main(0, argc, argv);
+	return 0;
+}
+#endif

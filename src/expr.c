@@ -28,16 +28,22 @@ ParseErr  parser_error;
 /*        The expression tree returned from the parser */
 ExprTree *parser_result;
 
+/*        The sheet where the parsing takes place */
+void     *parser_sheet;
+
 /*        Location where the parsing is taking place */
 int       parser_col, parser_row;
 
 ExprTree *
-expr_parse_string (char *expr, int col, int row, char **desired_format, char **error_msg)
+expr_parse_string (char *expr, void *sheet, int col, int row, char **desired_format, char **error_msg)
 {
-	parser_expr = expr;
+	g_return_val_if_fail (expr != NULL, NULL);
+	
+	parser_expr  = expr;
 	parser_error = PARSE_OK;
-	parser_col = col;
-	parser_row = row;
+	parser_col   = col;
+	parser_row   = row;
+	parser_sheet = sheet;
 	parser_desired_format = NULL;
 	
 	yyparse ();
@@ -970,7 +976,7 @@ bigger_prec (Operation parent, Operation this)
  * create a string representation.
  */
 static char *
-do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
+do_expr_decode_tree (ExprTree *tree, void *sheet, int col, int row, Operation parent_op)
 {
 	static const char *binary_operation_names [] = {
 		"=", ">", "<", ">=", "<=", "<>",
@@ -995,8 +1001,8 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 		char *a, *b, *res;
 		char const *op;
 		
-		a = do_expr_decode_tree (tree->u.binary.value_a, col, row, tree->oper);
-		b = do_expr_decode_tree (tree->u.binary.value_b, col, row, tree->oper);
+		a = do_expr_decode_tree (tree->u.binary.value_a, sheet, col, row, tree->oper);
+		b = do_expr_decode_tree (tree->u.binary.value_b, sheet, col, row, tree->oper);
 		op = binary_operation_names [tree->oper];
 
 		if (bigger_prec (parent_op, tree->oper))
@@ -1012,7 +1018,7 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 	case OPER_NEG: {
 		char *res, *a;
 
-		a = do_expr_decode_tree (tree->u.value, col, row, tree->oper);
+		a = do_expr_decode_tree (tree->u.value, sheet, col, row, tree->oper);
 		res = g_copy_strings ("-", a);
 		g_free (a);
 		return res;
@@ -1037,7 +1043,7 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 			for (l = arg_list; l; l = l->next, i++){
 				ExprTree *t = l->data;
 				
-				args [i] = do_expr_decode_tree (t, col, row, OPER_CONSTANT);
+				args [i] = do_expr_decode_tree (t, sheet, col, row, OPER_CONSTANT);
 				len += strlen (args [i]) + 1;
 			}
 			len++;
@@ -1067,14 +1073,17 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 		Value *v = tree->u.constant;
 
 		if (v->type == VALUE_CELLRANGE){
-			char buffer_a [20], buffer_b [20], *a;
+			char *a, *b, *res;
 
-			a = cellref_name (&v->v.cell_range.cell_a, col, row);
-			strcpy (buffer_a, a);
-			a = cellref_name (&v->v.cell_range.cell_b, col, row);
-			strcpy (buffer_b, a);
+			a = cellref_name (&v->v.cell_range.cell_a, sheet, col, row);
+			b = cellref_name (&v->v.cell_range.cell_b, sheet, col, row);
 
-			return g_copy_strings (buffer_a, ":", buffer_b, NULL);
+			res = g_copy_strings (a, ":", b, NULL);
+
+			g_free (a);
+			g_free (b);
+			
+			return res;
 		} else {
 			if (v->type == VALUE_STRING){
 				return g_copy_strings ("\"", v->v.str->str, "\"", NULL);
@@ -1087,7 +1096,7 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 		CellRef *cell_ref;
 
 		cell_ref = &tree->u.constant->v.cell;
-		return g_strdup (cellref_name (cell_ref, col, row));
+		return cellref_name (cell_ref, sheet, col, row);
 	}
 	}
 
@@ -1096,9 +1105,12 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 }
 
 char *
-expr_decode_tree (ExprTree *tree, int col, int row)
+expr_decode_tree (ExprTree *tree, void *sheet, int col, int row)
 {
 	g_return_val_if_fail (tree != NULL, NULL);
-
-	return do_expr_decode_tree (tree, col, row, OPER_CONSTANT);
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	
+	return do_expr_decode_tree (tree, sheet, col, row, OPER_CONSTANT);
 }
+

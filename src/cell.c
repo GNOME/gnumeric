@@ -47,6 +47,7 @@ cell_set_formula (Cell *cell, char *text)
 
 	cell_modified (cell);
 	cell->parsed_node = expr_parse_string (&text [1],
+					       cell->sheet,
 					       cell->col->pos,
 					       cell->row->pos,
 					       &desired_format,
@@ -1477,7 +1478,7 @@ cell_get_text (Cell *cell)
 	if (cell->parsed_node){
 		char *func, *ret;
 		
-		func = expr_decode_tree (cell->parsed_node, cell->col->pos, cell->row->pos);
+		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);
 		ret = g_copy_strings ("=", func, NULL);
 		g_free (func);
 

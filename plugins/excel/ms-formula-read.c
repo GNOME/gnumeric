@@ -314,7 +314,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 		ref = getRefV7 (BIFF_GETBYTE(cur+2), BIFF_GETWORD(cur), fn_col, fn_row) ;
 		ptg_length = 3 ;
 	      }
-	    buffer = cellref_name (ref, fn_col, fn_row) ;
+	    buffer = cellref_name (ref, sheet->gnum_sheet, fn_col, fn_row) ;
 	    parse_list_push_raw(stack, strdup (buffer), NO_PRECEDENCE) ;
 	    printf ("%s\n", buffer) ;
 	    free (ref) ;
@@ -336,9 +336,9 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 		last  = getRefV7(BIFF_GETBYTE(cur+5), BIFF_GETWORD(cur+2), fn_col, fn_row) ;
 		ptg_length = 6 ;
 	      }
-	    strcpy (buffer, cellref_name (first, fn_col, fn_row)) ;
+	    strcpy (buffer, cellref_name (first, sheet->gnum_sheet, fn_col, fn_row)) ;
 	    strcat (buffer, ":") ;
-	    strcat (buffer, cellref_name (last, fn_col, fn_row)) ;
+	    strcat (buffer, cellref_name (last, sheet->gnum_sheet, fn_col, fn_row)) ;
 	    parse_list_push_raw(stack, strdup (buffer), NO_PRECEDENCE) ;
 	    printf ("%s\n", buffer) ;
 	    free (first) ;

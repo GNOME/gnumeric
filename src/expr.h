@@ -32,12 +32,8 @@ typedef enum {
 } ValueType;
 
 typedef struct {
-	int col;
-	int row;
-} CellPos;
-
-typedef struct {
-	int col, row;
+	void *sheet;
+	int   col, row;
 
 	unsigned int col_relative:1;
 	unsigned int row_relative:1;
@@ -81,11 +77,6 @@ struct ExprTree {
 		} binary;
 
 		struct ExprTree *value;
-
-		struct {
-			void    *sheet;
-			CellRef cell;
-		} extref;
 	} u;
 };
 
@@ -135,14 +126,18 @@ extern char     *parser_expr;
 extern char     *parser_desired_format;
 extern ParseErr  parser_error;
 extern ExprTree *parser_result;
+extern void     *parser_sheet;
 extern int       parser_col, parser_row;
 
-void        cell_get_abs_col_row (CellRef *cell_ref, int eval_col, int eval_row, int *col, int *row);
+void        cell_get_abs_col_row (CellRef *cell_ref,
+				  int eval_col, int eval_row,
+				  int *col, int *row);
 
-ExprTree   *expr_parse_string    (char *expr, int col, int row,
+ExprTree   *expr_parse_string    (char *expr, void *sheet, int col, int row,
 				  char **desired_format, char **error_msg);
 
-char       *expr_decode_tree     (ExprTree *tree, int col, int row);
+char       *expr_decode_tree     (ExprTree *tree, void *sheet,
+				  int col, int row);
 
 void        expr_tree_ref        (ExprTree *tree);
 void        expr_tree_unref      (ExprTree *tree);

@@ -18,6 +18,12 @@
 
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
+/* Used to locate cells in a sheet */
+typedef struct {
+	int col;
+	int row;
+} CellPos;
+
 void
 sheet_redraw_all (Sheet *sheet)
 {
@@ -1702,14 +1708,14 @@ Cell *
 sheet_cell_get (Sheet *sheet, int col, int row)
 {
 	Cell *cell;
-	CellPos cellref;
+	CellPos cellpos;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
 
-	cellref.col = col;
-	cellref.row = row;
-	cell = g_hash_table_lookup (sheet->cell_hash, &cellref);
+	cellpos.col = col;
+	cellpos.row = row;
+	cell = g_hash_table_lookup (sheet->cell_hash, &cellpos);
 
 	return cell;
 }
@@ -1840,7 +1846,7 @@ CRowSort (gconstpointer a, gconstpointer b)
 static void
 sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 {
-	CellPos *cellref;
+	CellPos *cellpos;
 	Cell *cell_on_spot;
 	int left, right;
 		
@@ -1849,11 +1855,11 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 	if (cell_on_spot)
 		cell_unregister_span (cell_on_spot);
 	
-	cellref = g_new (CellPos, 1);
-	cellref->col = cell->col->pos;
-	cellref->row = cell->row->pos;
+	cellpos = g_new (CellPos, 1);
+	cellpos->col = cell->col->pos;
+	cellpos->row = cell->row->pos;
 
-	g_hash_table_insert (sheet->cell_hash, cellref, cell);
+	g_hash_table_insert (sheet->cell_hash, cellpos, cell);
 
 	/*
 	 * Now register the sizes of our cells
@@ -1908,15 +1914,15 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 static void
 sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 {
-	CellPos cellref;
+	CellPos cellpos;
 	void    *original_key;
 
-	cellref.col = cell->col->pos;
-	cellref.row = cell->row->pos;
+	cellpos.col = cell->col->pos;
+	cellpos.row = cell->row->pos;
 
 	cell_unregister_span (cell);
-	g_hash_table_lookup_extended (sheet->cell_hash, &cellref, &original_key, NULL);
-	g_hash_table_remove (sheet->cell_hash, &cellref);
+	g_hash_table_lookup_extended (sheet->cell_hash, &cellpos, &original_key, NULL);
+	g_hash_table_remove (sheet->cell_hash, &cellpos);
 	g_free (original_key);
 }
 
@@ -2432,7 +2438,6 @@ void
 sheet_insert_col (Sheet *sheet, int col, int count)
 {
 	GList   *cur_col, *deps;
-	CellPos cellref;
 	int   col_count;
 	
 	g_return_if_fail (sheet != NULL);
@@ -2457,7 +2462,6 @@ sheet_insert_col (Sheet *sheet, int col, int count)
 			break;
 
 		/* 1.1 Move every cell on this column count positions */
-		cellref.col = ci->pos;
 		new_column = ci->pos + count;
 
 		if (new_column > SHEET_MAX_COLS-1){
@@ -3143,3 +3147,53 @@ sheet_show_cursor (Sheet *sheet)
 		sheet_view_show_cursor (sheet_view);
 	}
 }
+
+char *
+cellref_name (CellRef *cell_ref, Sheet *eval_sheet, int eval_col, int eval_row)
+{
+	static char buffer [sizeof (long) * 4];
+	char *p = buffer;
+	int col, row;
+	
+	if (cell_ref->col_relative)
+		col = eval_col + cell_ref->col;
+	else {
+		*p++ = '$';
+		col = cell_ref->col;
+	}
+	
+	if (col <= 'Z'-'A'){
+		*p++ = col + 'A';
+	} else {
+		int a = col / ('Z'-'A'+1);
+		int b = col % ('Z'-'A'+1);
+		
+		*p++ = a + 'A' - 1;
+		*p++ = b + 'A';
+	}
+	if (cell_ref->row_relative)
+		row = eval_row + cell_ref->row;
+	else {
+		*p++ = '$';
+		row = cell_ref->row;
+	}
+
+	sprintf (p, "%d", row+1);
+
+	/* If it is a non-local reference, add the path to the external sheet */
+	if (cell_ref->sheet == eval_sheet || cell_ref->sheet == NULL)
+		return g_strdup (buffer);
+	else {
+		Sheet *sheet = cell_ref->sheet;
+		char *s;
+		
+		if (strchr (sheet->name, ' '))
+			s = g_copy_strings ("'", sheet->name, "'!", buffer, NULL);
+		else
+			s = g_copy_strings (sheet->name, "!", buffer, NULL);
+
+		return s;
+	}
+
+}
+
