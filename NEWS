@@ -2,6 +2,8 @@ Gnumeric 0.99.1
 
 Andreas:
 	* Improved analysis tools documentation
+	* Implement merges and spans in html exporter
+	* Make output from HTML4.0 and HTML3.2 exporters validate 
 
 Jody:
 	* Add insert Graph menu item & icon

@@ -1,3 +1,19 @@
+2001-12-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.h : Add html40frag_file_save
+	* plugin.xml.in : ditto
+	* html.c (html_print_encoded) : changed from 
+	(html_write_cell_content) : changed from html_write_cell_str
+	(write_row) : new procedure figuring out merges and spans
+	(write_cell) : formerly html_write_cell40 and html_write_cell32
+	(write_sheet) : new procedure
+	(html32_file_save) : changed to wrapper calling html_file_save
+	(html40_file_save) : changed to wrapper calling html_file_save
+	(html40frag_file_save) : new wrapper calling html_file_save
+	(html_file_save) : common code of html32_file_save and
+	  html40_file_save
+
+
 2001-12-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.0

@@ -28,6 +28,11 @@
 				<_description>HTML 4.0 (*.html)</_description>
 			</information>
 		</service>
+		<service type="file_saver" id="html40frag" file_extension="html" format_level="write_only">
+			<information>
+				<_description>HTML (*.html) fragment</_description>
+			</information>
+		</service>
 		<service type="file_saver" id="latex" file_extension="tex" format_level="write_only">
 			<information>
 				<_description>LaTeX 2e (*.tex)</_description>

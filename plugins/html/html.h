@@ -28,6 +28,7 @@
 
 void html32_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
 void html40_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
+void html40frag_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
 void html32_file_open (GnumFileOpener const *fo, IOContext *io_context, WorkbookView *wb_view, const char *filename);
 
 #define G_PLUGIN_FOR_HTML "GPFH/0.5"

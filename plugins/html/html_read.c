@@ -3,6 +3,8 @@
  *
  * Copyright (C) 1999, 2000 Rasca, Berlin
  * EMail: thron@gmx.de
+ * Copyright (c) 2001 Andreas J. Guelzow
+ * EMail: aguelzow@taliesin.ca
  *
  * Contributors :
  *   Almer. S. Tigelaar <almer1@dds.nl>
@@ -31,7 +33,9 @@
 #include "style-color.h"
 #include "html.h"
 #include "cell.h"
+#include "cellspan.h"
 #include "sheet.h"
+#include "sheet-merge.h"
 #include "value.h"
 #include "font.h"
 #include "plugin-util.h"
@@ -42,73 +46,75 @@
 #include <ctype.h>
 
 /*
- * escape special characters
+ * html_version_t:
+ *
+ * version selector 
+ *
  */
-static int
-html_fprintf (FILE *fp, const char *s)
-{
-	int len, i;
-	const char *p;
+typedef enum {
+	HTML40 = 0,
+	HTML32 = 1,
+	HTML40F   = 2
+} html_version_t;
 
-	if (!s)
-		return 0;
-	len = strlen (s);
-	if (!len)
-		return 0;
-	p = s;
-	for (i = 0; i < len; i++) {
+/*
+ * html_print_encoded:
+ *
+ * @fp: the file
+ * @str: the string
+ *
+ * print the string to fp encoded all special chars
+ *
+ */
+static void
+html_print_encoded (FILE *fp, char *str)
+{
+	const char *p;
+	guint i;
+
+	if (!str)
+		return;
+	p = str;
+	while (*p != '\0') {
 		switch (*p) {
 			case '<':
-				fprintf (fp, "&lt;");
+				fputs ("&lt;", fp);
 				break;
 			case '>':
-				fprintf (fp, "&gt;");
+				fputs ("&gt;", fp);
 				break;
 			case '&':
-				fprintf (fp, "&amp;");
+				fputs ("&amp;", fp);
 				break;
-#if 0
-			case '\'':
-				fprintf (fp, "&apos;");
-				break;
-#endif
 			case '\"':
-				fprintf (fp, "&quot;");
+				fputs ("&quot;", fp);
 				break;
 			default:
-				fputc (*p, fp);
+				i = (unsigned char) *p;
+				if ((( i >= 0x20) && (i < 0x80)) ||
+				    (*p == '\n') || (*p == '\r') || (*p == '\t'))
+					fputc (*p, fp);
+				else {
+					fprintf (fp, "&#%03u;", i);
+				}
 				break;
 		}
 		p++;
 	}
-	return len;
 }
 
-static void
-html_write_cell_str (FILE *fp, Cell *cell, MStyle *mstyle)
-{
-	if (font_is_monospaced (mstyle))
-		fprintf (fp, "<TT>");
-	if (mstyle_get_font_bold (mstyle))
-		fprintf (fp, "<B>");
-	if (mstyle_get_font_italic (mstyle))
-		fprintf (fp, "<I>");
-
-	if (!cell_is_blank (cell)) {
-		char * text = cell_get_rendered_text (cell);
-		html_fprintf (fp, text);
-		g_free (text);
-	} else
-		fprintf (fp, "<BR>");
-
-	if (mstyle_get_font_italic (mstyle))
-		fprintf (fp, "</I>");
-	if (mstyle_get_font_bold (mstyle))
-		fprintf (fp, "</B>");
-	if (font_is_monospaced (mstyle))
-		fprintf (fp, "</TT>");
-}
-
+/*
+ * html_get_color:
+ *
+ * @mstyle: the cellstyle
+ * @t:      which color
+ * @r:      red component
+ * @g:      green component
+ * @b:      blue component
+ *
+ * Determine rgb components
+ *
+ */
 static void
 html_get_color (MStyle *mstyle, MStyleElementType t, int *r, int *g, int *b)
 {
@@ -117,112 +123,215 @@ html_get_color (MStyle *mstyle, MStyleElementType t, int *r, int *g, int *b)
 	*b = mstyle_get_color (mstyle, t)->color.blue >> 8;
 }
 
-/*
- * write a TD
- */
 static void
-html_write_cell32 (FILE *fp, Cell *cell, MStyle *style)
+html_write_cell_content (FILE *fp, Cell *cell, MStyle *mstyle, html_version_t version)
 {
-	unsigned int r, g, b;
+	guint r = 0;
+	guint g = 0;
+	guint b = 0;
+	char *rendered_string;
 
-	g_return_if_fail (style != NULL);
-
-	fprintf (fp, "\t<TD");
-
-	if (cell) {
-		switch (style_default_halign (style, cell)) {
-		case HALIGN_RIGHT :
-			fprintf (fp, " align=right");
-			break;
-
-		case HALIGN_CENTER :
-		case HALIGN_CENTER_ACROSS_SELECTION :
-			fprintf (fp, " align=center");
-			break;
-		default :
-			break;
+	if (mstyle != NULL) {
+		if (mstyle_get_font_italic (mstyle))
+			fputs ("<I>", fp);
+		if (mstyle_get_font_bold (mstyle))
+			fputs ("<B>", fp);
+		if (font_is_monospaced (mstyle))
+			fputs ("<TT>", fp);
+		if (version != HTML40) {
+			html_get_color (mstyle, MSTYLE_COLOR_FORE, &r, &g, &b);
+			if (r > 0 || g > 0 || b > 0)
+				fprintf (fp, "<FONT color=\"#%02X%02X%02X\">", r, g, b);
 		}
-		if (mstyle_get_align_v (style) & VALIGN_TOP)
-			fprintf (fp, " valign=top");
 	}
 
-	html_get_color (style, MSTYLE_COLOR_BACK, &r, &g, &b);
-	if (r < 255 || g < 255 || b < 255)
-		fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
-	fprintf (fp, ">");
-	html_get_color (style, MSTYLE_COLOR_FORE, &r, &g, &b);
-	if (r != 0 || g != 0 || b != 0)
-		fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
-			 r, g, b);
-	html_write_cell_str (fp, cell, style);
-
-	if (r != 0 || g != 0 || b != 0)
-		fprintf (fp, "</FONT>");
-
-	fprintf (fp, "</TD>\n");
-}
-
-/*
- * write a TD
- */
-static void
-html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
-{
-	unsigned int r, g, b;
-
-	g_return_if_fail (style != NULL);
-
-	fprintf (fp, "\t<TD");
-
-	if (cell) {
-		switch (style_default_halign (style, cell)) {
-		case HALIGN_RIGHT :
-			fprintf (fp, " align=right");
-			break;
-
-		case HALIGN_CENTER :
-		case HALIGN_CENTER_ACROSS_SELECTION :
-			fprintf (fp, " align=center");
-			break;
-		default :
-			break;
-		}
-
-		if (mstyle_get_align_v (style) & VALIGN_TOP)
-			fprintf (fp, " valign=top");
+	if (cell != NULL) {
+		rendered_string = cell_get_rendered_text (cell);
+		html_print_encoded (fp, rendered_string);
+		g_free (rendered_string);
 	}
 
-	html_get_color (style, MSTYLE_COLOR_BACK, &r, &g, &b);
-	if (r < 255 || g < 255 || b < 255)
-		fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
-	fprintf (fp, ">");
-	html_get_color (style, MSTYLE_COLOR_FORE, &r, &g, &b);
-	if (r != 0 || g != 0 || b != 0)
-		fprintf (fp, "<FONT color=\"#%02X%02X%02X\">",
-			 r, g, b);
-
-	html_write_cell_str (fp, cell, style);
-
-	if (r != 0 || g != 0 || b != 0)
-		fprintf (fp, "</FONT>");
-
-	fprintf (fp, "</TD>\n");
+	if (r > 0 || g > 0 || b > 0)
+		fputs ("</FONT>", fp);
+	if (mstyle != NULL) {
+		if (font_is_monospaced (mstyle))
+			fputs ("</TT>", fp);
+		if (mstyle_get_font_bold (mstyle))
+			fputs ("</B>", fp);
+		if (mstyle_get_font_italic (mstyle))
+			fputs ("</I>", fp);
+	}
 }
 
+
 /*
- * write every sheet of the workbook to a html 3.2 table
+ * write_row:
  *
- * FIXME: Should html quote sheet name (and everything else)
+ * @fp: file
+ * @sheet: the gnumeric sheet
+ * @row: the row number
+ * @col: the col number
+ *
+ * Output all cell info for the given cell 
+ *
  */
-void
-html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                  WorkbookView *wb_view, const gchar *file_name)
+
+static void
+write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
+{
+	Cell *cell;
+	MStyle *mstyle;
+	guint r, g, b;
+
+	
+	mstyle = sheet_style_get (sheet, col, row);
+	if (mstyle != NULL && version != HTML32 && version != HTML40) {
+		html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
+		if (r < 255 || g < 255 || b < 255) {
+			fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
+		}
+	}
+
+	cell = sheet_cell_get (sheet, col, row);
+	if (cell != NULL) {
+
+		switch (mstyle_get_align_v (mstyle)) {
+		case VALIGN_TOP:
+			fputs (" valign=\"top\" ", fp);
+			break;
+		case VALIGN_BOTTOM:
+			fputs(" valign=\"bottom\" ", fp);
+			break;
+		case VALIGN_CENTER:
+			fputs(" valign=\"center\" ", fp);
+			break;
+		case VALIGN_JUSTIFY:
+			fputs(" valign=\"baseline\" ", fp);
+			break;
+		default:
+			break;
+		}
+		switch (style_default_halign(mstyle, cell)) {
+		case HALIGN_RIGHT:
+			fputs (" align=\"right\" ", fp);
+			break;
+		case HALIGN_CENTER:
+		case HALIGN_CENTER_ACROSS_SELECTION:
+			fputs (" align=\"center\" ", fp);
+			break;
+		case HALIGN_LEFT:
+			fputs (" align=\"left\" ", fp);
+			break;
+		case HALIGN_JUSTIFY:
+			fputs (" align=\"justify\" ", fp);
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	fprintf (fp, ">");
+	html_write_cell_content (fp, cell, mstyle, version);
+	fputs ("</TD>\n", fp);
+}
+
+/*
+ * write_row:
+ *
+ * @fp: file
+ * @sheet: the gnumeric sheet
+ * @row: the row number
+ *
+ * Set up a TD node for each cell in the given row, witht eh  appropriate
+ * colspan and rowspan.
+ * Call write_cell for each cell. 
+ *
+ */
+
+static void
+write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t version)
+{
+	gint col;
+	ColRowInfo const * ri;
+	
+	ri = sheet_row_get_info (sheet, row);
+	
+	for (col = range->start.col; col <= range->end.col; col++) {
+		CellSpanInfo const *the_span;
+		Range const *merge_range;
+		CellPos pos = {col, row};
+
+
+		/* Is this a span */
+		the_span = row_span_get (ri, col);
+		if (the_span != NULL) {
+			fprintf (fp, "<TD COLSPAN=%i ", the_span->right - col + 1);
+			write_cell (fp, sheet, row, the_span->cell->pos.col, version);
+			col = the_span->right;
+			continue;
+		}
+		
+                /* is this covered by a merge */
+		merge_range = sheet_merge_contains_pos	(sheet, &pos);
+		if (merge_range != NULL) {
+			if (merge_range->start.col != col ||
+			    merge_range->start.row != row)
+				continue;
+			fprintf (fp, "<TD COLSPAN=%i ROWSPAN=%i ", 
+				 merge_range->end.col - merge_range->start.col + 1,
+				 merge_range->end.row - merge_range->start.row + 1);
+			write_cell (fp, sheet, row, col, version);
+			col = merge_range->end.col;
+			continue;
+		}
+		fputs ("<TD ", fp);
+		write_cell (fp, sheet, row, col, version);
+	}
+} 
+
+/*
+ * write_sheet:
+ *
+ * @fp: file
+ * @sheet: the gnumeric sheet
+ *
+ * set up a table and call write_row for each row
+ *
+ */
+
+static void
+write_sheet (FILE *fp, Sheet *sheet, html_version_t version)
+{
+	Range total_range;
+	gint row;
+
+	fputs ("<P><TABLE border=1>\n", fp);
+
+	fputs ("<CAPTION>", fp);
+	html_print_encoded (fp, sheet->name_unquoted);
+	fputs ("</CAPTION>\n", fp);
+
+	total_range = sheet_get_extent (sheet, TRUE);
+	for (row = total_range.start.row; row <=  total_range.end.row; row++) {
+		fputs ("<TR>\n", fp);
+		write_row (fp, sheet, row, &total_range, version);
+		fputs ("</TR>\n", fp);
+	}
+	fputs ("</TABLE>\n", fp);
+}
+
+/*
+ * html_file_save:
+ *
+ * write the html file (version of html according to version argument)
+ */
+static void
+html_file_save (GnumFileSaver const *fs, IOContext *io_context,
+                  WorkbookView *wb_view, const gchar *file_name, html_version_t version)
 {
 	FILE *fp;
 	GList *sheets, *ptr;
-	Cell *cell;
-	MStyle *style;
-	int row, col;
 	Workbook *wb = wb_view_workbook (wb_view);
 	ErrorInfo *open_error;
 
@@ -235,12 +344,15 @@ html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		return;
 	}
 
-	fprintf (fp,
+	switch (version) {
+	case HTML32:
+	fputs (
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">\n"
 "<HTML>\n"
 "<HEAD>\n\t<TITLE>Tables</TITLE>\n"
-"\t<!-- "G_PLUGIN_FOR_HTML" -->\n"
-"<STYLE type=\"text/css\"><!--\n"
+"<META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n"
+"\t<!-- \"G_PLUGIN_FOR_HTML\" -->\n"
+"<STYLE><!--\n"
 "TT {\n"
 "\tfont-family: courier;\n"
 "}\n"
@@ -248,106 +360,83 @@ html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "\tfont-family: helvetica, sans-serif;\n"
 "}\n"
 "CAPTION {\n"
+"\tfont-family: helvetica, sans-serif;\n"
 "\tfont-size: 14pt;\n"
 "\ttext-align: left;\n"
 "}\n"
 "--></STYLE>\n"
-"</HEAD>\n<BODY>\n");
+"</HEAD>\n<BODY>\n", fp);
+		break;
+	case HTML40:
+		fputs (
+"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\"\n"
+"\t\t\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<HTML>\n"
+"<HEAD>\n\t<TITLE>Tables</TITLE>\n"
+"<META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n"
+"\t<!-- \"G_PLUGIN_FOR_HTML\" -->\n"
+"<STYLE type=\"text/css\">\n"
+"TT {\n"
+"\tfont-family: courier;\n"
+"}\n"
+"TD {\n"
+"\tfont-family: helvetica, sans-serif;\n"
+"}\n"
+"CAPTION {\n"
+"\tfont-family: helvetica, sans-serif;\n"
+"\tfont-size: 14pt;\n"
+"\ttext-align: left;\n"
+"}\n"
+"</STYLE>\n"
+"</HEAD>\n<BODY>\n", fp);
+		break;
+	default:
+	}
+
 	sheets = workbook_sheets (wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
-		Sheet *sheet = ptr->data;
-		Range r = sheet_get_extent (sheet, FALSE);
-
-		fprintf (fp, "<TABLE border=1>\n");
-		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name_unquoted);
-
-		for (row = r.start.row; row <= r.end.row; row++) {
-			fprintf (fp, "<TR>\n");
-			for (col = r.start.col; col <= r.end.col; col++) {
-				cell = sheet_cell_get (sheet, col, row);
-				style = sheet_style_get (sheet, col, row);
-
-				html_write_cell32 (fp, cell, style);
-			}
-			fprintf (fp, "</TR>\n");
-		}
-		fprintf (fp, "</TABLE>\n<P>\n\n");
+		write_sheet (fp, (Sheet *) ptr->data, version);
 	}
 	g_list_free (sheets);
-	fprintf (fp, "</BODY>\n</HTML>\n");
+	if (version == HTML32 || version == HTML40) 
+		fputs ("</BODY>\n</HTML>\n", fp);
 	fclose (fp);
 }
 
+
 /*
- * write every sheet of the workbook to a html 4.0 table
+ * write every sheet of the workbook to an html 4.0 table
  *
- * FIXME: Should html quote sheet name (and everything else)
  */
 void
 html40_file_save (GnumFileSaver const *fs, IOContext *io_context,
                   WorkbookView *wb_view, const gchar *file_name)
 {
-	FILE *fp;
-	GList *sheets, *ptr;
-	Cell *cell;
-	MStyle *style;
-	int row, col;
-	Workbook *wb = wb_view_workbook (wb_view);
-	ErrorInfo *open_error;
-
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (file_name != NULL);
-
-	fp = gnumeric_fopen_error_info (file_name, "w", &open_error);
-	if (fp == NULL) {
-		gnumeric_io_error_info_set (io_context, open_error);
-		return;
-	}
-
-	fprintf (fp,
-"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\"\n"
-"\t\t\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<HTML>\n"
-"<HEAD>\n\t<TITLE>Tables</TITLE>\n"
-"\t<!-- "G_PLUGIN_FOR_HTML" -->\n"
-"<STYLE type=\"text/css\"><!--\n"
-"TT {\n"
-"\tfont-family: courier;\n"
-"}\n"
-"TD {\n"
-"\tfont-family: helvetica, sans-serif;\n"
-"}\n"
-"CAPTION {\n"
-"\tfont-family: helvetica, sans-serif;\n"
-"\tfont-size: 14pt;\n"
-"\ttext-align: left;\n"
-"}\n"
-"--></STYLE>\n"
-"</HEAD>\n<BODY>\n");
-	sheets = workbook_sheets (wb);
-	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
-		Sheet *sheet = ptr->data;
-		Range r = sheet_get_extent (sheet, FALSE);
-
-		fprintf (fp, "<TABLE border=1>\n");
-		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name_unquoted);
-
-		for (row = r.start.row; row <= r.end.row; row++) {
-			fprintf (fp, "<TR>\n");
-			for (col = r.start.col; col <= r.end.col; col++) {
-				cell  = sheet_cell_get (sheet, col, row);
-				style = sheet_style_get (sheet, col, row);
-
-				html_write_cell40 (fp, cell, style);
-			}
-			fprintf (fp, "</TR>\n");
-		}
-		fprintf (fp, "</TABLE>\n<P>\n\n");
-	}
-	g_list_free (sheets);
-	fprintf (fp, "</BODY>\n</HTML>\n");
-	fclose (fp);
+	html_file_save (fs, io_context, wb_view, file_name, HTML40);
 }
+
+/*
+ * write every sheet of the workbook to an html 3.2 table
+ *
+ */
+void
+html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
+                  WorkbookView *wb_view, const gchar *file_name)
+{
+	html_file_save (fs, io_context, wb_view, file_name, HTML32);
+}
+
+/*
+ * write every sheet of the workbook to an html 3.2 table
+ *
+ */
+void
+html40frag_file_save (GnumFileSaver const *fs, IOContext *io_context,
+                  WorkbookView *wb_view, const gchar *file_name)
+{
+	html_file_save (fs, io_context, wb_view, file_name, HTML40F);
+}
+
 
 static int
 has_prefix (const char *txt, const char *prefix)
