@@ -1,5 +1,9 @@
 2000-06-28  Jody Goldberg <jgoldberg@home.com>
 
+	* src/func.c (fn_def_new) : Init the new elements.
+
+2000-06-28  Jody Goldberg <jgoldberg@home.com>
+
 	* src/functions/fn-sheet.c (GNUMERIC_VERSION) : new function.
 
 	* src/workbook.c (workbook_do_destroy) : No need to release the

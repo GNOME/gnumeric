@@ -189,11 +189,13 @@ fn_def_new (FunctionCategory *category,
 		}
 
 	fndef = g_new (FunctionDefinition, 1);
+	fndef->flags	 = 0;
 	fndef->name      = name;
 	fndef->args      = args;
 	fndef->help      = help;
 	fndef->named_arguments = arg_names;
 	fndef->user_data = NULL;
+	fndef->ref_count = 0;
 
 	if (category != NULL)
 		function_category_add_func (category, fndef);
