@@ -30,6 +30,8 @@
 #include "workbook.h"
 #include "workbook-edit.h"
 #include "gui-util.h"
+#include "widgets/gnumeric-expr-entry.h"
+
 
 #include <ctype.h>
 #include <string.h>
@@ -46,21 +48,12 @@ static gboolean
 point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 {
 	Sheet *sheet = ((SheetControl *) item_edit->scg)->sheet;
-	int cursor_pos;
-	int from, to;
-	RangeRef *ref = NULL;
+	Sheet *parse_sheet;
 
-	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (item_edit->entry));
-	if (parse_surrounding_ranges  (text, cursor_pos, sheet,
-				       TRUE, &from, &to, &ref)) {
-		/* If the range is on another sheet ignore it */
-		if (ref->a.sheet != sheet && ref->b.sheet != sheet) {
-			g_free (ref);
-			return FALSE;
-		}
-		return setup_range_from_range_ref (range, ref, TRUE);
-	}
-	return FALSE;
+	return (gnm_expr_entry_get_rangesel (GNUMERIC_EXPR_ENTRY 
+					     (gtk_widget_get_parent (
+						     GTK_WIDGET (item_edit->entry))), 
+					     range, &parse_sheet) && (parse_sheet == sheet));
 }
 
 static void

@@ -1,3 +1,17 @@
+2002-04-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnumeric-expr-entry.c : add rangesel::is_valid
+	(gee_init) : initialize rangesel::is_valid
+	(gee_rangesel_reset) : set rangesel::is_valid
+	(gnm_expr_entry_rangesel_start) : set rangesel::is_valid and 
+	  rangesel::sheet
+	(cb_gee_key_press_event) : ignore single shift and alt keys
+	(gnm_expr_entry_get_rangesel) : return a 
+	  boolean indicating whether the range selection is valid.
+	(gnm_expr_entry_can_rangesel) : use rangesel::is_valid
+	* gnumeric-expr-entry.h (gnm_expr_entry_get_rangesel) : return a 
+	  boolean indicating whether the range selection is valid.
+
 2002-04-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start) extract

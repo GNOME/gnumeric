@@ -39,6 +39,7 @@ typedef struct {
 	int text_end;
 	gboolean  abs_col;
 	gboolean  abs_row;
+	gboolean  is_valid;
 } Rangesel;
 
 struct _GnumericExprEntry {
@@ -207,6 +208,7 @@ gee_init (GnumericExprEntry *entry)
 {
 	entry->editing_canceled = FALSE;
 	entry->is_cell_renderer = FALSE;
+	entry->rangesel.is_valid = FALSE;
 }
 
 static void
@@ -251,6 +253,7 @@ gee_rangesel_reset (GnumericExprEntry *gee)
 	/* restore the default based on the flags */
 	gee->rangesel.abs_col = (gee->flags & GNUM_EE_ABS_COL) != 0;
 	gee->rangesel.abs_row = (gee->flags & GNUM_EE_ABS_ROW) != 0;
+	gee->rangesel.is_valid = FALSE;
 }
 
 static void
@@ -376,7 +379,7 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 				       !single, &from, &to,
 				       &range))
 	{
-		Sheet *start_sheet, *end_sheet;
+		Sheet *end_sheet;
 		EvalPos ep;
 		
 		/* Note:
@@ -386,10 +389,11 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 		rs->abs_row = !range->a.row_relative;
 		ep.eval.col = 0;
 		ep.eval.row = 0;
-		ep.sheet = NULL;
+		ep.sheet = rs->sheet;
 		
-		rangeref_normalize (&ep, range, &start_sheet, &end_sheet,
+		rangeref_normalize (&ep, range, &rs->sheet, &end_sheet,
 				    &rs->range);
+		rs->is_valid = TRUE;
 		g_free (range);
 		rs->text_start = from;
 		rs->text_end = to;
@@ -399,6 +403,8 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 		}
 		return;
 	}
+
+	rs->is_valid = FALSE;
 
 	if (single) {
 		rs->text_start = 0;
@@ -543,6 +549,9 @@ cb_gee_key_press_event (GtkEntry *entry,
 		gboolean abs_cols = (gee->flags & GNUM_EE_ABS_COL);
 		gboolean abs_rows = (gee->flags & GNUM_EE_ABS_ROW);
 
+		/* FIXME: since the range can't have changed we should just be able to */
+		/*        look it up rather than reparse */
+
 		/* Look for a range */
 		if (rs->text_start >= rs->text_end)
 			gnm_expr_entry_rangesel_start (gee);
@@ -615,6 +624,11 @@ cb_gee_key_press_event (GtkEntry *entry,
 			return TRUE;
 		}
 
+	case GDK_Shift_L:
+	case GDK_Shift_R:
+	case GDK_Alt_L:
+	case GDK_Alt_R:
+		return FALSE;
 	default:
 		break;
 	}
@@ -947,18 +961,21 @@ gnm_expr_entry_load_from_range (GnumericExprEntry *gee,
  *
  * Get the range selection. Range is copied, Sheet is not. If sheet
  * argument is NULL, the corresponding value is not returned.
+ * Returns TRUE if the returned range is indeed valid.
  **/
-void
+gboolean
 gnm_expr_entry_get_rangesel (GnumericExprEntry *gee,
 			     Range *r, Sheet **sheet)
 {
-	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
-	g_return_if_fail (r != NULL);
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
+	g_return_val_if_fail (r != NULL, FALSE);
 
 	if (r)
 		gee_make_display_range (gee, r);
 	if (sheet)
 		*sheet = gee->rangesel.sheet;
+
+	return gee->rangesel.is_valid;
 }
 
 /**
@@ -1032,7 +1049,7 @@ gnm_expr_entry_can_rangesel (GnumericExprEntry *gee)
 		return FALSE;
 
 	gnm_expr_entry_rangesel_start (gee);
-	if (gee->rangesel.text_end != gee->rangesel.text_start)
+	if (gee->rangesel.is_valid)
 		return TRUE;
 
 	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (gee->entry));

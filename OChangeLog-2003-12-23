@@ -1,3 +1,11 @@
+2002-04-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/item-edit.c (point_is_inside_range) : rather than parsing
+	  using parse_surrounding_ranges, ask the expression entry
+	  widget for the already parsed info.
+	* src/parse-util.c (parse_surrounding_ranges) : fix formatting and
+	  add some debug switches
+
 2002-04-05  Morten Welinder  <terra@diku.dk>
 
 	* src/gutils.c (gnm_mem_chunk_foreach_leak): New function.

@@ -537,9 +537,12 @@ parse_error_free (ParseError *pe)
 }
 
 
-gboolean   parse_surrounding_ranges  (char const *text, gint cursor, Sheet *sheet, 
-				      gboolean single_range_only, gint *from, gint *to,
-				      RangeRef **range)
+#undef DEBUG_PARSE_SURROUNDING_RANGES
+
+gboolean   
+parse_surrounding_ranges  (char const *text, gint cursor, Sheet *sheet, 
+			   gboolean single_range_only, gint *from, gint *to,
+			   RangeRef **range)
 {
 	int start, end, last;
 	gchar *test;
@@ -547,6 +550,10 @@ gboolean   parse_surrounding_ranges  (char const *text, gint cursor, Sheet *shee
 	
 	if (text == NULL)
 		return FALSE;
+
+#ifdef DEBUG_PARSE_SURROUNDING_RANGES
+			g_warning ("Starting  to parse [%s]", text);
+#endif
 	
 	last = strlen (text);
 	for (start = 0;
@@ -583,9 +590,11 @@ gboolean   parse_surrounding_ranges  (char const *text, gint cursor, Sheet *shee
 				continue;
 
 			test = g_strndup (text + start, end - start);
-#if 0
+
+#ifdef DEBUG_PARSE_SURROUNDING_RANGES
 			g_warning ("Parsing [%s]", test);
 #endif
+
 			ranges = global_range_list_parse (sheet, test);
 			g_free (test);
 
