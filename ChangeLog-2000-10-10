@@ -1,3 +1,12 @@
+2000-04-25  Morten Welinder  <terra@diku.dk>
+
+	* src/value.c (value_duplicate): Plug leak.
+
+	* plugins/Makefile.am (SUBDIRS): Add numtheory.
+
+	* plugins/numtheory/*: new files, mostly from Marko R. Riedel
+ 	(mriedel@neuearbeit.de).
+
 2000-04-26  Tuomas Kuosmanen  <tigert@tigert.gimp.org>
 
 	* src/pixmaps/auto-sum.xpm: Better fitting Sigma icon for Jody.

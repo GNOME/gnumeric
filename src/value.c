@@ -286,11 +286,8 @@ value_release (Value *value)
 Value *
 value_duplicate (const Value *src)
 {
-	Value *new_value;
-
 	g_return_val_if_fail (src != NULL, NULL);
 
-	new_value = g_new (Value, 1);
 	switch (src->type){
 	case VALUE_EMPTY:
 		return value_new_empty();

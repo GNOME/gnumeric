@@ -24,4 +24,4 @@ else
 GB_DIR =
 endif
 
-SUBDIRS = sample excel lotus-123 oleo sc sylk text ff-csv xbase html dif $(PYTHON) $(GUILE_DIR) $(GB_DIR)
+SUBDIRS = sample excel lotus-123 numtheory oleo sc sylk text ff-csv xbase html dif $(PYTHON) $(GUILE_DIR) $(GB_DIR)
