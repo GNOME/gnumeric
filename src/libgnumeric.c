@@ -186,7 +186,7 @@ main (int argc, char *argv [])
 	if (gnumeric_show_version) {
 		printf (_("gnumeric version '%s'\ndatadir := '%s'\nlibdir := '%s'\n"),
 			GNUMERIC_VERSION, GNUMERIC_DATADIR, GNUMERIC_LIBDIR);
-		return;
+		return 0;
 	}
 #ifdef USE_WM_ICONS
 	gnome_window_icon_set_default_from_file (GNOME_ICONDIR"/gnome-gnumeric.png");

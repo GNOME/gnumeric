@@ -1,5 +1,8 @@
 2001-09-06  Morten Welinder  <terra@diku.dk>
 
+	* src/eval.c (dependent_changed): Remove "pos" argument which is
+ 	always NULL.  All callers changed.
+
 	* src/main.c (main): Delete.
 	(main): Renamed from gnumeric_main.  Return type changed to int.
 

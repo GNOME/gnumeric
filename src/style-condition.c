@@ -81,7 +81,7 @@ style_condition_dep_set_expr (Dependent *dep, ExprTree *expr)
 
 	if (expr) {
 		dep->expression = expr;
-		dependent_changed (dep, NULL, TRUE);
+		dependent_changed (dep, TRUE);
 	}
 }
 

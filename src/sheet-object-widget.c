@@ -542,7 +542,7 @@ checkbox_set_expr (Dependent *dep, ExprTree *expr)
 	dependent_unlink (dep, NULL);
 	expr_tree_unref (dep->expression);
 	dep->expression = expr;
-	dependent_changed (dep, NULL, expr != NULL);
+	dependent_changed (dep, expr != NULL);
 }
 
 static void
@@ -879,7 +879,7 @@ sheet_widget_checkbox_set_sheet (SheetObject *so, Sheet *sheet)
 
 	g_return_val_if_fail (swc != NULL, TRUE);
 
-	dependent_changed (&swc->dep, NULL, TRUE);
+	dependent_changed (&swc->dep, TRUE);
 	sheet_widget_checkbox_set_active (swc);
 
 	return FALSE;

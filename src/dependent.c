@@ -659,11 +659,11 @@ dependent_unlink_sheet (Sheet *sheet)
  * of the dependent.
  */
 void
-dependent_changed (Dependent *dep, CellPos const *pos, gboolean queue_recalc)
+dependent_changed (Dependent *dep, gboolean queue_recalc)
 {
 	g_return_if_fail (dep != NULL);
 
-	dependent_link (dep, pos);
+	dependent_link (dep, NULL);
 
 	if (queue_recalc) {
 		if (dep->sheet->workbook->priv->recursive_dirty_enabled)

@@ -338,7 +338,7 @@ gnm_graph_vector_set_expr (Dependent *dep, ExprTree *expr)
 	dependent_unlink (dep, NULL);
 	expr_tree_unref (dep->expression);
 	dep->expression = expr;
-	dependent_changed (dep, NULL, TRUE);
+	dependent_changed (dep, TRUE);
 }
 
 static void

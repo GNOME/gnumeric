@@ -61,8 +61,7 @@ void dependent_link		 (Dependent *dep, CellPos const *pos);
 void dependent_unlink		 (Dependent *dep, CellPos const *pos);
 void dependent_unlink_sheet	 (Sheet *sheet);
 void dependent_eval		 (Dependent *dep);
-void dependent_changed		 (Dependent *dep, CellPos const *pos,
-				  gboolean queue_recalc);
+void dependent_changed		 (Dependent *dep, gboolean queue_recalc);
 void cb_dependent_queue_recalc	 (Dependent *dep, gpointer ignore);
 
 void cell_add_dependencies	 (Cell *cell);
