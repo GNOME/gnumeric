@@ -186,8 +186,10 @@ style_border_none_set_color (StyleColor *color)
 	none->color = color;
 	style_color_unref (nc);
 
-	if (none->gc)
+	if (none->gc) {
+		/* g_print ("B\n"); */
 		gdk_gc_set_rgb_fg_color (none->gc, &none->color->color);
+	}
 }
 
 /**
@@ -316,7 +318,8 @@ style_border_set_gc_dash (GdkGC *gc, StyleBorderType const i)
 	}
 
 	/* The background should never be drawn */
-	gdk_gc_set_rgb_fg_color (gc, &gs_white);
+	gdk_gc_set_rgb_bg_color (gc, &gs_white);
+	/* g_print ("A\n"); */
 }
 
 static inline GdkGC *
@@ -329,6 +332,7 @@ style_border_get_gc (StyleBorder const *border, GdkWindow *window)
 		((StyleBorder *)border)->gc = gdk_gc_new (window);
 		style_border_set_gc_dash (border->gc, border->line_type);
 		gdk_gc_set_rgb_fg_color (border->gc, &border->color->color);
+		/* g_print ("C\n"); */
 	}
 
 	return border->gc;

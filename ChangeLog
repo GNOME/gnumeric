@@ -1,5 +1,11 @@
 2003-05-20  Morten Welinder  <terra@gnome.org>
 
+	* src/style-border.c (style_border_set_gc_dash): Set the
+	background colour as previosly, not the foreground.  Ugh.
+
+	* src/sheet-control-gui.c (sheet_control_gui_new): Use
+	g_object_set_data, not gtk_object_set_data.
+
 	* src/style-border.c (style_border_set_gc_dash): Use
 	gdk_gc_set_rgb_fg_color, not gdk_gc_set_foreground.  USe
 	gdk_gc_set_rgb_bg_color, not gdk_gc_set_background.
