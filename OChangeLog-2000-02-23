@@ -1,3 +1,8 @@
+1999-04-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-string.c: Close parentheses in help_stubstitute function
+	descritpion.   Thanks to Aldy Hernandez for pointing this out.
+
 1999-04-19  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialog-goal-seek.c: Goal seek tool implemented.  Goal seek

@@ -773,7 +773,7 @@ subs_string_free (struct subs_string *s)
 
 static char *help_substitute = {
 	N_("@FUNCTION=SUBSTITUTE\n"
-	   "@SYNTAX=SUBSTITUTE(text, old, new [,num]\n"
+	   "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
 	   "@DESCRIPTION=Replaces @old with @new in @text.  Substitutions are only applied to "
 	   "instance @num of @old in @text, otherwise every one is changed.\n"
 	   "@SEEALSO=REPLACE, TRIM")
