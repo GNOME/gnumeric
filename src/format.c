@@ -1069,18 +1069,21 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			if (!time_split)
 				time_split = split_time (number);
 
+			/* FIXME : Yuck
+			 * This is a problem waiting to happen.
+			 * rewrite.
+			 */
 			for (n = 1; format [1] == 'M' || format [1] == 'm'; format++)
 				n++;
 			if (format [1] == ']')
 				format++;
-			if (hour_seen || time_display_elapsed){
-				if (time_display_elapsed){
-					time_display_elapsed = FALSE;
-					ignore_further_elapsed = TRUE;
-					append_minute_elapsed (result, n, time_split, number);
-				}
-				else
-					append_minute (result, n, time_split);
+			if (time_display_elapsed) {
+				time_display_elapsed = FALSE;
+				ignore_further_elapsed = TRUE;
+				append_minute_elapsed (result, n, time_split, number);
+			} else if (hour_seen ||
+				   (format[1] == ':' && tolower (format[2]) == 's')){
+				append_minute (result, n, time_split);
 			} else
 				append_month (result, n, time_split);
 			break;

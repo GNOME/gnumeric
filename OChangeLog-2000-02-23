@@ -1,5 +1,14 @@
 1999-11-20  Jody Goldberg <jgoldberg@home.com>
 
+	* src/format.c (format_number) : Handle m, mm as minutes if followed
+	  immediately by seconds.
+	  FIXME FIXME FIXME : The formating is still incomplete.
+	  - It does not support seconds fractions.
+	  - It incorrectly accepts mmm:ss as some sort of minute spec.
+	  TODO TODO TODO
+	  - Too much parsing is taking place when formating.  We should
+	    have set all that up before hand when the format was parsed.
+
 	* src/dialogs/{cell-format,font-sel}.glade.h : Regenerate from
 	  current .glade files.
 
