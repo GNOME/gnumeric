@@ -1,5 +1,9 @@
 2004-08-29  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.3.2
+
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=151150
 	* ms-chart.c (ms_excel_chart_write) : bar/col plots center axis ticks
 

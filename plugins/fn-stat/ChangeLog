@@ -1,3 +1,7 @@
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
 2004-08-13  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (callback_function_rank) : XL and OO appear to just

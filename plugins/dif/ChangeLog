@@ -1,3 +1,7 @@
+2004-08-29  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.3.2
+
 2004-07-28  Morten Welinder  <terra@gnome.org>
 
 	* dif.c (dif_file_open): Call gnumeric_io_error_occurred instead
