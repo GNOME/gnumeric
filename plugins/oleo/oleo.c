@@ -142,22 +142,21 @@ oleo_get_ref_value (int *start, unsigned char *start_relative,
 }
 
 
-static char const *
-oleo_get_gnumeric_expr (char *g_expr, char const *o_expr,
+static char *
+oleo_get_gnumeric_expr (char const *o_expr,
 			ParsePos const *cur_pos)
 {
 	char const *from = o_expr;
-	char *to = g_expr;
+	GString *gres = g_string_sized_new (1024);
 
 	while (*from) {
-		*to = '\0';
 		if (*from == 'r') {
 			CellRef start, end;
 			char *name;
 
 			from++;
 			oleo_get_ref_value (&start.row, &start.row_relative,
-					   &end.row, &end.row_relative, &from);
+					    &end.row, &end.row_relative, &from);
 
 			if (*from == 'c') {
 				from++;
@@ -171,26 +170,26 @@ oleo_get_gnumeric_expr (char *g_expr, char const *o_expr,
 			}
 
 			name = cellref_as_string (&start, cur_pos, TRUE);
-
-			strcat (to, name);
+			g_string_append (gres, name);
 			g_free (name);
+
 			if (!cellref_equal (&start, &end)) {
-				strcat (to, ":");
+				g_string_append_c (gres, ':');
 				name = cellref_as_string (&end, cur_pos, TRUE);
-				strcat (to, name);
+				g_string_append (gres, name);
 				g_free (name);
 			}
-			to += strlen (to);
-		} else
-			*to++=*from++;
+		} else {
+			g_string_append_c (gres, *from);
+			from++;
+		}
 	}
-	*to = '\0';
 
 #if OLEO_DEBUG > 0
-	g_warning ("\"%s\"->\"%s\".", o_expr, g_expr);
+	g_warning ("\"%s\"->\"%s\".", o_expr, gres->str);
 #endif /* OLEO_DEBUG */
 
-	return g_expr;
+	return g_string_free (gres, FALSE);
 }
 
 
@@ -200,23 +199,24 @@ oleo_parse_formula (char const *text, Sheet *sheet, int col, int row)
 	ParsePos pos;
 	ParseError error;
 	GnmExpr const *expr;
-	char gnumeric_text[2048];
+	char *gnumeric_text;
 
 	Cell const *cell = sheet_cell_fetch (sheet,
 		OLEO_TO_GNUMERIC (col), OLEO_TO_GNUMERIC (row));
 
 	parse_pos_init_cell (&pos, cell);
 
-	expr = gnm_expr_parse_str (oleo_get_gnumeric_expr (gnumeric_text,
-						       text, &pos),
-			       &pos, GNM_EXPR_PARSE_DEFAULT,
-			       &rangeref_parse, parse_error_init (&error));
+	gnumeric_text = oleo_get_gnumeric_expr (text, &pos);
+	expr = gnm_expr_parse_str (gnumeric_text,
+				   &pos, GNM_EXPR_PARSE_DEFAULT,
+				   &rangeref_parse, parse_error_init (&error));
 
 	if (error.err != NULL) {
 		g_warning ("%s \"%s\" at %s!%s.",  error.err->message, gnumeric_text,
 			   sheet->name_unquoted,
 			   cell_coord_name (OLEO_TO_GNUMERIC (col), OLEO_TO_GNUMERIC (row)));
 	}
+	g_free (gnumeric_text);
 	parse_error_free (&error);
 
 	return expr;
