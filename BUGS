@@ -19,6 +19,11 @@ Pending Patches
 Long term breakage
 ------------------
 
+- can_try_save_to uses access().  That's bogus in a number of ways: (a) it
+  checks the wrong permissions in the set[gu]id case.  (b) It reports the
+  wrong result in the path is not readable.  The Right Way to do this, is
+  just to do it.  And then check the error code.
+
 - gnumeric_error_invalid change call sequence to use printf argument style.
 
 - Clean out the wasteful searching in every xml util.
