@@ -397,7 +397,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 348 */	{ "SCENARIOGET", -2 },
 /* 349 */	{ "OPTIONSLISTSGET", -2 },
 /* 350 */	{ "ISPMT", 4 },
-/* 351 */	{ "DATEDIF", -2 },
+/* 351 */	{ "DATEDIF", 3 },
 /* 352 */	{ "DATESTRING", -2 },
 /* 353 */	{ "NUMBERSTRING", -2 },
 /* 354 */	{ "ROMAN", -1 },
@@ -801,6 +801,10 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 			ptg_length = length; /* Force it to be the only token */
 			break;
 		}
+
+		case FORMULA_PTG_TBL :
+			ptg_length = 4;
+			break;
 
 		case FORMULA_PTG_ADD :  case FORMULA_PTG_SUB :
 		case FORMULA_PTG_MULT : case FORMULA_PTG_DIV :
@@ -1224,13 +1228,6 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 		}
 		break;
 
-#if 0
-		case FORMULA_PTG_MEM_FUNC:
-			/* Can I just ignore this ? */
-			ptg_length = 2 + MS_OLE_GET_GUINT16 (cur);
-			break;
-#endif
-
 		case FORMULA_PTG_REF_ERR:
 			ptg_length = (ver >= MS_BIFF_V8) ? 4 : 3;
 			parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
@@ -1287,6 +1284,17 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 			parse_list_push_raw (&stack, value_new_cellrange (&first, &last, fn_col, fn_row));
 			break;
 		}
+
+		case FORMULA_PTG_MEM_AREA :
+		case FORMULA_PTG_MEM_ERR :
+			/* ignore this, we handle at run time */
+			ptg_length = 6;
+			break;
+
+		case FORMULA_PTG_MEM_FUNC:
+			/* ignore this, we handle at run time */
+			ptg_length = 2;
+			break;
 
 		case FORMULA_PTG_NAME_X : { /* FIXME: Not using sheet_idx at all ... */
 			ExprTree *tree;

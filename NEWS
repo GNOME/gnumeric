@@ -9,6 +9,7 @@ Jody:
 	  communicate with 1.1.x.
 	* Add warning dialog when we can't activate guppi.
 	* Backport fix for sheet object ref count error.
+	* Allow format dialog to grow (debian 159949)
 
 Morten:
 	* Fix goal seek (and thus functions like XIRR.)
