@@ -1,3 +1,8 @@
+2003-03-05  Morten Welinder  <terra@diku.dk>
+
+	* dialog-stf.glade: Fix path to icon.  This needs a better fix.
+	(And dialog-stf-export.glade does the same.)
+
 2003-01-28  Morten Welinder  <terra@diku.dk>
 
 	* dialog-cell-sort.c (col_row_name): Don't refer to rendered text

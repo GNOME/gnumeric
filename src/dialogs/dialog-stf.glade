@@ -23,7 +23,7 @@
 	<widget class="GnomeDruidPageStandard" id="main_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Data type and number of lines</property>
-	  <property name="logo">stf-druid.png</property>
+	  <property name="logo">../../../pixmaps/gnumeric/stf-druid.png</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="vbox1">
@@ -451,7 +451,7 @@
 	<widget class="GnomeDruidPageStandard" id="csv_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Separation customization</property>
-	  <property name="logo">stf-druid.png</property>
+	  <property name="logo">../../../pixmaps/gnumeric/stf-druid.png</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="vbox4">
@@ -1107,7 +1107,7 @@
 	<widget class="GnomeDruidPageStandard" id="fixed_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Fixed width customization</property>
-	  <property name="logo">stf-druid.png</property>
+	  <property name="logo">../../../pixmaps/gnumeric/stf-druid.png</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="vbox7">
@@ -1509,7 +1509,7 @@
 	<widget class="GnomeDruidPageStandard" id="format_page">
 	  <property name="visible">True</property>
 	  <property name="title" translatable="yes">Column formatting</property>
-	  <property name="logo">stf-druid.png</property>
+	  <property name="logo">../../../pixmaps/gnumeric/stf-druid.png</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox4">
