@@ -88,7 +88,7 @@ dialog_insert_cells (WorkbookControlGUI *wbcg, Sheet *sheet)
 		cmd_insert_cols (wbc, sheet, sel->start.col, cols);
 		return;
 	}
-	if (range_is_full (sel, FALSE)) {
+	if (range_is_full (sel, TRUE)) {
 		cmd_insert_rows (wbc, sheet, sel->start.row, rows);
 		return;
 	}

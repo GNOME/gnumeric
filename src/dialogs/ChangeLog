@@ -1,3 +1,7 @@
+2001-06-08  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-insert-cells.c (dialog_insert_cells) : fix typo.
+
 2001-06-06  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-consolidate.c : Implementation of the consolidation dialog.
