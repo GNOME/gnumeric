@@ -19,7 +19,8 @@ typedef enum {
 } StyleConditionBool;
 
 typedef enum {
-	SCO_EQUAL,
+	SCO_UNDEFINED = -1,
+	SCO_EQUAL = 0,
 	SCO_NOT_EQUAL,
 	SCO_GREATER,
 	SCO_LESS,

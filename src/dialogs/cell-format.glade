@@ -3269,20 +3269,6 @@ Double
       <spacing>4</spacing>
 
       <widget>
-	<class>GtkCheckButton</class>
-	<name>validation_enable</name>
-	<can_focus>True</can_focus>
-	<label>Do validation</label>
-	<active>False</active>
-	<draw_indicator>True</draw_indicator>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
-
-      <widget>
 	<class>GtkFrame</class>
 	<name>validation_criteria</name>
 	<label>Criteria</label>

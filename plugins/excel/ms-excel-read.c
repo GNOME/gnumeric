@@ -226,7 +226,7 @@ get_chars (char const *ptr, guint length, gboolean high_byte)
  * FIXME: see S59D47.HTM for full description
  **/
 char *
-biff_get_text (const guint8 *pos, guint32 length, guint32 *byte_length)
+biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length)
 {
 	char *ans;
 	const guint8 *ptr;
@@ -1353,6 +1353,7 @@ ms_excel_set_xf_segment (ExcelSheet *esheet,
 {
 	Range   range;
 	MStyle * const mstyle  = ms_excel_get_style_from_xf (esheet, xfidx);
+
 	if (mstyle == NULL)
 		return;
 
@@ -3199,6 +3200,18 @@ ms_excel_read_setup (BiffQuery *q, ExcelSheet *esheet)
 		gnumeric_get_le_double (q->data + 24));
 }
 
+static guint8 const *
+ms_excel_read_range (Range *r, guint8 const *data)
+{
+	r->start.row = MS_OLE_GET_GUINT16 (data);
+	r->end.row = MS_OLE_GET_GUINT16   (data + 2);
+	r->start.col = MS_OLE_GET_GUINT16 (data + 4);
+	r->end.col = MS_OLE_GET_GUINT16   (data + 6);
+	d (4, range_dump (r, "\n"););
+
+	return data + 8;
+}
+
 /*
  * No documentation exists for this record, but this makes
  * sense given the other record formats.
@@ -3206,26 +3219,16 @@ ms_excel_read_setup (BiffQuery *q, ExcelSheet *esheet)
 static void
 ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *esheet)
 {
-	const guint16 num_merged = MS_OLE_GET_GUINT16 (q->data);
-	const guint8 *ptr = q->data + 2;
-	int i;
+	int num_merged = MS_OLE_GET_GUINT16 (q->data);
+	guint8 const *data = q->data + 2;
+	Range r;
 
-	/* Do an anal sanity check. Just in case we've
-	 * mis-interpreted the format.
-	 */
 	g_return_if_fail (q->length == (unsigned int)(2 + 8 * num_merged));
 
-	for (i = 0 ; i < num_merged ; ++i, ptr += 8) {
-		Range r;
-		r.start.row = MS_OLE_GET_GUINT16 (ptr);
-		r.end.row = MS_OLE_GET_GUINT16 (ptr + 2);
-		r.start.col = MS_OLE_GET_GUINT16 (ptr + 4);
-		r.end.col = MS_OLE_GET_GUINT16 (ptr + 6);
+	while (num_merged-- > 0) {
+		data = ms_excel_read_range (&r, data);
 		sheet_merge_add (NULL, esheet->gnum_sheet, &r, FALSE);
-
-		d (1, range_dump (&r, "\n"););
 	}
-
 }
 
 static void
@@ -3244,12 +3247,7 @@ ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
 		r.start.col = MS_OLE_GET_GUINT16 (q->data + 8);
 		r.end.col   = MS_OLE_GET_GUINT16 (q->data + 10);
 	} else
-	{
-		r.start.row = MS_OLE_GET_GUINT16 (q->data);
-		r.end.row   = MS_OLE_GET_GUINT16 (q->data + 2);
-		r.start.col = MS_OLE_GET_GUINT16 (q->data + 4);
-		r.end.col   = MS_OLE_GET_GUINT16 (q->data + 6);
-	}
+		ms_excel_read_range (&r, q->data);
 
 	d (0, printf ("Dimension = %s\n", range_name (&r)););
 }
@@ -3408,7 +3406,7 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 	guint16 const expr2_len	= MS_OLE_GET_GUINT8 (q->data + 4);
 	guint8 const fmt_type	= MS_OLE_GET_GUINT8 (q->data + 9);
 	unsigned offset;
-	int cond1 = -1, cond2 = -1;
+	StyleConditionOperator cond1 = SCO_UNDEFINED, cond2 = SCO_UNDEFINED;
 	ExprTree *expr1 = NULL, *expr2 = NULL;
 
 	d(-1, printf ("cond type = %d\n", (int)type););
@@ -3541,37 +3539,30 @@ ms_excel_read_condfmt (BiffQuery *q, ExcelSheet *esheet)
 {
 	guint16 num_fmts, options, num_areas;
 	Range  region;
-	unsigned i, offset;
+	unsigned i;
+	guint8 const *data;
 	
 	g_return_if_fail (q->length >= 14);
 
 	num_fmts = MS_OLE_GET_GUINT16 (q->data + 0);
 	options  = MS_OLE_GET_GUINT16 (q->data + 2);
-	num_areas        = MS_OLE_GET_GUINT16 (q->data + 12);
+	num_areas = MS_OLE_GET_GUINT16 (q->data + 12);
 
 	d(1, printf ("Num areas == %hu\n", num_areas););
-	if (num_areas > 0) {
-		/* It seems like this region is 0,0 -> 0xffff,0xffff
-		 * when there are no regions.
-		 */
-		region.start.row = MS_OLE_GET_GUINT16 (q->data + 4);
-		region.end.row   = MS_OLE_GET_GUINT16 (q->data + 6);
-		region.start.col = MS_OLE_GET_GUINT16 (q->data + 8);
-		region.end.col   = MS_OLE_GET_GUINT16 (q->data + 10);
-		d(2, range_dump (&region, "\n"););
-	}
+#if 0
+	/* The bounding box or the region containing all conditional formats.
+	 * It seems like this region is 0,0 -> 0xffff,0xffff when there are no
+	 * regions.
+	 */
+	if (num_areas > 0)
+		ms_excel_read_range (&region, q->data+4);
+#endif
 
-	offset = 14;
-	for (i = 0 ; i < num_fmts && (offset+8) <= q->length ; i++) {
-		region.start.row = MS_OLE_GET_GUINT16 (q->data + offset + 0);
-		region.end.row   = MS_OLE_GET_GUINT16 (q->data + offset + 2);
-		region.start.col = MS_OLE_GET_GUINT16 (q->data + offset + 4);
-		region.end.col   = MS_OLE_GET_GUINT16 (q->data + offset + 6);
-		d(1, range_dump (&region, " <-\n"););
-		offset += 8;
-	}
+	data = q->data + 14;
+	for (i = 0 ; i < num_areas && (data+8) <= (q->data + q->length) ; i++)
+		data = ms_excel_read_range (&region, data);
 
-	g_return_if_fail (offset == q->length);
+	g_return_if_fail (data == q->data + q->length);
 
 	for (i = 0 ; i < num_fmts ; i++) {
 		guint16 next;
@@ -3587,12 +3578,105 @@ ms_excel_read_condfmt (BiffQuery *q, ExcelSheet *esheet)
 static void
 ms_excel_read_dv (BiffQuery *q, ExcelSheet *esheet)
 {
-	guint32	options;
+	ExprTree *expr1 = NULL, *expr2 = NULL;
+	int       expr1_len,     expr2_len;
+	char *input_msg, *error_msg, *input_title, *error_title;
+	guint32	options, len;
+	guint8 const *data, *expr1_dat, *expr2_dat;
+	int i;
+	Range r;
+	StyleConditionConstraint type;
+	StyleConditionOperator op1 = SCO_UNDEFINED, op2 = SCO_UNDEFINED;
+	StyleConditionBool join = SCB_NONE;
 
-	g_return_if_fail (q->length > 4);
-
+	g_return_if_fail (q->length >= 4);
 	options	= MS_OLE_GET_GUINT32 (q->data);
+	data = q->data + 4;
 
+	g_return_if_fail (data < (q->data + q->length));
+	input_title = biff_get_text (data + 2, MS_OLE_GET_GUINT8 (data), &len);
+	data += len + 2;
+
+	g_return_if_fail (data < (q->data + q->length));
+	error_title = biff_get_text (data + 2, MS_OLE_GET_GUINT8 (data), &len);
+	data += len + 2;
+
+	g_return_if_fail (data < (q->data + q->length));
+	input_msg = biff_get_text (data + 2, MS_OLE_GET_GUINT8 (data), &len);
+	data += len + 2;
+
+	g_return_if_fail (data < (q->data + q->length));
+	error_msg = biff_get_text (data + 2, MS_OLE_GET_GUINT8 (data), &len);
+	data += len + 2;
+
+	d(1, {
+		printf ("Input Title : '%s'\n", input_title);
+		printf ("Input Msg   : '%s'\n", input_msg);
+		printf ("Error Title : '%s'\n", error_title);
+		printf ("Error Msg   : '%s'\n", error_msg);
+	});
+
+	expr1_len = MS_OLE_GET_GUINT16 (data);
+	d (5, printf ("Unknown = %hu\n", MS_OLE_GET_GUINT16 (data+2)););
+	expr1_dat = data  + 4;	/* TODO : What are the missing 2 bytes ? */
+	data += expr1_len + 4;
+	g_return_if_fail (data < (q->data + q->length));
+
+	expr2_len = MS_OLE_GET_GUINT16 (data);
+	d (5, printf ("Unknown = %hu\n", MS_OLE_GET_GUINT16 (data+2)););
+	expr2_dat = data  + 4;	/* TODO : What are the missing 2 bytes ? */
+	data += expr2_len + 4;
+	g_return_if_fail (data < (q->data + q->length));
+	len = MS_OLE_GET_GUINT16 (data);
+
+	i = MS_OLE_GET_GUINT16 (data);
+	for (data += 2; i-- > 0 ;)
+		data = ms_excel_read_range (&r, data);
+
+	switch (options & 0x0f) {
+	/*case 0: type = SCC_IS_ANY;	break; */
+	case 1:	type = SCC_IS_INT;	break;
+	case 2:	type = SCC_IS_FLOAT;	break;
+	case 3:	type = SCC_IS_IN_LIST;	break;
+	case 4:	type = SCC_IS_DATE;	break;
+	case 5:	type = SCC_IS_TIME;	break;
+	case 6:	type = SCC_IS_TEXTLEN;	break;
+	case 7:	type = SCC_IS_CUSTOM;	break;
+	default :
+		g_warning ("EXCEL : Unknown contraint type %d", options & 0x0f);
+		return;
+	};
+
+	options >>= 20;
+	switch (options & 0x0f) {
+	case 0:	op1 = SCO_GREATER_EQUAL; op2 = SCO_LESS_EQUAL;	join = SCB_AND_PAIR;  break;
+	case 1:	op1 = SCO_LESS;		 op2 = SCO_GREATER;	join = SCB_OR_PAIR;  break;
+	case 2:	op1 = SCO_EQUAL;		break;
+	case 3:	op1 = SCO_NOT_EQUAL;		break;
+	case 4:	op1 = SCO_GREATER;		break;
+	case 5:	op1 = SCO_LESS;			break;
+	case 6:	op1 = SCO_GREATER_EQUAL;	break;
+	case 7:	op1 = SCO_LESS_EQUAL;		break;
+
+	default :
+		g_warning ("EXCEL : Unknown contraint operator %d", options & 0x0f);
+		return;
+	};
+
+	if (expr1_len > 0) {
+		g_return_if_fail (op1 != SCO_UNDEFINED);
+		expr1 = ms_sheet_parse_expr_internal (esheet,
+			expr1_dat, expr1_len);
+	}
+	if (expr2_len > 0) {
+		g_return_if_fail (op2 != SCO_UNDEFINED);
+		g_return_if_fail (join != SCB_NONE);
+		expr2 = ms_sheet_parse_expr_internal (esheet,
+			expr2_dat, expr2_len);
+	}
+
+	d (1, printf ("type = %d, op1 = %d, op2 = %d, join = %d\n", 
+		       type, op1, op2, join););
 }
 
 static void

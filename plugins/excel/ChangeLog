@@ -1,3 +1,12 @@
+2001-11-16  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_dv) : read things in.  Not stored yet.
+	(ms_excel_read_range) : new convenience routine.
+	(ms_excel_read_mergecells) : used here.
+	(ms_excel_biff_dimensions) : used here.
+	(ms_excel_read_dv) : used here.
+	(ms_excel_read_condfmt) : used here, fix import of multiple areas.
+
 2001-11-09  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_guts) : adjust to different outline

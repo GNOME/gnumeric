@@ -24,6 +24,9 @@ Jody:
 	* Tricky corner cases for style applications.
 	* Break lines at hyphens to.
 	* Disable col/row resize while editing.
+	* Make some dialogs resizable.
+	* Fix comment placement for merged cells.
+	* Initial XL import for data validation.
 
 Jukka:
 	* Improved function documentation.

@@ -2015,8 +2015,8 @@ validation_rebuild_validation (FormatState *state)
 			bound2 = validation_entry_to_expr (state->sheet, state->validation.bound2.entry);
 
 			if (bound1 && bound2) {
-				sc  = style_condition_new_expr (state->sheet, operator == 0 ? SCO_GREATER : SCO_LESS, bound1);
-				scl = style_condition_new_expr (state->sheet, operator == 0 ? SCO_LESS : SCO_GREATER, bound2);
+				sc  = style_condition_new_expr (state->sheet, operator == 0 ? SCO_GREATER_EQUAL : SCO_LESS, bound1);
+				scl = style_condition_new_expr (state->sheet, operator == 0 ? SCO_LESS_EQUAL : SCO_GREATER, bound2);
 
 				if (operator == 0)
 					style_condition_chain (sc, SCB_AND_PAIR, scl);

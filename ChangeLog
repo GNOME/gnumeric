@@ -1,3 +1,13 @@
+2001-11-16  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in (ALL_LINGUAS) : delete unmaintained translations
+	es_DO es_GT es_HN es_MX es_PA es_PE es_SV
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=64661
+	* src/sheet-object-cell-comment.c (comment_get_points) : Tweak the end
+	  col in presence of merged cells.  This is a kludge, but I think it is
+	  safe.
+
 2001-11-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (get_data) : deleted

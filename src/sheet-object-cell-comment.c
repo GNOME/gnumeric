@@ -65,14 +65,18 @@ cell_comment_destroy (GtkObject *object)
 
 #define TRIANGLE_WIDTH 6
 static GnomeCanvasPoints *
-comment_get_points (SheetControlGUI *scg, SheetObject const *so)
+comment_get_points (SheetControlGUI *scg, SheetObject *so)
 {
 	GnomeCanvasPoints *points;
 	int x, y, i, far_col;
 	Range const *r;
 
 	r = sheet_merge_is_corner (so->sheet, &so->anchor.cell_bound.start);
-	far_col = 1 + ((r != NULL) ? r->end.col : so->anchor.cell_bound.start.col);
+	if (r != NULL) {
+		so->anchor.cell_bound.end.col = r->end.col;
+		far_col = 1 + r->end.col;
+	} else
+		far_col = 1 + so->anchor.cell_bound.start.col;
 
 	/* TODO : This could be optimized using the offsets associated with the visible region */
 	x = scg_colrow_distance_get (scg, TRUE, 0, far_col) - 1;

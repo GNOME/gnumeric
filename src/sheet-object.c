@@ -720,7 +720,7 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo, gboolean update)
 		GList *copy = g_list_copy (rinfo->target_sheet->sheet_objects);
 		for (ptr = copy; ptr != NULL ; ptr = ptr->next ) {
 			SheetObject *so = SHEET_OBJECT (ptr->data);
-			Range       *r  = &so->anchor.cell_bound;
+			Range const *r  = &so->anchor.cell_bound;
 			if (range_contains (&dest, r->start.col, r->start.row))
 				gtk_object_destroy (GTK_OBJECT (so));
 		}

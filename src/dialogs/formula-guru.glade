@@ -45,7 +45,7 @@
       <spacing>5</spacing>
       <child>
 	<padding>0</padding>
-	<expand>True</expand>
+	<expand>False</expand>
 	<fill>True</fill>
 	<pack>GTK_PACK_END</pack>
       </child>

@@ -1,3 +1,11 @@
+2001-11-16  Jody Goldberg <jgoldberg@home.com>
+
+	* formula-guru.glade : Make resizable.
+	* function-select.glade : Ditto.
+
+	* dialog-cell-format.c (validation_rebuild_validation) : between is
+	inclusive.
+
 2001-11-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (parse_multiple_ranges) : deleted
