@@ -1,3 +1,11 @@
+2005-01-13  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=162631
+	* src/sheet-control-gui.c (cb_collect_objects_to_commit) : more
+	  safety.
+
+	* src/sheet-object.c (sheet_object_view_set_bounds) : be safer.
+
 2005-01-15  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=161547

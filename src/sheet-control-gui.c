@@ -1952,10 +1952,14 @@ cb_collect_objects_to_commit (SheetObject *so, double *coords, CollectObjectsDat
 			if (NULL != ctrl_pts[9]) {
 				double const *pts = g_hash_table_lookup (
 					pane->gcanvas->simple.scg->selected_objects, so);
+				SheetObjectView *sov = sheet_object_get_view (so,
+					(SheetObjectViewContainer *)pane);
+
 				gtk_object_destroy (GTK_OBJECT (ctrl_pts[9]));
 				ctrl_pts[9] = NULL;
-				sheet_object_view_set_bounds (sheet_object_get_view (so, (SheetObjectViewContainer *)pane),
-					pts, TRUE);
+
+				if (NULL != sov)
+					sheet_object_view_set_bounds (sov, pts, TRUE);
 			}
 		});
 	}

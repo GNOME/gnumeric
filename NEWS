@@ -35,6 +35,7 @@ Jody:
 	* Fix sizes of Bitstream Vera for xls export [#163406]
 	* Mouse events while editing with other vertical alignments [#163198]
 	* Fix zoom for rich text with explicit size [#163223]
+	* Fix race condition when creating drawing objects [#162631]
 	* XLS export for empty cols with non-default formats [#163409]
 	* Redo var width content when resizing all cols at once [debian #288157]
 	* Handle zero sized charts [#163939]

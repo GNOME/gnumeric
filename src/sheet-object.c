@@ -891,8 +891,12 @@ void
 sheet_object_view_set_bounds (SheetObjectView *sov,
 			      double const *coords, gboolean visible)
 {
-	SheetObjectViewIface *iface = SHEET_OBJECT_VIEW_GET_CLASS (sov);
-	iface->set_bounds (sov, coords, visible);
+	SheetObjectViewIface *iface;
+	
+	g_return_if_fail (IS_SHEET_OBJECT_VIEW (sov));
+	iface = SHEET_OBJECT_VIEW_GET_CLASS (sov);
+	if (NULL != iface->set_bounds)
+		(iface->set_bounds) (sov, coords, visible);
 }
 
 SheetObject *
