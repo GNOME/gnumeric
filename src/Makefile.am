@@ -3,7 +3,6 @@ CFLAGS += -g -Wall 	\
 	-Wmissing-prototypes -Wmissing-declarations 
 
 bin_PROGRAMS = gnumeric
-check_PROGRAMS = test-format test-parser
 
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
@@ -29,6 +28,7 @@ GNUMERIC_BASE_SOURCES =			\
 	dialogs.h			\
 	dump.c				\
 	dump.h				\
+	eval.h				\
 	eval.c				\
 	expr.c				\
 	expr.h				\
@@ -56,9 +56,11 @@ GNUMERIC_BASE_SOURCES =			\
 	item-edit.h			\
 	item-grid.c			\
 	item-grid.h			\
+	numbers.h			\
 	parser.y			\
 	pattern-selector.c		\
 	pattern-selector.h		\
+	pixmaps.h			\
 	plugin.c			\
 	plugin.h			\
 	plugin-manager.c		\
@@ -79,7 +81,8 @@ GNUMERIC_BASE_SOURCES =			\
 	utils.c				\
 	utils.h				\
 	workbook.c			\
-	xml-io.c
+	xml-io.c			\
+	xml-io.h
 
 #if WITH_ORBIT
 #GNUMERIC_CORBA_GENERATED =		\
@@ -109,21 +112,6 @@ gnumeric_LDADD = 			\
 	$(GNOME_XML_LIB) 		\
 	$(INTLLIBS)
 
-test_format_SOURCES = format.c test-format.c
-
-test_format_LDADD = 			\
-	$(GNOME_LIBDIR) 		\
-	$(GNOMEUI_LIBS) 		\
-	$(INTLLIBS)
-
-test_parser_SOURCES = 			\
-	test-parser.c			\
-	$(GNUMERIC_BASE_SOURCES)
-
-test_parser_LDADD =			\
-	$(GNOME_LIBDIR)			\
-	$(GNOME_XML_LIB)	 	\
-	$(GNOMEUI_LIBS) $(INTLLIBS) -lgmp
 
 wc:
 	wc -l $(gnumeric_SOURCES)
