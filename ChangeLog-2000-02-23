@@ -1,3 +1,19 @@
+1999-06-23  Morten Welinder  <terra@diku.dk>
+
+	* src/collect.c, src/collect.h: New files.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add collect.c and
+ 	collect.h.
+
+	* src/fn-stat.c: Rewrite range-taking using collect and new range
+ 	handling functions.  Most look really nice now.  (This fixes and
+ 	number of leaks and makes error cases handled better.  We might
+ 	return the wrong error from time to time, though.)
+
+	* src/fn-math.c: Ditto.
+
+	* src/expr.c (eval_funcall): Fix insanity check.
+
 1999-06-22  Morten Welinder  <terra@diku.dk>
 
 	* src/expr.c (eval_funcall): Add sanity check.

@@ -12,6 +12,7 @@
 #include "numbers.h"
 #include "utils.h"
 #include "func.h"
+#include "collect.h"
 
 static guint
 float_hash (const float_t *d)
@@ -37,96 +38,6 @@ float_compare (const float_t *a, const float_t *b)
 	else
 	        return 1;
 }
-
-static gint
-float_compare_d (const float_t *a, const float_t *b)
-{
-        if (*a > *b)
-                return -1;
-	else if (*a == *b)
-	        return 0;
-	else
-	        return 1;
-}
-
-
-/* Take a deep breath.
-
-   We want to compute the variance of a population, i.e., we want to
-   compute
-
-     VAR(x1,...,xn) = (1/n) sum ((x_i - m)^2)
-
-   where m is the average of the population.  The obvious way is to
-   run twice through the data: once to calculate m and once to calculate
-   the variance.  From a numerical point of view, that is not the worst
-   thing to do, but it is wasteful to have to look at the data twice.
-
-   Mathematically, we might use the identity
-
-     VAR(x1,...,xn) = (sum x_i^2 - (sum x_i)^2 / n) / n
-
-   but this method has very bad numerical properties.  The subtraction
-   loses a lot of precision and we can get negative results.  Bad.
-
-   It is much better to keep track of the two values of
-
-     M_j = (1/j) sum x_i                 i = 1,...,j
-     Q_j = sum (x_i - M_j)^2             i = 1,...,j
-
-   as we encounter each new observation.  If we set M_0 = Q_0 = 0, then
-   we have
-
-     M_j = M_{j-1} + (x - M_{j-1}) / j
-     Q_j = Q_{j-1} + (x - M_{j-1})^2 * (j-1) / j
-
-   Note, that we keep adding non-negative numbers to get Q_j.  That gives
-   us good numerical properties.  Finally, we get the variance by
-
-     VAR(x1,...,xn) = Q_n / n
-
-   March 30, 1999.
-
-   Morten Welinder
-   terra@gnu.org
-
-   PS: For fun, here is a comparison of the two methods.
-
-     robbie:~> ./a.out 40000.00000001 40000.00000002
-     N-variance according to method 1: -4.76837e-07      <--- wrong sign!
-     N-variance according to method 2: 2.50222e-17
-
-     robbie:~> ./a.out 40000.0000001 40000.0000002
-     N-variance according to method 1: 0                 <--- zero!
-     N-variance according to method 2: 2.50004e-15
-
-     robbie:~> ./a.out 40000.000001 40000.000002
-     N-variance according to method 1: 2.38419e-07       <--- six ord. mag. off!
-     N-variance according to method 2: 2.5e-13
-
-     robbie:~> ./a.out 40000.00001 40000.00002
-     N-variance according to method 1: 2.38419e-07
-     N-variance according to method 2: 2.5e-11
-
-     robbie:~> ./a.out 40000.0001 40000.0002
-     N-variance according to method 1: 0                 <--- zero again???
-     N-variance according to method 2: 2.5e-09
-
-     robbie:~> ./a.out 40000.001 40000.002
-     N-variance according to method 1: 2.38419e-07
-     N-variance according to method 2: 2.5e-07
-
-     robbie:~> ./a.out 40000.01 40000.02
-     N-variance according to method 1: 2.47955e-05
-     N-variance according to method 2: 2.5e-05
-
-     robbie:~> ./a.out 40000.1 40000.2
-     N-variance according to method 1: 0.0025003
-     N-variance according to method 2: 0.0025
-
-   */
-
-
 
 void
 setup_stat_closure (stat_closure_t *cl)
@@ -184,22 +95,11 @@ Value *
 gnumeric_varp (Sheet *sheet, GList *expr_node_list, int eval_col,
 	       int eval_row, char **error_string)
 {
-	stat_closure_t cl;
-
-	setup_stat_closure (&cl);
-
-	if (!function_iterate_argument_values (sheet, callback_function_stat,
-					       &cl, expr_node_list,
-					       eval_col, eval_row,
-					       error_string, TRUE))
-		return NULL;
-
-	if (cl.N <= 0) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
-
-	return value_new_float (cl.Q / cl.N);
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_var_pop,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_var = {
@@ -223,22 +123,11 @@ Value *
 gnumeric_var (Sheet *sheet, GList *expr_node_list, int eval_col,
 	      int eval_row, char **error_string)
 {
-	stat_closure_t cl;
-
-	setup_stat_closure (&cl);
-
-	if (!function_iterate_argument_values (sheet, callback_function_stat,
-					       &cl, expr_node_list,
-					       eval_col, eval_row,
-					       error_string, TRUE))
-		return NULL;
-
-	if (cl.N <= 1) {
-		*error_string = gnumeric_err_VALUE;
-		return NULL;
-	}
-
-	return value_new_float (cl.Q / (cl.N - 1));
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_var_est,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_stdev = {
@@ -258,15 +147,11 @@ Value *
 gnumeric_stdev (Sheet *sheet, GList *expr_node_list, int eval_col,
 		int eval_row, char **error_string)
 {
-	Value *var, *ans;
-
-	var = gnumeric_var (sheet, expr_node_list, eval_col,
-			    eval_row, error_string);
-	if (!var)
-		return NULL;
-	ans = value_new_float (sqrt (value_get_as_float (var)));
-	value_release (var);
-	return ans;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_stddev_est,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_stdevp = {
@@ -286,65 +171,23 @@ Value *
 gnumeric_stdevp (Sheet *sheet, GList *expr_node_list, int eval_col,
 		 int eval_row, char **error_string)
 {
-	Value *var, *ans;
-
-	var = gnumeric_varp (sheet, expr_node_list, eval_col,
-			     eval_row, error_string);
-	if (!var)
-		return NULL;
-	ans = value_new_float (sqrt (value_get_as_float (var)));
-	value_release (var);
-	return ans;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_stddev_pop,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
-static char *help_harmean = {
-	N_("@FUNCTION=HARMEAN\n"
-	   "@SYNTAX=HARMEAN(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "HARMEAN returns the harmonic mean of the N data points."
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
-	   "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE")
-};
-
-typedef struct {
-	guint32 num;
-	float_t sum;
-} stat_inv_sum_t;
-
-static int
-callback_function_stat_inv_sum (Sheet *sheet, Value *value,
-				char **error_string, void *closure)
-{
-	stat_inv_sum_t *mm = closure;
-	float_t x;
-
-	if (!VALUE_IS_NUMBER (value))
-		return TRUE;
-
-	x = value_get_as_float (value);
-
-	if (x == 0) {
-		*error_string = gnumeric_err_DIV0;
-		return FALSE;
-	} else {
-		mm->num++;
-		mm->sum += 1.0 / x;
-		return TRUE;
-	}
-}
 
 static char *help_rank = {
 	N_("@FUNCTION=RANK\n"
 	   "@SYNTAX=RANK(x,ref[,order])\n"
 
 	   "@DESCRIPTION="
-	   "RANK returns the rank of a number in a list of numbers. @x is the "
+	   "RANK returns the rank of a number in a list of numbers.  @x is the "
 	   "number whose rank you want to find, @ref is the list of numbers, "
-	   "and @order specifies how to rank numbers. If order is 0 numbers "
-	   "are rank in descending order, otherwise numbers are rank in "
+	   "and @order specifies how to rank numbers.  If @order is 0, numbers "
+	   "are ranked in descending order, otherwise numbers are ranked in "
 	   "ascending order."
 	   "\n"
 	   "@SEEALSO=PERCENTRANK")
@@ -433,85 +276,43 @@ static char *help_trimmean = {
 	   "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE")
 };
 
-typedef struct {
-	guint32 num;
-        float_t last;
-        GSList  *list;
-} stat_trimmean_t;
-
 static int
-callback_function_trimmean (Sheet *sheet, Value *value,
-			    char **error_string, void *closure)
+range_trimmean (const float_t *xs, int n, float_t *res)
 {
-	stat_trimmean_t *mm = closure;
-	float_t x;
+	float_t p, sum = 0;
+	int tc, c, i;
 
-	if (!VALUE_IS_NUMBER (value))
-		return TRUE;
+	if (n < 2)
+		return 1;
 
-	x = value_get_as_float (value);
-	if (mm->num > 0) {
-		float_t *p = g_new(float_t, 1);
-		*p = mm->last;
-		mm->list = g_slist_append (mm->list, p);
-	}
-	mm->last = x;
-	mm->num++;
-	return TRUE;
+	p = xs[--n];
+	if (p < 0 || p > 1)
+		return 1;
+
+	tc = (n * p) / 2;
+	c = n - 2 * tc;
+	if (c == 0)
+		return 1;
+
+	/* OK, so we ignore the constness here.  Tough.  */
+	qsort ((float_t *)xs, n, sizeof (xs[0]), (void *)&float_compare);
+
+	for (i = tc; i < n - tc; i++)
+		sum += xs[i];
+
+	*res = sum / c;
+	return 0;
 }
 
 static Value *
 gnumeric_trimmean (Sheet *sheet, GList *expr_node_list,
 		   int eval_col, int eval_row, char **error_string)
 {
-	stat_trimmean_t p;
-	GSList      *list;
-	int         trim_count, n, count;
-	float_t     sum;
-	Value       *result = NULL;
-
-	p.num   = 0;
-	p.list  = NULL;
-
-	if (function_iterate_argument_values (sheet, callback_function_trimmean,
-					       &p, expr_node_list,
-					       eval_col, eval_row,
-					       error_string, TRUE)) {
-		p.num--;
-		trim_count = (p.num * p.last) / 2;
-		count = p.num - 2 * trim_count;
-		p.list = g_slist_sort (p.list, (GCompareFunc) float_compare);
-		list  = p.list;
-
-		/* Skip the trimmed numbers in the beginning of the list */
-		for (n = 0; n < trim_count; n++){
-			g_free (list->data);
-			list = list->next;
-		}
-
-		/* Count the sum for mean */
-		for (n = sum = 0; n < count; n++){
-			float_t *x;
-
-			x = list->data;
-			sum += *x;
-			g_free (x);
-			list = list->next;
-		}
-
-		result = value_new_float (sum / count);
-	} else
-		list = p.list;
-
-	/* Free the rest of the number on the list */
-	while (list) {
-	        g_free (list->data);
-		list = list->next;
-	}
-
-	g_slist_free (p.list);
-
-	return result;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_trimmean,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_covar = {
@@ -815,7 +616,7 @@ static Value *
 gnumeric_normsinv (struct FunctionDefinition *i,
 		   Value *argv [], char **error_string)
 {
-        float_t p, x;
+        float_t p;
 
         p = value_get_as_float (argv [0]);
 	if (p < 0 || p > 1) {
@@ -1011,24 +812,27 @@ gnumeric_mode (Sheet *sheet, GList *expr_node_list,
        return value_new_float (pr.mode);
 }
 
+static char *help_harmean = {
+	N_("@FUNCTION=HARMEAN\n"
+	   "@SYNTAX=HARMEAN(b1, b2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "HARMEAN returns the harmonic mean of the N data points."
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "\n"
+	   "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE")
+};
+
 static Value *
 gnumeric_harmean (Sheet *sheet, GList *expr_node_list,
 		  int eval_col, int eval_row, char **error_string)
 {
-	stat_inv_sum_t pr;
-
-	pr.num   = 0;
-	pr.sum   = 0.0;
-
-	if (function_iterate_argument_values (sheet, callback_function_stat_inv_sum,
-					      &pr, expr_node_list,
-					      eval_col, eval_row,
-					      error_string, TRUE)) {
-		float_t num;
-		num = (float_t)pr.num;
-		return value_new_float (1.0 / (1.0/num * pr.sum));
-	} else
-		return NULL;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_harmonic_mean,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_geomean = {
@@ -1045,44 +849,15 @@ static char *help_geomean = {
 	   "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE")
 };
 
-typedef struct {
-	guint32 num;
-	float_t product;
-} stat_prod_t;
-
-static int
-callback_function_stat_prod (Sheet *sheet, Value *value,
-			     char **error_string, void *closure)
-{
-	stat_prod_t *mm = closure;
-
-	if (!VALUE_IS_NUMBER (value))
-		return TRUE;
-
-	mm->num++;
-	mm->product *= value_get_as_float (value);
-	return TRUE;
-}
-
 static Value *
 gnumeric_geomean (Sheet *sheet, GList *expr_node_list,
 		  int eval_col, int eval_row, char **error_string)
 {
-	stat_prod_t pr;
-	float_t num;
-
-	pr.num     = 0;
-	pr.product = 1.0;
-
-	function_iterate_argument_values (sheet, callback_function_stat_prod,
-					  &pr, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-	if (*error_string)
-		return NULL;
-
-	/* FIXME: What should happen with negative numbers?  */
-	return value_new_float (pow (pr.product, 1.0 / pr.num));
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_geometric_mean,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_count = {
@@ -1228,106 +1003,26 @@ static char *help_max = {
 	   "@SEEALSO=MIN,ABS")
 };
 
-enum {
-	OPER_MIN,
-	OPER_MAX
-};
-
-typedef struct {
-	int   operation;
-	int   found;
-	Value *result;
-} min_max_closure_t;
-
-static int
-callback_function_min_max (Sheet *sheet, Value *value,
-			   char **error_string, void *closure)
-{
-	min_max_closure_t *mm = closure;
-
-	switch (value->type){
-	case VALUE_INTEGER:
-		if (mm->found){
-			if (mm->operation == OPER_MIN){
-				if (value->v.v_int < mm->result->v.v_float)
-					mm->result->v.v_float = value->v.v_int;
-			} else {
-				if (value->v.v_int > mm->result->v.v_float)
-					mm->result->v.v_float = value->v.v_int;
-			}
-		} else {
-			mm->found = 1;
-			mm->result->v.v_float = value->v.v_int;
-		}
-		break;
-
-	case VALUE_FLOAT:
-		if (mm->found){
-			if (mm->operation == OPER_MIN){
-				if (value->v.v_float < mm->result->v.v_float)
-					mm->result->v.v_float =
-					  value->v.v_float;
-			} else {
-				if (value->v.v_float > mm->result->v.v_float)
-					mm->result->v.v_float =
-					  value->v.v_float;
-			}
-		} else {
-			mm->found = 1;
-			mm->result->v.v_float = value->v.v_float;
-		}
-		break;
-
-	default:
-		/* ignore strings */
-		break;
-	}
-
-	return TRUE;
-}
-
 Value *
 gnumeric_min (Sheet *sheet, GList *expr_node_list,
 	      int eval_col, int eval_row, char **error_string)
 {
-	min_max_closure_t closure;
-
-	closure.operation = OPER_MIN;
-	closure.found  = 0;
-	closure.result = value_new_float (0);
-
-	function_iterate_argument_values (sheet, callback_function_min_max,
-					  &closure, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-	if (*error_string) {
-		value_release (closure.result);
-		return NULL;
-	}
-
-	return 	closure.result;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_min,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 Value *
 gnumeric_max (Sheet *sheet, GList *expr_node_list,
 	      int eval_col, int eval_row, char **error_string)
 {
-	min_max_closure_t closure;
-
-	closure.operation = OPER_MAX;
-	closure.found  = 0;
-	closure.result = value_new_float (0);
-
-	function_iterate_argument_values (sheet, callback_function_min_max,
-					  &closure, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-	if (*error_string) {
-		value_release (closure.result);
-		return NULL;
-	}
-	
-	return 	closure.result;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_max,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_skew = {
@@ -1344,70 +1039,15 @@ static char *help_skew = {
 	   "@SEEALSO=VAR")
 };
 
-typedef struct {
-	guint32 num;
-        float_t mean;
-        float_t stddev;
-	float_t sum;
-} stat_skew_sum_t;
-
-static int
-callback_function_skew_sum (Sheet *sheet, Value *value,
-			    char **error_string, void *closure)
-{
-	stat_skew_sum_t *mm = closure;
-	float_t tmp;
-
-	if (!VALUE_IS_NUMBER (value))
-		return TRUE;
-
-	tmp = (value_get_as_float (value) - mm->mean) / mm->stddev;
-	mm->num++;
-	mm->sum += tmp * tmp * tmp;
-	return TRUE;
-}
-
 static Value *
 gnumeric_skew (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
-	stat_skew_sum_t pr;
-	Value *vtmp;
-
-	pr.num  = 0;
-	pr.sum  = 0.0;
-
-	vtmp = gnumeric_average (sheet, expr_node_list,
-				 eval_col, eval_row, error_string);
-	if (!vtmp)
-		return NULL;
-	pr.mean = value_get_as_float (vtmp);
-	value_release (vtmp);
-
-	vtmp = gnumeric_stdev (sheet, expr_node_list,
-			       eval_col, eval_row, error_string);
-	if (!vtmp)
-		return NULL;
-	pr.stddev = value_get_as_float (vtmp);
-	value_release (vtmp);
-
-	/* FIXME: Check this.  */
-	if (pr.stddev == 0)
-		return value_new_float (0);
-
-	function_iterate_argument_values (sheet, callback_function_skew_sum,
-					  &pr, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-	if (*error_string)
-		return NULL;
-
-	if (pr.num < 3){
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
-
-	return value_new_float (pr.sum * pr.num / (pr.num - 1) / (pr.num - 2));
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_skew,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_expondist = {
@@ -2464,52 +2104,15 @@ static char *help_avedev = {
            "@SEEALSO=STDEV")
 };
 
-typedef struct {
-        guint32 num;
-        float_t mean;
-        float_t sum;
-} stat_avedev_sum_t;
-
-static int
-callback_function_stat_avedev_sum (Sheet *sheet, Value *value,
-				   char **error_string, void *closure)
-{
-        stat_avedev_sum_t *mm = closure;
-
-	if (!VALUE_IS_NUMBER (value))
-		return TRUE;
-
-	mm->num++;
-	mm->sum += fabs (value_get_as_float (value) - mm->mean);
-        return TRUE;
-}
-
 static Value *
 gnumeric_avedev (Sheet *sheet, GList *expr_node_list,
 		 int eval_col, int eval_row, char **error_string)
 {
-        stat_avedev_sum_t pr;
-	Value *vtmp;
-
-        pr.num   = 0;
-        pr.sum   = 0.0;
-
-	vtmp = gnumeric_average (sheet, expr_node_list,
-				 eval_col, eval_row, error_string);
-	if (!vtmp)
-		return NULL;
-	pr.mean = value_get_as_float (vtmp);
-	value_release (vtmp);
-
-	function_iterate_argument_values (sheet,
-					  callback_function_stat_avedev_sum,
-					  &pr, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-	if (*error_string)
-		return NULL;
-
-	return value_new_float (pr.sum / pr.num);
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_avedev,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_devsq = {
@@ -2530,18 +2133,11 @@ static Value *
 gnumeric_devsq (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
-	stat_closure_t cl;
-
-	setup_stat_closure (&cl);
-
-	function_iterate_argument_values (sheet, callback_function_stat,
-					  &cl, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-	if (*error_string)
-		return NULL;
-
-	return value_new_float (cl.Q);
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_devsq,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_fisher = {
@@ -2784,75 +2380,31 @@ static char *help_median = {
           "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM")
 };
 
-typedef struct {
-	guint32 num;
-        GSList  *list;
-} stat_median_t;
-
+/* Special Excel-meaning of median.  */
 static int
-callback_function_median (Sheet *sheet, Value *value,
-			  char **error_string, void *closure)
+range_excel_median (const float_t *xs, int n, float_t *res)
 {
-	stat_median_t *mm = closure;
-	float_t *p;
-
-	if (!VALUE_IS_NUMBER (value))
-		return TRUE;
-
-	p = g_new (float_t, 1);
-	*p = value_get_as_float (value);
-	mm->list = g_slist_append (mm->list, p);
-	mm->num++;
-	return TRUE;
+	if (n > 0) {
+		/* OK, so we ignore the constness here.  Tough.  */
+		qsort ((float_t *)xs, n, sizeof (xs[0]), (void *)&float_compare);
+		if (n & 1)
+			*res = xs[n / 2];
+		else
+			*res = (xs[n / 2 - 1] + xs[n / 2]) / 2;
+		return 0;
+	} else
+		return 1;
 }
 
 static Value *
 gnumeric_median (Sheet *sheet, GList *expr_node_list,
 		 int eval_col, int eval_row, char **error_string)
 {
-	stat_median_t   p;
-	GSList          *list;
-	int             median_ind, n;
-	float_t         median;
-
-	p.num   = 0;
-	p.list  = NULL;
-
-	function_iterate_argument_values (sheet, callback_function_median,
-					  &p, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-
-	median_ind = (p.num - 1) / 2;
-	p.list = g_slist_sort (p.list, (GCompareFunc) float_compare);
-	list  = p.list;
-
-	/* FIXME: what about zero elements?  */
-
-	/* Skip half of the list */
-	for (n=0; n<median_ind; n++){
-	        g_free(list->data);
-		list = list->next;
-	}
-
-	if (p.num % 2)
-	        median = *((float_t *) list->data);
-	else
-		/* FIXME: is this really right?  */
-	        median = (*((float_t *) list->data) +
-			  *((float_t *) list->next->data)) / 2.0;
-
-	while (list != NULL){
-	        g_free(list->data);
-		list = list->next;
-	}
-
-	g_slist_free(p.list);
-
-	if (*error_string)
-		return NULL;
-
-	return value_new_float (median);
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_excel_median,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_large = {
@@ -2869,58 +2421,35 @@ static char *help_large = {
 	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL")
 };
 
+static int
+range_large (const float_t *xs, int n, float_t *res)
+{
+	int k;
+
+	if (n < 2)
+		return 1;
+
+	k = (int)xs[--n] - 1;
+	if (k < 0 || k >= n)
+		return 1;
+
+	/* OK, so we ignore the constness here.  Tough.  */
+	qsort ((float_t *)xs, n, sizeof (xs[0]), (void *)&float_compare);
+	*res = xs[n - 1 - k];
+	return 0;
+}
+
 static Value *
 gnumeric_large (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
-	stat_trimmean_t p;
-	GSList          *list;
-	int             n, k;
-	float_t         r;
-
-	p.num   = 0;
-	p.list  = NULL;
-
-	function_iterate_argument_values (sheet, callback_function_trimmean,
-					  &p, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-
-	p.num--;
-	k = ((int) p.last);
-
-	if (*error_string || p.num == 0 || k<=0 || k > p.num){
-		if (!*error_string)
-			*error_string = gnumeric_err_NUM;
-		list  = p.list;
-		while (list != NULL){
-		        g_free(list->data);
-			list = list->next;
-		}
-		g_slist_free(p.list);
-		return NULL;
-	} else {
-	        p.list = g_slist_sort (p.list, (GCompareFunc) float_compare_d);
-		list  = p.list;
-		--k;
-
-		/* Skip the k largest values */
-		for (n=0; n<k; n++){
-		        g_free(list->data);
-			list = list->next;
-		}
-
-		r = *((float_t *) list->data);
-
-		while (list != NULL){
-		        g_free(list->data);
-			list = list->next;
-		}
-
-		g_slist_free(p.list);
-	}
-	return value_new_float (r);
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_large,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_NUM, error_string);
 }
+
 
 static char *help_small = {
 	N_("@FUNCTION=SMALL\n"
@@ -2936,58 +2465,35 @@ static char *help_small = {
 	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE")
 };
 
+static int
+range_small (const float_t *xs, int n, float_t *res)
+{
+	int k;
+
+	if (n < 2)
+		return 1;
+
+	k = (int)xs[--n] - 1;
+	if (k < 0 || k >= n)
+		return 1;
+
+	/* OK, so we ignore the constness here.  Tough.  */
+	qsort ((float_t *)xs, n, sizeof (xs[0]), (void *)&float_compare);
+	*res = xs[k];
+	return 0;
+}
+
 static Value *
 gnumeric_small (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
-	stat_trimmean_t p;
-	GSList          *list;
-	int             n, k;
-	float_t         r;
-
-	p.num   = 0;
-	p.list  = NULL;
-
-	function_iterate_argument_values (sheet, callback_function_trimmean,
-					  &p, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-
-	p.num--;
-	k = ((int) p.last);
-
-	if (*error_string || p.num == 0 || k<=0 || k > p.num){
-		if (!*error_string)
-			*error_string = gnumeric_err_NUM;
-		list  = p.list;
-		while (list != NULL){
-		        g_free(list->data);
-			list = list->next;
-		}
-		g_slist_free(p.list);
-		return NULL;
-	} else {
-	        p.list = g_slist_sort (p.list, (GCompareFunc) float_compare);
-		list  = p.list;
-		--k;
-
-		/* Skip the k largest values */
-		for (n=0; n<k; n++){
-		        g_free(list->data);
-			list = list->next;
-		}
-
-		r = *((float_t *) list->data);
-
-		while (list != NULL){
-		        g_free(list->data);
-			list = list->next;
-		}
-
-		g_slist_free(p.list);
-	}
-	return value_new_float (r);
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_small,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_NUM, error_string);
 }
+
 
 typedef struct {
         GSList *list;
@@ -3175,12 +2681,12 @@ gnumeric_prob (struct FunctionDefinition *i,
 }
 
 static char *help_steyx = {
-	N_("@FUNCTION=PROB\n"
-	   "@SYNTAX=PROB(known_y's,known_x's)\n"
+	N_("@FUNCTION=STEYX\n"
+	   "@SYNTAX=STDYX(known_y's,known_x's)\n"
 
 	   "@DESCRIPTION="
 	   "STEYX function returns the standard error of the predicted "
-	   "y-value for each x in the regression. "
+	   "y-value for each x in the regression."
 	   "\n"
 	   "If @known_y's and @known_x's are empty or have a different number "
 	   "of arguments then STEYX returns #N/A! error."
@@ -3428,36 +2934,11 @@ static Value *
 gnumeric_averagea (Sheet *sheet, GList *expr_node_list,
 		   int eval_col, int eval_row, char **error_string)
 {
-	Value *result;
-	Value *sum, *count;
-	double c;
-
-	sum = gnumeric_suma (sheet, expr_node_list,
-			     eval_col, eval_row, error_string);
-	if (!sum)
-		return NULL;
-
-	count = gnumeric_counta (sheet, expr_node_list,
-				 eval_col, eval_row, error_string);
-	if (!count){
-		value_release (sum);
-		return NULL;
-	}
-
-	c = value_get_as_float (count);
-
-	if (c == 0.0){
-		*error_string = gnumeric_err_DIV0;
-		value_release (sum);
-		return NULL;
-	}
-
-	result = value_new_float (value_get_as_float (sum) / c);
-
-	value_release (count);
-	value_release (sum);
-
-	return result;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_average,
+				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     gnumeric_err_DIV0, error_string);
 }
 
 static char *help_maxa = {
@@ -3475,84 +2956,15 @@ static char *help_maxa = {
 	   "@SEEALSO=MAX,MINA")
 };
 
-static int
-callback_function_mina_maxa (Sheet *sheet, Value *value,
-			     char **error_string, void *closure)
-{
-	min_max_closure_t *mm = closure;
-
-	switch (value->type){
-	case VALUE_INTEGER:
-		if (mm->found){
-			if (mm->operation == OPER_MIN){
-				if (value->v.v_int < mm->result->v.v_float)
-					mm->result->v.v_float = value->v.v_int;
-			} else {
-				if (value->v.v_int > mm->result->v.v_float)
-					mm->result->v.v_float = value->v.v_int;
-			}
-		} else {
-			mm->found = 1;
-			mm->result->v.v_float = value->v.v_int;
-		}
-		break;
-
-	case VALUE_FLOAT:
-		if (mm->found){
-			if (mm->operation == OPER_MIN){
-				if (value->v.v_float < mm->result->v.v_float)
-					mm->result->v.v_float =
-					  value->v.v_float;
-			} else {
-				if (value->v.v_float > mm->result->v.v_float)
-					mm->result->v.v_float =
-					  value->v.v_float;
-			}
-		} else {
-			mm->found = 1;
-			mm->result->v.v_float = value->v.v_float;
-		}
-		break;
-
-	default:
-		if (mm->found){
-			if (mm->operation == OPER_MIN){
-				if (0 < mm->result->v.v_float)
-					mm->result->v.v_float = 0;
-			} else {
-				if (0 > mm->result->v.v_float)
-					mm->result->v.v_float = 0;
-			}
-		} else {
-			mm->found = 1;
-			mm->result->v.v_float = 0;
-		}
-		break;
-	}
-
-	return TRUE;
-}
-
 static Value *
 gnumeric_maxa (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
-	min_max_closure_t closure;
-
-	closure.operation = OPER_MAX;
-	closure.found  = 0;
-	closure.result = value_new_float (0);
-
-	function_iterate_argument_values (sheet, callback_function_mina_maxa,
-					  &closure, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-	if (*error_string) {
-		value_release (closure.result);
-		return NULL;
-	}		
-
-	return 	closure.result;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_max,
+				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_mina = {
@@ -3574,22 +2986,11 @@ static Value *
 gnumeric_mina (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
-	min_max_closure_t closure;
-
-	closure.operation = OPER_MIN;
-	closure.found  = 0;
-	closure.result = value_new_float (0);
-
-	function_iterate_argument_values (sheet, callback_function_mina_maxa,
-					  &closure, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-	if (*error_string) {
-		value_release (closure.result);
-		return NULL;
-	}		
-
-	return 	closure.result;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_min,
+				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_vara = {
@@ -3611,24 +3012,11 @@ static Value *
 gnumeric_vara (Sheet *sheet, GList *expr_node_list, int eval_col,
 	       int eval_row, char **error_string)
 {
-	stat_closure_t cl;
-
-	setup_stat_closure (&cl);
-	cl.afun_flag = 1;
-
-	function_iterate_argument_values (sheet, callback_function_stat,
-					  &cl, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-	if (*error_string)
-		return NULL;
-
-	if (cl.N <= 1) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
-
-	return value_new_float (cl.Q / (cl.N - 1));
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_var_est,
+				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_varpa = {
@@ -3650,24 +3038,11 @@ static Value *
 gnumeric_varpa (Sheet *sheet, GList *expr_node_list, int eval_col,
 		int eval_row, char **error_string)
 {
-	stat_closure_t cl;
-
-	setup_stat_closure (&cl);
-	cl.afun_flag = 1;
-
-	function_iterate_argument_values (sheet, callback_function_stat,
-					  &cl, expr_node_list,
-					  eval_col, eval_row,
-					  error_string, TRUE);
-	if (*error_string)
-		return NULL;
-
-	if (cl.N <= 0) {
-		*error_string = gnumeric_err_NUM;
-		return NULL;
-	}
-
-	return value_new_float (cl.Q / cl.N);
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_var_pop,
+				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_stdeva = {
@@ -3689,15 +3064,11 @@ static Value *
 gnumeric_stdeva (Sheet *sheet, GList *expr_node_list, int eval_col,
 		 int eval_row, char **error_string)
 {
-	Value *var, *ans;
-
-	var = gnumeric_vara (sheet, expr_node_list, eval_col,
-			     eval_row, error_string);
-	if (!var)
-		return NULL;
-	ans = value_new_float (sqrt (value_get_as_float (var)));
-	value_release (var);
-	return ans;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_stddev_est,
+				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_stdevpa = {
@@ -3719,15 +3090,11 @@ static Value *
 gnumeric_stdevpa (Sheet *sheet, GList *expr_node_list, int eval_col,
 		  int eval_row, char **error_string)
 {
-	Value *var, *ans;
-
-	var = gnumeric_varpa (sheet, expr_node_list, eval_col,
-			      eval_row, error_string);
-	if (!var)
-		return NULL;
-	ans = value_new_float (sqrt (value_get_as_float (var)));
-	value_release (var);
-	return ans;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_stddev_pop,
+				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_slope = {
@@ -4012,8 +3379,6 @@ gnumeric_ftest (struct FunctionDefinition *i,
 	GList          *expr_node_list;
 	float_t        var1, var2, p;
 	int            dof1, dof2;
-	int            eval_col, eval_row;
-	Sheet          *sheet;
 	
 	setup_stat_closure (&cl);
 

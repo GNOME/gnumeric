@@ -69,6 +69,242 @@ d1mach (int i)
 	}
 }
 
+/* MW ---------------------------------------------------------------------- */
+
+/* Arithmetic sum.  */
+int
+range_sum (const float_t *xs, int n, float_t *res)
+{
+	float_t sum = 0;
+	int i;
+
+	for (i = 0; i < n; i++)
+		sum += xs[i];
+	*res = sum;
+	return 0;
+}
+
+/* Arithmetic sum of squares.  */
+int
+range_sumsq (const float_t *xs, int n, float_t *res)
+{
+	float_t sum = 0;
+	int i;
+
+	for (i = 0; i < n; i++)
+		sum += xs[i] * xs[i];
+	*res = sum;
+	return 0;
+}
+
+/* Arithmetic average.  */
+int
+range_average (const float_t *xs, int n, float_t *res)
+{
+	if (n <= 0 || range_sum (xs, n, res))
+		return 1;
+
+	*res /= n;
+	return 0;
+}
+
+int
+range_min (const float_t *xs, int n, float_t *res)
+{
+	if (n > 0) {
+		float_t min = xs[0];
+		int i;
+
+		for (i = 1; i < n; i++)
+			if (xs[i] < min)
+				min = xs[i];
+		*res = min;
+		return 0;
+	} else
+		return 1;
+}
+
+int
+range_max (const float_t *xs, int n, float_t *res)
+{
+	if (n > 0) {
+		float_t max = xs[0];
+		int i;
+
+		for (i = 1; i < n; i++)
+			if (xs[i] > max)
+				max = xs[i];
+		*res = max;
+		return 0;
+	} else
+		return 1;
+}
+
+
+/* Average absolute deviation from mean.  */
+int
+range_avedev (const float_t *xs, int n, float_t *res)
+{
+	if (n > 0) {
+		float_t m, s = 0;
+		int i;
+
+		range_average (xs, n, &m);
+		for (i = 0; i < n; i++)
+			s += fabs (xs[i] - m);
+		*res = s / n;
+		return 0;
+	} else
+		return 1;
+}
+
+
+/* Sum of square deviations from mean.  */
+int
+range_devsq (const float_t *xs, int n, float_t *res)
+{
+	float_t m, dx, q = 0;
+	if (n > 0) {
+		int i;
+
+		range_average (xs, n, &m);
+		for (i = 0; i < n; i++) {
+			dx = xs[i] - m;
+			q += dx * dx;
+		}
+	}
+	*res = q;
+	return 0;
+}
+
+/* Variance with weight N.  */
+int
+range_var_pop (const float_t *xs, int n, float_t *res)
+{
+	if (n > 0) {
+		float_t q;
+
+		range_devsq (xs, n, &q);
+		*res = q / n;
+		return 0;
+	} else
+		return 1;
+}
+
+/* Variance with weight N-1.  */
+int
+range_var_est (const float_t *xs, int n, float_t *res)
+{
+	if (n > 1) {
+		float_t q;
+
+		range_devsq (xs, n, &q);
+		*res = q / (n - 1);
+		return 0;
+	} else
+		return 1;
+}
+
+/* Standard deviation with weight N.  */
+int
+range_stddev_pop (const float_t *xs, int n, float_t *res)
+{
+	if (range_var_pop (xs, n, res))
+		return 1;
+	else {
+		*res = sqrt (*res);
+		return 0;
+	}		
+}
+
+/* Standard deviation with weight N-1.  */
+int
+range_stddev_est (const float_t *xs, int n, float_t *res)
+{
+	if (range_var_est (xs, n, res))
+		return 1;
+	else {
+		*res = sqrt (*res);
+		return 0;
+	}		
+}
+
+int
+range_skew (const float_t *xs, int n, float_t *res)
+{
+	float_t m, s, dxn, x3 = 0;
+	int i;
+
+	if (n < 3 || range_average (xs, n, &m) || range_stddev_est (xs, n, &s))
+		return 1;
+	if (s == 0)
+		return 1;
+
+	for (i = 0; i < n; i++) {
+		dxn = (xs[i] - m) / s;
+		x3 += dxn * dxn *dxn;
+	}
+
+	*res = ((x3 * n) / (n - 1)) / (n - 2);
+	return 0;
+}
+
+
+/* Harmonic mean of positive numbers.  */
+int
+range_harmonic_mean (const float_t *xs, int n, float_t *res)
+{
+	if (n > 0) {
+		float_t invsum = 0;
+		int i;
+
+		for (i = 0; i < n; i++) {
+			if (xs[i] <= 0)
+				return 1;
+			invsum += 1 / xs[i];
+		}
+		*res = n / invsum;
+		return 0;
+	} else
+		return 1;
+}
+
+/* Product.  */
+int
+range_product (const float_t *xs, int n, float_t *res)
+{
+	float_t product = 1;
+	int i;
+
+	/* FIXME: we should work harder at avoiding
+	   overflow here.  */
+	for (i = 0; i < n; i++) {
+		product *= xs[i];
+	}
+	*res = product;
+	return 0;
+}
+
+/* Geometric mean of positive numbers.  */
+int
+range_geometric_mean (const float_t *xs, int n, float_t *res)
+{
+	if (n > 0) {
+		float_t product = 1;
+		int i;
+
+		/* FIXME: we should work harder at avoiding
+		   overflow here.  */
+		for (i = 0; i < n; i++) {
+			if (xs[i] <= 0)
+				return 1;
+			product *= xs[i];
+		}
+		*res = pow (product, 1.0 / n);
+		return 0;
+	} else
+		return 1;
+}
 
 /* src/nmath/dnorm.c ------------------------------------------------------- */
 /*

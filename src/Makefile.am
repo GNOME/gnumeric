@@ -40,6 +40,8 @@ GNUMERIC_BASE_SOURCES =				\
 	cellspan.c				\
 	clipboard.c				\
 	clipboard.h				\
+	collect.h				\
+	collect.c				\
 	color.c					\
 	color.h					\
 	complex.h				\

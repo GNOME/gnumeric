@@ -10,6 +10,8 @@
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
+#include "mathfunc.h"
+#include "collect.h"
 
 #if 0
 /* help template */
@@ -1242,94 +1244,21 @@ static char *help_sum = {
 
 	   "@DESCRIPTION="
 	   "Computes the sum of all the values and cells referenced in the "
-	   "argument list. "
+	   "argument list."
 	   "\n"
 
 	   "@SEEALSO=AVERAGE, COUNT")
 };
 
-static int
-callback_function_sum (Sheet *sheet, Value *value,
-		       char **error_string, void *closure)
-{
-	Value *result = (Value *) closure;
-
-	switch (value->type){
-	case VALUE_INTEGER:
-		if (result->type == VALUE_INTEGER){
-			if ((result->v.v_int > 0) && (value->v.v_int > 0)){
-				int sum = result->v.v_int + value->v.v_int;
-
-				if (sum < result->v.v_int){
-					double n = result->v.v_int + value->v.v_int;
-
-					result->type = VALUE_FLOAT;
-					result->v.v_float = n;
-				} else
-					result->v.v_int = sum;
-			} else if ((result->v.v_int < 0) && (value->v.v_int < 0)){
-				int sum = result->v.v_int + value->v.v_int;
-
-				if (sum > result->v.v_int){
-					double n = result->v.v_int + value->v.v_int;
-
-					result->type = VALUE_FLOAT;
-					result->v.v_float = n;
-				} else {
-					result->v.v_int = sum;
-				}
-			} else {
-				result->v.v_int += value->v.v_int;
-			}
-		} else
-			result->v.v_float += value->v.v_int;
-		break;
-
-	case VALUE_FLOAT:
-		if (result->type == VALUE_FLOAT)
-			result->v.v_float += value->v.v_float;
-		else {
-			double v = result->v.v_int;
-
-			/* cast to float */
-
-			result->type = VALUE_FLOAT;
-			result->v.v_float = v + value->v.v_float;
-		}
-		break;
-
-	case VALUE_STRING:
-		break;
-
-	default:
-		g_warning ("Unimplemented value->type in callback_function_sum: %s (%d)",
-			   (value->type == VALUE_CELLRANGE) ? "CELLRANGE" :
-			   (value->type == VALUE_ARRAY) ? "ARRAY" :
-			   "UNKOWN!", value->type);
-		break;
-	}
-	return TRUE;
-}
-
 Value *
 gnumeric_sum (Sheet *sheet, GList *expr_node_list,
 	      int eval_col, int eval_row, char **error_string)
 {
-	Value *result;
-
-	result = g_new (Value, 1);
-	result->type = VALUE_INTEGER;
-	result->v.v_int = 0;
-
-	if (!function_iterate_argument_values (sheet, callback_function_sum,
-					       result, expr_node_list,
-					       eval_col, eval_row,
-					       error_string, TRUE)) {
-		value_release (result);
-		return NULL;
-	}
-
-	return result;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_sum,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_suma = {
@@ -1352,21 +1281,11 @@ Value *
 gnumeric_suma (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
-	Value *result;
-
-	result = g_new (Value, 1);
-	result->type = VALUE_INTEGER;
-	result->v.v_int = 0;
-
-	if (!function_iterate_argument_values (sheet, callback_function_sum,
-					       result, expr_node_list,
-					       eval_col, eval_row,
-					       error_string, TRUE)) {
-		value_release (result);
-		return NULL;
-	}
-
-	return result;
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_sum,
+				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_sumsq = {
@@ -1381,49 +1300,15 @@ static char *help_sumsq = {
 	   "@SEEALSO=SUM, COUNT")
 };
 
-typedef struct {
-	guint32 num;
-	float_t sum;
-} math_sumsq_t;
-
-static int
-callback_function_sumsq (Sheet *sheet, Value *value,
-			 char **error_string, void *closure)
-{
-	math_sumsq_t *mm = closure;
-
-	switch (value->type){
-	case VALUE_INTEGER:
-		mm->num++;
-		mm->sum += value->v.v_int * value->v.v_int;
-		break;
-	case VALUE_FLOAT:
-		mm->num++;
-		mm->sum += value->v.v_float * value->v.v_float;
-		break;
-	default:
-		/* ignore strings */
-		break;
-	}
-	return TRUE;
-}
-
 static Value *
 gnumeric_sumsq (Sheet *sheet, GList *expr_node_list, int eval_col,
 		int eval_row, char **error_string)
 {
-        math_sumsq_t p;
-
-	p.num = 0;
-	p.sum = 0;
-
-	if (!function_iterate_argument_values (sheet, callback_function_sumsq,
-					       &p, expr_node_list,
-					       eval_col, eval_row,
-					       error_string, TRUE))
-		return NULL;
-
-	return value_new_float (p.sum);
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_sumsq,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_multinomial = {
@@ -1491,55 +1376,21 @@ static char *help_product = {
 
 	   "@DESCRIPTION="
 	   "PRODUCT returns the product of all the values and cells "
-	   "referenced in the argument list. "
+	   "referenced in the argument list."
 	   "\n"
 
 	   "@SEEALSO=SUM, COUNT")
 };
 
-typedef struct {
-	guint32 num;
-	float_t product;
-} math_product_t;
-
-static int
-callback_function_product (Sheet *sheet, Value *value,
-			   char **error_string, void *closure)
-{
-	math_product_t *mm = closure;
-
-	switch (value->type){
-	case VALUE_INTEGER:
-		mm->num++;
-		mm->product *= value->v.v_int;
-		break;
-	case VALUE_FLOAT:
-		mm->num++;
-		mm->product *= value->v.v_float;
-		break;
-	default:
-		/* ignore strings */
-		break;
-	}
-	return TRUE;
-}
-
 static Value *
 gnumeric_product (Sheet *sheet, GList *expr_node_list, int eval_col,
 		  int eval_row, char **error_string)
 {
-        math_product_t p;
-
-	p.num = 0;
-	p.product = 1;
-
-	if (!function_iterate_argument_values (sheet, callback_function_product,
-					       &p, expr_node_list,
-					       eval_col, eval_row,
-					       error_string, TRUE))
-		return NULL;
-
-	return value_new_float (p.product);
+	return float_range_function (expr_node_list,
+				     sheet, eval_col, eval_row,
+				     range_product,
+				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     gnumeric_err_VALUE, error_string);
 }
 
 static char *help_tan = {
@@ -1761,7 +1612,7 @@ static char *help_sign = {
 	   "@SYNTAX=SIGN(num)\n"
 
 	   "@DESCRIPTION=SIGN function returns 1 if the number is positive, "
-	   "zero if the number is 0, and -1 if the number is negative. "
+	   "zero if the number is 0, and -1 if the number is negative."
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -1787,7 +1638,7 @@ static char *help_sqrtpi = {
 	   "@SYNTAX=SQRTPI(number)\n"
 
 	   "@DESCRIPTION=SQRTPI function returns the square root of a number "
-	   "multiplied by pi. "
+	   "multiplied by pi."
 	   "\n"
 	   "@SEEALSO=PI")
 };
@@ -1813,7 +1664,7 @@ static char *help_randbetween = {
 
 	   "@DESCRIPTION=RANDBETWEEN function returns a random integer number "
 	   "between @bottom and @top.\n"
-	   "If @bottom or @top is non-integer, they are truncated. "
+	   "If @bottom or @top are non-integer, they are truncated. "
 	   "If @bottom > @top, RANDBETWEEN returns #NUM! error.\n"
 	   "@SEEALSO=RAND")
 };
@@ -1823,7 +1674,7 @@ gnumeric_randbetween (struct FunctionDefinition *i,
 		      Value *argv [], char **error_string)
 {
         int bottom, top;
-	double range, r;
+	float_t r;
 
 	bottom = value_get_as_int (argv[0]);
 	top = value_get_as_int (argv[1]);
@@ -1833,10 +1684,7 @@ gnumeric_randbetween (struct FunctionDefinition *i,
 	}
 
 	r = bottom + floor ((top + 1.0 - bottom) * random_01 ());
-	if (fabs (r) < INT_MAX)
-		return value_new_int ((int)r);
-	else
-		return value_new_float (r);
+	return value_new_int ((int)r);
 }
 
 static char *help_rounddown = {
