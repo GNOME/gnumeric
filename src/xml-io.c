@@ -51,6 +51,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+#include <libgnome/gnome-config.h>
 #include <locale.h>
 #include <math.h>
 #include <limits.h>
@@ -3055,6 +3056,19 @@ xml_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl)
 	return gmr != NULL;
 }
 
+static void
+gnumeric_xml_set_compression (xmlDoc *doc)
+{
+	int compression;
+	gboolean ok = TRUE;
+
+	gnome_config_push_prefix ("Gnumeric/XML_DOM/");
+	compression = gnome_config_get_int_with_default ("compressionLevel=9", &ok);
+	if (compression >= 0)
+		xmlSetDocCompressMode (doc, compression);
+	gnome_config_pop_prefix ();
+}
+
 /*
  * Save a Sheet in Gnumerix XML clipboard format to a @buffer and return
  * the size of the data in @size
@@ -3083,10 +3097,7 @@ gnumeric_xml_write_selection_clipboard (WorkbookControl *wbc, Sheet *sheet,
 	xml->xmlRootNode = xml_write_selection_clipboard (ctxt, sheet);
 	xml_parse_ctx_destroy (ctxt);
 
-	/*
-	 * Dump it with a high compression level
-	 */
-	xmlSetDocCompressMode (xml, 9);
+	gnumeric_xml_set_compression (xml);
 	xmlDocDumpMemory (xml, buffer, size);
 	xmlFreeDoc (xml);
 
@@ -3258,10 +3269,7 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 	xml->xmlRootNode = xml_workbook_write (ctxt, wb_view);
 	xml_parse_ctx_destroy (ctxt);
 
-	/*
-	 * Dump it.
-	 */
-	xmlSetDocCompressMode (xml, 9);
+	gnumeric_xml_set_compression (xml);
 	ret = xmlSaveFile (filename, xml);
 	xmlFreeDoc (xml);
 	if (ret < 0) {
