@@ -80,12 +80,12 @@ my @gnumeric_inc =
 # Select these sources to be imported into Gnumeric
 $x=0;
 
-#$src[$x++] = "include/glpavl.h";
-$src[$x++] = "include/glphbsm.h";
-$src[$x++] = "include/glpipm.h";
+##$src[$x++] = "include/glpavl.h";
+#$src[$x++] = "include/glphbsm.h";
+#$src[$x++] = "include/glpipm.h";
 $src[$x++] = "include/glplib.h";
 $src[$x++] = "include/glpluf.h";
-$src[$x++] = "include/glpqmd.h";
+#$src[$x++] = "include/glpqmd.h";
 $src[$x++] = "include/glpspx.h";
 $src[$x++] = "include/glpbbm.h";
 ##$src[$x++] = "include/glpimg.h";
@@ -96,7 +96,7 @@ $src[$x++] = "include/glprsm.h";
 $src[$x++] = "include/glpstr.h";
 ##$src[$x++] = "include/glpchol.h";
 $src[$x++] = "include/glpinv.h";
-$src[$x++] = "include/glplang.h";
+#$src[$x++] = "include/glplang.h";
 $src[$x++] = "include/glplpx.h";
 ##$src[$x++] = "include/glpmps.h";
 $src[$x++] = "include/glpspm.h";
@@ -147,11 +147,6 @@ $src[$x++] = "source/glprsm2.c";     # rsm_primal, rsm_dual, rsm_feas
 ##$src[$x++] = "source/glptext.c";
 $src[$x++] = "@";
 
-
-## glplp.c:
-# prepro_row
-# prepro_col
-# prepro_lp
 
 #
 # Filter sources
