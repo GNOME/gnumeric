@@ -38,7 +38,7 @@ You need:
 	bonobo-activation >= 1.0.2	libbonobo-activation-dev
 	libgnomeprint	>= 2.2.0	libgnomeprint2.2-dev
 	libgnomeprintui	>= 2.2.0	libgnomeprintui2.2-dev
-	libgsf		>= 1.7.2	libgsf-1-dev + libgsf-gnome-1-dev
+	libgsf		>= 1.8.1	libgsf-1-dev + libgsf-gnome-1-dev
 	libglade	>= 2.0.0	libglade2-dev
 	intltools	>= 0.9		intltool
 	gal		>= 1.99.5	libgal2.0-dev
