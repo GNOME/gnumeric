@@ -1,3 +1,7 @@
+2001-02-12  Karl Eichwalder  <ke@suse.de>
+
+	* Makefile.am (EXTRA_DIST): Add $(gnumeric_plugin_guile_DATA).
+
 2001-01-28  Ariel Rios  <ariel@arcavia.com>
 
 	* plugin.c (init_plugin): Correct typo.

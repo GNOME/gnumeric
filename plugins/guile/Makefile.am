@@ -14,4 +14,4 @@ guile_la_LIBADD = $(GUILE_LIBS)
 
 Guilescriptsdir = $(gnumeric_guiledir)
 Guilescripts_DATA = functions.scm gnumeric_startup.scm
-EXTRA_DIST = $(Guilescripts_DATA)
+EXTRA_DIST = $(Guilescripts_DATA) $(gnumeric_plugin_guile_DATA)

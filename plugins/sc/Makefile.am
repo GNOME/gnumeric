@@ -8,3 +8,5 @@ gnumeric_plugin_sc_DATA = plugin.xml
 gnumeric_plugin_sc_LTLIBRARIES = sc.la
 sc_la_LDFLAGS = -module -avoid-version
 sc_la_SOURCES = sc.c
+
+EXTRA_DIST = $(gnumeric_plugin_sc_DATA)

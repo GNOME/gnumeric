@@ -8,3 +8,5 @@ gnumeric_plugin_dif_DATA = plugin.xml
 gnumeric_plugin_dif_LTLIBRARIES = dif.la
 dif_la_LDFLAGS = -module -avoid-version
 dif_la_SOURCES = dif.h dif.c
+
+EXTRA_DIST = $(gnumeric_plugin_dif_DATA)

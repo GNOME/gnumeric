@@ -8,3 +8,5 @@ gnumeric_plugin_sylk_DATA = plugin.xml
 gnumeric_plugin_sylk_LTLIBRARIES = sylk.la
 sylk_la_LDFLAGS = -module -avoid-version
 sylk_la_SOURCES = sylk.c
+
+EXTRA_DIST = $(gnumeric_plugin_sylk_DATA)

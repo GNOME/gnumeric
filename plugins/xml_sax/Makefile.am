@@ -9,3 +9,5 @@ gnumeric_plugin_xml2_DATA = plugin.xml
 gnumeric_plugin_xml2_LTLIBRARIES = xml2.la
 xml2_la_LDFLAGS = -module -avoid-version
 xml2_la_SOURCES = xml2.c
+
+EXTRA_DIST = $(gnumeric_plugin_xml2_DATA)

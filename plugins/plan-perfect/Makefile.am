@@ -17,3 +17,5 @@ gnumeric_plugin_plan_perfect_DATA = $(PP_DATA_TARGET)
 gnumeric_plugin_plan_perfect_LTLIBRARIES = $(PP_LTLIBRARIES_TARGET)
 plan_perfect_la_LDFLAGS = -module -avoid-version
 plan_perfect_la_SOURCES = pln.h pln.c
+
+# EXTRA_DIST = $(gnumeric_plugin_plan_perfect_DATA)

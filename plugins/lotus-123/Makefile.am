@@ -14,3 +14,5 @@ lotus_la_SOURCES = \
 	lotus.c			\
 	lotus-formula.h		\
 	lotus-formula.c
+
+EXTRA_DIST = $(gnumeric_plugin_lotus_DATA)

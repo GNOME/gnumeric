@@ -72,4 +72,4 @@ Perlscripts_DATA = \
 	ext/Gnumeric.xs		\
 	ext/Gnumeric.pm
 
-EXTRA_DIST = $(Perlscripts_DATA)
+EXTRA_DIST = $(Perlscripts_DATA) $(gnumeric_plugin_perl_DATA)

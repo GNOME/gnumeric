@@ -1,3 +1,8 @@
+2001-02-12  Karl Eichwalder  <ke@suse.de>
+
+	* Makefile.am (EXTRA_DIST): New variable; add
+	$(gnumeric_plugin_oleo_DATA).
+
 2000-12-17 Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.61

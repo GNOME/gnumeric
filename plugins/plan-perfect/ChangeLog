@@ -1,3 +1,7 @@
+2001-02-12  Karl Eichwalder  <ke@suse.de>
+
+	* Makefile.am: Add but comment out EXTRA_DIST.
+
 2000-12-17 Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.61

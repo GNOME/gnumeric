@@ -8,3 +8,5 @@ gnumeric_plugin_numtheory_DATA = plugin.xml
 gnumeric_plugin_numtheory_LTLIBRARIES = numtheory.la
 numtheory_la_LDFLAGS = -module -avoid-version
 numtheory_la_SOURCES = numtheory.c
+
+EXTRA_DIST = $(gnumeric_plugin_numtheory_DATA)

@@ -16,4 +16,4 @@ html_la_SOURCES = \
 #No longer used now that printing is available.
 #epsf.h epsf.c ps.h ps.c
 
-EXTRA_DIST = README ChangeLog
+EXTRA_DIST = README ChangeLog $(gnumeric_plugin_html_DATA)

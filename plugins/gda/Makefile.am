@@ -10,3 +10,5 @@ gnumeric_plugin_gdaif_LTLIBRARIES = gdaif.la
 gdaif_la_LDFLAGS = -module -avoid-version
 gdaif_la_SOURCES = plugin-gda.c
 gdaif_la_LIBADD = $(GDA_LIBS)
+
+EXTRA_DIST = $(gnumeric_plugin_gdaif_DATA)

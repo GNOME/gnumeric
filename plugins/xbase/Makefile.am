@@ -8,3 +8,5 @@ gnumeric_plugin_xbase_DATA = plugin.xml
 gnumeric_plugin_xbase_LTLIBRARIES = xbase.la
 xbase_la_LDFLAGS = -module -avoid-version
 xbase_la_SOURCES = boot.c xbase.h xbase.c
+
+EXTRA_DIST = $(gnumeric_plugin_xbase_DATA)
