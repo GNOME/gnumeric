@@ -426,7 +426,7 @@ int
 range_product (const gnum_float *xs, int n, gnum_float *res)
 {
 	if (n == 0) {
-		*res = 0;
+		*res = 1;
 	} else {
 		int exp2;
 		gboolean zerop, anynegp;
