@@ -34,7 +34,6 @@ Worries
       Looks like XL charts do not like non-trivial expressions for series names
     http://bugzilla.gnome.org/show_bug.cgi?id=151610
     : No longer crashes, but we mis-import multiple axis sets
-    : Delete grid then edit chart and see a new grid
 
     http://bugzilla.gnome.org/show_bug.cgi?id=144112
     : fraction matching
