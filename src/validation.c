@@ -31,6 +31,7 @@
 #include "value.h"
 #include "number-match.h"
 #include "workbook-control.h"
+#include "parse-util.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <math.h>
@@ -49,7 +50,7 @@ validation_new (ValidationStyle style,
 		ValidationType  type,
 		ValidationOp    op,
 		char const *title, char const *msg,
-		ExprTree *expr0, ExprTree *expr1,
+		GnmExpr const *expr0, GnmExpr const *expr1,
 		gboolean allow_blank, gboolean use_dropdown)
 {
 	Validation *v;
@@ -97,7 +98,7 @@ validation_unref (Validation *v)
 		}
 		for (i = 0 ; i < 2 ; i++)
 			if (v->expr[i] != NULL) {
-				expr_tree_unref (v->expr[i]);
+				gnm_expr_unref (v->expr[i]);
 				v->expr[i] = NULL;
 			}
 		g_free (v);
@@ -140,7 +141,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 		msg = g_strdup_printf (_("Cell %s is not permitted to be blank"),
 				       cell_name (cell));
 	} else {
-		ExprTree *val_expr = NULL, *expr = NULL;
+		GnmExpr const *val_expr = NULL, *expr = NULL;
 		Value *val = cell->value;
 
 		switch (v->type) {
@@ -186,7 +187,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 				}
 			}
 
-			val_expr = expr_tree_new_constant (res);
+			val_expr = gnm_expr_new_constant (res);
 			break;
 		}
 
@@ -200,7 +201,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			 * eg len (12/13/01) == len (37238) = 5
 			 * This seems wrong for
 			 */
-			val_expr = expr_tree_new_constant (
+			val_expr = gnm_expr_new_constant (
 				value_new_int (strlen (value_peek_string (val))));
 			break;
 
@@ -212,19 +213,19 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 		}
 
 		if (msg == NULL && expr == NULL) {
-			Operation op;
+			GnmExprOp op;
 
 			g_return_val_if_fail (val_expr != NULL, VALIDATION_STATUS_VALID);
 
 			switch (v->op) {
-			case VALIDATION_OP_EQUAL :	 op = OPER_EQUAL;	break;
-			case VALIDATION_OP_NOT_EQUAL :	 op = OPER_NOT_EQUAL;	break;
-			case VALIDATION_OP_GT :		 op = OPER_GT;		break;
+			case VALIDATION_OP_EQUAL :	 op = GNM_EXPR_OP_EQUAL;	break;
+			case VALIDATION_OP_NOT_EQUAL :	 op = GNM_EXPR_OP_NOT_EQUAL;	break;
+			case VALIDATION_OP_GT :		 op = GNM_EXPR_OP_GT;		break;
 			case VALIDATION_OP_NOT_BETWEEN :
-			case VALIDATION_OP_LT :		 op = OPER_LT;		break;
+			case VALIDATION_OP_LT :		 op = GNM_EXPR_OP_LT;		break;
 			case VALIDATION_OP_BETWEEN :
-			case VALIDATION_OP_GTE :	 op = OPER_GTE;		break;
-			case VALIDATION_OP_LTE :	 op = OPER_LTE;		break;
+			case VALIDATION_OP_GTE :	 op = GNM_EXPR_OP_GTE;		break;
+			case VALIDATION_OP_LTE :	 op = GNM_EXPR_OP_LTE;		break;
 			default :
 				g_warning ("Invalid validation operator %d", v->op);
 				return VALIDATION_STATUS_VALID;
@@ -233,8 +234,8 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			if (v->expr [0] == NULL)
 				return VALIDATION_STATUS_VALID;
 
-			expr_tree_ref (v->expr[0]);
-			expr = expr_tree_new_binary (val_expr, op, v->expr[0]);
+			gnm_expr_ref (v->expr[0]);
+			expr = gnm_expr_new_binary (val_expr, op, v->expr[0]);
 		}
 
 		if (expr != NULL) {
@@ -244,14 +245,14 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			Value    *val;
 			gboolean  dummy, valid;
 
-			val = expr_eval (expr, eval_pos_init_cell (&ep, cell),
-					 EVAL_STRICT);
+			val = gnm_expr_eval (expr, eval_pos_init_cell (&ep, cell),
+					 GNM_EXPR_EVAL_STRICT);
 			valid = value_get_as_bool (val, &dummy);
 			value_release (val);
 
 			if (valid && v->op != VALIDATION_OP_BETWEEN) {
 				if (v->type != VALIDATION_TYPE_CUSTOM)
-					expr_tree_unref (expr);
+					gnm_expr_unref (expr);
 				return VALIDATION_STATUS_VALID;
 			}
 
@@ -259,20 +260,20 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			    v->op == VALIDATION_OP_NOT_BETWEEN) {
 				g_return_val_if_fail (v->expr[1] != NULL, VALIDATION_STATUS_VALID);
 
-				expr_tree_ref (v->expr[1]);
-				expr = expr_tree_new_binary (val_expr,
-					(v->op == VALIDATION_OP_BETWEEN) ? OPER_LTE : OPER_GT,
+				gnm_expr_ref (v->expr[1]);
+				expr = gnm_expr_new_binary (val_expr,
+					(v->op == VALIDATION_OP_BETWEEN) ? GNM_EXPR_OP_LTE : GNM_EXPR_OP_GT,
 					v->expr[1]);
-				val = expr_eval (expr, &ep, EVAL_STRICT);
+				val = gnm_expr_eval (expr, &ep, GNM_EXPR_EVAL_STRICT);
 				valid = value_get_as_bool (val, &dummy);
 				value_release (val);
 				if (valid) {
-					expr_tree_unref (expr);
+					gnm_expr_unref (expr);
 					return VALIDATION_STATUS_VALID;
 				}
 			}
 
-			expr_str = expr_tree_as_string (expr,
+			expr_str = gnm_expr_as_string (expr,
 				parse_pos_init_evalpos (&pp, &ep));
 			msg = g_strdup_printf (_("%s is not true."), expr_str);
 			g_free (expr_str);
