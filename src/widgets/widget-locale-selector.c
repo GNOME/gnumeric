@@ -68,7 +68,6 @@ static LGroupInfo lgroups[] = {
 	{N_("Asia"), LG_ASIA},
 	{N_("Africa"), LG_AFRICA},
 	{N_("Australia"), LG_AUSTRALIA},
-	{N_("Middle East"), LG_MIDDLE_EAST},
 	{N_("Other"), LG_OTHER},
 	{NULL, LG_LAST}
 };
@@ -100,7 +99,7 @@ static LocaleInfo locale_trans_array[] = {
 	 * Note: lots of people get very emotional over this.  Please
 	 * err on the safe side, if any.
 	 */
-	{N_("United States/English (C)"),                "C",     LG_OTHER},
+	{N_("United States/English (C)"),                "C",     LG_NORTH_AMERICA},
 	{N_("South Africa Afrikaans (af_ZA)"),           "af_ZA", LG_AFRICA },
 	{N_("Ethiopia/Amharic (am_ET)"),                 "am_ET", LG_AFRICA },
 	{N_("United Arab Emirates (ar_AE)"),             "ar_AE", LG_ASIA },
@@ -148,7 +147,7 @@ static LocaleInfo locale_trans_array[] = {
 	{N_("New Zealand (en_NZ)"),                      "en_NZ", LG_AUSTRALIA },
 	{N_("Philippines (en_PH)"),                      "en_PH", LG_ASIA },
 	{N_("Singapore/English (en_SG)"),                "en_SG", LG_ASIA },
-	{N_("United States (en_US)"),                    "en_US", LG_NORTH_AMERICA},
+	{N_("United States/English (en_US)"),            "en_US", LG_NORTH_AMERICA},
 	{N_("South Africa/English (en_ZA)"),             "en_ZA", LG_AFRICA },
 	{N_("Zimbabwe (en_ZW)"),                         "en_ZW", LG_AFRICA },
 	{N_("Esperanto (eo_EO)"),                        "eo_EO", LG_OTHER },

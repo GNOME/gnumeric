@@ -1,6 +1,10 @@
 2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* widget-locale-selector.c (fmt_dialog_enable_widgets):
+	* widget-locale-selector.c: minor adjustment to locale names
+	
+2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* widget-format-selector.c (fmt_dialog_enable_widgets):
 	  switch locales as appropriate
 	(number_format_selector_set_locale): don't switch them here
 
