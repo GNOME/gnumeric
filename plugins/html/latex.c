@@ -34,30 +34,41 @@
 #include "error-info.h"
 #include "plugin-util.h"
 
-/*
- * escape special characters
+/**
+ * latex_fputs :
+ * 
+ * @p : a pointer to a char, start of the string to be processed.
+ * @fp : a file pointer where the processed characters are written.
+ *
+ * This escapes any special LaTeX characters from the LaTeX engine. Reordered
+ * from Rasca's code to have most common first.
  */
 static void
 latex_fputs (const char *p, FILE *fp)
 {
 	for (; *p; p++) {
 		switch (*p) {
-		case '>': case '<':
-			fprintf (fp, "$%c$", *p);
-			break;
-		case '^': case '~':
-			fprintf (fp, "\\%c{ }", *p);
-			break;
-		case '\\':
-			fputs ("$\\backslash$", fp);
-			break;
-		case '&': case '_': case '%': case '#':
-		case '{': case '}': case '$':
-			fprintf (fp, "\\%c", *p);
-			break;
-		default:
-			fputc (*p, fp);
-			break;
+
+			/* These are the classic TeX symbols $ & % # _ { } (see Lamport, p.15) */
+			case '$': case '&': case '%': case '#':
+			case '_': case '{': case '}':
+				fprintf (fp, "\\%c", *p);
+				break;
+			/* These are the other special characters ~ ^ \ (see Lamport, p.15) */
+			case '^': case '~':
+				fprintf (fp, "\\%c{ }", *p);
+				break;
+			case '\\':
+				fputs ("$\\backslash$", fp);
+				break;
+			/* Are these available only in LaTeX through mathmode? */
+			case '>': case '<':
+				fprintf (fp, "$%c$", *p);
+				break;
+
+			default:
+				fputc (*p, fp);
+				break;
 		}
 	}
 }

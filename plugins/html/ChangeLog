@@ -1,3 +1,7 @@
+2001-10-14  Adrian Custer <acuster@nature.berkeley.edu>
+
+	* latex.c : re-order the latex escape sequence, add documentation
+
 2001-10-07  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.71

@@ -1,5 +1,8 @@
 Gnumeric 0.72
 
+Adrian Custer:
+	* Improve latex exporter.
+
 Almer:
 	* More work on validation.
 	* Stf multiple-separators-as-one fix.
