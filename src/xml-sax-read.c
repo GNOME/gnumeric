@@ -1285,7 +1285,7 @@ xml_sax_named_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->name.name != NULL);
 	g_return_if_fail (state->name.value != NULL);
 
-	parse_pos_init_sheet (&pos, state->sheet);
+	parse_pos_init (&pos, state->wb, state->sheet, 0, 0);
 	if (state->name.position) {
 		GnmCellRef tmp;
 		char const *res = cellref_parse (&tmp, state->name.position, &pos.eval);

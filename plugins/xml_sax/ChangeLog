@@ -1,3 +1,8 @@
+2003-11-17  Morten Welinder  <terra@gnome.org>
+
+	* xml-sax-read.c (xml_sax_named_expr_end): Call parse_pos_init
+	directly for the case where we have no sheet.
+
 2003-11-16  Jody Goldberg <jody@gnome.org>
 
 	* xml-sax-read.c (xml_sax_file_open) : our xml is in C locale
