@@ -77,7 +77,12 @@ typedef enum {
 	/*
 	 * FILL_FORMULA: This is a formula
 	 */
-	FILL_FORMULA
+	FILL_FORMULA,
+
+	/*
+	 * FILL_BOOLEAN_CONSTANT: Just duplicate this constant
+	 */
+	FILL_BOOLEAN_CONSTANT
 } FillType;
 
 typedef struct {
@@ -104,6 +109,7 @@ typedef struct _FillItem {
 			String   *str;
 			int       pos, num;
 		} numstr;
+		gboolean bool;
 	} v;
 
 	gboolean delta_is_float;
@@ -329,6 +335,15 @@ fill_item_new (Sheet *sheet, int col, int row)
 			fi->v.numstr.num = num;
 			fi->v.numstr.pos = pos;
 		}
+
+		return fi;
+	}
+
+	if (value_type == VALUE_BOOLEAN){
+		fi->type = FILL_BOOLEAN_CONSTANT;
+		fi->v.bool = value->v_bool.val;
+
+		return fi;
 	}
 	return fi;
 }
@@ -425,6 +440,7 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 
 	case FILL_EMPTY:
 	case FILL_STRING_CONSTANT:
+	case FILL_BOOLEAN_CONSTANT:
 	case FILL_FORMULA:
 	case FILL_INVALID:
 		return;
@@ -654,6 +670,10 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		cell_set_expr (cell, (func == NULL) ? fi->v.formula : func, NULL);
 		return;
 	}
+
+	case FILL_BOOLEAN_CONSTANT:
+		cell_set_value (cell, value_new_bool (fi->v.bool), NULL);
+		return;
 	}
 }
 
