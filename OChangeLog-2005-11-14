@@ -1,3 +1,8 @@
+2001-08-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_init) : default
+	  fill colour to white.  It makes for bett looking paceholders.
+	 
 2001-08-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* plugins/mps/mps.c, plugins/mps/plugin.xml,

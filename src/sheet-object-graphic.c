@@ -581,8 +581,8 @@ sheet_object_graphic_init (GtkObject *obj)
 	SheetObject *so;
 	
 	sog = SHEET_OBJECT_GRAPHIC (obj);
-	sog->fill_color = g_new0 (GdkColor, 1);
-	e_color_alloc_gdk (sog->fill_color);
+	sog->fill_color = g_new (GdkColor, 1);
+	e_color_alloc_name ("white", sog->fill_color);
 	sog->width = 1.0;
 	sog->a = 8.0;
 	sog->b = 10.0;
