@@ -20,8 +20,8 @@
  */
 
 /*
- * WORKING NOTE : Once the edit dialog is ready look at line 812 and remove
- * the disabling of new/edit/remove buttons!
+ * WORKING NOTE : Once the edit dialog is ready, search for FIXME and
+ * remove the disabling of new/edit/remove buttons!
  */
 
 #include <config.h>
@@ -61,12 +61,13 @@
  */
 #define NUM_PREVIEWS 6
 
-static char* demotable[PREVIEW_ROWS][PREVIEW_COLS] = {
+static const char*
+demotable[PREVIEW_ROWS][PREVIEW_COLS] = {
 	{ " "    , "Jan", "Feb", "Mrt", "Total" },
-	{ "North", "6"  , "13" , "20" , "39"    },
-	{ "South", "12" , "4"  , "17" , "33"    },
-	{ "West" , "8"  , "2"  , "0"  , "10"     },
-	{ "Total", "26" , "19" , "37" , "81"    }
+	{ "North",   "6",  "13",  "20",    "39" },
+	{ "South",  "12",   "4",  "17",    "33" },
+	{ "West" ,   "8",   "2",   "0",    "10" },
+	{ "Total",  "26",  "19",  "37",    "81" }
 };
 
 typedef struct {
@@ -127,16 +128,15 @@ typedef struct {
 static Value *
 cb_get_cell_content (int row, int col, gpointer data)
 {
-	Value *value = NULL;
-	char *text;
+	Value *value;
+	const char *text;
 
 	g_return_val_if_fail (row < PREVIEW_ROWS && col < PREVIEW_COLS, NULL);
 
 	text = demotable[row][col];
 
        /*
-        * Determine if the text to display only consists of
-	* numbers, if so
+        * Determine if the text to display is a number.  If so,
         * set the value as number for proper alignment
         */
        {
@@ -146,7 +146,7 @@ cb_get_cell_content (int row, int col, gpointer data)
                tmp = g_strtod (text, &endptr);
 
                /*
-                * String only consists of numbers if *endptr equals \0
+                * String is only a valid number if *endptr equals \0
                 */
                if (*endptr == '\0')
                        value = value_new_float (tmp);
@@ -275,9 +275,9 @@ templates_load (AutoFormatInfo *info)
 
 	iterator = template_list;
 	while (iterator) {
-		char *filename = iterator->data;
+		const char *filename = iterator->data;
 		char **array = g_strsplit (g_basename (filename), ".", -1);
-		char *category = array[1];
+		const char *category = array[1];
 
 		/*
 		 * Load it if it belongs in the currently active category
@@ -288,14 +288,13 @@ templates_load (AutoFormatInfo *info)
 			ft = format_template_new_from_file (
 				WORKBOOK_CONTROL (info->wbcg), filename);
 
-			format_template_set_size (ft, 0, 0, PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
-
 			if (ft == NULL) {
-
 				g_warning ("Error while reading %s", filename);
 				error = TRUE;
 				break;
 			}
+
+			format_template_set_size (ft, 0, 0, PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
 
 			info->templates = g_slist_prepend (info->templates, ft);
 			count++;
@@ -801,7 +800,7 @@ cb_category_popwin_hide (GtkWidget *widget, AutoFormatInfo *info)
 	}
 
 	/*
-	 * REMOVE THIS WHEN YOU WANT NEW/EDIT/REMOVE TO WORK!!!!!!!
+	 * FIXME: REMOVE THIS WHEN YOU WANT NEW/EDIT/REMOVE TO WORK!!!!!!!
 	 */
 	gtk_widget_set_sensitive (GTK_WIDGET (info->edit), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (info->remove_current), FALSE);
@@ -830,7 +829,7 @@ cb_gridlines_item_toggled (GtkCheckMenuItem *item, AutoFormatInfo *info)
  * Return value: pointer to the gtkcheckmenuitem
  **/
 static GtkCheckMenuItem *
-setup_apply_item (GladeXML *gui, AutoFormatInfo *info, char *name)
+setup_apply_item (GladeXML *gui, AutoFormatInfo *info, const char *name)
 {
 	GtkCheckMenuItem *item;
 

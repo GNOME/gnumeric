@@ -1,3 +1,10 @@
+2000-11-20  Morten Welinder  <terra@diku.dk>
+
+	* dialog-autoformat.c (cb_get_cell_content): Constify.
+	(setup_apply_item): Constify.
+	(templates_load): Move error check earlier to avoid crash, should
+ 	it ever fire.  Constify.
+
 2000-11-18  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.59

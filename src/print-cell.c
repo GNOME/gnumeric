@@ -1,5 +1,5 @@
 /*
- * cell.c: Printing of cell regions and cells.
+ * print-cell.c: Printing of cell regions and cells.
  *
  * Author:
  *    Miguel de Icaza 1999 (miguel@kernel.org)

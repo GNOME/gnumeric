@@ -110,7 +110,7 @@ hash_table_create (void)
  *
  * Generate a key from row, col coordinates.
  * This key is always unique provided that row and col are
- * both below 65535 (2^16)
+ * both below 65536 (2^16).
  *
  * Return value: The key
  **/
@@ -119,7 +119,6 @@ hash_table_generate_key (int row, int col)
 {
 	guint key;
 
-	key = 0;
 	key = (row << 16) + col;
 
 	return key;
