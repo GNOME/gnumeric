@@ -1,58 +1,58 @@
+# Mesage catalog for Gnumeric.
+# (C) Petr Vyhnalek <petr.vyhnalek@email.cz>
+# (C) David Sauer <davids@penguin.cz>, 1999.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.35\n"
+"Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 1999-10-19 08:21-0500\n"
-"PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
+"PO-Revision-Date: 1999-10-22 21:20+02:00\n"
 "Last-Translator: Petr Vyyhnalek <petr.vyhnalek@email.cz>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Date: 1998-09-30 00:38:13-0500\n"
-"From: Petr Vyyhnalek <petr.vyhnalek@email.cz>\n"
 
 #: plugins/excel/boot.c:80
 msgid "Saving over old files disabled for safety"
-msgstr ""
+msgstr "Ukládání souborù pod pùvodním jménem je z dùvodù bezpeènosti zakázáno"
 
 #: plugins/excel/boot.c:88
 msgid "Can't open"
-msgstr ""
+msgstr "Nelze otevøít"
 
 #: plugins/excel/boot.c:126
 msgid "Microsoft(R) Excel file format"
-msgstr ""
+msgstr "Microsoft(R) formát Excel"
 
 #: plugins/excel/boot.c:127
 msgid "Excel(R) 97 file format"
-msgstr ""
+msgstr "formát Excel(R) 97"
 
 #: plugins/excel/boot.c:128
 msgid "Excel(R) 95 file format"
-msgstr ""
+msgstr "formát Excel(R) 95"
 
 #: plugins/excel/ms-excel-read.c:269
 msgid "#UNKNOWN!"
-msgstr ""
+msgstr "#NEZNÁMÝ!"
 
 #: plugins/excel/ms-formula-read.c:648
-#, fuzzy
 msgid "Unknown Function"
-msgstr "Neznámá chyba pøi výpoètu"
+msgstr "Neznámá funkce"
 
 #: plugins/excel/ms-formula-read.c:700
 msgid "Broken function"
-msgstr ""
+msgstr "Chybná funkce"
 
 #: plugins/excel/ms-formula-read.c:1396
-#, fuzzy
 msgid " Unknown formula"
-msgstr "Neznámá chyba pøi výpoètu"
+msgstr " Chybný vzorec"
 
 #: plugins/ff-csv/csv-io.c:52
-#, fuzzy, c-format
+#, c-format
 msgid "Imported %s"
-msgstr "F_ormát"
+msgstr "Importován %s"
 
 #: plugins/ff-csv/csv-io.c:82
 msgid "Comma Separated Value (CSV) import"
@@ -64,7 +64,7 @@ msgstr ""
 
 #: plugins/guile/plugin.c:219
 msgid "Argument must be a Guile expression"
-msgstr ""
+msgstr "Argument musí být výraz Guile"
 
 #: plugins/guile/plugin.c:237 src/expr.c:491
 #: src/functions/fn-information.c:574 src/functions/fn-information.c:643
@@ -78,7 +78,7 @@ msgstr "©patný poèet argumentu"
 
 #: plugins/guile/plugin.c:241 plugins/guile/plugin.c:245
 msgid "First argument to SCM must be a Guile expression"
-msgstr ""
+msgstr "První argument SCM musí být výraz Guile"
 
 #: plugins/guile/plugin.c:249
 msgid "Undefined scheme function"
@@ -89,47 +89,44 @@ msgid "Could not evaluate argument"
 msgstr ""
 
 #: plugins/guile/plugin.c:375
-#, fuzzy
 msgid "Unable to lookup Guile function."
-msgstr "nemohu otevøít soubor modulu:"
+msgstr ""
 
 #: plugins/guile/plugin.c:439
-#, fuzzy
 msgid "Guile Plugin"
-msgstr "Gnumeric"
+msgstr ""
 
 #: plugins/html/boot.c:65
 msgid "HTML 3.2 file format (*.html)"
-msgstr ""
+msgstr "formát HTML verze 3.2 (*.html)"
 
 #: plugins/html/boot.c:67
 msgid "HTML 4.0 file format (*.html)"
-msgstr ""
+msgstr "formát HTML verze 4.0 (*.html)"
 
 #: plugins/html/boot.c:69
 msgid "HTML file made by gnumeric"
-msgstr ""
+msgstr "HTML soubor vytvoøený Gnumericem"
 
 #: plugins/html/boot.c:73
 msgid "LaTeX file format (*.tex)"
-msgstr ""
+msgstr "Formát LaTeX (*.tex)"
 
 #: plugins/html/boot.c:75
 msgid "LaTeX2e file format (*.tex)"
-msgstr ""
+msgstr "Formát LaTeX2e (*.tex)"
 
 #: plugins/html/boot.c:78
 msgid "PS file format (via groff)"
-msgstr ""
+msgstr "Forrmát PS (pøes groff)"
 
 #: plugins/html/boot.c:80
 msgid "DVI TeX file format (via groff)"
 msgstr ""
 
 #: plugins/html/boot.c:82
-#, fuzzy
 msgid "TROFF file format (*.me)"
-msgstr "Formát buòky"
+msgstr ""
 
 #: plugins/html/boot.c:84
 msgid "PDF file format (via groff/gs)"
@@ -158,7 +155,7 @@ msgstr ""
 #. XXX should popup window with exception info
 #: plugins/python/python.c:116
 msgid "Python exception."
-msgstr ""
+msgstr "Vujímka Pythonu."
 
 #: plugins/python/python.c:137
 msgid "object must be callable"
@@ -170,7 +167,7 @@ msgstr ""
 
 #: plugins/python/python.c:147
 msgid "Perl"
-msgstr ""
+msgstr "Perl"
 
 #: plugins/python/python.c:173
 msgid "Gnumeric/Python module initialized\n"
@@ -181,9 +178,8 @@ msgid "Python Plugin"
 msgstr ""
 
 #: plugins/sample/plugin-sample.c:49
-#, fuzzy
 msgid "Sample Plugin"
-msgstr "Gnumeric"
+msgstr ""
 
 #: plugins/stat/stat.c:27
 msgid "OLD Statistics Plugin, not required anymore"
@@ -195,15 +191,16 @@ msgid ""
 "While opening %s\n"
 "%s"
 msgstr ""
+"Pøi otvírání %s\n"
+"%s"
 
 #: plugins/text/text-io.c:337
 msgid "NoName"
 msgstr "BezJména"
 
 #: plugins/text/text-io.c:428
-#, fuzzy
 msgid "Simple Text Format"
-msgstr "Formát buòky"
+msgstr "Jednoduchý textový formát"
 
 #: plugins/text/text-io.c:458
 msgid "TXT (simple text import/export plugin)"
@@ -219,7 +216,7 @@ msgstr ""
 
 #: src/about.c:24
 msgid "Miguel de Icaza, main programmer."
-msgstr ""
+msgstr "Miguel de Icaza, hlavní programátor."
 
 #: src/about.c:25
 msgid "Sean Atkinson, Functions and X-Base importing."
@@ -243,7 +240,7 @@ msgstr ""
 
 #: src/about.c:30
 msgid "Jakub Jelinek, Gnumeric hacker."
-msgstr ""
+msgstr "Jakub Jelinek, programátor."
 
 #: src/about.c:31
 msgid "Chris Lahey, Number format engine."
@@ -263,11 +260,11 @@ msgstr ""
 
 #: src/about.c:35
 msgid "Michael Meeks, Excel and OLE2 importing."
-msgstr ""
+msgstr "Michael Meeks, import Excelu a OLE2."
 
 #: src/about.c:36
 msgid "Mark Probst, Guile support."
-msgstr ""
+msgstr "Mark Probst, podpora Guile."
 
 #: src/about.c:37
 msgid "Rasca, HTML, troff, LaTeX exporters."
@@ -283,15 +280,15 @@ msgstr ""
 
 #: src/about.c:40
 msgid "Daniel Veillard, XML support."
-msgstr ""
+msgstr "Daniel Veillard, podpora XML."
 
 #: src/about.c:41
 msgid "Vladimir Vuksan, financial functions."
-msgstr ""
+msgstr "Vladimir Vuksan, finanèní funkce."
 
 #: src/about.c:42
 msgid "Morten Welinder, Gnumeric hacker."
-msgstr ""
+msgstr "Morten Welinder, programátor."
 
 #: src/about.c:56
 msgid "Gnumeric"
@@ -299,25 +296,24 @@ msgstr "Gnumeric"
 
 #: src/about.c:57
 msgid "(C) 1998-1999 Miguel de Icaza"
-msgstr ""
+msgstr "(C) 1998-1999 Miguel de Icaza"
 
 #: src/about.c:64
-#, fuzzy
 msgid "Gnumeric Home Page"
-msgstr "Gnumeric"
+msgstr "Domácí stránka programu Gnumeric"
 
 #: src/about.c:66
 msgid "Gnumeric Support page"
-msgstr ""
+msgstr "Stránka podpory Gnumericu"
 
 #: src/cell.c:74
 msgid "ERROR"
-msgstr ""
+msgstr "CHYBA"
 
 #. Until the value is recomputed, we put in this value.
 #: src/cell.c:125 src/cell.c:752
 msgid "Circular reference"
-msgstr ""
+msgstr "Reference v kruhu"
 
 #: src/corba-args.c:33
 msgid "Could not initialize the Gnumeric Workbook factory"
@@ -325,31 +321,31 @@ msgstr ""
 
 #: src/dates.c:14
 msgid "*Sun"
-msgstr ""
+msgstr "*Ned"
 
 #: src/dates.c:15
 msgid "*Mon"
-msgstr ""
+msgstr "*Pon"
 
 #: src/dates.c:16
 msgid "*Tue"
-msgstr ""
+msgstr "*Úte"
 
 #: src/dates.c:17
 msgid "*Wed"
-msgstr ""
+msgstr "*Stø"
 
 #: src/dates.c:18
 msgid "*Thu"
-msgstr ""
+msgstr "*Ètv"
 
 #: src/dates.c:19
 msgid "*Fri"
-msgstr ""
+msgstr "*Pát"
 
 #: src/dates.c:20
 msgid "*Sat"
-msgstr ""
+msgstr "*Sob"
 
 #: src/dates.c:26
 msgid "Sunday"
@@ -357,7 +353,7 @@ msgstr "Nedìle"
 
 #: src/dates.c:27
 msgid "Monday"
-msgstr "Ponìlí"
+msgstr "Pondìlí"
 
 #: src/dates.c:28
 msgid "Tuesday"
@@ -369,7 +365,7 @@ msgstr "Støeda"
 
 #: src/dates.c:30
 msgid "Thursday"
-msgstr "ètvrtek"
+msgstr "Ètvrtek"
 
 #: src/dates.c:31
 msgid "Friday"
@@ -381,51 +377,51 @@ msgstr "Sobota"
 
 #: src/dates.c:38
 msgid "*Jan"
-msgstr ""
+msgstr "*Led"
 
 #: src/dates.c:39
 msgid "*Feb"
-msgstr ""
+msgstr "*Úno"
 
 #: src/dates.c:40
 msgid "*Mar"
-msgstr ""
+msgstr "*Bøe"
 
 #: src/dates.c:41
 msgid "*Apr"
-msgstr ""
+msgstr "*Dub"
 
 #: src/dates.c:42
 msgid "*May"
-msgstr ""
+msgstr "*Kvì"
 
 #: src/dates.c:43
 msgid "*Jun"
-msgstr ""
+msgstr "*Èer"
 
 #: src/dates.c:44
 msgid "*Jul"
-msgstr ""
+msgstr "*Èec"
 
 #: src/dates.c:45
 msgid "*Aug"
-msgstr ""
+msgstr "*Srp"
 
 #: src/dates.c:46
 msgid "*Sep"
-msgstr ""
+msgstr "*Záø"
 
 #: src/dates.c:47
 msgid "*Oct"
-msgstr ""
+msgstr "*Øíj"
 
 #: src/dates.c:48
 msgid "*Nov"
-msgstr ""
+msgstr "*Lis"
 
 #: src/dates.c:49
 msgid "*Dec"
-msgstr ""
+msgstr "*Pro"
 
 #: src/dates.c:55
 msgid "January"
@@ -487,14 +483,13 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:76
 #: src/dialogs/dialog-analysis-tools.c:394
-#, fuzzy
 msgid "Correlation"
-msgstr "Operace"
+msgstr "Korelace"
 
 #: src/dialogs/dialog-analysis-tools.c:78
 #: src/dialogs/dialog-analysis-tools.c:475
 msgid "Covariance"
-msgstr ""
+msgstr "Kovariance"
 
 #: src/dialogs/dialog-analysis-tools.c:80
 #: src/dialogs/dialog-analysis-tools.c:663
@@ -508,9 +503,8 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:84
 #: src/dialogs/dialog-analysis-tools.c:1626
-#, fuzzy
 msgid "Moving Average"
-msgstr "Prumìr"
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:86
 #: src/dialogs/dialog-analysis-tools.c:1335
@@ -525,13 +519,12 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:90
 #: src/dialogs/dialog-analysis-tools.c:1526
 msgid "Regression"
-msgstr ""
+msgstr "Regrese"
 
 #: src/dialogs/dialog-analysis-tools.c:92
 #: src/dialogs/dialog-analysis-tools.c:552
-#, fuzzy
 msgid "Sampling"
-msgstr "Gnumeric"
+msgstr "Vzorkování"
 
 #: src/dialogs/dialog-analysis-tools.c:94
 #: src/dialogs/dialog-analysis-tools.c:876
@@ -557,21 +550,20 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1304
 #: src/dialogs/dialog-analysis-tools.c:1483
 msgid "Discrete"
-msgstr ""
+msgstr "Diskrétní"
 
 #: src/dialogs/dialog-analysis-tools.c:108
 #: src/dialogs/dialog-analysis-tools.c:1301
 #: src/dialogs/dialog-analysis-tools.c:1473
 #: src/widgets/widget-font-selector.c:110
-#, fuzzy
 msgid "Normal"
-msgstr "Formáty"
+msgstr "Normální"
 
 #: src/dialogs/dialog-analysis-tools.c:109
 #: src/dialogs/dialog-analysis-tools.c:1298
 #: src/dialogs/dialog-analysis-tools.c:1479
 msgid "Bernoulli"
-msgstr ""
+msgstr "Bernoulli"
 
 #: src/dialogs/dialog-analysis-tools.c:110
 #: src/dialogs/dialog-analysis-tools.c:1295
@@ -589,20 +581,20 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:154
 msgid "0.95"
-msgstr ""
+msgstr "0.95"
 
 #: src/dialogs/dialog-analysis-tools.c:155
 msgid "Kth Largest:"
-msgstr ""
+msgstr "K-tý nejvìt¹í"
 
 #: src/dialogs/dialog-analysis-tools.c:156
 #: src/dialogs/dialog-analysis-tools.c:158
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: src/dialogs/dialog-analysis-tools.c:157
 msgid "Kth Smallest:"
-msgstr ""
+msgstr "K-tý nejmen¹í:"
 
 #: src/dialogs/dialog-analysis-tools.c:163
 msgid "Labels in First Row"
@@ -617,12 +609,10 @@ msgid "Standard Errors"
 msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:202
-#, fuzzy
 msgid "Columns"
 msgstr "Sloupce"
 
 #: src/dialogs/dialog-analysis-tools.c:203
-#, fuzzy
 msgid "Rows"
 msgstr "Øádky"
 
@@ -637,22 +627,20 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:219
 #: src/dialogs/dialog-analysis-tools.c:1976
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: src/dialogs/dialog-analysis-tools.c:330
-#, fuzzy
 msgid "New Sheet"
-msgstr "List"
+msgstr "Nový list"
 
 #. hbox = gtk_hbox_new (FALSE, 0);
 #: src/dialogs/dialog-analysis-tools.c:334
-#, fuzzy
 msgid "New Workbook"
-msgstr "Ulo¾í se¹it"
+msgstr "Nový se¹it"
 
 #: src/dialogs/dialog-analysis-tools.c:339
 msgid "Output Range:"
-msgstr ""
+msgstr "Výstupní roszsah:"
 
 #: src/dialogs/dialog-analysis-tools.c:359
 msgid "Grouped By:"
@@ -667,7 +655,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1809
 #: src/dialogs/dialog-analysis-tools.c:1898
 msgid "Input Range:"
-msgstr ""
+msgstr "Vstupní rozsah:"
 
 #: src/dialogs/dialog-analysis-tools.c:439
 #: src/dialogs/dialog-analysis-tools.c:519
@@ -676,9 +664,8 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1761
 #: src/dialogs/dialog-analysis-tools.c:1846
 #: src/dialogs/dialog-analysis-tools.c:1932
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Range:'"
-msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
+msgstr "V Rozsahu by jste mìl(a) zadat správný rozsah bunìk"
 
 #: src/dialogs/dialog-analysis-tools.c:482
 #: src/dialogs/dialog-analysis-tools.c:559
@@ -693,20 +680,19 @@ msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
 #: src/dialogs/dialog-analysis-tools.c:1806
 #: src/dialogs/dialog-analysis-tools.c:1895
 msgid "Input:"
-msgstr ""
+msgstr "Vstup:"
 
 #: src/dialogs/dialog-analysis-tools.c:564
-#, fuzzy
 msgid "Sampling Method:"
-msgstr "Pøíklad:"
+msgstr "Metoda vzorkování:"
 
 #: src/dialogs/dialog-analysis-tools.c:576
 msgid "Period:"
-msgstr ""
+msgstr "Perioda:"
 
 #: src/dialogs/dialog-analysis-tools.c:579
 msgid "Number of Samples:"
-msgstr ""
+msgstr "Poèet vzorkù"
 
 #: src/dialogs/dialog-analysis-tools.c:770
 #: src/dialogs/dialog-analysis-tools.c:887
@@ -714,7 +700,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1098
 #: src/dialogs/dialog-analysis-tools.c:1200
 msgid "Variable 1 Range:"
-msgstr ""
+msgstr "Rozsah promìnné 1:"
 
 #: src/dialogs/dialog-analysis-tools.c:773
 #: src/dialogs/dialog-analysis-tools.c:890
@@ -722,7 +708,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1101
 #: src/dialogs/dialog-analysis-tools.c:1203
 msgid "Variable 2 Range:"
-msgstr ""
+msgstr "Rozsah promìnné 2:"
 
 #: src/dialogs/dialog-analysis-tools.c:776
 #: src/dialogs/dialog-analysis-tools.c:893
@@ -755,9 +741,8 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1138
 #: src/dialogs/dialog-analysis-tools.c:1238
 #: src/dialogs/dialog-analysis-tools.c:1573
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Variable 1:'"
-msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:827
 #: src/dialogs/dialog-analysis-tools.c:938
@@ -765,13 +750,12 @@ msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
 #: src/dialogs/dialog-analysis-tools.c:1149
 #: src/dialogs/dialog-analysis-tools.c:1249
 #: src/dialogs/dialog-analysis-tools.c:1584
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Variable 2:'"
-msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1346
 msgid "Number of Variables:"
-msgstr ""
+msgstr "Poèet promìnných:"
 
 #: src/dialogs/dialog-analysis-tools.c:1349
 msgid "Number of Random Numbers:"
@@ -795,27 +779,25 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1386
 msgid "Mean = "
-msgstr ""
+msgstr "Prùmìr = "
 
 #: src/dialogs/dialog-analysis-tools.c:1388
 msgid "Standard Deviation = "
-msgstr ""
+msgstr "Standardné odchylka = "
 
 #: src/dialogs/dialog-analysis-tools.c:1392
 msgid "Lambda"
-msgstr ""
+msgstr "Lambda"
 
 #: src/dialogs/dialog-analysis-tools.c:1396
-#, fuzzy
 msgid "p Value"
-msgstr "Hodnoty"
+msgstr "p Hodnota"
 
 #: src/dialogs/dialog-analysis-tools.c:1491
-#, fuzzy
 msgid ""
 "You should introduce a valid cell range in 'Value and Probability Input "
 "Range:'"
-msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1535
 msgid "Input Y Range:"
@@ -830,27 +812,24 @@ msgid "Confidence Level:"
 msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1637
-#, fuzzy
 msgid "Interval:"
-msgstr "Obecný"
+msgstr "Interval:"
 
 #: src/dialogs/dialog-analysis-tools.c:1672
-#, fuzzy
 msgid "You should introduce a valid cell range in 'Range Input:'"
-msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1975
 msgid "Data Analysis"
-msgstr ""
+msgstr "Analýza dat"
 
 #: src/dialogs/dialog-analysis-tools.c:1983
 msgid "Analysis Tools"
 msgstr ""
 
 #: src/dialogs/dialog-cell-comment.c:25
-#, fuzzy
 msgid "Cell comment"
-msgstr "Sloupce"
+msgstr "Komentáø k buòce"
 
 #: src/dialogs/dialog-cell-format.c:69
 msgid "Numbers"
@@ -970,9 +949,8 @@ msgid "Use this color"
 msgstr "Pou¾ij tuto barvu"
 
 #: src/dialogs/dialog-cell-format.c:628 src/dialogs/dialog-cell-format.c:666
-#, fuzzy
 msgid "No change"
-msgstr "®ádný"
+msgstr "Beze zmìny"
 
 #: src/dialogs/dialog-cell-format.c:654
 msgid "Background configuration"
@@ -996,26 +974,24 @@ msgid "Alignment"
 msgstr "Zarovnávání"
 
 #: src/dialogs/dialog-cell-format.c:939
-#, fuzzy
 msgid "Font"
-msgstr "Souèet"
+msgstr "Font"
 
 #: src/dialogs/dialog-cell-format.c:940
 msgid "Coloring"
-msgstr ""
+msgstr "Barvy"
 
 #: src/dialogs/dialog-cell-sort.c:42
-#, fuzzy
 msgid "Column:"
-msgstr "Sloupec"
+msgstr "Sloupec:"
 
 #: src/dialogs/dialog-cell-sort.c:58
 msgid "Asc"
-msgstr ""
+msgstr "Vzest."
 
 #: src/dialogs/dialog-cell-sort.c:61
 msgid "Desc"
-msgstr ""
+msgstr "Sest."
 
 #: src/dialogs/dialog-cell-sort.c:274
 msgid "more clauses than rows ?"
@@ -1038,71 +1014,64 @@ msgid "Selection must be a finite range"
 msgstr ""
 
 #: src/dialogs/dialog-cell-sort.c:341
-#, fuzzy
 msgid "Sort Cells"
-msgstr "vlo¾ buòky"
+msgstr "Seøadit buòky"
 
 #: src/dialogs/dialog-cell-sort.c:356
 msgid "then by"
-msgstr ""
+msgstr "potom podle"
 
 #: src/dialogs/dialog-cell-sort.c:356
 msgid "sort by"
-msgstr ""
+msgstr "seøadit podle"
 
 #: src/dialogs/dialog-cell-sort.c:394
-#, fuzzy
 msgid "Column must be within range"
-msgstr "øádek je mimo povolený rozsah"
+msgstr "Sloupec musí být v rozsahu"
 
 #: src/dialogs/dialog-cell-sort.c:400
 msgid "First column must be valid"
-msgstr ""
+msgstr "První sloupec musí existovat"
 
 #: src/dialogs/dialog-delete-cells.c:79
 msgid "delete cells"
 msgstr "smazání bunìk"
 
 #: src/dialogs/dialog-function-select.c:188
-#, fuzzy
 msgid "Formula Selection"
-msgstr "Zlomek"
+msgstr ""
 
 #: src/dialogs/dialog-function-wizard.c:206 src/functions/fn-string.c:1295
 msgid "String"
-msgstr ""
+msgstr "Øetìz"
 
 #: src/dialogs/dialog-function-wizard.c:212
 msgid "Boolean"
 msgstr ""
 
 #: src/dialogs/dialog-function-wizard.c:215
-#, fuzzy
 msgid "Range"
-msgstr "Obdélník"
+msgstr "Rozsah"
 
 #: src/dialogs/dialog-function-wizard.c:218
-#, fuzzy
 msgid "Array"
-msgstr "©ipka"
+msgstr "Pole"
 
 #: src/dialogs/dialog-function-wizard.c:221
 msgid "Range/Array"
-msgstr ""
+msgstr "Rozsah/Pole"
 
 #: src/dialogs/dialog-function-wizard.c:224
 msgid "Any"
 msgstr ""
 
 #: src/dialogs/dialog-function-wizard.c:227
-#, fuzzy
 msgid "Unknown"
-msgstr "Neznámá chyba pøi výpoètu"
+msgstr ""
 
 #: src/dialogs/dialog-function-wizard.c:334
-#, fuzzy
 msgid "Formula Wizard"
-msgstr "Vzorce"
+msgstr "Pomocník se vzorcem"
 
 #: src/dialogs/dialog-goal-seek.c:192
 #, c-format
@@ -1112,40 +1081,37 @@ msgstr ""
 #: src/dialogs/dialog-goal-seek.c:196
 #, c-format
 msgid "Target value:   %12.2f"
-msgstr ""
+msgstr "Cílová hodnota: %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:199
 #, c-format
 msgid "Current value:  %12.2f"
-msgstr ""
+msgstr "Souèasná hodnota: %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:202
 #, c-format
 msgid "Solution:       %12.2f"
-msgstr ""
+msgstr "Øe¹ení:         %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:205
 msgid "Goal Seek Report"
 msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:267
-#, fuzzy
 msgid "Goal Seek..."
-msgstr "Jdi na..."
+msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:287
-#, fuzzy
 msgid "Set cell:"
-msgstr "smazání bunìk"
+msgstr "Nastavit buòku:"
 
 #: src/dialogs/dialog-goal-seek.c:288
-#, fuzzy
 msgid "To value:"
-msgstr "Kopie hodnot"
+msgstr "Na hodnotu:"
 
 #: src/dialogs/dialog-goal-seek.c:289
 msgid "By changing cell:"
-msgstr ""
+msgstr "Zmìnou buòky:"
 
 #: src/dialogs/dialog-goal-seek.c:290
 msgid "To a value of at least [optional]:"
@@ -1156,18 +1122,16 @@ msgid "But no bigger than [optional]:"
 msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:350
-#, fuzzy
 msgid "You should introduce a valid cell name in 'Set cell'"
-msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
+msgstr "V 'Nastavit buòku' byste mìl(a) uvést správnou buòku"
 
 #: src/dialogs/dialog-goal-seek.c:358
 msgid "The cell named in 'Set cell' must contain a formula"
-msgstr ""
+msgstr "Buòka v 'Nastavit buòku' by mìla obsahovat vzorec"
 
 #: src/dialogs/dialog-goal-seek.c:371
-#, fuzzy
 msgid "You should introduce a valid cell name in 'By changing cell'"
-msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
+msgstr "V polo¾ce 'Zmìnou buòky' byste mìl(a) uvést platné jméno buòky"
 
 #: src/dialogs/dialog-goal-seek.c:380
 msgid "The cell named in 'By changing cell' must not contain a formula"
@@ -1210,30 +1174,28 @@ msgid "Formats"
 msgstr "Formáty"
 
 #: src/dialogs/dialog-paste-special.c:29
-#, fuzzy
 msgid "Add "
-msgstr "Pøièti"
+msgstr "Pøidat "
 
 #: src/dialogs/dialog-paste-special.c:30
-#, fuzzy
 msgid "Subtract"
-msgstr "Odeèti"
+msgstr "Odeèíst"
 
 #: src/dialogs/dialog-paste-special.c:31
 msgid "Multiply"
-msgstr "Násob"
+msgstr "Násob."
 
 #: src/dialogs/dialog-paste-special.c:32
 msgid "Divide"
-msgstr "Vydìl"
+msgstr "Dìlit"
 
 #: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:653
 msgid "Paste special"
-msgstr "Vlo¾ jinak"
+msgstr "Vlo¾it jinak"
 
 #: src/dialogs/dialog-paste-special.c:69
 msgid "Paste type"
-msgstr "Vlo¾ typ"
+msgstr "Vlo¾it typ"
 
 #: src/dialogs/dialog-paste-special.c:73
 msgid "Operation"
@@ -1241,38 +1203,36 @@ msgstr "Operace"
 
 #: src/dialogs/dialog-paste-special.c:105
 msgid "Transpose"
-msgstr ""
+msgstr "Transpozice"
 
 #: src/dialogs/dialog-printer-setup.c:518
-#, fuzzy
 msgid "Custom header configuration"
-msgstr "Konfigurace pozadí"
+msgstr ""
 
 #: src/dialogs/dialog-printer-setup.c:529
 msgid "Custom footer configuration"
 msgstr ""
 
 #: src/dialogs/dialog-printer-setup.c:742
-#, fuzzy
 msgid "Print setup"
-msgstr "Procenta"
+msgstr "Nastavení tisku"
 
 #: src/dialogs/dialog-solver.c:21
 msgid "<="
-msgstr ""
+msgstr "<="
 
 #. N_("="),
 #: src/dialogs/dialog-solver.c:23
 msgid ">="
-msgstr ""
+msgstr ">="
 
 #: src/dialogs/dialog-solver.c:43 src/workbook.c:1548
 msgid "Max"
-msgstr ""
+msgstr "Max"
 
 #: src/dialogs/dialog-solver.c:44 src/workbook.c:1547
 msgid "Min"
-msgstr ""
+msgstr "Min"
 
 #: src/dialogs/dialog-solver.c:49
 msgid "Tangent"
@@ -1287,14 +1247,12 @@ msgid "Forward"
 msgstr ""
 
 #: src/dialogs/dialog-solver.c:56
-#, fuzzy
 msgid "Central"
-msgstr "Doprosøed"
+msgstr ""
 
 #: src/dialogs/dialog-solver.c:61
-#, fuzzy
 msgid "Newton"
-msgstr "Nový"
+msgstr ""
 
 #: src/dialogs/dialog-solver.c:62
 msgid "Conjugate"
@@ -1302,7 +1260,7 @@ msgstr ""
 
 #: src/dialogs/dialog-solver.c:67
 msgid "Assume Linear Model"
-msgstr ""
+msgstr "Pøedpokládat lineární model"
 
 #: src/dialogs/dialog-solver.c:68
 msgid "Assume Non-Negative"
@@ -1317,61 +1275,54 @@ msgid "Show Iteration Results"
 msgstr ""
 
 #: src/dialogs/dialog-solver.c:132
-#, fuzzy
 msgid "Gnumeric Solver Options"
-msgstr "Gnumeric"
+msgstr ""
 
 #: src/dialogs/dialog-solver.c:148
-#, fuzzy
 msgid "Estimates"
-msgstr "Èas"
+msgstr ""
 
 #: src/dialogs/dialog-solver.c:150
 msgid "Derivatives"
 msgstr ""
 
 #: src/dialogs/dialog-solver.c:153
-#, fuzzy
 msgid "Search"
-msgstr "Bøezen"
+msgstr "Hledat"
 
 #: src/dialogs/dialog-solver.c:232
 msgid "Add Constraint"
-msgstr ""
+msgstr "Pøidat omezení"
 
 #. Constraint buttons
 #: src/dialogs/dialog-solver.c:235 src/dialogs/dialog-solver.c:407
 #: src/dialogs/names.glade.h:9
 msgid "Add"
-msgstr "Pøièti"
+msgstr "Pøièíst"
 
 #: src/dialogs/dialog-solver.c:352
-#, fuzzy
 msgid "Gnumeric Solver Parameters"
-msgstr "Gnumeric"
+msgstr "Parametry øe¹itele Gnumericu"
 
 #: src/dialogs/dialog-solver.c:353
-#, fuzzy
 msgid "Solve"
-msgstr "Pøesun"
+msgstr "Vyøe¹it"
 
 #: src/dialogs/dialog-solver.c:355
-#, fuzzy
 msgid "Options..."
-msgstr "Operace"
+msgstr "Nastavení..."
 
 #: src/dialogs/dialog-solver.c:375
 msgid "Equal to:"
-msgstr ""
+msgstr "Rovno:"
 
 #: src/dialogs/dialog-solver.c:401
 msgid "Subject to the Constraints:"
 msgstr ""
 
 #: src/dialogs/dialog-solver.c:408
-#, fuzzy
 msgid "Change"
-msgstr "Obdélník"
+msgstr ""
 
 #: src/dialogs/dialog-solver.c:409 src/dialogs/names.glade.h:10
 #: src/item-grid.c:656
@@ -1379,14 +1330,12 @@ msgid "Delete"
 msgstr "Mazání"
 
 #: src/dialogs/dialog-solver.c:482
-#, fuzzy
 msgid "You should introduce a valid cell name for 'Target cell'"
-msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
+msgstr "V poli pro cílovou buòku byste mìl(a) zadat správné oznaèení buòky"
 
 #: src/dialogs/dialog-solver.c:503
-#, fuzzy
 msgid "You should introduce a valid cell names in 'By changing cells'"
-msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
+msgstr ""
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1394,9 +1343,8 @@ msgstr "Mu¾e¹ pøedstavit platné jméno buòky"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/col-width.glade.h:7
-#, fuzzy
 msgid "_Column width:"
-msgstr "Sloupec"
+msgstr "©íøka _sloupce:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1404,23 +1352,20 @@ msgstr "Sloupec"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/hf-config.glade.h:7
-#, fuzzy
 msgid "Left section:"
-msgstr "Zarovnání doleva"
+msgstr "Levá sekce:"
 
 #: src/dialogs/hf-config.glade.h:8
-#, fuzzy
 msgid "Center section:"
-msgstr "Doprosøed"
+msgstr "Støedová sekce:"
 
 #: src/dialogs/hf-config.glade.h:9
-#, fuzzy
 msgid "Right section:"
-msgstr "Zarovnání doprava"
+msgstr "Pravá sekce:"
 
 #: src/dialogs/hf-config.glade.h:10
 msgid "Enter the format strings for each section:"
-msgstr ""
+msgstr "Pro ka¾dou sekci zadejte formátovací øetìzec:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1429,28 +1374,27 @@ msgstr ""
 #.
 #: src/dialogs/font-sel.glade.h:7
 msgid "window1"
-msgstr ""
+msgstr "okno1"
 
 #: src/dialogs/font-sel.glade.h:8
-#, fuzzy
 msgid "Font:"
-msgstr "Souèet"
+msgstr "Font:"
 
 #: src/dialogs/font-sel.glade.h:9
 msgid "Font style:"
-msgstr ""
+msgstr "Styl fontu:"
 
 #: src/dialogs/font-sel.glade.h:10
 msgid "Size:"
-msgstr ""
+msgstr "Velikost:"
 
 #: src/dialogs/font-sel.glade.h:11
 msgid "Preview:"
-msgstr ""
+msgstr "Náhled:"
 
 #: src/dialogs/font-sel.glade.h:12
 msgid "AaBbCcDdEe12345"
-msgstr ""
+msgstr "AaBbCcDdEe12345ì¹èø¾ýáÌ©ÈØ®ÝÁ"
 
 #: src/dialogs/font-sel.glade.h:13
 msgid "label7"
@@ -1471,7 +1415,7 @@ msgstr ""
 #.
 #: src/dialogs/import.glade.h:7
 msgid "Choose an import filter for loading the file:"
-msgstr ""
+msgstr "Pro naètení souboru zvolte vstupní filtr:"
 
 #: src/dialogs/import.glade.h:8
 msgid "label2"
@@ -1484,27 +1428,23 @@ msgstr ""
 #.
 #: src/dialogs/print.glade.h:7
 msgid "window2"
-msgstr ""
+msgstr "okno2"
 
 #: src/dialogs/print.glade.h:8
-#, fuzzy
 msgid "Orientation"
-msgstr "Operace"
+msgstr "Orientace"
 
 #: src/dialogs/print.glade.h:9
-#, fuzzy
 msgid "Por_trait"
-msgstr "Procenta"
+msgstr "Por_trét"
 
 #: src/dialogs/print.glade.h:10
-#, fuzzy
 msgid "_Landscape"
-msgstr "Vlo¾it"
+msgstr "_Krajinka"
 
 #: src/dialogs/print.glade.h:11
-#, fuzzy
 msgid "Scale"
-msgstr "Pøíklad:"
+msgstr "Mìøítko"
 
 #: src/dialogs/print.glade.h:12
 msgid "_Adjust to:"
@@ -1524,87 +1464,75 @@ msgid "page(s) wide by"
 msgstr ""
 
 #: src/dialogs/print.glade.h:16
-#, fuzzy
 msgid "tall"
-msgstr "Kurzíva"
+msgstr ""
 
 #: src/dialogs/print.glade.h:17
 msgid "Fi_rst page number:"
-msgstr ""
+msgstr "Èíslo p_rvní stránky:"
 
 #: src/dialogs/print.glade.h:18 src/dialogs/print.glade.h:32
 #: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:58
-#, fuzzy
 msgid "_Print"
-msgstr "Procenta"
+msgstr "_Tisk"
 
 #: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
 #: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
 msgid "Print previe_w"
-msgstr ""
+msgstr "_Náhled tisku"
 
 #: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
 #: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
-#, fuzzy
 msgid "_Options"
-msgstr "Operace"
+msgstr "_Nastavení"
 
 #: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:61
-#, fuzzy
 msgid "Page"
-msgstr "Vlo¾it"
+msgstr "Stránka"
 
 #: src/dialogs/print.glade.h:22
-#, fuzzy
 msgid "_Top:"
-msgstr "Nahoru"
+msgstr "Na_hoøe:"
 
 #: src/dialogs/print.glade.h:23
 msgid "He_ader:"
-msgstr ""
+msgstr "_Hlavièka"
 
 #: src/dialogs/print.glade.h:24
-#, fuzzy
 msgid "_Bottom:"
-msgstr "Dolu"
+msgstr "_Dole:"
 
 #: src/dialogs/print.glade.h:25
-#, fuzzy
 msgid "_Footer"
-msgstr "Font"
+msgstr "_Patka"
 
 #: src/dialogs/print.glade.h:26
-#, fuzzy
 msgid "Center on page"
-msgstr "Doprosøed"
+msgstr "Vystøedit na stránce"
 
 #: src/dialogs/print.glade.h:27
-#, fuzzy
 msgid "_Horizontally"
-msgstr "Horizontálnì"
+msgstr "_Horizontálnì"
 
 #: src/dialogs/print.glade.h:28
-#, fuzzy
 msgid "_Vertically"
-msgstr "Vertikálnì"
+msgstr "_Vertikálnì"
 
 #: src/dialogs/print.glade.h:29
-#, fuzzy
 msgid "_Left:"
-msgstr "Vlevo"
+msgstr "V_levo"
 
 #: src/dialogs/print.glade.h:30
-#, fuzzy
 msgid "_Right"
-msgstr "Vpravo"
+msgstr "V_pravo"
 
 #: src/dialogs/print.glade.h:31
 msgid "Paper _size:"
-msgstr ""
+msgstr "Velikost _papíru:"
 
 #: src/dialogs/print.glade.h:35
 msgid "Margins"
-msgstr ""
+msgstr "Okraje"
 
 #: src/dialogs/print.glade.h:36 src/dialogs/print.glade.h:41
 msgid "sample goes here"
@@ -1612,28 +1540,27 @@ msgstr ""
 
 #: src/dialogs/print.glade.h:37
 msgid "Header"
-msgstr ""
+msgstr "Hlavièka"
 
 #: src/dialogs/print.glade.h:38
 msgid "Customize _header"
-msgstr ""
+msgstr "Upravit hlavièku"
 
 #: src/dialogs/print.glade.h:39
 msgid "Customize _footer"
-msgstr ""
+msgstr "Upravit _patku"
 
 #: src/dialogs/print.glade.h:40
 msgid "Footer:"
-msgstr ""
+msgstr "Patka:"
 
 #: src/dialogs/print.glade.h:45
 msgid "Headers and footers"
-msgstr ""
+msgstr "Hlavièky a patky"
 
 #: src/dialogs/print.glade.h:46
-#, fuzzy
 msgid "Print _area:"
-msgstr "Procenta"
+msgstr "Tisková _oblast:"
 
 #: src/dialogs/print.glade.h:47
 msgid "Titles to print"
@@ -1648,18 +1575,16 @@ msgid "_Rows to repeat on the upper region:"
 msgstr ""
 
 #: src/dialogs/print.glade.h:50 src/workbook.c:1066
-#, fuzzy
 msgid "Print"
-msgstr "Procenta"
+msgstr "Tisk"
 
 #: src/dialogs/print.glade.h:51
 msgid "Row and co_lumn headings"
 msgstr ""
 
 #: src/dialogs/print.glade.h:52 src/workbook.c:897
-#, fuzzy
 msgid "Co_mments"
-msgstr "Sloupce"
+msgstr "Komentáøe"
 
 #: src/dialogs/print.glade.h:53
 msgid "_Grid lines"
@@ -1667,20 +1592,19 @@ msgstr ""
 
 #: src/dialogs/print.glade.h:54
 msgid "_Black and white"
-msgstr ""
+msgstr "Cerná _a bílá"
 
 #: src/dialogs/print.glade.h:55
 msgid "Page order"
-msgstr ""
+msgstr "Poøadí stránek"
 
 #: src/dialogs/print.glade.h:56
 msgid "_Down, then right"
-msgstr ""
+msgstr "_Dolù, pak vpravo"
 
 #: src/dialogs/print.glade.h:57
-#, fuzzy
 msgid "R_ight, then down"
-msgstr "Zarovnání doprava"
+msgstr "Vpravo, pak dolù"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1688,18 +1612,16 @@ msgstr "Zarovnání doprava"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/names.glade.h:7
-#, fuzzy
 msgid "Define Name"
-msgstr "Smazání bunìk"
+msgstr "Definovat jméno"
 
 #: src/dialogs/names.glade.h:8
-#, fuzzy
 msgid "Names in workbook:"
-msgstr "Ulo¾í se¹it"
+msgstr "Jména v se¹itì:"
 
 #: src/dialogs/names.glade.h:11
 msgid "Refers to:"
-msgstr ""
+msgstr "Odkazuje na:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1707,9 +1629,8 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/row-height.glade.h:7
-#, fuzzy
 msgid "_Row height:"
-msgstr "Vpravo"
+msgstr ""
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1718,7 +1639,7 @@ msgstr "Vpravo"
 #.
 #: src/dialogs/sheet-rename.glade.h:7
 msgid "Enter new _sheet name:"
-msgstr ""
+msgstr "Zadejte jméno nového listu:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1726,49 +1647,45 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/summary.glade.h:7
-#, fuzzy
 msgid "Title"
-msgstr "Èas"
+msgstr "Titulek"
 
 #: src/dialogs/summary.glade.h:8
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 #: src/dialogs/summary.glade.h:9
-#, fuzzy
 msgid "Category"
 msgstr "Kategorie"
 
 #: src/dialogs/summary.glade.h:10
 msgid "Keywords"
-msgstr ""
+msgstr "Klíèová slova"
 
 #: src/dialogs/summary.glade.h:11
-#, fuzzy
 msgid "Manager"
-msgstr "Obdélník"
+msgstr "Správce"
 
 #: src/dialogs/summary.glade.h:12
 msgid "Document Summary Information\n"
-msgstr ""
+msgstr "Informace o obsahu\n"
 
 #: src/dialogs/summary.glade.h:14
-#, fuzzy
 msgid "Comments"
-msgstr "Sloupce"
+msgstr "Komentáøe"
 
 #: src/dump.c:31
 #, c-format
 msgid "Can not create file %s\n"
-msgstr ""
+msgstr "Nelze zapsat soubor %s\n"
 
 #: src/embeddable-grid.c:153
 msgid "Embedded Sheet"
-msgstr ""
+msgstr "Vlo¾ený list"
 
 #: src/expr-name.c:175
 msgid "already defined"
-msgstr ""
+msgstr "ji¾ definován"
 
 #: src/expr-name.c:178
 msgid "no scope"
@@ -1796,22 +1713,19 @@ msgstr "Chybí uvozovky"
 
 #: src/expr.c:227
 msgid "Impossible!"
-msgstr ""
+msgstr "Nemo¾né!"
 
 #: src/expr.c:464
-#, fuzzy
 msgid "Internal error"
-msgstr "Chyba syntaxe"
+msgstr "Interní chyba"
 
 #: src/expr.c:847
-#, fuzzy
 msgid "Internal type error"
-msgstr "©patný typ"
+msgstr ""
 
 #: src/expr.c:985
-#, fuzzy
 msgid "Unknown operator"
-msgstr "Neznámá chyba pøi výpoètu"
+msgstr "Neznámý oprátor"
 
 #: src/expr.c:1124
 msgid "Unknown evaluation error"
@@ -1823,9 +1737,8 @@ msgid "Could not read file %s"
 msgstr ""
 
 #: src/file.c:395
-#, fuzzy
 msgid "File format:"
-msgstr "Formát buòky"
+msgstr "Formát soboru:"
 
 #: src/file.c:449
 msgid "Save workbook as"
@@ -1833,7 +1746,7 @@ msgstr "Ulo¾it se¹it jako"
 
 #: src/file.c:491
 msgid "Sorry, there are no file savers loaded, I cannot save"
-msgstr ""
+msgstr "Bohu¾el, nemáte naèten ¾ádný formát pro ulo¾ení souboru, nelze ukládat"
 
 #: src/file.c:529
 msgid "Load file"
@@ -2098,9 +2011,8 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-database.c:1226
-#, fuzzy
 msgid "Database"
-msgstr "Datum"
+msgstr "Databáze"
 
 #: src/functions/fn-date.c:68
 msgid ""
@@ -2117,11 +2029,11 @@ msgstr ""
 
 #: src/functions/fn-date.c:101
 msgid "Invalid month or year"
-msgstr ""
+msgstr "Chybný mìsíc nebo rok"
 
 #: src/functions/fn-date.c:113
 msgid "Invalid day"
-msgstr ""
+msgstr "Chybný den"
 
 #: src/functions/fn-date.c:123
 msgid ""
@@ -2305,7 +2217,7 @@ msgstr ""
 
 #: src/functions/fn-date.c:550
 msgid "Unsupported method"
-msgstr ""
+msgstr "Nepodporovaná metoda"
 
 #: src/functions/fn-date.c:611
 msgid ""
@@ -2341,7 +2253,7 @@ msgstr ""
 #: src/functions/fn-information.c:207 src/functions/fn-information.c:275
 #: src/functions/fn-information.c:291
 msgid "Unimplemented"
-msgstr ""
+msgstr "Neimplementováno"
 
 #: src/functions/fn-date.c:719
 msgid ""
@@ -2357,7 +2269,7 @@ msgstr ""
 
 #: src/functions/fn-date.c:831
 msgid "Date / Time"
-msgstr ""
+msgstr "Datim / Èas"
 
 #: src/functions/fn-eng.c:22
 msgid ""
@@ -2369,9 +2281,8 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-eng.c:57
-#, fuzzy
 msgid "Base error"
-msgstr "©patný typ"
+msgstr ""
 
 #: src/functions/fn-eng.c:135
 msgid ""
@@ -2987,9 +2898,8 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-eng.c:1776 src/functions/fn-eng.c:1831
-#, fuzzy
 msgid "Impossible"
-msgstr "Otevøít soubor"
+msgstr "Není mo¾né"
 
 #: src/functions/fn-eng.c:1787
 msgid ""
@@ -3288,7 +3198,7 @@ msgstr ""
 
 #: src/functions/fn-financial.c:841
 msgid "sln - domain error"
-msgstr ""
+msgstr "sln - chyba domény èísla"
 
 #: src/functions/fn-financial.c:849
 msgid ""
@@ -3587,7 +3497,7 @@ msgstr "Neznámá chyba pøi výpoètu"
 #: src/functions/fn-information.c:300
 #, c-format
 msgid "%s version %s"
-msgstr ""
+msgstr "%s verze %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: src/functions/fn-information.c:309
@@ -3595,9 +3505,8 @@ msgid "Automatic"
 msgstr ""
 
 #: src/functions/fn-information.c:318
-#, fuzzy
 msgid "Unknown system"
-msgstr "Neznámá chyba pøi výpoètu"
+msgstr "Neznámý systém"
 
 #: src/functions/fn-information.c:334
 msgid ""
@@ -3612,7 +3521,7 @@ msgstr ""
 
 #: src/functions/fn-information.c:357
 msgid "Argument mismatch"
-msgstr ""
+msgstr "Argumenty neodpovídají"
 
 #: src/functions/fn-information.c:388
 msgid ""
@@ -3685,7 +3594,7 @@ msgstr ""
 #: src/functions/fn-string.c:673 src/functions/fn-string.c:773
 #: src/functions/fn-string.c:804
 msgid "Type mismatch"
-msgstr ""
+msgstr "Typy neodpovídají"
 
 #: src/functions/fn-information.c:555
 msgid ""
@@ -3842,7 +3751,7 @@ msgstr ""
 #: src/functions/fn-lookup.c:470 src/functions/fn-lookup.c:574
 #: src/functions/fn-lookup.c:581 src/functions/fn-string.c:524
 msgid "Type Mismatch"
-msgstr ""
+msgstr "Typy neodpovídají"
 
 #: src/functions/fn-logical.c:106
 msgid ""
@@ -3880,7 +3789,7 @@ msgstr ""
 
 #: src/functions/fn-logical.c:227
 msgid "Logical"
-msgstr ""
+msgstr "Logické"
 
 #: src/functions/fn-lookup.c:18
 msgid ""
@@ -4101,7 +4010,7 @@ msgstr ""
 
 #: src/functions/fn-lookup.c:1047
 msgid "Data / Lookup"
-msgstr ""
+msgstr "Datové / Hledání"
 
 #: src/functions/fn-math.c:136
 msgid ""
@@ -5040,7 +4949,7 @@ msgstr ""
 
 #: src/functions/fn-math.c:3317
 msgid "Maths / Trig."
-msgstr ""
+msgstr "Matem. / Trig."
 
 #: src/functions/fn-sheet.c:17
 msgid ""
@@ -5058,7 +4967,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-sheet.c:103
-#, fuzzy
 msgid "Sheet"
 msgstr "List"
 
@@ -6360,7 +6268,7 @@ msgstr ""
 
 #: src/functions/fn-stat.c:4373
 msgid "Statistics"
-msgstr ""
+msgstr "Statistické"
 
 #: src/functions/fn-string.c:22
 msgid ""
@@ -6691,12 +6599,11 @@ msgstr ""
 
 #: src/format.c:1340 src/value.c:321
 msgid "TRUE"
-msgstr ""
+msgstr "PRAVDA"
 
 #: src/format.c:1340 src/value.c:321
-#, fuzzy
 msgid "FALSE"
-msgstr "SOUBOR"
+msgstr "NEPRAVDA"
 
 #: src/format.c:1349
 msgid "CELLRANGE"
@@ -6705,7 +6612,7 @@ msgstr ""
 #. Array of arrays ??
 #: src/format.c:1353
 msgid "ARRAY"
-msgstr ""
+msgstr "POLE"
 
 #: src/formats.c:17
 msgid "0"
@@ -6978,22 +6885,22 @@ msgstr "75%"
 #: src/gnumeric-sheet.c:1022
 #, no-c-format
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: src/gnumeric-sheet.c:1026
 #, no-c-format
 msgid "25%"
-msgstr ""
+msgstr "25%"
 
 #: src/gnumeric-sheet.c:1030
 #, no-c-format
 msgid "12.5%"
-msgstr ""
+msgstr "12,5%"
 
 #: src/gnumeric-sheet.c:1034
 #, no-c-format
 msgid "6.25%"
-msgstr ""
+msgstr "6,25%"
 
 #: src/gnumeric-sheet.c:1037
 #, fuzzy
@@ -7128,7 +7035,7 @@ msgstr ""
 #: src/main.c:47 src/main.c:52 src/main.c:56 src/main.c:60 src/main.c:64
 #: src/main.c:68
 msgid "LEVEL"
-msgstr ""
+msgstr "ÚROVEÒ"
 
 #: src/main.c:51
 msgid "Enables debugging mesgs while reading excel workbooks"
@@ -7144,7 +7051,7 @@ msgstr ""
 
 #: src/main.c:63
 msgid "Enables debugging mesgs while reading excel charts"
-msgstr ""
+msgstr "Povoluje ladící zprávy pøi naèítaní diagramù excelu"
 
 #: src/main.c:67
 msgid "Enables extra consistancy checking while reading ole files"
@@ -7193,11 +7100,11 @@ msgstr "Plugin se stále pou¾ívá.\n"
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
 #: src/print-info.c:269
 msgid "Page &[PAGE]"
-msgstr ""
+msgstr "Stránka &[STRÁNKA]"
 
 #: src/print-info.c:21 src/print-info.c:26
 msgid "Page &[PAGE] of &[PAGES]"
-msgstr ""
+msgstr "Stránka &[STRÁNKA] z &[STRÁNEK]"
 
 #: src/print-info.c:22 src/print-info.c:23 src/print-info.c:24
 #: src/print-info.c:26
@@ -7206,39 +7113,35 @@ msgstr ""
 
 #: src/print-info.c:24 src/print-info.c:25 src/print-info.c:26
 msgid "&[DATE]"
-msgstr ""
+msgstr "&[DATUM]"
 
 #: src/print-info.c:268
-#, fuzzy
 msgid "Sheet &[PAGE]"
-msgstr "List"
+msgstr "List &[STRÁNKA]"
 
 #: src/print-info.c:419
-#, fuzzy
 msgid "pts"
-msgstr "Operace"
+msgstr "bodù"
 
 #: src/print-info.c:419
-#, fuzzy
 msgid "points"
-msgstr "Operace"
+msgstr "bodù"
 
 #: src/print-info.c:420
 msgid "mm"
-msgstr ""
+msgstr "mm"
 
 #: src/print-info.c:420
 msgid "millimeter"
-msgstr ""
+msgstr "milimetrù"
 
 #: src/print-info.c:421
 msgid "cm"
-msgstr ""
+msgstr "cm"
 
 #: src/print-info.c:421
-#, fuzzy
 msgid "centimeter"
-msgstr "Doprosøed"
+msgstr "centimetrù"
 
 #: src/print-info.c:422
 msgid "In"
@@ -7249,146 +7152,129 @@ msgid "inch"
 msgstr ""
 
 #: src/print-info.c:482
-#, fuzzy
 msgid "Sheet 1"
-msgstr "List"
+msgstr "List 1"
 
 #: src/print-info.c:540
 msgid "tab"
 msgstr ""
 
 #: src/print-info.c:541
-#, fuzzy
 msgid "page"
-msgstr "Vlo¾it"
+msgstr "stránka"
 
 #: src/print-info.c:542
-#, fuzzy
 msgid "pages"
-msgstr "Vlo¾it"
+msgstr "stránek"
 
 #: src/print-info.c:543
-#, fuzzy
 msgid "date"
-msgstr "Datum"
+msgstr "datum"
 
 #: src/print-info.c:544
-#, fuzzy
 msgid "time"
-msgstr "Èas"
+msgstr "èas"
 
 #: src/print-preview.c:290
-#, fuzzy
 msgid "Page: "
-msgstr "Vlo¾it"
+msgstr "Stránka: "
 
 #: src/print-preview.c:414
 msgid "_First page"
-msgstr ""
+msgstr "_První stránka"
 
 #: src/print-preview.c:414 src/print-preview.c:442
 msgid "Shows the first page"
-msgstr ""
+msgstr "Zobrazí první stránku"
 
 #: src/print-preview.c:417
 msgid "_Previous page"
-msgstr ""
+msgstr "Pøedcho_zí stránka"
 
 #: src/print-preview.c:417 src/print-preview.c:445
 msgid "Shows the previous page"
-msgstr ""
+msgstr "Zobrazí pøedchozí stránku"
 
 #: src/print-preview.c:420
 msgid "_Next page"
-msgstr ""
+msgstr "_Dal¹í stránka"
 
 #: src/print-preview.c:420 src/print-preview.c:448
 msgid "Shows the next page"
-msgstr ""
+msgstr "Zobrazí dal¹í stránku"
 
 #: src/print-preview.c:423
-#, fuzzy
 msgid "_Last page"
-msgstr "Vlo¾it"
+msgstr "Po_slední stránka"
 
 #: src/print-preview.c:423 src/print-preview.c:451
 msgid "Shows the last page"
-msgstr ""
+msgstr "Zobrazí poslední stránku"
 
 #: src/print-preview.c:428
-#, fuzzy
 msgid "Zoom _in"
-msgstr "Zvìt¹ení"
+msgstr "Z_vìt¹ení"
 
 #: src/print-preview.c:428
-#, fuzzy
 msgid "Zooms in"
 msgstr "Zvìt¹ení"
 
 #: src/print-preview.c:429
-#, fuzzy
 msgid "Zoom _out"
-msgstr "Zmen¹ení"
+msgstr "Z_men¹ení"
 
 #: src/print-preview.c:429
-#, fuzzy
 msgid "Zooms out"
 msgstr "Zmen¹ení"
 
 #: src/print-preview.c:436
 msgid "_View"
-msgstr "Pohled"
+msgstr "_Náhled"
 
 #: src/print-preview.c:442
 msgid "First"
-msgstr ""
+msgstr "První"
 
 #: src/print-preview.c:445
-#, fuzzy
 msgid "Back"
-msgstr "èerná"
+msgstr "Zpìt"
 
 #: src/print-preview.c:448
-#, fuzzy
 msgid "Next"
-msgstr "Text"
+msgstr "Dal¹í"
 
 #: src/print-preview.c:451
-#, fuzzy
 msgid "Last"
-msgstr "Vlo¾it"
+msgstr "Poslední"
 
 #: src/print-preview.c:455 src/workbook.c:2080
 msgid "Zoom in"
 msgstr "Zvìt¹ení"
 
 #: src/print-preview.c:455
-#, fuzzy
 msgid "Zooms the page in"
-msgstr "Zvìt¹ení"
+msgstr "Zvìt¹ení pohledu na stránku"
 
 #: src/print-preview.c:456 src/workbook.c:2073
 msgid "Zoom out"
 msgstr "Zmen¹ení"
 
 #: src/print-preview.c:456
-#, fuzzy
 msgid "Zooms the page out"
-msgstr "Zmen¹ení"
+msgstr "Zmen¹ení pohledu na stránku"
 
 #: src/print-preview.c:475
 #, c-format
 msgid "Preview for %s in %s"
-msgstr ""
+msgstr "Náhled na %s z %s"
 
 #: src/print-preview.c:476
 msgid "the sheet"
-msgstr ""
+msgstr "list"
 
 #: src/print-preview.c:477
-#, fuzzy
 msgid "the workbook"
-msgstr "Ulo¾í se¹it"
+msgstr "se¹it"
 
 #: src/sheet-view.c:351
 #, c-format
@@ -7401,9 +7287,8 @@ msgid "Column: %s"
 msgstr "Sloupec: %s"
 
 #: src/sheet.c:1020
-#, fuzzy
 msgid "Internal ERROR"
-msgstr "Chyba syntaxe"
+msgstr "Interní CHYBA"
 
 #: src/sheet.c:3166
 #, c-format
@@ -7416,17 +7301,17 @@ msgstr ""
 
 #: src/value.c:483
 msgid "Terminate"
-msgstr ""
+msgstr "Pøeru¹it"
 
 #. Placeholder: font selector
 #. Placeholder: size selector
 #: src/widgets/widget-font-selector.c:111 src/workbook-format-toolbar.c:406
 msgid "Bold"
-msgstr "Tuònì"
+msgstr "Tuènì"
 
 #: src/widgets/widget-font-selector.c:112
 msgid "Bold italic"
-msgstr ""
+msgstr "Tuèná kurzíva"
 
 #: src/widgets/widget-font-selector.c:113 src/workbook-format-toolbar.c:409
 msgid "Italic"
@@ -7434,21 +7319,20 @@ msgstr "Kurzíva"
 
 #: src/workbook.c:413
 msgid "Warning"
-msgstr ""
+msgstr "Varování"
 
 #: src/workbook.c:422
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
-msgstr ""
+msgstr "Se¹it %s byl zmìnìn, ulo¾it?"
 
 #: src/workbook.c:425
 msgid "Workbook has unsaved changes, save them?"
-msgstr ""
+msgstr "Se¹it obsahuje neulo¾ené zmìny, ulo¾it je?"
 
 #: src/workbook.c:625
-#, fuzzy
 msgid "Insert cols"
-msgstr "Vlo¾ buòky"
+msgstr "Vlo¾ sloupce"
 
 #: src/workbook.c:645
 msgid "Insert rows"
@@ -7945,9 +7829,8 @@ msgid "Sets the format of the selected cells to monetary"
 msgstr "Vycentruje buòku"
 
 #: src/workbook-format-toolbar.c:430
-#, fuzzy
 msgid "Sets the format of the selected cells to percentage"
-msgstr "Vycentruje buòku"
+msgstr ""
 
 #: src/workbook-format-toolbar.c:433
 msgid "Thousand separator"
@@ -7974,21 +7857,20 @@ msgid "Decreases the number of decimal numbers displayed"
 msgstr ""
 
 #: src/workbook-format-toolbar.c:547
-#, fuzzy
 msgid "Font selector"
-msgstr "Zlomek"
+msgstr "Výbìr zlomku"
 
 #: src/workbook-format-toolbar.c:563
 msgid "Size"
-msgstr ""
+msgstr "Velikost"
 
 #: src/workbook-format-toolbar.c:585
 msgid "Foreground"
-msgstr ""
+msgstr "Popøedí"
 
 #: src/workbook-format-toolbar.c:589
 msgid "Background"
-msgstr ""
+msgstr "Pozadí"
 
 #: src/workbook-cmd-format.c:83
 msgid "You entered an invalid column width value.  It must be bigger than 0"
@@ -8000,153 +7882,4 @@ msgstr ""
 
 #: src/xml-io.c:2305
 msgid "Old Gnumeric XML file format"
-msgstr ""
-
-#~ msgid "Delete cells"
-#~ msgstr "Smazání bunìk"
-
-#~ msgid "Shift cells left"
-#~ msgstr "Posuò buòky vlevo"
-
-#~ msgid "Shift cells up"
-#~ msgstr "Posuò buòky nahoru"
-
-#~ msgid "Delete row(s)"
-#~ msgstr "Sma¾ øádek(y)"
-
-#~ msgid "Delete column(s)"
-#~ msgstr "Sma¾ sloupec(e)"
-
-#~ msgid "Insert cells"
-#~ msgstr "Vlo¾ buòky"
-
-#~ msgid "Shift cells right"
-#~ msgstr "Posuò buòky vpravo"
-
-#~ msgid "Shift cells down"
-#~ msgstr "Posuò buòky dolu"
-
-#~ msgid "Insert row(s)"
-#~ msgstr "Vlo¾ øádek(y)"
-
-#~ msgid "Insert column(s)"
-#~ msgstr "Vlo¾ sloupec(e)"
-
-#, fuzzy
-#~ msgid "no workbook"
-#~ msgstr "Ulo¾it se¹it jako"
-
-#, fuzzy
-#~ msgid "#Reference to deleted cell!"
-#~ msgstr "Vycentruje buòku"
-
-#~ msgid "Zoom"
-#~ msgstr "Mìøítko"
-
-#~ msgid "Custom"
-#~ msgstr "Vlastní"
-
-#, fuzzy
-#~ msgid "Zoom factor should be at least 25%"
-#~ msgstr "Mìøítko musí být minimálnì 50%"
-
-#~ msgid "Zoom factor should be at most 900%"
-#~ msgstr "Mìøítko mú¾e být maximálnì 900%"
-
-#, fuzzy
-#~ msgid "copy"
-#~ msgstr "Kopie"
-
-#, fuzzy
-#~ msgid "cut"
-#~ msgstr "Vyjmout"
-
-#, fuzzy
-#~ msgid "paste"
-#~ msgstr "Vlo¾it"
-
-#~ msgid "_Cells.."
-#~ msgstr "Buòky"
-
-#~ msgid "C_opy"
-#~ msgstr "K_opírovat"
-
-#~ msgid "_Cut"
-#~ msgstr "Vyjmout"
-
-#~ msgid "_Help"
-#~ msgstr "Nápovìda"
-
-#~ msgid "_Edit"
-#~ msgstr "Editace"
-
-#~ msgid "_File"
-#~ msgstr "Soubor"
-
-#, fuzzy
-#~ msgid "_About Gnumeric..."
-#~ msgstr "O aplikaci"
-
-#, fuzzy
-#~ msgid "_Copy"
-#~ msgstr "Kopie"
-
-#, fuzzy
-#~ msgid "Cu_t"
-#~ msgstr "Vyjmout"
-
-#, fuzzy
-#~ msgid "E_xit"
-#~ msgstr "Konec"
-
-#~ msgid "_Close"
-#~ msgstr "Zavøi"
-
-#, fuzzy
-#~ msgid "Save _as..."
-#~ msgstr "Ulo¾ j_ako"
-
-#~ msgid "_Save"
-#~ msgstr "Ulo¾"
-
-#, fuzzy
-#~ msgid "_Open..."
-#~ msgstr "_Otevøít"
-
-#~ msgid "Notice"
-#~ msgstr "Poznámka"
-
-#~ msgid "Sets the italic attribute on the cell"
-#~ msgstr "Nastaví kurzíva v buòce"
-
-#~ msgid "Sets the cell alignment to the right"
-#~ msgstr "Nastaví zarovnání buòky doprava"
-
-#~ msgid "Sets the cell alignment to the left"
-#~ msgstr "Nastaví zarovnání buòky doleva"
-
-#~ msgid "Division by zero"
-#~ msgstr "Dìlení nulou"
-
-#~ msgid "Bricks"
-#~ msgstr "Cihly"
-
-#, fuzzy
-#~ msgid ""
-#~ "The GNOME spreadsheet.\n"
-#~ "http://www.gnome.org/gnumeric/"
-#~ msgstr ""
-#~ "The GNOME tabulkový kalkulátor.\n"
-#~ "http://www.gnome.org/gnumeric"
-
-#, fuzzy
-#~ msgid "int"
-#~ msgstr "Procenta"
-
-#, fuzzy
-#~ msgid "Division lines"
-#~ msgstr "Diagonální èára"
-
-#, fuzzy
-#~ msgid "Right:"
-#~ msgstr "Vpravo"
+msgstr "XML formát star¹ích verzí Gnumericu"
