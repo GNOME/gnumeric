@@ -14,6 +14,7 @@
 #include "gnumeric.h"
 #include "xml-io.h"
 #include "stf.h"
+#include "main.h"
 #include "plugin.h"
 #include "format.h"
 #include "workbook.h"
