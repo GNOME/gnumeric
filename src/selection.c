@@ -73,7 +73,7 @@ sv_is_pos_selected (SheetView const *sv, int col, int row)
  * sv_is_range_selected :
  * @sv :
  * @r  :
- * 
+ *
  * Returns TRUE If @r overlaps with any part of the selection in @sv.
  **/
 gboolean

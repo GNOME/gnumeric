@@ -194,7 +194,7 @@ main (int argc, char *argv [])
 			}
 			if (wbv != NULL) {
 				WorkbookControlGUI *wbcg;
-				
+
 				wbcg = WORKBOOK_CONTROL_GUI
 					(workbook_control_gui_new (wbv, NULL));
   				opened_workbook = TRUE;

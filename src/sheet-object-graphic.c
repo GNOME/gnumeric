@@ -515,9 +515,9 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table),
 				   state->fill_color_combo, 1, 2, 0, 1);
-	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->fill_color_combo), 
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->fill_color_combo),
 					GTK_RELIEF_NORMAL);
-	color_combo_box_set_preview_relief (COLOR_COMBO (state->fill_color_combo), 
+	color_combo_box_set_preview_relief (COLOR_COMBO (state->fill_color_combo),
 					    GTK_RELIEF_NORMAL);
 	gtk_widget_show (GTK_WIDGET (state->fill_color_combo));
 
@@ -546,7 +546,7 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 		gtk_widget_hide (GTK_WIDGET (state->spin_arrow_tip));
 		gtk_widget_hide (GTK_WIDGET (state->spin_arrow_length));
 		gtk_widget_hide (GTK_WIDGET (state->spin_arrow_width));
-	} 
+	}
 	gtk_widget_show (state->dialog);
 
 	points = foo_canvas_points_new (2);
@@ -572,11 +572,11 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 					0., 0., state->canvas->allocation.width,
 					state->canvas->allocation.height);
 	cb_adjustment_value_changed (NULL, state);
-	g_signal_connect (G_OBJECT 
+	g_signal_connect (G_OBJECT
 			  (gtk_spin_button_get_adjustment (state->spin_arrow_tip)),
 			  "value_changed",
 			  G_CALLBACK (cb_adjustment_value_changed), state);
-	g_signal_connect (G_OBJECT 
+	g_signal_connect (G_OBJECT
 			  (gtk_spin_button_get_adjustment (state->spin_arrow_length)),
 			  "value_changed",
 			  G_CALLBACK (cb_adjustment_value_changed), state);
@@ -948,9 +948,9 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 	state->outline_color = style_color_ref (sof->outline_color);
 	gtk_table_attach_defaults (GTK_TABLE (table),
 				   state->outline_color_combo, 1, 2, 0, 1);
-	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->outline_color_combo), 
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->outline_color_combo),
 					GTK_RELIEF_NORMAL);
-	color_combo_box_set_preview_relief (COLOR_COMBO (state->outline_color_combo), 
+	color_combo_box_set_preview_relief (COLOR_COMBO (state->outline_color_combo),
 					    GTK_RELIEF_NORMAL);
 	gtk_widget_show (GTK_WIDGET (state->outline_color_combo));
 
@@ -962,9 +962,9 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table),
 				   state->fill_color_combo, 1, 2, 1, 2);
-	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->fill_color_combo), 
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->fill_color_combo),
 					GTK_RELIEF_NORMAL);
-	color_combo_box_set_preview_relief (COLOR_COMBO (state->fill_color_combo), 
+	color_combo_box_set_preview_relief (COLOR_COMBO (state->fill_color_combo),
 					    GTK_RELIEF_NORMAL);
 	gtk_widget_show (GTK_WIDGET (state->fill_color_combo));
 
@@ -1614,7 +1614,7 @@ sheet_object_text_class_init (GObjectClass *object_class)
 	so_class->read_xml	= sheet_object_text_read_xml;
 	so_class->write_xml	= sheet_object_text_write_xml;
 	so_class->clone         = sheet_object_text_clone;
-	/* so_class->user_config   = NULL; inherit from parent */ 
+	/* so_class->user_config   = NULL; inherit from parent */
 	/* so_class->print         = NULL; inherit from parent */
 	so_class->rubber_band_directly = FALSE;
 

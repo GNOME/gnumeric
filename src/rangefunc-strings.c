@@ -14,11 +14,11 @@
 static void
 cb_concatenate (char const *text, GString *str)
 {
-	g_string_append (str, text); 
+	g_string_append (str, text);
 }
 
-int 
-range_concatenate (GSList *data, char **res) 
+int
+range_concatenate (GSList *data, char **res)
 {
 	GString *str = g_string_new (NULL);
 

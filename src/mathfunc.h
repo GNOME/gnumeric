@@ -124,7 +124,7 @@ gnm_float random_fdist          (gnm_float nu1, gnm_float nu2);
 gnm_float random_beta           (gnm_float a, gnm_float b);
 gnm_float random_logistic       (gnm_float a);
 gnm_float random_geometric      (gnm_float p);
-gnm_float random_hypergeometric (unsigned int n1, unsigned int n2, 
+gnm_float random_hypergeometric (unsigned int n1, unsigned int n2,
 				 unsigned int t);
 gnm_float random_logarithmic    (gnm_float p);
 gnm_float random_chisq          (gnm_float nu);

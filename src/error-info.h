@@ -5,7 +5,7 @@
 
 typedef enum {
 	GNM_WARNING = 1,
-	GNM_ERROR 
+	GNM_ERROR
 } GnmSeverity;
 
 ErrorInfo   *error_info_new_str			  (char const *msg);

@@ -578,7 +578,7 @@ handle_empty (Value *res, GnmExprEvalFlags flags)
 /**
  * value_intersection :
  * @v   : a VALUE_CELLRANGE
- * @pos : 
+ * @pos :
  *
  * Handle the implicit union of a single row or column with the eval position.
  *
@@ -2076,7 +2076,7 @@ gnm_expr_get_constant (GnmExpr const *expr)
 /**
  * gnm_expr_is_rangeref :
  * @expr :
- * 
+ *
  * Returns TRUE if the expression can generate a reference.
  * NOTE : in the future it would be nice to know if a function
  * can return a reference to tighten that up a bit.
@@ -2376,7 +2376,7 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 	/*
 	 * Note: we have to use a variable for this because a non-shared node
 	 * might now exist anymore.
-	 */	   
+	 */
 	if (wasshared) {
 		gnm_expr_ref (e);
 		g_hash_table_insert (es->ptrs, (gpointer)e, (gpointer)e2);

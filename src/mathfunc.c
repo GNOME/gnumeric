@@ -5181,7 +5181,7 @@ random_tdist (gnm_float nu)
 }
 
 /*
- * Generate a Type I Gumbel-distributed random number. From the GNU 
+ * Generate a Type I Gumbel-distributed random number. From the GNU
  * Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
@@ -5198,7 +5198,7 @@ random_gumbel1 (gnm_float a, gnm_float b)
 }
 
 /*
- * Generate a Type II Gumbel-distributed random number. From the GNU 
+ * Generate a Type II Gumbel-distributed random number. From the GNU
  * Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
@@ -5215,7 +5215,7 @@ random_gumbel2 (gnm_float a, gnm_float b)
 }
 
 /*
- * Generate a stable Levy-distributed random number. From the GNU 
+ * Generate a stable Levy-distributed random number. From the GNU
  * Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  *
@@ -5223,7 +5223,7 @@ random_gumbel2 (gnm_float a, gnm_float b)
  *
  * p(x) dx = (1/(2 pi)) \int dt exp(- it x - |c t|^alpha)
  *
- * with 0 < alpha <= 2. 
+ * with 0 < alpha <= 2.
  *
  * For alpha = 1, we get the Cauchy distribution
  * For alpha = 2, we get the Gaussian distribution with sigma = sqrt(2) c.
@@ -5288,7 +5288,7 @@ random_levy (gnm_float c, gnm_float alpha)
  *  For alpha = 1, beta=0, we get the Lorentz distribution
  *  For alpha = 2, beta=0, we get the Gaussian distribution
  *
- *  See A. Weron and R. Weron: Computer simulation of Lévy alpha-stable 
+ *  See A. Weron and R. Weron: Computer simulation of Lévy alpha-stable
  *  variables and processes, preprint Technical University of Wroclaw.
  *  http://www.im.pwr.wroc.pl/~hugo/Publications.html
  */
@@ -5337,12 +5337,12 @@ random_exppow_pdf (gnm_float x, gnm_float a, gnm_float b)
 }
 
 /*
- * The exponential power probability distribution is  
+ * The exponential power probability distribution is
  *
  *  p(x) dx = (1/(2 a Gamma(1+1/b))) * exp(-|x/a|^b) dx
  *
  * for -infty < x < infty. For b = 1 it reduces to the Laplace
- * distribution. 
+ * distribution.
  *
  * The exponential power distribution is related to the gamma
  * distribution by E = a * pow(G(1/b),1/b), where E is an exponential
@@ -5355,7 +5355,7 @@ random_exppow_pdf (gnm_float x, gnm_float a, gnm_float b)
  * See P. R. Tadikamalla, "Random Sampling from the Exponential Power
  * Distribution", Journal of the American Statistical Association,
  * September 1980, Volume 75, Number 371, pages 683-686.
- * 
+ *
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough
  */
 
@@ -5369,16 +5369,16 @@ random_exppow (gnm_float a, gnm_float b)
 
 		if (u > 0.5)
 			return z;
-		else 
+		else
 			return -z;
-	} else if (b == 1) 
+	} else if (b == 1)
 		return random_laplace (a);   /* Laplace distribution */
 	else if (b < 2) {
 		/* Use laplace distribution for rejection method */
 		gnm_float x, y, h, ratio, u;
 
 		/* Scale factor chosen by upper bound on ratio at b = 2 */
-		gnm_float s = 1.4489; 
+		gnm_float s = 1.4489;
 		do {
 			x     = random_laplace (a);
 			y     = random_laplace_pdf (x, a);
@@ -5386,7 +5386,7 @@ random_exppow (gnm_float a, gnm_float b)
 			ratio = h / (s * y);
 			u     = random_01 ();
 		} while (u > ratio);
-      
+
 		return x ;
 	} else if (b == 2)   /* Gaussian distribution */
 		return random_gaussian (a / sqrtgnum (2.0));
@@ -5414,7 +5414,7 @@ random_exppow (gnm_float a, gnm_float b)
 }
 
 /*
- * Generate a Gaussian tail-distributed random number. From the GNU 
+ * Generate a Gaussian tail-distributed random number. From the GNU
  * Scientific library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough
  */
@@ -5470,7 +5470,7 @@ random_gaussian_tail (gnm_float a, gnm_float sigma)
  *
  * The distribution is given by the complex path integral,
  *
- *  p(x) = (1/(2 pi i)) \int_{c-i\inf}^{c+i\inf} ds exp(s log(s) + x s) 
+ *  p(x) = (1/(2 pi i)) \int_{c-i\inf}^{c+i\inf} ds exp(s log(s) + x s)
  *
  * which can be converted into a real integral over [0,+\inf]
  *

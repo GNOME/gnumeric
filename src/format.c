@@ -922,7 +922,7 @@ format_remove_decimal (StyleFormat const *fmt)
 	/* First try to classify the format so we can regenerate it */
 	ff = cell_format_classify (fmt, &fc);
 
-	switch (ff) {	
+	switch (ff) {
 	case FMT_NUMBER:
 	case FMT_CURRENCY:
 		return reformat_decimals (&fc, &style_format_number, -1);
@@ -998,7 +998,7 @@ format_add_decimal (StyleFormat const *fmt)
 	/* First try to classify the format so we can regenerate it */
 	ff = cell_format_classify(fmt, &fc);
 
-	switch (ff) {	
+	switch (ff) {
 	case FMT_NUMBER:
 	case FMT_CURRENCY:
 		return reformat_decimals (&fc, &style_format_number, 1);
@@ -1021,7 +1021,7 @@ format_add_decimal (StyleFormat const *fmt)
 	}
 
 	/* Use the old code for more special formats to try to add a
-	   decimal */	
+	   decimal */
 
 	if (strcmp (format_string, "General") == 0) {
 		format_string = "0";
@@ -1344,7 +1344,7 @@ format_number (GString *result,
 				append_minute_elapsed (result, &tm, signed_number);
 				break;
 			}
-			
+
 			if (need_time_split)
 				need_time_split = split_time (&tm, signed_number, date_conv);
 			if (hour_seen ||

@@ -532,15 +532,15 @@ gnm_file_saver_set_overwrite_files (GnmFileSaver *fs, gboolean overwrite)
  * supported by @fs saver. If @fs has no default extension or @file_name
  * already has some extension, it just copies @file_name.
  *
- * 
- * Value in new_file_name:  newly allocated string which you should 
+ *
+ * Value in new_file_name:  newly allocated string which you should
  *                          free after use,
  *                          containing (optionally) modified file name.
  * Return Value:  FALSE if the filename has an extension not matching the
  *		  file type.
  */
 gboolean
-gnm_file_saver_fix_file_name (GnmFileSaver const *fs, 
+gnm_file_saver_fix_file_name (GnmFileSaver const *fs,
 				gchar const *file_name,
 				gchar **new_file_name)
 {
@@ -557,8 +557,8 @@ gnm_file_saver_fix_file_name (GnmFileSaver const *fs,
 	if (fs->extension != NULL && extension == NULL)
 		*new_file_name = g_strconcat (file_name, ".", fs->extension, NULL);
 	else {
-		if (extension != NULL && fs->extension != NULL) 
-			res = !gnumeric_utf8_collate_casefold (extension + 1, 
+		if (extension != NULL && fs->extension != NULL)
+			res = !gnumeric_utf8_collate_casefold (extension + 1,
 							fs->extension);
 		*new_file_name = g_strdup (file_name);
 	}

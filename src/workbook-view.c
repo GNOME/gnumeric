@@ -740,7 +740,7 @@ wb_view_new_from_input  (GsfInput *input,
 			g_object_unref (G_OBJECT (new_wb));
 			new_wbv = NULL;
 		} else {
-			workbook_recalc (new_wb); 
+			workbook_recalc (new_wb);
 			workbook_set_dirty (new_wb, FALSE);
 		}
 	} else

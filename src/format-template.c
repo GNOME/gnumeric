@@ -995,11 +995,11 @@ format_template_range_check (FormatTemplate *ft, Range const *r,
 /**
  * format_template_transform_edges:
  * @ft: The template to transform
- * 
+ *
  * Transforms a template by remove edge styles. This routine
  * will return a copy of @ft which should be freed by the
  * caller.
- * 
+ *
  * Return value: A new tranformed format template
  **/
 static FormatTemplate *

@@ -338,7 +338,7 @@ clipboard_paste_region (CellRegion const *content,
 	if (has_content)
 		clearFlags = CLEAR_VALUES | CLEAR_NORESPAN;
 
-	if (pt->paste_flags & PASTE_COMMENTS) 
+	if (pt->paste_flags & PASTE_COMMENTS)
 		clearFlags |= CLEAR_COMMENTS;
 
 	/* No need to clear the formats.  We will paste over top of these. */
@@ -502,7 +502,7 @@ clipboard_prepend_comment (SheetObject const *so, void *user_data)
 	Cell        *the_cell = sheet_cell_get (sheet, r->start.col, r->start.row);
 
 	if (the_cell == NULL)
-		clipboard_prepend_cell (sheet,  r->start.col, r->start.row, 
+		clipboard_prepend_cell (sheet,  r->start.col, r->start.row,
 					sheet_cell_fetch (sheet, r->start.col, r->start.row),
 					user_data);
 }

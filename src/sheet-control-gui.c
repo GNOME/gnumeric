@@ -1941,7 +1941,7 @@ scg_comment_display (SheetControlGUI *scg, CellComment *cc)
 		adjust_1 =  GTK_ADJUSTMENT (gtk_adjustment_new (0.0,0.0,100.0,1.0,1.0,10.0));
 		adjust_2 =  GTK_ADJUSTMENT (gtk_adjustment_new (0.0,0.0,100.0,1.0,1.0,10.0));
 		scroll = gtk_scrolled_window_new (adjust_1, adjust_2);
-		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll), 
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
 						GTK_POLICY_NEVER, GTK_POLICY_NEVER);
 
 		frame = gtk_frame_new (NULL);
@@ -2091,7 +2091,7 @@ scg_compute_visible_region (SheetControl *sc, gboolean full_recompute)
 {
 	SheetControlGUI *scg = (SheetControlGUI *) sc;
 
-	SCG_FOREACH_PANE (scg, pane, 
+	SCG_FOREACH_PANE (scg, pane,
 		gnm_canvas_compute_visible_region (pane->gcanvas,
 						   full_recompute););
 }
@@ -2424,7 +2424,7 @@ scg_colrow_resize_stop (SheetControlGUI *scg)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	SCG_FOREACH_PANE (scg, pane, 
+	SCG_FOREACH_PANE (scg, pane,
 		gnm_pane_colrow_resize_stop (pane););
 }
 
@@ -2434,7 +2434,7 @@ scg_colrow_resize_start	(SheetControlGUI *scg,
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	SCG_FOREACH_PANE (scg, pane, 
+	SCG_FOREACH_PANE (scg, pane,
 		gnm_pane_colrow_resize_start (pane,
 			is_cols, resize_first););
 }
@@ -2445,7 +2445,7 @@ scg_colrow_resize_move (SheetControlGUI *scg,
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	SCG_FOREACH_PANE (scg, pane, 
+	SCG_FOREACH_PANE (scg, pane,
 		gnm_pane_colrow_resize_move (pane, is_cols, pos););
 }
 
@@ -2454,7 +2454,7 @@ scg_special_cursor_start (SheetControlGUI *scg, int style, int button)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	SCG_FOREACH_PANE (scg, pane, 
+	SCG_FOREACH_PANE (scg, pane,
 		gnm_pane_special_cursor_start (pane, style, button););
 }
 
@@ -2463,7 +2463,7 @@ scg_special_cursor_stop (SheetControlGUI *scg)
 {
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	SCG_FOREACH_PANE (scg, pane, 
+	SCG_FOREACH_PANE (scg, pane,
 		gnm_pane_special_cursor_stop (pane););
 }
 
@@ -2474,7 +2474,7 @@ scg_special_cursor_bound_set (SheetControlGUI *scg, Range const *r)
 
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), FALSE);
 
-	SCG_FOREACH_PANE (scg, pane, 
+	SCG_FOREACH_PANE (scg, pane,
 		changed |= gnm_pane_special_cursor_bound_set (pane, r););
 	return changed;
 }
@@ -2483,7 +2483,7 @@ static void
 scg_object_create_view	(SheetControl *sc, SheetObject *so)
 {
 	SheetControlGUI *scg = SHEET_CONTROL_GUI (sc);
-	SCG_FOREACH_PANE (scg, pane, 
+	SCG_FOREACH_PANE (scg, pane,
 		sheet_object_new_view (so, sc, (gpointer)pane););
 }
 

@@ -720,7 +720,7 @@ function_def_get_arg_name (GnmFunc const *fn_def,
 		return NULL;
 
 	translated_arguments = _(fn_def->arg_names);
-	delimiter[0] = 
+	delimiter[0] =
 		strcmp (translated_arguments, fn_def->arg_names) == 0
 		? ','
 		: format_get_arg_sep ();
@@ -799,7 +799,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		arg_type = fn_def->fn.args.arg_types[i];
 		expr = l->data;
 
-		if (i >= fn_def->fn.args.min_args) 
+		if (i >= fn_def->fn.args.min_args)
 			optional = GNM_EXPR_EVAL_PERMIT_EMPTY;
 
 		if (arg_type == 'A' || arg_type == 'r') {
@@ -888,7 +888,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		case 's':
 			if (tmp->type == VALUE_ERROR) {
 				free_values (args, i);
-				return tmp; 
+				return tmp;
 			} else if (tmp->type != VALUE_STRING) {
 				free_values (args, i+1);
 				return value_new_error_VALUE (ei->pos);
@@ -898,7 +898,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		case 'S':
 			if (tmp->type == VALUE_ERROR) {
 				free_values (args, i);
-				return tmp; 
+				return tmp;
 			}
 			break;
 
@@ -971,7 +971,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			args[iter_item[i]] = iter_vals[i];
 		tmp = res;
 		i = fn_def->fn.args.max_args;
-	} else 
+	} else
 		tmp = fn_def->fn.args.func (ei, args);
 
 	free_values (args, i);

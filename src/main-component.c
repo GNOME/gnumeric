@@ -12,7 +12,7 @@
 #include <gnumeric.h>
 #include <libgnumeric.h>
 #include "bonobo-io.h"
-#include <bonobo/bonobo-ui-main.h> 
+#include <bonobo/bonobo-ui-main.h>
 
 #include <bonobo/bonobo-generic-factory.h>
 

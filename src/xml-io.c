@@ -1100,7 +1100,7 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 		guchar *paper_name;
 		paper_name = gnome_print_config_get (pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_SIZE);
 		if (paper_name) {
-			xmlNewChild (cur, ctxt->ns, CC2XML ("paper"), 
+			xmlNewChild (cur, ctxt->ns, CC2XML ("paper"),
 				     CC2XML (paper_name));
 		}
 		g_free (paper_name);
@@ -1223,7 +1223,7 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 				double tmp;
 				pi->scaling.type = PERCENTAGE;
 				if (xml_node_get_double (child, "percentage", &tmp))
-					pi->scaling.percentage.x = 
+					pi->scaling.percentage.x =
 						pi->scaling.percentage.y = tmp;
 			} else {
 				int cols, rows;
@@ -2271,7 +2271,7 @@ xml_write_sheet_filters (XmlParseContext *ctxt, xmlNode *container,
 				   CC2XML ("Filter"), NULL);
 
 		if (filter_node != NULL) {
-			xml_node_set_cstr (filter_node, "Area", 
+			xml_node_set_cstr (filter_node, "Area",
 				range_name (&filter->r));
 			for (i = filter->fields->len ; i-- > 0 ; ) {
 				cond = gnm_filter_get_condition (filter, i);
@@ -2378,7 +2378,7 @@ xml_read_solver (XmlParseContext *ctxt, xmlNodePtr tree)
 	/* The options of the Solver. */
 	xml_node_get_int (tree, "MaxTime", &(param->options.max_time_sec));
 	xml_node_get_int (tree, "MaxIter", &(param->options.max_iter));
-	xml_node_get_int (tree, "NonNeg", 
+	xml_node_get_int (tree, "NonNeg",
 			  &(param->options.assume_non_negative));
 	xml_node_get_int (tree, "Discr", &(param->options.assume_discrete));
 	xml_node_get_int (tree, "AutoScale",
@@ -2465,7 +2465,7 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters const *param)
 	/* The options of the Solver. */
 	xml_node_set_int (cur, "MaxTime", param->options.max_time_sec);
 	xml_node_set_int (cur, "MaxIter", param->options.max_iter);
-	xml_node_set_int (cur, "NonNeg", 
+	xml_node_set_int (cur, "NonNeg",
 			  param->options.assume_non_negative);
 	xml_node_set_int (cur, "Discr", param->options.assume_discrete);
 	xml_node_set_int (cur, "AutoScale", param->options.automatic_scaling);

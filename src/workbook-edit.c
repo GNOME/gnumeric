@@ -485,7 +485,7 @@ wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 }
 
 void
-wbcg_edit_attach_guru_with_unfocused_rs (WorkbookControlGUI *wbcg, GtkWidget *guru, 
+wbcg_edit_attach_guru_with_unfocused_rs (WorkbookControlGUI *wbcg, GtkWidget *guru,
 					 GnumericExprEntry *gee)
 {
 	g_return_if_fail (guru != NULL);

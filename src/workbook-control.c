@@ -279,7 +279,7 @@ wbc_finalize (GObject *obj)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
 	if (wbc->clipboard_changed_signal)
-		g_signal_handler_disconnect (gnumeric_application_get_app (), 
+		g_signal_handler_disconnect (gnumeric_application_get_app (),
 					     wbc->clipboard_changed_signal);
 	wbc->clipboard_changed_signal = 0;
 	if (wbc->wb_view != NULL)

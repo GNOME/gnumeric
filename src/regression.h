@@ -142,11 +142,11 @@ RegressionResult logarithmic_regression (gnm_float **xss, int dim,
 
 /* Final accuracy of c is: width of x-range rounded to the next smaller
  * (10^integer), the result times LOGFIT_C_ACCURACY.
- * If you change it, remember to change the help-text for LOGFIT. 
+ * If you change it, remember to change the help-text for LOGFIT.
  * FIXME: Is there a way to stringify this macros value for the help-text? */
 #define LOGFIT_C_ACCURACY 0.000001
 
-/* Stepwidth for testing for sign is: width of x-range 
+/* Stepwidth for testing for sign is: width of x-range
  * times LOGFIT_C_STEP_FACTOR. Value is tested a bit. */
 #define LOGFIT_C_STEP_FACTOR 0.05
 

@@ -49,7 +49,7 @@ static SheetObjectClass *sheet_object_image_parent_class;
 
 /**
  * sheet_object_image_new :
- * @type : 
+ * @type :
  * @data :
  * @data_len
  * @copy_data :
@@ -152,7 +152,7 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 	if (loader) {
 		ret = gdk_pixbuf_loader_write (loader,
 					       soi->data, soi->data_len, &err);
-		/* Close in any case. But don't let error during closing 
+		/* Close in any case. But don't let error during closing
 		 * shadow error from loader_write.  */
 		gdk_pixbuf_loader_close (loader, ret ? &err : NULL);
 		if (ret)
@@ -186,7 +186,7 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 			g_free (filename);
 			soi->dumped = TRUE;
 		}
-		
+
 		if (err != NULL) {
 			g_warning (err-> message);
 			g_error_free (err);

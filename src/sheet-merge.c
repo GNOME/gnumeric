@@ -76,7 +76,7 @@ sheet_merge_add (Sheet *sheet, Range const *r, gboolean clear,
 	test = sheet_merge_get_overlap (sheet, r);
 	if (test != NULL) {
 		if (cc != NULL)
-			cmd_context_error (cc, g_error_new (gnm_error_invalid(), 0, 
+			cmd_context_error (cc, g_error_new (gnm_error_invalid(), 0,
 				_("There is already a merged region that intersects\n%s!%s"),
 				sheet->name_unquoted, range_name (r)));
 		g_slist_free (test);

@@ -56,7 +56,7 @@ typedef enum {
 
 typedef gpointer SolverProgram;
 
-
+
 /*
  * Solver's API for LP solving algorithms
  */
@@ -98,7 +98,7 @@ typedef void
 typedef int
         (solver_lp_get_iterations_fn)   (SolverProgram p);
 
-
+
 typedef struct {
         const char                    *name;
         solver_init_fn                *init_fn;
@@ -206,7 +206,7 @@ typedef struct {
         SolverParameters *param;
 } SolverResults;
 
-
+
 /**************************************************************************
  *
  * The API functions to the Solver tool.
@@ -221,7 +221,7 @@ SolverResults    *solver               (WorkbookControl *wbc, Sheet *sheet,
 /* Creates the Solver's reports. */
 gchar *          solver_reports        (WorkbookControl *wbc, Sheet *sheet,
 					SolverResults *res,
-					gboolean answer, gboolean sensitivity, 
+					gboolean answer, gboolean sensitivity,
 					gboolean limits, gboolean performance,
 					gboolean program, gboolean dual);
 

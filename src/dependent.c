@@ -568,7 +568,7 @@ link_single_dep (Dependent *dep, CellPos const *pos, CellRef const *ref)
 	DependencySingle *single;
 	GnmDepContainer *deps;
 	DependentFlags flag = DEPENDENT_NO_FLAG;
- 
+
 	if (ref->sheet != NULL) {
 		if (ref->sheet != dep->sheet)
 			flag = (ref->sheet->workbook != dep->sheet->workbook)
@@ -675,7 +675,7 @@ link_cellrange_dep (Dependent *dep, CellPos const *pos,
 {
 	DependencyRange range;
 	DependentFlags flag = DEPENDENT_NO_FLAG;
- 
+
 	cellref_get_abs_pos (a, pos, &range.range.start);
 	cellref_get_abs_pos (b, pos, &range.range.end);
 	range_normalize (&range.range);

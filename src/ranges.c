@@ -40,7 +40,7 @@ range_init_full_sheet (Range *r)
 	return r;
 }
 
-Range *    
+Range *
 range_init_rangeref (Range *range, RangeRef const *rr)
 {
 	g_return_val_if_fail (range != NULL && rr != NULL, NULL);
@@ -53,7 +53,7 @@ range_init_rangeref (Range *range, RangeRef const *rr)
 }
 
 
-Range *    
+Range *
 range_init_value (Range *range, Value const *v)
 {
 	g_return_val_if_fail (range != NULL && v != NULL &&
@@ -1015,7 +1015,7 @@ global_range_new (Sheet *sheet, Range const *r)
  * convert @v into a global range and return in @res
  **/
 gboolean
-value_to_global_range (Value const *v, GlobalRange *res) 
+value_to_global_range (Value const *v, GlobalRange *res)
 {
 	g_return_val_if_fail (v->type == VALUE_CELLRANGE, FALSE);
 

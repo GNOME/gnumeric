@@ -189,7 +189,7 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		font->pango.metrics = pango_font_get_metrics (font->pango.font,
 							      gtk_get_default_language ());
 
-		font->gnome_print_font = gnome_font_find_closest_from_weight_slant (font_name, 
+		font->gnome_print_font = gnome_font_find_closest_from_weight_slant (font_name,
 			bold ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR, italic, size_pts);
 
 		font->approx_width.pixels.digit = calc_font_width (font, "0123456789");

@@ -44,7 +44,7 @@ typedef struct {
 
 GType          gnm_persist_stream_get_type (void);
 
-static void 
+static void
 gnm_persist_stream_load (PortableServer_Servant  servant,
 			 Bonobo_Stream           stream,
 			 const CORBA_char       *type,
@@ -94,7 +94,7 @@ gnm_persist_stream_class_init (GnmPersistStreamClass *klass)
  	POA_Bonobo_PersistStream__epv *epv = &klass->epv;
 
 	persist_class->get_content_types = NULL;
- 
+
 	epv->load = gnm_persist_stream_load;
 	epv->save = NULL;
 }

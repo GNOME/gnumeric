@@ -1143,7 +1143,7 @@ format_match (char const *text, StyleFormat *cur_fmt,
 			return value_new_string (text);
 		if (cur_fmt->regexp_str != NULL &&
 		    regexec (&cur_fmt->regexp, text, NM, mp, 0) != REG_NOMATCH &&
-		    NULL != (v = compute_value (text, mp, cur_fmt->match_tags, 
+		    NULL != (v = compute_value (text, mp, cur_fmt->match_tags,
 						date_conv))) {
 #ifdef DEBUG_NUMBER_MATCH
 			{

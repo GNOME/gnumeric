@@ -907,7 +907,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	 * gtk_notebook_set_tab_label kills our widget & replaces with a label.
 	 */
 	scg->label = editable_label_new (sheet->name_unquoted,
-			sheet->tab_color ? &sheet->tab_color->color : NULL, 
+			sheet->tab_color ? &sheet->tab_color->color : NULL,
 			sheet->tab_text_color ? &sheet->tab_text_color->color : NULL);
 	g_signal_connect_after (GTK_OBJECT (scg->label),
 		"edit_finished",
@@ -1576,11 +1576,11 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 					    GTK_DIALOG_DESTROY_WITH_PARENT,
 					    GTK_MESSAGE_WARNING,
 					    GTK_BUTTONS_NONE,
-					    msg); 
+					    msg);
 		if (exiting) {
 			int n_of_wb = g_list_length (application_workbook_list ());
 			if (n_of_wb > 1)
-				gtk_dialog_add_buttons (GTK_DIALOG (d), 
+				gtk_dialog_add_buttons (GTK_DIALOG (d),
 							_("Don't Quit"),  GTK_RESPONSE_CANCEL,
 							_("Discard All"), - GTK_RESPONSE_NO,
 							_("Discard"),	  GTK_RESPONSE_NO,
@@ -1588,13 +1588,13 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 							GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
 							NULL);
 			else
-				gtk_dialog_add_buttons (GTK_DIALOG (d), 
+				gtk_dialog_add_buttons (GTK_DIALOG (d),
 							_("Don't Quit"),  GTK_RESPONSE_CANCEL,
 							_("Discard"),	  GTK_RESPONSE_NO,
 							GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
 							NULL);
 		} else
-			gtk_dialog_add_buttons (GTK_DIALOG (d), 
+			gtk_dialog_add_buttons (GTK_DIALOG (d),
 						_("Don't Close"),  GTK_RESPONSE_CANCEL,
 						_("Discard"),	  GTK_RESPONSE_NO,
 						GTK_STOCK_SAVE,   GTK_RESPONSE_YES,
@@ -1605,20 +1605,20 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 		g_free (msg);
 
 		switch (button) {
-		case GTK_RESPONSE_YES: 
+		case GTK_RESPONSE_YES:
 			done = gui_file_save (wbcg, wb_view);
 			break;
 
-		case (- GTK_RESPONSE_YES): 
+		case (- GTK_RESPONSE_YES):
 			done = gui_file_save (wbcg, wb_view);
 			break;
 
-		case GTK_RESPONSE_NO: 
+		case GTK_RESPONSE_NO:
 			done      = TRUE;
 			workbook_set_dirty (wb, FALSE);
 			break;
 
-		case (- GTK_RESPONSE_NO): 
+		case (- GTK_RESPONSE_NO):
 			done      = TRUE;
 			workbook_set_dirty (wb, FALSE);
 			break;
@@ -1635,7 +1635,7 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
 	if (can_close) {
 		workbook_unref (wb);
 		switch (button) {
-		case (- GTK_RESPONSE_YES): 
+		case (- GTK_RESPONSE_YES):
 			return 3;
 		case (- GTK_RESPONSE_NO):
 			return 4;
@@ -1680,7 +1680,7 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 
 		/* This is the last view */
 		if (wb->wb_views->len <= 1)
-			return workbook_close_if_user_permits (wbcg, wb_view, TRUE, FALSE, TRUE) 
+			return workbook_close_if_user_permits (wbcg, wb_view, TRUE, FALSE, TRUE)
 				== 0;
 
 		g_object_unref (G_OBJECT (wb_view));
@@ -1891,7 +1891,7 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 		} else {
 			wb_view = g_ptr_array_index (wb->wb_views, 0);
-			switch (workbook_close_if_user_permits (wbcg, wb_view, FALSE, 
+			switch (workbook_close_if_user_permits (wbcg, wb_view, FALSE,
 								TRUE, ask_user)) {
 			case 0 : ok = FALSE;	/* canceled */
 				break;
@@ -1926,8 +1926,8 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 			workbook_unref (ptr->data);
 	} else
 	/* only close pristine books if nothing was canceled. */
-	if (ok && workbook_close_if_user_permits (wbcg, 
-						  wb_control_view (wbc), TRUE, TRUE, ask_user) 
+	if (ok && workbook_close_if_user_permits (wbcg,
+						  wb_control_view (wbc), TRUE, TRUE, ask_user)
 	    > 0)
 		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next)
 			workbook_unref (ptr->data);
@@ -2393,9 +2393,9 @@ cb_define_name (GtkWidget *unused, WorkbookControlGUI *wbcg)
 static void
 cb_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
-	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL, NULL, 
-			       g_slist_prepend (NULL, NULL), 
-			       g_slist_prepend (NULL, NULL), 
+	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL, NULL,
+			       g_slist_prepend (NULL, NULL),
+			       g_slist_prepend (NULL, NULL),
 			       NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
@@ -3738,7 +3738,7 @@ static GnomeUIInfo workbook_menu_tools [] = {
 		N_("Test decision alternatives by using Monte Carlo simulation "
 		   "to find out probable outputs and risks related to them"),
 		cb_tools_simulation),
- 
+
        GNOMEUIINFO_SUBTREE(N_("Sce_narios"),
                            workbook_menu_tools_scenarios),
 
@@ -4877,7 +4877,7 @@ wbcg_drag_data_get (GtkWidget          *widget,
 	bonobo_moniker_set_server (moniker,
 		"IDL:GNOME:Gnumeric:Workbook:1.0",
 		wb->filename);
-	bonobo_moniker_append_item_name (moniker, 
+	bonobo_moniker_append_item_name (moniker,
 		sheet->name_quoted);
 
 	s = bonobo_moniker_get_as_string (moniker);
@@ -4980,7 +4980,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 
 		/*
 		 * The user wants to reorder the sheets but hasn't dropped
-		 * the sheet onto a label. Never mind. We figure out 
+		 * the sheet onto a label. Never mind. We figure out
 		 * where the arrow is currently located and simulate a drop
 		 * on that label.
 		 */

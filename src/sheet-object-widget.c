@@ -282,7 +282,7 @@ cb_frame_config_destroy (GtkObject *w, FrameConfigState *state)
  	g_free (state->old_label);
  	state->old_label = NULL;
  	state->dialog = NULL;
- 	g_free (state); 
+ 	g_free (state);
 
  	return FALSE;
 }
@@ -304,11 +304,11 @@ cb_frame_config_cancel_clicked (GtkWidget *button, FrameConfigState *state)
   	swc->label = g_strdup(state->old_label);
   	list = swc->sow.parent_object.realized_list;
   	for(;list!=NULL;list=list->next){
-		gtk_frame_set_label 
-			(GTK_FRAME(FOO_CANVAS_WIDGET(list->data)->widget), 
+		gtk_frame_set_label
+			(GTK_FRAME(FOO_CANVAS_WIDGET(list->data)->widget),
 			 state->old_label);
   	}
-  
+
   	gtk_widget_destroy (state->dialog);
 }
 
@@ -323,9 +323,9 @@ cb_frame_label_changed(GtkWidget *entry, FrameConfigState *state)
   	swc = state->swc;
   	if (swc->label)
   		g_free(swc->label);
-  
+
 	swc->label = g_strdup(text);
-  	for (list = swc->sow.parent_object.realized_list; list != NULL; 
+  	for (list = swc->sow.parent_object.realized_list; list != NULL;
 	     list = list->next){
 		gtk_frame_set_label
 			(GTK_FRAME(FOO_CANVAS_WIDGET(list->data)->widget),
@@ -372,18 +372,18 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 			  "destroy",
 			  G_CALLBACK (cb_frame_config_destroy), state);
 
-  	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, 
+  	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui,
 							  "ok_button")),
 			  "clicked",
 			  G_CALLBACK (cb_frame_config_ok_clicked), state);
-  	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, 
+  	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui,
 							  "cancel_button")),
 			  "clicked",
 			  G_CALLBACK (cb_frame_config_cancel_clicked), state);
   	gnumeric_init_help_button (
   		glade_xml_get_widget (state->gui, "help_button"),
   		"so-frame.html");
-  
+
 
   	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
   			       SHEET_OBJECT_CONFIG_KEY);
@@ -719,7 +719,7 @@ cb_scrollbar_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	/* Force an update of the content in case it
 	 * needs tweaking (eg make it absolute)
 	 */
-	if (state->old_focus != NULL && 
+	if (state->old_focus != NULL &&
 	    IS_GNUMERIC_EXPR_ENTRY (state->old_focus->parent)) {
 		ParsePos  pp;
 		GnmExpr const *expr = gnm_expr_entry_parse (
@@ -1175,7 +1175,7 @@ cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	/* Force an update of the content in case it
 	 * needs tweaking (eg make it absolute)
 	 */
-	if (state->old_focus != NULL && 
+	if (state->old_focus != NULL &&
 	    IS_GNUMERIC_EXPR_ENTRY (state->old_focus->parent)) {
 		ParsePos  pp;
 		GnmExpr const *expr = gnm_expr_entry_parse (

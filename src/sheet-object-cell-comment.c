@@ -170,7 +170,7 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, SheetControlGUI *scg)
 		r = sheet_object_range_get (so);
 		dialog_cell_comment(scg->wbcg, so->sheet, &r->start);
  		break;
- 
+
 	default:
 		return FALSE;
 	}

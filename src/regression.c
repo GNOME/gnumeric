@@ -653,7 +653,7 @@ log_fitting (gnm_float *xs, const gnm_float *ys, int n,
 						       res, point_cloud);
 	transform_x_and_linear_regression_log_fitting (xs, transf_xs, ys, n,
 						       temp_res, point_cloud);
-	if (temp_res[4] <= res[4]) 
+	if (temp_res[4] <= res[4])
 	        sign_plus_ok = 0;
         /* check again with new sign */
 	res[0] = -1; /* sign */
@@ -664,17 +664,17 @@ log_fitting (gnm_float *xs, const gnm_float *ys, int n,
 						       res, point_cloud);
 	transform_x_and_linear_regression_log_fitting (xs, transf_xs, ys, n,
 						       temp_res, point_cloud);
-	if (temp_res[4] <= res[4]) 
+	if (temp_res[4] <= res[4])
 	        sign_minus_ok = 0;
-	/* If not exactly one of plus or minus works, give up. 
-	 * This happens in point clouds which are very weakly bent. 
+	/* If not exactly one of plus or minus works, give up.
+	 * This happens in point clouds which are very weakly bent.
 	 */
 	if (sign_plus_ok && !sign_minus_ok)
 	        res[0] = 1;
 	else if (sign_minus_ok && !sign_plus_ok)
 	        res[0] = -1;
 	else {
-	        result = REG_invalid_data; 
+	        result = REG_invalid_data;
 		goto out;
 	}
 
@@ -734,7 +734,7 @@ log_fitting (gnm_float *xs, const gnm_float *ys, int n,
 
 	if ((res[0] * (res[3] - c_end)) < (1.1 * c_accuracy)) {
 	        /* Allowing for some inaccuracy, we are at the end of the
-		 * range, so this is probably no local minimum. 
+		 * range, so this is probably no local minimum.
 		 * The start of the range has been checked above. */
 	        result = REG_invalid_data;
 		goto out;

@@ -174,20 +174,20 @@ static void
 do_focus_change (GtkWidget *widget, gboolean in)
 {
 	GdkEventFocus fevent;
-  
+
 	g_object_ref (widget);
-  
+
 	if (in)
 		GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
 	else
 		GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
-  
+
 	fevent.type = GDK_FOCUS_CHANGE;
 	fevent.window = widget->window;
 	fevent.in = in;
-	
+
 	gtk_widget_event (widget, (GdkEvent *)&fevent);
-  
+
 	g_object_notify (G_OBJECT (widget), "has_focus");
 
 	g_object_unref (widget);
@@ -654,7 +654,7 @@ filter_expr_eval (GnmFilterOp op, Value const *src, gnumeric_regex_t const *rege
 			g_warning ("Unexpected regexec result");
 			return FALSE;
 		}
-	} 
+	}
 
 	cmp = value_compare (target, src, TRUE);
 	switch (op) {
@@ -684,7 +684,7 @@ cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell,
 				return NULL;
 			res = filter_expr_eval (fexpr->cond->op[1],
 				fexpr->val[1], fexpr->regexp + 1, cell->value);
-		} 
+		}
 		if (res)
 			return NULL;
 	}
@@ -1097,7 +1097,7 @@ gnm_filter_contains_row (GnmFilter const *filter, int row)
 
 	return (filter->r.start.row <= row && row <= filter->r.end.row);
 }
- 
+
 /**
  * sheet_filter_insdel_colrow :
  * @sheet :

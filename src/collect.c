@@ -206,7 +206,7 @@ collect_floats_value (Value const *val, EvalPos const *ep,
 
 static gnm_float *
 collect_floats_value_with_info (Value const *val, EvalPos const *ep,
-				CollectFlags flags, int *n, GSList **info, 
+				CollectFlags flags, int *n, GSList **info,
 				Value **error)
 {
 	GnmExprList *exprlist;

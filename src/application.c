@@ -54,7 +54,7 @@ struct _GnumericApplication {
 	GList		*workbook_list;
 };
 
-typedef struct 
+typedef struct
 {
 	GObjectClass     parent;
 
@@ -104,7 +104,7 @@ add_icon (GtkIconFactory *factory,
 
 /**
  * application_workbook_list_remove :
- * @wb : 
+ * @wb :
  *
  * Remove @wb from the application's list of workbooks.
  **/
@@ -119,7 +119,7 @@ application_workbook_list_add (Workbook *wb)
 
 /**
  * application_workbook_list_remove :
- * @wb : 
+ * @wb :
  *
  * Remove @wb from the application's list of workbooks.
  **/
@@ -419,7 +419,7 @@ application_history_update_list (const gchar *filename)
 		if (!strcmp ((gchar *)l->data, filename)) {
 			old_name = (gchar *)l->data;
 			break;
-		} 
+		}
 	}
 
 	/* Insert the new filename to the new list and free up the old list */
@@ -487,7 +487,7 @@ gboolean application_live_scrolling	  (void) { return gnm_app_prefs->live_scroll
 int	 application_auto_expr_recalc_lag (void) { return gnm_app_prefs->recalc_lag; }
 
 GConfClient *
-application_get_gconf_client (void) 
+application_get_gconf_client (void)
 {
 	if (!app->gconf_client) {
 		app->gconf_client = gconf_client_get_default ();
@@ -495,12 +495,12 @@ application_get_gconf_client (void)
 				      GCONF_CLIENT_PRELOAD_RECURSIVE,
 				      NULL);
 	}
-	return app->gconf_client; 
+	return app->gconf_client;
 }
 
-void         
-application_release_gconf_client (void) 
-{ 
+void
+application_release_gconf_client (void)
+{
 	if (app->gconf_client) {
 		gconf_client_remove_dir (app->gconf_client,
 					 "/apps/gnumeric", NULL);
@@ -509,21 +509,21 @@ application_release_gconf_client (void)
 	app->gconf_client = NULL;
 }
 
-gpointer       
+gpointer
 application_get_pref_dialog (void)
 {
-	return app->pref_dialog; 
+	return app->pref_dialog;
 }
 
-void         
+void
 application_set_pref_dialog (gpointer dialog)
 {
 	app->pref_dialog = dialog;
 }
 
-void     
+void
 application_release_pref_dialog (void)
-{ 
+{
 	if (app->pref_dialog)
 		gtk_widget_destroy (app->pref_dialog);
 }

@@ -1479,7 +1479,7 @@ sheet_redraw_region (Sheet const *sheet,
 
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_range_bounding_box (sheet, 
+	sheet_range_bounding_box (sheet,
 		range_init (&bound, start_col, start_row, end_col, end_row));
 	SHEET_FOREACH_CONTROL (sheet, view, control,
 		sc_redraw_range (control, &bound););
@@ -3445,7 +3445,7 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 
 	/* 9. Update the data structures of the tools */
 	if (rinfo->origin_sheet == rinfo->target_sheet)
-		scenario_move_range (rinfo->origin_sheet->scenarios, 
+		scenario_move_range (rinfo->origin_sheet->scenarios,
 				     &rinfo->origin, rinfo->col_offset,
 				     rinfo->row_offset);
 }

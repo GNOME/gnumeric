@@ -70,7 +70,7 @@ stf_open_and_read (GsfInput *input)
 {
 	gpointer result;
 	gulong    allocsize;
-	size_t    readsize;  
+	size_t    readsize;
 	gsf_off_t size = gsf_input_size (input);
 
 	if (gsf_input_seek (input, 0, G_SEEK_SET))

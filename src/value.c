@@ -443,7 +443,7 @@ value_new_from_string (ValueType t, char const *str, StyleFormat *sf,
 				if (strcmp (standard_errors[i].C_name, str) == 0) {
 					res = value_new_error_std (NULL, (GnmStdError)i);
 					break;
-				}					
+				}
 		}
 		if (!res)
 			res = value_new_error (NULL, str);

@@ -1044,7 +1044,7 @@ sheet_object_anchor_init (SheetObjectAnchor *anchor,
 	/* TODO : add sanity checking to handle offsets past edges of col/row */
 }
 
-gint 
+gint
 sheet_object_raise (SheetObject *so, gint positions)
 {
 	GList *l;
@@ -1066,7 +1066,7 @@ sheet_object_raise (SheetObject *so, gint positions)
 	return ((before == -1 || after == -1) ? positions :  (after - before));
 }
 
-gint 
+gint
 sheet_object_raise_top (SheetObject *so)
 {
 	GList *l;
@@ -1087,7 +1087,7 @@ sheet_object_raise_top (SheetObject *so)
 	return ((before == -1 || after == -1) ? 0 :  (after - before));
 }
 
-gint 
+gint
 sheet_object_lower_bottom (SheetObject *so)
 {
 	GList *l;

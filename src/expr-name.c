@@ -245,7 +245,7 @@ expr_name_lookup (ParsePos const *pp, char const *name)
 
 /**
  * expr_name_new :
- * 
+ *
  * Creates a new name without linking it into any container.
  */
 static GnmNamedExpr *

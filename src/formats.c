@@ -233,7 +233,7 @@ currency_date_format_init (void)
 			   my_regerror (err, &re_brackets_number));
 
 	err = regcomp (&re_percent_science, pattern_percent_science, REG_EXTENDED);
-	if (err)		      
+	if (err)
 		g_warning ("Error in regcomp() for percent and science, please report the bug [%s]",
 			  my_regerror (err, &re_percent_science));
 
@@ -509,7 +509,7 @@ CurrencySymbol const currency_symbols[] =
 };
 
 /* Returns the index in currency_symbols of the symbol in ptr */
-static int 
+static int
 find_currency (char const *ptr, int len)
 {
 	int i;
@@ -721,7 +721,7 @@ style_format_account (GString *res, FormatCharacteristics const *fmt)
 		g_string_append (num, zeros + 30-fmt->num_decimals);
 	}
 
-	/* The currency symbols with space after or before */	
+	/* The currency symbols with space after or before */
 	sym = g_string_new (NULL);
 	if (currency_symbols[symbol].precedes) {
 		g_string_append (sym, currency_symbols[symbol].symbol);
@@ -759,7 +759,7 @@ style_format_number (GString *res, FormatCharacteristics const *fmt)
 
 	/* Currency */
 	if ((symbol != 0) && (currency_symbols[symbol].precedes)) {
-		
+
 		g_string_append (res, currency_symbols[symbol].symbol);
 		if (currency_symbols[symbol].has_space)
 			g_string_append_c (res, ' ');
@@ -808,5 +808,5 @@ style_format_number (GString *res, FormatCharacteristics const *fmt)
 			g_string_append_c (res, ')');
 		g_string_free (tmp, TRUE);
 	}
-	
+
 }
