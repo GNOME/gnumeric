@@ -11,6 +11,7 @@ Jody:
 	* Rewrite plan perfect import, significantly more useful now.
 	  Includes some format transfer and uses the wordperfect
 	  charset map from kword (thanks to Ariya Hidayat)
+	* Cull out a pile of special iconv code in favour of glib
 
 Jukka:
 	* Solver improvements:

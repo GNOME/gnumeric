@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * utils.c:  Various utility routines that do not depend on the GUI of Gnumeric
  *
@@ -890,3 +891,13 @@ gnm_extension_pointer (char const * path)
 	return path + strlen(path);
 }
 
+/**
+ * gnm_iconv_close : A utility wrapper to safely clos an iconv handle
+ * @handle :
+ **/
+void
+gnm_iconv_close (GIConv handle)
+{
+	if (handle != NULL && handle != ((GIConv)-1))
+		g_iconv_close (handle);
+}
