@@ -52,6 +52,7 @@ Morten:
 	* Protect against crash in inter-process paste.
 	* Make URLs work from Nautilus.  [#156456]
 	* Fix pgamma accuracy for extreme arguments.
+	* Improve accuracy of a few complex number functions.
 
 Yukihiro Nakai:
 	* Improve perl plugin.
