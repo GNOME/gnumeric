@@ -386,7 +386,7 @@
       <refsect1>
         <title>Description</title>
         <para>PRICEDISC calculates and returns the price per $100 face value of a security bond.  The security does not pay interest at maturity.  @discount is the rate for which the security is discounted.  @redemption is the amount to be received on @maturity date.  @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEDISC returns NUM! error. If @basis < 0 or @basis > 4, PRICEDISC returns NUM! error. If settlement date is after maturity date or they are the same, PRICEDISC returns NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEDISC returns #NUM! error. If @basis < 0 or @basis > 4, PRICEDISC returns #NUM! error. If settlement date is after maturity date or they are the same, PRICEDISC returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1647,7 +1647,7 @@
       <refsect1>
         <title>Description</title>
         <para>TBILLYIELD function returns the yield for a treasury bill. @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. </para>
-        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLYIELD returns NUM! error. If @pr is negative, TBILLYIELD returns NUM! error. </para>
+        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLYIELD returns NUM! error. If @pr is negative, TBILLYIELD returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -2546,7 +2546,7 @@
       <refsect1>
         <title>Description</title>
         <para>PRICEMAT calculates and returns the price per $100 face value of a security.  The security pays interest at maturity. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEMAT returns NUM! error. If @basis < 0 or @basis > 4, PRICEMAT returns NUM! error. If settlement date is after maturity date or they are the same, PRICEMAT returns NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEMAT returns #NUM! error. If @basis < 0 or @basis > 4, PRICEMAT returns #NUM! error. If settlement date is after maturity date or they are the same, PRICEMAT returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5180,7 +5180,7 @@
       <refsect1>
         <title>Description</title>
         <para>INTRATE calculates and returns the interest rate of a fully vested security. @investment is the prize of the security paid at @settlement date and @redemption is the amount to be received at @maturity date.  @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, INTRATE returns NUM! error. If @basis < 0 or @basis > 4, INTRATE returns NUM! error. If settlement date is after maturity date or they are the same, INTRATE returns NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, INTRATE returns NUM! error. If @basis < 0 or @basis > 4, INTRATE returns #NUM! error. If settlement date is after maturity date or they are the same, INTRATE returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5296,7 +5296,7 @@
       <refsect1>
         <title>Description</title>
         <para>TBILLEQ function returns the bond-yield equivalent (BEY) for a treasury bill.  TBILLEQ is equivalent to (365 * discount) / (360 - discount * DSM) where DSM is the days between @settlement and @maturity. </para>
-        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLEQ returns NUM! error. If @discount is negative, TBILLEQ returns NUM! error. </para>
+        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLEQ returns NUM! error. If @discount is negative, TBILLEQ returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -6255,7 +6255,7 @@
       <refsect1>
         <title>Description</title>
         <para>OR implements the logical OR function: the result is TRUE if any of the values evaluated to TRUE.</para>
-        <para>@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. This function is Excel compatible. </para>
+        <para>@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error #VALUE! is returned. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -6567,7 +6567,7 @@
       <refsect1>
         <title>Description</title>
         <para>EURO converts one Euro to a given national currency in the European monetary union.  Currency is one of the following:</para>
-        <para>    ATS     (Austria)</para>        <para>    BEF     (Belgium)</para>        <para>    DEM     (Germany)</para>        <para>    ESP     (Spain)</para>        <para>    FIM     (Finland)</para>        <para>    FRF     (France)</para>        <para>    IEP     (Ireland)</para>        <para>    ITL     (Italy)</para>        <para>    LUF     (Luxemburg)</para>        <para>    NLG     (Netherlands)</para>        <para>    PTE     (Portugal)</para>        <para></para>        <para>If the given currency is other than one of the above, EURO returns NUM! error. </para>
+        <para>    ATS     (Austria)</para>        <para>    BEF     (Belgium)</para>        <para>    DEM     (Germany)</para>        <para>    ESP     (Spain)</para>        <para>    FIM     (Finland)</para>        <para>    FRF     (France)</para>        <para>    IEP     (Ireland)</para>        <para>    ITL     (Italy)</para>        <para>    LUF     (Luxemburg)</para>        <para>    NLG     (Netherlands)</para>        <para>    PTE     (Portugal)</para>        <para></para>        <para>If the given currency is other than one of the above, EURO returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -6737,7 +6737,7 @@
       <refsect1>
         <title>Description</title>
         <para>TBILLPRICE function returns the price per $100 value for a treasury bill where @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. </para>
-        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns NUM! error. If @discount is negative, TBILLPRICE returns NUM! error. </para>
+        <para>If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns NUM! error. If @discount is negative, TBILLPRICE returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7201,7 +7201,7 @@
       <refsect1>
         <title>Description</title>
         <para>DISC calculates and returns the discount rate for a sequrity. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, DISC returns NUM! error. If @basis < 0 or @basis > 4, DISC returns NUM! error. If settlement date is after maturity date or they are the same, DISC returns NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, DISC returns #NUM! error. If @basis < 0 or @basis > 4, DISC returns #NUM! error. If settlement date is after maturity date or they are the same, DISC returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7970,7 +7970,7 @@
       <refsect1>
         <title>Description</title>
         <para>AND implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.</para>
-        <para>@b1, trough @bN are expressions that should evaluate to TRUE or FALSE.  If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored. If no logical values are provided, then the error '#VALUE!' is returned. This function is Excel compatible. </para>
+        <para>@b1, trough @bN are expressions that should evaluate to TRUE or FALSE.  If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored. If no logical values are provided, then the error #VALUE! is returned. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -8285,7 +8285,7 @@
       <refsect1>
         <title>Description</title>
         <para>ACCRINTM calculates and returns the accrued interest for a security from @issue to @maturity date.  @rate is the annual rate of the security and @par is the par value of the security. If you omit @par, ACCRINTM applies $1,000 instead.  @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If issue date or maturity date is not valid, ACCRINTM returns NUM! error. If @rate or @par is zero or negative, ACCRINTM returns NUM! error. If @basis < 0 or @basis > 4, ACCRINTM returns NUM! error. If issue date is after maturity date or they are the same, ACCRINTM returns NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If issue date or maturity date is not valid, ACCRINTM returns NUM! error. If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINTM returns #NUM! error. If issue date is after maturity date or they are the same, ACCRINTM returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -9087,7 +9087,7 @@
       <refsect1>
         <title>Description</title>
         <para>ACCRINT calculates the accrued interest for a security that pays periodic interest.  The rate is the annual rate of the security and par is the par value of the security. basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If issue date or settlement date is not valid, ACCRINT returns NUM! error. If @rate or @par is zero or negative, ACCRINT returns NUM! error. If @basis < 0 or @basis > 4, ACCRINT returns NUM! error. If issue date is after maturity date or they are the same, ACCRINT returns NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If issue date or settlement date is not valid, ACCRINT returns NUM! error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINT returns #NUM! error. If issue date is after maturity date or they are the same, ACCRINT returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -9607,7 +9607,7 @@
       <refsect1>
         <title>Description</title>
         <para>RECEIVED calculates and returns the amount to be received at @maturity date for a security bond. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, RECEIVED returns NUM! error. If @basis < 0 or @basis > 4, RECEIVED returns NUM! error. If settlement date is after maturity date or they are the same, RECEIVED returns NUM! error. </para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, RECEIVED returns #NUM! error. If @basis < 0 or @basis > 4, RECEIVED returns #NUM! error. If settlement date is after maturity date or they are the same, RECEIVED returns #NUM! error. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>

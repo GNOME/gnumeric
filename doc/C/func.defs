@@ -18,7 +18,7 @@ LCM(4,7,5) equals to 140.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEDISC returns NUM! error. If @basis < 0 or @basis > 4, PRICEDISC returns NUM! error. If settlement date is after maturity date or they are the same, PRICEDISC returns NUM! error. 
+If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEDISC returns #NUM! error. If @basis < 0 or @basis > 4, PRICEDISC returns #NUM! error. If settlement date is after maturity date or they are the same, PRICEDISC returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=PRICEMAT
@@ -419,7 +419,7 @@ HARMEAN(A1:A5) equals 19.529814427.
 @FUNCTION=TBILLYIELD
 @SYNTAX=TBILLYIELD(settlement,maturity,pr)
 @DESCRIPTION=TBILLYIELD function returns the yield for a treasury bill. @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. 
-If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLYIELD returns NUM! error. If @pr is negative, TBILLYIELD returns NUM! error. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLYIELD returns NUM! error. If @pr is negative, TBILLYIELD returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=TBILLEQ,TBILLPRICE
@@ -777,7 +777,7 @@ OCT2BIN("213") equals 10001011.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEMAT returns NUM! error. If @basis < 0 or @basis > 4, PRICEMAT returns NUM! error. If settlement date is after maturity date or they are the same, PRICEMAT returns NUM! error. 
+If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEMAT returns #NUM! error. If @basis < 0 or @basis > 4, PRICEMAT returns #NUM! error. If settlement date is after maturity date or they are the same, PRICEMAT returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=PRICEDISC
@@ -1656,7 +1656,7 @@ LOGNORMDIST(3,1,2) equals 0.519662338.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, INTRATE returns NUM! error. If @basis < 0 or @basis > 4, INTRATE returns NUM! error. If settlement date is after maturity date or they are the same, INTRATE returns NUM! error. 
+If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, INTRATE returns NUM! error. If @basis < 0 or @basis > 4, INTRATE returns #NUM! error. If settlement date is after maturity date or they are the same, INTRATE returns #NUM! error. 
 @EXAMPLES=
 
 If you had a bond with a settlement date of April 15, 2000, maturity date September 30, 2000, investment of $100,000, redemption value $103,525, using the actual/actual basis, the bond discount rate is:
@@ -1691,7 +1691,7 @@ BESSELJ(0.89,3) equals 0.013974004.
 @FUNCTION=TBILLEQ
 @SYNTAX=TBILLEQ(settlement,maturity,discount)
 @DESCRIPTION=TBILLEQ function returns the bond-yield equivalent (BEY) for a treasury bill.  TBILLEQ is equivalent to (365 * discount) / (360 - discount * DSM) where DSM is the days between @settlement and @maturity. 
-If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLEQ returns NUM! error. If @discount is negative, TBILLEQ returns NUM! error. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLEQ returns NUM! error. If @discount is negative, TBILLEQ returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=TBILLPRICE,TBILLYIELD
@@ -2011,7 +2011,7 @@ If range is neither a reference nor a range returns #VALUE!.  If either height o
 @SYNTAX=OR(b1, b2, ...)
 @DESCRIPTION=OR implements the logical OR function: the result is TRUE if any of the values evaluated to TRUE.
 @b1, trough @bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.
-If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. This function is Excel compatible. 
+If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error #VALUE! is returned. This function is Excel compatible. 
 @EXAMPLES=
 OR(TRUE,FALSE) equals TRUE.
 OR(3>4,4<3) equals FALSE.
@@ -2126,7 +2126,7 @@ COUNT(A1:A5) equals 5.
     NLG     (Netherlands)
     PTE     (Portugal)
 
-If the given currency is other than one of the above, EURO returns NUM! error. 
+If the given currency is other than one of the above, EURO returns #NUM! error. 
 @EXAMPLES=
 EURO("DEM") returns 1.95583.
 @SEEALSO=
@@ -2193,7 +2193,7 @@ in A2 EXPRESSION(A3) equals empty.
 @FUNCTION=TBILLPRICE
 @SYNTAX=TBILLPRICE(settlement,maturity,discount)
 @DESCRIPTION=TBILLPRICE function returns the price per $100 value for a treasury bill where @settlement is the settlement date and @maturity is the maturity date of the bill.  @discount is the treasury bill's discount rate. 
-If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns NUM! error. If @discount is negative, TBILLPRICE returns NUM! error. 
+If @settlement is after @maturity or the @maturity is set to over one year later than the @settlement, TBILLPRICE returns NUM! error. If @discount is negative, TBILLPRICE returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=TBILLEQ,TBILLYIELD
@@ -2347,7 +2347,7 @@ TTEST(A1:A5,B1:B5,1,3) equals 0.113821797.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, DISC returns NUM! error. If @basis < 0 or @basis > 4, DISC returns NUM! error. If settlement date is after maturity date or they are the same, DISC returns NUM! error. 
+If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, DISC returns #NUM! error. If @basis < 0 or @basis > 4, DISC returns #NUM! error. If settlement date is after maturity date or they are the same, DISC returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=
@@ -2582,7 +2582,7 @@ IMLOG10("3-j") equals 0.5-0.13973j.
 @SYNTAX=AND(b1, b2, ...)
 @DESCRIPTION=AND implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.
 @b1, trough @bN are expressions that should evaluate to TRUE or FALSE.  If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.
-If the values contain strings or empty cells those values are ignored. If no logical values are provided, then the error '#VALUE!' is returned. This function is Excel compatible. 
+If the values contain strings or empty cells those values are ignored. If no logical values are provided, then the error #VALUE! is returned. This function is Excel compatible. 
 @EXAMPLES=
 AND(TRUE,TRUE) equals TRUE.
 AND(TRUE,FALSE) equals FALSE.
@@ -2684,7 +2684,7 @@ STDEVP(A1:A5) equals 9.701133954.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If issue date or maturity date is not valid, ACCRINTM returns NUM! error. If @rate or @par is zero or negative, ACCRINTM returns NUM! error. If @basis < 0 or @basis > 4, ACCRINTM returns NUM! error. If issue date is after maturity date or they are the same, ACCRINTM returns NUM! error. 
+If @basis is omitted, US 30/360 is applied. If issue date or maturity date is not valid, ACCRINTM returns NUM! error. If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINTM returns #NUM! error. If issue date is after maturity date or they are the same, ACCRINTM returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=ACCRINT
@@ -3003,7 +3003,7 @@ SUMA(A1:A5) equals 107.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If issue date or settlement date is not valid, ACCRINT returns NUM! error. If @rate or @par is zero or negative, ACCRINT returns NUM! error. If @basis < 0 or @basis > 4, ACCRINT returns NUM! error. If issue date is after maturity date or they are the same, ACCRINT returns NUM! error. 
+If @basis is omitted, US 30/360 is applied. If issue date or settlement date is not valid, ACCRINT returns NUM! error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If @basis < 0 or @basis > 4, ACCRINT returns #NUM! error. If issue date is after maturity date or they are the same, ACCRINT returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=ACCRINTM
@@ -3172,7 +3172,7 @@ EVEN(5.4) equals 6.
 3  actual days/365
 4  European 30/360
 
-If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, RECEIVED returns NUM! error. If @basis < 0 or @basis > 4, RECEIVED returns NUM! error. If settlement date is after maturity date or they are the same, RECEIVED returns NUM! error. 
+If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, RECEIVED returns #NUM! error. If @basis < 0 or @basis > 4, RECEIVED returns #NUM! error. If settlement date is after maturity date or they are the same, RECEIVED returns #NUM! error. 
 @EXAMPLES=
 
 @SEEALSO=INTRATE
