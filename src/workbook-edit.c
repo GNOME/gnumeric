@@ -14,11 +14,16 @@
 #include "complete-sheet.h"
 #include "application.h"
 #include "commands.h"
+#include "mstyle.h"
 #include "sheet-control-gui.h"
+#include "sheet-style.h"
 #include "sheet.h"
+#include "style-condition.h"
 #include "cell.h"
 #include "expr.h"
+#include "number-match.h"
 #include "parse-util.h"
+#include "value.h"
 #include "widgets/gnumeric-expr-entry.h"
 
 #include <libgnome/gnome-defs.h>
@@ -145,6 +150,60 @@ wbcg_edit_error_dialog (WorkbookControlGUI *wbcg, char *str)
 	return (ret == 0);
 }
 
+/**
+ * wbcg_edit_validate:
+ *
+ * Either pass @tree or @val.
+ * The parameters will be validated against the
+ * validation set in the MStyle if applicable.
+ *
+ * Return value: TRUE if the validation checks out ok, FALSE otherwise.
+ **/
+static gboolean
+wbcg_edit_validate (WorkbookControlGUI *wbcg, MStyle const *mstyle,
+		    ExprTree const *tree, Value *val)
+{
+	StyleCondition *sc;
+	Sheet *sheet;
+
+	sc = mstyle_get_validation (mstyle);
+	sheet = wbcg->editing_sheet;
+
+	if (sc) {
+		Value *v;
+		gboolean result;
+		
+		if (!val) {
+			EvalPos ep;
+
+			eval_pos_init (&ep, sheet, &sheet->edit_pos);
+			v = eval_expr (&ep, tree, 0);
+		} else
+			v = val;
+
+		g_return_val_if_fail (v != NULL, FALSE);
+
+		result = style_condition_eval (sc, v);
+		if (!val)
+			value_release (v);
+			
+		/*
+		 * FIXME: Do something gui-ish here, pop-up
+		 * a dialog, use the validation_msg and
+		 * validation_style elements of mstyle
+		 */
+		if (result) {
+			g_message ("condition met!");
+			return TRUE;
+		} else {
+			g_message ("condition not met!");
+			return FALSE;
+		}
+	}
+	
+	return TRUE;
+}
+
 gboolean
 wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 {
@@ -235,20 +294,50 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 						return wbcg_edit_finish (wbcg, FALSE);
 					}
 				} else {
-					cmd_set_text (wbc, sheet, &sheet->edit_pos, real_txt ? real_txt : txt);
+					MStyle *mstyle = sheet_style_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
+					gboolean result;
+					
+					result = wbcg_edit_validate (wbcg, mstyle, tree, NULL);
+
 					expr_tree_unref (tree);
 					if (real_txt)
 						parse_error_free (&perr_paren);
-					break;
+						
+					if (!result) {
+						if (real_txt)
+							g_free (real_txt);
+						parse_error_free (&perr);
+						return wbcg_edit_finish (wbcg, FALSE);
+					} else {
+						cmd_set_text (wbc, sheet, &sheet->edit_pos, real_txt ? real_txt : txt);
+						break;
+					}
 				}
 			}
 
 			if (real_txt)
 				g_free (real_txt);
 			parse_error_free (&perr);
-		} else
-			/* Store the old value for undo */
-			cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
+		} else {
+			MStyle *mstyle = sheet_style_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
+			StyleFormat *cformat;
+			gboolean result;
+			Value *val;
+			
+			cformat = mstyle_get_format (mstyle);
+			val = format_match (txt, cformat, NULL);
+			if (!val)
+				val = value_new_string (txt);
+
+			result = wbcg_edit_validate (wbcg, mstyle, NULL, val);
+			value_release (val);
+
+			if (!result)
+				return wbcg_edit_finish (wbcg, FALSE);
+			else
+				/* Store the old value for undo */
+				cmd_set_text (wbc, sheet, &sheet->edit_pos, txt);
+		}
 	} else {
 		/* Redraw the cell contents in case there was a span */
 		int const c = sheet->edit_pos.col;

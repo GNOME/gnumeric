@@ -205,6 +205,8 @@ GNUMERIC_BASE_SOURCES =				\
 	style-border.h				\
 	style-color.c				\
 	style-color.h				\
+	style-condition.c			\
+	style-condition.h			\
 	summary.c				\
 	summary.h				\
 	symbol.h				\

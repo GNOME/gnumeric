@@ -86,6 +86,7 @@ typedef struct _StyleFont	        StyleFont;
 typedef struct _StyleColor	        StyleColor;
 typedef struct _StyleBorder	        StyleBorder;
 typedef struct _StyleRow	        StyleRow;
+typedef struct _StyleCondition          StyleCondition;
 
 typedef struct _GnmGraph		GnmGraph;
 typedef struct _GnmGraphVector		GnmGraphVector;

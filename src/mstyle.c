@@ -5,13 +5,14 @@
  *   Michael Meeks <mmeeks@gnu.org>
  *
  * Contributors:
- *   Almer S. Tigelaar <almer1@dds.nl>
+ *   Almer S. Tigelaar <almer@gnome.org>
  */
 #include <config.h>
 #include "str.h"
 #include "mstyle.h"
 #include "style-border.h"
 #include "style-color.h"
+#include "style-condition.h"
 #include "pattern.h"
 #include "format.h"
 #include "main.h"
@@ -55,6 +56,10 @@ typedef struct {
 		StyleOrientation orientation;
 		gboolean         fit_in_cell;
 
+		StyleCondition  *validation;
+		ValidationStyle  validation_style;
+		String          *validation_msg;
+		
 		/* Convenience members */
 		gpointer         any_pointer;
 		gboolean         any_boolean;
@@ -82,7 +87,9 @@ struct _MStyle {
 				case MSTYLE_BORDER_REV_DIAGONAL
 
 #define MSTYLE_ANY_POINTER           MSTYLE_FONT_NAME: \
-				case MSTYLE_FORMAT
+				case MSTYLE_FORMAT: \
+				case MSTYLE_VALIDATION: \
+				case MSTYLE_VALIDATION_MSG
 
 #define MSTYLE_ANY_BOOLEAN           MSTYLE_FONT_BOLD: \
 				case MSTYLE_FONT_ITALIC: \
@@ -123,6 +130,9 @@ const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"Indent",
 	"Orientation",
 	"WrapText"
+	"Validation"
+	"Validation.Style"
+	"Validation.Msg"
 };
 
 guint
@@ -173,6 +183,9 @@ mstyle_hash (gconstpointer st)
 			break;
 		case MSTYLE_FONT_UNDERLINE:
 			hash = hash ^ e->u.font.underline;
+			break;
+		case MSTYLE_VALIDATION_STYLE:
+			hash = hash ^ e->u.validation_style;
 			break;
 		default:
 			g_warning ("Unimplemented hash item");
@@ -263,6 +276,10 @@ mstyle_element_dump (const MStyleElement *e)
 		g_string_sprintf (ans, "pattern %d", e->u.pattern);
 		break;
 
+	case MSTYLE_VALIDATION_MSG:
+		g_string_sprintf (ans, "validation msg '%s'", e->u.validation_msg->str);
+		break;
+
 	default:
 		g_string_sprintf (ans, "%s", mstyle_names[e->type]);
 		break;
@@ -344,6 +361,18 @@ mstyle_element_equal (MStyleElement const *a,
 		if (a->u.fit_in_cell == b->u.fit_in_cell)
 			return TRUE;
 		break;
+	case MSTYLE_VALIDATION:
+		if (a->u.validation == b->u.validation)
+			return TRUE;
+		break;
+	case MSTYLE_VALIDATION_STYLE:
+		if (a->u.validation_style == b->u.validation_style)
+			return TRUE;
+		break;
+	case MSTYLE_VALIDATION_MSG:
+		if (a->u.validation_msg == b->u.validation_msg)
+			return TRUE;
+		break;
 	default:
 		return TRUE;
 	}
@@ -400,6 +429,14 @@ mstyle_element_ref (const MStyleElement *e)
 	case MSTYLE_FORMAT:
 		style_format_ref (e->u.format);
 		break;
+	case MSTYLE_VALIDATION:
+		if (e->u.validation)
+			style_condition_ref (e->u.validation);
+		break;
+	case MSTYLE_VALIDATION_MSG:
+		if (e->u.validation_msg)
+			string_ref (e->u.validation_msg);
+		break;
 	default:
 		break;
 	}
@@ -421,6 +458,14 @@ mstyle_element_unref (MStyleElement e)
 		break;
 	case MSTYLE_FORMAT:
 		style_format_unref (e.u.format);
+		break;
+	case MSTYLE_VALIDATION:
+		if (e.u.validation)
+			style_condition_unref (e.u.validation);
+		break;
+	case MSTYLE_VALIDATION_MSG:
+		if (e.u.validation_msg)
+			string_unref (e.u.validation_msg);
 		break;
 	default:
 		break;
@@ -577,6 +622,10 @@ mstyle_new_default (void)
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_PATTERN,
 				style_color_black ());
 
+	mstyle_set_validation       (mstyle, NULL);
+	mstyle_set_validation_style (mstyle, STYLE_NONE);
+	mstyle_set_validation_msg   (mstyle, NULL);
+	
 	/* To negate borders */
 	mstyle_set_border      (mstyle, MSTYLE_BORDER_TOP,
 				style_border_ref (style_border_none ()));
@@ -1158,6 +1207,60 @@ mstyle_get_wrap_text (const MStyle *style)
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_WRAP_TEXT), FALSE);
 
 	return style->elements [MSTYLE_WRAP_TEXT].u.fit_in_cell;
+}
+
+void
+mstyle_set_validation (MStyle *style, StyleCondition *sc)
+{
+	g_return_if_fail (style != NULL);
+
+	mstyle_element_unref (style->elements[MSTYLE_VALIDATION]);
+	style->elements[MSTYLE_VALIDATION].type = MSTYLE_VALIDATION;
+	style->elements[MSTYLE_VALIDATION].u.validation = sc;
+	
+}
+
+StyleCondition *
+mstyle_get_validation (const MStyle *style)
+{
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_VALIDATION), NULL);
+
+	return style->elements[MSTYLE_VALIDATION].u.validation;
+}
+
+void
+mstyle_set_validation_style (MStyle *style, ValidationStyle vs)
+{
+	g_return_if_fail (style != NULL);
+	
+	style->elements[MSTYLE_VALIDATION_STYLE].type = MSTYLE_VALIDATION_STYLE;
+	style->elements[MSTYLE_VALIDATION_STYLE].u.validation_style = vs;
+}
+
+ValidationStyle
+mstyle_get_validation_style (const MStyle *style)
+{
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_VALIDATION_STYLE), STYLE_NONE);
+
+	return style->elements[MSTYLE_VALIDATION_STYLE].u.validation_style;
+}
+
+void
+mstyle_set_validation_msg (MStyle *style, const char *msg)
+{
+	g_return_if_fail (style != NULL);
+
+	mstyle_element_unref (style->elements[MSTYLE_VALIDATION_MSG]);
+	style->elements[MSTYLE_VALIDATION_MSG].type = MSTYLE_VALIDATION_MSG;
+	style->elements[MSTYLE_VALIDATION_MSG].u.validation_msg = msg ? string_get (msg) : NULL;
+}
+
+const char *
+mstyle_get_validation_msg (const MStyle *style)
+{
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_VALIDATION_MSG), NULL);
+
+	return style->elements[MSTYLE_VALIDATION_MSG].u.validation_msg->str;
 }
 
 gboolean

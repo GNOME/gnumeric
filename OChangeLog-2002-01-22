@@ -1,3 +1,29 @@
+2001-09-02  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/style-condition.[ch]: Implementation of conditionals.
+
+	* src/gnumeric.h: Add StyleCondition here.
+
+	* src/mstyle.c (mstyle_hash): Hash validation style.
+	(mstyle_element_dump): Dump validation message.
+	(mstyle_element_equal): Add support for validation elements.
+	(mstyle_element_ref): Ref validation message and style condition.
+	(mstyle_element_unref): Idem.
+	(mstyle_new_default): Initialize validation elements.
+	(mstyle_set_validation): Sets validation style condition.
+	(mstyle_get_validation): Gets ....
+	(mstyle_set_validation_style): Sets validation style.
+	(mstyle_get_validation_style): Gets ....
+	(mstyle_set_validation_msg): Sets validation message.
+	(mstyle_get_validation_msg): Gets ....
+
+	* src/mstyle.h: Add the new elements.
+
+	* src/workbook-edit.c (wbcg_edit_validate): Do the validation
+	and handle the consequences if it fails.
+	(wbcg_edit_finish): Use wbcg_edit_validate and discard the input
+	if needed.
+
 2001-08-31  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (xml_workbook_read): Avoid geek speak.  Most users

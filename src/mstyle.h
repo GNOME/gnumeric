@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include "style.h"
+#include "style-condition.h"
 
 /*
  * Keep element_size up to date.
@@ -44,6 +45,10 @@ typedef enum _MStyleElementType {
 		MSTYLE_ORIENTATION,
 
 		MSTYLE_WRAP_TEXT,
+
+	        MSTYLE_VALIDATION,
+	        MSTYLE_VALIDATION_STYLE,
+	        MSTYLE_VALIDATION_MSG,
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX
 } MStyleElementType;
@@ -105,6 +110,13 @@ void                mstyle_set_orientation (MStyle *st, StyleOrientation o);
 StyleOrientation    mstyle_get_orientation (const MStyle *st);
 void                mstyle_set_wrap_text   (MStyle *st, gboolean f);
 gboolean            mstyle_get_wrap_text   (const MStyle *st);
+
+void                mstyle_set_validation       (MStyle *st, StyleCondition *sc);
+StyleCondition     *mstyle_get_validation       (const MStyle *st);
+void                mstyle_set_validation_style (MStyle *st, ValidationStyle vs);
+ValidationStyle     mstyle_get_validation_style (const MStyle *st);
+void                mstyle_set_validation_msg   (MStyle *st, const char *msg);
+const char         *mstyle_get_validation_msg   (const MStyle *st);
 
 gboolean            mstyle_visible_in_blank(const MStyle *st);
 
