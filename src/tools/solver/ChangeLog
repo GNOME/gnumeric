@@ -1,5 +1,9 @@
 2002-03-17  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solver.c, api.c : Implemented the support for non-negativity
+	assumption button.  Should be now fully working with both LP Solve
+	and GLPK Simplex.
+	
 	* solver.c, api.c: Api changes.  Added print LP function for debugging.
 
 2002-03-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>

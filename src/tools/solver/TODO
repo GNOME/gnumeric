@@ -16,7 +16,6 @@ Usability fixes:
   * fix constraint change button
 
 Feature enhancements:
-  * fix assume non-negative being off
   * implement bool constraints
   * add options:
     - algorithm selection

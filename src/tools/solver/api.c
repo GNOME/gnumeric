@@ -147,9 +147,13 @@ w_lp_solve_init (const SolverParameters *param)
 	lp_solve_t *lp;
 
 	lp                      = g_new (lp_solve_t, 1);
-	lp->p                   = lp_solve_make_lp (param->n_constraints,
-						    param->n_variables);
 	lp->assume_non_negative = param->options.assume_non_negative;
+	if (lp->assume_non_negative)
+	        lp->p = lp_solve_make_lp (param->n_constraints,
+					  param->n_variables);
+	else
+	        lp->p = lp_solve_make_lp (param->n_constraints,
+					  2 * param->n_variables);
 
 	return lp;
 }
@@ -160,6 +164,7 @@ w_lp_solve_delete_lp (SolverProgram program)
 	lp_solve_t *lp = (lp_solve_t *) program;
 
         lp_solve_delete_lp (lp->p);
+	g_free (lp);
 }
 
 void
@@ -183,7 +188,12 @@ w_lp_solve_set_obj_fn (SolverProgram program, int col, gnum_float value)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
 
-        lp_solve_set_mat (lp->p, 0, col + 1, value);
+	if (lp->assume_non_negative)
+	        lp_solve_set_mat (lp->p, 0, col + 1, value);
+	else {
+	        lp_solve_set_mat (lp->p, 0, 2 * col + 1, value);
+	        lp_solve_set_mat (lp->p, 0, 2 * col + 2, -value);
+	}
 }
 
 void
@@ -192,7 +202,12 @@ w_lp_solve_set_constr_mat (SolverProgram program, int col, int row,
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
 
-        lp_solve_set_mat (lp->p, row + 1, col + 1, value);
+	if (lp->assume_non_negative)
+	        lp_solve_set_mat (lp->p, row + 1, col + 1, value);
+	else {
+	        lp_solve_set_mat (lp->p, row + 1, 2 * col + 1, value);
+	        lp_solve_set_mat (lp->p, row + 1, 2 * col + 2, -value);
+	}
 }
 
 void
@@ -210,7 +225,12 @@ w_lp_solve_set_int (SolverProgram program, int col, gboolean must_be_int)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
 
-	lp_solve_set_int (lp->p, col + 1, must_be_int);
+	if (lp->assume_non_negative) 
+	        lp_solve_set_int (lp->p, col + 1, must_be_int);
+	else {
+	        lp_solve_set_int (lp->p, 2 * col + 1, must_be_int);
+	        lp_solve_set_int (lp->p, 2 * col + 2, must_be_int);
+	}
 }
 
 SolverStatus
@@ -226,7 +246,18 @@ w_lp_solve_get_solution (SolverProgram program, int column)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
 
-        return lp->p->best_solution [lp->p->rows + column];
+	if (lp->assume_non_negative)
+	        return lp->p->best_solution [lp->p->rows + column + 1];
+	else {
+	        gnum_float x, neg_x;
+
+	        x     = lp->p->best_solution [lp->p->rows + 2 * column + 1];
+		neg_x = lp->p->best_solution [lp->p->rows + 2 * column + 2];
+		if (x > neg_x)
+		        return x;
+		else
+		        return -neg_x;
+	}
 }
 
 gnum_float
@@ -314,13 +345,22 @@ w_glpk_init (const SolverParameters *param)
 
 	glp_init_spx2 (lp->param);
 
-	for (i = 0; i < param->n_variables; i++) {
-	        str = g_string_new ("");
-		g_string_sprintfa (str, "X%d", i);
-		glp_new_col (lp->p, str->str);
-		g_string_free (str, FALSE);
-		if (lp->assume_non_negative)
-		        glp_set_col_bnds (lp->p, i + 1, 'L', 0, 0);
+	if (lp->assume_non_negative) {
+	        for (i = 0; i < param->n_variables; i++) {
+		        str = g_string_new ("");
+			g_string_sprintfa (str, "X%d", i);
+			glp_new_col (lp->p, str->str);
+			g_string_free (str, FALSE);
+		}
+	} else {
+	        for (i = 0; i < param->n_variables; i++) {
+		        str = g_string_new ("");
+			g_string_sprintfa (str, "X%d", i);
+			glp_new_col (lp->p, str->str);
+			g_string_sprintfa (str, "-neg", i);
+			glp_new_col (lp->p, str->str);
+			g_string_free (str, FALSE);
+		}
 	}
 
 	for (i = 0; i < param->n_constraints; i++) {
@@ -364,7 +404,12 @@ w_glpk_set_obj_fn (SolverProgram program, int col, gnum_float value)
 {
         glpk_simplex2_t *lp = (glpk_simplex2_t *) program;
 
-        glp_set_obj_coef (lp->p, col + 1, value);
+	if (lp->assume_non_negative)
+	        glp_set_obj_coef (lp->p, col + 1, value);
+	else {
+	        glp_set_obj_coef (lp->p, 2 * col + 1, value);
+	        glp_set_obj_coef (lp->p, 2 * col + 2, -value);
+	}
 }
 
 void
@@ -372,7 +417,12 @@ w_glpk_set_constr_mat (SolverProgram program, int col, int row, gnum_float value
 {
         glpk_simplex2_t *lp = (glpk_simplex2_t *) program;
 
-        glp_new_aij (lp->p, row + 1, col + 1, value);
+	if (lp->assume_non_negative)
+	        glp_new_aij (lp->p, row + 1, col + 1, value);
+	else {
+	        glp_new_aij (lp->p, row + 1, 2 * col + 1, value);
+	        glp_new_aij (lp->p, row + 1, 2 * col + 2, -value);
+	}
 }
 
 void
@@ -393,10 +443,14 @@ w_glpk_set_int (SolverProgram program, int col, gboolean must_be_int)
 {
         glpk_simplex2_t *lp = (glpk_simplex2_t *) program;
 
-        if (must_be_int)
-	        glp_set_col_kind (lp->p, col + 1, 'I');
-	else
-	        glp_set_col_kind (lp->p, col + 1, 'C');
+        if (must_be_int) {
+	        if (lp->assume_non_negative)
+		        glp_set_col_kind (lp->p, col + 1, 'I');
+		else {
+		        glp_set_col_kind (lp->p, 2 * col + 1, 'I');
+		        glp_set_col_kind (lp->p, 2 * col + 2, 'I');
+		}
+	}
 }
 
 SolverStatus
@@ -419,12 +473,21 @@ w_glpk_simplex2_solve (SolverProgram program)
 }
 
 gnum_float
-w_glpk_get_solution (SolverProgram program, int column)
+w_glpk_get_solution (SolverProgram program, int col)
 {
         glpk_simplex2_t *lp = (glpk_simplex2_t *) program;
         double          x;
 
-	glp_get_col_soln (lp->p, column, NULL, &x, NULL);
+	if (lp->assume_non_negative)
+	        glp_get_col_soln (lp->p, col + 1, NULL, &x, NULL);
+	else {
+	        double neg_x;
+
+	        glp_get_col_soln (lp->p, 2 * col + 1, NULL, &x, NULL);
+	        glp_get_col_soln (lp->p, 2 * col + 2, NULL, &neg_x, NULL);
+		if (x < neg_x)
+		        return -neg_x;
+	}
 	return x;
 }
 

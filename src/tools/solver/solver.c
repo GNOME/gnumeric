@@ -670,7 +670,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 		for (i = 0; i < param->n_variables; i++) {
 		        res->optimal_values[i] =
 			        lp_algorithm[param->options.algorithm]
-			                 .get_obj_fn_var_fn (program, i + 1);
+			                 .get_obj_fn_var_fn (program, i);
 			cell = res->input_cells_array[i];
 			sheet_cell_set_value (cell, value_new_float
 					      (res->optimal_values[i]));
