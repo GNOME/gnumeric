@@ -4,6 +4,9 @@ and longer term bugs.
 
 Release Critical
 ----------------
+- Parser is incorrectly giving precedence to function names during look up.
+  eg it is impossible to have a sheet named 'exp'.
+- The strings TRUE and FALSE are not recognized as values.
 - print preview is not drawing the background colours for cells.
   This is likely a gnome-print problem.
 - Changing the size of all rows/cols creates big xml files.
