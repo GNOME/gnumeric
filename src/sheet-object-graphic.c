@@ -7,12 +7,6 @@
  *   Miguel de Icaza (miguel@kernel.org)
  */
 #include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <gdk/gdkkeysyms.h>
-#include <libgnomeprint/gnome-print.h>
-#include <math.h>
 #include "gnumeric.h"
 #include "sheet-control-gui.h"
 #include "gnumeric-canvas.h"
@@ -22,6 +16,9 @@
 #include "sheet-object-graphic.h"
 #include "sheet-object-impl.h"
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <gdk/gdkkeysyms.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-colors.h>
 #include <gal/widgets/widget-color-combo.h>

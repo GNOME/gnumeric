@@ -99,4 +99,6 @@ void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 
 #define gnumeric_filter_modifiers(a) ((a) &(~(GDK_LOCK_MASK|GDK_MOD2_MASK|GDK_MOD5_MASK)))
 
+StyleColor * color_combo_get_style_color (GtkWidget *color_combo);
+
 #endif /* GNUMERIC_GUI_UTIL_H */
