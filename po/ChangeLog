@@ -1,3 +1,7 @@
+2002-05-13  Christophe Merlet  <christophe@merlet.net>
+
+	* fr.po: Updated French translation.
+
 2002-05-10  Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.
@@ -106,7 +110,7 @@
 
 	* de.po: Updated German translation.
 
-2002-02-12  Christophe Merlet  <redfox@eikonex.org>
+2002-02-12  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from work of
 	Olivier Jousselin <oj@marylou.fr>.
@@ -140,7 +144,7 @@
 
 	* ja.po: Updated Japanese translation.
 
-2002-01-31  Christophe Merlet  <redfox@eikonex.org>
+2002-01-31  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from work of
 	Olivier Jousselin <oj@marylou.fr>.
@@ -725,12 +729,12 @@
 
 	* tr.po: Committed updated Turkish translation by Nilg’Ã¼n.
 
-2000-11-15  Christophe Merlet  <redfox@eikonex.org>
+2000-11-15  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from work of
 	Olivier Jousselin <oj@marylou.fr>.
 
-2000-11-14  Christophe Merlet  <redfox@eikonex.org>
+2000-11-14  Christophe Merlet  <christophe@merlet.net>
 
 	* POTFILES.in : Corrected a typo.
 	* fr.po: Updated French translation from work of
@@ -744,7 +748,7 @@
 
 	* nn.po: Updated Norwegian (nynorsk) translation.
 
-2000-11-12  Christophe Merlet  <redfox@eikonex.org>
+2000-11-12  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from work of
 	Olivier Jousselin <oj@marylou.fr>.
@@ -757,12 +761,12 @@
 
 	* sk.po: Updated Slovak translation.
 
-2000-11-09  Christophe Merlet  <redfox@eikonex.org>
+2000-11-09  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from work of
 	Olivier Jousselin <oj@marylou.fr>.
 
-2000-11-07  Christophe Merlet  <redfox@eikonex.org>
+2000-11-07  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from work of
 	Olivier Jousselin <oj@marylou.fr>.
@@ -775,7 +779,7 @@
 
 	* es.po : Committed for German Poo Caamaqo <gpoo@ubiobio.cl>
 
-2000-11-05  Christophe Merlet  <redfox@eikonex.org>
+2000-11-05  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation from work of
 	Olivier Jousselin <oj@marylou.fr>.
@@ -1430,7 +1434,7 @@
 	* tr.po: Committed updated Turkish translation
 		by Nilg|n.
 
-2000-03-18  Christophe Merlet  <redfox@eikonex.org>
+2000-03-18  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
@@ -1464,7 +1468,7 @@
 
 	* ru.po: updated russian translation.
 
-2000-02-27  Christophe Merlet  <redfox@eikonex.org>
+2000-02-27  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Updated French translation.
 
@@ -1705,7 +1709,7 @@
 
 	* ja.po: Update Japanese translation
 
-2000-12-29  Christophe Merlet  <redfox@eikonex.org>
+2000-12-29  Christophe Merlet  <christophe@merlet.net>
 
 	* fr.po: Really, really minors updates.
 
