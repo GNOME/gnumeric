@@ -1,3 +1,8 @@
+2004-09-14  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-object-image.c (soi_get_image_fmt): g_free is a poor
+	substitute for g_slist_free.
+
 2004-09-10  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (cmd_colrow_hide_correct_selection) : disable because

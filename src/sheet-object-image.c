@@ -378,11 +378,10 @@ soi_get_image_fmt (SheetObjectImage *soi)
 			break;
 		}
 	}
+	g_slist_free (pixbuf_fmts);
 
 	if (ret->ext == NULL)
 		ret->ext = g_strdup (ret->name);
-	
-	g_free (pixbuf_fmts);
 
 	return ret;
 }
