@@ -743,7 +743,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	#define one_m_to_in     (10000 / GNUM_const (254.0))
 	#define one_m_to_ft     (one_m_to_in / 12)
 	#define one_m_to_yd     (one_m_to_ft / 3)
-	#define one_m_to_ang    10000000000.0
+	#define one_m_to_ang    GNUM_const (1e10)
 	#define one_m_to_Pica   2834.645669
 
 	/* Time constants */
@@ -760,32 +760,32 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	#define one_N_to_dyn    100000
 	#define one_N_to_lbf    0.224808924
 
+	/* Power constants */
+	#define one_HP_to_W     745.701
+
 	/* Energy constants */
 	#define one_J_to_e      9999995.193
 	#define one_J_to_c      0.239006249
 	#define one_J_to_cal    0.238846191
 	#define one_J_to_eV     6.2146e+18
-	#define one_J_to_HPh    3.72506e-7
-	#define one_J_to_Wh     0.000277778
+	#define one_J_to_HPh    (GNUM_const (1.0) / (3600 * one_HP_to_W))
+	#define one_J_to_Wh     (GNUM_const (1.0) / 3600)
 	#define one_J_to_flb    23.73042222
 	#define one_J_to_BTU    0.000947815
-
-	/* Power constants */
-	#define one_HP_to_W     745.701
 
 	/* Magnetism constants */
 	#define one_T_to_ga     10000
 
 	/* Temperature constants */
-	#define C_K_offset      273.15
+	const gnum_float C_K_offset = GNUM_const (273.15);
 
 	/* Liquid measure constants */
 	#define one_tsp_to_tbs  (GNUM_const (1.0) / 3)
 	#define one_tsp_to_oz   (GNUM_const (1.0) / 6)
-	#define one_tsp_to_cup  0.020833333
-	#define one_tsp_to_pt   0.010416667
-	#define one_tsp_to_qt   0.005208333
-	#define one_tsp_to_gal  0.001302083
+	#define one_tsp_to_cup  (GNUM_const (1.0) / 48)
+	#define one_tsp_to_pt   (GNUM_const (1.0) / 96)
+	#define one_tsp_to_qt   (GNUM_const (1.0) / 192)
+	#define one_tsp_to_gal  (GNUM_const (1.0) / 768)
 	#define one_tsp_to_l    0.004929994
 
 	/* Prefixes */
@@ -796,7 +796,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	#define mega   GNUM_const (1e+06)
 	#define kilo   GNUM_const (1e+03)
 	#define hecto  GNUM_const (1e+02)
-	#define dekao  GNUM_const (1e+01)
+	#define deka   GNUM_const (1e+01)
 	#define deci   GNUM_const (1e-01)
 	#define centi  GNUM_const (1e-02)
 	#define milli  GNUM_const (1e-03)
@@ -895,7 +895,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	        { "M", mega },
 	        { "k", kilo },
 	        { "h", hecto },
-	        { "e", dekao },
+	        { "e", deka },
 	        { "d", deci },
 	        { "c", centi },
 	        { "m", milli },

@@ -1,5 +1,10 @@
 2002-10-14  Morten Welinder  <terra@diku.dk>
 
+	* functions.c (gnumeric_convert): Improve precision and derive
+	some factors from others.
+
+2002-10-14  Morten Welinder  <terra@diku.dk>
+
 	* functions.c (val_to_base): Use fmodgnum and floorgnum for better
 	precision.
 
