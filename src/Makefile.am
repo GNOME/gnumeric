@@ -22,6 +22,7 @@ GNUMERIC_BASE_SOURCES =		\
 	dialog-insert-cells.c	\
 	dialog-delete-cells.c	\
 	dialog-paste-special.c	\
+	dialog-zoom.c		\
 	dialogs.h		\
 	eval.c			\
 	expr.c			\

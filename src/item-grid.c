@@ -37,8 +37,10 @@ item_grid_destroy (GtkObject *object)
 static void
 item_grid_realize (GnomeCanvasItem *item)
 {
-	ItemGrid *item_grid;
+	GnomeCanvas *canvas = item->canvas;
+	GdkVisual *visual;
 	GdkWindow *window;
+	ItemGrid *item_grid;
 	GdkGC *gc;
 	
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)
@@ -67,6 +69,21 @@ item_grid_realize (GnomeCanvasItem *item)
 	
 	gdk_gc_set_foreground (item_grid->fill_gc, &item_grid->background);
 	gdk_gc_set_background (item_grid->fill_gc, &item_grid->grid_color);
+
+
+	/* Find out how we need to draw the selection with the current visual */
+	visual = gtk_widget_get_visual (GTK_WIDGET (canvas));
+
+	switch (visual->type){
+	case GDK_VISUAL_STATIC_GRAY:
+	case GDK_VISUAL_TRUE_COLOR:
+	case GDK_VISUAL_STATIC_COLOR:
+		item_grid->visual_is_paletted = 0;
+		break;
+
+	default:
+		item_grid->visual_is_paletted = 1;
+	}
 }
 
 static void
@@ -194,27 +211,6 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	style = cell->style;
 	font = style->font->font;
 
-#if 0
-	/* Code to test the different alignements, hardcoded for now */
-	switch (col){
-	case 0:
-		style->halign = HALIGN_GENERAL;
-		break;
-	case 1:
-		style->halign = HALIGN_LEFT;
-		break;
-	case 2:
-		style->halign = HALIGN_RIGHT;
-		break;
-	case 3:
-		style->halign = HALIGN_CENTER;
-		break;
-	case 4:
-		style->halign = HALIGN_FILL;
-		break;
-	}
-#endif
-
 	/*
 	 * General Alignement is a special case: it means
 	 * left alignment for text and right alignment for
@@ -271,7 +267,8 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	text_base = y1 + cell->row->pixels - cell->row->margin_b - font->descent + 1;
 
 	gdk_gc_set_foreground (gc, &item_grid->default_color);
-
+	gdk_gc_set_function (gc, GDK_COPY);
+	
 	if (clip_left || clip_right){
 		rect.x = x1;
 		rect.y = y1;
@@ -306,12 +303,21 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	} while (style->halign == HALIGN_FILL &&
 		 pixels < cell->col->pixels);
 
+	/*
+	 * If the cell is selected, turn the inverse video on
+	 */
 	if (cell_is_selected){
 		if (gsheet->cursor_col == col && gsheet->cursor_row == row)
 			return;
+
+		if (item_grid->visual_is_paletted){
+			gdk_gc_set_function (gc, GDK_XOR);
+			gdk_gc_set_foreground (gc, &gs_white);
+		} else {
+			gdk_gc_set_function (gc, GDK_INVERT);
+			gdk_gc_set_foreground (gc, &gs_black);
+		}
 		
-		gdk_gc_set_function (gc, GDK_INVERT);
-		gdk_gc_set_foreground (gc, &gs_black);
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    x1 + 1,
 				    y1 + 1,
@@ -497,6 +503,13 @@ context_delete_cmd (GtkWidget *widget, ItemGrid *item_grid)
 }
 
 static void
+context_clear_cmd (GtkWidget *widget, ItemGrid *item_grid)
+{
+	sheet_selection_clear_content (item_grid->sheet);
+	context_destroy_menu (widget);
+}
+
+static void
 context_cell_format_cmd (GtkWidget *widget, ItemGrid *item_grid)
 {
 	dialog_cell_format (item_grid->sheet);
@@ -521,6 +534,8 @@ struct {
 	{ "",                  NULL,                      IG_SEPARATOR      },
 	{ N_("Insert"),        context_insert_cmd,        IG_ALWAYS  	    },
 	{ N_("Delete"),        context_delete_cmd,        IG_ALWAYS  	    },
+	{ N_("Erase content"), context_clear_cmd,         IG_ALWAYS         },
+	{ "",                  NULL,                      IG_SEPARATOR      },
 	{ N_("Cell format"),   context_cell_format_cmd,   IG_ALWAYS         },
 	{ NULL,                NULL,                      0 }
 };
@@ -634,7 +649,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			gnumeric_sheet_accept_pending_output (gsheet);
 			gnumeric_sheet_cursor_set (gsheet, col, row);
 			if (!(event->button.state & GDK_CONTROL_MASK))
-				sheet_selection_clear_only (sheet);
+				sheet_selection_reset_only (sheet);
 			
 			item_grid->selecting = 1;
 			sheet_selection_append (sheet, col, row);

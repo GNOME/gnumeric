@@ -1,5 +1,10 @@
 1998-08-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/sheet.c (sheet_clear_region_content): New function to remove
+	the contents of a region of cells.
+
+	* src/dialog-zoom.c (dialog_zoom): Add Zoom window.
+
 	* src/style.c (style_color_new, style_color_ref,
 	style_color_unref): New functions.  Color for a cell will be kept
 	as part of the style.  Hack note: if valid_flags reports
@@ -12,7 +17,8 @@
 	smartly.  Now we invert the resulting area (this works for my
 	16-bpp display, have to try the XOR trick tomorrow on a paletted
 	display). 
-	
+	(context_clear_cmd): New context command that clears the content
+	of a cell region.
 
 1998-08-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 

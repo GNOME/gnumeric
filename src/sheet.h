@@ -131,14 +131,19 @@ void        sheet_cursor_move            (Sheet *sheet, int col, int row);
 void        sheet_select_all             (Sheet *sheet);
 void        sheet_selection_append       (Sheet *sheet, int col, int row);
 void        sheet_selection_extend_to    (Sheet *sheet, int col, int row);
-void        sheet_selection_clear        (Sheet *sheet);
-void        sheet_selection_clear_only   (Sheet *sheet);
+void        sheet_selection_reset        (Sheet *sheet);
+void        sheet_selection_reset_only   (Sheet *sheet);
 int         sheet_selection_equal        (SheetSelection *a, SheetSelection *b);
 void        sheet_selection_append_range (Sheet *sheet,
 					  int base_col,  int base_row,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
 CellList   *sheet_selection_to_list      (Sheet *sheet);
+
+/* Operations on the selection */
+void        sheet_selection_clear_content (Sheet *sheet);
+void        sheet_selection_clear_formats (Sheet *sheet);
+void        sheet_selection_clear         (Sheet *sheet);
 
 /* Cut/Copy/Paste on the workbook selection */
 gboolean    sheet_selection_copy         (Sheet *sheet);
@@ -157,86 +162,92 @@ int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 gboolean    sheet_verify_selection_simple     (Sheet *sheet, char *command_name);
 
 /* Cell management */
-Cell       *sheet_cell_new            (Sheet *sheet, int col, int row);
-void        sheet_cell_add            (Sheet *sheet, Cell *cell,
-				       int col, int row);
-void        sheet_cell_remove         (Sheet *sheet, Cell *cell);
-int         sheet_cell_foreach_range  (Sheet *sheet, int only_existing,
-				       int start_col, int start_row,
-				       int end_col, int end_row,
-				       sheet_cell_foreach_callback callback,
-				       void *closure);
-Cell       *sheet_cell_get            (Sheet *sheet, int col, int row);
-void        sheet_cell_formula_link   (Cell *cell);
-void        sheet_cell_formula_unlink (Cell *cell);
+Cell       *sheet_cell_new             (Sheet *sheet, int col, int row);
+void        sheet_cell_add             (Sheet *sheet, Cell *cell,
+				       	int col, int row);
+void        sheet_cell_remove          (Sheet *sheet, Cell *cell);
+int         sheet_cell_foreach_range   (Sheet *sheet, int only_existing,
+				       	int start_col, int start_row,
+				       	int end_col, int end_row,
+				       	sheet_cell_foreach_callback callback,
+				       	void *closure);
+Cell       *sheet_cell_get             (Sheet *sheet, int col, int row);
+void        sheet_cell_formula_link    (Cell *cell);
+void        sheet_cell_formula_unlink  (Cell *cell);
 
 /* Create new ColRowInfos from the default sheet style */
-ColRowInfo *sheet_col_new             (Sheet *sheet);
-ColRowInfo *sheet_row_new             (Sheet *sheet);
-int         sheet_row_check_bound     (int row, int diff);
-int         sheet_col_check_bound     (int col, int diff);
+ColRowInfo *sheet_col_new              (Sheet *sheet);
+ColRowInfo *sheet_row_new              (Sheet *sheet);
+int         sheet_row_check_bound      (int row, int diff);
+int         sheet_col_check_bound      (int col, int diff);
 
 /* Duplicates the information of a col/row */
-ColRowInfo *sheet_duplicate_colrow    (ColRowInfo *original);
+ColRowInfo *sheet_duplicate_colrow     (ColRowInfo *original);
 
 /* Retrieve information from a col/row */
-ColRowInfo *sheet_col_get_info        (Sheet *sheet, int col);
-ColRowInfo *sheet_row_get_info        (Sheet *sheet, int row);
+ColRowInfo *sheet_col_get_info         (Sheet *sheet, int col);
+ColRowInfo *sheet_row_get_info         (Sheet *sheet, int row);
 
 /* Returns a pointer to a ColRowInfo: existed or freshly created */
-ColRowInfo *sheet_row_get             (Sheet *sheet, int pos);
-ColRowInfo *sheet_col_get             (Sheet *sheet, int pos);
+ColRowInfo *sheet_row_get              (Sheet *sheet, int pos);
+ColRowInfo *sheet_col_get              (Sheet *sheet, int pos);
 
 /* Add a ColRowInfo to the Sheet */
-void        sheet_col_add             (Sheet *sheet, ColRowInfo *cp);
-void        sheet_row_add             (Sheet *sheet, ColRowInfo *cp);
+void        sheet_col_add              (Sheet *sheet, ColRowInfo *cp);
+void        sheet_row_add              (Sheet *sheet, ColRowInfo *cp);
 
 /* Measure distances in pixels from one col/row to another */
-int         sheet_col_get_distance    (Sheet *sheet, int from_col, int to_col);
-int         sheet_row_get_distance    (Sheet *sheet, int from_row, int to_row);
+int         sheet_col_get_distance     (Sheet *sheet, int from_col, int to_col);
+int         sheet_row_get_distance     (Sheet *sheet, int from_row, int to_row);
  
-void        sheet_clear_region        (Sheet *sheet,
-				       int start_col, int start_row,
-				       int end_col,   int end_row);
+void        sheet_clear_region         (Sheet *sheet,
+				        int start_col, int start_row,
+				        int end_col,   int end_row);
+void        sheet_clear_region_formats (Sheet *sheet,
+				        int start_col, int start_row,
+				        int end_col,   int end_row);
+void        sheet_clear_region_content (Sheet *sheet,
+				        int start_col, int start_row,
+				        int end_col,   int end_row);
 
 /* Sets the width/height of a column row in terms of pixels */
-void        sheet_col_set_width       (Sheet *sheet,
-				       int col, int width);
-void        sheet_row_set_height      (Sheet *sheet,
-				       int row, int width);
-void        sheet_col_set_selection   (Sheet *sheet,
-				       ColRowInfo *ci, int value);
-void        sheet_row_set_selection   (Sheet *sheet,
-				       ColRowInfo *ri, int value);
-
-Style      *sheet_style_compute       (Sheet *sheet, int col, int row);
+void        sheet_col_set_width        (Sheet *sheet,
+				       	int col, int width);
+void        sheet_row_set_height       (Sheet *sheet,
+				       	int row, int width);
+void        sheet_col_set_selection    (Sheet *sheet,
+				       	ColRowInfo *ci, int value);
+void        sheet_row_set_selection    (Sheet *sheet,
+				       	ColRowInfo *ri, int value);
+				       
+Style      *sheet_style_compute        (Sheet *sheet, int col, int row);
 
 /* Redraw */
-void        sheet_redraw_cell_region  (Sheet *sheet,
-				       int start_col, int start_row,
-				       int end_col,   int end_row);
-void        sheet_redraw_selection    (Sheet *sheet, SheetSelection *ss);
-void        sheet_redraw_all          (Sheet *sheet);
-
-void        sheet_update_auto_expr    (Sheet *sheet);
+void        sheet_redraw_cell_region   (Sheet *sheet,
+				       	int start_col, int start_row,
+				       	int end_col,   int end_row);
+void        sheet_redraw_selection     (Sheet *sheet, SheetSelection *ss);
+void        sheet_redraw_all           (Sheet *sheet);
+				       
+void        sheet_update_auto_expr     (Sheet *sheet);
 
 /* Sheet information manipulation */
-void        sheet_insert_col          (Sheet *sheet,  int col, int count);
-void        sheet_delete_col          (Sheet *sheet,  int col, int count);
-void        sheet_insert_row          (Sheet *sheet,  int row, int count);
-void        sheet_delete_row          (Sheet *sheet,  int row, int count);
-void        sheet_shift_row           (Sheet *sheet,  int col, int row, int count);
-void        sheet_shift_rows          (Sheet *sheet,  int col,
-				       int start_row, int end_row, int count);
-void        sheet_shift_col           (Sheet *sheet,  int col, int row, int count);
-void        sheet_shift_cols          (Sheet *sheet,
-				       int start_col, int end_col,
-				       int row,       int count);
+void        sheet_insert_col           (Sheet *sheet,  int col, int count);
+void        sheet_delete_col           (Sheet *sheet,  int col, int count);
+void        sheet_insert_row           (Sheet *sheet,  int row, int count);
+void        sheet_delete_row           (Sheet *sheet,  int row, int count);
+void        sheet_shift_row            (Sheet *sheet,  int col, int row, int count);
+void        sheet_shift_rows           (Sheet *sheet,  int col,
+				       	int start_row, int end_row, int count);
+void        sheet_shift_col            (Sheet *sheet,  int col, int row, int count);
+void        sheet_shift_cols           (Sheet *sheet,
+				       	int start_col, int end_col,
+				       	int row,       int count);
 
-void        sheet_style_attach        (Sheet *sheet,
-				       int    start_col, int start_row,
-				       int    end_col,   int end_row,
-				       Style  *style);
+void        sheet_style_attach         (Sheet *sheet,
+				        int    start_col, int start_row,
+				        int    end_col,   int end_row,
+				        Style  *style);
 /*
  * Workbook
  */

@@ -27,6 +27,8 @@ typedef struct {
 	GdkColor background;
 	GdkColor grid_color;
 	GdkColor default_color;
+
+	int      visual_is_paletted;
 } ItemGrid;
 
 GtkType item_grid_get_type (void);

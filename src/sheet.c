@@ -130,7 +130,7 @@ sheet_col_selection_changed (ItemBar *item_bar, int column, int reset, Sheet *sh
 	
 	if (reset){
 		sheet_cursor_set (sheet, column, 0, column, SHEET_MAX_ROWS - 1);
-		sheet_selection_clear_only (sheet);
+		sheet_selection_reset_only (sheet);
 		sheet_selection_append_range (sheet,
 					      column, 0,
 					      column, 0,
@@ -156,7 +156,7 @@ sheet_row_selection_changed (ItemBar *item_bar, int row, int reset, Sheet *sheet
 
 	if (reset){
 		sheet_cursor_set (sheet, 0, row, SHEET_MAX_COLS-1, row);
-		sheet_selection_clear_only (sheet);
+		sheet_selection_reset_only (sheet);
 		sheet_selection_append_range (sheet,
 					      0, row,
 					      0, row,
@@ -307,8 +307,8 @@ sheet_size_allocate (GtkWidget *widget, GtkAllocation *alloc, Sheet *sheet)
 	GtkAdjustment *va = GTK_ADJUSTMENT (sheet->va);
 	GtkAdjustment *ha = GTK_ADJUSTMENT (sheet->ha);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet->sheet_view);
-	int last_col = gsheet->last_visible_col;
-	int last_row = gsheet->last_visible_row;
+	int last_col = gsheet->last_full_col;
+	int last_row = gsheet->last_full_row;
 
 	va->upper = MAX (last_row, sheet->max_row_used);
 	va->page_size = last_row - gsheet->top_row;
@@ -553,7 +553,7 @@ sheet_col_add (Sheet *sheet, ColRowInfo *cp)
 		sheet->max_col_used = cp->pos;
 		if (sheet->max_col_used > ha->upper){
 			ha->upper = sheet->max_col_used;
-			gtk_adjustment_value_changed (ha);
+			gtk_adjustment_changed (ha);
 		}
 	}
 	sheet->cols_info = g_list_insert_sorted (sheet->cols_info, cp, CRsort);
@@ -568,7 +568,7 @@ sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 		sheet->max_row_used = rp->pos;
 		if (sheet->max_row_used > va->upper){
 			va->upper = sheet->max_row_used;
-			gtk_adjustment_value_changed (va);
+			gtk_adjustment_changed (va);
 		}
 	}
 	sheet->rows_info = g_list_insert_sorted (sheet->rows_info, rp, CRsort);
@@ -1000,7 +1000,7 @@ sheet_select_all (Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet_selection_clear_only (sheet);
+	sheet_selection_reset_only (sheet);
 	sheet_cursor_set (sheet, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	sheet_selection_append_range (sheet, 0, 0, 0, 0,
 		SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
@@ -1198,7 +1198,7 @@ clean_bar_selection (GList *list)
 }
 
 /*
- * sheet_selection_clear
+ * sheet_selection_reset
  * sheet:  The sheet
  *
  * Clears all of the selection ranges.
@@ -1206,7 +1206,7 @@ clean_bar_selection (GList *list)
  * be taken care on the calling routine. 
  */
 void
-sheet_selection_clear_only (Sheet *sheet)
+sheet_selection_reset_only (Sheet *sheet)
 {
 	GnumericSheet *gsheet;
 	GList *list = sheet->selections;
@@ -1239,14 +1239,14 @@ sheet_selection_clear_only (Sheet *sheet)
 }
 
 /*
- * sheet_selection_clear
+ * sheet_selection_reset
  * sheet:  The sheet
  *
  * Clears all of the selection ranges and resets it to a
  * selection that only covers the cursor
  */
 void
-sheet_selection_clear (Sheet *sheet)
+sheet_selection_reset (Sheet *sheet)
 {
 	GnumericSheet *gsheet;
 
@@ -1255,7 +1255,7 @@ sheet_selection_clear (Sheet *sheet)
 	
 	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
 	
-	sheet_selection_clear_only (sheet);
+	sheet_selection_reset_only (sheet);
 	sheet_selection_append (sheet, gsheet->cursor_col, gsheet->cursor_row);
 }
 
@@ -1856,7 +1856,7 @@ sheet_destroy (Sheet *sheet)
 	g_assert (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet)); 
 
-	sheet_selection_clear (sheet);
+	sheet_selection_reset (sheet);
 	g_free (sheet->name);
 	
 	g_hash_table_foreach (sheet->cell_hash, cell_hash_free_key, NULL);
@@ -1902,6 +1902,104 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 		cell_destroy (cell);
 	}
 	g_list_free (destroyable_cells);
+}
+
+void
+sheet_selection_clear (Sheet *sheet)
+{
+	GList *l;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (l = sheet->selections; l; l = l->next){
+		SheetSelection *ss = l->data;
+		
+		sheet_clear_region (sheet,
+				    ss->start_col, ss->start_row,
+				    ss->end_col, ss->end_row);
+	}
+}
+
+static int
+clear_cell_content (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	cell_set_text (cell, "");
+	return TRUE;
+}
+
+/*
+ * Clears the contents in a region of cells
+ */
+void
+sheet_clear_region_content (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (start_row <= end_row);
+
+	sheet_cell_foreach_range (
+		sheet, TRUE,
+		start_col, start_row,
+		end_col, end_row,
+		clear_cell_content, NULL);
+}
+
+void
+sheet_selection_clear_content (Sheet *sheet)
+{
+	GList *l;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (l = sheet->selections; l; l = l->next){
+		SheetSelection *ss = l->data;
+		
+		sheet_clear_region_content (sheet,
+					    ss->start_col, ss->start_row,
+					    ss->end_col, ss->end_row);
+	}
+}
+
+static int
+clear_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	cell_set_format (cell, "General");
+	return TRUE;
+}
+
+void
+sheet_clear_region_formats (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (start_row <= end_row);
+
+	sheet_cell_foreach_range (
+		sheet, TRUE,
+		start_col, start_row,
+		end_col, end_row,
+		clear_cell_format, NULL);
+}
+
+void
+sheet_selection_clear_formats (Sheet *sheet)
+{
+	GList *l;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	for (l = sheet->selections; l; l = l->next){
+		SheetSelection *ss = l->data;
+		
+		sheet_clear_region_formats (sheet,
+					    ss->start_col, ss->start_row,
+					    ss->end_col, ss->end_row);
+	}
 }
 
 gboolean
@@ -2004,7 +2102,7 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 				paste_width, paste_height, paste_flags);
 	
 	sheet_cursor_set (sheet, dest_col, dest_row, end_col, end_row);
-	sheet_selection_clear_only (sheet);
+	sheet_selection_reset_only (sheet);
 	sheet_selection_append (sheet, dest_col, dest_row);
 	sheet_selection_extend_to (sheet, end_col, end_row);
 }

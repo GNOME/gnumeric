@@ -119,6 +119,42 @@ insert_rows_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+clear_all_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_selection_clear (sheet);
+}
+
+static void
+clear_formats_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_selection_clear_formats (sheet);
+}
+
+static void
+clear_content_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_selection_clear_content (sheet);
+}
+
+static void
+zoom_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	dialog_zoom (sheet);
+}
+
+static void
 format_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
@@ -135,6 +171,13 @@ static GnomeUIInfo workbook_menu_file [] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo workbook_menu_edit_clear [] = {
+	{ GNOME_APP_UI_ITEM, N_("All"),     NULL, clear_all_cmd },
+	{ GNOME_APP_UI_ITEM, N_("Formats"), NULL, clear_formats_cmd },
+	{ GNOME_APP_UI_ITEM, N_("Content"), NULL, clear_content_cmd },
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo workbook_menu_edit [] = {
 	{ GNOME_APP_UI_ITEM, N_("Cut"), NULL, cut_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_CUT, GDK_x, GDK_CONTROL_MASK },
@@ -145,8 +188,15 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	{ GNOME_APP_UI_ITEM, N_("Paste special"), NULL, paste_special_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_PASTE },
 	GNOMEUIINFO_SEPARATOR,
+	{ GNOME_APP_UI_SUBTREE, N_("Clear"), NULL, &workbook_menu_edit_clear },
+	GNOMEUIINFO_SEPARATOR,
 	{ GNOME_APP_UI_ITEM, N_("Goto cell.."), NULL, goto_cell_cmd, NULL, NULL,
 	  0, 0, GDK_i, GDK_CONTROL_MASK },
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo workbook_menu_view [] = {
+	{ GNOME_APP_UI_ITEM, N_("Zoom..."), NULL, zoom_cmd },
 	GNOMEUIINFO_END
 };
 
@@ -168,6 +218,7 @@ static GnomeUIInfo workbook_menu_format [] = {
 static GnomeUIInfo workbook_menu [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("File"),   NULL, &workbook_menu_file },
 	{ GNOME_APP_UI_SUBTREE, N_("Edit"),   NULL, &workbook_menu_edit },
+	{ GNOME_APP_UI_SUBTREE, N_("View"),   NULL, &workbook_menu_view },
 	{ GNOME_APP_UI_SUBTREE, N_("Insert"), NULL, &workbook_menu_insert },
 	{ GNOME_APP_UI_SUBTREE, N_("Format"), NULL, &workbook_menu_format },
 	GNOMEUIINFO_END

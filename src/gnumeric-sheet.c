@@ -53,10 +53,25 @@ gnumeric_sheet_create (Sheet *sheet, GtkWidget *entry)
 void
 gnumeric_sheet_cursor_set (GnumericSheet *gsheet, int col, int row)
 {
+	GtkAdjustment *ha, *va;
+	Sheet *sheet;
+	
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
 	gsheet->cursor_col = col;
 	gsheet->cursor_row = row;
+
+	sheet = gsheet->sheet;
+
+	if (sheet->ha){
+		ha = GTK_ADJUSTMENT (sheet->ha);
+		va = GTK_ADJUSTMENT (sheet->va);
+		ha->value = col;
+		va->value = row;
+		
+		gtk_adjustment_value_changed (ha);
+		gtk_adjustment_value_changed (va);
+	}
 }
 
 void
@@ -203,7 +218,7 @@ move_cursor (GnumericSheet *gsheet, int col, int row, int clear_selection)
 	gnumeric_sheet_cursor_set (gsheet, col, row);
 
 	if (clear_selection)
-		sheet_selection_clear_only (gsheet->sheet);
+		sheet_selection_reset_only (gsheet->sheet);
 
 	if (clear_selection)
 		sheet_selection_append (gsheet->sheet, col, row);
