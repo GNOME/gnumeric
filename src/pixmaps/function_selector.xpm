@@ -1,5 +1,5 @@
 /* XPM */
-static char const * const formula_guru_xpm[] = {
+static char * formula_guru_xpm[] = {
 "24 24 3 1",
 " 	c None",
 ".	c #000000",

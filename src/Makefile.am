@@ -142,7 +142,6 @@ GNUMERIC_BASE_SOURCES =				\
 	parse-util.h				\
 	pattern.h				\
 	pattern.c				\
-	pixmaps.h				\
 	plugin.c				\
 	plugin.h				\
 	plugin-util.c				\

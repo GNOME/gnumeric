@@ -1,5 +1,5 @@
 /* XPM */
-static char * insert_bonobo_component_xpm[] = {
+static char * i24_insert_component_xpm [] = {
 "24 24 116 2",
 "  	c None",
 ". 	c #000000",

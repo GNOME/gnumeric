@@ -155,8 +155,7 @@ history_menu_insert_separator (Workbook *wb)
 	GtkWidget *item;
 	char const * menu_name = _("File/Print preview");
 
-	ret.menu = gnome_app_find_menu_pos (GNOME_APP (wb->toplevel)->menubar,
-					    menu_name, &ret.pos);
+	ret = history_menu_locate_separator (wb);
 	if (ret.menu != NULL) {
 		item = gtk_menu_item_new ();
 		gtk_widget_show (item);

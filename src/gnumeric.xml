@@ -22,20 +22,25 @@
 			<menuitem name="FileSaveAs" verb="" _label="Save _As..."
 			_descr="Save the current file with a different name"
 			pixtype="stock" pixname="Menu_Save As"/>
-
-			<menuitem name="FileSummary" verb="" _label="Su_mmary..."
-			_descr="Summary information"/>
-	
 			<menuitem/>
 
-			<menuitem name="FilePrint" verb="" _label="_Print"
-			_descr="Print the current file" pixtype="stock"
-			pixname="Menu_Print"/>
-	
 			<menuitem name="FilePrintSetup" verb=""
 			_label="Print S_etup..."
 			_descr="Setup the page settings for your current printer"
 			pixtype="stock" pixname="Menu_Print"/>
+	
+			<menuitem name="FilePrint" verb="" _label="_Print"
+			_descr="Print the current file" pixtype="stock"
+			pixname="Menu_Print"/>
+	
+			<menuitem name="FilePrintPreview" verb="" _label="Print Pre_view"
+			_descr="Print the current file" pixtype="stock"
+			pixname="Gnumeric_PrintPreview"/>
+
+			<menuitem/>
+
+			<menuitem name="FileSummary" verb="" _label="Su_mmary..."
+			_descr="Summary information"/>
 	
 			<menuitem name="FileClose" verb="" _label="_Close"
 			_descr="Close the current file" pixtype="stock" pixname="Menu_Close"
@@ -128,7 +133,7 @@
 
 				<menuitem name="EditSelectDepends" verb=""
 				_label="Select _Depends"
-				_descr="Select all the cells that depend on the current edit cell."/>
+				_descr="Select all the cells that depend on the current edit cell"/>
 
 			</submenu>
 
@@ -344,4 +349,95 @@
 
 	</menu>
 
+	<dockitem name="Standardtoolbar" homogeneous="0" look="icons" relief="none">
+
+		<toolitem type="std" name="New" pixtype="stock" pixname="New"
+		 _label="New" _descr="Create a new workbook"
+		 verb="FileNew"/>
+		<toolitem type="std" name="Open" pixtype="stock" pixname="Open"
+		 _label="Open" _descr="Open an existing workbook"
+		 verb="FileOpen"/>
+		<toolitem type="std" name="Save" pixtype="stock" pixname="Save"
+		 _label="Save" _descr="Save the current workbook"
+		 verb="FileSave"/>
+
+		<toolitem type="separator"/>
+
+		<toolitem type="std" name="Print" pixtype="stock" pixname="Print"
+		 _label="Print" _descr="Print the workbook"
+		 verb="FilePrint"/>
+		<toolitem type="std" name="PrintPreview" pixtype="stock" pixname="Gnumeric_PrintPreview"
+		 _label="Print Preview" _descr="Print preview"
+		 verb="FilePrintPreview"/>
+
+		<toolitem type="separator"/>
+
+		<toolitem type="std" name="Cut" pixtype="stock" pixname="Cut"
+		 _label="Cut" _descr="Mark the current selection for movement"
+		 verb="EditCut"/>
+		<toolitem type="std" name="Copy" pixtype="stock" pixname="Copy"
+		 _label="Copy" _descr="Copy the current selection to the clipboard"
+		 verb="EditCopy"/>
+		<toolitem type="std" name="Paste" pixtype="stock" pixname="Paste"
+		 _label="Paste" _descr="Paste the contents of the clipboard or cut buffer"
+		 verb="EditPaste"/>
+
+		<toolitem type="separator"/>
+		<placeholder name="EditUndo" delimit="none"/>
+		<placeholder name="EditRedo" delimit="none"/>
+		<toolitem type="separator"/>
+
+		<toolitem type="std" name="Sum" pixtype="stock" pixname="Gnumeric_AutoSum"
+		 _label="Sum" _descr="Sum into the current cell"
+		 verb="AutoSum"/>
+		<toolitem type="std" name="FunctionGuru" pixtype="stock" pixname="Gnumeric_FormulaGuru"
+		 _label="Function Guru" _descr="Edit a formula in the current cell"
+		 verb="FunctionGuru"/>
+		<toolitem type="std" name="SortAscending" pixtype="stock" pixname="Gnumeric_SortAscending"
+		 _label="Sort Ascending" _descr="Sort the selected region in ascending order based on the first column selected"
+		 verb="SortAscending"/>
+		<toolitem type="std" name="SortDescending" pixtype="stock" pixname="Gnumeric_SortDescending"
+		 _label="Sort Descending" _descr="Sort the selected region in descending order based on the first column selected"
+		 verb="SortDescending"/>
+
+		<toolitem type="separator"/>
+
+		<toolitem type="std" name="GraphGuru" pixtype="stock" pixname="Gnumeric_GraphGuru"
+		 _label="Graph Guru" _descr="Invoke the graph guru to create a graph"
+		 verb="GraphGuru"/>
+		<toolitem type="std" name="InsertComponent" pixtype="stock" pixname="Gnumeric_InsertComponent"
+		 _label="Insert Component" _descr="Insert an object into the spreadsheet"
+		 verb="InsertComponent"/>
+		<toolitem type="std" name="InsertShapedComponent" pixtype="stock" pixname="Gnumeric_InsertShapedComponent"
+		 _label="Insert Shaped Component" _descr="Insert a shaped component into the spreadsheet"
+		 verb="InsertShapedComponent"/>
+
+		<placeholder name="Zoom" delimit="none"/>
+	</dockitem>
+
+	<dockitem name="ObjectToolbar" homogeneous="0" look="icons" relief="none">
+		<toolitem type="std" name="Label" pixtype="stock" pixname="Gnumeric_Label"
+		 _label="Label" _descr="Create a label" verb="testme"/>
+		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Frame"
+		 _label="Frame" _descr="Create a frame" verb="testme"/>
+		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Button"
+		 _label="Button" _descr="Create a button" verb="testme"/>
+		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Checkbutton"
+		 _label="Checkbox" _descr="Create a checkbox" verb="testme"/>
+		<toolitem type="std" name="Frame" pixtype="stock" pixname="Gnumeric_Radiobutton"
+		 _label="Radio Button" _descr="Create a radio button" verb="testme"/>
+		<toolitem type="std" name="List" pixtype="stock" pixname="Gnumeric_List"
+		 _label="List" _descr="Create a list" verb="testme"/>
+		<toolitem type="std" name="Combo" pixtype="stock" pixname="Gnumeric_Combo"
+		 _label="Combo Box" _descr="Create a combo box" verb="testme"/>
+
+		<toolitem type="std" name="Line" pixtype="stock" pixname="Gnumeric_Line"
+		 _label="Line" _descr="Create a line" verb="testme"/>
+		<toolitem type="std" name="Arrow" pixtype="stock" pixname="Gnumeric_Arrow"
+		 _label="Arrow" _descr="Create a frame" verb="testme"/>
+		<toolitem type="std" name="Rectangle" pixtype="stock" pixname="Gnumeric_Rectangle"
+		 _label="Rectangle" _descr="Draw a rectangle" verb="testme"/>
+		<toolitem type="std" name="Oval" pixtype="stock" pixname="Gnumeric_Oval"
+		 _label="Oval" _descr="Draw an oval" verb="testme"/>
+	</dockitem>
 </Root>

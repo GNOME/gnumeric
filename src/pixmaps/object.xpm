@@ -1,5 +1,5 @@
 /* XPM */
-static char * object_xpm[] = {
+static char * insert_shaped_component_xpm[] = {
 "24 24 2 1",
 " 	c None",
 ".	c #000000",

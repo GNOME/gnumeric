@@ -31,11 +31,6 @@
 /*
  * Pixmaps
  */
-#include "pixmaps/money.xpm"
-#include "pixmaps/percent.xpm"
-#include "pixmaps/thousands.xpm"
-#include "pixmaps/add_decimals.xpm"
-#include "pixmaps/remove_decimals.xpm"
 #include "pixmaps/font.xpm"
 #include "pixmaps/bucket.xpm"
 
@@ -360,21 +355,21 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_DATA (
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Money format"), N_("Sets the format of the selected cells to monetary"),
-		workbook_cmd_format_as_money, NULL, money_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		workbook_cmd_format_as_money, "Gnumeric_FormatAsMoney"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Percent"), N_("Sets the format of the selected cells to percentage"),
-		workbook_cmd_format_as_percent, NULL, percent_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		workbook_cmd_format_as_percent, "Gnumeric_FormatAsPercent"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Thousand separator"), N_("Sets the format of the selected cells to include a thousands separator"),
-		workbook_cmd_format_add_thousands, NULL, thousands_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		workbook_cmd_format_add_thousands, "Gnumeric_FormatThousandSeperator"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Add decimals"), N_("Increases the number of decimal numbers displayed"),
-		workbook_cmd_format_add_decimals, NULL, add_decimals_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		workbook_cmd_format_add_decimals, "Gnumeric_FormatAddPrecision"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Remove decimals"), N_("Decreases the number of decimal numbers displayed"),
-		workbook_cmd_format_remove_decimals, NULL, remove_decimals_xpm),
+		workbook_cmd_format_remove_decimals, "Gnumeric_FormatRemovePrecision"),
 
 	GNOMEUIINFO_END
 };

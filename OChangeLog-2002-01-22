@@ -1,3 +1,21 @@
+2000-09-23  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c : Use stock icons.
+	* src/workbook-object-toolbar.c : Ditto.
+	* src/workbook.c : Ditto.  Add more verbs.
+
+	* src/workbook-edit.c (workbook_edit_set_sensitive) : toolbar
+	  sensitization is broken for bonobo.
+
+	* src/gnumeric.xml : The beginings of toolbar support.
+
+	* src/application.c : Register all pixmaps as stock icons.
+
+2000-09-22  Jody Goldberg <jgoldberg@home.com>
+
+	* src/history.c (history_menu_insert_separator) : Use
+	  history_menu_locate_separator.  This is crufty.
+
 2000-09-22  Morten Welinder  <terra@diku.dk>
 
 	* src/format.c (append_hour): Increase buffer size, just in case.

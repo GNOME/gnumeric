@@ -60,9 +60,13 @@ workbook_edit_set_sensitive (Workbook const *wb, gboolean flag1, gboolean flag2)
 
 	/* Toolbars are insensitive while editing */
 	gtk_widget_set_sensitive (wb->priv->func_button, flag2);
+#ifdef ENABLE_BONOBO
+#warning FIXME : how to quickly sensitize and desensitize a toolbar
+#else
 	gtk_widget_set_sensitive (wb->priv->standard_toolbar, flag2);
 	gtk_widget_set_sensitive (wb->priv->format_toolbar, flag2);
 	gtk_widget_set_sensitive (wb->priv->object_toolbar, flag2);
+#endif
 }
 
 void

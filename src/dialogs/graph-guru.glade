@@ -71,6 +71,7 @@
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -84,6 +85,7 @@
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <stock_button>GNOME_STOCK_BUTTON_PREV</stock_button>
+	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -98,6 +100,7 @@
 	  <has_default>True</has_default>
 	  <can_focus>True</can_focus>
 	  <stock_button>GNOME_STOCK_BUTTON_NEXT</stock_button>
+	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -111,6 +114,7 @@
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <label>_Finish</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
 	    <expand>True</expand>
@@ -162,6 +166,7 @@
 	  <widget>
 	    <class>GtkTable</class>
 	    <name>table20</name>
+	    <border_width>10</border_width>
 	    <rows>2</rows>
 	    <columns>2</columns>
 	    <homogeneous>False</homogeneous>
@@ -217,9 +222,9 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>series-rows</name>
+		<name>series-cols</name>
 		<can_focus>True</can_focus>
-		<label>_Rows</label>
+		<label>_Columns</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<group>row_col</group>
@@ -232,9 +237,9 @@
 
 	      <widget>
 		<class>GtkRadioButton</class>
-		<name>series-cols</name>
+		<name>series-rows</name>
 		<can_focus>True</can_focus>
-		<label>_Columns</label>
+		<label>_Rows</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<group>row_col</group>
@@ -474,6 +479,7 @@
 		<name>series-add</name>
 		<can_focus>True</can_focus>
 		<label>_Add</label>
+		<relief>GTK_RELIEF_NORMAL</relief>
 		<child>
 		  <padding>0</padding>
 		  <expand>True</expand>
@@ -486,6 +492,7 @@
 		<name>series-remove</name>
 		<can_focus>True</can_focus>
 		<label>_Remove</label>
+		<relief>GTK_RELIEF_NORMAL</relief>
 		<child>
 		  <padding>0</padding>
 		  <expand>True</expand>

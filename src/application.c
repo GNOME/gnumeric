@@ -14,6 +14,35 @@
 #include "workbook.h"
 #include "workbook-view.h"
 
+#include "pixmaps/print-preview.xpm"
+#include "pixmaps/sort-ascending.xpm"
+#include "pixmaps/sort-descending.xpm"
+#include "pixmaps/auto-sum.xpm"
+#include "pixmaps/equal-sign.xpm"
+#include "pixmaps/function_selector.xpm"
+#include "pixmaps/graphic.xpm"
+#include "pixmaps/object.xpm"
+#include "pixmaps/insert-bonobo-component.xpm"
+
+#include "pixmaps/label.xpm"
+#include "pixmaps/frame.xpm"
+#include "pixmaps/button.xpm"
+#include "pixmaps/checkbutton.xpm"
+#include "pixmaps/radiobutton.xpm"
+#include "pixmaps/list.xpm"
+#include "pixmaps/combo.xpm"
+
+#include "pixmaps/rect.xpm"
+#include "pixmaps/line.xpm"
+#include "pixmaps/arrow.xpm"
+#include "pixmaps/oval.xpm"
+
+#include "pixmaps/money.xpm"
+#include "pixmaps/percent.xpm"
+#include "pixmaps/thousands.xpm"
+#include "pixmaps/add_decimals.xpm"
+#include "pixmaps/remove_decimals.xpm"
+
 typedef struct
 {
 	/* Clipboard */
@@ -36,10 +65,58 @@ static GnumericApplication app;
  * application_init:
  *
  * Initialize the application specific data structures.
+ * and register some extra stock icons.
  */
 void
 application_init (void)
 {
+	static struct GnumericStockPixmap{
+		int width, height;
+		char const * const name;
+		gchar **xpm_data;
+	} const entry_names [] = {
+		{ 24, 24, "Gnumeric_PrintPreview", print_preview_xpm },
+		{ 24, 24, "Gnumeric_SortAscending", sort_ascending_xpm },
+		{ 24, 24, "Gnumeric_SortDescending", sort_descending_xpm },
+		{ 24, 24, "Gnumeric_AutoSum", auto_sum_xpm },
+		{ 24, 24, "Gnumeric_EqualSign", equal_sign_xpm },
+		{ 24, 24, "Gnumeric_FormulaGuru", formula_guru_xpm },
+		{ 24, 24, "Gnumeric_GraphGuru", graph_guru_xpm },
+		{ 24, 24, "Gnumeric_InsertComponent", insert_component_xpm },
+		{ 24, 24, "Gnumeric_InsertShapedComponent", insert_shaped_component_xpm },
+
+		{ 24, 21, "Gnumeric_FormatAsMoney", money_xpm },
+		{ 24, 21, "Gnumeric_FormatAsPercent", percent_xpm },
+		{ 24, 21, "Gnumeric_FormatThousandSeperator", thousands_xpm },
+		{ 24, 21, "Gnumeric_FormatAddPrecision", add_decimals_xpm },
+		{ 24, 21, "Gnumeric_FormatRemovePrecision", remove_decimals_xpm },
+
+		{ 21, 21, "Gnumeric_Label", label_xpm },
+		{ 21, 21, "Gnumeric_Frame", frame_xpm },
+		{ 21, 21, "Gnumeric_Button", button_xpm },
+		{ 21, 21, "Gnumeric_Checkbutton", checkbutton_xpm },
+		{ 21, 21, "Gnumeric_Radiobutton", radiobutton_xpm },
+		{ 21, 21, "Gnumeric_List", list_xpm },
+		{ 21, 21, "Gnumeric_Combo", combo_xpm },
+		{ 21, 21, "Gnumeric_Line", line_xpm },
+		{ 21, 21, "Gnumeric_Arrow", arrow_xpm },
+		{ 21, 21, "Gnumeric_Rectangle", rect_xpm },
+		{ 21, 21, "Gnumeric_Oval", oval_xpm },
+		{ 0, 0, NULL, NULL}
+	};
+	static GnomeStockPixmapEntry entry[sizeof(entry_names)/sizeof(struct GnumericStockPixmap)-1];
+
+	int i = 0;
+
+	for (i = 0; entry_names[i].name != NULL ; i++) {
+		entry[i].data.type = GNOME_STOCK_PIXMAP_TYPE_DATA;
+		entry[i].data.width = entry_names[i].width;
+		entry[i].data.height = entry_names[i].height;
+		entry[i].data.xpm_data = entry_names[i].xpm_data;
+		gnome_stock_pixmap_register (entry_names[i].name,
+					     GNOME_STOCK_PIXMAP_REGULAR, entry + i);
+	}
+
 	app.clipboard_copied_contents = NULL;
 	app.clipboard_sheet = NULL;
 

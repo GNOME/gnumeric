@@ -7,8 +7,8 @@
 gchar *s = N_("Graph Guru");
 gchar *s = N_("_Finish");
 gchar *s = N_("_Data Range:");
-gchar *s = N_("_Rows");
 gchar *s = N_("_Columns");
+gchar *s = N_("_Rows");
 gchar *s = N_("Series in:");
 gchar *s = N_("Data ranges");
 gchar *s = N_("label27");

@@ -22,7 +22,6 @@
 #include "main.h"
 #include "file.h"
 #include "xml-io.h"
-#include "pixmaps.h"
 #include "clipboard.h"
 #include "parse-util.h"
 #include "widgets/widget-editable-label.h"
@@ -42,6 +41,7 @@
 #include "rendered-value.h"
 #include "cmd-edit.h"
 #include "format.h"
+#include "pixmaps/equal-sign.xpm"
 
 #include <gal/widgets/gtk-combo-text.h>
 #include <gal/widgets/gtk-combo-stack.h>
@@ -219,14 +219,14 @@ select_component_id (Sheet *sheet, char const *interface)
 		sheet_mode_edit	(sheet);
 }
 static void
-create_embedded_component_cmd (GtkWidget *widget, Workbook *wb)
+verb_insert_component (GtkWidget *widget, Workbook *wb)
 {
 	select_component_id (wb->current_sheet,
 			     "IDL:Bonobo/Embeddable:1.0");
 }
 
 static void
-create_embedded_item_cmd (GtkWidget *widget, Workbook *wb)
+verb_insert_shaped_component (GtkWidget *widget, Workbook *wb)
 {
 	select_component_id (wb->current_sheet,
 			     "IDL:Bonobo/Canvas/Item:1.0");
@@ -1142,7 +1142,7 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("FileSummary", summary_cmd),
 	BONOBO_UI_VERB ("FilePrint", file_print_cmd),
 	BONOBO_UI_VERB ("FilePrintSetup", print_setup_cmd),
-	BONOBO_UI_VERB ("FilePrintPreviw", file_print_preview_cmd),
+	BONOBO_UI_VERB ("FilePrintPreview", file_print_preview_cmd),
 	BONOBO_UI_VERB ("FileClose", close_cmd),
 	BONOBO_UI_VERB ("FileExit", quit_cmd),
 
@@ -1232,10 +1232,15 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("DataSort", sort_cells_cmd),
 	BONOBO_UI_VERB ("DataFilter", advanced_filter_cmd),
 
-	BONOBO_UI_VERB ("HelpAbout", about_cmd),
-	
-	BONOBO_UI_VERB_END
+	BONOBO_UI_VERB ("AutoSum", autosum_cmd),
+	BONOBO_UI_VERB ("FunctionGuru", formula_guru),
+	BONOBO_UI_VERB ("SortAscending", sort_ascend_cmd),
+	BONOBO_UI_VERB ("SortDescending", sort_descend_cmd),
+	BONOBO_UI_VERB ("GraphGuru", launch_graph_guru),
+	BONOBO_UI_VERB ("InsertComponent", verb_insert_component),
+	BONOBO_UI_VERB ("InsertShapedComponent", verb_insert_shaped_component),
 
+	BONOBO_UI_VERB_END
 };
 
 #else
@@ -1252,18 +1257,18 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM(file_save_as_cmd, NULL),
 
-	GNOMEUIINFO_ITEM_NONE(N_("Su_mmary..."),
-			      N_("Summary information"),
-			      &summary_cmd),
-
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM(print_setup_cmd, NULL),
 	GNOMEUIINFO_MENU_PRINT_ITEM(file_print_cmd, NULL),
-	GNOMEUIINFO_ITEM(N_("Print pre_view"), N_("Print preview"),
-			 &file_print_preview_cmd, preview_xpm),
+	GNOMEUIINFO_ITEM_STOCK(N_("Print pre_view"), N_("Print preview"),
+			       &file_print_preview_cmd, "Gnumeric_PrintPreview"),
 
 	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_NONE(N_("Su_mmary..."),
+			      N_("Summary information"),
+			      &summary_cmd),
 
 	GNOMEUIINFO_MENU_CLOSE_ITEM(close_cmd, NULL),
 
@@ -1596,7 +1601,6 @@ static GnomeUIInfo workbook_menu [] = {
 	GNOMEUIINFO_END
 };
 
-#endif
 static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("New"), N_("Creates a new workbook"),
@@ -1613,9 +1617,9 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Print"), N_("Prints the workbook"),
 		file_print_cmd, GNOME_STOCK_PIXMAP_PRINT),
-	GNOMEUIINFO_ITEM_DATA (
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Print pre_view"), N_("Print preview"),
-		file_print_preview_cmd, NULL, preview_xpm),
+		file_print_preview_cmd, "Gnumeric_PrintPreview"),
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -1645,36 +1649,23 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_DATA (
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Sum"), N_("Sum into the current cell."),
-		autosum_cmd, NULL, auto_sum_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		autosum_cmd, "Gnumeric_AutoSum"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Function"), N_("Edit a function in the current cell."),
-		&formula_guru, NULL, formula_guru_xpm),
+		&formula_guru, "Gnumeric_FormulaGuru"),
 
-	GNOMEUIINFO_ITEM_DATA (
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Sort Ascending"), N_("Sorts the selected region in ascending order based on the first column selected."),
-		sort_ascend_cmd, NULL, sort_ascending_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		sort_ascend_cmd, "Gnumeric_SortAscending"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Sort Descending"), N_("Sorts the selected region in descending order based on the first column selected."),
-		sort_descend_cmd, NULL, sort_descending_xpm),
+		sort_descend_cmd, "Gnumeric_SortDescending"),
 
-#ifdef ENABLE_BONOBO
-	GNOMEUIINFO_SEPARATOR,
-
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Create a Graph"), N_("Invokes the graph guru to help create a graph"),
-		launch_graph_guru, NULL, graph_guru_xpm),
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Insert Object"), N_("Inserts an object into the spreadsheet"),
-		create_embedded_component_cmd, NULL, insert_bonobo_component_xpm),
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Insert shaped object"), N_("Inserts a shaped object into the spreadsheet"),
-		create_embedded_item_cmd, NULL, object_xpm),
-#endif
 	GNOMEUIINFO_END
 };
-
+#endif
 
 static void
 do_focus_sheet (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, Workbook *wb)
@@ -2614,35 +2605,6 @@ workbook_create_standard_toobar (Workbook *wb)
 	GtkWidget *toolbar, *zoom, *entry, *undo, *redo;
 	GnomeApp *app;
 
-#ifdef ENABLE_BONOBO
-#warning FIXME; the toolbar should be bonoboized properly.
-	toolbar = gnumeric_toolbar_new (
-		workbook_standard_toolbar,
-		bonobo_win_get_accel_group (BONOBO_WIN (wb->toplevel)), wb);
-
-
-	gtk_box_pack_start (GTK_BOX (wb->priv->main_vbox), toolbar,
-			    FALSE, FALSE, 0);
-#else
-	app = GNOME_APP (wb->toplevel);
-
-	g_return_val_if_fail (app != NULL, NULL);
-
-	toolbar = gnumeric_toolbar_new (workbook_standard_toolbar,
-					app->accel_group, wb);
-
-	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
-
-	if (!gnome_preferences_get_menubar_detachable ())
-		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
-	gnome_app_add_toolbar (
-		GNOME_APP (wb->toplevel),
-		GTK_TOOLBAR (toolbar),
-		name,
-		behavior,
-		GNOME_DOCK_TOP, 1, 0, 0);
-#endif
-
 	/* Zoom combo box */
 	zoom = wb->priv->zoom_entry = gtk_combo_text_new (FALSE);
 	if (!gnome_preferences_get_toolbar_relief_btn ())
@@ -2665,17 +2627,11 @@ workbook_create_standard_toobar (Workbook *wb)
 		gtk_combo_text_add_item(GTK_COMBO_TEXT (zoom),
 					preset_zoom[i], preset_zoom[i]);
 
-	/* Add it to the toolbar */
-	gtk_widget_show (zoom);
-	gnumeric_toolbar_append_with_eventbox (GTK_TOOLBAR (toolbar),
-				   zoom, _("Zoom"), NULL);
-
 	/* Undo dropdown list */
 	undo = wb->priv->undo_combo = gtk_combo_stack_new (GNOME_STOCK_PIXMAP_UNDO, TRUE);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (undo), _("Undo"));
 	if (!gnome_preferences_get_toolbar_relief_btn ())
 		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (undo), GTK_RELIEF_NONE);
-	gtk_widget_show (undo);	
 	gtk_signal_connect (GTK_OBJECT (undo), "pop",
 			    (GtkSignalFunc) undo_combo_cmd, wb);
 
@@ -2684,19 +2640,41 @@ workbook_create_standard_toobar (Workbook *wb)
 	gtk_combo_box_set_title (GTK_COMBO_BOX (redo), _("Redo"));
 	if (!gnome_preferences_get_toolbar_relief_btn ())
 		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (redo), GTK_RELIEF_NONE);
-	gtk_widget_show (redo);
 	gtk_signal_connect (GTK_OBJECT (redo), "pop",
 			    (GtkSignalFunc) redo_combo_cmd, wb);
 	
+#ifdef ENABLE_BONOBO
+#else
+	app = GNOME_APP (wb->toplevel);
+
+	g_return_val_if_fail (app != NULL, NULL);
+
+	toolbar = gnumeric_toolbar_new (workbook_standard_toolbar,
+					app->accel_group, wb);
+
+	behavior = GNOME_DOCK_ITEM_BEH_NORMAL;
+
+	if (!gnome_preferences_get_menubar_detachable ())
+		behavior |= GNOME_DOCK_ITEM_BEH_LOCKED;
+	gnome_app_add_toolbar (
+		GNOME_APP (wb->toplevel),
+		GTK_TOOLBAR (toolbar),
+		name,
+		behavior,
+		GNOME_DOCK_TOP, 1, 0, 0);
+
 	/* Add them to the toolbar */
 	gnumeric_toolbar_insert_with_eventbox (GTK_TOOLBAR (toolbar),
 					       undo, _("Undo"), NULL, TB_UNDO_POS);
 	gnumeric_toolbar_insert_with_eventbox (GTK_TOOLBAR (toolbar),
 					       redo, _("Redo"), NULL, TB_REDO_POS);
+	gnumeric_toolbar_append_with_eventbox (GTK_TOOLBAR (toolbar),
+				   zoom, _("Zoom"), NULL);
 
 	gtk_signal_connect (
 		GTK_OBJECT(toolbar), "orientation-changed",
 		GTK_SIGNAL_FUNC (&workbook_standard_toolbar_orient), wb);
+#endif
 
 	return toolbar;
 }
@@ -2705,13 +2683,14 @@ static void
 workbook_create_toolbars (Workbook *wb)
 {
 	wb->priv->standard_toolbar = workbook_create_standard_toobar (wb);
-	gtk_widget_show (wb->priv->standard_toolbar);
-
 	wb->priv->format_toolbar = workbook_create_format_toolbar (wb);
-	gtk_widget_show (wb->priv->format_toolbar);
-
 	wb->priv->object_toolbar = workbook_create_object_toolbar (wb);
+
+	gtk_widget_show (wb->priv->format_toolbar);
+#ifndef ENABLE_BONOBO
+	gtk_widget_show (wb->priv->standard_toolbar);
 	gtk_widget_show (wb->priv->object_toolbar);
+#endif
 }
 
 static gboolean

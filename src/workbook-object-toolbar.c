@@ -32,7 +32,6 @@
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
 #endif
-#define GNUMERIC_TEST_ACTIVE_OBJECT
 
 static void
 create_object_command (Sheet *sheet, SheetObject *so)
@@ -57,7 +56,6 @@ cmd_create_frame (GtkWidget *widget, Workbook *wb)
 	create_object_command (sheet, so);
 }
 
-#ifdef GNUMERIC_TEST_ACTIVE_OBJECT
 static void
 cmd_create_button (GtkWidget *widget, Workbook *wb)
 {
@@ -93,7 +91,6 @@ cmd_create_combobox (GtkWidget *widget, Workbook *wb)
 	SheetObject *so = sheet_widget_combo_new (sheet);
 	create_object_command (sheet, so);
 }
-#endif
 
 static void
 cmd_create_line (GtkWidget *widget, Workbook *wb)
@@ -126,57 +123,41 @@ cmd_create_ellipse (GtkWidget *widget, Workbook *wb)
 	create_object_command (sheet, so);
 }
 
-#include "pixmaps/label.xpm"
-#include "pixmaps/frame.xpm"
-#ifdef GNUMERIC_TEST_ACTIVE_OBJECT
-#include "pixmaps/button.xpm"
-#include "pixmaps/checkbutton.xpm"
-#include "pixmaps/radiobutton.xpm"
-#include "pixmaps/list.xpm"
-#include "pixmaps/combo.xpm"
-#endif
-#include "pixmaps/rect.xpm"
-#include "pixmaps/line.xpm"
-#include "pixmaps/arrow.xpm"
-#include "pixmaps/oval.xpm"
-
 
 static GnomeUIInfo workbook_object_toolbar [] = {
-	GNOMEUIINFO_ITEM_DATA (
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Label"), N_("Creates a label"),
-		&cmd_create_label, NULL, label_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		&cmd_create_label, "Gnumeric_Label"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Frame"), N_("Creates a frame"),
-		&cmd_create_frame, NULL, frame_xpm),
-#ifdef GNUMERIC_TEST_ACTIVE_OBJECT
-	GNOMEUIINFO_ITEM_DATA (
+		&cmd_create_frame, "Gnumeric_Frame"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Button"), N_("Creates a button"),
-		&cmd_create_button, NULL, button_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		&cmd_create_button, "Gnumeric_Button"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Checkbox"), N_("Creates a checkbox"),
-		&cmd_create_checkbox, NULL, checkbutton_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		&cmd_create_checkbox, "Gnumeric_Checkbutton"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("RadioButton"), N_("Creates a radio button"),
-		&cmd_create_radiobutton, NULL, radiobutton_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		&cmd_create_radiobutton, "Gnumeric_Radiobutton"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("List"), N_("Creates a list"),
-		&cmd_create_list, NULL, list_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		&cmd_create_list, "Gnumeric_List"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Combo"), N_("Creates a combobox"),
-		&cmd_create_combobox, NULL, combo_xpm),
-#endif
-	GNOMEUIINFO_ITEM_DATA (
+		&cmd_create_combobox, "Gnumeric_Combo"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Line"), N_("Creates a line object"),
-		cmd_create_line, NULL, line_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		cmd_create_line, "Gnumeric_Line"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Arrow"), N_("Creates an arrow object"),
-		cmd_create_arrow, NULL, arrow_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		cmd_create_arrow, "Gnumeric_Arrow"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Rectangle"), N_("Creates a rectangle object"),
-		cmd_create_rectangle, NULL, rect_xpm),
-	GNOMEUIINFO_ITEM_DATA (
+		cmd_create_rectangle, "Gnumeric_Rectangle"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Ellipse"), N_("Creates an ellipse object"),
-		cmd_create_ellipse, NULL, oval_xpm),
+		cmd_create_ellipse, "Gnumeric_Oval"),
 
 	GNOMEUIINFO_END
 };
@@ -184,7 +165,7 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 GtkWidget *
 workbook_create_object_toolbar (Workbook *wb)
 {
-	GtkWidget *toolbar;
+	GtkWidget *toolbar = NULL;
 
 #ifndef ENABLE_BONOBO
 	static char const * const name = "ObjectToolbar";
@@ -208,14 +189,6 @@ workbook_create_object_toolbar (Workbook *wb)
 		name,
 		behavior,
 		GNOME_DOCK_TOP, 3, 0, 0);
-#else
-	toolbar = gnumeric_toolbar_new (
-		workbook_object_toolbar,
-		bonobo_win_get_accel_group (BONOBO_WIN (wb->toplevel)), wb);
-
-#warning FIXME; the toolbar should be bonoboized properly.
-	gtk_box_pack_start (GTK_BOX (wb->priv->main_vbox), toolbar,
-			    FALSE, FALSE, 0);
 #endif
 
 	return toolbar;
