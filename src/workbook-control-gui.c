@@ -543,40 +543,38 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		enum { SHEET_CONTEXT_TEST_SIZE = 1 } flags;
 	} const sheet_label_context_actions [] = {
 		{ N_("Manage sheets..."), &sheet_action_reorder_sheet, 0},
-		{ "", NULL, 0},
+		{ NULL, NULL, 0},
 		{ N_("Insert"), &sheet_action_insert_sheet, 0 },
 		{ N_("Append"), &sheet_action_add_sheet, 0 },
 		{ N_("Duplicate"), &sheet_action_clone_sheet, 0 },
 		{ N_("Remove"), &scg_delete_sheet_if_possible, SHEET_CONTEXT_TEST_SIZE },
-		{ N_("Rename"), &sheet_action_rename_sheet, 0 },
-		{ NULL, NULL }
+		{ N_("Rename"), &sheet_action_rename_sheet, 0 }
 	};
 
 	GtkWidget *menu;
-	int i;
+	unsigned int i;
 
 	menu = gtk_menu_new ();
 
-	for (i = 0; sheet_label_context_actions [i].text != NULL; i++){
+	for (i = 0; i < G_N_ELEMENTS (sheet_label_context_actions); i++){
 		int flags = sheet_label_context_actions [i].flags;
+		const char *text = sheet_label_context_actions[i].text;
 		GtkWidget *item;
-		gboolean active =
+		gboolean inactive =
 			((flags & SHEET_CONTEXT_TEST_SIZE) &&
 			 workbook_sheet_count (sc->sheet->workbook) < 2) ||
 			wbcg_edit_get_guru (scg_get_wbcg (scg)) != NULL;
 
-		if (sheet_label_context_actions [i].text[0] == '\0') {
+		if (text == NULL) {
 			item = gtk_separator_menu_item_new ();
 		} else {
-			item = gtk_menu_item_new_with_label (
-				_(sheet_label_context_actions [i].text));
-			if (active)
-				g_signal_connect (G_OBJECT (item),
-						  "activate",
-						  G_CALLBACK (sheet_label_context_actions [i].function), scg);
+			item = gtk_menu_item_new_with_label (_ (text));
+			g_signal_connect (G_OBJECT (item),
+					  "activate",
+					  G_CALLBACK (sheet_label_context_actions [i].function), scg);
 		}
 
-		gtk_widget_set_sensitive (item, active);
+		gtk_widget_set_sensitive (item, !inactive);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		gtk_widget_show (item);
 	}
