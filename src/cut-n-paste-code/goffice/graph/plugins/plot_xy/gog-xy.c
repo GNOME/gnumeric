@@ -73,10 +73,12 @@ gog_xy_plot_update (GogObject *obj)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 
-		go_data_vector_get_minmax (GO_DATA_VECTOR (
-			series->base.values[0].data), &tmp_min, &tmp_max);
-		if (x_min > tmp_min) x_min = tmp_min;
-		if (x_max < tmp_max) x_max = tmp_max;
+		if (series->base.values[0].data != NULL) {
+			go_data_vector_get_minmax (GO_DATA_VECTOR (
+				series->base.values[0].data), &tmp_min, &tmp_max);
+			if (x_min > tmp_min) x_min = tmp_min;
+			if (x_max < tmp_max) x_max = tmp_max;
+		}
 
 		go_data_vector_get_minmax (GO_DATA_VECTOR (
 			series->base.values[1].data), &tmp_min, &tmp_max);

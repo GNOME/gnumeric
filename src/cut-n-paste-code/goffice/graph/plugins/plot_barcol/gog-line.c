@@ -162,10 +162,10 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	    val_min >= val_max)
 		return;
 
-	vals = g_alloca (num_series * sizeof (double *));
+	vals    = g_alloca (num_series * sizeof (double *));
 	lengths = g_alloca (num_series * sizeof (unsigned));
-	styles = g_alloca (num_series * sizeof (GogStyle *));
-	path = g_alloca (num_series * sizeof (ArtVpath *));
+	styles  = g_alloca (num_series * sizeof (GogStyle *));
+	path    = g_alloca (num_series * sizeof (ArtVpath *));
 	i = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
 		series = ptr->data;

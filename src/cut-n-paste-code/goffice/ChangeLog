@@ -1,5 +1,8 @@
 2003-09-11  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-object-xml.c (gog_object_write_property) : don't bother
+	  saving parameters with default values.
+
 	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render) :
 	  respect axis bounds.
 

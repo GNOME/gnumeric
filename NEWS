@@ -6,6 +6,7 @@ Christian Neumair:
 Jody:
 	* Make chart axis prettier.
 	* Fix crash freeing undo info for a deleted sheet with comments
+	* Fix File -> SendTo
 
 Jon Kåre:
         * Ensure that scrollbars always show up in font combo when

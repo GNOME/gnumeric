@@ -306,7 +306,7 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 	if (sv != NULL) {
 		Cell     *cell;
 		char     *text;
-		GnmExprArray const* ar;
+		GnmExprArray const *ar;
 
 		cell = sheet_cell_get (sv->sheet,
 				       sv->edit_pos.col,
@@ -562,7 +562,7 @@ workbook_view_new (Workbook *wb)
  */
 static void
 wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
-		  gchar const *filename, IOContext *io_context)
+		  char const *filename, IOContext *io_context)
 {
 	char *msg = NULL;
 	char *filename_utf8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
@@ -626,7 +626,7 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
  * Return value: TRUE if file was successfully saved and FALSE otherwise.
  */
 gboolean
-wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, gchar const *file_name,
+wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *file_name,
 		 CommandContext *context)
 {
 	IOContext *io_context;
@@ -735,29 +735,26 @@ wb_view_sendto (WorkbookView *wbv, CommandContext *context)
 
 	io_context = gnumeric_io_context_new (context);
 	if (fs != NULL) {
-		const char *dirname = "gnm-sendto";
 		char *template;
 		char *basename = g_path_get_basename (workbook_get_filename (wb));
 		char *full_name;
 
+#define GNM_SEND_DIR	".gnm-sendto-"
 #ifdef HAVE_MKDTEMP
 		template = g_build_path (G_DIR_SEPARATOR_S, 
 					 g_get_tmp_dir (),
-					 dirname,
-					 ".XXXXXX", NULL);
+					 GNM_SEND_DIR "XXXXXX", NULL);
 		mkdtemp (template);
 #else
 		while (1) {
-			char tail[sizeof (pid_t) * 4 + 8 + 2 + 1];
-			sprintf (tail, "-%ld-%08d",
+			char dirname[sizeof (GNM_SEND_DIR) + sizeof (pid_t) * 4 + 8 + 2 + 1];
+			sprintf (dirname, GNM_SEND_DIR "%ld-%08d",
 				 (long)getpid (),
 				 (int)(1e8 * random_01 ()));
 
 			template = g_build_path (G_DIR_SEPARATOR_S, 
 						 g_get_tmp_dir (),
-						 dirname,
-						 tail,
-						 NULL);
+						 dirname, NULL);
 			if (mkdir (template, 0700) == 0)
 				break;
 
@@ -823,7 +820,7 @@ WorkbookView *
 wb_view_new_from_input  (GsfInput *input,
 			 GnmFileOpener const *optional_fmt,
 			 IOContext *io_context,
-			 gchar const *optional_enc)
+			 char const *optional_enc)
 {
 	WorkbookView *new_wbv = NULL;
 
@@ -920,7 +917,7 @@ WorkbookView *
 wb_view_new_from_file (char const *filename,
 		       GnmFileOpener const *optional_fmt,
 		       IOContext *io_context,
-		       gchar const *optional_enc)
+		       char const *optional_enc)
 {
 	char *msg = NULL;
 	char *filename_utf8 = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);

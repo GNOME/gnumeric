@@ -184,6 +184,12 @@ gog_object_write_property (GogObject *obj, GParamSpec *pspec, xmlNode *parent)
 	g_value_init (&value, prop_type);
 	g_object_get_property  (G_OBJECT (obj), pspec->name, &value);
 
+	/* No need to save default values */
+	if (g_param_value_defaults (pspec, &value)) {
+		g_value_unset (&value);
+		return;
+	}
+
 	switch (G_TYPE_FUNDAMENTAL (prop_type)) {
 	case G_TYPE_CHAR:
 	case G_TYPE_UCHAR:
