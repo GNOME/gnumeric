@@ -1231,28 +1231,7 @@ workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb)
 static void
 workbook_configure_minimized_pixmap (Workbook *wb)
 {
-	GtkWidget *pix;
-	GdkImlibImage *image;
-	GdkPixmap *pixmap;
-	GdkBitmap *bitmap;
-	char *filename;
-
-	filename = gnome_unconditional_pixmap_file ("gnome-gnumeric.png");
-
-	image = gdk_imlib_load_image (filename);
-	g_free (filename);
-	
-	if (!image)
-		return;
-
-	gdk_imlib_render (image, image->rgb_width, image->rgb_height);
-	pixmap = gdk_imlib_copy_image (image);
-	bitmap = gdk_imlib_copy_mask (image);
-	pix = gtk_pixmap_new (pixmap, bitmap);
-
-	gdk_window_set_icon (GTK_WIDGET (wb->toplevel), pix->window, pixmap, bitmap);
-
-	gdk_imlib_kill_image (image);
+	/* FIXME: Use the new function provided by Raster */
 }
 
 /*

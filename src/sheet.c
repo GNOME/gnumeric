@@ -2094,8 +2094,12 @@ sheet_destroy_styles (Sheet *sheet)
 {
 	GList *l;
 
-	for (l = sheet->style_list; l; l = l->next)
-		style_destroy (l->data);
+	for (l = sheet->style_list; l; l = l->next){
+		StyleRegion *sr = l->data;
+		
+		style_destroy (sr->style);
+		g_free (sr);
+	}
 	g_list_free (l);
 }
 

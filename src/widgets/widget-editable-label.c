@@ -115,11 +115,6 @@ el_edit_sync (El *el)
 	
 }
 
-static gint
-dumpit (GtkWidget *w, GdkEventButton *ev)
-{
-}
-
 static void
 el_start_editing (El *el, const char *text)
 {

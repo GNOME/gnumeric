@@ -540,7 +540,7 @@ ms_ole_destroy (MS_OLE *f)
 		if (f->header.sbd_list)
 			g_free (f->header.sbd_list);
 		if (f->header.sbf_list)
-			g_free (f->header.sbd_list);
+			g_free (f->header.sbf_list);
 		g_free (f);
 
 		printf ("Closing file\n");

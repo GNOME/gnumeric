@@ -716,7 +716,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 
 	if (!lc)
 		lc = localeconv ();
-
+		
 	while (*format){
 		switch (*format){
 		case '#':

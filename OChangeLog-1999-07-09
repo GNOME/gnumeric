@@ -1,3 +1,8 @@
+1999-02-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_destroy_styles): Release the proper style, I
+	was releasing a different structure.
+
 1999-02-06  Michael Meeks  <michael@imaginator.com>
 
 	* plugins/excel/ms-formula.c: Cut out lots of debug in working
