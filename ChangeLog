@@ -1,5 +1,8 @@
 2002-03-26  Morten Welinder  <terra@diku.dk>
 
+	* src/style.c (style_font_new_simple): Translate pixels to points
+	properly.
+
 	* src/style.c (style_font_new_simple): Fix misplaced #endif.
 
 	* src/format.c (format_value): Fix general display of floats.

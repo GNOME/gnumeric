@@ -172,8 +172,8 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 			font->approx_width.pixels = w;
 		}
 
-#warning FIXME
-		font->approx_width.pts = font->approx_width.pixels;
+		font->approx_width.pts = font->approx_width.pixels
+			/ (application_display_dpi_get (TRUE) / 72.0);
 #if 0
 		font->font
 			? gnome_font_get_width_string (font->font, "4444444444") / 10.
