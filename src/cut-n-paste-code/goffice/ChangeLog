@@ -1,3 +1,7 @@
+2004-10-11  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-series.c (gog_series_finalize): Plug leak.
+
 2004-10-11  Jody Goldberg <jody@gnome.org>
 
 	* gui-utils/Makefile.am : drop the dock code we're not going to be

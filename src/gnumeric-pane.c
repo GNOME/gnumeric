@@ -263,6 +263,11 @@ gnm_pane_release (GnmPane *pane)
 	}
 	gnm_pane_clear_obj_size_tip (pane);
 
+	if (pane->drag.ctrl_pts) {
+		g_hash_table_destroy (pane->drag.ctrl_pts);
+		pane->drag.ctrl_pts = NULL;
+	}
+
 	/* Be anal just in case we somehow manage to remove a pane
 	 * unexpectedly.
 	 */

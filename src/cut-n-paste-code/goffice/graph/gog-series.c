@@ -270,6 +270,8 @@ gog_series_finalize (GObject *obj)
 		series->values = NULL;
 	}
 
+	g_list_free (series->overrides);
+
 	(*series_parent_klass->finalize) (obj);
 }
 

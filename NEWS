@@ -13,6 +13,7 @@ Morten:
 	  was loaded.  [#143188]
 	* Make it possible to unhide sheets.  [#154710]
 	* Add HYPOT function.  [#148322]
+	* Plug leaks.
 
 --------------------------------------------------------------------------
 
