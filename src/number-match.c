@@ -496,7 +496,7 @@ gnumeric_error_init (int const indx, char const * str)
  *
  * returns : an error if there is one, or NULL.
  */
-Value *
+static Value *
 value_is_error (char const * const str)
 {
 	int i = sizeof(gnumeric_error_data)/sizeof(struct gnumeric_error_info);
