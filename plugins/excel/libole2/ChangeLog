@@ -1,5 +1,10 @@
 1999-08-14  Michael Meeks  <michael@imaginator.com>
 
+	* gnome-stream-ole.c (gnome_stream_ole_open_create): Fix cockups
+	that broke compile.
+
+1999-08-14  Michael Meeks  <michael@imaginator.com>
+
 	* ms-ole.[ch]: Get seek to return new position.
 
 	* ms-ole.[ch]: Rehash all daft guint32 references converting

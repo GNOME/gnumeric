@@ -37,7 +37,7 @@ gnome_stream_ole_destroy (GtkObject *object)
 {
 	GnomeStreamOLE *stream_ole = GNOME_STREAM_OLE (object);
 
-	if (stream_ole->file) ole_file_close (stream_ole->file);
+	if (stream_ole->file) ms_ole_stream_close (stream_ole->file);
 	if (stream_ole->storage) 
 		gtk_object_unref (GTK_OBJECT (stream_ole->storage));    
 }
@@ -92,18 +92,19 @@ real_seek (GnomeStream *stream, CORBA_long offset, CORBA_long whence,
 		return -1;
 	}
 
-	return stream_ole->dile->lseek (stream_ole->file, offset, whence);
+	return stream_ole->file->lseek (stream_ole->file, offset, whence);
 }
 
 static void
 real_truncate (GnomeStream *stream, const CORBA_long new_size, 
 	       CORBA_Environment *ev)
 {
-	GnomeStreamOLE *stream_ole = GNOME_STREAM_OLE (stream);
+/*	GnomeStreamOLE *stream_ole = GNOME_STREAM_OLE (stream); */
 
-	if (ole_file_trunc (stream_ole->file, new_size)) {
+/*	if (ole_file_trunc (stream_ole->file, new_size)) {
 		g_warning ("Signal exception!");
-	}
+		}*/
+	g_warning ("Unimplemented");
 }
 
 static void
@@ -150,23 +151,23 @@ gnome_stream_ole_open_create (GnomeStorageOLE *storage_ole,
 			      gboolean create)
 {
 	GnomeStreamOLE *stream_ole;
-	gint flags;
+	char m;
 
 	g_return_val_if_fail(storage_ole != NULL, NULL);
 	g_return_val_if_fail (path != NULL, NULL);
 
-	if (!(stream_ole = gtk_type_new (gnome_stream_ole_get_type ()))) 
-		return NULL;
+/*	if (!(stream_ole = gtk_type_new (gnome_stream_ole_get_type ()))) 
+	return NULL;*/
+	if (mode & GNOME_Storage_READ) /* FIXME hacked */
+		m = 'r';
+	else
+		m = 'w';
 
-	flags = OLE_READ;
-	if (mode&GNOME_Storage_WRITE) flags |= OLE_WRITE;
-	if (create) flags |= OLE_CREATE;
-  
-	if (!(stream_ole->file=ole_file_open(storage_ole->dir, path, flags))) {
+	if (!(stream_ole->file = ms_ole_stream_open_name (storage_ole->f, path, m))) {
 		gtk_object_destroy (GTK_OBJECT (stream_ole));
 		return NULL;
 	}
-	
+
 	stream_ole->storage = storage_ole;
 	gtk_object_ref(GTK_OBJECT(storage_ole));
 	create_stream_ole_server(stream_ole);
