@@ -172,7 +172,7 @@ static LocaleInfo locale_trans_array[] = {
 	{N_("Uruguay (es_UY)"),                          "es_UY", LG_SOUTHCENTRAL_AMERICA },
 	{N_("Venezuela (es_VE)"),                        "es_VE", LG_SOUTHCENTRAL_AMERICA },
 	{N_("Estonia (et_EE)"),                          "et_EE", LG_EASTERN_EUROPE },
-	{N_("spain/Basque (eu_ES)"),                     "eu_ES", LG_WESTERN_EUROPE },
+	{N_("Spain/Basque (eu_ES)"),                     "eu_ES", LG_WESTERN_EUROPE },
 	{N_("Iran (fa_IR)"),                             "fa_IR", LG_ASIA },
 	{N_("Finland/Finnish (fi_FI)"),                  "fi_FI", LG_WESTERN_EUROPE },
 	{N_("Faroe Islands (fo_FO)"),                    "fo_FO", LG_WESTERN_EUROPE },
