@@ -6,6 +6,8 @@ Jon:
 
 JP:
 	* Expanded sort dialog to allow sorting of rows as well as columns
+	* Added advanced button to sort dialog to allow sorting but case
+	sensitivty and text (rather value)
 
 Kevin Handy:
 

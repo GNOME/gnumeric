@@ -1,3 +1,14 @@
+1999-12-03  JP Rosevear  <jpr@arcavia.com>
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort_adv): options
+	for case sensitivy and value or text comparisons
+	(order_box_new): display the advanced button for each clause
+	(dialog_cell_sort): make sure the OrderData contains the
+	value/text and case sensitivity flags
+	(compare_values): take the new options into account
+
+	* src/dialogs/cell-sort.glade: update gui
+
 1999-12-02  Nat Friedman  <nat@helixcode.com>
 
 	* src/corba-workbook.c (Workbook_corba_class_init): Use the new

@@ -24,6 +24,8 @@
 typedef struct {
 	int offset;
 	int asc;
+	gboolean cs;
+	gboolean val;
 } ClauseData;
 
 typedef struct {
@@ -43,6 +45,9 @@ typedef struct {
 	int        asc;
 	GtkWidget *asc_desc;
 	GSList    *group;
+	gboolean cs;
+	gboolean val;
+	GtkWidget *adv_button;
 } OrderBox;
 
 typedef struct {
@@ -63,6 +68,43 @@ typedef struct {
 	Workbook  *wb;
 } SortFlow;
 
+
+static void
+dialog_cell_sort_adv(GtkWidget *widget, OrderBox *orderbox) {
+	GladeXML *gui;
+	GtkWidget *check;
+	GtkWidget *rb1, *rb2;
+	GtkWidget *dialog;
+	gint btn;
+
+	/* Get the dialog and check for errors */
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/cell-sort.glade", NULL);
+	if (!gui) {
+		g_warning ("Could not find cell-sort.glade\n");
+		return;
+	}
+
+	dialog = glade_xml_get_widget (gui, "CellSortAdvanced");
+	check = glade_xml_get_widget (gui, "cell_sort_adv_case");
+	rb1   = glade_xml_get_widget (gui, "cell_sort_adv_value");
+	rb2   = glade_xml_get_widget (gui, "cell_sort_adv_text");
+	if (!dialog || !check || !rb1 || !rb2) {
+		g_warning ("Corrupt file cell-sort.glade\n");
+		return;
+	}
+
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(check), orderbox->cs);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(rb1), orderbox->val);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(rb2), !(orderbox->val));
+	btn = gnome_dialog_run(GNOME_DIALOG(dialog));
+	if (btn == 0) {
+		orderbox->cs = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (check));
+		orderbox->val = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (rb1));	
+	}
+
+	gtk_object_destroy(GTK_OBJECT(dialog));
+}
+
 static OrderBox *
 order_box_new (GtkWidget * parent, const gchar *frame_text,
 	       GList *names, gboolean empty)
@@ -73,7 +115,6 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	orderbox  = g_new(OrderBox, 1);
 	orderbox->parent = parent;
 	orderbox->main_frame = gtk_frame_new(frame_text);
-	orderbox->asc = 1;
 
 	/* Set up the column names combo boxes */
 	orderbox->rangetext = gtk_combo_new ();
@@ -86,6 +127,7 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 		GtkWidget *item;
 		GSList *group = NULL;
 
+		orderbox->asc = 1;
 		orderbox->asc_desc = gtk_hbox_new (FALSE, 0);
 
 		item = gtk_radio_button_new_with_label (group, _("Ascending"));
@@ -97,7 +139,15 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 		orderbox->group = group;
 
 		gtk_box_pack_start (GTK_BOX (hbox), orderbox->asc_desc, FALSE, FALSE, 0);
-	}	
+	}
+
+	/* Advanced button */
+	orderbox->cs = FALSE;
+	orderbox->val = TRUE;
+	orderbox->adv_button = gtk_button_new_with_label("Advanced...");
+	gtk_box_pack_start (GTK_BOX (hbox), orderbox->adv_button, FALSE, FALSE, 0);
+	gtk_signal_connect (GTK_OBJECT (orderbox->adv_button), "clicked",
+		GTK_SIGNAL_FUNC (dialog_cell_sort_adv),  orderbox);
 
 	gtk_container_add  (GTK_CONTAINER (orderbox->main_frame), hbox);
 	gtk_box_pack_start (GTK_BOX (parent), GTK_WIDGET(orderbox->main_frame),
@@ -130,9 +180,11 @@ order_box_destroy (OrderBox *orderbox)
 }
 
 static char *
-order_box_get_text (OrderBox *orderbox, int *asc)
+order_box_get_text (OrderBox *orderbox, ClauseData *data)
 {
-	*asc = gtk_radio_group_get_selected (orderbox->group);
+	data->asc = gtk_radio_group_get_selected (orderbox->group);
+	data->cs = orderbox->cs;
+	data->val = orderbox->val;
 	return gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (orderbox->rangetext)->entry));
 }
 
@@ -155,34 +207,35 @@ compare_values (const SortData * ain, const SortData * bin, int clause)
 	else
 		b = cb->value;
 
-	switch (a->type) {
-	case VALUE_EMPTY:
-	case VALUE_BOOLEAN:
-	case VALUE_FLOAT:
-	case VALUE_INTEGER:
-		switch (b->type) {
+	if (ain->clauses[clause].val) {
+		switch (a->type) {
 		case VALUE_EMPTY:
 		case VALUE_BOOLEAN:
 		case VALUE_FLOAT:
 		case VALUE_INTEGER:
-		{
-			float_t fa, fb;
-			fa = value_get_as_float (a);
-			fb = value_get_as_float (b);
-			if (fa < fb)
+			switch (b->type) {
+			case VALUE_EMPTY:
+			case VALUE_BOOLEAN:
+			case VALUE_FLOAT:
+			case VALUE_INTEGER:
+			{
+				float_t fa, fb;
+				fa = value_get_as_float (a);
+				fb = value_get_as_float (b);
+				if (fa < fb)
+					ans = -1;
+				else if (fa == fb)
+					ans = 0;
+				else
+					ans = 1;
+				break;
+			}
+			default:
 				ans = -1;
-			else if (fa == fb)
-				ans = 0;
-			else
-				ans = 1;
+				break;
+			}
 			break;
-		}
-		default:
-			ans = -1;
-			break;
-		}
-		break;
-	default: {
+		default: {
 			switch (b->type) {
 			case VALUE_EMPTY:
 			case VALUE_BOOLEAN:
@@ -194,17 +247,32 @@ compare_values (const SortData * ain, const SortData * bin, int clause)
 					char *sa, *sb;
 					sa  = value_get_as_string (a);
 					sb  = value_get_as_string (b);
-					ans = strcasecmp(sa, sb);
+					if (ain->clauses[clause].cs) {
+						ans = strcmp(sa, sb);
+					} else {
+						ans = strcasecmp(sa, sb);
+					}
 					g_free (sa);
 					g_free (sb);
 					break;
 				}
+				}
+				break;
 			}
-			break;
 		}
+	} else {
+		char *sa, *sb;
+		sa  = cell_get_text (ca);
+		sb  = cell_get_text (cb);
+		if (ain->clauses[clause].cs) {
+			ans = strcmp(sa, sb);
+		} else {
+			ans = strcasecmp(sa, sb);
+		}
+		g_free (sa);
+		g_free (sb);
 	}
 
-/*      fans = ans; */
 	if (ans == 0)
 		if (clause < ain->num_clause - 1)
 			fans = compare_values(ain, bin, ++clause);
@@ -599,7 +667,7 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 			for (lp = 0; lp < sort_flow.num_clause; lp++) {
 				int division;
 				char *txt = order_box_get_text (sort_flow.clauses [lp],
-								&array [lp].asc);
+								&(array [lp]));
 				if (strlen (txt)) {
 					division = -1;
 					if (sort_flow.columns) {
