@@ -247,9 +247,9 @@ fs_destroy (GtkObject *object)
 }
 
 static void
-fs_class_init (GtkObjectClass *class)
+fs_class_init (GtkObjectClass *Class)
 {
-	class->destroy = fs_destroy;
+	Class->destroy = fs_destroy;
 
 	fs_parent_class = gtk_type_class (gtk_hbox_get_type ());
 }
