@@ -21,7 +21,7 @@
 
 /* Public colors: shared by all of our items in Gnumeric */
 
-GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray;
+GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray, gs_red;
 
 
 static GnomeCanvasClass *sheet_parent_class;
@@ -623,7 +623,11 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		break;
 
 	case GDK_Home:
-	        (*movefn_horizontal)(gsheet, -CURSOR_COL(gsheet));
+		if ((event->state & GDK_CONTROL_MASK) != 0){
+			sheet_cursor_move (sheet, 0, 0);
+			break;
+		} else
+			(*movefn_horizontal)(gsheet, -CURSOR_COL(gsheet));
 		break;
 
 	case GDK_KP_Delete:

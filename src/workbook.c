@@ -8,6 +8,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
+#include <libgnome/lib_date.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
@@ -371,7 +372,56 @@ format_cells_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
-about_cmd (GtkWidget *widge, Workbook *wb)
+recalc_cmd (GtkWidget *widget, Workbook *wb)
+{
+	workbook_recalc_all (wb);
+}
+
+static void
+insert_at_cursor (Sheet *sheet, double n, char *format)
+{
+	char buffer [40];
+	Cell *cell;
+	
+	snprintf (buffer, sizeof (buffer)-1, "%g", n);
+
+	cell = sheet_cell_fetch (sheet, sheet->cursor_col, sheet->cursor_row);
+	cell_set_text (cell, buffer);
+	cell_set_format (cell, format);
+
+	workbook_recalc (sheet->workbook);
+}
+
+static void
+insert_current_date_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+	time_t t = time (NULL);
+	struct tm *tm = localtime (&t);
+	char *preferred_date_format = _(">mm/dd/yyyy");
+	int n;
+	
+	n = calc_days (tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday) -
+		calc_days (1900, 1, 1) + 1;
+
+	insert_at_cursor (sheet, n, preferred_date_format+1);
+}
+
+static void
+insert_current_time_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+	time_t t = time (NULL);
+	struct tm *tm = localtime (&t);
+	char *preferred_time_format = _(">hh:mm");
+	double n;
+	
+	n = (tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec)/(24*3600.0);
+	insert_at_cursor (sheet, n, preferred_time_format);
+}
+
+static void
+about_cmd (GtkWidget *widget, Workbook *wb)
 {
 	dialog_about ();
 }
@@ -416,6 +466,9 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	GNOMEUIINFO_SEPARATOR,
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell.."), NULL, goto_cell_cmd, NULL, NULL,
 	  0, 0, GDK_i, GDK_CONTROL_MASK },
+	GNOMEUIINFO_SEPARATOR,
+	{ GNOME_APP_UI_ITEM, N_("Recalc"), NULL, recalc_cmd, NULL, NULL,
+	  0, 0, GDK_F9, 0 },
 	GNOMEUIINFO_END
 };
 
@@ -424,10 +477,20 @@ static GnomeUIInfo workbook_menu_view [] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo workbook_menu_insert_special [] = {
+	{ GNOME_APP_UI_ITEM, N_("Current date"), NULL, &insert_current_date_cmd,
+	  NULL, NULL, 0, 0, ';', GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("Current time"), NULL, &insert_current_time_cmd,
+	  NULL, NULL, 0, 0, ':', GDK_CONTROL_MASK },
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo workbook_menu_insert [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Cells..."), NULL, insert_cells_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Rows"),     NULL, insert_rows_cmd },
 	{ GNOME_APP_UI_ITEM, N_("C_olumns"),  NULL, insert_cols_cmd },
+	GNOMEUIINFO_SEPARATOR,
+	{ GNOME_APP_UI_SUBTREE, N_("Special"), NULL, &workbook_menu_insert_special },
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_END
 };

@@ -91,7 +91,9 @@ format_list_fill (int n)
 	gtk_clist_clear (cl);
 
 	for (i = 0; texts [i]; i++){
-		char *t [1] = { texts [i] };
+		char *t [1];
+
+		t [0] = _(texts [i]);
 		
 		gtk_clist_append (cl, t);
 	}

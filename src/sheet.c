@@ -1700,6 +1700,30 @@ sheet_cell_get (Sheet *sheet, int col, int row)
 }
 
 /*
+ * sheet_cell_fetch
+ * @sheet:  The sheet where we want to locate the cell
+ * @col:    the cell column
+ * @row:    the cell row
+ *
+ * Return value: a (Cell *) containing the Cell at col, row.
+ * If no cell existed at that location before, it is created.
+ */
+Cell *
+sheet_cell_fetch (Sheet *sheet, int col, int row)
+{
+	Cell *cell;
+
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	cell = sheet_cell_get (sheet, col, row);
+	if (!cell)
+		cell = sheet_cell_new (sheet, col, row);
+
+	return cell;
+}
+
+/*
  * For each existing cell in the range specified, invoke the
  * callback routine.  If the only_existing flag is passed, then
  * callbacks are only invoked for existing cells.

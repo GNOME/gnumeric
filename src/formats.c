@@ -1,6 +1,9 @@
 /*
  * formats.c: The default formats supported in Gnumeric
  *
+ * For information on how to translate these format strings properly,
+ * refer to the doc/translating.sgml file in the Gnumeric distribution.
+ *
  * Author:
  *    Miguel de Icaza (miguel@kernel.org)
  */

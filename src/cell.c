@@ -2,8 +2,7 @@
  * cell.c: Cell management of the Gnumeric spreadsheet.
  *
  * Author:
- *    Miguel de Icaza (miguel@kernel.org)
- *
+ *    Miguel de Icaza 1998 (miguel@kernel.org)
  */
 #include <config.h>
 #include <gnome.h>
@@ -11,6 +10,7 @@
 #include "gnumeric-sheet.h"
 #include "eval.h"
 #include "format.h"
+#include "color.h"
 
 static int         redraws_frozen = 0;
 static GHashTable *cell_hash_queue;
@@ -406,6 +406,9 @@ cell_destroy (Cell *cell)
 
 	if (cell->render_color)
 		style_color_unref (cell->render_color);
+
+	if (cell->comment)
+		string_unref (cell->comment);
 	
 	string_unref  (cell->entered_text);
 	string_unref  (cell->text);
@@ -487,6 +490,12 @@ cell_set_format_simple (Cell *cell, char *format)
 	cell->style->format = style_format_new (format);
 }
 
+/*
+ * cell_set_format:
+ *
+ * Changes the format for CELL to be FORMAT.  FORMAT should be
+ * a number display format as specified on the manual
+ */
 void
 cell_set_format (Cell *cell, char *format)
 {
@@ -509,12 +518,43 @@ cell_set_format (Cell *cell, char *format)
 }
 
 void
+cell_set_comment (Cell *cell, char *str)
+{
+	int had_comments = FALSE;
+	
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (str != NULL);
+
+	if (cell->comment){
+		string_unref (cell->comment);
+		had_comments = TRUE;
+	}
+	
+	cell->comment = string_get (str);
+
+	if (had_comments)
+		cell_queue_redraw (cell);
+}
+
+/*
+ * cell_formula_relocate:
+ * @cell:       The cell that is changing position
+ * @target_col: The new column
+ * @target_row: The new row.
+ *
+ * This routine is used to move a cell to a different location:
+ * The parsed tree is decoded as if it were evaluated at the new position
+ * and then it is reparsed (important only for keeping the ->entered_text
+ * information syncronized).
+ */
+void
 cell_formula_relocate (Cell *cell, int target_col, int target_row)
 {
 	char *text, *formula;
 	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->entered_text);
+	g_return_if_fail (cell->parsed_node);
 	
 	string_unref (cell->entered_text);
 	
@@ -931,6 +971,58 @@ cell_split_text (GdkFont *font, char *text, int width)
 }
 
 /*
+ * str_trim_spaces:
+ * s: the string to modify
+ *
+ * This routine trims the leading and trailing spaces of the
+ * string.  The string is possibly modified and the returned
+ * value lies inside the original string.
+ *
+ * No duplication takes place
+ */
+static char *
+str_trim_spaces (char *s)
+{
+	char *p;
+	
+	while (*s && *s == ' ')
+		s++;
+
+	p = s + strlen (s);
+	while (p >= s){
+		if (*p == ' ')
+			*p = 0;
+		p--;
+	}
+	return s;
+}
+
+#define TRIANGLE_WIDTH 6
+
+static void
+cell_draw_comment (Cell *cell, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
+{
+	GdkPoint points [3];
+	int width;
+	
+	gdk_gc_set_foreground (gc, &gs_red);
+	gdk_gc_set_background (gc, &gs_red);
+
+	width = cell->col->pixels;
+	y1++;
+	points [0].x = x1 + width;
+	points [0].y = y1;
+	points [1].x = x1 + width;
+	points [1].y = y1 + TRIANGLE_WIDTH;
+	points [2].x = x1 + width - TRIANGLE_WIDTH;
+	points [2].y = y1;
+	gdk_draw_polygon (drawable, gc, TRUE, points, 3);
+
+	gdk_gc_set_background (gc, &gs_white);
+	gdk_gc_set_foreground (gc, &gs_black);
+}
+
+/*
  * Returns the number of columns used for the draw
  */
 int 
@@ -982,8 +1074,8 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 
 		rect.x = x1;
 		rect.y = y1;
-		rect.height = cell->height;
-		rect.width = cell->width;
+		rect.height = cell->row->pixels;
+		rect.width = cell->col->pixels;
 		gdk_gc_set_clip_rectangle (gc, &rect);
 		
 		switch (style->valign){
@@ -1022,6 +1114,8 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 		for (l = lines; l; l = l->next){
 			char *str = l->data;
 
+			str = str_trim_spaces (str);
+			
 			switch (halign){
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
@@ -1066,7 +1160,7 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 		/* This rectangle has the whole area used by this cell */
 		rect.x = x1 + 1 + diff;
 		rect.y = y1 + 1;
-		rect.width  = sheet_col_get_distance (cell->sheet, start_col, end_col+1) - 2;
+		rect.width  = sheet_col_get_distance (cell->sheet, start_col, end_col+1) - 1;
 		rect.height = cell->row->pixels - 2;
 		
 		/* Set the clip rectangle */
@@ -1106,6 +1200,10 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 			total += len;
 		} while (halign == HALIGN_FILL && total < rect.width);
 	}
+
+	/* Draw the comment indicator */
+	if (cell->comment)
+		cell_draw_comment (cell, gc, drawable, x1, y1);
 
 	return end_col - start_col + 1;
 }

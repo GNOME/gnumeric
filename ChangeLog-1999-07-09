@@ -1,3 +1,29 @@
+1998-09-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (cell_draw_comment): New routine to paint a little
+	red triangle if the cell hsa notes.
+
+	* src/cell.c (cell_destroy): Destroy the comment.
+	(str_trim_spaces): New routine.  Trims the spaces on a string.
+	(cell_draw): Trim the leading and trailing spaces on every string
+	of a multi-line text.
+
+	* src/color.c (color_init): Allocate a red for tagging the
+	spreadhseet notes.
+
+	* src/dialog-cell-format.c (format_list_fill): Apply the
+	traslation when adding the format.
+
+	* doc/tranlating.sgml: New document that describes how to
+	internationalize and localize Gnumeric properly.
+	
+	* src/workbook.c (recalc_cmd): Provide a way to force a recomputation.
+	(insert_current_time_cmd): New function.  insert the current time.
+	(insert_current_date_cmd): New function.  insert the current date.
+	(insert_at_cursor): New utility function.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Handle control-home
+
 1998-09-29  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* src/parser.y (dump_tree): Update to change in `expr.h'.

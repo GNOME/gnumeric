@@ -3,6 +3,9 @@ Miguel de Icaza <miguel@kernel.org>
 
 This is the Gnumeric, the GNOME spreadsheet program.  
 
+Gnumeric is licensed under the terms of the GNU GPL included in the
+file COPYING.
+
 The goal of this spreadsheet is to become as powerful as other
 spreadsheets on the market and do this cleanly and smartly.  We have
 to do this while being as compatible as possible with Excel.
@@ -17,7 +20,22 @@ probably will want to read the doc/Design file.  I have scribbled my
 ideas on how Gnumeric should be developed in the future in the file
 doc/Future-Roadmap.  
 
-Mailing lists:
+Notes regarding plugins
+-----------------------
+
+   The current plugin setup in Gnumeric is just a way to dynamically
+load code at runtime into the address space of Gnumeric: they use and
+invoke pieces of Gnumeric code directly.  This means that any plugin
+written under this scheme has to fall under the license of the GNU
+GPL.
+
+   In the future, an alternative method based on CORBA will be
+provided and then it will be possible to create Gnumeric plugins with
+other license, until then, the only setup available requires plugins
+to fall under the GNU GPL license.
+
+Mailing lists
+-------------
 
     There is a mailing list used to discuss Gnumeric, to subscribe
 send a mail to:
@@ -26,6 +44,9 @@ send a mail to:
 
     And in the body of the message write "subscribe"
 
+
+Random notes:
+-------------
 
 This is a partial list of Features implemented in Gnumeric, we need
 documentation for these:
@@ -105,3 +126,8 @@ documentation for these:
 	  worksheet.
 
 	- SHift-Backspace:  Collapses selection to active cell.
+
+	- Home: move to the beginning of the row.
+	
+	- Contorl-Home: move to the cell A1
+

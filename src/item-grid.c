@@ -620,7 +620,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 				row = SHEET_MAX_ROWS-1;
 			sheet_selection_extend_to (sheet, col, row);
 			return 1;
-		}
+		} 
 		break;
 		
 	case GDK_BUTTON_PRESS:
