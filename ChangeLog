@@ -1,5 +1,11 @@
 2002-04-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/item-grid.c (ig_obj_create_finish) : don't unref the sheet
+	  object, the ref has already been absorbed elsewhere.
+	  http://bugzilla.gnome.org/show_bug.cgi?id=79809
+
+2002-04-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/commands.[ch] (cmd_object_raise) : new command
 	* src/sheet-object.h (sheet_object_raise) : new
 	* src/sheet-object.c (sheet_object_raise) : new

@@ -734,7 +734,6 @@ ig_obj_create_finish (ItemGrid *ig, GdkEventButton *event)
 	scg_mode_edit_object (scg, so);
 
 	cmd_object_insert (WORKBOOK_CONTROL (scg_get_wbcg (scg)), so, sheet);
-	g_object_unref (G_OBJECT (so));
 }
 
 /*

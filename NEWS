@@ -34,6 +34,7 @@ Andreas:
 	* Improve x-selection handling
 	* Fix http://bugzilla.gnome.org/show_bug.cgi?id=76474
 	* Add lowering and raising of sheet objects (except widgets).
+	* Fix http://bugzilla.gnome.org/show_bug.cgi?id=79809
 
 Jody:
 	* Add password dialog to support encrypted input.
