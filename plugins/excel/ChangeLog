@@ -1,3 +1,7 @@
+2001-04-12  Morten Welinder  <terra@diku.dk>
+
+	* ms-summary.c (ms_summary_write): Plug leaks.
+
 2001-04-11  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-formula-write.c (write_string) : a null string is not a missing

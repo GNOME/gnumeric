@@ -271,7 +271,6 @@ set_summary_item (SummaryItem *s_item, MsOleSummary *ms_sum)
 
 }
 
-
 void
 ms_summary_write (MsOle *f, SummaryInfo *sin)
 {
@@ -303,6 +302,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	}
 
 	g_list_foreach (si_list, (GFunc)set_summary_item, si);
+	g_list_free (si_list);
 
 	ms_ole_summary_close (si);
 
@@ -321,6 +321,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	}
 
 	g_list_foreach (si_list, (GFunc)set_summary_item, si);
+	g_list_free (si_list);
 
 	ms_ole_summary_close (si);
 }
