@@ -205,3 +205,5 @@ Plugins
 - Mark plugin as "broken" if deactivation failed.
 - mps
     : has some fixed-length arrays that can be overrun.
+    : creates formulae by making strings and then parsing them.
+      (Wasteful and won't work in non-C locales.)
