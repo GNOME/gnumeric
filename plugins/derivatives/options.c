@@ -144,10 +144,10 @@ static char const *help_cum_biv_norm_dist = {
 
 	   "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
 	   "@DESCRIPTION="
-	   "CUM_BIV_NORM_DIST calculates the cumulative bivariate"
-	   "normal distribution from parameters a, b & rho"
+	   "CUM_BIV_NORM_DIST calculates the cumulative bivariate "
+	   "normal distribution from parameters a, b & rho.  "
 	   "The return value is the probability that two random variables "
-	   "with correlation @rho are respectively each less than @a and"
+	   "with correlation @rho are respectively each less than @a and "
 	   "@b\n"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -221,7 +221,7 @@ static char const *help_opt_bs = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS_PUT, OPT_BS_DELTA, "
+	   "@SEEALSO=OPT_BS_DELTA, "
 	   "OPT_BS_RHO, OPT_BS_THETA, "
 	   "OPT_BS_VEGA, OPT_BS_GAMMA")
 };

@@ -928,7 +928,7 @@ static char const *help_beta = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=BETALN,GAMMA")
+	   "@SEEALSO=BETALN,GAMMALN")
 };
 
 static Value *

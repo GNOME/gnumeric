@@ -1,3 +1,7 @@
+2003-07-14  Jody Goldberg <jody@gnome.org>
+
+	* plugin.xml.in : add missing decl for g_duration
+
 2003-07-05  Jody Goldberg <jody@gnome.org>
 
 	* functions.c : s/sequrity/security/
