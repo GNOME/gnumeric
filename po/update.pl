@@ -158,11 +158,13 @@ sub GeneratePot{
     $c1="test \! -f $PACKAGE\.po \|\| \( rm -f \.\/$PACKAGE\.pot "
        ."&& mv $PACKAGE\.po \.\/$PACKAGE\.pot \)";
 
-    open FILE, "XMLFILES.in";
+    open FILE, "<POTFILES.in";	
     while (<FILE>) {
-        chomp $_;
-        $xmlfiles="\.\/ui-extract.pl ../$_";
-        system($xmlfiles);
+       if ($_=~ /(.*)(\.xml\.h)/o){
+          $filename = "$1\.xml";
+          $xmlfiles="\.\/ui-extract.pl ../$filename";
+          system($xmlfiles);
+       }
     }
     close FILE;
 
