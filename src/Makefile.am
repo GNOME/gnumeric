@@ -52,6 +52,8 @@ GNUMERIC_BASE_SOURCES =			\
 	item-grid.c			\
 	item-grid.h			\
 	parser.y			\
+	pattern-selector.c		\
+	pattern-selector.h		\
 	sheet.c				\
 	sheet.h				\
 	sheet-object.c			\

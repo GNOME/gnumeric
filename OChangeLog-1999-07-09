@@ -1,3 +1,14 @@
+1998-09-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/dialog-cell-format.c (create_background_radio): Use the new
+	pattern selector.
+	
+	(create_foreground_radio, create_background_radio): Use the new
+	gnome color pickers.
+
+	* src/pattern-selector.c (pattern_selector_select): New widget.
+	This is a patter selector.
+
 1998-09-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/sheet-object.c (sheet_button_press): Lots of changes to

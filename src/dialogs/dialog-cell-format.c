@@ -13,6 +13,7 @@
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "format.h"
+#include "pattern-selector.h"
 
 /* The main dialog box */
 static GtkWidget *cell_format_prop_win = 0;
@@ -33,7 +34,6 @@ static GtkWidget *auto_return;
 /* These points to the radio buttons of the coloring page */
 static GSList *foreground_radio_list;
 static GSList *background_radio_list;
-static GdkPixmap *patterns [GNUMERIC_SHEET_PATTERNS];
 
 /* Points to the first cell in the selection */
 static Cell *first_cell;
@@ -638,7 +638,7 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 static GtkWidget *
 create_foreground_radio (GtkWidget *prop_win)
 {
-	GtkWidget *frame, *table, *r1, *r2;
+	GtkWidget *frame, *table, *r1, *r2, *cs;
 	int e = GTK_FILL | GTK_EXPAND;
 	
 	frame = gtk_frame_new (_("Text color"));
@@ -650,66 +650,12 @@ create_foreground_radio (GtkWidget *prop_win)
 	r2 = gtk_radio_button_new_with_label (foreground_radio_list,
 					      _("Use this color"));
 
-	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 0, 0);
-/*	gtk_table_attach (GTK_TABLE (table), cs, 1, 2, 1, 2, 0, 0, 0, 0); */
+	cs = gnome_color_picker_new ();
+	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 4, 2);
+	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 4, 2);
+	gtk_table_attach (GTK_TABLE (table), cs, 1, 2, 1, 2, 0, 0, 0, 0); 
 
 	return frame;
-}
-
-static void
-create_stipples (GnomeCanvas *canvas)
-{
-	GnomeCanvasGroup *group;
-	GdkWindow *window;
-	int i;
-
-	group = GNOME_CANVAS_GROUP (gnome_canvas_root (canvas));
-	window = GTK_WIDGET (canvas)->window;
-	
-	for (i = 0; i < GNUMERIC_SHEET_PATTERNS; i++){
-		GnomeCanvasRE *item;
-		int x, y;
-
-		x = i % 7;
-		y = i / 7;
-		
-		item = GNOME_CANVAS_RE (gnome_canvas_item_new (
-			group,
-			gnome_canvas_rect_get_type (),
-			"x1",           (double) x * 10.0,
-			"y1",           (double) y * 10.0,
-			"x2",           (double) x * 10.0 + 8.0,
-			"y2",           (double) y * 10.0 + 8.0,
-			"fill_color",   "black",
-			"width_pixels", (int) 1,
-			"outline_color","black",
-			NULL));
-
-		patterns [i] = gdk_bitmap_create_from_data (
-			window, gnumeric_sheet_patterns [i].pattern, 8, 8);
-
-		gdk_gc_set_stipple (item->fill_gc, patterns [i]);
-		gdk_gc_set_fill (item->fill_gc, GDK_STIPPLED);
-	}
-}
-
-static GtkWidget *
-create_pattern_preview (GtkWidget *prop_win)
-{
-	GnomeCanvas *canvas;
-
-	canvas = (GnomeCanvas *) gnome_canvas_new ();
-	
-	gnome_canvas_set_size (canvas, 280, 80);
-	gnome_canvas_set_scroll_region (canvas, 0.0, 0.0, 70.0, 80.0);
-	gnome_canvas_set_pixels_per_unit (canvas, 1.0);
-	
-	gtk_signal_connect_after (
-		GTK_OBJECT (canvas), "realize",
-		GTK_SIGNAL_FUNC (create_stipples), NULL);
-
-	return GTK_WIDGET (canvas);
 }
 
 static GtkWidget *
@@ -721,28 +667,29 @@ create_background_radio (GtkWidget *prop_win)
 	frame = gtk_frame_new (_("Background configuration"));
         table = gtk_table_new (2, 2, 0);
 	gtk_container_add (GTK_CONTAINER (frame), table);
+	gtk_container_border_width (GTK_CONTAINER (frame), 5);
 
 	/* The radio buttons */
 	r1 = gtk_radio_button_new_with_label (NULL, _("None"));
 	background_radio_list = GTK_RADIO_BUTTON (r1)->group;
-	r2 = gtk_radio_button_new_with_label (background_radio_list,
-					      _("Use solid color"));
-	r3 = gtk_radio_button_new_with_label (background_radio_list,
-					      _("Use a pattern"));
+	r2 = gtk_radio_button_new_with_label_from_widget (
+		GTK_RADIO_BUTTON (r1), _("Use solid color"));
+	r3 = gtk_radio_button_new_with_label_from_widget (
+		GTK_RADIO_BUTTON (r1), _("Use a pattern"));
 
 	/* The color selectors */
-	cs1 = gtk_label_new ("color selector goes here");
-	cs2 = gtk_label_new ("color selector goes here");
+	cs1 = gnome_color_picker_new ();
+	cs2 = gnome_color_picker_new ();
 
 	/* Create the pattern preview */
-	p = create_pattern_preview (prop_win);
+	p = pattern_selector_new (0);
 	
-	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), r3, 0, 1, 2, 3, e, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 4, 2);
+	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 4, 2);
+	gtk_table_attach (GTK_TABLE (table), r3, 0, 1, 2, 3, e, 0, 4, 2);
 
-	gtk_table_attach (GTK_TABLE (table), cs1, 1, 2, 1, 2, 0, 0, 0, 0);
-	gtk_table_attach (GTK_TABLE (table), cs2, 1, 2, 2, 3, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), cs1, 1, 2, 1, 2, 0, 0, 4, 2);
+	gtk_table_attach (GTK_TABLE (table), cs2, 1, 2, 2, 3, 0, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), p, 0, 2, 3, 4, GTK_FILL | GTK_EXPAND, GTK_FILL|GTK_EXPAND, 0, 0);
 	return frame;
 }
