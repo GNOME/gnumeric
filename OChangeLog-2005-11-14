@@ -1,3 +1,8 @@
+2005-03-29  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (col_name_internal): Handle nagative column
+	numbers a bit saner.
+
 2005-03-29  Stepan Kasal  <kasal@ucw.cz>
 
 	* configure.in (--with-perl): Mention bug #171957.

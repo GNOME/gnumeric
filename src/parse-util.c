@@ -61,6 +61,12 @@ col_name_internal (GString *target, int col)
 	int i;
 	char *dst;
 
+	if (col < 0) {
+		/* Invalid column.  */
+		g_string_append_printf (target, "[C%d]", col);
+		return;
+	}
+
 	for (i = 0; col >= steps[i]; i++)
 		col -= steps[i];
 
