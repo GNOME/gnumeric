@@ -1,3 +1,11 @@
+1999-10-18  Morten Welinder  <terra@diku.dk>
+
+	* src/xml-io.c (xml_write_print_info): Actually add print order,
+ 	paper name, and orientation to the output instead of just leaking
+ 	them.
+	(xml_set_value_double): Don't throw away precicion; save using
+ 	more sane formats.
+
 1999-10-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/formats.c: Added new formats for elapsed setup.

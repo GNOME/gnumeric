@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <gnome.h>
 #include <locale.h>
+#include <math.h>
 #include "gnumeric.h"
 #include "gnome-xml/tree.h"
 #include "gnome-xml/parser.h"
@@ -394,9 +395,12 @@ xml_set_value_double (xmlNodePtr node, const char *name, double val)
 {
 	const char *ret;
 	xmlNodePtr child;
-	char str[101];
+	char str[101 + DBL_DIG];
 
-	snprintf (str, 100, "%f", (float) val);
+	if (fabs (val) < 1e9 && fabs (val) > 1e-5)
+		snprintf (str, 100 + DBL_DIG, "%.*g", DBL_DIG, val);
+	else
+		snprintf (str, 100 + DBL_DIG, "%f", val);
 	ret = xmlGetProp (node, name);
 	if (ret != NULL){
 		xmlSetProp (node, name, str);
@@ -959,17 +963,19 @@ xml_write_print_info (parse_xml_context_t *ctxt, PrintInformation *pi)
 		child = xmlNewDocNode (ctxt->doc, ctxt->ns, "order", "d_then_r");
 	else
 		child = xmlNewDocNode (ctxt->doc, ctxt->ns, "order", "r_then_d");
-	
+	xmlAddChild (cur, child);
+
 	if (pi->orientation == PRINT_ORIENT_VERTICAL)
 		child = xmlNewDocNode (ctxt->doc, ctxt->ns, "orientation", "portrait");
 	else
 		child = xmlNewDocNode (ctxt->doc, ctxt->ns, "orientation", "landscape");
-	
+	xmlAddChild (cur, child);
+
 	xml_set_print_hf (cur, "Header", pi->header);
 	xml_set_print_hf (cur, "Footer", pi->footer);
 
-	xmlNewDocNode (ctxt->doc, ctxt->ns, "paper",
-		       gnome_paper_name (pi->paper));
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "paper", gnome_paper_name (pi->paper));
+	xmlAddChild (cur, child);
 	
 	return cur;
 }
