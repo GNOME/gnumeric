@@ -29,6 +29,7 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "sheet-view.h"
+#include "sheet-object.h"
 #include "rendered-value.h"
 #include "dialogs.h"
 #include "commands.h"

@@ -1,3 +1,7 @@
+2000-11-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c : Fix warning.
+
 2000-11-13  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Bump to 0.59 post release.
