@@ -1,3 +1,69 @@
+2001-01-04  Jon K Hellan  <hellan@acm.org>
+
+	* src/Makefile.am: Add files gui-file.c, gui-file.h
+
+	* src/file.[ch]: Factor out GUI dependent parts of workbook I/O
+	handling and move to gui-file.[ch].
+	(file_format_get_savers, file_format_get_openers):
+	New functions. Used by GUI to access file saver and file opener
+	lists.
+	(workbook_import): Move to gui-file.[ch].
+	(file_finish_load): Made visible in order to split out the GUI.
+	(workbook_save_as): The old version moved to gui-file.c and was
+	renamed to gui_file_save_as. The new version contains the GUI
+	independent part of the old do_save_as. It has explicit file name
+	and file saver parameters to remaining GUI independent function.
+	(workbook_save): No longer check if it should call
+	workbook_save_as. This happens at the GUI layer. Change control
+	parameter to WorkbookControl.
+	
+	* src/file.h (struct _FileOpener, struct _FileSaver): Had to make
+	these visible in order to split out the GUI.
+
+	* src/file.c: Remove file static variable current_saver.
+	(file_format_unregister_save): Do not update current_saver.
+	(workbook_try_read): Report the error if failure.
+	(cb_select, handle_ok, saver_activate,
+	file_saver_is_default_format, fill_save_menu, make_format_chooser,
+	file_dialog_delete_event, fs_key_event, fs_set_filename,
+	wants_to_overwrite, can_try_save_to, dialog_query_load_file): Move
+	to gui-file.c
+	
+	* src/gui-file.c, src/gui-file.h: New files. Gui dependent parts
+	of I/O handling moved here from file.[ch].
+	(gui_file_import): New name for workbook_import. Use
+	file_format_get_openers to access file opener list.
+	(is_saver_registered): New function. Check that a given file saver
+	is present in the file saver list.
+	(handle_ok): Fix a bug when changing into directory user entered,
+	and simplify code.
+	(saver_activate, file_saver_is_default_format, fill_save_menu):
+	Use file_format_get_savers to access file saver list.
+	(file_saver_is_default_format, make_format_chooser): Add GUI
+	control parameter.
+	(fill_save_menu): Save GUI control as object data on menu items.
+	(do_save_as): Don't call insure_saver. That check is redundant
+	here. Set view's preferred size to size of control's notebook
+	before saving, so that this size gets saved in workbook.
+	(gui_file_save_as): New name for old workbook_save_as.
+	Verify that control's current saver is still valid before displaying
+	dialog.
+	(dialog_query_load_file): Simplify code to select workbook's
+	directory. 
+	(gui_file_save): New function. Set view's preferred size as in
+	do_save_as, then call workbook_save.
+
+	* src/workbook-control-gui.c (cb_autosave, cb_file_save): Call
+	gui_file_save instead of workbook_save.
+	(workbook_close_if_user_permits): Cast wbcg to WorkbookControl
+	before calling workbook_save.
+	(cb_file_import): Call gui_file_import instead of workbook_import.
+	(cb_file_save_as): Call gui_file_save_as instead of
+	workbook_save_as.
+
+	* src/workbook-control-gui-priv.h (struct _WorkbookControlGUI):
+	Add current_saver member. Include file.h.
+
 2001-01-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-sheet.c (rangesel_{horizontal,vertical}_move) : remove
