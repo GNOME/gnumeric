@@ -8,7 +8,7 @@ INCLUDES = \
 gnumeric_plugin_psiconvdir = $(gnumeric_plugindir)/psiconv
 xmldir = $(gnumeric_plugin_psiconvdir)
 gnumeric_plugin_psiconv_LTLIBRARIES = psiconv.la
-psiconv_la_LDFLAGS = -module -avoid-version $(PSICONV_LIBS)
+psiconv_la_LDFLAGS = -module -avoid-version #$(PSICONV_LIBS)
 psiconv_la_SOURCES = boot.c psiconv-read.c psiconv-plugin.h
 
 xml_in_files = plugin.xml.in

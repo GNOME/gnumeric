@@ -1,7 +1,6 @@
 SUBDIRS = figures
 lang = C
 locale = C
-omffile = gnumeric-C.omf
 entities = 					\
 	analysis-tools.xml			\
 	appendix-glossary.xml			\

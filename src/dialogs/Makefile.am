@@ -2,13 +2,7 @@
 # Keep this in sync with ../../icons/Makefile.am
 #
 
-if WITH_BONOBO
-gnumeric_version="$(VERSION)-bonobo"
 libdialogs_a_SOURCES =	$(base_files)
-else
-gnumeric_version="$(VERSION)"
-libdialogs_a_SOURCES =	$(base_files)
-endif
 
 INCLUDES = 								\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 			\

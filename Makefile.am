@@ -40,12 +40,6 @@ EXTRA_DIST = \
 	intltool-update.in	\
 	$(server_in_files)
 
-if WITH_BONOBO
-gnumeric_version="$(VERSION)-bonobo"
-else
-gnumeric_version="$(VERSION)"
-endif
-
 gnumeric.keys: gnumeric.keys.in Makefile
 	sed -e 's^\@gnumeric_icondir\@^$(gnumeric_icondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
 	&& mv gnumeric.keys.tmp gnumeric.keys 

@@ -6,7 +6,9 @@ install-data-local:
 	-for file in $(srcdir)/*.omf; do 			\
 		$(INSTALL_DATA) $$file $(DESTDIR)$(omf_dest_dir); \
 	done
-	-scrollkeeper-update -p $(scrollkeeper_localstate_dir) 
+	-if [ -z "$(DESTDIR)" -a -z "$(RPM_BUILD_ROOT)" ]; then		\
+		scrollkeeper-update -p $(scrollkeeper_localstate_dir)	\
+	fi
 
 uninstall-local:
 	-for file in $(srcdir)/*.omf; do 			\

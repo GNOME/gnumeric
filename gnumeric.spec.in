@@ -1,9 +1,13 @@
-%define WithBonobo 1
+# conditional features selected using --with <foo> or --without <foo>
+%{!?_with_bonobo: %{!?_without_bonobo: %define _without_bonobo --without-bonobo}}
+%{!?_with_gda: %{!?_without_gda: %define _without_gda --without-gda}}
+%{!?_with_gb: %{!?_without_gb: %define _without_gb --without-gb}}
+%{!?_with_guile: %{!?_without_guile: %define _without_guile --without-guile}}
+%{!?_with_long_double: %{!?_without_long_double: %define _without_long_double --without-long-double}}
+%{!?_with_python: %{!?_without_python: %define _with_python --with-python}}
 
 %define  RELEASE 1
 %define  rel     %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
-%define  prefix  /usr
-%define  sysconfdir	/etc
 
 Summary: the GNOME spreadsheet
 Name: 		gnumeric
@@ -13,27 +17,29 @@ License: 	GPL
 Group: 		Applications/Productivity
 Source: ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-%{version}.tar.gz
 Url:		http://www.gnome.org/gnumeric
-BuildRoot:	/var/tmp/%{name}-%{PACKAGE_VERSION}-root
-Docdir: 	%{prefix}/doc
-
-%if %{WithBonobo}
-%define bonobover %{version}-bonobo
-%else
-%define bonobover %{version}
+BuildRoot:	%{_tmppath}/%{name}-%{PACKAGE_VERSION}-root
+BuildRequires:	glib2-devel		>= 2.0.0
+BuildRequires:	libgsf-devel		>= 1.8.0
+BuildRequires:	gtk2-devel		>= 2.0.0
+BuildRequires:	libxml2-devel		>= 2.4.12
+BuildRequires:	libglade2-devel		>= 1.99.7
+BuildRequires:	libgnomecanvas-devel	>= 1.113.0
+BuildRequires:	libgal-2-devel		>= 1.99
+BuildRequires:	libgnome-devel		>= 1.105.0
+BuildRequires:	libgnomeui-devel	>= 1.106.0
+BuildRequires:	libgnomeprint22-devel	>= 2.2.0
+BuildRequires:	libgnomeprintui22	>= 2.2.0
+%if %{?_with_bonobo:1}%{!?_with_bonobo:0}
+BuildRequires: libbonobo-devel		>= 2.0.0
+BuildRequires: libbonoboui-devel	>= 2.0.0
+BuildRequires: bonobo-activation-devel	>= 2.0.0
 %endif
-
-Requires: gtk+ >= 1.2.7
-Requires: gnome-libs >= 1.0.57
-Requires: gnome-print >= 0.29
-Requires: libglade >= 0.16
-Requires: libxml >= 1.8.14
-Requires: libole2 >= 0.2.4
-Requires: gal >= 0.14
-# The help menu requires gnome-help-browser.
-Requires: gnome-core
-%if %{WithBonobo}
-Requires: bonobo >= 1.0.9
-%endif
+%{?_with_gda:BuildRequires:	libgda-devel		>= 0.10}
+%{?_with_gb:BuildRequires:	libgb-devel		== 1.17}
+%{?_with_guile:BuildRequires:	guile-devel		>= 1.5}
+%{?_with_python:BuildRequires:	pygtk2-devel		>= 1.99.10}
+Prereq:		GConf2
+Prereq:		scrollkeeper
 
 %description
 GNOME (GNU Network Object Model Environment) is a user-friendly set of
@@ -55,108 +61,59 @@ MS Excel files and many other formats (csv, latex, xbase, applix).
 
 #Install gnumeric-devel if you want to develop programs which will use gnumeric.
 
+%define clean_buildroot [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
+
 %prep
 %setup -q
 
 %build
-%ifarch alpha
-	MYARCH_FLAGS="--host=alpha-redhat-linux"
-%endif
-
-%if ! %{WithBonobo}
-	MYBONOBO_FLAGS="--without-bonobo"
-%endif
-if [ ! -f configure ]; then
-	CFLAGS="$RPM_OPT_FLAGS" ./autogen.sh $MYARCH_FLAGS $MYBONOBO_FLAGS \
-		--prefix=%prefix \
-		--sysconfdir=%{sysconfdir} \
-		--without-gb
-else
-	CFLAGS="$RPM_OPT_FLAGS" ./configure $MYARCH_FLAGS $MYBONOBO_FLAGS \
-		--prefix=%prefix \
-		--sysconfdir=%{sysconfdir} \
-		--without-gb
-fi
-
-if [ "$SMP" != "" ]; then
-	make -k -j$SMP "MAKE=make -k -j$SMP"
-else
-	make -k
-fi
+%configure \
+  %{?_with_bonobo} %{?_without_bonobo} \
+  %{?_with_gda} %{?_without_gda} \
+  %{?_with_gb} %{?_without_gb} \
+  %{?_with_guile} %{?_without_guile} \
+  %{?_with_long_double} %{?_without_long_double} \
+  %{?_with_python} %{?_without_python}
+make %{?_smp_mflags}
 
 %install
-[ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
+%clean_buildroot
+%makeinstall
+%find_lang %{name}
 
-make prefix=$RPM_BUILD_ROOT%{prefix} sysconfdir=$RPM_BUILD_ROOT%{sysconfdir} install
-#
-# Auto detect the lang files.
-#
-if [ -f /usr/lib/rpm/find-lang.sh ] ; then
- /usr/lib/rpm/find-lang.sh $RPM_BUILD_ROOT %name
- sed "s:(644, root, root, 755):(444, bin, bin, 555):" %{name}.lang \
- >tmp.lang && mv tmp.lang %{name}.lang
-fi
+%post
+scrollkeeper-update
+export GCONF_CONFIG_SOURCE=''
+gconftool-2 --makefile-install-rule /etc/gconf/schemas/%{name}-dialogs.schemas >/dev/null
+gconftool-2 --makefile-install-rule /etc/gconf/schemas/%{name}-general.schemas >/dev/null
 
+%postun
+scrollkeeper-update
 
 %clean
-[ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
+%clean_buildroot
 
 %files -f %{name}.lang
-
-%defattr (0555, bin, bin)
-%{prefix}/bin/gnumeric
-%{prefix}/lib/gnumeric/%{bonobover}/plugins/*/*.so
-%{prefix}/lib/gnumeric/%{bonobover}/plugins/*/*.py
-%{prefix}/lib/gnumericConf.sh
-
-%defattr (0444, bin, bin, 0555)
+%defattr (-, root, root)
+%{_bindir}/*
+%{_sysconfdir}/gconf/schemas/*
+%{_libdir}/%{name}
+%{_libdir}/bonobo/servers/*
+%{_datadir}/%{name}
+%{_datadir}/applications/*
+%{_datadir}/mc/templates/*
+%{_datadir}/mime-info/*
+%{_datadir}/pixmaps/*
+%{_datadir}/omf/*
 %doc HACKING AUTHORS ChangeLog NEWS BUGS README COPYING TODO
-%{prefix}/lib/gnumeric/%{bonobover}/plugins/*/*.xml
-%{prefix}/lib/gnumeric/%{bonobover}/plugins/*/glossary-po-header
-%config %{prefix}/share/gnome/apps/Applications/*
-%{prefix}/share/gnome/help/gnumeric/C/figures/*
-%{prefix}/share/gnome/help/gnumeric/C/*.*
-%dir %{prefix}/share/gnumeric
-%dir %{prefix}/share/gnumeric/%{bonobover}
-%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates
-%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/3D
-%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/Classical
-%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/Colourful
-%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/Financial
-%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/General
-%dir %{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/List
-%dir %{prefix}/share/gnumeric/%{bonobover}/glade
-%dir %{prefix}/share/gnumeric/%{bonobover}/gnome
-%dir %{prefix}/share/gnumeric/%{bonobover}/gnome/ui
-%dir %{prefix}/share/gnumeric/%{bonobover}/python
-%dir %{prefix}/share/gnumeric/%{bonobover}/templates
-%{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/3D/*
-%{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/Classical/*
-%{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/Colourful/*
-%{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/Financial/*
-%{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/General/*
-%{prefix}/share/gnumeric/%{bonobover}/autoformat-templates/List/*
-%{prefix}/share/gnumeric/%{bonobover}/glade/*
-%{prefix}/share/gnumeric/%{bonobover}/gnome/ui/*
-%{prefix}/share/gnumeric/%{bonobover}/idl/*
-%{prefix}/share/gnumeric/%{bonobover}/python/*
-%{prefix}/share/gnumeric/%{bonobover}/templates/*
-#%{prefix}/share/locale/*/LC_MESSAGES/*.mo
-%{prefix}/share/mc/templates/*
-%{prefix}/share/mime-info/*
-%{prefix}/share/oaf/*
-%{prefix}/share/pixmaps/gnumeric/*
-%{prefix}/share/pixmaps/*.*
 
 # Don't even think about it.  -MW
 # Gnumeric is not ready for a devel package yet.  Please wait until we split
 # out libgnumeric.
 #%files devel
-#%defattr (-, bin, bin)
-#%{prefix}/lib/gnumericConf.sh
-#%{prefix}/share/gnumeric/%{bonobover}/idl/*.idl
-# This is really silly.  The .la files are useless for plugins.
-##%{prefix}/lib/gnumeric/%{bonobover}/plugins/*/*.la
+#%defattr (-, root, root)
+#%{_libdir}/gnumericConf.sh
+#%{_datadir}/gnumeric/%{version}/idl/*.idl
 
 %changelog
 * Sun Nov  4 2001 Jody Goldberg <jgoldberg@home.com>

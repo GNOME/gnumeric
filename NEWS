@@ -7,6 +7,10 @@ Andreas:
 	* Fix csv parsing (#80806), finally
 	* Fix #100529, #78355, #99649
 
+Ben Liblit:
+	* Support for automake 1.6.x
+	* Modernize the rpm .spec file
+
 Emmanuel Pacaud:
 	* Add encoding selector to stf export
 
