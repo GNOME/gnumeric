@@ -1,5 +1,9 @@
 2003-06-29  Morten Welinder  <terra@gnome.org>
 
+	* src/formats.c (style_format_percent, style_format_science,
+	style_format_account, style_format_number): Simplify using
+	g_string_append_len.
+
 	* src/stf.c (stf_store_results): Don't switch locales here.
 
 2003-06-28  Andreas J. Guelzow  <aguelzow@taliesin.ca>

@@ -146,8 +146,9 @@ cell_format_text [] = {
 	NULL,
 };
 
-static char const * const zeros = "000000000000000000000000000000";
-static char const * const qmarks = "??????????????????????????????";
+#define NUM_ZEROS 30
+static const char zeros[NUM_ZEROS + 1]  = "000000000000000000000000000000";
+static const char qmarks[NUM_ZEROS + 1] = "??????????????????????????????";
 
 char const * const * const
 cell_formats [] = {
@@ -735,9 +736,9 @@ style_format_percent (GString *res, FormatCharacteristics const *fmt)
 {
 	g_string_append_c (res, '0');
 	if (fmt->num_decimals > 0) {
-		g_return_if_fail (fmt->num_decimals <= 30);
+		g_return_if_fail (fmt->num_decimals <= NUM_ZEROS);
 		g_string_append_c (res, '.');
-		g_string_append (res, zeros + 30-fmt->num_decimals);
+		g_string_append_len (res, zeros, fmt->num_decimals);
 	}
 	g_string_append_c (res, '%');
 }
@@ -747,9 +748,9 @@ style_format_science (GString *res, FormatCharacteristics const *fmt)
 {
 	g_string_append_c (res, '0');
 	if (fmt->num_decimals > 0) {
-		g_return_if_fail (fmt->num_decimals <= 30);
+		g_return_if_fail (fmt->num_decimals <= NUM_ZEROS);
 		g_string_append_c (res, '.');
-		g_string_append (res, zeros + 30-fmt->num_decimals);
+		g_string_append_len (res, zeros, fmt->num_decimals);
 	}
 	g_string_append (res, "E+00");
 }
@@ -763,9 +764,9 @@ style_format_account (GString *res, FormatCharacteristics const *fmt)
 	/* The number with decimals */
 	num = g_string_new ("#,##0");
 	if (fmt->num_decimals > 0) {
-		g_return_if_fail (fmt->num_decimals <= 30);
+		g_return_if_fail (fmt->num_decimals <= NUM_ZEROS);
 		g_string_append_c (num, '.');
-		g_string_append (num, zeros + 30-fmt->num_decimals);
+		g_string_append_len (res, zeros, fmt->num_decimals);
 	}
 
 	/* The currency symbols with space after or before */
@@ -782,17 +783,17 @@ style_format_account (GString *res, FormatCharacteristics const *fmt)
 		g_string_append (sym, currency_symbols[symbol].symbol);
 	}
 
-	/* Finaly build the correct string */
+	/* Finally build the correct string */
 	if (currency_symbols[symbol].precedes) {
 		g_string_printf (res, "_(%s%s_);_(%s(%s);_(%s\"-\"%s_);_(@_)",
 				sym->str, num->str,
 				sym->str, num->str,
-				sym->str, qmarks + 30-fmt->num_decimals);
+				sym->str, qmarks + NUM_ZEROS-fmt->num_decimals);
 	} else {
 		g_string_printf (res, "_(%s%s_);_((%s)%s;_(\"-\"%s%s_);_(@_)",
 				num->str, sym->str,
 				num->str, sym->str,
-				qmarks + 30-fmt->num_decimals, sym->str);
+				qmarks + NUM_ZEROS-fmt->num_decimals, sym->str);
 	}
 
 	g_string_free (num, TRUE);
@@ -826,10 +827,10 @@ style_format_number (GString *res, FormatCharacteristics const *fmt)
 		g_string_append_c (res, '0');
 
 	if (fmt->num_decimals > 0) {
-		g_return_if_fail (fmt->num_decimals <= 30);
+		g_return_if_fail (fmt->num_decimals <= NUM_ZEROS);
 
 		g_string_append_c (res, '.');
-		g_string_append (res, zeros + 30-fmt->num_decimals);
+		g_string_append_len (res, zeros, fmt->num_decimals);
 	}
 
 	/* Currency */

@@ -191,19 +191,19 @@ generate_format (NumberFormatSelector *nfs)
 		format.currency_symbol_index = 0;
 
 	case FMT_CURRENCY :
-		style_format_number(new_format, &format);
+		style_format_number (new_format, &format);
 		break;
 
 	case FMT_ACCOUNT :
-		style_format_account(new_format, &format);
+		style_format_account (new_format, &format);
 		break;
 
 	case FMT_PERCENT :
-		style_format_percent(new_format, &format);
+		style_format_percent (new_format, &format);
 		break;
 
 	case FMT_SCIENCE :
-		style_format_science(new_format, &format);
+		style_format_science (new_format, &format);
 		break;
 
 	default :
@@ -749,6 +749,7 @@ set_format_category_menu_from_style (NumberFormatSelector *nfs)
 		page = 11; /* Default to custom */
 
 	set_format_category (nfs, page);
+	fmt_dialog_enable_widgets (nfs, page);
 }
 
 static void

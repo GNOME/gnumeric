@@ -2,6 +2,8 @@
 
 	* widget-format-selector.c
 	(number_format_selector_set_style_format): Move ref early.
+	(set_format_category_menu_from_style): Call
+	fmt_dialog_enable_widgets to update the display.
 
 2003-06-24  Morten Welinder  <terra@gnome.org>
 
