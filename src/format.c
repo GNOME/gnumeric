@@ -2334,7 +2334,11 @@ style_format_equal (StyleFormat const *a, StyleFormat const *b)
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
 
-	return (a == b) || strcmp (a->format, b->format) == 0;
+	/*
+	 * The way we create StyleFormat *s ensures that we don't need
+	 * to compare anything but pointers.
+	 */
+	return (a == b);
 }
 
 /**
