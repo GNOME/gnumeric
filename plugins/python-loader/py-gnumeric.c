@@ -1583,7 +1583,7 @@ py_Workbook_sheet_add (py_Workbook_object *self, PyObject *args)
 	char *name = NULL;
 	int   insert_before = -1;
 
-	if (!PyArg_ParseTuple (args, (char *) "|zi:add_sheet"))
+	if (!PyArg_ParseTuple (args, (char *) "|zi:sheet_add"))
 		return NULL;
 
 	if (insert_before >= 0)
@@ -2032,12 +2032,25 @@ py_gnumeric_workbooks_method (PyObject *self, PyObject *args)
 	return result;
 }
 
+static PyObject *
+py_gnumeric_workbook_new (PyObject *self, PyObject *args)
+{
+	Workbook *workbook = NULL;
+
+	if (!PyArg_ParseTuple (args, (char *) "|O:workbook_add"))
+		return NULL;
+
+	workbook =  workbook_new ();
+	return py_new_Workbook_object (workbook);
+}
+
 static PyMethodDef GnumericMethods[] = {
 	{ (char *) "Boolean", py_gnumeric_Boolean_method, METH_VARARGS },
 	{ (char *) "CellPos", py_gnumeric_CellPos_method, METH_VARARGS },
 	{ (char *) "Range",   py_gnumeric_Range_method,   METH_VARARGS },
 	{ (char *) "MStyle",  py_gnumeric_MStyle_method,  METH_VARARGS },
  	{ (char *) "workbooks", py_gnumeric_workbooks_method, METH_VARARGS },
+	{ (char *) "workbook_new", py_gnumeric_workbook_new,  METH_VARARGS},
 	{ NULL, NULL },
 };
 

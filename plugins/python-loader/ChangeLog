@@ -1,5 +1,8 @@
 2003-07-10  Jon K Hellan  <hellan@acm.org>
 
+	* py-gnumeric.c (py_gnumeric_workbook_new): New. 
+	Implements Gnumeric.workbook_new()
+
 	* py-console.c (show_python_console): Make console window
 	resizable.
 
