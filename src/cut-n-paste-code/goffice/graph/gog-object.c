@@ -212,6 +212,7 @@ gog_object_dup (GogObject const *src, GogObject *new_parent)
 			g_object_set_property (G_OBJECT (dst), props[n]->name, &val);
 			g_value_unset (&val);
 		}
+	g_free (props);
 
 	if (IS_GOG_DATASET (src)) {	/* convenience to save data */
 		GogDataset const *src_set = GOG_DATASET (src);
