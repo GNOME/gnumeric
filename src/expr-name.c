@@ -224,6 +224,7 @@ expr_name_create (Workbook *wb, Sheet *sheet, const char *name,
 	tree = expr_parse_string (value,
 				  parse_pos_init (&pp,
 						  get_real_wb (wb, sheet),
+						  sheet,
 						  0, 0),
 				  NULL, error_msg);
 
@@ -333,8 +334,10 @@ expr_name_value (const ExprName *expr_name)
 	ParsePosition  pp;
 
 	if (!expr_name->builtin) {
-		parse_pos_init (&pp, get_real_wb (expr_name->wb, 
-						  expr_name->sheet),
+		parse_pos_init (&pp,
+				get_real_wb (expr_name->wb, 
+					     expr_name->sheet),
+				 expr_name->sheet,
 				0, 0);
 		val = expr_decode_tree (expr_name->t.expr_tree, &pp);
 	} else

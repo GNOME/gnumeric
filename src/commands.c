@@ -480,7 +480,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
 		char *error_string = NULL;
 		ParsePosition pp;
 		expr = expr_parse_string (me->text + 1,
-			    parse_pos_init (&pp, me->sheet->workbook,
+			    parse_pos_init (&pp, NULL, me->sheet,
 					    r->start.col, r->start.row),
 			    NULL, &error_string);
 

@@ -816,7 +816,8 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 			char * expr_string =
 			    expr_decode_tree (cell->parsed_node,
 					      parse_pos_init (&pos,
-							      ei->pos->sheet->workbook,
+							      NULL,
+							      ei->pos->sheet,
 							      ei->pos->eval.col,
 							      ei->pos->eval.row));
 			Value * res = value_new_string (expr_string);

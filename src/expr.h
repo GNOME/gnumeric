@@ -114,7 +114,7 @@ struct _FunctionEvalInfo {
 /* Transition functions */
 EvalPosition     *eval_pos_init       (EvalPosition *, Sheet *s, int col, int row);
 EvalPosition     *eval_pos_cell       (EvalPosition *, Cell *);
-ParsePosition    *parse_pos_init      (ParsePosition *, Workbook *wb, int col, int row);
+ParsePosition    *parse_pos_init      (ParsePosition *, Workbook *wb, Sheet *sheet, int col, int row);
 ParsePosition    *parse_pos_cell      (ParsePosition *, Cell *);
 
 /*

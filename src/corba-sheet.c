@@ -358,7 +358,7 @@ fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, COR
 	g_assert (value != NULL);
 	g_assert (sheet != NULL);
 
-	parse_pos_init (&pp, sheet->workbook, col, row);
+	parse_pos_init (&pp, NULL, sheet, col, row);
 	cell = sheet_cell_get (sheet, col, row);
 	if (cell && cell->value) {
 		switch (cell->value->type) {

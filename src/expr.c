@@ -33,13 +33,18 @@ eval_pos_init (EvalPosition *eval_pos, Sheet *sheet, int col, int row)
 	return eval_pos;
 }
 
+/*
+ * Supply either a sheet (preferred) or a workbook.
+ */
+
 ParsePosition *
-parse_pos_init (ParsePosition *pp, Workbook *wb, int col, int row)
+parse_pos_init (ParsePosition *pp, Workbook *wb, Sheet *sheet, int col, int row)
 {
-	g_return_val_if_fail (wb != NULL, NULL);
+	g_return_val_if_fail (wb || sheet, NULL);
 	g_return_val_if_fail (pp != NULL, NULL);
 
-	pp->wb  = wb;
+	pp->sheet = sheet;
+	pp->wb = sheet ? sheet->workbook : wb;
 	pp->col = col;
 	pp->row = row;
 
@@ -72,7 +77,8 @@ parse_pos_cell (ParsePosition *pp, Cell *cell)
 
 	return parse_pos_init (
 		pp,
-		cell->sheet->workbook,
+		NULL,
+		cell->sheet,
 		cell->col->pos,
 		cell->row->pos);
 }

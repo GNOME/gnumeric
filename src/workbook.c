@@ -1923,7 +1923,7 @@ workbook_set_auto_expr (Workbook *wb,
 	if (wb->auto_expr)
 		expr_tree_unref (wb->auto_expr);
 
-	g_assert (gnumeric_expr_parser (expression, parse_pos_init (&pp, wb, 0, 0),
+	g_assert (gnumeric_expr_parser (expression, parse_pos_init (&pp, wb, NULL, 0, 0),
 					NULL, &wb->auto_expr) == PARSE_OK);
 
 	if (wb->auto_expr_desc)

@@ -26,6 +26,7 @@ struct _EvalPosition {
 };
 
 struct _ParsePosition {
+	Sheet    *sheet;
 	Workbook *wb;
 	int       col;
 	int       row;

@@ -837,11 +837,7 @@ gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
 			char *format;
 			EvalPosition pos;
 
-			/*
-			 * FIXME: we *need* the sheet here, even if occasionally
-			 * it is NULL.
-			 */			   
-			pos.sheet = NULL;
+			pos.sheet = pp->sheet;
 			pos.eval.col = pp->col;
 			pos.eval.row = pp->row;
 			format = auto_format_suggest (*parser_result, &pos);

@@ -706,7 +706,7 @@ biff_name_data_get_name (ExcelSheet *sheet, int idx)
 #ifndef NO_DEBUG_EXCEL
 			else if (ms_excel_read_debug > 1) {
 				ParsePosition ep;
-				parse_pos_init (&ep, sheet->wb->gnum_wb, 0, 0);
+				parse_pos_init (&ep, NULL, sheet->gnum_sheet, 0, 0);
 				printf ("Parsed name : '%s' = '%s'\n",
 					bnd->name, tree
 					? expr_decode_tree (tree, &ep)

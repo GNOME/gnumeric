@@ -644,7 +644,7 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 	nper = value_get_as_int (argv[1]);
 
 	/* Rate or number of periods cannot be negative */
-	if ( (rate < 0) || (nper <= 0) )
+	if (rate < 0 || nper <= 0)
 		return value_new_error (ei->pos, _("nominal - domain error"));
 
         return value_new_float ( nper * ( pow ( 1 + rate, 1.0/nper ) - 1 ) );
@@ -718,7 +718,7 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 	period = value_get_as_float (argv[3]);
 	month = argv[4] ? value_get_as_float (argv[4]) : 12;
 
-	if((cost == 0) || (life <= 0))
+	if (cost == 0 || life <= 0)
 	        return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	rate = 1 - pow ((salvage / cost), (1 / life));
@@ -1504,8 +1504,10 @@ gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
 	if (result)
 		goto out;
 
-	if (p_n != d_n)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
+	if (p_n != d_n) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
 
 	for (i = 0; i < p_n; i++)
 	        sum += payments[i] / pow (1 + rate, (dates[i] - dates[0]) / 365.0);

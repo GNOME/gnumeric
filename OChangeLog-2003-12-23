@@ -1,3 +1,11 @@
+2000-04-09  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.h (ParsePositions): Add sheet.
+
+	* src/expr.c (parse_pos_init): New arg sheet.  All callers changed.
+
+	* src/parser.y (gnumeric_expr_parser): Use pp->sheet.
+
 2000-04-08  Jon K Hellan  <hellan@acm.org>
 
 	(sheet_name_quote): Quote embedded quotes.
@@ -5,6 +13,8 @@
 2000-04-08  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (xml_read_solver): Plug leak.
+
+	* src/functions/fn-financial.c (gnumeric_xnpv): Plug leak.
 
 2000-04-08  Almer. S. Tigelaar.  <almer1@dds.nl>
 

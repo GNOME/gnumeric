@@ -2431,7 +2431,8 @@ write_cell (BiffPut *bp, ExcelSheet *sheet, const ExcelCell *cell)
 			(gnum_cell->parsed_node ?
 			 expr_decode_tree (gnum_cell->parsed_node,
 					   parse_pos_init (&tmp,
-							   sheet->wb->gnum_wb,
+							   NULL,
+							   sheet->gnum_sheet,
 							   col, row)) :
 			 "none"),
 			(gnum_cell->value ?
