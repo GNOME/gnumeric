@@ -2253,7 +2253,7 @@ random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
  *
  **/
 
-int
+RegressionResult
 regression_tool (WorkbookControl *wbc, Sheet *sheet,
 		 GSList *x_input, Value *y_input,
 		 group_by_t group_by, gnum_float alpha,
@@ -2271,17 +2271,17 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	gnum_float   *res,  **xss;
 	guint        i;
 	guint        xdim           = 0;
-	int          err            = 0;
+	RegressionResult regerr;
 	int          cor_err        = 0;
 
 
-/* read the data and check for consistency */
+	/* read the data and check for consistency */
 	x_input_range = x_input;
 	prepare_input_range (&x_input_range, group_by);
 	if (!check_input_range_list_homogeneity (x_input_range)) {
 		range_list_destroy (x_input_range);
 		value_release (y_input);
-		return 3;
+		return REG_invalid_dimensions;
 	}
 	x_data = new_data_set_list (x_input_range, group_by,
 				  FALSE, dao->labels_flag, sheet);
@@ -2294,10 +2294,10 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 		destroy_data_set_list (x_data);
 		range_list_destroy (x_input_range);
 		value_release (y_input);
-		return 3;
+		return REG_invalid_dimensions;
 	}
 
-/* create a list of all missing or incomplete observations */
+	/* create a list of all missing or incomplete observations */
 	missing = y_data->missing;
 	for (i = 0; i < xdim; i++) {
 		GSList *this_missing;
@@ -2323,8 +2323,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 		}
 	}
 
-/* data is now clean and ready */
-
+	/* data is now clean and ready */
 	xss = g_new (gnum_float *, xdim);
 	res = g_new (gnum_float, xdim + 1);
 
@@ -2334,10 +2333,12 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	}
 
 	regression_stat = regression_stat_new ();
-	err = linear_regression (xss, xdim, (gnum_float *)(y_data->data->data),
-				 y_data->data->len, intercept, res, regression_stat);
+	regerr = linear_regression (xss, xdim,
+				    (gnum_float *)(y_data->data->data),
+				    y_data->data->len,
+				    intercept, res, regression_stat);
 
-	if (err) {
+	if (regerr != REG_ok && regerr != REG_near_singular_good) {
 		regression_stat_destroy (regression_stat);
 		destroy_data_set (y_data);
 		destroy_data_set_list (x_data);
@@ -2345,7 +2346,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 		value_release (y_input);
 		g_free (xss);
 		g_free (res);
-		return err;
+		return regerr;
 	}
 
 	prepare_output (wbc, dao, _("Regression"));
@@ -2516,7 +2517,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (dao->sheet);
 
-	return 0;
+	return regerr;
 }
 
 

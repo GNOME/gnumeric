@@ -3766,7 +3766,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 	linres = g_new (gnum_float, dim + 1);
 
 	if (linear_regression (xss, dim, ys, nx, affine,
-			       linres, extra_stat)) {
+			       linres, extra_stat) != REG_ok) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -3906,7 +3906,8 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv[])
 
 	dim = 1;
 
-	if (linear_regression (&xs, dim, ys, nx, affine, linres, NULL)) {
+	if (linear_regression (&xs, dim, ys, nx, affine, linres, NULL) !=
+	    REG_ok) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -4133,7 +4134,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 
 	expres = g_new (gnum_float, dim + 1);
 	if (exponential_regression (xss, dim, ys, nx, affine,
-				    expres, extra_stat)) {
+				    expres, extra_stat) != REG_ok) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -4274,7 +4275,8 @@ gnumeric_growth (FunctionEvalInfo *ei, Value *argv[])
 
 	dim = 1;
 
-	if (exponential_regression (&xs, dim, ys, nx, affine, expres, NULL)) {
+	if (exponential_regression (&xs, dim,
+				    ys, nx, affine, expres, NULL) != REG_ok) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -4350,7 +4352,7 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv[])
 
 	dim = 1;
 
-	if (linear_regression (&xs, dim, ys, nx, 1, linres, NULL)) {
+	if (linear_regression (&xs, dim, ys, nx, 1, linres, NULL) != REG_ok) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -4394,7 +4396,8 @@ range_intercept (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *
 	gnum_float linres[2];
 	int dim = 1;
 
-	if (linear_regression ((gnum_float **)&xs, dim, ys, n, 1, linres, NULL))
+	if (linear_regression ((gnum_float **)&xs, dim,
+			       ys, n, 1, linres, NULL) != REG_ok)
 		return 1;
 
 	*res = linres[0];
@@ -4437,7 +4440,8 @@ range_slope (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 	gnum_float linres[2];
 	int dim = 1;
 
-	if (linear_regression ((gnum_float **)&xs, dim, ys, n, 1, linres, NULL))
+	if (linear_regression ((gnum_float **)&xs, dim,
+			       ys, n, 1, linres, NULL) != REG_ok)
 		return 1;
 
 	*res = linres[1];

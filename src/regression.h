@@ -3,6 +3,18 @@
 
 #include "numbers.h"
 
+
+typedef enum {
+	REG_ok,
+	REG_invalid_dimensions,
+	REG_invalid_data,
+	REG_not_enough_data,
+	REG_near_singular_good, /* Probably good result */
+	REG_near_singular_bad, /* Probably bad result */
+	REG_singular
+} RegressionResult;
+
+
 /**
  * linear_regression:
  * @xss: x-vectors.  (I.e., independent data.)
@@ -16,11 +28,7 @@
  * This performs multi-dimensional linear regressions on the input points.
  * Fits to "y = b + a1 * x1 + ... ad * xd".
  *
- * Returns
- *   0 for ok.
- *   1 for too few points.
- *   2 for singular.
- *   3 for near-singular, all precision lost.
+ * Returns RegressionResult as above.
  */
 
 typedef struct {
@@ -30,9 +38,9 @@ typedef struct {
 	gnum_float adj_sqr_r;
         gnum_float se_y; /* The Standard Error of Y */
         gnum_float F;
-        int     df_reg;
-        int     df_resid;
-        int     df_total;
+        int        df_reg;
+        int        df_resid;
+        int        df_total;
         gnum_float ss_reg;
         gnum_float ss_resid;
         gnum_float ss_total;
@@ -47,10 +55,11 @@ typedef struct {
 regression_stat_t * regression_stat_new (void);
 void regression_stat_destroy (regression_stat_t *regression_stat);
 
-int linear_regression (gnum_float **xss, int dim,
-		       const gnum_float *ys, int n,
-		       int affine,
-		       gnum_float *res, regression_stat_t *stat);
+RegressionResult linear_regression (gnum_float **xss, int dim,
+				    const gnum_float *ys, int n,
+				    gboolean affine,
+				    gnum_float *res,
+				    regression_stat_t *stat);
 
 
 /**
@@ -67,12 +76,13 @@ int linear_regression (gnum_float **xss, int dim,
  * Fits to "y = b * m1^x1 * ... * md^xd " or equivalently to
  * "log y = log b + x1 * log m1 + ... + xd * log md".
  *
- * Returns 0 for ok, non-zero otherwise; see general_linear_regression.
+ * Returns RegressionResult as above.
  */
 
-int exponential_regression (gnum_float **xss, int dim,
-			    const gnum_float *ys, int n,
-			    int affine,
-			    gnum_float *res, regression_stat_t *stat);
+RegressionResult exponential_regression (gnum_float **xss, int dim,
+					 const gnum_float *ys, int n,
+					 gboolean affine,
+					 gnum_float *res,
+					 regression_stat_t *stat);
 
 #endif

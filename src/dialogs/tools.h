@@ -2,6 +2,7 @@
 #define GNUMERIC_TOOLS_H
 
 #include "analysis-tools.h"
+#include "regression.h"
 
 int correlation_tool      (WorkbookControl *context, Sheet *current_sheet,
 			   GSList *input, group_by_t group_by,
@@ -21,8 +22,10 @@ int ftest_tool            (WorkbookControl *context, Sheet *sheet,
 			   Value *input_range1, Value *input_range2,
 			   gnum_float alpha,
 			   data_analysis_output_t *dao);
-int regression_tool       (WorkbookControl *context, Sheet *sheet,
-			   GSList *x_input, Value *y_input, group_by_t group_by,
+RegressionResult
+regression_tool           (WorkbookControl *context, Sheet *sheet,
+			   GSList *x_input, Value *y_input,
+			   group_by_t group_by,
 			   gnum_float alpha, data_analysis_output_t *dao,
 			   int intercept);
 int ttest_paired_tool     (WorkbookControl *context, Sheet *sheet,

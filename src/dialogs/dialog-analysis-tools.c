@@ -2665,6 +2665,7 @@ regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
 	GtkWidget *w;
 	int intercept_flag, err;
 	gnum_float confidence;
+	RegressionResult regerr;
 
 	x_input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -2681,37 +2682,51 @@ regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
 	w = glade_xml_get_widget (state->gui, "intercept-button");
 	intercept_flag = 1 - gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = regression_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
-			       x_input, y_input,
-			       gnumeric_glade_group_value (state->gui, grouped_by_group),
-			       1 - confidence, &dao, intercept_flag);
+	regerr = regression_tool
+		(WORKBOOK_CONTROL (state->wbcg), state->sheet,
+		 x_input, y_input,
+		 gnumeric_glade_group_value (state->gui, grouped_by_group),
+		 1 - confidence, &dao, intercept_flag);
 
-	switch (err) {
-	case 0:
+	switch (regerr) {
+	case REG_ok:
 		gtk_widget_destroy (state->dialog);
 		break;
-	case 1:
+
+	case REG_near_singular_good:
+	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+				 _("Two or more of the independent variables "
+				   "are nearly linear dependent.\nTreat the "
+				   "regression result with great care."));
+		gtk_widget_destroy (state->dialog);
+		break;
+
+	case REG_not_enough_data:
 	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 			      _("There are too few data points to conduct this "
 				"regression.\nThere must be at least as many "
 				"data points as free variables."));
 		break;
-	case 2:
+
+	case REG_near_singular_bad:
+	case REG_singular:
 	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 			      _("Two or more of the independent variables "
 				"are linearly dependent,\nand the regression "
 				"cannot be calculated. Remove one of these\n"
 				"variables and try the regression again."));
                 break;
-	case 3:
+
+	case REG_invalid_data:
+	case REG_invalid_dimensions:
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 			      _("There must be an equal number of entries "
 				"for each variable in the regression."));
                 break;
+
 	default:
 		break;
 	}
-	return;
 }
 
 /**

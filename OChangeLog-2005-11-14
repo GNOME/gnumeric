@@ -1,4 +1,15 @@
+2002-02-27  Morten Welinder  <terra@diku.dk>
+
+	* src/regression.c (linear_solve): Attempt error correction in the
+ 	near-singular case.
+	(linear_regression, exponential_regression): Change return type to
+ 	an enum.  All callers changed.
+	(LUPDecomp): Attempt to detect near-singularity.
+
 2002-02-26  Morten Welinder  <terra@diku.dk>
+
+	* src/regression.c (linear_regression, exponential_regression):
+	Add safety check.
 
 	* plugins/*/*.xml.in: just use the .la file for module_file.
 
