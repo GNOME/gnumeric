@@ -6,142 +6,145 @@ msgstr ""
 "Xgettext-Options: --default-domain=gnumeric --directory=.. --add-comments --keyword=_ --keyword=N_ --files-from=./POTFILES.in\n"
 "Files: src/dialog-cell-format.c src/dialog-delete-cells.c src/dialog-goto-cell.c src/dialog-insert-cells.c src/dialog-paste-special.c src/dialog-zoom.c src/expr.c src/fn-math.c src/fn-misc.c src/fn-sheet.c src/format.c src/gnumeric-util.c src/item-cursor.c src/item-grid.c src/sheet-view.c src/sheet.c src/workbook.c src/xml-io.c\n"
 
-#: src/dialog-cell-format.c:44 src/dialog-cell-format.c:400
+#. The various formats
+#: src/dialog-cell-format.c:63 src/dialog-cell-format.c:419
 msgid "General"
 msgstr "Generale"
 
-#: src/dialog-cell-format.c:122
+#: src/dialog-cell-format.c:141
 msgid "Numbers"
 msgstr "Numeri"
 
-#: src/dialog-cell-format.c:123
+#: src/dialog-cell-format.c:142
 msgid "Accounting"
 msgstr "Contabilità"
 
-#: src/dialog-cell-format.c:124
+#: src/dialog-cell-format.c:143
 msgid "Date"
 msgstr "Data"
 
-#: src/dialog-cell-format.c:125
+#: src/dialog-cell-format.c:144
 msgid "Time"
 msgstr "Ora"
 
-#: src/dialog-cell-format.c:126
+#: src/dialog-cell-format.c:145
 msgid "Percent"
 msgstr "Percentuale"
 
-#: src/dialog-cell-format.c:127
+#: src/dialog-cell-format.c:146
 msgid "Fraction"
 msgstr "Frazione"
 
-#: src/dialog-cell-format.c:128
+#: src/dialog-cell-format.c:147
 msgid "Scientific"
 msgstr "Scientifico"
 
-#: src/dialog-cell-format.c:129
+#: src/dialog-cell-format.c:148
 msgid "Text"
 msgstr "Testo"
 
-#: src/dialog-cell-format.c:130
+#: src/dialog-cell-format.c:149
 msgid "Money"
 msgstr "Moneta"
 
 #. 1. Categories
-#: src/dialog-cell-format.c:308
+#: src/dialog-cell-format.c:327
 msgid "Categories"
 msgstr "Categorie"
 
-#: src/dialog-cell-format.c:334
+#. 2.1 Input line
+#: src/dialog-cell-format.c:353
 msgid "Code:"
 msgstr "Codice:"
 
-#: src/dialog-cell-format.c:343
+#. 2.2 Sample
+#: src/dialog-cell-format.c:362
 msgid "Sample:"
 msgstr "Esempio:"
 
-#: src/dialog-cell-format.c:353
+#. 3. Format codes
+#: src/dialog-cell-format.c:372
 msgid "Format codes"
 msgstr "Codici di formattazione"
 
-#: src/dialog-cell-format.c:401
+#: src/dialog-cell-format.c:420
 msgid "Left"
 msgstr "Sinistra"
 
-#: src/dialog-cell-format.c:402 src/dialog-cell-format.c:411 src/workbook.c:369
+#: src/dialog-cell-format.c:421 src/dialog-cell-format.c:430 src/workbook.c:369
 msgid "Center"
 msgstr "Centro"
 
-#: src/dialog-cell-format.c:403
+#: src/dialog-cell-format.c:422
 msgid "Right"
 msgstr "Destra"
 
-#: src/dialog-cell-format.c:404
+#: src/dialog-cell-format.c:423
 msgid "Fill"
 msgstr "Riempimento"
 
-#: src/dialog-cell-format.c:405 src/dialog-cell-format.c:413
+#: src/dialog-cell-format.c:424 src/dialog-cell-format.c:432
 msgid "Justify"
 msgstr "Giustificazione"
 
-#: src/dialog-cell-format.c:410
+#: src/dialog-cell-format.c:429
 msgid "Top"
 msgstr "Alto"
 
-#: src/dialog-cell-format.c:412
+#: src/dialog-cell-format.c:431
 msgid "Bottom"
 msgstr "Basso"
 
-#: src/dialog-cell-format.c:475
+#: src/dialog-cell-format.c:487
 msgid "Vertical"
 msgstr "Verticale"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:479
+#: src/dialog-cell-format.c:491
 msgid "Horizontal"
 msgstr "Orizzontale"
 
-#: src/dialog-cell-format.c:482
+#: src/dialog-cell-format.c:494
 msgid "Auto return"
 msgstr "A capo automatico"
 
-#: src/dialog-cell-format.c:645
+#: src/dialog-cell-format.c:663
 msgid "Text color"
 msgstr "Colore del testo"
 
-#. The radio buttons
-#: src/dialog-cell-format.c:649 src/dialog-cell-format.c:674 src/dialog-paste-special.c:29
+#: src/dialog-cell-format.c:667 src/dialog-cell-format.c:697 src/dialog-paste-special.c:29
 msgid "None"
 msgstr "Nessuno"
 
-#: src/dialog-cell-format.c:652
+#: src/dialog-cell-format.c:669
 msgid "Use this color"
 msgstr "Usa questo colore"
 
-#: src/dialog-cell-format.c:668
+#: src/dialog-cell-format.c:691
 msgid "Background configuration"
 msgstr "Configurazione sfondo"
 
-#: src/dialog-cell-format.c:677
+#: src/dialog-cell-format.c:699
 msgid "Use solid color"
 msgstr "Usa colore uniforme"
 
-#: src/dialog-cell-format.c:679
+#: src/dialog-cell-format.c:701
 msgid "Use a pattern"
 msgstr "Usa un motivo"
 
-#: src/dialog-cell-format.c:725
+#: src/dialog-cell-format.c:788
 msgid "Number"
 msgstr "Numero"
 
-#: src/dialog-cell-format.c:726
+#: src/dialog-cell-format.c:789
 msgid "Alignment"
 msgstr "Allineamento"
 
-#: src/dialog-cell-format.c:727
+#: src/dialog-cell-format.c:790
 msgid "Font"
 msgstr "Carattere"
 
-#: src/dialog-cell-format.c:728
+#: src/dialog-cell-format.c:791
 msgid "Coloring"
 msgstr "Colorazione"
 
@@ -193,7 +196,7 @@ msgstr "inserisci celle"
 msgid "Insert cells"
 msgstr "Inserisci celle"
 
-#: src/dialog-insert-cells.c:32 src/item-grid.c:486 src/workbook.c:340
+#: src/dialog-insert-cells.c:32 src/item-grid.c:486
 msgid "Insert"
 msgstr "Inserisci"
 
@@ -213,7 +216,7 @@ msgstr "Inserisci una riga"
 msgid "Insert a column"
 msgstr "Inserisci una colonna"
 
-#: src/dialog-paste-special.c:21 src/workbook.c:293
+#: src/dialog-paste-special.c:21
 msgid "All"
 msgstr "Tutto"
 
@@ -225,7 +228,7 @@ msgstr "Formule"
 msgid "Values"
 msgstr "Valori"
 
-#: src/dialog-paste-special.c:24 src/workbook.c:294
+#: src/dialog-paste-special.c:24
 msgid "Formats"
 msgstr "Formati"
 
@@ -245,7 +248,7 @@ msgstr "Moltiplica"
 msgid "Divide"
 msgstr "Dividi"
 
-#: src/dialog-paste-special.c:57 src/item-grid.c:484 src/workbook.c:306
+#: src/dialog-paste-special.c:57 src/item-grid.c:484
 msgid "Paste special"
 msgstr "Incolla speciale"
 
@@ -518,75 +521,75 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Dicembre"
 
-#: src/format.c:428
+#: src/format.c:431
 msgid "black"
 msgstr "nero"
 
-#: src/format.c:429
+#: src/format.c:432
 msgid "blue"
 msgstr "blu"
 
-#: src/format.c:430
+#: src/format.c:433
 msgid "cyan"
 msgstr "ciano"
 
-#: src/format.c:431
+#: src/format.c:434
 msgid "green"
 msgstr "verde"
 
-#: src/format.c:432
+#: src/format.c:435
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:433
+#: src/format.c:436
 msgid "red"
 msgstr "rosso"
 
-#: src/format.c:434
+#: src/format.c:437
 msgid "white"
 msgstr "bianco"
 
-#: src/format.c:435
+#: src/format.c:438
 msgid "yellow"
 msgstr "giallo"
 
-#: src/gnumeric-sheet.c:755
+#: src/gnumeric-sheet.c:760
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:758
+#: src/gnumeric-sheet.c:763
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:761
+#: src/gnumeric-sheet.c:766
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:764
+#: src/gnumeric-sheet.c:769
 msgid "12%"
 msgstr "12%"
 
-#: src/gnumeric-sheet.c:767
+#: src/gnumeric-sheet.c:772
 msgid "6%"
 msgstr "6%"
 
-#: src/gnumeric-sheet.c:770
+#: src/gnumeric-sheet.c:775
 msgid "Horizontal lines"
 msgstr "Linee orizzontali"
 
-#: src/gnumeric-sheet.c:773
+#: src/gnumeric-sheet.c:778
 msgid "Vertical lines"
 msgstr "Linee verticali"
 
-#: src/gnumeric-sheet.c:776 src/gnumeric-sheet.c:779 src/gnumeric-sheet.c:782 src/gnumeric-sheet.c:785
+#: src/gnumeric-sheet.c:781 src/gnumeric-sheet.c:784 src/gnumeric-sheet.c:787 src/gnumeric-sheet.c:790
 msgid "Diagonal lines"
 msgstr "Linee diagonali"
 
-#: src/gnumeric-sheet.c:788
+#: src/gnumeric-sheet.c:793
 msgid "Crossed diagonals"
 msgstr "Diagonali incrociate"
 
-#: src/gnumeric-sheet.c:791
+#: src/gnumeric-sheet.c:796
 msgid "Bricks"
 msgstr "Mattoni"
 
@@ -594,43 +597,43 @@ msgstr "Mattoni"
 msgid "Notice"
 msgstr "Avviso"
 
-#: src/item-cursor.c:499 src/item-grid.c:482 src/workbook.c:302 src/workbook.c:359
+#: src/item-cursor.c:543 src/item-grid.c:482 src/workbook.c:359
 msgid "Copy"
 msgstr "Copia"
 
-#: src/item-cursor.c:500
+#: src/item-cursor.c:544
 msgid "Move"
 msgstr "Sposta"
 
-#: src/item-cursor.c:501
+#: src/item-cursor.c:545
 msgid "Copy formats"
 msgstr "Copia formattazione"
 
-#: src/item-cursor.c:502
+#: src/item-cursor.c:546
 msgid "Copy values"
 msgstr "Copia valori"
 
-#: src/item-cursor.c:503
+#: src/item-cursor.c:547
 msgid "Shift cells down and copy"
 msgstr "Sposta celle in giù e copia"
 
-#: src/item-cursor.c:504
+#: src/item-cursor.c:548
 msgid "Shift cells right and copy"
 msgstr "Sposta celle a destra e copia"
 
-#: src/item-cursor.c:505
+#: src/item-cursor.c:549
 msgid "Shift cells down and move"
 msgstr "Sposta celle in giù e sposta"
 
-#: src/item-cursor.c:506
+#: src/item-cursor.c:550
 msgid "Shift cells right and move"
 msgstr "Sposta celle a destra e sposta"
 
-#: src/item-grid.c:481 src/workbook.c:300 src/workbook.c:356
+#: src/item-grid.c:481 src/workbook.c:356
 msgid "Cut"
 msgstr "Taglia"
 
-#: src/item-grid.c:483 src/sheet.c:2082 src/workbook.c:304 src/workbook.c:362
+#: src/item-grid.c:483 src/sheet.c:2082 src/workbook.c:362
 msgid "Paste"
 msgstr "Incolla"
 
@@ -642,11 +645,11 @@ msgstr "Cancella contenuto"
 msgid "Cell format"
 msgstr "Formattazione cella"
 
-#: src/main.c:11
+#: src/main.c:14
 msgid "FILE"
 msgstr "FILE"
 
-#: src/main.c:11
+#: src/main.c:14
 msgid "File to load at startup"
 msgstr "File da caricare all'avvio"
 
@@ -662,85 +665,125 @@ msgstr "Colonna: %s"
 msgid "Insert rows"
 msgstr "Inserisci righe"
 
-#: src/workbook.c:278 src/workbook.c:346
-msgid "New"
-msgstr "Nuovo"
+#: src/workbook.c:278
+msgid "_New"
+msgstr "_Nuovo"
 
-#: src/workbook.c:280 src/workbook.c:349
-msgid "Open"
-msgstr "Apri"
+#: src/workbook.c:280
+msgid "_Open"
+msgstr "_Apri"
 
-#: src/workbook.c:282 src/workbook.c:352
-msgid "Save"
-msgstr "Salva"
+#: src/workbook.c:282
+msgid "_Save"
+msgstr "_Salva"
 
 #: src/workbook.c:284
-msgid "Save as..."
-msgstr "Salva con nome..."
+msgid "S_ave as..."
+msgstr "S_alva con nome..."
 
 #: src/workbook.c:286
-msgid "Plugins..."
-msgstr "Plugin..."
+msgid "_Plugins..."
+msgstr "_Plugin..."
 
 #: src/workbook.c:287
-msgid "Exit"
-msgstr "Esci"
+msgid "_Exit"
+msgstr "_Esci"
+
+#: src/workbook.c:293
+msgid "_All"
+msgstr "_Tutto"
+
+#: src/workbook.c:294
+msgid "_Formats"
+msgstr "_Formato"
 
 #: src/workbook.c:295
-msgid "Content"
-msgstr "Contenuto"
+msgid "_Content"
+msgstr "_Contenuto"
+
+#: src/workbook.c:300
+msgid "_Cut"
+msgstr "_Taglia"
+
+#: src/workbook.c:302
+msgid "C_opy"
+msgstr "C_opia"
+
+#: src/workbook.c:304
+msgid "_Paste"
+msgstr "_Incolla"
+
+#: src/workbook.c:306
+msgid "P_aste special"
+msgstr "I_ncolla speciale"
 
 #: src/workbook.c:309
-msgid "Clear"
-msgstr "Cancella"
+msgid "C_lear"
+msgstr "C_ancella"
 
 #: src/workbook.c:311
-msgid "Goto cell.."
-msgstr "Vai alla cella..."
+msgid "_Goto cell.."
+msgstr "_Vai a..."
 
 #: src/workbook.c:317
-msgid "Zoom..."
-msgstr "Zoom..."
+msgid "_Zoom..."
+msgstr "_Zoom..."
 
 #: src/workbook.c:322
-msgid "Cells..."
-msgstr "Celle..."
+msgid "_Cells..."
+msgstr "_Celle..."
 
 #: src/workbook.c:323
-msgid "Rows"
-msgstr "Righe"
+msgid "_Rows"
+msgstr "_Righe"
 
 #: src/workbook.c:324
-msgid "Columns"
-msgstr "Colonne"
+msgid "C_olumns"
+msgstr "C_olonne"
 
 #: src/workbook.c:331
-msgid "Cells.."
-msgstr "Celle..."
+msgid "_Cells.."
+msgstr "_Celle"
 
 #: src/workbook.c:337
-msgid "File"
-msgstr "File"
+msgid "_File"
+msgstr "_File"
 
 #: src/workbook.c:338
-msgid "Edit"
-msgstr "Modifica"
+msgid "_Edit"
+msgstr "_Modifica"
 
 #: src/workbook.c:339
-msgid "View"
-msgstr "Vista"
+msgid "_View"
+msgstr "_Vista"
+
+#: src/workbook.c:340
+msgid "_Insert"
+msgstr "_Inserisci"
 
 #: src/workbook.c:341
-msgid "Format"
-msgstr "Formato"
+msgid "F_ormat"
+msgstr "F_ormatta"
+
+#: src/workbook.c:346
+msgid "New"
+msgstr "Nuovo"
 
 #: src/workbook.c:347
 msgid "Create a new sheet"
 msgstr "Crea un foglio nuovo"
 
+#: src/workbook.c:349
+msgid "Open"
+msgstr "Apri"
+
 #: src/workbook.c:350
 msgid "Opens an existing workbook"
 msgstr "Apri una cartella di lavoro esistente"
+
+#: src/workbook.c:352
+msgid "Save"
+msgstr "Salva"
 
 #: src/workbook.c:353
 msgid "Saves the workbook"
@@ -810,33 +853,82 @@ msgstr "Ellisse"
 msgid "Creates an ellipse object"
 msgstr "Crea un oggetto ellisse"
 
-#: src/workbook.c:456
+#: src/workbook.c:465
 msgid "You should introduce a valid cell name"
 msgstr "Devi inserire un nome di cella valido"
 
-#: src/workbook.c:538
+#: src/workbook.c:547
 msgid "Sum"
 msgstr "Somma"
 
-#: src/workbook.c:539
+#: src/workbook.c:548
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:540
+#: src/workbook.c:549
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:541
+#: src/workbook.c:550
 msgid "Average"
 msgstr "Media"
 
-#: src/workbook.c:542
+#: src/workbook.c:551
 msgid "Count"
 msgstr "Conto"
 
-#: src/xml-io.c:993
+#: src/workbook.c:788
+msgid "Sheet %d"
+msgstr "Foglio %d"
+
+#: src/xml-io.c:995
 msgid "NoName"
 msgstr "SenzaNome"
+# msgid "Cells..."
+# msgstr "Celle..."
+# 
+# msgid "Edit"
+# msgstr "Modifica"
+# 
+# msgid "Save as..."
+# msgstr "Salva con nome..."
+# 
+# msgid "Goto cell.."
+# msgstr "Vai alla cella..."
+# 
+# msgid "Exit"
+# msgstr "Esci"
+# 
+# msgid "Cells.."
+# msgstr "Celle..."
+# 
+# msgid "Zoom..."
+# msgstr "Zoom..."
+# 
+# msgid "Clear"
+# msgstr "Cancella"
+# 
+# msgid "Columns"
+# msgstr "Colonne"
+# 
+# msgid "View"
+# msgstr "Vista"
+# 
+# msgid "Content"
+# msgstr "Contenuto"
+# 
+# msgid "File"
+# msgstr "File"
+# 
+# msgid "Format"
+# msgstr "Formato"
+# 
+# msgid "Plugins..."
+# msgstr "Plugin..."
+# 
+# msgid "Rows"
+# msgstr "Righe"
+# 
 # msgid "<function>AND</function><syntax>AND(b1, b2, ...)</syntax>n<description>Implements the logical AND function: the result is TRUE if all of the expression evaluate to TRUE, otherwise it returns FALSE.<p>b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.<p>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. </description><seealso>OR</seealso>"
 # msgstr "<function>AND</function><syntax>AND(b1, b2, ...)</syntax>n<description>Implements the logical AND function: the result is TRUE if all of the expression evaluate to TRUE, otherwise it returns FALSE.<p>b1, trough bN are expressions that should evaluate to TRUE or FALSE.If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.<p>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. </description><seealso>OR</seealso>"
 # 
