@@ -1,5 +1,11 @@
 2002-03-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solver.c (get_col_nbr): New function.
+	(lp_solver_init): Fixed the `Int' constraints.
+
+	* api.c (w_glpk_init): Killed a warning.
+	(w_lp_solve_set_int): Fixed the column indexing.
+
 	* api.c, solver.c: Completed the support for GLPK's two phase
 	primal simplex method.
 

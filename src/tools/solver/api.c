@@ -178,7 +178,7 @@ w_lp_solve_set_constr (SolverProgram lp, int row, SolverConstraintType type,
 void
 w_lp_solve_set_int (SolverProgram lp, int col, gboolean must_be_int)
 {
-	lp_solve_set_int (lp, col, must_be_int);
+	lp_solve_set_int (lp, col + 1, must_be_int);
 }
 
 SolverStatus
@@ -271,7 +271,7 @@ w_glpk_init (int n_vars, int n_constraints)
 	GString         *str;
 
 	lp        = g_new (glpk_simplex2_t, 1);
-	lp->p     = glp_create_prob ("p");
+	lp->p     = glp_create_prob (NULL);
 	lp->param = g_new (struct spx2, 1);
 
 	glp_init_spx2 (lp->param);

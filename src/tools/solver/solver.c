@@ -256,6 +256,20 @@ callback (int iter, gnum_float *x, gnum_float bv, gnum_float cx, int n,
 }
 #endif
 
+static int
+get_col_nbr (SolverResults *res, CellPos *pos)
+{
+        int  i;
+        Cell *cell;
+
+	for (i = 0; i < res->param->n_variables; i++) {
+	        cell = get_solver_input_var (res, i);
+		if (cell->pos.row == pos->row && cell->pos.col == pos->col)
+		        return i;
+	}
+	return -1;
+}
+
 /*
  * Initializes the program according to the information given in the
  * solver dialog and the related sheet.  After the call, the LP
@@ -269,7 +283,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 	SolverLPAlgorithm *alg;
 	Cell              *target;
 	gnum_float        x;
-	int               i, n;
+	int               i, n, ind;
 
 	/* Initialize the SolverProgram structure. */
 	alg = &lp_algorithm[param->options.algorithm];
@@ -297,7 +311,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
  target_cell_formula_ok:
 
 	/* Add constraints. */
-	for (i = 0; i < param->n_constraints + param->n_int_bool_constraints;
+	for (i = ind = 0; i < param->n_constraints + param->n_int_bool_constraints;
 	     i++) {
 	        SolverConstraint *c = get_solver_constraint (res, i);
 		target = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
@@ -313,7 +327,10 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 		}
 
 		if (c->type == SolverINT) {
-		        alg->set_int_fn (program, i, TRUE);
+		        n = get_col_nbr (res, &c->lhs);
+			if (n == -1)
+			        return NULL;
+		        alg->set_int_fn (program, n, TRUE);
 			res->ilp_flag = TRUE;
 		        continue;
 		}
@@ -322,7 +339,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 					  get_solver_input_var (res, n));
 			if (x != 0) {
 			        res->n_nonzeros_in_mat += 1;
-				alg->set_constr_mat_fn (program, n, i, x);
+				alg->set_constr_mat_fn (program, n, ind, x);
 				res->constr_coeff[i][n] = x;
 			}
 		}
@@ -339,7 +356,8 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 		}
 
 		x = value_get_as_float (target->value);
-		alg->set_constr_fn (program, i, c->type, x);
+		alg->set_constr_fn (program, ind, c->type, x);
+		ind++;
 	}
 
 	/* Set up the problem type. */
@@ -505,6 +523,7 @@ check_program_definition_failures (Sheet            *sheet,
 
 	*res = solver_results_init (param);
 
+	(*res)->param = param;
 	(*res)->input_cells_array = input_cells_array;
 	(*res)->constraints_array = constraints_array;
 	(*res)->obj_coeff = g_new0 (gnum_float, param->n_variables);
@@ -646,7 +665,6 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	res->time_real = end.tv_sec - start.tv_sec
 	        + (end.tv_usec - start.tv_usec) / (gnum_float) G_USEC_PER_SEC;
 
-	res->param = sheet->solver_parameters;
 	if (res->status == SolverOptimal) {
 	        res->value_of_obj_fn = lp_algorithm[param->options.algorithm]
 		        .get_obj_fn_value_fn (program);
