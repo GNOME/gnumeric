@@ -1,3 +1,7 @@
+2001-04-14  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* pl.po: Updated Polish translation.
+
 2001-04-12  Jody Goldberg <jgoldberg@home.com>
 
 	* POTFILES.in : rename xml2 -> xml_sax
