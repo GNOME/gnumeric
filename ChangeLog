@@ -1,3 +1,7 @@
+2001-07-05  Morten Welinder  <terra@diku.dk>
+
+	* configure.in (finite): Also check in -lm.
+
 2001-07-05  Almer S. Tigelaar  <almer@gnome.org>
 
 	* gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Fix backspace.

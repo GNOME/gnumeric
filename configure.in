@@ -103,6 +103,15 @@ AC_CHECK_HEADERS(ieeefp.h)
 dnl Check for some functions
 AC_CHECK_FUNCS(random drand48 finite isfinite)
 
+dnl
+dnl On BSD, we seem to need -lm for finite
+dnl
+if test $ac_cv_func_finite = no; then
+  AC_CHECK_LIB(m, finite,
+        [AC_DEFINE(HAVE_FINITE)
+         LIBS="$LIBS -lm"])
+fi
+
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
 
