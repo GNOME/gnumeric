@@ -129,7 +129,7 @@ const struct poptOption gnumeric_popt_options [] = {
 	  N_("LEVEL") },
 	{ "debug_ole", '\0', POPT_ARG_NONE,
 	    &libole2_debug, 0,
-	  N_("Enables extra consistancy checking while reading ole files"),
+	  N_("Enables extra consistency checking while reading ole files"),
 	  NULL  },
 
 	{ NULL, '\0', 0, NULL, 0 }

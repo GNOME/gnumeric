@@ -1,6 +1,7 @@
 2001-02-11  Karl Eichwalder  <ke@suse.de>
 
 	* src/main.c: s/behaviour/behavior/ and s/colours/colors/ .
+	Typo.
 
 2001-02-11  Almer S. Tigelaar  <almer1@dds.nl>
 
