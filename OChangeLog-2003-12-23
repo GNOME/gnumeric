@@ -1,3 +1,7 @@
+2001-02-12  Karl Eichwalder  <ke@suse.de>
+
+	* templates/autoformat/Makefile.am (Category_files): Typo.
+
 2001-02-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_draw) : Center content on the cell with the

@@ -8,7 +8,7 @@ Generaldir       = $(autoformat_templatesdir)/General
 Listdir          = $(autoformat_templatesdir)/List
 
 Category_files = \
-	3D.category Classical.category colourful.category \
+	3D.category Classical.category Colourful.category \
 	Financial.category General.category List.category
 
 ThreeD_DATA = \
