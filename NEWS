@@ -36,6 +36,7 @@ Morten:
 	* Eliminate old printing code.
 	* Clean out workarounds for old libraries.
 	* Avoid GnomeFont in printing.
+	* Fix .dbf import of floating point values.  [#166311]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.2
