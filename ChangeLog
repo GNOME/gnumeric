@@ -1,3 +1,9 @@
+2004-04-17  Jody Goldberg <jody@gnome.org>
+
+	* src/value.c (parse_database_criteria) : revert change from 2004-03-31
+	  rather than moving to g_new/g_free to make the g_free work, leave
+	  the g_alloca and remove the unnecessary g_free.
+
 2004-04-15  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release bump

@@ -4,6 +4,7 @@ Jody:
 	* Suppress warnings when loading XL95 files with charts that were
 	  saved by newer version of MS Excel.
 	* Make in sheet edit item cursors blink more smoothly when moving
+	* Fix change in 1.2.9 that broke the db functions
 
 Miloslav Trmac:
 	http://bugzilla.gnome.org/show_bug.cgi?id=140029
