@@ -13,6 +13,5 @@ plugin_LTLIBRARIES = libxbase.la
 
 libxbase_la_SOURCES =		\
 	boot.c			\
-	boot.h			\
 	xbase.c			\
 	xbase.h

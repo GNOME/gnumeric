@@ -338,7 +338,7 @@ fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, COR
 			
 		case VALUE_ERROR:
 			value->_d = GNOME_Gnumeric_VALUE_ERROR;
-			value->_u.error = CORBA_string_dup (cell->value->v.error.msg.str->str);
+			value->_u.error = CORBA_string_dup (cell->value->v.str->str);
 			break;
 			
 		case VALUE_STRING:

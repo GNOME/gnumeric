@@ -64,10 +64,10 @@ make-func.defs:
 
 dist-hook:
 	mkdir $(distdir)/gnumeric
-	-cp gnumeric/*.html gnumeric/*.css $(distdir)/gnumeric
-	-cp gnumeric.html $(distdir)
+	-cp $(srcdir)/gnumeric/*.html gnumeric/*.css $(distdir)/gnumeric
+	-cp $(srcdir)/gnumeric.html $(distdir)
 	mkdir $(distdir)/images
-	-cp images/*.gif images/*.jpg $(distdir)/images
+	-cp $(srcdir)/images/*.gif $(srcdir)/images/*.jpg $(distdir)/images
 
 install-data-local: gnumeric.html
 	$(mkinstalldirs) $(gnumeric_helpdir)/images

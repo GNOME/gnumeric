@@ -37,13 +37,12 @@ usability. Hopefully we left the bugs behind :).
 %ifarch alpha
   MYARCH_FLAGS="--host=alpha-redhat-linux"
 %endif
-./configure --prefix=%prefix $MYARCH_FLAGS --sysconfdir=/etc
+CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%prefix $MYARCH_FLAGS --sysconfdir=/etc
 
 if [ "$SMP" != "" ]; then
-  (make "MAKE=make -k -j $SMP"; exit 0)
-  make
+	make -j$SMP "MAKE=make -j$SMP"
 else
-  make
+	make
 fi
 
 %install
@@ -74,12 +73,10 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/lib/gnumeric/plugins/*
 %{prefix}/share/locale/*/*
 %{prefix}/share/gnome/apps/Applications/gnumeric.desktop
-%{prefix}/share/gnome/help/gnumeric/C/*
-%{prefix}/share/gnome/help/gnumeric/C/images/*
+%{prefix}/share/gnome/help/gnumeric
 %{prefix}/share/idl/Gnumeric.idl
 %{prefix}/share/mc/templates/*
 %{prefix}/share/mime-info/*
 %{prefix}/share/pixmaps/*
 
 %config /etc/CORBA/servers/*
-

@@ -1,3 +1,11 @@
+1999-08-02  Elliot Lee <sopwith@redhat.com>
+	* gnumeric.spec.in: Fix the .spec file to include correct documentation pieces.
+	* doc/C/Makefile.am: Work with builddir != srcdir
+	* plugins/lotus-123/Makefile.am: boot.h not needed. lotus-types.h is.
+	* plugins/xbase/Makefile.am: boot.h not needed.
+	* po/Makefile.in.in: v3
+	* src/corba-sheet.c: Use a compilable thing for error string.
+
 1999-08-02  Morten Welinder  <terra@diku.dk>
 
 	* src/expr.c (eval_expr_real): Plug leak...

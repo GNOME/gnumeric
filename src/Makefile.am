@@ -183,8 +183,6 @@ GNUMERIC_CORBA_GENERATED = 			\
 	Gnumeric-skels.c			\
 	Gnumeric-stubs.c			\
 	Gnumeric.h
-else
-GNUMERIC_CORBA_GENERATED =
 endif
 
 GNUMERIC_BONOBO_SOURCES = 			\
@@ -197,13 +195,19 @@ BUILT_SOURCES = $(GNUMERIC_CORBA_GENERATED)
 
 Gnumeric-impl.o: Gnumeric.h
 
-$(GNUMERIC_CORBA_GENERATED): Gnumeric.idl
+$(GNUMERIC_CORBA_GENERATED): my_gnumeric_idl
+
+my_gnumeric_idl: Gnumeric.idl
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Gnumeric.idl
+	touch my_gnumeric_idl
 
 gnumeric_SOURCES =				\
 	main.c					\
 	normal-args.c				\
 	$(GNUMERIC_BASE_SOURCES)
+
+corba-sheet.c corba-workbook-factory.c corba-workbook.c Gnumeric-impl.c \
+embeddable-grid.c: Gnumeric.h
 
 gnumeric_bonobo_SOURCES =			\
 	main.c					\
@@ -270,6 +274,6 @@ glade_msgs = 				\
 	import.glade.h			\
 	print.glade.h
 
-EXTRA_DIST = $(idl_DATA) $(glade_DATA) $(glade_msgs) $(GNUMERIC_CORBA_GENERATED)
+MYHACKAROUNDAUTOMAKE=$(shell echo $(GNUMERIC_CORBA_GENERATED))
 
-
+EXTRA_DIST = $(idl_DATA) $(glade_DATA) $(glade_msgs) $(MYHACKAROUNDAUTOMAKE)
