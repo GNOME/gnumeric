@@ -36,7 +36,7 @@
 static GList *categories;
 static SymbolTable *global_symbol_table;
 
-static const char *unknown_cat_name = N_("Unknown Function");
+static FunctionCategory *unknown_cat;
 static GSList *unknown_functions;
 
 void
@@ -49,9 +49,8 @@ functions_init (void)
 void
 functions_shutdown (void)
 {
-	FunctionCategory *unknown_cat =
-		function_get_category_with_translation (unknown_cat_name,
-							_(unknown_cat_name));
+	g_assert ((unknown_cat == NULL) == (unknown_functions == NULL));
+
 	while (unknown_functions) {
 		FunctionDefinition *func = unknown_functions->data;
 		function_remove (unknown_cat, function_def_get_name (func));
@@ -472,13 +471,14 @@ unknownFunctionHandler (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 FunctionDefinition *
 function_add_placeholder (char const *name, char const *type)
 {
-	FunctionCategory *cat;
 	FunctionDefinition *func = func_lookup_by_name (name, NULL);
+	const char *unknown_cat_name = N_("Unknown Function");
 
 	g_return_val_if_fail (func == NULL, func);
 
-	cat = function_get_category_with_translation (unknown_cat_name,
-						      _(unknown_cat_name));
+	if (!unknown_cat)
+		unknown_cat = function_get_category_with_translation
+			(unknown_cat_name, _(unknown_cat_name));
 
 	/*
 	 * TODO TODO TODO : should add a
@@ -486,7 +486,7 @@ function_add_placeholder (char const *name, char const *type)
 	 * This will allow a user to load a missing
 	 * plugin to supply missing functions.
 	 */
-	func = function_add_nodes (cat, g_strdup (name),
+	func = function_add_nodes (unknown_cat, g_strdup (name),
 				   0, "...", NULL,
 				   &unknownFunctionHandler);
 	unknown_functions = g_slist_prepend (unknown_functions, func);
