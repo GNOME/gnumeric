@@ -1,3 +1,10 @@
+2003-06-11  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (workbook_setup_sheets) : Fix my
+	  incorrect replacement on 2003-06-05.  show_border is something
+	  completely different.  Use the properties in stead of the old
+	  accessors.
+
 2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	for Evert Verhellen

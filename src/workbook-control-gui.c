@@ -4696,13 +4696,14 @@ cb_realize (GtkWindow *toplevel, WorkbookControlGUI *wbcg)
 static void
 workbook_setup_sheets (WorkbookControlGUI *wbcg)
 {
-	GtkWidget *w = gtk_notebook_new ();
-	wbcg->notebook = GTK_NOTEBOOK (w);
-	g_signal_connect_after (G_OBJECT (wbcg->notebook), "switch_page",
+	wbcg->notebook = g_object_new (GTK_TYPE_NOTEBOOK,
+				       "tab_pos",	GTK_POS_BOTTOM,
+				       "tab_hborder",	0,
+				       "tab_vborder",	0,
+				       NULL);
+	g_signal_connect_after (G_OBJECT (wbcg->notebook),
+		"switch_page",
 		G_CALLBACK (cb_notebook_switch_page), wbcg);
-
-	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (wbcg->notebook), GTK_POS_BOTTOM);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (wbcg->notebook), FALSE);
 
 	gtk_table_attach (GTK_TABLE (wbcg->table), GTK_WIDGET (wbcg->notebook),
 			  0, 1, 1, 2,
@@ -4710,7 +4711,7 @@ workbook_setup_sheets (WorkbookControlGUI *wbcg)
 			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			  0, 0);
 
-	gtk_widget_show (w);
+	gtk_widget_show (GTK_WIDGET (wbcg->notebook));
 }
 
 #ifdef WITH_BONOBO

@@ -38,11 +38,12 @@ Pending Patches
     0.7)  Add mnemonic_activate for colour combos		(DONE)
     0.8)  Add mnemonic_activate for ExprEntry			(DONE)
     0.9)  Queue update for changed/deleted in ExprEntry ?
-    0.10)  menu mnemonics for Edit -> Fill -> merge & series	(DONE)
+    0.10) Menu mnemonics for Edit -> Fill -> merge & series	(DONE)
     0.11) Fix warning on destruction of torn off combo		(DONE)
     0.12) Use 'Chart' in the ui to be compatible		(DONE)
     0.13) giving focus to an expr entry with a single rangeref
     	  in another sheet should make that range visible.
+    0.14) Convert dialog-consolidate to TreeView
 
 1) graphs							{Jody}
     1.1) Split plot xml file engine, type, and family plugins	(DONE)
@@ -122,7 +123,7 @@ Pending Patches
 	    1.20.1.4) advanced gradients 		{Jean Befort}
 	    1.20.1.5) pixmaps fills				(DONE)
 	    1.20.1.6) patterns
-	1.20.2) outline style
+	1.20.2) outline line pattern
     1.21) themes
 	1.21.1) Actually use the themes to initialize styles	(DONE)
 	1.21.2) load from xml
@@ -260,7 +261,10 @@ Pending Patches
 23) gconf.
     23.1) Check for errors					(DONE)
     23.2) double check that we update on remote changes
-    23.3) update the prefernecestructure on local changes	
+    23.3) see if schema is installed
+    23.4) Move the pref storage into app and compartmentalize
+    	  the use of gconf.
+    23.5) update the prefernecestructure on local changes	
 
 24) Plugins
     24.1) enhance gobject service to do delayed load		(DONE)
