@@ -1,3 +1,22 @@
+2001-08-28  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.h (struct _Workbook): point to first dependent
+ 	directly, not via an slist.
+
+	* src/eval.h (struct _Dependent): Add prev and next fields.
+
+	* src/eval.c (dependent_unlink, dependent_unlink_sheet): Fix-up
+ 	unlinking.
+	(dependent_link): Link using new double-linked structure.
+	(sheet_region_queue_recalc): Use new dependent linking structure.
+	(workbook_queue_all_recalc): Make an slist of dependents here.
+
+	* src/workbook-control-gui.c (TOGGLE_HANDLER/display_formulas):
+ 	Adapt to new dependent linking structure.
+
+	* src/workbook.c (workbook_expr_relocate): Adapt to new dependent
+ 	linking structure.
+
 2001-08-28  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-control-gui.c (scg_mode_edit) : fix a warning on exit

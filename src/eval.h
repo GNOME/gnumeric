@@ -9,6 +9,9 @@ struct _Dependent
 	guint	  flags;
 	Sheet	 *sheet;
 	ExprTree *expression;
+
+	/* Double-linked list.  */
+	struct _Dependent *next, *prev;
 };
 
 typedef struct {

@@ -35,6 +35,18 @@
 #include "cell.h"
 #include "sheet.h"
 
+#define UNLINK_DEP(wb,dep)					\
+  do {								\
+	if (wb->dependents == dep)				\
+		wb->dependents = dep->next;			\
+	if (dep->next)						\
+		dep->next->prev = dep->prev;			\
+	if (dep->prev)						\
+		dep->prev->next = dep->next;			\
+	/* Note, that ->prev and ->next are still valid.  */	\
+  } while (0)
+
+
 static GPtrArray *dep_classes = NULL;
 
 void
@@ -178,7 +190,7 @@ dependent_queue_recalc_list (GSList const *list, gboolean recurse)
 				printf ("Queuing: ");
 				dependent_debug_name (dep, stdout);
 				puts ("");
-		}
+			}
 #endif
 			/* Use the wb associated with the current dependent in
 			 * case we have cross workbook depends
@@ -608,16 +620,13 @@ dependent_link (Dependent *dep, CellPos const *pos)
 	g_return_if_fail (dep->sheet->deps != NULL);
 
 	wb = dep->sheet->workbook;
-#if 0
-	if (g_list_find (wb->dependents, dep)) {
-		/* Anything that shows here is a bug.  */
-		dependent_debug_name (dep, stderr);
-		g_warning ("Doubly linked dependent");
-		return;
-	}
-#endif
 
-	wb->dependents = g_slist_prepend (wb->dependents, dep);
+	/* Make this the new head of the dependent list.  */
+	dep->prev = NULL;
+	dep->next = wb->dependents;
+	if (dep->next)
+		dep->next->prev = dep;
+	wb->dependents = dep;
 	dep->flags |= DEPENDENT_IN_EXPR_LIST;
 
 	handle_tree_deps (dep, pos, dep->expression, ADD_DEPS);
@@ -647,8 +656,8 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 			handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
 
 		wb = dep->sheet->workbook;
-		wb->dependents = g_slist_remove (wb->dependents, dep);
 		dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
+		UNLINK_DEP (wb, dep);
 
 		/* An optimization to avoid an expensive list lookup */
 		if (dep->flags & DEPENDENT_IN_RECALC_QUEUE)
@@ -673,8 +682,12 @@ dependent_unlink_sheet (Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 
 	wb = sheet->workbook;
-	wb->dependents = dep_slist_filter_sheet (wb->dependents, sheet,
-		~DEPENDENT_IN_EXPR_LIST);
+	WORKBOOK_FOREACH_DEPENDENT
+		(wb, dep,
+		 if (dep->sheet == sheet) {
+			 dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
+			 UNLINK_DEP (wb, dep);
+		 });
 }
 
 /**
@@ -897,18 +910,15 @@ cb_single_recalc_all_depends (gpointer key, gpointer value, gpointer ignore)
 void
 sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 {
-	GSList *l;
-	Dependent *dep;
-
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->deps != NULL);
 
 	if (r == NULL) {
-		for (l = sheet->workbook->dependents; l; l = l->next) {
-			dep = l->data;
-			if (dep->sheet == sheet)
-				dependent_queue_recalc (dep);
-		}
+		WORKBOOK_FOREACH_DEPENDENT
+			(sheet->workbook, dep, {
+				 if (dep->sheet == sheet)
+					 dependent_queue_recalc (dep);
+			});
 
 		/* Find anything that depends on a range in this sheet */
 		g_hash_table_foreach (sheet->deps->range_hash,
@@ -919,16 +929,15 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 				      &cb_single_recalc_all_depends, NULL);
 	} else {
 		int ix, iy, end_col, end_row;
-		Cell *cell;
 
-		for (l = sheet->workbook->dependents; l; l = l->next) {
-			dep = l->data;
-			cell = DEP_TO_CELL (dep);
-			if (dep->sheet == sheet &&
-			    ((dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL) &&
-			    range_contains (r, cell->pos.col, cell->pos.row))
-				dependent_queue_recalc (dep);
-		}
+		WORKBOOK_FOREACH_DEPENDENT
+			(sheet->workbook, dep, {
+				 Cell *cell = DEP_TO_CELL (dep);
+				 if (dep->sheet == sheet &&
+				     ((dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL) &&
+				     range_contains (r, cell->pos.col, cell->pos.row))
+					 dependent_queue_recalc (dep);
+			});
 
 		g_hash_table_foreach (sheet->deps->range_hash,
 				      &cb_region_contained_depend,
@@ -1111,7 +1120,15 @@ void
 workbook_queue_all_recalc (Workbook *wb)
 {
 	/* FIXME : warning what about dependents in other workbooks */
-	dependent_queue_recalc_list (wb->dependents, FALSE);
+
+	/* FIXME: listifying is silly.  */
+
+	GSList *dependents = NULL;
+	WORKBOOK_FOREACH_DEPENDENT
+		(wb, dep, dependents = g_slist_prepend (dependents, dep));
+	dependent_queue_recalc_list (dependents, FALSE);
+
+	g_slist_free (dependents);
 }
 
 /*

@@ -144,13 +144,6 @@ workbook_destroy (GtkObject *wb_object)
 	workbook_deps_destroy (wb);
 	expr_name_invalidate_refs_wb (wb);
 
-	/*
-	 * All formulas are going to be removed.  Unqueue them before removing
-	 * the cells so that we need not search the lists.
-	 */
-	g_slist_free (wb->dependents);
-	wb->dependents = NULL;
-
 	/* Just drop the eval queue.  */
 	g_slist_free (wb->eval_queue);
 	wb->eval_queue = NULL;
@@ -170,6 +163,11 @@ workbook_destroy (GtkObject *wb_object)
 		 */
 		if (gnumeric_debugging > 0)
 			sheet_dump_dependencies (sheet);
+	}
+
+	if (wb->dependents != NULL) {
+		/* Nobody expects the Spanish Inquisition!  */
+		g_warning ("Trouble at the Mill.  Please report.");
 	}
 
 	/* Now remove the sheets themselves */
@@ -684,7 +682,9 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 	g_return_val_if_fail (wb != NULL, NULL);
 
 	/* Copy the list since it will change underneath us.  */
-	dependents = g_slist_copy (wb->dependents);
+	dependents = NULL;
+	WORKBOOK_FOREACH_DEPENDENT
+		(wb, dep, dependents = g_slist_prepend (dependents, dep));
 
 	for (l = dependents; l; l = l->next)	{
 		Dependent *dep = l->data;

@@ -37,7 +37,7 @@ struct _Workbook {
 	GList      *names;
 
 	/* All objects with expressions */
-	GSList     *dependents;
+	Dependent  *dependents;
 
 	/* The dependents to be evaluated */
 	GSList     *eval_queue;
@@ -152,5 +152,19 @@ do {										\
 #define WORKBOOK_FOREACH_CONTROL(wb, view, control, code)		\
 	WORKBOOK_FOREACH_VIEW((wb), view, 				\
 		WORKBOOK_VIEW_FOREACH_CONTROL(view, control, code);)
+
+/*
+ * Walk the dependents.  WARNING: Note, that it is only valid to muck with
+ * the current dependency in the code.
+ */
+#define WORKBOOK_FOREACH_DEPENDENT(wb, dep, code)	\
+  do {							\
+	Dependent *dep = (wb)->dependents;		\
+	while (dep) {					\
+		Dependent *_next = dep->next;		\
+		code;					\
+		dep = _next;				\
+	}						\
+  } while (0)
 
 #endif

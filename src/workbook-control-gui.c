@@ -1884,15 +1884,6 @@ cb_sheet_order (GtkWidget *widget, WorkbookControlGUI *wbcg)
         dialog_sheet_order (wbcg);
 }
 
-static void
-cb_cell_rerender (gpointer element, gpointer userdata)
-{
-	Dependent *dep = element;
-	int const t = (dep->flags & DEPENDENT_TYPE_MASK);
-	if (t == DEPENDENT_CELL)
-		sheet_cell_calc_span (DEP_TO_CELL (dep), SPANCALC_RE_RENDER);
-}
-
 #ifdef ENABLE_BONOBO
 static gboolean
 toggle_util (Bonobo_UIComponent_EventType type,
@@ -1954,7 +1945,12 @@ cb_sheet_pref_ ## flag (GtkWidget *ignored, WorkbookControlGUI *wbcg)	\
 
 TOGGLE_HANDLER (display_formulas,{
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	g_slist_foreach (wb->dependents, &cb_cell_rerender, NULL);
+	WORKBOOK_FOREACH_DEPENDENT
+		(wb, dep, {
+			int const t = (dep->flags & DEPENDENT_TYPE_MASK);
+			if (t == DEPENDENT_CELL)
+				sheet_cell_calc_span (DEP_TO_CELL (dep), SPANCALC_RE_RENDER);
+		});
 	sheet_adjust_preferences (sheet, TRUE, FALSE);
 })
 TOGGLE_HANDLER (hide_zero, sheet_adjust_preferences (sheet, TRUE, FALSE);)
