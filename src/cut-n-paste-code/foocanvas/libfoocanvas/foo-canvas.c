@@ -2908,6 +2908,7 @@ do_update (FooCanvas *canvas)
 {
 	/* Cause the update if necessary */
 
+update_again:
 	if (canvas->need_update) {
 		g_return_if_fail (!canvas->doing_update);
 
@@ -2926,6 +2927,15 @@ do_update (FooCanvas *canvas)
 	while (canvas->need_repick) {
 		canvas->need_repick = FALSE;
 		pick_current_item (canvas, &canvas->pick_event);
+	}
+
+	/* it is possible that during picking we emitted an event in which
+	   the user then called some function which then requested update
+	   of something.  Without this we'd be left in a state where
+	   need_update would have been left TRUE and the canvas would have
+	   been left unpainted. */
+	if (canvas->need_update) {
+		goto update_again;
 	}
 }
 
@@ -3102,7 +3112,7 @@ foo_canvas_set_pixels_per_unit (FooCanvas *canvas, double n)
 	cx = (canvas->layout.hadjustment->value + center_x) / canvas->pixels_per_unit + canvas->scroll_x1 + canvas->zoom_xofs;
 	cy = (canvas->layout.vadjustment->value + center_y) / canvas->pixels_per_unit + canvas->scroll_y1 + canvas->zoom_yofs;
 
-	/* Now calculate the new offset of the upper left corner. */
+	/* Now calculate the new offset of the upper left corner. (round not truncate) */
 	x1 = ((cx - canvas->scroll_x1) * n) - center_x + .5;
 	y1 = ((cy - canvas->scroll_y1) * n) - center_y + .5;
 

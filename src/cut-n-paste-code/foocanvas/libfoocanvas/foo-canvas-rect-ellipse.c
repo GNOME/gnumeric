@@ -891,7 +891,11 @@ render_rect_alpha (FooCanvasRect *rect,
 	a = (rgba >> 0) & 0xff;
 
 #ifdef HAVE_RENDER
-	if (priv->use_render) {
+	/* Every visual is not guaranteed to have a matching
+	 * XRenderPictFormat. So make sure that format is not null before
+	 * trying to render using Xrender calls.
+	 */
+	if (priv->use_render && (priv->format != NULL)) {
 		GdkDrawable *real_drawable;
 		int x_offset, y_offset;
 
