@@ -556,12 +556,13 @@ required_updates_for_style (GnmStyle const *style)
 	SpanCalcFlags res = SPANCALC_SIMPLE;
 
 	gboolean const row_height =
-	     mstyle_is_element_set  (style, MSTYLE_FONT_SIZE) ||
-	     mstyle_is_element_set  (style, MSTYLE_WRAP_TEXT);
+	     mstyle_is_element_set (style, MSTYLE_FONT_SIZE) ||
+	     mstyle_is_element_set (style, MSTYLE_WRAP_TEXT) ||
+	     mstyle_is_element_set (style, MSTYLE_ROTATION);
 	gboolean const size_change = row_height ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC);
+	     mstyle_is_element_set (style, MSTYLE_FONT_NAME) ||
+	     mstyle_is_element_set (style, MSTYLE_FONT_BOLD) ||
+	     mstyle_is_element_set (style, MSTYLE_FONT_ITALIC);
 	gboolean const format_change =
 	    (mstyle_is_element_set (style, MSTYLE_FORMAT) ||
 	     mstyle_is_element_set (style, MSTYLE_INDENT) ||
@@ -569,7 +570,8 @@ required_updates_for_style (GnmStyle const *style)
 	     mstyle_is_element_set (style, MSTYLE_ALIGN_V) ||
 	     mstyle_is_element_set (style, MSTYLE_FONT_STRIKETHROUGH) ||
 	     mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE) ||
-	     mstyle_is_element_set (style, MSTYLE_COLOR_FORE));
+	     mstyle_is_element_set (style, MSTYLE_COLOR_FORE) ||
+	     mstyle_is_element_set (style, MSTYLE_ROTATION));
 
 	if (row_height)
 		res |= SPANCALC_ROW_HEIGHT;
@@ -590,40 +592,41 @@ StyleHAlignFlags
 style_default_halign (GnmStyle const *mstyle, GnmCell const *c)
 {
 	StyleHAlignFlags align = mstyle_get_align_h (mstyle);
+	GnmValue *v;
 
-	if (align == HALIGN_GENERAL) {
-		GnmValue *v;
+	if (align != HALIGN_GENERAL)
+		return align;
 
-		g_return_val_if_fail (c != NULL, HALIGN_RIGHT);
+	if (mstyle_get_rotation (mstyle) != 0)
+		return HALIGN_LEFT;
 
-		if (c->base.sheet && c->base.sheet->display_formulas &&
-		    cell_has_expr (c))
-			return HALIGN_LEFT;
+	g_return_val_if_fail (c != NULL, HALIGN_RIGHT);
 
-		for (v = c->value; v != NULL ; )
-			switch (v->type) {
-			case VALUE_BOOLEAN :
-			case VALUE_ERROR :
-				return HALIGN_CENTER;
+	if (c->base.sheet && c->base.sheet->display_formulas &&
+	    cell_has_expr (c))
+		return HALIGN_LEFT;
 
-			case VALUE_INTEGER :
-			case VALUE_FLOAT :
-				return HALIGN_RIGHT;
+	for (v = c->value; v != NULL ; )
+		switch (v->type) {
+		case VALUE_BOOLEAN :
+		case VALUE_ERROR :
+			return HALIGN_CENTER;
 
-			case VALUE_ARRAY :
-				/* Tail recurse into the array */
-				if (v->v_array.x > 0 && v->v_array.y > 0) {
-					v = v->v_array.vals [0][0];
-					continue;
-				}
+		case VALUE_INTEGER :
+		case VALUE_FLOAT :
+			return HALIGN_RIGHT;
 
-			default :
-				return HALIGN_LEFT;
+		case VALUE_ARRAY :
+			/* Tail recurse into the array */
+			if (v->v_array.x > 0 && v->v_array.y > 0) {
+				v = v->v_array.vals [0][0];
+				continue;
 			}
-		return HALIGN_RIGHT;
-	}
 
-	return align;
+		default :
+			return HALIGN_LEFT;
+		}
+	return HALIGN_RIGHT;
 }
 
 /**

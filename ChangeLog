@@ -1,3 +1,12 @@
+2004-12-15  Morten Welinder  <terra@gnome.org>
+
+	* src/style.c (required_updates_for_style): Rotation changes
+	requires height resizing.
+	(style_default_halign): Rotated cells are aligned left by default,
+	even for numbers.
+
+	* src/sheet.c (cb_max_cell_height): Render rotated cells also.
+
 2004-12-14  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (pgamma): Improve accuracy for extreme arguments.

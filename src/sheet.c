@@ -1126,7 +1126,8 @@ cb_max_cell_height (Sheet *sheet, int col, int row, GnmCell *cell,
 
 		/* rendering is expensive.  Unwrapped cells will be the same
 		 * height as their font */
-		if (mstyle_get_wrap_text (style)) {
+		if (mstyle_get_wrap_text (style) ||
+		    mstyle_get_rotation (style) != 0) {
 			cell_render_value (cell, TRUE);
 			height = cell_rendered_height (cell);
 		} else {
