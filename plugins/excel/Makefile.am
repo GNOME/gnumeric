@@ -45,7 +45,7 @@ ole_SOURCES =			\
 	ole.c
 
 ole_LDADD =			\
-	libole2/libole2.la	\
+	libole2/libole2.a	\
         $(GNOME_LIBDIR)		\
         $(GNOME_LIBS)		\
         $(INTLLIBS)
