@@ -128,6 +128,7 @@ IMAGES = @STRIP_BEGIN@ 						\
 	protection_yes_48.png 		\
 	\
 	cursor_cross.xpm		\
+	sheet-move-marker.xpm		\
 	\
 	link_add_16.png 		link_add_24.png		\
 	link_delete_16.png 					\
@@ -292,6 +293,7 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_protection_yes_48 		        $(srcdir)/protection_yes_48.png 		\
 	\
 	gnm_cursor_cross			$(srcdir)/cursor_cross.xpm			\
+	sheet_move_marker			$(srcdir)/sheet-move-marker.xpm			\
 	\
 	gnm_link_add_16				$(srcdir)/link_add_16.png			\
 	gnm_link_add_24				$(srcdir)/link_add_24.png			\

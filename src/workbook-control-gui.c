@@ -805,26 +805,6 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	}
 }
 
-static const char *arrow_xpm[] = {
-	"13 14 2 1",
-	"       c None",
-	".      c #000000",
-	"     ...     ",
-	"     ...     ",
-	"     ...     ",
-	"     ...     ",
-	"     ...     ",
-	"     ...     ",
-	"     ...     ",
-	".............",
-	" ........... ",
-	"  .........  ",
-	"   .......   ",
-	"    .....    ",
-	"     ...     ",
-	"      .      "
-};
-
 static void
 cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 	WorkbookControlGUI *wbcg)
@@ -838,13 +818,12 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 	/* Create the arrow. */
 	arrow = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_widget_realize (arrow);
-	pixbuf = gdk_pixbuf_new_from_xpm_data (arrow_xpm);
+	pixbuf = application_get_pixbuf ("sheet_move_marker");
 	image = gtk_image_new_from_pixbuf (pixbuf);
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (arrow), image);
 	gdk_pixbuf_render_pixmap_and_mask_for_colormap (pixbuf,
 		gtk_widget_get_colormap (widget), NULL, &bitmap, 0x7f);
-	g_object_unref (G_OBJECT (pixbuf));
 	gtk_widget_shape_combine_mask (arrow, bitmap, 0, 0);
 	g_object_unref (bitmap);
 	g_object_ref (G_OBJECT (arrow));

@@ -1,5 +1,11 @@
 2003-07-17  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control-gui.c (cb_sheet_label_drag_begin): Get
+	marker from application.
+
+	* src/application.c (gnumeric_application_setup_pixbufs): Add
+	sheet_move_marker.
+
 	* src/item-bar.c (item_bar_calc_size): Calculate the width based
 	on SHEET_MAX_ROWS.  (This makes it slightly narrower than it used to,
 	probably a good thing.)
