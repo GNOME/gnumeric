@@ -10,6 +10,7 @@ Morten:
 	* Make it possible to change rotation of formats.
 	* Draw rotated text.
 	* Print rotated text.
+	* Fix torn off undo/redo crash.
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.1

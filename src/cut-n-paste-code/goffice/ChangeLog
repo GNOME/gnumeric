@@ -1,3 +1,9 @@
+2004-12-15  Morten Welinder  <terra@gnome.org>
+
+	* gui-utils/go-action-combo-stack.c (get_key_at_path): Don't crash
+	if we don't get an iter.
+	(cb_motion_notify_event): Handle empty tree case.
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1

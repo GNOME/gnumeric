@@ -96,8 +96,8 @@ get_key_at_path (GtkTreeView *view, GtkTreePath	*pos)
 	gpointer	  res = NULL;
 	GtkTreeIter	  iter;
 	GtkTreeModel	 *model = gtk_tree_view_get_model (view);
-	gtk_tree_model_get_iter (model, &iter, pos);
-	gtk_tree_model_get (model, &iter, KEY_COL, &res, -1);
+	if (gtk_tree_model_get_iter (model, &iter, pos))
+		gtk_tree_model_get (model, &iter, KEY_COL, &res, -1);
 	return res;
 }
 
@@ -143,11 +143,13 @@ cb_motion_notify_event (GtkWidget *widget, GdkEventMotion *event,
 	sel = gtk_tree_view_get_selection (stack->list);
 	gtk_tree_selection_unselect_all (sel);
 
-	if (!gtk_tree_view_get_path_at_pos (stack->list,
-		event->x, event->y, &pos, NULL, NULL, NULL))
-		pos = gtk_tree_path_new_from_indices (
-			gtk_tree_model_iter_n_children (model, NULL) - 1,
-			-1);
+	if (!gtk_tree_view_get_path_at_pos
+	    (stack->list, event->x, event->y, &pos, NULL, NULL, NULL)) {
+		int n = gtk_tree_model_iter_n_children (model, NULL);
+		if (n == 0)
+			return TRUE;
+		pos = gtk_tree_path_new_from_indices (n - 1, -1);
+	}
 
 	stack->last_key = get_key_at_path (stack->list, pos);
 	start = gtk_tree_path_new_first ();
