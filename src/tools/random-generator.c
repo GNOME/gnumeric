@@ -106,16 +106,18 @@ tool_random_engine_run_discrete_last_check (data_analysis_output_t *dao,
 		    (v = cell->value) == NULL ||
 		    !VALUE_IS_NUMBER (v)) {
 			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
-					 _("The probability input range contains a "
-					   "non-numeric value.\n"
-					   "All probabilities must be non-negative numbers."));
+					 _("The probability input range "
+					   "contains a non-numeric value.\n"
+					   "All probabilities must be "
+					   "non-negative numbers."));
 			goto random_tool_discrete_out;
 		}
 		if ((thisprob = value_get_as_float (v)) < 0) {
 			gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
-					 _("The probability input range contains "
-					   "a negative number.\n"
-					   "All probabilities must be non-negative!"));
+					 _("The probability input range "
+					   "contains a negative number.\n"
+					   "All probabilities must be "
+					   "non-negative!"));
 			goto random_tool_discrete_out;
 		}
 		
@@ -168,7 +170,8 @@ tool_random_engine_run_discrete (data_analysis_output_t *dao,
 			for (j = 0; data->cumul_p[j] < x; j++)
 				;
 			
-			dao_set_cell_value (dao, i, k, value_duplicate (data->values[j]));
+			dao_set_cell_value (dao, i, k,
+					    value_duplicate (data->values[j]));
 		}
 	}
 	tool_random_engine_run_discrete_clear_continuity (continuity);
@@ -219,7 +222,22 @@ tool_random_engine_run_bernoulli (data_analysis_output_t *dao,
 		for (n = 0; n < info->count; n++) {
 			gnum_float tmp = random_bernoulli (param->p);
 			dao_set_cell_int (dao, i, n, (int)tmp);
-			}
+		}
+	}
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_beta (data_analysis_output_t *dao, 
+			     tools_data_random_t *info,
+			     beta_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float tmp = random_beta (param->a, param->b);
+			dao_set_cell_float (dao, i, n, tmp);
+		}
 	}
 	return FALSE;
 }
@@ -290,6 +308,70 @@ tool_random_engine_run_exponential (data_analysis_output_t *dao,
 	return FALSE;
 }
 
+static gboolean
+tool_random_engine_run_cauchy (data_analysis_output_t *dao, 
+			       tools_data_random_t *info,
+			       cauchy_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_cauchy (param->a);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_chisq (data_analysis_output_t *dao, 
+			      tools_data_random_t *info,
+			      chisq_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_chisq (param->nu);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_fdist (data_analysis_output_t *dao, 
+			      tools_data_random_t *info,
+			      fdist_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_fdist (param->nu1, param->nu2);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
+static gboolean
+tool_random_engine_run_weibull (data_analysis_output_t *dao, 
+				tools_data_random_t *info,
+				weibull_random_tool_t *param)
+{
+	int i, n;
+	for (i = 0; i < info->n_vars; i++) {
+		for (n = 0; n < info->count; n++) {
+			gnum_float v;
+			v = random_weibull (param->a, param->b);
+			dao_set_cell_float (dao, i, n, v);
+		}
+	}	
+	return FALSE;
+}
+
 gboolean 
 tool_random_engine (data_analysis_output_t *dao, gpointer specs, 
 		    analysis_tool_engine_t selector, gpointer result)
@@ -298,8 +380,8 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 
 	switch (selector) {
 	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
-		return (dao_command_descriptor (dao, _("Random Numbers (%s)"), result) 
-			== NULL);
+		return (dao_command_descriptor (dao, _("Random Numbers (%s)"),
+						result) == NULL);
 	case TOOL_ENGINE_UPDATE_DAO: 
 		dao_adjust (dao, info->n_vars, info->count);
 		return FALSE;
@@ -327,21 +409,41 @@ tool_random_engine (data_analysis_output_t *dao, gpointer specs,
 			return tool_random_engine_run_discrete 
 				(dao, specs, &info->param.discrete, result);
 		case NormalDistribution: 
-			return tool_random_engine_run_normal (dao, specs, &info->param.normal);
+			return tool_random_engine_run_normal
+			        (dao, specs, &info->param.normal);
 		case BernoulliDistribution:
 			return tool_random_engine_run_bernoulli 
 				(dao, specs, &info->param.bernoulli);
+		case BetaDistribution:
+			return tool_random_engine_run_beta
+				(dao, specs, &info->param.beta);
 		case UniformDistribution:
-			return tool_random_engine_run_uniform (dao, specs, &info->param.uniform);
+			return tool_random_engine_run_uniform 
+			        (dao, specs, &info->param.uniform);
 		case PoissonDistribution:
-			return tool_random_engine_run_poisson(dao, specs, &info->param.poisson);
+			return tool_random_engine_run_poisson
+			        (dao, specs, &info->param.poisson);
 		case ExponentialDistribution:
 			return tool_random_engine_run_exponential 
 				(dao, specs, &info->param.exponential);
+		case CauchyDistribution:
+			return tool_random_engine_run_cauchy 
+				(dao, specs, &info->param.cauchy);
+		case ChisqDistribution:
+			return tool_random_engine_run_chisq
+				(dao, specs, &info->param.chisq);
+		case FdistDistribution:
+			return tool_random_engine_run_fdist
+				(dao, specs, &info->param.fdist);
+		case WeibullDistribution:
+			return tool_random_engine_run_weibull
+				(dao, specs, &info->param.weibull);
 		case BinomialDistribution:
-			return tool_random_engine_run_binomial (dao, specs, &info->param.binomial);
+			return tool_random_engine_run_binomial
+			        (dao, specs, &info->param.binomial);
 		case NegativeBinomialDistribution:	
-			return tool_random_engine_run_negbinom (dao, specs, &info->param.negbinom);
+			return tool_random_engine_run_negbinom
+			        (dao, specs, &info->param.negbinom);
 		}
 	}
 	return TRUE;  /* We shouldn't get here */

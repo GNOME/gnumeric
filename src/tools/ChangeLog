@@ -1,3 +1,10 @@
+2002-07-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* random-generator.c (tool_random_engine): Added Beta, Cauchy,
+	Chi-Squared, F, and Weibull.
+
+	* random-generator.h: Related changes.
+	
 2002-06-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dao.c (dao_format_output) : don't just bail out when clear_outputrange
