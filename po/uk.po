@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
-"POT-Creation-Date: 2000-05-30 17:33+0300\n"
+"POT-Creation-Date: 2000-05-31 16:10+0300\n"
 "PO-Revision-Date: 1999-12-08 14:44+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -632,7 +632,7 @@ msgstr "#N/A"
 msgid "Covariances"
 msgstr "Ковариц╕╖"
 
-#: src/analysis-tools.c:691 src/dialogs/dialog-analysis-tools.c:313
+#: src/analysis-tools.c:691 src/dialogs/dialog-analysis-tools.c:308
 msgid "Summary Statistics"
 msgstr "Зведена статистика"
 
@@ -843,7 +843,7 @@ msgstr ""
 msgid "F Critical one-tail"
 msgstr ""
 
-#: src/analysis-tools.c:1750 src/dialogs/dialog-analysis-tools.c:403
+#: src/analysis-tools.c:1750 src/dialogs/dialog-analysis-tools.c:398
 msgid "Random"
 msgstr "Випадково"
 
@@ -855,8 +855,8 @@ msgstr "Ще не реал╕зовано.\n"
 #. value in the checkbox instead of this
 #. global, but I don't know GTK very well
 #: src/analysis-tools.c:1991 src/analysis-tools.c:2003
-#: src/dialogs/dialog-analysis-tools.c:99
-#: src/dialogs/dialog-analysis-tools.c:1983
+#: src/dialogs/dialog-analysis-tools.c:94
+#: src/dialogs/dialog-analysis-tools.c:1978
 msgid "Regression"
 msgstr "Регрес╕я"
 
@@ -962,7 +962,7 @@ msgid "Anova"
 msgstr ""
 
 #: src/analysis-tools.c:2466 src/dialogs/analysis-tools.glade.h:52
-#: src/dialogs/dialog-analysis-tools.c:81
+#: src/dialogs/dialog-analysis-tools.c:76
 msgid "Anova: Single Factor"
 msgstr "Дисперсний анал╕з: однофакторний"
 
@@ -995,17 +995,17 @@ msgid "Within Groups"
 msgstr ""
 
 #: src/analysis-tools.c:2657 src/dialogs/analysis-tools.glade.h:64
-#: src/dialogs/dialog-analysis-tools.c:83
+#: src/dialogs/dialog-analysis-tools.c:78
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
 #: src/analysis-tools.c:2772 src/dialogs/cell-sort.glade.h:11
-#: src/dialogs/dialog-analysis-tools.c:397
+#: src/dialogs/dialog-analysis-tools.c:392
 msgid "Rows"
 msgstr "Рядки"
 
 #: src/analysis-tools.c:2773 src/dialogs/cell-sort.glade.h:12
-#: src/dialogs/dialog-analysis-tools.c:396 src/dialogs/dialog-stf.glade.h:50
+#: src/dialogs/dialog-analysis-tools.c:391 src/dialogs/dialog-stf.glade.h:50
 msgid "Columns"
 msgstr "Стовпчики"
 
@@ -1049,6 +1049,27 @@ msgstr ""
 msgid "Parse error while trying to parse data into cellregion"
 msgstr ""
 
+#: src/cmd-edit.c:313
+#, c-format
+msgid ""
+"destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n"
+"\n"
+"Try selecting a single cell or an area of the same shape and size."
+msgstr ""
+
+#: src/cmd-edit.c:318
+#, fuzzy
+msgid "Unable to paste into selection"
+msgstr "Не вдалось вставити"
+
+#: src/cmd-edit.c:355 src/workbook.c:1526
+msgid "Paste"
+msgstr "Вставити"
+
+#: src/command-context.c:116
+msgid "Would split an array."
+msgstr ""
+
 #: src/commands.c:411 src/commands.c:508
 msgid "Set Text"
 msgstr "Встановити текст"
@@ -1064,61 +1085,61 @@ msgstr "Наб╕р \"%s%s\" в %s"
 msgid "Typing \"%s%s\""
 msgstr "Наб╕р \"%s%s\""
 
-#: src/commands.c:808
+#: src/commands.c:812
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Вставляння %d стовпчик╕в перед %s"
 
-#: src/commands.c:809
+#: src/commands.c:813
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Вставляння %d стовпчик╕в п╕сля %s"
 
-#: src/commands.c:820
+#: src/commands.c:824
 #, c-format
 msgid "Inserting %d rows before %d"
 msgstr "Вставляння %d рядк╕в перед %d"
 
-#: src/commands.c:821
+#: src/commands.c:825
 #, c-format
 msgid "Inserting %d row before %d"
 msgstr "Вставляння %d рядк╕в п╕сля %d"
 
 #. col_name uses a static buffer
-#: src/commands.c:834
+#: src/commands.c:838
 #, c-format
 msgid "Deleting %d columns %s:"
 msgstr "Стирання %d стовпчик╕в %s:"
 
-#: src/commands.c:839
+#: src/commands.c:843
 #, c-format
 msgid "Deleting column %s"
 msgstr "Видалення стовпчика %s"
 
-#: src/commands.c:849
+#: src/commands.c:853
 #, c-format
 msgid "Deleting %d rows %d:%d"
 msgstr "Стирання %d стовпчик╕в %d:%d"
 
-#: src/commands.c:851
+#: src/commands.c:855
 #, c-format
 msgid "Deleting row %d"
 msgstr "Видалення стовпчика %d"
 
-#: src/commands.c:919
+#: src/commands.c:923
 msgid "Undo Clear"
 msgstr ""
 
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:990 src/sheet.c:2438
+#: src/commands.c:994 src/sheet.c:2438
 msgid "Clear"
 msgstr "Очистити"
 
-#: src/commands.c:1178
+#: src/commands.c:1182
 msgid "Format cells"
 msgstr "Формат ком╕рок"
 
-#: src/commands.c:1249
+#: src/commands.c:1253
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Перейменування таблиц╕ \"%s\" \"%s\""
@@ -1130,66 +1151,66 @@ msgstr "Перейменування таблиц╕ \"%s\" \"%s\""
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1328
+#: src/commands.c:1332
 msgid ">mm/dd/yyyy"
 msgstr ">dd/mm/yyyy"
 
 #. FIXME : See comment above
-#: src/commands.c:1333
+#: src/commands.c:1337
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1379
+#: src/commands.c:1383
 msgid "Set Date/Time"
 msgstr "Встановити дату ╕ час"
 
-#: src/commands.c:1394
+#: src/commands.c:1398
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Встановлення поточно╖ дати в %s"
 
-#: src/commands.c:1395
+#: src/commands.c:1399
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Встановлення поточного часу в %s"
 
-#: src/commands.c:1478
+#: src/commands.c:1482
 #, c-format
 msgid "Setting width of column %s"
 msgstr "Встановлення ширини стовпчика %s"
 
-#: src/commands.c:1479
+#: src/commands.c:1483
 #, c-format
 msgid "Setting height of row %d"
 msgstr "Встановлення висоти стовпчика %d"
 
-#: src/commands.c:1602
+#: src/commands.c:1606
 #, c-format
 msgid "Sorting %s"
 msgstr "Упорядкування %s"
 
-#: src/commands.c:1683
+#: src/commands.c:1687
 msgid "Unhide columns"
 msgstr "Показати стовпчики"
 
-#: src/commands.c:1683
+#: src/commands.c:1687
 msgid "Hide columns"
 msgstr "Прибрати стовпчики"
 
-#: src/commands.c:1684
+#: src/commands.c:1688
 msgid "Unhide rows"
 msgstr "Показати рядки"
 
-#: src/commands.c:1684
+#: src/commands.c:1688
 msgid "Hide rows"
 msgstr "Прибрати рядки"
 
 #. FIXME : improve on this
-#: src/commands.c:1789
+#: src/commands.c:1817
 msgid "Moving cells"
 msgstr "Перем╕щення ком╕рок"
 
-#: src/commands.c:1926
+#: src/commands.c:1955
 #, c-format
 msgid "Pasting into %s"
 msgstr "Всталяння в %s"
@@ -1412,7 +1433,7 @@ msgstr "Анал╕з даних"
 msgid "Analysis Tools"
 msgstr "Засоби анал╕зу"
 
-#: src/dialogs/analysis-tools.glade.h:9 src/dialogs/dialog-analysis-tools.c:91
+#: src/dialogs/analysis-tools.glade.h:9 src/dialogs/dialog-analysis-tools.c:86
 msgid "F-Test: Two-Sample for Variances"
 msgstr ""
 
@@ -1553,7 +1574,7 @@ msgid "_Input Range:"
 msgstr "Д╕апазон вводу:"
 
 #: src/dialogs/analysis-tools.glade.h:73
-#: src/dialogs/dialog-analysis-tools.c:93
+#: src/dialogs/dialog-analysis-tools.c:88
 msgid "Moving Average"
 msgstr ""
 
@@ -1566,22 +1587,22 @@ msgid "_Standard Errors"
 msgstr ""
 
 #: src/dialogs/analysis-tools.glade.h:83
-#: src/dialogs/dialog-analysis-tools.c:85
+#: src/dialogs/dialog-analysis-tools.c:80
 msgid "Correlation"
 msgstr "Кореляц╕я"
 
 #: src/dialogs/analysis-tools.glade.h:94
-#: src/dialogs/dialog-analysis-tools.c:87
+#: src/dialogs/dialog-analysis-tools.c:82
 msgid "Covariance"
 msgstr "Ковариц╕я"
 
 #: src/dialogs/analysis-tools.glade.h:105
-#: src/dialogs/dialog-analysis-tools.c:97
+#: src/dialogs/dialog-analysis-tools.c:92
 msgid "Rank and Percentile"
 msgstr ""
 
 #: src/dialogs/analysis-tools.glade.h:116
-#: src/dialogs/dialog-analysis-tools.c:95
+#: src/dialogs/dialog-analysis-tools.c:90
 msgid "Random Number Generation"
 msgstr "Генерац╕я випадкових чисел"
 
@@ -1697,6 +1718,10 @@ msgstr "_Ширина:"
 msgid "Auto Save"
 msgstr "Автозбереження"
 
+#: src/dialogs/autosave-prompt.glade.h:8
+msgid "Do you want to save the workbook?"
+msgstr "Ви хочете зберегти книгу?"
+
 #: src/dialogs/autosave.glade.h:8
 msgid "_Automatic Save Every"
 msgstr "Автоматичне збереження кожн╕"
@@ -1708,10 +1733,6 @@ msgstr ""
 #: src/dialogs/autosave.glade.h:10
 msgid "_minutes"
 msgstr "хвилин"
-
-#: src/dialogs/autosave-prompt.glade.h:8
-msgid "Do you want to save the workbook?"
-msgstr "Ви хочете зберегти книгу?"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -2272,254 +2293,259 @@ msgid ""
 "`Criteria Range:'"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:89
-#: src/dialogs/dialog-analysis-tools.c:909
+#: src/dialogs/dialog-analysis-tools.c:84
+#: src/dialogs/dialog-analysis-tools.c:904
 msgid "Descriptive Statistics"
 msgstr "Описова статистика"
 
-#: src/dialogs/dialog-analysis-tools.c:101
-#: src/dialogs/dialog-analysis-tools.c:795
+#: src/dialogs/dialog-analysis-tools.c:96
+#: src/dialogs/dialog-analysis-tools.c:790
 msgid "Sampling"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:103
+#: src/dialogs/dialog-analysis-tools.c:98
 msgid "t-Test: Paired Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:105
+#: src/dialogs/dialog-analysis-tools.c:100
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:107
+#: src/dialogs/dialog-analysis-tools.c:102
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:109
-#: src/dialogs/dialog-analysis-tools.c:1008
+#: src/dialogs/dialog-analysis-tools.c:104
+#: src/dialogs/dialog-analysis-tools.c:1003
 msgid "z-Test: Two Sample for Means"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:117
+#: src/dialogs/dialog-analysis-tools.c:112
 msgid "Discrete"
 msgstr "Дискретне"
 
-#: src/dialogs/dialog-analysis-tools.c:117
+#: src/dialogs/dialog-analysis-tools.c:112
 msgid "_Value and probability input range:"
 msgstr "Вх╕дний д╕апазон значень та в╕рог╕дностей:"
 
-#: src/dialogs/dialog-analysis-tools.c:119
+#: src/dialogs/dialog-analysis-tools.c:114
 #: src/widgets/widget-font-selector.c:129
 msgid "Normal"
 msgstr "Нормальне"
 
-#: src/dialogs/dialog-analysis-tools.c:119
+#: src/dialogs/dialog-analysis-tools.c:114
 msgid "_Mean:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:119
+#: src/dialogs/dialog-analysis-tools.c:114
 msgid "_Standard deviation:"
 msgstr "Стандартне в╕дхилення:"
 
-#: src/dialogs/dialog-analysis-tools.c:121
+#: src/dialogs/dialog-analysis-tools.c:116
 msgid "Poisson"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:121
+#: src/dialogs/dialog-analysis-tools.c:116
 msgid "_Lambda:"
 msgstr "Лямбда:"
 
-#: src/dialogs/dialog-analysis-tools.c:123
+#: src/dialogs/dialog-analysis-tools.c:118
 msgid "Exponential"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:123
+#: src/dialogs/dialog-analysis-tools.c:118
 msgid "_b value:"
 msgstr "Значення b:"
 
-#: src/dialogs/dialog-analysis-tools.c:125
+#: src/dialogs/dialog-analysis-tools.c:120
 msgid "Binomial"
 msgstr ""
 
+#: src/dialogs/dialog-analysis-tools.c:120
+#: src/dialogs/dialog-analysis-tools.c:122
 #: src/dialogs/dialog-analysis-tools.c:125
-#: src/dialogs/dialog-analysis-tools.c:127
-#: src/dialogs/dialog-analysis-tools.c:130
 msgid "_p value:"
 msgstr "Значення p:"
 
-#: src/dialogs/dialog-analysis-tools.c:125
+#: src/dialogs/dialog-analysis-tools.c:120
 msgid "N_umber of trials"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:127
+#: src/dialogs/dialog-analysis-tools.c:122
 msgid "Negative Binomial"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:128
+#: src/dialogs/dialog-analysis-tools.c:123
 msgid "N_umber of failures"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:130
+#: src/dialogs/dialog-analysis-tools.c:125
 msgid "Bernoulli"
 msgstr "Бернул╕"
 
-#: src/dialogs/dialog-analysis-tools.c:132
+#: src/dialogs/dialog-analysis-tools.c:127
 msgid "Uniform"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:132
+#: src/dialogs/dialog-analysis-tools.c:127
 msgid "_Lower bound:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:132
+#: src/dialogs/dialog-analysis-tools.c:127
 msgid "_Upper bound:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:315
+#: src/dialogs/dialog-analysis-tools.c:310
 msgid "Confidence Level for Mean"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:316
+#: src/dialogs/dialog-analysis-tools.c:311
 msgid "0.95"
 msgstr "0.95"
 
-#: src/dialogs/dialog-analysis-tools.c:317
+#: src/dialogs/dialog-analysis-tools.c:312
 msgid "Kth Largest:"
 msgstr "К-те найб╕льше:"
 
-#: src/dialogs/dialog-analysis-tools.c:318
-#: src/dialogs/dialog-analysis-tools.c:320
+#: src/dialogs/dialog-analysis-tools.c:313
+#: src/dialogs/dialog-analysis-tools.c:315
 msgid "1"
 msgstr "1"
 
-#: src/dialogs/dialog-analysis-tools.c:319
+#: src/dialogs/dialog-analysis-tools.c:314
 msgid "Kth Smallest:"
 msgstr "К-те найменше:"
 
-#: src/dialogs/dialog-analysis-tools.c:325
+#: src/dialogs/dialog-analysis-tools.c:320
 msgid "Labels in First Row"
 msgstr "Познички в першому рядку"
 
-#: src/dialogs/dialog-analysis-tools.c:331
+#: src/dialogs/dialog-analysis-tools.c:326
 msgid "Force Intercept to Be Zero"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:402
+#: src/dialogs/dialog-analysis-tools.c:397
 msgid "Periodic"
 msgstr "Пер╕одично"
 
-#: src/dialogs/dialog-analysis-tools.c:491
-#: src/dialogs/dialog-analysis-tools.c:645
+#: src/dialogs/dialog-analysis-tools.c:486
+#: src/dialogs/dialog-analysis-tools.c:640
 msgid "You should introduce a valid cell range in 'Input Range:'"
 msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок у \"Д╕апазон вводу:\""
 
-#: src/dialogs/dialog-analysis-tools.c:523
+#: src/dialogs/dialog-analysis-tools.c:516
+#, fuzzy
+msgid "Output options:"
+msgstr "_Параметри виводу"
+
+#: src/dialogs/dialog-analysis-tools.c:518
 msgid "New Sheet"
 msgstr "Новий аркуш"
 
 #. hbox = gtk_hbox_new (FALSE, 0);
-#: src/dialogs/dialog-analysis-tools.c:527
+#: src/dialogs/dialog-analysis-tools.c:522
 msgid "New Workbook"
 msgstr "Нова книга"
 
-#: src/dialogs/dialog-analysis-tools.c:532
+#: src/dialogs/dialog-analysis-tools.c:527
 msgid "Output Range:"
 msgstr "Д╕апазон виводу:"
 
-#: src/dialogs/dialog-analysis-tools.c:556
+#: src/dialogs/dialog-analysis-tools.c:551
 msgid "Grouped By:"
 msgstr "Групувати за:"
 
-#: src/dialogs/dialog-analysis-tools.c:656
-#: src/dialogs/dialog-analysis-tools.c:756
-#: src/dialogs/dialog-analysis-tools.c:1215
-#: src/dialogs/dialog-analysis-tools.c:1348
-#: src/dialogs/dialog-analysis-tools.c:1482
-#: src/dialogs/dialog-analysis-tools.c:1608
-#: src/dialogs/dialog-analysis-tools.c:1934
-#: src/dialogs/dialog-analysis-tools.c:2182
-#: src/dialogs/dialog-analysis-tools.c:2288
-#: src/dialogs/dialog-analysis-tools.c:2397
-#: src/dialogs/dialog-analysis-tools.c:2507
+#: src/dialogs/dialog-analysis-tools.c:651
+#: src/dialogs/dialog-analysis-tools.c:751
+#: src/dialogs/dialog-analysis-tools.c:1210
+#: src/dialogs/dialog-analysis-tools.c:1343
+#: src/dialogs/dialog-analysis-tools.c:1477
+#: src/dialogs/dialog-analysis-tools.c:1603
+#: src/dialogs/dialog-analysis-tools.c:1929
+#: src/dialogs/dialog-analysis-tools.c:2177
+#: src/dialogs/dialog-analysis-tools.c:2283
+#: src/dialogs/dialog-analysis-tools.c:2392
+#: src/dialogs/dialog-analysis-tools.c:2502
 msgid "You should introduce a valid cell range in 'Output Range:'"
 msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок в \"Д╕апазон виводу:\""
 
-#: src/dialogs/dialog-analysis-tools.c:745
-#: src/dialogs/dialog-analysis-tools.c:867
-#: src/dialogs/dialog-analysis-tools.c:960
-#: src/dialogs/dialog-analysis-tools.c:2171
-#: src/dialogs/dialog-analysis-tools.c:2277
-#: src/dialogs/dialog-analysis-tools.c:2386
-#: src/dialogs/dialog-analysis-tools.c:2496
+#: src/dialogs/dialog-analysis-tools.c:740
+#: src/dialogs/dialog-analysis-tools.c:862
+#: src/dialogs/dialog-analysis-tools.c:955
+#: src/dialogs/dialog-analysis-tools.c:2166
+#: src/dialogs/dialog-analysis-tools.c:2272
+#: src/dialogs/dialog-analysis-tools.c:2381
+#: src/dialogs/dialog-analysis-tools.c:2491
 msgid "You should introduce a valid cell range in 'Range:'"
 msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок в \"Д╕апазон:\""
 
-#: src/dialogs/dialog-analysis-tools.c:802
-#: src/dialogs/dialog-analysis-tools.c:916
-#: src/dialogs/dialog-analysis-tools.c:1015
-#: src/dialogs/dialog-analysis-tools.c:1986
+#: src/dialogs/dialog-analysis-tools.c:797
+#: src/dialogs/dialog-analysis-tools.c:911
+#: src/dialogs/dialog-analysis-tools.c:1010
+#: src/dialogs/dialog-analysis-tools.c:1981
 msgid "Input:"
 msgstr "Вв╕д:"
 
-#: src/dialogs/dialog-analysis-tools.c:805
-#: src/dialogs/dialog-analysis-tools.c:919
+#: src/dialogs/dialog-analysis-tools.c:800
+#: src/dialogs/dialog-analysis-tools.c:914
 msgid "Input Range:"
 msgstr "Вх╕дний д╕апазон:"
 
-#: src/dialogs/dialog-analysis-tools.c:807
+#: src/dialogs/dialog-analysis-tools.c:802
 msgid "Sampling Method:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:819
+#: src/dialogs/dialog-analysis-tools.c:814
 msgid "Period:"
 msgstr "Пер╕од:"
 
-#: src/dialogs/dialog-analysis-tools.c:822
+#: src/dialogs/dialog-analysis-tools.c:817
 msgid "Number of Samples:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1018
+#: src/dialogs/dialog-analysis-tools.c:1013
 msgid "Variable 1 Range:"
 msgstr "Д╕апазон зм╕нно╖ 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1021
+#: src/dialogs/dialog-analysis-tools.c:1016
 msgid "Variable 2 Range:"
 msgstr "Д╕апазон зм╕нно╖ 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1024
+#: src/dialogs/dialog-analysis-tools.c:1019
 msgid "Hypothesized Mean Difference:"
 msgstr "Г╕потетична р╕зниця середн╕х:"
 
-#: src/dialogs/dialog-analysis-tools.c:1027
+#: src/dialogs/dialog-analysis-tools.c:1022
 msgid "Variable 1 Variance (known):"
 msgstr "Дисперс╕я зм╕нно╖ 1 (в╕дома):"
 
-#: src/dialogs/dialog-analysis-tools.c:1030
+#: src/dialogs/dialog-analysis-tools.c:1025
 msgid "Variable 2 Variance (known):"
 msgstr "Дисперс╕я зм╕нно╖ 2 (в╕дома):"
 
-#: src/dialogs/dialog-analysis-tools.c:1033
+#: src/dialogs/dialog-analysis-tools.c:1028
 msgid "Alpha:"
 msgstr "Альфа:"
 
-#: src/dialogs/dialog-analysis-tools.c:1065
-#: src/dialogs/dialog-analysis-tools.c:1189
-#: src/dialogs/dialog-analysis-tools.c:1322
-#: src/dialogs/dialog-analysis-tools.c:1456
-#: src/dialogs/dialog-analysis-tools.c:1585
-#: src/dialogs/dialog-analysis-tools.c:2032
+#: src/dialogs/dialog-analysis-tools.c:1060
+#: src/dialogs/dialog-analysis-tools.c:1184
+#: src/dialogs/dialog-analysis-tools.c:1317
+#: src/dialogs/dialog-analysis-tools.c:1451
+#: src/dialogs/dialog-analysis-tools.c:1580
+#: src/dialogs/dialog-analysis-tools.c:2027
 msgid "You should introduce a valid cell range in 'Variable 1:'"
 msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок в \"Зм╕нна 1:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1076
-#: src/dialogs/dialog-analysis-tools.c:1200
-#: src/dialogs/dialog-analysis-tools.c:1333
-#: src/dialogs/dialog-analysis-tools.c:1467
-#: src/dialogs/dialog-analysis-tools.c:1596
-#: src/dialogs/dialog-analysis-tools.c:2040
+#: src/dialogs/dialog-analysis-tools.c:1071
+#: src/dialogs/dialog-analysis-tools.c:1195
+#: src/dialogs/dialog-analysis-tools.c:1328
+#: src/dialogs/dialog-analysis-tools.c:1462
+#: src/dialogs/dialog-analysis-tools.c:1591
+#: src/dialogs/dialog-analysis-tools.c:2035
 msgid "You should introduce a valid cell range in 'Variable 2:'"
 msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок в \"Зм╕нна 2:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1915
+#: src/dialogs/dialog-analysis-tools.c:1910
 msgid ""
 "You should introduce a valid cell range in 'Value and probability input "
 "Range:'"
@@ -2527,32 +2553,32 @@ msgstr ""
 "Необх╕дно ввести в╕рний д╕апазон ком╕рок для \"Вх╕дний д╕апазон значень та "
 "в╕рог╕дностей\""
 
-#: src/dialogs/dialog-analysis-tools.c:1992
+#: src/dialogs/dialog-analysis-tools.c:1987
 msgid "Input Y Range:"
 msgstr "Вх╕дний д╕апазон Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:1995
+#: src/dialogs/dialog-analysis-tools.c:1990
 msgid "Input X Range:"
 msgstr "Вх╕дний д╕апазон X:"
 
-#: src/dialogs/dialog-analysis-tools.c:1998
+#: src/dialogs/dialog-analysis-tools.c:1993
 msgid "Confidence Level:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2064
+#: src/dialogs/dialog-analysis-tools.c:2059
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2070
+#: src/dialogs/dialog-analysis-tools.c:2065
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
 "variables and try the regression again."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2077
+#: src/dialogs/dialog-analysis-tools.c:2072
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
@@ -2638,7 +2664,7 @@ msgstr "упорядкувати"
 msgid "then by"
 msgstr "пот╕м за"
 
-#: src/dialogs/dialog-delete-cells.c:82
+#: src/dialogs/dialog-delete-cells.c:83
 msgid "delete cells"
 msgstr "видалити ком╕рки"
 
@@ -2747,7 +2773,7 @@ msgstr "Ком╕рка"
 msgid "Go to..."
 msgstr "Перейти..."
 
-#: src/dialogs/dialog-insert-cells.c:82
+#: src/dialogs/dialog-insert-cells.c:83
 msgid "insert cells"
 msgstr "ставити ком╕рки"
 
@@ -2828,11 +2854,11 @@ msgstr "Модиф╕ковано:"
 msgid "Modified: %s"
 msgstr "Модиф╕ковано: %s"
 
-#: src/dialogs/dialog-printer-setup.c:689
+#: src/dialogs/dialog-printer-setup.c:922
 msgid "Custom header configuration"
 msgstr "Власна конф╕гурац╕я заголовку"
 
-#: src/dialogs/dialog-printer-setup.c:701
+#: src/dialogs/dialog-printer-setup.c:934
 msgid "Custom footer configuration"
 msgstr "Власна конф╕гурац╕я зноски"
 
@@ -2875,6 +2901,10 @@ msgstr ""
 msgid "You should introduce a valid cell names in 'By changing cells'"
 msgstr ""
 
+#: src/dialogs/dialog-stf-export-sheet-page.c:356
+msgid "You need to select at least one sheet to export"
+msgstr ""
+
 #: src/dialogs/dialog-stf-export.c:49 src/dialogs/dialog-stf.c:102
 msgid "Are you sure you want to cancel?"
 msgstr "Ви впевнен╕, що хочете в╕дм╕нити?"
@@ -2903,65 +2933,57 @@ msgid ""
 "They will be exported in the same order as in the export list."
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:10 src/dialogs/import.glade.h:9
-msgid "label2"
-msgstr "позначка2"
-
-#: src/dialogs/dialog-stf-export.glade.h:11
-msgid "label3"
-msgstr "прозначка3"
-
-#: src/dialogs/dialog-stf-export.glade.h:12
+#: src/dialogs/dialog-stf-export.glade.h:10
 msgid "Available sheets"
 msgstr "Доступн╕ аркуш╕"
 
-#: src/dialogs/dialog-stf-export.glade.h:13
+#: src/dialogs/dialog-stf-export.glade.h:11
 msgid "Sheets to export"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:14
+#: src/dialogs/dialog-stf-export.glade.h:12
 msgid "Add ->"
 msgstr "Додати ->"
 
-#: src/dialogs/dialog-stf-export.glade.h:15
+#: src/dialogs/dialog-stf-export.glade.h:13
 msgid "<- Remove"
 msgstr "<- Видалити"
 
-#: src/dialogs/dialog-stf-export.glade.h:16
+#: src/dialogs/dialog-stf-export.glade.h:14
 msgid "Add all ->"
 msgstr "Додати все ->"
 
-#: src/dialogs/dialog-stf-export.glade.h:17
+#: src/dialogs/dialog-stf-export.glade.h:15
 msgid "<- Remove all"
 msgstr "<- Видалити все"
 
-#: src/dialogs/dialog-stf-export.glade.h:18
+#: src/dialogs/dialog-stf-export.glade.h:16
 msgid "Choose export formatting"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:19
+#: src/dialogs/dialog-stf-export.glade.h:17
 msgid ""
 "Customize the export format. The line terminator is the character sequence "
 "used for terminating a line in the text file. Wether the quote character is "
 "placed around cells depends on the value choosen for quoting."
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:20
+#: src/dialogs/dialog-stf-export.glade.h:18
 msgid "Line termination :"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:21
+#: src/dialogs/dialog-stf-export.glade.h:19
 msgid ""
 "Unix (linefeed)\n"
 "Macintosh (carriage return)\n"
 "Windows (carriage return + linefeed)\n"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:25
+#: src/dialogs/dialog-stf-export.glade.h:23
 msgid "Separator :"
 msgstr "Розд╕лювач:"
 
-#: src/dialogs/dialog-stf-export.glade.h:26 src/dialogs/dialog-stf.glade.h:42
+#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:42
 msgid ""
 "\"\n"
 "'\n"
@@ -2971,26 +2993,26 @@ msgstr ""
 "'\n"
 "`\n"
 
-#: src/dialogs/dialog-stf-export.glade.h:30 src/dialogs/dialog-stf.glade.h:46
+#: src/dialogs/dialog-stf-export.glade.h:28 src/dialogs/dialog-stf.glade.h:46
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:31
+#: src/dialogs/dialog-stf-export.glade.h:29
 msgid ""
 "Automatic (puts quotes where needed)\n"
 "Always\n"
 "Never\n"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:35
+#: src/dialogs/dialog-stf-export.glade.h:33
 msgid "Quoting :"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:36
+#: src/dialogs/dialog-stf-export.glade.h:34
 msgid "Quote character :"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:37
+#: src/dialogs/dialog-stf-export.glade.h:35
 msgid ""
 "Space\n"
 "Tab\n"
@@ -3004,14 +3026,20 @@ msgid ""
 "Custom\n"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export-sheet-page.c:356
-msgid "You need to select at least one sheet to export"
-msgstr ""
-
 #: src/dialogs/dialog-stf-format-page.c:169
 #: src/dialogs/dialog-stf-format-page.c:359
 msgid "Custom"
 msgstr ""
+
+#: src/dialogs/dialog-stf-main-page.c:85
+#, c-format
+msgid "%d lines to import"
+msgstr "%d рядк╕в для ╕мпорту"
+
+#: src/dialogs/dialog-stf-main-page.c:218
+#, c-format
+msgid "Data (from %s)"
+msgstr "Дан╕ (з %s)"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3082,7 +3110,7 @@ msgid "Number of lines to import"
 msgstr "К╕льк╕сть рядк╕в для ╕мпорту"
 
 #: src/dialogs/dialog-stf.glade.h:24 src/dialogs/dialog-stf.glade.h:47
-#: src/dialogs/dialog-stf.glade.h:56 src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf.glade.h:56 src/dialogs/dialog-stf.glade.h:63
 msgid "Example"
 msgstr "Приклад"
 
@@ -3206,19 +3234,10 @@ msgstr "Формат"
 msgid "_Format :"
 msgstr "Формати: "
 
-#: src/dialogs/dialog-stf.glade.h:63 src/dialogs/font-sel.glade.h:13
-msgid "label8"
-msgstr "позначка8"
-
-#: src/dialogs/dialog-stf-main-page.c:85
-#, c-format
-msgid "%d lines to import"
-msgstr "%d рядк╕в для ╕мпорту"
-
-#: src/dialogs/dialog-stf-main-page.c:218
-#, c-format
-msgid "Data (from %s)"
-msgstr "Дан╕ (з %s)"
+#: src/dialogs/dialog-workbook-attr.c:165
+#, fuzzy
+msgid "Workbook Attributes"
+msgstr "Модиф╕кувати атрибути книги"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3296,14 +3315,6 @@ msgstr "Перегляд"
 #: src/dialogs/font-sel.glade.h:12
 msgid "AaBbCcDdEe12345"
 msgstr "АаБбЖжМм╤╕1234AaBbEeJj"
-
-#: src/dialogs/font-sel.glade.h:14
-msgid "label7"
-msgstr "позначка7"
-
-#: src/dialogs/font-sel.glade.h:15
-msgid "label9"
-msgstr "позначка9"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3694,6 +3705,23 @@ msgstr "Введ╕ть нову назву _аркуша:"
 #. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
+#: src/dialogs/solver-options.glade.h:7
+msgid "Solver Options"
+msgstr ""
+
+#: src/dialogs/solver-options.glade.h:8
+msgid "Assume _Linear Model"
+msgstr "Перев╕рити л╕н╕йну модель"
+
+#: src/dialogs/solver-options.glade.h:9
+msgid "Assume _Non-Negative"
+msgstr "Перев╕рити не негативн╕сть"
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
 #: src/dialogs/solver.glade.h:7
 msgid "Add Constraint"
 msgstr "Додати обмеження"
@@ -3795,23 +3823,6 @@ msgstr ""
 #. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
-#: src/dialogs/solver-options.glade.h:7
-msgid "Solver Options"
-msgstr ""
-
-#: src/dialogs/solver-options.glade.h:8
-msgid "Assume _Linear Model"
-msgstr "Перев╕рити л╕н╕йну модель"
-
-#: src/dialogs/solver-options.glade.h:9
-msgid "Assume _Non-Negative"
-msgstr "Перев╕рити не негативн╕сть"
-
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
 #: src/dialogs/summary.glade.h:7
 msgid "Summary"
 msgstr "Зведення"
@@ -3881,6 +3892,26 @@ msgstr "Вигляд"
 msgid "Embedded Sheet"
 msgstr "Владнаний аркуш"
 
+#: src/expr-name.c:180
+msgid "already defined"
+msgstr "вже визначено"
+
+#: src/expr-name.c:183
+msgid "no scope"
+msgstr ""
+
+#: src/expr-name.c:188
+msgid "circular reference"
+msgstr "цикл╕чне посилання"
+
+#: src/expr-name.c:344
+msgid "Builtin"
+msgstr ""
+
+#: src/expr-name.c:380 src/expr-name.c:391
+msgid "Error: no sheet"
+msgstr "Помилка: нема╓ аркуша"
+
 #: src/expr.c:198
 msgid "Syntax error"
 msgstr "Синтаксична помилка"
@@ -3908,26 +3939,6 @@ msgstr "Нев╕домий оператор"
 #: src/expr.c:1032
 msgid "Unknown evaluation error"
 msgstr "Нев╕дома помилка у вираз╕"
-
-#: src/expr-name.c:180
-msgid "already defined"
-msgstr "вже визначено"
-
-#: src/expr-name.c:183
-msgid "no scope"
-msgstr ""
-
-#: src/expr-name.c:188
-msgid "circular reference"
-msgstr "цикл╕чне посилання"
-
-#: src/expr-name.c:344
-msgid "Builtin"
-msgstr ""
-
-#: src/expr-name.c:380 src/expr-name.c:391
-msgid "Error: no sheet"
-msgstr "Помилка: нема╓ аркуша"
 
 #: src/file.c:279
 msgid ""
@@ -4042,20 +4053,20 @@ msgstr "б╕лий"
 msgid "yellow"
 msgstr "жовтий"
 
-#: src/format.c:1399
+#: src/format.c:1398
 msgid "0.0########"
 msgstr "0.0########"
 
-#: src/format.c:1413 src/value-sheet.c:34 src/value.c:400
+#: src/format.c:1412 src/value-sheet.c:34 src/value.c:400
 msgid "TRUE"
 msgstr "╤СТИНА"
 
-#: src/format.c:1413 src/value-sheet.c:34 src/value.c:400
+#: src/format.c:1412 src/value-sheet.c:34 src/value.c:400
 msgid "FALSE"
 msgstr "ХИБН╤СТЬ"
 
 #. Array of arrays ??
-#: src/format.c:1426
+#: src/format.c:1425
 msgid "ARRAY"
 msgstr "МАСИВ"
 
@@ -11093,11 +11104,11 @@ msgstr "Не вдалось в╕дкрити файл \"%s\""
 msgid "/File/"
 msgstr "/Файл/"
 
-#: src/history.c:136 src/history.c:158
+#: src/history.c:135 src/history.c:157
 msgid "File/Print preview"
 msgstr "Файл/Перегляд друку"
 
-#: src/history.c:204
+#: src/history.c:211
 msgid "File/"
 msgstr "Файл/"
 
@@ -11290,6 +11301,21 @@ msgstr "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgid "ERROR"
 msgstr "ПОМИЛКА"
 
+#: src/plugin-util.c:114
+#, c-format
+msgid "Unable to unmap the file, error : %s"
+msgstr ""
+
+#: src/plugin-util.c:123
+#, c-format
+msgid "Error while closing file, error : %s"
+msgstr ""
+
+#: src/plugin-util.c:178
+#, c-format
+msgid "Unable to mmap the file, error : %s"
+msgstr ""
+
 #: src/plugin.c:65
 #, c-format
 msgid ""
@@ -11324,46 +11350,6 @@ msgstr ""
 #: src/plugin.c:184
 msgid "Plugin is still in use."
 msgstr "Доповнення використову╓ться."
-
-#: src/plugin-util.c:114
-#, c-format
-msgid "Unable to unmap the file, error : %s"
-msgstr ""
-
-#: src/plugin-util.c:123
-#, c-format
-msgid "Error while closing file, error : %s"
-msgstr ""
-
-#: src/plugin-util.c:178
-#, c-format
-msgid "Unable to mmap the file, error : %s"
-msgstr ""
-
-#. Note: we cannot have spaces in page numbers.
-#: src/print.c:366
-msgid "&[PAGE]"
-msgstr "&[PAGE]"
-
-#: src/print.c:793 src/workbook.c:1914
-msgid "Selection must be a single range"
-msgstr ""
-
-#: src/print.c:902
-msgid "Print Sheets"
-msgstr "Друкувати аркуш╕"
-
-#: src/print.c:909
-msgid "Act_ive sheet"
-msgstr "Активний аркуш"
-
-#: src/print.c:909
-msgid "S_heets"
-msgstr "Аркуш╕"
-
-#: src/print.c:987 src/workbook.c:1168 src/workbook.c:1514
-msgid "Print preview"
-msgstr "Перегляд друку"
 
 #: src/print-info.c:21 src/print-info.c:24 src/print-info.c:25
 #: src/print-info.c:274
@@ -11439,6 +11425,31 @@ msgstr "дата"
 msgid "time"
 msgstr "час"
 
+#. Note: we cannot have spaces in page numbers.
+#: src/print.c:366
+msgid "&[PAGE]"
+msgstr "&[PAGE]"
+
+#: src/print.c:793 src/workbook.c:1914
+msgid "Selection must be a single range"
+msgstr ""
+
+#: src/print.c:902
+msgid "Print Sheets"
+msgstr "Друкувати аркуш╕"
+
+#: src/print.c:909
+msgid "Act_ive sheet"
+msgstr "Активний аркуш"
+
+#: src/print.c:909
+msgid "S_heets"
+msgstr "Аркуш╕"
+
+#: src/print.c:987 src/workbook.c:1168 src/workbook.c:1514
+msgid "Print preview"
+msgstr "Перегляд друку"
+
 #: src/selection.c:150
 msgid "cannot be performed with multiple selections"
 msgstr ""
@@ -11451,6 +11462,25 @@ msgstr "скоп╕ювати"
 #: src/selection.c:637
 msgid "cut"
 msgstr "вир╕зати"
+
+#: src/sheet-object.c:359 src/workbook.c:1576
+msgid "Button"
+msgstr "Клав╕ша"
+
+#: src/sheet-object.c:777 src/sheet-object.c:780 src/workbook.c:1136
+#: src/workbook.c:1139
+msgid "Select an object to add"
+msgstr ""
+
+#: src/sheet-view.c:479
+#, c-format
+msgid "Row: %d"
+msgstr "Рядок: %d"
+
+#: src/sheet-view.c:489
+#, c-format
+msgid "Column: %s"
+msgstr "Стовпчик: %s"
 
 #: src/sheet.c:1084
 msgid "Internal ERROR"
@@ -11480,25 +11510,6 @@ msgstr "Вставити рядки"
 #: src/sheet.c:3083
 msgid "Delete Rows"
 msgstr "Стерти рядки"
-
-#: src/sheet-object.c:359 src/workbook.c:1576
-msgid "Button"
-msgstr "Клав╕ша"
-
-#: src/sheet-object.c:777 src/sheet-object.c:780 src/workbook.c:1136
-#: src/workbook.c:1139
-msgid "Select an object to add"
-msgstr ""
-
-#: src/sheet-view.c:479
-#, c-format
-msgid "Row: %d"
-msgstr "Рядок: %d"
-
-#: src/sheet-view.c:489
-#, c-format
-msgid "Column: %s"
-msgstr "Стовпчик: %s"
 
 #: src/solver-lp.c:889
 msgid "Answer Report"
@@ -11663,10 +11674,6 @@ msgid ""
 "Thanks -- the Gnumeric Team\n"
 msgstr ""
 
-#: src/value.c:562
-msgid "Terminate"
-msgstr "Зупинити"
-
 #: src/value-sheet.c:415
 msgid "#NULL!"
 msgstr "#NULL!"
@@ -11694,6 +11701,10 @@ msgstr "#NUM!"
 #: src/value-sheet.c:422
 msgid "#RECALC!"
 msgstr "#RECALC!"
+
+#: src/value.c:562
+msgid "Terminate"
+msgstr "Зупинити"
 
 #. "Custom" color - we'll pop up a GnomeColorPicker
 #: src/widgets/widget-color-combo.c:331
@@ -11856,6 +11867,173 @@ msgstr "Товстий курсивний"
 msgid "Italic"
 msgstr "Курсивний"
 
+#: src/workbook-cmd-format.c:94
+msgid "You entered an invalid column width value.  It must be bigger than 0"
+msgstr ""
+"Ви ввели нев╕рне значення ширини стовпчика. Воно мусить бути б╕льше за 0"
+
+#: src/workbook-cmd-format.c:185
+msgid "You entered an invalid row height value.  It must be bigger than 0"
+msgstr "Ви ввели нев╕рне значення висоти рядка. Воно мусить бути б╕льше за 0"
+
+#: src/workbook-format-toolbar.c:340
+msgid "Sets the bold font"
+msgstr "Встановлю╓ жирний шрифт"
+
+#: src/workbook-format-toolbar.c:348
+msgid "Makes the font italic"
+msgstr "Робит шрифт курсивним"
+
+#: src/workbook-format-toolbar.c:355
+msgid "Underline"
+msgstr "П╕дкреслення"
+
+#: src/workbook-format-toolbar.c:356
+msgid "Underlines the font"
+msgstr "П╕дкреслений шрифт"
+
+#: src/workbook-format-toolbar.c:364
+msgid "Left align"
+msgstr "Вир╕вняти л╕воруч"
+
+#: src/workbook-format-toolbar.c:364
+msgid "Left justifies the cell contents"
+msgstr "Вир╕вню╓ всм╕ст ком╕рки л╕воруч"
+
+#: src/workbook-format-toolbar.c:366
+msgid "Center"
+msgstr "Центрувати"
+
+#: src/workbook-format-toolbar.c:366
+msgid "Centers the cell contents"
+msgstr "Центру╓ вм╕ст ком╕рки"
+
+#: src/workbook-format-toolbar.c:368
+msgid "Right align"
+msgstr "Вир╕вн╕ти праворуч"
+
+#: src/workbook-format-toolbar.c:368
+msgid "Right justifies the cell contents"
+msgstr "Вир╕вню╓ всм╕ст ком╕рки праворуч"
+
+#: src/workbook-format-toolbar.c:374
+msgid "Money format"
+msgstr "Грошовий формат"
+
+#: src/workbook-format-toolbar.c:374
+msgid "Sets the format of the selected cells to monetary"
+msgstr "Зм╕нити формат вибраних ком╕рок на грошивий"
+
+#: src/workbook-format-toolbar.c:377
+msgid "Sets the format of the selected cells to percentage"
+msgstr "Зм╕нити формат вибраних ком╕рок на проценти"
+
+#: src/workbook-format-toolbar.c:380
+msgid "Thousand separator"
+msgstr "Розд╕лювач розряд╕в"
+
+#: src/workbook-format-toolbar.c:380
+msgid "Sets the format of the selected cells to include a thousands separator"
+msgstr "Зм╕нити формат вибраних ком╕рок включивши разд╕лювач розряд╕в"
+
+#: src/workbook-format-toolbar.c:383
+msgid "Add decimals"
+msgstr "Зб╕льшити розряди"
+
+#: src/workbook-format-toolbar.c:383
+msgid "Increases the number of decimal numbers displayed"
+msgstr "Зб╕льшу╓ к╕льк╕сть десяткових знак╕в, що показуються"
+
+#: src/workbook-format-toolbar.c:386
+msgid "Remove decimals"
+msgstr "Зменшити розряди"
+
+#: src/workbook-format-toolbar.c:386
+msgid "Decreases the number of decimal numbers displayed"
+msgstr "Зменшу╓ к╕льк╕сть десяткових знак╕в, що показуються"
+
+#: src/workbook-format-toolbar.c:479
+msgid "Clear Borders"
+msgstr "Очистити поля"
+
+#: src/workbook-format-toolbar.c:482
+msgid "All Borders"
+msgstr "Вс╕ поля"
+
+#: src/workbook-format-toolbar.c:483
+msgid "Outside Borders"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:484
+msgid "Thick Outside Borders"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:487
+msgid "Double Bottom"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:488
+msgid "Thick Bottom"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:490
+msgid "Top and Bottom"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:491
+msgid "Top and Double Bottom"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:492
+msgid "Top and Thick Bottom"
+msgstr ""
+
+#: src/workbook-format-toolbar.c:634
+msgid "Font selector"
+msgstr "Вибирач шрифту"
+
+#: src/workbook-format-toolbar.c:645
+msgid "Size"
+msgstr "Розм╕р"
+
+#: src/workbook-format-toolbar.c:659
+msgid "Font Size"
+msgstr "Розм╕р шрифту"
+
+#: src/workbook-format-toolbar.c:675 src/workbook-format-toolbar.c:678
+msgid "Borders"
+msgstr "Поля"
+
+#.
+#. * Create the background colour combo box.
+#.
+#: src/workbook-format-toolbar.c:683
+msgid "Clear Background"
+msgstr "Очистити тло"
+
+#: src/workbook-format-toolbar.c:709 src/workbook-format-toolbar.c:712
+msgid "Foreground"
+msgstr "Передн╕й план"
+
+#: src/workbook-view.c:60
+msgid "Nothing"
+msgstr "Н╕чого"
+
+#. FIXME : How to avoid hard coding the menu name here.
+#: src/workbook-view.c:80 src/workbook-view.c:84 src/workbook.c:1533
+#: src/workbook.c:2539 src/workbook.c:2557
+msgid "Undo"
+msgstr "В╕дм╕нити"
+
+#: src/workbook-view.c:81 src/workbook-view.c:85 src/workbook.c:1536
+#: src/workbook.c:2548 src/workbook.c:2559
+msgid "Redo"
+msgstr "В╕дновити"
+
+#: src/workbook-view.c:157
+msgid " : Gnumeric"
+msgstr " : Gnumeric"
+
 #: src/workbook.c:532
 msgid "Warning"
 msgstr "Попередження"
@@ -11907,7 +12085,7 @@ msgstr "Коротке зведення"
 
 #: src/workbook.c:1168 src/workbook.c:1514
 msgid "Print pre_view"
-msgstr ""
+msgstr "Перегляд друку"
 
 #: src/workbook.c:1184
 msgid "_All"
@@ -12287,27 +12465,12 @@ msgid "Copies the selection to the clipboard"
 msgstr "Коп╕ю╓ виб╕р у буфер обм╕ну"
 
 #: src/workbook.c:1526
-msgid "Paste"
-msgstr "Вставити"
-
-#: src/workbook.c:1526
 msgid "Pastes the clipboard"
 msgstr "Вставля╓ буфер обм╕ну"
-
-#. FIXME : How to avoid hard coding the menu name here.
-#: src/workbook-view.c:80 src/workbook-view.c:84 src/workbook.c:1533
-#: src/workbook.c:2539 src/workbook.c:2557
-msgid "Undo"
-msgstr "В╕дм╕нити"
 
 #: src/workbook.c:1533
 msgid "Undo the operation"
 msgstr "В╕дм╕нити останню операц╕ю"
-
-#: src/workbook-view.c:81 src/workbook-view.c:85 src/workbook.c:1536
-#: src/workbook.c:2548 src/workbook.c:2559
-msgid "Redo"
-msgstr "В╕дновити"
 
 #: src/workbook.c:1536
 msgid "Redo the operation"
@@ -12458,162 +12621,6 @@ msgstr "Перейменувати цей аркуш"
 msgid "Re-order sheets"
 msgstr "Перевпорядкувати аркуш╕"
 
-#: src/workbook-cmd-format.c:94
-msgid "You entered an invalid column width value.  It must be bigger than 0"
-msgstr ""
-"Ви ввели нев╕рне значення ширини стовпчика. Воно мусить бути б╕льше за 0"
-
-#: src/workbook-cmd-format.c:185
-msgid "You entered an invalid row height value.  It must be bigger than 0"
-msgstr "Ви ввели нев╕рне значення висоти рядка. Воно мусить бути б╕льше за 0"
-
-#: src/workbook-format-toolbar.c:340
-msgid "Sets the bold font"
-msgstr "Встановлю╓ жирний шрифт"
-
-#: src/workbook-format-toolbar.c:348
-msgid "Makes the font italic"
-msgstr "Робит шрифт курсивним"
-
-#: src/workbook-format-toolbar.c:355
-msgid "Underline"
-msgstr "П╕дкреслення"
-
-#: src/workbook-format-toolbar.c:356
-msgid "Underlines the font"
-msgstr "П╕дкреслений шрифт"
-
-#: src/workbook-format-toolbar.c:364
-msgid "Left align"
-msgstr "Вир╕вняти л╕воруч"
-
-#: src/workbook-format-toolbar.c:364
-msgid "Left justifies the cell contents"
-msgstr "Вир╕вню╓ всм╕ст ком╕рки л╕воруч"
-
-#: src/workbook-format-toolbar.c:366
-msgid "Center"
-msgstr "Центрувати"
-
-#: src/workbook-format-toolbar.c:366
-msgid "Centers the cell contents"
-msgstr "Центру╓ вм╕ст ком╕рки"
-
-#: src/workbook-format-toolbar.c:368
-msgid "Right align"
-msgstr "Вир╕вн╕ти праворуч"
-
-#: src/workbook-format-toolbar.c:368
-msgid "Right justifies the cell contents"
-msgstr "Вир╕вню╓ всм╕ст ком╕рки праворуч"
-
-#: src/workbook-format-toolbar.c:374
-msgid "Money format"
-msgstr "Грошовий формат"
-
-#: src/workbook-format-toolbar.c:374
-msgid "Sets the format of the selected cells to monetary"
-msgstr "Зм╕нити формат вибраних ком╕рок на грошивий"
-
-#: src/workbook-format-toolbar.c:377
-msgid "Sets the format of the selected cells to percentage"
-msgstr "Зм╕нити формат вибраних ком╕рок на проценти"
-
-#: src/workbook-format-toolbar.c:380
-msgid "Thousand separator"
-msgstr "Розд╕лювач розряд╕в"
-
-#: src/workbook-format-toolbar.c:380
-msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr "Зм╕нити формат вибраних ком╕рок включивши разд╕лювач розряд╕в"
-
-#: src/workbook-format-toolbar.c:383
-msgid "Add decimals"
-msgstr "Зб╕льшити розряди"
-
-#: src/workbook-format-toolbar.c:383
-msgid "Increases the number of decimal numbers displayed"
-msgstr "Зб╕льшу╓ к╕льк╕сть десяткових знак╕в, що показуються"
-
-#: src/workbook-format-toolbar.c:386
-msgid "Remove decimals"
-msgstr "Зменшити розряди"
-
-#: src/workbook-format-toolbar.c:386
-msgid "Decreases the number of decimal numbers displayed"
-msgstr "Зменшу╓ к╕льк╕сть десяткових знак╕в, що показуються"
-
-#: src/workbook-format-toolbar.c:479
-msgid "Clear Borders"
-msgstr "Очистити поля"
-
-#: src/workbook-format-toolbar.c:482
-msgid "All Borders"
-msgstr "Вс╕ поля"
-
-#: src/workbook-format-toolbar.c:483
-msgid "Outside Borders"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:484
-msgid "Thick Outside Borders"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:487
-msgid "Double Bottom"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:488
-msgid "Thick Bottom"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:490
-msgid "Top and Bottom"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:491
-msgid "Top and Double Bottom"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:492
-msgid "Top and Thick Bottom"
-msgstr ""
-
-#: src/workbook-format-toolbar.c:634
-msgid "Font selector"
-msgstr "Вибирач шрифту"
-
-#: src/workbook-format-toolbar.c:645
-msgid "Size"
-msgstr "Розм╕р"
-
-#: src/workbook-format-toolbar.c:659
-msgid "Font Size"
-msgstr "Розм╕р шрифту"
-
-#: src/workbook-format-toolbar.c:675 src/workbook-format-toolbar.c:678
-msgid "Borders"
-msgstr "Поля"
-
-#.
-#. * Create the background colour combo box.
-#.
-#: src/workbook-format-toolbar.c:683
-msgid "Clear Background"
-msgstr "Очистити тло"
-
-#: src/workbook-format-toolbar.c:709 src/workbook-format-toolbar.c:712
-msgid "Foreground"
-msgstr "Передн╕й план"
-
-#: src/workbook-view.c:60
-msgid "Nothing"
-msgstr "Н╕чого"
-
-#: src/workbook-view.c:157
-msgid " : Gnumeric"
-msgstr " : Gnumeric"
-
 #: src/xml-io.c:3139
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Нев╕рн╕ дан╕ XML в буфер╕ обм╕ну. Дерево порожн╓?"
@@ -12634,6 +12641,98 @@ msgstr "Формат файлу Gnumeric"
 #, c-format
 msgid "\"Series %d\""
 msgstr ""
+
+#: wizards/graphics/graphic-type.c:25
+msgid "Clustered columns.  Compares values between categories"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:37
+msgid "Stacked columns.  Compares the values brought by each category"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:50
+msgid ""
+"Stacked columns, 100%.  Compares between the categories the values broght to "
+"a total"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:66
+msgid "Clustered bars.  Compares values between categories"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:78
+msgid "Stacked bars.  Compares the values brought by each category"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:91
+msgid ""
+"Stacked bars, 100%.  Compares between the categories the values broght to a "
+"total"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:107
+msgid "Lines.  FIXME: Add nice explanation"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:120
+msgid "Stacked Lines.  FIXME: Add nice explanation"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:134
+msgid "Stacked lines, 100%.  FIXME: Add nice explanation"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:147
+msgid "Lines with markers.  FIXME: Add nice explanation"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:160
+msgid "Stacked lines with markers.  FIXME: Add nice explanation"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:173
+msgid "Stacked lines with markers, 100%.  FIXME: Add nice explanation"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:190
+msgid "Scatter points"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:207
+msgid "Scatter points connected with lines"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:224
+msgid "Scatter data connected with lines"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:245
+msgid "Area 1: FIXME add nice description"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:257
+msgid "Stacked area.  FIXME: add nic description"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:270
+msgid "Stacked Area, 100%.  FIXME: add nice description"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:290
+msgid "Bar"
+msgstr "Примокутник"
+
+#: wizards/graphics/graphic-type.c:291
+msgid "Lines"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:292
+msgid "Scatter"
+msgstr ""
+
+#: wizards/graphics/graphic-type.c:293
+msgid "Areas"
+msgstr "Д╕лянки"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -12844,98 +12943,6 @@ msgstr ""
 msgid "Step3"
 msgstr "Крок3"
 
-#: wizards/graphics/graphic-type.c:25
-msgid "Clustered columns.  Compares values between categories"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:37
-msgid "Stacked columns.  Compares the values brought by each category"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:50
-msgid ""
-"Stacked columns, 100%.  Compares between the categories the values broght to "
-"a total"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:66
-msgid "Clustered bars.  Compares values between categories"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:78
-msgid "Stacked bars.  Compares the values brought by each category"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:91
-msgid ""
-"Stacked bars, 100%.  Compares between the categories the values broght to a "
-"total"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:107
-msgid "Lines.  FIXME: Add nice explanation"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:120
-msgid "Stacked Lines.  FIXME: Add nice explanation"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:134
-msgid "Stacked lines, 100%.  FIXME: Add nice explanation"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:147
-msgid "Lines with markers.  FIXME: Add nice explanation"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:160
-msgid "Stacked lines with markers.  FIXME: Add nice explanation"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:173
-msgid "Stacked lines with markers, 100%.  FIXME: Add nice explanation"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:190
-msgid "Scatter points"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:207
-msgid "Scatter points connected with lines"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:224
-msgid "Scatter data connected with lines"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:245
-msgid "Area 1: FIXME add nice description"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:257
-msgid "Stacked area.  FIXME: add nic description"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:270
-msgid "Stacked Area, 100%.  FIXME: add nice description"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:290
-msgid "Bar"
-msgstr "Примокутник"
-
-#: wizards/graphics/graphic-type.c:291
-msgid "Lines"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:292
-msgid "Scatter"
-msgstr ""
-
-#: wizards/graphics/graphic-type.c:293
-msgid "Areas"
-msgstr "Д╕лянки"
-
 #: wizards/graphics/main.c:86
 msgid "Step 1 of 3: Select graphic type"
 msgstr ""
@@ -12951,3 +12958,18 @@ msgstr ""
 #: wizards/graphics/main.c:175
 msgid "Unable to launch the graphics service"
 msgstr ""
+
+#~ msgid "label2"
+#~ msgstr "позначка2"
+
+#~ msgid "label3"
+#~ msgstr "прозначка3"
+
+#~ msgid "label8"
+#~ msgstr "позначка8"
+
+#~ msgid "label7"
+#~ msgstr "позначка7"
+
+#~ msgid "label9"
+#~ msgstr "позначка9"
