@@ -567,8 +567,10 @@ sheet_autofill_dir (Sheet *sheet,
 		cell = sheet_cell_get (sheet, x, y);
 
 		if (fi->type == FILL_EMPTY){
-			if (cell)
+			if (cell){
+				sheet_cell_remove (sheet, cell);
 				cell_destroy (cell);
+			}
 		} else {
 			if (!cell)
 				cell = sheet_cell_new (sheet, x, y);

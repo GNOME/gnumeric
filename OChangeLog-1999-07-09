@@ -1,3 +1,8 @@
+1999-01-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-autofill.c (sheet_autofill_dir): Add a call to
+	sheet_cell_remove before calling cell_destroy.
+
 1999-01-23  Bruno Unna  <bruno@iac.com.mx>
 
 	* src/dialog-cell-format.c: Reactivated the 'Coloring' page
