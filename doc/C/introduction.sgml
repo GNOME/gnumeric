@@ -43,7 +43,7 @@ huge range of functions which can process your figures.</para>
   <para>A spreadsheet can be used to maintain budget data, time allocations, 
 personal finances, membership lists and more. Anything which involves storage 
 and processing of number based data sets are good for handling in a spreadsheet.</para>
- <figure id="sample_gnumeric.png">
+ <figure id="sample-gnumeric">
     <title>An example of what a spreadsheet can do.</title>
     <screenshot>
     <graphic fileref="figures/sample_gnumeric.png" format="PNG"></graphic>

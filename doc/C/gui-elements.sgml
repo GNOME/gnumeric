@@ -1,60 +1,70 @@
 <sect1 id="gui-start">
 	<title>Overview.</title>
 
-	<para>This part of the Gnumeric manual explains the pieces of the software
-	that users can manipulate. The menus, the toolbars and the cell grid area
-	comprise what is called the graphical user interface of an application because it is 
-	an interface  &mdash;a way to interact with Gnumeric&mdash; which is made of 
-	graphical elements  &mdash;pictures &mdash; designed to be used by human users.</para>
+	<para>This part of the Gnumeric manual explains the pieces of the
+	software that users can manipulate. The menus, the toolbars and the
+	cell grid area comprise what is called the graphical user interface
+	of an application because it is an interface --- a way to
+	interact with Gnumeric --- which is made of graphical elements
+	--- pictures --- designed to be used by human users.</para>
 
-	<para>Gnumeric opens by default with a view of an empty workbook which is called "Book
-	1" and with a single worksheet called "Sheet 1" as can be seen in 
-	<xref linkend="gnumeric-labelled.png">. The outermost portion of the window is not 
-	actually part of gnumeric and may look different on different machines. Gnumeric 
-	attempts to place its name and the name of the workbook on this outer portion.</para>
+	<para>Gnumeric opens by default with a view of an empty workbook
+	which is called "Book 1" and with a single worksheet called "Sheet
+	1" as can be seen in <xref linkend="gnumeric-labelled.png">. The
+	outermost portion of the window is not actually part of gnumeric and
+	may look different on different machines. Gnumeric attempts to place
+	its name and the name of the workbook on this outer portion.</para>
 
-	<para>The majority of spreadsheet work is done while interacting with this view of 
-	Gnumeric. All of the functions which Gnumeric provides can be accessed quickly 
-	from here. The graphic elements of Gnumeric are made of several independent pieces. 
-	<xRef linkend="gnumeric-labelled.png"> shows a newly opened, empty Gnumeric with the
-	principle elements labelled.</para>
+	<para>The majority of spreadsheet work is done while interacting
+	with this view of Gnumeric. All of the functions which Gnumeric
+	provides can be accessed quickly from here. The graphic elements of
+	Gnumeric are made of several independent pieces.  <xRef
+	linkend="gnumeric-labelled.png"> shows a newly opened, empty
+	Gnumeric with the principle elements labelled.</para>
 		<figure id="gnumeric-labelled.png">
  		   <title>The Gnumeric worksheet elements.</title>
  		   <screenshot>
   		    <graphic fileref="figures/gnumeric-labelled.png"></graphic>
  		   </screenshot>
  		 </figure>
-	<para>The elements names are listed below along with a reference to the section
-that discusses that element. Those reading this document on their computers
-may be able to click on the references to jump to that section of the manual.</para>
+	<para>The elements names are listed below along with a reference to
+	the section that discusses that element. Those reading this document
+	on their computers may be able to click on the references to jump to
+	that section of the manual.</para>
 
 	<variablelist>
 
     	  <varlistentry>
 			<term>
 	  			<guiicon>
-				<inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
+				<inlinegraphic fileref="figures/label-one.png">
+                </inlinegraphic>
 	    		The menubar.
 	  			</guiicon>
 			</term>
 			<listitem>
-	  		<para>The menubar provides access to the core of gnome. Almost
-everything that can be done in gnumeric can be done through the menus. The
-menus and menubar are discussed in <xRef linkend="menus">. </para>
+	  		<para>The menubar provides access to the core functions of
+	  		gnome. Almost everything that can be done in
+	  		gnumeric can be done through the menus. The menus
+	  		and menubar are discussed in <xRef
+	  		linkend="menus">. </para>
 			</listitem>
     	  </varlistentry>
 
     	  <varlistentry>
 			<term>
 	  			<guiicon>
-				<inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
+				<inlinegraphic fileref="figures/label-two.png">
+				</inlinegraphic>
 	    		The standard toolbar.
 	  			</guiicon>
 			</term>
 			<listitem>
-	  		<para>The standard toolbar provides shortcuts for the most used items 
-		in the menus. The toolbars are discussed in <xRef linkend="toolbars"> and 
-		this toolbar in particular in <xRef linkend="std-toolbar">. </para>
+	  		<para>The standard toolbar provides shortcuts for
+	  		the most used items in the menus. The toolbars are
+	  		discussed in <xRef linkend="toolbars"> and this
+	  		toolbar in particular in <xRef
+	  		linkend="std-toolbar">. </para>
 			</listitem>
     	  </varlistentry>
 
@@ -62,14 +72,17 @@ menus and menubar are discussed in <xRef linkend="menus">. </para>
     	  <varlistentry>
 			<term>
 	  			<guiicon>
-				<inlinegraphic fileref="figures/label-three.png"></inlinegraphic>
+				<inlinegraphic fileref="figures/label-three.png">
+				</inlinegraphic>
 	    		The format toolbar.
 	  			</guiicon>
 			</term>
 			<listitem>
-	  		<para>The format toolbar changes the display properties of data in the 
-			workbook. It is presented in <xRef linkend="fmt-toolbar">, part of
-			the general discussion of toolbars of <xRef linkend="toolbars">. </para>
+	  		<para>The format toolbar changes the display
+	  		properties of data in the workbook. It is presented
+	  		in <xRef linkend="fmt-toolbar">, part of the general
+	  		discussion of toolbars of <xRef
+	  		linkend="toolbars">. </para>
 			</listitem>
     	  </varlistentry>
 
@@ -77,13 +90,15 @@ menus and menubar are discussed in <xRef linkend="menus">. </para>
     	  <varlistentry>
 			<term>
 	  			<guiicon>
-				<inlinegraphic fileref="figures/label-four.png"></inlinegraphic>
+				<inlinegraphic fileref="figures/label-four.png">
+				</inlinegraphic>
 	    		The data entry area.
 	  			</guiicon>
 			</term>
 			<listitem>
-	  		<para>The data entry area is useful for the modification of complex
-formulas. It is discussed in <xRef linkend="data-entry">. </para>
+	  		<para>The data entry area is useful for the
+	  		modification of complex formulas. It is discussed in
+	  		<xRef linkend="data-entry">. </para>
 			</listitem>
     	  </varlistentry>
 
@@ -91,14 +106,16 @@ formulas. It is discussed in <xRef linkend="data-entry">. </para>
     	  <varlistentry>
 			<term>
 	  			<guiicon>
-				<inlinegraphic fileref="figures/label-five.png"></inlinegraphic>
-	    		The Information area.
+				<inlinegraphic fileref="figures/label-five.png">
+				</inlinegraphic>
+	    		The information area.
 	  			</guiicon>
 			</term>
 			<listitem>
-	  		<para>This area is used by gnumeric to give feedback on the status of 
-			certain operations. This information is explained in 
-			<xRef linkend="info-area">. </para>
+	  		<para>This area is used by gnumeric to give feedback
+	  		on the status of certain operations. This
+	  		information is explained in <xRef
+	  		linkend="info-area">. </para>
 			</listitem>
     	  </varlistentry>
 
@@ -106,45 +123,71 @@ formulas. It is discussed in <xRef linkend="data-entry">. </para>
     	  <varlistentry>
 			<term>
 	  			<guiicon>
-				<inlinegraphic fileref="figures/label-six.png"></inlinegraphic>
+				<inlinegraphic fileref="figures/label-six.png">
+				</inlinegraphic>
 	    		The object toolbar.
 	  			</guiicon>
 			</term>
 			<listitem>
-	  		<para>This toolbar enables the user to draw graphic elements on the sheet, 
-			such as "circles and arrows and a paragraph on the back of each one, 
-			explaining what each one was, to be used as evidence against us." The use 
-			of the toolbars and the objects it creates is discussed in 
-			<xRef linkend="obj-toolbar">. This is a sub-section of the discussion in 
-			<xRef linkend="toolbars"> on Gnumeric toolbars. </para>
+	  		<para>This toolbar enables the user to draw graphic
+	  		elements on the sheet, such as text labels, big red circles
+			or thin green arrows. These can be used to bring attention 
+			to a particular part of a worksheet. <xref 
+			linkend="sample-gnumeric"> shows an arrow with a text 
+			label pointing to a particularly important number on the 
+			sheet. The use of the object toolbar and the objects it
+	  		creates is discussed in <xRef
+	  		linkend="obj-toolbar">. This is a sub-section of the
+	  		discussion in <xRef linkend="toolbars"> on Gnumeric
+	  		toolbars. </para>
 			</listitem>
     	  </varlistentry>
 
 		  <varlistentry>
 			<term>
 				<guiicon>
-			<!--<inlinegraphic fileref="figures/label-transparent.png"></inlinegraphic>-->
-				<inlinegraphic fileref="figures/label-seven.png"></inlinegraphic>
-				The Cell Area.
+				<inlinegraphic fileref="figures/label-seven.png">
+				</inlinegraphic>
+				The cell grid area.
 				</guiicon>
 				</term>
 			<listitem>
-			<para>The cell area lies in the middle of all the rest. The cell
-			area includes the row and column labels, the scrollbars and the tabs 
-			below. The use of these elements is explained in 
-			<xRef linkend="cell-grid">.</para>
+			<para>The cell area lies in the middle of all the
+			rest. The cell area includes the row and column
+			labels, the scrollbars and the tabs below. The use
+			of these elements is explained in <xRef
+			linkend="cell-grid">.</para>
 			</listitem>
 		  </varlistentry>
 
 	</variablelist>
 
-	<para>The rest of this chapter will explain most of these elements. A few of these 
-	functions are complicated (and powerful) so they are explained in larger sections 
-	later in the manual. The next section gives references to those detailled 
-	so that readers looking for advanced information can skip to those sections
-	directly.</para>
+	<para>The next chapters will explain each of these elements. <xref
+	linkend="menus"> will explain the menus, <xref linkend="toolbars"> 
+	will explaine the toolbars and <xref linkend="other-elements"> 
+	will explain the remaining elements.</para>
+
+        <!-- A few of these functions are complicated (and powerful) so
+	they are explained in larger sections later in the manual. The next
+	section gives references to those detailled so that readers looking
+	for advanced information can skip to those sections directly. -->
 
 
 </sect1>
   
 
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->      

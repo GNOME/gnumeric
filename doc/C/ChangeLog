@@ -1,5 +1,10 @@
 2001-12-28  Jody Goldberg <jody@gnome.org>
 
+	* gui-elements.sgml : apply adrian's changes.
+	* menus.sgml : apply adrian's changes.
+	* toolbars.sgml : apply adrian's changes.
+	* worksheet.sgml : apply adrian's changes.
+
 	* Makefile.am : We no longer seem to need to generate the index
 	  ourselves.
 
@@ -37,7 +42,6 @@
 	* autofill.sgml: remove compile warning
 	* formulas.sgml: typo
 
->>>>>>> 1.80
 2001-12-28  Kevin Breit  <mrproper@ximian.com>
 
 	* autofill.sgml: Increased the amount of info about fill types
