@@ -1546,7 +1546,7 @@ static GtkActionEntry permanent_actions[] = {
 	{ "HelpWeb", NULL, N_("Gnumeric on the _Web"),
 		NULL, N_("Browse to Gnumeric's website"),
 		G_CALLBACK (cb_help_web) },
-	{ "HelpIRC", NULL, N_("Live _Assistance"),
+	{ "HelpIRC", NULL, N_("_Live Assistance"),
 		NULL, N_("See if anyone is available to answer questions"),
 		G_CALLBACK (cb_help_irc) },
 	{ "HelpBug", NULL, N_("Report a _Problem"),
