@@ -1,6 +1,9 @@
-A list of know issues that need to be addressed.
-Divided into, things that will prevent release,
-and longer term bugs.
+To report Gnumeric bugs, please visit bugzilla.gnome.org.
+
+This file is used as a scratch pad by developers.  It is a list of know
+issues that need to be addressed.  Divided into, things that will prevent
+release, and longer term bugs.
+
 
 Release Critical
 ----------------
