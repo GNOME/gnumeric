@@ -43,6 +43,7 @@ Jukka:
 
 Morten:
 	* Fix random number generator to really use /dev/urandom.
+	* More utf8 work.
 
 Zbigniew:
 	* Work on the plugins.

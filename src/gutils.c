@@ -390,19 +390,21 @@ gnumeric_strescape (char const *string)
 
 	g_return_val_if_fail (string != NULL, NULL);
 
-	for (p = string; *p; p++)
+	for (p = string; *p; p = g_utf8_next_char (p))
 		if (*p == '\\' || *p == '\"')
 			escapechars++;
 
-	q = escaped = g_new (char, strlen (string) + escapechars + 3);
+	q = escaped = g_new (char, (p - string) + escapechars + 3);
 	*q++ = '\"';
-	for (p = string; *p; p++) {
+	for (p = string; *p; ) {
+		char *next = g_utf8_next_char (p);
 		if (*p == '\\' || *p == '\"')
 			*q++ = '\\';
-		*q++ = *p;
+		while (p < next)
+			*q++ = *p++;
 	}
 	*q++ = '\"';
-	*q = '\000';
+	*q = 0;
 
 	return escaped;
 }
