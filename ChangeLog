@@ -1,3 +1,10 @@
+2000-12-05  Michael Meeks  <michael@helixcode.com>
+
+	* src/main.c (gnumeric_main): do the bonobo activate before we
+	start doing CORBA calls and bonobo stuff!
+
+	* src/embeddable-grid.c: Fixup for the generic factory.
+
 2000-12-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-view.c (wb_view_edit_line_set) : renamed from

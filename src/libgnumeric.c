@@ -217,6 +217,9 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	else
 		startup_files = NULL;
 
+#ifdef ENABLE_BONOBO
+	bonobo_activate ();
+#endif
 	context = workbook_control_gui_new (NULL, NULL);
 	plugins_init (COMMAND_CONTEXT (context));
 	if (startup_files)
@@ -239,9 +242,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 		if (!opened_workbook)
 			workbook_sheet_add (wb_control_workbook (context),
 					    NULL, FALSE);
-#ifdef ENABLE_BONOBO
-		bonobo_activate ();
-#endif
 		gtk_main ();
 	}
 

@@ -12,7 +12,7 @@
  */
 #include <config.h>
 #include <bonobo/bonobo-embeddable.h>
-#include <bonobo/bonobo-embeddable-factory.h>
+#include <bonobo/bonobo-generic-factory.h>
 #include "idl/Gnumeric.h"
 #include "sheet.h"
 #include "workbook.h"
@@ -25,7 +25,7 @@
 POA_GNOME_Gnumeric_Grid__epv embeddable_grid_epv;
 POA_GNOME_Gnumeric_Grid__vepv embeddable_grid_vepv;
 
-static BonoboEmbeddableFactory *bonobo_embeddable_grid_factory;
+static BonoboGenericFactory *bonobo_embeddable_grid_factory;
 
 static inline EmbeddableGrid *
 embeddable_grid_from_servant (PortableServer_Servant servant)
@@ -220,7 +220,7 @@ embeddable_grid_new (Workbook *wb, Sheet *sheet)
 }
 
 static BonoboObject *
-embeddable_grid_factory (BonoboEmbeddableFactory *This, void *data)
+embeddable_grid_factory (BonoboGenericFactory *This, void *data)
 {
 	EmbeddableGrid *embeddable_grid;
 
@@ -263,7 +263,7 @@ embeddable_grid_get_type (void)
 gboolean
 EmbeddableGridFactory_init (void)
 {
-	bonobo_embeddable_grid_factory = bonobo_embeddable_factory_new (
+	bonobo_embeddable_grid_factory = bonobo_generic_factory_new (
 		"OAFIID:GNOME_Gnumeric_GridFactory",
 		embeddable_grid_factory, NULL);
 	return TRUE;
