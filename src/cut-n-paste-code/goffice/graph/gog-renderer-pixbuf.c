@@ -61,6 +61,11 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 		prend->buffer = NULL;
 	}
 
+	if (prend->pango_context != NULL) {
+		g_object_unref (prend->pango_context);
+		prend->pango_context = NULL;
+	}
+
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		(parent_klass->finalize) (obj);
 }

@@ -5512,9 +5512,11 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 		GTK_UPDATE_DISCONTINUOUS);
 
 	val = gog_dataset_get_dim (dataset, dim_i);
-	if (val != NULL)
-		gnm_expr_entry_load_from_text (editor->entry,
-			go_data_as_str (val));
+	if (val != NULL) {
+		char *txt = go_data_as_str (val);
+		gnm_expr_entry_load_from_text (editor->entry, txt);
+		g_free (txt);
+	}
 	gnm_expr_entry_set_flags (editor->entry,
 		GNM_EE_ABS_COL|GNM_EE_ABS_ROW, GNM_EE_MASK);
 
