@@ -23080,9 +23080,8 @@ msgid "Co_mma (,)"
 msgstr "カンマ(,) (_M)"
 
 #: src/dialogs/dialog-stf.glade.h:16
-#, fuzzy
 msgid "Column selection"
-msgstr "選択範囲を切り取ります"
+msgstr "列の選択"
 
 #: src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
@@ -23148,9 +23147,8 @@ msgid "Original data type:"
 msgstr "元のデータ形式:"
 
 #: src/dialogs/dialog-stf.glade.h:34
-#, fuzzy
 msgid "Overall formatting"
-msgstr "列ごとの書式設定"
+msgstr "全体の書式設定"
 
 #: src/dialogs/dialog-stf.glade.h:35
 msgid "P_ipe (|)"
@@ -23277,7 +23275,6 @@ msgid "`"
 msgstr "`"
 
 #: src/dialogs/dialog-stf-main-page.c:150
-#, fuzzy, c-format
 msgid "%d of %d lines to import"
 msgstr "%2$1行のうち%1$d行をインポート"
 
@@ -23470,9 +23467,8 @@ msgid "_Row"
 msgstr "行(_R)"
 
 #: src/dialogs/fill-series.glade.h:18
-#, fuzzy
 msgid "_Start value:"
-msgstr "開始値: "
+msgstr "開始値(_S):"
 
 #: src/dialogs/fill-series.glade.h:19
 msgid "_Weekday"
@@ -23870,9 +23866,8 @@ msgid "3"
 msgstr "3"
 
 #: src/dialogs/moving-averages.glade.h:3
-#, fuzzy
 msgid "C_olumns"
-msgstr "列"
+msgstr "列(_O)"
 
 #: src/dialogs/moving-averages.glade.h:6 src/tools/analysis-tools.c:3731
 #: src/tools/analysis-tools.c:3734
@@ -23880,14 +23875,12 @@ msgid "Moving Average"
 msgstr "移動平均"
 
 #: src/dialogs/moving-averages.glade.h:10
-#, fuzzy
 msgid "_Interval:"
-msgstr "間隔(_T):"
+msgstr "間隔(_I):"
 
 #: src/dialogs/names.glade.h:3
-#, fuzzy
 msgid "<b>Available Names</b>"
-msgstr "利用可能名称"
+msgstr "<b>利用可能な名前</b>"
 
 #: src/dialogs/names.glade.h:4
 msgid "<b>Definition</b>"
@@ -23931,7 +23924,7 @@ msgstr "ピボットテーブル グル: Gnumeric"
 
 #: src/dialogs/pivottable.glade.h:5
 msgid "Subtotal By"
-msgstr ""
+msgstr "小計 by"
 
 #: src/dialogs/pivottable.glade.h:6
 msgid "_Add:"
@@ -24726,14 +24719,12 @@ msgid "Constraints"
 msgstr "制約条件"
 
 #: src/dialogs/solver.glade.h:8
-#, fuzzy
 msgid "Max _Iterations:"
-msgstr "最大繰り返し数:"
+msgstr "最大繰り返し数(_I):"
 
 #: src/dialogs/solver.glade.h:9
-#, fuzzy
 msgid "Max _Time (sec.):"
-msgstr "最大時間(秒):"
+msgstr "最大時間(秒)(_T):"
 
 #: src/dialogs/solver.glade.h:10
 msgid "Model"
@@ -24760,9 +24751,8 @@ msgid "Solve"
 msgstr "実行"
 
 #: src/dialogs/solver.glade.h:19
-#, fuzzy
 msgid "_Algorithm:"
-msgstr "アルゴリズム:"
+msgstr "アルゴリズム(_A):"
 
 #: src/dialogs/solver.glade.h:20
 msgid "_Answer"
@@ -24781,9 +24771,8 @@ msgid "_Do not create scenarios"
 msgstr "シナリオを作成しない(_D)"
 
 #: src/dialogs/solver.glade.h:25
-#, fuzzy
 msgid "_Equal To:"
-msgstr "目標値:"
+msgstr "次に等しい(_E):"
 
 #: src/dialogs/solver.glade.h:26
 msgid "_Left Hand Side:"
@@ -24829,6 +24818,11 @@ msgid ""
 "Int\n"
 "Bool\n"
 msgstr ""
+"≤\n"
+"≥\n"
+"=\n"
+"Int\n"
+"Bool\n"
 
 #: src/dialogs/so-scrollbar.glade.h:1
 msgid "Increment:"
@@ -24933,18 +24927,16 @@ msgid "_Visual"
 msgstr "有視界(_V)"
 
 #: src/dialogs/variance-tests.glade.h:5
-#, fuzzy
 msgid "Test"
-msgstr "検定(_T)"
+msgstr "検定"
 
 #: src/dialogs/variance-tests.glade.h:6
 msgid "Testing Equality of 2 Variances (F-Test)"
 msgstr "2つの分散に差があるかの検定 (F-検定)"
 
 #: src/dialogs/view.glade.h:3
-#, fuzzy
 msgid "<b>Location</b>"
-msgstr "<b>行</b>"
+msgstr "<b>位置</b>"
 
 #: src/dialogs/view.glade.h:4
 msgid "Create New View"
@@ -24956,12 +24948,11 @@ msgstr "新規ビューを指定したスクリーン上に開きます"
 
 #: src/dialogs/view.glade.h:6
 msgid "Specified screen:"
-msgstr ""
+msgstr "指定されたスクリーン:"
 
 #: src/dialogs/view.glade.h:7
-#, fuzzy
 msgid "_Share cursor position"
-msgstr "ビューはカーソル位置を共有します"
+msgstr "カーソル位置の共有(_S)"
 
 #: src/dialogs/workbook-attr.glade.h:2
 msgid "A_uto Complete Text in Cells"
