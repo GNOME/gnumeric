@@ -1,5 +1,10 @@
 2002-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca> for
 
+	* plugin.xml.in : all file_savers in this plugin are lossy 
+	  (write_only)
+
+2002-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca> for
+
 	* roff.c (roff_fprintf) : do not print hidden cells
 	(write_wb_roff) : recalculcate spans if necessary
 

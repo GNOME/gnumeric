@@ -1,3 +1,9 @@
+2002-11-06   Andreas J. Guelzow  <aguelzow@taliesin.ca>
+	
+	http://bugzilla.gnome.org/show_bug.cgi?id=78356
+	* src/workbook-view.c (wb_view_save_as) : don't mark the
+	  workbook clean unless we saved under the new name.
+
 2002-11-06  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Fix gda configure switch.

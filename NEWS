@@ -2,6 +2,7 @@ Gnumeric 1.1.12
 
 Andreas
 	* Hide hidden cells in groff/troff export
+	* Fix 78356
 
 Jody
 	* POISSON is defined for x == 0
