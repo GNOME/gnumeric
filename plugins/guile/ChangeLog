@@ -1,3 +1,17 @@
+2000-11-06  Ariel Rios  <ariel@arcavia.com>
+
+	* smob-value.h: New header file.
+	(init_value_type): New prototype.
+	* smob-value.c (SCM_Value): Smob structure.
+	(make_value): Creates a new SCM object instance.
+	(mark_value): Guile uses this functions to each created
+	instance of this type to the GC.
+	(free_value): Guile apply this instance where no new pointers
+	to the instance can be found.
+	(print_value): Write a printed representation of object.
+	(equalp_value): Compares to value_smob
+	(init_value_type): Inits the new value smob in Guile
+
 2000-11-05  Ariel Rios  <ariel@arcavia.com>
 
 	* guile-support.c (value_to_scm): Use value_get_as functions as per Jody 
