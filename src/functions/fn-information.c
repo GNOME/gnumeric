@@ -71,7 +71,7 @@ get_value_class (FunctionEvalInfo *ei, ExprTree *expr)
 
 static char *help_cell = {
 	N_("@FUNCTION=CELL\n"
-	   "@SYNTAX=CELL()\n"
+	   "@SYNTAX=CELL(ref)\n"
 
 	   "@DESCRIPTION="
 	   "CELL returns information about the formatting, location, or "
@@ -342,7 +342,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_iserror = {
 	N_("@FUNCTION=ISERROR\n"
-	   "@SYNTAX=ISERROR(exp)\n"
+	   "@SYNTAX=ISERROR(value)\n"
 
 	   "@DESCRIPTION="
 	   "ISERROR returns a TRUE value if the expression has an error\n"
@@ -396,7 +396,7 @@ gnumeric_iserror (FunctionEvalInfo *ei, GList *expr_node_list)
 
 static char *help_isna = {
 	N_("@FUNCTION=ISNA\n"
-	   "@SYNTAX=ISNA()\n"
+	   "@SYNTAX=ISNA(value)\n"
 
 	   "@DESCRIPTION="
 	   "ISNA returns TRUE if the value is the #N/A error value. "
@@ -430,7 +430,7 @@ gnumeric_isna (FunctionEvalInfo *ei, GList *expr_node_list)
 
 static char *help_iserr = {
 	N_("@FUNCTION=ISERR\n"
-	   "@SYNTAX=ISERR()\n"
+	   "@SYNTAX=ISERR(value)\n"
 
 	   "@DESCRIPTION="
 	   "ISERR returns TRUE if the value is any error value except #N/A. "
@@ -460,7 +460,7 @@ gnumeric_iserr (FunctionEvalInfo *ei, GList *expr_node_list)
 
 static char *help_error_type = {
 	N_("@FUNCTION=ERROR.TYPE\n"
-	   "@SYNTAX=ERROR(exp)\n"
+	   "@SYNTAX=ERROR(value)\n"
 
 	   "@DESCRIPTION="
 	   "ERROR.TYPE returns an error number corresponding to the given "
@@ -563,7 +563,7 @@ gnumeric_error (FunctionEvalInfo *ei, Value *argv[])
 
 static char *help_isblank = {
 	N_("@FUNCTION=ISBLANK\n"
-	   "@SYNTAX=ISBLANK()\n"
+	   "@SYNTAX=ISBLANK(value)\n"
 
 	   "@DESCRIPTION="
 	   "ISBLANK returns TRUE if the value is blank. "
@@ -610,7 +610,7 @@ gnumeric_isblank (FunctionEvalInfo *ei, GList *expr_node_list)
 
 static char *help_iseven = {
 	N_("@FUNCTION=ISEVEN\n"
-	   "@SYNTAX=ISEVEN()\n"
+	   "@SYNTAX=ISEVEN(value)\n"
 
 	   "@DESCRIPTION="
 	   "ISEVEN returns TRUE if the number is even. "
@@ -631,7 +631,7 @@ gnumeric_iseven (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_islogical = {
 	N_("@FUNCTION=ISLOGICAL\n"
-	   "@SYNTAX=ISLOGICAL()\n"
+	   "@SYNTAX=ISLOGICAL(value)\n"
 
 	   "@DESCRIPTION="
 	   "ISLOGICAL returns TRUE if the value is a logical value. "
@@ -660,7 +660,7 @@ gnumeric_islogical (FunctionEvalInfo *ei, GList *expr_node_list)
 
 static char *help_isnontext = {
 	N_("@FUNCTION=ISNONTEXT\n"
-	   "@SYNTAX=ISNONTEXT()\n"
+	   "@SYNTAX=ISNONTEXT(value)\n"
 
 	   "@DESCRIPTION="
 	   "ISNONTEXT Returns TRUE if the value is not text. "
@@ -686,7 +686,7 @@ gnumeric_isnontext (FunctionEvalInfo *ei, GList *expr_node_list)
 
 static char *help_isnumber = {
 	N_("@FUNCTION=ISNUMBER\n"
-	   "@SYNTAX=ISNUMBER()\n"
+	   "@SYNTAX=ISNUMBER(value)\n"
 
 	   "@DESCRIPTION="
 	   "ISNUMBER returns TRUE if the value is a number. "
@@ -712,7 +712,7 @@ gnumeric_isnumber (FunctionEvalInfo *ei, GList *expr_node_list)
 
 static char *help_isodd = {
 	N_("@FUNCTION=ISODD\n"
-	   "@SYNTAX=ISODD()\n"
+	   "@SYNTAX=ISODD(value)\n"
 
 	   "@DESCRIPTION="
 	   "ISODD returns TRUE if the number is odd. "
@@ -733,7 +733,7 @@ gnumeric_isodd (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_isref = {
 	N_("@FUNCTION=ISREF\n"
-	   "@SYNTAX=ISREF()\n"
+	   "@SYNTAX=ISREF(value)\n"
 
 	   "@DESCRIPTION="
 	   "ISREF returns TRUE if the value is a reference. "
@@ -764,7 +764,7 @@ gnumeric_isref (FunctionEvalInfo *ei, GList *expr_node_list)
 
 static char *help_istext = {
 	N_("@FUNCTION=ISTEXT\n"
-	   "@SYNTAX=ISTEXT()\n"
+	   "@SYNTAX=ISTEXT(value)\n"
 
 	   "@DESCRIPTION="
 	   "ISTEXT returns TRUE if the value is text. "
@@ -790,7 +790,7 @@ gnumeric_istext (FunctionEvalInfo *ei, GList *expr_node_list)
 
 static char *help_n = {
 	N_("@FUNCTION=N\n"
-	   "@SYNTAX=N()\n"
+	   "@SYNTAX=N(value)\n"
 
 	   "@DESCRIPTION="
 	   "N returns a value converted to a number.  Strings containing "
@@ -827,7 +827,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_type = {
 	N_("@FUNCTION=TYPE\n"
-	   "@SYNTAX=TYPE()\n"
+	   "@SYNTAX=TYPE(value)\n"
 
 	   "@DESCRIPTION="
 	   "TYPE returns a number indicating the data type of a value. "

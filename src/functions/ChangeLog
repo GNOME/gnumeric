@@ -1,3 +1,8 @@
+2001-02-13  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-information.c (get_value_class) : update the docs to name the
+	  argument for single argumented functions.
+
 2000-12-27  Jody Goldberg <jgoldberg@home.com>
 
 	* fn-date.c (datedif_opt_yd) : only display warning once.
