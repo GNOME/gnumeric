@@ -136,12 +136,133 @@ cb_end_color_changed (GtkWidget *cc,
 }
 
 static void
-cb_type_changed (GtkWidget *cc, GogObject *gobj)
+init_solid_page (GogObject *gobj, GladeXML *gui, GogStyle *style)
+{
+	GtkWidget *table, *w;
+	CommandContext *cc;
+  	table = glade_xml_get_widget (gui, "table");
+	cc = (CommandContext*) g_object_get_data (G_OBJECT (table), "command-context");
+	table = glade_xml_get_widget (gui, "fill_table");
+	w = color_combo_new (NULL, _("Transparent"),
+		NULL, color_group_fetch ("fill_color", cc));
+	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (glade_xml_get_widget (gui, "fill_label")), w);
+	switch (style->fill.type)
+	{
+		case GOG_FILL_STYLE_SOLID:
+			color_combo_set_gocolor (w, style->fill.u.solid.color);
+			break;
+		case GOG_FILL_STYLE_PATTERN:
+			color_combo_set_gocolor (w, style->fill.u.pattern.back);
+			break;
+		case GOG_FILL_STYLE_GRADIENT:
+			color_combo_set_gocolor (w, style->fill.u.gradient.start);
+			break;
+		default:
+			color_combo_set_gocolor (w, RGB_WHITE);
+	}
+	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 0, 1, 0, 0, 0, 0);
+	g_signal_connect (G_OBJECT (w),
+		"color_changed",
+		G_CALLBACK (cb_fill_color_changed), gobj);
+	g_object_set_data (G_OBJECT (table), "color", w);
+	gtk_widget_show_all (table);
+}
+
+static void
+cb_gradient_type_changed (GtkWidget *cc,
+		       GogObject *gobj)
+{
+	GogStyle *style = NULL;
+	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
+	style = gog_style_dup (style);
+
+	g_return_if_fail (style != NULL);
+
+	style->fill.u.gradient.type = gtk_option_menu_get_history (
+																GTK_OPTION_MENU (cc));
+	g_object_set (G_OBJECT (gobj), "style", style, NULL);
+}
+
+static void
+init_gradient_page (GogObject *gobj, GladeXML *gui, GogStyle *style)
+{
+	GtkWidget *table, *w;
+	GtkOptionMenu *menu;
+ 	CommandContext *cc;
+  	table = glade_xml_get_widget (gui, "table");
+	cc = (CommandContext*) g_object_get_data (G_OBJECT (table), "command-context");
+	table = glade_xml_get_widget (gui, "gradient_table");
+	w = color_combo_new (NULL, _("Transparent"),
+		NULL, color_group_fetch ("start_color", cc));
+	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (glade_xml_get_widget (gui, "start_label")), w);
+	switch (style->fill.type)
+	{
+		case GOG_FILL_STYLE_SOLID:
+			color_combo_set_gocolor (w, style->fill.u.solid.color);
+			break;
+		case GOG_FILL_STYLE_PATTERN:
+			color_combo_set_gocolor (w, style->fill.u.pattern.back);
+			break;
+		case GOG_FILL_STYLE_GRADIENT:
+			color_combo_set_gocolor (w, style->fill.u.gradient.start);
+			break;
+		default:
+			color_combo_set_gocolor (w, RGB_WHITE);
+	}
+	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 0, 1, 0, 0, 0, 0);
+	g_signal_connect (G_OBJECT (w),
+		"color_changed",
+		G_CALLBACK (cb_start_color_changed), gobj);
+	g_object_set_data (G_OBJECT (table), "start", w);
+	w = color_combo_new (NULL, _("Transparent"),
+		NULL, color_group_fetch ("end_color", cc));
+	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (glade_xml_get_widget (gui, "end_label")), w);
+	switch (style->fill.type)
+	{
+		case GOG_FILL_STYLE_SOLID:
+			color_combo_set_gocolor (w, style->fill.u.solid.color);
+			break;
+		case GOG_FILL_STYLE_PATTERN:
+			color_combo_set_gocolor (w, style->fill.u.pattern.fore);
+			break;
+		case GOG_FILL_STYLE_GRADIENT:
+			color_combo_set_gocolor (w, style->fill.u.gradient.end);
+			break;
+		default:
+			color_combo_set_gocolor (w, RGB_BLACK);
+	}
+	color_combo_set_gocolor (w, style->fill.u.gradient.end);
+	gtk_table_attach (GTK_TABLE (table), w, 3, 4, 0, 1, 0, 0, 0, 0);
+	g_signal_connect (G_OBJECT (w),
+		"color_changed",
+		G_CALLBACK (cb_end_color_changed), gobj);
+	g_object_set_data (G_OBJECT (table), "end", w);
+	menu = GTK_OPTION_MENU (glade_xml_get_widget (gui, "gradient_type"));
+	gtk_option_menu_set_history (menu,
+					(style->fill.type == GOG_FILL_STYLE_GRADIENT)?
+						style->fill.u.gradient.type: GOG_GRADIENT_N_TO_S);
+	g_signal_connect (G_OBJECT (menu),
+		"changed",
+		G_CALLBACK (cb_gradient_type_changed), gobj);
+	g_object_set_data (G_OBJECT (menu), "state", gui);
+	gtk_widget_show_all (table);
+}
+
+static void
+cb_type_changed (GtkWidget *cc,
+		       GogObject *gobj)
 {
 	GtkNotebook* notebook;
+	GtkOptionMenu* menu;
 	gint page;
 	GladeXML *gui;
-	GtkWidget *w;
+	GtkWidget *w, *table;
 	GogStyle *style = NULL;
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
 	style = gog_style_dup (style);
@@ -150,28 +271,48 @@ cb_type_changed (GtkWidget *cc, GogObject *gobj)
 
 	gui = (GladeXML*) g_object_get_data (G_OBJECT (cc), "state");
 	notebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "notebook"));
-	page = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (cc), "page"));
-	gtk_notebook_set_current_page (notebook, page);
-	switch (page) {
-	case 0:
-		style->fill.type = GOG_FILL_STYLE_SOLID;
-		w = GTK_WIDGET (g_object_get_data (G_OBJECT (cc), "color"));
-		style->fill.u.solid.color = color_combo_get_gocolor (w);
-		break;
-	case 1:
-		style->fill.type = GOG_FILL_STYLE_GRADIENT;
-		w = GTK_WIDGET (g_object_get_data (G_OBJECT (cc), "start"));
-		style->fill.u.gradient.start = color_combo_get_gocolor (w);
-		w = GTK_WIDGET (g_object_get_data (G_OBJECT (cc), "end"));
-		style->fill.u.gradient.end = color_combo_get_gocolor (w);
-		break;
-	case 2:
-		style->fill.type = GOG_FILL_STYLE_PATTERN;
-		break;
-	case 3:
-		style->fill.type = GOG_FILL_STYLE_IMAGE;
-		break;
+	page = gtk_option_menu_get_history(GTK_OPTION_MENU (cc));
+	switch (page)
+	{
+		case 0:
+			style->fill.type = GOG_FILL_STYLE_NONE;
+			break;
+		case 1:
+			table = glade_xml_get_widget (gui, "fill_table");
+			w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "color");
+			if (! w)
+			{
+				init_solid_page (gobj, gui, style);
+				w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "color");
+			}
+			style->fill.type = GOG_FILL_STYLE_SOLID;
+			style->fill.u.solid.color = color_combo_get_gocolor (w);
+			style->fill.u.solid.is_auto = FALSE;
+			break;
+		case 2:
+			table = glade_xml_get_widget (gui, "gradient_table");
+			w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "start");
+			if (! w)
+			{
+				init_gradient_page (gobj, gui, style);
+				w = (GtkWidget*) g_object_get_data (G_OBJECT (table), "start");
+			}
+			style->fill.type = GOG_FILL_STYLE_GRADIENT;
+			style->fill.u.gradient.start = color_combo_get_gocolor (w);
+			w = GTK_WIDGET (g_object_get_data (G_OBJECT (table), "end"));
+			style->fill.u.gradient.end = color_combo_get_gocolor (w);
+			w = glade_xml_get_widget (gui, "gradient_type");
+			style->fill.u.gradient.type = gtk_option_menu_get_history (
+																		GTK_OPTION_MENU (w));
+			break;
+		case 3:
+			style->fill.type = GOG_FILL_STYLE_PATTERN;
+			break;
+		case 4:
+			style->fill.type = GOG_FILL_STYLE_IMAGE;
+			break;
 	}
+	gtk_notebook_set_current_page (notebook, page);
 	g_object_set (G_OBJECT (gobj), "style", style, NULL);
 }
 
@@ -205,7 +346,6 @@ gog_style_copy (GogStyle *dst, GogStyle const *src)
 	dst->fill    = src->fill;
 	if ((dst->flags & GOG_STYLE_FILL) &&
 	    GOG_FILL_STYLE_IMAGE == dst->fill.type) {
-		/* TODO */
 	}
 	dst->marker  = src->marker;
 }
@@ -214,22 +354,28 @@ GtkWidget *
 gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 {
 	GogStyle *style = NULL;
-	GtkWidget *table, *table1, *w, *notebook, *button;
+	GtkWidget *table, *table1, *w, *notebook, *menu;
 	GladeXML *gui;
 
 	g_object_get (G_OBJECT (gobj), "style", &style, NULL);
 	g_return_val_if_fail (style != NULL, NULL);
 
 	/* glade file life cycle */
-	gui = gnm_glade_xml_new (cc, "gog-style-pref.glade", "table", NULL);
+	gui = gnm_glade_xml_new (cc, "gog-style-prefs.glade", "table", NULL);
 	if (gui == NULL)
 		return NULL;
 
  	table = glade_xml_get_widget (gui, "table");
 	g_object_set_data_full (G_OBJECT (table),
 		"state", gui, (GDestroyNotify)g_object_unref);
+	g_object_set_data (G_OBJECT (table), "command-context", cc);
 
 	notebook = glade_xml_get_widget (gui, "notebook");
+	menu = glade_xml_get_widget (gui, "menu_type");
+	g_signal_connect (G_OBJECT (menu),
+		"changed",
+		G_CALLBACK (cb_type_changed), gobj);
+	g_object_set_data (G_OBJECT (menu), "state", gui);
 
 	/* outline width */
 	w = glade_xml_get_widget (gui, "spin_border_width");
@@ -250,98 +396,32 @@ gog_style_editor (GogObject *gobj, CommandContext *cc, guint32 enable)
 		"color_changed",
 		G_CALLBACK (cb_outline_color_changed), gobj);
 
-	/* fill colour */
- 	table1 = glade_xml_get_widget (gui, "fill_table");
-	w = color_combo_new (NULL, _("Transparent"),
-		NULL, color_group_fetch ("fill_color", cc));
-	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (glade_xml_get_widget (gui, "fill_label")), w);
-	switch (style->fill.type) {
-	case GOG_FILL_STYLE_SOLID:
-		color_combo_set_gocolor (w, style->fill.u.solid.color);
-		break;
-	case GOG_FILL_STYLE_PATTERN:
-		color_combo_set_gocolor (w, style->fill.u.pattern.back);
-		break;
-	case GOG_FILL_STYLE_GRADIENT:
-		color_combo_set_gocolor (w, style->fill.u.gradient.start);
-		break;
-	default:
-		color_combo_set_gocolor (w, RGB_WHITE);
+	if (enable & GOG_STYLE_FILL)
+	{
+		switch (style->fill.type)
+		{
+			case GOG_FILL_STYLE_NONE:
+				gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 0);
+				gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
+				break;
+			case GOG_FILL_STYLE_SOLID:
+				init_solid_page (gobj, gui, style);
+				gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 1);
+				gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 1);
+				break;
+			case GOG_FILL_STYLE_GRADIENT:
+				init_gradient_page (gobj, gui, style);
+				gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 2);
+				gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 2);
+				break;
+		}
 	}
-	gtk_table_attach (GTK_TABLE (table1), w, 1, 2, 0, 1, 0, 0, 0, 0);
-	g_signal_connect (G_OBJECT (w),
-		"color_changed",
-		G_CALLBACK (cb_fill_color_changed), gobj);
-	button = glade_xml_get_widget (gui, "solid_button");
-	g_object_set_data (G_OBJECT (button), "state", gui);
-	g_object_set_data (G_OBJECT (button), "page", (gpointer) 0);
-	g_object_set_data (G_OBJECT (button), "color", w);
-	g_signal_connect (G_OBJECT (button), "clicked",
-		G_CALLBACK (cb_type_changed), gobj);
-	if (style->fill.type != GOG_FILL_STYLE_SOLID)
-		GTK_TOGGLE_BUTTON (button)->active = 0;
-
-	/* gradient colors */
- 	table1 = glade_xml_get_widget (gui, "gradient_table");
-	w = color_combo_new (NULL, _("Transparent"),
-		NULL, color_group_fetch ("start_color", cc));
-	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (glade_xml_get_widget (gui, "start_label")), w);
-	switch (style->fill.type) {
-	case GOG_FILL_STYLE_SOLID:
-		color_combo_set_gocolor (w, style->fill.u.solid.color);
-		break;
-	case GOG_FILL_STYLE_PATTERN:
-		color_combo_set_gocolor (w, style->fill.u.pattern.back);
-		break;
-	case GOG_FILL_STYLE_GRADIENT:
-		color_combo_set_gocolor (w, style->fill.u.gradient.start);
-		break;
-	default:
-		color_combo_set_gocolor (w, RGB_WHITE);
+	else
+	{
+		gtk_option_menu_set_history (GTK_OPTION_MENU (menu), 0);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 0);
+		gtk_widget_set_sensitive (menu, FALSE);
 	}
-	gtk_table_attach (GTK_TABLE (table1), w, 1, 2, 0, 1, 0, 0, 0, 0);
-	g_signal_connect (G_OBJECT (w),
-		"color_changed",
-		G_CALLBACK (cb_start_color_changed), gobj);
-	button = glade_xml_get_widget (gui, "gradient_button");
-	g_object_set_data (G_OBJECT (button), "state", gui);
-	g_object_set_data (G_OBJECT (button), "page", GINT_TO_POINTER (1));
-	g_object_set_data (G_OBJECT (button), "start", w);
-	g_signal_connect (G_OBJECT (button), "clicked",
-		G_CALLBACK (cb_type_changed), gobj);
-	if (style->fill.type == GOG_FILL_STYLE_GRADIENT) {
-		GTK_TOGGLE_BUTTON (button)->active = 1;
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), 1);
-	}
-	w = color_combo_new (NULL, _("Transparent"),
-		NULL, color_group_fetch ("end_color", cc));
-	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (glade_xml_get_widget (gui, "end_label")), w);
-	switch (style->fill.type) {
-	case GOG_FILL_STYLE_SOLID:
-		color_combo_set_gocolor (w, style->fill.u.solid.color);
-		break;
-	case GOG_FILL_STYLE_PATTERN:
-		color_combo_set_gocolor (w, style->fill.u.pattern.fore);
-		break;
-	case GOG_FILL_STYLE_GRADIENT:
-		color_combo_set_gocolor (w, style->fill.u.gradient.end);
-		break;
-	default:
-		color_combo_set_gocolor (w, RGB_BLACK);
-	}
-	color_combo_set_gocolor (w, style->fill.u.gradient.end);
-	gtk_table_attach (GTK_TABLE (table1), w, 3, 4, 0, 1, 0, 0, 0, 0);
-	g_signal_connect (G_OBJECT (w),
-		"color_changed",
-		G_CALLBACK (cb_end_color_changed), gobj);
-	g_object_set_data (G_OBJECT (button), "end", w);
-
 	gtk_widget_show_all (GTK_WIDGET (table));
 	return table;
 }

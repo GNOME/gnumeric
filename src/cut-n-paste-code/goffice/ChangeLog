@@ -1,6 +1,13 @@
+2003-06-01  Jean Brefort <jean.brefort@ac-dijon.fr>
+	* graph/gog-style.h : new gradient styles,
+		fill type accessible only if GOG_STYLE_FILL is used
+	* graph/gog-style.c : Enhanced gradient selector
+	* graph/gog-renderer-pixbuf.c : Support for new gradient types
+	* graph/gog-themes.c : Top to bottom gradient in Guppi theme
+
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
-	For Jean Br?fort <jean.brefort@ac-dijon.fr>
+	For Jean Brefort <jean.brefort@ac-dijon.fr>
 	* graph/gog-style.c (gog_style_editor) : Start work on gradient
 	  selector.
 

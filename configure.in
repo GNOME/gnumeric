@@ -712,6 +712,7 @@ src/cut-n-paste-code/foocanvas/Makefile
 src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
 src/cut-n-paste-code/pcre/Makefile
 src/cut-n-paste-code/goffice/Makefile
+src/cut-n-paste-code/goffice/data/Makefile
 src/cut-n-paste-code/goffice/utils/Makefile
 src/cut-n-paste-code/goffice/graph/Makefile
 src/cut-n-paste-code/goffice/graph/tests/Makefile

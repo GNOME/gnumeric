@@ -46,6 +46,12 @@ typedef enum {
 	GOG_FILL_STYLE_GRADIENT,
 	GOG_FILL_STYLE_IMAGE
 } GogFillStyle;
+typedef enum {
+	GOG_GRADIENT_N_TO_S,
+	GOG_GRADIENT_W_TO_E,
+	GOG_GRADIENT_NW_TO_SE,
+	GOG_GRADIENT_NE_TO_SW	
+} GogGradientType;
 
 typedef guint32	GOColor;
 
@@ -76,7 +82,7 @@ struct _GogStyle {
 			} pattern;
 			struct {
 				GOColor	start, end;
-				/* direction as enum or vector ? */
+				GogGradientType type;/* direction as enum or vector ? */
 			} gradient;
 			struct {
 				char *image_file;

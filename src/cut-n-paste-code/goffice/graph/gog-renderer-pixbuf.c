@@ -151,17 +151,47 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 				gdk_pixbuf_get_n_channels (prend->buffer) - 1,
 				8, ART_ALPHA_SEPARATE, NULL);
 			art_render_svp (render, fill);
-			gradient. a = 0.;
-			gradient. b = 1. / (bbox.y1 - bbox.y0 + 1.);
-			gradient. c = 0.;
+			switch (style->fill.u.gradient.type)
+			{
+				case GOG_GRADIENT_N_TO_S:
+					gradient. a = 0.;
+					gradient. b = 1. / (bbox.y1 - bbox.y0 + 1.);
+					gradient. c = 0.;
+					break;
+				case GOG_GRADIENT_W_TO_E:
+					gradient. a = 1. / (bbox.x1 - bbox.x0 + 1.);
+					gradient. b = 0.;
+					gradient. c = 0.;
+					break;
+				case GOG_GRADIENT_NW_TO_SE:
+					gradient. a = .5 / (bbox.x1 - bbox.x0 + 1.);
+					gradient. b = .5 / (bbox.y1 - bbox.y0 + 1.);
+					gradient. c = 0.;
+					break;
+				case GOG_GRADIENT_NE_TO_SW:
+					gradient. a = .5 / (bbox.x1 - bbox.x0 + 1.);
+					gradient. b = -.5 / (bbox.y1 - bbox.y0 + 1.);
+					gradient. c = .5;
+					break;
+			}
 			gradient.spread = ART_GRADIENT_REPEAT;
 			gradient.n_stops = G_N_ELEMENTS (stops);
 			gradient.stops = stops;
 
-			go_color_to_artpix (stops[0].color,
-				style->fill.u.gradient.start);
-			go_color_to_artpix (stops[1].color,
+			if (style->fill.u.gradient.type == GOG_GRADIENT_NE_TO_SW)
+			{
+				go_color_to_artpix (stops[0].color,
 				style->fill.u.gradient.end);
+				go_color_to_artpix (stops[1].color,
+					style->fill.u.gradient.start);
+			}
+			else
+			{
+				go_color_to_artpix (stops[0].color,
+				style->fill.u.gradient.start);
+				go_color_to_artpix (stops[1].color,
+					style->fill.u.gradient.end);
+			}
 			art_render_gradient_linear (render,
 				&gradient, ART_FILTER_NEAREST);
 			art_render_invoke (render);

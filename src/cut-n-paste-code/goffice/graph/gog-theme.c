@@ -263,6 +263,7 @@ gog_themes_init	(void)
 		style->fill.type = GOG_FILL_STYLE_GRADIENT;
 		style->fill.u.gradient.start = RGBA_BLUE;
 		style->fill.u.gradient.end = RGBA_BLACK;
+		style->fill.u.gradient.type = GOG_GRADIENT_N_TO_S;
 		gog_theme_add_element (theme, style, "GogGraph");
 	style = gog_style_new (); /* chart */
 		style->outline.width = 0; /* hairline */
