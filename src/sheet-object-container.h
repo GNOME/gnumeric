@@ -2,6 +2,7 @@
 #define GNUMERIC_SHEET_OBJECT_CONTAINER_H
 
 #include "sheet-object.h"
+#include <bonobo/gnome-client-site.h>
 
 /*
  * SheetObjectContainer:

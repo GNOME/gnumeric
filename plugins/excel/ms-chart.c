@@ -2015,7 +2015,7 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 }
 
 void
-ms_excel_read_chart (BiffQuery *q, ExcelWorkbook *wb, int obj_id)
+ms_excel_read_chart (BiffQuery *q, ExcelWorkbook *wb)
 {
 	BIFF_BOF_DATA *bof;
 

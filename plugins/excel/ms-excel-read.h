@@ -94,7 +94,9 @@ typedef struct _ExcelWorkbook
 	char               **global_strings;
 	int                  global_string_max;
 	eBiff_version        ver;
-	GList               *eschers;
+
+	/* Indexed in the order they are read */
+	GPtrArray	    *blips;
 	GPtrArray           *charts;
 
 	/**

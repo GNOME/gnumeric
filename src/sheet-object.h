@@ -53,9 +53,12 @@ void    sheet_object_set_bounds (SheetObject *sheet_object, double tlx, double t
  */
 typedef enum {
 	SHEET_OBJECT_LINE,
-	SHEET_OBJECT_RECTANGLE,
-	SHEET_OBJECT_ELLIPSE,
+	SHEET_OBJECT_BOX,
+	SHEET_OBJECT_OVAL,
 	SHEET_OBJECT_ARROW,
+	SHEET_OBJECT_GRAPHIC,
+	SHEET_OBJECT_BUTTON,
+	SHEET_OBJECT_CHECKBOX
 } SheetObjectType;
 
 /*
@@ -79,5 +82,13 @@ SheetObject     *sheet_object_create_filled  (Sheet *sheet, int type,
 					      const char *fill_color,
 					      const char *outline_color,
 					      int w);
+
+SheetObject     *sheet_object_create_button  (Sheet *sheet,
+					      double x1, double y1,
+					      double x2, double y2);
+
+SheetObject     *sheet_object_create_checkbox(Sheet *sheet,
+					      double x1, double y1,
+					      double x2, double y2);
 
 #endif /* GNUMERIC_SHEET_OBJECT_H */

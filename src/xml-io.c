@@ -1347,7 +1347,7 @@ xml_write_sheet_object (parse_xml_context_t *ctxt, SheetObject *object)
 	xmlNodePtr cur = NULL;
 
 	switch (sog->type){
-	case SHEET_OBJECT_RECTANGLE:{
+	case SHEET_OBJECT_BOX:{
 			SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
 
 			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Rectangle", NULL);
@@ -1357,7 +1357,7 @@ xml_write_sheet_object (parse_xml_context_t *ctxt, SheetObject *object)
 			break;
 		}
 
-	case SHEET_OBJECT_ELLIPSE:{
+	case SHEET_OBJECT_OVAL:{
 			SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
 
 			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Ellipse", NULL);
@@ -1401,9 +1401,9 @@ xml_read_sheet_object (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	int pattern;
 
 	if (!strcmp (tree->name, "Rectangle")){
-		type = SHEET_OBJECT_RECTANGLE;
+		type = SHEET_OBJECT_BOX;
 	} else if (!strcmp (tree->name, "Ellipse")){
-		type = SHEET_OBJECT_ELLIPSE;
+		type = SHEET_OBJECT_OVAL;
 	} else if (!strcmp (tree->name, "Arrow")){
 		type = SHEET_OBJECT_ARROW;
 	} else if (!strcmp (tree->name, "Line")){
@@ -1418,8 +1418,8 @@ xml_read_sheet_object (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	color = (char *) xml_value_get (tree, "Color");
 	xml_get_coordinates (tree, "Points", &x1, &y1, &x2, &y2);
 	xml_get_value_int (tree, "Width", &width);
-	if ((type == SHEET_OBJECT_RECTANGLE) ||
-	    (type == SHEET_OBJECT_ELLIPSE)){
+	if ((type == SHEET_OBJECT_BOX) ||
+	    (type == SHEET_OBJECT_OVAL)){
 		fill_color = (char *) xml_value_get (tree, "FillColor");
 		xml_get_value_int (tree, "Pattern", &pattern);
 		ret = sheet_object_create_filled (

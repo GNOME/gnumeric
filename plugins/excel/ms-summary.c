@@ -140,7 +140,7 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 }
 
 
-void
+static void
 set_summary_item (SummaryItem *s_item, MsOleSummary *ms_sum)
 {
 	MsOleSummaryPID	pid;

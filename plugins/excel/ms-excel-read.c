@@ -1592,18 +1592,22 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 	if (is_string) {
 		guint16 code;
 		if (ms_biff_query_peek_next(q, &code) && code == BIFF_STRING) {
-			char *v;
-			ms_biff_query_next (q);
-			/*
-			 * NOTE : the Excel developers kit docs are
-			 *        WRONG.  There is an article that
-			 *        clarifies the behaviour to be the std
-			 *        unicode format rather than the pure
-			 *        length version the docs describe.
-			 */
-		       	v = biff_get_text (q->data + 2,
-					   MS_OLE_GET_GUINT16(q->data),
-					   NULL);
+			char *v = NULL;
+			if (ms_biff_query_next (q)) {
+				/*
+				 * NOTE : the Excel developers kit docs are
+				 *        WRONG.  There is an article that
+				 *        clarifies the behaviour to be the std
+				 *        unicode format rather than the pure
+				 *        length version the docs describe.
+				 */
+				guint16 const len = MS_OLE_GET_GUINT16(q->data);
+
+				if (len > 0)
+					v = biff_get_text (q->data + 2, len, NULL);
+				else
+					v = g_strdup(""); /* Pre-Biff8 seems to use len=0 */
+			}
 			if (v) {
 				val = value_new_string (v);
 				g_free (v);
@@ -1739,12 +1743,12 @@ ms_excel_workbook_new (eBiff_version ver)
 	ans->excel_sheets     = g_ptr_array_new ();
 	ans->XF_cell_records  = g_ptr_array_new ();
 	ans->name_data        = g_ptr_array_new ();
-	ans->charts	      = NULL; /* Init if/when its needed */
+	ans->blips            = g_ptr_array_new ();
+	ans->charts           = g_ptr_array_new ();
 	ans->format_data      = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 						  (GCompareFunc)biff_guint16_equal);
 	ans->palette          = ms_excel_default_palette ();
 	ans->ver              = ver;
-	ans->eschers          = NULL;
 	ans->global_strings   = NULL;
 	ans->global_string_max  = 0;
 	ans->read_drawing_group = 0;
@@ -1809,13 +1813,15 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 			biff_name_data_destroy (g_ptr_array_index (wb->name_data, lp));
 	g_ptr_array_free (wb->name_data, TRUE);
 
-	if (wb->charts != NULL)
-	{
-		for (lp=0;lp<wb->charts->len;lp++)
-			gnumeric_chart_destroy (g_ptr_array_index(wb->charts, lp));
-		g_ptr_array_free (wb->charts, TRUE);
-		wb->charts = NULL;
-	}
+	for (lp=0;lp<wb->blips->len;lp++)
+		ms_escher_blip_destroy (g_ptr_array_index(wb->blips, lp));
+	g_ptr_array_free (wb->blips, TRUE);
+	wb->blips = NULL;
+
+	for (lp=0;lp<wb->charts->len;lp++)
+		gnumeric_chart_destroy (g_ptr_array_index(wb->charts, lp));
+	g_ptr_array_free (wb->charts, TRUE);
+	wb->charts = NULL;
 
 	g_hash_table_foreach_remove (wb->font_data,
 				     (GHRFunc)biff_font_data_destroy,
@@ -2424,7 +2430,8 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			ms_read_OBJ (q, wb);
+			ms_obj_realize(ms_read_OBJ (q, wb, sheet->gnum_sheet),
+				       wb, sheet);
 			break;
 
 		case BIFF_SELECTION:
@@ -3179,7 +3186,10 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			ms_read_OBJ (q, wb);
+			/* FIXME : What does it mean to have an object
+			 * outside a sheet ???? */
+			ms_obj_realize(ms_read_OBJ (q, wb, NULL),
+				       wb, NULL);
 			break;
 
 		case BIFF_SCL :

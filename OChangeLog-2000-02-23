@@ -1,3 +1,22 @@
+1999-09-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/value.c (value_release) : Releasing value_terminate should not
+	  generate an error.
+
+	* src/sheet-object-container.h : Add include
+	  <bonobo/gnome-client-site.h>.
+
+1999-09-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object.h : Make SheetObjectType names
+	  constistant with SheetModeType names, and add
+	  GRAPHIC, BUTTON, and CHECKBOX.
+
+	* plugins/html/epsf.c (epsf_write_wb) : RECTANGLE -> BOX.
+	  ELLIPSE -> OVAL.
+	* src/sheet-object.c (create_object) : Ditto.
+	* src/xml-io.c (xml_read_sheet_object) : Ditto.
+
 1999-09-18  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/dialog-simple-input.c (dialog_get_sheet_name): use
@@ -16,7 +35,7 @@
 	terminate.
 
 	* src/workbook-cmd-format.c (do_apply_style_to_selection): set
-	shett dirty.
+	sheet dirty.
 	(workbook_cmd_format_column_auto_fit): ditto.
 	(workbook_cmd_format_column_width): ditto.
 	(workbook_cmd_format_row_auto_fit): ditto.

@@ -374,6 +374,30 @@ checkbox_widget_create (SheetObjectWidget *sow, SheetView *sheet_view)
 	return checkbox;
 }
 
+SheetObject *
+sheet_object_create_button  (Sheet *sheet,
+			     double x1, double y1,
+			     double x2, double y2)
+{
+	SheetObject * obj =
+	    sheet_object_widget_new (sheet, x1, y1, x2, y2,
+				     button_widget_create, NULL);
+	sheet_object_realize (obj);
+	return obj;
+}
+
+SheetObject *
+sheet_object_create_checkbox(Sheet *sheet,
+			     double x1, double y1,
+			     double x2, double y2)
+{
+	SheetObject * obj =
+	    sheet_object_widget_new (sheet, x1, y1, x2, y2,
+				     checkbox_widget_create, NULL);
+	sheet_object_realize (obj);
+	return obj;
+}
+
 /*
  * create_object
  *
@@ -413,7 +437,7 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 		
 	case SHEET_MODE_CREATE_BOX: {
 		o = sheet_object_create_filled (
-			sheet, SHEET_OBJECT_RECTANGLE,
+			sheet, SHEET_OBJECT_BOX,
 			x1, y1, x2, y2,
 			NULL, "black", 1);
 		break;
@@ -421,7 +445,7 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 
 	case SHEET_MODE_CREATE_OVAL: {
 		o = sheet_object_create_filled (
-			sheet, SHEET_OBJECT_ELLIPSE,
+			sheet, SHEET_OBJECT_OVAL,
 			x1, y1, x2, y2,
 			NULL, "black", 1);
 		break;

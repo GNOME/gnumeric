@@ -157,11 +157,11 @@ sheet_object_filled_realize (SheetObject *so, SheetView *sheet_view)
 	g_return_val_if_fail (sheet_view != NULL, NULL);
 
 	switch (sog->type){
-	case SHEET_OBJECT_RECTANGLE:
+	case SHEET_OBJECT_BOX:
 		type = gnome_canvas_rect_get_type ();
 		break;
 
-	case SHEET_OBJECT_ELLIPSE:
+	case SHEET_OBJECT_OVAL:
 		type = gnome_canvas_ellipse_get_type ();
 		break;
 

@@ -130,8 +130,9 @@ value_release (Value *value)
 {
 	g_return_if_fail (value != NULL);
 
-	/* Should never release value_terminate it is a magic number */
-	g_return_if_fail (value != value_terminate());
+	/* Do not release value_terminate it is a magic number */
+	if (value == value_terminate())
+		return;
 
 	switch (value->type) {
 	case VALUE_EMPTY:

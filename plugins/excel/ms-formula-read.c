@@ -679,10 +679,17 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 		/* FIXME FIXME FIXME : How to handle missing trailing args ?? */
 		ParseList *args = parse_list_last_n (stack, numargs-1);
 		ExprTree *tmp = parse_list_pop (stack) ;
-		char const *f_name;
-		if (!tmp ||
-		    tmp->oper != OPER_CONSTANT ||
-		    tmp->u.constant->type != VALUE_STRING) {
+		char const *f_name = NULL;
+
+		if (tmp != NULL) {
+		    if (tmp->oper == OPER_CONSTANT &&
+			tmp->u.constant->type == VALUE_STRING)
+			f_name = tmp->u.constant->v.str->str;
+		    else if (tmp->oper == OPER_NAME)
+			f_name = tmp->u.name->name->str;
+		}
+
+		if (f_name == NULL) {
 			if (tmp) expr_tree_unref (tmp);
 			parse_list_free (&args);
 			parse_list_push_raw (stack,
@@ -691,7 +698,6 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 			printf ("So much for that theory.\n");
 			return FALSE;
 		}
-		f_name = tmp->u.constant->v.str->str;
 
 		name = symbol_lookup (global_symbol_table, f_name);
 		if (!name)

@@ -33,41 +33,108 @@ extern int ms_excel_read_debug;
 #define GR_CHECKBOX_FORMULA   0x14
 #define GR_COMMON_OBJ_DATA    0x15
 
-static char *
-object_type_names[] =
+/*
+ * Attempt to install ab object in supplied work book.
+ * NOTE : The MSObj is freed by this routine
+ */
+gboolean
+ms_obj_realize(MSObj * obj, ExcelWorkbook  *wb, ExcelSheet * sheet)
 {
-        "Group", /* 0x00 */
-        "Line",		/* 0x01 */
-        "Rectangle",	/* 0x02 */
-        "Oval",		/* 0x03 */
-        "Arc",		/* 0x04 */
-        "Chart",	/* 0x05 */
-        "TextBox",	/* 0x06 */
-        "Button",	/* 0x07 */
-        "Picture",	/* 0x08 */
-        "Polygon",	/* 0x09 */
-        NULL,		/* 0x0A */
-        "CheckBox",	/* 0x0B */
-        "Option",	/* 0x0C */
-        "Edit",		/* 0x0D */
-        "Label",	/* 0x0E */
-        "Dialog",	/* 0x0F */
-        "Spinner",	/* 0x10 */
-        "Scroll",	/* 0x11 */
-        "List",		/* 0x12 */
-        "Group",	/* 0x13 */
-        "Combo",	/* 0x14 */
-        NULL,		/* 0x15 */
-        NULL,		/* 0x16 */
-        NULL,		/* 0x17 */
-        NULL,		/* 0x18 */
-        "Comment",	/* 0x19 */
-        NULL,		/* 0x1A */
-        NULL,		/* 0x1B */
-        NULL,		/* 0x1C */
-        NULL,		/* 0x1D */
-        "MS Drawing"	/* 0x1E */
-};
+	int * anchor = NULL;
+	if (obj == NULL)
+		return TRUE;
+
+	anchor = obj->anchor;
+
+	switch (obj->gnumeric_type) {
+	case SHEET_OBJECT_BUTTON :
+		sheet_object_create_button (sheet->gnum_sheet,
+					    anchor[0], anchor[1],
+					    anchor[2], anchor[3]);
+		break;
+
+	case SHEET_OBJECT_CHECKBOX :
+		sheet_object_create_checkbox (sheet->gnum_sheet,
+					      anchor[0], anchor[1],
+					      anchor[2], anchor[3]);
+		break;
+
+	case SHEET_OBJECT_GRAPHIC : /* If this was a picture */
+	{
+		int blip_id;
+		GPtrArray const * blips = wb->blips;
+		EscherBlip *blip = NULL;
+#ifdef ENABLE_BONOBO
+		SheetObject  *so;
+#endif
+
+		blip_id = obj->v.picture.blip_id;
+
+		g_return_val_if_fail (blip_id >= 0, FALSE);
+		g_return_val_if_fail (blip_id < blips->len, FALSE);
+
+		blip = g_ptr_array_index (blips, blip_id);
+
+		g_return_val_if_fail (blip != NULL, FALSE);
+
+#ifdef ENABLE_BONOBO
+		g_return_val_if_fail (blip->stream != NULL, FALSE);
+		g_return_val_if_fail (blip->reproid != NULL, FALSE);
+		so = sheet_object_container_new (sheet->gnum_sheet,
+						 anchor[0], anchor[1],
+						 anchor[2], anchor[3],
+						 blip->reproid);
+		if (!sheet_object_container_load (so, blip->stream, TRUE))
+			g_warning ("Failed to load '%s' from stream",
+				   blip->reproid);
+#endif
+	}
+	break;
+
+	default :
+	break;
+	};
+
+	g_free (obj);
+	return FALSE;
+}
+
+gboolean
+ms_parse_object_anchor (int anchor[4],
+			Sheet const * sheet, guint8 const * data)
+{
+	/* Words 0, 4, 8, 12 : The row/col of the corners */
+	/* Words 2, 6, 10, 14 : distance from cell edge measured in 1/1024 of an inch */
+	float	zoom;
+	int	i;
+
+	/* FIXME : How to handle objects not in sheets ?? */
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	zoom = sheet->last_zoom_factor_used;
+
+	for (i = 0; i < 4; ++i) {
+		guint16 const pos = MS_OLE_GET_GUINT16(data + 4*i);
+		float margin = (MS_OLE_GET_GUINT16(data + 4*i + 2) / (1024./72.));
+
+		/* FIXME : we are slightly off.  What about margins ? */
+		float const tmp = (i&1) /* odds are rows */
+		    ? sheet_row_get_unit_distance (sheet, 0, pos)
+		    : sheet_col_get_unit_distance (sheet, 0, pos);
+		margin += tmp;
+		margin *= zoom;
+
+		anchor[i] = (int)margin;
+	}
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0)
+		printf ("In pixels left = %d, top = %d, right = %d, bottom =d %d;\n",
+			anchor[0], anchor[1], anchor[2], anchor[3]);
+#endif
+
+	return FALSE;
+}
 
 void
 ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb)
@@ -157,63 +224,31 @@ ms_obj_dump (guint8 const * const data, int const len, char const * const name)
 	printf ("}; /* %s */\n", name);
 }
 
-
-static void
-ms_obj_read_pre_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
+static gboolean
+ms_obj_read_pre_biff8_obj (BiffQuery *q, ExcelWorkbook * wb,
+			   Sheet * sheet, MSObj * obj)
 {
-	static char const * const obj_types[] = {
-	    "Group", "Line", "Rectangle", "Oval", "Arc", "Chart", "Text",
-	    "Button", "Picture", "Polygon", "Checkbox", "OptionButton",
-	    "Edit box", "Label", "Dialog frame", "Spinner", "Listbox",
-	    "Group box", "Dropdown"
-	};
+	/* TODO : Lots of docs for these things.  Write the parser. */
+
 #if 0
-	guint32 const numObjects = MS_OLE_GET_GUINT32(q->data);
-	guint16 const flags = MS_OLE_GET_GUINT32(q->data+8);
+	guint32 const numObjects = MS_OLE_GET_GUINT16(q->data);
+	guint16 const flags = MS_OLE_GET_GUINT16(q->data+8);
 #endif
-	guint16 tmp = MS_OLE_GET_GUINT32(q->data+4);
-	guint16 const obj_id = MS_OLE_GET_GUINT32(q->data+6);
+	obj->excel_type = MS_OLE_GET_GUINT16(q->data+4);
+	obj->id = MS_OLE_GET_GUINT32(q->data+6);
 
-	guint16 const left_col = MS_OLE_GET_GUINT32(q->data+10);
-	guint16 const top_row = MS_OLE_GET_GUINT32(q->data+14);
-	guint16 const right_col = MS_OLE_GET_GUINT32(q->data+18);
-	guint16 const bottom_row = MS_OLE_GET_GUINT32(q->data+22);
-
-	/* As 1/1024 of cell width */
-	guint16 const left_offset = MS_OLE_GET_GUINT32(q->data+12);
-	guint16 const top_offset = MS_OLE_GET_GUINT32(q->data+16);
-	guint16 const right_offset = MS_OLE_GET_GUINT32(q->data+20);
-	guint16 const bottom_offset = MS_OLE_GET_GUINT32(q->data+24);
-
-	if (tmp >= (sizeof(obj_types)/sizeof(char const * const))) {
-		printf ("EXCEL : invalid object type %d\n", tmp);
-		return;
-	}
-
-	if (ms_excel_read_debug > 0) {
-		printf ("EXCEL : Found %s @ (%s%d + %f %%, %f %%):(%s%d + %f %%, %f %%)\n",
-			obj_types[tmp],
-			col_name(left_col), top_row+1,
-			left_offset/1024., top_offset/1024.,
-			col_name(right_col), bottom_row+1,
-			right_offset/1024., bottom_offset/1024.);
-	}
-
-	if (tmp == 0x5)
-		ms_excel_read_chart (q, wb, obj_id);
+	return ms_parse_object_anchor (obj->anchor, sheet, q->data+10);
 }
 
-static void
-ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
+static gboolean
+ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * obj)
 {
 	guint8 *data;
 	gint32 data_len_left;
-	int obj_type = -1; /* Set to undefined */
-	int obj_id = -1;
 	gboolean hit_end = FALSE;
 
-	g_return_if_fail (q);
-	g_return_if_fail (q->ls_op == BIFF_OBJ);
+	g_return_val_if_fail (q, TRUE);
+	g_return_val_if_fail (q->ls_op == BIFF_OBJ, TRUE);
 
 	data = q->data;
 	data_len_left = q->length;
@@ -226,12 +261,13 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 		guint16 const len = MS_OLE_GET_GUINT16(data+2);
 
 		/* 1st record must be COMMON_OBJ*/
-		g_return_if_fail (obj_type >= 0 ||
-				  record_type == GR_COMMON_OBJ_DATA);
+		g_return_val_if_fail (obj->excel_type >= 0 ||
+				      record_type == GR_COMMON_OBJ_DATA,
+				      TRUE);
 
 		switch (record_type) {
 		case GR_END:
-			g_return_if_fail (len == 0);
+			g_return_val_if_fail (len == 0, TRUE);
 			hit_end = TRUE;
 			break;
 
@@ -311,33 +347,26 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 
 		case GR_COMMON_OBJ_DATA:
 		{
-			char const *type_name = NULL;
 			guint16 const options =MS_OLE_GET_GUINT16(data+8);
 
 			/* Multiple objects in 1 record ?? */
-			g_return_if_fail (obj_type == -1);
+			g_return_val_if_fail (obj->excel_type == -1, -1);
 
-			obj_type = MS_OLE_GET_GUINT16(data+4);
-			obj_id = MS_OLE_GET_GUINT16(data+6);
-			if (obj_type<sizeof(object_type_names)/sizeof(char*))
-				type_name =object_type_names[obj_type];
-			else
-				type_name = "Unknown";
+			obj->excel_type = MS_OLE_GET_GUINT16(data+4);
+			obj->id = MS_OLE_GET_GUINT16(data+6);
 
 			/* only print when debug is enabled */
 			if (ms_excel_read_debug == 0)
 				break;
 
-			printf ("\n\nObject (%d) is a '%s'\n", obj_id, type_name);
-
 			if (options&0x0001)
-				printf ("The %s is Locked\n", type_name);
+				printf ("Locked;\n");
 			if (options&0x0010)
-				printf ("The %s is Printable\n", type_name);
+				printf ("Printable;\n");
 			if (options&0x2000)
-				printf ("The %s is AutoFilled\n", type_name);
+				printf ("AutoFilled;\n");
 			if (options&0x4000)
-				printf ("The %s has AutoLines\n", type_name);
+				printf ("AutoLines;\n");
 
 			if ((options & 0x9fee) != 0)
 				printf ("WARNING : Why is option not 0 (%x)\n",
@@ -346,7 +375,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 		break;
 
 		default:
-			printf ("Unknown Obj record 0x%x len 0x%x dll %d\n",
+			printf ("ERROR : Unknown Obj record 0x%x len 0x%x dll %d;\n",
 				record_type, len, data_len_left);
 		}
 		data += len+4,
@@ -354,21 +383,116 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 	}
 
 	/* The ftEnd record should have been the last */
-	g_return_if_fail (data_len_left == 0);
+	g_return_val_if_fail (data_len_left == 0, TRUE);
 
-	/* If this was a Chart then there should be a BOF next */
-	if (obj_type == 0x05)
-		ms_excel_read_chart (q, wb, obj_id);
-
-	if (ms_excel_read_debug > 0)
-	    printf ("\n\n");
+	return FALSE;
 }
 
-void
-ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb)
+MSObj *
+ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
 {
-	if (wb->ver >= eBiffV8)
-		ms_obj_read_biff8_obj (q, wb);
-	else
-		ms_obj_read_pre_biff8_obj (q, wb);
+	static char * object_type_names[] =
+	{
+		"Group", 	/* 0x00 */
+		"Line",		/* 0x01 */
+		"Rectangle",	/* 0x02 */
+		"Oval",		/* 0x03 */
+		"Arc",		/* 0x04 */
+		"Chart",	/* 0x05 */
+		"TextBox",	/* 0x06 */
+		"Button",	/* 0x07 */
+		"Picture",	/* 0x08 */
+		"Polygon",	/* 0x09 */
+		NULL,		/* 0x0A */
+		"CheckBox",	/* 0x0B */
+		"Option",	/* 0x0C */
+		"Edit",		/* 0x0D */
+		"Label",	/* 0x0E */
+		"Dialog",	/* 0x0F */
+		"Spinner",	/* 0x10 */
+		"Scroll",	/* 0x11 */
+		"List",		/* 0x12 */
+		"Group",	/* 0x13 */
+		"Combo",	/* 0x14 */
+		NULL, NULL, NULL, NULL, /* 0x15 - 0x18 */
+		"Comment",	/* 0x19 */
+		NULL, NULL, NULL, NULL,	/* 0x1A - 0x1D */
+		"MS Drawing"	/* 0x1E */
+	};
+
+	gboolean errors;
+	SheetObjectType type;
+	MSObj * obj = g_new(MSObj, 1);
+	obj->excel_type = (unsigned)-1; /* Set to undefined */
+	obj->id = -1;
+	obj->anchor_set = FALSE;
+
+	errors = (wb->ver >= eBiffV8)
+		? ms_obj_read_biff8_obj (q, wb, sheet, obj)
+		: ms_obj_read_pre_biff8_obj (q, wb, sheet, obj);
+
+	if (errors) {
+		g_free (obj);
+		return NULL;
+	}
+
+	switch (obj->excel_type) {
+	case 0x05 : /* Chart */
+		type = SHEET_OBJECT_BOX;
+		/* There should be a BOF next */
+		ms_excel_read_chart (q, wb);
+		break;
+
+	case 0x01 : /* Line */
+		type = SHEET_OBJECT_LINE;
+		break;
+
+	case 0x02 : /* Rectangle */
+		type = SHEET_OBJECT_BOX;
+		break;
+
+	case 0x03 : /* Oval */
+		type = SHEET_OBJECT_OVAL;
+		break;
+
+	case 0x06 : /* TextBox */
+		type = SHEET_OBJECT_BOX;
+		break;
+
+	case 0x07 : /* Button */
+		type = SHEET_OBJECT_BUTTON;
+		break;
+
+	case 0x08 : /* Picture */
+		type = SHEET_OBJECT_GRAPHIC;
+		break;
+
+	case 0x0B : /* CheckBox */
+		type = SHEET_OBJECT_CHECKBOX;
+		break;
+
+	case 0x0E : /* Label */
+		type = SHEET_OBJECT_BUTTON;
+		break;
+
+	default :
+		g_warning ("EXCEL : unhandled excel object of type 0x%x", 
+			   obj->excel_type);
+		g_free(obj);
+		return NULL;
+	}
+
+	obj->gnumeric_type = type;
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0) {
+		char const * type_name = "Unknown";
+		if (obj->excel_type < sizeof(object_type_names)/sizeof(char*))
+			type_name = object_type_names[obj->excel_type];
+
+		printf ("\n\nObject (%d) is a '%s'\n", obj->id, type_name);
+	}
+#endif
+
+	return obj;
 }

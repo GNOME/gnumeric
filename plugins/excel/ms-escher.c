@@ -17,23 +17,12 @@
 #include "ms-excel-read.h"
 #include "ms-obj.h"
 
-#include "sheet-object.h"
-
-#ifdef ENABLE_BONOBO
-#	include <bonobo/gnome-stream.h>
-#	include <bonobo/gnome-stream-memory.h>
-
-#	include "sheet-object-container.h"
-#endif
-
 /* A storage accumulator for common state information */
 typedef struct
 {
 	ExcelWorkbook  *wb;
 	ExcelSheet     *sheet;
 	BiffQuery      *q;
-
-	int	        depth;
 
 	guint32	segment_len;	/* number of bytes in current segment */
 
@@ -42,7 +31,7 @@ typedef struct
 	guint32 end_offset;	/* 1st byte past end of current segment */
 } MSEscherState;
 
-typedef struct
+typedef struct _MSEscherHeader
 {
 	/* Read from the data stream */
 	guint	ver;
@@ -51,61 +40,45 @@ typedef struct
 	guint32	len; /* Including the common header */
 
 	guint32	offset;
+	struct _MSEscherHeader * container;
+
+	/* TODO : decide were to put these cause they dont belong here */
+	gboolean anchor_set;
+	int anchor[4];
+	int blip_id;
 } MSEscherHeader;
 #define common_header_len 8
 
-#ifdef ENABLE_BONOBO
-
-typedef enum { ESCHER_BLIP } EscherType;
-typedef struct {
-	EscherType type;
-	union {
-		struct {
-			GnomeStream *stream;
-			const char  *reproid;
-		} blip;
-	} v;
-} EscherRecord;
-
-static EscherRecord *
-escher_record_new_blip (guint8 const *data, guint32 len, const char *reproid)
-{
-	EscherRecord *er = g_new (EscherRecord, 1);
-	guint8       *mem;
-
-	g_return_val_if_fail (len > 0, NULL);
-	g_return_val_if_fail (data != NULL, NULL);
-	g_return_val_if_fail (reproid != NULL, NULL);
-
-	mem                = g_malloc (len);
-	memcpy (mem, data, len);
-	er->type           = ESCHER_BLIP;
-	er->v.blip.stream  = gnome_stream_mem_create (mem, len, TRUE);
-	er->v.blip.reproid = reproid;
-
-	return er;
-}
-
-/* OK it probably leaks / doesn't get called for now :-) */
 static void
-escher_record_destroy (EscherRecord *er)
+ms_escher_blip_new (guint8 const *data, guint32 len, char const *reproid,
+		    ExcelWorkbook * wb)
 {
-	if (!er)
-		return;
+	EscherBlip *blip = g_new (EscherBlip, 1);
+	guint8 * mem     = g_malloc (len);
+	memcpy (mem, data, len);
 
-	switch (er->type) {
-	case ESCHER_BLIP:
-		if (er->v.blip.stream)
-			gnome_object_destroy (GNOME_OBJECT (er->v.blip.stream));
-		er->v.blip.stream  = NULL;
-		er->v.blip.reproid = NULL;
-		break;
-	default:
-		g_warning ("Internal escher type error");
-		break;
-	}
-}
+	blip->reproid  = reproid;
+#ifdef ENABLE_BONOBO
+	blip->stream   = gnome_stream_mem_create (mem, len, TRUE);
+#else
+	blip->raw_data = mem;
 #endif
+	g_ptr_array_add (wb->blips, blip);
+}
+
+void
+ms_escher_blip_destroy (EscherBlip *blip)
+{
+	blip->reproid = NULL;
+#ifdef ENABLE_BONOBO
+	if (blip->stream)
+		gnome_object_destroy (GNOME_OBJECT (blip->stream));
+	blip->stream  = NULL;
+#else
+	g_free (blip->raw_data);
+	blip->raw_data = NULL;
+#endif
+}
 
 /*
  * Get the requested number of bytes from the data stream data pointer, merge
@@ -135,7 +108,6 @@ ms_escher_get_data (MSEscherState * state,
 
 	/* find the 1st containing record */
 	while (offset >= state->end_offset) {
-		char const * action;
 		if (!ms_biff_query_next (q)) {
 			printf ("EXCEL : unexpected end of stream;\n");
 			return NULL;
@@ -144,18 +116,21 @@ ms_escher_get_data (MSEscherState * state,
 		g_return_val_if_fail (q->opcode == BIFF_MS_O_DRAWING ||
 				      q->opcode == BIFF_MS_O_DRAWING_GROUP ||
 				      q->opcode == BIFF_MS_O_DRAWING_SELECTION,
-				      TRUE);
+				      NULL);
 
 		state->start_offset = state->end_offset;
 		state->end_offset += q->length;
 		state->segment_len = q->length;
 
-		printf ("Target is 0x%x bytes at 0x%x, current = 0x%x..0x%x;\n"
-			"Adding biff-0x%x of length 0x%x;\n",
-			num_bytes, offset,
-			state->start_offset,
-			state->end_offset,
-			action, q->opcode, q->length);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0)
+			printf ("Target is 0x%x bytes at 0x%x, current = 0x%x..0x%x;\n"
+				"Adding biff-0x%x of length 0x%x;\n",
+				num_bytes, offset,
+				state->start_offset,
+				state->end_offset,
+				q->opcode, q->length);
+#endif
 	}
 
 	res = q->data + offset - state->start_offset;
@@ -167,11 +142,17 @@ ms_escher_get_data (MSEscherState * state,
 		int len = q->length - (res - q->data);
 		int counter = 0;
 
-		printf ("MERGE needed (%d+%d) >= %d;\n",
-			offset, num_bytes, state->end_offset);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0)
+			printf ("MERGE needed (%d+%d) >= %d;\n",
+				offset, num_bytes, state->end_offset);
+#endif
 
 		do {
-			printf ("record %d) add %d bytes;\n", ++counter, len);
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_read_debug > 0)
+				printf ("record %d) add %d bytes;\n", ++counter, len);
+#endif
 			/* copy necessary portion of current record */
 			memcpy (tmp, res, len);
 			tmp += len;
@@ -198,7 +179,10 @@ ms_escher_get_data (MSEscherState * state,
 
 		/* Copy back stub */
 		memcpy (tmp, res, num_bytes - (tmp-buffer));
-		printf ("record %d) add %d bytes;\n", ++counter, num_bytes - (tmp-buffer));
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0)
+			printf ("record %d) add %d bytes;\n", ++counter, num_bytes - (tmp-buffer));
+#endif
 
 		return buffer;
 	}
@@ -207,13 +191,13 @@ ms_escher_get_data (MSEscherState * state,
 }
 
 static gboolean
-ms_escher_read_container (MSEscherState * state, MSEscherHeader const * container,
+ms_escher_read_container (MSEscherState * state, MSEscherHeader * container,
 			  gint offset);
 
 /****************************************************************************/
 
 static gboolean
-ms_escher_read_CLSID (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_CLSID (MSEscherState * state, MSEscherHeader * h)
 {
 	/* Holds a 'Class ID Record' ID record which is only included in the
 	 * 'clipboard format'.  It contains an OLE CLSID record from the source
@@ -225,7 +209,7 @@ ms_escher_read_CLSID (MSEscherState * state, MSEscherHeader const * h)
 }
 
 static gboolean
-ms_escher_read_ColorMRU (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_ColorMRU (MSEscherState * state, MSEscherHeader * h)
 {
 	guint const num_colours = h->instance;
 
@@ -238,7 +222,7 @@ ms_escher_read_ColorMRU (MSEscherState * state, MSEscherHeader const * h)
 }
 
 static gboolean
-ms_escher_read_SplitMenuColors (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_SplitMenuColors (MSEscherState * state, MSEscherHeader * h)
 {
 	gboolean needs_free;
 	guint8 const * data;
@@ -253,15 +237,18 @@ ms_escher_read_SplitMenuColors (MSEscherState * state, MSEscherHeader const * h)
 		guint32 const shadow	= MS_OLE_GET_GUINT32(data + 8);
 		guint32 const threeD	= MS_OLE_GET_GUINT32(data + 12);
 
-		printf ("top_level_fill = 0x%x;\nline = 0x%x;\nshadow = 0x%x;\nthreeD = 0x%x;\n",
-			top_level_fill, line, shadow, threeD);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0)
+			printf ("top_level_fill = 0x%x;\nline = 0x%x;\nshadow = 0x%x;\nthreeD = 0x%x;\n",
+				top_level_fill, line, shadow, threeD);
+#endif
 	} else
 		return TRUE;
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_BStoreContainer (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_BStoreContainer (MSEscherState * state, MSEscherHeader * h)
 {
 	return ms_escher_read_container (state, h, 0);
 }
@@ -295,8 +282,11 @@ write_file (gchar const * const name, guint8 const * data,
 	if (f) {
 		fwrite (data, len, 1, f);
 		fclose (f);
-		printf ("written 0x%x bytes to '%s';\n",
-			len, file_name->str);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0)
+			printf ("written 0x%x bytes to '%s';\n",
+				len, file_name->str);
+#endif
 	} else
 		printf ("Can't open '%s';\n",
 			file_name->str);
@@ -304,7 +294,7 @@ write_file (gchar const * const name, guint8 const * data,
 }
 
 static gboolean
-ms_escher_read_BSE (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 {
 	/* read the header */
 	gboolean needs_free;
@@ -324,16 +314,25 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader const * h)
 	for (i = 16; i-- > 0;)
 		checksum[i] = MS_OLE_GET_GUINT8 (data + 2 + i);
 
-	printf ("Win type = %s;\n", bliptype_name (win_type));
-	printf ("Mac type = %s;\n", bliptype_name (mac_type));
-	printf ("Size = 0x%x(=%d) RefCount = 0x%x DelayOffset = 0x%x '%s';\n",
-		size, size, ref_count, del_offset, name);
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0) {
+		printf ("Win type = %s;\n", bliptype_name (win_type));
+		printf ("Mac type = %s;\n", bliptype_name (mac_type));
+		printf ("Size = 0x%x(=%d) RefCount = 0x%x DelayOffset = 0x%x '%s';\n",
+			size, size, ref_count, del_offset, name);
 
-	switch (is_texture) {
-	case 0: printf ("Default usage;\n"); break;
-	case 1: printf ("Is texture;\n"); break;
-	default:printf ("UNKNOWN USAGE : %d;\n", is_texture);
-	};
+		switch (is_texture) {
+		case 0: printf ("Default usage;\n"); break;
+		case 1: printf ("Is texture;\n"); break;
+		default:printf ("UNKNOWN USAGE : %d;\n", is_texture);
+		};
+
+		printf ("Checksum = 0x");
+		for (i = 0; i < 16; ++i)
+			printf ("%02x", checksum[i]);
+		printf (";\n");
+	}
+#endif
 
 	/* Very red herring I think */
 	if (name_len != 0) {
@@ -341,16 +340,11 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader const * h)
 		/* name = biff_get_text (data+36, name_len, &txt_byte_len); */
 	}
 
-	printf ("Checksum = 0x");
-	for (i = 0; i < 16; ++i)
-		printf ("%02x", checksum[i]);
-	printf (";\n");
-
 	return ms_escher_read_container (state, h, 36);
 }
 
 static gboolean
-ms_escher_read_Blip (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 {
 	int primary_uid_size = 0;
 	guint32 blip_instance = h->instance;
@@ -386,21 +380,6 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader const * h)
 	case 0x542 : /* compressed PICT, with Metafile header */
 		break;
 	case 0x6e0 : /* PNG  data, with 1 byte header */
-#ifdef ENABLE_BONOBO
-	{
-		int const header = 17 + primary_uid_size + common_header_len;
-		gboolean needs_free;
-		guint8 const * data =
-			ms_escher_get_data (state, h->offset, h->len,
-					    header, &needs_free);
-		EscherRecord *er = escher_record_new_blip (data,
-							   h->len - header,
-							   "bonobo-object:image-x-png");
-		state->wb->eschers = g_list_append (state->wb->eschers, er);
-		write_file ("unknown", data, h->len - header, h->fbt - Blip_START);
-		break;
-	}
-#endif
 	case 0x46a : /* JPEG data, with 1 byte header */
 	case 0x7a8 : /* DIB  data, with 1 byte header */
 	{
@@ -409,9 +388,13 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader const * h)
 		guint8 const * data =
 			ms_escher_get_data (state, h->offset, h->len,
 					    header, &needs_free);
+		char const * reproid = NULL;
+		if (blip_instance ==  0x6e0)
+			reproid = "bonobo-object:image-x-png";
+		ms_escher_blip_new (data, h->len - header, reproid, state->wb);
 		write_file ("unknown", data, h->len - header, h->fbt - Blip_START);
-		break;
 	}
+	break;
 
 	default:
 		g_warning ("Don't know what to do with this image %x\n", h->instance);
@@ -421,25 +404,25 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader const * h)
 }
 
 static gboolean
-ms_escher_read_RegroupItems (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_RegroupItems (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_ColorScheme (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_ColorScheme (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_SpContainer (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_SpContainer (MSEscherState * state, MSEscherHeader * h)
 {
 	return ms_escher_read_container (state, h, 0);
 }
 
 static gboolean
-ms_escher_read_Spgr (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_Spgr (MSEscherState * state, MSEscherHeader * h)
 {
 	char const * name;
 	switch (h->instance) {
@@ -649,12 +632,15 @@ ms_escher_read_Spgr (MSEscherState * state, MSEscherHeader const * h)
 	default :
 		  name = "UNKNOWN";
 	};
-	printf ("%s (0x%x);\n", name, h->instance);
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_read_debug > 0)
+		printf ("%s (0x%x);\n", name, h->instance);
+#endif
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_Sp (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_Sp (MSEscherState * state, MSEscherHeader * h)
 {
 	gboolean needs_free;
 	guint8 const *data =
@@ -664,177 +650,123 @@ ms_escher_read_Sp (MSEscherState * state, MSEscherHeader const * h)
 	if (data != NULL) {
 	    guint32 const spid  = MS_OLE_GET_GUINT32 (data+0);
 	    guint32 const flags = MS_OLE_GET_GUINT32 (data+4);
-	    printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n",
-		    spid, h->instance,
-		    (flags&0x01) ? " Group": "",
-		    (flags&0x02) ? " Child": "",
-		    (flags&0x04) ? " Patriarch": "",
-		    (flags&0x08) ? " Deleted": "",
-		    (flags&0x10) ? " OleShape": "",
-		    (flags&0x20) ? " HaveMaster": "",
-		    (flags&0x40) ? " FlipH": "",
-		    (flags&0x80) ? " FlipV": "",
-		    (flags&0x100) ? " Connector":"",
-		    (flags&0x200) ? " HasAnchor": "",
-		    (flags&0x400) ? " TypeProp": ""
-		   );
+#ifndef NO_DEBUG_EXCEL
+	    if (ms_excel_read_debug > 0)
+		    printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n",
+			    spid, h->instance,
+			    (flags&0x01) ? " Group": "",
+			    (flags&0x02) ? " Child": "",
+			    (flags&0x04) ? " Patriarch": "",
+			    (flags&0x08) ? " Deleted": "",
+			    (flags&0x10) ? " OleShape": "",
+			    (flags&0x20) ? " HaveMaster": "",
+			    (flags&0x40) ? " FlipH": "",
+			    (flags&0x80) ? " FlipV": "",
+			    (flags&0x100) ? " Connector":"",
+			    (flags&0x200) ? " HasAnchor": "",
+			    (flags&0x400) ? " TypeProp": ""
+			   );
+#endif
 	} else
 		return TRUE;
 
 	if (needs_free)
-		g_free (data);
+		g_free ((guint8*)data);
 
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_Textbox (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_Textbox (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_Anchor (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_Anchor (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_ChildAnchor (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_ChildAnchor (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 
-/* TODO : This is a guess that explains the workbooks we have. Find some
- * confirmation. */
+/* TODO : This is a guess that explains the workbooks we have, it seems credible because it
+ * matches the pre-biff8 format. Find some confirmation.
+ * WARNING : this is host specific and only works for Excel
+ */
 static gboolean
-ms_escher_read_ClientAnchor (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_ClientAnchor (MSEscherState * state, MSEscherHeader * h)
 {
-	Sheet const * sheet;
-	double zoom;
-	gboolean needs_free;
-	guint8 const *data =
-		ms_escher_get_data (state, h->offset, 18,
-				    common_header_len, &needs_free);
+	gboolean needs_free, res = TRUE;
+	guint8 const *data;
+
+	g_return_val_if_fail (!h->anchor_set, TRUE);
 
 	/* FIXME : What is the the word at offset 0 ?? Maybe a sheet index ? */
-
-	/* WARNING : this is host specific and only works for Excel */
-
-	int i;
-	/* Words 2, 6, 10, 14 : The row/col of the corners */
-	/* Words 4, 8, 12, 16 : distance from cell edge measured in 1/1024 of an inch */
-	float	margin[4], tmp;
-	int	pos[4];
-
-	if (!data)
-		return TRUE;
-
-	if  (state->sheet == NULL) {
-		printf ("Missing sheet;\n");
-		return FALSE;
+	data = ms_escher_get_data (state, h->offset, 16,
+				   common_header_len+2, &needs_free);
+	if (data) {
+		h->anchor_set = TRUE;
+		res = ms_parse_object_anchor (h->anchor,
+					      state->sheet->gnum_sheet, data);
+		if (needs_free)
+			g_free ((guint8 *)data);
 	}
-	sheet = state->sheet->gnum_sheet;
-	zoom = sheet->last_zoom_factor_used;
 
-	for (i = 0; i < 4; ++i) {
-		pos[i] = MS_OLE_GET_GUINT16(data + 4*i + 2);
-		margin[i] = (MS_OLE_GET_GUINT16(data + 4*i + 4) / (1024./72.));
-
-		/* FIXME : we are slightly off.  What about margins ? */
-		tmp = (i&1) /* odds are rows */
-		    ? sheet_row_get_unit_distance (sheet, 0, pos[i])
-		    : sheet_col_get_unit_distance (sheet, 0, pos[i]);
-		margin[i] += tmp;
-		margin[i] *= zoom;
-	}
-	dump (data, 18);
-
-	printf ("In pixels left = %d, top = %d, right = %d, bottom =d %d;\n",
-		(int)margin[0], (int)margin[1], (int)margin[2], (int)margin[3]);
-
-	if (needs_free)
-		g_free (data);
-
-#ifdef ENABLE_BONOBO
-	{ /* In the anals of ugly hacks, this is well up there :-) */
-		GList        *l = state->wb->eschers;
-		EscherRecord *er;
-		SheetObject  *so;
-
-		if (l == NULL)
-			return FALSE;
-
-		/* FIXME : GACK!  Find the blip identifier. dont just pick the 1st object. */
-		er = l->data;
-		g_return_val_if_fail (er != NULL, FALSE);
-		g_return_val_if_fail (state->sheet != NULL, TRUE);
-		g_return_val_if_fail (er->type == ESCHER_BLIP, TRUE);
-		g_return_val_if_fail (er->v.blip.stream != NULL, TRUE);
-
-		/* And lo, objects appeared always in the TLC */
-		so = sheet_object_container_new (state->sheet->gnum_sheet,
-						 margin[0], margin[1],
-						 margin[2], margin[3],
-						 er->v.blip.reproid);
-		if (!sheet_object_container_load (so, er->v.blip.stream, TRUE))
-			g_warning ("Failed to load '%s' from stream",
-				   er->v.blip.reproid);
-		
-		escher_record_destroy (er);
-		state->wb->eschers = g_list_remove (state->wb->eschers, l->data);
-	}
-#endif
-	return FALSE;
+	return res;
 }
 
 static gboolean
-ms_escher_read_OleObject (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_OleObject (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_DeletedPspl (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_DeletedPspl (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_SolverContainer (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_SolverContainer (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_ConnectorRule (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_ConnectorRule (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_AlignRule (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_AlignRule (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_ArcRule (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_ArcRule (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_ClientRule (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_ClientRule (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_CalloutRule (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_CalloutRule (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_Selection (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_Selection (MSEscherState * state, MSEscherHeader * h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_Dg (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_Dg (MSEscherState * state, MSEscherHeader * h)
 {
 #if 0
 	guint8 const * data = h->data + common_header_len;
@@ -850,7 +782,7 @@ ms_escher_read_Dg (MSEscherState * state, MSEscherHeader const * h)
 }
 
 static gboolean
-ms_escher_read_Dgg (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_Dgg (MSEscherState * state, MSEscherHeader * h)
 {
 #if 0
 	typedef struct {
@@ -890,7 +822,7 @@ ms_escher_read_Dgg (MSEscherState * state, MSEscherHeader const * h)
 }
 
 static gboolean
-ms_escher_read_OPT (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 {
 	int const num_properties = h->instance;
 	gboolean needs_free;
@@ -917,7 +849,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader const * h)
 		if (prev_pid >= pid) {
 			printf ("Pids not monotonic %d >= %d;\n", prev_pid, pid);
 			if (needs_free)
-				g_free (data);
+				g_free ((guint8 *)data);
 			return TRUE;
 		}
 		prev_pid = pid;
@@ -939,7 +871,10 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader const * h)
 		case 259 : name = "fixed16_16 cropFromRight"; break;
 
 		/* NULL : Blip to display */
-		case 260 : name = "Blip * pib"; break;
+		case 260 :
+			   name = "Blip * pib";
+			   h->blip_id = (int)val - 1;
+			   break;
 
 		/* NULL : Blip file name */
 		case 261 : name = "wchar * pibName"; break;
@@ -1003,9 +938,12 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader const * h)
 		default : name = "";
 		};
 
-		printf ("%s %d = 0x%x (=%d) %s%s;\n", name, pid, val, val,
-			is_blip ? " is blip" : "",
-			is_complex ? " is complex" : "");
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0)
+			printf ("%s %d = 0x%x (=%d) %s%s;\n", name, pid, val, val,
+				is_blip ? " is blip" : "",
+				is_complex ? " is complex" : "");
+#endif
 		if (is_complex) {
 			extra += val;
 
@@ -1014,28 +952,28 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader const * h)
 		}
 	}
 	if (needs_free)
-		g_free (data);
+		g_free ((guint8 *)data);
 
 	return FALSE;
 }
 
 static gboolean
-ms_escher_read_SpgrContainer (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_SpgrContainer (MSEscherState * state, MSEscherHeader * h)
 {
 	return ms_escher_read_container (state, h, 0);
 }
 static gboolean
-ms_escher_read_DgContainer (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_DgContainer (MSEscherState * state, MSEscherHeader * h)
 {
 	return ms_escher_read_container (state, h, 0);
 }
 static gboolean
-ms_escher_read_DggContainer (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_DggContainer (MSEscherState * state, MSEscherHeader * h)
 {
 	return ms_escher_read_container (state, h, 0);
 }
 static gboolean
-ms_escher_read_ClientTextbox (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_ClientTextbox (MSEscherState * state, MSEscherHeader * h)
 {
 	guint16 opcode;
 
@@ -1052,9 +990,11 @@ ms_escher_read_ClientTextbox (MSEscherState * state, MSEscherHeader const * h)
 }
 
 static gboolean
-ms_escher_read_ClientData (MSEscherState * state, MSEscherHeader const * h)
+ms_escher_read_ClientData (MSEscherState * state, MSEscherHeader * h)
 {
+	int i;
 	guint16 opcode;
+	MSObj * obj;
 
 	g_return_val_if_fail (h->len == common_header_len, TRUE);
 	g_return_val_if_fail (h->offset + h->len == state->end_offset, TRUE);
@@ -1064,20 +1004,38 @@ ms_escher_read_ClientData (MSEscherState * state, MSEscherHeader const * h)
 	g_return_val_if_fail (opcode == BIFF_OBJ, TRUE);
 	g_return_val_if_fail (ms_biff_query_next (state->q), TRUE);
 
-	ms_read_OBJ (state->q, state->wb);
-	return FALSE;
-}
+	obj = ms_read_OBJ (state->q, state->wb, state->sheet->gnum_sheet);
 
+	/* We should have an anchor set by now */
+	g_return_val_if_fail (h->anchor_set, FALSE);
+	g_return_val_if_fail (!obj->anchor_set, FALSE);
+
+	for (i = 4; --i >= 0 ; )
+		obj->anchor[i] = h->anchor[i];
+	obj->anchor_set = TRUE;
+	obj->v.picture.blip_id = h->blip_id;
+
+	return ms_obj_realize(obj, state->wb, state->sheet);
+}
 
 /****************************************************************************/
 
+/* NOTE : this does not init h->container or h->offset */
+static void
+ms_escher_init_header(MSEscherHeader * h)
+{
+	h->ver = h->instance = h->fbt = h->len = 0;
+	h->anchor_set = FALSE;
+	h->blip_id = -1;
+}
+
 static gboolean
-ms_escher_read_container (MSEscherState * state, MSEscherHeader const * container,
+ms_escher_read_container (MSEscherState * state, MSEscherHeader * container,
 			  gint const prefix)
 {
-	int SpContainer_count = 0;
 	MSEscherHeader	h;
-	h.ver = h.instance = h.fbt = h.len = 0;
+	ms_escher_init_header(&h);
+	h.container = container;
 
 	/* Skip the common header */
 	h.offset = container->offset + prefix + common_header_len;
@@ -1085,7 +1043,8 @@ ms_escher_read_container (MSEscherState * state, MSEscherHeader const * containe
 	do {
 		guint16 tmp;
 		char const * fbt_name = NULL;
-		gboolean (*handler)(MSEscherState * state, MSEscherHeader const * h) = NULL;
+		gboolean (*handler)(MSEscherState * state,
+				    MSEscherHeader * container) = NULL;
 		gboolean needs_free;
 
 		guint8 const * data =
@@ -1163,9 +1122,7 @@ ms_escher_read_container (MSEscherState * state, MSEscherHeader const * containe
 			if (ms_excel_read_debug > 0)
 				printf ("{ /* %s */\n", fbt_name);
 #endif
-			++(state->depth);
 			res = (*handler)(state, &h);
-			--(state->depth);
 
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_read_debug > 0)
@@ -1216,13 +1173,13 @@ ms_escher_parse (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 	state.wb    = wb;
 	state.sheet = sheet;
 	state.q     = q;
-	state.depth = 0;
 	state.segment_len  = q->length;
 	state.start_offset = 0;
 	state.end_offset   = q->length;
 
+	ms_escher_init_header(&fake_header);
+	fake_header.container = NULL;
 	fake_header.offset = 0;
-	fake_header.len = 0;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 0)

@@ -1,3 +1,16 @@
+1999-09-19  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-summary.c (set_summary_item) : Made static.
+
+	* ms-obj.c (ms_obj_realize) : New function.
+	(ms_parse_object_anchor) : Ditto.
+
+	* ms-excel-read.c (ms_excel_read_workbook) : Use
+	  ms_obj_realize.
+	(ms_excel_read_sheet) : Ditto.
+	(ms_excel_read_formula) : Make reading a string more
+	  robust, and support length = 0 as a valid string.
+
 1999-09-19  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* Makefile.am: comment out ole.
@@ -30,8 +43,10 @@
 	* ms-escher.c : More radical changes to support just in time
 	  merging.  This seems to solve the last of the problems of which
 	  records to merge and which not.  Everything seems to add up.
+	(ms_escher_parse) : Enable by default.
 
-	* ms-escher.c (ms_escher_parse) : Enable by default.
+	* ms-excel-read.c (ms_excel_workbook_destroy) : Release blips on
+	  exit.
 
 1999-09-17  Jody Goldberg <jgoldberg@home.com>
 
