@@ -1,3 +1,14 @@
+1999-05-31  Matt Loper  <matt@gnome-support.com>
+
+	* src/sheet-view.c: Because GNOME::Component was renamed to
+	GNOME::BonoboObject, some bonobo function call names needed to be
+	changed here (ex. gnome_component_new_view to
+	gnome_bonobo_object_new_view).
+
+	* src/sheet-object-container.c (sheet_object_container_land):
+	likewise.
+	(sheet_object_container_realize): likewise.
+
 1999-05-31  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-lookup.c: Added ADDRESS().  Cleaned up too long lines.

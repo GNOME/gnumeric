@@ -694,7 +694,7 @@ sheet_view_insert_object (SheetView *sheet_view, GnomeObjectClient *object)
 {
 	GtkWidget *view;
 	
-	view = gnome_component_new_view (object);
+	view = gnome_bonobo_object_new_view (object);
 	g_warning ("Stick this into the SheetView");
 }
 #endif

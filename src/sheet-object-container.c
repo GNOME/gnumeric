@@ -100,7 +100,7 @@ sheet_object_container_land (SheetObject *so)
 	/*
 	 * 3. Bind it to our object
 	 */
-	if (!gnome_client_site_bind_component (soc->client_site, soc->object_server))
+	if (!gnome_client_site_bind_bonobo_object (soc->client_site, soc->object_server))
 		return;
 	
 	/*
@@ -111,7 +111,7 @@ sheet_object_container_land (SheetObject *so)
 		SheetView *sheet_view = l->data;
 		GtkWidget *view;
 
-		view = gnome_component_new_view (soc->object_server);
+		view = gnome_bonobo_object_new_view (soc->object_server);
 		item = make_container_item (so, sheet_view, view);
 		so->realized_list = g_list_prepend (so->realized_list, item);
 	}
@@ -129,7 +129,7 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 	if (soc->client_site == NULL)
 		w = gtk_button_new_with_label (_("Object server"));
 	else {
-		w = gnome_component_new_view (soc->object_server);
+		w = gnome_bonobo_object_new_view (soc->object_server);
 	}
 	
 	i = make_container_item (so, sheet_view, w);
