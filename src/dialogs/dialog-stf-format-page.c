@@ -266,8 +266,10 @@ cb_popup_menu_extend_format (GtkWidget *widget, gpointer data)
 	format_page_update_preview (data);
 }
 
-static gint
-cb_col_event (GtkWidget *widget, GdkEvent *event, gpointer _col)
+static void
+format_context_menu (StfDialogData *pagedata,
+		     GdkEventButton *event_button,
+		     int col)
 {
 	enum {
 		COLUMN_POPUP_ITEM_IGNORE,
@@ -276,27 +278,62 @@ cb_col_event (GtkWidget *widget, GdkEvent *event, gpointer _col)
 		COLUMN_POPUP_ITEM_ANY
 	};
 
-	struct {
+	static const struct {
 		const char *text;
 		void (*function) (GtkWidget *widget, gpointer data);
-		int  flags;
-	} column_context_actions [] = {
+		int flags;
+	} actions[] = {
 		{ N_("Ignore all columns on right"), &cb_popup_menu_uncheck_right, COLUMN_POPUP_ITEM_NOT_LAST},
 		{ N_("Ignore all columns on left"), &cb_popup_menu_uncheck_left, COLUMN_POPUP_ITEM_NOT_FIRST},
 		{ N_("Import all columns on right"), &cb_popup_menu_check_right, COLUMN_POPUP_ITEM_NOT_LAST},
 		{ N_("Import all columns on left"), &cb_popup_menu_check_left, COLUMN_POPUP_ITEM_NOT_FIRST},
-		{ N_("Copy format to right"), &cb_popup_menu_extend_format, COLUMN_POPUP_ITEM_NOT_LAST},
-		{ NULL, NULL }
+		{ N_("Copy format to right"), &cb_popup_menu_extend_format, COLUMN_POPUP_ITEM_NOT_LAST}
 	};
 	
-	if (event->type == GDK_BUTTON_PRESS)
-	{
+	GtkWidget *menu = gtk_menu_new ();
+	unsigned i;
+
+	for (i = 0; i < G_N_ELEMENTS (actions); i++) {
+		int flags = actions[i].flags;
+		GtkWidget *item = gtk_menu_item_new_with_label
+			(_(actions[i].text));
+		switch (flags) {
+		case COLUMN_POPUP_ITEM_IGNORE:
+			gtk_widget_set_sensitive (item, FALSE);
+			break;
+		case COLUMN_POPUP_ITEM_NOT_FIRST:
+			gtk_widget_set_sensitive (item, col > 0);
+			break;
+		case COLUMN_POPUP_ITEM_NOT_LAST:
+			gtk_widget_set_sensitive 
+				(item, col < pagedata->format.renderdata->colcount - 1);
+			break;
+		case COLUMN_POPUP_ITEM_ANY:
+		default:
+			break;
+		}
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		gtk_widget_show (item);
+		g_signal_connect (G_OBJECT (item),
+				  "activate",
+				  G_CALLBACK (actions[i].function),
+				  pagedata);
+	}
+
+	gnumeric_popup_menu (GTK_MENU (menu), event_button);
+}
+
+
+static gint
+cb_col_event (GtkWidget *widget, GdkEvent *event, gpointer _col)
+{
+	if (event->type == GDK_BUTTON_PRESS) {
 		GdkEventButton *event_button = (GdkEventButton *) event;
 		StfDialogData *pagedata =
 			g_object_get_data (G_OBJECT (widget), "pagedata");
-		int index = GPOINTER_TO_INT (_col);
+		int col = GPOINTER_TO_INT (_col);
 
-		activate_column (pagedata, index);
+		activate_column (pagedata, col);
 
 		if (event_button->button == 1) {
 			GtkWidget *check = g_object_get_data (G_OBJECT (widget), "checkbox");
@@ -310,43 +347,11 @@ cb_col_event (GtkWidget *widget, GdkEvent *event, gpointer _col)
 			if (event_button->x <= xmax)
 				gtk_button_clicked (GTK_BUTTON (check));
 		} else if (event_button->button == 3) {
-			GtkWidget *menu = gtk_menu_new ();
-			GtkWidget *item;
-			int i;
-
-			for (i = 0; column_context_actions [i].text != NULL; i++){
-				int flags = column_context_actions [i].flags;
-				
-				item = gtk_menu_item_new_with_label (
-					_(column_context_actions [i].text));
-				switch (flags) {
-				case COLUMN_POPUP_ITEM_IGNORE:
-					gtk_widget_set_sensitive (item, FALSE);
-					break;
-				case COLUMN_POPUP_ITEM_NOT_FIRST:
-					gtk_widget_set_sensitive 
-						(item, index > 0);
-					break;
-				case COLUMN_POPUP_ITEM_NOT_LAST:
-					gtk_widget_set_sensitive 
-						(item, index < pagedata->format.renderdata->colcount - 1);
-					break;
-				case COLUMN_POPUP_ITEM_ANY:
-				default:
-					break;
-				}
-				gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-				gtk_widget_show (item);
-				g_signal_connect (G_OBJECT (item),
-						  "activate",
-						  G_CALLBACK (column_context_actions [i].function), pagedata);
-			}
-			
-			gnumeric_popup_menu (GTK_MENU(menu), event_button);
+			format_context_menu (pagedata, event_button, col);
 		}
 		return TRUE;
 	}
-	
+
 	return FALSE;
 }
 

@@ -1,3 +1,8 @@
+2005-02-28  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-format-page.c (format_context_menu): Factor out from
+	cb_col_event.  Constify.
+
 2005-02-18  Morten Welinder  <terra@gnome.org>
 
 	* dialog-printer-setup.c (spin_button_adapt_to_unit): Fix
