@@ -255,9 +255,9 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		gtk_table_attach (GTK_TABLE (box),
 				  format_chooser,
 				  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_SHRINK, 5, 2);
-		label = gtk_label_new_with_mnemonic (_("File _type:")),
-			gtk_table_attach (GTK_TABLE (box), label,
-					  0, 1, 0, 1, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
+		label = gtk_label_new_with_mnemonic (_("File _type:"));
+		gtk_table_attach (GTK_TABLE (box), label,
+				  0, 1, 0, 1, GTK_SHRINK | GTK_FILL, GTK_SHRINK, 5, 2);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (label), format_chooser);
 
 		gtk_table_attach (GTK_TABLE (box),
