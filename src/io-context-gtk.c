@@ -34,15 +34,16 @@
 struct _IOContextGtk {
 	IOContext parent;
 	GtkWindow *window;
-	GtkProgressBar *progress_bar;
+	GtkProgressBar *file_bar;
+	GtkProgressBar *work_bar;
 	GTimer *timer;
+	guint files_total;
+	guint files_done;
 };
 
 struct _IOContextGtkClass {
 	IOContextClass parent_class;
 };
-
-/* FIXME: Handle deletion of the gui */
 
 static gboolean
 icg_user_is_impatient (IOContextGtk *icg)
@@ -54,11 +55,11 @@ static void
 icg_progress_set (CommandContext *cc, gfloat val)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
-	
+
 	if (!GTK_WIDGET_MAPPED (GTK_WIDGET (icg->window)) &&
 	    icg_user_is_impatient (icg))
-		gtk_widget_show_all (GTK_WIDGET (icg->window));
-	gtk_progress_bar_update (icg->progress_bar, val);
+		gtk_widget_show (GTK_WIDGET (icg->window));
+	gtk_progress_bar_set_fraction (icg->work_bar, val);
 }
 
 static void
@@ -68,8 +69,8 @@ icg_progress_message_set (CommandContext *cc, gchar const *msg)
 
 	if (!GTK_WIDGET_MAPPED (GTK_WIDGET (icg->window)) &&
 	    icg_user_is_impatient (icg))
-		gtk_widget_show_all (GTK_WIDGET (icg->window));
-	gtk_progress_bar_set_text (icg->progress_bar, msg);
+		gtk_widget_show (GTK_WIDGET (icg->window));
+	gtk_progress_bar_set_text (icg->work_bar, msg);
 }
 
 static void
@@ -86,11 +87,13 @@ icg_error_error_info (__attribute__((unused)) CommandContext *cc,
 	gtk_widget_destroy (dialog);
 }
 
+#warning This is wrong once we have shown a workbook.
 static void
 cb_icg_window_destroyed (GObject *window, IOContextGtk *icg)
 {
-	icg->window       = NULL;
-	icg->progress_bar = NULL;
+	icg->window   = NULL;
+	icg->work_bar = NULL;
+	icg->file_bar = NULL;
 	gnm_shutdown ();	/* Pretend to be well behaved */
 	exit (0);		/* Stop pretending */
 }
@@ -113,7 +116,8 @@ icg_finalize (GObject *obj)
 		gtk_object_destroy (GTK_OBJECT (icg->window));
 	}
 	icg->window = NULL;
-	icg->progress_bar = NULL;
+	icg->work_bar = NULL;
+	icg->file_bar = NULL;
 	if (icg->timer) 
 		g_timer_destroy (icg->timer);
 	icg->timer = NULL;
@@ -136,16 +140,19 @@ icg_class_init (IOContextGtkClass *klass)
 static void
 icg_init (IOContextGtk *icg)
 {
-	icg->window       = NULL;
-	icg->progress_bar = NULL;
-	icg->timer        = NULL;
+	icg->window      = NULL;
+	icg->work_bar    = NULL;
+	icg->file_bar    = NULL;
+	icg->timer       = NULL;
+	icg->files_total = 0;
+	icg->files_done  = 0;
 }
 
 static void
 icg_init_gui (IOContextGtk *icg)
 {
-	GtkWidget *vbox;
 	GtkWidget *label;
+	GtkBox    *box;
 	gchar *name_string;
 	int sx, sy;
 	GdkWindowHints hints;
@@ -154,10 +161,10 @@ icg_init_gui (IOContextGtk *icg)
 	GdkRectangle rect;
 #endif
 	
-	vbox = gtk_vbox_new (FALSE, 8);
-	gtk_box_pack_start (GTK_BOX (vbox),
+	box = GTK_BOX (gtk_vbox_new (FALSE, 0));
+	gtk_box_pack_start (box,
 			    gnumeric_load_image ("gnome-gnumeric.png"),
-			    TRUE, FALSE, 8);
+			    TRUE, FALSE, 0);
 
 	label = gtk_label_new ("");
 	name_string = g_strdup_printf
@@ -165,28 +172,34 @@ icg_init_gui (IOContextGtk *icg)
 		 "Gnumeric");
 	gtk_label_set_markup (GTK_LABEL (label), name_string);
 	g_free (name_string);
-	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, FALSE, 8);
+	gtk_widget_show (label);
+	gtk_box_pack_start (box, label, TRUE, TRUE, 0);
 
-	icg->progress_bar = GTK_PROGRESS_BAR (gtk_progress_bar_new ());
-
+	icg->file_bar = GTK_PROGRESS_BAR (gtk_progress_bar_new ());
 	gtk_progress_bar_set_orientation (
-		icg->progress_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
-	gtk_progress_bar_set_bar_style (
-		icg->progress_bar, GTK_PROGRESS_CONTINUOUS);
-	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (icg->progress_bar),
-			    FALSE, FALSE, 8);
+		icg->file_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
+	/* Don't show this unless we need it. */
+	gtk_box_pack_start (box, GTK_WIDGET (icg->file_bar),
+			    FALSE, FALSE, 0);
+
+	icg->work_bar = GTK_PROGRESS_BAR (gtk_progress_bar_new ());
+	gtk_progress_bar_set_orientation (
+		icg->work_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
+	gtk_widget_show (GTK_WIDGET (icg->work_bar));
+	gtk_box_pack_start (box, GTK_WIDGET (icg->work_bar),
+			    FALSE, FALSE, 0);
+	gtk_widget_show (GTK_WIDGET (box));
 
 	icg->window = GTK_WINDOW (gtk_window_new (GTK_WINDOW_TOPLEVEL));
 
-	gtk_container_add (GTK_CONTAINER (icg->window),
-			   GTK_WIDGET (vbox));
+	gtk_container_add (GTK_CONTAINER (icg->window), GTK_WIDGET (box));
 	g_signal_connect (G_OBJECT (icg->window), "destroy",
 			  G_CALLBACK (cb_icg_window_destroyed), icg);
 
 #ifdef HAVE_GDK_SCREEN_GET_MONITOR_GEOMETRY
 	/* In a Xinerama setup, we want the geometry of the actual display
 	 * unit, if available. See bug 59902. This call was added for
-	 * gtk2.2*/
+	 * gtk2.2 */
 	gdk_screen_get_monitor_geometry (icg->window->screen, 0, &rect);
 	sx = rect.width;
 	sy = rect.height;
@@ -226,4 +239,31 @@ gnumeric_io_context_gtk_new (void)
 	icg_init_gui (icg);
 
 	return icg;
+}
+
+/* Show the additional "files" progress bar if needed */
+void
+icg_set_files_total (IOContextGtk *icg, guint files_total)
+{
+	g_return_if_fail (IS_IO_CONTEXT_GTK (icg));
+	if (files_total > 1 && icg-> files_total <= 1) {
+		gtk_progress_bar_set_text (icg->file_bar, "Files");
+		gtk_progress_bar_set_fraction(icg->file_bar, 0.0);
+		gtk_widget_show (GTK_WIDGET (icg->file_bar));
+	}
+	icg->files_total = files_total;
+/* 	gtk_widget_queue_resize (GTK_WIDGET (icg->window)); */
+}
+
+void
+icg_inc_files_done (IOContextGtk *icg)
+{
+	g_return_if_fail (IS_IO_CONTEXT_GTK (icg));
+	g_return_if_fail (icg->files_done < icg->files_total);
+
+	icg->files_done++;
+	gtk_progress_bar_set_fraction
+		(icg->file_bar,
+		 (float) icg->files_done / (float) icg->files_total);
+	gtk_progress_bar_set_fraction (icg->work_bar, 0.0);
 }

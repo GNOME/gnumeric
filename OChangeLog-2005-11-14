@@ -1,3 +1,34 @@
+2002-11-19  Jon K Hellan  <hellan@acm.org>
+
+	* src/io-context-gtk.[ch]: (icg_set_files_total): New function:
+	set number of files to process. If > 1, an additional progress bar
+	is shown so user can monitor both files processed and progress
+	within file.
+	(icg_inc_files_done): New function: Indicate that a file has been
+	processed.
+
+	* src/io-context-gtk.c (struct _IOContextGtk): Add file_bar,
+	rename progress_bar to work_bar, add files_total and files_done.
+	(icg_progress_set): Use gtk_widget_show instead of
+	gtk_widget_show_all so file_bar doesn't show up uninvited.
+	Deprecation cleanup:
+	s/gtk_progress_bar_update/get_progress_bar_set_fraction/.
+		(icg_progress_message_set):
+	s/gtk_widget_show_all/gtk_widget_show/. Update per file progress
+	bar, which is named work_bar.
+	(cb_icg_window_destroyed): NULL out both progress bars.
+	(icg_init): Initialize additional attributes.
+	(icg_init_gui): Pack an additional progress bar, but don't show
+	it. Show the other widgets individually.
+
+	* src/main-application.c (main): Call icg_set_files_total and
+	icg_inc_files_done.
+
+	* src/workbook-control-gui.c (wbcg_progress_set): Deprecation
+	cleanup: s/gtk_progress_bar_update/get_progress_bar_set_fraction/.
+	(setup_progress_bar): Deprecation cleanup: Remove
+	gtk_progress_bar_set_orientation.
+
 2002-11-19  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet-autofill.c (autofill_cell): Unify, generalise,

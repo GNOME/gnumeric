@@ -16,5 +16,7 @@ typedef struct _IOContextGtkClass IOContextGtkClass;
 
 GType         io_context_gtk_get_type (void);
 IOContextGtk *gnumeric_io_context_gtk_new (void);
+void          icg_set_files_total (IOContextGtk *icg, guint files_total);
+void          icg_inc_files_done (IOContextGtk *icg);
 
 #endif /* GNUMERIC_IO_CONTEXT_GTK_H */
