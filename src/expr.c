@@ -1291,7 +1291,6 @@ cell_get_abs_col_row (const CellRef *cell_ref, int eval_col, int eval_row, int *
  * creates a string representation.
  *
  * FIXME: strings containing quotes will come out wrong.
- * FIXME: negative constants should pretend to have OPER_NEG's precedence.
  */
 static char *
 do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, int paren_level)
@@ -1416,7 +1415,8 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, int paren_l
 	case OPER_CONSTANT: {
 		Value *v = tree->u.constant;
 
-		if (v->type == VALUE_CELLRANGE){
+		switch (v->type) {
+		case VALUE_CELLRANGE: {
 			char *a, *b, *res;
 
 			a = cellref_name (&v->v.cell_range.cell_a, sheet, col, row);
@@ -1428,11 +1428,33 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, int paren_l
 			g_free (b);
 
 			return res;
-		} else {
-			if (v->type == VALUE_STRING){
-				return g_strconcat ("\"", v->v.str->str, "\"", NULL);
+		}
+
+		case VALUE_STRING:
+			/* FIXME: handle quotes in string.  */
+			return g_strconcat ("\"", v->v.str->str, "\"", NULL);
+
+		case VALUE_INTEGER:
+		case VALUE_FLOAT: {
+			char *res, *vstr;
+			vstr = value_get_as_string (v);
+
+			/* If the number has a sign, pretend that it is the
+			   result of OPER_NEG.  It is not clear how we would
+			   currently get negative numbers here, but some
+			   loader might do it.  */
+			if ((vstr[0] == '-' || vstr[0] == '+') &&
+			    operations[OPER_NEG].prec <= paren_level) {
+				res = g_strconcat ("(", vstr, ")", NULL);
+				g_free (vstr);
 			} else
-				return value_get_as_string (v);
+				res = vstr;
+			return res;
+		}
+
+		default:
+			g_assert_not_reached ();
+			return NULL;
 		}
 	}
 	}

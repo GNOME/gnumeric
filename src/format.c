@@ -66,7 +66,7 @@ static void style_entry_free (gpointer data, gpointer user_data);
  * number of characters used.
  */
 static int
-append_year (GString *string, gchar *format, struct tm *time_split)
+append_year (GString *string, const gchar *format, const struct tm *time_split)
 {
 	char temp [5];
 
@@ -92,7 +92,7 @@ append_year (GString *string, gchar *format, struct tm *time_split)
  * number of characters used.
  */
 static int
-append_month (GString *string, gchar *format, struct tm *time_split)
+append_month (GString *string, const gchar *format, const struct tm *time_split)
 {
 	char temp [3];
 
@@ -123,7 +123,7 @@ append_month (GString *string, gchar *format, struct tm *time_split)
  * number of characters used.
  */
 static int
-append_hour (GString *string, gchar *format, struct tm *time_split, int timeformat)
+append_hour (GString *string, const gchar *format, const struct tm *time_split, int timeformat)
 {
 	char temp[3];
 
@@ -142,7 +142,7 @@ append_hour (GString *string, gchar *format, struct tm *time_split, int timeform
  * number of characters used.
  */
 static int
-append_day (GString *string, gchar *format, struct tm *time_split)
+append_day (GString *string, const gchar *format, const struct tm *time_split)
 {
 	char temp[3];
 
@@ -173,7 +173,7 @@ append_day (GString *string, gchar *format, struct tm *time_split)
  * number of characters used.
  */
 static int
-append_minute (GString *string, gchar *format, struct tm *time_split)
+append_minute (GString *string, const gchar *format, const struct tm *time_split)
 {
 	char temp [3];
 
@@ -194,7 +194,7 @@ append_minute (GString *string, gchar *format, struct tm *time_split)
  * number of characters used.
  */
 static int
-append_second (GString *string, gchar *format, struct tm *time_split)
+append_second (GString *string, const gchar *format, const struct tm *time_split)
 {
 	char temp[3];
 
@@ -210,12 +210,13 @@ append_second (GString *string, gchar *format, struct tm *time_split)
 	return 2;
 }
 
+#if 0
 /*
  * Parses the day part field at the beginning of the format.  Returns
  * the number of characters used.
  */
 static int
-append_half (GString *string, gchar *format, struct tm *time_split)
+append_half (GString *string, const gchar *format, const struct tm *time_split)
 {
 	if (time_split->tm_hour <= 11){
 		if (tolower (format [0]) == 'a' || tolower (format [0]) == 'p')
@@ -236,15 +237,16 @@ append_half (GString *string, gchar *format, struct tm *time_split)
 	} else
 		return 1;
 }
+#endif
 
 /*
  * Since the Excel formating codes contain a number of ambiguities,
- * this routine does some analisis on the format first.
+ * this routine does some analysis on the format first.
  */
 static void
 pre_parse_format (StyleFormatEntry *style)
 {
-	char *format;
+	const char *format;
 
 	style->want_am_pm = 0;
 	for (format = style->format; *format; format++){
@@ -423,7 +425,7 @@ format_color_shutdown (void)
 }
 
 static StyleColor *
-lookup_color (char *str, char *end)
+lookup_color (const char *str, const char *end)
 {
 	int i;
 
@@ -450,7 +452,7 @@ render_number (gdouble number,
 	       int negative,
 	       int supress_minus,
 	       int decimal,
-	       char *show_decimal)
+	       const char *show_decimal)
 {
 	GString *number_string = g_string_new ("");
 	gint zero_count;
@@ -667,10 +669,10 @@ split_time (gdouble number)
 }
 
 static gchar *
-format_number (gdouble number, StyleFormatEntry *style_format_entry)
+format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 {
 	GString *result = g_string_new ("");
-	char *format = style_format_entry->format;
+	const char *format = style_format_entry->format;
 	format_info_t info;
 	int can_render_number = 0;
 	int hour_seen = 0;
@@ -905,7 +907,7 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 }
 
 static gboolean
-check_valid (StyleFormatEntry *entry, Value *value)
+check_valid (const StyleFormatEntry *entry, const Value *value)
 {
 	switch (value->type){
 
@@ -960,7 +962,7 @@ check_valid (StyleFormatEntry *entry, Value *value)
 }
 
 gchar *
-format_value (StyleFormat *format, Value *value, StyleColor **color)
+format_value (StyleFormat *format, const Value *value, StyleColor **color)
 {
 	char *v = NULL;
 	StyleFormatEntry entry;
@@ -993,11 +995,11 @@ format_value (StyleFormat *format, Value *value, StyleColor **color)
 
 	if (entry.format [0] == 0)
 		is_general = 1;
-
-	if (strcmp (entry.format, "General") == 0){
+	else if (strcmp (entry.format, "General") == 0) {
 		entry.format += 7;
 		is_general = 1;
 	}
+	/* FIXME: what about translated "General"?  */
 
 	switch (value->type){
 	case VALUE_FLOAT:

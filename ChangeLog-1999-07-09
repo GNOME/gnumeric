@@ -1,3 +1,25 @@
+1999-05-22  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_set_text): Use General format for all numbers
+ 	in standard format.  (In particular, don't create a sticky "0" format
+	whenever an integer is entered.)
+
+	* src/format.c (format_number): Constify.
+	(append_minute): Ditto.
+	(append_day): Ditto.
+	(append_hour): Ditto.
+	(append_month): Ditto.
+	(append_year): Ditto.
+	(append_second): Ditto.
+	(check_valid): Ditto.
+	(append_half): Ditto.
+	(lookup_color): Ditto.
+	(render_number): Ditto.
+	(format_value): Ditto.
+
+	* src/expr.c (do_expr_decode_tree): Handle negative numbers, just
+ 	in case.
+
 1999-05-21  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet-autofill.c (autofill_cell): Add FIXME.

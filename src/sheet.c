@@ -703,8 +703,7 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 {
 	GList *l;
 	Cell *cell;
-	double v;
-	char *format, *text;
+	char *text;
 	int  text_set = FALSE;
 
 	g_return_if_fail (sheet != NULL);
@@ -730,26 +729,36 @@ sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 	 * a rendered version of the text, if they compare equally, then
 	 * use that.
 	 */
-	if (!CELL_IS_FORMAT_SET (cell) && (*text != '=' && format_match (text, &v, &format))){
-		StyleFormat *sf;
-		char *new_text;
-		char buffer [50];
-		Value *vf = value_new_float (v);
+	if (!CELL_IS_FORMAT_SET (cell) && *text != '=') {
+		char *end, *format;
+		double v;
 
-		/* Render it */
-		sf = style_format_new (format);
-		new_text = format_value (sf, vf, NULL);
-		value_release (vf);
-		style_format_unref (sf);
+		(void) strtod (text, &end);
+		if (end != text && *end == 0) {
+			/* It is a number -- remain in General format.  Note
+			   that we would other wise actually set a "0" format
+			   for integers and that it would stick.  */
+		} else if (format_match (text, &v, &format)) {
+			StyleFormat *sf;
+			char *new_text;
+			char buffer [50];
+			Value *vf = value_new_float (v);
 
-		/* Compare it */
-		if (strcasecmp (new_text, text) == 0){
-			cell_set_format_simple (cell, format);
-			sprintf (buffer, "%f", v);
-			cell_set_text (cell, buffer);
-			text_set = TRUE;
+			/* Render it */
+			sf = style_format_new (format);
+			new_text = format_value (sf, vf, NULL);
+			value_release (vf);
+			style_format_unref (sf);
+
+			/* Compare it */
+			if (strcasecmp (new_text, text) == 0){
+				cell_set_format_simple (cell, format);
+				sprintf (buffer, "%f", v);
+				cell_set_text (cell, buffer);
+				text_set = TRUE;
+			}
+			g_free (new_text);
 		}
-		g_free (new_text);
 	}
 
 	if (!text_set)
