@@ -88,7 +88,8 @@ complete_start (Complete *complete, const char *text)
 		g_free (complete->text);
 	complete->text = g_strdup (text);
 	
-	complete->idle_tag = gtk_idle_add (complete_idle, complete);
+	if (complete->idle_tag == 0)
+		complete->idle_tag = gtk_idle_add (complete_idle, complete);
 }
 
 static gboolean
@@ -108,4 +109,4 @@ complete_class_init (GtkObjectClass *object_class)
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
-GNUMERIC_MAKE_TYPE(complete, "Complete", Complete, complete_class_init, NULL, PARENT_TYPE);
+GNUMERIC_MAKE_TYPE(complete, "Complete", Complete, &complete_class_init, NULL, PARENT_TYPE);
