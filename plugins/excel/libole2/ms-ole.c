@@ -81,29 +81,73 @@ struct _PPS {
 };
 
 #if OLE_MMAP
-#       define BBPTR(f,b)  ((f)->mem + (b+1)*BB_BLOCK_SIZE)
+#       define BB_R_PTR(f,b)     ((f)->mem + (b+1)*BB_BLOCK_SIZE)
+#       define BB_W_PTR(f,b)     BB_R_PTR(f,b)
 #else
-#       define BBPTR(f,b)  (get_block_ptr (f, b))
+#       define BB_R_PTR(f,b)     (get_block_ptr (f, b, FALSE))
+#       define BB_W_PTR(f,b)     (get_block_ptr (f, b, TRUE))
 #endif
-#       define GET_SB_START_PTR(f,b) (BBPTR(f, g_array_index ((f)->sbf, BLP, (b)/(BB_BLOCK_SIZE/SB_BLOCK_SIZE))) \
+#       define GET_SB_R_PTR(f,b) (BB_R_PTR(f, g_array_index ((f)->sbf, BLP, (b)/(BB_BLOCK_SIZE/SB_BLOCK_SIZE))) \
 				      + (((b)%(BB_BLOCK_SIZE/SB_BLOCK_SIZE))*SB_BLOCK_SIZE))
-
+#       define GET_SB_W_PTR(f,b) (BB_W_PTR(f, g_array_index ((f)->sbf, BLP, (b)/(BB_BLOCK_SIZE/SB_BLOCK_SIZE))) \
+				      + (((b)%(BB_BLOCK_SIZE/SB_BLOCK_SIZE))*SB_BLOCK_SIZE))
 
 #if !OLE_MMAP
 
 #define MAX_CACHED_BLOCKS  32
 
 typedef struct {
+	guint32  blk;
 	gboolean dirty;
 	int      usage;
 	guint8   *data;
-} BB_BLOCK_STR;
+} BB_BLK_ATTR;
+
+static BB_BLK_ATTR *
+bb_blk_attr_new (guint32 blk)
+{
+	BB_BLK_ATTR *attr = g_new (BB_BLK_ATTR, 1);
+	attr->blk   = blk;
+	attr->dirty = FALSE;
+	attr->usage = 0;
+	attr->data  = 0;
+	return attr;
+}
+
+static void
+set_blk_dirty (MS_OLE *f, BLP b)
+{
+	BB_BLK_ATTR *attr = g_ptr_array_index (f->bbattr, b);
+	g_assert (attr);
+	attr->dirty = TRUE;
+}
+
+static void
+write_cache_block (MS_OLE *f, BB_BLK_ATTR *attr)
+{
+	size_t offset;
+
+	g_return_if_fail (f);
+	g_return_if_fail (attr);
+	g_return_if_fail (attr->data);
+	
+	offset = (attr->blk+1)*BB_BLOCK_SIZE;
+	if (lseek (f->file_des, offset, SEEK_SET)==(off_t)-1 ||
+	    write (f->file_des, attr->data, BB_BLOCK_SIZE) == -1)
+		printf ("Fatal error writing block %d at %d\n", attr->blk, offset);
+#if OLE_DEBUG > 0
+	printf ("Writing cache block %d to offset %d\n",
+		attr->blk, offset);
+#endif	
+	attr->dirty = FALSE;
+}
 
 static guint8 *
-get_block_ptr (MS_OLE *f, BLP b)
+get_block_ptr (MS_OLE *f, BLP b, gboolean forwrite)
 {
-	BB_BLOCK_STR *attr;
+	BB_BLK_ATTR *attr, *tmp, *min;
 	size_t offset;
+	guint32 i, blks;
 
 	g_assert (f);
 	g_assert (b < f->bbattr->len);
@@ -111,17 +155,51 @@ get_block_ptr (MS_OLE *f, BLP b)
 	/* Have we cached it ? */
 	attr = g_ptr_array_index (f->bbattr, b);
 	g_assert (attr);
-	
-	if (attr->data)
-		return attr->data;
+	g_assert (attr->blk == b);
 
-	/* Reads it in if neccessary */
+	if (attr->data) {
+		attr->usage++;
+		if (forwrite)
+			attr->dirty = TRUE;
+		return attr->data;
+	}
+
+	/* LRU strategy */
+	min  = NULL;
+	blks = 0;
+	for (i=0;i<f->bbattr->len;i++) {
+		tmp = g_ptr_array_index (f->bbattr, i);
+		if (tmp->data) {
+			blks++;
+			if (!min)
+				min = tmp;
+		        else if (tmp->usage < min->usage)
+				min = tmp;
+		}
+		tmp->usage = (guint32)tmp->usage*0.707;
+	}
+	if (blks < MAX_CACHED_BLOCKS)
+		min = 0;
+
+	g_assert (!attr->data);
+	if (min) {
+		g_assert (min->data);
+#if EXCEL_DEBUG > 0
+		printf ("Replacing cache block %d with %d\n", min->blk, b);
+#endif
+		if (min->dirty)
+			write_cache_block (f, min);
+		attr->data  = min->data;
+		min->data   = 0;
+		min->usage  = 0;
+	} else
+		attr->data = g_new (guint8, BB_BLOCK_SIZE);
+	
 	offset = (b+1)*BB_BLOCK_SIZE;
 	lseek (f->file_des, offset, SEEK_SET);
-	attr->data = g_new (guint8, BB_BLOCK_SIZE);
 	read (f->file_des, attr->data, BB_BLOCK_SIZE);
-	attr->dirty = FALSE;
-	attr->usage = 0;
+	attr->usage = 1;
+	attr->dirty = forwrite;
 
 	return attr->data;
 }
@@ -315,7 +393,7 @@ static BLP
 get_next_block (MS_OLE *f, BLP blk)
 {
 	BLP bbd     = GET_BBD_LIST (f, blk/(BB_BLOCK_SIZE/4));
-	return        GET_GUINT32 (BBPTR(f,bbd) + 4*(blk%(BB_BLOCK_SIZE/4)));
+	return        GET_GUINT32 (BB_R_PTR(f,bbd) + 4*(blk%(BB_BLOCK_SIZE/4)));
 }
 
 static int
@@ -367,8 +445,20 @@ read_bb (MS_OLE *f)
 static void
 extend_file (MS_OLE *f, guint blocks)
 {
-#ifndef OLE_MMAP
-#       error Simply add more blocks at the end in memory
+#if !OLE_MMAP
+	BB_BLK_ATTR *s;
+	guint32 blkidx, i;
+	
+	if (f->bbattr->len) {
+		s = g_ptr_array_index (f->bbattr, f->bbattr->len-1);
+		blkidx = s->blk+1;
+	} else
+		blkidx = 0;
+	
+	for (i=0;i<blocks;i++) {
+		g_ptr_array_add (f->bbattr, bb_blk_attr_new (blkidx++));
+		f->length+= BB_BLOCK_SIZE;
+	}
 #else
 	struct stat st;
 	int file;
@@ -427,9 +517,6 @@ next_free_bb (MS_OLE *f)
 	extend_file (f, 1);
 	tblk = UNUSED_BLOCK;
 	g_array_append_val (f->bb, tblk);
-#ifndef OLE_MMAP
-#       error Need to extend bbptr as well.
-#endif
 	g_assert ((g_array_index (f->bb, BLP, blk) == UNUSED_BLOCK));
 	g_assert (f->bb->len < f->length/BB_BLOCK_SIZE);
 	return blk;
@@ -459,7 +546,7 @@ write_bb (MS_OLE *f)
 
 	lpblk = 0;
 	while (lpblk<f->bb->len) { /* Described blocks */
-		guint8 *mem = BBPTR(f, GET_BBD_LIST(f, lpblk/(BB_BLOCK_SIZE/4)));
+		guint8 *mem = BB_W_PTR(f, GET_BBD_LIST(f, lpblk/(BB_BLOCK_SIZE/4)));
 		SET_GUINT32 (mem + (lpblk%(BB_BLOCK_SIZE/4))*4,
 			     g_array_index (f->bb, BLP, lpblk));
 		lpblk++;
@@ -467,7 +554,7 @@ write_bb (MS_OLE *f)
 	while (lpblk%(BB_BLOCK_SIZE/4) != 0) { /* Undescribed blocks */
 		guint8 *mem;
 		g_assert (lpblk/(BB_BLOCK_SIZE/4) < numbbd);
-		mem = BBPTR(f, GET_BBD_LIST(f, lpblk/(BB_BLOCK_SIZE/4)));
+		mem = BB_W_PTR(f, GET_BBD_LIST(f, lpblk/(BB_BLOCK_SIZE/4)));
 		SET_GUINT32 (mem + (lpblk%(BB_BLOCK_SIZE/4))*4,
 			     UNUSED_BLOCK);
 		lpblk++;
@@ -513,7 +600,7 @@ next_free_sb (MS_OLE *f)
 }
 
 static guint8 *
-get_pps_ptr (MS_OLE *f, PPS_IDX i)
+get_pps_ptr (MS_OLE *f, PPS_IDX i, gboolean forwrite)
 {
 	int lp;
 	BLP blk = GET_ROOT_STARTBLOCK (f);
@@ -532,7 +619,11 @@ get_pps_ptr (MS_OLE *f, PPS_IDX i)
 		printf ("Serious error finding pps %d\n", i);
 		return 0;
 	}
-	return BBPTR(f, blk) + (i%(BB_BLOCK_SIZE/PPS_BLOCK_SIZE))*PPS_BLOCK_SIZE;
+
+	if (forwrite)
+		return BB_W_PTR(f, blk) + (i%(BB_BLOCK_SIZE/PPS_BLOCK_SIZE))*PPS_BLOCK_SIZE;
+	else
+		return BB_R_PTR(f, blk) + (i%(BB_BLOCK_SIZE/PPS_BLOCK_SIZE))*PPS_BLOCK_SIZE;
 }
 
 static gint
@@ -557,7 +648,7 @@ pps_decode_tree (MS_OLE *f, PPS_IDX p, PPS *parent)
 		return;
 
 	pps           = g_new (PPS, 1);
-	mem           = get_pps_ptr (f, p);
+	mem           = get_pps_ptr (f, p, FALSE);
 	if (!mem) {
 		printf ("Serious directory error %d\n", p);
 		f->pps = NULL;
@@ -666,7 +757,7 @@ pps_encode_tree_initial (MS_OLE *f, GList *list, PPS_IDX *p)
 
 	pps->idx = *p;
 	(*p)++;
-	mem = get_pps_ptr (f, pps->idx);
+	mem = get_pps_ptr (f, pps->idx, TRUE);
 
 	/* Blank stuff I don't understand */
 	for (lp=0;lp<PPS_BLOCK_SIZE;lp++)
@@ -721,7 +812,7 @@ pps_encode_tree_chain (MS_OLE *f, GList *list)
 	g_return_if_fail (list->data);
 	
 	pps      = list->data;
-	parmem   = get_pps_ptr (f, pps->idx);
+	parmem   = get_pps_ptr (f, pps->idx, TRUE);
 	g_return_if_fail (pps->children);
 	len      = g_list_length (pps->children);
 	l        = pps->children;
@@ -756,7 +847,7 @@ pps_encode_tree_chain (MS_OLE *f, GList *list)
 		if (p->type == MS_OLE_PPS_STORAGE)
 			pps_encode_tree_chain (f, l);
 
-		mem  = get_pps_ptr (f, p->idx);
+		mem  = get_pps_ptr (f, p->idx, TRUE);
 		PPS_SET_NEXT (mem, PPS_END_OF_CHAIN);
 		PPS_SET_PREV (mem, prev->idx);
 		l    = g_list_next (l);
@@ -774,7 +865,7 @@ pps_encode_tree_chain (MS_OLE *f, GList *list)
 #endif
 
 	/* Points potentialy both ways */
-	mem    = get_pps_ptr (f, p->idx);
+	mem    = get_pps_ptr (f, p->idx, TRUE);
 	PPS_SET_PREV (mem, prev->idx);
 	l      = g_list_next (l);
 	if (l)
@@ -792,7 +883,7 @@ pps_encode_tree_chain (MS_OLE *f, GList *list)
 		if (p->type == MS_OLE_PPS_STORAGE)
 			pps_encode_tree_chain (f, l);
 
-		mem  = get_pps_ptr (f, p->idx);
+		mem  = get_pps_ptr (f, p->idx, TRUE);
 		PPS_SET_NEXT (mem, next->idx);
 		PPS_SET_PREV (mem, PPS_END_OF_CHAIN);
 		l = g_list_next (l);
@@ -884,7 +975,7 @@ read_sb (MS_OLE *f)
 			return 0;
 		}
 		for (lp=0;lp<BB_BLOCK_SIZE/4;lp++) {
-			BLP p = GET_GUINT32 (BBPTR(f, ptr) + lp*4);
+			BLP p = GET_GUINT32 (BB_R_PTR(f, ptr) + lp*4);
 			g_array_append_val (f->sb, p);
 			
 			if (p != UNUSED_BLOCK)
@@ -952,7 +1043,7 @@ write_sb (MS_OLE *f)
 				if (last != END_OF_CHAIN)
 					g_array_index (f->bb, BLP, last) = blk;
 				g_array_index (f->bb, BLP, blk) = END_OF_CHAIN;
-				mem = BBPTR (f, blk);
+				mem = BB_W_PTR (f, blk);
 			}
 			if (lp<f->sb->len)
 				set = g_array_index (f->sb, BLP, lp);
@@ -980,15 +1071,10 @@ static int
 ms_ole_setup (MS_OLE *f)
 {
 #if !OLE_MMAP
-	int i;
+	guint32 i;
 	f->bbattr = g_ptr_array_new ();
-	for (i=0;i<(f->length/BB_BLOCK_SIZE)+1;i++) {
-		BB_BLOCK_STR *attr = g_new (BB_BLOCK_STR, 1);
-		attr->dirty = FALSE;
-		attr->usage = 0;
-		attr->data  = 0;
-		g_ptr_array_add (f->bbattr, attr);
-	}
+	for (i=0;i<(f->length/BB_BLOCK_SIZE)+1;i++)
+		g_ptr_array_add (f->bbattr, bb_blk_attr_new(i));
 #endif	
 
 	if (read_bb  (f) &&
@@ -1028,8 +1114,8 @@ new_null_msole ()
 	f->length = 0;
 	f->mode   = 'r';
 	f->bb     = 0;
-#ifndef OLE_MMAP
-	f->bbptr  = 0;
+#if !OLE_MMAP
+	f->bbattr = 0;
 #endif
 	f->sb     = 0;
 	f->sbf    = 0;
@@ -1148,7 +1234,7 @@ ms_ole_create (const char *name)
 	if (f->length%BB_BLOCK_SIZE)
 		printf ("Warning file %d non-integer number of blocks\n", f->length);
 
-#ifdef OLE_MMAP
+#if OLE_MMAP
 	f->mem  = mmap (0, f->length, PROT_READ|PROT_WRITE, MAP_SHARED, file, 0);
 	if (!f->mem)
 	{
@@ -1158,7 +1244,7 @@ ms_ole_create (const char *name)
 		return 0;
 	}
 #else
-#       error Not implemented yet
+	f->mem  = g_new (guint8, BB_BLOCK_SIZE);
 #endif
 	/* The header block */
 	for (lp=0;lp<BB_BLOCK_SIZE/4;lp++)
@@ -1194,6 +1280,9 @@ ms_ole_create (const char *name)
 		p->parent   = NULL;
 		f->pps = g_list_append (0, p);
 		f->num_pps = 1;
+#if !OLE_MMAP
+		f->bbattr   = g_ptr_array_new ();
+#endif
 	}
 	g_assert (f->bb->len < f->length/BB_BLOCK_SIZE);
 	return f;
@@ -1205,6 +1294,7 @@ ms_ole_create (const char *name)
 void
 ms_ole_destroy (MS_OLE *f)
 {
+	guint32 i;
 #if OLE_DEBUG > 0
 	printf ("FIXME: should truncate to remove unused blocks\n");
 #endif
@@ -1212,12 +1302,24 @@ ms_ole_destroy (MS_OLE *f)
 		if (f->dirty)
 			ms_ole_cleanup (f);
 
-#ifdef OLE_MMAP
+#if OLE_MMAP
 		munmap (f->mem, f->length);
-		close (f->file_des);
 #else
-#               error No destroy code yet	       
+		for (i=0; (f->bbattr) && (i < f->bbattr->len);i++) {
+			BB_BLK_ATTR *attr = g_ptr_array_index (f->bbattr, i);
+			if (f->dirty && attr->dirty)
+				write_cache_block (f, attr);
+			g_free (attr->data);
+			attr->data = 0;
+		}
+		if (f->dirty) {
+			lseek (f->file_des, 0, SEEK_SET);
+			write (f->file_des, f->mem, BB_BLOCK_SIZE);
+		}
+		g_free (f->mem);
+		f->mem = 0;
 #endif
+		close (f->file_des);
 		g_free (f);
 
 #if OLE_DEBUG > 0
@@ -1283,7 +1385,7 @@ check_stream (MS_OLE_STREAM *s)
 			g_assert (g_array_index (s->blocks, BLP, idx) ==
 				  blk);
 #if OLE_DEBUG > 2
-			ptr = GET_SB_START_PTR(f, blk);
+			ptr = GET_SB_R_PTR(f, blk);
 			dump (ptr, SB_BLOCK_SIZE);
 #endif
 			blk = NEXT_SB(f, blk);
@@ -1295,7 +1397,7 @@ check_stream (MS_OLE_STREAM *s)
 			g_assert (g_array_index (s->blocks, BLP, idx) ==
 				  blk);
 #if OLE_DEBUG > 2
-			ptr = BBPTR(f, blk);
+			ptr = BB_R_PTR(f, blk);
 			dump (ptr, BB_BLOCK_SIZE);
 #endif
 			blk = NEXT_BB(f, blk);
@@ -1435,7 +1537,7 @@ ms_ole_read_ptr_bb (MS_OLE_STREAM *s, guint32 length)
 		blockidx++;
 	}
 	/* Straight map, simply return a pointer */
-	ans = BBPTR(s->file, ms_array_index (s->blocks, BLP, s->position/BB_BLOCK_SIZE))
+	ans = BB_R_PTR(s->file, ms_array_index (s->blocks, BLP, s->position/BB_BLOCK_SIZE))
 	      + s->position%BB_BLOCK_SIZE;
 	ms_ole_lseek (s, length, MS_OLE_SEEK_CUR);
 	check_stream (s);
@@ -1468,7 +1570,7 @@ ms_ole_read_ptr_sb (MS_OLE_STREAM *s, guint32 length)
 		blockidx++;
 	}
 	/* Straight map, simply return a pointer */
-	ans = GET_SB_START_PTR(s->file, ms_array_index (s->blocks, BLP, s->position/SB_BLOCK_SIZE))
+	ans = GET_SB_R_PTR(s->file, ms_array_index (s->blocks, BLP, s->position/SB_BLOCK_SIZE))
 		+ s->position%SB_BLOCK_SIZE;
 	ms_ole_lseek (s, length, MS_OLE_SEEK_CUR);
 	check_stream (s);
@@ -1509,7 +1611,7 @@ ms_ole_read_copy_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		}
 		g_assert (blkidx < s->blocks->len);
 		block = ms_array_index (s->blocks, BLP, blkidx);
-		src = BBPTR(s->file, block) + offset;
+		src = BB_R_PTR(s->file, block) + offset;
 		
 		memcpy (ptr, src, cpylen);
 		ptr   += cpylen;
@@ -1552,7 +1654,7 @@ ms_ole_read_copy_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		}
 		g_assert (blkidx < s->blocks->len);
 		block = ms_array_index (s->blocks, BLP, blkidx);
-		src = GET_SB_START_PTR(s->file, block) + offset;
+		src = GET_SB_R_PTR(s->file, block) + offset;
 				
 		memcpy (ptr, src, cpylen);
 		ptr   += cpylen;
@@ -1657,7 +1759,7 @@ ms_ole_write_bb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		g_assert (blkidx < s->blocks->len);
 		block = ms_array_index (s->blocks, BLP, blkidx);
 		
-		dest = BBPTR(s->file, block) + offset;
+		dest = BB_W_PTR(s->file, block) + offset;
 
 #if OLE_DEBUG > 1
 		printf ("Copy %d bytes to block %d\n", cpylen, block);
@@ -1705,7 +1807,7 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		g_assert (blkidx < s->blocks->len);
 		block = ms_array_index (s->blocks, BLP, blkidx);
 		
-		dest = GET_SB_START_PTR(s->file, block) + offset;
+		dest = GET_SB_W_PTR(s->file, block) + offset;
 		
 		g_assert (cpylen>=0);
 

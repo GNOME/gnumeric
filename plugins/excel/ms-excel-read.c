@@ -2597,18 +2597,13 @@ ms_excel_read_workbook (MS_OLE * file)
 				BIFF_FORMAT_DATA *d = g_new(BIFF_FORMAT_DATA,1) ;
 /*				printf ("Format data 0x%x %d\n", q->ms_op, ver->version) ;
 				dump (q->data, q->length) ;*/
-				if (ver->version == eBiffV7) /* Totaly guessed */
-				{
-					d->idx = BIFF_GETWORD(q->data) ;
-					d->name = biff_get_text(q->data+3, BIFF_GETBYTE(q->data+2), NULL) ;
-				}
-				else if (ver->version == eBiffV8)
-				{
+				if (ver->version == eBiffV7) { /* Totaly guessed */
+					d->idx = BIFF_GETWORD(q->data);
+					d->name = biff_get_text(q->data+3, BIFF_GETBYTE(q->data+2), NULL);
+				} else if (ver->version == eBiffV8) {
 					d->idx = BIFF_GETWORD(q->data) ;
 					d->name = biff_get_text(q->data+4, BIFF_GETWORD(q->data+2), NULL) ;
-				}
-				else /* FIXME: mythical old papyrus spec. */
-				{
+				} else { /* FIXME: mythical old papyrus spec. */
 					d->name = biff_get_text(q->data+1, BIFF_GETBYTE(q->data), NULL) ;
 					d->idx = g_hash_table_size (wb->format_data) + 0x32 ;
 				}

@@ -1,5 +1,11 @@
 1999-06-15  Michael Meeks  <michael@edenproject.org>
 
+	* ms-ole.c: Large updates to helper macros, to allow
+	clean setting of dirty bits etc.
+	(write_cache_block, set_blk_dirty): Created,
+	(get_block_ptr): LRU strategy implemented.
+	(ms_ole_destroy): Implemented for non-mmap.
+
 	* ms-ole.h (struct MS_OLE): Renamed file_descriptor.
 
 	* ms-ole.c (ms_ole_open): Fix bug opening directories.
