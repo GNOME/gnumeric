@@ -207,7 +207,8 @@ gog_styled_object_get_style (GogStyledObject *gso)
 GogStyle *
 gog_styled_object_get_auto_style (GogStyledObject *gso)
 {
-	GogStyle *res = gog_style_new ();
+	GogStyle *res = gog_style_dup (gso->style);
+	gog_style_force_auto (res);
 	gog_styled_object_apply_theme (gso, res);
 	return res;
 }

@@ -48,10 +48,12 @@ GtkWidget *go_combo_color_new        (GdkPixbuf   *icon,
 				      char const *no_color_label,
 				      GOColor default_color,
 				      GOColorGroup  *color_group);
-void     go_combo_color_set_color_to_default (GOComboColor *cc);
-void     go_combo_color_set_color    (GOComboColor  *cc, GdkColor *color);
-GOColor  go_combo_color_get_color    (GOComboColor  *cc, gboolean *is_default);
-void     go_combo_color_set_gocolor  (GOComboColor  *cc, GOColor   color);
+GOColor go_combo_color_get_color (GOComboColor  *cc, gboolean *is_default);
+void    go_combo_color_set_color (GOComboColor  *cc, GOColor   color);
+void    go_combo_color_set_color_to_default (GOComboColor *cc);
+void    go_combo_color_set_color_gdk (GOComboColor *cc, GdkColor *color);
+GOColor go_combo_color_get_default   (GOComboColor *cc);
+void	go_combo_color_set_default   (GOComboColor *cc, GOColor color);
 
 void go_combo_color_set_allow_alpha    (GOComboColor *cc, gboolean allow_alpha);
 void go_combo_color_set_instant_apply  (GOComboColor *cc, gboolean active);

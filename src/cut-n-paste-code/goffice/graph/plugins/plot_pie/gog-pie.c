@@ -457,14 +457,12 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			    (GOG_SERIES_ELEMENT (cur_element->data)->index == k)) {
 				gpse = GOG_PIE_SERIES_ELEMENT (cur_element->data);
 				cur_element = cur_element->next;
-					gog_renderer_push_style (view->renderer, 
-						gog_styled_object_get_style (
-							GOG_STYLED_OBJECT (gpse)));
-			} 
-			else 
-				if (model->base.vary_style_by_element)
-					gog_theme_init_style (theme, style, GOG_OBJECT (series),
-							      model->base.index_num + k);
+				gog_renderer_push_style (view->renderer, 
+					gog_styled_object_get_style (
+						GOG_STYLED_OBJECT (gpse)));
+			} else if (model->base.vary_style_by_element)
+				gog_theme_init_style (theme, style, GOG_OBJECT (series),
+						      model->base.index_num + k);
 				
 			/* only separate the outer ring */
 			separated_cx = cx;

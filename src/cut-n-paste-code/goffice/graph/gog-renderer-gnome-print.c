@@ -257,14 +257,14 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 		switch (style->fill.type) {
 		case GOG_FILL_STYLE_PATTERN:
 			gnome_print_gsave (prend->gp_context);
-			if (go_pattern_is_solid (&style->fill.u.pattern.pat, &color)) {
+			if (go_pattern_is_solid (&style->fill.pattern, &color)) {
 				set_color (prend, color);
 				gnome_print_fill (prend->gp_context);
 			} else {
 				ArtSVP *fill = art_svp_from_vpath ((ArtVpath *)path);
 				image = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, bbox.x1, bbox.y1);
 				gdk_pixbuf_fill (image, 0);
-				go_pattern_render_svp (&style->fill.u.pattern.pat,
+				go_pattern_render_svp (&style->fill.pattern,
 					fill, 0, 0, bbox.x1, bbox.y1,
 					gdk_pixbuf_get_pixels (image),
 					gdk_pixbuf_get_rowstride (image));
@@ -294,8 +294,8 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 				8, ART_ALPHA_SEPARATE, NULL);
 
 			go_gradient_setup (&gradient,
-					   style->fill.u.gradient.dir,
-					   style->fill.u.gradient.start, style->fill.u.gradient.end,
+					   style->fill.gradient.dir,
+					   style->fill.pattern.back, style->fill.pattern.fore,
 					   0, 0, PIXBUF_SIZE, PIXBUF_SIZE,
 					   stops);
 			art_render_gradient_linear (render,
@@ -313,12 +313,12 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 			break;
 
 		case GOG_FILL_STYLE_IMAGE:
-			image = style->fill.u.image.image;
+			image = style->fill.image.image;
 			if (image == NULL)
 				break;
 			gnome_print_gsave (prend->gp_context);
 			gnome_print_clip (prend->gp_context);
-			switch (style->fill.u.image.type) {
+			switch (style->fill.image.type) {
 			case GOG_IMAGE_CENTERED:
 				w = (bbox.x1 - bbox.x0) - gdk_pixbuf_get_width (image);
 				if (w > 0) w /= 2.; else w = 0.;

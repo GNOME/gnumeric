@@ -206,8 +206,8 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 			    FOREGROUND_COLOUR, &fore,
 			    -1);
 	if (!state->initial_colors_set) {
-		go_combo_color_set_color (GO_COMBO_COLOR (state->ccombo_back), back);
-		go_combo_color_set_color (GO_COMBO_COLOR (state->ccombo_fore), fore);
+		go_combo_color_set_color_gdk (GO_COMBO_COLOR (state->ccombo_back), back);
+		go_combo_color_set_color_gdk (GO_COMBO_COLOR (state->ccombo_fore), fore);
 		state->initial_colors_set = TRUE;
 	}
 	if (back != NULL)

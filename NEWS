@@ -50,12 +50,15 @@ Jody:
 	* Use first rather than last conditional value fmt as catch-all
 	* Implicit iteration for operators
 	* Make the unary operators XL compatible
-	* start work on xls export for charts
+	* basic xls export for charts
 	* start work on OOo export
 	* Skip ticks/labels for discrete axes
 	* Drag files from nautilus -> gnumeric
 	http://bugzilla.gnome.org/show_bug.cgi?id=143577
 	* fix grid printing
+	* fix merged cell printing and diagonal borders
+	* Allow themed series with gradients
+	* Fix prop dialog
 
 Morten:
 	* Fix crash related to database functions (#138600).  [backported]

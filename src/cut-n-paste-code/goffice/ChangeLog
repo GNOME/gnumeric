@@ -1,3 +1,15 @@
+2004-07-02  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-theme.c (map_area_series_solid_default) : simplify now
+	  that we're just filling in the color no need to twiddle types
+
+	* graph/gog-style.c : rework GogStyle::fill share pattern:fore/back
+	and gradient:start/end.
+	merge all the different auto flags.  
+	initialize the gradient brightness to -1 to avoid starting with black
+	Change fill from union to struct to simplify changing fill types
+	Allow themed gradient fills
+
 2004-06-30  Christopher James Lahey  <clahey@ximian.com>
 
 	* drawing/god-text-model.c

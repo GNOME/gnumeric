@@ -391,10 +391,8 @@ setup_color_pickers (ColorPicker *picker,
 		"color_changed",
 		G_CALLBACK (preview_update), state);
 
-	if (mcolor && !mcolor->is_auto)
-		go_combo_color_set_color (GO_COMBO_COLOR (combo), &mcolor->color);
-	else
-		go_combo_color_set_color_to_default (GO_COMBO_COLOR (combo));
+	go_combo_color_set_color_gdk (GO_COMBO_COLOR (combo),
+		(mcolor && !mcolor->is_auto) ? &mcolor->color : NULL);
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);

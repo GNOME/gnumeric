@@ -190,7 +190,7 @@ gog_theme_init_style (GogTheme *theme, GogStyle *style,
 	g_return_if_fail (elem != NULL);
 
 #warning we should handle the applicability here not in the themes
-	gog_style_apply_theme (style, elem->style);
+	gog_style_apply_theme (style, elem->style, FALSE);
 	if (ind >= 0 && elem->map)
 		(elem->map) (style, ind);
 }
@@ -334,16 +334,14 @@ map_area_series_solid_default (GogStyle *style, unsigned ind)
 	unsigned palette_index = ind;
 	if (palette_index >= G_N_ELEMENTS (palette))
 		palette_index %= G_N_ELEMENTS (palette);
-	if (style->fill.is_auto) {
-		if (style->fill.type == GOG_FILL_STYLE_PATTERN)
-		style->fill.u.pattern.pat.back = palette [palette_index];
-		else if (style->fill.type == GOG_FILL_STYLE_GRADIENT &&
-			 style->fill.u.gradient.brightness >= 0) {
-			style->fill.u.gradient.start = palette [palette_index];
-			/* force the brightness to reinterpolate */
+	if (style->fill.auto_back) {
+		style->fill.pattern.back = palette [palette_index];
+
+		/* force the brightness to reinterpolate */
+		if (style->fill.type == GOG_FILL_STYLE_GRADIENT &&
+		    style->fill.gradient.brightness >= 0)
 			gog_style_set_fill_brightness (style,
-				style->fill.u.gradient.brightness);
-		}
+				style->fill.gradient.brightness);
 	}
 
 	palette_index += 8;
@@ -372,16 +370,13 @@ map_area_series_solid_guppi (GogStyle *style, unsigned ind)
 	unsigned palette_index = ind;
 	if (palette_index >= G_N_ELEMENTS (palette))
 		palette_index %= G_N_ELEMENTS (palette);
-	if (style->fill.is_auto) {
-		if (style->fill.type == GOG_FILL_STYLE_PATTERN)
-			style->fill.u.pattern.pat.back = palette [palette_index];
-		else if (style->fill.type == GOG_FILL_STYLE_GRADIENT &&
-			 style->fill.u.gradient.brightness >= 0) {
-			style->fill.u.gradient.start = palette [palette_index];
+	if (style->fill.auto_back) {
+		style->fill.pattern.back = palette [palette_index];
+		if (style->fill.type == GOG_FILL_STYLE_GRADIENT &&
+		    style->fill.gradient.brightness >= 0)
 			/* force the brightness to reinterpolate */
 			gog_style_set_fill_brightness (style,
-				style->fill.u.gradient.brightness);
-		}
+				style->fill.gradient.brightness);
 	}
 	if (style->line.auto_color && !(style->disable_theming & GOG_STYLE_LINE))
 		style->line.color = palette [palette_index];
@@ -413,7 +408,7 @@ gog_themes_init	(void)
 	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
-	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_WHITE);
+	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogChart", NULL);
 
 	/* legend */
@@ -421,7 +416,7 @@ gog_themes_init	(void)
 	style->outline.width = 0; /* hairline */
 	style->outline.color = RGBA_BLACK;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
-	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_WHITE);
+	go_pattern_set_solid (&style->fill.pattern, RGBA_WHITE);
 	gog_theme_add_element (theme, style, NULL, "GogLegend", NULL);
 
 	/* Axis */
@@ -437,7 +432,7 @@ gog_themes_init	(void)
 	style->line.width = 0.; /* hairline */
 	style->line.color = RGBA_GREY (0x20);
 	style->fill.type  = GOG_FILL_STYLE_PATTERN;
-	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_GREY (0xd0));
+	go_pattern_set_solid (&style->fill.pattern, RGBA_GREY (0xd0));
 	gog_theme_add_element (theme, style, NULL, "GogGrid", NULL);
 
 	/* series */
@@ -461,9 +456,9 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->outline.width = -1; /* none */
 	style->fill.type = GOG_FILL_STYLE_GRADIENT;
-	style->fill.u.gradient.dir   = GO_GRADIENT_N_TO_S;
-	style->fill.u.gradient.start = RGBA_BLUE;
-	style->fill.u.gradient.end   = RGBA_BLACK;
+	style->fill.gradient.dir   = GO_GRADIENT_N_TO_S;
+	style->fill.pattern.fore = RGBA_BLUE;
+	style->fill.pattern.back = RGBA_BLACK;
 	gog_theme_add_element (theme, style, NULL, "GogGraph", NULL);
 
 	/* chart */
@@ -477,7 +472,7 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->outline.color = RGBA_BLACK;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
-	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_GREY (0x20));
+	go_pattern_set_solid (&style->fill.pattern, RGBA_GREY (0x20));
 	gog_theme_add_element (theme, style, NULL, "GogLegend", NULL);
 
 	/* Axis */
@@ -493,14 +488,14 @@ gog_themes_init	(void)
 	style->line.width = 0.; /* hairline */
 	style->line.color = RGBA_GREY (0x20);
 	style->fill.type  = GOG_FILL_STYLE_PATTERN;
-	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_GREY (0xd0));
+	go_pattern_set_solid (&style->fill.pattern, RGBA_GREY (0xd0));
 	gog_theme_add_element (theme, style, NULL, "GogGrid", NULL);
 
 	/* series */
 	style = gog_style_new ();
 	style->outline.color = RGBA_BLACK;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
-	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_GREY (0x20));
+	go_pattern_set_solid (&style->fill.pattern, RGBA_GREY (0x20));
 	/* FIXME : not really true, will want to split area from line */
 	gog_theme_add_element (theme, style,
 		map_area_series_solid_guppi, "GogSeries", NULL);

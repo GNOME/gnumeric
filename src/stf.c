@@ -465,6 +465,7 @@ csv_tsv_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 void
 stf_init (void)
 {
+	GnmFileSaver *saver;
 	gnm_file_opener_register (gnm_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_csvtab",
 		_("Comma or tab separated values (CSV/TSV)"),
@@ -473,12 +474,16 @@ stf_init (void)
 		"Gnumeric_stf:stf_assistant",
 		_("Text import (configurable)"),
 		NULL, stf_read_workbook), 0);
+
 	gnm_file_saver_register (gnm_file_saver_new (
 		"Gnumeric_stf:stf_assistant", "txt",
 		_("Text export (configurable)"),
 		FILE_FL_WRITE_ONLY, stf_write_workbook));
-	gnm_file_saver_register (gnm_file_saver_new (
+	saver = gnm_file_saver_new (
 		"Gnumeric_stf:stf_csv", "csv",
 		_("Comma separated values (CSV)"),
-		FILE_FL_WRITE_ONLY, stf_write_csv));
+		FILE_FL_WRITE_ONLY, stf_write_csv);
+	gnm_file_saver_set_save_scope (saver, FILE_SAVE_SHEET);
+	gnm_file_saver_register (saver);
+
 }

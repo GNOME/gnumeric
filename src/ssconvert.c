@@ -32,6 +32,7 @@ char const *gnumeric_data_dir = GNUMERIC_DATADIR;
 static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
 static gboolean ssconvert_list_importers = FALSE;
+static gboolean ssconvert_one_file_per_sheet = FALSE;
 static char const *ssconvert_import_encoding = NULL;
 static char const *ssconvert_export_id = NULL;
 
@@ -53,6 +54,8 @@ gnumeric_popt_options[] = {
 	  N_("List the available exporters"), NULL },
 	{ "list-importers", '\0', POPT_ARG_NONE, &ssconvert_list_importers, 0,
 	  N_("List the available exporters"), NULL },
+	{ "export-file-per-sheet", 'S', POPT_ARG_BOOLEAN, &ssconvert_one_file_per_sheet, 0,
+	  N_("Export a file for each sheet if the exporter only supports one sheet at a time."), NULL },
 
 	{ NULL, '\0', 0, NULL, 0 }
 };
@@ -187,10 +190,15 @@ main (int argc, char *argv [])
 				WorkbookView *wbv = wb_view_new_from_uri (uri, NULL,
 					io_context, ssconvert_import_encoding);
 				g_free (uri);
-				if (gnm_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK)
-					fprintf (stderr, _("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
-						 "Only the first will be saved."),
-						 gnm_file_saver_get_id (fs));
+				if (gnm_file_saver_get_save_scope (fs) !=
+				    FILE_SAVE_WORKBOOK) {
+					if (issconvert_one_file_per_sheet) {
+						g_warning ("TODO");
+					} else
+						fprintf (stderr, _("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
+								   "Only the current sheet will be saved."),
+							 gnm_file_saver_get_id (fs));
+				}
 				res = !wb_view_save_as (wbv, fs, outfile, cc);
 				g_object_unref (wb_view_workbook (wbv));
 				g_object_unref (io_context);

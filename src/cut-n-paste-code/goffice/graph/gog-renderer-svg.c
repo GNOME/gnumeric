@@ -205,7 +205,7 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 		switch (style->fill.type) {
 		case GOG_FILL_STYLE_PATTERN: {
 			GOColor color;
-			if (go_pattern_is_solid (&style->fill.u.pattern.pat, &color)) {
+			if (go_pattern_is_solid (&style->fill.pattern, &color)) {
 				buf = g_strdup_printf ("#%06x", color >> 8);
 				xmlNewProp (node, CC2XML ("fill"), CC2XML (buf));
 				g_free (buf);
@@ -220,7 +220,8 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 		}
 
 		case GOG_FILL_STYLE_GRADIENT:
-			id = g_strdup_printf ("g_%x_%x_%x", style->fill.u.gradient.dir, style->fill.u.gradient.start, style->fill.u.gradient.end);
+			id = g_strdup_printf ("g_%x_%x_%x", style->fill.gradient.dir,
+				style->fill.pattern.back, style->fill.pattern.fore);
 			name = (char*) g_hash_table_lookup (prend->table, id);
 			if (!name) {
 				double x1, y1, x2, y2;
@@ -228,13 +229,13 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 				xmlNodePtr child, stop;
 				name = g_strdup_printf ("grad%d", prend->grad++);
 				g_hash_table_insert (prend->table, id, name);
-				if (style->fill.u.gradient.dir < 4) {
+				if (style->fill.gradient.dir < 4) {
 					x1 = y1 = x2 = 0;
 					y2 = 1;
-				} else if (style->fill.u.gradient.dir < 8) {
+				} else if (style->fill.gradient.dir < 8) {
 					x1 = y1 = y2 = 0;
 					x2 = 1;
-				} else if (style->fill.u.gradient.dir < 12) {
+				} else if (style->fill.gradient.dir < 12) {
 					x1 = y1 = 0;
 					x2 = y2 = 1;
 				} else {
@@ -245,28 +246,28 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 				xmlAddChild (prend->defs, child);
 				xmlNewProp (child, CC2XML ("id"), CC2XML (name));
 				xmlNewProp (child, CC2XML ("gradientUnits"), CC2XML ("objectBoundingBox"));
-				switch (style->fill.u.gradient.dir % 4) {
+				switch (style->fill.gradient.dir % 4) {
 				case 0:
 					buf = (char*) "pad";
-					start = style->fill.u.gradient.start;
-					end = style->fill.u.gradient.end;
+					start = style->fill.pattern.fore;
+					end = style->fill.pattern.back;
 					break;
 				case 1:
 					buf = (char*) "pad";
-					start = style->fill.u.gradient.end;
-					end = style->fill.u.gradient.start;
+					start = style->fill.pattern.back;
+					end = style->fill.pattern.fore;
 					break;
 				case 2:
 					buf = (char*) "reflect";
-					start = style->fill.u.gradient.start;
-					end = style->fill.u.gradient.end;
+					start = style->fill.pattern.fore;
+					end = style->fill.pattern.back;
 					x2 = x1 + (x2 - x1) / 2;
 					y2 = y1 + (y2 - y1) / 2;
 					break;
 				default:
 					buf = (char*) "reflect";
-					start = style->fill.u.gradient.end;
-					end = style->fill.u.gradient.start;
+					start = style->fill.pattern.back;
+					end = style->fill.pattern.fore;
 					x2 = x1 + (x2 - x1) / 2;
 					y2 = y1 + (y2 - y1) / 2;
 					break;

@@ -106,7 +106,7 @@ excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 		return data && data[0] == 0x09 && (data[1] & 0xf1) == 0;
 	}
 
-	stream = find_content_stream (GSF_INFILE (ole), NULL);
+	stream = find_content_stream (ole, NULL);
 	if (stream != NULL) {
 		g_object_unref (G_OBJECT (stream));
 		res = TRUE;
@@ -121,7 +121,7 @@ excel_read_metadata (Workbook  *wb, GsfInfile *ole, char const *name,
 		     IOContext *context)
 {
 	GError   *err = NULL;
-	GsfInput *stream = gsf_infile_child_by_name (GSF_INFILE (ole), name);
+	GsfInput *stream = gsf_infile_child_by_name (ole, name);
 
 	if (stream != NULL) {
 		gsf_msole_metadata_read (stream, &err);
@@ -177,7 +177,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 		return;
 	}
 
-	stream = find_content_stream (GSF_INFILE (ole), &is_97);
+	stream = find_content_stream (ole, &is_97);
 	if (stream == NULL) {
 		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 			 _("No Workbook or Book streams found."));
@@ -192,9 +192,9 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 	excel_read_metadata (wb, ole, "\05DocumentSummaryInformation", context);
 
 	/* See if there are any macros to keep around */
-	stream = gsf_infile_child_by_name (GSF_INFILE (ole), "\01CompObj");
+	stream = gsf_infile_child_by_name (ole, "\01CompObj");
 	if (stream != NULL) {
-		GsfInput *macros = gsf_infile_child_by_name (GSF_INFILE (ole), "_VBA_PROJECT_CUR");
+		GsfInput *macros = gsf_infile_child_by_name (ole, "_VBA_PROJECT_CUR");
 		if (macros != NULL) {
 			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_COMPOBJ",
 				gsf_structured_blob_read (stream), g_object_unref);

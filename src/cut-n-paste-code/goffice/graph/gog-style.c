@@ -94,7 +94,6 @@ typedef struct {
 static void
 cb_style_changed (GogStyledObject *obj, GogStyle *style, StylePrefState *state)
 {
-	g_warning ("Hmm, nothing to worry about, but this should not happen.  How did a style change externally while it was visible ?");
 }
 
 static void
@@ -121,31 +120,11 @@ create_go_combo_color (StylePrefState *state,
 	go_combo_color_set_allow_alpha (GO_COMBO_COLOR (w), TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, label_name)), w);
-	go_combo_color_set_gocolor (GO_COMBO_COLOR (w), initial_val);
+	go_combo_color_set_color (GO_COMBO_COLOR (w), initial_val);
 	g_signal_connect (G_OBJECT (w),
 		"color_changed",
 		G_CALLBACK (func), state);
 	return w;
-}
-
-static GOColor
-gog_style_get_fill_color (GogStyle const *style, unsigned i)
-{
-	GOColor first = RGBA_BLACK;
-	GOColor second = RGBA_WHITE;
-	switch (style->fill.type) {
-	case GOG_FILL_STYLE_PATTERN:
-		first = style->fill.u.pattern.pat.fore;
-		second = style->fill.u.pattern.pat.back;
-		break;
-	case GOG_FILL_STYLE_GRADIENT:
-		first = style->fill.u.gradient.start;
-		second = style->fill.u.gradient.end;
-		break;
-	default :
-		break;
-	}
-	return (i == 1) ? first : second;
 }
 
 static void
@@ -301,7 +280,7 @@ cb_pattern_type_changed (GtkWidget *cc, int pattern, StylePrefState const *state
 
 	if (is_auto)
 		pattern = -pattern;
-	style->fill.u.pattern.pat.pattern = pattern;
+	style->fill.pattern.pattern = pattern;
 	set_style (state);
 }
 
@@ -317,9 +296,9 @@ populate_pattern_combo (StylePrefState *state)
 		gtk_widget_destroy (state->fill.pattern.combo);
 
 	state->fill.pattern.combo = combo = go_pattern_selector (
-		gog_style_get_fill_color (style, 1),
-		gog_style_get_fill_color (style, 2),
-		default_style->fill.u.pattern.pat.pattern);
+		style->fill.pattern.fore,
+		style->fill.pattern.back,
+		default_style->fill.pattern.pattern);
 
 	table = glade_xml_get_widget (state->gui, "fill_pattern_table");
 	gtk_table_attach (GTK_TABLE (table), combo, 1, 2, 0, 1, 0, 0, 0, 0);
@@ -327,7 +306,7 @@ populate_pattern_combo (StylePrefState *state)
 		GTK_LABEL (glade_xml_get_widget (state->gui, "fill_pattern_type_label")), combo);
 
 	if (style->fill.type == GOG_FILL_STYLE_PATTERN)
-		type = style->fill.u.pattern.pat.pattern;
+		type = style->fill.pattern.pattern;
 	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS(combo), type);
 	g_signal_connect (G_OBJECT (combo),
 		"changed",
@@ -346,10 +325,8 @@ cb_fg_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_PATTERN == style->fill.type);
 
-	style->fill.u.pattern.pat.fore = color;
-	style->fill.pattern_fore_auto = is_default;
-	style->fill.is_auto = (style->fill.pattern_fore_auto &
-			       style->fill.pattern_back_auto);
+	style->fill.pattern.fore = color;
+	style->fill.auto_fore = is_default;
 	set_style (state);
 	populate_pattern_combo (state);
 }
@@ -365,10 +342,8 @@ cb_bg_color_changed (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_PATTERN == style->fill.type);
 
-	style->fill.u.pattern.pat.back = color;
-	style->fill.pattern_back_auto = is_default;
-	style->fill.is_auto = (style->fill.pattern_fore_auto &
-			       style->fill.pattern_back_auto);
+	style->fill.pattern.back = color;
+	style->fill.auto_back = is_default;
 	set_style (state);
 	populate_pattern_combo (state);
 }
@@ -383,15 +358,15 @@ fill_pattern_init (StylePrefState *state)
 		glade_xml_get_widget (state->gui, "fill_pattern_table");
 
 	state->fill.pattern.fore = w = create_go_combo_color (state,
-		gog_style_get_fill_color (style, 1),
-		gog_style_get_fill_color (default_style, 1),
+		style->fill.pattern.fore,
+		default_style->fill.pattern.fore,
 		"pattern_foreground", "fill_pattern_foreground_label",
 		G_CALLBACK (cb_fg_color_changed));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
 
 	state->fill.pattern.back = w = create_go_combo_color (state,
-		gog_style_get_fill_color (style, 2),
-		gog_style_get_fill_color (default_style, 2),
+		style->fill.pattern.back,
+		default_style->fill.pattern.back,
 		"pattern_background", "fill_pattern_background_label",
 		G_CALLBACK (cb_bg_color_changed));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
@@ -407,7 +382,7 @@ static void
 cb_gradient_type_changed (GtkWidget *cc, int id, StylePrefState const *state)
 {
 	GogStyle *style = state->style;
-	style->fill.u.gradient.dir = default_to_last_selected_type = id;
+	style->fill.gradient.dir = default_to_last_selected_type = id;
 	set_style (state);
 }
 
@@ -421,8 +396,8 @@ populate_gradient_combo (StylePrefState *state)
 		gtk_widget_destroy (state->fill.gradient.combo);
 
 	state->fill.gradient.combo = combo = go_gradient_selector (
-		gog_style_get_fill_color (style, 1),
-		gog_style_get_fill_color (style, 2));
+		style->fill.pattern.back,
+		style->fill.pattern.fore);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, "fill_gradient_direction_label")), combo);
 
@@ -430,7 +405,7 @@ populate_gradient_combo (StylePrefState *state)
 	gtk_table_attach (GTK_TABLE (table), combo, 1, 2, 0, 1, 0, 0, 0, 0);
 	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (combo),
 		(style->fill.type == GOG_FILL_STYLE_GRADIENT)
-			? style->fill.u.gradient.dir : default_to_last_selected_type);
+			? style->fill.gradient.dir : default_to_last_selected_type);
 
 	g_signal_connect (G_OBJECT (combo),
 		"changed",
@@ -445,10 +420,8 @@ cb_fill_gradient_start_color (G_GNUC_UNUSED GOComboColor *cc, GOColor  color,
 			      gboolean is_default, StylePrefState *state)
 {
 	GogStyle *style = state->style;
-	style->fill.u.gradient.start = color;
-	style->fill.gradient_start_auto = is_default;
-	style->fill.is_auto = (style->fill.gradient_start_auto &
-			       style->fill.gradient_end_auto);
+	style->fill.pattern.back = color;
+	style->fill.auto_back = is_default;
 	set_style (state);
 	populate_gradient_combo (state);
 }
@@ -464,15 +437,13 @@ cb_delayed_gradient_combo_update (StylePrefState *state)
 static void
 cb_fill_gradient_end_color (G_GNUC_UNUSED GOComboColor *cc, GOColor color,
 			    G_GNUC_UNUSED gboolean is_custom,
-			    G_GNUC_UNUSED gboolean by_user,
+			    gboolean by_user,
 			    gboolean is_default, StylePrefState *state)
 {
 	GogStyle *style = state->style;
 
-	style->fill.u.gradient.end = color;
-	style->fill.gradient_end_auto = is_default;
-	style->fill.is_auto = (style->fill.gradient_start_auto &
-			       style->fill.gradient_end_auto);
+	style->fill.pattern.fore = color;
+	style->fill.auto_fore = is_default;
 	set_style (state);
 
 	if (by_user)
@@ -492,8 +463,8 @@ cb_gradient_brightness_value_changed (GtkWidget *w, StylePrefState *state)
 
 	gog_style_set_fill_brightness (style,
 		gtk_range_get_value (GTK_RANGE (w)));
-	go_combo_color_set_gocolor (GO_COMBO_COLOR (state->fill.gradient.end),
-		style->fill.u.gradient.end);
+	go_combo_color_set_color (GO_COMBO_COLOR (state->fill.gradient.end),
+		style->fill.pattern.fore);
 	set_style (state);
 }
 
@@ -510,17 +481,17 @@ cb_gradient_style_changed (GtkWidget *w, StylePrefState *state)
 	gboolean two_color = gtk_combo_box_get_active (GTK_COMBO_BOX (w)) == 0;
 
 	if (two_color) {
-		style->fill.u.gradient.brightness = -1;
+		style->fill.gradient.brightness = -1;
 		gtk_widget_hide (box);
 	} else {
 		gtk_widget_show (box);
 		gog_style_set_fill_brightness (style,
 			gtk_range_get_value (GTK_RANGE (val)));
-		go_combo_color_set_gocolor (GO_COMBO_COLOR (state->fill.gradient.end),
-			style->fill.u.gradient.end);
+		go_combo_color_set_color (GO_COMBO_COLOR (state->fill.gradient.end),
+			style->fill.pattern.fore);
 	}
-	gtk_widget_set_sensitive (state->fill.gradient.end, two_color);
-	gtk_widget_set_sensitive (state->fill.gradient.end_label, two_color);
+	g_object_set (G_OBJECT (state->fill.gradient.end), "visible", two_color, NULL);
+	g_object_set (G_OBJECT (state->fill.gradient.end_label), "visible", two_color, NULL);
 	set_style (state);
 }
 
@@ -533,16 +504,16 @@ fill_gradient_init (StylePrefState *state)
 	GtkWidget *type = glade_xml_get_widget (state->gui, "fill_gradient_type");
 
 	state->fill.gradient.start = w = create_go_combo_color (state,
-		gog_style_get_fill_color (style, 1),
-		gog_style_get_fill_color (default_style, 1),
+		style->fill.pattern.back,
+		default_style->fill.pattern.back,
 		"gradient_start", "fill_gradient_start_label",
 		G_CALLBACK (cb_fill_gradient_start_color));
 	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 2, 3, 0, 0, 0, 0);
 	gtk_widget_show (w);
 
 	state->fill.gradient.end = w = create_go_combo_color (state,
-		gog_style_get_fill_color (style, 2),
-		gog_style_get_fill_color (default_style, 2),
+		style->fill.pattern.fore,
+		default_style->fill.pattern.fore,
 		"gradient_end", "fill_gradient_end_label",
 		G_CALLBACK (cb_fill_gradient_end_color));
 	gtk_table_attach (GTK_TABLE (table), w, 3, 4, 2, 3, 0, 0, 0, 0);
@@ -556,16 +527,16 @@ fill_gradient_init (StylePrefState *state)
 		"fill_gradient_brightness_box");
 
 	if ((style->fill.type != GOG_FILL_STYLE_GRADIENT) ||
-	    (style->fill.u.gradient.brightness < 0)) {
+	    (style->fill.gradient.brightness < 0)) {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (type), 0);
 		gtk_widget_hide (state->fill.gradient.brightness_box);
 	} else {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (type), 1);
 		gtk_widget_show (state->fill.gradient.brightness_box);
 		gtk_range_set_value (GTK_RANGE (state->fill.gradient.brightness),
-			style->fill.u.gradient.brightness);
-		gtk_widget_set_sensitive (state->fill.gradient.end, FALSE);
-		gtk_widget_set_sensitive (state->fill.gradient.end_label, FALSE);
+			style->fill.gradient.brightness);
+		gtk_widget_hide (state->fill.gradient.end);
+		gtk_widget_hide (state->fill.gradient.end_label);
 	}
 
 	g_signal_connect (G_OBJECT (type),
@@ -591,7 +562,7 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_IMAGE == style->fill.type);
 
-	filename = style->fill.u.image.filename;
+	filename = style->fill.image.filename;
 	old_uri = filename ? go_filename_to_uri (filename) : NULL;
 	uri = gui_image_file_select (NULL, old_uri, FALSE);
 	g_free (old_uri);
@@ -609,9 +580,9 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 
 	w = glade_xml_get_widget (state->gui, "fill_image_sample");
 	g_object_set_data (G_OBJECT (w), "filename",
-			   style->fill.u.image.filename);
+			   style->fill.image.filename);
 
-	gog_style_set_image_preview (style->fill.u.image.image, state);
+	gog_style_set_image_preview (style->fill.image.image, state);
 	set_style (state);
 }
 
@@ -621,7 +592,7 @@ cb_image_style_changed (GtkWidget *w, StylePrefState *state)
 	GogStyle *style = state->style;
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (GOG_FILL_STYLE_IMAGE == style->fill.type);
-	style->fill.u.image.type = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
+	style->fill.image.type = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 	set_style (state);
 }
 
@@ -644,13 +615,13 @@ fill_image_init (StylePrefState *state)
 
 	if (GOG_FILL_STYLE_IMAGE == style->fill.type) {
 		gtk_combo_box_set_active (GTK_COMBO_BOX (type),
-			style->fill.u.image.type);
-		gog_style_set_image_preview (style->fill.u.image.image, state);
-		state->fill.image.image = style->fill.u.image.image;
+			style->fill.image.type);
+		gog_style_set_image_preview (style->fill.image.image, state);
+		state->fill.image.image = style->fill.image.image;
 		if (state->fill.image.image)
 			g_object_ref (state->fill.image.image);
 		g_object_set_data (G_OBJECT (sample), "filename",
-				   style->fill.u.image.filename);
+				   style->fill.image.filename);
 	} else
 		gtk_combo_box_set_active (GTK_COMBO_BOX (type), 0);
 	g_signal_connect (G_OBJECT (type),
@@ -663,60 +634,13 @@ fill_image_init (StylePrefState *state)
 static void
 cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 {
-	GogStyle *style = state->style;
 	GtkWidget *w;
-	unsigned page;
 
-	page = gtk_combo_box_get_active (GTK_COMBO_BOX (menu));
-
-	if (page != style->fill.type &&
-	    GOG_FILL_STYLE_IMAGE == style->fill.type &&
-	    style->fill.u.image.image)
-		g_object_unref (style->fill.u.image.image);
-
-	switch (page) {
-	case GOG_FILL_STYLE_NONE:
-		break;
-	case GOG_FILL_STYLE_PATTERN:
-		style->fill.u.pattern.pat.fore = go_combo_color_get_color (
-			GO_COMBO_COLOR (state->fill.pattern.fore), FALSE);
-		style->fill.u.pattern.pat.back = go_combo_color_get_color (
-			GO_COMBO_COLOR (state->fill.pattern.back), FALSE);
-		style->fill.u.pattern.pat.pattern = go_combo_pixmaps_get_selected (
-			(GOComboPixmaps*)state->fill.pattern.combo, NULL);
-		break;
-
-	case GOG_FILL_STYLE_GRADIENT:
-		style->fill.u.gradient.start = go_combo_color_get_color (
-			GO_COMBO_COLOR (state->fill.gradient.start), FALSE);
-		style->fill.u.gradient.end = go_combo_color_get_color (
-			GO_COMBO_COLOR (state->fill.gradient.end), FALSE);
-		style->fill.u.gradient.dir = go_combo_pixmaps_get_selected (
-			(GOComboPixmaps*)state->fill.gradient.combo, NULL);
-		w = glade_xml_get_widget (state->gui, "fill_gradient_type");
-		if (gtk_combo_box_get_active (GTK_COMBO_BOX (w))) {
-			w = glade_xml_get_widget (state->gui, "fill_gradient_brightness");
-			style->fill.u.gradient.brightness = gtk_range_get_value (GTK_RANGE (w));
-		} else {
-			style->fill.u.gradient.brightness = -1.;
-		}
-		break;
-
-	case GOG_FILL_STYLE_IMAGE:
-		w = glade_xml_get_widget (state->gui, "fill_image_sample");
-		style->fill.u.image.image = state->fill.image.image;
-		if (NULL != style->fill.u.image.image)
-			g_object_ref (style->fill.u.image.image);
-		style->fill.u.image.filename = g_object_get_data (G_OBJECT (w), "filename");
-		w = glade_xml_get_widget (state->gui, "fill_image_fit");
-		style->fill.u.image.type = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
-		break;
-	}
-	style->fill.type = page;
+	state->style->fill.type = gtk_combo_box_get_active (GTK_COMBO_BOX (menu));
 	set_style (state);
 
 	w = glade_xml_get_widget (state->gui, "fill_notebook");
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (w), page);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (w), state->style->fill.type);
 }
 
 static void
@@ -1014,12 +938,9 @@ gog_style_editor (GogStyle *style,
 gpointer
 gog_styled_object_editor (GogStyledObject *gso, GnmCmdContext *cc, gpointer optional_notebook)
 {
-	gpointer editor;
-
 	GogStyle *style = gog_style_dup (gog_styled_object_get_style (gso));
 	GogStyle *default_style = gog_styled_object_get_auto_style (gso);
-
-	editor = style_editor (style, default_style, cc, optional_notebook, gso);
+	gpointer editor = style_editor (style, default_style, cc, optional_notebook, gso);
 
 	g_object_unref (style);
 	g_object_unref (default_style);
@@ -1062,12 +983,12 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 	g_return_if_fail (GOG_STYLE (dst) != NULL);
 
 	if (GOG_FILL_STYLE_IMAGE == src->fill.type &&
-	    src->fill.u.image.image != NULL)
-		g_object_ref (src->fill.u.image.image);
+	    src->fill.image.image != NULL)
+		g_object_ref (src->fill.image.image);
 	if (GOG_FILL_STYLE_IMAGE == dst->fill.type) {
-		if (dst->fill.u.image.image != NULL)
-			g_object_unref (dst->fill.u.image.image);
-		g_free (dst->fill.u.image.filename);
+		if (dst->fill.image.image != NULL)
+			g_object_unref (dst->fill.image.image);
+		g_free (dst->fill.image.filename);
 	}
 
 	if (src->font.font != NULL)
@@ -1086,7 +1007,7 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 	dst->line    = src->line;
 
 	if (GOG_FILL_STYLE_IMAGE == dst->fill.type)
-		dst->fill.u.image.filename = g_strdup (dst->fill.u.image.filename);
+		dst->fill.image.filename = g_strdup (dst->fill.image.filename);
 
 	dst->interesting_fields = src->interesting_fields;
 	dst->disable_theming = src->disable_theming;
@@ -1096,12 +1017,13 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
  * gog_style_apply_theme :
  * @dst : #GogStyle
  * @src :  #GogStyle
+ * @override : apply even if the setting is not auto
  *
  * Merge the attributes from @src onto the elements of @dst that were not user
  * assigned (is_auto)
  **/
 void
-gog_style_apply_theme (GogStyle *dst, GogStyle const *src)
+gog_style_apply_theme (GogStyle *dst, GogStyle const *src, gboolean override)
 {
 	if (src == dst)
 		return;
@@ -1111,23 +1033,10 @@ gog_style_apply_theme (GogStyle *dst, GogStyle const *src)
 
 	if (dst->outline.auto_color)
 		dst->outline.color = src->outline.color;
-	if (dst->fill.is_auto) {
-		switch (dst->fill.type) {
-		case GOG_FILL_STYLE_PATTERN:
-			dst->fill.u.pattern.pat.fore
-				= src->fill.u.pattern.pat.fore;
-			dst->fill.u.pattern.pat.back
-				= src->fill.u.pattern.pat.back;
-			break;
-		case GOG_FILL_STYLE_GRADIENT:
-			dst->fill.u.gradient.start
-				= src->fill.u.gradient.start;
-			dst->fill.u.gradient.end
-				= src->fill.u.gradient.end;
-		default:
-			break;
-		}
-	}
+	if (dst->fill.auto_fore)
+		dst->fill.pattern.fore = src->fill.pattern.fore;
+	if (dst->fill.auto_back)
+		dst->fill.pattern.back = src->fill.pattern.back;
 	if (dst->line.auto_color)
 		dst->line.color = src->line.color;
 	if (dst->marker.auto_shape)
@@ -1157,8 +1066,8 @@ gog_style_finalize (GObject *obj)
 	GogStyle *style = GOG_STYLE (obj);
 
 	if (GOG_FILL_STYLE_IMAGE == style->fill.type &&
-	    style->fill.u.image.image != NULL)
-		g_object_unref (style->fill.u.image.image);
+	    style->fill.image.image != NULL)
+		g_object_unref (style->fill.image.image);
 
 	if (style->font.font != NULL) {
 		go_font_unref (style->font.font);
@@ -1186,21 +1095,10 @@ gog_style_init (GogStyle *style)
 {
 	style->interesting_fields = GOG_STYLE_ALL;
 	style->disable_theming = 0;
-	style->marker.mark = go_marker_new ();
-	style->marker.auto_shape =
-	style->marker.auto_outline_color =
-	style->marker.auto_fill_color =
-	style->outline.auto_color =
-	style->line.auto_color =
-	style->fill.is_auto =
-	style->fill.pattern_fore_auto =
-	style->fill.pattern_back_auto =
-	style->fill.gradient_start_auto =
-	style->fill.gradient_end_auto = TRUE;
+	gog_style_force_auto (style);
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
-	go_pattern_set_solid (&style->fill.u.pattern.pat, 0);
-
-	style->font.auto_scale = TRUE;
+	style->fill.gradient.brightness = -1.;
+	go_pattern_set_solid (&style->fill.pattern, RGBA_BLACK);
 	style->font.font = go_font_new_by_index (0);
 	style->font.color = RGBA_BLACK;
 }
@@ -1302,15 +1200,15 @@ gog_style_gradient_sax_save (GsfXMLOut *output, GogStyle const *style)
 {
 	gsf_xml_out_start_element (output, "gradient");
 	gsf_xml_out_add_cstr_unchecked (output, "direction",
-		    go_gradient_dir_as_str (style->fill.u.gradient.dir));
+		go_gradient_dir_as_str (style->fill.gradient.dir));
 	go_xml_out_add_color (output, "start-color",
-		style->fill.u.gradient.start);
-	if (style->fill.u.gradient.brightness > 0)
+		style->fill.pattern.back);
+	if (style->fill.gradient.brightness > 0)
 		gsf_xml_out_add_float (output, "brightness",
-			style->fill.u.gradient.brightness, 2);
+			style->fill.gradient.brightness, 2);
 	else 
 		go_xml_out_add_color (output, "end-color",
-			style->fill.u.gradient.end);
+			style->fill.pattern.fore);
 	gsf_xml_out_end_element (output);
 }
 
@@ -1320,18 +1218,21 @@ gog_style_fill_sax_save (GsfXMLOut *output, GogStyle const *style)
 	gsf_xml_out_start_element (output, "fill");
 	gsf_xml_out_add_cstr_unchecked (output, "type",
 		    fill_style_as_str (style->fill.type));
-	gsf_xml_out_add_bool (output, "is-auto", style->fill.is_auto);
+	gsf_xml_out_add_bool (output, "is-auto",
+		style->fill.auto_back);
+	gsf_xml_out_add_bool (output, "auto-fore",
+		style->fill.auto_fore);
 
 	switch (style->fill.type) {
 	case GOG_FILL_STYLE_NONE: break;
 	case GOG_FILL_STYLE_PATTERN:
 		gsf_xml_out_start_element (output, "pattern");
 		gsf_xml_out_add_cstr_unchecked (output, "type",
-			go_pattern_as_str (style->fill.u.pattern.pat.pattern));
+			go_pattern_as_str (style->fill.pattern.pattern));
 		go_xml_out_add_color (output, "fore",
-			style->fill.u.pattern.pat.fore);
+			style->fill.pattern.fore);
 		go_xml_out_add_color (output, "back",
-			style->fill.u.pattern.pat.back);
+			style->fill.pattern.back);
 		gsf_xml_out_end_element (output);
 		break;
 
@@ -1352,25 +1253,25 @@ gog_style_gradient_load (xmlNode *node, GogStyle *style)
 {
 	char    *str = xmlGetProp (node, "direction");
 	if (str != NULL) {
-		style->fill.u.gradient.dir
+		style->fill.gradient.dir
 			= go_gradient_dir_from_str (str);
 		xmlFree (str);
 	}
 	str = xmlGetProp (node, "brightness");
 	if (str != NULL) {
-		style->fill.u.gradient.brightness
+		style->fill.gradient.brightness
 			= g_strtod (str, NULL);
 		xmlFree (str);
 	} else {
 		str = xmlGetProp (node, "start-color");
 		if (str != NULL) {
-			style->fill.u.gradient.start
+			style->fill.pattern.fore
 				= go_color_from_str (str);
 			xmlFree (str);
 		}
 		str = xmlGetProp (node, "end-color");
 		if (str != NULL) {
-			style->fill.u.gradient.end
+			style->fill.pattern.back
 				= go_color_from_str (str);
 			xmlFree (str);
 		}
@@ -1384,17 +1285,17 @@ gog_style_gradient_dom_save (xmlNode *parent, GogStyle const *style)
 	xmlNode *node =  xmlNewDocNode (parent->doc, NULL, "gradient", NULL);
 
 	xmlSetProp (node, (xmlChar const *) "direction",
-		    go_gradient_dir_as_str (style->fill.u.gradient.dir));
-	str = go_color_as_str (style->fill.u.gradient.start);
+		    go_gradient_dir_as_str (style->fill.gradient.dir));
+	str = go_color_as_str (style->fill.pattern.back);
 	xmlSetProp (node, (xmlChar const *) "start-color", str);
 	g_free (str);
-	if (style->fill.u.gradient.brightness >= 0.) {
+	if (style->fill.gradient.brightness >= 0.) {
 		str = g_strdup_printf ("%f",
-				       style->fill.u.gradient.brightness);
+				       style->fill.gradient.brightness);
 		xmlSetProp (node, (xmlChar const *) "brightness", str);
 		g_free (str);
 	} else {
-		str = go_color_as_str (style->fill.u.gradient.end);
+		str = go_color_as_str (style->fill.pattern.fore);
 		xmlSetProp (node, (xmlChar const *) "end-color", str);
 		g_free (str);
 	}
@@ -1414,7 +1315,9 @@ gog_style_fill_load (xmlNode *node, GogStyle *style)
 	xmlFree (str);
 
 	if (bool_prop (node, "is-auto", &tmp))
-		style->fill.is_auto = tmp;
+		style->fill.auto_back = tmp;
+	if (bool_prop (node, "auto-fore", &tmp))
+		style->fill.auto_fore = tmp;
 
 	switch (style->fill.type) {
 	case GOG_FILL_STYLE_PATTERN:
@@ -1425,19 +1328,19 @@ gog_style_fill_load (xmlNode *node, GogStyle *style)
 			if (strcmp (ptr->name, "pattern") == 0) {
 				str = xmlGetProp (ptr, "type");
 				if (str != NULL) {
-					style->fill.u.pattern.pat.pattern
+					style->fill.pattern.pattern
 						= go_pattern_from_str (str);
 					xmlFree (str);
 				}
 				str = xmlGetProp (ptr, "fore");
 				if (str != NULL) {
-					style->fill.u.pattern.pat.fore
+					style->fill.pattern.fore
 						 = go_color_from_str (str);
 					xmlFree (str);
 				}
 				str = xmlGetProp (ptr, "back");
 				if (str != NULL) {
-					style->fill.u.pattern.pat.back
+					style->fill.pattern.back
 						 = go_color_from_str (str);
 					xmlFree (str);
 				}
@@ -1470,18 +1373,20 @@ gog_style_fill_dom_save (xmlNode *parent, GogStyle const *style)
 	xmlSetProp (node, (xmlChar const *) "type",
 		    fill_style_as_str (style->fill.type));
 	xmlSetProp (node, (xmlChar const *) "is-auto",
-		    style->fill.is_auto ? "true" : "false");
+		    style->fill.auto_back ? "true" : "false");
+	xmlSetProp (node, (xmlChar const *) "auto-fore",
+		    style->fill.auto_fore ? "true" : "false");
 	switch (style->fill.type) {
 	case GOG_FILL_STYLE_NONE:
 		break;
 	case GOG_FILL_STYLE_PATTERN:
 		child =  xmlNewDocNode (parent->doc, NULL, "pattern", NULL);
 		xmlSetProp (child, (xmlChar const *) "type",
-			    go_pattern_as_str (style->fill.u.pattern.pat.pattern));
-		str = go_color_as_str (style->fill.u.pattern.pat.fore);
+			    go_pattern_as_str (style->fill.pattern.pattern));
+		str = go_color_as_str (style->fill.pattern.fore);
 		xmlSetProp (child, (xmlChar const *) "fore", str);
 		g_free (str);
-		str = go_color_as_str (style->fill.u.pattern.pat.back);
+		str = go_color_as_str (style->fill.pattern.back);
 		xmlSetProp (child, (xmlChar const *) "back", str);
 		g_free (str);
 		xmlAddChild (node, child);
@@ -1737,30 +1642,22 @@ gog_style_is_line_visible (GogStyle const *style)
 #warning TODO : make this smarter
 	return style->line.width >= 0 && UINT_RGBA_A (style->line.color) > 0;
 }
-gboolean
-gog_style_is_completely_auto (GogStyle const *style)
+
+void
+gog_style_force_auto (GogStyle *style)
 {
-	if ((style->interesting_fields & GOG_STYLE_OUTLINE) &&
-	    !style->outline.auto_color)
-		return FALSE;
-	if ((style->interesting_fields & GOG_STYLE_FILL)) {
-		if (!style->fill.is_auto ||
-		    !style->fill. pattern_fore_auto ||
-		    !style->fill. pattern_back_auto ||
-		    !style->fill. gradient_start_auto ||
-		    !style->fill. gradient_end_auto)
-			return FALSE;
-	}
-	if ((style->interesting_fields & GOG_STYLE_LINE) &&
-	    !style->line.auto_color)
-		return FALSE;
-	if ((style->interesting_fields & GOG_STYLE_MARKER)) {
-		if (!style->marker.auto_shape ||
-		    !style->marker.auto_outline_color ||
-		    !style->marker.auto_fill_color)
-			return FALSE;
-	}
-	return TRUE;
+
+	if (style->marker.mark != NULL)
+		g_object_unref (G_OBJECT (style->marker.mark));
+	style->marker.mark = go_marker_new ();
+	style->marker.auto_shape =
+	style->marker.auto_outline_color =
+	style->marker.auto_fill_color =
+	style->outline.auto_color =
+	style->line.auto_color =
+	style->fill.auto_fore =
+	style->fill.auto_back =
+	style->font.auto_scale = TRUE;
 }
 
 /**
@@ -1803,10 +1700,10 @@ gog_style_set_fill_brightness (GogStyle *style, float brightness)
 	g_return_if_fail (GOG_STYLE (style) != NULL);
 	g_return_if_fail (style->fill.type == GOG_FILL_STYLE_GRADIENT);
 
-	style->fill.u.gradient.brightness = brightness;
-	style->fill.u.gradient.end = (brightness < 50.)
-		? UINT_INTERPOLATE(style->fill.u.gradient.start, RGBA_WHITE, 1. - brightness / 50.)
-		: UINT_INTERPOLATE(style->fill.u.gradient.start, RGBA_BLACK, brightness / 50. - 1.);
+	style->fill.gradient.brightness = brightness;
+	style->fill.pattern.fore = (brightness < 50.)
+		? UINT_INTERPOLATE(style->fill.pattern.back, RGBA_WHITE, 1. - brightness / 50.)
+		: UINT_INTERPOLATE(style->fill.pattern.back, RGBA_BLACK, brightness / 50. - 1.);
 }
 
 /**
@@ -1822,16 +1719,16 @@ gog_style_set_fill_image_filename (GogStyle *style, char *filename)
 	g_return_if_fail (GOG_STYLE (style) != NULL);
 
 	if (style->fill.type == GOG_FILL_STYLE_IMAGE) {
-		if (style->fill.u.image.image != NULL)
-			g_object_unref (style->fill.u.image.image);
-		g_free (style->fill.u.image.filename);
+		if (style->fill.image.image != NULL)
+			g_object_unref (style->fill.image.image);
+		g_free (style->fill.image.filename);
 	} else {
 		style->fill.type = GOG_FILL_STYLE_IMAGE;
-		style->fill.u.image.type = GOG_IMAGE_CENTERED;
+		style->fill.image.type = GOG_IMAGE_CENTERED;
 	}
 
-	style->fill.u.image.filename = filename;
-	style->fill.u.image.image = gdk_pixbuf_new_from_file (filename, NULL);
+	style->fill.image.filename = filename;
+	style->fill.image.image = gdk_pixbuf_new_from_file (filename, NULL);
 }
 
 static void

@@ -83,27 +83,20 @@ struct _GogStyle {
 	GogStyleLine	outline, line;
 	struct {
 		GogFillStyle	type;
-		gboolean	is_auto;
-		gboolean	invert_if_negative; /* placeholder for XL */
-		union {
-			struct {
-				GOPattern pat;
-			} pattern;
-			struct {
-				GOGradientDirection dir;
-				GOColor	start;
-				GOColor end;
-				float   brightness; /* < 0 => 2 color */
-			} gradient;
-			struct {
-				GogImageType type;
-				GdkPixbuf *image;
-				char      *filename;
-			} image;
-		} u;
-		/* Don't persist these */
-		gboolean pattern_fore_auto, pattern_back_auto; 
-		gboolean gradient_start_auto, gradient_end_auto;
+		gboolean	auto_fore, auto_back;	/* share between pattern and gradient */
+		gboolean	invert_if_negative;	/* placeholder for XL */
+
+		/* This could all be a union but why bother ? */
+		GOPattern pattern;
+		struct {
+			GOGradientDirection dir;
+			float   brightness; /* < 0 => 2 color */
+		} gradient;
+		struct {
+			GogImageType type;
+			GdkPixbuf *image;
+			char      *filename;
+		} image;
 	} fill;
 	GogStyleMark marker;
 	struct {
@@ -116,7 +109,8 @@ struct _GogStyle {
 GogStyle  *gog_style_new		(void);
 GogStyle  *gog_style_dup		(GogStyle const *style);
 void	   gog_style_assign		(GogStyle *dst, GogStyle const *src);
-void	   gog_style_apply_theme	(GogStyle *dst, GogStyle const *src);
+void	   gog_style_apply_theme	(GogStyle *dst, GogStyle const *src,
+					 gboolean override);
 void	   gog_style_set_marker		(GogStyle *style, GOMarker *marker);
 void	   gog_style_set_font		(GogStyle *style,
 					 PangoFontDescription *desc);
@@ -126,7 +120,7 @@ void	   gog_style_set_fill_image_filename	(GogStyle *style, char *filename);
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 gboolean   gog_style_is_marker_visible	(GogStyle const *style);
 gboolean   gog_style_is_line_visible	(GogStyle const *style);
-gboolean   gog_style_is_completely_auto	(GogStyle const *style);
+void	   gog_style_force_auto		(GogStyle *style);
 
 gpointer   gog_style_editor		(GogStyle *style,
 					 GogStyle *default_style,

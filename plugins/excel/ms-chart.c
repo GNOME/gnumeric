@@ -380,23 +380,23 @@ BC_R(areaformat)(XLChartHandler const *handle,
 	BC_R(get_style) (s);
 	if (pattern > 0) {
 		s->style->fill.type = GOG_FILL_STYLE_PATTERN;
-		s->style->fill.is_auto = auto_format;
+		s->style->fill.auto_back = auto_format;
 		s->style->fill.invert_if_negative = invert_if_negative;
-		s->style->fill.u.pattern.pat.pattern = pattern - 1;
-		s->style->fill.u.pattern.pat.fore = BC_R(color) (q->data+0, "AreaFore");
-		s->style->fill.u.pattern.pat.back = BC_R(color) (q->data+4, "AreaBack");
-		if (s->style->fill.u.pattern.pat.pattern == 0) {
-			GOColor tmp = s->style->fill.u.pattern.pat.fore;
-			s->style->fill.u.pattern.pat.fore = s->style->fill.u.pattern.pat.back;
-			s->style->fill.u.pattern.pat.back = tmp;
+		s->style->fill.pattern.pattern = pattern - 1;
+		s->style->fill.pattern.fore = BC_R(color) (q->data+0, "AreaFore");
+		s->style->fill.pattern.back = BC_R(color) (q->data+4, "AreaBack");
+		if (s->style->fill.pattern.pattern == 0) {
+			GOColor tmp = s->style->fill.pattern.fore;
+			s->style->fill.pattern.fore = s->style->fill.pattern.back;
+			s->style->fill.pattern.back = tmp;
 		}
 	} else if (auto_format) {
 		s->style->fill.type = GOG_FILL_STYLE_PATTERN;
-		s->style->fill.is_auto = TRUE;
+		s->style->fill.auto_back = TRUE;
 		s->style->fill.invert_if_negative = invert_if_negative;
-		s->style->fill.u.pattern.pat.pattern = 0;
-		s->style->fill.u.pattern.pat.fore =
-		s->style->fill.u.pattern.pat.back = 0;
+		s->style->fill.pattern.pattern = 0;
+		s->style->fill.pattern.fore =
+		s->style->fill.pattern.back = 0;
 	} else
 		s->style->fill.type = GOG_FILL_STYLE_NONE;
 
@@ -911,12 +911,12 @@ BC_R(gelframe) (XLChartHandler const *handle,
 		MS_OBJ_ATTR_FILL_PRESET, 0);
 
 	s->style->fill.type = GOG_FILL_STYLE_GRADIENT;
-	s->style->fill.u.gradient.start = 
+	s->style->fill.pattern.fore = 
 		ms_chart_map_color (s, fill_color, fill_alpha);
 
 	/* FIXME : make presets the same as 2 color for now */
 	if (!(shade_type & 8) || preset > 0) {
-		s->style->fill.u.gradient.end = ms_chart_map_color (s,
+		s->style->fill.pattern.back = ms_chart_map_color (s,
 			fill_back_color, fill_back_alpha);
 	} else {
 		float brightness;
@@ -988,7 +988,7 @@ BC_R(gelframe) (XLChartHandler const *handle,
 			case 3 : dir = GO_GRADIENT_NW_TO_SE_MIRRORED; break;
 			}
 		}
-		s->style->fill.u.gradient.dir = dir;
+		s->style->fill.gradient.dir = dir;
 	}
 
 	ms_obj_attr_bag_destroy (attrs);
@@ -2415,24 +2415,24 @@ chart_write_AREAFORMAT (XLChartWriteState *s, GogStyle const *style, gboolean di
 			back = RGBA_WHITE;
 			break;
 		case GOG_FILL_STYLE_PATTERN: {
-			pat = style->fill.u.pattern.pat.pattern + 1;
+			pat = style->fill.pattern.pattern + 1;
 			if (pat == 1) {
-				back = style->fill.u.pattern.pat.fore;
-				fore = style->fill.u.pattern.pat.back;
+				back = style->fill.pattern.fore;
+				fore = style->fill.pattern.back;
 			} else {
-				fore = style->fill.u.pattern.pat.fore;
-				back = style->fill.u.pattern.pat.back;
+				fore = style->fill.pattern.fore;
+				back = style->fill.pattern.back;
 			}
 			break;
 		}
 		case GOG_FILL_STYLE_GRADIENT:
 			pat = 1;
-			fore = back = style->fill.u.gradient.start;
+			fore = back = style->fill.pattern.fore;
 #warning export gradients
 			break;
 		}
 
-		if (style->fill.is_auto && !disable_auto)
+		if (style->fill.auto_back && !disable_auto)
 			flags |= 1;
 		if (style->fill.invert_if_negative)
 			flags |= 2;
@@ -2722,6 +2722,29 @@ store_dim (GogSeries const *series, GogMSDimType t,
 	GSF_LE_SET_GUINT16 (store_count, count);
 }
 
+static gboolean
+style_is_completely_auto (GogStyle const *style)
+{
+	if ((style->interesting_fields & GOG_STYLE_OUTLINE) &&
+	    !style->outline.auto_color)
+		return FALSE;
+	if ((style->interesting_fields & GOG_STYLE_FILL)) {
+		if (style->fill.type != GOG_FILL_STYLE_PATTERN ||
+		    !style->fill.auto_back)
+			return FALSE;
+	}
+	if ((style->interesting_fields & GOG_STYLE_LINE) &&
+	    !style->line.auto_color)
+		return FALSE;
+	if ((style->interesting_fields & GOG_STYLE_MARKER)) {
+		if (!style->marker.auto_shape ||
+		    !style->marker.auto_outline_color ||
+		    !style->marker.auto_fill_color)
+			return FALSE;
+	}
+	return TRUE;
+}
+
 static void
 chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 {
@@ -2759,7 +2782,7 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 	chart_write_BEGIN (s);
 	ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
 	style = GOG_STYLED_OBJECT (series)->style;
-	if (!gog_style_is_completely_auto (style)) {
+	if (!style_is_completely_auto (style)) {
 		if ((style->interesting_fields & GOG_STYLE_LINE))
 			chart_write_LINEFORMAT (s, &style->line, FALSE, FALSE);
 		else

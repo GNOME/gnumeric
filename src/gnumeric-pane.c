@@ -40,6 +40,22 @@ gnumeric_pane_realized (GtkWidget *widget, gpointer ignored)
 }
 
 static void
+cb_pane_popup_menu (GnumericPane *pane)
+{
+	g_warning ("pane popup");
+}
+static void
+cb_pane_col_header_popup_menu (GnumericPane *pane)
+{
+	g_warning ("pane col header_popup");
+}
+static void
+cb_pane_row_header_popup_menu (GnumericPane *pane)
+{
+	g_warning ("pane row header_popup");
+}
+
+static void
 gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
 			   gboolean is_col_header)
 {
@@ -50,6 +66,12 @@ gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
 		"GnumericCanvas", pane->gcanvas,
 		"IsColHeader", is_col_header,
 		NULL);
+
+	g_signal_connect_swapped (GTK_WIDGET (canvas),
+		"popup-menu", is_col_header
+			? G_CALLBACK (cb_pane_col_header_popup_menu)
+			: G_CALLBACK (cb_pane_row_header_popup_menu),
+		pane);
 
 	/* give a non-constraining default in case something scrolls before we
 	 * are realized
@@ -99,6 +121,9 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 	pane->gcanvas   = gnm_canvas_new (scg, pane);
 	pane->index     = index;
 	pane->is_active = TRUE;
+	g_signal_connect_swapped (pane->gcanvas,
+		"popup-menu",
+		G_CALLBACK (cb_pane_popup_menu), pane);
 
 	gcanvas_group = FOO_CANVAS_GROUP (FOO_CANVAS (pane->gcanvas)->root);
 	item = foo_canvas_item_new (gcanvas_group,

@@ -513,7 +513,7 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 		GTK_LABEL (glade_xml_get_widget (state->gui, "label_color")), w);
 	gnm_setup_label_atk (
 		glade_xml_get_widget (state->gui, "label_color"), w);
-	go_combo_color_set_color (GO_COMBO_COLOR (w),
+	go_combo_color_set_color_gdk (GO_COMBO_COLOR (w),
 		sog->fill_color ? &sog->fill_color->color : NULL);
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 0, 1);
@@ -976,7 +976,7 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 		GTK_LABEL (glade_xml_get_widget (state->gui, "border_label")), w);
 	gnm_setup_label_atk (
 		glade_xml_get_widget (state->gui, "border_label"), w);
-	go_combo_color_set_color (GO_COMBO_COLOR (w),
+	go_combo_color_set_color_gdk (GO_COMBO_COLOR (w),
 		sof->outline_color ? &sof->outline_color->color : NULL);
 	state->outline_color = style_color_ref (sof->outline_color);
 	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 0, 1);
@@ -991,7 +991,7 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 		GTK_LABEL (glade_xml_get_widget (state->gui, "fill_label")), w);
 	gnm_setup_label_atk (
 		glade_xml_get_widget (state->gui, "fill_label"), w);
-	go_combo_color_set_color (GO_COMBO_COLOR (w),
+	go_combo_color_set_color_gdk (GO_COMBO_COLOR (w),
 		sog->fill_color ? &sog->fill_color->color : NULL);
 	state->fill_color = style_color_ref (sog->fill_color);
 	gtk_table_attach_defaults (GTK_TABLE (table), w, 1, 2, 1, 2);

@@ -1,3 +1,15 @@
+2004-07-01  Jody Goldberg <jody@gnome.org>
+
+	* src/cmd-edit.c (sv_select_cur_depends) : find deps even for empty
+	  cells.
+
+2004-06-30  Jody Goldberg <jody@gnome.org>
+
+	* src/stf.c (stf_init) : cvs exporter is one sheet only
+
+	* src/gnumeric-gconf.c (get_schema) : typo
+	(go_conf_get_type) : implement for #ifdef WITH_GNOME
+
 2004-06-23  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* configure.in:

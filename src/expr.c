@@ -2335,15 +2335,14 @@ gnm_expr_get_range (GnmExpr const *expr)
  * gnm_expr_get_ranges:
  * @expr :
  *
- * A collect the set of rangerefs in @expr.
- * Return a list of the unique references.
- * Caller is responsible for releasing.
- */
+ * A collect the set of GnmRanges in @expr.
+ * Return a list of the unique references Caller is responsible for releasing
+ * the list and the content.
+ **/
 GSList *
 gnm_expr_get_ranges (GnmExpr const *expr)
 {
-#warning implement this
-	/* GHashTable *singles, *ranges; */
+	GHashTable *singles, *ranges;
 
 	g_return_val_if_fail (expr != NULL, NULL);
 

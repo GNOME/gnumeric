@@ -250,7 +250,7 @@ go_combo_color_get_color (GOComboColor *cc, gboolean *is_default)
 }
 
 /**
- * go_combo_color_set_color
+ * go_combo_color_set_color_gdk
  * @cc     The combo
  * @color  The color
  *
@@ -258,7 +258,7 @@ go_combo_color_get_color (GOComboColor *cc, gboolean *is_default)
  * signal to be emitted.
  */
 void
-go_combo_color_set_color (GOComboColor *cc, GdkColor *color)
+go_combo_color_set_color_gdk (GOComboColor *cc, GdkColor *color)
 {
 #warning convert to GOColor
 	g_return_if_fail (IS_GO_COMBO_COLOR (cc));
@@ -269,10 +269,14 @@ go_combo_color_set_color (GOComboColor *cc, GdkColor *color)
 		go_color_palette_set_color_to_default (cc->palette);
 }
 
+/**
+ * go_combo_color_set_color :
+ * @cc : #GOComboColor
+ * @c  : #GOColor
+ */
 void
-go_combo_color_set_gocolor (GOComboColor *cc, GOColor c)
+go_combo_color_set_color (GOComboColor *cc, GOColor c)
 {
-#warning delete this now
 	go_color_palette_set_current_color (cc->palette, c);
 }
 

@@ -232,7 +232,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 
 		switch (style->fill.type) {
 		case GOG_FILL_STYLE_PATTERN:
-			go_pattern_render_svp (&style->fill.u.pattern.pat,
+			go_pattern_render_svp (&style->fill.pattern,
 				fill,
 				prend->x_offset,
 				prend->y_offset,
@@ -248,8 +248,8 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 			art_render_svp (render, fill);
 
 			go_gradient_setup (&gradient,
-					   style->fill.u.gradient.dir,
-					   style->fill.u.gradient.start, style->fill.u.gradient.end,
+					   style->fill.gradient.dir,
+					   style->fill.pattern.back, style->fill.pattern.fore,
 					   bbox.x0, bbox.y0, bbox.x1, bbox.y1,
 					   stops);
 
@@ -262,7 +262,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 		case GOG_FILL_STYLE_IMAGE: {
 			GdkRectangle path_rect, clip_rect, dest_rect;
 
-			image = style->fill.u.image.image;
+			image = style->fill.image.image;
 			if (image == NULL)
 				break;
 
@@ -278,7 +278,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 			clip_rect.height = prend->h;
 
 			if (gdk_rectangle_intersect (&path_rect, &clip_rect, &dest_rect)) {
-				switch (style->fill.u.image.type) {
+				switch (style->fill.image.type) {
 					case GOG_IMAGE_CENTERED:
 						w = ((bbox.x1 - bbox.x0) - gdk_pixbuf_get_width (image)) / 2.;
 						if (w < 0.) w = 0.;

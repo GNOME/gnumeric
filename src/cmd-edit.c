@@ -122,6 +122,9 @@ cb_compare_deps (gconstpointer a, gconstpointer b)
 	GnmCell const *cell_b = b;
 	int tmp;
 
+	if (cell_a->base.sheet != cell_b->base.sheet)
+		return cell_a->base.sheet->index_in_wb - cell_b->base.sheet->index_in_wb;
+
 	tmp = cell_a->pos.row - cell_b->pos.row;
 	if (tmp != 0)
 		return tmp;
@@ -146,16 +149,18 @@ cb_collect_deps (GnmDependent *dep, gpointer user)
 void
 sv_select_cur_depends (SheetView *sv)
 {
-	GnmCell  *cur_cell;
+	GnmCell  *cur_cell, dummy;
 	GList *deps = NULL, *ptr = NULL;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 
 	cur_cell = sheet_cell_get (sv->sheet,
-				   sv->edit_pos.col,
-				   sv->edit_pos.row);
-	if (cur_cell == NULL)
-		return;
+		sv->edit_pos.col, sv->edit_pos.row);
+	if (cur_cell == NULL) {
+		dummy.base.sheet = sv_sheet (sv);
+		dummy.pos = sv->edit_pos;
+		cur_cell = &dummy;
+	}
 
 	cell_foreach_dep (cur_cell, cb_collect_deps, &deps);
 	if (deps == NULL)
@@ -234,20 +239,33 @@ sv_select_cur_depends (SheetView *sv)
  *
  * Select all cells that are direct potential inputs to the
  * current cell.
- */
+ **/
 void
 sv_select_cur_inputs (SheetView *sv)
 {
-	GnmCell *cell;
+	GnmCell  *cell;
+	GnmRange *r;
+	GSList   *ranges, *ptr;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 
 	cell = sheet_cell_get (sv->sheet,
-			       sv->edit_pos.col,
-			       sv->edit_pos.row);
-
+		sv->edit_pos.col, sv->edit_pos.row);
 	if (cell == NULL || !cell_has_expr (cell))
 		return;
+	ranges = gnm_expr_get_ranges (cell->base.expression);
+	if (ranges == NULL)
+		return;
+
+#if 0
+	sv_selection_reset (sv);
+	for (ptr = ranges ; ptr != NULL ; ptr = ptr->next)
+		sv_selection_add_range (sv,
+					r->start.col, r->start.row,
+					r->start.col, r->start.row,
+					r->end.col, r->end.row);
+	g_slist_free (ranges);
+#endif
 
 	/* TODO : finish this */
 	sheet_update (sv->sheet);

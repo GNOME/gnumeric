@@ -157,6 +157,8 @@ cmd_context_progress_message_set (GnmCmdContext *context, gchar const *msg)
 {
 	g_return_if_fail (IS_GNM_CMD_CONTEXT (context));
 
+	if (msg == NULL)
+		msg = " ";
 	CC_CLASS (context)->progress_message_set (context, msg);
 }
 

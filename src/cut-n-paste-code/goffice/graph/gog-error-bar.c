@@ -223,7 +223,7 @@ gog_error_bar_prefs (GogSeries *series,
 	go_combo_color_set_allow_alpha (GO_COMBO_COLOR (w), TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (gui, "color_label")), w);
-	go_combo_color_set_gocolor (GO_COMBO_COLOR (w), editor->color);
+	go_combo_color_set_color (GO_COMBO_COLOR (w), editor->color);
 	g_signal_connect (G_OBJECT (w),
 		"color_changed",
 		G_CALLBACK (cb_color_changed), editor);

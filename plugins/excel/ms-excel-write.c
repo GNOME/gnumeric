@@ -4470,11 +4470,11 @@ extract_gog_object_style (ExcelWriteState *ewb, GogObject *obj)
 			case GOG_FILL_STYLE_IMAGE :
 				break;
 			case GOG_FILL_STYLE_PATTERN :
-				put_color_bgr (ewb, go_color_to_bgr (style->fill.u.pattern.pat.fore));
-				put_color_bgr (ewb, go_color_to_bgr (style->fill.u.pattern.pat.back));
+				put_color_bgr (ewb, go_color_to_bgr (style->fill.pattern.fore));
+				put_color_bgr (ewb, go_color_to_bgr (style->fill.pattern.back));
 				break;
 			case GOG_FILL_STYLE_GRADIENT :
-				put_color_bgr (ewb, go_color_to_bgr (style->fill.u.gradient.start));
+				put_color_bgr (ewb, go_color_to_bgr (style->fill.pattern.fore));
 			}
 		if (style->interesting_fields & GOG_STYLE_MARKER) {
 				put_color_bgr (ewb, go_color_to_bgr (go_marker_get_outline_color (style->marker.mark)));

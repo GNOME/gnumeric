@@ -1109,9 +1109,7 @@ cb_focus_to_entry (GtkWidget *button, GtkWidget *entry)
 }
 
 static gboolean
-cb_activate_button (G_GNUC_UNUSED GtkWidget *widget,
-		    G_GNUC_UNUSED GdkEventFocus *event,
-		    GtkWidget *button)
+cb_activate_button (GtkWidget *button)
 {
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
 	return FALSE;
@@ -1123,7 +1121,7 @@ gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry)
 	g_signal_connect (G_OBJECT (button),
 			  "clicked", G_CALLBACK (cb_focus_to_entry),
 			  entry);
-	g_signal_connect (G_OBJECT (entry),
+	g_signal_connect_swapped (G_OBJECT (entry),
 			  "focus_in_event",
 			  G_CALLBACK (cb_activate_button),
 			  button);

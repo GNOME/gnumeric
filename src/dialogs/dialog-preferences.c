@@ -133,7 +133,7 @@ dialog_pref_load_description (PrefState *state, char const *text)
 static void
 set_tip (char const *key, GtkWidget *item)
 {
-	char *desc = go_conf_get_short_desc (key);
+	char *desc = go_conf_get_long_desc (key);
 	if (desc != NULL) {
 		GtkTooltips *the_tip = gtk_tooltips_new ();
 		gtk_tooltips_set_tip (the_tip, item, desc, NULL);

@@ -245,8 +245,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 
 	state->graph = g_object_new (GOG_GRAPH_TYPE, NULL);
 	GOG_STYLED_OBJECT (state->graph)->style->fill.type = GOG_FILL_STYLE_GRADIENT;
-	GOG_STYLED_OBJECT (state->graph)->style->fill.u.gradient.start = 0xFFFF99FF;
-	GOG_STYLED_OBJECT (state->graph)->style->fill.u.gradient.dir = GO_GRADIENT_W_TO_E_MIRRORED;
+	GOG_STYLED_OBJECT (state->graph)->style->fill.pattern.fore = 0xFFFF99FF;
+	GOG_STYLED_OBJECT (state->graph)->style->fill.gradient.dir = GO_GRADIENT_W_TO_E_MIRRORED;
 	GOG_STYLED_OBJECT (state->graph)->style->outline.width = 0; /* hairline */
 	GOG_STYLED_OBJECT (state->graph)->style->outline.color = RGBA_BLACK;
 	gog_style_set_fill_brightness (

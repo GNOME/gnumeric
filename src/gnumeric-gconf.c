@@ -193,7 +193,7 @@ go_conf_load_str_list (char const *key)
 static GConfSchema *
 get_schema (char const *key)
 {
-	char *schema_key = g_strconcat ("/schema", key, NULL);
+	char *schema_key = g_strconcat ("/schemas", key, NULL);
 	GConfSchema *schema = gconf_client_get_schema (
 		gnm_app_get_gconf_client (), schema_key, NULL);
 	g_free (schema_key);
@@ -225,14 +225,14 @@ go_conf_get_type (char const *key)
 	GType t;
 
 	switch (gconf_schema_get_type (schema)) {
-	case GCONF_VALUE_STRING:
-	case GCONF_VALUE_FLOAT:
-	case GCONF_VALUE_INT:
-	case GCONF_VALUE_BOOL:
-		break;
+	case GCONF_VALUE_STRING: t = G_TYPE_STRING; break;
+	case GCONF_VALUE_FLOAT: t = G_TYPE_FLOAT; break;
+	case GCONF_VALUE_INT: t = G_TYPE_INT; break;
+	case GCONF_VALUE_BOOL: t = G_TYPE_BOOLEAN; break;
 	default :
-		;
+		t = G_TYPE_NONE;
 	}
+
 	if (schema != NULL)
 		gconf_schema_free (schema);
 	return t;
@@ -257,11 +257,9 @@ go_conf_get_value_as_str (char const *key)
 		value_string = g_strdup_printf ("%f", gconf_client_get_float (gconf, key,
 									    NULL));
 		break;
-	case G_TYPE_BOOLEAN: {
-		gboolean b = gconf_client_get_bool (gconf, key, NULL);
-		value_string = g_strdup (format_boolean (b));
+	case G_TYPE_BOOLEAN:
+		value_string = g_strdup (format_boolean (gconf_client_get_bool (gconf, key, NULL)));
 		break;
-	}
 	default:
 		value_string = g_strdup ("ERROR FIXME");
 	}
@@ -301,7 +299,7 @@ go_conf_set_value_from_str (char const *key, char const *val_str)
 		go_conf_set_string (key, val_str);
 		break;
 	case G_TYPE_FLOAT: {
-		const GnmDateConventions *conv = NULL;  /* workbook_date_conv (state->wb); */
+		GnmDateConventions const *conv = NULL;  /* workbook_date_conv (state->wb); */
 		GnmValue *value = format_match_number (val_str, NULL, conv);
 		if (value != NULL) {
 			gnm_float the_float = value_get_as_float (value);
@@ -312,7 +310,7 @@ go_conf_set_value_from_str (char const *key, char const *val_str)
 		break;
 	}
 	case G_TYPE_INT: {
-		const GnmDateConventions *conv = NULL;  /* workbook_date_conv (state->wb); */
+		GnmDateConventions const *conv = NULL;  /* workbook_date_conv (state->wb); */
 		GnmValue *value = format_match_number (val_str, NULL, conv);
 		if (value != NULL) {
 			int the_int = value_get_as_int (value);
@@ -323,7 +321,7 @@ go_conf_set_value_from_str (char const *key, char const *val_str)
 		break;
 	}
 	case G_TYPE_BOOLEAN: {
-		const GnmDateConventions *conv = NULL;  /* workbook_date_conv (state->wb); */
+		GnmDateConventions const *conv = NULL;  /* workbook_date_conv (state->wb); */
 		GnmValue *value = format_match_number (val_str, NULL, conv);
 		gboolean err, the_bool;
 		if (value != NULL) {
