@@ -7,6 +7,9 @@ Jody:
 	* Fix ctrl-enter filling.
 	* Reorganize the recalc queue
 
+Morten:
+	* Fix PV.
+
 Zbigniew:
 	* More work on plugin system.
 

@@ -1799,18 +1799,19 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 	fv   = argv[3] ? value_get_as_float (argv[3]) : 0;
 	type = argv[4] ? !!value_get_as_int (argv[4]) : 0;
 
-	if (rate <= 0.0)
-		return value_new_error (ei->pos, _("pv - domain error"));
+	/* Special case for which we cannot calculate pvif and/or fvifa.  */
+	if (rate == 0)
+		return value_new_float (-nper * pmt);
 
 	/* Calculate the PVIF and FVIFA */
 	pvif = calculate_pvif (rate, nper);
 	fvifa = calculate_fvifa (rate, nper);
 
-	if ( pvif == 0 )
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
+	if (pvif == 0)
+	        return value_new_error (ei->pos, gnumeric_err_DIV0);
 
-        return value_new_float ( ( -fv - pmt *
-				   ( 1.0 + rate * type ) * fvifa ) / pvif );
+        return value_new_float ((-fv - pmt * (1.0 + rate * type) * fvifa) /
+				pvif);
 }
 
 /***************************************************************************/
