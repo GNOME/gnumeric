@@ -271,6 +271,10 @@ gog_axis_init (GogAxis *axis)
 	axis->pos	 = GOG_AXIS_AT_LOW;
 	axis->tick_level = AXIS_ELEM_MINOR_TICK,
 	axis->i_cross =	axis->crosses_me = axis->contributors = NULL;
+
+	/* yes we want min = MAX */
+	axis->min_val = DBL_MAX;
+	axis->max_val = DBL_MIN;
 }
 
 static void
@@ -297,7 +301,7 @@ gog_axis_dataset_init (GogDatasetClass *iface)
 }
 
 GSF_CLASS_FULL (GogAxis, gog_axis,
-		gog_axis_class_init, gog_axis_init,
+		gog_axis_class_init, NULL,
 		GOG_STYLED_OBJECT_TYPE, 0,
 		GSF_INTERFACE (gog_axis_dataset_init, GOG_DATASET_TYPE))
 
@@ -497,14 +501,6 @@ gog_axis_view_class_init (GogAxisViewClass *gview_klass)
 	aview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->size_request    = gog_axis_view_size_request;
 	view_klass->render	    = gog_axis_view_render;
-}
-
-static void
-gog_axis_init (GogAxis *axis)
-{
-	/* yes we want min = MAX */
-	axis->min_val = DBL_MAX;
-	axis->max_val = DBL_MIN;
 }
 
 static GSF_CLASS (GogAxisView, gog_axis_view,

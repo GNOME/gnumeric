@@ -293,11 +293,11 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint *pos,
 	src = ft_bitmap.buffer;
 
 	w = rect.width;
-	if (w > size->w)
+	if (size != NULL && w > size->w)
 		w = size->w;
 
 	h = rect.height;
-	if (h > size->h)
+	if (size != NULL && h > size->h)
 		h = size->h;
 	while (h--) {
 		for (i = w; i-- > 0 ; dst += 4, src++) {
