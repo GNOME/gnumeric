@@ -1,3 +1,11 @@
+2002-05-06  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (gnumeric_plugin_loader_python_set_attributes) 
+	(gnumeric_plugin_loader_python_info_get_extra_info_list): Change
+	from GList to GSList, as the prototypes in
+	GnumericPluginLoaderClass already did a while ago. This silences
+	warnings.
+
 2002-04-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.3

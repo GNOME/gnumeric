@@ -65,7 +65,7 @@ struct _GnumericPluginLoaderPythonClass {
 
 static GnumericPluginLoaderClass *parent_class = NULL;
 
-static void gnumeric_plugin_loader_python_set_attributes (GnumericPluginLoader *loader, GList *attr_names, GList *attr_values, ErrorInfo **ret_error);
+static void gnumeric_plugin_loader_python_set_attributes (GnumericPluginLoader *loader, GSList *attr_names, GSList *attr_values, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_python_load (GnumericPluginLoader *loader, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_python_unload (GnumericPluginLoader *loader, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_python_load_service_file_opener (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
@@ -100,11 +100,11 @@ initialize_python_if_needed (void)
 }
 
 static void
-gnumeric_plugin_loader_python_set_attributes (GnumericPluginLoader *loader, GList *attr_names, GList *attr_values, ErrorInfo **ret_error)
+gnumeric_plugin_loader_python_set_attributes (GnumericPluginLoader *loader, GSList *attr_names, GSList *attr_values, ErrorInfo **ret_error)
 {
 	GnumericPluginLoaderPython *loader_python;
 	gchar *module_name = NULL;
-	GList *ln, *lv;
+	GSList *ln, *lv;
 
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader));
 	g_return_if_fail (ret_error != NULL);
@@ -218,26 +218,26 @@ gnumeric_plugin_loader_python_unload (GnumericPluginLoader *loader, ErrorInfo **
 
 static gint
 gnumeric_plugin_loader_python_info_get_extra_info_list (GnumericPluginLoader *loader,
-                                                        GList **ret_keys_list,
-                                                        GList **ret_values_list)
+                                                        GSList **ret_keys_list,
+                                                        GSList **ret_values_list)
 {
 	GnumericPluginLoaderPython *loader_python;
-	GList *keys_list = NULL, *values_list = NULL;
+	GSList *keys_list = NULL, *values_list = NULL;
 	gint n_items = 0;
 
 	g_return_val_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader), 0);
 	g_return_val_if_fail (ret_keys_list != NULL && ret_values_list != NULL, 0);
 
 	loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
-	keys_list = g_list_prepend (keys_list, g_strdup (_("Loader")));
-	values_list = g_list_prepend (values_list, g_strdup ("python"));
+	keys_list = g_slist_prepend (keys_list, g_strdup (_("Loader")));
+	values_list = g_slist_prepend (values_list, g_strdup ("python"));
 	n_items++;
-	keys_list = g_list_prepend (keys_list, g_strdup (_("Python module name")));
-	values_list = g_list_prepend (values_list, g_strdup (loader_python->module_name));
+	keys_list = g_slist_prepend (keys_list, g_strdup (_("Python module name")));
+	values_list = g_slist_prepend (values_list, g_strdup (loader_python->module_name));
 	n_items++;
 
-	*ret_keys_list = g_list_reverse (keys_list);
-	*ret_values_list = g_list_reverse (values_list);
+	*ret_keys_list = g_slist_reverse (keys_list);
+	*ret_values_list = g_slist_reverse (values_list);
 
 	return n_items;
 }
