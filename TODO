@@ -1,6 +1,9 @@
 -*-outline-*-
 
-See BUGS file too.
+Gnumeric Spread Sheet task list
+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+The bugs are listed in a separate file -> BUGS
 
 Project
     - Switch hard coded states on SAX in to use dynamic 
@@ -8,190 +11,288 @@ Project
     - a SAXOut struct and utils as a wrapper for FILE/gnome-vfs & indent info
     - xml_ng out using ^^
 
-Gnumeric Spread Sheet task list
+
+Optimizations, Polish and Extensions
+====================================
+This section lists various optimizations/extensions that can be done
+to features that already work.
 
 * Component
-   Remove the hard-coded workbook hooks from the sheet.
-   Initialize the hooks on the workbook_new routine.
+
+   + Remove the hard-coded workbook hooks from the sheet.
+     Initialize the hooks on the workbook_new routine.
 
 * Cell editing
-   * Support for entering multi-line cells, and <Alt-Enter> adding an
+
+   + Support for entering multi-line cells, and <Alt-Enter> adding an
      embedded newline.
 
-   * Colouring a parsed formula for editing.
+   + Colouring a parsed formula for editing.
 
-   * C-Insert: Copy, S-Insert: Paste, S-Delete: cut; test.
+   + C-Insert: Copy, S-Insert: Paste, S-Delete: cut; test.
 
-* Implement Even More Functions
+* Functions
 
-    * AREAS and GETPIVOTDATA
-    * AMORDEGRC, AMORLINC, COUPDAYSNC, COUPPCD, CUMIPMT, CUMPRINC, MDURATION,
-      ODDFPRICE, ODDFYIELD, ODDLPRICE, ODDLYIELD, PRICE, VDB, YIELD,
-      YIELDDISC, and YIELDMAT.
+   + Implement more functions :
+     - AREAS and GETPIVOTDATA
+       AMORDEGRC, AMORLINC, COUPDAYSNC, COUPPCD, CUMIPMT, CUMPRINC, MDURATION,
+       ODDFPRICE, ODDFYIELD, ODDLPRICE, ODDLYIELD, PRICE, VDB, YIELD,
+       YIELDDISC, and YIELDMAT.
 
-* Fix or finish the implementation of the Following Functions
-    * CELL, COUPDAYBS, COUPDAYS, and DURATION
+   + Fix or finish the following functions :
+     - CELL, COUPDAYBS, COUPDAYS, and DURATION
 
 * Data Analysis Tools
-    * Finish `Anova: Two-Factor With Replication' and `Histogram' tools
-    * Implement `Patterned distribution' for `Random Number Generation'
-    * Implement new tools:
-      - `Exponential Smoothing'
-      - `Fourier Analysis' (the dialog is implemented)
-    * Finish the documentation
+
+   + Finish `Anova: Two-Factor With Replication' and `Histogram' tools
+   + Implement `Patterned distribution' for `Random Number Generation'
+   + Implement new tools:
+     - `Exponential Smoothing'
+     - `Fourier Analysis' (the dialog is implemented)
+   + Finish the documentation
 
 * Printing
-  * Preview
-    * Stroke support for zoom etc.
-  * Print setup: 
-    * Options buttons
-    * Improve layout 
-    * Provide preview of the headers/footers
-    * Make sure scaling works.
-  * Add the missing options to the Print Dialog
-  * Display printing status (pages to go).
-  * Add column/row title printing
-  * patterns.
+
+   + Preview
+     - Stroke support for zoom etc.
+   + Print setup: 
+     - Options buttons
+     - Improve layout 
+     - Provide preview of the headers/footers
+     - Make sure scaling works.
+   + Add the missing options to the Print Dialog
+   + Display printing status (pages to go).
+   + Add column/row title printing
+   + Patterns.
 
 * Font dialog
-  * Get the list of *valid* fonts from GnomePrint
-  * Filter font list by font encoding.
-  * Create a simplistic dialog (to map to font-bold yes/no).
 
-* when cuting & pasting a cell that is inside a range on another cell grow
-  the range of the formula if the cell is pasted in a place where it grows
-  it boundaries.
+   + Get the list of *valid* fonts from GnomePrint
+   + Filter font list by font encoding.
+   + Create a simplistic dialog (to map to font-bold yes/no).
+
+* Cut&Paste
+
+   + when cuting & pasting a cell that is inside a range on another cell grow
+     the range of the formula if the cell is pasted in a place where it grows
+     it boundaries.
 
 * Number formatting
-   The formatting code should take the current GtkFont for the cell
-   being formatted as well as the width allowed and take this into
-   account to render the number as well as possible given the space so
-   that for small regions, numbers in scientific notation are displayed.
 
-   - '*' does not work
+   + The formatting code should take the current GtkFont for the cell
+     being formatted as well as the width allowed and take this into
+     account to render the number as well as possible given the space so
+     that for small regions, numbers in scientific notation are displayed.
 
-    FIXME : The formating is incomplete.
-	  - It does not support seconds fractions.
-	  - It incorrectly accepts mmm:ss as some sort of minute spec.
-	  - Add/remove decimal buttons on the toolbar are screwed for
-	    items with different formats for negatives.
-	  - There is too much replicated code for generating formats
-	    and recognizing them in the format dialog.
+   + FIXME : The formating is incomplete.
+     - It does not support seconds fractions.
+     - It incorrectly accepts mmm:ss as some sort of minute spec.
+     - Add/remove decimal buttons on the toolbar are screwed for
+       items with different formats for negatives.
+     - There is too much replicated code for generating formats
+       and recognizing them in the format dialog.
 
-    TODO :
-	  - Too much parsing is taking place when formating.  We should
-	    have set all that up beforehand when the format was parsed.
-	    A methodology similar to that used by the regexp compiler should
-	    be used.
+   + TODO :
+     - Too much parsing is taking place when formating.  We should
+       have set all that up beforehand when the format was parsed.
+       A methodology similar to that used by the regexp compiler should
+       be used.
 
 * Sheet
-   Should be possible to bind a name by typing the name on the
-   region box and applying it to the selection
+
+   + Naming
+     Should be possible to bind a name by typing the name on the
+     region box and applying it to the selection
    
-** Column sizes
-   Columns should have an "auto-grow-up-to-this-point" feature.  Beyond that
-   size, it would truncate as it does now.
+   + Column sizes
+     Columns should have an "auto-grow-up-to-this-point" feature.  Beyond that
+     size, it would truncate as it does now.
 
-** Cell data entry:
-   double click on cell allows editing as in main editing box.
+   + Cell data entry
+     double click on cell allows editing as in main editing box.
 
-** Cell comments
-   Cell comments should be wrapped - at least so that they do not run
-   off the screen.
+   + Cell comments
+     Cell comments should be wrapped - at least so that they do not run
+     off the screen.
    
-** Headers for Columns and Rows
-   The captions should be customizable, ie instead of "A1", it should
-   be possible to display "Sales".  We can use this with Michael's
-   name support. 
+   + Headers for Columns and Rows
+     The captions should be customizable, ie instead of "A1", it should
+     be possible to display "Sales".  We can use this with Michael's
+     name support. 
 
-** Captions (ItemBar)
-   It should be possible to set the dimensions of the cols, rows to
-   contain information as "min_points", "max_points".  
+   + Captions (ItemBar)
+     It should be possible to set the dimensions of the cols, rows to
+     contain information as "min_points", "max_points".  
 
-   Interesting side effect: min_points == max_points means "fixed". 
+     Interesting side effect: min_points == max_points means "fixed". 
 
 * Auditing
-   Write the sheet auditing code.
 
-* EDITING
+   + Write the sheet auditing code.
 
-** Object Clipboard
-   If sheet->mode is OBJECT_SELECTED cut/copy/paste should operate on
-   the object.
+* Editing
 
-   Object properties.
+   + Object Clipboard
+     If sheet->mode is OBJECT_SELECTED cut/copy/paste should operate on
+     the object.
 
-** Style
-  Protection:
-    Bloqued/Hidden
+   + Object properties
+
+   + Objects
+     Load / save, print of all objects + Bonobo objects.
+
+   + Style
+     Protection: Bloqued/Hidden.
 
 * File Load/Save
-  - Support for popular formats.  
-    I have the specs for the XS3 format.  SC should be
-    trivial to support as well (from the guile sources)
-  - star office, kspread ?
-  - Add "hints" to the file save routine based on the registered
-    formats.
-  - Supply default extension to use with a write operation
-  - Improve error handling and display in file_read routines.
-  - Add ability to send warnings, and progress while loading.
-  - Improve handling of unknown fonts and functions when importing.
+   + Support for popular formats.  
+     I have the specs for the XS3 format.  SC should be
+     trivial to support as well (from the guile sources)
+   + star office, kspread ?
+   + Add "hints" to the file save routine based on the registered
+     formats.
+   + Supply default extension to use with a write operation.
+   + Improve error handling and display in file_read routines.
+   + Add ability to send warnings, and progress while loading.
+   + Improve handling of unknown fonts and functions when importing.
 
-* Unicode support throughout
+* Unicode
+
+   + Support throughout Gnumeric.
 
 * Workbooks:
-  - Consider addition of a cursor warping operation to jump between
-    open workbooks.
 
-** Notebook:
-  - Decrease flicker when paging between sheets.
-  - Enable capability to select multiple sheets.
+   + Consider addition of a cursor warping operation to jump between
+     open workbooks.
 
-* Sheet Objects
-  - Load / save, print of all objects + Bonobo objects.
+   + Notebook
+     - Decrease flicker when paging between sheets.
+     - Enable capability to select multiple sheets.
 
 * Office compatibility
-  - Write an XML plugin to output 'Publish as Web' style XML for
-    Office 2000 and 'explorer' compatibility.
+
+   + Write an XML plugin to output 'Publish as Web' style XML for
+     Office 2000 and 'explorer' compatibility.
 
 * Parser
-  - fully support R[-1]C[3] type references
-  - Improve error reporting.
+
+   + fully support R[-1]C[3] type references.
+   + Improve error reporting.
 
 * Internals
-   When filling large regions (ie, select, enter data, control-enter),
-   we are taking ages.  In those cases, we could probably:
-      1. Start using speciallized allocators for Cell, ExprTree, Value
-      2. Do async rendering of cells. eg when they are being displayed or during an idle handler.
+
+   + When filling large regions (ie, select, enter data, control-enter),
+     we are taking ages.  In those cases, we could probably:
+     1. Start using speciallized allocators for Cell, ExprTree, Value.
+     2. Do async rendering of cells. eg when they are being displayed or during an idle handler.
 
 * Calculation
-  - Rework 'Name' dependencies so we can re-express names.
-  - Dependancies for - CELL, INDIRECT functions.
-  - Implicit iteration.  For an array expression that returns scalar results
-    which takes a range as a scalar argument, apply the expression to each element
-    of the input range.
-  - Rethink 'generation' mechanism.  It currently forces all cells to
-    be recalculated when the value of any of them change.
-    ie
-	a1 : sum (b2:c3)
-	changing b2 bumps the generation of the workbook.
-	All 4 cells b2,b3,c2,c3 get recalculated even though
-	only b2 needed it.
+   + Rework 'Name' dependencies so we can re-express names.
+   + Dependancies for - CELL, INDIRECT functions.
+   + Implicit iteration.  For an array expression that returns scalar results.
+     which takes a range as a scalar argument, apply the expression to each element
+     of the input range.
+   + Rethink 'generation' mechanism.  It currently forces all cells to
+     be recalculated when the value of any of them change.
+     i.e.
 
-	Functions taking ranges as arguments are forced to do their own
-	recalc checking for elements of the range.  They cheat and use
-	the generation to test for recalc.  This is wrong!  It should be sufficent
-	to only manually recalc a cell that has its recalc flag set.  However,
-	in order to support that we need mark all cells that directly or indirectly
-	depend on a cell as requiring recalc when a cell changes.
+     a1 : sum (b2:c3)
+     changing b2 bumps the generation of the workbook.
+     All 4 cells b2,b3,c2,c3 get recalculated even though
+     only b2 needed it.
 
-* Make checks for inserting rows/cols more intelligent in the face of multiple
-  selections.  Currently it just checks the first selected range for
-  infiniteness we need to check all selected ranges.
+     Functions taking ranges as arguments are forced to do their own
+     recalc checking for elements of the range.  They cheat and use
+     the generation to test for recalc.  This is wrong!  It should be sufficent
+     to only manually recalc a cell that has its recalc flag set.  However,
+     in order to support that we need mark all cells that directly or indirectly
+     depend on a cell as requiring recalc when a cell changes.
+
+   + Make checks for inserting rows/cols more intelligent in the face of multiple selections.
+     Currently it just checks the first selected range for infiniteness we need to check all
+     selected ranges.
 
 * Excel Import
-  * Localise sheet/workbook Name import,
-  * Import names even if they arn't referenced.
+
+   + Localise sheet/workbook Name import.
+   + Import names even if they arn't referenced.
 
 * Excel Export
-  * Detect large style ranges and correctly set the default row/col/sheet styles.
+
+   + Detect large style ranges and correctly set the default row/col/sheet styles.
+
+1.0
+===
+These are features that need to be implemented before a 1.0 
+release can be made. Some of these features are already being
+worked on, others are partially finished. But none is finished
+to an extent that it can be actually "used".
+Items marked (!) are open for someone to step in.
+
+* Global Preferences Dialog (!)
+  
+   + Needs to be adopted.
+
+* Conditional Formatting
+
+   + Conceptual progress being made, nothing concrete yet.
+    Very tightly coupled with Data Validation, see below.
+
+* Data Validation
+
+   + This is in the works. Some other things need to be finished
+     first before this can be fully implemented. The dialog is
+     already there.
+
+* Split/Frozen panes
+
+   + In the works.
+
+* Pivot Tables (!)
+  
+   + Needs to be adopted. Look at other implementations of this
+     feature to get an idea what needs to be done.
+
+* Graphs
+
+   + Large parts of this are done. Most of the work related to
+     this will be in Guppi (cvs module guppi3). It's needs
+     to be tested tidied and generally needs love :-)
+
+* Scripting (!)
+
+   + Needs to be adopted.
+
+* Function Documentation
+  
+   + There is some function documentation already, but
+     it's incomplete.
+
+Post - 1.0
+==========
+These section lists features that are for post 1.0 versions
+and are mostly just ideas or things that can't be implemented
+yet (on short term) for technical reasons. Feel free to step in
+and try to implement them, but remember that the things listed
+under "1.0" are more important.
+
+* Page Borders
+
+   + These are border that should be visible on the sheet and
+     indicate where new pages start when printing. Jody has been
+     doing work on this.
+
+* Consolidate
+   
+   + ?
+
+* Subtotals
+
+   + This will really need to wait for a while.
+
+* Autofilter
+
+   + ?
+
+
+
