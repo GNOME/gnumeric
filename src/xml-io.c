@@ -2652,11 +2652,11 @@ xml_read_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (child == NULL)
 		return;
 
-	for (regions = child->xmlChildrenNode; regions != NULL; regions = regions->next)
-		if (!xmlIsBlankNode (regions)) {
+	for (regions = child->xmlChildrenNode; regions != NULL; regions = regions->next) {
+		if (!xmlIsBlankNode (regions))
 			xml_read_style_region (ctxt, regions);
-			count_io_progress_update (ctxt->io_context, 1);
-		}
+		count_io_progress_update (ctxt->io_context, 1);
+	}
 }
 
 /*
@@ -2853,11 +2853,11 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (child != NULL) {
 		xmlNodePtr cell;
 
-		for (cell = child->xmlChildrenNode; cell != NULL ; cell = cell->next)
-			if (!xmlIsBlankNode (cell)) {
+		for (cell = child->xmlChildrenNode; cell != NULL; cell = cell->next) {
+			if (!xmlIsBlankNode (cell))
 				xml_read_cell (ctxt, cell);
-				count_io_progress_update (ctxt->io_context, 1);
-			}
+			count_io_progress_update (ctxt->io_context, 1);
+		}
 	}
 
 	xml_read_solver (ctxt, tree);

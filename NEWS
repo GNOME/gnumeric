@@ -15,6 +15,7 @@ Morten:
 	* Make sure our pango contexts have language set.  (Operation
 	  Snappiness, Part 5.)
 	* Shave off a few cycles here and there.
+	* Improve progress display when loading.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16
