@@ -200,12 +200,12 @@ cb_xml_write_name (gpointer key, GnmNamedExpr *nexpr, GnmOutputXML *state)
 	g_return_if_fail (nexpr != NULL);
 
 	gsf_xml_out_start_element (state->output, GMR "Name");
-	gsf_xml_out_simple_element (state->output, "name",
+	gsf_xml_out_simple_element (state->output, GMR "name",
 		nexpr->name->str);
 	expr_str = expr_name_as_string (nexpr, NULL, state->exprconv);
-	gsf_xml_out_simple_element (state->output, "value", expr_str);
+	gsf_xml_out_simple_element (state->output, GMR "value", expr_str);
 	g_free (expr_str);
-	gsf_xml_out_simple_element (state->output, "position",
+	gsf_xml_out_simple_element (state->output, GMR "position",
 		cellpos_as_string (&nexpr->pos.eval));
 	gsf_xml_out_end_element (state->output); /* </gmr:Name> */
 }
@@ -885,23 +885,23 @@ xml_write_solver (GnmOutputXML *state)
 		param->options.max_time_sec);
 	gsf_xml_out_add_int (state->output, "MaxIter",
 		param->options.max_iter);
-	gsf_xml_out_add_int (state->output, "NonNeg",
+	gsf_xml_out_add_bool (state->output, "NonNeg",
 		param->options.assume_non_negative);
-	gsf_xml_out_add_int (state->output, "Discr",
+	gsf_xml_out_add_bool (state->output, "Discr",
 		param->options.assume_discrete);
-	gsf_xml_out_add_int (state->output, "AutoScale",
+	gsf_xml_out_add_bool (state->output, "AutoScale",
 		param->options.automatic_scaling);
-	gsf_xml_out_add_int (state->output, "ShowIter",
+	gsf_xml_out_add_bool (state->output, "ShowIter",
 		param->options.show_iter_results);
-	gsf_xml_out_add_int (state->output, "AnswerR",
+	gsf_xml_out_add_bool (state->output, "AnswerR",
 		param->options.answer_report);
-	gsf_xml_out_add_int (state->output, "SensitivityR",
+	gsf_xml_out_add_bool (state->output, "SensitivityR",
 		param->options.sensitivity_report);
-	gsf_xml_out_add_int (state->output, "LimitsR",
+	gsf_xml_out_add_bool (state->output, "LimitsR",
 		param->options.limits_report);
-	gsf_xml_out_add_int (state->output, "PerformR",
+	gsf_xml_out_add_bool (state->output, "PerformR",
 		param->options.performance_report);
-	gsf_xml_out_add_int (state->output, "ProgramR",
+	gsf_xml_out_add_bool (state->output, "ProgramR",
 		param->options.program_report);
 
 	for (ptr = param->constraints; ptr != NULL ; ptr = ptr->next) {
