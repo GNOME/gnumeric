@@ -55,8 +55,8 @@ binary-arch: build
 	dh_shlibdeps
 	dh_gencontrol
 	dh_makeshlibs
-	mv debian/tmp/usr/bin/gnumeric debian/tmp/usr/X11R6/bin/gnumeric
-	dh_undocumented gnumeric.1x
+	#mv debian/tmp/usr/bin/gnumeric debian/tmp/usr/X11R6/bin/gnumeric
+	dh_undocumented gnumeric.1 gnumeric-corba.1
 	dh_md5sums
 	dh_builddeb
 
