@@ -1,5 +1,7 @@
 SUBDIRS = . intl po macros idl src plugins doc icons templates
 
+XML_I18N_XML_KIND = --pass-through
+
 change_logs = ChangeLog \
 	OChangeLog-1999-07-09 \
 	OChangeLog-2000-02-23 OChangeLog-2000-10-10  \
