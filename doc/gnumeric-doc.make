@@ -7,7 +7,7 @@
 
 docname = gnumeric
 gnumeric_docdir  = $(top_srcdir)/doc
-sgml_ents = functions.sgml
+sgml_ents += functions.sgml
 
 gnumeric_helpdir = $(datadir)/gnome/help/gnumeric/$(lang)
 gnumeric_help_DATA = topic.dat
