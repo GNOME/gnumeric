@@ -1159,14 +1159,13 @@ cb_font_changed (GtkWidget *widget, GtkStyle *previous_style, FormatState *state
 
 	if (state->enable_edit && font_sel->size >= 1.) {
 		GnomeFont const * const gnome_font = gnome_display_font->gnome_font;
-		char const * const family_name = gnome_font->fontmap_entry->familyname;
+		gchar const * const family_name = gnome_font_get_family_name (gnome_font);
+		GnomeFontWeight const weight_code = gnome_font_get_weight_code (gnome_font);
 
 		mstyle_set_font_name   (state->result, family_name);
 		mstyle_set_font_size   (state->result, font_sel->size);
-		mstyle_set_font_bold   (state->result,
-					gnome_font->fontmap_entry->weight_code >=
-					GNOME_FONT_BOLD);
-		mstyle_set_font_italic (state->result, gnome_font->fontmap_entry->italic);
+		mstyle_set_font_bold   (state->result, weight_code >= GNOME_FONT_BOLD);
+		mstyle_set_font_italic (state->result, gnome_font_is_italic (gnome_font));
 
 		fmt_dialog_changed (state);
 	}

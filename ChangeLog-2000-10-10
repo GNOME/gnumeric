@@ -1,5 +1,9 @@
 2000-07-09  Jody Goldberg <jgoldberg@home.com>
 
+	* src/print.c (print_headers) : Adapt to changes in gnome-print.
+
+2000-07-09  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet.c (sheet_col_row_default_init) : Take units in pixels or
 	  points.
 	(sheet_{col,row}_set_default_size_pixels) : new functions.  This

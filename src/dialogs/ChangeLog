@@ -1,3 +1,8 @@
+2000-07-09  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-cell-format.c (cb_font_changed) : Update to handle new
+	  gnome-print encapsulation.
+
 2000-07-04  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-function-wizard.c (formula_guru_set_rolled_state) : Functions

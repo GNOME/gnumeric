@@ -5,6 +5,8 @@ Almer:
 	* Add "Autodiscovery" feature to stf fixed width importer.
 
 Jody:
+	* Applix support mostly functional.
+	* Improve support for named expressions.
 	* Name and Graph gurus support range selection.
 	* Deadkey support.
 
