@@ -2,6 +2,7 @@
 
 	* src/gnumeric-canvas.c (row_scroll_step): Use a continious
 	function, not a step function.
+	(col_scroll_step): Ditto.
 
 2004-03-18  Guntupalli Karunakar  <karunakar@freedomink.org>
 

@@ -1029,21 +1029,25 @@ gnm_canvas_slide_stop (GnmCanvas *gcanvas)
 static int
 col_scroll_step (int dx)
 {
-	if (dx <= 30)
-		return 1;
-	if (dx <= 60)
-		return 2;
-	if (dx <= 90)
-		return 4;
-	if (dx <= 120)
-		return 8;
-	return 16;
+	/* FIXME: get from gdk.  */
+	int dpi_x_this_screen = 90;
+	int start_x = dpi_x_this_screen / 3;
+	double double_dx = dpi_x_this_screen / 3.0;
+	double step = pow (2.0, (dx - start_x) / double_dx);
+
+	return (int) (CLAMP (step, 1.0, SHEET_MAX_COLS / 15.0));
 }
 
 static int
 row_scroll_step (int dy)
 {
-	return (int) (CLAMP (pow (2.0, (dy - 20) / 10.0), 1.0, SHEET_MAX_ROWS / 15.0));
+	/* FIXME: get from gdk.  */
+	int dpi_y_this_screen = 90;
+	int start_y = dpi_y_this_screen / 4;
+	double double_dy = dpi_y_this_screen / 8.0;
+	double step = pow (2.0, (dy - start_y) / double_dy);
+
+	return (int) (CLAMP (step, 1.0, SHEET_MAX_ROWS / 15.0));
 }
 
 static gint
