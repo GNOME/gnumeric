@@ -73,6 +73,7 @@ GNUMERIC_BASE_SOURCES =				\
 	dialog-delete-cells.c			\
 	dialog-paste-special.c			\
 	dialog-printer-setup.c			\
+	dialog-summary.c			\
 	dialog-solver.c				\
 	dialog-zoom.c				\
 	dialogs.h				\

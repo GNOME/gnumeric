@@ -15,12 +15,15 @@ typedef struct _SummaryInfo SummaryInfo;
 
 typedef enum { SUMMARY_STRING, SUMMARY_INT, SUMMARY_TIME } SummaryItemType;
 
+/* See dialog-summary.c before fiddling */
 typedef enum { SUMMARY_I_TITLE,
 	       SUMMARY_I_SUBJECT,
 	       SUMMARY_I_AUTHOR,
+	       SUMMARY_I_MANAGER,
+	       SUMMARY_I_CATEGORY,
 	       SUMMARY_I_KEYWORDS,
-	       SUMMARY_I_COMMENTS,
 	       SUMMARY_I_APP,
+	       SUMMARY_I_COMMENTS,
 	       SUMMARY_I_MAX } SummaryItemBuiltin;
 
 /* Builtin names: use summary_item_name[SUMMARY_I_TITLE] */
@@ -51,6 +54,7 @@ struct _SummaryInfo {
 
 SummaryInfo *summary_info_new     (void);
 SummaryItem *summary_info_get     (SummaryInfo *sin, char *name);
+GList       *summary_info_as_list (SummaryInfo *sin);
 void         summary_info_add     (SummaryInfo *sin, SummaryItem *sit);
 void         summary_info_default (SummaryInfo *sin);
 void         summary_info_dump    (SummaryInfo *sin);

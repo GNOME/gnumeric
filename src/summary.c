@@ -6,6 +6,7 @@
  *
  * (C) 1999 Michael Meeks
  */
+#include <stdio.h>
 #include <config.h>
 #include <ctype.h>
 #include <glib.h>
@@ -15,9 +16,11 @@ gchar *summary_item_name[] = {
 	"Title",
 	"Subject",
 	"Author",
+	"Manager",
+	"Category",
 	"Keywords",
-	"Comments",
-	"Saving App"
+	"Saving App",
+	"Comments"
 };
 
 static SummaryItem *
@@ -75,7 +78,7 @@ summary_item_free (SummaryItem *sit)
 	g_free (sit);
 }
 
-void
+static void
 summary_item_dump (SummaryItem *sit)
 {
 	g_return_if_fail (sit);
@@ -147,11 +150,18 @@ summary_info_get (SummaryInfo *sin, char *name)
 void
 summary_info_add (SummaryInfo *sin, SummaryItem *sit)
 {
+	SummaryItem *tsit;
+
 	g_return_if_fail (sin != NULL);
 	g_return_if_fail (sit != NULL);
 	g_return_if_fail (sit->name != NULL);
 	g_return_if_fail (sin->names != NULL);
 
+	if ((tsit = summary_info_get (sin, sit->name))) {
+		g_hash_table_remove (sin->names, sit->name);
+		summary_item_free (tsit);
+	}
+	
 	g_hash_table_insert (sin->names, sit->name, sit);
 }
 
@@ -189,6 +199,26 @@ summary_info_free (SummaryInfo *sin)
 			      NULL);
 	g_hash_table_destroy (sin->names);
 	sin->names = NULL;
+}
+
+static void
+append_item (gchar *key, SummaryItem *item, GList **l)
+{
+	*l = g_list_append (*l, item);
+}
+
+GList *
+summary_info_as_list (SummaryInfo *sin)
+{
+	GList *l = NULL;
+
+	g_return_val_if_fail (sin != NULL, NULL);
+	g_return_val_if_fail (sin->names != NULL, NULL);
+
+	g_hash_table_foreach (sin->names, (GHFunc)append_item,
+			      &l);
+
+	return l;
 }
 
 static void

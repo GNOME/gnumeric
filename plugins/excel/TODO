@@ -18,8 +18,8 @@ Michael
 	* Lookup Harvest and see if we can help with doc summary info for
 	searches.
 	* Split panes.
-	* Use the document summary information
-	* Use same XML as Office for elegance (?)
+	* Write SummaryInformation, expand GUI ...
+	* Use same XML as Office 2000 for elegance (?)
 	* Get font / layout sizes correct for new Print-stuff.
 	* Investigate VB streams, and their lengths.
 	* glib

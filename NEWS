@@ -9,6 +9,9 @@ Jody:
 	* Added HYPERLINK stub, fixed OFFSET.
 	* Bug fixes for Excel import.
 
+Michael:
+	* Implemented Summary Information
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.30

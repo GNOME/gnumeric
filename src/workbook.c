@@ -82,6 +82,12 @@ file_save_as_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+summary_cmd (GtkWidget *widget, Workbook *wb)
+{
+	dialog_summary_update (widget, wb->sin);
+}
+
+static void
 plugins_cmd (GtkWidget *widget, Workbook *wb)
 {
 	GtkWidget *pm = plugin_manager_new (wb);
@@ -829,8 +835,10 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM(file_save_as_cmd, NULL),
 
-	GNOMEUIINFO_SEPARATOR,
+	{ GNOME_APP_UI_ITEM, N_("Su_mmary..."), N_("Summary information"),
+	  summary_cmd },
 
+	GNOMEUIINFO_SEPARATOR,
 
 	{ GNOME_APP_UI_ITEM, N_("Plu_g-ins..."), N_("Gnumeric plugins"),
 	  plugins_cmd },

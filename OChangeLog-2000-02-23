@@ -1,3 +1,23 @@
+1999-07-15  Michael Meeks  <michael@edenproject.org>
+
+	* src/summary.c (summary_info_add): Add duplicate entry removal.
+	Re-organised structures and enum for convenience.
+	(summary_info_as_list, append_item): Created.
+	(summary_item_dump): Made static.
+	include stdio.h
+	Add 'Category' and 'Manager'
+
+	* src/workbook.c (summary_cmd): Create.
+	Add 'Su_mmary' to file menu.
+
+	* dialogs.h: Added summary_update.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add dialog-summary.c	
+
+	* dialog-summary.c: Created.
+
+	* summary.glade: Created.
+	
 1999-07-13  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/fn-lookup.c (gnumeric_lookup) : Support default args for
