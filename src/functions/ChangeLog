@@ -5,6 +5,8 @@
 2001-05-25  Morten Welinder  <terra@diku.dk>
 
 	* fn-financial.c (gnumeric_pv): Make a few arguments optional.
+  	Fix for rate <= 0.
+	(gnumeric_euro): Fix.
 
 2001-05-20  Jody Goldberg <jgoldberg@home.com>
 
