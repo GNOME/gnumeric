@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 1999-12-30 18:03-0600\n"
+"POT-Creation-Date: 2000-01-02 18:01-0600\n"
 "PO-Revision-Date: 1998-10-03 17:59+01:00\n"
 "Last-Translator: Sami Kuhmonen <sami@iqs.fi>\n"
 "Language-Team: \n"
@@ -356,7 +356,7 @@ msgid "Pending recomputation"
 msgstr ""
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:583
+#: src/cell.c:593
 msgid "Circular reference"
 msgstr ""
 
@@ -1217,11 +1217,11 @@ msgstr "Prosentti"
 msgid "<="
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:44 src/workbook.c:1718
+#: src/dialogs/dialog-solver.c:44 src/workbook.c:1715
 msgid "Max"
 msgstr "Maksimi"
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1717
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1714
 msgid "Min"
 msgstr "Minimi"
 
@@ -1604,7 +1604,7 @@ msgstr ""
 msgid "_Rows to repeat on the upper region:"
 msgstr ""
 
-#: src/dialogs/print.glade.h:51 src/workbook.c:1225
+#: src/dialogs/print.glade.h:51 src/workbook.c:1222
 #, fuzzy
 msgid "Print"
 msgstr "Prosentti"
@@ -1613,7 +1613,7 @@ msgstr "Prosentti"
 msgid "Row and co_lumn headings"
 msgstr ""
 
-#: src/dialogs/print.glade.h:53 src/workbook.c:1048
+#: src/dialogs/print.glade.h:53 src/workbook.c:1045
 #, fuzzy
 msgid "Co_mments"
 msgstr "_Kommentit"
@@ -1996,7 +1996,7 @@ msgstr "Lisää"
 msgid "Inside Horizontal"
 msgstr "Horisontaali"
 
-#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1265
+#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1262
 msgid "Line"
 msgstr "Viiva"
 
@@ -2315,25 +2315,30 @@ msgstr "Tuntematon laskentavirhe"
 msgid "Could not read file %s"
 msgstr "Tiedostoa %s ei voitu luoda\n"
 
-#: src/file.c:439
+#: src/file.c:346
+#, fuzzy, c-format
+msgid "Could not import file %s"
+msgstr "Tiedostoa %s ei voitu luoda\n"
+
+#: src/file.c:443
 msgid "File format:"
 msgstr "Tiedostoformaatti:"
 
-#: src/file.c:494
+#: src/file.c:498
 msgid "Save workbook as"
 msgstr "Tallenna työkirja nimellä"
 
-#: src/file.c:538
+#: src/file.c:542
 #, fuzzy
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr "Valitan, tallentimia ei ole ladattu, en voi tallettaa"
 
-#: src/file.c:552 src/file.c:577
+#: src/file.c:556 src/file.c:581
 #, fuzzy, c-format
 msgid "Could not save to file %s"
 msgstr "Tiedostoa %s ei voitu luoda\n"
 
-#: src/file.c:590
+#: src/file.c:594
 msgid "Load file"
 msgstr "Hae tiedosto"
 
@@ -4209,7 +4214,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/func.c:367 src/functions/fn-information.c:572
+#: src/func.c:443 src/functions/fn-information.c:572
 #: src/functions/fn-information.c:640 src/functions/fn-information.c:667
 #: src/functions/fn-information.c:693 src/functions/fn-information.c:742
 #: src/functions/fn-information.c:771 src/functions/fn-information.c:836
@@ -7506,15 +7511,15 @@ msgstr ""
 msgid "Missing argument"
 msgstr "Puuttuva lainausmerkki"
 
-#: src/func.c:715
+#: src/func.c:730
 msgid "Function does not exist"
 msgstr "Funktiota ei ole"
 
-#: src/func.c:717
+#: src/func.c:732
 msgid "Calling non-function"
 msgstr "Kutsutaan ei-funktiota"
 
-#: src/func.c:769
+#: src/func.c:784
 #, c-format
 msgid "Can not create file %s\n"
 msgstr "Tiedostoa %s ei voitu luoda\n"
@@ -7543,7 +7548,7 @@ msgstr ""
 "sisällön valitulla alueella. Oletko varma, että haluat\n"
 "korvata sisällön?"
 
-#: src/item-cursor.c:665 src/workbook.c:1237
+#: src/item-cursor.c:665 src/workbook.c:1234
 msgid "Copy"
 msgstr "Kopioi"
 
@@ -7598,7 +7603,7 @@ msgstr "Liitä määräten"
 msgid "_Insert..."
 msgstr "_Lisää"
 
-#: src/item-grid.c:654 src/workbook.c:1071
+#: src/item-grid.c:654 src/workbook.c:1068
 #, fuzzy
 msgid "_Delete..."
 msgstr "Tuhoa"
@@ -7886,7 +7891,7 @@ msgstr "Teksti"
 msgid "Last"
 msgstr "Liitä"
 
-#: src/print-preview.c:539 src/workbook.c:2276
+#: src/print-preview.c:539 src/workbook.c:2274
 msgid "Zoom in"
 msgstr "Lähennä"
 
@@ -7895,7 +7900,7 @@ msgstr "Lähennä"
 msgid "Zooms the page in"
 msgstr "Lähennä"
 
-#: src/print-preview.c:540 src/workbook.c:2269
+#: src/print-preview.c:540 src/workbook.c:2267
 msgid "Zoom out"
 msgstr "Loitonna"
 
@@ -7919,7 +7924,7 @@ msgstr "Lisää uusi taulu"
 msgid "the workbook"
 msgstr "Tallettaa työkirja"
 
-#: src/print.c:515 src/workbook.c:1602
+#: src/print.c:515 src/workbook.c:1599
 msgid "Selection must be a single range"
 msgstr "Valinnan pitää olla yksi alue"
 
@@ -7927,25 +7932,25 @@ msgstr "Valinnan pitää olla yksi alue"
 msgid "Printing failed -- bad filename?"
 msgstr ""
 
-#: src/selection.c:150
+#: src/selection.c:151
 msgid "The command `"
 msgstr "Komentoa `"
 
-#: src/selection.c:152
+#: src/selection.c:153
 #, fuzzy
 msgid "' cannot be performed with multiple selections"
 msgstr "' ei voida suorittaa useille valinnoille"
 
 #. FIXME FIXME : disable copying part of an array
-#: src/selection.c:602
+#: src/selection.c:603
 msgid "copy"
 msgstr "kopioi"
 
-#: src/selection.c:633
+#: src/selection.c:634
 msgid "cut"
 msgstr "leikkaa"
 
-#: src/selection.c:680
+#: src/selection.c:681
 msgid "paste"
 msgstr "liitä"
 
@@ -7958,12 +7963,12 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/sheet-object.c:359 src/workbook.c:1255
+#: src/sheet-object.c:359 src/workbook.c:1252
 #, fuzzy
 msgid "Button"
 msgstr "Ala"
 
-#: src/sheet-object.c:728 src/workbook.c:995
+#: src/sheet-object.c:728 src/workbook.c:992
 #, fuzzy
 msgid "Select an object"
 msgstr "Luo viivaobjektin"
@@ -7978,17 +7983,17 @@ msgstr "Rivi: %d"
 msgid "Column: %s"
 msgstr "Sarake: %s"
 
-#: src/sheet.c:1190
+#: src/sheet.c:1203
 #, fuzzy
 msgid "Internal ERROR"
 msgstr "Syntaksivirhe"
 
-#: src/sheet.c:3146
+#: src/sheet.c:3161
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Objektia %s ei voitu aktivoida"
 
-#: src/sheet.c:3158
+#: src/sheet.c:3173
 msgid "I was unable to the bind object"
 msgstr "Objektia ei voitu liittää"
 
@@ -8160,430 +8165,430 @@ msgstr "Työkirjassa %s on tallentamattomia muutoksia, talletetaanko?"
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Työkirjassa on tallentamattomia muutoksia, tallennetaanko?"
 
-#: src/workbook.c:766
+#: src/workbook.c:763
 msgid "Insert cols"
 msgstr "Lisää sarakkeita"
 
-#: src/workbook.c:791
+#: src/workbook.c:788
 msgid "Insert rows"
 msgstr "Lisää rivejä"
 
-#: src/workbook.c:892
+#: src/workbook.c:889
 msgid ">mm/dd/yyyy"
 msgstr ">pp/kk/vvvv"
 
-#: src/workbook.c:911
+#: src/workbook.c:908
 msgid ">hh:mm"
 msgstr ">tt:mm"
 
-#: src/workbook.c:1004
+#: src/workbook.c:1001
 msgid "_New"
 msgstr "_Uusi"
 
-#: src/workbook.c:1004
+#: src/workbook.c:1001
 msgid "Create a new spreadsheet"
 msgstr "Luo uusi taulukko"
 
-#: src/workbook.c:1008
+#: src/workbook.c:1005
 #, fuzzy
 msgid "_Import..."
 msgstr "_Järjestä"
 
-#: src/workbook.c:1008
+#: src/workbook.c:1005
 #, fuzzy
 msgid "Imports a file"
 msgstr "Mahdoton!"
 
-#: src/workbook.c:1014
+#: src/workbook.c:1011
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:1014
+#: src/workbook.c:1011
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:1019
+#: src/workbook.c:1016
 msgid "Plu_g-ins..."
 msgstr "L_isiöt..."
 
-#: src/workbook.c:1019
+#: src/workbook.c:1016
 msgid "Gnumeric plugins"
 msgstr "Gnumeric-lisiöt"
 
-#: src/workbook.c:1026 src/workbook.c:1228
+#: src/workbook.c:1023 src/workbook.c:1225
 msgid "Print pre_view"
 msgstr ""
 
-#: src/workbook.c:1026 src/workbook.c:1228
+#: src/workbook.c:1023 src/workbook.c:1225
 msgid "Print preview"
 msgstr ""
 
-#: src/workbook.c:1042
+#: src/workbook.c:1039
 msgid "_All"
 msgstr "_Kaikki"
 
-#: src/workbook.c:1043
+#: src/workbook.c:1040
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Tyhjää valittujen solujen muotoilut, kommentit ja sisällöt"
 
-#: src/workbook.c:1045
+#: src/workbook.c:1042
 msgid "_Formats"
 msgstr "_Muotoilut"
 
-#: src/workbook.c:1046
+#: src/workbook.c:1043
 msgid "Clear the selected cells' formats"
 msgstr "Tyhjää valittujen solujen muotoilut"
 
-#: src/workbook.c:1049
+#: src/workbook.c:1046
 msgid "Clear the selected cells' comments"
 msgstr "Tyhjää valittujen solujen kommentit"
 
-#: src/workbook.c:1051
+#: src/workbook.c:1048
 msgid "_Content"
 msgstr "_Sisältö"
 
-#: src/workbook.c:1052
+#: src/workbook.c:1049
 msgid "Clear the selected cells' contents"
 msgstr "Tyhjää valittujen solujen sisällöt"
 
-#: src/workbook.c:1073
+#: src/workbook.c:1070
 msgid "C_lear"
 msgstr "_Tyhjää"
 
-#: src/workbook.c:1074
+#: src/workbook.c:1071
 msgid "Clear the selected cell(s)"
 msgstr "Tyhjää valitut solut"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1075
 msgid "_Select All"
 msgstr "_Valitse kaikki"
 
-#: src/workbook.c:1079
+#: src/workbook.c:1076
 msgid "Select all cells in the spreadsheet"
 msgstr "Valitsee taulukon kaikki solut"
 
-#: src/workbook.c:1081
+#: src/workbook.c:1078
 #, fuzzy
 msgid "_Goto cell..."
 msgstr "M_ene soluun..."
 
-#: src/workbook.c:1082
+#: src/workbook.c:1079
 msgid "Jump to a specified cell"
 msgstr "Hyppää tiettyyn soluun"
 
-#: src/workbook.c:1088
+#: src/workbook.c:1085
 msgid "Insert object..."
 msgstr "Lisää ohjekti..."
 
-#: src/workbook.c:1089
+#: src/workbook.c:1086
 msgid "Inserts a Bonobo object"
 msgstr "Lisää Bonobo-objektin"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1090
 msgid "_Define cell names"
 msgstr "_Määrittele solujen nimet"
 
-#: src/workbook.c:1096
+#: src/workbook.c:1093
 msgid "_Recalculate"
 msgstr "L_aske uudelleen"
 
-#: src/workbook.c:1097
+#: src/workbook.c:1094
 msgid "Recalculate the spreadsheet"
 msgstr "Laskee taulukon sisällön uudelleen"
 
-#: src/workbook.c:1105
+#: src/workbook.c:1102
 msgid "_Zoom..."
 msgstr "_Suurenna..."
 
-#: src/workbook.c:1106
+#: src/workbook.c:1103
 msgid "Zoom the spreadsheet in or out"
 msgstr "Lähentää tai loitontaa taulukkoa"
 
-#: src/workbook.c:1113
+#: src/workbook.c:1110
 msgid "Current _date"
 msgstr "Tämänhetkinen _päiväys"
 
-#: src/workbook.c:1114
+#: src/workbook.c:1111
 #, fuzzy
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Lisää tämänhetkisen päiväyksen valittuihin soluihin"
 
-#: src/workbook.c:1117
+#: src/workbook.c:1114
 msgid "Current _time"
 msgstr "Tämänhetkinen _aika"
 
-#: src/workbook.c:1118
+#: src/workbook.c:1115
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Lisää tämänhetkisen ajan valittuihin soluihin"
 
-#: src/workbook.c:1125 src/workbook.c:1173
+#: src/workbook.c:1122 src/workbook.c:1170
 msgid "_Sheet"
 msgstr "_Taulu"
 
-#: src/workbook.c:1125
+#: src/workbook.c:1122
 msgid "Insert a new spreadsheet"
 msgstr "Lisää uusi taulu"
 
-#: src/workbook.c:1127 src/workbook.c:1168
+#: src/workbook.c:1124 src/workbook.c:1165
 msgid "_Cells..."
 msgstr "_Soluja..."
 
-#: src/workbook.c:1127
+#: src/workbook.c:1124
 msgid "Insert new cells"
 msgstr "Lisää uusia soluja"
 
-#: src/workbook.c:1129
+#: src/workbook.c:1126
 msgid "_Rows"
 msgstr "_Rivi"
 
-#: src/workbook.c:1129
+#: src/workbook.c:1126
 msgid "Insert new rows"
 msgstr "Lisää uuden rivin"
 
-#: src/workbook.c:1131
+#: src/workbook.c:1128
 msgid "C_olumns"
 msgstr "S_arake"
 
-#: src/workbook.c:1131
+#: src/workbook.c:1128
 msgid "Insert new columns"
 msgstr "Lisää uuden sarakkeen"
 
-#: src/workbook.c:1136
+#: src/workbook.c:1133
 #, fuzzy
 msgid "_Add/modify comment..."
 msgstr "_Lisää/muokkaa kommenttia"
 
-#: src/workbook.c:1137
+#: src/workbook.c:1134
 msgid "Edit the selected cell's comment"
 msgstr "Muokkaa valitun solun kommenttia"
 
-#: src/workbook.c:1138
+#: src/workbook.c:1135
 #, fuzzy
 msgid "S_pecial"
 msgstr "_Erityinen"
 
-#: src/workbook.c:1146 src/workbook.c:1154
+#: src/workbook.c:1143 src/workbook.c:1151
 #, fuzzy
 msgid "_Auto fit selection"
 msgstr "Tasaus vasemmalle"
 
-#: src/workbook.c:1148
+#: src/workbook.c:1145
 msgid "_Width"
 msgstr "_Leveys"
 
-#: src/workbook.c:1156
+#: src/workbook.c:1153
 msgid "_Height"
 msgstr "_Korkeus"
 
-#: src/workbook.c:1162
+#: src/workbook.c:1159
 msgid "_Change name"
 msgstr "_Vaihda nimi"
 
-#: src/workbook.c:1169
+#: src/workbook.c:1166
 msgid "Modify the formatting of the selected cells"
 msgstr "Muokkaa valittujen solujen muotoilua"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1168
 msgid "C_olumn"
 msgstr "S_arake"
 
-#: src/workbook.c:1172
+#: src/workbook.c:1169
 msgid "_Row"
 msgstr "_Rivi"
 
-#: src/workbook.c:1180
+#: src/workbook.c:1177
 #, fuzzy
 msgid "_Sort..."
 msgstr "_Ratkaisija..."
 
-#: src/workbook.c:1181
+#: src/workbook.c:1178
 msgid "Sort the selected cells"
 msgstr "Järjestää valitut solut"
 
-#: src/workbook.c:1182
+#: src/workbook.c:1179
 msgid "_Goal Seek..."
 msgstr "_Tuloksen etsintä..."
 
-#: src/workbook.c:1183
+#: src/workbook.c:1180
 msgid "_Solver..."
 msgstr "_Ratkaisija..."
 
-#: src/workbook.c:1184
+#: src/workbook.c:1181
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1200
+#: src/workbook.c:1197
 msgid "_Insert"
 msgstr "_Lisää"
 
-#: src/workbook.c:1201
+#: src/workbook.c:1198
 msgid "F_ormat"
 msgstr "M_uotoile"
 
-#: src/workbook.c:1202
+#: src/workbook.c:1199
 msgid "_Tools"
 msgstr "_Työkalut"
 
-#: src/workbook.c:1213
+#: src/workbook.c:1210
 msgid "New"
 msgstr "Uusi"
 
-#: src/workbook.c:1213
+#: src/workbook.c:1210
 msgid "Creates a new sheet"
 msgstr "Luo uuden taulun"
 
-#: src/workbook.c:1216
+#: src/workbook.c:1213
 msgid "Open"
 msgstr "Avaa"
 
-#: src/workbook.c:1216
+#: src/workbook.c:1213
 msgid "Opens an existing workbook"
 msgstr "Avaa olemassaolevan työkirjan"
 
-#: src/workbook.c:1219
+#: src/workbook.c:1216
 msgid "Save"
 msgstr "Talleta"
 
-#: src/workbook.c:1219
+#: src/workbook.c:1216
 msgid "Saves the workbook"
 msgstr "Tallettaa työkirja"
 
-#: src/workbook.c:1225
+#: src/workbook.c:1222
 #, fuzzy
 msgid "Prints the workbook"
 msgstr "Tallettaa työkirja"
 
-#: src/workbook.c:1234
+#: src/workbook.c:1231
 msgid "Cut"
 msgstr "Leikkaa"
 
-#: src/workbook.c:1234
+#: src/workbook.c:1231
 msgid "Cuts the selection to the clipboard"
 msgstr "Leikkaa valitun alueen leikepöydälle"
 
-#: src/workbook.c:1237
+#: src/workbook.c:1234
 msgid "Copies the selection to the clipboard"
 msgstr "Kopioi valitun alueen leikepöydälle"
 
-#: src/workbook.c:1240
+#: src/workbook.c:1237
 msgid "Paste"
 msgstr "Liitä"
 
-#: src/workbook.c:1240
+#: src/workbook.c:1237
 msgid "Pastes the clipboard"
 msgstr "Liittää leikepöydän sisällön"
 
-#: src/workbook.c:1247
+#: src/workbook.c:1244
 msgid "Graphic"
 msgstr "Grafiikka"
 
-#: src/workbook.c:1247
+#: src/workbook.c:1244
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Luo grafiikkaohjektin tauluun"
 
-#: src/workbook.c:1250
+#: src/workbook.c:1247
 msgid "Bonobo Item"
 msgstr ""
 
-#: src/workbook.c:1250
+#: src/workbook.c:1247
 #, fuzzy
 msgid "Creates a Bonobo shaped item"
 msgstr "Luo uuden taulun"
 
-#: src/workbook.c:1255
+#: src/workbook.c:1252
 #, fuzzy
 msgid "Creates a button"
 msgstr "Luo viivaobjektin"
 
-#: src/workbook.c:1258
+#: src/workbook.c:1255
 msgid "Checkbox"
 msgstr ""
 
-#: src/workbook.c:1258
+#: src/workbook.c:1255
 #, fuzzy
 msgid "Creates a checkbox"
 msgstr "Luo uuden taulun"
 
-#: src/workbook.c:1265
+#: src/workbook.c:1262
 msgid "Creates a line object"
 msgstr "Luo viivaobjektin"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1265
 msgid "Arrow"
 msgstr "Nuoli"
 
-#: src/workbook.c:1268
+#: src/workbook.c:1265
 msgid "Creates an arrow object"
 msgstr "Luo nuoliobjektin"
 
-#: src/workbook.c:1271
+#: src/workbook.c:1268
 msgid "Rectangle"
 msgstr "Neliö"
 
-#: src/workbook.c:1271
+#: src/workbook.c:1268
 msgid "Creates a rectangle object"
 msgstr "Luo neliöobjektin"
 
-#: src/workbook.c:1274
+#: src/workbook.c:1271
 msgid "Ellipse"
 msgstr "Ellipsi"
 
-#: src/workbook.c:1274
+#: src/workbook.c:1271
 msgid "Creates an ellipse object"
 msgstr "Luo ellipsiobjektin"
 
-#: src/workbook.c:1496
+#: src/workbook.c:1493
 msgid "You should introduce a valid cell name"
 msgstr "Antamasi solun nimen pitää olla mahdollinen"
 
-#: src/workbook.c:1505
+#: src/workbook.c:1502
 msgid "Column out of range"
 msgstr "Sarake rajojen ulkopuolella"
 
-#: src/workbook.c:1511
+#: src/workbook.c:1508
 msgid "Row number out of range"
 msgstr "Rivi rajojen ulkopuolella"
 
-#: src/workbook.c:1716
+#: src/workbook.c:1713
 msgid "Sum"
 msgstr "Summa"
 
-#: src/workbook.c:1719
+#: src/workbook.c:1716
 msgid "Average"
 msgstr "Keskiarvo"
 
-#: src/workbook.c:1720
+#: src/workbook.c:1717
 msgid "Count"
 msgstr "Määrä"
 
-#: src/workbook.c:2154
+#: src/workbook.c:2151
 #, fuzzy, c-format
 msgid "Book%d.gnumeric"
 msgstr "Nimetön.gnumeric"
 
-#: src/workbook.c:2400
+#: src/workbook.c:2398
 #, fuzzy, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Oletko varma että haluat poistaa taulun `%s' "
 
-#: src/workbook.c:2449
+#: src/workbook.c:2447
 msgid "Add another sheet"
 msgstr "Lisää uusi taulu"
 
-#: src/workbook.c:2450
+#: src/workbook.c:2448
 msgid "Remove this sheet"
 msgstr "Poista tämä taulu"
 
-#: src/workbook.c:2718 src/workbook.c:2751
+#: src/workbook.c:2716 src/workbook.c:2749
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "Taulu %d"
 
-#: src/workbook.c:2787
+#: src/workbook.c:2785
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
-#: src/xml-io.c:2378
+#: src/xml-io.c:2380
 #, fuzzy
 msgid "Gnumeric XML file format"
 msgstr "Gnumericin XML-tiedosto"
