@@ -26,7 +26,7 @@
 
 #include "application.h"
 #include "workbook-view.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 #include "sheet.h"
 #include "sheet-view.h"
 #include "selection.h"
@@ -65,23 +65,28 @@ wb_control_wrapper_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb,
 }
 
 /**
- * wb_control_title_set :
+ * wb_control_update_title :
  * @wbc : #WorkbookControl
- * @title :
  *
  * Set the controls title to @title.  Additionally notify the application that
  * the list of windows should be updated.
  **/
 void
-wb_control_title_set (WorkbookControl *wbc, char const * title)
+wb_control_update_title (WorkbookControl *wbc)
 {
 	WorkbookControlClass *wbc_class = WBC_CLASS (wbc);
 
 	g_return_if_fail (wbc_class != NULL);
 
-	if (wbc_class != NULL && wbc_class->title_set != NULL)
-		wbc_class->title_set (wbc, title);
-	_gnm_app_flag_windows_changed ();
+	if (wbc_class != NULL && wbc_class->set_title != NULL) {
+		Workbook const *wb = wb_control_workbook (wbc);
+		if (workbook_is_dirty (wb)) {
+			char *tmp = g_strconcat ("*", wb->basename, NULL);
+			wbc_class->set_title (wbc, tmp);
+			g_free (tmp);
+		} else
+			wbc_class->set_title (wbc, wb->basename);
+	}
 }
 
 WBC_VIRTUAL (prefs_update,

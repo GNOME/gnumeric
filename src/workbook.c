@@ -194,13 +194,20 @@ cb_sheet_mark_dirty (gpointer key, gpointer value, gpointer user_data)
 void
 workbook_set_dirty (Workbook *wb, gboolean is_dirty)
 {
+	gboolean changed;
+
 	g_return_if_fail (wb != NULL);
 
+	changed = (!workbook_is_dirty (wb) != !is_dirty);
 	wb->modified = is_dirty;
 	if (wb->summary_info != NULL)
 		wb->summary_info->modified = is_dirty;
 	g_hash_table_foreach (wb->sheet_hash_private,
 		cb_sheet_mark_dirty, GINT_TO_POINTER (is_dirty));
+	if (changed) {
+		WORKBOOK_FOREACH_CONTROL (wb, view, control,
+			wb_control_update_title (control););
+	}
 }
 
 static void
@@ -521,9 +528,10 @@ workbook_set_uri (Workbook *wb, char const *uri)
 	g_free (wb->basename);
 	wb->basename = go_basename_from_uri (uri);
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		wb_control_title_set (control, wb->basename););
+		wb_control_update_title (control););
 
 	g_signal_emit (G_OBJECT (wb), signals [FILENAME_CHANGED], 0);
+	_gnm_app_flag_windows_changed ();
 	return TRUE;
 }
 

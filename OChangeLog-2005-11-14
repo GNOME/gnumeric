@@ -1,3 +1,18 @@
+2004-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_set_dirty) : update the title if dirtiness
+	  changed
+
+	* src/workbook-control.c (wb_control_update_title) : Add a HIGy '*'
+	  for modified documents.
+
+	* src/io-context-gtk.c : include string.h to avoid warning
+
+	* src/sheet-control-gui.c (scg_cursor_extend) : finish the edit before
+	  we extend.
+
+	* src/item-edit.c (ie_layout) : handle zoom
+
 2004-10-29  Morten Welinder  <terra@gnome.org>
 
 	* src/io-context-gtk.c (icg_processing_file): Since the progress
@@ -11,6 +26,10 @@
 	(wbc_gtk_finalize): Destroy it here.
 
 	* src/stf-export.c (stf_export_sheet): Plug leak.
+
+2004-10-29  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c (cb_add_custom_ui) : fix unmerging
 
 2004-10-29  Jody Goldberg <jody@gnome.org>
 

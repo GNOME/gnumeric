@@ -9,9 +9,9 @@
 	</loader>
 	<services>
 		<service type="ui" id="gnome_db" file="ui.xml">
-			<verbs>
-				<verb name="ViewDataSources"/>
-			</verbs>
+			<actions>
+				<action name="ViewDataSources" label="Data Bases..." />
+			</actions>
 		</service>
 	</services>
 </plugin>

@@ -105,8 +105,8 @@ GType plugin_service_ui_get_type (void);
 typedef struct _PluginServiceUI PluginServiceUI;
 typedef struct {
 	void (*plugin_func_exec_action) (
-		GnmPluginService *service, WorkbookControl *wbc,
-		GnmAction const *action, ErrorInfo **ret_error);
+		GnmPluginService *service, GnmAction const *action,
+		WorkbookControl *wbc, ErrorInfo **ret_error);
 } PluginServiceUICallbacks;
 
 /****************************************************************************/

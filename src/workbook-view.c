@@ -428,10 +428,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 static void
 wb_view_init_control (WorkbookControl *wbc)
 {
-	WorkbookView *wbv = wbc->wb_view;
-	char *name = go_basename_from_uri (workbook_get_uri (wbv->wb));
-	wb_control_title_set (wbc, name);
-	g_free (name);
+	wb_control_update_title (wbc);
 }
 
 void

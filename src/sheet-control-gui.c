@@ -2569,6 +2569,9 @@ scg_cursor_extend (SheetControlGUI *scg, int n,
 	GnmCellPos move = sv->cursor.move_corner;
 	GnmCellPos visible = scg->pane[0].gcanvas->first;
 
+	if (!wbcg_edit_finish (scg->wbcg, WBC_EDIT_ACCEPT, NULL))
+		return;
+
 	if (horiz)
 		visible.col = move.col = sheet_find_boundary_horizontal (sv->sheet,
 			move.col, move.row, sv->cursor.base_corner.row,

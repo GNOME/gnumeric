@@ -23,12 +23,6 @@ debian 272697
     http://bugzilla.gnome.org/show_bug.cgi?id=152765
     : Need to press delete twice in chart guru
 
-    : Text in item-edit does not reflect zoom	(8.14)
-
-    : When editing rich text the initial style == pos0, rather than end.  Works
-      when edit starts with F2, but fails when edit starts by clicking in the
-      edit line
-
     http://bugzilla.gnome.org/show_bug.cgi?id=152317
     : Warning of possible dataloss loading into XP
       Looks like XL charts do not like non-trivial expressions for series names
@@ -45,7 +39,6 @@ debian 272697
     : we mis-import multiple axis sets
 
     : Use GNOME Recent for the gnome build
-    : Add a HIGy '*' before the workbook name when modified
 
 Worries
 
@@ -142,7 +135,7 @@ Architecture Changes
 	    8.13.3.2) comments
 	    8.13.3.2) text boxes
 	8.13.4) export RSTRING (95 & 97)			(DONE)
-    8.14) editing while zoomed
+    8.14) editing while zoomed					(DONE)
 
 -------------------------------------------------------------------------------
 Target Features

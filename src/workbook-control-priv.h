@@ -25,7 +25,7 @@ typedef struct {
 	void (*init_state) (WorkbookControl *wbc);
 
 	/* Actions on the workbook UI */
-	void (*title_set)	    (WorkbookControl *wbc, char const *title);
+	void (*set_title)	    (WorkbookControl *wbc, char const *title);
 	void (*prefs_update)	    (WorkbookControl *wbc);
 	void (*style_feedback)	    (WorkbookControl *wbc, GnmStyle const *changes);
 	void (*zoom_feedback)	    (WorkbookControl *wbc);

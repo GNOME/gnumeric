@@ -28,6 +28,7 @@
 #include <gtk/gtkimage.h>
 #include <gtk/gtkframe.h>
 #include <stdlib.h>
+#include <string.h>
 
 extern int gnumeric_no_splash;
 

@@ -1117,7 +1117,6 @@ cb_add_custom_ui (G_GNUC_UNUSED GnmApp *app,
 	GtkAction       *res;
 
 	details = g_new0 (CustomUIHandle, 1);
-	details->merge_id = gtk_ui_manager_new_merge_id (gtk->ui);
 	details->actions = gtk_action_group_new ("DummyName");
 
 	for (ptr = extra_ui->actions; ptr != NULL ; ptr = ptr->next) {
@@ -1134,7 +1133,8 @@ cb_add_custom_ui (G_GNUC_UNUSED GnmApp *app,
 		g_object_set_data (G_OBJECT (res), "ExtraUI", extra_ui);
 	}
 	gtk_ui_manager_insert_action_group (gtk->ui, details->actions, 0);
-	gtk_ui_manager_add_ui_from_string (gtk->ui, extra_ui->layout, -1, NULL);
+	details->merge_id = gtk_ui_manager_add_ui_from_string (gtk->ui,
+		extra_ui->layout, -1, NULL);
 
 	g_hash_table_insert (gtk->custom_uis, extra_ui, details);
 }

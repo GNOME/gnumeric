@@ -20,7 +20,7 @@ WorkbookControl *wb_control_wrapper_new (WorkbookControl *wbc,
 					 WorkbookView *wbv, Workbook *wb,
 					 void *extra);
 
-void wb_control_title_set	     (WorkbookControl *wbc, char const *title);
+void wb_control_update_title	     (WorkbookControl *wbc);
 void wb_control_prefs_update	     (WorkbookControl *wbc);
 void wb_control_style_feedback	     (WorkbookControl *wbc, GnmStyle const *changes);
 void wb_control_zoom_feedback	     (WorkbookControl *wbc);

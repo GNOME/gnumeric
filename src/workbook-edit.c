@@ -48,7 +48,7 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 	wbcg->auto_complete_text = NULL;
 
 	if (wbcg->edit_line.signal_changed) {
-		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
+		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
 			wbcg->edit_line.signal_changed);
 		wbcg->edit_line.signal_changed = 0;
 	}
@@ -245,19 +245,23 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, WBCEditResult result,
 		wbcg->edit_line.full_content =
 			wbcg->edit_line.markup =
 			wbcg->edit_line.cur_fmt = NULL;
-		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
+		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
 			wbcg->edit_line.signal_insert);
 		wbcg->edit_line.signal_insert = 0;
-		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
+		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
 			wbcg->edit_line.signal_delete);
 		wbcg->edit_line.signal_delete = 0;
-		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
+		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
 			wbcg->edit_line.signal_cursor_pos);
 		wbcg->edit_line.signal_cursor_pos = 0;
-		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
+		g_signal_handler_disconnect (wbcg_get_entry (wbcg),
 			wbcg->edit_line.signal_selection_bound);
 		wbcg->edit_line.signal_selection_bound = 0;
 	}
+	/* set pos to 0, to ensure that if we start editing by clicking on the
+	 * editline at the last position, we'll get the right style feedback */
+	gtk_editable_set_position ((GtkEditable *) wbcg_get_entry (wbcg), 0);
+
 	wb_control_edit_set_sensitive (wbc, FALSE, TRUE);
 
 	/* restore focus to original sheet in case things were being selected

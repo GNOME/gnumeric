@@ -327,7 +327,7 @@ wbcg_autosave_set (WorkbookControlGUI *wbcg, int minutes, gboolean prompt)
 /****************************************************************************/
 
 static void
-wbcg_title_set (WorkbookControl *wbc, char const *title)
+wbcg_set_title (WorkbookControl *wbc, char const *title)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
 	char *full_title;
@@ -2468,7 +2468,7 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 	parent_class = g_type_class_peek_parent (object_class);
 	object_class->finalize = wbcg_finalize;
 
-	wbc_class->title_set		= wbcg_title_set;
+	wbc_class->set_title		= wbcg_set_title;
 	wbc_class->prefs_update		= wbcg_prefs_update;
 	wbc_class->zoom_feedback	= wbcg_zoom_feedback;
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
