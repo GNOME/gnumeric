@@ -39,6 +39,7 @@
 #include "cell.h"
 #include "position.h"
 #include "expr.h"
+#include "expr-name.h"
 #include "print-info.h"
 #include "value.h"
 #include "selection.h"
@@ -216,6 +217,10 @@ STATE_WB,
 			STATE_SHEET_MAXCOL,	/* convert to attr */
 			STATE_SHEET_MAXROW,	/* convert to attr */
 			STATE_SHEET_ZOOM,	/* convert to attr */
+			STATE_SHEET_NAMES,
+				STATE_SHEET_NAMES_NAME,
+					STATE_SHEET_NAMES_NAME_NAME,
+					STATE_SHEET_NAMES_NAME_VALUE,
 			STATE_SHEET_PRINTINFO,
                                 STATE_PRINT_MARGINS,
 					STATE_PRINT_MARGIN_TOP,
@@ -269,6 +274,9 @@ STATE_WB,
 			STATE_OBJECT_LINE,
 
 	STATE_NAMES,
+		STATE_NAMES_NAME,
+			STATE_NAMES_NAME_NAME,
+			STATE_NAMES_NAME_VALUE,
 	STATE_WB_VIEW,
 
 	STATE_UNKNOWN
@@ -300,6 +308,10 @@ static char const * const xmlSax_state_names[] =
 			"gmr:MaxCol",
 			"gmr:MaxRow",
 			"gmr:Zoom",
+			"gmr:Names",
+				"gmr:Name",
+					"gmr:name",
+					"gmr:value",
 			"gmr:PrintInformation",
 				"gmr:Margins",
 					"gmr:top",
@@ -347,12 +359,15 @@ static char const * const xmlSax_state_names[] =
 				"gmr:Merge",
 			"gmr:Solver",
 			"gmr:Objects",
-					"gmr:Points",
+				"gmr:Points",
 				"gmr:Rectangle",
 				"gmr:Ellipse",
 				"gmr:Arrow",
 				"gmr:Line",
 	"gmr:Names",
+		"gmr:Name",
+			"gmr:name",
+			"gmr:value",
 	"gmr:UIData",
 
 	"Unknown",
@@ -394,6 +409,12 @@ typedef struct _XMLSaxParseState
 	} attribute;
 	GList *attributes;
 
+	/* Only valid when parsing wb or sheet names */
+	struct {
+		char *name;
+		char *value;
+	} name;
+	
 	gboolean  style_range_init;
 	Range	  style_range;
 	MStyle   *style;
@@ -1268,6 +1289,80 @@ xml_sax_merge (XMLSaxParseState *state)
 static void
 xml_sax_object (XMLSaxParseState *state, CHAR const **attrs)
 {
+	
+}
+
+static void
+xml_sax_finish_parse_wb_names_name (XMLSaxParseState *state)
+{
+	/*ParseError  perr;*/
+	
+	g_return_if_fail (state->name.name != NULL);
+	g_return_if_fail (state->name.value != NULL);
+
+	/* FIXME: Disabled for now.
+	 * The big problem is that we must add the name to the
+	 * workbook right after the sheet has been created and
+	 * before the sheet contents a read.
+	 * (right after sheet_new)
+	 * Problem is that this issue is a little more complex then
+	 * it seems on the surface. The SAX based parser builds
+	 * the workbook on a sheet-for-sheet basis. The parser in
+	 * src/xml-io.c quickly creates all names first, then adds the
+	 * names and then sets the sheet contents. We can't do that
+	 * here.
+	 * -- Almer
+	 *
+	if (!expr_name_create (state->wb, NULL, state->name.name,
+			       state->name.value, &perr))
+		g_warning (perr.message);
+		parse_error_free (&perr);*/
+
+	g_free (state->name.name);
+	g_free (state->name.value);
+	state->name.name = NULL;
+	state->name.value = NULL;
+}
+
+static void
+xml_sax_finish_parse_sheet_names_name (XMLSaxParseState *state)
+{
+	ParseError  perr;
+	
+	g_return_if_fail (state->name.name != NULL);
+	g_return_if_fail (state->name.value != NULL);
+
+	if (!expr_name_create (NULL, state->sheet, state->name.name,
+			       state->name.value, &perr))
+		g_warning (perr.message);
+	parse_error_free (&perr);
+			  
+	g_free (state->name.name);
+	g_free (state->name.value);
+	state->name.name = NULL;
+	state->name.value = NULL;
+}
+
+static void
+xml_sax_name (XMLSaxParseState *state)
+{
+	char const * content = state->content->str;
+	int const len = state->content->len;
+
+	switch (state->state) {
+	case STATE_SHEET_NAMES_NAME_NAME:
+	case STATE_NAMES_NAME_NAME:
+		g_return_if_fail (state->name.name == NULL);
+		state->name.name = g_strndup (content, len);
+		break;
+	case STATE_SHEET_NAMES_NAME_VALUE:
+	case STATE_NAMES_NAME_VALUE:
+		g_return_if_fail (state->name.value == NULL);
+		state->name.value = g_strndup (content, len);
+		break;
+	default:
+		return;
+	}
 }
 
 /****************************************************************************/
@@ -1321,7 +1416,6 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		} else if (xml_sax_switch_state (state, name, STATE_WB_VIEW)) {
 			xml_sax_wb_view (state, attrs);
 		} else if (xml_sax_switch_state (state, name, STATE_NAMES)) {
-			/* TODO : parse these */
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
@@ -1366,6 +1460,7 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_MAXCOL)) {
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_MAXROW)) {
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_ZOOM)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES)) {
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_PRINTINFO)) {
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_STYLES)) {
 		} else if (xml_sax_switch_state (state, name, STATE_SHEET_COLS)) {
@@ -1381,7 +1476,19 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
-
+		
+	case STATE_SHEET_NAMES:
+		if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES_NAME)) {
+		} else
+			xml_sax_unknown_state (state, name);
+		break;
+	case STATE_SHEET_NAMES_NAME:
+		if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES_NAME_NAME)) {
+		} else if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES_NAME_VALUE)) {
+		} else
+			xml_sax_unknown_state (state, name);
+		break;
+		
 	case STATE_SHEET_MERGED_REGION :
 		if (!xml_sax_switch_state (state, name, STATE_SHEET_MERGE))
 			xml_sax_unknown_state (state, name);
@@ -1505,6 +1612,18 @@ xml_sax_start_element (XMLSaxParseState *state, CHAR const *name, CHAR const **a
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
+		
+	case STATE_NAMES:
+		if (xml_sax_switch_state (state, name, STATE_NAMES_NAME)) {
+		} else
+			xml_sax_unknown_state (state, name);
+		break;
+	case STATE_NAMES_NAME:
+		if (xml_sax_switch_state (state, name, STATE_NAMES_NAME_NAME)) {
+		} else if (xml_sax_switch_state (state, name, STATE_NAMES_NAME_VALUE)) {
+		} else
+			xml_sax_unknown_state (state, name);
+		break;
 
 	default :
 		break;
@@ -1572,7 +1691,16 @@ xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 		xml_sax_sheet_zoom (state);
 		g_string_truncate (state->content, 0);
 		break;
-
+		
+	case STATE_SHEET_NAMES_NAME :
+		xml_sax_finish_parse_sheet_names_name (state);
+		break;
+	case STATE_SHEET_NAMES_NAME_NAME :
+	case STATE_SHEET_NAMES_NAME_VALUE :
+		xml_sax_name (state);
+		g_string_truncate (state->content, 0);
+		break;
+		
 	case STATE_PRINT_MARGIN_TOP :
 	case STATE_PRINT_MARGIN_BOTTOM :
 	case STATE_PRINT_MARGIN_LEFT :
@@ -1600,6 +1728,15 @@ xml_sax_end_element (XMLSaxParseState *state, const CHAR *name)
 		xml_sax_merge (state);
 		g_string_truncate (state->content, 0);
 		break;
+		
+	case STATE_NAMES_NAME :
+		xml_sax_finish_parse_wb_names_name (state);
+		break;
+	case STATE_NAMES_NAME_NAME :
+	case STATE_NAMES_NAME_VALUE :
+		xml_sax_name (state);
+		g_string_truncate (state->content, 0);
+		break;
 	default :
 		break;
 	};
@@ -1621,6 +1758,8 @@ xml_sax_characters (XMLSaxParseState *state, const CHAR *chars, int len)
 	case STATE_WB_SUMMARY_ITEM_VALUE_STR :
 	case STATE_SHEET_NAME :
 	case STATE_SHEET_ZOOM :
+	case STATE_SHEET_NAMES_NAME_NAME :
+	case STATE_SHEET_NAMES_NAME_VALUE :
 	case STATE_PRINT_MARGIN_TOP :
 	case STATE_PRINT_MARGIN_BOTTOM :
 	case STATE_PRINT_MARGIN_LEFT :
@@ -1634,6 +1773,8 @@ xml_sax_characters (XMLSaxParseState *state, const CHAR *chars, int len)
 	case STATE_STYLE_FONT :
 	case STATE_CELL_CONTENT :
 	case STATE_SHEET_MERGE :
+	case STATE_NAMES_NAME_NAME :
+	case STATE_NAMES_NAME_VALUE :
 		while (len-- > 0)
 			g_string_append_c (state->content, *chars++);
 
@@ -1663,6 +1804,8 @@ xml_sax_start_document (XMLSaxParseState *state)
 	state->attribute.name = state->attribute.value = NULL;
 	state->attribute.type = -1;
 	state->attributes = NULL;
+
+	state->name.name = state->name.value = NULL;
 
 	state->style_range_init = FALSE;
 	state->style = NULL;
