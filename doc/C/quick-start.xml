@@ -1131,9 +1131,377 @@
   <title>Graphing</title>
 
   <para>
-    This section has not yet been written.
+    A major function of moderns spreadsheets is to provide a quick and
+    easy way to plot numerical data in graphical charts of various
+    kinds. The use of graphs provides users a way to explore data to
+    discover relationships and trends in the data values. Graphs also
+    provide an effective way to present data so as to demonstrate
+    relationships in the data and summarize large amounts of data in
+    an effective image.
   </para>
 
+  <para>
+    When graphs are used to explore data, the aim is usually to
+    produce a plot quickly with a minimum of effort. These plots are
+    not designed to look polished but must present the required
+    information as quickly as possible. To produce these graphs, users
+    must learn a simple series of operations which will produce the
+    desired plots.
+  </para>
+
+  <para>
+    Graphs which are used to present data must be carefully crafted to
+    communicate effectively. Clarity of communication is the critical
+    factor and the plot may include a large amount of work to ensure
+    that the visual result of the plot helps to communicate the
+    desired result.
+    <tip>
+      <para>
+        The use of a graph may not be the best way to communicate
+        information. A verbal explanation or a simple table are often
+        sufficient and, because they are more compact, may be more
+        effective ways to communicate.
+      </para>
+    </tip>
+    <application>Gnumeric</application> includes a large number of
+    features which allow users to craft the look of a particular graph
+    for maximum effectiveness. These features will be explained in
+    detail below.
+    <tip>
+      <para>
+        Graphs which use a large number of the graphical features
+        available in <application>Gnumeric</application> often appear
+        cluttered. The visual richness of such images can often drown
+        out the message which should be communicated. Spare, elegant
+        and direct graphs will communicate the idea most effectively.
+      </para>
+    </tip>
+  </para>
+
+  <sect2 id="quick-graphing-anExamples">
+    <title>A Simple Example</title>
+
+    <para>
+      This section will introduce the process of creating a graph
+      using an example of a side-by-side column chart. 
+    </para>
+
+    <sect3>
+    <title>Data for the examples.</title>
+    <para>
+      Because a graph requires data, it is first necessary to create
+      some simple data to use in these examples. The data are presented
+      in <xref linkend="table-quick-graph-data"/>. First we have to input
+      these data into a worksheet. For clarity in this discussion, the
+      word "Interval" should be in cell A1. This will result in a
+      worksheet whose top left corner looks like <xref
+      linkend="fig-quick-graph-dataPic"/>.
+    </para>
+
+
+    <table frame='all' id="table-quick-graph-data">
+      <title>Sample Data</title>
+      <tgroup cols='3' align='center' colsep='1' rowsep='1'>
+        <colspec colname='c1'/>
+        <colspec colname='c2'/>
+        <colspec colname='c3'/>
+        <thead>
+          <row>
+            <entry align="center">Interval</entry>
+            <entry align="center">Eggs</entry>
+            <entry align="center">Females</entry>
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry>jan - mar</entry>
+            <entry>184</entry>
+            <entry>16</entry>
+          </row>
+          <row>
+            <entry>apr - jun</entry>
+            <entry>322</entry>
+            <entry>27</entry>
+          </row>
+          <row>
+            <entry>jul - sept</entry>
+            <entry>289</entry>
+            <entry>32</entry>
+          </row>
+          <row>
+            <entry>oct - dec</entry>
+            <entry>120</entry>
+            <entry>12</entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+
+    <figure id="fig-quick-graph-dataPic">
+      <title>Gnumeric with the data used in this example.</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/example-data.png" format="PNG"
+            />
+          </imageobject>
+          <textobject>
+            <para>
+              This screenshot depicts Gnumeric with the data used in the
+              two example graphs.
+            </para>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    </sect3>
+
+    <sect3>
+      <title>Making the Column Plot </title>
+
+      <para>
+        A column plot presents a series of data points as columns
+        whose height depends on the value of each datum. This is a
+        useful type of plot to show the number of eggs produced in
+        each interval.
+      </para>
+
+      <procedure>
+        <title>Making a Column Plot</title>
+
+        <step>
+          <para>
+            The quickest way to make a plot starts with the selection
+            of the data. Using the mouse, first select the range B1:C5
+            which includes the data both for the number of Eggs and
+            for the number of Females.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            Next, click on the graphing toolbar button
+              <inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="figures/button-graph.png" 
+                            format="PNG"/>
+                </imageobject>
+                <textobject>
+                  <para>
+                    This image shows the toolbar graphing button.
+                  </para>
+                </textobject>
+              </inlinemediaobject>
+            which looks like three colored pillars. This launches a
+            new window called the graph druid.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            Next, click on the word "Column" next to the icon with
+            vertical colored bars
+              <inlinemediaobject>
+                <imageobject>
+                  <imagedata fileref="figures/example-columnSelect.png" 
+                            format="PNG"/>
+                </imageobject>
+                <textobject>
+                  <para>
+                    This image shows the "column" plot type after it
+                    has been selected.
+                  </para>
+                </textobject>
+              </inlinemediaobject>
+            which will move the selection down to that row.
+          </para>
+        </step>
+
+        <step><!--Todo: update to "Graph"-->
+          <para>
+            Click on the "Ok" button. This will make the druid
+            disappear and leave the mouse cursor as a thin crosshair.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            Finally, we will place and size the graph on a
+            sheet. Click on the sheet and drag downward and to the
+            right. As the mouse is dragged, a rectangle will
+            expand. When the mouse button is released, a simple column
+            chart should appear.
+          </para>
+        </step>
+       
+      </procedure>
+
+      <para>
+        The simple graph should look like <xref
+        linkend="fig-quick-graph-colGraph"/>.
+      </para>
+
+      <figure id="fig-quick-graph-colGraph">
+        <title>The Simple Column Graph.</title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/example-colGraph.png"
+              format="PNG" />
+            </imageobject>
+            <textobject>
+              <para>
+                This screenshot depicts the simple column graph.
+              </para>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+    </sect3>
+
+    <sect3>
+      <title>Modifying the Column Plot</title>
+
+      <para>
+        The graph can be
+        customized with titles, label boxes and lots of extra
+        information. To customize the graph, right click on the plot
+        to open the graph custom menu.
+      </para>
+
+      <figure id="fig-quick-graph-contextMenu">
+        <title>The context menu which appears on a graph object.</title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/menu-context-graph.png"
+              format="PNG" />
+            </imageobject>
+            <textobject>
+              <para>
+                This screenshot depicts the context menu applicable
+                to graphs.
+              </para>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+      <para>
+        This menu allows the graph to be further customized by
+        selecting the <guimenuitem>Properties</guimenuitem> menu item,
+        enables the graph to be saved into PNG or SVG formats using
+        the <guimenuitem>Save as image</guimenuitem> menu item, to be
+        displayed as a different layer using the
+        <guimenuitem>Top</guimenuitem>, <guimenuitem>Up</guimenuitem>,
+        <guimenuitem>Down</guimenuitem>,
+        <guimenuitem>Bottom</guimenuitem> menu items or to be deleted
+        with the <guimenuitem>Delete</guimenuitem> menu item.
+      </para>
+
+      <para>
+        If we wanted to add a title and a legend to the graph, we
+        could use the <guimenuitem>Properties</guimenuitem> menu item
+        to open the graph editor and customize the graph as follows:
+      </para>
+
+      <procedure>
+        <title>Adding a title and legend to the Column Plot</title>
+
+        <step>
+          <para>
+            Right click on the column plot to open the context menu
+            and select the <guimenuitem>Properties</guimenuitem> menu
+            item. This will open the graph editor.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            The graph editor opens with the "Graph" entry selected in
+            the graph tree on the top left. In the top right is a
+            preview of the eventual graph. The bottom lists some
+            attributes of the item selected in the graph tree. Click
+            and hold on the <guibutton>Add</guibutton> button
+              <inlinemediaobject>
+                <imageobject>
+                  <imagedata
+                       fileref="figures/button-graphEditor-add.png"
+                       format="PNG"/>
+                </imageobject>
+                <textobject>
+                  <para>
+                    This image shows the <guibutton>Add</guibutton>
+                    button in the graph editor.
+                  </para>
+                </textobject>
+              </inlinemediaobject>
+            to open the graph menu, which will have different entries
+            depending on the item selected in the graph tree. Drag the
+            mouse cursor down until the selection highlights the
+            "Title" entry and release the mouse button. This will add
+            a "Title" node in the graph tree and change the selection
+            to this node.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            In the text field, add a title such as "Egg Production and
+            Female Productivity" and type the <keycap>Enter</keycap>
+            key. Note that the title appears at the top of the graph.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            In the graph tree, select the node labelled
+            "Chart1". Next, click and hold on the add button, drag
+            down to the <guimenuitem>Legend</guimenuitem> menu item
+            and release. Note that this adds a legend on the right of
+            the graph.
+          </para>
+        </step>
+
+        <step>
+          <para>
+            Click on the "Ok" button. The plot should now have a title
+            and a legend. Note that
+            <application>gnumeric</application> has used the words in
+            the column headers automatically to describe the two data
+            series.
+          </para>
+        </step>
+       
+      </procedure>
+      <para>
+        The modified graph should look like <xref
+        linkend="fig-quick-graph-colGraph-modified"/>.
+      </para>
+
+      <figure id="fig-quick-graph-colGraph-modified">
+        <title>The Modified Column Graph.</title>
+        <screenshot>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/example-colGraph-modified.png"
+              format="PNG" />
+            </imageobject>
+            <textobject>
+              <para>
+                This screenshot depicts the example column graph with
+                a title and a legend.
+              </para>
+            </textobject>
+          </mediaobject>
+        </screenshot>
+      </figure>
+
+    </sect3>
+
+  </sect2>
 
 </sect1>
 

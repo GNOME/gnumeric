@@ -1,5 +1,15 @@
 2003-09-16 Adrian Custer <acuster@gnome.org>
 
+	* quick-start.xml: update the graphing section.
+	* figures/example-data.png: add.
+	* figures/example-columnSelect.png: add.
+	* figures/example-colGraph.png: add.
+	* figures/example-colGraph-modified.png: add.
+	* figures/menu-context-graph.png: add.
+	* figures/button-graphEditor-add.png: add.
+	
+2003-09-16 Adrian Custer <acuster@gnome.org>
+
 	* welcome.xml: Updated with release announcement info.
 	* data-entry-external.xml: replace a <code> tag with <literal>.
 	
