@@ -130,6 +130,6 @@ gnumeric_background_set_gc (MStyle *mstyle, GdkGC *gc,
 		gdk_gc_set_fill (gc, GDK_SOLID);
 		gdk_gc_set_foreground (gc, is_selected ? &gs_lavender : &gs_white);
 	}
-	return is_selected;
+	return FALSE;
 }
 

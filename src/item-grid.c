@@ -283,12 +283,13 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	    sheet_selection_is_cell_selected (sheet, col, row);
 
 	if (gnumeric_background_set_gc (mstyle, gc, item_grid->canvas_item.canvas, is_selected))
-		/*
-		 * Ignore margins. Fill the entire cell
-		 * including the right & left grid line
-		 */
+		/* Fill the entire cell including the right & left grid line */
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    x, y, w+1, h+1);
+	else if (is_selected)
+		/* Fill the entire cell including the right & left grid line */
+		gdk_draw_rectangle (drawable, gc, TRUE,
+				    x+1, y+1, w-1, h-1);
 
 	item_grid_draw_border (drawable, mstyle, x, y, w, h,
 			       span_count > 1,

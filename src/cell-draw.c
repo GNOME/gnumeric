@@ -234,7 +234,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 				    rect.x, rect.y, rect.width, rect.height);
 
 	/* If we are spaning columns we need to erase the INTERIOR grid lines */
-	else if (end_col != start_col)
+	else if (end_col != start_col || is_selected)
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    rect.x+1, rect.y+1, rect.width-2, rect.height-2);
 

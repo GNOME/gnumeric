@@ -1,5 +1,15 @@
 2000-02-13  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-grid.c (item_grid_paint_empty_cell) : paint the selection
+	  rectangle EXCLUDING the grid lines when selected.
+
+	* src/cell-draw.c (cell_draw) : Ditto.
+
+	* src/pattern.c (gnumeric_background_set_gc) : return FALSE if there
+	  is no pattern even if the cell is selected.
+
+2000-02-13  Jody Goldberg <jgoldberg@home.com>
+
 	* src/item-grid.c (item_grid_paint_empty_cell) : Move above item_grid_draw_cell.
 	(item_grid_draw_cell) : Do not to set colours here that is handled
 	  elsewhere.  Call empty_cell for zeros when we are not displaying them.
