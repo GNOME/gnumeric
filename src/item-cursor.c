@@ -119,6 +119,8 @@ item_cursor_unrealize (GnomeCanvasItem *item)
 static void
 item_cursor_reconfigure (GnomeCanvasItem *item)
 {
+	if (GNOME_CANVAS_ITEM_CLASS(item_cursor_parent_class)->reconfigure)
+		(*GNOME_CANVAS_ITEM_CLASS(item_cursor_parent_class)->reconfigure)(item);
 }
 
 /*

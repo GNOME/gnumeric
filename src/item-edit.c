@@ -124,6 +124,9 @@ item_edit_reconfigure (GnomeCanvasItem *item)
 	ItemEdit *item_edit = ITEM_EDIT (item);
 	int x, y, w, h;
 
+	if (GNOME_CANVAS_ITEM_CLASS (item_edit_parent_class)->reconfigure)
+		(*GNOME_CANVAS_ITEM_CLASS(item_edit_parent_class)->reconfigure)(item);
+	
 	item_edit_get_pixel_coords (item_edit, &x, &y, &w, &h);
 	item->x1 = x;
 	item->y1 = y;

@@ -1,5 +1,18 @@
 1998-09-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/format.c (split_time): Compute the day of week.  This was
+	done before by localtime, but the new code was not doing it (thus,
+	format "ddd" always reported "Sun").
+
+	* src/clipboard.c (x_selection_handler): Use the last workbook
+	that claimed the selection instead of using the value provided by
+	the callback, as gtk_selection_set_owner just ignores who is the
+	owner. 
+
+	* src/item-edit.c (item_edit_reconfigure): Call reconfigure in parent.
+
+	* src/item-cursor.c (item_cursor_reconfigure): Call reconfigure in parent.
+
 	* src/format.c (append_year): Year 2000 fix :-).
 
 	* src/cell.c (cell_set_text_simple): Fix, use localeconv

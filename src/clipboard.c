@@ -27,6 +27,8 @@ typedef struct {
 	int         paste_flags;
 } clipboard_paste_closure_t;
 
+static Workbook *workbook_with_selection = NULL;
+
 /*
  * Pastes a cell in the spreadsheet
  */
@@ -305,7 +307,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, gpointer data)
 static void
 x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, gpointer data)
 {
-	Workbook *wb = data;
+	Workbook *wb = workbook_with_selection;
 	char *rendered_selection;
 	
 	g_assert (wb->clipboard_contents);
@@ -344,13 +346,13 @@ x_clipboard_bind_workbook (Workbook *wb)
 		GTK_OBJECT (wb->toplevel), "selection_clear_event",
 		GTK_SIGNAL_FUNC(x_selection_clear), wb);
 
-	gtk_selection_add_handler (
-		wb->toplevel,
-		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING,
-		x_selection_handler, wb);
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "selection_received",
 		GTK_SIGNAL_FUNC(x_selection_received), wb);
+	gtk_selection_add_handler (
+		wb->toplevel,
+		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING,
+		x_selection_handler, NULL);
 }
 
 /*
@@ -361,10 +363,13 @@ x_clipboard_bind_workbook (Workbook *wb)
 static void
 clipboard_export_cell_region (Workbook *wb)
 {
+	workbook_with_selection = wb;
+	
 	wb->have_x_selection = gtk_selection_owner_set (
 		current_workbook->toplevel,
 		GDK_SELECTION_PRIMARY,
 		GDK_CURRENT_TIME);
+
 }
 
 typedef struct {

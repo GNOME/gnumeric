@@ -623,8 +623,11 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		} 
 		break;
 		
-	case GDK_BUTTON_PRESS:
+	case GDK_BUTTON_PRESS: {
+		Cell *cell;
+		
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
+
 		switch (event->button.button){
 		case 1:
 			convert (canvas, event->button.x, event->button.y, &x, &y);
@@ -640,6 +643,29 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			sheet_cursor_move (sheet, col, row);
 			if (!(event->button.state & GDK_CONTROL_MASK))
 				sheet_selection_reset_only (sheet);
+			
+			if ((cell = sheet_cell_get (sheet, col, row)) != NULL){
+				if (cell->comment || 1){
+					int xp;
+					
+					xp = sheet_col_get_distance (
+						sheet,
+						item_grid->left_col,
+						col+1);
+
+					if (x > xp - 6){
+						int yp;
+						
+						yp = sheet_col_get_distance (
+							sheet,
+							item_grid->top_row,
+							row);
+						if (y < yp + 6){
+							printf ("CLICK EN EL COMENTARIO\n");
+						}
+					}
+				}
+			}
 			
 			item_grid->selecting = 1;
 			sheet_selection_append (sheet, col, row);
@@ -658,6 +684,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			item_grid_popup_menu (item_grid, event, col, row);
 			return 1;
 		}
+	}
+	
 	default:
 		return 0;	
 	}

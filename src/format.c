@@ -693,6 +693,7 @@ split_time (gdouble number)
 	/* Day 1 means 1st of jannuary of 1900 */
 
 	calc_new_date (&tm.tm_year, &tm.tm_mon, &tm.tm_mday, number-1.0);
+	tm.tm_wday = day_of_week (tm.tm_year, tm.tm_mon, tm.tm_mday);
 /*	printf ("Year: %d Month: %d, Day: %d\n", tm.tm_year, tm.tm_mon, tm.tm_mday); */
 	tm.tm_mon--;
 
