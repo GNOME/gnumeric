@@ -1,3 +1,12 @@
+2001-06-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (ActionType) : all actions must be > 0.
+
+2001-06-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/io-context.c (workbook_io_progress_set) : delete update based on
+	  styles.  This operation leaked and was very expensive.
+
 2001-06-18  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet):

@@ -827,8 +827,8 @@ item_cursor_target_region_ok (ItemCursor *ic)
 }
 
 typedef enum {
-	ACTION_NONE = 0,
-	ACTION_MOVE_CELLS = 1,
+	ACTION_NONE = 1,
+	ACTION_MOVE_CELLS,
 	ACTION_COPY_CELLS,
 	ACTION_COPY_FORMATS,
 	ACTION_COPY_VALUES,

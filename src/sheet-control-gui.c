@@ -1288,7 +1288,7 @@ display_object_menu (SheetObject *so, GnomeCanvasItem *view, GdkEvent *event)
 
 	scg_mode_edit_object (scg, so);
 	menu = GTK_MENU (gtk_menu_new ());
-	SHEET_OBJECT_CLASS (GTK_OBJECT(so)->klass)->populate_menu (so, view, menu);
+	SHEET_OBJECT_CLASS (GTK_OBJECT(so)->klass)->populate_menu (so, GTK_OBJECT (view), menu);
 
 	gtk_widget_show_all (GTK_WIDGET (menu));
 	gnumeric_popup_menu (menu, &event->button);

@@ -44,17 +44,15 @@ sheet_object_remove_cb (GtkWidget *widget, SheetObject *so)
 }
 
 static void
-cb_sheet_object_configure (GtkWidget *widget, GnomeCanvasItem *obj_view)
+cb_sheet_object_configure (GtkWidget *widget, GtkObject *obj_view)
 {
 	SheetControlGUI *scg;
 	SheetObject *so;
 
 	g_return_if_fail (obj_view != NULL);
 
-	so = gtk_object_get_data (GTK_OBJECT (obj_view),
-				  SO_VIEW_OBJECT_KEY);
-	scg = gtk_object_get_data (GTK_OBJECT (obj_view),
-				   SO_VIEW_SHEET_CONTROL_KEY);
+	so = gtk_object_get_data (obj_view, SO_VIEW_OBJECT_KEY);
+	scg = gtk_object_get_data (obj_view, SO_VIEW_SHEET_CONTROL_KEY);
 
 	SO_CLASS(so)->user_config (so, scg);
 }
@@ -68,7 +66,7 @@ cb_sheet_object_configure (GtkWidget *widget, GnomeCanvasItem *obj_view)
  */
 static void
 sheet_object_populate_menu (SheetObject *so,
-			    GnomeCanvasItem *obj_view,
+			    GtkObject *obj_view,
 			    GtkMenu *menu)
 {
 	GtkWidget *item = gnome_stock_menu_item (GNOME_STOCK_MENU_CLOSE,

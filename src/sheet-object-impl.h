@@ -3,6 +3,7 @@
 #define GNUMERIC_SHEET_OBJECT_PRIV_H
 
 #include "sheet-object.h"
+#include <gtk/gtkobject.h>
 
 typedef enum {
 	SHEET_OBJECT_ACTION_STATIC,
@@ -45,7 +46,7 @@ typedef struct {
 	GtkObject *      (*new_view) (SheetObject	*sheet_object,
 				      SheetControlGUI	*s_control);
 	void        (*populate_menu) (SheetObject	*sheet_object,
-				      GnomeCanvasItem	*obj_view,
+				      GtkObject		*obj_view,
 				      GtkMenu		*menu);
 	void	      (*user_config) (SheetObject	*sheet_object,
 				      SheetControlGUI	*s_control);
