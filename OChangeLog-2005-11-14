@@ -1,5 +1,14 @@
 2003-06-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/stf-parse.c (stf_parse_options_new): initialize locale
+	(stf_parse_options_free): free locale
+	(stf_parse_sheet): setup locale
+	(stf_parse_region): setup locale
+	* src/stf-parse.h : add locale to parseoptions
+	* src/stf.c (stf_store_results): setup locale
+
+2003-06-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/formats.c (currency_date_format_shutdown): free allocated
 	  memory since currency_date_format_init/shutdown may be called
 	  multiple time

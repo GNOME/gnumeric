@@ -512,6 +512,9 @@ stf_dialog (WorkbookControlGUI *wbcg,
 
 		dialogresult->parseoptions = pagedata.parseoptions;
 		pagedata.parseoptions = NULL;
+		g_free (dialogresult->parseoptions->locale);
+		dialogresult->parseoptions->locale = pagedata.locale;
+		pagedata.locale = NULL;
 
 		dialogresult->formats = pagedata.format.formats;
 		pagedata.format.formats = NULL;

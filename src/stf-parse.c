@@ -42,6 +42,17 @@
 #include "format.h"
 
 #include <stdlib.h>
+#include <locale.h>
+
+#define SETUP_LOCALE_SWITCH char *oldlocale = NULL
+
+#define START_LOCALE_SWITCH if (parseoptions->locale) {\
+oldlocale = g_strdup(gnumeric_setlocale (LC_ALL, NULL)); \
+gnumeric_setlocale(LC_ALL, parseoptions->locale);}
+
+#define END_LOCALE_SWITCH if (oldlocale) {\
+gnumeric_setlocale(LC_ALL, oldlocale);\
+g_free (oldlocale);}
 
 #define WARN_TOO_MANY_ROWS _("Too many rows in data to parse: %d")
 #define WARN_TOO_MANY_COLS _("Too many columns in data to parse: %d")
@@ -140,6 +151,7 @@ stf_parse_options_new (void)
 	stf_parse_options_add_line_terminator (parseoptions, "\r");
 
 	parseoptions->trim_spaces = (TRIM_TYPE_RIGHT | TRIM_TYPE_LEFT);
+	parseoptions->locale = NULL;
 
 	parseoptions->splitpositions    = g_array_new (FALSE, FALSE, sizeof (int));
 
@@ -164,6 +176,8 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 {
 	g_return_if_fail (parseoptions != NULL);
 
+	if (parseoptions->locale)
+		g_free (parseoptions->locale);
 	if (parseoptions->sep.chr)
 		g_free (parseoptions->sep.chr);
 	if (parseoptions->sep.str) {
@@ -1095,10 +1109,13 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	unsigned int lrow;
 	GnmDateConventions const *date_conv;
 	GPtrArray *lines;
+	SETUP_LOCALE_SWITCH;
 
 	g_return_val_if_fail (parseoptions != NULL, FALSE);
 	g_return_val_if_fail (data != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+
+	START_LOCALE_SWITCH;
 
 	date_conv = workbook_date_conv (sheet->workbook);
 
@@ -1128,6 +1145,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	}
 
 	stf_parse_general_free (lines);
+	END_LOCALE_SWITCH;
 	return TRUE;
 }
 
@@ -1138,9 +1156,12 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 	CellCopyList *content = NULL;
 	unsigned int row, colhigh = 0;
 	GPtrArray *lines;
+	SETUP_LOCALE_SWITCH;
 
 	g_return_val_if_fail (parseoptions != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
+
+	START_LOCALE_SWITCH;
 
 	if (!data_end)
 		data_end = data + strlen (data);
@@ -1188,6 +1209,8 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 			colhigh = col;
 	}
 	stf_parse_general_free (lines);
+
+	END_LOCALE_SWITCH;
 
 	cr = cellregion_new (NULL);
 	cr->content = content;

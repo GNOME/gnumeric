@@ -54,6 +54,7 @@
 #include <glade/glade.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-output-memory.h>
+#include <locale.h>
 
 /**
  * stf_open_and_read
@@ -119,6 +120,12 @@ stf_store_results (DialogStfResult_t *dialogresult,
 		   Sheet *sheet, int start_col, int start_row)
 {
 	unsigned int ui;
+	char *oldlocale = NULL;
+
+	if (dialogresult->parseoptions->locale) {
+		oldlocale = g_strdup(gnumeric_setlocale(LC_ALL,NULL));
+		gnumeric_setlocale(LC_ALL,dialogresult->parseoptions->locale);
+	}
 
 	for (ui = 0; ui < dialogresult->formats->len; ui++) {
 		StyleFormat *sf = g_ptr_array_index (dialogresult->formats, ui);
@@ -133,6 +140,11 @@ stf_store_results (DialogStfResult_t *dialogresult,
 		range.end.row   = start_row + dialogresult->rowcount - 1;
 
 		sheet_style_apply_range (sheet, &range, style);
+	}
+
+	if (oldlocale) {
+		gnumeric_setlocale(LC_ALL,oldlocale);
+		g_free (oldlocale);
 	}
 
 	return stf_parse_sheet (dialogresult->parseoptions,

@@ -123,11 +123,14 @@ format_page_update_preview (DruidPageData_t *pagedata)
  *************************************************************************************************/
 
 static void
-locale_changed_cb (LocaleSelector *ls, char const *new_enc,
+locale_changed_cb (LocaleSelector *ls, char const *new_locale,
 		      DruidPageData_t *pagedata)
 {
+	g_free (pagedata->locale);
+	pagedata->locale = g_strdup (new_locale);
+
 	number_format_selector_set_locale (pagedata->format.format_selector,
-					   new_enc);
+					   new_locale);
 }
 
 

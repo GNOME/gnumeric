@@ -34,6 +34,8 @@ typedef struct {
 	StfTrimType_t        trim_spaces;           /* Trim spaces in fields? */
 
 	GSList *             terminator;            /* Line terminators */
+	char *               locale;
+
 	struct {
 		guchar       min, max;
 	} compiled_terminator;

@@ -1,3 +1,9 @@
+2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-format-page.c (locale_changed_cb): store locale in 
+	  pagedata
+	* dialog-stf.c (stf_dialog): move locale to parseoptions
+
 2003-06-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-printer-setup.c (cb_do_print): remove duplicated code
