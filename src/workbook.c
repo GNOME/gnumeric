@@ -2100,7 +2100,13 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 			toolbar [TOOLBAR_BOLD_BUTTON_INDEX].widget);
 		set = data != NULL;
 
+		gtk_signal_handler_block_by_func (GTK_OBJECT (t),
+						  (GtkSignalFunc)&bold_cmd,
+						  workbook);
 		gtk_toggle_button_set_active (t, set);
+		gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
+						    (GtkSignalFunc)&bold_cmd,
+						    workbook);
 		break;
 
 	case WORKBOOK_FEEDBACK_ITALIC:
@@ -2108,7 +2114,13 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 			toolbar [TOOLBAR_ITALIC_BUTTON_INDEX].widget);
 		set = data != NULL;
 
+		gtk_signal_handler_block_by_func (GTK_OBJECT (t),
+						  (GtkSignalFunc)&italic_cmd,
+						  workbook);
 		gtk_toggle_button_set_active (t, set);
+		gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
+						    (GtkSignalFunc)&italic_cmd,
+						    workbook);
 	}
 }
 
