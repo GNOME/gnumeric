@@ -7,7 +7,7 @@ Andreas:
 	* Implement setting and changing of tab colors.
 	* Port search/replace dialog.
 	* Reimplementation of function selector.
-	* Rudimentary reimplementation of formula guru.
+	* Reimplementation of formula guru.
 
 Jody:
 	* Fix XL import of external function names.
