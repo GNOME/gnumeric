@@ -1,3 +1,8 @@
+2002-07-17  Morten Welinder  <terra@diku.dk>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start): Reorder
+	things so we don't access memory before the string.
+
 2002-06-20  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (cb_gee_key_press_event) : We are already

@@ -410,13 +410,13 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 		rs->text_start = 0;
 		rs->text_end = last;
 	} else {
-		for (start = cursor; start >= 0; start = g_utf8_prev_char (text + start) - text) {
+		for (start = cursor; start > 0; start = g_utf8_prev_char (text + start) - text) {
 			gunichar c = g_utf8_get_char (text + start);
 			if (!isalnum (c)) {
+				start = g_utf8_next_char (text + start) - text;
 				break;
 			}
 		}
-		start = g_utf8_next_char (text + start) - text;
 		rs->text_start = (cursor < start) ? cursor : start;
 		for (end = cursor; end < last; end = g_utf8_next_char (text + end) - text) {
 			gunichar c = g_utf8_get_char (text + end);
