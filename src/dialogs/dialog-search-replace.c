@@ -12,7 +12,7 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "search.h"
-#include "widgets/gnumeric-expr-combo.h"
+#include "widgets/gnumeric-expr-entry.h"
 #include "workbook-edit.h"
 
 #define SEARCH_REPLACE_KEY "search-replace-dialog"

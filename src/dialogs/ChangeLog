@@ -1,3 +1,7 @@
+2001-05-10  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-search-replace.c: Fix include file typo.
+
 2001-05-09  Jon K Hellan  <hellan@acm.org>
 
 	* search-replace.glade: Rename hbox holding range field from hbox2
