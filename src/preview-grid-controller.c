@@ -448,9 +448,9 @@ preview_grid_controller_new (GnomeCanvas *canvas,
 	if (selected)
 		controller->selection_rect = GNOME_CANVAS_RECT (gnome_canvas_item_new (gnome_canvas_root (canvas),
 										       gnome_canvas_rect_get_type (),
-										       "x1", -7.0, "y1", -3.5,
-										       "x2", 217.0, "y2", 84.5,
-										       "width_pixels", (int) 1,
+										       "x1", -7.0, "y1", -2.5,
+										       "x2", 219.0, "y2", 84.5,
+										       "width_pixels", (int) 2,
 										       "outline_color", "red",
 										       "fill_color", NULL,
 										       NULL));

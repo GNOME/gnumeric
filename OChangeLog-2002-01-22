@@ -1,3 +1,8 @@
+2000-11-30  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/preview-grid-controller.c (preview_grid_controller_new) :
+	Make the selection rectangle fatter and position it slightly better.
+
 2000-11-29  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (xml_sheet_write): Initialise closure's rle_count
