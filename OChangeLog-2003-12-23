@@ -1,3 +1,8 @@
+2002-04-27  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Check for bonobo libraries when --with-bonobo is
+	selected.
+
 2002-04-27  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (scg_finalize) : destroy the views
