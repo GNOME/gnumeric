@@ -13,7 +13,12 @@ Jody:
 	* LOG() is valid with base > 0 && base != 1
 	* Clean out some unused code.
 	* Fix redo of unmerge to handle redraw spans.
-	* Improve Name Support.
+	* Fix Name Support and Dialog.
+	* Improve data allocator for graphs.
+	* Begin code audit.
+	* Fix autofill by day.
+	* Fix minor leaks.
+	* Fix autofill of days with months visible.
 
 Jukka:
 	* Improved MPS plugin.
@@ -22,6 +27,7 @@ Jukka:
 Morten:
 	* Improve goal seek.
 	* Fixed parsing of numbers is scientific context.
+	* Find and fix leaks.
 
 Wayne Schuller:
 	* Much improved header/footer preview canvas.

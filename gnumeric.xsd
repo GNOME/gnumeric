@@ -199,6 +199,14 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:element name="Scale">
+                <xsd:complexType>
+                    <xsd:attribute name="type" type="xsd:string" use="required"/>
+		    <xsd:attribute name="percentage" type="xsd:double" />
+		    <xsd:attribute name="cols" type="xsd:integer" />
+		    <xsd:attribute name="rows" type="xsd:integer" />
+                </xsd:complexType>
+            </xsd:element>
             <!-- center vertically? -->
             <xsd:element name="vcenter">
                 <xsd:complexType>
