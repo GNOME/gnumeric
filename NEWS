@@ -26,6 +26,7 @@ Morten:
 	* Fix crash for insert/delete column/row.  [#165873]
 	* Fix text import crash.  [#165617]
 	* Fix SUBSTITUTE.  [#165996]
+	* Fix general format's use of "e".
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.2

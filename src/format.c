@@ -1922,7 +1922,7 @@ fmt_general_float (GString *result, gnm_float val, double col_width)
 	int log_val, prec;
 
 	if (col_width < 0.) {
-		g_string_append_printf (result, "%.*" GNUM_FORMAT_g, GNUM_DIG, val);
+		g_string_append_printf (result, "%.*" GNUM_FORMAT_G, GNUM_DIG, val);
 		return;
 	}
 
