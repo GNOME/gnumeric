@@ -66,6 +66,25 @@ void excel_biff8_file_save (GnmFileSaver const *fs, IOContext *context, Workbook
 void excel_dsf_file_save   (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void plugin_cleanup (void);
 
+static GsfInput *
+find_content_stream (GsfInfile *ole)
+{
+	static char const * const stream_names[] = {
+		"Workbook",	"WORKBOOK",	"workbook",
+		"Book",		"BOOK",		"book"
+	};
+	GsfInput *stream;
+	unsigned i;
+
+	for (i = 0 ; i < G_N_ELEMENTS (stream_names) ; i++) {
+		stream = gsf_infile_child_by_name (ole, stream_names[i++]);
+		if (stream != NULL)
+			return stream;
+	}
+
+	return  NULL;
+}
+
 gboolean
 excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
@@ -83,10 +102,7 @@ excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 		return data && data[0] == 0x09 && (data[1] & 0xf1) == 0;
 	}
 
-	stream = gsf_infile_child_by_name (GSF_INFILE (ole), "Workbook");
-	if (stream == NULL)
-		stream = gsf_infile_child_by_name (GSF_INFILE (ole), "Book");
-
+	stream = find_content_stream (GSF_INFILE (ole));
 	if (stream != NULL) {
 		g_object_unref (G_OBJECT (stream));
 		res = TRUE;
@@ -125,11 +141,6 @@ void
 excel_file_open (GnmFileOpener const *fo, IOContext *context,
                  WorkbookView *wbv, GsfInput *input)
 {
-	static char const * const content[] = {
-		"Workbook",	"WORKBOOK",	"workbook",
-		"Book",		"BOOK",		"book"
-	};
-
 	GsfInput  *stream = NULL;
 	GError    *err = NULL;
 	GsfInfileMSOle *ole = gsf_infile_msole_new (input, &err);
@@ -159,9 +170,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 		return;
 	}
 
-	do {
-		stream = gsf_infile_child_by_name (GSF_INFILE (ole), content[i++]);
-	} while (stream == NULL && i < G_N_ELEMENTS (content));
+	stream = find_content_stream (GSF_INFILE (ole));
 	if (stream == NULL) {
 		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
 			 _("No Workbook or Book streams found."));

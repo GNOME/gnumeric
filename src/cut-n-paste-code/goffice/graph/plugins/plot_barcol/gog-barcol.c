@@ -246,7 +246,7 @@ barcol_draw_rect (GogRenderer *rend, gboolean flip,
 	path[4].code = ART_LINETO;
 	path[5].code = ART_END;
 
-	gog_renderer_draw_polygon (rend, path, (w < 3.) || (h < 3.));
+	gog_renderer_draw_polygon (rend, path, (w < 3.) || (h < 3.), NULL);
 }
 
 static void

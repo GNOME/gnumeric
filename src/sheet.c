@@ -2927,9 +2927,12 @@ cb_collect_cell (Sheet *sheet, int col, int row, GnmCell *cell,
 		 void *user_data)
 {
 	GList ** l = user_data;
+	gboolean needs_recalc = cell_needs_recalc (cell);
 
 	sheet_cell_remove_from_hash (sheet, cell);
 	*l = g_list_prepend (*l, cell);
+	if (needs_recalc)
+		cell->base.flags |= DEPENDENT_NEEDS_RECALC;
 	return NULL;
 }
 

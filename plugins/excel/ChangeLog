@@ -1,3 +1,9 @@
+2003-10-27  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (find_content_stream) : Move this logic here.
+	(excel_file_open) : from here.
+	(excel_file_probe) : so that this can share it.
+
 2003-10-25  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (excel_write_SELECTION) : doh!

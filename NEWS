@@ -41,6 +41,15 @@ Jody:
 	* Tune insert col/row above frozen panes
 	http://bugzilla.gnome.org/show_bug.cgi?id=124930
 	* Be more lenient about invalid xml, but put errors in gui
+	http://bugzilla.gnome.org/show_bug.cgi?id=125604
+	* Fix OO import in some locales.
+	http://bugzilla.gnome.org/show_bug.cgi?id=125611
+	* Fix OO import of integer attributes.
+	* XLS probe support for misnamed streams
+	http://bugzilla.gnome.org/show_bug.cgi?id=125577
+	* Don't forget to recalc after deleting col/row
+	http://bugzilla.gnome.org/show_bug.cgi?id=125619
+	* Init the high/low button for axis prefs
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

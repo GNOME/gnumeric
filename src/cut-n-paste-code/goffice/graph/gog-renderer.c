@@ -201,18 +201,20 @@ gog_renderer_pop_style (GogRenderer *rend)
  * gog_renderer_draw_polygon :
  * @rend : #GogRenderer
  * @path  : #ArtVpath
+ * @bound  : #GogViewAllocation optional clip
  *
  * Draws @path using the outline elements of the current style.
  **/
 void
-gog_renderer_draw_path (GogRenderer *rend, ArtVpath const *path)
+gog_renderer_draw_path (GogRenderer *rend, ArtVpath const *path,
+			GogViewAllocation const *bound)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (rend->cur_style != NULL);
 
-	(klass->draw_path) (rend, path);
+	(klass->draw_path) (rend, path, bound);
 }
 
 /**
@@ -220,19 +222,21 @@ gog_renderer_draw_path (GogRenderer *rend, ArtVpath const *path)
  * @rend : #GogRenderer
  * @path  : #ArtVpath
  * @narrow : if TRUE skip any outline the current style specifies.
+ * @bound  : #GogViewAllocation optional clip
  *
  * Draws @path and fills it with the fill elements of the current style.
  * If @narrow is false it alos outlines it using the outline elements.
  **/
 void
-gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath const *path, gboolean narrow)
+gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath const *path, gboolean narrow,
+			   GogViewAllocation const *bound)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
 
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (rend->cur_style != NULL);
 
-	(klass->draw_polygon) (rend, path, narrow);
+	(klass->draw_polygon) (rend, path, narrow, bound);
 }
 
 /**
@@ -390,11 +394,13 @@ GSF_CLASS (GogRenderer, gog_renderer,
  * gog_renderer_draw_rectangle :
  * @renderer : #GogRenderer
  * @rect : #GogViewAllocation
+ * @bound  : #GogViewAllocation optional clip
  *
  * A utility routine to build a vpath in @rect.
  **/
 void
-gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
+gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect,
+			     GogViewAllocation const *bound)
 {
 	gboolean const narrow = (rect->w < 3.) || (rect->h < 3.);
 	double o, o_2;
@@ -416,7 +422,7 @@ gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect)
 	path[0].y = path[3].y = path[4].y = rect->y + o_2; 
 	path[1].y = path[2].y = path[0].y + rect->h - o; 
 
-	gog_renderer_draw_polygon (rend, path, narrow);
+	gog_renderer_draw_polygon (rend, path, narrow, bound);
 }
 
 double

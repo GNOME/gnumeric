@@ -260,14 +260,22 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		path[i][0].code = ART_MOVETO;
 
 		if (!is_area_plot) {
+			double x, y;
+			double min_x = view->allocation.x;
+			double max_x = min_x + view->allocation.w;
+			double min_y = view->allocation.y;
+			double max_y = max_x + view->allocation.h;
 
 			path[i][lengths[i] +1].code = ART_END;
 
-			gog_renderer_draw_path (view->renderer, path[i]);
-			for (j = 1; j <= lengths[i]; j++)
-				gog_renderer_draw_marker (view->renderer, path[i][j].x, path[i][j].y);
-
-
+			gog_renderer_draw_path (view->renderer,
+				path[i], &view->allocation);
+			for (j = 1; j <= lengths[i]; j++) {
+				x = path[i][j].x;
+				y = path[i][j].y;
+				if (min_x <= x && x <= max_x && min_y <= y && y <= max_y)
+					gog_renderer_draw_marker (view->renderer, x, y);
+			}
 		} else {
 			switch (type) {
 			case GOG_1_5D_NORMAL :
@@ -295,7 +303,12 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				path[i][j+1].code = ART_END;
 				break;
 			}
-			gog_renderer_draw_polygon (view->renderer, path[i], FALSE);
+			gog_renderer_draw_polygon (view->renderer,
+				path[i], FALSE,
+				/* FIXME FIXME FIXME :
+				 * clipping breaks badly here.
+				 * for positive areas the winding is backwards and things clip badly */
+				 NULL /* &view->allocation */);
 		}
 
 		gog_renderer_pop_style (view->renderer);

@@ -1,3 +1,17 @@
+2003-10-27  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c (opencalc_content_dtd) : tack on a few more nodes
+	  to silence warnings.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=125611
+	* openoffice-read.c (oo_attr_int) : OUCH!  Minor typo crept in when
+	  adding namespace support that broke importing all integers !  In
+	  this case it showed up because the integer was specifying spans.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=125604
+	* openoffice-read.c (openoffice_file_open) : OO uses C locale for
+	  numbers be careful to set and clear the locales appropriately.
+
 2003-10-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.1

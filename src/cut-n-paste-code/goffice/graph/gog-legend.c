@@ -253,8 +253,6 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 	GogLegend *l = GOG_LEGEND (v->model);
 	double pad_y = gog_renderer_pt2r_y (
 		v->renderer, l->swatch_padding_pts);
-	double outline = gog_renderer_line_size (
-		v->renderer, GOG_STYLED_OBJECT (l)->style->outline.width);
 	unsigned n, mult = 1;
 
 #warning TODO : make this smarter (multiple columns and shrinking text)
@@ -280,11 +278,7 @@ gog_legend_view_size_request (GogView *v, GogViewRequisition *avail)
 	gog_view_size_child_request (v, avail, &res);
 	avail->w = res.w;
 	avail->h = res.h;
-	if (outline > 0) {
-		double pad_x = gog_renderer_pt2r_x (v->renderer, l->swatch_padding_pts);
-		avail->w += outline * 2 + pad_x;
-		avail->h += outline * 2 + pad_y;
-	}
+	lview_parent_klass->size_request (v, avail);
 }
 
 typedef struct {
@@ -315,7 +309,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 		style = (GogStyle *)base_style;
 		gog_renderer_push_style (v->renderer, style);
 		dat->line_path[0].y = dat->line_path[1].y =  swatch.y + swatch.h / 2.;
-		gog_renderer_draw_path (v->renderer, dat->line_path);
+		gog_renderer_draw_path (v->renderer, dat->line_path, NULL);
 		gog_renderer_draw_marker (v->renderer,
 			(dat->line_path[0].x + dat->line_path[1].x) / 2.,
 			dat->line_path[0].y);
@@ -325,7 +319,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 		style->outline.color = RGBA_BLACK;
 
 		gog_renderer_push_style (v->renderer, style);
-		gog_renderer_draw_rectangle (v->renderer, &swatch);
+		gog_renderer_draw_rectangle (v->renderer, &swatch, NULL);
 	}
 	pos.x = swatch.x + dat->label_offset;
 	pos.y = swatch.y;

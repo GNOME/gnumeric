@@ -37,11 +37,12 @@ void  gog_renderer_request_update (GogRenderer *r);
 void  gog_renderer_push_style     (GogRenderer *r, GogStyle const *style);
 void  gog_renderer_pop_style      (GogRenderer *r);
 
-void  gog_renderer_draw_path      (GogRenderer *r, ArtVpath const *path);
+void  gog_renderer_draw_path      (GogRenderer *r, ArtVpath const *path,
+				   GogViewAllocation const *bound);
 void  gog_renderer_draw_polygon   (GogRenderer *r, ArtVpath const *path,
-				   gboolean narrow);
-void  gog_renderer_draw_rectangle (GogRenderer *r,
-				   GogViewAllocation const *rect);
+				   gboolean narrow, GogViewAllocation const *bound);
+void  gog_renderer_draw_rectangle (GogRenderer *r, GogViewAllocation const *rect,
+				   GogViewAllocation const *bound);
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GogViewAllocation const *pos, GtkAnchorType anchor,

@@ -143,7 +143,7 @@ gog_outlined_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogStyledObject *sobj = GOG_STYLED_OBJECT (view->model);
 	gog_renderer_push_style (view->renderer, sobj->style);
-	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
+	gog_renderer_draw_rectangle (view->renderer, &view->allocation, NULL);
 	gog_renderer_pop_style (view->renderer);
 	(oview_parent_klass->render) (view, bbox);
 }

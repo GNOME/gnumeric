@@ -91,7 +91,7 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 	kludge.w += 1.;
 
 	gog_renderer_push_style (view->renderer, grid->base.style);
-	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
+	gog_renderer_draw_rectangle (view->renderer, &view->allocation, NULL);
 	gog_renderer_pop_style (view->renderer);
 	(gview_parent_klass->render) (view, bbox);
 }

@@ -806,8 +806,8 @@ stf_parse_general (StfParseOptions_t *parseoptions,
 		GPtrArray *line;
 
 		if (++row >= SHEET_MAX_ROWS) {
-				g_warning (WARN_TOO_MANY_ROWS, row);
-				break;
+			g_warning (WARN_TOO_MANY_ROWS, row);
+			break;
 		}
 
 		line = parseoptions->parsetype == PARSE_TYPE_CSV
@@ -1195,9 +1195,9 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 								  start_col + lcol_target,
 								  row));
 					v = format_match (text, fmt, date_conv);
-					if (v == NULL) {
+					if (v == NULL)
 						v = value_new_string (text);
-					}
+
 					cell_set_value (sheet_cell_fetch
 							(sheet, start_col + lcol_target, row), v);
 				}

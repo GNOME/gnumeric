@@ -540,7 +540,12 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 		gtk_label_new (_("Details")));
 	gog_style_editor (gobj, cc, notebook, GOG_STYLE_LINE | GOG_STYLE_FONT),
 
-	w = glade_xml_get_widget (gui, "axis_low"),
+	w = glade_xml_get_widget (gui, "axis_low");
+	if (axis->pos == GOG_AXIS_AT_LOW)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
+	else
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (
+			glade_xml_get_widget (gui, "axis_high")), TRUE);
 	g_signal_connect_object (G_OBJECT (w),
 		"toggled",
 		G_CALLBACK (cb_pos_changed), axis, 0);
@@ -860,10 +865,10 @@ gog_axis_num_markers (GogAxis *axis, double *step)
 			n = go_data_vector_get_len (axis->labels);
 		else if (axis->max_val >= axis->min_val)	/* case there is no data */
 			n = gnumeric_fake_trunc (axis->max_val);
-		if (n < 0)
-			n = 0;
+		if (n < 1)
+			n = 1;
 		if (step != NULL)
-			*step = 1. / (n + 1);
+			*step = 1. / n;
 		return n;
 	} else {
 		double major_tick = axis_get_entry (axis, AXIS_ELEM_MAJOR_TICK, NULL);
@@ -1049,7 +1054,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 				continue;
 			if (draw_major) {
 				major_path[1].x = major_path[0].x = axis_path[0].x + i * step;
-				gog_renderer_draw_path (v->renderer, major_path);
+				gog_renderer_draw_path (v->renderer, major_path, NULL);
 			}
 			if (axis->major_tick_labeled) {
 				label_pos.x = axis_path[0].x + i * step;
@@ -1115,7 +1120,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 				continue;
 			if (draw_major) {
 				major_path[1].y = major_path[0].y = axis_path[0].y - i * step;
-				gog_renderer_draw_path (v->renderer, major_path);
+				gog_renderer_draw_path (v->renderer, major_path, NULL);
 			}
 			if (axis->major_tick_labeled) {
 				label_pos.y = axis_path[0].y - i * step;
@@ -1141,7 +1146,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 	}
 
 	if (line_width > 0)
-		gog_renderer_draw_path (v->renderer, axis_path);
+		gog_renderer_draw_path (v->renderer, axis_path, NULL);
 	gog_renderer_pop_style (v->renderer);
 }
 

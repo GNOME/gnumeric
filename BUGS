@@ -9,6 +9,7 @@ Release Critical
 ----------------
 
     http://bugzilla.gnome.org/show_bug.cgi?id=124315	[line plot ignores axis]
+    - XY clipping
     - Verify histogram tool.  Feels fubar.
     : text in boxes for text-xls/pivot.xls is white ??
     : guia.xls complains of problems importing autofilter

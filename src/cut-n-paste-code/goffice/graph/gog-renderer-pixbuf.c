@@ -75,8 +75,26 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 		(parent_klass->finalize) (obj);
 }
 
+static ArtSVP *
+clip_path (GogViewAllocation const *bound)
+{
+	ArtVpath path[6];
+	path[0].code = ART_MOVETO;
+	path[1].code = ART_LINETO;
+	path[2].code = ART_LINETO;
+	path[3].code = ART_LINETO;
+	path[4].code = ART_LINETO;
+	path[5].code = ART_END;
+	path[0].x = path[1].x = path[4].x = bound->x;
+	path[2].x = path[3].x = path[0].x + bound->w;
+	path[0].y = path[3].y = path[4].y = bound->y; 
+	path[1].y = path[2].y = path[0].y + bound->h; 
+	return art_svp_from_vpath ((ArtVpath *)path);
+}
+
 static void
-gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path)
+gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
+			       GogViewAllocation const *bound)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	GogStyle const *style = rend->cur_style;
@@ -84,6 +102,15 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path)
 	ArtSVP *svp = art_svp_vpath_stroke ((ArtVpath *)path,
 		ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_SQUARE,
 		width, 4, 0.5);
+
+	if (bound != NULL) {
+		ArtSVP *orig = svp;
+		ArtSVP *clip = clip_path (bound);
+		svp = art_svp_intersect (clip, orig);
+		art_svp_free (clip);
+		art_svp_free (orig);
+	}
+
 	go_color_render_svp (style->line.color, svp,
 		0, 0, prend->w, prend->h,
 		prend->pixels, prend->rowstride);
@@ -101,7 +128,7 @@ gog_art_renderer_new (GogRendererPixbuf *prend)
 
 static void
 gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
-				  gboolean narrow)
+				  gboolean narrow, GogViewAllocation const *bound)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	GogStyle const *style = rend->cur_style;
@@ -113,13 +140,28 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 	GdkPixbuf *image;
 	gint i, j, imax, jmax, w, h, x, y;
 
-	if (!narrow && style->outline.width >= 0.)
+	if (!narrow && style->outline.width >= 0.) {
 		outline = art_svp_vpath_stroke ((ArtVpath *)path,
 			ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_SQUARE,
 			gog_renderer_line_size (rend, style->outline.width), 4, 0.5);
+		if (bound != NULL) {
+			ArtSVP *orig = outline;
+			ArtSVP *clip = clip_path (bound);
+			outline = art_svp_intersect (clip, orig);
+			art_svp_free (clip);
+			art_svp_free (orig);
+		}
+	}
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE) {
 		fill = art_svp_from_vpath ((ArtVpath *)path);
+		if (bound != NULL) {
+			ArtSVP *orig = fill;
+			ArtSVP *clip = clip_path (bound);
+			fill = art_svp_intersect (clip, orig);
+			art_svp_free (clip);
+			art_svp_free (orig);
+		}
 #if 0 /* art_svp_minus is not implemented */
 		if (outline != NULL) {
 			ArtSVP *tmp = art_svp_minus (fill, outline);

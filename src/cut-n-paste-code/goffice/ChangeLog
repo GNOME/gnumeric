@@ -1,3 +1,15 @@
+2003-10-27  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=125619
+	* graph/gog-axis.c (gog_axis_editor) : init the high/low button
+
+	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render) : clip
+	  markers and lines.
+
+	* graph/gog-renderer-pixbuf.c (clip_path) : new.
+	(gog_renderer_pixbuf_draw_path) : support the new clipping argument.
+	(gog_renderer_pixbuf_draw_polygon) : ditto.
+
 2003-10-23  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=125045

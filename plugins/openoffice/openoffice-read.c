@@ -50,6 +50,7 @@
 #include <gsf/gsf-infile-zip.h>
 
 #include <string.h>
+#include <locale.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -129,7 +130,7 @@ oo_attr_int (OOParseState *state, xmlChar const * const *attrs,
 	g_return_val_if_fail (attrs[0] != NULL, FALSE);
 	g_return_val_if_fail (attrs[1] != NULL, FALSE);
 
-	if (strcmp (attrs[0], name))
+	if (!gsf_xml_in_namecmp (&state->base, attrs[0], ns_id, name))
 		return FALSE;
 
 	tmp = strtol ((gchar *)attrs[1], &end, 10);
@@ -826,6 +827,10 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", FALSE, NULL, N
 	GSF_XML_IN_NODE (TABLE_ROW, TABLE_COVERED_CELL, OO_NS_TABLE, "covered-table-cell", FALSE, &oo_covered_cell_start, &oo_covered_cell_end),
 	  GSF_XML_IN_NODE (TABLE_CELL, CELL_TEXT, OO_NS_TEXT, "p", TRUE, NULL, &oo_cell_content_end),
 	    GSF_XML_IN_NODE (CELL_TEXT, CELL_TEXT_S, OO_NS_TEXT, "s", FALSE, NULL, NULL),
+	  GSF_XML_IN_NODE (TABLE_CELL, CELL_OBJECT, OO_NS_DRAW, "object", FALSE, NULL, NULL),		/* ignore for now */
+	  GSF_XML_IN_NODE (TABLE_CELL, CELL_GRAPHIC, OO_NS_DRAW, "g", FALSE, NULL, NULL),		/* ignore for now */
+	    GSF_XML_IN_NODE (CELL_GRAPHIC, CELL_GRAPHIC, OO_NS_DRAW, "g", FALSE, NULL, NULL),		/* 2nd def */
+	    GSF_XML_IN_NODE (CELL_GRAPHIC, DRAW_POLYLINE, OO_NS_DRAW, "polyline", FALSE, NULL, NULL),		/* 2nd def */
       GSF_XML_IN_NODE (TABLE, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", FALSE, NULL, NULL),
         GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL_GROUP, OO_NS_TABLE, "table-column-group", FALSE, NULL, NULL),
         GSF_XML_IN_NODE (TABLE_COL_GROUP, TABLE_COL, OO_NS_TABLE, "table-column", FALSE, NULL, NULL), /* 2nd def */
@@ -834,6 +839,10 @@ GSF_XML_IN_NODE (START, OFFICE, OO_NS_OFFICE, "document-content", FALSE, NULL, N
         GSF_XML_IN_NODE (TABLE_ROW_GROUP, TABLE_ROW,	    OO_NS_TABLE, "table-row", FALSE, NULL, NULL), /* 2nd def */
     GSF_XML_IN_NODE (OFFICE_BODY, NAMED_EXPRS, OO_NS_TABLE, "named-expressions", FALSE, NULL, NULL),
       GSF_XML_IN_NODE (NAMED_EXPRS, NAMED_EXPR, OO_NS_TABLE, "named-expression", FALSE, &oo_named_expr, NULL),
+    GSF_XML_IN_NODE (OFFICE_BODY, DB_RANGES, OO_NS_TABLE, "database-ranges", FALSE, NULL, NULL),
+      GSF_XML_IN_NODE (DB_RANGES, DB_RANGE, OO_NS_TABLE, "database-range", FALSE, NULL, NULL),
+        GSF_XML_IN_NODE (DB_RANGE, TABLE_SORT, OO_NS_TABLE, "sort", FALSE, NULL, NULL),
+          GSF_XML_IN_NODE (TABLE_SORT, SORT_BY, OO_NS_TABLE, "sort-by", FALSE, NULL, NULL),
   { NULL }
 };
 
@@ -914,6 +923,7 @@ void
 openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input)
 {
+	char *old_num_locale, *old_monetary_locale;
 	OOParseState state;
 	GsfInput *content = NULL;
 	GError   *err = NULL;
@@ -940,6 +950,11 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		g_object_unref (G_OBJECT (zip));
 		return;
 	}
+
+	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
+	gnumeric_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (gnumeric_setlocale (LC_MONETARY, NULL));
+	gnumeric_setlocale (LC_MONETARY, "C");
 
 	/* init */
 	state.context = io_context;
@@ -987,6 +1002,11 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		sheet_flag_recompute_spans (workbook_sheet_by_index (state.pos.wb, i));
 
 	gnm_expr_conventions_free (state.exprconv);
+
+	gnumeric_setlocale (LC_MONETARY, old_monetary_locale);
+	g_free (old_monetary_locale);
+	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 }
 
 void
