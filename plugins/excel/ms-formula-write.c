@@ -40,6 +40,31 @@ typedef struct {
 	int idx;
 } ExcelFunc;
 
+static guint
+sheet_pair_hash (ExcelSheetPair const *sp)
+{
+	return (((int)sp->a >> 2) & 0xffff) | (((int)sp->b << 14) & 0xffff0000);
+}
+
+static gint
+sheet_pair_cmp (ExcelSheetPair const *a, ExcelSheetPair const *b)
+{
+	return a->a == b->a && a->b == b->b;
+}
+
+static void
+sheet_pair_add_if_unknown (GHashTable *hash, ExcelSheetPair const *pair)
+{
+	if (NULL == g_hash_table_lookup (hash, pair)) {
+		ExcelSheetPair *new_pair = g_new (ExcelSheetPair, 1);
+		new_pair->a = pair->a;
+		new_pair->b = pair->b;
+		new_pair->idx_a = new_pair->idx_b = 0;
+		g_hash_table_insert (hash, new_pair, new_pair);
+		fprintf (stderr, "Adding %p:%p\n", pair->a, pair->b);
+	}
+}
+
 static void
 excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 {
@@ -93,9 +118,28 @@ excel_write_prep_expr (ExcelWriteState *ewb, GnmExpr const *expr)
 		break;
 	}
 
-	case GNM_EXPR_OP_CELLREF:
-	case GNM_EXPR_OP_CONSTANT:
+	case GNM_EXPR_OP_CELLREF: {
+		ExcelSheetPair pair;
+		pair.a = pair.b = expr->cellref.ref.sheet;
+		if (pair.a != NULL)
+			sheet_pair_add_if_unknown (ewb->sheet_pairs, &pair);
 		break;
+	}
+
+	case GNM_EXPR_OP_CONSTANT: {
+		Value const *v = expr->constant.value;
+		if (v->type == VALUE_CELLRANGE) {
+			ExcelSheetPair pair;
+			pair.a = v->v_range.cell.a.sheet;
+			pair.b = v->v_range.cell.b.sheet;
+			if (pair.a != NULL) {
+				if (pair.b == NULL)
+					pair.b = pair.a;
+				sheet_pair_add_if_unknown (ewb->sheet_pairs, &pair);
+			}
+		}
+		break;
+	}
 
 	default:
 		break;
@@ -114,6 +158,9 @@ excel_write_prep_expressions (ExcelWriteState *ewb)
 {
 	g_return_if_fail (ewb != NULL);
 
+	ewb->sheet_pairs = g_hash_table_new_full (
+		(GHashFunc) sheet_pair_hash, (GEqualFunc) sheet_pair_cmp,
+		NULL, g_free);
 	WORKBOOK_FOREACH_DEPENDENT (ewb->gnum_wb, dep, 
 		excel_write_prep_expr (ewb, dep->expression););
 
@@ -308,7 +355,7 @@ write_ref (PolishData *pd, CellRef const *ref)
 			ms_biff_put_var_write (pd->ewb->bp, data, 17);
 		} else {
 			guint16 extn_idx = excel_write_get_externsheet_idx (
-						pd->ewb, ref->sheet, NULL);
+						pd->ewb, ref->sheet, ref->sheet);
 			GSF_LE_SET_GUINT16 (data, extn_idx);
 			write_cellref_v8 (pd, ref, data + 4, data + 2);
 			ms_biff_put_var_write (pd->ewb->bp, data, 6);

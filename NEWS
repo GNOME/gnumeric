@@ -26,6 +26,10 @@ Jody
 	* Fix inline array export for xls (95 &97)
 	* Store the xls codepage when importing for use when exporting
 	* Merge style extent and most common style calcs for xls export
+	* Improve xls export of custom palettes
+	* Fix xls export for zoom > 100
+	* Implement intersheet and 3d references for xls97 export
+	* Fix xls import of 3d external references
 
 Morten:
 	* Spelling fixes all over.

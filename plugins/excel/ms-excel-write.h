@@ -15,6 +15,11 @@
 #include "style.h"
 
 typedef struct {
+	Sheet *a, *b;
+	int idx_a, idx_b;
+} ExcelSheetPair;
+
+typedef struct {
 	/* Don't use StyleFont.  In the case where a font does not exist on the
 	 * display system it does the wrong thing.  MStyle can contain an
 	 * invalid font.  StyleFont gets remapped to the default
@@ -63,6 +68,10 @@ struct _ExcelWriteState {
 	} formats;
 
 	GHashTable    *function_map;
+	GHashTable    *sheet_pairs;
+
+	/* we use the ewb as a closure for things, this is useful */
+	int tmp_counter;
 
 	gboolean       double_stream_file;
 	GPtrArray     *externnames;

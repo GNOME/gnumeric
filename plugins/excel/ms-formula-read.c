@@ -1417,7 +1417,7 @@ excel_parse_formula (MSContainer const *container,
 				last = first;
 				if (es != NULL) {
 					first.sheet = es->first;
-					last.sheet  = es->first;
+					last.sheet  = es->last;
 				} else
 					first.sheet = last.sheet = NULL;
 
@@ -1506,7 +1506,7 @@ excel_parse_formula (MSContainer const *container,
 					  fn_col, fn_row, 0);
 				if (es != NULL) {
 					first.sheet = es->first;
-					last.sheet  = es->first;
+					last.sheet  = es->last;
 				} else
 					first.sheet = last.sheet = NULL;
 

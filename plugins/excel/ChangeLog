@@ -1,3 +1,19 @@
+2002-11-13  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (excel_parse_formula) : fix typo that broke 3d
+	  references.
+
+	* ms-formula-write.c (sheet_pair_add_if_unknown) : new.
+	(excel_write_prep_expr) : use it for refs and regions.
+
+	* ms-excel-write.c (excel_write_state_free) : release the function and
+	  sheet pair tables.
+	(excel_write_SCL) : new. Clean up and support zoom > 100
+	(cb_write_sheet_pairs) : new.
+	(excel_write_externsheets_v8) : generate sheet pairs for the
+	  externsheet.  Still no support for external links.
+	(excel_write_get_externsheet_idx) : implement.
+
 2002-11-12  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c : Don't use StyleFont.  In the case where a font

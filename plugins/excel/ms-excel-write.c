@@ -382,12 +382,26 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelSheet *container)
 }
 
 static void
+cb_write_sheet_pairs (ExcelSheetPair *sp, gconstpointer dummy, ExcelWriteState *ewb)
+{
+	guint8 data[6];
+
+	GSF_LE_SET_GUINT16 (data + 0, 1);
+	GSF_LE_SET_GUINT16 (data + 2, sp->a->index_in_wb);
+	GSF_LE_SET_GUINT16 (data + 4, sp->b->index_in_wb);
+	ms_biff_put_var_write (ewb->bp, data, 6);
+
+	sp->idx_a = ewb->tmp_counter++;
+}
+
+static void
 excel_write_externsheets_v8 (ExcelWriteState *ewb)
 {
 	/* start with a plugin magic entry */
 	static guint8 const expr_ref []   = { 0x02, 0, 0x1c, 0x17 };
 	static guint8 const zeros []	  = { 0, 0, 0, 0, 0 ,0 };
 	static guint8 const magic_addin[] = { 0x01, 0x00, 0x01, 0x3a };
+	static guint8 const magic_self[]  = { 0x03, 0x00, 0x01, 0x4 };
 	unsigned i;
 	guint8 data [6];
 	GnmFunc *func;
@@ -407,15 +421,23 @@ excel_write_externsheets_v8 (ExcelWriteState *ewb)
 		ms_biff_put_commit (ewb->bp);
 	}
 
+	ms_biff_put_var_next (ewb->bp, BIFF_SUPBOOK);
+	ms_biff_put_var_write (ewb->bp, magic_self, sizeof (magic_self));
+	ms_biff_put_commit (ewb->bp);
+
+	i = g_hash_table_size (ewb->sheet_pairs) + 1 /* for the extennames */;
 	/* Now do the EXTERNSHEET */
 	ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
-	GSF_LE_SET_GUINT16 (data + 0, 0x0001);
+	GSF_LE_SET_GUINT16 (data + 0, i);
 	ms_biff_put_var_write (ewb->bp, data, 2);
 	GSF_LE_SET_GUINT16 (data + 0, 0x0000);
 	GSF_LE_SET_GUINT16 (data + 2, 0xfffe);
 	GSF_LE_SET_GUINT16 (data + 4, 0xfffe);
 	ms_biff_put_var_write (ewb->bp, data, 6);
 
+	ewb->tmp_counter = 1;
+	g_hash_table_foreach (ewb->sheet_pairs,
+		(GHFunc) cb_write_sheet_pairs, ewb);
 	ms_biff_put_commit (ewb->bp);
 }
 
@@ -629,8 +651,15 @@ excel_write_get_externsheet_idx (ExcelWriteState *ewb,
 				 Sheet *sheeta,
 				 Sheet *sheetb)
 {
-	g_warning ("Get Externsheet not implemented yet.");
-	return 0;
+	ExcelSheetPair key, *sp;
+	key.a = sheeta;
+	key.b = sheetb;
+
+	sp = g_hash_table_lookup (ewb->sheet_pairs, &key);
+
+	g_return_val_if_fail (sp != NULL, 0);
+
+	return sp->idx_a;
 }
 
 /**
@@ -2750,6 +2779,22 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 }
 
 static void
+excel_write_SCL (ExcelSheet *esheet)
+{
+	guint8 *data = ms_biff_put_len_next (esheet->ewb->bp, BIFF_SCL, 4);
+	double whole, fractional = modf (esheet->gnum_sheet->last_zoom_factor_used, &whole);
+	int num, denom;
+
+	stern_brocot (fractional, 1000, &num, &denom);
+	num += whole * denom;
+	d (2, fprintf (stderr, "Zoom %g == %d/%d\n",
+		esheet->gnum_sheet->last_zoom_factor_used, num, denom););
+	GSF_LE_SET_GUINT16 (data + 0, (guint16)num);
+	GSF_LE_SET_GUINT16 (data + 2, (guint16)denom);
+	ms_biff_put_commit (esheet->ewb->bp);
+}
+
+static void
 excel_write_SELECTION (BiffPut *bp, ExcelSheet *esheet)
 {
 	SheetView const *sv = sheet_get_view (esheet->gnum_sheet,
@@ -2974,8 +3019,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelSheet *esheet)
 	GArray	*dbcells;
 	guint32  block_end;
 	gint32	 y;
-	guint8	*data;
-	int	 num, denom, rows_in_block = ROW_BLOCK_MAX_LEN;
+	int	 rows_in_block = ROW_BLOCK_MAX_LEN;
 	unsigned index_off;
 
 	/* No. of blocks of rows. Only correct as long as all rows
@@ -3022,14 +3066,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelSheet *esheet)
 	if (excel_write_WINDOW2 (ewb->bp, esheet))
 		excel_write_PANE (ewb->bp, esheet);
 
-	/* Zoom */
-	stern_brocot (esheet->gnum_sheet->last_zoom_factor_used,
-		      1000, &num, &denom);
-	data = ms_biff_put_len_next (ewb->bp, BIFF_SCL, 4);
-	GSF_LE_SET_GUINT16 (data + 0, (guint16)num);
-	GSF_LE_SET_GUINT16 (data + 2, denom);
-	ms_biff_put_commit (ewb->bp);
-
+	excel_write_SCL (esheet);
 	excel_write_SELECTION (ewb->bp, esheet);
 	excel_write_MERGECELLS (ewb->bp, esheet);
 
@@ -3482,6 +3519,7 @@ excel_write_state_new (IOContext *context, WorkbookView *gwb_view,
 	ewb->externnames  = g_ptr_array_new ();
 	ewb->function_map = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		NULL, g_free);
+	ewb->sheet_pairs  = NULL;
 	ewb->double_stream_file = biff7 && biff8;
 
 	fonts_init (ewb);
@@ -3494,8 +3532,8 @@ excel_write_state_new (IOContext *context, WorkbookView *gwb_view,
 		ExcelSheet *esheet = excel_sheet_new (ewb, sheet, maxrows);
 		if (esheet != NULL)
 			g_ptr_array_add (ewb->sheets, esheet);
-		excel_write_prep_expressions (ewb);
 	}
+	excel_write_prep_expressions (ewb);
 
 	gather_style_info (ewb);
 
@@ -3534,6 +3572,8 @@ excel_write_state_free (ExcelWriteState *ewb)
 	g_ptr_array_free (ewb->sheets, TRUE);
 	g_ptr_array_free (ewb->names, TRUE);
 	g_ptr_array_free (ewb->externnames, TRUE);
+	g_hash_table_destroy (ewb->function_map);
+	g_hash_table_destroy (ewb->sheet_pairs);
 
 	if (ewb->sst.strings != NULL) {
 		g_hash_table_destroy (ewb->sst.strings);
