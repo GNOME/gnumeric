@@ -1,3 +1,16 @@
+2004-11-05  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : ctrl+alt is the
+	  logic place to do symetric movement with the new layout.
+
+2004-11-04  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in:
+	  Add AC_ARG_VAR declarations for all variables used in
+	  AC_PATH_PROG or AC_CHECK_PROG.
+	  Clean up the checks for psiconv, perl and python.
+	  Remove the check for jw.
+
 2004-11-05  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object): change sheet object

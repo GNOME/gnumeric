@@ -208,9 +208,9 @@ if test "x${gnumeric_with_gnome}" = "xtrue"; then
 	dnl Special GConf section  (stolen from libgnome)
 	dnl ==============================================
 
-	AC_PATH_PROG(GCONFTOOL, gconftool-2, no)
-
-	if test x"$GCONFTOOL" = xno; then
+	AC_ARG_VAR(GCONFTOOL, [The gconftool-2 executable; comes with GConf.])
+	AC_PATH_PROG(GCONFTOOL, gconftool-2)
+	if test x"$GCONFTOOL" = x; then
 		AC_MSG_ERROR([gconftool-2 executable not found in your path - should be installed with GConf])
 	fi
 	AM_GCONF_SOURCE_2
@@ -237,7 +237,9 @@ dnl ****************************
 dnl prep the pixmap generator
 dnl ****************************
 
+AC_ARG_VAR(GLIB_GENMARSHAL, [The glib-genmarshal executable.])
 AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
+AC_ARG_VAR(GDK_PIXBUF_CSOURCE, [The gdk-pixbuf-csource executable.])
 AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource)
 
 ## this should come after `AC_PROG_CC'
@@ -405,26 +407,19 @@ AM_CONDITIONAL(WITH_GUILE, $enable_guile)
 dnl **************************************************
 dnl * psiconv support
 dnl **************************************************
-try_psiconv=true
-enable_psiconv=false
-psiconv_msg=no
+
 AC_ARG_WITH(psiconv,
-	[--{with,without}-psiconv  Compile with Psiconv support or without it],
-	if test "x$withval" = xno; then
-		try_psiconv=false
-	fi
-)
-if $try_psiconv; then
-    psiconv_msg="missing dependencies"
-    AC_PATH_PROG(PSICONV_CONFIG,psiconv-config,no)
-    if test "$PSICONV_CONFIG" = no; then
-        have_psiconv=false
+	[--{with,without}-psiconv  Compile with Psiconv support or without it])
+AC_ARG_VAR(PSICONV_CONFIG, [The psiconv-config executable.])
+if test "x$with_psiconv" != xno; then
+    AC_CHECK_PROG(PSICONV_CONFIG,psiconv-config)
+    if test x"$PSICONV_CONFIG" = x; then
+	psiconv_msg="missing dependencies"
     else
 	AC_MSG_CHECKING(for psiconv >= 0.9.3)
-        verstxt=`$PSICONV_CONFIG --version`
-        vers=`echo "$verstxt" | \
-	    awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
-        if test "$vers" -ge 9003; then
+	if $PSICONV_CONFIG --version | awk -F. \
+		'{exit !($1 > 0 || $2 > 9 || ($2 == 9 && $3 >= 3))}'
+	then
 	    PSICONV_CFLAGS=`$PSICONV_CONFIG --cflags`
             PSICONV_LIBS=`$PSICONV_CONFIG --libs`
 	    psiconv_msg=yes
@@ -433,12 +428,10 @@ if $try_psiconv; then
         fi
 	AC_MSG_RESULT($psiconv_msg)
     fi
+else
+    psiconv_msg=no
 fi
-
-if test "x$psiconv_msg" = "xyes"; then
-	enable_psiconv=true
-fi
-AM_CONDITIONAL(WITH_PSICONV, $enable_psiconv)
+AM_CONDITIONAL(WITH_PSICONV, test "x$psiconv_msg" = "xyes")
 AC_SUBST(PSICONV_LIBS)
 AC_SUBST(PSICONV_CFLAGS)
 
@@ -706,16 +699,13 @@ dnl **************************************************
 dnl
 perl_msg=yes
 AC_ARG_WITH(perl, [--{with,without}-perl   Compile the Perl plugin loader])
+AC_ARG_VAR(PERL, [The Perl executable.])
 if test "x$with_perl" != xno; then
-    case "x$with_perl" in
-    xyes|x)	perl_prog=perl;;
-    *)		perl_prog="$with_perl";;
-    esac
-    AC_CHECK_PROG(PERL_APP, [$perl_prog], [$perl_prog],"")
-    if test "x$PERL_APP" != x; then
-	AC_MSG_CHECKING(for perl ExtUtils::Embed module				)
-	$perl_prog -e 'eval { require ExtUtils::Embed }; if ($@) { exit(1); } else { exit(0); }'
-	if test "x$?" = "x0"; then
+    AC_CHECK_PROG(PERL, perl, perl)
+    if test "x$PERL" != x; then
+	AC_MSG_CHECKING([for perl ExtUtils::Embed module])
+	if $PERL -e 'eval { require ExtUtils::Embed }; if ($@) { exit(1); } else { exit(0); }'
+	then
 	    AC_MSG_RESULT($marker_ok)
 	    AC_CHECK_LIB(perl, perl_construct, [], [perl_msg="missing/invalid libperl"])
 	else
@@ -723,7 +713,7 @@ if test "x$with_perl" != xno; then
 	    perl_msg="Missing ExtUtils::Embed"
 	fi
     else
-	perl_msg="could not find $perl_prog"
+	perl_msg="could not find perl"
     fi
 else
     perl_msg="Disabled by request"
@@ -732,14 +722,14 @@ fi
 AM_CONDITIONAL(WITH_PERL, test "x$perl_msg" = xyes)
 if test "x$perl_msg" = xyes ; then
     dnl Use ExtUtils::Embed to figure out the other options.
-    PERL_CCCDLFLAGS=`$perl_prog -MConfig -e 'print $Config{cccdlflags},"\n";'`
-    PERL_LDDLFLAGS=`$perl_prog -MConfig -e 'print $Config{lddlflags},"\n";'`
-    PERL_CC=`$perl_prog -MConfig -e 'print $Config{cc},"\n";'`
-    PERL_LD=`$perl_prog -MConfig -e 'print $Config{ld},"\n";'`
-    PERL_CCOPTS=`$perl_prog -MExtUtils::Embed -e ccopts`
-    PERL_LDOPTS=`$perl_prog -MExtUtils::Embed -e ldopts`
+    PERL_CCCDLFLAGS=`$PERL -MConfig -e 'print $Config{cccdlflags},"\n";'`
+    PERL_LDDLFLAGS=`$PERL -MConfig -e 'print $Config{lddlflags},"\n";'`
+    PERL_CC=`$PERL -MConfig -e 'print $Config{cc},"\n";'`
+    PERL_LD=`$PERL -MConfig -e 'print $Config{ld},"\n";'`
+    PERL_CCOPTS=`$PERL -MExtUtils::Embed -e ccopts`
+    PERL_LDOPTS=`$PERL -MExtUtils::Embed -e ldopts`
 
-    perl_msg="yes (using $PERL_APP)"
+    perl_msg="yes (using $PERL)"
 fi
 AC_SUBST(PERL_CCCDLFLAGS)
 AC_SUBST(PERL_LDDLFLAGS)
@@ -753,14 +743,11 @@ dnl * Check for Python
 dnl **************************************************
 python_msg="yes"
 AC_ARG_WITH(python, [--{with,without}-python   Compile the Python plugin loader])
+AC_ARG_VAR(PYTHON, [The Python executable.])
 if test "x$with_python" != xno; then
-    case "x$with_python" in
-    xyes|x)	python_prog=python;;
-    *)		python_prog="$with_python";;
-    esac
-    AC_CHECK_PROG(PYTHON_APP, [$python_prog], [$python_prog], "")
-    if test "x$PYTHON_APP" = x; then
-	python_msg="could not find $python_prog"
+    AC_CHECK_PROG(PYTHON, python, python)
+    if test "x$PYTHON" = x; then
+	python_msg="could not find python"
     fi
 else
     python_msg="Disabled by request"
@@ -768,17 +755,15 @@ fi
 
 if test "x$python_msg" = xyes; then
     AC_MSG_CHECKING([for python >= 2.0])
-    PY_PREFIX=`$python_prog -c 'import sys ; print sys.prefix'`
-    PY_EXEC_PREFIX=`$python_prog -c 'import sys ; print sys.exec_prefix'`
-    changequote(<<, >>)dnl
-    PY_VERSION=`$python_prog -c 'import sys ; print sys.version[0:3]'`
-    broken_py_initialize=`$python_prog -c \
+    PY_PREFIX=`$PYTHON -c 'import sys ; print sys.prefix'`
+    PY_EXEC_PREFIX=`$PYTHON -c 'import sys ; print sys.exec_prefix'`
+    [PY_VERSION=`$PYTHON -c 'import sys ; print sys.version[0:3]'`
+    broken_py_initialize=`$PYTHON -c \
 'import sys
 if int(sys.version[0]) < 2:
     print "yes"
 else:
-    print "no"'`
-    changequote([, ])dnl
+    print "no"'`]
     if test "x$broken_py_initialize" != "xyes"; then
 	AC_MSG_RESULT($marker_ok)
     else
@@ -794,11 +779,10 @@ if test "x$python_msg" = xyes; then
 	PY_LIBS="python$PY_VERSION"
 	PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
 	PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
-	PY_MAKEFILE="$PY_EXEC_PREFIX/lib/python$PY_VERSION/config/Makefile"
-	PY_LOCALMODLIBS=`sed -n -e 's/^LOCALMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
-	PY_BASEMODLIBS=`sed -n -e 's/^BASEMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
-	PY_OTHER_LIBS=`sed -n -e 's/^LIBS=\(.*\)/\1/p' $PY_MAKEFILE`
-	PY_EXTRA_LIBS="$PY_LOCALMODLIBS $PY_BASEMODLIBS $PY_OTHER_LIBS"
+	[echo 'echo_python_libs:
+	@echo $(MODLIBS) $(LIBS)' >confmake.tmp
+	PY_EXTRA_LIBS=`make -f confmake.tmp -f "$PY_EXEC_PREFIX/lib/python$PY_VERSION/config/Makefile"`
+	rm -f confmake.tmp]
     else
 	AC_MSG_RESULT($marker_fail)
 	python_msg="unable to find Python.h"
@@ -836,7 +820,7 @@ fi
 
 AM_CONDITIONAL(WITH_PYTHON, test "x$python_msg" = xyes)
 if test "x$python_msg" = xyes; then
-    python_msg="yes (using $PYTHON_APP)"
+    python_msg="yes (using $PYTHON)"
 fi
 AC_SUBST(PYGTK_CFLAGS)
 AC_SUBST(PY_LIBS)
@@ -914,21 +898,6 @@ AC_SUBST(gnumeric_icondir)
 AC_SUBST(gnumeric_localedir)
 AC_SUBST(gnumeric_autoformatdir)
 AC_SUBST(gnumeric_with_gnome)
-
-dnl ====================================
-dnl = Test whether jw is installed
-dnl ====================================
-AC_PATH_PROG(JW,jw,no)
-if test x$JW = xno; then
-  HAVE_JW="no"
-else
-  HAVE_JW="yes"
-fi
-AM_CONDITIONAL(HAVE_JW, test "x$HAVE_JW" = "xyes")
-AC_SUBST(HAVE_JW)
-dnl ====================================
-dnl = End tests for jw
-dnl ====================================
 
 AC_OUTPUT([
 gnumeric.spec

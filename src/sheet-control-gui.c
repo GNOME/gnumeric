@@ -1974,9 +1974,9 @@ scg_objects_drag_commit (SheetControlGUI *scg, int drag_type,
 }
 
 void
-scg_objects_nudge (SheetControlGUI *scg, int drag_type, int dx, int dy)
+scg_objects_nudge (SheetControlGUI *scg, int drag_type, int dx, int dy, gboolean symmetric)
 {
-	scg_objects_drag (scg, NULL, dx, dy, drag_type, FALSE);
+	scg_objects_drag (scg, NULL, dx, dy, drag_type, symmetric);
 	scg_objects_drag_commit (scg, drag_type, FALSE);
 }
 

@@ -338,9 +338,10 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *ev)
 {
 	SheetControlGUI *scg = gcanvas->simple.scg;
 	SheetControl    *sc = SHEET_CONTROL (scg);
+	unsigned const delta = (0 != (ev->state & GDK_SHIFT_MASK)) ? 15 : 1;
 	gboolean const control = 0 != (ev->state & GDK_CONTROL_MASK);
-	gboolean const delta = (0 != (ev->state & GDK_SHIFT_MASK)) ? 15 : 1;
 	gboolean const alt = 0 != (ev->state & GDK_MOD1_MASK);
+	gboolean const symmetric = control && alt;
 
 	switch (ev->keyval) {
 	case GDK_Escape:
@@ -390,16 +391,16 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *ev)
 		break;
 
 	case GDK_KP_Left: case GDK_Left:
-		scg_objects_nudge (scg, (alt ? 4 : (control ? 3 : 8)), -delta, 0);
+		scg_objects_nudge (scg, (alt ? 4 : (control ? 3 : 8)), -delta, 0, symmetric);
 		return TRUE;
 	case GDK_KP_Right: case GDK_Right:
-		scg_objects_nudge (scg, (alt ? 4 : (control ? 3 : 8)), delta, 0);
+		scg_objects_nudge (scg, (alt ? 4 : (control ? 3 : 8)), delta, 0, symmetric);
 		return TRUE;
 	case GDK_KP_Up: case GDK_Up:
-		scg_objects_nudge (scg, (alt ? 6 : (control ? 1 : 8)), 0, -delta);
+		scg_objects_nudge (scg, (alt ? 6 : (control ? 1 : 8)), 0, -delta, symmetric);
 		return TRUE;
 	case GDK_KP_Down: case GDK_Down:
-		scg_objects_nudge (scg, (alt ? 6 : (control ? 1 : 8)), 0, delta);
+		scg_objects_nudge (scg, (alt ? 6 : (control ? 1 : 8)), 0, delta, symmetric);
 		return TRUE;
 
 	default:
