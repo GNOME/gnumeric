@@ -705,7 +705,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, GnmValue **argv)
 		num = -num;
 		g_string_append_c (str, '-');
 	}
-	render_number (str, num, &fmt);
+	gnm_render_number (str, num, &fmt);
 	if (str->len == 0)
 		g_string_append_c (str, '0');
 	return value_new_string_nocopy (g_string_free (str, FALSE));
