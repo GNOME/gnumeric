@@ -1,3 +1,10 @@
+2002-10-23  Morten Welinder  <terra@diku.dk>
+
+	* src/style.c (style_font_new_simple): Don't create a layout until
+	we know we have a font.  Get rid of pango context for negative
+	hash entries.
+	(style_shutdown): Complain if we leak style font refs.
+
 2002-10-23  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook.c (workbook_foreach_cell_in_range) : fix.

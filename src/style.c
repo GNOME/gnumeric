@@ -155,7 +155,6 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		font->ref_count = 2;
 
 		font->pango.context = gdk_pango_context_get ();
-		font->pango.layout  = pango_layout_new (font->pango.context);
 		desc = pango_context_get_font_description (font->pango.context);
 		pango_font_description_set_family (desc, font_name);
 		pango_font_description_set_weight (desc,
@@ -168,7 +167,7 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		font->pango.font = pango_context_load_font (font->pango.context,
 							    desc);
 		if (font->pango.font == NULL) {
-			/* if we fail try to be smart and map to something similar */
+			/* if we fail, try to be smart and map to something similar */
 			char const *sub = get_substitute_font (font_name);
 			if (sub != NULL) {
 				pango_font_description_set_family (desc, font_name);
@@ -177,11 +176,15 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 			}
 
 			if (font->pango.font == NULL) {
+				g_object_unref (G_OBJECT (font->pango.context));
+				font->pango.context = NULL;
 				g_hash_table_insert (style_font_negative_hash,
 						     font, font);
 				return NULL;
 			}
 		}
+		font->pango.layout  = pango_layout_new (font->pango.context);
+
 		font->pango.metrics = pango_font_get_metrics (font->pango.font,
 			gtk_get_default_language ());
 
@@ -393,10 +396,10 @@ style_init (void)
 static void
 delete_neg_font (gpointer key, gpointer value, gpointer user_data)
 {
-	StyleFont *font = key;
+	StyleFont *sf = key;
 
-	g_free (font->font_name);
-	g_free (font);
+	g_free (sf->font_name);
+	g_free (sf);
 }
 
 static void
@@ -444,8 +447,13 @@ style_shutdown (void)
 		/* Make a list of the fonts, then unref them.  */
 		GSList *fonts = NULL, *tmp;
 		g_hash_table_foreach (style_font_hash, list_cached_fonts, &fonts);
-		for (tmp = fonts; tmp; tmp = tmp->next)
-			style_font_unref (tmp->data);
+		for (tmp = fonts; tmp; tmp = tmp->next) {
+			StyleFont *sf = tmp->data;
+			if (sf->ref_count != 1)
+				g_warning ("Font %s has %d references instead of the expected single.",
+					   sf->font_name, sf->ref_count);
+			style_font_unref (sf);
+		}
 		g_slist_free (fonts);
 	}
 	g_hash_table_destroy (style_font_hash);
