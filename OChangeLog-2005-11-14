@@ -1,5 +1,7 @@
 2001-12-24  Jody Goldberg <jody@gnome.org>
 
+	* src/plugin.c (gnumeric_extra_plugin_dirs) : const warning.
+
 	* src/gui-util.c (gnumeric_toolbar_new) : delete the old basicly
 	  useless class and move the relevant convenience routines here.
 	(gnumeric_toolbar_get_widget) : ditto.

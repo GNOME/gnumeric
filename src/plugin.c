@@ -1404,7 +1404,7 @@ gnumeric_extra_plugin_dirs (void)
 	static gboolean list_ready = FALSE;
 
 	if (!list_ready) {
-		gchar *plugin_path_env;
+		gchar const *plugin_path_env;
 
 		extra_dirs = gnumeric_config_get_string_list ("Gnumeric/Plugin/",
 		                                              "ExtraPluginsDir");
