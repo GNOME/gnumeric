@@ -331,7 +331,8 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 		b.col_relative = 0;
 		a.row_relative = 0;
 		b.row_relative = 0;
-		v = value_new_cellrange (&a, &b);
+		/* We can dummy these out because everything is absolute */
+		v = value_new_cellrange (&a, &b, 0, 0);
 		break;
 	}
 		

@@ -2432,13 +2432,8 @@ cellref_r1c1_get (CellRef *out, const char *in, int parse_col, int parse_row)
 gboolean
 cellref_get (CellRef *out, const char *in, int parse_col, int parse_row)
 {
-	g_return_val_if_fail (in != NULL, FALSE);
-	g_return_val_if_fail (out != NULL, FALSE);
-
-	if (cellref_a1_get (out, in, parse_col, parse_row))
-		return TRUE;
-	else
-		return cellref_r1c1_get (out, in, parse_col, parse_row);
+	return (cellref_a1_get (out, in, parse_col, parse_row)) ||
+		cellref_r1c1_get (out, in, parse_col, parse_row);
 }
 
 

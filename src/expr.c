@@ -1100,6 +1100,25 @@ eval_expr (EvalPosition const * const pos, ExprTree const *tree,
 	return res;
 }
 
+void
+cell_ref_make_abs (CellRef * const dest,
+		   CellRef const * const src,
+		   EvalPosition const * const ep)
+{
+	g_return_if_fail (dest != NULL);
+	g_return_if_fail (src != NULL);
+	g_return_if_fail (ep != NULL);
+
+	*dest = *src;
+	if (src->col_relative)
+		dest->col += ep->eval.col;
+
+	if (src->row_relative)
+		dest->row += ep->eval.row;
+
+	dest->row_relative = dest->col_relative = FALSE;
+}
+
 int
 cell_ref_get_abs_col (CellRef const * const ref, EvalPosition const * const pos)
 {
@@ -1111,7 +1130,6 @@ cell_ref_get_abs_col (CellRef const * const ref, EvalPosition const * const pos)
 	return ref->col;
 
 }
-
 int
 cell_ref_get_abs_row (CellRef const * const ref, EvalPosition const * const pos)
 {
@@ -1649,7 +1667,8 @@ expr_relocate (const ExprTree *expr,
 				Value * res;
 				/* Dont allow creation of 3D references */
 				if (ref_a.sheet == ref_b.sheet)
-					res = value_new_cellrange (&ref_a, &ref_b);
+					res = value_new_cellrange (&ref_a, &ref_b,
+								   pos->eval.col, pos->eval.row);
 				else
 					res = value_new_error (NULL, gnumeric_err_REF);
 				return expr_tree_new_constant (res);

@@ -17,6 +17,7 @@ struct _GtkComboText {
 	GtkWidget *entry;
 	GtkWidget *list;
 	GtkWidget *scrolled_window;
+	GtkStateType cache_mouse_state;
 	GHashTable*elements;
 };
 

@@ -62,8 +62,9 @@ accumulate_regions (Sheet *sheet,
 	b.col = end_col;
 	b.row = end_row;
 
+	/* Dummy up the eval pos it does not matter */
 	accum->res = g_slist_prepend (accum->res,
-				      value_new_cellrange(&a, &b));
+				      value_new_cellrange(&a, &b, 0, 0));
 	accum->index++;
 }
 

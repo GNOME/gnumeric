@@ -1,3 +1,8 @@
+2000-04-06  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-formula-read.c (ms_excel_parse_formula) : Adjust to change in
+	  value_new_range.
+
 2000-04-04  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-obj.c (ms_obj_read_biff8_obj) : Be more careful about when to

@@ -47,7 +47,7 @@ value_dump (const Value *value)
 
 	case VALUE_ARRAY: {
 		int x, y;
-		
+
 		printf ("Array: { ");
 		for (y = 0; y < value->v.array.y; y++)
 			for (x = 0; x < value->v.array.x; x++)
@@ -128,7 +128,7 @@ value_cellrange_get_as_string (const Value *value, gboolean use_relative_syntax)
 	if ((a->col != b->col) || (a->row != b->row) ||
 	    (a->col_relative != b->col_relative) || (a->sheet != b->sheet)){
 		g_string_append_c (str, ':');
-		
+
 		encode_cellref (str, b, use_relative_syntax);
 	}
 	ans = str->str;
@@ -225,7 +225,7 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 		if (b->row_relative)
 			b_row += ep->eval.row;
 
-		/* Handle inverted refereneces */
+		/* Handle inverted references */
 		if (a_row > b_row) {
 			int tmp = a_row;
 			a_row = b_row;
@@ -261,7 +261,7 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 		if (cell && cell->value)
 			return cell->value;
 	}
-	
+
 	return NULL;
 }
 
@@ -271,7 +271,7 @@ typedef struct
 	EvalPosition const		*ep;
 	void				*real_data;
 } WrapperClosure;
-	
+
 static Value *
 wrapper_foreach_cell_in_area_callback (Sheet *sheet, int col, int row,
 				       Cell *cell, void *user_data)

@@ -1,3 +1,8 @@
+2000-04-06  Jody Goldberg <jgoldberg@home.com>
+
+	* lotus-formula.c (lotus_parse_formula) : Adjust to changes in
+	  value_new_cellrange.
+
 2000-03-31  Michael Meeks  <michael@helixcode.com>
 
 	* lotus.c (read_workbook): kill old old comments.

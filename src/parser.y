@@ -294,12 +294,14 @@ int yyparse(void);
 	ExprTree *tree;
 	CellRef  *cell;
 	GList    *list;
+	Sheet	 *sheet;
 }
 %type  <tree>     exp array_exp
 %type  <list>     arg_list array_row, array_cols
 %token <tree>     NUMBER STRING FUNCALL CONSTANT CELLREF GTE LTE NE
 %token            SEPARATOR
 %type  <tree>     cellref
+%type  <sheet>    sheetref opt_sheetref
 
 %left '&'
 %left '<' '>' '=' GTE LTE NE
@@ -370,16 +372,6 @@ exp:	  NUMBER 	{ $$ = $1; }
 		free_expr_list_list ($2);
 	}
 
-        | cellref ':' cellref {
-		unregister_allocation ($3);
-		unregister_allocation ($1);
-		$$ = register_expr_allocation
-			(expr_tree_new_constant
-			 (value_new_cellrange (&($1->u.ref), &($3->u.ref))));
-		expr_tree_unref ($3);
-		expr_tree_unref ($1);
-	}
-
 	| FUNCALL '(' arg_list ')' {
 		unregister_allocation ($3);
 		$$ = $1;
@@ -387,25 +379,18 @@ exp:	  NUMBER 	{ $$ = $1; }
 	}
 	;
 
-cellref:  CELLREF {
-		$$ = $1;
-	}
-
-	| STRING '!' CELLREF {
+sheetref: STRING '!' {
 		Sheet *sheet = sheet_lookup_by_name (parser_wb, $1->u.constant->v.str->str);
 		/* TODO : Get rid of ParseErr and replace it with something richer. */
-		unregister_allocation ($3);
 		unregister_allocation ($1); expr_tree_unref ($1);
 		if (sheet == NULL) {
 			parser_error = PARSE_ERR_SYNTAX;
                         return ERROR;
 		}
-	        $$ = $3;
-		$$->u.ref.sheet = sheet;
-		register_expr_allocation($$);
+	        $$ = sheet;
 	}
 
-	| '[' STRING ']' STRING '!' CELLREF {
+	| '[' STRING ']' STRING '!' {
 		/* TODO : Get rid of ParseErr and replace it with something richer.
 		 * The replace ment should include more detail as to what the error
 		 * was,  and where in the expr string to highlight.
@@ -421,7 +406,6 @@ cellref:  CELLREF {
 		if (wb != NULL)
 			sheet = sheet_lookup_by_name (wb, $4->u.constant->v.str->str);
 
-		unregister_allocation ($6);
 		unregister_allocation ($4); expr_tree_unref ($4);
 		unregister_allocation ($2); expr_tree_unref ($2);
 		if (sheet == NULL) {
@@ -429,9 +413,46 @@ cellref:  CELLREF {
 			parser_error = PARSE_ERR_SYNTAX;
                         return ERROR;
 		}
-	        $$ = $6;
-		$$->u.ref.sheet = sheet;
-		register_expr_allocation($$);
+	        $$ = sheet;
+        }
+	;
+
+opt_sheetref: sheetref
+	    | { $$ = NULL; }
+	    ;
+
+cellref:  CELLREF {
+	        $$ = $1;
+	}
+
+	| sheetref CELLREF {
+		$2->u.ref.sheet = $1;
+	        $$ = $2;
+	}
+
+	| CELLREF ':' CELLREF {
+		unregister_allocation ($3);
+		unregister_allocation ($1);
+		$$ = register_expr_allocation
+			(expr_tree_new_constant
+			 (value_new_cellrange (&($1->u.ref), &($3->u.ref),
+					       parser_col, parser_row)));
+		expr_tree_unref ($3);
+		expr_tree_unref ($1);
+	}
+
+	| sheetref CELLREF ':' opt_sheetref CELLREF {
+		unregister_allocation ($5);
+		unregister_allocation ($2);
+		$2->u.ref.sheet = $1;
+		$5->u.ref.sheet = $4 ? $4 : $1;
+		$$ = register_expr_allocation
+			(expr_tree_new_constant
+			 (value_new_cellrange (&($2->u.ref), &($5->u.ref),
+					       parser_col, parser_row)));
+
+		expr_tree_unref ($5);
+		expr_tree_unref ($2);
 	}
 	;
 

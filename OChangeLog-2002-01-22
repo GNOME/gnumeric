@@ -1,5 +1,26 @@
 2000-04-06  Jody Goldberg <jgoldberg@home.com>
 
+	* src/functions/fn-string.c : Add func 'expression' to return text of
+	  formula.
+
+	* src/parser.y : It is illegal to write A1:Sheet2!A3.
+
+	* src/value.c (value_new_cellrange) : Take the eval pos so that we can
+	  correctly invert mixed mode references when necessary.
+
+	* src/expr.c (cell_ref_make_abs) : New routine.
+	(expr_relocate) : Handle changes in value_new_cellrange.
+	* src/func.c (function_marshal_arg) : Ditto.
+	* src/ranges.c (range_parse) : Ditto.
+
+	* src/corba-sheet.c (Sheet_cell_set_value) : No need to check these
+	  references.  They seem to be hard coded to be relative.
+
+	* src/functions/fn-lookup.c (gnumeric_offset) : Begin to handle
+	  relative references.
+
+	* src/sheet.c (cellref_get) : Simplify the logic a smidge.
+
 	* src/workbook.c (workbook_finish_editing) : Restore the edit area
 	  manually for now.  We may need to make the update flags finer grain.
 

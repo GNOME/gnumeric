@@ -908,7 +908,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 						  fn_col, fn_row, 0) ;
 
 				make_inter_sheet_ref (wb, extn_idx, first, last) ;
-				parse_list_push_raw (&stack, value_new_cellrange (first, last));
+				parse_list_push_raw (&stack, value_new_cellrange (first, last, fn_col, fn_row));
 				ptg_length = 10 ;
 			} else {
 				guint16 extn_idx, first_idx, second_idx;
@@ -922,7 +922,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 				second_idx = MS_OLE_GET_GUINT16(cur + 12);
 				make_inter_sheet_ref_v7 (wb, extn_idx, first_idx,
 							 second_idx, first, last) ;
-				parse_list_push_raw (&stack, value_new_cellrange (first, last));
+				parse_list_push_raw (&stack, value_new_cellrange (first, last, fn_col, fn_row));
 				ptg_length = 20 ;
 			}
 			if (first) g_free (first) ;
@@ -947,7 +947,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 				ptg_length = 6 ;
 			}
 
-			parse_list_push_raw (&stack, value_new_cellrange (first, last));
+			parse_list_push_raw (&stack, value_new_cellrange (first, last, fn_col, fn_row));
 
 			if (first) g_free (first) ;
 			if (last)  g_free (last) ;

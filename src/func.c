@@ -343,7 +343,9 @@ function_marshal_arg (FunctionEvalInfo *ei,
 	if (t->oper == OPER_VAR &&
 	    (arg_type == 'A' ||
 	     arg_type == 'r'))
-		v = value_new_cellrange (&t->u.ref, &t->u.ref);
+		v = value_new_cellrange (&t->u.ref, &t->u.ref,
+					 ei->pos->eval.col,
+					 ei->pos->eval.row);
 	else
 		/* force scalars whenever we are certain */
 		v = eval_expr (ei->pos, t,

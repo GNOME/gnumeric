@@ -10,6 +10,7 @@
 #include <glade/glade.h>
 #include "dialogs.h"
 #include "expr.h"
+#include "expr-name.h"
 #include "workbook.h"
 #include "gnumeric-util.h"
 

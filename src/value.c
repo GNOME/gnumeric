@@ -80,21 +80,45 @@ value_new_float (float_t f)
 }
 
 Value *
-value_new_cellrange (const CellRef *a, const CellRef *b)
+value_new_cellrange (const CellRef *a, const CellRef *b,
+		     int const eval_col, int const eval_row)
 {
 	Value *v = g_new (Value, 1);
+	int tmp;
 
 	v->type = VALUE_CELLRANGE;
 	v->v.cell_range.cell_a = *a;
 	v->v.cell_range.cell_b = *b;
 
-	if (a->col > b->col) {
-		v->v.cell_range.cell_a.col = b->col;
-		v->v.cell_range.cell_b.col = a->col;
+	/* Sanity checking to avoid inverted ranges */
+		tmp = a->col;
+	if (a->col_relative != b->col_relative) {
+		/* Make a tmp copy of a in the same mode as b */
+		if (a->col_relative)
+			tmp += eval_col;
+		else
+			tmp -= eval_col;
 	}
-	if (a->row > b->row) {
+	if (tmp > b->col) {
+		v->v.cell_range.cell_a.col = b->col;
+		v->v.cell_range.cell_a.col_relative = b->col_relative;
+		v->v.cell_range.cell_b.col = a->col;
+		v->v.cell_range.cell_b.col_relative = a->col_relative;
+	}
+
+	tmp = a->row;
+	if (a->row_relative != b->row_relative) {
+		/* Make a tmp copy of a in the same mode as b */
+		if (a->row_relative)
+			tmp += eval_row;
+		else
+			tmp -= eval_row;
+	}
+	if (tmp > b->row) {
 		v->v.cell_range.cell_a.row = b->row;
+		v->v.cell_range.cell_a.row_relative = b->row_relative;
 		v->v.cell_range.cell_b.row = a->row;
+		v->v.cell_range.cell_b.row_relative = a->row_relative;
 	}
 
 	return v;

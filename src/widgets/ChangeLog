@@ -1,3 +1,9 @@
+2000-04-06  Jody Goldberg <jgoldberg@home.com>
+
+	* gtk-combo-text.c (cb_enter) : Only change the state if the element
+	  is not already selected.
+	(cb_leave) : Ditto.
+
 2000-04-05  Jody Goldberg <jgoldberg@home.com>
 
 	* widget-color-combo.c (color_combo_finalize) : Unref the tooltip too.

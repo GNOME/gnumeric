@@ -131,8 +131,11 @@ struct _ExprName {
 	} t;
 };
 
-int         cell_ref_get_abs_col   (CellRef const * const cell_ref,
-				    EvalPosition const * const src_fp);
+void        cell_ref_make_abs      (CellRef * const dest,
+				    CellRef const * const src,
+				    EvalPosition const * const ep);
+int         cell_ref_get_abs_col   (CellRef const * const ref,
+				    EvalPosition const * const pos);
 int         cell_ref_get_abs_row   (CellRef const * const cell_ref,
 				    EvalPosition const * const src_fp);
 void        cell_get_abs_col_row   (CellRef const * const cell_ref,

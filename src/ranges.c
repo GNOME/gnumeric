@@ -72,7 +72,10 @@ range_parse (Sheet *sheet, const char *range, gboolean strict)
 	} else
 		b = a;
 
-	v = value_new_cellrange (&a, &b);
+	/* We can dummy out the calling cell because we know that both
+	 * refs use the same mode
+	 */
+	v = value_new_cellrange (&a, &b, 0, 0);
 	
 	return v;
 }

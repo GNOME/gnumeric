@@ -336,7 +336,7 @@ lotus_parse_formula (Sheet *sheet, guint32 col, guint32 row,
 			get_cellref (&a, data + i + 1, data + i + 3, col, row);
 			get_cellref (&b, data + i + 5, data + i + 7, col, row);
 
-			v = value_new_cellrange (&a, &b);
+			v = value_new_cellrange (&a, &b, col, row);
 			parse_list_push_raw (&stack, v);
 			i += 9;
 			break;

@@ -1,3 +1,12 @@
+2000-04-06  Jody Goldberg <jgoldberg@home.com>
+
+	* python.c (range_from_python) : Take an EvalPos for use in
+	  value_new_cellrange.
+	(row_from_python) : Take an evalpos for use in value_from_python.
+	(array_from_python) : Take an evalpos for use in row_from_python.
+	(value_from_python) : Take an evalpos for use in range_from_python.
+	(call_function) : Adjust to changes in value_new_cellrange.
+
 2000-04-05  Jody Goldberg <jgoldberg@home.com>
 
 	* python.c (marshal_func_nodes) : Use eval_expr_nonempty, but permit

@@ -27,7 +27,7 @@
 #define CELL_RANGE_CLASS "CellRange"
 
 static PyObject *value_to_python (Value *v);
-static Value *value_from_python (PyObject *o);
+static Value *value_from_python (PyObject *o, EvalPosition const * const pos);
 
 /* This is standard idiom for defining exceptions in extension modules. */
 static PyObject *GnumericError;
@@ -423,7 +423,7 @@ cleanup:
  * NULL on failure.
  */
 static Value *
-range_from_python (PyObject *o)
+range_from_python (PyObject *o, EvalPosition const * const pos)
 {
 	PyObject *range = NULL;
 	CellRef a, b;
@@ -436,7 +436,7 @@ range_from_python (PyObject *o)
 			       cell_ref_from_python, &a,
 			       cell_ref_from_python, &b))
 		goto cleanup;
-	ret = value_new_cellrange (&a, &b);
+	ret = value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
 	
 cleanup:
 	Py_DECREF (range);
@@ -478,7 +478,8 @@ array_check (PyObject *o)
  *
  * Row n, col m is [n][m].  */
 static int
-row_from_python (PyObject *o, int rowno, Value *array)
+row_from_python (PyObject *o, int rowno, Value *array,
+		 EvalPosition const * const pos)
 {
 	PyObject *item;
 	int i;
@@ -487,7 +488,8 @@ row_from_python (PyObject *o, int rowno, Value *array)
 	for (i = 0; i < cols; i++) {
 		if ((item = PyList_GetItem (o, i)) == NULL)
 			return -1;
-		array->v.array.vals[i][rowno] = value_from_python (item);
+		array->v.array.vals[i][rowno] =
+		    value_from_python (item, pos);
 	}
 	return 0;
 }
@@ -502,7 +504,7 @@ row_from_python (PyObject *o, int rowno, Value *array)
  * Row n, col m is [n][m].
  */
 static Value *
-array_from_python (PyObject *o)
+array_from_python (PyObject *o, EvalPosition const *pos)
 {
 	Value *v = NULL, *array = NULL;
 	PyObject *row = NULL;
@@ -525,7 +527,7 @@ array_from_python (PyObject *o)
 					 "Rectangular array expected");
 			goto cleanup;
 		}
-		if ((row_from_python (row, j, array)) != 0) 
+		if ((row_from_python (row, j, array, pos)) != 0) 
 			goto cleanup;
 	}
 	v = array;
@@ -544,7 +546,7 @@ cleanup:
  * NULL on failure.
  */
 static Value *
-value_from_python (PyObject *o)
+value_from_python (PyObject *o, EvalPosition const * const pos)
 {
 	Value *v = NULL;
 
@@ -559,9 +561,9 @@ value_from_python (PyObject *o)
 	} else if (boolean_check (o)) {
 		v = boolean_from_python (o);
 	} else if (array_check (o)) {
-		v = array_from_python (o);
+		v = array_from_python (o, pos);
 	} else if (range_check (o)) {
-		v = range_from_python (o);
+		v = range_from_python (o, pos);
 	} else {
 		PyErr_SetString  (PyExc_TypeError, _("Unknown Python type"));
 	}
@@ -608,7 +610,7 @@ call_function (FunctionEvalInfo *ei, PyObject *args)
 	result = PyEval_CallObject (((FuncData *)(l->data))->codeobj, args);
 
 	if (result) {
-		v = value_from_python (result);
+		v = value_from_python (result, ei->pos);
 		Py_DECREF (result);
 	}
 	if (PyErr_Occurred ()) {
@@ -746,7 +748,7 @@ apply (PyObject *m, PyObject *py_args)
 		item = PySequence_GetItem (seq, i);
 		if (item == NULL)
 			goto cleanup;
-		values[i] = value_from_python (item);
+		values[i] = value_from_python (item, ei->pos);
 		if (PyErr_Occurred ()) {
 			Py_DECREF (item);
 			goto cleanup;

@@ -869,12 +869,11 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 
 	g_return_val_if_fail (args [0]->type == VALUE_CELLRANGE, NULL);
 
-	memcpy (&a, &args[0]->v.cell_range.cell_a, sizeof (CellRef));
+	cell_ref_make_abs (&a, &args[0]->v.cell_range.cell_a, ei->pos);
+	cell_ref_make_abs (&b, &args[0]->v.cell_range.cell_b, ei->pos);
 
 	a.row += value_get_as_int (args[1]);
 	a.col += value_get_as_int (args[2]);
-
-	memcpy (&b, &a, sizeof(CellRef));
 
 	width = (args[3] != NULL)
 	    ? value_get_as_int (args[3])
@@ -900,7 +899,7 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 
 	b.row += width-1;
 	b.col += height-1;
-	return value_new_cellrange (&a, &b);
+	return value_new_cellrange (&a, &b, ei->pos->eval.col, ei->pos->eval.row);
 }
 
 /***************************************************************************/

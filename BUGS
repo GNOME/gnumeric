@@ -7,6 +7,10 @@ Release Critical
 
 Long term breakage
 ------------------
+- The implication of mixed mode references ($B$2:C3)
+  is large.  We need to validate references when pasting a
+  copy to check for inversion.
+
 - Copy with destination larger than source does not duplicate the styles.
 - Cut/Paste of a cell with bold onto a cell with underline yields a cell with
   both ??

@@ -87,14 +87,18 @@ static gboolean
 cb_enter (GtkWidget *w, GdkEventCrossing *event,
 	  gpointer user)
 {
-	gtk_widget_set_state (w, GTK_STATE_ACTIVE);
+	GtkComboText *ct = user;
+	ct->cache_mouse_state = GTK_WIDGET_STATE(w);
+	if (GTK_STATE_SELECTED != ct->cache_mouse_state)
+		gtk_widget_set_state (w, GTK_STATE_ACTIVE);
 	return TRUE;
 }
 static gboolean
 cb_exit (GtkWidget *w, GdkEventCrossing *event,
 	  gpointer user)
 {
-	gtk_widget_set_state (w, GTK_STATE_NORMAL);
+	GtkComboText *ct = user;
+	gtk_widget_set_state (w, ct->cache_mouse_state);
 	return TRUE;
 }
 
@@ -141,6 +145,9 @@ gtk_combo_text_construct (GtkComboText *ct, gboolean const is_scrolled)
 
 	ct->elements = g_hash_table_new (&g_str_hash,
 					 &g_str_equal);
+
+	/* Probably irrelevant, but lets be careful */
+	ct->cache_mouse_state = GTK_STATE_NORMAL;
 
 	entry = ct->entry = gtk_entry_new ();
 	list = ct->list = gtk_list_new ();

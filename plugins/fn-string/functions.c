@@ -16,7 +16,6 @@
 #include "format.h"
 #include "number-match.h"
 
-
 /***************************************************************************/
 
 static char *help_char = {
@@ -782,6 +781,56 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
+static char *help_expression = {
+	N_("@FUNCTION=EXPRESSION\n"
+	   "@SYNTAX=EXPRESSION(cell)\n"
+	   "@DESCRIPTION="
+	   "EXPRESSION returns expression in @cell as a string, or"
+	   "empty if the cell is not an expression.\n"
+	   "@EXAMPLES=\n"
+	   "in A1 EXPRESSION(A2) equals 'EXPRESSION(A3)'.\n"
+	   "in A2 EXPRESSION(A3) equals empty.\n"
+	   "\n"
+	   "@SEEALSO=TEXT")
+};
+
+static Value *
+gnumeric_expression (FunctionEvalInfo *ei, Value **args)
+{
+	Value const * const v = args[0];
+	if (v->type == VALUE_CELLRANGE) {
+		Cell *cell;
+		CellRef a, b;
+
+		cell_ref_make_abs (&a, &v->v.cell_range.cell_a, ei->pos);
+		cell_ref_make_abs (&b, &v->v.cell_range.cell_b, ei->pos);
+
+		if (a.col != b.col || a.row == b.row || a.sheet != b.sheet)
+			return value_new_error (ei->pos, gnumeric_err_REF);
+
+		cell = sheet_cell_get (eval_sheet (a.sheet, ei->pos->sheet),
+				       a.col, a.row);
+
+		if (cell->parsed_node) {
+			ParsePosition pos;
+			char * expr_string =
+			    expr_decode_tree (cell->parsed_node,
+					      parse_pos_init (&pos,
+							      ei->pos->sheet->workbook,
+							      ei->pos->eval.col,
+							      ei->pos->eval.row));
+			Value * res = value_new_string (expr_string);
+			g_free (expr_string);
+			return res;
+		}
+	}
+
+	return value_new_empty ();
+}
+
+
+/***************************************************************************/
+
 static char *help_trim = {
 	N_("@FUNCTION=TRIM\n"
 	   "@SYNTAX=TRIM(text)\n"
@@ -1335,6 +1384,8 @@ string_functions_init (void)
 			    &help_t,          gnumeric_t);
 	function_add_args  (cat, "text",       "?s",   "value,format_text",
 			    &help_text,       gnumeric_text);
+	function_add_args  (cat, "expression", "r",   "cell",
+			    &help_expression, gnumeric_expression);
 	function_add_args  (cat, "trim",       "s",    "text",
 			    &help_trim,       gnumeric_trim);
 	function_add_args  (cat, "upper",      "s",    "text",
