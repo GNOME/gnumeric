@@ -606,13 +606,13 @@ xml_write_style (XmlParseContext *ctxt,
 		child = xmlNewChild (cur, ctxt->ns,
 			(xmlChar const *)"HyperLink", NULL);
 		xml_node_set_cstr (child, "type",
-			(xmlChar const *) g_type_name (G_OBJECT_TYPE (link)));
+			g_type_name (G_OBJECT_TYPE (link)));
 		xml_node_set_cstr (child, "target",
-			gnm_hlink_get_target (link));
+			(char *)gnm_hlink_get_target (link));
 
 		if (gnm_hlink_get_tip (link) != NULL)
 			xml_node_set_cstr (child, "tip",
-				gnm_hlink_get_tip (link));
+				(char *)gnm_hlink_get_tip (link));
 	}
 
 	v = mstyle_get_validation (style);
@@ -658,12 +658,12 @@ xml_write_style (XmlParseContext *ctxt,
 		parse_pos_init (&pp, ctxt->wb, ctxt->sheet, 0, 0);
 		if (v->expr[0] != NULL &&
 		    (tmp = gnm_expr_as_string (v->expr[0], &pp)) != NULL) {
-			xmlNewChild (child, child->ns, (xmlChar const *)"Expression0", tmp);
+			xmlNewChild (child, child->ns, (xmlChar const *)"Expression0", (xmlChar *)tmp);
 			g_free (tmp);
 		}
 		if (v->expr[1] != NULL &&
 		    (tmp = gnm_expr_as_string (v->expr[1], &pp)) != NULL) {
-			xmlNewChild (child, child->ns, (xmlChar const *)"Expression1", tmp);
+			xmlNewChild (child, child->ns, (xmlChar const *)"Expression1", (xmlChar *)tmp);
 			g_free (tmp);
 		}
 	}
@@ -933,18 +933,18 @@ xml_node_get_print_hf (xmlNodePtr node, PrintHF *hf)
 static void
 xml_write_attribute (xmlNode *parent, char const *name, char const *value)
 {
-	xmlNodePtr attr = xmlNewChild (parent, parent->ns, "Attribute", NULL);
+	xmlNodePtr attr = xmlNewChild (parent, parent->ns, (xmlChar *)"Attribute", NULL);
 
 	/* backwards compatibility with 1.0.x which uses gtk-1.2 GTK_TYPE_BOOLEAN */
-	xmlNewChild (attr, attr->ns, "type", "4");
-	xmlNewChild (attr, attr->ns, "name", name);
-	xmlNewChild (attr, attr->ns, "value", value);
+	xmlNewChild (attr, attr->ns, (xmlChar *)"type", (xmlChar *)"4");
+	xmlNewChild (attr, attr->ns, (xmlChar *)"name", (xmlChar *)name);
+	xmlNewChild (attr, attr->ns, (xmlChar *)"value", (xmlChar *)value);
 }
 
 static xmlNodePtr
 xml_write_wbv_attributes (XmlParseContext *ctxt)
 {
-	xmlNodePtr attributes = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attributes", NULL);
+	xmlNodePtr attributes = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar *)"Attributes", NULL);
 	xml_write_attribute (attributes, "WorkbookView::show_horizontal_scrollbar",
 		ctxt->wb_view->show_horizontal_scrollbar ? "TRUE" : "FALSE");
 	xml_write_attribute (attributes, "WorkbookView::show_vertical_scrollbar",
@@ -962,21 +962,21 @@ static void
 xml_read_wbv_attributes (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNode *attr, *tmp;
-	char *name, *value;
+	xmlChar *name, *value;
 
 	for (attr = tree->xmlChildrenNode; attr ; attr = attr->next) {
 		if (xmlIsBlankNode (attr) ||
 		    attr->name == NULL || strcmp (attr->name, "Attribute"))
 			continue;
 
-		tmp = e_xml_get_child_by_name (attr, "name");
+		tmp = e_xml_get_child_by_name (attr, (xmlChar *)"name");
 		if (tmp == NULL)
 			continue;
 		name = xml_node_get_cstr (tmp, NULL);
 		if (name == NULL)
 			continue;
 
-		tmp = e_xml_get_child_by_name (attr, "value");
+		tmp = e_xml_get_child_by_name (attr, (xmlChar *)"value");
 		if (tmp == NULL) {
 			xmlFree (name);
 			continue;
@@ -987,7 +987,7 @@ xml_read_wbv_attributes (XmlParseContext *ctxt, xmlNodePtr tree)
 			continue;
 		}
 
-		wb_view_set_attribute (ctxt->wb_view, name, value);
+		wb_view_set_attribute (ctxt->wb_view, (char *)name, (char *)value);
 		xmlFree (name);
 		xmlFree (value);
 	}
@@ -1074,8 +1074,8 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 	xml_node_set_print_hf (cur, "Footer", pi->footer);
 
 	{
-		gchar *paper_name;
-		paper_name = gnome_print_config_get (pi->print_config, GNOME_PRINT_KEY_PAPER_SIZE);
+		guchar *paper_name;
+		paper_name = gnome_print_config_get (pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_SIZE);
 		if (paper_name) {
 			xmlNewChild (cur, ctxt->ns, (xmlChar const *)"paper", 
 				     (xmlChar const *)paper_name);
@@ -1280,7 +1280,7 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	if ((child = e_xml_get_child_by_name (tree, (xmlChar const *)"paper"))) {
 		char *name = (char *)xmlNodeGetContent (child);
-		gnome_print_config_set (pi->print_config, GNOME_PRINT_KEY_PAPER_SIZE, name);
+		gnome_print_config_set (pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_SIZE, (guchar *)name);
 		xmlFree (name);
 	}
 }
@@ -1437,7 +1437,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 				continue;
 			target = xml_node_get_cstr (child, "target");
 			if (target != NULL) {
-				GnmHLink *link = g_object_new (g_type_from_name (type),
+				GnmHLink *link = g_object_new (g_type_from_name ((char *)type),
 								"target", target,
 								NULL);
 				tip = xml_node_get_cstr (child, "tip");
@@ -1498,8 +1498,9 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			}
 
 			mstyle_set_validation (mstyle,
-				validation_new (style, type, op, title, msg,
-					expr0, expr1, allow_blank, use_dropdown));
+				validation_new (style, type, op, (char *)title,
+					(char *)msg, expr0, expr1, allow_blank,
+					use_dropdown));
 
 			xmlFree (msg);
 			xmlFree (title);
@@ -2993,7 +2994,7 @@ static const struct {
 	{ NULL }
 };
 
-xmlNsPtr
+static xmlNsPtr
 xml_check_version (xmlDocPtr doc, GnumericXMLVersion *version)
 {
 	xmlNsPtr gmr;
@@ -3019,7 +3020,7 @@ xml_check_version (xmlDocPtr doc, GnumericXMLVersion *version)
 /*
  * Create an XML subtree of doc equivalent to the given Workbook.
  */
-xmlNodePtr
+static xmlNodePtr
 xml_workbook_write (XmlParseContext *ctxt)
 {
 	xmlNodePtr cur;
@@ -3191,7 +3192,7 @@ xml_read_workbook_n_elements (xmlNodePtr tree)
 /*
  * Create a Workbook equivalent to the XML subtree of doc.
  */
-gboolean
+static gboolean
 xml_workbook_read (IOContext *context,
 		   XmlParseContext *ctxt, xmlNodePtr tree)
 {
@@ -3268,7 +3269,7 @@ xml_workbook_read (IOContext *context,
 	io_progress_unset (context);
 	io_progress_range_pop (context);
 
-	child = e_xml_get_child_by_name (tree, "Attributes");
+	child = e_xml_get_child_by_name (tree, (xmlChar *)"Attributes");
 	if (child && ctxt->version >= GNUM_XML_V5)
 		xml_read_wbv_attributes (ctxt, child);
 
@@ -3365,7 +3366,7 @@ gnumeric_xml_set_compression (xmlDoc *doc, int compression)
  * One parse the XML file, getting a tree, then analyze the tree to build
  * the actual in-memory structure.
  */
-void
+static void
 gnumeric_xml_read_workbook (GnumFileOpener const *fo,
                             IOContext *context,
                             WorkbookView *wb_view,
@@ -3400,7 +3401,7 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 	size = gsf_input_remaining (source);
 	if (buf != NULL) {
 		pctxt = xmlCreatePushParserCtxt (NULL, NULL,
-			buf, 4, gsf_input_name (source));
+			(char *)buf, 4, gsf_input_name (source));
 
 		for (; size > 0 ; size -= len) {
 			len = XML_INPUT_BUFFER_SIZE;
@@ -3409,11 +3410,11 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 		       buf = gsf_input_read (source, len, NULL);
 		       if (buf == NULL)
 			       break;
-		       xmlParseChunk (pctxt, buf, len, 0);
+		       xmlParseChunk (pctxt, (char *)buf, len, 0);
 #warning Possible overflow
 		       value_io_progress_update (context, gsf_input_tell (source));
 		}
-		xmlParseChunk (pctxt, buf, 0, 1);
+		xmlParseChunk (pctxt, (char *)buf, 0, 1);
 		res = pctxt->myDoc;
 		xmlFreeParserCtxt (pctxt);
 	}
@@ -3448,7 +3449,7 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
  * Save a Workbook in an XML file
  * One build an in-memory XML tree and save it to a file.
  */
-void
+static void
 gnumeric_xml_write_workbook (GnumFileSaver const *fs,
                              IOContext *context,
                              WorkbookView *wb_view,

@@ -9,10 +9,14 @@
 	* src/parse-util.h, src/regutf8.c, src/regutf8.h: Don't use // comments.
 	* src/func.c (gnm_func_group_remove_func),
 	  src/parse-util.c (wbref_parse),
-	  src/plugin.c (gnm_plugin_type_module_load),
-	  src/plugin.c (gnm_plugin_type_module_unload): Made static.
+	  src/plugin.c (gnm_plugin_type_module_load,
+	  gnm_plugin_type_module_unload): Made static.
 	* src/gnumeric-gconf.h: Added gnm_gconf_get_printer_command prototype.
 	* src/sheet.h: Added sheet_redraw_headers prototype.
+	* src/xml-io.c (xml_check_version, xml_workbook_write, 
+	  xml_workbook_read, gnumeric_xml_read_workbook,
+	  gnumeric_xml_write_workbook): Made static.
+	* src/xml-io.c: Casts and type changes to fix signedness.
 
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
