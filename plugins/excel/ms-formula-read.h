@@ -10,10 +10,13 @@
 #include "ms-excel.h"
 #include "ms-biff.h"
 
-void ms_excel_parse_formular (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q) ;
+void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q) ;
 
 #define FORMULA_PTG_MAX                0x7f
 
+#define FORMULA_PTG_EXP                0x01
+#define FORMULA_PTG_FUNC               0x21
+#define FORMULA_PTG_FUNC_VAR           0x22
 #define FORMULA_PTG_REF                0x24
 #define FORMULA_PTG_AREA               0x25
 #define FORMULA_PTG_MEM_AREA           0x26

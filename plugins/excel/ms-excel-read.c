@@ -242,7 +242,7 @@ static void ms_excel_set_cell_colors (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF
   col = xf->foregnd_col ;
   if (col>=0 && col < sheet->wb->palette->length)
     {
-      printf ("FG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]) ;
+      /*      printf ("FG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]) ; */
       cell_set_foreground (cell, p->red[col], p->green[col], p->blue[col]) ;
     }
   else
@@ -250,7 +250,7 @@ static void ms_excel_set_cell_colors (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF
   col = xf->backgnd_col ;
   if (col>=0 && col < sheet->wb->palette->length)
     {
-      printf ("BG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]) ;
+      /*      printf ("BG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]) ; */
       cell_set_background (cell, p->red[col], p->green[col], p->blue[col]) ;
     }
   else
@@ -283,7 +283,7 @@ static void ms_excel_set_cell_font (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_D
   printf ("Unknown fount idx %d\n", xf->font_idx) ;
 }
 
-static void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx)
+void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx)
 {
   GList *ptr ;
   int cnt ;
@@ -699,7 +699,7 @@ static void ms_excel_read_cell  (BIFF_QUERY *q, MS_EXCEL_SHEET *sheet)
       /*      printf ("Row %d formatting\n", BIFF_GETROW(q)) ; */
       break ;
     case BIFF_FORMULA:  /* FIXME: S59D8F.HTM */
-      ms_excel_parse_formular (sheet, q) ;
+      ms_excel_parse_formula (sheet, q) ;
       break ;
     default:
       printf ("Opcode : 0x%x, length 0x%x\n", q->opcode, q->length) ;
@@ -847,6 +847,7 @@ Workbook *ms_excelReadWorkbook(MS_OLE_FILE *file)
     if (ver)
       free_ms_biff_bof_data(ver) ;
   }
+  workbook_recalc (wb->gnum_wb) ;
   return wb->gnum_wb ;
 }
 

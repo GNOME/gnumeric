@@ -27,7 +27,8 @@ typedef struct _MS_EXCEL_SHEET
   eBiff_version ver ;
 } MS_EXCEL_SHEET ;
 
-void ms_excel_sheet_insert (MS_EXCEL_SHEET *sheet, int xfidx, int col, int row, char *text) ;
+extern void ms_excel_sheet_insert (MS_EXCEL_SHEET *sheet, int xfidx, int col, int row, char *text) ;
+extern void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx) ;
 
 typedef struct _MS_EXCEL_PALETTE
 {

@@ -86,3 +86,7 @@ GNOME Spread Sheet task list
 
    It does not shrink.
 
+* Excel importing
+
+   Add collation of BIFF continuation records to the
+   previous record, to save many checks in the code.

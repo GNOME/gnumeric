@@ -1,5 +1,15 @@
 1998-11-08  Michael Meeks    <michael@imaginator.com>
 
+	* plugins/excel/ms-formula.c: Major top to bottom changes
+	basic hacked RPN to Infix parsing started in a rather nasty
+	fashion. Much more work needed only 1 ( the SUM ) function
+	supported.
+
+	* src/cell.c (cell_split_text): Fixed string length malloc
+	bug, out by 1 trashing stack.
+
+1998-11-08  Michael Meeks    <michael@imaginator.com>
+
 	* src/workbook.c, src/sheet.h, src/main.c (workbook_read):
 	Added generic routine to read a file
 
