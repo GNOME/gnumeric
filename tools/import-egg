@@ -92,7 +92,7 @@ sub copy_subsystem {
 
 	if ($file =~ /\.c$/) {
 	    print DST "#include <gnumeric-config.h>\n";
-	    print DST "#include <gnumeric-i18n.h>\n";
+	    print DST "#include <glib/gi18n.h>\n";
 	    print DST "#include <gnumeric.h>\n\n";
 	}
 

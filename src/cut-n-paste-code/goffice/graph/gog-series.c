@@ -28,7 +28,7 @@
 #include <goffice/graph/go-data.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <src/gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <src/gui-util.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtklabel.h>

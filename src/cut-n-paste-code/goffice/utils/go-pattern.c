@@ -24,7 +24,7 @@
 #include <goffice/utils/go-color.h>
 
 #include <libart_lgpl/libart.h>
-#include <src/gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <widgets/widget-pixmap-combo.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 #include <string.h>

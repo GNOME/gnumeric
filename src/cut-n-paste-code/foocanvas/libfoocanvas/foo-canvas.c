@@ -2,7 +2,7 @@
 
 #undef GTK_DISABLE_DEPRECATED
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: 8; c-basic-offset: 8 -*- */

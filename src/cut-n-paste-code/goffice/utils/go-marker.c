@@ -39,7 +39,7 @@
 #include <gdk-pixbuf/gdk-pixdata.h>
 
 #include <src/mathfunc.h>
-#include <src/gnumeric-i18n.h>
+#include <glib/gi18n.h>
 
 #include <gsf/gsf-impl-utils.h>
 

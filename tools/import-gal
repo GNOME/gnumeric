@@ -68,7 +68,7 @@ foreach my $file (@files) {
 	}
 
 	if (m|^\s*\#\s*include\s*[<"]gal/util/e-i18n\.h[">]|) {
-	    print DST "#include <gnumeric-i18n.h>\n";
+	    print DST "#include <glib/gi18n.h>\n";
 	    next;
 	}
 

@@ -2,7 +2,7 @@
 
 #undef GTK_DISABLE_DEPRECATED
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 
 /* GNOME libraries - GdkPixbuf item for the GNOME canvas

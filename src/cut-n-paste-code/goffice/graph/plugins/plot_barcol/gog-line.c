@@ -30,7 +30,7 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
 
-#include <src/gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <src/mathfunc.h>
 #include <gsf/gsf-impl-utils.h>
 

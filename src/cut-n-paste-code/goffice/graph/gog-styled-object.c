@@ -25,7 +25,7 @@
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-graph.h>
 
-#include <src/gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
 
 enum {

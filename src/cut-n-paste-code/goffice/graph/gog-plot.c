@@ -29,7 +29,7 @@
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/go-data.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <src/mathfunc.h>
 
 #include <gsf/gsf-impl-utils.h>

@@ -33,7 +33,7 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-control-foocanvas.h>
 
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gui-util.h>
 
 #include <libxml/parser.h>

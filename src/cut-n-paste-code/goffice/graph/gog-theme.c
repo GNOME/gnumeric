@@ -29,7 +29,7 @@
 #include <goffice/utils/go-marker.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <src/gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <string.h>
 
 typedef void (GogThemeStyleMap) (GogStyle *style, unsigned ind);

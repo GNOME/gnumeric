@@ -29,7 +29,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/utils/go-units.h>
 
-#include <src/gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
 
 enum {

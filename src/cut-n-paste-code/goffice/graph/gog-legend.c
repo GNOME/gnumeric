@@ -31,7 +31,7 @@
 #include <goffice/utils/go-units.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <src/gnumeric-i18n.h>
+#include <glib/gi18n.h>
 
 struct _GogLegend {
 	GogOutlinedObject base;

@@ -28,7 +28,7 @@
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
 
-#include <src/gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <src/mathfunc.h>
 #include <gsf/gsf-impl-utils.h>
 
