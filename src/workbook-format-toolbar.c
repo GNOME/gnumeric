@@ -507,28 +507,45 @@ static BonoboUIVerb verbs [] = {
 #endif
 
 static void
-cb_fore_color_changed (ColorCombo *combo, GdkColor *c, WorkbookControlGUI *wbcg)
+cb_fore_color_changed (ColorCombo *combo, GdkColor *c,
+		       gboolean by_user, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	MStyle *mstyle = mstyle_new ();
+	MStyle *mstyle;
 
+	/* Color was set programatically, bail out */
+	if (!by_user)
+		return;
+
+	mstyle = mstyle_new ();
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE,
 			  (c != NULL)
 			  ? style_color_new (c->red, c->green, c->blue)
 			  : style_color_black () /* FIXME: add auto colours ? */);
 
+	/* Change the color for all views */
+	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (wbc), view, control,
+				  if (control != wbc) color_combo_set_color (
+					  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->fore_color), c););
+	
 	cmd_format (wbc, sheet, mstyle, NULL,
 		    _("Set Foreground Color"));
 }
 
 static void
-cb_back_color_changed (ColorCombo *combo, GdkColor *c, WorkbookControlGUI *wbcg)
+cb_back_color_changed (ColorCombo *combo, GdkColor *c,
+		       gboolean by_user, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	MStyle *mstyle = mstyle_new ();
+	MStyle *mstyle;
 
+	/* Color was set programatically, bail out */
+	if (!by_user)
+		return;
+
+	mstyle = mstyle_new ();
 	if (c != NULL) {
 		/* We need to have a pattern of at least solid to draw a background colour */
 		if (!mstyle_is_element_set  (mstyle, MSTYLE_PATTERN) ||
@@ -540,6 +557,11 @@ cb_back_color_changed (ColorCombo *combo, GdkColor *c, WorkbookControlGUI *wbcg)
 	} else
 		/* Set background to NONE */
 		mstyle_set_pattern (mstyle, 0);
+
+	/* Change the color for all views */
+	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (wbc), view, control,
+				  if (control != wbc) color_combo_set_color (
+					  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->back_color), c););
 
 	cmd_format (wbc, sheet, mstyle, NULL,
 		    _("Set Background Color"));
@@ -803,7 +825,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 				 _("Borders"));
 
 	/* Create the background colour combo box */
-	cg = color_group_fetch ("back_color_group", wbcg);
+	cg = color_group_fetch ("back_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	wbcg->back_color = back_combo =
 		color_combo_new (bucket_xpm, _("Clear Background"),
 				 /* Draw an outline for the default */
@@ -814,8 +836,21 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	gtk_combo_box_set_title (GTK_COMBO_BOX (back_combo),
 				 _("Background"));
 
+	/* Sync the color of the background color combo with the other views */
+	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (WORKBOOK_CONTROL (wbcg)), view, control,
+				  if (control != WORKBOOK_CONTROL (wbcg)) {
+					  GdkColor *color = color_combo_get_color (
+						  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->back_color));
+					  if (color) {
+						  color_combo_set_color (
+							  COLOR_COMBO (wbcg->back_color), color);
+						  gdk_color_free (color);
+						  break;
+					  }
+				  });
+
 	/* Create the font colour combo box.  */
-	cg = color_group_fetch ("fore_color_group", wbcg);
+	cg = color_group_fetch ("fore_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	wbcg->fore_color = fore_combo =
 		color_combo_new (font_xpm, _("Automatic"),
 				 /* Draw black for the default */
@@ -825,6 +860,19 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	disable_focus (fore_combo, NULL);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (fore_combo),
 				 _("Foreground"));
+				 
+	/* Sync the color of the font color combo with the other views */
+	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (WORKBOOK_CONTROL (wbcg)), view, control,
+				  if (control != WORKBOOK_CONTROL (wbcg)) {
+					  GdkColor *color = color_combo_get_color (
+						  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->fore_color));
+					  if (color) {
+						  color_combo_set_color (
+							  COLOR_COMBO (wbcg->fore_color), color);
+						  gdk_color_free (color);
+						  break;
+					  }
+				  });
 
 #ifdef ENABLE_BONOBO
 	gnumeric_inject_widget_into_bonoboui (wbcg, fontsel, "/FormatToolbar/FontName");

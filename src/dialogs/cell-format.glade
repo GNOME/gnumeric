@@ -10,7 +10,6 @@
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
-  <output_translatable_strings>False</output_translatable_strings>
 </project>
 
 <widget>
@@ -1087,7 +1086,7 @@
 
 	<widget>
 	  <class>GtkFrame</class>
-	  <name>frame13</name>
+	  <name>font_color_frame</name>
 	  <border_width>3</border_width>
 	  <label>Color</label>
 	  <label_xalign>0</label_xalign>
@@ -1100,26 +1099,29 @@
 
 	  <widget>
 	    <class>GtkAlignment</class>
-	    <name>alignment45</name>
+	    <name>alignment50</name>
+	    <border_width>5</border_width>
 	    <xalign>0</xalign>
-	    <yalign>0</yalign>
+	    <yalign>7.45058e-09</yalign>
 	    <xscale>0</xscale>
-	    <yscale>0</yscale>
+	    <yscale>3.65078e-07</yscale>
 
 	    <widget>
-	      <class>GtkVBox</class>
-	      <name>vbox19</name>
+	      <class>GtkHBox</class>
+	      <name>font_color_hbox</name>
 	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
+	      <spacing>5</spacing>
 
 	      <widget>
-		<class>GtkRadioButton</class>
-		<name>font_color_auto</name>
-		<can_focus>True</can_focus>
-		<label>_Automatic</label>
-		<active>False</active>
-		<draw_indicator>True</draw_indicator>
-		<group>font_color</group>
+		<class>GtkLabel</class>
+		<name>label50</name>
+		<label>Color :</label>
+		<justify>GTK_JUSTIFY_CENTER</justify>
+		<wrap>False</wrap>
+		<xalign>0.5</xalign>
+		<yalign>0.5</yalign>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -1128,44 +1130,7 @@
 	      </widget>
 
 	      <widget>
-		<class>GtkHBox</class>
-		<name>hbox17</name>
-		<homogeneous>False</homogeneous>
-		<spacing>0</spacing>
-		<child>
-		  <padding>4</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
-		</child>
-
-		<widget>
-		  <class>GtkRadioButton</class>
-		  <name>font_color_custom</name>
-		  <can_focus>True</can_focus>
-		  <label>_Custom</label>
-		  <active>False</active>
-		  <draw_indicator>True</draw_indicator>
-		  <group>font_color</group>
-		  <child>
-		    <padding>0</padding>
-		    <expand>False</expand>
-		    <fill>False</fill>
-		  </child>
-		</widget>
-
-		<widget>
-		  <class>GnomeColorPicker</class>
-		  <name>font_color_picker</name>
-		  <can_focus>True</can_focus>
-		  <dither>True</dither>
-		  <use_alpha>False</use_alpha>
-		  <title>Pick a font color</title>
-		  <child>
-		    <padding>4</padding>
-		    <expand>False</expand>
-		    <fill>False</fill>
-		  </child>
-		</widget>
+		<class>Placeholder</class>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -1810,7 +1775,7 @@ Double
 
 	<widget>
 	  <class>GtkVBox</class>
-	  <name>vbox2</name>
+	  <name>line_vbox</name>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
 
@@ -2227,47 +2192,35 @@ Double
 	  </widget>
 
 	  <widget>
-	    <class>GtkRadioButton</class>
-	    <name>border_color_auto</name>
-	    <can_focus>True</can_focus>
-	    <label>_Automatic</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <group>border_color</group>
-	    <child>
-	      <padding>0</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
-	    </child>
-	  </widget>
-
-	  <widget>
 	    <class>GtkAlignment</class>
-	    <name>alignment21</name>
-	    <xalign>0</xalign>
+	    <name>alignment51</name>
+	    <xalign>0.5</xalign>
 	    <yalign>0</yalign>
-	    <xscale>0</xscale>
+	    <xscale>1</xscale>
 	    <yscale>0</yscale>
 	    <child>
 	      <padding>0</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
+	      <expand>True</expand>
+	      <fill>True</fill>
 	    </child>
 
 	    <widget>
 	      <class>GtkHBox</class>
-	      <name>hbox2</name>
+	      <name>border_color_hbox</name>
+	      <border_width>5</border_width>
 	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
+	      <spacing>5</spacing>
 
 	      <widget>
-		<class>GtkRadioButton</class>
-		<name>border_color_custom</name>
-		<can_focus>True</can_focus>
-		<label>_Custom</label>
-		<active>False</active>
-		<draw_indicator>True</draw_indicator>
-		<group>border_color</group>
+		<class>GtkLabel</class>
+		<name>label51</name>
+		<label>Color :</label>
+		<justify>GTK_JUSTIFY_CENTER</justify>
+		<wrap>False</wrap>
+		<xalign>0.5</xalign>
+		<yalign>0.5</yalign>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -2276,19 +2229,7 @@ Double
 	      </widget>
 
 	      <widget>
-		<class>GnomeColorPicker</class>
-		<name>border_color_picker</name>
-		<width>32</width>
-		<height>24</height>
-		<can_focus>True</can_focus>
-		<dither>True</dither>
-		<use_alpha>False</use_alpha>
-		<title>Pick a border color</title>
-		<child>
-		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
-		</child>
+		<class>Placeholder</class>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -2329,7 +2270,7 @@ Double
 
 	<widget>
 	  <class>GtkFrame</class>
-	  <name>frame11</name>
+	  <name>background_color_frame</name>
 	  <border_width>2</border_width>
 	  <label>Background Color</label>
 	  <label_xalign>0</label_xalign>
@@ -2341,30 +2282,30 @@ Double
 	  </child>
 
 	  <widget>
-	    <class>GtkVBox</class>
-	    <name>vbox26</name>
-	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <class>GtkAlignment</class>
+	    <name>alignment52</name>
+	    <xalign>0.5</xalign>
+	    <yalign>0</yalign>
+	    <xscale>1</xscale>
+	    <yscale>0</yscale>
 
 	    <widget>
-	      <class>GtkVBox</class>
-	      <name>vbox33</name>
+	      <class>GtkHBox</class>
+	      <name>back_color_hbox</name>
+	      <border_width>5</border_width>
 	      <homogeneous>False</homogeneous>
-	      <spacing>0</spacing>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
+	      <spacing>5</spacing>
 
 	      <widget>
-		<class>GtkRadioButton</class>
-		<name>back_color_auto</name>
-		<can_focus>True</can_focus>
-		<label>_No Color</label>
-		<active>True</active>
-		<draw_indicator>True</draw_indicator>
-		<group>back_color</group>
+		<class>GtkLabel</class>
+		<name>label53</name>
+		<label>Color :</label>
+		<justify>GTK_JUSTIFY_CENTER</justify>
+		<wrap>False</wrap>
+		<xalign>0.5</xalign>
+		<yalign>0.5</yalign>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -2373,53 +2314,7 @@ Double
 	      </widget>
 
 	      <widget>
-		<class>GtkAlignment</class>
-		<name>alignment37</name>
-		<xalign>0</xalign>
-		<yalign>0</yalign>
-		<xscale>0</xscale>
-		<yscale>0</yscale>
-		<child>
-		  <padding>0</padding>
-		  <expand>True</expand>
-		  <fill>True</fill>
-		</child>
-
-		<widget>
-		  <class>GtkHBox</class>
-		  <name>hbox28</name>
-		  <homogeneous>False</homogeneous>
-		  <spacing>0</spacing>
-
-		  <widget>
-		    <class>GtkRadioButton</class>
-		    <name>back_color_custom</name>
-		    <can_focus>True</can_focus>
-		    <label>C_olor</label>
-		    <active>False</active>
-		    <draw_indicator>True</draw_indicator>
-		    <group>back_color</group>
-		    <child>
-		      <padding>0</padding>
-		      <expand>False</expand>
-		      <fill>False</fill>
-		    </child>
-		  </widget>
-
-		  <widget>
-		    <class>GnomeColorPicker</class>
-		    <name>back_color_picker</name>
-		    <can_focus>True</can_focus>
-		    <dither>True</dither>
-		    <use_alpha>False</use_alpha>
-		    <title>Pick a Background color</title>
-		    <child>
-		      <padding>0</padding>
-		      <expand>False</expand>
-		      <fill>False</fill>
-		    </child>
-		  </widget>
-		</widget>
+		<class>Placeholder</class>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -2439,807 +2334,785 @@ Double
 	  </child>
 
 	  <widget>
-	    <class>GtkVBox</class>
-	    <name>vbox27</name>
-	    <homogeneous>False</homogeneous>
-	    <spacing>3</spacing>
+	    <class>GtkAlignment</class>
+	    <name>alignment53</name>
+	    <xalign>0.5</xalign>
+	    <yalign>0</yalign>
+	    <xscale>1</xscale>
+	    <yscale>0</yscale>
 
 	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>pattern_color_auto</name>
-	      <can_focus>True</can_focus>
-	      <label>_Automatic</label>
-	      <active>True</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>pattern_color</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkAlignment</class>
-	      <name>alignment20</name>
-	      <xalign>0</xalign>
-	      <yalign>0</yalign>
-	      <xscale>0</xscale>
-	      <yscale>0</yscale>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
+	      <class>GtkVBox</class>
+	      <name>pattern_vbox</name>
+	      <homogeneous>False</homogeneous>
+	      <spacing>3</spacing>
 
 	      <widget>
 		<class>GtkHBox</class>
-		<name>hbox20</name>
+		<name>pattern_color_hbox</name>
+		<border_width>5</border_width>
 		<homogeneous>False</homogeneous>
-		<spacing>0</spacing>
+		<spacing>5</spacing>
+		<child>
+		  <padding>0</padding>
+		  <expand>True</expand>
+		  <fill>True</fill>
+		</child>
 
 		<widget>
-		  <class>GtkRadioButton</class>
-		  <name>pattern_color_custom</name>
+		  <class>GtkLabel</class>
+		  <name>label52</name>
+		  <label>Color :</label>
+		  <justify>GTK_JUSTIFY_CENTER</justify>
+		  <wrap>False</wrap>
+		  <xalign>0.5</xalign>
+		  <yalign>0.5</yalign>
+		  <xpad>0</xpad>
+		  <ypad>0</ypad>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>False</fill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
+	      </widget>
+
+	      <widget>
+		<class>GtkTable</class>
+		<name>table2</name>
+		<rows>4</rows>
+		<columns>6</columns>
+		<homogeneous>False</homogeneous>
+		<row_spacing>0</row_spacing>
+		<column_spacing>0</column_spacing>
+		<child>
+		  <padding>0</padding>
+		  <expand>True</expand>
+		  <fill>True</fill>
+		</child>
+
+		<widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_75grey</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>75% Grey</tooltip>
 		  <can_focus>True</can_focus>
-		  <label>_Custom</label>
+		  <relief>GTK_RELIEF_NORMAL</relief>
 		  <active>False</active>
-		  <draw_indicator>True</draw_indicator>
-		  <group>pattern_color</group>
 		  <child>
-		    <padding>0</padding>
-		    <expand>False</expand>
-		    <fill>False</fill>
+		    <left_attach>1</left_attach>
+		    <right_attach>2</right_attach>
+		    <top_attach>0</top_attach>
+		    <bottom_attach>1</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 
 		<widget>
-		  <class>GnomeColorPicker</class>
-		  <name>pattern_color_picker</name>
+		  <class>GtkToggleButton</class>
+		  <name>gp_50grey</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>50% Grey</tooltip>
 		  <can_focus>True</can_focus>
-		  <dither>True</dither>
-		  <use_alpha>False</use_alpha>
-		  <title>Pick a Pattern color</title>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
 		  <child>
-		    <padding>0</padding>
-		    <expand>False</expand>
-		    <fill>False</fill>
+		    <left_attach>2</left_attach>
+		    <right_attach>3</right_attach>
+		    <top_attach>0</top_attach>
+		    <bottom_attach>1</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
 		  </child>
+
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
-	      </widget>
-	    </widget>
-
-	    <widget>
-	      <class>GtkTable</class>
-	      <name>table2</name>
-	      <rows>4</rows>
-	      <columns>6</columns>
-	      <homogeneous>False</homogeneous>
-	      <row_spacing>0</row_spacing>
-	      <column_spacing>0</column_spacing>
-	      <child>
-		<padding>0</padding>
-		<expand>True</expand>
-		<fill>True</fill>
-	      </child>
-
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_75grey</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>75% Grey</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>1</left_attach>
-		  <right_attach>2</right_attach>
-		  <top_attach>0</top_attach>
-		  <bottom_attach>1</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_25grey</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>25% Grey</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>3</left_attach>
+		    <right_attach>4</right_attach>
+		    <top_attach>0</top_attach>
+		    <bottom_attach>1</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_50grey</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>50% Grey</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>2</left_attach>
-		  <right_attach>3</right_attach>
-		  <top_attach>0</top_attach>
-		  <bottom_attach>1</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_125grey</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>12.5% Grey</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>4</left_attach>
+		    <right_attach>5</right_attach>
+		    <top_attach>0</top_attach>
+		    <bottom_attach>1</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_25grey</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>25% Grey</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>3</left_attach>
-		  <right_attach>4</right_attach>
-		  <top_attach>0</top_attach>
-		  <bottom_attach>1</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_625grey</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>6.25% Grey</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>5</left_attach>
+		    <right_attach>6</right_attach>
+		    <top_attach>0</top_attach>
+		    <bottom_attach>1</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_125grey</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>12.5% Grey</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>4</left_attach>
-		  <right_attach>5</right_attach>
-		  <top_attach>0</top_attach>
-		  <bottom_attach>1</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_horiz</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Horizontal Stripe</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>0</left_attach>
+		    <right_attach>1</right_attach>
+		    <top_attach>1</top_attach>
+		    <bottom_attach>2</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_625grey</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>6.25% Grey</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>5</left_attach>
-		  <right_attach>6</right_attach>
-		  <top_attach>0</top_attach>
-		  <bottom_attach>1</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_thin_horiz</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Thin Horizontal Stripe</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>0</left_attach>
+		    <right_attach>1</right_attach>
+		    <top_attach>2</top_attach>
+		    <bottom_attach>3</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_horiz</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Horizontal Stripe</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>0</left_attach>
-		  <right_attach>1</right_attach>
-		  <top_attach>1</top_attach>
-		  <bottom_attach>2</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_vert</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Vertical Stripe</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>1</left_attach>
+		    <right_attach>2</right_attach>
+		    <top_attach>1</top_attach>
+		    <bottom_attach>2</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_thin_horiz</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Thin Horizontal Stripe</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>0</left_attach>
-		  <right_attach>1</right_attach>
-		  <top_attach>2</top_attach>
-		  <bottom_attach>3</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_thin_vert</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Thin Vertical Stripe</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>1</left_attach>
+		    <right_attach>2</right_attach>
+		    <top_attach>2</top_attach>
+		    <bottom_attach>3</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_vert</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Vertical Stripe</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>1</left_attach>
-		  <right_attach>2</right_attach>
-		  <top_attach>1</top_attach>
-		  <bottom_attach>2</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_rev_diag</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Reverse Diagonal Stripe</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>2</left_attach>
+		    <right_attach>3</right_attach>
+		    <top_attach>1</top_attach>
+		    <bottom_attach>2</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_thin_vert</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Thin Vertical Stripe</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>1</left_attach>
-		  <right_attach>2</right_attach>
-		  <top_attach>2</top_attach>
-		  <bottom_attach>3</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_thin_rev_diag</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Thin Reverse Diagonal Stripe</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>2</left_attach>
+		    <right_attach>3</right_attach>
+		    <top_attach>2</top_attach>
+		    <bottom_attach>3</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_rev_diag</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Reverse Diagonal Stripe</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>2</left_attach>
-		  <right_attach>3</right_attach>
-		  <top_attach>1</top_attach>
-		  <bottom_attach>2</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_diag</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Diagonal Stripe</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>3</left_attach>
+		    <right_attach>4</right_attach>
+		    <top_attach>1</top_attach>
+		    <bottom_attach>2</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_thin_rev_diag</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Thin Reverse Diagonal Stripe</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>2</left_attach>
-		  <right_attach>3</right_attach>
-		  <top_attach>2</top_attach>
-		  <bottom_attach>3</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_thin_diag</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Thin Diagonal Stripe</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>3</left_attach>
+		    <right_attach>4</right_attach>
+		    <top_attach>2</top_attach>
+		    <bottom_attach>3</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_diag</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Diagonal Stripe</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>3</left_attach>
-		  <right_attach>4</right_attach>
-		  <top_attach>1</top_attach>
-		  <bottom_attach>2</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_diag_cross</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Diagonal Crosshatch</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>4</left_attach>
+		    <right_attach>5</right_attach>
+		    <top_attach>1</top_attach>
+		    <bottom_attach>2</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_thin_diag</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Thin Diagonal Stripe</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>3</left_attach>
-		  <right_attach>4</right_attach>
-		  <top_attach>2</top_attach>
-		  <bottom_attach>3</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_thick_diag_cross</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Thick Diagonal Crosshatch</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>5</left_attach>
+		    <right_attach>6</right_attach>
+		    <top_attach>1</top_attach>
+		    <bottom_attach>2</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_diag_cross</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Diagonal Crosshatch</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>4</left_attach>
-		  <right_attach>5</right_attach>
-		  <top_attach>1</top_attach>
-		  <bottom_attach>2</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_thin_horiz_cross</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Thin Horizontal Crosshatch</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>4</left_attach>
+		    <right_attach>5</right_attach>
+		    <top_attach>2</top_attach>
+		    <bottom_attach>3</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_thick_diag_cross</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Thick Diagonal Crosshatch</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>5</left_attach>
-		  <right_attach>6</right_attach>
-		  <top_attach>1</top_attach>
-		  <bottom_attach>2</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_thin_diag_cross</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Thin Diagonal Crosshatch</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>5</left_attach>
+		    <right_attach>6</right_attach>
+		    <top_attach>2</top_attach>
+		    <bottom_attach>3</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_thin_horiz_cross</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Thin Horizontal Crosshatch</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>4</left_attach>
-		  <right_attach>5</right_attach>
-		  <top_attach>2</top_attach>
-		  <bottom_attach>3</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_solid</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Solid</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>0</left_attach>
+		    <right_attach>1</right_attach>
+		    <top_attach>0</top_attach>
+		    <bottom_attach>1</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_thin_diag_cross</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Thin Diagonal Crosshatch</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>5</left_attach>
-		  <right_attach>6</right_attach>
-		  <top_attach>2</top_attach>
-		  <bottom_attach>3</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_bricks</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Bricks</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>5</left_attach>
+		    <right_attach>6</right_attach>
+		    <top_attach>3</top_attach>
+		    <bottom_attach>4</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_solid</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Solid</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>0</left_attach>
-		  <right_attach>1</right_attach>
-		  <top_attach>0</top_attach>
-		  <bottom_attach>1</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_large_circles</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Large Circles</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>4</left_attach>
+		    <right_attach>5</right_attach>
+		    <top_attach>3</top_attach>
+		    <bottom_attach>4</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_bricks</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Bricks</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>5</left_attach>
-		  <right_attach>6</right_attach>
-		  <top_attach>3</top_attach>
-		  <bottom_attach>4</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_thatch</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Thatch</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>3</left_attach>
+		    <right_attach>4</right_attach>
+		    <top_attach>3</top_attach>
+		    <bottom_attach>4</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_large_circles</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Large Circles</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>4</left_attach>
-		  <right_attach>5</right_attach>
-		  <top_attach>3</top_attach>
-		  <bottom_attach>4</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_semi_circle</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Semi Circles</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>2</left_attach>
+		    <right_attach>3</right_attach>
+		    <top_attach>3</top_attach>
+		    <bottom_attach>4</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_thatch</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Thatch</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>3</left_attach>
-		  <right_attach>4</right_attach>
-		  <top_attach>3</top_attach>
-		  <bottom_attach>4</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_small_circle</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Small Circles</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>1</left_attach>
+		    <right_attach>2</right_attach>
+		    <top_attach>3</top_attach>
+		    <bottom_attach>4</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_semi_circle</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Semi Circles</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>2</left_attach>
-		  <right_attach>3</right_attach>
-		  <top_attach>3</top_attach>
-		  <bottom_attach>4</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
+		</widget>
 
 		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
+		  <class>GtkToggleButton</class>
+		  <name>gp_foreground_solid</name>
+		  <border_width>3</border_width>
+		  <width>30</width>
+		  <height>29</height>
+		  <tooltip>Foreground Solid</tooltip>
+		  <can_focus>True</can_focus>
+		  <relief>GTK_RELIEF_NORMAL</relief>
+		  <active>False</active>
+		  <child>
+		    <left_attach>0</left_attach>
+		    <right_attach>1</right_attach>
+		    <top_attach>3</top_attach>
+		    <bottom_attach>4</bottom_attach>
+		    <xpad>0</xpad>
+		    <ypad>0</ypad>
+		    <xexpand>False</xexpand>
+		    <yexpand>False</yexpand>
+		    <xshrink>False</xshrink>
+		    <yshrink>False</yshrink>
+		    <xfill>False</xfill>
+		    <yfill>False</yfill>
+		  </child>
 
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_small_circle</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Small Circles</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>1</left_attach>
-		  <right_attach>2</right_attach>
-		  <top_attach>3</top_attach>
-		  <bottom_attach>4</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
-	      </widget>
-
-	      <widget>
-		<class>GtkToggleButton</class>
-		<name>gp_foreground_solid</name>
-		<border_width>3</border_width>
-		<width>30</width>
-		<height>29</height>
-		<tooltip>Foreground Solid</tooltip>
-		<can_focus>True</can_focus>
-		<relief>GTK_RELIEF_NORMAL</relief>
-		<active>False</active>
-		<child>
-		  <left_attach>0</left_attach>
-		  <right_attach>1</right_attach>
-		  <top_attach>3</top_attach>
-		  <bottom_attach>4</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>False</xfill>
-		  <yfill>False</yfill>
-		</child>
-
-		<widget>
-		  <class>Placeholder</class>
+		  <widget>
+		    <class>Placeholder</class>
+		  </widget>
 		</widget>
 	      </widget>
 	    </widget>

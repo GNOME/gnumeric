@@ -1,3 +1,20 @@
+2001-05-14  Almer S. Tigelaar  <almer@gnome.org>
+ 
+ 	* dialog-cell-format.c
+	(cb_custom_back_selected): Remove, We use colorcombo's now.
+ 	(cb_auto_color_selected): Idem.
+ 	(cb_custom_color_selected): Idem.
+ 	(cb_back_preview_color): Adjust for new colorcombo usage.
+ 	(cb_pattern_preview_color): Idem.
+ 	(cb_font_preview_color): Idem.
+ 	(cb_border_color): Idem.
+ 	(setup_color_pickers): Change entirely for
+ 	colorcombo support.
+ 	(draw_pattern_preview): Remove old colorpicker
+ 	code and update for the new situation.
+ 	(fmt_dialog_impl): Update for new situation in
+ 	case there's no back.
+ 
 2001-05-10  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-advanced-filter.c : include dialogs.h

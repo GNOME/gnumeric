@@ -28,6 +28,7 @@
 #include "application.h"
 #include "workbook.h"
 #include "commands.h"
+#include <gal/widgets/widget-color-combo.h>
 
 /* The order corresponds to border_preset_buttons */
 typedef enum
@@ -64,15 +65,12 @@ typedef struct
 
 typedef struct
 {
-	struct _FormatState *state;
-	GdkColor	 *auto_color;
-	GtkToggleButton  *custom, *autob;
-	GnomeColorPicker *picker;
-	GtkSignalFunc	  preview_update;
+       	struct _FormatState *state;
 
-	gboolean	  is_auto;
-	guint		  rgba;
-	guint		  r, g, b;
+	GtkWidget        *combo;
+       	GtkSignalFunc	  preview_update;
+      	guint		  rgba;
+      	guint		  r, g, b;
 } ColorPicker;
 
 typedef struct
@@ -120,7 +118,7 @@ typedef struct _FormatState
 	} align;
 	struct {
 		FontSelector	*selector;
-		ColorPicker	 color;
+		ColorPicker      color;
 		GtkCheckButton	*strikethrough;
 	} font;
 	struct {
@@ -130,7 +128,7 @@ typedef struct _FormatState
 		GnomeCanvasItem *lines[20];
 
 		BorderPicker	 edge[STYLE_BORDER_EDGE_MAX];
-		ColorPicker	 color;
+		ColorPicker      color;
 		PatternPicker	 pattern;
 	} border;
 	struct {
@@ -138,7 +136,9 @@ typedef struct _FormatState
 		GnomeCanvasItem	*back;
 		GnomeCanvasItem	*pattern_item;
 
-		ColorPicker	 back_color, pattern_color;
+		gboolean         back_color_is_default;
+		ColorPicker	 back_color;
+		ColorPicker	 pattern_color;
 		PatternPicker	 pattern;
 	} back;
 
@@ -250,98 +250,43 @@ setup_pattern_button (GladeXML  *gui,
 }
 
 static void
-cb_custom_color_selected (GtkObject *obj, ColorPicker *state)
-{
-	/* The color picker was clicked.  Toggle the custom radio button */
-	gtk_toggle_button_set_active (state->custom, TRUE);
-}
-
-static void
-cb_auto_color_selected (GtkObject *obj, ColorPicker *state)
-{
-	/* TODO TODO TODO : Some day we need to properly support 'Auto' colors.
-	 *                  We should calculate them on the fly rather than hard coding
-	 *                  in the initialization.
-	 */
-	if ((state->is_auto = gtk_toggle_button_get_active (state->autob))) {
-		/* The auto radio was clicked.  Reset the color in the picker */
-		gnome_color_picker_set_i16 (state->picker,
-					    state->auto_color->red,
-					    state->auto_color->green,
-					    state->auto_color->blue,
-					    0xffff);
-
-		state->preview_update (state->picker,
-				       state->auto_color->red,
-				       state->auto_color->green,
-				       state->auto_color->blue,
-				       0, state->state);
-	}
-}
-
-static void
-setup_color_pickers (GladeXML	 *gui,
-		     char const  * const picker_name,
-		     char const  * const custom_radio_name,
-		     char const  * const auto_name,
-		     ColorPicker *color_state,
+setup_color_pickers (ColorPicker *picker,
+	             char const * const color_group,
+		     char const * const default_caption,
+		     char const * const caption,
+		     GdkColor *default_color,
 		     FormatState *state,
-		     GdkColor	 *auto_color,
 		     GtkSignalFunc preview_update,
 		     MStyleElementType const e,
 		     MStyle	 *mstyle)
 {
 	StyleColor *mcolor = NULL;
-	GtkWidget *tmp;
+	GtkWidget *combo;
+	ColorGroup *cg;
 	
-	tmp = glade_xml_get_widget (gui, picker_name);
-	color_state->picker = GNOME_COLOR_PICKER (tmp);
-	tmp = glade_xml_get_widget (gui, custom_radio_name);
-	color_state->custom = GTK_TOGGLE_BUTTON (tmp);
-	tmp = glade_xml_get_widget (gui, auto_name);
-	color_state->autob = GTK_TOGGLE_BUTTON (tmp);
-
-	g_return_if_fail (color_state->picker != NULL &&
-	                  color_state->custom != NULL &&
-	                  color_state->autob != NULL);
-
-	color_state->auto_color = auto_color;
-	color_state->preview_update = preview_update;
-	color_state->state = state;
-	color_state->is_auto = TRUE;
-
-	gtk_signal_connect (GTK_OBJECT (color_state->picker), "clicked",
-			    GTK_SIGNAL_FUNC (cb_custom_color_selected),
-			    color_state);
-	gtk_signal_connect (GTK_OBJECT (color_state->autob), "clicked",
-			    GTK_SIGNAL_FUNC (cb_auto_color_selected),
-			    color_state);
-
-	/* Toggle the auto button to initialize the color to Auto */
-	gtk_toggle_button_set_active (color_state->autob, FALSE);
-	gtk_toggle_button_set_active (color_state->autob, TRUE);
+	cg = color_group_fetch (color_group, wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
+	combo = color_combo_new (NULL, default_caption, default_color, cg);
+	gtk_signal_connect (GTK_OBJECT (combo), "changed",
+			    GTK_SIGNAL_FUNC (preview_update), state);
+	/* We don't need the functionality the button provides */
+	gtk_widget_set_sensitive (COLOR_COMBO (combo)->preview_button, FALSE);
+	/* FIXME: Should we disable the focus? Line 547 workbook-format-toolbar.c */
+	gtk_combo_box_set_title (GTK_COMBO_BOX (combo), caption);
 
 	/* Connect to the sample canvas and redraw it */
-	gtk_signal_connect (GTK_OBJECT (color_state->picker), "color_set",
+	gtk_signal_connect (GTK_OBJECT (combo), "changed",
 			    preview_update, state);
 
-
-	if (e != MSTYLE_ELEMENT_UNSET &&
-	    !mstyle_is_element_conflict (mstyle, e))
+	picker->combo          = combo;
+	picker->preview_update = preview_update;
+	
+	if (e != MSTYLE_ELEMENT_UNSET
+	    && !mstyle_is_element_conflict (mstyle, e)
+	    && mstyle_get_pattern (mstyle) != 0)
 		mcolor = mstyle_get_color (mstyle, e);
 
-	if (mcolor != NULL) {
-		gnome_color_picker_set_i16 (color_state->picker,
-					    mcolor->red, mcolor->green,
-					    mcolor->blue, 0xffff);
-		gtk_toggle_button_set_active (color_state->custom, TRUE);
-		(*preview_update) (state,
-				   mcolor->red,
-				   mcolor->green,
-				   mcolor->blue,
-				   0xffff, state);
-	}
-
+	if (mcolor != NULL)
+		color_combo_set_color (COLOR_COMBO (combo), &mcolor->color);
 }
 
 static StyleColor *
@@ -1189,27 +1134,25 @@ fmt_dialog_init_align_page (FormatState *state)
 
 /*
  * A callback to set the font color.
- * It is called whenever the color picker changes value.
+ * It is called whenever the color combo changes value.
  */
 static void
-cb_font_preview_color (GtkObject *obj, guint r, guint g, guint b, guint a,
-		       FormatState *state)
+cb_font_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
 {
 	GtkStyle *style;
-	GdkColor col;
 
 	if (!state->enable_edit)
 		return;
 
-	state->font.color.r = col.red   = r;
-	state->font.color.g = col.green = g;
-	state->font.color.b = col.blue  = b;
+	state->font.color.r = c->red;
+	state->font.color.g = c->green;
+	state->font.color.b = c->blue;
 
 	style = gtk_style_copy (state->font.selector->font_preview->style);
-	style->fg[GTK_STATE_NORMAL] = col;
-	style->fg[GTK_STATE_ACTIVE] = col;
-	style->fg[GTK_STATE_PRELIGHT] = col;
-	style->fg[GTK_STATE_SELECTED] = col;
+	style->fg[GTK_STATE_NORMAL] = *c;
+	style->fg[GTK_STATE_ACTIVE] = *c;
+	style->fg[GTK_STATE_PRELIGHT] = *c;
+	style->fg[GTK_STATE_SELECTED] = *c;
 	gtk_widget_set_style (state->font.selector->font_preview, style);
 	gtk_style_unref (style);
 
@@ -1373,7 +1316,7 @@ draw_pattern_preview (FormatState *state)
 	fmt_dialog_changed (state);
 
 	/* If background is auto (none) : then remove any patterns or backgrounds */
-	if (state->back.back_color.is_auto) {
+	if (state->back.back_color_is_default) {
 		if (state->back.back != NULL) {
 			gtk_object_destroy (GTK_OBJECT (state->back.back));
 			state->back.back = NULL;
@@ -1381,13 +1324,12 @@ draw_pattern_preview (FormatState *state)
 		if (state->back.pattern_item != NULL) {
 			gtk_object_destroy (GTK_OBJECT (state->back.pattern_item));
 			state->back.pattern_item = NULL;
-
+			
 			/* This will recursively call draw_pattern_preview */
 			gtk_toggle_button_set_active (state->back.pattern.default_button,
 						      TRUE);
-			/* This will recursively call draw_pattern_preview */
-			gtk_toggle_button_set_active (state->back.pattern_color.autob,
-						      TRUE);
+
+			color_combo_set_color (COLOR_COMBO (state->back.pattern_color.combo), &gs_black);
 			return;
 		}
 
@@ -1472,44 +1414,42 @@ draw_pattern_preview (FormatState *state)
 }
 
 static void
-cb_back_preview_color (GtkObject *obj, guint r, guint g, guint b, guint a,
-		       FormatState *state)
+cb_back_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
 {
-	state->back.back_color.r = r;
-	state->back.back_color.g = g;
-	state->back.back_color.b = b;
-	state->back.back_color.rgba =
-		GNOME_CANVAS_COLOR_A (r>>8, g>>8, b>>8, 0x00);
+	/* NULL means the Default color */
+	if (c != NULL) {
+		state->back.back_color.r = c->red;
+		state->back.back_color.g = c->green;
+		state->back.back_color.b = c->blue;
+		state->back.back_color.rgba =
+			GNOME_CANVAS_COLOR_A (c->red>>8, c->green>>8, c->blue>>8, 0x00);
+	}
+	
+	state->back.back_color_is_default = (c == NULL);
 	draw_pattern_preview (state);
 }
 
 static void
-cb_pattern_preview_color (GtkObject *obj, guint r, guint g, guint b, guint a,
-			  FormatState *state)
+cb_pattern_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
 {
-	state->back.pattern_color.r = r;
-	state->back.pattern_color.g = g;
-	state->back.pattern_color.b = b;
+	state->back.pattern_color.r = c->red;
+	state->back.pattern_color.g = c->green;
+	state->back.pattern_color.b = c->blue;
 	state->back.pattern_color.rgba =
-		GNOME_CANVAS_COLOR_A (r>>8, g>>8, b>>8, 0x00);
-	draw_pattern_preview (state);
-}
-
-static void
-cb_custom_back_selected (GtkObject *obj, FormatState *state)
-{
+		GNOME_CANVAS_COLOR_A (c->red>>8, c->green>>8, c->blue>>8, 0x00);
 	draw_pattern_preview (state);
 }
 
 static void
 draw_pattern_selected (FormatState *state)
 {
-	/* If a pattern was selected switch to custom color.
-	 * The color is already set to the default, but we need to
-	 * differentiate, default and none
-	 */
-	if (state->back.pattern.cur_index > 0)
-		gtk_toggle_button_set_active (state->back.back_color.custom, TRUE);
+        /* If a pattern was selected switch to custom color.
+	 * The color can't be the default (none). So we switch it
+	 * to white if it has the default color set.
+      	 */
+      	if (state->back.pattern.cur_index > 0 && state->back.back_color_is_default)
+		color_combo_set_color (COLOR_COMBO (state->back.back_color.combo), &gs_white);
+
 	draw_pattern_preview (state);
 }
 
@@ -1914,10 +1854,9 @@ cb_border_toggle (GtkToggleButton *button, BorderPicker *picker)
 }
 
 static void
-cb_border_color (GtkObject *obj, guint r, guint g, guint b, guint a,
-		 FormatState *state)
+cb_border_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
 {
-	state->border.color.rgba = GNOME_CANVAS_COLOR_A (r>>8, g>>8, b>>8, 0x00);
+	state->border.color.rgba = GNOME_CANVAS_COLOR_A (c->red>>8, c->green>>8, c->blue>>8, 0x00);
 }
 
 #undef L
@@ -2187,29 +2126,41 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 * This cannot come from the style.  It is a UI element not a display item */
 	gtk_toggle_button_set_active (state->border.pattern.default_button, TRUE);
 
-#define COLOR_SUPPORT(v, n, style_element, auto_color, func) \
-	setup_color_pickers (state->gui, #n "_picker", #n "_custom", #n "_auto",\
-			     &state->v, state, auto_color, GTK_SIGNAL_FUNC (func),\
-			     style_element, state->style)
+	/* Create the font colour combo box.  */
+	setup_color_pickers (&state->font.color, "fore_color_group", _("Automatic"),
+			     _("Foreground"), &gs_black, state,
+			     cb_font_preview_color, MSTYLE_COLOR_FORE,
+			     state->style);
+	gtk_box_pack_end_defaults (GTK_BOX (glade_xml_get_widget (state->gui, "font_color_hbox")),
+				   state->font.color.combo);
+	gtk_widget_show (state->font.color.combo);
+				    
+	/* Create the border colour combo box */
+	setup_color_pickers (&state->border.color, "border_color_group", _("Automatic"),
+			     _("Border"), &gs_black, state,
+			     cb_border_color, MSTYLE_ELEMENT_UNSET,
+			     state->style);
+	gtk_box_pack_end_defaults (GTK_BOX (glade_xml_get_widget (state->gui, "border_color_hbox")),
+				   state->border.color.combo);
+	gtk_widget_show (state->border.color.combo);
+				   
+	/* Create the background colour combo box */
+	setup_color_pickers (&state->back.back_color, "back_color_group", _("Clear Background"),
+			     _("Background"), NULL, state,
+			     cb_back_preview_color, MSTYLE_COLOR_BACK,
+			     state->style);
+	gtk_box_pack_end_defaults (GTK_BOX (glade_xml_get_widget (state->gui, "back_color_hbox")),
+				   state->back.back_color.combo);
+	gtk_widget_show (state->back.back_color.combo);
 
-	COLOR_SUPPORT (font.color, font_color, MSTYLE_COLOR_FORE,
-		       &gs_black, cb_font_preview_color);
-
-	/* FIXME : If all the border colors are the same return that color */
-	COLOR_SUPPORT (border.color, border_color, MSTYLE_ELEMENT_UNSET,
-		       &gs_black, cb_border_color);
-
-	COLOR_SUPPORT (back.back_color, back_color, MSTYLE_COLOR_BACK,
-		       &gs_white, cb_back_preview_color);
-	COLOR_SUPPORT (back.pattern_color, pattern_color, MSTYLE_COLOR_PATTERN,
-		       &gs_black, cb_pattern_preview_color);
-
-	/* The background color selector is special.  There is a difference
-	 * between auto (None) and the default custom which is white.
-	 */
-	gtk_signal_connect (GTK_OBJECT (state->back.back_color.custom), "clicked",
-			    GTK_SIGNAL_FUNC (cb_custom_back_selected),
-			    state);
+	/* Create the pattern colour combo box */
+	setup_color_pickers (&state->back.pattern_color, "pattern_color_group", _("Automatic"),
+			     _("Pattern"), &gs_black, state,
+			     cb_pattern_preview_color, MSTYLE_COLOR_PATTERN,
+			     state->style);
+	gtk_box_pack_end_defaults (GTK_BOX (glade_xml_get_widget (state->gui, "pattern_color_hbox")),
+				   state->back.pattern_color.combo);
+	gtk_widget_show (state->back.pattern_color.combo);
 
 	/* Setup the border images */
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {
@@ -2251,8 +2202,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 * Set background to No colour.  This will set states correctly.
 	 */
 	if (!has_back)
-		gtk_toggle_button_set_active (state->back.back_color.autob,
-					      TRUE);
+		color_combo_set_color (COLOR_COMBO (state->back.back_color.combo), NULL);
 
 	/* Setup the images in the border presets */
 	for (i = 0; (name = border_preset_buttons[i]) != NULL; ++i) {

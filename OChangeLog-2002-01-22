@@ -1,3 +1,15 @@
+2001-05-14  Almer S. Tigelaar  <almer@gnome.org>
+
+	* configure.in: Bump GAL version requirement to 0.7.99.5
+	
+  	* src/workbook-format-toolbar.c (cb_back_color_changed): Add
+  	by_user flag handling and sync the combo's on all other views
+ 	if the color changes.
+  	(cb_fore_color_changed): Idem.
+  	(workbook_create_format_toolbar): Pass workbook view's to
+  	color_group_fetch and sync the colors of the back and fore combo's
+ 	with the other views on creation.
+
 2001-05-14  Miguel de Icaza  <miguel@ximian.com>
 
 	* src/sheet-control-gui.c: Removed support routines that used the
