@@ -1,10 +1,20 @@
 Gnumeric 0.68
 
+Almer :
+	* Fix backspace key.
+	* Fix autosave dialog.
+
 Jody :
 	* Even more missing files.
 	* Crash after exiting 1 of many shared views.
 	* Bug when printing wrapped text in merged cells.
 	* Enable frozen panes.
+
+Morten :
+	* Improve bsd support.
+
+Rodrigo :
+	* Update gda support.
 
 --------------------------------------------------------------------------
 Gnumeric 0.67
