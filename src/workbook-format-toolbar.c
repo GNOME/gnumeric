@@ -446,11 +446,11 @@ workbook_create_format_toolbar (Workbook *wb)
 	
 	gtk_toolbar_append_widget (
 		GTK_TOOLBAR (toolbar),
-		wb->priv->fore_combo, _("Foreground"), NULL);
+		wb->priv->back_combo, _("Background"), NULL);
 
 	gtk_toolbar_append_widget (
 		GTK_TOOLBAR (toolbar),
-		wb->priv->back_combo, _("Background"), NULL);
+		wb->priv->fore_combo, _("Foreground"), NULL);
 
 	return toolbar;
 }

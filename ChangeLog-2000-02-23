@@ -24,6 +24,9 @@
 	* src/item-cursor.c (item_cursor_set_bounds_visibly) : Remove call to 
 	  gnumeric_sheet_cursor_set.
 
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar) : std
+	  toolbar has background then font colour combo box.
+
 2000-01-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialog-advanced-filter.c, src/func.h, src/workbook.c:

@@ -252,9 +252,6 @@ Office 2000 and 'explorer' compatibility.
 
 * Rendering
 
-  * Update the contents of the edit box at the top of the sheet
-    when the contents of the current cell are changed (ie expr is invalidated)
-
   * Sort out the cell span stuff
     * Have a 'merged cell' structure that can be overridden
     * have a 'user-set' feature for 'merge cells'
@@ -294,7 +291,6 @@ Office 2000 and 'explorer' compatibility.
   * Commands to do
       - paste_cut
       - paste_copy
-      - clear
       - format
       - autofill
       - insert array.
