@@ -841,9 +841,9 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 		gboolean is_int = ((val - (int)val) == 0.0) &&
 			(((((int)val)<<2)>>2) == ((int)val));
 
+#if EXCEL_DEBUG > 0
 		printf ("writing %g is (%g %g) is int ? %d\n", val, 1.0*(int)val,
 			1.0*(val - (int)val), is_int);
-#if EXCEL_DEBUG > 0
 #endif
 
 		/* FIXME : Add test for double with 2 digits of fraction
