@@ -1,5 +1,6 @@
 msgid ""
 msgstr ""
+"POT-Creation-Date: 1998-12-16 12:43-0500\n"
 "Content-Type: text/plain; charset=\n"
 "Date: 1998-09-02 18:03:00+0200\n"
 "From: Tristan Tarrant <tst@decp3229.etnoteam.it>\n"
@@ -266,14 +267,17 @@ msgstr "Testo"
 msgid "Money"
 msgstr "Moneta"
 
+#. 1. Categories
 #: src/dialog-cell-format.c:253
 msgid "Categories"
 msgstr "Categorie"
 
+#. 2.1 Input line
 #: src/dialog-cell-format.c:283
 msgid "Code:"
 msgstr "Codice:"
 
+#. 2.2 Sample
 #: src/dialog-cell-format.c:292
 msgid "Sample:"
 msgstr "Esempio:"
@@ -315,6 +319,7 @@ msgstr "Alto"
 msgid "Bottom"
 msgstr "Basso"
 
+#. Vertical alignment
 #: src/dialog-cell-format.c:421
 msgid "Vertical"
 msgstr "Verticale"
@@ -332,6 +337,7 @@ msgstr "A capo automatico"
 msgid "Text color"
 msgstr "Colore del testo"
 
+#. The radio buttons
 #: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
 #: src/dialog-paste-special.c:28
 msgid "None"
@@ -395,7 +401,7 @@ msgstr "cancella celle"
 msgid "Delete cells"
 msgstr "Cancella celle"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:524
+#: src/dialog-delete-cells.c:32 src/item-grid.c:527
 msgid "Delete"
 msgstr "Cancella"
 
@@ -435,7 +441,7 @@ msgstr "inserisci celle"
 msgid "Insert cells"
 msgstr "Inserisci celle"
 
-#: src/dialog-insert-cells.c:32 src/item-grid.c:523
+#: src/dialog-insert-cells.c:32 src/item-grid.c:526
 msgid "Insert"
 msgstr "Inserisci"
 
@@ -485,7 +491,7 @@ msgstr "Moltiplica"
 msgid "Divide"
 msgstr "Dividi"
 
-#: src/dialog-paste-special.c:56 src/item-grid.c:521
+#: src/dialog-paste-special.c:56 src/item-grid.c:524
 msgid "Paste special"
 msgstr "Incolla speciale"
 
@@ -506,10 +512,12 @@ msgid "Custom"
 msgstr "Personalizzato"
 
 #: src/dialog-zoom.c:83
+#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "Il fattore di zoom deve essere almeno 50%"
 
 #: src/dialog-zoom.c:88
+#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "Il fattore di zoom può essere al massimo 900%"
 
@@ -521,7 +529,6 @@ msgstr "Errore di sintassi"
 msgid "Missing quote"
 msgstr "Apice mancante"
 
-#. Type checking
 #: src/expr.c:467 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "Numero di argomenti non valido"
@@ -1293,11 +1300,12 @@ msgid "[h]:mm:ss"
 msgstr ""
 
 #: src/formats.c:74
-#, fuzzy
+#, fuzzy, c-format
 msgid "0%"
 msgstr "50%"
 
 #: src/formats.c:75
+#, c-format
 msgid "0.00%"
 msgstr ""
 
@@ -1334,22 +1342,27 @@ msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr ""
 
 #: src/gnumeric-sheet.c:878
+#, c-format
 msgid "75%"
 msgstr "75%"
 
 #: src/gnumeric-sheet.c:881
+#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: src/gnumeric-sheet.c:884
+#, c-format
 msgid "25%"
 msgstr "25%"
 
 #: src/gnumeric-sheet.c:887
+#, c-format
 msgid "12%"
 msgstr "12%"
 
 #: src/gnumeric-sheet.c:890
+#, c-format
 msgid "6%"
 msgstr "6%"
 
@@ -1378,7 +1391,7 @@ msgstr "Mattoni"
 msgid "Notice"
 msgstr "Avviso"
 
-#: src/item-cursor.c:554 src/item-grid.c:519 src/workbook.c:839
+#: src/item-cursor.c:554 src/item-grid.c:522 src/workbook.c:839
 msgid "Copy"
 msgstr "Copia"
 
@@ -1410,19 +1423,19 @@ msgstr "Sposta celle in giù e sposta"
 msgid "Shift cells right and move"
 msgstr "Sposta celle a destra e sposta"
 
-#: src/item-grid.c:518 src/workbook.c:836
+#: src/item-grid.c:521 src/workbook.c:836
 msgid "Cut"
 msgstr "Taglia"
 
-#: src/item-grid.c:520 src/sheet.c:2396 src/workbook.c:842
+#: src/item-grid.c:523 src/sheet.c:2396 src/workbook.c:842
 msgid "Paste"
 msgstr "Incolla"
 
-#: src/item-grid.c:525
+#: src/item-grid.c:528
 msgid "Erase content"
 msgstr "Cancella contenuto"
 
-#: src/item-grid.c:527
+#: src/item-grid.c:530
 msgid "Cell format"
 msgstr "Formattazione cella"
 
@@ -1475,10 +1488,12 @@ msgid "Plugin is still in use.\n"
 msgstr ""
 
 #: src/sheet-view.c:336 src/sheet-view.c:410
+#, c-format
 msgid "Row: %d"
 msgstr "Riga: %d"
 
 #: src/sheet-view.c:343 src/sheet-view.c:382
+#, c-format
 msgid "Column: %s"
 msgstr "Colonna: %s"
 
@@ -1828,21 +1843,22 @@ msgstr "Media"
 msgid "Count"
 msgstr "Conto"
 
-#: src/workbook.c:1233
+#: src/workbook.c:1236
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1309
+#: src/workbook.c:1316
 #, fuzzy
 msgid "Zoom out"
 msgstr "Zoom"
 
-#: src/workbook.c:1316
+#: src/workbook.c:1323
 #, fuzzy
 msgid "Zoom in"
 msgstr "Zoom"
 
-#: src/workbook.c:1365 src/workbook.c:1386
+#: src/workbook.c:1372 src/workbook.c:1393
+#, c-format
 msgid "Sheet %d"
 msgstr "Foglio %d"
 

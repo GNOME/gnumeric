@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.4\n"
-"POT-Creation-Date: 1998-07-13 22:25:48-0500\n"
+"POT-Creation-Date: 1998-12-16 12:43-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Language-Team: \n"
@@ -273,14 +273,17 @@ msgstr "Texto"
 msgid "Money"
 msgstr "Dinero"
 
+#. 1. Categories
 #: src/dialog-cell-format.c:253
 msgid "Categories"
 msgstr "Categorías"
 
+#. 2.1 Input line
 #: src/dialog-cell-format.c:283
 msgid "Code:"
 msgstr "Código:"
 
+#. 2.2 Sample
 #: src/dialog-cell-format.c:292
 msgid "Sample:"
 msgstr "Muestra:"
@@ -322,6 +325,7 @@ msgstr "Arriba"
 msgid "Bottom"
 msgstr "Abajo"
 
+#. Vertical alignment
 #: src/dialog-cell-format.c:421
 msgid "Vertical"
 msgstr "Vertical"
@@ -339,6 +343,7 @@ msgstr "Retorno de carro automático"
 msgid "Text color"
 msgstr "Color del texto"
 
+#. The radio buttons
 #: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
 #: src/dialog-paste-special.c:28
 msgid "None"
@@ -400,7 +405,7 @@ msgstr "borrar celdas"
 msgid "Delete cells"
 msgstr "Borrar celdas"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:524
+#: src/dialog-delete-cells.c:32 src/item-grid.c:527
 msgid "Delete"
 msgstr "Borrar"
 
@@ -440,7 +445,7 @@ msgstr "insertar celdas"
 msgid "Insert cells"
 msgstr "Insertar celdas"
 
-#: src/dialog-insert-cells.c:32 src/item-grid.c:523
+#: src/dialog-insert-cells.c:32 src/item-grid.c:526
 msgid "Insert"
 msgstr "Insertar"
 
@@ -488,7 +493,7 @@ msgstr "Multiplicar"
 msgid "Divide"
 msgstr "Dividir"
 
-#: src/dialog-paste-special.c:56 src/item-grid.c:521
+#: src/dialog-paste-special.c:56 src/item-grid.c:524
 msgid "Paste special"
 msgstr "Pegado especial"
 
@@ -509,10 +514,12 @@ msgid "Custom"
 msgstr "Especificar"
 
 #: src/dialog-zoom.c:83
+#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "El factor de aplificación debe de ser al menos del 50%"
 
 #: src/dialog-zoom.c:88
+#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "El factor de amplificación no debe de exceder 900%"
 
@@ -524,7 +531,6 @@ msgstr "Error de sintaxis"
 msgid "Missing quote"
 msgstr "Falta una comilla"
 
-#. Type checking
 #: src/expr.c:467 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "Número de argumentos inválido"
@@ -1578,10 +1584,12 @@ msgid "[h]:mm:ss"
 msgstr "[h]:mm:ss"
 
 #: src/formats.c:74
+#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: src/formats.c:75
+#, c-format
 msgid "0.00%"
 msgstr "0,00%"
 
@@ -1618,22 +1626,27 @@ msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr "$#.##0,00_);[red]($#.##0,00)"
 
 #: src/gnumeric-sheet.c:878
+#, c-format
 msgid "75%"
 msgstr "75%"
 
 #: src/gnumeric-sheet.c:881
+#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: src/gnumeric-sheet.c:884
+#, c-format
 msgid "25%"
 msgstr "25%"
 
 #: src/gnumeric-sheet.c:887
+#, c-format
 msgid "12%"
 msgstr "12%"
 
 #: src/gnumeric-sheet.c:890
+#, c-format
 msgid "6%"
 msgstr "6%"
 
@@ -1662,7 +1675,7 @@ msgstr "Ladrillos"
 msgid "Notice"
 msgstr "Aviso"
 
-#: src/item-cursor.c:554 src/item-grid.c:519 src/workbook.c:839
+#: src/item-cursor.c:554 src/item-grid.c:522 src/workbook.c:839
 msgid "Copy"
 msgstr "Copiar"
 
@@ -1694,19 +1707,19 @@ msgstr "Desplaza las celas hacia abajo y mueve"
 msgid "Shift cells right and move"
 msgstr "Desplaza las celdas hacia la derecha y mueve"
 
-#: src/item-grid.c:518 src/workbook.c:836
+#: src/item-grid.c:521 src/workbook.c:836
 msgid "Cut"
 msgstr "Cortar"
 
-#: src/item-grid.c:520 src/sheet.c:2396 src/workbook.c:842
+#: src/item-grid.c:523 src/sheet.c:2396 src/workbook.c:842
 msgid "Paste"
 msgstr "Pegar"
 
-#: src/item-grid.c:525
+#: src/item-grid.c:528
 msgid "Erase content"
 msgstr "Borrar el contenido"
 
-#: src/item-grid.c:527
+#: src/item-grid.c:530
 msgid "Cell format"
 msgstr "Formato de celda"
 
@@ -1755,10 +1768,12 @@ msgid "Plugin is still in use.\n"
 msgstr "La extensión todavía está en uso\n"
 
 #: src/sheet-view.c:336 src/sheet-view.c:410
+#, c-format
 msgid "Row: %d"
 msgstr "Renglón: %d"
 
 #: src/sheet-view.c:343 src/sheet-view.c:382
+#, c-format
 msgid "Column: %s"
 msgstr "Columna: %s"
 
@@ -2090,19 +2105,20 @@ msgstr "Promedio"
 msgid "Count"
 msgstr "Cuenta"
 
-#: src/workbook.c:1233
+#: src/workbook.c:1236
 msgid "Untitled.gnumeric"
 msgstr "SinTitulo.gnumeric"
 
-#: src/workbook.c:1309
+#: src/workbook.c:1316
 msgid "Zoom out"
 msgstr "Alejarse"
 
-#: src/workbook.c:1316
+#: src/workbook.c:1323
 msgid "Zoom in"
 msgstr "Acercarse"
 
-#: src/workbook.c:1365 src/workbook.c:1386
+#: src/workbook.c:1372 src/workbook.c:1393
+#, c-format
 msgid "Sheet %d"
 msgstr "Hoja %d"
 

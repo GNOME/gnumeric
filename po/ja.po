@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.3\n"
-"POT-Creation-Date: 1998-12-04 21:25+0900\n"
+"POT-Creation-Date: 1998-12-16 12:43-0500\n"
 "PO-Revision-Date: 1998-12-05 07:00+09:00\n"
 "Last-Translator: Mitsuru Oka <95i44@is.kochi-u.ac.jp>\n"
 "Language-Team: \n"
@@ -268,14 +268,17 @@ msgstr "テキスト"
 msgid "Money"
 msgstr "通貨"
 
+#. 1. Categories
 #: src/dialog-cell-format.c:253
 msgid "Categories"
 msgstr "部類"
 
+#. 2.1 Input line
 #: src/dialog-cell-format.c:283
 msgid "Code:"
 msgstr "コード:"
 
+#. 2.2 Sample
 #: src/dialog-cell-format.c:292
 msgid "Sample:"
 msgstr "例:"
@@ -317,6 +320,7 @@ msgstr "上"
 msgid "Bottom"
 msgstr "下"
 
+#. Vertical alignment
 #: src/dialog-cell-format.c:421
 msgid "Vertical"
 msgstr "垂直"
@@ -334,6 +338,7 @@ msgstr "自動改行"
 msgid "Text color"
 msgstr "テキストカラー"
 
+#. The radio buttons
 #: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
 #: src/dialog-paste-special.c:28
 msgid "None"
@@ -395,7 +400,7 @@ msgstr "セルを削除"
 msgid "Delete cells"
 msgstr "セルを削除"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:524
+#: src/dialog-delete-cells.c:32 src/item-grid.c:527
 msgid "Delete"
 msgstr "削除"
 
@@ -435,7 +440,7 @@ msgstr "セルを挿入"
 msgid "Insert cells"
 msgstr "セルを挿入"
 
-#: src/dialog-insert-cells.c:32 src/item-grid.c:523
+#: src/dialog-insert-cells.c:32 src/item-grid.c:526
 msgid "Insert"
 msgstr "挿入"
 
@@ -483,7 +488,7 @@ msgstr "掛け算"
 msgid "Divide"
 msgstr "割り算"
 
-#: src/dialog-paste-special.c:56 src/item-grid.c:521
+#: src/dialog-paste-special.c:56 src/item-grid.c:524
 msgid "Paste special"
 msgstr "特別貼り付け"
 
@@ -504,10 +509,12 @@ msgid "Custom"
 msgstr "カスタム"
 
 #: src/dialog-zoom.c:83
+#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "縮小比は最小 50% まで"
 
 #: src/dialog-zoom.c:88
+#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "拡大比は最大 900% まで"
 
@@ -519,7 +526,6 @@ msgstr "構文エラーです"
 msgid "Missing quote"
 msgstr "引用符に間違いがあります"
 
-#. Type checking
 #: src/expr.c:467 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "引数の数が不正です"
@@ -1547,10 +1553,12 @@ msgid "[h]:mm:ss"
 msgstr ""
 
 #: src/formats.c:74
+#, c-format
 msgid "0%"
 msgstr ""
 
 #: src/formats.c:75
+#, c-format
 msgid "0.00%"
 msgstr ""
 
@@ -1587,22 +1595,27 @@ msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr "$#,##0.00_);[赤]($#,##0.00)"
 
 #: src/gnumeric-sheet.c:878
+#, c-format
 msgid "75%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:881
+#, c-format
 msgid "50%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:884
+#, c-format
 msgid "25%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:887
+#, c-format
 msgid "12%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:890
+#, c-format
 msgid "6%"
 msgstr ""
 
@@ -1631,7 +1644,7 @@ msgstr "レンガ"
 msgid "Notice"
 msgstr "注意"
 
-#: src/item-cursor.c:554 src/item-grid.c:519 src/workbook.c:839
+#: src/item-cursor.c:554 src/item-grid.c:522 src/workbook.c:839
 msgid "Copy"
 msgstr "コピー"
 
@@ -1663,19 +1676,19 @@ msgstr "セルを下にずらして移動"
 msgid "Shift cells right and move"
 msgstr "セルを右にずらして移動"
 
-#: src/item-grid.c:518 src/workbook.c:836
+#: src/item-grid.c:521 src/workbook.c:836
 msgid "Cut"
 msgstr "カット"
 
-#: src/item-grid.c:520 src/sheet.c:2396 src/workbook.c:842
+#: src/item-grid.c:523 src/sheet.c:2396 src/workbook.c:842
 msgid "Paste"
 msgstr "貼付け"
 
-#: src/item-grid.c:525
+#: src/item-grid.c:528
 msgid "Erase content"
 msgstr "内容を消去"
 
-#: src/item-grid.c:527
+#: src/item-grid.c:530
 msgid "Cell format"
 msgstr "セルフォーマット"
 
@@ -1724,10 +1737,12 @@ msgid "Plugin is still in use.\n"
 msgstr "プラグインはまだ使用中です。\n"
 
 #: src/sheet-view.c:336 src/sheet-view.c:410
+#, c-format
 msgid "Row: %d"
 msgstr "行: %d"
 
 #: src/sheet-view.c:343 src/sheet-view.c:382
+#, c-format
 msgid "Column: %s"
 msgstr "列: %s"
 
@@ -2059,19 +2074,20 @@ msgstr "平均"
 msgid "Count"
 msgstr "回数"
 
-#: src/workbook.c:1233
+#: src/workbook.c:1236
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1309
+#: src/workbook.c:1316
 msgid "Zoom out"
 msgstr "拡大"
 
-#: src/workbook.c:1316
+#: src/workbook.c:1323
 msgid "Zoom in"
 msgstr "縮小"
 
-#: src/workbook.c:1365 src/workbook.c:1386
+#: src/workbook.c:1372 src/workbook.c:1393
+#, c-format
 msgid "Sheet %d"
 msgstr "シート %d"
 

@@ -1,5 +1,14 @@
 1998-12-16  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* src/workbook.c (workbook_setup_status_area): Do not set_usize()
+	on the info item.
+
+	* src/sheet-view.c (new_canvas_bar): Set the width or height to -1
+	in set_usize().
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_new): Do not set_usize() on
+	the sheet.
+
 	* src/item-bar.c: Updated for the new canvas item API.
 	* src/item-cursor.c: Likewise.
 	* src/item-edit.c: Likewise.

@@ -1150,7 +1150,6 @@ workbook_setup_status_area (Workbook *wb)
 			  0, WB_COLS, WB_EA_STATUS, WB_EA_STATUS+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	canvas = gnome_canvas_new ();
-	gtk_widget_set_usize (canvas, 1, 1);
 
 	/* The canvas that displays text */
 	root = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);

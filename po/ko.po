@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.4\n"
-"POT-Creation-Date: 1998-11-24 22:06+0900\n"
+"POT-Creation-Date: 1998-12-16 12:43-0500\n"
 "PO-Revision-Date: 1998-11-27 12:24:46+0900\n"
 "Last-Translator: Sung-Hyun Nam <namsh@lgic.co.kr>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -249,14 +249,17 @@ msgstr "텍스트"
 msgid "Money"
 msgstr "돈"
 
+#. 1. Categories
 #: src/dialog-cell-format.c:253
 msgid "Categories"
 msgstr "범주"
 
+#. 2.1 Input line
 #: src/dialog-cell-format.c:283
 msgid "Code:"
 msgstr "코드:"
 
+#. 2.2 Sample
 #: src/dialog-cell-format.c:292
 msgid "Sample:"
 msgstr "샘플:"
@@ -298,6 +301,7 @@ msgstr "꼭대기"
 msgid "Bottom"
 msgstr "밑바닥"
 
+#. Vertical alignment
 #: src/dialog-cell-format.c:421
 msgid "Vertical"
 msgstr "수직"
@@ -315,6 +319,7 @@ msgstr ""
 msgid "Text color"
 msgstr "텍스트 색상"
 
+#. The radio buttons
 #: src/dialog-cell-format.c:601 src/dialog-cell-format.c:631
 #: src/dialog-paste-special.c:28
 msgid "None"
@@ -376,7 +381,7 @@ msgstr "셀 삭제"
 msgid "Delete cells"
 msgstr "셀 삭제"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:524
+#: src/dialog-delete-cells.c:32 src/item-grid.c:527
 msgid "Delete"
 msgstr "삭제"
 
@@ -416,7 +421,7 @@ msgstr "셀 삽입"
 msgid "Insert cells"
 msgstr "셀 삽입"
 
-#: src/dialog-insert-cells.c:32 src/item-grid.c:523
+#: src/dialog-insert-cells.c:32 src/item-grid.c:526
 msgid "Insert"
 msgstr "삽입"
 
@@ -464,7 +469,7 @@ msgstr "곱하기"
 msgid "Divide"
 msgstr "나누기"
 
-#: src/dialog-paste-special.c:56 src/item-grid.c:521
+#: src/dialog-paste-special.c:56 src/item-grid.c:524
 msgid "Paste special"
 msgstr "특별한 붙이기"
 
@@ -485,10 +490,12 @@ msgid "Custom"
 msgstr ""
 
 #: src/dialog-zoom.c:83
+#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "확대율은 최소 50%입니다"
 
 #: src/dialog-zoom.c:88
+#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "확대율은 최대 900%입니다."
 
@@ -500,7 +507,6 @@ msgstr "구문 에러"
 msgid "Missing quote"
 msgstr "quote 빠짐"
 
-#. Type checking
 #: src/expr.c:467 src/fn-sheet.c:25 src/fn-sheet.c:59
 msgid "Invalid number of arguments"
 msgstr "인자 갯수가 틀림"
@@ -1232,10 +1238,12 @@ msgid "[h]:mm:ss"
 msgstr ""
 
 #: src/formats.c:74
+#, c-format
 msgid "0%"
 msgstr ""
 
 #: src/formats.c:75
+#, c-format
 msgid "0.00%"
 msgstr ""
 
@@ -1272,22 +1280,27 @@ msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr ""
 
 #: src/gnumeric-sheet.c:878
+#, c-format
 msgid "75%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:881
+#, c-format
 msgid "50%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:884
+#, c-format
 msgid "25%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:887
+#, c-format
 msgid "12%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:890
+#, c-format
 msgid "6%"
 msgstr ""
 
@@ -1316,7 +1329,7 @@ msgstr ""
 msgid "Notice"
 msgstr ""
 
-#: src/item-cursor.c:554 src/item-grid.c:519 src/workbook.c:839
+#: src/item-cursor.c:554 src/item-grid.c:522 src/workbook.c:839
 msgid "Copy"
 msgstr "복사"
 
@@ -1348,19 +1361,19 @@ msgstr "셀을 밑으로 보내고 복사"
 msgid "Shift cells right and move"
 msgstr "셀을 오른쪽으로 보내고 이동"
 
-#: src/item-grid.c:518 src/workbook.c:836
+#: src/item-grid.c:521 src/workbook.c:836
 msgid "Cut"
 msgstr "자르기"
 
-#: src/item-grid.c:520 src/sheet.c:2396 src/workbook.c:842
+#: src/item-grid.c:523 src/sheet.c:2396 src/workbook.c:842
 msgid "Paste"
 msgstr "붙이기"
 
-#: src/item-grid.c:525
+#: src/item-grid.c:528
 msgid "Erase content"
 msgstr "내용 지우기"
 
-#: src/item-grid.c:527
+#: src/item-grid.c:530
 msgid "Cell format"
 msgstr "셀 형식"
 
@@ -1409,10 +1422,12 @@ msgid "Plugin is still in use.\n"
 msgstr "플러그인이 아직 사용중입니다.\n"
 
 #: src/sheet-view.c:336 src/sheet-view.c:410
+#, c-format
 msgid "Row: %d"
 msgstr "가로: %d"
 
 #: src/sheet-view.c:343 src/sheet-view.c:382
+#, c-format
 msgid "Column: %s"
 msgstr "세로: %s"
 
@@ -1744,19 +1759,20 @@ msgstr "평균"
 msgid "Count"
 msgstr "계수"
 
-#: src/workbook.c:1233
+#: src/workbook.c:1236
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1309
+#: src/workbook.c:1316
 msgid "Zoom out"
 msgstr "확대"
 
-#: src/workbook.c:1316
+#: src/workbook.c:1323
 msgid "Zoom in"
 msgstr "축소"
 
-#: src/workbook.c:1365 src/workbook.c:1386
+#: src/workbook.c:1372 src/workbook.c:1393
+#, c-format
 msgid "Sheet %d"
 msgstr "쉬트 %d"
 

@@ -161,10 +161,10 @@ new_canvas_bar (SheetView *sheet_view, GtkOrientation o, GnomeCanvasItem **itemp
 
 	if (o == GTK_ORIENTATION_VERTICAL){
 		w = 60;
-		h = 1;
+		h = -1;
 		gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, w, 1000000);
 	} else {
-		w = 1;
+		w = -1;
 		h = 20;
 		gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, 1000000, h);
 	}
