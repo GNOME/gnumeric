@@ -23,7 +23,9 @@ void	     sheet_object_filled_outline_color_set (SheetObject *so,
 #define IS_SHEET_OBJECT_POLYGON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_POLYGON_TYPE))
 
 GType      sheet_object_polygon_get_type (void);
-SheetObject *sheet_object_polygon_new (void);
-void	     sheet_object_polygon_set_points (SheetObject *so, GArray *pairs);
+SheetObject *sheet_object_polygon_new    (void);
+void sheet_object_polygon_set_points	    (SheetObject *so, GArray *pairs);
+void sheet_object_polygon_fill_color_set    (SheetObject *so, StyleColor *color);
+void sheet_object_polygon_outline_color_set (SheetObject *so, StyleColor *color);
 
 #endif /* GNUMERIC_SHEET_OBJECT_GRAPHIC_H */

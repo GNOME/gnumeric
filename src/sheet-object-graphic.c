@@ -1193,10 +1193,12 @@ sheet_object_polygon_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 
 	item = gnome_canvas_item_new (
 		gcanvas->sheet_object_group,
-		gnome_canvas_line_get_type (),
+		gnome_canvas_polygon_get_type (),
 		"fill_color_gdk",	fill_color,
+		"outline_color_gdk",	outline_color,
 		"width_units",		sop->outline_width,
 		"points",		sop->points,
+		"join_style",		GDK_JOIN_ROUND,
 		NULL);
 	gnm_pane_object_register (so, item);
 	return G_OBJECT (item);
@@ -1306,9 +1308,9 @@ sheet_object_polygon_init (GObject *obj)
 	SheetObject *so;
 
 	sop = SHEET_OBJECT_POLYGON (obj);
-	sop->fill_color = style_color_new_name ("black");
-	sop->outline_color = style_color_new_name ("white");
-	sop->outline_width = 1.;
+	sop->fill_color = style_color_new_name ("white");
+	sop->outline_color = style_color_new_name ("black");
+	sop->outline_width = .02;
 	sop->points = gnome_canvas_points_new (4);
 
 	sop->points->coords[0] = 0.; sop->points->coords[1] = 0.;
@@ -1343,4 +1345,36 @@ sheet_object_polygon_set_points (SheetObject *so, GArray *pairs)
 		gnome_canvas_item_set (l->data, "points", points, NULL);
 	gnome_canvas_points_free (sop->points);
 	sop->points = points;
+}
+
+void
+sheet_object_polygon_fill_color_set (SheetObject *so, StyleColor *color)
+{
+	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (so);
+	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
+	GList *l;
+
+	g_return_if_fail (sop != NULL);
+
+	style_color_unref (sop->fill_color);
+	sop->fill_color = color;
+
+	for (l = so->realized_list; l; l = l->next)
+		gnome_canvas_item_set (l->data, "fill_color_gdk", gdk, NULL);
+}
+
+void
+sheet_object_polygon_outline_color_set (SheetObject *so, StyleColor *color)
+{
+	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (so);
+	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
+	GList *l;
+
+	g_return_if_fail (sop != NULL);
+
+	style_color_unref (sop->outline_color);
+	sop->outline_color = color;
+
+	for (l = so->realized_list; l; l = l->next)
+		gnome_canvas_item_set (l->data, "outline_color_gdk", gdk, NULL);
 }

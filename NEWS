@@ -1,5 +1,8 @@
 Gnumeric 1.1.8
 
+Jody:
+	* Add XL for polygon colours.
+
 Morten:
 	* Add poor man's utf8 regexp routines.
 
