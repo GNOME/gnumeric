@@ -34,7 +34,7 @@
 
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/error-info.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include "expr.h"
 #include "expr-impl.h"
 #include "gutils.h"
@@ -46,7 +46,7 @@
 #include "guile-support.h"
 #include "smob-value.h"
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 /* This is damn ugly.
  * However, it will get things working again (I hope)

@@ -26,7 +26,6 @@
 #include "xml-io-version.h"
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
 #include "sheet-view.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"

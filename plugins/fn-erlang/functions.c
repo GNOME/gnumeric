@@ -39,7 +39,7 @@
 #include <gnm-i18n.h>
 
 #include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 
 #include <math.h>
 #include <string.h>
@@ -113,7 +113,7 @@ calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 	return gos;
 }
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 /***************************************************************************/
 static GnmFuncHelp const help_probblock[] = {

@@ -27,7 +27,7 @@
 #include <gnumeric.h>
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include "psiconv-plugin.h"
 #include "workbook-view.h"
 #include "workbook.h"
@@ -35,7 +35,7 @@
 #include <stdio.h>
 #include <string.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 gboolean psiconv_file_probe (GnmFileOpener const *fo, GsfInput *input,
                             FileProbeLevel pl);

@@ -31,7 +31,7 @@
 
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/error-info.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include "expr.h"
 #include "func.h"
 #include "sheet.h"
@@ -43,7 +43,7 @@
 #include "excel-gb-context.h"
 #include "../excel/excel.h"
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 #ifndef MAP_FAILED
 /* Someone needs their head examining - BSD ? */

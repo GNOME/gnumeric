@@ -11,10 +11,10 @@
 #include "py-console.h"
 #include <gnm-plugin.h>
 #include <goffice/app/error-info.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include <glib.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 GType python_get_loader_type (ErrorInfo **ret_error);
 G_MODULE_EXPORT GType

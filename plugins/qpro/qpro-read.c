@@ -37,7 +37,7 @@
 #include <sheet-style.h>
 #include <style-color.h>
 #include <parse-util.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include <goffice/app/io-context.h>
 
 #include <gsf/gsf-utils.h>
@@ -45,7 +45,7 @@
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-msole.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 gboolean qpro_file_probe (GnmFileOpener const *fo, GsfInput *input,
 			  FileProbeLevel pl);

@@ -14,7 +14,7 @@
 #include <goffice/app/file.h>
 #include <workbook-view.h>
 #include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include <goffice/app/error-info.h>
 #include <gutils.h>
 #include <goffice/app/io-context.h>
@@ -22,7 +22,7 @@
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 gboolean lotus_file_probe (GnmFileOpener const *fo, GsfInput *input,
                            FileProbeLevel pl);

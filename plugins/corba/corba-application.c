@@ -29,7 +29,7 @@
 #include <application.h>
 #include <workbook-priv.h>
 #include <workbook-view.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include <goffice/app/io-context.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
@@ -149,5 +149,5 @@ go_plugin_shutdown (GOPlugin *p, GOCmdContext *cc)
 	}
 }
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 

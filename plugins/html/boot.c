@@ -26,6 +26,6 @@
 #include "latex.h"
 #include "roff.h"
 #include <goffice/app/file.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;

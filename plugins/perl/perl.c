@@ -12,12 +12,12 @@
 #include <glib.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/error-info.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include "gutils.h"
 #define dirty _perl_dirty
 #undef _perl_dirty
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 extern void xs_init(void);
 

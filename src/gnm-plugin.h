@@ -4,7 +4,7 @@
 #include <gnumeric.h>
 #include <goffice/app/goffice-app.h>
 #include <goffice/app/go-plugin.h>
-#include <glib.h>
+#include <goffice/app/module-plugin-defs.h>
 #include <gmodule.h>
 #include <libxml/tree.h>
 #include <gsf/gsf.h>
@@ -40,6 +40,15 @@ typedef struct {
 	char const *name;
 	void (*handler) (GnmAction const *action, WorkbookControl *wbc);
 } ModulePluginUIActions;
+
+/**************************************************************************/
+#define GNM_PLUGIN_MODULE_HEADER					\
+G_MODULE_EXPORT GOPluginModuleDepend const go_plugin_depends [] = {	\
+	{ "goffice",	GOFFICE_VERSION },				\
+	{ "gnumeric",	GNUMERIC_VERSION }				\
+};	\
+G_MODULE_EXPORT GOPluginModuleHeader const go_plugin_header =  		\
+	{ GOFFICE_MODULE_PLUGIN_MAGIC_NUMBER, G_N_ELEMENTS (go_plugin_depends) }
 
 /**************************************************************************/
 

@@ -17,7 +17,7 @@
 #include <goffice/app/io-context.h>
 #include <workbook-view.h>
 #include <workbook.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include <goffice/app/error-info.h>
 
 #include <gsf/gsf-input-textline.h>
@@ -26,7 +26,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 #define N_INPUT_LINES_BETWEEN_UPDATES   50
 

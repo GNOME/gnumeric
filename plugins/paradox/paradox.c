@@ -16,7 +16,7 @@
 #include <cell.h>
 #include <value.h>
 #include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include <sheet.h>
 #include <ranges.h>
 #include <mstyle.h>
@@ -25,7 +25,7 @@
 #include <goffice/utils/datetime.h>
 #include <goffice/app/error-info.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 void paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
                         WorkbookView *wb_view, GsfInput *input);

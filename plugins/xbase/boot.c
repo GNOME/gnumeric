@@ -20,12 +20,12 @@
 #include <goffice/app/io-context.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/error-info.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include <goffice/utils/datetime.h>
 #include <glib/gi18n.h>
 #include <stdlib.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 void xbase_file_open (GnmFileOpener const *fo, IOContext *io_context,
                       WorkbookView *wb_view, GsfInput *input);

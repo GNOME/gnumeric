@@ -41,9 +41,9 @@
 #include <stdlib.h>
 
 #include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 #define DAY_SECONDS (3600*24)
 #define DATE_CONV(ep)		workbook_date_conv (ep->sheet->workbook)

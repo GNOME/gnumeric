@@ -34,7 +34,7 @@
 #include <gnm-i18n.h>
 
 #include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 
 #include <math.h>
 #include <limits.h>
@@ -42,7 +42,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 /**
  * FIXME: In the long term this needs optimising.

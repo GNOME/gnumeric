@@ -38,7 +38,7 @@
 #include <goffice/app/io-context.h>
 #include "workbook-view.h"
 #include "workbook.h"
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include "ranges.h"
 #include "style.h"
 #include "value.h"
@@ -55,7 +55,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 
 /*************************************************************************

@@ -7,11 +7,11 @@
 #include <gnumeric.h>
 #include <glib.h>
 #include <goffice/app/error-info.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 
 #include "perl-loader.h"
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 GType perl_get_loader_type (ErrorInfo **ret_error);
 

@@ -29,7 +29,7 @@
 #include "sheet.h"
 #include "gnm-i18n.h"
 #include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -43,7 +43,7 @@
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "gnumeric:atl"
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 static int    atl_fd = -1;
 static char * atl_filename = NULL;

@@ -46,6 +46,7 @@
 #include <goffice/goffice.h>
 #include <goffice/app/go-plugin-service.h>
 #include <goffice/app/go-cmd-context.h>
+#include <goffice/app/go-plugin-loader-module.h>
 
 #include <locale.h>
 #include <glade/glade.h>
@@ -129,6 +130,7 @@ gnm_common_init (gboolean fast)
 		&plugin_service_function_group_get_type);
 	plugin_service_define ("ui",
 		&plugin_service_ui_get_type);
+	go_plugin_loader_module_register_version ("gnumeric", GNUMERIC_VERSION);
 
 	g_object_new (GNM_APP_TYPE, NULL);
 	mathfunc_init ();

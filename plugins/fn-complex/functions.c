@@ -37,11 +37,11 @@
 #include <gnm-i18n.h>
 
 #include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 #include "gsl-complex.h"
 
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 
 /* Converts a complex number string into its coefficients.  Returns 0 if ok,

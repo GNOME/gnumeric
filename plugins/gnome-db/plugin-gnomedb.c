@@ -6,9 +6,9 @@
 #include <gui-util.h>
 #include <gnm-plugin.h>
 #include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 static void
 view_data_sources (GnmAction const *action, WorkbookControl *wbc)

@@ -31,7 +31,7 @@
 #include "number-match.h"
 #include <goffice/app/error-info.h>
 #include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 
 #include <string.h>
 #include <errno.h>
@@ -41,7 +41,7 @@
 #include <gsf/gsf-input-textline.h>
 #include <gsf/gsf-utils.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 gboolean sylk_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl);
 void     sylk_file_open (GnmFileOpener const *fo, IOContext *io_context,

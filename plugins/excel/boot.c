@@ -18,7 +18,7 @@
 #include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include <goffice/app/module-plugin-defs.h>
+#include "gnm-plugin.h"
 
 #include "excel.h"
 #include "ms-excel-write.h"
@@ -37,7 +37,7 @@
 #include <gsf/gsf-outfile-msole.h>
 #include <gsf/gsf-structured-blob.h>
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 /* Used to toggle debug messages on & off */
 /*

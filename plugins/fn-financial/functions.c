@@ -38,7 +38,7 @@
 #include <gnm-datetime.h>
 #include <gnm-i18n.h>
 #include <goffice/app/go-plugin.h>
-#include <goffice/app/module-plugin-defs.h>
+#include <gnm-plugin.h>
 
 #include <math.h>
 #include <limits.h>
@@ -46,7 +46,7 @@
 
 #include "sc-fin.h"
 
-GOFFICE_MODULE_PLUGIN_INFO_DECL(GNUMERIC_VERSION);
+GNM_PLUGIN_MODULE_HEADER;
 
 #define is_valid_basis(B) (B >= 0 && B <= 5)
 #define is_valid_freq(F) (F == 1 || F == 2 || F == 4)
