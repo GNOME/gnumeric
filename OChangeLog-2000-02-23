@@ -1,3 +1,7 @@
+1999-08-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/dialogs/dialog-paste-special.c: Typo fix.
+
 1999-08-29  Morten Welinder  <terra@diku.dk>
 
 	* src/about.c (dialog_about): Add Ross Ihaka.
