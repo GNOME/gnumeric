@@ -86,7 +86,7 @@ style_font_new_simple (const char *font_name, double size, double scale,
 			 * The name of the default font for this locale.
 			 * Preferably something with the correct encoding.
 			 */
-			font->gdk_font = gdk_font_set_load (_("fixed"));
+			font->gdk_font = gdk_fontset_load (_("fixed"));
 		else
 			gdk_font_ref (font->gdk_font);
 
