@@ -2,6 +2,7 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
+<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="Filter">
   <property name="border_width">6</property>
@@ -84,7 +85,7 @@
 	    <widget class="GtkTable" id="input-table">
 	      <property name="border_width">12</property>
 	      <property name="visible">True</property>
-	      <property name="n_rows">4</property>
+	      <property name="n_rows">3</property>
 	      <property name="n_columns">2</property>
 	      <property name="homogeneous">False</property>
 	      <property name="row_spacing">6</property>
@@ -104,8 +105,8 @@
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">2</property>
-		  <property name="top_attach">3</property>
-		  <property name="bottom_attach">4</property>
+		  <property name="top_attach">2</property>
+		  <property name="bottom_attach">3</property>
 		  <property name="y_options"></property>
 		</packing>
 	      </child>
@@ -127,8 +128,8 @@
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">2</property>
-		  <property name="bottom_attach">3</property>
+		  <property name="top_attach">1</property>
+		  <property name="bottom_attach">2</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>
@@ -151,8 +152,8 @@
 		<packing>
 		  <property name="left_attach">0</property>
 		  <property name="right_attach">1</property>
-		  <property name="top_attach">1</property>
-		  <property name="bottom_attach">2</property>
+		  <property name="top_attach">0</property>
+		  <property name="bottom_attach">1</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options"></property>
 		</packing>

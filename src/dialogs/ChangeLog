@@ -1,5 +1,9 @@
 2003-09-11  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* advanced-filter.glade: fix label alignment
+
+2003-09-11  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* dialog-cell-sort.c (dialog_init): focus on the most 
 	  likely entry field
 
