@@ -1,3 +1,9 @@
+1998-09-27 Adrian Likins <adrian@gimp.org>
+
+        * doc/gnumeric,editing,formulas, autofill.sgml: More
+          approriate tags for the images and examples. Restructed
+          to be a bit more logical.
+
 1998-09-26  Adrian Likins <adrian@gimp.org>
  
         * doc/*.jpg:

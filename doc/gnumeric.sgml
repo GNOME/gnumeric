@@ -3,6 +3,9 @@
 <!entity numberformat SYSTEM "number-format.sgml">
 <!entity formulas SYSTEM "formulas.sgml">
 <!entity cellrefer SYSTEM "cell_refer.sgml">
+<!entity selections SYSTEM "selections.sgml">
+<!entity autofill SYSTEM "autofill.sgml">
+<!entity worksheet SYSTEM "worksheet.sgml">
 ]>
 <book>
   <bookinfo>
@@ -59,6 +62,11 @@
   <chapter id="formatting">
     <title>Number formatting.</title>
     &numberformat;
+  </chapter>
+
+  <chapter id="worksheet">
+    <title>Worksheet overview.</title>
+    &worksheet;
   </chapter>
 
 

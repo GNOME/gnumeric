@@ -2,7 +2,8 @@
   <title>Formatting numbers</title>
 
   <para>To change the formatting style for a cell or a range of cells,
-  you only need to select the range of cells where you want to
+  you only need to select the range of cells (see <xref linkend="editing-selections">)
+   where you want to
   apply/change the format and then select from the
   Format/Cells/Numbers menu (or from the context sensitive popup menu
   bound to the right mouse button) the appropiate format.</para>

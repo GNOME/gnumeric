@@ -1,3 +1,4 @@
+
 <sect1>
 <title>Autofill</title>
 
@@ -13,8 +14,8 @@
   is to enter the first number into a cell and click on the autofill
   cursor in the bottom right corner of the cell border and drag it in
   the direction to fill. If the first cell contains a '1', for example,
-  dragging the autofill button(see figure 1), down three or four cells
-  will fill the cells with 1,2,3,4 automatically.(see figure 2)</para>
+  dragging the autofill button(see <xref linkend="celltobautofilled">) down three or four cells
+  will fill the cells with 1,2,3,4 automatically.(see <xref linkend="cellsautofilled">)</para>
 
   <itemizedlist>
      <listitem><para>Select the cell that marks the begining of the 
@@ -26,21 +27,23 @@
      of the first cell, and drag it to the end of the area to fill.</para></listitem>
 
      <listitem><para>Release the mouse button. The cells in the selected area should
-     nwo be field with autofilled values</para></listitem>
+     now be field with autofilled values</para></listitem>
   </itemizedlist>
 
-  <screenshot>
-       <screeninfo>Figure 1. 
-	 </screeninfo>
-       <graphic fileref="images/autofill-1.jpg"></graphic>
-       This is figure 1.
-  </screenshot>
 
+  <figure id="celltobautofilled">
+  <title>A cell with the seed for an autofill.</title>
+  <screenshot>
+       <graphic fileref="images/autofill-1.jpg"></graphic>
+  </screenshot>
+  </figure>
+
+   <figure id="cellsautofilled">
+   <title>A set of cells being autofill'ed</title>
    <screenshot>
-       <screeninfo>Figure 2. A set of cells being autofill'ed
-	 </screeninfo>
        <graphic fileref="images/autofill-2.jpg"></graphic>
   </screenshot>
+  </figure>
 
   <para>As handy as being able to simply and quickly generate series of
   numbers incremented by one, autofill can do much much more. The next simplest
@@ -48,20 +51,23 @@
  to create a series that consist of odd numbers starting at 11, just enter 11 into
  a cell and 13 into the next cell. Then select both cells, and stretch it to the
  cover the cells to be filled. If you select the next 5 cells for example, it will
- fill with values 11,13,15,17,19,21,23. See figures 3 and 4 for example.</para>
+ fill with values 11,13,15,17,19,21,23. See <xref linkend="seedcellautofillsequence">
+  and  <xref linkend="autofillsequence"> for example.</para>
 
+
+  <figure id="seedcellautofillsequence">
+  <title>A seed cell for a date autofill.</title>
   <screenshot>
-       <screeninfo>Figure 3. 
-	 </screeninfo>
        <graphic fileref="images/autofill-3.jpg"></graphic>
   </screenshot>
+  </figure>
 
+   <figure id="autofillsequence">
+    <title>A set of cells being filled with a sequence.</title>
    <screenshot>
-       <screeninfo>Figure 4. A set of cells being autofill'ed
-	 </screeninfo>
        <graphic fileref="images/autofill-4.jpg"></graphic>
   </screenshot>
-
+  </figure>
 
   <sect2>
    <title>Filling with Dates</title>
@@ -78,27 +84,30 @@
 
    <para>Starting from cell B2 for example, if you want to fill the next 12 cells
    with the months, just enter the string "January" in B2. Then, click the fill button
-   and stretch it over the next 12 cells, and release. Simple as that. See Figures 5 and
-   6. </para>
+   and stretch it over the next 12 cells, and release. Simple as that. See <xref
+   linkend="datefillseed">, <xref linkend="datebeingfilled">, and 
+   <xref linkend="cellsfilled">. </para>
  
-
- <screenshot> 
-       <screeninfo>Figure 5. 
-	 </screeninfo>
+   <figure id="datefillseed">
+   <title>A cell with a date in it, ready to be the seed for a fill.</title>
+   <screenshot> 
        <graphic fileref="images/autofill-5.jpg"></graphic>
   </screenshot>
+  </figure>
 
+   <figure id="datebeingfilled">
+   <title>A set of cells being filled.</title>
    <screenshot>
-       <screeninfo>Figure 6. A set of cells being autofill'ed
-	 </screeninfo>
        <graphic fileref="images/autofill-6.jpg"></graphic>
   </screenshot>
+  </figure>
 
+  <figure id="cellsfilled">
+  <title>A range of cells autofilled with the months.</title>
   <screenshot>
-       <screeninfo>Figure 7. A set of cells being autofill'ed
-	 </screeninfo>
        <graphic fileref="images/autofill-7.jpg"></graphic>
   </screenshot>
+ </figure>
 
    <para> Other examples of strings that can be autofilled include days of
    the week (Monday, Tuesday,...), short weekdays (Mon, Tues, ....),
@@ -115,13 +124,14 @@
    embedded into text strings. So its possible to autofill cells with values
    like "9 lives to live","8 lives to live", etc. </para>
 
-   <para>See Figure 8 for some contrived examples.</para>
+   <para>See <xref linkend="autofillexamples"> for some contrived examples.</para>
 
+  <figure id="autofillexamples">
+  <title>Some simple autofill examples.</title>
   <screenshot>
-       <screeninfo>Figure 8. 
-	 </screeninfo>
        <graphic fileref="images/autofill-8.jpg"></graphic>
   </screenshot>
+  </figure>
   </sect2>
 
   <sect2>
@@ -132,21 +142,23 @@
   same as all the other autofill methods, it just transfers the funtions
   of course. </para>
 
-  <para>See Figures  9 and 10 for a simple example.</para>
+  <para>See <xref linkend="autofillfunction1"> and <xref linkend="autofillfunction2">
+   for a simple example.</para>
 
- <screenshot>
-       <screeninfo>Figure 9. 
-	 </screeninfo>
+  <figure id="autofillfunction1">
+  <title>Formula to be autofilled.</title>
+   <screenshot>
        <graphic fileref="images/autofill-9.jpg"></graphic>
   </screenshot>
- 
+ </figure> 
 
+ <figure id="autofillfunction2">
+ <title>Formula autofilled to several cells.</title>
  <screenshot>
-       <screeninfo>Figure 10. 
-	 </screeninfo>
        <graphic fileref="images/autofill-10.jpg"></graphic>
   </screenshot>
- 
+ </figure> 
+
  </sect2>
 
  <sect2>

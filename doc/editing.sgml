@@ -9,13 +9,16 @@
   syntax for this kind of data. The only limitation is that strings and
   numbers can not contain newlines or begin with a '='. The '=' is
   used to denote cells that contain formulas or cell references.</para>
+ 
+  <para>See <xref linkend="stringnumber"> for an example of entering
+   a string.</para>
 
+ <figure id="stringnumber">
+ <title>Entering strings and mumbers.</title>
  <screenshot>
-       <screeninfo>String and number example
-	 </screeninfo>
-       <graphic fileref="images/editing-1.jpg"></graphic>
+        <graphic fileref="images/editing-1.jpg"></graphic>
   </screenshot>
-
+  </figure>
 
 </sect1>
 
@@ -110,350 +113,23 @@
 
   </itemizedlist>
 
-
+  <figure id="rightclickmove">
+  <title>The option menu for  dragging a cell with right click.</title>
   <screenshot>
-       <screeninfo>Figure 1.
-	 </screeninfo>
        <graphic fileref="images/dndselection-1.jpg"></graphic>
      </screenshot>
+   </figure>
   </sect2>
 
 
- </sect1> 
+<!-- include the files for handling selections -->
 
-<sect1>
-  <title>Editing cells using the selection</title>
-  
-  <para>There are various ways of using the selection to ease the
-    edition of the cells in the spreadhsheet. </para>
+&selections;
 
-  <para>For instance, given a selection of cells (contiguous, or
-     non-contiguous), data can be entered.  THe enter key will accept
-     the data and move the cursor to the next cell in the selection
-     down the selection.  The tab on the other hand key will move the
-     cursor to the rightmost cell (or it will scroll if you have
-     reached the edge of the selection).</para>
 
-  <para>Control-Enter does the inverser of Enter (it moves to the
-     previous cell in the selection, moving towards the top), while
-     control-tab moves the cursor to the left.</para>
+<!--  include the files for autofill docs here  -->
 
-<sect2>
+&autofill;
 
-  <title>Simple Selections</title>
- 
-  <para>The active cell is indicated by a dark double line with a small
-   square in the bottom right corner. The active cell is the the one 
-   that is currently in focus and will take any input for the keyboard.</para>
 
-	
-      <screenshot id="activecell">
-       <screeninfo>Figure 1. 
-	 </screeninfo>
-       <graphic fileref="images/selection-2.jpg"></graphic>
-        </screenshot>
-
-
-  <para>To make a cell become the active selected cell, simply move the white-cross cursor
-   over the cell and press the MB1.</para> 
-
-   <screenshot>
-       <screeninfo>Figure 2. 
-	 </screeninfo>
-       <graphic fileref="images/selection-1.jpg"></graphic>
-  </screenshot>
-
-  </sect2>
-	
-  <sect2>
-  <title>Selecting multiple cells</title>
-
-  <para>A selection of multiple cells is indicated by a dark double line around
-  the extents of the selection. The top-left cell appears much like a single
-  selected cell while the rest of the selection is the inverse color.</para>
-
-  <screenshot>
-       <screeninfo>Figure 3.
-	 </screeninfo>
-       <graphic fileref="images/selection-3.jpg"></graphic>
-  </screenshot>
-
- <para>To make a continuous selection of cells, click on the cell with
- the white_cross cursor and drag the extents of the selection until
- it comprises the area you wish to select, and release.</para>
-
- <screenshot>
-       <screeninfo>Figure 3.
-	 </screeninfo>
-       <graphic fileref="images/selection-4.jpg"></graphic>
-  </screenshot>
-
- </sect2>
-
- <sect2>
- <title>Discontinuous selections</title>
-
- <para>To select a set of cells that may not be continuous,
- use ctrl+click and drag to argument an existing selection. 
- The cells can be added individually or as parts of other selections.</para>
-
-  <screenshot>
-       <screeninfo>Figure 5.
-	 </screeninfo>
-       <graphic fileref="images/selection-5.jpg"></graphic>
-  </screenshot>
-
-
- </sect2>
-
-
- <sect2>
- <title>Keyboard Shortcuts</title>
- 
- <para>The quickest way to make large selections, especially when your 
- already using the keyboard is to just use the keyboard selection tools.
- The basic use is to press Shift+arrow keys to make a new selection.</para>
-
- <para>To select an entire row of cells, press Shift+space. This is eqilivent
- to pressing the row label button on the left side of the sheet.</para> 
-
- <screenshot>
-       <screeninfo>Figure 6.
-	 </screeninfo>
-       <graphic fileref="images/selection-8.jpg"></graphic>
-  </screenshot>
-
- <para>To select an entire column of cells, press Ctrl+Space. This is equilivent
- to pressing the column labelbutton on the top of the sheet.</para>
-
- <screenshot>
-       <screeninfo>Figure 6.
-	 </screeninfo>
-       <graphic fileref="images/selection-9.jpg"></graphic>
-  </screenshot>
-
- <para>To select the entire sheet, press Ctrl+A. This is equilivent to
- pressing the button in the top left corner of the sheet.</para>
-
-<screenshot>
-       <screeninfo>Figure 6.
-	 </screeninfo>
-       <graphic fileref="images/selection-10.jpg"></graphic>
-  </screenshot>
-
-
-
- <itemizedlist>
-     <listitem><para>Shift+Arrow: Define selection with cursor keys.</para></listitem>
-
-     <listitem><para>Shift+Space: Select current row. </para></listitem>
-
-     <listitem><para>Ctrl+Space: Select current column.</para></listitem>
-
-     <listitem><para>Ctrl+A: Select the entire sheet.</para></listitem>
-
-  </itemizedlist>
-
-
-
- </sect2>
-
- <sect2>
- <title>Filling a region with the same text or value.</title>
- <para> For a set of cells that need to get filled with the same value,
- the easiest way is to make a selection using one of the above mentioned, then
- enter the value into one of the cells like normal, but instead of pressing
- enter, press Ctrl+enter instead. The selection will fill with the value entered 
- for that cell.</para>
-
- <para>For cases where you want to fill with number sequences, or dates, or other 
- sorted data, you may want to use the autofill option.</para>
-
-  <screenshot>
-       <screeninfo>Figure 6. A selection of several cells.
-	 </screeninfo>
-       <graphic fileref="images/selection-6.jpg"></graphic>
-  </screenshot>
-
-  <screenshot>
-       <screeninfo>Figure 7. A selection of several cells, filled with the same values.
-	 </screeninfo>
-       <graphic fileref="images/selection-7.jpg"></graphic> 
-  </screenshot>
-
-</sect2>
-
-</sect1>
-
-
-<sect1>
-<title>Autofill</title>
-
-   <para>When dealing with spreadsheets it's pretty typical to want to
-   add a set of cells that contain a series of numbers or dates or other
-   values. While this can be done by hand, Gnumeric implements an autofill
-   option to allow these sorts of series to be easily fill in.</para>
-
-
-  <para>A typical example of when you want to use this feature is to fill
-  a series of numbers maybe a list of part numbers, or a perhaps a list
-  of TV channels. To create a list like this, all the user needs to do
-  is to enter the first number into a cell and click on the autofill
-  cursor in the bottom right corner of the cell border and drag it in
-  the direction to fill. If the first cell contains a '1', for example,
-  dragging the autofill button(see figure 1), down three or four cells
-  will fill the cells with 1,2,3,4 automatically.(see figure 2)</para>
-
-  <itemizedlist>
-     <listitem><para>Select the cell that marks the begining of the 
-     area to autofill</para></listitem>
-
-     <listitem><para>Enter the starting value into this cell</para></listitem>
-
-     <listitem><para>Click the small rectangle in the bottom right corner
-     of the first cell, and drag it to the end of the area to fill.</para></listitem>
-
-     <listitem><para>Release the mouse button. The cells in the selected area should
-     nwo be field with autofilled values</para></listitem>
-  </itemizedlist>
-
-  <screenshot>
-       <screeninfo>Figure 1. 
-	 </screeninfo>
-       <graphic fileref="images/autofill-1.jpg"></graphic>
-  </screenshot>
-
-   <screenshot>
-       <screeninfo>Figure 2. A set of cells being autofill'ed
-	 </screeninfo>
-       <graphic fileref="images/autofill-2.jpg"></graphic>
-  </screenshot>
-
-  <para>As handy as being able to simply and quickly generate series of
-  numbers incremented by one, autofill can do much much more. The next simplest
-  example is autofilling with a series with an increment other than 1. For example,
- to create a series that consist of odd numbers starting at 11, just enter 11 into
- a cell and 13 into the next cell. Then select both cells, and stretch it to the
- cover the cells to be filled. If you select the next 5 cells for example, it will
- fill with values 11,13,15,17,19,21,23. See figures 3 and 4 for example.</para>
-
-  <screenshot>
-       <screeninfo>Figure 3. 
-	 </screeninfo>
-       <graphic fileref="images/autofill-3.jpg"></graphic>
-  </screenshot>
-
-   <screenshot>
-       <screeninfo>Figure 4. A set of cells being autofill'ed
-	 </screeninfo>
-       <graphic fileref="images/autofill-4.jpg"></graphic>
-  </screenshot>
-
-
-  <sect2>
-   <title>Filling with Dates</title>
-
-   <para>Oh, but numbers are easy you say! The real painful stuff is entering
-   in cell by cell dates and times and other info. But never fear, Gnumeric is there
-   to help you. Gnumeric has the ability to autofill dates, months, days of the week,
-   and more. </para>
-
-   <para> For an example, think of a typical business invoice, where everything is
-   logged by the month. So it is quite typically to want to fill a series of cells
-   with the months of the year in order. To do this is quite simple, essentially the
-   same steps as making a numerical fill.</para>
-
-   <para>Starting from cell B2 for example, if you want to fill the next 12 cells
-   with the months, just enter the string "January" in B2. Then, click the fill button
-   and stretch it over the next 12 cells, and release. Simple as that. See Figures 5 and
-   6. </para>
- 
-
- <screenshot> 
-       <screeninfo>Figure 5. 
-	 </screeninfo>
-       <graphic fileref="images/autofill-5.jpg"></graphic>
-  </screenshot>
-
-   <screenshot>
-       <screeninfo>Figure 6. A set of cells being autofill'ed
-	 </screeninfo>
-       <graphic fileref="images/autofill-6.jpg"></graphic>
-  </screenshot>
-
-  <screenshot>
-       <screeninfo>Figure 7. A set of cells being autofill'ed
-	 </screeninfo>
-       <graphic fileref="images/autofill-7.jpg"></graphic>
-  </screenshot>
-
-   <para> Other examples of strings that can be autofilled include days of
-   the week (Monday, Tuesday,...), short weekdays (Mon, Tues, ....),
-   short months (Jan, Feb,...) </para>
-
-   <para> More string fill types to follow </para>
-   </sect2>
-
-
-   <sect2>
-   <title>String And Number autofill</title>
-
-   <para>Gnumeric tries to be intelligent about autofilling number values that
-   embedded into text strings. So its possible to autofill cells with values
-   like "9 lives to live","8 lives to live", etc. </para>
-
-   <para>See Figure 8 for some contrived examples.</para>
-
-  <screenshot>
-       <screeninfo>Figure 8. 
-	 </screeninfo>
-       <graphic fileref="images/autofill-8.jpg"></graphic>
-  </screenshot>
-  </sect2>
-
-  <sect2>
-  <title>Formula autofill</title>
- 
-  <para>Probabaly the most useful of all the autofill capabilties is
-  the abilty to autofill functions. In practice it works essentialy the
-  same as all the other autofill methods, it just transfers the funtions
-  of course. </para>
-
-  <para>See Figures  9 and 10 for a simple example.</para>
-
- <screenshot>
-       <screeninfo>Figure 9. 
-	 </screeninfo>
-       <graphic fileref="images/autofill-9.jpg"></graphic>
-  </screenshot>
- 
-
- <screenshot>
-       <screeninfo>Figure 10. 
-	 </screeninfo>
-       <graphic fileref="images/autofill-10.jpg"></graphic>
-  </screenshot>
- 
- </sect2>
-
- <sect2>
- <title>Other Notes on autofill</title>
-
-
- <itemizedlist>
-        <listitem><para>Autofills only work to the down and to the right of a cell.</para>
-          </listitem>
-        <listitem><para>To make a series that decrements insteads of incrementing, enter the 
-highest value into the first cell, then the next value in the second cell and select
-them both in the first step outlined above. </para>
-          </listitem>
-        <listitem><para>Starting a series with more than two inital values can result in
-       some unexpected results. Use with care.</para>
-          </listitem>
-  
-
-  </itemizedlist>
- </sect2>
-
-</sect1>
 
