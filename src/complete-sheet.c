@@ -88,6 +88,11 @@ complete_sheet_search_iteration (Complete *complete)
 	ColRowInfo const *ci;
 	int i;
 
+	/* http://bugzilla.gnome.org/show_bug.cgi?id=55026
+	 * only kick in after 3 characters */
+	if (strlen (complete->text) < 3)
+		return FALSE;
+
 	if (strncmp (cs->current, complete->text, strlen (cs->current)) != 0)
 		reset_search (cs);
 

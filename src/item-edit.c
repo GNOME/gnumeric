@@ -113,7 +113,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	ColRowInfo const *ci = sheet_col_get_info (sc->sheet,
 						   item_edit->pos.col);
 	int const left_pos = ((int)item->x1) + ci->margin_a - x;
-	int top_pos, font_height;
+	int top_pos, text_height;
 	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (item_edit->entry));
 	char const *text, *entered_text;
 	PangoLayout	*layout;
@@ -206,11 +206,11 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		pango_attr_list_unref (tmp_attrs);
 	}
 
+	pango_layout_get_pixel_size (layout, NULL, &text_height);
 	pango_layout_index_to_pos (layout,
 		g_utf8_offset_to_pointer (text, cursor_pos) - text, &pos);
 
 	top_pos = ((int)item->y1) - y + 1; /* grid line */
-	font_height = style_font_get_height (style_font);
 	height = (int)(item->y2 - item->y1) - 1;
 	switch (mstyle_get_align_v (style)) {
 	default:
@@ -225,7 +225,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		break;
 
 	case VALIGN_CENTER:
-		top_pos += (height - font_height)/2;
+		top_pos += (height - text_height)/2;
 		break;
 
 	case VALIGN_BOTTOM:
@@ -234,7 +234,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		 * add height == first pixel in lower margin
 		 * subtract font descent
 		 */
-		top_pos += (height - font_height);
+		top_pos += (height - text_height);
 		break;
 	}
 	gdk_draw_layout (drawable, canvas->style->black_gc,

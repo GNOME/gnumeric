@@ -1,5 +1,8 @@
 2002-10-30  Jody Goldberg <jody@gnome.org>
 
+	* src/complete-sheet.c (complete_sheet_search_iteration) : only kick
+	  the autofill in after 3 characters.
+
 	* src/item-edit.c (item_edit_draw) : respect more of the style
 	  settings including v-alignment, underline, strikethrough, and
 	  colours.

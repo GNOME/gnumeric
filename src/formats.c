@@ -289,10 +289,10 @@ currency_date_format_shutdown (void)
 
 CurrencySymbol const currency_symbols[] =
 {
-	{ "", "None" },	/* These first four elements */
-	{ "$", "$" },	/* Must stay in this order */
-	{ "£", "£" },	/* GBP */
-	{ "¥", "¥" },	/* JPY */
+	{ "", "None" },		/* These first five elements */
+	{ "$", "$" },		/* Must stay in this order */
+	{ "£", "£" },		/* GBP */
+	{ "¥", "¥" },		/* JPY */
 	{ "€", "€" },	/* EUR */
 
 	/* The first column has three letter acronyms
