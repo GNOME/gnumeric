@@ -1380,20 +1380,24 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 	return res;
 }
 
-static void
-cb_edit_search_replace (GtkWidget *unused, WorkbookControlGUI *wbcg)
+static gboolean
+cb_edit_search_replace_action (WorkbookControlGUI *wbcg,
+			       SearchReplace *sr)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	SearchReplace *sr = dialog_search_replace (wbcg);
-
-	if (!sr) return;
 
 	sr->query_func = cb_edit_search_replace_query;
 	sr->user_data = wbcg;
-	cmd_search_replace (wbc, sheet, sr);
 
-	search_replace_free (sr);
+	return cmd_search_replace (wbc, sheet, sr);
+}
+
+
+static void
+cb_edit_search_replace (GtkWidget *unused, WorkbookControlGUI *wbcg)
+{
+	dialog_search_replace (wbcg, cb_edit_search_replace_action);
 }
 
 static void
