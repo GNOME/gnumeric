@@ -96,6 +96,29 @@ fibo)
 ;@DESCRIPTION=test"
 ;test)
 
+;; Guile-gtk example use with care!
+
+;(use-modules (gtk gtk))  
+                  
+;(define (ggtest n)
+;(call-with-current-continuation
+; (lambda(val)
+; (let ((window (gtk-window-new 'toplevel))
+;       (calendar (gtk-calendar-new)))
+; (gtk-container-add window calendar)
+; (gtk-widget-show-all window)
+; (gtk-standalone-main window)
+
+;(break n)))))
+
+
+;(register-function
+;"ggtest" "f"
+;"@FUNCTION=GGTEST
+;@SYNTAX=GGTEST(num)
+;@DESCRIPTION=Guile-gtk test"
+;"Guile"
+;ggtest)
 
 
 

@@ -1,3 +1,8 @@
+2000-09-25  Ariel Rios <ariel@arcavia.com>
+
+	* functions.scm: Create the ggtest formula. Handle with care.
+        Shows possible use of guile-gtk inside gnumeric. It is commented.        
+
 2000-09-09  Jon K Hellan  <hellan@acm.org>
 
 	* plugin.c (scm_cell_expr):
