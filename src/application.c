@@ -244,24 +244,24 @@ gnm_app_clipboard_cut_copy (WorkbookControl *wbc, gboolean is_cut,
 	g_return_if_fail (app != NULL);
 
 	gnm_app_clipboard_clear (FALSE);
+	Sheet *sheet = sv_sheet (sv);
+	g_free (app->clipboard_cut_range);
+	app->clipboard_cut_range = range_dup (area);
+	sv_weak_ref (sv, &(app->clipboard_sheet_view));
+
+	if (!is_cut)
+		app->clipboard_copied_contents =
+			clipboard_copy_range (sheet, area);
+	if (animate_cursor) {
+		GList *l = g_list_append (NULL, (gpointer)area);
+		sv_ant (sv, l);
+		g_list_free (l);
+	}
+
 	if (wb_control_claim_selection (wbc)) {
-		Sheet *sheet = sv_sheet (sv);
-		g_free (app->clipboard_cut_range);
-		app->clipboard_cut_range = range_dup (area);
-		sv_weak_ref (sv, &(app->clipboard_sheet_view));
-
-		if (!is_cut)
-			app->clipboard_copied_contents =
-				clipboard_copy_range (sheet, area);
-
 		g_signal_emit (G_OBJECT (app), signals [CLIPBOARD_MODIFIED], 0);
-
-		if (animate_cursor) {
-			GList *l = g_list_append (NULL, (gpointer)area);
-			sv_ant (sv, l);
-			g_list_free (l);
-		}
 	} else {
+		gnm_app_clipboard_clear (FALSE);
 		g_warning ("Unable to set selection ?");
 	}
 }
@@ -287,29 +287,30 @@ gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
 	g_return_if_fail (app != NULL);
 
 	gnm_app_clipboard_clear (FALSE);
-	if (wb_control_claim_selection (wbc)) {
-		g_free (app->clipboard_cut_range);
-		app->clipboard_cut_range = NULL;
-		sv_weak_ref (sv, &(app->clipboard_sheet_view));
-		app->clipboard_copied_contents = cellregion_new	(sv_sheet (sv));
-		for (ptr = objects ; ptr != NULL ; ptr = ptr->next) {
-			so = sheet_object_dup (ptr->data);
-			if (so != NULL) {
-				r = (GnmRange *) sheet_object_get_range	(so);
-				range_translate (r,
-					-MIN (r->start.col, r->end.col),
-					-MIN (r->start.row, r->end.row));
-				app->clipboard_copied_contents->objects = g_slist_prepend (
-					app->clipboard_copied_contents->objects, so);
-			}
+	g_free (app->clipboard_cut_range);
+	app->clipboard_cut_range = NULL;
+	sv_weak_ref (sv, &(app->clipboard_sheet_view));
+	app->clipboard_copied_contents = cellregion_new	(sv_sheet (sv));
+	for (ptr = objects ; ptr != NULL ; ptr = ptr->next) {
+		so = sheet_object_dup (ptr->data);
+		if (so != NULL) {
+			r = (GnmRange *) sheet_object_get_range	(so);
+			range_translate (r,
+					 -MIN (r->start.col, r->end.col),
+					 -MIN (r->start.row, r->end.row));
+			app->clipboard_copied_contents->objects 
+				= g_slist_prepend (app->clipboard_copied_contents->objects, so);
 		}
+	}
 
-		if (is_cut) {
-			cmd_objects_delete (wbc, objects, _("Cut Object"));
-			objects = NULL;
-		}
+	if (is_cut) {
+		cmd_objects_delete (wbc, objects, _("Cut Object"));
+		objects = NULL;
+	}
+	if (wb_control_claim_selection (wbc)) {
 		g_signal_emit (G_OBJECT (app), signals [CLIPBOARD_MODIFIED], 0);
 	} else {
+		gnm_app_clipboard_clear (FALSE);
 		g_warning ("Unable to set selection ?");
 	}
 	g_slist_free (objects);

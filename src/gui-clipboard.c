@@ -22,6 +22,7 @@
 #include "ranges.h"
 #include "sheet.h"
 #include "sheet-style.h"
+#include "sheet-object.h"
 #include "sheet-control-gui.h"
 #include "commands.h"
 #include "xml-io.h"
@@ -471,6 +472,48 @@ table_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr,
 	return ret;
 }
 
+static guchar *
+image_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
+	     int *size)
+{
+	guchar *ret = NULL;
+	SheetObject *so;
+	char *format;
+	GsfOutput *output;
+	GsfOutputMemory *omem;
+	gsf_off_t osize;
+
+	*size = -1;
+
+	g_return_val_if_fail (cr->objects != NULL, NULL);
+	so = SHEET_OBJECT (cr->objects->data);
+	g_return_val_if_fail (so != NULL, NULL);
+
+	if (strncmp (mime_type, "image/", 6) != 0)
+		return ret;
+	if (!IS_SHEET_OBJECT_IMAGEABLE (so)) {
+		g_warning ("non imageable object requested as image\n");
+		return ret;
+	}
+	format = mime_type + 6;
+	output = gsf_output_memory_new ();
+	omem   = GSF_OUTPUT_MEMORY (output);
+	sheet_object_write_image (so, format, output, NULL);
+	osize = gsf_output_size (output);
+			
+	*size = osize;
+	if (*size == osize) {
+		ret = g_malloc (*size);
+		memcpy (ret, gsf_output_memory_get_bytes (omem), *size);
+	} else {
+		g_warning ("Overflow");	/* Far fetched! */
+	}
+	gsf_output_close (output);
+	g_object_unref (output);
+
+	return ret;
+}
+
 /**
  * x_clipboard_get_cb
  *
@@ -485,6 +528,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 	Sheet *sheet = gnm_app_clipboard_sheet_get ();
 	GnmRange const *a = gnm_app_clipboard_area_get ();
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	gchar const* target_name = gdk_atom_name (selection_data->target);
 
 	/*
 	 * Not sure how to handle this, not sure what purpose this has has
@@ -529,6 +573,14 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 		guchar *buffer = table_cellregion_write (wbc, clipboard,
 							   saver_id,
 							   &buffer_size);
+		gtk_selection_data_set (selection_data,
+					selection_data->target, 8,
+					(guchar *) buffer, buffer_size);
+		g_free (buffer);
+	} else if (strncmp (target_name, "image/", 6) == 0) {
+		int buffer_size;
+		guchar *buffer = image_write (clipboard, sheet, target_name,
+					      &buffer_size);
 		gtk_selection_data_set (selection_data,
 					selection_data->target, 8,
 					(guchar *) buffer, buffer_size);
@@ -607,25 +659,47 @@ x_request_clipboard (WorkbookControlGUI *wbcg, GnmPasteTarget const *pt)
 gboolean
 x_claim_clipboard (WorkbookControlGUI *wbcg)
 {
+	gboolean imageable = FALSE;
 	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (wbcg_toplevel (wbcg)));
-	static GtkTargetEntry const targets[] = {
+	GnmCellRegion *content = gnm_app_clipboard_contents_get ();
+	GtkTargetEntry *targets;
+	int n_targets;
+
+	static GtkTargetEntry const table_targets[] = {
 		{ (char *) GNUMERIC_ATOM_NAME,  GTK_TARGET_SAME_WIDGET, GNUMERIC_ATOM_INFO },
 		{ (char *)"text/html", 0, 0 },
 		{ (char *)"UTF8_STRING", 0, 0 },
 		{ (char *)"COMPOUND_TEXT", 0, 0 },
 		{ (char *)"STRING", 0, 0 },
 	};
+	static GtkTargetEntry const image_targets[] = {
+		{ (char *) GNUMERIC_ATOM_NAME,  GTK_TARGET_SAME_WIDGET, GNUMERIC_ATOM_INFO },
+		{ (char *)"image/png", 0, 0 },
+		{ (char *)"image/jpeg", 0, 0 },
+		{ (char *)"image/bmp", 0, 0 },
+	};
 
+	if ((content->cols <= 0 || content->rows <= 0) &&
+	    content->objects != NULL &&
+	    IS_SHEET_OBJECT_IMAGEABLE (content->objects->data))
+		imageable = TRUE;
+	if (imageable) {
+		targets = (GtkTargetEntry *) image_targets;
+		n_targets = G_N_ELEMENTS (image_targets);
+	} else {
+		targets = (GtkTargetEntry *) table_targets;
+		n_targets = G_N_ELEMENTS (table_targets);
+	}
 	return
 	gtk_clipboard_set_with_owner (
 		gtk_clipboard_get_for_display (display, GDK_SELECTION_CLIPBOARD),
-		targets, G_N_ELEMENTS (targets),
+		targets, n_targets,
 		(GtkClipboardGetFunc) x_clipboard_get_cb,
 		(GtkClipboardClearFunc) x_clipboard_clear_cb,
 		G_OBJECT (wbcg)) &&
 	gtk_clipboard_set_with_owner (
 		gtk_clipboard_get_for_display (display, GDK_SELECTION_PRIMARY),
-		targets, G_N_ELEMENTS (targets),
+		targets, n_targets,
 		(GtkClipboardGetFunc) x_clipboard_get_cb,
 		(GtkClipboardClearFunc) x_clipboard_clear_cb,
 		G_OBJECT (wbcg));
