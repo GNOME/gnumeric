@@ -262,6 +262,7 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 			 * eg abs/percentage from start/end */
 			g_warning ("manual is not supported yet");
 		} else if (pos & GOG_POSITION_COMPASS) {
+			gboolean vertical = TRUE;
 
 			/* Dead simple */
 			gog_view_size_request (child, &req);
@@ -275,12 +276,13 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 				res.y += req.h;
 				res.h -= req.h;
 				tmp.h  = req.h;
+				vertical = FALSE;
 				break;
-
 			case GOG_POSITION_S:
 				res.h -= req.h;
 				tmp.y  = res.y + res.h;
 				tmp.h  = req.h;
+				vertical = FALSE;
 				break;
 			case GOG_POSITION_E:
 				res.w -= req.w;
@@ -293,6 +295,28 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 				tmp.w  = req.w;
 				break;
 			};
+			pos &= GOG_POSITION_ALIGNMENT;
+			if (GOG_POSITION_ALIGN_FILL != pos) {
+				if (vertical) {
+					if (GOG_POSITION_ALIGN_END == pos) {
+						if (tmp.h >= req.h)
+							tmp.y += tmp.h - req.h;
+					} else if (GOG_POSITION_ALIGN_CENTER == pos) {
+						if (tmp.h >= req.h)
+							tmp.y += (tmp.h - req.h) / 2.;
+					}
+					tmp.h = req.h;
+				} else {
+					if (GOG_POSITION_ALIGN_END == pos) {
+						if (tmp.w >= req.w)
+							tmp.x += tmp.w - req.w;
+					} else if (GOG_POSITION_ALIGN_CENTER == pos) {
+						if (tmp.w >= req.w)
+							tmp.x += (tmp.w - req.w) / 2.;
+					}
+					tmp.w = req.w;
+				}
+			}
 
 			gog_view_size_allocate (child, &tmp);
 		} else if (pos == GOG_POSITION_FILL ||
