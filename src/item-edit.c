@@ -173,11 +173,13 @@ item_edit_draw_text (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *style
 	GdkGC *gc = style->black_gc;
 
 	/* If this segment contains the cursor draw it */
-	if (cursor_pos <= text_length) {
-		gdk_draw_text (drawable, font, gc, x, y, text, cursor_pos);
-		x += gdk_text_width (font, text, cursor_pos);
-		text += cursor_pos;
-		text_length -= cursor_pos;
+	if (0 <= cursor_pos && cursor_pos <= text_length) {
+		if (cursor_pos > 0) {
+			gdk_draw_text (drawable, font, gc, x, y, text, cursor_pos);
+			x += gdk_text_width (font, text, cursor_pos);
+			text += cursor_pos;
+			text_length -= cursor_pos;
+		}
 
 		item_edit_draw_cursor (item_edit, drawable, style, x, y, font);
 	}
