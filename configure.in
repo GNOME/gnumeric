@@ -748,7 +748,6 @@ plugins/fn-stat/Makefile
 plugins/fn-string/Makefile
 plugins/fn-random/Makefile
 plugins/derivatives/Makefile
-plugins/gnumeric_1_0/Makefile
 plugins/sc/Makefile
 plugins/sylk/Makefile
 plugins/excel/Makefile

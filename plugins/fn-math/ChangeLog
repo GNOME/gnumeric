@@ -1,3 +1,7 @@
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.9
+
 2002-09-20  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_fib): New function.

@@ -1,5 +1,9 @@
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.1.9
+
+2002-09-30  Jody Goldberg <jody@gnome.org>
+
 	* applix-read.c (applix_sheetref_parse) : new.
 	(applix_rangeref_parse) : new.
 

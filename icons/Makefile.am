@@ -79,4 +79,4 @@ plot_icon_DATA = \
 	stock.xpm	\
 	surface.xpm 
 
-EXTRA_DIST = $(icons_DATA)
+EXTRA_DIST = $(icons_DATA) $(plot_icon_DATA)
