@@ -33,7 +33,7 @@ Pending Patches
     0.3)  Make the 'apply' behavior of the color combo optional
           so that we can do just selection.
     0.4)  Add keynav for color combo
-    0.5)  center color combo swatches in the buttons
+    0.5)  center color combo swatches in the buttons            (DONE)
     0.6)  alpha channel support for colour combos
     0.7)  Add mnemonic_activate for colour combos		(DONE)
     0.8)  Add mnemonic_activate for ExprEntry			(DONE)
