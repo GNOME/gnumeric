@@ -46,8 +46,8 @@
 struct _GOComboColor {
 	GOComboBox     combo_box;
 
-	GOColorPalette    *palette;
-	GtkWidget       *preview_button;
+	GOColorPalette	*palette;
+	GtkWidget	*preview_button;
 	GtkWidget	*preview_image;
 	gboolean	 preview_is_icon;
 	gboolean	 instant_apply;
@@ -144,9 +144,10 @@ cb_preview_clicked (GtkWidget *button, GOComboColor *cc)
 	if (_go_combo_is_updating (GO_COMBO_BOX (cc)))
 		return;
 	if (cc->instant_apply) {
-		gboolean is_default;
-		GOColor color = go_color_palette_get_current_color (cc->palette, &is_default);
-		emit_color_changed (cc, color, FALSE, TRUE, is_default);
+		gboolean is_default, is_custom;
+		GOColor color = go_color_palette_get_current_color (cc->palette,
+			&is_default, &is_custom);
+		emit_color_changed (cc, color, is_custom, TRUE, is_default);
 	} else
 		go_combo_box_popup_display (GO_COMBO_BOX (cc));
 }
@@ -245,7 +246,7 @@ GOColor
 go_combo_color_get_color (GOComboColor *cc, gboolean *is_default)
 {
 	g_return_val_if_fail (IS_GO_COMBO_COLOR (cc), RGBA_BLACK);
-	return go_color_palette_get_current_color (cc->palette, is_default);
+	return go_color_palette_get_current_color (cc->palette, is_default, NULL);
 }
 
 /**
@@ -356,7 +357,7 @@ go_combo_color_new (GdkPixbuf *icon, char const *no_color_label,
 	go_combo_box_construct (GO_COMBO_BOX (cc),
 		cc->preview_button, GTK_WIDGET (cc->palette), GTK_WIDGET (cc->palette));
 
-	color = go_color_palette_get_current_color (cc->palette, &is_default);
+	color = go_color_palette_get_current_color (cc->palette, &is_default, NULL);
 	go_combo_color_set_color_internal (cc, color, is_default);
 
 	return GTK_WIDGET (cc);

@@ -1,5 +1,10 @@
 2004-02-01  Jody Goldberg <jody@gnome.org>
 
+	* src/wbc-gtk.c (cb_custom_color_created) : mark the custom dialog as
+	  a transient of the wbcg.
+
+2004-02-01  Jody Goldberg <jody@gnome.org>
+
 	* src/workbook-control-gui.c (wbcg_toolbar_timer_clear) : people
 	  didn't like it so remove it to allow custom color selection to work.
 	  With it in place the action was still insensitive when the

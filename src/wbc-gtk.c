@@ -374,6 +374,7 @@ static void
 cb_custom_color_created (GOActionComboColor *caction, GtkWidget *dialog, WorkbookControlGUI *wbcg)
 {
 	wbcg_edit_attach_guru (wbcg, dialog);
+	gnumeric_set_transient (wbcg_toplevel (wbcg), GTK_WINDOW (dialog));
 	g_signal_connect_object (dialog,
 		"destroy",
 		G_CALLBACK (wbcg_edit_detach_guru), wbcg, G_CONNECT_SWAPPED);

@@ -1,3 +1,19 @@
+2004-02-02  Jody Goldberg <jody@gnome.org>
+
+	* gui-utils/go-combo-color.c (cb_preview_clicked) : return the real
+	  is_custom state.
+
+	* gui-utils/go-color-palette.c (handle_color_sel) : simplify and just
+	  return the color caller can emit the signal, and store the new
+	  colour.
+	(cb_combo_custom_response) : store results.
+	(cb_menu_default_activate) : ditto.
+	(cb_menu_color_activate) : ditto.
+	(cb_menu_custom_response) : ditto.
+	(set_color) : store when something is a custom of default.
+	(go_color_palette_get_current_color) : return a flag indicating if
+	  this is custom.
+
 2004-02-01  Jody Goldberg <jody@gnome.org>
 
 	* gui-utils/go-color-palette.c (handle_color_sel) : destroy before we

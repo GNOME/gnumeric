@@ -56,7 +56,8 @@ void	go_color_palette_set_title		(GOColorPalette *p, char const *title);
 void	go_color_palette_set_group		(GOColorPalette *p, GOColorGroup *cg);
 void    go_color_palette_set_current_color	(GOColorPalette *p, GOColor color);
 void    go_color_palette_set_color_to_default	(GOColorPalette *p);
-GOColor go_color_palette_get_current_color	(GOColorPalette *p, gboolean *is_default);
+GOColor go_color_palette_get_current_color	(GOColorPalette *p,
+						 gboolean *is_default, gboolean *is_custom);
 void	go_color_palette_set_allow_alpha	(GOColorPalette *p, gboolean allow_alpha);
 
 G_END_DECLS
