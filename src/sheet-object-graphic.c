@@ -3,8 +3,9 @@
 /*
  * sheet-object-graphic.c: Implements the drawing object manipulation for Gnumeric
  *
- * Author:
+ * Authors:
  *   Miguel de Icaza (miguel@kernel.org)
+ *   Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
@@ -96,10 +97,10 @@ gnm_so_graphic_set_fill_color (SheetObject *so, GnmColor *color)
 			NULL);
 }
 
-static void
-sheet_object_graphic_width_set (SheetObjectGraphic *sog, double width)
+void
+gnm_so_graphic_set_width (SheetObject *so, double width)
 {
-	SheetObject *so = SHEET_OBJECT (sog);
+	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	GList *l;
 
 	sog->width = width;
@@ -233,7 +234,7 @@ sheet_object_graphic_read_xml_dom (SheetObject *so, char const *typename,
 		sog->type = tmp;
 
 	xml_node_get_double (tree, "Width", &width);
-	sheet_object_graphic_width_set (sog, width);
+	gnm_so_graphic_set_width (so, width);
 
 	if (xml_node_get_double (tree, "ArrowShapeA", &a) &&
 	    xml_node_get_double (tree, "ArrowShapeB", &b) &&
@@ -407,7 +408,7 @@ cb_dialog_graphic_config_cancel_clicked (GtkWidget *button, DialogGraphicData *s
 {
 	SheetObject *so = SHEET_OBJECT (state->sog);
 
-	sheet_object_graphic_width_set (state->sog, state->width);
+	gnm_so_graphic_set_width (so, state->width);
 	gnm_so_graphic_set_fill_color (so,
 		state->fill_color);
 	state->fill_color = NULL;
@@ -421,9 +422,9 @@ cb_dialog_graphic_config_cancel_clicked (GtkWidget *button, DialogGraphicData *s
 static void
 cb_adjustment_value_changed (GtkAdjustment *adj, DialogGraphicData *state)
 {
-	sheet_object_graphic_width_set (state->sog,
-					gtk_spin_button_get_adjustment (
-						      state->spin_line_width)->value);
+	SheetObject *so = SHEET_OBJECT (state->sog);
+	gnm_so_graphic_set_width (so,
+		gtk_spin_button_get_adjustment (state->spin_line_width)->value);
 	foo_canvas_item_set (state->arrow,
 		"width_units", (double) gtk_spin_button_get_adjustment (
 						      state->spin_line_width)->value,
@@ -664,19 +665,27 @@ typedef struct {
 	SheetObjectGraphic sheet_object_graphic;
 
 	GnmColor *outline_color;
+	int	  outline_style;
 } SheetObjectFilled;
 
-typedef struct {
-	SheetObjectGraphicClass parent_class;
-} SheetObjectFilledClass;
+typedef SheetObjectGraphicClass SheetObjectFilledClass;
 
 static SheetObjectGraphicClass *sheet_object_filled_parent_class;
+
+void
+gnm_so_filled_set_outline_style (SheetObject *so, int style)
+{
+	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
+	sof->outline_style = style;
+	style_color_ref (sof->outline_color);
+	gnm_so_filled_set_outline_color (so, sof->outline_color);
+}
 
 void
 gnm_so_filled_set_outline_color (SheetObject *so, GnmColor *color)
 {
 	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
-	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
+	GdkColor *gdk = (color != NULL && sof->outline_style != 0) ? &color->color : NULL;
 	GList *l;
 
 	g_return_if_fail (sof != NULL);
@@ -754,7 +763,8 @@ sheet_object_filled_new_view_internal (SheetObject *so, SheetControl *sc, GnmCan
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
 	fill_color = (sog->fill_color != NULL) ? &sog->fill_color->color : NULL;
-	outline_color = (sof->outline_color != NULL) ? &sof->outline_color->color : NULL;
+	outline_color = (sof->outline_color != NULL && sof->outline_style != 0)
+			 ? &sof->outline_color->color : NULL;
 
 	item = foo_canvas_item_new (group,
 		(sog->type == SHEET_OBJECT_OVAL) ?
@@ -826,6 +836,7 @@ sheet_object_filled_clone (SheetObject const *so, Sheet *sheet)
 	new_sof = SHEET_OBJECT_FILLED (new_so);
 
 	new_sof->outline_color = style_color_ref (sof->outline_color);
+	new_sof->outline_style = sof->outline_style;
 
 	return SHEET_OBJECT (new_sof);
 }
@@ -867,11 +878,8 @@ cb_dialog_filled_config_destroy (DialogFilledData *state)
 static void
 cb_dialog_filled_adjustment_value_changed (GtkAdjustment *adj, DialogFilledData *state)
 {
-	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (state->sof);
-
-	sheet_object_graphic_width_set (sog,
-					gtk_spin_button_get_adjustment (
-						      state->spin_border_width)->value);
+	gnm_so_graphic_set_width (SHEET_OBJECT (state->sof),
+		gtk_spin_button_get_adjustment (state->spin_border_width)->value);
 }
 
 static void
@@ -901,10 +909,9 @@ cb_dialog_filled_config_ok_clicked (GtkWidget *button, DialogFilledData *state)
 static void
 cb_dialog_filled_config_cancel_clicked (GtkWidget *button, DialogFilledData *state)
 {
-	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (state->sof);
 	SheetObject *so = SHEET_OBJECT (state->sof);
 
-	sheet_object_graphic_width_set (sog, state->width);
+	gnm_so_graphic_set_width (so, state->width);
 	gnm_so_graphic_set_fill_color (so,
 		state->fill_color);
 	state->fill_color = NULL;
@@ -1114,7 +1121,7 @@ sheet_object_filled_print (SheetObject const *so, GnomePrintContext *ctx,
 		gnome_print_fill (ctx);
 		gnome_print_grestore (ctx);
 	}
-	if (sof->outline_color) {
+	if (sof->outline_color && sof->outline_style > 0) {
 		gnome_print_setlinewidth (ctx, sog->width);
 		gnome_print_setrgbcolor (ctx,
 			sof->outline_color->color.red   / (double) 0xffff,
@@ -1575,6 +1582,14 @@ sheet_object_text_get_graphic (FooCanvasItem *item)
 }
 
 static void
+sheet_object_text_print (SheetObject const *so, GnomePrintContext *ctx,
+			 double width, double height)
+{
+	SHEET_OBJECT_CLASS (sheet_object_text_parent_class)->
+		print (so, ctx, width, height);
+}
+
+static void
 sheet_object_text_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);
@@ -1593,7 +1608,7 @@ sheet_object_text_class_init (GObjectClass *object_class)
 	so_class->write_xml_dom		= sheet_object_text_write_xml_dom;
 	so_class->clone			= sheet_object_text_clone;
 	/* so_class->user_config   = NULL; inherit from parent */
-	/* so_class->print         = NULL; inherit from parent */
+	so_class->print         	= sheet_object_text_print;
 	so_class->rubber_band_directly = FALSE;
 
 	sog_class->get_graphic	= sheet_object_text_get_graphic;
