@@ -17,6 +17,13 @@
 #include "sheet.h"
 #include "expr.h"
 #include "ranges.h"
+#include "xml-io.h"
+
+#include "sheet-object-graphic.h"
+#include "sheet-object-cell-comment.h"
+#ifdef ENABLE_BONOBO
+#include "sheet-object-bonobo.h"
+#endif
 
 /* Returns the class for a SheetObject */
 #define SO_CLASS(so) SHEET_OBJECT_CLASS(GTK_OBJECT(so)->klass)
@@ -100,7 +107,6 @@ sheet_object_destroy (GtkObject *object)
 	g_return_if_fail (so != NULL);
 	g_return_if_fail (IS_SHEET (so->sheet));
 
-	gnome_canvas_points_free (so->bbox_points);
 	sheet_object_unrealize (so);
 
 	/* If the object has already been inserted then mark sheet as dirty */
@@ -120,6 +126,7 @@ sheet_object_init (GtkObject *object)
 	SheetObject *so = SHEET_OBJECT (object);
 
 	so->type = SHEET_OBJECT_ACTION_STATIC;
+	so->sheet = NULL;
 
 	/* Store the logical position as A1 */
 	so->cell_bound.start.col = so->cell_bound.start.row = 0;
@@ -129,8 +136,6 @@ sheet_object_init (GtkObject *object)
 		so->offset [i] = 0.;
 		so->anchor_type [i] = SO_ANCHOR_UNKNOWN;
 	}
-
-	so->bbox_points = gnome_canvas_points_new (2);
 }
 
 static void
@@ -201,52 +206,57 @@ sheet_object_position (SheetObject *so, CellPos const *pos)
 }
 
 /**
- * sheet_object_construct :
- *
- * TODO : decide what those units are and enable the spcification
- * of different anchor formats.
+ * sheet_object_set_sheet :
+ * @so :
+ * @sheet :
  */
-void
-sheet_object_construct (SheetObject *so, Sheet *sheet,
-			int default_width, int default_height)
+gboolean
+sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 {
-	g_return_if_fail (IS_SHEET_OBJECT (so));
-	g_return_if_fail (IS_SHEET (sheet));
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (so->sheet == NULL, TRUE);
+	g_return_val_if_fail (g_list_find (sheet->sheet_objects, so) == NULL, TRUE);
+
+	so->sheet = sheet;
+	if (SO_CLASS (so)->assign_to_sheet &&
+	    SO_CLASS (so)->assign_to_sheet (so, sheet)) {
+		so->sheet = NULL;
+		return TRUE;
+	}
 
 	sheet->sheet_objects = g_list_prepend (sheet->sheet_objects, so);
-	so->sheet       = sheet;
+	sheet_object_realize (so);
 	sheet_object_position (so, NULL);
+
+	return FALSE;
 }
 
 /**
- * DEPRECATED USELESS
- *
- * sheet_object_set_bounds:
- * @so: The sheet object we are interested in
- * @tlx: top left x position
- * @tly: top left y position
- * @brx: bottom right x position
- * @bry: bottom right y position
- *
- *  This sets the co-ordinates of the bounding box and
- * does any neccessary housekeeping.
- *
- * DEPRECATED USELESS
- **/
-void
-sheet_object_set_bounds (SheetObject *so,
-			 double l, double t, double r, double b)
+ * sheet_object_clear_sheet :
+ * @so :
+ */
+gboolean
+sheet_object_clear_sheet (SheetObject *so)
 {
-	g_return_if_fail (so != NULL);
-	g_return_if_fail (so->bbox_points != NULL);
+	GList *ptr;
 
-	/* We do the MIN / MAX business on the get */
-	so->bbox_points->coords [0] = l;
-	so->bbox_points->coords [1] = t;
-	so->bbox_points->coords [2] = r;
-	so->bbox_points->coords [3] = b;
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
+	g_return_val_if_fail (IS_SHEET (so->sheet), TRUE);
 
-	sheet_object_position (so, NULL);
+	ptr = g_list_find (so->sheet->sheet_objects, so);
+	g_return_val_if_fail (ptr != NULL, TRUE);
+
+	if (SO_CLASS (so)->remove_from_sheet &&
+	    SO_CLASS (so)->remove_from_sheet (so)) {
+		so->sheet = NULL;
+		return TRUE;
+	}
+	sheet_object_unrealize (so);
+	so->sheet->sheet_objects = g_list_remove_link (so->sheet->sheet_objects, ptr);
+	so->sheet = NULL;
+
+	return FALSE;
 }
 
 static void
@@ -309,23 +319,68 @@ sheet_object_print (SheetObject const *so, SheetObjectPrintInfo const *pi)
 		g_warning ("Un-printable sheet object");
 }
 
-gboolean
-sheet_object_read_xml (CommandContext *cc, SheetObject *so, xmlNodePtr tree)
+SheetObject *
+sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 {
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), TRUE);
-	if (SO_CLASS (so)->read_xml)
-		return SO_CLASS (so)->read_xml (cc, so, tree);
-	return FALSE;
+	SheetObject *so;
+
+	/* Old crufty IO */
+	if (!strcmp (tree->name, "Rectangle")){
+		so = sheet_object_box_new (FALSE);
+	} else if (!strcmp (tree->name, "Ellipse")){
+		so = sheet_object_box_new (TRUE);
+	} else if (!strcmp (tree->name, "Arrow")){
+		so = sheet_object_line_new (TRUE);
+	} else if (!strcmp (tree->name, "Line")){
+		so = sheet_object_line_new (FALSE);
+	} else {
+		GtkObject *obj;
+		obj = gtk_object_new (gtk_type_from_name (tree->name), NULL);
+		so = SHEET_OBJECT (obj);
+	}
+
+	if (so != NULL &&
+	    SO_CLASS (so)->read_xml &&
+	    SO_CLASS (so)->read_xml (so, ctxt, tree)) {
+		gtk_object_destroy (GTK_OBJECT (so));
+		return NULL;
+	}
+		
+#warning restore position
+#if 0
+	{
+	double x1, y1, x2, y2;
+	xml_get_coordinates (tree, "Points", &x1, &y1, &x2, &y2);
+	sheet_object_set_bounds (so, x1, y1, x2, y2);
+	}
+#endif
+
+	sheet_object_set_sheet (so, ctxt->sheet);
+	return so;
 }
 
 xmlNodePtr
-sheet_object_write_xml (SheetObject const *so, xmlDocPtr doc, xmlNsPtr ns,
-			XmlSheetObjectWriteFn write_fn)
+sheet_object_write_xml (SheetObject const *so, XmlParseContext const *ctxt)
 {
+	GtkObject *obj;
+	xmlNodePtr tree;
+
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
-	if (SO_CLASS (so)->write_xml)
-		return SO_CLASS (so)->write_xml (so, doc, ns, write_fn);
-	return FALSE;
+	obj = GTK_OBJECT (so);
+
+	if (SO_CLASS (so)->write_xml == NULL)
+		return NULL;
+
+	tree = xmlNewDocNode (ctxt->doc, ctxt->ns,
+			      gtk_type_name (GTK_OBJECT_TYPE (obj)), NULL);
+
+	if (SO_CLASS (so)->write_xml (so, ctxt, tree)) {
+		xmlUnlinkNode (tree);
+		xmlFreeNode (tree);
+		return NULL;
+	}
+#warning save position
+	return tree;
 }
 
 Range const *
@@ -353,7 +408,8 @@ sheet_object_range_set (SheetObject *so, Range const *r,
 		for (i = 4; i-- > 0 ; )
 			so->anchor_type [i] = types [i];
 
-	sheet_object_position (so, NULL);
+	if (so->sheet != NULL)
+		sheet_object_position (so, NULL);
 }
 
 static int
@@ -502,13 +558,10 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo)
 		}
 
 		if (change_sheets) {
-			sheet_object_unrealize (so);
-			so->sheet->sheet_objects = g_list_remove (so->sheet->sheet_objects, so);
-			so->sheet = rinfo->target_sheet;
-			so->sheet->sheet_objects = g_list_prepend (so->sheet->sheet_objects, so);
-			sheet_object_realize (so);
-		}
-		sheet_object_position (so, NULL);
+			sheet_object_clear_sheet (so);
+			sheet_object_set_sheet (so, rinfo->target_sheet);
+		} else
+			sheet_object_position (so, NULL);
 	}
 }
 
@@ -533,11 +586,22 @@ sheet_get_objects (Sheet const *sheet, Range const *r, GtkType t)
 	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ) {
 		GtkObject *obj = GTK_OBJECT (ptr->data);
 
-		if (obj->klass->type == t) {
+		if (GTK_OBJECT_TYPE (obj) == t) {
 			SheetObject *so = SHEET_OBJECT (obj);
 			if (r == NULL || range_overlap (r, &so->cell_bound))
 				res = g_list_prepend (res, so);
 		}
 	}
 	return res;
+}
+
+void
+sheet_object_register (void)
+{
+	SHEET_OBJECT_GRAPHIC_TYPE;
+	SHEET_OBJECT_FILLED_TYPE;
+	CELL_COMMENT_TYPE;
+#ifdef ENABLE_BONOBO
+	SHEET_OBJECT_BONOBO_TYPE;
+#endif
 }

@@ -2333,10 +2333,10 @@ ms_sheet_obj_create (MSContainer *container, MSObj *obj)
 	sheet = ((ExcelSheet *)container)->gnum_sheet;
 
 	switch (obj->excel_type) {
-	case 0x01 : so = sheet_object_line_new (sheet, FALSE); break; /* Line */
-	case 0x02 : so = sheet_object_box_new (sheet, FALSE);  break; /* Box */
-	case 0x03 : so = sheet_object_box_new (sheet, TRUE);   break; /* Oval */
-	case 0x05 : so = sheet_object_box_new (sheet, FALSE);  break; /* Chart */
+	case 0x01 : so = sheet_object_line_new (FALSE); break; /* Line */
+	case 0x02 : so = sheet_object_box_new (FALSE);  break; /* Box */
+	case 0x03 : so = sheet_object_box_new (TRUE);   break; /* Oval */
+	case 0x05 : so = sheet_object_box_new (FALSE);  break; /* Chart */
 	case 0x06 : so = sheet_widget_label_new (sheet);    break; /* TextBox */
 	case 0x07 : so = sheet_widget_button_new (sheet);   break; /* Button */
 	case 0x08 :

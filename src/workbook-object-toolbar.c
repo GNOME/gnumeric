@@ -97,28 +97,28 @@ static void
 cmd_create_line (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	SheetObject *so = sheet_object_line_new (scg->sheet, FALSE);
+	SheetObject *so = sheet_object_line_new (FALSE);
 	create_object_command (scg, so);
 }
 static void
 cmd_create_arrow (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	SheetObject *so = sheet_object_line_new (scg->sheet, TRUE);
+	SheetObject *so = sheet_object_line_new (TRUE);
 	create_object_command (scg, so);
 }
 static void
 cmd_create_rectangle (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	SheetObject *so = sheet_object_box_new (scg->sheet, FALSE);
+	SheetObject *so = sheet_object_box_new (FALSE);
 	create_object_command (scg, so);
 }
 static void
 cmd_create_ellipse (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
-	SheetObject *so = sheet_object_box_new (scg->sheet, TRUE);
+	SheetObject *so = sheet_object_box_new (TRUE);
 	create_object_command (scg, so);
 }
 

@@ -13,23 +13,20 @@
 #include "gnumeric.h"
 #include "sheet-control-gui.h"
 #include "str.h"
-#include "sheet.h"
 #include "gnumeric-util.h"
 #include "gnumeric-type-util.h"
 #include "sheet-object-graphic.h"
 #include "sheet-object-impl.h"
 
+/* These are persisted */
 typedef enum {
-	SHEET_OBJECT_LINE,
-	SHEET_OBJECT_ARROW,
-	SHEET_OBJECT_BOX,
-	SHEET_OBJECT_OVAL,
+	SHEET_OBJECT_LINE	= 1,
+	SHEET_OBJECT_ARROW	= 2,
+	SHEET_OBJECT_BOX	= 101,
+	SHEET_OBJECT_OVAL	= 102,
 } SheetObjectGraphicType;
 
-#define SHEET_OBJECT_GRAPHIC_TYPE     (sheet_object_graphic_get_type ())
-#define SHEET_OBJECT_GRAPHIC(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_GRAPHIC_TYPE, SheetObjectGraphic))
 #define SHEET_OBJECT_GRAPHIC_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_GRAPHIC_TYPE))
-#define IS_SHEET_GRAPHIC_OBJECT(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_GRAPHIC_TYPE))
 
 typedef struct {
 	SheetObject     parent_object;
@@ -41,7 +38,6 @@ typedef struct {
 	SheetObjectClass parent_class;
 } SheetObjectGraphicClass;
 static SheetObjectClass *sheet_object_graphic_parent_class;
-static GtkType sheet_object_graphic_get_type (void);
 
 static void
 sheet_object_graphic_color_set (SheetObjectGraphic *sog, char const *color)
@@ -70,14 +66,12 @@ sheet_object_graphic_width_set (SheetObjectGraphic *sog, int width)
 }
 
 SheetObject *
-sheet_object_line_new (Sheet *sheet, gboolean is_arrow)
+sheet_object_line_new (gboolean is_arrow)
 {
 	SheetObjectGraphic *sog;
 	SheetObject *so;
 
 	so = gtk_type_new (sheet_object_graphic_get_type ());
-	sheet_object_construct (so, sheet, 40, 40);
-
 	sog = SHEET_OBJECT_GRAPHIC (so);
 	sog->type  = is_arrow ? SHEET_OBJECT_ARROW : SHEET_OBJECT_LINE;
 	sog->color = string_get ("black");
@@ -148,21 +142,36 @@ sheet_object_graphic_update_bounds (SheetObject *so, GtkObject *view,
 }
 
 static gboolean
-sheet_object_graphic_read_xml (CommandContext *cc,
-			       SheetObject *so, xmlNodePtr tree)
+sheet_object_graphic_read_xml (SheetObject *so,
+			       XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	char *color = xmlGetProp (tree, "Color");
-	int width;
+	int tmp;
 
+	if (xml_get_value_int (tree, "Type", &tmp))
+		sog->type = tmp;
+	if (xml_get_value_int (tree, "Width", &tmp))
+		sheet_object_graphic_width_set (sog, tmp);
 	if (color != NULL) {
 		sheet_object_graphic_color_set (sog, color);
 		xmlFree (color);
 	}
-	if (xml_get_value_int (tree, "Width", &width))
-		sheet_object_graphic_width_set (sog, width);
 
-	return TRUE;
+	return FALSE;
+}
+
+static gboolean
+sheet_object_graphic_write_xml (SheetObject const *so,
+				XmlParseContext const *ctxt, xmlNodePtr tree)
+{
+	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
+
+	xml_set_value_int (tree, "Type", sog->type);
+	xml_set_value_int (tree, "Width", sog->width);
+	xml_set_value_string (tree, "Color", sog->color);
+
+	return FALSE;
 }
 
 static void
@@ -219,9 +228,17 @@ sheet_object_graphic_class_init (GtkObjectClass *object_class)
 	sheet_object_class->print         = sheet_object_graphic_print;
 }
 
+static void
+sheet_object_graphic_init (GtkObject *obj)
+{
+	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (obj);
+	sog->type = SHEET_OBJECT_LINE;
+}
+
 GNUMERIC_MAKE_TYPE (sheet_object_graphic,
 		    "SheetObjectGraphic", SheetObjectGraphic,
-		    sheet_object_graphic_class_init, NULL,
+		    sheet_object_graphic_class_init,
+		    sheet_object_graphic_init,
 		    sheet_object_get_type ())
 
 /************************************************************************/
@@ -231,10 +248,7 @@ GNUMERIC_MAKE_TYPE (sheet_object_graphic,
  *
  * Derivative of SheetObjectGraphic, with filled parameter
  */
-#define SHEET_OBJECT_FILLED_TYPE     (sheet_object_filled_get_type ())
-#define SHEET_OBJECT_FILLED(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_FILLED_TYPE, SheetObjectFilled))
 #define SHEET_OBJECT_FILLED_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_FILLED_TYPE, SheetObjectFilledClass))
-#define IS_SHEET_FILLED_OBJECT(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_FILLED_TYPE))
 
 typedef struct {
 	SheetObjectGraphic parent_object;
@@ -248,7 +262,6 @@ typedef struct {
 } SheetObjectFilledClass;
 
 static SheetObjectGraphicClass *sheet_object_filled_parent_class;
-static GtkType sheet_object_filled_get_type (void);
 
 static void
 sheet_object_filled_color_set (SheetObjectFilled *sof, char const *fill_color)
@@ -277,18 +290,13 @@ sheet_object_filled_pattern_set (SheetObjectFilled *sof, int pattern)
 }
 
 SheetObject *
-sheet_object_box_new (Sheet *sheet, gboolean is_oval)
+sheet_object_box_new (gboolean is_oval)
 {
+	SheetObject *so;
 	SheetObjectFilled *sof;
 	SheetObjectGraphic *sog;
-	SheetObject *so;
-
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	so = gtk_type_new (sheet_object_filled_get_type ());
-	sheet_object_construct (so, sheet, 40, 40);
-
 	sog = SHEET_OBJECT_GRAPHIC (so);
 	sog->type = is_oval ? SHEET_OBJECT_OVAL : SHEET_OBJECT_BOX;
 	sog->width = 1;
@@ -355,8 +363,8 @@ sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *scg)
 }
 
 static gboolean
-sheet_object_filled_read_xml (CommandContext *cc,
-			      SheetObject *so, xmlNodePtr tree)
+sheet_object_filled_read_xml (SheetObject *so,
+			      XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
 	char *fill_color = xmlGetProp (tree, "FillColor");
@@ -370,7 +378,19 @@ sheet_object_filled_read_xml (CommandContext *cc,
 	if (xml_get_value_int (tree, "Pattern", &pattern))
 		sheet_object_filled_pattern_set (sof, pattern);
 
-	return sheet_object_graphic_read_xml (cc, so, tree);
+	return sheet_object_graphic_read_xml (so, ctxt, tree);
+}
+
+static gboolean
+sheet_object_filled_write_xml (SheetObject const *so, 
+			       XmlParseContext const *ctxt, xmlNodePtr tree)
+{
+	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
+
+	if (sof->fill_color != NULL)
+		xml_set_value_string (tree, "FillColor", sof->fill_color);
+	xml_set_value_int (tree, "Pattern", sof->pattern);
+	return sheet_object_graphic_write_xml (so, ctxt, tree);
 }
 
 static void
@@ -383,50 +403,18 @@ sheet_object_filled_class_init (GtkObjectClass *object_class)
 	sheet_object_class->new_view	  = sheet_object_filled_new_view;
 	sheet_object_class->update_bounds = sheet_object_filled_update_bounds;
 	sheet_object_class->read_xml	  = sheet_object_filled_read_xml;
+	sheet_object_class->write_xml	  = sheet_object_filled_write_xml;
 }
 
-#if 0
-	switch (sog->type) {
-	case SHEET_OBJECT_BOX: {
-		SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
-
-		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Rectangle", NULL);
-		if (sof->fill_color != NULL)
-			xml_set_value_string (cur, "FillColor", sof->fill_color);
-		xml_set_value_int (cur, "Pattern", sof->pattern);
-		break;
-	}
-
-	case SHEET_OBJECT_OVAL: {
-		SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
-
-		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Ellipse", NULL);
-		if (sof->fill_color != NULL)
-			xml_set_value_string (cur, "FillColor", sof->fill_color);
-		xml_set_value_int (cur, "Pattern", sof->pattern);
-		break;
-	}
-
-	case SHEET_OBJECT_ARROW:
-		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Arrow", NULL);
-		break;
-
-	case SHEET_OBJECT_LINE:
-		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Line", NULL);
-		break;
-
-	default :
-		cur = NULL;
-	}
-	if (!cur)
-		return NULL;
-
-	xml_set_gnome_canvas_points (cur, "Points", object->bbox_points);
-	xml_set_value_int (cur, "Width", sog->width);
-	xml_set_value_string (cur, "Color", sog->color);
-#endif
+static void
+sheet_object_filled_init (GtkObject *obj)
+{
+	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (obj);
+	sog->type = SHEET_OBJECT_BOX;
+}
 
 GNUMERIC_MAKE_TYPE (sheet_object_filled,
 		    "SheetObjectFilled", SheetObjectFilled,
-		    sheet_object_filled_class_init, NULL,
+		    sheet_object_filled_class_init,
+		    sheet_object_filled_init,
 		    sheet_object_graphic_get_type ())

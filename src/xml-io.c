@@ -18,11 +18,7 @@
 #include "color.h"
 #include "border.h"
 #include "sheet-object.h"
-#include "sheet-object-graphic.h"
 #include "sheet-object-cell-comment.h"
-#ifdef ENABLE_BONOBO
-#	include "sheet-object-bonobo.h"
-#endif
 #include "print-info.h"
 #include "xml-io.h"
 #include "rendered-value.h"
@@ -39,28 +35,6 @@
 #include "clipboard.h"
 #include "format.h"
 #include "ranges.h"
-
-/*
- * A parsing context.
- */
-
-struct _XmlParseContext {
-	xmlDocPtr doc;		/* Xml document */
-	xmlNsPtr ns;		/* Main name space */
-	xmlNodePtr parent;	/* used only for g_hash_table_foreach callbacks */
-	Sheet *sheet;		/* the associated sheet */
-	Workbook *wb;		/* the associated workbook */
-	GHashTable *style_table;/* old style styles compatibility */
-	GHashTable *expr_map;	/*
-				 * Emitted expressions with ref count > 1
-				 * When writing this is map from expr pointer -> index
-				 * when reading this is a map from index -> expr pointer
-				 */
-	XmlSheetObjectWriteFn write_fn;
-	XmlSheetObjectReadFn  read_fn;
-	gpointer              user_data;
-	GnumericXMLVersion    version;
-};
 
 XmlParseContext *
 xml_parse_ctx_new_full (xmlDocPtr             doc,
@@ -298,53 +272,12 @@ xml_get_value_double (xmlNodePtr node, const char *name, double *val)
 	return (res == 1);
 }
 
-#if 0
-/*
- * Get a set of coodinates for a node, carried as the content of a child.
- */
-static int
-xml_get_coordinate (xmlNodePtr node, const char *name, double *x, double *y)
-{
-	int res;
-	char *ret;
-
-	ret = xml_value_get (node, name);
-	if (ret == NULL) return 0;
-	res = sscanf (ret, "(%lf %lf)", x, y)
-	g_free (ret);
-
-	return (res == 2)
-}
-#endif
-
-/*
- * Get a pair of coodinates for a node, carried as the content of a child.
- */
-
-static int
-xml_get_coordinates (xmlNodePtr node, const char *name,
-		   double *x1, double *y1, double *x2, double *y2)
-{
-	int res;
-	char *ret;
-
-	ret = xml_value_get (node, name);
-	if (ret == NULL) return 0;
-	res = sscanf (ret, "(%lf %lf)(%lf %lf)", x1, y1, x2, y2);
-	g_free (ret);
-
-	if (res == 4)
-		return 1;
-
-	return 0;
-}
-
 /*
  * Set a string value for a node either carried as an attibute or as
  * the content of a child.
  */
-static void
-xml_set_value (xmlNodePtr node, const char *name, const char *val)
+void
+xml_set_value_cstr (xmlNodePtr node, const char *name, const char *val)
 {
 	char *ret;
 	xmlNodePtr child;
@@ -488,7 +421,7 @@ xml_set_print_unit (xmlNodePtr node, const char *name,
 	xml_set_value_double (child, "Points", pu->points);
 
 	tstr = xmlEncodeEntitiesReentrant (node->doc, txt);
-	xml_set_value (child, "PrefUnit", tstr);
+	xml_set_value_cstr (child, "PrefUnit", tstr);
 	if (tstr) xmlFree (tstr);
 }
 
@@ -814,7 +747,7 @@ xml_write_style (XmlParseContext *ctxt,
 	}
 	if (mstyle_is_element_set (style, MSTYLE_FORMAT)) {
 		char *fmt = style_format_as_XL (mstyle_get_format (style), FALSE);
-		xml_set_value (cur, "Format", fmt);
+		xml_set_value_cstr (cur, "Format", fmt);
 		g_free (fmt);
 	}
 
@@ -1043,9 +976,9 @@ xml_set_print_hf (xmlNodePtr node, const char *name,
 		return;
 
 	child = xmlNewChild (node, NULL, name, NULL);
-	xml_set_value (child, "Left", hf->left_format);
-	xml_set_value (child, "Middle", hf->middle_format);
-	xml_set_value (child, "Right", hf->right_format);
+	xml_set_value_cstr (child, "Left", hf->left_format);
+	xml_set_value_cstr (child, "Middle", hf->middle_format);
+	xml_set_value_cstr (child, "Right", hf->right_format);
 }
 
 static void
@@ -1677,125 +1610,6 @@ xml_write_colrow_info (ColRowInfo *info, void *user_data)
 	return FALSE;
 }
 
-#if 0
-static xmlNodePtr
-xml_write_sheet_object (XmlParseContext *ctxt, SheetObject *object)
-{
-#ifdef ENABLE_BONOBO
-	if (IS_SHEET_OBJECT_BONOBO (object)) {
-		if (ctxt->write_fn) {
-			gboolean ok;
-
-			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Bonobo", NULL);
-			ok = ctxt->write_fn (cur, object,
-					     ctxt->user_data);
-			xml_set_gnome_canvas_points (
-				cur, "Points", object->bbox_points);
-
-			if (!ok) {
-				g_warning ("Error serializing bonobo sheet object");
-				xmlUnlinkNode (cur);
-				xmlFreeNode (cur);
-				cur = NULL;
-			}
-		} else
-			cur = NULL;
-
-		return cur;
-	} else
-#endif
-		if (!IS_SHEET_GRAPHIC_OBJECT (object)) {
-			static gboolean warned = FALSE;
-			if (!warned) {
-				g_warning ("Discarding non-graphic embedded objects");
-				warned = TRUE;
-			}
-			return NULL;
-		}
-
-	sog = SHEET_OBJECT_GRAPHIC (object);
-
-	switch (sog->type) {
-	case SHEET_OBJECT_BOX: {
-		SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
-
-		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Rectangle", NULL);
-		if (sof->fill_color != NULL)
-			xml_set_value_string (cur, "FillColor", sof->fill_color);
-		xml_set_value_int (cur, "Pattern", sof->pattern);
-		break;
-	}
-
-	case SHEET_OBJECT_OVAL: {
-		SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
-
-		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Ellipse", NULL);
-		if (sof->fill_color != NULL)
-			xml_set_value_string (cur, "FillColor", sof->fill_color);
-		xml_set_value_int (cur, "Pattern", sof->pattern);
-		break;
-	}
-
-	case SHEET_OBJECT_ARROW:
-		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Arrow", NULL);
-		break;
-
-	case SHEET_OBJECT_LINE:
-		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Line", NULL);
-		break;
-
-	default :
-		cur = NULL;
-	}
-	if (!cur)
-		return NULL;
-
-	xml_set_gnome_canvas_points (cur, "Points", object->bbox_points);
-	xml_set_value_int (cur, "Width", sog->width);
-	xml_set_value_string (cur, "Color", sog->color);
-
-	return cur;
-}
-#endif
-
-/*
- * Create a Object equivalent to the XML subtree of doc.
- */
-static SheetObject *
-xml_read_sheet_object (XmlParseContext *ctxt, xmlNodePtr tree)
-{
-	SheetObject *ret;
-	double x1, y1, x2, y2;
-
-	if (!strcmp (tree->name, "Rectangle")){
-		ret = sheet_object_box_new (ctxt->sheet, FALSE);
-	} else if (!strcmp (tree->name, "Ellipse")){
-		ret = sheet_object_box_new (ctxt->sheet, TRUE);
-	} else if (!strcmp (tree->name, "Arrow")){
-		ret = sheet_object_line_new (ctxt->sheet, TRUE);
-	} else if (!strcmp (tree->name, "Line")){
-		ret = sheet_object_line_new (ctxt->sheet, FALSE);
-#ifdef ENABLE_BONOBO
-	} else if (!strcmp (tree->name, "Bonobo")){
-		if (ctxt->read_fn == NULL) {
-			g_warning ("Internal error, no read fn");
-			return NULL;
-		}
-		ret = ctxt->read_fn (tree, ctxt->sheet, ctxt->user_data);
-#endif
-	} else {
-		fprintf (stderr,
-			 "xml_read_sheet_object: invalid element type %s, 'Rectangle/Ellipse ...' expected`\n",
-			 tree->name);
-		return NULL;
-	}
-
-	xml_get_coordinates (tree, "Points", &x1, &y1, &x2, &y2);
-	sheet_object_set_bounds (ret, x1, y1, x2, y2);
-
-	return ret;
-}
-
 /*
  * Create an XML subtree of doc equivalent to the given Cell.
  * set col and row to be the absolute coordinates
@@ -2152,28 +1966,10 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_get_value_int (tree, "Col", &ret->col_offset);
 	xml_get_value_int (tree, "Row", &ret->row_offset);
 
-	child = tree->childs;
-	while (child != NULL) {
-
+	for (child = tree->childs; child != NULL ; child = child->next)
 		if (!strcmp (child->name, "Content"))
 			ret->u.text = xmlNodeGetContent (child);
-#if 0
-		if (!strcmp (child->name, "Comment")) {
-			ret->comment = xmlNodeGetContent (child);
 
-			/*
-			 * use xmlFree, the comment is alloced with malloc not with g_malloc
-			 */
- 			if (ret->comment) {
- 				char *temp = g_strdup (ret->comment);
-
- 				xmlFree (ret->comment);
-				ret->comment = temp;
-			}
- 		}
-#endif
-		child = child->next;
-	}
 	if (ret->u.text == NULL)
 		ret->u.text = xmlNodeGetContent (tree);
 
@@ -2488,8 +2284,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 						  "Objects", NULL);
 		GList *l = sheet->sheet_objects;
 		while (l) {
-			child = sheet_object_write_xml (l->data, ctxt->doc,
-					ctxt->ns, ctxt->write_fn);
+			child = sheet_object_write_xml (l->data, ctxt);
 			if (child)
 				xmlAddChild (objects, child);
 			l = l->next;
@@ -2813,7 +2608,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (child != NULL) {
 		xmlNodePtr object = child->childs;
 		for (; object != NULL ; object = object->next)
-			xml_read_sheet_object (ctxt, object);
+			sheet_object_read_xml (ctxt, object);
 	}
 
 	child = xml_search_child (tree, "Cells");

@@ -76,7 +76,7 @@ write_stream_to_storage (xmlNodePtr           cur,
 
 static gboolean
 gnumeric_bonobo_obj_write (xmlNodePtr   cur,
-			   SheetObject *object,
+			   SheetObject const *object,
 			   gpointer     user_data)
 {
 	CORBA_Environment    ev;

@@ -172,8 +172,6 @@ sheet_object_container_new_bonobo (Sheet *sheet, BonoboClientSite *client_site)
 
 	c = gtk_type_new (sheet_object_container_get_type ());
 
-	sheet_object_construct (SHEET_OBJECT (c), sheet, -1, -1);
-
 	SHEET_OBJECT_BONOBO (c)->object_server =
 		bonobo_client_site_get_embeddable (client_site);
 	SHEET_OBJECT_BONOBO (c)->client_site = client_site;

@@ -36,15 +36,14 @@ typedef enum {
 #define IS_SHEET_OBJECT(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_TYPE))
 GtkType      sheet_object_get_type   (void);
 
-void         sheet_object_construct  (SheetObject *sheet_object, Sheet *sheet,
-				      int default_width, int default_height);
-gboolean     sheet_object_read_xml   (CommandContext *,
-				      SheetObject *so, xmlNodePtr tree);
-xmlNodePtr   sheet_object_write_xml  (SheetObject const *so,
-				      xmlDocPtr doc, xmlNsPtr ns,
-				      XmlSheetObjectWriteFn write_fn);
-void         sheet_object_print      (SheetObject const *so,
-				      SheetObjectPrintInfo const *pi);
+gboolean     sheet_object_clear_sheet (SheetObject *so);
+gboolean     sheet_object_set_sheet   (SheetObject *so, Sheet *sheet);
+SheetObject *sheet_object_read_xml    (XmlParseContext const *ctxt,
+				       xmlNodePtr tree);
+xmlNodePtr   sheet_object_write_xml   (SheetObject const *so,
+				       XmlParseContext const *ctxt);
+void         sheet_object_print       (SheetObject const *so,
+				       SheetObjectPrintInfo const *pi);
 
 void	     sheet_object_realize	  (SheetObject *object);
 void         sheet_object_position	  (SheetObject *so, CellPos const *pos);
@@ -60,12 +59,9 @@ GtkObject	*sheet_object_get_view	   (SheetObject *so, SheetControlGUI *);
 SheetObject     *sheet_object_view_obj     (GtkObject *view);
 SheetControlGUI *sheet_object_view_control (GtkObject *view);
 
-/* DEPRECATED NON FUNCTIONAL */
-void    sheet_object_set_bounds (SheetObject *sheet_object,
-				 double l, double t, double r, double y);
-
 /* Object Management */
 void   sheet_relocate_objects	(ExprRelocateInfo const *rinfo);
 GList *sheet_get_objects	(Sheet const *sheet, Range const *r, GtkType t);
+void   sheet_object_register	(void);
 
 #endif /* GNUMERIC_SHEET_OBJECT_H */

@@ -174,6 +174,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	functions_init ();
 	expr_name_init ();
 	print_init ();
+	sheet_object_register ();
 
 	/* The statically linked in file formats */
 	xml_init ();

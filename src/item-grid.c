@@ -662,7 +662,7 @@ cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
 	}
 
 	scg_object_calc_position (scg, so, pts);
-	sheet_object_realize (so);
+	sheet_object_set_sheet (so, scg->sheet);
 
 	gtk_signal_disconnect_by_func (
 		GTK_OBJECT (gsheet),

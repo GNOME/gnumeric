@@ -33,29 +33,6 @@
 #include <gnome-xml/xmlmemory.h>
 
 /*
- * A parsing context.
- * FIXME : Structure copied from xml-io.c, not very nice.
- */
-
-struct _XmlParseContext {
-	xmlDocPtr doc;		/* Xml document */
-	xmlNsPtr ns;		/* Main name space */
-	xmlNodePtr parent;	/* used only for g_hash_table_foreach callbacks */
-	Sheet *sheet;		/* the associated sheet */
-	Workbook *wb;		/* the associated workbook */
-	GHashTable *style_table;/* old style styles compatibility */
-	GHashTable *expr_map;	/*
-				 * Emitted expressions with ref count > 1
-				 * When writing this is map from expr pointer -> index
-				 * when reading this is a map from index -> expr pointer
-				 */
-	XmlSheetObjectWriteFn write_fn;
-	XmlSheetObjectReadFn  read_fn;
-	gpointer              user_data;
-	GnumericXMLVersion    version;
-};
-
-/*
  * Create an XML subtree of doc equivalent to the given FormatColRowInfo
  */
 static void

@@ -18,15 +18,16 @@ struct _SheetObject {
 	Range	cell_bound; /* cellpos containg corners */
 	float	offset [4];
 	SheetObjectAnchor anchor_type [4];
-
-	/* DEPRECATED : Private data Use sheet-control specific methods */
-	GnomeCanvasPoints *bbox_points;
 };
 
 typedef struct {
 	GtkObjectClass parent_class;
 
 	/* Virtual methods */
+	gboolean (*remove_from_sheet) (SheetObject	*sheet_object);
+	gboolean   (*assign_to_sheet) (SheetObject	*sheet_object,
+				       Sheet		*sheet);
+
 	GtkObject *	 (*new_view) (SheetObject	*sheet_object,
 				      SheetControlGUI	*s_control);
 	void        (*populate_menu) (SheetObject	*sheet_object,
@@ -39,12 +40,12 @@ typedef struct {
 				      SheetControlGUI	*s_control);
 	void           (*set_active) (SheetObject	*so,
 				      gboolean		val);
-	gboolean	(*read_xml)  (CommandContext	*cc,
-				      SheetObject	*so,
+	gboolean	(*read_xml)  (SheetObject	*so,
+				      XmlParseContext const *ctxt,
 				      xmlNodePtr	tree);
-	xmlNodePtr	(*write_xml) (SheetObject const *so,
-				      xmlDocPtr doc, xmlNsPtr ns,
-				      XmlSheetObjectWriteFn write_fn);
+	gboolean	(*write_xml) (SheetObject const *so,
+				      XmlParseContext const *ctxt,
+				      xmlNodePtr	tree);
 	void                (*print) (SheetObject const *so,
 				      SheetObjectPrintInfo const *pi);
 } SheetObjectClass;

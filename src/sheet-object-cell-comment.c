@@ -170,6 +170,36 @@ cell_comment_new_view (SheetObject *so, SheetControlGUI *scg)
 	return GTK_OBJECT (item);
 }
 
+static gboolean
+cell_comment_read_xml (SheetObject *so,
+		       XmlParseContext const *ctxt, xmlNodePtr	tree)
+{
+	CellComment *cc = CELL_COMMENT (so);
+	char *author = xmlGetProp (tree, "Author");
+	char *text = xmlGetProp (tree, "Text");
+
+	if (author != NULL) {
+		cell_comment_author_set (cc, author);
+		xmlFree (author);
+	}
+	if (text != NULL) {
+		cell_comment_text_set (cc, text);
+		xmlFree (text);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+cell_comment_write_xml (SheetObject const *so,
+			XmlParseContext const *ctxt, xmlNodePtr tree)
+{
+	CellComment const *cc = CELL_COMMENT (so);
+	xml_set_value_cstr (tree, "Author", cc->author);
+	xml_set_value_cstr (tree, "Text", cc->text);
+	return FALSE;
+}
+
 static void
 cell_comment_print (SheetObject const *so, SheetObjectPrintInfo const *pi)
 {
@@ -188,6 +218,8 @@ cell_comment_class_init (GtkObjectClass *object_class)
 	/* SheetObject class method overrides */
 	sheet_object_class->update_bounds = &cell_comment_update_bounds;
 	sheet_object_class->new_view	  = &cell_comment_new_view;
+	sheet_object_class->read_xml      = &cell_comment_read_xml;
+	sheet_object_class->write_xml     = &cell_comment_write_xml;
 	sheet_object_class->print         = &cell_comment_print;
 }
 
@@ -254,13 +286,12 @@ cell_set_comment (Sheet *sheet, CellPos const *pos,
 	g_return_val_if_fail (pos != NULL, NULL);
 
 	cc = gtk_type_new (CELL_COMMENT_TYPE);
-	sheet_object_construct (SHEET_OBJECT (cc), sheet, 1, 1);
 	cc->author = author ? g_strdup (author) : NULL;
 	cc->text = text ? g_strdup (text) : NULL;
 
 	r.start = r.end = *pos;
 	sheet_object_range_set (SHEET_OBJECT (cc), &r, offsets, start);
-	sheet_object_realize (SHEET_OBJECT (cc));
+	sheet_object_set_sheet (SHEET_OBJECT (cc), sheet);
 	return cc;
 }
 

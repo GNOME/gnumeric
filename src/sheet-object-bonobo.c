@@ -26,7 +26,9 @@
 #include "sheet.h"
 #include "workbook-private.h"
 #include "gnumeric-util.h"
+#include "gnumeric-type-util.h"
 #include "sheet-object-bonobo.h"
+
 #include <bonobo/bonobo-item-container.h>
 #include <bonobo/bonobo-view-frame.h>
 #include <bonobo/bonobo-client-site.h>
@@ -261,6 +263,32 @@ sheet_object_bonobo_populate_menu (SheetObject *sheet_object,
 			populate_menu (sheet_object, obj_view, menu);
 }
 
+static gboolean
+sheet_object_bonobo_read_xml (SheetObject *so,
+			      XmlParseContext const *ctxt, xmlNodePtr	tree)
+{
+	if (ctxt->read_fn == NULL) {
+		g_warning ("Internal error, no read fn");
+		return TRUE;
+	}
+
+	so = ctxt->read_fn (tree, ctxt->sheet, ctxt->user_data);
+	return FALSE;
+}
+
+static gboolean
+sheet_object_bonobo_write_xml (SheetObject const *so,
+			       XmlParseContext const *ctxt, xmlNodePtr tree)
+{
+	if (ctxt->write_fn == NULL ||
+	    !ctxt->write_fn (tree, so, ctxt->user_data)) {
+		g_warning ("Error serializing bonobo sheet object");
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 sheet_object_bonobo_class_init (GtkObjectClass *object_class)
 {
@@ -273,30 +301,14 @@ sheet_object_bonobo_class_init (GtkObjectClass *object_class)
 
 	sheet_object_class->print = sheet_object_bonobo_print;
 	sheet_object_class->populate_menu = sheet_object_bonobo_populate_menu;
+	sheet_object_class->read_xml	  = sheet_object_bonobo_read_xml;
+	sheet_object_class->write_xml	  = sheet_object_bonobo_write_xml;
 }
 
-GtkType
-sheet_object_bonobo_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"SheetObjectBonobo",
-			sizeof (SheetObjectBonobo),
-			sizeof (SheetObjectBonoboClass),
-			(GtkClassInitFunc) sheet_object_bonobo_class_init,
-			(GtkObjectInitFunc) NULL,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (sheet_object_get_type (), &info);
-	}
-
-	return type;
-}
+GNUMERIC_MAKE_TYPE (sheet_object_bonobo,
+		    "SheetObjectBonobo", SheetObjectBonobo,
+		    sheet_object_bonobo_class_init, NULL,
+		    sheet_object_get_type ())
 
 SheetObjectBonobo *
 sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
@@ -304,8 +316,6 @@ sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
 {
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);
-
-	sheet_object_construct  (SHEET_OBJECT (sob), sheet, -1, -1);
 
 	if (object_id == NULL) {
 		sob->object_id     = NULL;

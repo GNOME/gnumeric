@@ -1,3 +1,42 @@
+2000-12-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object.c (sheet_object_construct) : delete.
+	(sheet_object_set_bounds) : Delete.
+	(sheet_object_set_sheet) : new function.
+	(sheet_object_clear_sheet) : new function.
+	(sheet_object_read_xml) : implement.
+	(sheet_object_write_xml) : implement.
+	(sheet_object_range_get) : support setting the range without a having
+	  a sheet.
+	(sheet_relocate_objects) : Use set_sheet & clear_sheet.
+	(sheet_object_register) : new function.
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_set_sheet) : new
+	  function.  we need to move the dependent into the new sheet.
+	(sheet_widget_checkbox_clear_sheet) :  ditto.
+
+	* src/sheet-object-graphic.c : (sheet_object_graphic_{read,write)_xml) :
+	  new functions.
+	(sheet_object_filled_{read,write)_xml) : new functions.
+
+	* src/sheet-object-container.c (view_activated_cb) : no more
+	  sheet_object_construct.
+
+	* src/sheet-object-cell-comment.c (cell_comment_{read,write)_xml) :
+	  new functions.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_{read,write)_xml) :
+	  New functions.  These need work.  the 'read_fn' and 'write_fn' do
+	  not merge nicely yet.
+
+	* src/main.c (gnumeric_main) : Register the sheet obect types.
+	  We need this until the plugin scheme is ready.
+
+	* src/item-grid.c (cb_obj_create_button_release) : Use set_sheet
+	  rather than realize.
+
+	* src/bonobo-io.c (gnumeric_bonobo_obj_write) : constness.
+
 2000-12-08  Jody Goldberg <jgoldberg@home.com>
 
 	From :Ade Lovett <ade@FreeBSD.org>

@@ -1,3 +1,8 @@
+2000-12-09  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_sheet_obj_create) : changes to sheet object
+	  constructor arguments.
+
 2000-12-07  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_get_style_from_xf) : enable indent.

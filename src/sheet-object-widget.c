@@ -44,14 +44,16 @@
 #define IS_SHEET_WIDGET_OBJECT(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_WIDGET_TYPE))
 #define SOW_CLASS(so)	 	     (SHEET_OBJECT_WIDGET_CLASS (GTK_OBJECT(so)->klass))
 
-#define SOW_MAKE_TYPE(n1, n2, config) \
+#define SOW_MAKE_TYPE_WITH_SHEET(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet) \
 static void \
 sheet_widget_ ## n1 ## _class_init (GtkObjectClass *object_class) \
 { \
 	SheetObjectWidgetClass *sow_class = SHEET_OBJECT_WIDGET_CLASS (object_class); \
 	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class); \
 	sow_class->create_widget = & sheet_widget_ ## n1 ## _create_widget; \
-	so_class->user_config = config; \
+	so_class->user_config = fn_config; \
+	so_class->assign_to_sheet = fn_set_sheet; \
+	so_class->remove_from_sheet = fn_clear_sheet; \
 	object_class->destroy = & sheet_widget_ ## n1 ## _destroy; \
 } \
 static GNUMERIC_MAKE_TYPE(sheet_widget_ ## n1, "SheetWidget" #n2, SheetWidget ## n2, \
@@ -69,6 +71,8 @@ sheet_widget_ ## n1 ## _new(Sheet *sheet) \
 \
 	return SHEET_OBJECT (sow); \
 }
+
+#define SOW_MAKE_TYPE(n1, n2, config) SOW_MAKE_TYPE_WITH_SHEET(n1, n2, config, NULL, NULL)
 
 typedef struct _SheetObjectWidget SheetObjectWidget;
 
@@ -154,11 +158,7 @@ sheet_object_widget_class_init (GtkObjectClass *object_class)
 static void
 sheet_object_widget_construct (SheetObjectWidget *sow, Sheet *sheet)
 {
-	SheetObject *so;
-
-	so = SHEET_OBJECT (sow);
-
-	sheet_object_construct (so, sheet, 40, 40);
+	SheetObject *so = SHEET_OBJECT (sow);
 	so->type = SHEET_OBJECT_ACTION_CAN_PRESS;
 }
 
@@ -365,7 +365,6 @@ sheet_widget_checkbox_construct (SheetObjectWidget *sow, Sheet *sheet)
 	ref.row = range->start.row;
 	ref.col_relative = ref.row_relative = FALSE;
 	swc->dep.expression = expr_tree_new_var (&ref);
-	dependent_changed (&swc->dep, NULL, TRUE);
 }
 
 static void
@@ -525,7 +524,32 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *sheet_view)
 	gtk_widget_show_all (state->dialog);
 }
 
-SOW_MAKE_TYPE(checkbox, Checkbox, &sheet_widget_checkbox_user_config)
+static gboolean
+sheet_widget_checkbox_set_sheet (SheetObject *so, Sheet *sheet)
+{
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+
+	g_return_val_if_fail (swc != NULL, TRUE);
+
+	dependent_changed (&swc->dep, NULL, TRUE);
+	return FALSE;
+}
+
+static gboolean
+sheet_widget_checkbox_clear_sheet (SheetObject *so)
+{
+	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
+
+	g_return_val_if_fail (swc != NULL, TRUE);
+
+	dependent_unlink (&swc->dep, NULL);
+	return FALSE;
+}
+
+SOW_MAKE_TYPE_WITH_SHEET(checkbox, Checkbox,
+			 &sheet_widget_checkbox_user_config,
+			 &sheet_widget_checkbox_set_sheet,
+			 &sheet_widget_checkbox_clear_sheet)
 
 /****************************************************************************/
 static GtkType sheet_widget_radio_button_get_type (void);
