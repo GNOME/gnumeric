@@ -1147,31 +1147,35 @@ change_menu_sensitivity (GtkWidget *menu_item, gboolean sensitive)
 }
 
 static void
-change_menu_label (GtkWidget *menu_item, char const *prefix, char const *suffix)
+change_menu_label (GtkWidget *menu_item, char const *prefix, char const *suffix,
+		   char const *new_tip)
 {
-	gchar    *text;
 	GtkBin   *bin = GTK_BIN (menu_item);
 	GtkLabel *label = GTK_LABEL (bin->child);
-	gboolean  sensitive = TRUE;
 
 	g_return_if_fail (label != NULL);
 
 	if (prefix == NULL) {
 		gtk_label_parse_uline (label, suffix);
-		return;
+	} else {
+		gchar    *text;
+		gboolean  sensitive = TRUE;
+
+		if (suffix == NULL) {
+			suffix = _("Nothing");
+			sensitive = FALSE;
+		}
+
+		text = g_strdup_printf ("%s : %s", prefix, suffix);
+
+		gtk_label_parse_uline (label, text);
+		gtk_widget_set_sensitive (menu_item, sensitive);
+		g_free (text);
 	}
 
-	if (suffix == NULL) {
-		suffix = _("Nothing");
-		sensitive = FALSE;
-	}
-
-	text = g_strdup_printf ("%s : %s", prefix, suffix);
-
-	gtk_label_parse_uline (label, text);
-	gtk_widget_set_sensitive (menu_item, sensitive);
-	g_free (text);
+#warning "FIXME: do something with new_tip here."
 }
+
 #else
 static void
 change_menu_state (WorkbookControlGUI const *wbcg,
@@ -1205,7 +1209,8 @@ static void
 change_menu_label (WorkbookControlGUI const *wbcg,
 		   char const *verb_path,
 		   char const *prefix,
-		   char const *suffix)
+		   char const *suffix,
+		   char const *new_tip)
 {
 	gboolean  sensitive = TRUE;
 	gchar    *text;
@@ -1225,13 +1230,16 @@ change_menu_label (WorkbookControlGUI const *wbcg,
 		}
 
 		text = g_strdup_printf ("%s : %s", prefix, suffix);
-
 		bonobo_ui_component_set_prop (wbcg->uic, verb_path,
 					      "label", text, &ev);
+		g_free (text);
+
 		bonobo_ui_component_set_prop (wbcg->uic, verb_path,
 					      "sensitive", sensitive ? "1" : "0", &ev);
-		g_free (text);
 	}
+	if (new_tip)
+		bonobo_ui_component_set_prop (wbcg->uic, verb_path,
+					      "tip", new_tip, &ev);
 	CORBA_exception_free (&ev);
 }
 #endif
@@ -1321,13 +1329,18 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 		/* Cheat and use the same accelerator for both states because
 		 * we don't reset it when the label changes */
 		char const* label = sv_is_frozen (sv)
-			? _("Un_freeze Panes") : _("_Freeze Panes");
+			? _("Un_freeze Panes")
+			: _("_Freeze Panes");
+		char const *new_tip = sv_is_frozen (sv)
+			? _("Unfreeze the top left of the sheet")
+			: _("Freeze the top left of the sheet");
+
 #ifndef WITH_BONOBO
 		change_menu_label (wbcg->menu_item_freeze_panes,
-				   NULL, label);
+				   NULL, label, new_tip);
 #else
 		change_menu_label (wbcg, "/commands/ViewFreezeThawPanes",
-		                   NULL, label);
+		                   NULL, label, new_tip);
 #endif
 	}
 }
@@ -1339,11 +1352,11 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 	g_return_if_fail (wbcg != NULL);
 
 #ifndef WITH_BONOBO
-	change_menu_label (wbcg->menu_item_undo, _("Undo"), undo);
-	change_menu_label (wbcg->menu_item_redo, _("Redo"), redo);
+	change_menu_label (wbcg->menu_item_undo, _("Undo"), undo, NULL);
+	change_menu_label (wbcg->menu_item_redo, _("Redo"), redo, NULL);
 #else
-	change_menu_label (wbcg, "/commands/EditUndo", _("_Undo"), undo);
-	change_menu_label (wbcg, "/commands/EditRedo", _("_Redo"), redo);
+	change_menu_label (wbcg, "/commands/EditUndo", _("_Undo"), undo, NULL);
+	change_menu_label (wbcg, "/commands/EditRedo", _("_Redo"), redo, NULL);
 #endif
 }
 

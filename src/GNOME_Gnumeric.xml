@@ -85,7 +85,7 @@
 
 	<cmd name="ViewFreezeThawPanes"
 	    _label="_Freeze Panes"
-	    _tip="Lock or unlock the top left cols/rows"/>
+	    _tip="Freeze the top left of the sheet"/>
 
 	<cmd name="EditClearAll"
 	    _label="_All"

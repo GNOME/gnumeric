@@ -5,6 +5,7 @@ Andreas:
 
 Morten:
 	* Improve qpro importer.
+	* Fix 98664 for bonobo.
 
 Jon Kåre:
         * Separate GUI for showing progress and messages before first 
