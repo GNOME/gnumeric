@@ -1,0 +1,40 @@
+<!DOCTYPE book PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.0//EN"[
+
+<!entity version "1.0">
+<!entity functions      SYSTEM "functions.sgml">
+]>
+
+<book id="index">
+  <title>The Gnumeric Manual</title>
+  <bookinfo>
+    <releaseinfo>This is release 1.0 of the Gnumeric Manual</releaseinfo>
+
+    <copyright>
+      <year>1998-2001, 2002</year>
+      <holder>Miguel de Icaza, Jody Goldberg, Thomas Canty, 
+	  Jukka-Pekka Iivonen, Andreas J. Guelzow, Wayne Schuller, 
+	  Adrian Custer, Kevin Breit, Aaron Weber, 
+	  Alexander Kirillov.</holder> 
+    </copyright>
+  </bookinfo>
+  <chapter id="function-reference">
+    <title>Gnumeric Function Reference</title>
+    &functions;
+  </chapter>
+</book>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->
