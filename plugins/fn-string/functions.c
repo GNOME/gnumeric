@@ -73,7 +73,7 @@ gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 
 	if (c <= 127 || c >= 160) {
 		char result[7];
-		int len = g_unichar_to_utf8 (result, c);
+		int len = g_unichar_to_utf8 (c, result);
 		result[len] = 0;
 		return value_new_string (result);
 	}
