@@ -1,3 +1,8 @@
+2001-06-17  Almer S. Tigelaar  <almer@gnome.org>
+
+	* POTFILES.in: Cope for change of location
+	of the about dialog.
+
 2001-06-10  Ole Laursen  <olau@hardworking.dk>
 
 	* da.po: Updated Danish translation.

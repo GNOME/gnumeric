@@ -23,7 +23,6 @@ plugins/sc/sc.c
 plugins/sylk/sylk.c
 plugins/xbase/boot.c
 plugins/xml_sax/xml-sax-read.c
-src/about.c
 src/analysis-tools.c
 src/bonobo-io.c
 src/cell.c
@@ -44,6 +43,7 @@ src/dialogs/cell-sort.glade
 src/dialogs/col-width.glade
 src/dialogs/consolidate.glade
 src/dialogs/delete-cells.glade
+src/dialogs/dialog-about.c
 src/dialogs/dialog-advanced-filter.c
 src/dialogs/dialog-analysis-tools.c
 src/dialogs/dialog-autoformat.c
