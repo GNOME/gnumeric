@@ -119,8 +119,14 @@ symbol_unref (Symbol *sym)
 	}
 }
 
+gint
+g_strcase_equal (gconstpointer v1, gconstpointer v2)
+{
+	return strcasecmp ((const gchar*) v1, (const gchar*) v2) == 0;
+}
+
 void
 symbol_init (void)
 {
-	symbol_hash_table = g_hash_table_new (g_str_hash, g_str_equal);
+	symbol_hash_table = g_hash_table_new (g_str_hash, g_strcase_equal);
 }

@@ -11,6 +11,7 @@
 
 #include <gnome.h>
 #include "gnumeric.h"
+#include "gnumeric-sheet.h"
 #include "item-bar.h"
 #include "item-debug.h"
 
@@ -265,27 +266,38 @@ set_cursor (ItemBar *item_bar, int pos)
 }
 
 static void
-item_bar_start_resize (ItemBar *item_bar, int pos)
+item_bar_start_resize (ItemBar *item_bar, int pos, int pixels)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (item_bar->sheet->sheet_view);
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
 	GnomeCanvasItem *item;
 	GnomeCanvasPoints *points;
-	
+	GnumericSheet *gsheet;
 	double x1, x2, y1, y2;
+	int division_pos;
 	
+	gsheet = GNUMERIC_SHEET (item_bar->sheet->sheet_view);
+
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
+		division_pos = sheet_col_get_distance (item_bar->sheet,
+						       gsheet->top_row,
+						       pos);
 		x1 = 0.0;
-		x2 = INT_MAX;
-		y1 = GNOME_CANVAS_ITEM (item_bar)->y1 + pos;
-		y2 = GNOME_CANVAS_ITEM (item_bar)->y1 + pos;
+		x2 = canvas->width;
+		y1 = division_pos;
+		y2 = division_pos;
+	} else {
+		division_pos = sheet_row_get_distance (item_bar->sheet,
+						       gsheet->top_col,
+						       pos);
+		x1 = division_pos;
+		x2 = division_pos;
+		y1 = 0.0;
+		y2 = canvas->height;
 	}
 
-	x1 = 0.0;
-	x2 = 1000.0;
-	y1 = 0.0;
-	y2 = 1000.0;
-
+	item_bar->resize_guide_offset = division_pos - pixels;
+		
 	/* Add a guideline to the sheet canvas */
 	points = gnome_canvas_points_new (2);
 	points->coords[0] = x1;
@@ -296,7 +308,7 @@ item_bar_start_resize (ItemBar *item_bar, int pos)
 				      gnome_canvas_line_get_type (),
 				      "points", points,
 				      "fill_color", "black",
-				      "width_pixels", 4,
+				      "width_pixels", 1,
 				      NULL);
 	gnome_canvas_points_free (points);
 
@@ -349,22 +361,22 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		
 	case GDK_MOTION_NOTIFY:
 		convert (canvas, e->motion.x, e->motion.y, &x, &y);
-		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
+		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
 			pos = y;
-		else
+		} else {
 			pos = x;
+		}
 
 		/* Do column resizing or incremental marking */
 		if (resizing){
 			int npos;
 
 			npos = pos - item_bar->resize_start_pos;
-			if (npos > 0){
-				item_bar->resize_width = npos;
-				gnome_canvas_request_redraw (
-					GNOME_CANVAS_ITEM(item_bar)->canvas,
-					0, 0, INT_MAX, INT_MAX);
-			}
+			if (npos <= 0)
+				break;
+			item_bar->resize_width = npos;
+			gnome_canvas_request_redraw (GNOME_CANVAS_ITEM(item_bar)->canvas, 0, 0, INT_MAX, INT_MAX);
+			gnome_canvas_item_move (GNOME_CANVAS_ITEM (item_bar->resize_guide), 0, pos);
 		} else if (ITEM_BAR_IS_SELECTING (item_bar)){
 			element = get_col_from_pos (item_bar, pos);
 
@@ -390,9 +402,10 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			item_bar->resize_start_pos = start - cri->pixels;
 			item_bar->resize_width = cri->pixels;
 
-			item_bar_start_resize (item_bar, pos);
+			item_bar_start_resize (item_bar, element, pos);
 			gnome_canvas_item_grab (item,
-						GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+						GDK_POINTER_MOTION_MASK |
+						GDK_BUTTON_RELEASE_MASK,
 						item_bar->change_cursor,
 						e->button.time);
 		} else {

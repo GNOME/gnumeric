@@ -1,3 +1,12 @@
+1998-08-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/func.c: More functions added.
+
+	* src/symbol.c (g_strcase_equal): Symbol hash table does is
+	case-insensitive. 
+
+	* src/expr.c (eval_funcall): Added function evaluation.
+
 1998-08-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/eval.c: New file.  Move the evaluation routines here.

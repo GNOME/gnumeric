@@ -20,7 +20,8 @@ typedef struct {
 	int 	        resize_width;
 	int             resize_start_pos;
 	GtkObject       *resize_guide;
-
+	int             resize_guide_offset;
+	
 	int             dragging : 1;
 	int             start_selection;
 } ItemBar;

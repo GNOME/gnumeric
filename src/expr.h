@@ -90,6 +90,35 @@ typedef enum {
 	PARSE_ERR_SYNTAX
 } ParseErr;
 
+/*
+ * Functions come in two fashions:  Those that only deal with
+ * very specific data types and a constant number of arguments,
+ * and those who dont.
+ *
+ * The former kind of functions receives a precomputed array of
+ * Value pointers.
+ *
+ * The latter sort of functions receives the plain ExprNodes and
+ * it is up to that routine to do the value computations and range
+ * processing.
+ */
+typedef struct {
+	/* The function name */
+	char  *name;
+
+	/* The types accepted:
+	 * f for float
+	 * s for string
+	 * b for boolean
+	 */
+	char  *args;
+	ValueType ret_type;
+	
+	Value *(*expr_fn)(void *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string);
+	
+	Value *(*fn)(int argc, Value *argv [], char **error_string);
+} FunctionDefinition;
+
 /* For communication with yyparse */
 extern char     *parser_expr;
 extern ParseErr  parser_error;
@@ -109,7 +138,9 @@ Value      *value_cast_to_float (Value *v);
 
 void        value_dump          (Value *value);
 char       *value_string        (Value *value);
+float_t     value_get_as_double (Value *v);
 
 int         yyparse             (void);
+void        functions_init      (void);
 
 #endif

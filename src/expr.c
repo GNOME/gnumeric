@@ -140,6 +140,24 @@ value_cast_to_float (Value *v)
 	return newv;
 }
 
+float_t
+value_get_as_double (Value *v)
+{
+	if (v->type == VALUE_STRING){
+		return atof (v->v.str->str);
+	}
+
+	if (v->type == VALUE_CELLRANGE){
+		g_warning ("Getting range as a double: what to do?");
+		return 0.0;
+	}
+
+	if (v->type == VALUE_INTEGER)
+		return (float_t) v->v.v_int;
+
+	return v->v.v_float;
+}
+
 static Value *
 eval_cell_value (Sheet *sheet, Value *value)
 {
@@ -169,6 +187,60 @@ eval_cell_value (Sheet *sheet, Value *value)
 		break;
 	}
 	return res;
+}
+
+static Value *
+eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **error_string)
+{
+	FunctionDefinition *fd;
+	GList *l;
+	int argc, arg, i;
+	Value *v;
+	
+	fd = (FunctionDefinition *) tree->u.function.symbol->data;
+	
+	l = tree->u.function.arg_list;
+	argc = g_list_length (l);
+
+	if (fd->expr_fn)
+	{
+		/* Functions that deal with ExprNodes */
+		v = fd->expr_fn (sheet, l, eval_col, eval_row, error_string);
+	}
+	else
+	{
+		/* Functions that take pre-computed Values */
+		Value **values;
+		int fn_argc;
+		char *arg_type = fd->args;
+		
+		fn_argc = strlen (fd->args);
+		
+		if (fn_argc != argc){
+			*error_string = _("Invalid number of arguments");
+			return NULL;
+		}
+
+		values = g_new (Value *, argc);
+		
+		for (arg = 0; l; l = l->next, arg++, arg_type++){
+			ExprTree *t = (ExprTree *) l->data;
+			
+			v = eval_expr (sheet, t, eval_col, eval_row, error_string);
+			if (v == NULL)
+				goto free_list;
+			
+			values [arg] = v;
+		}
+		v = fd->fn (arg+1, values, error_string);
+
+	free_list:
+		for (i = 0; i < arg; i++)
+			value_release (values [i]);
+		g_free (values);
+		return v;
+	}
+	return v;
 }
 
 Value *
@@ -291,9 +363,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		return NULL;
 
 	case OP_FUNCALL:
-		g_warning ("Function call not implemented yet\n");
-		*error_string = _("OOPS");
-		return NULL;
+		return eval_funcall (sheet, tree, eval_col, eval_row, error_string);
 
 	case OP_CONSTANT:
 		return eval_cell_value (sheet, tree->u.constant);

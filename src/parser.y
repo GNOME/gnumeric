@@ -129,16 +129,7 @@ exp:	  NUMBER 	{ $$ = $1 }
         | CELLREF ':' CELLREF {}
 
 	| FUNCALL '(' arg_list ')' {
-		GList *l;
-		int i;
-
-		for (i = 0, l = $3; l; l = l->next){
-			printf ("Arg %d\n", i++);
-			dump_tree (l->data);
-		}
-		$$ = p_new (ExprTree);
-		$$->oper = OP_FUNCALL;
-		$$->u.function.symbol = $1->u.function.symbol;
+		$$ = $1;
 		$$->u.function.arg_list = $3;
 	}
 	;
@@ -151,7 +142,8 @@ arg_list: exp {
 		forget_glist ($3);
 		$$ = g_list_prepend ($3, $1);
 		alloc_glist ($$);
-	} 
+	}
+        | { $$ = NULL; }
 	;
 
 %%
@@ -224,26 +216,34 @@ static int
 return_symbol (char *string)
 {
 	ExprTree *e = p_new (ExprTree);
-	Value *v = v_new ();
 	Symbol *sym;
 	int type;
 	
 	sym = symbol_lookup (string);
 	type = STRING;
 	if (!sym){
+		Value *v = v_new ();
+		
 		v->v.str = string_get (string);
+		v->type = VALUE_STRING;
+
 		register_string (v->v.str);
+
+		e->oper = OP_CONSTANT;
+		e->u.constant = v;
 	} else {
 		symbol_ref (sym);
 		if (sym->type == SYMBOL_FUNCTION)
 			type = FUNCALL;
-		v->v.sym = sym;
-		register_symbol (v->v.sym);
+		else {
+			g_warning ("Unreachable\n");
+			type = -1;
+		}
+		e->oper = OP_FUNCALL;
+		e->u.function.symbol = sym;
+		e->u.function.arg_list = NULL;
+		register_symbol (sym);
 	}
-	
-	v->type = VALUE_STRING;
-	e->oper = OP_CONSTANT;
-	e->u.constant = v;
 	
 	yylval.tree = e;
 	return type;
