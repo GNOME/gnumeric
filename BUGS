@@ -45,6 +45,7 @@ Pending Patches
     6.6) fix name export now that we sorta understand it
     6.7) non-ole import (Nick Lamb is working on this)		(DONE)
     6.8) Validation export
+    6.9) autofilter export
 
 7) Expr Parser
     7.1) Move the host of flags into an GnmExprConventions      (DONE)
@@ -54,8 +55,6 @@ Pending Patches
     8.1) Add characterization (units) to StyleFormat
     8.2) Move type information to function flags.		(DONE)
     8.3) Change commands to infer types.
-
-11) look into using the default gtk font rather than our own
 
 13) export plugins
     13.1) UTF-8 -> ??
@@ -83,7 +82,8 @@ Pending Patches
     21.10 expression dialog
     21.11) Handle range changes (cut-n-paste or ins/del col/row)
     21.12) xml import/export
-    21.13) xls export
+22) Add dirty flags to workbook too, adding a sheet should
+    make workbook dirty not the new sheet.
 
 Functions
     ODDFPRICE
@@ -140,9 +140,6 @@ Misc stuff that should be fixed
 - Remove duplication of code between analysis-tools.c and collect.c
 
 - Make deletion work for multiple ranges.
-
-- Add dirty flags to workbook too, adding a sheet should make workbook dirty
-  not the new sheet.
 
 - Audit all fixed-length buffers.  Most non-time-critical can be replaced
   by proper usage of g_strdup_printf.
@@ -257,6 +254,7 @@ Finished
 9) Manual recalc						(DONE)
     9.1) finish calculation ui in workbook attr dialog		(DONE)
 10) fix highlighting of completion code				(DONE)
+11) Use the default gtk font rather than our own		(DONE)
 12) audit all of the import plugins to do UTF-8 conversions     (DONE)
     12.1)  excel						(DONE)
     12.2)  applix						(DONE)
