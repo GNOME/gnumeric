@@ -200,7 +200,7 @@ filter_popup_destroy (GtkWidget *popup, GtkWidget *list)
 	gtk_widget_destroy (popup);
 }
 
-static  gint
+static gint
 cb_filter_key_press (GtkWidget *popup, GdkEventKey *event, GtkWidget *list)
 {
 	if (event->keyval != GDK_Escape)
@@ -209,7 +209,7 @@ cb_filter_key_press (GtkWidget *popup, GdkEventKey *event, GtkWidget *list)
 	return TRUE;
 }
 
-static  gint
+static gint
 cb_filter_button_press (GtkWidget *popup, GdkEventButton *event,
 			GtkWidget *list)
 {
@@ -224,7 +224,7 @@ cb_filter_button_press (GtkWidget *popup, GdkEventButton *event,
 	return TRUE;
 }
 
-static  gint
+static gint
 cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 			  GtkTreeView *list)
 {
