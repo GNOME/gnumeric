@@ -28,6 +28,7 @@
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-format.h>
 
 #include <module-plugin-defs.h>
 #include <src/gnumeric-i18n.h>
@@ -35,9 +36,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
-typedef struct {
-	GogPlotClass	base;
-} GogXYPlotClass;
+typedef GogPlotClass GogXYPlotClass;
 
 enum {
 	GOG_XY_PROP_0,
@@ -63,6 +62,19 @@ gog_xy_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 }
 
 static void
+gog_xy_plot_clear_formats (GogXYPlot *xy)
+{
+	if (xy->x.fmt != NULL) {
+		go_format_unref (xy->x.fmt);
+		xy->x.fmt = NULL;
+	}
+	if (xy->y.fmt != NULL) {
+		go_format_unref (xy->y.fmt);
+		xy->y.fmt = NULL;
+	}
+}
+
+static void
 gog_xy_plot_update (GogObject *obj)
 {
 	GogXYPlot *model = GOG_XY_PLOT (obj);
@@ -73,6 +85,7 @@ gog_xy_plot_update (GogObject *obj)
 
 	x_min = y_min =  DBL_MAX;
 	x_max = y_max = -DBL_MAX;
+	gog_xy_plot_clear_formats (model);
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)))
@@ -82,6 +95,8 @@ gog_xy_plot_update (GogObject *obj)
 			series->base.values[1].data), &tmp_min, &tmp_max);
 		if (y_min > tmp_min) y_min = tmp_min;
 		if (y_max < tmp_max) y_max = tmp_max;
+		if (model->y.fmt == NULL)
+			model->y.fmt = go_data_preferred_fmt (series->base.values[1].data);
 
 		if (series->base.values[0].data != NULL) {
 			go_data_vector_get_minmax (GO_DATA_VECTOR (
@@ -94,7 +109,8 @@ gog_xy_plot_update (GogObject *obj)
 					GO_DATA_VECTOR (series->base.values[1].data));
 
 				is_discrete = TRUE;
-			}
+			} else if (model->x.fmt == NULL)
+				model->x.fmt = go_data_preferred_fmt (series->base.values[0].data);
 		} else {
 			tmp_min = 0;
 			tmp_max = go_data_vector_get_len (
@@ -153,6 +169,8 @@ gog_xy_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->is_discrete = model->x.minima > model->x.maxima ||
 			!finite (model->x.minima) ||
 			!finite (model->x.maxima);
+		if (bounds->fmt == NULL && model->x.fmt != NULL)
+			bounds->fmt = go_format_ref (model->x.fmt);
 
 		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
 			if (gog_series_is_valid (GOG_SERIES (ptr->data)))
@@ -163,6 +181,8 @@ gog_xy_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 	if (axis == GOG_AXIS_Y) {
 		bounds->val.minima = model->y.minima;
 		bounds->val.maxima = model->y.maxima;
+		if (bounds->fmt == NULL && model->y.fmt != NULL)
+			bounds->fmt = go_format_ref (model->y.fmt);
 	}
 	return NULL;
 }
@@ -199,6 +219,15 @@ gog_xy_get_property (GObject *obj, guint param_id,
 		 break;
 	}
 }
+
+static void
+gog_xy_finalize (GObject *obj)
+{
+	gog_xy_plot_clear_formats (GOG_XY_PLOT (obj));
+	if (G_OBJECT_CLASS (xy_parent_klass)->finalize)
+		G_OBJECT_CLASS (xy_parent_klass)->finalize (obj);
+}
+
 static void
 gog_xy_plot_class_init (GogPlotClass *plot_klass)
 {
@@ -209,6 +238,7 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 
 	gobject_klass->set_property = gog_xy_set_property;
 	gobject_klass->get_property = gog_xy_get_property;
+	gobject_klass->finalize     = gog_xy_finalize;
 
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
 		g_param_spec_boolean ("default-style-has-markers", NULL,
@@ -248,6 +278,7 @@ static void
 gog_xy_plot_init (GogXYPlot *xy)
 {
 	xy->base.vary_style_by_element = FALSE;
+	xy->x.fmt = xy->y.fmt = NULL;
 	xy->default_style_has_markers = TRUE;
 	xy->default_style_has_lines = TRUE;
 }

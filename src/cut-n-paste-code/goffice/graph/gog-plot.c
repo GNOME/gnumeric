@@ -347,6 +347,20 @@ gog_plot_foreach_elem (GogPlot *plot, GogEnumFunc func, gpointer data)
 	}
 }
 
+/**
+ * gog_plot_get_axis_bounds :
+ * @plot : #GogPlot
+ * @axis : #GogAxisType
+ * @bounds : #GogPlotBoundInfo
+ *
+ * Queries @plot for its axis preferences for @axis and stores the results in
+ * @bounds.  All elements of @bounds are initialized to sane values before the
+ * query _ACCEPT_ ::fmt.  The caller is responsible for initializing it.  This
+ * is done so that once on plot has selected a format the others need not do
+ * the lookup too if so desired.
+ *
+ * Caller is responsible for unrefing ::fmt.
+ **/
 GOData *
 gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 			  GogPlotBoundInfo *bounds)

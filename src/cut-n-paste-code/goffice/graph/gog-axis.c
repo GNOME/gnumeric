@@ -38,6 +38,7 @@
 #include <src/gnumeric-i18n.h>
 #include <src/gui-util.h>
 #include <src/mathfunc.h>
+#include <src/format.h>
 #include <src/widgets/widget-format-selector.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcheckbutton.h>
@@ -387,6 +388,13 @@ gog_axis_update (GogObject *obj)
 	axis->min_val  =  DBL_MAX;
 	axis->max_val  = -DBL_MAX;
 	axis->min_contrib = axis->max_contrib = NULL;
+	if (axis->format != NULL) {
+		go_format_unref (axis->format);
+		axis->format = NULL;
+	}
+
+	/* everything else is initialized in gog_plot_get_axis_bounds */
+	bounds.fmt = NULL;
 	for (ptr = axis->contributors ; ptr != NULL ; ptr = ptr->next) {
 		labels = gog_plot_get_axis_bounds (GOG_PLOT (ptr->data),
 						   axis->type, &bounds);
@@ -418,6 +426,7 @@ gog_axis_update (GogObject *obj)
 			axis->max_val = bounds.val.maxima;
 		}
 	}
+	axis->format = bounds.fmt; /* just absorb the ref if it exists */
 
 	minima = axis->min_val;
 	maxima = axis->max_val;
@@ -668,7 +677,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 			gtk_label_new (_("Bounds")));
 
 		w = number_format_selector_new ();
-		if (axis->assigned_format != NULL)
+		if (axis->assigned_format != NULL && !style_format_is_general (axis->assigned_format))
 			number_format_selector_set_style_format (NUMBER_FORMAT_SELECTOR (w),
 				axis->assigned_format);
 		else if (axis->format != NULL)
@@ -1054,9 +1063,9 @@ gog_axis_get_marker (GogAxis *axis, unsigned i)
 		if (fabs (val) < major_tick / 10.0)
 			val = 0.;
 
-		if (axis->assigned_format)
-			return go_format_value (axis->assigned_format, val);
-		return go_format_value (axis->format, val);
+		if (axis->assigned_format == NULL || style_format_is_general (axis->assigned_format))
+			return go_format_value (axis->format, val);
+		return go_format_value (axis->assigned_format, val);
 	}
 }
 

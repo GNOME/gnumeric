@@ -38,9 +38,10 @@ typedef struct {
 	GogPlot1_5dType type;
 
 	/* cached content */
-	unsigned num_series, num_elements;
-	double   maxima, minima; /* meaning varies depending on type */
-	gboolean implicit_index;
+	unsigned  num_series, num_elements;
+	double    maxima, minima; /* meaning varies depending on type */
+	gboolean  implicit_index;
+	GOFormat *fmt;
 } GogPlot1_5d;
 typedef struct {
 	GogPlotClass	base;

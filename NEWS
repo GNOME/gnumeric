@@ -36,6 +36,9 @@ Jody:
 	* User selectable format for axis labels
 	* Tune 'General' format width calculation
 	* Improve quoting of accounting formats
+	* Auto format selection for axis value labels
+	http://bugzilla.gnome.org/show_bug.cgi?id=129833
+	* Tweak the mime types we claim to handle
 
 John Gill:
 	* Add a field menu and keyboard shortcuts to the sort dialog

@@ -28,7 +28,7 @@ G_BEGIN_DECLS
 
 GOFormat   *go_format_new_from_XL	 (char const *descriptor_string, gboolean delocalize);
 char   	   *go_format_as_XL		 (GOFormat const *fmt, gboolean localized);
-void        go_format_ref		 (GOFormat *fmt);
+GOFormat   *go_format_ref		 (GOFormat *fmt);
 void        go_format_unref		 (GOFormat *fmt);
 char	   *go_format_value   		 (GOFormat const *fmt, double val);
 gboolean    go_format_eq		 (GOFormat const *a, GOFormat const *b);

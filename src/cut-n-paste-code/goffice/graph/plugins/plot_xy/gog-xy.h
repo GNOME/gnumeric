@@ -32,6 +32,7 @@ typedef struct {
 
 	struct {
 		double minima, maxima;
+		GOFormat *fmt;
 	} x, y;
 	gboolean	default_style_has_markers;
 	gboolean	default_style_has_lines;

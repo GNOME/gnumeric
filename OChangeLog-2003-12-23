@@ -1,3 +1,13 @@
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.keys.in : expand our claims.
+	* gnumeric.mime : apparently duplicates are not a good idea.
+
+2003-12-23  Jody Goldberg <jody@gnome.org>
+
+	* src/graph.c (gnm_go_data_preferred_fmt) : simplify to handle both
+	  scalar and vector and use the auto-format code.
+
 2003-12-22  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (gnm_get_real_name): Fix $NAME case.

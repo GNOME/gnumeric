@@ -37,10 +37,11 @@ go_format_as_XL	(GOFormat const *fmt, gboolean localized)
 	return style_format_as_XL (fmt, localized);
 }
 
-void
+GOFormat *
 go_format_ref (GOFormat *fmt)
 {
 	style_format_ref (fmt);
+	return fmt;
 }
 
 void

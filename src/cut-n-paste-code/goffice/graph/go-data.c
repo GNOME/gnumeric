@@ -140,6 +140,7 @@ go_data_eq (GOData const *a, GOData const *b)
  * go_data_prefered_fmt :
  * @dat : #GOData
  *
+ * Caller is responsible for unrefing the result.
  * Returns the fmt preferred by the the data
  **/
 GOFormat *

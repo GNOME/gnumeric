@@ -213,7 +213,7 @@ Short Term Goals
 	1.14.7) Draw ticks and allocate space for them		(DONE)
 	1.14.8) Make the major labels optional			(DONE)
 	1.14.9) Add a font selector to the editor		(DONE)
-	1.14.10) Value formating (at least percentage and date)
+	1.14.10) Value formating (at least percentage and date)	(DONE)
 	1.14.11) Support index type axis			(DONE)
 	1.14.12) Use a map function (log, invert, date)
 	1.14.13) Allow a plot to select a different axis
@@ -228,7 +228,7 @@ Short Term Goals
 	1.14.22) Selectable label format for non-discrete data	(DONE)
 	1.14.23) Editor for label format			(DONE)
 	1.14.24) Persist label format				(DONE)
-	1.14.25) Auto selection of label format
+	1.14.25) Auto selection of label format			(DONE)
     1.15) per series plot type specific data			(DONE)
     1.16) libart based render akin to guppicanvas.		(DONE)
 	1.16.1) Solid background fills				(DONE)

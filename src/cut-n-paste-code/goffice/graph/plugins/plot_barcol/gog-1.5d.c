@@ -31,6 +31,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-format.h>
 
 #include <module-plugin-defs.h>
 #include <src/gnumeric-i18n.h>
@@ -135,6 +136,11 @@ gog_plot1_5d_update (GogObject *obj)
 	old_maxima =  model->maxima;
 	model->minima =  DBL_MAX;
 	model->maxima = -DBL_MAX;
+	if (model->fmt != NULL) {
+		go_format_unref (model->fmt);
+		model->fmt = NULL;
+	}
+
 	num_elements = num_series = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
@@ -152,6 +158,8 @@ gog_plot1_5d_update (GogObject *obj)
 			if (model->maxima < maxima)
 				model->maxima = maxima;
 		}
+		if (model->fmt == NULL)
+			model->fmt = go_data_preferred_fmt (series->base.values[1].data);
 		index_dim = GOG_SERIES (series)->values[0].data;
 	}
 	if (model->num_elements != num_elements) {
@@ -207,7 +215,12 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		if (model->type == GOG_1_5D_AS_PERCENTAGE) {
 			bounds->logical.minima = -1.;
 			bounds->logical.maxima =  1.;
-		}
+			if (bounds->fmt == NULL) {
+				bounds->fmt = go_format_ref (
+					go_format_default_percentage ());
+			}
+		} else if (bounds->fmt == NULL && model->fmt != NULL)
+			bounds->fmt = go_format_ref (model->fmt);
 		return NULL;
 	} else if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
 		GSList *ptr;
@@ -290,8 +303,14 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 	plot_klass->supports_vary_style_by_element = gog_1_5d_supports_vary_style_by_element;
 }
 
+static void
+gog_plot1_5d_init (GogPlot1_5d *plot)
+{
+	plot->fmt = NULL;
+}
+
 GSF_CLASS_ABSTRACT (GogPlot1_5d, gog_plot1_5d,
-		    gog_plot1_5d_class_init, NULL,
+		    gog_plot1_5d_class_init, gog_plot1_5d_init,
 		    GOG_PLOT_TYPE)
 
 /*****************************************************************************/
