@@ -1,11 +1,11 @@
 # gnumeric ko.po
 # Copyright (C) 1998 Free Software Foundation, Inc.
-# Sung-Hyun Nam <namsh@lgic.co.kr>, 1998
+# Sung-Hyun Nam <namsh@lgic.co.kr>, 1998, 1999
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.21\n"
-"POT-Creation-Date: 1999-07-08 00:00-0500\n"
-"PO-Revision-Date: 1999-04-01 08:30:46+0900\n"
+"Project-Id-Version: gnumeric 0.28\n"
+"POT-Creation-Date: 1999-07-08 20:29+0900\n"
+"PO-Revision-Date: 1999-07-08 12:20:55+0900\n"
 "Last-Translator: Sung-Hyun Nam <namsh@lgic.co.kr>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,25 +14,23 @@ msgstr ""
 
 #: plugins/excel/boot.c:67
 msgid "Saving over old files disabled for safety"
-msgstr ""
+msgstr "안전을 위해 이전 파일에 덮어쓰기가 허용않됨."
 
 #: plugins/excel/boot.c:75
 msgid "Can't open"
-msgstr ""
+msgstr "Can't open"
 
 #: plugins/excel/boot.c:108
 msgid "Microsoft(R) Excel file format"
 msgstr "마이크로소프트(R) 엑셀 파일 형식"
 
 #: plugins/excel/boot.c:109
-#, fuzzy
 msgid "Excel(R) 97 file format"
-msgstr "마이크로소프트(R) 엑셀 파일 형식"
+msgstr "엑셀(R) 97 파일 형식"
 
 #: plugins/excel/boot.c:110
-#, fuzzy
 msgid "Excel(R) 95 file format"
-msgstr "마이크로소프트(R) 엑셀 파일 형식"
+msgstr "엑셀(R) 95 파일 형식"
 
 #: plugins/guile/plugin.c:219
 msgid "Argument must be a Guile expression"
@@ -82,7 +80,7 @@ msgstr "FuncDef를 할당할 수 없습니다"
 
 #: plugins/python/python.c:147
 msgid "Perl"
-msgstr ""
+msgstr "펄"
 
 #: plugins/python/python.c:173
 msgid "Gnumeric/Python module initialized\n"
@@ -94,88 +92,87 @@ msgstr "Python 플러그인"
 
 #: plugins/stat/stat.c:27
 msgid "OLD Statistics Plugin, not required anymore"
-msgstr ""
+msgstr "더이상 필요없는 오래된 플러그인"
 
 #: src/about.c:24
 msgid "Miguel de Icaza, main programmer."
-msgstr ""
+msgstr "Miguel de Icaza, 주 프로그래머."
 
 #: src/about.c:25
 msgid "Daniel Veillard, XML support."
-msgstr ""
+msgstr "Daniel Veillard, XML 지원."
 
 #: src/about.c:26
 msgid "Chris Lahey, Number format engine."
-msgstr ""
+msgstr "Chris Lahey, 숫자 형식화 엔진."
 
 #: src/about.c:27
 msgid "Tom Dyas, Plugin support."
-msgstr ""
+msgstr "Tom Dyas, 플러그인 지원."
 
 #: src/about.c:28
 msgid "Federico Mena, Canvas support."
-msgstr ""
+msgstr "Federico Mena, 캔버스 지원."
 
 #: src/about.c:29
 msgid "Adrian Likins, Documentation, debugging."
-msgstr ""
+msgstr "Adrian Likins, 문서작업, 디버깅."
 
 #: src/about.c:30
 msgid "Jakub Jelinek, Gnumeric hacker."
-msgstr ""
+msgstr "Jakub Jelinek, Gnumeric 해커."
 
 #: src/about.c:31
 msgid "Michael Meeks, Excel and OLE2 importing."
-msgstr ""
+msgstr "Michael Meeks, 엑셀과 OLE2 importing."
 
 #: src/about.c:32
 msgid "Jody Goldberg, Excel hacker."
-msgstr ""
+msgstr "Jody Goldberg, 엑셀 해커."
 
 #: src/about.c:33
 msgid "Sean Atkinson, Functions and X-Base importing."
-msgstr ""
+msgstr "Sean Atkinson, 함수와 X-Base importing."
 
 #: src/about.c:34
 msgid "Mark Probst, Guile support."
-msgstr ""
+msgstr "Mark Probst, Guile 지원."
 
 #: src/about.c:35
 msgid "Vincent Renardias, CSV support."
-msgstr ""
+msgstr "Vincent Renardias, CSV 지원."
 
 #: src/about.c:36
 msgid "Vladimir Vuksan, financial functions."
-msgstr ""
+msgstr "Vladimir Vuksan, 금융 함수."
 
 #: src/about.c:37
 msgid "Takashi Matsuda, simple text plugin."
-msgstr ""
+msgstr "Takashi Matsuda, 간단한 텍스트 플러그인."
 
 #: src/about.c:38
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
-msgstr ""
+msgstr "Jukka-Pekka Iivonen, 많은 함수와 툴들."
 
 #: src/about.c:39
 msgid "Morten Welinder, Gnumeric hacker."
-msgstr ""
+msgstr "Morten Welinder, Gnumeric 해커."
 
 #: src/about.c:40
 msgid "Bruno Unna, Excel bits."
-msgstr ""
+msgstr "Bruno Unna, 엑셀 bits."
 
 #: src/about.c:54
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
 #: src/about.c:62
-#, fuzzy
 msgid "Gnumeric Home Page"
-msgstr "Gnumeric"
+msgstr "Gnumeric 홈 페이지"
 
 #: src/about.c:64
 msgid "Gnumeric Support page"
-msgstr ""
+msgstr "Gnumeric 지원 페이지"
 
 #: src/dates.c:14
 msgid "*Sun"
@@ -439,7 +436,7 @@ msgstr "텍스트 색상"
 #: src/dialog-cell-format.c:615 src/dialog-cell-format.c:648
 #: src/dialog-paste-special.c:28
 msgid "None"
-msgstr ""
+msgstr "없음"
 
 #: src/dialog-cell-format.c:617
 msgid "Use this color"
@@ -447,7 +444,7 @@ msgstr "이 색상 사용"
 
 #: src/dialog-cell-format.c:619 src/dialog-cell-format.c:654
 msgid "No change"
-msgstr ""
+msgstr "변경하지 않음"
 
 #: src/dialog-cell-format.c:642
 msgid "Background configuration"
@@ -470,13 +467,12 @@ msgid "Alignment"
 msgstr "정렬"
 
 #: src/dialog-cell-format.c:925
-#, fuzzy
 msgid "Font"
-msgstr "계수"
+msgstr "글꼴"
 
 #: src/dialog-cell-format.c:926
 msgid "Coloring"
-msgstr ""
+msgstr "채색"
 
 #: src/dialog-define-names.c:23
 msgid "Define names"
@@ -496,7 +492,7 @@ msgstr "워크북에서의 이름"
 
 #: src/dialog-define-names.c:49
 msgid "Refers to"
-msgstr ""
+msgstr "Refers to"
 
 #: src/dialog-delete-cells.c:25
 msgid "delete cells"
@@ -536,7 +532,7 @@ msgstr "...로 가기"
 
 #: src/dialog-goto-cell.c:47
 msgid "Special..."
-msgstr ""
+msgstr "특별한 기능..."
 
 #: src/dialog-insert-cells.c:26
 msgid "insert cells"
@@ -583,9 +579,8 @@ msgid "Formats"
 msgstr "형식"
 
 #: src/dialog-paste-special.c:29
-#, fuzzy
 msgid "Add "
-msgstr "더하기"
+msgstr "더하기 "
 
 #: src/dialog-paste-special.c:30
 msgid "Substract"
@@ -613,7 +608,7 @@ msgstr "동작"
 
 #: src/dialog-paste-special.c:104
 msgid "Transpose"
-msgstr ""
+msgstr "전환"
 
 #: src/dialog-zoom.c:47 src/dialog-zoom.c:50
 msgid "Zoom"
@@ -639,9 +634,8 @@ msgid "Can not create file %s\n"
 msgstr "%s 파일을 생성할 수 없습니다\n"
 
 #: src/expr.c:133
-#, fuzzy
 msgid "Internal Error"
-msgstr "구문 에러"
+msgstr "내부 에러"
 
 #: src/expr.c:288
 msgid "Syntax error"
@@ -653,12 +647,11 @@ msgstr "quote 빠짐"
 
 #: src/expr.c:296
 msgid "Impossible!"
-msgstr ""
+msgstr "불가능해요!"
 
 #: src/expr.c:1103
-#, fuzzy
 msgid "Internal error"
-msgstr "구문 에러"
+msgstr "내부 에러"
 
 #: src/expr.c:1196 src/expr.c:1471 src/expr.c:1652 src/fn-misc.c:190
 #: src/fn-string.c:55 src/fn-string.c:77 src/fn-string.c:98
@@ -670,42 +663,40 @@ msgstr "유형이 서로 틀림"
 
 #: src/expr.c:1275
 msgid "Function does not exist"
-msgstr ""
+msgstr "함수가 없습니다"
 
 #: src/expr.c:1279
 msgid "Calling non-function"
-msgstr ""
+msgstr "함수가 아닌 걸 불렀읍니다"
 
 #: src/expr.c:1414
 msgid "Type error"
 msgstr "유형 에러"
 
 #: src/expr.c:1445
-#, fuzzy
 msgid "Internal type error"
-msgstr "유형 에러"
+msgstr "내부 유형 에러"
 
 #: src/expr.c:1636
 msgid "Reference to newborn cell"
-msgstr ""
+msgstr "새로운 셀에 대한 참조"
 
 #: src/expr.c:1704
 msgid "Unknown evaluation error"
 msgstr "모르는 계산 에러"
 
 #: src/expr.c:2056
-#, fuzzy
 msgid "#Reference to deleted cell!"
-msgstr "선택된 셀 지움"
+msgstr "#지워진 셀에 대한 참조!"
 
 #: src/expr.c:2081
 msgid "#Reference to deleted range!"
-msgstr ""
+msgstr "#지워진 범위에 대한 참조!"
 
 #: src/file.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read file %s"
-msgstr "%s 파일을 생성할 수 없습니다\n"
+msgstr "%s 파일을 읽을 수 없습니다"
 
 #: src/file.c:330
 msgid "File format:"
@@ -716,7 +707,6 @@ msgid "Save workbook as"
 msgstr "워크북을 다른 이름으로 저장"
 
 #: src/file.c:413
-#, fuzzy
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr "죄송, 파일 저장기가 적재되지 않아서 저장할 수가 없습니다"
 
@@ -896,11 +886,11 @@ msgstr ""
 
 #: src/fn-date.c:484
 msgid "Unsupported method"
-msgstr ""
+msgstr "지원하지 않는 방법"
 
 #: src/fn-date.c:545
 msgid "Date / Time"
-msgstr ""
+msgstr "날짜 / 시간"
 
 #: src/fn-math.c:19
 msgid ""
@@ -1671,7 +1661,7 @@ msgstr ""
 
 #: src/fn-misc.c:200
 msgid "Miscellaneous"
-msgstr ""
+msgstr "기타"
 
 #: src/fn-sheet.c:15
 msgid ""
@@ -1684,9 +1674,8 @@ msgid ""
 msgstr ""
 
 #: src/fn-sheet.c:75
-#, fuzzy
 msgid "Sheet"
-msgstr "쉬트(_S)"
+msgstr "쉬트"
 
 #: src/fn-string.c:17
 msgid ""
@@ -1894,9 +1883,8 @@ msgid ""
 msgstr ""
 
 #: src/fn-string.c:1084
-#, fuzzy
 msgid "String"
-msgstr "경고"
+msgstr "문자열"
 
 #: src/format.c:397
 msgid "black"
@@ -1932,16 +1920,16 @@ msgstr "황색"
 
 #: src/format.c:1040
 msgid "0.0########"
-msgstr ""
+msgstr "0.0########"
 
 #: src/format.c:1057
 msgid "CELLRANGE"
-msgstr ""
+msgstr "셀범위"
 
 #. Array of arrays ??
 #: src/format.c:1061
 msgid "ARRAY"
-msgstr ""
+msgstr "배열"
 
 #: src/formats.c:17
 msgid "0"
@@ -2146,9 +2134,8 @@ msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr "$#,##0.00_);[red]($#,##0.00)"
 
 #: src/gnumeric-sheet.c:914
-#, fuzzy
 msgid "Solid"
-msgstr "강조"
+msgstr "고체색"
 
 #: src/gnumeric-sheet.c:917
 #, c-format
@@ -2166,73 +2153,66 @@ msgid "25%"
 msgstr "25%"
 
 #: src/gnumeric-sheet.c:926
-#, fuzzy, c-format
+#, c-format
 msgid "12.5%"
-msgstr "25%"
+msgstr "12.5%"
 
 #: src/gnumeric-sheet.c:929
-#, fuzzy, c-format
+#, c-format
 msgid "6.25%"
-msgstr "25%"
+msgstr "6.25%"
 
 #: src/gnumeric-sheet.c:932
-#, fuzzy
 msgid "Horizontal Stripe"
 msgstr "수평선"
 
 #: src/gnumeric-sheet.c:935
-#, fuzzy
 msgid "Vertical Stripe"
 msgstr "수직선"
 
 #: src/gnumeric-sheet.c:938
 msgid "Reverse Diagonal Stripe"
-msgstr ""
+msgstr "역대각선"
 
 #: src/gnumeric-sheet.c:941
-#, fuzzy
 msgid "Diagonal Stripe"
 msgstr "대각선"
 
 #: src/gnumeric-sheet.c:944
-#, fuzzy
 msgid "Diagonal Crosshatch"
-msgstr "대각선"
+msgstr "대각 직교평행선"
 
 #: src/gnumeric-sheet.c:947
 msgid "Thick Diagonal Crosshatch"
-msgstr ""
+msgstr "굵은 대각 직교평행선"
 
 #: src/gnumeric-sheet.c:950
-#, fuzzy
 msgid "Thin Horizontal Stripe"
-msgstr "수평선"
+msgstr "가는 수평선"
 
 #: src/gnumeric-sheet.c:953
-#, fuzzy
 msgid "Thin Vertical Stripe"
-msgstr "수직선"
+msgstr "가는 수직선"
 
 #: src/gnumeric-sheet.c:956
 msgid "Thin Reverse Diagonal Stripe"
-msgstr ""
+msgstr "가는 역대각선"
 
 #: src/gnumeric-sheet.c:959
-#, fuzzy
 msgid "Thin Diagonal Stripe"
-msgstr "대각선"
+msgstr "가는 대각선"
 
 #: src/gnumeric-sheet.c:962
 msgid "Thin Crosshatch"
-msgstr ""
+msgstr "가는 직교평행선"
 
 #: src/gnumeric-sheet.c:965
 msgid "Thin Diagonal Crosshatch"
-msgstr ""
+msgstr "가는 역대각 직교평행선"
 
 #: src/gnumeric-util.c:19
 msgid "You cannot change part of an array."
-msgstr ""
+msgstr "배열의 일부를 바꿀 수 없습니다."
 
 #: src/item-cursor.c:499
 msgid ""
@@ -2310,25 +2290,23 @@ msgstr "레벨"
 
 #: src/main.c:50
 msgid "Enables debugging mesgs while reading excel workbooks"
-msgstr ""
+msgstr "엑셀 워크북을 읽는 동안 디버깅 메시지 출력"
 
 #: src/main.c:54
-#, fuzzy
 msgid "Enables debugging mesgs while reading excel functions"
-msgstr "몇몇 디버깅 함수 활성화"
+msgstr "엑셀 함수를 읽는 동안 디버깅 메시지 출력"
 
 #: src/main.c:58
 msgid "Enables debugging mesgs while reading excel colours & patterns"
-msgstr ""
+msgstr "엑셀 색상과 패턴을 읽는 동안 디버깅 메시지 출력"
 
 #: src/main.c:62
 msgid "Enables debugging mesgs while reading excel charts"
-msgstr ""
+msgstr "엑셀 차트를 읽는 동안 디버깅 메시지 출력"
 
 #: src/number-match.c:150
-#, fuzzy
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
-msgstr "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
+msgstr "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 
 #: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
@@ -2348,7 +2326,7 @@ msgstr "더하기..."
 
 #: src/plugin.c:40
 msgid "unable to open module file: "
-msgstr "모듈 파일 열 수 없슴: "
+msgstr "모듈 파일 열 수 없음: "
 
 #: src/plugin.c:51
 msgid "Plugin must contain init_plugin function."
@@ -2374,24 +2352,21 @@ msgstr "세로: %s"
 
 #: src/sheet.c:2752
 msgid "The command `"
-msgstr ""
+msgstr "The command `"
 
 #: src/sheet.c:2754
 msgid "' cannot be performed with multiple selections"
-msgstr ""
+msgstr "' cannot be performed with multiple selections"
 
 #: src/sheet.c:2769
-#, fuzzy
 msgid "copy"
 msgstr "복사"
 
 #: src/sheet.c:2794
-#, fuzzy
 msgid "cut"
 msgstr "자르기"
 
 #: src/sheet.c:2843
-#, fuzzy
 msgid "paste"
 msgstr "붙이기"
 
@@ -2418,9 +2393,8 @@ msgid "Workbook has unsaved changes, save them?"
 msgstr "워크북이 저장되지 않았습니다. 저장할까요?"
 
 #: src/workbook.c:580
-#, fuzzy
 msgid "Insert cols"
-msgstr "셀 삽입"
+msgstr "행 삽입"
 
 #: src/workbook.c:599
 msgid "Insert rows"
@@ -2443,14 +2417,12 @@ msgid "Create a new spreadsheet"
 msgstr "새 스프레드쉬트 생성"
 
 #: src/workbook.c:824
-#, fuzzy
 msgid "_Import"
-msgstr "정렬(_S)"
+msgstr ""
 
 #: src/workbook.c:824
-#, fuzzy
 msgid "Imports a file"
-msgstr "파일 불러오기"
+msgstr ""
 
 #: src/workbook.c:833
 msgid "Plu_g-ins..."
@@ -2513,7 +2485,6 @@ msgid "Select all cells in the spreadsheet"
 msgstr "스프레드쉬트의 모든 셀을 선택"
 
 #: src/workbook.c:879
-#, fuzzy
 msgid "_Goto cell..."
 msgstr "셀 찾아가기(_G)..."
 
@@ -2523,16 +2494,15 @@ msgstr "주어진 셀로 가기"
 
 #: src/workbook.c:886
 msgid "Insert object..."
-msgstr ""
+msgstr "객체 삽입..."
 
 #: src/workbook.c:887
-#, fuzzy
 msgid "Inserts a Bonobo object"
-msgstr "선 그림"
+msgstr "보노보 객체 삽입"
 
 #: src/workbook.c:894
 msgid "_Define cell names"
-msgstr "셀 이름 정의"
+msgstr "셀 이름 정의(_D)"
 
 #: src/workbook.c:898
 msgid "_Recalculate"
@@ -2599,9 +2569,8 @@ msgid "Insert new columns"
 msgstr "새로운 열 삽입"
 
 #: src/workbook.c:938
-#, fuzzy
 msgid "_Add/modify comment..."
-msgstr "코멘트 추가/수정(_A)"
+msgstr "코멘트 추가/수정(_A)..."
 
 #: src/workbook.c:939
 msgid "Edit the selected cell's comment"
@@ -2609,7 +2578,7 @@ msgstr "선택된 셀의 주석 편집"
 
 #: src/workbook.c:940
 msgid "_Special"
-msgstr ""
+msgstr "특별한 기능(_S)"
 
 #: src/workbook.c:949 src/workbook.c:955
 msgid "_Autoadjust"
@@ -2640,9 +2609,8 @@ msgid "_Row"
 msgstr "행(_R)"
 
 #: src/workbook.c:980
-#, fuzzy
 msgid "_Sort..."
-msgstr "정렬(_S)"
+msgstr "정렬(_S)..."
 
 #: src/workbook.c:981
 msgid "Sort the selected cells"
@@ -2650,15 +2618,15 @@ msgstr "선택된 셀 정렬"
 
 #: src/workbook.c:982
 msgid "_Goal Seek..."
-msgstr ""
+msgstr "목표 찾기(_G)..."
 
 #: src/workbook.c:984
 msgid "_Solver..."
-msgstr ""
+msgstr "해결사(_S)..."
 
 #: src/workbook.c:986
 msgid "_Data Analysis..."
-msgstr ""
+msgstr "자료 분석(_D)..."
 
 #: src/workbook.c:1001
 msgid "_Insert"
@@ -2670,7 +2638,7 @@ msgstr "형식(_o)"
 
 #: src/workbook.c:1003
 msgid "_Tools"
-msgstr ""
+msgstr "툴(_T)"
 
 #: src/workbook.c:1012
 msgid "New"
@@ -2698,14 +2666,12 @@ msgstr "워크북 저장"
 
 #: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
 #: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1021
-#, fuzzy
 msgid "Print"
-msgstr "퍼센트"
+msgstr "인쇄"
 
 #: src/workbook.c:1021
-#, fuzzy
 msgid "Prints the workbook"
-msgstr "워크북 저장"
+msgstr "워크북 인쇄"
 
 #: src/workbook.c:1027
 msgid "Cuts the selection to the clipboard"
@@ -2757,12 +2723,11 @@ msgstr "기울임 글꼴로 만듦"
 
 #: src/workbook.c:1060
 msgid "Graphic"
-msgstr ""
+msgstr "그래픽"
 
 #: src/workbook.c:1060
-#, fuzzy
 msgid "Creates a graphic in the spreadsheet"
-msgstr "새 스프레드쉬트 생성"
+msgstr "스프레드쉬트에 그래픽 생성"
 
 #: src/workbook.c:1064
 msgid "Line"
@@ -2810,7 +2775,7 @@ msgstr "행 갯수가 범위를 벗어남"
 
 #: src/workbook.c:1315
 msgid "Selection must be a single range"
-msgstr ""
+msgstr "선택은 단일 범위여야만 합니다."
 
 #: src/workbook.c:1423
 msgid "Sum"
@@ -2847,11 +2812,11 @@ msgstr "축소"
 #: src/workbook.c:1833
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
-msgstr ""
+msgstr "`%s' 쉬트를 지우기를 원하십니까 "
 
 #: src/workbook.c:1852
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
-msgstr ""
+msgstr "다른 쉬트가 이 쉬트의 값을 필요로 합니다; 지울수가 없습니다"
 
 #: src/workbook.c:1872
 msgid "Add another sheet"
@@ -2862,19 +2827,16 @@ msgid "Remove this sheet"
 msgstr "이 쉬트 삭제"
 
 #: src/workbook.c:2130 src/workbook.c:2166
-#, fuzzy, c-format
 msgid "Sheet%d"
-msgstr "쉬트 %d"
+msgstr "쉬트%d"
 
 #: src/workbook.c:2242
-#, fuzzy
 msgid "Gnumeric: "
-msgstr "Gnumeric"
+msgstr "Gnumeric: "
 
 #: src/xml-io.c:1822
-#, fuzzy
 msgid "Old Gnumeric XML file format"
-msgstr "Gnumeric XML 파일 형식"
+msgstr "이전 Gnumeric XML 파일 형식"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -2883,22 +2845,19 @@ msgstr "Gnumeric XML 파일 형식"
 #.
 #: src/print.glade.h:7
 msgid "window2"
-msgstr ""
+msgstr "창2"
 
 #: src/print.glade.h:8
-#, fuzzy
 msgid "Orientation"
-msgstr "동작"
+msgstr "방위"
 
 #: src/print.glade.h:11
-#, fuzzy
 msgid "Scale"
-msgstr "샘플:"
+msgstr "척도"
 
 #: src/print.glade.h:12 src/print.glade.h:13
-#, fuzzy
 msgid "Adjust to"
-msgstr "자동정렬(_A)"
+msgstr ""
 
 #: src/print.glade.h:14
 #, c-format
@@ -2915,27 +2874,25 @@ msgstr ""
 
 #: src/print.glade.h:17
 msgid "Paper size:"
-msgstr ""
+msgstr "종이 크기:"
 
 #: src/print.glade.h:18
 msgid "First page number:"
-msgstr ""
+msgstr "첫번째 페이지 번호:"
 
 #: src/print.glade.h:20 src/print.glade.h:33 src/print.glade.h:41
 #: src/print.glade.h:57
 msgid "Print preview"
-msgstr ""
+msgstr "인쇄 미리보기"
 
 #: src/print.glade.h:21 src/print.glade.h:34 src/print.glade.h:42
 #: src/print.glade.h:58
-#, fuzzy
 msgid "Options"
-msgstr "동작"
+msgstr "옵션"
 
 #: src/print.glade.h:22 src/print.glade.h:59
-#, fuzzy
 msgid "Page"
-msgstr "붙이기"
+msgstr "페이지"
 
 #: src/print.glade.h:23
 msgid "Superior:"
@@ -2943,46 +2900,39 @@ msgstr ""
 
 #: src/print.glade.h:24
 msgid "Header:"
-msgstr ""
+msgstr "머리말:"
 
 #: src/print.glade.h:25
 msgid "Lower:"
 msgstr ""
 
 #: src/print.glade.h:26
-#, fuzzy
 msgid "Footer"
-msgstr "글씨체"
+msgstr "꼬리말"
 
 #: src/print.glade.h:27
-#, fuzzy
 msgid "Center on page"
-msgstr "중앙"
+msgstr "페이지 중앙"
 
 #: src/print.glade.h:28
-#, fuzzy
 msgid "Horizontally"
-msgstr "수평"
+msgstr "수평으로"
 
 #: src/print.glade.h:29
-#, fuzzy
 msgid "Vertically"
-msgstr "수직"
+msgstr "수직으로"
 
 #: src/print.glade.h:30
-#, fuzzy
 msgid "Left:"
-msgstr "왼쪽"
+msgstr "왼쪽:"
 
 #: src/print.glade.h:31
-#, fuzzy
 msgid "Right:"
-msgstr "오른쪽"
+msgstr "오른쪽:"
 
 #: src/print.glade.h:35
-#, fuzzy
 msgid "Margins"
-msgstr "최소"
+msgstr "여백"
 
 #: src/print.glade.h:36
 msgid "sample goes here"
@@ -2990,11 +2940,11 @@ msgstr ""
 
 #: src/print.glade.h:37
 msgid "Header"
-msgstr ""
+msgstr "머리말"
 
 #: src/print.glade.h:38
 msgid "Footer:"
-msgstr ""
+msgstr "꼬리말:"
 
 #: src/print.glade.h:39
 msgid "sample goes jere"
@@ -3002,15 +2952,15 @@ msgstr ""
 
 #: src/print.glade.h:43
 msgid "Headers and footers"
-msgstr ""
+msgstr "머리말과 꼬리말"
 
 #: src/print.glade.h:44
 msgid "Print region:"
-msgstr ""
+msgstr "인쇄 영역:"
 
 #: src/print.glade.h:45
 msgid "Titles to print"
-msgstr ""
+msgstr "인쇄할 제목"
 
 #: src/print.glade.h:46
 msgid "Rows to repear on the left side:"
@@ -3021,26 +2971,24 @@ msgid "Rows to repeat on the upper region:"
 msgstr ""
 
 #: src/print.glade.h:49
-#, fuzzy
 msgid "Division lines"
-msgstr "대각선"
+msgstr "눈금선"
 
 #: src/print.glade.h:50
 msgid "Black and white"
-msgstr ""
+msgstr "흑백"
 
 #: src/print.glade.h:51
 msgid "Titles of rows and columns."
-msgstr ""
+msgstr "행과 열의 제목"
 
 #: src/print.glade.h:52
-#, fuzzy
 msgid "Comments"
-msgstr "코멘트(_C)"
+msgstr "코멘트"
 
 #: src/print.glade.h:53
 msgid "Page order"
-msgstr ""
+msgstr "페이지 순서"
 
 #: src/print.glade.h:54
 msgid "Down, then right"
@@ -3049,46 +2997,3 @@ msgstr ""
 #: src/print.glade.h:55
 msgid "RIght, then down"
 msgstr ""
-
-#, fuzzy
-#~ msgid ""
-#~ "The GNOME spreadsheet.\n"
-#~ "http://www.gnome.org/gnumeric/"
-#~ msgstr ""
-#~ "그놈 스프레드쉬트.\n"
-#~ "http://www.gnome.org/gnumeric"
-
-#~ msgid "12%"
-#~ msgstr "12%"
-
-#~ msgid "6%"
-#~ msgstr "6%"
-
-#~ msgid "Crossed diagonals"
-#~ msgstr "교차 대각선"
-
-#~ msgid "Division by zero"
-#~ msgstr "0으로 나눔"
-
-#~ msgid "#NUM!"
-#~ msgstr "#숫자!"
-
-#~ msgid "#VALUE!"
-#~ msgstr "#값!"
-
-#, fuzzy
-#~ msgid "#N/A!"
-#~ msgstr "#숫자!"
-
-#, fuzzy
-#~ msgid "#VAL!"
-#~ msgstr "#값!"
-
-#~ msgid "ERROR"
-#~ msgstr "에러"
-
-#~ msgid "#VALUE"
-#~ msgstr "#값"
-
-#~ msgid "log: domain error"
-#~ msgstr "log: 도메인 에러"
