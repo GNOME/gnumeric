@@ -205,61 +205,37 @@ gnm_about_state_free (GnmAboutState *state)
 	g_free (state);
 }
 
-
-static void
-select_new_contributor (GnmAboutState *state)
-{
-	int i;
-
-	state->item_index++;
-	if (state->item_index >= G_N_ELEMENTS (contributors)) {
-		state->item_index = 0;
-		state->dec = !state->dec;
-	}
-
-	for (i = 0 ; i < GNM_ABOUT_NUM_TYPES ; i++)
-		if (contributors [state->item_index].contributions & (1 << i)) {
-			state->contribs[i] += state->dec ? -1 : 1;
-			state->individual[i] = 1;
-		} else
-			state->individual[i] = 0;
-}
+#define FADE_STATES	15
+#define MAX_FADE_STATE	(FADE_STATES*2)
 
 static gboolean
 cb_about_animate (GnmAboutState *state)
 {
-	const int FADE_IN_STATES = 5;
-	const int FADE_STABLE_STATES = 10;
-	const int FADE_OUT_STATES = 3;
-	const int FADE_PAUSE_STATES = 3;
-	const int TOTAL_STATES = FADE_IN_STATES + FADE_STABLE_STATES + FADE_OUT_STATES + FADE_PAUSE_STATES;
-	double alpha;
-	int fade;
+	int i;
+	float alpha;
 
-	if (state->fade_state >= TOTAL_STATES) {
+	if (state->fade_state == MAX_FADE_STATE) {
 		state->fade_state = 0;
-		select_new_contributor (state);
-	}
-	state->fade_state++;
-
-	fade = state->fade_state;
-	if (fade <= FADE_IN_STATES) {
-		alpha = fade / (double)FADE_IN_STATES;
-	} else {
-		fade -= FADE_IN_STATES;
-		if (fade <= FADE_STABLE_STATES)
-			alpha = 1;
-		else {
-			fade -= FADE_STABLE_STATES;
-			if (fade <= FADE_OUT_STATES)
-				alpha = 1 - fade / (double)FADE_OUT_STATES;
-			else
-				alpha = 0;
+		state->item_index++;
+		if (state->item_index >= G_N_ELEMENTS (contributors)) {
+			state->item_index = 0;
+			state->dec = !state->dec;
 		}
-	}
 
+		for (i = 0 ; i < GNM_ABOUT_NUM_TYPES ; i++)
+			if (contributors [state->item_index].contributions & (1 << i)) {
+				state->contribs [i] += state->dec ? -1 : 1;
+				state->individual [i] = 1;
+			} else
+				state->individual [i] = 0;
+	} else
+		state->fade_state++;
+
+	/* 1-((x-25)/25)**2 */
+	alpha = (state->fade_state - FADE_STATES) / (double)FADE_STATES;
+	alpha *= alpha;
 	state->contributor_style->font.color = UINT_RGBA_CHANGE_A (
-		state->contributor_style->font.color, (unsigned)(255 * alpha));
+		state->contributor_style->font.color, (unsigned)(255 * (1. - alpha)));
 	go_data_scalar_str_set_str (GO_DATA_SCALAR_STR (state->contributor_name),
 		contributors [state->item_index].name, FALSE);
 	go_data_emit_changed (GO_DATA (state->contribs_data));
@@ -286,7 +262,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
 		GTK_STOCK_OK,		GTK_RESPONSE_OK,
 		NULL);
-	state->fade_state = INT_MAX;	/* prime things to start at item 0 */
+	state->fade_state = MAX_FADE_STATE;	/* prime things to start at item 0 */
 	state->item_index = (int) (random_01 () * G_N_ELEMENTS (contributors)) - 1;
 	state->dec = FALSE;
 	for (i = GNM_ABOUT_NUM_TYPES ; i-- > 0 ; )
