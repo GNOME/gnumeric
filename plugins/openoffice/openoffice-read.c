@@ -792,10 +792,13 @@ typedef GHashTable	OOConfigItemSet;
 typedef GHashTable	OOConfigItemMapNamed;
 typedef GPtrArray	OOConfigItemMapIndexed;
 
+#if 0
 static GHashTable *
 oo_config_item_set ()
 {
+	return NULL;
 }
+#endif
 
 static GsfXmlSAXNode opencalc_settings_dtd [] = {
 GSF_XML_SAX_NODE (START, START, NULL, FALSE, NULL, NULL, 0),
@@ -815,7 +818,10 @@ GSF_XML_SAX_NODE (START, OFFICE, "office:document-settings", FALSE, NULL, NULL, 
 
 /****************************************************************************/
 
-static void
+void
+openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
+		      WorkbookView *wb_view, GsfInput *input);
+void
 openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input)
 {
