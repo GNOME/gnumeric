@@ -71,10 +71,11 @@ main_page_set_encoding (DruidPageData_t *pagedata, const char *enc)
 static void
 main_page_update_preview (DruidPageData_t *pagedata)
 {
+	StfParseOptions_t *parseoptions = pagedata->main.parseoptions;
 	RenderData_t *renderdata = pagedata->main.renderdata;
 
 	stf_preview_set_lines (renderdata,
-			       stf_parse_lines (pagedata->utf8_data, TRUE));
+			       stf_parse_lines (parseoptions, pagedata->utf8_data, TRUE));
 	stf_preview_render (renderdata);
 }
 
@@ -173,15 +174,26 @@ static void
 main_page_startrow_changed (GtkSpinButton* button, DruidPageData_t *data)
 {
 	const char *cur = data->utf8_data;
-	int startrow;
+	int startrow = gtk_spin_button_get_value_as_int (button) - 1;
 
-	startrow = gtk_spin_button_get_value_as_int (button) - 1;
-
-	for (; startrow != 0; startrow--) {
-		while (*cur != '\n' && *cur != 0)
+#warning "FIXME: this should match stf_parse_lines."
+	while (startrow > 0) {
+		switch (*cur) {
+		case 0:
+			startrow = 0;
+			break;
+		case '\n':
+			startrow--;
 			cur++;
-		if (*cur == 0) break;
-		cur++;
+			break;
+		case '\r':
+			startrow--;
+			cur++;
+			if (*cur == '\n') cur++;
+			break;
+		default:
+			cur++;
+		}
 	}
 	data->cur = cur;
 
@@ -265,6 +277,11 @@ void
 stf_dialog_main_page_cleanup (DruidPageData_t *pagedata)
 {
 	stf_preview_free (pagedata->main.renderdata);
+
+	if (pagedata->main.parseoptions) {
+		stf_parse_options_free (pagedata->main.parseoptions);
+		pagedata->main.parseoptions = NULL;
+	}
 }
 
 /**
@@ -311,6 +328,7 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	renderdata = pagedata->main.renderdata = stf_preview_new
 		(pagedata->main.main_data_container,
 		 NULL);
+	pagedata->main.parseoptions  = stf_parse_options_new ();
 	renderdata->ignore_formats = TRUE;
 
 	main_page_update_preview (pagedata);

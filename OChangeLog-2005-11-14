@@ -1,5 +1,12 @@
 2003-06-11  Morten Welinder  <terra@gnome.org>
 
+	* src/stf-parse.c (stf_parse_options_fixed_autodiscover): Handle
+	line terminators correctly.
+	(stf_parse_get_longest_row_width): Ditto.
+	(stf_parse_general): Properly skip line endings.
+	(stf_parse_lines): Add parse option argument and use standard line
+	ending parsing.  All callers changed.
+
 	* src/gui-clipboard.c (complex_content_received): Handle all kinds
 	of strings here too.
 	(text_to_cell_region): Rename from x_clipboard_to_cell_region.

@@ -1,3 +1,10 @@
+2003-06-11  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf.h (MainInfo_t): Add parse options member.
+
+	* dialog-stf-main-page.c (main_page_startrow_changed): Treat line
+	endings consistently.
+
 2003-06-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* random-generation.glade: use notebook

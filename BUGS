@@ -183,6 +183,7 @@ Pending Patches
     2.13) Separate guessing of csv/fixed from importer.
     2.14) Implement format guessing.
     2.15) Put big "best guess" button on from page.
+    2.16) Fix character set mess on paste                       (DONE)
 
 3) hlinks
     3.1) Finish the edit dialog to load and store results 	(DONE)

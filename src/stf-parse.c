@@ -91,13 +91,15 @@ comp_term (gchar const *s, gchar const *term)
 	return TRUE;
 }
 
-static inline gint
+static inline int
 compare_terminator (char const *s, StfParseOptions_t *parseoptions)
 {
 	GSList *term;
-	for (term = parseoptions->terminator; term; term = term->next)
-		if (comp_term (s, (gchar const*)(term->data)))
-			return strlen ((gchar const*)(term->data));
+	for (term = parseoptions->terminator; term; term = term->next) {
+		int len = strlen (term->data);
+		if (strncmp (term->data, s, len) == 0)
+			return len;
+	}
 	return 0;
 }
 
@@ -740,14 +742,14 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 			: stf_parse_fixed_line (&src, parseoptions);
 
 		g_ptr_array_add (lines, line);
-		src.position = g_utf8_next_char (src.position);
+		src.position += compare_terminator (src.position, parseoptions);
 	}
 
 	return lines;
 }
 
 GPtrArray *
-stf_parse_lines (const char *data, gboolean with_lineno)
+stf_parse_lines (StfParseOptions_t *parseoptions, const char *data, gboolean with_lineno)
 {
 	GPtrArray *lines;
 	int lineno = 1;
@@ -758,35 +760,18 @@ stf_parse_lines (const char *data, gboolean with_lineno)
 	while (*data) {
 		const char *data0 = data;
 		GPtrArray *line = g_ptr_array_new ();
-		gboolean leave = FALSE;
 
 		if (with_lineno)
 			g_ptr_array_add (line, g_strdup_printf ("%d", lineno++));
 
-		while (!leave) {
-			switch (*data) {
-			case 0:
-				g_ptr_array_add (line, g_strdup (data0));
-				leave = TRUE;
-				break;
-
-			case '\n':
+		while (1) {
+			int termlen = compare_terminator (data, parseoptions);
+			if (termlen > 0 || *data == 0) {
 				g_ptr_array_add (line, g_strndup (data0, data - data0));
-				data++;
-				leave = TRUE;
+				data += termlen;
 				break;
-
-			case '\r':
-				g_ptr_array_add (line, g_strndup (data0, data - data0));
-				data++;
-				if (*data == '\n') data++;
-				leave = TRUE;
-				break;
-
-			default:
-				/* This ought to be UTF-8 safe.  */
-				data++;
-			}
+			} else
+				data = g_utf8_next_char (data);
 		}
 
 		g_ptr_array_add (lines, line);
@@ -810,14 +795,18 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, char const *da
 	g_return_val_if_fail (parseoptions != NULL, 0);
 	g_return_val_if_fail (data != NULL, 0);
 
-	for (s = data; *s; s = g_utf8_next_char (s)) {
-		if (compare_terminator (s, parseoptions) || s[1] == '\0') {
+	for (s = data; *s; ) {
+		int termlen = compare_terminator (s, parseoptions);
+		if (termlen > 0 || s[1] == '\0') {
 			if (len > longest)
 				longest = len;
 			len = 0;
 			row++;
-		} else
+			s += termlen;
+		} else {
 			len++;
+			s = g_utf8_next_char (s);
+		}
 
 		if (parseoptions->parselines != -1)
 			if (row > parseoptions->parselines)
@@ -900,8 +889,9 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 		gboolean begin_recorded = FALSE;
 		AutoDiscovery_t *disc = NULL;
 		int position = 0;
+		int termlen = 0;
 
-		while (*iterator && !compare_terminator (iterator, parseoptions)) {
+		while (*iterator && (termlen = compare_terminator (iterator, parseoptions)) == 0) {
 			if (!begin_recorded && *iterator == ' ') {
 				disc = g_new0 (AutoDiscovery_t, 1);
 
@@ -933,8 +923,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int const
 		/*
 		 * Hop over the terminator
 		 */
-		if (*iterator)
-			iterator++;
+		iterator += termlen;
 
 		if (position != 0)
 			effective_lines++;
@@ -1301,6 +1290,3 @@ stf_parse_next_token (char const *data, StfParseOptions_t *parseoptions, StfToke
 		*tokentype = ttype;
 	return character;
 }
-
-
-

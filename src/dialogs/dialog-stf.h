@@ -7,9 +7,6 @@
 #include <libgnomeui/gnome-druid.h>
 #include "widgets/widget-charmap-selector.h"
 
-/* Define for text offsets used on the main page of the druid */
-#define TEXT_OFFSET 10.0
-
 /* for the main_page */
 typedef struct {
 	/* Page members that are always present */
@@ -26,6 +23,7 @@ typedef struct {
 	/* Page members that are created at run-time */
 	CharmapSelector *charmap_selector;
 	RenderData_t    *renderdata;
+	StfParseOptions_t *parseoptions;
 } MainInfo_t;
 
 /* for the csv_page */
