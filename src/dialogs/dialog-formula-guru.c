@@ -324,11 +324,14 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 
 	/* Do we want to scroll */
 	if (as->index > 0) {
-		ArgumentState *tmp = g_ptr_array_index (state->args, as->index-1);
-		int const prev_top = tmp->name_label->allocation.y;
+		ArgumentState *tmp = g_ptr_array_index (state->args,
+							as->index-1);
+		GtkWidget const *prev_entry =  GTK_WIDGET (tmp->entry);
+		GtkWidget const *cur_entry  =  GTK_WIDGET (as->entry);
+		int const prev_top = prev_entry->allocation.y;
 		int const cur_bottom =
-			as->name_label->allocation.y +
-			as->name_label->allocation.height;
+			cur_entry->allocation.y +
+			cur_entry->allocation.height;
 
 		if (va->value > prev_top &&
 		    (prev_top + va->page_size) >= cur_bottom) {
@@ -338,14 +341,19 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 	}
 	if (!scrolled && as->index < (int) as->state->args->len-1) {
 		ArgumentState *tmp = g_ptr_array_index (state->args, as->index+1);
-		int const cur_top = as->name_label->allocation.y;
+		GtkWidget const *cur_entry  =  GTK_WIDGET (as->entry);
+		GtkWidget const *next_entry =  GTK_WIDGET (tmp->entry);
+		int const cur_top = cur_entry->allocation.y;
 		int const next_bottom =
-			tmp->name_label->allocation.y +
-			tmp->name_label->allocation.height;
+			next_entry->allocation.y +
+			next_entry->allocation.height;
 
 		if (next_bottom > (va->value + va->page_size) &&
 		    cur_top >= (next_bottom - va->page_size)) {
 			va->value = next_bottom - va->page_size;
+			scrolled = TRUE;
+		} else if (va->value > cur_top) {
+			va->value = cur_top;
 			scrolled = TRUE;
 		}
 	}
