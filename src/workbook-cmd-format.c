@@ -131,7 +131,7 @@ loop :
 		char *msg = g_strdup_printf (
 			_("You entered an invalid column width value.  It must be bigger than %d"),
 			(int)min);
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		goto loop;
 	}
@@ -194,7 +194,7 @@ loop :
 		char *msg = g_strdup_printf(
 			_("You entered an invalid row height value.  It must be bigger than %d"),
 			(int)min);
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		goto loop;
 	}
@@ -244,7 +244,7 @@ workbook_cmd_format_column_std_width (GtkWidget *widget, WorkbookControl *wbc)
 			break;
 		msg = g_strdup_printf (
 			_("The default column width must be > %d."), (int)min);
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 	} while (1);
 
@@ -274,7 +274,7 @@ workbook_cmd_format_row_std_height (GtkWidget *widget, WorkbookControl *wbc)
 			break;
 		msg = g_strdup_printf (
 			_("The default row height must be > %d."), (int)min);
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 	} while (1);
 

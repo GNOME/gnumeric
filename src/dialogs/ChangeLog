@@ -1,3 +1,18 @@
+2002-01-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-advanced-filter.c : fix all calls to gnumeric_notice
+	* dialog-analysis-tools.c : ditto
+	* dialog-autocorrect.c : ditto
+	* dialog-autosave.c : ditto
+	* dialog-cell-sort.c : ditto
+	* dialog-consolidate.c : ditto
+	* dialog-define-names.c : ditto
+	* dialog-goal-seek.c : ditto
+	* dialog-search-replace.c : ditto
+	* dialog-search.c : ditto
+	* dialog-solver.c : ditto
+	* dialog-tabulate.c : ditto
+
 2002-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (tool_load_selection) : use 

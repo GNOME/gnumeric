@@ -214,7 +214,7 @@ cb_dialog_clicked (GtkWidget *widget, ConsolidateState *state)
 		 * a suitable error message
 		 */
 		if (cs == NULL) {
-			gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR, state->construct_error);
+			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, state->construct_error);
 			g_free (state->construct_error);
 			state->construct_error = NULL;
 

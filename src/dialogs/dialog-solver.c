@@ -809,7 +809,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 			workbook_recalc (state->sheet->workbook);
 			if (res == SOLVER_LP_OPTIMAL) {
 				gnumeric_notice (state->wbcg, 
-						 GNOME_MESSAGE_BOX_INFO, 
+						 GTK_MESSAGE_INFO, 
 						 _("Solver found an optimal solution. All "
 						   "constraints and optimality conditions "
 						   "are satisfied.\n"));
@@ -824,7 +824,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 						(_("Solver was not successful:"
 						   " %i"), res);
 				}
-				gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_WARNING, str);
+				gnumeric_notice (state->wbcg, GTK_MESSAGE_WARNING, str);
 				g_free (str);
 			
 			}
@@ -845,7 +845,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 		str = g_strdup_printf
 			(_("Constraint `%s' is for a cell that "
 			   "is not an input cell."), s);
-		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR, str);
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, str);
 		g_free (str);
 	}
 
@@ -1092,7 +1092,7 @@ dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->ov_cell_stack = NULL;
 
 	if (dialog_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Solver dialog."));
 		g_free (state);
 		return;

@@ -1,5 +1,8 @@
 Gnumeric 1.1.0
 
+Andreas:
+	* Fix gnumeric_notice
+
 Jody:
 	* Initial port to gnome2.
 	* Enable microhash depend mechanism.
@@ -7,6 +10,9 @@ Jody:
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.4
+
+Andreas:
+	Fix LaTeX and HTML exporter crashes	
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=69400

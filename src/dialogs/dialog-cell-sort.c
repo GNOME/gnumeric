@@ -316,7 +316,7 @@ dialog_cell_sort_ok (SortFlow *sf)
 			}
 			if (division < divstart || division > divend) {
 				gnumeric_notice (sf->wbcg,
-						 GNOME_MESSAGE_BOX_ERROR,
+						 GTK_MESSAGE_ERROR,
 						 sf->top
 						 ? _("Column must be within range")
 						 : _("Row must be within range"));
@@ -325,7 +325,7 @@ dialog_cell_sort_ok (SortFlow *sf)
 			}
 			array[lp].offset = division - divstart;
 		} else if (lp <= 0) {
-			gnumeric_notice (sf->wbcg, GNOME_MESSAGE_BOX_ERROR,
+			gnumeric_notice (sf->wbcg, GTK_MESSAGE_ERROR,
 					 sf->top
 					 ? _("First column must be valid")
 					 : _("First row must be valid"));
@@ -367,7 +367,7 @@ dialog_cell_sort_del_clause (SortFlow *sf)
 		gtk_widget_show_all (sf->dialog);
 		sf->clauses[sf->num_clause] = NULL;
 	} else
-		gnumeric_notice (sf->wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (sf->wbcg, GTK_MESSAGE_ERROR,
 				 _("At least one clause is required."));
 }
 
@@ -376,10 +376,10 @@ dialog_cell_sort_add_clause (SortFlow *sf, WorkbookControlGUI *wbcg)
 {
 	if ((sf->num_clause >= sf->max_col_clause && sf->top)
 	    || (sf->num_clause >= sf->max_row_clause && !(sf->top)))
-		gnumeric_notice (sf->wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (sf->wbcg, GTK_MESSAGE_ERROR,
 				 _("Can't add more than the selection length."));
 	else if (sf->num_clause >= MAX_CLAUSE)
-		gnumeric_notice (sf->wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (sf->wbcg, GTK_MESSAGE_ERROR,
 				 _("Maximum number of clauses has been reached."));
 	else {
 		if (sf->header)

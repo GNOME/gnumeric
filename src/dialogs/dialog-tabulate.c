@@ -380,13 +380,13 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 
 		cells[dims] = single_cell (dd->sheet, text);
 		if (!cells[dims]) {
-			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a single valid cell as dependency cell"));
 			focus_on_entry (GTK_WIDGET (w));
 			goto error;
 		}
 		if (cell_has_expr (cells[dims])) {
-			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("The dependency cells should not contain an expression"));
 			focus_on_entry (GTK_WIDGET (w));
 			goto error;
@@ -395,7 +395,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 		text = get_table_entry (dd->source_table, row, COL_MIN, &w);
 		v = format_match_number (text, NULL, NULL);
 		if (!v) {
-			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as minimum"));
 			focus_on_entry (GTK_WIDGET (w));
 			goto error;
@@ -406,7 +406,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 		text = get_table_entry (dd->source_table, row, COL_MAX, &w);
 		v = format_match_number (text, NULL, NULL);
 		if (!v) {
-			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as maximum"));
 			focus_on_entry (GTK_WIDGET (w));
 			goto error;
@@ -415,7 +415,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 		value_release (v);
 
 		if (maxima[dims] < minima[dims]) {
-			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("The maximum value should be bigger than the minimum"));
 			focus_on_entry (GTK_WIDGET (w));
 			goto error;
@@ -425,7 +425,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 		if (*text) {
 			v = format_match_number (text, NULL, NULL);
 			if (!v) {
-				gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+				gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 						 _("You should introduce a valid number as step size"));
 				focus_on_entry (GTK_WIDGET (w));
 				goto error;
@@ -434,7 +434,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 			value_release (v);
 
 			if (steps[dims] <= 0) {
-				gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+				gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 						 _("The step size should be positive"));
 				focus_on_entry (GTK_WIDGET (w));
 				goto error;
@@ -446,7 +446,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	}
 
 	if (dims == 0) {
-		gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 				 _("You should introduce one or more dependency cells"));
 		goto error;
 	}
@@ -456,14 +456,14 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 		resultcell = single_cell (dd->sheet, text);
 
 		if (!resultcell) {
-			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a single valid cell as result cell"));
 			focus_on_entry (GTK_WIDGET (dd->resultrangetext));
 			goto error;
 		}
 
 		if (!cell_has_expr (resultcell)) {
-			gnumeric_notice (dd->wbcg, GNOME_MESSAGE_BOX_ERROR,
+			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("The target cell should contain an expression"));
 			focus_on_entry (GTK_WIDGET (dd->resultrangetext));
 			goto error;

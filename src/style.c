@@ -311,7 +311,7 @@ font_init (void)
 			fontmap_fn, lc_all, lang);
 
 		/* Ick ! We should do this somewhere when we have a command context. */
-		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, msg);
+		gnumeric_notice (NULL, GTK_MESSAGE_ERROR, msg);
 		exit (1);
 	}
 

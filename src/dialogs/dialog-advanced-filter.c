@@ -242,7 +242,7 @@ loop:
 
 	text = gtk_entry_get_text (GTK_ENTRY (list_range));
 	if (!parse_range (text, &list)) {
- 	        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+ 	        gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("You should introduce a valid cell names "
 				   "in 'List Range:'"));
 		gtk_widget_grab_focus (list_range);
@@ -255,7 +255,7 @@ loop:
 	text = gtk_entry_get_text (GTK_ENTRY (criteria_range));
 	error_flag = parse_range (text, &crit);
 	if (! error_flag) {
- 	        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+ 	        gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("You should introduce a valid cell names "
 				   "in 'Criteria Range:'"));
 		gtk_widget_grab_focus (criteria_range);
@@ -269,7 +269,7 @@ loop:
 		Range r;
 	        text = gtk_entry_get_text (GTK_ENTRY (copy_to));
 		if (!parse_range (text, &r)) {
-		        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		        gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid "
 					   "cell range in 'Copy To:'"));
 			gtk_widget_grab_focus (copy_to);
@@ -316,7 +316,7 @@ loop:
 	case OK: break;
 
 	case N_COLUMNS_ERROR:
- 	        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+ 	        gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("You should introduce the same number of "
 				   "columns in the `List Range' and in "
 				   "`Criteria Range:'"));

@@ -1146,29 +1146,29 @@ wbcg_progress_message_set (CommandContext *cc, gchar const *msg)
 static void
 wbcg_error_system (CommandContext *cc, char const *msg)
 {
-	gnumeric_notice ((WorkbookControlGUI *)cc, GNOME_MESSAGE_BOX_ERROR, msg);
+	gnumeric_notice ((WorkbookControlGUI *)cc, GTK_MESSAGE_ERROR, msg);
 }
 static void
 wbcg_error_plugin (CommandContext *cc, char const *msg)
 {
-	gnumeric_notice ((WorkbookControlGUI *)cc, GNOME_MESSAGE_BOX_ERROR, msg);
+	gnumeric_notice ((WorkbookControlGUI *)cc, GTK_MESSAGE_ERROR, msg);
 }
 static void
 wbcg_error_read (CommandContext *cc, char const *msg)
 {
-	gnumeric_notice ((WorkbookControlGUI *)cc, GNOME_MESSAGE_BOX_ERROR, msg);
+	gnumeric_notice ((WorkbookControlGUI *)cc, GTK_MESSAGE_ERROR, msg);
 }
 
 static void
 wbcg_error_save (CommandContext *cc, char const *msg)
 {
-	gnumeric_notice ((WorkbookControlGUI *)cc, GNOME_MESSAGE_BOX_ERROR, msg);
+	gnumeric_notice ((WorkbookControlGUI *)cc, GTK_MESSAGE_ERROR, msg);
 }
 static void
 wbcg_error_invalid (CommandContext *cc, char const *msg, char const * value)
 {
 	char *buf = g_strconcat (msg, " : ", value, NULL);
-	gnumeric_notice ((WorkbookControlGUI *)cc, GNOME_MESSAGE_BOX_ERROR, buf);
+	gnumeric_notice ((WorkbookControlGUI *)cc, GTK_MESSAGE_ERROR, buf);
 	g_free (buf);
 }
 static void
@@ -1754,8 +1754,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 			 old_text,
 			 new_text);
 
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
-				 err);
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, err);
 		g_free (err);
 		break;
 	}
@@ -2546,7 +2545,7 @@ insert_bonobo_object (WorkbookControlGUI *wbcg, char const **interfaces)
 		}
 		msg = g_strdup_printf (_("Unable to create object of type \'%s\'"),
 				       obj_id);
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 	}
 	scg_mode_edit (sc);

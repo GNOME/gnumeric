@@ -361,7 +361,7 @@ name_guru_add (NameGuruState *state)
 
 	/* If the expression is invalid */
 	if (expr == NULL) {
-		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR, perr.message);
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, perr.message);
 		gtk_widget_grab_focus (GTK_WIDGET (state->expr_text));
 		parse_error_free (&perr);
 		return FALSE;
@@ -374,7 +374,7 @@ name_guru_add (NameGuruState *state)
 			expr_name_set_expr (expr_name, expr);
 			dirty = TRUE;
 		} else
-			gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
+			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 					 _("You cannot redefine a builtin name."));
 	} else {
 		char const *error = NULL;
@@ -391,7 +391,7 @@ name_guru_add (NameGuruState *state)
 		expr_name = expr_name_add (&pos, name, expr, &error);
 		if (expr_name == NULL) {
 			g_return_val_if_fail (error != NULL, FALSE);
-			gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR, error);
+			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, error);
 			gtk_widget_grab_focus (GTK_WIDGET (state->expr_text));
 			return FALSE;
 		}
@@ -587,7 +587,7 @@ dialog_define_names (WorkbookControlGUI *wbcg)
 
 	state = g_new0 (NameGuruState, 1);
 	if (name_guru_init (state, wbcg)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Name Guru."));
 		g_free (state);
 		return;

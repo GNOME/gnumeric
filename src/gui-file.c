@@ -151,14 +151,14 @@ can_try_save_to (WorkbookControlGUI *wbcg, const char *name)
 	} else if (name [strlen (name) - 1] == '/' ||
 	    g_file_test (name, G_FILE_TEST_IS_DIR)) {
 		msg = g_strdup_printf (_("%s\nis a directory name"), name);
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		result = FALSE;
 	} else if (access (name, W_OK) != 0 && errno != ENOENT) {
 		msg = g_strdup_printf (
 		      _("You do not have permission to save to\n%s"),
 		      name);
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		result = FALSE;
 	} else if (g_file_exists (name)) {
@@ -207,7 +207,7 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 	gboolean success = FALSE;
 
 	if (*name == 0 || name [strlen (name) - 1] == '/') {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Please enter a file name,\nnot a directory"));
 		return FALSE;
 	}

@@ -350,7 +350,7 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	target = global_range_parse (state->sheet,
 		gtk_entry_get_text (GTK_ENTRY (state->set_cell_entry)));
 	if (target == NULL) {
-		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("You should introduce a valid cell name in 'Set Cell:'!"));
 		focus_on_entry (GTK_WIDGET (state->set_cell_entry));
 		return;
@@ -359,7 +359,7 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	state->set_cell = sheet_cell_get (r->a.sheet, r->a.col, r->a.row);
 	value_release (target);
 	if (state->set_cell == NULL || !cell_has_expr (state->set_cell)) {
-		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("The cell named in 'Set Cell:' must contain a formula!"));
 		focus_on_entry (GTK_WIDGET (state->set_cell_entry));
 		return;
@@ -369,7 +369,7 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	target = global_range_parse (state->sheet,
 		gtk_entry_get_text (GTK_ENTRY (state->change_cell_entry)));
 	if (target == NULL) {
-		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("You should introduce a valid cell "
 				   "name in 'By Changing Cell:'!"));
 		focus_on_entry (GTK_WIDGET (state->change_cell_entry));
@@ -380,7 +380,7 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	state->change_cell = sheet_cell_get (r->a.sheet, r->a.col, r->a.row);
 	value_release (target);
 	if (cell_has_expr (state->change_cell)) {
-		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("The cell named in 'By changing cell' "
 				   "must not contain a formula."));
 		focus_on_entry (GTK_WIDGET (state->change_cell_entry));
@@ -393,7 +393,7 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	if (format != NULL) 
 		target_value_format = format;
 	if (value == NULL){
-		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("The value given in 'To Value:' "
 				   "is not valid."));
 		focus_on_entry (GTK_WIDGET (state->to_value_entry));		
@@ -654,7 +654,7 @@ dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->sheet = sheet;
 
 	if (dialog_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Goal-Seek dialog."));
 		g_free (state);
 		return;

@@ -615,7 +615,7 @@ gnumeric_expr_entry_parse_to_list (GnumericExprEntry *ee, Sheet *sheet)
 static void
 error_in_entry (WorkbookControlGUI *wbcg, GtkWidget *entry, const char *err_str)
 {
-        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, err_str);
+        gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, err_str);
 
 	gtk_widget_grab_focus (entry);
 	gtk_entry_set_position (GTK_ENTRY (entry), 0);
@@ -1156,7 +1156,7 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      GTK_SIGNAL_FUNC (corr_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (tool_update_sensitivity_cb),
 			      0)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Correlation Tool dialog."));
 		g_free (state);
 		return 0;
@@ -1271,7 +1271,7 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      GTK_SIGNAL_FUNC (cov_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (tool_update_sensitivity_cb),
 			      0)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Covariance Tool dialog."));
 		g_free (state);
 		return 0;
@@ -1499,7 +1499,7 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->input_var2_str = NULL;
 
 	if (dialog_desc_stat_tool_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Descriptive Statistics Tool dialog."));
 		g_free (state);
 		return 0;
@@ -1602,7 +1602,7 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      GTK_SIGNAL_FUNC (rank_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (tool_update_sensitivity_cb),
 			      0)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Rank and  Percentile Tools dialog."));
 		g_free (state);
 		return 0;
@@ -2011,7 +2011,7 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 	state->input_var2_str = _("_Variable 2 Range:");;
 
 	if (dialog_ttest_tool_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Mean Tests Tool dialog."));
 		g_free (state);
 		return 0;
@@ -2197,7 +2197,7 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->input_var2_str = _("_Variable 2 Range");
 
 	if (dialog_ftest_tool_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the FTest Tool dialog."));
 		g_free (state);
 		return 0;
@@ -2451,7 +2451,7 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->input_var2_str = NULL;
 
 	if (dialog_sampling_tool_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Sampling Tool dialog."));
 		g_free (state);
 		return 0;
@@ -2826,7 +2826,7 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR, text);
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, text);
 		g_free (text);		
 		break;
 	}
@@ -3000,7 +3000,7 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->input_var2_str = NULL;
 
 	if (dialog_random_tool_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Random Tool dialog."));
 		g_free (state);
 		return 0;
@@ -3063,20 +3063,20 @@ regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
 		gtk_widget_destroy (state->dialog);
 		break;
 	case 1:
-	        gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
+	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 			      _("There are too few data points to conduct this "
 				"regression.\nThere must be at least as many "
 				"data points as free variables."));
 		break;
 	case 2:
-	        gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
+	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 			      _("Two or more of the independent variables "
 				"are linearly dependent,\nand the regression "
 				"cannot be calculated. Remove one of these\n"
 				"variables and try the regression again."));
                 break;
 	case 3:
-		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 			      _("There must be an equal number of entries "
 				"for each variable in the regression."));
                 break;
@@ -3267,7 +3267,7 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->help_link = "regression-tool.html";
 
 	if (dialog_regression_tool_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Regression Tool dialog."));
 		g_free (state);
 		return 0;
@@ -3438,7 +3438,7 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->input_var2_str = NULL;
 
 	if (dialog_exp_smoothing_tool_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Exponential Smoothing "
 				   "Tool dialog."));
 		g_free (state);
@@ -3608,7 +3608,7 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->input_var2_str = NULL;
 
 	if (dialog_average_tool_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Moving Average Tool dialog."));
 		g_free (state);
 		return 0;
@@ -3711,7 +3711,7 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      GTK_SIGNAL_FUNC (fourier_tool_ok_clicked_cb),
 			      GTK_SIGNAL_FUNC (tool_update_sensitivity_cb),
 			      0)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Fourier Analyis Tool dialog."));
 		g_free (state);
 		return 0;
@@ -4065,7 +4065,7 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->input_var2_str = _("Bin _Range:");
 
 	if (dialog_histogram_tool_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the Histogram Tool dialog."));
 		g_free (state);
 		return 0;
@@ -4243,7 +4243,7 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->input_var2_str = NULL;
 
 	if (dialog_anova_single_tool_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the ANOVA (single factor) tool dialog."));
 		g_free (state);
 		return 0;
@@ -4446,7 +4446,7 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->input_var2_str = NULL;
 
 	if (dialog_anova_two_factor_tool_init (state)) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the ANOVA (two factor) tool dialog."));
 		g_free (state);
 		return 0;

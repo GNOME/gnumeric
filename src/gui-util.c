@@ -51,11 +51,13 @@ gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
  * Wrap overlong lines.
  */
 void
-gnumeric_notice (WorkbookControlGUI *wbcg, char const *type, char const *str)
+gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, char const *str)
 {
 	GtkWidget *dialog;
 
-	dialog = gnome_message_box_new (str, type, GNOME_STOCK_BUTTON_OK, NULL);
+	dialog = gtk_message_dialog_new (wbcg == NULL ? NULL : wbcg_toplevel (wbcg),
+                                         GTK_DIALOG_DESTROY_WITH_PARENT, type,
+					 GTK_BUTTONS_OK, str);
 
 	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
 }
@@ -156,17 +158,21 @@ gint
 gnumeric_dialog_run (WorkbookControlGUI *wbcg, GtkDialog *dialog)
 {
 	GtkWindow *toplevel;
+	gint      result;
 
-	g_return_val_if_fail (GNOME_IS_DIALOG (dialog), -1);
+	g_return_val_if_fail (GTK_IS_DIALOG (dialog), GTK_RESPONSE_NONE);
 
 	if (wbcg) {
-		g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), -1);
+		g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), GTK_RESPONSE_NONE);
 
 		toplevel = wbcg_toplevel (wbcg);
 		if (GTK_WINDOW (dialog)->transient_parent != toplevel)
 			gtk_window_set_transient_for (GTK_WINDOW (dialog), toplevel);
 	}
-	return gtk_dialog_run (dialog);
+
+	result = gtk_dialog_run (dialog);
+	gtk_widget_destroy (dialog);	
+	return result;
 }
 
 /**

@@ -114,7 +114,7 @@ loop:
 			int tmp = atoi (gtk_entry_get_text (
 				GTK_ENTRY (p.minutes_entry)));
 			if (tmp <= 0) {
-				gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 						 _("You should introduce a proper "
 						   "number of minutes in the entry."));
 				gtk_widget_grab_focus (p.minutes_entry);
