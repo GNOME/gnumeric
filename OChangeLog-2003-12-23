@@ -1,3 +1,8 @@
+2001-03-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_event) : Now that we are zooming this
+	  canvas we need to transform the coordinates.
+
 2001-03-16  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-bar.c (item_bar_calc_size) : rename from

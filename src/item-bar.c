@@ -515,17 +515,14 @@ item_bar_translate (GnomeCanvasItem *item, double dx, double dy)
 }
 
 static ColRowInfo *
-is_pointer_on_division (ItemBar *item_bar, int pos, int *the_total, int *the_element)
+is_pointer_on_division (ItemBar const *item_bar, int pos, int *the_total, int *the_element)
 {
 	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->scg->canvas);
+	Sheet *sheet = item_bar->scg->sheet;
 	ColRowInfo *cri;
-	Sheet *sheet;
-	int i, total;
+	int i, total = 0;
 
-	total = 0;
-	sheet = item_bar->scg->sheet;
-
-	for (i = item_bar->first_element; total < pos; i++){
+	for (i = item_bar->first_element; total < pos; i++) {
 		if (item_bar->is_col_header) {
 			if (i >= SHEET_MAX_COLS)
 				return NULL;
@@ -723,7 +720,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->scg->canvas);
 	gboolean const is_cols = item_bar->is_col_header;
 	double const zoom = sheet->last_zoom_factor_used;
-	int pos, start, element;
+	int pos, start, element, x, y;
 
 	/* NOTE :
 	 * No need to map coordinates since we do the zooming of the item bars manually
@@ -731,11 +728,13 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	 */
 	switch (e->type){
 	case GDK_ENTER_NOTIFY:
-		set_cursor (item_bar, e->crossing.x, e->crossing.y);
+		gnome_canvas_w2c (canvas, e->crossing.x, e->crossing.y, &x, &y);
+		set_cursor (item_bar, x, y);
 		break;
 
 	case GDK_MOTION_NOTIFY:
-		pos = (is_cols) ? e->motion.x : e->motion.y;
+		gnome_canvas_w2c (canvas, e->motion.x, e->motion.y, &x, &y);
+		pos = (is_cols) ? x : y;
 
 		/* Do col/row resizing or incremental marking */
 		if (item_bar->resize_pos != -1) {
@@ -749,7 +748,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 							GDK_POINTER_MOTION_MASK |
 							GDK_BUTTON_RELEASE_MASK,
 							item_bar->change_cursor,
-							e->button.time);
+							e->motion.time);
 			}
 
 			npos = pos - item_bar->resize_start_pos;
@@ -773,9 +772,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			gnome_canvas_request_redraw (canvas, 0, 0, INT_MAX/2, INT_MAX/2);
 
 		} else if (item_bar->start_selection != -1) {
-			int x, y, left, top, width, height, col, row;
+			int left, top, width, height, col, row;
 
-			gnome_canvas_w2c (canvas, e->motion.x, e->motion.y, &x, &y);
 			gnome_canvas_get_scroll_offsets (canvas, &left, &top);
 
 			width = GTK_WIDGET (canvas)->allocation.width;
@@ -807,7 +805,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			} else
 				scg_stop_sliding (item_bar->scg);
 		}
-		set_cursor (item_bar, e->motion.x, e->motion.y);
+		set_cursor (item_bar, x, y);
 		break;
 
 	case GDK_BUTTON_PRESS:
@@ -817,18 +815,19 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		scg_mode_edit (item_bar->scg);
 
+		gnome_canvas_w2c (canvas, e->button.x, e->button.y, &x, &y);
 		if (is_cols) {
-			cri = is_pointer_on_division (item_bar, e->button.x,
+			cri = is_pointer_on_division (item_bar, x,
 						      &start, &element);
-			if (e->button.y < item_bar->indent)
-				return outline_button_press (item_bar, element, e->button.y);
+			if (y < item_bar->indent)
+				return outline_button_press (item_bar, element, y);
 			if (element > SHEET_MAX_COLS-1)
 				break;
 		} else {
-			cri = is_pointer_on_division (item_bar, e->button.y,
+			cri = is_pointer_on_division (item_bar, y,
 						      &start, &element);
-			if (e->button.x < item_bar->indent)
-				return outline_button_press (item_bar, element, e->button.x);
+			if (x < item_bar->indent)
+				return outline_button_press (item_bar, element, x);
 			if (element > SHEET_MAX_ROWS-1)
 				break;
 		}
