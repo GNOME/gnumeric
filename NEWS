@@ -1,7 +1,8 @@
 Gnumeric 1.2.10
 
 Morten:
-	* Fix crash related to database functions.
+	* Fix crash related to database functions (#138600).
+	* Fix [h]:mm precision (#138182).
 
 --------------------------------------------------------------------------
 
