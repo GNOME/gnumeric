@@ -151,8 +151,7 @@ col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 		if (cell && !cell_is_blank (cell)) {
 			gchar *header_str, *generic_str = str;
 			header_str = value_get_as_string (cell->value);
-#warning Untranslated string!
-			str = g_strdup_printf ("%s (%s)", header_str, generic_str);
+			str = g_strdup_printf (_("%s (%s)"), header_str, generic_str);
 			g_free (header_str);
 			g_free (generic_str);
 		} 
@@ -317,8 +316,7 @@ build_sort_field_menu (gint start, gint end, gint index, GtkWidget *menu, SortFl
 			  ? col_row_name (sheet, this_end, index, state->header, TRUE)
 			  : col_row_name (sheet, index, this_end, state->header, FALSE);
 			
-#warning: Untranslated string (use "%s to %s" when preparing for translation)			
-			str = g_strdup_printf("%s - %s", str_start, str_end);
+			str = g_strdup_printf(_("%s to %s"), str_start, str_end);
 			g_free(str_start);
 			g_free(str_end);
 
@@ -785,9 +783,8 @@ build_sort_field_base_menu (SortFlowState *state)
 
 	if (items == NULL) {
 		GtkWidget *item;
-#warning: Untranslated strings!
 		item = (GtkWidget *) gtk_menu_item_new_with_label(state->is_cols ? 
-			"no available row" : "no available column");
+			_("no available row"): _("no available column"));
 		gtk_widget_set_sensitive( GTK_WIDGET (item), FALSE);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		gtk_widget_show (item);
@@ -1030,8 +1027,7 @@ dialog_init (SortFlowState *state)
 		"changed",
 		G_CALLBACK (cb_sort_selection_changed), state);
 
-#warning Untranslated string (Use "Header" when enabling tranlation)
-	state->header_column = gtk_tree_view_column_new_with_attributes ("",
+	state->header_column = gtk_tree_view_column_new_with_attributes (_("Header"),
 							   gtk_cell_renderer_text_new (),
 							   "text", ITEM_HEADER, NULL);
 	gtk_tree_view_append_column (state->treeview, state->header_column);

@@ -128,7 +128,6 @@
 		  <property name="ypad">0</property>
 		  <accessibility>
 		    <atkrelation target="cell_sort_col_rb" type="label-for"/>
-		    <atkrelation target="cell_sort_row_rb" type="label-for"/>
 		  </accessibility>
 		</widget>
 		<packing>
@@ -214,7 +213,7 @@
 		<widget class="GtkCheckButton" id="retain_format_button">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">_Preserves Formats</property>
+		  <property name="label" translatable="yes">Sorting _preserves formats</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -240,8 +239,9 @@
 		  <child>
 		    <widget class="GtkRadioButton" id="cell_sort_row_rb">
 		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">Sort columns by the specified rows</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">_Right-Left</property>
+		      <property name="label" translatable="yes">_Left-Right</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -261,6 +261,7 @@
 		  <child>
 		    <widget class="GtkRadioButton" id="cell_sort_col_rb">
 		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">Sort rows by the specified columns</property>
 		      <property name="can_focus">True</property>
 		      <property name="label" translatable="yes">_Top-Bottom</property>
 		      <property name="use_underline">True</property>
@@ -340,6 +341,7 @@
 		  <child>
 		    <widget class="GtkButton" id="up_button">
 		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">Move selected field up in the sort order</property>
 		      <property name="can_focus">True</property>
 		      <property name="label">gtk-go-up</property>
 		      <property name="use_stock">True</property>
@@ -350,6 +352,7 @@
 		  <child>
 		    <widget class="GtkButton" id="down_button">
 		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">Move the selected field down in the sort order</property>
 		      <property name="can_focus">True</property>
 		      <property name="label">gtk-go-down</property>
 		      <property name="use_stock">True</property>
@@ -360,6 +363,7 @@
 		  <child>
 		    <widget class="GtkButton" id="clear_button">
 		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">Clear all fields from the sort specification</property>
 		      <property name="can_default">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="label">gtk-clear</property>
@@ -371,6 +375,7 @@
 		  <child>
 		    <widget class="GtkButton" id="delete_button">
 		      <property name="visible">True</property>
+		      <property name="tooltip" translatable="yes">Remove the selected field from the sort specification</property>
 		      <property name="can_focus">True</property>
 		      <property name="label">gtk-remove</property>
 		      <property name="use_stock">True</property>
@@ -433,6 +438,7 @@
 	      <child>
 		<widget class="GtkButton" id="add_button">
 		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Adds any fields in the range box to the left to the sort criteria or allows selection of fields from a menu.</property>
 		  <property name="can_focus">True</property>
 		  <property name="label">gtk-add</property>
 		  <property name="use_stock">True</property>

@@ -1,5 +1,11 @@
 Gnumeric 1.3.0
 
+Andreas:
+	* Make new strings translatable.
+
+John Gill:
+	* Tool tips for the sort dialog.
+
 Morten:
 	* Clean out work-arounds for old GTK+.
 

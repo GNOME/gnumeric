@@ -1,3 +1,13 @@
+2003-12-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-cell-sort.c: make various strings translatable and remove
+	  corresponding warnings.
+	
+2003-12-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+	mostly for John Gill <sufc@utvinternet.com>
+
+	* cell-sort.glade: add tooltips
+
 2003-12-24  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search.c (make_matches_table): Set single-paragraph-mode.
