@@ -464,7 +464,7 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 		cb_format_as_percent, "Gnumeric_FormatAsPercent"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Thousand separator"), N_("Sets the format of the selected cells to include a thousands separator"),
-		cb_format_with_thousands, "Gnumeric_FormatThousandSeperator"),
+		cb_format_with_thousands, "Gnumeric_FormatThousandSeparator"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Add decimals"), N_("Increases the number of decimals displayed"),
 		cb_format_inc_precision, "Gnumeric_FormatAddPrecision"),

@@ -1,3 +1,8 @@
+2002-01-28 Joshua R. Odom <jrodom@stic.net>
+
+	* src/application.c : clean up the file names to match the code.
+	* src/pixmaps/Makefile.am : ditto.
+
 2002-01-28  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook.c (workbook_sheet_move) : flag if the move did

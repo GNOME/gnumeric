@@ -811,7 +811,7 @@
 	    verb="FormatAsPercent"/>
 
 	<toolitem name="Thousands"
-	    pixtype="stock" pixname="Gnumeric_FormatThousandSeperator"
+	    pixtype="stock" pixname="Gnumeric_FormatThousandSeparator"
 	    _label="Thousand separator"
 	    _tip="Sets the format of the selected cells to include a thousands separator"
 	    verb="FormatWithThousands"/>
