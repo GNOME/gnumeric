@@ -20,20 +20,23 @@ Release Critical
 - While we're playing with those functions, lets add simple ones like inc/dec
   font size and things like that.
 - Copy sheet, and insert new sheet both append to the end of the sheet list
-  rather than insereting before the current sheet.
+  rather than inserting before the current sheet.
 
 Post 0.57 Changes
 -----------------
-- Fix Borders
-- Move the string -> parsing from parser to expr eval.
 - Model View Controller
+- Move the string -> parsing from parser to expr eval.
+- Fix Borders
 
 Long term breakage
 ------------------
-- We should save per block maximums.
 
 - Changing an expression name that is in use does not recalc, or regen depends
   correctly.
+
+- references in names do not get changed with cut/paste or ins/del row/col.
+
+- We do not format fractional seconds correctly.
 
 - The max row/col canvas scroll size is still hard coded.
 
@@ -55,8 +58,6 @@ Long term breakage
 
 - The File->Print Preview icon is too big.  Use the stock version when the next
   release of gnome-libs is made. (tigert is adding to gnome-libs)
-
-- Names : addresses not changing with row/col ins/del.
 
 - Underline should scale with font size.  (Say, max (1, font->descent/4?)
   gnome-print has a function we could use for printing which returns the
