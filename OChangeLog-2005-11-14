@@ -2,6 +2,19 @@
 
 	* Release 1.4.3
 
+2005-03-08  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=161404
+	* autogen.sh : Disable USE_COMMON_DOC_BUILD for now so that we can
+	  customize docdir.  Fix
+	* xmldocs.make : sync doc installation dir with where the code expects
+	  it to live
+
+2005-03-08  Jody Goldberg <jody@gnome.org>
+
+	* src/main-application.c (gnumeric_arg_parse) : call gnome_vfs_init,
+	  and gome_authentication_manager_init in the WITH_GNOME case.
+
 2005-03-07  Jody Goldberg <jody@gnome.org>
 
 	* src/validation.c (validation_eval) : in terms of validation

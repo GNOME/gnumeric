@@ -13,10 +13,12 @@ J.H.M. Dassen (Ray):
 
 Jody:
 	* Fix xls import for fit to page.
-	* Fix OFFSET for asymetric ranges [#166764]
-	* Fix SUMIF for asymetric ranges [#166769]
-	* Update xml schema
+	* Fix OFFSET for asymetric ranges. [#166764]
+	* Fix SUMIF for asymetric ranges. [#166769]
+	* Update xml schema. (thanks to Montel Laurent)
 	* Fix the ui for 'in-list' and 'custom' validation.
+	* Disable xmldocs.make regeneration to fix path to docs. [#161404]
+	* enable gnome_authentication_manager. [#160777]
 
 Jon Kåre:
 	* Avoid a session-end hang.

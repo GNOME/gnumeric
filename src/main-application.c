@@ -130,6 +130,8 @@ warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
 #include <libgnome/gnome-program.h>
 #include <libgnome/gnome-init.h>
 #include <libgnomeui/gnome-ui-init.h>
+#include <libgnomeui/gnome-authentication-manager.h>
+#include <libgnomevfs/gnome-vfs-init.h>
 
 static GnomeProgram *program;
 
@@ -145,14 +147,17 @@ gnumeric_arg_parse (int argc, char const *argv [])
 {
 	poptContext ctx = NULL;
 	int i;
+	gboolean has_gui = TRUE;
 
 	/* no need to init gtk when dumping function info */
 	for (i = 0 ; i < argc ; i++)
-		if (argv[i] && 0 == strncmp ("--dump-func", argv[i], 11))
+		if (argv[i] && 0 == strncmp ("--dump-func", argv[i], 11)) {
+			has_gui = FALSE;
 			break;
+		}
 
 	program = gnome_program_init (PACKAGE, VERSION,
-		(i < argc) ? LIBGNOME_MODULE : LIBGNOMEUI_MODULE,
+		has_gui ? LIBGNOMEUI_MODULE : LIBGNOME_MODULE,
 		argc, (char **)argv,
 		GNOME_PARAM_APP_PREFIX,		GNUMERIC_PREFIX,
 		GNOME_PARAM_APP_SYSCONFDIR,	GNUMERIC_SYSCONFDIR,
@@ -160,6 +165,9 @@ gnumeric_arg_parse (int argc, char const *argv [])
 		GNOME_PARAM_APP_LIBDIR,		gnumeric_lib_dir,
 		GNOME_PARAM_POPT_TABLE,		gnumeric_popt_options,
 		NULL);
+	gnome_vfs_init ();
+	if (has_gui)
+		gnome_authentication_manager_init ();
 
 	g_object_get (G_OBJECT (program),
 		GNOME_PARAM_POPT_CONTEXT,	&ctx,
