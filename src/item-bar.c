@@ -585,10 +585,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			gnome_canvas_request_redraw (
 				canvas, 0, 0, INT_MAX, INT_MAX);
 
-		}
-		else if (ITEM_BAR_IS_SELECTING (item_bar))
+		} else if (ITEM_BAR_IS_SELECTING (item_bar))
 		{
-
 			element = get_col_from_pos (item_bar, pos);
 
 			gtk_signal_emit (
@@ -597,8 +595,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				element, 0);
 
 			set_cursor (item_bar, pos);
-		}
-		else
+		} else
 			set_cursor (item_bar, pos);
 		break;
 

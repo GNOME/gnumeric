@@ -3651,9 +3651,9 @@ void
 sheet_row_set_default_size_pts (Sheet *sheet, double height_pts,
 				gboolean thick_a, gboolean thick_b)
 {
-	/* Why XL chooses to be asymetric I don't know */
-	int a = 1; /* FIXME : This should be 3 */
-	int b = 0;
+	/* There are an addition few pixels above due the the fonts ascent */
+	int a = 1;
+	int b = 0; /* Why XL chooses to be asymetric I don't know */
 
 	if (thick_a) ++a;
 	if (thick_b) ++b;

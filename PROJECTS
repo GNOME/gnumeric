@@ -17,8 +17,8 @@ Description                                             Difficulty  Integration
   functions to samples/regress.gnumeric so we can be
   sure that we are returning the right error code.
 
-- libgladeify the pluging manager dialog and move it	Low	    Low
-  into the dialogs directory.
+- libgladeify the pluging manager dialog and move the	Low	    Low
+  UI into the dialogs directory.
 
 - Enhance plugin interface and manager to supply	Medium	    Medium
   descriptive information about the plugin, and allow
@@ -27,6 +27,7 @@ Description                                             Difficulty  Integration
 
 - Add tooltips for colours in
   src/widgets/widget-color-combo.c			Low	    Low.
+  Have a look at widget-pixmap-combo.c for an example.
 
 - Save/Restore the values of the last selected colours	Low	    Low.
   from the toolbar for background or font.

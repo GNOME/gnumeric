@@ -1048,11 +1048,6 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("Plu_g-ins..."), N_("Gnumeric plugins"),
-	  plugins_cmd },
-
-	GNOMEUIINFO_SEPARATOR,
-
 	GNOMEUIINFO_MENU_PRINT_SETUP_ITEM(print_setup_cmd, NULL),
 	GNOMEUIINFO_MENU_PRINT_ITEM(file_print_cmd, NULL),
 	{ GNOME_APP_UI_ITEM, N_("Print pre_view"), N_("Print preview"),
@@ -1248,6 +1243,11 @@ static GnomeUIInfo workbook_menu_format [] = {
 
 /* Tools menu */
 static GnomeUIInfo workbook_menu_tools [] = {
+	{ GNOME_APP_UI_ITEM, N_("Plu_g-ins..."), N_("Gnumeric plugins"),
+	  plugins_cmd },
+
+	GNOMEUIINFO_SEPARATOR,
+
 	{ GNOME_APP_UI_ITEM, N_("Auto _Correct..."), N_("Auto Correct"),
 	  autocorrect_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Auto Save..."), N_("Auto Save"),

@@ -1,3 +1,10 @@
+2000-02-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (format_value) : Empty formats produce empty cells.
+
+	* src/workbook.c (workbook_menu_tools) : Move the plugins menu item to
+	  the Tools menu.
+
 2000-02-14  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialogs/analysis-tools.glade, src/analysis-tools.c,

@@ -2446,28 +2446,6 @@ get_row_height_units (guint16 height)
 }
 
 /**
- * get_units_net_of_margins:
- * @units 	A dimension in points
- * @cri         A ColRowInfo for a row or column.
- *
- * Converts an external (with margins) row height/column width in
- * points to an internal (without margins) height/width, as this is
- * what the sheet_<foo>_set_{width|height}_units functions
- * want. Returns internal dimension.
- */
-static double
-get_units_net_of_margins (double units, const ColRowInfo * cri)
-{
-	/* Return an arbitary non 0 value on catastrophic failure */
-	g_return_val_if_fail (cri != NULL, 1.);
-
-	units -= (cri->margin_a + cri->margin_b + 1);
-	if (units < 0)
-		units = 1.;
-	return units;
-}
-
-/**
  * ms_excel_read_row:
  * @q 		A BIFF query
  * @sheet	The Excel sheet
@@ -2504,10 +2482,6 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 	 */
 	if (!is_std_height) {
 		double hu = get_row_height_units (height);
-		/* Subtract margins */
-		hu = get_units_net_of_margins
-			(hu, sheet_row_get_info (sheet->gnum_sheet, row));
-
 		sheet_row_set_size_pts (sheet->gnum_sheet, row, hu, TRUE);
 	}
 
@@ -3901,6 +3875,9 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 				/* FIXME FIXME FIXME :
 				 * We are sizing the window including the toolbars,
 				 * menus, and notbook tabs.  Excel does not.
+				 *
+				 * NOTE : This is the size of the MDI sub-window, not the size of
+				 * the containing excel window.
 				 */
 				workbook_view_set_size (wb->gnum_wb,
 							.5 + width *

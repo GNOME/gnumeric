@@ -1338,9 +1338,11 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color)
 		}
 	}
 
-	if (entry.format [0] == 0)
-		is_general = 1;
-	else if (strcmp (entry.format, "General") == 0) {
+	/* Empty formats should be ignored */
+	if (entry.format [0] == '\0')
+		return g_strdup ("");
+
+	if (strcmp (entry.format, "General") == 0) {
 		entry.format += 7;
 		is_general = 1;
 	}
