@@ -23,7 +23,7 @@ Release Critical
 Pending Patches
 ---------------
 
-- Yukihiro's IM support (broken in the context of gnome2)
+- Nakai's IM support (broken in the context of gnome2)
 - http://flowernet.gr.jp/jado/comp/patch/gnumeric/gnumeric-1.0.4-excel-cjk.patch   
 
 Long term breakage
