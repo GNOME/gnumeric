@@ -6,6 +6,7 @@ Morten:
 Jon Kåre:
         * Separate GUI for showing progress and messages before first 
 	  spreadsheet window is displayed.
+	* Fix 98661.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.12
