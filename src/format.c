@@ -118,11 +118,16 @@ format_get_currency (gboolean *precedes, gboolean *space_sep)
 		*space_sep = (lc->p_sep_by_space == 1);
 
 	if (locale_currency == NULL) {
-		locale_currency = (lc->currency_symbol == NULL ||
-				   *lc->currency_symbol == '\0')
-			? g_strdup ("$")
-			: g_locale_to_utf8 (lc->currency_symbol, -1,
-					    NULL, NULL, NULL);
+		if (lc->currency_symbol && *lc->currency_symbol) {
+			locale_currency =
+				g_locale_to_utf8 (lc->currency_symbol, -1,
+						  NULL, NULL, NULL);
+			if (!locale_currency)
+				g_warning ("Failed to convert locale currency symbol \"%s\" to UTF-8.",
+					   lc->currency_symbol);
+		}
+		if (!locale_currency)
+			locale_currency = g_strdup ("$");
 	}
 	return locale_currency;
 }

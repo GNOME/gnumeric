@@ -218,11 +218,11 @@ currency_date_format_init (void)
 		post_rep = post = (char *)"";
 		pre_rep = (char *)"* ";
 		pre = g_strconcat ("\"", curr,
-				   (space_sep) ? "\" " : "\"", NULL);
+				   (space_sep ? "\" " : "\""), NULL);
 	} else {
 		pre_rep = pre = (char *)"";
 		post_rep = (char *)"* ";
-		post = g_strconcat ((space_sep) ? " \"" : "\"",
+		post = g_strconcat ((space_sep ? " \"" : "\""),
 				    curr, "\"", NULL);
 	}
 

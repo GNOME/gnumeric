@@ -1,5 +1,8 @@
 2002-12-17  Morten Welinder  <terra@diku.dk>
 
+	* src/format.c (format_get_currency): Make really sure not to
+	return NULL.
+
 	* src/xml-io.c (xml_io_conventions): New function.
 	(xml_parse_ctx_new): Add exprconv member to our context.
 	(xml_parse_ctx_destroy): Free it.
