@@ -219,13 +219,8 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		}
 		return value_new_string ("");
 	} else if (!g_strcasecmp (info_type, "protect")) {
-		/*
-		 * FIXME: We can only implement this when we have proper
-		 * cell locking in place. For now we will ALWAYS return 0
-		 * this is correct as no cell can ever be locked.
-		 */
-		/* 0 if the cell is not locked, and 1 if the cell is locked. */
-		return value_new_int (0);
+		MStyle const *mstyle = sheet_style_get (ei->pos->sheet, ref.col, ref.row);
+		return value_new_int (mstyle_get_content_locked (mstyle) ? 1 : 0);
 	} else if (!g_strcasecmp (info_type, "row")) {
 		return value_new_int (ref.row + 1);
 	} else if (!g_strcasecmp (info_type, "type")) {
