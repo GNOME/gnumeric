@@ -100,7 +100,7 @@ print_page_repeated_rows (Sheet *sheet,
 
 	base_y = pj->height - base_y;
 
-	if (pj->pi->print_line_divisions){
+	if (pj->pi->print_line_divisions) {
 		print_cell_grid (
 			pj->print_context,
 			sheet,
@@ -129,7 +129,7 @@ print_page_repeated_cols (Sheet *sheet,
 
 	base_y = pj->height - base_y;
 
-	if (pj->pi->print_line_divisions){
+	if (pj->pi->print_line_divisions) {
 		print_cell_grid (
 			pj->print_context,
 			sheet,
@@ -403,17 +403,22 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		/*
 		 * Print the repeated rows and columns
 		 */
-		if (pj->pi->repeat_left.use){
-			print_page_repeated_rows (
-				sheet, start_col, start_row, end_col, end_row,
-				x + pj->repeat_cols_used_x, y, print_width, print_height, pj);
+		if (pj->pi->repeat_top.use){
+			print_page_repeated_rows (sheet,
+				start_col, start_row, end_col, end_row,
+				x + pj->repeat_cols_used_x,
+				y,
+				print_width - pj->repeat_cols_used_x,
+				print_height,
+				pj);
 			y += pj->repeat_rows_used_y;
 		}
 
-		if (pj->pi->repeat_top.use){
-			print_page_repeated_cols (
-				sheet, start_col, start_row, end_col, end_row,
-				x, y, print_width, print_height, pj);
+		if (pj->pi->repeat_left.use) {
+			print_page_repeated_cols (sheet,
+				start_col, start_row, end_col, end_row,
+				x, y,
+				print_width, print_height, pj);
 			
 			x += pj->repeat_cols_used_x;
 		}
@@ -747,7 +752,7 @@ compute_pages (Workbook *wb, Sheet *sheet, Range *r, PrintJobInfo *pj)
 	pc->pj = pj;
 	if (r)
 		pc->r = *r;
-	if (wb!=NULL) {
+	if (wb != NULL) {
 		g_hash_table_foreach (wb->sheets, compute_sheet_pages, pc);
 	} else {
 		compute_sheet_pages (NULL, sheet, pc);
