@@ -143,15 +143,17 @@ Pending Patches
 	drag destination for background images in style editor
 
 2) stf								{Andreas}
-    2.1) UTF-8 cleanliness
+    2.1) UTF-8 cleanliness					(DONE)
     2.2) User specifiable character encoding                    (DONE)
     2.3) Replace UI for format selection
-    2.4) Provide an optional mechanism for specifying the target location
-         useful for text to columns, and import into sheet
+    2.4) Provide an optional mechanism for specifying the
+	 target location useful for text to columns, and
+	 import into sheet
     2.5) A help button
-    2.6) Make it possible to ignore column on import, thus making it possible
-         to import (parts of) files with more than 256 columns.  (Think of
-         this as a special "format".)
+    2.6) Make it possible to ignore column on import, thus
+	 making it possible to import (parts of) files with
+	 more than 256 columns.  (Think of this as a special
+	 "format".)
     2.7) Create interface for line terminator selection
     2.8) Make listed separators locale dependent
     2.9) User specifiable locale encoding			(DONE)
@@ -159,6 +161,9 @@ Pending Patches
     2.11) Improve initial file preview                          (DONE)
     2.12) Hook up workbook-control-gui.c:cb_data_import_text
 	Data -> External -> Import _Text File...
+    2.13) Separate guessing of csv/fixed from importer.
+    2.14) Implement format guessing.
+    2.15) Put big "best guess" button on from page.
 
 3) hlinks
     3.1) Finish the edit dialog to load and store results 	(DONE)
