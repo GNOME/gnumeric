@@ -205,7 +205,7 @@ csv_init (void)
 {
 	char *desc = _("CSV (comma separated values)");
 	
-	file_format_register_open (101, desc, csv_probe, csv_read_workbook);
+	file_format_register_open (0, desc, csv_probe, csv_read_workbook);
 	/* file_format_register_save (".csv", desc, gnumericWriteCSVWorkbook);*/
 }
 
