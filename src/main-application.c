@@ -25,9 +25,10 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <time.h>
+#include <string.h>
 
-static	int gnumeric_show_version = FALSE;
-static	char *dump_file_name = NULL;
+static int gnumeric_show_version = FALSE;
+static char *dump_file_name = NULL;
 
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
@@ -82,6 +83,7 @@ warn_about_ancient_gnumerics (const char *binary, WorkbookControl *wbc)
 	int days = 180;
 
 	if (binary &&
+	    strchr (binary, '/') != NULL &&
 	    stat (binary, &buf) != -1 &&
 	    buf.st_mtime != -1 &&
 	    now - buf.st_mtime > days * 24 * 60 * 60) {
