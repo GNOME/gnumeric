@@ -56,8 +56,12 @@ WorkbookFactory_supports (PortableServer_Servant servant,
 	printf ("Getting: %s\n", obj_goad_id);
         if (strcmp (obj_goad_id, "IDL:GNOME:Gnumeric:Workbook:1.0") == 0)
                 return CORBA_TRUE;
-        else
-                return CORBA_FALSE;
+        else {
+		if (strcmp (obj_goad_id, "GOAD_ID:GNOME:Gnumeric:Workbook:1.0") == 0)
+			return CORBA_TRUE;
+		else
+			return CORBA_FALSE;
+	}
 }
 
 static CORBA_Object
@@ -69,10 +73,12 @@ WorkbookFactory_create_object (PortableServer_Servant servant,
 	Workbook *workbook;
 
 	if (strcmp (goad_id, "IDL:GNOME:Gnumeric:Workbook:1.0") != 0){
-                CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-                                     ex_GNOME_GenericFactory_CannotActivate,
-                                     NULL);
-		return CORBA_OBJECT_NIL;
+		if (strcmp (goad_id, "GOADID:GNOME:Gnumeric:Workbook:1.0") != 0){
+			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+					     ex_GNOME_GenericFactory_CannotActivate,
+					     NULL);
+			return CORBA_OBJECT_NIL;
+		}
 	}
 
 	workbook = workbook_new ();
@@ -145,10 +151,18 @@ _WorkbookFactory_init (CORBA_Environment *ev)
 	if (ev->_major != CORBA_NO_EXCEPTION)
 		return FALSE;
 
-	/* Register the server and see if it was already there */
+	/*
+	 * Register the server and see if it was already there
+	 *
+	 * The former is kept just for compatibilty reasons for some demo code
+	 * that is floating around.
+	 */
 
 	v = goad_server_register (CORBA_OBJECT_NIL, gnumeric_workbook_factory,
 				  "IDL:GNOME:Gnumeric:WorkbookFactory:1.0", "object", ev);
+
+	v = goad_server_register (CORBA_OBJECT_NIL, gnumeric_workbook_factory,
+				  "GOADID:GNOME:Gnumeric:WorkbookFactory:1.0", "object", ev);
 	if (v == 0)
 		return TRUE;
 

@@ -95,7 +95,7 @@ main (int argc, char *argv[])
 	orb = gnome_CORBA_init ("Gnumeric client test", "1.0", &argc, argv, 0, &ev);
 
 	workbook = goad_server_activate_with_id (
-		NULL, "IDL:GNOME:Gnumeric:Workbook:1.0", 0, NULL);
+		NULL, "GOADID:GNOME:Gnumeric:Workbook:1.0", 0, NULL);
 
 	if (workbook == CORBA_OBJECT_NIL){
 		printf ("Can not bind workbook");

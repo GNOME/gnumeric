@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNUMeric\n"
-"POT-Creation-Date: 1999-09-23 13:46-0300\n"
+"POT-Creation-Date: 1999-09-23 15:23-0500\n"
 "PO-Revision-Date: 1999-04-09 16:14-0300\n"
 "Last-Translator: Elvis Pfützenreuter <epx@netville.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
@@ -1083,7 +1083,7 @@ msgstr "Cor do texto"
 # src/dialog-paste-special.c:28
 #. The radio buttons
 #: src/dialogs/dialog-cell-format.c:625 src/dialogs/dialog-cell-format.c:661
-#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:95
+#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:110
 msgid "None"
 msgstr "Nenhum"
 
@@ -1205,7 +1205,7 @@ msgstr "Apagar células"
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
 #: src/dialogs/dialog-delete-cells.c:49 src/dialogs/names.glade.h:10
-#: src/item-grid.c:644
+#: src/item-grid.c:649
 msgid "Delete"
 msgstr "Apagar"
 
@@ -1379,7 +1379,7 @@ msgid "Insert cells"
 msgstr "Inserir células"
 
 # src/dialog-insert-cells.c:33 src/item-grid.c:531
-#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:643
+#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:648
 msgid "Insert"
 msgstr "Inserir"
 
@@ -1446,7 +1446,7 @@ msgid "Divide"
 msgstr "Dividir"
 
 # src/dialog-paste-special.c:56 src/item-grid.c:529
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:641
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:646
 msgid "Paste special"
 msgstr "Colar especial"
 
@@ -8086,7 +8086,7 @@ msgstr ""
 "o conteúdo desta região ?"
 
 # src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:839
-#: src/item-cursor.c:582 src/item-grid.c:639 src/workbook.c:1065
+#: src/item-cursor.c:582 src/item-grid.c:644 src/workbook.c:1065
 msgid "Copy"
 msgstr "Copiar"
 
@@ -8126,22 +8126,22 @@ msgid "Shift cells right and move"
 msgstr "Deslocar células à direita e mover"
 
 # src/item-grid.c:526 src/workbook.c:836
-#: src/item-grid.c:638 src/workbook.c:1062
+#: src/item-grid.c:643 src/workbook.c:1062
 msgid "Cut"
 msgstr "Cortar"
 
 # src/item-grid.c:528 src/sheet.c:2535 src/workbook.c:842
-#: src/item-grid.c:640 src/workbook.c:1068
+#: src/item-grid.c:645 src/workbook.c:1068
 msgid "Paste"
 msgstr "Colar"
 
 # src/item-grid.c:533
-#: src/item-grid.c:645
+#: src/item-grid.c:650
 msgid "Erase content"
 msgstr "Limpar conteúdo"
 
 # src/item-grid.c:535
-#: src/item-grid.c:647
+#: src/item-grid.c:652
 msgid "Cell format"
 msgstr "Formato da célula"
 
@@ -8235,6 +8235,7 @@ msgid "Plugin is still in use.\n"
 msgstr "Plugin ainda está em uso.\n"
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
+#: src/print-info.c:269
 msgid "Page &[PAGE]"
 msgstr ""
 
@@ -8254,12 +8255,8 @@ msgstr ""
 # src/workbook.c:1753 src/workbook.c:1781
 #: src/print-info.c:268
 #, fuzzy
-msgid "Sheet &[NUM]"
+msgid "Sheet &[PAGE]"
 msgstr "Planilha %d"
-
-#: src/print-info.c:269
-msgid "Page &[NUM]"
-msgstr ""
 
 #: src/print-info.c:419
 msgid "pts"
@@ -8491,16 +8488,16 @@ msgstr "Linha: %d"
 msgid "Column: %s"
 msgstr "Coluna: %s"
 
-#: src/sheet.c:996
+#: src/sheet.c:995
 msgid "Internal ERROR"
 msgstr ""
 
-#: src/sheet.c:3766
+#: src/sheet.c:3765
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:3778
+#: src/sheet.c:3777
 msgid "I was unable to the bind object"
 msgstr ""
 

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.9.3\n"
-"POT-Creation-Date: 1999-09-23 13:37-0500\n"
+"POT-Creation-Date: 1999-09-23 15:23-0500\n"
 "PO-Revision-Date: 1999-02-20 20:00+0800\n"
 "Last-Translator: Pofeng Lee <Pofeng.Lee@ms7.url.com.tw>\n"
 "Language-Team: Chinese <zh@li.org>\n"
@@ -973,7 +973,7 @@ msgstr "文字顏色"
 
 #. The radio buttons
 #: src/dialogs/dialog-cell-format.c:625 src/dialogs/dialog-cell-format.c:661
-#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:95
+#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:110
 msgid "None"
 msgstr "無"
 
@@ -1081,7 +1081,7 @@ msgid "Delete cells"
 msgstr "刪除儲存格"
 
 #: src/dialogs/dialog-delete-cells.c:49 src/dialogs/names.glade.h:10
-#: src/item-grid.c:644
+#: src/item-grid.c:649
 msgid "Delete"
 msgstr "刪除"
 
@@ -1237,7 +1237,7 @@ msgstr "插入儲存格"
 msgid "Insert cells"
 msgstr "插入儲存格"
 
-#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:643
+#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:648
 msgid "Insert"
 msgstr "插入"
 
@@ -1291,7 +1291,7 @@ msgstr "乘"
 msgid "Divide"
 msgstr "除"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:641
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:646
 msgid "Paste special"
 msgstr "選擇性貼上"
 
@@ -7099,7 +7099,7 @@ msgstr ""
 "儲存格的內容，您確定要替換掉這塊區域\n"
 "的內容嗎？"
 
-#: src/item-cursor.c:582 src/item-grid.c:639 src/workbook.c:1065
+#: src/item-cursor.c:582 src/item-grid.c:644 src/workbook.c:1065
 msgid "Copy"
 msgstr "複製"
 
@@ -7131,19 +7131,19 @@ msgstr "儲存格向下移位並搬移"
 msgid "Shift cells right and move"
 msgstr "儲存格向右移位並搬移"
 
-#: src/item-grid.c:638 src/workbook.c:1062
+#: src/item-grid.c:643 src/workbook.c:1062
 msgid "Cut"
 msgstr "剪下"
 
-#: src/item-grid.c:640 src/workbook.c:1068
+#: src/item-grid.c:645 src/workbook.c:1068
 msgid "Paste"
 msgstr "貼上"
 
-#: src/item-grid.c:645
+#: src/item-grid.c:650
 msgid "Erase content"
 msgstr "清除內容"
 
-#: src/item-grid.c:647
+#: src/item-grid.c:652
 msgid "Cell format"
 msgstr "儲存格格式"
 

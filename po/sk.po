@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
-"POT-Creation-Date: 1999-09-23 13:37-0500\n"
+"POT-Creation-Date: 1999-09-23 15:23-0500\n"
 "PO-Revision-Date: 1999-09-09 01:40+0100\n"
 "Last-Translator: Bobo Rajec,BSP Consulting,+42 7 5330 017,, "
 "<bobo@bobo.bspc.sk>\n"
@@ -975,7 +975,7 @@ msgstr "Farba textu"
 
 #. The radio buttons
 #: src/dialogs/dialog-cell-format.c:625 src/dialogs/dialog-cell-format.c:661
-#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:95
+#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:110
 msgid "None"
 msgstr "®iadna"
 
@@ -1082,7 +1082,7 @@ msgid "Delete cells"
 msgstr "Vyma¾ bunky"
 
 #: src/dialogs/dialog-delete-cells.c:49 src/dialogs/names.glade.h:10
-#: src/item-grid.c:644
+#: src/item-grid.c:649
 msgid "Delete"
 msgstr "Vyma¾"
 
@@ -1238,7 +1238,7 @@ msgstr "vlo¾ bunky"
 msgid "Insert cells"
 msgstr "Vlo¾ bunky"
 
-#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:643
+#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:648
 msgid "Insert"
 msgstr "Vlo¾"
 
@@ -1292,7 +1292,7 @@ msgstr "Vynásob"
 msgid "Divide"
 msgstr "Vydeµ"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:641
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:646
 msgid "Paste special"
 msgstr "Vlo¾ inak"
 
@@ -7088,7 +7088,7 @@ msgstr ""
 "Presúvané bunky prepí¹u obsah existujúcich buniek\n"
 "v tomto rozsahu. Chcete nahradi» obsah buniek v tomto regióne?"
 
-#: src/item-cursor.c:582 src/item-grid.c:639 src/workbook.c:1065
+#: src/item-cursor.c:582 src/item-grid.c:644 src/workbook.c:1065
 msgid "Copy"
 msgstr "Skopíruj"
 
@@ -7120,19 +7120,19 @@ msgstr "Posuò bunky dole a presuò"
 msgid "Shift cells right and move"
 msgstr "Posuò bunky doprava a presuò"
 
-#: src/item-grid.c:638 src/workbook.c:1062
+#: src/item-grid.c:643 src/workbook.c:1062
 msgid "Cut"
 msgstr "Vysekni"
 
-#: src/item-grid.c:640 src/workbook.c:1068
+#: src/item-grid.c:645 src/workbook.c:1068
 msgid "Paste"
 msgstr "Vlo¾"
 
-#: src/item-grid.c:645
+#: src/item-grid.c:650
 msgid "Erase content"
 msgstr "Vyma¾ obsah"
 
-#: src/item-grid.c:647
+#: src/item-grid.c:652
 msgid "Cell format"
 msgstr "Formát bunky"
 

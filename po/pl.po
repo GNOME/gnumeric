@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 1999-09-23 13:37-0500\n"
+"POT-Creation-Date: 1999-09-23 15:23-0500\n"
 "PO-Revision-Date: 1999-07-23 14:45+CET\n"
 "Last-Translator: GNOME PL Team\n"
 "Language-Team: Polish <gnomepl@pandora.info.bielsko.pl>\n"
@@ -950,7 +950,7 @@ msgstr "Kolor tekstu"
 
 #. The radio buttons
 #: src/dialogs/dialog-cell-format.c:625 src/dialogs/dialog-cell-format.c:661
-#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:95
+#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:110
 msgid "None"
 msgstr "Brak"
 
@@ -1052,7 +1052,7 @@ msgid "Delete cells"
 msgstr "Usuñ komórki"
 
 #: src/dialogs/dialog-delete-cells.c:49 src/dialogs/names.glade.h:10
-#: src/item-grid.c:644
+#: src/item-grid.c:649
 msgid "Delete"
 msgstr "Usuñ"
 
@@ -1196,7 +1196,7 @@ msgstr "wstaw komórki"
 msgid "Insert cells"
 msgstr "Wstaw komórki"
 
-#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:643
+#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:648
 msgid "Insert"
 msgstr "Wstaw"
 
@@ -1249,7 +1249,7 @@ msgstr "Przemnó¿"
 msgid "Divide"
 msgstr "Podziel"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:641
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:646
 msgid "Paste special"
 msgstr "Wklej specjalnie"
 
@@ -8037,7 +8037,7 @@ msgstr ""
 "komórek w tym obszarze.\n"
 "Czy chcesz zast±piæ zawarto¶ci w tym obszarze?"
 
-#: src/item-cursor.c:582 src/item-grid.c:639 src/workbook.c:1065
+#: src/item-cursor.c:582 src/item-grid.c:644 src/workbook.c:1065
 msgid "Copy"
 msgstr "Kopiuj"
 
@@ -8069,19 +8069,19 @@ msgstr "Przesuñ komórki w dó³ i przenie¶"
 msgid "Shift cells right and move"
 msgstr "Przesuñ komórki w prawo i przenie¶"
 
-#: src/item-grid.c:638 src/workbook.c:1062
+#: src/item-grid.c:643 src/workbook.c:1062
 msgid "Cut"
 msgstr "Wytnij"
 
-#: src/item-grid.c:640 src/workbook.c:1068
+#: src/item-grid.c:645 src/workbook.c:1068
 msgid "Paste"
 msgstr "Wklej"
 
-#: src/item-grid.c:645
+#: src/item-grid.c:650
 msgid "Erase content"
 msgstr "Wyczy¶æ zawarto¶æ"
 
-#: src/item-grid.c:647
+#: src/item-grid.c:652
 msgid "Cell format"
 msgstr "Format komórki"
 

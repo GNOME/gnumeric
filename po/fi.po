@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 1999-09-23 13:37-0500\n"
+"POT-Creation-Date: 1999-09-23 15:23-0500\n"
 "PO-Revision-Date: 1998-10-03 17:59+01:00\n"
 "Last-Translator: Sami Kuhmonen <sami@iqs.fi>\n"
 "Language-Team: \n"
@@ -974,7 +974,7 @@ msgstr "Tekstin väri"
 
 #. The radio buttons
 #: src/dialogs/dialog-cell-format.c:625 src/dialogs/dialog-cell-format.c:661
-#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:95
+#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:110
 msgid "None"
 msgstr "Tyhjä"
 
@@ -1082,7 +1082,7 @@ msgid "Delete cells"
 msgstr "Tuhoa soluja"
 
 #: src/dialogs/dialog-delete-cells.c:49 src/dialogs/names.glade.h:10
-#: src/item-grid.c:644
+#: src/item-grid.c:649
 msgid "Delete"
 msgstr "Tuhoa"
 
@@ -1233,7 +1233,7 @@ msgstr "lisää soluja"
 msgid "Insert cells"
 msgstr "Lisää soluja"
 
-#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:643
+#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:648
 msgid "Insert"
 msgstr "Lisää"
 
@@ -1287,7 +1287,7 @@ msgstr "Kerro"
 msgid "Divide"
 msgstr "Jaa"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:641
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:646
 msgid "Paste special"
 msgstr "Liitä määräten"
 
@@ -7096,7 +7096,7 @@ msgstr ""
 "sisällön valitulla alueella. Oletko varma, että haluat\n"
 "korvata sisällön?"
 
-#: src/item-cursor.c:582 src/item-grid.c:639 src/workbook.c:1065
+#: src/item-cursor.c:582 src/item-grid.c:644 src/workbook.c:1065
 msgid "Copy"
 msgstr "Kopioi"
 
@@ -7128,19 +7128,19 @@ msgstr "Siirrä soluja alas ja kopioi"
 msgid "Shift cells right and move"
 msgstr "Siirrä soluja oikealle ja kopioi"
 
-#: src/item-grid.c:638 src/workbook.c:1062
+#: src/item-grid.c:643 src/workbook.c:1062
 msgid "Cut"
 msgstr "Leikkaa"
 
-#: src/item-grid.c:640 src/workbook.c:1068
+#: src/item-grid.c:645 src/workbook.c:1068
 msgid "Paste"
 msgstr "Liitä"
 
-#: src/item-grid.c:645
+#: src/item-grid.c:650
 msgid "Erase content"
 msgstr "Tyhjää sisältö"
 
-#: src/item-grid.c:647
+#: src/item-grid.c:652
 msgid "Cell format"
 msgstr "Solun muotoilu"
 
