@@ -1952,8 +1952,8 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 		if (prev != NULL && prev->outline_level > depth) {
 			visible = (cri != NULL) ? cri->is_collapsed : FALSE;
 			last = index - 1;
-			first = colrow_find_outline_bound (sheet, is_cols, index-1,
-							   depth, FALSE);
+			first = colrow_find_outline_bound (sheet, is_cols,
+					index-1, prev->outline_level, FALSE);
 		}
 	}
 	if (first < 0 && cri != NULL && cri->outline_level > 0) {

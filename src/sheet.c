@@ -879,20 +879,23 @@ sheet_col_row_set_outline_level (Sheet *sheet, int index, gboolean is_cols,
 }
 
 /**
- * sheet_col_row_gutter_pts :
+ * sheet_col_row_gutter :
+ *
+ * @sheet :
+ * @col_max_outline :
+ * @row_max_outline :
+ *
+ * Set the maximum outline levels for the cols and rows.
  */
 void
-sheet_col_row_gutter_pts (Sheet *sheet,
-			  float col_gutter, int col_max_indent,
-			  float row_gutter, int row_max_indent)
+sheet_col_row_gutter (Sheet *sheet,
+		      int col_max_outline,
+		      int row_max_outline)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
-	sheet->col_gutter.pts	     = col_gutter;
-	sheet->col_gutter.max_indent = col_max_indent;
-	sheet->row_gutter.pts	     = row_gutter;
-	sheet->row_gutter.max_indent = row_max_indent;
-
+	sheet->cols.max_outline_level = col_max_outline;
+	sheet->rows.max_outline_level = row_max_outline;
 	SHEET_FOREACH_CONTROL (sheet, control, scg_set_gutters (control););
 }
 

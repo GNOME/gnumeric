@@ -274,77 +274,74 @@ mstyle_element_dump (const MStyleElement *e)
 	return txt_ans;
 }
 
-/*
- * This should probably be unrolled into mstyle_elements_equal.
- */
 static gboolean
-mstyle_element_equal (const MStyleElement a,
-		      const MStyleElement b)
+mstyle_element_equal (MStyleElement const *a,
+		      MStyleElement const *b)
 {
-	if ((a.type == MSTYLE_ELEMENT_UNSET ||
-	     b.type == MSTYLE_ELEMENT_UNSET) && a.type != b.type)
+	if ((a->type == MSTYLE_ELEMENT_UNSET ||
+	     b->type == MSTYLE_ELEMENT_UNSET) && a->type != b->type)
 		return FALSE;
 
-	g_return_val_if_fail (a.type == b.type, FALSE);
+	g_return_val_if_fail (a->type == b->type, FALSE);
 
-	switch (a.type) {
+	switch (a->type) {
 	case MSTYLE_ANY_COLOR:
-		if (a.u.color.fore == b.u.color.fore)
+		if (a->u.color.fore == b->u.color.fore)
 			return TRUE;
 		break;
 	case MSTYLE_ANY_BORDER:
-		if (a.u.border.any == b.u.border.any)
+		if (a->u.border.any == b->u.border.any)
 			return TRUE;
 		break;
 	case MSTYLE_PATTERN:
-		if (a.u.pattern == b.u.pattern)
+		if (a->u.pattern == b->u.pattern)
 			return TRUE;
 		break;
 	case MSTYLE_FONT_NAME:
-		if (a.u.font.name == b.u.font.name)
+		if (a->u.font.name == b->u.font.name)
 			return TRUE;
 		break;
 	case MSTYLE_FONT_BOLD:
-		if (a.u.font.bold == b.u.font.bold)
+		if (a->u.font.bold == b->u.font.bold)
 			return TRUE;
 		break;
 	case MSTYLE_FONT_ITALIC:
-		if (a.u.font.italic == b.u.font.italic)
+		if (a->u.font.italic == b->u.font.italic)
 			return TRUE;
 		break;
 	case MSTYLE_FONT_UNDERLINE:
-		if (a.u.font.underline == b.u.font.underline)
+		if (a->u.font.underline == b->u.font.underline)
 			return TRUE;
 		break;
 	case MSTYLE_FONT_STRIKETHROUGH:
-		if (a.u.font.strikethrough == b.u.font.strikethrough)
+		if (a->u.font.strikethrough == b->u.font.strikethrough)
 			return TRUE;
 	case MSTYLE_FONT_SIZE:
-		if (a.u.font.size == b.u.font.size)
+		if (a->u.font.size == b->u.font.size)
 			return TRUE;
 		break;
 	case MSTYLE_FORMAT:
-		if (a.u.format == b.u.format)
+		if (a->u.format == b->u.format)
 			return TRUE;
 		break;
 	case MSTYLE_ALIGN_V:
-		if (a.u.align.v == b.u.align.v)
+		if (a->u.align.v == b->u.align.v)
 			return TRUE;
 		break;
 	case MSTYLE_ALIGN_H:
-		if (a.u.align.h == b.u.align.h)
+		if (a->u.align.h == b->u.align.h)
 			return TRUE;
 		break;
 	case MSTYLE_INDENT:
-		if (a.u.indent == b.u.indent)
+		if (a->u.indent == b->u.indent)
 			return TRUE;
 		break;
 	case MSTYLE_ORIENTATION:
-		if (a.u.orientation == b.u.orientation)
+		if (a->u.orientation == b->u.orientation)
 			return TRUE;
 		break;
 	case MSTYLE_WRAP_TEXT:
-		if (a.u.fit_in_cell == b.u.fit_in_cell)
+		if (a->u.fit_in_cell == b->u.fit_in_cell)
 			return TRUE;
 		break;
 	default:
@@ -374,17 +371,14 @@ mstyle_elements_equal (const MStyleElement *a,
 	g_return_val_if_fail (b != NULL, FALSE);
 
 	for (i = 1; i < MSTYLE_ELEMENT_MAX; i++) {
-
-		g_assert (i < MSTYLE_ELEMENT_MAX);
-
-		if (a[i].type != b[i].type)
-			return FALSE;
-
-		if (!mstyle_element_equal (a[i], b[i])) {
-			g_assert (i < MSTYLE_ELEMENT_MAX);
-			g_warning ("%s mismatch\n", mstyle_names[i]);
+		/* Elements in the same position should have the same types */
+		if (a[i].type != b[i].type) {
+			g_warning ("%s mismatched types\n", mstyle_names[i]);
 			return FALSE;
 		}
+
+		if (!mstyle_element_equal (a+i, b+i))
+			return FALSE;
 	}
 
 	return TRUE;
@@ -457,7 +451,7 @@ mstyle_elements_compare (MStyleElement *a,
 		if (a[i].type == MSTYLE_ELEMENT_UNSET) {
 			mstyle_element_ref (&b[i]);
 			a[i] = b[i];
-		} else if (!mstyle_element_equal (a[i], b[i])) {
+		} else if (!mstyle_element_equal (a+i, b+i)) {
 			mstyle_element_unref (a[i]);
 			a[i].type = MSTYLE_ELEMENT_CONFLICT;
 		}

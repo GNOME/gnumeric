@@ -29,6 +29,7 @@ struct _ColRowCollection
 	int         max_used;
 	ColRowInfo  default_style;
 	GPtrArray * info;
+	int	    max_outline_level;
 
 	float	    size_pts;
 	int	    size_pixels;

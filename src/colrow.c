@@ -434,7 +434,7 @@ colrow_visibility (Sheet const *sheet, struct colrow_visiblity * const dat,
 		? &sheet_col_get : &sheet_row_get;
 
 	/* Find the end of a segment that will be toggled */
-	for (i = last; i>=first; --i) {
+	for (i = last; i >= first; --i) {
 		int j;
 		ColRowIndex *res;
 		ColRowInfo const *cri = (*get) (sheet, i);
@@ -446,24 +446,31 @@ colrow_visibility (Sheet const *sheet, struct colrow_visiblity * const dat,
 			continue;
 
 		/* Find the begining */
-		for (j = i-1; j >= first ; --j) {
-			ColRowInfo const * cri = (*get) (sheet, j);
-
+		for (j = i; j >= first ; --j) {
+			cri = (*get) (sheet, j);
 			if (cri == NULL) {
 				if (visible != 0)
 					break;
 			} else if ((visible != 0) == (cri->visible != 0))
 				break;
+			else if (visible && cri->is_collapsed)
+				break;
 		}
 		res = g_new (ColRowIndex, 1);
-		res->first = j + 1;
+		res->first = (j > first) ? j : first;
 		res->last = i;
 #if 0
 		printf ("%d %d\n", res->index, res->count);
 #endif
 		dat->elements = g_slist_insert_sorted (dat->elements, res,
 					(GCompareFunc)colrow_index_cmp);
-		i = j;
+
+		if (visible && cri->is_collapsed) {
+			i = colrow_find_outline_bound (
+				sheet, dat->is_cols, j,
+				cri->outline_level+1, FALSE);
+		} else
+			i = j;
 	}
 }
 
@@ -659,6 +666,9 @@ colrow_set_visibility (Sheet *sheet, gboolean const is_cols,
 			? sheet_col_fetch (sheet, i)
 			: sheet_row_fetch (sheet, i);
 
+		if (prev_changed && prev_outline > cri->outline_level && !visible)
+			cri->is_collapsed = FALSE;
+
 		prev_changed = (visible == 0) != (cri->visible == 0);
 		if (prev_changed) {
 			cri->visible = visible;
@@ -666,7 +676,6 @@ colrow_set_visibility (Sheet *sheet, gboolean const is_cols,
 			sheet->priv->recompute_visibility = TRUE;
 		}
 	}
-
 	if (prev_changed &&
 	    ((is_cols && i < SHEET_MAX_COLS) ||
 	     (!is_cols && i < SHEET_MAX_ROWS))) {

@@ -69,11 +69,6 @@ struct _Sheet {
 
 	/* place holders for new features */
 	CellPos	    frozen_corner;
-
-	struct {
-	    float pts;
-	    int	  max_indent;
-	} col_gutter, row_gutter;
 };
 
 #define SHEET_SIGNATURE 0x12349876
@@ -198,9 +193,9 @@ int     sheet_row_size_fit_pixels	  (Sheet *sheet, int row);
 void    sheet_col_row_set_outline_level	  (Sheet *sheet, int index,
 					   gboolean is_cols, int outline,
 					   gboolean is_collapsed);
-void    sheet_col_row_gutter_pts	  (Sheet *sheet,
-					   float col_gutter, int max_col_indent,
-					   float row_gutter, int max_row_indent);
+void    sheet_col_row_gutter		  (Sheet *sheet,
+					   int max_col_indent,
+					   int max_row_indent);
 
 Range          sheet_get_extent           (Sheet const *sheet);
 gboolean       sheet_range_splits_array   (Sheet const *sheet, Range const *r,

@@ -1,3 +1,19 @@
+2001-04-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/colrow.c (colrow_set_visibility) : don't collapse things unless
+	  they are at the end of the region.  Always uncollapse things.
+
+2001-04-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_draw) : tweak the redraw a bit to match
+	  event handling
+
+	* src/mstyle.c (mstyle_elements_equal) : remove pointless asserts and
+	  correct the logic.
+	(mstyle_element_equal) : Stop passing structs.
+	(mstyle_elements_equal) : adjust here.
+	(mstyle_elements_compare) : and here.
+
 2001-04-12  Morten Welinder  <terra@diku.dk>
 
 	* src/plugin-util.c: Portability fix.
@@ -8,9 +24,15 @@
 	  restored region visible.
 	(cmd_autofill_undo) : Ditto.
 	(cmd_autofill_redo) : Ditto.
+	(cmd_colrow_outline_change) : Uncollapsing things should work better
+	  now.
+
+	* src/colrow.c (colrow_set_visibility) : collapse state changes can
+	  occur more than once within a range.
 
 	* src/sheet.c (sheet_col_row_gutter_pts) : simplify, no need to store
 	  sizes in pts.  Outline level is enough.
+	  s/sheet_col_row_gutter_pts/sheet_col_row_gutter/
 
 2001-04-10  Jody Goldberg <jgoldberg@home.com>
 

@@ -70,13 +70,13 @@ item_bar_destroy (GtkObject *object)
 }
 
 static int
-compute_pixels_from_pts (Sheet const *sheet, float pts, gboolean const horizontal)
+compute_pixels_from_indent (Sheet const *sheet, int indent, gboolean const horizontal)
 {
 	double const scale =
-	    sheet->last_zoom_factor_used *
-	    application_display_dpi_get (horizontal) / 72.;
+		sheet->last_zoom_factor_used *
+		application_display_dpi_get (horizontal) / 72.;
 
-	return (int)(pts * scale + 0.5);
+	return (int)(5 + indent * 14 * scale + 0.5);
 }
 
 /**
@@ -117,8 +117,8 @@ item_bar_calc_size (ItemBar *ib)
 	ib->cell_width = 5 + 5 + gdk_string_width (
 		style_font_gdk_font (bold_font), "88888");
 	ib->indent = ib->is_col_header
-		? compute_pixels_from_pts (sheet, sheet->col_gutter.pts, TRUE)
-		: compute_pixels_from_pts (sheet, sheet->row_gutter.pts, FALSE);
+		? compute_pixels_from_indent (sheet, sheet->cols.max_outline_level, TRUE)
+		: compute_pixels_from_indent (sheet, sheet->rows.max_outline_level, FALSE);
 
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ib));
 
@@ -268,8 +268,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 	gboolean has_object = scg->new_object != NULL || scg->current_object != NULL;
 
 	if (item_bar->is_col_header) {
-		int const inc = (sheet->col_gutter.max_indent > 0)
-			? (item_bar->indent - 2) / sheet->col_gutter.max_indent
+		int const inc = (sheet->cols.max_outline_level > 0)
+			? (item_bar->indent - 2) / sheet->cols.max_outline_level
 			: 0;
 		int const base_pos = .2 * inc - y;
 		int const len = (inc > 4) ? 4 : inc;
@@ -303,7 +303,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 				return;
 
 			/* DO NOT enable resizing all until we get rid of
-			 * resize_start_pos.  It will be wrong if things ahead of it move
+			 * resize_start_pos.  It will be wrong if things ahead
+			 * of it move
 			 */
 			cri = sheet_col_get_info (sheet, col);
 			if (item_bar->resize_pos != -1 &&
@@ -346,7 +347,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 
 							if (size > 15)
 								size = 15;
-							if (size < 6)
+							else if (size < 6)
 								safety = 6 - size;
 
 							top += 2; /* inside cell's shadow */
@@ -378,8 +379,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			++col;
 		} while (total < width);
 	} else {
-		int const inc = (sheet->row_gutter.max_indent > 0)
-			? (item_bar->indent - 2) / sheet->row_gutter.max_indent
+		int const inc = (sheet->rows.max_outline_level > 0)
+			? (item_bar->indent - 2) / sheet->rows.max_outline_level
 			: 0;
 		int const base_pos = .2 * inc - x;
 		int const len = (inc > 4) ? 4 : inc;
@@ -465,7 +466,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 
 							if (size > 15)
 								size = 15;
-							if (size < 6)
+							else if (size < 6)
 								safety = 6 - size;
 
 							top += 2; /* inside cell's shadow */
@@ -711,11 +712,11 @@ outline_button_press (ItemBar const *ib, int element, int pixel)
 	int inc, step;
 
 	if (ib->is_col_header) {
-		if (sheet->col_gutter.max_indent <= 0)
+		if (sheet->cols.max_outline_level <= 0)
 			return TRUE;
-		inc = (ib->indent - 2) / sheet->col_gutter.max_indent;
-	} else if (sheet->row_gutter.max_indent > 0)
-		inc = (ib->indent - 2) / sheet->row_gutter.max_indent;
+		inc = (ib->indent - 2) / sheet->cols.max_outline_level;
+	} else if (sheet->rows.max_outline_level > 0)
+		inc = (ib->indent - 2) / sheet->rows.max_outline_level;
 	else
 		return TRUE;
 
