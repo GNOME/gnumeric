@@ -832,6 +832,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		/* fall down */
 
 	case GDK_Tab:
+	case GDK_ISO_Left_Tab:
+	case GDK_KP_Tab:
 	{
 		int col, row;
 		int walking_selection;

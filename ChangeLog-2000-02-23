@@ -1,10 +1,21 @@
-2000-01-23  Jon K Hellan  <hellan@acm.org>
+2000-01-23  Miguel de Icaza   <miguel@gnu.org>
 
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Handle
+	GDK_ISO_Left_Tab and GDK_KP_Tab as well, per Chris' suggestion. 
+
+2000-01-23  Jon K Hellan  <hellan@acm.org>
+	
 	* src/dialogs/autosave-prompt.glade: Give "Yes"
 	button initial keyboard focus.
 	
 	* src/dialogs/autosave.glade: Set initial focus to
 	first check button. Make OK the default.
+
+2000-01-18  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/clipboard.c (x_selection_to_cell_region): Do not hardcode
+	',' as a number separator.  Use the locale information to select
+	the proper separator.
 
 	* src/dialogs/dialog-autocorrect.c (dialog_autocorrect): Make
 	<Ret> in entry fields invoke default.
