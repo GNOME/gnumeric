@@ -1,5 +1,11 @@
 2000-04-06  Jody Goldberg <jgoldberg@home.com>
 
+	* src/xml-io.c (gnumeric_xml_read_workbook) : No need to recalc, the
+	  loader handles it.
+
+	* src/file.c (workbook_read) : Do a recalc and sheet_update after loading.
+	  Wrap entire process in deep_{freeze,thaw}.
+
 	* src/expr.c (eval_expr) : Fix thinko.
 
 	* src/functions/fn-string.c : Add func 'expression' to return text of

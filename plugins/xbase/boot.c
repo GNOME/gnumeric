@@ -161,8 +161,6 @@ xbase_load (CommandContext *context, Workbook *wb, const char *filename)
 	workbook_attach_sheet (wb, sheet);
 	workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, NULL);
 
-	cell_deep_freeze_redraws ();
-
 	field = 0;
 	while (field < file->fields) {
 		cell = sheet_cell_fetch (sheet, field, 0);
@@ -181,9 +179,6 @@ xbase_load (CommandContext *context, Workbook *wb, const char *filename)
 		}
 		row++;
 	} while (record_seek (rec, SEEK_CUR, 1));
-
-	workbook_recalc (wb);
-	cell_deep_thaw_redraws ();
 
 	xbase_close (file);
 

@@ -3490,8 +3490,6 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 	int current_sheet = 0;
 	char *problem_loading = NULL;
 
-	cell_deep_freeze_redraws ();
-
 	/* Find that book file */
 	/* Look for workbook before book so that we load the office97
 	 * format rather than office5 when there are multiple streams.  */
@@ -4021,8 +4019,6 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 	}
 #endif
 
-	cell_deep_thaw_redraws ();
-
 	if (wb) {
 		Workbook *workbook = wb->gnum_wb;
 
@@ -4034,7 +4030,6 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			gnumeric_error_read (context, problem_loading);
 			return -1;
 		}
-		workbook_recalc (workbook);
 		return 0;
 	}
 

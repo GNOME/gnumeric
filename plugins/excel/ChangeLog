@@ -1,5 +1,10 @@
 2000-04-06  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-excel-read.c (ms_excel_read_workbook) : Move deep freeze/thaw to
+	  a higher level.
+
+2000-04-06  Jody Goldberg <jgoldberg@home.com>
+
 	* ms-formula-read.c (ms_excel_parse_formula) : Adjust to change in
 	  value_new_range.
 

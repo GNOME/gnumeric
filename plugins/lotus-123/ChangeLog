@@ -1,5 +1,10 @@
 2000-04-06  Jody Goldberg <jgoldberg@home.com>
 
+	* lotus.c (lotus_read) : Move the freeze/thaw and recalc to a higher
+	  level.
+
+2000-04-06  Jody Goldberg <jgoldberg@home.com>
+
 	* lotus-formula.c (lotus_parse_formula) : Adjust to changes in
 	  value_new_cellrange.
 

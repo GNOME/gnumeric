@@ -335,13 +335,7 @@ lotus_read (CommandContext *context, Workbook *wb, const char *filename)
 		return -1;
 	}
 		
-	cell_deep_freeze_redraws ();
-
 	res = read_workbook (context, wb, f);
-	if (res == 0) {
-		workbook_recalc (wb);
-		cell_deep_thaw_redraws ();
-	}
 	fclose (f);
 
 	return res;

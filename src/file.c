@@ -255,6 +255,8 @@ workbook_read (CommandContext *context, const char *filename)
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
+	cell_deep_freeze_redraws ();
+
 	if (g_file_exists (filename)) {
 		template = g_strdup_printf (_("Could not read file %s\n%%s"),
 					    filename);
@@ -266,6 +268,13 @@ workbook_read (CommandContext *context, const char *filename)
 		wb = workbook_new_with_sheets (1);
 		workbook_set_saveinfo (wb, filename, FILE_FL_NEW,
 				       gnumeric_xml_write_workbook);
+	}
+
+	cell_deep_thaw_redraws ();
+
+	if (wb != NULL) {
+		workbook_recalc (wb);
+		sheet_update (wb->current_sheet);
 	}
 
 	return wb;

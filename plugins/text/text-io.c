@@ -360,11 +360,9 @@ text_read_workbook (CommandContext *context, Workbook *wb,
 	int ret;
 
 	ret = readTextWorkbook (context, wb, filename, FALSE);
-	if (ret == 0) {
+	if (ret == 0)
 		workbook_set_saveinfo (wb, filename,
 				       FILE_FL_MANUAL, text_write_workbook);
-		workbook_recalc_all (wb);
-	}
 
 	return ret;
 }

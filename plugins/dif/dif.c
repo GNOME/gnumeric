@@ -279,7 +279,6 @@ dif_read_workbook (CommandContext *context,
 		workbook_attach_sheet (book, src.sheet);
 		g_free (name);
 
-
 		if (!dif_parse_sheet (&src)) {
 			workbook_detach_sheet (book, src.sheet, TRUE);
 			gnumeric_error_read

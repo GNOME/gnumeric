@@ -105,6 +105,9 @@ file_open_cmd (GtkWidget *widget, Workbook *wb)
 	if (new_wb != NULL) {
 		gtk_widget_show (new_wb->toplevel);
 
+		/* If the current workbook is empty and untouched remove it
+		 * in favour of the new book
+		 */
 		if (workbook_is_pristine (wb)) {
 #ifdef ENABLE_BONOBO
 			bonobo_object_unref (BONOBO_OBJECT (wb));

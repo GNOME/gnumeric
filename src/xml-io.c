@@ -59,7 +59,7 @@ xml_arg_set (GtkArg *arg, gchar *string)
 		GTK_VALUE_UCHAR (*arg) = string[0];
 		break;
 	case GTK_TYPE_BOOL:
-		if (!strcmp (string, "TRUE")) 
+		if (!strcmp (string, "TRUE"))
 			GTK_VALUE_BOOL (*arg) = TRUE;
 		else
 			GTK_VALUE_BOOL (*arg) = FALSE;
@@ -119,7 +119,7 @@ xml_arg_get (GtkArg *arg)
 
 	return NULL;
 }
- 
+
 /*
  * Get a value for a node either carried as an attibute or as
  * the content of a child.
@@ -1128,7 +1128,7 @@ xml_write_attribute (parse_xml_context_t *ctxt, xmlNodePtr attr, GtkArg *arg)
 {
 	xmlChar *tstr;
 	gchar *str;
-	
+
 	switch (arg->type) {
 	case GTK_TYPE_CHAR:
 	case GTK_TYPE_UCHAR:
@@ -1140,15 +1140,15 @@ xml_write_attribute (parse_xml_context_t *ctxt, xmlNodePtr attr, GtkArg *arg)
 	case GTK_TYPE_FLOAT:
 	case GTK_TYPE_DOUBLE:
 	case GTK_TYPE_STRING:
-		str = xml_arg_get (arg);	
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, str);  
+		str = xml_arg_get (arg);
+		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, str);
 		xmlNewChild (attr, ctxt->ns, "value", tstr);
 		if (tstr) {
 			xmlFree (tstr);
 		}
 		g_free (str);
 		break;
-	}	
+	}
 }
 
 static xmlNodePtr
@@ -1156,7 +1156,7 @@ xml_write_attributes (parse_xml_context_t *ctxt, guint n_args, GtkArg *args)
 {
 	xmlNodePtr cur;
 	gint i;
-	
+
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attributes", NULL);
 
 	for (i=0; i < n_args; args++, i++) {
@@ -1170,7 +1170,7 @@ xml_write_attributes (parse_xml_context_t *ctxt, guint n_args, GtkArg *args)
 		if (tstr) {
 			xmlFree (tstr);
 		}
-		
+
 		xmlNewChild (tmp, ctxt->ns, "type", tstr);
 		xml_set_value_int (tmp, "type", args->type);
 
@@ -1198,7 +1198,7 @@ xml_read_attribute (parse_xml_context_t *ctxt, xmlNodePtr attr, GtkArg *arg)
 {
 	xmlNodePtr val;
 	char *value;
-	
+
 	switch (arg->type) {
 	case GTK_TYPE_CHAR:
 	case GTK_TYPE_UCHAR:
@@ -1214,13 +1214,13 @@ xml_read_attribute (parse_xml_context_t *ctxt, xmlNodePtr attr, GtkArg *arg)
 		if (val) {
 			value = xmlNodeGetContent (val);
 			xml_arg_set (arg, value);
-			
+
 			if (value){
 				xmlFree (value);
 			}
 		}
 		break;
-	}	
+	}
 }
 
 static void
@@ -1228,30 +1228,30 @@ xml_read_attributes (parse_xml_context_t *ctxt, xmlNodePtr tree, GList **list)
 {
 	xmlNodePtr child, subchild;
 	GtkArg *arg;
-	
+
 	g_return_if_fail (ctxt != NULL);
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (ctxt->wb != NULL);
-	
+
 	child = tree->childs;
 	while (child) {
 		char *name = NULL;
 		int type = 0;
-		
+
 		if (child->name && !strcmp (child->name, "Attribute")) {
 
 			subchild = xml_search_child (child, "name");
 			if (subchild) {
 				name = xmlNodeGetContent (subchild);
 			}
-			
+
 			xml_get_value_int (child, "type", &type);
 
 			if (name && type) {
 				arg = gtk_arg_new (type);
 				arg->name = g_strdup (name);
 				xml_read_attribute (ctxt, child, arg);
-				
+
 				*list = g_list_prepend (*list, arg);
 			}
 		}
@@ -2682,7 +2682,7 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	child = xml_write_attributes (ctxt, n_args, args);
 	if (child)
 		xmlAddChild (cur, child);
-		
+
 	child = xml_write_summary (ctxt, wb->summary_info);
 	if (child)
 		xmlAddChild (cur, child);
@@ -2766,7 +2766,7 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 	xmlNodePtr child, c;
 	char *oldlocale;
 	GList *list = NULL;
-	
+
 	if (strcmp (tree->name, "Workbook")){
 		fprintf (stderr,
 			 "xml_workbook_read: invalid element type %s, 'Workbook' expected`\n",
@@ -2835,7 +2835,7 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 		xml_free_arg_list (list);
 		g_list_free (list);
 	}
-	
+
 	child = xml_search_child (tree, "UIData");
 	if (child) {
 		int tmp = 0;
@@ -3028,8 +3028,7 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 	xml_workbook_read (wb, &ctxt, res->root);
 	workbook_set_saveinfo (wb, (char *) filename, FILE_FL_AUTO,
 			       gnumeric_xml_write_workbook);
-	workbook_recalc_all (wb);
-	
+
 	xmlFreeDoc (res);
 	return 0;
 }
