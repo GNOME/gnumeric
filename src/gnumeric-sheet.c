@@ -72,9 +72,9 @@ gnumeric_sheet_get_cell_bounds (GnumericSheet *gsheet, int col, int row, int *x,
 
 /*
  * gnumeric_sheet_cursor_set
- *  @gsheet: The sheet
- *  @col:    the column
- *  @row:    the row
+ * @gsheet: The sheet
+ * @col:    the column
+ * @row:    the row
  *
  * This informs the GnumericSheet of the cursor position.  It is
  * used to sync the contents of the scrollbars with our position
@@ -113,11 +113,11 @@ gnumeric_sheet_cursor_set (GnumericSheet *gsheet, int col, int row)
 
 /*
  * gnumeric_sheet_set_selection:
- *  @gsheet:    The sheet name
- *  @start_col: The starting column.
- *  @start_row: The starting row
- *  @end_col:   The end column
- *  @end_row:   The end row
+ * @gsheet:    The sheet name
+ * @start_col: The starting column.
+ * @start_row: The starting row
+ * @end_col:   The end column
+ * @end_row:   The end row
  *
  * Set the current selection to cover the inclusive area delimited by
  * start_col, start_row, end_col and end_row.  The actual cursor is
@@ -139,10 +139,11 @@ gnumeric_sheet_set_selection (GnumericSheet *gsheet, SheetSelection *ss)
 
 /*
  * move_cursor:
- *   @Sheet:    The sheet where the cursor is located
- *   @col:      The new column for the cursor.
- *   @row:      The new row for the cursor.
- *   @clear_selection: If set, clear the selection before moving
+ * @gsheet:   The sheet where the cursor is located
+ * @col:      The new column for the cursor.
+ * @row:      The new row for the cursor.
+ * @clear_selection: If set, clear the selection before moving
+ *
  *   Moves the sheet cursor to a new location, it clears the selection,
  *   accepts any pending output on the editing line and moves the cell
  *   cursor.

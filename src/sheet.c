@@ -3863,6 +3863,11 @@ sheet_cursor_set (Sheet *sheet, int base_col, int base_row, int start_col, int s
 			end_col, end_row);
 	}
 	sheet_load_cell_val (sheet);
+
+	/*
+	 * For speach synthesis
+	 */
+	workbook_cursor_moved (sheet->workbook, base_col, base_row, start_col, start_row, end_col, end_row);
 }
 
 /**

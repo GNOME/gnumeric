@@ -114,10 +114,6 @@ typedef struct {
 #else
 	GtkObjectClass   gtk_parent_class;
 #endif
-	/*
-	 * Signals
-	 */
-	void      (*cell_content_changed) (Workbook *workbook, void *cell);
 } WorkbookClass;
 
 GtkType     workbook_get_type            (void);
@@ -198,9 +194,4 @@ extern   Workbook *current_workbook;
 void workbook_corba_setup    (Workbook *);
 void workbook_corba_shutdown (Workbook *);
 
-/*
- * For signaling changes (output synthesis)
- */
-void workbook_cell_changed   (Workbook *wb, void *cell);
-	
 #endif

@@ -695,8 +695,6 @@ cell_content_changed (Cell *cell)
 				      cell->row->pos);
 	if (deps)
 		cell_queue_recalc_list (deps, TRUE);
-
-	workbook_cell_changed (cell->sheet->workbook, cell);
 }
 
 
