@@ -1,3 +1,10 @@
+2003-04-11  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-scenarios.c (dialog_scenario_add): Added a default
+	comment.
+	(scenario_add_ok_clicked_cb): Added a check that the changing
+	cells are on the same sheet. Kill memory leaks.
+
 2003-04-10  Abel Cheung  <maddog@linux.org.hk>
 
 	* dialog-scenarios.c: Unmark empty strings from being translated.

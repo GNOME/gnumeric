@@ -33,6 +33,8 @@
 #include <workbook-edit.h>
 #include <sheet.h>
 #include <dao-gui-utils.h>
+#include <position.h>
+#include <dao.h>
 #include "scenarios.h"
 #include <glade/glade.h>
 
@@ -88,7 +90,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkWidget               *entry, *comment_view;
 	GtkTextBuffer           *buf;
 	GtkTextIter             start, end;
-	char const              *tmp;
+	RangeRef                *rr;
 
 	cell_range = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -96,7 +98,17 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	if (cell_range == NULL) {
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
 				 _("Invalid changing cells"));
+		gnm_expr_entry_grab_focus (state->input_entry, TRUE);
 		return;
+	}
+	
+	rr = value_to_rangeref (cell_range, FALSE);
+	if (rr->a.sheet != state->sheet) {
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
+				 _("Changing cells should be on the current "
+				   "sheet only."));
+		gnm_expr_entry_grab_focus (state->input_entry, TRUE);
+		goto out;
 	}
 	entry = glade_xml_get_widget (state->gui, "name_entry");
 
@@ -105,12 +117,12 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	        g_free (name);
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
 				 _("Scenario name already used"));
-		return;
+		goto out;
 	} else if (check_name (name)) {
 	        g_free (name);
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
 				 _("Invalid scenario name"));
-		return;
+		goto out;
 	}
 
 	comment_view = glade_xml_get_widget (state->gui, "comment_view");
@@ -123,14 +135,15 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao_init (&dao, NewSheetOutput);
 	dao.sheet = state->sheet;
 
-	tmp = gnm_expr_entry_get_text
-		(GNUMERIC_EXPR_ENTRY (state->input_entry));
-
 	scenario_add_new (WORKBOOK_CONTROL (state->wbcg), name,
-			  cell_range, tmp, comment, &dao);
+			  cell_range, (gchar *) gnm_expr_entry_get_text
+			  (GNUMERIC_EXPR_ENTRY (state->input_entry)),
+			  comment, &dao);
 
-	value_release (cell_range);
 	gtk_widget_destroy (state->dialog);
+ out:
+	value_release (cell_range);
+	g_free (rr);
 	return;
 }
 
@@ -152,8 +165,10 @@ void
 dialog_scenario_add (WorkbookControlGUI *wbcg)
 {
         GenericToolState *state;
-	WorkbookControl *wbc;
+	WorkbookControl  *wbc;
+	GtkWidget        *comment_view;
 	char const *error_str = _("Could not create the Scenario Add dialog.");
+	GString          *buf;
 
 	if (wbcg == NULL)
 		return;
@@ -173,13 +188,24 @@ dialog_scenario_add (WorkbookControlGUI *wbcg)
 			      "ScenarioAdd",
 			      G_CALLBACK (scenario_add_ok_clicked_cb), NULL,
 			      G_CALLBACK (scenario_add_update_sensitivity_cb),
-			      0))
+			      GNM_EE_SHEET_OPTIONAL))
 		return;
 
 	state->name_entry = glade_xml_get_widget (state->gui, "name_entry");
 	if (state->name_entry == NULL)
 	        return;
-	
+
+	comment_view = glade_xml_get_widget (state->gui, "comment_view");
+	if (comment_view == NULL)
+	        return;
+	buf = g_string_new (NULL);
+	g_string_append_printf (buf, _("Created on "));
+	dao_append_date (buf);
+	gtk_text_buffer_set_text (gtk_text_view_get_buffer
+				  (GTK_TEXT_VIEW (comment_view)), buf->str,
+				  strlen (buf->str));
+	g_string_free (buf, FALSE);
+
 	state->output_entry = NULL;
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_WIDGET (state->name_entry));
@@ -191,7 +217,8 @@ dialog_scenario_add (WorkbookControlGUI *wbcg)
 /********* Scenario Manager UI ******************************************/
 
 static void
-update_comment (ScenariosState *state, gchar *cells, gchar *comment)
+update_comment (ScenariosState *state, const gchar *cells,
+		const gchar *comment)
 {
 	GtkWidget     *w;
 	GtkTextBuffer *buf;
