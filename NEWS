@@ -4,6 +4,10 @@ Michael:
 	* Fixed problems closing workbooks
 	* Add pristine workbook discard
 
+Jon:
+	* Lots of Excel style export work:
+	format, font, colors
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.45

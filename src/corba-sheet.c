@@ -42,7 +42,7 @@ typedef struct {
 	Sheet *sheet;
 } SheetServant;
 
-static void
+static inline void
 out_of_range (CORBA_Environment *ev)
 {
 	CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Sheet_OutOfRange, NULL);
@@ -51,7 +51,7 @@ out_of_range (CORBA_Environment *ev)
 /*
  * Parses a list of ranges, returns a GList containing pointers to
  * Value structures.  Sets the return_list pointer to point to a
- * a listof those values.
+ * a list of those values.
  *
  * Returns TRUE on successfully parsing the string, FALSE otherwise
  */
@@ -61,7 +61,7 @@ corba_range_parse (Sheet *sheet, const char *range_spec, GSList **return_list)
 	GSList *list;
 	
 	list = range_list_parse (sheet, range_spec);
-	if (list){
+	if (list) {
 		*return_list = list;
 		return TRUE;
 	} else {

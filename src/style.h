@@ -116,6 +116,9 @@ StyleColor    *style_color_white      (void);
 guint          style_hash    (gconstpointer a);
 gint           style_compare (gconstpointer a, gconstpointer b);
 
+guint          style_font_hash_func (gconstpointer v);
+gint           style_font_equal (gconstpointer v, gconstpointer v2);
+
 extern StyleFont *gnumeric_default_font;
 extern StyleFont *gnumeric_default_bold_font;
 extern StyleFont *gnumeric_default_italic_font;

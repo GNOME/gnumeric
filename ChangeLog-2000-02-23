@@ -1,3 +1,15 @@
+1999-12-08  Jon K Hellan  <hellan@acm.org>
+
+	* src/style.h: Declare style_font_equal, style_font_hash_func.
+
+	* src/style.c (style_font_equal): Make non-static and rename from
+	font_equal. 
+	(style_font_hash_func): Make non-static and rename from font_hash
+	(style_init): Use new names for font_hash, font_equal.
+
+	* src/mstyle.c (mstyle_hash): Include MSTYLE_ORIENTATION. Return
+	the hash value(!).
+
 1999-12-08  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (segments_intersect) : Be more agressive about

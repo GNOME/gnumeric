@@ -154,13 +154,16 @@ mstyle_hash (gconstpointer st)
 		case MSTYLE_ANY_GUINT32:
 			hash = hash ^ e->u.any_guint32;
 			break;
+		case MSTYLE_ORIENTATION:
+			hash = hash ^ e->u.orientation;
+			break;
 		default:
 			g_warning ("Unimplemented hash item");
 			break;
 		}
 	}
 
-	return 0;
+	return hash;
 }
 
 static char *

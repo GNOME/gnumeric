@@ -347,8 +347,8 @@ style_color_unref (StyleColor *sc)
 /*
  * The routines used to hash and compare the different styles
  */
-static gint
-font_equal (gconstpointer v, gconstpointer v2)
+gint
+style_font_equal (gconstpointer v, gconstpointer v2)
 {
 	const StyleFont *k1 = (const StyleFont *) v;
 	const StyleFont *k2 = (const StyleFont *) v2;
@@ -366,8 +366,8 @@ font_equal (gconstpointer v, gconstpointer v2)
 	return !strcmp (k1->font_name, k2->font_name);
 }
 
-static guint
-font_hash (gconstpointer v)
+guint
+style_font_hash_func (gconstpointer v)
 {
 	const StyleFont *k = (const StyleFont *) v;
 
@@ -444,10 +444,12 @@ void
 style_init (void)
 {
 	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	style_font_hash   = g_hash_table_new (font_hash, font_equal);
+	style_font_hash   = g_hash_table_new (style_font_hash_func, 
+					      style_font_equal);
 	style_color_hash  = g_hash_table_new (color_hash, color_equal);
 
-	style_font_negative_hash = g_hash_table_new (font_hash, font_equal);
+	style_font_negative_hash = g_hash_table_new (style_font_hash_func, 
+						     style_font_equal);
 
 	font_init ();
 }
