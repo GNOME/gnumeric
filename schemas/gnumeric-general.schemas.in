@@ -1,14 +1,36 @@
 <gconfschemafile>
     <schemalist>
       <schema>
-        <key>/schemas/apps/gnumeric/core/undosize</key>
-        <applyto>/apps/gnumeric/core/undosize</applyto>
+        <key>/schemas/apps/gnumeric/undo/show_sheet_name</key>
+        <applyto>/apps/gnumeric/undo/show_sheet_name</applyto>
+        <owner>Gnumeric</owner>
+        <type>bool</type>
+	<default>false</default>
+        <locale name="C">
+        <short>Show Sheet Name in Undo List</short>
+        <long>This value determines whether to show the sheet names in the undo and redo lists.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/undo/size</key>
+        <applyto>/apps/gnumeric/undo/size</applyto>
         <owner>Gnumeric</owner>
         <type>int</type>
 	<default>100</default>
         <locale name="C">
         <short>Undo size</short>
         <long>This value determines the length of the undo chain. Each editing action has a size associate with it, to compare it with the memory requirements of a simple one-cell edit (size of 1). The undo list will be truncated when its total size exceeds this configurable value.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/undo/max_descriptor_width</key>
+        <applyto>/apps/gnumeric/undo/max_descriptor_width</applyto>
+        <owner>Gnumeric</owner>
+        <type>int</type>
+	<default>15</default>
+        <locale name="C">
+        <short>Length of the Undo Descriptors</short>
+        <long>This value is indicative of the maximum length of the command descriptors in the undo and redo chains.</long>
         </locale>
       </schema>
       <schema>

@@ -1,3 +1,13 @@
+2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas : add 2 undo preference settings
+	* src/commands.c : add sheet name to descriptors depending on
+	  preference setting
+	* src/commands.h : add cmd_range_list_to_string_utility and
+	  cmd_cell_pos_name_utility
+	* src/gnumeric-gconf.h : new file, gather gconf paths in a single 
+	  includable place
+
 2002-04-12  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-private.c :  move the really broken bonobo stuff here.

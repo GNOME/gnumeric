@@ -20,6 +20,8 @@ Andreas:
 	* Fix Sheet-Object Arrow/Line configuration dialog.
 	* Fix Sheet-Object Fill configuration dialog.
 	* Fix workbook attribute dialog.
+	* Add preference setting to include sheet name in undo/redo
+	  description
 
 Jody:
 	* Add password dialog to support encrypted input.
