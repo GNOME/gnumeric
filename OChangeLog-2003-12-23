@@ -1,3 +1,12 @@
+2000-05-10  Jacob Berkman  <jacob@helixcode.com>
+
+	* configure.in (use_wm_icons): check for using window icons
+
+	* src/main.c (gnumeric_main): use an icon if available in
+	gnome-libs
+
+	* src/Makefile.am (INCLUDES): add a -D for the icon dir
+
 2000-05-10  Karl Eichwalder  <ke@suse.de>
 
 	* src/dialogs/cell-format.glade: Typo.

@@ -28,6 +28,7 @@ INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"	\
 	-DGNUMERIC_LIBDIR=\""$(gnumeric_libdir)"\"	\
+	-DGNOME_ICONDIR=\""$(datadir)/pixmaps"\"	\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/				\
 	-I$(srcdir)/					\

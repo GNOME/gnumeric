@@ -36,6 +36,10 @@
 #include <libguile.h>
 #endif
 
+#ifdef USE_WM_ICONS
+#include <libgnomeui/gnome-window-icon.h>
+#endif
+
 /* The debugging level */
 int gnumeric_debugging = 0;
 int style_debugging = 0;
@@ -137,7 +141,9 @@ gnumeric_main (void *closure, int argc, char *argv [])
 			GNUMERIC_VERSION, GNUMERIC_DATADIR, GNUMERIC_LIBDIR);
 		return;
 	}
-
+#ifdef USE_WM_ICONS
+	gnome_window_icon_set_default_from_file (GNOME_ICONDIR"gnome-gnumeric.png");
+#endif
 	/* For reporting errors before we have an application window */
 	context = workbook_command_context_gui (NULL);
 

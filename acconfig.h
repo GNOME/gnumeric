@@ -17,6 +17,8 @@
 
 #undef GNUMERIC_VERSION
 
+#undef USE_WM_ICONS
+
 @BOTTOM@
 /* This is from libglade */
 

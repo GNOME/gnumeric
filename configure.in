@@ -348,6 +348,22 @@ AC_ARG_WITH(applix_shelf,
 		try_applix_shelf=true
 	fi
 )
+
+dnl ***************************************
+dnl Check for gnome-libs which supports wm icons
+dnl ***************************************
+CFLAGS_save=$CFLAGS
+LIBS_save=$LIBS
+CFLAGS=`gnome-config --cflags gnomeui`
+LIBS=`gnome-config --libs gnomeui`
+use_wm_icons=false
+AC_CHECK_LIB(gnomeui, gnome_window_icon_set_default_from_file, use_wm_icons=true)
+if test x$use_wm_icons = xtrue; then
+	AC_DEFINE(USE_WM_ICONS)
+fi
+CFLAGS=$CFLAGS_save
+LIBS=$LIBS_save
+
 dnl ***************************************
 
 EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo`
