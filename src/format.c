@@ -919,12 +919,13 @@ find_decimal_char (char const *str)
 
 /* An helper function which modify the number of decimals displayed
  * and recreate the format string by calling the good function */
-static char *
+static StyleFormat *
 reformat_decimals (FormatCharacteristics *fc,
 		   void (*format_function) (GString *res, FormatCharacteristics const * fmt),
 		   int step)
 {
 	GString *res;
+	StyleFormat *sf;
 
 	/* Be sure that the number of decimals displayed will remain correct */
 	if ((fc->num_decimals+step > 30) || (fc->num_decimals+step <0))
@@ -935,7 +936,9 @@ reformat_decimals (FormatCharacteristics *fc,
 	res = g_string_new (NULL);
 	(*format_function) (res, fc);
 
-	return g_string_free (res, FALSE);
+	sf = style_format_new_XL (res->str, FALSE);
+	g_string_free (res, TRUE);
+	return sf;
 }
 
 /*
@@ -945,7 +948,7 @@ reformat_decimals (FormatCharacteristics *fc,
  *
  * Returns NULL if the new format would not change things
  */
-char *
+StyleFormat *
 format_remove_decimal (StyleFormat const *fmt)
 {
 	int offset = 1;
@@ -954,6 +957,7 @@ format_remove_decimal (StyleFormat const *fmt)
 	char const *format_string = fmt->format;
 	FormatFamily ff;
 	FormatCharacteristics fc;
+	StyleFormat *sf;
 
 	/* First try to classify the format so we can regenerate it */
 	ff = cell_format_classify (fmt, &fc);
@@ -1015,7 +1019,9 @@ format_remove_decimal (StyleFormat const *fmt)
 
 	strcpy (p, p + offset);
 
-	return ret;
+	sf = style_format_new_XL (ret, FALSE);
+	g_free (ret);
+	return sf;
 }
 
 /*
@@ -1026,7 +1032,7 @@ format_remove_decimal (StyleFormat const *fmt)
  *
  * Returns NULL if the new format would not change things
  */
-char *
+StyleFormat *
 format_add_decimal (StyleFormat const *fmt)
 {
 	char const *pre = NULL;
@@ -1035,6 +1041,7 @@ format_add_decimal (StyleFormat const *fmt)
 	char const *format_string = fmt->format;
 	FormatFamily ff;
 	FormatCharacteristics fc;
+	StyleFormat *sf;
 
 	/* First try to classify the format so we can regenerate it */
 	ff = cell_format_classify (fmt, &fc);
@@ -1109,15 +1116,18 @@ format_add_decimal (StyleFormat const *fmt)
 	res[pre-format_string + 1] = '0';
 	strcpy (res + (pre - format_string) + 2, post);
 
-	return res;
+	sf = style_format_new_XL (res, FALSE);
+	g_free (res);
+	return sf;
 }
 
-char *
+StyleFormat *
 format_toggle_thousands (StyleFormat const *fmt)
 {
 	FormatFamily ff;
 	FormatCharacteristics fc;
 	GString *newformat;
+	StyleFormat *sf;
 
 	/* First try to classify the format so we can regenerate it */
 	ff = cell_format_classify (fmt, &fc);
@@ -1146,7 +1156,9 @@ format_toggle_thousands (StyleFormat const *fmt)
 		return NULL;
 	}
 
-	return g_string_free (newformat, FALSE);
+	sf = style_format_new_XL (newformat->str, FALSE);
+	g_string_free (newformat, TRUE);
+	return sf;
 }
 
 /*********************************************************************/

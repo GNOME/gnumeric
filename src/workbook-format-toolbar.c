@@ -320,12 +320,12 @@ cb_format_as_percent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 
 static void
 modify_format (WorkbookControlGUI *wbcg,
-	       char *(*format_modify_fn) (StyleFormat const *format),
+	       StyleFormat *(*format_modify_fn) (StyleFormat const *format),
 	       char const *descriptor)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView const *wbv;
-	char *new_fmt;
+	StyleFormat *new_fmt;
 
 	wbv = wb_control_view (wbc);
 	g_return_if_fail (wbv != NULL);
@@ -334,9 +334,9 @@ modify_format (WorkbookControlGUI *wbcg,
 	new_fmt = (*format_modify_fn) (mstyle_get_format (wbv->current_format));
 	if (new_fmt != NULL) {
 		MStyle *style = mstyle_new ();
-		mstyle_set_format_text (style, new_fmt);
+		mstyle_set_format (style, new_fmt);
 		cmd_selection_format (wbc, style, NULL, descriptor);
-		g_free (new_fmt);
+		style_format_unref (new_fmt);
 	}
 }
 

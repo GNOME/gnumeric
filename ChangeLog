@@ -1,3 +1,9 @@
+2003-07-11  Morten Welinder  <terra@gnome.org>
+
+	* src/format.c (format_toggle_thousands, format_add_decimal,
+	format_remove_decimal, reformat_decimals): Return a StyleFormat,
+	not a [vile XL format] string.  All callers changed.
+
 2003-07-10  Morten Welinder  <terra@gnome.org>
 
 	* src/format.c (format_toggle_thousands): New function.
