@@ -1,3 +1,9 @@
+2001-08-11  Ariel Rios  <ariel@linuxppc.org>
+
+	* plugin.c (func_scm_apply): Use scm_c_eval_string instead of 
+        scm_eval_0str which is now deprecated.
+	(plugin_init_general): Ditto.
+
 2001-08-11  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.69

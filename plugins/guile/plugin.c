@@ -75,7 +75,7 @@ func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 		/* FIXME : This looks like a leak (JEG 4/4/00) */
 		return value_new_error (ei->pos, _("First argument to SCM must be a Guile expression"));
 
-	function = scm_eval_0str(symbol);
+	function = scm_c_eval_string (symbol);
 	if (SCM_UNBNDP(function))
 		return value_new_error (ei->pos, _("Undefined scheme function"));
 
@@ -223,7 +223,7 @@ plugin_init_general (ErrorInfo **ret_error)
 
 	dir = gnumeric_sys_data_dir ("guile");
 	name = g_strconcat (dir, "gnumeric_startup.scm", NULL);
-	scm_apply (scm_eval_0str ("(lambda (filename)"
+	scm_apply (scm_c_eval_string ("(lambda (filename)"
 				  "  (if (access? filename R_OK)"
 				  "    (load filename)"
 				  "    (display (string-append \"could not read Guile plug-in init file\" filename \"\n\"))))"),
