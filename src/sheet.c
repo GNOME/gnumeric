@@ -3733,7 +3733,7 @@ sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 
 
 static void
-sheet_clone_style_region (Sheet *sheet, StyleRegion *region)
+sheet_clone_style_region (Sheet *sheet, StyleRegion const *region)
 {
 	g_return_if_fail (region->style != NULL);
 
@@ -3743,7 +3743,7 @@ sheet_clone_style_region (Sheet *sheet, StyleRegion *region)
 static void
 sheet_clone_styles (Sheet const *src, Sheet *dst)
 {
-	GList     *style_regions;
+	GList *style_regions, *ptr;
 
 	/* Init the style tables */
 	sheet_create_styles (dst);
@@ -3754,8 +3754,8 @@ sheet_clone_styles (Sheet const *src, Sheet *dst)
 	if (!style_regions)
 		return;
 
-	for (; style_regions; style_regions = style_regions->next) {
-		StyleRegion *region = style_regions->data;
+	for (ptr = style_regions; ptr != NULL; ptr = ptr->next) {
+		StyleRegion const *region = ptr->data;
 		sheet_clone_style_region (dst, region);
 	}
 
@@ -3765,24 +3765,25 @@ sheet_clone_styles (Sheet const *src, Sheet *dst)
 static void
 sheet_clone_selection (Sheet const *src, Sheet *dst)
 {
-	GList *selection = g_list_copy (src->selections);
+	GList *selections, *ptr;
 
-	if (selection == NULL)
+	if (src->selections == NULL)
 		return;
 
 	/* A new sheet has A1 selected by default */
 	sheet_selection_reset_only (dst);
 
-	selection = g_list_reverse (selection);
-	for (; selection; selection = selection->next) {
-		Range *range = selection->data;
+	selections = g_list_copy (src->selections);
+	selections = g_list_reverse (selections);
+	for (ptr = selections ; ptr != NULL ; ptr = ptr->next) {
+		Range const *range = ptr->data;
 		g_return_if_fail (range != NULL);
 		sheet_selection_add_range (dst,
 					   range->start.col, range->start.row,
 					   range->start.col, range->start.row,
 					   range->end.col,   range->end.row);
 	}
-	g_list_free (selection);
+	g_list_free (selections);
 
 	/* Set the cursor position */
 	sheet_cursor_set (dst,
