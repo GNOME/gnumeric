@@ -1,5 +1,10 @@
 2001-04-26  Morten Welinder  <terra@diku.dk>
 
+	* src/stf-parse.c: Put a decisive end to the signed-vs-unsigned
+	problems in here.  It's all glib's fault, really.
+
+2001-04-26  Morten Welinder  <terra@diku.dk>
+
 	* src/stf-parse.c (stf_parse_options_fixed_autodiscover): Fix a
  	signed vs. unsigned error.  (We underflowed from 0 to
  	0xffff...ff.)

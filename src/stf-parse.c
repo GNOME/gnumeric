@@ -53,6 +53,23 @@ typedef struct {
 	int stop;
 } AutoDiscovery_t;
 
+/*
+ * Some silly dude make the length field an unsigned int.  C just does
+ * not deal very well with that.
+ */
+static inline int
+my_garray_len (const GArray *a)
+{
+	return (int)a->len;
+}
+
+static inline int
+my_gptrarray_len (const GPtrArray *a)
+{
+	return (int)a->len;
+}
+
+
 /*******************************************************************************************************
  * STF PARSE OPTIONS : StfParseOptions related
  *******************************************************************************************************/
@@ -209,7 +226,7 @@ stf_parse_options_before_modification (StfParseOptions_t *parseoptions)
 	/* Copy the old splitpositions into a temporary array so we can compare them later */
 	parseoptions->oldsplitpositions = g_array_new (FALSE, FALSE, sizeof (int));
 
-	for (i = 0; i < parseoptions->splitpositions->len; i++) {
+	for (i = 0; i < my_garray_len (parseoptions->splitpositions); i++) {
 		int idx = g_array_index (parseoptions->splitpositions, int, i);
 		g_array_append_val (parseoptions->oldsplitpositions, idx);
 	}
@@ -228,10 +245,10 @@ stf_parse_options_after_modification (StfParseOptions_t *parseoptions)
 	g_return_val_if_fail (parseoptions != NULL, FALSE);
 	g_return_val_if_fail (parseoptions->modificationmode, FALSE);
 
-	if (parseoptions->splitpositions->len == parseoptions->oldsplitpositions->len) {
+	if (my_garray_len (parseoptions->splitpositions) == my_garray_len (parseoptions->oldsplitpositions)) {
 		int i;
 
-		for (i = 0; i < parseoptions->oldsplitpositions->len; i++) {
+		for (i = 0; i < my_garray_len (parseoptions->oldsplitpositions); i++) {
 
 			if (g_array_index (parseoptions->oldsplitpositions, int, i) != g_array_index (parseoptions->splitpositions, int, i)) {
 
@@ -494,7 +511,7 @@ stf_cache_options_free (StfCacheOptions_t *cacheoptions)
 
 	g_return_if_fail (cacheoptions != NULL);
 
-	for (i = 0; i < cacheoptions->lines->len; i++) {
+	for (i = 0; i < my_gptrarray_len (cacheoptions->lines); i++) {
 		CacheItem_t *item;
 
 		item = g_ptr_array_index (cacheoptions->lines, i);
@@ -529,7 +546,7 @@ stf_cache_options_set_data (StfCacheOptions_t *cacheoptions, StfParseOptions_t *
 
 	cacheoptions->data = data;
 
-	for (i = 0; i < cacheoptions->lines->len; i++) {
+	for (i = 0; i < my_gptrarray_len (cacheoptions->lines); i++) {
 		CacheItem_t *item;
 
 		item = g_ptr_array_index (cacheoptions->lines, i);
@@ -617,7 +634,7 @@ stf_cache_options_invalidate (StfCacheOptions_t *cacheoptions)
 		CacheItem_t *iterator;
 		int i;
 
-		for (i = 0; i < cacheoptions->lines->len; i++) {
+		for (i = 0; i < my_gptrarray_len (cacheoptions->lines); i++) {
 
 			iterator = g_ptr_array_index (cacheoptions->lines, i);
 
@@ -872,7 +889,7 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 	cur = src->position;
 
 	res = g_string_new ("");
-	if (src->splitpos < parseoptions->splitpositions->len)
+	if (src->splitpos < my_garray_len (parseoptions->splitpositions))
 		splitval = (int) g_array_index (parseoptions->splitpositions, int, src->splitpos);
 	else
 		splitval = -1;
@@ -1054,14 +1071,13 @@ stf_parse_general_cached (StfParseOptions_t *parseoptions, StfCacheOptions_t *ca
 	g_return_val_if_fail (stf_parse_options_valid (parseoptions), NULL);
 	g_return_val_if_fail (stf_cache_options_valid (cacheoptions), NULL);
 
-	if (cacheoptions->lines->len - 1 >= SHEET_MAX_ROWS) {
-
-		g_warning (WARN_TOO_MANY_ROWS, cacheoptions->lines->len - 1);
+	if (my_gptrarray_len (cacheoptions->lines) - 1 >= SHEET_MAX_ROWS) {
+		g_warning (WARN_TOO_MANY_ROWS, my_gptrarray_len (cacheoptions->lines) - 1);
 		return NULL;
 	}
 
-	if (cacheoptions->toline > cacheoptions->lines->len - 1 || cacheoptions->toline == -1)
-		cacheoptions->toline = cacheoptions->lines->len - 1;
+	if (cacheoptions->toline >= my_gptrarray_len (cacheoptions->lines) || cacheoptions->toline == -1)
+		cacheoptions->toline = my_gptrarray_len (cacheoptions->lines) - 1;
 
 	for (row = cacheoptions->fromline; row <= cacheoptions->toline; row++) {
 
@@ -1188,7 +1204,7 @@ stf_parse_get_colcount (StfParseOptions_t *parseoptions, const char *data)
 			iterator++;
 		}
 	} else {
-		colcount = parseoptions->splitpositions->len - 1;
+		colcount = my_garray_len (parseoptions->splitpositions) - 1;
 	}
 
 
@@ -1519,7 +1535,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 	 * detected here, we obviously don't need to
 	 * do this if there are no columns at all.
 	 */
-	if (parseoptions->splitpositions->len > 0) {
+	if (my_garray_len (parseoptions->splitpositions) > 0) {
 
 		/*
 		 * Try to find columns that look like :
@@ -1532,7 +1548,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 		 * Split these columns in 2
 		 */
 
-		for (i = 0; i + 1 < parseoptions->splitpositions->len; i++) {
+		for (i = 0; i < my_garray_len (parseoptions->splitpositions) - 1; i++) {
 			int begin = g_array_index (parseoptions->splitpositions, int, i);
 			int end   = g_array_index (parseoptions->splitpositions, int, i + 1);
 			int num_spaces   = -1;
@@ -1614,7 +1630,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 		/*
 		 * Remove empty columns here if needed
 		 */
-		for (i = 0; i + 1 < parseoptions->splitpositions->len; i++) {
+		for (i = 0; i < my_garray_len (parseoptions->splitpositions) - 1; i++) {
 			int begin = g_array_index (parseoptions->splitpositions, int, i);
 			int end = g_array_index (parseoptions->splitpositions, int, i + 1);
 			gboolean only_spaces = TRUE;
