@@ -1574,9 +1574,8 @@ msgid "Analysis Tools"
 msgstr "Засоби анал╕зу"
 
 #: po/tmp/analysis-tools.glade.h:12
-#, fuzzy
 msgid "C_umulative Percentages"
-msgstr "В╕дсотки"
+msgstr "Накопичен╕ в╕дсотки"
 
 #: po/tmp/analysis-tools.glade.h:13 src/dialogs/dialog-analysis-tools.c:89
 msgid "Correlation"
@@ -1603,9 +1602,8 @@ msgid "Grouped by:"
 msgstr "Груповано за:"
 
 #: po/tmp/analysis-tools.glade.h:20
-#, fuzzy
 msgid "I_nverse"
-msgstr "Зб╕льшити"
+msgstr "╤нверс╕я"
 
 #: po/tmp/analysis-tools.glade.h:21
 msgid "In_terval:"
@@ -1657,20 +1655,19 @@ msgstr ""
 
 #: po/tmp/analysis-tools.glade.h:33
 msgid "T-Test: Paired Two Sample for Means"
-msgstr ""
+msgstr "T-Тест: пор╕вняння середн╕й для двох виборок"
 
 #: po/tmp/analysis-tools.glade.h:34
 msgid "Va_riable 2 Range:"
 msgstr "Д╕апазон зм╕нно╖ 2:"
 
 #: po/tmp/analysis-tools.glade.h:35
-#, fuzzy
 msgid "_Bin Range:"
-msgstr "Д╕апазон вводу:"
+msgstr "Дв╕йковий д╕апазон:"
 
 #: po/tmp/analysis-tools.glade.h:36
 msgid "_Chart Output"
-msgstr ""
+msgstr "Вив╕д д╕аграми"
 
 #: po/tmp/analysis-tools.glade.h:37 po/tmp/gnumeric.xml.h:198
 #: src/workbook-control-gui.c:1832
@@ -1679,7 +1676,7 @@ msgstr "Стовпчики"
 
 #: po/tmp/analysis-tools.glade.h:38
 msgid "_Distribution:"
-msgstr ""
+msgstr "Розповсюдження:"
 
 #: po/tmp/analysis-tools.glade.h:39
 msgid "_Hypothesized Mean Difference:"
@@ -1724,11 +1721,11 @@ msgstr "Рядки"
 
 #: po/tmp/analysis-tools.glade.h:49
 msgid "_Rows per sample:"
-msgstr ""
+msgstr "Рядк╕в на виб╕рку:"
 
 #: po/tmp/analysis-tools.glade.h:50
 msgid "_Standard Errors"
-msgstr ""
+msgstr "Стандиртн╕ помилки"
 
 #: po/tmp/analysis-tools.glade.h:51
 msgid "_Variable 1 Range:"
@@ -3306,7 +3303,7 @@ msgstr "Приховати вибран╕ стовпчики"
 
 #: po/tmp/dialog-stf.glade.h:17
 msgid "Co_lumn end : "
-msgstr ""
+msgstr "К╕нець стовпчика: "
 
 #: po/tmp/dialog-stf.glade.h:18
 msgid "Co_mma (,)"
@@ -3318,7 +3315,7 @@ msgstr "Стовпчик"
 
 #: po/tmp/dialog-stf.glade.h:20
 msgid "Column formatting"
-msgstr ""
+msgstr "Форматування стовпчика"
 
 #: po/tmp/dialog-stf.glade.h:22
 msgid "Custom separator, this can be any character"
@@ -3346,7 +3343,7 @@ msgstr ""
 
 #: po/tmp/dialog-stf.glade.h:27
 msgid "End"
-msgstr ""
+msgstr "К╕нець"
 
 #: po/tmp/dialog-stf.glade.h:28
 msgid "Example"
@@ -3358,16 +3355,15 @@ msgstr "Ф╕ксована ширина"
 
 #: po/tmp/dialog-stf.glade.h:30
 msgid "Fixed width customization"
-msgstr ""
+msgstr "Налаштування ф╕ксовано╖ ширини"
 
 #: po/tmp/dialog-stf.glade.h:31
 msgid "Format"
 msgstr "Формат"
 
 #: po/tmp/dialog-stf.glade.h:32
-#, fuzzy
 msgid "Formatting for the selected column"
-msgstr "Зм╕нити ширину вибраних стовпчик╕в"
+msgstr "Форматування вибраного стовпчика"
 
 #: po/tmp/dialog-stf.glade.h:33
 msgid "Formatting options"
@@ -3414,16 +3410,15 @@ msgstr ""
 
 #: po/tmp/dialog-stf.glade.h:43
 msgid "Per column formatting"
-msgstr ""
+msgstr "Форматування стовпчик╕в"
 
 #: po/tmp/dialog-stf.glade.h:44
 msgid "Processing ends at this line, any subsequent lines will be ignored"
 msgstr ""
 
 #: po/tmp/dialog-stf.glade.h:45
-#, fuzzy
 msgid "Remove selected column"
-msgstr "Приховати вибран╕ стовпчики"
+msgstr "Видалити вибраний стовпчик"
 
 #: po/tmp/dialog-stf.glade.h:46
 msgid "S_ee two separators as one"
@@ -3465,16 +3460,15 @@ msgstr "Крапка з комою (;)"
 
 #: po/tmp/dialog-stf.glade.h:54
 msgid "Separation customization"
-msgstr ""
+msgstr "Налаштування розд╕лення"
 
 #: po/tmp/dialog-stf.glade.h:55
 msgid "Separators"
 msgstr "Розд╕лювач╕"
 
 #: po/tmp/dialog-stf.glade.h:56
-#, fuzzy
 msgid "Set the end of this column"
-msgstr "Виюрати весь стовпчик"
+msgstr "Встановити к╕нець цього стовпчика"
 
 #: po/tmp/dialog-stf.glade.h:57
 msgid "Slas_h (/)"
@@ -12446,7 +12440,6 @@ msgid "Inserts a Bonobo object"
 msgstr "Вставити об'╓кт Bonobo"
 
 #: po/tmp/gnumeric.xml.h:215 src/workbook-control-gui.c:1847
-#, fuzzy
 msgid "_Name"
 msgstr "Назва"
 
@@ -12889,14 +12882,12 @@ msgid "Cut the selection"
 msgstr "Вир╕зати вибране"
 
 #: po/tmp/gnumeric.xml.h:59
-#, fuzzy
 msgid "Decrease Precision"
-msgstr "Зменшити"
+msgstr "Зменшити точн╕сть"
 
 #: po/tmp/gnumeric.xml.h:60
-#, fuzzy
 msgid "Decrease the preceision of the selected cells"
-msgstr "Зм╕нити форматування вибраних ком╕рок"
+msgstr "Зменшити точн╕сть вибраних ком╕рок"
 
 #: po/tmp/gnumeric.xml.h:62
 msgid "Display the value of a formula or the formula itself"
@@ -12971,19 +12962,16 @@ msgid "Import..."
 msgstr "╤мпортувати..."
 
 #: po/tmp/gnumeric.xml.h:93
-#, fuzzy
 msgid "Includes a thousands seperator in the selected cells"
-msgstr "Вставити поточну дату у вибран╕ ком╕рки"
+msgstr "Вставити розд╕лювач розляд╕в у вибран╕ ком╕рки"
 
 #: po/tmp/gnumeric.xml.h:94
-#, fuzzy
 msgid "Increase Precision"
-msgstr "Зб╕льшити"
+msgstr "Зб╕льшити точн╕сть"
 
 #: po/tmp/gnumeric.xml.h:95
-#, fuzzy
 msgid "Increase the preceision of the selected cells"
-msgstr "Вставити поточну дату у вибран╕ ком╕рки"
+msgstr "Зб╕льшити точн╕сть вибраних ком╕рок"
 
 #: po/tmp/gnumeric.xml.h:96
 msgid "Insert Component"
