@@ -3504,14 +3504,10 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 {
 	xmlDocPtr xml;
 	XmlParseContext *ctxt;
-	FILE *file;
 
 	g_return_if_fail (wb_view != NULL);
 	g_return_if_fail (filename != NULL);
 
-	/*
-	 * Create the tree
-	 */
 	xml = xmlNewDoc ("1.0");
 	if (xml == NULL) {
 		gnumeric_io_error_save (context, "");
@@ -3522,11 +3518,8 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 	xml_parse_ctx_destroy (ctxt);
 
 	gnumeric_xml_set_compression (xml);
-	file = gnumeric_fopen (context, filename, "w");
-	if (file != NULL) {
-		xmlDocDump (file, xml);
-		fclose (file);
-	}
+	if (xmlSaveFile (filename, xml) < 0)
+		gnumeric_io_error_save (context, g_strerror (errno));
 
 	xmlFreeDoc (xml);
 }
