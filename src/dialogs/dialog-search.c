@@ -384,6 +384,15 @@ next_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	prev_next_clicked (dd, +1);
 }
 
+static gboolean
+cb_next (G_GNUC_UNUSED GtkWidget *widget,
+	 G_GNUC_UNUSED gboolean start_editing,
+	 DialogState *dd)
+{
+	prev_next_clicked (dd, +1);
+	return TRUE;
+}
+
 static void
 cb_focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 {
@@ -521,6 +530,10 @@ dialog_search (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (dd->matches_table),
 		"cursor_changed",
 		G_CALLBACK (cursor_change), dd);
+	g_signal_connect (G_OBJECT (dd->matches_table),
+			  "select_cursor_row",
+			  G_CALLBACK (cb_next),
+			  dd);
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "search_button")),
 		"clicked",
 		G_CALLBACK (search_clicked), dd);
