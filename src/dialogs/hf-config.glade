@@ -65,10 +65,23 @@
 
       <widget>
 	<class>GtkButton</class>
-	<name>button3</name>
+	<name>button2</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button3</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<signal>
+	  <name>clicked</name>
+	  <handler>customize_hf_help</handler>
+	  <last_modification_time>Fri, 07 Sep 2001 23:20:24 GMT</last_modification_time>
+	</signal>
+	<stock_button>GNOME_STOCK_BUTTON_HELP</stock_button>
       </widget>
     </widget>
 
@@ -191,75 +204,74 @@
       </widget>
 
       <widget>
-	<class>GtkText</class>
+	<class>GtkEntry</class>
 	<name>left-format</name>
-	<width>130</width>
-	<height>130</height>
 	<can_focus>True</can_focus>
-	<has_focus>True</has_focus>
 	<editable>True</editable>
+	<text_visible>True</text_visible>
+	<text_max_length>0</text_max_length>
 	<text></text>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
 	  <top_attach>2</top_attach>
 	  <bottom_attach>3</bottom_attach>
-	  <xpad>2</xpad>
+	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <xexpand>True</xexpand>
-	  <yexpand>True</yexpand>
+	  <yexpand>False</yexpand>
 	  <xshrink>False</xshrink>
 	  <yshrink>False</yshrink>
 	  <xfill>True</xfill>
-	  <yfill>True</yfill>
+	  <yfill>False</yfill>
 	</child>
       </widget>
 
       <widget>
-	<class>GtkText</class>
+	<class>GtkEntry</class>
 	<name>center-format</name>
-	<width>130</width>
-	<height>130</height>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
+	<text_visible>True</text_visible>
+	<text_max_length>0</text_max_length>
 	<text></text>
 	<child>
 	  <left_attach>1</left_attach>
 	  <right_attach>2</right_attach>
 	  <top_attach>2</top_attach>
 	  <bottom_attach>3</bottom_attach>
-	  <xpad>2</xpad>
+	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <xexpand>True</xexpand>
 	  <yexpand>False</yexpand>
 	  <xshrink>False</xshrink>
 	  <yshrink>False</yshrink>
 	  <xfill>True</xfill>
-	  <yfill>True</yfill>
+	  <yfill>False</yfill>
 	</child>
       </widget>
 
       <widget>
-	<class>GtkText</class>
+	<class>GtkEntry</class>
 	<name>right-format</name>
-	<width>130</width>
-	<height>130</height>
 	<can_focus>True</can_focus>
 	<editable>True</editable>
+	<text_visible>True</text_visible>
+	<text_max_length>0</text_max_length>
 	<text></text>
 	<child>
 	  <left_attach>2</left_attach>
 	  <right_attach>3</right_attach>
 	  <top_attach>2</top_attach>
 	  <bottom_attach>3</bottom_attach>
-	  <xpad>2</xpad>
+	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <xexpand>True</xexpand>
 	  <yexpand>False</yexpand>
 	  <xshrink>False</xshrink>
 	  <yshrink>False</yshrink>
 	  <xfill>True</xfill>
-	  <yfill>True</yfill>
+	  <yfill>False</yfill>
 	</child>
       </widget>
     </widget>

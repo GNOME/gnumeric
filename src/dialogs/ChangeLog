@@ -1,3 +1,13 @@
+2001-09-10  Jody Goldberg <jgoldberg@home.com>
+	For Wayne Schuller <k_wayne@linuxpower.org>
+	* dialog-printer-setup.c (display_hf_sample) : new.
+	(header_changed) : use it.
+	(footer_changed) : use it.
+	(do_setup_hf_menus) : use it.
+	(fill_hf) : be smarter.
+	(text_insert) : delete.
+	(do_hf_config) : Use GtkEntry and setup the Accept links.
+
 2001-09-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* descriptive-stats.glade : Add labels.

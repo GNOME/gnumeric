@@ -44,6 +44,7 @@ Morten:
 
 Wayne Schuller:
 	* Support gray scale patterns when printing.
+	* Improve Header/Footer page for printer setup.
 
 Zbigniew:
 	* Support for translations in plugin.xml files using xml-i18n-tools

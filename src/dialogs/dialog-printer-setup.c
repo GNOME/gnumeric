@@ -820,6 +820,53 @@ do_setup_margin (PrinterSetupState *state)
 			TRUE);
 }
 
+/* Display the header or footer sample in the print setup dialog.
+ * Currently we use three labels for each part of the header or footer.
+ * 
+ */
+static void
+display_hf_sample (PrinterSetupState *state, gboolean header)
+{
+	gchar *text;
+	PrintHF *sample = NULL;
+	GtkLabel *left = NULL;
+	GtkLabel *middle = NULL;
+	GtkLabel *right = NULL;
+	HFRenderInfo *hfi;
+
+	hfi = hf_render_info_new ();
+
+	/* FIXME: Use real values. */
+	hfi->page = 1;
+	hfi->pages = 1;
+
+	if (header) {
+		left = GTK_LABEL(glade_xml_get_widget (state->gui, "header-left-sample"));
+		middle = GTK_LABEL(glade_xml_get_widget (state->gui, "header-middle-sample"));
+		right = GTK_LABEL(glade_xml_get_widget (state->gui, "header-right-sample"));
+		sample = state->header;
+	} else {
+		left = GTK_LABEL(glade_xml_get_widget (state->gui, "footer-left-sample"));
+		middle = GTK_LABEL(glade_xml_get_widget (state->gui, "footer-middle-sample"));
+		right = GTK_LABEL(glade_xml_get_widget (state->gui, "footer-right-sample"));
+		sample = state->footer;
+	}
+
+	text   = hf_format_render (sample->left_format, hfi, HF_RENDER_PRINT);
+	gtk_label_set_text(left, text);
+	g_free(text);
+
+	text = hf_format_render (sample->middle_format, hfi, HF_RENDER_PRINT);
+	gtk_label_set_text(middle, text);
+	g_free(text);
+
+	text  = hf_format_render (sample->right_format, hfi, HF_RENDER_PRINT);
+	gtk_label_set_text(right, text);
+	g_free(text);
+
+	hf_render_info_destroy (hfi);
+}
+
 static void
 header_changed (GtkObject *object, PrinterSetupState *state)
 {
@@ -827,6 +874,8 @@ header_changed (GtkObject *object, PrinterSetupState *state)
 
 	print_hf_free (state->header);
 	state->header = print_hf_copy (format);
+
+	display_hf_sample (state, TRUE);
 }
 
 static void
@@ -836,9 +885,11 @@ footer_changed (GtkObject *object, PrinterSetupState *state)
 
 	print_hf_free (state->footer);
 	state->footer = print_hf_copy (format);
+
+	display_hf_sample (state, FALSE);
 }
 
-/**
+/*
  * Fills one of the GtkCombos for headers or footers with the list
  * of existing header/footer formats
  */
@@ -871,9 +922,9 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GtkSignalFunc callback, Pr
 
 		res = g_strdup_printf (
 			"%s%s%s%s%s",
-			left, *left ? "," : "",
-			right, *right ? "," : "",
-			middle);
+			left, (*left && (*middle || *right)) ? ", " : "",
+			middle, (*middle && *right) ? ", " : "",
+			right);
 
 		li = gtk_menu_item_new_with_label (res);
 		gtk_widget_show (li);
@@ -892,17 +943,8 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GtkSignalFunc callback, Pr
 	hf_render_info_destroy (hfi);
 }
 
-static void
-text_insert (GtkText *text_widget, const char *text)
-{
-	int len = strlen (text);
-	gint pos = 0;
-
-	gtk_editable_insert_text (GTK_EDITABLE (text_widget), text, len, &pos);
-}
-
 static char *
-text_get (GtkText *text_widget)
+text_get (GtkEditable *text_widget)
 {
 	return gtk_editable_get_chars (GTK_EDITABLE (text_widget), 0, -1);
 }
@@ -911,7 +953,7 @@ static PrintHF *
 do_hf_config (const char *title, PrintHF **config, WorkbookControlGUI *wbcg)
 {
 	GladeXML *gui;
-	GtkText *left, *middle, *right;
+	GtkEntry *left, *middle, *right;
 	GtkWidget *dialog;
 	PrintHF *ret = NULL;
 	int v;
@@ -920,23 +962,29 @@ do_hf_config (const char *title, PrintHF **config, WorkbookControlGUI *wbcg)
         if (gui == NULL)
                 return NULL;
 
-	left   = GTK_TEXT (glade_xml_get_widget (gui, "left-format"));
-	middle = GTK_TEXT (glade_xml_get_widget (gui, "center-format"));
-	right  = GTK_TEXT (glade_xml_get_widget (gui, "right-format"));
+	left   = GTK_ENTRY (glade_xml_get_widget (gui, "left-format"));
+	middle = GTK_ENTRY (glade_xml_get_widget (gui, "center-format"));
+	right  = GTK_ENTRY (glade_xml_get_widget (gui, "right-format"));
 	dialog = glade_xml_get_widget (gui, "hf-config");
 
-	text_insert (left, (*config)->left_format);
-	text_insert (middle, (*config)->middle_format);
-	text_insert (right, (*config)->right_format);
+	gtk_entry_set_text (left, (*config)->left_format);
+	gtk_entry_set_text (middle, (*config)->middle_format);
+	gtk_entry_set_text (right, (*config)->right_format);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), title);
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (left));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (middle));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (right));
 
 	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 
 	if (v == 0) {
 		char *left_format, *right_format, *middle_format;
 
-		left_format   = text_get (left);
-		middle_format = text_get (middle);
-		right_format  = text_get (right);
+		left_format   = text_get (GTK_EDITABLE(left));
+		middle_format = text_get (GTK_EDITABLE(middle));
+		right_format  = text_get (GTK_EDITABLE(right));
 
 		print_hf_free (*config);
 		*config = print_hf_new (left_format, middle_format, right_format);
@@ -946,7 +994,7 @@ do_hf_config (const char *title, PrintHF **config, WorkbookControlGUI *wbcg)
 		g_free (right_format);
 
 		ret = print_hf_register (*config);
-	}
+	} 
 
 	if (v != -1)
 		gtk_object_destroy (GTK_OBJECT (dialog));
@@ -976,8 +1024,11 @@ do_header_config (GtkWidget *button, PrinterSetupState *state)
 	hf = do_hf_config (_("Custom header configuration"),
 			   &state->header, state->wbcg);
 
-	if (hf)
+	if (hf) {
 		do_setup_hf_menus (state, hf, NULL);
+
+		display_hf_sample (state, TRUE);
+	}
 }
 
 static void
@@ -988,8 +1039,11 @@ do_footer_config (GtkWidget *button, PrinterSetupState *state)
 	hf = do_hf_config (_("Custom footer configuration"),
 			   &state->footer, state->wbcg);
 
-	if (hf)
+	if (hf) {
 		do_setup_hf_menus (state, NULL, hf);
+
+		display_hf_sample (state, FALSE);
+	}
 }
 
 static void
@@ -1009,6 +1063,10 @@ do_setup_hf (PrinterSetupState *state)
 	gtk_signal_connect (
 		GTK_OBJECT (glade_xml_get_widget (state->gui, "configure-footer")),
 		"clicked", GTK_SIGNAL_FUNC (do_footer_config), state);
+
+	/* Create sample data for headers and footers. */
+	display_hf_sample (state, TRUE);
+	display_hf_sample (state, FALSE);
 }
 
 static void

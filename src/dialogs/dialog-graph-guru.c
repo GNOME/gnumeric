@@ -29,6 +29,7 @@
 #include "workbook-edit.h"
 #include "sheet-control-gui.h"
 #include "sheet-object.h"
+#include "dialogs.h"
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
@@ -307,15 +308,10 @@ void
 dialog_graph_guru (WorkbookControlGUI *wbcg)
 {
 	GraphGuruState *state;
-	GnmGraph *graph;
 	Range const * r;
 	int num_rows, num_cols;
 
 	g_return_if_fail (wbcg != NULL);
-
-	state->graph = graph;
-	if (graph == NULL)
-		return;
 
 	state = g_new0(GraphGuruState, 1);
 	state->wbcg	= wbcg;
@@ -326,7 +322,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg)
 	state->ranges   = NULL;
 	state->gui	= NULL;
 	state->control  = CORBA_OBJECT_NIL;
-	state->graph    = graph;
+	state->graph    = gnm_graph_new (state->wb);
 
 	r = selection_first_range (state->sheet, NULL, NULL);
 	num_cols = range_width (r);

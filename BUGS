@@ -14,7 +14,6 @@ Release Critical
 Pending Patches
 ---------------
 
-    - auto fill
     - xml schema
 
 Long term breakage
@@ -84,6 +83,7 @@ Names :
     : Is this a bug ?
 
 - calculated cells do not span.
+    : this is by design, we'll fix it when we move to just in time rendering.
 
 - Why does the number matching bother comparing against formats that are
   covered by 'General' ?
