@@ -142,8 +142,8 @@ CellRegion *
 table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 		       PasteTarget *pt, guchar *buffer, int length)
 {
-	WorkbookView *wb_view;
-	Workbook *wb;
+	WorkbookView *wb_view = NULL;
+	Workbook *wb = NULL;
 	GList *l = NULL;
 	CellRegion *ret = NULL;
 	const GnmFileOpener *reader = get_file_opener_by_id (reader_id);
@@ -178,8 +178,10 @@ table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 out:
 	if (l)
 		g_list_free (l);
- 	g_object_unref (wb_view);
-	g_object_unref (wb);
+	if (wb_view)
+		g_object_unref (wb_view);
+	if (wb)
+		g_object_unref (wb);
 	g_object_unref (G_OBJECT (ioc));
 	g_object_unref (G_OBJECT (input));
 	
@@ -229,7 +231,7 @@ complex_content_received (GtkClipboard *clipboard,  GtkSelectionData *sel,
 		content = xml_cellregion_read (wbc, pt->sheet,
 					       sel->data, sel->length);
 	} else {
-		char *reader_id = NULL;
+		const char *reader_id = NULL;
 		
 		if (sel->target == gdk_atom_intern (OOO_ATOM_NAME, FALSE))
 			reader_id = "Gnumeric_OpenCalc:openoffice";
@@ -411,8 +413,7 @@ x_clipboard_get_cb (GtkClipboard *gclipboard, GtkSelectionData *selection_data,
 /**
  * x_clipboard_clear_cb:
  *
- * Callback for the "we lost the X selection" signal. Only invoked for
- * "primary".
+ * Callback for the "we lost the X selection" signal.
  */
 static gint
 x_clipboard_clear_cb (GtkClipboard *clipboard,
@@ -427,7 +428,7 @@ void
 x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 {
 	PasteTarget *new_pt;
-	GtkClipboard *primary = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
+	GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
 
 	if (wbcg->clipboard_paste_callback_data != NULL)
@@ -438,7 +439,7 @@ x_request_clipboard (WorkbookControlGUI *wbcg, PasteTarget const *pt)
 	wbcg->clipboard_paste_callback_data = new_pt;
 
 	/* Query the formats, This will callback x_clipboard_received */
-	gtk_clipboard_request_contents (primary, atom_targets,
+	gtk_clipboard_request_contents (clipboard, atom_targets,
 		  x_clipboard_received, wbcg);
 }
 
