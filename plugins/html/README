@@ -1,11 +1,22 @@
-This is a small and simple plugin to export and import HTML files.
-It is published under the GNU GPL..
-Note: All export functions don't support graphics on the sheet!
+Welcome to the Gnumeric HTML Plugin README.
+
+The HTML plugin supports export to HTML, LaTeX and roff formats. The 
+export PS/PDF/EPS functions have been deprecated.
+
+The plugin is published under the GNU GPL..
+
+Note: None of these export functions supports graphics output!
+
+Original Author: rasca (thron@gmx.de)
+
+
+
+**********************************************************************
 
 Features of the export/import HTML functions:
+--------------------------------------------
 
 	- exporting tables
-
 		* all tables are written in one file, but every sheet
 		  gets it's own TABLE-tag
 		* beside the content of the cells it self the following
@@ -19,7 +30,6 @@ Features of the export/import HTML functions:
 		* the characters "<" and ">" are 7bit encoded
 
 	- importing tables
-
 		* this is just a dirty hack which will in the most
 		  cases only work while reading html files which were
 		  created by this plugin!
@@ -30,21 +40,25 @@ Features of the export/import HTML functions:
 			- horizontal center and right aligment
 		* the 7bit presentation of "<" and ">" are decoded
 
+**********************************************************************
+
 Features of the export LaTeX functions:
+--------------------------------------
+
+	- only the topmost sheet is exported.
+	- file can be run alone or embedded in another.
+	- uses the longtable package for multi-page tables.
+	- table can be set in portrait (default) or landscape mode.
+	- horizontal merges work.
+	- text colour works.
 	- left and right alignment
 	- bold, italic and sansserif (only in LaTeX2e)
 
-Features of the export Roff/PS/PDF function:
-	- PS: you need gnu groff installed
-	- PDF: you need ghostscript installed
+**********************************************************************
+
+Features of the export Roff function:
+------------------------------------
+
 	- bold, italic
 	- left, right and center alignment
 
-Features of the export EPS funtion:
-	- very experimental
-	- bold, italic
-	- left, center and right alignment
-	- foreground and background colors
-
-Author: rasca (thron@gmx.de)
--

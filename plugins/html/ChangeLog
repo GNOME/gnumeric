@@ -1,3 +1,27 @@
+2001-10-28  Jody Goldberg <jgoldberg@home.com>
+
+	* latex.c (latex2e_file_save) : Use sheet_merge_is_corner.
+
+2001-10-16  Adrian Custer <acuster@nature.berkeley.edu>
+
+	* latex.c : split the LaTeX2e exporter into four functions. The base
+	function writes the headers and checks for merges.
+		Add latex2e_write_file_header() which sets up the LaTeX file with user
+			preferences and allows the file to be \input -able (fixes 
+			http://bugzilla.gnome.org/show_bug.cgi?id=29506
+			suggestion of Han-Wen Nienhuys).
+		Add latex2e_write_table_header() allows control of the headers and
+			footers for this longtable.
+		Add	latex2e_write_multicolumn_cell() to output cell contents and
+			borders.
+	Please Note:
+		THE LaTeX2e EXPORTER NOW ONLY EXPORTS THE TOP SHEET!
+		The LaTeX file can be modified to print in landscape mode.
+		The file can be now be longer than a single page (uses \longtable,
+			suggestion of Jacek Pilszka on gnome-list). 
+		Preliminary support for merges: single row, horizontal merges that do
+			not span past the last column of the table are supported.
+
 2001-10-18  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.72

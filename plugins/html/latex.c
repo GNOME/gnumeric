@@ -4,6 +4,9 @@
  * Copyright (C) 1999, 2000 Rasca, Berlin
  * EMail: thron@gmx.de
  *
+ * Copyright (C) 2001 Adrian Custer, Berkeley
+ * email: acuster@nature.berkeley.edu
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -19,24 +22,44 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <errno.h>
-#include <gnome.h>
-#include "config.h"
-#include "io-context.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "style.h"
-#include "style-color.h"
+
+/*
+ * This file contains both the LaTeX2e and the LaTeX 2.09 plugin functions.
+ *
+ * The LateX 2.09 function is named:
+ * 		latex_file_save()          which calls
+ * 			latex_fprintf_cell()   to write each cell. This in turn calls
+ * 				latex_fputs()      to escape LaTeX specific characters.
+ *
+ * The LaTeX2e function is named:
+ * 		latex2e_file_save()       			 which calls 3 functions:
+ * 			latex2e_write_multicolumn_cell() to write each cell. This calls
+ * 				latex_fputs()               	just like above.
+ * 			latex_write_file_header()		 to output LaTeX definitions.
+ * 			latex_write_table_header()		 to start each table.
+ *
+ */
+
+
+#include <config.h>
 #include "latex.h"
-#include "font.h"
-#include "cell.h"
-#include "error-info.h"
-#include "plugin-util.h"
+#include <plugin-util.h>
+#include <io-context.h>
+#include <error-info.h>
+#include <workbook-view.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <sheet-merge.h>
+#include <style.h>
+#include <style-color.h>
+#include <font.h>
+#include <cell.h>
+
+#include <errno.h>
 
 /**
  * latex_fputs :
- * 
+ *
  * @p : a pointer to a char, start of the string to be processed.
  * @fp : a file pointer where the processed characters are written.
  *
@@ -76,7 +99,7 @@ latex_fputs (const char *p, FILE *fp)
 
 /**
  * latex_fprintf_cell :
- * 
+ *
  * @fp : a file pointer where the cell contents will be written.
  * @cell : the cell whose contents are to be written.
  *
@@ -90,11 +113,6 @@ latex_fprintf_cell (FILE *fp, const Cell *cell)
 
 	if (cell_is_blank (cell))
 		return;
-
-	/*
-	 * FIXME: this is wrong for formulae.  We should do the full math
-	 * thing.
-	 */
 	s = cell_get_rendered_text (cell);
 	latex_fputs (s, fp);
 	g_free (s);
@@ -105,12 +123,11 @@ latex_fprintf_cell (FILE *fp, const Cell *cell)
  * latex_file_save : The LateX 2.09 exporter.
  *
  * @FileSaver :        structure for file plugins.
- * @IOcontext :        currently not used but reserved for the future. 
+ * @IOcontext :        currently not used but reserved for the future.
  * @WorkbookView :     provides the way to access the sheet being exported.
  * @filename :         file written to.
  *
- * The function writes every sheet of the workbook to a LaTeX 2.09 table. It is
- * Rasca's code essentially unchanged and so can only do simple export.
+ * The function writes every sheet of the workbook to a LaTeX 2.09 table.
  */
 void
 latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
@@ -205,109 +222,381 @@ latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	fclose (fp);
 }
 
-/*
- * write every sheet of the workbook to a latex2e table
+
+/**
+ * latex2e_write_file_header:
+ *
+ * @fp : a file pointer where the cell contents will be written.
+ *
+ * This ouputs the LaTeX header. Kept separate for esthetics.
+ */
+
+static void
+latex2e_write_file_header(FILE *fp)
+{
+		fputs("
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                  %%
+%%  This is the header of a LaTeX2e file exported from Gnumeric.    %%
+%%                                                                  %%
+%%  This file can be compiled as it stands or included in another   %%
+%%  LaTeX document. The table is based on the longtable package so  %%
+%%  the longtable options (headers, footers...) can be set in the   %%
+%%  preamble section below (see PRAMBLE).                           %%
+%%                                                                  %%
+%%  To include the file in another, the following two lines must be %%
+%%  in the including file:                                          %%
+%%        \\def\\inputGnumericTable{}                                 %%
+%%  at the begining of the file and:                                %%
+%%        \\input{name-of-this-file.tex}                             %%
+%%  where the table is to be placed. Note also that the including   %%
+%%  file must use the following packages for the table to be        %%
+%%  rendered correctly:                                             %%
+%%    \\usepackage[latin1]{inputenc}                                 %%
+%%    \\usepackage{color}                                            %%
+%%    \\usepackage{longtable}                                        %%
+%%  optionally (for landscape tables embedded in another document): %%
+%%    \\usepackage{lscape}                                           %%
+%%                                                                  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%  This section checks if we are begin input into another file or  %%
+%%  the file will be compiled alone. First use a macro taken from   %%
+%%  the TeXbook ex 7.7 (suggestion of Han-Wen Nienhuys).            %%
+\\def\\ifundefined#1{\\expandafter\\ifx\\csname#1\\endcsname\\relax}
+
+
+%%  Check for the \\def token for inputed files. If it is not        %%
+%%  defined, the file will be processed as a standalone and the     %%
+%%  preamble will be used.                                          %%
+\\ifundefined{inputGnumericTable}
+
+%%  We must be able to close or not the document at the end.        %%
+	\\def\\gnumericTableEnd{\\end{document}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                  %%
+%%  This is the PREAMBLE. Change these values to get the right      %%
+%%  paper size and other niceties. Uncomment the landscape option   %%
+%%  to the documentclass defintion for standalone documents.        %%
+%%                                                                  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\\documentclass[12pt%
+	                  %,landscape%
+                    ]{report}
+	\\usepackage[latin1]{inputenc}
+	\\usepackage{color}
+	\\usepackage{longtable}
+
+	\\begin{document}
+
+%%  End of the preamble for the standalone. The next section is for %%
+%%  documents which are included into other LaTeX2e files.          %%
+\\else
+
+%%  We are not a stand alone document. For a regular table, we will %%
+%%  have no preamble and only define the closing to mean nothing.   %%
+    \\def\\gnumericTableEnd{}
+
+%%  If we want landscape mode in an embedded document, comment out  %%
+%%  the line above and uncomment the two below. The table will      %%
+%%  begin on a new page and run in landscape mode.                  %%
+%       \\def\\gnumericTableEnd{\\end{landscape}}
+%       \\begin{landscape}
+
+
+%%  End of the else clause for this file being \\input.              %%
+\\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                  %%
+%%  The rest is the gnumeric table, except for the closing          %%
+%%  statement. Changes below will alter the table\'s appearance.     %%
+%%                                                                  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%  The \\setlongtables command keeps column widths the same across  %%
+%%  pages. Simply comment out next line for varying column widths.  %%
+\\setlongtables
+
+",fp);
+}
+
+
+/**
+ * latex2e_write_table_header:
+ *
+ * @fp : a file pointer where the cell contents will be written.
+ * @num_cols: The number of columns in the table
+ *
+ * A convinience function that also helps make nicer code.
+ */
+static void
+latex2e_write_table_header(FILE *fp, int num_cols)
+{
+	int col;
+
+
+	fputs ("
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  The longtable options. (Caption, headers... see Goosens, p.124) %%
+%\t\\caption{The Table Caption.}             \\\\	%
+ \\hline	% Across the top of the table.
+%%  The rest of these options are table rows which are placed on    %%
+%%  the first, last or every page. Use \\multicolumn if you want.    %%
+
+%%  Header for the first page.                                      %%
+",fp);
+
+	fprintf (fp, "%%\t\\multicolumn{%d}{|c|}{The First Header} \\\\ \\hline \n", num_cols);
+	fprintf (fp, "%%\t\\multicolumn{1}{|c|}{colTag}\t%%Column 1\n");
+	for (col = 1 ; col < num_cols; col++)
+		fprintf (fp, "%%\t&\\multicolumn{1}{|c|}{colTag}\t%%Column %d\n",col);
+	fprintf (fp, "%%\t&\\multicolumn{1}{|c|}{colTag}\t\\\\ \\hline %%Last column\n");
+	fprintf (fp, "%%\t\\endfirsthead\n\n");
+
+	fprintf (fp, "%%%%  The running header definition.                                  %%%%\n");
+	fprintf (fp, "%%\t\\hline\n");
+	fprintf (fp, "%%\t\\multicolumn{%d}{|l|}{\\ldots\\small\\slshape continued} \\\\ \\hline\n", num_cols);
+	fprintf (fp, "%%\t\\multicolumn{1}{|c|}{colTag}\t%%Column 1\n");
+	for (col = 1 ; col < num_cols; col++)
+				fprintf (fp, "%%\t&\\multicolumn{1}{|c|}{colTag}\t%%Column %d\n",col);
+	fprintf (fp, "%%\t&\\multicolumn{1}{|c|}{colTag}\t\\\\ \\hline %%Last column\n");
+	fprintf (fp, "%%\t\\endhead\n\n");
+
+	fprintf (fp, "%%%%  The running footer definition.                                  %%%%\n");
+	fprintf (fp, "%%\t\\hline\n");
+	fprintf (fp, "%%\t\\multicolumn{%d}{|r|}{\\small\\slshape continued\\ldots}", num_cols);
+	fprintf (fp, " \\\\\t\\hline \n");
+	fprintf (fp, "%%\t\\endfoot\n\n");
+
+	fprintf (fp, "%%%%  The ending footer definition.                                   %%%%\n");
+	fprintf (fp, "%%\t\\multicolumn{%d}{|c|}{That's all folks} \\\\ \\hline \n", num_cols);
+	fprintf (fp, "%%\t\\endlastfoot\n");
+	fputs ("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n",fp);
+
+}
+
+
+/**
+ * latex2e_write_multicolumn_cell:
+ *
+ * @fp : a file pointer where the cell contents will be written.
+ * @cell : the cell whose contents are to be written.
+ * @num_merged_cols : an integer value of the number of columns to merge.
+ *
+ * This function creates all the LaTeX code for the cell of a table (i.e. all
+ * the code that might fall between two ampersands (&)). All cells for the
+ * moment are \multicolumn with width of 1 for single cells. A parallel
+ * function might be created latex2e_multirow_write_cell() for cells created
+ * with \multirow but this doesn't handle borders correctly.
+ */
+static void
+latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged_cols)
+{
+	char * rendered_string;
+	StyleColor *textColor;
+	gushort r,g,b;
+
+	/* Print the cell according to its style. */
+	MStyle *mstyle = cell_get_mstyle (cell);
+	g_return_if_fail (mstyle != NULL);
+
+
+	/* Open the multicolumn statement. */
+	fprintf (fp, "\\multicolumn{%d}{",num_merged_cols);
+
+	/* Drop in the left hand format delimiter. */
+	fprintf (fp, "|");
+
+	/* Send the alignment of the cell through a routine to deal with
+	 * HALIGN_GENERAL and then deal with the three cases. */
+	switch ( style_default_halign(mstyle, cell) ) {
+			case HALIGN_RIGHT:
+				fprintf (fp, "r");
+				break;
+			case  HALIGN_CENTER:
+			/*case HALIGN_CENTER_ACROSS_SELECTION: No not here. */
+				fprintf (fp, "c");
+				break;
+			case HALIGN_LEFT:
+				fprintf(fp, "l");
+			default:
+				break;
+	}
+	/* could support this with packed boxes. (mstyle_get_align_v (mstyle) & VALIGN_TOP)*/
+
+	/*Close the right delimiter, as above. Also open the text delimiter.*/
+	fprintf(fp,"|}{");
+
+	/* Check the foreground (text) colour. */
+	textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+	r = textColor->red;
+	g = textColor->green;
+	b = textColor->blue;
+	if (r != 0 || g != 0 || b != 0)
+		fprintf (fp, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
+		(double)r/65535, (double)g/65535, (double)b/65535);
+
+	/* Establish the font's style for the styles that can be addressed by LaTeX.
+	 * More complicated efforts (like changing fonts) are left to the user.
+	 */
+	if (font_is_monospaced (mstyle))
+		fprintf (fp, "\\texttt{");
+	else if (font_is_sansserif (mstyle))
+		fprintf (fp, "\\textsf{");
+	if (mstyle_get_font_bold (mstyle))
+		fprintf (fp, "\\textbf{");
+	if (mstyle_get_font_italic (mstyle))
+		fprintf (fp, "\\textit{");
+
+	/* Print the cell contents. */
+	if (!cell_is_blank (cell)) {
+		rendered_string = cell_get_rendered_text (cell);
+		latex_fputs (rendered_string, fp);
+		g_free (rendered_string);
+	}
+
+	/* Close the styles for the cell. */
+	if (mstyle_get_font_italic (mstyle))
+		fprintf (fp, "}");
+	if (mstyle_get_font_bold (mstyle))
+		fprintf (fp, "}");
+	if (font_is_monospaced (mstyle))
+		fprintf (fp, "}");
+	else if (font_is_sansserif (mstyle))
+		fprintf (fp, "}");
+	if (r != 0 || g != 0 || b != 0)
+		fprintf (fp, "}");
+
+	/* Close the multicolumn text bracket. */
+	fprintf(fp, "}");
+
+	/* And we are done. */
+	fprintf (fp, "\n");
+
+}
+
+
+/**
+ * latex2e_file_save :  The LaTeX2e exporter plugin function.
+ *
+ * @FileSaver :        New structure for file plugins. I don't understand.
+ * @IOcontext :        currently not used but reserved for the future.
+ * @WorkbookView :     this provides the way to access the sheet being exported.
+ * @filename :         where we'll write.
+ *
+ * This writes the top sheet of a Gnumeric workbook to a LaTeX2e longtable. We
+ * check for merges here, then call the function latex2e_write_multicolum_cell()
+ * to render the format and contents of the cell.
  */
 void
 latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
                    WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
-	GList *sheets, *ptr;
 	Cell *cell;
-	int row, col;
-	unsigned char r,g,b;
+	Sheet *current_sheet;
+	Range total_range;
+ 	Range const *merge_range;
+	int row, col, num_cols;
+	int num_merged_cols, num_merged_rows;
 	Workbook *wb = wb_view_workbook (wb_view);
 	ErrorInfo *open_error;
 
+
+	/* Sanity check */
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (file_name != NULL);
 
+	/* Get a file pointer from the os. */
 	fp = gnumeric_fopen_error_info (file_name, "w", &open_error);
 	if (fp == NULL) {
 		gnumeric_io_error_info_set (io_context, open_error);
 		return;
 	}
 
-	fprintf (fp, "\\documentclass[11pt]{article}\n");
-	fprintf (fp, "\t\\usepackage{umlaut}\n");
-	fprintf (fp, "\t\\usepackage{color}\n");
-	fprintf (fp, "\t\\oddsidemargin -0.54cm\n\t\\textwidth 17cm\n");
-	fprintf (fp, "\t\\parskip 1em\n");
-	fprintf (fp, "\\begin{document}\n\n");
-	sheets = workbook_sheets (wb);
-	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
-		Sheet *sheet = ptr->data;
-		Range range = sheet_get_extent (sheet, FALSE);
 
-		latex_fputs (sheet->name_unquoted, fp);
-		fprintf (fp, "\n\n");
-		fprintf (fp, "\\begin{tabular}{|");
-		for (col = 0; col <= sheet->cols.max_used; col++) {
-			fprintf (fp, "l|");
-		}
-		fprintf (fp, "}\\hline\n");
+	/* This is the preamble of the LaTeX2e file. */
+	latex2e_write_file_header(fp);
 
-		for (row = range.start.row; row <= range.end.row; row++) {
-			for (col = range.start.col; col <= range.end.col; col++) {
-				cell = sheet_cell_get (sheet, col, row);
-				if (!cell) {
-					if (col)
-						fprintf (fp, "\t&\n");
-					else
-						fprintf (fp, "\t\n");
-				} else {
-					MStyle *mstyle = cell_get_mstyle (cell);
+	/* Get the topmost sheet and its range from the plugin function argument. */
+	current_sheet = wb_view_cur_sheet(wb_view);
+	total_range = sheet_get_extent (current_sheet, FALSE);
 
-					if (!mstyle)
-						break;
-					if (col != 0)
-						fprintf (fp, "\t&");
-					else
-						fprintf (fp, "\t ");
-					if (mstyle_get_align_h (mstyle) == HALIGN_RIGHT)
-						fprintf (fp, "\\hfill ");
-					else if (mstyle_get_align_h (mstyle) == HALIGN_CENTER ||
-						 /* FIXME : center across selection is wrong */
-						 mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION)
-						fprintf (fp, "\\centering ");	/* doesn't work */
-					if (mstyle_get_align_v (mstyle) == VALIGN_TOP)
-						;
-					r = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.red >> 8;
-					g = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.green >> 8;
-					b = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color.blue >> 8;
-					if (r != 0 || g != 0 || b != 0)
-						fprintf (fp, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
-							 (double)r/255, (double)g/255, (double)b/255);
-					if (font_is_monospaced (mstyle))
-						fprintf (fp, "{\\tt ");
-					else if (font_is_sansserif (mstyle))
-						fprintf (fp, "\\textsf{");
-					if (mstyle_get_font_bold (mstyle))
-						fprintf (fp, "\\textbf{");
-					if (mstyle_get_font_italic (mstyle))
-						fprintf (fp, "{\\em ");
-					latex_fprintf_cell (fp, cell);
-					if (mstyle_get_font_italic (mstyle))
-						fprintf (fp, "}");
-					if (mstyle_get_font_bold (mstyle))
-						fprintf (fp, "}");
-					if (font_is_monospaced (mstyle))
-						fprintf (fp, "}");
-					else if (font_is_sansserif (mstyle))
-						fprintf (fp, "}");
-					if (r != 0 || g != 0 || b != 0)
-						fprintf (fp, "}");
-					/* if (style->halign & HALIGN_CENTER) */
-					/* fprintf (fp, "\\hfill"); */
-					fprintf (fp, "\n");
-				}
-			}
-			fprintf (fp, "\\\\\\hline\n");
-		}
-		fprintf (fp, "\\end{tabular}\n\n");
+	num_cols = total_range.end.col - total_range.start.col + 1;
+
+	/* Start outputting the table. */
+	fprintf (fp, "\\begin{longtable}[c]{");
+	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
+		/* The alignment is over-ridden by the \multicolumn statements. */
+		fprintf (fp, "l");
 	}
-	g_list_free (sheets);
-	fprintf (fp, "\\end{document}");
+	fprintf (fp, "}\n\n");
+
+	/* Output the table header. */
+	latex2e_write_table_header(fp,num_cols);
+
+
+	/* Step through the sheet, writing cells as appropriate. */
+	for (row = total_range.start.row; row <= total_range.end.row; row++) {
+		for (col = total_range.start.col; col <= total_range.end.col; col++) {
+
+			/* Get the cell. */
+			cell = sheet_cell_get (current_sheet, col, row);
+
+			/* Check if we are not the first cell in the row.*/
+			if (col != total_range.start.col)
+				fprintf (fp, "\t&");
+			else
+				fprintf (fp, "\t ");
+
+			/* A blank cell gets right and left delimiters and a newline. */
+			if (cell_is_blank(cell)) {
+				fprintf (fp, "\\multicolumn{1}{|l|}{}\n");
+				continue;
+			}
+
+			/* Check a merge. */
+			merge_range = sheet_merge_is_corner (current_sheet, &cell->pos);
+			if (merge_range == NULL) {
+				latex2e_write_multicolumn_cell(fp, cell, 1);
+				continue;
+			}
+
+			/* Get the extent of the merge. */
+			num_merged_cols = merge_range->end.col - merge_range->start.col + 1;
+			num_merged_rows = merge_range->end.row - merge_range->start.row + 1;
+
+			/* Check for a 2-D merge (longtable can't handle).*/
+			if ( (num_merged_cols > 1) && (num_merged_rows > 1) ){
+				fprintf(fp,"\n\\typeout{ERROR: LaTeX's longtable can not handle 2-D merged regions!}\n");
+				fclose(fp);
+				/*FIXME: add an error message.*/
+				return;
+			}
+
+			/* Check for a single row, we can handle with \multicolumn. */
+			if (num_merged_cols > 1) {
+				latex2e_write_multicolumn_cell(fp, cell, num_merged_cols);
+				/* increment the columns by num_of_columns of merge region. */
+				col += (num_merged_cols - 1);
+				continue;
+			}
+
+			/* Else it's a single column which we can't handle. */
+			fprintf(fp,"\n\\tyepout{ERROR: We can not yet handle merged columns!}\n");
+			fclose(fp);
+			/*FIXME: add an error message.*/
+			return;
+		}
+		fprintf (fp, "\\\\ \\hline\n");
+	}
+	fprintf (fp, "\\end{longtable}\n\n");
+	fprintf (fp, "\\gnumericTableEnd\n");
 	fclose (fp);
 }

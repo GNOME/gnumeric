@@ -22,7 +22,8 @@
 #ifndef GNUMERIC_PLUGIN_LATEX_H
 #define GNUMERIC_PLUGIN_LATEX_H
 
-#include "gnumeric.h"
+#include <gnumeric.h>
+#include <file.h>
 
 void latex_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const gchar *file_name);
 void latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const gchar *file_name);
