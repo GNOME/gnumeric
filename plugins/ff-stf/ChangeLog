@@ -1,3 +1,9 @@
+2000-02-01  Jason Leach  <leach@wam.umd.edu>
+
+	* dialog-stf-format-page.c (format_page_set_col_formatting):
+	kill bug #5718: a C++ comment changed to a C style comment for
+	compatability with non-gcc compilers.
+
 2000-01-31  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-stf.c (dialog_stf): Return -1 on cancel, 0 otherwise.

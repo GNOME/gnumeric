@@ -43,7 +43,7 @@ format_page_set_col_formatting (FileSource_t *src, const char *format, int colum
 	
 	sheet_style_attach (src->sheet, range, style);
 	
-	//mstyle_unref (style);
+	/* mstyle_unref (style); */
 }
 
 
