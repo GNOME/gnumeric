@@ -1311,6 +1311,34 @@ gnm_measure_string (PangoContext *context, const PangoFontDescription *font_desc
 	return width;
 }
 
+static void
+cb_focus_to_entry (GtkWidget *button, GtkWidget *entry)
+{
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)))
+		gtk_widget_grab_focus (entry);
+}
+
+static gboolean
+cb_activate_button (G_GNUC_UNUSED GtkWidget *widget,
+		    G_GNUC_UNUSED GdkEventFocus *event,
+		    GtkWidget *button)
+{
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+	return FALSE;
+}
+
+void
+gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry)
+{
+	g_signal_connect (G_OBJECT (button),
+			  "clicked", G_CALLBACK (cb_focus_to_entry),
+			  entry);
+	g_signal_connect (G_OBJECT (entry),
+			  "focus_in_event",
+			  G_CALLBACK (cb_activate_button),
+			  button);
+}
+
 /* ------------------------------------------------------------------------- */
 /* Refugees from GAL.  */
 

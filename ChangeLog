@@ -1,5 +1,7 @@
 2003-06-02  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.c (gnm_link_button_and_entry): New function.
+
 	* src/commands.c (cmd_analysis_tool): Clarify memory ownership
 	rules and adhere to them.  Plug leak.
 
