@@ -240,6 +240,16 @@ range_list_foreach_area (Sheet *sheet, GSList *ranges,
 	}
 }
 
+/**
+ * range_contains:
+ * @range: range to operate on
+ * @col:   column,
+ * @row:   row co-ordinate
+ * 
+ * Determine if a range contains a col,row co-ordinate.
+ * 
+ * Return value: TRUE if co-ordinate contained.
+ **/
 gboolean
 range_contains (Range const *range, int col, int row)
 {
@@ -267,10 +277,15 @@ range_contains (Range const *range, int col, int row)
 gboolean
 range_adjacent (Range const *a, Range const *b)
 {
-	int adx = a->end.col - a->start.col;
-	int bdx = b->end.col - b->start.col;
-	int ady = a->end.row - a->start.row;
-	int bdy = b->end.row - b->start.row;
+	int adx, bdx, ady, bdy;
+       
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+	
+	adx = a->end.col - a->start.col;
+	bdx = b->end.col - b->start.col;
+	ady = a->end.row - a->start.row;
+	bdy = b->end.row - b->start.row;
 
 	if ((a->start.col == b->start.col) &&
 	    (a->end.col   == b->end.col)) {
@@ -288,6 +303,54 @@ range_adjacent (Range const *a, Range const *b)
 			return FALSE;
 	}
 	return FALSE;
+}
+
+/**
+ * range_merge:
+ * @a: Range a.
+ * @b: Range b.
+ * 
+ * This routine coalesces two adjacent regions, eg.
+ * (A1, B1) would return A1:B1 or (A1:B2, C1:D2)) would
+ * give A1:D2. NB. it is imperative that the regions are
+ * actualy adjacent or unexpected results will ensue.
+ *
+ * Fully commutative.
+ * 
+ * Return value: the merged range.
+ **/
+Range
+range_merge (Range const *a, Range const *b)
+{
+	Range ans;
+
+	ans.start.col = 0;
+	ans.start.row = 0;
+	ans.end.col   = 0;
+	ans.end.row   = 0;
+
+	g_return_val_if_fail (a != NULL, ans);
+	g_return_val_if_fail (b != NULL, ans);
+
+	/* FIXME: Performance killing debug */
+	g_return_val_if_fail (range_adjacent (a, b), ans);
+	
+	if (a->start.row < b->start.row) {
+		ans.start.row = a->start.row;
+		ans.end.row   = b->end.row;
+	} else {
+		ans.start.row = b->start.row;
+		ans.end.row   = a->end.row;
+	}
+
+	if (a->start.col < b->start.col) {
+		ans.start.col = a->start.col;
+		ans.end.col   = b->end.col;
+	} else {
+		ans.start.col = b->start.col;
+		ans.end.col   = a->end.col;
+	}
+	return ans;
 }
 
 void

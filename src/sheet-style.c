@@ -24,6 +24,9 @@
 #include "selection.h"
 #include "ranges.h"
 #include "mstyle.h"
+#include "main.h"
+
+#define STYLE_DEBUG (gnumeric_debugging > 0)
 
 /**
  * sheet_style_optimize:
@@ -39,30 +42,71 @@
 void
 sheet_style_optimize (Sheet *sheet, Range range)
 {
-	GList *l;
+	GList *l, *a;
 	GList *style_list;
+	int    overlapping = 0, len = 0;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	g_warning ("implement the sheet style optimizer");
+	if (STYLE_DEBUG)
+		g_warning ("Optimize (%d, %d):(%d, %d)",
+			   range.start.col, range.start.row,
+			   range.end.col,   range.end.row);
 
 	style_list = NULL;
  	/* Look in the styles applied to the sheet */
 	for (l = sheet->style_list; l; l = l->next) {
 		StyleRegion *sr = l->data;
-		if (range_overlap (&sr->range, &range))
+		if (range_overlap (&sr->range, &range)) {
 			style_list = g_list_prepend (style_list,
 						     sr->style);
+			overlapping++;
+		}
+		len++;
 	}
+       
+	if (STYLE_DEBUG)
+		g_warning ("there are %d overlaps out of %d = %g%%",
+			   overlapping, len, (double)((1.0 * overlapping) / len));
+
 	/* See if any are adjacent to each other */
-	for (l = style_list; l; l = l->next) {
-		GList *a;
-		for (a = l->next; a; a = a->next) {
-			if (range_adjacent (l->data, a->data)) {
-				/* We need to compare MStyleElements's quickly: hash ? */
-				/* If equal we need to merge up */
+	for (a = style_list; a; a = a->next) {
+
+		StyleRegion *sra = a->data;
+		GList       *b;
+		
+		b = a->next;
+		while (b) {
+			StyleRegion *srb = b->data;
+			GList *next = g_list_next (b);
+
+			if (range_equal (&sra->range, &srb->range)) {
+				MStyle *tmp;
+				
+				tmp = sra->style;
+				sra->style = mstyle_merge (tmp, srb->style);
+				mstyle_unref (tmp);
+
+				style_list = g_list_remove (style_list, srb);
+				g_free (srb);
+				if (STYLE_DEBUG)
+					g_warning ("testme: Two equal ranges, merged");
 			}
+
+			if (range_adjacent (&sra->range, &srb->range) &&
+			    mstyle_equal   ( sra->style,  srb->style)) {
+				if (STYLE_DEBUG)
+					g_warning ("testme: Merging two ranges");
+				
+				sra->range = range_merge (&sra->range, &srb->range);
+				style_list = g_list_remove (style_list, srb);
+				
+				mstyle_unref (srb->style);
+				g_free (srb);
+			}
+
+			b = next;
 		}
 	}
 }
@@ -81,9 +125,7 @@ void
 sheet_style_attach (Sheet *sheet, Range range,
 		    MStyle *style)
 {
-	GList       *l;
 	StyleRegion *sr;
-	gboolean     add;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -100,26 +142,16 @@ sheet_style_attach (Sheet *sheet, Range range,
 	 *  Optimize the range fragmentation code.
 	 */
 
-	add = TRUE;
-	for (l = sheet->style_list; l; l = g_list_next (l)) {
-		StyleRegion *sr = l->data;
-		if (range_equal (&sr->range, &range)) {
-			MStyle *tmp;
+	sr = g_new (StyleRegion, 1);
+	sr->range = range;
+	sr->style = style;
+	
+	sheet->style_list = g_list_prepend (sheet->style_list, sr);
 
-			tmp = sr->style;
-			sr->style = mstyle_merge (tmp, style);
-			mstyle_unref (tmp);
-
-			add = FALSE;
-		}
-	}
-
-	if (add) {
-		sr = g_new (StyleRegion, 1);
-		sr->range = range;
-		sr->style = style;
-		
-		sheet->style_list = g_list_prepend (sheet->style_list, sr);
+	if (STYLE_DEBUG) {
+		printf ("Attaching style");
+		mstyle_dump (sr->style);
+		range_dump (&sr->range);
 	}
 		
 	/* FIXME: Need to clip range against view port */
@@ -151,8 +183,10 @@ sheet_style_compute (Sheet const *sheet, int col, int row)
 	for (l = sheet->style_list; l; l = l->next) {
 		StyleRegion *sr = l->data;
 		if (range_contains (&sr->range, col, row)) {
-/*			range_dump (&sr->range);
-			mstyle_dump (sr->style);*/
+			if (STYLE_DEBUG) {
+				range_dump (&sr->range);
+				mstyle_dump (sr->style);
+			}
 			style_list = g_list_prepend (style_list,
 						     sr->style);
 		}
@@ -179,8 +213,10 @@ sheet_style_compute_blank (Sheet const *sheet, int col, int row)
 	for (l = sheet->style_list; l; l = l->next) {
 		StyleRegion *sr = l->data;
 		if (range_contains (&sr->range, col, row)) {
-			range_dump (&sr->range);
-			mstyle_dump (sr->style);
+			if (STYLE_DEBUG) {
+				range_dump (&sr->range);
+				mstyle_dump (sr->style);
+			}
 			style_list = g_list_prepend (style_list,
 						     sr->style);
 		}

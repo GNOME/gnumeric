@@ -96,8 +96,9 @@ struct _MStyleElement {
 	} u;
 };
 
-MStyleElement  mstyle_element_copy    (MStyleElement e);
-void           mstyle_element_destroy (MStyleElement e);
+MStyleElement  mstyle_element_copy     (MStyleElement e);
+void           mstyle_element_destroy  (MStyleElement e);
+gboolean       mstyle_elements_equal   (const MStyleElement *a, const MStyleElement *b);
 
 MStyle     *mstyle_new         (const gchar *name);
 MStyle     *mstyle_new_elem    (const gchar *name, MStyleElement e);
@@ -105,6 +106,7 @@ MStyle     *mstyle_new_elems   (const gchar *name, const MStyleElement *e);
 void        mstyle_ref         (MStyle *st);
 void        mstyle_unref       (MStyle *st);
 void        mstyle_destroy     (MStyle *st);
+gboolean    mstyle_equal       (const MStyle *a, const MStyle *b);
 
 /* No pre-existance checking */
 void        mstyle_add         (MStyle *st, MStyleElement e);

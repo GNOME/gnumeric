@@ -1,3 +1,21 @@
+1999-10-10  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_element_dump): dump the default name instead.
+	(check_sorted): quieten.
+
+	* src/sheet-style.c (sheet_style_attach): remove n*n equality
+	check + move into sheet_style_optimize.
+	(sheet_style_optimize): Add equal range merging.
+	(sheet_style_compute_blank): kill debug.
+	Add new debugging macro throught.
+
+	* src/ranges.c (range_adjacent): add pre-conditions.
+	(range_merge): implement.
+
+	* src/mstyle.c (mstyle_element_equal): Implement.
+	(mstyle_elements_equal, mstyle_equal): ditto.
+	(mstyle_new_elems, dump_style_list): add casts.
+
 1999-10-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/style.c (style_mstyle_new) : Init background color to NULL for

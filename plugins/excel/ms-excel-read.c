@@ -107,13 +107,13 @@ biff_guint32_hash (const guint32 *d)
 static gint
 biff_guint16_equal (const guint16 *a, const guint16 *b)
 {
-	if (*a==*b) return 1;
+	if (*a == *b) return 1;
 	return 0;
 }
 static gint
 biff_guint32_equal (const guint32 *a, const guint32 *b)
 {
-	if (*a==*b) return 1;
+	if (*a == *b) return 1;
 	return 0;
 }
 
@@ -1120,6 +1120,27 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 	mstyle_add (style, e);
 
 	cell_set_style (cell, style);
+
+	/*
+	 * Generate a range inside which to optimise cell style regions.
+	 */
+	if (cell->row->pos > sheet->style_optimize.start.row + 2) {
+		sheet_style_optimize (sheet->gnum_sheet, sheet->style_optimize);
+
+		sheet->style_optimize.start.col = cell->col->pos;
+		sheet->style_optimize.start.row = cell->row->pos;
+		sheet->style_optimize.end = sheet->style_optimize.start;
+	} else {
+		if (cell->col->pos > sheet->style_optimize.end.col)
+			sheet->style_optimize.end.col   = cell->col->pos;
+		if (cell->col->pos < sheet->style_optimize.start.col)
+			sheet->style_optimize.start.col = cell->col->pos;
+
+		if (cell->row->pos > sheet->style_optimize.end.row)
+			sheet->style_optimize.end.row   = cell->row->pos;
+		if (cell->row->pos < sheet->style_optimize.end.row)
+			sheet->style_optimize.start.row = cell->row->pos;
+	}
 }
 
 static StyleBorderType
@@ -1717,6 +1738,11 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 	ans->shared_formulae =
 	    g_hash_table_new ((GHashFunc)biff_shared_formula_hash,
 			      (GCompareFunc)biff_shared_formula_equal);
+
+	ans->style_optimize.start.col = 0;
+	ans->style_optimize.start.row = 0;
+	ans->style_optimize.end.col   = 0;
+	ans->style_optimize.end.row   = 0;
 
 	return ans;
 }

@@ -19,6 +19,7 @@ typedef struct _ExcelSheet
 	eBiff_version ver;
 	GHashTable *shared_formulae;
 	GList *obj_queue;
+	Range  style_optimize;
 } ExcelSheet;
 
 typedef struct _BiffBoundsheetData

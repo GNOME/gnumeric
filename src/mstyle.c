@@ -5,6 +5,9 @@
 #include "sheet.h"
 #include "mstyle.h"
 #include "border.h"
+#include "main.h"
+
+#define STYLE_DEBUG (gnumeric_debugging > 0)
 
 typedef struct {
 	guint32        ref_count;
@@ -16,7 +19,7 @@ typedef struct {
 static guint32 stamp = 0;
 
 const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
-	"--Zero--",
+	"--UnSet--",
 	"--Conflict--",
 	"Color.Back",
 	"Color.Pattern",
@@ -80,7 +83,6 @@ mstyle_element_dump (const MStyleElement *e)
 	case MSTYLE_FONT_SIZE:
 		g_string_sprintf (ans, "size %f", e->u.font.size);
 		break;
-
 	case MSTYLE_BORDER_TOP :
 		g_string_sprintf (ans, "border top %d", e->u.border.top->line_type);
 		break;
@@ -99,9 +101,8 @@ mstyle_element_dump (const MStyleElement *e)
 	case MSTYLE_BORDER_REV_DIAGONAL :
 		g_string_sprintf (ans, "border reverse diagonal %d", e->u.border.rev_diagonal->line_type);
 		break;
-
 	default:
-		g_string_sprintf (ans, "Unknown type %d", e->type);
+		g_string_sprintf (ans, "%s", mstyle_names [e->type]);
 		break;
 	}
 
@@ -110,6 +111,130 @@ mstyle_element_dump (const MStyleElement *e)
 
 	return txt_ans;
 }
+
+/*
+ * This should probably be unrolled into mstyle_elements_equal.
+ */
+static gboolean
+mstyle_element_equal (const MStyleElement a,
+		      const MStyleElement b)
+{
+	if (a.type != b.type)
+		return FALSE;
+
+	switch (a.type) {
+	case MSTYLE_ANY_COLOR:
+		if (a.u.color.fore == b.u.color.fore)
+			return TRUE;
+		break;
+	case MSTYLE_ANY_BORDER:
+		if (a.u.border.top == b.u.border.top)
+			return TRUE;
+		break;
+	case MSTYLE_PATTERN:
+		if (a.u.pattern == b.u.pattern)
+			return TRUE;
+		break;
+	case MSTYLE_FONT_NAME:
+		/* FIXME: String font names should be uniq & hashed ! */
+		if (!strcmp (a.u.font.name, b.u.font.name))
+			return TRUE;
+		break;
+	case MSTYLE_FONT_BOLD:
+		if (a.u.font.bold == b.u.font.bold)
+			return TRUE;
+		break;
+	case MSTYLE_FONT_ITALIC:
+		if (a.u.font.italic == b.u.font.italic)
+			return TRUE;
+		break;
+	case MSTYLE_FONT_SIZE:
+		if (a.u.font.size == b.u.font.size)
+			return TRUE;
+		break;
+	case MSTYLE_FORMAT:
+		if (a.u.format == b.u.format)
+			return TRUE;
+		break;
+	case MSTYLE_ALIGN_V:
+		if (a.u.align.v == b.u.align.v)
+			return TRUE;
+		break;
+	case MSTYLE_ALIGN_H:
+		if (a.u.align.h == b.u.align.h)
+			return TRUE;
+		break;
+	case MSTYLE_ORIENTATION:
+		if (a.u.orientation == b.u.orientation)
+			return TRUE;
+		break;
+	case MSTYLE_FIT_IN_CELL:
+		if (a.u.fit_in_cell == b.u.fit_in_cell)
+			return TRUE;
+		break;
+	default:
+		return TRUE;
+	}
+	return FALSE;
+}
+
+gboolean
+mstyle_elements_equal (const MStyleElement *a,
+		       const MStyleElement *b)
+{
+	int i;
+
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+
+	for (i = 0; i < MSTYLE_ELEMENT_MAX && mstyle_element_equal (a[i], b[i]); i++);
+
+	return (i == MSTYLE_ELEMENT_MAX);
+}
+
+MStyleElement
+mstyle_element_copy (MStyleElement e)
+{
+	switch (e.type) {
+	case MSTYLE_ANY_COLOR:
+		style_color_ref (e.u.color.fore);
+		break;
+	case MSTYLE_ANY_BORDER:
+		border_ref (e.u.border.any);
+		break;
+	case MSTYLE_FONT_NAME:
+		e.u.font.name = g_strdup (e.u.font.name);
+		break;
+	case MSTYLE_FORMAT:
+		style_format_ref (e.u.format);
+		break;
+	default:
+		break;
+	}
+	return e;
+}
+
+void
+mstyle_element_destroy (MStyleElement e)
+{
+	switch (e.type) {
+	case MSTYLE_ANY_COLOR:
+		style_color_unref (e.u.color.fore);
+		break;
+	case MSTYLE_ANY_BORDER:
+		border_unref (e.u.border.any);
+		break;
+	case MSTYLE_FONT_NAME:
+		g_free (e.u.font.name);
+		break;
+	case MSTYLE_FORMAT:
+		style_format_unref (e.u.format);
+		break;
+	default:
+		break;
+	}
+}
+
 
 MStyle *
 mstyle_new (const gchar *name)
@@ -139,7 +264,7 @@ mstyle_new_elems (const gchar *name, const MStyleElement *e)
 
 	memcpy (pst->elements, e, sizeof (MStyleElement) * MSTYLE_ELEMENT_MAX);
 
-	return pst;
+	return (MStyle *)pst;
 }
 
 void
@@ -305,10 +430,25 @@ dump_style_list (const GList *l)
 	while (l) {
 		PrivateStyle *pst = l->data;
 		printf ("%d: '%s' ", pst->stamp,
-			mstyle_to_string (pst));
+			mstyle_to_string ((MStyle *)pst));
 		l = g_list_next (l);
 	}
 	printf ("End of style list\n");
+}
+
+gboolean
+mstyle_equal (const MStyle *a, const MStyle *b)
+{
+	PrivateStyle *pa = (PrivateStyle *)a;
+	PrivateStyle *pb = (PrivateStyle *)b;
+
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+
+	if (pa->name || pb->name)
+		g_warning ("Named style equal unimplemented");
+
+	return mstyle_elements_equal (pa->elements, pb->elements);
 }
 
 void
@@ -357,8 +497,9 @@ check_sorted (const GList *list)
 		 *  We can have several copies of a style with the same stamp
 		 * in the queue, each is ref-counted.
 		 */
-		if (pst->stamp > stamp) {
-			printf ("Error on style sorting:");
+		if (pst->stamp > stamp &&
+		    STYLE_DEBUG) {
+			g_warning ("Error on style sorting");
 			dump_style_list (list);
 			return FALSE;
 		}
@@ -392,47 +533,4 @@ render_merge_blank (const GList *styles)
 	mstyle_do_merge (styles, MSTYLE_ELEMENT_MAX_BLANK, mash, FALSE);
 
 	return style_mstyle_new (mash, MSTYLE_ELEMENT_MAX_BLANK);
-}
-
-MStyleElement
-mstyle_element_copy (MStyleElement e)
-{
-	switch (e.type) {
-	case MSTYLE_ANY_COLOR:
-		style_color_ref (e.u.color.fore);
-		break;
-	case MSTYLE_ANY_BORDER:
-		border_ref (e.u.border.any);
-		break;
-	case MSTYLE_FONT_NAME:
-		e.u.font.name = g_strdup (e.u.font.name);
-		break;
-	case MSTYLE_FORMAT:
-		style_format_ref (e.u.format);
-		break;
-	default:
-		break;
-	}
-	return e;
-}
-
-void
-mstyle_element_destroy (MStyleElement e)
-{
-	switch (e.type) {
-	case MSTYLE_ANY_COLOR:
-		style_color_unref (e.u.color.fore);
-		break;
-	case MSTYLE_ANY_BORDER:
-		border_unref (e.u.border.any);
-		break;
-	case MSTYLE_FONT_NAME:
-		g_free (e.u.font.name);
-		break;
-	case MSTYLE_FORMAT:
-		style_format_unref (e.u.format);
-		break;
-	default:
-		break;
-	}
 }
