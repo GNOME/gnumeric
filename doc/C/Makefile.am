@@ -63,6 +63,6 @@ entities =  about-authors.xml \
      worksheets.xml
 #	functions.xml	# added in gnumeric-doc.make
 
-EXTRA_DIST = gnumeric.1
+EXTRA_DIST = gnumeric.1 ssconvert.1
 
 include $(top_srcdir)/doc/gnumeric-doc.make
