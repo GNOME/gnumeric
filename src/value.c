@@ -1282,22 +1282,15 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 			/* Equality condition (in number format) */
 			if (VALUE_IS_NUMBER (cell->value)) {
 			        cond->x = value_duplicate (cell->value);
-				cond->fun =
-				  (criteria_test_fun_t) criteria_test_equal;
-				cond->column = field_ind[j - b_col];
-				conditions = g_slist_append (conditions, cond);
-				continue;
+				cond->fun = (criteria_test_fun_t) criteria_test_equal;
+			} else {
+				/* Other conditions (in string format) */
+				cell_str = cell_get_rendered_text (cell);
+				parse_criteria (cell_str, &cond->fun, &cond->x);
+				g_free (cell_str);
 			}
 
-			/* Other conditions (in string format) */
-			cell_str = cell_get_rendered_text (cell);
-			parse_criteria (cell_str, &cond->fun, &cond->x);
-			if (field_ind != NULL)
-			        cond->column = field_ind[j - b_col];
-			else
-			        cond->column = j - b_col;
-			g_free (cell_str);
-
+			cond->column = (field_ind != NULL) ? field_ind[j - b_col] : j - b_col;
 			conditions = g_slist_append (conditions, cond);
 		}
 

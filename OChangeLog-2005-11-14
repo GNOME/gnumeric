@@ -1,3 +1,9 @@
+2002-06-01  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=82847
+	* src/value.c (parse_criteria_range) : Check for null in both cases.
+	  Clean up a touch while we are in here.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* src/Makefile.am (EXTRA_DIST) : include main-component.c
