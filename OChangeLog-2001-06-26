@@ -1,3 +1,7 @@
+2001-03-23  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/about.c : Make some small changes and add Zbigniew.
+
 2001-03-23  Morten Welinder  <terra@diku.dk>
 
 	* src/gnumeric-util.c (gnumeric_glade_group_value): Function moved
