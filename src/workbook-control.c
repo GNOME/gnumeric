@@ -178,7 +178,7 @@ wb_control_cur_sheet (WorkbookControl *wbc)
 }
 
 gboolean
-workbook_parse_and_jump (WorkbookControl *wbc, const char *text)
+wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 {
 	int col, row;
 

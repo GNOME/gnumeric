@@ -11,6 +11,7 @@ Jody:
 	* Support graphs with no data.
 	* Fix CRASH!! due to last minute translation fix.
 	* Some warning suppression for s390.
+	* Bump the GAL requirement to 0.16
 
 Morten:
 	* Added DATE2UNIX and UNIX2DATE.

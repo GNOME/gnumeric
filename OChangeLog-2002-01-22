@@ -1,3 +1,10 @@
+2002-01-05  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control.c (wb_control_parse_and_jump) : rename from
+	  workbook_parse_and_jump to be consistent.
+
+	* configure.in : bump gal version req.
+
 2002-01-04  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (cmd_insert_rows) : dup the string.

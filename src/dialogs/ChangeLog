@@ -1,3 +1,8 @@
+2002-01-05  Jody Goldberg <jody@gnome.org>
+
+	* dialog-graph-guru.c (vector_state_fill) : set the expr entry flags
+	  for a new series too.
+
 2002-01-04  Jody Goldberg <jody@gnome.org>
 
 	* dialog-graph-guru.c (vector_state_fill) : more protection for

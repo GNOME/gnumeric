@@ -292,17 +292,19 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 	int id;
 
 	g_return_if_fail (!vs->state->updating);
-	g_return_if_fail (series);
 
 	/* clear beforehand to make error handling simpler */
-	vs->series_index =
-		e_xml_get_integer_prop_by_name_with_default (series, "index", -1);
 	vs->state->updating = TRUE;
 	gnumeric_expr_entry_clear (vs->entry);
 	gnumeric_expr_entry_set_flags (vs->entry,
 		GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
 	vs->state->updating = FALSE;
 
+	if (series == NULL)
+		return;
+
+	vs->series_index =
+		e_xml_get_integer_prop_by_name_with_default (series, "index", -1);
 	vs->vector = NULL;
 	dim = gnm_graph_series_get_dimension (series, vs->dim_name);
 	if (dim != NULL) {

@@ -75,6 +75,6 @@ WorkbookView *wb_control_view		(WorkbookControl *wbc);
 Workbook     *wb_control_workbook	(WorkbookControl *wbc);
 Sheet        *wb_control_cur_sheet	(WorkbookControl *wbc);
 
-gboolean      workbook_parse_and_jump   (WorkbookControl *wbc, const char *text);
+gboolean      wb_control_parse_and_jump (WorkbookControl *wbc, char const *text);
 
 #endif /* GNUMERIC_WORKBOOK_CONTROL_H */

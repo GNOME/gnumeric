@@ -7,8 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-Up GAL dependency.  0.16, perhaps.
-
 Pending Patches
 ---------------
 
@@ -21,12 +19,8 @@ Long term breakage
 - Most arg-type functions need to be somehow marked as strict.  Checking for
   errors by hand everywhere is silly.
 
-- Add ... in bonobo menus for insert object* and define name
-
 - Add dirty flags to workbook too, adding a sheet should make workbook dirty
   not the new sheet.
-
-- Add -Wbad-function-cast and deal with it.  Lots of fun here.
 
 - Audit all fixed-length buffers.  Most non-time-critical can be replaced
   by proper usage of g_strdup_printf.
@@ -39,8 +33,6 @@ Long term breakage
     not be asked to place the window.  (Under twx, for example, the user
     typically clicks to place the window.) This already works correctly
     under many window managers.
-
-- "-display foo:0.0" needs to be handled, somehow.
 
 - Data->Filter dialog
     : use expr entry widget.
