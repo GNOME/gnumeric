@@ -1,3 +1,54 @@
+2000-06-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-view.c (sheet_view_{col,row}_selection_changed) :
+	  Do not make the edge visible, the scroll time will take care of
+	  that.
+	(sheet_view_{col,row}_size_changed) : Use the new undo wrappers.
+	(cb_colrow_resize) : Use the new undo wrappers.
+	(sheet_view_init) : Init the scroll timers.
+	(sheet_view_stop_sliding) : Based on the version from item_grid.
+	(sheet_view_start_sliding) : Ditto.
+	(sheet_view_sliding_callback) : Ditto.  Added callback support.
+	  tuned scroll parameters.
+
+	* src/number.h : Clear out unused cruft.
+
+	* src/item-grid.c : Move support for scroll timers into sheet-view.
+
+	* src/item-bar.c (get_element_from_pixel) : Renamed from
+	  get_col_from_pos.
+	(cb_extend_selection) : New function.
+	(item_bar_event) : Use the sliding scroll mechanism in sheet_view.
+
+	* src/item-cursor.c (item_cursor_selection_event) : Adapt to changes in
+	  item_grid_find_{col,row}.
+	(item_cursor_drag_event) : Ditto.
+
+	* src/sheet.c (sheet_foreach_colrow) : renamed and moved to.
+	* src/colrow.c (col_row_foreach) here.
+	
+	* src/gnumeric-sheet.c (gnumeric_sheet_find_{col,row}) : Moved here
+	  and renamed from.
+	* src/item-grid.c (item_grid_find_{col,row}) : here.
+
+	* src/value.c (value_equal) : deleted.
+	(value_compare) : Moved and renamed from
+	* src/expr.c (compare) : here.
+	(expr_dump_tree) : Delete replicated function.
+
+	* src/colrow.c (col_row_size_list_destroy) :
+	(col_row_index_list_destroy) : New function.
+	(col_row_get_index_list) : New function.
+	(col_row_set_sizes) : New function.
+	(col_row_restore_sizes_group) : New function.
+
+	(col_row_save_sizes) : Moved from sheet.c
+	col_row_restore_sizes : Ditto.
+	cb_set_row_height : Ditto.
+	rows_height_update : Ditto.
+
+	src/commands.c (cmd_resize_row_col*) : Implement.
+
 2000-06-08  Morten Welinder  <terra@diku.dk>
 
 	* src/commands.c (cmd_sort_undo): Take advantage of

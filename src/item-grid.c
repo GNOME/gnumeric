@@ -140,98 +140,6 @@ item_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
 
-/*
- * item_grid_find_col: return the column containing pixel x
- */
-int
-item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
-{
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
-	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
-	Sheet *sheet = gsheet->sheet_view->sheet;
-	int col   = gsheet->col.first;
-	int pixel = gsheet->col_offset.first;
-
-	if (x < pixel) {
-		while (col >= 0) {
-			ColRowInfo *ci = sheet_col_get_info (sheet, --col);
-			if (ci->visible) {
-				pixel -= ci->size_pixels;
-				if (x >= pixel) {
-					if (col_origin)
-						*col_origin = pixel;
-					return col;
-				}
-			}
-		};
-		if (col_origin)
-			*col_origin = 1; /* there is a 1 pixel edge at the left */
-		return 0;
-	}
-
-	do {
-		ColRowInfo *ci = sheet_col_get_info (sheet, col);
-		if (ci->visible) {
-			int const tmp = ci->size_pixels;
-			if (x <= pixel + tmp) {
-				if (col_origin)
-					*col_origin = pixel;
-				return col;
-			}
-			pixel += tmp;
-		}
-	} while (++col < SHEET_MAX_COLS);
-	if (col_origin)
-		*col_origin = pixel;
-	return SHEET_MAX_COLS-1;
-}
-
-/*
- * item_grid_find_row: return the row where y belongs to
- */
-int
-item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
-{
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
-	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
-	Sheet *sheet = gsheet->sheet_view->sheet;
-	int row   = gsheet->row.first;
-	int pixel = gsheet->row_offset.first;
-
-	if (y < pixel) {
-		while (row >= 0) {
-			ColRowInfo *ri = sheet_row_get_info (sheet, --row);
-			if (ri->visible) {
-				pixel -= ri->size_pixels;
-				if (y >= pixel) {
-					if (row_origin)
-						*row_origin = pixel;
-					return row;
-				}
-			}
-		};
-		if (row_origin)
-			*row_origin = 1; /* there is a 1 pixel edge on top */
-		return 0;
-	}
-
-	do {
-		ColRowInfo *ri = sheet_row_get_info (sheet, row);
-		if (ri->visible) {
-			int const tmp = ri->size_pixels;
-			if (pixel <= y && y <= pixel + tmp) {
-				if (row_origin)
-					*row_origin = pixel;
-				return row;
-			}
-			pixel += tmp;
-		}
-	} while (++row < SHEET_MAX_ROWS);
-	if (row_origin)
-		*row_origin = pixel;
-	return SHEET_MAX_ROWS-1;
-}
-
 static void
 item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 		       int x, int y, int w, int h,
@@ -304,8 +212,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	int col, row;
 
 	int x_paint, y_paint;
-	int const paint_col = item_grid_find_col (item_grid, x, &x_paint);
-	int const paint_row = item_grid_find_row (item_grid, y, &y_paint);
+	int const paint_col = gnumeric_sheet_find_col (gsheet, x, &x_paint);
+	int const paint_row = gnumeric_sheet_find_row (gsheet, y, &y_paint);
 	int const diff_x = x - x_paint;
 	int const diff_y = y - y_paint;
 
@@ -313,7 +221,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	int const end_x  = width + diff_x;
 	int const end_y  = height + diff_y;
 
-	/* We can relax this eventually. See comment in item_grid_find_col */
+	/* We can relax this eventually. See comment in gnumeric_sheet_find_col */
 	g_return_if_fail (x >= 0);
 	g_return_if_fail (y >= 0);
 
@@ -793,120 +701,6 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 }
 
 static void
-item_grid_stop_sliding (ItemGrid *item_grid)
-{
-	if (item_grid->sliding == -1)
-		return;
-
-	gtk_timeout_remove (item_grid->sliding);
-	item_grid->sliding = -1;
-}
-
-static gint
-item_grid_sliding_callback (gpointer data)
-{
-	GnomeCanvasItem *item = data;
-	GnomeCanvas *canvas = item->canvas;
-	ItemGrid *item_grid = ITEM_GRID (item);
-	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
-	int change = 0;
-	int col, row;
-
-	col = item_grid->sliding_col;
-	row = item_grid->sliding_row;
-
-	if (item_grid->sliding_x < 0){
-		if (gsheet->col.first){
-			change = 1;
-			if (item_grid->sliding_x >= -8)
-				col = 1;
-			else if (item_grid->sliding_x >= -16)
-				col = 10;
-			else
-				col = 50;
-			col = gsheet->col.first - col;
-			if (col < 0)
-				col = 0;
-		} else
-			col = 0;
-	}
-
-	if (item_grid->sliding_x > 0){
-		if (gsheet->col.last_full < SHEET_MAX_COLS-1){
-			change = 1;
-			if (item_grid->sliding_x <= 7)
-				col = 1;
-			else if (item_grid->sliding_x <= 14)
-				col = 10;
-			else
-				col = 50;
-			col = gsheet->col.last_visible + col;
-			if (col >= SHEET_MAX_COLS)
-				col = SHEET_MAX_COLS-1;
-		} else
-			col = SHEET_MAX_COLS-1;
-	}
-
-	if (item_grid->sliding_y < 0){
-		if (gsheet->row.first){
-			change = 1;
-			if (item_grid->sliding_y >= -8)
-				row = 1;
-			else if (item_grid->sliding_y >= -16)
-				row = 25;
-			else if (item_grid->sliding_y >= -64)
-				row = 250;
-			else
-				row = 1000;
-			row = gsheet->row.first - row;
-			if (row < 0)
-				row = 0;
-		} else
-			row = 0;
-	}
-	if (item_grid->sliding_y > 0){
-		if (gsheet->row.last_full < SHEET_MAX_ROWS-1){
-			change = 1;
-			if (item_grid->sliding_y <= 8)
-				row = 1;
-			else if (item_grid->sliding_y <= 16)
-				row = 25;
-			else if (item_grid->sliding_y <= 64)
-				row = 250;
-			else
-				row = 1000;
-			row = gsheet->row.last_visible + row;
-			if (row >= SHEET_MAX_ROWS)
-				row = SHEET_MAX_ROWS-1;
-		} else
-			row = SHEET_MAX_ROWS-1;
-	}
-
-	if (!change){
-		item_grid_stop_sliding (item_grid);
-		return TRUE;
-	}
-
-	if (item_grid->selecting == ITEM_GRID_SELECTING_CELL_RANGE)
-		sheet_selection_extend_to (item_grid->sheet_view->sheet, col, row);
-	else if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
-		gnumeric_sheet_selection_extend (gsheet, col, row);
-
-	gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
-
-	return TRUE;
-}
-
-static void
-item_grid_start_sliding (GnomeCanvasItem *item)
-{
-	ItemGrid *item_grid = ITEM_GRID (item);
-
-	item_grid->sliding = gtk_timeout_add (
-		100, item_grid_sliding_callback, item);
-}
-
-static void
 drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
 {
         GtkTargetList *list;
@@ -929,6 +723,20 @@ drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
  */
 #define convert(c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
 
+static gboolean
+cb_extend_cell_range (SheetView *sheet_view, int col, int row, gpointer ignored)
+{
+	sheet_selection_extend_to (sheet_view->sheet, col, row);
+	return TRUE;
+}
+static gboolean
+cb_extend_expr_range (SheetView *sheet_view, int col, int row, gpointer ignored)
+{
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	gnumeric_sheet_selection_extend (gsheet, col, row);
+	return TRUE;
+}
+
 static gint
 item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -936,7 +744,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	ItemGrid *item_grid = ITEM_GRID (item);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 	Sheet *sheet = item_grid->sheet_view->sheet;
-	int col, row, x, y;
+	int col, row, x, y, left, top;
 	int width, height;
 
 	switch (event->type){
@@ -953,10 +761,10 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_BUTTON_RELEASE:
-		item_grid_stop_sliding (item_grid);
-
 		switch (event->button.button) {
 		case 1 :
+			sheet_view_stop_sliding (item_grid->sheet_view);
+
 			if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				sheet_make_cell_visible (sheet, sheet->cursor.edit_pos.col,
 							 sheet->cursor.edit_pos.row);
@@ -994,70 +802,47 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	case GDK_MOTION_NOTIFY:
 		convert (canvas, event->motion.x, event->motion.y, &x, &y);
-
-		gnome_canvas_get_scroll_offsets (canvas, &col, &row);
+		gnome_canvas_get_scroll_offsets (canvas, &left, &top);
 
 		width = GTK_WIDGET (canvas)->allocation.width;
 		height = GTK_WIDGET (canvas)->allocation.height;
-		if (x < col || y < row || x >= col + width || y >= row + height){
+
+		col = gnumeric_sheet_find_col (gsheet, x, NULL);
+		row = gnumeric_sheet_find_row (gsheet, y, NULL);
+
+		if (x < left || y < top || x >= left + width || y >= top + height) {
 			int dx = 0, dy = 0;
+			SheetViewSlideHandler slide_handler = NULL;
 
 			if (item_grid->selecting == ITEM_GRID_NO_SELECTION)
 				return 1;
 
-			if (x < col)
-				dx = x - col;
-			else if (x >= col + width)
-				dx = x - width - col;
+			if (x < left)
+				dx = x - left;
+			else if (x >= left + width)
+				dx = x - width - left;
 
-			if (y < row)
-				dy = y - row;
-			else if (y >= row + height)
-				dy = y - height - row;
+			if (y < top)
+				dy = y - top;
+			else if (y >= top + height)
+				dy = y - height - top;
 
-			if ((!dx || (dx < 0 && !gsheet->col.first) ||
-			     (dx >= 0 && gsheet->col.last_full == SHEET_MAX_COLS-1)) &&
-			    (!dy || (dy < 0 && !gsheet->row.first) ||
-			     (dy >= 0 && gsheet->row.last_full == SHEET_MAX_ROWS-1))){
-				item_grid_stop_sliding (item_grid);
-				return 1;
-			}
+			if (item_grid->selecting == ITEM_GRID_SELECTING_CELL_RANGE)
+				slide_handler = &cb_extend_cell_range;
+			else if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
+				slide_handler = &cb_extend_expr_range;
 
-			item_grid->sliding_x = dx/5;
-			item_grid->sliding_y = dy/5;
-			if (!dx){
-				item_grid->sliding_col = item_grid_find_col (item_grid, x, NULL);
-				if (item_grid->sliding_col >= SHEET_MAX_COLS)
-					item_grid->sliding_col = SHEET_MAX_COLS-1;
-			}
-			if (!dy){
-				item_grid->sliding_row = item_grid_find_row (item_grid, y, NULL);
-				if (item_grid->sliding_row >= SHEET_MAX_ROWS)
-					item_grid->sliding_row = SHEET_MAX_ROWS-1;
-			}
+			sheet_view_start_sliding (item_grid->sheet_view,
+						  slide_handler, NULL,
+						  col, row, dx, dy);
 
-			if (item_grid->sliding != -1)
-				return 1;
-
-			item_grid_sliding_callback (item);
-
-			item_grid_start_sliding (item);
-
-			return 1;
+			return TRUE;
 		}
 
-		item_grid_stop_sliding (item_grid);
-
-		col = item_grid_find_col (item_grid, x, NULL);
-		row = item_grid_find_row (item_grid, y, NULL);
+		sheet_view_stop_sliding (item_grid->sheet_view);
 
 		if (item_grid->selecting == ITEM_GRID_NO_SELECTION)
 			return 1;
-
-		if (col > SHEET_MAX_COLS-1)
-			col = SHEET_MAX_COLS-1;
-		if (row > SHEET_MAX_ROWS-1)
-			row = SHEET_MAX_ROWS-1;
 
 		if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE){
 			gnumeric_sheet_selection_extend (gsheet, col, row);
@@ -1075,11 +860,11 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_PRESS:
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 
-		item_grid_stop_sliding (item_grid);
+		sheet_view_stop_sliding (item_grid->sheet_view);
 
 		convert (canvas, event->button.x, event->button.y, &x, &y);
-		col = item_grid_find_col (item_grid, x, NULL);
-		row = item_grid_find_row (item_grid, y, NULL);
+		col = gnumeric_sheet_find_col (gsheet, x, NULL);
+		row = gnumeric_sheet_find_row (gsheet, y, NULL);
 
 		switch (event->button.button){
 		case 1:
@@ -1121,7 +906,6 @@ item_grid_init (ItemGrid *item_grid)
 	item->y2 = 0;
 
 	item_grid->selecting = ITEM_GRID_NO_SELECTION;
-	item_grid->sliding = -1;
 }
 
 static void

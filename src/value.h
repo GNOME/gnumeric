@@ -69,6 +69,13 @@ union _Value {
 					 ((v)->type == VALUE_FLOAT) || \
 					 ((v)->type == VALUE_BOOLEAN))
 
+typedef enum {
+	IS_EQUAL,
+	IS_LESS,
+	IS_GREATER,
+	TYPE_MISMATCH
+} ValueCompare;
+
 Value       *value_new_empty            (void);
 Value       *value_new_bool             (gboolean b);
 Value       *value_new_int              (int i);
@@ -88,7 +95,7 @@ Value 	    *value_new_array_non_init   (guint cols, guint rows);
 void         value_release         (Value *value);
 void         value_dump            (Value const *value);
 Value       *value_duplicate       (Value const *value);
-gboolean     value_equal           (const Value *a, const Value *b);
+ValueCompare value_compare         (const Value *a, const Value *b);
 
 gboolean     value_get_as_bool     (Value const *v, gboolean *err);
 char        *value_get_as_string   (const Value *value);

@@ -43,11 +43,10 @@
 #include "dialogs/dialog-autocorrect.h"
 #include "sheet-autofill.h"
 
+#define MAX_DESCRIPTOR_WIDTH 15
+
 /*
- * NOTE : This is a work in progress
- *
- * Feel free to lend a hand.  There are several distinct stages to
- * wrapping each command.
+ * There are several distinct stages to wrapping each command.
  *
  * 1) Find the appropriate place(s) in the catch all calls to activations
  * of this logical function.  Be careful.  This should only be called by
@@ -395,8 +394,6 @@ cmd_set_text (CommandContext *context,
 	      Sheet *sheet, CellPos const *pos,
 	      const char *new_text)
 {
-	static int const max_descriptor_width = 15;
-
 	GtkObject *obj;
 	CmdSetText *me;
 	gchar *pad = "";
@@ -425,18 +422,18 @@ cmd_set_text (CommandContext *context,
 	me->text = corrected_text;
 
 	/* Limit the size of the descriptor to something reasonable */
-	if (strlen (corrected_text) > max_descriptor_width) {
+	if (strlen (corrected_text) > MAX_DESCRIPTOR_WIDTH) {
 		pad = "..."; /* length of 3 */
 		text = g_strndup (corrected_text,
-				  max_descriptor_width - 3);
+				  MAX_DESCRIPTOR_WIDTH - 3);
 	} else
-		text = (gchar *) corrected_text;
+		text = corrected_text;
 
 	me->parent.cmd_descriptor =
 		g_strdup_printf (_("Typing \"%s%s\" in %s"), text, pad,
 				 cell_pos_name(pos));
 
-	if (*pad)
+	if (text != corrected_text)
 		g_free (text);
 
 	/* Register the command object */
@@ -453,7 +450,7 @@ typedef struct
 	GnumericCommand parent;
 
 	EvalPos	 pos;
-	char 	*text; 
+	char 	*text;
 	gboolean as_array;
 	GSList	*old_content;
 	GSList	*selection;
@@ -536,7 +533,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
 			clipboard_copy_range (me->pos.sheet, r));
 
 		/* If there is an expression then this was an array */
-		if (expr != NULL) 
+		if (expr != NULL)
 			cell_set_array_formula (me->pos.sheet,
 						r->start.row, r->start.col,
 						r->end.row, r->end.col,
@@ -590,8 +587,6 @@ gboolean
 cmd_area_set_text (CommandContext *context, EvalPos const *pos,
 		   char const *new_text, gboolean as_array)
 {
-	static int const max_descriptor_width = 15;
-
 	GtkObject *obj;
 	CmdAreaSetText *me;
 	gchar *text, *pad = "";
@@ -606,10 +601,10 @@ cmd_area_set_text (CommandContext *context, EvalPos const *pos,
 	me->selection   = selection_get_ranges (pos->sheet, FALSE /* No intersection */);
 	me->old_content = NULL;
 
-	if (strlen(new_text) > max_descriptor_width) {
+	if (strlen(new_text) > MAX_DESCRIPTOR_WIDTH) {
 		pad = "..."; /* length of 3 */
 		text = g_strndup (new_text,
-				  max_descriptor_width - 3);
+				  MAX_DESCRIPTOR_WIDTH - 3);
 	} else
 		text = (gchar *) new_text;
 
@@ -674,8 +669,7 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 	}
 
 	/* restore row/col sizes */
-	sheet_restore_row_col_sizes (me->sheet, me->is_cols, index, me->count,
-				     me->sizes);
+	col_row_restore_sizes (me->sheet, me->is_cols, index, me->count, me->sizes);
 	me->sizes = NULL;
 
 	/* restore row/col contents */
@@ -723,8 +717,7 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 	    ? (((me->is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS) - me->count)
 	    : me->index;
 
-	me->sizes = sheet_save_row_col_sizes (me->sheet, me->is_cols,
-					      index, me->count);
+	me->sizes = col_row_save_sizes (me->sheet, me->is_cols, index, me->count);
 	me->contents = clipboard_copy_range (me->sheet,
 		(me->is_cols)
 		? range_init (&r, index, 0, index + me->count - 1, SHEET_MAX_ROWS - 1)
@@ -779,7 +772,7 @@ cmd_ins_del_row_col_destroy (GtkObject *cmd)
 static gboolean
 cmd_ins_del_row_col (CommandContext *context,
 		     Sheet *sheet,
-		     gboolean is_col, gboolean is_insert,
+		     gboolean is_cols, gboolean is_insert,
 		     char const * descriptor, int index, int count)
 {
 	GtkObject *obj;
@@ -792,7 +785,7 @@ cmd_ins_del_row_col (CommandContext *context,
 
 	/* Store the specs for the object */
 	me->sheet = sheet;
-	me->is_cols = is_col;
+	me->is_cols = is_cols;
 	me->is_insert = is_insert;
 	me->index = index;
 	me->count = count;
@@ -1036,7 +1029,7 @@ cmd_format_undo (GnumericCommand *cmd, CommandContext *context)
 		for (; l1; l1 = l1->next, l2 = l2->next) {
 			Range *r;
 			CmdFormatOldStyle *os = l1->data;
-			SpanCalcFlags flags = 
+			SpanCalcFlags flags =
 				sheet_style_attach_list (me->sheet, os->styles,
 							 &os->pos, FALSE);
 
@@ -1048,7 +1041,7 @@ cmd_format_undo (GnumericCommand *cmd, CommandContext *context)
 				rows_height_update (me->sheet, r);
 		}
 	}
-	
+
 	sheet_set_dirty (me->sheet, TRUE);
 	workbook_recalc (me->sheet->workbook);
 	sheet_update (me->sheet);
@@ -1129,10 +1122,10 @@ cmd_format_destroy (GtkObject *cmd)
  * @sheet: the sheet
  * @style: style to apply to the selection
  * @borders: borders to apply to the selection
- * 
+ *
  *  If borders is non NULL, then the MStyleBorder references are passed,
  * the MStyle reference is also passed.
- * 
+ *
  * Return value: TRUE if there was a problem
  **/
 gboolean
@@ -1250,7 +1243,7 @@ cmd_rename_sheet (CommandContext *context,
 	me->old_name = g_strdup (old_name);
 	me->new_name = g_strdup (new_name);
 
-	me->parent.cmd_descriptor = 
+	me->parent.cmd_descriptor =
 	    g_strdup_printf (_("Rename sheet '%s' '%s'"), old_name, new_name);
 
 	/* Register the command object */
@@ -1414,9 +1407,10 @@ typedef struct
 	GnumericCommand parent;
 
 	Sheet		*sheet;
-	gboolean	 is_col;
-	int		 index;
-	double		*sizes;
+	gboolean	 is_cols;
+	ColRowIndexList *selection;
+	ColRowSizeList	*saved_sizes;
+	int		 new_size;
 } CmdResizeRowCol;
 
 GNUMERIC_MAKE_COMMAND (CmdResizeRowCol, cmd_resize_row_col);
@@ -1427,12 +1421,15 @@ cmd_resize_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->sizes != NULL, TRUE);
+	g_return_val_if_fail (me->selection != NULL, TRUE);
+	g_return_val_if_fail (me->saved_sizes != NULL, TRUE);
 
-	/* restore row/col sizes */
-	sheet_restore_row_col_sizes (me->sheet, me->is_col, me->index, 1,
-				     me->sizes);
-	me->sizes = NULL;
+	col_row_restore_sizes_group (me->sheet, me->is_cols,
+				     me->selection, me->saved_sizes);
+	me->saved_sizes = NULL;
+
+	sheet_set_dirty (me->sheet, TRUE);
+	sheet_update (me->sheet);
 
 	return FALSE;
 }
@@ -1443,10 +1440,15 @@ cmd_resize_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->sizes == NULL, TRUE);
+	g_return_val_if_fail (me->selection != NULL, TRUE);
+	g_return_val_if_fail (me->saved_sizes == NULL, TRUE);
 
-	me->sizes = sheet_save_row_col_sizes (me->sheet, me->is_col,
-					      me->index, 1);
+	me->saved_sizes = col_row_set_sizes (me->sheet, me->is_cols,
+					     me->selection, me->new_size);
+
+	sheet_set_dirty (me->sheet, TRUE);
+	sheet_update (me->sheet);
+
 	return FALSE;
 }
 static void
@@ -1454,16 +1456,19 @@ cmd_resize_row_col_destroy (GtkObject *cmd)
 {
 	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL (cmd);
 
-	if (me->sizes) {
-		g_free (me->sizes);
-		me->sizes = NULL;
-	}
+	if (me->selection)
+		me->selection = col_row_index_list_destroy (me->selection);
+
+	if (me->saved_sizes)
+		me->saved_sizes = col_row_size_list_destroy (me->saved_sizes);
+
 	gnumeric_command_destroy (cmd);
 }
 
 gboolean
-cmd_resize_row_col (CommandContext *context,
-		    Sheet *sheet, int index, gboolean is_col)
+cmd_resize_row_col (CommandContext *context, Sheet *sheet,
+		    gboolean is_cols, ColRowIndexList *selection,
+		    int new_size)
 {
 	GtkObject *obj;
 	CmdResizeRowCol *me;
@@ -1475,18 +1480,14 @@ cmd_resize_row_col (CommandContext *context,
 
 	/* Store the specs for the object */
 	me->sheet = sheet;
-	me->is_col = is_col;
-	me->index = index;
-	me->sizes = NULL;
+	me->is_cols = is_cols;
+	me->selection = selection;
+	me->saved_sizes = NULL;
+	me->new_size = new_size;
 
-	me->parent.cmd_descriptor = is_col
-	    ? g_strdup_printf (_("Setting width of column %s"), col_name(index))
-	    : g_strdup_printf (_("Setting height of row %d"), index+1);
-
-	/* TODO :
-	 * - Patch into manual and auto resizing 
-	 * - store the selected sized,
-	 */
+	me->parent.cmd_descriptor = is_cols
+	    ? g_strdup (_("Setting width of columns"))
+	    : g_strdup (_("Setting height of rows"));
 
 	/* Register the command object */
 	return command_push_undo (context, sheet->workbook, obj);
@@ -1514,7 +1515,11 @@ cmd_sort_destroy (GtkObject *cmd)
 	CmdSort *me = CMD_SORT (cmd);
 
 	sort_data_destroy (me->data);
-		
+	if (me->perm != NULL) {
+		g_free (me->perm);
+		me->perm = NULL;
+	}
+
 	gnumeric_command_destroy (cmd);
 }
 
@@ -1561,7 +1566,7 @@ cmd_sort (CommandContext *context, SortData *data)
 {
 	GtkObject *obj;
 	CmdSort *me;
-	
+
 	g_return_val_if_fail (data != NULL, TRUE);
 
 	obj = gtk_type_new (CMD_SORT_TYPE);
@@ -1590,7 +1595,7 @@ typedef struct
 	Sheet         *sheet;
 	gboolean       is_cols;
 	gboolean       visible;
-	ColRowVisList  elements;
+	ColRowVisList *elements;
 } CmdHideRowCol;
 
 GNUMERIC_MAKE_COMMAND (CmdHideRowCol, cmd_hide_row_col);
@@ -1641,17 +1646,17 @@ cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
 {
 	GtkObject *obj;
 	CmdHideRowCol *me;
-	
+
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
 	obj = gtk_type_new (CMD_HIDE_ROW_COL_TYPE);
 	me = CMD_HIDE_ROW_COL (obj);
-	
+
 	me->sheet = sheet;
 	me->is_cols = is_cols;
 	me->visible = visible;
 	me->elements = col_row_get_visiblity_toggle (sheet, is_cols, visible);
-	
+
 	me->parent.cmd_descriptor = g_strdup (is_cols
 		? (visible ? _("Unhide columns") : _("Hide columns"))
 		: (visible ? _("Unhide rows") : _("Hide rows")));
@@ -2062,6 +2067,10 @@ cmd_autofill (CommandContext *context, Sheet *sheet,
 {
 	GtkObject *obj;
 	CmdAutofill *me;
+
+	/* This would be meaningless */
+	if (base_col+w-1 == end_col && base_row+h-1 == end_row)
+		return FALSE;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 

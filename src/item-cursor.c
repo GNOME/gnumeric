@@ -537,7 +537,8 @@ item_cursor_set_cursor (GnomeCanvas *canvas, GnomeCanvasItem *item, int x, int y
 static gint
 item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	GnomeCanvas *canvas = item->canvas;
+	GnomeCanvas	*canvas = item->canvas;
+	GnumericSheet   *gsheet = GNUMERIC_SHEET (canvas);
 	GnomeCanvasItem *new_item;
 	ItemCursor *ic = ITEM_CURSOR (item);
 	int x, y;
@@ -599,10 +600,10 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		 */
 		{
 			int d_col =
-			    item_grid_find_col (ic->item_grid, x, NULL) -
+			    gnumeric_sheet_find_col (gsheet, x, NULL) -
 			    ic->pos.start.col;
 			int d_row =
-			    item_grid_find_row (ic->item_grid, y, NULL) -
+			    gnumeric_sheet_find_row (gsheet, y, NULL) -
 			    ic->pos.start.row;
 
 			if (d_col < 0)
@@ -855,6 +856,7 @@ static gint
 item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item)->canvas;
+	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
 	int x, y, w, h;
 	int col, row;
@@ -885,10 +887,10 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 			x = 0;
 		if (y < 0)
 			y = 0;
-		col = item_grid_find_col (item_cursor->item_grid, x, NULL);
+		col = gnumeric_sheet_find_col (gsheet, x, NULL);
 		corner_left = col - item_cursor->col_delta;
 
-		row = item_grid_find_row (item_cursor->item_grid, y, NULL);
+		row = gnumeric_sheet_find_row (gsheet, y, NULL);
 		corner_top = row - item_cursor->row_delta;
 
 		w   = (item_cursor->pos.end.col - item_cursor->pos.start.col);
@@ -923,6 +925,7 @@ static gint
 item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	GnomeCanvas *canvas = item->canvas;
+	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 	ItemCursor *item_cursor = ITEM_CURSOR (item);
 	int col, row, x, y;
 
@@ -957,8 +960,8 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 			x = 0;
 		if (y < 0)
 			y = 0;
-		col = item_grid_find_col (item_cursor->item_grid, x, NULL);
-		row = item_grid_find_row (item_cursor->item_grid, y, NULL);
+		col = gnumeric_sheet_find_col (gsheet, x, NULL);
+		row = gnumeric_sheet_find_row (gsheet, y, NULL);
 
 		/* Autofill by row or by col, NOT both. */
 		if ((item_cursor->base_x - x) > (item_cursor->base_y - y)){

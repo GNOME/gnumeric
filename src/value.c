@@ -230,11 +230,9 @@ value_release (Value *value)
 		break;
 
 	case VALUE_INTEGER:
-		mpz_clear (value->v_int.val);
 		break;
 
 	case VALUE_FLOAT:
-		mpf_clear (value->v_float.val);
 		break;
 
 	case VALUE_ERROR:
@@ -597,6 +595,131 @@ value_array_resize (Value *v, guint width, guint height)
 	value_release (newval);
 }
 
+static ValueCompare
+compare_bool_bool (Value const *va, Value const *vb)
+{
+	gboolean err; /* Ignored */
+	gboolean const a = value_get_as_bool (va, &err);
+	gboolean const b = value_get_as_bool (vb, &err);
+	if (a)
+		return b ? IS_EQUAL : IS_GREATER;
+	return b ? IS_LESS : IS_EQUAL;
+}
+
+static ValueCompare
+compare_int_int (Value const *va, Value const *vb)
+{
+	int const a = value_get_as_int (va);
+	int const b = value_get_as_int (vb);
+	if (a == b)
+		return IS_EQUAL;
+	else if (a < b)
+		return IS_LESS;
+	else
+		return IS_GREATER;
+}
+
+static ValueCompare
+compare_float_float (Value const *va, Value const *vb)
+{
+	float_t const a = value_get_as_float (va);
+	float_t const b = value_get_as_float (vb);
+	if (a == b)
+		return IS_EQUAL;
+	else if (a < b)
+		return IS_LESS;
+	else
+		return IS_GREATER;
+}
+
+/*
+ * Compares two (Value *) and returns one of ValueCompare
+ *
+ * if pos is non null it will perform implict intersection for
+ * cellranges.
+ */
+ValueCompare
+value_compare (Value const *a, Value const *b)
+{
+	ValueType ta, tb;
+
+	/* Handle trivial and double NULL case */
+	if (a == b)
+		return IS_EQUAL;
+
+	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->type;
+	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->type;
+
+	/* string > empty */
+	if (ta == VALUE_STRING) {
+		switch (tb) {
+		/* Strings are > (empty, or number) */
+		case VALUE_EMPTY :
+			if (*a->v_str.val->str == '\0')
+				return IS_EQUAL;
+
+		case VALUE_INTEGER : case VALUE_FLOAT :
+			return IS_GREATER;
+
+		/* Strings are < FALSE ?? */
+		case VALUE_BOOLEAN :
+			return IS_LESS;
+
+		/* If both are strings compare as string */
+		case VALUE_STRING :
+		{
+			int const t = g_strcasecmp (a->v_str.val->str, b->v_str.val->str);
+			if (t == 0)
+				return IS_EQUAL;
+			else if (t > 0)
+				return IS_GREATER;
+			else
+				return IS_LESS;
+		}
+		default :
+			return TYPE_MISMATCH;
+		}
+	} else if (tb == VALUE_STRING) {
+		switch (ta) {
+		/* (empty, or number) < String */
+		case VALUE_EMPTY :
+			if (*b->v_str.val->str == '\0')
+				return IS_EQUAL;
+
+		case VALUE_INTEGER : case VALUE_FLOAT :
+			return IS_LESS;
+
+		/* Strings are < FALSE ?? */
+		case VALUE_BOOLEAN :
+			return IS_GREATER;
+
+		default :
+			return TYPE_MISMATCH;
+		}
+	}
+
+	/* Booleans > all numbers (Why did excel do this ??) */
+	if (ta == VALUE_BOOLEAN && (tb == VALUE_INTEGER || tb == VALUE_FLOAT))
+		return IS_GREATER;
+	if (tb == VALUE_BOOLEAN && (ta == VALUE_INTEGER || ta == VALUE_FLOAT))
+		return IS_LESS;
+
+	switch ((ta > tb) ? ta : tb) {
+	case VALUE_EMPTY:	/* Empty Empty compare */
+		return IS_EQUAL;
+
+	case VALUE_BOOLEAN:
+		return compare_bool_bool (a, b);
+
+	case VALUE_INTEGER:
+		return compare_int_int (a, b);
+
+	case VALUE_FLOAT:
+		return compare_float_float (a, b);
+	default:
+		return TYPE_MISMATCH;
+	}
+}
 
 gboolean
 value_equal (const Value *a, const Value *b)

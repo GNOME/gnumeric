@@ -41,15 +41,6 @@
 
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
-/* The size, mask, and shift must be kept in sync */
-#define COLROW_SEGMENT_SIZE	0x80
-#define COLROW_SUB_INDEX(i)	((i) & 0x7f)
-#define COLROW_SEGMENT_START(i)	((i) & ~(0x7f))
-#define COLROW_SEGMENT_END(i)	((i) | 0x7f)
-#define COLROW_SEGMENT_INDEX(i)	((i) >> 7)
-#define COLROW_GET_SEGMENT(seg_array, i) \
-	(g_ptr_array_index ((seg_array)->info, COLROW_SEGMENT_INDEX(i)))
-
 static void sheet_update_zoom_controls (Sheet *sheet);
 static void sheet_redraw_partial_row (Sheet const *sheet, int const row,
 				      int const start_col, int const end_col);
@@ -241,49 +232,6 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->show_row_header = TRUE;
 
 	return sheet;
-}
-
-/**
- * sheet_foreach_colrow:
- * @sheet	the sheet
- * @infos	The Row or Column collection.
- * @start	start position (inclusive)
- * @end		stop column (inclusive)
- * @callback	A callback function which should return TRUE to stop
- *              the iteration.
- * @user_data	A bagage pointer.
- *
- * Iterates through the existing rows or columns within the range supplied.
- * Currently only support left -> right iteration.  If a callback returns
- * TRUE iteration stops.
- */
-gboolean
-sheet_foreach_colrow (ColRowCollection const *infos,
-		      int start, int stop,
-		      sheet_col_row_callback callback, void *user_data)
-{
-	int i;
-
-	/* TODO : Do we need to support right -> left as an option */
-	if (stop > infos->max_used)
-		stop = infos->max_used;
-
-	i = start;
-	while (i <= stop) {
-		ColRowInfo * const * segment = COLROW_GET_SEGMENT (infos, i);
-		int sub = COLROW_SUB_INDEX(i);
-
-		i += COLROW_SEGMENT_SIZE - sub;
-		if (segment == NULL)
-			continue;
-
-		for (; sub < COLROW_SEGMENT_SIZE; ++sub) {
-			ColRowInfo * info = segment[sub];
-			if (info != NULL && (*callback)(info, user_data))
-				return TRUE;
-		}
-	}
-	return FALSE;
 }
 
 static void
@@ -479,11 +427,11 @@ sheet_set_zoom_factor (Sheet *sheet, double const f)
 	/* Then every column and row */
 	closure.sheet = sheet;
 	closure.horizontal = TRUE;
-	sheet_foreach_colrow (&sheet->cols, 0, SHEET_MAX_COLS-1,
-			      &cb_colrow_compute_pixels_from_pts, &closure);
+	col_row_foreach (&sheet->cols, 0, SHEET_MAX_COLS-1,
+			 &cb_colrow_compute_pixels_from_pts, &closure);
 	closure.horizontal = FALSE;
-	sheet_foreach_colrow (&sheet->rows, 0, SHEET_MAX_ROWS-1,
-			      &cb_colrow_compute_pixels_from_pts, &closure);
+	col_row_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
+			 &cb_colrow_compute_pixels_from_pts, &closure);
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
@@ -1081,10 +1029,8 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 	closure.sheet = sheet;
 	closure.col = col;
 
-	sheet_foreach_colrow (&sheet->rows,
-			      0, SHEET_MAX_ROWS-1,
-			      &cb_recalc_spans_in_col,
-			      &closure);
+	col_row_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
+			 &cb_recalc_spans_in_col, &closure);
 }
 
 void
@@ -1751,10 +1697,10 @@ sheet_range_splits_array (Sheet const *sheet, Range const *r)
 			: CHECK_AND_LOAD_START | CHECK_END | LOAD_END;
 	}
 
-	if (closure.flags && sheet_foreach_colrow (&sheet->cols,
-						   r->start.col, r->end.col,
-						   &cb_check_array_horizontal,
-						   &closure))
+	if (closure.flags && col_row_foreach (&sheet->cols,
+					      r->start.col, r->end.col,
+					      &cb_check_array_horizontal,
+					      &closure))
 		return TRUE;
 	
 	closure.start = r->start.col;
@@ -1770,10 +1716,8 @@ sheet_range_splits_array (Sheet const *sheet, Range const *r)
 	}
 
 	return closure.flags &&
-		sheet_foreach_colrow (&sheet->rows,
-				      r->start.row, r->end.row,
-				      &cb_check_array_vertical,
-				      &closure);
+		col_row_foreach (&sheet->rows, r->start.row, r->end.row,
+				 &cb_check_array_vertical, &closure);
 }
 
 /**
@@ -1899,7 +1843,7 @@ sheet_cell_foreach_range (Sheet *sheet, gboolean only_existing,
 		if (ci == NULL) {
 			if (only_existing) {
 				/* skip segments with no cells */
-				if (j == COLROW_SEGMENT_START (i)) {
+				if (i == COLROW_SEGMENT_START (i)) {
 					ColRowInfo const * const * const segment =
 						COLROW_GET_SEGMENT(&(sheet->cols), i);
 					if (segment == NULL)
@@ -3399,119 +3343,6 @@ sheet_move_range (CommandContext *context,
 	sheet_flag_status_update_range (rinfo->origin_sheet, &rinfo->origin);
 }
 
-double *
-sheet_save_row_col_sizes (Sheet *sheet, gboolean const is_cols,
-			  int index, int count)
-{
-	int i;
-	double *res = NULL;
-
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (count > 0, NULL);
-
-	res = g_new (double, count);
-
-	for (i = 0 ; i < count ; ++i) {
-		ColRowInfo *info = is_cols
-		    ? sheet_col_get_info (sheet, index + i)
-		    : sheet_row_get_info (sheet, index + i);
-
-		g_return_val_if_fail (info != NULL, NULL); /* be anal, and leak */
-
-		if (info->pos != -1) {
-			res[i] = info->size_pts;
-			if (info->hard_size)
-				res[i] *= -1.;
-		} else
-			res[i] = 0.;
-	}
-	return res;
-}
-
-/*
- * NOTE : this is a low level routine it does not redraw or
- *        reposition objects
- */
-void
-sheet_restore_row_col_sizes (Sheet *sheet, gboolean const is_cols,
-			     int index, int count, double *sizes)
-{
-	int i;
-
-	g_return_if_fail (sizes != NULL);
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (count > 0);
-
-	for (i = 0 ; i < count ; ++i) {
-		gboolean hard_size = FALSE;
-
-		/* Reset to the default */
-		if (sizes[i] == 0.) {
-			ColRowCollection *infos = is_cols ? &(sheet->cols) : &(sheet->rows);
-			ColRowInfo ***segment =
-				(ColRowInfo ***)&COLROW_GET_SEGMENT(infos, index+i);
-			int const sub = COLROW_SUB_INDEX (index+i);
-			ColRowInfo *cri = NULL;
-			if (*segment != NULL) {
-				cri = (*segment)[sub];
-				if (cri != NULL) {
-					(*segment)[sub] = NULL;
-					g_free (cri);
-				}
-			}
-		} else {
-			if (sizes[i] < 0.) {
-				hard_size = TRUE;
-				sizes[i] *= -1.;
-			}
-			if (is_cols)
-				sheet_col_set_size_pts (sheet, index+i, sizes[i], hard_size);
-			else
-				sheet_row_set_size_pts (sheet, index+i, sizes[i], hard_size);
-		}
-	}
-
-	/* Notify sheet of pending update */
-	sheet->priv->recompute_visibility = TRUE;
-	if (is_cols) {
-		if (sheet->priv->reposition_col_comment > index)
-			sheet->priv->reposition_col_comment = index;
-	} else {
-		if (sheet->priv->reposition_row_comment > index)
-			sheet->priv->reposition_row_comment = index;
-	}
-
-	g_free (sizes);
-}
-
-/**
- * sheet_row_col_visible:
- * @sheet	: the sheet
- * @is_col	: Are we dealing with rows or columns.
- * @visible	: Make things visible or invisible.
- * @index	: The index of the first row/col.
- * @count	: The number of rows/cols to change the state.
- *
- * Change the visibility of the selected range of contiguous rows/cols.
- */
-void
-sheet_row_col_visible (Sheet *sheet, gboolean const is_col, gboolean const visible,
-		       int index, int count)
-{
-	g_return_if_fail (sheet != NULL);
-
-	while (--count >= 0) {
-		ColRowInfo * const cri = is_col
-		    ? sheet_col_fetch (sheet, index++)
-		    : sheet_row_fetch (sheet, index++);
-
-		if ((visible == 0) != (cri->visible == 0)) {
-			cri->visible = visible;
-			sheet->priv->recompute_visibility = TRUE;
-		}
-	}
-}
-
 static void
 col_row_info_init (Sheet *sheet, double pts, int margin_a, int margin_b,
 		   gboolean is_horizontal)
@@ -3555,7 +3386,7 @@ sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
 		sign = -1;
 	}
 
-	/* Do not use sheet_foreach_colrow, it ignores empties */
+	/* Do not use col_row_foreach, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
 		if (ci->visible)
@@ -3587,7 +3418,7 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 		sign = -1;
 	}
 
-	/* Do not use sheet_foreach_colrow, it ignores empties */
+	/* Do not use col_row_foreach, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
 		if (ci->visible)
@@ -3628,6 +3459,7 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 	colrow_compute_pixels_from_pts (sheet, ci, TRUE);
 
 	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->recompute_spans = TRUE;
 	if (sheet->priv->reposition_col_comment > col)
 		sheet->priv->reposition_col_comment = col;
 }
@@ -3651,6 +3483,7 @@ sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 	colrow_compute_pts_from_pixels (sheet, ci, TRUE);
 
 	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->recompute_spans = TRUE;
 	if (sheet->priv->reposition_col_comment > col)
 		sheet->priv->reposition_col_comment = col;
 }
@@ -3707,7 +3540,7 @@ sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (from >= 0, 1.);
 	g_return_val_if_fail (to <= SHEET_MAX_ROWS, 1.);
 
-	/* Do not use sheet_foreach_colrow, it ignores empties.
+	/* Do not use col_row_foreach, it ignores empties.
 	 * Optimize this so that long jumps are not quite so horrific
 	 * for performance.
 	 */
@@ -3758,7 +3591,7 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (from >= 0, 1.);
 	g_return_val_if_fail (to <= SHEET_MAX_ROWS, 1.);
 
-	/* Do not use sheet_foreach_colrow, it ignores empties.
+	/* Do not use col_row_foreach, it ignores empties.
 	 * Optimize this so that long jumps are not quite so horrific
 	 * for performance.
 	 */

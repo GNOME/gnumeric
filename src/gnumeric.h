@@ -39,6 +39,11 @@ typedef		GList		CellList;
 
 typedef struct _ColRowInfo	 ColRowInfo;
 typedef struct _ColRowCollection ColRowCollection;
+typedef GSList  ColRowVisList;
+typedef GSList  ColRowSizeList;
+typedef GSList  ColRowIndexList;
+typedef struct _ColRowIndexSet ColRowIndexSet;
+typedef  gboolean (*col_row_callback)(ColRowInfo *info, void *user_data);
 
 typedef struct _CellPos		CellPos;
 typedef struct _CellRef		CellRef;

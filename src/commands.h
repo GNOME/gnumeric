@@ -28,7 +28,8 @@ gboolean cmd_delete_rows	(CommandContext *context, Sheet *sheet,
 				 int start_row, int count);
 
 gboolean cmd_resize_row_col	(CommandContext *context, Sheet *sheet,
-				 int index, gboolean is_col);
+				 gboolean is_col, ColRowIndexList *selection,
+				 int new_size);
 
 gboolean cmd_paste_cut		(CommandContext *context,
 				 const ExprRelocateInfo *info);

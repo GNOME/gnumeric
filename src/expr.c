@@ -29,7 +29,7 @@ expr_tree_new_constant (Value *v)
 	ans = g_new (ExprConstant, 1);
 	if (!ans)
 		return NULL;
-	
+
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = OPER_CONSTANT;
 	ans->value = v;
@@ -64,7 +64,7 @@ expr_tree_new_funcall (Symbol *sym, GList *args)
 	ans = g_new (ExprFunction, 1);
 	if (!ans)
 		return NULL;
-	
+
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = OPER_FUNCALL;
 	ans->symbol = sym;;
@@ -72,7 +72,7 @@ expr_tree_new_funcall (Symbol *sym, GList *args)
 
 	return (ExprTree *)ans;
 }
-       
+
 ExprTree *
 expr_tree_new_unary  (Operation op, ExprTree *e)
 {
@@ -98,7 +98,7 @@ expr_tree_new_binary (ExprTree *l, Operation op, ExprTree *r)
 	ans = g_new (ExprBinary, 1);
 	if (!ans)
 		return NULL;
-	
+
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = op;
 	ans->value_a = l;
@@ -115,7 +115,7 @@ expr_tree_new_name (NamedExpression const *name)
 	ans = g_new (ExprName, 1);
 	if (!ans)
 		return NULL;
-	
+
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = OPER_NAME;
 	ans->name = name;
@@ -131,7 +131,7 @@ expr_tree_new_var (CellRef const *cr)
 	ans = g_new (ExprVar, 1);
 	if (!ans)
 		return NULL;
-	
+
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = OPER_VAR;
 	ans->ref = *cr;
@@ -147,7 +147,7 @@ expr_tree_new_array (int x, int y, int rows, int cols)
 	ans = g_new (ExprArray, 1);
 	if (ans == NULL)
 		return NULL;
-	
+
 	ans->ref_count = 1;
 	*((Operation *)&(ans->oper)) = OPER_ARRAY;
 	ans->x = x;
@@ -358,7 +358,7 @@ eval_funcall (EvalPos const *pos, ExprTree const *tree,
  * expr_implicit_intersection :
  * @ei: EvalInfo containing valid fd!
  * @v: a VALUE_CELLRANGE
- * 
+ *
  * Handle the implicit union of a single row or column with the eval position.
  *
  * NOTE : We do not need to know if this is expression is being evaluated as an
@@ -367,7 +367,7 @@ eval_funcall (EvalPos const *pos, ExprTree const *tree,
  *
  * Always release the value passed in.
  *
- * Return value: 
+ * Return value:
  *     If the intersection succeeded return a duplicate of the value
  *     at the intersection point.  This value needs to be freed.
  **/
@@ -402,139 +402,6 @@ expr_implicit_intersection (EvalPos const *pos,
 	}
 	value_release (v);
 	return res;
-}
-
-typedef enum {
-	IS_EQUAL,
-	IS_LESS,
-	IS_GREATER,
-	TYPE_MISMATCH
-} compare_t;
-
-static compare_t
-compare_bool_bool (Value const *va, Value const *vb)
-{
-	gboolean err; /* Ignored */
-	gboolean const a = value_get_as_bool (va, &err);
-	gboolean const b = value_get_as_bool (vb, &err);
-	if (a)
-		return b ? IS_EQUAL : IS_GREATER;
-	return b ? IS_LESS : IS_EQUAL;
-}
-
-static compare_t
-compare_int_int (Value const *va, Value const *vb)
-{
-	int const a = value_get_as_int (va);
-	int const b = value_get_as_int (vb);
-	if (a == b)
-		return IS_EQUAL;
-	else if (a < b)
-		return IS_LESS;
-	else
-		return IS_GREATER;
-}
-
-static compare_t
-compare_float_float (Value const *va, Value const *vb)
-{
-	float_t const a = value_get_as_float (va);
-	float_t const b = value_get_as_float (vb);
-	if (a == b)
-		return IS_EQUAL;
-	else if (a < b)
-		return IS_LESS;
-	else
-		return IS_GREATER;
-}
-
-/*
- * Compares two (Value *) and returns one of compare_t
- *
- * if pos is non null it will perform implict intersection for
- * cellranges.
- */
-static compare_t
-compare (Value const *a, Value const *b)
-{
-	ValueType ta, tb;
-
-	/* Handle trivial and double NULL case */
-	if (a == b)
-		return IS_EQUAL;
-
-	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->type;
-	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->type;
-
-	/* string > empty */
-	if (ta == VALUE_STRING) {
-		switch (tb) {
-		/* Strings are > (empty, or number) */
-		case VALUE_EMPTY :
-			if (*a->v_str.val->str == '\0')
-				return IS_EQUAL;
-
-		case VALUE_INTEGER : case VALUE_FLOAT :
-			return IS_GREATER;
-
-		/* Strings are < FALSE ?? */
-		case VALUE_BOOLEAN :
-			return IS_LESS;
-
-		/* If both are strings compare as string */
-		case VALUE_STRING :
-		{
-			int const t = g_strcasecmp (a->v_str.val->str, b->v_str.val->str);
-			if (t == 0)
-				return IS_EQUAL;
-			else if (t > 0)
-				return IS_GREATER;
-			else
-				return IS_LESS;
-		}
-		default :
-			return TYPE_MISMATCH;
-		}
-	} else if (tb == VALUE_STRING) {
-		switch (ta) {
-		/* (empty, or number) < String */
-		case VALUE_EMPTY :
-			if (*b->v_str.val->str == '\0')
-				return IS_EQUAL;
-
-		case VALUE_INTEGER : case VALUE_FLOAT :
-			return IS_LESS;
-
-		/* Strings are < FALSE ?? */
-		case VALUE_BOOLEAN :
-			return IS_GREATER;
-
-		default :
-			return TYPE_MISMATCH;
-		}
-	}
-
-	/* Booleans > all numbers (Why did excel do this ??) */
-	if (ta == VALUE_BOOLEAN && (tb == VALUE_INTEGER || tb == VALUE_FLOAT))
-		return IS_GREATER;
-	if (tb == VALUE_BOOLEAN && (ta == VALUE_INTEGER || ta == VALUE_FLOAT))
-		return IS_LESS;
-
-	switch ((ta > tb) ? ta : tb) {
-	case VALUE_EMPTY:	/* Empty Empty compare */
-		return IS_EQUAL;
-
-	case VALUE_BOOLEAN:
-		return compare_bool_bool (a, b);
-
-	case VALUE_INTEGER:
-		return compare_int_int (a, b);
-
-	case VALUE_FLOAT:
-		return compare_float_float (a, b);
-	default:
-		return TYPE_MISMATCH;
-	}
 }
 
 /*
@@ -575,7 +442,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		ExprEvalFlags flags)
 {
 	Value *res = NULL, *a = NULL, *b = NULL;
-	
+
 	g_return_val_if_fail (tree != NULL, NULL);
 	g_return_val_if_fail (pos != NULL, NULL);
 
@@ -586,7 +453,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 	case OPER_GTE:
 	case OPER_LT:
 	case OPER_LTE: {
-		int comp;
+		ValueCompare comp;
 
 		a = eval_expr_real (pos, tree->binary.value_a, flags);
 		if (a != NULL) {
@@ -615,7 +482,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 			}
 		}
 
-		comp = compare (a, b);
+		comp = value_compare (a, b);
 
 		if (a != NULL)
 			value_release (a);
@@ -1123,7 +990,7 @@ cell_get_abs_col_row (CellRef const *cell_ref,
  * Escapes all backslashes and quotes in a string. It is based on glib's
  * g_strescape.
  */
-static char * 
+static char *
 strescape (char *string)
 {
 	char *q;
@@ -1156,7 +1023,7 @@ strescape (char *string)
 
 	return escaped;
 }
- 
+
 /*
  * Converts a parsed tree into its string representation
  * assuming that we are evaluating at col, row
@@ -1654,10 +1521,10 @@ expr_rewrite (ExprTree        const *expr,
 			switch (cellref_relocate (&res, &rwinfo->u.relocate)) {
 			case CELLREF_NO_RELOCATE :
 				return NULL;
-				
+
 			case CELLREF_RELOCATE :
 				return expr_tree_new_var (&res);
-				
+
 			case CELLREF_RELOCATE_ERR :
 				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
 			}
@@ -1719,74 +1586,4 @@ expr_rewrite (ExprTree        const *expr,
 
 	g_assert_not_reached ();
 	return NULL;
-}
-
-/* Debugging utility to print an expression */
-void
-expr_dump_tree (ExprTree const *tree)
-{
-	switch (tree->any.oper){
-	case OPER_VAR: {
-		CellRef const *cr;	
-		cr = &tree->var.ref;
-		printf ("Cell: %s%c%s%d\n",
-			cr->col_relative ? "" : "$",
-			cr->col + 'A',
-			cr->row_relative ? "" : "$",
-			cr->row + '1');
-		return;
-	}
-		
-	case OPER_CONSTANT:
-		value_dump (tree->constant.value);
-		return;
-
-	case OPER_FUNCALL: {
-		Symbol const *s;
-		s = symbol_lookup (global_symbol_table, tree->func.symbol->str);
-		printf ("Function call: %s\n", s->str);
-		return;
-	}
-
-	case OPER_NAME:
-		printf ("Name : %s\n", tree->name.name->name->str);
-		return;
-
-	case OPER_ANY_BINARY:
-		expr_dump_tree (tree->binary.value_a);
-		expr_dump_tree (tree->binary.value_b);
-		switch (tree->any.oper){
-		case OPER_ADD: printf ("ADD\n"); break;
-		case OPER_SUB: printf ("SUB\n"); break;
-		case OPER_MULT: printf ("MULT\n"); break;
-		case OPER_DIV: printf ("DIV\n"); break;
-		case OPER_CONCAT: printf ("CONCAT\n"); break;
-		case OPER_EQUAL: printf ("==\n"); break;
-		case OPER_NOT_EQUAL: printf ("!=\n"); break;
-		case OPER_LT: printf ("<\n"); break;
-		case OPER_GT: printf (">\n"); break;
-		case OPER_GTE: printf (">=\n"); break;
-		case OPER_LTE: printf ("<=\n"); break;
-		case OPER_EXP: printf ("EXP\n"); break;
-		default:
-			printf ("Error\n");
-		}
-		return;
-		
-	case OPER_PERCENT:
-	case OPER_UNARY_NEG:
-	case OPER_UNARY_PLUS:
-		expr_dump_tree (tree->unary.value);
-		if (tree->any.oper == OPER_PERCENT)
-			printf ("PERCENT\n");
-		else if (tree->any.oper == OPER_UNARY_NEG)
-			printf ("NEGATIVE\n");
-		else
-			printf ("POSITIVE\n");
-		return;
-
-	case OPER_ARRAY:
-		printf ("ARRAY??\n");
-		return;
-	}
 }

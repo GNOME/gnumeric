@@ -76,6 +76,11 @@ void       gnumeric_sheet_selection_cursor_base  (GnumericSheet *gsheet,
 void       gnumeric_sheet_selection_extend       (GnumericSheet *gsheet,
 						  int col, int row);
 
+int	   gnumeric_sheet_find_col		 (GnumericSheet *item_grid,
+						  int x, int *col_origin);
+int	   gnumeric_sheet_find_row		 (GnumericSheet *item_grid,
+						  int y, int *row_origin);
+
 typedef struct {
 	GnomeCanvasClass parent_class;
 } GnumericSheetClass;

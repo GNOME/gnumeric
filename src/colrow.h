@@ -33,16 +33,37 @@ struct _ColRowCollection
 #define COL_INTERNAL_WIDTH(col) ((col)->size_pixels - ((col)->margin_b + (col)->margin_a + 1))
 #define ROW_INTERNAL_HEIGHT(row) ((row)->size_pixels - ((row)->margin_b + (row)->margin_a + 1))
 
-typedef GSList *ColRowVisList;
+gboolean col_row_foreach (ColRowCollection const *infos,
+			  int first, int last,
+			  col_row_callback callback,
+			  void *user_data);
 
-ColRowVisList col_row_get_visiblity_toggle (Sheet *sheet, gboolean const is_col,
-					    gboolean const visible);
-ColRowVisList col_row_vis_list_destroy     (ColRowVisList list);
-void          col_row_set_visiblity        (Sheet *sheet, gboolean const is_col,
-					    gboolean const visible,
-					    ColRowVisList list);
+/* Support for Col/Row resizing */
+ColRowSizeList	*col_row_size_list_destroy    (ColRowSizeList *list);
+ColRowIndexList *col_row_index_list_destroy   (ColRowIndexList *list);
+ColRowIndexList *col_row_get_index_list	      (int first, int last, ColRowIndexList *list);
+double		*col_row_save_sizes	      (Sheet *sheet, gboolean const is_cols,
+					       int first, int last);
+ColRowSizeList	*col_row_set_sizes	      (Sheet *sheet, gboolean const is_cols,
+					       ColRowIndexList *src, int new_size);
+void		 col_row_restore_sizes	      (Sheet *sheet, gboolean const is_cols,
+					       int first, int last, double *);
+void		 col_row_restore_sizes_group  (Sheet *sheet, gboolean const is_cols,
+					       ColRowIndexList *selection,
+					       ColRowSizeList *saved_sizes);
 
-/* Recalculate the height of all the rows in the range */
-void          rows_height_update (Sheet *sheet, Range const * range);
+void		 rows_height_update	      (Sheet *sheet, Range const *range);
+
+/* Support for Col/Row visibility */
+void		 col_row_set_visibility	      (Sheet *sheet, gboolean const is_col,
+					       gboolean const visible,
+					       int first, int last);
+
+ColRowVisList	*col_row_get_visiblity_toggle (Sheet *sheet, gboolean const is_col,
+					       gboolean const visible);
+ColRowVisList	*col_row_vis_list_destroy     (ColRowVisList *list);
+void		 col_row_set_visiblity        (Sheet *sheet, gboolean const is_col,
+					       gboolean const visible,
+					       ColRowVisList *list);
 
 #endif /* GNUMERIC_COLROW_H */

@@ -23,6 +23,16 @@ struct _SheetSelection {
 #define SHEET_MAX_ROWS (64 * 1024)
 #define SHEET_MAX_COLS 256	/* 0 - 255 inclusive */
 
+/* The size, mask, and shift must be kept in sync */
+#define COLROW_SEGMENT_SIZE	0x80
+#define COLROW_SUB_INDEX(i)	((i) & 0x7f)
+#define COLROW_SEGMENT_START(i)	((i) & ~(0x7f))
+#define COLROW_SEGMENT_END(i)	((i) | 0x7f)
+#define COLROW_SEGMENT_INDEX(i)	((i) >> 7)
+#define COLROW_GET_SEGMENT(seg_array, i) \
+	(g_ptr_array_index ((seg_array)->info, COLROW_SEGMENT_INDEX(i)))
+
+
 typedef GList ColStyleList;
 
 typedef enum {
@@ -150,13 +160,6 @@ void        sheet_cell_remove             (Sheet *sheet, Cell *cell, gboolean re
 void	    sheet_cell_remove_simple	  (Sheet *sheet, Cell *cell);
 
 /* Iteration utilities */
-typedef  gboolean (*sheet_col_row_callback)(ColRowInfo *info, void *user_data);
-
-gboolean    sheet_foreach_colrow	  (ColRowCollection const *infos,
-					   int start_col, int end_col,
-					   sheet_col_row_callback callback,
-					   void *user_data);
-
 /* See also : workbook_foreach_cell_in_range */
 Value      *sheet_cell_foreach_range      (Sheet *sheet, int only_existing,
 				           int start_col, int start_row,
@@ -185,12 +188,6 @@ int	    sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 					    int count, gboolean jump_to_boundaries);
 int	    sheet_find_boundary_vertical   (Sheet *sheet, int col, int start_row,
 					    int count, gboolean jump_to_boundaries);
-
-/* Save and restore the sizes of a set of rows or columns */
-double *    sheet_save_row_col_sizes	   (Sheet *sheet, gboolean const is_cols,
-					    int index, int count);
-void 	    sheet_restore_row_col_sizes	   (Sheet *sheet, gboolean const is_cols,
-					    int index, int count, double *);
 
 /* Retrieve information from a col/row */
 ColRowInfo *sheet_col_get_info            (Sheet const *sheet, int const col);
@@ -248,10 +245,6 @@ void    sheet_row_set_default_size_pts  (Sheet *sheet, double height_pts,
 /* Find minimum pixel size to display contents (including margins and far grid line) */
 int     sheet_col_size_fit_pixels     (Sheet *sheet, int col);
 int     sheet_row_size_fit_pixels     (Sheet *sheet, int row);
-
-void	    sheet_row_col_visible         (Sheet *sheet, gboolean const is_col,
-					   gboolean const visible,
-					   int index, int count);
 
 /* sheet-style.c */
 MStyle        *sheet_style_compute              (const Sheet *sheet,

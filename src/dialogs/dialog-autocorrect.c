@@ -283,7 +283,7 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
         GladeXML  *gui;
 
 	gui = gnumeric_glade_xml_new (workbook_command_context_gui (p->wb),
-				"autocorrect-exceptions.glade");
+				      "autocorrect-exceptions.glade");
         if (gui == NULL)
                 return;
 

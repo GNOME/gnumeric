@@ -24,6 +24,7 @@
 #include "application.h"
 #include "cellspan.h"
 #include "cmd-edit.h"
+#include "commands.h"
 
 static GtkTableClass *sheet_view_parent_class;
 
@@ -349,45 +350,46 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, She
 					   col, gsheet->row.first,
 					   col, 0,
 					   col, SHEET_MAX_ROWS-1);
-	} else {
+	} else
 		sheet_selection_extend_to (sheet, col, SHEET_MAX_ROWS - 1);
-		gnumeric_sheet_make_cell_visible (gsheet, col, gsheet->row.first, FALSE);
-	}
 
 	/* The edit pos, and the selection may have changed */
 	sheet_update (sheet);
 }
 
 struct closure_colrow_resize {
-	int size_pixels;
-	gboolean is_cols;
+	gboolean	 is_cols;
+	ColRowIndexList *selection;
 };
 
 static gboolean
 cb_colrow_resize (Sheet *sheet, Range const *r, gpointer user_data)
 {
-	struct closure_colrow_resize const *info = user_data;
-	int tmp;
+	struct closure_colrow_resize *info = user_data;
+	int first, last;
 
 	if (info->is_cols) {
-		if (r->start.row == 0 && r->end.row >= SHEET_MAX_ROWS - 1)
-			for (tmp = r->start.col; tmp <= r->end.col ; ++tmp) {
-				sheet_col_set_size_pixels (sheet, tmp, info->size_pixels, TRUE);
-				/* FIXME should be done later */
-				sheet_recompute_spans_for_col (sheet, tmp);
-			}
-	} else if (r->start.col == 0 && r->end.col >= SHEET_MAX_COLS - 1)
-		for (tmp = r->start.row; tmp <= r->end.row ; ++tmp)
-			sheet_row_set_size_pixels (sheet, tmp, info->size_pixels, TRUE);
+		if (r->start.row != 0 || r->end.row < SHEET_MAX_ROWS - 1)
+			return TRUE;
+		first = r->start.col;
+		last = r->end.col;
+	} else {
+		if (r->start.col != 0 || r->end.col < SHEET_MAX_COLS - 1)
+			return TRUE;
+		first = r->start.row;
+		last = r->end.row;
+	}
 
+	info->selection = col_row_get_index_list (first, last, info->selection);
 	return TRUE;
 }
 
 static void
-sheet_view_col_size_changed (ItemBar *item_bar, int col, int width,
+sheet_view_col_size_changed (ItemBar *item_bar, int col, int new_width,
 			     SheetView *sheet_view)
 {
-	Sheet *sheet = sheet_view->sheet;
+	Sheet		*sheet = sheet_view->sheet;
+	ColRowIndexList *selection = NULL;
 	ItemBarSelectionType const type = sheet_col_selection_type (sheet, col);
 
 	/*
@@ -396,16 +398,15 @@ sheet_view_col_size_changed (ItemBar *item_bar, int col, int width,
 	 */
  	if (type == ITEM_BAR_FULL_SELECTION) {
 		struct closure_colrow_resize	closure;
-		closure.size_pixels = width;
 		closure.is_cols = TRUE;
+		closure.selection = NULL;
 		selection_foreach_range (sheet, &cb_colrow_resize, &closure);
-	} else {
- 		sheet_col_set_size_pixels (sheet, col, width, TRUE);
-		/* FIXME should be done later */
-		sheet_recompute_spans_for_col (sheet, col);
-	}
+		selection = closure.selection;
+	} else
+		selection = col_row_get_index_list (col, col, NULL);
 
-	sheet_update (sheet);
+	cmd_resize_row_col (workbook_command_context_gui (sheet->workbook),
+			    sheet, TRUE, selection, new_width);
 }
 
 static void
@@ -436,18 +437,19 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, She
 					   gsheet->col.first, row,
 					   0, row,
 					   SHEET_MAX_COLS-1, row);
-	} else {
+	} else
 		sheet_selection_extend_to (sheet, SHEET_MAX_COLS-1, row);
-		gnumeric_sheet_make_cell_visible (gsheet, gsheet->col.first, row, FALSE);
-	}
+
 	/* The edit pos, and the selection may have changed */
 	sheet_update (sheet);
 }
 
 static void
-sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *sheet_view)
+sheet_view_row_size_changed (ItemBar *item_bar, int row, int new_height,
+			     SheetView *sheet_view)
 {
-	Sheet *sheet = sheet_view->sheet;
+	Sheet		*sheet = sheet_view->sheet;
+	ColRowIndexList *selection = NULL;
 	ItemBarSelectionType const type = sheet_row_selection_type (sheet, row);
 
 	/*
@@ -456,13 +458,15 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *
 	 */
  	if (type == ITEM_BAR_FULL_SELECTION) {
 		struct closure_colrow_resize	closure;
-		closure.size_pixels = height;
 		closure.is_cols = FALSE;
+		closure.selection = NULL;
 		selection_foreach_range (sheet, &cb_colrow_resize, &closure);
+		selection = closure.selection;
 	} else
-		sheet_row_set_size_pixels (sheet, row, height, TRUE);
+		selection = col_row_get_index_list (row, row, NULL);
 
-	sheet_update (sheet);
+	cmd_resize_row_col (workbook_command_context_gui (sheet->workbook),
+			    sheet, FALSE, selection, new_height);
 }
 
 static void
@@ -554,6 +558,9 @@ sheet_view_init (SheetView *sheet_view)
 {
 	GtkTable *table = GTK_TABLE (sheet_view);
 
+	sheet_view->slide_handler = NULL;
+	sheet_view->slide_data = NULL;
+	sheet_view->sliding = -1;
 	table->homogeneous = FALSE;
 	gtk_table_resize (table, 4, 4);
 }
@@ -940,6 +947,144 @@ sheet_view_get_style_font (const Sheet *sheet, MStyle const * const mstyle)
 				application_display_dpi_get (TRUE)) / 72.;
 
 	return mstyle_get_font (mstyle, zoom * res);
+}
+
+/*****************************************************************************/
+
+void
+sheet_view_stop_sliding (SheetView *sheet_view)
+{
+	if (sheet_view->sliding == -1)
+		return;
+
+	gtk_timeout_remove (sheet_view->sliding);
+	sheet_view->slide_handler = NULL;
+	sheet_view->slide_data = NULL;
+	sheet_view->sliding = -1;
+}
+
+static gint
+sheet_view_sliding_callback (gpointer data)
+{
+	SheetView *sheet_view = data;
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+	gboolean change = FALSE;
+	int col, row;
+
+	col = sheet_view->sliding_col;
+	row = sheet_view->sliding_row;
+
+	if (sheet_view->sliding_x < 0){
+		if (gsheet->col.first){
+			change = TRUE;
+			if (sheet_view->sliding_x >= -50)
+				col = 1;
+			else if (sheet_view->sliding_x >= -100)
+				col = 3;
+			else
+				col = 20;
+			col = gsheet->col.first - col;
+			if (col < 0)
+				col = 0;
+		} else
+			col = 0;
+	}
+
+	if (sheet_view->sliding_x > 0){
+		if (gsheet->col.last_full < SHEET_MAX_COLS-1){
+			change = TRUE;
+			if (sheet_view->sliding_x <= 50)
+				col = 1;
+			else if (sheet_view->sliding_x <= 100)
+				col = 3;
+			else
+				col = 20;
+			col = gsheet->col.last_visible + col;
+			if (col >= SHEET_MAX_COLS)
+				col = SHEET_MAX_COLS-1;
+		} else
+			col = SHEET_MAX_COLS-1;
+	}
+
+	if (sheet_view->sliding_y < 0){
+		if (gsheet->row.first){
+			change = TRUE;
+			if (sheet_view->sliding_y >= -30)
+				row = 1;
+			else if (sheet_view->sliding_y >= -60)
+				row = 25;
+			else if (sheet_view->sliding_y >= -100)
+				row = 250;
+			else
+				row = 5000;
+			row = gsheet->row.first - row;
+			if (row < 0)
+				row = 0;
+		} else
+			row = 0;
+	}
+	if (sheet_view->sliding_y > 0){
+		if (gsheet->row.last_full < SHEET_MAX_ROWS-1){
+			change = TRUE;
+			if (sheet_view->sliding_y <= 30)
+				row = 1;
+			else if (sheet_view->sliding_y <= 60)
+				row = 25;
+			else if (sheet_view->sliding_y <= 100)
+				row = 250;
+			else
+				row = 5000;
+			row = gsheet->row.last_visible + row;
+			if (row >= SHEET_MAX_ROWS)
+				row = SHEET_MAX_ROWS-1;
+		} else
+			row = SHEET_MAX_ROWS-1;
+	}
+
+	if (!change) {
+		sheet_view_stop_sliding (sheet_view);
+		return TRUE;
+	}
+
+	if (sheet_view->slide_handler == NULL ||
+	    (*sheet_view->slide_handler) (sheet_view, col, row, sheet_view->slide_data))
+		gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
+
+	return TRUE;
+}
+
+void
+sheet_view_start_sliding (SheetView *sheet_view,
+			  SheetViewSlideHandler slide_handler,
+			  gpointer user_data,
+			  int col, int row, int dx, int dy)
+{
+	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
+
+	/* Do not slide off the edge */
+	if (((dx == 0) ||
+	     (dx < 0 && gsheet->col.first == 0) ||
+	     (dx > 0 && gsheet->col.last_full >= SHEET_MAX_COLS-1)) &&
+	    ((dy == 0) ||
+	     (dy < 0 && gsheet->row.first == 0) ||
+	     (dy > 0 && gsheet->row.last_full >= SHEET_MAX_ROWS-1))) {
+		sheet_view_stop_sliding (sheet_view);
+		return;
+	}
+
+	sheet_view->slide_handler = slide_handler;
+	sheet_view->slide_data = user_data;
+	sheet_view->sliding_x = dx;
+	sheet_view->sliding_y = dy;
+	sheet_view->sliding_col = col;
+	sheet_view->sliding_row = row;
+
+	if (sheet_view->sliding == -1) {
+		sheet_view_sliding_callback (sheet_view);
+
+		sheet_view->sliding = gtk_timeout_add (
+			200, sheet_view_sliding_callback, sheet_view);
+	}
 }
 
 #if 0

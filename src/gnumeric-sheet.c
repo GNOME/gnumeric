@@ -1359,3 +1359,92 @@ gnumeric_sheet_get_type (void)
 
 	return gnumeric_sheet_type;
 }
+
+/*
+ * gnumeric_sheet_find_col: return the column containing pixel x
+ */
+int
+gnumeric_sheet_find_col (GnumericSheet *gsheet, int x, int *col_origin)
+{
+	Sheet *sheet = gsheet->sheet_view->sheet;
+	int col   = gsheet->col.first;
+	int pixel = gsheet->col_offset.first;
+
+	if (x < pixel) {
+		while (col > 0) {
+			ColRowInfo *ci = sheet_col_get_info (sheet, --col);
+			if (ci->visible) {
+				pixel -= ci->size_pixels;
+				if (x >= pixel) {
+					if (col_origin)
+						*col_origin = pixel;
+					return col;
+				}
+			}
+		}
+		if (col_origin)
+			*col_origin = 1; /* there is a 1 pixel edge at the left */
+		return 0;
+	}
+
+	do {
+		ColRowInfo *ci = sheet_col_get_info (sheet, col);
+		if (ci->visible) {
+			int const tmp = ci->size_pixels;
+			if (x <= pixel + tmp) {
+				if (col_origin)
+					*col_origin = pixel;
+				return col;
+			}
+			pixel += tmp;
+		}
+	} while (++col < SHEET_MAX_COLS);
+	if (col_origin)
+		*col_origin = pixel;
+	return SHEET_MAX_COLS-1;
+}
+
+/*
+ * gnumeric_sheet_find_row: return the row where y belongs to
+ */
+int
+gnumeric_sheet_find_row (GnumericSheet *gsheet, int y, int *row_origin)
+{
+	Sheet *sheet = gsheet->sheet_view->sheet;
+	int row   = gsheet->row.first;
+	int pixel = gsheet->row_offset.first;
+
+	if (y < pixel) {
+		while (row > 0) {
+			ColRowInfo *ri = sheet_row_get_info (sheet, --row);
+			if (ri->visible) {
+				pixel -= ri->size_pixels;
+				if (y >= pixel) {
+					if (row_origin)
+						*row_origin = pixel;
+					return row;
+				}
+			}
+		}
+		if (row_origin)
+			*row_origin = 1; /* there is a 1 pixel edge on top */
+		return 0;
+	}
+
+	do {
+		ColRowInfo *ri = sheet_row_get_info (sheet, row);
+		if (ri->visible) {
+			int const tmp = ri->size_pixels;
+			if (pixel <= y && y <= pixel + tmp) {
+				if (row_origin)
+					*row_origin = pixel;
+				return row;
+			}
+			pixel += tmp;
+		}
+	} while (++row < SHEET_MAX_ROWS);
+	if (row_origin)
+		*row_origin = pixel;
+	return SHEET_MAX_ROWS-1;
+}
+

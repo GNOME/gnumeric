@@ -191,9 +191,6 @@ ExprTree       *expr_rewrite (ExprTree        const *expr,
 int             expr_tree_get_const_int (ExprTree const *expr);
 char const *	expr_tree_get_const_str (ExprTree const *expr);
  
-/* Debugging */ 
-void expr_dump_tree (ExprTree const *tree);
-
 /*
  * Returns int(0) if the expression uses a non-existant cell for anything
  * other than an equality test.

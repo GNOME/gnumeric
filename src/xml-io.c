@@ -2396,9 +2396,9 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 		closure.is_column = TRUE;
 		closure.container = cols;
 		closure.ctxt = ctxt;
-		sheet_foreach_colrow (&sheet->cols,
-				      0, SHEET_MAX_COLS-1,
-				      &xml_write_colrow_info, &closure);
+		col_row_foreach (&sheet->cols,
+				 0, SHEET_MAX_COLS-1,
+				 &xml_write_colrow_info, &closure);
 	}
 
 	/*
@@ -2410,9 +2410,9 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 		closure.is_column = FALSE;
 		closure.container = rows;
 		closure.ctxt = ctxt;
-		sheet_foreach_colrow (&sheet->rows,
-				      0, SHEET_MAX_ROWS-1,
-				      &xml_write_colrow_info, &closure);
+		col_row_foreach (&sheet->rows,
+				 0, SHEET_MAX_ROWS-1,
+				 &xml_write_colrow_info, &closure);
 	}
 
 	/* Save the current selection */

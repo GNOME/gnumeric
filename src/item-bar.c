@@ -47,6 +47,8 @@ enum {
 	ARG_FIRST_ELEMENT
 };
 
+#define ITEM_BAR_RESIZING(x) (ITEM_BAR(x)->resize_pos != -1)
+
 static void
 item_bar_fonts_unref (ItemBar *item_bar)
 {
@@ -442,7 +444,7 @@ item_bar_start_resize (ItemBar *bar)
 }
 
 static int
-get_col_from_pos (ItemBar *item_bar, int pos)
+get_element_from_pixel (ItemBar *item_bar, int pos)
 {
 	ColRowInfo *cri;
 	Sheet *sheet;
@@ -489,8 +491,7 @@ colrow_tip_setlabel (ItemBar *item_bar, gboolean const is_vertical, int size_pix
 static void
 item_bar_end_resize (ItemBar *item_bar, int new_size)
 {
-	/* autosizing an empty col/row returns 0 */
-	if (new_size > 0)
+	if (new_size != 0)
 		gtk_signal_emit (GTK_OBJECT (item_bar),
 				 item_bar_signals [SIZE_CHANGED],
 				 item_bar->resize_pos,
@@ -514,6 +515,17 @@ item_bar_end_resize (ItemBar *item_bar, int new_size)
 	item_bar->resize_pos = -1;
 }
 
+static gboolean
+cb_extend_selection (SheetView *sheet_view, int col, int row, gpointer user_data)
+{
+	ItemBar * const item_bar = user_data;
+	gboolean const is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
+	gtk_signal_emit (GTK_OBJECT (item_bar),
+			 item_bar_signals [SELECTION_CHANGED],
+			 is_vertical ? row : col, 0);
+	return TRUE;
+}
+
 static gint
 item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 {
@@ -521,8 +533,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	GnomeCanvas * const canvas = item->canvas;
 	ItemBar * const item_bar = ITEM_BAR (item);
 	Sheet   * const sheet = item_bar->sheet_view->sheet;
-	const gboolean resizing = ITEM_BAR_RESIZING (item_bar);
-	const gboolean is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
+	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->sheet_view->sheet_view);
+	gboolean const is_vertical = (item_bar->orientation == GTK_ORIENTATION_VERTICAL);
 #if 0
 	/*
 	 * handle the zoom from the item-grid canvas, the resolution scaling is
@@ -553,7 +565,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			pos = e->motion.x;
 
 		/* Do col/row resizing or incremental marking */
-		if (resizing){
+		if (item_bar->resize_pos != -1) {
 			GnomeCanvasItem *resize_guide;
 			GnomeCanvasPoints *points;
 			int npos;
@@ -589,12 +601,43 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				canvas, 0, 0, INT_MAX, INT_MAX);
 
 		} else if (ITEM_BAR_IS_SELECTING (item_bar)) {
-			element = get_col_from_pos (item_bar, pos);
+			int x, y, left, top, width, height, col, row;
+			element = get_element_from_pixel (item_bar, pos);
 
 			gtk_signal_emit (
 				GTK_OBJECT (item),
 				item_bar_signals [SELECTION_CHANGED],
 				element, 0);
+
+			gnome_canvas_w2c (canvas, e->motion.x, e->motion.y, &x, &y);
+			gnome_canvas_get_scroll_offsets (canvas, &left, &top);
+
+			width = GTK_WIDGET (canvas)->allocation.width;
+			height = GTK_WIDGET (canvas)->allocation.height;
+
+			col = gnumeric_sheet_find_col (gsheet, x, NULL);
+			row = gnumeric_sheet_find_row (gsheet, y, NULL);
+
+			if (x < left || y < top || x >= left + width || y >= top + height) {
+				int dx = 0, dy = 0;
+
+				if (is_vertical) {
+					if (y < top)
+						dy = y - top;
+					else if (y >= top + height)
+						dy = y - height - top;
+				} else {
+					if (x < left)
+						dx = x - left;
+					else if (x >= left + width)
+						dx = x - width - left;
+				}
+
+				sheet_view_start_sliding (item_bar->sheet_view,
+							  &cb_extend_selection, item_bar,
+							  col, row, dx, dy);
+			} else
+				sheet_view_stop_sliding (item_bar->sheet_view);
 
 			set_cursor (item_bar, pos);
 		} else
@@ -634,7 +677,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				item_grid_popup_menu (sheet, e, 0, element, FALSE, TRUE);
 			else
 				item_grid_popup_menu (sheet, e, element, 0, TRUE, FALSE);
-		} else if (cri){
+		} else if (cri) {
 			/*
 			 * Record the important bits.
 			 *
@@ -653,6 +696,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				gtk_widget_show_all (gtk_widget_get_toplevel (item_bar->tip));
 			}
 		} else {
+
 			item_bar->start_selection = element;
 			gnome_canvas_item_grab (item,
 						GDK_POINTER_MOTION_MASK |
@@ -667,26 +711,14 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	case GDK_2BUTTON_PRESS:
 	{
-		Sheet *sheet;
-		int new_size;
-		
 		/* Ignore scroll wheel events */
 		if (e->button.button > 3)
 			return FALSE;
 
-		if (!resizing)
-			break;
-
 		if (e->button.button == 3)
 			break;
 
-		sheet = item_bar->sheet_view->sheet;
-		if (is_vertical)
-			new_size = sheet_row_size_fit_pixels (sheet, item_bar->resize_pos);
-		else
-			new_size = sheet_col_size_fit_pixels (sheet, item_bar->resize_pos);
-
-		item_bar_end_resize (item_bar, new_size);
+		item_bar_end_resize (item_bar, -1);
 		break;
 	}
 		
@@ -698,13 +730,22 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button > 3)
 			return FALSE;
 
+		sheet_view_stop_sliding (item_bar->sheet_view);
+
 		if (item_bar->start_selection >= 0) {
 			needs_ungrab = TRUE;
 			item_bar->start_selection = -1;
 		}
 		if (item_bar->resize_pos >= 0) {
-			needs_ungrab = (item_bar->resize_guide != NULL);
-			item_bar_end_resize (item_bar, item_bar->resize_width);
+			if (item_bar->resize_guide != NULL) {
+				needs_ungrab = TRUE;
+				item_bar_end_resize (item_bar, item_bar->resize_width);
+			} else
+				/*
+				 * No need to resize, nothing changed.
+				 * This will handle the case of a double click.
+				 */
+				item_bar_end_resize (item_bar, 0);
 		}
 		if (needs_ungrab)
 			gnome_canvas_item_ungrab (item, e->button.time);
