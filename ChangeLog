@@ -1,3 +1,8 @@
+2004-11-05  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object): change sheet object
+	manipulation keybindings to something that is not a psychomotor test.
+
 2004-11-04  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (scg_mode_edit) : no need to finish editing
