@@ -1159,9 +1159,9 @@ item_cursor_handle_motion (ItemCursor *item_cursor, GdkEvent *event,
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_cursor)->canvas;
 
 	gnumeric_sheet_handle_motion (GNUMERIC_SHEET (canvas),
-				      canvas, &event->motion,
-				      TRUE, TRUE, TRUE,
-				      slide_handler, item_cursor);
+		canvas, &event->motion,
+		GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_AT_COLROW_BOUND,
+		slide_handler, item_cursor);
 }
 
 static gint

@@ -730,15 +730,15 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			gnome_canvas_request_redraw (canvas, 0, 0, INT_MAX/2, INT_MAX/2);
 
 		} else if (ib->start_selection != -1) {
-
 			if (wbcg_edit_has_guru (wbcg) &&
 			    !wbcg_edit_entry_redirect_p (wbcg))
 				break;
 
 			gnumeric_sheet_handle_motion (ib->gsheet,
-						      canvas, &e->motion,
-						      is_cols, !is_cols, TRUE,
-						      cb_extend_selection, ib);
+				canvas, &e->motion,
+				GNM_SLIDE_AT_COLROW_BOUND |
+					is_cols ? GNM_SLIDE_X : GNM_SLIDE_Y,
+				cb_extend_selection, ib);
 		} else
 			ib_set_cursor (ib, x, y);
 		break;

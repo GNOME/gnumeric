@@ -1196,34 +1196,33 @@ gsheet_sliding_callback (gpointer data)
 		if (slide_x) {
 			col = target_gsheet->col.last_full + 
 				col_scroll_step (gsheet->sliding_dx);
-			if (col >= SHEET_MAX_COLS) {
+			if (col >= SHEET_MAX_COLS-1) {
 				col = SHEET_MAX_COLS-1;
 				slide_x = FALSE;
 			}
 		}
 	} else if (gsheet->sliding_dx < 0) {
-		slide_x = FALSE;
-		if (pane_index != 1 && pane_index != 2) {
-			int x = gsheet->col_offset.first + gsheet->sliding_dx;
-			col = gnumeric_sheet_find_col (gsheet, x, NULL);
-			/* Be careful if sheet is narrow, don't
-			 * autoscroll past edge
-			 */
-			if (gsheet2 != NULL && col <= gsheet2->col.last_visible) {
-				if (col < gsheet2->col.first)
-					col = gsheet2->col.first;
-				gsheet->sliding_adjacent_h = TRUE;
-			} else
-				slide_x = TRUE;
-		}
+		slide_x = TRUE;
+		col = gsheet->col.first - col_scroll_step (-gsheet->sliding_dx);
 
-		if (slide_x) {
-			col = gsheet->col.first -
-				col_scroll_step (-gsheet->sliding_dx);
-			if (col < 0) {
-				col = 0;
+		if (gsheet2 != NULL) {
+			if (pane_index == 0 || pane_index == 3) {
+				int width = GTK_WIDGET (gsheet2)->allocation.width;
+				if (gsheet->sliding_dx > (-width) &&
+				    col <= gsheet2->col.last_visible) {
+					int x = gsheet2->col_offset.first + width + gsheet->sliding_dx;
+					col = gnumeric_sheet_find_col (gsheet2, x, NULL);
+					slide_x = FALSE;
+				}
+			} 
+
+			if (col <= gsheet2->col.first) {
+				col = gsheet2->col.first;
 				slide_x = FALSE;
 			}
+		} else if (col <= 0) {
+			col = 0;
+			slide_x = FALSE;
 		}
 	} 
 
@@ -1250,34 +1249,33 @@ gsheet_sliding_callback (gpointer data)
 		if (slide_y) {
 			row = target_gsheet->row.last_full + 
 				row_scroll_step (gsheet->sliding_dy);
-			if (row >= SHEET_MAX_ROWS) {
+			if (row >= SHEET_MAX_ROWS-1) {
 				row = SHEET_MAX_ROWS-1;
 				slide_y = FALSE;
 			}
 		}
 	} else if (gsheet->sliding_dy < 0) {
-		slide_y = FALSE;
-		if (pane_index != 3 && pane_index != 2) {
-			int y = gsheet->row_offset.first + gsheet->sliding_dy;
-			row = gnumeric_sheet_find_row (gsheet, y, NULL);
-			/* Be careful if sheet is short, don't
-			 * autoscroll past edge
-			 */
-			if (gsheet2 != NULL && row <= gsheet2->row.last_visible) {
-				if (row < gsheet2->row.first)
-					row = gsheet2->row.first;
-				gsheet->sliding_adjacent_v = TRUE;
-			} else
-				slide_y = TRUE;
-		}
+		slide_y = TRUE;
+		row = gsheet->row.first - row_scroll_step (-gsheet->sliding_dy);
 
-		if (slide_y) {
-			row = gsheet->row.first -
-				row_scroll_step (-gsheet->sliding_dy);
-			if (row < 0) {
-				row = 0;
+		if (gsheet2 != NULL) {
+			if (pane_index == 0 || pane_index == 1) {
+				int height = GTK_WIDGET (gsheet2)->allocation.height;
+				if (gsheet->sliding_dy > (-height) &&
+				    row <= gsheet2->row.last_visible) {
+					int y = gsheet2->row_offset.first + height + gsheet->sliding_dy;
+					row = gnumeric_sheet_find_row (gsheet2, y, NULL);
+					slide_y = FALSE;
+				}
+			} 
+
+			if (row <= gsheet2->row.first) {
+				row = gsheet2->row.first;
 				slide_y = FALSE;
 			}
+		} else if (row <= 0) {
+			row = 0;
+			slide_y = FALSE;
 		}
 	}
 
@@ -1310,9 +1308,7 @@ gsheet_sliding_callback (gpointer data)
  * @gsheet	 : The GnumericSheet managing the scroll
  * @canvas	 : The Canvas the event comes from
  * @event	 : The motion event
- * @allow_h      : Can we slide horizontally
- * @allow_v	 : Can we slide vertically
- * @colrow_bound : Use last full col/row as bound
+ * @slide_flags	 : 
  * @slide_handler: The handler when sliding
  * @user_data	 : closure data
  *
@@ -1320,14 +1316,11 @@ gsheet_sliding_callback (gpointer data)
  * depending on how far outside the bounds of @gsheet the @event is.
  * Usually @canvas == @gsheet however as long as the canvases share a basis
  * space they can be different.
- *
- * @colrow_bound is not implemented yet.
  */
-void
+gboolean
 gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
 			      GnomeCanvas *canvas, GdkEventMotion *event,
-			      gboolean allow_h, gboolean allow_v,
-			      gboolean colrow_bound,
+			      GnumericSlideFlags slide_flags,
 			      GnumericSheetSlideHandler slide_handler,
 			      gpointer user_data)
 {
@@ -1336,10 +1329,10 @@ gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
 	int left, top, x, y, width, height;
 	int dx = 0, dy = 0;
 
-	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
-	g_return_if_fail (GNOME_IS_CANVAS (canvas));
-	g_return_if_fail (event != NULL);
-	g_return_if_fail (slide_handler != NULL);
+	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), FALSE);
+	g_return_val_if_fail (GNOME_IS_CANVAS (canvas), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+	g_return_val_if_fail (slide_handler != NULL, FALSE);
 
 	gnome_canvas_w2c (canvas, event->x, event->y, &x, &y);
 
@@ -1351,14 +1344,14 @@ gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
 	sheet = sc_sheet (SHEET_CONTROL (gsheet->scg));
 	gsheet0 = scg_pane (gsheet->scg, 0);
 
-	if (allow_h) {
+	if (slide_flags & GNM_SLIDE_X) {
 		if (x < left)
 			dx = x - left;
 		else if (x >= left + width)
 			dx = x - width - left;
 	}
 
-	if (allow_v) {
+	if (slide_flags & GNM_SLIDE_Y) {
 		if (y < top)
 			dy = y - top;
 		else if (y >= top + height)
@@ -1407,12 +1400,14 @@ gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
 	}
 	/* Movement is inside the visible region */
 	if (dx == 0 && dy == 0) {
-		int const col = gnumeric_sheet_find_col (gsheet, x, NULL);
-		int const row = gnumeric_sheet_find_row (gsheet, y, NULL);
+		if (!(slide_flags & GNM_SLIDE_EXTERIOR_ONLY)) {
+			int const col = gnumeric_sheet_find_col (gsheet, x, NULL);
+			int const row = gnumeric_sheet_find_row (gsheet, y, NULL);
 
+			(*slide_handler) (gsheet, col, row, user_data);
+		}
 		gnumeric_sheet_slide_stop (gsheet);
-		(*slide_handler) (gsheet, col, row, user_data);
-		return;
+		return TRUE;
 	}
 
 	gsheet->sliding_x  = x;
@@ -1424,8 +1419,15 @@ gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
 
 	if (gsheet->sliding == -1)
 		(void) gsheet_sliding_callback (gsheet);
+	return FALSE;
 }
 
+/* TODO : All the slide_* members of GnumericSheet really aught to be in
+ * SheetControlGUI, most of these routines also belong there.  However, since
+ * the primary point of access is via the GSheet and SCG is very large already
+ * I'm leaving them here for now.  Move them when we return to investigate
+ * how to do reverse scrolling for pseudo-adjacent panes.
+ */
 void
 gnumeric_sheet_slide_init (GnumericSheet *gsheet)
 {

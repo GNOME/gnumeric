@@ -1682,10 +1682,23 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		if (scg->drag_object == NULL)
 			break;
 
-		gnumeric_sheet_handle_motion (GNUMERIC_SHEET (ctrl_pt->canvas),
-					      ctrl_pt->canvas, &event->motion,
-					      TRUE, TRUE, FALSE,
-					      cb_slide_handler, ctrl_pt);
+		/* TODO : motion is still too granular along the internal axis
+		 * when the other axis is external.
+		 * eg  drag from middle of sheet down.  The x axis is still internal
+		 * onlt the y is external, however, since we are autoscrolling
+		 * we are limited to moving with col/row coords, not x,y.
+		 * Possible solution would be to change the EXTERIOR_ONLY flag
+		 * to something like USE_PIXELS_INSTEAD_OF_COLROW and change
+		 * the semantics of the col,row args in the callback.  However,
+		 * that is more work than I want to do right now.
+		 */
+		if (gnumeric_sheet_handle_motion (GNUMERIC_SHEET
+						  (ctrl_pt->canvas),
+						  ctrl_pt->canvas, &event->motion,
+						  GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_EXTERIOR_ONLY,
+						  cb_slide_handler, ctrl_pt))
+			scg_object_move (scg, scg->current_object, GNOME_CANVAS_ITEM (so_view),
+					 GTK_OBJECT (ctrl_pt), event->motion.x, event->motion.y);
 		break;
 
 	default:

@@ -977,8 +977,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			return TRUE;
 
 		gnumeric_sheet_handle_motion (gsheet, canvas, &event->motion,
-					      TRUE, TRUE, TRUE,
-					      slide_handler, NULL);
+			GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_AT_COLROW_BOUND,
+			slide_handler, NULL);
 		return TRUE;
 	}
 

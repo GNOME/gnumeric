@@ -1,5 +1,20 @@
 2001-07-14  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-sheet.c (gnumeric_sheet_handle_motion) : adjust
+	  signature to take an enum instead of 4 booleans.  Add a flag to
+	  allow the caller to handle motion within the visible pane.
+	(gsheet_sliding_callback) : more tuning for reverse motion in unfrozen
+	  panes.
+
+	* src/item-bar.c (item_bar_event) : convert to new
+	  gnumeric_sheet_handle_motion signature.
+	* src/item-grid.c (item_grid_event) : ditto.
+	* src/item-cursor.c (item_cursor_handle_motion) : ditto.
+	* src/sheet-control-gui.c (cb_control_point_event) : ditto.
+	  Handle object motion within visible region locally.
+
+2001-07-14  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet.c (sheet_init_sc) : set the panes.
 
 	* src/sheet-control.c (sc_init_state) : delete unused.
