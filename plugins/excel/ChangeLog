@@ -1,3 +1,17 @@
+2001-01-01  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (write_window1): Take WorkbookView
+	parameter. Save width, height and flags for
+	show_horizontal_scrollbar, show_vertical_scrollbar and
+	show_notebook_tabs
+	(write_bits, write_sheet_tail): Call write_window1 with
+	WorkbookView parameter.
+
+	* ms-excel-read.c (ms_excel_read_window1): New function -
+	separated out of ms_excel_read_workbook. Read BIFF WINDOW1 record.
+	Fix some typos: Some fields were 32bit, should be 16 bit.
+	(ms_excel_read_workbook): Separated out ms_excel_read_window1.
+
 2000-12-20  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-chart.c (BC_R(ai)) : Use ms_container_parse_expr.

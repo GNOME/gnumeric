@@ -37,6 +37,7 @@
 #include "cell.h"
 #include "sheet-object.h"
 #include "sheet-object-cell-comment.h"
+#include "application.h"
 #include "style.h"
 #include "format.h"
 #include "main.h"
@@ -316,16 +317,31 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 	}
 }
 
+/*
+ * See: S59E17.HTM
+ */
 static void
-write_window1 (BiffPut *bp, MsBiffVersion ver)
+write_window1 (BiffPut *bp, MsBiffVersion ver, WorkbookView *wb_view)
 {
-	/* See: S59E17.HTM */
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_WINDOW1, 18);
+	float hdpi = application_display_dpi_get (TRUE) / (72. * 20.);
+	float vdpi = application_display_dpi_get (FALSE) / (72. * 20.);
+	guint16 width = .5 + wb_view->preferred_width / hdpi;
+	guint16 height = .5 + wb_view->preferred_height / vdpi;
+	guint16 options = 0;
+
+	if (wb_view->show_horizontal_scrollbar)
+		options |= 0x0008;
+	if (wb_view->show_vertical_scrollbar)
+		options |= 0x0010;
+	if (wb_view->show_notebook_tabs)
+		options |= 0x0020;
+
 	MS_OLE_SET_GUINT16 (data+  0, 0x0000);
 	MS_OLE_SET_GUINT16 (data+  2, 0x0000);
-	MS_OLE_SET_GUINT16 (data+  4, 0x2c4c);
-	MS_OLE_SET_GUINT16 (data+  6, 0x198c);
-	MS_OLE_SET_GUINT16 (data+  8, 0x0038); /* various flags */
+	MS_OLE_SET_GUINT16 (data+  4, width);
+	MS_OLE_SET_GUINT16 (data+  6, height);
+	MS_OLE_SET_GUINT16 (data+  8, options); /* various flags */
 	MS_OLE_SET_GUINT16 (data+ 10, 0x0000); /* selected tab */
 	MS_OLE_SET_GUINT16 (data+ 12, 0x0000); /* displayed tab */
 	MS_OLE_SET_GUINT16 (data+ 14, 0x0001);
@@ -399,7 +415,7 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 		ms_biff_put_commit (bp);
 	}
 
-	write_window1 (bp, ver);
+	write_window1 (bp, ver, wb->gnum_wb_view);
 
 	if (ver >= MS_BIFF_V8 && 0 /* if we have panes */) {
 		/* See: S59DCA.HTM */
@@ -3001,7 +3017,7 @@ write_sheet_tail (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 	if (sheet->gnum_sheet == wb_view_cur_sheet (sheet->wb->gnum_wb_view))
 		options |= 0x400;
 
-	write_window1 (bp, ver);
+	write_window1 (bp, ver, sheet->wb->gnum_wb_view);
 
 	/* See: S59E18.HTM */
 	if (ver <= MS_BIFF_V7) {

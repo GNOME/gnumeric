@@ -3921,7 +3921,7 @@ biff_get_externsheet_name(ExcelWorkbook *wb, guint16 idx, gboolean get_first)
 }
 
 /*
- * see S59DEC.HM,
+ * see S59DEC.HTM
  */
 static void
 ms_excel_read_supporting_wb (MsBiffBofData *ver, BiffQuery *q)
@@ -3965,6 +3965,51 @@ ms_excel_read_supporting_wb (MsBiffBofData *ver, BiffQuery *q)
 		puts(name);
 	}
 #endif
+}
+
+/*
+ * See: S59E17.HTM
+ */
+static void
+ms_excel_read_window1 (BiffQuery *q, WorkbookView *wb_view)
+{
+	if (q->length >= 16) {
+#if 0
+				/* In 1/20ths of a point */
+		const guint16 xPos    = MS_OLE_GET_GUINT16(q->data + 0);
+		const guint16 yPos    = MS_OLE_GET_GUINT16(q->data + 2);
+#endif
+		const guint16 width   = MS_OLE_GET_GUINT16(q->data + 4);
+		const guint16 height  = MS_OLE_GET_GUINT16(q->data + 6);
+		const guint16 options = MS_OLE_GET_GUINT16(q->data + 8);
+#if 0
+		const guint16 selTab  = MS_OLE_GET_GUINT16(q->data + 10);
+		const guint16 firstTab= MS_OLE_GET_GUINT16(q->data + 12);
+		const guint16 tabsSel = MS_OLE_GET_GUINT16(q->data + 14);
+		
+		/* (width of tab)/(width of horizontal scroll bar) / 1000 */
+		const guint16 ratio   = MS_OLE_GET_GUINT16(q->data + 16);
+#endif
+		
+		/* 
+		 * We are sizing the window including the toolbars,
+		 * menus, and notbook tabs.  Excel does not.
+		 *
+		 * NOTE : This is the size of the MDI sub-window, not the size of
+		 * the containing excel window.
+		 */
+		wb_view_preferred_size (wb_view,
+					.5 + width * application_display_dpi_get (TRUE) / (72. * 20.),
+					.5 + height * application_display_dpi_get (FALSE) / (72. * 20.));
+
+		if (options & 0x0001)
+			printf ("Unsupported : Hidden workbook\n");
+		if (options & 0x0002)
+			printf ("Unsupported : Iconic workbook\n");
+		wb_view->show_horizontal_scrollbar = (options & 0x0008);
+		wb_view->show_vertical_scrollbar = (options & 0x0010);
+		wb_view->show_notebook_tabs = (options & 0x0020);
+	}
 }
 
 int
@@ -4332,45 +4377,8 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 					"dates will be incorrect\n");
 			break;
 
-		/* See: S59E17.HTM */
-		case BIFF_WINDOW1 : /* 0 NOT 1 */
-			if (q->length >= 16) {
-#if 0
-				/* In 1/20ths of a point */
-				const guint16 xPos    = MS_OLE_GET_GUINT16(q->data + 0);
-				const guint16 yPos    = MS_OLE_GET_GUINT16(q->data + 2);
-#endif
-				const guint16 width   = MS_OLE_GET_GUINT16(q->data + 4);
-				const guint16 height  = MS_OLE_GET_GUINT32(q->data + 6);
-				const guint16 options = MS_OLE_GET_GUINT32(q->data + 8);
-#if 0
-				const guint16 selTab  = MS_OLE_GET_GUINT32(q->data + 10);
-				const guint16 firstTab= MS_OLE_GET_GUINT32(q->data + 12);
-				const guint16 tabsSel = MS_OLE_GET_GUINT32(q->data + 14);
-
-				/* (width of tab)/(width of horizontal scroll bar) / 1000 */
-				const guint16 ratio   = MS_OLE_GET_GUINT32(q->data + 16);
-#endif
-
-				/* FIXME FIXME FIXME :
-				 * We are sizing the window including the toolbars,
-				 * menus, and notbook tabs.  Excel does not.
-				 *
-				 * NOTE : This is the size of the MDI sub-window, not the size of
-				 * the containing excel window.
-				 */
-				wb_view_preferred_size (wb_view,
-					.5 + width * application_display_dpi_get (TRUE) / (72. * 20.),
-					.5 + height * application_display_dpi_get (FALSE) / (72. * 20.));
-
-				if (options & 0x0001)
-					printf ("Unsupported : Hidden workbook\n");
-				if (options & 0x0002)
-					printf ("Unsupported : Iconic workbook\n");
-				wb_view->show_horizontal_scrollbar = (options & 0x0008);
-				wb_view->show_vertical_scrollbar = (options & 0x0010);
-				wb_view->show_notebook_tabs = (options & 0x0020);
-			}
+		case BIFF_WINDOW1 :
+			ms_excel_read_window1 (q, wb_view);
 			break;
 
 		case BIFF_SELECTION : /* 0, NOT 10 */
