@@ -1,3 +1,7 @@
+1999-08-27  Karl Eichwalder  <ke@suse.de>
+
+	* src/workbook.c: typo.
+
 1999-08-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c: Implemented ISPMT().

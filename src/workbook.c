@@ -997,7 +997,7 @@ static GnomeUIInfo workbook_menu_view [] = {
 
 static GnomeUIInfo workbook_menu_insert_special [] = {
 	{ GNOME_APP_UI_ITEM, N_("Current _date"),
-	  N_("Insert the current data into the selected cell(s)"),
+	  N_("Insert the current date into the selected cell(s)"),
 	  insert_current_date_cmd,
 	  NULL, NULL, 0, 0, ';', GDK_CONTROL_MASK },
 	{ GNOME_APP_UI_ITEM, N_("Current _time"),
