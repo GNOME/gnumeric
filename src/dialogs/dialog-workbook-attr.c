@@ -157,6 +157,10 @@ attr_dialog_init_view_page (AttrState *state)
 
 /*****************************************************************************/
 
+/*
+ * NOTE: We have to set the dialog title here. Looks like <title> in glade
+ * file doesn't work for property dialogs.
+ */
 static void
 attr_dialog_impl (AttrState *state)
 {
