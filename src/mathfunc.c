@@ -5142,6 +5142,52 @@ random_exppow (gnum_float a, gnum_float b)
 		return x;
 	}
 }
+
+/*
+ * Generate a Gaussian tail-distributed random number. From the GNU 
+ * Scientific library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough
+ */
+gnum_float
+random_gaussian_tail (gnum_float a, gnum_float sigma)
+{
+        /*
+	 * Returns a gaussian random variable larger than a
+	 * This implementation does one-sided upper-tailed deviates.
+	 */
+
+        gnum_float s = a / sigma;
+
+	if (s < 1) {
+	        /* For small s, use a direct rejection method. The limit s < 1
+		 * can be adjusted to optimise the overall efficiency */
+
+	        gnum_float x;
+
+		do {
+		        x = random_gaussian (1.0);
+		} while (x < s);
+		return x * sigma;
+	} else {
+	        /* Use the "supertail" deviates from the last two steps
+		 * of Marsaglia's rectangle-wedge-tail method, as described
+		 * in Knuth, v2, 3rd ed, pp 123-128.  (See also exercise 11,
+		 * p139, and the solution, p586.)
+		 */
+
+	        gnum_float u, v, x;
+
+		do {
+		        u = random_01 ();
+			do {
+			        v = random_01 ();
+			} while (v == 0.0);
+			x = sqrtgnum (s * s - 2 * loggnum (v));
+		} while (x * u > s);
+		return x * sigma;
+	}
+}
+
 /*
  * Generate a Landau-distributed random number. From the GNU Scientific
  * library 1.1.1.

@@ -136,6 +136,7 @@ gnum_float random_levy_skew      (gnum_float c, gnum_float alpha,
 				  gnum_float beta);
 gnum_float random_exppow         (gnum_float a, gnum_float b);
 gnum_float random_landau         (void);
+gnum_float random_gaussian_tail  (gnum_float a, gnum_float sigma);
 
 /* ------------------------------------------------------------------------- */
 
