@@ -1,3 +1,9 @@
+2001-07-08  Christian Rose  <menthos@menthos.com>
+
+	* sv.po: Updated Swedish translation. Applied a translation patch from
+	Jörgen Tegnér <jorgen.tegner@post.utfors.se>. Slowly moving towards more
+	translated messages.
+
 2001-07-06  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.
