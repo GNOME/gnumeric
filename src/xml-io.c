@@ -2497,6 +2497,7 @@ xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 		scenario_t *s;
 		xmlChar    *str;
 		int        rows, cols, i;
+		Value      *range;
 
 		s = g_new0 (scenario_t, 1);
 
@@ -2513,7 +2514,16 @@ xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 		/* Scenario: changing cells in a string form. */
 	        str = xml_node_get_cstr (child, "CellsStr");
 		s->cell_sel_str = g_strdup ((const gchar *)str);
-		parse_range (str, &s->range);
+		range = global_range_parse (sheet, str);
+		if (range) {
+		        ValueRange *vrange = (ValueRange *) range;
+
+		        s->range.start.col = vrange->cell.a.col;
+		        s->range.start.row = vrange->cell.a.row;
+			s->range.end.col   = vrange->cell.b.col;
+			s->range.end.row   = vrange->cell.b.row;
+			value_release (range);
+		}
 		xmlFree (str);
 
 		/* Scenario: values. */
