@@ -285,7 +285,7 @@
                       <widget class="GtkCheckButton" id="retain_format_button">
                         <property name="border_width">4</property>
                         <property name="can_focus">yes</property>
-                        <property name="label" translatable="yes">_Preserve Formating</property>
+                        <property name="label" translatable="yes">_Preserves Formats</property>
                         <property name="active">no</property>
                         <property name="draw_indicator">yes</property>
                         <property name="visible">yes</property>
