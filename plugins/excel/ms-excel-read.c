@@ -1001,7 +1001,7 @@ get_substitute_font (gchar *fontname)
 		{ NULL }
 	};
 	for (p = temporary; (*p)[0]; p++)
-		if (strcasecmp ((*p)[0], fontname) == 0) {
+		if (g_strcasecmp ((*p)[0], fontname) == 0) {
 			res = (*p)[1];
 			break;
 		}

@@ -578,14 +578,14 @@ render_opcode (GString *target, const char *opcode, HFRenderInfo *info, HFRender
 	
 	for (i = 0; render_ops [i].name; i++){
 		if (render_type == HF_RENDER_TO_ENGLISH){
-			if (strcasecmp (_(render_ops [i].name), opcode) == 0){
+			if (g_strcasecmp (_(render_ops [i].name), opcode) == 0){
 				g_string_append (target, render_ops [i].name);
 				continue;
 			}
 		}
 
 		if (render_type == HF_RENDER_TO_LOCALE){
-			if (strcasecmp (render_ops [i].name, opcode) == 0){
+			if (g_strcasecmp (render_ops [i].name, opcode) == 0){
 				g_string_append (target, render_ops [i].name);
 				continue;
 			}
@@ -600,8 +600,8 @@ render_opcode (GString *target, const char *opcode, HFRenderInfo *info, HFRender
 			args++;
 		}
 		
-		if ((strcasecmp (render_ops [i].name, opcode) == 0) ||
-		    (strcasecmp (_(render_ops [i].name), opcode) == 0)){
+		if ((g_strcasecmp (render_ops [i].name, opcode) == 0) ||
+		    (g_strcasecmp (_(render_ops [i].name), opcode) == 0)){
 			(*render_ops [i].render)(target, info, args);
 		}
 		    

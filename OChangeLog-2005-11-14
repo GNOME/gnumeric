@@ -1,3 +1,7 @@
+2000-05-03  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* *.c: s/strcasecmp/g_strcasecmp/
+
 2000-05-02  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/file.c (workbook_import) : We called gtk_widget_destroy

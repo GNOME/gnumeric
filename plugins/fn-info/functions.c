@@ -270,26 +270,26 @@ static Value *
 gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 {
 	char const * const info_type = argv [0]->v_str.val->str;
-	if (!strcasecmp (info_type, "directory")) {
+	if (!g_strcasecmp (info_type, "directory")) {
 		/* Path of the current directory or folder.  */
 		return value_new_error (ei->pos, _("Unimplemented"));
-	} else if (!strcasecmp (info_type, "memavail")) {
+	} else if (!g_strcasecmp (info_type, "memavail")) {
 		/* Amount of memory available, in bytes.  */
 		return value_new_int (15 << 20);  /* Good enough... */
-	} else if (!strcasecmp (info_type, "memused")) {
+	} else if (!g_strcasecmp (info_type, "memused")) {
 		/* Amount of memory being used for data.  */
 		return value_new_int (1 << 20);  /* Good enough... */
-	} else if (!strcasecmp (info_type, "numfile")) {
+	} else if (!g_strcasecmp (info_type, "numfile")) {
 		/* Number of active worksheets.  */
 		return value_new_int (1);  /* Good enough... */
-	} else if (!strcasecmp (info_type, "origin")) {
+	} else if (!g_strcasecmp (info_type, "origin")) {
 		/* Absolute A1-style reference, as text, prepended with "$A:"
 		 * for Lotus 1-2-3 release 3.x compatibility. Returns the cell
 		 * reference of the top and leftmost cell visible in the
 		 * window, based on the current scrolling position.
 		 */
 		return value_new_error (ei->pos, _("Unimplemented"));
-	} else if (!strcasecmp (info_type, "osversion")) {
+	} else if (!g_strcasecmp (info_type, "osversion")) {
 		/* Current operating system version, as text.  */
 		struct utsname unamedata;
 
@@ -304,13 +304,13 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 			g_free (tmp);
 			return res;
 		}
-	} else if (!strcasecmp (info_type, "recalc")) {
+	} else if (!g_strcasecmp (info_type, "recalc")) {
 		/* Current recalculation mode; returns "Automatic" or "Manual".  */
 		return value_new_string (_("Automatic"));
-	} else if (!strcasecmp (info_type, "release")) {
+	} else if (!g_strcasecmp (info_type, "release")) {
 		/* Version of Gnumeric (Well, Microsoft Excel), as text.  */
 		return value_new_string (GNUMERIC_VERSION);
-	} else if (!strcasecmp (info_type, "system")) {
+	} else if (!g_strcasecmp (info_type, "system")) {
 		/* Name of the operating environment.  */
 		struct utsname unamedata;
 
@@ -318,7 +318,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 			return value_new_error (ei->pos, _("Unknown system"));
 		else
 			return value_new_string (unamedata.sysname);
-	} else if (!strcasecmp (info_type, "totmem")) {
+	} else if (!g_strcasecmp (info_type, "totmem")) {
 		/* Total memory available, including memory already in use, in
 		 * bytes.
 		 */

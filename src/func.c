@@ -535,7 +535,7 @@ tokenized_help_find (TokenizedHelp *tok, const char *token)
 	for (lp = 0; lp < tok->sections->len-1; lp++) {
 		const char *cmp = g_ptr_array_index (tok->sections, lp);
 
-		if (strcasecmp (cmp, token) == 0){
+		if (g_strcasecmp (cmp, token) == 0){
 			return g_ptr_array_index (tok->sections, lp+1);
 		}
 	}

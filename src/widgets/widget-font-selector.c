@@ -336,7 +336,7 @@ font_selector_set_name (FontSelector *fs,
 	g_return_if_fail (font_name != NULL);
 
 	for (row = 0, l = gnumeric_font_family_list; l; l = l->next, row++) {
-		if (strcasecmp (font_name, l->data) == 0)
+		if (g_strcasecmp (font_name, l->data) == 0)
 			break;
 	}
 

@@ -74,7 +74,7 @@ int_get_from_range (const char *start, const char *end, int_t *t)
 gint
 gnumeric_strcase_equal (gconstpointer v, gconstpointer v2)
 {
-	return strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
+	return g_strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
 }
 
 /* a char* hash function from ASU */

@@ -247,12 +247,12 @@ lookup_similar (const Value *data, const Value *templ,
 		b = value_get_as_string (templ);
 
 		if (approx){
-			ans = strcasecmp (a,b);
+			ans = g_strcasecmp (a,b);
 			if (approx && ans < 0){
 				if (next_largest){
 					char *c = value_get_as_string
 					        (next_largest);
-					int cmp = strcasecmp (a,c);
+					int cmp = g_strcasecmp (a,c);
 					g_free (c);
 					if (cmp >= 0) {
 						g_free (a);
@@ -596,7 +596,7 @@ match_compare (const Value *v1, const Value *v2)
 	}
 
 	case VALUE_STRING:
-		return strcasecmp (v1->v_str.val->str, v2->v_str.val->str);
+		return g_strcasecmp (v1->v_str.val->str, v2->v_str.val->str);
 
 	default:
 		return 0;

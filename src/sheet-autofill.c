@@ -136,7 +136,7 @@ matches_list (const String *str, int *n, int *is_i18n)
 			if (*english_text == '*')
 				english_text++;
 
-			if ((strcasecmp (english_text, s) == 0)){
+			if ((g_strcasecmp (english_text, s) == 0)){
 				*is_i18n = FALSE;
 				*n = i;
 				return afl;
@@ -146,7 +146,7 @@ matches_list (const String *str, int *n, int *is_i18n)
 			if (*translated_text == '*')
 				translated_text++;
 
-			if (strcasecmp (translated_text, s) == 0){
+			if (g_strcasecmp (translated_text, s) == 0){
 				*is_i18n = TRUE;
 				*n = i;
 				return afl;

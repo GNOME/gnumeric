@@ -507,10 +507,10 @@ table_lookup (const char *str, const char *const *table)
 			iv++;
 		}
 
-		if (strcasecmp (str, v) == 0)
+		if (g_strcasecmp (str, v) == 0)
 			return i;
 
-		if (strcasecmp (str, iv) == 0)
+		if (g_strcasecmp (str, iv) == 0)
 			return i;
 	}
 
@@ -651,7 +651,7 @@ compute_value (const char *s, const regmatch_t *mp,
 			break;
 
 		case MATCH_AMPM:
-			if (strcasecmp (str, "pm") == 0)
+			if (g_strcasecmp (str, "pm") == 0)
 				is_pm = TRUE;
 			idx++;
 			break;
