@@ -1,3 +1,23 @@
+2000-02-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c (workbook_create_format_toolbar) :
+	  Adjust to new signature for color_combo_new.
+	  Select index 0 rather than 1 (some one has spent too much time in
+	  fortran).  Reorder the initializations to match deployment (I'm
+	  being pedantic).
+
+	* src/widgets/widget-color-combo.c (color_table_setup) : Change the
+	  no_color flag to a possibly NULL string to provide finer control.
+	(color_combo_construct) : Ditto.
+	(color_combo_new_with_vals) : Ditto.
+	(color_combo_new) : Ditto.
+
+2000-02-11  Dean Scott <drscott12@hotmail.com>
+
+	* src/widgets/widget-color-combo.c (default_colors) : Reorder to match
+	  XL2000 more closely and provide names.
+	(color_combo_new) : Correct the layout to display all colours.
+
 2000-02-11  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet.c (sheet_load_cell_val): fix brokenness.

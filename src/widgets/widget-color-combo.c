@@ -116,7 +116,7 @@ color_clicked (GtkWidget *button, ColorCombo *combo)
 }
 
 static GtkWidget *
-color_table_setup (ColorCombo *cc, gboolean no_color, int ncols, int nrows, char **color_names)
+color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols, int nrows, char **color_names)
 {
 	GtkWidget *label;
 	GtkWidget *table;
@@ -124,8 +124,8 @@ color_table_setup (ColorCombo *cc, gboolean no_color, int ncols, int nrows, char
 	
 	table = gtk_table_new (ncols, nrows, 0);
 	
-	if (no_color) {
-		label = gtk_button_new_with_label (_("None"));
+	if (no_color_label != NULL) {
+		label = gtk_button_new_with_label (no_color_label);
 
 		gtk_table_attach (GTK_TABLE (table), label, 0, ncols, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		gtk_signal_connect (GTK_OBJECT (label), "clicked",
@@ -203,7 +203,8 @@ emit_change (GtkWidget *button, ColorCombo *cc)
 }
 
 void
-color_combo_construct (ColorCombo *cc, char **icon, gboolean no_color,
+color_combo_construct (ColorCombo *cc, char **icon,
+		       char const * const no_color_label,
 		       int ncols, int nrows, char **color_names)
 {
 	GdkImlibImage *image;
@@ -254,7 +255,7 @@ color_combo_construct (ColorCombo *cc, char **icon, gboolean no_color,
 	/*
 	 * Our table selector
 	 */
-	cc->color_table = color_table_setup (cc, no_color, ncols, nrows, color_names);
+	cc->color_table = color_table_setup (cc, no_color_label, ncols, nrows, color_names);
 
 	gtk_widget_show_all (cc->preview_button);
 	
@@ -264,7 +265,7 @@ color_combo_construct (ColorCombo *cc, char **icon, gboolean no_color,
 }
 
 GtkWidget *
-color_combo_new_with_vals (char **icon, gboolean no_color,
+color_combo_new_with_vals (char **icon, char const * const no_color_label,
 			   int ncols, int nrows, char **color_names)
 {
 	ColorCombo *cc;
@@ -274,7 +275,7 @@ color_combo_new_with_vals (char **icon, gboolean no_color,
 	
 	cc = gtk_type_new (color_combo_get_type ());
 
-	color_combo_construct (cc, icon, no_color, ncols, nrows, color_names);
+	color_combo_construct (cc, icon, no_color_label, ncols, nrows, color_names);
 	
 	return GTK_WIDGET (cc);
 }
@@ -283,82 +284,81 @@ color_combo_new_with_vals (char **icon, gboolean no_color,
  * this list of colors should match the Excel 2000 list of colors
  */
 static char *default_colors [] = {
-	"rgb:0/0/0",
-	"rgb:FF/FF/FF",
-	"rgb:FF/0/0",
-	"rgb:0/FF/0",
+	"rgb:0/0/0", /* black */
+	"rgb:99/33/0", /* light brown */
+	"rgb:33/33/0", /* brown gold */
+	"rgb:0/33/0", /* dark green #2 */
+	"rgb:0/33/66", /* navy */
+	"rgb:0/0/80", /* dark blue */
+	"rgb:33/33/99", /* purple #2 */
+	"rgb:33/33/33", /* very dark gray */
 
-	"rgb:0/0/FF",
-	"rgb:FF/FF/0",
-	"rgb:FF/0/FF",
-	"rgb:0/FF/FF",
-	
-	"rgb:80/0/0",
-	"rgb:0/80/0",
-	"rgb:0/0/80",
-	"rgb:80/80/0",
-	
-	"rgb:80/0/80",
-	"rgb:0/80/80",
-	"rgb:c0/c0/c0",
-	"rgb:80/80/80",
-	
-	"rgb:99/99/FF",
-	"rgb:99/33/66",
-	"rgb:FF/FF/CC",
-	"rgb:CC/FF/FF",
-	
-	"rgb:66/0/66",
-	"rgb:FF/80/80",
-	"rgb:0/66/CC",
-	"rgb:CC/CC/FF",
-	
-	"rgb:0/0/80",
-	"rgb:FF/0/FF",
-	"rgb:FF/FF/0",
-	"rgb:0/FF/FF",
-	
-	"rgb:80/0/80",
-	"rgb:80/0/0",
-	"rgb:0/80/80",
-	"rgb:0/0/FF",
-	
-	"rgb:0/CC/FF",
-	"rgb:CC/FF/FF",
-	"rgb:CC/FF/CC",
-	"rgb:FF/FF/99",
-	
-	"rgb:99/CC/FF",
-	"rgb:FF/99/CC",
-	"rgb:CC/99/FF",
-	"rgb:FF/CC/99",
-	
-	"rgb:33/66/FF",
-	"rgb:33/CC/CC",
-	"rgb:99/CC/0",
-	"rgb:FF/CC/0",
-	
-	"rgb:FF/99/0",
-	"rgb:FF/66/0",
-	"rgb:66/66/99",
-	"rgb:96/96/96",
-	
-	"rgb:0/33/66",
-	"rgb:33/99/66",
-	"rgb:0/33/0",
-	"rgb:33/33/0",
-	
-	"rgb:99/33/0",
-	"rgb:99/33/66",
-	"rgb:33/33/99",
-	"rgb:33/33/33",
+
+	"rgb:80/0/0", /* dark red */
+	"rgb:FF/66/0", /* red-orange */
+	"rgb:80/80/0", /* gold */
+	"rgb:0/80/0", /* dark green */
+	"rgb:0/80/80", /* dull blue */
+	"rgb:0/0/FF", /* blue */
+	"rgb:66/66/99", /* dull purple */
+	"rgb:80/80/80", /* dark grey */
+
+
+	"rgb:FF/0/0", /* red */
+	"rgb:FF/99/0", /* orange */
+	"rgb:99/CC/0", /* lime */
+	"rgb:33/99/66", /* dull green */
+	"rgb:33/CC/CC",/* dull blue #2 */
+	"rgb:33/66/FF", /* sky blue #2 */
+	"rgb:80/0/80", /* purple */
+	"rgb:96/96/96", /* gray */
+
+
+	"rgb:FF/0/FF", /* magenta */
+	"rgb:FF/CC/0", /* bright orange */
+	"rgb:FF/FF/0", /* yellow */
+	"rgb:0/FF/0", /* green */
+	"rgb:0/FF/FF", /* cyan */
+	"rgb:0/CC/FF", /* bright blue */
+	"rgb:99/33/66", /* red purple */
+	"rgb:c0/c0/c0", /* light grey */
+
+
+	"rgb:FF/99/CC", /* pink */
+	"rgb:FF/CC/99", /* light orange */
+	"rgb:FF/FF/99", /* light yellow */
+	"rgb:CC/FF/CC", /* light green */
+	"rgb:CC/FF/FF", /* light cyan */
+	"rgb:99/CC/FF", /* light blue */
+	"rgb:CC/99/FF", /* light purple */
+	"rgb:FF/FF/FF", /* white */
+
+
+	"rgb:99/99/FF", /* purplish blue */
+	"rgb:99/33/66", /* red purple */
+	"rgb:FF/FF/CC", /* light yellow */
+	"rgb:CC/FF/FF", /* light blue */
+	"rgb:66/0/66", /* dark purple */
+	"rgb:FF/80/80", /* pink */
+	"rgb:0/66/CC", /* sky blue */
+	"rgb:CC/CC/FF", /* light purple */
+
+	"rgb:0/0/80", /* dark blue */
+	"rgb:FF/0/FF", /* magenta */
+	"rgb:FF/FF/0", /* yellow */
+	"rgb:0/FF/FF", /* cyan */
+	"rgb:80/0/80", /* purple */
+	"rgb:80/0/0", /* dark red */
+	"rgb:0/80/80", /* dull blue */
+	"rgb:0/0/FF", /* blue */
+
 	NULL
 };
 
 GtkWidget *
-color_combo_new (char **icon)
+color_combo_new (char **icon, char const * const no_color_label)
 {
-	return color_combo_new_with_vals (icon, TRUE, 8, 5, default_colors);
+	return color_combo_new_with_vals (icon, no_color_label, 8, 5, default_colors);
 }
 
 void

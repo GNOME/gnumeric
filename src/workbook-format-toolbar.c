@@ -439,19 +439,19 @@ workbook_create_format_toolbar (Workbook *wb)
 	/*
 	 * Create the combo boxes
 	 */
-	wb->priv->fore_combo = color_combo_new (font_xpm);
-	gtk_widget_show (wb->priv->fore_combo);
-	gtk_signal_connect (GTK_OBJECT (wb->priv->fore_combo), "changed",
-			    GTK_SIGNAL_FUNC (fore_color_changed), wb);
-	disable_focus (wb->priv->fore_combo, NULL);
-
-	wb->priv->back_combo = color_combo_new (bucket_xpm);
-	color_combo_select_color (COLOR_COMBO (wb->priv->back_combo), 1);
+	wb->priv->back_combo = color_combo_new (bucket_xpm, _("Clear"));
+	color_combo_select_color (COLOR_COMBO (wb->priv->back_combo), 0);
 	gtk_widget_show (wb->priv->back_combo);
 	gtk_signal_connect (GTK_OBJECT (wb->priv->back_combo), "changed",
 			    GTK_SIGNAL_FUNC (back_color_changed), wb);
 	disable_focus (wb->priv->back_combo, NULL);
 	
+	wb->priv->fore_combo = color_combo_new (font_xpm, _("Automatic"));
+	gtk_widget_show (wb->priv->fore_combo);
+	gtk_signal_connect (GTK_OBJECT (wb->priv->fore_combo), "changed",
+			    GTK_SIGNAL_FUNC (fore_color_changed), wb);
+	disable_focus (wb->priv->fore_combo, NULL);
+
 	gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));
 	
 	gtk_toolbar_append_widget (
