@@ -114,15 +114,31 @@ typedef struct _ColRowIndex
 	int first, last;
 } ColRowIndex;
 
+typedef struct {
+	int    length;
+	double size;
+} SavedSize;
+
+ColRowRLESizeList *
+colrow_rle_size_list_destroy (ColRowSizeList *list)
+{
+	GSList *ptr;
+	for (ptr = list; ptr != NULL; ptr = ptr->next)
+		g_free (ptr->data);
+	g_slist_free (list);
+	return NULL;
+}
+
 ColRowSizeList *
 colrow_size_list_destroy (ColRowSizeList *list)
 {
 	ColRowSizeList *ptr;
 	for (ptr = list; ptr != NULL ; ptr = ptr->next)
-		g_free (ptr->data);
+		colrow_rle_size_list_destroy ((ColRowSizeList *) ptr->data);
 	g_slist_free (list);
 	return NULL;
 }
+
 ColRowIndexList *
 colrow_index_list_destroy (ColRowIndexList *list)
 {
@@ -231,32 +247,63 @@ colrow_get_index_list (int first, int last, ColRowIndexList *list)
 	return list;
 }
 
-double *
+ColRowRLESizeList *
 colrow_save_sizes (Sheet *sheet, gboolean const is_cols, int first, int last)
 {
-	int i;
-	double *res = NULL;
+	int                i;
+	ColRowRLESizeList *list = NULL;
+	SavedSize         *ss;
+	double             size, run_size = 0.;
+	int                run_length;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (first <= last, NULL);
 
-	res = g_new (double, last-first+1);
-
-	for (i = first ; i <= last ; ++i) {
+	for (i = first; i <= last; ++i) {
 		ColRowInfo *info = is_cols
 		    ? sheet_col_get_info (sheet, i)
 		    : sheet_row_get_info (sheet, i);
 
 		g_return_val_if_fail (info != NULL, NULL); /* be anal, and leak */
-
+		
 		if (info->pos != -1) {
-			res[i-first] = info->size_pts;
+			size = info->size_pts;
 			if (info->hard_size)
-				res[i-first] *= -1.;
+				size *= -1.;
 		} else
-			res[i-first] = 0.;
+			size = 0.;
+
+		/* Initialize the run_size in the first loop */
+		if (i == first) {
+			run_size   = size;
+			run_length = 1;
+			continue;
+		}
+			
+		/*
+		 * If the size does not equal the size of
+		 * the current run then the current run has ended
+		 */
+		if (size != run_size) {
+			ss         = g_new0 (SavedSize, 1);
+			ss->length = run_length;
+			ss->size   = run_size;
+			list = g_slist_prepend (list, ss);
+
+			run_size   = size;
+			run_length = 1;
+		} else
+			++run_length;
 	}
-	return res;
+
+	/* Store the final run */
+	ss         = g_new0 (SavedSize, 1);
+	ss->length = run_length;
+	ss->size   = run_size;
+	list = g_slist_prepend (list, ss);
+
+	list = g_slist_reverse (list);
+	return list;
 }
 
 struct resize_closure
@@ -352,41 +399,50 @@ colrow_set_sizes (Sheet *sheet, gboolean const is_cols,
  */
 void
 colrow_restore_sizes (Sheet *sheet, gboolean const is_cols,
-		      int first, int last, double *sizes)
+		      int first, int last, ColRowRLESizeList *sizes)
 {
-	int i;
+	GSList *l;
+	int i, offset = first;
 
 	g_return_if_fail (sizes != NULL);
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (first <= last);
 
-	for (i = first ; i <= last ; ++i) {
-		gboolean hard_size = FALSE;
+	for (l = sizes; l != NULL; l = l->next) {
+		SavedSize const *ss = l->data;
 
-		/* Reset to the default */
-		if (sizes[i-first] == 0.) {
-			ColRowCollection *infos = is_cols ? &(sheet->cols) : &(sheet->rows);
-			ColRowSegment *segment = COLROW_GET_SEGMENT(infos, i);
-			int const sub = COLROW_SUB_INDEX (i);
-			ColRowInfo *cri = NULL;
-			if (segment != NULL) {
-				cri = segment->info[sub];
-				if (cri != NULL) {
-					segment->info[sub] = NULL;
-					g_free (cri);
+		for (i = offset; i < offset + ss->length; i++) {
+			gboolean hard_size = FALSE;
+			double   size      = ss->size;
+
+			if (size == 0.) {
+				ColRowCollection *infos = is_cols ? &(sheet->cols) : &(sheet->rows);
+				ColRowSegment *segment = COLROW_GET_SEGMENT(infos, i);
+				if (segment != NULL) {
+					int const sub = COLROW_SUB_INDEX (i);
+					ColRowInfo *cri = segment->info[sub];
+					if (cri != NULL) {
+						segment->info[sub] = NULL;
+						g_free (cri);
+					}
 				}
+			} else {
+				if (size < 0.) {
+					hard_size = TRUE;
+					size *= -1.;
+				}
+				if (is_cols)
+					sheet_col_set_size_pts (sheet, i, size, hard_size);
+				else
+					sheet_row_set_size_pts (sheet, i, size, hard_size);
 			}
-		} else {
-			if (sizes[i-first] < 0.) {
-				hard_size = TRUE;
-				sizes[i-first] *= -1.;
-			}
-			if (is_cols)
-				sheet_col_set_size_pts (sheet, i, sizes[i-first], hard_size);
-			else
-				sheet_row_set_size_pts (sheet, i, sizes[i-first], hard_size);
 		}
+		offset += ss->length;
+		
+		g_free (ss);
 	}
+
+	colrow_rle_size_list_destroy (sizes);
 
 	/* Notify sheet of pending update */
 	sheet->priv->recompute_visibility = TRUE;
@@ -398,8 +454,6 @@ colrow_restore_sizes (Sheet *sheet, gboolean const is_cols,
 		if (sheet->priv->reposition_objects.row > first)
 			sheet->priv->reposition_objects.row = first;
 	}
-
-	g_free (sizes);
 }
 
 void

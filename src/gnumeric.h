@@ -51,6 +51,7 @@ typedef struct _ColRowCollection ColRowCollection;
 typedef struct _ColRowSegment	 ColRowSegment;
 typedef GSList  ColRowVisList;
 typedef GSList  ColRowSizeList;
+typedef GSList  ColRowRLESizeList;
 typedef GList   ColRowIndexList;
 typedef struct _ColRowIndexSet ColRowIndexSet;
 typedef  gboolean (*ColRowHandler)(ColRowInfo *info, void *user_data);

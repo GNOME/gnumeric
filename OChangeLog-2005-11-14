@@ -1,3 +1,17 @@
+2001-05-06  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/gnumeric.h: Define ColRowRLESizeList.
+	
+ 	* src/commands.c (cmd_ins_del_colrow_*) : For saving
+ 	and restoring the col/row sizes we now use a
+	ColRowRLESizeList instead of a double *.
+ 
+ 	* src/colrow.[ch] (colrow_save_sizes) : Rebuild to return
+ 	a Run-Length encoded list of sizes.
+ 	(colrow_restore_sizes): Idem, but as parameter.
+ 	(colrow_size_list_destroy): Use colrow_rle_size_list_destroy.
+	(colrow_rle_size_list_destroy): Free SavedSize's.
+ 
 2001-05-06  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-control-gui.c (scg_range_selection_changed): Change

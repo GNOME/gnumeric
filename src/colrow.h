@@ -61,20 +61,21 @@ gboolean colrow_foreach	(ColRowCollection const *infos,
 			 void *user_data);
 
 /* Support for Col/Row resizing */
-ColRowSizeList	*colrow_size_list_destroy	(ColRowSizeList *list);
-ColRowIndexList *colrow_index_list_destroy	(ColRowIndexList *list);
-GString         *colrow_index_list_to_string    (ColRowIndexList *list,
+ColRowRLESizeList *colrow_rle_size_list_destroy (ColRowSizeList *list);
+ColRowSizeList	  *colrow_size_list_destroy	(ColRowSizeList *list);
+ColRowIndexList   *colrow_index_list_destroy	(ColRowIndexList *list);
+GString           *colrow_index_list_to_string  (ColRowIndexList *list,
 						 gboolean const is_cols,
 						 gboolean *is_single);
-ColRowIndexList *colrow_get_index_list		(int first, int last,
+ColRowIndexList   *colrow_get_index_list	(int first, int last,
 						 ColRowIndexList *list);
-double		*colrow_save_sizes		(Sheet *sheet, gboolean const is_cols,
+GSList		  *colrow_save_sizes		(Sheet *sheet, gboolean const is_cols,
 						 int first, int last);
-ColRowSizeList	*colrow_set_sizes		(Sheet *sheet, gboolean const is_cols,
+ColRowSizeList	  *colrow_set_sizes		(Sheet *sheet, gboolean const is_cols,
 						 ColRowIndexList *src, int new_size);
-void		 colrow_restore_sizes		(Sheet *sheet, gboolean const is_cols,
-						 int first, int last, double *);
-void		 colrow_restore_sizes_group	(Sheet *sheet, gboolean const is_cols,
+void		   colrow_restore_sizes		(Sheet *sheet, gboolean const is_cols,
+						 int first, int last, GSList *sizes);
+void		   colrow_restore_sizes_group	(Sheet *sheet, gboolean const is_cols,
 						 ColRowIndexList *selection,
 						 ColRowSizeList *saved_sizes,
 						 int old_size);

@@ -861,9 +861,9 @@ typedef struct
 	int		 count;
 	Range           *cutcopied;
 
-	double		*sizes;
-	CellRegion 	*contents;
-	GSList		*reloc_storage;
+	ColRowRLESizeList *sizes;
+	CellRegion 	  *contents;
+	GSList		  *reloc_storage;
 } CmdInsDelColRow;
 
 GNUMERIC_MAKE_COMMAND (CmdInsDelColRow, cmd_ins_del_colrow);
@@ -1038,10 +1038,8 @@ cmd_ins_del_colrow_destroy (GtkObject *cmd)
 {
 	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
 
-	if (me->sizes) {
-		g_free (me->sizes);
-		me->sizes = NULL;
-	}
+	if (me->sizes)
+		me->sizes = colrow_rle_size_list_destroy (me->sizes);
 	if (me->contents) {
 		cellregion_free (me->contents);
 		me->contents = NULL;
