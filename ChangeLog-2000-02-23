@@ -1,3 +1,10 @@
+2000-02-16  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/widgets/widget-pixmap-combo.c (pixmap_combo_select_pixmap):
+	Changed the code to use gnoem_pixmaps here.
+	(pixmap_combo_construct): and here.
+
+
 2000-02-15  Jody Goldberg <jgoldberg@home.com>
 
 	* *.[ch] : More header cleanup.  Remove value.h and sheet.h

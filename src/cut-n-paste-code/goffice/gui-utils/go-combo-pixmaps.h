@@ -33,7 +33,7 @@ typedef struct {
 
 	/* Interface elements */
 	GtkWidget    *combo_table, *preview_button;
-	GtkPixmap    *preview_pixmap;
+	GtkWidget    *preview_pixmap;
 	GtkTooltips  *tool_tip;
 	GnomePixmap **pixmaps;
 } PixmapCombo;

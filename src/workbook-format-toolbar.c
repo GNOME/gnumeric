@@ -409,8 +409,6 @@ static PixmapComboElement border_combo_info[] =
 static void
 cb_border_changed (PixmapCombo *pixmap_combo, int index, Workbook *wb)
 {
-	Sheet  *sheet = wb->current_sheet;
-
 	switch (index) {
 	case 11 : /* left */
 	case 12 : /* none */

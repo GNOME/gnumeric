@@ -159,8 +159,8 @@ pixmap_combo_construct (PixmapCombo *pc,
 	if (!gnome_preferences_get_toolbar_relief_btn ())
 		gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (pc), GTK_RELIEF_NONE);
 
-	pc->preview_pixmap = GTK_PIXMAP (gtk_pixmap_new (pc->pixmaps[0]->pixmap,
-							 pc->pixmaps[0]->mask));
+	pc->preview_pixmap = gnome_pixmap_new_from_xpm_d (elements [0].xpm_data);
+
 	gtk_container_add (GTK_CONTAINER (pc->preview_button), GTK_WIDGET (pc->preview_pixmap));
 	gtk_widget_set_usize (GTK_WIDGET (pc->preview_pixmap), 24, 24);
 	gtk_signal_connect (GTK_OBJECT (pc->preview_button), "clicked",
@@ -198,8 +198,13 @@ pixmap_combo_select_pixmap (PixmapCombo *pc, int index)
 	g_return_if_fail (0 <= index);
 	g_return_if_fail (index < pc->num_elements);
 
-	pc->last_index = index;
-	gtk_pixmap_set (pc->preview_pixmap,
-			pc->pixmaps[index]->pixmap,
-			pc->pixmaps[index]->mask);
+	gtk_container_remove (
+		GTK_CONTAINER (pc->preview_button),
+		pc->preview_pixmap);
+
+	pc->preview_pixmap = gnome_pixmap_new_from_xpm_d (pc->elements [index].xpm_data);
+	gtk_widget_show (pc->preview_pixmap);
+	
+	gtk_container_add (
+		GTK_CONTAINER (pc->preview_button), pc->preview_pixmap);
 }

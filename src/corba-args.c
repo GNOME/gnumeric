@@ -29,6 +29,7 @@ gnumeric_arg_parse (int argc, char *argv [])
 	if (bonobo_init (gnome_CORBA_ORB (), NULL, NULL) == FALSE){
 		g_error ("Failure starting up Bonobo");
 	}
+
 	if (!WorkbookFactory_init ()){
 		g_warning (_("Could not initialize the Gnumeric Workbook factory"));
 	}
