@@ -114,8 +114,10 @@ gog_graph_type_name (GogObject const *gobj)
 }
 
 static void
-role_chart_post_add (GogObject *graph, GogObject *chart)
+role_chart_post_add (GogObject *parent, GogObject *chart)
 {
+	GogGraph *graph = GOG_GRAPH (parent);
+	graph->charts = g_slist_prepend (graph->charts, chart);
 	gog_chart_set_position (GOG_CHART (chart),
 		0, GOG_GRAPH (graph)->num_rows, 1, 1);
 }
@@ -126,15 +128,10 @@ role_chart_pre_remove (GogObject *parent, GogObject *child)
 	GogGraph *graph = GOG_GRAPH (parent);
 	GogChart *chart = GOG_CHART (child);
 
-	if (((chart->x + chart->cols) >= graph->num_cols) ||
-	    ((chart->y + chart->rows) >= graph->num_rows)) {
-		GSList *ptr;
-		for (ptr = parent->children ; ptr != NULL ; ptr = ptr->next)
-			if (IS_GOG_CHART (ptr->data)) {
-#warning TODO
-			}
-	}
+	graph->charts = g_slist_remove (graph->charts, chart);
+	gog_graph_validate_chart_layout (graph);
 }
+
 
 static gpointer
 gog_graph_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
@@ -220,17 +217,93 @@ GSF_CLASS (GogGraph, gog_graph,
 	   gog_graph_class_init, gog_graph_init,
 	   GOG_STYLED_OBJECT_TYPE)
 
+/**
+ * gog_graph_validate_chart_layout :
+ * @graph : #GogGraph
+ *
+ * Check the layout of the chart grid and ensure that there are no empty
+ * cols or rows, and resize as necessary
+ */
+gboolean
+gog_graph_validate_chart_layout (GogGraph *graph)
+{
+	GSList *ptr;
+	GogChart *chart;
+	unsigned i, max_col, max_row;
+	gboolean changed = FALSE;
+
+	g_return_val_if_fail (GOG_GRAPH (graph) != NULL, FALSE);
+
+	/* There won't be many of charts so we do the right thing */
+
+	/* 1) find the max */
+	max_col = max_row = 0;
+	for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
+		chart = ptr->data;
+		if (max_col < (chart->x + chart->cols))
+			max_col = (chart->x + chart->cols);
+		if (max_row < (chart->y + chart->rows))
+			max_row = (chart->y + chart->rows);
+	}
+
+	/* 2) see if we need to contract any cols */
+	for (i = 0 ; i < max_col ; ) {
+		for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
+			chart = ptr->data;
+			if (chart->x <= i && i < (chart->x + chart->cols))
+				break;
+		}
+		if (ptr == NULL) {
+			changed = TRUE;
+			max_col--;
+			for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
+				chart = ptr->data;
+				if (chart->x > i)
+					(chart->x)--;
+			}
+		} else
+			i = chart->x + chart->cols;
+	}
+
+	/* 3) see if we need to contract any rows */
+	for (i = 0 ; i < max_row ; ) {
+		for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
+			chart = ptr->data;
+			if (chart->y <= i && i < (chart->y + chart->rows))
+				break;
+		}
+		if (ptr == NULL) {
+			changed = TRUE;
+			max_row--;
+			for (ptr = graph->charts ; ptr != NULL ; ptr = ptr->next) {
+				chart = ptr->data;
+				if (chart->y > i)
+					(chart->y)--;
+			}
+		} else
+			i = chart->y + chart->rows;
+	}
+	changed |= (graph->num_cols != max_col || graph->num_rows != max_row);
+
+	graph->num_cols = max_col;
+	graph->num_rows = max_row;
+
+	if (changed)
+		gog_object_emit_changed (GOG_OBJECT (graph), TRUE);
+	return changed;
+}
+
 unsigned
 gog_graph_num_cols (GogGraph const *graph)
 {
-	g_return_val_if_fail (IS_GOG_GRAPH (graph), 1);
+	g_return_val_if_fail (GOG_GRAPH (graph) != NULL, 1);
 	return graph->num_cols;
 }
 
 unsigned
 gog_graph_num_rows (GogGraph const *graph)
 {
-	g_return_val_if_fail (IS_GOG_GRAPH (graph), 1);
+	g_return_val_if_fail (GOG_GRAPH (graph) != NULL, 1);
 	return graph->num_rows;
 }
 
@@ -246,6 +319,7 @@ gog_graph_set_theme (GogGraph *graph, GogTheme *theme)
 {
 	g_return_if_fail (GOG_GRAPH (graph) != NULL);
 	g_return_if_fail (GOG_THEME (theme) != NULL);
+#warning TODO
 }
 
 /**

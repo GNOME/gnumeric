@@ -2,8 +2,7 @@
 #define __SCENARIOS_H__
 
 #include <gnumeric.h>
-#include <dao.h>
-
+#include <tools/dao.h>
 
 typedef struct _scenario_t {
         Sheet *sheet;

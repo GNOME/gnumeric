@@ -33,6 +33,7 @@ G_BEGIN_DECLS
 GType gog_graph_get_type (void);
 GType gog_graph_view_get_type (void);
 
+gboolean  gog_graph_validate_chart_layout (GogGraph *graph);
 unsigned  gog_graph_num_cols	  (GogGraph const *graph);
 unsigned  gog_graph_num_rows	  (GogGraph const *graph);
 

@@ -1,5 +1,8 @@
 2003-06-06  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-chart.c (gog_chart_set_position) : simplify.
+	* graph/gog-graph.c (gog_graph_validate_chart_layout) : new.
+
 	* graph/gog-guru.c (cb_sample_pressed) : set the zoom here.
 	(cb_sample_released) : and unset it here so that the icons don't get
 	  shrunk.

@@ -144,11 +144,7 @@ void
 gog_chart_set_position (GogChart *chart,
 			unsigned x, unsigned y, unsigned cols, unsigned rows)
 {
-	gboolean expanded = FALSE;
-	GogGraph *graph;
-
 	g_return_if_fail (GOG_CHART (chart) != NULL);
-	g_return_if_fail (GOG_GRAPH (GOG_OBJECT (chart)->parent) != NULL);
 
 	if (chart->x == x && chart->y == y &&
 	    chart->cols == cols && chart->rows == rows)
@@ -159,18 +155,7 @@ gog_chart_set_position (GogChart *chart,
 	chart->cols = cols;
 	chart->rows = rows;
 
-	graph = GOG_GRAPH (GOG_OBJECT (chart)->parent);
-	if (graph->num_cols < (chart->x + chart->cols)) {
-		graph->num_cols = (chart->x + chart->cols);
-		expanded = TRUE;
-	}
-	if (graph->num_rows < (chart->y + chart->rows)) {
-		graph->num_rows = (chart->y + chart->rows);
-		expanded = TRUE;
-	}
-
-	if (expanded)
-		gog_object_emit_changed (GOG_OBJECT (graph), TRUE);
+	gog_graph_validate_chart_layout (GOG_GRAPH (GOG_OBJECT (chart)->parent));
 	gog_object_emit_changed (GOG_OBJECT (chart), TRUE);
 }
 

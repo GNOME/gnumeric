@@ -46,8 +46,11 @@
 #include <style-border.h>
 #include <validation.h>
 #include <hlink.h>
+#include <solver.h>
+#include <sheet-filter.h>
 #include <print-info.h>
 #include <print-info.h>
+#include <tools/scenarios.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-output-gzip.h>
@@ -91,6 +94,12 @@ xml_out_add_range (GsfXMLOut *xml, Range const *r)
 	gsf_xml_out_add_int (xml, "startRow", r->start.row);
 	gsf_xml_out_add_int (xml, "endCol",   r->end.col);
 	gsf_xml_out_add_int (xml, "endRow",   r->end.row);
+}
+
+static void
+xml_out_add_cellpos (GsfXMLOut *xml, char const *name, CellPos const *val)
+{
+	gsf_xml_out_add_cstr_unchecked (xml, name, cellpos_as_string (val));
 }
 
 static void
@@ -738,26 +747,234 @@ xml_write_cells (GnmOutputXML *state)
 static void
 xml_write_merged_regions (GnmOutputXML *state)
 {
+	GSList *ptr = state->sheet->list_merged;
+	if (ptr == NULL)
+		return;
+	gsf_xml_out_start_element (state->output, GMR "MergedRegions");
+	for (; ptr != NULL ; ptr = ptr->next)
+		gsf_xml_out_simple_element (state->output,
+			GMR "Merge", range_name (ptr->data));
+	gsf_xml_out_end_element (state->output); /* </gmr:MergedRegions> */
 }
 
 static void
 xml_write_sheet_layout (GnmOutputXML *state)
 {
+	SheetView const *sv = sheet_get_view (state->sheet, state->wb_view);
+
+	gsf_xml_out_start_element (state->output, GMR "SheetLayout");
+	xml_out_add_cellpos (state->output, "TopLeft", &sv->initial_top_left);
+
+	if (sv_is_frozen (sv)) {
+		gsf_xml_out_start_element (state->output, GMR "FreezePanes");
+		xml_out_add_cellpos (state->output, "FrozenTopLeft", &sv->frozen_top_left);
+		xml_out_add_cellpos (state->output, "UnfrozenTopLeft", &sv->unfrozen_top_left);
+		gsf_xml_out_end_element (state->output); /* </gmr:FreezePanes> */
+	}
+	gsf_xml_out_end_element (state->output); /* </gmr:SheetLayout> */
+}
+
+static void
+xml_write_filter_expr (GnmOutputXML *state,
+		       GnmFilterCondition const *cond, unsigned i)
+{
+	static char const *filter_cond_name[] = { "eq", "gt", "lt", "gte", "lte", "ne" };
+	static struct { char const *op, *valtype, *val; } filter_expr_attrs[] = {
+		{ "Op0", "Value0", "ValueType0" },
+		{ "Op1", "Value1", "ValueType1" }
+	};
+
+	GString *text = g_string_new (NULL);
+	value_get_as_gstring (text, cond->value[i], state->exprconv);
+	gsf_xml_out_add_cstr_unchecked (state->output,
+		filter_expr_attrs[i].op, filter_cond_name [cond->op[i]]);
+	gsf_xml_out_add_int (state->output,
+		filter_expr_attrs[i].valtype, cond->value[i]->type);
+	gsf_xml_out_add_cstr (state->output,
+		filter_expr_attrs[i].val, text->str);
+	g_string_free (text, TRUE);
+}
+
+static void
+xml_write_filter_field (GnmOutputXML *state, xmlNode *filter,
+			GnmFilterCondition const *cond, unsigned i)
+{
+	gsf_xml_out_start_element (state->output, GMR "Field");
+	gsf_xml_out_add_int (state->output, "Index", i);
+
+	switch (GNM_FILTER_OP_TYPE_MASK & cond->op[0]) {
+	case 0: gsf_xml_out_add_cstr_unchecked (state->output, "Type", "expr");
+		xml_write_filter_expr (state, cond, 0);
+		if (cond->op[1] != GNM_FILTER_UNUSED) {
+			xml_write_filter_expr (state, cond, 1);
+			gsf_xml_out_add_bool (state->output, "IsAnd", cond->is_and);
+		}
+		break;
+	case GNM_FILTER_OP_BLANKS:
+		gsf_xml_out_add_cstr_unchecked (state->output, "Type", "blanks");
+		break;
+	case GNM_FILTER_OP_NON_BLANKS:
+		gsf_xml_out_add_cstr_unchecked (state->output, "Type", "nonblanks");
+		break;
+	case GNM_FILTER_OP_TOP_N:
+		gsf_xml_out_add_cstr_unchecked (state->output, "Type", "bucket");
+		gsf_xml_out_add_bool (state->output, "top",
+			cond->op[0] & 1 ? TRUE : FALSE);
+		gsf_xml_out_add_bool (state->output, "items",
+			cond->op[0] & 2 ? TRUE : FALSE);
+		gsf_xml_out_add_int (state->output, "count", cond->count);
+		break;
+	}
+
+	gsf_xml_out_end_element (state->output); /* </gmr:Field> */
 }
 
 static void
 xml_write_sheet_filters (GnmOutputXML *state)
 {
+	GSList *ptr;
+	GnmFilter *filter;
+	GnmFilterCondition const *cond;
+	xmlNode *filter_node;
+	unsigned i;
+
+	if (state->sheet->filters == NULL)
+		return;
+
+	gsf_xml_out_start_element (state->output, GMR "Filters");
+
+	for (ptr = state->sheet->filters; ptr != NULL ; ptr = ptr->next) {
+		filter = ptr->data;
+		gsf_xml_out_start_element (state->output, GMR "Filter");
+		gsf_xml_out_add_cstr_unchecked (state->output, "Area",
+			range_name (&filter->r));
+
+		for (i = filter->fields->len ; i-- > 0 ; ) {
+			cond = gnm_filter_get_condition (filter, i);
+			if (cond != NULL && cond->op[0] != GNM_FILTER_UNUSED)
+				xml_write_filter_field (state, filter_node, cond, i);
+		}
+
+		gsf_xml_out_end_element (state->output); /* </gmr:Filter> */
+	}
+
+	gsf_xml_out_end_element (state->output); /* </gmr:Filters> */
 }
 
 static void
 xml_write_solver (GnmOutputXML *state)
 {
+        SolverParameters *param = state->sheet->solver_parameters;
+	SolverConstraint const *c;
+	int type;
+	GSList *ptr;
+
+	if (param == NULL)
+		return;
+
+	gsf_xml_out_start_element (state->output, GMR "Solver");
+
+	if (param->target_cell != NULL) {
+	        gsf_xml_out_add_int (state->output, "TargetCol",
+			param->target_cell->pos.col);
+	        gsf_xml_out_add_int (state->output, "TargetRow",
+			param->target_cell->pos.row);
+	}
+
+	gsf_xml_out_add_int (state->output, "ProblemType", param->problem_type);
+	gsf_xml_out_add_cstr (state->output, "Inputs",
+		param->input_entry_str);
+	gsf_xml_out_add_int (state->output, "MaxTime",
+		param->options.max_time_sec);
+	gsf_xml_out_add_int (state->output, "MaxIter",
+		param->options.max_iter);
+	gsf_xml_out_add_int (state->output, "NonNeg",
+		param->options.assume_non_negative);
+	gsf_xml_out_add_int (state->output, "Discr",
+		param->options.assume_discrete);
+	gsf_xml_out_add_int (state->output, "AutoScale",
+		param->options.automatic_scaling);
+	gsf_xml_out_add_int (state->output, "ShowIter",
+		param->options.show_iter_results);
+	gsf_xml_out_add_int (state->output, "AnswerR",
+		param->options.answer_report);
+	gsf_xml_out_add_int (state->output, "SensitivityR",
+		param->options.sensitivity_report);
+	gsf_xml_out_add_int (state->output, "LimitsR",
+		param->options.limits_report);
+	gsf_xml_out_add_int (state->output, "PerformR",
+		param->options.performance_report);
+	gsf_xml_out_add_int (state->output, "ProgramR",
+		param->options.program_report);
+
+	for (ptr = param->constraints; ptr != NULL ; ptr = ptr->next) {
+	        c = ptr->data;
+
+		gsf_xml_out_start_element (state->output, GMR "Constr");
+		gsf_xml_out_add_int (state->output, "Lcol", c->lhs.col);
+		gsf_xml_out_add_int (state->output, "Lrow", c->lhs.row);
+		gsf_xml_out_add_int (state->output, "Rcol", c->rhs.col);
+		gsf_xml_out_add_int (state->output, "Rrow", c->rhs.row);
+		gsf_xml_out_add_int (state->output, "Cols", c->cols);
+		gsf_xml_out_add_int (state->output, "Rows", c->rows);
+
+		switch (c->type) {
+		default:	 type = 0;	break;
+		case SolverLE:   type = 1;	break;
+		case SolverGE:   type = 2;	break;
+		case SolverEQ:   type = 4;	break;
+		case SolverINT:  type = 8;	break;
+		case SolverBOOL: type = 16;	break;
+		}
+		gsf_xml_out_add_int (state->output, "Type", type);
+		gsf_xml_out_end_element (state->output); /* </gmr:Constr> */
+	}
+
+	gsf_xml_out_end_element (state->output); /* </gmr:Solver> */
 }
 
 static void
 xml_write_scenarios (GnmOutputXML *state)
 {
+	scenario_t const *s;
+	GList   *ptr;
+#if 0
+	GString  *name;
+	int       i, cols, rows;
+#endif
+
+	if (state->sheet->scenarios == NULL)
+		return;
+
+	gsf_xml_out_start_element (state->output, GMR "Scenarios");
+
+	for (ptr = state->sheet->scenarios ; ptr != NULL ; ptr = ptr->next) {
+	        s = (scenario_t const *)ptr->data;
+
+		gsf_xml_out_start_element (state->output, GMR "Scenario");
+		gsf_xml_out_add_cstr (state->output, "Name", s->name);
+		gsf_xml_out_add_cstr (state->output, "Comment", s->comment);
+
+		/* Scenario: changing cells in a string form.  In a string
+		 * form so that we can in the future allow it to contain
+		 * multiple ranges without modifing the file format.*/
+		gsf_xml_out_add_cstr (state->output, "CellsStr", s->cell_sel_str);
+
+#if 0 /* CRACK CRACK CRACK need something cleaner */
+		/* Scenario: values. */
+		rows = range_height (&s->range);
+		cols = range_width (&s->range);
+		for (i = 0; i < cols * rows; i++) {
+			name = g_string_new (NULL);
+			g_string_append_printf (name, "V%d", i);
+			xml_node_set_value (scen, name->str,
+					    s->changing_cells [i]);
+			g_string_free (name, FALSE);
+		}
+#endif
+	}
+
+	gsf_xml_out_end_element (state->output); /* </gmr:Scenarios> */
 }
 
 static void
@@ -825,6 +1042,15 @@ xml_write_sheets (GnmOutputXML *state)
 	gsf_xml_out_end_element (state->output); /* </gmr:Sheets> */
 }
 
+static void
+xml_write_uidata (GnmOutputXML *state)
+{
+	gsf_xml_out_start_element (state->output, GMR "UIData");
+	gsf_xml_out_add_int (state->output, "SelectedTab",
+		wb_view_cur_sheet (state->wb_view)->index_in_wb);
+	gsf_xml_out_end_element (state->output); /* </gmr:UIData> */
+}
+
 static GnmExprConventions *
 xml_io_conventions (void)
 {
@@ -887,6 +1113,7 @@ xml_sax_file_save (GnmFileSaver const *fs, IOContext *io_context,
 	xml_write_named_expressions (&state, state.wb->names);
 	xml_write_geometry 	    (&state);
 	xml_write_sheets 	    (&state);
+	xml_write_uidata 	    (&state);
 
 	gsf_xml_out_end_element (state.output); /* </Workbook> */
 

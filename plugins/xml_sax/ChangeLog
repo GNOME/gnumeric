@@ -1,5 +1,14 @@
 2003-06-06  Jody Goldberg <jody@gnome.org>
 
+	* xml-sax-write.c : ok even more done,  its actually almost usable now.
+	(xml_write_solver) : do not emulate the DOM format we need to change
+	  that.  nesting the children seems pointless.
+	(xml_write_scenarios) : not complete, the DOM form had the same
+	  problems as solver, but had the added bonus of storing a matrix of
+	  Value * as _attributes ?  We need to tidy this.
+
+2003-06-05  Jody Goldberg <jody@gnome.org>
+
 	* xml-sax-write.c : Work on this for a bit while the rest of the tree
 	  settles, just in case we can slip in into 1.2
 
