@@ -78,9 +78,7 @@ Pending Patches
 19) 'discard' for invalid expressions enters text as string	(DONE)
 
 UTF-8: (grep for ctype.h is a good start)
-    - Audit string functions for utf8: SEARCH.
     - Window titles.
-    - function_category_compare
     - format precompile
 
 Probably Post 1.2 Targets

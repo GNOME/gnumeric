@@ -38,6 +38,7 @@
 #include <mathfunc.h>
 #include <rangefunc-strings.h>
 #include <collect.h>
+#include <regutf8.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-utils.h>
 
@@ -543,7 +544,6 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 	gboolean commas = TRUE;
 	format_info_t fmt;
 	GString *str;
-	Value *res;
 
 	num = value_get_as_float (argv[0]);
 	decimals = argv[1] ? value_get_as_int (argv[1]) : 2;
@@ -581,9 +581,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 	render_number (str, num, &fmt);
 	if (str->len == 0)
 		g_string_append_c (str, '0');
-	res = value_new_string_str (string_get_nocopy (str->str));
-	g_string_free (str, FALSE);
-	return res;
+	return value_new_string_nocopy (g_string_free (str, FALSE));
 }
 
 /***************************************************************************/
@@ -1023,197 +1021,92 @@ static const char *help_search = {
 	   "@SEEALSO=FIND")
 };
 
-typedef struct {
-        gchar    *str;
-        int      min_skip;
-        gboolean wildcard_prefix;
-} string_search_t;
-
-static int
-wildcards_and_question_marks (const gchar *find_str, int *qmarks, int *wildcard)
+static char *
+search_pattern_to_regexp (const char *pattern)
 {
-        int pos, skip = 0;
+	GString *res = g_string_new ("");
 
-	*wildcard = 0;
-	for (pos = 0; find_str[pos]; pos++)
-		if (find_str[pos] == '?')
-			++skip;
-		else if (find_str[pos] == '*')
-			*wildcard = 1;
-		else
+	while (*pattern) {
+		switch (*pattern) {
+		case '~':
+			pattern++;
+			if (*pattern == '*')
+				g_string_append (res, "\\*");
+			else
+				g_string_append_c (res, *pattern);
+			if (*pattern) pattern++;
 			break;
-	*qmarks = skip;
 
-	return pos;
-}
+		case '*':
+			g_string_append (res, ".*");
+			pattern++;
+			break;
 
+		case '?':
+			g_string_append_c (res, '.');
+			pattern++;
+			break;
 
-/* Breaks the regular expression into a list of string and skip pairs.
- */
-static GSList *
-parse_search_string (const gchar *find_str)
-{
-        string_search_t *search_cond;
-        GSList          *conditions = NULL;
-	int             i, pos, qmarks;
-	gboolean        wildcard;
-        gchar           *buf, *p;
+		case '.': case '[': case '\\':
+		case '^': case '$':
+			g_string_append_c (res, '\\');
+			g_string_append_c (res, *pattern++);
+			break;
 
-	buf = g_new (gchar, strlen (find_str) + 1);
-	p = buf;
-	i = 0;
-
-	pos = wildcards_and_question_marks (find_str, &qmarks, &wildcard);
-	wildcard = 1;
-	find_str += pos;
-
-	while (*find_str) {
-		if (*find_str == '~') {
-			buf[i++] = *(++find_str);
-			find_str++;
-		} else if (*find_str == '?' || *find_str == '*') {
-			buf[i] = '\0';
-			search_cond = g_new (string_search_t, 1);
-			search_cond->str = g_strdup (buf);
-			search_cond->min_skip = qmarks;
-			search_cond->wildcard_prefix = wildcard;
-			conditions = g_slist_append (conditions, search_cond);
-			i = 0;
-			pos = wildcards_and_question_marks (find_str, &qmarks,
-							    &wildcard);
-			find_str += pos;
-		} else
-			buf[i++] = *find_str++;
+		default:
+			g_string_append_unichar (res, g_utf8_get_char (pattern));
+			pattern = g_utf8_next_char (pattern);
+		}
 	}
-	buf[i] = '\0';
-	search_cond = g_new (string_search_t, 1);
-	search_cond->str = g_strdup (buf);
-	search_cond->min_skip = qmarks;
-	search_cond->wildcard_prefix = wildcard;
-	conditions = g_slist_append (conditions, search_cond);
 
-	g_free (buf);
-
-	return conditions;
+	return g_string_free (res, FALSE);
 }
 
-/* Returns 1 if a given condition ('cond') matches with 'str'.  'match_start'
- * points to the beginning of the token found and 'match_end' points to the
- * end of the token.
- */
-static int
-match_string (const gchar *str, string_search_t *cond, gchar **match_start,
-	      gchar **match_end)
-{
-        gchar *p;
-
-        if (cond->min_skip > (int)strlen (str))
-		return 0;
-
-	if (*cond->str == '\0') {
-		 *match_start = (char *)str;
-		 *match_end = (char *)str + 1;
-		 return 1;
-	}
-        p = strstr (str + cond->min_skip, cond->str);
-
-	/* Check no match case */
-	if (p == NULL)
-		return 0;
-
-	/* Check if match in a wrong place and no wildcard */
-	if (!cond->wildcard_prefix && p > str + cond->min_skip)
-		return 0;
-
-	/* Matches correctly */
-	*match_start = p - cond->min_skip;
-	*match_end = p + strlen (cond->str);
-
-	return 1;
-}
-
-static void
-free_all_after_search (GSList *conditions, gchar *text, gchar *within)
-{
-        GSList          *current;
-	string_search_t *current_cond;
-
-	current = conditions;
-	while (current != NULL) {
-		current_cond = current->data;
-		g_free (current_cond->str);
-		g_free (current_cond);
-		current = current->next;
-	}
-	g_slist_free (conditions);
-	g_free (text);
-	g_free (within);
-}
-
-/* FIXME:  NOT UTF8 safe! */
 static Value *
 gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 {
-        GSList          *conditions, *current;
-	string_search_t *current_cond;
-        int             ret, start_num, within_len;
-	gchar           *text, *within, *match_str, *match_str_next;
-	gchar           *p_start, *p_end;
+	const char *needle = value_peek_string (argv[0]);
+	const char *haystack = value_peek_string (argv[1]);
+	int start = argv[2] ? value_get_as_int (argv[2]) : 1;
+	const char *hay2;
+	char *needle_regexp;
+	gnumeric_regex_t r;
+	regmatch_t rm;
+	Value *res = NULL;
 
-	if (argv[2] == NULL)
-		start_num = 0;
-	else
-		start_num = value_get_as_int (argv[2]) - 1;
-
-	text = g_utf8_strdown (value_peek_string (argv[0]), -1);
-	within = g_utf8_strdown (value_peek_string (argv[1]), -1);
-
-	within_len = strlen (within);
-
-	if (within_len <= start_num) {
-		g_free (text);
-		g_free (within);
+	start--;
+	if (start < 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	for (hay2 = haystack; start > 0; start--) {
+		if (*hay2 == 0)
+			return value_new_error (ei->pos, gnumeric_err_VALUE);
+		hay2 = g_utf8_next_char (hay2);
 	}
 
-	conditions = parse_search_string (text);
-	if (conditions == NULL) {
-		g_free (text);
-		g_free (within);
-		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	needle_regexp = search_pattern_to_regexp (needle);
+
+	if (gnumeric_regcomp (&r, needle_regexp, REG_ICASE | REG_NOSUB) !=
+	    REG_OK) {
+		g_assert_not_reached ();
+		goto out;
 	}
 
-	match_str = within + start_num;
-
-match_again:
-	current = conditions;
-	current_cond = current->data;
-	ret = match_string (match_str, current_cond, &p_start, &p_end);
-	if (ret) {
-		current = current->next;
-		if (current == NULL) {
-			free_all_after_search (conditions, text, within);
-			return value_new_int (p_start - within + 1);
-		}
-		current_cond = current->data;
-		match_str = p_start;
-		match_str_next = p_end;
-		while (match_string (p_end, current_cond, &p_start, &p_end)) {
-			current = current->next;
-			if (current == NULL) {
-				free_all_after_search (conditions,
-						       text, within);
-				return value_new_int (match_str - within + 1);
-			}
-			current_cond = current->data;
-		}
-		match_str = match_str_next;
-		goto match_again;
+	switch (gnumeric_regexec (&r, hay2, 1, &rm, 0)) {
+	case REG_NOMATCH:
+		break;
+	case REG_OK:
+		res = value_new_int (1 + start + rm.rm_so);
+		break;
+	default:
+		g_assert_not_reached ();
+		break;
 	}
 
-	free_all_after_search (conditions, text, within);
-
-	return value_new_error (ei->pos, gnumeric_err_VALUE);
+ out:
+	if (!res) res = value_new_error (ei->pos, gnumeric_err_VALUE);
+	g_free (needle_regexp);
+	gnumeric_regfree (&r);
+	return res;
 }
 
 /***************************************************************************/

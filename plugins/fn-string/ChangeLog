@@ -1,3 +1,8 @@
+2002-11-12  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_search): New UTF-8 safe implementation
+	using regexps.
+
 2002-11-11  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_substitute): Welcome to the 21th century.

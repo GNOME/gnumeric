@@ -41,6 +41,7 @@ Morten:
 	* Make CODE function mostly UTF-8 safe.
 	* Fix SUBSTITUTE (for non-blank fourth argument) and make it UTF-8
 	  safe.
+	* Make SEARCH function UTF-8 safe.
 
 Nick Lamb:
 	* Initial support for pre-ole xls files.
