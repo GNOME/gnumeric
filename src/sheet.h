@@ -115,17 +115,18 @@ void        sheet_redraw_selection    (Sheet *sheet, SheetSelection *ss);
 
 /* Cell management */
 Cell       *sheet_cell_new            (Sheet *sheet, int col, int row);
-Cell       *sheet_cell_new_with_text  (Sheet *sheet, int col, int row, char *text);
 void        sheet_cell_foreach_range  (Sheet *sheet, int only_existing,
 				       int start_col, int start_row,
 				       int end_col, int end_row,
 				       sheet_cell_foreach_callback callback,
 				       void *closure);
 Cell       *sheet_cell_get            (Sheet *sheet, int col, int row);
+void        cell_set_text             (Cell *cell, char *text);
 
-Workbook   *workbook_new              (void);
-Workbook   *workbook_new_with_sheets  (int sheet_count);
-void        workbook_attach_sheet     (Workbook *, Sheet *);
+Workbook   *workbook_new                 (void);
+Workbook   *workbook_new_with_sheets     (int sheet_count);
+void        workbook_attach_sheet        (Workbook *, Sheet *);
+Sheet      *workbook_focus_current_sheet (Workbook *wb);
 
 /*
  * Callback routine: invoked when the first view ItemGrid

@@ -12,8 +12,10 @@ INCLUDES = 			\
 
 gnumeric_SOURCES =		\
 	cell.h			\
-	gnumeric-sheet.h	\
+	expr.c			\
+	expr.h			\
 	gnumeric-sheet.c	\
+	gnumeric-sheet.h	\
 	gnumeric.h		\
 	item-bar.c		\
 	item-bar.h		\
@@ -26,10 +28,13 @@ gnumeric_SOURCES =		\
 	item-grid.c		\
 	item-grid.h		\
 	main.c			\
+	parser.y		\
 	sheet.c			\
 	sheet.h			\
 	style.c			\
 	style.h			\
+	symbol.h		\
+	symbol.c		\
 	workbook.c
 
 gnumeric_LDADD = \

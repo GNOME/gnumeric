@@ -14,12 +14,6 @@
 #include "gnumeric-sheet.h"
 #include "item-debug.h"
 
-/* The signals we emit */
-enum {
-	LAST_SIGNAL
-};
-static guint item_grid_signals [LAST_SIGNAL] = { 0 };
-
 static GnomeCanvasItem *item_grid_parent_class;
 
 /* The arguments we take */
@@ -63,6 +57,7 @@ item_grid_realize (GnomeCanvasItem *item)
 	/* Configure the default grid gc */
 	item_grid->grid_gc = gc = gdk_gc_new (window);
 	item_grid->fill_gc = gdk_gc_new (window);
+	item_grid->gc = gdk_gc_new (window);
 	
 	gdk_gc_set_line_attributes (gc, 1, GDK_LINE_SOLID,
 				    GDK_CAP_PROJECTING, GDK_JOIN_MITER);
@@ -70,7 +65,8 @@ item_grid_realize (GnomeCanvasItem *item)
 	/* Allocate the default colors */
 	item_grid->background = color_alloc (item->canvas, "white");
 	item_grid->grid_color = color_alloc (item->canvas, "gray60");
-
+	item_grid->default_color = color_alloc (item->canvas, "black");
+	
 	gdk_gc_set_foreground (gc, &item_grid->grid_color);
 	gdk_gc_set_background (gc, &item_grid->background);
 	
@@ -159,19 +155,91 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (item_grid->sheet->sheet_view);
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_grid)->canvas;
-	GdkGC *black_gc = GTK_WIDGET (canvas)->style->black_gc;
-	GdkGC *grid_gc = item_grid->grid_gc;
+	Sheet *sheet = item_grid->sheet;
+	GdkGC *gc = item_grid->gc;
+	GdkFont *font;
 	Cell  *cell;
+	Style *style;
+	int   x_offset, y_offset;
+	Cell  *clip_left, *clip_right;
+
+	item_debug_cross (drawable, gc, x1, y1, x1+width, y1+height);
 	
-	if (sheet_selection_is_cell_selected (item_grid->sheet, col, row)){
+	/* If cell is selected, draw selection */
+	if (sheet_selection_is_cell_selected (sheet, col, row)){
+		GdkGC *black_gc = GTK_WIDGET (canvas)->style->black_gc;
+		
 		if (!(gsheet->cursor_col == col && gsheet->cursor_row == row))
-			gdk_draw_rectangle (drawable, black_gc,
-					    TRUE,
+			gdk_draw_rectangle (drawable, black_gc, TRUE,
 					    x1+1, y1+1, width - 2, height - 2);
 	}
 
-	cell = sheet_cell_get (item_grid->sheet, col, row);
-	printf ("%s\n", cell);
+	cell = sheet_cell_get (sheet, col, row);
+	if (!cell)
+		return;
+
+	/* The offsets where we start drawing the text */
+	x_offset = y_offset = 0;
+
+	/* True if we have a sibling cell in the direction where we paint */
+	clip_left  = NULL;
+	clip_right = NULL;
+	
+	style = cell->style;
+	font = style->font->font;
+
+	switch (style->halign){
+	case HALIGN_GENERAL:
+		if (col < SHEET_MAX_COLS-1)
+			clip_right = sheet_cell_get (sheet, col+1, row);
+		x_offset = 0;
+		break;
+
+	case HALIGN_LEFT:
+		if (col < SHEET_MAX_COLS-1)
+			clip_right = sheet_cell_get (sheet, col+1, row);
+		x_offset = 0;
+		break;
+		
+	case HALIGN_RIGHT:
+		if (col > 0)
+			clip_left = sheet_cell_get (sheet, col-1, row);
+		x_offset = cell->col->pixels - cell->width;
+		break;
+		
+	case HALIGN_CENTER:
+		if (col > 0)
+			clip_left = sheet_cell_get (sheet, col-1, row);
+		if (col < SHEET_MAX_COLS-1)
+			clip_right = sheet_cell_get (sheet, col-1, row);
+		x_offset = (cell->width - cell->col->pixels)/2;
+		break;
+		
+	case HALIGN_FILL:
+		if (col < SHEET_MAX_COLS-1)
+			clip_right = sheet_cell_get (sheet, col-1, row);
+		x_offset = 0;
+		break;
+			
+	case HALIGN_JUSTIFY:
+		g_warning ("No horizontal justification supported yet\n");
+		break;
+	}
+
+	if (cell->flags & CELL_COLOR_IS_SET){
+		gdk_gc_set_foreground (gc, &cell->color);
+	} else 
+		gdk_gc_set_foreground (gc, &item_grid->default_color);
+	
+	gdk_gc_set_foreground (gc, &item_grid->default_color);
+	printf ("(%d,%d), text: %s\n", col, row, cell->text);
+	gdk_draw_text (drawable, font, gc, x1, y1, "TEXTO", 5);
+	/*
+		       x1 + x_offset,
+		       y1 + y_offset,
+		       cell->text, strlen (cell->text));
+	*/
+	
 }
 
 static void
@@ -179,7 +247,6 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
 	Sheet *sheet = item_grid->sheet;
-	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet->sheet_view);
 	GdkGC *grid_gc = item_grid->grid_gc;
 	int end_x, end_y;
 	int paint_col, paint_row, max_paint_col, max_paint_row;
@@ -198,6 +265,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		return;
 	}
 	
+	max_paint_col = max_paint_row = 0;
 	paint_col = find_col (item_grid, x, &x_paint);
 	paint_row = find_row (item_grid, y, &y_paint);
 
@@ -242,8 +310,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	pd.item_grid = item_grid;
 	pd.gsheet    = GNUMERIC_SHEET (item_grid->sheet->sheet_view);
 
+#if 0
 	printf ("Painting the (%d,%d)-(%d,%d) region\n",
 		paint_col, paint_row, max_paint_col, max_paint_row);
+#endif
 	
 	col = paint_col;
 	for (x_paint = -diff_x; x_paint < end_x; col++){
@@ -403,6 +473,7 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 				 GTK_ARG_WRITABLE, ARG_SHEET);
 	
 	object_class->set_arg = item_grid_set_arg;
+	object_class->destroy = item_grid_destroy;
 
 	/* GnomeCanvasItem method overrides */
 	item_class->realize     = item_grid_realize;

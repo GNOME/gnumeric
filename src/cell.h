@@ -4,23 +4,6 @@
 typedef unsigned char  ColType;
 typedef unsigned short RowType;
 
-typedef enum {
-	VALUE_STRING,
-	VALUE_NUMBER
-} ValueType;
-
-/*
- * We use the GNU Multi-precission library for storing our 
- * numbers
- */
-typedef struct {
-	ValueType type;
-	union {
-		char  *string;	/* string */
-		mpf_t number;	/* floating point */
-	} v;
-} Value;
-
 typedef struct {
 	int       ref_count;
 	GdkColor  color;
@@ -41,15 +24,19 @@ typedef struct {
 	void       *data;
 } ColRowInfo;
 
+typedef enum {
+	CELL_COLOR_IS_SET
+} CellFlags;
+
 typedef struct {
 	ColRowInfo *col;
 	ColRowInfo *row;
 
 	/* Text as entered by the user */
 	char      *entered_text;
-
+	
 	/* Type of the content and the actual parsed content */
-	Value     *value;
+	EvalNode  *parsed_node;
 	Style     *style;
 	
 	/* computed versions of the cell contents */
@@ -57,6 +44,8 @@ typedef struct {
 	GdkColor  color;	/* color for the displayed text */
 	int       width;	/* Width of text */
 	int       height;	/* Height of text */
+
+	int       flags;
 } Cell;
 
 #define CELL_IS_FORMULA(cell) (cell->entered_text [0] == '=')

@@ -210,7 +210,6 @@ item_cursor_translate (GnomeCanvasItem *item, double dx, double dy)
 static gint
 item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	printf ("Cursor event\n");
 	return 0;
 }
 
@@ -273,6 +272,7 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 				 GTK_ARG_WRITABLE, ARG_ITEM_GRID);
 	
 	object_class->set_arg = item_cursor_set_arg;
+	object_class->destroy = item_cursor_destroy;
 
 	/* GnomeCanvasItem method overrides */
 	item_class->realize     = item_cursor_realize;

@@ -65,18 +65,18 @@ gnumeric_sheet_accept_pending_output (GnumericSheet *sheet)
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (sheet));
+
+	if (!sheet->item_editor)
+		return;
+
+	cell = sheet_cell_get (sheet->sheet, sheet->cursor_col, sheet->cursor_row);
+	if (!cell)
+		cell = sheet_cell_new (sheet->sheet, sheet->cursor_col, sheet->cursor_row);
 	
-	cell = sheet_cell_new_with_text (
-		sheet->sheet, sheet->cursor_col, sheet->cursor_row,
-		gtk_entry_get_text (GTK_ENTRY (sheet->entry)));
+	cell_set_text (cell, gtk_entry_get_text (GTK_ENTRY (sheet->entry)));
 
-	sheet_cell_add (sheet, cell);
-
-	/* Destroy the object */
-	if (sheet->item_editor){
-		gtk_object_destroy (GTK_OBJECT (sheet->item_editor));
-		sheet->item_editor = NULL;
-	}
+	gtk_object_destroy (GTK_OBJECT (sheet->item_editor));
+	sheet->item_editor = NULL;
 }
 
 void
@@ -153,11 +153,9 @@ gnumeric_sheet_move_cursor (GnumericSheet *sheet, int col, int row)
 {
 	ItemCursor *item_cursor = sheet->item_cursor;
 
-	gnumeric_sheet_cursor_set (sheet, col, row);
-	
 	gnumeric_sheet_accept_pending_output (sheet);
-	sheet_selection_clear (sheet->sheet);
 	gnumeric_sheet_cursor_set (sheet, col, row);
+	sheet_selection_clear (sheet->sheet);
 	item_cursor_set_bounds (item_cursor, col, row, col, row);
 	gnumeric_sheet_load_cell_val (sheet);
 }
@@ -261,10 +259,14 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		(*movefn_vertical)(sheet, 1);
 		break;
 
+	case GDK_Return:
+		gnumeric_sheet_move_cursor (sheet, sheet->cursor_col, sheet->cursor_row);
+		break;
+		
 	case GDK_F2:
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), wb->ea_input);
 		/* fallback */
-		
+
 	default:
 		if (!sheet->item_editor){
 			if (event->keyval >= 0x20 && event->keyval <= 0xff)

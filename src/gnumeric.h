@@ -1,4 +1,6 @@
 #include <gmp.h>
 #include "style.h"
+#include "symbol.h"
+#include "expr.h"
 #include "cell.h"
 #include "sheet.h"

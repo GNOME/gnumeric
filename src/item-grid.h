@@ -22,9 +22,11 @@ typedef struct {
 
 	GdkGC    *grid_gc;	/* Draw grid gc */
 	GdkGC    *fill_gc;	/* Default background fill gc */
+	GdkGC    *gc;		/* Color used for the cell */
+	
 	GdkColor background;
 	GdkColor grid_color;
-	
+	GdkColor default_color;
 } ItemGrid;
 
 GtkType item_grid_get_type (void);

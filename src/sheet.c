@@ -139,7 +139,7 @@ sheet_new (Workbook *wb, char *name)
 	sheet->toplevel = gtk_table_new (0, 0, 0);
 	sheet->max_col_used = cols_shown;
 	sheet->max_row_used = rows_shown;
-	
+
 	sheet_init_default_styles (sheet);
 	
 	/* Dummy initialization */
@@ -270,6 +270,7 @@ sheet_reconfigure_zoom (Sheet *sheet)
 	sheet->last_zoom_factor_used = pixels_per_unit;
 	sheet_foreach_col (sheet, sheet_compute_col_row_new_size, NULL);
 	sheet_foreach_row (sheet, sheet_compute_col_row_new_size, NULL);
+	g_warning ("Need to recompute string lenghts of cells\n");
 }
 
 void
@@ -745,7 +746,7 @@ sheet_col_get (Sheet *sheet, int pos)
 	GList *clist;
 	ColRowInfo *col;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
 	
 	for (clist = sheet->cols_info; clist; clist = clist->next){
 		col = (ColRowInfo *) clist->data;
@@ -768,7 +769,7 @@ sheet_row_get (Sheet *sheet, int pos)
 	GList *rlist;
 	ColRowInfo *row;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
 	
 	for (rlist = sheet->rows_info; rlist; rlist = rlist->next){
 		row = (ColRowInfo *) rlist->data;
@@ -809,20 +810,21 @@ sheet_cell_get (Sheet *sheet, int col, int row)
 	GList *cols;
 	GList *rows;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
 
 	for (cols = sheet->cols_info; cols; cols = cols->next){
 		ColRowInfo *ci = cols->data;
 
-		if (ci->pos == cols){
-			row = (GList *) ci->data;
+		if (ci->pos == col){
+			rows = (GList *) ci->data;
 			
 			for (; rows; rows = rows->next){
-				ColRowInfo *ri = (ColRowInfo *) rows->data;
+				Cell *cell = (Cell *) rows->data;
 				
-				if (ri->pos == row)
-					return (Cell *) ri->data;
+				if (cell->row->pos == row)
+					return cell;
 			}
+			return NULL;
 		}
 	}
 	return NULL;
@@ -901,7 +903,7 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 Style *
 sheet_style_compute (Sheet *sheet, int col, int row)
 {
-	g_return_if_fail (sheet != NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
 	
 	/* FIXME: This should compute the style based on the
 	 * story of the styles applied to the worksheet, the
@@ -912,39 +914,58 @@ sheet_style_compute (Sheet *sheet, int col, int row)
 	return style_duplicate (sheet_col_get_info (sheet, col)->style);
 }
 
-Cell *
-sheet_cell_new (Sheet *sheet, int col, int row)
+static gint
+CRowSort (gconstpointer a, gconstpointer b)
 {
-	Cell *cell = g_new0 (Cell, 1);
+	Cell *ca = (Cell *) a;
+	Cell *cb = (Cell *) b;
 
-	cell->col = sheet_col_get (sheet, col);
-	cell->row = sheet_row_get (sheet, row);
-
-	cell->style = sheet_style_compute (sheet, col, row);
-	return cell;
+	return ca->row->pos - cb->row->pos;
 }
 
 Cell *
-sheet_cell_new_with_text (Sheet *sheet, int col, int row, char *text)
+sheet_cell_new (Sheet *sheet, int col, int row)
 {
 	Cell *cell;
-	GdkFont *font;
+	g_return_val_if_fail (sheet != NULL, NULL);
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (text != NULL);
-	
-	cell = sheet_cell_new (sheet, col, row);
-	cell->text = g_strdup (text);
-	font = cell->style->font->font;
-	cell->width = gdk_text_width (font, text, strlen (text));
-	cell->height = font->ascent + font->descent;
-	
+	printf ("Creating cell at %d,%d\n", col, row);
+	cell = g_new0 (Cell, 1);
+	cell->col   = sheet_col_get (sheet, col);
+	cell->row   = sheet_row_get (sheet, col);
+	cell->style = sheet_style_compute (sheet, col, row);
+
+	cell->col->data = g_list_insert_sorted (cell->col->data, cell, CRowSort);
+
 	return cell;
 }
 
 void
-sheet_cell_add (Sheet *sheet, Cell *cell)
+cell_set_text (Cell *cell, char *text)
 {
-	g_return_if_fail (sheet != NULL);
+	GdkFont *font;
+
 	g_return_if_fail (cell != NULL);
+	g_return_if_fail (text != NULL);
+
+	/* The value entered */
+	if (cell->entered_text)
+		g_free (cell->entered_text);
+	cell->entered_text = g_strdup (text);
+
+	/* The computed text, for now, just the same */
+	{
+		cell->parsed_node = NULL;
+		if (cell->text)
+			g_free (cell->text);
+		cell->text = g_strdup (text);
+	}
+
+	/* No default color */
+	cell->flags = 0;
+	
+	font = cell->style->font->font;
+	cell->width = gdk_text_width (font, cell->text, strlen (cell->text));
+	cell->height = font->ascent + font->descent;
 }
+
