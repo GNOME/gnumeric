@@ -126,11 +126,11 @@ HFRenderInfo     *hf_render_info_new     (void);
 void              hf_render_info_destroy (HFRenderInfo *hfi);
 
 	
-const char *unit_name_get_short_name (UnitName name);
-const char *unit_name_get_name       (UnitName name);
+const char *unit_name_get_short_name (UnitName name, gboolean translated);
+const char *unit_name_get_name       (UnitName name, gboolean translated);
+UnitName    unit_name_to_unit        (const char *s, gboolean translated);
 double      print_unit_get_prefered  (PrintUnit *unit);
 double      unit_convert             (double value, UnitName source, UnitName target);
-UnitName    unit_name_to_unit        (const char *s);
 
 void        print_init               (void);
 void        print_shutdown           (void);

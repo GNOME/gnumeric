@@ -39,7 +39,7 @@
 
 typedef struct
 {
-	BonoboObjectClient		*object_server;
+	BonoboObjectClient		*manager_client;
 	GNOME_Gnumeric_Graph_Manager	 manager;
 	Bonobo_Control		 	 control;
 
@@ -99,15 +99,9 @@ graph_guru_state_destroy (GraphGuruState *state)
 
 		state->control = CORBA_OBJECT_NIL;
 	}
-	if (state->manager != CORBA_OBJECT_NIL) {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		GNOME_Gnumeric_Graph_Manager_unref (state->manager, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("Problems releasing the graph manager");
-		CORBA_exception_free (&ev);
-
+	if (state->manager_client != NULL) {
+		bonobo_object_client_unref (state->manager_client, NULL);
+		state->manager_client = NULL;
 		state->manager = CORBA_OBJECT_NIL;
 	}
 
@@ -199,7 +193,7 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 		bonobo_item_container_add (state->wb->priv->bonobo_container,
 					   BONOBO_OBJECT (client_site));
 
-		if (bonobo_client_site_bind_embeddable (client_site, state->object_server)) {
+		if (bonobo_client_site_bind_embeddable (client_site, state->manager_client)) {
 			Sheet *sheet = state->wb->current_sheet;
 			sheet_mode_create_object (
 				sheet_object_container_new_bonobo (sheet,
@@ -229,7 +223,7 @@ get_selector_control (GraphGuruState *state)
 	GtkWidget *res = NULL;
 
 	CORBA_exception_init (&ev);
-	state->control = GNOME_Gnumeric_Graph_Manager_get_type_select_control (state->manager, &ev);
+	state->control = GNOME_Gnumeric_Graph_Manager_getTypeSelectControl (state->manager, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		return NULL;
 	CORBA_exception_free (&ev);
@@ -294,10 +288,10 @@ graph_guru_init_manager (GraphGuruState *state)
 	state->manager = CORBA_OBJECT_NIL;
 	state->control = CORBA_OBJECT_NIL;
 	if (o != CORBA_OBJECT_NIL) {
-		state->object_server = bonobo_object_client_from_corba (o);
-		if (state->object_server != NULL)
+		state->manager_client = bonobo_object_client_from_corba (o);
+		if (state->manager_client != NULL)
 			state->manager = bonobo_object_query_interface (
-				BONOBO_OBJECT (state->object_server),
+				BONOBO_OBJECT (state->manager_client),
 				"IDL:GNOME/Gnumeric/Graph/Manager:1.0");
 	}
 

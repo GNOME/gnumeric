@@ -1,5 +1,11 @@
 2000-09-28  Jody Goldberg <jgoldberg@home.com>
 
+	* idl/gnumeric-graphs.idl : Resume using studlyCaps.
+	* src/graph-series.c : Ditto.
+	* src/dialogs/dialog-graph-guru.c : Ditto.
+
+2000-09-28  Jody Goldberg <jgoldberg@home.com>
+
 	* src/print-info.c (unit_name_get_name) : Control translation.
 	(unit_name_get_short_name) : Ditto.
 	(unit_name_to_unit) : Ditto.
