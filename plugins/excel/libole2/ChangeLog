@@ -1,5 +1,10 @@
 1999-10-10  Arturo Tena <arturo@directmail.org>
 
+	* Makefile.am (INCLUDES): moved to the conditional section, because it
+	  is needed only by gnumeric.
+
+1999-10-10  Arturo Tena <arturo@directmail.org>
+
 	* Makefile.am: moved version.c from libole2_sources to be
 	  LIBOLE2_PUBLIC_LIBRARY dependent, this means gnumeric don't
 	  depend on version.c anymore.

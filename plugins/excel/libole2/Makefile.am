@@ -1,11 +1,3 @@
-## Following is useful when libole2-src is compiled from gnumeric
-INCLUDES = 						\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
-	-I$(includedir)				 	\
-	-I$(top_srcdir)/src				\
-	$(GNOME_INCLUDEDIR)
-
 libole2_sources = 		\
 	ms-ole.c		\
 	ms-ole.h		\
@@ -24,6 +16,12 @@ libole2include_HEADERS =	\
 	ms-ole.h
 else
 ## Following is when libole2-src is compiled from gnumeric
+INCLUDES = 						\
+	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
+	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
+	-I$(includedir)				 	\
+	-I$(top_srcdir)/src				\
+	$(GNOME_INCLUDEDIR)
 lib_LIBRARIES = libole2.a
 libole2_a_SOURCES =		\
 	$(libole2_sources)
