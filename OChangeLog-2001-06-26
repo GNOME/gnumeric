@@ -1,3 +1,8 @@
+2000-07-21  JP Rosevear  <jpr@arcavia.com>
+
+	* src/sort.c (sort_contents): Add another level of indirection
+	to ignore hiddens rows/cols
+
 2000-07-14  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-object.c (shutdown_sheet_object_creation): implement

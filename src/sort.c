@@ -252,29 +252,53 @@ sort_position (CommandContext *context, SortData *data, int *perm)
 int *
 sort_contents (CommandContext *context, SortData *data)
 {
+	ColRowInfo const *cra;
 	SortDataPerm *perm;
-	int length, i, *iperm;
+	int length, real_length, i, cur, *iperm, *real;
 
 	length = sort_data_length (data);
-
-	perm = g_new (SortDataPerm, length);
-
+	real_length = 0;
+	
+	/* Discern the rows/cols to be actually sorted */
+	real = g_new (int, length);
 	for (i = 0; i < length; i++) {
-		perm[i].index = i;
-		/*
-		 * A constant member to get around qsort's lack of a user_data
-		 * argument.
-		 */
-		perm[i].data = data;
+		cra = data->top
+			? sheet_row_get (data->sheet, i)
+			: sheet_col_get (data->sheet, i);
+
+		if (cra && !cra->visible) {
+			real[i] = -1;
+		} else {
+			real[i] = i;
+			real_length++;
+		}	
 	}
 
-	qsort (perm, length, sizeof (SortDataPerm), sort_qsort_compare);
+	cur = 0;
+	perm = g_new (SortDataPerm, real_length);
+	for (i = 0; i < length; i++) {
+		if (real[i] != -1) {
+			perm[cur].index = i;
+			perm[cur].data = data;
+			cur++;
+		}
+	}
 
+	qsort (perm, real_length, sizeof (SortDataPerm), sort_qsort_compare);
+
+	cur = 0;
 	iperm = g_new (int, length);
-	for (i = 0; i < length; i++)
-		iperm[i] = perm[i].index;
+	for (i = 0; i < length; i++) {
+		if (real[i] != -1) {
+			iperm[i] = perm[cur].index;
+			cur++;
+		} else {
+			iperm[i] = i;
+		}
+	}
 	g_free (perm);
-
+	g_free (real);
+	
 	sort_permute (context, data, iperm, length);
 
 	return iperm;
