@@ -1,5 +1,9 @@
 1999-09-15  Morten Welinder  <terra@diku.dk>
 
+	* src/sheet.c (cell_is_homogeneous): Always return a value.
+
+	* src/ranges.c (range_dump): Fix destination.
+
 	* src/selection.c (selection_apply): Plug leak.
 
 1999-09-15  Michael Meeks  <michael@nuclecu.unam.mx>

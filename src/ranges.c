@@ -248,8 +248,8 @@ range_dump (Range const * src)
 	if (src->start.col != src->end.col ||
 	    src->start.row == src->end.row)
 		printf (":%s%d\n",
-			 col_name(src->end.col),
-			 src->end.row + 1);
+			col_name(src->end.col),
+			src->end.row + 1);
 }
 
 Range*
