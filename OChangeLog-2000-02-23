@@ -1,3 +1,19 @@
+1999-01-23  Bruno Unna  <bruno@iac.com.mx>
+
+	* src/dialog-cell-format.c: Reactivated the 'Coloring' page
+	in struct array cell_format_pages.
+
+	* src/dialog-cell-format.c (create_coloring_page): Lots of
+	changes, practically a full rewrite. One problem is that cells
+	are thrown into this world with the flag STYLE_FORE_COLOR of
+	their style set, which causes a lack of synchronization with
+	what is expressed in the global variable foreground_radio_list.
+
+	* src/dialog-cell-format.c (apply_coloring_format): By the moment
+	being, deactivated the call of function cell_set_pattern, along
+	with the STYLE_PATTERN bit flag of style->valid_flags. I will
+	concentrate in fg/bg coloring of the cell.
+
 1999-01-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/widget-editable-label.c 	(el_init): Set the scroll region

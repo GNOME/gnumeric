@@ -659,17 +659,66 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 	GtkTable *t;
 	GtkWidget *fore, *back;
 	int e = GTK_FILL | GTK_EXPAND;
+
+	gdouble rd, gd, bd, ad;
+	gushort fore_red, fore_green, fore_blue;
+	gushort back_red, back_green, back_blue;
+	GList *l;
+	int ok_fore, foreground_flag;
 	
 	t = (GtkTable *) gtk_table_new (0, 0, 0);
+
 	fore = create_foreground_radio (prop_win);
 	back = create_background_radio (prop_win);
+
+	/* Check if all cells have the same properties */
+	/*
+	 * FIXME: This should check the cells *AND* the
+	 * style regions to figure out what to check and what
+	 * not, right now this is broken in that regard
+	 */
+	if (cells){
+		foreground_flag = (((Cell *) (cells->data))->style->valid_flags | STYLE_FORE_COLOR) != 0;
+		/* FIXME: Next three lines should depend on the value of foreground_flag */
+		fore_red   = ((Cell *) (cells->data))->style->fore_color->color.red;
+		fore_green = ((Cell *) (cells->data))->style->fore_color->color.green;
+		fore_blue  = ((Cell *) (cells->data))->style->fore_color->color.blue;
+		
+		/*
+		 * FIXME: For the moment being, just check the
+		 * foreground. Once it works, we'll do the same
+		 * for the background
+		 */
+		ok_fore = 1;
+		for (l = cells; l; l = l->next){
+			Cell *cell = l->data;
+			
+			if ((cell->style->valid_flags | STYLE_FORE_COLOR)==0 ||
+			     cell->style->fore_color->color.red != fore_red ||
+			     cell->style->fore_color->color.green != fore_green ||
+			     cell->style->fore_color->color.blue != fore_blue) {
+				ok_fore = 0;
+				break;
+			}
+		}
+		if (ok_fore != 0) {
+			rd = (gdouble) fore_red / 65535;
+			gd = (gdouble) fore_green / 65535;
+			bd = (gdouble) fore_blue / 65535;
+			ad = 1;
+			gnome_color_picker_set_d (GNOME_COLOR_PICKER (foreground_cs), rd, gd, bd, ad);
+			gtk_radio_button_select (foreground_radio_list, 1);
+		}
+	}
 
 	make_radio_notify_change (foreground_radio_list, prop_win);
 	make_radio_notify_change (background_radio_list, prop_win);
 	
 	gtk_table_attach (t, fore, 0, 1, 0, 1, e, 0, 4, 4);
 	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4);
+
 	gtk_widget_show_all (GTK_WIDGET (t));
+
 	return GTK_WIDGET (t);
 }
 
@@ -708,10 +757,11 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 
 		cell_set_foreground (cell, fore_red, fore_green, fore_blue);
 		cell_set_background (cell, back_red, back_green, back_blue);
-		cell_set_pattern    (cell, 2);
+/*		cell_set_pattern    (cell, 2); */
 	}
 
-	style->valid_flags |= STYLE_FORE_COLOR | STYLE_PATTERN | STYLE_BACK_COLOR;
+	style->valid_flags |= STYLE_FORE_COLOR | STYLE_BACK_COLOR;
+/*	style->valid_flags |= STYLE_FORE_COLOR | STYLE_PATTERN | STYLE_BACK_COLOR; */
 	style->fore_color  = style_color_new (fore_red, fore_green, fore_blue);
 	style->back_color  = style_color_new (back_red, back_green, back_blue);
 }
@@ -724,7 +774,7 @@ static struct {
 	{ N_("Number"),    create_number_format_page,  apply_number_formats  },
 	{ N_("Alignment"), create_align_page,          apply_align_format    },
 	{ N_("Font"),      create_font_page,           apply_font_format     },
-/*	{ N_("Coloring"),  create_coloring_page,       apply_coloring_format }, */
+	{ N_("Coloring"),  create_coloring_page,       apply_coloring_format },
 	{ NULL, NULL, NULL }
 };
 
@@ -836,5 +886,3 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 
 	g_list_free (cells);
 }
-
-
