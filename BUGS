@@ -177,7 +177,7 @@ Pending Patches
 2) stf							{Andreas/Morten}
     2.1) UTF-8 cleanliness					(DONE)
     2.2) User specifiable character encoding                    (DONE)
-    2.3) Replace UI for format selection
+    2.3) Replace UI for format selection                        (DONE)
     2.4) Provide an optional mechanism for specifying the
 	 target location useful for text to columns, and
 	 import into sheet
