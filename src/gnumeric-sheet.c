@@ -991,8 +991,8 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 	} while (pixels < canvas->height);
 }
 
-int
-gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_top_row)
+static int
+gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_top_row)
 {
 	GnomeCanvas *rowc;
 	Sheet *sheet;
@@ -1013,8 +1013,21 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_top_row)
 	return row_distance;
 }
 
-int
-gnumeric_sheet_set_top_col (GnumericSheet *gsheet, int new_top_col)
+void
+gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_top_row)
+{
+	int distance, x;
+	
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (new_top_row >= 0 && new_top_row <= SHEET_MAX_ROWS-1);
+
+	distance = gnumeric_sheet_bar_set_top_row (gsheet, new_top_row);
+	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), &x, NULL);
+	gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), x, distance);
+}
+
+static int
+gnumeric_sheet_bar_set_top_col (GnumericSheet *gsheet, int new_top_col)
 {
 	GnomeCanvas *colc;
 	Sheet *sheet;
@@ -1034,6 +1047,19 @@ gnumeric_sheet_set_top_col (GnumericSheet *gsheet, int new_top_col)
 	gnome_canvas_scroll_to (colc, col_distance, y);
 	
 	return col_distance;
+}
+
+void
+gnumeric_sheet_set_top_col (GnumericSheet *gsheet, int new_top_col)
+{
+	int distance, y;
+	
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (new_top_col >= 0 && new_top_col <= SHEET_MAX_COLS-1);
+
+	distance = gnumeric_sheet_bar_set_top_col (gsheet, new_top_col);
+	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), NULL, &y);
+	gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), distance, y);
 }
 
 void
@@ -1100,12 +1126,12 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (gsheet), &col_distance, &row_distance);
 	
 	if (gsheet->top_col != new_top_col){
-		col_distance = gnumeric_sheet_set_top_col (gsheet, new_top_col);
+		col_distance = gnumeric_sheet_bar_set_top_col (gsheet, new_top_col);
 		did_change = 1;
 	}
 
 	if (gsheet->top_row != new_top_row){
-		row_distance = gnumeric_sheet_set_top_row (gsheet, new_top_row);
+		row_distance = gnumeric_sheet_bar_set_top_row (gsheet, new_top_row);
 		did_change = 1;
 	}
 

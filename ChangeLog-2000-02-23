@@ -1,5 +1,12 @@
 1998-12-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/gnumeric-sheet.c (gnumeric_sheet_set_top_row,
+	gnumeric_sheet_set_top_col): New functions to set the sheet top
+	column and row respectively.
+
+	(gnumeric_sheet_bar_set_top_row, gnumeric_sheet_bar_set_top_col):
+	Renamed from their old names to reflect their actual action.
+
 	* src/item-cursor.c (item_cursor_autofill_event): Do not pass
 	negative numbers to item_grid_find_col and item_grid_find_row. 
 

@@ -59,8 +59,8 @@ GtkType    gnumeric_sheet_get_type               (void);
 
 GtkWidget *gnumeric_sheet_new            	 (SheetView *sheet, ItemBar *colbar, ItemBar *rowbar);
 void       gnumeric_sheet_set_selection  	 (GnumericSheet *gsheet, SheetSelection *ss);
-int        gnumeric_sheet_set_top_row            (GnumericSheet *gsheet, int new_top_row);
-int        gnumeric_sheet_set_top_col            (GnumericSheet *gsheet, int new_top_col);
+void       gnumeric_sheet_set_top_row            (GnumericSheet *gsheet, int new_top_row);
+void       gnumeric_sheet_set_top_col            (GnumericSheet *gsheet, int new_top_col);
 void       gnumeric_sheet_cursor_set     	 (GnumericSheet *gsheet,
 					 	  int col, int row);
 void       gnumeric_sheet_move_cursor            (GnumericSheet *gsheet,

@@ -387,7 +387,7 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 	{
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		SheetSelection *ss = sheet_view->sheet->selections->data;
-		int col;
+		int col, distance;
 		
 		gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
 		sheet_view->tip = NULL;
@@ -396,6 +396,7 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 
 		gnumeric_sheet_set_top_col (gsheet, col);
 		sheet_cursor_move (sheet_view->sheet, col, ss->start_row);
+		sheet_selection_append (sheet_view->sheet, col, ss->start_row);
 	}
 	
 	return FALSE;
@@ -414,7 +415,7 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 	{
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		SheetSelection *ss = sheet_view->sheet->selections->data;
-		int row;
+		int row, distance;
 		
 		gtk_widget_destroy (gtk_widget_get_toplevel (sheet_view->tip));
 		sheet_view->tip = NULL;
@@ -423,6 +424,7 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 		
 		gnumeric_sheet_set_top_row (gsheet, row);
 		sheet_cursor_move (sheet_view->sheet, ss->start_col, row);
+		sheet_selection_append (sheet_view->sheet, ss->start_col, row);
 	}
 
 	return FALSE;
