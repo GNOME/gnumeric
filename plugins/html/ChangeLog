@@ -1,3 +1,8 @@
+2002-04-02  Jody Goldberg <jody@gnome.org>
+
+	* latex.c (latex2e_write_multicolumn_cell) : Cell::col_info is
+	  deprecated.  Use Cell::pos::col
+
 2002-03-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.2

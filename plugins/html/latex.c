@@ -69,12 +69,12 @@ typedef enum {
 
 typedef struct {
 	latex_border_t latex;
-	const char     *vertical;
-	const char     *horizontal;
+	char const     *vertical;
+	char const     *horizontal;
 } latex_border_translator_t;
 
 /* the index into the following array is StyleBorderType */
-static const latex_border_translator_t border_styles[] = {
+static latex_border_translator_t const border_styles[] = {
 	{LATEX_NO_BORDER,     "",  "~"},
 	{LATEX_SINGLE_BORDER, "|", "-"},
 	{LATEX_SINGLE_BORDER, "|", "-"},
@@ -92,12 +92,12 @@ static const latex_border_translator_t border_styles[] = {
 };
 
 typedef struct {
-	const char     *p_1;
-	const char     *p_2;
+	char const     *p_1;
+	char const     *p_2;
 } latex_border_connectors_t;
 
 
-static const latex_border_connectors_t conn_styles[LATEX_MAX_BORDER]
+static latex_border_connectors_t const conn_styles[LATEX_MAX_BORDER]
 [LATEX_MAX_BORDER][LATEX_MAX_BORDER][LATEX_MAX_BORDER] = {
         /*  FIXME: once we are sure that none of the numbered */
         /*entries are in fact needed we should removed the digits */
@@ -141,7 +141,7 @@ static const latex_border_connectors_t conn_styles[LATEX_MAX_BORDER]
  * from Rasca's code to have most common first.
  */
 static void
-latex_fputs (const char *p, FILE *fp)
+latex_fputs (char const *p, FILE *fp)
 {
 	for (; *p; p++) {
 		switch (*p) {
@@ -487,8 +487,8 @@ latex2e_write_blank_cell (FILE *fp, gint col, gint row, gint index,
  * makes it much more difficult to change column widths later on.
  */
 static void
-latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged_cols,
-				const int num_merged_rows,  gint index,
+latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
+				int num_merged_rows,  gint index,
 				StyleBorderType *borders, Sheet *sheet)
 {
 	char * rendered_string;
@@ -511,7 +511,7 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 		int i;
 
 		for (i = 0; i < num_merged_cols; i++) {
-			ci = sheet_col_get_info (sheet, cell->col_info->pos + i);
+			ci = sheet_col_get_info (sheet, cell->pos.col + i);
 			merge_width += ci->size_pixels;
 		}
 	}
@@ -537,7 +537,7 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 			fprintf (fp, "p{");
 			for (i = 0; i < num_merged_cols; i++) {
 				fprintf (fp, "\t\\gnumericCol%s+%%\n",
-					 col_name (cell->col_info->pos + i));
+					 col_name (cell->pos.col + i));
 			}
 			fprintf (fp, "\t\\tabcolsep*2*%i}", num_merged_cols - 1);
 		}
@@ -574,7 +574,7 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 		fprintf (fp, "\\multirow{%d}[%i]*{\\begin{tabular}{p{",
 			 num_merged_rows, num_merged_rows/2);
 		for (i = 0; i < num_merged_cols; i++) {
-			fprintf (fp, "\t\\gnumericCol%s+%%\n", col_name (cell->col_info->pos + i));
+			fprintf (fp, "\t\\gnumericCol%s+%%\n", col_name (cell->pos.col + i));
 		}
 		if (num_merged_cols > 2)
 			fprintf (fp, "\t\\tabcolsep*2*%i}}", num_merged_cols - 2);
@@ -810,7 +810,7 @@ latex2e_print_hhline (FILE *fp, StyleBorderType *clines, int n, StyleBorderType 
  */
 void
 latex_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                   WorkbookView *wb_view, const gchar *file_name)
+                   WorkbookView *wb_view, gchar const *file_name)
 {
 	FILE *fp;
 	Cell *cell;
