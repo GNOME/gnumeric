@@ -2517,22 +2517,22 @@ msgstr "Вставляння %d стовпчик╕в перед %s"
 #: src/commands.c:1097
 #, c-format
 msgid "Inserting %d column before %s"
-msgstr "Вставляння %d стовпчик╕в п╕сля %s"
+msgstr "Вставляння %d стовпчика п╕сля %s"
 
 #: src/commands.c:1108
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting %d rows before %s"
-msgstr "Вставляння %d рядк╕в перед %d"
+msgstr "Вставляння %d рядк╕в перед %s"
 
 #: src/commands.c:1109
-#, fuzzy, c-format
+#, c-format
 msgid "Inserting %d row before %s"
-msgstr "Вставляння %d рядк╕в п╕сля %d"
+msgstr "Вставляння %d рядка перед %s"
 
 #: src/commands.c:1120
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting columns %s"
-msgstr "Стирання стовпчика %s"
+msgstr "Стирання стовпчик╕в %s"
 
 #: src/commands.c:1121
 #, c-format
@@ -2540,14 +2540,14 @@ msgid "Deleting column %s"
 msgstr "Стирання стовпчика %s"
 
 #: src/commands.c:1131
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting rows %s"
-msgstr "Стирання стовпчика %d"
+msgstr "Стирання рядк╕в %s"
 
 #: src/commands.c:1132
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting row %s"
-msgstr "Стирання стовпчика %d"
+msgstr "Стирання рядка %s"
 
 #: src/commands.c:1207
 msgid "Undo Clear"
@@ -2706,24 +2706,24 @@ msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 
 #: src/commands.c:2270
-#, fuzzy, c-format
+#, c-format
 msgid "Group columns %s"
-msgstr "Показати стовпчики"
+msgstr "Згрупувати стовпчики %s"
 
 #: src/commands.c:2270
-#, fuzzy, c-format
+#, c-format
 msgid "Ungroup columns %s"
-msgstr "Стирання стовпчика %s"
+msgstr "Розгрупувати стовпчики %s"
 
 #: src/commands.c:2272
-#, fuzzy, c-format
+#, c-format
 msgid "Group rows %d:%d"
-msgstr "Стирання %d стовпчик╕в %d:%d"
+msgstr "Згрупувати рядки %d:%d"
 
 #: src/commands.c:2272
-#, fuzzy, c-format
+#, c-format
 msgid "Ungroup rows %d:%d"
-msgstr "Стирання %d стовпчик╕в %d:%d"
+msgstr "Розгрупувати рядки %d:%d"
 
 #: src/commands.c:2475
 #, c-format
@@ -2747,14 +2747,14 @@ msgstr "Автозаповнення"
 
 #. Changed in initial redo.
 #: src/commands.c:2828
-#, fuzzy, c-format
+#, c-format
 msgid "Autofilling %s"
-msgstr "Автозаповнення"
+msgstr "Автозаповнення %s"
 
 #: src/commands.c:2981
-#, fuzzy, c-format
+#, c-format
 msgid "Autoformatting %s"
-msgstr "Автоформатування"
+msgstr "Автоформатування %s"
 
 #: src/commands.c:3091
 #, c-format
@@ -2792,23 +2792,20 @@ msgid "Zoom %s to %.0f%%"
 msgstr ""
 
 #: src/commands.c:3973
-#, fuzzy
 msgid "Insert object"
-msgstr "Вставити об'╓кт Bonobo"
+msgstr "Вставити об'╓кт"
 
 #: src/commands.c:4031
-#, fuzzy
 msgid "Delete object"
-msgstr "Стерти рядки"
+msgstr "Стерти об'╓кт"
 
 #: src/commands.c:4112
-#, fuzzy
 msgid "Resize object"
-msgstr "Створити л╕н╕ю"
+msgstr "Зм╕нити розм╕ри об'╓кта"
 
 #: src/commands.c:4112
 msgid "Move object"
-msgstr ""
+msgstr "Перенести об'╓кт"
 
 #: src/corba-args.c:30
 msgid "Oaf options"
@@ -3007,14 +3004,12 @@ msgid "_Unique records only"
 msgstr "Лише ун╕кальн╕ записи"
 
 #: src/dialogs/analysis-tools.glade.h:1
-#, fuzzy
 msgid "Data Analysis Tools"
-msgstr "Засоби анал╕зу"
+msgstr "Засоби анал╕зу даних"
 
 #: src/dialogs/anova-one.glade.h:1 src/dialogs/anova-two.glade.h:1
-#, fuzzy
 msgid "(1 - _Alpha) = "
-msgstr "1 - Альфа:"
+msgstr "(1 - Альфа) = "
 
 #: src/dialogs/anova-one.glade.h:2 src/dialogs/anova-two.glade.h:2
 #: src/dialogs/mean-tests.glade.h:3 src/dialogs/regression.glade.h:1
@@ -3117,7 +3112,7 @@ msgstr "1"
 
 #: src/dialogs/anova-two.glade.h:4
 msgid "ANOVA - Two-Factor"
-msgstr ""
+msgstr "Дисперсний анал╕з - двофакторний"
 
 #: src/dialogs/anova-two.glade.h:7
 #, fuzzy
@@ -3292,7 +3287,7 @@ msgstr "хвилин"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "$"
-msgstr ""
+msgstr " "
 
 #: src/dialogs/cell-format.glade.h:3
 #, no-c-format
@@ -5817,9 +5812,8 @@ msgid "_Unequal"
 msgstr "Загальний"
 
 #: src/dialogs/moving-averages.glade.h:1
-#, fuzzy
 msgid "3"
-msgstr "37"
+msgstr "3"
 
 #: src/dialogs/moving-averages.glade.h:3
 msgid "In_terval:"
@@ -5830,7 +5824,6 @@ msgid "_Standard Errors"
 msgstr "Стандиртн╕ помилки"
 
 #: src/dialogs/names.glade.h:1
-#, fuzzy
 msgid "Define names"
 msgstr "Визначити назви"
 
@@ -5860,55 +5853,51 @@ msgstr "Оновити"
 
 #: src/dialogs/plugin-manager.glade.h:1
 msgid "Activate all plugins"
-msgstr ""
+msgstr "Активувати вс╕ доповнення"
 
 #: src/dialogs/plugin-manager.glade.h:2
 msgid "Activate new plugins by default"
-msgstr ""
+msgstr "Активувати нов╕ доповнення автоматично"
 
 #: src/dialogs/plugin-manager.glade.h:3
 msgid "Activate plugin"
-msgstr ""
+msgstr "Активувати доаовнення"
 
 #: src/dialogs/plugin-manager.glade.h:4
-#, fuzzy
 msgid "Active plugins"
-msgstr "Доповнення Guile"
+msgstr "Активн╕ доповнення"
 
 #: src/dialogs/plugin-manager.glade.h:5
 msgid "Available inactive plugins"
-msgstr ""
+msgstr "Доступн╕ неактивн╕ доповнення"
 
 #: src/dialogs/plugin-manager.glade.h:6
 msgid "Deactivate all plugins"
-msgstr ""
+msgstr "Деактивувати вс╕ доповнення"
 
 #: src/dialogs/plugin-manager.glade.h:7
 msgid "Deactivate plugin"
-msgstr ""
+msgstr "Деактивувати доповнення"
 
 #: src/dialogs/plugin-manager.glade.h:8
-#, fuzzy
 msgid "Description"
 msgstr "Опис"
 
 #: src/dialogs/plugin-manager.glade.h:9
 msgid "Directory"
-msgstr ""
+msgstr "Каталог"
 
 #: src/dialogs/plugin-manager.glade.h:10
-#, fuzzy
 msgid "Extra information"
-msgstr "Коротке зведення"
+msgstr "Додаткова ╕нформац╕я"
 
 #: src/dialogs/plugin-manager.glade.h:11
 msgid "Id"
-msgstr ""
+msgstr "╤дентиф╕катор"
 
 #: src/dialogs/plugin-manager.glade.h:12
-#, fuzzy
 msgid "Install new plugin"
-msgstr "Встановлен╕ доповнення"
+msgstr "Встановити нове доповнення"
 
 #: src/dialogs/plugin-manager.glade.h:13 src/format-template.c:514
 #: src/solver-lp.c:897 src/solver-lp.c:921 src/solver-lp.c:954
@@ -5917,9 +5906,8 @@ msgid "Name"
 msgstr "Назва"
 
 #: src/dialogs/plugin-manager.glade.h:14
-#, fuzzy
 msgid "Plugin Manager"
-msgstr "Доповнення до Gnumeric"
+msgstr "Менеджер доповнень"
 
 #: src/dialogs/print.glade.h:2
 #, no-c-format
