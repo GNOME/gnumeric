@@ -350,25 +350,74 @@ range_harmonic_mean (const gnum_float *xs, int n, gnum_float *res)
 		return 1;
 }
 
+static void
+product_helper (const gnum_float *xs, int n,
+		gnum_float *res, int *exp2,
+		gboolean *zerop, gboolean *anynegp)
+{
+	gnum_float x0 = xs[0];
+	*zerop = (x0 == 0);
+	*anynegp = (x0 < 0);
+
+	if (n == 1 || *zerop) {
+		*res = x0;
+		*exp2 = 0;
+	} else {
+		int e;
+		gnum_float mant = frexpgnum (x0, &e);
+		int i;
+
+		for (i = 1; i < n; i++) {
+			int thise;
+			gnum_float x = xs[i];
+
+			if (x == 0) {
+				*zerop = TRUE;
+				*res = 0;
+				*exp2 = 0;
+				return;
+			}
+			if (x < 0) *anynegp = TRUE;
+
+			mant *= frexpgnum (x, &thise);
+			e += thise;
+
+			/* Keep 0.5 < |mant| <= 1.  */
+			if (gnumabs (mant) <= 0.5) {
+				mant *= 2;
+				e--;
+			}
+		}
+
+		*exp2 = e;
+		*res = mant;
+	}
+}
+
+
 /* Geometric mean of positive numbers.  */
 int
 range_geometric_mean (const gnum_float *xs, int n, gnum_float *res)
 {
-	if (n > 0) {
-		gnum_float product = 1;
-		int i;
+	int exp2;
+	gboolean zerop, anynegp;
 
-		/* FIXME: we should work harder at avoiding
-		   overflow here.  */
-		for (i = 0; i < n; i++) {
-			if (xs[i] <= 0)
-				return 1;
-			product *= xs[i];
-		}
-		*res = powgnum (product, 1.0 / n);
-		return 0;
-	} else
+	/* FIXME: check empty case.  */
+	if (n < 1)
 		return 1;
+
+	/* FIXME: check zero case.  */
+	product_helper (xs, n, res, &exp2, &zerop, &anynegp);
+	if (zerop || anynegp)
+		return 1;
+
+	/* Now compute (res * 2^exp2) ^ (1/n).  */
+	if (exp2 >= 0)
+		*res = powgnum (*res * gpow2 (exp2 % n), 1.0 / n) * gpow2 (exp2 / n);
+	else
+		*res = powgnum (*res / gpow2 ((-exp2) % n), 1.0 / n) / gpow2 ((-exp2) / n);
+
+	return 0;
 }
 
 
@@ -376,14 +425,17 @@ range_geometric_mean (const gnum_float *xs, int n, gnum_float *res)
 int
 range_product (const gnum_float *xs, int n, gnum_float *res)
 {
-	gnum_float product = 1;
-	int i;
+	if (n == 0) {
+		*res = 0;
+	} else {
+		int exp2;
+		gboolean zerop, anynegp;
 
-	/* FIXME: we should work harder at avoiding overflow here.  */
-	for (i = 0; i < n; i++) {
-		product *= xs[i];
+		product_helper (xs, n, res, &exp2, &zerop, &anynegp);
+		if (exp2)
+			*res = ldexpgnum (*res, exp2);
 	}
-	*res = product;
+
 	return 0;
 }
 
