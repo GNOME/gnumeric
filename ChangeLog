@@ -1,3 +1,8 @@
+2002-04-12  Jon K Hellan  <hellan@acm.org>
+
+	* plugins/Makefile.am (SUBDIRS_FILE_FORMATS): Plan Perfect plugin
+	  got installed, but not built. Don't do either.
+
 2002-04-09  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Test for isfinite as a macro. Test for <wctype.h>
