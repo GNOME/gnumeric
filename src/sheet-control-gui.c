@@ -986,51 +986,57 @@ scg_set_panes (SheetControl *sc)
 
 		if (freeze_h) {
 			scg->active_panes = 2;
-			gnm_pane_init (scg->pane + 1, scg, TRUE, FALSE, 1);
+			if (!scg->pane[1].is_active) {
+				gnm_pane_init (scg->pane + 1, scg, TRUE, FALSE, 1);
+				gtk_table_attach (scg->inner_table,
+					GTK_WIDGET (scg->pane[1].gcanvas),
+					1, 2, 2, 3,
+					GTK_FILL | GTK_SHRINK,
+					GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+					0, 0);
+				gtk_table_attach (scg->inner_table,
+					GTK_WIDGET (scg->pane[1].col.canvas),
+					1, 2, 0, 1,
+					GTK_FILL | GTK_SHRINK,
+					GTK_FILL,
+					0, 0);
+			}
 			gnm_pane_bound_set (scg->pane + 1,
 				tl->col, br->row, br->col-1, SHEET_MAX_ROWS-1);
-			gtk_table_attach (scg->inner_table,
-				GTK_WIDGET (scg->pane[1].gcanvas),
-				1, 2, 2, 3,
-				GTK_FILL | GTK_SHRINK,
-				GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-				0, 0);
-			gtk_table_attach (scg->inner_table,
-				GTK_WIDGET (scg->pane[1].col.canvas),
-				1, 2, 0, 1,
-				GTK_FILL | GTK_SHRINK,
-				GTK_FILL,
-				0, 0);
 		}
 		if (freeze_h && freeze_v) {
 			scg->active_panes = 4;
-			gnm_pane_init (scg->pane + 2, scg, FALSE, FALSE,  2);
+			if (!scg->pane[2].is_active) {
+				gnm_pane_init (scg->pane + 2, scg, FALSE, FALSE,  2);
+				gtk_table_attach (scg->inner_table,
+					GTK_WIDGET (scg->pane[2].gcanvas),
+					1, 2, 1, 2,
+					GTK_FILL | GTK_SHRINK,
+					GTK_FILL,
+					0, 0);
+			}
 			gnm_pane_bound_set (scg->pane + 2,
 				tl->col, tl->row, br->col-1, br->row-1);
-			gtk_table_attach (scg->inner_table,
-				GTK_WIDGET (scg->pane[2].gcanvas),
-				1, 2, 1, 2,
-				GTK_FILL | GTK_SHRINK,
-				GTK_FILL,
-				0, 0);
 		}
 		if (freeze_v) {
 			scg->active_panes = 4;
-			gnm_pane_init (scg->pane + 3, scg, FALSE, TRUE, 3);
+			if (!scg->pane[3].is_active) {
+				gnm_pane_init (scg->pane + 3, scg, FALSE, TRUE, 3);
+				gtk_table_attach (scg->inner_table,
+					GTK_WIDGET (scg->pane[3].gcanvas),
+					2, 3, 1, 2,
+					GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+					GTK_FILL | GTK_SHRINK,
+					0, 0);
+				gtk_table_attach (scg->inner_table,
+					GTK_WIDGET (scg->pane[3].row.canvas),
+					0, 1, 1, 2,
+					GTK_FILL | GTK_SHRINK,
+					GTK_FILL,
+					0, 0);
+			}
 			gnm_pane_bound_set (scg->pane + 3,
 				br->col, tl->row, SHEET_MAX_COLS-1, br->row-1);
-			gtk_table_attach (scg->inner_table,
-				GTK_WIDGET (scg->pane[3].gcanvas),
-				2, 3, 1, 2,
-				GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-				GTK_FILL | GTK_SHRINK,
-				0, 0);
-			gtk_table_attach (scg->inner_table,
-				GTK_WIDGET (scg->pane[3].row.canvas),
-				0, 1, 1, 2,
-				GTK_FILL | GTK_SHRINK,
-				GTK_FILL,
-				0, 0);
 		}
 	} else {
 		if (scg->pane[1].is_active)

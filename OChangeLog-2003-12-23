@@ -1,3 +1,10 @@
+2002-12-29  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_set_panes) : handle freezing already
+	  frozen panes to support adjustments after ins/del col/row.
+
+	* src/sheet-view.c (sv_panes_insdel_colrow) : new.
+
 2002-12-29  Morten Welinder  <terra@diku.dk>
 
 	* src/ranges.c (range_parse): Return NULL on failure, not FALSE.

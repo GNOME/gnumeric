@@ -194,8 +194,8 @@ gnm_pane_bound_set (GnumericPane *pane,
 
 	range_init (&r, start_col, start_row, end_col, end_row);
 	foo_canvas_item_set (FOO_CANVAS_ITEM (pane->grid),
-			       "ItemGrid::Bound", &r,
-			       NULL);
+			     "ItemGrid::Bound", &r,
+			     NULL);
 }
 
 /****************************************************************************/

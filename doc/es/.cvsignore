@@ -1,8 +1,7 @@
-Makefile.in
 Makefile
+Makefile.in
+func-list.xml
 func.defs
-func-list.sgml
-functions.sgml
-gnumeric
-index.html
+functions.xml
+gnumeric-es.omf
 omf_timestamp

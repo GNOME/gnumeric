@@ -8,7 +8,6 @@ Release Critical
 ----------------
 
     - Add a password dialog to io-context-gtk
-    - clearing a condition is not removing the arrow colour
 
 Pending Patches
 ---------------
@@ -248,6 +247,7 @@ Misc stuff that should be fixed
 	* use new border code for cell format dialog (possibly preview-grid)
 
 - SheetObjects
+    : SheetView specific objects
     : Add acetate_create virtual to handle shaped objects.
     : Other anchor types for sheet objects
     : Add keyboard controls for the control points

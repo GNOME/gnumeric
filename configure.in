@@ -323,6 +323,8 @@ dnl Check doc/translating.sgml for a description of how to translate
 dnl and why we have so many translations.
 dnl
 ALL_LINGUAS="bg ca cs da de en_AU en_CA en_GB el es et fi fr ga gl hr hu it ja ko lv mr_IN ms nl nn no pl pt pt_BR ro ru sk sv tr uk vi zh_CN zh_TW"
+AC_SUBST(ALL_LINGUAS)
+
 GETTEXT_PACKAGE=gnumeric
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
@@ -770,16 +772,6 @@ src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile
-doc/es/Makefile
-doc/hu/Makefile
-doc/ja/Makefile
-doc/nl/Makefile
-doc/no/Makefile
-doc/pl/Makefile
-doc/pt/Makefile
-doc/ru/Makefile
-doc/sk/Makefile
-doc/sv/Makefile
 doc/developer/Makefile
 omf-install/Makefile
 plugins/Makefile

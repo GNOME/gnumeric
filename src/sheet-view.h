@@ -70,7 +70,7 @@ void	   sv_update		(SheetView *sv);
 /* Information */
 Sheet	     *sv_sheet		(SheetView const *sv);
 WorkbookView *sv_wbv		(SheetView const *sv);
-gboolean      sv_is_frozen	(SheetView const *sheet);
+gboolean      sv_is_frozen	(SheetView const *sv);
 GnmFilter    *sv_edit_pos_in_filter	     (SheetView const *sv);
 gboolean      sv_is_region_empty_or_selected (SheetView const *sv,
 					      Range const *r);
@@ -102,6 +102,8 @@ void     sv_set_edit_pos	(SheetView *sv, CellPos const *pos);
 void	 sv_freeze_panes	(SheetView *sv,
 				 CellPos const *frozen_top_left,
 				 CellPos const *unfrozen_top_left);
+void	 sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
+				 gboolean is_insert, int start, int count);
 void	 sv_set_initial_top_left(SheetView *sv, int col, int row);
 
 #define SHEET_VIEW_FOREACH_CONTROL(sv, control, code)				\

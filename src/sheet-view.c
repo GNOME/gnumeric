@@ -676,6 +676,49 @@ sv_freeze_panes (SheetView *sv,
 		wb_control_menu_state_update (wbc, MS_FREEZE_VS_THAW););
 }
 
+/**
+ * sv_panes_insdel_colrow :
+ * @sv :
+ * @is_cols :
+ * @is_insert :
+ * @start :
+ * @count :
+ *
+ * Adjust the positions of frozen panes as necessary to handle col/row
+ * insertions and deletions.  note this assumes that the ins/del operations
+ * have already set the flags that will force a resize.
+ **/
+void
+sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
+			gboolean is_insert, int start, int count)
+{
+	CellPos tl = sv->frozen_top_left;	/* _copy_ them */
+	CellPos br = sv->unfrozen_top_left;
+
+	if (is_cols) {
+		/* unfrozen or acting in unfrozen region */
+		if (br.col <= tl.col || br.col <= start)
+			return;
+		if (is_insert) {
+			br.col += count;
+			if (tl.col >= start)	/* UI can not do this */
+				tl.col += count;
+		} else {
+		}
+	} else {
+		/* unfrozen or acting in unfrozen region */
+		if (br.row <= tl.row || br.row <= start)
+			return;
+		if (is_insert) {
+			br.row += count;
+			if (tl.row >= start)	/* UI can not do this */
+				tl.row += count;
+		} else {
+		}
+	}
+	sv_freeze_panes (sv, &tl, &br);
+}
+
 gboolean
 sv_is_frozen (SheetView const *sv)
 {
