@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-15 17:20-0500\n"
+"POT-Creation-Date: 2005-01-17 00:44-0500\n"
 "PO-Revision-Date: 2005-01-15 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
@@ -1742,7 +1742,7 @@ msgstr "Couldn't open stream 'Book' for writing\n"
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Couldn't open stream 'Workbook' for writing\n"
 
-#: plugins/excel/ms-formula-read.c:593
+#: plugins/excel/ms-formula-read.c:652
 msgid "Broken function"
 msgstr "Broken function"
 
@@ -29004,19 +29004,19 @@ msgid "_Remove Hyperlink"
 msgstr "_Remove Hyperlink"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1980
+#: src/sheet-control-gui.c:1981
 msgid "Duplicate Object"
 msgstr "Duplicate Object"
 
-#: src/sheet-control-gui.c:1980
+#: src/sheet-control-gui.c:1981
 msgid "Insert Object"
 msgstr "Insert Object"
 
-#: src/sheet-control-gui.c:1981
+#: src/sheet-control-gui.c:1982
 msgid "Move Object"
 msgstr "Move Object"
 
-#: src/sheet-control-gui.c:1981
+#: src/sheet-control-gui.c:1982
 msgid "Resize Object"
 msgstr "Resize Object"
 

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-14 22:04+0100\n"
+"POT-Creation-Date: 2005-01-17 00:44-0500\n"
 "PO-Revision-Date: 2005-01-14 22:54+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <i18n-nb@lister.ping.uio.no>\n"
@@ -935,7 +935,7 @@ msgstr "Finansielle derivater"
 msgid "Functions related to financial derivatives"
 msgstr "Funksjoner relatert til finansielle derivater"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5800
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5837
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Leser fil..."
@@ -1026,7 +1026,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Uventet attributt %s::%s == «%s»."
 
 #: plugins/excel/excel-xml-read.c:198
-#: plugins/openoffice/openoffice-read.c:1479
+#: plugins/openoffice/openoffice-read.c:1503
 #: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet er ikke riktig utformet!"
@@ -1090,7 +1090,7 @@ msgstr "eksterne referanser"
 msgid "No password supplied"
 msgstr "Ingen passord oppgitt"
 
-#: plugins/excel/ms-excel-read.c:6026
+#: plugins/excel/ms-excel-read.c:6063
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finne en gyldig MS Excel arbeidsbok"
 
@@ -1123,7 +1123,7 @@ msgstr "Kan ikke åpne strøm «Bok» for skriving\n"
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kan ikke åpne strøm «Arbeidsbok» for skriving\n"
 
-#: plugins/excel/ms-formula-read.c:593
+#: plugins/excel/ms-formula-read.c:652
 msgid "Broken function"
 msgstr "Feil med funksjon"
 
@@ -15241,22 +15241,22 @@ msgstr ""
 msgid "Invalid array expression does not specify number of rows."
 msgstr ""
 
-#: plugins/openoffice/openoffice-read.c:1148
+#: plugins/openoffice/openoffice-read.c:1147
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Kunne ikke lese posisjon for uttrykket «%s» @ «%s» pga. «%s»"
 
-#: plugins/openoffice/openoffice-read.c:1161
+#: plugins/openoffice/openoffice-read.c:1160
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr "Kan ikke lese posisjon for uttrykket «%s» med verdi «%s» pga. «%s»"
 
-#: plugins/openoffice/openoffice-read.c:1415
+#: plugins/openoffice/openoffice-read.c:1439
 msgid "No stream named content.xml found."
 msgstr "Ingen strøm med navn content.xml funnet."
 
-#: plugins/openoffice/openoffice-read.c:1422
+#: plugins/openoffice/openoffice-read.c:1446
 msgid "No stream named styles.xml found."
 msgstr "Ingen strøm med navn styles.xml funnet."
 
@@ -15559,7 +15559,8 @@ msgid "Imports Quattro Pro (tm) files"
 msgstr "Importerer Quattro Pro (tm) filer"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
+#, fuzzy
+msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
@@ -15739,7 +15740,9 @@ msgstr "Ikke-støttet objekttype «%s»"
 msgid ""
 ">This value determines the default setting in the Print Setup dialog whether "
 "print grid lines. Please use the Print Setup dialog to edit this value."
-msgstr "Denne verdien bestemmer om utskriftsdialogen brukes på alle ark samtidig som forvalg."
+msgstr ""
+"Denne verdien bestemmer om utskriftsdialogen brukes på alle ark samtidig som "
+"forvalg."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:2
 msgid ""
@@ -25708,19 +25711,19 @@ msgid "_Remove Hyperlink"
 msgstr "Fje_rn hyperlenke"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1976
+#: src/sheet-control-gui.c:1981
 msgid "Duplicate Object"
 msgstr "Dupliser objekt"
 
-#: src/sheet-control-gui.c:1976
+#: src/sheet-control-gui.c:1981
 msgid "Insert Object"
 msgstr "Sett inn objekt"
 
-#: src/sheet-control-gui.c:1977
+#: src/sheet-control-gui.c:1982
 msgid "Move Object"
 msgstr "Flytt objekt"
 
-#: src/sheet-control-gui.c:1977
+#: src/sheet-control-gui.c:1982
 msgid "Resize Object"
 msgstr "Endre størrelse på objekt"
 
@@ -25913,7 +25916,7 @@ msgstr ""
 "bibliotekkatalog := «%s»\n"
 
 #: src/ssindex.c:195
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid ""
 "ssindex version '%s'\n"
 "datadir := '%s'\n"

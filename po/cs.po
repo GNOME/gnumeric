@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-02 11:11+0100\n"
+"POT-Creation-Date: 2005-01-17 00:44-0500\n"
 "PO-Revision-Date: 2005-01-02 15:06+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -32,7 +32,7 @@ msgid "Gnumeric Workbook viewer factory"
 msgstr "Generátor prohlížeče sešitů Gnumeric"
 
 #. Keep in sync with .desktop file
-#: gnumeric.desktop.in.h:1 src/main-application.c:285
+#: gnumeric.desktop.in.h:1 src/main-application.c:293
 msgid "Gnumeric Spreadsheet"
 msgstr "Tabulkový kalkulátor Gnumeric"
 
@@ -1507,7 +1507,7 @@ msgstr "Finanční deriváty"
 msgid "Functions related to financial derivatives"
 msgstr "Funkce spojené s finančními deriváty"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5800
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5837
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Načítá se soubor..."
@@ -1598,7 +1598,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Neočekávaný atribut %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
-#: plugins/openoffice/openoffice-read.c:1479
+#: plugins/openoffice/openoffice-read.c:1503
 #: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "XML dokument není syntakticky správný!"
@@ -1610,7 +1610,7 @@ msgstr "#NEZNÁMÝ!"
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1110 plugins/excel/ms-excel-read.c:1122
-#: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
+#: plugins/oleo/oleo.c:344 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
@@ -1662,7 +1662,7 @@ msgstr "externí odkazy"
 msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
-#: plugins/excel/ms-excel-read.c:6026
+#: plugins/excel/ms-excel-read.c:6063
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodařilo se nalézt platný sešit MS Excel"
 
@@ -1676,7 +1676,7 @@ msgstr ""
 "Byla už zapsána délka řetězce, který musí být zkrácen díky problémům s "
 "kódováním."
 
-#: plugins/excel/ms-excel-write.c:4167
+#: plugins/excel/ms-excel-write.c:4195
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1685,7 +1685,7 @@ msgstr ""
 "Při ukládání jako MS Excel™ 95 bude něco z obsahu ztraceno. Tento formát "
 "podporuje pouze %d řádků, tento sešit jich má %d"
 
-#: plugins/excel/ms-excel-write.c:4174
+#: plugins/excel/ms-excel-write.c:4202
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1694,19 +1694,19 @@ msgstr ""
 "Při ukládání jako MS Excel™ bude něco z obsahu ztraceno. Tento formát "
 "podporuje pouze %d řádků a tento sešit jich má %d"
 
-#: plugins/excel/ms-excel-write.c:4939
+#: plugins/excel/ms-excel-write.c:4967
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nepodařilo se otevřít kanál 'Book' pro zápis\n"
 
-#: plugins/excel/ms-excel-write.c:4959
+#: plugins/excel/ms-excel-write.c:4987
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nepodařilo se otevřít kanál 'Workbook' pro zápis\n"
 
-#: plugins/excel/ms-formula-read.c:593
+#: plugins/excel/ms-formula-read.c:652
 msgid "Broken function"
 msgstr "Poškozená funkce"
 
-#: plugins/excel/ms-formula-write.c:537
+#: plugins/excel/ms-formula-write.c:535
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel expects exactly %d and we "
@@ -1715,7 +1715,7 @@ msgstr ""
 "Příliš mnoho parametrů pro funkci '%s', MS Excel očekává přesně %d a my máme "
 "%d"
 
-#: plugins/excel/ms-formula-write.c:538
+#: plugins/excel/ms-formula-write.c:536
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
@@ -4882,8 +4882,8 @@ msgstr ""
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: plugins/fn-date/functions.c:900 plugins/fn-eng/functions.c:101
-#: plugins/fn-info/functions.c:1285 plugins/fn-info/functions.c:1301
+#: plugins/fn-date/functions.c:900 plugins/fn-info/functions.c:1285
+#: plugins/fn-info/functions.c:1301
 msgid "Unimplemented"
 msgstr "Neimplementováno"
 
@@ -5120,7 +5120,25 @@ msgstr "Datum/Čas"
 msgid "Functions manipulating dates and time"
 msgstr "Funkce pro práci s daty a časem"
 
-#: plugins/fn-eng/functions.c:116
+#: plugins/fn-eng/functions.c:140
+msgid ""
+"@FUNCTION=BASE\n"
+"@SYNTAX=BASE(number,base[,length])\n"
+"@DESCRIPTION=BASE function converts a number to a string representing that "
+"number in base @base.\n"
+"\n"
+"* @base must be an integer between 2 and 36.\n"
+"* This function is OpenOffice.Org compatible.\n"
+"* Optional argument @length specifies the minimum result length.  Leading  "
+"zeroes will be added to reach this length.\n"
+"\n"
+"@EXAMPLES=\n"
+"BASE(255,16,4) equals \"00FF\".\n"
+"\n"
+"@SEEALSO=DECIMAL"
+msgstr ""
+
+#: plugins/fn-eng/functions.c:175
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -5146,7 +5164,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-eng/functions.c:139
+#: plugins/fn-eng/functions.c:198
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -5175,7 +5193,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 
-#: plugins/fn-eng/functions.c:165
+#: plugins/fn-eng/functions.c:224
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -5205,7 +5223,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 
-#: plugins/fn-eng/functions.c:191
+#: plugins/fn-eng/functions.c:250
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -5234,7 +5252,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
-#: plugins/fn-eng/functions.c:217
+#: plugins/fn-eng/functions.c:276
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -5263,7 +5281,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 
-#: plugins/fn-eng/functions.c:243
+#: plugins/fn-eng/functions.c:302
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -5293,7 +5311,34 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
-#: plugins/fn-eng/functions.c:269
+#: plugins/fn-eng/functions.c:328
+#, fuzzy
+msgid ""
+"@FUNCTION=DECIMAL\n"
+"@SYNTAX=DECIMAL(text,base)\n"
+"@DESCRIPTION=DECIMAL function converts a number in base @base to decimal.\n"
+"\n"
+"* @base must be an integer between 2 and 36.\n"
+"* This function is OpenOffice.Org compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"DECIMAL(\"A1\",16) equals 161.\n"
+"\n"
+"@SEEALSO=BASE"
+msgstr ""
+"@FUNCTION=OCT2DEC\n"
+"@SYNTAX=OCT2DEC(x)\n"
+"@DESCRIPTION=Funkce OCT2DEC převádí osmičkové číslo (i jako řetězec) na jeho "
+"desítkový ekvivalent.\n"
+"\n"
+"* Tato funkce je kompatibilní s Excelem.\n"
+"\n"
+"@EXAMPLES=\n"
+"OCT2DEC(\"124\") se rovná 84.\n"
+"\n"
+"@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
+
+#: plugins/fn-eng/functions.c:357
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -5319,7 +5364,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
-#: plugins/fn-eng/functions.c:292
+#: plugins/fn-eng/functions.c:380
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -5348,7 +5393,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
-#: plugins/fn-eng/functions.c:318
+#: plugins/fn-eng/functions.c:406
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -5378,7 +5423,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
-#: plugins/fn-eng/functions.c:344
+#: plugins/fn-eng/functions.c:432
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -5408,7 +5453,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 
-#: plugins/fn-eng/functions.c:370
+#: plugins/fn-eng/functions.c:458
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -5438,7 +5483,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 
-#: plugins/fn-eng/functions.c:396
+#: plugins/fn-eng/functions.c:484
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -5463,7 +5508,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
-#: plugins/fn-eng/functions.c:419
+#: plugins/fn-eng/functions.c:507
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -5499,7 +5544,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-eng/functions.c:457
+#: plugins/fn-eng/functions.c:545
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -5531,7 +5576,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
-#: plugins/fn-eng/functions.c:494
+#: plugins/fn-eng/functions.c:582
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -5563,7 +5608,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELK,BESSELY"
 
-#: plugins/fn-eng/functions.c:530
+#: plugins/fn-eng/functions.c:618
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -5599,7 +5644,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELK"
 
-#: plugins/fn-eng/functions.c:573
+#: plugins/fn-eng/functions.c:661
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -5821,7 +5866,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-eng/functions.c:988
+#: plugins/fn-eng/functions.c:1076
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -5871,7 +5916,7 @@ msgstr ""
 "odchylek od průměru.\n"
 "@SEEALSO=ERFC"
 
-#: plugins/fn-eng/functions.c:1035
+#: plugins/fn-eng/functions.c:1123
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -5905,7 +5950,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERF"
 
-#: plugins/fn-eng/functions.c:1065
+#: plugins/fn-eng/functions.c:1153
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -5935,11 +5980,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: plugins/fn-eng/functions.c:1109 plugins/fn-eng/functions.c:1163
+#: plugins/fn-eng/functions.c:1197 plugins/fn-eng/functions.c:1251
 msgid "Impossible"
 msgstr "Nemožné"
 
-#: plugins/fn-eng/functions.c:1120
+#: plugins/fn-eng/functions.c:1208
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -5966,7 +6011,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DELTA"
 
-#: plugins/fn-eng/functions.c:1174
+#: plugins/fn-eng/functions.c:1262
 msgid ""
 "@FUNCTION=INVSUMINV\n"
 "@SYNTAX=INVSUMINV(x1,x2,...)\n"
@@ -9647,45 +9692,45 @@ msgstr ""
 "@SEEALSO=TRUE"
 
 #: plugins/fn-logical/functions.c:334 plugins/fn-logical/functions.c:338
-#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3319
-#: plugins/fn-stat/functions.c:5633 plugins/fn-stat/functions.c:5637
-#: plugins/fn-stat/functions.c:5641 plugins/fn-stat/functions.c:5679
-#: plugins/fn-stat/functions.c:5682 plugins/fn-stat/functions.c:5691
-#: plugins/fn-stat/functions.c:5727 plugins/fn-stat/functions.c:5741
-#: plugins/fn-stat/functions.c:5744 plugins/fn-stat/functions.c:5747
-#: plugins/fn-stat/functions.c:5769 plugins/fn-stat/functions.c:5773
-#: plugins/fn-stat/functions.c:5777 plugins/fn-stat/functions.c:5781
-#: plugins/fn-stat/functions.c:5785 plugins/fn-stat/functions.c:5789
-#: plugins/fn-stat/functions.c:5835 plugins/fn-stat/functions.c:5845
-#: plugins/fn-stat/functions.c:5849 plugins/fn-stat/functions.c:5853
-#: plugins/fn-stat/functions.c:5857 plugins/fn-stat/functions.c:5886
-#: plugins/fn-stat/functions.c:5889 plugins/fn-stat/functions.c:5892
-#: plugins/fn-stat/functions.c:5895 plugins/fn-stat/functions.c:5911
+#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3332
+#: plugins/fn-stat/functions.c:5636 plugins/fn-stat/functions.c:5640
+#: plugins/fn-stat/functions.c:5644 plugins/fn-stat/functions.c:5682
+#: plugins/fn-stat/functions.c:5685 plugins/fn-stat/functions.c:5694
+#: plugins/fn-stat/functions.c:5730 plugins/fn-stat/functions.c:5744
+#: plugins/fn-stat/functions.c:5747 plugins/fn-stat/functions.c:5750
+#: plugins/fn-stat/functions.c:5772 plugins/fn-stat/functions.c:5776
+#: plugins/fn-stat/functions.c:5780 plugins/fn-stat/functions.c:5784
+#: plugins/fn-stat/functions.c:5788 plugins/fn-stat/functions.c:5792
+#: plugins/fn-stat/functions.c:5838 plugins/fn-stat/functions.c:5848
+#: plugins/fn-stat/functions.c:5852 plugins/fn-stat/functions.c:5856
+#: plugins/fn-stat/functions.c:5860 plugins/fn-stat/functions.c:5889
+#: plugins/fn-stat/functions.c:5892 plugins/fn-stat/functions.c:5895
+#: plugins/fn-stat/functions.c:5898 plugins/fn-stat/functions.c:5914
 #: src/func-builtin.c:131 src/func-builtin.c:137
 msgid "number,number,"
 msgstr "číslo,číslo,"
 
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3151
-#: plugins/fn-math/functions.c:3155 plugins/fn-math/functions.c:3158
-#: plugins/fn-math/functions.c:3161 plugins/fn-math/functions.c:3164
-#: plugins/fn-math/functions.c:3167 plugins/fn-math/functions.c:3170
-#: plugins/fn-math/functions.c:3176 plugins/fn-math/functions.c:3185
-#: plugins/fn-math/functions.c:3194 plugins/fn-math/functions.c:3202
-#: plugins/fn-math/functions.c:3205 plugins/fn-math/functions.c:3208
-#: plugins/fn-math/functions.c:3211 plugins/fn-math/functions.c:3214
-#: plugins/fn-math/functions.c:3219 plugins/fn-math/functions.c:3223
-#: plugins/fn-math/functions.c:3229 plugins/fn-math/functions.c:3239
-#: plugins/fn-math/functions.c:3246 plugins/fn-math/functions.c:3249
-#: plugins/fn-math/functions.c:3255 plugins/fn-math/functions.c:3258
-#: plugins/fn-math/functions.c:3271 plugins/fn-math/functions.c:3277
-#: plugins/fn-math/functions.c:3283 plugins/fn-math/functions.c:3304
-#: plugins/fn-math/functions.c:3307 plugins/fn-math/functions.c:3310
-#: plugins/fn-math/functions.c:3313 plugins/fn-math/functions.c:3316
-#: plugins/fn-math/functions.c:3329 plugins/fn-math/functions.c:3341
-#: plugins/fn-math/functions.c:3344 plugins/fn-stat/functions.c:5703
-#: plugins/fn-stat/functions.c:5706 plugins/fn-stat/functions.c:5724
-#: plugins/fn-stat/functions.c:5802 plugins/fn-string/functions.c:1119
+#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3164
+#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3171
+#: plugins/fn-math/functions.c:3174 plugins/fn-math/functions.c:3177
+#: plugins/fn-math/functions.c:3180 plugins/fn-math/functions.c:3183
+#: plugins/fn-math/functions.c:3189 plugins/fn-math/functions.c:3198
+#: plugins/fn-math/functions.c:3207 plugins/fn-math/functions.c:3215
+#: plugins/fn-math/functions.c:3218 plugins/fn-math/functions.c:3221
+#: plugins/fn-math/functions.c:3224 plugins/fn-math/functions.c:3227
+#: plugins/fn-math/functions.c:3232 plugins/fn-math/functions.c:3236
+#: plugins/fn-math/functions.c:3242 plugins/fn-math/functions.c:3252
+#: plugins/fn-math/functions.c:3259 plugins/fn-math/functions.c:3262
+#: plugins/fn-math/functions.c:3268 plugins/fn-math/functions.c:3271
+#: plugins/fn-math/functions.c:3284 plugins/fn-math/functions.c:3290
+#: plugins/fn-math/functions.c:3296 plugins/fn-math/functions.c:3317
+#: plugins/fn-math/functions.c:3320 plugins/fn-math/functions.c:3323
+#: plugins/fn-math/functions.c:3326 plugins/fn-math/functions.c:3329
+#: plugins/fn-math/functions.c:3342 plugins/fn-math/functions.c:3354
+#: plugins/fn-math/functions.c:3357 plugins/fn-stat/functions.c:5706
+#: plugins/fn-stat/functions.c:5709 plugins/fn-stat/functions.c:5727
+#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1119
 #: plugins/fn-string/functions.c:1122
 msgid "number"
 msgstr "číslo"
@@ -9959,7 +10004,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOOKUP"
 
-#: plugins/fn-lookup/functions.c:792
+#: plugins/fn-lookup/functions.c:789
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text[,format])\n"
@@ -9990,7 +10035,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AREAS,INDEX,CELL"
 
-#: plugins/fn-lookup/functions.c:835
+#: plugins/fn-lookup/functions.c:832
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array[,row, col, area])\n"
@@ -10020,7 +10065,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:902
+#: plugins/fn-lookup/functions.c:899
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -10047,7 +10092,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:957
+#: plugins/fn-lookup/functions.c:954
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -10074,7 +10119,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ADDRESS"
 
-#: plugins/fn-lookup/functions.c:989
+#: plugins/fn-lookup/functions.c:986
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -10101,7 +10146,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1014
+#: plugins/fn-lookup/functions.c:1011
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -10128,7 +10173,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS"
 
-#: plugins/fn-lookup/functions.c:1072
+#: plugins/fn-lookup/functions.c:1069
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -10155,7 +10200,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1125
+#: plugins/fn-lookup/functions.c:1122
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -10181,7 +10226,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1150
+#: plugins/fn-lookup/functions.c:1147
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
@@ -10203,7 +10248,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:1175
+#: plugins/fn-lookup/functions.c:1172
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -10221,56 +10266,56 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: plugins/fn-lookup/functions.c:1219
+#: plugins/fn-lookup/functions.c:1216
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "číslo_řádku,číslo_sloupce,abs_počet,a1,text"
 
-#: plugins/fn-lookup/functions.c:1222
+#: plugins/fn-lookup/functions.c:1219
 msgid "reference"
 msgstr "odkaz"
 
-#: plugins/fn-lookup/functions.c:1225
+#: plugins/fn-lookup/functions.c:1222
 msgid "index,value,"
 msgstr "index,hodnota,"
 
-#: plugins/fn-lookup/functions.c:1228 plugins/fn-lookup/functions.c:1234
-#: plugins/fn-lookup/functions.c:1258 plugins/fn-lookup/functions.c:1261
+#: plugins/fn-lookup/functions.c:1225 plugins/fn-lookup/functions.c:1231
+#: plugins/fn-lookup/functions.c:1255 plugins/fn-lookup/functions.c:1258
 msgid "ref"
 msgstr "ref"
 
-#: plugins/fn-lookup/functions.c:1231
+#: plugins/fn-lookup/functions.c:1228
 msgid "colname"
 msgstr "názevsloupce"
 
-#: plugins/fn-lookup/functions.c:1237 plugins/fn-lookup/functions.c:1267
+#: plugins/fn-lookup/functions.c:1234 plugins/fn-lookup/functions.c:1264
 msgid "val,range,col_idx,approx,as_index"
 msgstr "hodnota,oblast,idx_slou,přibl,jako_index"
 
-#: plugins/fn-lookup/functions.c:1240
+#: plugins/fn-lookup/functions.c:1237
 msgid "link_location, label"
 msgstr "umístění_odkazu, popis"
 
-#: plugins/fn-lookup/functions.c:1243
+#: plugins/fn-lookup/functions.c:1240
 msgid "ref_string,format"
 msgstr "ref_řetězec,formát"
 
-#: plugins/fn-lookup/functions.c:1246
+#: plugins/fn-lookup/functions.c:1243
 msgid "reference,row,col,area"
 msgstr "odkaz,řádek,sloupec,oblast"
 
-#: plugins/fn-lookup/functions.c:1249
+#: plugins/fn-lookup/functions.c:1246
 msgid "val,range,range"
 msgstr "hodnota,oblast,oblast"
 
-#: plugins/fn-lookup/functions.c:1252
+#: plugins/fn-lookup/functions.c:1249
 msgid "val,range,approx"
 msgstr "hodnota,oblast,přibliž"
 
-#: plugins/fn-lookup/functions.c:1255
+#: plugins/fn-lookup/functions.c:1252
 msgid "ref,row,col,height,width"
 msgstr "ref,řádek,sloupec,výška,šířka"
 
-#: plugins/fn-lookup/functions.c:1264 plugins/fn-math/functions.c:3357
+#: plugins/fn-lookup/functions.c:1261 plugins/fn-math/functions.c:3370
 msgid "array"
 msgstr "pole"
 
@@ -10754,7 +10799,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, FLOOR, ABS, INT, MOD"
 
-#: plugins/fn-math/functions.c:797
+#: plugins/fn-math/functions.c:800
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -10781,7 +10826,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:821
+#: plugins/fn-math/functions.c:824
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -10815,7 +10860,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: plugins/fn-math/functions.c:846
+#: plugins/fn-math/functions.c:849
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -10840,7 +10885,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 
-#: plugins/fn-math/functions.c:870
+#: plugins/fn-math/functions.c:873
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -10866,7 +10911,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:893
+#: plugins/fn-math/functions.c:896
 msgid ""
 "@FUNCTION=EXPM1\n"
 "@SYNTAX=EXPM1(x)\n"
@@ -10887,7 +10932,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LN1P"
 
-#: plugins/fn-math/functions.c:914
+#: plugins/fn-math/functions.c:917
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -10913,7 +10958,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:951
+#: plugins/fn-math/functions.c:954
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -10943,7 +10988,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETALN,GAMMALN"
 
-#: plugins/fn-math/functions.c:981
+#: plugins/fn-math/functions.c:984
 msgid ""
 "@FUNCTION=BETALN\n"
 "@SYNTAX=BETALN(a,b)\n"
@@ -10971,7 +11016,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETA,GAMMALN"
 
-#: plugins/fn-math/functions.c:1010
+#: plugins/fn-math/functions.c:1013
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -11002,7 +11047,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1043
+#: plugins/fn-math/functions.c:1046
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x[,significance])\n"
@@ -11036,7 +11081,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, ABS, INT, MOD"
 
-#: plugins/fn-math/functions.c:1084
+#: plugins/fn-math/functions.c:1090
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -11064,7 +11109,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
-#: plugins/fn-math/functions.c:1109
+#: plugins/fn-math/functions.c:1115
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -11094,7 +11139,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:1143
+#: plugins/fn-math/functions.c:1149
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -11120,7 +11165,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:1172
+#: plugins/fn-math/functions.c:1178
 msgid ""
 "@FUNCTION=LN1P\n"
 "@SYNTAX=LN1P(x)\n"
@@ -11145,7 +11190,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, EXPM1"
 
-#: plugins/fn-math/functions.c:1201
+#: plugins/fn-math/functions.c:1207
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -11178,7 +11223,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP"
 
-#: plugins/fn-math/functions.c:1237
+#: plugins/fn-math/functions.c:1243
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -11202,7 +11247,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: plugins/fn-math/functions.c:1263
+#: plugins/fn-math/functions.c:1269
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -11229,7 +11274,7 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG"
 
 # FIXME: s/ABS/MOD/ once?
-#: plugins/fn-math/functions.c:1292
+#: plugins/fn-math/functions.c:1298
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -11256,7 +11301,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, INT, ABS"
 
-#: plugins/fn-math/functions.c:1343
+#: plugins/fn-math/functions.c:1349
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -11281,7 +11326,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI,DEGREES"
 
-#: plugins/fn-math/functions.c:1367
+#: plugins/fn-math/functions.c:1373
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -11306,7 +11351,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:1390
+#: plugins/fn-math/functions.c:1396
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -11336,7 +11381,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: plugins/fn-math/functions.c:1414
+#: plugins/fn-math/functions.c:1420
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -11362,7 +11407,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POWER"
 
-#: plugins/fn-math/functions.c:1442
+#: plugins/fn-math/functions.c:1448
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -11394,7 +11439,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1474
+#: plugins/fn-math/functions.c:1480
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -11424,7 +11469,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1505
+#: plugins/fn-math/functions.c:1511
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -11450,7 +11495,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM"
 
-#: plugins/fn-math/functions.c:1534
+#: plugins/fn-math/functions.c:1540
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -11476,7 +11521,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1562
+#: plugins/fn-math/functions.c:1568
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -11501,7 +11546,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1585
+#: plugins/fn-math/functions.c:1591
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -11531,7 +11576,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1608
+#: plugins/fn-math/functions.c:1614
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -11558,7 +11603,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: plugins/fn-math/functions.c:1633
+#: plugins/fn-math/functions.c:1639
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -11590,7 +11635,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: plugins/fn-math/functions.c:1669
+#: plugins/fn-math/functions.c:1675
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -11607,7 +11652,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(číslo)\n"
-"@DESCRIPTION=Funkce EVEN vrací číslo zaokrouhlené nahoru na nejbližší sudé celé číslo. Záporná čísla jsou zokrouhlována dolů.\n"
+"@DESCRIPTION=Funkce EVEN vrací číslo zaokrouhlené nahoru na nejbližší sudé "
+"celé číslo. Záporná čísla jsou zokrouhlována dolů.\n"
 "\n"
 "* Tato funkce je kompatibilní s Excelem. \n"
 "\n"
@@ -11617,7 +11663,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: plugins/fn-math/functions.c:1708
+#: plugins/fn-math/functions.c:1714
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -11634,7 +11680,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(číslo)\n"
-"@DESCRIPTION=Funkce ODD vrací @číslo zaokrouhlené nahoru na nejbližší liché celé číslo. Záporná čísla jsou zaokrouhlována dolů.\n"
+"@DESCRIPTION=Funkce ODD vrací @číslo zaokrouhlené nahoru na nejbližší liché "
+"celé číslo. Záporná čísla jsou zaokrouhlována dolů.\n"
 "\n"
 "* Tato funkce je kompatibilní s Excelem. \n"
 "\n"
@@ -11644,7 +11691,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: plugins/fn-math/functions.c:1747
+#: plugins/fn-math/functions.c:1753
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -11673,7 +11720,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: plugins/fn-math/functions.c:1785
+#: plugins/fn-math/functions.c:1791
 msgid ""
 "@FUNCTION=FIB\n"
 "@SYNTAX=FIB(number)\n"
@@ -11699,7 +11746,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1833
+#: plugins/fn-math/functions.c:1839
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denominator)\n"
@@ -11725,7 +11772,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MOD"
 
-#: plugins/fn-math/functions.c:1865
+#: plugins/fn-math/functions.c:1871
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -11755,7 +11802,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1899
+#: plugins/fn-math/functions.c:1905
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -11780,7 +11827,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: plugins/fn-math/functions.c:1928
+#: plugins/fn-math/functions.c:1934
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -11825,7 +11872,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:1972
+#: plugins/fn-math/functions.c:1978
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -11871,7 +11918,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2013
+#: plugins/fn-math/functions.c:2019
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -11919,7 +11966,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: plugins/fn-math/functions.c:2057
+#: plugins/fn-math/functions.c:2063
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -11954,7 +12001,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2111
+#: plugins/fn-math/functions.c:2117
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -11999,7 +12046,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:2377
+#: plugins/fn-math/functions.c:2383
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -12040,14 +12087,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2433 plugins/fn-math/functions.c:2453
-#: plugins/fn-math/functions.c:2546 plugins/fn-math/functions.c:2566
-#: plugins/fn-math/functions.c:2657 plugins/fn-math/functions.c:2677
+#: plugins/fn-math/functions.c:2439 plugins/fn-math/functions.c:2459
+#: plugins/fn-math/functions.c:2552 plugins/fn-math/functions.c:2572
+#: plugins/fn-math/functions.c:2663 plugins/fn-math/functions.c:2683
 #: plugins/fn-stat/functions.c:2934 plugins/fn-stat/functions.c:2964
 msgid "Array version not implemented!"
 msgstr "Verze pro pole není implementována!"
 
-#: plugins/fn-math/functions.c:2491
+#: plugins/fn-math/functions.c:2497
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -12087,7 +12134,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: plugins/fn-math/functions.c:2602
+#: plugins/fn-math/functions.c:2608
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -12128,7 +12175,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2715
+#: plugins/fn-math/functions.c:2721
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -12162,7 +12209,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-math/functions.c:2773
+#: plugins/fn-math/functions.c:2779
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -12190,7 +12237,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: plugins/fn-math/functions.c:2916
+#: plugins/fn-math/functions.c:2922
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -12216,7 +12263,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: plugins/fn-math/functions.c:2992
+#: plugins/fn-math/functions.c:2998
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -12249,7 +12296,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: plugins/fn-math/functions.c:3039
+#: plugins/fn-math/functions.c:3045
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -12286,11 +12333,11 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: plugins/fn-math/functions.c:3173
+#: plugins/fn-math/functions.c:3186
 msgid "xnum,ynum"
 msgstr "xnum,ynum"
 
-#: plugins/fn-math/functions.c:3179 plugins/fn-math/functions.c:3182
+#: plugins/fn-math/functions.c:3192 plugins/fn-math/functions.c:3195
 #: plugins/fn-random/functions.c:1103 plugins/fn-random/functions.c:1124
 #: plugins/fn-random/functions.c:1130 plugins/fn-random/functions.c:1169
 #: plugins/fn-random/functions.c:1184 plugins/fn-random/functions.c:1187
@@ -12298,67 +12345,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3190
+#: plugins/fn-math/functions.c:3203
 msgid "range,criteria"
 msgstr "oblast,kritéria"
 
-#: plugins/fn-math/functions.c:3198
+#: plugins/fn-math/functions.c:3211
 msgid "number,significance"
 msgstr "počet,významnost"
 
-#: plugins/fn-math/functions.c:3226 plugins/fn-stat/functions.c:5817
+#: plugins/fn-math/functions.c:3239 plugins/fn-stat/functions.c:5820
 msgid "n,k"
 msgstr "n,k"
 
-#: plugins/fn-math/functions.c:3233
+#: plugins/fn-math/functions.c:3246
 msgid "number,number"
 msgstr "číslo,číslo"
 
-#: plugins/fn-math/functions.c:3252
+#: plugins/fn-math/functions.c:3265
 msgid "number,base"
 msgstr "číslo,základ"
 
-#: plugins/fn-math/functions.c:3261 plugins/fn-math/functions.c:3280
+#: plugins/fn-math/functions.c:3274 plugins/fn-math/functions.c:3293
 msgid "numerator,denominator"
 msgstr "dělenec,dělitel"
 
-#: plugins/fn-math/functions.c:3264
+#: plugins/fn-math/functions.c:3277
 msgid "number,multiple"
 msgstr "číslo,násobek"
 
-#: plugins/fn-math/functions.c:3274
+#: plugins/fn-math/functions.c:3287
 msgid "base,exponent"
 msgstr "základ,exponent"
 
-#: plugins/fn-math/functions.c:3286
+#: plugins/fn-math/functions.c:3299
 msgid "number,type"
 msgstr "počet,typ"
 
-#: plugins/fn-math/functions.c:3289 plugins/fn-math/functions.c:3293
-#: plugins/fn-math/functions.c:3297 plugins/fn-math/functions.c:3347
+#: plugins/fn-math/functions.c:3302 plugins/fn-math/functions.c:3306
+#: plugins/fn-math/functions.c:3310 plugins/fn-math/functions.c:3360
 msgid "number,digits"
 msgstr "počet,číslice"
 
-#: plugins/fn-math/functions.c:3301
+#: plugins/fn-math/functions.c:3314
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,koeficienty"
 
-#: plugins/fn-math/functions.c:3323
+#: plugins/fn-math/functions.c:3336
 msgid "range,criteria,actual_range"
 msgstr "oblast,kritéria,skutečná_oblast"
 
-#: plugins/fn-math/functions.c:3326
+#: plugins/fn-math/functions.c:3339
 msgid "range,range,"
 msgstr "oblast,oblast,"
 
-#: plugins/fn-math/functions.c:3332 plugins/fn-math/functions.c:3335
-#: plugins/fn-math/functions.c:3338 plugins/fn-math/functions.c:3354
-#: plugins/fn-stat/functions.c:5676 plugins/fn-stat/functions.c:5685
-#: plugins/fn-stat/functions.c:5808 plugins/fn-stat/functions.c:5864
+#: plugins/fn-math/functions.c:3345 plugins/fn-math/functions.c:3348
+#: plugins/fn-math/functions.c:3351 plugins/fn-math/functions.c:3367
+#: plugins/fn-stat/functions.c:5679 plugins/fn-stat/functions.c:5688
+#: plugins/fn-stat/functions.c:5811 plugins/fn-stat/functions.c:5867
 msgid "array1,array2"
 msgstr "pole1,pole2"
 
-#: plugins/fn-math/functions.c:3360 plugins/fn-math/functions.c:3364
+#: plugins/fn-math/functions.c:3373 plugins/fn-math/functions.c:3377
 msgid "array,matrix_type,bandsize"
 msgstr "pole,typ_matice,velikost"
 
@@ -13268,7 +13315,7 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-random/functions.c:1100 plugins/fn-random/functions.c:1136
-#: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5805
+#: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5808
 msgid "p"
 msgstr "p "
 
@@ -16000,7 +16047,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: plugins/fn-stat/functions.c:4132
+#: plugins/fn-stat/functions.c:4133
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -16067,7 +16114,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGFIT,LINEST,LOGEST"
 
-#: plugins/fn-stat/functions.c:4408
+#: plugins/fn-stat/functions.c:4410
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -16129,7 +16176,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 
-#: plugins/fn-stat/functions.c:4508
+#: plugins/fn-stat/functions.c:4510
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
@@ -16175,7 +16222,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: plugins/fn-stat/functions.c:4623
+#: plugins/fn-stat/functions.c:4625
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -16233,7 +16280,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4875
+#: plugins/fn-stat/functions.c:4878
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -16273,7 +16320,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4987
+#: plugins/fn-stat/functions.c:4990
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -16313,7 +16360,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: plugins/fn-stat/functions.c:5058
+#: plugins/fn-stat/functions.c:5061
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -16351,7 +16398,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: plugins/fn-stat/functions.c:5108
+#: plugins/fn-stat/functions.c:5111
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -16380,7 +16427,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:5152
+#: plugins/fn-stat/functions.c:5155
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -16447,7 +16494,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-stat/functions.c:5252
+#: plugins/fn-stat/functions.c:5255
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -16465,7 +16512,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:5381
+#: plugins/fn-stat/functions.c:5384
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -16495,7 +16542,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDGEOM"
 
-#: plugins/fn-stat/functions.c:5417
+#: plugins/fn-stat/functions.c:5420
 msgid ""
 "@FUNCTION=LOGISTIC\n"
 "@SYNTAX=LOGISTIC(x,a)\n"
@@ -16517,7 +16564,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLOGISTIC"
 
-#: plugins/fn-stat/functions.c:5453
+#: plugins/fn-stat/functions.c:5456
 msgid ""
 "@FUNCTION=PARETO\n"
 "@SYNTAX=PARETO(x,a,b)\n"
@@ -16539,7 +16586,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDPARETO"
 
-#: plugins/fn-stat/functions.c:5491
+#: plugins/fn-stat/functions.c:5494
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
 "@SYNTAX=RAYLEIGH(x,sigma)\n"
@@ -16561,7 +16608,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGH"
 
-#: plugins/fn-stat/functions.c:5531
+#: plugins/fn-stat/functions.c:5534
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
 "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
@@ -16584,7 +16631,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGHTAIL"
 
-#: plugins/fn-stat/functions.c:5574
+#: plugins/fn-stat/functions.c:5577
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
@@ -16606,7 +16653,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDEXPPOW"
 
-#: plugins/fn-stat/functions.c:5605
+#: plugins/fn-stat/functions.c:5608
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -16626,182 +16673,182 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLAPLACE"
 
-#: plugins/fn-stat/functions.c:5646 plugins/fn-stat/functions.c:5908
+#: plugins/fn-stat/functions.c:5649 plugins/fn-stat/functions.c:5911
 msgid "k,p"
 msgstr "k,p"
 
-#: plugins/fn-stat/functions.c:5650
+#: plugins/fn-stat/functions.c:5653
 msgid "x,alpha,beta,a,b"
 msgstr "x,alfa,beta,a,b"
 
-#: plugins/fn-stat/functions.c:5653
+#: plugins/fn-stat/functions.c:5656
 msgid "p,alpha,beta,a,b"
 msgstr "p,alfa,beta,a,b"
 
-#: plugins/fn-stat/functions.c:5656
+#: plugins/fn-stat/functions.c:5659
 msgid "n,t,p,c"
 msgstr "n,t,p,c"
 
-#: plugins/fn-stat/functions.c:5660
+#: plugins/fn-stat/functions.c:5663
 msgid "x,a,cum"
 msgstr "x,a,kum"
 
-#: plugins/fn-stat/functions.c:5664
+#: plugins/fn-stat/functions.c:5667
 msgid "x,dof"
 msgstr "x,dof"
 
-#: plugins/fn-stat/functions.c:5667 plugins/fn-stat/functions.c:5873
+#: plugins/fn-stat/functions.c:5670 plugins/fn-stat/functions.c:5876
 msgid "p,dof"
 msgstr "p,dof"
 
-#: plugins/fn-stat/functions.c:5670
+#: plugins/fn-stat/functions.c:5673
 msgid "act_range,theo_range"
 msgstr "skut_rozsah,teor_rozsah"
 
-#: plugins/fn-stat/functions.c:5673
+#: plugins/fn-stat/functions.c:5676
 msgid "x,stddev,size"
 msgstr "x,odchylka,velikost"
 
-#: plugins/fn-stat/functions.c:5688
+#: plugins/fn-stat/functions.c:5691
 msgid "trials,p,alpha"
 msgstr "pokusy,p,alfa"
 
-#: plugins/fn-stat/functions.c:5694
+#: plugins/fn-stat/functions.c:5697
 msgid "x,y,cumulative"
 msgstr "x,y,kumulativní"
 
-#: plugins/fn-stat/functions.c:5697
+#: plugins/fn-stat/functions.c:5700
 msgid "x,dof of num,dof of denom"
 msgstr "x,dof dělence,dof dělitele"
 
-#: plugins/fn-stat/functions.c:5700
+#: plugins/fn-stat/functions.c:5703
 msgid "p,dof of num,dof of denom"
 msgstr "p,dof dělence,dof dělitele"
 
-#: plugins/fn-stat/functions.c:5709
+#: plugins/fn-stat/functions.c:5712
 msgid "x,known y's,known x's"
 msgstr "x,známe y,známe x"
 
-#: plugins/fn-stat/functions.c:5712
+#: plugins/fn-stat/functions.c:5715
 msgid "data_array,bins_array"
 msgstr "pole_dat,pole_adresářů"
 
-#: plugins/fn-stat/functions.c:5715
+#: plugins/fn-stat/functions.c:5718
 msgid "arr1,arr2"
 msgstr "pole1,pole2"
 
-#: plugins/fn-stat/functions.c:5718
+#: plugins/fn-stat/functions.c:5721
 msgid "number,alpha,beta,cum"
 msgstr "počet,alfa,beta,kum"
 
-#: plugins/fn-stat/functions.c:5721
+#: plugins/fn-stat/functions.c:5724
 msgid "number,alpha,beta"
 msgstr "počet,alfa,beta"
 
-#: plugins/fn-stat/functions.c:5731 plugins/fn-stat/functions.c:5876
+#: plugins/fn-stat/functions.c:5734 plugins/fn-stat/functions.c:5879
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "známe_y,známe_x,nové_x,konst"
 
-#: plugins/fn-stat/functions.c:5738
+#: plugins/fn-stat/functions.c:5741
 msgid "x,n,M,N,cumulative"
 msgstr "x,n,M,N,kumulativní"
 
-#: plugins/fn-stat/functions.c:5751 plugins/fn-stat/functions.c:5754
-#: plugins/fn-stat/functions.c:5766
+#: plugins/fn-stat/functions.c:5754 plugins/fn-stat/functions.c:5757
+#: plugins/fn-stat/functions.c:5769
 msgid "known_y's,known_x's,const,stat"
 msgstr "známe_y,známe_x,konst,stat"
 
-#: plugins/fn-stat/functions.c:5757 plugins/fn-stat/functions.c:5832
-#: plugins/fn-stat/functions.c:5861
+#: plugins/fn-stat/functions.c:5760 plugins/fn-stat/functions.c:5835
+#: plugins/fn-stat/functions.c:5864
 msgid "known_y's,known_x's"
 msgstr "známe_y,známe_x"
 
-#: plugins/fn-stat/functions.c:5760 plugins/fn-stat/functions.c:5799
+#: plugins/fn-stat/functions.c:5763 plugins/fn-stat/functions.c:5802
 msgid "p,mean,stddev"
 msgstr "p,průměr,odchylka"
 
-#: plugins/fn-stat/functions.c:5763 plugins/fn-stat/functions.c:5839
+#: plugins/fn-stat/functions.c:5766 plugins/fn-stat/functions.c:5842
 msgid "x,mean,stddev"
 msgstr "x,průměr,odchylka"
 
-#: plugins/fn-stat/functions.c:5793
+#: plugins/fn-stat/functions.c:5796
 msgid "f,t,p"
 msgstr "f,t,p"
 
-#: plugins/fn-stat/functions.c:5796
+#: plugins/fn-stat/functions.c:5799
 msgid "x,mean,stddev,cumulative"
 msgstr "x,průměr,stdodchylka,kumulativní"
 
-#: plugins/fn-stat/functions.c:5811
+#: plugins/fn-stat/functions.c:5814
 msgid "array,k"
 msgstr "pole,k"
 
-#: plugins/fn-stat/functions.c:5814
+#: plugins/fn-stat/functions.c:5817
 msgid "array,x,significance"
 msgstr "pole,x,významnost"
 
-#: plugins/fn-stat/functions.c:5820
+#: plugins/fn-stat/functions.c:5823
 msgid "x,mean,cumulative"
 msgstr "x,průměr,kumulativní"
 
-#: plugins/fn-stat/functions.c:5823
+#: plugins/fn-stat/functions.c:5826
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "x_rozsah,pravd_rozsah,dolní_limit,horní_limit"
 
-#: plugins/fn-stat/functions.c:5826
+#: plugins/fn-stat/functions.c:5829
 msgid "array,quart"
 msgstr "pole,kvart"
 
-#: plugins/fn-stat/functions.c:5842
+#: plugins/fn-stat/functions.c:5845
 msgid "array,interval"
 msgstr "pole,interval"
 
-#: plugins/fn-stat/functions.c:5870
+#: plugins/fn-stat/functions.c:5873
 msgid "x,dof,tails"
 msgstr "x,dof,konce"
 
-#: plugins/fn-stat/functions.c:5879
+#: plugins/fn-stat/functions.c:5882
 msgid "ref,fraction"
 msgstr "ref,zlomek"
 
-#: plugins/fn-stat/functions.c:5883
+#: plugins/fn-stat/functions.c:5886
 msgid "array1,array2,tails,type"
 msgstr "pole1,pole2,konce,typ"
 
-#: plugins/fn-stat/functions.c:5898
+#: plugins/fn-stat/functions.c:5901
 msgid "x.alpha,beta,cumulative"
 msgstr "x.alfa,beta,kumulativní"
 
-#: plugins/fn-stat/functions.c:5901
+#: plugins/fn-stat/functions.c:5904
 msgid "ref,x"
 msgstr "ref,x"
 
-#: plugins/fn-stat/functions.c:5905 plugins/fn-stat/functions.c:5923
+#: plugins/fn-stat/functions.c:5908 plugins/fn-stat/functions.c:5926
 msgid "x,a,b"
 msgstr "x,a,b"
 
-#: plugins/fn-stat/functions.c:5914
+#: plugins/fn-stat/functions.c:5917
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:228
 msgid "x"
 msgstr "x"
 
-#: plugins/fn-stat/functions.c:5917 plugins/fn-stat/functions.c:5920
+#: plugins/fn-stat/functions.c:5920 plugins/fn-stat/functions.c:5923
 msgid "x,a"
 msgstr "x,a"
 
-#: plugins/fn-stat/functions.c:5926
+#: plugins/fn-stat/functions.c:5929
 msgid "x,sigma"
 msgstr "x,sigma"
 
-#: plugins/fn-stat/functions.c:5929
+#: plugins/fn-stat/functions.c:5932
 msgid "x,a,sigma"
 msgstr "x,a,sigma"
 
-#: plugins/fn-stat/functions.c:5935
+#: plugins/fn-stat/functions.c:5938
 msgid "function_nbr,ref,ref,"
 msgstr "číslo_funkce,ref,ref,"
 
-#: plugins/fn-stat/functions.c:5938
+#: plugins/fn-stat/functions.c:5941
 msgid "ref,ref,"
 msgstr "ref,ref,"
 
@@ -17792,7 +17839,7 @@ msgstr "Objektivní funkce:"
 msgid "Constraints:"
 msgstr "Omezení:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6168
+#: plugins/mps/mps.c:245 src/commands.c:6174
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -18156,22 +18203,22 @@ msgstr "Neplatný výraz pole, neudává počet sloupců."
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Neplatný výraz pole, neudává počet řádků."
 
-#: plugins/openoffice/openoffice-read.c:1148
+#: plugins/openoffice/openoffice-read.c:1147
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Nelze zpracovat umístění výrazu '%s' @ '%s' kvůli '%s'"
 
-#: plugins/openoffice/openoffice-read.c:1161
+#: plugins/openoffice/openoffice-read.c:1160
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr "Nelze zpracovat umístění výrazu '%s' s hodnotou '%s' kvůli '%s'"
 
-#: plugins/openoffice/openoffice-read.c:1415
+#: plugins/openoffice/openoffice-read.c:1439
 msgid "No stream named content.xml found."
 msgstr "Nebyl nalezen kanál pojmenovaný content.xml"
 
-#: plugins/openoffice/openoffice-read.c:1422
+#: plugins/openoffice/openoffice-read.c:1446
 msgid "No stream named styles.xml found."
 msgstr "Nebyl nalezen kanál pojmenovaný styles.xml"
 
@@ -18217,7 +18264,7 @@ msgstr "Chyba při otevírání souboru paradox."
 msgid "Could not allocate memory for record."
 msgstr "Nemohu alokovat paměť pro záznam."
 
-#: plugins/paradox/paradox.c:196
+#: plugins/paradox/paradox.c:220
 #, c-format
 msgid "Field type %d is not supported."
 msgstr "Typ pole %d není podporován."
@@ -18483,7 +18530,8 @@ msgid "Imports Quattro Pro (tm) files"
 msgstr "Importuje soubory Quattro Pro™"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
+#, fuzzy
+msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
@@ -18559,7 +18607,7 @@ msgstr "SC/XSpread"
 msgid "SC/xspread"
 msgstr "SC/xspread"
 
-#: plugins/sc/sc.c:376
+#: plugins/sc/sc.c:377
 msgid "Error parsing line"
 msgstr "Chyba při zpracování řádku"
 
@@ -18605,18 +18653,18 @@ msgstr "UI Ahoj"
 msgid "This is message from the \"%s\" plugin."
 msgstr "Toto je zpráva ze zásuvného modulu \"%s\"."
 
-#: plugins/xbase/boot.c:169
+#: plugins/xbase/boot.c:171
 msgid "Error while opening xbase file."
 msgstr "Chyba při otevírání souboru Xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4962
+#: plugins/xbase/boot.c:177 src/commands.c:4968
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:395 src/workbook.c:1091 src/xml-io.c:3789
 msgid "Sheet"
 msgstr "List"
 
-#: plugins/xbase/boot.c:197
+#: plugins/xbase/boot.c:199
 #, c-format
 msgid ""
 "This build of Gnumeric can only hold %d rows.  Ignoring the rest of this "
@@ -19290,7 +19338,7 @@ msgstr ""
 "sešitu s více listy."
 
 #: schemas/gnumeric-general.schemas.in.h:29
-#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1883
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1889
 msgid "Sort Ascending"
 msgstr "Setřídit vzestupně"
 
@@ -19492,20 +19540,20 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Používat UTF-8 v exportu do LaTeXu"
 
-#: src/application.c:307
+#: src/application.c:309
 msgid "Cut Object"
 msgstr "Vyjmout objekt"
 
-#: src/clipboard.c:314 src/clipboard.c:326 src/clipboard.c:337
-#: src/clipboard.c:345
+#: src/clipboard.c:316 src/clipboard.c:328 src/clipboard.c:339
+#: src/clipboard.c:347
 msgid "Unable to paste"
 msgstr "Nelze vložit"
 
-#: src/clipboard.c:315
+#: src/clipboard.c:317
 msgid "Content can only be pasted by value or by link."
 msgstr "Obsah je možné vložit pouze jako hodnotu nebo jako odkaz."
 
-#: src/clipboard.c:323
+#: src/clipboard.c:325
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -19516,7 +19564,7 @@ msgstr ""
 "\n"
 "Zkuste vybrat jedinou buňku nebo oblast stejného tvaru a velikosti."
 
-#: src/clipboard.c:334
+#: src/clipboard.c:336
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -19527,7 +19575,7 @@ msgstr ""
 "\n"
 "Zkuste vybrat jedinou buňku nebo oblast stejného tvaru a velikosti."
 
-#: src/clipboard.c:346
+#: src/clipboard.c:348
 msgid "result passes the sheet boundary"
 msgstr "výsledek přesahuje okraje listu"
 
@@ -19611,424 +19659,424 @@ msgstr "Napsání \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Vložit/odstranit sloupec/řádek"
 
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3259
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3265
 msgid "Delete Columns"
 msgstr "Odstranit sloupce"
 
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3381
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3387
 msgid "Delete Rows"
 msgstr "Odstranit řádky"
 
-#: src/commands.c:1480
+#: src/commands.c:1482
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Vložení %d sloupců před %s"
 
-#: src/commands.c:1481
+#: src/commands.c:1483
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Vložení %d sloupce před %s"
 
-#: src/commands.c:1496
+#: src/commands.c:1498
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Vložení %d řádků před %s"
 
-#: src/commands.c:1497
+#: src/commands.c:1499
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Vložení %d řádku před %s"
 
-#: src/commands.c:1508
+#: src/commands.c:1510
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Odstranění sloupců %s"
 
-#: src/commands.c:1509
+#: src/commands.c:1511
 #, c-format
 msgid "Deleting column %s"
 msgstr "Odstranění sloupce %s"
 
-#: src/commands.c:1519
+#: src/commands.c:1521
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Odstranění řádků %s"
 
-#: src/commands.c:1520
+#: src/commands.c:1522
 #, c-format
 msgid "Deleting row %s"
 msgstr "Odstranění řádku %s"
 
 #. Check for locked cells
-#: src/commands.c:1602 src/commands.c:1606 src/sheet.c:2862
+#: src/commands.c:1604 src/commands.c:1608 src/sheet.c:2868
 msgid "Clear"
 msgstr "Smazat"
 
-#: src/commands.c:1677
+#: src/commands.c:1679
 msgid "contents"
 msgstr "obsah"
 
-#: src/commands.c:1679
+#: src/commands.c:1681
 msgid "formats"
 msgstr "formáty"
 
-#: src/commands.c:1681
+#: src/commands.c:1683
 msgid "comments"
 msgstr "komentáře"
 
-#: src/commands.c:1697
+#: src/commands.c:1699
 msgid "all"
 msgstr "vše"
 
-#: src/commands.c:1704
+#: src/commands.c:1706
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Vyčištění %s v %s"
 
-#: src/commands.c:1787
+#: src/commands.c:1793
 msgid "Changing Format"
 msgstr "Změna formátu"
 
-#: src/commands.c:1912
+#: src/commands.c:1918
 #, c-format
 msgid "Changing format of %s"
 msgstr "Změna formátu %s"
 
-#: src/commands.c:2022
+#: src/commands.c:2028
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatická úprava velikosti sloupce %s"
 
-#: src/commands.c:2023
+#: src/commands.c:2029
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatická úprava velikosti řádku %s"
 
-#: src/commands.c:2026
+#: src/commands.c:2032
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Nastavení šířky sloupce %s na %d bodů"
 
-#: src/commands.c:2028
+#: src/commands.c:2034
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Nastavení výšky řádku %s na %d bodů"
 
-#: src/commands.c:2031
+#: src/commands.c:2037
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Nastavení šířky sloupce %s na výchozí"
 
-#: src/commands.c:2034
+#: src/commands.c:2040
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Nastavení výšky řádku %s na výchozí"
 
-#: src/commands.c:2038
+#: src/commands.c:2044
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automaticky upravuji sloupce %s"
 
-#: src/commands.c:2039
+#: src/commands.c:2045
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Automaticky upravuji řádky %s"
 
-#: src/commands.c:2042
+#: src/commands.c:2048
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Nastavení šířky sloupců %s na %d bodů"
 
-#: src/commands.c:2044
+#: src/commands.c:2050
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Nastavení výšky řádků %s na %d bodů"
 
-#: src/commands.c:2048
+#: src/commands.c:2054
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Nastavení šířky sloupců %s na výchozí"
 
-#: src/commands.c:2050
+#: src/commands.c:2056
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Nastavení výšky řádků %s na výchozí"
 
-#: src/commands.c:2116 src/dialogs/dialog-preferences.c:770
+#: src/commands.c:2122 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Třídění"
 
-#: src/commands.c:2136
+#: src/commands.c:2142
 #, c-format
 msgid "Sorting %s"
 msgstr "Třídění %s"
 
-#: src/commands.c:2279
+#: src/commands.c:2285
 msgid "Unhide columns"
 msgstr "Zobrazení skrytých sloupců"
 
-#: src/commands.c:2279
+#: src/commands.c:2285
 msgid "Hide columns"
 msgstr "Skrytí sloupců"
 
-#: src/commands.c:2280
+#: src/commands.c:2286
 msgid "Unhide rows"
 msgstr "Zobrazení skrytých řádků"
 
-#: src/commands.c:2280
+#: src/commands.c:2286
 msgid "Hide rows"
 msgstr "Skrytí řádků"
 
-#: src/commands.c:2362
+#: src/commands.c:2368
 msgid "Expand columns"
 msgstr "Rozbalení sloupců"
 
-#: src/commands.c:2362
+#: src/commands.c:2368
 msgid "Collapse columns"
 msgstr "Sbalení sloupců"
 
-#: src/commands.c:2363
+#: src/commands.c:2369
 msgid "Expand rows"
 msgstr "Rozbalení řádků"
 
-#: src/commands.c:2363
+#: src/commands.c:2369
 msgid "Collapse rows"
 msgstr "Sbalení řádků"
 
-#: src/commands.c:2389
+#: src/commands.c:2395
 #, c-format
 msgid "Show column outline %d"
 msgstr "Zobrazit přehled sloupců %d"
 
-#: src/commands.c:2389
+#: src/commands.c:2395
 #, c-format
 msgid "Show row outline %d"
 msgstr "Zobrazit přehled řádků %d"
 
-#: src/commands.c:2459
+#: src/commands.c:2465
 msgid "Those columns are already grouped"
 msgstr "Tyto sloupce už jsou seskupeny"
 
-#: src/commands.c:2460
+#: src/commands.c:2466
 msgid "Those rows are already grouped"
 msgstr "Tyto řádky už jsou seskupeny"
 
-#: src/commands.c:2483
+#: src/commands.c:2489
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Tyto sloupce nejsou ve skupině, takže je nemůžete rozeskupit"
 
-#: src/commands.c:2484
+#: src/commands.c:2490
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Tyto řádky nejsou ve skupině, takže je nemůžete rozeskupit"
 
-#: src/commands.c:2498
+#: src/commands.c:2504
 #, c-format
 msgid "Group columns %s"
 msgstr "Seskupit sloupce %s"
 
-#: src/commands.c:2498
+#: src/commands.c:2504
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Rozeskupit sloupce %s"
 
-#: src/commands.c:2500
+#: src/commands.c:2506
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Seskupit řádky %d:%d"
 
-#: src/commands.c:2500
+#: src/commands.c:2506
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Rozeskupit řádky %d:%d"
 
-#: src/commands.c:2733
+#: src/commands.c:2739
 #, c-format
 msgid "Moving %s"
 msgstr "Přesun %s"
 
-#: src/commands.c:2742 src/commands.c:2970
+#: src/commands.c:2748 src/commands.c:2976
 msgid "is beyond sheet boundaries"
 msgstr "je mimo okraje listu"
 
-#: src/commands.c:2806
+#: src/commands.c:2812
 msgid "Paste Copy"
 msgstr "Vložit kopii"
 
 #. FIXME?
-#: src/commands.c:2911
+#: src/commands.c:2917
 #, c-format
 msgid "Pasting into %s"
 msgstr "Vložení do %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3007 src/commands.c:3164 src/commands.c:3165
+#: src/commands.c:3013 src/commands.c:3170 src/commands.c:3171
 #: src/wbcg-actions.c:424
 msgid "Autofill"
 msgstr "Automatické vyplňování"
 
 #. Changed in initial redo.
-#: src/commands.c:3187
+#: src/commands.c:3193
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatické vyplňování %s"
 
-#: src/commands.c:3505
+#: src/commands.c:3511
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatický formát %s"
 
-#: src/commands.c:3622
+#: src/commands.c:3628
 #, c-format
 msgid "Unmerging %s"
 msgstr "Rozdělení buněk %s"
 
-#: src/commands.c:3786
+#: src/commands.c:3792
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Spojit a vycentrovat %s"
 
-#: src/commands.c:3786
+#: src/commands.c:3792
 #, c-format
 msgid "Merging %s"
 msgstr "Spojení %s"
 
 #. Corrected below.
-#: src/commands.c:4167 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4173 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Hledat a nahradit"
 
-#: src/commands.c:4262
+#: src/commands.c:4268
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Nastavení výchozí šířky sloupců na %.2f bodů"
 
-#: src/commands.c:4263
+#: src/commands.c:4269
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Nastavení výchozí výšky řádků na %.2f bodů"
 
-#: src/commands.c:4378
+#: src/commands.c:4384
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zvětšení %s na %.0f%%"
 
-#: src/commands.c:4476
+#: src/commands.c:4482
 msgid "Delete Object"
 msgstr "Odstranit objekt"
 
-#: src/commands.c:4637
+#: src/commands.c:4643
 msgid "Format Object"
 msgstr "Formátovat objekt"
 
-#: src/commands.c:5236
+#: src/commands.c:5242
 msgid "Reordering Sheets"
 msgstr "Změna pořadí listů"
 
-#: src/commands.c:5239
+#: src/commands.c:5245
 msgid "Renaming Sheets"
 msgstr "Přejmenování listů"
 
-#: src/commands.c:5242
+#: src/commands.c:5248
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Připojuji %i listů"
 
-#: src/commands.c:5246
+#: src/commands.c:5252
 msgid "Changing Tab Colors"
 msgstr "Změna barev záložky"
 
-#: src/commands.c:5249
+#: src/commands.c:5255
 msgid "Changing Sheet Protection"
 msgstr "Změna ochrany listu"
 
-#: src/commands.c:5252
+#: src/commands.c:5258
 msgid "Delete sheets"
 msgstr "Odstranit listy"
 
-#: src/commands.c:5255
+#: src/commands.c:5261
 msgid "Delete a sheet"
 msgstr "Odstranit list"
 
-#: src/commands.c:5258
+#: src/commands.c:5264
 msgid "Changing Sheet Visibility"
 msgstr "Měním viditelnost listu"
 
-#: src/commands.c:5261
+#: src/commands.c:5267
 msgid "Reorganizing Sheets"
 msgstr "Reorganizace listů"
 
-#: src/commands.c:5412
+#: src/commands.c:5418
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Smazání komentáře %s"
 
-#: src/commands.c:5413
+#: src/commands.c:5419
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Nastavení komentáře %s"
 
-#: src/commands.c:5793
+#: src/commands.c:5799
 #, c-format
 msgid "Merging data into %s"
 msgstr "Spojení dat do %s"
 
-#: src/commands.c:5895
+#: src/commands.c:5901
 msgid "Changing summary info"
 msgstr "Změna souhrnných informací"
 
-#: src/commands.c:5984
+#: src/commands.c:5990
 msgid "Pull Object to the Front"
 msgstr "Vytáhnout objekt dopředu"
 
-#: src/commands.c:5987
+#: src/commands.c:5993
 msgid "Pull Object Forward"
 msgstr "Táhnout objekt vpřed"
 
-#: src/commands.c:5990
+#: src/commands.c:5996
 msgid "Push Object Backward"
 msgstr "Tlačit objekt vzad"
 
-#: src/commands.c:5993
+#: src/commands.c:5999
 msgid "Push Object to the Back"
 msgstr "Zatlačit objekt dozadu"
 
-#: src/commands.c:6108
+#: src/commands.c:6114
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavení stránky pro %s"
 
-#: src/commands.c:6110
+#: src/commands.c:6116
 msgid "Page Setup For All Sheets"
 msgstr "Nastavení stránky pro všechny listy"
 
-#: src/commands.c:6225
+#: src/commands.c:6231
 msgid "has a circular reference"
 msgstr "obsahuje cyklický odkaz"
 
-#: src/commands.c:6248
+#: src/commands.c:6254
 #, c-format
 msgid "Define Name %s"
 msgstr "Definovat název %s"
 
-#: src/commands.c:6251
+#: src/commands.c:6257
 #, c-format
 msgid "Update Name %s"
 msgstr "Aktualizovat název %s"
 
-#: src/commands.c:6315
+#: src/commands.c:6321
 msgid "Add scenario"
 msgstr "Přidat scénář"
 
-#: src/commands.c:6390
+#: src/commands.c:6396
 msgid "Scenario Show"
 msgstr "Zobrazení Scénáře"
 
-#: src/commands.c:6454
+#: src/commands.c:6460
 msgid "Shuffle Data"
 msgstr "Zamíchat data"
 
 #. FIXME?
-#: src/commands.c:6564
+#: src/commands.c:6570
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) do sloupců (%s)"
@@ -20038,28 +20086,28 @@ msgstr "Text (%s) do sloupců (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6708 src/dialogs/solver.glade.h:17
+#: src/commands.c:6714 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Řešitel"
 
-#: src/commands.c:6792
+#: src/commands.c:6798
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Hledání cíle (%s)"
 
-#: src/commands.c:6937
+#: src/commands.c:6943
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplikuji %s"
 
-#: src/commands.c:7016
+#: src/commands.c:7022
 msgid "Tabulating Dependencies"
 msgstr "Tabeluji závislosti"
 
-#: src/commands.c:7091
+#: src/commands.c:7097
 msgid "Reconfigure Graph"
 msgstr "Přenastavit graf"
 
@@ -20153,7 +20201,7 @@ msgid "Format"
 msgstr "Formát"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1538 src/wbcg-actions.c:1891
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1538 src/wbcg-actions.c:1897
 msgid "Label"
 msgstr "Titulek"
 
@@ -20366,8 +20414,8 @@ msgid "Customize Chart"
 msgstr "Upravit graf"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1422
-#: src/wbcg-actions.c:1580
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1428
+#: src/wbcg-actions.c:1586
 msgid "_Insert"
 msgstr "Vlož_it"
 
@@ -20396,7 +20444,7 @@ msgid "Push to _back"
 msgstr "_Zatlačit dozadu"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
-#: src/sheet-object.c:107
+#: src/sheet-object.c:111
 msgid "_Order"
 msgstr "_Řád"
 
@@ -20728,7 +20776,7 @@ msgid "Column"
 msgstr "Sloupec"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
-#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1915
+#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1921
 msgid "Line"
 msgstr "Čára"
 
@@ -21943,8 +21991,8 @@ msgstr "Obl_asti"
 #: src/dialogs/exp-smoothing.glade.h:8 src/dialogs/fourier-analysis.glade.h:6
 #: src/dialogs/histogram.glade.h:16 src/dialogs/rank.glade.h:9
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:11
-#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1531
-#: src/wbcg-actions.c:1644
+#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1537
+#: src/wbcg-actions.c:1650
 msgid "_Columns"
 msgstr "Sloup_ce"
 
@@ -21974,8 +22022,8 @@ msgstr "Titu_lky"
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:23
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1528
-#: src/wbcg-actions.c:1647
+#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1534
+#: src/wbcg-actions.c:1653
 msgid "_Rows"
 msgstr "Řá_dky"
 
@@ -22048,8 +22096,8 @@ msgstr "_Neopravovat:"
 msgid "First Letter"
 msgstr "První písmeno"
 
-#: src/dialogs/autocorrect.glade.h:9 src/format.c:2241 src/format.c:2552
-#: src/format.c:2558 src/format.c:2631 src/plugin-service.c:195
+#: src/dialogs/autocorrect.glade.h:9 src/format.c:2244 src/format.c:2558
+#: src/format.c:2564 src/format.c:2637 src/plugin-service.c:195
 #: src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Všeobecné"
@@ -22068,7 +22116,7 @@ msgid "_Add"
 msgstr "_Přidat"
 
 #: src/dialogs/autocorrect.glade.h:13 src/dialogs/pivottable.glade.h:12
-#: src/wbcg-actions.c:1593
+#: src/wbcg-actions.c:1599
 msgid "_Remove"
 msgstr "_Odstranit"
 
@@ -22711,7 +22759,7 @@ msgid "Correlation"
 msgstr "Korelace"
 
 #: src/dialogs/covariance.glade.h:1 src/tools/analysis-tools.c:1008
-#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1799
+#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1805
 msgid "Covariance"
 msgstr "Kovariance"
 
@@ -23523,7 +23571,7 @@ msgid "Double"
 msgstr "Dvojité"
 
 #: src/dialogs/dialog-cell-format.c:470 src/dialogs/dialog-search.c:148
-#: src/func.c:741 src/wbcg-actions.c:1942
+#: src/func.c:741 src/wbcg-actions.c:1948
 #: src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Číslo"
@@ -23874,7 +23922,7 @@ msgstr "Heslo:"
 #. * 	Skip Blanks, Paste Link, Cancel, Ok are all on the same page
 #. * 	try to keep them from conflicting
 #. Edit -> Clear
-#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1514
+#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1520
 msgid "_All"
 msgstr "_Vše"
 
@@ -23886,11 +23934,11 @@ msgstr "_Obsah"
 msgid "As _Value"
 msgstr "Jako _hodnotu"
 
-#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1517
+#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1523
 msgid "_Formats"
 msgstr "_Formáty"
 
-#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1520
+#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1526
 msgid "Co_mments"
 msgstr "Ko_mentáře"
 
@@ -24720,7 +24768,7 @@ msgid "Select N_one"
 msgstr "_Zrušit výběr"
 
 #. Edit -> Select
-#: src/dialogs/dialog-stf-export.glade.h:20 src/wbcg-actions.c:1540
+#: src/dialogs/dialog-stf-export.glade.h:20 src/wbcg-actions.c:1546
 msgid "Select _All"
 msgstr "Vybr_at vše"
 
@@ -25304,7 +25352,7 @@ msgid "_Month"
 msgstr "_Měsíc"
 
 #: src/dialogs/fill-series.glade.h:17 src/dialogs/pivottable.glade.h:13
-#: src/wbcg-actions.c:1427
+#: src/wbcg-actions.c:1433
 msgid "_Row"
 msgstr "Řá_dek"
 
@@ -25412,7 +25460,7 @@ msgstr "Po_užívat oddělovač pro tisíce"
 msgid "Formula Guru"
 msgstr "Guru pro vzorce"
 
-#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1805
+#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1811
 msgid "Fourier Analysis"
 msgstr "Fourierova analýza"
 
@@ -25424,7 +25472,7 @@ msgstr "_Inverzní"
 msgid "Category"
 msgstr "Kategorie"
 
-#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1879
+#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1885
 msgid "Function"
 msgstr "Funkce"
 
@@ -25732,7 +25780,7 @@ msgid "Workbook"
 msgstr "Sešit"
 
 #: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
-#: src/wbcg-actions.c:1415
+#: src/wbcg-actions.c:1421
 msgid "_Delete"
 msgstr "_Odstranit"
 
@@ -25772,7 +25820,7 @@ msgstr "Mezisoučet"
 msgid "_Add:"
 msgstr "_Přidat:"
 
-#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1435
+#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1441
 msgid "_Data"
 msgstr "_Data"
 
@@ -26426,7 +26474,7 @@ msgstr "_Hledat"
 msgid "Manage Sheets..."
 msgstr "Správa listů..."
 
-#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1590
+#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1596
 msgid "_Duplicate"
 msgstr "_Duplikovat"
 
@@ -26863,7 +26911,7 @@ msgstr "Neznámý operátor"
 msgid "Internal type error"
 msgstr "Interní chyba typu"
 
-#: src/expr.c:1368
+#: src/expr.c:1369
 msgid "Unknown evaluation error"
 msgstr "Neznámá chyba při vyhodnocování"
 
@@ -26906,40 +26954,40 @@ msgstr "TRUE"
 msgid "FALSE"
 msgstr "FALSE"
 
-#: src/format.c:706 templates/autoformat/autoformat.Colourful.black.xml.in.h:1
+#: src/format.c:711 templates/autoformat/autoformat.Colourful.black.xml.in.h:1
 msgid "Black"
 msgstr "Černá"
 
-#: src/format.c:707 templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
+#: src/format.c:712 templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
 msgid "Blue"
 msgstr "Modrá"
 
-#: src/format.c:708
+#: src/format.c:713
 msgid "Cyan"
 msgstr "Modrozelená"
 
-#: src/format.c:709 templates/autoformat/autoformat.List.green.xml.in.h:3
+#: src/format.c:714 templates/autoformat/autoformat.List.green.xml.in.h:3
 msgid "Green"
 msgstr "Zelená"
 
-#: src/format.c:710
+#: src/format.c:715
 msgid "Magenta"
 msgstr "Fialová"
 
-#: src/format.c:711
+#: src/format.c:716
 msgid "Red"
 msgstr "Červená"
 
-#: src/format.c:712
+#: src/format.c:717
 msgid "White"
 msgstr "Bílá"
 
-#: src/format.c:713
+#: src/format.c:718
 msgid "Yellow"
 msgstr "Žlutá"
 
 #. Array of arrays ??
-#: src/format.c:2115
+#: src/format.c:2118
 msgid "ARRAY"
 msgstr "POLE"
 
@@ -27830,19 +27878,19 @@ msgstr "Automaticky rozpoznán"
 msgid "Load file"
 msgstr "Načíst soubor"
 
-#: src/gui-file.c:224 src/gui-file.c:662
+#: src/gui-file.c:224 src/gui-file.c:663
 msgid "Select a file"
 msgstr "Zvolte soubor"
 
-#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:676
+#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:677
 msgid "All Files"
 msgstr "Všechny soubory"
 
-#: src/gui-file.c:254 src/gui-file.c:681
+#: src/gui-file.c:254 src/gui-file.c:682
 msgid "Spreadsheets"
 msgstr "Tabulkové kalkulátory"
 
-#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:705
+#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:706
 msgid "File _type:"
 msgstr "_Typ souboru:"
 
@@ -27883,7 +27931,7 @@ msgstr "Obrázky"
 msgid "Save as"
 msgstr "Uložit jako"
 
-#: src/gui-file.c:558 src/gui-file.c:754
+#: src/gui-file.c:554 src/gui-file.c:755
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -27891,11 +27939,11 @@ msgstr ""
 "Zadaná přípona souboru neodpovídá vybranému typu souboru. Chcete přesto "
 "použít tento název souboru?"
 
-#: src/gui-file.c:585
+#: src/gui-file.c:586
 msgid "Select an Image"
 msgstr "Zvolte obrázek"
 
-#: src/gui-file.c:604
+#: src/gui-file.c:605
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -27907,11 +27955,11 @@ msgstr ""
 "použijte jiný formát souboru.\n"
 "Chcete uložit pouze aktuální list?"
 
-#: src/gui-util.c:212
+#: src/gui-util.c:213
 msgid "Multiple errors\n"
 msgstr "Vícenásobné chyby\n"
 
-#: src/gui-util.c:637
+#: src/gui-util.c:638
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Soubor '%s' nelze otevřít"
@@ -27993,64 +28041,64 @@ msgstr "Posunout buňky dopra_va a přesunout"
 msgid "C_ancel"
 msgstr "_Zrušit"
 
-#: src/main-application.c:60 src/ssconvert.c:41 src/ssindex.c:50
+#: src/main-application.c:56 src/ssconvert.c:41 src/ssindex.c:50
 msgid "Display Gnumeric's version"
 msgstr "Zobrazit verzi aplikace Gnumeric"
 
-#: src/main-application.c:62 src/ssconvert.c:44 src/ssindex.c:53
+#: src/main-application.c:58 src/ssconvert.c:44 src/ssindex.c:53
 msgid "Set the root library directory"
 msgstr "Nastavit kořenový adresář knihoven"
 
-#: src/main-application.c:64 src/ssconvert.c:46 src/ssindex.c:55
+#: src/main-application.c:60 src/ssconvert.c:46 src/ssindex.c:55
 msgid "Adjust the root data directory"
 msgstr "Upravit kořenový adresář dat"
 
-#: src/main-application.c:67 src/main-application.c:69
+#: src/main-application.c:63 src/main-application.c:65
 msgid "Dumps the function definitions"
 msgstr "Vypsat definice funkcí"
 
-#: src/main-application.c:67 src/main-application.c:69
+#: src/main-application.c:63 src/main-application.c:65
 msgid "FILE"
 msgstr "SOUBOR"
 
-#: src/main-application.c:72
+#: src/main-application.c:68
 msgid "Enables some debugging functions"
 msgstr "Povolit některé ladící funkce"
 
-#: src/main-application.c:72 src/main-application.c:75
-#: src/main-application.c:77 src/main-application.c:79
+#: src/main-application.c:68 src/main-application.c:71
+#: src/main-application.c:73 src/main-application.c:75
 msgid "LEVEL"
 msgstr "ÚROVEŇ"
 
-#: src/main-application.c:75
+#: src/main-application.c:71
 msgid "Enables some dependency related debugging functions"
 msgstr "Povolit některé ladící funkce týkající se závislostí"
 
-#: src/main-application.c:77
+#: src/main-application.c:73
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Povolit některé ladící funkce pro sdílení výrazů"
 
-#: src/main-application.c:79
+#: src/main-application.c:75
 msgid "Enables some print debugging behavior"
 msgstr "Povolit některé ladící funkce tisku"
 
-#: src/main-application.c:82
+#: src/main-application.c:78
 msgid "Specify the size and location of the initial window"
 msgstr "Určení velikosti a umístění počátečního okna"
 
-#: src/main-application.c:82
+#: src/main-application.c:78
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "ŠÍŘKAxVÝŠKA+XPOS+YPOS"
 
-#: src/main-application.c:86
+#: src/main-application.c:82
 msgid "Don't show splash screen"
 msgstr "Nezobrazovat uvítací obrazovku"
 
-#: src/main-application.c:89
+#: src/main-application.c:85
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "Skončit hned po načtení vybraných sešitů (vhodné pro testování)."
 
-#: src/main-application.c:120
+#: src/main-application.c:116
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -28075,84 +28123,84 @@ msgstr ""
 "\n"
 "-- Tým aplikace Gnumeric."
 
-#: src/main-application.c:189
+#: src/main-application.c:185
 msgid "Gdk debugging flags to set"
 msgstr "Přepínače ladění Gdk, které nastavit"
 
-#: src/main-application.c:189 src/main-application.c:191
-#: src/main-application.c:203 src/main-application.c:205
+#: src/main-application.c:185 src/main-application.c:187
+#: src/main-application.c:199 src/main-application.c:201
 msgid "FLAGS"
 msgstr "PŘEPÍNAČE"
 
-#: src/main-application.c:191
+#: src/main-application.c:187
 msgid "Gdk debugging flags to unset"
 msgstr "Přepínače ladění Gdk, jejichž nastavení zrušit"
 
-#: src/main-application.c:193
+#: src/main-application.c:189
 msgid "X display to use"
 msgstr "Disple X, který používat"
 
-#: src/main-application.c:193
+#: src/main-application.c:189
 msgid "DISPLAY"
 msgstr "DISPLEJ"
 
-#: src/main-application.c:195
+#: src/main-application.c:191
 msgid "X screen to use"
 msgstr "Obrazovka X, kterou používat"
 
-#: src/main-application.c:195
+#: src/main-application.c:191
 msgid "SCREEN"
 msgstr "OBRAZOVKA"
 
-#: src/main-application.c:197
+#: src/main-application.c:193
 msgid "Make X calls synchronous"
 msgstr "Používat synchronní volání X"
 
-#: src/main-application.c:199
+#: src/main-application.c:195
 msgid "Program name as used by the window manager"
 msgstr "Název programu používaný správcem oken"
 
-#: src/main-application.c:199
+#: src/main-application.c:195
 msgid "NAME"
 msgstr "NÁZEV"
 
-#: src/main-application.c:201
+#: src/main-application.c:197
 msgid "Program class as used by the window manager"
 msgstr "Třída programu používaná správcem oken"
 
-#: src/main-application.c:201
+#: src/main-application.c:197
 msgid "CLASS"
 msgstr "TŘÍDA"
 
-#: src/main-application.c:203
+#: src/main-application.c:199
 msgid "Gtk+ debugging flags to set"
 msgstr "Přepínače ladění Gtk+, které nastavit"
 
-#: src/main-application.c:205
+#: src/main-application.c:201
 msgid "Gtk+ debugging flags to unset"
 msgstr "Přepínače ladění Gtk+, jejichž nastavení zrušit"
 
-#: src/main-application.c:207
+#: src/main-application.c:203
 msgid "Make all warnings fatal"
 msgstr "Učinit všechna varování fatálními"
 
-#: src/main-application.c:209
+#: src/main-application.c:205
 msgid "Load an additional Gtk module"
 msgstr "Načíst přídavný modul Gtk"
 
-#: src/main-application.c:209
+#: src/main-application.c:205
 msgid "MODULE"
 msgstr "MODUL"
 
-#: src/main-application.c:215
+#: src/main-application.c:211
 msgid "Gnumeric options"
 msgstr "Možnosti Gnumericu"
 
-#: src/main-application.c:217
+#: src/main-application.c:213
 msgid "GTK+ options"
 msgstr "Možnosti GTK+"
 
-#: src/main-application.c:256
+#: src/main-application.c:264
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -28585,31 +28633,31 @@ msgid "Error while opening file \"%s\" for reading."
 msgstr "Chyba při otevírání souboru \"%s\" pro čtení."
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:611
+#: src/print.c:612
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1156
+#: src/print.c:1157
 msgid "Print Region"
 msgstr "Oblast tisku"
 
-#: src/print.c:1325 src/wbcg-actions.c:1495
+#: src/print.c:1326 src/wbcg-actions.c:1501
 msgid "Print preview"
 msgstr "Náhled před tiskem"
 
-#: src/print.c:1338
+#: src/print.c:1339
 msgid "Printing failed"
 msgstr "Tisk selhal"
 
-#: src/print.c:1444
+#: src/print.c:1445
 msgid "Print Sheets"
 msgstr "Tisknuté listy"
 
-#: src/print.c:1453
+#: src/print.c:1454
 msgid "Act_ive sheet"
 msgstr "_Aktivní list"
 
-#: src/print.c:1453
+#: src/print.c:1454
 msgid "S_heets"
 msgstr "_Listy"
 
@@ -28717,23 +28765,23 @@ msgstr "Neukládat"
 msgid "Do not log out"
 msgstr "Neodhlašovat se"
 
-#: src/sheet.c:2014
+#: src/sheet.c:2015
 msgid "Target region contains merged cells"
 msgstr "Cílová oblast obsahuje spojené buňky"
 
-#: src/sheet.c:2075
+#: src/sheet.c:2076
 msgid "cannot operate on merged cells"
 msgstr "nelze vykonat na spojených buňkách"
 
-#: src/sheet.c:2085
+#: src/sheet.c:2086
 msgid "cannot operate on array formulae"
 msgstr "nelze vykonat na poli vzorců"
 
-#: src/sheet.c:3198
+#: src/sheet.c:3204
 msgid "Insert Columns"
 msgstr "Vložit sloupce"
 
-#: src/sheet.c:3320
+#: src/sheet.c:3326
 msgid "Insert Rows"
 msgstr "Vložit řádky"
 
@@ -28798,12 +28846,12 @@ msgid "Column _Width..."
 msgstr "Ší_řka sloupce..."
 
 #: src/sheet-control-gui.c:1547 src/sheet-control-gui.c:1555
-#: src/wbcg-actions.c:1705 src/wbcg-actions.c:1722
+#: src/wbcg-actions.c:1711 src/wbcg-actions.c:1728
 msgid "_Hide"
 msgstr "_Skrýt"
 
 #: src/sheet-control-gui.c:1549 src/sheet-control-gui.c:1557
-#: src/wbcg-actions.c:1708 src/wbcg-actions.c:1725
+#: src/wbcg-actions.c:1714 src/wbcg-actions.c:1731
 msgid "_Unhide"
 msgstr "_Zviditelnit"
 
@@ -28825,19 +28873,19 @@ msgid "_Remove Hyperlink"
 msgstr "Odst_ranit hypertextový odkaz"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1972
+#: src/sheet-control-gui.c:1981
 msgid "Duplicate Object"
 msgstr "Duplikovat objekt"
 
-#: src/sheet-control-gui.c:1972
+#: src/sheet-control-gui.c:1981
 msgid "Insert Object"
 msgstr "Vložit objekt"
 
-#: src/sheet-control-gui.c:1973
+#: src/sheet-control-gui.c:1982
 msgid "Move Object"
 msgstr "Přesunout objekt"
 
-#: src/sheet-control-gui.c:1973
+#: src/sheet-control-gui.c:1982
 msgid "Resize Object"
 msgstr "Změnit velikost objektu"
 
@@ -28862,7 +28910,7 @@ msgid "(Non Blanks...)"
 msgstr "(Neprázdné...)"
 
 #. Format toolbar
-#: src/sheet-merge.c:73 src/wbcg-actions.c:1935
+#: src/sheet-merge.c:73 src/wbcg-actions.c:1941
 msgid "Merge"
 msgstr "Sloučit"
 
@@ -28875,19 +28923,19 @@ msgstr ""
 "Již zde existuje spojená oblast, která se kříží\n"
 "%s!%s"
 
-#: src/sheet-object.c:108
+#: src/sheet-object.c:112
 msgid "Pul_l to Front"
 msgstr "_Vytáhnout _dopředu"
 
-#: src/sheet-object.c:109
+#: src/sheet-object.c:113
 msgid "Pull _Forward"
 msgstr "Táhnout v_před"
 
-#: src/sheet-object.c:110
+#: src/sheet-object.c:114
 msgid "Push _Backward"
 msgstr "T_lačit vzad"
 
-#: src/sheet-object.c:111
+#: src/sheet-object.c:115
 msgid "Pus_h to Back"
 msgstr "_Zatlačit dozadu"
 
@@ -28929,21 +28977,21 @@ msgstr "EMF (rozšířený metasoubor)"
 msgid "WMF (windows metafile)"
 msgstr "WMF (metasoubor windows)"
 
-#: src/sheet-object-widget.c:257 src/wbcg-actions.c:1894
+#: src/sheet-object-widget.c:258 src/wbcg-actions.c:1900
 msgid "Frame"
 msgstr "Rámec"
 
-#: src/sheet-object-widget.c:496 src/wbcg-actions.c:1927
+#: src/sheet-object-widget.c:497 src/wbcg-actions.c:1933
 #: templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Tlačítko"
 
-#: src/sheet-object-widget.c:1352
+#: src/sheet-object-widget.c:1354
 #, c-format
 msgid "CheckBox %d"
 msgstr "Zaškrtávací okénko %d"
 
-#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1930
+#: src/sheet-object-widget.c:1809 src/wbcg-actions.c:1936
 msgid "RadioButton"
 msgstr "Rádiový přepínač"
 
@@ -29031,7 +29079,7 @@ msgstr ""
 "Zvolený expotér (%s) nepodporuje ukládání více listů do jednoho souboru.\n"
 "Bude uložen jen aktuální list."
 
-#: src/ssconvert.c:176
+#: src/ssconvert.c:181
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -30257,773 +30305,773 @@ msgstr "Seskupit"
 msgid "Ungroup"
 msgstr "Rozeskupit"
 
-#: src/wbcg-actions.c:945
+#: src/wbcg-actions.c:951
 msgid "Sort"
 msgstr "Třídění"
 
-#: src/wbcg-actions.c:1065
+#: src/wbcg-actions.c:1071
 msgid "Set Horizontal Alignment"
 msgstr "Nastavit horizontální zarovnání"
 
-#: src/wbcg-actions.c:1099
+#: src/wbcg-actions.c:1105
 msgid "Set Vertical Alignment"
 msgstr "Nastavit svislé zarovnání"
 
-#: src/wbcg-actions.c:1188
+#: src/wbcg-actions.c:1194
 msgid "Set Font Style"
 msgstr "Nastavit styl písma"
 
-#: src/wbcg-actions.c:1214
+#: src/wbcg-actions.c:1220
 msgid "Format as Number"
 msgstr "Formátovat jako Číslo"
 
-#: src/wbcg-actions.c:1219
+#: src/wbcg-actions.c:1225
 msgid "Format as Currency"
 msgstr "Formátovat jako Měnu"
 
-#: src/wbcg-actions.c:1224
+#: src/wbcg-actions.c:1230
 msgid "Format as Accounting"
 msgstr "Formátovat jako účetnictví"
 
-#: src/wbcg-actions.c:1230
+#: src/wbcg-actions.c:1236
 msgid "Format as Percentage"
 msgstr "Formátovat jako Procenta"
 
-#: src/wbcg-actions.c:1235
+#: src/wbcg-actions.c:1241
 msgid "Format as Scientific"
 msgstr "Formátovat jako Vědecký"
 
-#: src/wbcg-actions.c:1240
+#: src/wbcg-actions.c:1246
 msgid "Format as Date"
 msgstr "Formátovat jako Datum"
 
-#: src/wbcg-actions.c:1245
+#: src/wbcg-actions.c:1251
 msgid "Format as Time"
 msgstr "Formátovat jako Čas"
 
-#: src/wbcg-actions.c:1269
+#: src/wbcg-actions.c:1275
 msgid "Add Borders"
 msgstr "Přidat okraje"
 
-#: src/wbcg-actions.c:1269
+#: src/wbcg-actions.c:1275
 msgid "Remove borders"
 msgstr "Odstranit okraje"
 
-#: src/wbcg-actions.c:1298
+#: src/wbcg-actions.c:1304
 msgid "Increase precision"
 msgstr "Zvýšit přesnost"
 
-#: src/wbcg-actions.c:1300
+#: src/wbcg-actions.c:1306
 msgid "Decrease precision"
 msgstr "Snížit přesnost"
 
-#: src/wbcg-actions.c:1302
+#: src/wbcg-actions.c:1308
 msgid "Toggle thousands separator"
 msgstr "Přepnout oddělovač tisíců"
 
-#: src/wbcg-actions.c:1322
+#: src/wbcg-actions.c:1328
 msgid "Increase Indent"
 msgstr "Zvětšit odsazení"
 
-#: src/wbcg-actions.c:1342
+#: src/wbcg-actions.c:1348
 msgid "Decrease Indent"
 msgstr "Zmenšit odsazení"
 
-#: src/wbcg-actions.c:1349
+#: src/wbcg-actions.c:1355
 msgid "Copy down"
 msgstr "Kopírovat dolů"
 
-#: src/wbcg-actions.c:1355
+#: src/wbcg-actions.c:1361
 msgid "Copy right"
 msgstr "Kopírovat doprava"
 
 #. Actions that are always sensitive
 #. const 142334
-#: src/wbcg-actions.c:1412
+#: src/wbcg-actions.c:1418
 msgid "_File"
 msgstr "_Soubor"
 
-#: src/wbcg-actions.c:1413
+#: src/wbcg-actions.c:1419
 msgid "_Edit"
 msgstr "Ú_pravy"
 
-#: src/wbcg-actions.c:1414
+#: src/wbcg-actions.c:1420
 msgid "C_lear"
 msgstr "_Vymazat"
 
-#: src/wbcg-actions.c:1416
+#: src/wbcg-actions.c:1422
 msgid "S_heet"
 msgstr "_List"
 
-#: src/wbcg-actions.c:1417
+#: src/wbcg-actions.c:1423
 msgid "_Select"
 msgstr "_Vybrat"
 
-#: src/wbcg-actions.c:1418
+#: src/wbcg-actions.c:1424
 msgid "F_ill"
 msgstr "Vy_plnit"
 
-#: src/wbcg-actions.c:1419
+#: src/wbcg-actions.c:1425
 msgid "_View"
 msgstr "_Zobrazit"
 
-#: src/wbcg-actions.c:1420
+#: src/wbcg-actions.c:1426
 msgid "_Windows"
 msgstr "_Okna"
 
-#: src/wbcg-actions.c:1421
+#: src/wbcg-actions.c:1427
 msgid "_Toolbars"
 msgstr "_Lišty nástrojů"
 
-#: src/wbcg-actions.c:1423
+#: src/wbcg-actions.c:1429
 msgid "_Names"
 msgstr "_Názvy"
 
-#: src/wbcg-actions.c:1424
+#: src/wbcg-actions.c:1430
 msgid "S_pecial"
 msgstr "S_peciální"
 
-#: src/wbcg-actions.c:1425
+#: src/wbcg-actions.c:1431
 msgid "F_ormat"
 msgstr "_Formát"
 
-#: src/wbcg-actions.c:1426
+#: src/wbcg-actions.c:1432
 msgid "C_olumn"
 msgstr "_Sloupec"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: src/wbcg-actions.c:1428 src/wbcg-actions.c:1584
+#: src/wbcg-actions.c:1434 src/wbcg-actions.c:1590
 msgid "_Sheet"
 msgstr "Li_st"
 
-#: src/wbcg-actions.c:1429
+#: src/wbcg-actions.c:1435
 msgid "_Tools"
 msgstr "_Nástroje"
 
-#: src/wbcg-actions.c:1430
+#: src/wbcg-actions.c:1436
 msgid "Sce_narios"
 msgstr "Scé_náře"
 
-#: src/wbcg-actions.c:1431
+#: src/wbcg-actions.c:1437
 msgid "Statistical Anal_ysis"
 msgstr "Statistická ana_lýza"
 
-#: src/wbcg-actions.c:1432
+#: src/wbcg-actions.c:1438
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
-#: src/wbcg-actions.c:1433
+#: src/wbcg-actions.c:1439
 msgid "F_orecast"
 msgstr "Předp_ovídání"
 
-#: src/wbcg-actions.c:1434
+#: src/wbcg-actions.c:1440
 msgid "Two _Means"
 msgstr "Dva prů_měry"
 
-#: src/wbcg-actions.c:1436
+#: src/wbcg-actions.c:1442
 msgid "_Filter"
 msgstr "_Filtr"
 
-#: src/wbcg-actions.c:1437
+#: src/wbcg-actions.c:1443
 msgid "_Group and Outline"
 msgstr "_Skupiny a přehledy"
 
-#: src/wbcg-actions.c:1438
+#: src/wbcg-actions.c:1444
 msgid "Get _External Data"
 msgstr "Získat _externí data"
 
-#: src/wbcg-actions.c:1439
+#: src/wbcg-actions.c:1445
 msgid "_Help"
 msgstr "Nápo_věda"
 
-#: src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1448
 msgid "Cut the selection"
 msgstr "Vyjme výběr"
 
-#: src/wbcg-actions.c:1445
+#: src/wbcg-actions.c:1451
 msgid "Copy the selection"
 msgstr "Kopíruje výběr"
 
-#: src/wbcg-actions.c:1448
+#: src/wbcg-actions.c:1454
 msgid "Paste the clipboard"
 msgstr "Vloží obsah schránky"
 
-#: src/wbcg-actions.c:1451 src/wbcg-actions.c:1523
+#: src/wbcg-actions.c:1457 src/wbcg-actions.c:1529
 msgid "_Contents"
 msgstr "_Obsah"
 
-#: src/wbcg-actions.c:1452
+#: src/wbcg-actions.c:1458
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr "Otevřít prohlížeč dokumentace Gnumericu"
 
-#: src/wbcg-actions.c:1454
+#: src/wbcg-actions.c:1460
 msgid "Gnumeric on the _Web"
 msgstr "Gnumeric na WWW"
 
-#: src/wbcg-actions.c:1455
+#: src/wbcg-actions.c:1461
 msgid "Browse to Gnumeric's website"
 msgstr "Procházet WWW stránky Gnumericu"
 
-#: src/wbcg-actions.c:1457
+#: src/wbcg-actions.c:1463
 msgid "_Live Assistance"
 msgstr "_Živá pomoc"
 
-#: src/wbcg-actions.c:1458
+#: src/wbcg-actions.c:1464
 msgid "See if anyone is available to answer questions"
 msgstr "Podívat se, jestli je nekdo k dispozici pro odpovídání na otázky"
 
-#: src/wbcg-actions.c:1460
+#: src/wbcg-actions.c:1466
 msgid "Report a _Problem"
 msgstr "Ohlásit _problém"
 
-#: src/wbcg-actions.c:1461
+#: src/wbcg-actions.c:1467
 msgid "Report problem "
 msgstr "Ohlásit problém "
 
-#: src/wbcg-actions.c:1463
+#: src/wbcg-actions.c:1469
 msgid "_About"
 msgstr "O _aplikaci"
 
-#: src/wbcg-actions.c:1464
+#: src/wbcg-actions.c:1470
 msgid "About this application"
 msgstr "O této aplikaci"
 
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
-#: src/wbcg-actions.c:1469
+#: src/wbcg-actions.c:1475
 msgid "Repeat"
 msgstr "Opakovat"
 
-#: src/wbcg-actions.c:1470
+#: src/wbcg-actions.c:1476
 msgid "Repeat the previous action"
 msgstr "Opakovat předchozí operaci"
 
-#: src/wbcg-actions.c:1477
+#: src/wbcg-actions.c:1483
 msgid "Create a new workbook"
 msgstr "Vytvoří nový sešit"
 
-#: src/wbcg-actions.c:1480
+#: src/wbcg-actions.c:1486
 msgid "Open a file"
 msgstr "Otevřít soubor"
 
-#: src/wbcg-actions.c:1483
+#: src/wbcg-actions.c:1489
 msgid "Save the current workbook"
 msgstr "Uložit aktuální sešit"
 
-#: src/wbcg-actions.c:1486
+#: src/wbcg-actions.c:1492
 msgid "Save the current workbook with a different name"
 msgstr "Uložit aktuální sešit pod jiným názvem"
 
-#: src/wbcg-actions.c:1488
+#: src/wbcg-actions.c:1494
 msgid "Sen_d To..."
 msgstr "Ode_slat na..."
 
-#: src/wbcg-actions.c:1489
+#: src/wbcg-actions.c:1495
 msgid "Send the current file via email"
 msgstr "Odeslat aktuální soubor elektronickou poštou"
 
-#: src/wbcg-actions.c:1491
+#: src/wbcg-actions.c:1497
 msgid "Page Set_up..."
 msgstr "Nastavení s_tránky..."
 
-#: src/wbcg-actions.c:1492
+#: src/wbcg-actions.c:1498
 msgid "Setup the page settings for your current printer"
 msgstr "Nastaví stránku pro vaši aktuální tiskárnu"
 
-#: src/wbcg-actions.c:1498
+#: src/wbcg-actions.c:1504
 msgid "Print the current file"
 msgstr "Vytiskne aktuální soubor"
 
-#: src/wbcg-actions.c:1500
+#: src/wbcg-actions.c:1506
 msgid "Proper_ties..."
 msgstr "_Vlastnosti..."
 
-#: src/wbcg-actions.c:1501
+#: src/wbcg-actions.c:1507
 msgid "Edit descriptive information"
 msgstr "Upraví podrobnou informaci"
 
-#: src/wbcg-actions.c:1503
+#: src/wbcg-actions.c:1509
 msgid "Pre_ferences..."
 msgstr "Nas_tavení..."
 
-#: src/wbcg-actions.c:1504
+#: src/wbcg-actions.c:1510
 msgid "Change Gnumeric Preferences"
 msgstr "Změnit nastavení aplikace Gnumeric"
 
-#: src/wbcg-actions.c:1507
+#: src/wbcg-actions.c:1513
 msgid "Close the current file"
 msgstr "Zavře aktuální soubor"
 
-#: src/wbcg-actions.c:1510
+#: src/wbcg-actions.c:1516
 msgid "Quit the application"
 msgstr "Ukončí aplikaci"
 
-#: src/wbcg-actions.c:1515
+#: src/wbcg-actions.c:1521
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Vymaže formáty, komentáře a obsah vybraných buněk"
 
-#: src/wbcg-actions.c:1518
+#: src/wbcg-actions.c:1524
 msgid "Clear the selected cells' formats"
 msgstr "Vymaže formátování vybraných buněk"
 
-#: src/wbcg-actions.c:1521
+#: src/wbcg-actions.c:1527
 msgid "Clear the selected cells' comments"
 msgstr "Vymaže komentáře vybraných buněk"
 
-#: src/wbcg-actions.c:1524
+#: src/wbcg-actions.c:1530
 msgid "Clear the selected cells' contents"
 msgstr "Vymaže obsah vybraných buněk"
 
-#: src/wbcg-actions.c:1529
+#: src/wbcg-actions.c:1535
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Odstranit řádky obsahující vybrané buňky"
 
-#: src/wbcg-actions.c:1532
+#: src/wbcg-actions.c:1538
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Odstranit sloupce obsahující vybrané buňky"
 
 #. Insert
-#: src/wbcg-actions.c:1534 src/wbcg-actions.c:1641
+#: src/wbcg-actions.c:1540 src/wbcg-actions.c:1647
 msgid "C_ells..."
 msgstr "_Buňky..."
 
-#: src/wbcg-actions.c:1535
+#: src/wbcg-actions.c:1541
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Odstranit vybrané buňky, ostatní posunout na jejich místo"
 
-#: src/wbcg-actions.c:1541
+#: src/wbcg-actions.c:1547
 msgid "Select all cells in the spreadsheet"
 msgstr "Vybere všechny buňky v sešitě"
 
-#: src/wbcg-actions.c:1543
+#: src/wbcg-actions.c:1549
 msgid "Select _Column"
 msgstr "Vybrat sloupe_c"
 
-#: src/wbcg-actions.c:1544
+#: src/wbcg-actions.c:1550
 msgid "Select an entire column"
 msgstr "Vybere celý sloupec"
 
-#: src/wbcg-actions.c:1546
+#: src/wbcg-actions.c:1552
 msgid "Select _Row"
 msgstr "Vyb_rat řádek"
 
-#: src/wbcg-actions.c:1547
+#: src/wbcg-actions.c:1553
 msgid "Select an entire row"
 msgstr "Vybere celý řádek"
 
-#: src/wbcg-actions.c:1549
+#: src/wbcg-actions.c:1555
 msgid "Select Arra_y"
 msgstr "Vybrat _pole"
 
-#: src/wbcg-actions.c:1550
+#: src/wbcg-actions.c:1556
 msgid "Select an array of cells"
 msgstr "Vybere pole buněk"
 
-#: src/wbcg-actions.c:1552
+#: src/wbcg-actions.c:1558
 msgid "Select _Depends"
 msgstr "Vybrat _závislé"
 
-#: src/wbcg-actions.c:1553
+#: src/wbcg-actions.c:1559
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Vybere všechny buňky, které závisí na aktuálně vybrané buňce"
 
-#: src/wbcg-actions.c:1555
+#: src/wbcg-actions.c:1561
 msgid "Select _Inputs"
 msgstr "Vybrat _vstupy"
 
-#: src/wbcg-actions.c:1556
+#: src/wbcg-actions.c:1562
 msgid "Select all the cells are used by the current edit cell"
 msgstr "Vybrat všechny buňky, které jsou používány aktuálně vybranou buňkou"
 
 #. Edit -> Fill
-#: src/wbcg-actions.c:1560
+#: src/wbcg-actions.c:1566
 msgid "Auto_fill"
 msgstr "Automatické _vyplňování"
 
-#: src/wbcg-actions.c:1561
+#: src/wbcg-actions.c:1567
 msgid "Automatically fill the current selection"
 msgstr "Automaticky vyplní aktuální výběr"
 
-#: src/wbcg-actions.c:1563
+#: src/wbcg-actions.c:1569
 msgid "_Merge..."
 msgstr "_Sloučit..."
 
-#: src/wbcg-actions.c:1564
+#: src/wbcg-actions.c:1570
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Spojí sloupcová data do listu vytvořením duplicitních listů pro každý řádek."
 
-#: src/wbcg-actions.c:1566
+#: src/wbcg-actions.c:1572
 msgid "_Tabulate Dependency..."
 msgstr "_Tabelovat závislosti..."
 
-#: src/wbcg-actions.c:1567
+#: src/wbcg-actions.c:1573
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Vytvoří tabulku hodnot buněk jako funkci ostatních buněk"
 
-#: src/wbcg-actions.c:1569
+#: src/wbcg-actions.c:1575
 msgid "_Series..."
 msgstr "Řad_y..."
 
-#: src/wbcg-actions.c:1570
+#: src/wbcg-actions.c:1576
 msgid "Fill according to a linear or exponential series"
 msgstr "Vyplnit podle lineární nebo exponenciální posloupnosti"
 
-#: src/wbcg-actions.c:1572
+#: src/wbcg-actions.c:1578
 msgid "_Random Generator..."
 msgstr "_Generátor náhodných čísel..."
 
-#: src/wbcg-actions.c:1573
+#: src/wbcg-actions.c:1579
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Generuje náhodné počty výběrů rozdělení"
 
 #. Edit -> Sheet
-#: src/wbcg-actions.c:1577
+#: src/wbcg-actions.c:1583
 msgid "_Manage Sheets..."
 msgstr "_Správa listů..."
 
-#: src/wbcg-actions.c:1578
+#: src/wbcg-actions.c:1584
 msgid "Manage the sheets in this workbook"
 msgstr "Správa listů v tomto sešitě"
 
-#: src/wbcg-actions.c:1581 src/wbcg-actions.c:1585
+#: src/wbcg-actions.c:1587 src/wbcg-actions.c:1591
 msgid "Insert a new sheet"
 msgstr "Vloží nový list"
 
-#: src/wbcg-actions.c:1587
+#: src/wbcg-actions.c:1593
 msgid "_Append"
 msgstr "_Připojit"
 
-#: src/wbcg-actions.c:1588
+#: src/wbcg-actions.c:1594
 msgid "Append a new sheet"
 msgstr "Připojit nový list"
 
-#: src/wbcg-actions.c:1591
+#: src/wbcg-actions.c:1597
 msgid "Make a copy of the current sheet"
 msgstr "Vytvoří kopii aktuálního listu"
 
-#: src/wbcg-actions.c:1594
+#: src/wbcg-actions.c:1600
 msgid "Irrevocably remove an entire sheet"
 msgstr "Nenávratně odstraní celý list"
 
-#: src/wbcg-actions.c:1596
+#: src/wbcg-actions.c:1602
 msgid "Re_name"
 msgstr "_Přejmenovat"
 
-#: src/wbcg-actions.c:1597
+#: src/wbcg-actions.c:1603
 msgid "Rename the current sheet"
 msgstr "Přejmenuje aktuální list"
 
 #. Edit
-#: src/wbcg-actions.c:1601
+#: src/wbcg-actions.c:1607
 msgid "P_aste special..."
 msgstr "Vložit jin_ak..."
 
-#: src/wbcg-actions.c:1602
+#: src/wbcg-actions.c:1608
 msgid "Paste with optional filters and transformations"
 msgstr "Vloží s volitelnými filtry a úpravami"
 
-#: src/wbcg-actions.c:1605
+#: src/wbcg-actions.c:1611
 msgid "Co_mment..."
 msgstr "Ko_mentáře..."
 
-#: src/wbcg-actions.c:1606
+#: src/wbcg-actions.c:1612
 msgid "Edit the selected cell's comment"
 msgstr "Upraví komentář vybrané buňky"
 
-#: src/wbcg-actions.c:1609
+#: src/wbcg-actions.c:1615
 msgid "_Find..."
 msgstr "_Hledat..."
 
-#: src/wbcg-actions.c:1610
+#: src/wbcg-actions.c:1616
 msgid "Search for something"
 msgstr "Hledat něco"
 
-#: src/wbcg-actions.c:1612
+#: src/wbcg-actions.c:1618
 msgid "R_eplace..."
 msgstr "Na_hradit..."
 
-#: src/wbcg-actions.c:1613
+#: src/wbcg-actions.c:1619
 msgid "Search for something and replace it with something else"
 msgstr "Hledat něco a najradit to něčím jiným"
 
-#: src/wbcg-actions.c:1615
+#: src/wbcg-actions.c:1621
 msgid "_Goto cell..."
 msgstr "Pře_jít na buňku..."
 
-#: src/wbcg-actions.c:1616
+#: src/wbcg-actions.c:1622
 msgid "Jump to a specified cell"
 msgstr "Přejde na zadanou buňku"
 
-#: src/wbcg-actions.c:1619
+#: src/wbcg-actions.c:1625
 msgid "Recalculate"
 msgstr "Přepočíst"
 
-#: src/wbcg-actions.c:1620
+#: src/wbcg-actions.c:1626
 msgid "Recalculate the spreadsheet"
 msgstr "Přepočítá sešit"
 
 #. View
-#: src/wbcg-actions.c:1624
+#: src/wbcg-actions.c:1630
 msgid "_New View..."
 msgstr "_Nový pohled..."
 
-#: src/wbcg-actions.c:1625
+#: src/wbcg-actions.c:1631
 msgid "Create a new view of the workbook"
 msgstr "Vytvořit nový pohled na sešit"
 
-#: src/wbcg-actions.c:1627 src/workbook-control-gui.c:1023
+#: src/wbcg-actions.c:1633 src/workbook-control-gui.c:1023
 msgid "_Freeze Panes"
 msgstr "_Zmrazit rozdělení okna"
 
-#: src/wbcg-actions.c:1628 src/workbook-control-gui.c:1026
+#: src/wbcg-actions.c:1634 src/workbook-control-gui.c:1026
 msgid "Freeze the top left of the sheet"
 msgstr "Zmrazí levý horní roh listu"
 
-#: src/wbcg-actions.c:1630
+#: src/wbcg-actions.c:1636
 msgid "_Zoom..."
 msgstr "Z_většení..."
 
-#: src/wbcg-actions.c:1631
+#: src/wbcg-actions.c:1637
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zvětší nebo zmenší zobrazení tabulky"
 
-#: src/wbcg-actions.c:1633
+#: src/wbcg-actions.c:1639
 msgid "Zoom _In"
 msgstr "Z_většit"
 
-#: src/wbcg-actions.c:1634
+#: src/wbcg-actions.c:1640
 msgid "Increase the zoom to make things larger"
 msgstr "Zvětšit zvětšení, aby věci byly větší"
 
-#: src/wbcg-actions.c:1636
+#: src/wbcg-actions.c:1642
 msgid "Zoom _Out"
 msgstr "Z_menšit"
 
-#: src/wbcg-actions.c:1637
+#: src/wbcg-actions.c:1643
 msgid "Decrease the zoom to make things smaller"
 msgstr "Snížit zvětšení, aby věci byly menší"
 
-#: src/wbcg-actions.c:1642
+#: src/wbcg-actions.c:1648
 msgid "Insert new cells"
 msgstr "Vloží nové buňky"
 
-#: src/wbcg-actions.c:1645
+#: src/wbcg-actions.c:1651
 msgid "Insert new columns"
 msgstr "Vloží nové sloupce"
 
-#: src/wbcg-actions.c:1648
+#: src/wbcg-actions.c:1654
 msgid "Insert new rows"
 msgstr "Vloží nové řádky"
 
-#: src/wbcg-actions.c:1651
+#: src/wbcg-actions.c:1657
 msgid "C_hart..."
 msgstr "_Graf..."
 
-#: src/wbcg-actions.c:1652
+#: src/wbcg-actions.c:1658
 msgid "Insert a Chart"
 msgstr "Vložit graf"
 
-#: src/wbcg-actions.c:1654
+#: src/wbcg-actions.c:1660
 msgid "_Image..."
 msgstr "_Obrázek..."
 
-#: src/wbcg-actions.c:1655
+#: src/wbcg-actions.c:1661
 msgid "Insert an image"
 msgstr "Vloží obrázek"
 
-#: src/wbcg-actions.c:1658
+#: src/wbcg-actions.c:1664
 msgid "Hyper_link..."
 msgstr "_Hypertextový odkaz..."
 
-#: src/wbcg-actions.c:1659
+#: src/wbcg-actions.c:1665
 msgid "Insert a Hyperlink"
 msgstr "Vložit hypertextový odkaz"
 
 #. Insert -> Special
-#: src/wbcg-actions.c:1662
+#: src/wbcg-actions.c:1668
 msgid "Current _date"
 msgstr "Aktuální _datum"
 
-#: src/wbcg-actions.c:1663
+#: src/wbcg-actions.c:1669
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Vloží aktuální datum do vybraných buněk"
 
-#: src/wbcg-actions.c:1666
+#: src/wbcg-actions.c:1672
 msgid "Current _time"
 msgstr "Ak_tuální čas"
 
-#: src/wbcg-actions.c:1667
+#: src/wbcg-actions.c:1673
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Vloží aktuální čas do vybraných buněk"
 
-#: src/wbcg-actions.c:1670
+#: src/wbcg-actions.c:1676
 msgid "Current d_ate and time"
 msgstr "Aktuální _datum a čas"
 
-#: src/wbcg-actions.c:1671
+#: src/wbcg-actions.c:1677
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Vloží aktuální datum a čas do vybraných buněk"
 
 #. Insert -> Name
-#: src/wbcg-actions.c:1675
+#: src/wbcg-actions.c:1681
 msgid "_Define..."
 msgstr "_Definovat..."
 
-#: src/wbcg-actions.c:1676
+#: src/wbcg-actions.c:1682
 msgid "Edit sheet and workbook names"
 msgstr "Upraví název listu a sešitu"
 
-#: src/wbcg-actions.c:1679
+#: src/wbcg-actions.c:1685
 msgid "_Auto generate names..."
 msgstr "_Automaticky generovat názvy..."
 
-#: src/wbcg-actions.c:1680
+#: src/wbcg-actions.c:1686
 msgid "Use the current selection to create names"
 msgstr "Použije aktuální výběr pro vytvoření názvů"
 
 #. Format
-#: src/wbcg-actions.c:1685
+#: src/wbcg-actions.c:1691
 msgid "_Cells..."
 msgstr "_Buňky..."
 
-#: src/wbcg-actions.c:1686
+#: src/wbcg-actions.c:1692
 msgid "Modify the formatting of the selected cells"
 msgstr "Upraví formát vybraných buněk"
 
-#: src/wbcg-actions.c:1688
+#: src/wbcg-actions.c:1694
 msgid "_Workbook..."
 msgstr "_Sešit..."
 
-#: src/wbcg-actions.c:1689
+#: src/wbcg-actions.c:1695
 msgid "Modify the workbook attributes"
 msgstr "Změní vlastnosti sešitu"
 
-#: src/wbcg-actions.c:1691
+#: src/wbcg-actions.c:1697
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: src/wbcg-actions.c:1692
+#: src/wbcg-actions.c:1698
 msgid "Edit the Gnumeric Preferences"
 msgstr "Upraví nastavení aplikace Gnumeric"
 
-#: src/wbcg-actions.c:1694
+#: src/wbcg-actions.c:1700
 msgid "_Autoformat..."
 msgstr "_Automatický formát..."
 
-#: src/wbcg-actions.c:1695
+#: src/wbcg-actions.c:1701
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formátuje oblast buněk podle předdefinované šablony"
 
 #. Format -> Col
-#: src/wbcg-actions.c:1699
+#: src/wbcg-actions.c:1705
 msgid "_Width..."
 msgstr "_Šířka..."
 
-#: src/wbcg-actions.c:1700
+#: src/wbcg-actions.c:1706
 msgid "Change width of the selected columns"
 msgstr "Změní šířku vybraných sloupců"
 
-#: src/wbcg-actions.c:1702 src/wbcg-actions.c:1719
+#: src/wbcg-actions.c:1708 src/wbcg-actions.c:1725
 msgid "_Auto fit selection"
 msgstr "_Automaticky upravit rozměry"
 
-#: src/wbcg-actions.c:1703
+#: src/wbcg-actions.c:1709
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Zajistí, že sloupce jsou dost široké pro zobrazení svého obsahu"
 
-#: src/wbcg-actions.c:1706
+#: src/wbcg-actions.c:1712
 msgid "Hide the selected columns"
 msgstr "Skryje vybrané sloupce"
 
-#: src/wbcg-actions.c:1709
+#: src/wbcg-actions.c:1715
 msgid "Make any hidden columns in the selection visible"
 msgstr "Zviditelní všechny skryté sloupce ve výběru"
 
-#: src/wbcg-actions.c:1711
+#: src/wbcg-actions.c:1717
 msgid "_Standard Width"
 msgstr "_Standardní šířka"
 
-#: src/wbcg-actions.c:1712
+#: src/wbcg-actions.c:1718
 msgid "Change the default column width"
 msgstr "Změní výchozí šířku sloupce"
 
 #. Format -> Row
-#: src/wbcg-actions.c:1716
+#: src/wbcg-actions.c:1722
 msgid "H_eight..."
 msgstr "_Výška..."
 
-#: src/wbcg-actions.c:1717
+#: src/wbcg-actions.c:1723
 msgid "Change height of the selected rows"
 msgstr "Změní výšku vybraných řádků"
 
-#: src/wbcg-actions.c:1720
+#: src/wbcg-actions.c:1726
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Zajistí, že řádky jsou dost vysoké pro zobrazení svého obsahu"
 
-#: src/wbcg-actions.c:1723
+#: src/wbcg-actions.c:1729
 msgid "Hide the selected rows"
 msgstr "Skryje vybrané řádky"
 
-#: src/wbcg-actions.c:1726
+#: src/wbcg-actions.c:1732
 msgid "Make any hidden rows in the selection visible"
 msgstr "Zviditelní všechny skryté řádky ve výběru"
 
-#: src/wbcg-actions.c:1728
+#: src/wbcg-actions.c:1734
 msgid "_Standard Height"
 msgstr "_Standardní výška"
 
-#: src/wbcg-actions.c:1729
+#: src/wbcg-actions.c:1735
 msgid "Change the default row height"
 msgstr "Změní výchozí výšku řádku"
 
 #. Tools
-#: src/wbcg-actions.c:1733
+#: src/wbcg-actions.c:1739
 msgid "_Plug-ins..."
 msgstr "_Zásuvné moduly..."
 
-#: src/wbcg-actions.c:1734
+#: src/wbcg-actions.c:1740
 msgid "Manage available plugin modules"
 msgstr "Správa dostupných modulů"
 
-#: src/wbcg-actions.c:1736
+#: src/wbcg-actions.c:1742
 msgid "Auto _Correct..."
 msgstr "Automatické _opravy..."
 
-#: src/wbcg-actions.c:1737
+#: src/wbcg-actions.c:1743
 msgid "Automatically perform simple spell checking"
 msgstr "Automaticky vykonává jednoduchou kontrolu pravopisu"
 
-#: src/wbcg-actions.c:1739
+#: src/wbcg-actions.c:1745
 msgid "_Auto Save..."
 msgstr "_Automatické ukládání..."
 
-#: src/wbcg-actions.c:1740
+#: src/wbcg-actions.c:1746
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automaticky ukládá aktuální dokument v pravidelných intervalech"
 
-#: src/wbcg-actions.c:1742
+#: src/wbcg-actions.c:1748
 msgid "_Goal Seek..."
 msgstr "_Hledání cíle..."
 
-#: src/wbcg-actions.c:1743
+#: src/wbcg-actions.c:1749
 msgid "Iteratively recalculate to find a target value"
 msgstr "Opakovaně přepočítává pro nalezení cílové hodnoty"
 
-#: src/wbcg-actions.c:1745
+#: src/wbcg-actions.c:1751
 msgid "_Solver..."
 msgstr "Řešite_l..."
 
-#: src/wbcg-actions.c:1746
+#: src/wbcg-actions.c:1752
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Opakovaně přepočítává s omezeními, dokud nedosáhne cílové hodnoty"
 
-#: src/wbcg-actions.c:1748
+#: src/wbcg-actions.c:1754
 msgid "Si_mulation..."
 msgstr "Si_mulace..."
 
-#: src/wbcg-actions.c:1749
+#: src/wbcg-actions.c:1755
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -31032,70 +31080,70 @@ msgstr ""
 "nalezení pravděpodobných výstupů a rizik s nimi spojených"
 
 #. Tools -> Scenarios
-#: src/wbcg-actions.c:1754
+#: src/wbcg-actions.c:1760
 msgid "_View..."
 msgstr "_Zobrazit..."
 
-#: src/wbcg-actions.c:1755
+#: src/wbcg-actions.c:1761
 msgid "View, delete and report different scenarios"
 msgstr "Zobrazit, odstranit a informovat o různých scénářích"
 
-#: src/wbcg-actions.c:1757
+#: src/wbcg-actions.c:1763
 msgid "_Add..."
 msgstr "Přid_at..."
 
-#: src/wbcg-actions.c:1758
+#: src/wbcg-actions.c:1764
 msgid "Add a new scenario"
 msgstr "Přidat nový scénář"
 
 #. Tools -> ANOVA
-#: src/wbcg-actions.c:1762
+#: src/wbcg-actions.c:1768
 msgid "_One Factor..."
 msgstr "Jeden fakt_or..."
 
-#: src/wbcg-actions.c:1763
+#: src/wbcg-actions.c:1769
 msgid "One Factor Analysis of Variance..."
 msgstr "Jednofaktorová analýza rozptylu..."
 
-#: src/wbcg-actions.c:1765
+#: src/wbcg-actions.c:1771
 msgid "_Two Factor..."
 msgstr "Dva fak_tory..."
 
-#: src/wbcg-actions.c:1766
+#: src/wbcg-actions.c:1772
 msgid "Two Factor Analysis of Variance..."
 msgstr "Dvoufaktorová analýza rozptylu..."
 
 #. Tools -> Forecasting
-#: src/wbcg-actions.c:1770
+#: src/wbcg-actions.c:1776
 msgid "_Exponential Smoothing..."
 msgstr "_Exponenciální vyhlazení..."
 
-#: src/wbcg-actions.c:1771
+#: src/wbcg-actions.c:1777
 msgid "Exponential smoothing..."
 msgstr "Exponenciální vyhlazení..."
 
-#: src/wbcg-actions.c:1773
+#: src/wbcg-actions.c:1779
 msgid "_Moving Average..."
 msgstr "Klouzavé prů_měry..."
 
-#: src/wbcg-actions.c:1774
+#: src/wbcg-actions.c:1780
 msgid "Moving average..."
 msgstr "Klouzavý průměr..."
 
 #. Tools -> Two Means
-#: src/wbcg-actions.c:1778
+#: src/wbcg-actions.c:1784
 msgid "_Paired Samples: T-Test..."
 msgstr "_Párové výběry: T-Test..."
 
-#: src/wbcg-actions.c:1779
+#: src/wbcg-actions.c:1785
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr "Porovnání dvou statistických souborů pro dva párové výběry: t-test..."
 
-#: src/wbcg-actions.c:1782
+#: src/wbcg-actions.c:1788
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr "Nepárové výběry, st_ejné rozptyly: T-Test..."
 
-#: src/wbcg-actions.c:1783
+#: src/wbcg-actions.c:1789
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
@@ -31103,11 +31151,11 @@ msgstr ""
 "Porovnání průměrů dvou statistických souborů pro dva nepárové výběry ze "
 "statistického souboru se stejným rozptylem: t-test..."
 
-#: src/wbcg-actions.c:1786
+#: src/wbcg-actions.c:1792
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr "Nepárové výběry, rů_zné rozptyly: T-Test..."
 
-#: src/wbcg-actions.c:1787
+#: src/wbcg-actions.c:1793
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
@@ -31115,11 +31163,11 @@ msgstr ""
 "Porovnání průměrů dvou statistických souborů pro dva nepárové výběry ze "
 "statistického souboru s různým rozptylem: t-test..."
 
-#: src/wbcg-actions.c:1790
+#: src/wbcg-actions.c:1796
 msgid "_Known Variances: Z-Test..."
 msgstr "_Známé rozptyly: Z-Test..."
 
-#: src/wbcg-actions.c:1791
+#: src/wbcg-actions.c:1797
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
@@ -31127,607 +31175,607 @@ msgstr ""
 "Porovnání průměrů dvou statistických souborů se známými rozptyly: z-test..."
 
 #. Tools -> Analysis
-#: src/wbcg-actions.c:1795
+#: src/wbcg-actions.c:1801
 msgid "_Correlation..."
 msgstr "Korela_ce..."
 
-#: src/wbcg-actions.c:1796
+#: src/wbcg-actions.c:1802
 msgid "Pearson Correlation"
 msgstr "Pearsonova korelace"
 
-#: src/wbcg-actions.c:1798
+#: src/wbcg-actions.c:1804
 msgid "Co_variance..."
 msgstr "Ko_variance..."
 
-#: src/wbcg-actions.c:1801
+#: src/wbcg-actions.c:1807
 msgid "_Descriptive Statistics..."
 msgstr "_Popisná statistika..."
 
-#: src/wbcg-actions.c:1802
+#: src/wbcg-actions.c:1808
 msgid "Various summary statistics"
 msgstr "Různé celkové statistiky"
 
-#: src/wbcg-actions.c:1804
+#: src/wbcg-actions.c:1810
 msgid "_Fourier Analysis..."
 msgstr "_Fourierova analýza..."
 
-#: src/wbcg-actions.c:1807
+#: src/wbcg-actions.c:1813
 msgid "_Histogram..."
 msgstr "_Histogram..."
 
-#: src/wbcg-actions.c:1808
+#: src/wbcg-actions.c:1814
 msgid "Various frequency tables"
 msgstr "Různé frekvenční tabulky"
 
-#: src/wbcg-actions.c:1810
+#: src/wbcg-actions.c:1816
 msgid "Ranks And _Percentiles..."
 msgstr "Rozložení a _percentily..."
 
-#: src/wbcg-actions.c:1811
+#: src/wbcg-actions.c:1817
 msgid "Ranks, placements and percentiles"
 msgstr "Rozložení, umístění a percentily"
 
-#: src/wbcg-actions.c:1813
+#: src/wbcg-actions.c:1819
 msgid "_Regression..."
 msgstr "_Regrese..."
 
-#: src/wbcg-actions.c:1814
+#: src/wbcg-actions.c:1820
 msgid "Regression Analysis"
 msgstr "Regresní analýza"
 
-#: src/wbcg-actions.c:1816
+#: src/wbcg-actions.c:1822
 msgid "_Sampling..."
 msgstr "_Vzorkování..."
 
-#: src/wbcg-actions.c:1817
+#: src/wbcg-actions.c:1823
 msgid "Periodic and random samples"
 msgstr "Periodické a náhodné výběry"
 
-#: src/wbcg-actions.c:1819
+#: src/wbcg-actions.c:1825
 msgid "_Two Variances: FTest..."
 msgstr "Dva rozp_tyly: FTest..."
 
-#: src/wbcg-actions.c:1820
+#: src/wbcg-actions.c:1826
 msgid "Comparing two population variances"
 msgstr "Porovnání rozptylu dvou statistických souborů"
 
 #. Data
-#: src/wbcg-actions.c:1824
+#: src/wbcg-actions.c:1830
 msgid "_Sort..."
 msgstr "_Setřídit..."
 
-#: src/wbcg-actions.c:1825
+#: src/wbcg-actions.c:1831
 msgid "Sort the selected region"
 msgstr "Setřídí vybranou oblast"
 
-#: src/wbcg-actions.c:1827
+#: src/wbcg-actions.c:1833
 msgid "Sh_uffle..."
 msgstr "Za_míchat..."
 
-#: src/wbcg-actions.c:1828
+#: src/wbcg-actions.c:1834
 msgid "Shuffle cells, rows or columns"
 msgstr "Zamíchat buňky, sloupce nebo řádky"
 
-#: src/wbcg-actions.c:1830
+#: src/wbcg-actions.c:1836
 msgid "_Validate..."
 msgstr "O_věřit..."
 
-#: src/wbcg-actions.c:1831
+#: src/wbcg-actions.c:1837
 msgid "Validate input with preset criteria"
 msgstr "Ověří vstup podle přednastavených kritérií"
 
-#: src/wbcg-actions.c:1833
+#: src/wbcg-actions.c:1839
 msgid "_Text to Columns..."
 msgstr "_Text do sloupců..."
 
-#: src/wbcg-actions.c:1834
+#: src/wbcg-actions.c:1840
 msgid "Parse the text in the selection into data"
 msgstr "Zpracuje text z výběru do dat"
 
-#: src/wbcg-actions.c:1836
+#: src/wbcg-actions.c:1842
 msgid "_Consolidate..."
 msgstr "_Konsolidovat..."
 
-#: src/wbcg-actions.c:1837
+#: src/wbcg-actions.c:1843
 msgid "Consolidate regions using a function"
 msgstr "Konsolidovat oblasti pomocí funkce"
 
-#: src/wbcg-actions.c:1841
+#: src/wbcg-actions.c:1847
 msgid "_PivotTable..."
 msgstr "_Otočná tabulka..."
 
-#: src/wbcg-actions.c:1842
+#: src/wbcg-actions.c:1848
 msgid "Create a pivot table"
 msgstr "Vytvoří otočnou tabulku"
 
 #. Data -> Outline
-#: src/wbcg-actions.c:1847
+#: src/wbcg-actions.c:1853
 msgid "_Hide Detail"
 msgstr "_Skrýt podrobnosti"
 
-#: src/wbcg-actions.c:1848
+#: src/wbcg-actions.c:1854
 msgid "Collapse an outline group"
 msgstr "Sbalí skupinu přehledu"
 
-#: src/wbcg-actions.c:1850
+#: src/wbcg-actions.c:1856
 msgid "_Show Detail"
 msgstr "Zobrazit podrobno_sti"
 
-#: src/wbcg-actions.c:1851
+#: src/wbcg-actions.c:1857
 msgid "Uncollapse an outline group"
 msgstr "Rozbalí skupinu přehledu"
 
-#: src/wbcg-actions.c:1853
+#: src/wbcg-actions.c:1859
 msgid "_Group..."
 msgstr "_Seskupit..."
 
-#: src/wbcg-actions.c:1854
+#: src/wbcg-actions.c:1860
 msgid "Add an outline group"
 msgstr "Přidá skupinu přehledu"
 
-#: src/wbcg-actions.c:1856
+#: src/wbcg-actions.c:1862
 msgid "_Ungroup..."
 msgstr "Rozesk_upit..."
 
-#: src/wbcg-actions.c:1857
+#: src/wbcg-actions.c:1863
 msgid "Remove an outline group"
 msgstr "Odstraní skupinu přehledu"
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1861 src/workbook-control-gui.c:1034
+#: src/wbcg-actions.c:1867 src/workbook-control-gui.c:1034
 msgid "Add _Auto Filter"
 msgstr "Přidat _AutoFiltr"
 
-#: src/wbcg-actions.c:1862
+#: src/wbcg-actions.c:1868
 msgid "Add or remove a filter"
 msgstr "Přidá nebo odebere filtr"
 
-#: src/wbcg-actions.c:1864
+#: src/wbcg-actions.c:1870
 msgid "_Show All"
 msgstr "_Zobrazit vše"
 
-#: src/wbcg-actions.c:1865
+#: src/wbcg-actions.c:1871
 msgid "Show all filtered and hidden rows"
 msgstr "Zobrazí všechny filtrované a skryté řádky"
 
-#: src/wbcg-actions.c:1867
+#: src/wbcg-actions.c:1873
 msgid "Advanced _Filter..."
 msgstr "Pokročilý _filtr..."
 
-#: src/wbcg-actions.c:1868
+#: src/wbcg-actions.c:1874
 msgid "Filter data with given criteria"
 msgstr "Filtruje data podle zadaných kritérií"
 
 #. Data -> External
-#: src/wbcg-actions.c:1871
+#: src/wbcg-actions.c:1877
 msgid "Import _Text File..."
 msgstr "Importovat _textový soubor..."
 
-#: src/wbcg-actions.c:1872
+#: src/wbcg-actions.c:1878
 msgid "Import the text from a file"
 msgstr "Importuje text ze souboru"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1876 src/workbook-control-gui.c:1827
+#: src/wbcg-actions.c:1882 src/workbook-control-gui.c:1827
 #: src/workbook-view.c:542
 msgid "Sum"
 msgstr "Součet"
 
-#: src/wbcg-actions.c:1877
+#: src/wbcg-actions.c:1883
 msgid "Sum into the current cell"
 msgstr "Součet do aktuální buňky"
 
-#: src/wbcg-actions.c:1880
+#: src/wbcg-actions.c:1886
 msgid "Edit a function in the current cell"
 msgstr "Upraví funkci v aktuální buňce"
 
-#: src/wbcg-actions.c:1884
+#: src/wbcg-actions.c:1890
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr "Setřídí vybranou oblast vzestupně podle prvního vybraného sloupce"
 
-#: src/wbcg-actions.c:1886
+#: src/wbcg-actions.c:1892
 msgid "Sort Descending"
 msgstr "Setřídit sestupně"
 
-#: src/wbcg-actions.c:1887
+#: src/wbcg-actions.c:1893
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr "Setřídí vybranou oblast sestupně podle prvního vybraného sloupce"
 
-#: src/wbcg-actions.c:1892
+#: src/wbcg-actions.c:1898
 msgid "Create a label"
 msgstr "Vytvoří titulek"
 
-#: src/wbcg-actions.c:1895
+#: src/wbcg-actions.c:1901
 msgid "Create a frame"
 msgstr "Vytvoří rámec"
 
-#: src/wbcg-actions.c:1897
+#: src/wbcg-actions.c:1903
 msgid "Checkbox"
 msgstr "Zaškrtávací okénko"
 
-#: src/wbcg-actions.c:1898
+#: src/wbcg-actions.c:1904
 msgid "Create a checkbox"
 msgstr "Vytvoří zaškrtávací okénko"
 
-#: src/wbcg-actions.c:1900
+#: src/wbcg-actions.c:1906
 msgid "Scrollbar"
 msgstr "Posuvník"
 
-#: src/wbcg-actions.c:1901
+#: src/wbcg-actions.c:1907
 msgid "Create a scrollbar"
 msgstr "Vytvoří posuvník"
 
-#: src/wbcg-actions.c:1903
+#: src/wbcg-actions.c:1909
 msgid "Slider"
 msgstr "Táhlo"
 
-#: src/wbcg-actions.c:1904
+#: src/wbcg-actions.c:1910
 msgid "Create a slider"
 msgstr "Vytvoří táhlo"
 
-#: src/wbcg-actions.c:1906
+#: src/wbcg-actions.c:1912
 msgid "SpinButton"
 msgstr "Tlačítko se šipkami"
 
-#: src/wbcg-actions.c:1907
+#: src/wbcg-actions.c:1913
 msgid "Create a spin button"
 msgstr "Vytvoří tlačítko se šipkami"
 
-#: src/wbcg-actions.c:1909 templates/autoformat/autoformat.3D.list.xml.in.h:3
+#: src/wbcg-actions.c:1915 templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "Seznam"
 
-#: src/wbcg-actions.c:1910
+#: src/wbcg-actions.c:1916
 msgid "Create a list"
 msgstr "Vytvoří seznam"
 
-#: src/wbcg-actions.c:1912
+#: src/wbcg-actions.c:1918
 msgid "Combo Box"
 msgstr "Combo Box"
 
-#: src/wbcg-actions.c:1913
+#: src/wbcg-actions.c:1919
 msgid "Create a combo box"
 msgstr "Vytvoří combo box"
 
-#: src/wbcg-actions.c:1916
+#: src/wbcg-actions.c:1922
 msgid "Create a line object"
 msgstr "Vytvoří objekt čára"
 
-#: src/wbcg-actions.c:1918
+#: src/wbcg-actions.c:1924
 msgid "Arrow"
 msgstr "Šipka"
 
-#: src/wbcg-actions.c:1919
+#: src/wbcg-actions.c:1925
 msgid "Create an arrow object"
 msgstr "Vytvoří objekt šipka"
 
-#: src/wbcg-actions.c:1921
+#: src/wbcg-actions.c:1927
 msgid "Rectangle"
 msgstr "Obdélník"
 
-#: src/wbcg-actions.c:1922
+#: src/wbcg-actions.c:1928
 msgid "Create a rectangle object"
 msgstr "Vytvoří objekt obdélník"
 
-#: src/wbcg-actions.c:1924
+#: src/wbcg-actions.c:1930
 msgid "Ellipse"
 msgstr "Elipsa"
 
-#: src/wbcg-actions.c:1925
+#: src/wbcg-actions.c:1931
 msgid "Create an ellipse object"
 msgstr "Vytvoří objekt elipsa"
 
-#: src/wbcg-actions.c:1928
+#: src/wbcg-actions.c:1934
 msgid "Create a button"
 msgstr "Vytvoří tlačítko"
 
-#: src/wbcg-actions.c:1931
+#: src/wbcg-actions.c:1937
 msgid "Create a radio button"
 msgstr "Vytvoří rádiový přepínač"
 
-#: src/wbcg-actions.c:1936
+#: src/wbcg-actions.c:1942
 msgid "Merge a range of cells"
 msgstr "Spojí oblast buněk"
 
-#: src/wbcg-actions.c:1938
+#: src/wbcg-actions.c:1944
 msgid "Split"
 msgstr "Rozdělit"
 
-#: src/wbcg-actions.c:1939
+#: src/wbcg-actions.c:1945
 msgid "Split merged ranges of cells"
 msgstr "Rozdělí spojené oblasti buněk"
 
-#: src/wbcg-actions.c:1943
+#: src/wbcg-actions.c:1949
 msgid "Format the selection as numbers"
 msgstr "Formátovat výběr jako čísla"
 
-#: src/wbcg-actions.c:1945 src/widgets/widget-format-selector.c:77
+#: src/wbcg-actions.c:1951 src/widgets/widget-format-selector.c:77
 msgid "Currency"
 msgstr "Měna"
 
-#: src/wbcg-actions.c:1946
+#: src/wbcg-actions.c:1952
 msgid "Format the selection as currency"
 msgstr "Formátovat výběr jako měnu"
 
-#: src/wbcg-actions.c:1948 src/widgets/widget-format-selector.c:78
+#: src/wbcg-actions.c:1954 src/widgets/widget-format-selector.c:78
 msgid "Accounting"
 msgstr "Účetnictví"
 
-#: src/wbcg-actions.c:1949
+#: src/wbcg-actions.c:1955
 msgid "Format the selection as accounting"
 msgstr "Formátovat výběr jako účetnictví"
 
-#: src/wbcg-actions.c:1951 src/widgets/widget-format-selector.c:81
+#: src/wbcg-actions.c:1957 src/widgets/widget-format-selector.c:81
 msgid "Percentage"
 msgstr "Procenta"
 
-#: src/wbcg-actions.c:1952
+#: src/wbcg-actions.c:1958
 msgid "Format the selection as percentage"
 msgstr "Formátovat výběr jako procenta"
 
-#: src/wbcg-actions.c:1954 src/widgets/widget-format-selector.c:83
+#: src/wbcg-actions.c:1960 src/widgets/widget-format-selector.c:83
 msgid "Scientific"
 msgstr "Vědecké"
 
-#: src/wbcg-actions.c:1955
+#: src/wbcg-actions.c:1961
 msgid "Format the selection as scientific"
 msgstr "Formátovat výběr jako vědecké"
 
-#: src/wbcg-actions.c:1957 src/widgets/widget-format-selector.c:79
+#: src/wbcg-actions.c:1963 src/widgets/widget-format-selector.c:79
 msgid "Date"
 msgstr "Datum"
 
-#: src/wbcg-actions.c:1958
+#: src/wbcg-actions.c:1964
 msgid "Format the selection as date"
 msgstr "Formátovat výběr jako datum"
 
-#: src/wbcg-actions.c:1960 src/widgets/widget-format-selector.c:80
+#: src/wbcg-actions.c:1966 src/widgets/widget-format-selector.c:80
 msgid "Time"
 msgstr "Čas"
 
-#: src/wbcg-actions.c:1961
+#: src/wbcg-actions.c:1967
 msgid "Format the selection as time"
 msgstr "Formátovat výběr jako čas"
 
-#: src/wbcg-actions.c:1963
+#: src/wbcg-actions.c:1969
 msgid "AddBorders"
 msgstr "PřidatOkraje"
 
 # FIXME: s/the/around/ ?
-#: src/wbcg-actions.c:1964
+#: src/wbcg-actions.c:1970
 msgid "Add a border the the selection"
 msgstr "Přidat okraje okolo výběru"
 
-#: src/wbcg-actions.c:1966
+#: src/wbcg-actions.c:1972
 msgid "ClearBorders"
 msgstr "VymazatOkraje"
 
-#: src/wbcg-actions.c:1967
+#: src/wbcg-actions.c:1973
 msgid "Clear the border around the selection"
 msgstr "Vymazat okraje okolo výběru"
 
-#: src/wbcg-actions.c:1970
+#: src/wbcg-actions.c:1976
 msgid "Thousands Separator"
 msgstr "Oddělovač tisíců"
 
-#: src/wbcg-actions.c:1971
+#: src/wbcg-actions.c:1977
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Nastaví formát vybraných buněk tak, aby obsahovaly oddělovače tisíců"
 
-#: src/wbcg-actions.c:1973
+#: src/wbcg-actions.c:1979
 msgid "Increase Precision"
 msgstr "Zvýšit přesnost"
 
-#: src/wbcg-actions.c:1974
+#: src/wbcg-actions.c:1980
 msgid "Increase the number of decimals displayed"
 msgstr "Zvýší počet zobrazovaných desetinných míst"
 
-#: src/wbcg-actions.c:1976
+#: src/wbcg-actions.c:1982
 msgid "Decrease Precision"
 msgstr "Snížit přesnost"
 
-#: src/wbcg-actions.c:1977
+#: src/wbcg-actions.c:1983
 msgid "Decrease the number of decimals displayed"
 msgstr "Sníží počet zobrazovaných desetinných míst"
 
-#: src/wbcg-actions.c:1980
+#: src/wbcg-actions.c:1986
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Snížit odsazení a zarovnat obsah doleva"
 
-#: src/wbcg-actions.c:1983
+#: src/wbcg-actions.c:1989
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Zvýšit odsazení a zarovnat obsah doleva"
 
 #. const 142334
-#: src/wbcg-actions.c:2021
+#: src/wbcg-actions.c:2027
 msgid "Display _Outlines"
 msgstr "Zobrazovat _přehledy"
 
-#: src/wbcg-actions.c:2022
+#: src/wbcg-actions.c:2028
 msgid "Toggle whether or not to display outline groups"
 msgstr "Přepne zobrazení skupin přehledů"
 
-#: src/wbcg-actions.c:2024
+#: src/wbcg-actions.c:2030
 msgid "Outlines _Below"
 msgstr "Přehled _dole"
 
-#: src/wbcg-actions.c:2025
+#: src/wbcg-actions.c:2031
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Přepne zobrazení přehledy řádků nahoře nebo dole"
 
-#: src/wbcg-actions.c:2027
+#: src/wbcg-actions.c:2033
 msgid "Outlines _Right"
 msgstr "Přehled vp_ravo"
 
-#: src/wbcg-actions.c:2028
+#: src/wbcg-actions.c:2034
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Přepne zobrazení přehledů sloupců vlevo nebo vpravo"
 
-#: src/wbcg-actions.c:2030
+#: src/wbcg-actions.c:2036
 msgid "Display _Formulas"
 msgstr "Zobrazovat _vzorce"
 
-#: src/wbcg-actions.c:2031
+#: src/wbcg-actions.c:2037
 msgid "Display the value of a formula or the formula itself"
 msgstr "Zobrazí hodnotu vzorce nebo vzorec samotný"
 
-#: src/wbcg-actions.c:2033
+#: src/wbcg-actions.c:2039
 msgid "Hide _Zeros"
 msgstr "Skrývat _nuly"
 
-#: src/wbcg-actions.c:2034
+#: src/wbcg-actions.c:2040
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Přepne zobrazení nuly jako prázdného místa"
 
-#: src/wbcg-actions.c:2036
+#: src/wbcg-actions.c:2042
 msgid "Hide _Gridlines"
 msgstr "Skrývat _mřížku"
 
-#: src/wbcg-actions.c:2037
+#: src/wbcg-actions.c:2043
 msgid "Toggle whether or not to display gridlines"
 msgstr "Přepne zobrazení mřížky"
 
-#: src/wbcg-actions.c:2039
+#: src/wbcg-actions.c:2045
 msgid "Hide _Column Headers"
 msgstr "Skrývat hlavičky sloup_ců"
 
-#: src/wbcg-actions.c:2040
+#: src/wbcg-actions.c:2046
 msgid "Toggle whether or not to display column headers"
 msgstr "Přepne zobrazení hlaviček sloupců"
 
-#: src/wbcg-actions.c:2042
+#: src/wbcg-actions.c:2048
 msgid "Hide _Row Headers"
 msgstr "Sk_rývat hlavičky řádků"
 
-#: src/wbcg-actions.c:2043
+#: src/wbcg-actions.c:2049
 msgid "Toggle whether or not to display row headers"
 msgstr "Přepne zobrazení hlaviček řádků"
 
-#: src/wbcg-actions.c:2047
+#: src/wbcg-actions.c:2053
 msgid "_Left Align"
 msgstr "Zarovnat do_leva"
 
-#: src/wbcg-actions.c:2048 src/wbc-gtk.c:324
+#: src/wbcg-actions.c:2054 src/wbc-gtk.c:324
 msgid "Align left"
 msgstr "Zarovnávat doleva"
 
-#: src/wbcg-actions.c:2050
+#: src/wbcg-actions.c:2056
 msgid "_Center"
 msgstr "Na _střed"
 
-#: src/wbcg-actions.c:2051 src/wbc-gtk.c:325
+#: src/wbcg-actions.c:2057 src/wbc-gtk.c:325
 msgid "Center horizontally"
 msgstr "Centrovat _vodorovně"
 
-#: src/wbcg-actions.c:2053
+#: src/wbcg-actions.c:2059
 msgid "_Right Align"
 msgstr "Zarovnat do_prava"
 
-#: src/wbcg-actions.c:2054 src/wbc-gtk.c:326
+#: src/wbcg-actions.c:2060 src/wbc-gtk.c:326
 msgid "Align right"
 msgstr "Zarovnávat doprava"
 
-#: src/wbcg-actions.c:2056
+#: src/wbcg-actions.c:2062
 msgid "_Center Across Selection"
 msgstr "Vy_centrovat přes výběr"
 
-#: src/wbcg-actions.c:2057 src/wbc-gtk.c:329
+#: src/wbcg-actions.c:2063 src/wbc-gtk.c:329
 msgid "Center horizontally across the selection"
 msgstr "Vycentrovat vodorovně přes výběr"
 
-#: src/wbcg-actions.c:2060
+#: src/wbcg-actions.c:2066
 msgid "_Merge and Center"
 msgstr "_Sloučit a vycentrovat"
 
-#: src/wbcg-actions.c:2061
+#: src/wbcg-actions.c:2067
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "Sloučit výběr do jedné buňky a vodorovně vystředit."
 
-#: src/wbcg-actions.c:2068
+#: src/wbcg-actions.c:2074
 msgid "Align _Top"
 msgstr "Zarovnávat na_horu"
 
-#: src/wbcg-actions.c:2069 src/wbc-gtk.c:336
+#: src/wbcg-actions.c:2075 src/wbc-gtk.c:336
 msgid "Align Top"
 msgstr "Zarovnávat nahoru"
 
-#: src/wbcg-actions.c:2071
+#: src/wbcg-actions.c:2077
 msgid "_Vertically Center"
 msgstr "_Svisle vycentrovat"
 
-#: src/wbcg-actions.c:2072
+#: src/wbcg-actions.c:2078
 msgid "Vertically Center"
 msgstr "Svisle vycentrovat"
 
-#: src/wbcg-actions.c:2074
+#: src/wbcg-actions.c:2080
 msgid "Align _Bottom"
 msgstr "Zarovnat _dolů"
 
-#: src/wbcg-actions.c:2075 src/wbc-gtk.c:338
+#: src/wbcg-actions.c:2081 src/wbc-gtk.c:338
 msgid "Align Bottom"
 msgstr "Zarovnávat dolů"
 
-#: src/wbcg-actions.c:2078
+#: src/wbcg-actions.c:2084
 msgid "View _Statusbar"
 msgstr "Zobrazovat _stavovou lištu"
 
-#: src/wbcg-actions.c:2079
+#: src/wbcg-actions.c:2085
 msgid "Toggle visibility of statusbar"
 msgstr "Přepnout viditelnost stavové lišty"
 
-#: src/wbcg-actions.c:2083
+#: src/wbcg-actions.c:2089
 msgid "F_ull Screen..."
 msgstr "_Celá obrazovka..."
 
-#: src/wbcg-actions.c:2084
+#: src/wbcg-actions.c:2090
 #, fuzzy
 msgid "in or out"
 msgstr "Neodhlašovat se"
 
-#: src/wbcg-actions.c:2089
+#: src/wbcg-actions.c:2095
 msgid "_Bold"
 msgstr "_Tučné"
 
 #. ALSO "<control>2"
-#: src/wbcg-actions.c:2090 src/widgets/widget-font-selector.c:201
+#: src/wbcg-actions.c:2096 src/widgets/widget-font-selector.c:201
 msgid "Bold"
 msgstr "Tučné"
 
-#: src/wbcg-actions.c:2092
+#: src/wbcg-actions.c:2098
 msgid "_Italic"
 msgstr "_Kurzíva"
 
 #. ALSO "<control>3"
-#: src/wbcg-actions.c:2093 src/widgets/widget-font-selector.c:203
+#: src/wbcg-actions.c:2099 src/widgets/widget-font-selector.c:203
 msgid "Italic"
 msgstr "Kurzíva"
 
-#: src/wbcg-actions.c:2095
+#: src/wbcg-actions.c:2101
 msgid "_Underline"
 msgstr "_Podtrhnutí"
 
 #. ALSO "<control>4"
-#: src/wbcg-actions.c:2096
+#: src/wbcg-actions.c:2102
 msgid "Underline"
 msgstr "Podtrhnutí"
 
-#: src/wbcg-actions.c:2098
+#: src/wbcg-actions.c:2104
 msgid "_Strike Through"
 msgstr "Přeš_krtnuté"
 
-#: src/wbcg-actions.c:2099
+#: src/wbcg-actions.c:2105
 msgid "Strike Through"
 msgstr "Přeškrtnuté"
 
-#: src/wbcg-actions.c:2102
+#: src/wbcg-actions.c:2108
 msgid "_Double Underline"
 msgstr "_Dvojité podtrhnutí"
 
-#: src/wbcg-actions.c:2103
+#: src/wbcg-actions.c:2109
 msgid "Double Underline"
 msgstr "Dvojité podtrhnutí"
 
@@ -33063,16 +33111,16 @@ msgstr "Za_hodit"
 msgid "_Accept"
 msgstr "_Přijmout"
 
-#: src/workbook-edit.c:611
+#: src/workbook-edit.c:684
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s je zamknutý"
 
-#: src/workbook-edit.c:615
+#: src/workbook-edit.c:688
 msgid "Unprotect the workbook to enable editing."
 msgstr "Zrušit ochranu sešitu pro umožnění změn."
 
-#: src/workbook-edit.c:616
+#: src/workbook-edit.c:689
 msgid "Unprotect the sheet to enable editing."
 msgstr "Zrušit ochranu listu pro umožnění změn."
 

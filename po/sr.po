@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-10 00:06-0500\n"
+"POT-Creation-Date: 2005-01-17 00:44-0500\n"
 "PO-Revision-Date: 2003-12-08 01:14+0100\n"
 "Last-Translator: Слободан Средојевић <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
@@ -30,7 +30,7 @@ msgid "Gnumeric Workbook viewer factory"
 msgstr "Гнумерик фабрика за систем за преглед"
 
 #. Keep in sync with .desktop file
-#: gnumeric.desktop.in.h:1 src/main-application.c:285
+#: gnumeric.desktop.in.h:1 src/main-application.c:293
 msgid "Gnumeric Spreadsheet"
 msgstr "Гнумерик табеларни прорачун"
 
@@ -938,7 +938,7 @@ msgstr "Финансијски изводи"
 msgid "Functions related to financial derivatives"
 msgstr "Функције у вези са финансијским изводима"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5832
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5837
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Учитава датотеку..."
@@ -1029,45 +1029,45 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Неочекивани атрибут %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
-#: plugins/openoffice/openoffice-read.c:1479
+#: plugins/openoffice/openoffice-read.c:1503
 #: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "XML документ није добро оформљен!"
 
-#: plugins/excel/ms-excel-read.c:1070 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1028 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#НЕПОЗНАТ!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1152 plugins/excel/ms-excel-read.c:1164
-#: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
+#: plugins/excel/ms-excel-read.c:1110 plugins/excel/ms-excel-read.c:1122
+#: plugins/oleo/oleo.c:344 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
 msgstr "Табела%d"
 
-#: plugins/excel/ms-excel-read.c:1168
+#: plugins/excel/ms-excel-read.c:1126
 #, c-format
 msgid "Macro%d"
 msgstr "Макро%d"
 
-#: plugins/excel/ms-excel-read.c:1172
+#: plugins/excel/ms-excel-read.c:1130
 #, c-format
 msgid "Chart%d"
 msgstr "Графикон%d"
 
-#: plugins/excel/ms-excel-read.c:1175
+#: plugins/excel/ms-excel-read.c:1133
 #, c-format
 msgid "Module%d"
 msgstr "Модул%d"
 
-#: plugins/excel/ms-excel-read.c:2964
+#: plugins/excel/ms-excel-read.c:2922
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Грешка при обради имена '%s'"
 
-#: plugins/excel/ms-excel-read.c:3060
+#: plugins/excel/ms-excel-read.c:3018
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1076,7 +1076,7 @@ msgstr ""
 "DDE везе нису подржане.\n"
 "Име „%s“ ће бити изгубљено.\n"
 
-#: plugins/excel/ms-excel-read.c:3066
+#: plugins/excel/ms-excel-read.c:3024
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1085,16 +1085,16 @@ msgstr ""
 "OLE везе нису подржане.\n"
 "Име „%s“ ће бити изгубљено.\n"
 
-#: plugins/excel/ms-excel-read.c:5177
+#: plugins/excel/ms-excel-read.c:5145
 msgid "external references"
 msgstr "Спољње упућивање."
 
-#: plugins/excel/ms-excel-read.c:5200
+#: plugins/excel/ms-excel-read.c:5168
 msgid "No password supplied"
 msgstr "Лозинка није унета"
 
 # Da nije mozda "imeniku" a ne "direktorijumu"?
-#: plugins/excel/ms-excel-read.c:6058
+#: plugins/excel/ms-excel-read.c:6063
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не може да пронађе исправну MS EXcel радну свеску"
 
@@ -1109,7 +1109,7 @@ msgstr ""
 "запису."
 
 # bug: plural-forms
-#: plugins/excel/ms-excel-write.c:4167
+#: plugins/excel/ms-excel-write.c:4195
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1119,7 +1119,7 @@ msgstr ""
 "само %d врста, а ова радна свеска има %d"
 
 # bug: plural-forms
-#: plugins/excel/ms-excel-write.c:4174
+#: plugins/excel/ms-excel-write.c:4202
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1128,19 +1128,19 @@ msgstr ""
 "Неки садржај ће бити изгубљен када га чувате у ексел облику. Он подржава "
 "само %d врста, а ова радна свеска има %d"
 
-#: plugins/excel/ms-excel-write.c:4939
+#: plugins/excel/ms-excel-write.c:4967
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Нисам успео да отворим ток 'Book' за уписивање\n"
 
-#: plugins/excel/ms-excel-write.c:4959
+#: plugins/excel/ms-excel-write.c:4987
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Нисам успео да отворим tok 'Workbook' за уписивање\n"
 
-#: plugins/excel/ms-formula-read.c:593
+#: plugins/excel/ms-formula-read.c:652
 msgid "Broken function"
 msgstr "Неисправна функција"
 
-#: plugins/excel/ms-formula-write.c:537
+#: plugins/excel/ms-formula-write.c:535
 #, fuzzy, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel expects exactly %d and we "
@@ -1149,7 +1149,7 @@ msgstr ""
 "Превише аргумената је наведено за ову функцију. MS Excel очекује тачно %d "
 "аргумената а ми имамо више"
 
-#: plugins/excel/ms-formula-write.c:538
+#: plugins/excel/ms-formula-write.c:536
 #, fuzzy, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
@@ -2963,8 +2963,8 @@ msgstr ""
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: plugins/fn-date/functions.c:900 plugins/fn-eng/functions.c:101
-#: plugins/fn-info/functions.c:1285 plugins/fn-info/functions.c:1301
+#: plugins/fn-date/functions.c:900 plugins/fn-info/functions.c:1285
+#: plugins/fn-info/functions.c:1301
 msgid "Unimplemented"
 msgstr "Неимплементирано"
 
@@ -3074,7 +3074,7 @@ msgstr "датум1,датум2,интервал"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:472
+#: src/print-info.c:476
 msgid "date"
 msgstr "датум"
 
@@ -3091,7 +3091,7 @@ msgid "start_date,months"
 msgstr "почетни_датум,месеци"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:473
+#: plugins/fn-date/functions.c:1265 src/print-info.c:477
 msgid "time"
 msgstr "време"
 
@@ -3131,7 +3131,25 @@ msgstr "Датум/Време"
 msgid "Functions manipulating dates and time"
 msgstr "Функције за рад са датумима и временом"
 
-#: plugins/fn-eng/functions.c:116
+#: plugins/fn-eng/functions.c:140
+msgid ""
+"@FUNCTION=BASE\n"
+"@SYNTAX=BASE(number,base[,length])\n"
+"@DESCRIPTION=BASE function converts a number to a string representing that "
+"number in base @base.\n"
+"\n"
+"* @base must be an integer between 2 and 36.\n"
+"* This function is OpenOffice.Org compatible.\n"
+"* Optional argument @length specifies the minimum result length.  Leading  "
+"zeroes will be added to reach this length.\n"
+"\n"
+"@EXAMPLES=\n"
+"BASE(255,16,4) equals \"00FF\".\n"
+"\n"
+"@SEEALSO=DECIMAL"
+msgstr ""
+
+#: plugins/fn-eng/functions.c:175
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -3146,7 +3164,7 @@ msgid ""
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:139
+#: plugins/fn-eng/functions.c:198
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -3163,7 +3181,7 @@ msgid ""
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:165
+#: plugins/fn-eng/functions.c:224
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -3180,7 +3198,7 @@ msgid ""
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:191
+#: plugins/fn-eng/functions.c:250
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -3197,7 +3215,7 @@ msgid ""
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:217
+#: plugins/fn-eng/functions.c:276
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -3214,7 +3232,7 @@ msgid ""
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:243
+#: plugins/fn-eng/functions.c:302
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -3231,7 +3249,22 @@ msgid ""
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:269
+#: plugins/fn-eng/functions.c:328
+msgid ""
+"@FUNCTION=DECIMAL\n"
+"@SYNTAX=DECIMAL(text,base)\n"
+"@DESCRIPTION=DECIMAL function converts a number in base @base to decimal.\n"
+"\n"
+"* @base must be an integer between 2 and 36.\n"
+"* This function is OpenOffice.Org compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"DECIMAL(\"A1\",16) equals 161.\n"
+"\n"
+"@SEEALSO=BASE"
+msgstr ""
+
+#: plugins/fn-eng/functions.c:357
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -3246,7 +3279,7 @@ msgid ""
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:292
+#: plugins/fn-eng/functions.c:380
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -3263,7 +3296,7 @@ msgid ""
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:318
+#: plugins/fn-eng/functions.c:406
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -3280,7 +3313,7 @@ msgid ""
 "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:344
+#: plugins/fn-eng/functions.c:432
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -3297,7 +3330,7 @@ msgid ""
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:370
+#: plugins/fn-eng/functions.c:458
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -3314,7 +3347,7 @@ msgid ""
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:396
+#: plugins/fn-eng/functions.c:484
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -3329,7 +3362,7 @@ msgid ""
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:419
+#: plugins/fn-eng/functions.c:507
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -3349,7 +3382,7 @@ msgid ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:457
+#: plugins/fn-eng/functions.c:545
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -3367,7 +3400,7 @@ msgid ""
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:494
+#: plugins/fn-eng/functions.c:582
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -3385,7 +3418,7 @@ msgid ""
 "@SEEALSO=BESSELI,BESSELK,BESSELY"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:530
+#: plugins/fn-eng/functions.c:618
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -3405,7 +3438,7 @@ msgid ""
 "@SEEALSO=BESSELI,BESSELJ,BESSELK"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:573
+#: plugins/fn-eng/functions.c:661
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -3518,7 +3551,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-eng/functions.c:988
+#: plugins/fn-eng/functions.c:1076
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -3545,7 +3578,7 @@ msgid ""
 "@SEEALSO=ERFC"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:1035
+#: plugins/fn-eng/functions.c:1123
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -3564,7 +3597,7 @@ msgid ""
 "@SEEALSO=ERF"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:1065
+#: plugins/fn-eng/functions.c:1153
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -3581,11 +3614,11 @@ msgid ""
 "@SEEALSO=EXACT,GESTEP"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:1109 plugins/fn-eng/functions.c:1163
+#: plugins/fn-eng/functions.c:1197 plugins/fn-eng/functions.c:1251
 msgid "Impossible"
 msgstr "Немогуће"
 
-#: plugins/fn-eng/functions.c:1120
+#: plugins/fn-eng/functions.c:1208
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -3600,7 +3633,7 @@ msgid ""
 "@SEEALSO=DELTA"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:1174
+#: plugins/fn-eng/functions.c:1262
 msgid ""
 "@FUNCTION=INVSUMINV\n"
 "@SYNTAX=INVSUMINV(x1,x2,...)\n"
@@ -5242,12 +5275,12 @@ msgstr "%s верзија %s"
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #. Color
 #: plugins/fn-info/functions.c:1324
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1459
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1455
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:224
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:120
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:867
-#: src/dialogs/dialog-cell-format.c:2370 src/dialogs/dialog-cell-format.c:2375
-#: src/dialogs/dialog-cell-format.c:2385 src/wbc-gtk.c:536
+#: src/dialogs/dialog-cell-format.c:2377 src/dialogs/dialog-cell-format.c:2382
+#: src/dialogs/dialog-cell-format.c:2392 src/wbc-gtk.c:536
 msgid "Automatic"
 msgstr "Аутоматско"
 
@@ -5700,45 +5733,45 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-logical/functions.c:334 plugins/fn-logical/functions.c:338
-#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3317
-#: plugins/fn-stat/functions.c:5633 plugins/fn-stat/functions.c:5637
-#: plugins/fn-stat/functions.c:5641 plugins/fn-stat/functions.c:5679
-#: plugins/fn-stat/functions.c:5682 plugins/fn-stat/functions.c:5691
-#: plugins/fn-stat/functions.c:5727 plugins/fn-stat/functions.c:5741
-#: plugins/fn-stat/functions.c:5744 plugins/fn-stat/functions.c:5747
-#: plugins/fn-stat/functions.c:5769 plugins/fn-stat/functions.c:5773
-#: plugins/fn-stat/functions.c:5777 plugins/fn-stat/functions.c:5781
-#: plugins/fn-stat/functions.c:5785 plugins/fn-stat/functions.c:5789
-#: plugins/fn-stat/functions.c:5835 plugins/fn-stat/functions.c:5845
-#: plugins/fn-stat/functions.c:5849 plugins/fn-stat/functions.c:5853
-#: plugins/fn-stat/functions.c:5857 plugins/fn-stat/functions.c:5886
-#: plugins/fn-stat/functions.c:5889 plugins/fn-stat/functions.c:5892
-#: plugins/fn-stat/functions.c:5895 plugins/fn-stat/functions.c:5911
+#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3332
+#: plugins/fn-stat/functions.c:5636 plugins/fn-stat/functions.c:5640
+#: plugins/fn-stat/functions.c:5644 plugins/fn-stat/functions.c:5682
+#: plugins/fn-stat/functions.c:5685 plugins/fn-stat/functions.c:5694
+#: plugins/fn-stat/functions.c:5730 plugins/fn-stat/functions.c:5744
+#: plugins/fn-stat/functions.c:5747 plugins/fn-stat/functions.c:5750
+#: plugins/fn-stat/functions.c:5772 plugins/fn-stat/functions.c:5776
+#: plugins/fn-stat/functions.c:5780 plugins/fn-stat/functions.c:5784
+#: plugins/fn-stat/functions.c:5788 plugins/fn-stat/functions.c:5792
+#: plugins/fn-stat/functions.c:5838 plugins/fn-stat/functions.c:5848
+#: plugins/fn-stat/functions.c:5852 plugins/fn-stat/functions.c:5856
+#: plugins/fn-stat/functions.c:5860 plugins/fn-stat/functions.c:5889
+#: plugins/fn-stat/functions.c:5892 plugins/fn-stat/functions.c:5895
+#: plugins/fn-stat/functions.c:5898 plugins/fn-stat/functions.c:5914
 #: src/func-builtin.c:131 src/func-builtin.c:137
 msgid "number,number,"
 msgstr "број,број,"
 
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3149
-#: plugins/fn-math/functions.c:3153 plugins/fn-math/functions.c:3156
-#: plugins/fn-math/functions.c:3159 plugins/fn-math/functions.c:3162
-#: plugins/fn-math/functions.c:3165 plugins/fn-math/functions.c:3168
-#: plugins/fn-math/functions.c:3174 plugins/fn-math/functions.c:3183
-#: plugins/fn-math/functions.c:3192 plugins/fn-math/functions.c:3200
-#: plugins/fn-math/functions.c:3203 plugins/fn-math/functions.c:3206
-#: plugins/fn-math/functions.c:3209 plugins/fn-math/functions.c:3212
-#: plugins/fn-math/functions.c:3217 plugins/fn-math/functions.c:3221
-#: plugins/fn-math/functions.c:3227 plugins/fn-math/functions.c:3237
-#: plugins/fn-math/functions.c:3244 plugins/fn-math/functions.c:3247
-#: plugins/fn-math/functions.c:3253 plugins/fn-math/functions.c:3256
-#: plugins/fn-math/functions.c:3269 plugins/fn-math/functions.c:3275
-#: plugins/fn-math/functions.c:3281 plugins/fn-math/functions.c:3302
-#: plugins/fn-math/functions.c:3305 plugins/fn-math/functions.c:3308
-#: plugins/fn-math/functions.c:3311 plugins/fn-math/functions.c:3314
-#: plugins/fn-math/functions.c:3327 plugins/fn-math/functions.c:3339
-#: plugins/fn-math/functions.c:3342 plugins/fn-stat/functions.c:5703
-#: plugins/fn-stat/functions.c:5706 plugins/fn-stat/functions.c:5724
-#: plugins/fn-stat/functions.c:5802 plugins/fn-string/functions.c:1119
+#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3164
+#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3171
+#: plugins/fn-math/functions.c:3174 plugins/fn-math/functions.c:3177
+#: plugins/fn-math/functions.c:3180 plugins/fn-math/functions.c:3183
+#: plugins/fn-math/functions.c:3189 plugins/fn-math/functions.c:3198
+#: plugins/fn-math/functions.c:3207 plugins/fn-math/functions.c:3215
+#: plugins/fn-math/functions.c:3218 plugins/fn-math/functions.c:3221
+#: plugins/fn-math/functions.c:3224 plugins/fn-math/functions.c:3227
+#: plugins/fn-math/functions.c:3232 plugins/fn-math/functions.c:3236
+#: plugins/fn-math/functions.c:3242 plugins/fn-math/functions.c:3252
+#: plugins/fn-math/functions.c:3259 plugins/fn-math/functions.c:3262
+#: plugins/fn-math/functions.c:3268 plugins/fn-math/functions.c:3271
+#: plugins/fn-math/functions.c:3284 plugins/fn-math/functions.c:3290
+#: plugins/fn-math/functions.c:3296 plugins/fn-math/functions.c:3317
+#: plugins/fn-math/functions.c:3320 plugins/fn-math/functions.c:3323
+#: plugins/fn-math/functions.c:3326 plugins/fn-math/functions.c:3329
+#: plugins/fn-math/functions.c:3342 plugins/fn-math/functions.c:3354
+#: plugins/fn-math/functions.c:3357 plugins/fn-stat/functions.c:5706
+#: plugins/fn-stat/functions.c:5709 plugins/fn-stat/functions.c:5727
+#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1119
 #: plugins/fn-string/functions.c:1122
 msgid "number"
 msgstr "број"
@@ -5897,7 +5930,7 @@ msgid ""
 "@SEEALSO=LOOKUP"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:792
+#: plugins/fn-lookup/functions.c:789
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text[,format])\n"
@@ -5914,7 +5947,7 @@ msgid ""
 "@SEEALSO=AREAS,INDEX,CELL"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:835
+#: plugins/fn-lookup/functions.c:832
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array[,row, col, area])\n"
@@ -5932,7 +5965,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:902
+#: plugins/fn-lookup/functions.c:899
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -5948,7 +5981,7 @@ msgid ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:957
+#: plugins/fn-lookup/functions.c:954
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -5963,7 +5996,7 @@ msgid ""
 "@SEEALSO=ADDRESS"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:989
+#: plugins/fn-lookup/functions.c:986
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -5979,7 +6012,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1014
+#: plugins/fn-lookup/functions.c:1011
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -5995,7 +6028,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1072
+#: plugins/fn-lookup/functions.c:1069
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -6011,7 +6044,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1125
+#: plugins/fn-lookup/functions.c:1122
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -6027,7 +6060,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROW"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1150
+#: plugins/fn-lookup/functions.c:1147
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
@@ -6040,7 +6073,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1175
+#: plugins/fn-lookup/functions.c:1172
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -6051,56 +6084,56 @@ msgid ""
 "@SEEALSO=MMULT"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1219
+#: plugins/fn-lookup/functions.c:1216
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1222
+#: plugins/fn-lookup/functions.c:1219
 msgid "reference"
 msgstr "упућивање"
 
-#: plugins/fn-lookup/functions.c:1225
+#: plugins/fn-lookup/functions.c:1222
 msgid "index,value,"
 msgstr "индек,вредност,"
 
-#: plugins/fn-lookup/functions.c:1228 plugins/fn-lookup/functions.c:1234
-#: plugins/fn-lookup/functions.c:1258 plugins/fn-lookup/functions.c:1261
+#: plugins/fn-lookup/functions.c:1225 plugins/fn-lookup/functions.c:1231
+#: plugins/fn-lookup/functions.c:1255 plugins/fn-lookup/functions.c:1258
 msgid "ref"
 msgstr "упућује"
 
-#: plugins/fn-lookup/functions.c:1231
+#: plugins/fn-lookup/functions.c:1228
 msgid "colname"
 msgstr "назив_колоне"
 
-#: plugins/fn-lookup/functions.c:1237 plugins/fn-lookup/functions.c:1267
+#: plugins/fn-lookup/functions.c:1234 plugins/fn-lookup/functions.c:1264
 msgid "val,range,col_idx,approx,as_index"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1240
+#: plugins/fn-lookup/functions.c:1237
 msgid "link_location, label"
 msgstr "адреса_везе, ознака"
 
-#: plugins/fn-lookup/functions.c:1243
+#: plugins/fn-lookup/functions.c:1240
 msgid "ref_string,format"
 msgstr "низ_на_који_упућује,формат"
 
-#: plugins/fn-lookup/functions.c:1246
+#: plugins/fn-lookup/functions.c:1243
 msgid "reference,row,col,area"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1249
+#: plugins/fn-lookup/functions.c:1246
 msgid "val,range,range"
 msgstr "вредност,опсег,опсег"
 
-#: plugins/fn-lookup/functions.c:1252
+#: plugins/fn-lookup/functions.c:1249
 msgid "val,range,approx"
 msgstr "вредност,опсег,приближно"
 
-#: plugins/fn-lookup/functions.c:1255
+#: plugins/fn-lookup/functions.c:1252
 msgid "ref,row,col,height,width"
 msgstr "упућивање,врста,колона,висина,ширина"
 
-#: plugins/fn-lookup/functions.c:1264 plugins/fn-math/functions.c:3355
+#: plugins/fn-lookup/functions.c:1261 plugins/fn-math/functions.c:3370
 msgid "array"
 msgstr "низ"
 
@@ -6380,7 +6413,7 @@ msgid ""
 "@SEEALSO=CEIL, FLOOR, ABS, INT, MOD"
 msgstr ""
 
-#: plugins/fn-math/functions.c:797
+#: plugins/fn-math/functions.c:800
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -6396,7 +6429,7 @@ msgid ""
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: plugins/fn-math/functions.c:821
+#: plugins/fn-math/functions.c:824
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -6415,7 +6448,7 @@ msgid ""
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:846
+#: plugins/fn-math/functions.c:849
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -6430,7 +6463,7 @@ msgid ""
 "@SEEALSO=RADIANS, PI"
 msgstr ""
 
-#: plugins/fn-math/functions.c:870
+#: plugins/fn-math/functions.c:873
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -6445,7 +6478,7 @@ msgid ""
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
 
-#: plugins/fn-math/functions.c:893
+#: plugins/fn-math/functions.c:896
 msgid ""
 "@FUNCTION=EXPM1\n"
 "@SYNTAX=EXPM1(x)\n"
@@ -6458,7 +6491,7 @@ msgid ""
 "@SEEALSO=EXP, LN1P"
 msgstr ""
 
-#: plugins/fn-math/functions.c:914
+#: plugins/fn-math/functions.c:917
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -6473,7 +6506,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:951
+#: plugins/fn-math/functions.c:954
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -6490,7 +6523,7 @@ msgid ""
 "@SEEALSO=BETALN,GAMMALN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:981
+#: plugins/fn-math/functions.c:984
 msgid ""
 "@FUNCTION=BETALN\n"
 "@SYNTAX=BETALN(a,b)\n"
@@ -6505,7 +6538,7 @@ msgid ""
 "@SEEALSO=BETA,GAMMALN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1010
+#: plugins/fn-math/functions.c:1013
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -6523,7 +6556,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:1043
+#: plugins/fn-math/functions.c:1046
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x[,significance])\n"
@@ -6542,7 +6575,7 @@ msgid ""
 "@SEEALSO=CEIL, CEILING, ABS, INT, MOD"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1084
+#: plugins/fn-math/functions.c:1090
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -6558,7 +6591,7 @@ msgid ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1109
+#: plugins/fn-math/functions.c:1115
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -6575,7 +6608,7 @@ msgid ""
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1143
+#: plugins/fn-math/functions.c:1149
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -6590,7 +6623,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1172
+#: plugins/fn-math/functions.c:1178
 msgid ""
 "@FUNCTION=LN1P\n"
 "@SYNTAX=LN1P(x)\n"
@@ -6605,7 +6638,7 @@ msgid ""
 "@SEEALSO=LN, EXPM1"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1201
+#: plugins/fn-math/functions.c:1207
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -6624,7 +6657,7 @@ msgid ""
 "@SEEALSO=EXP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1237
+#: plugins/fn-math/functions.c:1243
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -6638,7 +6671,7 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1263
+#: plugins/fn-math/functions.c:1269
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -6653,7 +6686,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1292
+#: plugins/fn-math/functions.c:1298
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -6669,7 +6702,7 @@ msgid ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, INT, ABS"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1343
+#: plugins/fn-math/functions.c:1349
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -6684,7 +6717,7 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1367
+#: plugins/fn-math/functions.c:1373
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -6699,7 +6732,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1390
+#: plugins/fn-math/functions.c:1396
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -6716,7 +6749,7 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1414
+#: plugins/fn-math/functions.c:1420
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -6731,7 +6764,7 @@ msgid ""
 "@SEEALSO=POWER"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1442
+#: plugins/fn-math/functions.c:1448
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -6749,7 +6782,7 @@ msgid ""
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1474
+#: plugins/fn-math/functions.c:1480
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -6766,7 +6799,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1505
+#: plugins/fn-math/functions.c:1511
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -6781,7 +6814,7 @@ msgid ""
 "@SEEALSO=SUM"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1534
+#: plugins/fn-math/functions.c:1540
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -6796,7 +6829,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1562
+#: plugins/fn-math/functions.c:1568
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -6811,7 +6844,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1585
+#: plugins/fn-math/functions.c:1591
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -6828,7 +6861,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1608
+#: plugins/fn-math/functions.c:1614
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -6844,7 +6877,7 @@ msgid ""
 "@SEEALSO=SQRTPI"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1633
+#: plugins/fn-math/functions.c:1639
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -6862,37 +6895,39 @@ msgid ""
 "@SEEALSO=INT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1669
+#: plugins/fn-math/functions.c:1675
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
 "@DESCRIPTION=EVEN function returns the number rounded up to the nearest even "
-"integer.\n"
+"integer.  Negative numbers are rounded down.\n"
 "\n"
 "* This function is Excel compatible.\n"
 " \n"
 "@EXAMPLES=\n"
 "EVEN(5.4) equals 6.\n"
+"EVEN(-5.4) equals -6.\n"
 "\n"
 "@SEEALSO=ODD"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1707
+#: plugins/fn-math/functions.c:1714
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
 "@DESCRIPTION=ODD function returns the @number rounded up to the nearest odd "
-"integer.\n"
+"integer.  Negative numbers are rounded down.\n"
 "\n"
 "* This function is Excel compatible.\n"
 " \n"
 "@EXAMPLES=\n"
 "ODD(4.4) equals 5.\n"
+"ODD(-4.4) equals -5.\n"
 "\n"
 "@SEEALSO=EVEN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1745
+#: plugins/fn-math/functions.c:1753
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -6909,7 +6944,7 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1783
+#: plugins/fn-math/functions.c:1791
 msgid ""
 "@FUNCTION=FIB\n"
 "@SYNTAX=FIB(number)\n"
@@ -6924,7 +6959,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:1831
+#: plugins/fn-math/functions.c:1839
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denominator)\n"
@@ -6939,7 +6974,7 @@ msgid ""
 "@SEEALSO=MOD"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1863
+#: plugins/fn-math/functions.c:1871
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -6956,7 +6991,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:1897
+#: plugins/fn-math/functions.c:1905
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -6971,7 +7006,7 @@ msgid ""
 "@SEEALSO=PI"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1926
+#: plugins/fn-math/functions.c:1934
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -6996,7 +7031,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDUP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1970
+#: plugins/fn-math/functions.c:1978
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -7021,7 +7056,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2011
+#: plugins/fn-math/functions.c:2019
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -7047,7 +7082,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDDOWN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2055
+#: plugins/fn-math/functions.c:2063
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -7066,7 +7101,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2109
+#: plugins/fn-math/functions.c:2117
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -7090,7 +7125,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:2375
+#: plugins/fn-math/functions.c:2383
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -7113,14 +7148,14 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2PY2"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2431 plugins/fn-math/functions.c:2451
-#: plugins/fn-math/functions.c:2544 plugins/fn-math/functions.c:2564
-#: plugins/fn-math/functions.c:2655 plugins/fn-math/functions.c:2675
+#: plugins/fn-math/functions.c:2439 plugins/fn-math/functions.c:2459
+#: plugins/fn-math/functions.c:2552 plugins/fn-math/functions.c:2572
+#: plugins/fn-math/functions.c:2663 plugins/fn-math/functions.c:2683
 #: plugins/fn-stat/functions.c:2934 plugins/fn-stat/functions.c:2964
 msgid "Array version not implemented!"
 msgstr "Верзија низа није подржана!"
 
-#: plugins/fn-math/functions.c:2489
+#: plugins/fn-math/functions.c:2497
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -7143,7 +7178,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2600
+#: plugins/fn-math/functions.c:2608
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -7166,7 +7201,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2713
+#: plugins/fn-math/functions.c:2721
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -7185,7 +7220,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2771
+#: plugins/fn-math/functions.c:2779
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -7201,7 +7236,7 @@ msgid ""
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2914
+#: plugins/fn-math/functions.c:2922
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -7216,7 +7251,7 @@ msgid ""
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2990
+#: plugins/fn-math/functions.c:2998
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -7235,7 +7270,7 @@ msgid ""
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3037
+#: plugins/fn-math/functions.c:3045
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -7256,11 +7291,11 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3171
+#: plugins/fn-math/functions.c:3186
 msgid "xnum,ynum"
 msgstr "x_број,y_број"
 
-#: plugins/fn-math/functions.c:3177 plugins/fn-math/functions.c:3180
+#: plugins/fn-math/functions.c:3192 plugins/fn-math/functions.c:3195
 #: plugins/fn-random/functions.c:1103 plugins/fn-random/functions.c:1124
 #: plugins/fn-random/functions.c:1130 plugins/fn-random/functions.c:1169
 #: plugins/fn-random/functions.c:1184 plugins/fn-random/functions.c:1187
@@ -7268,67 +7303,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3188
+#: plugins/fn-math/functions.c:3203
 msgid "range,criteria"
 msgstr "опсег,критеријум"
 
-#: plugins/fn-math/functions.c:3196
+#: plugins/fn-math/functions.c:3211
 msgid "number,significance"
 msgstr "број,значај"
 
-#: plugins/fn-math/functions.c:3224 plugins/fn-stat/functions.c:5817
+#: plugins/fn-math/functions.c:3239 plugins/fn-stat/functions.c:5820
 msgid "n,k"
 msgstr "n,k"
 
-#: plugins/fn-math/functions.c:3231
+#: plugins/fn-math/functions.c:3246
 msgid "number,number"
 msgstr "број,број"
 
-#: plugins/fn-math/functions.c:3250
+#: plugins/fn-math/functions.c:3265
 msgid "number,base"
 msgstr "број,основа"
 
-#: plugins/fn-math/functions.c:3259 plugins/fn-math/functions.c:3278
+#: plugins/fn-math/functions.c:3274 plugins/fn-math/functions.c:3293
 msgid "numerator,denominator"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3262
+#: plugins/fn-math/functions.c:3277
 msgid "number,multiple"
 msgstr "број,множилац"
 
-#: plugins/fn-math/functions.c:3272
+#: plugins/fn-math/functions.c:3287
 msgid "base,exponent"
 msgstr "основа,експонент"
 
-#: plugins/fn-math/functions.c:3284
+#: plugins/fn-math/functions.c:3299
 msgid "number,type"
 msgstr "број,врста"
 
-#: plugins/fn-math/functions.c:3287 plugins/fn-math/functions.c:3291
-#: plugins/fn-math/functions.c:3295 plugins/fn-math/functions.c:3345
+#: plugins/fn-math/functions.c:3302 plugins/fn-math/functions.c:3306
+#: plugins/fn-math/functions.c:3310 plugins/fn-math/functions.c:3360
 msgid "number,digits"
 msgstr "број,број цифара"
 
-#: plugins/fn-math/functions.c:3299
+#: plugins/fn-math/functions.c:3314
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,коефицијенти"
 
-#: plugins/fn-math/functions.c:3321
+#: plugins/fn-math/functions.c:3336
 msgid "range,criteria,actual_range"
 msgstr "опсег,критеријум,стварни_опсег"
 
-#: plugins/fn-math/functions.c:3324
+#: plugins/fn-math/functions.c:3339
 msgid "range,range,"
 msgstr "опсег,опсег,"
 
-#: plugins/fn-math/functions.c:3330 plugins/fn-math/functions.c:3333
-#: plugins/fn-math/functions.c:3336 plugins/fn-math/functions.c:3352
-#: plugins/fn-stat/functions.c:5676 plugins/fn-stat/functions.c:5685
-#: plugins/fn-stat/functions.c:5808 plugins/fn-stat/functions.c:5864
+#: plugins/fn-math/functions.c:3345 plugins/fn-math/functions.c:3348
+#: plugins/fn-math/functions.c:3351 plugins/fn-math/functions.c:3367
+#: plugins/fn-stat/functions.c:5679 plugins/fn-stat/functions.c:5688
+#: plugins/fn-stat/functions.c:5811 plugins/fn-stat/functions.c:5867
 msgid "array1,array2"
 msgstr "низ1,низ2"
 
-#: plugins/fn-math/functions.c:3358 plugins/fn-math/functions.c:3362
+#: plugins/fn-math/functions.c:3373 plugins/fn-math/functions.c:3377
 msgid "array,matrix_type,bandsize"
 msgstr ""
 
@@ -7854,7 +7889,7 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:1100 plugins/fn-random/functions.c:1136
-#: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5805
+#: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5808
 msgid "p"
 msgstr "п"
 
@@ -9435,7 +9470,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4132
+#: plugins/fn-stat/functions.c:4133
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -9470,7 +9505,7 @@ msgid ""
 "@SEEALSO=LOGFIT,LINEST,LOGEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4408
+#: plugins/fn-stat/functions.c:4410
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -9503,7 +9538,7 @@ msgid ""
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4508
+#: plugins/fn-stat/functions.c:4510
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
@@ -9529,7 +9564,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4623
+#: plugins/fn-stat/functions.c:4625
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -9560,7 +9595,7 @@ msgid ""
 "@SEEALSO=GROWTH,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4875
+#: plugins/fn-stat/functions.c:4878
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -9582,7 +9617,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4987
+#: plugins/fn-stat/functions.c:4990
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -9604,7 +9639,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5058
+#: plugins/fn-stat/functions.c:5061
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -9625,7 +9660,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5108
+#: plugins/fn-stat/functions.c:5111
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -9642,7 +9677,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5152
+#: plugins/fn-stat/functions.c:5155
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -9678,7 +9713,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5252
+#: plugins/fn-stat/functions.c:5255
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -9689,7 +9724,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5381
+#: plugins/fn-stat/functions.c:5384
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -9706,7 +9741,7 @@ msgid ""
 "@SEEALSO=RANDGEOM"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5417
+#: plugins/fn-stat/functions.c:5420
 msgid ""
 "@FUNCTION=LOGISTIC\n"
 "@SYNTAX=LOGISTIC(x,a)\n"
@@ -9719,7 +9754,7 @@ msgid ""
 "@SEEALSO=RANDLOGISTIC"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5453
+#: plugins/fn-stat/functions.c:5456
 msgid ""
 "@FUNCTION=PARETO\n"
 "@SYNTAX=PARETO(x,a,b)\n"
@@ -9732,7 +9767,7 @@ msgid ""
 "@SEEALSO=RANDPARETO"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5491
+#: plugins/fn-stat/functions.c:5494
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
 "@SYNTAX=RAYLEIGH(x,sigma)\n"
@@ -9745,7 +9780,7 @@ msgid ""
 "@SEEALSO=RANDRAYLEIGH"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5531
+#: plugins/fn-stat/functions.c:5534
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
 "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
@@ -9758,7 +9793,7 @@ msgid ""
 "@SEEALSO=RANDRAYLEIGHTAIL"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5574
+#: plugins/fn-stat/functions.c:5577
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
@@ -9771,7 +9806,7 @@ msgid ""
 "@SEEALSO=RANDEXPPOW"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5605
+#: plugins/fn-stat/functions.c:5608
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -9783,183 +9818,183 @@ msgid ""
 "@SEEALSO=RANDLAPLACE"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5646 plugins/fn-stat/functions.c:5908
+#: plugins/fn-stat/functions.c:5649 plugins/fn-stat/functions.c:5911
 msgid "k,p"
 msgstr "к,п"
 
-#: plugins/fn-stat/functions.c:5650
+#: plugins/fn-stat/functions.c:5653
 msgid "x,alpha,beta,a,b"
 msgstr "x,алфа,бета,a,b"
 
-#: plugins/fn-stat/functions.c:5653
+#: plugins/fn-stat/functions.c:5656
 msgid "p,alpha,beta,a,b"
 msgstr "p,алфа,бета,a,b"
 
-#: plugins/fn-stat/functions.c:5656
+#: plugins/fn-stat/functions.c:5659
 msgid "n,t,p,c"
 msgstr "n,t,p,c"
 
-#: plugins/fn-stat/functions.c:5660
+#: plugins/fn-stat/functions.c:5663
 msgid "x,a,cum"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5664
+#: plugins/fn-stat/functions.c:5667
 msgid "x,dof"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5667 plugins/fn-stat/functions.c:5873
+#: plugins/fn-stat/functions.c:5670 plugins/fn-stat/functions.c:5876
 msgid "p,dof"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5670
+#: plugins/fn-stat/functions.c:5673
 msgid "act_range,theo_range"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5673
+#: plugins/fn-stat/functions.c:5676
 msgid "x,stddev,size"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5688
+#: plugins/fn-stat/functions.c:5691
 msgid "trials,p,alpha"
 msgstr "покушаји,p,алфа"
 
-#: plugins/fn-stat/functions.c:5694
+#: plugins/fn-stat/functions.c:5697
 msgid "x,y,cumulative"
 msgstr "x,y,нагомилавање"
 
-#: plugins/fn-stat/functions.c:5697
+#: plugins/fn-stat/functions.c:5700
 msgid "x,dof of num,dof of denom"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5700
+#: plugins/fn-stat/functions.c:5703
 msgid "p,dof of num,dof of denom"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5709
+#: plugins/fn-stat/functions.c:5712
 msgid "x,known y's,known x's"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5712
+#: plugins/fn-stat/functions.c:5715
 msgid "data_array,bins_array"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5715
+#: plugins/fn-stat/functions.c:5718
 msgid "arr1,arr2"
 msgstr "низ1,низ2"
 
-#: plugins/fn-stat/functions.c:5718
+#: plugins/fn-stat/functions.c:5721
 msgid "number,alpha,beta,cum"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5721
+#: plugins/fn-stat/functions.c:5724
 msgid "number,alpha,beta"
 msgstr "бриј,алфа,бета"
 
-#: plugins/fn-stat/functions.c:5731 plugins/fn-stat/functions.c:5876
+#: plugins/fn-stat/functions.c:5734 plugins/fn-stat/functions.c:5879
 msgid "known_y's,known_x's,new_x's,const"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5738
+#: plugins/fn-stat/functions.c:5741
 #, fuzzy
 msgid "x,n,M,N,cumulative"
 msgstr "x,y,нагомилавање"
 
-#: plugins/fn-stat/functions.c:5751 plugins/fn-stat/functions.c:5754
-#: plugins/fn-stat/functions.c:5766
+#: plugins/fn-stat/functions.c:5754 plugins/fn-stat/functions.c:5757
+#: plugins/fn-stat/functions.c:5769
 msgid "known_y's,known_x's,const,stat"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5757 plugins/fn-stat/functions.c:5832
-#: plugins/fn-stat/functions.c:5861
+#: plugins/fn-stat/functions.c:5760 plugins/fn-stat/functions.c:5835
+#: plugins/fn-stat/functions.c:5864
 msgid "known_y's,known_x's"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5760 plugins/fn-stat/functions.c:5799
+#: plugins/fn-stat/functions.c:5763 plugins/fn-stat/functions.c:5802
 msgid "p,mean,stddev"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5763 plugins/fn-stat/functions.c:5839
+#: plugins/fn-stat/functions.c:5766 plugins/fn-stat/functions.c:5842
 msgid "x,mean,stddev"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5793
+#: plugins/fn-stat/functions.c:5796
 msgid "f,t,p"
 msgstr "f,t,p"
 
-#: plugins/fn-stat/functions.c:5796
+#: plugins/fn-stat/functions.c:5799
 msgid "x,mean,stddev,cumulative"
 msgstr "x,средња,стандардна-девијација,нагомилавање"
 
-#: plugins/fn-stat/functions.c:5811
+#: plugins/fn-stat/functions.c:5814
 msgid "array,k"
 msgstr "низ,k"
 
-#: plugins/fn-stat/functions.c:5814
+#: plugins/fn-stat/functions.c:5817
 msgid "array,x,significance"
 msgstr "низ,x,значај"
 
-#: plugins/fn-stat/functions.c:5820
+#: plugins/fn-stat/functions.c:5823
 msgid "x,mean,cumulative"
 msgstr "x,средина,нагомилавање"
 
-#: plugins/fn-stat/functions.c:5823
+#: plugins/fn-stat/functions.c:5826
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "x-опсег,проб-оспег,доња-граница,горња-граница"
 
-#: plugins/fn-stat/functions.c:5826
+#: plugins/fn-stat/functions.c:5829
 msgid "array,quart"
 msgstr "низ,четврт"
 
-#: plugins/fn-stat/functions.c:5842
+#: plugins/fn-stat/functions.c:5845
 msgid "array,interval"
 msgstr "низ,интервал"
 
-#: plugins/fn-stat/functions.c:5870
+#: plugins/fn-stat/functions.c:5873
 msgid "x,dof,tails"
 msgstr "x,dразм,реп"
 
-#: plugins/fn-stat/functions.c:5879
+#: plugins/fn-stat/functions.c:5882
 msgid "ref,fraction"
 msgstr "упућује,разломак"
 
-#: plugins/fn-stat/functions.c:5883
+#: plugins/fn-stat/functions.c:5886
 msgid "array1,array2,tails,type"
 msgstr "низ1,низ2,остатак,врста"
 
-#: plugins/fn-stat/functions.c:5898
+#: plugins/fn-stat/functions.c:5901
 msgid "x.alpha,beta,cumulative"
 msgstr "x.алфа,бета,нагомилано"
 
-#: plugins/fn-stat/functions.c:5901
+#: plugins/fn-stat/functions.c:5904
 msgid "ref,x"
 msgstr "упућује,x"
 
-#: plugins/fn-stat/functions.c:5905 plugins/fn-stat/functions.c:5923
+#: plugins/fn-stat/functions.c:5908 plugins/fn-stat/functions.c:5926
 msgid "x,a,b"
 msgstr "x,a,b"
 
-#: plugins/fn-stat/functions.c:5914
+#: plugins/fn-stat/functions.c:5917
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:228
 msgid "x"
 msgstr "x"
 
-#: plugins/fn-stat/functions.c:5917 plugins/fn-stat/functions.c:5920
+#: plugins/fn-stat/functions.c:5920 plugins/fn-stat/functions.c:5923
 msgid "x,a"
 msgstr "x,a"
 
-#: plugins/fn-stat/functions.c:5926
+#: plugins/fn-stat/functions.c:5929
 msgid "x,sigma"
 msgstr "x,сигма"
 
-#: plugins/fn-stat/functions.c:5929
+#: plugins/fn-stat/functions.c:5932
 msgid "x,a,sigma"
 msgstr "x,a,сигма"
 
-#: plugins/fn-stat/functions.c:5935
+#: plugins/fn-stat/functions.c:5938
 msgid "function_nbr,ref,ref,"
 msgstr "бр_функције,реф,реф,"
 
-#: plugins/fn-stat/functions.c:5938
+#: plugins/fn-stat/functions.c:5941
 msgid "ref,ref,"
 msgstr "реф,реф,"
 
@@ -10644,7 +10679,7 @@ msgstr "Функција чије параметре оптимизујемо:"
 msgid "Constraints:"
 msgstr "Ограничења:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6168
+#: plugins/mps/mps.c:245 src/commands.c:6174
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -10917,23 +10952,23 @@ msgstr "Нетачан израз за низ не наводи број кол�
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Нетачан израз за низ не наводи број врста."
 
-#: plugins/openoffice/openoffice-read.c:1148
+#: plugins/openoffice/openoffice-read.c:1147
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr "Не могу да рашчланим позицију за израз '%s' @ '%s' због '%s'"
 
-#: plugins/openoffice/openoffice-read.c:1161
+#: plugins/openoffice/openoffice-read.c:1160
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr ""
 "Не могу да рашчланим позицију за израз '%s' са вредношћу '%s' због '%s'"
 
-#: plugins/openoffice/openoffice-read.c:1415
+#: plugins/openoffice/openoffice-read.c:1439
 msgid "No stream named content.xml found."
 msgstr "Није пронађен ток под називом „content.xml“."
 
-#: plugins/openoffice/openoffice-read.c:1422
+#: plugins/openoffice/openoffice-read.c:1446
 #, fuzzy
 msgid "No stream named styles.xml found."
 msgstr "Није пронађен ток под називом „content.xml“."
@@ -10984,7 +11019,7 @@ msgstr "Грешка приликом отварања xbase датотеке."
 msgid "Could not allocate memory for record."
 msgstr "Не могу да направим „Чаробњака за формуле“."
 
-#: plugins/paradox/paradox.c:196
+#: plugins/paradox/paradox.c:220
 #, c-format
 msgid "Field type %d is not supported."
 msgstr ""
@@ -11261,8 +11296,9 @@ msgid "Imports Quattro Pro (tm) files"
 msgstr "Увози Кватро Про (tm) датотеке"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
-msgstr ""
+#, fuzzy
+msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
+msgstr "Lotus 123 (*.wk1)"
 
 #: plugins/qpro/plugin.xml.in.h:3
 #, fuzzy
@@ -11328,7 +11364,7 @@ msgstr "SC/XSpread"
 msgid "SC/xspread"
 msgstr "SC/XSpread"
 
-#: plugins/sc/sc.c:376
+#: plugins/sc/sc.c:377
 msgid "Error parsing line"
 msgstr "Грешка при обради линије"
 
@@ -11374,18 +11410,18 @@ msgstr ""
 msgid "This is message from the \"%s\" plugin."
 msgstr "Ово је порука из „%s“ додатка."
 
-#: plugins/xbase/boot.c:169
+#: plugins/xbase/boot.c:171
 msgid "Error while opening xbase file."
 msgstr "Грешка приликом отварања xbase датотеке."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4962
+#: plugins/xbase/boot.c:177 src/commands.c:4968
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
-#: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
+#: src/print-info.c:395 src/workbook.c:1091 src/xml-io.c:3789
 msgid "Sheet"
 msgstr "Табела"
 
-#: plugins/xbase/boot.c:197
+#: plugins/xbase/boot.c:199
 #, c-format
 msgid ""
 "This build of Gnumeric can only hold %d rows.  Ignoring the rest of this "
@@ -12021,7 +12057,7 @@ msgstr ""
 "са више табела."
 
 #: schemas/gnumeric-general.schemas.in.h:29
-#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1882
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1889
 msgid "Sort Ascending"
 msgstr "Растући поредак"
 
@@ -12221,21 +12257,21 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Користи УТФ-8 при ЛаТеХ извозу"
 
-#: src/application.c:307
+#: src/application.c:309
 #, fuzzy
 msgid "Cut Object"
 msgstr "Циљ"
 
-#: src/clipboard.c:314 src/clipboard.c:326 src/clipboard.c:337
-#: src/clipboard.c:345
+#: src/clipboard.c:316 src/clipboard.c:328 src/clipboard.c:339
+#: src/clipboard.c:347
 msgid "Unable to paste"
 msgstr "Не може да убаци ставку са списка исечака"
 
-#: src/clipboard.c:315
+#: src/clipboard.c:317
 msgid "Content can only be pasted by value or by link."
 msgstr ""
 
-#: src/clipboard.c:323
+#: src/clipboard.c:325
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -12243,7 +12279,7 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/clipboard.c:334
+#: src/clipboard.c:336
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -12251,7 +12287,7 @@ msgid ""
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
 
-#: src/clipboard.c:346
+#: src/clipboard.c:348
 msgid "result passes the sheet boundary"
 msgstr "резултати прелазе оквире табеле"
 
@@ -12336,432 +12372,432 @@ msgstr "Куцали сте „%s%s“"
 msgid "Ins/Del Column/Row"
 msgstr "Уметни колоне"
 
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3258
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3265
 msgid "Delete Columns"
 msgstr "Уклони колоне"
 
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3380
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3387
 msgid "Delete Rows"
 msgstr "Уклони врсте"
 
-#: src/commands.c:1480
+#: src/commands.c:1482
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Уметање %d колона пре %s"
 
-#: src/commands.c:1481
+#: src/commands.c:1483
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Убацивање %d колона пре %s"
 
-#: src/commands.c:1496
+#: src/commands.c:1498
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Убацивање %d врста пре %s"
 
-#: src/commands.c:1497
+#: src/commands.c:1499
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Убацивање %d врсте пре %s"
 
-#: src/commands.c:1508
+#: src/commands.c:1510
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Брисање колона %s"
 
-#: src/commands.c:1509
+#: src/commands.c:1511
 #, c-format
 msgid "Deleting column %s"
 msgstr "Брисање колоне %s"
 
-#: src/commands.c:1519
+#: src/commands.c:1521
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Брисање врста %s"
 
-#: src/commands.c:1520
+#: src/commands.c:1522
 #, c-format
 msgid "Deleting row %s"
 msgstr "Брисање врсте %s"
 
 #. Check for locked cells
-#: src/commands.c:1602 src/commands.c:1606 src/sheet.c:2861
+#: src/commands.c:1604 src/commands.c:1608 src/sheet.c:2868
 msgid "Clear"
 msgstr "Очисти"
 
-#: src/commands.c:1677
+#: src/commands.c:1679
 msgid "contents"
 msgstr "садржај"
 
-#: src/commands.c:1679
+#: src/commands.c:1681
 msgid "formats"
 msgstr "формати"
 
-#: src/commands.c:1681
+#: src/commands.c:1683
 msgid "comments"
 msgstr "напомене"
 
-#: src/commands.c:1697
+#: src/commands.c:1699
 msgid "all"
 msgstr "све"
 
-#: src/commands.c:1704
+#: src/commands.c:1706
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Уклонили сте %s у пољу %s"
 
-#: src/commands.c:1787
+#: src/commands.c:1793
 msgid "Changing Format"
 msgstr "Мењање формата"
 
-#: src/commands.c:1912
+#: src/commands.c:1918
 #, c-format
 msgid "Changing format of %s"
 msgstr "Измена формата за %s"
 
-#: src/commands.c:2022
+#: src/commands.c:2028
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Аутоматски уклопи колону %s"
 
-#: src/commands.c:2023
+#: src/commands.c:2029
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Аутоматски уклапам врсту %s"
 
-#: src/commands.c:2026
+#: src/commands.c:2032
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Постављам ширину колоне %s на %d тачака"
 
-#: src/commands.c:2028
+#: src/commands.c:2034
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Постављам висину врсте %s на %d тачака"
 
-#: src/commands.c:2031
+#: src/commands.c:2037
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Постављам ширину колоне %s на подразумевану вредност"
 
-#: src/commands.c:2034
+#: src/commands.c:2040
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Постављам висину врсте %s на подразумевану вредност"
 
-#: src/commands.c:2038
+#: src/commands.c:2044
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Аутоматски уклапам колоне %s"
 
-#: src/commands.c:2039
+#: src/commands.c:2045
 #, fuzzy, c-format
 msgid "Autofitting rows %s"
 msgstr "Аутоматски уклапам врсту %s"
 
-#: src/commands.c:2042
+#: src/commands.c:2048
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Постављам ширину колона %s на %d тачака"
 
-#: src/commands.c:2044
+#: src/commands.c:2050
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Постављам видину врста %s на %d тачака"
 
-#: src/commands.c:2048
+#: src/commands.c:2054
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Постављам ширину колона %s на подразумевану вредност"
 
-#: src/commands.c:2050
+#: src/commands.c:2056
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Постављам висину врста %s на подразумевану вредност"
 
-#: src/commands.c:2116 src/dialogs/dialog-preferences.c:770
+#: src/commands.c:2122 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Прављење поретка"
 
-#: src/commands.c:2136
+#: src/commands.c:2142
 #, c-format
 msgid "Sorting %s"
 msgstr "Прављење поретка за %s"
 
-#: src/commands.c:2279
+#: src/commands.c:2285
 msgid "Unhide columns"
 msgstr "Откриј колоне"
 
-#: src/commands.c:2279
+#: src/commands.c:2285
 msgid "Hide columns"
 msgstr "Сакриј колоне"
 
-#: src/commands.c:2280
+#: src/commands.c:2286
 msgid "Unhide rows"
 msgstr "Откриј врсте"
 
-#: src/commands.c:2280
+#: src/commands.c:2286
 msgid "Hide rows"
 msgstr "Сакриј врсте"
 
-#: src/commands.c:2362
+#: src/commands.c:2368
 msgid "Expand columns"
 msgstr "Отвори колоне"
 
-#: src/commands.c:2362
+#: src/commands.c:2368
 msgid "Collapse columns"
 msgstr "Скупи колоне"
 
-#: src/commands.c:2363
+#: src/commands.c:2369
 msgid "Expand rows"
 msgstr "Отвори врсте"
 
-#: src/commands.c:2363
+#: src/commands.c:2369
 msgid "Collapse rows"
 msgstr "Скупи врсте"
 
-#: src/commands.c:2389
+#: src/commands.c:2395
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: src/commands.c:2389
+#: src/commands.c:2395
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: src/commands.c:2459
+#: src/commands.c:2465
 msgid "Those columns are already grouped"
 msgstr "Те колоне су већ груписане"
 
-#: src/commands.c:2460
+#: src/commands.c:2466
 msgid "Those rows are already grouped"
 msgstr "Те врсте су већ груписане"
 
-#: src/commands.c:2483
+#: src/commands.c:2489
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Те колоне нису груписане, тако да их не можете распустити"
 
-#: src/commands.c:2484
+#: src/commands.c:2490
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Те врсте нису груписане тако да их не можете распустити"
 
-#: src/commands.c:2498
+#: src/commands.c:2504
 #, c-format
 msgid "Group columns %s"
 msgstr "Групиши колоне %s"
 
-#: src/commands.c:2498
+#: src/commands.c:2504
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Распусти колоне %s"
 
-#: src/commands.c:2500
+#: src/commands.c:2506
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Групиши врсте %d:%d"
 
-#: src/commands.c:2500
+#: src/commands.c:2506
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Распусти врсте %d:%d"
 
-#: src/commands.c:2733
+#: src/commands.c:2739
 #, c-format
 msgid "Moving %s"
 msgstr "Премештање %s"
 
-#: src/commands.c:2742 src/commands.c:2970
+#: src/commands.c:2748 src/commands.c:2976
 msgid "is beyond sheet boundaries"
 msgstr "је иза оквира табеле"
 
-#: src/commands.c:2806
+#: src/commands.c:2812
 #, fuzzy
 msgid "Paste Copy"
 msgstr "Врста убацивања"
 
 #. FIXME?
-#: src/commands.c:2911
+#: src/commands.c:2917
 #, c-format
 msgid "Pasting into %s"
 msgstr "Убацујем у %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3007 src/commands.c:3164 src/commands.c:3165
+#: src/commands.c:3013 src/commands.c:3170 src/commands.c:3171
 #: src/wbcg-actions.c:424
 msgid "Autofill"
 msgstr "самодопуњавање, самопуњење"
 
 #. Changed in initial redo.
-#: src/commands.c:3187
+#: src/commands.c:3193
 #, c-format
 msgid "Autofilling %s"
 msgstr "Аутоматска допуна за %s"
 
-#: src/commands.c:3505
+#: src/commands.c:3511
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Аутоматско форматирање за %s"
 
-#: src/commands.c:3622
+#: src/commands.c:3628
 #, c-format
 msgid "Unmerging %s"
 msgstr "Раздвајам %s"
 
-#: src/commands.c:3786
+#: src/commands.c:3792
 #, fuzzy, c-format
 msgid "Merge and Center %s"
 msgstr "Стапам податке у %s"
 
-#: src/commands.c:3786
+#: src/commands.c:3792
 #, c-format
 msgid "Merging %s"
 msgstr "Стапање %s"
 
 #. Corrected below.
-#: src/commands.c:4167 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4173 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Тражи и Замени"
 
-#: src/commands.c:4262
+#: src/commands.c:4268
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Постави подразумевану ширину колона на %.2fpts"
 
-#: src/commands.c:4263
+#: src/commands.c:4269
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Постави подразумевану висину врста на %.2fpts"
 
-#: src/commands.c:4378
+#: src/commands.c:4384
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Увећање %s на %.0f%%"
 
-#: src/commands.c:4476
+#: src/commands.c:4482
 #, fuzzy
 msgid "Delete Object"
 msgstr "Уклони објекат"
 
-#: src/commands.c:4637
+#: src/commands.c:4643
 #, fuzzy
 msgid "Format Object"
 msgstr "Спусти објекат"
 
-#: src/commands.c:5236
+#: src/commands.c:5242
 msgid "Reordering Sheets"
 msgstr "Преслагање табела"
 
-#: src/commands.c:5239
+#: src/commands.c:5245
 msgid "Renaming Sheets"
 msgstr "Преименује табеле"
 
 # bug: plural-forms
-#: src/commands.c:5242
+#: src/commands.c:5248
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Допуњава са %i табела"
 
-#: src/commands.c:5246
+#: src/commands.c:5252
 msgid "Changing Tab Colors"
 msgstr "Мењање боје језичка"
 
-#: src/commands.c:5249
+#: src/commands.c:5255
 msgid "Changing Sheet Protection"
 msgstr "Промена заштите табеле"
 
-#: src/commands.c:5252
+#: src/commands.c:5258
 msgid "Delete sheets"
 msgstr "Уклони табеле"
 
-#: src/commands.c:5255
+#: src/commands.c:5261
 msgid "Delete a sheet"
 msgstr "Уклони табелу"
 
-#: src/commands.c:5258
+#: src/commands.c:5264
 #, fuzzy
 msgid "Changing Sheet Visibility"
 msgstr "Промена заштите табеле"
 
-#: src/commands.c:5261
+#: src/commands.c:5267
 msgid "Reorganizing Sheets"
 msgstr "Преуреди табеле"
 
-#: src/commands.c:5412
+#: src/commands.c:5418
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Уклањање напомене за %s"
 
-#: src/commands.c:5413
+#: src/commands.c:5419
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Постављање напомене за %s"
 
-#: src/commands.c:5793
+#: src/commands.c:5799
 #, c-format
 msgid "Merging data into %s"
 msgstr "Стапам податке у %s"
 
-#: src/commands.c:5895
+#: src/commands.c:5901
 msgid "Changing summary info"
 msgstr "Мењам укупни извештај"
 
-#: src/commands.c:5984
+#: src/commands.c:5990
 #, fuzzy
 msgid "Pull Object to the Front"
 msgstr "Подложно ограничењима:"
 
-#: src/commands.c:5987
+#: src/commands.c:5993
 #, fuzzy
 msgid "Pull Object Forward"
 msgstr "Систем за учитавање ГОбјеката"
 
-#: src/commands.c:5990
+#: src/commands.c:5996
 msgid "Push Object Backward"
 msgstr ""
 
-#: src/commands.c:5993
+#: src/commands.c:5999
 #, fuzzy
 msgid "Push Object to the Back"
 msgstr "Подложно ограничењима:"
 
-#: src/commands.c:6108
+#: src/commands.c:6114
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Подешавање стране за %s"
 
-#: src/commands.c:6110
+#: src/commands.c:6116
 msgid "Page Setup For All Sheets"
 msgstr "Подешавање стране за све табеле"
 
-#: src/commands.c:6225
+#: src/commands.c:6231
 msgid "has a circular reference"
 msgstr "има кружно упућивање"
 
-#: src/commands.c:6248
+#: src/commands.c:6254
 #, c-format
 msgid "Define Name %s"
 msgstr "Дефиниши назив %s"
 
-#: src/commands.c:6251
+#: src/commands.c:6257
 #, c-format
 msgid "Update Name %s"
 msgstr "Освежи назив %s"
 
-#: src/commands.c:6315
+#: src/commands.c:6321
 msgid "Add scenario"
 msgstr "Додај сценарио"
 
-#: src/commands.c:6390
+#: src/commands.c:6396
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6454
+#: src/commands.c:6460
 msgid "Shuffle Data"
 msgstr "Измешај податке"
 
 #. FIXME?
-#: src/commands.c:6564
+#: src/commands.c:6570
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Текст (%s) у колоне (%s)"
@@ -12771,28 +12807,28 @@ msgstr "Текст (%s) у колоне (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6708 src/dialogs/solver.glade.h:17
+#: src/commands.c:6714 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Систем за решавање"
 
-#: src/commands.c:6792
+#: src/commands.c:6798
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Тражење вредности (%s)"
 
-#: src/commands.c:6937
+#: src/commands.c:6943
 #, c-format
 msgid "Duplicating %s"
 msgstr "Удвостручава %s"
 
-#: src/commands.c:7016
+#: src/commands.c:7022
 msgid "Tabulating Dependencies"
 msgstr "Табеларне зависности"
 
-#: src/commands.c:7091
+#: src/commands.c:7097
 msgid "Reconfigure Graph"
 msgstr "Преподеси график"
 
@@ -12835,46 +12871,46 @@ msgstr "Логичке"
 msgid "Logarithm mapping"
 msgstr "Логаритамско"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1415
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1411
 msgid "Details"
 msgstr "Детаљи"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1469
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
 msgid "Categories between _ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1470
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
 msgid "Categories between _labels"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1471
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1467
 #, fuzzy
 msgid "_Cross at category #"
 msgstr "_Категорија:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1491
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1473
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1487
 msgid "Bounds"
 msgstr "Ограничења"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1480
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1476
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "_Минимално"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1481
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
 msgid "M_ax"
 msgstr "М_аксимално"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1482
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1478
 msgid "Ma_jor Ticks"
 msgstr "Гла_вне цртице"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1483
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1479
 msgid "Mi_nor Ticks"
 msgstr "Сп_оредне цртице"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1484
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1480
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
 msgid "_Cross"
 msgstr "_Крст"
@@ -12883,23 +12919,23 @@ msgstr "_Крст"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1506
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1513
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1502
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1509
 #: src/dialogs/dialog-stf.glade.h:26
 msgid "Format"
 msgstr "Форматирање"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1542 src/wbcg-actions.c:1890
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1538 src/wbcg-actions.c:1897
 msgid "Label"
 msgstr "Ознака"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1545
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1541
 #, fuzzy
 msgid "MinorGrid"
 msgstr "Мрежа"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1548
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1544
 #, fuzzy
 msgid "MajorGrid"
 msgstr "Мрежа"
@@ -13112,8 +13148,8 @@ msgid "Customize Chart"
 msgstr "Прилагодите графикон"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1421
-#: src/wbcg-actions.c:1579
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1428
+#: src/wbcg-actions.c:1586
 msgid "_Insert"
 msgstr "Убацивањ_е"
 
@@ -13142,7 +13178,7 @@ msgid "Push to _back"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
-#: src/sheet-object.c:107
+#: src/sheet-object.c:111
 msgid "_Order"
 msgstr "П_оредак"
 
@@ -13478,7 +13514,7 @@ msgid "Column"
 msgstr "Колона"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
-#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1914
+#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1921
 msgid "Line"
 msgstr "Линија"
 
@@ -13978,12 +14014,12 @@ msgstr "Мехур"
 msgid "Bubble"
 msgstr "Мехур"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1012
 #, fuzzy
 msgid "Y Error bars"
 msgstr "Грешка при обради линије"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1023
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1014
 #, fuzzy
 msgid "X Error bars"
 msgstr "Грешка при обради линије"
@@ -14723,8 +14759,8 @@ msgstr "_Низови"
 #: src/dialogs/exp-smoothing.glade.h:8 src/dialogs/fourier-analysis.glade.h:6
 #: src/dialogs/histogram.glade.h:16 src/dialogs/rank.glade.h:9
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:11
-#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1530
-#: src/wbcg-actions.c:1643
+#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1537
+#: src/wbcg-actions.c:1650
 msgid "_Columns"
 msgstr "_Колоне"
 
@@ -14755,8 +14791,8 @@ msgstr "_Ознаке:"
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:23
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1527
-#: src/wbcg-actions.c:1646
+#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1534
+#: src/wbcg-actions.c:1653
 msgid "_Rows"
 msgstr "_Редови"
 
@@ -14832,8 +14868,8 @@ msgstr "_Немој да исправиш:"
 msgid "First Letter"
 msgstr "Прво слово"
 
-#: src/dialogs/autocorrect.glade.h:9 src/format.c:2232 src/format.c:2521
-#: src/format.c:2527 src/format.c:2600 src/plugin-service.c:195
+#: src/dialogs/autocorrect.glade.h:9 src/format.c:2244 src/format.c:2558
+#: src/format.c:2564 src/format.c:2637 src/plugin-service.c:195
 #: src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Опште"
@@ -14852,7 +14888,7 @@ msgid "_Add"
 msgstr "_Додај"
 
 #: src/dialogs/autocorrect.glade.h:13 src/dialogs/pivottable.glade.h:12
-#: src/wbcg-actions.c:1592
+#: src/wbcg-actions.c:1599
 msgid "_Remove"
 msgstr "_Уклони"
 
@@ -15102,12 +15138,12 @@ msgid ""
 "Custom"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2380
+#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2387
 #: src/wbc-gtk.c:588 src/wbc-gtk.c:589 src/wbc-gtk.c:596
 msgid "Background"
 msgstr "Позадина"
 
-#: src/dialogs/cell-format.glade.h:37 src/dialogs/dialog-cell-format.c:2370
+#: src/dialogs/cell-format.glade.h:37 src/dialogs/dialog-cell-format.c:2377
 msgid "Border"
 msgstr "Граница"
 
@@ -15139,7 +15175,7 @@ msgstr "У_слов:"
 msgid "Diagonal"
 msgstr "Дијагонални"
 
-#: src/dialogs/cell-format.glade.h:50 src/dialogs/dialog-cell-format.c:2307
+#: src/dialogs/cell-format.glade.h:50 src/dialogs/dialog-cell-format.c:2314
 msgid "Format Cells"
 msgstr "Форматирај поља"
 
@@ -15460,7 +15496,7 @@ msgid "Correlation"
 msgstr "Корелација"
 
 #: src/dialogs/covariance.glade.h:1 src/tools/analysis-tools.c:1008
-#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1798
+#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1805
 msgid "Covariance"
 msgstr "Коваријанса"
 
@@ -16332,67 +16368,67 @@ msgid "Double"
 msgstr "Двоструко"
 
 #: src/dialogs/dialog-cell-format.c:470 src/dialogs/dialog-search.c:148
-#: src/func.c:741 src/wbcg-actions.c:1941
+#: src/func.c:741 src/wbcg-actions.c:1948
 #: src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Број"
 
-#: src/dialogs/dialog-cell-format.c:676 src/dialogs/dialog-stf-main-page.c:382
+#: src/dialogs/dialog-cell-format.c:678 src/dialogs/dialog-stf-main-page.c:382
 #: src/widgets/widget-format-selector.c:84
 msgid "Text"
 msgstr "Текст"
 
-#: src/dialogs/dialog-cell-format.c:1817
+#: src/dialogs/dialog-cell-format.c:1824
 msgid "Source"
 msgstr "Извор"
 
-#: src/dialogs/dialog-cell-format.c:1818
+#: src/dialogs/dialog-cell-format.c:1825
 msgid "Criteria"
 msgstr "Мерило"
 
-#: src/dialogs/dialog-cell-format.c:1830 src/dialogs/dialog-cell-format.c:1837
+#: src/dialogs/dialog-cell-format.c:1837 src/dialogs/dialog-cell-format.c:1844
 msgid "Min :"
 msgstr "Најмања вредност:"
 
-#: src/dialogs/dialog-cell-format.c:1831 src/dialogs/dialog-cell-format.c:1840
+#: src/dialogs/dialog-cell-format.c:1838 src/dialogs/dialog-cell-format.c:1847
 msgid "Max :"
 msgstr "Највећа вредност:"
 
-#: src/dialogs/dialog-cell-format.c:1834
+#: src/dialogs/dialog-cell-format.c:1841
 msgid "Value :"
 msgstr "Вредност:"
 
-#: src/dialogs/dialog-cell-format.c:1924
+#: src/dialogs/dialog-cell-format.c:1931
 msgid "None          (silently accept invalid input)"
 msgstr "Пропусти          (тихо прихвати нетачан улаз)"
 
-#: src/dialogs/dialog-cell-format.c:1932
+#: src/dialogs/dialog-cell-format.c:1939
 msgid "Stop            (never allow invalid input)"
 msgstr "Заустави            (никад не дозволи нетачан улаз)"
 
-#: src/dialogs/dialog-cell-format.c:1940
+#: src/dialogs/dialog-cell-format.c:1947
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Упозорење     (прихвати/одбаци нетачан улаз)"
 
-#: src/dialogs/dialog-cell-format.c:1948
+#: src/dialogs/dialog-cell-format.c:1955
 msgid "Information (allow invalid input)"
 msgstr "Информација (дозволи нетачан унос)"
 
-#: src/dialogs/dialog-cell-format.c:2121
+#: src/dialogs/dialog-cell-format.c:2128
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "Мерило исправности је неупотребљиво. Искључити проверу исправности?"
 
-#: src/dialogs/dialog-cell-format.c:2375 src/wbc-gtk.c:179 src/wbc-gtk.c:312
+#: src/dialogs/dialog-cell-format.c:2382 src/wbc-gtk.c:179 src/wbc-gtk.c:312
 #: src/wbc-gtk.c:538 src/wbc-gtk.c:539 src/wbc-gtk.c:548 src/wbc-gtk.c:641
 #: src/wbc-gtk.c:692
 msgid "Foreground"
 msgstr "Испис"
 
-#: src/dialogs/dialog-cell-format.c:2380 src/wbc-gtk.c:586
+#: src/dialogs/dialog-cell-format.c:2387 src/wbc-gtk.c:586
 msgid "Clear Background"
 msgstr "Очисти слику у позадини"
 
-#: src/dialogs/dialog-cell-format.c:2385
+#: src/dialogs/dialog-cell-format.c:2392
 msgid "Pattern"
 msgstr "Образац"
 
@@ -16691,7 +16727,7 @@ msgstr "Лозинка :"
 #. * 	Skip Blanks, Paste Link, Cancel, Ok are all on the same page
 #. * 	try to keep them from conflicting
 #. Edit -> Clear
-#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1513
+#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1520
 msgid "_All"
 msgstr "_Све"
 
@@ -16705,11 +16741,11 @@ msgstr "Садржај"
 msgid "As _Value"
 msgstr "Као вредност"
 
-#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1516
+#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1523
 msgid "_Formats"
 msgstr "_Формати"
 
-#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1519
+#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1526
 msgid "Co_mments"
 msgstr "_Напомене"
 
@@ -17563,7 +17599,7 @@ msgid "Select N_one"
 msgstr "Изабери _врсту"
 
 #. Edit -> Select
-#: src/dialogs/dialog-stf-export.glade.h:20 src/wbcg-actions.c:1539
+#: src/dialogs/dialog-stf-export.glade.h:20 src/wbcg-actions.c:1546
 msgid "Select _All"
 msgstr "Изабери _све"
 
@@ -18153,7 +18189,7 @@ msgid "_Month"
 msgstr "_Месец"
 
 #: src/dialogs/fill-series.glade.h:17 src/dialogs/pivottable.glade.h:13
-#: src/wbcg-actions.c:1426
+#: src/wbcg-actions.c:1433
 msgid "_Row"
 msgstr "_Врста"
 
@@ -18262,7 +18298,7 @@ msgstr "Користи раздвојник хиљ_ада"
 msgid "Formula Guru"
 msgstr "Чаробњак за формуле"
 
-#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1804
+#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1811
 msgid "Fourier Analysis"
 msgstr "Фуријеова анализа"
 
@@ -18275,7 +18311,7 @@ msgstr "_Инверзно"
 msgid "Category"
 msgstr "Категорија"
 
-#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1878
+#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1885
 msgid "Function"
 msgstr "Функција"
 
@@ -18602,7 +18638,7 @@ msgid "Workbook"
 msgstr "Радна свеска"
 
 #: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
-#: src/wbcg-actions.c:1414
+#: src/wbcg-actions.c:1421
 msgid "_Delete"
 msgstr "_Уклони"
 
@@ -18644,7 +18680,7 @@ msgstr "_Додај:"
 
 # Kako ovo moze biti jednina??????
 # „Data“ и представља множину!!
-#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1434
+#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1441
 msgid "_Data"
 msgstr "По_даци"
 
@@ -19319,7 +19355,7 @@ msgstr "Тражи:"
 msgid "Manage Sheets..."
 msgstr "Управљање табелама..."
 
-#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1589
+#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1596
 msgid "_Duplicate"
 msgstr "_Дупликат"
 
@@ -19765,7 +19801,7 @@ msgstr "Непознат оператор"
 msgid "Internal type error"
 msgstr "Унутрашња грешка"
 
-#: src/expr.c:1368
+#: src/expr.c:1369
 msgid "Unknown evaluation error"
 msgstr "Непознато грешка у израчунавању"
 
@@ -19799,48 +19835,48 @@ msgid ""
 msgstr ""
 "Можете искључити ову заштиту уређивањем одговарајуће plugin.xml датотеке."
 
-#: src/format.c:248
+#: src/format.c:257
 msgid "TRUE"
 msgstr "ТАЧНО"
 
-#: src/format.c:249
+#: src/format.c:258
 msgid "FALSE"
 msgstr "Нетачно"
 
-#: src/format.c:697 templates/autoformat/autoformat.Colourful.black.xml.in.h:1
+#: src/format.c:711 templates/autoformat/autoformat.Colourful.black.xml.in.h:1
 msgid "Black"
 msgstr "Црна"
 
-#: src/format.c:698 templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
+#: src/format.c:712 templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
 msgid "Blue"
 msgstr "Плава"
 
-#: src/format.c:699
+#: src/format.c:713
 msgid "Cyan"
 msgstr "Цијан-плава"
 
-#: src/format.c:700 templates/autoformat/autoformat.List.green.xml.in.h:3
+#: src/format.c:714 templates/autoformat/autoformat.List.green.xml.in.h:3
 msgid "Green"
 msgstr "Зелена"
 
-#: src/format.c:701
+#: src/format.c:715
 msgid "Magenta"
 msgstr "Магента"
 
-#: src/format.c:702
+#: src/format.c:716
 msgid "Red"
 msgstr "Црвена"
 
-#: src/format.c:703
+#: src/format.c:717
 msgid "White"
 msgstr "Бела"
 
-#: src/format.c:704
+#: src/format.c:718
 msgid "Yellow"
 msgstr "Жута"
 
 #. Array of arrays ??
-#: src/format.c:2106
+#: src/format.c:2118
 msgid "ARRAY"
 msgstr "НИЗ"
 
@@ -20704,22 +20740,22 @@ msgstr "Аутоматски препознај"
 msgid "Load file"
 msgstr "Учитај датотеку"
 
-#: src/gui-file.c:224 src/gui-file.c:662
+#: src/gui-file.c:224 src/gui-file.c:663
 #, fuzzy
 msgid "Select a file"
 msgstr "Изаберите слику"
 
-#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:676
+#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:677
 #, fuzzy
 msgid "All Files"
 msgstr "Датотеке"
 
-#: src/gui-file.c:254 src/gui-file.c:681
+#: src/gui-file.c:254 src/gui-file.c:682
 #, fuzzy
 msgid "Spreadsheets"
 msgstr "Табеларни прорачун"
 
-#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:705
+#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:706
 msgid "File _type:"
 msgstr "Врста д_атотеке:"
 
@@ -20761,7 +20797,7 @@ msgstr "Слика"
 msgid "Save as"
 msgstr "Сачувај све"
 
-#: src/gui-file.c:558 src/gui-file.c:754
+#: src/gui-file.c:554 src/gui-file.c:755
 #, fuzzy
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
@@ -20770,12 +20806,12 @@ msgstr ""
 "Наведени наставак датотеке не одговара изабраној врсти датотеке. Да ли "
 "желите да користите ово име поред свега?"
 
-#: src/gui-file.c:585
+#: src/gui-file.c:586
 #, fuzzy
 msgid "Select an Image"
 msgstr "Изаберите слику"
 
-#: src/gui-file.c:604
+#: src/gui-file.c:605
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -20788,11 +20824,11 @@ msgstr ""
 "или изаберите друкчији формат датотеке.\n"
 "Да ли желите да сачувате само текућу табелу?"
 
-#: src/gui-util.c:212
+#: src/gui-util.c:213
 msgid "Multiple errors\n"
 msgstr "Вишеструке грешке\n"
 
-#: src/gui-util.c:637
+#: src/gui-util.c:638
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Не може да отвори датотеку '%s'"
@@ -20809,12 +20845,12 @@ msgstr ""
 msgid "Link target"
 msgstr "Мета везе:"
 
-#: src/hlink.c:224
+#: src/hlink.c:223
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Не могу покренути '%s'"
 
-#: src/hlink.c:274
+#: src/hlink.c:273
 #, c-format
 msgid "Unable to open '%s'"
 msgstr "Не могу да отворим '%s'"
@@ -20875,64 +20911,64 @@ msgstr "Помери десно и _премести"
 msgid "C_ancel"
 msgstr "Пон_ишти"
 
-#: src/main-application.c:60 src/ssconvert.c:41 src/ssindex.c:50
+#: src/main-application.c:56 src/ssconvert.c:41 src/ssindex.c:50
 msgid "Display Gnumeric's version"
 msgstr "Прикажи Гнумерик верзију"
 
-#: src/main-application.c:62 src/ssconvert.c:44 src/ssindex.c:53
+#: src/main-application.c:58 src/ssconvert.c:44 src/ssindex.c:53
 msgid "Set the root library directory"
 msgstr "Постави корени директоријум библиотека"
 
-#: src/main-application.c:64 src/ssconvert.c:46 src/ssindex.c:55
+#: src/main-application.c:60 src/ssconvert.c:46 src/ssindex.c:55
 msgid "Adjust the root data directory"
 msgstr "Прилагоди корени директоријум података"
 
-#: src/main-application.c:67 src/main-application.c:69
+#: src/main-application.c:63 src/main-application.c:65
 msgid "Dumps the function definitions"
 msgstr "Избаци дефиниције функција"
 
-#: src/main-application.c:67 src/main-application.c:69
+#: src/main-application.c:63 src/main-application.c:65
 msgid "FILE"
 msgstr "ДАТОТЕКА"
 
-#: src/main-application.c:72
+#: src/main-application.c:68
 msgid "Enables some debugging functions"
 msgstr "Омогући неке од функција за отклањање грешки"
 
-#: src/main-application.c:72 src/main-application.c:75
-#: src/main-application.c:77 src/main-application.c:79
+#: src/main-application.c:68 src/main-application.c:71
+#: src/main-application.c:73 src/main-application.c:75
 msgid "LEVEL"
 msgstr "НИВО"
 
-#: src/main-application.c:75
+#: src/main-application.c:71
 msgid "Enables some dependency related debugging functions"
 msgstr "Омогући неке од функција у вези са зависностима"
 
-#: src/main-application.c:77
+#: src/main-application.c:73
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Омогући неке од функција за отклањање грешки при дељењу израза"
 
-#: src/main-application.c:79
+#: src/main-application.c:75
 msgid "Enables some print debugging behavior"
 msgstr "Омогући неке од функција за испис понашања за отклањање грешки"
 
-#: src/main-application.c:82
+#: src/main-application.c:78
 msgid "Specify the size and location of the initial window"
 msgstr "Задајте величину и место почетног прозора"
 
-#: src/main-application.c:82
+#: src/main-application.c:78
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "ШИРИНАxВИСИНА+ВОДПОЗ+УСППОЗ"
 
-#: src/main-application.c:86
+#: src/main-application.c:82
 msgid "Don't show splash screen"
 msgstr "Не приказуј уводни екран"
 
-#: src/main-application.c:89
+#: src/main-application.c:85
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "Изађи одмах након учитавања изабраних табела (корисно за испробавање)."
 
-#: src/main-application.c:120
+#: src/main-application.c:116
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -20956,89 +20992,89 @@ msgstr ""
 "\n"
 "— Гнумерик тим."
 
-#: src/main-application.c:189
+#: src/main-application.c:185
 msgid "Gdk debugging flags to set"
 msgstr ""
 
-#: src/main-application.c:189 src/main-application.c:191
-#: src/main-application.c:203 src/main-application.c:205
+#: src/main-application.c:185 src/main-application.c:187
+#: src/main-application.c:199 src/main-application.c:201
 #, fuzzy
 msgid "FLAGS"
 msgstr "Нетачно"
 
-#: src/main-application.c:191
+#: src/main-application.c:187
 msgid "Gdk debugging flags to unset"
 msgstr ""
 
-#: src/main-application.c:193
+#: src/main-application.c:189
 #, fuzzy
 msgid "X display to use"
 msgstr "Прикажи фор_муле"
 
-#: src/main-application.c:193
+#: src/main-application.c:189
 msgid "DISPLAY"
 msgstr ""
 
-#: src/main-application.c:195
+#: src/main-application.c:191
 msgid "X screen to use"
 msgstr ""
 
-#: src/main-application.c:195
+#: src/main-application.c:191
 msgid "SCREEN"
 msgstr ""
 
-#: src/main-application.c:197
+#: src/main-application.c:193
 msgid "Make X calls synchronous"
 msgstr ""
 
-#: src/main-application.c:199
+#: src/main-application.c:195
 msgid "Program name as used by the window manager"
 msgstr ""
 
-#: src/main-application.c:199
+#: src/main-application.c:195
 #, fuzzy
 msgid "NAME"
 msgstr "#ИМЕ"
 
-#: src/main-application.c:201
+#: src/main-application.c:197
 msgid "Program class as used by the window manager"
 msgstr ""
 
-#: src/main-application.c:201
+#: src/main-application.c:197
 msgid "CLASS"
 msgstr ""
 
-#: src/main-application.c:203
+#: src/main-application.c:199
 msgid "Gtk+ debugging flags to set"
 msgstr ""
 
-#: src/main-application.c:205
+#: src/main-application.c:201
 msgid "Gtk+ debugging flags to unset"
 msgstr ""
 
-#: src/main-application.c:207
+#: src/main-application.c:203
 msgid "Make all warnings fatal"
 msgstr ""
 
-#: src/main-application.c:209
+#: src/main-application.c:205
 msgid "Load an additional Gtk module"
 msgstr ""
 
-#: src/main-application.c:209
+#: src/main-application.c:205
 msgid "MODULE"
 msgstr ""
 
-#: src/main-application.c:215
+#: src/main-application.c:211
 #, fuzzy
 msgid "Gnumeric options"
 msgstr "Гнумерик: Провера исправности"
 
-#: src/main-application.c:217
+#: src/main-application.c:213
 #, fuzzy
 msgid "GTK+ options"
 msgstr "Подешавања"
 
-#: src/main-application.c:256
+#: src/main-application.c:264
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -21475,77 +21511,77 @@ msgid "Error while opening file \"%s\" for reading."
 msgstr "Грешка приликом отварања датотеке „%s“ за читање."
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:611
+#: src/print.c:612
 msgid "&[PAGE]"
 msgstr "&[СТРАНА]"
 
-#: src/print.c:1156
+#: src/print.c:1157
 msgid "Print Region"
 msgstr "Штампај област"
 
-#: src/print.c:1325 src/wbcg-actions.c:1494
+#: src/print.c:1326 src/wbcg-actions.c:1501
 msgid "Print preview"
 msgstr "Приказ пред штампу"
 
-#: src/print.c:1338
+#: src/print.c:1339
 msgid "Printing failed"
 msgstr "Неуспело штампање"
 
-#: src/print.c:1444
+#: src/print.c:1445
 msgid "Print Sheets"
 msgstr "Штампај табеле"
 
-#: src/print.c:1453
+#: src/print.c:1454
 msgid "Act_ive sheet"
 msgstr "Активна _табела"
 
-#: src/print.c:1453
+#: src/print.c:1454
 msgid "S_heets"
 msgstr "_Табеле"
 
-#: src/print-info.c:143 src/print-info.c:146 src/print-info.c:147
-#: src/print-info.c:258
+#: src/print-info.c:145 src/print-info.c:148 src/print-info.c:149
+#: src/print-info.c:260
 msgid "Page &[PAGE]"
 msgstr "Страна &[СТРАНА]"
 
-#: src/print-info.c:144 src/print-info.c:149
+#: src/print-info.c:146 src/print-info.c:151
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Страна &[СТРАНА] од &[БРОЈ_СТРАНА]"
 
-#: src/print-info.c:145 src/print-info.c:146 src/print-info.c:147
-#: src/print-info.c:149 src/print-info.c:252
+#: src/print-info.c:147 src/print-info.c:148 src/print-info.c:149
+#: src/print-info.c:151 src/print-info.c:254
 msgid "&[TAB]"
 msgstr "&[ИМЕ_ТАБЕЛЕ]"
 
-#: src/print-info.c:147 src/print-info.c:148 src/print-info.c:149
+#: src/print-info.c:149 src/print-info.c:150 src/print-info.c:151
 msgid "&[DATE]"
 msgstr "&[ДАТУМ]"
 
-#: src/print-info.c:450
+#: src/print-info.c:454
 msgid "File Name"
 msgstr "Име датотеке"
 
-#: src/print-info.c:461
+#: src/print-info.c:465
 msgid "Path "
 msgstr "Путања "
 
-#: src/print-info.c:469
+#: src/print-info.c:473
 msgid "tab"
 msgstr "табулатор"
 
-#: src/print-info.c:470
+#: src/print-info.c:474
 msgid "page"
 msgstr "страница"
 
-#: src/print-info.c:471
+#: src/print-info.c:475
 msgid "pages"
 msgstr "странице"
 
-#: src/print-info.c:474
+#: src/print-info.c:478
 msgid "file"
 msgstr "датотека"
 
-#: src/print-info.c:475
+#: src/print-info.c:479
 msgid "path"
 msgstr "путања"
 
@@ -21607,23 +21643,23 @@ msgstr "Не снимај"
 msgid "Do not log out"
 msgstr "Не одјављуј се"
 
-#: src/sheet.c:2013
+#: src/sheet.c:2015
 msgid "Target region contains merged cells"
 msgstr "Област за резултат садржи спојена поља"
 
-#: src/sheet.c:2074
+#: src/sheet.c:2076
 msgid "cannot operate on merged cells"
 msgstr "Не могу радити на припојеним пољима"
 
-#: src/sheet.c:2084
+#: src/sheet.c:2086
 msgid "cannot operate on array formulae"
 msgstr "Не могу да радим са низовним формулама"
 
-#: src/sheet.c:3197
+#: src/sheet.c:3204
 msgid "Insert Columns"
 msgstr "Уметни колоне"
 
-#: src/sheet.c:3319
+#: src/sheet.c:3326
 msgid "Insert Rows"
 msgstr "Уметни врсте"
 
@@ -21690,12 +21726,12 @@ msgid "Column _Width..."
 msgstr "Ширина кол_оне..."
 
 #: src/sheet-control-gui.c:1547 src/sheet-control-gui.c:1555
-#: src/wbcg-actions.c:1704 src/wbcg-actions.c:1721
+#: src/wbcg-actions.c:1711 src/wbcg-actions.c:1728
 msgid "_Hide"
 msgstr "_Сакриј"
 
 #: src/sheet-control-gui.c:1549 src/sheet-control-gui.c:1557
-#: src/wbcg-actions.c:1707 src/wbcg-actions.c:1724
+#: src/wbcg-actions.c:1714 src/wbcg-actions.c:1731
 msgid "_Unhide"
 msgstr "_Откриј"
 
@@ -21717,22 +21753,22 @@ msgid "_Remove Hyperlink"
 msgstr "Укл_они везу"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1972
+#: src/sheet-control-gui.c:1981
 #, fuzzy
 msgid "Duplicate Object"
 msgstr "Удвостручи"
 
-#: src/sheet-control-gui.c:1972
+#: src/sheet-control-gui.c:1981
 #, fuzzy
 msgid "Insert Object"
 msgstr "Убаци објекат"
 
-#: src/sheet-control-gui.c:1973
+#: src/sheet-control-gui.c:1982
 #, fuzzy
 msgid "Move Object"
 msgstr "Премести објекат"
 
-#: src/sheet-control-gui.c:1973
+#: src/sheet-control-gui.c:1982
 #, fuzzy
 msgid "Resize Object"
 msgstr "Промени величину објекта"
@@ -21758,7 +21794,7 @@ msgid "(Non Blanks...)"
 msgstr "(Нема празнина...)"
 
 #. Format toolbar
-#: src/sheet-merge.c:73 src/wbcg-actions.c:1934
+#: src/sheet-merge.c:73 src/wbcg-actions.c:1941
 msgid "Merge"
 msgstr "Споји, сједини"
 
@@ -21771,19 +21807,19 @@ msgstr ""
 "Већ постоји спојена област која пресеца\n"
 "%s!%s"
 
-#: src/sheet-object.c:108
+#: src/sheet-object.c:112
 msgid "Pul_l to Front"
 msgstr ""
 
-#: src/sheet-object.c:109
+#: src/sheet-object.c:113
 msgid "Pull _Forward"
 msgstr ""
 
-#: src/sheet-object.c:110
+#: src/sheet-object.c:114
 msgid "Push _Backward"
 msgstr ""
 
-#: src/sheet-object.c:111
+#: src/sheet-object.c:115
 msgid "Pus_h to Back"
 msgstr ""
 
@@ -21797,50 +21833,50 @@ msgstr "не могу да направим објекат за '%s'"
 msgid "Could not load file: %s"
 msgstr "Не може да учита датотеку: %s"
 
-#: src/sheet-object-graph.c:206 src/sheet-object-image.c:342
+#: src/sheet-object-graph.c:206 src/sheet-object-image.c:347
 msgid "SVG (vector graphics)"
 msgstr ""
 
-#: src/sheet-object-graph.c:207 src/sheet-object-image.c:338
+#: src/sheet-object-graph.c:207 src/sheet-object-image.c:343
 msgid "PNG (raster graphics)"
 msgstr ""
 
-#: src/sheet-object-graph.c:208 src/sheet-object-image.c:340
+#: src/sheet-object-graph.c:208 src/sheet-object-image.c:345
 msgid "JPEG (photograph)"
 msgstr ""
 
-#: src/sheet-object-graph.c:250 src/sheet-object-image.c:468
+#: src/sheet-object-graph.c:250 src/sheet-object-image.c:473
 #, fuzzy
 msgid "Unknown failure while saving image"
 msgstr "Грешка приликом чувања датотеке."
 
-#: src/sheet-object-graph.c:263 src/sheet-object-image.c:483
+#: src/sheet-object-graph.c:263 src/sheet-object-image.c:488
 msgid "_Save as image"
 msgstr "_Сачувај као слику"
 
-#: src/sheet-object-image.c:344
+#: src/sheet-object-image.c:349
 msgid "EMF (extended metafile)"
 msgstr ""
 
-#: src/sheet-object-image.c:346
+#: src/sheet-object-image.c:351
 msgid "WMF (windows metafile)"
 msgstr ""
 
-#: src/sheet-object-widget.c:257 src/wbcg-actions.c:1893
+#: src/sheet-object-widget.c:258 src/wbcg-actions.c:1900
 msgid "Frame"
 msgstr "кадар, фрејм"
 
-#: src/sheet-object-widget.c:496 src/wbcg-actions.c:1926
+#: src/sheet-object-widget.c:497 src/wbcg-actions.c:1933
 #: templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Дугме"
 
-#: src/sheet-object-widget.c:1352
+#: src/sheet-object-widget.c:1354
 #, c-format
 msgid "CheckBox %d"
 msgstr "Кућица за потврду %d"
 
-#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1929
+#: src/sheet-object-widget.c:1809 src/wbcg-actions.c:1936
 msgid "RadioButton"
 msgstr "Једноизборник"
 
@@ -21919,7 +21955,7 @@ msgid ""
 "Only the current sheet will be saved."
 msgstr ""
 
-#: src/ssconvert.c:176
+#: src/ssconvert.c:181
 #, fuzzy, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -23120,877 +23156,877 @@ msgstr "Групиши"
 msgid "Ungroup"
 msgstr "Распусти"
 
-#: src/wbcg-actions.c:944
+#: src/wbcg-actions.c:951
 msgid "Sort"
 msgstr "Поређај"
 
-#: src/wbcg-actions.c:1064
+#: src/wbcg-actions.c:1071
 msgid "Set Horizontal Alignment"
 msgstr "Постави водоравно поравнање"
 
-#: src/wbcg-actions.c:1098
+#: src/wbcg-actions.c:1105
 #, fuzzy
 msgid "Set Vertical Alignment"
 msgstr "Постави водоравно поравнање"
 
-#: src/wbcg-actions.c:1187
+#: src/wbcg-actions.c:1194
 msgid "Set Font Style"
 msgstr "Поставите стил писма"
 
-#: src/wbcg-actions.c:1213
+#: src/wbcg-actions.c:1220
 msgid "Format as Number"
 msgstr "Форматирај као бројеве"
 
-#: src/wbcg-actions.c:1218
+#: src/wbcg-actions.c:1225
 msgid "Format as Currency"
 msgstr "Форматирај као монету"
 
-#: src/wbcg-actions.c:1223
+#: src/wbcg-actions.c:1230
 #, fuzzy
 msgid "Format as Accounting"
 msgstr "Обликуј као научно"
 
-#: src/wbcg-actions.c:1229
+#: src/wbcg-actions.c:1236
 msgid "Format as Percentage"
 msgstr "Форматирај као проценте"
 
-#: src/wbcg-actions.c:1234
+#: src/wbcg-actions.c:1241
 msgid "Format as Scientific"
 msgstr "Обликуј као научно"
 
-#: src/wbcg-actions.c:1239
+#: src/wbcg-actions.c:1246
 msgid "Format as Date"
 msgstr "Форматирај као датум"
 
-#: src/wbcg-actions.c:1244
+#: src/wbcg-actions.c:1251
 msgid "Format as Time"
 msgstr "Форматирај као време"
 
-#: src/wbcg-actions.c:1268
+#: src/wbcg-actions.c:1275
 msgid "Add Borders"
 msgstr "Додај границе"
 
-#: src/wbcg-actions.c:1268
+#: src/wbcg-actions.c:1275
 msgid "Remove borders"
 msgstr "Уклони границе"
 
-#: src/wbcg-actions.c:1297
+#: src/wbcg-actions.c:1304
 msgid "Increase precision"
 msgstr "Повећај прецизност"
 
-#: src/wbcg-actions.c:1299
+#: src/wbcg-actions.c:1306
 msgid "Decrease precision"
 msgstr "Умањи прецизност"
 
-#: src/wbcg-actions.c:1301
+#: src/wbcg-actions.c:1308
 msgid "Toggle thousands separator"
 msgstr "Укључи или искључи раздвојник хиљада"
 
-#: src/wbcg-actions.c:1321
+#: src/wbcg-actions.c:1328
 msgid "Increase Indent"
 msgstr "Повећај увлачење"
 
-#: src/wbcg-actions.c:1341
+#: src/wbcg-actions.c:1348
 msgid "Decrease Indent"
 msgstr "Смањи увлачење"
 
-#: src/wbcg-actions.c:1348
+#: src/wbcg-actions.c:1355
 #, fuzzy
 msgid "Copy down"
 msgstr "Умножи"
 
-#: src/wbcg-actions.c:1354
+#: src/wbcg-actions.c:1361
 #, fuzzy
 msgid "Copy right"
 msgstr "Копирај формат десно"
 
 #. Actions that are always sensitive
 #. const 142334
-#: src/wbcg-actions.c:1411
+#: src/wbcg-actions.c:1418
 msgid "_File"
 msgstr "_Датотека"
 
-#: src/wbcg-actions.c:1412
+#: src/wbcg-actions.c:1419
 msgid "_Edit"
 msgstr "_Уређивање"
 
-#: src/wbcg-actions.c:1413
+#: src/wbcg-actions.c:1420
 msgid "C_lear"
 msgstr "О_чисти"
 
-#: src/wbcg-actions.c:1415
+#: src/wbcg-actions.c:1422
 msgid "S_heet"
 msgstr "_Табела"
 
-#: src/wbcg-actions.c:1416
+#: src/wbcg-actions.c:1423
 msgid "_Select"
 msgstr "И_забери"
 
-#: src/wbcg-actions.c:1417
+#: src/wbcg-actions.c:1424
 #, fuzzy
 msgid "F_ill"
 msgstr "_Испуни"
 
-#: src/wbcg-actions.c:1418
+#: src/wbcg-actions.c:1425
 msgid "_View"
 msgstr "П_реглед"
 
-#: src/wbcg-actions.c:1419
+#: src/wbcg-actions.c:1426
 #, fuzzy
 msgid "_Windows"
 msgstr "Прозори"
 
-#: src/wbcg-actions.c:1420
+#: src/wbcg-actions.c:1427
 #, fuzzy
 msgid "_Toolbars"
 msgstr "_Основне алатке..."
 
-#: src/wbcg-actions.c:1422
+#: src/wbcg-actions.c:1429
 #, fuzzy
 msgid "_Names"
 msgstr "_Име"
 
-#: src/wbcg-actions.c:1423
+#: src/wbcg-actions.c:1430
 msgid "S_pecial"
 msgstr "_Нарочито"
 
-#: src/wbcg-actions.c:1424
+#: src/wbcg-actions.c:1431
 msgid "F_ormat"
 msgstr "_Форматирање"
 
-#: src/wbcg-actions.c:1425
+#: src/wbcg-actions.c:1432
 msgid "C_olumn"
 msgstr "Ко_лона"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: src/wbcg-actions.c:1427 src/wbcg-actions.c:1583
+#: src/wbcg-actions.c:1434 src/wbcg-actions.c:1590
 msgid "_Sheet"
 msgstr "_Табела"
 
-#: src/wbcg-actions.c:1428
+#: src/wbcg-actions.c:1435
 msgid "_Tools"
 msgstr "_Алати"
 
-#: src/wbcg-actions.c:1429
+#: src/wbcg-actions.c:1436
 msgid "Sce_narios"
 msgstr "Сц_енарији"
 
-#: src/wbcg-actions.c:1430
+#: src/wbcg-actions.c:1437
 msgid "Statistical Anal_ysis"
 msgstr "Статистичка анал_иза"
 
-#: src/wbcg-actions.c:1431
+#: src/wbcg-actions.c:1438
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
-#: src/wbcg-actions.c:1432
+#: src/wbcg-actions.c:1439
 #, fuzzy
 msgid "F_orecast"
 msgstr "П_рогноза"
 
-#: src/wbcg-actions.c:1433
+#: src/wbcg-actions.c:1440
 msgid "Two _Means"
 msgstr ""
 
-#: src/wbcg-actions.c:1435
+#: src/wbcg-actions.c:1442
 msgid "_Filter"
 msgstr "_Филтер"
 
-#: src/wbcg-actions.c:1436
+#: src/wbcg-actions.c:1443
 msgid "_Group and Outline"
 msgstr "_Групиши и одвој"
 
-#: src/wbcg-actions.c:1437
+#: src/wbcg-actions.c:1444
 msgid "Get _External Data"
 msgstr "Преу_зми спољне податке"
 
-#: src/wbcg-actions.c:1438
+#: src/wbcg-actions.c:1445
 msgid "_Help"
 msgstr "_Помоћ"
 
-#: src/wbcg-actions.c:1441
+#: src/wbcg-actions.c:1448
 msgid "Cut the selection"
 msgstr "Исеци означено"
 
-#: src/wbcg-actions.c:1444
+#: src/wbcg-actions.c:1451
 msgid "Copy the selection"
 msgstr "Умножи означено"
 
-#: src/wbcg-actions.c:1447
+#: src/wbcg-actions.c:1454
 msgid "Paste the clipboard"
 msgstr "Убаци из списка исечака"
 
-#: src/wbcg-actions.c:1450 src/wbcg-actions.c:1522
+#: src/wbcg-actions.c:1457 src/wbcg-actions.c:1529
 msgid "_Contents"
 msgstr "_Садржај"
 
-#: src/wbcg-actions.c:1451
+#: src/wbcg-actions.c:1458
 msgid "Open a viewer for Gnumeric's documentation"
-msgstr ""
-
-#: src/wbcg-actions.c:1453
-#, fuzzy
-msgid "Gnumeric on the _Web"
-msgstr "Гнумерик интернет страница"
-
-#: src/wbcg-actions.c:1454
-msgid "Browse to Gnumeric's website"
-msgstr ""
-
-#: src/wbcg-actions.c:1456
-msgid "_Live Assistance"
-msgstr ""
-
-#: src/wbcg-actions.c:1457
-msgid "See if anyone is available to answer questions"
-msgstr ""
-
-#: src/wbcg-actions.c:1459
-msgid "Report a _Problem"
 msgstr ""
 
 #: src/wbcg-actions.c:1460
 #, fuzzy
+msgid "Gnumeric on the _Web"
+msgstr "Гнумерик интернет страница"
+
+#: src/wbcg-actions.c:1461
+msgid "Browse to Gnumeric's website"
+msgstr ""
+
+#: src/wbcg-actions.c:1463
+msgid "_Live Assistance"
+msgstr ""
+
+#: src/wbcg-actions.c:1464
+msgid "See if anyone is available to answer questions"
+msgstr ""
+
+#: src/wbcg-actions.c:1466
+msgid "Report a _Problem"
+msgstr ""
+
+#: src/wbcg-actions.c:1467
+#, fuzzy
 msgid "Report problem "
 msgstr "Извештај створен:"
 
-#: src/wbcg-actions.c:1462
+#: src/wbcg-actions.c:1469
 msgid "_About"
 msgstr "_О програму"
 
-#: src/wbcg-actions.c:1463
+#: src/wbcg-actions.c:1470
 msgid "About this application"
 msgstr "О овом програму"
 
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
-#: src/wbcg-actions.c:1468
+#: src/wbcg-actions.c:1475
 #, fuzzy
 msgid "Repeat"
 msgstr "Извештај"
 
-#: src/wbcg-actions.c:1469
+#: src/wbcg-actions.c:1476
 #, fuzzy
 msgid "Repeat the previous action"
 msgstr "Понови радњу"
 
-#: src/wbcg-actions.c:1476
+#: src/wbcg-actions.c:1483
 msgid "Create a new workbook"
 msgstr "Направи нову радну свеску"
 
-#: src/wbcg-actions.c:1479
+#: src/wbcg-actions.c:1486
 msgid "Open a file"
 msgstr "Отвори датотеку"
 
-#: src/wbcg-actions.c:1482
+#: src/wbcg-actions.c:1489
 msgid "Save the current workbook"
 msgstr "Сачувај текућу радну свеску"
 
-#: src/wbcg-actions.c:1485
+#: src/wbcg-actions.c:1492
 msgid "Save the current workbook with a different name"
 msgstr "Сачувај текућу радну свеску под другим именом"
 
-#: src/wbcg-actions.c:1487
+#: src/wbcg-actions.c:1494
 msgid "Sen_d To..."
 msgstr "Поша_љи на..."
 
-#: src/wbcg-actions.c:1488
+#: src/wbcg-actions.c:1495
 msgid "Send the current file via email"
 msgstr "Пошаљи текућу датотеку е-поштом"
 
-#: src/wbcg-actions.c:1490
+#: src/wbcg-actions.c:1497
 msgid "Page Set_up..."
 msgstr "Подешавање _стране..."
 
-#: src/wbcg-actions.c:1491
+#: src/wbcg-actions.c:1498
 msgid "Setup the page settings for your current printer"
 msgstr "Подеси подешавања странице за текући штампач"
 
-#: src/wbcg-actions.c:1497
+#: src/wbcg-actions.c:1504
 msgid "Print the current file"
 msgstr "Одштампај текућу датотеку"
 
-#: src/wbcg-actions.c:1499
+#: src/wbcg-actions.c:1506
 msgid "Proper_ties..."
 msgstr "Осо_бине..."
 
-#: src/wbcg-actions.c:1500
+#: src/wbcg-actions.c:1507
 msgid "Edit descriptive information"
 msgstr "Унеси описну информацију"
 
-#: src/wbcg-actions.c:1502
+#: src/wbcg-actions.c:1509
 #, fuzzy
 msgid "Pre_ferences..."
 msgstr "Пос_тавке..."
 
-#: src/wbcg-actions.c:1503
+#: src/wbcg-actions.c:1510
 msgid "Change Gnumeric Preferences"
 msgstr "Измени Гнумерик поставке"
 
-#: src/wbcg-actions.c:1506
+#: src/wbcg-actions.c:1513
 msgid "Close the current file"
 msgstr "Затвори текућу датотеку"
 
-#: src/wbcg-actions.c:1509
+#: src/wbcg-actions.c:1516
 msgid "Quit the application"
 msgstr "Изађи из програма"
 
-#: src/wbcg-actions.c:1514
+#: src/wbcg-actions.c:1521
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Очисти формате означених поља, напомене и садржај"
 
-#: src/wbcg-actions.c:1517
+#: src/wbcg-actions.c:1524
 msgid "Clear the selected cells' formats"
 msgstr "Очисти формат изабраних поља"
 
-#: src/wbcg-actions.c:1520
+#: src/wbcg-actions.c:1527
 msgid "Clear the selected cells' comments"
 msgstr "Уклони напомене из означених поља"
 
-#: src/wbcg-actions.c:1523
+#: src/wbcg-actions.c:1530
 msgid "Clear the selected cells' contents"
 msgstr "Уклони садржај из означених поља"
 
-#: src/wbcg-actions.c:1528
+#: src/wbcg-actions.c:1535
 #, fuzzy
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Убаци тренутно време у означено поље(а)"
 
-#: src/wbcg-actions.c:1531
+#: src/wbcg-actions.c:1538
 #, fuzzy
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Убаци тренутно време у означено поље(а)"
 
 #. Insert
-#: src/wbcg-actions.c:1533 src/wbcg-actions.c:1640
+#: src/wbcg-actions.c:1540 src/wbcg-actions.c:1647
 msgid "C_ells..."
 msgstr "П_оља..."
 
-#: src/wbcg-actions.c:1534
+#: src/wbcg-actions.c:1541
 #, fuzzy
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Уклони означена поља, померајући остала у новостворени простор"
 
-#: src/wbcg-actions.c:1540
+#: src/wbcg-actions.c:1547
 msgid "Select all cells in the spreadsheet"
 msgstr "Изабери сва поља у табели"
 
-#: src/wbcg-actions.c:1542
+#: src/wbcg-actions.c:1549
 msgid "Select _Column"
 msgstr "Изабери _колону"
 
-#: src/wbcg-actions.c:1543
+#: src/wbcg-actions.c:1550
 msgid "Select an entire column"
 msgstr "Означите једну целу колону"
 
-#: src/wbcg-actions.c:1545
+#: src/wbcg-actions.c:1552
 msgid "Select _Row"
 msgstr "Изабери _врсту"
 
-#: src/wbcg-actions.c:1546
+#: src/wbcg-actions.c:1553
 msgid "Select an entire row"
 msgstr "Означите једну целу врсту"
 
-#: src/wbcg-actions.c:1548
+#: src/wbcg-actions.c:1555
 msgid "Select Arra_y"
 msgstr "Иза_бери низ"
 
-#: src/wbcg-actions.c:1549
+#: src/wbcg-actions.c:1556
 msgid "Select an array of cells"
 msgstr "Означите низ поља"
 
-#: src/wbcg-actions.c:1551
+#: src/wbcg-actions.c:1558
 msgid "Select _Depends"
 msgstr "Изабери _зависне"
 
 # Ово је у вези са Show Depends; означава поља која позивају ово поље у нпр. некој формули
 # bug:
-#: src/wbcg-actions.c:1552
+#: src/wbcg-actions.c:1559
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Означи сва поља која зависе од поља које се управо уређује"
 
-#: src/wbcg-actions.c:1554
+#: src/wbcg-actions.c:1561
 msgid "Select _Inputs"
 msgstr "Изабери _улазе"
 
 # Ово је у вези са Show Depends; означава поља која позивају ово поље у нпр. некој формули
 # bug:
-#: src/wbcg-actions.c:1555
+#: src/wbcg-actions.c:1562
 msgid "Select all the cells are used by the current edit cell"
 msgstr "Означи сва поља која користи поље које се управо уређује"
 
 #. Edit -> Fill
-#: src/wbcg-actions.c:1559
+#: src/wbcg-actions.c:1566
 msgid "Auto_fill"
 msgstr "С_амодопуњавање"
 
-#: src/wbcg-actions.c:1560
+#: src/wbcg-actions.c:1567
 msgid "Automatically fill the current selection"
 msgstr "Аутоматски попуни текући избор"
 
-#: src/wbcg-actions.c:1562
+#: src/wbcg-actions.c:1569
 msgid "_Merge..."
 msgstr "_Стапање..."
 
-#: src/wbcg-actions.c:1563
+#: src/wbcg-actions.c:1570
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
-#: src/wbcg-actions.c:1565
+#: src/wbcg-actions.c:1572
 msgid "_Tabulate Dependency..."
 msgstr ""
 
-#: src/wbcg-actions.c:1566
+#: src/wbcg-actions.c:1573
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Направи табелу вредности поља као функцију од осталих поља"
 
-#: src/wbcg-actions.c:1568
+#: src/wbcg-actions.c:1575
 msgid "_Series..."
 msgstr "_Редови..."
 
-#: src/wbcg-actions.c:1569
+#: src/wbcg-actions.c:1576
 msgid "Fill according to a linear or exponential series"
 msgstr "Попуни према вредностима линеарног или експоненцијалног реда"
 
-#: src/wbcg-actions.c:1571
+#: src/wbcg-actions.c:1578
 msgid "_Random Generator..."
 msgstr "_Генератор случајних бројева..."
 
-#: src/wbcg-actions.c:1572
+#: src/wbcg-actions.c:1579
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 
 #. Edit -> Sheet
-#: src/wbcg-actions.c:1576
+#: src/wbcg-actions.c:1583
 msgid "_Manage Sheets..."
 msgstr "_Управљање табелама..."
 
-#: src/wbcg-actions.c:1577
+#: src/wbcg-actions.c:1584
 msgid "Manage the sheets in this workbook"
 msgstr "Управљање табелама у овој радној свесци"
 
-#: src/wbcg-actions.c:1580 src/wbcg-actions.c:1584
+#: src/wbcg-actions.c:1587 src/wbcg-actions.c:1591
 msgid "Insert a new sheet"
 msgstr "Убаци нову табелу"
 
-#: src/wbcg-actions.c:1586
+#: src/wbcg-actions.c:1593
 msgid "_Append"
 msgstr "Допу_ни"
 
-#: src/wbcg-actions.c:1587
+#: src/wbcg-actions.c:1594
 msgid "Append a new sheet"
 msgstr "Убаци нову табелу"
 
-#: src/wbcg-actions.c:1590
+#: src/wbcg-actions.c:1597
 msgid "Make a copy of the current sheet"
 msgstr "Направи још један примерак текуће табеле"
 
-#: src/wbcg-actions.c:1593
+#: src/wbcg-actions.c:1600
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
-#: src/wbcg-actions.c:1595
+#: src/wbcg-actions.c:1602
 msgid "Re_name"
 msgstr "_Преименуј"
 
-#: src/wbcg-actions.c:1596
+#: src/wbcg-actions.c:1603
 msgid "Rename the current sheet"
 msgstr "Преименуј текућу табелу"
 
 #. Edit
-#: src/wbcg-actions.c:1600
+#: src/wbcg-actions.c:1607
 msgid "P_aste special..."
 msgstr "Посебно у_баци..."
 
-#: src/wbcg-actions.c:1601
+#: src/wbcg-actions.c:1608
 msgid "Paste with optional filters and transformations"
 msgstr ""
 "Убаци последњу ставку са списка исечака уз опционе филтре и трансформације"
 
-#: src/wbcg-actions.c:1604
+#: src/wbcg-actions.c:1611
 msgid "Co_mment..."
 msgstr "_Напомене..."
 
-#: src/wbcg-actions.c:1605
+#: src/wbcg-actions.c:1612
 msgid "Edit the selected cell's comment"
 msgstr "Уреди садржај оначеног поља"
 
-#: src/wbcg-actions.c:1608
+#: src/wbcg-actions.c:1615
 #, fuzzy
 msgid "_Find..."
 msgstr "_Ширина..."
 
-#: src/wbcg-actions.c:1609
+#: src/wbcg-actions.c:1616
 #, fuzzy
 msgid "Search for something"
 msgstr "Тражи неки текст"
 
-#: src/wbcg-actions.c:1611
+#: src/wbcg-actions.c:1618
 #, fuzzy
 msgid "R_eplace..."
 msgstr "_Замени:"
 
-#: src/wbcg-actions.c:1612
+#: src/wbcg-actions.c:1619
 #, fuzzy
 msgid "Search for something and replace it with something else"
 msgstr "Тражи неки текст и замени га са другим"
 
-#: src/wbcg-actions.c:1614
+#: src/wbcg-actions.c:1621
 msgid "_Goto cell..."
 msgstr "_Иди на поље..."
 
-#: src/wbcg-actions.c:1615
+#: src/wbcg-actions.c:1622
 msgid "Jump to a specified cell"
 msgstr "Скочи до одређеног поља"
 
-#: src/wbcg-actions.c:1618
+#: src/wbcg-actions.c:1625
 msgid "Recalculate"
 msgstr "Прерачунај"
 
-#: src/wbcg-actions.c:1619
+#: src/wbcg-actions.c:1626
 msgid "Recalculate the spreadsheet"
 msgstr "Прерачунај табелу"
 
 #. View
-#: src/wbcg-actions.c:1623
+#: src/wbcg-actions.c:1630
 msgid "_New View..."
 msgstr "_Нови поглед..."
 
-#: src/wbcg-actions.c:1624
+#: src/wbcg-actions.c:1631
 msgid "Create a new view of the workbook"
 msgstr "Направи нови поглед на радну свеску"
 
-#: src/wbcg-actions.c:1626 src/workbook-control-gui.c:1023
+#: src/wbcg-actions.c:1633 src/workbook-control-gui.c:1023
 msgid "_Freeze Panes"
 msgstr "_Замрзни панеле"
 
-#: src/wbcg-actions.c:1627 src/workbook-control-gui.c:1026
+#: src/wbcg-actions.c:1634 src/workbook-control-gui.c:1026
 msgid "Freeze the top left of the sheet"
 msgstr "Замрзни горњи леви део табеле"
 
-#: src/wbcg-actions.c:1629
+#: src/wbcg-actions.c:1636
 msgid "_Zoom..."
 msgstr "У_већај..."
 
-#: src/wbcg-actions.c:1630
+#: src/wbcg-actions.c:1637
 msgid "Zoom the spreadsheet in or out"
 msgstr "Увећај или умањи приказ табеле"
 
-#: src/wbcg-actions.c:1632
+#: src/wbcg-actions.c:1639
 #, fuzzy
 msgid "Zoom _In"
 msgstr "Увећање"
 
-#: src/wbcg-actions.c:1633
+#: src/wbcg-actions.c:1640
 #, fuzzy
 msgid "Increase the zoom to make things larger"
 msgstr "Повећај број децималних места која се приказују"
 
-#: src/wbcg-actions.c:1635
+#: src/wbcg-actions.c:1642
 #, fuzzy
 msgid "Zoom _Out"
 msgstr "Увећање"
 
-#: src/wbcg-actions.c:1636
+#: src/wbcg-actions.c:1643
 msgid "Decrease the zoom to make things smaller"
 msgstr ""
 
-#: src/wbcg-actions.c:1641
+#: src/wbcg-actions.c:1648
 msgid "Insert new cells"
 msgstr "Уметни нова поља"
 
-#: src/wbcg-actions.c:1644
+#: src/wbcg-actions.c:1651
 msgid "Insert new columns"
 msgstr "Уметни нове колоне"
 
-#: src/wbcg-actions.c:1647
+#: src/wbcg-actions.c:1654
 msgid "Insert new rows"
 msgstr "Уметни нове врсте"
 
-#: src/wbcg-actions.c:1650
+#: src/wbcg-actions.c:1657
 msgid "C_hart..."
 msgstr "График..."
 
-#: src/wbcg-actions.c:1651
+#: src/wbcg-actions.c:1658
 #, fuzzy
 msgid "Insert a Chart"
 msgstr "Уметни слику"
 
-#: src/wbcg-actions.c:1653
+#: src/wbcg-actions.c:1660
 msgid "_Image..."
 msgstr "_Слика..."
 
-#: src/wbcg-actions.c:1654
+#: src/wbcg-actions.c:1661
 msgid "Insert an image"
 msgstr "Уметни слику"
 
-#: src/wbcg-actions.c:1657
+#: src/wbcg-actions.c:1664
 msgid "Hyper_link..."
 msgstr "В_еза..."
 
-#: src/wbcg-actions.c:1658
+#: src/wbcg-actions.c:1665
 msgid "Insert a Hyperlink"
 msgstr "Убаци везу"
 
 #. Insert -> Special
-#: src/wbcg-actions.c:1661
+#: src/wbcg-actions.c:1668
 msgid "Current _date"
 msgstr "Тренутни _датум"
 
-#: src/wbcg-actions.c:1662
+#: src/wbcg-actions.c:1669
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Убаци текући датум у оначено поље(а)"
 
-#: src/wbcg-actions.c:1665
+#: src/wbcg-actions.c:1672
 msgid "Current _time"
 msgstr "Тренутно _време"
 
-#: src/wbcg-actions.c:1666
+#: src/wbcg-actions.c:1673
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Убаци тренутно време у означено поље(а)"
 
-#: src/wbcg-actions.c:1669
+#: src/wbcg-actions.c:1676
 #, fuzzy
 msgid "Current d_ate and time"
 msgstr "Тренутно _време"
 
-#: src/wbcg-actions.c:1670
+#: src/wbcg-actions.c:1677
 #, fuzzy
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Убаци тренутно време у означено поље(а)"
 
 #. Insert -> Name
-#: src/wbcg-actions.c:1674
+#: src/wbcg-actions.c:1681
 msgid "_Define..."
 msgstr "_Дефиниши..."
 
-#: src/wbcg-actions.c:1675
+#: src/wbcg-actions.c:1682
 msgid "Edit sheet and workbook names"
 msgstr "Измени називе табеле и радне свеске"
 
-#: src/wbcg-actions.c:1678
+#: src/wbcg-actions.c:1685
 msgid "_Auto generate names..."
 msgstr "Аутоматски предложи наз_иве..."
 
-#: src/wbcg-actions.c:1679
+#: src/wbcg-actions.c:1686
 msgid "Use the current selection to create names"
 msgstr "Користи текући избор како би направио називе"
 
 #. Format
-#: src/wbcg-actions.c:1684
+#: src/wbcg-actions.c:1691
 msgid "_Cells..."
 msgstr "_Поља..."
 
-#: src/wbcg-actions.c:1685
+#: src/wbcg-actions.c:1692
 msgid "Modify the formatting of the selected cells"
 msgstr "Измени форматирање означених поља"
 
-#: src/wbcg-actions.c:1687
+#: src/wbcg-actions.c:1694
 msgid "_Workbook..."
 msgstr "_Радна свеска..."
 
-#: src/wbcg-actions.c:1688
+#: src/wbcg-actions.c:1695
 msgid "Modify the workbook attributes"
 msgstr "Измени својста радне свеске"
 
-#: src/wbcg-actions.c:1690
+#: src/wbcg-actions.c:1697
 msgid "_Gnumeric..."
 msgstr "_Гнумерик..."
 
-#: src/wbcg-actions.c:1691
+#: src/wbcg-actions.c:1698
 msgid "Edit the Gnumeric Preferences"
 msgstr "Измени Гнумерик подешавања"
 
-#: src/wbcg-actions.c:1693
+#: src/wbcg-actions.c:1700
 msgid "_Autoformat..."
 msgstr "Ауто_матски форматирај..."
 
-#: src/wbcg-actions.c:1694
+#: src/wbcg-actions.c:1701
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Форматирај неки скуп поља према предефинисаном шаблону"
 
 #. Format -> Col
-#: src/wbcg-actions.c:1698
+#: src/wbcg-actions.c:1705
 msgid "_Width..."
 msgstr "_Ширина..."
 
-#: src/wbcg-actions.c:1699
+#: src/wbcg-actions.c:1706
 msgid "Change width of the selected columns"
 msgstr "Промени ширину означених колона"
 
-#: src/wbcg-actions.c:1701 src/wbcg-actions.c:1718
+#: src/wbcg-actions.c:1708 src/wbcg-actions.c:1725
 msgid "_Auto fit selection"
 msgstr "_Аутоматски уклопи одабрано"
 
-#: src/wbcg-actions.c:1702
+#: src/wbcg-actions.c:1709
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Увери се да су колоне таман толико широке да могу да прикажу садржај"
 
-#: src/wbcg-actions.c:1705
+#: src/wbcg-actions.c:1712
 msgid "Hide the selected columns"
 msgstr "Сакриј означене колоне"
 
-#: src/wbcg-actions.c:1708
+#: src/wbcg-actions.c:1715
 msgid "Make any hidden columns in the selection visible"
 msgstr "Учини видљивим све скривене колоне у означеном делу табеле"
 
-#: src/wbcg-actions.c:1710
+#: src/wbcg-actions.c:1717
 msgid "_Standard Width"
 msgstr "С_тандардна ширина"
 
-#: src/wbcg-actions.c:1711
+#: src/wbcg-actions.c:1718
 msgid "Change the default column width"
 msgstr "Промени подразумевану ширину колона"
 
 #. Format -> Row
-#: src/wbcg-actions.c:1715
+#: src/wbcg-actions.c:1722
 msgid "H_eight..."
 msgstr "_Висина..."
 
-#: src/wbcg-actions.c:1716
+#: src/wbcg-actions.c:1723
 msgid "Change height of the selected rows"
 msgstr "Измени висину обележених врста"
 
-#: src/wbcg-actions.c:1719
+#: src/wbcg-actions.c:1726
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Увери се да су врсте таман толико високе да могу да прикажу садржај"
 
-#: src/wbcg-actions.c:1722
+#: src/wbcg-actions.c:1729
 msgid "Hide the selected rows"
 msgstr "Сакриј означене врсте"
 
-#: src/wbcg-actions.c:1725
+#: src/wbcg-actions.c:1732
 msgid "Make any hidden rows in the selection visible"
 msgstr "Учини видљивим све скривене врсте у означеном делу табеле"
 
-#: src/wbcg-actions.c:1727
+#: src/wbcg-actions.c:1734
 msgid "_Standard Height"
 msgstr "_Стандардна висина"
 
-#: src/wbcg-actions.c:1728
+#: src/wbcg-actions.c:1735
 msgid "Change the default row height"
 msgstr "Промени подразумевану висину врста"
 
 #. Tools
-#: src/wbcg-actions.c:1732
+#: src/wbcg-actions.c:1739
 msgid "_Plug-ins..."
 msgstr "_Додаци..."
 
-#: src/wbcg-actions.c:1733
+#: src/wbcg-actions.c:1740
 msgid "Manage available plugin modules"
 msgstr "Управљање доступним додацима модулима"
 
-#: src/wbcg-actions.c:1735
+#: src/wbcg-actions.c:1742
 msgid "Auto _Correct..."
 msgstr "Провера правопи_са..."
 
-#: src/wbcg-actions.c:1736
+#: src/wbcg-actions.c:1743
 msgid "Automatically perform simple spell checking"
 msgstr "Аутоматски изврши једноставну проверу правописа"
 
-#: src/wbcg-actions.c:1738
+#: src/wbcg-actions.c:1745
 msgid "_Auto Save..."
 msgstr "Чување до_кумената..."
 
-#: src/wbcg-actions.c:1739
+#: src/wbcg-actions.c:1746
 msgid "Automatically save the current document at regular intervals"
 msgstr "Аутоматски сачувај текући документ у редовним размацима"
 
-#: src/wbcg-actions.c:1741
+#: src/wbcg-actions.c:1748
 msgid "_Goal Seek..."
 msgstr "Тражењ_е резултата..."
 
-#: src/wbcg-actions.c:1742
+#: src/wbcg-actions.c:1749
 msgid "Iteratively recalculate to find a target value"
 msgstr "Итеративно рачунај како би пронашао решење"
 
-#: src/wbcg-actions.c:1744
+#: src/wbcg-actions.c:1751
 msgid "_Solver..."
 msgstr "Систем за реша_вање..."
 
-#: src/wbcg-actions.c:1745
+#: src/wbcg-actions.c:1752
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Итеративно прерачунавај узимајући у обзир ограничења како би се приближили "
 "резултату"
 
-#: src/wbcg-actions.c:1747
+#: src/wbcg-actions.c:1754
 msgid "Si_mulation..."
 msgstr "Опо_нашање..."
 
-#: src/wbcg-actions.c:1748
+#: src/wbcg-actions.c:1755
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
 
 #. Tools -> Scenarios
-#: src/wbcg-actions.c:1753
+#: src/wbcg-actions.c:1760
 msgid "_View..."
 msgstr "_Прегледај..."
 
-#: src/wbcg-actions.c:1754
+#: src/wbcg-actions.c:1761
 msgid "View, delete and report different scenarios"
 msgstr ""
 
-#: src/wbcg-actions.c:1756
+#: src/wbcg-actions.c:1763
 msgid "_Add..."
 msgstr "_Додај..."
 
-#: src/wbcg-actions.c:1757
+#: src/wbcg-actions.c:1764
 msgid "Add a new scenario"
 msgstr "Додај нови сценарио"
 
 #. Tools -> ANOVA
-#: src/wbcg-actions.c:1761
+#: src/wbcg-actions.c:1768
 msgid "_One Factor..."
 msgstr "Ј_едан фактор..."
 
-#: src/wbcg-actions.c:1762
+#: src/wbcg-actions.c:1769
 msgid "One Factor Analysis of Variance..."
 msgstr "Анализа варијансе са једним фактором..."
 
-#: src/wbcg-actions.c:1764
+#: src/wbcg-actions.c:1771
 msgid "_Two Factor..."
 msgstr "Д_ва фактора..."
 
-#: src/wbcg-actions.c:1765
+#: src/wbcg-actions.c:1772
 msgid "Two Factor Analysis of Variance..."
 msgstr "Анализа варијансе са два фактора..."
 
 #. Tools -> Forecasting
-#: src/wbcg-actions.c:1769
+#: src/wbcg-actions.c:1776
 msgid "_Exponential Smoothing..."
 msgstr "_Експоненцијално углађивање..."
 
-#: src/wbcg-actions.c:1770
+#: src/wbcg-actions.c:1777
 msgid "Exponential smoothing..."
 msgstr "Експоненцијално углађивање..."
 
-#: src/wbcg-actions.c:1772
+#: src/wbcg-actions.c:1779
 msgid "_Moving Average..."
 msgstr "Покр_етно усредњавање..."
 
-#: src/wbcg-actions.c:1773
+#: src/wbcg-actions.c:1780
 msgid "Moving average..."
 msgstr "Покретно усредњавање..."
 
 #. Tools -> Two Means
-#: src/wbcg-actions.c:1777
+#: src/wbcg-actions.c:1784
 msgid "_Paired Samples: T-Test..."
 msgstr "У_парени узорци: т-тест..."
 
-#: src/wbcg-actions.c:1778
+#: src/wbcg-actions.c:1785
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr ""
 "Поређење две средње вредности популација за два упарена узорка: т-тест..."
 
-#: src/wbcg-actions.c:1781
+#: src/wbcg-actions.c:1788
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1782
+#: src/wbcg-actions.c:1789
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
@@ -23998,11 +24034,11 @@ msgstr ""
 "Поређење две средње вредности популација за два неупарена узорка из "
 "популација са једнаким варијансама: т-тест..."
 
-#: src/wbcg-actions.c:1785
+#: src/wbcg-actions.c:1792
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1786
+#: src/wbcg-actions.c:1793
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
@@ -24010,12 +24046,12 @@ msgstr ""
 "Поређење две средње вредности популација за два неупарена узорка из "
 "популација са неједнаким варијансама: т-тест..."
 
-#: src/wbcg-actions.c:1789
+#: src/wbcg-actions.c:1796
 #, fuzzy
 msgid "_Known Variances: Z-Test..."
 msgstr "_Две варијансе: фтест..."
 
-#: src/wbcg-actions.c:1790
+#: src/wbcg-actions.c:1797
 #, fuzzy
 msgid ""
 "Comparing two population means from populations with known variances: z-"
@@ -24025,638 +24061,638 @@ msgstr ""
 "варијансама или употребом већег узорка: z-тест..."
 
 #. Tools -> Analysis
-#: src/wbcg-actions.c:1794
+#: src/wbcg-actions.c:1801
 msgid "_Correlation..."
 msgstr "_Корелација..."
 
-#: src/wbcg-actions.c:1795
+#: src/wbcg-actions.c:1802
 msgid "Pearson Correlation"
 msgstr "Пирсонова корелација"
 
-#: src/wbcg-actions.c:1797
+#: src/wbcg-actions.c:1804
 msgid "Co_variance..."
 msgstr "К_оваријанса..."
 
-#: src/wbcg-actions.c:1800
+#: src/wbcg-actions.c:1807
 msgid "_Descriptive Statistics..."
 msgstr "_Описна статистика..."
 
-#: src/wbcg-actions.c:1801
+#: src/wbcg-actions.c:1808
 msgid "Various summary statistics"
 msgstr "Разна укупна статистика"
 
-#: src/wbcg-actions.c:1803
+#: src/wbcg-actions.c:1810
 msgid "_Fourier Analysis..."
 msgstr "_Фуријеова анализа..."
 
-#: src/wbcg-actions.c:1806
+#: src/wbcg-actions.c:1813
 msgid "_Histogram..."
 msgstr "_Хистограм..."
 
-#: src/wbcg-actions.c:1807
+#: src/wbcg-actions.c:1814
 msgid "Various frequency tables"
 msgstr "Разне табеле учестаности"
 
-#: src/wbcg-actions.c:1809
+#: src/wbcg-actions.c:1816
 msgid "Ranks And _Percentiles..."
 msgstr "Рангови и _проценти..."
 
-#: src/wbcg-actions.c:1810
+#: src/wbcg-actions.c:1817
 msgid "Ranks, placements and percentiles"
 msgstr "Рангови, положаји и проценти"
 
-#: src/wbcg-actions.c:1812
+#: src/wbcg-actions.c:1819
 msgid "_Regression..."
 msgstr "Ре_гресија..."
 
-#: src/wbcg-actions.c:1813
+#: src/wbcg-actions.c:1820
 msgid "Regression Analysis"
 msgstr "Регресивна анализа"
 
-#: src/wbcg-actions.c:1815
+#: src/wbcg-actions.c:1822
 msgid "_Sampling..."
 msgstr "_Узорковање..."
 
-#: src/wbcg-actions.c:1816
+#: src/wbcg-actions.c:1823
 msgid "Periodic and random samples"
 msgstr "Периодични и случајни узорци"
 
-#: src/wbcg-actions.c:1818
+#: src/wbcg-actions.c:1825
 msgid "_Two Variances: FTest..."
 msgstr "_Две варијансе: фтест..."
 
-#: src/wbcg-actions.c:1819
+#: src/wbcg-actions.c:1826
 msgid "Comparing two population variances"
 msgstr ""
 
 #. Data
-#: src/wbcg-actions.c:1823
+#: src/wbcg-actions.c:1830
 msgid "_Sort..."
 msgstr "_Поређај..."
 
-#: src/wbcg-actions.c:1824
+#: src/wbcg-actions.c:1831
 msgid "Sort the selected region"
 msgstr "Послажи одабране ставке"
 
-#: src/wbcg-actions.c:1826
+#: src/wbcg-actions.c:1833
 msgid "Sh_uffle..."
 msgstr "Меш_ај..."
 
-#: src/wbcg-actions.c:1827
+#: src/wbcg-actions.c:1834
 msgid "Shuffle cells, rows or columns"
 msgstr "Меша поља, врсте или колоне"
 
-#: src/wbcg-actions.c:1829
+#: src/wbcg-actions.c:1836
 msgid "_Validate..."
 msgstr "_Провера исправности..."
 
-#: src/wbcg-actions.c:1830
+#: src/wbcg-actions.c:1837
 msgid "Validate input with preset criteria"
 msgstr "Провера исправности под задатим мерилом"
 
-#: src/wbcg-actions.c:1832
+#: src/wbcg-actions.c:1839
 msgid "_Text to Columns..."
 msgstr "_Рашчлани текст..."
 
-#: src/wbcg-actions.c:1833
+#: src/wbcg-actions.c:1840
 msgid "Parse the text in the selection into data"
 msgstr "Рашчлани изабрани текст у податке"
 
-#: src/wbcg-actions.c:1835
+#: src/wbcg-actions.c:1842
 msgid "_Consolidate..."
 msgstr "Учвршћив_ање..."
 
-#: src/wbcg-actions.c:1836
+#: src/wbcg-actions.c:1843
 msgid "Consolidate regions using a function"
 msgstr ""
 
-#: src/wbcg-actions.c:1840
+#: src/wbcg-actions.c:1847
 msgid "_PivotTable..."
 msgstr "Сред_ишна табела..."
 
-#: src/wbcg-actions.c:1841
+#: src/wbcg-actions.c:1848
 msgid "Create a pivot table"
 msgstr "Направи средишну табелу"
 
 #. Data -> Outline
-#: src/wbcg-actions.c:1846
+#: src/wbcg-actions.c:1853
 msgid "_Hide Detail"
 msgstr "С_клони детаље"
 
-#: src/wbcg-actions.c:1847
+#: src/wbcg-actions.c:1854
 msgid "Collapse an outline group"
 msgstr "Скупи уоквирену групу"
 
-#: src/wbcg-actions.c:1849
+#: src/wbcg-actions.c:1856
 msgid "_Show Detail"
 msgstr "_Прикажи детаље"
 
-#: src/wbcg-actions.c:1850
+#: src/wbcg-actions.c:1857
 msgid "Uncollapse an outline group"
 msgstr ""
 
-#: src/wbcg-actions.c:1852
+#: src/wbcg-actions.c:1859
 msgid "_Group..."
 msgstr "_Групиши..."
 
-#: src/wbcg-actions.c:1853
+#: src/wbcg-actions.c:1860
 msgid "Add an outline group"
 msgstr "Додај уоквирену групу"
 
-#: src/wbcg-actions.c:1855
+#: src/wbcg-actions.c:1862
 msgid "_Ungroup..."
 msgstr "Рас_пусти..."
 
-#: src/wbcg-actions.c:1856
+#: src/wbcg-actions.c:1863
 msgid "Remove an outline group"
 msgstr "Уклони уоквирену групу"
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1860 src/workbook-control-gui.c:1034
+#: src/wbcg-actions.c:1867 src/workbook-control-gui.c:1034
 msgid "Add _Auto Filter"
 msgstr "Додај _аутоматско филтрирање"
 
-#: src/wbcg-actions.c:1861
+#: src/wbcg-actions.c:1868
 msgid "Add or remove a filter"
 msgstr "Додај или уклони филтер"
 
-#: src/wbcg-actions.c:1863
+#: src/wbcg-actions.c:1870
 msgid "_Show All"
 msgstr "_Прикажи све"
 
-#: src/wbcg-actions.c:1864
+#: src/wbcg-actions.c:1871
 msgid "Show all filtered and hidden rows"
 msgstr "Прикажи све филтриране и скривене врсте"
 
-#: src/wbcg-actions.c:1866
+#: src/wbcg-actions.c:1873
 msgid "Advanced _Filter..."
 msgstr "Напредни ф_илтар..."
 
-#: src/wbcg-actions.c:1867
+#: src/wbcg-actions.c:1874
 msgid "Filter data with given criteria"
 msgstr "Филтрирај податке са задатим критеријумом"
 
 #. Data -> External
-#: src/wbcg-actions.c:1870
+#: src/wbcg-actions.c:1877
 msgid "Import _Text File..."
 msgstr "Увези тексту_алну датотеку..."
 
-#: src/wbcg-actions.c:1871
+#: src/wbcg-actions.c:1878
 msgid "Import the text from a file"
 msgstr "Увези текст из датотеке"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1875 src/workbook-control-gui.c:1827
+#: src/wbcg-actions.c:1882 src/workbook-control-gui.c:1827
 #: src/workbook-view.c:542
 msgid "Sum"
 msgstr "Сума"
 
-#: src/wbcg-actions.c:1876
+#: src/wbcg-actions.c:1883
 msgid "Sum into the current cell"
 msgstr "Образуј суму у текућем пољу"
 
-#: src/wbcg-actions.c:1879
+#: src/wbcg-actions.c:1886
 msgid "Edit a function in the current cell"
 msgstr "Измени функцију у текућем пољу"
 
-#: src/wbcg-actions.c:1883
+#: src/wbcg-actions.c:1890
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
 "Поређај означену област у растућем поретку према првој означеној колони"
 
-#: src/wbcg-actions.c:1885
+#: src/wbcg-actions.c:1892
 msgid "Sort Descending"
 msgstr "_Опадајући"
 
-#: src/wbcg-actions.c:1886
+#: src/wbcg-actions.c:1893
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr ""
 "Поређај означену област у опадајућем поретку према првој означеној колони"
 
-#: src/wbcg-actions.c:1891
+#: src/wbcg-actions.c:1898
 msgid "Create a label"
 msgstr "Направи ознаку"
 
-#: src/wbcg-actions.c:1894
+#: src/wbcg-actions.c:1901
 msgid "Create a frame"
 msgstr "Направи оквир"
 
-#: src/wbcg-actions.c:1896
+#: src/wbcg-actions.c:1903
 msgid "Checkbox"
 msgstr "Кућица за потврду"
 
-#: src/wbcg-actions.c:1897
+#: src/wbcg-actions.c:1904
 msgid "Create a checkbox"
 msgstr "Направи кућицу за избор"
 
-#: src/wbcg-actions.c:1899
+#: src/wbcg-actions.c:1906
 msgid "Scrollbar"
 msgstr "Трака за померање"
 
-#: src/wbcg-actions.c:1900
+#: src/wbcg-actions.c:1907
 msgid "Create a scrollbar"
 msgstr "Направи линију са клизачем"
 
-#: src/wbcg-actions.c:1902
+#: src/wbcg-actions.c:1909
 msgid "Slider"
 msgstr "Клизач"
 
-#: src/wbcg-actions.c:1903
+#: src/wbcg-actions.c:1910
 msgid "Create a slider"
 msgstr "Направи клизач"
 
-#: src/wbcg-actions.c:1905
+#: src/wbcg-actions.c:1912
 msgid "SpinButton"
 msgstr "ВртећеДугме"
 
-#: src/wbcg-actions.c:1906
+#: src/wbcg-actions.c:1913
 msgid "Create a spin button"
 msgstr "Направи вртеће дугме"
 
-#: src/wbcg-actions.c:1908 templates/autoformat/autoformat.3D.list.xml.in.h:3
+#: src/wbcg-actions.c:1915 templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "Списак"
 
-#: src/wbcg-actions.c:1909
+#: src/wbcg-actions.c:1916
 msgid "Create a list"
 msgstr "Креирајте листу"
 
-#: src/wbcg-actions.c:1911
+#: src/wbcg-actions.c:1918
 msgid "Combo Box"
 msgstr "Кућица за избор"
 
-#: src/wbcg-actions.c:1912
+#: src/wbcg-actions.c:1919
 msgid "Create a combo box"
 msgstr "Направи падајућу листу"
 
-#: src/wbcg-actions.c:1915
+#: src/wbcg-actions.c:1922
 msgid "Create a line object"
 msgstr "Направи линијски објекат"
 
-#: src/wbcg-actions.c:1917
+#: src/wbcg-actions.c:1924
 msgid "Arrow"
 msgstr "Стрелица"
 
-#: src/wbcg-actions.c:1918
+#: src/wbcg-actions.c:1925
 msgid "Create an arrow object"
 msgstr "Направи објекат стрелицу"
 
-#: src/wbcg-actions.c:1920
+#: src/wbcg-actions.c:1927
 msgid "Rectangle"
 msgstr "правоугаоник"
 
-#: src/wbcg-actions.c:1921
+#: src/wbcg-actions.c:1928
 msgid "Create a rectangle object"
 msgstr "Направи правоугаоник"
 
-#: src/wbcg-actions.c:1923
+#: src/wbcg-actions.c:1930
 msgid "Ellipse"
 msgstr "Елипса"
 
-#: src/wbcg-actions.c:1924
+#: src/wbcg-actions.c:1931
 msgid "Create an ellipse object"
 msgstr "Направи елипсу"
 
-#: src/wbcg-actions.c:1927
+#: src/wbcg-actions.c:1934
 msgid "Create a button"
 msgstr "Направи дугме"
 
-#: src/wbcg-actions.c:1930
+#: src/wbcg-actions.c:1937
 msgid "Create a radio button"
 msgstr "Направи једноизборник"
 
-#: src/wbcg-actions.c:1935
+#: src/wbcg-actions.c:1942
 msgid "Merge a range of cells"
 msgstr "Сједини читав опсег поља"
 
-#: src/wbcg-actions.c:1937
+#: src/wbcg-actions.c:1944
 msgid "Split"
 msgstr "Подели"
 
-#: src/wbcg-actions.c:1938
+#: src/wbcg-actions.c:1945
 msgid "Split merged ranges of cells"
 msgstr "Растави спојене опсеге поља"
 
-#: src/wbcg-actions.c:1942
+#: src/wbcg-actions.c:1949
 #, fuzzy
 msgid "Format the selection as numbers"
 msgstr "Форматирај као бројеве"
 
-#: src/wbcg-actions.c:1944 src/widgets/widget-format-selector.c:77
+#: src/wbcg-actions.c:1951 src/widgets/widget-format-selector.c:77
 msgid "Currency"
 msgstr "Валута"
 
-#: src/wbcg-actions.c:1945
+#: src/wbcg-actions.c:1952
 #, fuzzy
 msgid "Format the selection as currency"
 msgstr "Форматирај као монету"
 
-#: src/wbcg-actions.c:1947 src/widgets/widget-format-selector.c:78
+#: src/wbcg-actions.c:1954 src/widgets/widget-format-selector.c:78
 msgid "Accounting"
 msgstr "Рачуноводство"
 
-#: src/wbcg-actions.c:1948
+#: src/wbcg-actions.c:1955
 msgid "Format the selection as accounting"
 msgstr ""
 
-#: src/wbcg-actions.c:1950 src/widgets/widget-format-selector.c:81
+#: src/wbcg-actions.c:1957 src/widgets/widget-format-selector.c:81
 msgid "Percentage"
 msgstr "Проценат"
 
-#: src/wbcg-actions.c:1951
+#: src/wbcg-actions.c:1958
 #, fuzzy
 msgid "Format the selection as percentage"
 msgstr "Форматирај као проценте"
 
-#: src/wbcg-actions.c:1953 src/widgets/widget-format-selector.c:83
+#: src/wbcg-actions.c:1960 src/widgets/widget-format-selector.c:83
 msgid "Scientific"
 msgstr "Инжењерски"
 
-#: src/wbcg-actions.c:1954
+#: src/wbcg-actions.c:1961
 #, fuzzy
 msgid "Format the selection as scientific"
 msgstr "Обликуј као научно"
 
-#: src/wbcg-actions.c:1956 src/widgets/widget-format-selector.c:79
+#: src/wbcg-actions.c:1963 src/widgets/widget-format-selector.c:79
 msgid "Date"
 msgstr "Датум"
 
-#: src/wbcg-actions.c:1957
+#: src/wbcg-actions.c:1964
 #, fuzzy
 msgid "Format the selection as date"
 msgstr "Исеци означено"
 
-#: src/wbcg-actions.c:1959 src/widgets/widget-format-selector.c:80
+#: src/wbcg-actions.c:1966 src/widgets/widget-format-selector.c:80
 msgid "Time"
 msgstr "Време"
 
-#: src/wbcg-actions.c:1960
+#: src/wbcg-actions.c:1967
 #, fuzzy
 msgid "Format the selection as time"
 msgstr "Исеци означено"
 
-#: src/wbcg-actions.c:1962
+#: src/wbcg-actions.c:1969
 #, fuzzy
 msgid "AddBorders"
 msgstr "Додај границе"
 
-#: src/wbcg-actions.c:1963
+#: src/wbcg-actions.c:1970
 #, fuzzy
 msgid "Add a border the the selection"
 msgstr "Исеци означено"
 
-#: src/wbcg-actions.c:1965
+#: src/wbcg-actions.c:1972
 #, fuzzy
 msgid "ClearBorders"
 msgstr "Очисти ивице"
 
-#: src/wbcg-actions.c:1966
+#: src/wbcg-actions.c:1973
 #, fuzzy
 msgid "Clear the border around the selection"
 msgstr "Центрирај преко _означених поља"
 
-#: src/wbcg-actions.c:1969
+#: src/wbcg-actions.c:1976
 msgid "Thousands Separator"
 msgstr "Раздвојник хиљада"
 
-#: src/wbcg-actions.c:1970
+#: src/wbcg-actions.c:1977
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Постави формат означених поља тако да укључује раздвојник хиљада"
 
-#: src/wbcg-actions.c:1972
+#: src/wbcg-actions.c:1979
 msgid "Increase Precision"
 msgstr "Повећај прецизност"
 
-#: src/wbcg-actions.c:1973
+#: src/wbcg-actions.c:1980
 msgid "Increase the number of decimals displayed"
 msgstr "Повећај број децималних места која се приказују"
 
-#: src/wbcg-actions.c:1975
+#: src/wbcg-actions.c:1982
 msgid "Decrease Precision"
 msgstr "Умањи прецизност"
 
-#: src/wbcg-actions.c:1976
+#: src/wbcg-actions.c:1983
 msgid "Decrease the number of decimals displayed"
 msgstr "Смањи број децималних места која се приказују"
 
-#: src/wbcg-actions.c:1979
+#: src/wbcg-actions.c:1986
 msgid "Decrease the indent, and align the contents to the left"
 msgstr ""
 
-#: src/wbcg-actions.c:1982
+#: src/wbcg-actions.c:1989
 msgid "Increase the indent, and align the contents to the left"
 msgstr ""
 
 #. const 142334
-#: src/wbcg-actions.c:2020
+#: src/wbcg-actions.c:2027
 msgid "Display _Outlines"
 msgstr "Прикажи _оквире"
 
-#: src/wbcg-actions.c:2021
+#: src/wbcg-actions.c:2028
 msgid "Toggle whether or not to display outline groups"
 msgstr "Да ли се приказују уоквирене групе"
 
-#: src/wbcg-actions.c:2023
+#: src/wbcg-actions.c:2030
 msgid "Outlines _Below"
 msgstr "Оквири _испод"
 
-#: src/wbcg-actions.c:2024
+#: src/wbcg-actions.c:2031
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Да ли да прикаже оквире редова горе или доле"
 
-#: src/wbcg-actions.c:2026
+#: src/wbcg-actions.c:2033
 msgid "Outlines _Right"
 msgstr "Оквири _десно"
 
-#: src/wbcg-actions.c:2027
+#: src/wbcg-actions.c:2034
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Да ли да прикаже оквире колона на левој или десној страни"
 
-#: src/wbcg-actions.c:2029
+#: src/wbcg-actions.c:2036
 msgid "Display _Formulas"
 msgstr "Прикажи фор_муле"
 
-#: src/wbcg-actions.c:2030
+#: src/wbcg-actions.c:2037
 msgid "Display the value of a formula or the formula itself"
 msgstr "Прикажи вредност формуле или саму формулу"
 
-#: src/wbcg-actions.c:2032
+#: src/wbcg-actions.c:2039
 msgid "Hide _Zeros"
 msgstr "Сакриј ну_ле"
 
-#: src/wbcg-actions.c:2033
+#: src/wbcg-actions.c:2040
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Да ли приказивати нуле као празнине"
 
-#: src/wbcg-actions.c:2035
+#: src/wbcg-actions.c:2042
 msgid "Hide _Gridlines"
 msgstr "Сакриј мр_ежу"
 
-#: src/wbcg-actions.c:2036
+#: src/wbcg-actions.c:2043
 msgid "Toggle whether or not to display gridlines"
 msgstr "Да ли приказивати мрежу линија"
 
-#: src/wbcg-actions.c:2038
+#: src/wbcg-actions.c:2045
 msgid "Hide _Column Headers"
 msgstr "Сакриј за_главља колона"
 
-#: src/wbcg-actions.c:2039
+#: src/wbcg-actions.c:2046
 msgid "Toggle whether or not to display column headers"
 msgstr "Да ли да приказује заглавље колоне"
 
-#: src/wbcg-actions.c:2041
+#: src/wbcg-actions.c:2048
 msgid "Hide _Row Headers"
 msgstr "Сакриј заглавља бр_ста"
 
-#: src/wbcg-actions.c:2042
+#: src/wbcg-actions.c:2049
 msgid "Toggle whether or not to display row headers"
 msgstr "Да ли се приказују заглавља врста"
 
-#: src/wbcg-actions.c:2046
+#: src/wbcg-actions.c:2053
 #, fuzzy
 msgid "_Left Align"
 msgstr "Лево поравнавање"
 
-#: src/wbcg-actions.c:2047 src/wbc-gtk.c:324
+#: src/wbcg-actions.c:2054 src/wbc-gtk.c:324
 #, fuzzy
 msgid "Align left"
 msgstr "Поравнање"
 
-#: src/wbcg-actions.c:2049
+#: src/wbcg-actions.c:2056
 #, fuzzy
 msgid "_Center"
 msgstr "Центрирај"
 
-#: src/wbcg-actions.c:2050 src/wbc-gtk.c:325
+#: src/wbcg-actions.c:2057 src/wbc-gtk.c:325
 #, fuzzy
 msgid "Center horizontally"
 msgstr "_Водоравно"
 
-#: src/wbcg-actions.c:2052
+#: src/wbcg-actions.c:2059
 #, fuzzy
 msgid "_Right Align"
 msgstr "Десно поравнавање"
 
-#: src/wbcg-actions.c:2053 src/wbc-gtk.c:326
+#: src/wbcg-actions.c:2060 src/wbc-gtk.c:326
 #, fuzzy
 msgid "Align right"
 msgstr "Оквири _десно"
 
-#: src/wbcg-actions.c:2055
+#: src/wbcg-actions.c:2062
 #, fuzzy
 msgid "_Center Across Selection"
 msgstr "Центрирај оначена поља"
 
-#: src/wbcg-actions.c:2056 src/wbc-gtk.c:329
+#: src/wbcg-actions.c:2063 src/wbc-gtk.c:329
 #, fuzzy
 msgid "Center horizontally across the selection"
 msgstr "Центрирај преко _означених поља"
 
-#: src/wbcg-actions.c:2059
+#: src/wbcg-actions.c:2066
 #, fuzzy
 msgid "_Merge and Center"
 msgstr "_Усправно"
 
-#: src/wbcg-actions.c:2060
+#: src/wbcg-actions.c:2067
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr ""
 
-#: src/wbcg-actions.c:2067
+#: src/wbcg-actions.c:2074
 msgid "Align _Top"
 msgstr ""
 
-#: src/wbcg-actions.c:2068 src/wbc-gtk.c:336
+#: src/wbcg-actions.c:2075 src/wbc-gtk.c:336
 msgid "Align Top"
 msgstr ""
 
-#: src/wbcg-actions.c:2070
+#: src/wbcg-actions.c:2077
 #, fuzzy
 msgid "_Vertically Center"
 msgstr "_Усправно"
 
-#: src/wbcg-actions.c:2071
+#: src/wbcg-actions.c:2078
 #, fuzzy
 msgid "Vertically Center"
 msgstr "_Усправно"
 
-#: src/wbcg-actions.c:2073
+#: src/wbcg-actions.c:2080
 #, fuzzy
 msgid "Align _Bottom"
 msgstr "_Дно"
 
-#: src/wbcg-actions.c:2074 src/wbc-gtk.c:338
+#: src/wbcg-actions.c:2081 src/wbc-gtk.c:338
 #, fuzzy
 msgid "Align Bottom"
 msgstr "Танко дно"
 
-#: src/wbcg-actions.c:2077
+#: src/wbcg-actions.c:2084
 msgid "View _Statusbar"
 msgstr ""
 
-#: src/wbcg-actions.c:2078
+#: src/wbcg-actions.c:2085
 msgid "Toggle visibility of statusbar"
 msgstr ""
 
-#: src/wbcg-actions.c:2082
+#: src/wbcg-actions.c:2089
 #, fuzzy
 msgid "F_ull Screen..."
 msgstr "Тражењ_е резултата..."
 
-#: src/wbcg-actions.c:2083
+#: src/wbcg-actions.c:2090
 #, fuzzy
 msgid "in or out"
 msgstr "Не одјављуј се"
 
-#: src/wbcg-actions.c:2088
+#: src/wbcg-actions.c:2095
 #, fuzzy
 msgid "_Bold"
 msgstr "Масно"
 
 #. ALSO "<control>2"
-#: src/wbcg-actions.c:2089 src/widgets/widget-font-selector.c:201
+#: src/wbcg-actions.c:2096 src/widgets/widget-font-selector.c:201
 msgid "Bold"
 msgstr "Масно"
 
-#: src/wbcg-actions.c:2091
+#: src/wbcg-actions.c:2098
 #, fuzzy
 msgid "_Italic"
 msgstr "Курзив"
 
 #. ALSO "<control>3"
-#: src/wbcg-actions.c:2092 src/widgets/widget-font-selector.c:203
+#: src/wbcg-actions.c:2099 src/widgets/widget-font-selector.c:203
 msgid "Italic"
 msgstr "Курзив"
 
-#: src/wbcg-actions.c:2094
+#: src/wbcg-actions.c:2101
 #, fuzzy
 msgid "_Underline"
 msgstr "Подвучено"
 
 #. ALSO "<control>4"
-#: src/wbcg-actions.c:2095
+#: src/wbcg-actions.c:2102
 msgid "Underline"
 msgstr "Подвучено"
 
-#: src/wbcg-actions.c:2097
+#: src/wbcg-actions.c:2104
 #, fuzzy
 msgid "_Strike Through"
 msgstr "Пре_цртано"
 
-#: src/wbcg-actions.c:2098
+#: src/wbcg-actions.c:2105
 #, fuzzy
 msgid "Strike Through"
 msgstr "Пре_цртано"
 
-#: src/wbcg-actions.c:2101
+#: src/wbcg-actions.c:2108
 #, fuzzy
 msgid "_Double Underline"
 msgstr "Подвучено"
 
-#: src/wbcg-actions.c:2102
+#: src/wbcg-actions.c:2109
 #, fuzzy
 msgid "Double Underline"
 msgstr "Подвучено"
@@ -25999,16 +26035,16 @@ msgstr "_Одбаци"
 msgid "_Accept"
 msgstr "_Прихвати"
 
-#: src/workbook-edit.c:570
+#: src/workbook-edit.c:684
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s је закључан"
 
-#: src/workbook-edit.c:574
+#: src/workbook-edit.c:688
 msgid "Unprotect the workbook to enable editing."
 msgstr "Откључајте радну свеску како би могли да извршите измене."
 
-#: src/workbook-edit.c:575
+#: src/workbook-edit.c:689
 msgid "Unprotect the sheet to enable editing."
 msgstr "Откључајте табелу како би могли да извршите измене."
 

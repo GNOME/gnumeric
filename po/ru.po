@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-08 22:18+0300\n"
+"POT-Creation-Date: 2005-01-17 00:44-0500\n"
 "PO-Revision-Date: 2005-01-10 12:59+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <ru@li.org>\n"
@@ -934,7 +934,7 @@ msgstr "Финансовые производные"
 msgid "Functions related to financial derivatives"
 msgstr "Функции относящиеся к финансовым производным"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5800
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5837
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Чтение файла..."
@@ -1027,7 +1027,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Неожиданный аттрибут %s::%s == \"%s\"."
 
 #: plugins/excel/excel-xml-read.c:198
-#: plugins/openoffice/openoffice-read.c:1479
+#: plugins/openoffice/openoffice-read.c:1503
 #: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "Неправильно сформированный документ XML!"
@@ -1039,7 +1039,7 @@ msgstr "#НЕИЗВЕСТНОЕ!"
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1110 plugins/excel/ms-excel-read.c:1122
-#: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
+#: plugins/oleo/oleo.c:344 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
@@ -1091,7 +1091,7 @@ msgstr "внешняя ссылка"
 msgid "No password supplied"
 msgstr "Не предоставлен пароль"
 
-#: plugins/excel/ms-excel-read.c:6026
+#: plugins/excel/ms-excel-read.c:6063
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Невозможно найти рабочую книгу MS Excel"
 
@@ -1102,7 +1102,7 @@ msgid ""
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4167
+#: plugins/excel/ms-excel-write.c:4195
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1111,7 +1111,7 @@ msgstr ""
 "Некоторые данные могут быть потеряны при сохранении в формате M$ Excel (tm) "
 "95, т.к. этот формат поддерживает %d строк, а в этой рабочей книге их %d."
 
-#: plugins/excel/ms-excel-write.c:4174
+#: plugins/excel/ms-excel-write.c:4202
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1120,30 +1120,34 @@ msgstr ""
 "Некоторые данные могут быть потеряны при сохранении в формате M$ Excel (tm), "
 "т.к. этот формат поддерживает %d строк, а в этой рабочей книге их %d."
 
-#: plugins/excel/ms-excel-write.c:4939
+#: plugins/excel/ms-excel-write.c:4967
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Не удалось открыть поток \"Book\" для записи\n"
 
-#: plugins/excel/ms-excel-write.c:4959
+#: plugins/excel/ms-excel-write.c:4987
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Не удалось открыть поток \"Workbook\" для записи\n"
 
-#: plugins/excel/ms-formula-read.c:593
+#: plugins/excel/ms-formula-read.c:652
 msgid "Broken function"
 msgstr "Ошибочная функция"
 
-#: plugins/excel/ms-formula-write.c:537
+#: plugins/excel/ms-formula-write.c:535
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel expects exactly %d and we "
 "have %d"
-msgstr "Слишком много аргументов функции '%s', M$ Excel поддерживает точно %d, а у нас - %d"
+msgstr ""
+"Слишком много аргументов функции '%s', M$ Excel поддерживает точно %d, а у "
+"нас - %d"
 
-#: plugins/excel/ms-formula-write.c:538
+#: plugins/excel/ms-formula-write.c:536
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
-msgstr "Слишком много аргументов функции '%s', M$ Excel поддерживает только %d, а не %d"
+msgstr ""
+"Слишком много аргументов функции '%s', M$ Excel поддерживает только %d, а не "
+"%d"
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
@@ -2025,11 +2029,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARCCSCH\n"
 "@SYNTAX=IMARCCSCH(inumber)\n"
-"@DESCRIPTION=IMARCCSCH возвращает комплексный гиперболический арккосинус комплексного числа z (@inumber), где\n"
+"@DESCRIPTION=IMARCCSCH возвращает комплексный гиперболический арккосинус "
+"комплексного числа z (@inumber), где\n"
 "\n"
 "    arccsch(z) = arcsinh(1/z).\n"
 "\n"
-"* Если @inumber не является комплексным числом, IMARCCSCH возвращает ошибку #VALUE!.\n"
+"* Если @inumber не является комплексным числом, IMARCCSCH возвращает ошибку "
+"#VALUE!.\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCCSCH(\"1+j\") равняется 0.5306375-0.452278j.\n"
@@ -3469,8 +3475,8 @@ msgstr ""
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: plugins/fn-date/functions.c:900 plugins/fn-eng/functions.c:101
-#: plugins/fn-info/functions.c:1285 plugins/fn-info/functions.c:1301
+#: plugins/fn-date/functions.c:900 plugins/fn-info/functions.c:1285
+#: plugins/fn-info/functions.c:1301
 msgid "Unimplemented"
 msgstr "Не реализовано"
 
@@ -3650,7 +3656,25 @@ msgstr "Дата / Время"
 msgid "Functions manipulating dates and time"
 msgstr "Функции для работы с датами и временем"
 
-#: plugins/fn-eng/functions.c:116
+#: plugins/fn-eng/functions.c:140
+msgid ""
+"@FUNCTION=BASE\n"
+"@SYNTAX=BASE(number,base[,length])\n"
+"@DESCRIPTION=BASE function converts a number to a string representing that "
+"number in base @base.\n"
+"\n"
+"* @base must be an integer between 2 and 36.\n"
+"* This function is OpenOffice.Org compatible.\n"
+"* Optional argument @length specifies the minimum result length.  Leading  "
+"zeroes will be added to reach this length.\n"
+"\n"
+"@EXAMPLES=\n"
+"BASE(255,16,4) equals \"00FF\".\n"
+"\n"
+"@SEEALSO=DECIMAL"
+msgstr ""
+
+#: plugins/fn-eng/functions.c:175
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -3676,7 +3700,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-eng/functions.c:139
+#: plugins/fn-eng/functions.c:198
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -3707,7 +3731,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 
-#: plugins/fn-eng/functions.c:165
+#: plugins/fn-eng/functions.c:224
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -3738,7 +3762,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 
-#: plugins/fn-eng/functions.c:191
+#: plugins/fn-eng/functions.c:250
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -3769,7 +3793,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
-#: plugins/fn-eng/functions.c:217
+#: plugins/fn-eng/functions.c:276
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -3800,7 +3824,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 
-#: plugins/fn-eng/functions.c:243
+#: plugins/fn-eng/functions.c:302
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -3831,7 +3855,33 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
-#: plugins/fn-eng/functions.c:269
+#: plugins/fn-eng/functions.c:328
+#, fuzzy
+msgid ""
+"@FUNCTION=DECIMAL\n"
+"@SYNTAX=DECIMAL(text,base)\n"
+"@DESCRIPTION=DECIMAL function converts a number in base @base to decimal.\n"
+"\n"
+"* @base must be an integer between 2 and 36.\n"
+"* This function is OpenOffice.Org compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"DECIMAL(\"A1\",16) equals 161.\n"
+"\n"
+"@SEEALSO=BASE"
+msgstr ""
+"@FUNCTION=OCT2DEC\n"
+"@SYNTAX=OCT2DEC(x)\n"
+"@DESCRIPTION=Функция OCT2DEC преобразует восьмеричное число в десятичное.\n"
+"\n"
+"* Эта функция совместима с Excel.\n"
+"\n"
+"@EXAMPLES=\n"
+"OCT2DEC(\"124\") равняется 84.\n"
+"\n"
+"@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
+
+#: plugins/fn-eng/functions.c:357
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -3856,7 +3906,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
-#: plugins/fn-eng/functions.c:292
+#: plugins/fn-eng/functions.c:380
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -3887,7 +3937,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
-#: plugins/fn-eng/functions.c:318
+#: plugins/fn-eng/functions.c:406
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -3918,7 +3968,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
-#: plugins/fn-eng/functions.c:344
+#: plugins/fn-eng/functions.c:432
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -3949,7 +3999,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 
-#: plugins/fn-eng/functions.c:370
+#: plugins/fn-eng/functions.c:458
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -3980,7 +4030,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 
-#: plugins/fn-eng/functions.c:396
+#: plugins/fn-eng/functions.c:484
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -4006,7 +4056,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
-#: plugins/fn-eng/functions.c:419
+#: plugins/fn-eng/functions.c:507
 #, fuzzy
 msgid ""
 "@FUNCTION=BESSELI\n"
@@ -4043,7 +4093,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-eng/functions.c:457
+#: plugins/fn-eng/functions.c:545
 #, fuzzy
 msgid ""
 "@FUNCTION=BESSELK\n"
@@ -4076,7 +4126,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
-#: plugins/fn-eng/functions.c:494
+#: plugins/fn-eng/functions.c:582
 #, fuzzy
 msgid ""
 "@FUNCTION=BESSELJ\n"
@@ -4109,7 +4159,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-eng/functions.c:530
+#: plugins/fn-eng/functions.c:618
 #, fuzzy
 msgid ""
 "@FUNCTION=BESSELY\n"
@@ -4146,7 +4196,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-eng/functions.c:573
+#: plugins/fn-eng/functions.c:661
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -4368,7 +4418,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-eng/functions.c:988
+#: plugins/fn-eng/functions.c:1076
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -4395,7 +4445,7 @@ msgid ""
 "@SEEALSO=ERFC"
 msgstr ""
 
-#: plugins/fn-eng/functions.c:1035
+#: plugins/fn-eng/functions.c:1123
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -4429,7 +4479,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERF"
 
-#: plugins/fn-eng/functions.c:1065
+#: plugins/fn-eng/functions.c:1153
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -4459,11 +4509,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: plugins/fn-eng/functions.c:1109 plugins/fn-eng/functions.c:1163
+#: plugins/fn-eng/functions.c:1197 plugins/fn-eng/functions.c:1251
 msgid "Impossible"
 msgstr "Невозможно"
 
-#: plugins/fn-eng/functions.c:1120
+#: plugins/fn-eng/functions.c:1208
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -4491,7 +4541,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DELTA"
 
-#: plugins/fn-eng/functions.c:1174
+#: plugins/fn-eng/functions.c:1262
 msgid ""
 "@FUNCTION=INVSUMINV\n"
 "@SYNTAX=INVSUMINV(x1,x2,...)\n"
@@ -5790,7 +5840,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(@валюта)\n"
-"@DESCRIPTION=EURO конвертирует один Евро в заданную национальную @валюту страны Евросоюза.\n"
+"@DESCRIPTION=EURO конвертирует один Евро в заданную национальную @валюту "
+"страны Евросоюза.\n"
 "\n"
 "Валюта должна быть одна из следующих:\n"
 "\n"
@@ -5808,7 +5859,8 @@ msgstr ""
 "    NLG     (Нидерланды)\n"
 "    PTE     (Португалия)\n"
 "\n"
-"Если заданная @валюта отличается от одной из приведенных выше, EURO возвращает ошибку #NUM!.\n"
+"Если заданная @валюта отличается от одной из приведенных выше, EURO "
+"возвращает ошибку #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "EURO(\"DEM\") возвращает 1.95583.\n"
@@ -5846,7 +5898,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=EUROCONVERT\n"
 "@SYNTAX=EUROCONVERT(n,source,target)\n"
-"@DESCRIPTION=EUROCONVERT конвертирует @n денежных единиц @source в заданную @target национальную валюту. Обе валюты задаются трёхбуквенной строкой с использованием кода ISO. Поддерживаются следующие валюты:\n"
+"@DESCRIPTION=EUROCONVERT конвертирует @n денежных единиц @source в заданную "
+"@target национальную валюту. Обе валюты задаются трёхбуквенной строкой с "
+"использованием кода ISO. Поддерживаются следующие валюты:\n"
 "\n"
 "    ATS     (Австрия)\n"
 "    BEF     (Бельгия)\n"
@@ -5861,7 +5915,8 @@ msgstr ""
 "    NLG     (Нидерланды)\n"
 "    PTE     (Португалия)\n"
 "\n"
-"Если заданная валюта отличается от одной из приведенных выше, EUROCONVERT возвращает ошибку #VALUE!.\n"
+"Если заданная валюта отличается от одной из приведенных выше, EUROCONVERT "
+"возвращает ошибку #VALUE!.\n"
 "\n"
 "@EXAMPLES=\n"
 "EUROCONVERT(2.1,\"DEM\",\"EUR\") возвращает 1.07.\n"
@@ -7523,45 +7578,45 @@ msgstr ""
 "@SEEALSO=FALSE"
 
 #: plugins/fn-logical/functions.c:334 plugins/fn-logical/functions.c:338
-#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3319
-#: plugins/fn-stat/functions.c:5633 plugins/fn-stat/functions.c:5637
-#: plugins/fn-stat/functions.c:5641 plugins/fn-stat/functions.c:5679
-#: plugins/fn-stat/functions.c:5682 plugins/fn-stat/functions.c:5691
-#: plugins/fn-stat/functions.c:5727 plugins/fn-stat/functions.c:5741
-#: plugins/fn-stat/functions.c:5744 plugins/fn-stat/functions.c:5747
-#: plugins/fn-stat/functions.c:5769 plugins/fn-stat/functions.c:5773
-#: plugins/fn-stat/functions.c:5777 plugins/fn-stat/functions.c:5781
-#: plugins/fn-stat/functions.c:5785 plugins/fn-stat/functions.c:5789
-#: plugins/fn-stat/functions.c:5835 plugins/fn-stat/functions.c:5845
-#: plugins/fn-stat/functions.c:5849 plugins/fn-stat/functions.c:5853
-#: plugins/fn-stat/functions.c:5857 plugins/fn-stat/functions.c:5886
-#: plugins/fn-stat/functions.c:5889 plugins/fn-stat/functions.c:5892
-#: plugins/fn-stat/functions.c:5895 plugins/fn-stat/functions.c:5911
+#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3332
+#: plugins/fn-stat/functions.c:5636 plugins/fn-stat/functions.c:5640
+#: plugins/fn-stat/functions.c:5644 plugins/fn-stat/functions.c:5682
+#: plugins/fn-stat/functions.c:5685 plugins/fn-stat/functions.c:5694
+#: plugins/fn-stat/functions.c:5730 plugins/fn-stat/functions.c:5744
+#: plugins/fn-stat/functions.c:5747 plugins/fn-stat/functions.c:5750
+#: plugins/fn-stat/functions.c:5772 plugins/fn-stat/functions.c:5776
+#: plugins/fn-stat/functions.c:5780 plugins/fn-stat/functions.c:5784
+#: plugins/fn-stat/functions.c:5788 plugins/fn-stat/functions.c:5792
+#: plugins/fn-stat/functions.c:5838 plugins/fn-stat/functions.c:5848
+#: plugins/fn-stat/functions.c:5852 plugins/fn-stat/functions.c:5856
+#: plugins/fn-stat/functions.c:5860 plugins/fn-stat/functions.c:5889
+#: plugins/fn-stat/functions.c:5892 plugins/fn-stat/functions.c:5895
+#: plugins/fn-stat/functions.c:5898 plugins/fn-stat/functions.c:5914
 #: src/func-builtin.c:131 src/func-builtin.c:137
 msgid "number,number,"
 msgstr "число,число,"
 
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3151
-#: plugins/fn-math/functions.c:3155 plugins/fn-math/functions.c:3158
-#: plugins/fn-math/functions.c:3161 plugins/fn-math/functions.c:3164
-#: plugins/fn-math/functions.c:3167 plugins/fn-math/functions.c:3170
-#: plugins/fn-math/functions.c:3176 plugins/fn-math/functions.c:3185
-#: plugins/fn-math/functions.c:3194 plugins/fn-math/functions.c:3202
-#: plugins/fn-math/functions.c:3205 plugins/fn-math/functions.c:3208
-#: plugins/fn-math/functions.c:3211 plugins/fn-math/functions.c:3214
-#: plugins/fn-math/functions.c:3219 plugins/fn-math/functions.c:3223
-#: plugins/fn-math/functions.c:3229 plugins/fn-math/functions.c:3239
-#: plugins/fn-math/functions.c:3246 plugins/fn-math/functions.c:3249
-#: plugins/fn-math/functions.c:3255 plugins/fn-math/functions.c:3258
-#: plugins/fn-math/functions.c:3271 plugins/fn-math/functions.c:3277
-#: plugins/fn-math/functions.c:3283 plugins/fn-math/functions.c:3304
-#: plugins/fn-math/functions.c:3307 plugins/fn-math/functions.c:3310
-#: plugins/fn-math/functions.c:3313 plugins/fn-math/functions.c:3316
-#: plugins/fn-math/functions.c:3329 plugins/fn-math/functions.c:3341
-#: plugins/fn-math/functions.c:3344 plugins/fn-stat/functions.c:5703
-#: plugins/fn-stat/functions.c:5706 plugins/fn-stat/functions.c:5724
-#: plugins/fn-stat/functions.c:5802 plugins/fn-string/functions.c:1119
+#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3164
+#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3171
+#: plugins/fn-math/functions.c:3174 plugins/fn-math/functions.c:3177
+#: plugins/fn-math/functions.c:3180 plugins/fn-math/functions.c:3183
+#: plugins/fn-math/functions.c:3189 plugins/fn-math/functions.c:3198
+#: plugins/fn-math/functions.c:3207 plugins/fn-math/functions.c:3215
+#: plugins/fn-math/functions.c:3218 plugins/fn-math/functions.c:3221
+#: plugins/fn-math/functions.c:3224 plugins/fn-math/functions.c:3227
+#: plugins/fn-math/functions.c:3232 plugins/fn-math/functions.c:3236
+#: plugins/fn-math/functions.c:3242 plugins/fn-math/functions.c:3252
+#: plugins/fn-math/functions.c:3259 plugins/fn-math/functions.c:3262
+#: plugins/fn-math/functions.c:3268 plugins/fn-math/functions.c:3271
+#: plugins/fn-math/functions.c:3284 plugins/fn-math/functions.c:3290
+#: plugins/fn-math/functions.c:3296 plugins/fn-math/functions.c:3317
+#: plugins/fn-math/functions.c:3320 plugins/fn-math/functions.c:3323
+#: plugins/fn-math/functions.c:3326 plugins/fn-math/functions.c:3329
+#: plugins/fn-math/functions.c:3342 plugins/fn-math/functions.c:3354
+#: plugins/fn-math/functions.c:3357 plugins/fn-stat/functions.c:5706
+#: plugins/fn-stat/functions.c:5709 plugins/fn-stat/functions.c:5727
+#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1119
 #: plugins/fn-string/functions.c:1122
 msgid "number"
 msgstr "число"
@@ -7758,7 +7813,7 @@ msgid ""
 "@SEEALSO=LOOKUP"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:792
+#: plugins/fn-lookup/functions.c:789
 #, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
@@ -7788,7 +7843,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:835
+#: plugins/fn-lookup/functions.c:832
 #, fuzzy
 msgid ""
 "@FUNCTION=INDEX\n"
@@ -7820,7 +7875,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 
-#: plugins/fn-lookup/functions.c:902
+#: plugins/fn-lookup/functions.c:899
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -7848,7 +7903,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:957
+#: plugins/fn-lookup/functions.c:954
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -7863,7 +7918,7 @@ msgid ""
 "@SEEALSO=ADDRESS"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:989
+#: plugins/fn-lookup/functions.c:986
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -7891,7 +7946,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1014
+#: plugins/fn-lookup/functions.c:1011
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -7920,7 +7975,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS"
 
-#: plugins/fn-lookup/functions.c:1072
+#: plugins/fn-lookup/functions.c:1069
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -7948,7 +8003,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1125
+#: plugins/fn-lookup/functions.c:1122
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -7976,7 +8031,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1150
+#: plugins/fn-lookup/functions.c:1147
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
@@ -7989,7 +8044,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1175
+#: plugins/fn-lookup/functions.c:1172
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -8008,56 +8063,56 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: plugins/fn-lookup/functions.c:1219
+#: plugins/fn-lookup/functions.c:1216
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1222
+#: plugins/fn-lookup/functions.c:1219
 msgid "reference"
 msgstr "ссылка"
 
-#: plugins/fn-lookup/functions.c:1225
+#: plugins/fn-lookup/functions.c:1222
 msgid "index,value,"
 msgstr "индекс, значение"
 
-#: plugins/fn-lookup/functions.c:1228 plugins/fn-lookup/functions.c:1234
-#: plugins/fn-lookup/functions.c:1258 plugins/fn-lookup/functions.c:1261
+#: plugins/fn-lookup/functions.c:1225 plugins/fn-lookup/functions.c:1231
+#: plugins/fn-lookup/functions.c:1255 plugins/fn-lookup/functions.c:1258
 msgid "ref"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1231
+#: plugins/fn-lookup/functions.c:1228
 msgid "colname"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1237 plugins/fn-lookup/functions.c:1267
+#: plugins/fn-lookup/functions.c:1234 plugins/fn-lookup/functions.c:1264
 msgid "val,range,col_idx,approx,as_index"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1240
+#: plugins/fn-lookup/functions.c:1237
 msgid "link_location, label"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1243
+#: plugins/fn-lookup/functions.c:1240
 msgid "ref_string,format"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1246
+#: plugins/fn-lookup/functions.c:1243
 msgid "reference,row,col,area"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1249
+#: plugins/fn-lookup/functions.c:1246
 msgid "val,range,range"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1252
+#: plugins/fn-lookup/functions.c:1249
 msgid "val,range,approx"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1255
+#: plugins/fn-lookup/functions.c:1252
 msgid "ref,row,col,height,width"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1264 plugins/fn-math/functions.c:3357
+#: plugins/fn-lookup/functions.c:1261 plugins/fn-math/functions.c:3370
 msgid "array"
 msgstr "массив"
 
@@ -8551,7 +8606,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL"
 
-#: plugins/fn-math/functions.c:797
+#: plugins/fn-math/functions.c:800
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -8579,7 +8634,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:821
+#: plugins/fn-math/functions.c:824
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -8610,7 +8665,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: plugins/fn-math/functions.c:846
+#: plugins/fn-math/functions.c:849
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -8635,7 +8690,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 
-#: plugins/fn-math/functions.c:870
+#: plugins/fn-math/functions.c:873
 #, fuzzy
 msgid ""
 "@FUNCTION=EXP\n"
@@ -8662,7 +8717,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:893
+#: plugins/fn-math/functions.c:896
 #, fuzzy
 msgid ""
 "@FUNCTION=EXPM1\n"
@@ -8687,7 +8742,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:914
+#: plugins/fn-math/functions.c:917
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -8713,7 +8768,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:951
+#: plugins/fn-math/functions.c:954
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -8730,7 +8785,7 @@ msgid ""
 "@SEEALSO=BETALN,GAMMALN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:981
+#: plugins/fn-math/functions.c:984
 msgid ""
 "@FUNCTION=BETALN\n"
 "@SYNTAX=BETALN(a,b)\n"
@@ -8745,7 +8800,7 @@ msgid ""
 "@SEEALSO=BETA,GAMMALN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1010
+#: plugins/fn-math/functions.c:1013
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -8777,7 +8832,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1043
+#: plugins/fn-math/functions.c:1046
 #, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
@@ -8813,7 +8868,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, ABS, INT"
 
-#: plugins/fn-math/functions.c:1084
+#: plugins/fn-math/functions.c:1090
 #, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
@@ -8843,7 +8898,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: plugins/fn-math/functions.c:1109
+#: plugins/fn-math/functions.c:1115
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -8873,7 +8928,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:1143
+#: plugins/fn-math/functions.c:1149
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -8899,7 +8954,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:1172
+#: plugins/fn-math/functions.c:1178
 #, fuzzy
 msgid ""
 "@FUNCTION=LN1P\n"
@@ -8925,7 +8980,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: plugins/fn-math/functions.c:1201
+#: plugins/fn-math/functions.c:1207
 #, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
@@ -8956,7 +9011,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP"
 
-#: plugins/fn-math/functions.c:1237
+#: plugins/fn-math/functions.c:1243
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -8980,7 +9035,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: plugins/fn-math/functions.c:1263
+#: plugins/fn-math/functions.c:1269
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -9006,7 +9061,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: plugins/fn-math/functions.c:1292
+#: plugins/fn-math/functions.c:1298
 #, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
@@ -9034,7 +9089,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 
-#: plugins/fn-math/functions.c:1343
+#: plugins/fn-math/functions.c:1349
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -9059,7 +9114,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI,DEGREES"
 
-#: plugins/fn-math/functions.c:1367
+#: plugins/fn-math/functions.c:1373
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -9085,7 +9140,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:1390
+#: plugins/fn-math/functions.c:1396
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -9115,7 +9170,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: plugins/fn-math/functions.c:1414
+#: plugins/fn-math/functions.c:1420
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -9141,7 +9196,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POWER"
 
-#: plugins/fn-math/functions.c:1442
+#: plugins/fn-math/functions.c:1448
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -9173,7 +9228,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1474
+#: plugins/fn-math/functions.c:1480
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -9203,7 +9258,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1505
+#: plugins/fn-math/functions.c:1511
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -9229,7 +9284,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM"
 
-#: plugins/fn-math/functions.c:1534
+#: plugins/fn-math/functions.c:1540
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -9255,7 +9310,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1562
+#: plugins/fn-math/functions.c:1568
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -9281,7 +9336,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1585
+#: plugins/fn-math/functions.c:1591
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -9311,7 +9366,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1608
+#: plugins/fn-math/functions.c:1614
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -9339,7 +9394,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: plugins/fn-math/functions.c:1633
+#: plugins/fn-math/functions.c:1639
 #, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
@@ -9371,7 +9426,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: plugins/fn-math/functions.c:1669
+#: plugins/fn-math/functions.c:1675
 #, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
@@ -9399,7 +9454,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: plugins/fn-math/functions.c:1708
+#: plugins/fn-math/functions.c:1714
 #, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
@@ -9427,7 +9482,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: plugins/fn-math/functions.c:1747
+#: plugins/fn-math/functions.c:1753
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -9456,7 +9511,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: plugins/fn-math/functions.c:1785
+#: plugins/fn-math/functions.c:1791
 msgid ""
 "@FUNCTION=FIB\n"
 "@SYNTAX=FIB(number)\n"
@@ -9471,7 +9526,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:1833
+#: plugins/fn-math/functions.c:1839
 #, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
@@ -9498,7 +9553,7 @@ msgstr ""
 " \n"
 "@SEEALSO=MOD"
 
-#: plugins/fn-math/functions.c:1865
+#: plugins/fn-math/functions.c:1871
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -9528,7 +9583,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1899
+#: plugins/fn-math/functions.c:1905
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -9554,7 +9609,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: plugins/fn-math/functions.c:1928
+#: plugins/fn-math/functions.c:1934
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -9599,7 +9654,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:1972
+#: plugins/fn-math/functions.c:1978
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -9643,7 +9698,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2013
+#: plugins/fn-math/functions.c:2019
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -9689,7 +9744,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: plugins/fn-math/functions.c:2057
+#: plugins/fn-math/functions.c:2063
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -9723,7 +9778,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2111
+#: plugins/fn-math/functions.c:2117
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -9768,7 +9823,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:2377
+#: plugins/fn-math/functions.c:2383
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -9809,14 +9864,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2433 plugins/fn-math/functions.c:2453
-#: plugins/fn-math/functions.c:2546 plugins/fn-math/functions.c:2566
-#: plugins/fn-math/functions.c:2657 plugins/fn-math/functions.c:2677
+#: plugins/fn-math/functions.c:2439 plugins/fn-math/functions.c:2459
+#: plugins/fn-math/functions.c:2552 plugins/fn-math/functions.c:2572
+#: plugins/fn-math/functions.c:2663 plugins/fn-math/functions.c:2683
 #: plugins/fn-stat/functions.c:2934 plugins/fn-stat/functions.c:2964
 msgid "Array version not implemented!"
 msgstr "Версия массива не реализована!"
 
-#: plugins/fn-math/functions.c:2491
+#: plugins/fn-math/functions.c:2497
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -9857,7 +9912,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: plugins/fn-math/functions.c:2602
+#: plugins/fn-math/functions.c:2608
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -9898,7 +9953,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2715
+#: plugins/fn-math/functions.c:2721
 #, fuzzy
 msgid ""
 "@FUNCTION=SERIESSUM\n"
@@ -9932,7 +9987,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:2773
+#: plugins/fn-math/functions.c:2779
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -9961,7 +10016,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: plugins/fn-math/functions.c:2916
+#: plugins/fn-math/functions.c:2922
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -9987,7 +10042,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: plugins/fn-math/functions.c:2992
+#: plugins/fn-math/functions.c:2998
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -10021,7 +10076,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: plugins/fn-math/functions.c:3039
+#: plugins/fn-math/functions.c:3045
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -10058,11 +10113,11 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: plugins/fn-math/functions.c:3173
+#: plugins/fn-math/functions.c:3186
 msgid "xnum,ynum"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3179 plugins/fn-math/functions.c:3182
+#: plugins/fn-math/functions.c:3192 plugins/fn-math/functions.c:3195
 #: plugins/fn-random/functions.c:1103 plugins/fn-random/functions.c:1124
 #: plugins/fn-random/functions.c:1130 plugins/fn-random/functions.c:1169
 #: plugins/fn-random/functions.c:1184 plugins/fn-random/functions.c:1187
@@ -10070,67 +10125,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3190
+#: plugins/fn-math/functions.c:3203
 msgid "range,criteria"
 msgstr "диапазон, критерий"
 
-#: plugins/fn-math/functions.c:3198
+#: plugins/fn-math/functions.c:3211
 msgid "number,significance"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3226 plugins/fn-stat/functions.c:5817
+#: plugins/fn-math/functions.c:3239 plugins/fn-stat/functions.c:5820
 msgid "n,k"
 msgstr "n,k"
 
-#: plugins/fn-math/functions.c:3233
+#: plugins/fn-math/functions.c:3246
 msgid "number,number"
 msgstr "число, число"
 
-#: plugins/fn-math/functions.c:3252
+#: plugins/fn-math/functions.c:3265
 msgid "number,base"
 msgstr "число, основание"
 
-#: plugins/fn-math/functions.c:3261 plugins/fn-math/functions.c:3280
+#: plugins/fn-math/functions.c:3274 plugins/fn-math/functions.c:3293
 msgid "numerator,denominator"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3264
+#: plugins/fn-math/functions.c:3277
 msgid "number,multiple"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3274
+#: plugins/fn-math/functions.c:3287
 msgid "base,exponent"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3286
+#: plugins/fn-math/functions.c:3299
 msgid "number,type"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3289 plugins/fn-math/functions.c:3293
-#: plugins/fn-math/functions.c:3297 plugins/fn-math/functions.c:3347
+#: plugins/fn-math/functions.c:3302 plugins/fn-math/functions.c:3306
+#: plugins/fn-math/functions.c:3310 plugins/fn-math/functions.c:3360
 msgid "number,digits"
 msgstr "число, цифры"
 
-#: plugins/fn-math/functions.c:3301
+#: plugins/fn-math/functions.c:3314
 msgid "x,n,m,coefficients"
 msgstr "x,n,m, коэффициенты"
 
-#: plugins/fn-math/functions.c:3323
+#: plugins/fn-math/functions.c:3336
 msgid "range,criteria,actual_range"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3326
+#: plugins/fn-math/functions.c:3339
 msgid "range,range,"
 msgstr "диапазон, диапазон, "
 
-#: plugins/fn-math/functions.c:3332 plugins/fn-math/functions.c:3335
-#: plugins/fn-math/functions.c:3338 plugins/fn-math/functions.c:3354
-#: plugins/fn-stat/functions.c:5676 plugins/fn-stat/functions.c:5685
-#: plugins/fn-stat/functions.c:5808 plugins/fn-stat/functions.c:5864
+#: plugins/fn-math/functions.c:3345 plugins/fn-math/functions.c:3348
+#: plugins/fn-math/functions.c:3351 plugins/fn-math/functions.c:3367
+#: plugins/fn-stat/functions.c:5679 plugins/fn-stat/functions.c:5688
+#: plugins/fn-stat/functions.c:5811 plugins/fn-stat/functions.c:5867
 msgid "array1,array2"
 msgstr "массив1, массив2"
 
-#: plugins/fn-math/functions.c:3360 plugins/fn-math/functions.c:3364
+#: plugins/fn-math/functions.c:3373 plugins/fn-math/functions.c:3377
 msgid "array,matrix_type,bandsize"
 msgstr ""
 
@@ -10778,7 +10833,7 @@ msgid ""
 msgstr ""
 
 #: plugins/fn-random/functions.c:1100 plugins/fn-random/functions.c:1136
-#: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5805
+#: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5808
 msgid "p"
 msgstr "p"
 
@@ -13450,7 +13505,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: plugins/fn-stat/functions.c:4132
+#: plugins/fn-stat/functions.c:4133
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -13485,7 +13540,7 @@ msgid ""
 "@SEEALSO=LOGFIT,LINEST,LOGEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4408
+#: plugins/fn-stat/functions.c:4410
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -13518,7 +13573,7 @@ msgid ""
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4508
+#: plugins/fn-stat/functions.c:4510
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
@@ -13562,7 +13617,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: plugins/fn-stat/functions.c:4623
+#: plugins/fn-stat/functions.c:4625
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -13593,7 +13648,7 @@ msgid ""
 "@SEEALSO=GROWTH,TREND"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:4875
+#: plugins/fn-stat/functions.c:4878
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -13633,7 +13688,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4987
+#: plugins/fn-stat/functions.c:4990
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -13672,7 +13727,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: plugins/fn-stat/functions.c:5058
+#: plugins/fn-stat/functions.c:5061
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -13709,7 +13764,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: plugins/fn-stat/functions.c:5108
+#: plugins/fn-stat/functions.c:5111
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -13739,7 +13794,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:5152
+#: plugins/fn-stat/functions.c:5155
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -13806,7 +13861,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-stat/functions.c:5252
+#: plugins/fn-stat/functions.c:5255
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -13817,7 +13872,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5381
+#: plugins/fn-stat/functions.c:5384
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -13834,7 +13889,7 @@ msgid ""
 "@SEEALSO=RANDGEOM"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5417
+#: plugins/fn-stat/functions.c:5420
 msgid ""
 "@FUNCTION=LOGISTIC\n"
 "@SYNTAX=LOGISTIC(x,a)\n"
@@ -13847,7 +13902,7 @@ msgid ""
 "@SEEALSO=RANDLOGISTIC"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5453
+#: plugins/fn-stat/functions.c:5456
 msgid ""
 "@FUNCTION=PARETO\n"
 "@SYNTAX=PARETO(x,a,b)\n"
@@ -13860,7 +13915,7 @@ msgid ""
 "@SEEALSO=RANDPARETO"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5491
+#: plugins/fn-stat/functions.c:5494
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
 "@SYNTAX=RAYLEIGH(x,sigma)\n"
@@ -13873,7 +13928,7 @@ msgid ""
 "@SEEALSO=RANDRAYLEIGH"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5531
+#: plugins/fn-stat/functions.c:5534
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
 "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
@@ -13886,7 +13941,7 @@ msgid ""
 "@SEEALSO=RANDRAYLEIGHTAIL"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5574
+#: plugins/fn-stat/functions.c:5577
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
@@ -13899,7 +13954,7 @@ msgid ""
 "@SEEALSO=RANDEXPPOW"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5605
+#: plugins/fn-stat/functions.c:5608
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -13911,182 +13966,182 @@ msgid ""
 "@SEEALSO=RANDLAPLACE"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5646 plugins/fn-stat/functions.c:5908
+#: plugins/fn-stat/functions.c:5649 plugins/fn-stat/functions.c:5911
 msgid "k,p"
 msgstr "k,p"
 
-#: plugins/fn-stat/functions.c:5650
+#: plugins/fn-stat/functions.c:5653
 msgid "x,alpha,beta,a,b"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5653
+#: plugins/fn-stat/functions.c:5656
 msgid "p,alpha,beta,a,b"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5656
+#: plugins/fn-stat/functions.c:5659
 msgid "n,t,p,c"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5660
+#: plugins/fn-stat/functions.c:5663
 msgid "x,a,cum"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5664
+#: plugins/fn-stat/functions.c:5667
 msgid "x,dof"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5667 plugins/fn-stat/functions.c:5873
+#: plugins/fn-stat/functions.c:5670 plugins/fn-stat/functions.c:5876
 msgid "p,dof"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5670
+#: plugins/fn-stat/functions.c:5673
 msgid "act_range,theo_range"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5673
+#: plugins/fn-stat/functions.c:5676
 msgid "x,stddev,size"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5688
+#: plugins/fn-stat/functions.c:5691
 msgid "trials,p,alpha"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5694
+#: plugins/fn-stat/functions.c:5697
 msgid "x,y,cumulative"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5697
+#: plugins/fn-stat/functions.c:5700
 msgid "x,dof of num,dof of denom"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5700
+#: plugins/fn-stat/functions.c:5703
 msgid "p,dof of num,dof of denom"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5709
+#: plugins/fn-stat/functions.c:5712
 msgid "x,known y's,known x's"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5712
+#: plugins/fn-stat/functions.c:5715
 msgid "data_array,bins_array"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5715
+#: plugins/fn-stat/functions.c:5718
 msgid "arr1,arr2"
 msgstr "массив1,массив2"
 
-#: plugins/fn-stat/functions.c:5718
+#: plugins/fn-stat/functions.c:5721
 msgid "number,alpha,beta,cum"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5721
+#: plugins/fn-stat/functions.c:5724
 msgid "number,alpha,beta"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5731 plugins/fn-stat/functions.c:5876
+#: plugins/fn-stat/functions.c:5734 plugins/fn-stat/functions.c:5879
 msgid "known_y's,known_x's,new_x's,const"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5738
+#: plugins/fn-stat/functions.c:5741
 msgid "x,n,M,N,cumulative"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5751 plugins/fn-stat/functions.c:5754
-#: plugins/fn-stat/functions.c:5766
+#: plugins/fn-stat/functions.c:5754 plugins/fn-stat/functions.c:5757
+#: plugins/fn-stat/functions.c:5769
 msgid "known_y's,known_x's,const,stat"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5757 plugins/fn-stat/functions.c:5832
-#: plugins/fn-stat/functions.c:5861
+#: plugins/fn-stat/functions.c:5760 plugins/fn-stat/functions.c:5835
+#: plugins/fn-stat/functions.c:5864
 msgid "known_y's,known_x's"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5760 plugins/fn-stat/functions.c:5799
+#: plugins/fn-stat/functions.c:5763 plugins/fn-stat/functions.c:5802
 msgid "p,mean,stddev"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5763 plugins/fn-stat/functions.c:5839
+#: plugins/fn-stat/functions.c:5766 plugins/fn-stat/functions.c:5842
 msgid "x,mean,stddev"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5793
+#: plugins/fn-stat/functions.c:5796
 msgid "f,t,p"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5796
+#: plugins/fn-stat/functions.c:5799
 msgid "x,mean,stddev,cumulative"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5811
+#: plugins/fn-stat/functions.c:5814
 msgid "array,k"
 msgstr "массив, k"
 
-#: plugins/fn-stat/functions.c:5814
+#: plugins/fn-stat/functions.c:5817
 msgid "array,x,significance"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5820
+#: plugins/fn-stat/functions.c:5823
 msgid "x,mean,cumulative"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5823
+#: plugins/fn-stat/functions.c:5826
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5826
+#: plugins/fn-stat/functions.c:5829
 msgid "array,quart"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5842
+#: plugins/fn-stat/functions.c:5845
 msgid "array,interval"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5870
+#: plugins/fn-stat/functions.c:5873
 msgid "x,dof,tails"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5879
+#: plugins/fn-stat/functions.c:5882
 msgid "ref,fraction"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5883
+#: plugins/fn-stat/functions.c:5886
 msgid "array1,array2,tails,type"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5898
+#: plugins/fn-stat/functions.c:5901
 msgid "x.alpha,beta,cumulative"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5901
+#: plugins/fn-stat/functions.c:5904
 msgid "ref,x"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5905 plugins/fn-stat/functions.c:5923
+#: plugins/fn-stat/functions.c:5908 plugins/fn-stat/functions.c:5926
 msgid "x,a,b"
 msgstr "x,a,b"
 
-#: plugins/fn-stat/functions.c:5914
+#: plugins/fn-stat/functions.c:5917
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:228
 msgid "x"
 msgstr "x"
 
-#: plugins/fn-stat/functions.c:5917 plugins/fn-stat/functions.c:5920
+#: plugins/fn-stat/functions.c:5920 plugins/fn-stat/functions.c:5923
 msgid "x,a"
 msgstr "x,a"
 
-#: plugins/fn-stat/functions.c:5926
+#: plugins/fn-stat/functions.c:5929
 msgid "x,sigma"
 msgstr "x, сигма"
 
-#: plugins/fn-stat/functions.c:5929
+#: plugins/fn-stat/functions.c:5932
 msgid "x,a,sigma"
 msgstr "x,a,сигма"
 
-#: plugins/fn-stat/functions.c:5935
+#: plugins/fn-stat/functions.c:5938
 msgid "function_nbr,ref,ref,"
 msgstr ""
 
-#: plugins/fn-stat/functions.c:5938
+#: plugins/fn-stat/functions.c:5941
 msgid "ref,ref,"
 msgstr ""
 
@@ -15060,7 +15115,7 @@ msgstr "Действительная функция:"
 msgid "Constraints:"
 msgstr "Ограничения:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6168
+#: plugins/mps/mps.c:245 src/commands.c:6174
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -15431,22 +15486,22 @@ msgstr "Недопустимое обозначение массива, не у�
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Недопустимое обозначение массива, не указано число строк."
 
-#: plugins/openoffice/openoffice-read.c:1148
+#: plugins/openoffice/openoffice-read.c:1147
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr ""
 
-#: plugins/openoffice/openoffice-read.c:1161
+#: plugins/openoffice/openoffice-read.c:1160
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr ""
 
-#: plugins/openoffice/openoffice-read.c:1415
+#: plugins/openoffice/openoffice-read.c:1439
 msgid "No stream named content.xml found."
 msgstr "Не найден поток с названием content.xml."
 
-#: plugins/openoffice/openoffice-read.c:1422
+#: plugins/openoffice/openoffice-read.c:1446
 msgid "No stream named styles.xml found."
 msgstr "Не найден поток с названием stream.xml."
 
@@ -15455,14 +15510,18 @@ msgstr "Не найден поток с названием stream.xml."
 msgid ""
 "Some content will be lost when saving as OpenOffice .sxc. It only supports %"
 "d rows, and sheet '%s' has %d"
-msgstr "Некоторые данные могут быть потеряны при сохранении в формате OpenOffice .sxc, т.к. этот формат поддерживает %d строк, а в этой таблице '%s' их %d."
+msgstr ""
+"Некоторые данные могут быть потеряны при сохранении в формате OpenOffice ."
+"sxc, т.к. этот формат поддерживает %d строк, а в этой таблице '%s' их %d."
 
 #: plugins/openoffice/openoffice-write.c:129
 #, c-format
 msgid ""
 "Some content will be lost when saving as OpenOffice .sxc. It only supports %"
 "d columns, and sheet '%s' has %d"
-msgstr "Некоторые данные могут быть потеряны при сохранении в формате OpenOffice .sxc, т.к. этот формат поддерживает %d столбцов, а в таблице '%s' их %d."
+msgstr ""
+"Некоторые данные могут быть потеряны при сохранении в формате OpenOffice ."
+"sxc, т.к. этот формат поддерживает %d столбцов, а в таблице '%s' их %d."
 
 #: plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc)"
@@ -15523,7 +15582,8 @@ msgstr "Функции Perl"
 
 #: plugins/perl-func/plugin.xml.in.h:3
 msgid "Sample Perl plugin providing some (useless) functions."
-msgstr "Образец дополнения Perl предоставляющий несколько (бесполезных) функций."
+msgstr ""
+"Образец дополнения Perl предоставляющий несколько (бесполезных) функций."
 
 #: plugins/perl-loader/perl-loader.c:109
 msgid "Module name not given."
@@ -15750,7 +15810,8 @@ msgid "Imports Quattro Pro (tm) files"
 msgstr "Импортирует файлы Quattro Pro (tm)"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
+#, fuzzy
+msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
@@ -15814,7 +15875,7 @@ msgstr "SC/XSpread"
 msgid "SC/xspread"
 msgstr "SC/xspread"
 
-#: plugins/sc/sc.c:376
+#: plugins/sc/sc.c:377
 msgid "Error parsing line"
 msgstr "Ошибка разбора строки"
 
@@ -15860,18 +15921,18 @@ msgstr ""
 msgid "This is message from the \"%s\" plugin."
 msgstr "Это сообщение от дополнения \"%s\"."
 
-#: plugins/xbase/boot.c:169
+#: plugins/xbase/boot.c:171
 msgid "Error while opening xbase file."
 msgstr "Ошибка при открытии файла xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4962
+#: plugins/xbase/boot.c:177 src/commands.c:4968
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:395 src/workbook.c:1091 src/xml-io.c:3789
 msgid "Sheet"
 msgstr "Лист"
 
-#: plugins/xbase/boot.c:197
+#: plugins/xbase/boot.c:199
 #, c-format
 msgid ""
 "This build of Gnumeric can only hold %d rows.  Ignoring the rest of this "
@@ -16120,13 +16181,16 @@ msgstr "Системный каталог для шаблонов автофор
 msgid ""
 "The autocorrect engine does not correct the first letter for words in this "
 "list."
-msgstr "Модуль автокоррекции не исправляет первую букву в словах из этого списка."
+msgstr ""
+"Модуль автокоррекции не исправляет первую букву в словах из этого списка."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:47
 msgid ""
 "The autocorrect engine does not correct the initial caps for words in this "
 "list."
-msgstr "Модуль автокоррекции не исправляет начальные заглавные в словах из этого списка."
+msgstr ""
+"Модуль автокоррекции не исправляет начальные заглавные в словах из этого "
+"списка."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:48
 msgid "The configuration of gnome-print. Do not edit this variable."
@@ -16292,13 +16356,17 @@ msgstr ""
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "bold."
-msgstr "Эта переменная определяет будет ли исходный шрифт для заголовков и сносок полужирным."
+msgstr ""
+"Эта переменная определяет будет ли исходный шрифт для заголовков и сносок "
+"полужирным."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:76
 msgid ""
 "This value determines whether the default font for headers and footers is "
 "italic."
-msgstr "Эта переменная определяет будет ли исходный шрифт для заголовков и сносок наклонным."
+msgstr ""
+"Эта переменная определяет будет ли исходный шрифт для заголовков и сносок "
+"наклонным."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:77
 msgid ""
@@ -16341,7 +16409,10 @@ msgid ""
 "Before an existing file is being overwritten, gnumeric will present a "
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
-msgstr "Перед перезаписью существующего файла gnumeric показывает предупреждающее сообщение. Установка этого параметра сделает кнопку \"Переписать\" в этом диалоге выбранной по умолчанию."
+msgstr ""
+"Перед перезаписью существующего файла gnumeric показывает предупреждающее "
+"сообщение. Установка этого параметра сделает кнопку \"Переписать\" в этом "
+"диалоге выбранной по умолчанию."
 
 #: schemas/gnumeric-general.schemas.in.h:4
 #: src/dialogs/dialog-preferences.c:616
@@ -16395,7 +16466,14 @@ msgid ""
 "more changes appear during that period, they are also processed at that "
 "time. If `lag' is negative, then recalculation happens only after a quiet "
 "period of |lag| milleseconds."
-msgstr "Если \"задержка\" равна 0, gnumeric пересчитывает все выражения немедленно после каждого изменения. Значения отличные от 0 позволяют gnumeric накопить больше изменений до каждого пересчёта. Если \"задержка\" положительная, то после любого изменения gnumeric ждёт указанное число миллисекунд и затем пересчитывает выражения. Если в этот период произойдут какие-то дополнительные изменения, то они тоже будут обработаны в этот момент. Если значение \"задержки\" отрицательное, используются модуль её значения."
+msgstr ""
+"Если \"задержка\" равна 0, gnumeric пересчитывает все выражения немедленно "
+"после каждого изменения. Значения отличные от 0 позволяют gnumeric накопить "
+"больше изменений до каждого пересчёта. Если \"задержка\" положительная, то "
+"после любого изменения gnumeric ждёт указанное число миллисекунд и затем "
+"пересчитывает выражения. Если в этот период произойдут какие-то "
+"дополнительные изменения, то они тоже будут обработаны в этот момент. Если "
+"значение \"задержки\" отрицательное, используются модуль её значения."
 
 #: schemas/gnumeric-general.schemas.in.h:14
 #: src/dialogs/dialog-preferences.c:612
@@ -16564,12 +16642,16 @@ msgstr ""
 #: schemas/gnumeric-general.schemas.in.h:46
 msgid ""
 "This value determines whether the default font for a new workbook is bold."
-msgstr "Это значение определяет будет ли полужирным шрифт по умолчанию для новой рабочей книги."
+msgstr ""
+"Это значение определяет будет ли полужирным шрифт по умолчанию для новой "
+"рабочей книги."
 
 #: schemas/gnumeric-general.schemas.in.h:47
 msgid ""
 "This value determines whether the default font for a new workbook is italic."
-msgstr "Это значение определяет будет ли наклонным шрифт по умолчанию для новой рабочей книги."
+msgstr ""
+"Это значение определяет будет ли наклонным шрифт по умолчанию для новой "
+"рабочей книги."
 
 #: schemas/gnumeric-general.schemas.in.h:48
 msgid ""
@@ -16654,20 +16736,20 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Использовать UTF-8 при экспорте в LaTeX"
 
-#: src/application.c:307
+#: src/application.c:309
 msgid "Cut Object"
 msgstr "Вырезать объект"
 
-#: src/clipboard.c:314 src/clipboard.c:326 src/clipboard.c:337
-#: src/clipboard.c:345
+#: src/clipboard.c:316 src/clipboard.c:328 src/clipboard.c:339
+#: src/clipboard.c:347
 msgid "Unable to paste"
 msgstr "Невозможно вставить"
 
-#: src/clipboard.c:315
+#: src/clipboard.c:317
 msgid "Content can only be pasted by value or by link."
 msgstr "Содержимое может быть вставлено только по значению или по ссылке."
 
-#: src/clipboard.c:323
+#: src/clipboard.c:325
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -16678,7 +16760,7 @@ msgstr ""
 "\n"
 "Попробуйте выделить одну ячейку или область такой же формы и размера."
 
-#: src/clipboard.c:334
+#: src/clipboard.c:336
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -16689,7 +16771,7 @@ msgstr ""
 "\n"
 "Попробуйте выделить одну ячейку или область такой же формы и размера."
 
-#: src/clipboard.c:346
+#: src/clipboard.c:348
 msgid "result passes the sheet boundary"
 msgstr "результат переходит границы таблицы"
 
@@ -16773,424 +16855,424 @@ msgstr "Набрать \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Вставить/Удалить столбцы/строки"
 
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3264
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3265
 msgid "Delete Columns"
 msgstr "Удалить столбцы"
 
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3386
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3387
 msgid "Delete Rows"
 msgstr "Удалить строки"
 
-#: src/commands.c:1480
+#: src/commands.c:1482
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Вставка %d столбцов перед %s"
 
-#: src/commands.c:1481
+#: src/commands.c:1483
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Вставка %d столбцов перед %s"
 
-#: src/commands.c:1496
+#: src/commands.c:1498
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Вставка %d строк перед %s"
 
-#: src/commands.c:1497
+#: src/commands.c:1499
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Вставка %d строки перед %s"
 
-#: src/commands.c:1508
+#: src/commands.c:1510
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Удаление столбцов %s"
 
-#: src/commands.c:1509
+#: src/commands.c:1511
 #, c-format
 msgid "Deleting column %s"
 msgstr "Удаление столбца %s"
 
-#: src/commands.c:1519
+#: src/commands.c:1521
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Удаление строк %s"
 
-#: src/commands.c:1520
+#: src/commands.c:1522
 #, c-format
 msgid "Deleting row %s"
 msgstr "Удаление строки %s"
 
 #. Check for locked cells
-#: src/commands.c:1602 src/commands.c:1606 src/sheet.c:2867
+#: src/commands.c:1604 src/commands.c:1608 src/sheet.c:2868
 msgid "Clear"
 msgstr "Очистить"
 
-#: src/commands.c:1677
+#: src/commands.c:1679
 msgid "contents"
 msgstr "содержимое"
 
-#: src/commands.c:1679
+#: src/commands.c:1681
 msgid "formats"
 msgstr "форматы"
 
-#: src/commands.c:1681
+#: src/commands.c:1683
 msgid "comments"
 msgstr "комментарии"
 
-#: src/commands.c:1697
+#: src/commands.c:1699
 msgid "all"
 msgstr "все"
 
-#: src/commands.c:1704
+#: src/commands.c:1706
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Очистка %s в %s"
 
-#: src/commands.c:1787
+#: src/commands.c:1793
 msgid "Changing Format"
 msgstr "Изменение формата"
 
-#: src/commands.c:1912
+#: src/commands.c:1918
 #, c-format
 msgid "Changing format of %s"
 msgstr "Изменение формата %s"
 
-#: src/commands.c:2022
+#: src/commands.c:2028
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Автозаполнение столбца %s"
 
-#: src/commands.c:2023
+#: src/commands.c:2029
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Автозаполнение строки %s"
 
-#: src/commands.c:2026
+#: src/commands.c:2032
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Установить ширину столбца %s в %d точек растра"
 
-#: src/commands.c:2028
+#: src/commands.c:2034
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Установить высоту строки %s в %d точек растра"
 
-#: src/commands.c:2031
+#: src/commands.c:2037
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Установить ширину столбца %s в исходную"
 
-#: src/commands.c:2034
+#: src/commands.c:2040
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Установить высоту строки %s в исходную"
 
-#: src/commands.c:2038
+#: src/commands.c:2044
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Автозаполнение столбцов %s"
 
-#: src/commands.c:2039
+#: src/commands.c:2045
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Автозаполнение строки %s"
 
-#: src/commands.c:2042
+#: src/commands.c:2048
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Установить ширину столбцов %s в %d точек растра"
 
-#: src/commands.c:2044
+#: src/commands.c:2050
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Установить высоту строк %s в %d точек растра"
 
-#: src/commands.c:2048
+#: src/commands.c:2054
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Установка ширины столбцов %s в исходную"
 
-#: src/commands.c:2050
+#: src/commands.c:2056
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Установка высоты строк %s в исходную"
 
-#: src/commands.c:2116 src/dialogs/dialog-preferences.c:770
+#: src/commands.c:2122 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Сортировка"
 
-#: src/commands.c:2136
+#: src/commands.c:2142
 #, c-format
 msgid "Sorting %s"
 msgstr "Сортировка %s"
 
-#: src/commands.c:2279
+#: src/commands.c:2285
 msgid "Unhide columns"
 msgstr "Показать столбцы"
 
-#: src/commands.c:2279
+#: src/commands.c:2285
 msgid "Hide columns"
 msgstr "Скрыть столбцы"
 
-#: src/commands.c:2280
+#: src/commands.c:2286
 msgid "Unhide rows"
 msgstr "Показать строки"
 
-#: src/commands.c:2280
+#: src/commands.c:2286
 msgid "Hide rows"
 msgstr "Скрыть строки"
 
-#: src/commands.c:2362
+#: src/commands.c:2368
 msgid "Expand columns"
 msgstr "Развернуть столбцы"
 
-#: src/commands.c:2362
+#: src/commands.c:2368
 msgid "Collapse columns"
 msgstr "Свернуть столбцы"
 
-#: src/commands.c:2363
+#: src/commands.c:2369
 msgid "Expand rows"
 msgstr "Развернуть строки"
 
-#: src/commands.c:2363
+#: src/commands.c:2369
 msgid "Collapse rows"
 msgstr "Свернуть строки"
 
-#: src/commands.c:2389
+#: src/commands.c:2395
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: src/commands.c:2389
+#: src/commands.c:2395
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: src/commands.c:2459
+#: src/commands.c:2465
 msgid "Those columns are already grouped"
 msgstr "Эти столбцы уже сгруппированы"
 
-#: src/commands.c:2460
+#: src/commands.c:2466
 msgid "Those rows are already grouped"
 msgstr "Эти строки уже сгруппированы"
 
-#: src/commands.c:2483
+#: src/commands.c:2489
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Эти столбцы не сгруппированы, вы не можете разгруппировать их"
 
-#: src/commands.c:2484
+#: src/commands.c:2490
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Эти строки не сгруппированы, вы не можете разгруппировать их"
 
-#: src/commands.c:2498
+#: src/commands.c:2504
 #, c-format
 msgid "Group columns %s"
 msgstr "Сгруппировать столбцы %s"
 
-#: src/commands.c:2498
+#: src/commands.c:2504
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Разгруппировать столбцы %s"
 
-#: src/commands.c:2500
+#: src/commands.c:2506
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Cгруппировать строки %d:%d"
 
-#: src/commands.c:2500
+#: src/commands.c:2506
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Разгруппировать строки %d:%d"
 
-#: src/commands.c:2733
+#: src/commands.c:2739
 #, c-format
 msgid "Moving %s"
 msgstr "Перенос %s"
 
-#: src/commands.c:2742 src/commands.c:2970
+#: src/commands.c:2748 src/commands.c:2976
 msgid "is beyond sheet boundaries"
 msgstr "за пределами границ таблицы"
 
-#: src/commands.c:2806
+#: src/commands.c:2812
 msgid "Paste Copy"
 msgstr "Вставить копию"
 
 #. FIXME?
-#: src/commands.c:2911
+#: src/commands.c:2917
 #, c-format
 msgid "Pasting into %s"
 msgstr "Вставка в %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3007 src/commands.c:3164 src/commands.c:3165
+#: src/commands.c:3013 src/commands.c:3170 src/commands.c:3171
 #: src/wbcg-actions.c:424
 msgid "Autofill"
 msgstr "Автозаполнение"
 
 #. Changed in initial redo.
-#: src/commands.c:3187
+#: src/commands.c:3193
 #, c-format
 msgid "Autofilling %s"
 msgstr "Автозаполнение %s"
 
-#: src/commands.c:3505
+#: src/commands.c:3511
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Автоформатирование %s"
 
-#: src/commands.c:3622
+#: src/commands.c:3628
 #, c-format
 msgid "Unmerging %s"
 msgstr "Разъединить %s"
 
-#: src/commands.c:3786
+#: src/commands.c:3792
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Объединение и центрирование %s"
 
-#: src/commands.c:3786
+#: src/commands.c:3792
 #, c-format
 msgid "Merging %s"
 msgstr "Слияние %s"
 
 #. Corrected below.
-#: src/commands.c:4167 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4173 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Поиск и замена"
 
-#: src/commands.c:4262
+#: src/commands.c:4268
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Установить исходную ширину столбцов в %.2f т.растра"
 
-#: src/commands.c:4263
+#: src/commands.c:4269
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Установить исходную высоту строк в %.2f т.растра"
 
-#: src/commands.c:4378
+#: src/commands.c:4384
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Масштабировать %s до %.0f%%"
 
-#: src/commands.c:4476
+#: src/commands.c:4482
 msgid "Delete Object"
 msgstr "Удалить объект"
 
-#: src/commands.c:4637
+#: src/commands.c:4643
 msgid "Format Object"
 msgstr "Формат объекта"
 
-#: src/commands.c:5236
+#: src/commands.c:5242
 msgid "Reordering Sheets"
 msgstr "Переупорядочивание листов"
 
-#: src/commands.c:5239
+#: src/commands.c:5245
 msgid "Renaming Sheets"
 msgstr "Переименование листов"
 
-#: src/commands.c:5242
+#: src/commands.c:5248
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Пресоединение %i листов"
 
-#: src/commands.c:5246
+#: src/commands.c:5252
 msgid "Changing Tab Colors"
 msgstr "Изменение цвета листов"
 
-#: src/commands.c:5249
+#: src/commands.c:5255
 msgid "Changing Sheet Protection"
 msgstr "Изменение защиты листа"
 
-#: src/commands.c:5252
+#: src/commands.c:5258
 msgid "Delete sheets"
 msgstr "Удалить листы"
 
-#: src/commands.c:5255
+#: src/commands.c:5261
 msgid "Delete a sheet"
 msgstr "Удалить лист"
 
-#: src/commands.c:5258
+#: src/commands.c:5264
 msgid "Changing Sheet Visibility"
 msgstr "Переключение видимости листа"
 
-#: src/commands.c:5261
+#: src/commands.c:5267
 msgid "Reorganizing Sheets"
 msgstr "Реорганизация листов"
 
-#: src/commands.c:5412
+#: src/commands.c:5418
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Удаление комментария %s"
 
-#: src/commands.c:5413
+#: src/commands.c:5419
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Установка комментария %s"
 
-#: src/commands.c:5793
+#: src/commands.c:5799
 #, c-format
 msgid "Merging data into %s"
 msgstr "Объединение данных в %s"
 
-#: src/commands.c:5895
+#: src/commands.c:5901
 msgid "Changing summary info"
 msgstr "Изменение информации"
 
-#: src/commands.c:5984
+#: src/commands.c:5990
 msgid "Pull Object to the Front"
 msgstr ""
 
-#: src/commands.c:5987
+#: src/commands.c:5993
 msgid "Pull Object Forward"
 msgstr ""
 
-#: src/commands.c:5990
+#: src/commands.c:5996
 msgid "Push Object Backward"
 msgstr ""
 
-#: src/commands.c:5993
+#: src/commands.c:5999
 msgid "Push Object to the Back"
 msgstr ""
 
-#: src/commands.c:6108
+#: src/commands.c:6114
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Настройка печати для %s"
 
-#: src/commands.c:6110
+#: src/commands.c:6116
 msgid "Page Setup For All Sheets"
 msgstr "Настройка печати для всех листов"
 
-#: src/commands.c:6225
+#: src/commands.c:6231
 msgid "has a circular reference"
 msgstr "имеет круговую ссылку"
 
-#: src/commands.c:6248
+#: src/commands.c:6254
 #, c-format
 msgid "Define Name %s"
 msgstr "Определить имя %s"
 
-#: src/commands.c:6251
+#: src/commands.c:6257
 #, c-format
 msgid "Update Name %s"
 msgstr "Обновить имя %s"
 
-#: src/commands.c:6315
+#: src/commands.c:6321
 msgid "Add scenario"
 msgstr "Добавить сценарий"
 
-#: src/commands.c:6390
+#: src/commands.c:6396
 msgid "Scenario Show"
 msgstr "Показать сценарий"
 
-#: src/commands.c:6454
+#: src/commands.c:6460
 msgid "Shuffle Data"
 msgstr "Перемешать данные"
 
 #. FIXME?
-#: src/commands.c:6564
+#: src/commands.c:6570
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr ""
@@ -17200,28 +17282,28 @@ msgstr ""
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6708 src/dialogs/solver.glade.h:17
+#: src/commands.c:6714 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr ""
 
-#: src/commands.c:6792
+#: src/commands.c:6798
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Поиск цели (%s)"
 
-#: src/commands.c:6937
+#: src/commands.c:6943
 #, c-format
 msgid "Duplicating %s"
 msgstr "Дублирование %s"
 
-#: src/commands.c:7016
+#: src/commands.c:7022
 msgid "Tabulating Dependencies"
 msgstr "Табулирование зависимости"
 
-#: src/commands.c:7091
+#: src/commands.c:7097
 msgid "Reconfigure Graph"
 msgstr "Перенастройть график"
 
@@ -19164,8 +19246,8 @@ msgstr "Не исправлять:"
 msgid "First Letter"
 msgstr "Первая буква"
 
-#: src/dialogs/autocorrect.glade.h:9 src/format.c:2239 src/format.c:2550
-#: src/format.c:2556 src/format.c:2629 src/plugin-service.c:195
+#: src/dialogs/autocorrect.glade.h:9 src/format.c:2244 src/format.c:2558
+#: src/format.c:2564 src/format.c:2637 src/plugin-service.c:195
 #: src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Общий"
@@ -21066,7 +21148,9 @@ msgid ""
 "The following extra plugins must be activated in order to activate this "
 "one:\n"
 "\n"
-msgstr "Для активаци этого дополнения необходимо активировать следующие дополнения:\n\n"
+msgstr ""
+"Для активаци этого дополнения необходимо активировать следующие дополнения:\n"
+"\n"
 
 #: src/dialogs/dialog-plugin-manager.c:610
 #, c-format
@@ -21124,7 +21208,9 @@ msgstr "Длина списка описания отмен"
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
-msgstr "Элементы на этой странице настраивают исходные установки для диалога сортировки и поведение кнопок сортировки на панели инструментов."
+msgstr ""
+"Элементы на этой странице настраивают исходные установки для диалога "
+"сортировки и поведение кнопок сортировки на панели инструментов."
 
 #: src/dialogs/dialog-preferences.c:523
 msgid "Sorting is Case-Sensitive"
@@ -21132,7 +21218,9 @@ msgstr "Сортировка чувствительна к регистру"
 
 #: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
-msgstr "Элементы на этой странице настраивают исходные значения для новой рабочей книги."
+msgstr ""
+"Элементы на этой странице настраивают исходные значения для новой рабочей "
+"книги."
 
 #: src/dialogs/dialog-preferences.c:596
 msgid "The items on this page are related to the saving and opening of files."
@@ -21140,13 +21228,16 @@ msgstr "Элементы на этой странице относятся к о
 
 #: src/dialogs/dialog-preferences.c:646
 msgid "The items on this page are related to the screen layout and resolution."
-msgstr "Элементы на этой странице относятся к расположению и разрешению экрана."
+msgstr ""
+"Элементы на этой странице относятся к расположению и разрешению экрана."
 
 #: src/dialogs/dialog-preferences.c:682
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
-msgstr "Элементы на этой странице и подчинённых ей относятся к различным инструментам gnumeric."
+msgstr ""
+"Элементы на этой странице и подчинённых ей относятся к различным "
+"инструментам gnumeric."
 
 #: src/dialogs/dialog-preferences.c:724
 msgid "The items on this page are related to copy. cut and paste."
@@ -21535,7 +21626,9 @@ msgstr "Нельзя удалить все таблицы в рабочей кн
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
-msgstr "Для того чтобы удалить все существующие листы, удалите текущую рабочую книгу и создайте новую!"
+msgstr ""
+"Для того чтобы удалить все существующие листы, удалите текущую рабочую книгу "
+"и создайте новую!"
 
 #: src/dialogs/dialog-sheet-order.c:925
 msgid "The sheet order has changed. Do you want to update the list?"
@@ -21625,7 +21718,9 @@ msgstr "<Недоступно>"
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
-msgstr "Ищете тему для диплома или диссертации? Может быть напишете QP Solver для gnumeric?"
+msgstr ""
+"Ищете тему для диплома или диссертации? Может быть напишете QP Solver для "
+"gnumeric?"
 
 #: src/dialogs/dialog-solver.c:698
 msgid ""
@@ -21720,7 +21815,9 @@ msgstr "Закончить"
 
 #: src/dialogs/dialog-stf-export.c:573
 msgid "This workbook does not contain any exportable content."
-msgstr "Эта рабочая книга не содержит ничего такого, что можно было бы экспортировать."
+msgstr ""
+"Эта рабочая книга не содержит ничего такого, что можно было бы "
+"экспортировать."
 
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid ""
@@ -22145,7 +22242,9 @@ msgstr "Символ конца строки (ASCII код 10) заканчив�
 msgid ""
 "The sequence of carriage return and line feed (ASCII codes 13 and 10) breaks "
 "lines"
-msgstr "Последовательность из возврата каретки и конца строки (ASCII коды 13 и 10) заканчивает строку"
+msgstr ""
+"Последовательность из возврата каретки и конца строки (ASCII коды 13 и 10) "
+"заканчивает строку"
 
 #: src/dialogs/dialog-stf.glade.h:54
 msgid "Trim:"
@@ -23937,7 +24036,7 @@ msgstr "Неизвестный оператор"
 msgid "Internal type error"
 msgstr "Ошибка встроенного типа"
 
-#: src/expr.c:1368
+#: src/expr.c:1369
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
@@ -23981,40 +24080,40 @@ msgstr "ИСТИНА"
 msgid "FALSE"
 msgstr "ЛОЖЬ"
 
-#: src/format.c:706 templates/autoformat/autoformat.Colourful.black.xml.in.h:1
+#: src/format.c:711 templates/autoformat/autoformat.Colourful.black.xml.in.h:1
 msgid "Black"
 msgstr "Чёрный"
 
-#: src/format.c:707 templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
+#: src/format.c:712 templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
 msgid "Blue"
 msgstr "Синий"
 
-#: src/format.c:708
+#: src/format.c:713
 msgid "Cyan"
 msgstr "Голубой"
 
-#: src/format.c:709 templates/autoformat/autoformat.List.green.xml.in.h:3
+#: src/format.c:714 templates/autoformat/autoformat.List.green.xml.in.h:3
 msgid "Green"
 msgstr "Зеленый"
 
-#: src/format.c:710
+#: src/format.c:715
 msgid "Magenta"
 msgstr "Пурпурный"
 
-#: src/format.c:711
+#: src/format.c:716
 msgid "Red"
 msgstr "Красный"
 
-#: src/format.c:712
+#: src/format.c:717
 msgid "White"
 msgstr "Белый"
 
-#: src/format.c:713
+#: src/format.c:718
 msgid "Yellow"
 msgstr "Жёлтый"
 
 #. Array of arrays ??
-#: src/format.c:2113
+#: src/format.c:2118
 msgid "ARRAY"
 msgstr "МАССИВ"
 
@@ -24908,19 +25007,19 @@ msgstr "Обнаруженные автоматически"
 msgid "Load file"
 msgstr "Загрузить файл"
 
-#: src/gui-file.c:224 src/gui-file.c:662
+#: src/gui-file.c:224 src/gui-file.c:663
 msgid "Select a file"
 msgstr "Выбрать файл"
 
-#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:676
+#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:677
 msgid "All Files"
 msgstr "Все файлы"
 
-#: src/gui-file.c:254 src/gui-file.c:681
+#: src/gui-file.c:254 src/gui-file.c:682
 msgid "Spreadsheets"
 msgstr "Электронные таблицы"
 
-#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:705
+#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:706
 msgid "File _type:"
 msgstr "Тип файла:"
 
@@ -24961,7 +25060,7 @@ msgstr "Изображения"
 msgid "Save as"
 msgstr "Сохранить как"
 
-#: src/gui-file.c:558 src/gui-file.c:754
+#: src/gui-file.c:554 src/gui-file.c:755
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -24969,11 +25068,11 @@ msgstr ""
 "Заданное расширение файла не соответствует выбраному типу. Хотите "
 "использовать его?"
 
-#: src/gui-file.c:585
+#: src/gui-file.c:586
 msgid "Select an Image"
 msgstr "Выбрать изображение"
 
-#: src/gui-file.c:604
+#: src/gui-file.c:605
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -25663,31 +25762,31 @@ msgid "Error while opening file \"%s\" for reading."
 msgstr "Ошибка при открытии файла \"%s\" для чтения."
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:611
+#: src/print.c:612
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1156
+#: src/print.c:1157
 msgid "Print Region"
 msgstr "Область печати"
 
-#: src/print.c:1325 src/wbcg-actions.c:1501
+#: src/print.c:1326 src/wbcg-actions.c:1501
 msgid "Print preview"
 msgstr "Просмотр печати"
 
-#: src/print.c:1338
+#: src/print.c:1339
 msgid "Printing failed"
 msgstr "Сбой печати"
 
-#: src/print.c:1444
+#: src/print.c:1445
 msgid "Print Sheets"
 msgstr "Печать листов"
 
-#: src/print.c:1453
+#: src/print.c:1454
 msgid "Act_ive sheet"
 msgstr "Активный лист"
 
-#: src/print.c:1453
+#: src/print.c:1454
 msgid "S_heets"
 msgstr "Листы"
 
@@ -25795,23 +25894,23 @@ msgstr "Не сохранять"
 msgid "Do not log out"
 msgstr "Не отключаться"
 
-#: src/sheet.c:2014
+#: src/sheet.c:2015
 msgid "Target region contains merged cells"
 msgstr "Область назначения содержит объединенные ячейки"
 
-#: src/sheet.c:2075
+#: src/sheet.c:2076
 msgid "cannot operate on merged cells"
 msgstr "невозможно действовать на объединенных ячейках"
 
-#: src/sheet.c:2085
+#: src/sheet.c:2086
 msgid "cannot operate on array formulae"
 msgstr "невозможно действовать на формулах массива"
 
-#: src/sheet.c:3203
+#: src/sheet.c:3204
 msgid "Insert Columns"
 msgstr "Вставить столбцы"
 
-#: src/sheet.c:3325
+#: src/sheet.c:3326
 msgid "Insert Rows"
 msgstr "Вставить строки"
 
@@ -25903,19 +26002,19 @@ msgid "_Remove Hyperlink"
 msgstr "Удалить гиперссылка"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1972
+#: src/sheet-control-gui.c:1981
 msgid "Duplicate Object"
 msgstr "Дублировать объект"
 
-#: src/sheet-control-gui.c:1972
+#: src/sheet-control-gui.c:1981
 msgid "Insert Object"
 msgstr "Вставить объект"
 
-#: src/sheet-control-gui.c:1973
+#: src/sheet-control-gui.c:1982
 msgid "Move Object"
 msgstr "Переместить объект"
 
-#: src/sheet-control-gui.c:1973
+#: src/sheet-control-gui.c:1982
 msgid "Resize Object"
 msgstr "Изменить размер объекта"
 
@@ -26070,7 +26169,9 @@ msgstr "Список доступных модулей импорта"
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
-msgstr "Экспортировать файлы для каждого листа, если модуль экспорта поддерживает только один лист."
+msgstr ""
+"Экспортировать файлы для каждого листа, если модуль экспорта поддерживает "
+"только один лист."
 
 #: src/ssconvert.c:105
 #, c-format
@@ -26304,7 +26405,11 @@ msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr "/Среднее/Известная дисперсия/Наблюдения/Корреляция Пирсона/Гипотетическое среднее отклонение/Наблюдаемое среднее отклонение/Дисперсия отклонений/df/t Stat/P (T<=t) одностороннее/t критическое одностороннее/P (T<=t) двухстороннее/t критическое двухстороннее"
+msgstr ""
+"/Среднее/Известная дисперсия/Наблюдения/Корреляция Пирсона/Гипотетическое "
+"среднее отклонение/Наблюдаемое среднее отклонение/Дисперсия отклонений/df/t "
+"Stat/P (T<=t) одностороннее/t критическое одностороннее/P (T<=t) "
+"двухстороннее/t критическое двухстороннее"
 
 #: src/tools/analysis-tools.c:2131
 #, c-format
@@ -27080,7 +27185,8 @@ msgstr "Отчёт программы"
 
 #: src/tools/solver/reports-write.c:896
 msgid "Assume that all variables take only positive values."
-msgstr "Предполагать, что все переменные принимают только положительные значения."
+msgstr ""
+"Предполагать, что все переменные принимают только положительные значения."
 
 #: src/tools/solver/reports-write.c:912
 msgid "Minimize"
@@ -28142,7 +28248,9 @@ msgstr "Неравные выборки, равные дисперсии: T-те
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
-msgstr "Сравнение средних значений двух неравных выборок с равными дисперсиями: t-тест..."
+msgstr ""
+"Сравнение средних значений двух неравных выборок с равными дисперсиями: t-"
+"тест..."
 
 #: src/wbcg-actions.c:1792
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
@@ -28152,7 +28260,9 @@ msgstr "Неравные выборки, неравные дисперсии: T-
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
-msgstr "Сравнение средних значений двух неравных выборок с неравными дисперсиями: t-тест..."
+msgstr ""
+"Сравнение средних значений двух неравных выборок с неравными дисперсиями: t-"
+"тест..."
 
 #: src/wbcg-actions.c:1796
 msgid "_Known Variances: Z-Test..."
@@ -28162,7 +28272,8 @@ msgstr "Известные дисперсии: Z-тест..."
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
-msgstr "Сравнение средних значений двух выборок с известными дисперсиями: z-тест..."
+msgstr ""
+"Сравнение средних значений двух выборок с известными дисперсиями: z-тест..."
 
 #. Tools -> Analysis
 #: src/wbcg-actions.c:1801
@@ -30103,16 +30214,16 @@ msgstr "Отказаться"
 msgid "_Accept"
 msgstr "Принять"
 
-#: src/workbook-edit.c:611
+#: src/workbook-edit.c:684
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s -- заблокировано"
 
-#: src/workbook-edit.c:615
+#: src/workbook-edit.c:688
 msgid "Unprotect the workbook to enable editing."
 msgstr "Снять защиту с книги, чтобы разрешить редактирование."
 
-#: src/workbook-edit.c:616
+#: src/workbook-edit.c:689
 msgid "Unprotect the sheet to enable editing."
 msgstr "Снять защиту с листа, чтобы разрешить редактирование."
 

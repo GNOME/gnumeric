@@ -3259,6 +3259,46 @@
   </sect1>
   <sect1 id="CATEGORY_Engineering">
     <title>Engineering</title>
+    <refentry id="gnumeric-BASE">
+      <refmeta>
+        <refentrytitle>
+          <function>BASE</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>BASE</function>
+        </refname>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>BASE</function>(<parameter>number</parameter>,<parameter>base</parameter>[,<parameter>length</parameter>])</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><function>BASE</function> function converts a number to a string representing that number in base <parameter>base</parameter>.</para>
+        <itemizedlist>
+          <listitem>
+            <para><parameter>base</parameter> must be an integer between 2 and 36.</para>
+          </listitem>
+          <listitem>
+            <para>This function is OpenOffice.Org compatible.</para>
+          </listitem>
+          <listitem>
+            <para>Optional argument <parameter>length</parameter> specifies the minimum result length.  Leading  zeroes will be added to reach this length.</para>
+          </listitem>
+        </itemizedlist>
+      </refsect1>
+      <refsect1>
+        <title>Examples</title>
+        <para/>
+        <para><function>BASE</function>(255,16,4) equals "00FF".</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-DECIMAL"><function>DECIMAL</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
     <refentry id="gnumeric-BESSELI">
       <refmeta>
         <refentrytitle>
@@ -3776,6 +3816,43 @@
         <para><link linkend="gnumeric-OCT2DEC"><function>OCT2DEC</function></link>,
         <link linkend="gnumeric-DEC2BIN"><function>DEC2BIN</function></link>,
         <link linkend="gnumeric-DEC2HEX"><function>DEC2HEX</function></link>.
+      </para>
+      </refsect1>
+    </refentry>
+    <refentry id="gnumeric-DECIMAL">
+      <refmeta>
+        <refentrytitle>
+          <function>DECIMAL</function>
+        </refentrytitle>
+      </refmeta>
+      <refnamediv>
+        <refname>
+          <function>DECIMAL</function>
+        </refname>
+      </refnamediv>
+      <refsynopsisdiv>
+        <synopsis><function>DECIMAL</function>(<parameter>text</parameter>,<parameter>base</parameter>)</synopsis>
+      </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para><function>DECIMAL</function> function converts a number in base <parameter>base</parameter> to decimal.</para>
+        <itemizedlist>
+          <listitem>
+            <para><parameter>base</parameter> must be an integer between 2 and 36.</para>
+          </listitem>
+          <listitem>
+            <para>This function is OpenOffice.Org compatible.</para>
+          </listitem>
+        </itemizedlist>
+      </refsect1>
+      <refsect1>
+        <title>Examples</title>
+        <para/>
+        <para><function>DECIMAL</function>("A1",16) equals 161.</para>
+      </refsect1>
+      <refsect1>
+        <title>See also</title>
+        <para><link linkend="gnumeric-BASE"><function>BASE</function></link>.
       </para>
       </refsect1>
     </refentry>
@@ -10399,7 +10476,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>EVEN</function> function returns the number rounded up to the nearest even integer.</para>
+        <para><function>EVEN</function> function returns the number rounded up to the nearest even integer.  Negative numbers are rounded down.</para>
         <itemizedlist>
           <listitem>
             <para>This function is Excel compatible.</para>
@@ -10410,6 +10487,7 @@
         <title>Examples</title>
         <para/>
         <para><function>EVEN</function>(5.4) equals 6.</para>
+        <para><function>EVEN</function>(-5.4) equals -6.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -11257,7 +11335,7 @@
       </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para><function>ODD</function> function returns the <parameter>number</parameter> rounded up to the nearest odd integer.</para>
+        <para><function>ODD</function> function returns the <parameter>number</parameter> rounded up to the nearest odd integer.  Negative numbers are rounded down.</para>
         <itemizedlist>
           <listitem>
             <para>This function is Excel compatible.</para>
@@ -11268,6 +11346,7 @@
         <title>Examples</title>
         <para/>
         <para><function>ODD</function>(4.4) equals 5.</para>
+        <para><function>ODD</function>(-4.4) equals -5.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>
@@ -17078,7 +17157,7 @@
         <title>Examples</title>
         <para/>
         <para>Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then</para>
-        <para><function>TREND</function>(A1:A5,B1:B5) equals 156.52.</para>
+        <para><function>TREND</function>(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}.</para>
       </refsect1>
       <refsect1>
         <title>See also</title>

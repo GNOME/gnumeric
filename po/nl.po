@@ -126,7 +126,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-07 19:13+0100\n"
+"POT-Creation-Date: 2005-01-17 00:44-0500\n"
 "PO-Revision-Date: 2005-01-09 02:01+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
@@ -1705,7 +1705,7 @@ msgstr "Financieel Afgeleiden"
 msgid "Functions related to financial derivatives"
 msgstr "Functies gerelateerd aan financieel afgeleiden"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5800
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5837
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Bezig met lezen bestand..."
@@ -1797,7 +1797,7 @@ msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Onverwacht attribuut %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
-#: plugins/openoffice/openoffice-read.c:1479
+#: plugins/openoffice/openoffice-read.c:1503
 #: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "Onjuist gemaakt XML document!"
@@ -1810,7 +1810,7 @@ msgstr "#ONBEKEND!"
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1110 plugins/excel/ms-excel-read.c:1122
-#: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
+#: plugins/oleo/oleo.c:344 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
@@ -1862,7 +1862,7 @@ msgstr "externe verwijzingen"
 msgid "No password supplied"
 msgstr "Geen wachtwoord opgegeven"
 
-#: plugins/excel/ms-excel-read.c:6026
+#: plugins/excel/ms-excel-read.c:6063
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Niet in staat om een geldige MS Excel werkmap te vinden"
 
@@ -1876,7 +1876,7 @@ msgstr ""
 "We hebben reeds een lengte geschreven van een tekenreeks die wordt afgekapt "
 "vanwege tekenset-problemen."
 
-#: plugins/excel/ms-excel-write.c:4167
+#: plugins/excel/ms-excel-write.c:4195
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1886,7 +1886,7 @@ msgstr ""
 "(tm) 95 bestand. Excel (tm) 95 ondersteunt slechts %d rijen, en dit werkboek "
 "heeft er %d"
 
-#: plugins/excel/ms-excel-write.c:4174
+#: plugins/excel/ms-excel-write.c:4202
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1896,19 +1896,19 @@ msgstr ""
 "(tm) bestand. MS Excel ondersteunt slechts %d rijen en dit werkboek heeft er "
 "%d"
 
-#: plugins/excel/ms-excel-write.c:4939
+#: plugins/excel/ms-excel-write.c:4967
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Kon de stroom 'Map' niet openen voor schrijven\n"
 
-#: plugins/excel/ms-excel-write.c:4959
+#: plugins/excel/ms-excel-write.c:4987
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Kon de stroom 'Werkmap' niet openen voor schrijven\n"
 
-#: plugins/excel/ms-formula-read.c:593
+#: plugins/excel/ms-formula-read.c:652
 msgid "Broken function"
 msgstr "Gebroken functie"
 
-#: plugins/excel/ms-formula-write.c:537
+#: plugins/excel/ms-formula-write.c:535
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel expects exactly %d and we "
@@ -1918,7 +1918,7 @@ msgstr ""
 "argumenten en wij hebben er '%d'"
 
 # verwerken/behandelen/in behandeling nemen
-#: plugins/excel/ms-formula-write.c:538
+#: plugins/excel/ms-formula-write.c:536
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
@@ -5143,8 +5143,8 @@ msgstr ""
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: plugins/fn-date/functions.c:900 plugins/fn-eng/functions.c:101
-#: plugins/fn-info/functions.c:1285 plugins/fn-info/functions.c:1301
+#: plugins/fn-date/functions.c:900 plugins/fn-info/functions.c:1285
+#: plugins/fn-info/functions.c:1301
 msgid "Unimplemented"
 msgstr "Niet geïmplementeerd"
 
@@ -5392,7 +5392,25 @@ msgstr "Datum/Tijd"
 msgid "Functions manipulating dates and time"
 msgstr "Functies die datums en tijd manipuleren"
 
-#: plugins/fn-eng/functions.c:116
+#: plugins/fn-eng/functions.c:140
+msgid ""
+"@FUNCTION=BASE\n"
+"@SYNTAX=BASE(number,base[,length])\n"
+"@DESCRIPTION=BASE function converts a number to a string representing that "
+"number in base @base.\n"
+"\n"
+"* @base must be an integer between 2 and 36.\n"
+"* This function is OpenOffice.Org compatible.\n"
+"* Optional argument @length specifies the minimum result length.  Leading  "
+"zeroes will be added to reach this length.\n"
+"\n"
+"@EXAMPLES=\n"
+"BASE(255,16,4) equals \"00FF\".\n"
+"\n"
+"@SEEALSO=DECIMAL"
+msgstr ""
+
+#: plugins/fn-eng/functions.c:175
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -5417,7 +5435,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-eng/functions.c:139
+#: plugins/fn-eng/functions.c:198
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -5449,7 +5467,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 
-#: plugins/fn-eng/functions.c:165
+#: plugins/fn-eng/functions.c:224
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -5480,7 +5498,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 
-#: plugins/fn-eng/functions.c:191
+#: plugins/fn-eng/functions.c:250
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -5511,7 +5529,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
-#: plugins/fn-eng/functions.c:217
+#: plugins/fn-eng/functions.c:276
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -5542,7 +5560,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 
-#: plugins/fn-eng/functions.c:243
+#: plugins/fn-eng/functions.c:302
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -5573,7 +5591,33 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
-#: plugins/fn-eng/functions.c:269
+#: plugins/fn-eng/functions.c:328
+#, fuzzy
+msgid ""
+"@FUNCTION=DECIMAL\n"
+"@SYNTAX=DECIMAL(text,base)\n"
+"@DESCRIPTION=DECIMAL function converts a number in base @base to decimal.\n"
+"\n"
+"* @base must be an integer between 2 and 36.\n"
+"* This function is OpenOffice.Org compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"DECIMAL(\"A1\",16) equals 161.\n"
+"\n"
+"@SEEALSO=BASE"
+msgstr ""
+"@FUNCTION=OCT2DEC\n"
+"@SYNTAX=OCT2DEC(x)\n"
+"@DESCRIPTION=OCT2DEC zet een octaal getal om naar het decimale equivalent. \n"
+"\n"
+"* Deze functie is compatibel met Excel.\n"
+"\n"
+"@EXAMPLES=\n"
+"OCT2DEC(\"124\") is 84.\n"
+"\n"
+"@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
+
+#: plugins/fn-eng/functions.c:357
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -5598,7 +5642,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
-#: plugins/fn-eng/functions.c:292
+#: plugins/fn-eng/functions.c:380
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -5629,7 +5673,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
-#: plugins/fn-eng/functions.c:318
+#: plugins/fn-eng/functions.c:406
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -5660,7 +5704,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
-#: plugins/fn-eng/functions.c:344
+#: plugins/fn-eng/functions.c:432
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -5691,7 +5735,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 
-#: plugins/fn-eng/functions.c:370
+#: plugins/fn-eng/functions.c:458
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -5722,7 +5766,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 
-#: plugins/fn-eng/functions.c:396
+#: plugins/fn-eng/functions.c:484
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -5747,7 +5791,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
-#: plugins/fn-eng/functions.c:419
+#: plugins/fn-eng/functions.c:507
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -5782,7 +5826,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-eng/functions.c:457
+#: plugins/fn-eng/functions.c:545
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -5815,7 +5859,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
-#: plugins/fn-eng/functions.c:494
+#: plugins/fn-eng/functions.c:582
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -5848,7 +5892,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-eng/functions.c:530
+#: plugins/fn-eng/functions.c:618
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -5886,7 +5930,7 @@ msgstr ""
 # De tabulatie van de elementen ziet er hier in een teksteditor misschien
 # wat vreemd uit, maar het eindresultaat geldt (dus de versie zoals die in
 # gnumeric zichtbaar is)
-#: plugins/fn-eng/functions.c:573
+#: plugins/fn-eng/functions.c:661
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -6109,7 +6153,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-eng/functions.c:988
+#: plugins/fn-eng/functions.c:1076
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -6159,7 +6203,7 @@ msgstr ""
 "standaard deviaties van de mediaan.\n"
 "@SEEALSO=ERFC"
 
-#: plugins/fn-eng/functions.c:1035
+#: plugins/fn-eng/functions.c:1123
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -6193,7 +6237,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERF"
 
-#: plugins/fn-eng/functions.c:1065
+#: plugins/fn-eng/functions.c:1153
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -6224,11 +6268,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: plugins/fn-eng/functions.c:1109 plugins/fn-eng/functions.c:1163
+#: plugins/fn-eng/functions.c:1197 plugins/fn-eng/functions.c:1251
 msgid "Impossible"
 msgstr "Onmogelijk"
 
-#: plugins/fn-eng/functions.c:1120
+#: plugins/fn-eng/functions.c:1208
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -6257,7 +6301,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DELTA"
 
-#: plugins/fn-eng/functions.c:1174
+#: plugins/fn-eng/functions.c:1262
 msgid ""
 "@FUNCTION=INVSUMINV\n"
 "@SYNTAX=INVSUMINV(x1,x2,...)\n"
@@ -10139,45 +10183,45 @@ msgstr ""
 "@SEEALSO=TRUE"
 
 #: plugins/fn-logical/functions.c:334 plugins/fn-logical/functions.c:338
-#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3319
-#: plugins/fn-stat/functions.c:5633 plugins/fn-stat/functions.c:5637
-#: plugins/fn-stat/functions.c:5641 plugins/fn-stat/functions.c:5679
-#: plugins/fn-stat/functions.c:5682 plugins/fn-stat/functions.c:5691
-#: plugins/fn-stat/functions.c:5727 plugins/fn-stat/functions.c:5741
-#: plugins/fn-stat/functions.c:5744 plugins/fn-stat/functions.c:5747
-#: plugins/fn-stat/functions.c:5769 plugins/fn-stat/functions.c:5773
-#: plugins/fn-stat/functions.c:5777 plugins/fn-stat/functions.c:5781
-#: plugins/fn-stat/functions.c:5785 plugins/fn-stat/functions.c:5789
-#: plugins/fn-stat/functions.c:5835 plugins/fn-stat/functions.c:5845
-#: plugins/fn-stat/functions.c:5849 plugins/fn-stat/functions.c:5853
-#: plugins/fn-stat/functions.c:5857 plugins/fn-stat/functions.c:5886
-#: plugins/fn-stat/functions.c:5889 plugins/fn-stat/functions.c:5892
-#: plugins/fn-stat/functions.c:5895 plugins/fn-stat/functions.c:5911
+#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3332
+#: plugins/fn-stat/functions.c:5636 plugins/fn-stat/functions.c:5640
+#: plugins/fn-stat/functions.c:5644 plugins/fn-stat/functions.c:5682
+#: plugins/fn-stat/functions.c:5685 plugins/fn-stat/functions.c:5694
+#: plugins/fn-stat/functions.c:5730 plugins/fn-stat/functions.c:5744
+#: plugins/fn-stat/functions.c:5747 plugins/fn-stat/functions.c:5750
+#: plugins/fn-stat/functions.c:5772 plugins/fn-stat/functions.c:5776
+#: plugins/fn-stat/functions.c:5780 plugins/fn-stat/functions.c:5784
+#: plugins/fn-stat/functions.c:5788 plugins/fn-stat/functions.c:5792
+#: plugins/fn-stat/functions.c:5838 plugins/fn-stat/functions.c:5848
+#: plugins/fn-stat/functions.c:5852 plugins/fn-stat/functions.c:5856
+#: plugins/fn-stat/functions.c:5860 plugins/fn-stat/functions.c:5889
+#: plugins/fn-stat/functions.c:5892 plugins/fn-stat/functions.c:5895
+#: plugins/fn-stat/functions.c:5898 plugins/fn-stat/functions.c:5914
 #: src/func-builtin.c:131 src/func-builtin.c:137
 msgid "number,number,"
 msgstr "getal;getal;"
 
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3151
-#: plugins/fn-math/functions.c:3155 plugins/fn-math/functions.c:3158
-#: plugins/fn-math/functions.c:3161 plugins/fn-math/functions.c:3164
-#: plugins/fn-math/functions.c:3167 plugins/fn-math/functions.c:3170
-#: plugins/fn-math/functions.c:3176 plugins/fn-math/functions.c:3185
-#: plugins/fn-math/functions.c:3194 plugins/fn-math/functions.c:3202
-#: plugins/fn-math/functions.c:3205 plugins/fn-math/functions.c:3208
-#: plugins/fn-math/functions.c:3211 plugins/fn-math/functions.c:3214
-#: plugins/fn-math/functions.c:3219 plugins/fn-math/functions.c:3223
-#: plugins/fn-math/functions.c:3229 plugins/fn-math/functions.c:3239
-#: plugins/fn-math/functions.c:3246 plugins/fn-math/functions.c:3249
-#: plugins/fn-math/functions.c:3255 plugins/fn-math/functions.c:3258
-#: plugins/fn-math/functions.c:3271 plugins/fn-math/functions.c:3277
-#: plugins/fn-math/functions.c:3283 plugins/fn-math/functions.c:3304
-#: plugins/fn-math/functions.c:3307 plugins/fn-math/functions.c:3310
-#: plugins/fn-math/functions.c:3313 plugins/fn-math/functions.c:3316
-#: plugins/fn-math/functions.c:3329 plugins/fn-math/functions.c:3341
-#: plugins/fn-math/functions.c:3344 plugins/fn-stat/functions.c:5703
-#: plugins/fn-stat/functions.c:5706 plugins/fn-stat/functions.c:5724
-#: plugins/fn-stat/functions.c:5802 plugins/fn-string/functions.c:1119
+#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3164
+#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3171
+#: plugins/fn-math/functions.c:3174 plugins/fn-math/functions.c:3177
+#: plugins/fn-math/functions.c:3180 plugins/fn-math/functions.c:3183
+#: plugins/fn-math/functions.c:3189 plugins/fn-math/functions.c:3198
+#: plugins/fn-math/functions.c:3207 plugins/fn-math/functions.c:3215
+#: plugins/fn-math/functions.c:3218 plugins/fn-math/functions.c:3221
+#: plugins/fn-math/functions.c:3224 plugins/fn-math/functions.c:3227
+#: plugins/fn-math/functions.c:3232 plugins/fn-math/functions.c:3236
+#: plugins/fn-math/functions.c:3242 plugins/fn-math/functions.c:3252
+#: plugins/fn-math/functions.c:3259 plugins/fn-math/functions.c:3262
+#: plugins/fn-math/functions.c:3268 plugins/fn-math/functions.c:3271
+#: plugins/fn-math/functions.c:3284 plugins/fn-math/functions.c:3290
+#: plugins/fn-math/functions.c:3296 plugins/fn-math/functions.c:3317
+#: plugins/fn-math/functions.c:3320 plugins/fn-math/functions.c:3323
+#: plugins/fn-math/functions.c:3326 plugins/fn-math/functions.c:3329
+#: plugins/fn-math/functions.c:3342 plugins/fn-math/functions.c:3354
+#: plugins/fn-math/functions.c:3357 plugins/fn-stat/functions.c:5706
+#: plugins/fn-stat/functions.c:5709 plugins/fn-stat/functions.c:5727
+#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1119
 #: plugins/fn-string/functions.c:1122
 msgid "number"
 msgstr "getal"
@@ -10456,7 +10500,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOOKUP"
 
-#: plugins/fn-lookup/functions.c:792
+#: plugins/fn-lookup/functions.c:789
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text[,format])\n"
@@ -10488,7 +10532,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AREAS,INDEX,CELL"
 
-#: plugins/fn-lookup/functions.c:835
+#: plugins/fn-lookup/functions.c:832
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array[,row, col, area])\n"
@@ -10507,18 +10551,22 @@ msgid ""
 msgstr ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array[;rij; kol; gebied])\n"
-"@DESCRIPTION=INDEX geeft een verwijzing naar een cel in de gegeven @array. De cel wordt aangewezen door @rij en @kol die de rijen en kolommen van de @array tellen.\n"
+"@DESCRIPTION=INDEX geeft een verwijzing naar een cel in de gegeven @array. "
+"De cel wordt aangewezen door @rij en @kol die de rijen en kolommen van de "
+"@array tellen.\n"
 "\n"
 "* Als @rij en @kol zijn weggelaten, wordt aangenomen dat ze 1 zijn.\n"
-"* Als de verwijzing buiten het gebied van de @array valt, geeft INDEX een #VERW! foutmelding.\n"
+"* Als de verwijzing buiten het gebied van de @array valt, geeft INDEX een "
+"#VERW! foutmelding.\n"
 "\n"
 "@EXAMPLES=\n"
-"Als A1, A2, ..., A5 de getallen 11,4 17,3 21,3 25,9 en 40,1 bevatten, dan geldt:\n"
+"Als A1, A2, ..., A5 de getallen 11,4 17,3 21,3 25,9 en 40,1 bevatten, dan "
+"geldt:\n"
 "INDEX(A1:A5;4;1;1) is 25,9\n"
 "\n"
 "@SEEALSO=\""
 
-#: plugins/fn-lookup/functions.c:902
+#: plugins/fn-lookup/functions.c:899
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -10547,7 +10595,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:957
+#: plugins/fn-lookup/functions.c:954
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -10573,7 +10621,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ADRESS"
 
-#: plugins/fn-lookup/functions.c:989
+#: plugins/fn-lookup/functions.c:986
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -10601,7 +10649,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1014
+#: plugins/fn-lookup/functions.c:1011
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -10631,7 +10679,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1072
+#: plugins/fn-lookup/functions.c:1069
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -10659,7 +10707,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1125
+#: plugins/fn-lookup/functions.c:1122
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -10687,7 +10735,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1150
+#: plugins/fn-lookup/functions.c:1147
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
@@ -10709,7 +10757,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:1175
+#: plugins/fn-lookup/functions.c:1172
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -10728,57 +10776,57 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: plugins/fn-lookup/functions.c:1219
+#: plugins/fn-lookup/functions.c:1216
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "rij_num;kol_num;abs_num;a1;tekst"
 
-#: plugins/fn-lookup/functions.c:1222
+#: plugins/fn-lookup/functions.c:1219
 msgid "reference"
 msgstr "verwijzing"
 
-#: plugins/fn-lookup/functions.c:1225
+#: plugins/fn-lookup/functions.c:1222
 msgid "index,value,"
 msgstr "index;waarde;"
 
-#: plugins/fn-lookup/functions.c:1228 plugins/fn-lookup/functions.c:1234
-#: plugins/fn-lookup/functions.c:1258 plugins/fn-lookup/functions.c:1261
+#: plugins/fn-lookup/functions.c:1225 plugins/fn-lookup/functions.c:1231
+#: plugins/fn-lookup/functions.c:1255 plugins/fn-lookup/functions.c:1258
 msgid "ref"
 msgstr "verw"
 
 # afkorting?
-#: plugins/fn-lookup/functions.c:1231
+#: plugins/fn-lookup/functions.c:1228
 msgid "colname"
 msgstr "kolnaam"
 
-#: plugins/fn-lookup/functions.c:1237 plugins/fn-lookup/functions.c:1267
+#: plugins/fn-lookup/functions.c:1234 plugins/fn-lookup/functions.c:1264
 msgid "val,range,col_idx,approx,as_index"
 msgstr "waarde;bereik;kol_indx;benaderen;als_index"
 
-#: plugins/fn-lookup/functions.c:1240
+#: plugins/fn-lookup/functions.c:1237
 msgid "link_location, label"
 msgstr "link_locatie; label"
 
-#: plugins/fn-lookup/functions.c:1243
+#: plugins/fn-lookup/functions.c:1240
 msgid "ref_string,format"
 msgstr "verw_tekenreeks;formaat"
 
-#: plugins/fn-lookup/functions.c:1246
+#: plugins/fn-lookup/functions.c:1243
 msgid "reference,row,col,area"
 msgstr "verwijzing;rij;kol;gebied"
 
-#: plugins/fn-lookup/functions.c:1249
+#: plugins/fn-lookup/functions.c:1246
 msgid "val,range,range"
 msgstr "waarde;bereik;bereik"
 
-#: plugins/fn-lookup/functions.c:1252
+#: plugins/fn-lookup/functions.c:1249
 msgid "val,range,approx"
 msgstr "waarde;bereik;benader"
 
-#: plugins/fn-lookup/functions.c:1255
+#: plugins/fn-lookup/functions.c:1252
 msgid "ref,row,col,height,width"
 msgstr "ref;rij;kol;hoogte;breedte"
 
-#: plugins/fn-lookup/functions.c:1264 plugins/fn-math/functions.c:3357
+#: plugins/fn-lookup/functions.c:1261 plugins/fn-math/functions.c:3370
 msgid "array"
 msgstr "reeks"
 
@@ -11274,7 +11322,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, FLOOR, ABS, INT, MOD"
 
-#: plugins/fn-math/functions.c:797
+#: plugins/fn-math/functions.c:800
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -11301,7 +11349,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:821
+#: plugins/fn-math/functions.c:824
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -11335,7 +11383,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: plugins/fn-math/functions.c:846
+#: plugins/fn-math/functions.c:849
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -11360,7 +11408,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 
-#: plugins/fn-math/functions.c:870
+#: plugins/fn-math/functions.c:873
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -11386,7 +11434,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:893
+#: plugins/fn-math/functions.c:896
 msgid ""
 "@FUNCTION=EXPM1\n"
 "@SYNTAX=EXPM1(x)\n"
@@ -11408,7 +11456,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LN1P"
 
-#: plugins/fn-math/functions.c:914
+#: plugins/fn-math/functions.c:917
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -11434,7 +11482,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:951
+#: plugins/fn-math/functions.c:954
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -11464,7 +11512,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETALN,GAMMALN"
 
-#: plugins/fn-math/functions.c:981
+#: plugins/fn-math/functions.c:984
 msgid ""
 "@FUNCTION=BETALN\n"
 "@SYNTAX=BETALN(a,b)\n"
@@ -11492,7 +11540,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETA,GAMMALN"
 
-#: plugins/fn-math/functions.c:1010
+#: plugins/fn-math/functions.c:1013
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -11524,7 +11572,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1043
+#: plugins/fn-math/functions.c:1046
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x[,significance])\n"
@@ -11558,7 +11606,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, ABS, INT, MOD"
 
-#: plugins/fn-math/functions.c:1084
+#: plugins/fn-math/functions.c:1090
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -11586,7 +11634,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
-#: plugins/fn-math/functions.c:1109
+#: plugins/fn-math/functions.c:1115
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -11616,7 +11664,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:1143
+#: plugins/fn-math/functions.c:1149
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -11642,7 +11690,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:1172
+#: plugins/fn-math/functions.c:1178
 msgid ""
 "@FUNCTION=LN1P\n"
 "@SYNTAX=LN1P(x)\n"
@@ -11668,7 +11716,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, EXPM1"
 
-#: plugins/fn-math/functions.c:1201
+#: plugins/fn-math/functions.c:1207
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -11702,7 +11750,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP"
 
-#: plugins/fn-math/functions.c:1237
+#: plugins/fn-math/functions.c:1243
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -11726,7 +11774,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: plugins/fn-math/functions.c:1263
+#: plugins/fn-math/functions.c:1269
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -11754,7 +11802,7 @@ msgstr ""
 
 # Engels: twee keer ABS (moet waarschijnlijk 1 keer MOD zijn)
 # @SEEALSO=CEIL, CEILING, FLOOR, ABS, INT, ABS
-#: plugins/fn-math/functions.c:1292
+#: plugins/fn-math/functions.c:1298
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -11781,7 +11829,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, INT"
 
-#: plugins/fn-math/functions.c:1343
+#: plugins/fn-math/functions.c:1349
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -11806,7 +11854,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI,DEGREES"
 
-#: plugins/fn-math/functions.c:1367
+#: plugins/fn-math/functions.c:1373
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -11831,7 +11879,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:1390
+#: plugins/fn-math/functions.c:1396
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -11861,7 +11909,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: plugins/fn-math/functions.c:1414
+#: plugins/fn-math/functions.c:1420
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -11887,7 +11935,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POWER"
 
-#: plugins/fn-math/functions.c:1442
+#: plugins/fn-math/functions.c:1448
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -11918,7 +11966,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1474
+#: plugins/fn-math/functions.c:1480
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -11948,7 +11996,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1505
+#: plugins/fn-math/functions.c:1511
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -11975,7 +12023,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM"
 
-#: plugins/fn-math/functions.c:1534
+#: plugins/fn-math/functions.c:1540
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -12001,7 +12049,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1562
+#: plugins/fn-math/functions.c:1568
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -12026,7 +12074,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1585
+#: plugins/fn-math/functions.c:1591
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -12056,7 +12104,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1608
+#: plugins/fn-math/functions.c:1614
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -12084,7 +12132,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: plugins/fn-math/functions.c:1633
+#: plugins/fn-math/functions.c:1639
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -12117,7 +12165,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: plugins/fn-math/functions.c:1669
+#: plugins/fn-math/functions.c:1675
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -12134,7 +12182,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(getal)\n"
-"@DESCRIPTION=EVEN geeft het getal naar boven afgerond naar het dichtstbijzijnde even getal. Negatieve getallen worden naar beneden afgerond.\n"
+"@DESCRIPTION=EVEN geeft het getal naar boven afgerond naar het "
+"dichtstbijzijnde even getal. Negatieve getallen worden naar beneden "
+"afgerond.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
@@ -12144,7 +12194,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: plugins/fn-math/functions.c:1708
+#: plugins/fn-math/functions.c:1714
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -12161,7 +12211,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(getal)\n"
-"@DESCRIPTION=ODD geeft het getal naar boven afgerond naar het dichtstbijzijnde oneven getal. Negatieve getallen worden naar beneden afgerond.\n"
+"@DESCRIPTION=ODD geeft het getal naar boven afgerond naar het "
+"dichtstbijzijnde oneven getal. Negatieve getallen worden naar beneden "
+"afgerond.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
@@ -12171,7 +12223,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: plugins/fn-math/functions.c:1747
+#: plugins/fn-math/functions.c:1753
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -12201,7 +12253,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: plugins/fn-math/functions.c:1785
+#: plugins/fn-math/functions.c:1791
 msgid ""
 "@FUNCTION=FIB\n"
 "@SYNTAX=FIB(number)\n"
@@ -12228,7 +12280,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: plugins/fn-math/functions.c:1833
+#: plugins/fn-math/functions.c:1839
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denominator)\n"
@@ -12254,7 +12306,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MOD"
 
-#: plugins/fn-math/functions.c:1865
+#: plugins/fn-math/functions.c:1871
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -12284,7 +12336,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1899
+#: plugins/fn-math/functions.c:1905
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -12310,7 +12362,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: plugins/fn-math/functions.c:1928
+#: plugins/fn-math/functions.c:1934
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -12356,7 +12408,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:1972
+#: plugins/fn-math/functions.c:1978
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -12403,7 +12455,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2013
+#: plugins/fn-math/functions.c:2019
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -12451,7 +12503,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: plugins/fn-math/functions.c:2057
+#: plugins/fn-math/functions.c:2063
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -12485,7 +12537,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2111
+#: plugins/fn-math/functions.c:2117
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -12531,7 +12583,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:2377
+#: plugins/fn-math/functions.c:2383
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -12572,14 +12624,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2433 plugins/fn-math/functions.c:2453
-#: plugins/fn-math/functions.c:2546 plugins/fn-math/functions.c:2566
-#: plugins/fn-math/functions.c:2657 plugins/fn-math/functions.c:2677
+#: plugins/fn-math/functions.c:2439 plugins/fn-math/functions.c:2459
+#: plugins/fn-math/functions.c:2552 plugins/fn-math/functions.c:2572
+#: plugins/fn-math/functions.c:2663 plugins/fn-math/functions.c:2683
 #: plugins/fn-stat/functions.c:2934 plugins/fn-stat/functions.c:2964
 msgid "Array version not implemented!"
 msgstr "Array-versie niet geïmplementeerd!"
 
-#: plugins/fn-math/functions.c:2491
+#: plugins/fn-math/functions.c:2497
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -12620,7 +12672,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: plugins/fn-math/functions.c:2602
+#: plugins/fn-math/functions.c:2608
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -12661,7 +12713,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2715
+#: plugins/fn-math/functions.c:2721
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -12696,7 +12748,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-math/functions.c:2773
+#: plugins/fn-math/functions.c:2779
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -12724,7 +12776,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: plugins/fn-math/functions.c:2916
+#: plugins/fn-math/functions.c:2922
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -12750,7 +12802,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: plugins/fn-math/functions.c:2992
+#: plugins/fn-math/functions.c:2998
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -12785,7 +12837,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: plugins/fn-math/functions.c:3039
+#: plugins/fn-math/functions.c:3045
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -12822,11 +12874,11 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: plugins/fn-math/functions.c:3173
+#: plugins/fn-math/functions.c:3186
 msgid "xnum,ynum"
 msgstr "xnum;ynum"
 
-#: plugins/fn-math/functions.c:3179 plugins/fn-math/functions.c:3182
+#: plugins/fn-math/functions.c:3192 plugins/fn-math/functions.c:3195
 #: plugins/fn-random/functions.c:1103 plugins/fn-random/functions.c:1124
 #: plugins/fn-random/functions.c:1130 plugins/fn-random/functions.c:1169
 #: plugins/fn-random/functions.c:1184 plugins/fn-random/functions.c:1187
@@ -12834,67 +12886,67 @@ msgid "a,b"
 msgstr "a;b"
 
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3190
+#: plugins/fn-math/functions.c:3203
 msgid "range,criteria"
 msgstr "bereik;criteria"
 
-#: plugins/fn-math/functions.c:3198
+#: plugins/fn-math/functions.c:3211
 msgid "number,significance"
 msgstr "getal;significantie"
 
-#: plugins/fn-math/functions.c:3226 plugins/fn-stat/functions.c:5817
+#: plugins/fn-math/functions.c:3239 plugins/fn-stat/functions.c:5820
 msgid "n,k"
 msgstr "n;k"
 
-#: plugins/fn-math/functions.c:3233
+#: plugins/fn-math/functions.c:3246
 msgid "number,number"
 msgstr "getal;getal"
 
-#: plugins/fn-math/functions.c:3252
+#: plugins/fn-math/functions.c:3265
 msgid "number,base"
 msgstr "getal;basis"
 
-#: plugins/fn-math/functions.c:3261 plugins/fn-math/functions.c:3280
+#: plugins/fn-math/functions.c:3274 plugins/fn-math/functions.c:3293
 msgid "numerator,denominator"
 msgstr "teller;noemer"
 
-#: plugins/fn-math/functions.c:3264
+#: plugins/fn-math/functions.c:3277
 msgid "number,multiple"
 msgstr "getal;multiple"
 
-#: plugins/fn-math/functions.c:3274
+#: plugins/fn-math/functions.c:3287
 msgid "base,exponent"
 msgstr "basis;exponent"
 
-#: plugins/fn-math/functions.c:3286
+#: plugins/fn-math/functions.c:3299
 msgid "number,type"
 msgstr "getal;type"
 
-#: plugins/fn-math/functions.c:3289 plugins/fn-math/functions.c:3293
-#: plugins/fn-math/functions.c:3297 plugins/fn-math/functions.c:3347
+#: plugins/fn-math/functions.c:3302 plugins/fn-math/functions.c:3306
+#: plugins/fn-math/functions.c:3310 plugins/fn-math/functions.c:3360
 msgid "number,digits"
 msgstr "getal;cijfers"
 
-#: plugins/fn-math/functions.c:3301
+#: plugins/fn-math/functions.c:3314
 msgid "x,n,m,coefficients"
 msgstr "x;n;m;coëfficiënten"
 
-#: plugins/fn-math/functions.c:3323
+#: plugins/fn-math/functions.c:3336
 msgid "range,criteria,actual_range"
 msgstr "bereik;criteria;feitelijk_bereik"
 
-#: plugins/fn-math/functions.c:3326
+#: plugins/fn-math/functions.c:3339
 msgid "range,range,"
 msgstr "bereik;bereik;"
 
-#: plugins/fn-math/functions.c:3332 plugins/fn-math/functions.c:3335
-#: plugins/fn-math/functions.c:3338 plugins/fn-math/functions.c:3354
-#: plugins/fn-stat/functions.c:5676 plugins/fn-stat/functions.c:5685
-#: plugins/fn-stat/functions.c:5808 plugins/fn-stat/functions.c:5864
+#: plugins/fn-math/functions.c:3345 plugins/fn-math/functions.c:3348
+#: plugins/fn-math/functions.c:3351 plugins/fn-math/functions.c:3367
+#: plugins/fn-stat/functions.c:5679 plugins/fn-stat/functions.c:5688
+#: plugins/fn-stat/functions.c:5811 plugins/fn-stat/functions.c:5867
 msgid "array1,array2"
 msgstr "array1;array2"
 
-#: plugins/fn-math/functions.c:3360 plugins/fn-math/functions.c:3364
+#: plugins/fn-math/functions.c:3373 plugins/fn-math/functions.c:3377
 msgid "array,matrix_type,bandsize"
 msgstr "array;matrix_type;bandbreedte"
 
@@ -13824,7 +13876,7 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-random/functions.c:1100 plugins/fn-random/functions.c:1136
-#: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5805
+#: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5808
 msgid "p"
 msgstr "p"
 
@@ -13960,14 +14012,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1; b2; ...)\n"
-"@DESCRIPTION=VAR geeft een schatting van de variantie van een steekproef uit een populatie.\n"
-"Om de ware variantie van een complete populatie te verkrijgen, moet u de functie VARP gebruiken.\n"
-"VAR is ook wel bekend als de N-1-variantie. Onder redelijke voorwaarden is het de beste schatter voor de ware variantie.\n"
+"@DESCRIPTION=VAR geeft een schatting van de variantie van een steekproef uit "
+"een populatie.\n"
+"Om de ware variantie van een complete populatie te verkrijgen, moet u de "
+"functie VARP gebruiken.\n"
+"VAR is ook wel bekend als de N-1-variantie. Onder redelijke voorwaarden is "
+"het de beste schatter voor de ware variantie.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"Als de cellen A1, A2, A3, ..., A5 de getallen 11,4 17,3 21,3 25,9 en 40,1 bevatten. dan geldt:\n"
+"Als de cellen A1, A2, A3, ..., A5 de getallen 11,4 17,3 21,3 25,9 en 40,1 "
+"bevatten. dan geldt:\n"
 "VAR(A1:A5) is 117,64\n"
 "\n"
 "@SEEALSO=VARP,STDEV"
@@ -13995,14 +14051,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=VAR(b1; b2; ...)\n"
-"@DESCRIPTION=STDEV geeft een schatting van de standaarddeviatie van een steekproef uit een populatie.\n"
-"Om de ware standaarddeviatie van een complete populatie te verkrijgen, moet u de functie STDEVP gebruiken.\n"
-"STDEV is ook wel bekend als de N-1-standaarddeviatie. Onder redelijke voorwaarden is het de beste schatter voor de ware standaarddeviatie.\n"
+"@DESCRIPTION=STDEV geeft een schatting van de standaarddeviatie van een "
+"steekproef uit een populatie.\n"
+"Om de ware standaarddeviatie van een complete populatie te verkrijgen, moet "
+"u de functie STDEVP gebruiken.\n"
+"STDEV is ook wel bekend als de N-1-standaarddeviatie. Onder redelijke "
+"voorwaarden is het de beste schatter voor de ware standaarddeviatie.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
 "@EXAMPLES=\n"
-"Als de cellen A1, A2, A3, ..., A5 de getallen 11,4 17,3 21,3 25,9 en 40,1 bevatten. dan geldt:\n"
+"Als de cellen A1, A2, A3, ..., A5 de getallen 11,4 17,3 21,3 25,9 en 40,1 "
+"bevatten. dan geldt:\n"
 "STDEV(A1:A5) is 10,84619749\n"
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
@@ -15320,9 +15380,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x;n;M;N[;cumulatief])\n"
-"@DESCRIPTION=HYPGEOMDIST geeft de hypergeometrische distributie. @x is het aantal successen in de steekproef, @n is het aantal steekproeven, @M is het totaal aantal successen, en @N is de grootte van de populatie.\n"
+"@DESCRIPTION=HYPGEOMDIST geeft de hypergeometrische distributie. @x is het "
+"aantal successen in de steekproef, @n is het aantal steekproeven, @M is het "
+"totaal aantal successen, en @N is de grootte van de populatie.\n"
 "\n"
-"Als het optionele argument @cumulatief WAAR is, zal de cumulatieve linkerstaart worden gegeven.\n"
+"Als het optionele argument @cumulatief WAAR is, zal de cumulatieve "
+"linkerstaart worden gegeven.\n"
 "\n"
 "* Als @x, @n, @M of @N geen geheel getal is worden ze afgekapt.\n"
 "* als @x, @n, @M of @N < 0 geeft HYPGEOMDIST een #GETAL! foutmelding.\n"
@@ -16599,7 +16662,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: plugins/fn-stat/functions.c:4132
+#: plugins/fn-stat/functions.c:4133
 msgid ""
 "@FUNCTION=LOGREG\n"
 "@SYNTAX=LOGREG(known_y's[,known_x's[,const[,stat]]])\n"
@@ -16661,7 +16724,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4408
+#: plugins/fn-stat/functions.c:4410
 msgid ""
 "@FUNCTION=LOGFIT\n"
 "@SYNTAX=LOGFIT(known_y's,known_x's)\n"
@@ -16727,7 +16790,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 
-#: plugins/fn-stat/functions.c:4508
+#: plugins/fn-stat/functions.c:4510
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's[,new_x's[,const]]])\n"
@@ -16775,7 +16838,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: plugins/fn-stat/functions.c:4623
+#: plugins/fn-stat/functions.c:4625
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -16833,7 +16896,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4875
+#: plugins/fn-stat/functions.c:4878
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -16874,7 +16937,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4987
+#: plugins/fn-stat/functions.c:4990
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -16914,7 +16977,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: plugins/fn-stat/functions.c:5058
+#: plugins/fn-stat/functions.c:5061
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -16953,7 +17016,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: plugins/fn-stat/functions.c:5108
+#: plugins/fn-stat/functions.c:5111
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -16982,7 +17045,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:5152
+#: plugins/fn-stat/functions.c:5155
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
@@ -17049,7 +17112,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-stat/functions.c:5252
+#: plugins/fn-stat/functions.c:5255
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -17067,7 +17130,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:5381
+#: plugins/fn-stat/functions.c:5384
 msgid ""
 "@FUNCTION=GEOMDIST\n"
 "@SYNTAX=GEOMDIST(k,p,cum)\n"
@@ -17098,7 +17161,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDGEOM"
 
-#: plugins/fn-stat/functions.c:5417
+#: plugins/fn-stat/functions.c:5420
 msgid ""
 "@FUNCTION=LOGISTIC\n"
 "@SYNTAX=LOGISTIC(x,a)\n"
@@ -17120,7 +17183,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLOGISTIC"
 
-#: plugins/fn-stat/functions.c:5453
+#: plugins/fn-stat/functions.c:5456
 msgid ""
 "@FUNCTION=PARETO\n"
 "@SYNTAX=PARETO(x,a,b)\n"
@@ -17142,7 +17205,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDPARETO"
 
-#: plugins/fn-stat/functions.c:5491
+#: plugins/fn-stat/functions.c:5494
 msgid ""
 "@FUNCTION=RAYLEIGH\n"
 "@SYNTAX=RAYLEIGH(x,sigma)\n"
@@ -17164,7 +17227,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGH"
 
-#: plugins/fn-stat/functions.c:5531
+#: plugins/fn-stat/functions.c:5534
 msgid ""
 "@FUNCTION=RAYLEIGHTAIL\n"
 "@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
@@ -17187,7 +17250,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDRAYLEIGHTAIL"
 
-#: plugins/fn-stat/functions.c:5574
+#: plugins/fn-stat/functions.c:5577
 msgid ""
 "@FUNCTION=EXPPOWDIST\n"
 "@SYNTAX=EXPPOWDIST(x,a,b)\n"
@@ -17210,7 +17273,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDEXPPOW"
 
-#: plugins/fn-stat/functions.c:5605
+#: plugins/fn-stat/functions.c:5608
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -17231,182 +17294,182 @@ msgstr ""
 "\n"
 "@SEEALSO=RANDLAPLACE"
 
-#: plugins/fn-stat/functions.c:5646 plugins/fn-stat/functions.c:5908
+#: plugins/fn-stat/functions.c:5649 plugins/fn-stat/functions.c:5911
 msgid "k,p"
 msgstr "k;p"
 
-#: plugins/fn-stat/functions.c:5650
+#: plugins/fn-stat/functions.c:5653
 msgid "x,alpha,beta,a,b"
 msgstr "x;alpha;beta;a;b"
 
-#: plugins/fn-stat/functions.c:5653
+#: plugins/fn-stat/functions.c:5656
 msgid "p,alpha,beta,a,b"
 msgstr "p;alpha;beta;a;b"
 
-#: plugins/fn-stat/functions.c:5656
+#: plugins/fn-stat/functions.c:5659
 msgid "n,t,p,c"
 msgstr "n;t;p;c"
 
-#: plugins/fn-stat/functions.c:5660
+#: plugins/fn-stat/functions.c:5663
 msgid "x,a,cum"
 msgstr "x;a;cum"
 
-#: plugins/fn-stat/functions.c:5664
+#: plugins/fn-stat/functions.c:5667
 msgid "x,dof"
 msgstr "x;dof"
 
-#: plugins/fn-stat/functions.c:5667 plugins/fn-stat/functions.c:5873
+#: plugins/fn-stat/functions.c:5670 plugins/fn-stat/functions.c:5876
 msgid "p,dof"
 msgstr "p;dof"
 
-#: plugins/fn-stat/functions.c:5670
+#: plugins/fn-stat/functions.c:5673
 msgid "act_range,theo_range"
 msgstr "feitlk_bereik;theo_bereik"
 
-#: plugins/fn-stat/functions.c:5673
+#: plugins/fn-stat/functions.c:5676
 msgid "x,stddev,size"
 msgstr "x;stddev;grootte"
 
-#: plugins/fn-stat/functions.c:5688
+#: plugins/fn-stat/functions.c:5691
 msgid "trials,p,alpha"
 msgstr "trekkingen;p;alpha"
 
-#: plugins/fn-stat/functions.c:5694
+#: plugins/fn-stat/functions.c:5697
 msgid "x,y,cumulative"
 msgstr "x;y;cumulatief"
 
-#: plugins/fn-stat/functions.c:5697
+#: plugins/fn-stat/functions.c:5700
 msgid "x,dof of num,dof of denom"
 msgstr "x;dof van teller;dof van noemer"
 
-#: plugins/fn-stat/functions.c:5700
+#: plugins/fn-stat/functions.c:5703
 msgid "p,dof of num,dof of denom"
 msgstr "p;dof van teller;dof van noemer"
 
-#: plugins/fn-stat/functions.c:5709
+#: plugins/fn-stat/functions.c:5712
 msgid "x,known y's,known x's"
 msgstr "x;y_bekend;x_bekend"
 
-#: plugins/fn-stat/functions.c:5712
+#: plugins/fn-stat/functions.c:5715
 msgid "data_array,bins_array"
 msgstr "data_array;bins_array"
 
-#: plugins/fn-stat/functions.c:5715
+#: plugins/fn-stat/functions.c:5718
 msgid "arr1,arr2"
 msgstr "arr1;arr2"
 
-#: plugins/fn-stat/functions.c:5718
+#: plugins/fn-stat/functions.c:5721
 msgid "number,alpha,beta,cum"
 msgstr "getal;alpha;beta;cum"
 
-#: plugins/fn-stat/functions.c:5721
+#: plugins/fn-stat/functions.c:5724
 msgid "number,alpha,beta"
 msgstr "getal;alpha;beta"
 
-#: plugins/fn-stat/functions.c:5731 plugins/fn-stat/functions.c:5876
+#: plugins/fn-stat/functions.c:5734 plugins/fn-stat/functions.c:5879
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "y_bekend;x_bekend;x_nieuw;const"
 
-#: plugins/fn-stat/functions.c:5738
+#: plugins/fn-stat/functions.c:5741
 msgid "x,n,M,N,cumulative"
 msgstr "x;n;M;N;cumulatief"
 
-#: plugins/fn-stat/functions.c:5751 plugins/fn-stat/functions.c:5754
-#: plugins/fn-stat/functions.c:5766
+#: plugins/fn-stat/functions.c:5754 plugins/fn-stat/functions.c:5757
+#: plugins/fn-stat/functions.c:5769
 msgid "known_y's,known_x's,const,stat"
 msgstr "y_bekend;x_bekend;const;stat"
 
-#: plugins/fn-stat/functions.c:5757 plugins/fn-stat/functions.c:5832
-#: plugins/fn-stat/functions.c:5861
+#: plugins/fn-stat/functions.c:5760 plugins/fn-stat/functions.c:5835
+#: plugins/fn-stat/functions.c:5864
 msgid "known_y's,known_x's"
 msgstr "y_bekend;x_bekend"
 
-#: plugins/fn-stat/functions.c:5760 plugins/fn-stat/functions.c:5799
+#: plugins/fn-stat/functions.c:5763 plugins/fn-stat/functions.c:5802
 msgid "p,mean,stddev"
 msgstr "p;gemiddelde;stddev"
 
-#: plugins/fn-stat/functions.c:5763 plugins/fn-stat/functions.c:5839
+#: plugins/fn-stat/functions.c:5766 plugins/fn-stat/functions.c:5842
 msgid "x,mean,stddev"
 msgstr "x;gemiddelde;stddev"
 
-#: plugins/fn-stat/functions.c:5793
+#: plugins/fn-stat/functions.c:5796
 msgid "f,t,p"
 msgstr "f;t;p"
 
-#: plugins/fn-stat/functions.c:5796
+#: plugins/fn-stat/functions.c:5799
 msgid "x,mean,stddev,cumulative"
 msgstr "x;gemiddelde;stddev;cumulatief"
 
-#: plugins/fn-stat/functions.c:5811
+#: plugins/fn-stat/functions.c:5814
 msgid "array,k"
 msgstr "array;k"
 
-#: plugins/fn-stat/functions.c:5814
+#: plugins/fn-stat/functions.c:5817
 msgid "array,x,significance"
 msgstr "arraym;x;significantie"
 
-#: plugins/fn-stat/functions.c:5820
+#: plugins/fn-stat/functions.c:5823
 msgid "x,mean,cumulative"
 msgstr "x;gemiddelde;cumulatief"
 
-#: plugins/fn-stat/functions.c:5823
+#: plugins/fn-stat/functions.c:5826
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "x_bereik;waarsch_bereik;onderlimiet;bovenlimiet"
 
-#: plugins/fn-stat/functions.c:5826
+#: plugins/fn-stat/functions.c:5829
 msgid "array,quart"
 msgstr "array;kwart"
 
-#: plugins/fn-stat/functions.c:5842
+#: plugins/fn-stat/functions.c:5845
 msgid "array,interval"
 msgstr "array;interval"
 
-#: plugins/fn-stat/functions.c:5870
+#: plugins/fn-stat/functions.c:5873
 msgid "x,dof,tails"
 msgstr "x;dof;staarten"
 
-#: plugins/fn-stat/functions.c:5879
+#: plugins/fn-stat/functions.c:5882
 msgid "ref,fraction"
 msgstr "verw;fractie"
 
-#: plugins/fn-stat/functions.c:5883
+#: plugins/fn-stat/functions.c:5886
 msgid "array1,array2,tails,type"
 msgstr "array1;array2;staarten;type"
 
-#: plugins/fn-stat/functions.c:5898
+#: plugins/fn-stat/functions.c:5901
 msgid "x.alpha,beta,cumulative"
 msgstr "x.alpha;beta;cumulatief"
 
-#: plugins/fn-stat/functions.c:5901
+#: plugins/fn-stat/functions.c:5904
 msgid "ref,x"
 msgstr "ref;x"
 
-#: plugins/fn-stat/functions.c:5905 plugins/fn-stat/functions.c:5923
+#: plugins/fn-stat/functions.c:5908 plugins/fn-stat/functions.c:5926
 msgid "x,a,b"
 msgstr "x;a;b"
 
-#: plugins/fn-stat/functions.c:5914
+#: plugins/fn-stat/functions.c:5917
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:228
 msgid "x"
 msgstr "x"
 
-#: plugins/fn-stat/functions.c:5917 plugins/fn-stat/functions.c:5920
+#: plugins/fn-stat/functions.c:5920 plugins/fn-stat/functions.c:5923
 msgid "x,a"
 msgstr "x;a"
 
-#: plugins/fn-stat/functions.c:5926
+#: plugins/fn-stat/functions.c:5929
 msgid "x,sigma"
 msgstr "x;sigma"
 
-#: plugins/fn-stat/functions.c:5929
+#: plugins/fn-stat/functions.c:5932
 msgid "x,a,sigma"
 msgstr "x;a;sigma"
 
-#: plugins/fn-stat/functions.c:5935
+#: plugins/fn-stat/functions.c:5938
 msgid "function_nbr,ref,ref,"
 msgstr "functie_nbr;verw;verw;"
 
-#: plugins/fn-stat/functions.c:5938
+#: plugins/fn-stat/functions.c:5941
 msgid "ref,ref,"
 msgstr "verw;verw;"
 
@@ -17830,7 +17893,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(getal;[decimalen; geen_duizenden])\n"
-"@DESCRIPTION=FIXED geeft het @getal als een tekenreeks met een aantal @decimalen achter de komma. Als @geen_duizenden WAAR is worden de duizendtallen niet gescheiden.\n"
+"@DESCRIPTION=FIXED geeft het @getal als een tekenreeks met een aantal "
+"@decimalen achter de komma. Als @geen_duizenden WAAR is worden de "
+"duizendtallen niet gescheiden.\n"
 "\n"
 "* Deze functie is compatibel met Excel.\n"
 "\n"
@@ -18409,7 +18474,7 @@ msgstr "Objectieve functie:"
 msgid "Constraints:"
 msgstr "Voorwaarden:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6168
+#: plugins/mps/mps.c:245 src/commands.c:6174
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -18614,7 +18679,8 @@ msgstr ""
 "@SYNTAX=PFACTOR(n)\n"
 "@DESCRIPTION=PFACTOR geeft de kleinste priemfactor van het argument.\n"
 "\n"
-"Het argument moet tenminste 2 zijn, anders geeft PFACTOR een #WAARDE! foutmelding.\n"
+"Het argument moet tenminste 2 zijn, anders geeft PFACTOR een #WAARDE! "
+"foutmelding.\n"
 "\n"
 "@SEEALSO=ITHPRIME"
 
@@ -18773,14 +18839,14 @@ msgstr "Ongeldige array-uitdrukking specificeert het aantal kolommen niet."
 msgid "Invalid array expression does not specify number of rows."
 msgstr "Ongeldige array-uitdrukking specificeert het aantal rijen niet."
 
-#: plugins/openoffice/openoffice-read.c:1148
+#: plugins/openoffice/openoffice-read.c:1147
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
 msgstr ""
 "Niet in staat om de positie voor de uitdrukking '%s' @ '%s' te verwerken "
 "vanwege '%s'"
 
-#: plugins/openoffice/openoffice-read.c:1161
+#: plugins/openoffice/openoffice-read.c:1160
 #, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
@@ -18788,11 +18854,11 @@ msgstr ""
 "Niet in staat om de positie van uitdrukking '%s' met waarde '%s' te "
 "verwerken vanwege '%s'"
 
-#: plugins/openoffice/openoffice-read.c:1415
+#: plugins/openoffice/openoffice-read.c:1439
 msgid "No stream named content.xml found."
 msgstr "Geen stroom genaamd content.xml gevonden."
 
-#: plugins/openoffice/openoffice-read.c:1422
+#: plugins/openoffice/openoffice-read.c:1446
 msgid "No stream named styles.xml found."
 msgstr "Geen stroom genaamd styles.xml gevonden."
 
@@ -19106,7 +19172,8 @@ msgid "Imports Quattro Pro (tm) files"
 msgstr "Importeert Quattro Pro (tm) bestanden"
 
 #: plugins/qpro/plugin.xml.in.h:2
-msgid "Quattro Pro (*.wb1, *.wb2, *.wb3)"
+#, fuzzy
+msgid "Quatro Pro (*.wb1, *.wb2, *.wb3)"
 msgstr "Quattro Pro (*.wb1, *.wb2, *.wb3)"
 
 #: plugins/qpro/plugin.xml.in.h:3
@@ -19185,7 +19252,7 @@ msgstr "SC/XSpread"
 msgid "SC/xspread"
 msgstr "SC/xspread"
 
-#: plugins/sc/sc.c:376
+#: plugins/sc/sc.c:377
 msgid "Error parsing line"
 msgstr "Fout bij verwerken van regel"
 
@@ -19231,19 +19298,19 @@ msgstr "UI Hallo"
 msgid "This is message from the \"%s\" plugin."
 msgstr "Dit is een bericht van de \"%s\" plugin."
 
-#: plugins/xbase/boot.c:169
+#: plugins/xbase/boot.c:171
 msgid "Error while opening xbase file."
 msgstr "Fout bij het openen van xbase bestand"
 
 # werkblad?
-#: plugins/xbase/boot.c:175 src/commands.c:4962
+#: plugins/xbase/boot.c:177 src/commands.c:4968
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:395 src/workbook.c:1091 src/xml-io.c:3789
 msgid "Sheet"
 msgstr "Blad"
 
-#: plugins/xbase/boot.c:197
+#: plugins/xbase/boot.c:199
 #, c-format
 msgid ""
 "This build of Gnumeric can only hold %d rows.  Ignoring the rest of this "
@@ -19613,27 +19680,39 @@ msgstr ""
 msgid ""
 "This string gives the default region to be repeated at the left of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
-msgstr "Deze tekenreeks geeft het standaard gebied dat aan de linkerzijde van elk afgedrukt werkblad wordt herhaald. Gebruik het dialoog Afdrukinstellingen om deze waarde in te stellen."
+msgstr ""
+"Deze tekenreeks geeft het standaard gebied dat aan de linkerzijde van elk "
+"afgedrukt werkblad wordt herhaald. Gebruik het dialoog Afdrukinstellingen om "
+"deze waarde in te stellen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:65
 msgid ""
 "This string gives the default region to be repeated at the top of each "
 "printed sheet. Please use the Print Setup dialog to edit this value."
-msgstr "Deze tekenreeks geeft het standaard gebied dat aan de bovenzijde van elk afgedrukt werkblad wordt herhaald. Gebruik het dialoog Afdrukinstellingen om deze waarde in te stellen."
+msgstr ""
+"Deze tekenreeks geeft het standaard gebied dat aan de bovenzijde van elk "
+"afgedrukt werkblad wordt herhaald. Gebruik het dialoog Afdrukinstellingen om "
+"deze waarde in te stellen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:66
 msgid ""
 "This value determines the default number of pages a printout of the current "
 "sheet is suppposed to be high. 0 disables scaling. Please use the Print "
 "Setup dialog to edit this value."
-msgstr "Deze waarde bepaalt hoeveel pagina's hoog een afdrukversie van het huidige werkblad standaard moet zijn. 0 zet schalen uit. Gebruik het dialoog Afdrukinstellingen om deze waarde in te stellen."
+msgstr ""
+"Deze waarde bepaalt hoeveel pagina's hoog een afdrukversie van het huidige "
+"werkblad standaard moet zijn. 0 zet schalen uit. Gebruik het dialoog "
+"Afdrukinstellingen om deze waarde in te stellen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:67
 msgid ""
 "This value determines the default number of pages a printout of the current "
 "sheet is suppposed to be wide. 0 disables scaling. Please use the Print "
 "Setup dialog to edit this value."
-msgstr "Deze waarde bepaalt hoeveel pagina's breed een afdrukversie van het huidige werkblad standaard moet zijn. 0 zet schalen uit. Gebruik het dialoog Afdrukinstellingen om deze waarde in te stellen."
+msgstr ""
+"Deze waarde bepaalt hoeveel pagina's breed een afdrukversie van het huidige "
+"werkblad standaard moet zijn. 0 zet schalen uit. Gebruik het dialoog "
+"Afdrukinstellingen om deze waarde in te stellen."
 
 # eenvoudiger gemaakt
 #: schemas/gnumeric-dialogs.schemas.in.h:68
@@ -19641,14 +19720,20 @@ msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to center pages horizontally. Please use the Print Setup dialog to edit this "
 "value."
-msgstr "Deze waarde bepaalt of pagina's standaard horizontaal moeten worden gecentreerd. Gebruik het dialoog Afdrukinstellingen om deze instelling te wijzigen."
+msgstr ""
+"Deze waarde bepaalt of pagina's standaard horizontaal moeten worden "
+"gecentreerd. Gebruik het dialoog Afdrukinstellingen om deze instelling te "
+"wijzigen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:69
 msgid ""
 "This value determines the default setting in the Print Setup dialog whether "
 "to print empty but formatted cells. Please use the Print Setup dialog to "
 "edit this value."
-msgstr "Deze waarde bepaalt de standaard instelling in het dialoog Afdrukinstellingen, of lege cellen (maar met opmaak) worden afgedrukt. Gebruik het dialoog Afdrukinstellingen om deze instelling te wijzigen."
+msgstr ""
+"Deze waarde bepaalt de standaard instelling in het dialoog "
+"Afdrukinstellingen, of lege cellen (maar met opmaak) worden afgedrukt. "
+"Gebruik het dialoog Afdrukinstellingen om deze instelling te wijzigen."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:70
 msgid ""
@@ -20106,20 +20191,20 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Bij LaTeX-export, UTF-8 gebruiken"
 
-#: src/application.c:307
+#: src/application.c:309
 msgid "Cut Object"
 msgstr "Object knippen"
 
-#: src/clipboard.c:314 src/clipboard.c:326 src/clipboard.c:337
-#: src/clipboard.c:345
+#: src/clipboard.c:316 src/clipboard.c:328 src/clipboard.c:339
+#: src/clipboard.c:347
 msgid "Unable to paste"
 msgstr "Plakken niet mogelijk"
 
-#: src/clipboard.c:315
+#: src/clipboard.c:317
 msgid "Content can only be pasted by value or by link."
 msgstr "Inhoud kan alleen worden geplakt door waarde of link"
 
-#: src/clipboard.c:323
+#: src/clipboard.c:325
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -20131,7 +20216,7 @@ msgstr ""
 "Probeer een enkele cel te selecteren of een gebied van dezelfde vorm en "
 "grootte."
 
-#: src/clipboard.c:334
+#: src/clipboard.c:336
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -20143,7 +20228,7 @@ msgstr ""
 "Probeer een enkele cel te selecteren of een gebied van dezelfde vorm en "
 "grootte."
 
-#: src/clipboard.c:346
+#: src/clipboard.c:348
 msgid "result passes the sheet boundary"
 msgstr "resultaat overschreidt de bladgrens"
 
@@ -20232,429 +20317,429 @@ msgstr "Typen \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Kolom/Rij inv/verw"
 
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3264
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3265
 msgid "Delete Columns"
 msgstr "Kolommen verwijderen"
 
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3386
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3387
 msgid "Delete Rows"
 msgstr "Rijen verwijderen"
 
-#: src/commands.c:1480
+#: src/commands.c:1482
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Invoegen %d kolommen voor %s"
 
-#: src/commands.c:1481
+#: src/commands.c:1483
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Invoegen %d kolom voor %s"
 
-#: src/commands.c:1496
+#: src/commands.c:1498
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Invoegen %d rijen voor %s"
 
-#: src/commands.c:1497
+#: src/commands.c:1499
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Invoegen %d rij voor %s"
 
-#: src/commands.c:1508
+#: src/commands.c:1510
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Verwijderen kolommen %s"
 
-#: src/commands.c:1509
+#: src/commands.c:1511
 #, c-format
 msgid "Deleting column %s"
 msgstr "Verwijderen kolom %s"
 
-#: src/commands.c:1519
+#: src/commands.c:1521
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Verwijderen rijen %s"
 
-#: src/commands.c:1520
+#: src/commands.c:1522
 #, c-format
 msgid "Deleting row %s"
 msgstr "Verwijderen rij %s"
 
 #. Check for locked cells
-#: src/commands.c:1602 src/commands.c:1606 src/sheet.c:2867
+#: src/commands.c:1604 src/commands.c:1608 src/sheet.c:2868
 msgid "Clear"
 msgstr "Wissen"
 
-#: src/commands.c:1677
+#: src/commands.c:1679
 msgid "contents"
 msgstr "inhoud"
 
-#: src/commands.c:1679
+#: src/commands.c:1681
 msgid "formats"
 msgstr "opmaak"
 
-#: src/commands.c:1681
+#: src/commands.c:1683
 msgid "comments"
 msgstr "opmerkingen"
 
-#: src/commands.c:1697
+#: src/commands.c:1699
 msgid "all"
 msgstr "Alles"
 
-#: src/commands.c:1704
+#: src/commands.c:1706
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Leeg maken van %s in %s"
 
-#: src/commands.c:1787
+#: src/commands.c:1793
 msgid "Changing Format"
 msgstr "Formatering Veranderen"
 
-#: src/commands.c:1912
+#: src/commands.c:1918
 #, c-format
 msgid "Changing format of %s"
 msgstr "Veranderen formaat van %s"
 
-#: src/commands.c:2022
+#: src/commands.c:2028
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatisch passend maken kolom %s"
 
-#: src/commands.c:2023
+#: src/commands.c:2029
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatisch passend maken rij %s"
 
-#: src/commands.c:2026
+#: src/commands.c:2032
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Instellen breedte van kolom %s op %d pixels"
 
-#: src/commands.c:2028
+#: src/commands.c:2034
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Instellen hoogte van rij %s op %d pixels"
 
-#: src/commands.c:2031
+#: src/commands.c:2037
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Instellen van kolom %s op standaardbreedte"
 
-#: src/commands.c:2034
+#: src/commands.c:2040
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Instellen van rij %s op standaardhoogte"
 
-#: src/commands.c:2038
+#: src/commands.c:2044
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automatisch passend maken kolommen %s"
 
-#: src/commands.c:2039
+#: src/commands.c:2045
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Automatisch passend maken rijen %s"
 
-#: src/commands.c:2042
+#: src/commands.c:2048
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Instellen breedte van kolommen %s op %d pixels"
 
-#: src/commands.c:2044
+#: src/commands.c:2050
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Instellen hoogte van rijen %s op %d pixels"
 
-#: src/commands.c:2048
+#: src/commands.c:2054
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Instellen van kolommen %s op standaardbreedte"
 
-#: src/commands.c:2050
+#: src/commands.c:2056
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Instellen van rijen %s op standaardhoogte"
 
 # dit is een item van het voorkeurs-venster
-#: src/commands.c:2116 src/dialogs/dialog-preferences.c:770
+#: src/commands.c:2122 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Sorteren"
 
-#: src/commands.c:2136
+#: src/commands.c:2142
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorteren %s"
 
-#: src/commands.c:2279
+#: src/commands.c:2285
 msgid "Unhide columns"
 msgstr "Kolommen zichtbaar maken"
 
-#: src/commands.c:2279
+#: src/commands.c:2285
 msgid "Hide columns"
 msgstr "Kolommen verbergen"
 
-#: src/commands.c:2280
+#: src/commands.c:2286
 msgid "Unhide rows"
 msgstr "Rijen zichtbaar maken"
 
-#: src/commands.c:2280
+#: src/commands.c:2286
 msgid "Hide rows"
 msgstr "Rijen verbergen"
 
-#: src/commands.c:2362
+#: src/commands.c:2368
 msgid "Expand columns"
 msgstr "Kolommen uitklappen"
 
-#: src/commands.c:2362
+#: src/commands.c:2368
 msgid "Collapse columns"
 msgstr "Kolommen inklappen"
 
-#: src/commands.c:2363
+#: src/commands.c:2369
 msgid "Expand rows"
 msgstr "Rijen uitklappen"
 
-#: src/commands.c:2363
+#: src/commands.c:2369
 msgid "Collapse rows"
 msgstr "Rijen inklappen"
 
-#: src/commands.c:2389
+#: src/commands.c:2395
 #, c-format
 msgid "Show column outline %d"
 msgstr "Kolom-outline %d tonen"
 
-#: src/commands.c:2389
+#: src/commands.c:2395
 #, c-format
 msgid "Show row outline %d"
 msgstr "Rij-outline %d tonen"
 
-#: src/commands.c:2459
+#: src/commands.c:2465
 msgid "Those columns are already grouped"
 msgstr "Deze kolommen zijn reeds gegroepeerd."
 
-#: src/commands.c:2460
+#: src/commands.c:2466
 msgid "Those rows are already grouped"
 msgstr "Deze rijen zijn reeds gegroepeerd."
 
-#: src/commands.c:2483
+#: src/commands.c:2489
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr ""
 "Deze kolommen zijn niet gegroepeerd, je kunt de groepering dus niet opheffen."
 
-#: src/commands.c:2484
+#: src/commands.c:2490
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 "Deze rijen zijn niet gegroepeerd, je kunt de groepering dus niet opheffen."
 
-#: src/commands.c:2498
+#: src/commands.c:2504
 #, c-format
 msgid "Group columns %s"
 msgstr "Groepeer kolommen %s"
 
-#: src/commands.c:2498
+#: src/commands.c:2504
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Groepering opheffen kolommen %s"
 
-#: src/commands.c:2500
+#: src/commands.c:2506
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Groepeer rijen %d:%d"
 
-#: src/commands.c:2500
+#: src/commands.c:2506
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Groepering opheffen rijen %d:%d"
 
-#: src/commands.c:2733
+#: src/commands.c:2739
 #, c-format
 msgid "Moving %s"
 msgstr "Verplaatsen cellen %s"
 
-#: src/commands.c:2742 src/commands.c:2970
+#: src/commands.c:2748 src/commands.c:2976
 msgid "is beyond sheet boundaries"
 msgstr "is voorbij de werkbladgrenzen"
 
-#: src/commands.c:2806
+#: src/commands.c:2812
 msgid "Paste Copy"
 msgstr "De kopie plakken"
 
 #. FIXME?
-#: src/commands.c:2911
+#: src/commands.c:2917
 #, c-format
 msgid "Pasting into %s"
 msgstr "Plakken in %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3007 src/commands.c:3164 src/commands.c:3165
+#: src/commands.c:3013 src/commands.c:3170 src/commands.c:3171
 #: src/wbcg-actions.c:424
 msgid "Autofill"
 msgstr "Autovul"
 
 #. Changed in initial redo.
-#: src/commands.c:3187
+#: src/commands.c:3193
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autovul cellen %s"
 
-#: src/commands.c:3505
+#: src/commands.c:3511
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatisch cellen %s opmaken"
 
-#: src/commands.c:3622
+#: src/commands.c:3628
 #, c-format
 msgid "Unmerging %s"
 msgstr "Cellen Splitsen %s"
 
-#: src/commands.c:3786
+#: src/commands.c:3792
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Samenvoegen en centreren %s"
 
-#: src/commands.c:3786
+#: src/commands.c:3792
 #, c-format
 msgid "Merging %s"
 msgstr "Samenvoegen cellen %s"
 
 #. Corrected below.
-#: src/commands.c:4167 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4173 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Zoek en Vervang"
 
-#: src/commands.c:4262
+#: src/commands.c:4268
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Instellen breedte van kolommen op %.2fpts"
 
-#: src/commands.c:4263
+#: src/commands.c:4269
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Instellen hoogte van rijen op %.2fpts"
 
-#: src/commands.c:4378
+#: src/commands.c:4384
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s tot %.0f%%"
 
-#: src/commands.c:4476
+#: src/commands.c:4482
 msgid "Delete Object"
 msgstr "Object verwijderen"
 
-#: src/commands.c:4637
+#: src/commands.c:4643
 msgid "Format Object"
 msgstr "Object opmaken"
 
-#: src/commands.c:5236
+#: src/commands.c:5242
 msgid "Reordering Sheets"
 msgstr "Bladen Herordenen"
 
-#: src/commands.c:5239
+#: src/commands.c:5245
 msgid "Renaming Sheets"
 msgstr "Bladen Hernoemen"
 
-#: src/commands.c:5242
+#: src/commands.c:5248
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "%i bladen toevoegen"
 
-#: src/commands.c:5246
+#: src/commands.c:5252
 msgid "Changing Tab Colors"
 msgstr "Kleur van Tabs Veranderen"
 
-#: src/commands.c:5249
+#: src/commands.c:5255
 msgid "Changing Sheet Protection"
 msgstr "Bladbeveiliging Veranderen"
 
-#: src/commands.c:5252
+#: src/commands.c:5258
 msgid "Delete sheets"
 msgstr "Werkbladen verwijderen"
 
-#: src/commands.c:5255
+#: src/commands.c:5261
 msgid "Delete a sheet"
 msgstr "Een werkblad verwijderen"
 
-#: src/commands.c:5258
+#: src/commands.c:5264
 msgid "Changing Sheet Visibility"
 msgstr "Wijzigen zichtbaarheid blad"
 
-#: src/commands.c:5261
+#: src/commands.c:5267
 msgid "Reorganizing Sheets"
 msgstr "Bladen Herordenen"
 
-#: src/commands.c:5412
+#: src/commands.c:5418
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Commentaar van %s wissen"
 
-#: src/commands.c:5413
+#: src/commands.c:5419
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Commentaar van %s instellen"
 
-#: src/commands.c:5793
+#: src/commands.c:5799
 #, c-format
 msgid "Merging data into %s"
 msgstr "Samenvoegen gegevens naar %s"
 
-#: src/commands.c:5895
+#: src/commands.c:5901
 msgid "Changing summary info"
 msgstr "Veranderen samevatting"
 
 # naar boven/onderen
 # naar voren/achteren
-#: src/commands.c:5984
+#: src/commands.c:5990
 msgid "Pull Object to the Front"
 msgstr "Object naar voren halen"
 
-#: src/commands.c:5987
+#: src/commands.c:5993
 msgid "Pull Object Forward"
 msgstr "Object naar voren"
 
-#: src/commands.c:5990
+#: src/commands.c:5996
 msgid "Push Object Backward"
 msgstr "Object naar achteren"
 
-#: src/commands.c:5993
+#: src/commands.c:5999
 msgid "Push Object to the Back"
 msgstr "Object naar achteren duwen"
 
-#: src/commands.c:6108
+#: src/commands.c:6114
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Paginainstellingen voor %s"
 
-#: src/commands.c:6110
+#: src/commands.c:6116
 msgid "Page Setup For All Sheets"
 msgstr "Paginainstellingen voor alle werkbladen"
 
-#: src/commands.c:6225
+#: src/commands.c:6231
 msgid "has a circular reference"
 msgstr "bevat een kringverwijzing"
 
-#: src/commands.c:6248
+#: src/commands.c:6254
 #, c-format
 msgid "Define Name %s"
 msgstr "Naam %s definiëren"
 
-#: src/commands.c:6251
+#: src/commands.c:6257
 #, c-format
 msgid "Update Name %s"
 msgstr "Naam %s bijwerken"
 
-#: src/commands.c:6315
+#: src/commands.c:6321
 msgid "Add scenario"
 msgstr "Scenario toevoegen"
 
-#: src/commands.c:6390
+#: src/commands.c:6396
 msgid "Scenario Show"
 msgstr "Scenario tonen"
 
-#: src/commands.c:6454
+#: src/commands.c:6460
 msgid "Shuffle Data"
 msgstr "Data husselen"
 
 #. FIXME?
-#: src/commands.c:6564
+#: src/commands.c:6570
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Tekst (%s) naar kolommen (%s)"
@@ -20664,28 +20749,28 @@ msgstr "Tekst (%s) naar kolommen (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6708 src/dialogs/solver.glade.h:17
+#: src/commands.c:6714 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Oplosser"
 
-#: src/commands.c:6792
+#: src/commands.c:6798
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Doelzoeken (%s)"
 
-#: src/commands.c:6937
+#: src/commands.c:6943
 #, c-format
 msgid "Duplicating %s"
 msgstr "%s dupliceren"
 
-#: src/commands.c:7016
+#: src/commands.c:7022
 msgid "Tabulating Dependencies"
 msgstr "Afhankelijkhedeb tabuleren"
 
-#: src/commands.c:7091
+#: src/commands.c:7097
 msgid "Reconfigure Graph"
 msgstr "Diagram opnieuw configureren"
 
@@ -22711,8 +22796,8 @@ msgstr "_Niet corrigeren:"
 msgid "First Letter"
 msgstr "Eerste Letter"
 
-#: src/dialogs/autocorrect.glade.h:9 src/format.c:2239 src/format.c:2550
-#: src/format.c:2556 src/format.c:2629 src/plugin-service.c:195
+#: src/dialogs/autocorrect.glade.h:9 src/format.c:2244 src/format.c:2558
+#: src/format.c:2564 src/format.c:2637 src/plugin-service.c:195
 #: src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Algemeen"
@@ -27607,7 +27692,7 @@ msgstr "Onbekende operator"
 msgid "Internal type error"
 msgstr "Interne type fout"
 
-#: src/expr.c:1368
+#: src/expr.c:1369
 msgid "Unknown evaluation error"
 msgstr "Onbekende evaluatiefout"
 
@@ -27651,40 +27736,40 @@ msgstr "WAAR"
 msgid "FALSE"
 msgstr "ONWAAR"
 
-#: src/format.c:706 templates/autoformat/autoformat.Colourful.black.xml.in.h:1
+#: src/format.c:711 templates/autoformat/autoformat.Colourful.black.xml.in.h:1
 msgid "Black"
 msgstr "Zwart"
 
-#: src/format.c:707 templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
+#: src/format.c:712 templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
 msgid "Blue"
 msgstr "Blauw"
 
-#: src/format.c:708
+#: src/format.c:713
 msgid "Cyan"
 msgstr "Cyaan"
 
-#: src/format.c:709 templates/autoformat/autoformat.List.green.xml.in.h:3
+#: src/format.c:714 templates/autoformat/autoformat.List.green.xml.in.h:3
 msgid "Green"
 msgstr "Groen"
 
-#: src/format.c:710
+#: src/format.c:715
 msgid "Magenta"
 msgstr "Magenta"
 
-#: src/format.c:711
+#: src/format.c:716
 msgid "Red"
 msgstr "Rood"
 
-#: src/format.c:712
+#: src/format.c:717
 msgid "White"
 msgstr "Wit"
 
-#: src/format.c:713
+#: src/format.c:718
 msgid "Yellow"
 msgstr "Geel"
 
 #. Array of arrays ??
-#: src/format.c:2113
+#: src/format.c:2118
 msgid "ARRAY"
 msgstr "REEKS"
 
@@ -28578,20 +28663,20 @@ msgid "Load file"
 msgstr "Bestand laden"
 
 # kies een bestand/selecteer een bestand
-#: src/gui-file.c:224 src/gui-file.c:662
+#: src/gui-file.c:224 src/gui-file.c:663
 msgid "Select a file"
 msgstr "Een bestand selecteren"
 
-#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:676
+#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:677
 msgid "All Files"
 msgstr "Alle bestanden"
 
-#: src/gui-file.c:254 src/gui-file.c:681
+#: src/gui-file.c:254 src/gui-file.c:682
 msgid "Spreadsheets"
 msgstr "Spreadsheets"
 
 # bestandtype?
-#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:705
+#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:706
 msgid "File _type:"
 msgstr "Bestands_type:"
 
@@ -28632,7 +28717,7 @@ msgstr "Afbeeldingen"
 msgid "Save as"
 msgstr "Opslaan als"
 
-#: src/gui-file.c:558 src/gui-file.c:754
+#: src/gui-file.c:554 src/gui-file.c:755
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -28641,11 +28726,11 @@ msgstr ""
 "bestandstype. Wilt u evengoed deze naam gebruiken?"
 
 # Kies een afbeelding/Een afbeelding selecteren
-#: src/gui-file.c:585
+#: src/gui-file.c:586
 msgid "Select an Image"
 msgstr "Een afbeelding selecteren"
 
-#: src/gui-file.c:604
+#: src/gui-file.c:605
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -29340,31 +29425,31 @@ msgid "Error while opening file \"%s\" for reading."
 msgstr "Fout bij openen bestand \"%s\" voor lezen."
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:611
+#: src/print.c:612
 msgid "&[PAGE]"
 msgstr "&[PAGINA]"
 
-#: src/print.c:1156
+#: src/print.c:1157
 msgid "Print Region"
 msgstr "Bereik Afdrukken"
 
-#: src/print.c:1325 src/wbcg-actions.c:1501
+#: src/print.c:1326 src/wbcg-actions.c:1501
 msgid "Print preview"
 msgstr "Afdrukvoorbeeld"
 
-#: src/print.c:1338
+#: src/print.c:1339
 msgid "Printing failed"
 msgstr "Afdrukken mislukt"
 
-#: src/print.c:1444
+#: src/print.c:1445
 msgid "Print Sheets"
 msgstr "Werkbladen Afdrukken"
 
-#: src/print.c:1453
+#: src/print.c:1454
 msgid "Act_ive sheet"
 msgstr "Huid_ige werkblad"
 
-#: src/print.c:1453
+#: src/print.c:1454
 msgid "S_heets"
 msgstr "Werkbladen"
 
@@ -29473,23 +29558,23 @@ msgstr "Niet opslaan"
 msgid "Do not log out"
 msgstr "Niet uitloggen"
 
-#: src/sheet.c:2014
+#: src/sheet.c:2015
 msgid "Target region contains merged cells"
 msgstr "Doelgebied bevat samengevoegde cellen"
 
-#: src/sheet.c:2075
+#: src/sheet.c:2076
 msgid "cannot operate on merged cells"
 msgstr "kan niet toepassen op samengevoegde cellen"
 
-#: src/sheet.c:2085
+#: src/sheet.c:2086
 msgid "cannot operate on array formulae"
 msgstr "kan niet worden toegepast op array formules"
 
-#: src/sheet.c:3203
+#: src/sheet.c:3204
 msgid "Insert Columns"
 msgstr "Kolommen Invoegen"
 
-#: src/sheet.c:3325
+#: src/sheet.c:3326
 msgid "Insert Rows"
 msgstr "Rijen Invoegen"
 
@@ -29581,19 +29666,19 @@ msgid "_Remove Hyperlink"
 msgstr "Hyperlink Ve_rwijderen"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1972
+#: src/sheet-control-gui.c:1981
 msgid "Duplicate Object"
 msgstr "Object dupliceren"
 
-#: src/sheet-control-gui.c:1972
+#: src/sheet-control-gui.c:1981
 msgid "Insert Object"
 msgstr "Object invoegen"
 
-#: src/sheet-control-gui.c:1973
+#: src/sheet-control-gui.c:1982
 msgid "Move Object"
 msgstr "Object verplaatsen"
 
-#: src/sheet-control-gui.c:1973
+#: src/sheet-control-gui.c:1982
 msgid "Resize Object"
 msgstr "Object van grootte veranderen"
 
@@ -30000,7 +30085,11 @@ msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr "/Gemiddelde/Variantie/Observaties/Pearson variantie/Verondersteld gemiddeld verschil/Waargenomen gemiddeld verschil/Variantie van de verschillen/df/t Stat/P (T<=t) enkel-staarts/t Kritisch enkel=staarts/P (T<=t) twee-staarts/t Kritisch twee-staarts"
+msgstr ""
+"/Gemiddelde/Variantie/Observaties/Pearson variantie/Verondersteld gemiddeld "
+"verschil/Waargenomen gemiddeld verschil/Variantie van de verschillen/df/t "
+"Stat/P (T<=t) enkel-staarts/t Kritisch enkel=staarts/P (T<=t) twee-staarts/t "
+"Kritisch twee-staarts"
 
 #: src/tools/analysis-tools.c:2131
 #, c-format
@@ -30843,14 +30932,18 @@ msgstr ""
 msgid ""
 "Failure setting the maximum number of iterations with this solver, try a "
 "different algorithm."
-msgstr "Fout bij het instellen van het maximum aantal iteraties met deze oplosser. Probeer een ander algoritme."
+msgstr ""
+"Fout bij het instellen van het maximum aantal iteraties met deze oplosser. "
+"Probeer een ander algoritme."
 
 # engels taalfout: Failure setting setting the maximum
 #: src/tools/solver/solver.c:490
 msgid ""
 "Failure setting setting the maximum solving time with this solver, try a "
 "different algorithm."
-msgstr "Fout bij het instellen van de maximale oplostijd met deze oplosser. Probeer een ander algoritme."
+msgstr ""
+"Fout bij het instellen van de maximale oplostijd met deze oplosser. Probeer "
+"een ander algoritme."
 
 #: src/tools/solver/solver.c:536
 msgid ""
@@ -33866,16 +33959,16 @@ msgstr "_Verwerpen"
 msgid "_Accept"
 msgstr "_Accepteren"
 
-#: src/workbook-edit.c:611
+#: src/workbook-edit.c:684
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s is beveiligd"
 
-#: src/workbook-edit.c:615
+#: src/workbook-edit.c:688
 msgid "Unprotect the workbook to enable editing."
 msgstr "Beveiliging van de werkmap opheffen om bewerken mogelijk te maken."
 
-#: src/workbook-edit.c:616
+#: src/workbook-edit.c:689
 msgid "Unprotect the sheet to enable editing."
 msgstr "Beveiliging werkblad opheffen om bewerken mogelijk te maken."
 

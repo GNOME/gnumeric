@@ -1358,6 +1358,20 @@ YEAR(DATE(2003, 4, 30)) equals 2003.
 @SEEALSO=DATEDIF
 
 @CATEGORY=Engineering
+@FUNCTION=BASE
+@SYNTAX=BASE(number,base[,length])
+@DESCRIPTION=BASE function converts a number to a string representing that number in base @base.
+
+* @base must be an integer between 2 and 36.
+* This function is OpenOffice.Org compatible.
+* Optional argument @length specifies the minimum result length.  Leading  zeroes will be added to reach this length.
+
+@EXAMPLES=
+BASE(255,16,4) equals "00FF".
+
+@SEEALSO=DECIMAL
+
+@CATEGORY=Engineering
 @FUNCTION=BESSELI
 @SYNTAX=BESSELI(x,y)
 @DESCRIPTION=BESSELI function returns the Neumann, Weber or Bessel function.
@@ -1600,6 +1614,19 @@ DEC2HEX(42) equals 2A.
 DEC2OCT(42) equals 52.
 
 @SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX
+
+@CATEGORY=Engineering
+@FUNCTION=DECIMAL
+@SYNTAX=DECIMAL(text,base)
+@DESCRIPTION=DECIMAL function converts a number in base @base to decimal.
+
+* @base must be an integer between 2 and 36.
+* This function is OpenOffice.Org compatible.
+
+@EXAMPLES=
+DECIMAL("A1",16) equals 161.
+
+@SEEALSO=BASE
 
 @CATEGORY=Engineering
 @FUNCTION=DELTA
@@ -4240,12 +4267,13 @@ DEGREES(2.5) equals 143.2394.
 @CATEGORY=Mathematics
 @FUNCTION=EVEN
 @SYNTAX=EVEN(number)
-@DESCRIPTION=EVEN function returns the number rounded up to the nearest even integer.
+@DESCRIPTION=EVEN function returns the number rounded up to the nearest even integer.  Negative numbers are rounded down.
 
 * This function is Excel compatible.
  
 @EXAMPLES=
 EVEN(5.4) equals 6.
+EVEN(-5.4) equals -6.
 
 @SEEALSO=ODD
 
@@ -4537,12 +4565,13 @@ MULTINOMIAL(2,3,4) equals 1260.
 @CATEGORY=Mathematics
 @FUNCTION=ODD
 @SYNTAX=ODD(number)
-@DESCRIPTION=ODD function returns the @number rounded up to the nearest odd integer.
+@DESCRIPTION=ODD function returns the @number rounded up to the nearest odd integer.  Negative numbers are rounded down.
 
 * This function is Excel compatible.
  
 @EXAMPLES=
 ODD(4.4) equals 5.
+ODD(-4.4) equals -5.
 
 @SEEALSO=EVEN
 
@@ -6629,7 +6658,7 @@ TINV(0.4,32) equals 0.852998454.
 
 @EXAMPLES=
 Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, 21.3, 25.9, and 40.1, and the cells B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, and 42.7.  Then
-TREND(A1:A5,B1:B5) equals 156.52.
+TREND(A1:A5,B1:B5) equals {12.1, 15.7, 21.6, 26.7, 39.7}.
 
 @SEEALSO=LINEST
 
