@@ -11,10 +11,11 @@
 #
 # * ' översätts med \"
 #
-# * Svenskt decimaltecken är komma (,), inte punkt (.) som i originalet. Använd
-#   komma i översättningarna, för det gör Gnumeric. I funktionsuttryck åtskiljs
-#   parametrarna med semikolon (;), inte komma (,) som i originalet. Kom ihåg
-#   detta då exempel och funktionsanropöversätts.
+# * Svenskt decimaltecken är komma (,), inte punkt (.) som i originalet.
+#   Använd komma i översättningarna, för det gör Gnumeric. I
+#   funktionsuttryck åtskiljs parametrarna med semikolon (;), inte komma
+#   (,) som i originalet. Kom ihåg detta då exempel och funktionsanrop
+#   översätts.
 #
 # * [Red] i formatkoderna är en färgkod och ska INTE översättas. Inte nu
 #   heller.
@@ -28,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-01-21 23:04-0500\n"
-"PO-Revision-Date: 2002-01-22 04:02+0100\n"
+"POT-Creation-Date: 2002-01-28 03:48+0100\n"
+"PO-Revision-Date: 2002-01-28 03:48+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -898,7 +899,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Mobius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -1396,11 +1397,11 @@ msgstr "EXPERIMENTELL SAX-baserad XML"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nästa generationens xml-system, baserat på sax"
 
-#: plugins/xml_sax/xml-sax-read.c:2173
+#: plugins/xml_sax/xml-sax-read.c:2179
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt () misslyckades."
 
-#: plugins/xml_sax/xml-sax-read.c:2182
+#: plugins/xml_sax/xml-sax-read.c:2188
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet är inte korrekt utformat!"
 
@@ -1464,7 +1465,7 @@ msgstr "Fetstil"
 msgid "Borders"
 msgstr "Kanter"
 
-#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:427
+#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:430
 #: src/workbook-object-toolbar.c:163
 msgid "Button"
 msgstr "Knapp"
@@ -1811,7 +1812,7 @@ msgstr "Formatera ett cellområde enligt en fördefinierad mall"
 msgid "Fourier Analysis"
 msgstr "Fourieranalys"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/sheet-object-widget.c:330
+#: src/GNOME_Gnumeric.xml.h:95 src/sheet-object-widget.c:333
 #: src/workbook-object-toolbar.c:158
 msgid "Frame"
 msgstr "Ram"
@@ -1950,7 +1951,7 @@ msgstr "Iterera under bivillkor mot ett målvärde"
 msgid "Jump to a specified cell"
 msgstr "Gå till specifierad cell"
 
-#: src/GNOME_Gnumeric.xml.h:129 src/sheet-object-widget.c:233
+#: src/GNOME_Gnumeric.xml.h:129 src/sheet-object-widget.c:236
 #: src/workbook-object-toolbar.c:155
 msgid "Label"
 msgstr "Rubrik"
@@ -4193,7 +4194,7 @@ msgstr "Ingen"
 msgid "None          (silently accept invalid input)"
 msgstr "Ingen         (acceptera ogiltig indata under tystnad)"
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:432
+#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-formula-guru.c:440
 #: src/dialogs/dialog-search.c:126
 msgid "Number"
 msgstr "Tal"
@@ -5342,12 +5343,12 @@ msgid "Source"
 msgstr "Källområde"
 
 #: src/dialogs/dialog-cell-format.c:2118 src/dialogs/dialog-cell-format.c:2125
-#: src/sheet-object-widget.c:801
+#: src/sheet-object-widget.c:811
 msgid "Min :"
 msgstr "Min:"
 
 #: src/dialogs/dialog-cell-format.c:2119 src/dialogs/dialog-cell-format.c:2128
-#: src/sheet-object-widget.c:805
+#: src/sheet-object-widget.c:815
 msgid "Max :"
 msgstr "Max:"
 
@@ -5451,37 +5452,37 @@ msgstr "Du kan inte omdefiniera ett inbyggt namn."
 msgid "Could not create the Name Guru."
 msgstr "Kunde inte skapa namngurun."
 
-#: src/dialogs/dialog-formula-guru.c:424
+#: src/dialogs/dialog-formula-guru.c:432
 #, c-format
 msgid "Value%d"
 msgstr "Värde%d"
 
-#: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:122
+#: src/dialogs/dialog-formula-guru.c:439 src/dialogs/dialog-search.c:122
 #: src/functions/fn-string.c:1217
 msgid "String"
 msgstr "Sträng"
 
-#: src/dialogs/dialog-formula-guru.c:433
+#: src/dialogs/dialog-formula-guru.c:441
 msgid "Boolean"
 msgstr "Boolesk variabel"
 
-#: src/dialogs/dialog-formula-guru.c:434
+#: src/dialogs/dialog-formula-guru.c:442
 msgid "Range"
 msgstr "Område"
 
-#: src/dialogs/dialog-formula-guru.c:435
+#: src/dialogs/dialog-formula-guru.c:443
 msgid "Array"
 msgstr "Fält"
 
-#: src/dialogs/dialog-formula-guru.c:436
+#: src/dialogs/dialog-formula-guru.c:444
 msgid "Range/Array"
 msgstr "Område/Fält"
 
-#: src/dialogs/dialog-formula-guru.c:437
+#: src/dialogs/dialog-formula-guru.c:445
 msgid "Scalar"
 msgstr "Skalär"
 
-#: src/dialogs/dialog-formula-guru.c:439
+#: src/dialogs/dialog-formula-guru.c:447
 msgid "Any"
 msgstr "Vilken som helst"
 
@@ -20059,32 +20060,32 @@ msgstr "Kantbredd"
 msgid "Transparent"
 msgstr "Genomskinlig"
 
-#: src/sheet-object-widget.c:779
+#: src/sheet-object-widget.c:789
 msgid "Scrollbar Configure"
 msgstr "Rullningslistkonfiguration"
 
-#: src/sheet-object-widget.c:795 src/sheet-object-widget.c:1260
+#: src/sheet-object-widget.c:805 src/sheet-object-widget.c:1268
 msgid "Link to :"
 msgstr "Länk till:"
 
-#: src/sheet-object-widget.c:809
+#: src/sheet-object-widget.c:819
 msgid "Increment :"
 msgstr "Ökning:"
 
-#: src/sheet-object-widget.c:813
+#: src/sheet-object-widget.c:823
 msgid "Page :"
 msgstr "Sida:"
 
-#: src/sheet-object-widget.c:1023
+#: src/sheet-object-widget.c:1031
 #, c-format
 msgid "CheckBox %d"
 msgstr "Kryssruta %d"
 
-#: src/sheet-object-widget.c:1249
+#: src/sheet-object-widget.c:1257
 msgid "Checkbox Configure"
 msgstr "Kryssrutekonfiguration"
 
-#: src/sheet-object-widget.c:1264
+#: src/sheet-object-widget.c:1272
 msgid "Label :"
 msgstr "Rubrik:"
 
