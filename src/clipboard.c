@@ -561,6 +561,47 @@ clipboard_copy_range (Sheet *sheet, GnmRange const *r)
 	return cr;
 }
 
+/**
+ * clipboard_copy_obj:
+ *
+ * Returns a cell region with copies of objects in list.
+ */
+GnmCellRegion *
+clipboard_copy_obj (Sheet *sheet, GSList *objects)
+{
+	GnmCellRegion *cr;
+	GnmRange *r;
+	GSList *ptr;
+	SheetObject *so;
+	double coords [4];
+	guint w, h;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (objects != NULL, NULL);
+
+	cr = cellregion_new (sheet);
+	for (ptr = objects ; ptr != NULL ; ptr = ptr->next) {
+		sheet_object_position_pts_get (SHEET_OBJECT (ptr->data),
+					       coords);
+		w = fabs (coords[2] - coords[0]) + 1;
+		h = fabs (coords[3] - coords[1]) + 1.;
+		so = sheet_object_dup (ptr->data);
+		if (so != NULL) {
+			r = (GnmRange *) sheet_object_get_range	(so);
+			range_translate (r,
+					 -MIN (r->start.col, r->end.col),
+					 -MIN (r->start.row, r->end.row));
+			g_object_set_data (G_OBJECT (so),  "pt-width-at-copy",
+					   GUINT_TO_POINTER (w));
+			g_object_set_data (G_OBJECT (so),  "pt-height-at-copy",
+					   GUINT_TO_POINTER (h));
+			cr->objects = g_slist_prepend (cr->objects, so);
+		}
+	}
+
+	return cr;
+}
+
 GnmPasteTarget*
 paste_target_init (GnmPasteTarget *pt, Sheet *sheet, GnmRange const *r, int flags)
 {

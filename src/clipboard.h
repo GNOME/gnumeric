@@ -80,6 +80,7 @@ struct _GnmPasteTarget {
 };
 
 GnmCellRegion *clipboard_copy_range   (Sheet *sheet, GnmRange const *r);
+GnmCellRegion *clipboard_copy_obj     (Sheet *sheet, GSList *objects);
 gboolean       clipboard_paste_region (GnmCellRegion const *content,
 				       GnmPasteTarget const *pt,
 				       GOCmdContext *cc);

@@ -1,3 +1,12 @@
+2005-03-28  Jon K Hellan  <hellan@acm.org>
+
+	* src/clipboard.[ch]: (clipboard_copy_obj): New. Returns a cell
+	region with copies of objects in list. Factored out of
+	gnm_app_clipboard_cut_copy_obj.
+
+	* src/application.c (gnm_app_clipboard_cut_copy_obj): Use
+	clipboard_copy_obj. 
+
 2005-03-28  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-view.c (wb_view_auto_expr_recalc): Take format from
