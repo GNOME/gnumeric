@@ -29,6 +29,8 @@ Pending Patches
 
 - validate expression names to ensure that they are not simple values (eg TRUE)
 
+- Force the "for" (and thus the "switch") in mstyle_hash to be unrolled.
+
 0) Misc minor UI tweaks
     0.1)  Missing toolbar borders for color and stack combos	(DONE)
     0.2)  Add keynav for autoformat canvases			(DONE)
@@ -323,7 +325,7 @@ Pending Patches
     23.3) see if schema is installed
     23.4) Move the pref storage into app and compartmentalize
     	  the use of gconf.
-    23.5) update the prefernecestructure on local changes	
+    23.5) update the preference structure on local changes	
 
 24) Plugins
     24.1) enhance gobject service to do delayed load		(DONE)
