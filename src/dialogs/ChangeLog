@@ -1,3 +1,10 @@
+2004-10-18  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* dialog-plugin-manager.c (set_plugin_model_row): Gettextize the
+	plugin names on GUI.
+	* dialog-pluing-manager.c (cb_pm_selection_changed): Gettextize the
+	plugin description on GUI.
+
 2004-10-15  Yukihiro Nakai  <nakai@gnome.gr.jp>
 
 	* dialog-about.c (cb_about_animate): Gettextize contributors name.
