@@ -32,8 +32,7 @@
 
 #include <gnumeric-config.h>
 #include "gnumeric-optionmenu.h"
-#include <gnumeric-i18n.h>
-#include <gnm-marshalers.h>
+#include <glib/gi18n.h>
 
 #include "gtk/gtkmenu.h"
 #include "gtk/gtkmenuitem.h"
@@ -174,7 +173,7 @@ gnumeric_option_menu_class_init (GnumericOptionMenuClass *class)
                   G_SIGNAL_RUN_LAST,
                   G_STRUCT_OFFSET (GnumericOptionMenuClass, changed),
                   NULL, NULL,
-                  gnm__VOID__VOID,
+                  g_cclosure_marshal_VOID__VOID,
                   G_TYPE_NONE, 0);
 
   gobject_class->set_property = gnumeric_option_menu_set_property;

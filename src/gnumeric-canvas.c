@@ -7,7 +7,7 @@
  *     Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "gnumeric-canvas.h"
 
@@ -41,12 +41,12 @@ static FooCanvasClass *parent_klass;
 static gboolean
 gnm_canvas_guru_key (WorkbookControlGUI const *wbcg, GdkEventKey *event)
 {
-	GtkWidget *guru = wbcg_edit_has_guru (wbcg);
-	GtkWidget *entry = GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
+	GtkWidget *entry, *guru = wbcg_edit_get_guru (wbcg);
 
 	if (guru == NULL)
 		return FALSE;
 
+	entry = GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
 	gtk_widget_event ((entry != NULL) ? entry : guru, (GdkEvent *) event);
 	return TRUE;
 }
@@ -450,7 +450,7 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (scg->grab_stack > 0)
 		return TRUE;
 
-	if (wbcg_edit_has_guru (scg->wbcg) == NULL  &&
+	if (wbcg_edit_get_guru (scg->wbcg) == NULL  &&
 	    (scg->current_object != NULL || scg->new_object != NULL))
 		res = gnm_canvas_key_mode_object (gcanvas, event);
 	else {

@@ -27,7 +27,7 @@ typedef struct {
 	/* Actions on the workbook UI */
 	void (*title_set)	    (WorkbookControl *wbc, char const *title);
 	void (*prefs_update)	    (WorkbookControl *wbc);
-	void (*format_feedback)	    (WorkbookControl *wbc);
+	void (*style_feedback)	    (WorkbookControl *wbc, GnmStyle const *changes);
 	void (*zoom_feedback)	    (WorkbookControl *wbc);
 	void (*edit_line_set)	    (WorkbookControl *wbc, char const *text);
 	void (*edit_finish)	    (WorkbookControl *wbc, gboolean accept);
@@ -45,7 +45,6 @@ typedef struct {
 		void (*remove_all) (WorkbookControl *wbc);
 	} sheet;
 	struct {
-		void (*clear)	(WorkbookControl *wbc, gboolean is_undo);
 		void (*truncate)(WorkbookControl *wbc, int n, gboolean is_undo);
 		void (*pop)	(WorkbookControl *wbc, gboolean is_undo);
 		void (*push)	(WorkbookControl *wbc,

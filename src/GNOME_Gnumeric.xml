@@ -55,7 +55,7 @@
 	    _tip="Close the current file"
 	    pixtype="stock" pixname="gtk-close"
 	    accel="*Control*w"/>
-	<cmd name="FileExit"
+	<cmd name="FileQuit"
 	    _label="_Quit"
 	    _tip="Quit the application"
 	    pixtype="stock" pixname="gtk-quit"
@@ -184,7 +184,7 @@
 
 	    <separator/>
 
-	    <menuitem name="FileClose" verb=""/>
+	    <menuitem name="FileQuit" verb=""/>
 	    <menuitem name="FileExit" verb=""/>
 	</submenu>
 	<submenu name="Edit" _label="_Edit">

@@ -20,14 +20,13 @@
 #include <gnumeric-config.h>
 #include "widget-format-selector.h"
 
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 
 #include <format.h>
 #include <mstyle.h>
 #include <style-color.h>
 #include <sheet.h>
 #include <value.h>
-#include <gnm-marshalers.h>
 
 #include <widgets/gnumeric-combo-text.h>
 
@@ -1076,7 +1075,7 @@ nfs_class_init (GtkObjectClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (NumberFormatSelectorClass, number_format_changed),
 			      NULL, NULL,
-			      gnm__VOID__POINTER,
+			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 }
 

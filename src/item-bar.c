@@ -11,7 +11,7 @@
 #warning "This file uses GTK_DISABLE_DEPRECATED for gtk_draw_shadow"
 
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "item-bar.h"
 
@@ -681,7 +681,7 @@ is_pointer_on_division (ItemBar const *ib, int pos, int *the_total, int *the_ele
 		if (cri->visible) {
 			total += cri->size_pixels;
 
-			if (!wbcg_edit_has_guru (ib->gcanvas->simple.scg->wbcg) &&
+			if (wbcg_edit_get_guru (ib->gcanvas->simple.scg->wbcg) == NULL &&
 			    !wbcg_is_editing (ib->gcanvas->simple.scg->wbcg) &&
 			    (total - 4 < pos) && (pos < total + 4)) {
 				if (the_total)
@@ -884,7 +884,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 		if (e->button.button > 3)
 			return FALSE;
 
-		if (!wbcg_edit_has_guru (wbcg))
+		if (wbcg_edit_get_guru (wbcg) == NULL)
 			scg_mode_edit (sc);
 
 		foo_canvas_w2c (canvas, e->button.x, e->button.y, &x, &y);
@@ -902,7 +902,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 			return outline_button_press (ib, element, other_pos);
 
 		if (e->button.button == 3) {
-			if (wbcg_edit_has_guru (wbcg))
+			if (wbcg_edit_get_guru (wbcg) != NULL)
 				return TRUE;
 			/* If the selection does not contain the current row/col
 			 * then clear the selection and add it.
@@ -931,7 +931,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 				gtk_widget_show_all (gtk_widget_get_toplevel (ib->tip));
 			}
 		} else {
-			if (wbcg_edit_has_guru (wbcg) &&
+			if (wbcg_edit_get_guru (wbcg) != NULL &&
 			    !wbcg_edit_entry_redirect_p (wbcg))
 				break;
 

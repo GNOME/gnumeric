@@ -4,7 +4,7 @@
 
 SUBDIRS = pixmaps dialogs widgets tools cut-n-paste-code
 
-if WITH_BONOBO
+if ENABLE_BONOBO_COMPONENT
 libexec_PROGRAMS = gnumeric-component
 endif
 bin_PROGRAMS = gnumeric ssconvert
@@ -103,8 +103,6 @@ GNUMERIC_BASE =					\
 	gnumeric-gconf-priv.h			\
 	gnumeric-pane.c				\
 	gnumeric-pane.h				\
-	gnumeric-i18n.c				\
-	gnumeric-i18n.h				\
 	gnumeric.h				\
 	graph.c					\
 	graph.h					\
@@ -258,10 +256,6 @@ GNUMERIC_BASE =					\
 	workbook-cmd-format.h			\
 	workbook-edit.c				\
 	workbook-edit.h				\
-	workbook-format-toolbar.c		\
-	workbook-format-toolbar.h		\
-	workbook-object-toolbar.c		\
-	workbook-object-toolbar.h		\
 	workbook-view.c				\
 	workbook-view.h				\
 	workbook-control.c 			\
@@ -270,9 +264,8 @@ GNUMERIC_BASE =					\
 	workbook-control-gui.c 			\
 	workbook-control-gui.h 			\
 	workbook-control-gui-priv.h 		\
-	workbook-control-standalone.c		\
-	workbook-control-standalone.h 		\
-	workbook-control-standalone-priv.h	\
+	wbc-gtk.c				\
+	wbcg-actions.c				\
 	xml-io.c				\
 	xml-io.h				\
 	xml-io-version.h			\
@@ -288,29 +281,13 @@ GNUMERIC_BONOBO = 				\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
 	sheet-object-item.h                     \
+	wbc-bonobo.c				\
 	workbook-control-component.c		\
 	workbook-control-component.h 		\
 	workbook-control-component-priv.h
 
-if WITH_BONOBO
-GNUMERIC_SOURCE	= $(GNUMERIC_BASE) $(GNUMERIC_BONOBO)
-else
 GNUMERIC_SOURCE	= $(GNUMERIC_BASE)
-endif
 
-if WITH_BONOBO
-gnumeric_SOURCES =				\
-	$(GNUMERIC_SOURCE)			\
-	io-context-gtk.c			\
-	io-context-gtk.h			\
-	main-application.c			\
-	normal-args.c
-
-gnumeric_LDADD =				\
-	$(gnumeric_app_libs)			\
-	$(GNUMERIC_LIBS)			\
-	$(INTLLIBS)
-else
 gnumeric_SOURCES =				\
 	$(GNUMERIC_SOURCE)			\
 	io-context-gtk.c			\
@@ -322,7 +299,6 @@ gnumeric_LDADD = 				\
 	$(gnumeric_app_libs)			\
 	$(GNUMERIC_LIBS)			\
 	$(INTLLIBS)
-endif
 
 gnumeric_LDFLAGS = -export-dynamic
 
@@ -337,7 +313,7 @@ gnumeric_app_libs =				\
 	cut-n-paste-code/pcre/libpcre.a		\
 	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a
 
-if WITH_BONOBO
+if ENABLE_BONOBO_COMPONENT
 gnumeric_component_SOURCES =			\
 	$(GNUMERIC_SOURCE)			\
 	main-component.c

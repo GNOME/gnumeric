@@ -7,7 +7,7 @@
  * (C) 1999-2001 Jody Goldberg
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "command-context-priv.h"
 #include "ranges.h"

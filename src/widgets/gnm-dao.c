@@ -22,13 +22,11 @@
 #include "gnm-dao.h"
 
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric-expr-entry.h"
 #include "tools/dao.h"
 #include "value.h"
 #include "workbook-control.h"
-
-#include <gnm-marshalers.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkoptionmenu.h>
@@ -135,7 +133,7 @@ gnm_dao_class_init (GtkObjectClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GnmDaoClass, gnm_dao_changed),
 			      NULL, NULL,
-			      gnm__VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 	gnm_dao_signals[GNM_DAO_ACTIVATE] =
 		g_signal_new ("activate",
@@ -143,7 +141,7 @@ gnm_dao_class_init (GtkObjectClass *klass)
 			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 			      G_STRUCT_OFFSET (GnmDaoClass, gnm_dao_activate),
 			      NULL, NULL,
-			      gnm__VOID__VOID,
+			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 }
 

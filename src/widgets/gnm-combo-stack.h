@@ -48,7 +48,6 @@ void       gnm_combo_stack_remove_top (GnmComboStack *combo_stack,
 				       gint num);
 void       gnm_combo_stack_pop       (GnmComboStack *combo_stack,
 				      gint num);
-void       gnm_combo_stack_clear     (GnmComboStack *combo_stack);
 void       gnm_combo_stack_truncate  (GnmComboStack *combo, int n);
 
 G_END_DECLS

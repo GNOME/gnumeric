@@ -10,7 +10,7 @@
  * Copyright (C) 2002-2003 Jody Goldberg
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "libgnumeric.h"
 #include <src/gnumeric-paths.h>

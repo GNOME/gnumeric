@@ -317,8 +317,8 @@ workbook_control_corba_new (WorkbookView *optional_view,
 {
 	WorkbookControl *wbc =
 		g_object_new (workbook_control_corba_get_type (), NULL);
-	workbook_control_set_view (wbc, optional_view, optional_wb);
-	workbook_control_init_state (wbc);
+	wb_control_set_view (wbc, optional_view, optional_wb);
+	wb_control_init_state (wbc);
 	return wbc;
 }
 

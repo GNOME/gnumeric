@@ -8,7 +8,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "item-cursor.h"
 
@@ -525,7 +525,7 @@ item_cursor_point (FooCanvasItem *item, double x, double y, int cx, int cy,
 	 * 3) while a guru is up
 	 */
 	if (!ic->visible || ic->style == ITEM_CURSOR_ANTED ||
-	    wbcg_edit_has_guru (ic->scg->wbcg))
+	    wbcg_edit_get_guru (ic->scg->wbcg) != NULL)
 		return DBL_MAX;
 
 	*actual_item = NULL;
@@ -1060,7 +1060,7 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 	SheetView const *sv = ((SheetControl *) ic->scg)->view;
 	GnmRange const *target = selection_first_range (sv, NULL, NULL);
 
-	wb_control_gui_set_status_text (ic->scg->wbcg, "");
+	wbcg_set_status_text (ic->scg->wbcg, "");
 	if (range_equal (target, &ic->pos)) {
 		scg_special_cursor_stop	(ic->scg);
 		return;

@@ -1788,7 +1788,7 @@ dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
 	PrinterSetupState *state;
 
 	/* Only one guru per workbook. */
-	if (wbcg_edit_has_guru (wbcg))
+	if (wbcg_edit_get_guru (wbcg))
 		return;
 
 	/* Only pop up one copy per workbook */

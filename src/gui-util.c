@@ -6,10 +6,8 @@
  *  Miguel de Icaza (miguel@gnu.org)
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "gui-util.h"
 
@@ -43,15 +41,8 @@
 #include <gtk/gtkbbox.h>
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
-
-#ifdef WITH_BONOBO
-#	include <bonobo.h>
-#endif
-
 #include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-help.h>
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-app-helper.h>
 
 gboolean
 gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
@@ -574,92 +565,6 @@ gnumeric_combo_enters (GtkWindow *window, GtkWidget *combo)
 	gnumeric_editable_enters (window, GTK_WIDGET (GTK_COMBO (combo)->entry));
 }
 
-/**
- * gnumeric_toolbar_insert_with_eventbox
- * @toolbar               toolbar
- * @widget                widget to insert
- * @tooltip_text          tooltip text
- * @tooltip_private_text  longer tooltip text
- * @position              widget position in toolbar
- *
- * Packs widget in an eventbox and adds the eventbox to toolbar.
- * This lets a windowless widget (e.g. combo box) have tooltips.
- **/
-void
-gnumeric_toolbar_insert_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
-				       const char *tooltip_text,
-				       const char *tooltip_private_text,
-				       gint        position)
-{
-	GtkWidget *eventbox;
-
-	g_return_if_fail (GTK_IS_TOOLBAR (toolbar));
-	g_return_if_fail (widget != NULL);
-	g_return_if_fail (position >= 0);
-	g_return_if_fail (position <= toolbar->num_children);
-
-	/* An event box to receive events - this is a requirement for having
-           tooltips */
-	eventbox = gtk_event_box_new ();
-	gtk_widget_show (widget);
-	gtk_container_add (GTK_CONTAINER (eventbox), widget);
-	gtk_widget_show (eventbox);
-	gtk_toolbar_insert_widget (GTK_TOOLBAR (toolbar), eventbox,
-				   tooltip_text, tooltip_private_text,
-				   position);
-}
-
-/**
- * gnumeric_toolbar_append_with_eventbox
- * @toolbar               toolbar
- * @widget                widget to insert
- * @tooltip_text          tooltip text
- * @tooltip_private_text  longer tooltip text
- *
- * Packs widget in an eventbox and adds the eventbox to toolbar.
- * This lets a windowless widget (e.g. combo box) have tooltips.
- **/
-void
-gnumeric_toolbar_append_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
-				       const char *tooltip_text,
-				       const char *tooltip_private_text)
-{
-	GtkWidget *eventbox;
-
-	g_return_if_fail (GTK_IS_TOOLBAR (toolbar));
-	g_return_if_fail (widget != NULL);
-
-	/* An event box to receive events - this is a requirement for having
-           tooltips */
-	eventbox = gtk_event_box_new ();
-	gtk_widget_show (widget);
-	gtk_container_add (GTK_CONTAINER (eventbox), widget);
-	gtk_widget_show (eventbox);
-	gtk_toolbar_append_widget (GTK_TOOLBAR (toolbar), eventbox,
-				   tooltip_text, tooltip_private_text);
-}
-
-/**
- * gtk_button_stock_alignment_set :
- * @button :
- * ...
- *
- * gtk-1.3 hard codes the alignment of stock content to be .5,.5,0,0
- * this makes it hard to align stock icons within buttons.
- */
-void
-gtk_button_stock_alignment_set (GtkButton *button,
-				gfloat     xalign,
-				gfloat     yalign,
-				gfloat     xscale,
-				gfloat     yscale)
-{
-	g_return_if_fail (GTK_IS_BUTTON (button));
-
-	gtk_alignment_set (GTK_ALIGNMENT (gtk_bin_get_child (GTK_BIN (button))),
-		xalign, yalign, xscale, yscale);
-}
-
 int
 gtk_radio_group_get_selected (GSList *radio_group)
 {
@@ -834,34 +739,6 @@ gnumeric_non_modal_dialog (GtkWindow *toplevel, GtkWindow *dialog)
 		G_CALLBACK (cb_non_modal_dialog_keypress), NULL);
 }
 
-#ifdef WITH_BONOBO
-/*
- * gnumeric_inject_widget_into_bonoboui :
- *
- * A quick utility routine to inject a widget into a menu/toolbar.
- */
-void
-gnumeric_inject_widget_into_bonoboui (WorkbookControlGUI *wbcg, GtkWidget *widget, char const *path)
-{
-	BonoboControl *control;
-	CORBA_Environment ev;
-
-	gtk_widget_show_all (widget);
-	control = bonobo_control_new (widget);
-
-	CORBA_exception_init (&ev);
-	bonobo_ui_component_object_set (
-		wbcg->uic, path,
-		BONOBO_OBJREF (control),
-		&ev);
-	/* if there was a problem injecting the widget then nothing is refing
-	 * the control and the widget will go away under our feet */
-	if (!BONOBO_EX (&ev))
-		bonobo_object_unref (BONOBO_OBJECT (control));
-	CORBA_exception_free (&ev);
-}
-#endif
-
 static void
 popup_item_activate (GtkWidget *item, gpointer *user_data)
 {
@@ -974,75 +851,12 @@ color_combo_get_style_color (GtkWidget *color_combo)
 	return sc;
 }
 
-GtkWidget *
-gnumeric_toolbar_new (WorkbookControlGUI *wbcg,
-		      gpointer info, /* GnomeUIInfo *info */
-		      char const *name,
-		      gint band_num,
-		      gint band_position,
-		      gint offset)
-{
-	GnomeApp *app = GNOME_APP (wbcg->toplevel);
-	GtkWidget *tbar;
-	BonoboDockItemBehavior behavior;
-
-	g_return_val_if_fail (info != NULL, NULL);
-
-	tbar = gtk_toolbar_new ();
-	gtk_toolbar_set_orientation (GTK_TOOLBAR (tbar), GTK_ORIENTATION_HORIZONTAL);
-	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (tbar), info,
-		app->accel_group, wbcg);
-
-	behavior = gconf_client_get_bool (gnm_app_get_gconf_client (),
-		"/desktop/gnome/interface/toolbar_detachable", NULL)
-		? BONOBO_DOCK_ITEM_BEH_NORMAL
-		: BONOBO_DOCK_ITEM_BEH_LOCKED;
-
-	gnome_app_add_toolbar (GNOME_APP (wbcg->toplevel), GTK_TOOLBAR (tbar),
-		name, behavior, BONOBO_DOCK_TOP,
-		band_num, band_position, offset);
-
-	return tbar;
-}
-
-GtkWidget *
-gnumeric_toolbar_get_widget (GtkToolbar *toolbar, int pos)
-{
-	GtkToolbarChild *child;
-	GList *children;
-	int i;
-
-	g_return_val_if_fail (GTK_IS_TOOLBAR (toolbar), NULL);
-	g_return_val_if_fail (pos > 0, NULL);
-
-	children = GTK_TOOLBAR (toolbar)->children;
-
-	if (!children)
-		return NULL;
-
-	i = 0;
-	do {
-		child = children->data;
-		children = children->next;
-
-		if (child->type == GTK_TOOLBAR_CHILD_SPACE)
-			continue;
-
-		if (i == pos)
-			return child->widget;
-		i++;
-	} while (children);
-
-	return NULL;
-}
-
 void
 gnumeric_help_display (char const *link)
 {
         g_return_if_fail (link != NULL);
 	gnome_help_display ("gnumeric", link, NULL);
 }
-
 
 static void
 cb_help (GtkWidget *button, char const *link)
@@ -1651,5 +1465,13 @@ gnm_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
 	}
 	
 	return scaled;
+}
+
+void
+gnm_widget_disable_focus (GtkWidget *w)
+{
+	if (GTK_IS_CONTAINER (w))
+		gtk_container_foreach (GTK_CONTAINER (w), gnm_widget_disable_focus, NULL);
+	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
 }
 

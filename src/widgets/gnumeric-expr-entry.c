@@ -9,7 +9,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "gnumeric-expr-entry.h"
 
@@ -28,7 +28,6 @@
 #include <selection.h>
 #include <commands.h>
 #include <format.h>
-#include <gnm-marshalers.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkentry.h>
@@ -430,7 +429,7 @@ gee_class_init (GObjectClass *gobject_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmExprEntryClass, update),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__BOOLEAN,
+		g_cclosure_marshal_VOID__BOOLEAN,
 		G_TYPE_NONE,
 		1, G_TYPE_BOOLEAN);
 	signals [CHANGED] = g_signal_new ("changed",
@@ -438,7 +437,7 @@ gee_class_init (GObjectClass *gobject_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmExprEntryClass, changed),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
+		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 	signals[ACTIVATE] =
 		g_signal_new ("activate",
@@ -446,7 +445,7 @@ gee_class_init (GObjectClass *gobject_class)
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 		G_STRUCT_OFFSET (GnmExprEntryClass, activate),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
+		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
 	g_object_class_install_property (gobject_class,
@@ -1193,13 +1192,13 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
 
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), FALSE);
 
-	if (wbcg_edit_has_guru (gee->wbcg) != NULL && gee == gee->wbcg->edit_line.entry)
+	if (wbcg_edit_get_guru (gee->wbcg) != NULL && gee == gee->wbcg->edit_line.entry)
 		return FALSE;
 
 	text = gtk_entry_get_text (gee->entry);
 
 	/* We need to be editing an expression */
-	if (wbcg_edit_has_guru (gee->wbcg) == NULL &&
+	if (wbcg_edit_get_guru (gee->wbcg) == NULL &&
 	    gnm_expr_char_start_p (text) == NULL)
 		return FALSE;
 

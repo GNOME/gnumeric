@@ -12,7 +12,7 @@
  * (C) 2002 Jody Goldberg
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "workbook-priv.h"
 
@@ -336,7 +336,7 @@ workbook_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, summary_changed),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
+		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
 
@@ -345,7 +345,7 @@ workbook_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, filename_changed),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
+		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
 
@@ -354,7 +354,7 @@ workbook_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, sheet_order_changed),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
+		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
 
@@ -363,7 +363,7 @@ workbook_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, sheet_added),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
+		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
 
@@ -372,7 +372,7 @@ workbook_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, sheet_deleted),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
+		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
 }
@@ -1092,8 +1092,8 @@ workbook_sheet_delete (Sheet *sheet)
 		wb->undo_commands = NULL;
 		wb->redo_commands = NULL;
 		WORKBOOK_FOREACH_CONTROL (wb, view, control,
-			wb_control_undo_redo_clear (control, TRUE);
-			wb_control_undo_redo_clear (control, FALSE);
+			wb_control_undo_redo_truncate (control, 0, TRUE);
+			wb_control_undo_redo_truncate (control, 0, FALSE);
 			wb_control_undo_redo_labels (control, NULL, NULL);
 		);
 
@@ -1108,8 +1108,8 @@ workbook_sheet_delete (Sheet *sheet)
 				wb_view_sheet_focus (wbv, new_focus);
 		);
 		WORKBOOK_FOREACH_CONTROL (wb, view, control,
-			wb_control_undo_redo_clear (control, TRUE);
-			wb_control_undo_redo_clear (control, FALSE);
+			wb_control_undo_redo_truncate (control, 0, TRUE);
+			wb_control_undo_redo_truncate (control, 0, FALSE);
 			wb_control_undo_redo_labels (control, NULL, NULL);
 		);
 	}

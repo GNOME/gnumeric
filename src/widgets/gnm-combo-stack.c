@@ -286,14 +286,6 @@ gnm_combo_stack_remove_top (GnmComboStack *combo, gint num)
 		gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
 }
 
-void
-gnm_combo_stack_clear (GnmComboStack *combo)
-{
-	combo->num_items = 0;
-	gtk_list_clear_items (GTK_LIST (combo->list), 0, -1);
-	gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
-}
-
 /*
  * Make sure stack is not deeper than @n elements.
  *

@@ -20,7 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "workbook-view.h"
 
@@ -185,42 +185,41 @@ void
 wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 {
 	SheetView *sv;
+	GnmStyle *style;
+	GnmFormat *sf_style, *sf_cell;
+	GnmCell *cell;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
 	sv = wbv->current_sheet_view;
-	if (sv != NULL) {
-		GnmStyle *mstyle = sheet_style_get (sv->sheet,
-			sv->edit_pos.col,
-			sv->edit_pos.row);
-		GnmFormat *sf_style = mstyle_get_format (mstyle);
-		GnmFormat *sf_cell;
-		GnmCell *cell;
+	if (sv == NULL)
+		return;
 
-		if (style_format_is_general (sf_style) &&
-		    (cell = sheet_cell_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row)) &&
-		    cell->value && VALUE_FMT (cell->value))
-			sf_cell = VALUE_FMT (cell->value);
-		else
-			sf_cell = sf_style;
+	style = sheet_style_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row);
+	sf_style = mstyle_get_format (style);
+	if (style_format_is_general (sf_style) &&
+	    (cell = sheet_cell_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row)) &&
+	    cell->value && VALUE_FMT (cell->value))
+		sf_cell = VALUE_FMT (cell->value);
+	else
+		sf_cell = sf_style;
 
-		if (style_format_equal (sf_cell, sf_style)) {
-			if (mstyle == wbv->current_format)
-				return;
-			mstyle_ref (mstyle);
-		} else {
-			mstyle = mstyle_copy (mstyle);
-			mstyle_set_format (mstyle, sf_cell);
-		}
+	if (style_format_equal (sf_cell, sf_style)) {
+		if (style == wbv->current_format)
+			return;
+		mstyle_ref (style);
+	} else {
+		style = mstyle_copy (style);
+		mstyle_set_format (style, sf_cell);
+	}
 
-		if (wbv->current_format != NULL)
-			mstyle_unref (wbv->current_format);
-		wbv->current_format = mstyle;
+	if (wbv->current_format != NULL)
+		mstyle_unref (wbv->current_format);
+	wbv->current_format = style;
 
-		if (display) {
-			WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control,
-				wb_control_format_feedback (control););
-		}
+	if (display) {
+		WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control,
+			wb_control_style_feedback (control, NULL););
 	}
 }
 

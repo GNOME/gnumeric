@@ -314,7 +314,7 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only one guru per workbook. */
-	if (wbcg_edit_has_guru (wbcg))
+	if (wbcg_edit_get_guru (wbcg))
 		return;
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, TABULATE_KEY))

@@ -23,7 +23,7 @@
 #include <glib.h>
 #include "session.h"
 #include "application.h"
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <workbook.h>
 #include <workbook-priv.h>
 #include <workbook-view.h>

@@ -2638,7 +2638,6 @@ anova_single_tool_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 {
 	data_analysis_output_t  *dao;
 	GtkWidget *w;
-	gint err;
 	analysis_tools_data_anova_single_t *data;
 
 	data = g_new0 (analysis_tools_data_anova_single_t, 1);

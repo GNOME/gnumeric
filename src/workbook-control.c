@@ -20,7 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "workbook-control-priv.h"
 
@@ -69,7 +69,8 @@ WBC_VIRTUAL (title_set,
 	(WorkbookControl *wbc, char const * title), (wbc, title))
 WBC_VIRTUAL (prefs_update,
 	(WorkbookControl *wbc), (wbc))
-WBC_VIRTUAL (format_feedback, (WorkbookControl *wbc), (wbc))
+WBC_VIRTUAL (style_feedback,
+	(WorkbookControl *wbc, GnmStyle const *changes), (wbc, changes))
 WBC_VIRTUAL (zoom_feedback,
 	(WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (edit_line_set,
@@ -94,8 +95,6 @@ WBC_VIRTUAL_FULL (sheet_move, sheet.move,
 WBC_VIRTUAL_FULL (sheet_remove_all, sheet.remove_all,
 	(WorkbookControl *wbc), (wbc))
 
-WBC_VIRTUAL_FULL (undo_redo_clear, undo_redo.clear,
-	(WorkbookControl *wbc, gboolean is_undo), (wbc, is_undo))
 WBC_VIRTUAL_FULL (undo_redo_truncate, undo_redo.truncate,
 	(WorkbookControl *wbc, int n, gboolean is_undo), (wbc, n, is_undo))
 WBC_VIRTUAL_FULL (undo_redo_pop, undo_redo.pop,
@@ -138,7 +137,7 @@ wb_control_sheet_add (WorkbookControl *wbc, SheetView *sv)
 			wb_view_selection_desc (wbv, TRUE, wbc);
 			wb_view_edit_line_set (wbv, wbc);
 			wb_control_auto_expr_value (wbc);
-			wb_control_format_feedback (wbc);
+			wb_control_style_feedback (wbc, NULL);
 			wb_control_menu_state_sheet_prefs (wbc, new_sheet);
 			wb_control_menu_state_update (wbc, MS_ALL);
 		}
@@ -306,6 +305,11 @@ workbook_control_init (GObject *obj)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
 
+	/* We are not in edit mode */
+	wbc->editing = FALSE;
+	wbc->editing_sheet = NULL;
+	wbc->editing_cell = NULL;
+
 	wbc->clipboard_changed_signal = g_signal_connect (
 		gnm_app_get_app (),
 		"clipboard_modified",
@@ -317,7 +321,7 @@ GSF_CLASS (WorkbookControl, workbook_control,
 	   GNM_CMD_CONTEXT_TYPE);
 
 void
-workbook_control_set_view (WorkbookControl *wbc,
+wb_control_set_view (WorkbookControl *wbc,
 			   WorkbookView *opt_view, Workbook *opt_wb)
 {
 	WorkbookView *wbv;
@@ -330,7 +334,7 @@ workbook_control_set_view (WorkbookControl *wbc,
 }
 
 void
-workbook_control_init_state (WorkbookControl *wbc)
+wb_control_init_state (WorkbookControl *wbc)
 {
 	GList *sheets, *ptr;
 	Sheet *sheet;

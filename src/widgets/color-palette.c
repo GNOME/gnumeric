@@ -30,7 +30,7 @@
 #include <gnumeric-config.h>
 #include <libfoocanvas/foo-canvas.h>
 #include <gdk/gdkcolor.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gnm-marshalers.h>
 #include <gsf/gsf-impl-utils.h>
 #include "color-group.h"

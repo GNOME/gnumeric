@@ -3458,24 +3458,23 @@ excel_read_IMDATA (BiffQuery *q)
 static void
 excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 {
-	/* FIXME : pane_number will be relevant for split panes.
-	 * because frozen panes are bound together this does not matter.
-	 */
-	/* int const pane_number	= GSF_LE_GET_GUINT8 (q->data); */
-
 	GnmCellPos edit_pos, tmp;
-	/* the range containing the edit_pos */
+	int const pane_number	= GSF_LE_GET_GUINT8 (q->data);
 	int i, j = GSF_LE_GET_GUINT16 (q->data + 5);
 	int num_refs = GSF_LE_GET_GUINT16 (q->data + 7);
 	guint8 *refs;
 	SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
 	GnmRange r;
 
+	/* pane 3 is the standard pane. I will need to look into the numbering
+	 * for split panes */
+	if (pane_number != 3)
+		return;
 	edit_pos.row = GSF_LE_GET_GUINT16 (q->data + 1);
 	edit_pos.col = GSF_LE_GET_GUINT16 (q->data + 3);
 
-	d (5, fprintf (stderr,"Start selection\n"););
-	d (5, fprintf (stderr,"Cursor: %s in Ref #%d\n", cellpos_as_string (&edit_pos),
+	d (-1, fprintf (stderr,"Start selection in pane #%d\n", pane_number););
+	d (-1, fprintf (stderr,"Cursor: %s in Ref #%d\n", cellpos_as_string (&edit_pos),
 		      j););
 
 	sv_selection_reset (sv);
@@ -3486,7 +3485,7 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 		r.start.col = GSF_LE_GET_GUINT8  (refs + 4);
 		r.end.col   = GSF_LE_GET_GUINT8  (refs + 5);
 
-		d (5, fprintf (stderr,"Ref %d = %s\n", i-1, range_name (&r)););
+		d (-1, fprintf (stderr,"Ref %d = %s\n", i-1, range_name (&r)););
 
 		tmp = (i == num_refs) ? edit_pos : r.start;
 		sv_selection_add_range (sv,
@@ -3495,7 +3494,7 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 			r.end.col, r.end.row);
 	}
 
-	d (5, fprintf (stderr,"Done selection\n"););
+	d (-1, fprintf (stderr,"Done selection\n"););
 }
 
 static void

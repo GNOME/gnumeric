@@ -8,7 +8,7 @@
  *    Zbigniew Chyla (cyba@gnome.pl)
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "gutils.h"
 
@@ -911,26 +911,29 @@ gnm_guess_encoding (const char *raw, size_t len, const char *user_guess,
 	}
 }
 
-const char*
+/**
+ * gnm_get_real_name :
+ * 
+ * Return a utf8 encoded string with the current user name.
+ * Caller should _NOT_ free the result.
+ **/
+char const *
 gnm_get_real_name (void)
 {
 	/* We will leak this.  */
 	static char *gnm_real_name = NULL;
 
-	if (!gnm_real_name) {
-		char *name = getenv ("NAME");
-
-		if (name) {
-			gnm_real_name = g_strdup (name);	
-		} else {
-			name = (char *) g_get_real_name ();
-			if (name) {
-				const char *enc = gnm_guess_encoding 
-					(name, strlen (name), NULL, 
-					 &gnm_real_name);
-				(void)enc;
-			}
-		}
+	if (gnm_real_name == NULL) {
+		char const *name = getenv ("NAME");
+		if (name == NULL)
+			name = g_get_real_name ();
+		if (name == NULL)
+			name = g_get_user_name ();
+		if (name != NULL)
+			(void) gnm_guess_encoding (name, strlen (name),
+				NULL, &gnm_real_name);
+		else
+			gnm_real_name = (char *)"unknown";
 	}
 	return gnm_real_name;
 }

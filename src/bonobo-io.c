@@ -83,8 +83,8 @@ gnm_persist_stream_load (PortableServer_Servant  servant,
 	}
 	g_object_ref (G_OBJECT (wbc));
 	workbook_unref (old_wb);
-	workbook_control_set_view (wbc, wb_view, NULL);
-	workbook_control_init_state (wbc);
+	wb_control_set_view (wbc, wb_view, NULL);
+	wb_control_init_state (wbc);
 }
 
 static void

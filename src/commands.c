@@ -23,7 +23,7 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "commands.h"
 
@@ -544,7 +544,7 @@ command_setup_combos (WorkbookControl *wbc)
 
 	g_return_if_fail (wb);
 
-	wb_control_undo_redo_clear (wbc, TRUE);
+	wb_control_undo_redo_truncate (wbc, 0, TRUE);
 	tmp = g_slist_reverse (wb->undo_commands);
 	for (ptr = tmp ; ptr != NULL ; ptr = ptr->next) {
 		undo_label = get_menu_label (ptr);
@@ -552,7 +552,7 @@ command_setup_combos (WorkbookControl *wbc)
 	}
 	g_slist_reverse (tmp);
 
-	wb_control_undo_redo_clear (wbc, FALSE);
+	wb_control_undo_redo_truncate (wbc, 0, FALSE);
 	tmp = g_slist_reverse (wb->redo_commands);
 	for (ptr = tmp ; ptr != NULL ; ptr = ptr->next) {
 		redo_label = get_menu_label (ptr);
@@ -693,14 +693,11 @@ command_register_undo (WorkbookControl *wbc, GObject *obj)
 	wb->undo_commands = g_slist_prepend (wb->undo_commands, cmd);
 	undo_trunc = truncate_undo_info (wb);
 
-	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-	{
-		wb_control_undo_redo_push (control,
-					   cmd->cmd_descriptor, TRUE);
+	WORKBOOK_FOREACH_CONTROL (wb, view, control, {
+		wb_control_undo_redo_push (control, cmd->cmd_descriptor, TRUE);
 		if (undo_trunc >= 0)
-			wb_control_undo_redo_truncate (control,
-						       undo_trunc, TRUE);
-		wb_control_undo_redo_clear (control, FALSE);
+			wb_control_undo_redo_truncate (control, undo_trunc, TRUE);
+		wb_control_undo_redo_truncate (control, 0, FALSE);
 	});
 	undo_redo_menu_labels (wb);
 	g_object_unref (obj);
@@ -760,9 +757,7 @@ command_undo_sheet_delete (Sheet* sheet)
 		command_list_release (wb->redo_commands);
 		wb->redo_commands = NULL;
 		WORKBOOK_FOREACH_CONTROL (wb, view, ctl,
-					  wb_control_undo_redo_clear (ctl, 
-								      FALSE);
-			);
+			wb_control_undo_redo_truncate (ctl, 0, FALSE););
 		undo_redo_menu_labels (wb);
 	}
 
@@ -783,9 +778,7 @@ command_redo_sheet_delete (Sheet* sheet)
 		command_list_release (wb->undo_commands);
 		wb->undo_commands = NULL;
 		WORKBOOK_FOREACH_CONTROL (wb, view, ctl,
-					  wb_control_undo_redo_clear (ctl, 
-								      TRUE);
-			);
+					  wb_control_undo_redo_truncate (ctl, 0, TRUE););
 		undo_redo_menu_labels (wb);
 	}
 

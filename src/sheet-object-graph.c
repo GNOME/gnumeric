@@ -20,7 +20,7 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "sheet-object-graph.h"
 
@@ -176,6 +176,11 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 			GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
 				GOG_RENDERER_PIXBUF (sog->renderer));
 			ret = gdk_pixbuf_save (pixbuf, fname, "png", &err, NULL);
+		} else if (g_ascii_strcasecmp (extension, "jpg") == 0 ||
+			   g_ascii_strcasecmp (extension, "jpeg") == 0) {
+			GdkPixbuf *pixbuf = gog_renderer_pixbuf_get (
+				GOG_RENDERER_PIXBUF (sog->renderer));
+			ret = gdk_pixbuf_save (pixbuf, fname, "jpg", &err, NULL);
 		} else if (g_ascii_strcasecmp (extension, "svg") == 0) {
 			GsfOutputStdio *output = gsf_output_stdio_new (fname, &err);
 
@@ -190,16 +195,14 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 				gsf_output_close (GSF_OUTPUT (output));
 				g_object_unref (output);
 
-#warning Translate when strings unfreeze
 				if (!ret && err == NULL)
 					err = g_error_new (gsf_output_error_id (), 0,
-						"Unknown failure generating SVG for Chart");
+						_("Unknown failure generating SVG for Chart"));
 			} else
 				ret = FALSE;
 		} else {
-#warning WRONG It can support SVG too, fix when strings unfreeze
 			gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
-					 _("Sorry, gnumeric can only save graphs as png images"));
+				_("Sorry, gnumeric can only save graphs as png, jpg, or svg images"));
 			return;
 		}
 

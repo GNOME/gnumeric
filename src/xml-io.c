@@ -9,7 +9,7 @@
  *   Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "xml-io.h"
 #include "xml-io-version.h"
@@ -62,6 +62,7 @@
 #include <gsf/gsf-input-memory.h>
 
 #include <libgnomeprint/gnome-print-config.h>
+#include <libgnome/gnome-i18n.h>
 
 #include <locale.h>
 #include <errno.h>

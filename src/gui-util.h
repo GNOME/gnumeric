@@ -15,6 +15,9 @@
 #include <gtk/gtkentry.h>
 #include <glade/glade-xml.h>
 
+#define GNM_ACTION_DEF(name)			\
+	void name (G_GNUC_UNUSED gpointer p,	\
+		   WorkbookControlGUI *wbcg)
 gboolean   gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
                                             char const *message,
                                             gboolean default_answer);
@@ -40,22 +43,6 @@ gpointer   gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg,
 					    char const *key);
 void       gnumeric_editable_enters	(GtkWindow *window, GtkWidget *w);
 void       gnumeric_combo_enters	(GtkWindow *window, GtkWidget *combo);
-void       gnumeric_toolbar_insert_with_eventbox (GtkToolbar *toolbar,
-                                                  GtkWidget  *widget,
-                                                  char const *tooltip_text,
-                                                  char const *tooltip_private_text,
-                                                  gint        position);
-void       gnumeric_toolbar_append_with_eventbox (GtkToolbar *toolbar,
-                                                  GtkWidget  *widget,
-                                                  char const *tooltip_text,
-                                                  char const *tooltip_private_text);
-
-/* change alignment of a stock buttons content (should be removed for 2.2) */
-void gtk_button_stock_alignment_set (GtkButton *button,
-				     gfloat     xalign,
-				     gfloat     yalign,
-				     gfloat     xscale,
-				     gfloat     yscale);
 
 /* Utility routine as Gtk does not have any decent routine to do this */
 int gtk_radio_group_get_selected (GSList *radio_group);
@@ -73,10 +60,6 @@ GtkWidget  *gnumeric_create_tooltip (void);
 
 GladeXML   *gnm_glade_xml_new (GnmCmdContext *cc, char const *gladefile,
 			       char const *root, char const *domain);
-
-void 	    gnumeric_inject_widget_into_bonoboui (WorkbookControlGUI *wbcg,
-						  GtkWidget *widget,
-						  char const *path);
 
 typedef struct {
 	char const *name;
@@ -100,10 +83,6 @@ void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 #define gnumeric_filter_modifiers(a) ((a) &(~(GDK_LOCK_MASK|GDK_MOD2_MASK|GDK_MOD5_MASK)))
 
 GnmColor *color_combo_get_style_color (GtkWidget *color_combo);
-
-GtkWidget *gnumeric_toolbar_new (WorkbookControlGUI *wbcg, gpointer info,
-				  char const *name, gint band_num, gint band_position, gint offset);
-GtkWidget *gnumeric_toolbar_get_widget (GtkToolbar *toolbar, int pos);
 
 void gnumeric_help_display	(char const *link);
 void gnumeric_init_help_button	(GtkWidget *w, char const *link);
@@ -152,5 +131,6 @@ GtkWidget * gnumeric_message_dialog_new (GtkWindow * parent,
 
 GdkPixbuf* gnm_pixbuf_intelligent_scale (GdkPixbuf *pixbuf, 
 					 guint width, guint height);
+void	   gnm_widget_disable_focus (GtkWidget *w);
 
 #endif /* GNUMERIC_GUI_UTIL_H */

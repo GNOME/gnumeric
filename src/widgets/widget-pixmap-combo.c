@@ -22,10 +22,9 @@
  */
 
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnm-combo-box.h"
 #include "widget-pixmap-combo.h"
-#include <gnm-marshalers.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkwindow.h>
 #include <gtk/gtktable.h>
@@ -101,7 +100,7 @@ pixmap_combo_class_init (GtkObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (PixmapComboClass, changed),
 			      NULL, NULL,
-			      gnm__VOID__INT,
+			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 }
 

@@ -11,11 +11,10 @@
 #undef GTK_DISABLE_DEPRECATED
 #warning "This file uses GTK_DISABLE_DEPRECATED for CList"
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "widget-font-selector.h"
 
-#include <gnm-marshalers.h>
 #include "../global-gnome-font.h"
 #include <value.h>
 #include <mstyle.h>
@@ -356,7 +355,7 @@ fs_class_init (GObjectClass *klass)
 			G_SIGNAL_RUN_LAST,
 			G_STRUCT_OFFSET (FontSelectorClass, font_changed),
 			NULL, NULL,
-			gnm__VOID__POINTER,
+			g_cclosure_marshal_VOID__POINTER,
 			G_TYPE_NONE, 1, G_TYPE_POINTER);
 }
 

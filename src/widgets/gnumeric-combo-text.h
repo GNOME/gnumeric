@@ -36,9 +36,7 @@ GtkWidget *gnm_combo_text_glade_new	 (void);
 
 gboolean   gnm_combo_text_set_text	 (GnmComboText *ct, const gchar *label,
 					  GnmComboTextSearch start);
-GtkWidget *gnm_combo_text_add_item	 (GnmComboText *ct, const gchar *label);
-
-void       gnm_combo_text_clear	 	 (GnmComboText *ct);
+void	   gnm_combo_text_add_item	 (GnmComboText *ct, const gchar *label);
 
 G_END_DECLS
 

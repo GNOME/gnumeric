@@ -441,13 +441,12 @@ gnm_combo_text_set_text (GnmComboText *ct, const gchar *text,
  * It is ok to have multiple items with the same label, but the key must be
  * unique.
  */
-GtkWidget *
-gnm_combo_text_add_item (GnmComboText *ct,
-			 const gchar *label)
+void
+gnm_combo_text_add_item (GnmComboText *ct, char const *label)
 {
 	GtkWidget *listitem;
 
-	g_return_val_if_fail (label, NULL);
+	g_return_if_fail (label != NULL);
 
 	listitem = gtk_list_item_new_with_label (label);
 	g_signal_connect (G_OBJECT (listitem),
@@ -463,13 +462,4 @@ gnm_combo_text_add_item (GnmComboText *ct,
 	gtk_container_add (GTK_CONTAINER (ct->list), listitem);
 
 	gtk_widget_show (listitem);
-	return listitem;
-}
-
-void
-gnm_combo_text_clear (GnmComboText *ct)
-{
-	g_return_if_fail (IS_GNM_COMBO_TEXT (ct));
-
-	gtk_list_clear_items (GTK_LIST (ct->list), 0, -1);
 }

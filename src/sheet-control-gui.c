@@ -7,7 +7,7 @@
  *    Jody Goldberg (jody@gnome.org)
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "sheet-control-gui-priv.h"
 
@@ -477,7 +477,7 @@ scg_select_all (SheetControlGUI *scg)
 			0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 		gnm_expr_entry_signal_update (
 			wbcg_get_entry_logical (scg->wbcg), TRUE);
-	} else if (!wbcg_edit_has_guru (scg->wbcg)) {
+	} else if (wbcg_edit_get_guru (scg->wbcg) == NULL) {
 		scg_mode_edit (SHEET_CONTROL (sc));
 		wbcg_edit_finish (scg->wbcg, FALSE, NULL);
 		sv_selection_reset (sc->view);
@@ -1685,7 +1685,7 @@ scg_mode_edit (SheetControl *sc)
 	if (sc->sheet != NULL)
 		scg_cursor_visible (scg, TRUE);
 
-	if (wbcg_edit_has_guru (scg->wbcg))
+	if (wbcg_edit_get_guru (scg->wbcg) != NULL)
 		wbcg_edit_finish (scg->wbcg, FALSE, NULL);
 	wb_control_menu_state_update (WORKBOOK_CONTROL (scg->wbcg),
 		MS_CLIPBOARD);
@@ -2341,7 +2341,7 @@ scg_rangesel_move (SheetControlGUI *scg, int n, gboolean jump_to_bound,
 		scg_rangesel_changed (scg, tmp.col, tmp.row, tmp.col, tmp.row);
 	else
 		scg_rangesel_start   (scg, tmp.col, tmp.row, tmp.col, tmp.row);
-	scg_make_cell_visible (scg, tmp.col, tmp.row, FALSE, TRUE);
+	scg_make_cell_visible (scg, tmp.col, tmp.row, FALSE, FALSE);
 	gnm_expr_entry_signal_update (
 		wbcg_get_entry_logical (scg->wbcg), FALSE);
 }

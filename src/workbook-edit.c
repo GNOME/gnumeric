@@ -9,7 +9,7 @@
  * (C) 2000-2001 Ximian, Inc.
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "workbook-edit.h"
 
@@ -329,7 +329,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		return TRUE;
 
 	/* Avoid recursion, and do not begin editing if a guru is up */
-	if (inside_editing || wbcg_edit_has_guru (wbcg))
+	if (inside_editing || wbcg_edit_get_guru (wbcg) != NULL)
 		return TRUE;
 	inside_editing = TRUE;
 
@@ -539,7 +539,7 @@ wbcg_edit_detach_guru (WorkbookControlGUI *wbcg)
 }
 
 GtkWidget *
-wbcg_edit_has_guru (WorkbookControlGUI const *wbcg)
+wbcg_edit_get_guru (WorkbookControlGUI const *wbcg)
 {
 	return wbcg->edit_line.guru;
 }

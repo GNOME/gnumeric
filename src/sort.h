@@ -5,7 +5,7 @@
 
 typedef struct {
 	int	 offset;
-	int	 asc;
+	gboolean asc;
 	gboolean cs;
 	gboolean val;
 } GnmSortClause;

@@ -8,7 +8,7 @@
  *    Andreas J. Guelzow (aguelzow@taliesin.ca)
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "gui-file.h"
 
@@ -112,8 +112,8 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 		if (workbook_is_pristine (tmp_wb)) {
 			g_object_ref (G_OBJECT (wbcg));
 			workbook_unref (tmp_wb);
-			workbook_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
-			workbook_control_init_state (WORKBOOK_CONTROL (wbcg));
+			wb_control_set_view (WORKBOOK_CONTROL (wbcg), wbv, NULL);
+			wb_control_init_state (WORKBOOK_CONTROL (wbcg));
 		} else
 			(void) wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg), wbv, NULL, NULL);
 

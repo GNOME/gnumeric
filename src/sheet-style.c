@@ -33,7 +33,7 @@
 #include "style-color.h"
 #include "cell.h"
 #include "gutils.h"
-#include "gnumeric-i18n.h"
+#include <glib/gi18n.h>
 
 #ifndef USE_TILE_POOLS
 #define USE_TILE_POOLS 1

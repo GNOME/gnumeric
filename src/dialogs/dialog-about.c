@@ -111,8 +111,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 
 	icon = gnumeric_load_pixbuf ("gnome-gnumeric.png");
         about = gnome_about_new (_("Gnumeric"), VERSION,
-				 "Copyright \xc2\xa9 1998-2000 Miguel de Icaza\n"
-				 "Copyright \xc2\xa9 2001-2003 Jody Goldberg",
+				 "Copyright \xc2\xa9 2001-2004 Jody Goldberg\n"
+				 "Copyright \xc2\xa9 1998-2000 Miguel de Icaza",
 				 _("A production ready spreadsheet"),
 				 authors, documenters,
 /* Translate the following string with the names of all translators for this locale. */
@@ -122,7 +122,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 
 	hbox = gtk_hbox_new (TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox),
-		gnome_href_new ("http://www.gnome.org/projects/gnumeric", _("Gnumeric Home Page")),
+		gnome_href_new ("http://www.gnumeric.org", _("Gnumeric Home Page")),
 		FALSE, FALSE, 0);
 
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (about)->vbox),

@@ -59,7 +59,7 @@
 #include "sheet-filter.h"
 #include "pivottable.h"
 #include "scenarios.h"
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gtk/gtkmain.h>
 
 #include <stdlib.h>
@@ -4096,3 +4096,43 @@ sheet_queue_respan (Sheet const *sheet, int start_row, int end_row)
 	colrow_foreach (&sheet->rows, start_row, end_row,
 		cb_queue_respan, NULL);
 }
+
+static GnmValue *
+cb_rerender_zeroes (Sheet *sheet, int col, int row, GnmCell *cell,
+		    gpointer ignored)
+{
+	if (!cell->rendered_value || !cell_is_zero (cell))
+		return NULL;
+	cell_render_value (cell, TRUE);
+	return NULL;
+}
+
+void
+sheet_toggle_hide_zeros (Sheet *sheet)
+{
+	sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+		0, 0, SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1,
+		cb_rerender_zeroes, 0);
+	sheet_adjust_preferences (sheet, TRUE, FALSE);
+}
+
+void
+sheet_toggle_show_formula (Sheet *sheet)
+{
+	GnmCell *cell;
+	SHEET_FOREACH_DEPENDENT (sheet, dep, {
+		if (dependent_is_cell (dep)) {
+			cell = DEP_TO_CELL (dep);
+			if (cell_has_expr(cell)) {
+				if (cell->rendered_value != NULL) {
+					rendered_value_destroy (cell->rendered_value);
+					cell->rendered_value = NULL;
+				}
+				if (cell->row_info != NULL)
+					cell->row_info->needs_respan = TRUE;
+			}
+		}
+	});
+	sheet_adjust_preferences (sheet, TRUE, FALSE);
+}
+

@@ -5,30 +5,19 @@
 #include "workbook-control-gui.h"
 #include "workbook-control-priv.h"
 #include "file.h"
+#include "style.h"
 #include "widgets/gnumeric-expr-entry.h"
 
 #include <gtk/gtknotebook.h>
-#include <libgnomeui/gnome-appbar.h>
-#ifdef WITH_BONOBO
-#include <bonobo.h>
-#endif
 
 struct _WorkbookControlGUI {
 	WorkbookControl	wb_control;
 
-	GtkWindow *toplevel;
+	GtkWindow   *toplevel;
 	GtkNotebook *notebook;
+	GtkWidget   *progress_bar;
 
 	unsigned file_history_size;
-
-	/* Combos */
-	GtkWidget *font_name_selector;
-	GtkWidget *font_size_selector;
-	GtkWidget *zoom_entry;
-	GtkWidget *fore_color, *back_color;
-
-	/* ComboStacks */
-	GtkWidget *undo_combo, *redo_combo;
 
 	struct {
 		GnmExprEntry *entry; /* The real edit line */
@@ -76,73 +65,44 @@ struct _WorkbookControlGUI {
 	PangoFontDescription *font_desc;
 
 	GnmFileSaver *current_saver;
-
-#ifdef WITH_BONOBO
-	GHashTable *custom_ui_components;
-	BonoboUIComponent *uic;
-	GtkWidget *progress_bar;
-#else
-        /* The status bar */
-        GnomeAppBar *appbar;
-
-	/* Menu items that get enabled/disabled */
-	GtkWidget  *menu_item_undo;
-	GtkWidget  *menu_item_redo;
-
-	GtkWidget  *tool_item_cut;
-	GtkWidget  *tool_item_copy;
-	GtkWidget  *tool_item_paste;
-	GtkWidget  *menu_item_cut;
-	GtkWidget  *menu_item_copy;
-	GtkWidget  *menu_item_paste;
-
-	GtkWidget  *menu_item_paste_special;
-	GtkWidget  *menu_item_insert_rows;
-	GtkWidget  *menu_item_insert_cols;
-	GtkWidget  *menu_item_insert_cells;
-	GtkWidget  *menu_item_show_detail;
-	GtkWidget  *menu_item_hide_detail;
-
-	GtkWidget  *menu_item_sheet_remove;
-
-	GtkWidget  *menu_item_page_setup;
-	GtkWidget  *menu_item_search_replace;
-	GtkWidget  *menu_item_define_name;
-	GtkWidget  *menu_item_consolidate;
-	GtkWidget  *menu_item_freeze_panes;
-	GtkWidget  *menu_item_auto_filter;
-
-	/* Menu items that get toggled */
-	GtkWidget  *menu_item_sheet_display_formulas;
-	GtkWidget  *menu_item_sheet_hide_zero;
-	GtkWidget  *menu_item_sheet_hide_grid;
-	GtkWidget  *menu_item_sheet_hide_col_header;
-	GtkWidget  *menu_item_sheet_hide_row_header;
-
-	GtkWidget  *menu_item_sheet_display_outlines;
-	GtkWidget  *menu_item_sheet_outline_symbols_below;
-	GtkWidget  *menu_item_sheet_outline_symbols_right;
-
-        GtkWidget  *menu_item_filter_show_all;
-
-	/* Toolbars */
-	GtkWidget *standard_toolbar;
-	GtkWidget *format_toolbar;
-	GtkWidget *object_toolbar;
-#endif
 };
 
 typedef struct {
-	WorkbookControlClass   wb_control_class;
-	void (*set_transient) (WorkbookControlGUI *wbcg, GtkWindow *window);
+	WorkbookControlClass base;
+
+	void (*set_transient)		(WorkbookControlGUI *wbcg, GtkWindow *window);
+	void (*create_status_area)	(WorkbookControlGUI *wbcg,
+					 GtkWidget *status, GtkWidget *autoexpr);
+	void (*actions_sensitive)	(WorkbookControlGUI *wbcg, gboolean sensitive);
+	void (*set_zoom_label)		(WorkbookControlGUI const *wbcg, char const *label);
+	void (*reload_recent_file_menu)	(WorkbookControlGUI const *wbcg);
+	void (*set_action_sensitivity)  (WorkbookControlGUI const *wbcg,
+					 char const *action,
+					 gboolean sensitive);
+	void (*set_action_label)        (WorkbookControlGUI const *wbcg,
+					 char const *action,
+					 char const *prefix,
+					 char const *suffix,
+					 char const *new_tip);
+	void (*set_toggle_action_state) (WorkbookControlGUI const *wbcg,
+					 char const *action,
+					 gboolean state);
 } WorkbookControlGUIClass;
 
 #define WORKBOOK_CONTROL_GUI_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), WORKBOOK_CONTROL_GUI_TYPE, WorkbookControlGUIClass))
 
 /* Protected functions */
+void	 wbcg_set_toplevel	      (WorkbookControlGUI *wbcg, GtkWidget *w);
 gboolean wbcg_scroll_wheel_support_cb (GtkWidget *ignored,
 				       GdkEventScroll *event,
 				       WorkbookControlGUI *wbcg);
+gboolean wbcg_close_control	      (WorkbookControlGUI *wbcg);
+int	 wbcg_close_if_user_permits   (WorkbookControlGUI *wbcg,
+				       WorkbookView *wb_view, gboolean close_clean,
+				       gboolean exiting, gboolean ask_user);
+void	 scg_delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg);
+void	 wbcg_insert_sheet	      (GtkWidget *ignored, WorkbookControlGUI *wbcg);
+void	 wbcg_append_sheet	      (GtkWidget *ignored, WorkbookControlGUI *wbcg);
 
 #endif /* GNUMERIC_WORKBOOK_CONTROL_GUI_PRIV_H */
 

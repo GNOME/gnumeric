@@ -21,7 +21,6 @@
 #include "auto-correct.h"
 #include "gutils.h"
 #include "pixmaps/gnumeric-stock-pixbufs.h"
-#include "gnm-marshalers.h"
 
 #include <gnumeric-gconf.h>
 #include <gsf/gsf-impl-utils.h>
@@ -763,7 +762,7 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, workbook_added),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__OBJECT,
+		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE,
 		1, WORKBOOK_TYPE);
 	signals [WORKBOOK_REMOVED] = g_signal_new ("workbook_removed",
@@ -771,7 +770,7 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, workbook_removed),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__POINTER,
+		g_cclosure_marshal_VOID__POINTER,
 		G_TYPE_NONE,
 		1, G_TYPE_POINTER);
 	signals [CLIPBOARD_MODIFIED] = g_signal_new ("clipboard_modified",
@@ -779,7 +778,7 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmAppClass, clipboard_modified),
 		(GSignalAccumulator) NULL, NULL,
-		gnm__VOID__VOID,
+		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0);
 }

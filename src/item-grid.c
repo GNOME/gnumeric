@@ -891,11 +891,10 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	/* If we are not configuring an object then clicking on the sheet
 	 * ends the edit.
 	 */
-	if (scg->current_object != NULL) {
-		if (!wbcg_edit_has_guru (scg->wbcg))
-			scg_mode_edit (sc);
-	} else
+	if (scg->current_object == NULL)
 		wbcg_focus_cur_scg (scg->wbcg);
+	else if (wbcg_edit_get_guru (scg->wbcg) == NULL)
+		scg_mode_edit (sc);
 
 	/* If we were already selecting a range of cells for a formula,
 	 * reset the location to a new place, or extend the selection.
@@ -927,7 +926,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 	}
 
 	/* While a guru is up ignore clicks */
-	if (wbcg_edit_has_guru (scg->wbcg))
+	if (wbcg_edit_get_guru (scg->wbcg) != NULL)
 		return TRUE;
 
 	/* This was a regular click on a cell on the spreadsheet.  Select it.

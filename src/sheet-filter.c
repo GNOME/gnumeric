@@ -45,7 +45,7 @@
 #include <gdk/gdkevents.h>
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 
 typedef struct {
 	SheetObject parent;

@@ -23,7 +23,7 @@
 #include "pivottable.h"
 #include <sheet.h>
 
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 
 GnmPivotTable *
 gnm_pivottable_new (Sheet *src_sheet, GnmRange const *src,

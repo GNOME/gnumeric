@@ -158,7 +158,7 @@ gnm_combo_box_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmComboBoxClass, pre_pop_down),
 		NULL, NULL,
-		gnm__VOID__VOID,
+		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
 	gnm_combo_box_signals [POST_POP_HIDE] = g_signal_new (
@@ -167,7 +167,7 @@ gnm_combo_box_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmComboBoxClass, post_pop_hide),
 		NULL, NULL,
-		gnm__VOID__VOID,
+		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 }
 

@@ -35,4 +35,5 @@ workbook_control_component_new (WorkbookView *optional_view,
 void
 workbook_control_component_activate (WorkbookControlComponent *wbcc,
 				     Bonobo_UIContainer ui_container);
+
 #endif /* GNUMERIC_WORKBOOK_CONTROL_COMPONENT_H */

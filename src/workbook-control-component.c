@@ -314,7 +314,7 @@ workbook_control_component_init (WorkbookControlComponent *wbcc,
 	wbcg->notebook = NULL;
 	wbcg->updating_ui = FALSE;
 
-	workbook_control_set_view (&wbcg->wb_control, optional_view, optional_wb);
+	wb_control_set_view (&wbcg->wb_control, optional_view, optional_wb);
 
 	/* We don't display the edit area, but by constructing it, we avoid
 	 * warnings when attaching gurus */
@@ -395,7 +395,7 @@ workbook_control_component_new (WorkbookView *optional_view, Workbook *wb)
 	wbcc = g_object_new (workbook_control_component_get_type (), NULL);
 	wbc  = WORKBOOK_CONTROL (wbcc);
 	workbook_control_component_init (wbcc, optional_view, wb);
-	workbook_control_init_state (wbc);
+	wb_control_init_state (wbc);
 
 	return wbc;
 }

@@ -587,7 +587,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 	SheetControlGUI *scg = gcanvas->simple.scg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (scg_get_wbcg (scg));
 
-	if (wbcg_edit_has_guru (scg_get_wbcg (scg)))
+	if (wbcg_edit_get_guru (scg_get_wbcg (scg)) != NULL)
 		return FALSE;
 
 	switch (event->type) {

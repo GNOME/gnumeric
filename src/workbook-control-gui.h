@@ -9,10 +9,8 @@
 #define WORKBOOK_CONTROL_GUI(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), WORKBOOK_CONTROL_GUI_TYPE, WorkbookControlGUI))
 #define IS_WORKBOOK_CONTROL_GUI(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_CONTROL_GUI_TYPE))
 
-typedef struct _CustomXmlUI CustomXmlUI;
-
-GType            workbook_control_gui_get_type  (void);
-WorkbookControl *workbook_control_gui_new       (WorkbookView *optional_view,
+GType    	 workbook_control_gui_get_type  (void);
+WorkbookControl *workbook_control_gui_new	(WorkbookView *optional_view,
 						 Workbook *optional_wb,
 						 GdkScreen *optional_screen);
 
@@ -33,16 +31,11 @@ void       wbcg_toolbar_timer_clear (WorkbookControlGUI *wbcg);
 void       wbcg_autosave_cancel	  (WorkbookControlGUI *wbcg);
 void       wbcg_autosave_set      (WorkbookControlGUI *wbcg,
 				   int minutes, gboolean prompt);
-void	   wb_control_gui_set_status_text (WorkbookControlGUI *wbcg,
-					   char const *text);
+void	   wbcg_set_status_text	  (WorkbookControlGUI *wbcg,
+				   char const *text);
 void       wbcg_toggle_end_mode   (WorkbookControlGUI *wbcg);
 void       wbcg_set_end_mode      (WorkbookControlGUI *wbcg, gboolean flag);
 
 PangoFontDescription *wbcg_get_font_desc (WorkbookControlGUI *wbcg);
-
-CustomXmlUI *register_xml_ui   (const char *xml_ui, const char *textdomain,
-                                GSList *verb_list, GCallback /*BonoboUIVerbFn*/ verb_fn,
-                                gpointer verb_fn_data);
-void         unregister_xml_ui (CustomXmlUI *ui);
 
 #endif /* GNUMERIC_WORKBOOK_CONTROL_GUI_H */

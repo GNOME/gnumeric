@@ -21,7 +21,7 @@
  * USA
  */
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "sheet-object-widget.h"
 
