@@ -1,5 +1,9 @@
 2004-07-27  Morten Welinder  <terra@gnome.org>
 
+	* configure.in: Check for log1p also.
+
+2004-07-27  Morten Welinder  <terra@gnome.org>
+
 	* src/gnumeric-gconf.c (gnm_conf_init_printer_decoration_font): (void).
 	* src/application.c (cb_flag_windows_changed): Ditto.
 
