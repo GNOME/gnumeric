@@ -30,7 +30,8 @@ struct _GtkComboStackClass {
 
 
 GtkType    gtk_combo_stack_get_type  (void);
-GtkWidget *gtk_combo_stack_new       (gboolean const is_scrolled);
+GtkWidget *gtk_combo_stack_new       (const gchar *stock_name,
+				      gboolean const is_scrolled);
 
 void       gtk_combo_stack_push_item (GtkComboStack *combo_stack,
 				      const gchar *item);

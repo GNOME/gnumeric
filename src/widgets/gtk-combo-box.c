@@ -760,3 +760,20 @@ gtk_combo_box_set_title (GtkComboBox *combo,
 	gtk_object_set_data_full (GTK_OBJECT (combo), "gtk-combo-title",
 				  g_strdup (title), (GtkDestroyNotify) g_free);
 }
+
+/**
+ * gtk_combo_box_set_arrow_sensitive
+ * @combo  Combo box
+ * @sensitive  Sensitivity value
+ *
+ * Toggle the sensitivity of the arrow button
+ */
+
+void
+gtk_combo_box_set_arrow_sensitive (GtkComboBox *combo,
+				   gboolean sensitive)
+{
+	g_return_if_fail (combo != NULL);
+
+	gtk_widget_set_sensitive (combo->priv->arrow_button, sensitive);
+}

@@ -25,4 +25,6 @@ libwidgets_a_SOURCES =				\
 	gnumeric-dashed-canvas-line.c		\
 	gnumeric-dashed-canvas-line.h		\
 	gtk-combo-text.c			\
-	gtk-combo-text.h
+	gtk-combo-text.h			\
+	gtk-combo-stack.c			\
+	gtk-combo-stack.h

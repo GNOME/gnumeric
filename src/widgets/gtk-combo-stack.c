@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <libgnomeui/gnome-stock.h>
 #include "gtk-combo-stack.h"
 
 static GtkObjectClass *gtk_combo_stack_parent_class;
@@ -90,6 +91,11 @@ gtk_combo_stack_pop (GtkComboStack *combo,
 	gtk_signal_emit_by_name (GTK_OBJECT (combo), "pop", num);
 
 	combo->num_items -= num;
+	if (!combo->num_items)
+	{
+		gtk_widget_set_sensitive (combo->button, FALSE);
+		gtk_combo_box_set_arrow_sensitive (GTK_COMBO_BOX (combo), FALSE);
+	}
 }
 
 static void
@@ -114,12 +120,21 @@ list_select_cb (GtkWidget *list, GtkWidget *child, gpointer data)
 }
 
 static void
-gtk_combo_stack_construct (GtkComboStack *ct, gboolean const is_scrolled)
+gtk_combo_stack_construct (GtkComboStack *combo,
+			   const gchar *stock_name,
+			   gboolean const is_scrolled)
 {
-	GtkWidget *button, *list, *scroll, *display_widget;
+	GtkWidget *button, *list, *scroll, *display_widget, *pixmap;
 	
-	button = ct->button = gtk_button_new_with_label ("Undo");
-	list = ct->list = gtk_list_new ();
+	button = combo->button = gtk_button_new ();
+	list = combo->list = gtk_list_new ();
+
+	/* Create the button */
+	pixmap = gnome_stock_new_with_icon (stock_name);
+	gtk_widget_show (pixmap);
+	gtk_container_add (GTK_CONTAINER (button), pixmap);
+	gtk_widget_set_sensitive (button, FALSE);
+	gtk_combo_box_set_arrow_sensitive (GTK_COMBO_BOX (combo), FALSE);
 	
 	if (is_scrolled) {
 		display_widget = scroll = gtk_scrolled_window_new (NULL, NULL);
@@ -143,23 +158,24 @@ gtk_combo_stack_construct (GtkComboStack *ct, gboolean const is_scrolled)
 
 	gtk_signal_connect (GTK_OBJECT (list), "select-child",
 			    GTK_SIGNAL_FUNC (list_select_cb),
-			    (gpointer) ct);
+			    (gpointer) combo);
 	gtk_signal_connect (GTK_OBJECT (button), "clicked",
 			    GTK_SIGNAL_FUNC (button_cb),
-			    (gpointer) ct);
+			    (gpointer) combo);
 
 	gtk_widget_show (display_widget);
 	gtk_widget_show (button);
-	gtk_combo_box_construct (GTK_COMBO_BOX (ct), button, display_widget);
+	gtk_combo_box_construct (GTK_COMBO_BOX (combo), button, display_widget);
 }
 
 GtkWidget*
-gtk_combo_stack_new (gboolean const is_scrolled)
+gtk_combo_stack_new (const gchar *stock,
+		     gboolean const is_scrolled)
 {
 	GtkComboStack *ct;
 
 	ct = gtk_type_new (gtk_combo_stack_get_type ());
-	gtk_combo_stack_construct (ct, is_scrolled);
+	gtk_combo_stack_construct (ct, stock, is_scrolled);
 	/*
 	gtk_signal_connect (GTK_OBJECT (ct), "pop_down_done",
 			    GTK_SIGNAL_FUNC (cb_pop_down), NULL);
@@ -168,7 +184,7 @@ gtk_combo_stack_new (gboolean const is_scrolled)
 }
 
 void
-gtk_combo_stack_push_item (GtkComboStack *combo_stack,
+gtk_combo_stack_push_item (GtkComboStack *combo,
 			   const gchar *item)
 {
 	GtkWidget *listitem;
@@ -176,17 +192,21 @@ gtk_combo_stack_push_item (GtkComboStack *combo_stack,
 	
 	g_return_if_fail (item);
 
-	combo_stack->num_items++;
+	combo->num_items++;
 
 	listitem = gtk_list_item_new_with_label (item);
 	gtk_object_set_data (GTK_OBJECT (listitem), "value",
-			     GINT_TO_POINTER (combo_stack->num_items));
+			     GINT_TO_POINTER (combo->num_items));
 	gtk_widget_show (listitem);
 
 	tmp_list = g_list_alloc ();
 	tmp_list->data = listitem;
 	tmp_list->next = NULL;
-	gtk_list_prepend_items (GTK_LIST (combo_stack->list),
+	gtk_list_prepend_items (GTK_LIST (combo->list),
 				tmp_list);
+
+	gtk_widget_set_sensitive (combo->button, TRUE);
+	gtk_combo_box_set_arrow_sensitive (GTK_COMBO_BOX (combo), TRUE);
+	
 /*	g_list_free (tmp_list);*/
 }

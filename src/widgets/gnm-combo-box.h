@@ -54,6 +54,9 @@ void       gtk_combo_box_set_display (GtkComboBox *combo_box,
 void       gtk_combo_box_set_arrow_relief (GtkComboBox *cc, GtkReliefStyle relief);
 void       gtk_combo_box_set_title (GtkComboBox *combo, const gchar *title);
 
+void       gtk_combo_box_set_arrow_sensitive (GtkComboBox *combo,
+						  gboolean sensitive);
+    
 #ifdef __cplusplus
 };
 #endif /* __cplusplus */
