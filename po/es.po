@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.29\n"
+"Project-Id-Version: gnumeric 0.31\n"
 "POT-Creation-Date: 1999-08-04 07:51-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
@@ -18,6 +18,21 @@ msgstr ""
 #: plugins/excel/boot.c:75
 msgid "Saving over old files disabled for safety"
 msgstr "Sobrescritura de archivos al guardar desactivada por seguridad"
+
+msgid "Portrait"
+msgstr "Vertical"
+
+msgid "Landscape"
+msgstr "Apaisado"
+
+msgid "Columns to repeat on the left side:"
+msgstr "Columnas a repetir en el lado izquierdo:"
+
+msgid "Customize header"
+msgstr "Personalizar encabezado"
+
+msgid "Customize footer"
+msgstr "Personalizar el pié de página"
 
 #: plugins/excel/boot.c:83
 msgid "Can't open"
@@ -146,14 +161,12 @@ msgid "Mark Probst, Guile support."
 msgstr "Mark Probst, soporte Guile."
 
 #: src/about.c:36
-#, fuzzy
 msgid "Rasca, HTML, troff, LaTeX exporters."
-msgstr "Rasca Gmelch, exportadores troff y html."
+msgstr "Rasca Gmelch, exportadores HTML, troff y LaTeX."
 
 #: src/about.c:37
-#, fuzzy
 msgid "Vincent Renardias, CSV support, French localisation."
-msgstr "Vincent Renardias, soporte CSV."
+msgstr "Vincent Renardias, soporte CSV y localización al francés."
 
 #: src/about.c:38
 msgid "Bruno Unna, Excel bits."
@@ -177,7 +190,7 @@ msgstr "Gnumeric"
 
 #: src/about.c:56
 msgid "(C) 1998-1999 Miguel de Icaza"
-msgstr ""
+msgstr "© 1998-1999 Miguel de Icaza"
 
 #: src/about.c:63
 msgid "Gnumeric Home Page"
@@ -612,9 +625,8 @@ msgid "Custom"
 msgstr "Especificar"
 
 #: src/dialog-zoom.c:87
-#, fuzzy, c-format
 msgid "Zoom factor should be at least 25%"
-msgstr "El factor de aplificación debe de ser al menos del 50%"
+msgstr "El factor de amplificación debe de ser al menos del 25%"
 
 #: src/dialog-zoom.c:93
 #, c-format
@@ -647,9 +659,8 @@ msgid "Internal type error"
 msgstr "Error de tipo interno"
 
 #: src/expr.c:997
-#, fuzzy
 msgid "Unknown operator"
-msgstr "Error al evaluar"
+msgstr "Operador desconocido"
 
 #: src/expr.c:1130
 msgid "Unknown evaluation error"
@@ -932,7 +943,6 @@ msgstr ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/fn-date.c:474
-#, fuzzy
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -949,8 +959,8 @@ msgstr ""
 "@FUNCTION=DAYS360\n"
 "@SYNTAX=DAYS360 (fecha1,fecha2,método)\n"
 "@DESCRIPTION=Devuelve la cantidad de días entre @fecha1 y @fecha2 siguiendo "
-"un calendario de 360 días con meses de 30 días.\n"
-"Si @método is VERDAD, el método europeo es usado. En ese caso, si el día del "
+"un calendario de 360 días con todos los meses de 30 días.\n"
+"Si @método es VERDAD, el método europeo es usado. En ese caso, si el día del "
 "mes es un 31, será considerado como un 30.\n"
 "Si @método es FALSO o se omite, el método estadounidense será usado. Que es "
 "un método más complicado usado como método estandardizado en la industria en "
@@ -973,6 +983,12 @@ msgid ""
 "Returns #NUM if start_date or months are invalid\n"
 "@SEEALSO=MONTH"
 msgstr ""
+"@FUNCTION=EOMONTH\n"
+"@SYNTAX=EOMONTH (fecha_inico,meses)\n"
+"@DESCRIPTION=Devuelve el último día del mes que viene @meses meses después "
+"que @fecha_inicio .\n"
+"Devuelve #NUM si @fecha_inicio o @meses no son válidos.\n"
+"@SEEALSO=MONTH"
 
 #: src/fn-date.c:610
 msgid ""
@@ -984,11 +1000,17 @@ msgid ""
 "Returns #NUM if start_date or days are invalid\n"
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
+"@FUNCTION=WORKDAY\n"
+"@SYNTAX=WORKDAY (fecha_inicio,días,vacaciones)\n"
+"@DESCRIPTION=Devuelve el día que viene @días días laborables después que "
+"@fecha_inicio . Los días de fin de semana así como los dias opcionalmente"
+" indicados con el argumento @vacaciones no se cuentan.\n"
+"Devuelve #NUM si @fecha_inicio o @días no son válidos.\n"
+"@SEEALSO=NETWORKDAYS"
 
 #: src/fn-date.c:639
-#, fuzzy
 msgid "Unimplemented"
-msgstr "#No implementado!"
+msgstr "No implementado"
 
 #: src/fn-date.c:674
 msgid ""
@@ -999,6 +1021,13 @@ msgid ""
 "Returns #NUM if start_date or end_date are invalid\n"
 "@SEEALSO=WORKDAY"
 msgstr ""
+"@FUNCTION=NETWORKDAYS\n"
+"@SYNTAX=NETWORKDAYS (fecha_inicio,fecha_final,vacaciones)\n"
+"@DESCRIPTION=Devuelve la cantidad de días laborables entre "
+"@fecha_inicio y @fecha_final.  Opcionalmente se puede indicar en @vacaciones"
+" los días de vacaciones.\n"
+"Devuelve #NUM si fecha_inicio o fecha_final no son válidos\n"
+"@SEEALSO=WORKDAY"
 
 #: src/fn-date.c:785
 msgid "Date / Time"
@@ -2110,21 +2139,19 @@ msgstr ""
 "@SEEALSO=COUNT,SUM"
 
 #: src/fn-math.c:2318
-#, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
 "@DESCRIPTION=TRANSPOSE function Returns the transpose of the inputmatrix.\n"
 "@SEEALSO=MMULT"
 msgstr ""
-"@FUNCTION=SQRTPI\n"
-"@SYNTAX=SQRTPI(número)\n"
-"@DESCRIPTION=La función SQRTPI devuelve la raíz cuadrada de un número "
-"multiplicado por pi.\n"
-"@SEEALSO=PI"
+"@FUNCTION=TRANSPOSE\n"
+"@SYNTAX=TRANSPOSE(matríz)\n"
+"@DESCRIPTION=La función TRANSPOSE devuelve la matríz transpuesta de la"
+" matríz pasada en argument.\n"
+"@SEEALSO=MMULT"
 
 #: src/fn-math.c:2361
-#, fuzzy
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -2135,10 +2162,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(vector1,vector2)\n"
-"@DESCRIPTION=La función SERIESSUM devuelve la matríz producto de dos "
+"@DESCRIPTION=La función MMULT devuelve la matríz producto de dos "
 "vectores. El resultado es una matríz con la misma cantidad de líneas que "
 "vector1 y la misma cantidad de colúmnas que vector2.\n"
-"@SEEALSO=SUMPRODUCT"
+"@SEEALSO=TRANSPOSE,MINVERSE"
 
 #: src/fn-math.c:2403
 msgid "#3D MULT?"
@@ -2477,9 +2504,8 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-string.c:457
-#, fuzzy
 msgid "Type Mismatch"
-msgstr "Tipo erroneo"
+msgstr "Tipo Erróneo"
 
 #: src/fn-string.c:535
 msgid ""
@@ -2522,18 +2548,18 @@ msgstr ""
 "@SEEALSO=CELL, N, VALUE"
 
 #: src/fn-string.c:645
-#, fuzzy
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
 "@DESCRIPTION=Returns @value as a string with the specified format.\n"
 "@SEEALSO=DOLLAR"
 msgstr ""
-"@FUNCTION=ERROR\n"
-"@SYNTAX=ERROR(texto)\n"
-"@DESCRIPTION=Devuelve el error especificado.\n"
+"@FUNCTION=TEXT\n"
+"@SYNTAX=TEXT(valor,fromato_texto)\n"
+"@DESCRIPTION=Devuelve @valor como una cadena de texto, según el formato "
+"especificado.\n"
 "\n"
-"@SEEALSO=ISERROR"
+"@SEEALSO=DOLLAR"
 
 #: src/fn-string.c:698
 msgid ""
@@ -2665,12 +2691,11 @@ msgstr "0,0########"
 
 #: src/format.c:1067
 msgid "TRUE"
-msgstr ""
+msgstr "VERDAD"
 
 #: src/format.c:1067
-#, fuzzy
 msgid "FALSE"
-msgstr "ARCHIVO"
+msgstr "FALSO"
 
 #: src/format.c:1076
 msgid "CELLRANGE"
@@ -2814,39 +2839,36 @@ msgid "m/d/yyyy h:mm"
 msgstr "d/m/yyyy h:mm"
 
 #: src/formats.c:58
-#, fuzzy
 msgid "yyyy/mm/d"
-msgstr "d/mm"
+msgstr "d/mm/yyyy"
 
 #: src/formats.c:59
-#, fuzzy
 msgid "yyyy/mmm/d"
-msgstr "d/mmm"
+msgstr "d/mmm/yyyy"
 
 #: src/formats.c:60
 msgid "yyyy/mm/dd"
-msgstr ""
+msgstr "dd/mm/yyyy"
 
 #: src/formats.c:61
-#, fuzzy
 msgid "yyyy/mmm/dd"
-msgstr "d/mmm"
+msgstr "dd/mmm/yyyy"
 
 #: src/formats.c:62
 msgid "yyyy-mm-d"
-msgstr ""
+msgstr "yyyy-mm-d"
 
 #: src/formats.c:63
 msgid "yyyy-mmm-d"
-msgstr ""
+msgstr "yyyy-mmm-d"
 
 #: src/formats.c:64
 msgid "yyyy-mm-dd"
-msgstr ""
+msgstr "yyyy-mm-dd"
 
 #: src/formats.c:65
 msgid "yyyy-mmm-dd"
-msgstr ""
+msgstr "yyyy-mmm-dd"
 
 #: src/formats.c:70
 msgid "h:mm AM/PM"
@@ -3140,9 +3162,8 @@ msgid "Column: %s"
 msgstr "Columna: %s"
 
 #: src/sheet.c:835
-#, fuzzy
 msgid "Internal ERROR"
-msgstr "Error interno"
+msgstr "ERROR interno"
 
 #: src/sheet.c:2844
 msgid "The command `"
@@ -3221,11 +3242,11 @@ msgstr "Importa un archivo"
 
 #: src/workbook.c:868
 msgid "Su_mmary..."
-msgstr ""
+msgstr "_Resúmen..."
 
 #: src/workbook.c:868
 msgid "Summary information"
-msgstr ""
+msgstr "Información en breve"
 
 #: src/workbook.c:873
 msgid "Plu_g-ins..."
@@ -3635,6 +3656,15 @@ msgstr "Borrar esta hoja"
 msgid "Sheet%d"
 msgstr "Hoja%d"
 
+msgid "Sheet &[NUM]"
+msgstr"Hoja &[NUM]"
+
+msgid "Sheet 1"
+msgstr "Hoja 1"
+
+msgid "Sheets"
+msgstr "Hojas"
+
 #: src/workbook.c:2334
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
@@ -3671,7 +3701,7 @@ msgstr "% del tamaño original."
 
 #: src/print.glade.h:15
 msgid "pages wider by "
-msgstr "página de ancho, por "
+msgstr "páginas de ancho, por "
 
 #: src/print.glade.h:16
 msgid "pages of height"
@@ -3698,6 +3728,12 @@ msgstr "Opciones"
 #: src/print.glade.h:22 src/print.glade.h:59
 msgid "Page"
 msgstr "Página"
+
+msgid "Page &[PAGE] of &[PAGES]"
+msgstr "Página &[PAGE] de &[PAGES]"
+
+msgid "Page &[PAGE]"
+msgstr "Página &[PAGE]"
 
 #: src/print.glade.h:23
 msgid "Superior:"
@@ -3764,7 +3800,6 @@ msgid "Titles to print"
 msgstr "Títulos a imprimir"
 
 #: src/print.glade.h:46
-#, fuzzy
 msgid "Rows to repeat on the left side:"
 msgstr "Renglones a repetir en el lado izquierdo:"
 
@@ -3797,7 +3832,6 @@ msgid "Down, then right"
 msgstr "Abajo y luego a la derecha"
 
 #: src/print.glade.h:55
-#, fuzzy
 msgid "Right, then down"
 msgstr "A la derecha y luego abajo"
 
@@ -3808,11 +3842,11 @@ msgstr "A la derecha y luego abajo"
 #.
 #: src/import.glade.h:7
 msgid "Choose an import filter for loading the file:"
-msgstr ""
+msgstr "Elija un filtro de importación para el archivo:"
 
 #: src/import.glade.h:8
 msgid "label2"
-msgstr ""
+msgstr "etiqueta2"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3820,23 +3854,23 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/hf-config.glade.h:7
-#, fuzzy
 msgid "Left section:"
-msgstr "Alinea a la izquierda"
+msgstr "Sección a la izquierda:"
+
+msgid "Left section"
+msgstr "Sección a la izquierda:"
 
 #: src/hf-config.glade.h:8
-#, fuzzy
 msgid "Center section:"
-msgstr "Centrar en la página"
+msgstr "Sección al centro:"
 
 #: src/hf-config.glade.h:9
-#, fuzzy
 msgid "Right section:"
-msgstr "Alinea a la derecha"
+msgstr "Sección a la derecha:"
 
 #: src/hf-config.glade.h:10
 msgid "Enter the format strings for each section:"
-msgstr ""
+msgstr "Entre el formato de texto para cada sección:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3844,67 +3878,38 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/font-sel.glade.h:7
-#, fuzzy
 msgid "window1"
-msgstr "ventana2"
+msgstr "ventana1"
 
 #: src/font-sel.glade.h:8
-#, fuzzy
 msgid "Font:"
-msgstr "Fuente"
+msgstr "Tipo de letra:"
 
 #: src/font-sel.glade.h:9
 msgid "Font style:"
-msgstr ""
+msgstr "Estilo del tipo de letra:"
 
 #: src/font-sel.glade.h:10
 msgid "Size:"
-msgstr ""
+msgstr "Tamaño:"
 
 #: src/font-sel.glade.h:11
-#, fuzzy
 msgid "Preview:"
-msgstr "Vista preliminar de la impresión"
+msgstr "Previsualizar:"
 
 #: src/font-sel.glade.h:12
 msgid "AaBbCcDdEe12345"
-msgstr ""
+msgstr "AaBbCcDdÁáÑñÜü1234"
 
 #: src/font-sel.glade.h:13
 msgid "label7"
-msgstr ""
+msgstr "etiqueta7"
 
 #: src/font-sel.glade.h:14
 msgid "label8"
-msgstr ""
+msgstr "etiqueta8"
 
 #: src/font-sel.glade.h:15
 msgid "label9"
-msgstr ""
+msgstr "etiqueta9"
 
-#~ msgid "Reference to newborn cell"
-#~ msgstr "Referencia hacia una celda recién creada"
-
-#~ msgid "Define names"
-#~ msgstr "Definir nombres"
-
-#~ msgid "Add"
-#~ msgstr "Añadir"
-
-#~ msgid "Names in the workbook"
-#~ msgstr "Nombre en el libro de trabajo"
-
-#~ msgid "Refers to"
-#~ msgstr "Se refiere a"
-
-#~ msgid "Function does not exist"
-#~ msgstr "La función no existe"
-
-#~ msgid "Calling non-function"
-#~ msgstr "Llamada de una no-función"
-
-#~ msgid "Type error"
-#~ msgstr "Tipo erróneo"
-
-#~ msgid "sample goes jere"
-#~ msgstr "el ejemplo irá aquí"

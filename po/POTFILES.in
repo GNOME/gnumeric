@@ -29,6 +29,7 @@ src/main.c
 src/number-match.c
 src/plugin-manager.c
 src/plugin.c
+src/print-info.c
 src/sheet-autofill.c
 src/sheet-view.c
 src/sheet.c
