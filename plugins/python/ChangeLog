@@ -1,3 +1,7 @@
+2000-03-24  Jon K Hellan  <hellan@acm.org>
+
+	* python.c (apply): Fix leak.
+
 2000-03-03  Jon K Hellan  <hellan@acm.org>
 
 	* python.c 

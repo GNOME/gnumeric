@@ -4,6 +4,7 @@
 
 /**
  * TODO:
+ * Cell value
  * Cell ranges - The sheet attribute is not yet handled.
  */
 
@@ -742,13 +743,14 @@ apply (PyObject *m, PyObject *py_args)
 	values = g_new0(Value*, num_args);
 	for (i = 0; i < num_args; ++i)
 	{
-		Py_XDECREF (item);
 		item = PySequence_GetItem (seq, i);
 		if (item == NULL)
 			goto cleanup;
 		values[i] = value_from_python (item);
-		if (PyErr_Occurred ())
+		if (PyErr_Occurred ()) {
+			Py_DECREF (item);
 			goto cleanup;
+		}
 	}
 
 	v = function_call_with_values (ei->pos, funcname, num_args, values);
@@ -766,6 +768,7 @@ cleanup:
 	for (i = 0; i < num_args; ++i)
 		if (values[i])
 			value_release (values[i]);
+	g_free (values);
 	
 	/* We do not own a reference to seq, so don't decrement it. */
 	return retval;

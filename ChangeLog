@@ -1,3 +1,14 @@
+2000-03-26  Jon K Hellan  <hellan@acm.org>
+
+	* src/file.c (wants_to_overwrite): New function. True if user
+	wants to overwrite.
+	(can_try_save_to): New function. True if it makes sense to try
+	saving.
+	(do_save_as): New function. Moved out of workbook_save_as. Handle
+	the selection made in the save as dialog.
+
+	* src/workbook.c (sheet_action_delete_sheet): Set initial focus.
+
 2000-03-26  Karl EICHWALDER  <ke@suse.de>
 
 	* src/workbook.c: A little bit more text.

@@ -15,6 +15,9 @@
 #include "workbook.h"
 #include "command-context.h"
 #include <locale.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 struct _FileOpener {
 	int             priority;
@@ -507,6 +510,132 @@ fs_set_filename (GtkFileSelection *fsel, Workbook *wb)
 	g_free (name);
 }
 
+/*
+ * Returns true if user confirmed that existing workbook should be
+ * overwritten.
+ *
+ * FIXME: The dialog should really be a child of the file selector,
+ * not the workbook.
+ */
+static gboolean
+wants_to_overwrite (Workbook *wb, char *name)
+{
+	GtkWidget *d, *button_no;
+	char *message = g_strdup_printf
+		(_("Workbook %s already exists\nDo you want to save over it?"),
+		 name);
+	
+	d = gnome_message_box_new (
+		message, GNOME_MESSAGE_BOX_QUESTION,
+		GNOME_STOCK_BUTTON_YES,
+		GNOME_STOCK_BUTTON_NO,
+		NULL);
+	g_free (message);
+	button_no = g_list_last (GNOME_DIALOG (d)->buttons)->data;
+	gtk_widget_grab_focus (button_no);
+	
+	return (gnumeric_dialog_run (wb, GNOME_DIALOG (d)) == 0);
+}
+
+/*
+ * Check if it makes sense to try saving.
+ * If it's an existing file and writable for us, ask if we want to overwrite.
+ * We check for other problems, but if we miss any, the saver will report.
+ * So it doesn't have to be bulletproof.
+ *
+ * FIXME: The message boxes should really be children of the file selector,
+ * not the workbook.
+ */
+static gboolean
+can_try_save_to (Workbook *wb, char *name)
+{
+	struct stat sb;
+	char *err_str = NULL;
+	gboolean dir_entered = FALSE;
+	gboolean file_exists = TRUE;
+	
+	if (name [strlen (name)-1] == '/') {
+		dir_entered = TRUE;
+	} else if ((stat (name, &sb) == 0)) {
+		if (S_ISDIR(sb.st_mode)) 
+			dir_entered = TRUE;
+		else
+			file_exists = TRUE;
+	}
+	if (dir_entered) {
+		err_str = g_strdup_printf (_("%s\nis a directory name"), name);
+		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, err_str);
+		g_free (err_str);
+		return FALSE;
+	}
+	if (file_exists) {
+		if (access (name, W_OK) == 0)
+			return wants_to_overwrite (wb, name);
+		else {
+			err_str = g_strdup_printf (_("You do not have permission to save to\n%s"),
+						   name);
+			gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, err_str);
+			g_free (err_str);
+			return FALSE;
+		}
+	} else
+		return TRUE;
+}
+
+/*
+ * Handle the selection made in the save as dialog.
+ *
+ * FIXME: The message boxes should really be children of the file selector,
+ * not the workbook.
+ */
+static gboolean
+do_save_as (CommandContext *context, Workbook *wb, char *name)
+{
+	char *template, *base;
+	gboolean success = FALSE;
+	
+	if (name [strlen (name)-1] == '/') {
+		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("Please enter a file name,\nnot a directory"));
+		return FALSE;
+	}
+
+	current_saver = insure_saver (current_saver);
+	if (!current_saver) {
+		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("Sorry, there are no file savers loaded,\nI cannot save"));
+		return FALSE;
+	}
+
+	base = g_basename (name);
+		
+	if (strchr (base, '.') == NULL)
+		name = g_strconcat (name, current_saver->extension, NULL);
+	else
+		name = g_strdup (name);
+		
+	if (!can_try_save_to (wb, name)) {
+		g_free (name);
+		return FALSE;
+	}
+
+	template = g_strdup_printf (_("Could not save to file %s\n%%s"), name);
+	command_context_push_template (context, template);
+	/* Files are expected to be in standard C format.  */
+	if (current_saver->save (context, wb, name) == 0) {
+		workbook_set_saveinfo (wb, name, current_saver->level,
+				       current_saver->save);
+		workbook_mark_clean (wb);
+		success = TRUE;
+	}
+
+	command_context_pop_template (context);
+	g_free (template);
+	g_free (name);
+
+	return success;
+}
+
 gboolean
 workbook_save_as (CommandContext *context, Workbook *wb)
 {
@@ -517,7 +646,8 @@ workbook_save_as (CommandContext *context, Workbook *wb)
 
 	g_return_val_if_fail (wb != NULL, FALSE);
 
-	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save workbook as")));
+	fsel = GTK_FILE_SELECTION
+		(gtk_file_selection_new (_("Save workbook as")));
 
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 	gtk_window_set_transient_for (GTK_WINDOW (fsel), 
@@ -552,45 +682,9 @@ workbook_save_as (CommandContext *context, Workbook *wb)
 	gtk_grab_add (GTK_WIDGET (fsel));
 	gtk_main ();
 
-	if (accepted) {
-		char *name = gtk_file_selection_get_filename (fsel);
-		char *template;
-
-		if (name [strlen (name)-1] != '/') {
-			char *base = g_basename (name);
-
-			current_saver = insure_saver (current_saver);
-			if (!current_saver)
-				gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-						 _("Sorry, there are no file savers loaded, I cannot save"));
-			else {
-				if (strchr (base, '.') == NULL){
-					name = g_strconcat (name, current_saver->extension, NULL);
-				} else
-					name = g_strdup (name);
-
-				template = g_strdup_printf
-					(_("Could not save to file %s\n%%s"),
-					 name);
-				command_context_push_template
-					(context, template);
-				/* Files are expected to be in standard C format.  */
-				if (current_saver->save (context, wb, name)
-				    == 0) {
-					workbook_set_saveinfo
-						(wb, name,
-						 current_saver->level,
-						 current_saver->save);
-					workbook_mark_clean (wb);
-					success = TRUE;
-				}
-
-				command_context_pop_template (context);
-				g_free (template);
-				g_free (name);
-			}
-		}
-	}
+	if (accepted)
+		success = do_save_as (context, wb,
+				      gtk_file_selection_get_filename (fsel));
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 
 	return success;

@@ -2665,7 +2665,7 @@ sheet_action_add_sheet (GtkWidget *widget, Sheet *current_sheet)
 static void
 sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet)
 {
-	GtkWidget *d;
+	GtkWidget *d, *button_no;
 	Workbook *wb = current_sheet->workbook;
 	char *message;
 	int r;
@@ -2686,6 +2686,8 @@ sheet_action_delete_sheet (GtkWidget *ignored, Sheet *current_sheet)
 		GNOME_STOCK_BUTTON_NO,
 		NULL);
 	g_free (message);
+	button_no = g_list_last (GNOME_DIALOG (d)->buttons)->data;
+	gtk_widget_grab_focus (button_no);
 
 	r = gnumeric_dialog_run (wb, GNOME_DIALOG (d));
 
