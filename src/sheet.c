@@ -455,11 +455,11 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 	/* Then every column and row */
 	closure.sheet = sheet;
 	closure.horizontal = TRUE;
-	col_row_foreach (&sheet->cols, 0, SHEET_MAX_COLS-1,
-			 &cb_colrow_compute_pixels_from_pts, &closure);
+	colrow_foreach (&sheet->cols, 0, SHEET_MAX_COLS-1,
+			&cb_colrow_compute_pixels_from_pts, &closure);
 	closure.horizontal = FALSE;
-	col_row_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
-			 &cb_colrow_compute_pixels_from_pts, &closure);
+	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
+			&cb_colrow_compute_pixels_from_pts, &closure);
 
 	SHEET_FOREACH_CONTROL (sheet, control,
 		sheet_view_set_zoom_factor (control, factor););
@@ -940,7 +940,7 @@ sheet_get_extent (Sheet const *sheet)
 		r.end.row = 0;
 
 	/* Extend region to include styles that are visible in blank cells */
-	sheet_style_get_extent (&r, sheet);
+	sheet_style_get_extent (sheet, &r);
 
 	/*
 	 *  Print can't handle stuff outside these walls.
@@ -1127,8 +1127,8 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 	closure.sheet = sheet;
 	closure.col = col;
 
-	col_row_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
-			 &cb_recalc_spans_in_col, &closure);
+	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
+			&cb_recalc_spans_in_col, &closure);
 }
 
 /****************************************************************************/
@@ -1617,10 +1617,10 @@ sheet_range_splits_array (Sheet const *sheet, Range const *r)
 			: CHECK_AND_LOAD_START | CHECK_END | LOAD_END;
 	}
 
-	if (closure.flags && col_row_foreach (&sheet->cols,
-					      r->start.col, r->end.col,
-					      &cb_check_array_horizontal,
-					      &closure))
+	if (closure.flags && colrow_foreach (&sheet->cols,
+					     r->start.col, r->end.col,
+					     &cb_check_array_horizontal,
+					     &closure))
 		return TRUE;
 
 	closure.start = r->start.col;
@@ -1636,8 +1636,8 @@ sheet_range_splits_array (Sheet const *sheet, Range const *r)
 	}
 
 	return closure.flags &&
-		col_row_foreach (&sheet->rows, r->start.row, r->end.row,
-				 &cb_check_array_vertical, &closure);
+		colrow_foreach (&sheet->rows, r->start.row, r->end.row,
+				&cb_check_array_vertical, &closure);
 }
 
 /**
@@ -2468,15 +2468,15 @@ sheet_cursor_set (Sheet *sheet,
 
 #if 0
 	/* Be sure that the edit_pos is contained in the new_sel area */
-	if (sheet->cursor.edit_pos.col < ss->user.start.col)
-		sheet->cursor.edit_pos.col = ss->user.start.col;
-	else if (sheet->cursor.edit_pos.col > ss->user.end.col)
-		sheet->cursor.edit_pos.col = ss->user.end.col;
+	if (sheet->cursor.edit_pos.col < ss->start.col)
+		sheet->cursor.edit_pos.col = ss->start.col;
+	else if (sheet->cursor.edit_pos.col > ss->end.col)
+		sheet->cursor.edit_pos.col = ss->end.col;
 
-	if (sheet->cursor.edit_pos.row < ss->user.start.row)
-		sheet->cursor.edit_pos.row = ss->user.start.row;
-	else if (sheet->cursor.edit_pos.row > ss->user.end.row)
-		sheet->cursor.edit_pos.row = ss->user.end.row;
+	if (sheet->cursor.edit_pos.row < ss->start.row)
+		sheet->cursor.edit_pos.row = ss->start.row;
+	else if (sheet->cursor.edit_pos.row > ss->end.row)
+		sheet->cursor.edit_pos.row = ss->end.row;
 #endif
 
 	/* Change the edit position */
@@ -3222,7 +3222,7 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 		sign = -1;
 	}
 
-	/* Do not use col_row_foreach, it ignores empties */
+	/* Do not use colrow_foreach, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
 		if (ci->visible)
@@ -3364,7 +3364,7 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 	g_return_val_if_fail (from >= 0, 1.);
 	g_return_val_if_fail (to <= SHEET_MAX_ROWS, 1.);
 
-	/* Do not use col_row_foreach, it ignores empties.
+	/* Do not use colrow_foreach, it ignores empties.
 	 * Optimize this so that long jumps are not quite so horrific
 	 * for performance.
 	 */
@@ -3575,11 +3575,11 @@ sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 
 	closure.sheet = dst;
 	closure.is_column = TRUE;
-	col_row_foreach (&src->cols, 0, SHEET_MAX_COLS-1,
-			 &sheet_clone_colrow_info_item, &closure);
+	colrow_foreach (&src->cols, 0, SHEET_MAX_COLS-1,
+			&sheet_clone_colrow_info_item, &closure);
 	closure.is_column = FALSE;
-	col_row_foreach (&src->rows, 0, SHEET_MAX_ROWS-1,
-			 &sheet_clone_colrow_info_item, &closure);
+	colrow_foreach (&src->rows, 0, SHEET_MAX_ROWS-1,
+			&sheet_clone_colrow_info_item, &closure);
 }
 
 

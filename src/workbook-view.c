@@ -202,14 +202,14 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 	if (sheet != NULL) {
 		char buffer [10 + 2 * 4 * sizeof (int)];
 		char const *sel_descr = buffer;
-		SheetSelection const *ss = sheet->selections->data;
+		Range const *ss = sheet->selections->data;
 
 		if (use_pos)
-			sel_descr = cell_pos_name (&ss->user.start);
+			sel_descr = cell_pos_name (&ss->start);
 		else
 			snprintf (buffer, sizeof (buffer), _("%dLx%dC"),
-				  ss->user.end.row - ss->user.start.row + 1,
-				  ss->user.end.col - ss->user.start.col + 1);
+				  ss->end.row - ss->start.row + 1,
+				  ss->end.col - ss->start.col + 1);
 
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 			wb_control_selection_descr_set (control, sel_descr););

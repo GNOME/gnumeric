@@ -25,7 +25,7 @@ dialog_delete_cells_impl (WorkbookControlGUI *wbcg, Sheet *sheet, GladeXML  *gui
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GtkWidget *dialog, *radio_0;
-	SheetSelection *ss;
+	Range *ss;
 	int  cols, rows;
 	int i, res;
 
@@ -44,25 +44,23 @@ dialog_delete_cells_impl (WorkbookControlGUI *wbcg, Sheet *sheet, GladeXML  *gui
 			(GTK_RADIO_BUTTON(radio_0)->group);
 
 		ss = sheet->selections->data;
-		cols = ss->user.end.col - ss->user.start.col + 1;
-		rows = ss->user.end.row - ss->user.start.row + 1;
+		cols = ss->end.col - ss->start.col + 1;
+		rows = ss->end.row - ss->start.row + 1;
 
 		if (i == 0)
 			cmd_shift_rows (wbc, sheet,
-					ss->user.start.col + cols,
-					ss->user.start.row,
-					ss->user.end.row, -cols);
+					ss->start.col + cols,
+					ss->start.row,
+					ss->end.row, -cols);
 		else if (i == 1)
 			cmd_shift_cols (wbc, sheet,
-					ss->user.start.col,
-					ss->user.end.col,
-					ss->user.start.row + rows, -rows);
+					ss->start.col,
+					ss->end.col,
+					ss->start.row + rows, -rows);
 		else if (i == 2)
-			cmd_delete_rows (wbc, sheet,
-					   ss->user.start.row, rows);
+			cmd_delete_rows (wbc, sheet, ss->start.row, rows);
 		else if (i == 3)
-			cmd_delete_cols (wbc, sheet,
-					   ss->user.start.col, cols);
+			cmd_delete_cols (wbc, sheet, ss->start.col, cols);
 	}
 
 	/* If user closed the dialog with prejudice, it's already destroyed */
@@ -75,7 +73,7 @@ dialog_delete_cells (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GladeXML  *gui;
-	SheetSelection *ss;
+	Range *ss;
 	int  cols, rows;
 
 	g_return_if_fail (wbcg != NULL);
@@ -86,18 +84,18 @@ dialog_delete_cells (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return;
 
 	ss = sheet->selections->data;
-	cols = ss->user.end.col - ss->user.start.col + 1;
-	rows = ss->user.end.row - ss->user.start.row + 1;
+	cols = ss->end.col - ss->start.col + 1;
+	rows = ss->end.row - ss->start.row + 1;
 
 	/* short circuit the dialog if an entire row/column is selected */
-	if (ss->user.start.row == 0 && ss->user.end.row  >= SHEET_MAX_ROWS-1) {
+	if (ss->start.row == 0 && ss->end.row  >= SHEET_MAX_ROWS-1) {
 		cmd_delete_cols (wbc, sheet,
-				 ss->user.start.col, cols);
+				 ss->start.col, cols);
 		return;
 	}
-	if (ss->user.start.col == 0 && ss->user.end.col  >= SHEET_MAX_COLS-1) {
+	if (ss->start.col == 0 && ss->end.col  >= SHEET_MAX_COLS-1) {
 		cmd_delete_rows (wbc, sheet,
-				 ss->user.start.row, rows);
+				 ss->start.row, rows);
 		return;
 	}
 

@@ -183,12 +183,12 @@ item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, in
 
 	item_cursor->cached_x = x =
 		gsheet->col_offset.first +
-		scg_get_distance (scg, TRUE, gsheet->col.first, left);
+		scg_colrow_distance_get (scg, TRUE, gsheet->col.first, left);
 	item_cursor->cached_y = y =
 		gsheet->row_offset.first +
-		scg_get_distance (scg, FALSE, gsheet->row.first, top);
-	item_cursor->cached_w = w = scg_get_distance (scg, TRUE, left, right+1);
-	item_cursor->cached_h = h = scg_get_distance (scg, FALSE,top, bottom+1);
+		scg_colrow_distance_get (scg, FALSE, gsheet->row.first, top);
+	item_cursor->cached_w = w = scg_colrow_distance_get (scg, TRUE, left, right+1);
+	item_cursor->cached_h = h = scg_colrow_distance_get (scg, FALSE,top, bottom+1);
 
 	item->x1 = x - 1;
 	item->y1 = y - 1;

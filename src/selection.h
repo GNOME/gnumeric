@@ -72,7 +72,7 @@ typedef enum {
 
 ColRowSelectionType sheet_col_selection_type  (Sheet const *sheet, int col);
 ColRowSelectionType sheet_row_selection_type  (Sheet const *sheet, int row);
-gboolean	    sheet_selection_full_cols (Sheet const *sheet, int col);
-gboolean	    sheet_selection_full_rows (Sheet const *sheet, int row);
+gboolean	    sheet_selection_full_cols_rows (Sheet const *sheet,
+						    gboolean is_cols, int col);
 
 #endif /* GNUMERIC_SELECTION_H */

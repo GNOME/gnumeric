@@ -14,14 +14,14 @@
 #include "sheet-private.h"
 
 /**
- * col_row_equal :
+ * colrow_equal :
  * @a : ColRowInfo #1
  * @b : ColRowInfo #2
  *
  * Returns true if the infos are equivalent.
  */
 gboolean
-col_row_equal (ColRowInfo const *a, ColRowInfo const *b)
+colrow_equal (ColRowInfo const *a, ColRowInfo const *b)
 {
 	if (a == NULL || b == NULL)
 		return FALSE;
@@ -35,7 +35,7 @@ col_row_equal (ColRowInfo const *a, ColRowInfo const *b)
 }
 
 void
-col_row_copy (ColRowInfo *dst, ColRowInfo const *src)
+colrow_copy (ColRowInfo *dst, ColRowInfo const *src)
 {
 	dst->margin_a    = src->margin_a;
 	dst->margin_b    = src->margin_b;
@@ -46,7 +46,7 @@ col_row_copy (ColRowInfo *dst, ColRowInfo const *src)
 }
 
 /**
- * col_row_foreach:
+ * colrow_foreach:
  * @sheet	the sheet
  * @infos	The Row or Column collection.
  * @start	start position (inclusive)
@@ -60,8 +60,8 @@ col_row_copy (ColRowInfo *dst, ColRowInfo const *src)
  * TRUE iteration stops.
  */
 gboolean
-col_row_foreach (ColRowCollection const *infos, int first, int last,
-		 col_row_callback callback, void *user_data)
+colrow_foreach (ColRowCollection const *infos, int first, int last,
+		ColRowHandler callback, void *user_data)
 {
 	int i;
 
@@ -95,7 +95,7 @@ typedef struct _ColRowIndex
 } ColRowIndex;
 
 ColRowSizeList *
-col_row_size_list_destroy (ColRowSizeList *list)
+colrow_size_list_destroy (ColRowSizeList *list)
 {
 	ColRowSizeList *ptr;
 	for (ptr = list; ptr != NULL ; ptr = ptr->next)
@@ -104,7 +104,7 @@ col_row_size_list_destroy (ColRowSizeList *list)
 	return NULL;
 }
 ColRowIndexList *
-col_row_index_list_destroy (ColRowIndexList *list)
+colrow_index_list_destroy (ColRowIndexList *list)
 {
 	ColRowIndexList *ptr;
 	for (ptr = list; ptr != NULL ; ptr = ptr->next)
@@ -120,13 +120,13 @@ colrow_index_compare (ColRowIndex const * a, ColRowIndex const * b)
 }
 
 /**
- * col_row_get_index_list :
+ * colrow_get_index_list :
  *
  * Build an ordered list of pairs doing intelligent merging
  * of overlapping regions.
  */
 ColRowIndexList *
-col_row_get_index_list (int first, int last, ColRowIndexList *list)
+colrow_get_index_list (int first, int last, ColRowIndexList *list)
 {
 	ColRowIndex *tmp, *prev;
 	GList *ptr;
@@ -158,7 +158,7 @@ col_row_get_index_list (int first, int last, ColRowIndexList *list)
 }
 
 double *
-col_row_save_sizes (Sheet *sheet, gboolean const is_cols, int first, int last)
+colrow_save_sizes (Sheet *sheet, gboolean const is_cols, int first, int last)
 {
 	int i;
 	double *res = NULL;
@@ -204,8 +204,8 @@ cb_set_colrow_size (ColRowInfo *info, void *userdata)
 }
 
 ColRowSizeList *
-col_row_set_sizes (Sheet *sheet, gboolean const is_cols,
-		   ColRowIndexList *src, int new_size)
+colrow_set_sizes (Sheet *sheet, gboolean const is_cols,
+		  ColRowIndexList *src, int new_size)
 {
 	int i;
 	ColRowSizeList *res = NULL;
@@ -214,7 +214,7 @@ col_row_set_sizes (Sheet *sheet, gboolean const is_cols,
 	for (ptr = src; ptr != NULL ; ptr = ptr->next) {
 		ColRowIndex *index = ptr->data;
 		res = g_slist_prepend (res,
-			col_row_save_sizes (sheet, is_cols, index->first, index->last));
+			colrow_save_sizes (sheet, is_cols, index->first, index->last));
 
 		/* FIXME :
 		 * If we are changing the size of more than half of the rows/col to
@@ -242,8 +242,8 @@ col_row_set_sizes (Sheet *sheet, gboolean const is_cols,
 			closure.sheet = sheet;
 			closure.new_size = new_size;
 			closure.is_cols = is_cols;
-			col_row_foreach (&sheet->cols, 0, SHEET_MAX_COLS,
-					 &cb_set_colrow_size, &closure);
+			colrow_foreach (&sheet->cols, 0, SHEET_MAX_COLS,
+					&cb_set_colrow_size, &closure);
 			return res;
 		}
 
@@ -272,8 +272,8 @@ col_row_set_sizes (Sheet *sheet, gboolean const is_cols,
  *        reposition objects
  */
 void
-col_row_restore_sizes (Sheet *sheet, gboolean const is_cols,
-		       int first, int last, double *sizes)
+colrow_restore_sizes (Sheet *sheet, gboolean const is_cols,
+		      int first, int last, double *sizes)
 {
 	int i;
 
@@ -324,10 +324,10 @@ col_row_restore_sizes (Sheet *sheet, gboolean const is_cols,
 }
 
 void
-col_row_restore_sizes_group (Sheet *sheet, gboolean const is_cols,
-			     ColRowIndexList *selection,
-			     ColRowSizeList *saved_sizes,
-			     int old_size)
+colrow_restore_sizes_group (Sheet *sheet, gboolean const is_cols,
+			    ColRowIndexList *selection,
+			    ColRowSizeList *saved_sizes,
+			    int old_size)
 {
 	ColRowSizeList *ptr = saved_sizes;
 	while (selection != NULL && ptr != NULL) {
@@ -346,9 +346,9 @@ col_row_restore_sizes_group (Sheet *sheet, gboolean const is_cols,
 			g_free (old_def);
 		}
 
-		col_row_restore_sizes (sheet, is_cols,
-				       index->first, index->last,
-				       ptr->data);
+		colrow_restore_sizes (sheet, is_cols,
+				      index->first, index->last,
+				      ptr->data);
 
 		selection = selection->next;
 		ptr = ptr->next;
@@ -382,22 +382,22 @@ rows_height_update (Sheet *sheet, Range const * range)
 	/* FIXME : this needs to check font sizes and contents rather than
 	 * just contents.  Empty cells will cause resize also
 	 */
-	col_row_foreach (&sheet->rows, range->start.row, range->end.row,
-			 &cb_autofit_height, sheet);
+	colrow_foreach (&sheet->rows, range->start.row, range->end.row,
+			&cb_autofit_height, sheet);
 }
 /*****************************************************************************/
 
-struct row_col_visiblity
+struct col_row_visiblity
 {
 	gboolean is_cols, visible;
 	ColRowVisList *elements;
 };
 
 static void
-cb_row_col_visibility (Sheet *sheet, Range const *r,
+cb_col_row_visibility (Sheet *sheet, Range const *r,
 		       void *closure)
 {
-	struct row_col_visiblity * const dat = closure;
+	struct col_row_visiblity * const dat = closure;
 	gboolean const visible = dat->visible;
 	ColRowInfo * (*fetch) (Sheet *sheet, int pos);
 	int i, j, end;
@@ -437,7 +437,7 @@ cb_row_col_visibility (Sheet *sheet, Range const *r,
 }
 
 /*
- * col_row_get_visiblity_toggle :
+ * colrow_get_visiblity_toggle :
  * @sheet : The sheet whose selection we are interested in.
  * @is_cols: A flag indicating whether this it is a column or a row.
  * @is_visible: Should we unhide or hide the cols/rows.
@@ -446,21 +446,21 @@ cb_row_col_visibility (Sheet *sheet, Range const *r,
  * pairs of row/col ranges that need to be hidden or unhiden.
  */
 ColRowVisList *
-col_row_get_visiblity_toggle (Sheet *sheet, gboolean const is_cols,
-			      gboolean const visible)
+colrow_get_visiblity_toggle (Sheet *sheet, gboolean const is_cols,
+			     gboolean const visible)
 {
-	struct row_col_visiblity closure;
+	struct col_row_visiblity closure;
 	closure.is_cols = is_cols;
 	closure.visible = visible;
 	closure.elements = NULL;
 
-	selection_apply (sheet, &cb_row_col_visibility, FALSE, &closure);
+	selection_apply (sheet, &cb_col_row_visibility, FALSE, &closure);
 
 	return closure.elements;
 }
 
 ColRowVisList *
-col_row_vis_list_destroy (ColRowVisList *list)
+colrow_vis_list_destroy (ColRowVisList *list)
 {
 	ColRowVisList *ptr;
 	for (ptr = list; ptr != NULL ; ptr = ptr->next)
@@ -470,14 +470,14 @@ col_row_vis_list_destroy (ColRowVisList *list)
 }
 
 /*
- * col_row_set_visibility_list :
+ * colrow_set_visibility_list :
  *
  * This is the high level command that is wrapped by undo and redo.
  * It should not be called by other commands.
  */
 void
-col_row_set_visibility_list (Sheet *sheet, gboolean const is_cols,
-			     gboolean const visible, ColRowVisList *list)
+colrow_set_visibility_list (Sheet *sheet, gboolean const is_cols,
+			    gboolean const visible, ColRowVisList *list)
 {
 	/* Trivial optimization */
 	if (list == NULL)
@@ -486,8 +486,8 @@ col_row_set_visibility_list (Sheet *sheet, gboolean const is_cols,
 	for (; list != NULL ; list = list->next) {
 		int min_col, max_col;
 		ColRowIndex *info = list->data;
-		col_row_set_visibility (sheet, is_cols, visible,
-					info->first, info->last);
+		colrow_set_visibility (sheet, is_cols, visible,
+				       info->first, info->last);
 		sheet_regen_adjacent_spans (sheet,
 					    info->first, 0,
 					    info->last, SHEET_MAX_ROWS-1,
@@ -499,7 +499,7 @@ col_row_set_visibility_list (Sheet *sheet, gboolean const is_cols,
 }
 
 /**
- * col_row_set_visibility:
+ * colrow_set_visibility:
  * @sheet	: the sheet
  * @is_cols	: Are we dealing with rows or columns.
  * @visible	: Make things visible or invisible.
@@ -509,8 +509,8 @@ col_row_set_visibility_list (Sheet *sheet, gboolean const is_cols,
  * Change the visibility of the selected range of contiguous rows/cols.
  */
 void
-col_row_set_visibility (Sheet *sheet, gboolean const is_cols, gboolean const visible,
-			int first, int last)
+colrow_set_visibility (Sheet *sheet, gboolean const is_cols, gboolean const visible,
+		       int first, int last)
 {
 	int i;
 	g_return_if_fail (sheet != NULL);

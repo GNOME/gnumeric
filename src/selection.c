@@ -56,7 +56,7 @@ segments_intersect (int const s_a, int const e_a,
 Range const *
 selection_first_range (Sheet const *sheet, gboolean const permit_complex)
 {
-	SheetSelection *ss;
+	Range *ss;
 	GList *l;
 
 	g_return_val_if_fail (IS_SHEET (sheet), 0);
@@ -68,7 +68,7 @@ selection_first_range (Sheet const *sheet, gboolean const permit_complex)
 	if ((l = g_list_next (l)) && !permit_complex)
 		return NULL;
 
-	return &ss->user;
+	return ss;
 }
 
 /*
@@ -167,7 +167,7 @@ sheet_selection_extend (Sheet *sheet, int n, gboolean jump_to_boundaries,
 gboolean
 sheet_is_all_selected (Sheet const * const sheet)
 {
-	SheetSelection *ss;
+	Range *ss;
 	GList *l;
 
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
@@ -175,10 +175,10 @@ sheet_is_all_selected (Sheet const * const sheet)
 	for (l = sheet->selections; l != NULL; l = l->next){
 		ss = l->data;
 
-		if (ss->user.start.col == 0 &&
-		    ss->user.start.row == 0 &&
-		    ss->user.end.col == SHEET_MAX_COLS-1 &&
-		    ss->user.end.row == SHEET_MAX_ROWS-1)
+		if (ss->start.col == 0 &&
+		    ss->start.row == 0 &&
+		    ss->end.col == SHEET_MAX_COLS-1 &&
+		    ss->end.row == SHEET_MAX_ROWS-1)
 			return TRUE;
 	}
 	return FALSE;
@@ -190,9 +190,9 @@ sheet_is_cell_selected (Sheet const * const sheet, int col, int row)
 	GList *list;
 
 	for (list = sheet->selections; list; list = list->next){
-		SheetSelection const *ss = list->data;
+		Range const *ss = list->data;
 
-		if (range_contains (&ss->user, col, row))
+		if (range_contains (ss, col, row))
 			return TRUE;
 	}
 	return FALSE;
@@ -204,8 +204,7 @@ sheet_selection_redraw (Sheet const *sheet)
 	GList *sel;
 
 	for (sel = sheet->selections; sel; sel = sel->next){
-		SheetSelection const *ss = sel->data;
-		Range const *r = &ss->user;
+		Range const *r = sel->data;
 
 		SHEET_FOREACH_CONTROL (sheet, control,
 			sheet_view_redraw_cell_region (control,
@@ -224,9 +223,9 @@ sheet_is_range_selected (Sheet const * const sheet, Range const *r)
 	GList *list;
 
 	for (list = sheet->selections; list; list = list->next){
-		SheetSelection const *ss = list->data;
+		Range const *ss = list->data;
 
-		if (range_overlap (&ss->user, r))
+		if (range_overlap (ss, r))
 			return TRUE;
 	}
 	return FALSE;
@@ -241,9 +240,9 @@ sheet_is_full_range_selected (Sheet const * const sheet, Range const *r)
 	GList *list;
 
 	for (list = sheet->selections; list; list = list->next){
-		SheetSelection const *ss = list->data;
+		Range const *ss = list->data;
 
-		if (range_contained (r, &ss->user))
+		if (range_contained (r, ss))
 			return TRUE;
 	}
 	return FALSE;
@@ -258,13 +257,13 @@ sheet_selection_set_internal (Sheet *sheet,
 {
 	GSList *merged, *ptr;
 	gboolean changed, reset_positions = FALSE;
-	SheetSelection *ss;
+	Range *ss;
 	Range old_sel, new_sel;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->selections != NULL);
 
-	ss = (SheetSelection *)sheet->selections->data;
+	ss = (Range *)sheet->selections->data;
 
 	new_sel.start.col = MIN(base_col, move_col);
 	new_sel.start.row = MIN(base_row, move_row);
@@ -317,11 +316,11 @@ looper :
 		}
 	}
 
-	if (!just_add_it && range_equal (&ss->user, &new_sel))
+	if (!just_add_it && range_equal (ss, &new_sel))
 		return;
 
-	old_sel = ss->user;
-	ss->user = new_sel;
+	old_sel = *ss;
+	*ss = new_sel;
 
 	/* Set the cursor boundary */
 	sheet_cursor_set (sheet,
@@ -451,12 +450,12 @@ sheet_selection_add_range (Sheet *sheet,
 			   int base_col, int base_row,
 			   int move_col, int move_row)
 {
-	SheetSelection *ss;
+	Range *ss;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* Create and prepend new selection */
-	ss = g_new0 (SheetSelection, 1);
+	ss = g_new0 (Range, 1);
 	sheet->selections = g_list_prepend (sheet->selections, ss);
 	sheet_selection_set_internal (sheet,
 				      edit_col, edit_row,
@@ -482,7 +481,7 @@ sheet_selection_free (Sheet *sheet)
 	GList *list;
 
 	for (list = sheet->selections; list; list = list->next){
-		SheetSelection *ss = list->data;
+		Range *ss = list->data;
 		g_free (ss);
 	}
 
@@ -511,10 +510,10 @@ sheet_selection_reset_only (Sheet *sheet)
 
 	/* Redraw the grid, & headers for each region */
 	for (tmp = list; tmp; tmp = tmp->next){
-		SheetSelection *ss = tmp->data;
+		Range *ss = tmp->data;
 
-		sheet_redraw_range (sheet, &ss->user);
-		sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
+		sheet_redraw_range (sheet, ss);
+		sheet_redraw_headers (sheet, TRUE, TRUE, ss);
 		g_free (ss);
 	}
 
@@ -546,7 +545,7 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 
 	result_str = g_string_new ("");
 	for (selections = sheet->selections; selections; selections = selections->next){
-		SheetSelection *ss = selections->data;
+		Range *ss = selections->data;
 
 		if (*result_str->str)
 			g_string_append_c (result_str, ',');
@@ -556,11 +555,11 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 			g_string_append_c (result_str, '!');
 		}
 
-		reference_append (result_str, &ss->user.start);
-		if ((ss->user.start.col != ss->user.end.col) ||
-		    (ss->user.start.row != ss->user.end.row)){
+		reference_append (result_str, &ss->start);
+		if ((ss->start.col != ss->end.col) ||
+		    (ss->start.row != ss->end.row)){
 			g_string_append_c (result_str, ':');
-			reference_append (result_str, &ss->user.end);
+			reference_append (result_str, &ss->end);
 		}
 	}
 
@@ -590,7 +589,7 @@ sheet_selection_unant (Sheet *sheet)
 gboolean
 sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
 {
-	SheetSelection *ss;
+	Range *ss;
 
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
@@ -602,7 +601,7 @@ sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
 
 	ss = sheet->selections->data;
 
-	application_clipboard_copy (wbc, sheet, &ss->user);
+	application_clipboard_copy (wbc, sheet, ss);
 
 	return TRUE;
 }
@@ -610,7 +609,7 @@ sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
 gboolean
 sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
 {
-	SheetSelection *ss;
+	Range *ss;
 
 	/*
 	 * 'cut' is a poor description of what we're
@@ -631,12 +630,12 @@ sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
 		return FALSE;
 
 	ss = sheet->selections->data;
-	if (sheet_range_splits_array (sheet, &ss->user)) {
+	if (sheet_range_splits_array (sheet, ss)) {
 		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc), ("cut"));
 		return FALSE;
 	}
 
-	application_clipboard_cut (wbc, sheet, &ss->user);
+	application_clipboard_cut (wbc, sheet, ss);
 
 	return TRUE;
 }
@@ -663,12 +662,12 @@ selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
 	 * single user proposed segment and accumulate distict regions.
 	 */
 	for (l = sheet->selections; l != NULL; l = l->next) {
-		SheetSelection const *ss = l->data;
+		Range const *ss = l->data;
 
 		/* The set of regions that do not interset with b or
 		 * its predecessors */
 		GSList *clear = NULL;
-		Range *tmp, *b = range_copy (&ss->user);
+		Range *tmp, *b = range_copy (ss);
 
 		if (allow_intersection) {
 			proposed = g_slist_prepend (proposed, b);
@@ -974,9 +973,9 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 
 	if (allow_intersection) {
 		for (l = sheet->selections; l != NULL; l = l->next) {
-			SheetSelection const *ss = l->data;
+			Range const *ss = l->data;
 
-			(*func) (sheet, &ss->user, closure);
+			(*func) (sheet, ss, closure);
 		}
 	} else {
 		proposed = selection_get_ranges (sheet, allow_intersection);
@@ -1056,17 +1055,17 @@ selection_contains_colrow (Sheet *sheet, int colrow, gboolean is_col)
 {
 	GList *l;
 	for (l = sheet->selections; l != NULL; l = l->next) {
-		SheetSelection const *ss = l->data;
+		Range const *ss = l->data;
 
 		if (is_col) {
-			if (ss->user.start.row == 0 &&
-			    ss->user.end.row >= SHEET_MAX_ROWS-1 &&
-			    ss->user.start.col <= colrow && colrow <= ss->user.end.col)
+			if (ss->start.row == 0 &&
+			    ss->end.row >= SHEET_MAX_ROWS-1 &&
+			    ss->start.col <= colrow && colrow <= ss->end.col)
 				return TRUE;
 		} else {
-			if (ss->user.start.col == 0 &&
-			    ss->user.end.col >= SHEET_MAX_COLS-1 &&
-			    ss->user.start.row <= colrow && colrow <= ss->user.end.row)
+			if (ss->start.col == 0 &&
+			    ss->end.col >= SHEET_MAX_COLS-1 &&
+			    ss->start.row <= colrow && colrow <= ss->end.row)
 				return TRUE;
 		}
 	}
@@ -1097,14 +1096,14 @@ selection_foreach_range (Sheet *sheet, gboolean from_start,
 
 	if (from_start)
 		for (l = sheet->selections; l != NULL; l = l->next) {
-			SheetSelection *ss = l->data;
-			if (!range_cb (sheet, &ss->user, user_data))
+			Range *ss = l->data;
+			if (!range_cb (sheet, ss, user_data))
 				return FALSE;
 		}
 	else
 		for (l = g_list_last (sheet->selections); l != NULL; l = l->prev) {
-			SheetSelection *ss = l->data;
-			if (!range_cb (sheet, &ss->user, user_data))
+			Range *ss = l->data;
+			if (!range_cb (sheet, ss, user_data))
 				return FALSE;
 		}
 	return TRUE;
@@ -1174,7 +1173,7 @@ sheet_selection_walk_step (Sheet *sheet,
 	int inc_x = 0, inc_y = 0;
 	int selections_count;
 	CellPos current, destination;
-	SheetSelection const *ss;
+	Range const *ss;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (sheet->selections != NULL);
@@ -1195,17 +1194,17 @@ sheet_selection_walk_step (Sheet *sheet,
 	 * Ignore wrapping.  At that scale it is irrelevant.
 	 */
 	if (selections_count == 1 &&
-	    ss->user.start.col == ss->user.end.col &&
-	    ss->user.start.row == ss->user.end.row) {
+	    ss->start.col == ss->end.col &&
+	    ss->start.row == ss->end.row) {
 		Range full_sheet;
 		if (horizontal) {
 			full_sheet.start.col = 0;
 			full_sheet.end.col   = SHEET_MAX_COLS-1;
 			full_sheet.start.row =
-				full_sheet.end.row   = ss->user.start.row;
+				full_sheet.end.row   = ss->start.row;
 		} else {
 			full_sheet.start.col =
-				full_sheet.end.col   = ss->user.start.col;
+				full_sheet.end.col   = ss->start.col;
 			full_sheet.start.row = 0;
 			full_sheet.end.row   = SHEET_MAX_ROWS-1;
 		}
@@ -1222,7 +1221,7 @@ sheet_selection_walk_step (Sheet *sheet,
 		return;
 	}
 
-	if (walk_boundaries (&ss->user, inc_x, inc_y, &current, &destination)) {
+	if (walk_boundaries (ss, inc_x, inc_y, &current, &destination)) {
 		if (forward) {
 			GList *tmp = g_list_last (sheet->selections);
 			sheet->selections =
@@ -1230,7 +1229,7 @@ sheet_selection_walk_step (Sheet *sheet,
 					   g_list_remove_link (sheet->selections,
 							       tmp));
 			ss = sheet->selections->data;
-			destination = ss->user.start;
+			destination = ss->start;
 		} else {
 			GList *tmp = sheet->selections;
 			sheet->selections =
@@ -1238,13 +1237,13 @@ sheet_selection_walk_step (Sheet *sheet,
 							       tmp),
 					   tmp);
 			ss = sheet->selections->data;
-			destination = ss->user.end;
+			destination = ss->end;
 		}
 		if (selections_count != 1)
 			sheet_cursor_set (sheet,
 					  destination.col, destination.row,
-					  ss->user.start.col, ss->user.start.row,
-					  ss->user.end.col, ss->user.end.row);
+					  ss->start.col, ss->start.row,
+					  ss->end.col, ss->end.row);
 	}
 
 	sheet_set_edit_pos (sheet, destination.col, destination.row);
@@ -1263,14 +1262,14 @@ sheet_col_selection_type (Sheet const *sheet, int col)
 		return COL_ROW_NO_SELECTION;
 
 	for (l = sheet->selections; l != NULL; l = l->next){
-		SheetSelection *ss = l->data;
+		Range *ss = l->data;
 
-		if (ss->user.start.col > col ||
-		    ss->user.end.col < col)
+		if (ss->start.col > col ||
+		    ss->end.col < col)
 			continue;
 
-		if (ss->user.start.row == 0 &&
-		    ss->user.end.row == SHEET_MAX_ROWS-1)
+		if (ss->start.row == 0 &&
+		    ss->end.row == SHEET_MAX_ROWS-1)
 			return COL_ROW_FULL_SELECTION;
 
 		ret = COL_ROW_PARTIAL_SELECTION;
@@ -1291,14 +1290,14 @@ sheet_row_selection_type (Sheet const *sheet, int row)
 		return COL_ROW_NO_SELECTION;
 
 	for (l = sheet->selections; l != NULL; l = l->next) {
-		SheetSelection *ss = l->data;
+		Range *ss = l->data;
 
-		if (ss->user.start.row > row ||
-		    ss->user.end.row < row)
+		if (ss->start.row > row ||
+		    ss->end.row < row)
 			continue;
 
-		if (ss->user.start.col == 0 &&
-		    ss->user.end.col == SHEET_MAX_COLS-1)
+		if (ss->start.col == 0 &&
+		    ss->end.col == SHEET_MAX_COLS-1)
 			return COL_ROW_FULL_SELECTION;
 
 		ret = COL_ROW_PARTIAL_SELECTION;
@@ -1310,13 +1309,14 @@ sheet_row_selection_type (Sheet const *sheet, int row)
 /**
  * sheet_selection_full_cols :
  * @sheet :
- * @col   :
+ * @is_cols :
+ * @index :
  *
- * returns TRUE if all of the selected cols in the selection fully selected ?
- *         and the selection contains the specified col.
+ * returns TRUE if all of the selected cols/rows in the selection fully
+ * 	are fully selected and the selection contains the specified col.
  */
 gboolean
-sheet_selection_full_cols (Sheet const *sheet, int col)
+sheet_selection_full_cols_rows (Sheet const *sheet, gboolean is_cols, int index)
 {
 	GList *l;
 	gboolean found = FALSE;
@@ -1324,40 +1324,18 @@ sheet_selection_full_cols (Sheet const *sheet, int col)
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	for (l = sheet->selections; l != NULL; l = l->next){
-		SheetSelection const *ss = l->data;
-		Range const *r = &ss->user;
-		if (r->start.row != 0 || r->end.row < SHEET_MAX_ROWS - 1)
-			return FALSE;
-		if (r->start.col <= col && col <= r->end.col)
-			found = TRUE;
-	}
-
-	return found;
-}
-
-/**
- * sheet_selection_full_rows :
- * @sheet :
- * @row   :
- *
- * returns TRUE if all of the selected rows in the selection are fully selected
- *         and the selection contains the specified row.
- */
-gboolean
-sheet_selection_full_rows (Sheet const *sheet, int row)
-{
-	GList *l;
-	gboolean found = FALSE;
-
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-
-	for (l = sheet->selections; l != NULL; l = l->next) {
-		SheetSelection const *ss = l->data;
-		Range const *r = &ss->user;
-		if (r->start.col != 0 || r->end.col < SHEET_MAX_COLS - 1)
-			return FALSE;
-		if (r->start.row <= row && row <= r->end.row)
-			found = TRUE;
+		Range const *r = l->data;
+		if (is_cols) {
+			if (r->start.row > 0 || r->end.row < SHEET_MAX_ROWS - 1)
+				return FALSE;
+			if (r->start.col <= index && index <= r->end.col)
+				found = TRUE;
+		} else {
+			if (r->start.col > 0 || r->end.col < SHEET_MAX_COLS - 1)
+				return FALSE;
+			if (r->start.row <= index && index <= r->end.row)
+				found = TRUE;
+		}
 	}
 
 	return found;

@@ -590,13 +590,13 @@ xml2ParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
 		sheet_col_set_size_pts (state->sheet, pos, size, cri->hard_size);
 		/* resize flags are already set only need to copy the sizes */
 		while (--count > 0)
-			col_row_copy (sheet_col_fetch (state->sheet, ++pos), cri);
+			colrow_copy (sheet_col_fetch (state->sheet, ++pos), cri);
 	} else {
 		int pos = cri->pos;
 		sheet_row_set_size_pts (state->sheet, cri->pos, size, cri->hard_size);
 		/* resize flags are already set only need to copy the sizes */
 		while (--count > 0)
-			col_row_copy (sheet_row_fetch (state->sheet, ++pos), cri);
+			colrow_copy (sheet_row_fetch (state->sheet, ++pos), cri);
 	}
 }
 

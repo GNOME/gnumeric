@@ -103,10 +103,10 @@ sheet_view_redraw_cell_region (SheetControlGUI *scg,
 	end_col =  MIN (gsheet->col.last_visible, end_col);
 	end_row =  MIN (gsheet->row.last_visible, end_row);
 
-	x = scg_get_distance (scg, TRUE, gsheet->col.first, start_col);
-	y = scg_get_distance (scg, FALSE, gsheet->row.first, start_row);
-	w = scg_get_distance (scg, TRUE, start_col, end_col+1);
-	h = scg_get_distance (scg, FALSE, start_row, end_row+1);
+	x = scg_colrow_distance_get (scg, TRUE, gsheet->col.first, start_col);
+	y = scg_colrow_distance_get (scg, FALSE, gsheet->row.first, start_row);
+	w = scg_colrow_distance_get (scg, TRUE, start_col, end_col+1);
+	h = scg_colrow_distance_get (scg, FALSE, start_row, end_row+1);
 
 	x += canvas->layout.xoffset - canvas->zoom_xofs;
 	y += canvas->layout.yoffset - canvas->zoom_yofs;
@@ -144,10 +144,10 @@ sheet_view_redraw_headers (SheetControlGUI *scg,
 #define COL_HEURISTIC	20
 			if (-COL_HEURISTIC < size && size < COL_HEURISTIC) {
 				left = gsheet->col_offset.first +
-					scg_get_distance (scg, TRUE,
+					scg_colrow_distance_get (scg, TRUE,
 							  gsheet->col.first, r->start.col);
 				right = left +
-					scg_get_distance (scg, TRUE,
+					scg_colrow_distance_get (scg, TRUE,
 							  r->start.col, r->end.col+1);
 			}
 		}
@@ -167,10 +167,10 @@ sheet_view_redraw_headers (SheetControlGUI *scg,
 #define ROW_HEURISTIC	50
 			if (-ROW_HEURISTIC < size && size < ROW_HEURISTIC) {
 				top = gsheet->row_offset.first +
-					scg_get_distance (scg, FALSE,
+					scg_colrow_distance_get (scg, FALSE,
 							  gsheet->row.first, r->start.row);
 				bottom = top +
-					scg_get_distance (scg, FALSE,
+					scg_colrow_distance_get (scg, FALSE,
 							  r->start.row, r->end.row+1);
 			}
 		}
@@ -239,9 +239,9 @@ sheet_view_set_zoom_factor (SheetControlGUI *scg, double factor)
 
 	/* Recalibrate the starting offsets */
 	gsheet->col_offset.first =
-		scg_get_distance (scg, TRUE, 0, gsheet->col.first);
+		scg_colrow_distance_get (scg, TRUE, 0, gsheet->col.first);
 	gsheet->row_offset.first =
-		scg_get_distance (scg, FALSE, 0, gsheet->row.first);
+		scg_colrow_distance_get (scg, FALSE, 0, gsheet->row.first);
 
 	if (GTK_WIDGET_REALIZED (gsheet))
 		/* Ensure that the current cell remains visible when we zoom */
@@ -365,11 +365,11 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, She
 
 	if (modifiers){
 		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
-			SheetSelection *ss = sheet->selections->data;
+			Range *ss = sheet->selections->data;
 			int start_col, end_col;
 
-			start_col = MIN (ss->user.start.col, col);
-			end_col = MAX (ss->user.end.col, col);
+			start_col = MIN (ss->start.col, col);
+			end_col = MAX (ss->end.col, col);
 
 			sheet_selection_set (sheet,
 					     start_col, gsheet->row.first,
@@ -392,23 +392,22 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, She
 	sheet_update (sheet);
 }
 
-static void
-sheet_view_col_size_changed (ItemBar *item_bar, int col, int new_size_pixels,
-			     SheetControlGUI *scg)
+void
+scg_colrow_size_set (SheetControlGUI *scg,
+		     gboolean is_cols, int index, int new_size_pixels)
 {
+	WorkbookControl *wbc = WORKBOOK_CONTROL (scg->wbcg);
 	Sheet *sheet = scg->sheet;
 
-	/*
-	 * If all cols in the selection are completely selected (top to bottom)
-	 * then resize all of them, otherwise just resize the selected col.
+	/* If all cols/rows in the selection are completely selected
+	 * then resize all of them, otherwise just resize the selected col/row.
 	 */
- 	if (!sheet_selection_full_cols (sheet, col)) {
-		ColRowIndexList *sel = col_row_get_index_list (col, col, NULL);
-		cmd_resize_row_col (WORKBOOK_CONTROL (scg->wbcg),
-				    sheet, TRUE, sel, new_size_pixels);
+	if (!sheet_selection_full_cols_rows (sheet, is_cols, index)) {
+		ColRowIndexList *sel = colrow_get_index_list (index, index, NULL);
+		cmd_resize_colrow (wbc, sheet, is_cols, sel, new_size_pixels);
 	} else
-		workbook_cmd_format_column_width (WORKBOOK_CONTROL (scg->wbcg),
-						  sheet, new_size_pixels);
+		workbook_cmd_resize_selected_colrow (wbc, is_cols,
+						     sheet, new_size_pixels);
 }
 
 static void
@@ -419,11 +418,11 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, She
 
 	if (modifiers){
 		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
-			SheetSelection *ss = sheet->selections->data;
+			Range *ss = sheet->selections->data;
 			int start_row, end_row;
 
-			start_row = MIN (ss->user.start.row, row);
-			end_row = MAX (ss->user.end.row, row);
+			start_row = MIN (ss->start.row, row);
+			end_row = MAX (ss->end.row, row);
 
 			sheet_selection_set (sheet,
 					     gsheet->col.first, start_row,
@@ -444,25 +443,6 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, She
 
 	/* The edit pos, and the selection may have changed */
 	sheet_update (sheet);
-}
-
-static void
-sheet_view_row_size_changed (ItemBar *item_bar, int row, int new_size_pixels,
-			     SheetControlGUI *scg)
-{
-	Sheet *sheet = scg->sheet;
-
-	/*
-	 * If all rows in the selection are completely selected (left to right)
-	 * then resize all of them, otherwise just resize the selected row.
-	 */
- 	if (!sheet_selection_full_rows (sheet, row)) {
-		ColRowIndexList *sel = col_row_get_index_list (row, row, NULL);
-		cmd_resize_row_col (WORKBOOK_CONTROL (scg->wbcg),
-				    sheet, FALSE, sel, new_size_pixels);
-	} else
-		workbook_cmd_format_row_height (WORKBOOK_CONTROL (scg->wbcg),
-						sheet, new_size_pixels);
 }
 
 /***************************************************************************/
@@ -594,9 +574,6 @@ sheet_view_construct (SheetControlGUI *scg)
 	gtk_signal_connect (GTK_OBJECT (scg->col_item), "selection_changed",
 			    GTK_SIGNAL_FUNC (sheet_view_col_selection_changed),
 			    scg);
-	gtk_signal_connect (GTK_OBJECT (scg->col_item), "size_changed",
-			    GTK_SIGNAL_FUNC (sheet_view_col_size_changed),
-			    scg);
 
 	/* Row canvas */
 	scg->row_canvas = new_canvas_bar (scg, GTK_ORIENTATION_VERTICAL, &scg->row_item);
@@ -607,9 +584,6 @@ sheet_view_construct (SheetControlGUI *scg)
 			  0, 0);
 	gtk_signal_connect (GTK_OBJECT (scg->row_item), "selection_changed",
 			    GTK_SIGNAL_FUNC (sheet_view_row_selection_changed),
-			    scg);
-	gtk_signal_connect (GTK_OBJECT (scg->row_item), "size_changed",
-			    GTK_SIGNAL_FUNC (sheet_view_row_size_changed),
 			    scg);
 
 	/* Create the gnumeric sheet canvas */
@@ -822,7 +796,7 @@ sheet_view_selection_ant (SheetControlGUI *scg)
 	grid = GNUMERIC_SHEET (scg->canvas)->item_grid;
 
 	for (l = scg->sheet->selections; l; l = l->next){
-		SheetSelection *ss = l->data;
+		Range *ss = l->data;
 		ItemCursor *item_cursor;
 
 		item_cursor = ITEM_CURSOR (gnome_canvas_item_new (
@@ -833,8 +807,8 @@ sheet_view_selection_ant (SheetControlGUI *scg)
 			NULL));
 		item_cursor_set_bounds (
 			item_cursor,
-			ss->user.start.col, ss->user.start.row,
-			ss->user.end.col, ss->user.end.row);
+			ss->start.col, ss->start.row,
+			ss->end.col, ss->end.row);
 
 		scg->anted_cursors = g_list_prepend (scg->anted_cursors, item_cursor);
 	}
@@ -1087,19 +1061,19 @@ context_menu_hander (GnumericPopupMenuElement const *element,
 		sheet_dialog_set_column_width (NULL, wbcg);
 		break;
 	case CONTEXT_COL_HIDE :
-		cmd_hide_selection_rows_cols (wbc, sheet, TRUE, FALSE);
+		cmd_hide_selection_colrow (wbc, sheet, TRUE, FALSE);
 		break;
 	case CONTEXT_COL_UNHIDE :
-		cmd_hide_selection_rows_cols (wbc, sheet, TRUE, TRUE);
+		cmd_hide_selection_colrow (wbc, sheet, TRUE, TRUE);
 		break;
 	case CONTEXT_ROW_HEIGHT :
 		sheet_dialog_set_row_height (NULL, wbcg);
 		break;
 	case CONTEXT_ROW_HIDE :
-		cmd_hide_selection_rows_cols (wbc, sheet, FALSE, FALSE);
+		cmd_hide_selection_colrow (wbc, sheet, FALSE, FALSE);
 		break;
 	case CONTEXT_ROW_UNHIDE :
-		cmd_hide_selection_rows_cols (wbc, sheet, FALSE, TRUE);
+		cmd_hide_selection_colrow (wbc, sheet, FALSE, TRUE);
 		break;
 	default :
 		break;
@@ -1988,7 +1962,7 @@ scg_comment_unselect (SheetControlGUI *scg, CellComment *cc)
 /* Col/Row size support routines.  */
 
 int
-scg_get_distance (SheetControlGUI const *scg, gboolean is_cols,
+scg_colrow_distance_get (SheetControlGUI const *scg, gboolean is_cols,
 		  int from, int to)
 {
 	ColRowCollection const *collection;

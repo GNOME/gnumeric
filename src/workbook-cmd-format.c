@@ -39,25 +39,26 @@ cb_colrow_collect (Sheet *sheet, Range const *r, gpointer user_data)
 		last = r->end.row;
 	}
 
-	info->selection = col_row_get_index_list (first, last, info->selection);
+	info->selection = colrow_get_index_list (first, last, info->selection);
 	return TRUE;
 }
 
 void
-workbook_cmd_format_column_width (WorkbookControl *wbc,
-				  Sheet *sheet, int new_size_pixels)
+workbook_cmd_resize_selected_colrow (WorkbookControl *wbc, gboolean is_cols,
+				     Sheet *sheet, int new_size_pixels)
 {
 	struct closure_colrow_resize closure;
-	closure.is_cols = TRUE;
+	closure.is_cols = is_cols;
 	closure.selection = NULL;
 	selection_foreach_range (sheet, TRUE, &cb_colrow_collect, &closure);
-	cmd_resize_row_col (wbc, sheet, TRUE, closure.selection, new_size_pixels);
+	cmd_resize_colrow (wbc, sheet, is_cols, closure.selection, new_size_pixels);
 }
+
 void
 workbook_cmd_format_column_auto_fit (GtkWidget *widget, WorkbookControl *wbc)
 {
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	workbook_cmd_format_column_width (wbc, sheet, -1);
+	workbook_cmd_resize_selected_colrow (wbc, TRUE, sheet, -1);
 }
 
 void
@@ -69,10 +70,10 @@ sheet_dialog_set_column_width (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 
 	/* Find out the initial value to display */
 	for (l = sheet->selections; l; l = l->next) {
-		SheetSelection *ss = l->data;
+		Range *ss = l->data;
 		int col;
 
-		for (col = ss->user.start.col; col <= ss->user.end.col; ++col){
+		for (col = ss->start.col; col <= ss->end.col; ++col){
 			ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 			if (value == 0.0)
 				value = ci->size_pts;
@@ -104,27 +105,16 @@ loop :
 			sheet->last_zoom_factor_used *
 			application_display_dpi_get (TRUE) / 72.;
 		int size_pixels = (int)(value * scale + 0.5);
-		workbook_cmd_format_column_width (WORKBOOK_CONTROL (wbcg),
-						  sheet, size_pixels);
+		workbook_cmd_resize_selected_colrow (WORKBOOK_CONTROL (wbcg),
+						     TRUE, sheet, size_pixels);
 	}
-}
-
-void
-workbook_cmd_format_row_height (WorkbookControl *wbc,
-				Sheet *sheet, int new_size_pixels)
-{
-	struct closure_colrow_resize closure;
-	closure.is_cols = FALSE;
-	closure.selection = NULL;
-	selection_foreach_range (sheet, TRUE, &cb_colrow_collect, &closure);
-	cmd_resize_row_col (wbc, sheet, FALSE, closure.selection, new_size_pixels);
 }
 
 void
 workbook_cmd_format_row_auto_fit (GtkWidget *widget, WorkbookControl *wbc)
 {
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	workbook_cmd_format_row_height (wbc, sheet, -1);
+	workbook_cmd_resize_selected_colrow (wbc, FALSE, sheet, -1);
 }
 
 void
@@ -138,10 +128,10 @@ sheet_dialog_set_row_height (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 	 * Find out the initial value to display
 	 */
 	for (l = sheet->selections; l; l = l->next){
-		SheetSelection *ss = l->data;
+		Range *ss = l->data;
 		int row;
 
-		for (row = ss->user.start.row; row <= ss->user.end.row; row++){
+		for (row = ss->start.row; row <= ss->end.row; row++){
 			ColRowInfo *ri;
 
 			ri = sheet_row_get_info (sheet, row);
@@ -175,23 +165,23 @@ loop :
 			sheet->last_zoom_factor_used *
 			application_display_dpi_get (FALSE) / 72.;
 		int size_pixels = (int)(value * scale + 0.5);
-		workbook_cmd_format_row_height (WORKBOOK_CONTROL (wbcg),
-						sheet, size_pixels);
+		workbook_cmd_resize_selected_colrow (WORKBOOK_CONTROL (wbcg),
+						     FALSE, sheet, size_pixels);
 	}
 }
 
 void
 workbook_cmd_format_column_hide (GtkWidget *widget, WorkbookControl *wbc)
 {
-	cmd_hide_selection_rows_cols (wbc, wb_control_cur_sheet (wbc),
-				      TRUE, FALSE);
+	cmd_hide_selection_colrow (wbc, wb_control_cur_sheet (wbc),
+				   TRUE, FALSE);
 }
 
 void
 workbook_cmd_format_column_unhide (GtkWidget *widget, WorkbookControl *wbc)
 {
-	cmd_hide_selection_rows_cols (wbc, wb_control_cur_sheet (wbc),
-				      TRUE, TRUE);
+	cmd_hide_selection_colrow (wbc, wb_control_cur_sheet (wbc),
+				   TRUE, TRUE);
 }
 
 void
@@ -203,15 +193,15 @@ workbook_cmd_format_column_std_width (GtkWidget *widget, WorkbookControl *wbc)
 void
 workbook_cmd_format_row_hide (GtkWidget *widget, WorkbookControl *wbc)
 {
-	cmd_hide_selection_rows_cols (wbc, wb_control_cur_sheet (wbc),
-				      FALSE, FALSE);
+	cmd_hide_selection_colrow (wbc, wb_control_cur_sheet (wbc),
+				   FALSE, FALSE);
 }
 
 void
 workbook_cmd_format_row_unhide (GtkWidget *widget, WorkbookControl *wbc)
 {
-	cmd_hide_selection_rows_cols (wbc, wb_control_cur_sheet (wbc),
-				      FALSE, TRUE);
+	cmd_hide_selection_colrow (wbc, wb_control_cur_sheet (wbc),
+				   FALSE, TRUE);
 }
 
 void

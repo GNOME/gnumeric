@@ -533,9 +533,9 @@ xml_write_selection_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 	copy = g_list_copy (sheet->selections);
 	ptr = g_list_reverse (copy);
 	for (; ptr != NULL ; ptr = ptr->next) {
-		SheetSelection *sel = ptr->data;
+		Range const *r = ptr->data;
 		xmlNodePtr child = xmlNewChild (tree, ctxt->ns, "Selection", NULL);
-		xml_write_range (child, &sel->user);
+		xml_write_range (child, r);
 	}
 	g_list_free (copy);
 
@@ -1585,7 +1585,7 @@ xml_write_colrow_info (ColRowInfo *info, void *user_data)
 	ColRowInfo const *prev = closure->previous;
 
 	closure->rle_count++;
-	if (col_row_equal (prev, info))
+	if (colrow_equal (prev, info))
 		return FALSE;
 
 	if (prev != NULL) {
@@ -2256,9 +2256,9 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 		closure.ctxt = ctxt;
 		closure.previous = NULL;
 		closure.rle_count = 0;
-		col_row_foreach (&sheet->cols,
-				 0, SHEET_MAX_COLS-1,
-				 &xml_write_colrow_info, &closure);
+		colrow_foreach (&sheet->cols,
+				0, SHEET_MAX_COLS-1,
+				&xml_write_colrow_info, &closure);
 		xml_write_colrow_info (NULL, &closure); /* flush */
 	}
 
@@ -2274,9 +2274,9 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 		closure.ctxt = ctxt;
 		closure.previous = NULL;
 		closure.rle_count = 0;
-		col_row_foreach (&sheet->rows,
-				 0, SHEET_MAX_ROWS-1,
-				 &xml_write_colrow_info, &closure);
+		colrow_foreach (&sheet->rows,
+				0, SHEET_MAX_ROWS-1,
+				&xml_write_colrow_info, &closure);
 		xml_write_colrow_info (NULL, &closure); /* flush */
 	}
 
@@ -2339,7 +2339,7 @@ xml_write_selection_clipboard (XmlParseContext *ctxt, Sheet *sheet)
 	GSList *range_list;
 	GSList *iterator;
 
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "ClipboardSheetSelection", NULL);
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "ClipboardRange", NULL);
 	if (cur == NULL)
 		return NULL;
 
@@ -2487,7 +2487,7 @@ xml_read_cols_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 
 		/* resize flags are already set only need to copy the sizes */
 		for (pos = info->pos ; --count > 0 ; )
-			col_row_copy (sheet_col_fetch (ctxt->sheet, ++pos), info);
+			colrow_copy (sheet_col_fetch (ctxt->sheet, ++pos), info);
 	}
 }
 
@@ -2516,7 +2516,7 @@ xml_read_rows_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 
 		/* resize flags are already set only need to copy the sizes */
 		for (pos = info->pos ; --count > 0 ; )
-			col_row_copy (sheet_row_fetch (ctxt->sheet, ++pos), info);
+			colrow_copy (sheet_row_fetch (ctxt->sheet, ++pos), info);
 	}
 }
 
@@ -2648,9 +2648,9 @@ xml_read_selection_clipboard (XmlParseContext *ctxt, xmlNodePtr tree)
 	xmlNodePtr child;
 	xmlNodePtr cells;
 
-	if (strcmp (tree->name, "ClipboardSheetSelection")){
+	if (strcmp (tree->name, "ClipboardRange")){
 		fprintf (stderr,
-			 "xml_sheet_read_selection_clipboard: invalid element type %s, 'ClipboardSheetSelection' expected\n",
+			 "xml_sheet_read_selection_clipboard: invalid element type %s, 'ClipboardRange' expected\n",
 			 tree->name);
 	}
 	child = tree->childs;

@@ -1071,12 +1071,12 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet,
 		GnomeCanvas *canvas;
 
 		gsheet->col_offset.first =
-			scg_get_distance (scg, TRUE, 0, gsheet->col.first);
+			scg_colrow_distance_get (scg, TRUE, 0, gsheet->col.first);
 		canvas = GNOME_CANVAS_ITEM (gsheet->colbar)->canvas;
 		gnome_canvas_scroll_to (canvas, gsheet->col_offset.first, 0);
 
 		gsheet->row_offset.first =
-			scg_get_distance (scg, FALSE, 0, gsheet->row.first);
+			scg_colrow_distance_get (scg, FALSE, 0, gsheet->row.first);
 		canvas = GNOME_CANVAS_ITEM (gsheet->rowbar)->canvas;
 		gnome_canvas_scroll_to (canvas, 0, gsheet->row_offset.first);
 
@@ -1170,7 +1170,7 @@ gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_first_row)
 
 	rowc = GNOME_CANVAS_ITEM (gsheet->rowbar)->canvas;
 	row_distance = gsheet->row_offset.first +=
-		scg_get_distance (gsheet->scg, FALSE, gsheet->row.first, new_first_row);
+		scg_colrow_distance_get (gsheet->scg, FALSE, gsheet->row.first, new_first_row);
 	gsheet->row.first = new_first_row;
 
 	/* Scroll the row headers */
@@ -1214,7 +1214,7 @@ gnumeric_sheet_bar_set_left_col (GnumericSheet *gsheet, int new_first_col)
 
 	colc = GNOME_CANVAS_ITEM (gsheet->colbar)->canvas;
 	col_distance = gsheet->col_offset.first +=
-		scg_get_distance (gsheet->scg, TRUE, gsheet->col.first, new_first_col);
+		scg_colrow_distance_get (gsheet->scg, TRUE, gsheet->col.first, new_first_col);
 	gsheet->col.first = new_first_col;
 
 	/* Scroll the column headers */

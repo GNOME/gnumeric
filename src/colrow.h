@@ -42,45 +42,45 @@ struct _ColRowCollection
 struct _ColRowSegment
 {
 	ColRowInfo *info [COLROW_SEGMENT_SIZE];
-	int needs_respan [(COLROW_SEGMENT_SIZE/sizeof(int)) + 1]; /* be safe */
 };
 
 #define COL_INTERNAL_WIDTH(col) ((col)->size_pixels - ((col)->margin_b + (col)->margin_a + 1))
 
-gboolean col_row_equal   (ColRowInfo const *a, ColRowInfo const *b);
-void     col_row_copy (ColRowInfo *dst, ColRowInfo const *src);
-gboolean col_row_foreach (ColRowCollection const *infos,
-			  int first, int last,
-			  col_row_callback callback,
-			  void *user_data);
+gboolean colrow_equal	(ColRowInfo const *a, ColRowInfo const *b);
+void     colrow_copy	(ColRowInfo *dst, ColRowInfo const *src);
+gboolean colrow_foreach	(ColRowCollection const *infos,
+			 int first, int last,
+			 ColRowHandler callback,
+			 void *user_data);
 
 /* Support for Col/Row resizing */
-ColRowSizeList	*col_row_size_list_destroy    (ColRowSizeList *list);
-ColRowIndexList *col_row_index_list_destroy   (ColRowIndexList *list);
-ColRowIndexList *col_row_get_index_list	      (int first, int last, ColRowIndexList *list);
-double		*col_row_save_sizes	      (Sheet *sheet, gboolean const is_cols,
-					       int first, int last);
-ColRowSizeList	*col_row_set_sizes	      (Sheet *sheet, gboolean const is_cols,
-					       ColRowIndexList *src, int new_size);
-void		 col_row_restore_sizes	      (Sheet *sheet, gboolean const is_cols,
-					       int first, int last, double *);
-void		 col_row_restore_sizes_group  (Sheet *sheet, gboolean const is_cols,
-					       ColRowIndexList *selection,
-					       ColRowSizeList *saved_sizes,
-					       int old_size);
-
-void		 rows_height_update	      (Sheet *sheet, Range const *range);
+ColRowSizeList	*colrow_size_list_destroy	(ColRowSizeList *list);
+ColRowIndexList *colrow_index_list_destroy	(ColRowIndexList *list);
+ColRowIndexList *colrow_get_index_list		(int first, int last,
+						 ColRowIndexList *list);
+double		*colrow_save_sizes		(Sheet *sheet, gboolean const is_cols,
+						 int first, int last);
+ColRowSizeList	*colrow_set_sizes		(Sheet *sheet, gboolean const is_cols,
+						 ColRowIndexList *src, int new_size);
+void		 colrow_restore_sizes		(Sheet *sheet, gboolean const is_cols,
+						 int first, int last, double *);
+void		 colrow_restore_sizes_group	(Sheet *sheet, gboolean const is_cols,
+						 ColRowIndexList *selection,
+						 ColRowSizeList *saved_sizes,
+						 int old_size);
 
 /* Support for Col/Row visibility */
-void		 col_row_set_visibility	      (Sheet *sheet, gboolean const is_col,
-					       gboolean const visible,
-					       int first, int last);
+void		 colrow_set_visibility		(Sheet *sheet, gboolean const is_col,
+						 gboolean const visible,
+						 int first, int last);
 
-ColRowVisList	*col_row_get_visiblity_toggle (Sheet *sheet, gboolean const is_col,
-					       gboolean const visible);
-ColRowVisList	*col_row_vis_list_destroy     (ColRowVisList *list);
-void		 col_row_set_visibility_list  (Sheet *sheet, gboolean const is_col,
-					       gboolean const visible,
-					       ColRowVisList *list);
+ColRowVisList	*colrow_get_visiblity_toggle	(Sheet *sheet, gboolean const is_col,
+						 gboolean const visible);
+ColRowVisList	*colrow_vis_list_destroy	(ColRowVisList *list);
+void		 colrow_set_visibility_list	(Sheet *sheet, gboolean const is_col,
+						 gboolean const visible,
+						 ColRowVisList *list);
+
+void rows_height_update	(Sheet *sheet, Range const *range);
 
 #endif /* GNUMERIC_COLROW_H */

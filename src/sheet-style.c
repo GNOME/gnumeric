@@ -1835,7 +1835,7 @@ sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
  * The union of @r and all stylesregions that are visible in blank cells.
  */
 void
-sheet_style_get_extent (Range *r, const Sheet *sheet)
+sheet_style_get_extent (Sheet const *sheet, Range *r)
 {
 	SheetStyleData const *sd = sheet->style_data;
 	GList *l;

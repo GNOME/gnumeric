@@ -27,7 +27,7 @@ gboolean cmd_delete_cols	(WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_delete_rows	(WorkbookControl *wbc, Sheet *sheet,
 				 int start_row, int count);
 
-gboolean cmd_resize_row_col	(WorkbookControl *wbc, Sheet *sheet,
+gboolean cmd_resize_colrow	(WorkbookControl *wbc, Sheet *sheet,
 				 gboolean is_col, ColRowIndexList *selection,
 				 int new_size);
 
@@ -54,7 +54,7 @@ gboolean cmd_clear_selection	(WorkbookControl *wbc, Sheet *sheet,
 
 gboolean cmd_autoformat         (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft);
 
-gboolean cmd_hide_selection_rows_cols (WorkbookControl *wbc, Sheet *sheet,
-				       gboolean is_cols, gboolean visible);
+gboolean cmd_hide_selection_colrow (WorkbookControl *wbc, Sheet *sheet,
+				    gboolean is_cols, gboolean visible);
 
 #endif /* GNUMERIC_COMMANDS_H */

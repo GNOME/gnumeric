@@ -2959,7 +2959,7 @@ ms_excel_read_row (BiffQuery *q, ExcelSheet *sheet)
 	/* FIXME : I am not clear on the difference between collapsed, and dyn 0
 	 * Use both for now */
 	if (flags & 0x30)
-		col_row_set_visibility (sheet->gnum_sheet, FALSE, FALSE, row, row);
+		colrow_set_visibility (sheet->gnum_sheet, FALSE, FALSE, row, row);
 
 	if (flags & 0x80) {
 		ms_excel_set_xf_segment (sheet, 0, SHEET_MAX_COLS-1, row, xf);
@@ -3023,7 +3023,7 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 
 	/* TODO : We should associate a style region with the columns */
 	if (hidden)
-		col_row_set_visibility (sheet->gnum_sheet, TRUE, FALSE,
+		colrow_set_visibility (sheet->gnum_sheet, TRUE, FALSE,
 					firstcol, lastcol);
 }
 

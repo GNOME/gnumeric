@@ -733,8 +733,8 @@ cmd_area_set_text (WorkbookControl *wbc, EvalPos const *pos,
 
 /******************************************************************/
 
-#define CMD_INS_DEL_ROW_COL_TYPE        (cmd_ins_del_row_col_get_type ())
-#define CMD_INS_DEL_ROW_COL(o)          (GTK_CHECK_CAST ((o), CMD_INS_DEL_ROW_COL_TYPE, CmdInsDelRowCol))
+#define CMD_INS_DEL_COLROW_TYPE        (cmd_ins_del_colrow_get_type ())
+#define CMD_INS_DEL_COLROW(o)          (GTK_CHECK_CAST ((o), CMD_INS_DEL_COLROW_TYPE, CmdInsDelColRow))
 
 typedef struct
 {
@@ -749,14 +749,14 @@ typedef struct
 	double		*sizes;
 	CellRegion 	*contents;
 	GSList		*reloc_storage;
-} CmdInsDelRowCol;
+} CmdInsDelColRow;
 
-GNUMERIC_MAKE_COMMAND (CmdInsDelRowCol, cmd_ins_del_row_col);
+GNUMERIC_MAKE_COMMAND (CmdInsDelColRow, cmd_ins_del_colrow);
 
 static gboolean
-cmd_ins_del_row_col_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_ins_del_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdInsDelRowCol *me = CMD_INS_DEL_ROW_COL (cmd);
+	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
 	int index;
 	GSList *tmp = NULL;
 	gboolean trouble;
@@ -782,7 +782,7 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	}
 
 	/* restore row/col sizes */
-	col_row_restore_sizes (me->sheet, me->is_cols, index, index + me->count - 1, me->sizes);
+	colrow_restore_sizes (me->sheet, me->is_cols, index, index + me->count - 1, me->sizes);
 	me->sizes = NULL;
 
 	/* restore row/col contents */
@@ -818,9 +818,9 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_ins_del_row_col_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdInsDelRowCol *me = CMD_INS_DEL_ROW_COL (cmd);
+	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
 	Range r;
 	gboolean trouble;
 	int first, last;
@@ -834,7 +834,7 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	    : me->index;
 
 	last = first + me->count - 1;
-	me->sizes = col_row_save_sizes (me->sheet, me->is_cols, first, last);
+	me->sizes = colrow_save_sizes (me->sheet, me->is_cols, first, last);
 	me->contents = clipboard_copy_range (me->sheet,
 		(me->is_cols)
 		? range_init (&r, first, 0, last, SHEET_MAX_ROWS - 1)
@@ -869,9 +869,9 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_ins_del_row_col_destroy (GtkObject *cmd)
+cmd_ins_del_colrow_destroy (GtkObject *cmd)
 {
-	CmdInsDelRowCol *me = CMD_INS_DEL_ROW_COL (cmd);
+	CmdInsDelColRow *me = CMD_INS_DEL_COLROW (cmd);
 
 	if (me->sizes) {
 		g_free (me->sizes);
@@ -889,18 +889,18 @@ cmd_ins_del_row_col_destroy (GtkObject *cmd)
 }
 
 static gboolean
-cmd_ins_del_row_col (WorkbookControl *wbc,
+cmd_ins_del_colrow (WorkbookControl *wbc,
 		     Sheet *sheet,
 		     gboolean is_cols, gboolean is_insert,
 		     char const * descriptor, int index, int count)
 {
 	GtkObject *obj;
-	CmdInsDelRowCol *me;
+	CmdInsDelColRow *me;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
-	obj = gtk_type_new (CMD_INS_DEL_ROW_COL_TYPE);
-	me = CMD_INS_DEL_ROW_COL (obj);
+	obj = gtk_type_new (CMD_INS_DEL_COLROW_TYPE);
+	me = CMD_INS_DEL_COLROW (obj);
 
 	/* Store the specs for the object */
 	me->sheet = sheet;
@@ -927,8 +927,8 @@ cmd_insert_cols (WorkbookControl *wbc,
 				      ? _("Inserting %d columns before %s")
 				      : _("Inserting %d column before %s"), count,
 				      col_name (start_col));
-	return cmd_ins_del_row_col (wbc, sheet, TRUE, TRUE, mesg,
-				    start_col, count);
+	return cmd_ins_del_colrow (wbc, sheet, TRUE, TRUE, mesg,
+				   start_col, count);
 }
 
 gboolean
@@ -939,8 +939,8 @@ cmd_insert_rows (WorkbookControl *wbc,
 				      ? _("Inserting %d rows before %d")
 				      : _("Inserting %d row before %d"),
 				      count, start_row+1);
-	return cmd_ins_del_row_col (wbc, sheet, FALSE, TRUE, mesg,
-				    start_row, count);
+	return cmd_ins_del_colrow (wbc, sheet, FALSE, TRUE, mesg,
+				   start_row, count);
 }
 
 gboolean
@@ -958,7 +958,7 @@ cmd_delete_cols (WorkbookControl *wbc,
 		mesg = g_strdup_printf (_("Deleting column %s"),
 					col_name (start_col));
 
-	return cmd_ins_del_row_col (wbc, sheet, TRUE, FALSE, mesg, start_col, count);
+	return cmd_ins_del_colrow (wbc, sheet, TRUE, FALSE, mesg, start_col, count);
 }
 
 gboolean
@@ -970,7 +970,7 @@ cmd_delete_rows (WorkbookControl *wbc,
 			       start_row+count-1)
 	    : g_strdup_printf (_("Deleting row %d"), start_row);
 
-	return cmd_ins_del_row_col (wbc, sheet, FALSE, FALSE, mesg, start_row, count);
+	return cmd_ins_del_colrow (wbc, sheet, FALSE, FALSE, mesg, start_row, count);
 }
 
 /******************************************************************/
@@ -1530,8 +1530,8 @@ cmd_set_date_time (WorkbookControl *wbc,
 
 /******************************************************************/
 
-#define CMD_RESIZE_ROW_COL_TYPE        (cmd_resize_row_col_get_type ())
-#define CMD_RESIZE_ROW_COL(o)          (GTK_CHECK_CAST ((o), CMD_RESIZE_ROW_COL_TYPE, CmdResizeRowCol))
+#define CMD_RESIZE_COLROW_TYPE        (cmd_resize_colrow_get_type ())
+#define CMD_RESIZE_COLROW(o)          (GTK_CHECK_CAST ((o), CMD_RESIZE_COLROW_TYPE, CmdResizeColRow))
 
 typedef struct
 {
@@ -1542,22 +1542,22 @@ typedef struct
 	ColRowIndexList *selection;
 	ColRowSizeList	*saved_sizes;
 	int		 new_size;
-} CmdResizeRowCol;
+} CmdResizeColRow;
 
-GNUMERIC_MAKE_COMMAND (CmdResizeRowCol, cmd_resize_row_col);
+GNUMERIC_MAKE_COMMAND (CmdResizeColRow, cmd_resize_colrow);
 
 static gboolean
-cmd_resize_row_col_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_resize_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL (cmd);
+	CmdResizeColRow *me = CMD_RESIZE_COLROW (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->selection != NULL, TRUE);
 	g_return_val_if_fail (me->saved_sizes != NULL, TRUE);
 
-	col_row_restore_sizes_group (me->sheet, me->is_cols,
-				     me->selection, me->saved_sizes,
-				     me->new_size);
+	colrow_restore_sizes_group (me->sheet, me->is_cols,
+				    me->selection, me->saved_sizes,
+				    me->new_size);
 	me->saved_sizes = NULL;
 
 	sheet_set_dirty (me->sheet, TRUE);
@@ -1567,16 +1567,16 @@ cmd_resize_row_col_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_resize_row_col_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_resize_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL (cmd);
+	CmdResizeColRow *me = CMD_RESIZE_COLROW (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->selection != NULL, TRUE);
 	g_return_val_if_fail (me->saved_sizes == NULL, TRUE);
 
-	me->saved_sizes = col_row_set_sizes (me->sheet, me->is_cols,
-					     me->selection, me->new_size);
+	me->saved_sizes = colrow_set_sizes (me->sheet, me->is_cols,
+					    me->selection, me->new_size);
 	if (me->parent.size == 1)
 		me->parent.size += (g_slist_length (me->saved_sizes) +
 				    g_list_length (me->selection));
@@ -1587,31 +1587,31 @@ cmd_resize_row_col_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	return FALSE;
 }
 static void
-cmd_resize_row_col_destroy (GtkObject *cmd)
+cmd_resize_colrow_destroy (GtkObject *cmd)
 {
-	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL (cmd);
+	CmdResizeColRow *me = CMD_RESIZE_COLROW (cmd);
 
 	if (me->selection)
-		me->selection = col_row_index_list_destroy (me->selection);
+		me->selection = colrow_index_list_destroy (me->selection);
 
 	if (me->saved_sizes)
-		me->saved_sizes = col_row_size_list_destroy (me->saved_sizes);
+		me->saved_sizes = colrow_size_list_destroy (me->saved_sizes);
 
 	gnumeric_command_destroy (cmd);
 }
 
 gboolean
-cmd_resize_row_col (WorkbookControl *wbc, Sheet *sheet,
-		    gboolean is_cols, ColRowIndexList *selection,
-		    int new_size)
+cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
+		   gboolean is_cols, ColRowIndexList *selection,
+		   int new_size)
 {
 	GtkObject *obj;
-	CmdResizeRowCol *me;
+	CmdResizeColRow *me;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
-	obj = gtk_type_new (CMD_RESIZE_ROW_COL_TYPE);
-	me = CMD_RESIZE_ROW_COL (obj);
+	obj = gtk_type_new (CMD_RESIZE_COLROW_TYPE);
+	me = CMD_RESIZE_COLROW (obj);
 
 	/* Store the specs for the object */
 	me->sheet = sheet;
@@ -1729,8 +1729,8 @@ cmd_sort (WorkbookControl *wbc, SortData *data)
 
 /******************************************************************/
 
-#define CMD_HIDE_ROW_COL_TYPE        (cmd_hide_row_col_get_type ())
-#define CMD_HIDE_ROW_COL(o)          (GTK_CHECK_CAST ((o), CMD_HIDE_ROW_COL_TYPE, CmdHideRowCol))
+#define CMD_HIDE_COLROW_TYPE        (cmd_hide_colrow_get_type ())
+#define CMD_HIDE_COLROW(o)          (GTK_CHECK_CAST ((o), CMD_HIDE_COLROW_TYPE, CmdHideColRow))
 
 typedef struct
 {
@@ -1740,19 +1740,19 @@ typedef struct
 	gboolean       is_cols;
 	gboolean       visible;
 	ColRowVisList *elements;
-} CmdHideRowCol;
+} CmdHideColRow;
 
-GNUMERIC_MAKE_COMMAND (CmdHideRowCol, cmd_hide_row_col);
+GNUMERIC_MAKE_COMMAND (CmdHideColRow, cmd_hide_colrow);
 
 static gboolean
-cmd_hide_row_col_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_hide_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdHideRowCol *me = CMD_HIDE_ROW_COL (cmd);
+	CmdHideColRow *me = CMD_HIDE_COLROW (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	col_row_set_visibility_list (me->sheet, me->is_cols,
-				     !me->visible, me->elements);
+	colrow_set_visibility_list (me->sheet, me->is_cols,
+				    !me->visible, me->elements);
 
 	sheet_set_dirty (me->sheet, TRUE);
 	sheet_update (me->sheet);
@@ -1761,14 +1761,14 @@ cmd_hide_row_col_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static gboolean
-cmd_hide_row_col_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_hide_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdHideRowCol *me = CMD_HIDE_ROW_COL (cmd);
+	CmdHideColRow *me = CMD_HIDE_COLROW (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	col_row_set_visibility_list (me->sheet, me->is_cols,
-				     me->visible, me->elements);
+	colrow_set_visibility_list (me->sheet, me->is_cols,
+				    me->visible, me->elements);
 
 	sheet_set_dirty (me->sheet, TRUE);
 	sheet_update (me->sheet);
@@ -1777,29 +1777,29 @@ cmd_hide_row_col_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 }
 
 static void
-cmd_hide_row_col_destroy (GtkObject *cmd)
+cmd_hide_colrow_destroy (GtkObject *cmd)
 {
-	CmdHideRowCol *me = CMD_HIDE_ROW_COL (cmd);
-	me->elements = col_row_vis_list_destroy (me->elements);
+	CmdHideColRow *me = CMD_HIDE_COLROW (cmd);
+	me->elements = colrow_vis_list_destroy (me->elements);
 	gnumeric_command_destroy (cmd);
 }
 
 gboolean
-cmd_hide_selection_rows_cols (WorkbookControl *wbc, Sheet *sheet,
-			      gboolean is_cols, gboolean visible)
+cmd_hide_selection_colrow (WorkbookControl *wbc, Sheet *sheet,
+			   gboolean is_cols, gboolean visible)
 {
 	GtkObject *obj;
-	CmdHideRowCol *me;
+	CmdHideColRow *me;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
-	obj = gtk_type_new (CMD_HIDE_ROW_COL_TYPE);
-	me = CMD_HIDE_ROW_COL (obj);
+	obj = gtk_type_new (CMD_HIDE_COLROW_TYPE);
+	me = CMD_HIDE_COLROW (obj);
 
 	me->sheet = sheet;
 	me->is_cols = is_cols;
 	me->visible = visible;
-	me->elements = col_row_get_visiblity_toggle (sheet, is_cols, visible);
+	me->elements = colrow_get_visiblity_toggle (sheet, is_cols, visible);
 
 	me->parent.size = 1 + g_slist_length (me->elements);
 

@@ -438,14 +438,14 @@ void
 sheet_object_position_pixels (SheetObject const *so,
 			      SheetControlGUI const *scg, int *coords)
 {
-	coords [0] = scg_get_distance (scg, TRUE, 0,
+	coords [0] = scg_colrow_distance_get (scg, TRUE, 0,
 		so->cell_bound.start.col);
-	coords [1] = scg_get_distance (scg, FALSE, 0,
+	coords [1] = scg_colrow_distance_get (scg, FALSE, 0,
 		so->cell_bound.start.row);
 
-	coords [2] = coords [0] + scg_get_distance (scg, TRUE,
+	coords [2] = coords [0] + scg_colrow_distance_get (scg, TRUE,
 		so->cell_bound.start.col, so->cell_bound.end.col);
-	coords [3] = coords [1] + scg_get_distance (scg, FALSE,
+	coords [3] = coords [1] + scg_colrow_distance_get (scg, FALSE,
 		so->cell_bound.start.row, so->cell_bound.end.row);
 
 	coords [0] += cell_offset_calc_pixel (so->sheet, so->cell_bound.start.col,

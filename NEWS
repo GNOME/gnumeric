@@ -5,9 +5,13 @@ Alan Cox:
 
 Jody:
 	* Work on sheet object persistence.
+	* Begin honouring the current format when parsing.
 
 Morten:
 	* Fix scripts generating documentation.
+
+Chema:
+	* Some work on the name dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 0.60

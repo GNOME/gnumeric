@@ -1298,7 +1298,7 @@ cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	SheetSelection *ss;
+	Range *ss;
 	int rows;
 
 	/* TODO : No need to check simplicty.  XL applies for each
@@ -1313,8 +1313,8 @@ cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	 *
 	 * at minimum a warning if things are about to be cleared ?
 	 */
-	rows = ss->user.end.row - ss->user.start.row + 1;
-	cmd_insert_rows (wbc, sheet, ss->user.start.row, rows);
+	rows = ss->end.row - ss->start.row + 1;
+	cmd_insert_rows (wbc, sheet, ss->start.row, rows);
 }
 
 static void
@@ -1322,7 +1322,7 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	SheetSelection *ss;
+	Range *ss;
 	int cols;
 
 	/* TODO : No need to check simplicty.  XL applies for each
@@ -1337,8 +1337,8 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	 *
 	 * at minimum a warning if things are about to be cleared ?
 	 */
-	cols = ss->user.end.col - ss->user.start.col + 1;
-	cmd_insert_cols (wbc, sheet, ss->user.start.col, cols);
+	cols = ss->end.col - ss->start.col + 1;
+	cmd_insert_cols (wbc, sheet, ss->start.col, cols);
 }
 
 static void

@@ -49,7 +49,6 @@ typedef void (*ItemBarSignal2) (GtkObject *, gint arg1, gint arg2, gpointer data
 /* The signals we emit */
 enum {
 	SELECTION_CHANGED,
-	SIZE_CHANGED,
 	LAST_SIGNAL
 };
 static guint item_bar_signals [LAST_SIGNAL] = { 0 };
@@ -436,22 +435,22 @@ item_bar_start_resize (ItemBar *bar)
 	 * Set the guide line later based on the motion coordinates.
 	 */
 	if (bar->orientation == GTK_ORIENTATION_VERTICAL) {
-		double const y = scg_get_distance (scg, FALSE,
+		double const y = scg_colrow_distance_get (scg, FALSE,
 					0, bar->resize_pos) / zoom;
-		points->coords [0] = scg_get_distance (scg, TRUE,
+		points->coords [0] = scg_colrow_distance_get (scg, TRUE,
 					0, gsheet->col.first) / zoom;
 		points->coords [1] = y;
-		points->coords [2] = scg_get_distance (scg, TRUE,
+		points->coords [2] = scg_colrow_distance_get (scg, TRUE,
 					0, gsheet->col.last_visible+1) / zoom;
 		points->coords [3] = y;
 	} else {
-		double const x = scg_get_distance (scg, TRUE,
+		double const x = scg_colrow_distance_get (scg, TRUE,
 					0, bar->resize_pos) / zoom;
 		points->coords [0] = x;
-		points->coords [1] = scg_get_distance (scg, FALSE,
+		points->coords [1] = scg_colrow_distance_get (scg, FALSE,
 					0, gsheet->row.first) / zoom;
 		points->coords [2] = x;
-		points->coords [3] = scg_get_distance (scg, FALSE,
+		points->coords [3] = scg_colrow_distance_get (scg, FALSE,
 					0, gsheet->row.last_visible+1) / zoom;
 	}
 
@@ -514,10 +513,9 @@ static void
 item_bar_end_resize (ItemBar *item_bar, int new_size)
 {
 	if (new_size != 0)
-		gtk_signal_emit (GTK_OBJECT (item_bar),
-				 item_bar_signals [SIZE_CHANGED],
-				 item_bar->resize_pos,
-				 new_size);
+		scg_colrow_size_set (item_bar->scg,
+			(item_bar->orientation != GTK_ORIENTATION_VERTICAL),
+			item_bar->resize_pos, new_size);
 
 	if (item_bar->resize_points) {
 		gnome_canvas_points_free (item_bar->resize_points);
@@ -858,16 +856,6 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 				GTK_TYPE_NONE,
 				2,
 				GTK_TYPE_INT, GTK_TYPE_INT);
-	item_bar_signals [SIZE_CHANGED] =
-		gtk_signal_new ("size_changed",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (ItemBarClass, size_changed),
-				item_bar_marshal,
-				GTK_TYPE_NONE,
-				2,
-				GTK_TYPE_INT,
-				GTK_TYPE_INT);
 
 	/* Register our signals */
 	gtk_object_class_add_signals (object_class, item_bar_signals,

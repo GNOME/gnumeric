@@ -118,8 +118,10 @@ void scg_comment_select		(SheetControlGUI *scg, CellComment *cc);
 void scg_comment_display	(SheetControlGUI *scg, CellComment *cc);
 void scg_comment_unselect	(SheetControlGUI *scg, CellComment *cc);
 
-int  scg_get_distance		(SheetControlGUI const *scg, gboolean is_cols,
-				 int from, int to);
+void scg_colrow_size_set	(SheetControlGUI *scg,
+				 gboolean is_cols, int index, int new_size_pixels);
+int  scg_colrow_distance_get	(SheetControlGUI const *scg,
+				 gboolean is_cols, int from, int to);
 
 /* FIXME : Move these around to a more reasonable location */
 SheetControlGUI *sheet_new_sheet_view (Sheet *sheet);

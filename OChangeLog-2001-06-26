@@ -1,3 +1,21 @@
+2000-12-15  Jody Goldberg <jgoldberg@home.com>
+
+	Tidy up the naming scheme a bit.
+	s/row_col/colrow/
+	s/col_row/colrow/
+	s/SheetSelection/Range/
+
+	* src/workbook-cmd-format.c (workbook_cmd_resize_selected_colrow) :
+	  Merged from workbook_cmd_format_column_width and.
+	  & workbook_cmd_format_row_height
+
+	* src/item-bar.c (item_bar_end_resize) : Call scg_colrow_size_set
+	  directly.
+	(item_bar_class_init) : remove the SIZE_CHANGED signal.
+
+	* src/selection.c (sheet_selection_full_cols_rows) : merge
+	  sheet_selection_full_cols & sheet_selection_full_rows.
+
 2000-12-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-grid.c (item_grid_draw) : Move the span handling here.

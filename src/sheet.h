@@ -13,12 +13,6 @@ struct _StyleRegion {
 	MStyle  *style;
 };
 
-struct _SheetSelection {
-	/* This range may overlap other regions in the selection list */
-        Range user;
-};
-
-
 typedef GList ColStyleList;
 
 typedef struct _SheetPrivate SheetPrivate;
@@ -217,8 +211,8 @@ void           sheet_destroy_styles             (Sheet *sheet);
 GList         *sheet_get_style_list             (Sheet const *sheet);
 void           sheet_styles_dump                (Sheet *sheet);
 Range          sheet_get_full_range             (void);
-void           sheet_style_get_extent           (Range *r, const Sheet *sheet);
-Range          sheet_get_extent                 (const Sheet *sheet);
+void           sheet_style_get_extent           (Sheet const *sheet, Range *r);
+Range          sheet_get_extent                 (Sheet const *sheet);
 
 GList         *sheet_get_styles_in_range        (Sheet *sheet, const Range *r);
 void           sheet_style_list_destroy         (GList *l);
