@@ -367,7 +367,7 @@ font_init (void)
 	 * Load bold font
 	 */
 	gnumeric_default_bold_font = style_font_new_simple (
-		DEFAULT_FONT, DEFAULT_SIZE, 1.0, TRUE, FALSE);
+		DEFAULT_FONT, DEFAULT_SIZE, scale, TRUE, FALSE);
 	if (gnumeric_default_bold_font == NULL){
 	    gnumeric_default_bold_font = gnumeric_default_font;
 	    style_font_ref (gnumeric_default_bold_font);
@@ -377,7 +377,7 @@ font_init (void)
 	 * Load italic font
 	 */
 	gnumeric_default_italic_font = style_font_new_simple (
-		DEFAULT_FONT, DEFAULT_SIZE, 1.0, FALSE, TRUE);
+		DEFAULT_FONT, DEFAULT_SIZE, scale, FALSE, TRUE);
 	if (gnumeric_default_italic_font == NULL){
 		gnumeric_default_italic_font = gnumeric_default_font;
 		style_font_ref (gnumeric_default_italic_font);

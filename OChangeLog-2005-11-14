@@ -1,5 +1,12 @@
 2000-11-11  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-control-gui.c : Fix typos in the accelerator selections
+	  for the name menu.
+
+	* src/gnumeric.xml : Add entries for new shared/unshared views.
+
+	* src/style.c (font_init) : Use the correct scale.
+
 	* src/value.c (value_get_default_halign) : Renamed and moved from here
 	* src/cell.c (cell_default_halign) : to here.  Added support for
 	  displaying formulas.

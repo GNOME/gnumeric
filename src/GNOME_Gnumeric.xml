@@ -172,6 +172,11 @@
 			<menuitem name="ViewZoom" verb="" _label="_Zoom..."
 			_tip="Zoom the spreadsheet in or out"/>
 
+			<menuitem name="ViewNewShared" verb="" _label="New _Shared"
+			_tip="Create a new shared view of the workbook"/>
+
+			<menuitem name="ViewNewUnshared" verb="" _label="New _Unshared"
+			_tip="Create a new unshared view of the workbook"/>
 		</submenu>
 
 		<submenu name="Insert" _label="_Insert">
@@ -193,7 +198,7 @@
 
 			<separator/>
 
-			<submenu name="Names" _label="N_ames">
+			<submenu name="Names" _label="_Name">
 
 				<menuitem name="Define" verb="EditNames"
 				_label="_Define" _tip="Edit sheet and workbook names"/>

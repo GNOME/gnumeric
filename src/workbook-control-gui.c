@@ -1836,7 +1836,7 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_SUBTREE(N_("N_ames"), workbook_menu_names),
+	GNOMEUIINFO_SUBTREE(N_("_Name"), workbook_menu_names),
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Add\\modify comment..."),
 		N_("Edit the selected cell's comment"),
