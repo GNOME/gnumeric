@@ -133,6 +133,8 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 			n = g_new (int, 1);
 			*((int *) n) = mm->total_num;
 		        mm->list = g_slist_append (mm->list, n);
+			/* FIXME: is this right?  -- MW.  */
+			value_release(v);
 		} else
 		        mm->list = g_slist_append (mm->list, v);
 		mm->num++;
@@ -476,6 +478,7 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 	GSList          *list;
 
 	items.num  = 0;
+	items.total_num = 0;
 	items.list = NULL;
 	items.actual_range = FALSE;
 

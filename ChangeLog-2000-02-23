@@ -1,3 +1,16 @@
+1999-08-01  Morten Welinder  <terra@diku.dk>
+
+	* src/format.c (format_number): YAL -- yet another leak.
+
+	* src/fn-string.c (gnumeric_text): Plug leak.
+
+	* src/expr.c (do_expr_tree_unref): Plug array value leak.
+
+	* src/cell.c (cell_set_array_formula): Unref the wrappers so we
+ 	don't leak a reference.
+
+	* src/fn-math.c (gnumeric_countif): Initialise total_num member.
+
 1999-07-31  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-database.c (free_criterias): Plug massive leak.

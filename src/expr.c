@@ -378,8 +378,11 @@ do_expr_tree_unref (ExprTree *tree)
 		do_expr_tree_unref (tree->u.value);
 		break;
 	case OPER_ARRAY:
-		if (tree->u.array.x == 0 && tree->u.array.y == 0)
+		if (tree->u.array.x == 0 && tree->u.array.y == 0) {
+			if (tree->u.array.corner.func.value)
+				value_release (tree->u.array.corner.func.value);
 			do_expr_tree_unref (tree->u.array.corner.func.expr);
+		}
 		break;
 	default:
 		g_warning ("do_expr_tree_unref error\n");

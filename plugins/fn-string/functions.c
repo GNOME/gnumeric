@@ -677,10 +677,11 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 
 	if (ok)
 	{
-		char const *str = format_value (format,
-						(tmp != NULL) ? tmp : arg,
-						NULL);
+		char *str = format_value (format,
+					  (tmp != NULL) ? tmp : arg,
+					  NULL);
 		res = value_new_string (str);
+		g_free (str);
 	} else
 		res = value_new_error (&ei->pos, _("Type mismatch"));
 

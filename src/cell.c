@@ -805,7 +805,7 @@ cell_set_array_formula (Sheet *sheet,
 	int x, y;
 	Cell * const corner = sheet_cell_fetch (sheet, col_a, row_a);
 	Cell * cell = NULL;
-	ExprTree *wrapper = NULL;
+	ExprTree *wrapper;
 
 	g_return_if_fail (num_cols > 0);
 	g_return_if_fail (num_rows > 0);
@@ -817,6 +817,7 @@ cell_set_array_formula (Sheet *sheet,
 	wrapper->u.array.corner.func.expr = formula;
 	expr_tree_ref (formula);
 	cell_set_formula_tree_simple (corner, wrapper);
+	expr_tree_unref (wrapper);
 
 	/* The corner must be 1st on the recalc list, queue it later */
 	cell_unqueue_from_recalc (corner);
@@ -830,6 +831,7 @@ cell_set_array_formula (Sheet *sheet,
 							   num_rows, num_cols);
 			wrapper->u.array.corner.cell = corner;
 			cell_set_formula_tree_simple (cell, wrapper);
+			expr_tree_unref (wrapper);
 		}
 
 	/* Put the corner at the head of the recalc list */
