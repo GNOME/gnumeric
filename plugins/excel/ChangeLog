@@ -1,3 +1,8 @@
+2000-04-21  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_sheet_insert) : Use cell_set_value
+	  rather than cell_set_text to avoid attempting to parse the string.
+
 2000-04-20  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_sheet_insert) : formats are no longer

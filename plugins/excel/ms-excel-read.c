@@ -1728,10 +1728,9 @@ ms_excel_sheet_insert (ExcelSheet *sheet, int xfidx,
 
 	ms_excel_set_xf (sheet, col, row, xfidx);
 
-	/* NB. cell_set_text _certainly_ strdups *text */
 	if (text) {
 		cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-		cell_set_text (cell, text);
+		cell_set_value (cell, value_new_string(text), NULL);
 	}
 }
 
