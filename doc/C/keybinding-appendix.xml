@@ -25,12 +25,12 @@
     </menuchoice>
     has
     <keycombo>
-      <keycap>Ctl</keycap>
+      <keycap>Ctrl</keycap>
       <keycap>s</keycap>
     </keycombo>
     next to it, that means that
     <keycombo>
-      <keycap>Ctl</keycap>
+      <keycap>Ctrl</keycap>
       <keycap>s</keycap>
     </keycombo>
     can be typed at the same time to save your file.  However, some
@@ -52,7 +52,7 @@
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctl-F3</keycap> opens the <interface>Define Name</interface>
+	<keycap>Ctrl-F3</keycap> opens the <interface>Define Name</interface>
 	dialog window.
       </para>
     </listitem>
@@ -81,47 +81,47 @@
 
     <listitem>
       <para>
-	<keycap>Ctl-~</keycap> Formats the current selection as a number.
+	<keycap>Ctrl-~</keycap> Formats the current selection as a number.
       </para>
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctl-$</keycap> Formats the current selection with the default currency
+	<keycap>Ctrl-$</keycap> Formats the current selection with the default currency
       </para>
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctl-#</keycap> Formats the current selection with default date style
+	<keycap>Ctrl-#</keycap> Formats the current selection with default date style
       </para>
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctl-^</keycap> Formats the current selection as using scientific notation
+	<keycap>Ctrl-^</keycap> Formats the current selection as using scientific notation
       </para>
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctl-@</keycap> Formats the current selection with the default time format
+	<keycap>Ctrl-@</keycap> Formats the current selection with the default time format
       </para>
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctl-!</keycap> Formats the current selection with the default accounting format
+	<keycap>Ctrl-!</keycap> Formats the current selection with the default accounting format
       </para>
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctl-&amp;</keycap> Adds a thin border around the current selection
+	<keycap>Ctrl-&amp;</keycap> Adds a thin border around the current selection
       </para>
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctl-_</keycap> Removes any borders around or in the current selection
+	<keycap>Ctrl-_</keycap> Removes any borders around or in the current selection
       </para>
     </listitem>
     <listitem>
       <para>
-	<keycap>Ctl-$</keycap> Formats the current selection as the default currency
+	<keycap>Ctrl-$</keycap> Formats the current selection as the default currency
       </para>
     </listitem>
 
