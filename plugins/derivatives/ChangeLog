@@ -1,3 +1,7 @@
+2003-06-26  Andreas Guelzow <aguelzow@taliesin.ca>
+
+	* options.c: Remove self-reference of OPT_BS_THETA
+
 2003-07-14  Jody Goldberg <jody@gnome.org>
 
 	* options.c : some missing spaces.

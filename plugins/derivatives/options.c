@@ -410,7 +410,7 @@ static char const *help_opt_bs_theta = {
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA")
+	   "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_VEGA, OPT_BS_GAMMA")
 };
 
 
