@@ -1368,6 +1368,11 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 			       !first_series && desc->series.dim[cur_dim].is_shared)
 				++cur_dim;
 
+			while (cur_dim < desc->series.num_dim && desc->series.dim[cur_dim].priority == GOG_SERIES_ERRORS)
+				++cur_dim;
+			if (cur_dim >= desc->series.num_dim)
+				continue;
+
 			is_string_vec = characterize_vec (sheet, &vector, as_cols,
 				desc->series.dim[cur_dim].val_type == GOG_DIM_LABEL);
 			while ((desc->series.dim[cur_dim].val_type == GOG_DIM_LABEL && !is_string_vec) ||
