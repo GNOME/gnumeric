@@ -3022,7 +3022,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb, gboolean global)
 			 * XL stores a hidden name with the details of an autofilter */
 			if (nexpr->is_hidden && !strcmp (nexpr->name->str, "_FilterDatabase"))
 				excel_prepare_autofilter (ewb, nexpr);
-			g_warning ("flags = %hx, state = %s\n", flags, global ? "global" : "sheet");
+			/* g_warning ("flags = %hx, state = %s\n", flags, global ? "global" : "sheet"); */
 		}
 	}
 
