@@ -1,3 +1,11 @@
+1999-06-13  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* samples/mathfuns.xls: New test file for math functions.
+
+	* samples/statfuns.xls: Accuracy dropped to 1e-5 (since Excel is
+ 	not as accurate as Gnumeric).  Also the total number of functions
+ 	in the test output fixed.
+	
 1999-06-12  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-string.c: Use value_new_string where appropriate.
