@@ -1,12 +1,12 @@
-Each language has its own directory where the transalted documention
+Each language has its own directory where the translated documentation
 goes. 'C' being the default (English) language.
 
 In order to avoid useless weight it is a good idea to use the images
 in the C/images/ directory, that is using relative paths as 
 "../C/images/image_name" and only use "images/image_name" (that is using
 an images/ directory under the specific language directory) for those
-images where a translation is useful (iamges whith text strings for
-exemple)
+images where a translation is useful (images whith text strings for
+example).
 
 
 
