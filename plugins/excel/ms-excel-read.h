@@ -101,7 +101,7 @@ typedef struct {
 
 typedef struct {
 	char		*str;
-	PangoAttrList	*markup;
+	GnmFormat	*markup;
 } ExcelStringEntry;
 
 struct _ExcelWorkbook {

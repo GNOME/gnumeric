@@ -890,24 +890,87 @@ biff_get_text (guint8 const *pos, guint32 length, guint32 *byte_length,
 	return ans;
 }
 
+typedef struct {
+	unsigned first, last;
+	PangoAttrList *accum;
+} TXORun;
+
+static gboolean
+append_markup (PangoAttribute *src, TXORun *run)
+{
+	PangoAttribute *dst = pango_attribute_copy (src);
+	dst->start_index = run->first;	/* inclusive */
+	dst->end_index = run->last;	/* exclusive */
+	pango_attr_list_change (run->accum, dst);
+	return FALSE;
+}
+
+static PangoAttrList *
+excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet, unsigned str_len)
+{
+	guint8 const * const end  = q->data + q->length;
+	guint8 const *ptr = q->data + 8 + str_len;
+	MSContainer const *c = &esheet->container;
+	TXORun txo_run;
+	unsigned n;
+
+	txo_run.last = G_MAXINT;
+
+	if (esheet->container.ver >= MS_BIFF_V8) {
+		g_return_val_if_fail (ptr+2 <= end , NULL);
+		n = 4 * GSF_LE_GET_GUINT16 (ptr);
+		ptr += 2;
+
+		g_return_val_if_fail (ptr + n == end , NULL);
+
+		txo_run.accum = pango_attr_list_new ();
+		while (n > 0) {
+			n -= 4;
+			txo_run.first = GSF_LE_GET_GUINT16 (ptr + n);
+			pango_attr_list_filter (ms_container_get_markup (
+				c, GSF_LE_GET_GUINT16 (ptr + n + 2)),
+				(PangoAttrFilterFunc) append_markup, &txo_run);
+			txo_run.last = txo_run.first;
+		}
+	} else {
+		g_return_val_if_fail (ptr+1 <= end , NULL);
+		n = 2 * GSF_LE_GET_GUINT8 (ptr);
+		ptr += 1;
+
+		g_return_val_if_fail (ptr + n == end , NULL);
+
+		txo_run.accum = pango_attr_list_new ();
+		while (n > 0) {
+			n -= 2;
+			txo_run.first = GSF_LE_GET_GUINT8 (ptr + n);
+			pango_attr_list_filter (ms_container_get_markup (
+				c, GSF_LE_GET_GUINT8 (ptr + n + 1)),
+				(PangoAttrFilterFunc) append_markup, &txo_run);
+			txo_run.last = txo_run.first;
+		}
+	}
+	return txo_run.accum;
+}
 
 static guint32
-sst_bound_check (BiffQuery *q, guint32 offset)
+sst_bound_check (BiffQuery *q, guint32 offset, unsigned len)
 {
 	if (offset >= q->length) {
-		guint32 d = offset - q->length;
 		guint16 opcode;
 
+		offset -= q->length;
 		if (!ms_biff_query_peek_next (q, &opcode) ||
-		    opcode != BIFF_CONTINUE)
+		    opcode != BIFF_CONTINUE ||
+		    !ms_biff_query_next (q)) {
+			g_warning ("missing continuation of SST");
 			return 0;
+		}
+	}
 
-		if (!ms_biff_query_next (q))
-			return 0;
-
-		return d;
-	} else
-		return offset;
+	if ((offset + len) > q->length) {
+		g_warning ("supposedly atomic entry in the sst spans CONTINUEs, we are screwed");
+	}
+	return offset;
 }
 
 /*
@@ -916,34 +979,32 @@ sst_bound_check (BiffQuery *q, guint32 offset)
  * of the string, which may also be split over continues.
  */
 static guint32
-sst_read_string (BiffQuery *q, ExcelStringEntry *res, guint32 offset)
+sst_read_string (BiffQuery *q, MSContainer const *c,
+		 ExcelStringEntry *res, guint32 offset)
 {
-	guint32  new_offset, total_len, total_end_len, chars_left, get_len;
-	unsigned post_data_len, n_markup, total_n_markup;
+	guint32  get_len, chars_left, total_len, total_end_len = 0;
+	unsigned i, post_data_len, n_markup, total_n_markup = 0;
 	gboolean use_utf16, has_extended;
 	char    *str;
 
-	g_return_val_if_fail (offset < q->length, 0);
-
-	total_len     = GSF_LE_GET_GUINT16 (q->data + offset);
-	new_offset    = offset + 2;
-	total_end_len = total_n_markup = 0;
-
+	offset    = sst_bound_check (q, offset, 2);
+	total_len = GSF_LE_GET_GUINT16 (q->data + offset);
+	offset += 2;
 	do {
-		new_offset = sst_bound_check (q, new_offset);
-		new_offset += excel_read_string_header (q->data + new_offset,
+		offset = sst_bound_check (q, offset, 1);
+		offset += excel_read_string_header (q->data + offset,
 				&use_utf16, &n_markup, &has_extended,
 				&post_data_len);
 		total_end_len += post_data_len;
 		total_n_markup += n_markup;
-		chars_left = (q->length - new_offset) / (use_utf16 ? 2 : 1);
+		chars_left = (q->length - offset) / (use_utf16 ? 2 : 1);
 		get_len = (chars_left > total_len) ? total_len : chars_left;
 		total_len -= get_len;
 
 		g_return_val_if_fail (get_len >= 0, 0);
 
-		str = ms_biff_get_chars ((char *)(q->data + new_offset), get_len, use_utf16);
-		new_offset += get_len * (use_utf16 ? 2 : 1);
+		str = ms_biff_get_chars ((char *)(q->data + offset), get_len, use_utf16);
+		offset += get_len * (use_utf16 ? 2 : 1);
 
 		if (res->str != NULL) {
 			char *old_res = res->str;
@@ -955,9 +1016,31 @@ sst_read_string (BiffQuery *q, ExcelStringEntry *res, guint32 offset)
 	} while (total_len > 0);
 
 	if (total_n_markup > 0) {
+		TXORun txo_run;
+		PangoAttrList  *prev_markup = NULL;
+
+		txo_run.accum = pango_attr_list_new ();
+		txo_run.first = 0;
+		for (i = total_n_markup ; i-- > 0 ; offset += 4) {
+			offset = sst_bound_check (q, offset, 4);
+			if ((q->length - offset) >= 4) {
+				txo_run.last = GSF_LE_GET_GUINT16 (q->data+offset);
+				if (prev_markup != NULL)
+					pango_attr_list_filter (prev_markup,
+						(PangoAttrFilterFunc) append_markup, &txo_run);
+				txo_run.first = txo_run.last;
+				prev_markup = ms_container_get_markup (
+					c, GSF_LE_GET_GUINT16 (q->data + offset + 2));
+			} else
+				g_warning ("A TXO entry is across CONTINUEs.  We need to handle those properly");
+		}
+		res->markup = style_format_new_markup (txo_run.accum);
+		pango_attr_list_unref (txo_run.accum);
+
+		total_end_len -= 4*total_n_markup;
 	}
 
-	return sst_bound_check (q, new_offset + total_end_len);
+	return offset + total_end_len;
 }
 
 static void
@@ -978,11 +1061,10 @@ excel_read_SST (BiffQuery *q, ExcelWorkbook *ewb)
 
 	offset = 8;
 	for (i = 0; i < ewb->sst_len; i++) {
-		offset = sst_read_string (q, ewb->sst + i, offset);
+		offset = sst_read_string (q, &ewb->container, ewb->sst + i, offset);
 
-		if (ewb->sst[i].str == NULL) {
+		if (ewb->sst[i].str == NULL)
 			d (4, fprintf (stderr,"Blank string in table at 0x%x.\n", i););
-		}
 #ifndef NO_DEBUG_EXCEL
 		else if (ms_excel_read_debug > 4)
 			puts (ewb->sst[i].str);
@@ -2499,9 +2581,12 @@ excel_sheet_insert_val (ExcelReadSheet *esheet, BiffQuery *q,
 {
 	guint16 const col    = XL_GETCOL (q);
 	guint16 const row    = XL_GETROW (q);
-	BiffXFData const *xf = excel_set_xf (esheet, q);
-	if (xf != NULL && xf->is_simple_format)
-		value_set_fmt (v, xf->style_format);
+	BiffXFData const *xf;
+	if (VALUE_FMT (v) == NULL) {
+		xf = excel_set_xf (esheet, q);
+		if (xf != NULL && xf->is_simple_format)
+			value_set_fmt (v, xf->style_format);
+	}
 	cell_set_value (sheet_cell_fetch (esheet->sheet, col, row), v);
 }
 
@@ -2818,7 +2903,7 @@ excel_workbook_destroy (ExcelWorkbook *ewb)
 		while (i-- > 0) {
 			g_free (ewb->sst[i].str);
 			if (ewb->sst[i].markup != NULL)
-				pango_attr_list_unref (ewb->sst[i].markup);
+				style_format_unref (ewb->sst[i].markup);
 		}
 		g_free (ewb->sst);
 	}
@@ -4920,67 +5005,6 @@ excel_read_FILEPASS (BiffQuery *q, ExcelWorkbook *ewb)
 	}
 }
 
-typedef struct {
-	unsigned first, last;
-	PangoAttrList *accum;
-} TXORun;
-
-static gboolean
-append_markup (PangoAttribute *src, TXORun *run)
-{
-	PangoAttribute *dst = pango_attribute_copy (src);
-	dst->start_index = run->first;	/* inclusive */
-	dst->end_index = run->last;	/* exclusive */
-	pango_attr_list_change (run->accum, dst);
-	return FALSE;
-}
-static PangoAttrList *
-excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet, unsigned str_len)
-{
-	guint8 const * const end  = q->data + q->length;
-	guint8 const *ptr = q->data + 8 + str_len;
-	MSContainer const *c = &esheet->container;
-	TXORun txo_run;
-	unsigned n;
-
-	txo_run.last = G_MAXINT;
-
-	if (esheet->container.ver >= MS_BIFF_V8) {
-		g_return_val_if_fail (ptr+2 <= end , NULL);
-		n = 4 * GSF_LE_GET_GUINT16 (ptr);
-		ptr += 2;
-
-		g_return_val_if_fail (ptr + n == end , NULL);
-
-		txo_run.accum = pango_attr_list_new ();
-		while (n > 0) {
-			n -= 4;
-			txo_run.first = GSF_LE_GET_GUINT16 (ptr + n);
-			pango_attr_list_filter (ms_container_get_markup (
-				c, GSF_LE_GET_GUINT16 (ptr + n + 2)),
-				(PangoAttrFilterFunc) append_markup, &txo_run);
-			txo_run.last = txo_run.first;
-		}
-	} else {
-		g_return_val_if_fail (ptr+1 <= end , NULL);
-		n = 2 * GSF_LE_GET_GUINT8 (ptr);
-		ptr += 1;
-
-		g_return_val_if_fail (ptr + n == end , NULL);
-
-		txo_run.accum = pango_attr_list_new ();
-		while (n > 0) {
-			n -= 2;
-			txo_run.first = GSF_LE_GET_GUINT8 (ptr + n);
-			pango_attr_list_filter (ms_container_get_markup (
-				c, GSF_LE_GET_GUINT8 (ptr + n + 1)),
-				(PangoAttrFilterFunc) append_markup, &txo_run);
-			txo_run.last = txo_run.first;
-		}
-	}
-	return txo_run.accum;
-}
-
 static void
 excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 {
@@ -5032,6 +5056,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 	MsBiffVersion const ver = esheet->container.ver;
 	PrintInformation *pi;
 	GnmValue *v;
+	unsigned i;
 
 	g_return_val_if_fail (ewb != NULL, FALSE);
 	g_return_val_if_fail (esheet != NULL, FALSE);
@@ -5293,21 +5318,20 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 			break;
 		case BIFF_PHONETIC:	break;
 
-		case BIFF_LABELSST: { /* See: S59D9E.HTM */
-			guint32 const idx = GSF_LE_GET_GUINT32 (q->data + 6);
+		case BIFF_LABELSST:
+			i = GSF_LE_GET_GUINT32 (q->data + 6);
 
-			if (esheet->container.ewb->sst && idx < esheet->container.ewb->sst_len) {
-				char const *str = esheet->container.ewb->sst[idx].str;
+			if (esheet->container.ewb->sst && i < esheet->container.ewb->sst_len) {
+				char const *str = esheet->container.ewb->sst[i].str;
 				/* FIXME FIXME FIXME: Why would there be a NULL?  */
-				if (str == NULL)
-					str = "";
-				excel_sheet_insert_val (esheet, q,
-					value_new_string (str));
+				v = value_new_string ((str != NULL) ? str : "");
+				if (esheet->container.ewb->sst[i].markup != NULL)
+					value_set_fmt (v, esheet->container.ewb->sst[i].markup);
+				excel_sheet_insert_val (esheet, q, v);
 			} else
 				fprintf (stderr,"string index 0x%u >= 0x%x\n",
-					idx, esheet->container.ewb->sst_len);
+					 i, esheet->container.ewb->sst_len);
 			break;
-		}
 
 		/* Found in worksheet only in XLS <= BIFF 4 */
 		case BIFF_XF_OLD:

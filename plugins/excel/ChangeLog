@@ -1,3 +1,11 @@
+2004-04-19  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_sheet_insert_val) : only assign a format if
+	  there is no existing markup.
+	(sst_bound_check) : do some extra checking to ensure the existence of
+	  unbroken region of desired length.
+	(sst_read_string) : handle rich text.
+
 2004-04-18  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_obj_read_pre_biff8_obj) : fix the name offset for
