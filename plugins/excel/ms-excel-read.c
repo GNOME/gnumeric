@@ -2169,15 +2169,17 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	{
 		guint32 const idx = MS_OLE_GET_GUINT32 (q->data + 6);
 
-		if (!sheet->wb->global_strings || idx >= sheet->wb->global_string_max)
-			printf ("string index 0x%x out of range\n", idx);
-		else {
+		if (sheet->wb->global_strings && idx < sheet->wb->global_string_max) {
 			char const *str = sheet->wb->global_strings[idx];
+
+			/* FIXME FIXME FIXME : Why would there be a NULL ??? */
 			if (str == NULL)
 				str = "";
 			ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
 						   value_new_string (str));
-		}
+		} else
+			printf ("string index 0x%x >= 0x%x\n",
+				idx, sheet->wb->global_string_max);
                 break;
 	}
 
@@ -2751,18 +2753,20 @@ ms_excel_read_workbook (MsOle *file)
 					guint32 byte_len;
 					length = MS_OLE_GET_GUINT16 (tmp);
 					wb->global_strings[k] = biff_get_text (tmp+2, length, &byte_len);
-					if (!wb->global_strings[k])
+					if (wb->global_strings[k] == NULL)
 					{
-#ifdef NO_DEBUG_EXCEL
-						if (ms_excel_read_debug > 3)
-							printf ("Blank string in table at : 0x%x with length %d\n",
-								k, byte_len);
-#endif
+						printf ("Blank string in table at : 0x%x with length %d\n",
+							k, byte_len);
 						/* FIXME FIXME FIXME : This works for unicode strings.  What biff versions
 						 *                     default to non-unicode ?? */
 						/* FIXME FIXME FIXME : Will this problem happen anywhere else ?? */
 						byte_len = 1;
 					}
+#ifdef NO_DEBUG_EXCEL
+					else if (ms_excel_read_debug > 4)
+						puts (wb->global_strings[k]);
+#endif
+
 					tmp += byte_len + 2;
 					tot_len += byte_len + 2;
 
@@ -2772,13 +2776,12 @@ ms_excel_read_workbook (MsOle *file)
 						   Perhaps it is too big for a single biff record, or
 						   perhaps excel is just cussid. Either way a big pain.
 						 */
-						wb->global_string_max = k;
 						printf ("FIXME: Serious SST overrun lost %d of 0x%x strings!\n",
 							wb->global_string_max - k, wb->global_string_max);
-						printf ("Last string was '%s' 0x%x > 0x%x\n",
-							wb->global_strings[k-1] ? wb->global_strings[k-1] : "(null)",
-							tot_len, q->length);
-
+						printf ("Last string was '%s' with length 0x%x 0x%x of 0x%x > 0x%x\n",
+							(wb->global_strings[k-1] ? wb->global_strings[k-1] : "(null)"),
+							length, byte_len, tot_len, q->length);
+						wb->global_string_max = k;
 						break;
 					}
 				}
