@@ -64,6 +64,7 @@ Morten:
 	  a bit first.
 	* Fix modality issue causing crashes.  [#170958]
 	* Use a better format for auto expressions.
+	* Improve undo description for rich text style changes.  [#171637]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

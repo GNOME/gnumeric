@@ -933,6 +933,44 @@ cmd_set_text_finalize (GObject *cmd)
 	gnm_command_finalize (cmd);
 }
 
+
+static gboolean
+cb_gnm_pango_attr_list_equal (PangoAttribute *a, gpointer _sl)
+{
+	GSList **sl = _sl;
+	*sl = g_slist_prepend (*sl, a);
+	return FALSE;
+}
+
+static gboolean
+gnm_pango_attr_list_equal (const PangoAttrList *l1, const PangoAttrList *l2)
+{
+	if (l1 == l2)
+		return TRUE;
+	else if (l1 == NULL || l2 == NULL)
+		return FALSE;
+	else {
+		gboolean res;
+		GSList *sl1 = NULL, *sl2 = NULL;
+		(void)pango_attr_list_filter ((PangoAttrList *)l1,
+					      cb_gnm_pango_attr_list_equal,
+					      &sl1);
+		(void)pango_attr_list_filter ((PangoAttrList *)l2,
+					      cb_gnm_pango_attr_list_equal,
+					      &sl2);
+
+		while (sl1 && sl2 && pango_attribute_equal (sl1->data, sl2->data)) {
+			sl1 = g_slist_delete_link (sl1, sl1);
+			sl2 = g_slist_delete_link (sl2, sl2);
+		}
+
+		res = (sl1 == sl2);
+		g_slist_free (sl1);
+		g_slist_free (sl2);
+		return res;
+	}
+}
+
 gboolean
 cmd_set_text (WorkbookControl *wbc,
 	      Sheet *sheet, GnmCellPos const *pos,
@@ -946,6 +984,7 @@ cmd_set_text (WorkbookControl *wbc,
 	char *where;
 	gboolean truncated;
 	GnmRange r;
+	gboolean same_text, same_markup;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
@@ -959,6 +998,25 @@ cmd_set_text (WorkbookControl *wbc,
 	}
 
 	corrected_text = autocorrect_tool (new_text);
+
+	if (cell) {
+		const PangoAttrList *old_markup = NULL;
+		char *old_text = cell_get_entered_text (cell);
+		same_text = strcmp (old_text, corrected_text) == 0;
+		g_free (old_text);
+
+		if (same_text && cell->value && VALUE_IS_STRING (cell->value)) {
+			const GOFormat *fmt = VALUE_FMT (cell->value);
+			if (fmt && style_format_is_markup (fmt))
+				old_markup = fmt->markup;
+		}
+
+		same_markup = gnm_pango_attr_list_equal (old_markup, markup);
+	} else
+		same_text = same_markup = FALSE;
+
+	if (same_text && same_markup)
+		return TRUE;
 
 	obj = g_object_new (CMD_SET_TEXT_TYPE, NULL);
 	me = CMD_SET_TEXT (obj);
@@ -978,11 +1036,14 @@ cmd_set_text (WorkbookControl *wbc,
 	me->cmd.sheet = sheet;
 	me->cmd.size = 1;
 	where = cmd_cell_pos_name_utility (sheet, pos);
+
 	me->cmd.cmd_descriptor =
-		g_strdup_printf (_("Typing \"%s%s\" in %s"),
-				 text,
-				 truncated ? "..." : "",
-				 where);
+		same_text
+		? g_strdup_printf (_("Editing style in %s"), where)
+		: g_strdup_printf (_("Typing \"%s%s\" in %s"),
+				   text,
+				   truncated ? "..." : "",
+				   where);
 	g_free (where);
 	g_free (text);
 

@@ -1,5 +1,8 @@
 2005-03-31  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_set_text): Improve undo description.  Fixes
+	#171637.
+
 	* src/workbook-view.c (wbv_save_to_uri): Don't set the error if we
 	already have one.
 
