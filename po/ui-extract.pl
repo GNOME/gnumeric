@@ -30,7 +30,7 @@ use Getopt::Long;
 
 #---------------------------
 
-my $VERSION     = "0.8.5";
+my $VERSION     = "0.8.6";
 
 #---------------------------
 
@@ -204,7 +204,8 @@ sub Convert($) {
         ### For translatable Glade XML files ###
 
         if ($FILE =~ /glade$/sg){
-        my $translate = "label|title|text|format|copyright|comments|preview_text|tooltip";
+        my $translate = "label|title|text|format|copyright|comments|
+                         preview_text|tooltip|items";
 
         while ($input =~ /<($translate)>(..[^<]*)<\/($translate)>/sg) {
 
@@ -216,6 +217,15 @@ sub Convert($) {
                 $string{$2} = [];
             }
         }}
+
+        ### For generic translatable XP header files ###
+        
+        if ($FILE =~ /xp.h$/sg){
+        while ($input =~ /\((.*)\s*,\s*\"(.*)\"/sg) {
+                $string{$1} = [];
+        }}
+
+
     }
 
 sub addMessages{
