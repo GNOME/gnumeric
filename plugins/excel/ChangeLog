@@ -1,3 +1,9 @@
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(legend)) : handle the legend's position.
+
+	* ms-excel-util.c : "Arial Cyr" in addition to "Arial CYR"
+
 2003-09-14  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (BC_R(pie)) : don't confuse center diameter with

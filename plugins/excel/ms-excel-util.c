@@ -231,6 +231,7 @@ init_xl_font_widths (void)
 	    { 114, 122, "Arial Black" },
 	    {  96, 104, "Arial CE" },
 	    {  96, 104, "Arial CYR" },
+	    {  96, 104, "Arial Cyr" },
 	    {  96, 104, "Arial Greek" },
 	    /* {  80,  88, "Arial Narrow" }, this what I measured */
 	    {  90,  98, "Arial Narrow" }, /* this gives better results at size == 10 */

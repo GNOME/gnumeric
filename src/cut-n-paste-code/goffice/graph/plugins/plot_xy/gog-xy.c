@@ -65,7 +65,7 @@ gog_xy_plot_update (GogObject *obj)
 	GogXYSeries const *series;
 	double x_min, x_max, y_min, y_max, tmp_min, tmp_max;
 	GSList *ptr;
-	gboolean is_index = FALSE;
+	gboolean is_discrete = FALSE;
 
 	x_min = y_min =  DBL_MAX;
 	x_max = y_max = -DBL_MAX;
@@ -85,17 +85,17 @@ gog_xy_plot_update (GogObject *obj)
 
 			if (!finite (tmp_min) || !finite (tmp_max) ||
 			    tmp_min > tmp_max) {
-				tmp_min = 1;
+				tmp_min = 0;
 				tmp_max = go_data_vector_get_len (
 					GO_DATA_VECTOR (series->base.values[1].data));
 
-				is_index = TRUE;
+				is_discrete = TRUE;
 			}
 		} else {
-			tmp_min = 1;
+			tmp_min = 0;
 			tmp_max = go_data_vector_get_len (
 				GO_DATA_VECTOR (series->base.values[1].data));
-			is_index = TRUE;
+			is_discrete = TRUE;
 		}
 
 		if (x_min > tmp_min) x_min = tmp_min;
@@ -139,14 +139,14 @@ static GOData *
 gog_xy_plot_axis_bounds (GogPlot *plot, GogAxisType axis,
 			 double *minima, double *maxima,
 			 double *logical_min, double *logical_max,
-			 gboolean *is_index)
+			 gboolean *is_discrete)
 {
 	GogXYPlot *model = GOG_XY_PLOT (plot);
 
 	if (axis == GOG_AXIS_X) {
 		*minima = model->x.minimum;
 		*maxima = model->x.maximum;
-		*is_index = model->x.minimum > model->x.maximum ||
+		*is_discrete = model->x.minimum > model->x.maximum ||
 			!finite (model->x.minimum) ||
 			!finite (model->x.maximum);
 

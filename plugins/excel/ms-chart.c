@@ -854,20 +854,22 @@ BC_R(legend)(XLChartHandler const *handle,
 #endif
 	guint16 const XL_pos = GSF_LE_GET_GUINT8 (q->data+16);
 	GogObjectPosition pos;
+	GogObject *legend;
 
 	switch (XL_pos) {
-	case 0: pos = GOG_POSITION_S; break;
+	case 0: pos = GOG_POSITION_S | GOG_POSITION_ALIGN_CENTER; break;
 	case 1: pos = GOG_POSITION_N | GOG_POSITION_E; break;
-	case 2: pos = GOG_POSITION_N; break;
-	case 3: pos = GOG_POSITION_E; break;
-	case 4: pos = GOG_POSITION_W; break;
+	case 2: pos = GOG_POSITION_N | GOG_POSITION_ALIGN_CENTER; break;
+	case 3: pos = GOG_POSITION_E | GOG_POSITION_ALIGN_CENTER; break;
+	case 4: pos = GOG_POSITION_W | GOG_POSITION_ALIGN_CENTER; break;
 	case 7: break; /* treat floating legends as being on east */
 	default :
 		g_warning ("Unknown legend position (%d), assuming east.",
 			   XL_pos);
 	};
 
-	gog_object_add_by_name (GOG_OBJECT (s->chart), "Legend", NULL);
+	legend = gog_object_add_by_name (GOG_OBJECT (s->chart), "Legend", NULL);
+	gog_object_set_pos (legend, pos);
 
 #if 0
 	fprintf (stderr, "Legend @ %f,%f, X=%f, Y=%f\n",

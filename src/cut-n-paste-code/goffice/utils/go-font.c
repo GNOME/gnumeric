@@ -158,7 +158,7 @@ go_font_init (void)
 		(GEqualFunc)pango_font_description_equal,
 		NULL, (GDestroyNotify) go_font_free);
 	font_default = go_font_new_by_desc (
-		pango_font_description_from_string ("Sans Regular 10"));
+		pango_font_description_from_string ("Sans 8"));
 }
 
 void
