@@ -5,19 +5,24 @@
  * 	JP Rosevear <jpr@arcavia.com>
  *
  * (C) 2000 JP Rosevear
+ * (C) 2000 Morten Welinder
  */
 #include <config.h>
-#include "gnumeric-type-util.h"
 #include "commands.h"
 #include "clipboard.h"
 #include "cell.h"
-#include "workbook-view.h"
-#include "parse-util.h"
 #include "sort.h"
-#include "rendered-value.h"
 #include "value.h"
+#include "rendered-value.h"
 
 #include <stdlib.h>
+#include <stdio.h>
+
+typedef struct {
+	int index;
+	SortData *data;
+} SortDataPerm;
+
 
 /* Clause stuff */
 void
@@ -34,6 +39,16 @@ sort_data_destroy (SortData *data)
 	g_free (data->range);
 	g_free (data);
 }
+
+static int
+sort_data_length (const SortData *data)
+{
+	if (data->top)
+		return data->range->end.row - data->range->start.row + 1;
+	else
+		return data->range->end.col - data->range->start.col + 1;
+}
+
 
 /* The routines to do the sorting */
 static int
@@ -138,7 +153,7 @@ sort_compare_cells (const Cell *ca, const Cell *cb, SortClause *clause)
 }
 
 static int
-sort_compare_sets (SortData *data, int indexa, int indexb)
+sort_compare_sets (const SortData *data, int indexa, int indexb)
 {
 	Cell *ca, *cb;
 	int clause = 0;
@@ -170,115 +185,19 @@ sort_compare_sets (SortData *data, int indexa, int indexb)
 		clause++;
 	}
 
-	return 0;
-}
-
-static void
-sort_swap (int *perm, int indexa, int indexb)
-{
-	int tmp = perm[indexa];
-
-	perm[indexa] = perm[indexb];
-	perm[indexb] = tmp;
-}
-
-static void
-sort_qsort (SortData *data, int *perm, int l, int r)
-{
-	int pivot, i, j;
-
-	if (l < r) {
-		i = l;
-		j = r + 1;
-		pivot = l;
-
-		while (i < j) {
-			i++;
-
-			while (i <= r) {
-			       if (sort_compare_sets (data, perm[i],
-						      perm[pivot]) == -1) {
-				       i++;
-			       } else {
-				       break;
-			       }
-			}
-
-			j--;
-
-			while (j >= l) {
-				if (sort_compare_sets (data, perm[j],
-						       perm[pivot]) == 1) {
-					j--;
-				} else {
-					break;
-				}
-			}
-
-			if (i <= r) {
-				sort_swap (perm, i, j);
-
-			}
-		}
-		if (i <= r) {
-			sort_swap (perm, i, j);
-		}
-
-		sort_swap (perm, l, j);
-
-		sort_qsort (data, perm, l, j-1);
-		sort_qsort (data, perm, j+1, r);
-	}
+	/* Items are identical; make sort stable by using the indices.  */
+	return indexa - indexb;
 }
 
 static int
-sort_permute_find (int num, int *perm, int length)
+sort_qsort_compare (const void *_a, const void *_b)
 {
-	int i;
+	const SortDataPerm *a = (const SortDataPerm *)_a;
+	const SortDataPerm *b = (const SortDataPerm *)_b;
 
-	for (i=0; i < length; i++) {
-		if (perm[i] == num) {
-			return i;
-		}
-	}
-
-	return -1;
+	return sort_compare_sets (a->data, a->index, b->index);	
 }
 
-static void
-sort_permute_set (int num, guint8 *array)
-{
-
-	array[num/8] = array[num/8] | (1 << (num % 8));
-}
-
-static gboolean
-sort_permute_is_set (int num, guint8 *array)
-{
-
-	if (array[num/8] & (1 << (num % 8))) {
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
-static int
-sort_permute_next (guint8 *array, int *perm, int length)
-{
-	int i = 0;
-
-	while (i < length) {
-		if (perm[i] != i) {
-			if (!sort_permute_is_set (i, array)) {
-				return i;
-			}
-		}
-		i++;
-	}
-
-	return -1;
-}
 
 static void
 sort_permute_range (SortData *data, Range *range, int adj)
@@ -296,87 +215,119 @@ sort_permute_range (SortData *data, Range *range, int adj)
 	}
 }
 
+#undef DEBUG_SORT
+
 static void
-sort_permute (CommandContext *context, SortData *data, int *perm)
+sort_permute (CommandContext *context, SortData *data, const int *perm, int length)
 {
-	guint8 *array;
-	CellRegion *rcopy, *rpaste;
+	int i, *rperm;
 	PasteTarget pt;
-	Range range;
-	int next, length;
 
-	if (data->top) {
-		length = data->range->end.row - data->range->start.row + 1;
-	} else {
-		length = data->range->end.col - data->range->start.col + 1;
-	}
+	pt.sheet = data->sheet;
+	pt.paste_flags = PASTE_FORMATS | PASTE_FORMULAS	| PASTE_EXPR_RELOCATE;
 
-	array = (guint8 *) g_malloc0 (length / 8 + 1);
-	next = sort_permute_next (array, perm, length);
+	rperm = g_new (int, length);
+	
+	memcpy (rperm, perm, length * sizeof (int));
+	for (i = 0; i < length; i++)
+		rperm[perm[i]] = i;
 
-	if (next == -1) {
-		return;
-	}
+#ifdef DEBUG_SORT
+	fprintf (stderr, "Permutation:");
+	for (i = 0; i < length; i++)
+		fprintf (stderr, " %d", perm[i]);
+	fprintf (stderr, "\n");
+#endif
 
-	sort_permute_range (data, &range, perm[next]);
-	rpaste = clipboard_copy_range (data->sheet, &range);
+	for (i = 0; i < length; i++) {
+		Range range1, range2;
+		CellRegion *rcopy1, *rcopy2 = NULL;
+		int i1, i2;
 
-	while (next != -1) {
-		sort_permute_range (data, &range, next);
-		rcopy = clipboard_copy_range (data->sheet, &range);
-
-		pt.sheet = data->sheet;
-		pt.range = range;
-		pt.paste_flags = PASTE_FORMATS | PASTE_FORMULAS
-			| PASTE_EXPR_RELOCATE;
-
-		clipboard_paste_region (context, &pt, rpaste);
-		clipboard_release (rpaste);
-		rpaste = rcopy;
-		rcopy = NULL;
-
-		sort_permute_set (next, array);
-
-		next = sort_permute_find (next, perm, length);
-		if (next < 0)
-			break;
-		if (sort_permute_is_set (next, array)) {
-			next = sort_permute_next (array, perm, length);
-			sort_permute_range (data, &range, perm[next]);
-
-			clipboard_release (rpaste);
-			rpaste = clipboard_copy_range (data->sheet, &range);
+		/* Special case: element is already in place.  */
+		if (i == rperm[i]) {
+#ifdef DEBUG_SORT
+			fprintf (stderr, "  Fixpoint: %d\n", i);
+#endif
+			continue;
 		}
+
+		/* Track a full cycle.  */
+		sort_permute_range (data, &range1, i);
+		rcopy1 = clipboard_copy_range (data->sheet, &range1);
+
+#ifdef DEBUG_SORT
+		fprintf (stderr, "  Cycle:");
+#endif
+		i1 = i;
+		do {
+#ifdef DEBUG_SORT
+			fprintf (stderr, " %d", i1);
+#endif
+
+			i2 = rperm[i1];
+
+			sort_permute_range (data, &range2, i2);
+			if (i2 != i) {
+				/* Don't copy the start of the loop; we did that above.  */
+				rcopy2 = clipboard_copy_range (data->sheet, &range2);
+			}
+
+			pt.range = range2;
+			clipboard_paste_region (context, &pt, rcopy1);
+			clipboard_release (rcopy1);
+
+			/* This is one step behind.  */
+			rperm[i1] = i1;
+
+			rcopy1 = rcopy2;
+			range1 = range2;
+			i1 = i2;
+		} while (i1 != i);
+#ifdef DEBUG_SORT
+		fprintf (stderr, "\n");
+#endif
 	}
-	clipboard_release (rpaste);
-	g_free (array);
+
+	g_free (rperm);
 }
 
 void
 sort_position (CommandContext *context, SortData *data, int *perm)
 {
-	sort_permute (context, data, perm);
+	int length;
+
+	length = sort_data_length (data);
+	sort_permute (context, data, perm, length);
 }
 
 int *
 sort_contents (CommandContext *context, SortData *data)
 {
-	int *perm;
-	int length, i;
+	SortDataPerm *perm;
+	int length, i, *iperm;
 
-	if (data->top) {
-		length = data->range->end.row - data->range->start.row + 1;
-	} else {
-		length = data->range->end.col - data->range->start.col + 1;
-	}
+	length = sort_data_length (data);
 
-	perm = g_new (int, length);
+	perm = g_new (SortDataPerm, length);
+
 	for (i = 0; i < length; i++) {
-		perm[i] = i;
+		perm[i].index = i;
+		/*
+		 * A constant member to get around qsort's lack of a user_data
+		 * argument.
+		 */
+		perm[i].data = data;
 	}
 
-	sort_qsort (data, perm, 0, length - 1);
-	sort_permute (context, data, perm);
+	qsort (perm, length, sizeof (SortDataPerm), sort_qsort_compare);
 
-	return perm;
+	iperm = g_new (int, length);
+	for (i = 0; i < length; i++)
+		iperm[i] = perm[i].index;
+	g_free (perm);
+
+	sort_permute (context, data, iperm, length);
+
+	return iperm;
 }

@@ -1,3 +1,8 @@
+2000-06-07  Morten Welinder  <terra@diku.dk>
+
+	* src/sort.c (sort_contents): Use the C-library's qosrt.
+	Fix permutation.  Speed up things.
+
 2000-06-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_number) : Escaped characters trigger a render
