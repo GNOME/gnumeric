@@ -40,7 +40,7 @@
 #    include <libgnorba/gnorba.h>
 #endif
 
-#define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->canvas);
+#define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->canvas)
 
 static void sheet_redraw_partial_row (Sheet const *sheet, int const row,
 				      int const start_col, int const end_col);
@@ -114,12 +114,23 @@ SheetView *
 sheet_new_sheet_view (Sheet *sheet)
 {
 	GtkWidget *sheet_view;
+	int base_col, base_row, move_col, move_row;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	sheet_view = sheet_view_new (sheet);
 	gtk_object_ref (GTK_OBJECT (sheet_view));
 
+	base_col = sheet->cursor.base_corner.col;
+	base_row = sheet->cursor.base_corner.row;
+	move_col = sheet->cursor.move_corner.col;
+	move_row = sheet->cursor.move_corner.row;
+
+	gnumeric_sheet_set_cursor_bounds (GNUMERIC_SHEET_VIEW (sheet_view),
+		MIN (base_col, move_col),
+		MIN (base_row, move_row),
+		MAX (base_col, move_col),
+		MAX (base_row, move_row));
 	sheet->sheet_views = g_list_prepend (sheet->sheet_views, sheet_view);
 
 	return SHEET_VIEW (sheet_view);
@@ -2443,11 +2454,6 @@ sheet_cursor_set (Sheet *sheet,
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-
-#warning	FIXME : this should not be here
-#if 0
-	workbook_finish_editing (sheet->workbook, TRUE);
-#endif
 
 #if 0
 	fprintf (stderr, "extend to %s%d\n", col_name(col), row+1);

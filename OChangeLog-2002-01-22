@@ -1,3 +1,8 @@
+2000-11-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_new_sheet_view) : Set the cursor when the sheet
+	  is attached.
+
 2000-11-01  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_clear_redo) : reverse the content list to keep
