@@ -269,9 +269,19 @@ cb_col_event (GtkWidget *widget, GdkEvent *event, gpointer _col)
 		int index = GPOINTER_TO_INT (_col);
 
 		activate_column (pagedata, index);
-	
-		if (event_button->button == 3)
-		{
+
+		if (event_button->button == 1) {
+			GtkWidget *check = g_object_get_data (G_OBJECT (widget), "checkbox");
+			/*
+			 * We use overlapping buttons and that does not actually work...
+			 *
+			 * In a square area the height of the hbox, click the the
+			 * checkbox.
+			 */
+			int xmax = GTK_BIN (widget)->child->allocation.height;
+			if (event_button->x <= xmax)
+				gtk_button_clicked (GTK_BUTTON (check));
+		} else if (event_button->button == 3) {
 			GtkWidget *menu = gtk_menu_new ();
 			GtkWidget *item;
 			int i;
@@ -400,7 +410,10 @@ format_page_update_preview (StfDialogData *pagedata)
 			g_object_set_data (G_OBJECT (column), "checkbox", check);
 			g_object_set_data (G_OBJECT (column->button), 
 					   "pagedata", pagedata);
+			g_object_set_data (G_OBJECT (column->button), 
+					   "checkbox", check);
 			g_object_set (G_OBJECT (column), "clickable", TRUE, NULL);
+
 			g_signal_connect (G_OBJECT (check),
 					  "toggled",
 					  G_CALLBACK (cb_col_check_clicked),

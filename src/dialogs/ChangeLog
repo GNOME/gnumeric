@@ -1,5 +1,8 @@
 2003-10-27  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf-format-page.c (cb_col_event): Handle mouse-1 clicks
+	near the checkbox and pretend it works.
+
 	* dialog-stf-main-page.c (stf_dialog_main_page_init): Handle
 	missing columns when input is empty.
 
