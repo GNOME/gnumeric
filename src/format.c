@@ -69,7 +69,7 @@ format_get_decimal (void)
 	if (lc == NULL)
 		lc = localeconv ();
 
-	res = lc->mon_decimal_point [0];
+	res = lc->mon_decimal_point[0];
 	return (res != '\0') ? res : '.';
 }
 
@@ -80,7 +80,7 @@ format_get_thousand (void)
 	if (lc == NULL)
 		lc = localeconv ();
 
-	res = lc->mon_thousands_sep [0];
+	res = lc->mon_thousands_sep[0];
 	if (res != '\0')
 		return res;
 
@@ -131,7 +131,7 @@ format_month_before_day (void)
 	static gboolean month_first = TRUE;
 
 	if (!date_order_cached) {
-		char const *ptr = nl_langinfo(D_FMT);
+		char const *ptr = nl_langinfo (D_FMT);
 
 		date_order_cached = TRUE;
 		month_first = TRUE;
@@ -221,14 +221,14 @@ struct _StyleFormat {
 static int
 append_year (GString *string, const guchar *format, const struct tm *time_split)
 {
-	char temp [5];
+	char temp[5];
 
-	if (tolower (format [1]) != 'y'){
+	if (tolower (format[1]) != 'y'){
 		g_string_append_c (string, 'y');
 		return 1;
 	}
 
-	if (tolower (format [2]) != 'y' || tolower (format [3]) != 'y'){
+	if (tolower (format[2]) != 'y' || tolower (format[3]) != 'y'){
 		sprintf (temp, "%02d", time_split->tm_year % 100);
 		g_string_append (string, temp);
 		return 2;
@@ -247,26 +247,26 @@ append_year (GString *string, const guchar *format, const struct tm *time_split)
 static int
 append_month (GString *string, int n, const struct tm *time_split)
 {
-	char temp [3];
+	char temp[3];
 
 	if (n == 1){
-		sprintf (temp, "%d", time_split->tm_mon+1);
+		sprintf (temp, "%d", time_split->tm_mon + 1);
 		g_string_append (string, temp);
 		return 1;
 	}
 
 	if (n == 2){
-		sprintf (temp, "%02d", time_split->tm_mon+1);
+		sprintf (temp, "%02d", time_split->tm_mon + 1);
 		g_string_append (string, temp);
 		return 2;
 	}
 
 	if (n == 3){
-		g_string_append (string, _(month_short [time_split->tm_mon])+1);
+		g_string_append (string, _(month_short[time_split->tm_mon]) + 1);
 		return 3;
 	}
 
-	g_string_append (string, _(month_long [time_split->tm_mon]));
+	g_string_append (string, _(month_long[time_split->tm_mon]));
 	return 4;
 }
 
@@ -279,20 +279,20 @@ append_day (GString *string, const guchar *format, const struct tm *time_split)
 {
 	char temp[3];
 
-	if (tolower (format [1]) != 'd'){
+	if (tolower (format[1]) != 'd'){
 		sprintf (temp, "%d", time_split->tm_mday);
 		g_string_append (string, temp);
 		return 1;
 	}
 
-	if (tolower (format [2]) != 'd'){
+	if (tolower (format[2]) != 'd'){
 		sprintf (temp, "%02d", time_split->tm_mday);
 		g_string_append (string, temp);
 		return 2;
 	}
 
-	if (tolower (format [3]) != 'd'){
-		g_string_append (string, _(day_short[time_split->tm_wday])+1);
+	if (tolower (format[3]) != 'd'){
+		g_string_append (string, _(day_short[time_split->tm_wday]) + 1);
 		return 3;
 	}
 
@@ -472,10 +472,10 @@ format_compile (StyleFormat *format)
 
 			/* Check for conditional */
 			if (*begin == '<') {
-				if (begin [1] == '=') {
+				if (begin[1] == '=') {
 					entry->restriction_type = ',';
 					begin += 2;
-				} else if (begin [1] == '>') {
+				} else if (begin[1] == '>') {
 					entry->restriction_type = '+';
 					begin += 2;
 				} else {
@@ -483,7 +483,7 @@ format_compile (StyleFormat *format)
 					begin++;
 				}
 			} else if (*begin == '>') {
-				if (begin [1] == '=') {
+				if (begin[1] == '=') {
 					entry->restriction_type = '.';
 					begin += 2;
 				} else {
@@ -533,7 +533,7 @@ format_compile (StyleFormat *format)
 		}
 
 		case '/':
-			if (fmt [1] == '?' || isdigit (fmt[1])) {
+			if (fmt[1] == '?' || isdigit (fmt[1])) {
 				entry->has_fraction = TRUE;
 				fmt++;
 			}
@@ -541,7 +541,7 @@ format_compile (StyleFormat *format)
 
 		case 'a': case 'A':
 		case 'p': case 'P':
-			if (tolower (fmt [1]) == 'm')
+			if (tolower (fmt[1]) == 'm')
 				entry->want_am_pm = TRUE;
 			break;
 
@@ -603,7 +603,7 @@ format_destroy (StyleFormat *format)
 static struct FormatColor {
 	char       *name;
 	StyleColor *color;
-} format_colors [] = {
+} format_colors[] = {
 	{ N_("black")   },
 	{ N_("blue")    },
 	{ N_("cyan")    },
@@ -620,14 +620,14 @@ format_color_init (void)
 {
 	int i;
 
-	for (i = 0; format_colors [i].name; i++){
+	for (i = 0; format_colors[i].name; i++){
 		StyleColor *sc;
 		GdkColor c;
 
-		gdk_color_parse (format_colors [i].name, &c);
+		gdk_color_parse (format_colors[i].name, &c);
 		sc = style_color_new (c.red, c.green, c.blue);
 
-		format_colors [i].color = sc;
+		format_colors[i].color = sc;
 	}
 }
 
@@ -636,8 +636,8 @@ format_color_shutdown (void)
 {
 	int i;
 
-	for (i = 0; format_colors [i].name; i++)
-		style_color_unref (format_colors [i].color);
+	for (i = 0; format_colors[i].name; i++)
+		style_color_unref (format_colors[i].color);
 }
 
 static struct FormatColor const *
@@ -647,12 +647,12 @@ lookup_color_by_name (unsigned char const *str, unsigned char const *end,
 	int i, len;
 
 	len = end - str;
-	for (i = 0; format_colors [i].name; i++) {
-		char const *name = format_colors [i].name;
+	for (i = 0; format_colors[i].name; i++) {
+		char const *name = format_colors[i].name;
 		if (translate)
 			name = _(name);
 
-		if (0 == g_strncasecmp (name, str, len) && name [len] == '\0')
+		if (0 == g_strncasecmp (name, str, len) && name[len] == '\0')
 			return format_colors + i;
 	}
 	return NULL;
@@ -697,8 +697,8 @@ render_number (GString *result,
 	       format_info_t const *info)
 {
 	char thousands_sep;
-	unsigned char num_buf [(DBL_MANT_DIG + DBL_MAX_EXP)*2 + 1];
-	unsigned char *num = num_buf + sizeof(num_buf) - 1;
+	unsigned char num_buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
+	unsigned char *num = num_buf + sizeof (num_buf) - 1;
 	double frac_part, int_part;
 	int group, zero_count, digit_count = 0;
 
@@ -707,7 +707,7 @@ render_number (GString *result,
 	if (right_allowed >= 0 && !info->has_fraction) {
 		/* Change "rounding" into "truncating".   */
 		/* Note, that we assume number >= 0 here. */
-		gdouble delta = 5 * gpow10 (-right_allowed-1);
+		gdouble delta = 5 * gpow10 (-right_allowed - 1);
 		number += delta;
 	}
 	frac_part = modf (gnumeric_add_epsilon (number), &int_part);
@@ -788,7 +788,7 @@ render_number (GString *result,
 static void
 do_render_number (gdouble number, format_info_t *info, GString *result)
 {
-	char decimal_point [2];
+	char decimal_point[2];
 
 	info->rendered = TRUE;
 
@@ -798,10 +798,10 @@ do_render_number (gdouble number, format_info_t *info, GString *result)
 	 * decimal point
 	 */
 	if (number > 0.0 && number < 1.0 && info->right_allowed == 0 && info->right_optional > 0){
-		decimal_point [0] = format_get_decimal ();
-		decimal_point [1] = 0;
+		decimal_point[0] = format_get_decimal ();
+		decimal_point[1] = 0;
 	} else
-		decimal_point [0] = 0;
+		decimal_point[0] = 0;
 
 #if 0
 	printf ("Rendering: %g with:\n", number);
@@ -906,7 +906,7 @@ find_decimal_char (char const *str)
 
 			/* Escaped char and spacing format */
 		case '\\': case '_':
-			if (*(str+1))
+			if (*(str + 1))
 				str++;
 			break;
 
@@ -990,7 +990,7 @@ format_add_decimal (StyleFormat const *fmt)
 
 	if (strcmp (format_string, "General") == 0) {
 		format_string = "0";
-		pre = format_string+1;
+		pre = format_string + 1;
 		post = pre;
 	} else {
 		pre = find_decimal_char (format_string);
@@ -1013,7 +1013,7 @@ format_add_decimal (StyleFormat const *fmt)
 				++pre;
 			post = pre;
 		} else
-			post = pre+1;
+			post = pre + 1;
 	}
 	res = g_malloc ((pre - format_string + 1) +
 		      1 + /* for the decimal */
@@ -1024,8 +1024,8 @@ format_add_decimal (StyleFormat const *fmt)
 		return NULL;
 
 	strncpy (res, format_string, pre - format_string);
-	res [pre-format_string + 0] = '.';
-	res [pre-format_string + 1] = '0';
+	res[pre-format_string + 0] = '.';
+	res[pre-format_string + 1] = '0';
 	strcpy (res + (pre - format_string) + 2, post);
 
 	return res;
@@ -1107,7 +1107,7 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 			break;
 
 		case '.': {
-			int c = *(format+1);
+			int c = *(format + 1);
 
 			can_render_number = TRUE;
 			if (c && (c != '0' && c != '#' && c != '?'))
@@ -1188,7 +1188,7 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 				int size = 0;
 				int numerator = -1, denominator = -1;
 
-				while (format [size+1] == '?')
+				while (format[size + 1] == '?')
 					++size;
 
 				/* check for explicit denominator */
@@ -1196,18 +1196,18 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 					char *end;
 
 					errno = 0;
-					denominator = strtol (format+1, &end, 10);
-					if (format+1 != end && errno != ERANGE) {
+					denominator = strtol (format + 1, &end, 10);
+					if (format + 1 != end && errno != ERANGE) {
 						format = end;
 						numerator = (int)((number - (int)number) * denominator + 0.5);
 					}
 				} else {
-					static int const powers [3] = { 10, 100, 1000 };
+					static int const powers[3] = { 10, 100, 1000 };
 
 					format += size + 1;
 					if (size > 3)
 						size = 3;
-					stern_brocot (number - (int)number, powers [size-1],
+					stern_brocot (number - (int)number, powers[size - 1],
 						      &numerator, &denominator);
 				}
 
@@ -1220,7 +1220,7 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 							g_string_prepend_c (result, '-');
 					}
 					if (numerator > 0) {
-						char buffer [30];
+						char buffer[30];
 						sprintf (buffer, "%d/%d", numerator, denominator);
 						g_string_append (result, buffer);
 					}
@@ -1274,7 +1274,7 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 			 * assumption is WRONG! but ok until we rewrite the
 			 * format engine.
 			 */
-			if (format [1]) {
+			if (format[1]) {
 				if (can_render_number && !info.rendered)
 					do_render_number (number, &info, result);
 				fill_char = *(++format);
@@ -1293,9 +1293,9 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 			 * This is a problem waiting to happen.
 			 * rewrite.
 			 */
-			for (n = 1; format [1] == 'M' || format [1] == 'm'; format++)
+			for (n = 1; format[1] == 'M' || format[1] == 'm'; format++)
 				n++;
-			if (format [1] == ']')
+			if (format[1] == ']')
 				format++;
 			if (time_display_elapsed) {
 				time_display_elapsed = FALSE;
@@ -1330,9 +1330,9 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 			if (!time_split)
 				time_split = split_time (signed_number);
 
-			for (n = 1; format [1] == 's' || format [1] == 'S'; format++)
+			for (n = 1; format[1] == 's' || format[1] == 'S'; format++)
 				n++;
-			if (format [1] == ']')
+			if (format[1] == ']')
 				format++;
 			if (time_display_elapsed){
 				time_display_elapsed = FALSE;
@@ -1350,9 +1350,9 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 			if (!time_split)
 				time_split = split_time (signed_number);
 
-			for (n = 1; format [1] == 'h' || format [1] == 'H'; format++)
+			for (n = 1; format[1] == 'h' || format[1] == 'H'; format++)
 				n++;
-			if (format [1] == ']')
+			if (format[1] == ']')
 				format++;
 			if (time_display_elapsed){
 				time_display_elapsed = FALSE;
@@ -1374,13 +1374,13 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 				format++;
 				if (*format == 'm' || *format == 'M'){
 					g_string_append_c (result, *format);
-					if (*(format+1) == '/')
+					if (*(format + 1) == '/')
 						format++;
 				}
 			} else {
-				if (*(format+1) == 'm' || *(format+1) == 'M')
+				if (*(format + 1) == 'm' || *(format + 1) == 'M')
 					format++;
-				if (*(format+1) == '/')
+				if (*(format + 1) == '/')
 					format++;
 			}
 			break;
@@ -1390,12 +1390,12 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 				time_split = split_time (signed_number);
 			if (time_split->tm_hour >= 12){
 				g_string_append_c (result, *format);
-				if (*(format+1) == 'm' || *(format+1) == 'M'){
+				if (*(format + 1) == 'm' || *(format + 1) == 'M'){
 					format++;
 					g_string_append_c (result, *format);
 				}
 			} else {
-				if (*(format+1) == 'm' || *(format+1) == 'M')
+				if (*(format + 1) == 'm' || *(format + 1) == 'M')
 					format++;
 			}
 			break;
@@ -1585,7 +1585,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 			entry = (StyleFormatEntry const *)(list->data);
 
 			/* Empty formats should be ignored */
-			if (entry->format [0] == '\0')
+			if (entry->format[0] == '\0')
 				return g_strdup ("");
 
 			if (color && entry->color != NULL)
@@ -1685,7 +1685,7 @@ translate_format_color (GString *res, char const *ptr, gboolean translate_to_en)
 	color = lookup_color_by_name (ptr, end, translate_to_en);
 	if (color != NULL) {
 		g_string_append (res, translate_to_en
-				 ?  _(color->name)
+				 ? _(color->name)
 				 : color->name);
 		g_string_append_c (res, ']');
 		return end;
@@ -1724,7 +1724,7 @@ style_format_delocalize (const char *descriptor_string)
 					    break;
 
 				case '\\' : g_string_append_c (res, '\\');
-					    if (ptr [1] != '\0') {
+					    if (ptr[1] != '\0') {
 						    g_string_append_c (res, ptr[1]);
 						    ++ptr;
 					    }
@@ -1832,7 +1832,7 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 			    break;
 
 		case '\\' : g_string_append_c (res, '\\');
-			    if (ptr [1] != '\0') {
+			    if (ptr[1] != '\0') {
 				    g_string_append_c (res, ptr[1]);
 				    ++ptr;
 			    }

@@ -81,6 +81,23 @@ dnl **************************************************
 dnl * psiconv support
 dnl **************************************************
 PSICONV_INIT()
+if test "$want_psiconv" = "yes"; then
+	ac_save_CFLAGS="$CFLAGS"
+	ac_save_LIBS="$LIBS"
+	CFLAGS="$CFLAGS $psiconv_cflags"
+	LIBS="$LIBS $psiconv_libs"
+	AC_CHECK_LIB(psiconv,psiconv_parse_sheet_file,want_psiconv=yes,want_psiconv=no)
+	CFLAGS="$ac_save_CFLAGS"
+	LIBS="$ac_save_LIBS"
+
+	if test "$want_psiconv" = "no"; then
+		PSICONV_LIBS=""
+		PSICONV_CFLAGS=""
+		with_psiconv=false
+	fi
+
+	AM_CONDITIONAL(WITH_PSICONV,$with_psiconv)
+fi
 
 
 dnl **************************************************
