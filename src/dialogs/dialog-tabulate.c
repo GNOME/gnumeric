@@ -290,7 +290,7 @@ static void
 focus_on_entry (GtkWidget *entry)
 {
 	gtk_widget_grab_focus (entry);
-	gtk_entry_set_position (GTK_ENTRY (entry), 0);
+	gtk_editable_set_position (GTK_EDITABLE (entry), 0);
 	gtk_entry_select_region (GTK_ENTRY (entry), 0,
 				 GTK_ENTRY (entry)->text_length);
 }

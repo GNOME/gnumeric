@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-goal-seek.c:
  *
@@ -70,13 +71,13 @@ typedef struct {
 	gnum_float ytarget;
 } GoalEvalData;
 
-
 static void
 focus_on_entry (GtkEntry *entry)
 {
-		gtk_widget_grab_focus (GTK_WIDGET(entry));
-		gtk_entry_set_position (entry, 0);
-		gtk_entry_select_region (entry, 0, entry->text_length);
+	gtk_widget_grab_focus (GTK_WIDGET(entry));
+	gtk_entry_set_position (entry, 0);
+	gtk_editable_set_position (GTK_EDITABLE (entry), 0);
+	gtk_entry_select_region (entry, 0, entry->text_length);
 }
 
 static GoalSeekStatus

@@ -212,12 +212,12 @@ error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
         gnumeric_notice_nonmodal ((GtkWindow *) state->dialog,
 				  &(state->warning_dialog),
 				  GTK_MESSAGE_ERROR, err_str);
-	
+
 	if (IS_GNUMERIC_EXPR_ENTRY (entry)) 
 		gnm_expr_entry_grab_focus (GNUMERIC_EXPR_ENTRY (entry), TRUE);
 	else {
 		gtk_widget_grab_focus (entry);
-		gtk_entry_set_position (GTK_ENTRY (entry), 0);
+		gtk_editable_set_position (GTK_EDITABLE (entry), 0);
 		gtk_entry_select_region (GTK_ENTRY (entry), 0,
 					 GTK_ENTRY (entry)->text_length);
 	}

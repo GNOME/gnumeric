@@ -192,7 +192,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 	 * changed event.  The changed handler is what handles creating the
 	 * magic cursor to mark the range being edited
 	 */
-	gtk_entry_set_position (GTK_ENTRY (entry), pos);
+	gtk_editable_set_position (GTK_EDITABLE (entry), pos);
 	gtk_editable_changed (GTK_EDITABLE (entry));
 #endif
 

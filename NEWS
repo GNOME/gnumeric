@@ -45,6 +45,7 @@ Jody:
 	* improve xl import of images.
 	* start moving to utf8 internals.
 	* fix pango context leak.
+	* improve xl export.
 
 Jon Kåre:
 	* More correct import of "automatic" colors from Excel.
