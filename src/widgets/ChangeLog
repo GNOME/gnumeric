@@ -1,5 +1,10 @@
 2002-05-03 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* gnumeric-expr-entry.c (gnm_expr_entry_can_rangesel) : Don't allow range 
+	  selections when a guru is up but no expression entry active.
+	
+2002-05-03 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* gnumeric-expr-entry.c (gnumeric_cell_editable_entry_activated) : don't remove
 	  widget twice.
 

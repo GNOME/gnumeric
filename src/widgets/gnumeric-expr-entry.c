@@ -1053,6 +1053,9 @@ gnm_expr_entry_can_rangesel (GnumericExprEntry *gee)
 
 	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
 
+	if (wbcg_edit_has_guru (gee->wbcg) != NULL && gee == gee->wbcg->edit_line.entry)
+		return FALSE;
+
 	text = gtk_entry_get_text (gee->entry);
 
 	/* We need to be editing an expression */
