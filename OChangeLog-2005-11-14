@@ -1,5 +1,9 @@
 2004-10-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/.cvsignore: add GNOME_Gnumeric-gtk.xml
+
+2004-10-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=132876
 	* src/print.c (sheet_print): make the print dialog semi-modal.
 	(dialog_destroy): new
