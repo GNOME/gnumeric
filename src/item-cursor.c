@@ -1077,7 +1077,7 @@ item_cursor_do_drop (ItemCursor *ic, GdkEventButton *event)
 
 static void
 item_cursor_set_bounds_visibly (ItemCursor *ic,
-				int col,int row,
+				int visible_col,int visible_row,
 				CellPos const *corner,
 				int end_col, int end_row)
 {
@@ -1089,7 +1089,7 @@ item_cursor_set_bounds_visibly (ItemCursor *ic,
 	 * need to constrain movement some times.  eg no sense scrolling the
 	 * canvas if the autofill cursor is not changing size.
 	 */
-	scg_make_cell_visible (ic->scg, end_col, end_row, FALSE, TRUE);
+	scg_make_cell_visible (ic->scg, visible_col, visible_row, FALSE, TRUE);
 
 	/* FIXME FIXME FIXME
 	 * Ideally we would update the bounds BEFORE we scroll, this would
