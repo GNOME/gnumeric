@@ -33,8 +33,7 @@ You need:
 	libglade-0.13
 
 Optionally:
-	bonobo-0.13
-
+	bonobo-0.14
 
 Notes regarding plugins
 -----------------------
