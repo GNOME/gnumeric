@@ -925,7 +925,6 @@ plugin_cleanup_general (ErrorInfo **ret_error)
 		g_free (fdata);
 		funclist = g_list_delete_link (funclist, funclist);
 	}
-	Py_Finalize ();
 }
 
 #ifdef BROKEN_PY_INITIALIZE
@@ -961,7 +960,6 @@ plugin_init_general (ErrorInfo **ret_error)
 		*ret_error = error_info_new_printf (
 		             _("Unhandled Python exception: %s"), exc_string);
 		g_free (exc_string);
-		Py_Finalize ();
 		return;
 	}
 
