@@ -1028,18 +1028,24 @@ cb_set_cell_value (Sheet *sheet, int col, int row, Cell *cell,
 		  void *user_data)
 {
 	MStyle                 *mstyle;
+	MStyle                 *old_mstyle;
 	closure_set_cell_value *info = user_data;
 
 	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
 
-	mstyle = mstyle_new ();
-	mstyle_set_format (mstyle, info->format);
+	old_mstyle = sheet_style_compute (sheet, col, row);
 
-/*	if (!CELL_IS_FORMAT_SET (cell))
-	cell_set_format_simple (cell, info->format); */
+	/*
+	 * FIXME: what if they want it to be General ?
+	 */
+	if (!strcmp (mstyle_get_format (old_mstyle)->format,
+		     "General")) {
+		mstyle = mstyle_new ();
+		mstyle_set_format (mstyle, info->format);
+		sheet_style_attach_single (sheet, col, row, mstyle);
+	}
 
-	sheet_style_attach_single (sheet, col, row, mstyle);
 	cell_set_value (cell, value_new_float (info->val));
 	return NULL;
 }

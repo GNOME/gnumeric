@@ -1,10 +1,13 @@
+1999-11-27  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (cb_set_cell_value): Fix silly format setting bug.
+
 1999-11-27  JP Rosevear  <jpr@arcavia.com>
 
 	* src/dialogs/dialog-cell-sort.c: Fixed two bugs when the
 	selection was not in the upper left corner of the sheet
 
 1999-11-27  Michael Meeks  <mmeeks@gnu.org>
-
 	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): Use
 	string_list_free (fix leak). (string_list_free): implement.
 	Stylistic fixes.
