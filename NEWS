@@ -33,6 +33,7 @@ Morten:
 	* Rewrote SUMPRODUCT.
 	* Fix array and range traversal order, thus fixing all strict
 	  range functions.  (SUM, MIN, ...)
+	* Fix many bogusities in xbase plugin.
 
 Translations:
 	* Updated: da (Kenneth/Keld?), de (Karl), en_GB (Robert), ko

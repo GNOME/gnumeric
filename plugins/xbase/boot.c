@@ -27,11 +27,18 @@
 #include "plugin.h"
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
+
 #     define XB_GETDOUBLE(p)   (*((double*)(p)))
+#if 0
 #     define XB_SETDOUBLE(p,q) (*((double*)(p))=(q))
+#endif
+
 #else
+
 #     define XB_GETDOUBLE(p)   (xb_getdouble(p))
+#if 0
 #     define XB_SETDOUBLE(p,q) (xb_setdouble(p,q))
+#endif
 
 static double
 xb_getdouble (const guint8 *p)
@@ -47,6 +54,7 @@ xb_getdouble (const guint8 *p)
     return d;
 }
 
+#if 0
 static void
 xb_setdouble (guint8 *p, double d)
 {
@@ -57,6 +65,8 @@ xb_setdouble (guint8 *p, double d)
     for (i = 0; i < sd; i++)
 	    p[sd - 1 - i] = t[i];
 }
+#endif
+
 #endif
 
 static char *
@@ -97,18 +107,24 @@ xbase_field_as_value (XBrecord *record, guint num)
 		g_free (s);
 		return val;
 	case 'N':
-		return value_new_int (atoi (s));
+		val = value_new_int (atoi (s));
+		g_free (s);
+		return val;
 	case 'L':
 		switch (s[0]) {
 		case 'Y': case 'y': case 'T': case 't':
+			g_free (s);
 			return value_new_bool (TRUE);
 		case 'N': case 'n': case 'F': case 'f':
+			g_free (s);
 			return value_new_bool (FALSE);
 		case '?': case ' ':
+			g_free (s);
 			return value_new_string ("Uninitialised boolean");
 		default: {
 				char str[20];
 				snprintf (str, 20, "Invalid logical '%c'", s[0]);
+				g_free (s);
 				return value_new_string (str);
 			}
 		}
@@ -117,12 +133,17 @@ xbase_field_as_value (XBrecord *record, guint num)
 		g_free (s);
 		return val;
 	case 'I':
-		return value_new_int (GINT32_FROM_LE((gint32) *s));
+		val = value_new_int (GINT32_FROM_LE (*(gint32 *)s));
+		g_free (s);
+		return val;
 	case 'F':
-		g_assert (sizeof(float_t) == field->len);
-		return value_new_float (XB_GETDOUBLE(s));
+		g_assert (sizeof (double) == field->len);
+		val = value_new_float (XB_GETDOUBLE (s));
+		g_free (s);
+		return val;
 	case 'B': {
-		gint64 tmp = GINT64_FROM_LE (*s);
+		gint64 tmp = GINT32_FROM_LE (*(gint64 *)s);
+		g_free (s);
 		g_warning ("FIXME: \"BINARY\" field type doesn't work");
 		g_assert (sizeof(tmp) == field->len);
 		return value_new_int (tmp);
@@ -131,6 +152,7 @@ xbase_field_as_value (XBrecord *record, guint num)
 			char str[27];
 			snprintf (str, 27, "Field type '%c' unsupported",
 				  field->type);
+			g_free (s);
 			return value_new_string (str);
 		}
 	}
@@ -142,8 +164,8 @@ xbase_load (CommandContext *context, Workbook *wb, const char *filename)
 	XBfile *file;
 	XBrecord *rec;
 	guint row, field;
-	char *name = g_strdup(filename), *p;
-	Sheet    *sheet = NULL;
+	char *name, *p;
+	Sheet *sheet = NULL;
 	Cell *cell;
 	Value *val;
 
@@ -152,6 +174,7 @@ xbase_load (CommandContext *context, Workbook *wb, const char *filename)
 		return -1;
 	}
 
+	name = g_strdup(filename);
 	if ((p = filename_ext (name)) != NULL)
 		*p = '\0'; /* remove "dbf" */
 
@@ -179,6 +202,7 @@ xbase_load (CommandContext *context, Workbook *wb, const char *filename)
 		row++;
 	} while (record_seek (rec, SEEK_CUR, 1));
 
+	record_free (rec);
 	xbase_close (file);
 
 	return 0;

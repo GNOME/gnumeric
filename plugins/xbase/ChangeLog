@@ -1,3 +1,23 @@
+2000-07-27  Morten Welinder  <terra@diku.dk>
+
+	* boot.c (xbase_field_as_value): Plug huge leaks.  Fix 'I' case.
+	Partially fix 'B' case.
+	(xbase_load): Plug leak.
+
+	* xbase.c (xbase_read_field): It looks like '\0' is a terminator
+ 	too.  Sounds reasonable.
+	(xbase_close): Plug another huge leak.
+
+2000-07-26  Morten Welinder  <terra@diku.dk>
+
+	* xbase.c (deref_le_guint16, deref_le_guint32): New functions.
+	(xbase_open): Initialise ans->offset.
+	(xbase_read_header): Fix huge amounts of bogusities.
+	(xbase_read_field): Ditto.
+
+	* boot.c (xb_setdouble): Don't define until such time as it gets
+ 	used.
+
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.56

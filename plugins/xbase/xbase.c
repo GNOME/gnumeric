@@ -32,6 +32,24 @@ static const char *field_type_descriptions [] = { /* FIXME: fix array size from 
 #endif
 
 
+static guint16
+deref_le_guint16 (const void *p)
+{
+	guint16 data;
+	memcpy (&data, p, sizeof (data));
+	return GUINT16_FROM_LE (data);
+}
+
+static guint32
+deref_le_guint32 (const void *p)
+{
+	guint32 data;
+	memcpy (&data, p, sizeof (data));
+	return GUINT32_FROM_LE (data);
+}
+
+
+
 /**
  * Newly allocated pointer to record, initialised as first in database.
 */
@@ -108,63 +126,65 @@ xbase_read_header (XBfile *x)
 		g_warning ("Header short");
 		return TRUE;
 	}
-	printf ("Version:\t");
+	fprintf (stderr, "Version:\t");
 	switch (hdr[0]) { /* FIXME: assuming dBASE III+, not IV */
 	case 0x02:
-		printf ("FoxBase\n");
+		fprintf (stderr, "FoxBase\n");
 		break;
 	case 0x03:
-		printf ("File without DBT\n");
+		fprintf (stderr, "File without DBT\n");
 		break;
 	case 0x30:
-		printf ("Visual FoxPro\n");
+		fprintf (stderr, "Visual FoxPro\n");
 		break;
 	case 0x83:
-		printf ("File with DBT\n"); /* bits: 0-3 version, 3-5 SQL, 7 DBT flag */
+		fprintf (stderr, "File with DBT\n"); /* bits: 0-3 version, 3-5 SQL, 7 DBT flag */
 		break;
 	default:
-		printf ("unknown!\n");
+		fprintf (stderr, "unknown!\n");
 	}
-	x->records  = GUINT32_FROM_LE((guint32)hdr[4]);
-	x->fieldlen = GUINT16_FROM_LE((guint16)hdr[10]);
+	x->records  = deref_le_guint32 (hdr + 4);
+	x->fieldlen = deref_le_guint16 (hdr + 10);
 #if XBASE_DEBUG > 0
-	printf ("Last update (YY/MM/DD):\t%2d/%2d/%2d\n",hdr[1],hdr[2],hdr[3]); /* Y2K ?!? */
-	printf ("Records:\t%u\n", x->records);
-	printf ("Header length:\t%d\n", GUINT16_FROM_LE((guint16)hdr[8]));
-	printf ("Record length:\t%d\n", x->fieldlen);
-	printf ("Reserved:\t%d\n", GUINT16_FROM_LE((guint16)hdr[12]));
-	printf ("Incomplete transaction:\t%d\n", hdr[14]);
-	printf ("Encryption flag:\t%d\n", hdr[15]);
-	printf ("Free record thread:\t%u\n", GUINT32_FROM_LE((guint32)hdr[16]));
-	printf ("Reserved (multi-user):\t%lu\n", GUINT64_FROM_LE((guint64)hdr[20])); /* FIXME: printf needs to support 64-bit integers */
-	printf ("MDX flag:\t%d\n", hdr[28]); /* FIXME: decode */
-	printf ("Language driver (code page):\t");
+	fprintf (stderr, "Last update (YY/MM/DD):\t%2d/%2d/%2d\n",hdr[1],hdr[2],hdr[3]); /* Y2K ?!? */
+	fprintf (stderr, "Records:\t%u\n", x->records);
+	fprintf (stderr, "Header length:\t%d\n", deref_le_guint16 (hdr + 8));
+	fprintf (stderr, "Record length:\t%d\n", x->fieldlen);
+	fprintf (stderr, "Reserved:\t%d\n", deref_le_guint16 (hdr + 12));
+	fprintf (stderr, "Incomplete transaction:\t%d\n", hdr[14]);
+	fprintf (stderr, "Encryption flag:\t%d\n", hdr[15]);
+	fprintf (stderr, "Free record thread:\t%u\n", deref_le_guint32 (hdr + 16));
+#ifdef THIS_IS_BOGUS
+	fprintf (stderr, "Reserved (multi-user):\t%lu\n", GUINT64_FROM_LE((guint64)hdr[20])); /* FIXME: printf needs to support 64-bit integers */
+#endif
+	fprintf (stderr, "MDX flag:\t%d\n", hdr[28]); /* FIXME: decode */
+	fprintf (stderr, "Language driver (code page):\t");
 	switch (hdr[29]) {
 	case 0x01:
-		printf ("DOS USA (437)\n");
+		fprintf (stderr, "DOS USA (437)\n");
 		break;
 	case 0x02:
-		printf ("DOS Multilingual (850)\n");
+		fprintf (stderr, "DOS Multilingual (850)\n");
 		break;
 	case 0x03:
-		printf ("Windows ANSI (1251)\n");
+		fprintf (stderr, "Windows ANSI (1251)\n");
 		break;
 	case 0xC8:
-		printf ("Windows EE (1250)\n");
+		fprintf (stderr, "Windows EE (1250)\n");
 		break;
 	case 0x64:
-		printf ("EE MS-DOS (852)\n");
+		fprintf (stderr, "EE MS-DOS (852)\n");
 		break;
 	case 0x66:
-		printf ("Russian MS-DOS (866)\n");
+		fprintf (stderr, "Russian MS-DOS (866)\n");
 		break;
 	case 0x65:
-		printf ("Nordic MS-DOS (865)\n");
+		fprintf (stderr, "Nordic MS-DOS (865)\n");
 		break;
 	default:
-		printf ("unknown!\n");
+		fprintf (stderr, "unknown!\n");
 	}
-	printf ("Reserved:\t%d\n", GUINT16_FROM_LE((guint16)hdr[30]));
+	fprintf (stderr, "Reserved:\t%d\n", deref_le_guint16 (hdr + 30));
 #endif
 	return FALSE;
 }
@@ -172,13 +192,13 @@ xbase_read_header (XBfile *x)
 static XBfield *
 xbase_read_field (XBfile *file)
 {
-	XBfield *ans = g_new (XBfield, 1), *tmp;
-	guint8 buf[32];
+	XBfield *ans;
+	guint8 buf[33];
 	char *p;
 	if (fread(buf, sizeof(buf[0]), 2, file->f) != 2) { /* 1 byte out ? */
 		g_warning ("xbase_read_field: fread error");
 		return NULL;
-	} else if (buf[0] == 0x0D) { /* field array terminator */
+	} else if (buf[0] == 0x0D || buf[0] == 0) { /* field array terminator */
 		if (buf[1] == 0) { /* FIXME: crude test, not in spec */
 			if (fseek(file->f, 263, SEEK_CUR)) /* skip DBC */
 				g_warning ("xbase_read_field: fseek error");
@@ -190,23 +210,27 @@ xbase_read_field (XBfile *file)
 		return NULL;
 	}
 #if XBASE_DEBUG > 0
-	printf ("Field:\t'%s'\n", buf);
+	buf[32] = 0;
+	fprintf (stderr, "Field:\t'%s'\n", buf);
 #endif
+
+	ans = g_new (XBfield, 1);
+	ans->len = buf[16];
+
 	strncpy(ans->name, buf, 10);
 	ans->name[10] = '\0';
 	if ((p = strchr (field_types, ans->type = buf[11])) == NULL)
 		g_warning ("Unrecognised field type '%c'", ans->type);
 #if XBASE_DEBUG > 0
 	else
-		printf ("Type:\t%c (%s)\n", ans->type,
+		fprintf (stderr, "Type:\t%c (%s)\n", ans->type,
 			field_type_descriptions [p-field_types]);
-	printf ("Data address:\t0x%.8X\n", GUINT32_FROM_LE((guint32)buf[12]));
-	printf ("Length:\t%d\n", buf[16]);
-	printf ("Decimal count:\t%d\n", buf[17]);
+	fprintf (stderr, "Data address:\t0x%.8X\n", deref_le_guint32 (buf + 12));
+	fprintf (stderr, "Length:\t%d\n", ans->len);
+	fprintf (stderr, "Decimal count:\t%d\n", buf[17]);
 #endif
-	ans->len = buf[16];
 	if (file->fields) {
-		tmp = file->format[file->fields-1];
+		XBfield *tmp = file->format[file->fields-1];
 		ans->pos = tmp->pos + tmp->len;
 	} else
 		ans->pos = 0;
@@ -224,15 +248,16 @@ xbase_open (CommandContext *context, const char *filename)
 		g_free (ans);
 		return NULL;
 	}
+	ans->offset = 0;
+
 	xbase_read_header (ans); /* FIXME: Clean up xbase_read_header
 				  * and handle errors */
 	ans->fields = 0;
 	ans->format = NULL;
 	while ((field = xbase_read_field (ans)) != NULL) {
-		ans->format = g_realloc (ans->format,
-					 sizeof(ans->format)*++ans->fields);
+		ans->format = g_renew (XBfield *, ans->format, ans->fields + 1);
 		/* FIXME: allocate number of field formats from file size? */
-		ans->format[ans->fields-1] = field;
+		ans->format[ans->fields++] = field;
 	}
 	return ans;
 }
@@ -240,8 +265,12 @@ xbase_open (CommandContext *context, const char *filename)
 void
 xbase_close (XBfile *x)
 {
-	printf("Closing Xbase file\n");
+	int i;
+
+	fprintf (stderr, "Closing Xbase file\n");
 	fclose (x->f);
+	for (i = 0; i < x->fields; i++)
+		g_free (x->format[i]);
 	g_free (x->format);
 	g_free (x);
 }
