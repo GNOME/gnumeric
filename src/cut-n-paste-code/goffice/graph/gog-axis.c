@@ -348,7 +348,7 @@ gog_axis_update (GogObject *obj)
 			maxima *= 1.1;
 			range = fabs (maxima - minima);
 		}
-		step  = pow (10, gnumeric_fake_trunc (log10 (range)));
+		step  = pow (10, gnumeric_fake_floor (log10 (range)));
 		if (range/step < 1.5)
 			step /= 5.;	/* .2 .4 .6 */
 		else if (range/step < 3)

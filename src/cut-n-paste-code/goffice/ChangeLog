@@ -1,3 +1,7 @@
+2003-10-07  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_update): Fake floor, not fake trunc.
+
 2003-10-06  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-plot.c (gog_plot_get_axis_bounds): Return NULL, not
