@@ -1,3 +1,8 @@
+2001-10-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+        * POTFILES.in: Add anova-one.glade, anova-two.glade, fourier-analysis.glade,
+	  histogram.glade, moving-averages.glade, regression.glade
+
 2001-10-07  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.71

@@ -180,7 +180,7 @@
 	</widget>
 
 	<widget>
-	  <class>GtkVBox</class>
+	  <class>GtkHBox</class>
 	  <name>vbox2</name>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>

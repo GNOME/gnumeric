@@ -77,6 +77,8 @@ gladedir   = $(gnumeric_libdir)/glade
 glade_DATA = 				\
 	advanced-filter.glade		\
 	analysis-tools.glade		\
+	anova-one.glade			\
+	anova-two.glade			\
 	autocorrect-exceptions.glade	\
 	autocorrect.glade		\
 	autoformat.glade		\
@@ -96,15 +98,19 @@ glade_DATA = 				\
 	dialog-zoom.glade		\
 	font-sel.glade			\
 	formula-guru.glade		\
+	fourier-analysis.glade		\
 	function-select.glade 		\
 	graph-guru.glade		\
 	hf-config.glade			\
+	histogram.glade			\
 	insert-cells.glade		\
 	mean-tests.glade		\
+	moving-averages.glade		\
 	names.glade			\
 	plugin-manager.glade		\
 	print.glade 			\
 	rank.glade			\
+	regression.glade		\
 	row-height.glade		\
 	sampling.glade			\
 	search.glade			\

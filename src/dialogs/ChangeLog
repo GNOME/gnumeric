@@ -1,3 +1,58 @@
+2001-10-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+        * Makefile.am : Add anova-one.glade, anova-two.glade, fourier-analysis.glade,
+	  histogram.glade, moving-averages.glade, regression.glade
+	* correlation.glade : rearrange `grouped-by' buttons
+	* covariance.glade  : ditto
+	* descriptive-stats.glade : ditto
+	* rank.glade : ditto
+	* anova-one.glade : new file
+	* anova-two.glade : new file
+	* fourier-analysis.glade : new file
+	* histogram.glade : new file
+	* moving-averages.glade : new file
+	* regression.glade : new file
+	* dialog-analysis-tools.c (dialog_anova_two_factor_with_r_tool) : 
+	  replaced by  dialog_anova_two_factor_tool, using gnumeric-expr-entry
+	  widget
+	(dialog_anova_two_factor_without_r_tool) : ditto
+	(columns_toggled) : removed
+	(rows_toggled) : removed
+	(set_group_option_signals) : removed
+	(checkbutton_toggled) : removed
+	(first_row_label_signal_fun) : removed
+	(force_intercept_zero_signal_fun) : removed
+	(first_row_label_button) : removed
+	(force_intercept_zero_button) : removed
+	(new_dialog) : removed
+	(new_frame) : removed
+	(add_check_buttons) : removed
+	(add_output_frame) : removed
+	(tool_update_sensitivity_cb) : some clarification 
+	(regression_tool_ok_clicked_cb) : new function
+	(regression_tool_update_sensitivity_cb) : new function
+	(dialog_regression_tool_init) : new function
+	(dialog_regression_tool) : rewritten to use expr-entry widget
+	(average_tool_ok_clicked_cb) : new function
+	(average_tool_update_sensitivity_cb) : new function
+	(dialog_average_tool_init) : new function
+	(dialog_average_tool) : rewritten to use expr-entry widget
+	(fourier_tool_ok_clicked_cb) : new function
+	(dialog_fourier_tool) : rewritten to use expr-entry widget
+	(histogram_tool_ok_clicked_cb) : new function
+	(dialog_histogram_tool) : rewritten to use expr-entry widget
+	(anova_single_tool_ok_clicked_cb) : new function
+	(anova_single_tool_update_sensitivity_cb) : new function
+	(dialog_anova_single_tool_init) : new function
+	(dialog_anova_single_tool) : rewritten to use expr-entry widget
+	(anova_two_factor_tool_ok_clicked_cb) : new function
+	(anova_two_factor_tool_update_sensitivity_cb) : new function
+	(dialog_anova_two_factor_tool_init) : new function
+	(dialog_anova_two_factor_tool) : new function replacing 
+	  dialog_anova_two_factor_with_r_tool and 
+	  dialog_anova_two_factor_without_r_tool to implement them
+	  using the expr-entry widget
+
 2001-10-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* dialog-analysis-tools.c (tool_help_cb) : seperated help_ref

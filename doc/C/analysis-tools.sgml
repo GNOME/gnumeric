@@ -82,26 +82,43 @@
 
   </sect2>
 
-  <sect2 id="anova-two-factor-with-tool">
-     <title>Anova: Two-Factor With Replication Tool</title>
+  <sect2 id="anova-two-factor-tool">
+     <title>Anova: Two-Factor Tool</title>
 
-     <para>For this tool, the given input range should contain at least
-     two columns of numeric data and the labels of the columns and the
-     labels of the groups.  The labels of the columns are given as the
-     usual way; if you give an input range A1:D10, for example, the
-     labels of the columns should be placed in B1, C1, and D1.  The 
-     labels of the groups should be placed into the first column, each
-     one of them at the first row of the group.  For example, if we have
-     three groups in our A1:D10 range (rows per sample is set to three),
-     the group names should be placed at A2, A5, and A8.</para>
+     <para>Gnumeric can perform two factor fixed effects ANOVAs with and 
+     without replication. In both cases the same dialog is used and the 
+     appropriate tool selected depending on whether the number of rows 
+     per sample is 1 or larger than 1.</para> 
 
-  </sect2>
-
-  <sect2 id="anova-two-factor-without-tool">
+  <sect3 id="anova-two-factor-without-tool">
      <title>Anova: Two-Factor Without Replication Tool</title>
 
-     <para>WriteMe</para>
+     <para>If the number of rows per sample is given as 1, gnumeric 
+     performs a two factor fixed effects ANOVA without replication. Each
+     column of the input range is interpreted as a level of the first 
+     factor while each row is interpreted as a level of the second factor.
+     </para>
+     <note><para>Currently, the input range may <emphasis>not</emphasis> contain 
+     any labels. </para></note>
+  </sect3>
+
+  <sect3 id="anova-two-factor-with-tool">
+     <title>Anova: Two-Factor With Replication Tool</title>
+     <para>If the number of rows per sample is larger than 1, gnumeric 
+     performs a two factor fixed effects ANOVA with replication. Each
+     column of the input range is interpreted as a level of the first 
+     factor while groups of rows (the number of rows in each group given 
+     by the `number of rows per sample') are interpreted as a level of the 
+     second factor.
+     </para>
+     <note><para>Currently, the first row and column  <emphasis>must</emphasis> contain 
+     appropriate labels. Specifically, there should be a label for each 
+     column (except the first) in the first row; and a label for each 
+     group of rows in the first cell of the first row of each such group.
+     </para></note>
+  </sect3>
   </sect2>
+
 </sect1>
 
   <sect1 id="correlation-tool">
@@ -270,6 +287,11 @@
      the variables are printed in the output table.</para>
   </sect1>
 
+  <sect1 id="fourier-analysis-tool">
+     <title>Fourier Analysis Tool</title>
+
+     <note><para>The Fourier Analysis tool is currently not implemented</para></note>
+  </sect1>
 
   <sect1 id="ftest-two-sample-for-variances-tool">
      <title>F-Test:Two-Sample for Variances Tool</title>
@@ -294,6 +316,12 @@
 
      <note><para>This tools currently does not work correctly with missing
      observations.</para></note>
+  </sect1>
+
+  <sect1 id="histogram-tool">
+     <title>Histogram Tool</title>
+
+     <para>WriteMe</para>
   </sect1>
 
   <sect1 id="moving-average-tool">

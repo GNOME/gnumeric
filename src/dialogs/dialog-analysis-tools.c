@@ -47,15 +47,8 @@ static int dialog_histogram_tool      	   (WorkbookControlGUI *wbcg, Sheet *shee
 static int dialog_random_tool       	   (WorkbookControlGUI *wbcg, Sheet *sheet);
 static int dialog_regression_tool   	   (WorkbookControlGUI *wbcg, Sheet *sheet);
 static int dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_anova_two_factor_without_r_tool (WorkbookControlGUI *wbcg,
-						   Sheet *sheet);
-static int dialog_anova_two_factor_with_r_tool    (WorkbookControlGUI *wbcg,
-						   Sheet *sheet);
+static int dialog_anova_two_factor_tool    (WorkbookControlGUI *wbcg,Sheet *sheet);
 
-
-static int                     label_row_flag,  intercept_flag;
-
-static stat_tool_t ds;
 typedef int (*tool_fun_ptr_t)(WorkbookControlGUI *wbcg, Sheet *sheet);
 
 typedef struct {
@@ -90,10 +83,8 @@ typedef struct {
 static tool_list_t tools[] = {
         { N_("Anova: Single Factor"),
 	  dialog_anova_single_factor_tool },
-        { N_("Anova: Two-Factor With Replication"),
-	  dialog_anova_two_factor_with_r_tool },
-        { N_("Anova: Two-Factor Without Replication"),
-	  dialog_anova_two_factor_without_r_tool },
+        { N_("Anova: Two-Factor With Or Without Replication"),
+	  dialog_anova_two_factor_tool },
         { N_("Correlation"),
 	  dialog_correlation_tool },
         { N_("Covariance"),
@@ -180,21 +171,6 @@ focus_on_entry (GtkWidget *widget, GtkWidget *entry)
 		gtk_widget_grab_focus (entry);
 }
 
-static void
-columns_toggled (GtkWidget *widget, int *group)
-{
-        if (GTK_TOGGLE_BUTTON (widget)->active) {
-	        *group = 0;
-	}
-}
-
-static void
-rows_toggled (GtkWidget *widget, int *group)
-{
-        if (GTK_TOGGLE_BUTTON (widget)->active) {
-	        *group = 1;
-	}
-}
 
 static gboolean
 output_range_selected (GtkWidget *widget, GdkEventFocus   *event,
@@ -254,67 +230,6 @@ set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao, const cha
 			    radiobutton);
 	return 0;
 }
-
-static int
-set_group_option_signals (GladeXML *gui, int *group, const char *n)
-{
-	GtkWidget *radiobutton;
-	char      buf[256];
-
-	sprintf(buf, "%s_radiobutton1", n);
-	radiobutton = glade_xml_get_widget (gui, buf);
-	if (!radiobutton) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 1;
-        }
-	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
-			    GTK_SIGNAL_FUNC (columns_toggled),
-			    group);
-	sprintf(buf, "%s_radiobutton2", n);
-	radiobutton = glade_xml_get_widget (gui, buf);
-	if (!radiobutton) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 1;
-        }
-	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
-			    GTK_SIGNAL_FUNC (rows_toggled),
-			    group);
-
-	return 0;
-}
-
-static void
-checkbutton_toggled (GtkWidget *widget, gboolean *flag)
-{
-        *flag = GTK_TOGGLE_BUTTON (widget)->active;
-}
-
-
-static void
-first_row_label_signal_fun ()
-{
-        label_row_flag = !label_row_flag;
-}
-
-static void
-force_intercept_zero_signal_fun ()
-{
-	intercept_flag = !intercept_flag;
-}
-
-static check_button_t first_row_label_button[] = {
-        { N_("Labels in First Row"), first_row_label_signal_fun, FALSE,
-	  "" },
-        { NULL, NULL }
-};
-
-
-static check_button_t force_intercept_zero_button[] = {
-	{ N_("Force Intercept to Be Zero"), force_intercept_zero_signal_fun,
-	  FALSE, ""},
-	{ NULL, NULL }
-};
-
 
 static int selected_row;
 
@@ -383,35 +298,6 @@ failure:
 	return 0;
 }
 
-static GtkWidget *
-new_dialog (const char *name)
-{
-        GtkWidget *dialog;
-
-        dialog = gnome_dialog_new (_(name),
-				   GNOME_STOCK_BUTTON_OK,
-				   GNOME_STOCK_BUTTON_CANCEL,
-				   NULL);
-
-	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
-	gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
-
-	return dialog;
-}
-
-static GtkWidget *
-new_frame (const char *name, GtkWidget *target_box)
-{
-        GtkWidget *frame, *box;
-
-	frame = gtk_frame_new (name);
-	box = gtk_vbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (frame), box);
-	gtk_box_pack_start (GTK_BOX (target_box), frame, FALSE, FALSE, 0);
-
-	return box;
-}
-
 static void
 error_in_entry (WorkbookControlGUI *wbcg, GtkWidget *entry, const char *err_str)
 {
@@ -421,37 +307,6 @@ error_in_entry (WorkbookControlGUI *wbcg, GtkWidget *entry, const char *err_str)
 	gtk_entry_set_position (GTK_ENTRY (entry), 0);
 	gtk_entry_select_region (GTK_ENTRY (entry), 0,
 				 GTK_ENTRY(entry)->text_length);
-}
-
-static void
-add_check_buttons (GtkWidget *box, check_button_t *cbs)
-{
-	static gboolean do_transpose = FALSE;
-        GtkWidget *button;
-	GnomeDialog *dialog;
-	int       i;
-
-	dialog = GNOME_DIALOG (gtk_widget_get_toplevel (box));
-	for (i = 0; cbs[i].name; i++) {
-	        GtkWidget *hbox, *entry;
-
-		hbox = gtk_hbox_new (FALSE, 0);
-	        button = gtk_check_button_new_with_label (_(cbs[i].name));
-		gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
-		if (cbs[i].entry_flag) {
-		        entry = gnumeric_dialog_entry_new_with_max_length (dialog, 20);
-			gtk_entry_set_text (GTK_ENTRY (entry),
-					    cbs[i].default_value);
-			gtk_box_pack_start (GTK_BOX (hbox), entry,
-					    TRUE, TRUE, 0);
-			ds.entry[i] = entry;
-		}
-
-		gtk_box_pack_start (GTK_BOX (box), hbox, TRUE, TRUE, 0);
-		gtk_signal_connect (GTK_OBJECT (button), "toggled",
-				    GTK_SIGNAL_FUNC (cbs[i].fun),
-				    &do_transpose);
-	}
 }
 
 static int
@@ -491,38 +346,6 @@ parse_output (WorkbookControlGUI *wbcg, Sheet *sheet, int output,
 	return 0;
 }
 
-static GtkWidget *
-add_output_frame (GtkWidget *box, GSList **output_ops)
-{
-        GtkWidget *r, *hbox, *output_range_entry;
-
-        box = new_frame(_("Output options:"), box);
-	*output_ops = NULL;
-	r = gtk_radio_button_new_with_label(*output_ops, _("New Sheet"));
-	*output_ops = GTK_RADIO_BUTTON (r)->group;
-	gtk_box_pack_start_defaults (GTK_BOX (box), r);
-	/* hbox = gtk_hbox_new (FALSE, 0); */
-	r = gtk_radio_button_new_with_label(*output_ops, _("New Workbook"));
-	*output_ops = GTK_RADIO_BUTTON (r)->group;
-	gtk_box_pack_start_defaults (GTK_BOX (box), r);
-	hbox = gtk_hbox_new (FALSE, 0);
-	r = gtk_radio_button_new_with_label(*output_ops,
-					    _("Output Range:"));
-	*output_ops = GTK_RADIO_BUTTON (r)->group;
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), r);
-	output_range_entry = gnumeric_dialog_entry_new_with_max_length
-		(GNOME_DIALOG (gtk_widget_get_toplevel (box)), 20);
-	gtk_box_pack_start_defaults (GTK_BOX (hbox),
-				     output_range_entry);
-	gtk_box_pack_start_defaults (GTK_BOX (box), hbox);
-	gtk_signal_connect
-		(GTK_OBJECT (output_range_entry),
-		 "focus_in_event", GTK_SIGNAL_FUNC (output_range_selected),
-		 r);
-
-	return output_range_entry;
-}
-
 
 /**********************************************/
 /*  Generic guru items */
@@ -547,10 +370,16 @@ typedef enum {
 	TOOL_COVARIANCE = 2,        /* use GenericToolState */
 	TOOL_RANK_PERCENTILE = 3,   /* use GenericToolState */
 	TOOL_FTEST = 4,   /* use GenericToolState */
+	TOOL_HISTOGRAM = 5,   /* use GenericToolState */
+	TOOL_FOURIER = 6,   /* use GenericToolState */
 	TOOL_GENERIC = 10,          /* all smaller types are generic */
 	TOOL_DESC_STATS = 11,
 	TOOL_TTEST = 12,
-	TOOL_SAMPLING = 13
+	TOOL_SAMPLING = 13,
+	TOOL_AVERAGE = 14,
+	TOOL_REGRESSION = 15,
+	TOOL_ANOVA_SINGLE = 16,
+	TOOL_ANOVA_TWO_FACTOR = 17
 } ToolType;
 
 
@@ -561,6 +390,12 @@ typedef enum {
 #define TTEST_KEY             "analysistools-ttest-dialog"
 #define FTEST_KEY             "analysistools-ftest-dialog"
 #define SAMPLING_KEY          "analysistools-sampling-dialog"
+#define HISTOGRAM_KEY         "analysistools-histogram-dialog"
+#define FOURIER_KEY           "analysistools-fourier-dialog"
+#define AVERAGE_KEY           "analysistools-moving-average-dialog"
+#define REGRESSION_KEY        "analysistools-regression-dialog"
+#define ANOVA_TWO_FACTOR_KEY  "analysistools-anova-two-factor-dialog"
+#define ANOVA_SINGLE_KEY      "analysistools-anova-single-factor-dialog"
 
 
 
@@ -682,6 +517,93 @@ typedef struct {
 	GtkWidget *options_table;
 } SamplingState;
 
+typedef struct {
+	ToolType  const type;
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GnumericExprEntry *input_entry;
+	GnumericExprEntry *input_entry_2;
+	GnumericExprEntry *output_entry;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *apply_button;
+	GtkWidget *help_button;
+	char *helpfile;
+	GtkWidget *new_sheet;
+	GtkWidget *new_workbook;
+	GtkWidget *output_range;
+	Sheet	  *sheet;
+	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
+
+	GtkWidget *interval_entry;
+} AverageToolState;
+
+typedef struct {
+	ToolType  const type;
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GnumericExprEntry *input_entry;
+	GnumericExprEntry *input_entry_2;
+	GnumericExprEntry *output_entry;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *apply_button;
+	GtkWidget *help_button;
+	char *helpfile;
+	GtkWidget *new_sheet;
+	GtkWidget *new_workbook;
+	GtkWidget *output_range;
+	Sheet	  *sheet;
+	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
+
+	GtkWidget *confidence_entry;
+} RegressionToolState;
+
+typedef struct {
+	ToolType  const type;
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GnumericExprEntry *input_entry;
+	GnumericExprEntry *input_entry_2;
+	GnumericExprEntry *output_entry;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *apply_button;
+	GtkWidget *help_button;
+	char *helpfile;
+	GtkWidget *new_sheet;
+	GtkWidget *new_workbook;
+	GtkWidget *output_range;
+	Sheet	  *sheet;
+	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
+
+	GtkWidget *alpha_entry;
+} AnovaSingleToolState;
+typedef struct {
+	ToolType  const type;
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GnumericExprEntry *input_entry;
+	GnumericExprEntry *input_entry_2;
+	GnumericExprEntry *output_entry;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *apply_button;
+	GtkWidget *help_button;
+	char *helpfile;
+	GtkWidget *new_sheet;
+	GtkWidget *new_workbook;
+	GtkWidget *output_range;
+	Sheet	  *sheet;
+	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
+
+	GtkWidget *alpha_entry;
+	GtkWidget *replication_entry;
+} AnovaTwoFactorToolState;
 
 typedef union {
 	ToolType  const type;
@@ -689,6 +611,10 @@ typedef union {
 	DescriptiveStatState tt_desc_stat;
 	TTestState tt_ttest;
 	SamplingState tt_sampling;
+	AverageToolState tt_average;
+	RegressionToolState tt_regression;
+	AnovaSingleToolState tt_anova_single;
+	AnovaTwoFactorToolState tt_anova_two_factor;
 } ToolState;
 
 /**********************************************/
@@ -792,7 +718,7 @@ static void
 tool_set_focus_output_range (GtkWidget *widget, GdkEventFocus *event,
 			GenericToolState *state)
 {
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->output_range),TRUE);
+	    gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->output_range),TRUE);
 }
 
 /**
@@ -830,7 +756,6 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 	gtk_signal_connect (GTK_OBJECT (state->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (cb_tool_cancel_clicked),
 			    state);
-
 	state->apply_button     = glade_xml_get_widget(state->gui, "applybutton");
 	if (state->apply_button != NULL ) 
 		gtk_signal_connect (GTK_OBJECT (state->apply_button), "clicked",
@@ -902,6 +827,9 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 			    GTK_SIGNAL_FUNC (tool_set_focus), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (tool_destroy), state);
+	gtk_signal_connect (GTK_OBJECT (state->output_range),   "toggled",
+			    GTK_SIGNAL_FUNC (focus_on_entry),
+			    state->output_entry);
 	gtk_signal_connect (GTK_OBJECT (state->output_entry), "focus-in-event",
 			    GTK_SIGNAL_FUNC (tool_set_focus_output_range), state);
 	gtk_signal_connect_after (GTK_OBJECT (state->output_entry), "changed",
@@ -933,6 +861,10 @@ static void
 tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
 {
 	gboolean ready  = FALSE;
+	gboolean input_1_ready  = FALSE;
+	gboolean input_2_ready  = FALSE;
+	gboolean output_ready  = FALSE;
+
 	char const *output_text;
 	char const *input_text;
 	char const *input_text_2;
@@ -954,17 +886,20 @@ tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
 		
 	i = gnumeric_glade_group_value (state->gui, output_group);
 
-	ready = ((input_range != NULL) && 
-		 ((state->input_entry_2 == NULL) || (input_range_2 != NULL)) &&
-                 ((i != 2) || (output_range != NULL)));
+	input_1_ready = (input_range != NULL);
+	input_2_ready = ((state->input_entry_2 == NULL) || (input_range_2 != NULL));
+	output_ready =  ((i != 2) || (output_range != NULL));
 
         if (input_range != NULL) value_release(input_range);
         if (input_range_2 != NULL) value_release(input_range_2);
         if (output_range != NULL) value_release(output_range);
 
+	ready = input_1_ready && input_2_ready && output_ready;
 	if(state->apply_button != NULL) 
 		gtk_widget_set_sensitive (state->apply_button, ready);
 	gtk_widget_set_sensitive (state->ok_button, ready);
+
+	return;
 }
 
 
@@ -2554,855 +2489,961 @@ random_dialog_loop:
 	return 0;
 }
 
-static int
-dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+/**********************************************/
+/*  Begin of Regression tool code */
+/**********************************************/
+
+
+/**
+ * regression_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the regression_tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+regression_tool_ok_clicked_cb(GtkWidget *button, RegressionToolState *state)
 {
-        static GtkWidget *dialog, *box, *vbox;
-	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
-	static GtkWidget *alpha_entry;
-	static GSList    *output_ops;
-	int 		 i, xdim;
-	static int       labels = 0;
-	int		 err = 0;
-
 	data_analysis_output_t  dao;
-	gnum_float alpha;
+	Range *range_1;
+	int xdim;
+	Range range_2;
+        char   *text;
+	GtkWidget *w;
+	int intercept_flag;
+	gnum_float confidence;
 
-	char  *text;
-	int   selection, output;
-	static Range range_inputy, *range_inputxs;
-
-	if (!dialog) {
-		intercept_flag = 1; /* TODO This would be better using the
-				       value in the checkbox instead of this
-				       global, but I don't know GTK very well*/
-
-	        dialog = new_dialog(_("Regression"));
-
-		box = gtk_vbox_new (FALSE, 0);
-		vbox = new_frame(_("Input:"), box);
-
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-
-		range1_entry = hbox_pack_label_and_entry
-		  (dialog, vbox, _("Input Y Range:"), "", 20);
-
-		range2_entry = hbox_pack_label_and_entry
-		  (dialog, vbox, _("Input X Range:"), "", 20);
-
-		alpha_entry = hbox_pack_label_and_entry
-			(dialog, vbox, _("Confidence Level:"), "0.95", 20);
-
-		add_check_buttons(vbox, first_row_label_button);
-		add_check_buttons(vbox, force_intercept_zero_button);
-
-		box = gtk_vbox_new (FALSE, 0);
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-
-		output_range_entry = add_output_frame(box, &output_ops);
-
-		gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
-	}
-        gtk_widget_grab_focus (range1_entry);
-
-dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1)
-		return 1;
-
-	if (selection != 0) {
-	        gnome_dialog_close (GNOME_DIALOG (dialog));
-		return 1;
-	}
-
-	output = gtk_radio_group_get_selected (output_ops);
-
-	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_inputy.start.col,
-			  &range_inputy.start.row,
-			  &range_inputy.end.col,
-			  &range_inputy.end.row)) {
-	        error_in_entry (wbcg, range1_entry,
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	if (!parse_multiple_ranges (text, &range_1, &xdim)) {
+	        error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry_2),
 				_("You should introduce a valid cell range "
-				  "in 'Input X Range'"));
-		goto dialog_loop;
-	}
+				  "in 'X Variables:'"));
+		return;
+	}		
 
-	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_multiple_ranges (text, &range_inputxs, &xdim)) {
-	        error_in_entry (wbcg, range2_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Input X Range'"));
-		goto dialog_loop;
-	}
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
+	parse_range (text, &range_2.start.col,
+			             &range_2.start.row,
+			             &range_2.end.col,
+				     &range_2.end.row);
 
-	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
-	alpha = atof(text);
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
 
-	if (parse_output (wbcg, sheet, output, output_range_entry, &dao))
-	        goto dialog_loop;
+	w = glade_xml_get_widget (state->gui, "labels_button");
+        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	labels = label_row_flag;
-	if (labels) {
-	        range_inputy.start.row++;
-		for (i = 0; i < xdim; i++)
-	        	range_inputxs[i].start.row++;
-	}
+	text = gtk_entry_get_text (GTK_ENTRY (state->confidence_entry));
+	confidence = atof (text);
+	w = glade_xml_get_widget (state->gui, "intercept-button");
+	intercept_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = regression_tool (WORKBOOK_CONTROL (wbcg), sheet,
-			       &range_inputy, range_inputxs, alpha, &dao,
-			       intercept_flag, xdim);
-	if (err){
-		switch (err){
-		case 1:
-			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+	switch (regression_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+			       &range_2, range_1, confidence, &dao,
+				 intercept_flag, xdim)) {
+	case 0: 
+		gtk_widget_destroy (state->dialog);
+		break;
+	case 1:
+	        gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
 			      _("There are too few data points to conduct this "
 				"regression.\nThere must be at least as many "
 				"data points as free variables."));
-			break;
-		case 2:
-			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+		break;
+	case 2:
+	        gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
 			      _("Two or more of the independent variables "
 				"are linearly dependent,\nand the regression "
 				"cannot be calculated. Remove one of these\n"
 				"variables and try the regression again."));
-			break;
-		case 3:
-			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+                break;
+	case 3:
+		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
 			      _("There must be an equal number of entries "
 				"for each variable in the regression."));
-			break;
-		}
-		g_free (range_inputxs);
-		goto dialog_loop;
+                break;
+	default:
+		break;
 	}
-	g_free (range_inputxs);
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
- 	gnome_dialog_close (GNOME_DIALOG (dialog));
+	return;
+}
 
-	return 0;
+/**
+ * regression_tool_update_sensitivity_cb:
+ * @state:
+ *
+ * Update the dialog widgets sensitivity.
+ * We cannot use tool_update_sensitivity_cb
+ * since we are also considering whether in fact 
+ * an interval is given.
+ **/
+static void
+regression_tool_update_sensitivity_cb (GtkWidget *dummy, RegressionToolState *state)
+{
+	gboolean ready  = FALSE;
+	char const *output_text;
+	char const *input_text;
+	char const *text;
+	int i;
+	gnum_float confidence;
+        Value *output_range;
+        Value *input_range;
+
+	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
+	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
+        output_range = range_parse(state->sheet,output_text,TRUE);
+        input_range = range_parse(state->sheet,input_text,TRUE);
+
+	i = gnumeric_glade_group_value (state->gui, output_group);
+	text = gtk_entry_get_text (GTK_ENTRY (state->confidence_entry));
+	confidence = atof (text);
+
+	ready = ((input_range != NULL) && 
+                 (1 > confidence ) && (confidence > 0) &&
+                 ((i != 2) || (output_range != NULL)));
+
+        if (input_range != NULL) value_release(input_range);
+        if (output_range != NULL) value_release(output_range);
+
+	gtk_widget_set_sensitive (state->ok_button, ready);
 }
 
 
+/**
+ * dialog_regression_tool_init:
+ * @state:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static gboolean
+dialog_regression_tool_init (RegressionToolState *state)
+{
+	if (dialog_tool_init ((GenericToolState *)state, "regression.glade", "Regression", 
+                       GTK_SIGNAL_FUNC (regression_tool_ok_clicked_cb), 
+                       GTK_SIGNAL_FUNC (regression_tool_update_sensitivity_cb))) {
+		return TRUE;
+	}
+
+	state->confidence_entry = glade_xml_get_widget(state->gui, "confidence-entry");
+
+	gtk_signal_connect_after (GTK_OBJECT (state->confidence_entry), "changed",
+			    GTK_SIGNAL_FUNC (regression_tool_update_sensitivity_cb), state);
+ 
+	gnumeric_expr_entry_set_flags(state->input_entry,0,GNUM_EE_SINGLE_RANGE);
+
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       REGRESSION_KEY);
+
+	regression_tool_update_sensitivity_cb (NULL,state);	
+
+	return FALSE;
+}
+
+/**
+ * dialog_regression_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
+static int
+dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+        RegressionToolState *state;
+
+	if (wbcg == NULL) {
+		return 1;
+	}
+
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, REGRESSION_KEY))
+		return 0;
+
+	state = g_new (RegressionToolState, 1);
+	(*(ToolType *)state) = TOOL_REGRESSION;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+	state->helpfile = "regression-tool.html";
+
+	if (dialog_regression_tool_init (state)) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the Regression Tool dialog."));
+		g_free (state);
+		return 0;
+	}
+
+	gtk_widget_show (state->dialog);
+
+        return 0;
+}
+
+/**********************************************/
+/*  End of Regression tool code */
+/**********************************************/
+
+/**********************************************/
+/*  Begin of Moving Averages tool code */
+/**********************************************/
+
+
+/**
+ * average_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the fourier_tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+average_tool_ok_clicked_cb(GtkWidget *button, AverageToolState *state)
+{
+	data_analysis_output_t  dao;
+	Range range;
+        char   *text;
+	GtkWidget *w;
+	int standard_errors_flag, interval;
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range.start.col,
+			             &range.start.row,
+			             &range.end.col,
+				     &range.end.row);
+
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
+
+	w = glade_xml_get_widget (state->gui, "labels_button");
+        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->interval_entry));
+	interval = atoi (text);
+	w = glade_xml_get_widget (state->gui, "std_errors_button");
+	standard_errors_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	switch (average_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+			  &range, interval, standard_errors_flag, &dao)) {
+	case 0: 
+		gtk_widget_destroy (state->dialog);
+		break;
+	default:
+		break;
+	}
+	return;
+}
+
+/**
+ * average_tool_update_sensitivity_cb:
+ * @state:
+ *
+ * Update the dialog widgets sensitivity.
+ * We cannot use tool_update_sensitivity_cb
+ * since we are also considering whether in fact 
+ * an interval is given.
+ **/
+static void
+average_tool_update_sensitivity_cb (GtkWidget *dummy, AverageToolState *state)
+{
+	gboolean ready  = FALSE;
+	char const *output_text;
+	char const *input_text;
+	char const *text;
+	int i, interval;
+        Value *output_range;
+        Value *input_range;
+
+	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
+	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+        output_range = range_parse(state->sheet,output_text,TRUE);
+        input_range = range_parse(state->sheet,input_text,TRUE);
+	i = gnumeric_glade_group_value (state->gui, output_group);
+	text = gtk_entry_get_text (GTK_ENTRY (state->interval_entry));
+	interval = atoi (text);
+
+	ready = ((input_range != NULL) && 
+                 (interval > 0) &&
+                 ((i != 2) || (output_range != NULL)));
+
+        if (input_range != NULL) value_release(input_range);
+        if (output_range != NULL) value_release(output_range);
+
+	gtk_widget_set_sensitive (state->ok_button, ready);
+}
+
+
+/**
+ * dialog_average_tool_init:
+ * @state:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static gboolean
+dialog_average_tool_init (AverageToolState *state)
+{
+	if (dialog_tool_init ((GenericToolState *)state, "moving-averages.glade", "MovAverages", 
+                       GTK_SIGNAL_FUNC (average_tool_ok_clicked_cb), 
+                       GTK_SIGNAL_FUNC (average_tool_update_sensitivity_cb))) {
+		return TRUE;
+	}
+
+	state->interval_entry = glade_xml_get_widget(state->gui, "interval-entry");
+
+	gtk_signal_connect_after (GTK_OBJECT (state->interval_entry), "changed",
+			    GTK_SIGNAL_FUNC (average_tool_update_sensitivity_cb), state);
+ 
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       AVERAGE_KEY);
+
+	average_tool_update_sensitivity_cb (NULL,state);	
+
+	return FALSE;
+}
+
+/**
+ * dialog_average_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
 static int
 dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-        GladeXML  *gui;
-	GtkWidget *range_entry;
-	GtkWidget *dialog;
-	GtkWidget *checkbutton;
-	GtkWidget *checkbutton2;
-	GtkWidget *output_range_entry;
-	GtkWidget *interval_entry;
+        AverageToolState *state;
 
-	data_analysis_output_t dao;
-
-	gboolean labels = FALSE;
-	gboolean standard_errors_flag = FALSE;
-	char     *text;
-	int      interval;
-	int      selection, x1, x2, y1, y2;
-	Range    range;
-
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
-
-	dao.type = NewSheetOutput;
-
-	dialog = glade_xml_get_widget (gui, "MovingAverage");
-        range_entry = glade_xml_get_widget (gui, "ma_entry1");
-	checkbutton = glade_xml_get_widget (gui, "ma_checkbutton");
-	checkbutton2 = glade_xml_get_widget (gui, "ma_checkbutton2");
-	interval_entry = glade_xml_get_widget (gui, "ma_entry2");
-	output_range_entry
-		= glade_xml_get_widget (gui, "ma_output_range_entry");
-
-        if (!dialog || !range_entry || !output_range_entry || !checkbutton ||
-	    !interval_entry || !checkbutton2) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (interval_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-
-	if (set_output_option_signals (gui, &dao, "ma"))
-	        return 0;
-
-	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
-	gtk_signal_connect (GTK_OBJECT (checkbutton2), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled),
-			    &standard_errors_flag);
-	gtk_entry_set_text (GTK_ENTRY (interval_entry), "3");
-
-        gtk_widget_grab_focus (range_entry);
-
-dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
+	if (wbcg == NULL) {
 		return 1;
 	}
 
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, AVERAGE_KEY))
+		return 0;
+
+	state = g_new (AverageToolState, 1);
+	(*(ToolType *)state) = TOOL_AVERAGE;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+	state->helpfile = "moving-average-tool.html";
+
+	if (dialog_average_tool_init (state)) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the Moving Average Tool dialog."));
+		g_free (state);
+		return 0;
 	}
 
-	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start.col,
-			  &range.start.row,
-			  &range.end.col,
-			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Range:'"));
-		goto dialog_loop;
-	}
+	gtk_widget_show (state->dialog);
 
-	dao.labels_flag = labels;
-
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (interval_entry));
-	interval = atoi (text);
-
-	if (average_tool (WORKBOOK_CONTROL (wbcg), sheet,
-			  &range, interval, standard_errors_flag, &dao))
-	        goto dialog_loop;
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	return 0;
+        return 0;
 }
 
+/**********************************************/
+/*  End of Moving Averages tool code */
+/**********************************************/
+
+/**********************************************/
+/*  Begin of Fourier analysis tool code */
+/**********************************************/
+
+/**
+ * fourier_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the fourier_tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+fourier_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
+{
+	data_analysis_output_t  dao;
+	Range range;
+        char   *text;
+	GtkWidget *w;
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range.start.col,
+			             &range.start.row,
+			             &range.end.col,
+				     &range.end.row);
+
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
+
+	w = glade_xml_get_widget (state->gui, "labels_button");
+        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	error_in_entry (state->wbcg, GTK_WIDGET(state->output_entry),
+			_("Fourier analysis is not implemented yet.  Sorry."));
+
+	return;
+}
+
+
+
+/**
+ * dialog_fourier_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
 static int
 dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-        GladeXML  *gui;
-	GtkWidget *range_entry;
-	GtkWidget *dialog;
-	GtkWidget *checkbutton;
-	GtkWidget *checkbutton2;
-	GtkWidget *output_range_entry;
+        GenericToolState *state;
 
-	data_analysis_output_t dao;
-
-	gboolean labels = FALSE;
-	gboolean standard_errors_flag = FALSE;
-	char     *text;
-	int      selection, x1, x2, y1, y2;
-	Range    range;
-
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
-
-	dao.type = NewSheetOutput;
-
-	dialog = glade_xml_get_widget (gui, "FourierAnalysis");
-        range_entry = glade_xml_get_widget (gui, "fa_entry1");
-	checkbutton = glade_xml_get_widget (gui, "fa_checkbutton");
-	checkbutton2 = glade_xml_get_widget (gui, "fa_checkbutton2");
-	output_range_entry
-		= glade_xml_get_widget (gui, "fa_output_range_entry");
-
-        if (!dialog || !range_entry || !output_range_entry || !checkbutton ||
-	    !checkbutton2) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-
-	if (set_output_option_signals (gui, &dao, "fa"))
-	        return 0;
-
-	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
-	gtk_signal_connect (GTK_OBJECT (checkbutton2), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled),
-			    &standard_errors_flag);
-
-        gtk_widget_grab_focus (range_entry);
-
-dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
+	if (wbcg == NULL) {
 		return 1;
 	}
 
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, FOURIER_KEY))
+		return 0;
+
+	state = g_new (GenericToolState, 1);
+	(*(ToolType *)state) = TOOL_FOURIER;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+	state->helpfile = "fourier-analysis-tool.html";
+
+	if (dialog_tool_init (state, "fourier-analysis.glade", "FourierAnalysis", 
+                       GTK_SIGNAL_FUNC (fourier_tool_ok_clicked_cb), 
+                       GTK_SIGNAL_FUNC (tool_update_sensitivity_cb))) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the Fourier Analyis Tool dialog."));
+		g_free (state);
+		return 0;
 	}
 
-	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start.col,
-			  &range.start.row,
-			  &range.end.col,
-			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Range:'"));
-		goto dialog_loop;
-	}
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       COVARIANCE_KEY);
 
-	dao.labels_flag = labels;
+	tool_update_sensitivity_cb (NULL,state);	
+	gtk_widget_show (state->dialog);
 
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
-
-
-	error_in_entry (wbcg, output_range_entry,
-			_("Fourier analysis is not implemented yet.  Sorry."));
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	return 0;
+        return 0;
 }
 
+/**********************************************/
+/*  End of Fourier analysis tool code */
+/**********************************************/
+
+/**********************************************/
+/*  Begin of histogram tool code */
+/**********************************************/
+
+
+/**
+ * histogram_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the histogram_tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+histogram_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
+{
+	data_analysis_output_t  dao;
+	Range range_1;
+	Range range_2;
+        char   *text;
+	GtkWidget *w;
+	int pareto, cum, chart;
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range_1.start.col,
+			             &range_1.start.row,
+			             &range_1.end.col,
+				     &range_1.end.row);
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
+	parse_range (text, &range_2.start.col,
+			             &range_2.start.row,
+			             &range_2.end.col,
+				     &range_2.end.row);
+
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
+
+
+	w = glade_xml_get_widget (state->gui, "labels_button");
+	dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	w = glade_xml_get_widget (state->gui, "pareto-button");
+	pareto = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	w = glade_xml_get_widget (state->gui, "cum-button");
+	cum = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	w = glade_xml_get_widget (state->gui, "chart-button");
+	chart = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	switch (histogram_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+			      &range_1, &range_2,
+			      dao.labels_flag, pareto, cum, chart, &dao)) {
+	case 0: 
+		gtk_widget_destroy (state->dialog);
+		break;
+	case 1: 
+	        error_in_entry (state->wbcg, GTK_WIDGET(state->input_entry),
+				_("Given input range contains non-numeric "
+				  "data."));
+		break;
+        case 2: 
+	        error_in_entry (state->wbcg, GTK_WIDGET(state->input_entry_2),
+				_("Given bin range contains non-numeric data."));
+		break;
+	default: 
+		break;
+	}
+	return;
+}
+
+
+
+/**
+ * dialog_histogram_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
 static int
 dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-        GladeXML  *gui;
-	GtkWidget *range1_entry, *range2_entry;
-	GtkWidget *dialog;
-	GtkWidget *checkbutton;
-	GtkWidget *sorted_cb, *percentage_cb, *chart_cb;
-	GtkWidget *output_range_entry;
+        GenericToolState *state;
 
-	data_analysis_output_t dao;
-
-	gboolean labels = FALSE;
-	gboolean sorted = FALSE;
-	gboolean percentage = FALSE;
-	gboolean chart = FALSE;
-
-	char     *text;
-	int      selection, x1, x2, y1, y2, err;
-	Range    range_input1, range_input2;
-
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
-
-	dao.type = NewSheetOutput;
-
-	dialog = glade_xml_get_widget (gui, "Histogram");
-        range1_entry = glade_xml_get_widget (gui, "hist_entry1");
-        range2_entry = glade_xml_get_widget (gui, "hist_entry2");
-	checkbutton = glade_xml_get_widget (gui, "hist_checkbutton");
-	sorted_cb = glade_xml_get_widget (gui, "hist_checkbutton2");
-	percentage_cb = glade_xml_get_widget (gui, "hist_checkbutton3");
-	chart_cb = glade_xml_get_widget (gui, "hist_checkbutton4");
-	output_range_entry
-		= glade_xml_get_widget (gui, "hist_output_range_entry");
-
-        if (!dialog || !range1_entry || !range2_entry ||
-	    !output_range_entry || !checkbutton || !sorted_cb ||
-	    !percentage_cb || !chart_cb) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range1_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range2_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-
-	if (set_output_option_signals (gui, &dao, "hist"))
-	        return 0;
-
-	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
-
-	gtk_signal_connect (GTK_OBJECT (sorted_cb), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &sorted);
-	gtk_signal_connect (GTK_OBJECT (percentage_cb), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled),
-			    &percentage);
-	gtk_signal_connect (GTK_OBJECT (chart_cb), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &chart);
-
-
-        gtk_widget_grab_focus (range1_entry);
-
-dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
+	if (wbcg == NULL) {
 		return 1;
 	}
 
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, HISTOGRAM_KEY))
+		return 0;
+
+	state = g_new (GenericToolState, 1);
+	(*(ToolType *)state) = TOOL_HISTOGRAM;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+	state->helpfile = "histogram-tool.html";
+
+	if (dialog_tool_init (state, "histogram.glade", "Histogram", 
+                       GTK_SIGNAL_FUNC (histogram_tool_ok_clicked_cb), 
+                       GTK_SIGNAL_FUNC (tool_update_sensitivity_cb))) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the Histogram Tool dialog."));
+		g_free (state);
+		return 0;
 	}
 
-	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start.col,
-			  &range_input1.start.row,
-			  &range_input1.end.col,
-			  &range_input1.end.row)) {
-	        error_in_entry (wbcg, range1_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Input Range:'"));
-		goto dialog_loop;
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       HISTOGRAM_KEY);
+
+	tool_update_sensitivity_cb (NULL,state);	
+	gtk_widget_show (state->dialog);
+
+        return 0;
+}
+
+/**********************************************/
+/*  End of histogram tool code */
+/**********************************************/
+
+/**********************************************/
+/*  Begin of ANOVA (single factor) tool code */
+/**********************************************/
+
+
+/**
+ * anova_single_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the fourier_tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+anova_single_tool_ok_clicked_cb(GtkWidget *button, AnovaSingleToolState *state)
+{
+	data_analysis_output_t  dao;
+	Range range;
+        char   *text;
+	GtkWidget *w;
+	gnum_float alpha;
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range.start.col,
+			             &range.start.row,
+			             &range.end.col,
+				     &range.end.row);
+
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
+
+	w = glade_xml_get_widget (state->gui, "labels_button");
+        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->alpha_entry));
+	alpha = atof (text);
+
+	switch (anova_single_factor_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+					  &range, 
+					  gnumeric_glade_group_value (state->gui, 
+								      grouped_by_group),
+					  alpha, &dao)) {
+	case 0: 
+		gtk_widget_destroy (state->dialog);
+		break;
+	default:
+		break;
 	}
+	return;
+}
 
-	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start.col,
-			  &range_input2.start.row,
-			  &range_input2.end.col,
-			  &range_input2.end.row)) {
-	        error_in_entry (wbcg, range2_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Bin Range:'"));
-		goto dialog_loop;
-	}
+/**
+ * anova_single_tool_update_sensitivity_cb:
+ * @state:
+ *
+ * Update the dialog widgets sensitivity.
+ * We cannot use tool_update_sensitivity_cb
+ * since we are also considering whether in fact 
+ * an alpha is given.
+ **/
+static void
+anova_single_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaSingleToolState *state)
+{
+	gboolean ready  = FALSE;
+	char const *output_text;
+	char const *input_text;
+	char const *text;
+	int i;
+	gnum_float alpha;
+        Value *output_range;
+        Value *input_range;
 
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
+	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
+	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+        output_range = range_parse(state->sheet,output_text,TRUE);
+        input_range = range_parse(state->sheet,input_text,TRUE);
+	i = gnumeric_glade_group_value (state->gui, output_group);
+	text = gtk_entry_get_text (GTK_ENTRY (state->alpha_entry));
+	alpha = atof (text);
 
-	dao.labels_flag = labels;
+	ready = ((input_range != NULL) && 
+                 (alpha > 0) && (alpha < 1) &&
+                 ((i != 2) || (output_range != NULL)));
 
-	err = histogram_tool (WORKBOOK_CONTROL (wbcg), sheet,
-			      &range_input1, &range_input2, labels,
-			      sorted, percentage, chart, &dao);
+        if (input_range != NULL) value_release(input_range);
+        if (output_range != NULL) value_release(output_range);
 
-	if (err == 1) {
-	        error_in_entry (wbcg, range1_entry,
-				_("Given input range contains non-numeric "
-				  "data."));
-	        goto dialog_loop;
-	} else if (err == 2) {
-	        error_in_entry (wbcg, range2_entry,
-				_("Given bin range contains non-numeric data."));
-	        goto dialog_loop;
-	}
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	return 0;
+	gtk_widget_set_sensitive (state->ok_button, ready);
 }
 
 
+/**
+ * dialog_anova_single_tool_init:
+ * @state:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static gboolean
+dialog_anova_single_tool_init (AnovaSingleToolState *state)
+{
+	if (dialog_tool_init ((GenericToolState *)state, "anova-one.glade", "ANOVA", 
+                       GTK_SIGNAL_FUNC (anova_single_tool_ok_clicked_cb), 
+                       GTK_SIGNAL_FUNC (anova_single_tool_update_sensitivity_cb))) {
+		return TRUE;
+	}
+
+	state->alpha_entry = glade_xml_get_widget(state->gui, "alpha-entry");
+
+	gtk_signal_connect_after (GTK_OBJECT (state->alpha_entry), "changed",
+			    GTK_SIGNAL_FUNC (anova_single_tool_update_sensitivity_cb), state);
+ 
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       ANOVA_SINGLE_KEY);
+
+	anova_single_tool_update_sensitivity_cb (NULL,state);	
+
+	return FALSE;
+}
+
+/**
+ * dialog_anova_single_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
 static int
 dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-        GladeXML  *gui;
-	GtkWidget *range_entry;
-	GtkWidget *dialog;
-	GtkWidget *checkbutton;
-	GtkWidget *output_range_entry;
-	GtkWidget *alpha_entry;
+        AnovaSingleToolState *state;
 
-	data_analysis_output_t dao;
-
-	gboolean labels = FALSE;
-	char     *text;
-	gnum_float  alpha;
-	int      group, selection, x1, x2, y1, y2;
-	Range    range;
-
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
-
-	dao.type = NewSheetOutput;
-	group    = 0;
-
-	dialog = glade_xml_get_widget (gui, "Anova1");
-        range_entry = glade_xml_get_widget (gui, "anova1_entry1");
-	checkbutton = glade_xml_get_widget (gui, "anova1_checkbutton");
-	alpha_entry = glade_xml_get_widget (gui, "anova1_entry2");
-	output_range_entry
-		= glade_xml_get_widget (gui, "anova1_output_range_entry");
-
-        if (!dialog || !range_entry || !output_range_entry || !checkbutton ||
-	    !alpha_entry) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (alpha_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-
-	if (set_group_option_signals (gui, &group, "anova1") ||
-	    set_output_option_signals (gui, &dao, "anova1"))
-	        return 0;
-
-	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
-	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
-
-        gtk_widget_grab_focus (range_entry);
-
-dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
+	if (wbcg == NULL) {
 		return 1;
 	}
 
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, ANOVA_SINGLE_KEY))
+		return 0;
+
+	state = g_new (AnovaSingleToolState, 1);
+	(*(ToolType *)state) = TOOL_ANOVA_SINGLE;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+	state->helpfile = "anova.html#ANOVA-SINGLE-FACTOR-TOOL";
+
+	if (dialog_anova_single_tool_init (state)) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the ANOVA (single factor) tool dialog."));
+		g_free (state);
+		return 0;
 	}
 
-	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start.col,
-			  &range.start.row,
-			  &range.end.col,
-			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Range:'"));
-		goto dialog_loop;
-	}
+	gtk_widget_show (state->dialog);
 
-	dao.labels_flag = labels;
-
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
-	alpha = atof (text);
-
-	if (anova_single_factor_tool (WORKBOOK_CONTROL (wbcg), sheet,
-				      &range, !group, alpha, &dao))
-	        goto dialog_loop;
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	return 0;
+        return 0;
 }
 
+/**********************************************/
+/*  End of ANOVA (Single Factor) tool code */
+/**********************************************/
 
-static int
-dialog_anova_two_factor_without_r_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+/**********************************************/
+/*  Begin of ANOVA (two factor) tool code */
+/**********************************************/
+
+
+/**
+ * anova_two_factor_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the fourier_tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+anova_two_factor_tool_ok_clicked_cb(GtkWidget *button, AnovaTwoFactorToolState *state)
 {
-        GladeXML  *gui;
-	GtkWidget *range_entry;
-	GtkWidget *dialog;
-	GtkWidget *checkbutton;
-	GtkWidget *output_range_entry;
-	GtkWidget *alpha_entry;
+	data_analysis_output_t  dao;
+	Range range;
+        char   *text;
+	GtkWidget *w;
+	gint replication;
+	gnum_float alpha;
 
-	data_analysis_output_t dao;
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range.start.col,
+			             &range.start.row,
+			             &range.end.col,
+				     &range.end.row);
 
-	gboolean labels = FALSE;
-	char     *text;
-	gnum_float  alpha;
-	int      selection, x1, x2, y1, y2;
-	Range    range;
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
 
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
+	w = glade_xml_get_widget (state->gui, "labels_button");
+        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	dao.type = NewSheetOutput;
+	text = gtk_entry_get_text (GTK_ENTRY (state->alpha_entry));
+	alpha = atof (text);
+	text = gtk_entry_get_text (GTK_ENTRY (state->replication_entry));
+	replication = atoi (text);
 
-	dialog = glade_xml_get_widget (gui, "Anova2");
-        range_entry = glade_xml_get_widget (gui, "anova2_entry1");
-	checkbutton = glade_xml_get_widget (gui, "anova2_checkbutton");
-	alpha_entry = glade_xml_get_widget (gui, "anova2_entry2");
-	output_range_entry
-		= glade_xml_get_widget (gui, "anova2_output_range_entry");
-
-        if (!dialog || !range_entry || !output_range_entry || !checkbutton ||
-	    !alpha_entry) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (alpha_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-
-	if (set_output_option_signals (gui, &dao, "anova2"))
-	        return 0;
-
-	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
-	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
-
-        gtk_widget_grab_focus (range_entry);
-
-dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
-		return 1;
-	}
-
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start.col,
-			  &range.start.row,
-			  &range.end.col,
-			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Range:'"));
-		goto dialog_loop;
-	}
-
-	dao.labels_flag = labels;
-
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
+	if (replication == 1 ) {
+		switch (anova_two_factor_without_r_tool (WORKBOOK_CONTROL (state->wbcg),
+							 state->sheet,
+							 &range, alpha, &dao)) {
+		case 0: 
+			gtk_widget_destroy (state->dialog);
+			break;
+		default:
+			break;
+		}
+	} else {
+		switch (anova_two_factor_with_r_tool (WORKBOOK_CONTROL (state->wbcg), 
+						      state->sheet, &range, replication, 
+						      alpha, &dao)) {
+		case 0: 
+			gtk_widget_destroy (state->dialog);
+			break;
+		case 1:
+			error_in_entry (state->wbcg, state->replication_entry,
+					_("Each sample must contain the same number "
+					  "of rows."));
+			break;
+		case 2:
+			error_in_entry (state->wbcg, GTK_WIDGET(state->input_entry),
+					_("Given input range contains non-numeric "
+					  "data."));
+			break;
+		case 3:
+			error_in_entry (state->wbcg, GTK_WIDGET(state->input_entry),
+					_("The given input range should contain at "
+					  "least two columns of data and the "
+					  "labels."));
+			break;
+		default:
+			break;
 		}
 	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
-	alpha = atof (text);
-
-	if (anova_two_factor_without_r_tool (WORKBOOK_CONTROL (wbcg), sheet,
-					     &range, alpha, &dao))
-	        goto dialog_loop;
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	return 0;
+	return;
 }
 
-static int
-dialog_anova_two_factor_with_r_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+/**
+ * anova_two_factor_tool_update_sensitivity_cb:
+ * @state:
+ *
+ * Update the dialog widgets sensitivity.
+ * We cannot use tool_update_sensitivity_cb
+ * since we are also considering whether in fact 
+ * an alpha and a replaication is given.
+ **/
+static void
+anova_two_factor_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaTwoFactorToolState *state)
 {
-        GladeXML  *gui;
-	GtkWidget *range_entry;
-	GtkWidget *dialog;
-	GtkWidget *rows_entry;
-	GtkWidget *output_range_entry;
-	GtkWidget *alpha_entry;
+	gboolean ready  = FALSE;
+	char const *output_text;
+	char const *input_text;
+	char const *text;
+	int i, replication;
+	gnum_float alpha;
+        Value *output_range;
+        Value *input_range;
 
-	data_analysis_output_t dao;
-
-	char     *text;
-	gnum_float  alpha;
-	int      selection, x1, x2, y1, y2, rows, err;
-	Range    range;
-
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
-
-	dao.type = NewSheetOutput;
-
-	dialog = glade_xml_get_widget (gui, "Anova3");
-        range_entry = glade_xml_get_widget (gui, "anova3_entry1");
-	rows_entry = glade_xml_get_widget (gui, "anova3_entry2");
-	alpha_entry = glade_xml_get_widget (gui, "anova3_entry3");
-	output_range_entry
-		= glade_xml_get_widget (gui, "anova3_output_range_entry");
-
-        if (!dialog || !range_entry || !output_range_entry || !rows_entry ||
-	    !alpha_entry) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (rows_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (alpha_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-
-	if (set_output_option_signals (gui, &dao, "anova3"))
-	        return 0;
-
-	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
-
-        gtk_widget_grab_focus (range_entry);
-
-dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
-		return 1;
-	}
-
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start.col,
-			  &range.start.row,
-			  &range.end.col,
-			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Range:'"));
-		goto dialog_loop;
-	}
-
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (rows_entry));
-	rows = atoi (text);
-
-	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
+	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+        output_range = range_parse(state->sheet,output_text,TRUE);
+        input_range = range_parse(state->sheet,input_text,TRUE);
+	i = gnumeric_glade_group_value (state->gui, output_group);
+	text = gtk_entry_get_text (GTK_ENTRY (state->alpha_entry));
 	alpha = atof (text);
+	text = gtk_entry_get_text (GTK_ENTRY (state->replication_entry));
+	replication = atoi (text);
 
-	err = anova_two_factor_with_r_tool (WORKBOOK_CONTROL (wbcg), sheet,
-					    &range, rows, alpha, &dao);
-	if (err == 1) {
-	        error_in_entry (wbcg, rows_entry,
-				_("Each sample should contain the same number "
-				  "of rows (`Rows per sample:')"));
-	        goto dialog_loop;
-	} else if (err == 2) {
-	        error_in_entry (wbcg, rows_entry,
-				_("Given input range contains non-numeric "
-				  "data."));
-	        goto dialog_loop;
-	} else if (err == 3) {
-	        error_in_entry (wbcg, range_entry,
-				_("The given input range should contain at "
-				  "least two columns of data and the "
-				  "labels."));
-	        goto dialog_loop;
+	ready = ((input_range != NULL) && 
+                 (alpha > 0) && (alpha < 1) &&
+		 (replication > 0) &&
+                 ((i != 2) || (output_range != NULL)));
+
+        if (input_range != NULL) value_release(input_range);
+        if (output_range != NULL) value_release(output_range);
+
+	gtk_widget_set_sensitive (state->ok_button, ready);
+}
+
+
+/**
+ * dialog_anova_two_factor_tool_init:
+ * @state:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static gboolean
+dialog_anova_two_factor_tool_init (AnovaTwoFactorToolState *state)
+{
+	if (dialog_tool_init ((GenericToolState *)state, "anova-two.glade", "ANOVA", 
+                       GTK_SIGNAL_FUNC (anova_two_factor_tool_ok_clicked_cb), 
+                       GTK_SIGNAL_FUNC (anova_two_factor_tool_update_sensitivity_cb))) {
+		return TRUE;
 	}
 
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
+	state->alpha_entry = glade_xml_get_widget(state->gui, "alpha-entry");
+	state->replication_entry = glade_xml_get_widget(state->gui, "replication-entry");
 
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
+	gtk_signal_connect_after (GTK_OBJECT (state->alpha_entry), "changed",
+			    GTK_SIGNAL_FUNC (anova_two_factor_tool_update_sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->replication_entry), "changed",
+			    GTK_SIGNAL_FUNC (anova_two_factor_tool_update_sensitivity_cb), state);
+ 
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       ANOVA_TWO_FACTOR_KEY);
 
-	return 0;
+	anova_two_factor_tool_update_sensitivity_cb (NULL,state);	
+
+	return FALSE;
 }
+
+/**
+ * dialog_anova_two_factor_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
+static int
+dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+        AnovaTwoFactorToolState *state;
+
+	if (wbcg == NULL) {
+		return 1;
+	}
+
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, ANOVA_TWO_FACTOR_KEY))
+		return 0;
+
+	state = g_new (AnovaTwoFactorToolState, 1);
+	(*(ToolType *)state) = TOOL_ANOVA_TWO_FACTOR;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+	state->helpfile = "anova.html#ANOVA-TWO-FACTOR-TOOL";
+
+	if (dialog_anova_two_factor_tool_init (state)) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the ANOVA (two factor) tool dialog."));
+		g_free (state);
+		return 0;
+	}
+
+	gtk_widget_show (state->dialog);
+
+        return 0;
+}
+
+/**********************************************/
+/*  End of ANOVA (Two Factor) tool code */
+/**********************************************/
+
 
 /*************************************************************************
  *
