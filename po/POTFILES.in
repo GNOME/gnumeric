@@ -80,6 +80,7 @@ src/dialogs/dialog-zoom.glade
 src/dialogs/font-sel.glade
 src/dialogs/formula-guru.glade
 src/dialogs/function-select.glade
+src/dialogs/graph-guru.glade
 src/dialogs/hf-config.glade
 src/dialogs/insert-cells.glade
 src/dialogs/names.glade
