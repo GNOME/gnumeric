@@ -197,8 +197,8 @@ cb_pm_button_rescan_directories_clicked (__attribute__((unused)) GtkButton *butt
 }
 
 static void
-cb_pm_checkbutton_install_new_toggled (__attribute__((unused)) GtkCheckButton *checkbutton,
-				       PluginManagerGUI *pm_gui)
+cb_pm_checkbutton_install_new_toggled (GtkCheckButton *checkbutton,
+				       __attribute__((unused)) PluginManagerGUI *pm_gui)
 {
 	gnm_gconf_set_activate_new_plugins (
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)));
