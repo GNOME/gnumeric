@@ -40,6 +40,8 @@ gboolean applix_file_probe (GnumFileOpener const *fo, GsfInput *input,
                             FileProbeLevel pl);
 void     applix_file_open (GnumFileOpener const *fo, IOContext *io_context,
                            WorkbookView *wb_view, GsfInput *input);
+void     applix_file_save (GnumFileSaver const *fs, IOContext *io_context,
+			   WorkbookView *wb_view, char const *filename);
 
 gboolean
 applix_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
