@@ -1,3 +1,9 @@
+2003-10-21  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-renderer.c (gog_renderer_init) : init zoom to 1.
+	* graph/gog-renderer-gnome-print.c (gog_graph_print_to_gnome_print) :
+	  ditto.
+
 2003-10-14  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-axis.c (axis_get_entry) : Add a user_defined parameter in

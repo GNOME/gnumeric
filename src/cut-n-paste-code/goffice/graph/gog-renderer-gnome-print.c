@@ -462,7 +462,9 @@ gog_graph_print_to_gnome_print (GogGraph *graph,
 	GogViewAllocation allocation;
 	GogRendererGnomePrint *prend =
 		g_object_new (GOG_RENDERER_GNOME_PRINT_TYPE,
-			      "model", graph, NULL);
+			      "model", graph,
+			      "zoom", 1.,
+			      NULL);
 	g_object_ref (gp_context);
 	prend->gp_context = gp_context;
 	allocation.x = 0.;
