@@ -1,3 +1,9 @@
+2000-02-15  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-math.c (gnumeric_mmult): Fix row/col confusion.
+  	* src/mathfunc.c (mmult): Ditto.  How did this ever work for
+ 	non-square matrices?
+
 2000-02-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_col_set_default_size_pts) : There is no notion of

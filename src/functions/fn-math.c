@@ -3179,7 +3179,7 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 
 	A = g_new (float_t, cols_a * rows_a);
 	B = g_new (float_t, cols_b * rows_b);
-	product = g_new (float_t, cols_a * rows_b);
+	product = g_new (float_t, rows_a * cols_b);
 
 	for (c=0; c<cols_a; c++)
 	        for (r=0; r<rows_a; r++) {
@@ -3198,7 +3198,7 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 	mmult (A, B, cols_a, rows_a, cols_b, product);
 
 	for (c=0; c<cols_b; c++) {
-	        res->v.array.vals [c] = g_new (Value *, rows_a);
+	        res->v.array.vals[c] = g_new (Value *, rows_a);
 	        for (r=0; r<rows_a; r++)
 		        res->v.array.vals[c][r] =
 			    value_new_float (product [r + c*rows_a]);

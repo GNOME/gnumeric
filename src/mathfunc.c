@@ -4193,7 +4193,7 @@ mmult (float_t *A, float_t *B, int cols_a, int rows_a, int cols_b,
 	float_t tmp;
         int     c, r, i;
 
-	for (c = 0; c < cols_a; ++c) {
+	for (c = 0; c < cols_b; ++c) {
 		for (r = 0; r < rows_a; ++r) {
 		        tmp = 0;
 			for (i = 0; i < cols_a; ++i)
