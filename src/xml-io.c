@@ -482,6 +482,7 @@ Workbook *gnumericReadXmlWorkbook(const char *filename) {
     ctxt.nameTable = g_hash_table_new(ptrHash, ptrCompare);
     ctxt.fontIdx = 1;
     wb = readXmlWorkbook(&ctxt, res->root);
+    workbook_recalc(wb);
     g_hash_table_foreach(ctxt.nameTable, nameFree, NULL);
     g_hash_table_destroy(ctxt.nameTable);
 
@@ -1076,6 +1077,11 @@ static xmlNodePtr writeXmlWorkbook(parseXmlContextPtr ctxt, Workbook *wb) {
     child = writeXmlStyle(ctxt, &wb->style);
     if (child) xmlAddChild(cur, child);
 
+    child = xmlNewNode(ctxt->ns, "Geometry", NULL);
+    xmlSetIntValue(child, "Width", wb->toplevel->allocation.width);
+    xmlSetIntValue(child, "Height", wb->toplevel->allocation.height);
+    xmlAddChild(cur, child);
+
     /*
      * Cells informations
      */
@@ -1101,6 +1107,16 @@ static Workbook *readXmlWorkbook(parseXmlContextPtr ctxt, xmlNodePtr tree) {
     }
     ret = workbook_new ();
     ctxt->wb = ret;
+
+    child = xmlSearchChild(tree, "Geometry");
+    if (child) {
+	int width, height;
+	int true = 1;
+
+	xmlGetIntValue(child, "Width", &width);
+	xmlGetIntValue(child, "Height", &height);
+	gtk_widget_set_usize(ret->toplevel, width, height);
+    }
 
     child = xmlSearchChild(tree, "Style");
     if (child != NULL)

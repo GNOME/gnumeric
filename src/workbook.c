@@ -690,6 +690,8 @@ workbook_new (void)
 	wb->sheets    = g_hash_table_new (g_str_hash, g_str_equal);
 	wb->table     = gtk_table_new (0, 0, 0);
 
+	gtk_window_set_policy(GTK_WINDOW(wb->toplevel), 1, 1, 0);
+
 	wb->max_iterations = 1;
 
 	workbook_setup_status_area (wb);
