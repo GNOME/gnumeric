@@ -2874,7 +2874,9 @@ sheet_clear_region (Sheet *sheet,
 		rows_height_update (sheet, &r, TRUE);
 	}
 
-	if (clear_flags & CLEAR_COMMENTS)
+	if (clear_flags & CLEAR_OBJECTS)
+		sheet_objects_clear (sheet, &r, G_TYPE_NONE);
+	else if (clear_flags & CLEAR_COMMENTS)
 		sheet_objects_clear (sheet, &r, CELL_COMMENT_TYPE);
 
 	/* TODO : how to handle objects ? */

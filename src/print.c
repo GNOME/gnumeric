@@ -110,6 +110,9 @@ typedef struct {
 	 */
 	HFRenderInfo *render_info;
 	GnomeFont    *decoration_font;
+
+	/* 6: The config */
+	GnomePrintConfig *gp_config;
 } PrintJobInfo;
 
 static void
@@ -1174,16 +1177,13 @@ workbook_print_all (PrintJobInfo *pj, Workbook *wb)
 static void
 print_job_info_update_from_config (PrintJobInfo *pj)
 {
-	double width = 1.0, height = 1.0;
 	double header = 0, footer = 0, left = 0, right = 0;
 	/* We shouldn't use this specific sheet info since the specs */
 	/* for other sheets may differ! */
 	PrintMargins *pm = &pj->sheet->print_info->margins;
 
-	gnome_print_job_get_page_size_from_config (pj->pi->print_config,
-						      &width, &height);
-	pj->width = width;
-	pj->height = height;
+	if (!gnome_print_config_get_page_size (pj->gp_config, &pj->width, &pj->height))
+		pj->width = pj->height = 1.;
 
 	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
 	pj->x_points = pj->width - (left + right);
@@ -1204,6 +1204,7 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	 */
 	pj->sheet = sheet;
 	pj->pi    = print_info_dup (sheet->print_info);
+	pj->gp_config = print_info_make_config (pj->pi);
 
 	/*
 	 * Values that should be entered in a dialog box
@@ -1217,7 +1218,6 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 
 	/* Precompute information */
 	print_job_info_update_from_config (pj);
-
 
 	/*
 	 * Setup render info
@@ -1239,11 +1239,13 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 static void
 print_job_info_destroy (PrintJobInfo *pj)
 {
+	print_info_load_config (pj->sheet->print_info, pj->gp_config);
+	g_object_unref (pj->gp_config);
 	hf_render_info_destroy (pj->render_info);
 	if (pj->decoration_font)
-		g_object_unref (G_OBJECT (pj->decoration_font));
+		g_object_unref (pj->decoration_font);
 	if (pj->print_context)
-		g_object_unref (G_OBJECT (pj->print_context));
+		g_object_unref (pj->print_context);
 	print_info_free (pj->pi);
 	g_free (pj);
 }
@@ -1259,7 +1261,6 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	int end;
 	int range;
 	GtkWindow *toplevel;
-	GnomePrintConfig *print_config;
 	gboolean done = TRUE;
 	gboolean firsttime = TRUE;
 
@@ -1269,12 +1270,11 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	pj = print_job_info_get (sheet, default_range, preview);
 
-	print_config = pj->pi->print_config;
 	pj->sorted_print = FALSE;
 
   	if (!preview) {
 		gnome_print_dialog = g_object_new (GNOME_TYPE_PRINT_DIALOG,
-						   "print_config", print_config,
+						   "print_config", pj->gp_config,
 						   NULL);
 
 		g_return_if_fail (gnome_print_dialog != NULL);
@@ -1346,7 +1346,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 			pj->end_page = end-1;
 		}
 		
-		gpm = gnome_print_job_new (print_config);
+		gpm = gnome_print_job_new (pj->gp_config);
 		pj->print_context = gnome_print_job_get_context (gpm);
 		pj->range = default_range;
 		

@@ -63,8 +63,6 @@
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input-memory.h>
 
-#include <libgnomeprint/gnome-print-config.h>
-
 #include <locale.h>
 #include <errno.h>
 #include <math.h>
@@ -1234,16 +1232,9 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 
 	xml_node_set_print_hf (cur, "Header", pi->header);
 	xml_node_set_print_hf (cur, "Footer", pi->footer);
-
-	{
-		guchar *paper_name;
-		paper_name = gnome_print_config_get (pi->print_config, (guchar *)GNOME_PRINT_KEY_PAPER_SIZE);
-		if (paper_name) {
-			xmlNewChild (cur, ctxt->ns, CC2XML ("paper"),
-				     CC2XML (paper_name));
-		}
-		g_free (paper_name);
-	}
+	if (NULL != print_info_get_paper (pi))
+		xmlNewChild (cur, ctxt->ns, CC2XML ("paper"),
+			CC2XML (print_info_get_paper (pi)));
 
 	return cur;
 }
@@ -1440,11 +1431,9 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 		xml_node_get_print_hf (child, pi->footer);
 
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("paper")))) {
-		xmlChar *name = xmlNodeGetContent (child);
-		gnome_print_config_set (pi->print_config,
-					(guchar *)GNOME_PRINT_KEY_PAPER_SIZE,
-					(guchar *)name);
-		xmlFree (name);
+		xmlChar *paper = xmlNodeGetContent (child);
+		print_info_set_paper (pi, paper);
+		xmlFree (paper);
 	}
 }
 

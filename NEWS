@@ -1,10 +1,14 @@
 Gnumeric 1.3.92
 
+Hal Ashburner:
+	* Some function documentation cleanups.
+
 Jody:
 	* Enable selecting and moving multiple drawing objects
 	* Swap X & Y axis content when importing xls bar plots. [#154734]
 	* Basic handling for XL 'Forms' Objects
 	* Fix handling of empty arguments in nested expressions
+	* Delay gnome-print init to decrease startup time
 
 Morten:
 	* Implement Edit->Select->Input. [#154735]

@@ -125,7 +125,7 @@ static struct {
 		N_("Started the MS Excel import/export engine, and 'GnmStyle'") },
 	{ "Lutz Muller",		GNM_FEATURE_HACKER,
 		N_("SheetObject improvement") },
-	{ "Yukihiro Nakai",             GNM_QA,
+	{ "Yukihiro Nakai",             GNM_FEATURE_HACKER | GNM_TRANSLATION | GNM_QA,
 	        N_("Support for non-Latin languages") },
 	{ "Emmanuel Pacaud",		GNM_CORE | GNM_FEATURE_HACKER,
 		N_("Many plot types for charting engine.") },

@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * print-info.c: Print information management.  This keeps
  * track of what the print parameters for a sheet are.
@@ -117,8 +119,9 @@ print_info_free (PrintInformation *pi)
 
 	print_hf_free (pi->header);
 	print_hf_free (pi->footer);
-	gnome_print_config_unref(pi->print_config);
 
+	g_free (pi->paper);
+	g_free (pi->gp_config_str);
 	g_free (pi);
 }
 
@@ -214,12 +217,6 @@ print_info_new (void)
 
 	pi = g_new0 (PrintInformation, 1);
 
-	pi->print_config = 
-		gnm_app_prefs->printer_config ?
-		gnome_print_config_from_string (gnm_app_prefs->printer_config,
-						0) :
-		gnome_print_config_default ();
-
 	/* Scaling */
 	if (gnm_app_prefs->print_scale_percentage)
 		pi->scaling.type = PERCENTAGE;
@@ -266,6 +263,10 @@ print_info_new (void)
 	pi->repeat_left.use = load_range (gnm_app_prefs->print_repeat_left,
 					  &pi->repeat_left.range);
 
+	pi->orientation	  = PRINT_ORIENT_VERTICAL;
+	pi->n_copies	  = 1;
+	pi->gp_config_str = NULL;
+	pi->paper	  = NULL;
 	return pi;
 }
 
@@ -340,9 +341,8 @@ print_info_save (PrintInformation const *pi)
 
 	save_formats ();
 
-	gnm_gconf_set_printer_config
-		(gnome_print_config_to_string (pi->print_config,
-					       0));
+	if (NULL != pi->gp_config_str)
+		gnm_gconf_set_printer_config (pi->gp_config_str);
 	gnm_gconf_set_printer_header (pi->header->left_format,
 				      pi->header->middle_format,
 				      pi->header->right_format);
@@ -589,9 +589,6 @@ print_info_dup (PrintInformation const *src_pi)
 
 	dst_pi = print_info_new ();
 
-	gnome_print_config_unref (dst_pi->print_config);
-	dst_pi->print_config       = gnome_print_config_dup (src_pi->print_config);
-
 	/* Print Scaling */
 	dst_pi->scaling.type       = src_pi->scaling.type;
 	dst_pi->scaling.percentage = src_pi->scaling.percentage;
@@ -623,79 +620,61 @@ print_info_dup (PrintInformation const *src_pi)
 	dst_pi->repeat_top  = src_pi->repeat_top;
 	dst_pi->repeat_left = src_pi->repeat_left;
 
+	dst_pi->orientation = src_pi->orientation;
+	dst_pi->n_copies    = src_pi->n_copies;
+	g_free (dst_pi->gp_config_str);
+	dst_pi->gp_config_str = g_strdup (src_pi->gp_config_str);
+	g_free (dst_pi->paper);
+	dst_pi->paper = g_strdup (src_pi->paper);
+
 	return dst_pi;
 }
 
-gboolean
+void
 print_info_get_margins (PrintInformation const *pi,
 			double *top, double *bottom, double *left, double *right)
 {
-	gboolean res_top, res_bottom, res_left, res_right;
+	g_return_if_fail (pi != NULL);
 
-	g_return_val_if_fail (pi->print_config != NULL, FALSE);
-
-
-	res_top = gnome_print_config_get_length (pi->print_config,
-						 GNOME_PRINT_KEY_PAGE_MARGIN_TOP,
-						 top, NULL);
-	res_bottom = gnome_print_config_get_length (pi->print_config,
-						    GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM,
-						    bottom, NULL);
-	res_left = gnome_print_config_get_length (pi->print_config,
-						  GNOME_PRINT_KEY_PAGE_MARGIN_LEFT,
-						  left, NULL);
-	res_right = gnome_print_config_get_length (pi->print_config,
-						   GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT,
-						   right, NULL);
-	return res_top && res_bottom && res_left && res_right;
+	if (NULL != top)
+		*top = pi->margins.header;
+	if (NULL != bottom)
+		*bottom = pi->margins.footer;
+	if (NULL != left)
+		*left = pi->margins.left;
+	if (NULL != right)
+		*right = pi->margins.right;
 }
 
 void
-print_info_set_margin_header   (PrintInformation *pi, double top)
+print_info_set_margin_header (PrintInformation *pi, double header)
 {
-	g_return_if_fail (pi->print_config != NULL);
-
-	gnome_print_config_set_length (pi->print_config,
-				       GNOME_PRINT_KEY_PAGE_MARGIN_TOP,
-				       top, GNOME_PRINT_PS_UNIT);
+	g_return_if_fail (pi != NULL);
+	pi->margins.header = header;
 }
-
 void
-print_info_set_margin_footer   (PrintInformation *pi, double bottom)
+print_info_set_margin_footer (PrintInformation *pi, double footer)
 {
-	g_return_if_fail (pi->print_config != NULL);
-
-	gnome_print_config_set_length (pi->print_config,
-				       GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM,
-				       bottom, GNOME_PRINT_PS_UNIT);
+	g_return_if_fail (pi != NULL);
+	pi->margins.footer = footer;
 }
-
 void
-print_info_set_margin_left     (PrintInformation *pi, double left)
+print_info_set_margin_left (PrintInformation *pi, double left)
 {
-	g_return_if_fail (pi->print_config != NULL);
-
-	gnome_print_config_set_length (pi->print_config,
-				       GNOME_PRINT_KEY_PAGE_MARGIN_LEFT,
-				       left, GNOME_PRINT_PS_UNIT);
+	g_return_if_fail (pi != NULL);
+	pi->margins.left = left;
 }
-
 void
-print_info_set_margin_right    (PrintInformation *pi, double right)
+print_info_set_margin_right (PrintInformation *pi, double right)
 {
-	g_return_if_fail (pi->print_config != NULL);
-
-	gnome_print_config_set_length (pi->print_config,
-				       GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT,
-				       right, GNOME_PRINT_PS_UNIT);
+	g_return_if_fail (pi != NULL);
+	pi->margins.right = right;
 }
 
 void
 print_info_set_margins (PrintInformation *pi,
 			double top, double bottom, double left, double right)
 {
-	g_return_if_fail (pi->print_config != NULL);
-
 	print_info_set_margin_header (pi, top);
 	print_info_set_margin_footer (pi, bottom);
 	print_info_set_margin_left (pi, left);
@@ -703,80 +682,121 @@ print_info_set_margins (PrintInformation *pi,
 }
 
 void        
-print_info_set_n_copies  (PrintInformation *pi, guint copies)
+print_info_set_n_copies (PrintInformation *pi, int copies)
 {
-	g_return_if_fail (pi->print_config != NULL);
-
-	gnome_print_config_set_int (pi->print_config, 
-				    GNOME_PRINT_KEY_NUM_COPIES, 
-				    (gint)copies);
+	g_return_if_fail (pi != NULL);
+	pi->n_copies = copies;
 }
-
 guint        
 print_info_get_n_copies  (PrintInformation const *pi)
 {
-	int res = 1;
-
-	g_return_val_if_fail (pi->print_config != NULL, 1);
-
-	if (gnome_print_config_get_int (pi->print_config,
-		GNOME_PRINT_KEY_NUM_COPIES, &res))
-		return res;
-	return 1;
+	g_return_val_if_fail (pi != NULL, 1);
+	return pi->n_copies;
+}
+void
+print_info_set_paper (PrintInformation *pi, char const *paper)
+{
+	g_return_if_fail (pi != NULL);
+	g_free (pi->paper);
+	pi->paper = g_strdup (paper);
+}
+char const *
+print_info_get_paper (PrintInformation const *pi)
+{
+	g_return_val_if_fail (pi != NULL, "A4");
+	return pi->paper;
 }
 
 void        
 print_info_set_orientation (PrintInformation *pi, PrintOrientation orient)
 {
-	g_return_if_fail (pi->print_config != NULL);
-
-	switch (orient) {
-	case PRINT_ORIENT_HORIZONTAL:
-		gnome_print_config_set (pi->print_config,
-					GNOME_PRINT_KEY_ORIENTATION,
-					"R90");
-		break;		 
-	case PRINT_ORIENT_VERTICAL:
-		gnome_print_config_set (pi->print_config,
-					GNOME_PRINT_KEY_ORIENTATION,
-					"R0");
-		break;		 
-	case PRINT_ORIENT_HORIZONTAL_UPSIDE_DOWN:
-		gnome_print_config_set (pi->print_config,
-					GNOME_PRINT_KEY_ORIENTATION,
-					"R270");
-		break;		 
-	case PRINT_ORIENT_VERTICAL_UPSIDE_DOWN:
-		gnome_print_config_set (pi->print_config,
-					GNOME_PRINT_KEY_ORIENTATION,
-					"R180");
-		break;		 
-	}
+	g_return_if_fail (pi != NULL);
+	pi->orientation = orient;
 }
-
 PrintOrientation
 print_info_get_orientation (PrintInformation const *pi)
 {
-	guchar  *orient = NULL;
-	PrintOrientation res = PRINT_ORIENT_VERTICAL;
+	g_return_val_if_fail (pi != NULL, PRINT_ORIENT_VERTICAL);
+	return pi->orientation;
+}
 
-	g_return_val_if_fail (pi->print_config != NULL, res);
-	
-	orient = gnome_print_config_get (pi->print_config,
-					 GNOME_PRINT_KEY_ORIENTATION);
+GnomePrintConfig *
+print_info_make_config (PrintInformation const *pi)
+{
+	GnomePrintConfig *res = (NULL != pi->gp_config_str)
+		? gnome_print_config_from_string (pi->gp_config_str, 0)
+		: ((NULL != gnm_app_prefs->printer_config)
+			? gnome_print_config_from_string (gnm_app_prefs->printer_config, 0)
+			: gnome_print_config_default ());
 
-	g_return_val_if_fail (orient != NULL, res);
-
-	if (strcmp (orient, "R0") == 0)
-		res = PRINT_ORIENT_VERTICAL;
-	else if (strcmp (orient, "R90") == 0)
-		res = PRINT_ORIENT_HORIZONTAL;
-	else if (strcmp (orient, "R180") == 0)
-		res = PRINT_ORIENT_VERTICAL_UPSIDE_DOWN;
-	else if (strcmp (orient, "R270") == 0)
-		res = PRINT_ORIENT_HORIZONTAL_UPSIDE_DOWN;
-
-	g_free (orient);
+	if (NULL != pi->paper)
+		gnome_print_config_set (res, GNOME_PRINT_KEY_PAPER_SIZE, pi->paper);
+	gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_TOP,
+		pi->margins.header, GNOME_PRINT_PS_UNIT);
+	gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM,
+		pi->margins.footer, GNOME_PRINT_PS_UNIT);
+	gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT,
+		pi->margins.left, GNOME_PRINT_PS_UNIT);
+	gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT,
+		pi->margins.right, GNOME_PRINT_PS_UNIT);
+	gnome_print_config_set_int (res, GNOME_PRINT_KEY_NUM_COPIES, pi->n_copies);
+	switch (pi->orientation) {
+	case PRINT_ORIENT_VERTICAL:
+		gnome_print_config_set (res, GNOME_PRINT_KEY_ORIENTATION, "R0");
+		break;		 
+	case PRINT_ORIENT_HORIZONTAL:
+		gnome_print_config_set (res, GNOME_PRINT_KEY_ORIENTATION, "R90");
+		break;		 
+	case PRINT_ORIENT_HORIZONTAL_UPSIDE_DOWN:
+		gnome_print_config_set (res, GNOME_PRINT_KEY_ORIENTATION, "R270");
+		break;		 
+	case PRINT_ORIENT_VERTICAL_UPSIDE_DOWN:
+		gnome_print_config_set (res, GNOME_PRINT_KEY_ORIENTATION, "R180");
+		break;		 
+	}
 
 	return res;
+}
+
+void
+print_info_load_config (PrintInformation *pi, GnomePrintConfig *config)
+{
+	guchar *str = NULL;
+	double d_tmp;
+	int tmp;
+
+	g_return_if_fail (pi != NULL);
+	g_return_if_fail (config != NULL);
+
+	g_free (pi->gp_config_str);
+	pi->gp_config_str = gnome_print_config_to_string (config, 0);
+
+	if (gnome_print_config_get_length (config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, &d_tmp, NULL))
+		pi->margins.header = d_tmp;
+	if (gnome_print_config_get_length (config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, &d_tmp, NULL))
+		pi->margins.footer = d_tmp;
+	if (gnome_print_config_get_length (config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, &d_tmp, NULL))
+		pi->margins.left = d_tmp;
+	if (gnome_print_config_get_length (config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, &d_tmp, NULL))
+		pi->margins.right = d_tmp;
+	if (gnome_print_config_get_int (config, GNOME_PRINT_KEY_NUM_COPIES, &tmp))
+		pi->n_copies = tmp;
+	else
+		pi->n_copies = 1;
+
+	g_free (pi->paper);
+	pi->paper = gnome_print_config_get (config, GNOME_PRINT_KEY_PAPER_SIZE);
+
+	str = gnome_print_config_get (config, GNOME_PRINT_KEY_ORIENTATION);
+	if (str != NULL) {
+		if (strcmp (str, "R0") == 0)
+			pi->orientation = PRINT_ORIENT_VERTICAL;
+		else if (strcmp (str, "R90") == 0)
+			pi->orientation = PRINT_ORIENT_HORIZONTAL;
+		else if (strcmp (str, "R180") == 0)
+			pi->orientation = PRINT_ORIENT_VERTICAL_UPSIDE_DOWN;
+		else if (strcmp (str, "R270") == 0)
+			pi->orientation = PRINT_ORIENT_HORIZONTAL_UPSIDE_DOWN;
+		g_free (str);
+	}
 }

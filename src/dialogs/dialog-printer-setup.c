@@ -135,6 +135,7 @@ typedef struct {
 	Sheet            *sheet;
 	GladeXML         *gui;
 	PrintInformation *pi;
+	GnomePrintConfig *gp_config;
 	GtkWidget        *dialog;
 	GtkWidget        *sheet_selector;
 	GtkWidget        *unit_selector;
@@ -216,8 +217,7 @@ get_paper_pswidth (PrinterSetupState *state)
 {
 	double height;
 	double width;
-	if (gnome_print_job_get_page_size_from_config (state->pi->print_config,
-							  &width, &height))
+	if (gnome_print_config_get_page_size (state->gp_config, &width, &height))
 		return width;
 	else
 		return 1.0;
@@ -234,8 +234,7 @@ get_paper_psheight (PrinterSetupState *state)
 {
 	double height;
 	double width;
-	if (gnome_print_job_get_page_size_from_config (state->pi->print_config,
-							  &width, &height))
+	if (gnome_print_config_get_page_size (state->gp_config, &width, &height))
 		return height;
 	else
 		return 0.0;
@@ -503,7 +502,7 @@ canvas_update (PrinterSetupState *state)
 	preview_page_create (state);
 	set_vertical_bounds (state);
 
-	unit_txt = gnome_print_config_get (state->pi->print_config, GNOME_PRINT_KEY_PREFERED_UNIT);
+	unit_txt = gnome_print_config_get (state->gp_config, GNOME_PRINT_KEY_PREFERED_UNIT);
 	if (unit_txt) {
 		gnome_print_unit_selector_set_unit (GNOME_PRINT_UNIT_SELECTOR
 						    (state->unit_selector),
@@ -659,7 +658,7 @@ cb_unit_selector_changed (GnomePrintUnitSelector *sel, PrinterSetupState *state)
 
 	unit = gnome_print_unit_selector_get_unit (sel);
 	if (unit) {
-		gnome_print_config_set (state->pi->print_config, GNOME_PRINT_KEY_PREFERED_UNIT,
+		gnome_print_config_set (state->gp_config, GNOME_PRINT_KEY_PREFERED_UNIT,
 					unit->abbr);
 		spin_button_adapt_to_unit (state->margins.header.spin, unit);
 		spin_button_adapt_to_unit (state->margins.footer.spin, unit);
@@ -708,9 +707,9 @@ do_setup_margin (PrinterSetupState *state)
 			  G_CALLBACK (cb_unit_selector_changed), state);
 	gtk_widget_show (state->unit_selector);
 
-	unit_editor_configure (&state->margins.header, state, "spin-header",
+	unit_editor_configure (&state->margins.top, state, "spin-header",
 			       MAX (pm->top.points - header, 0.0));
-	unit_editor_configure (&state->margins.footer, state, "spin-footer",
+	unit_editor_configure (&state->margins.bottom, state, "spin-footer",
 			       MAX (pm->bottom.points - footer, 0.0));
 
 	container = GTK_BOX (glade_xml_get_widget (state->gui,
@@ -1419,8 +1418,8 @@ do_setup_page (PrinterSetupState *state)
 	gui = state->gui;
 	table = GTK_TABLE (glade_xml_get_widget (gui, "table-paper-selector"));
 
-	paper_selector = gnome_paper_selector_new_with_flags (pi->print_config,
-							      GNOME_PAPER_SELECTOR_MARGINS);
+	paper_selector = gnome_paper_selector_new_with_flags (
+		state->gp_config, GNOME_PAPER_SELECTOR_MARGINS);
 	gtk_widget_show (paper_selector);
 	gtk_table_attach_defaults (table, paper_selector, 0, 1, 0, 1);
 
@@ -1510,12 +1509,12 @@ cb_do_print_ok (G_GNUC_UNUSED GtkWidget *w,
 	wbcg_edit_detach_guru (state->wbcg);
 	wbcg_edit_finish (state->wbcg, WBC_EDIT_ACCEPT, NULL);
 	fetch_settings (state);
+	print_info_load_config (state->pi, state->gp_config);
 	if (gtk_toggle_button_get_active (
 		    GTK_TOGGLE_BUTTON (
 			    glade_xml_get_widget (state->gui, 
 						  "is_default_check")))) {
 		print_info_save (state->pi);
-		printf ("Saved settings\n");
 	}
 	cmd_print_setup (WORKBOOK_CONTROL (state->wbcg),
 		print_setup_get_sheet (state), state->pi);
@@ -1660,6 +1659,7 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->sheet = sheet;
 	state->gui   = gui;
 	state->pi    = print_info_dup(sheet->print_info);
+	state->gp_config = print_info_make_config (state->pi);
 	state->customize_header = NULL;
 	state->customize_footer = NULL;
 
@@ -1676,7 +1676,8 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 static void
 printer_setup_state_free (PrinterSetupState *state)
 {
-	g_object_unref (G_OBJECT (state->gui));
+	g_object_unref (state->gui);
+	g_object_unref (state->gp_config);
 
 	print_hf_free (state->header);
 	print_hf_free (state->footer);
@@ -1738,8 +1739,8 @@ do_fetch_margins (PrinterSetupState *state)
 
 	print_info_get_margins   (state->pi, &header, &footer, &left, &right);
 
-	m->top = unit_info_to_print_unit (&state->margins.header, state);
-	m->bottom = unit_info_to_print_unit (&state->margins.footer, state);
+	m->top = unit_info_to_print_unit (&state->margins.top, state);
+	m->bottom = unit_info_to_print_unit (&state->margins.bottom, state);
 
 	m->top.points += header;
 	m->bottom.points += footer;

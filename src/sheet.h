@@ -284,13 +284,14 @@ void      sheet_move_range   (GnmExprRelocateInfo const *rinfo,
 
 
 typedef enum {
-	CLEAR_VALUES	   = 0x1,
-	CLEAR_FORMATS	   = 0x2,
-	CLEAR_COMMENTS	   = 0x4,
-	CLEAR_MERGES	   = 0x40,
-	CLEAR_NOCHECKARRAY = 0x8,
+	CLEAR_VALUES	   = 0x01,
+	CLEAR_FORMATS	   = 0x02,
+	CLEAR_COMMENTS	   = 0x04,
+	CLEAR_NOCHECKARRAY = 0x08,
 	CLEAR_NORESPAN	   = 0x10,
-	CLEAR_RECALC_DEPS  = 0x20
+	CLEAR_RECALC_DEPS  = 0x20,
+	CLEAR_MERGES	   = 0x40,
+	CLEAR_OBJECTS	   = 0x80
 } SheetClearFlags;
 
 void  sheet_clear_region (Sheet *sheet,

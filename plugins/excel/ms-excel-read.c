@@ -2328,8 +2328,9 @@ excel_read_FORMULA (BiffQuery *q, ExcelReadSheet *esheet)
 	cell = sheet_cell_fetch (esheet->sheet, col, row);
 	g_return_if_fail (cell != NULL);
 
-	d (1, fprintf (stderr,"Formula in %s!%s;\n",
-		      cell->base.sheet->name_quoted, cell_name (cell)););
+	d (1, fprintf (stderr,"Formula in %s!%s == 0x%x;\n",
+		      cell->base.sheet->name_quoted, cell_name (cell),
+		      GSF_LE_GET_GUINT32 (q->data + 16)););
 
 	/* TODO TODO TODO: Wishlist
 	 * We should make an array of minimum sizes for each BIFF type
