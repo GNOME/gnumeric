@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
 "POT-Creation-Date: 2001-12-26 00:56-0500\n"
-"PO-Revision-Date: 2001-12-31 07:32+0200\n"
+"PO-Revision-Date: 2001-12-31 08:21+0200\n"
 "Last-Translator: Dan Damian <dand@softhome.net>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Importã foi de calcul versiunea 4.[234]"
 
 #: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3894
 msgid "Financial"
-msgstr ""
+msgstr "Financiar"
 
 #: plugins/derivatives/plugin.xml.in.h:2
 msgid "Financial Derivatives"
@@ -1626,7 +1626,7 @@ msgstr "_Foaie"
 
 #: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2740
 msgid "S_pecial"
-msgstr "S_pecial"
+msgstr "S_pecialã"
 
 #: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2488
 #: src/workbook-control-gui.c:2971
@@ -2043,7 +2043,7 @@ msgstr "_Foaie"
 
 #: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2883
 msgid "_Show Detail"
-msgstr "_Afiºeazã detaliu"
+msgstr "_Afiºeazã detaliile"
 
 #: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2866
 msgid "_Solver..."
@@ -3965,11 +3965,11 @@ msgstr "ªterge celule"
 
 #: src/dialogs/delete-cells.glade.h:5
 msgid "Shift cells _left"
-msgstr "Deplaseazã celulele la _stânga"
+msgstr "Deplaseazã celule la _stânga"
 
 #: src/dialogs/delete-cells.glade.h:6
 msgid "Shift cells _up"
-msgstr "Deplaseazã celulele în s_us"
+msgstr "Deplaseazã celule în s_us"
 
 #: src/dialogs/descriptive-stats.glade.h:1
 msgid "(1 - alpha) = "
@@ -5453,7 +5453,7 @@ msgid ""
 "separators if desired and also enter a custom one)"
 msgstr ""
 "Selectaþi separatorii care apar în text (puteþi alege separatori multipli "
-"dacã doriþi ºi în acelaºi timp sã introduceþi unul personalizat)"
+"dacã doriþi ºi în acelaºi timp introduce unul personalizat)"
 
 #: src/dialogs/dialog-stf.glade.h:51
 msgid "Select the structure of the text that most closely matches the data."
@@ -5489,7 +5489,7 @@ msgstr "Indicator te_xt:"
 
 #: src/dialogs/dialog-stf.glade.h:59
 msgid "Trim :"
-msgstr "Eliminã spaþii:"
+msgstr "Eliminare spaþii:"
 
 #: src/dialogs/dialog-stf.glade.h:60
 msgid ""
@@ -5530,7 +5530,7 @@ msgstr "20_0 %"
 
 #: src/dialogs/dialog-zoom.glade.h:5
 msgid "Magnification"
-msgstr "Marire"
+msgstr "Zoom"
 
 #: src/dialogs/dialog-zoom.glade.h:6
 msgid "Sheets"
@@ -5970,7 +5970,7 @@ msgstr "Scalare"
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:141
 #: src/workbook.c:1065 src/xml-io.c:3156
 msgid "Sheet"
-msgstr "Foaia"
+msgstr "Foaie"
 
 #: src/dialogs/print.glade.h:26
 msgid "Styles with no content"
@@ -6219,7 +6219,7 @@ msgstr "Porneºte cãutarea"
 
 #: src/dialogs/search-replace.glade.h:53 src/dialogs/search.glade.h:21
 msgid "The search text is a regular expression"
-msgstr "Textul de cãutare este o expresie regularã"
+msgstr "Textul de cãutare este o expresie regulatã"
 
 #: src/dialogs/search-replace.glade.h:54 src/dialogs/search.glade.h:22
 msgid "The search text is taken literal"
@@ -6275,7 +6275,7 @@ msgstr "_Zona"
 
 #: src/dialogs/search.glade.h:35
 msgid "_Regular expression"
-msgstr "Expresie _regularã"
+msgstr "Expresie _regulatã"
 
 #: src/dialogs/search.glade.h:36
 msgid "_Row major"
@@ -6295,7 +6295,7 @@ msgstr "Avansat"
 
 #: src/dialogs/search-replace.glade.h:2
 msgid "Ask before each change"
-msgstr "Confirmã înainte de fiecare modificare"
+msgstr "Confirmã înainte de fiecare înlocuire"
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "Attempt to preserve case of text when replacing"
@@ -6411,15 +6411,15 @@ msgstr "Pãstreazã forma majusculã"
 
 #: src/dialogs/search-replace.glade.h:34
 msgid "Query"
-msgstr "Confirmã"
+msgstr "Confirmã înlocuirea"
 
 #: src/dialogs/search-replace.glade.h:35
 msgid "Query for replacement"
-msgstr "Confirmã înlocuirea"
+msgstr "Afiºeazã un dialog pentru confirmarea înlocuirii"
 
 #: src/dialogs/search-replace.glade.h:37
 msgid "Regular expression"
-msgstr "Expresie regularã"
+msgstr "Expresie regulatã"
 
 #: src/dialogs/search-replace.glade.h:38
 msgid "Replace by"
@@ -6631,11 +6631,11 @@ msgstr "_Autocompletare text în celule"
 
 #: src/dialogs/workbook-attr.glade.h:4
 msgid "_Horizontal Scrollbar"
-msgstr "Barã de defilare _orizontalã"
+msgstr "Barã defilare _orizontalã"
 
 #: src/dialogs/workbook-attr.glade.h:5
 msgid "_Vertical Scrollbar"
-msgstr "Barã de defilare _verticalã"
+msgstr "Barã defilare _verticalã"
 
 #: src/expr-name.c:241
 msgid "already defined in sheet"
