@@ -1394,7 +1394,7 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 		      GSList *criterias, gboolean unique_only)
 {
 	GSList *current, *conditions, *rows;
-	Cell const *test_cell;
+	Cell   *test_cell;
 	int    row, add_flag;
 	rows = NULL;
 

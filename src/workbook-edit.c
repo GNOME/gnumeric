@@ -15,7 +15,7 @@
 
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 #include "application.h"
 #include "complete-sheet.h"
 #include "commands.h"
@@ -217,7 +217,8 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 
 	wbcg_auto_complete_destroy (wbcg);
 
-	if (accept)
+	/* really necessary ? the commands should have taken care of it */
+	if (accept && sheet->workbook->recalc_auto)
 		workbook_recalc (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
 
 	return TRUE;
