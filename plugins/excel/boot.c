@@ -303,11 +303,51 @@ excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context,
 }
 
 
+#include <formula-types.h>
 void
 plugin_init (void)
 {
 	excel_read_init ();
 	excel_xml_read_init ();
+
+#if 0
+{
+	int i;
+	char const *name;
+
+	for (i = 0 ; i < excel_func_desc_size; i++) {
+		ExcelFuncDesc const *fd = excel_func_desc + i;
+		name = fd->name;
+		if (fd->flags & (XL_UNKNOWN | XL_MAGIC)) 
+			continue;
+		if (fd->flags & XL_XLM) {
+			if (fd->flags != XL_XLM)
+				fprintf (stderr, "%s : flags in addition to XLM\n", name);
+			if (fd->min_args != fd->max_args)
+				fprintf (stderr, "%s : min != max\n", name);
+			continue;
+		}
+		if (fd->min_args < 0)
+			fprintf (stderr, "%s : min_args < 0\n", name);
+		if (fd->max_args < 0)
+			fprintf (stderr, "%s : min_args < 0\n", name);
+		if (fd->min_args != fd->max_args) {
+			if (0 == (fd->flags & XL_VARARG))
+				fprintf (stderr, "%s : should be vararg\n", name);
+			if (fd->flags & XL_FIXED)
+				fprintf (stderr, "%s : should not be fixed\n", name);
+		} else {
+			if (fd->flags & XL_VARARG)
+				fprintf (stderr, "%s : should not be vararg\n", name);
+			if (0 == (fd->flags & XL_FIXED))
+				fprintf (stderr, "%s : should be fixed\n", name);
+		}
+		if (fd->known_args != NULL &&
+		    fd->num_known_args != strlen (fd->known_args))
+			fprintf (stderr, "%s : num_expected_args inconsistent\n", name);
+	}
+}
+#endif
 }
 
 /*

@@ -1,3 +1,14 @@
+2005-01-16  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_COLINFO) : fix the breakage
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=163236
+	* ms-formula-read.c (excel_func_desc) : Merge in the latest OOo data
+	  and some new research
+
+	* boot.c (plugin_init) : add some function table validation tests.
+	  We'll want more as the data structures get cleaned up
+
 2005-01-14  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=155719

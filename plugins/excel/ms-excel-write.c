@@ -2969,9 +2969,9 @@ excel_write_COLINFO (BiffPut *bp, ExcelWriteSheet *esheet, ColRowInfo const *ci,
 		width = esheet->gnum_sheet->cols.default_style.size_pts;
 	}
 
-	width /= scale * 72. / 96;	/* pixels at 96dpi */
 	/* center the measurement on the known default size */
 	spec = xl_find_fontspec (esheet, &scale);
+	width /= scale * 72. / 96;	/* pixels at 96dpi */
 	charwidths = (guint16)((width - 8. * spec->defcol_unit) * spec->colinfo_step +
 			       spec->colinfo_baseline + .5);
 	d (1, {

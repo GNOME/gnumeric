@@ -30097,7 +30097,7 @@ msgstr "Die aktuelle Datei unter einem anderen Namen speichern."
 
 #: src/wbcg-actions.c:1487
 msgid "Sen_d To..."
-msgstr "_Verschicken an..."
+msgstr "Verschicken _An..."
 
 #: src/wbcg-actions.c:1488
 msgid "Send the current file via email"

@@ -85,6 +85,8 @@ typedef enum {
 
 typedef struct {
 	char const *name;
+	gint8	    min_args;
+	gint8	    max_args;
 	ExcelFuncFlag	 flags;
 	guint8		 num_known_args;
 

@@ -556,7 +556,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 
 		/* If XL requires more arguments than we do
 		 * pad the remainder with missing args */
-		for ( ; num_args < ef->efunc->num_known_args ; num_args++)
+		for ( ; num_args < ef->efunc->min_args ; num_args++)
 			push_guint8 (pd, FORMULA_PTG_MISSARG);
 
 		if (ef->efunc->flags & XL_VARARG) {
