@@ -1443,7 +1443,10 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 	        g_slist_free (tmp->data);
 	g_slist_free (p1.columns);
 
-	return value_new_float (1. - pchisq (p2.sum, p1.rows - 1));
+	/* FIXME : XL docs claim df = (r-1)(c-1) not (r-1),
+	 * However, that makes no sense.
+	 */
+	return value_new_float (1. - pchisq (p2.sum, (p1.rows - 1)));
 }
 
 /***************************************************************************/
