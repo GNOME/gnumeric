@@ -54,7 +54,7 @@ workbook_private_class_init (GtkObjectClass *object_class)
 {
 	workbook_private_parent_class = gtk_type_class (gtk_object_get_type ());
 
-	//object_class->destroy = workbook_destroy;
+	/* object_class->destroy = workbook_destroy; */
 }
 
 GtkType
