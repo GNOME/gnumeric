@@ -1,3 +1,8 @@
+2000-02-28  Morten Welinder  <terra@diku.dk>
+
+	* src/parser.y (unregister_allocation): Handle special error
+ 	situation without issueing a bogus message.
+
 2000-02-28  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (sheet_selection_walk_step) : Fix typo.

@@ -148,13 +148,33 @@ unregister_allocation (const void *data)
 		return;
 
 	pos = deallocate_stack->len - 2;
-	if (pos < 0 ||
-	    data != g_ptr_array_index (deallocate_stack, pos)) {
-		g_warning ("Unbalanced allocation registration");
+	if (pos >= 0 && data == g_ptr_array_index (deallocate_stack, pos)) {
+		g_ptr_array_set_size (deallocate_stack, pos);
 		return;
 	}
 
-	g_ptr_array_set_size (deallocate_stack, pos);
+	/*
+	 * Bummer.  In certain error cases, it is possible that the parser
+	 * will reduce after it has discovered a token that will lead to an
+	 * error.  "2/16/1800 00:00" (without the quotes) is an example.
+	 * The first "00" is registered before the second division is
+	 * reduced.
+	 * 
+	 * This isn't a big deal -- we will just look at the entry just below
+	 * the top.
+	 */
+	pos -= 2;
+	if (pos >= 0 && data == g_ptr_array_index (deallocate_stack, pos)) {
+		g_ptr_array_index (deallocate_stack, pos) =
+			g_ptr_array_index (deallocate_stack, pos + 2);
+		g_ptr_array_index (deallocate_stack, pos + 1) =
+			g_ptr_array_index (deallocate_stack, pos + 3);
+
+		g_ptr_array_set_size (deallocate_stack, pos);
+		return;
+	}
+
+	g_warning ("Unbalanced allocation registration");
 }
 
 /* ------------------------------------------------------------------------- */
