@@ -1,6 +1,8 @@
 Gnumeric 1.0.12
 
-
+Jody
+	http://bugzilla.gnome.org/show_bug.cgi?id=101204
+	* Fix crash on explicitly scoped ranges in regressions
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.11
