@@ -1899,7 +1899,7 @@ static char const *help_fv = {
 	   "@DESCRIPTION="
 	   "FV computes the future value of an investment. This is based "
 	   "on periodic, constant payments and a constant interest rate. "
-	   "The interest rate per period is @rate, @term is the number of "
+	   "The interest rate per period is @rate, @nper is the number of "
 	   "periods in an annuity, @pmt is the payment made each period, "
 	   "@pv is the present value and @type is when the payment is made.\n"
 	   "\n"
