@@ -43,8 +43,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.56cvs\n"
-"POT-Creation-Date: 2000-06-19 22:02-0400\n"
-"PO-Revision-Date: 2000-06-22 17:34+02:00\n"
+"POT-Creation-Date: 2000-06-23 06:54+0200\n"
+"PO-Revision-Date: 2000-06-23 07:01+02:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -151,24 +151,24 @@ msgstr "#UNBEKANNT!"
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:3671
+#: plugins/excel/ms-excel-read.c:3690
 msgid "No book or workbook streams found."
 msgstr "Keine book- oder workbook-Streams gefunden."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:3975
+#: plugins/excel/ms-excel-read.c:3994
 msgid "Password protected workbooks are not supported yet."
 msgstr "Passwortgeschützte Arbeitsbücher werden noch nicht unterstützt."
 
-#: plugins/excel/ms-excel-read.c:4147
+#: plugins/excel/ms-excel-read.c:4167
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kann kein gültiges MS-Excel-Arbeitsbuch auffinden"
 
-#: plugins/excel/ms-excel-write.c:3383
+#: plugins/excel/ms-excel-write.c:3404
 msgid "Too many rows for this format"
 msgstr "Zu viele Zeilen für dies Format"
 
-#: plugins/excel/ms-excel-write.c:3466
+#: plugins/excel/ms-excel-write.c:3487
 msgid "Can't open stream for writing\n"
 msgstr "Kann keinen Stream öffen, um zu schreiben\n"
 
@@ -718,7 +718,7 @@ msgstr ""
 msgid "Skewness"
 msgstr ""
 
-#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:404
+#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:397
 msgid "Range"
 msgstr "Wertebereich"
 
@@ -1263,16 +1263,16 @@ msgid "Hide rows"
 msgstr "Zeilen verbergen"
 
 #. FIXME : improve on this
-#: src/commands.c:1838
+#: src/commands.c:1839
 msgid "Moving cells"
 msgstr "Verschiebe Zellen"
 
-#: src/commands.c:1976
+#: src/commands.c:1977
 #, c-format
 msgid "Pasting into %s"
 msgstr "In %s einfügen"
 
-#: src/commands.c:2099
+#: src/commands.c:2100
 msgid "Autofill"
 msgstr ""
 
@@ -1892,7 +1892,7 @@ msgstr "_Typ"
 msgid "Display the value exactly as it was entered"
 msgstr "Den Wert genauso darstellen, wie er eingegeben wurde"
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:402
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:395
 msgid "Number"
 msgstr "Zahl"
 
@@ -2753,28 +2753,28 @@ msgstr "dann nach"
 msgid "delete cells"
 msgstr "Zellen löschen"
 
-#: src/dialogs/dialog-function-wizard.c:394
+#: src/dialogs/dialog-function-wizard.c:387
 #, c-format
 msgid "Value%d"
 msgstr "Wert%d"
 
-#: src/dialogs/dialog-function-wizard.c:401 src/functions/fn-string.c:1337
+#: src/dialogs/dialog-function-wizard.c:394 src/functions/fn-string.c:1337
 msgid "String"
 msgstr "Zeichenkette"
 
-#: src/dialogs/dialog-function-wizard.c:403
+#: src/dialogs/dialog-function-wizard.c:396
 msgid "Boolean"
 msgstr "Wahrheitswert"
 
-#: src/dialogs/dialog-function-wizard.c:405
+#: src/dialogs/dialog-function-wizard.c:398
 msgid "Array"
 msgstr "Feld"
 
-#: src/dialogs/dialog-function-wizard.c:406
+#: src/dialogs/dialog-function-wizard.c:399
 msgid "Range/Array"
 msgstr "Wertebereich/Feld"
 
-#: src/dialogs/dialog-function-wizard.c:408
+#: src/dialogs/dialog-function-wizard.c:401
 msgid "Any"
 msgstr "Irgend einer"
 
@@ -2784,17 +2784,17 @@ msgid "Goal seeking with cell %s found a solution"
 msgstr "Zielsuche mit Zelle %s war erfolgreich"
 
 #: src/dialogs/dialog-goal-seek.c:204
-#, c-format
+#, c-format, ycp-format
 msgid "Target value:   %12.2f"
 msgstr "Zielwert:       %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:207
-#, c-format
+#, c-format, ycp-format
 msgid "Current value:  %12.2f"
 msgstr "Aktueller Wert: %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:210
-#, c-format
+#, c-format, ycp-format
 msgid "Solution:       %12.2f"
 msgstr "Lösung:         %12.2f"
 
@@ -5791,17 +5791,6 @@ msgstr ""
 "@DESCRIPTION=Die Funktion DAVERAGE gibt das Mittel der Werte in einer Liste "
 "oder Datenbank zurück, die den angegebenen Kriterien entsprechen.\n"
 
-#: src/functions/fn-database.c:499
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5813,16 +5802,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(datenbank,feld,kriterien)\n"
 "@DESCRIPTION=Die Funktion DCOUNT zählt die Zellen, die Zahlen in einer "
 "Datenbank enthalten, die den angegebenen Bedingungen entsprechen.\n"
-
-#: src/functions/fn-database.c:568
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5836,16 +5815,6 @@ msgstr ""
 "@DESCRIPTION=Die Funktion DCOUNTA zählt die Zellen, die Daten in einer "
 "Datenbank enthalten, die den angegebenen Bedingungen entsprechen.\n"
 
-#: src/functions/fn-database.c:629
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5857,17 +5826,6 @@ msgstr ""
 "@SYNTAX=DGET(datenbank,feld,kriterien)\n"
 "@DESCRIPTION=Die Funktion DGET gibt den einzelnen Wert einer Spalte zurück, "
 "die den angegebenen Kriterien entspricht.\n"
-
-#: src/functions/fn-database.c:687
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -5881,16 +5839,6 @@ msgstr ""
 "@DESCRIPTION=Die Funktion DMAX gibt die höchste Zahl in einer Spalte zurück, "
 "die den angegebenen Kriterien entspricht.\n"
 
-#: src/functions/fn-database.c:755
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
-
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5902,15 +5850,6 @@ msgstr ""
 "@SYNTAX=DMIN(datenbank,feld,kriterien)\n"
 "@DESCRIPTION=Die Funktion DMIN gibt die niedrigste Zahl in einer Spalte "
 "zurück, die den angegebenen Kriterien entspricht.\n"
-
-#: src/functions/fn-database.c:826
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
 
 #: src/functions/fn-database.c:888
 msgid ""
@@ -5924,14 +5863,6 @@ msgstr ""
 "@DESCRIPTION=Die Funktion DPRODUCT gibt das Produkt der Zahlen in einer "
 "Spalte zurück, die den angegebenen Kriterien entspricht.\n"
 
-#: src/functions/fn-database.c:896
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
-
 #: src/functions/fn-database.c:955
 msgid ""
 "@FUNCTION=DSTDEV\n"
@@ -5941,15 +5872,6 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:964
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5957,15 +5879,6 @@ msgid ""
 "@DESCRIPTION=DSTDEVP function returns the standard deviation of a population "
 "based on the entire populations. The populations consists of numbers that "
 "match conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:1030
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
 msgstr ""
 
 #: src/functions/fn-database.c:1089
@@ -5980,15 +5893,6 @@ msgstr ""
 "@DESCRIPTION=Die Funktion DSUM gibt die Summe der Zahlen in einer Spalte "
 "zurück, die den angegebenen Kriterien entspricht.\n"
 
-#: src/functions/fn-database.c:1097
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
-
 #: src/functions/fn-database.c:1156
 msgid ""
 "@FUNCTION=DVAR\n"
@@ -5998,15 +5902,6 @@ msgid ""
 "specified. \n"
 msgstr ""
 
-#: src/functions/fn-database.c:1165
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
-
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -6014,15 +5909,6 @@ msgid ""
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
-msgstr ""
-
-#: src/functions/fn-database.c:1233
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
 msgstr ""
 
 #: src/functions/fn-database.c:1293
@@ -11892,11 +11778,11 @@ msgid "<Has not been set>"
 msgstr "<Ist nicht gesetzt>"
 
 #: src/style.c:449
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Gnumeric failed to find a suitable default font.\n"
-"Please verify your gnome-print installation\n"
-".Your fontmap file %s\n"
+"Please verify your gnome-print installation.\n"
+"Your fontmap file %s.\n"
 "\n"
 "If you still have no luck, please file a proper bug report (see\n"
 "http://bugs.gnome.org) including the following extra items:\n"
@@ -11914,26 +11800,31 @@ msgid ""
 msgstr ""
 "Gnumeric konnte keine angemessene Standardschriftart finden.\n"
 "\n"
-"Bitte überprüfen Sie Ihre Installation von gnome-print, und dass Ihre\n"
-"fontmap-Datei (typischerweise in /usr/local/share/fonts/fontmap) nicht\n"
-"leer oder fast leer ist.\n"
+"Bitte überprüfen Sie Ihre Installation von gnome-print.\n"
+"Ihre fontmap-Datei %s.\n"
 "\n"
 "Wenn Ihnen das immer noch nicht weiterhilft, bitte reichen Sie einen\n"
-"vollständig ausgefüllten Fehlerbericht ein (siehe http://bugs.gnome.org),\n"
-"der folgende weitere Informationen enthält:\n"
+"vollständig ausgefüllten Fehlerbericht ein (siehe http://bugs.gnome.org);\n"
+"der Fehlerbericht sollte zumindest diese Informationen enthalten:\n"
 "\n"
-"1. Die Werte der Umgebungsvariablen LC_ALL und LANG\n"
-"2. Ihre fontmap-Datei (siehe oben)\n"
+"1. Den Inhalt der fontmap-Datei, wenn diese vorhanden ist.\n"
+"   (Die Datei ist normalerweise in %s zu finden)\n"
+"2. Der Wert der Umgebungsvariablen LC_ALL\n"
+"   LC_ALL=%s\n"
+"3. Der Wert der Umgebungsvariablen LANG\n"
+"   LANG=%s\n"
+"4. Die Version von libxml, die von Gnumeric benutzt wird.\n"
+"   Verwenden Sie »ldd«, um an diese Information zu gelangen.\n"
 "\n"
-"Danke -- Ihr Gnumeric-Team\n"
+"Danke -- das Gnumeric-Team\n"
 
 #: src/style.c:466
 msgid "does not have a valid entry for Helvetica"
-msgstr "hat keinen gültigen Eintrag für Helvetica."
+msgstr "hat keinen gültigen Eintrag für Helvetica"
 
 #: src/style.c:467
 msgid "could not be found in the expected location"
-msgstr "konnte nicht an der erwarteten Stelle gefunden werden."
+msgstr "konnte nicht an der erwarteten Stelle gefunden werden"
 
 #: src/value.c:545
 msgid "Terminate"
@@ -12751,7 +12642,9 @@ msgstr "Aufsteigend sortieren"
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
-msgstr "Die markierte Region in aufsteigender Ordnung sortieren, basierend auf der ersten markierten Spalte."
+msgstr ""
+"Die markierte Region in aufsteigender Ordnung sortieren, basierend auf der "
+"ersten markierten Spalte."
 
 #: src/workbook.c:1564
 msgid "Sort Descending"
@@ -12761,7 +12654,9 @@ msgstr "Absteigend sortieren"
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
-msgstr "Die markierte Region in absteigender Ordnung sortieren, basierend auf der ersten markierten Spalte."
+msgstr ""
+"Die markierte Region in absteigender Ordnung sortieren, basierend auf der "
+"ersten markierten Spalte."
 
 #: src/workbook.c:1571
 msgid "Create a Graph"
@@ -12769,7 +12664,8 @@ msgstr "Eine Grafik erzeugen"
 
 #: src/workbook.c:1571
 msgid "Invokes the graph guru to help create a graph"
-msgstr "Den Grafik-Druiden zur Unterstützung beim Erzeugen einer Grafik aufrufen"
+msgstr ""
+"Den Grafik-Druiden zur Unterstützung beim Erzeugen einer Grafik aufrufen"
 
 #: src/workbook.c:1574
 msgid "Insert Object"
