@@ -756,19 +756,18 @@ plugin_info_read (GnmPlugin *pinfo, const gchar *dir_name, ErrorInfo **ret_error
 			val = xmlNodeGetContent (node);
 			name = g_strdup ((gchar *)val);
 			xmlFree (val);
-		} else {
+		} else
 			name = NULL;
-		}
+
 		node = e_xml_get_child_by_name_by_lang_list (
 		       information_node, "description", NULL);
 		if (node != NULL) {
 			val = xmlNodeGetContent (node);
 			description = g_strdup ((gchar *)val);
 			xmlFree (val);
-		} else {
+		} else
 			description = NULL;
-		}
-		if (e_xml_get_child_by_name (tree, (xmlChar const *)"require_explicit_enabling"))
+		if (e_xml_get_child_by_name (information_node, (xmlChar const *)"require_explicit_enabling"))
 			require_explicit_enabling = TRUE;
 	} else {
 		name = NULL;
@@ -1699,13 +1698,13 @@ plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins)
 }
 
 static void
-ghf_collect_new_plugin_ids (gpointer key, gpointer value, gpointer user_data)
+ghf_collect_new_plugins (gpointer ignored,
+			 PluginFileState *s, GSList **plugin_list)
 {
-	PluginFileState *state = value;
-	GSList **new_ids = user_data;
-
-	if (state->age == PLUGIN_NEW) {
-		GNM_SLIST_PREPEND (*new_ids, g_strdup (state->plugin_id));
+	if (s->age == PLUGIN_NEW) {
+		GnmPlugin *plugin = plugins_get_plugin_by_id (s->plugin_id);
+		if (plugin != NULL && !plugin->require_explicit_enabling)
+			GNM_SLIST_PREPEND (*plugin_list, plugin);
 	}
 }
 
@@ -1721,7 +1720,7 @@ plugins_init (CommandContext *context)
 {
 	GSList *error_list = NULL;
 	ErrorInfo *error;
-	GSList *saved_active_ids, *plugin_list, *state_str_list;
+	GSList *plugin_list, *state_str_list;
 
 	gnumeric_time_counter_push ();
 
@@ -1734,9 +1733,8 @@ plugins_init (CommandContext *context)
 		PluginFileState *state;
 
 		state = plugin_file_state_from_string (state_str);
-		if (state != NULL) {
+		if (state != NULL)
 			g_hash_table_insert (plugin_file_state_dir_hash, state->dir_name, state);
-		}
 	);
 	g_slist_free_custom (state_str_list, g_free);
 	plugin_file_state_hash_changed = FALSE;
@@ -1754,25 +1752,21 @@ plugins_init (CommandContext *context)
 			_("Errors while reading info about available plugins."), error));
 	}
 
-	/* activate all previously active and (optionally) new plugins */
-	saved_active_ids = gnm_app_prefs->active_plugins;
-	if (gnm_app_prefs->activate_new_plugins) {
+	/* get descriptors for all previously active plugins */
+	plugin_list = NULL;
+	GNM_SLIST_FOREACH (gnm_app_prefs->active_plugins, char, plugin_id,
+		GnmPlugin *plugin = plugins_get_plugin_by_id (plugin_id);
+		if (plugin != NULL)
+			GNM_SLIST_PREPEND (plugin_list, plugin);
+	);
+
+	/* get descriptors for new plugins */
+	if (gnm_app_prefs->activate_new_plugins)
 		g_hash_table_foreach (
 			plugin_file_state_dir_hash,
-			ghf_collect_new_plugin_ids,
-			&saved_active_ids);
-	}
-	plugin_list = NULL;
-	GNM_SLIST_FOREACH (saved_active_ids, char, plugin_id,
-		GnmPlugin *plugin;
+			(GHFunc) ghf_collect_new_plugins,
+			&plugin_list);
 
-		plugin = plugins_get_plugin_by_id (plugin_id);
-		/* pinfo->require_explicit_enabling  */
-		if (plugin != NULL) {
-			GNM_SLIST_PREPEND (plugin_list, plugin);
-		}
-	);
-	g_slist_free_custom (saved_active_ids, g_free);
 	plugin_list = g_slist_reverse (plugin_list);
 	plugin_db_activate_plugin_list (plugin_list, &error);
 	g_slist_free (plugin_list);

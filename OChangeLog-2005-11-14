@@ -1,5 +1,15 @@
 2002-11-06  Jody Goldberg <jody@gnome.org>
 
+	* src/plugin.c (ghf_collect_new_plugins) : don't bother copying ids
+	  for reading later.  Respect the new require_explicit_enabling flag
+	  so that a plugin like a real time data feed or corba interface will
+	  only be enabled if the user explicitly requests it.
+	(plugins_init) : Do active plugins 1st and don't free things, that
+	  memory belongs to the Application.  Then do the new plugins and
+	  don't bother copying then freeing memory.
+
+2002-11-06  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet.c (cb_clear_rendered_values) : new.
 	(sheet_range_calc_spans) : this should be renamed eventually.
 	  It no longer calculates the spans, rather it just honours the flags

@@ -3,6 +3,7 @@
 	<information>
 		<_name>Gnome Basic</_name>
 		<_description>Enables Gnome Basic support</_description>
+		<require_explicit_enabling/>
 	</information>
 	<dependencies>
 		<dep_plugin id="Gnumeric_Excel" force_load="TRUE"/>

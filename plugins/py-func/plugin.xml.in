@@ -3,6 +3,7 @@
 	<information>
 		<_name>Python functions</_name>
 		<_description>Sample Python plugin providing some (useless) functions.</_description>
+		<require_explicit_enabling/>
 	</information>
 	<loader type="Gnumeric_PythonLoader:python">
 		<attribute name="module_name" value="py_func"/>

@@ -3,6 +3,7 @@
 	<information>
 		<_name>Perl</_name>
 		<_description>Enables the creation of functions in Perl</_description>
+		<require_explicit_enabling/>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="perl.la"/>

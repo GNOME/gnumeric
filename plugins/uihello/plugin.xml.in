@@ -3,6 +3,7 @@
 	<information>
 		<_name>UI Hello</_name>
 		<_description>Hello World plugin using ui service</_description>
+		<require_explicit_enabling/>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="plugin.la"/>
