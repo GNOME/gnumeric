@@ -16,6 +16,8 @@
 #include "style-color.h"
 #include "error-info.h"
 #include "value.h"
+#include "number-match.h"
+#include "format.h"
 
 #include <string.h>
 #include <gal/widgets/e-colors.h>
@@ -49,7 +51,6 @@ gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
 /*
  * TODO:
  * Get rid of trailing newlines /whitespace.
- * Wrap overlong lines.
  */
 void
 gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, char const *str)
@@ -61,6 +62,23 @@ gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, char const *str)
 					 GTK_BUTTONS_OK, str);
 
 	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
+}
+
+GtkWindow *
+gnumeric_notice_nonmodal (GtkWindow *parent, GtkMessageType type, char const *str)
+{
+	GtkWidget *dialog;
+
+	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_DESTROY_WITH_PARENT, type,
+					 GTK_BUTTONS_OK, str);
+
+	gtk_signal_connect_object (GTK_OBJECT (dialog), "response",
+				   GTK_SIGNAL_FUNC (gtk_widget_destroy), 
+				   GTK_OBJECT (dialog));
+
+	gtk_widget_show (dialog);
+
+	return GTK_WINDOW (dialog);
 }
 
 
@@ -172,7 +190,7 @@ gnumeric_dialog_run (WorkbookControlGUI *wbcg, GtkDialog *dialog)
 	}
 
 	result = gtk_dialog_run (dialog);
-	gtk_widget_destroy (dialog);	
+	gtk_widget_destroy (GTK_WIDGET (dialog));	
 	return result;
 }
 

@@ -1,3 +1,7 @@
+2002-01-26  Andreas Guelzow <aguelzow@taliesin.ca>
+
+	* POTFILES.in : removed src/dialogs/autosave-prompt.glade
+
 2002-01-23  Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.

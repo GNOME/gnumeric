@@ -1,5 +1,13 @@
 2002-01-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* autosave-prompt.glade : removed
+	* dialog-analysis-tools.c synchronize tool_states better, change 
+	  arguments for all calls of error_in_entry
+	(tools_destroy_warning) : new callback
+	(error_in_entry) : make warning message non-modal
+
+2002-01-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-analysis-tools.c (entry_to_float) : moved to gui-utils.c/h
 	(entry_to_int) : ditto
 	(float_to_entry) : ditto

@@ -89,52 +89,35 @@ typedef enum {
 #define ANOVA_SINGLE_KEY      "analysistools-anova-single-factor-dialog"
 #define RANDOM_KEY            "analysistools-random-dialog"
 
+#define GENERIC_TOOL_STATE    	ToolType  const type;\
+	GladeXML  *gui;\
+	GtkWidget *dialog;\
+	GnumericExprEntry *input_entry;\
+	GnumericExprEntry *input_entry_2;\
+	GnumericExprEntry *output_entry;\
+	GtkWidget *ok_button;\
+	GtkWidget *cancel_button;\
+	GtkWidget *apply_button;\
+	GtkWidget *help_button;\
+	char *help_link;\
+	char *input_var1_str;\
+	char *input_var2_str;\
+	GtkWidget *new_sheet;\
+	GtkWidget *new_workbook;\
+	GtkWidget *output_range;\
+	Sheet	  *sheet;\
+	Workbook  *wb;\
+	WorkbookControlGUI  *wbcg;\
+	GtkAccelGroup *accel;\
+	GtkWidget *warning_dialog;
 
 
 typedef struct {
-	ToolType  const type;
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *input_entry_2;
-	GnumericExprEntry *output_entry;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *apply_button;
-	GtkWidget *help_button;
-	char *help_link;
-	char *input_var1_str;
-	char *input_var2_str;
-	GtkWidget *new_sheet;
-	GtkWidget *new_workbook;
-	GtkWidget *output_range;
-	Sheet	  *sheet;
-	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
-	GtkAccelGroup *accel;
+	GENERIC_TOOL_STATE
 } GenericToolState;
 
 typedef struct {
-	ToolType  const type;
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *input_entry_2;
-	GnumericExprEntry *output_entry;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *apply_button;
-	GtkWidget *help_button;
-	char *help_link;
-	char *input_var1_str;
-	char *input_var2_str;
-	GtkWidget *new_sheet;
-	GtkWidget *new_workbook;
-	GtkWidget *output_range;
-	Sheet	  *sheet;
-	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
-	GtkAccelGroup *accel;
+	GENERIC_TOOL_STATE
 
 	GtkWidget *predetermined_button;
 	GtkWidget *calculated_button;
@@ -145,26 +128,7 @@ typedef struct {
 } HistogramToolState;
 
 typedef struct {
-	ToolType  const type;
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *input_entry_2;
-	GnumericExprEntry *output_entry;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *apply_button;
-	GtkWidget *help_button;
-	char *help_link;
-	char *input_var1_str;
-	char *input_var2_str;
-	GtkWidget *new_sheet;
-	GtkWidget *new_workbook;
-	GtkWidget *output_range;
-	Sheet	  *sheet;
-	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
-	GtkAccelGroup *accel;
+	GENERIC_TOOL_STATE
 
 	GtkWidget *summary_stats_button;
 	GtkWidget *mean_stats_button;
@@ -176,26 +140,7 @@ typedef struct {
 } DescriptiveStatState;
 
 typedef struct {
-	ToolType  const type;
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *input_entry_2;
-	GnumericExprEntry *output_entry;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *apply_button;
-	GtkWidget *help_button;
-	char *help_link;
-	char *input_var1_str;
-	char *input_var2_str;
-	GtkWidget *new_sheet;
-	GtkWidget *new_workbook;
-	GtkWidget *output_range;
-	Sheet	  *sheet;
-	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
-	GtkAccelGroup *accel;
+	GENERIC_TOOL_STATE
 
 	GtkWidget *paired_button;
 	GtkWidget *unpaired_button;
@@ -217,26 +162,7 @@ typedef struct {
 } TTestState;
 
 typedef struct {
-	ToolType  const type;
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *input_entry_2;
-	GnumericExprEntry *output_entry;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *apply_button;
-	GtkWidget *help_button;
-	char *help_link;
-	char *input_var1_str;
-	char *input_var2_str;
-	GtkWidget *new_sheet;
-	GtkWidget *new_workbook;
-	GtkWidget *output_range;
-	Sheet	  *sheet;
-	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
-	GtkAccelGroup *accel;
+	GENERIC_TOOL_STATE
 
 	GtkWidget *periodic_button;
 	GtkWidget *random_button;
@@ -250,176 +176,44 @@ typedef struct {
 } SamplingState;
 
 typedef struct {
-	ToolType  const type;
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *input_entry_2;
-	GnumericExprEntry *output_entry;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *apply_button;
-	GtkWidget *help_button;
-	char *help_link;
-	char *input_var1_str;
-	char *input_var2_str;
-	GtkWidget *new_sheet;
-	GtkWidget *new_workbook;
-	GtkWidget *output_range;
-	Sheet	  *sheet;
-	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
-	GtkAccelGroup *accel;
+	GENERIC_TOOL_STATE
 
 	GtkWidget *interval_entry;
 } AverageToolState;
 
 typedef struct {
-        ToolType  const type;
-        GladeXML  *gui;
-        GtkWidget *dialog;
-        GnumericExprEntry *input_entry;
-        GnumericExprEntry *input_entry_2;
-        GnumericExprEntry *output_entry;
-        GtkWidget *ok_button;
-        GtkWidget *cancel_button;
-        GtkWidget *apply_button;
-        GtkWidget *help_button;
-        char *help_link;
-        char *input_var1_str;
-        char *input_var2_str;
-        GtkWidget *new_sheet;
-        GtkWidget *new_workbook;
-        GtkWidget *output_range;
-        Sheet  *sheet;
-        Workbook  *wb;
-        WorkbookControlGUI  *wbcg;
-        GtkAccelGroup *accel;
+	GENERIC_TOOL_STATE
 
         GtkWidget *damping_fact_entry;
 } ExpSmoothToolState;
 
 typedef struct {
-	ToolType  const type;
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *input_entry_2;
-	GnumericExprEntry *output_entry;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *apply_button;
-	GtkWidget *help_button;
-	char *help_link;
-	char *input_var1_str;
-	char *input_var2_str;
-	GtkWidget *new_sheet;
-	GtkWidget *new_workbook;
-	GtkWidget *output_range;
-	Sheet	  *sheet;
-	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
-	GtkAccelGroup *accel;
+	GENERIC_TOOL_STATE
 
 	GtkWidget *confidence_entry;
 } RegressionToolState;
 
 typedef struct {
-	ToolType  const type;
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *input_entry_2;
-	GnumericExprEntry *output_entry;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *apply_button;
-	GtkWidget *help_button;
-	char *help_link;
-	char *input_var1_str;
-	char *input_var2_str;
-	GtkWidget *new_sheet;
-	GtkWidget *new_workbook;
-	GtkWidget *output_range;
-	Sheet	  *sheet;
-	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
-	GtkAccelGroup *accel;
+	GENERIC_TOOL_STATE
 
 	GtkWidget *alpha_entry;
 } AnovaSingleToolState;
+
 typedef struct {
-	ToolType  const type;
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *input_entry_2;
-	GnumericExprEntry *output_entry;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *apply_button;
-	GtkWidget *help_button;
-	char *help_link;
-	char *input_var1_str;
-	char *input_var2_str;
-	GtkWidget *new_sheet;
-	GtkWidget *new_workbook;
-	GtkWidget *output_range;
-	Sheet	  *sheet;
-	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
-	GtkAccelGroup *accel;
+	GENERIC_TOOL_STATE
 
 	GtkWidget *alpha_entry;
 	GtkWidget *replication_entry;
 } AnovaTwoFactorToolState;
 
 typedef struct {
-	ToolType  const type;
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *input_entry_2;
-	GnumericExprEntry *output_entry;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *apply_button;
-	GtkWidget *help_button;
-	char *help_link;
-	char *input_var1_str;
-	char *input_var2_str;
-	GtkWidget *new_sheet;
-	GtkWidget *new_workbook;
-	GtkWidget *output_range;
-	Sheet	  *sheet;
-	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
-	GtkAccelGroup *accel;
+	GENERIC_TOOL_STATE
 
 	GtkWidget *alpha_entry;
 } FTestToolState;
 
 typedef struct {
-	ToolType  const type;
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GnumericExprEntry *input_entry;
-	GnumericExprEntry *input_entry_2;
-	GnumericExprEntry *output_entry;
-	GtkWidget *ok_button;
-	GtkWidget *cancel_button;
-	GtkWidget *apply_button;
-	GtkWidget *help_button;
-	char *help_link;
-	char *input_var1_str;
-	char *input_var2_str;
-	GtkWidget *new_sheet;
-	GtkWidget *new_workbook;
-	GtkWidget *output_range;
-	Sheet	  *sheet;
-	Workbook  *wb;
-	WorkbookControlGUI  *wbcg;
-	GtkAccelGroup *accel;
+	GENERIC_TOOL_STATE
 
 	GtkWidget *distribution_table;
         GtkWidget *distribution_combo;
@@ -490,6 +284,25 @@ gnumeric_expr_entry_parse_to_list (GnumericExprEntry *ee, Sheet *sheet)
 }
 
 /**
+ * warning_destroy:
+ * @window:
+ * @state:
+ *
+ * Destroy the dialog and NULL the field in the state structure.
+ *
+ **/
+static gboolean
+tools_destroy_warning (GtkObject *w, GenericToolState  *state)
+{
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	state->warning_dialog = NULL;
+
+	return FALSE;
+}
+
+/**
  * error_in_entry:
  *
  * @wbcg:
@@ -499,9 +312,15 @@ gnumeric_expr_entry_parse_to_list (GnumericExprEntry *ee, Sheet *sheet)
  * Show an error dialog and select corresponding entry 
  */
 static void
-error_in_entry (WorkbookControlGUI *wbcg, GtkWidget *entry, const char *err_str)
+error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str)
 {
-        gnumeric_notice (wbcg, GTK_MESSAGE_ERROR, err_str);
+	if (state->warning_dialog != NULL)
+		gtk_widget_destroy (state->warning_dialog);
+
+        state->warning_dialog = GTK_WIDGET (gnumeric_notice_nonmodal ((GtkWindow *) state->dialog, 
+							  GTK_MESSAGE_ERROR, err_str));
+	gtk_signal_connect (GTK_OBJECT (state->warning_dialog), "destroy",
+			    GTK_SIGNAL_FUNC (tools_destroy_warning), state);
 
 	gtk_widget_grab_focus (entry);
 	gtk_entry_set_position (GTK_ENTRY (entry), 0);
@@ -984,20 +803,20 @@ corr_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	case 0: gtk_widget_destroy (state->dialog);
 		break;
 	case 1:
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
 				_("The selected input rows must have equal size!"));
 		break;
 	case 2:
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
 				_("The selected input columns must have equal size!"));
 		break;
 	case 3:
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
 				_("The selected input areas must have equal size!"));
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);
 		break;
 	}
@@ -1033,6 +852,7 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "correlation-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
@@ -1099,20 +919,20 @@ cov_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	case 0: gtk_widget_destroy (state->dialog);
 		break;
 	case 1:
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
 				_("The selected input rows must have equal size!"));
 		break;
 	case 2:
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
 				_("The selected input columns must have equal size!"));
 		break;
 	case 3:
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
 				_("The selected input areas must have equal size!"));
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);
 		break;
 	}
@@ -1148,6 +968,7 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "covariance-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
@@ -1239,7 +1060,7 @@ cb_desc_stat_tool_ok_clicked (GtkWidget *button, DescriptiveStatState *state)
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);
 		break;
 	}
@@ -1379,6 +1200,7 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "descriptive-statistics-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
@@ -1443,7 +1265,7 @@ rank_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);
 		break;
 	}
@@ -1479,6 +1301,7 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "rank-and-percentile-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
@@ -1580,14 +1403,14 @@ ttest_tool_ok_clicked_cb (GtkWidget *button, TTestState *state)
 	case TTEST_ZTEST:
 		err = entry_to_float (GTK_ENTRY (state->var1_variance), &var1, TRUE);
 		if (err != 0 || var1 <= 0.0) {
-			error_in_entry (state->wbcg, GTK_WIDGET (state->var1_variance),
+			error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->var1_variance),
 					_("Please enter a valid\n"
 					  "population variance for variable 1."));
 			return;
 		}
 		err = entry_to_float (GTK_ENTRY (state->var2_variance), &var2, TRUE);
 		if (err != 0 || var2 <= 0.0) {
-			error_in_entry (state->wbcg, GTK_WIDGET (state->var2_variance),
+			error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->var2_variance),
 					_("Please enter a valid\n"
 					  "population variance for variable 2."));
 			return;
@@ -1607,13 +1430,13 @@ ttest_tool_ok_clicked_cb (GtkWidget *button, TTestState *state)
 		gtk_widget_destroy (state->dialog);
 		break;
 	case 1:
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
 				_("The two input ranges must have the same size."));
 		
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);
 		break;
 	}
@@ -1890,6 +1713,7 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->invocation = test;
 	state->help_link = "t-test.html";
 	state->input_var1_str = _("Var_iable 1 Range:");
@@ -1956,16 +1780,16 @@ ftest_tool_ok_clicked_cb (GtkWidget *button, FTestToolState *state)
 	case 0: gtk_widget_destroy (state->dialog);
 		break;
 	case 1:
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
 				_("Each variable should have at least 2 observations!"));
 		break;
 	case 2:
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry_2),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry_2),
 				_("Each variable should have at least 2 observations!"));
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);		
 		break;
 	}
@@ -2077,6 +1901,7 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "ftest-two-sample-for-variances-tool.html";
 	state->input_var1_str = _("Var_iable 1 Range");
 	state->input_var2_str = _("_Variable 2 Range");
@@ -2189,7 +2014,7 @@ sampling_tool_ok_clicked_cb (GtkWidget *button, SamplingState *state)
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);		
 		break;
 	}
@@ -2331,6 +2156,7 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "sampling-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
@@ -2692,21 +2518,21 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		}
 		break;
 	case 1: /* non-numeric probability (DiscreteDistribution) */
-		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->par1_expr_entry),
 				_("The probability input range contains a non-numeric value.\n"
 				  "All probabilities must be non-negative numbers."));
 		break;
         case 2: /* probabilities are all zero  (DiscreteDistribution) */
-		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->par1_expr_entry),
 				_("The probabilities may not all be 0!"));
 		break;
         case 3: /* negative probability  (DiscreteDistribution) */
-		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->par1_expr_entry),
 				_("The probability input range contains a negative number.\n"
 				"All probabilities must be non-negative!"));
 		break;
         case 4: /* value is empty  (DiscreteDistribution) */
-		error_in_entry (state->wbcg, GTK_WIDGET (state->par1_expr_entry), 
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->par1_expr_entry), 
 				_("None of the values in the value range may be empty!"));
 		break;
 	default:
@@ -2880,6 +2706,7 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "random-number-generation-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
@@ -3149,6 +2976,7 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "regression-tool.html";
 
 	if (dialog_regression_tool_init (state)) {
@@ -3212,7 +3040,7 @@ exp_smoothing_tool_ok_clicked_cb (GtkWidget *button, ExpSmoothToolState *state)
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);
 		break;
 	}
@@ -3318,6 +3146,7 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "exp-smoothing-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
@@ -3385,7 +3214,7 @@ average_tool_ok_clicked_cb (GtkWidget *button, AverageToolState *state)
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);		
 		break;
 	}
@@ -3487,7 +3316,9 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	(*(ToolType *)state) = TOOL_AVERAGE;
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->warning_dialog = NULL;
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "moving-average-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
@@ -3551,7 +3382,7 @@ fourier_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);
 		break;
 	}
@@ -3588,6 +3419,7 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "fourier-analysis-tool.html";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
@@ -3734,13 +3566,13 @@ histogram_tool_ok_clicked_cb (GtkWidget *button, HistogramToolState *state)
 		gtk_widget_destroy (state->dialog);
 		break;
         case 2:
-	        error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry_2),
+	        error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry_2),
 				_("Each row of the bin range should contain one numeric value\n"
 				  "(ignoring the label if applicable)."));
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);		
 		break;
 	}
@@ -3945,6 +3777,7 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "histogram-tool.html";
 	state->input_var1_str = _("_Input Range:");
 	state->input_var2_str = _("Bin _Range:");
@@ -4014,7 +3847,7 @@ anova_single_tool_ok_clicked_cb (GtkWidget *button, AnovaSingleToolState *state)
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);		
 		break;
 	}
@@ -4123,6 +3956,7 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "anova.html#ANOVA-SINGLE-FACTOR-TOOL";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;
@@ -4191,29 +4025,29 @@ anova_two_factor_tool_ok_clicked_cb (GtkWidget *button, AnovaTwoFactorToolState 
 		gtk_widget_destroy (state->dialog);
 		break;
 	case 1:
-		error_in_entry (state->wbcg, state->replication_entry,
+		error_in_entry ((GenericToolState *) state, state->replication_entry,
 				_("Each sample must contain the same number "
 				  "of rows."));
 		break;
 	case 2:
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
 				_("Given input range contains non-numeric "
 				  "data."));
 		break;
 	case 3:
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry),
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
 				_("The given input range should contain at "
 				  "least two columns of data and the "
 				  "labels."));
 		break;
 	case 4: 
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), 
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), 
 				_("One of the factor combinations does not contain\n"
 				  "any observations!"));
 		break;
 	default:
 		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry (state->wbcg, GTK_WIDGET (state->input_entry), text);
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
 		g_free (text);		
 		break;
 	}
@@ -4326,6 +4160,7 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wbcg  = wbcg;
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
+	state->warning_dialog = NULL;
 	state->help_link = "anova.html#ANOVA-TWO-FACTOR-TOOL";
 	state->input_var1_str = NULL;
 	state->input_var2_str = NULL;

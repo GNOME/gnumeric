@@ -1,5 +1,12 @@
 2002-01-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/gui-util.c (gnumeric_notice_nonmodal) : non-modal version of
+	  gnumeric_notice
+	(gnumeric_dialog_run) : remove warning
+	* src/gui-util.h (gnumeric_notice_nonmodal) : new
+	
+2002-01-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/gui-util.c (entry_to_float) : 
 	  moved here from dialogs/dialog-analysis-tools.c
 	(entry_to_int) : ditto

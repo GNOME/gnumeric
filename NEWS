@@ -4,6 +4,7 @@ Andreas:
 	* Port gnumeric_notice to gnome2
 	* Fix #63485
 	* Make the autosave dialog non-modal, port to gnome2
+	* Make the analysis tools warnings non-modal
 
 Jody:
 	* Initial port to gnome2.

@@ -63,7 +63,6 @@ src/dialogs/anova-one.glade
 src/dialogs/anova-two.glade
 src/dialogs/autocorrect.glade
 src/dialogs/autoformat.glade
-src/dialogs/autosave-prompt.glade
 src/dialogs/autosave.glade
 src/dialogs/cell-format.glade
 src/dialogs/cell-sort.glade
