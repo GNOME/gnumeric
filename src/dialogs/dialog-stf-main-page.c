@@ -110,6 +110,7 @@ static void
 main_page_import_range_changed (DruidPageData_t *data)
 {
 	RenderData_t *renderdata = data->main.renderdata;
+	StfParseOptions_t *parseoptions = data->main.parseoptions;
 	int startrow, stoprow;
 	char *linescaption;
 
@@ -129,6 +130,9 @@ main_page_import_range_changed (DruidPageData_t *data)
 	main_page_set_spin_button_adjustment (data->main.main_startrow, 1, stoprow);
 	main_page_set_spin_button_adjustment (data->main.main_stoprow, startrow, renderdata->lines->len);
 
+	data->cur = stf_parse_find_line (parseoptions, data->utf8_data, startrow - 1);
+	data->cur_end = stf_parse_find_line (parseoptions, data->utf8_data, stoprow);
+
 	data->importlines = (stoprow - startrow) + 1;
 	linescaption = g_strdup_printf (_("%d of %d lines to import"),
 					data->importlines,
@@ -146,6 +150,7 @@ encodings_changed_cb (CharmapSelector *cs, char const *new_charmap,
 		      DruidPageData_t *pagedata)
 {
 	if (main_page_set_encoding (pagedata, new_charmap)) {
+		main_page_import_range_changed (pagedata);
 		main_page_update_preview (pagedata);
 	} else {
 		const char *name = charmap_selector_get_encoding_name (cs, new_charmap);
@@ -174,10 +179,6 @@ encodings_changed_cb (CharmapSelector *cs, char const *new_charmap,
 static void
 main_page_startrow_changed (GtkSpinButton* button, DruidPageData_t *data)
 {
-	StfParseOptions_t *parseoptions = data->main.parseoptions;
-	int line = gtk_spin_button_get_value_as_int (button) - 1;
-
-	data->cur = stf_parse_find_line (parseoptions, data->utf8_data, line);
 	main_page_import_range_changed (data);
 }
 
@@ -192,10 +193,6 @@ static void
 main_page_stoprow_changed (GtkSpinButton* button,
 			   DruidPageData_t *data)
 {
-	StfParseOptions_t *parseoptions = data->main.parseoptions;
-	int line = gtk_spin_button_get_value_as_int (button) - 1;
-
-	data->cur_end = stf_parse_find_line (parseoptions, data->utf8_data, line + 1);
 	main_page_import_range_changed (data);
 }
 
@@ -368,6 +365,5 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			  "charmap_changed",
 			  G_CALLBACK (encodings_changed_cb), pagedata);
 
-	main_page_startrow_changed (pagedata->main.main_startrow, pagedata);
-	main_page_stoprow_changed (pagedata->main.main_stoprow, pagedata);
+	main_page_import_range_changed (pagedata);
 }

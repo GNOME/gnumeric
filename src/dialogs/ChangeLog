@@ -5,6 +5,10 @@
 
 2003-06-12  Morten Welinder  <terra@gnome.org>
 
+	* dialog-stf-main-page.c (main_page_import_range_changed): Reset
+	->cur and ->cur_end here.
+	(encodings_changed_cb): Call main_page_import_range_changed.
+
 	* dialog-stf-preview.c (stf_preview_render): Fix preconditions,
 	not that they should really fail...
 
