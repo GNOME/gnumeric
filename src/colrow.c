@@ -153,6 +153,8 @@ colrow_foreach (ColRowCollection const *infos, int first, int last,
 {
 	int i;
 
+	g_return_val_if_fail (first >= 0, FALSE);
+
 	/* TODO : Do we need to support right -> left as an option */
 
 	/* clip */

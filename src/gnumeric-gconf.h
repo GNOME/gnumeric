@@ -123,7 +123,7 @@ void     gnm_gconf_set_file_single_sheet_save (gboolean value);
 
 /* print-setup & printing */
 void     gnm_gconf_set_all_sheets (gboolean val);
-void     gnm_gconf_set_printer_config (gchar *str);
+void     gnm_gconf_set_printer_config (gchar const *str);
 void     gnm_gconf_set_printer_header (gchar const *left, gchar const *middle, 
 				       gchar const *right);
 void     gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle, 

@@ -2,11 +2,10 @@
 /*
  * gnumeric-gconf.c:
  *
- *
  * Author:
  * 	Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
- * (C) Copyright 2002-2004 Andreas J. Guelzow <aguelzow@taliesin.ca>
+ * (C) Copyright 2002-2005 Andreas J. Guelzow <aguelzow@taliesin.ca>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -691,8 +690,10 @@ gnm_conf_init (gboolean fast)
 void     
 gnm_conf_shutdown (void)
 {
-	mstyle_unref (prefs.printer_decoration_font);
-	prefs.printer_decoration_font = NULL;
+	if (prefs.printer_decoration_font) {
+		mstyle_unref (prefs.printer_decoration_font);
+		prefs.printer_decoration_font = NULL;
+	}
 #ifdef WITH_GNOME
 	if (gconf_client) {
 		gconf_client_remove_dir (gconf_client, "/apps/gnumeric", NULL);
@@ -825,11 +826,13 @@ gnm_gconf_set_all_sheets (gboolean val)
 }
 
 void
-gnm_gconf_set_printer_config (gchar *str)
+gnm_gconf_set_printer_config (gchar const *str)
 {
-	go_conf_set_string  (PRINTSETUP_GCONF_PRINTER_CONFIG, str);
-	g_free (prefs.printer_config);
-	prefs.printer_config = str;
+	go_conf_set_string (PRINTSETUP_GCONF_PRINTER_CONFIG, str);
+	if (prefs.printer_config != str) {
+		g_free (prefs.printer_config);
+		prefs.printer_config = g_strdup (str);
+	}
 }
 
 void
@@ -964,14 +967,12 @@ gnm_gconf_set_default_font_size (gnm_float val)
 void     
 gnm_gconf_set_default_font_name (char const *str)
 {
-	g_return_if_fail (str != NULL);
-
-	/* the const_casts are ok, the const in the header is just to keep
-	 * people for doing stupid things */
-	if (prefs.default_font.name != NULL)
-		g_free ((char *) prefs.default_font.name);
-	prefs.default_font.name = g_strdup (str);
 	go_conf_set_string (GNM_CONF_FONT_NAME, str);
+	if (prefs.default_font.name != str) {
+		/* the const in the header is just a safety net */
+		g_free ((char *) prefs.default_font.name);
+		prefs.default_font.name = g_strdup (str);
+	}
 }
 
 void     

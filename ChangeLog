@@ -1,3 +1,13 @@
+2005-03-24  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=171503
+	* src/gnumeric-gconf.c (gnm_gconf_set_printer_config) : take control
+	  of the string.
+
+2005-03-29  Jody Goldberg <jody@gnome.org>
+
+	* src/colrow.c (colrow_foreach) : add some protection.
+
 2005-03-17  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c: Fix typo in last change.
