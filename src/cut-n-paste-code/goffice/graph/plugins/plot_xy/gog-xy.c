@@ -36,48 +36,41 @@
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
-typedef GogPlotClass GogXYPlotClass;
+typedef struct {
+	GogPlotClass	base;
+	
+	void (*adjust_bounds) (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max);
+} Gog2DPlotClass;
 
-enum {
-	GOG_XY_PROP_0,
-	GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
-	GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES
-};
+typedef Gog2DPlotClass GogXYPlotClass;
+
+typedef Gog2DPlotClass GogBubblePlotClass;
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-static GogObjectClass *xy_parent_klass;
-static GType gog_xy_view_get_type (void);
-static GType gog_xy_series_get_type (void);
+static GogObjectClass *plot2d_parent_klass;
+static GType gog_2d_view_get_type (void);
+static void gog_2d_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max);
 
-#define GOG_XY_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_XY_PLOT_TYPE, GogXYPlotClass))
-
-static char const *
-gog_xy_plot_type_name (G_GNUC_UNUSED GogObject const *item)
-{
-	/* xgettext : the base for how to name scatter plot objects
-	 * eg The 2nd plot in a chart will be called
-	 * 	PlotXY2 */
-	return N_("PlotXY");
-}
+#define GOG_2D_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_2D_PLOT_TYPE, Gog2DPlotClass))
 
 static void
-gog_xy_plot_clear_formats (GogXYPlot *xy)
+gog_2d_plot_clear_formats (Gog2DPlot *plot2d)
 {
-	if (xy->x.fmt != NULL) {
-		go_format_unref (xy->x.fmt);
-		xy->x.fmt = NULL;
+	if (plot2d->x.fmt != NULL) {
+		go_format_unref (plot2d->x.fmt);
+		plot2d->x.fmt = NULL;
 	}
-	if (xy->y.fmt != NULL) {
-		go_format_unref (xy->y.fmt);
-		xy->y.fmt = NULL;
+	if (plot2d->y.fmt != NULL) {
+		go_format_unref (plot2d->y.fmt);
+		plot2d->y.fmt = NULL;
 	}
 }
 
 static void
-gog_xy_plot_update (GogObject *obj)
+gog_2d_plot_update (GogObject *obj)
 {
-	GogXYPlot *model = GOG_XY_PLOT (obj);
+	Gog2DPlot *model = GOG_2D_PLOT (obj);
 	GogXYSeries const *series;
 	double x_min, x_max, y_min, y_max, tmp_min, tmp_max;
 	GSList *ptr;
@@ -85,7 +78,7 @@ gog_xy_plot_update (GogObject *obj)
 
 	x_min = y_min =  DBL_MAX;
 	x_max = y_max = -DBL_MAX;
-	gog_xy_plot_clear_formats (model);
+	gog_2d_plot_clear_formats (model);
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)))
@@ -122,6 +115,9 @@ gog_xy_plot_update (GogObject *obj)
 		if (x_max < tmp_max) x_max = tmp_max;
 	}
 
+	/*adjust bounds to allow large markers or bubbles*/
+	gog_2d_plot_adjust_bounds (model, &x_min, &x_max, &y_min, &y_max);
+	
 	if (model->x.minima != x_min || model->x.maxima != x_max) {
 		model->x.minima = x_min;
 		model->x.maxima = x_max;
@@ -133,33 +129,45 @@ gog_xy_plot_update (GogObject *obj)
 		gog_axis_bound_changed (model->base.axis[1], GOG_OBJECT (model));
 	}
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
-	if (xy_parent_klass->update)
-		xy_parent_klass->update (obj);
+	if (plot2d_parent_klass->update)
+		plot2d_parent_klass->update (obj);
+}
+
+static void
+gog_2d_plot_real_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max)
+{
+}
+
+static void
+gog_2d_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max)
+{
+	Gog2DPlotClass *klass = GOG_2D_PLOT_GET_CLASS (model);
+	klass->adjust_bounds (model, x_min, x_max, y_min, y_max);
 }
 
 static GogAxisSet
-gog_xy_plot_axis_set_pref (GogPlot const *plot)
+gog_2d_plot_axis_set_pref (GogPlot const *plot)
 {
 	return GOG_AXIS_SET_XY;
 }
 
 static gboolean
-gog_xy_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
+gog_2d_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
 {
 	return type == GOG_AXIS_SET_XY;
 }
 
 static gboolean
-gog_xy_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
+gog_2d_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
 {
 	return type == GOG_AXIS_SET_XY;
 }
 
 static GOData *
-gog_xy_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
+gog_2d_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 			     GogPlotBoundInfo *bounds)
 {
-	GogXYPlot *model = GOG_XY_PLOT (plot);
+	Gog2DPlot *model = GOG_2D_PLOT (plot);
 
 	if (axis == GOG_AXIS_X) {
 		GSList *ptr;
@@ -185,6 +193,72 @@ gog_xy_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 			bounds->fmt = go_format_ref (model->y.fmt);
 	}
 	return NULL;
+}
+
+static void
+gog_2d_finalize (GObject *obj)
+{
+	gog_2d_plot_clear_formats (GOG_2D_PLOT (obj));
+	if (G_OBJECT_CLASS (plot2d_parent_klass)->finalize)
+		G_OBJECT_CLASS (plot2d_parent_klass)->finalize (obj);
+}
+
+static GType gog_xy_view_get_type (void);
+static GType gog_xy_series_get_type (void);
+
+static void
+gog_2d_plot_class_init (GogPlotClass *plot_klass)
+{
+	GObjectClass *gobject_klass = (GObjectClass *) plot_klass;
+	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
+	Gog2DPlotClass *gog_2d_plot_klass = (Gog2DPlotClass*) plot_klass;
+
+	gog_2d_plot_klass->adjust_bounds = gog_2d_plot_real_adjust_bounds;
+
+	plot2d_parent_klass = g_type_class_peek_parent (plot_klass);
+
+	gobject_klass->finalize     = gog_2d_finalize;
+
+	gog_klass->update	= gog_2d_plot_update;
+	gog_klass->view_type	= gog_xy_view_get_type ();
+
+	plot_klass->desc.num_series_min = 1;
+	plot_klass->desc.num_series_max = G_MAXINT;
+	plot_klass->series_type  = gog_xy_series_get_type ();
+	plot_klass->axis_set_pref     = gog_2d_plot_axis_set_pref;
+	plot_klass->axis_set_is_valid = gog_2d_plot_axis_set_is_valid;
+	plot_klass->axis_set_assign   = gog_2d_plot_axis_set_assign;
+	plot_klass->axis_get_bounds   = gog_2d_plot_axis_get_bounds;
+}
+
+static void
+gog_2d_plot_init (Gog2DPlot *plot2d)
+{
+	plot2d->base.vary_style_by_element = FALSE;
+	plot2d->x.fmt = plot2d->y.fmt = NULL;
+}
+
+GSF_CLASS (Gog2DPlot, gog_2d_plot,
+	   gog_2d_plot_class_init, gog_2d_plot_init,
+	   GOG_PLOT_TYPE)
+
+enum {
+	GOG_XY_PROP_0,
+	GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
+	GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES
+};
+
+static GogObjectClass *xy_parent_klass;
+
+#define GOG_XY_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_XY_PLOT_TYPE, GogXYPlotClass))
+
+static char const *
+gog_xy_plot_type_name (G_GNUC_UNUSED GogObject const *item)
+{
+	/* xgettext : the base for how to name scatter plot objects
+	 * eg The 2nd plot in a chart will be called
+	 * 	PlotXY2 */
+	return N_("PlotXY");
 }
 
 static void
@@ -221,14 +295,6 @@ gog_xy_get_property (GObject *obj, guint param_id,
 }
 
 static void
-gog_xy_finalize (GObject *obj)
-{
-	gog_xy_plot_clear_formats (GOG_XY_PLOT (obj));
-	if (G_OBJECT_CLASS (xy_parent_klass)->finalize)
-		G_OBJECT_CLASS (xy_parent_klass)->finalize (obj);
-}
-
-static void
 gog_xy_plot_class_init (GogPlotClass *plot_klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) plot_klass;
@@ -238,7 +304,6 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 
 	gobject_klass->set_property = gog_xy_set_property;
 	gobject_klass->get_property = gog_xy_get_property;
-	gobject_klass->finalize     = gog_xy_finalize;
 
 	g_object_class_install_property (gobject_klass, GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
 		g_param_spec_boolean ("default-style-has-markers", NULL,
@@ -249,9 +314,7 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 			"Should the default style of a series include lines",
 			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
-	gog_klass->update	= gog_xy_plot_update;
 	gog_klass->type_name	= gog_xy_plot_type_name;
-	gog_klass->view_type	= gog_xy_view_get_type ();
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
@@ -263,43 +326,121 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 		plot_klass->desc.series.dim = dimensions;
 		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
 		plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER;
-		plot_klass->series_type = gog_xy_series_get_type ();
 	}
-	plot_klass->desc.num_series_min = 1;
-	plot_klass->desc.num_series_max = G_MAXINT;
-	plot_klass->series_type  = gog_xy_series_get_type ();
-	plot_klass->axis_set_pref     = gog_xy_plot_axis_set_pref;
-	plot_klass->axis_set_is_valid = gog_xy_plot_axis_set_is_valid;
-	plot_klass->axis_set_assign   = gog_xy_plot_axis_set_assign;
-	plot_klass->axis_get_bounds   = gog_xy_plot_axis_get_bounds;
 }
 
 static void
 gog_xy_plot_init (GogXYPlot *xy)
 {
-	xy->base.vary_style_by_element = FALSE;
-	xy->x.fmt = xy->y.fmt = NULL;
 	xy->default_style_has_markers = TRUE;
 	xy->default_style_has_lines = TRUE;
 }
 
 GSF_CLASS (GogXYPlot, gog_xy_plot,
 	   gog_xy_plot_class_init, gog_xy_plot_init,
-	   GOG_PLOT_TYPE)
+	   GOG_2D_PLOT_TYPE)
+
+/*****************************************************************************/
+
+static GogObjectClass *bubble_parent_klass;
+
+#define GOG_BUBBLE_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_BUBBLE_PLOT_TYPE, GogBubblePlotClass))
+
+static void gog_bubble_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max);
+
+static char const *
+gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
+{
+	return N_("PlotBubble");
+}
+
+static void
+gog_bubble_plot_class_init (GogPlotClass *plot_klass)
+{
+	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
+
+	bubble_parent_klass = g_type_class_peek_parent (plot_klass);
+
+	Gog2DPlotClass *gog_2d_plot_klass = (Gog2DPlotClass*) plot_klass;
+
+	gog_2d_plot_klass->adjust_bounds = gog_bubble_plot_adjust_bounds;
+	gog_klass->type_name	= gog_bubble_plot_type_name;
+
+	{
+		static GogSeriesDimDesc dimensions[] = {
+			{ N_("X"), GOG_SERIES_SUGGESTED, FALSE,
+			  GOG_DIM_INDEX, GOG_MS_DIM_CATEGORIES },
+			{ N_("Y"), GOG_SERIES_REQUIRED, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES },
+			{ N_("Bubble"), GOG_SERIES_REQUIRED, FALSE,
+			  GOG_DIM_VALUE, GOG_MS_DIM_BUBBLES }
+		};
+		plot_klass->desc.series.dim = dimensions;
+		plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
+		plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+	}
+}
+
+#define BUBBLE_MAX_RADIUS_RATIO 8.
+static void
+gog_bubble_plot_adjust_bounds (Gog2DPlot *model, double *x_min, double *x_max, double *y_min, double *y_max)
+{
+	/* Add room for bubbles*/
+	double tmp;
+	tmp = (*x_max - *x_min) / (BUBBLE_MAX_RADIUS_RATIO - 2.);
+	*x_min -= tmp;
+	*x_max += tmp;
+	tmp = (*y_max - *y_min) / (BUBBLE_MAX_RADIUS_RATIO - 2.);
+	*y_min -= tmp;
+	*y_max += tmp;
+}
+
+static void
+gog_bubble_plot_init (GogBubblePlot *bubble)
+{
+}
+
+GSF_CLASS (GogBubblePlot, gog_bubble_plot,
+	   gog_bubble_plot_class_init, gog_bubble_plot_init,
+	   GOG_2D_PLOT_TYPE)
 
 /*****************************************************************************/
 typedef GogPlotView		GogXYView;
 typedef GogPlotViewClass	GogXYViewClass;
 
+#define MAX_ARC_SEGMENTS 64
+
+static void
+bubble_draw_circle (GogView *view, double x, double y, double radius)
+{
+	double theta, dt = 2 * M_PI / MAX_ARC_SEGMENTS;
+	int i;
+	ArtVpath path[MAX_ARC_SEGMENTS + 2];
+	path[0].x = path[MAX_ARC_SEGMENTS].x = x + radius;
+	path[0].y = path[MAX_ARC_SEGMENTS].y = y;
+	path[0].code = ART_MOVETO;
+#warning what about small bubbles. With a very small radius, libart emits lot of warnings.
+	if (radius < 1.) radius = 1.;
+	for (i = 1, theta = dt; i < MAX_ARC_SEGMENTS; i++, theta += dt) {
+		path[i].x = x + radius * cos (theta);
+		/* must turn clockwise for gradients */
+		path[i].y = y - radius * sin (theta);
+		path[i].code = ART_LINETO;
+	}
+	path[MAX_ARC_SEGMENTS].code = ART_LINETO;
+	path[MAX_ARC_SEGMENTS + 1].code = ART_END;
+	gog_renderer_draw_polygon (view->renderer, path, FALSE, &view->residual);
+}
+
 static void
 gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 {
-	GogXYPlot const *model = GOG_XY_PLOT (view->model);
+	Gog2DPlot const *model = GOG_2D_PLOT (view->model);
 	GogXYSeries const *series;
 	unsigned i, n, tmp;
 	GSList *ptr;
-	double const *y_vals, *x_vals = NULL;
-	double x, y, x_min, x_max, x_off, x_scale, y_min, y_max, y_off, y_scale;
+	double const *y_vals, *x_vals = NULL, *z_vals = NULL;
+	double x, y, z, x_min, x_max, x_off, x_scale, y_min, y_max, y_off, y_scale, zmax, rmax;
 	double prev_x = 0., prev_y = 0.; /* make compiler happy */
 	ArtVpath	path[3];
 	GogStyle const *style;
@@ -340,6 +481,18 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (n > tmp)
 				n = tmp;
 		}
+		if (model->base.desc.series.num_dim == 3) {
+			go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[2].data), NULL, &zmax);
+			if ((! finite (zmax)) || (zmax <= 0)) continue;
+			rmax = MIN(view->residual.w, view->residual.h) / BUBBLE_MAX_RADIUS_RATIO;
+	
+			z_vals = go_data_vector_get_values (
+				GO_DATA_VECTOR (series->base.values[2].data));
+			tmp = go_data_vector_get_len (
+				GO_DATA_VECTOR (series->base.values[2].data));
+			if (n > tmp)
+				n = tmp;
+		}
 
 		if (n <= 0)
 			continue;
@@ -367,7 +520,11 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 #warning "move map into axis"
 				x = x_off + x_scale * x;
 				y = y_off + y_scale * y;
-				if (prev_valid && show_lines) {
+				if (model->base.desc.series.num_dim == 3) {
+					z = *z_vals++;
+					if (!finite (z) || z < 0) continue;
+					bubble_draw_circle (view, x, y, sqrt (z / zmax) * rmax);
+				} else	if (prev_valid && show_lines) {
 					path[0].x = prev_x;
 					path[0].y = prev_y;
 					path[1].x = x;
@@ -436,6 +593,16 @@ gog_xy_series_update (GogObject *obj)
 		y_len = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->base.values[1].data));
 	}
+	if (series->base.plot->desc.series.num_dim == 3) {
+		double *z_vals = NULL;
+		int z_len = 0;
+		if (series->base.values[2].data != NULL) {
+			z_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[2].data));
+			z_len = go_data_vector_get_len (
+				GO_DATA_VECTOR (series->base.values[2].data));
+			if (y_len > z_len) y_len = z_len;
+		}
+	}
 	if (series->base.values[0].data != NULL) {
 		x_vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[0].data));
 		x_len = go_data_vector_get_len (
@@ -457,22 +624,24 @@ static void
 gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	GogSeries *series = GOG_SERIES (gso);
-	GogXYPlot const *xy;
 
 	series_parent_klass->init_style (gso, style);
 	if (!style->needs_obj_defaults || series->plot == NULL)
 		return;
-	xy = GOG_XY_PLOT (series->plot);
-
-	if (style->marker.auto_shape && !xy->default_style_has_markers) {
-		GOMarker *m = go_marker_new ();
-		go_marker_set_shape (m, GO_MARKER_NONE);
-		gog_style_set_marker (style, m);
-		style->marker.auto_shape = FALSE;
-	}
-	if (style->line.auto_color && !xy->default_style_has_lines) {
-		style->line.color = 0;
-		style->line.auto_color = FALSE;
+	if (series->plot->desc.series.num_dim != 3) {
+		GogXYPlot const *xy;
+		xy = GOG_XY_PLOT (series->plot);
+	
+		if (style->marker.auto_shape && !xy->default_style_has_markers) {
+			GOMarker *m = go_marker_new ();
+			go_marker_set_shape (m, GO_MARKER_NONE);
+			gog_style_set_marker (style, m);
+			style->marker.auto_shape = FALSE;
+		}
+		if (style->line.auto_color && !xy->default_style_has_lines) {
+			style->line.color = 0;
+			style->line.auto_color = FALSE;
+		}
 	}
 	style->needs_obj_defaults = FALSE;
 }
@@ -495,6 +664,7 @@ void
 plugin_init (void)
 {
 	gog_xy_plot_get_type ();
+	gog_bubble_plot_get_type ();
 }
 
 void

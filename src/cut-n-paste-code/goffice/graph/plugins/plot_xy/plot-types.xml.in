@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
     <Family _name="XY"		sample_image_file="scatter.xpm"/>
+    <Family _name="Bubble"		sample_image_file="bubble.xpm"/>
 
     <Type _name="XY Points" row="1" col="1"
 	  engine="GogXYPlot" family="XY"
@@ -19,6 +20,11 @@
 	  _description="Linearly interpolate between multi-dimensional points."
 	  sample_image_file="chart_scatter_3_2.png">
 	  <property name="default-style-has-markers">FALSE</property>
+    </Type>
+    <Type _name="Bubble" row="1" col="1"
+	  engine="GogBubblePlot" family="Bubble"
+	  _description="Multi-dimensional points with circle at each point."
+	  sample_image_file="chart_bubble_1_1.png">
     </Type>
 </Types>
 
