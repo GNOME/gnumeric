@@ -7,6 +7,8 @@ Andreas:
 	* Make non-imported columns in configurable text import more
 	  visible [#154139]
 	* Suppress warnings when filling with large series. [#153527]
+	* Improve format page in configurable text import [#154138, 
+	  #139385]
 
 Hal Ashburner:
 	* Some function documentation cleanups.

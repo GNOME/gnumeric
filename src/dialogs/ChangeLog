@@ -1,5 +1,20 @@
 2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=154138
+	* dialog-stf.glade: Change trim menu items and add a text field
+	  indicating the number of columns imported.
+	http://bugzilla.gnome.org/show_bug.cgi?id=139385
+	* dialog-stf.c (stf_dialog): handle col_import_array_len
+	* dialog-stf.h: add column_selection_label to FormatInfo_t
+	* dialog-stf-format-page.c (cb_col_check_clicked): call
+	  format_page_update_column_selection
+	(format_page_update_preview): ditto
+	(format_page_update_column_selection): new
+	(stf_dialog_format_page_init): initialize column_selection_label
+	  and call format_page_update_column_selection
+
+2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-preferences.c: disabled `internal' preferences
 
 2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>

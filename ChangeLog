@@ -1,3 +1,13 @@
+2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/stf-parse.c (stf_parse_options_new): initialize 
+	  col_import_array_len
+	(stf_parse_sheet): make sure we don't index beyond the end 
+	  of the col_import_array
+	(stf_parse_region): ditto
+	* src/stf.c (stf_apply_formats): ditto
+	* src/stf-parse.h: add col_import_array_len to StfParseOptions_t
+
 2004-10-21  Yukihiro Nakai  <nakai@gnome.gr.jp>
 
 	* src/plugin-loader.c (gnm_plugin_loader_load_service):
