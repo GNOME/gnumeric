@@ -3744,6 +3744,9 @@ static GnomeUIInfo workbook_menu_data [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("_Sort..."),
 		N_("Sort the selected region"),
 		cb_data_sort, GTK_STOCK_SORT_ASCENDING),
+	GNOMEUIINFO_ITEM_NONE (N_("Sh_uffle..."),
+		N_("Shuffle cells, rows or columns"),
+		cb_data_filter),
 	GNOMEUIINFO_SUBTREE(N_("_Filter"), workbook_menu_data_filter),
 	GNOMEUIINFO_ITEM_NONE (N_("_Validate..."),
 		N_("Validate input with preset criteria"),
@@ -3982,6 +3985,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("RandomGenerator", cb_tools_random_generator),
 
 	BONOBO_UI_UNSAFE_VERB ("DataSort", cb_data_sort),
+	BONOBO_UI_UNSAFE_VERB ("DataShuffle", cb_data_filter),
 	BONOBO_UI_UNSAFE_VERB ("DataAutoFilter", cb_auto_filter),
 	BONOBO_UI_UNSAFE_VERB ("DataFilterShowAll", cb_show_all),
 	BONOBO_UI_UNSAFE_VERB ("DataFilterAdvancedfilter", cb_data_filter),

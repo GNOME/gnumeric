@@ -29,6 +29,7 @@ entities = 					\
 	preface.xml				\
 	printing.xml				\
 	selections.xml				\
+	shuffling.xml				\
 	simulation.xml				\
 	solver.xml				\
 	toolbars.xml				\

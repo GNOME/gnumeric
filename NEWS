@@ -10,6 +10,9 @@ Jody:
 	* Fix elapsed hour format
 	* Make the edit item smarter at the right edge
 
+Jukka:
+	* Added shuffling tool.
+
 Morten:
 	* Make RenderedValue use a PangoLayout for storing the contents
 	  of a cell.  (Operation Snappiness, Part 3.)
