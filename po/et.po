@@ -1,97 +1,102 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Gnumericu eestikeelne tõlge.
+# Copyright (C) 2001-2003 Free Software Foundation, Inc.
+# Ain Vagula <ain@riiska.ee>, 2000-2001.
+# Priit Laes <amd@tt.ee>, 2003
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-06-25 19:48-0400\n"
-"PO-Revision-Date: 2001-12-25 21:12+0200\n"
-"Last-Translator: Ain Vagula <ain@riiska.ee>\n"
-"Language-Team: Estonian <et@li.org>\n"
+"Project-Id-Version: gnumeric 1.1.20CVS\n"
+"POT-Creation-Date: 2003-06-26 22:22+0300\n"
+"PO-Revision-Date: 2003-06-12 10:26+0200\n"
+"Last-Translator: Priit Laes <amd@tt.ee>\n"
+"Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.5\n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
-#, fuzzy
 msgid "Gnumeric Workbook"
-msgstr "Ei ole Gnumericu tabelifail"
+msgstr "Gnumericu töövihik"
 
 #: GNOME_Gnumeric.server.in.in.h:2
-#, fuzzy
 msgid "Gnumeric Workbook Viewer"
-msgstr "Ei ole Gnumericu tabelifail"
+msgstr "Gnumericu töövihikute vaataja"
 
 #: GNOME_Gnumeric.server.in.in.h:3
 #, fuzzy
 msgid "Gnumeric Workbook viewer factory"
-msgstr "Ei ole Gnumericu tabelifail"
+msgstr "Gnumericu töövihikute vaatamiskeskus"
 
 #: gnumeric.desktop.in.h:1
 #, fuzzy
 msgid "Gnumeric Spreadsheet"
-msgstr "Lisa uus tabel"
+msgstr "Gnumericu Tabelitöötlus"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME Tabelitöötlus"
 
 #: plugins/applix/applix-read.c:106
+#, fuzzy
 msgid "Parse error while reading Applix file."
-msgstr "Tuvastamise viga Applixi faili lugemisel."
+msgstr "Viga Applixi faili lugemisjärgsel analüüsimisel."
 
 #: plugins/applix/applix-read.c:246
+#, fuzzy
 msgid "Missing characters for character encoding"
-msgstr ""
+msgstr "Puuduvad sümbolid tekstikoodis"
 
 #: plugins/applix/applix-read.c:250
-#, c-format
+#, fuzzy, c-format
 msgid "Invalid characters for encoding '%c%c'"
-msgstr ""
+msgstr "Vigased sümbolid tekstikoodis '%c%c'"
 
 #: plugins/applix/applix-read.c:1083
-#, c-format
+#, fuzzy, c-format
 msgid "Expression did not start with '=' ? '%s'"
-msgstr ""
+msgstr "Avaldis ei alanud '=' ? '%s'"
 
 #: plugins/applix/applix-read.c:1094
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s!%s : unable to parse '%s'\n"
 "     %s"
 msgstr ""
+"%s!%s : ei suuda töödelda '%s'\n"
+"     %s"
 
 #: plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
-msgstr ""
+msgstr "Applix"
 
 #: plugins/applix/plugin.xml.in.h:2
 msgid "Applix (*.as)"
-msgstr ""
+msgstr "Applix (*.as)"
 
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
-msgstr ""
+msgstr "Impordib versiooni 4.[234] tabeleid"
 
 #: plugins/corba/plugin.xml.in.h:1
 msgid "CORBA Interface"
-msgstr ""
+msgstr "CORBA Liides"
 
 #: plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
-msgstr ""
+msgstr "Varustab CORBA rakendusliidesega"
 
 #: plugins/derivatives/options.c:142
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
 "@DESCRIPTION=CUM_BIV_NORM_DIST calculates the cumulative bivariate normal "
 "distribution from parameters a, b & rho"
 msgstr ""
+"@FUNCTION=CUM_BIV_NORM_DIST\n"
+"@SYNTAX=CUM_BIV_NORM_DIST(a,b,roo)\n"
+"@DESCRIPTION=CUM_BIV_NORM_DIST arvutab kogu/ühis- (??bivariatenormal??) "
+"jaotuse parameetritest a, b ja roo"
 
 #: plugins/derivatives/options.c:194
 msgid ""
@@ -476,7 +481,7 @@ msgstr ""
 
 #: plugins/derivatives/options.c:1655
 msgid "a, b, rho"
-msgstr ""
+msgstr "a, b, roo"
 
 #: plugins/derivatives/options.c:1660
 msgid ""
@@ -538,16 +543,15 @@ msgstr ""
 
 #: plugins/derivatives/plugin.xml.in.h:1
 msgid "Financial"
-msgstr "Finantsilised"
+msgstr "Rahanduslik"
 
 #: plugins/derivatives/plugin.xml.in.h:2
-#, fuzzy
 msgid "Financial Derivatives"
-msgstr "Finantsilised"
+msgstr "Rahanduslikud tuletused"
 
 #: plugins/derivatives/plugin.xml.in.h:3
 msgid "Functions related to financial derivatives"
-msgstr ""
+msgstr "Funktsioonid seotud rahanduslike tuletustega"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5121
 #: plugins/mps/mps.c:549 src/xml-io.c:3839
@@ -575,7 +579,8 @@ msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
 msgstr ""
-"DIF faili ridade arv ületab maksimaalset %d. Ülejäänud ridu ignoreeritakse."
+"DIF faili ridade arv ületab maksimaalset ridade arvu %d. Ülejäänud ridu "
+"ignoreeritakse."
 
 #: plugins/dif/dif.c:232
 #, c-format
@@ -583,8 +588,8 @@ msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
 msgstr ""
-"DIF faili veergude arv ületab maksimaalset %d. Ülejäänud veerge "
-"ignoreeritakse."
+"DIF faili veergude arv ületab maksimaalset veergude arvu %d. Ülejäänud "
+"veerge ignoreeritakse."
 
 #: plugins/dif/dif.c:244
 #, c-format
@@ -610,16 +615,17 @@ msgstr "Viga DIF faili salvestamisel."
 
 #: plugins/dif/plugin.xml.in.h:1
 msgid "Data Interchange Format (*.dif)"
-msgstr ""
+msgstr "Andmevahetusformaat (*.dif)"
 
 #: plugins/dif/plugin.xml.in.h:2
 msgid "Data Interchange Format (DIF) module"
-msgstr ""
+msgstr "Andmevahetusformaadi (DIF) moodul"
 
 #: plugins/dif/plugin.xml.in.h:3
 msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
+"Loeb ja kirjutab Andmevahetusformaadis (*.dif) salvestatud informatsiooni."
 
 #: plugins/excel/boot.c:167
 #, fuzzy
@@ -636,14 +642,15 @@ msgid "Saving file..."
 msgstr "Faili salvestamine..."
 
 #: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:267
-#, c-format
+#, fuzzy, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
-msgstr ""
+msgstr "Ootamatu tunnus %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:186 plugins/openoffice/openoffice-read.c:975
 #: plugins/xml_sax/xml-sax-read.c:1501
+#, fuzzy
 msgid "XML document not well formed!"
-msgstr "XML dokument halvas vormingus!"
+msgstr "XML dokument on halvasti moodustatud!"
 
 #: plugins/excel/ms-excel-read.c:993
 msgid "#UNKNOWN!"
@@ -676,7 +683,7 @@ msgstr "Moodul%d"
 #: plugins/excel/ms-excel-read.c:2673
 #, fuzzy, c-format
 msgid "Failure parsing name '%s'"
-msgstr "Viga faili salvestamisel."
+msgstr "Viga nime '%s' analüüsimisel"
 
 #: plugins/excel/ms-excel-read.c:2729
 #, c-format
@@ -684,6 +691,8 @@ msgid ""
 "DDE links are no supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
+"DDE lülid ei ole toetatud.\n"
+"Nimi '%s' kaotatakse.\n"
 
 #: plugins/excel/ms-excel-read.c:2735
 #, c-format
@@ -691,49 +700,61 @@ msgid ""
 "OLE links are no supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
+"OLE lülid ei ole toetatud.\n"
+"Nimi '%s' kaotatakse.\n"
 
 #: plugins/excel/ms-excel-read.c:2787
 #, fuzzy
 msgid "Failure parsing AutoFilter."
-msgstr "Viga faili salvestamisel."
+msgstr "Viga Automaatfiltri analüüsimisel."
 
 #: plugins/excel/ms-excel-read.c:4538
+#, fuzzy
 msgid "external references"
-msgstr ""
+msgstr "välised viited"
 
 #: plugins/excel/ms-excel-read.c:5267
+#, fuzzy
 msgid "No password supplied"
-msgstr ""
+msgstr "Parooli pole pakutud"
 
 #: plugins/excel/ms-excel-read.c:5271
 #, fuzzy
 msgid "Invalid password"
-msgstr "Vigane avaldis"
+msgstr "Vigane parool"
 
 #: plugins/excel/ms-excel-read.c:5372
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Ei suuda leida sobivat MS Exceli raamatut"
 
 #: plugins/excel/ms-excel-write.c:151
+#, fuzzy
 msgid ""
 "This is somewhat corrupt.\n"
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 msgstr ""
+"See tundub veidi moonutatud.\n"
+"Me juba kirjutasime tekstijupi pikkuse, mida on kärbitud tänu "
+"tekstikodeeringu probleemidele."
 
 #: plugins/excel/ms-excel-write.c:3751
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95.It only supports %"
 "d rows, and this workbook has %d"
 msgstr ""
+"Osa andmeid läheb kaotsi, kui salvestate excel 95 formaadis. See formaat "
+"toetab ainult %d rida, aga selles tööraamatus on %d rida"
 
 #: plugins/excel/ms-excel-write.c:3758
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm).It only supports %d "
 "rows, and this workbook has %d"
 msgstr ""
+"Osa andmeid läheb kaotsi, kui salvestate excel 95 formaadis. See formaat "
+"toetab ainult %d rida, aga selles tööraamatus on %d rida"
 
 #: plugins/excel/ms-excel-write.c:4162
 #, fuzzy
@@ -750,38 +771,40 @@ msgid "Broken function"
 msgstr "Katkine funktsioon"
 
 #: plugins/excel/ms-formula-write.c:435
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Too many arguments for function, MS Excel expects exactly %d and we have more"
 msgstr ""
+"Liiga palju parameetreid funktsioonile, MS Excel vajab täpselt %d argumenti, "
+"aga meil on rohkem"
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
-msgstr ""
+msgstr "Impordib/Ekspordib MS Excel (tm) faile"
 
 #: plugins/excel/plugin.xml.in.h:2
 msgid "MS Excel (tm)"
-msgstr ""
+msgstr "MS Excel (tm)"
 
 #: plugins/excel/plugin.xml.in.h:3
 msgid "MS Excel (tm) (*.xls)"
-msgstr ""
+msgstr "MS Excel (tm) (*.xls)"
 
 #: plugins/excel/plugin.xml.in.h:4
 msgid "MS Excel (tm) 5.0/95"
-msgstr ""
+msgstr "MS Excel (tm) 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:5
 msgid "MS Excel (tm) 97/2000/XP"
-msgstr ""
+msgstr "MS Excel (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
 msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
-msgstr ""
+msgstr "MS Excel (tm) 97/2000/XP ja 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel (tm) XML"
-msgstr ""
+msgstr "MS Excel (tm) XML"
 
 #: plugins/fn-complex/functions.c:80
 #, fuzzy
@@ -807,8 +830,8 @@ msgstr ""
 "@DESCRIPTION=Funktsioon COMPLEX tagastab kompleksarvu kujul x + yi. @real on "
 "kompleksarvu reaal- ja @im imaginaarosa.  @sufiks on imaginaarosa sufiks.  "
 "Kui seda pole antud, kasutab COMPLEX vaikimisi 'i' -d.\n"
-"Kui @suffix pole ei 'i' ega 'j', tagastab COMPLEX #VALUE! vea.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"* Kui @suffix pole ei 'i' ega 'j', tagastab COMPLEX #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
 "COMPLEX(1,-1) võrdub 1-i.\n"
 "\n"
@@ -833,7 +856,10 @@ msgstr ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
 "@DESCRIPTION=Funktsioon IMAGINARY tagastab kompleksarvu imaginaarkordaja.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, siis IMAGINARY tagastab #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "IMAGINARY(\"132-j\") võrdub -1.\n"
 "\n"
@@ -857,7 +883,9 @@ msgstr ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
 "@DESCRIPTION=Funktsioon IMABS tagastab kompleksarvu absoluutväärtuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"* Kui @inumber ei ole kompleksarv, siis IMAGINARY tagastab #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "IMABS(\"2-j\") võrdub 2.23606798.\n"
 "\n"
@@ -881,7 +909,10 @@ msgstr ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
 "@DESCRIPTION=Funktsioon IMREAL tagastab kompleksarvu reaalosa kordaja.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, siis IMREAL tagastab #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "imreal(\"132-j\") võrdub 132.\n"
 "\n"
@@ -907,14 +938,16 @@ msgstr ""
 "@SYNTAX=IMCONJUGATE(inumber)\n"
 "@DESCRIPTION=Funktsioon IMCONJUGATE tagastab kompleksarvu "
 "vastandimaginaarosaga.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, siis IMCONJUGATE tagastab #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "IMCONJUGATE(\"1-j\") võrdub 1+j.\n"
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: plugins/fn-complex/functions.c:252
-#, fuzzy
 msgid ""
 "@FUNCTION=IMINV\n"
 "@SYNTAX=IMINV(inumber)\n"
@@ -930,17 +963,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN tagastab kompleksarvu siinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") võrdub 1.29846+0.63496j.\n"
-"\n"
-"@SEEALSO=IMCOS,IMTAN"
 
 #: plugins/fn-complex/functions.c:283
-#, fuzzy
 msgid ""
 "@FUNCTION=IMNEG\n"
 "@SYNTAX=IMNEG(inumber)\n"
@@ -956,14 +980,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMEXP\n"
-"@SYNTAX=IMEXP(inumber)\n"
-"@DESCRIPTION=IMEXP tagastab kompleksarvu eksponendi. \n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMEXP(\"2-j\") võrdub 3.992324-6.217676j.\n"
-"\n"
-"@SEEALSO=IMLN"
 
 #: plugins/fn-complex/functions.c:314
 #, fuzzy
@@ -983,7 +999,10 @@ msgstr ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
 "@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, siis IMCOS tagastab #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
 "\n"
@@ -1007,13 +1026,16 @@ msgstr ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
 "@DESCRIPTION=IMTAN tagastab kompleksarvu tangensi.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, siis IMTAN tagastab #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
+"IMTAN(\"2-j\") võrdub -0.2434582-1.1667363j.\n"
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
 #: plugins/fn-complex/functions.c:376
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSEC\n"
 "@SYNTAX=IMSEC(inumber)\n"
@@ -1029,17 +1051,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMCSC,IMCOT"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:409
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCSC\n"
 "@SYNTAX=IMCSC(inumber)\n"
@@ -1055,17 +1068,8 @@ msgid ""
 "\n"
 "@SEEALSO=IMSEC,IMCOT"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:442
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOT\n"
 "@SYNTAX=IMCOT(inumber)\n"
@@ -1081,14 +1085,6 @@ msgid ""
 "\n"
 "@SEEALSO=IMSEC,IMCSC"
 msgstr ""
-"@FUNCTION=IMCOS\n"
-"@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS tagastab kompleksarvu koosinuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"IMCOS(\"1+j\") võrdub 0.833730-0.988898j.\n"
-"\n"
-"@SEEALSO=IMSIN,IMTAN"
 
 #: plugins/fn-complex/functions.c:475
 #, fuzzy
@@ -1107,8 +1103,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
-"@DESCRIPTION=IMEXP tagastab kompleksarvu eksponendi. \n"
-"See funktsioon on Exceliga ühilduv. \n"
+"@DESCRIPTION=IMEXP tagastab kompleksarvu eksponendi.\n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, siis IMEXP tagastab #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "IMEXP(\"2-j\") võrdub 3.992324-6.217676j.\n"
 "\n"
@@ -1135,7 +1134,10 @@ msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
 "@DESCRIPTION=IMARGUMENT tagastab kompleksarvu teeta-argumendi.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, siis IMARGUMENT tagastab #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "IMARGUMENT(\"2-j\") võrdub -0.463647609.\n"
 "\n"
@@ -1166,7 +1168,10 @@ msgstr ""
 "rimaginaarosa on vahemikus -pi kuni +pi.  Kompleksarvu naturaallogaritm ei "
 "ole üheselt määratud. Võib osutuda vajalikuks liita või lahutada "
 "imaginaarosast pi paarisarv kordseid.)\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, siis IMEXP tagastab #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "IMLN(\"3-j\") võrdub 1.15129-0.32175j.\n"
 "\n"
@@ -1190,7 +1195,10 @@ msgstr ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
 "@DESCRIPTION=IMLOG2 tagastab kompleksarvu logaritmi alusel 2.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, siis IMLOG2 tagastab #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "IMLOG2(\"3-j\") võrdub 1.66096-0.46419j.\n"
 "\n"
@@ -1214,7 +1222,10 @@ msgstr ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
 "@DESCRIPTION=IMLOG10 tagastab kompleksarvu kümnendlogaritmi.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @inumber ei ole kompleksarv, siis IMLOG10 tagastab #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "IMLOG10(\"3-j\") võrdub 0.5-0.13973j.\n"
 "\n"
@@ -1239,9 +1250,14 @@ msgid ""
 "@SEEALSO=IMSQRT"
 msgstr ""
 "@FUNCTION=IMPOWER\n"
-"@SYNTAX=IMPOWER(inumber;arv)\n"
+"@SYNTAX=IMPOWER(inumber;inumber)\n"
 "@DESCRIPTION=IMPOWER tagastab kompleksarvu astendamise tulemuse.  @inumber "
 "on astendatav kompleksarv ja @number on astendaja, mida rakendatakse.\n"
+"\n"
+"* Kui @inumber1 või @inumber2 ei ole kompleksarv, siis IMPOWER tagastab "
+"#VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
 "IMPOWER(\"4-j\",2) võrdub 15-8j.\n"
@@ -1897,23 +1913,20 @@ msgstr "Arv"
 #: plugins/fn-complex/functions.c:1502 plugins/fn-complex/functions.c:1517
 #: plugins/fn-complex/functions.c:1529 plugins/fn-complex/functions.c:1532
 #: plugins/fn-complex/functions.c:1545
-#, fuzzy
 msgid "inumber,inumber"
-msgstr "Arv"
+msgstr ""
 
 #: plugins/fn-complex/plugin.xml.in.h:1
-#, fuzzy
 msgid "Complex"
-msgstr "Valim"
+msgstr "Kompleksarv"
 
 #: plugins/fn-complex/plugin.xml.in.h:2
-#, fuzzy
 msgid "Complex Functions"
-msgstr "Funktsioon"
+msgstr "Kompleksarvude funktsioonid"
 
 #: plugins/fn-complex/plugin.xml.in.h:3
 msgid "Functions for complex numbers"
-msgstr ""
+msgstr "Funktsioonid kompleksarvude jaoks"
 
 #: plugins/fn-database/functions.c:264
 msgid ""
@@ -2546,13 +2559,12 @@ msgid "Database"
 msgstr "Andmebaas"
 
 #: plugins/fn-database/plugin.xml.in.h:2
-#, fuzzy
 msgid "Database Functions"
-msgstr "Pythoni erand"
+msgstr "Andmebaasifunktsioonid"
 
 #: plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
-msgstr ""
+msgstr "Funktsioonid andmete otsimiseks andmebaasidest"
 
 #: plugins/fn-date/functions.c:62
 #, fuzzy
@@ -2593,6 +2605,7 @@ msgstr ""
 "@SEEALSO=TODAY, NOW"
 
 #: plugins/fn-date/functions.c:132
+#, fuzzy
 msgid ""
 "@FUNCTION=UNIX2DATE\n"
 "@SYNTAX=UNIX2DATE(unixtime)\n"
@@ -2605,8 +2618,19 @@ msgid ""
 "\n"
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 msgstr ""
+"@FUNCTION=UNIX2DATE\n"
+"@SYNTAX=UNIX2DATE(unixtime)\n"
+"@DESCRIPTION=UNIX2DATE teisendab unix'i aja tabelarvutuse kuupäevaks ja "
+"kellaajaks.\n"
+"\n"
+"Unix'i aeg on sekundite arv alates 1. jaanuarist 1970\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, DATE2UNIX"
 
 #: plugins/fn-date/functions.c:163
+#, fuzzy
 msgid ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
@@ -2619,6 +2643,16 @@ msgid ""
 "\n"
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 msgstr ""
+"@FUNCTION=UNIX2DATE\n"
+"@SYNTAX=UNIX2DATE(unixtime)\n"
+"@DESCRIPTION=UNIX2DATE teisendab tabelarvutuse kuupäeva ja kellaaja unix'i "
+"ajaks.\n"
+"\n"
+"Unix'i aeg on sekundite arv alates 1. jaanuarist 1970\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, DATE2UNIX"
 
 #: plugins/fn-date/functions.c:196
 #, fuzzy
@@ -2911,9 +2945,9 @@ msgstr ""
 "@SYNTAX=SECOND (seerianumber)\n"
 "@DESCRIPTION=Teisendab seerianumbri sekundiks.  Sekund tagastatakse "
 "täisarvuna vahemikus 0 kuni 59.\n"
-"Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, "
+"* Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, "
 "mistõttu võid sa kuupäevi sisestada stringidena.\n"
-"See funktsioon on Exceliga ühilduv.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
 "@EXAMPLES=\n"
 "SECOND(0.600613) võrdub 53.\n"
 "\n"
@@ -2965,9 +2999,9 @@ msgstr ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (seerianumber)\n"
 "@DESCRIPTION=Teisendab seerianumbri kuuks.\n"
-"Pane tähele, et Gnumeric oskab ise teisendada stringe "
-"seerianumbriteks, mistõttu võid sa kuupäevi sisestada stringidena.\n"
-"See funktsioon on Exceliga ühilduv.\n"
+"* Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, "
+"mistõttu võid sa kuupäevi sisestada stringidena.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
 "@EXAMPLES=\n"
 "MONTH(DATE(2003, 4, 30)) võrdub 4.\n"
 "\n"
@@ -2992,8 +3026,9 @@ msgstr ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (seerianumber)\n"
 "@DESCRIPTION=Teisendab seerianumbri kuupäevaks.\n"
-"Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, mistõttu võid sa kuupäevi sisestada stringidena.\n"
-"See funktsioon on Exceliga ühilduv.\n"
+"* Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, "
+"mistõttu võid sa kuupäevi sisestada stringidena.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
 "@EXAMPLES=\n"
 "DAY (\"10/24/1968\") võrdub 24.\n"
 "\n"
@@ -3029,8 +3064,9 @@ msgstr ""
 "See funktsioon tagastab täisarvu vahemikus 0-6, kus laupäev on 0, pühapäev "
 "on 1, jne.\n"
 "\n"
-"Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, mistõttu võid sa kuupäevi sisestada stringidena.\n"
-"See funktsioon on Exceliga ühilduv.\n"
+"* Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, "
+"mistõttu võid sa kuupäevi sisestada stringidena.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
 "@EXAMPLES=\n"
 "WEEKDAY(\"10/24/1968\") võrdub 5 (neljapäev).\n"
 "\n"
@@ -3065,11 +3101,12 @@ msgstr ""
 "@SYNTAX=DAYS360 (kuupäev1;kuupäev2;meetod)\n"
 "@DESCRIPTION=Tagastab päevade arvu alates @kuupäev1 kuni @kuupäev2 järgides "
 "360-päevast kalendrit, milles kõikides kuudes on 30 päeva.\n"
-"Kui @meetod on true, kasutatakse Euroopa meetodit.  Sel juhul, kui kuupäev "
+"* Kui @meetod on true, kasutatakse Euroopa meetodit.  Sel juhul, kui kuupäev "
 "on 31, võetakse ta 30.\n"
-"Kui @meetod on false või puudub, kasutatakse USA meetodit.  See on "
+"* Kui @meetod on false või puudub, kasutatakse USA meetodit.  See on "
 "keerulisem, tööstusstandardiga määratud meetod.\n"
-"Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, mistõttu võid sa kuupäevi sisestada stringidena.\n"
+"* Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, "
+"mistõttu võid sa kuupäevi sisestada stringidena.\n"
 "See funktsioon on Exceliga ühilduv.\n"
 "@EXAMPLES=\n"
 "DAYS360(DATE(2003, 2, 3), DATE(2007, 4, 2)) võrdub 1499.\n"
@@ -3295,7 +3332,7 @@ msgstr ""
 
 #: plugins/fn-date/functions.c:1298
 msgid "hours,minutes,seconds"
-msgstr ""
+msgstr "tunnid,minutid,sekundid"
 
 #: plugins/fn-date/functions.c:1302
 #, fuzzy
@@ -3304,30 +3341,30 @@ msgstr "aeg"
 
 #: plugins/fn-date/functions.c:1318
 msgid "date,days,holidays"
-msgstr ""
+msgstr "kuupäev,päevad,puhkepäevad"
 
 #: plugins/fn-date/functions.c:1332
 #, fuzzy
 msgid "unixtime"
-msgstr "aeg"
+msgstr "unix'i aeg"
 
 #: plugins/fn-date/functions.c:1336
 #, fuzzy
 msgid "serial"
-msgstr "Üldine"
+msgstr "sari"
 
 #: plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
-msgstr ""
+msgstr "Kuupäeva ja kellaaja funktsioonid"
 
 #: plugins/fn-date/plugin.xml.in.h:2
-#, fuzzy
 msgid "Date/Time"
-msgstr "Kuupäev / Aeg"
+msgstr "Kuupäev/Aeg"
 
 #: plugins/fn-date/plugin.xml.in.h:3
+#, fuzzy
 msgid "Functions manipulating dates and time"
-msgstr ""
+msgstr "Funktsioonid kuupäeva ja kellaaja käsitlemiseks"
 
 #: plugins/fn-eng/functions.c:115
 #, fuzzy
@@ -6495,7 +6532,7 @@ msgstr ""
 #: plugins/fn-financial/plugin.xml.in.h:1
 #, fuzzy
 msgid "Finance"
-msgstr "Finantsilised"
+msgstr "Rahanduslik"
 
 #: plugins/fn-financial/plugin.xml.in.h:2
 #, fuzzy
@@ -11959,7 +11996,6 @@ msgstr ""
 "@SEEALSO=POISSON"
 
 #: plugins/fn-stat/functions.c:1928
-#, fuzzy
 msgid ""
 "@FUNCTION=CAUCHY\n"
 "@SYNTAX=CAUCHY(x,a,cum)\n"
@@ -11974,15 +12010,6 @@ msgid ""
 "\n"
 "@SEEALSO=RANDCAUCHY"
 msgstr ""
-"@FUNCTION=RANDNEGBINOM\n"
-"@SYNTAX=RANDNEGBINOM(p;vigu)\n"
-"@DESCRIPTION=RANDNEGBINOM tagastab negatiivse binoomjaotusega juhuarvu. \n"
-"Kui @p < 0 or @p > 1, tagastab RANDNEGBINOM #NUM! vea. Kui @vigu < 0, "
-"tagastab RANDNEGBINOM #NUM! vea. \n"
-"@EXAMPLES=\n"
-"RANDNEGBINOM(0.5,2).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
 
 #: plugins/fn-stat/functions.c:1968
 #, fuzzy
@@ -12011,17 +12038,19 @@ msgstr ""
 "kumulatiivsus on suurem või võrdne antud väärtusega. @katseid on katsete "
 "arv, @p on õnnestumise tõenäosus katsete seas ja @alfa on kriteeriumi "
 "väärtus. \n"
-"Kui @katseid ei ole täisarv, siis ta trimmitakse. Kui @katseid < 0, tagastab "
-"CRITBINOM #NUM! vea. Kui @p < 0 või @p > 1, tagastab CRITBINOM #NUM! vea. "
-"Kui @alfa < 0 või @alfa > 1, tagastab CRITBINOM #NUM! vea.\n"
-"See funktsioon on Exceliga ühilduv.\n"
+"\n"
+"* Kui @katseid ei ole täisarv, siis ta trimmitakse.\n"
+"* Kui @katseid < 0, tagastab CRITBINOM #NUM! vea.\n"
+"* Kui @p < 0 või @p > 1, tagastab CRITBINOM #NUM! vea.\n"
+"* Kui @alfa < 0 või @alfa > 1, tagastab CRITBINOM #NUM! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "CRITBINOM(10,0.5,0.75) võrdub 6.\n"
 "\n"
 "@SEEALSO=BINOMDIST"
 
 #: plugins/fn-stat/functions.c:2008
-#, fuzzy
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -12041,16 +12070,17 @@ msgstr ""
 "@SYNTAX=PERMUT(n;k)\n"
 "@DESCRIPTION=Funktsioon PERMUT tagastab permutatsioonide arvu. @n on "
 "objektide arv, @k on objektide arv igas permutatsioonis.\n"
-"Kui @n = 0, tagastab PERMUT #NUM! vea.  Kui @n < @k, tagastab PERMUT #NUM! "
-"vea.\n"
-" See funktsioon on Exceliga ühilduv.\n"
+"\n"
+"* Kui @n = 0, tagastab PERMUT #NUM! vea.\n"
+"* Kui @n < @k, tagastab PERMUT #NUM! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "PERMUT(7,3) võrdub 210.\n"
 "\n"
 "@SEEALSO=COMBIN"
 
 #: plugins/fn-stat/functions.c:2043
-#, fuzzy
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -12073,17 +12103,18 @@ msgstr ""
 "@DESCRIPTION=Funktsioon HYPGEOMDIST tagastab hüpergeomeetrilise jaotuse. @x "
 "on edukate katsete arv valimis, @n on katsete arv, @M on kõikide edukate "
 "katsete arv ja @N on populatsiooni suurus.\n"
-"Kui @x,@n,@M või @N ei ole täisarvud, siis nad trimmitakse.  Kui @x,@n,@M "
-"või @N < 0, tagastab HYPGEOMDIST #NUM! vea.  Kui @x > @M või @n > @N, "
-"tagastab HYPGEOMDIST #NUM! vea.\n"
-"See funktsioon on Exceliga ühilduv.\n"
+"\n"
+"* Kui @x,@n,@M või @N ei ole täisarvud, siis nad trimmitakse.\n"
+"* Kui @x,@n,@M või @N < 0, tagastab HYPGEOMDIST #NUM! vea.\n"
+"* Kui @x > @M või @n > @N, tagastab HYPGEOMDIST #NUM! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "HYPGEOMDIST(1,2,3,10) võrdub 0.4666667.\n"
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
 
 #: plugins/fn-stat/functions.c:2082
-#, fuzzy
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -12106,9 +12137,12 @@ msgstr ""
 "@DESCRIPTION=Funktsioon CONFIDENCE tagastab keskmise usaldusvahemiku. @x on "
 "olulisuse nivoo, @stddev on populatsiooni standardhälve ja @suurus on valimi "
 "suurus.\n"
-"Kui @suurus ei ole täisarv, siis ta trimmitakse.  Kui @suurus < 0, tagastab "
-"CONFIDENCE #NUM! vea.  Kui @suurus on 0, tagastab CONFIDENCE #DIV/0! vea.\n"
-"See funktsioon on Exceliga ühilduv.\n"
+"\n"
+"* Kui @suurus ei ole täisarv, siis ta trimmitakse.\n"
+"* Kui @suurus < 0, tagastab CONFIDENCE #NUM! vea.\n"
+"* Kui @suurus on 0, tagastab CONFIDENCE #DIV/0! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "CONFIDENCE(0.05,1,33) võrdub 0.341185936.\n"
 "\n"
@@ -12136,15 +12170,15 @@ msgstr ""
 "@DESCRIPTION=Funktsioon STANDARDIZE tagastab normaliseeritud väärtuse. @x on "
 "normaliseeritav arv, @keskmine on jaotuse keskmine, @sthälve on jaotuse "
 "standardhälve.\n"
-"Kui @sthälve on 0, tagastab STANDARDIZE #DIV/0! vea.\n"
-"See funktsioon on Exceliga ühilduv.\n"
+"\n"
+"* Kui @sthälve on 0, tagastab STANDARDIZE #DIV/0! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
 "@EXAMPLES=\n"
 "STANDARDIZE(3,2,4) võrdub 0.25.\n"
 "\n"
 "@SEEALSO=AVERAGE"
 
 #: plugins/fn-stat/functions.c:2161
-#, fuzzy
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -12169,12 +12203,17 @@ msgstr ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x;alfa;beeta;kumulatiivne)\n"
 "@DESCRIPTION=Funktsioon WEIBULL tagastab Weibull'i jaotuse. Kui tõeväärtus "
-"@kumulatiivne on TRUE, tagastab ta: 1 - exp (-(@x/@beeta)^@alfa), vastasel "
-"juhul tagastab ta (@alfa/@beeta^@alfa) * @x^(@alfa-1) * exp(-(@x/"
-"@beeta^@alfa)). \n"
-"Kui @x < 0, tagastab WEIBULL #NUM! vea. Kui @alfa <= 0 või @beeta <= 0, "
-"tagastab WEIBULL #NUM! vea.\n"
-"See funktsioon on Exceliga ühilduv.\n"
+"@kumulatiivne on TRUE, tagastab ta:\n"
+"\n"
+"\t1 - exp (-(@x/@beeta)^@alfa),\n"
+"\n"
+"vastasel juhul tagastab ta\n"
+"\t(@alfa/@beeta^@alfa) * @x^(@alfa-1) * exp(-(@x/@beeta^@alfa)).\n"
+"\n"
+"* Kui @x < 0, tagastab WEIBULL #NUM! vea.\n"
+"* Kui @alfa <= 0 või @beeta <= 0, tagastab WEIBULL #NUM! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "WEIBULL(3,2,4,0) võrdub 0.213668559.\n"
 "\n"
@@ -12202,8 +12241,10 @@ msgstr ""
 "@DESCRIPTION=Funktsioon NORMDIST tagastab normaalse kumulatiivse jaotuse. @x "
 "on väärtus, mille jaotust soovitakse, @keskmine on jaotuse keskmine, "
 "@sthälve on standardhälve. \n"
-"Kui @sthälve on 0, tagastab NORMDIST #DIV/0! vea.\n"
-"See funktsioon on Exceliga ühilduv.\n"
+"\n"
+"* Kui @sthälve on 0, tagastab NORMDIST #DIV/0! vea.\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "NORMDIST(2,1,2,0) võrdub 0.176032663.\n"
 "\n"
@@ -13999,9 +14040,8 @@ msgid "ref,ref,"
 msgstr ""
 
 #: plugins/fn-stat/plugin.xml.in.h:1
-#, fuzzy
 msgid "Statistical Functions"
-msgstr "Funktsioon"
+msgstr "Statistikafunktsioonid"
 
 #: plugins/fn-stat/plugin.xml.in.h:2
 msgid "Statistics"
@@ -14022,6 +14062,7 @@ msgstr ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
 "@DESCRIPTION=CHAR tagastab sümboli vastavalt selle ASCII koodile @x.\n"
+"\n"
 "@EXAMPLES=\n"
 "CHAR(65) võrdub A.\n"
 "\n"
@@ -14044,6 +14085,7 @@ msgstr ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
 "@DESCRIPTION=CHAR tagastab sümboli vastavalt selle ASCII koodile @x.\n"
+"\n"
 "@EXAMPLES=\n"
 "CHAR(65) võrdub A.\n"
 "\n"
@@ -14066,14 +14108,15 @@ msgstr ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
 "@DESCRIPTION=CODE tagastab sümboli @char ASCII koodi.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "CODE(\"A\") võrdub 65.\n"
 "\n"
 "@SEEALSO=CHAR"
 
 #: plugins/fn-string/functions.c:179
-#, fuzzy
 msgid ""
 "@FUNCTION=UNICODE\n"
 "@SYNTAX=UNICODE(char)\n"
@@ -14085,14 +14128,6 @@ msgid ""
 "\n"
 "@SEEALSO=UNICHAR,CODE,CHAR"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=CODE tagastab sümboli @char ASCII koodi.\n"
-"See funktsioon on Exceliga ühilduv. \n"
-"@EXAMPLES=\n"
-"CODE(\"A\") võrdub 65.\n"
-"\n"
-"@SEEALSO=CHAR"
 
 #: plugins/fn-string/functions.c:205
 #, fuzzy
@@ -14114,7 +14149,9 @@ msgstr ""
 "@SYNTAX=EXACT(string1;string2)\n"
 "@DESCRIPTION=EXACT tagastab true kui @string1 on täpselt sama nagu @string2 "
 "(funktsioon eristab suurtähti).\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "EXACT(\"key\",\"key\") võrdub TRUE.\n"
 "EXACT(\"key\",\"Key\") võrdub FALSE.\n"
@@ -14138,7 +14175,9 @@ msgstr ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
 "@DESCRIPTION=LEN tagastab @stringi sümbolite arvu.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "len(\"Helsinki\") võrdub 8.\n"
 "\n"
@@ -14163,7 +14202,9 @@ msgstr ""
 "@SYNTAX=LEFT(tekst[;num_chars])\n"
 "@DESCRIPTION=LEFT tagastab @num_chars vasakpoolset sümbolit stringist ja "
 "ainult vasakpoolse kui @num_chars ei ole määratud.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "LEFT(\"Directory\",3) võrdub \"Dir\".\n"
 "\n"
@@ -14186,7 +14227,9 @@ msgstr ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(tekst)\n"
 "@DESCRIPTION=LOWER tagastab stringi @text väiketähtedega.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "LOWER(\"J. F. Kennedy\") võrdub \"j. f. kennedy\".\n"
 "\n"
@@ -14211,7 +14254,9 @@ msgstr ""
 "@SYNTAX=MID(string;position;pikkus)\n"
 "@DESCRIPTION=MID tagastab stringi @string osa, alustades @position -ist ja "
 "milles on @pikkus sümbolit.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "MID(\"testing\",2,3) võrdub \"est\".\n"
 "\n"
@@ -14237,7 +14282,9 @@ msgstr ""
 "@SYNTAX=RIGHT(tekst[;num_chars])\n"
 "@DESCRIPTION=RIGHT tagastab stringist @num_chars parempoolset sümbolit, ja "
 "ainult parempoolse, kui @num_chars ei ole määratud.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "RIGHT(\"end\") võrdub \"d\".\n"
 "RIGHT(\"end\",2) võrdub \"nd\".\n"
@@ -14261,7 +14308,9 @@ msgstr ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(tekst)\n"
 "@DESCRIPTION=UPPER tagastab stringi @tekst suurtähtedega.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "UPPER(\"canceled\") võrdub \"CANCELED\".\n"
 "\n"
@@ -14285,7 +14334,9 @@ msgstr ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[;string2...])\n"
 "@DESCRIPTION=CONCATENATE tagastab üksteise järgi pandud stringid.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "CONCATENATE(\"aa\",\"bb\") võrdub \"aabb\".\n"
 "\n"
@@ -14308,7 +14359,9 @@ msgstr ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string;num)\n"
 "@DESCRIPTION=REPT tagastab @num kordusi @string -ist.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "REPT(\".\",3) võrdub \"...\".\n"
 "\n"
@@ -14331,7 +14384,9 @@ msgstr ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
 "@DESCRIPTION=CLEAN koristab kõik mitteprinditavad sümbolid @string -ist.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "CLEAN(\"one\"\\&char(7)) võrdub \"one\".\n"
 "\n"
@@ -14357,7 +14412,9 @@ msgstr ""
 "@DESCRIPTION=FIND tagastab @string1 asukoha @string2 -s (eristades "
 "suurtähti), otsides ainult alates sümbolist @start edasi (kui puudub, siis "
 "1).\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "FIND(\"ac\",\"Jack\") võrdub 2.\n"
 "\n"
@@ -14382,7 +14439,9 @@ msgstr ""
 "@SYNTAX=FIXED(num[;kümnend;no_commas])\n"
 "@DESCRIPTION=FIXED tagastab @num vormindatud stringina @kümnend kohaga peale "
 "koma, kõrvaldades koma, kui @no_commas on määratud.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "FIXED(1234.567,2) võrdub \"1,234.57\".\n"
 "\n"
@@ -14406,7 +14465,9 @@ msgstr ""
 "@SYNTAX=PROPER(string)\n"
 "@DESCRIPTION=PROPER tagastab @stringi , mille iga sõna algustäht muudetakse "
 "suurtäheks.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "PROPER(\"j. f. kennedy\") võrdub \"J. F. Kennedy\".\n"
 "\n"
@@ -14431,7 +14492,9 @@ msgstr ""
 "@SYNTAX=REPLACE(vana;algus;num;uus)\n"
 "@DESCRIPTION=REPLACE tagastab @vana koos stringiga @uus, mis asendab @num "
 "sümbolit @algusest.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "REPLACE(\"testing\",2,3,\"*****\") võrdub \"t*****ing\".\n"
 "\n"
@@ -14462,7 +14525,9 @@ msgstr ""
 "@SYNTAX=T(väärtus)\n"
 "@DESCRIPTION=T tagastab @väärtuse siis ja ainult siis, kui see on tekst, "
 "vastasel juhul tagastatakse tühi string.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "T(\"text\") võrdub \"text\".\n"
 "T(64) tagastab tühja lahtri.\n"
@@ -14487,7 +14552,9 @@ msgstr ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(väärtus;formaat)\n"
 "@DESCRIPTION=TEXT tagastab @väärtuse määratud formaadis stringina.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "TEXT(3.223,\"$0.00\") võrdub \"$3.22\".\n"
 "TEXT(date(1999,4,15),\"mmmm, dd, yy\") võrdub \"April, 15, 99\".\n"
@@ -14516,7 +14583,9 @@ msgstr ""
 "@SYNTAX=TRIM(tekst)\n"
 "@DESCRIPTION=TRIM tagastab stringi @tekst ainult ühekaupa tühikutega sõnade "
 "vahel.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "TRIM(\"  a bbb  cc\") võrdub \"a bbb cc\".\n"
 "\n"
@@ -14539,7 +14608,9 @@ msgstr ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(tekst)\n"
 "@DESCRIPTION=VALUE tagastab stringi @tekst arvulise väärtuse.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "VALUE(\"$1,000\") võrdub 1000.\n"
 "\n"
@@ -14566,7 +14637,9 @@ msgstr ""
 "@DESCRIPTION=SUBSTITUTE asendab @vana tekstiga @uus stringis @tekst.  "
 "Asendusi tehakse ainult @num korda, kui määratud, vastasel juhul asendatakse "
 "kõik.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv.\n"
+"\n"
 "@EXAMPLES=\n"
 "SUBSTITUTE(\"testing\",\"test\",\"wait\") võrdub \"waiting\".\n"
 "\n"
@@ -14589,7 +14662,9 @@ msgstr ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[;decimals])\n"
 "@DESCRIPTION=DOLLAR tagastab @num vormindatud rahana.\n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "DOLLAR(12345) võrdub \"$12,345.00\".\n"
 "\n"
@@ -14628,13 +14703,16 @@ msgstr ""
 "otsitakse.  @start_num on asukoht, millest alates @ala seest otsitakse.  Kui "
 "@start_num puudub, oletatakse, et see on üks.  Otsing ei erista suur- ja "
 "väiketähti. \n"
+"\n"
 "@tekst võib sisaldada tärne (*) ja küsimärke (?) otsingu juhtimiseks.  "
 "Küsimärk sobib iga sümboliga ja tärn sobib iga stringiga, kaasa arvatud tühi "
 "string.  Kui otsitakse ka tegelikult tärne või küsimärke, siis peab kasutama "
 "tildet (~) enne sümbolit. \n"
-"Kui @tekst jäi leidmata, tagastab SEARCH #VALUE! vea. Kui @start_num on "
-"väiksem kui üks või suurem kui @ala, tagastab SEARCH #VALUE! vea. \n"
-"See funktsioon on Exceliga ühilduv. \n"
+"\n"
+"* Kui @tekst jäi leidmata, tagastab SEARCH #VALUE! vea.* Kui @start_num on "
+"väiksem kui üks või suurem kui @ala, tagastab SEARCH #VALUE! vea.\n"
+"* See funktsioon on Exceliga ühilduv. \n"
+"\n"
 "@EXAMPLES=\n"
 "SEARCH(\"c\",\"Cancel\") võrdub 1.\n"
 "SEARCH(\"c\",\"Cancel\",2) võrdub 4.\n"
@@ -14646,9 +14724,8 @@ msgid "text,text,"
 msgstr ""
 
 #: plugins/fn-string/functions.c:1147
-#, fuzzy
 msgid "num,decimals"
-msgstr "Eemalda kümnendkohti"
+msgstr ""
 
 #: plugins/fn-string/functions.c:1150
 msgid "text1,text2"
@@ -14692,7 +14769,7 @@ msgstr ""
 
 #: plugins/fn-string/plugin.xml.in.h:1
 msgid "Functions for manipulating strings"
-msgstr ""
+msgstr "Funktsioonid tekstitöötluseks"
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:136
 #: src/func.c:677
@@ -14823,67 +14900,72 @@ msgid "Guile Plugin"
 msgstr "Aktiivsed pluginad"
 
 #: plugins/guile/plugin.xml.in.h:2
+#, fuzzy
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr ""
+msgstr "See plugin võimaldab kasutada Guile(scheme) Gnumericus"
 
 #: plugins/guile/smob-value.c:102
 #, fuzzy
 msgid "Unable to convert value from Guile"
-msgstr "Ei saa sulgeda mooduli faili \"%s\"."
+msgstr "Ei saa transleerida Guile'i väärtust."
 
 #: plugins/guile/smob-value.c:163
+#, fuzzy
 msgid "Not a Guile boolean"
-msgstr ""
+msgstr "Ei ole Guile tõeväärtus"
 
 #: plugins/guile/smob-value.c:181
 #, fuzzy
 msgid "Not a Guile number"
-msgstr "Negat_iivne arv"
+msgstr "Ei ole Guile arv"
 
 #: plugins/guile/smob-value.c:199
+#, fuzzy
 msgid "Not a Guile string"
-msgstr ""
+msgstr "Ei ole Guile tekstijada"
 
 #: plugins/html/html_read.c:358
 #, fuzzy
 msgid "Unable to parse the html."
-msgstr "Ei suuda asetada"
+msgstr "Ei suuda töödelda html koodi."
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: plugins/html/plugin.xml.in.h:2
 msgid "HTML & TeX"
-msgstr ""
+msgstr "HTML ja Tex"
 
 #: plugins/html/plugin.xml.in.h:3
 msgid "HTML (*.html) fragment"
-msgstr ""
+msgstr "HTML (*.html) osa"
 
 #: plugins/html/plugin.xml.in.h:4
 msgid "HTML 3.2 (*.html)"
-msgstr ""
+msgstr "HTML 3.2 (*.html)"
 
 #: plugins/html/plugin.xml.in.h:5
 msgid "HTML 4.0 (*.html)"
-msgstr ""
+msgstr "HTML 4.0 (*.html)"
 
 #: plugins/html/plugin.xml.in.h:6
+#, fuzzy
 msgid "Import/Export of HTML, TeX, DVI, roff"
-msgstr ""
+msgstr "Impordib/Ekspordib HTML, Tex'i, DVI, roff'i"
 
 #: plugins/html/plugin.xml.in.h:7
 msgid "LaTeX 2e (*.tex)"
-msgstr ""
+msgstr "LaTeX 2e (*.tex)"
 
 #: plugins/html/plugin.xml.in.h:8
 msgid "TROFF (*.me)"
-msgstr ""
+msgstr "TROFF (*.me)"
 
 #: plugins/html/plugin.xml.in.h:9
+#, fuzzy
 msgid "XHTML (*.html)"
-msgstr ""
+msgstr "XHTML (*.xhtml)"
 
 #: plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
@@ -14894,17 +14976,16 @@ msgid "Error while reading lotus workbook."
 msgstr "Viga Lotuse dokumendi lugemisel."
 
 #: plugins/lotus-123/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports Lotus 123 files"
-msgstr "Impordib faili"
+msgstr "Impordib Lotus 123 faile"
 
 #: plugins/lotus-123/plugin.xml.in.h:2
 msgid "Lotus 123"
-msgstr ""
+msgstr "Lotus 123"
 
 #: plugins/lotus-123/plugin.xml.in.h:3
 msgid "Lotus 123 (*.wk1)"
-msgstr ""
+msgstr "Lotus 123 (*.wk1)"
 
 #: plugins/mps/mps.c:183
 msgid "Program Name"
@@ -14921,7 +15002,7 @@ msgstr "Objektiivne väärtus"
 
 #: plugins/mps/mps.c:229
 msgid "Objective function:"
-msgstr "Objektiivne funktsioon"
+msgstr "Objektiivne funktsioon:"
 
 #: plugins/mps/mps.c:236
 msgid "Constraints:"
@@ -15032,7 +15113,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -15049,8 +15130,10 @@ msgstr ""
 "@DESCRIPTION=NT_MU funktsioon (Möbiuse mu funktsioon) tagastab \n"
 "0  kui @n jagub mõne algarvu ruuduga .\n"
 "Vastasel juhul tagastatakse: \n"
-"-1 kui @n -il on paaritu arv erinevaid algarvulisi tegureid .\n"
-"1  kui @n -il on paarisarv erinevaid algarvulisi tegureid .\n"
+"\n"
+"  -1 kui @n -il on paaritu arv erinevaid algarvulisi tegureid .\n"
+"   1  kui @n -il on paarisarv erinevaid algarvulisi tegureid .\n"
+"\n"
 "Kui @n=1 , tagastatakse 1\n"
 "\n"
 "@EXAMPLES=\n"
@@ -15069,7 +15152,7 @@ msgstr ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
 "@DESCRIPTION=NT_D funktsioon leiab arvu @n tegurite arvu.\n"
-"See funktsioon vajab ühte argumenti.\n"
+"\n"
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
@@ -15239,14 +15322,12 @@ msgstr ""
 "@SEEALSO=BITRSHIFT"
 
 #: plugins/numtheory/plugin.xml.in.h:1
-#, fuzzy
 msgid "Bitwise Operations"
-msgstr "Tegevus"
+msgstr ""
 
 #: plugins/numtheory/plugin.xml.in.h:2
-#, fuzzy
 msgid "Number Theory"
-msgstr "Arv"
+msgstr "Arvuteooria"
 
 #: plugins/numtheory/plugin.xml.in.h:3
 msgid ""
@@ -15256,30 +15337,29 @@ msgstr ""
 
 #: plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
-msgstr ""
+msgstr "GNU Oleo"
 
 #: plugins/oleo/plugin.xml.in.h:2
 msgid "GNU Oleo (*.oleo)"
-msgstr ""
+msgstr "GNU Oleo (*.oleo)"
 
 #: plugins/oleo/plugin.xml.in.h:3
 msgid "Imports GNU Oleo documents"
-msgstr ""
+msgstr "Impordib GNU Oleo documente"
 
 #: plugins/openoffice/openoffice-read.c:421
-#, fuzzy
 msgid "Missing expression"
-msgstr "Tühista avaldis"
+msgstr "Puuduv avaldis"
 
 #: plugins/openoffice/openoffice-read.c:426
 #, c-format
 msgid "Expression '%s' does not start with a recognized character"
-msgstr ""
+msgstr "Avaldis '%s' ei alga äratuntava tähemärgiga"
 
 #: plugins/openoffice/openoffice-read.c:439
 #, fuzzy, c-format
 msgid "Unable to parse '%s' because '%s'"
-msgstr "Ei saa avada faili '%s'"
+msgstr "Ei suuda töödelda '%s' kuna '%s'"
 
 #: plugins/openoffice/openoffice-read.c:496
 msgid "Invalid array expression does not specify number of columns."
@@ -15290,15 +15370,15 @@ msgid "Invalid array expression does not specify number of rows."
 msgstr ""
 
 #: plugins/openoffice/openoffice-read.c:747
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
-msgstr "Ei saa avada faili '%s'"
+msgstr ""
 
 #: plugins/openoffice/openoffice-read.c:760
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
-msgstr "Ei saa avada faili '%s'"
+msgstr ""
 
 #: plugins/openoffice/openoffice-read.c:935
 msgid "No stream named content.xml found."
@@ -15306,64 +15386,68 @@ msgstr ""
 
 #: plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc)"
-msgstr ""
+msgstr "Open/Star Calc (*.sxc)"
 
 #: plugins/openoffice/plugin.xml.in.h:2
 #, fuzzy
 msgid "Open/Star Office spreadsheet"
-msgstr "Ava tabel"
+msgstr "Open/Star Office tabel"
 
 #: plugins/openoffice/plugin.xml.in.h:3
 msgid "OpenCalc/StarCalc"
-msgstr ""
+msgstr "OpenCalc/StarCalc"
 
 #: plugins/perl/plugin.xml.in.h:1
 #, fuzzy
 msgid "Enables the creation of functions in Perl"
-msgstr "Võimaldab mõnede kontrollfunktsioonide töö"
+msgstr "Võimaldab luua uusi funktsioone Perlis"
 
 #: plugins/perl/plugin.xml.in.h:2
 msgid "Perl"
-msgstr ""
+msgstr "Perl"
 
 #: plugins/plan-perfect/pln.c:504
 msgid "PLN : Spreadsheet is password encrypted"
-msgstr "PLN : Tabel on parooliga kodeeritud"
+msgstr "PLN : Tabel on parooliga krüpteeritud"
 
 #: plugins/plan-perfect/pln.c:571
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr ""
+"Ignoreeritakse andmeid, mis peaksid olema reas %u, mis on aga suurem kui "
+"maksimaalne ridade arv %u"
 
 #: plugins/plan-perfect/pln.c:575
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
+"Ignoreeritakse andmeid, mis peaksid olema tulbas %u, mis on aga suurem kui "
+"maksimaalne tulpade arv %u"
 
 #: plugins/plan-perfect/plugin.xml.in.h:1
 msgid "Imports Plan Perfect Formatted Documents"
-msgstr ""
+msgstr "Impordib Plan Perfect'i poolt loodud dokumente"
 
 #: plugins/plan-perfect/plugin.xml.in.h:2
 #, fuzzy
 msgid "Plan Perfect"
-msgstr "Puhas tekst"
+msgstr "Plan Perfect"
 
 #: plugins/plan-perfect/plugin.xml.in.h:3
 msgid "Plan Perfect Format (PLN) import"
-msgstr ""
+msgstr "Plan Perfect formaadi (PLN) import"
 
 #: plugins/psiconv/plugin.xml.in.h:1
 msgid "Imports Psion 5 series Sheet files"
-msgstr ""
+msgstr "Impordib Psion 5 seeria tabelifaile"
 
 #: plugins/psiconv/plugin.xml.in.h:2
 msgid "Psiconv"
-msgstr ""
+msgstr "Psiconv"
 
 #: plugins/psiconv/plugin.xml.in.h:3
 msgid "Psion (*.psisheet)"
-msgstr ""
+msgstr "Psion (*.psisheet)"
 
 #: plugins/psiconv/psiconv-read.c:592
 msgid "Error while reading psiconv file."
@@ -15375,16 +15459,16 @@ msgstr "Viga psiconv faili töötlemisel."
 
 #: plugins/py-func/plugin.xml.in.h:1
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #: plugins/py-func/plugin.xml.in.h:2
 #, fuzzy
 msgid "Python functions"
-msgstr "Pythoni erand"
+msgstr "Pythoni funktsioonid"
 
 #: plugins/py-func/plugin.xml.in.h:3
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
+msgstr "Pythoni näidisplugin mõningate (kasutute) funktsioonidega."
 
 #: plugins/python-loader/gnm-py-interpreter.c:224
 msgid "Default interpreter"
@@ -15393,7 +15477,7 @@ msgstr ""
 #: plugins/python-loader/plugin.xml.in.h:1
 #, fuzzy
 msgid "Python plugin loader"
-msgstr "Ei suuda laadida plugina laadijat."
+msgstr "Pythoni pluginalaadija"
 
 #: plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
@@ -15407,7 +15491,7 @@ msgstr ""
 #: plugins/python-loader/py-console.c:125
 #, fuzzy
 msgid "Gnumeric Python console"
-msgstr "Gnumeric"
+msgstr "Gnumericu Pythoni konsool"
 
 #: plugins/python-loader/py-console.c:135
 #, fuzzy
@@ -15417,7 +15501,7 @@ msgstr "Tegevus :"
 #: plugins/python-loader/py-console.c:179
 #, fuzzy
 msgid "C_ommand:"
-msgstr "Märkused"
+msgstr "Käsk:"
 
 #: plugins/python-loader/py-gnumeric.c:223
 #: plugins/python-loader/py-gnumeric.c:263
@@ -15494,20 +15578,19 @@ msgstr ""
 #: plugins/python-loader/ui-console-menu.xml.h:2
 #, fuzzy
 msgid "Python console"
-msgstr "Pythoni erand"
+msgstr "Pythoni konsool"
 
 #: plugins/qpro/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports Quatro Pro (tm) files"
-msgstr "Impordib faili"
+msgstr "Impordib Quatro Pro (tm) faile"
 
 #: plugins/qpro/plugin.xml.in.h:2
 msgid "Quatro Pro"
-msgstr ""
+msgstr "Quatro Pro"
 
 #: plugins/qpro/plugin.xml.in.h:3
 msgid "Quatro Pro(tm)"
-msgstr ""
+msgstr "Quatro Pro(tm)"
 
 #: plugins/qpro/qpro-read.c:151
 #, c-format
@@ -15544,15 +15627,15 @@ msgstr ""
 #: plugins/sc/plugin.xml.in.h:1
 #, fuzzy
 msgid "Imports SC/XSpread files"
-msgstr "Impordib faili"
+msgstr "Impordib SC/XSpread faile"
 
 #: plugins/sc/plugin.xml.in.h:2
 msgid "SC/XSpread"
-msgstr ""
+msgstr "SC/XSpread"
 
 #: plugins/sc/plugin.xml.in.h:3
 msgid "SC/xspread"
-msgstr ""
+msgstr "SC/xspread"
 
 #: plugins/sc/sc.c:376
 msgid "Error parsing line"
@@ -15568,13 +15651,12 @@ msgstr "Viga rea analüüsil"
 #. *
 #.
 #: plugins/sylk/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports MultiPlan (SYLK) files"
-msgstr "Impordib faili"
+msgstr "Impordib MultiPlan (SYLK) faile"
 
 #: plugins/sylk/plugin.xml.in.h:2
 msgid "MultiPlan (SYLK)"
-msgstr ""
+msgstr "MultiPlan (SYLK)"
 
 #: plugins/sylk/sylk.c:372
 msgid "Not SYLK file"
@@ -15595,12 +15677,12 @@ msgstr "Viga lehe lugemisel."
 
 #: plugins/uihello/hello.xml.h:1
 msgid "Hello World"
-msgstr ""
+msgstr "Tere maailm"
 
 #: plugins/uihello/uihello.c:24
-#, c-format
+#, fuzzy, c-format
 msgid "This is message from the \"%s\" plugin."
-msgstr ""
+msgstr "See teade on pärit \"%s\" pluginast."
 
 #: plugins/xbase/boot.c:169
 msgid "Error while opening xbase file."
@@ -15613,19 +15695,16 @@ msgid "Sheet"
 msgstr "Leht"
 
 #: plugins/xbase/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports XBase files"
-msgstr "Impordib faili"
+msgstr "Impordib XBase faile"
 
 #: plugins/xbase/plugin.xml.in.h:2
-#, fuzzy
 msgid "XBase"
-msgstr "Aseta"
+msgstr "XBase"
 
 #: plugins/xbase/plugin.xml.in.h:3
-#, fuzzy
 msgid "Xbase (*.dbf) file format"
-msgstr "Toetamata failiformaat."
+msgstr "Xbase (*.dbf) failiformaat"
 
 #: plugins/xml_sax/plugin.xml.in.h:1
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
@@ -15666,16 +15745,15 @@ msgstr ""
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 #, fuzzy
 msgid "Activate New Plugins"
-msgstr "Aktiveeri plugin"
+msgstr "Aktiveeri uued pluginad"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:2
 msgid "Allow Unfocused Range Selections"
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:3
-#, fuzzy
 msgid "Apply print-setup to all sheets"
-msgstr "Kopeeri uuele _lehele"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
 msgid "Autocorrect first letter"
@@ -15743,9 +15821,8 @@ msgid "Page Header"
 msgstr "Lehekülgede järjekord"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:19
-#, fuzzy
 msgid "Print Config"
-msgstr "Trükitav ala"
+msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:20
 msgid ""
@@ -15818,12 +15895,11 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:33
 msgid "This list contains all known plugins."
-msgstr ""
+msgstr "Selles nimekirjad on kõik olemasolevad pluginad."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:34
-#, fuzzy
 msgid "This list contains all plugin file states."
-msgstr "Fail ei sisalda (\"plugin_file_struct\" sümbolit)."
+msgstr "."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:35
 msgid ""
@@ -15851,9 +15927,8 @@ msgid "Auto Expression Recalculation Lag"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:2
-#, fuzzy
 msgid "Autocomplete"
-msgstr "Autoformaat"
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:3
 msgid ""
@@ -15869,17 +15944,17 @@ msgstr ""
 #: schemas/gnumeric-general.schemas.in.h:5
 #, fuzzy
 msgid "Default Font Size"
-msgstr "Määra fondi suurus"
+msgstr "Vaikimisi fondi suurus"
 
 #: schemas/gnumeric-general.schemas.in.h:6
 #, fuzzy
 msgid "Default Horizontal Window Size"
-msgstr "Määra rõhtne joondus"
+msgstr "Vaikimisi akna horisontaalsuurus"
 
 #: schemas/gnumeric-general.schemas.in.h:7
 #, fuzzy
 msgid "Default Number of Sheets"
-msgstr "Valimite a_rv:"
+msgstr "Vaikimisi lehtede arv"
 
 #: schemas/gnumeric-general.schemas.in.h:8
 msgid "Default To Overwriting Files"
@@ -15887,7 +15962,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:9
 msgid "Default Vertical Window Size"
-msgstr ""
+msgstr "Vaikimisi akna vertikaalsuurus"
 
 #: schemas/gnumeric-general.schemas.in.h:10
 msgid "Default Zoom Factor"
@@ -15896,12 +15971,12 @@ msgstr ""
 #: schemas/gnumeric-general.schemas.in.h:11
 #, fuzzy
 msgid "Default font name"
-msgstr "Määra nimed"
+msgstr "Vaikimisi fondi nimi"
 
 #: schemas/gnumeric-general.schemas.in.h:12
 #, fuzzy
 msgid "Horizontal DPI"
-msgstr "Rõhtne"
+msgstr "Horisontaalne DPI"
 
 #: schemas/gnumeric-general.schemas.in.h:13
 msgid ""
@@ -15921,26 +15996,23 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:16
 msgid "List of recently used files"
-msgstr ""
+msgstr "Nimekiri hiljuti kasutatud failidest"
 
 #: schemas/gnumeric-general.schemas.in.h:17
 msgid "Live Scrolling"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:18
-#, fuzzy
 msgid "Maximal Undo Size"
-msgstr "Maksimum :"
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:19
-#, fuzzy
 msgid "Number of Automatic Clauses"
-msgstr "_Ebaõnnestumiste arv"
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:20
-#, fuzzy
 msgid "Number of Undo Items"
-msgstr "Imporditavate ridade arv"
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:21
 msgid "Prefer CLIPBOARD over PRIMARY selection"
@@ -15987,7 +16059,7 @@ msgstr ""
 #: schemas/gnumeric-general.schemas.in.h:29 src/GNOME_Gnumeric.xml.h:225
 #: src/workbook-control-gui.c:4068
 msgid "Sort Ascending"
-msgstr "Sorteeri kasvavas järjekorras"
+msgstr "Sorteeri kasvavalt"
 
 #: schemas/gnumeric-general.schemas.in.h:30
 #, fuzzy
@@ -16002,12 +16074,12 @@ msgstr "Säilita tähesuurused"
 #: schemas/gnumeric-general.schemas.in.h:32
 #, fuzzy
 msgid "The default font is bold."
-msgstr "Veerulaiuse vaikeväärtus peab olema > %d."
+msgstr "Vaikimisi font on rasvane."
 
 #: schemas/gnumeric-general.schemas.in.h:33
 #, fuzzy
 msgid "The default font is italic."
-msgstr "Otsimisvahemik ei ole sobiv."
+msgstr "Vaikimisi font on kursiivis."
 
 #: schemas/gnumeric-general.schemas.in.h:34
 msgid "The default font name for new workbooks."
@@ -16106,7 +16178,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:52
 msgid "Toolbar Style"
-msgstr ""
+msgstr "Tööriba stiil"
 
 #: schemas/gnumeric-general.schemas.in.h:53
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
@@ -16115,7 +16187,7 @@ msgstr ""
 #: schemas/gnumeric-general.schemas.in.h:54
 #, fuzzy
 msgid "Vertical DPI"
-msgstr "_Püstsuunas"
+msgstr "Püstsuunas DPI"
 
 #: schemas/gnumeric-general.schemas.in.h:55
 msgid "Warn When Exporting Into Single Sheet Format"
@@ -16143,7 +16215,7 @@ msgstr "Rakenduse info"
 #: src/workbook-control-gui.c:3942
 #, fuzzy
 msgid "Add _Auto Filter"
-msgstr "Täiustatud filter"
+msgstr "Lisa Automaatfilter"
 
 #: src/GNOME_Gnumeric.xml.h:3
 #, fuzzy
@@ -16156,7 +16228,7 @@ msgstr "Lisa väljatoodud grupp"
 
 #: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3943
 msgid "Add or remove a filter"
-msgstr ""
+msgstr "Lisa või kustuta filter"
 
 #: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3948
 msgid "Advanced _Filter..."
@@ -16222,9 +16294,8 @@ msgid "C_ells..."
 msgstr "L_ahtrid..."
 
 #: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3621
-#, fuzzy
 msgid "C_hart..."
-msgstr "_Sorteeri..."
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3516
 msgid "C_lear"
@@ -16295,7 +16366,7 @@ msgstr "Eemalda valitud lahtrite vormindus, märkused ja sisu"
 
 #: src/GNOME_Gnumeric.xml.h:37
 msgid "Close the current file"
-msgstr "Sulge fail"
+msgstr "Sulge aktiivne fail"
 
 #: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3522
 #, fuzzy
@@ -18286,7 +18357,7 @@ msgstr "Kahanev"
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:130
 #, fuzzy
 msgid "Title"
-msgstr "Tiitel"
+msgstr "Pealkiri:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
 msgid "H"
@@ -18384,7 +18455,7 @@ msgstr "Suurenda"
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:8
 #, fuzzy
 msgid "_Order"
-msgstr "K_orrasta ..."
+msgstr "Või"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:9
 #: src/dialogs/autoformat.glade.h:24 src/dialogs/cell-format.glade.h:107
@@ -18448,7 +18519,7 @@ msgstr "_Stiil"
 #: src/dialogs/variance-tests.glade.h:1 src/dialogs/view.glade.h:1
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:3
 #: src/dialogs/so-fill.glade.h:1
@@ -18494,9 +18565,8 @@ msgid "None"
 msgstr "Puudub"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
-#, fuzzy
 msgid "Not available..."
-msgstr "_Trüki..."
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 #: src/dialogs/so-fill.glade.h:4
@@ -19146,7 +19216,7 @@ msgstr "Seadistused"
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:12
 #: src/dialogs/variance-tests.glade.h:9
 msgid "Retain Output Range Comments"
-msgstr ""
+msgstr "Säilita väljundvahemiku kommentaare"
 
 #: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:11
 #: src/dialogs/correlation.glade.h:7 src/dialogs/covariance.glade.h:7
@@ -19157,7 +19227,7 @@ msgstr ""
 #: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:13
 #: src/dialogs/variance-tests.glade.h:10
 msgid "Retain Output Range Formatting"
-msgstr ""
+msgstr "Säilita väljundvahemiku vormindus"
 
 #: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:12
 msgid "_Alpha = "
@@ -19232,7 +19302,7 @@ msgstr "Valimite a_rv:"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
-msgstr "Korrigeeri automaatselt"
+msgstr "Automaatne korrigeerimine"
 
 #: src/dialogs/autocorrect.glade.h:3
 msgid "Capitalize _first letter of sentence"
@@ -19294,12 +19364,11 @@ msgstr " "
 #: src/dialogs/autofilter-top10.glade.h:2
 #, fuzzy
 msgid "Gnumeric : AutoFilter"
-msgstr "Gnumericu XML failiformaat"
+msgstr "Gnumeric : Automaatne filter"
 
 #: src/dialogs/autofilter-expression.glade.h:4
-#, fuzzy
 msgid "Show rows where:"
-msgstr "Nool"
+msgstr "Näita ridu, kus:"
 
 #: src/dialogs/autofilter-expression.glade.h:5
 #, fuzzy
@@ -19307,12 +19376,14 @@ msgid "_And"
 msgstr "_Lisa"
 
 #: src/dialogs/autofilter-expression.glade.h:6
+#, fuzzy
 msgid "_Or"
-msgstr ""
+msgstr "Või"
 
 #: src/dialogs/autofilter-expression.glade.h:7
+#, fuzzy
 msgid "begins with"
-msgstr ""
+msgstr "algab"
 
 #: src/dialogs/autofilter-expression.glade.h:8
 #, fuzzy
@@ -19320,42 +19391,41 @@ msgid "contains"
 msgstr "sisu"
 
 #: src/dialogs/autofilter-expression.glade.h:9
+#, fuzzy
 msgid "does not begin with"
-msgstr ""
+msgstr "ei alga"
 
 #: src/dialogs/autofilter-expression.glade.h:10
 #, fuzzy
 msgid "does not contain"
-msgstr "Ei sisalda tabelifaili"
+msgstr "ei sisalda"
 
 #: src/dialogs/autofilter-expression.glade.h:11
 #, fuzzy
 msgid "does not end with"
-msgstr "Funktsiooni pole olemas"
+msgstr "ei lõpe"
 
 #: src/dialogs/autofilter-expression.glade.h:12
+#, fuzzy
 msgid "does not equal"
-msgstr ""
+msgstr "ei võrdu"
 
 #: src/dialogs/autofilter-expression.glade.h:13
 #, fuzzy
 msgid "ends with"
-msgstr "Fikseeritud lai_us"
+msgstr "lõpeb"
 
 #: src/dialogs/autofilter-expression.glade.h:14
-#, fuzzy
 msgid "equals"
-msgstr "_Mittevõrdsed"
+msgstr "võrdub"
 
 #: src/dialogs/autofilter-expression.glade.h:15
-#, fuzzy
 msgid "is greater than"
-msgstr "Peab olema suurem kui %s\n"
+msgstr "on suuerm kui"
 
 #: src/dialogs/autofilter-expression.glade.h:16
-#, fuzzy
 msgid "is greater than or equal to"
-msgstr "Peab oleama suurem või võrdne kui %s\n"
+msgstr "on suurem või võrdne kui"
 
 #: src/dialogs/autofilter-expression.glade.h:17
 #, fuzzy
@@ -19374,7 +19444,7 @@ msgstr "Alumine"
 
 #: src/dialogs/autofilter-top10.glade.h:3
 msgid "Items"
-msgstr ""
+msgstr "Elemendid"
 
 #: src/dialogs/autofilter-top10.glade.h:4
 #: src/widgets/widget-format-selector.c:65
@@ -19383,9 +19453,8 @@ msgid "Percentage"
 msgstr "_Protsent"
 
 #: src/dialogs/autofilter-top10.glade.h:5
-#, fuzzy
 msgid "Show:"
-msgstr "Näita"
+msgstr "Näita:"
 
 #: src/dialogs/autofilter-top10.glade.h:6 src/dialogs/cell-format.glade.h:82
 msgid "Top"
@@ -19413,7 +19482,7 @@ msgstr "Rakenda _arvude vorming"
 
 #: src/dialogs/autoformat.glade.h:7
 msgid "Apply _Patterns"
-msgstr "Rakkenda _muster"
+msgstr "Rakenda _muster"
 
 #: src/dialogs/autoformat.glade.h:8
 #, fuzzy
@@ -19422,7 +19491,7 @@ msgstr "Autor:"
 
 #: src/dialogs/autoformat.glade.h:9
 msgid "Autoformat"
-msgstr "Autoformaat"
+msgstr "Automaatvorming"
 
 #: src/dialogs/autoformat.glade.h:10
 #, fuzzy
@@ -19442,7 +19511,7 @@ msgstr "Kirjeldus:"
 #: src/dialogs/autoformat.glade.h:13
 #, fuzzy
 msgid "Edges"
-msgstr "lehti"
+msgstr "Ääred"
 
 #: src/dialogs/autoformat.glade.h:14
 msgid "Name of template"
@@ -19451,7 +19520,7 @@ msgstr "Malli nimi"
 #: src/dialogs/autoformat.glade.h:15
 #, fuzzy
 msgid "Name:"
-msgstr "Nimi :"
+msgstr "Nimi:"
 
 #: src/dialogs/autoformat.glade.h:16 src/dialogs/font-sel.glade.h:4
 msgid "Preview"
@@ -19531,12 +19600,12 @@ msgstr "75% hall"
 
 #: src/dialogs/cell-format.glade.h:12
 msgid "<span weight=\"bold\">Criteria</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Kriteerium</span>"
 
 #: src/dialogs/cell-format.glade.h:13
 #, fuzzy
 msgid "Act_ion:"
-msgstr "Tegevus :"
+msgstr "Tegevus:"
 
 #: src/dialogs/cell-format.glade.h:14
 msgid "Alignment"
@@ -19550,7 +19619,7 @@ msgstr "Suvaline väärtus                     (ilma valideerimata)"
 #: src/dialogs/cell-format.glade.h:17
 #, fuzzy
 msgid "Background Color"
-msgstr "Tausta värv"
+msgstr "Taustavärv"
 
 #: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2264
 msgid "Border"
@@ -19571,7 +19640,7 @@ msgstr "Tsentreeri üle v_alitud ala"
 #: src/dialogs/cell-format.glade.h:23
 #, fuzzy
 msgid "Co_lor:"
-msgstr "Värv :"
+msgstr "Värv:"
 
 #: src/dialogs/cell-format.glade.h:24
 msgid "Color"
@@ -19580,7 +19649,7 @@ msgstr "Värv"
 #: src/dialogs/cell-format.glade.h:25 src/dialogs/so-arrow.glade.h:5
 #, fuzzy
 msgid "Color:"
-msgstr "Värv :"
+msgstr "Värv:"
 
 #: src/dialogs/cell-format.glade.h:26
 msgid "Control"
@@ -19645,7 +19714,7 @@ msgstr "Lahtrisisene droppimine"
 #: src/dialogs/cell-format.glade.h:41
 #, fuzzy
 msgid "Information (allow invalid input)"
-msgstr "Info  (lubab sobimatut sisendit)"
+msgstr "Info (lubab sobimatut sisendit)"
 
 #: src/dialogs/cell-format.glade.h:42
 msgid "Input Message"
@@ -19683,7 +19752,7 @@ msgstr ""
 #: src/dialogs/cell-format.glade.h:51
 #, fuzzy
 msgid "Message:"
-msgstr "Sõnum :"
+msgstr "Sõnum:"
 
 #: src/dialogs/cell-format.glade.h:53
 msgid "None          (silently accept invalid input)"
@@ -19793,9 +19862,8 @@ msgid "Time"
 msgstr "Aeg"
 
 #: src/dialogs/cell-format.glade.h:81
-#, fuzzy
 msgid "Title:"
-msgstr "Pealkiri :"
+msgstr "Pealkiri:"
 
 #: src/dialogs/cell-format.glade.h:83
 msgid "Validation"
@@ -19810,7 +19878,6 @@ msgid "Vertical Stripe"
 msgstr "Püsttriip"
 
 #: src/dialogs/cell-format.glade.h:86
-#, fuzzy
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Hoiatus      (aktsepteeri/lükka tagasi vigane sisestus)"
 
@@ -19821,9 +19888,10 @@ msgstr "Täisarvud"
 #: src/dialogs/cell-format.glade.h:88
 #, fuzzy
 msgid "_Allow:"
-msgstr "Luba :"
+msgstr "Luba:"
 
 #: src/dialogs/cell-format.glade.h:90
+#, fuzzy
 msgid "_Center"
 msgstr "_Tsenter"
 
@@ -19863,12 +19931,12 @@ msgstr "_Sobita"
 #: src/dialogs/cell-format.glade.h:101
 #, fuzzy
 msgid "_Lock"
-msgstr "_Lukustatud"
+msgstr "_Lukusta"
 
 #: src/dialogs/cell-format.glade.h:102
 #, fuzzy
 msgid "_Message:"
-msgstr "Sõnum :"
+msgstr "Sõnum:"
 
 #: src/dialogs/cell-format.glade.h:103
 #, fuzzy
@@ -20189,11 +20257,12 @@ msgstr "Sean Atkinson, funktsioonid ja X-Base import."
 
 #: src/dialogs/dialog-about.c:48
 msgid "Michel Berkelaar, Simplex algorithm for Solver (LP Solve)."
-msgstr ""
+msgstr "Michael Berkelaar, Simplex algoritm Solveri (LP Solve) jaoks"
 
+# ,fuzzy
 #: src/dialogs/dialog-about.c:49
 msgid "Grandma Chema Celorio, Tester and sheet copy."
-msgstr "Grandma Chema Celorio, testija ja paberkoopiad."
+msgstr "Grandma Chema Celorio, testija ja töölehtede kopeerimine."
 
 #: src/dialogs/dialog-about.c:50
 msgid "Frank Chiulli, OLE support."
@@ -20213,7 +20282,7 @@ msgstr "J.H.M. Dassen (Ray), debiani pakid."
 
 #: src/dialogs/dialog-about.c:54
 msgid "Jeroen Dirks, Simplex algorithm for Solver (LP Solve)."
-msgstr ""
+msgstr "Jeroen Dirks, Simpleks algoritm Solveri (LP Solve) jaoks"
 
 #: src/dialogs/dialog-about.c:55
 msgid "Tom Dyas, plugin support."
@@ -20235,15 +20304,15 @@ msgstr "John Gotts, rpm paketid."
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:64
 #, fuzzy
-msgid "Andreas J. Gülzow, Gnumeric hacker."
-msgstr "Jon K. Hellan, Gnumericu häkker."
+msgid "Andreas J. Glzow, Gnumeric hacker."
+msgstr "Andreas J. Glzow, Gnumericu häkker."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:67
 #, fuzzy
-msgid "Jon Kåre Hellan, Gnumeric hacker."
-msgstr "Jon K. Hellan, Gnumericu häkker."
+msgid "Jon Kre Hellan, Gnumeric hacker."
+msgstr "Jon Kre Hellan, Gnumericu häkker."
 
 #: src/dialogs/dialog-about.c:68
 msgid "Ross Ihaka, special functions."
@@ -20271,7 +20340,7 @@ msgstr "Michael Meeks, Exceli ja OLE2 import."
 
 #: src/dialogs/dialog-about.c:74
 msgid "Lutz Muller, SheetObject improvements"
-msgstr "Lutz Muller, SheetObject täiustamine"
+msgstr "Lutz Muller, SheetObjecti täiustamine"
 
 #: src/dialogs/dialog-about.c:75
 msgid "Federico M. Quintero, canvas support."
@@ -20283,7 +20352,7 @@ msgstr "Mark Probst, Guile toetus."
 
 #: src/dialogs/dialog-about.c:77
 msgid "Rasca, HTML, troff, LaTeX exporters."
-msgstr "Rasca, HTML, troff, LaTeX eksport."
+msgstr "Rasca, HTMLi, troffi ja LaTeXi eksportijad."
 
 #: src/dialogs/dialog-about.c:78
 msgid "Vincent Renardias, original CSV support, French localization."
@@ -20322,14 +20391,15 @@ msgid "Gnumeric"
 msgstr "Gnumeric"
 
 #: src/dialogs/dialog-about.c:114
-#, fuzzy
 msgid "A production ready spreadsheet"
-msgstr "Ava tabel"
+msgstr ""
 
 #. Translate the following string with the names of all translators for this locale.
 #: src/dialogs/dialog-about.c:117
 msgid "This is an untranslated version of Gnumeric."
 msgstr ""
+"Priit Laes <amd@tt.ee>\n"
+"Ain Vagula <ain@riiska.ee>"
 
 #: src/dialogs/dialog-about.c:123
 msgid "Gnumeric Home Page"
@@ -20348,7 +20418,7 @@ msgstr "Otsimisvahemik ei ole sobiv."
 #: src/dialogs/dialog-advanced-filter.c:93 src/dialogs/dialog-simulation.c:94
 #, fuzzy
 msgid "The output range is invalid."
-msgstr "Otsimisvahemik ei ole sobiv."
+msgstr "Väljundvahemik ei ole sobiv."
 
 #: src/dialogs/dialog-advanced-filter.c:150
 #, fuzzy
@@ -20371,7 +20441,7 @@ msgstr "Tekkis ettearvamatu viga: %d"
 #: src/dialogs/dialog-advanced-filter.c:196
 #, fuzzy
 msgid "_List Range:"
-msgstr "_Loendi vahemik:     "
+msgstr "_Loendi vahemik:"
 
 #: src/dialogs/dialog-advanced-filter.c:197
 #, fuzzy
@@ -21990,9 +22060,8 @@ msgid "F_inish"
 msgstr "_Lõpp"
 
 #: src/dialogs/dialog-stf.glade.h:25
-#, fuzzy
 msgid "Fixed"
-msgstr "Fail/"
+msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:26
 msgid "Format"
@@ -22626,12 +22695,12 @@ msgstr "_Pareto (Sorteeritud)"
 #: src/dialogs/histogram.glade.h:16
 #, fuzzy
 msgid "Retain Output Range _Comments"
-msgstr "_Väljundi vahemik:"
+msgstr "Säilita väljundvahemiku kommentaare"
 
 #: src/dialogs/histogram.glade.h:17
 #, fuzzy
 msgid "Retain Output Range _Formatting"
-msgstr "_Väljundi vahemik:"
+msgstr "Säilita väljundvahemiku vormindus"
 
 #: src/dialogs/histogram.glade.h:19
 #, fuzzy
@@ -24062,15 +24131,15 @@ msgstr "Võ_rdne"
 
 #: src/dialogs/variance-tests.glade.h:3
 msgid "<span weight=\"bold\">Input</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Sisend</span>"
 
 #: src/dialogs/variance-tests.glade.h:4
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Häälestus</span>"
 
 #: src/dialogs/variance-tests.glade.h:5
 msgid "<span weight=\"bold\">Output</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Väljastus</span>"
 
 #: src/dialogs/variance-tests.glade.h:11
 msgid "Testing Equality of 2 Variances (F-Test)"
@@ -24303,12 +24372,10 @@ msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Sihtala on liiga väike.  See peaks olema vähemalt %d rida kõrge"
 
 #: src/format.c:631
-#, fuzzy
 msgid "Black"
-msgstr "Lõtv"
+msgstr "must"
 
 #: src/format.c:632
-#, fuzzy
 msgid "Blue"
 msgstr "sinine"
 
@@ -24318,7 +24385,6 @@ msgid "Cyan"
 msgstr "tsüaan"
 
 #: src/format.c:634
-#, fuzzy
 msgid "Green"
 msgstr "roheline"
 
@@ -24328,17 +24394,14 @@ msgid "Magenta"
 msgstr "lilla"
 
 #: src/format.c:636
-#, fuzzy
 msgid "Red"
-msgstr "Taasta"
+msgstr "punane"
 
 #: src/format.c:637
-#, fuzzy
 msgid "White"
 msgstr "valge"
 
 #: src/format.c:638
-#, fuzzy
 msgid "Yellow"
 msgstr "kollane"
 
@@ -24353,762 +24416,709 @@ msgstr "MASSIIV"
 #.
 #. 2002/08/04 Updated to match iso 4217
 #: src/formats.c:371
+#, fuzzy
 msgid "United Arab Emirates, Dirhams"
-msgstr ""
+msgstr "Araabia Ühendemiraadid, dirhamid"
 
 #: src/formats.c:372
 #, fuzzy
 msgid "Afghanistan, Afghanis"
-msgstr "Afganistani afgaan"
+msgstr "Afganistan, afgaanid"
 
 #: src/formats.c:373
 #, fuzzy
 msgid "Albania, Leke"
-msgstr "Albaania lek"
+msgstr "Albaania, lekid"
 
 #: src/formats.c:374
+#, fuzzy
 msgid "Armenia, Drams"
-msgstr ""
+msgstr "Armeenia, dramid"
 
 #: src/formats.c:375
-#, fuzzy
 msgid "Netherlands Antilles, Guilders"
-msgstr "Hollandi Antillide gulden"
+msgstr "Hollandi Antillid, guldenid"
 
 #: src/formats.c:376
 #, fuzzy
 msgid "Angola, Kwanza"
-msgstr "Angoola uus kwanza"
+msgstr "Angola, uuskwanzad"
 
 #: src/formats.c:377
-#, fuzzy
 msgid "Argentina, Pesos"
-msgstr "Argentiina peeso"
+msgstr "Argentiina, peesod"
 
 #: src/formats.c:378
-#, fuzzy
 msgid "Australia, Dollars"
-msgstr "Austraalia dollar"
+msgstr "Austraalia, dollarid"
 
 #: src/formats.c:379
-#, fuzzy
 msgid "Aruba, Guilders"
-msgstr "Aruba gulden"
+msgstr "Aruba, guldenid"
 
 #: src/formats.c:380
+#, fuzzy
 msgid "Azerbaijan, Manats"
-msgstr ""
+msgstr "Aserbaidæaan, manatid"
 
 #: src/formats.c:381
+#, fuzzy
 msgid "Bosnia and Herzegovina, Convertible Marka"
-msgstr ""
+msgstr "Bosnia ja Hertsegoviina, markad"
 
 #: src/formats.c:382
-#, fuzzy
 msgid "Barbados, Dollars"
-msgstr "Barbadose dolla"
+msgstr "Barbados, dollarid"
 
 #: src/formats.c:383
 #, fuzzy
 msgid "Bangladesh, Taka"
-msgstr "Bangladeshi taka"
+msgstr "Bangladesh, takad"
 
 #: src/formats.c:384
-#, fuzzy
 msgid "Bulgaria, Leva"
-msgstr "Bulgaaria lev"
+msgstr "Bulgaaria, levid"
 
 #: src/formats.c:385
-#, fuzzy
 msgid "Bahrain, Dinars"
-msgstr "Bahreini dinaar"
+msgstr "Bahrein, dinaarid"
 
 #: src/formats.c:386
-#, fuzzy
 msgid "Burundi, Francs"
-msgstr "Burundi frank"
+msgstr "Burundi, frangid"
 
 #: src/formats.c:387
-#, fuzzy
 msgid "Bermuda, Dollars"
-msgstr "Bermuda dollar"
+msgstr "Bermuuda, dollarid"
 
 #: src/formats.c:388
-#, fuzzy
 msgid "Brunei Darussalam, Dollars"
-msgstr "Brunei dollar"
+msgstr "Brunei, dollarid"
 
 #: src/formats.c:389
-#, fuzzy
 msgid "Bolivia, Bolivianos"
-msgstr "Boliivia boliviano"
+msgstr "Boliivia, bolivianod"
 
 #: src/formats.c:390
 #, fuzzy
 msgid "Brazil, Brazil Real"
-msgstr "Brasiilia reaal"
+msgstr "Brasiilia, brasiilia reaalid"
 
 #: src/formats.c:391
-#, fuzzy
 msgid "Bahamas, Dollars"
-msgstr "Bahama dollar"
+msgstr "Bahama, dollarid"
 
 #: src/formats.c:392
-#, fuzzy
 msgid "Bhutan, Ngultrum"
-msgstr "Bhutani ngultrum"
+msgstr "Bhutan, ngultrumid"
 
 #: src/formats.c:393
 #, fuzzy
 msgid "Botswana, Pulas"
-msgstr "Botswana pula"
+msgstr "Botswana, pulad"
 
 #: src/formats.c:394
-#, fuzzy
 msgid "Belarus, Rubles"
-msgstr "Valgevene rubla"
+msgstr "Valgevene, rublad"
 
 #: src/formats.c:395
-#, fuzzy
 msgid "Belize, Dollars"
-msgstr "Belize dollar"
+msgstr "Belize, dollarid"
 
 #: src/formats.c:396
-#, fuzzy
 msgid "Canada, Dollars"
-msgstr "Kanada dollar"
+msgstr "Kanada, dollarid"
 
 #: src/formats.c:397
+#, fuzzy
 msgid "Congo/Kinshasa, Congolese Francs"
-msgstr ""
+msgstr "Kongo, kongo frangid"
 
 #: src/formats.c:398
+#, fuzzy
 msgid "Switzerland, Francs"
-msgstr ""
+msgstr "Sveits, frangid"
 
 #: src/formats.c:399
 #, fuzzy
 msgid "Chile, Pesos"
-msgstr "Tshilli peeso"
+msgstr "Tsiili, peesod"
 
 #: src/formats.c:400
 #, fuzzy
 msgid "China, Yuan Renminbi"
-msgstr "Hiina juan"
+msgstr "Hiina, hüaanid"
 
 #: src/formats.c:401
-#, fuzzy
 msgid "Colombia, Pesos"
-msgstr "Kolumbia peeso"
+msgstr "Kolumbia, peesod"
 
 #: src/formats.c:402
 #, fuzzy
 msgid "Costa Rica, Colones"
-msgstr "Kostariika kolon"
+msgstr "Costa Rica, kolonid"
 
 #: src/formats.c:403
-#, fuzzy
 msgid "Cuba, Pesos"
-msgstr "Kuuba peeso"
+msgstr "Kuuba, peesod"
 
 #: src/formats.c:404
-#, fuzzy
 msgid "Cape Verde, Escudos"
-msgstr "Rohelise Neeme saarte eskuudo"
+msgstr "Roheneemesaared, eskuudod"
 
 #: src/formats.c:405
-#, fuzzy
 msgid "Cyprus, Pounds"
-msgstr "Küprose nael"
+msgstr "Küpros, naelad"
 
 #: src/formats.c:406
 #, fuzzy
 msgid "Czech Republic, Koruny"
-msgstr "Tshehhi kroon"
+msgstr "Tshehhi, kroonid"
 
 #: src/formats.c:407
 #, fuzzy
 msgid "Djibouti, Francs"
-msgstr "Djibouti frank"
+msgstr "Djibouti, frangid"
 
 #: src/formats.c:408
 msgid "Denmark, Kroner"
-msgstr ""
+msgstr "Taani, kroonid"
 
 #: src/formats.c:409
-#, fuzzy
 msgid "Dominican Republic, Pesos"
-msgstr "Dominikaani peeso"
+msgstr "Dominikaani vabariik, peesod"
 
 #: src/formats.c:410
 #, fuzzy
 msgid "Algeria, Algeria Dinars"
-msgstr "Alzheeria dinaar"
+msgstr "Alzheeria, dinaarid"
 
 #: src/formats.c:411
 msgid "Estonia, Krooni"
-msgstr ""
+msgstr "Eesti, kroonid"
 
 #: src/formats.c:412
-#, fuzzy
 msgid "Egypt, Pounds"
-msgstr "Egiptuse nael"
+msgstr "Egiptus, naelad"
 
 #: src/formats.c:413
+#, fuzzy
 msgid "Eritrea, Nakfa"
-msgstr ""
+msgstr "Eritrea, nakfad"
 
 #: src/formats.c:414
 #, fuzzy
 msgid "Ethiopia, Birr"
-msgstr "Etioopia birr"
+msgstr "Etioopia, birrid"
 
 #: src/formats.c:415
+#, fuzzy
 msgid "Euro Member Countries, Euro"
-msgstr ""
+msgstr "Euroliidu liikmesmaad, eurod"
 
 #: src/formats.c:416
 #, fuzzy
 msgid "Fiji, Dollars"
-msgstr "Fidzhi dollar"
+msgstr "Fidzi, dollarid"
 
 #: src/formats.c:417
-#, fuzzy
 msgid "Falkland Islands (Malvinas), Pounds"
-msgstr "Falklandi saarte nael"
+msgstr "Falklandi Saared, naelad"
 
 #: src/formats.c:418
 msgid "United Kingdom, Pounds"
-msgstr ""
+msgstr "Ühendatud Kuningriik, naelad"
 
 #: src/formats.c:419
+#, fuzzy
 msgid "Georgia, Lari"
-msgstr ""
+msgstr "Gruusia, larid"
 
 #: src/formats.c:420
 #, fuzzy
 msgid "Guernsey, Pounds"
-msgstr "Sudaani nael"
+msgstr "Guernsey, naelad"
 
 #: src/formats.c:421
 #, fuzzy
 msgid "Ghana, Cedis"
-msgstr "Gaana cedi"
+msgstr "Ghana, cedid"
 
 #: src/formats.c:422
-#, fuzzy
 msgid "Gibraltar, Pounds"
-msgstr "Gibraltari nael"
+msgstr "Gibraltar, naelad"
 
 #: src/formats.c:423
 #, fuzzy
 msgid "Gambia, Dalasi"
-msgstr "Gambia dalasi"
+msgstr "Gambia, dalasid"
 
 #: src/formats.c:424
-#, fuzzy
 msgid "Guinea, Francs"
-msgstr "Ginea frank"
+msgstr "Guinea, frangid"
 
 #: src/formats.c:425
 #, fuzzy
 msgid "Guatemala, Quetzales"
-msgstr "Guatemaala quetzal"
+msgstr "Guatemala, quetzalid"
 
 #: src/formats.c:426
 #, fuzzy
 msgid "Guyana, Dollars"
-msgstr "Guajaana dollar"
+msgstr "Guyana, dollarid"
 
 #: src/formats.c:427
-#, fuzzy
 msgid "Hong Kong, Dollars"
-msgstr "Hongkongi dollar"
+msgstr "Hongkong, dollarid"
 
 #: src/formats.c:428
 #, fuzzy
 msgid "Honduras, Lempiras"
-msgstr "Honduurase lempira"
+msgstr "Honduras, lempirad"
 
 #: src/formats.c:429
 #, fuzzy
 msgid "Croatia, Kuna"
-msgstr "Horvaatia kuna"
+msgstr "Horvaatia, kunad"
 
 #: src/formats.c:430
 #, fuzzy
 msgid "Haiti, Gourdes"
-msgstr "Haiiti gourde"
+msgstr "Haiti, gourde'id"
 
 #: src/formats.c:431
-#, fuzzy
 msgid "Hungary, Forint"
-msgstr "Ungari forint"
+msgstr "Ungari, forindid"
 
 #: src/formats.c:432
-#, fuzzy
 msgid "Indonesia, Rupiahs"
-msgstr "Indoneesia ruupia"
+msgstr "Indoneesia, ruupiad"
 
 #: src/formats.c:433
 #, fuzzy
 msgid "Israel, New Shekels"
-msgstr "Iisraeli seekel"
+msgstr "Iisrael, uusseeklid"
 
 #: src/formats.c:434
 msgid "Isle of Man, Pounds"
-msgstr ""
+msgstr "Mani saar, naelad"
 
 #: src/formats.c:435
-#, fuzzy
 msgid "India, Rupees"
-msgstr "India ruupia"
+msgstr "India, ruupiad"
 
 #: src/formats.c:436
-#, fuzzy
 msgid "Iraq, Dinars"
-msgstr "Iraagi dinaar"
+msgstr "Iraak, dinaarid"
 
 #: src/formats.c:437
-#, fuzzy
 msgid "Iran, Rials"
-msgstr "Iraani riaal"
+msgstr "Iraan, riaalid"
 
 #: src/formats.c:438
-#, fuzzy
 msgid "Iceland, Kronur"
-msgstr "Islandi kroon"
+msgstr "Island, kroonid"
 
 #: src/formats.c:439
 msgid "Jersey, Pounds"
-msgstr ""
+msgstr "Jersey, naelad"
 
 #: src/formats.c:440
-#, fuzzy
 msgid "Jamaica, Dollars"
-msgstr "Jamaika dollar"
+msgstr "Jamaica, dollarid"
 
 #: src/formats.c:441
-#, fuzzy
 msgid "Jordan, Dinars"
-msgstr "Jordaania dinaar"
+msgstr "Jordaania, dinaarid"
 
 #: src/formats.c:442
-#, fuzzy
 msgid "Japan, Yen"
-msgstr "Jaapani jeen"
+msgstr "Jaapan, jeenid"
 
 #: src/formats.c:443
 #, fuzzy
 msgid "Kenya, Shillings"
-msgstr "Keenia shilling"
+msgstr "Keenia, shillingid"
 
 #: src/formats.c:444
+#, fuzzy
 msgid "Kyrgyzstan, Soms"
-msgstr ""
+msgstr "Kõrgõstan, somid"
 
 #: src/formats.c:445
+#, fuzzy
 msgid "Cambodia, Riels"
-msgstr ""
+msgstr "Kambodza, rieelid"
 
 #: src/formats.c:446
 #, fuzzy
 msgid "Comoros, Francs"
-msgstr "Komoori frank"
+msgstr "Komoorid, frangid"
 
 #: src/formats.c:447
 msgid "Korea (North), Won"
-msgstr ""
+msgstr "Põhja Korea, wonid"
 
 #: src/formats.c:448
 msgid "Korea (South), Won"
-msgstr ""
+msgstr "Lõuna Korea, wonid"
 
 #: src/formats.c:449
-#, fuzzy
 msgid "Kuwait, Dinars"
-msgstr "Kuveidi dinaar"
+msgstr "Kuveit, dinaarid"
 
 #: src/formats.c:450
-#, fuzzy
 msgid "Cayman Islands, Dollars"
-msgstr "Kaimanisaarte dollar"
+msgstr "Kaimani Saared, dollarid"
 
 #: src/formats.c:451
 #, fuzzy
 msgid "Kazakstan, Tenge"
-msgstr "Pakistani ruupia"
+msgstr "Kasahstan, tenged"
 
 #: src/formats.c:452
 #, fuzzy
 msgid "Laos, Kips"
-msgstr "Laose kip"
+msgstr "Laos, kipid"
 
 #: src/formats.c:453
-#, fuzzy
 msgid "Lebanon, Pounds"
-msgstr "Liibanoni nael"
+msgstr "Liibanon, naelad"
 
 #: src/formats.c:454
-#, fuzzy
 msgid "Sri Lanka, Rupees"
-msgstr "Sri Lanka ruupia"
+msgstr "Sri Lanka, ruupiad"
 
 #: src/formats.c:455
-#, fuzzy
 msgid "Liberia, Dollars"
-msgstr "Libeeria dollar"
+msgstr "Libeeria, dollar"
 
 #: src/formats.c:456
 #, fuzzy
 msgid "Lesotho, Maloti"
-msgstr "Lesoto loti"
+msgstr "Lesotho, malotid"
 
 #: src/formats.c:457
 msgid "Lithuania, Litai"
-msgstr ""
+msgstr "Leedu, litid"
 
 #: src/formats.c:458
 msgid "Latvia, Lati"
-msgstr ""
+msgstr "Läti, latid"
 
 #: src/formats.c:459
-#, fuzzy
 msgid "Libya, Dinars"
-msgstr "Liibüa dinaar"
+msgstr "Liibüa, dinaarid"
 
 #: src/formats.c:460
-#, fuzzy
 msgid "Morocco, Dirhams"
-msgstr "Maroko dirham"
+msgstr "Maroko, dirhamid"
 
 #: src/formats.c:461
-#, fuzzy
 msgid "Moldova, Lei"
-msgstr "Moldaavia leu"
+msgstr "Moldaavia, leud"
 
 #: src/formats.c:462
 #, fuzzy
 msgid "Madagascar, Malagasy Francs"
-msgstr "Malagassi frank"
+msgstr "Madagaskar, frangid"
 
 #: src/formats.c:463
 msgid "Macedonia, Denars"
-msgstr ""
+msgstr "Makedoonia, dinaarid"
 
 #: src/formats.c:464
 #, fuzzy
 msgid "Myanmar (Burma), Kyats"
-msgstr "Myanmari kyat"
+msgstr "Myanmar, kyatid"
 
 #: src/formats.c:465
-#, fuzzy
 msgid "Mongolia, Tugriks"
-msgstr "Mongoolia tugrik"
+msgstr "Mongoolia, tugrikud"
 
 #: src/formats.c:466
 #, fuzzy
 msgid "Macau, Patacas"
-msgstr "Macao pataka"
+msgstr "Macao, patacad"
 
 #: src/formats.c:467
 #, fuzzy
 msgid "Mauritania, Ouguiyas"
-msgstr "Mauretaania ouguiya"
+msgstr "Mauritaania, ouguiyad"
 
 #: src/formats.c:468
-#, fuzzy
 msgid "Malta, Liri"
-msgstr "Malta liir"
+msgstr "Malta, liirid"
 
 #: src/formats.c:469
-#, fuzzy
 msgid "Mauritius, Rupees"
-msgstr "Mauritiuse ruupia"
+msgstr "Mauritius, ruupiad"
 
 #: src/formats.c:470
+#, fuzzy
 msgid "Maldives (Maldive Islands), Rufiyaa"
-msgstr ""
+msgstr "Malediivid, rufiyaad"
 
 #: src/formats.c:471
 #, fuzzy
 msgid "Malawi, Kwachas"
-msgstr "Malaavi kwacha"
+msgstr "Malawi, kwachad"
 
 #: src/formats.c:472
-#, fuzzy
 msgid "Mexico, Pesos"
-msgstr "Mehhiko peeso"
+msgstr "Mehhiko, peesod"
 
 #: src/formats.c:473
 #, fuzzy
 msgid "Malaysia, Ringgits"
-msgstr "Malaisia ringgit"
+msgstr "Malaisia, ringgitid"
 
 #: src/formats.c:474
 #, fuzzy
 msgid "Mozambique, Meticais"
-msgstr "Mosambiigi metical"
+msgstr "Mosambiik, meticalid"
 
 #: src/formats.c:475
-#, fuzzy
 msgid "Namibia, Dollars"
-msgstr "Libeeria dollar"
+msgstr "Namiibia, dollarid"
 
 #: src/formats.c:476
 #, fuzzy
 msgid "Nigeria, Nairas"
-msgstr "Nigeeria naira"
+msgstr "Nigeeria, nairad"
 
 #: src/formats.c:477
-#, fuzzy
 msgid "Nicaragua, Gold Cordobas"
-msgstr "Nikaraagua kuldkordoba"
+msgstr "Nicaragua, kuldkordobad"
 
 #: src/formats.c:478
-#, fuzzy
 msgid "Norway, Krone"
-msgstr "Norra kroon"
+msgstr "Norra, kroonid"
 
 #: src/formats.c:479
 #, fuzzy
 msgid "Nepal, Nepal Rupees"
-msgstr "Nepaali ruupia"
+msgstr "Nepaal, nepaali ruupiad"
 
 #: src/formats.c:480
-#, fuzzy
 msgid "New Zealand, Dollars"
-msgstr "Uus-Meremaa dollar"
+msgstr "Uus-Meremaa, dollarid"
 
 #: src/formats.c:481
 msgid "Oman, Rials"
-msgstr ""
+msgstr "Omaan, riaalid"
 
 #: src/formats.c:482
-#, fuzzy
 msgid "Panama, Balboa"
-msgstr "Panama balboa"
+msgstr "Panama, balboad"
 
 #: src/formats.c:483
+#, fuzzy
 msgid "Peru, Nuevos Soles"
-msgstr ""
+msgstr "Peruu, uued solid"
 
 #: src/formats.c:484
 #, fuzzy
 msgid "Papua New Guinea, Kina"
-msgstr "Paapua - Uus-Ginea kina"
+msgstr "Paapua - Uus-Ginea, kinad"
 
 #: src/formats.c:485
-#, fuzzy
 msgid "Philippines, Pesos"
-msgstr "Filipiini peeso"
+msgstr "Filipiinid, peesod"
 
 #: src/formats.c:486
-#, fuzzy
 msgid "Pakistan, Rupees"
-msgstr "Pakistani ruupia"
+msgstr "Pakistan, ruupiad"
 
 #: src/formats.c:487
+#, fuzzy
 msgid "Poland, Zlotych"
-msgstr ""
+msgstr "Poola, slotid"
 
 #: src/formats.c:488
 #, fuzzy
 msgid "Paraguay, Guarani"
-msgstr "Paraguai guarani"
+msgstr "Paraguai, guaranid"
 
 #: src/formats.c:489
-#, fuzzy
 msgid "Qatar, Rials"
-msgstr "Katari riaal"
+msgstr "Katar, riaalid"
 
 #: src/formats.c:490
-#, fuzzy
 msgid "Romania, Lei"
-msgstr "Rumeenia leu"
+msgstr "Rumeenia, leud"
 
 #: src/formats.c:491
-#, fuzzy
 msgid "Russia, Rubles"
-msgstr "Valgevene rubla"
+msgstr "Venemaa, rublad"
 
 #: src/formats.c:492
 #, fuzzy
 msgid "Rwanda, Rwanda Francs"
-msgstr "Ruanda frank"
+msgstr "Ruanda, ruanda frangid"
 
 #: src/formats.c:493
-#, fuzzy
 msgid "Saudi Arabia, Riyals"
-msgstr "Saudi Araabia riaal"
+msgstr "Saudi Araabia, riaalid"
 
 #: src/formats.c:494
-#, fuzzy
 msgid "Solomon Islands, Dollars"
-msgstr "Saalomonisaarte dollar"
+msgstr "Saalomoni Saared, dollarid"
 
 #: src/formats.c:495
-#, fuzzy
 msgid "Seychelles, Rupees"
-msgstr "Seishelli ruupia"
+msgstr "Seishellid, ruupiad"
 
 #: src/formats.c:496
 msgid "Sudan, Dinars"
-msgstr ""
+msgstr "Sudaan, dinaarid"
 
 #: src/formats.c:497
 msgid "Sweden, Kronor"
-msgstr ""
+msgstr "Rootsi, kroonid"
 
 #: src/formats.c:498
-#, fuzzy
 msgid "Singapore, Dollars"
-msgstr "Singapuri dollar"
+msgstr "Singapur, dollarid"
 
 #: src/formats.c:499
-#, fuzzy
 msgid "Saint Helena, Pounds"
-msgstr "Püha Helena nael"
+msgstr "Saint Helena, naelad"
 
 #: src/formats.c:500
 #, fuzzy
 msgid "Slovenia, Tolars"
-msgstr "Sloveenia tolaar"
+msgstr "Sloveenia, tolaarid"
 
 #: src/formats.c:501
 #, fuzzy
 msgid "Slovakia, Koruny"
-msgstr "Sloveenia tolaar"
+msgstr "Slovakkia, kroonid"
 
 #: src/formats.c:502
 #, fuzzy
 msgid "Sierra Leone, Leones"
-msgstr "Sierra Leone leone"
+msgstr "Sierra Leone, leoned"
 
 #: src/formats.c:503
 #, fuzzy
 msgid "Somalia, Shillings"
-msgstr "Somaali shilling"
+msgstr "Somaalia, shillingid"
 
 #: src/formats.c:504
+#, fuzzy
 msgid "Seborga, Luigini"
-msgstr ""
+msgstr "Seborga, luiginid"
 
 #: src/formats.c:505
-#, fuzzy
 msgid "Suriname, Guilders"
-msgstr "Surinami gulden"
+msgstr "Suriname, guldenid"
 
 #: src/formats.c:506
-#, fuzzy
 msgid "Sao Tome and Principe, Dobras"
-msgstr "Sao Tome ja Principe dobra"
+msgstr "Sćo Tomé ja Prķncipe, dobrad"
 
 #: src/formats.c:507
 #, fuzzy
 msgid "El Salvador, Colones"
-msgstr "Salvadori kolon"
+msgstr "El Salvador, kolonid"
 
 #: src/formats.c:508
-#, fuzzy
 msgid "Syria, Pounds"
-msgstr "Süüria nael"
+msgstr "Süüria, naelad"
 
 #: src/formats.c:509
 #, fuzzy
 msgid "Swaziland, Emalangeni"
-msgstr "Svaasimaa lilangeni"
+msgstr "Svaasimaa, emalangenid"
 
 #: src/formats.c:510
 #, fuzzy
 msgid "Thailand, Baht"
-msgstr "Tai baht"
+msgstr "Tai, bahtid"
 
 #: src/formats.c:511
 #, fuzzy
 msgid "Tajikistan, Rubles"
-msgstr "Pakistani ruupia"
+msgstr "Tadzikistan, rublad"
 
 #: src/formats.c:512
 msgid "Turkmenistan, Manats"
-msgstr ""
+msgstr "Türkmenistan, manatid"
 
 #: src/formats.c:513
-#, fuzzy
 msgid "Tunisia, Dinars"
-msgstr "Tuneesia dinaar"
+msgstr "Tuneesia, dinaarid"
 
 #: src/formats.c:514
 #, fuzzy
 msgid "Tonga, Pa'anga"
-msgstr "Tonga pa'anga"
+msgstr "Tonga, pa'angad"
 
 #: src/formats.c:515
-#, fuzzy
 msgid "Turkey, Liras"
-msgstr "Türgi liir"
+msgstr "Türgi, liirid"
 
 #: src/formats.c:516
-#, fuzzy
 msgid "Trinidad and Tobago, Dollars"
-msgstr "Trinidadi ja Tobago dollar"
+msgstr "Trinidad ja Tobago, dollarid"
 
 #: src/formats.c:517
+#, fuzzy
 msgid "Tuvalu, Tuvalu Dollars"
-msgstr ""
+msgstr "Tuvalu, Tuvalu dollarid"
 
 #: src/formats.c:518
 #, fuzzy
 msgid "Taiwan, New Dollars"
-msgstr "Taiwani dollar"
+msgstr "Taiwan, uued dollarid"
 
 #: src/formats.c:519
 #, fuzzy
 msgid "Tanzania, Shillings"
-msgstr "Tansaania shilling"
+msgstr "Tansaania, shillingid"
 
 #: src/formats.c:520
-#, fuzzy
 msgid "Ukraine, Hryvnia"
-msgstr "Ukraina grivna"
+msgstr "Ukraina, grivnad"
 
 #: src/formats.c:521
 #, fuzzy
 msgid "Uganda, Shillings"
-msgstr "Uganda shilling"
+msgstr "Uganda, shillingid"
 
 #: src/formats.c:522
 msgid "United States of America, Dollars"
-msgstr ""
+msgstr "Ameerika Ühendriigid, dollarid"
 
 #: src/formats.c:523
-#, fuzzy
 msgid "Uruguay, Pesos"
-msgstr "Uruguai peeso"
+msgstr "Uruguai, peesod"
 
 #: src/formats.c:524
+#, fuzzy
 msgid "Uzbekistan, Sums"
-msgstr ""
+msgstr "Usbekistan, sumid"
 
 #: src/formats.c:525
 #, fuzzy
 msgid "Venezuela, Bolivares"
-msgstr "Venetsueela bolivar"
+msgstr "Venetsueela, bolivarid"
 
 #: src/formats.c:526
 #, fuzzy
 msgid "Viet Nam, Dong"
-msgstr "Vietnami dong"
+msgstr "Vietnam, dongid"
 
 #: src/formats.c:527
 #, fuzzy
 msgid "Vanuatu, Vatu"
-msgstr "Vanuatu vatu"
+msgstr "Vanuatu, vatud"
 
 #: src/formats.c:528
 #, fuzzy
 msgid "Samoa, Tala"
-msgstr "Samoa tala"
+msgstr "Samoa, tala"
 
 #: src/formats.c:529
 msgid "Communaute Financiere Africaine BEAC, Francs"
@@ -25116,16 +25126,15 @@ msgstr ""
 
 #: src/formats.c:530
 msgid "Silver, Ounces"
-msgstr ""
+msgstr "Hõbe, untsid"
 
 #: src/formats.c:531
 msgid "Gold, Ounces"
-msgstr ""
+msgstr "Kuld, untsid"
 
 #: src/formats.c:532
-#, fuzzy
 msgid "East Caribbean Dollars"
-msgstr "Ida-Kariibi dollar"
+msgstr "Ida-Kariibi dollarid"
 
 #: src/formats.c:533
 msgid "International Monetary Fund (IMF) Special Drawing Rights"
@@ -25136,8 +25145,9 @@ msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr ""
 
 #: src/formats.c:535
+#, fuzzy
 msgid "Palladium, Ounces"
-msgstr ""
+msgstr "pallaadium, untsid"
 
 #: src/formats.c:536
 msgid "Comptoirs Francais du Pacifique Francs"
@@ -25145,32 +25155,31 @@ msgstr ""
 
 #: src/formats.c:537
 msgid "Platinum, Ounces"
-msgstr ""
+msgstr "Plaatina, untsid"
 
 #: src/formats.c:538
-#, fuzzy
 msgid "Yemen, Rials"
-msgstr "Jeemeni riaal"
+msgstr "Jeemen, riaalid"
 
 #: src/formats.c:539
 #, fuzzy
 msgid "Yugoslavia, New Dinars"
-msgstr "Jugoslaavia dinaar"
+msgstr "Jugoslaavia, uusdinaarid"
 
 #: src/formats.c:540
 #, fuzzy
 msgid "South Africa, Rand"
-msgstr "Lõuna-Aafrika rand"
+msgstr "Lõuna-Aafrika, randid"
 
 #: src/formats.c:541
 #, fuzzy
 msgid "Zambia, Kwacha"
-msgstr "Sambia kwacha"
+msgstr "Sambia, kwachad"
 
 #: src/formats.c:542
 #, fuzzy
 msgid "Zimbabwe, Zimbabwe Dollars"
-msgstr "Simbabwe dollar"
+msgstr "Zimbabwe, zimbabwe dollarid"
 
 #: src/func-builtin.c:34
 #, fuzzy
@@ -27444,9 +27453,8 @@ msgid "dark green #2"
 msgstr ""
 
 #: src/widgets/color-palette.c:562
-#, fuzzy
 msgid "navy"
-msgstr "Esmaspäev"
+msgstr ""
 
 #: src/widgets/color-palette.c:563 src/widgets/color-palette.c:619
 msgid "dark blue"
@@ -27628,9 +27636,8 @@ msgid "Menu"
 msgstr "_Keskmine:"
 
 #: src/widgets/gnumeric-optionmenu.c:200
-#, fuzzy
 msgid "The menu of options"
-msgstr "Oaf seadistused"
+msgstr ""
 
 #: src/widgets/gnumeric-optionmenu.c:206
 msgid "Indicator Size"
@@ -27666,321 +27673,335 @@ msgstr "Tsentreeri lehel"
 
 #: src/widgets/widget-charmap-selector.c:72
 msgid "Chinese"
-msgstr ""
+msgstr "Hiina"
 
 #: src/widgets/widget-charmap-selector.c:73
 msgid "Cyrillic"
-msgstr ""
+msgstr "Kirillitsa"
 
 #: src/widgets/widget-charmap-selector.c:74
-#, fuzzy
 msgid "Greek"
-msgstr "roheline"
+msgstr "Kreeka"
 
 #: src/widgets/widget-charmap-selector.c:75
 msgid "Hebrew"
-msgstr ""
+msgstr "Heebrea"
 
 #: src/widgets/widget-charmap-selector.c:76
-#, fuzzy
 msgid "Indian"
-msgstr "_Keskmine:"
+msgstr "India"
 
 #: src/widgets/widget-charmap-selector.c:77
-#, fuzzy
 msgid "Japanese"
-msgstr "Jaapani jeen"
+msgstr "Jaapani"
 
 #: src/widgets/widget-charmap-selector.c:78
-#, fuzzy
 msgid "Korean"
-msgstr "Tõeväärtus"
+msgstr "Korea"
 
 #: src/widgets/widget-charmap-selector.c:79
-#, fuzzy
 msgid "Turkish"
-msgstr "Türgi liir"
+msgstr "Türgi"
 
 #: src/widgets/widget-charmap-selector.c:80
-#, fuzzy
 msgid "Unicode"
-msgstr "_Näita"
+msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:81
-#, fuzzy
 msgid "Vietnamese"
-msgstr "Nimeta leht ümber"
+msgstr "vietnami"
 
 #: src/widgets/widget-charmap-selector.c:82
-#, fuzzy
 msgid "Western"
-msgstr "Lääs"
+msgstr "Lääne"
 
 #: src/widgets/widget-charmap-selector.c:83
 #: src/widgets/widget-locale-selector.c:71
-#, fuzzy
 msgid "Other"
-msgstr "Oktoober"
+msgstr "Teised"
 
 #: src/widgets/widget-charmap-selector.c:113
 msgid "Arabic (IBM-864)"
-msgstr ""
+msgstr "Araabia (IBM-864)"
 
 #: src/widgets/widget-charmap-selector.c:114
 msgid "Arabic (IBM-864-I)"
-msgstr ""
+msgstr "Araabia (IBM-864-I)"
 
 #: src/widgets/widget-charmap-selector.c:115
 msgid "Arabic (ISO-8859-6)"
-msgstr ""
+msgstr "Araabia (ISO-8859-6)"
 
 #: src/widgets/widget-charmap-selector.c:116
 msgid "Arabic (ISO-8859-6-E)"
-msgstr ""
+msgstr "Araabia (ISO-8859-6-E)"
 
 #: src/widgets/widget-charmap-selector.c:118
 msgid "Arabic (ISO-8859-6-I)"
-msgstr ""
+msgstr "Araabia (ISO-8859-6-I)"
 
 #: src/widgets/widget-charmap-selector.c:119
+#, fuzzy
 msgid "Arabic (MacArabic)"
-msgstr ""
+msgstr "Araabia (Macintosh-Araabia)"
 
 #: src/widgets/widget-charmap-selector.c:120
 msgid "Arabic (Windows-1256)"
-msgstr ""
+msgstr "Araabia (Windows-1256)"
 
 #: src/widgets/widget-charmap-selector.c:121
 msgid "Armenian (ARMSCII-8)"
-msgstr ""
+msgstr "Armeenia (ARMSCII-8)"
 
 #: src/widgets/widget-charmap-selector.c:122
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "Balti (ISO-8859-13)"
 
 #: src/widgets/widget-charmap-selector.c:123
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "Baltic (ISO-8859-4)"
 
 #: src/widgets/widget-charmap-selector.c:124
 msgid "Baltic (Windows-1257)"
-msgstr ""
+msgstr "Baltic (Windows-1257)"
 
 #: src/widgets/widget-charmap-selector.c:125
 msgid "Celtic (ISO-8859-14)"
-msgstr ""
+msgstr "Keldi (ISO-8859-14)"
 
 #: src/widgets/widget-charmap-selector.c:126
+#, fuzzy
 msgid "Central European (IBM-852)"
-msgstr ""
+msgstr "Kesk-Euroopa (IBM-852)"
 
 #: src/widgets/widget-charmap-selector.c:127
+#, fuzzy
 msgid "Central European (ISO-8859-2)"
-msgstr ""
+msgstr "Kesk-Euroopa (ISO-8859-2)"
 
 #: src/widgets/widget-charmap-selector.c:128
+#, fuzzy
 msgid "Central European (MacCE)"
-msgstr ""
+msgstr "Kesk-Euroopa (MacCE)"
 
 #: src/widgets/widget-charmap-selector.c:129
+#, fuzzy
 msgid "Central European (Windows-1250)"
-msgstr ""
+msgstr "Kesk-Euroopa (Windows-1250)"
 
 #: src/widgets/widget-charmap-selector.c:130
+#, fuzzy
 msgid "Chinese Simplified (GB18030)"
-msgstr ""
+msgstr "Lihtsustatud hiina (GB18030)"
 
 #: src/widgets/widget-charmap-selector.c:131
+#, fuzzy
 msgid "Chinese Simplified (GB2312)"
-msgstr ""
+msgstr "Lihtsustatud hiina (GB2312)"
 
 #: src/widgets/widget-charmap-selector.c:132
+#, fuzzy
 msgid "Chinese Simplified (GBK)"
-msgstr ""
+msgstr "Lihtsustatud hiina (GBK)"
 
 #: src/widgets/widget-charmap-selector.c:133
+#, fuzzy
 msgid "Chinese Simplified (HZ)"
-msgstr ""
+msgstr "Lihtsustatud hiina (HZ)"
 
 #: src/widgets/widget-charmap-selector.c:134
+#, fuzzy
 msgid "Chinese Simplified (Windows-936)"
-msgstr ""
+msgstr "Lihtsustatud hiina (Windows-936)"
 
 #: src/widgets/widget-charmap-selector.c:135
+#, fuzzy
 msgid "Chinese Traditional (Big5)"
-msgstr ""
+msgstr "Tavaline hiina (Big5)"
 
 #: src/widgets/widget-charmap-selector.c:136
+#, fuzzy
 msgid "Chinese Traditional (Big5-HKSCS)"
-msgstr ""
+msgstr "Tavaline hiina (Big5-HKSCS)"
 
 #: src/widgets/widget-charmap-selector.c:137
+#, fuzzy
 msgid "Chinese Traditional (EUC-TW)"
-msgstr ""
+msgstr "Tavaline hiina (EUC-TW)"
 
 #: src/widgets/widget-charmap-selector.c:138
+#, fuzzy
 msgid "Croatian (MacCroatian)"
-msgstr ""
+msgstr "Horvaatia (Macintosh-Horvaatia)"
 
 #: src/widgets/widget-charmap-selector.c:139
 msgid "Cyrillic (IBM-855)"
-msgstr ""
+msgstr "Kirillitsa (IBM-855)"
 
 #: src/widgets/widget-charmap-selector.c:140
 msgid "Cyrillic (ISO-8859-5)"
-msgstr ""
+msgstr "Kirillitsa (ISO-8859-5)"
 
 #: src/widgets/widget-charmap-selector.c:141
 msgid "Cyrillic (ISO-IR-111)"
-msgstr ""
+msgstr "Kirillitsa (ISO-IR-111)"
 
 #: src/widgets/widget-charmap-selector.c:142
 msgid "Cyrillic (KOI8-R)"
-msgstr ""
+msgstr "Kirillitsa (KOI8-R)"
 
 #: src/widgets/widget-charmap-selector.c:143
 msgid "Cyrillic (MacCyrillic)"
-msgstr ""
+msgstr "Kirillitsa (Macintosh-kirillitsa)"
 
 #: src/widgets/widget-charmap-selector.c:144
 msgid "Cyrillic (Windows-1251)"
-msgstr ""
+msgstr "Kirillitsa (Windows-1251)"
 
 #: src/widgets/widget-charmap-selector.c:145
 msgid "Russian (CP-866)"
-msgstr ""
+msgstr "Vene (CP-866)"
 
 #: src/widgets/widget-charmap-selector.c:146
 msgid "Ukrainian (KOI8-U)"
-msgstr ""
+msgstr "Ukraina (KOI8-U)"
 
 #: src/widgets/widget-charmap-selector.c:147
 msgid "Ukrainian (MacUkrainian)"
-msgstr ""
+msgstr "Ukraina (Macintosh-ukraina)"
 
 #: src/widgets/widget-charmap-selector.c:148
 msgid "English (ASCII)"
-msgstr ""
+msgstr "Inglise (ASCII)"
 
 #: src/widgets/widget-charmap-selector.c:149
+#, fuzzy
 msgid "Farsi (MacFarsi)"
-msgstr ""
+msgstr "Farsi (Macintosh-farsi)"
 
 #: src/widgets/widget-charmap-selector.c:150
 msgid "Georgian (GEOSTD8)"
-msgstr ""
+msgstr "Gruusia (GEOSTD8)"
 
 #: src/widgets/widget-charmap-selector.c:151
 msgid "Greek (ISO-8859-7)"
-msgstr ""
+msgstr "Kreeka (ISO-8859-7)"
 
 #: src/widgets/widget-charmap-selector.c:152
 msgid "Greek (MacGreek)"
-msgstr ""
+msgstr "Kreeka (Macintosh-kreeka)"
 
 #: src/widgets/widget-charmap-selector.c:153
 msgid "Greek (Windows-1253)"
-msgstr ""
+msgstr "Kreeka (Windows-1253)"
 
 #: src/widgets/widget-charmap-selector.c:154
+#, fuzzy
 msgid "Gujarati (MacGujarati)"
-msgstr ""
+msgstr "Gujarati (Macintosh-gujarati)"
 
 #: src/widgets/widget-charmap-selector.c:155
+#, fuzzy
 msgid "Gurmukhi (MacGurmukhi)"
-msgstr ""
+msgstr "Gurmuki (Macintosh-gurmuki)"
 
 #: src/widgets/widget-charmap-selector.c:156
 msgid "Hebrew (IBM-862)"
-msgstr ""
+msgstr "Heebrea (IBM-862"
 
 #: src/widgets/widget-charmap-selector.c:157
 msgid "Hebrew (ISO-8859-8-E)"
-msgstr ""
+msgstr "Heebrea (ISO-8859-8-E)"
 
 #: src/widgets/widget-charmap-selector.c:158
 msgid "Hebrew (ISO-8859-8-I)"
-msgstr ""
+msgstr "Heebrea (ISO-8859-8-I)"
 
 #: src/widgets/widget-charmap-selector.c:159
+#, fuzzy
 msgid "Hebrew (MacHebrew)"
-msgstr ""
+msgstr "Heebrea (Macintosh-heebrea)"
 
 #: src/widgets/widget-charmap-selector.c:160
 msgid "Hebrew (Windows-1255)"
-msgstr ""
+msgstr "Heebrea (Windows-1255)"
 
 #: src/widgets/widget-charmap-selector.c:161
+#, fuzzy
 msgid "Hindi (MacDevanagari)"
-msgstr ""
+msgstr "Hindi (Macintosh-devanagari)"
 
 #: src/widgets/widget-charmap-selector.c:162
+#, fuzzy
 msgid "Icelandic (MacIcelandic)"
-msgstr ""
+msgstr "Islandi (Macintos-islandi)"
 
 #: src/widgets/widget-charmap-selector.c:163
 msgid "Japanese (EUC-JP)"
-msgstr ""
+msgstr "Jaapani (EUC-JP)"
 
 #: src/widgets/widget-charmap-selector.c:164
 msgid "Japanese (ISO-2022-JP)"
-msgstr ""
+msgstr "Jaapani (ISO-2022-JP)"
 
 #: src/widgets/widget-charmap-selector.c:165
 msgid "Japanese (Shift_JIS)"
-msgstr ""
+msgstr "Jaapani (Shift_JIS)"
 
 #: src/widgets/widget-charmap-selector.c:166
 msgid "Korean (EUC-KR)"
-msgstr ""
+msgstr "Korea (EUC-KR)"
 
 #: src/widgets/widget-charmap-selector.c:167
 msgid "Korean (ISO-2022-KR)"
-msgstr ""
+msgstr "Korea (ISO-2022-KR)"
 
 #: src/widgets/widget-charmap-selector.c:168
 msgid "Korean (JOHAB)"
-msgstr ""
+msgstr "Korea (JOHAB)"
 
 #: src/widgets/widget-charmap-selector.c:169
 msgid "Korean (UHC)"
-msgstr ""
+msgstr "Korea (UHC)"
 
 #: src/widgets/widget-charmap-selector.c:170
 msgid "Nordic (ISO-8859-10)"
-msgstr ""
+msgstr "Skandinaavia (ISO-8859-10)"
 
 #: src/widgets/widget-charmap-selector.c:171
+#, fuzzy
 msgid "Romanian (MacRomanian)"
-msgstr ""
+msgstr "Rumeenia (Macintosh-rumeenia)"
 
 #: src/widgets/widget-charmap-selector.c:172
 msgid "Romanian (ISO-8859-16)"
-msgstr ""
+msgstr "Rumeenia (ISO-8859-16)"
 
 #: src/widgets/widget-charmap-selector.c:173
+#, fuzzy
 msgid "South European (ISO-8859-3)"
-msgstr ""
+msgstr "Lõuna-Euroopa (ISO-8859-3)"
 
 #: src/widgets/widget-charmap-selector.c:174
 msgid "Thai (TIS-620)"
-msgstr ""
+msgstr "Tai (TIS-620)"
 
 #: src/widgets/widget-charmap-selector.c:175
 msgid "Turkish (IBM-857)"
-msgstr ""
+msgstr "Türgi (IBM-857)"
 
 #: src/widgets/widget-charmap-selector.c:176
 msgid "Turkish (ISO-8859-9)"
-msgstr ""
+msgstr "Türgi (ISO-8859-9)"
 
 #: src/widgets/widget-charmap-selector.c:177
+#, fuzzy
 msgid "Turkish (MacTurkish)"
-msgstr ""
+msgstr "Türgi (Macintosh-türgi)"
 
 #: src/widgets/widget-charmap-selector.c:178
 msgid "Turkish (Windows-1254)"
-msgstr ""
+msgstr "Türgi (Windows-1254)"
 
 #: src/widgets/widget-charmap-selector.c:179
 msgid "Unicode (UTF-7)"
@@ -28007,25 +28028,24 @@ msgid "Unicode (UTF-32LE)"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:185
-#, fuzzy
 msgid "User Defined"
-msgstr "Jooni alla"
+msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:186
 msgid "Vietnamese (TCVN)"
-msgstr ""
+msgstr "Vietnami (TCVN)"
 
 #: src/widgets/widget-charmap-selector.c:187
 msgid "Vietnamese (VISCII)"
-msgstr ""
+msgstr "Vietnami (VISCII)"
 
 #: src/widgets/widget-charmap-selector.c:188
 msgid "Vietnamese (VPS)"
-msgstr ""
+msgstr "Vietnami (VPS)"
 
 #: src/widgets/widget-charmap-selector.c:189
 msgid "Vietnamese (Windows-1258)"
-msgstr ""
+msgstr "Vietnami (Windows-1258)"
 
 #: src/widgets/widget-charmap-selector.c:190
 msgid "Visual Hebrew (ISO-8859-8)"
@@ -28033,23 +28053,24 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:191
 msgid "Western (IBM-850)"
-msgstr ""
+msgstr "Lääne (IBM-850)"
 
 #: src/widgets/widget-charmap-selector.c:192
 msgid "Western (ISO-8859-1)"
-msgstr ""
+msgstr "Lääne (ISO-8859-1)"
 
 #: src/widgets/widget-charmap-selector.c:193
 msgid "Western (ISO-8859-15)"
-msgstr ""
+msgstr "Lääne (ISO-8859-15)"
 
 #: src/widgets/widget-charmap-selector.c:194
+#, fuzzy
 msgid "Western (MacRoman)"
-msgstr ""
+msgstr "Lääne (Macintosh-romaani)"
 
 #: src/widgets/widget-charmap-selector.c:195
 msgid "Western (Windows-1252)"
-msgstr ""
+msgstr "Lääne (Windows-1252)"
 
 #: src/widgets/widget-charmap-selector.c:413
 #, fuzzy
@@ -28057,9 +28078,8 @@ msgid "Locale: "
 msgstr "Loogilised"
 
 #: src/widgets/widget-charmap-selector.c:452
-#, fuzzy
 msgid "Conversion Direction"
-msgstr "Korrelatsioon"
+msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:453
 msgid "This value determines which iconv test to perform."
@@ -28107,12 +28127,11 @@ msgstr "Rakenda _arvude vorming"
 #: src/widgets/widget-locale-selector.c:64
 #, fuzzy
 msgid "Western Europe"
-msgstr "Lääs"
+msgstr "Tsentreeri lehel"
 
 #: src/widgets/widget-locale-selector.c:65
-#, fuzzy
 msgid "Eastern Europe"
-msgstr "Tsentreeri lehel"
+msgstr ""
 
 #: src/widgets/widget-locale-selector.c:66
 msgid "North America"
@@ -28123,9 +28142,8 @@ msgid "South & Central America"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:68
-#, fuzzy
 msgid "Asia"
-msgstr "Üldine"
+msgstr ""
 
 #: src/widgets/widget-locale-selector.c:69
 #, fuzzy
@@ -28135,7 +28153,7 @@ msgstr "Ala %i"
 #: src/widgets/widget-locale-selector.c:70
 #, fuzzy
 msgid "Australia"
-msgstr "Austraalia dollar"
+msgstr "Austraalia, dollarid"
 
 #.
 #. * The format here is "Country/Language (locale)" or just
@@ -28152,20 +28170,21 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:103
 #, fuzzy
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "Lõuna-Aafrika rand"
+msgstr "Lõuna-Aafrika, randid"
 
 #: src/widgets/widget-locale-selector.c:104
 msgid "Ethiopia/Amharic (am_ET)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:105
+#, fuzzy
 msgid "United Arab Emirates (ar_AE)"
-msgstr ""
+msgstr "Araabia Ühendemiraadid, dirhamid"
 
 #: src/widgets/widget-locale-selector.c:106
 #, fuzzy
 msgid "Bahrain (ar_BH)"
-msgstr "Bahreini dinaar"
+msgstr "Bahrein, dinaarid"
 
 #: src/widgets/widget-locale-selector.c:107
 msgid "Algeria (ar_DZ)"
@@ -28186,12 +28205,12 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:111
 #, fuzzy
 msgid "Jordan (ar_JO)"
-msgstr "Jordaania dinaar"
+msgstr "Jordaania, dinaarid"
 
 #: src/widgets/widget-locale-selector.c:112
 #, fuzzy
 msgid "Kuwait (ar_KW)"
-msgstr "Kuveidi dinaar"
+msgstr "Kuveit, dinaarid"
 
 #: src/widgets/widget-locale-selector.c:113
 msgid "Lebanon (ar_LB)"
@@ -28200,7 +28219,7 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:114
 #, fuzzy
 msgid "Libya (ar_LY)"
-msgstr "Liibüa dinaar"
+msgstr "Liibüa, dinaarid"
 
 #: src/widgets/widget-locale-selector.c:115
 msgid "Morocco (ar_MA)"
@@ -28217,11 +28236,12 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:118
 #, fuzzy
 msgid "Saudi Arabia (ar_SA)"
-msgstr "Saudi Araabia riaal"
+msgstr "Saudi Araabia, riaalid"
 
 #: src/widgets/widget-locale-selector.c:119
+#, fuzzy
 msgid "Sudan (ar_SD)"
-msgstr ""
+msgstr "Sudaan, dinaarid"
 
 #: src/widgets/widget-locale-selector.c:120
 msgid "Syria (ar_SY)"
@@ -28230,30 +28250,30 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:121
 #, fuzzy
 msgid "Tunisia (ar_TN)"
-msgstr "Tuneesia dinaar"
+msgstr "Tuneesia, dinaarid"
 
 #: src/widgets/widget-locale-selector.c:122
 msgid "Yemen (ar_YE)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:123
+#, fuzzy
 msgid "Azerbaijan (az_AZ)"
-msgstr ""
+msgstr "Aserbaidæaan, manatid"
 
 #: src/widgets/widget-locale-selector.c:124
 #, fuzzy
 msgid "Belarus (be_BY)"
-msgstr "Valgevene rubla"
+msgstr "Valgevene, rublad"
 
 #: src/widgets/widget-locale-selector.c:125
-#, fuzzy
 msgid "Bulgaria (bg_BG)"
-msgstr "Bulgaaria lev"
+msgstr ""
 
 #: src/widgets/widget-locale-selector.c:126
 #, fuzzy
 msgid "Bangladesh (bn_BD)"
-msgstr "Bangladeshi taka"
+msgstr "Bangladesh, takad"
 
 #: src/widgets/widget-locale-selector.c:127
 msgid "India/Bengali (bn_IN)"
@@ -28264,8 +28284,9 @@ msgid "France/Breton (br_FR)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:129
+#, fuzzy
 msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr ""
+msgstr "Bosnia ja Hertsegoviina, markad"
 
 #: src/widgets/widget-locale-selector.c:130
 msgid "Spain/Catalan (ca_ES)"
@@ -28274,7 +28295,7 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:131
 #, fuzzy
 msgid "Czech Republic (cs_CZ)"
-msgstr "Tshehhi kroon"
+msgstr "Tshehhi, kroonid"
 
 #: src/widgets/widget-locale-selector.c:132
 msgid "Great Britain/Welsh (cy_GB)"
@@ -28293,8 +28314,9 @@ msgid "Belgium/German (de_BE)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:136
+#, fuzzy
 msgid "Switzerland/German (de_CH)"
-msgstr ""
+msgstr "Sveits, frangid"
 
 #: src/widgets/widget-locale-selector.c:137
 msgid "Germany (de_DE)"
@@ -28334,18 +28356,19 @@ msgid "Ireland (en_IE)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:146
+#, fuzzy
 msgid "India/English (en_IN)"
-msgstr ""
+msgstr "Inglise (ASCII)"
 
 #: src/widgets/widget-locale-selector.c:147
 #, fuzzy
 msgid "New Zealand (en_NZ)"
-msgstr "Uus-Meremaa dollar"
+msgstr "Uus-Meremaa, dollarid"
 
 #: src/widgets/widget-locale-selector.c:148
 #, fuzzy
 msgid "Philippines (en_PH)"
-msgstr "Filipiini peeso"
+msgstr "Filipiinid, peesod"
 
 #: src/widgets/widget-locale-selector.c:149
 msgid "Singapore/English (en_SG)"
@@ -28358,7 +28381,7 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:151
 #, fuzzy
 msgid "South Africa/English (en_ZA)"
-msgstr "Lõuna-Aafrika rand"
+msgstr "Lõuna-Aafrika, randid"
 
 #: src/widgets/widget-locale-selector.c:152
 msgid "Zimbabwe (en_ZW)"
@@ -28371,7 +28394,7 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:154
 #, fuzzy
 msgid "Argentina (es_AR)"
-msgstr "Argentiina peeso"
+msgstr "Argentiina, peesod"
 
 #: src/widgets/widget-locale-selector.c:155
 msgid "Bolivia (es_BO)"
@@ -28380,22 +28403,22 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:156
 #, fuzzy
 msgid "Chile (es_CL)"
-msgstr "Tshilli peeso"
+msgstr "Tsiili, peesod"
 
 #: src/widgets/widget-locale-selector.c:157
 #, fuzzy
 msgid "Colombia (es_CO)"
-msgstr "Kolumbia peeso"
+msgstr "Kolumbia, peesod"
 
 #: src/widgets/widget-locale-selector.c:158
 #, fuzzy
 msgid "Costa Rica (es_CR)"
-msgstr "Kostariika kolon"
+msgstr "Costa Rica, kolonid"
 
 #: src/widgets/widget-locale-selector.c:159
 #, fuzzy
 msgid "Dominican Republic (es_DO)"
-msgstr "Dominikaani peeso"
+msgstr "Dominikaani vabariik, peesod"
 
 #: src/widgets/widget-locale-selector.c:160
 #, fuzzy
@@ -28410,17 +28433,17 @@ msgstr "Valik"
 #: src/widgets/widget-locale-selector.c:162
 #, fuzzy
 msgid "Guatemala (es_GT)"
-msgstr "Guatemaala quetzal"
+msgstr "Guatemala, quetzalid"
 
 #: src/widgets/widget-locale-selector.c:163
 #, fuzzy
 msgid "Honduras (es_HN)"
-msgstr "Honduurase lempira"
+msgstr "Honduras, lempirad"
 
 #: src/widgets/widget-locale-selector.c:164
 #, fuzzy
 msgid "Mexico (es_MX)"
-msgstr "Mehhiko peeso"
+msgstr "Mehhiko, peesod"
 
 #: src/widgets/widget-locale-selector.c:165
 msgid "Nicaragua (es_NI)"
@@ -28445,7 +28468,7 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:170
 #, fuzzy
 msgid "El Salvador (es_SV)"
-msgstr "Salvadori kolon"
+msgstr "El Salvador, kolonid"
 
 #: src/widgets/widget-locale-selector.c:171
 msgid "United States/Spanish (es_US)"
@@ -28454,12 +28477,12 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:172
 #, fuzzy
 msgid "Uruguay (es_UY)"
-msgstr "Uruguai peeso"
+msgstr "Uruguai, peesod"
 
 #: src/widgets/widget-locale-selector.c:173
 #, fuzzy
 msgid "Venezuela (es_VE)"
-msgstr "Venetsueela bolivar"
+msgstr "Venetsueela, bolivarid"
 
 #: src/widgets/widget-locale-selector.c:174
 msgid "Estonia (et_EE)"
@@ -28490,8 +28513,9 @@ msgid "Canada/French (fr_CA)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:181
+#, fuzzy
 msgid "Switzerland/French (fr_CH)"
-msgstr ""
+msgstr "Sveits, frangid"
 
 #: src/widgets/widget-locale-selector.c:182
 msgid "France (fr_FR)"
@@ -28526,8 +28550,9 @@ msgid "Hungary (hu_HU)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:190
+#, fuzzy
 msgid "Armenia (hy_AM)"
-msgstr ""
+msgstr "Armeenia (ARMSCII-8)"
 
 #: src/widgets/widget-locale-selector.c:191
 msgid "(i18n)"
@@ -28536,7 +28561,7 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:192
 #, fuzzy
 msgid "Indonesia (id_ID)"
-msgstr "Indoneesia ruupia"
+msgstr "Indoneesia, ruupiad"
 
 #: src/widgets/widget-locale-selector.c:193
 msgid "Iceland (is_IS)"
@@ -28559,32 +28584,37 @@ msgid "Israel/Hebrew (iw_IL)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:198
+#, fuzzy
 msgid "Japan (ja_JP)"
-msgstr ""
+msgstr "Jaapani (EUC-JP)"
 
 #: src/widgets/widget-locale-selector.c:199
+#, fuzzy
 msgid "Georgia (ka_GE)"
-msgstr ""
+msgstr "Gruusia (GEOSTD8)"
 
 #: src/widgets/widget-locale-selector.c:200
 msgid "Greenland (kl_GL)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:201
+#, fuzzy
 msgid "Korea (ko_KR)"
-msgstr ""
+msgstr "Korea (EUC-KR)"
 
 #: src/widgets/widget-locale-selector.c:202
 msgid "Great Britain/Cornish (kw_GB)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:203
+#, fuzzy
 msgid "Lithuania (lt_LT)"
-msgstr ""
+msgstr "Leedu, litid"
 
 #: src/widgets/widget-locale-selector.c:204
+#, fuzzy
 msgid "Latvia (lv_LV)"
-msgstr ""
+msgstr "Läti, latid"
 
 #: src/widgets/widget-locale-selector.c:205
 msgid "New Zealand/Maori (mi_NZ)"
@@ -28648,8 +28678,9 @@ msgid "Russia (ru_RU)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:220
+#, fuzzy
 msgid "Ukraine/Russian (ru_UA)"
-msgstr ""
+msgstr "Ukraina (KOI8-U)"
 
 #: src/widgets/widget-locale-selector.c:221
 msgid "Norway/Saami (se_NO)"
@@ -28658,22 +28689,21 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:222
 #, fuzzy
 msgid "Slovakia (sk_SK)"
-msgstr "Sloveenia tolaar"
+msgstr "Slovakkia, kroonid"
 
 #: src/widgets/widget-locale-selector.c:223
 #, fuzzy
 msgid "Slovenia (sl_SI)"
-msgstr "Sloveenia tolaar"
+msgstr "Sloveenia, tolaarid"
 
 #: src/widgets/widget-locale-selector.c:224
 #, fuzzy
 msgid "Albania (sq_AL)"
-msgstr "Albaania lek"
+msgstr "Albaania, lekid"
 
 #: src/widgets/widget-locale-selector.c:225
-#, fuzzy
 msgid "Yugoslavia (sr_YU)"
-msgstr "Jugoslaavia dinaar"
+msgstr ""
 
 #: src/widgets/widget-locale-selector.c:226
 msgid "Finland/Swedish (sv_FI)"
@@ -28694,12 +28724,12 @@ msgstr ""
 #: src/widgets/widget-locale-selector.c:230
 #, fuzzy
 msgid "Tajikistan (tg_TJ)"
-msgstr "Pakistani ruupia"
+msgstr "Tadzikistan, rublad"
 
 #: src/widgets/widget-locale-selector.c:231
 #, fuzzy
 msgid "Thailand (th_TH)"
-msgstr "Tai baht"
+msgstr "Tai, bahtid"
 
 #: src/widgets/widget-locale-selector.c:232
 msgid "Eritrea (ti_ER)"
@@ -28722,21 +28752,24 @@ msgid "Russia/Tatar (tt_RU)"
 msgstr ""
 
 #: src/widgets/widget-locale-selector.c:237
+#, fuzzy
 msgid "Ukraine (uk_UA)"
-msgstr ""
+msgstr "Ukraina (KOI8-U)"
 
 #: src/widgets/widget-locale-selector.c:238
 #, fuzzy
 msgid "Pakistan (ur_PK)"
-msgstr "Pakistani ruupia"
+msgstr "Pakistan, ruupiad"
 
 #: src/widgets/widget-locale-selector.c:239
+#, fuzzy
 msgid "Uzbekistan (uz_UZ)"
-msgstr ""
+msgstr "Usbekistan, sumid"
 
 #: src/widgets/widget-locale-selector.c:240
+#, fuzzy
 msgid "Vietnam (vi_VN)"
-msgstr ""
+msgstr "Vietnami (TCVN)"
 
 #: src/widgets/widget-locale-selector.c:241
 msgid "Belgium/Walloon (wa_BE)"
@@ -29358,7 +29391,7 @@ msgstr "Gnumericu XML failiformaat"
 
 #, fuzzy
 #~ msgid "Formatted Sample"
-#~ msgstr "Vorminda ajana"
+#~ msgstr "Vormindusnäide"
 
 #~ msgid ""
 #~ "General format cells attempt to select an appropriate format depending on "
@@ -29378,6 +29411,9 @@ msgstr "Gnumericu XML failiformaat"
 
 #~ msgid "_Time"
 #~ msgstr "_Aeg"
+
+#~ msgid "K:"
+#~ msgstr "K:"
 
 #~ msgid "Mrt"
 #~ msgstr "Märts"
@@ -30245,6 +30281,9 @@ msgstr "Gnumericu XML failiformaat"
 
 #~ msgid "Argument mismatch"
 #~ msgstr "Argumendi sobimatus"
+
+#~ msgid "Array"
+#~ msgstr "Massiiv"
 
 #~ msgid "Unable to mmap the file."
 #~ msgstr "Ei suuda mmap'ida faili"
@@ -31295,6 +31334,10 @@ msgstr "Gnumericu XML failiformaat"
 #~ msgstr "Autor"
 
 #, fuzzy
+#~ msgid "_Title"
+#~ msgstr "Tiitel"
+
+#, fuzzy
 #~ msgid "A sheet name must have at least 1 character."
 #~ msgstr "vähemalt 1 täht peab olema"
 
@@ -31399,6 +31442,9 @@ msgstr "Gnumericu XML failiformaat"
 #~ msgid "Oval"
 #~ msgstr "Ovaal"
 
+#~ msgid "Re-_Order..."
+#~ msgstr "K_orrasta ..."
+
 #~ msgid "_Change Name..."
 #~ msgstr "_Muuda nime..."
 
@@ -31407,6 +31453,9 @@ msgstr "Gnumericu XML failiformaat"
 
 #~ msgid "Setting current time in %s"
 #~ msgstr "Paigutan praeguse kellaaja %s"
+
+#~ msgid "Oaf options"
+#~ msgstr "Oaf seadistused"
 
 #~ msgid "Action"
 #~ msgstr "Tegevus"
