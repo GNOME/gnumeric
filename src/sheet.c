@@ -480,7 +480,7 @@ colrow_set_units (Sheet *sheet, ColRowInfo *info)
 }
 
 static void
-sheet_reposition_comments (Sheet *sheet, int row)
+sheet_reposition_comments_from_row (Sheet *sheet, int row)
 {
 	GList *l;
 
@@ -489,6 +489,20 @@ sheet_reposition_comments (Sheet *sheet, int row)
 		Cell *cell = l->data;
 
 		if (cell->row->pos >= row)
+			cell_comment_reposition (cell);
+	}
+}
+
+static void
+sheet_reposition_comments_from_col (Sheet *sheet, int col)
+{
+	GList *l;
+
+	/* Move any cell comments */
+	for (l = sheet->comment_list; l; l = l->next){
+		Cell *cell = l->data;
+
+		if (cell->col->pos >= col)
 			cell_comment_reposition (cell);
 	}
 }
@@ -508,7 +522,7 @@ sheet_row_info_set_height (Sheet *sheet, ColRowInfo *ri, int height, gboolean he
 
 	sheet_compute_visible_ranges (sheet);
 
-	sheet_reposition_comments (sheet, ri->pos);
+	sheet_reposition_comments_from_row (sheet, ri->pos);
 	sheet_redraw_all (sheet);
 }
 
@@ -548,7 +562,7 @@ sheet_row_set_height (Sheet *sheet, int row, int height, gboolean height_set_by_
 /**
  * sheet_row_set_internal_height:
  * @sheet:		The sheet
- * @row:		The row
+ * @row:		The row info.  
  * @height:		The desired height
  *
  * Sets the height of a row in terms of the internal required space (the total
@@ -572,8 +586,80 @@ sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height)
 	ri->pixels = (ri->units * pix) + (ri->margin_a + ri->margin_b - 1);
 
 	sheet_compute_visible_ranges (sheet);
-	sheet_reposition_comments (sheet, ri->pos);
+	sheet_reposition_comments_from_row (sheet, ri->pos);
 	sheet_redraw_all (sheet);
+}
+
+/**
+ * sheet_col_set_internal_width:
+ * @sheet:		The sheet
+ * @col:		The col info.  
+ * @width:		The desired width
+ *
+ * Sets the width of a column in terms of the internal required space (the total
+ * size of the column will include the margins.
+ */
+void
+sheet_col_set_internal_width (Sheet *sheet, ColRowInfo *ci, double width)
+{
+	double pix;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (ci != NULL);
+
+	pix = sheet->last_zoom_factor_used;
+
+	if (ci->units == width)
+		return;
+
+	ci->units = width;
+	ci->pixels = (ci->units * pix) + (ci->margin_a + ci->margin_b - 1);
+
+	sheet_compute_visible_ranges (sheet);
+	sheet_reposition_comments_from_col (sheet, ci->pos);
+	sheet_redraw_all (sheet);
+}
+
+void
+sheet_row_set_height_units (Sheet *sheet, int row, double height, gboolean height_set_by_user)
+{
+	ColRowInfo *ri;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (height > 0.0);
+
+	ri = sheet_row_get_info (sheet, row);
+	if (ri == &sheet->default_col_style){
+		ri = sheet_row_new (sheet);
+		ri->pos = row;
+		sheet_row_add (sheet, ri);
+	}
+
+	if (height_set_by_user)
+		ri->hard_size = TRUE;
+	
+	sheet_row_set_internal_height (sheet, ri, height);
+}
+
+void
+sheet_col_set_width_units (Sheet *sheet, int col, double width)
+{
+	ColRowInfo *ci;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (width > 0.0);
+
+	ci = sheet_col_get_info (sheet, col);
+	if (ci == &sheet->default_col_style){
+		ci = sheet_col_new (sheet);
+		ci->pos = col;
+		sheet_col_add (sheet, ci);
+	}
+
+	sheet_col_set_internal_width (sheet, ci, width);
 }
 
 /**
@@ -616,6 +702,51 @@ sheet_col_size_fit (Sheet *sheet, int col)
 		
 		if (width > max)
 			max = width;
+	}
+
+	return max;
+}
+
+/**
+ * sheet_row_size_fit:
+ * @sheet: The sheet
+ * @col: the row that we want to query
+ *
+ * This routine computes the ideal size for the row to make all data fit
+ * properly.  Return value is in pixels
+ */
+int
+sheet_row_size_fit (Sheet *sheet, int row)
+{
+	ColRowInfo *ri;
+	GList *l;
+	int max = 0;
+	int margins;
+	
+	g_return_val_if_fail (sheet != NULL, 0);
+	g_return_val_if_fail (IS_SHEET (sheet), 0);
+	g_return_val_if_fail (row >= 0, 0);
+	g_return_val_if_fail (row < SHEET_MAX_ROWS, 0);
+
+	ri = sheet_col_get_info (sheet, row);
+
+	/*
+	 * If ri == sheet->default_row_style then it means
+	 * no cells have been allocated here
+	 */
+	if (ri == &sheet->default_row_style)
+		return ri->pixels;
+
+	margins = ri->margin_a + ri->margin_b;
+	
+	for (l = ri->data; l; l = l->next){
+		Cell *cell = l->data;
+		int height;
+			
+		height = cell->height + margins;
+		
+		if (height > max)
+			max = height;
 	}
 
 	return max;
@@ -684,7 +815,6 @@ void
 sheet_col_set_width (Sheet *sheet, int col, int width)
 {
 	ColRowInfo *ci;
-	GList *l;
 	int add = 0;
 
 	g_return_if_fail (sheet != NULL);
@@ -706,12 +836,8 @@ sheet_col_set_width (Sheet *sheet, int col, int width)
 	sheet_recompute_spans_for_col (sheet, col);
 
 	/* Move any cell comments */
-	for (l = sheet->comment_list; l; l = l->next){
-		Cell *cell = l->data;
-
-		if (cell->col->pos >= col)
-			cell_comment_reposition (cell);
-	}
+	sheet_reposition_comments_from_col (sheet, col);
+	
 }
 
 static inline int
@@ -1069,31 +1195,44 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 
 typedef struct
 {
-	gboolean bold, bold_common;
-	gboolean italic, italic_common;
+	gboolean bold;
+	gboolean bold_common;
+
+	gboolean italic;
+	gboolean italic_common;
+
+	GnomeFont *font;
+	gboolean font_common;
+
+	double font_size;
+	gboolean font_size_common;
 
 	gboolean first;
 } range_homogeneous_style_p;
 
 static Value *
-cell_is_homogeneous(Sheet *sheet, int col, int row,
-		    Cell *cell, void *user_data)
+cell_is_homogeneous (Sheet *sheet, int col, int row,
+		     Cell *cell, void *user_data)
 {
 	range_homogeneous_style_p *accum = user_data;
 
 	if (accum->first) {
 		accum->bold = cell->style->font->is_bold;
 		accum->italic = cell->style->font->is_italic;
+		accum->font = cell->style->font->font;
 		accum->first = FALSE;
 	} else {
 		if (accum->italic != cell->style->font->is_italic)
 			accum->italic_common = FALSE;
 		if (accum->bold != cell->style->font->is_bold)
 			accum->bold_common = FALSE;
-		if (accum->bold_common == FALSE && accum->italic_common == FALSE)
+		if (accum->font != cell->style->font->font)
+			accum->font_common = FALSE;
+		if ((accum->bold_common == FALSE) &&
+		    (accum->italic_common == FALSE) &&
+		    (accum->font_common == FALSE))
 			return value_terminate();
 	}
-
 	return NULL;
 }
 
@@ -1103,8 +1242,10 @@ range_is_homogeneous(Sheet *sheet,
 		     int end_col,   int end_row,
 		     void *closure)
 {
-	/* FIXME : Only check existing cells for now.  In when styles are
-	 * redone this will need rethinking.*/
+	/*
+	 * FIXME : Only check existing cells for now.  In when styles are
+	 * redone this will need rethinking.
+	 */
 	Value * res = sheet_cell_foreach_range (sheet, TRUE,
 						start_col, start_row, end_col, end_row,
 						&cell_is_homogeneous, closure);
@@ -1122,8 +1263,12 @@ void
 sheet_update_controls (Sheet *sheet)
 {
 	range_homogeneous_style_p closure;
+	int flags;
+	
 	closure.first = TRUE;
-	closure.bold_common = closure.italic_common = TRUE;
+	closure.bold_common = TRUE;
+	closure.italic_common = TRUE;
+	closure.font_common = TRUE;
 
 	/* Double counting is ok, don't bother breaking up the regions */
 	selection_apply (sheet, &range_is_homogeneous,
@@ -1139,23 +1284,26 @@ sheet_update_controls (Sheet *sheet)
 						    ss->user.start.row, NULL);
 		closure.bold = style->font->is_bold;
 		closure.italic = style->font->is_italic;
+		closure.font = style->font->font;
+		closure.font_size = style->font->size;
+		
 		style_destroy (style);
 	}
 
-	/* Update the toolbar */
-	if (closure.bold_common)
-		workbook_feedback_set (
-			sheet->workbook,
-			WORKBOOK_FEEDBACK_BOLD,
-			GINT_TO_POINTER(closure.bold));
+	flags = (closure.bold_common ? WORKBOOK_FEEDBACK_BOLD : 0) |
+		(closure.italic_common ? WORKBOOK_FEEDBACK_ITALIC : 0) |
+		(closure.font_size_common ? WORKBOOK_FEEDBACK_FONT_SIZE : 0) |
+		(closure.font_common ? WORKBOOK_FEEDBACK_FONT : 0);
 
-	if (closure.italic_common)
-		workbook_feedback_set (
-			sheet->workbook,
-			WORKBOOK_FEEDBACK_ITALIC,
-			GINT_TO_POINTER(closure.italic));
-}
-
+	if (flags == 0)
+		return;
+	
+	workbook_feedback_set (sheet->workbook, flags,
+			       closure.italic,
+			       closure.bold,
+			       closure.font_size,
+			       closure.font);
+}		
 
 int
 sheet_col_selection_type (Sheet const *sheet, int col)

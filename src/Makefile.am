@@ -7,14 +7,9 @@
 # gnumeric: 
 #	the plain spreadsheet
 #
-# gnumeric-corba:
-#       spreadsheet with CORBA additions
-#
 # gnumeric-bonobo:
 #       spreadsheet with CORBA and Bonobo additions
 # 
-# Note that gnumeric/gnumeric-corba and gnumeric-bonobo are mutually
-# exclusive.
 # 
 
 SUBDIRS = dialogs functions widgets
@@ -76,6 +71,8 @@ GNUMERIC_BASE_SOURCES =				\
 	func.h					\
 	format.c				\
 	format.h				\
+	global-gnome-font.c			\
+	global-gnome-font.h			\
 	goal-seek.c				\
 	goal-seek.h				\
 	gnumeric-sheet.c			\
@@ -150,6 +147,8 @@ GNUMERIC_BASE_SOURCES =				\
 	value.h					\
 	workbook.c				\
 	workbook.h				\
+	workbook-cmd-format.c			\
+	workbook-cmd-format.h			\
 	xml-io.c				\
 	xml-io.h
 

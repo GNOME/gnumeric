@@ -13,6 +13,8 @@ INCLUDES = 						\
 noinst_LIBRARIES = libwidgets.a
 
 libwidgets_a_SOURCES =				\
+	gnumeric-toolbar.c			\
+	gnumeric-toolbar.h			\
 	widget-editable-label.c			\
 	widget-editable-label.h			\
 	widget-font-selector.c			\

@@ -31,28 +31,37 @@ libdialogs_a_SOURCES =				\
 	dialog-printer.c			\
 	dialog-printer.h			\
 	dialog-printer-setup.c			\
-	dialog-summary.c			\
+	dialog-simple-input.c			\
 	dialog-solver.c				\
+	dialog-summary.c			\
 	dialog-zoom.c				\
-	dialogs.h
+	dialogs.h				\
+	tools.h
 
 gladedir   = $(datadir)/gnumeric/glade
 glade_DATA = 				\
+	col-width.glade			\
 	font-sel.glade			\
 	hf-config.glade			\
 	import.glade			\
+	names.glade			\
 	print.glade 			\
-	summary.glade			\
-	names.glade
+	row-height.glade		\
+	sheet-rename.glade		\
+	summary.glade
 
 glade_msgs = 				\
+	col-width.glade.h		\
 	font-sel.glade.h		\
 	hf-config.glade.h		\
 	import.glade.h			\
-	print.glade.h			\
 	names.glade.h			\
+	print.glade.h			\
+	row-height.glade.h		\
+	sheet-rename.glade.h		\
 	summary.glade.h
 
 EXTRA_DIST = $(glade_DATA) $(glade_msgs)
+
 
 

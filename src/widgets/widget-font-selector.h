@@ -28,8 +28,6 @@ typedef struct {
 	/* The current gnome_font */
 	GnomeFont        *gnome_font;
 	GnomeDisplayFont *display_font;
-
-	GList *family_list;
 } FontSelector;
 
 typedef struct {

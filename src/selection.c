@@ -13,6 +13,33 @@
 #include "ranges.h"
 #include "gnumeric-util.h"
 
+static void sheet_selection_change (Sheet *sheet,
+				    SheetSelection *old,
+				    SheetSelection *new);
+
+/*
+ * Quick utility routine to test intersect of line segments.
+ * Returns : 4 --sA--sb--eb--eA--	a contains b
+ *           3 --sA--sb--eA--eb--	overlap left
+ *           2 --sb--sA--eA--eb--	b contains a
+ *           1 --sb--sA--eb--eA--	overlap right
+ *           0 if there is no intersection.
+ */
+static int
+segments_intersect (int const s_a, int const e_a,
+		    int const s_b, int const e_b)
+{
+	/* Assume s_a <= e_a and s_b <= e_b */
+	if (e_a < s_b || e_b < s_a)
+		return 0;
+
+	if (s_a < s_b)
+		return (e_a >= e_b) ? 4 : 3;
+
+	/* We already know that s_a <= e_b */
+	return (e_a <= e_b) ? 2 : 1;
+}
+
 static const char *
 sheet_get_selection_name (Sheet const *sheet)
 {
@@ -427,6 +454,101 @@ sheet_selection_is_cell_selected (Sheet *sheet, int col, int row)
 			return 1;
 	}
 	return 0;
+}
+
+/*
+ * assemble_cell_list: A callback for sheet_cell_foreach_range
+ * intented to assemble a list of cells in a region.
+ *
+ * The closure parameter should be a pointer to a GList.
+ */
+static Value *
+assemble_cell_list (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	GList **l = (GList **) user_data;
+
+	*l = g_list_prepend (*l, cell);
+	return NULL;
+}
+
+static void
+assemble_selection_list (Sheet *sheet, 
+			 int start_col, int start_row,
+			 int end_col,   int end_row,
+			 void *closure)
+{
+	sheet_cell_foreach_range (
+		sheet, TRUE,
+		start_col, start_row,
+		end_col, end_row,
+		&assemble_cell_list, closure);
+}
+
+CellList *
+sheet_selection_to_list (Sheet *sheet)
+{
+	/* selection_apply will check all necessary invariants. */
+	CellList *list = NULL;
+
+	selection_apply (sheet, &assemble_selection_list, FALSE, &list);
+
+	return list;
+}
+
+void
+sheet_cell_list_free (CellList *cell_list)
+{
+	g_list_free (cell_list);
+}
+
+static void
+reference_append (GString *result_str, CellPos const *pos)
+{
+	char *row_string = g_strdup_printf ("%d", pos->row);
+
+	g_string_append_c (result_str, '$');
+	g_string_append (result_str, col_name (pos->col));
+	g_string_append_c (result_str, '$');
+	g_string_append (result_str, row_string);
+
+	g_free (row_string);
+}
+
+char *
+sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
+{
+	GString *result_str;
+	GList   *selections;
+	char    *result;
+	
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (sheet->selections, NULL);
+
+	result_str = g_string_new ("");
+	for (selections = sheet->selections; selections; selections = selections->next){
+		SheetSelection *ss = selections->data;
+
+		if (*result_str->str)
+			g_string_append_c (result_str, ',');
+		
+		if (include_sheet_name_prefix){
+			g_string_append_c (result_str, '\'');
+			g_string_append (result_str, sheet->name);
+			g_string_append (result_str, "'!");
+		}
+
+		reference_append (result_str, &ss->user.start);
+		if ((ss->user.start.col != ss->user.end.col) ||
+		    (ss->user.start.row != ss->user.end.row)){
+			g_string_append_c (result_str, ':');
+			reference_append (result_str, &ss->user.end);
+		}
+	}
+
+	result = result_str->str;
+	g_string_free (result_str, FALSE);
+	return result;
 }
 
 gboolean

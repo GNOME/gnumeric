@@ -12,23 +12,23 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "utils.h"
+#include "tools.h"
 
 
-
-static void dialog_correlation_tool(Workbook *wb, Sheet *sheet);
-static void dialog_covariance_tool(Workbook *wb, Sheet *sheet);
-static void dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet);
-static void dialog_ztest_tool(Workbook *wb, Sheet *sheet);
-static void dialog_ranking_tool(Workbook *wb, Sheet *sheet);
-static void dialog_sampling_tool(Workbook *wb, Sheet *sheet);
-static void dialog_ttest_paired_tool(Workbook *wb, Sheet *sheet);
-static void dialog_ttest_eq_tool(Workbook *wb, Sheet *sheet);
-static void dialog_ttest_neq_tool(Workbook *wb, Sheet *sheet);
-static void dialog_ftest_tool(Workbook *wb, Sheet *sheet);
-static void dialog_average_tool(Workbook *wb, Sheet *sheet);
-static void dialog_random_tool(Workbook *wb, Sheet *sheet);
-static void dialog_regression_tool(Workbook *wb, Sheet *sheet);
-static void dialog_anova_single_factor_tool(Workbook *wb, Sheet *sheet);
+static void dialog_correlation_tool         (Workbook *wb, Sheet *sheet);
+static void dialog_covariance_tool          (Workbook *wb, Sheet *sheet);
+static void dialog_descriptive_stat_tool    (Workbook *wb, Sheet *sheet);
+static void dialog_ztest_tool               (Workbook *wb, Sheet *sheet);
+static void dialog_ranking_tool      	    (Workbook *wb, Sheet *sheet);
+static void dialog_sampling_tool     	    (Workbook *wb, Sheet *sheet);
+static void dialog_ttest_paired_tool 	    (Workbook *wb, Sheet *sheet);
+static void dialog_ttest_eq_tool     	    (Workbook *wb, Sheet *sheet);
+static void dialog_ttest_neq_tool    	    (Workbook *wb, Sheet *sheet);
+static void dialog_ftest_tool        	    (Workbook *wb, Sheet *sheet);
+static void dialog_average_tool      	    (Workbook *wb, Sheet *sheet);
+static void dialog_random_tool       	    (Workbook *wb, Sheet *sheet);
+static void dialog_regression_tool   	    (Workbook *wb, Sheet *sheet);
+static void dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet);
 static void dialog_anova_two_factor_without_r_tool(Workbook *wb, Sheet *sheet);
 
 

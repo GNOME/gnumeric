@@ -1055,5 +1055,5 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	gtk_main ();
 	cell_format_prop_win = NULL;
 
-	g_list_free (cells);
+	sheet_cell_list_free (cells);
 }

@@ -12,6 +12,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
+#include "../global-gnome-font.h"
 
 /* 
  * Inside this file we define a number of aliases for the
@@ -26,14 +27,9 @@ typedef FontSelectorClass FsClass;
 
 static GtkHBoxClass *fs_parent_class;
 
-static int point_sizes [] = {
-	4, 8, 9, 10, 11, 12, 13, 14, 16, 18, 20, 22,
-	24, 26, 28, 32, 36, 40, 48, 56, 64, 72, 0
-};
-
- static void
- reload_preview (FontSelector *fs)
- {
+static void
+reload_preview (FontSelector *fs)
+{
 	 char *name = gtk_entry_get_text (GTK_ENTRY (fs->font_name_entry));
 	 GtkStyle *style;
 	 GnomeFont *gnome_font;
@@ -76,11 +72,11 @@ static int point_sizes [] = {
 
 	 gtk_widget_set_style (fs->font_preview, style);
 	 gtk_style_unref (style);
- }
+}
 
- static void
- font_selected (GtkCList *font_list, int col, int row, GdkEvent *event, FontSelector *fs)
- {
+static void
+font_selected (GtkCList *font_list, int col, int row, GdkEvent *event, FontSelector *fs)
+{
 	 gchar *text;
 
 	 gtk_clist_get_text (font_list, GPOINTER_TO_INT (font_list->selection->data), 0, &text);
@@ -88,17 +84,14 @@ static int point_sizes [] = {
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_name_entry), text);
 
 	 reload_preview (fs);
- }
+}
 
- static void
- fs_fill_font_name_list (FontSelector *fs)
- {
-	 GnomeFontClass *gfc = gtk_type_class (gnome_font_get_type ());
+static void
+fs_fill_font_name_list (FontSelector *fs)
+{
 	 GList *l;
 
-	 fs->family_list = gnome_font_family_list (gfc);
-
-	 for (l = fs->family_list; l; l = l->next){
+	 for (l = gnumeric_font_family_list; l; l = l->next){
 		 char *name = l->data;
 		 char *array [1];
 
@@ -111,19 +104,19 @@ static int point_sizes [] = {
 		 GTK_OBJECT (fs->font_name_list), "select_row",
 		 GTK_SIGNAL_FUNC(font_selected), fs);
 
- }
+}
 
- static char *styles [] = {
+static char *styles [] = {
 	 N_("Normal"),
 	 N_("Bold"),
 	 N_("Bold italic"),
 	 N_("Italic"),
 	 NULL
- };
+};
 
- static void
- style_selected (GtkCList *style_list, int col, int row, GdkEvent *event, FontSelector *fs)
- {
+static void
+style_selected (GtkCList *style_list, int col, int row, GdkEvent *event, FontSelector *fs)
+{
 	 row = GPOINTER_TO_INT (style_list->selection->data);
 
 	 switch (row){
@@ -146,11 +139,11 @@ static int point_sizes [] = {
 
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_style_entry), _(styles [row]));
 	 reload_preview (fs);
- }
+}
 
- static void
- fs_fill_font_style_list (FontSelector *fs)
- {
+static void
+fs_fill_font_style_list (FontSelector *fs)
+{
 	 GtkCList *style_list = GTK_CLIST (fs->font_style_list);
 	 int i;
 
@@ -163,21 +156,21 @@ static int point_sizes [] = {
 	 gtk_signal_connect (
 		 GTK_OBJECT (fs->font_style_list), "select_row",
 		 GTK_SIGNAL_FUNC(style_selected), fs);
- }
+}
 
- static void
- size_selected (GtkCList *size_list, int col, int row, GdkEvent *event, FontSelector *fs)
- {
+static void
+size_selected (GtkCList *size_list, int col, int row, GdkEvent *event, FontSelector *fs)
+{
 	 gchar *text;
 
 	 row = GPOINTER_TO_INT (size_list->selection->data);
 	 gtk_clist_get_text (size_list, row, 0, &text);
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), text);
- }
+}
 
- static void
- size_changed (GtkEntry *entry, FontSelector *fs)
- {
+static void
+size_changed (GtkEntry *entry, FontSelector *fs)
+{
 	 char *text;
 	 double size;
 
@@ -187,25 +180,25 @@ static int point_sizes [] = {
 		 fs->size = size;
 		 reload_preview (fs);
 	 }
- }
+}
 
- static void
- fs_fill_font_size_list (FontSelector *fs)
- {
-	 int i;
-
-	 for (i = 0; point_sizes [i] != 0; i++){
-		 char buffer [10];
-		 		char *array [1];
+static void
+fs_fill_font_size_list (FontSelector *fs)
+{
+	int i;
+	
+	for (i = 0; gnumeric_point_sizes [i] != 0; i++){
+		char buffer [10];
+		char *array [1];
 		
-		sprintf (buffer, "%d", point_sizes [i]);
+		sprintf (buffer, "%d", gnumeric_point_sizes [i]);
 		array [0] = buffer;
 		gtk_clist_append (GTK_CLIST (fs->font_size_list), array);
 	}
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_size_list), "select_row",
 		GTK_SIGNAL_FUNC(size_selected), fs);
-
+	
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_size_entry), "changed",
 		GTK_SIGNAL_FUNC (size_changed), fs);
@@ -249,7 +242,6 @@ fs_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (fs->gnome_font));
 	if (fs->display_font)
 		gtk_object_unref (GTK_OBJECT (fs->display_font));
-	gnome_font_family_list_free (fs->family_list);
 	
 	((GtkObjectClass *)fs_parent_class)->destroy (object);
 }
@@ -316,7 +308,7 @@ font_selector_set (FontSelector *fs,
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 	g_return_if_fail (name != NULL);
 
-	for (row = 0, l = fs->family_list; l; l = l->next, row++){
+	for (row = 0, l = gnumeric_font_family_list; l; l = l->next, row++){
 		if (strcasecmp (name, l->data) == 0)
 			break;
 	}
@@ -337,13 +329,13 @@ font_selector_set (FontSelector *fs,
 	}
 	select_row (fs->font_style_list, n);
 
-	for (i = 0; point_sizes [i] != 0; i++){
-		if (point_sizes [i] == size){
+	for (i = 0; gnumeric_point_sizes [i] != 0; i++){
+		if (gnumeric_point_sizes [i] == size){
 			select_row (fs->font_size_list, i);
 		}
 	}
 
-	if (point_sizes [i] == 0){
+	if (gnumeric_point_sizes [i] == 0){
 		char buffer [20];
 
 		sprintf (buffer, "%g", size);

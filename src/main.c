@@ -16,6 +16,7 @@
 #include "number-match.h"
 #include "dump.h"
 #include "main.h"
+#include "global-gnome-font.h"
 
 #include "../plugins/excel/boot.h"
 #include <glade/glade.h>
@@ -88,6 +89,8 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	xml_init ();
 	excel_init ();
 
+	global_gnome_font_init ();
+
 	/* Glade */
 	glade_gnome_init ();
 	if (startup_glade_file)
@@ -127,6 +130,8 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	format_match_finish ();
 	format_color_shutdown ();
 	style_shutdown ();
+
+	global_gnome_font_shutdown ();
 
 	gnome_config_drop_all ();
 }

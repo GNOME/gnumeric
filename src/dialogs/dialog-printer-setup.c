@@ -936,7 +936,7 @@ dialog_print_info_destroy (dialog_print_info_t *dpi)
 }
 
 void
-dialog_printer_setup (Sheet *sheet)
+dialog_printer_setup (Workbook *wb, Sheet *sheet)
 {
 	dialog_print_info_t *dpi;
 	int v;
@@ -945,8 +945,10 @@ dialog_printer_setup (Sheet *sheet)
 	if (!dpi)
 		return;
 
+	gnome_dialog_set_parent (GNOME_DIALOG (dpi->dialog), GTK_WINDOW (wb->toplevel));
+	
 	v = gnome_dialog_run (GNOME_DIALOG (dpi->dialog));
-
+	
 	if (v == 0) {
 		fetch_settings (dpi);
 		print_info_save (dpi->pi);

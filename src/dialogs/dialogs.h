@@ -77,76 +77,29 @@ typedef struct {
         gboolean                    labels_flag;
 } data_analysis_output_t;
 
-void  dialog_goto_cell       (Workbook  *wb);
-void  dialog_cell_format     (Workbook  *wb, Sheet *sheet);
-int   dialog_paste_special   (Workbook  *wb);
-void  dialog_insert_cells    (Workbook  *wb, Sheet *sheet);
-void  dialog_delete_cells    (Workbook  *wb, Sheet *sheet);
-void  dialog_zoom            (Workbook  *wb, Sheet *sheet);
-char *dialog_query_load_file (Workbook  *wb);
-void  dialog_about           (Workbook  *wb);
-void  dialog_define_names    (Workbook  *wb);
-void  dialog_cell_comment    (Workbook  *wb, Cell *cell);
-void  dialog_cell_sort       (Workbook  *wb, Sheet *sheet);
-char *dialog_function_wizard (Workbook  *wb, FunctionDefinition *fd);
-void  dialog_goal_seek       (Workbook  *wb, Sheet *sheet);
-void  dialog_solver          (Workbook  *wb, Sheet *sheet);
-void  dialog_printer_setup   (Sheet     *sheet);
-void  dialog_summary_update  (GtkWidget *w, SummaryInfo *sin);
+void   	 dialog_goto_cell       (Workbook  *wb);
+void   	 dialog_cell_format     (Workbook  *wb, Sheet *sheet);
+int    	 dialog_paste_special   (Workbook  *wb);
+void   	 dialog_insert_cells    (Workbook  *wb, Sheet *sheet);
+void   	 dialog_delete_cells    (Workbook  *wb, Sheet *sheet);
+void   	 dialog_zoom            (Workbook  *wb, Sheet *sheet);
+char   	*dialog_query_load_file (Workbook  *wb);
+void   	 dialog_about           (Workbook  *wb);
+void   	 dialog_define_names    (Workbook  *wb);
+void   	 dialog_cell_comment    (Workbook  *wb, Cell *cell);
+void   	 dialog_cell_sort       (Workbook  *wb, Sheet *sheet);
+char   	*dialog_function_wizard (Workbook  *wb, FunctionDefinition *fd);
+void   	 dialog_goal_seek       (Workbook  *wb, Sheet *sheet);
+void   	 dialog_solver          (Workbook  *wb, Sheet *sheet);
+void   	 dialog_printer_setup   (Workbook  *wb, Sheet *sheet);
+void   	 dialog_summary_update  (GtkWidget *w, SummaryInfo *sin);
+void     dialog_data_analysis   (Workbook *wb, Sheet *sheet);
+char   	*dialog_get_sheet_name  (Workbook *wb, const char *name);
+gboolean dialog_get_number      (Workbook *wb,
+				 const char *glade_file,
+				 double *init_and_return_value);
 
 FunctionDefinition *dialog_function_select (Workbook *wb);
 
-void  dialog_data_analysis   (Workbook *wb, Sheet *sheet);
-
-int correlation_tool (Workbook *wb, Sheet *current_sheet, 
-		      Range *input_range, int columns_flag,
-		      data_analysis_output_t *dao);
-int covariance_tool (Workbook *wb, Sheet *current_sheet, 
-		     Range *input_range, int columns_flag,
-		     data_analysis_output_t *dao);
-int descriptive_stat_tool (Workbook *wb, Sheet *current_sheet, 
-			   Range *input_range, int columns_flag,
-			   descriptive_stat_tool_t *ds,
-			   data_analysis_output_t *dao);
-int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
-		   gboolean periodic_flag, int size,
-		   data_analysis_output_t *dao);
-int ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
-		Range *input_range2, float_t alpha,
-		data_analysis_output_t *dao);
-int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
-		     Range *input_range2, float_t alpha,
-		     data_analysis_output_t *dao);
-int ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
-		       Range *input_range2, float_t mean_diff, float_t alpha,
-		       data_analysis_output_t *dao);
-int ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
-		       Range *input_range2, float_t mean_diff, float_t alpha,
-		       data_analysis_output_t *dao);
-int ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1, 
-			Range *input_range2, float_t mean_diff, float_t alpha,
-			data_analysis_output_t *dao);
-int ztest_tool (Workbook *wb, Sheet *sheet, Range *range_input1, 
-		Range *range_input2, float_t mean_diff, 
-		float_t var1, float_t var2, float_t alpha,
-		data_analysis_output_t *dao);
-int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
-		 random_distribution_t distribution,
-		 random_tool_t *param, data_analysis_output_t *dao);
-int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval, 
-		  int std_error_flag, data_analysis_output_t *dao);
-int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
-		  int columns_flag, data_analysis_output_t *dao);
-int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
-			      int columns_flag, float_t alpha, 
-			      data_analysis_output_t *dao);
-int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
-				     float_t alpha, 
-				     data_analysis_output_t *dao);
-
-GtkWidget *hbox_pack_label_and_entry(char *str, char *default_str,
-				     int entry_len, GtkWidget *vbox);
-
-GList *add_strings_to_glist (const char *strs[]);
 
 #endif /* GNUMERIC_DIALOGS_H */

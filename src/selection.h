@@ -18,6 +18,9 @@ void        sheet_selection_append_range (Sheet *sheet,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
 void        sheet_selection_free         (Sheet *sheet);
+CellList   *sheet_selection_to_list      (Sheet *sheet);
+void        sheet_cell_list_free         (CellList *cell_list);
+char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
 
 /* Operations on the selection */
 void        sheet_selection_clear             (Sheet *sheet);

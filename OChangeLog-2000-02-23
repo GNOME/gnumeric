@@ -1,3 +1,51 @@
+1999-09-17  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook-cmd.c: New file.  Moved a bunch of commands here,
+	and move to be moved.
+	Implemented the set money format;   Implemented the percent formt.
+	
+1999-09-16  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/sheet.c (sheet_update_controls, cell_is_homogeneous):
+	Include checks for font name and font size.
+
+	* src/dialogs/dialog-printer-setup.c (dialog_printer_setup): Add
+	call to gnome_dialog_set_parent here.
+
+	* src/tools.h: New file, moved here all the tools declarations.
+	Please, try to keep indentation for public functions as the rest
+	of the Gnumeric ones.
+
+	* src/workbook.c: Enable comands Format/Column, Format/Row and
+	Format/Sheet.
+	(create_format_toolbar): Add font selector toolbar widget.
+	(change_font_in_selection_cmd): New routine.  Applies a font to a
+	selection in the workbook.
+	(workbook_feedback_set): Upgraded feedback interface
+	
+	* src/sheet-view.c (sheet_view_row_size_changed): There is no need
+	to call gnumeric_compute_visible_ranges, the sheet_row_set_height
+	code does this.
+
+	* src/item-bar.c (item_bar_event): Support also row-autosizing.
+
+	* src/sheet.c (sheet_col_size_fit): Add this routine.
+	(sheet_col_set_internal_width): New function.  Similar to its
+	counterpart
+
+	* src/dialogs/dialog-cell-format.c (dialog_cell_format): Change
+	call to g_list_free for sheet_cell_list_free.
+
+	* src/selection.c (sheet_cell_list_free): New routine.
+
+	* src/workbook.c: Reworked toolbars again.  We now only have 2
+	toolbars instead of 8 or so.
+
+	* src/sheet.h (SHEET_MAX_ROWS): New excel supports 64k rows, mimic this.
+
+	* src/widgets/gnumeric-toolbar.c: Added new file.  Handles the
+	Gnumeric toolbars.
+
 1999-09-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_col_get_unit_distance,

@@ -56,7 +56,7 @@ typedef struct {
 #include "summary.h"
 #include "workbook.h"
 
-#define SHEET_MAX_ROWS (16 * 1024)
+#define SHEET_MAX_ROWS (64 * 1024)
 #define SHEET_MAX_COLS 256
 
 typedef GList ColStyleList;
@@ -252,14 +252,23 @@ void        sheet_col_set_width           (Sheet *sheet,
 				           int col, int width);
 void        sheet_col_info_set_width      (Sheet *sheet,
 				           ColRowInfo *ci, int width);
+void        sheet_col_set_width_units     (Sheet *sheet, int col, double width);
+void        sheet_col_set_internal_width  (Sheet *sheet, ColRowInfo *ci,
+					   double width);
+
 void        sheet_row_set_height          (Sheet *sheet,
 				           int row, int height,
 				           gboolean height_set_by_user);
+void        sheet_row_set_height_units    (Sheet *sheet, int row, double height,
+					   gboolean height_set_by_user);
 void        sheet_row_info_set_height     (Sheet *sheet,
 				           ColRowInfo *ri, int height,
 				           gboolean height_set_by_user);
 void        sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, double height);
+
 int         sheet_col_size_fit            (Sheet *sheet, int col);
+int         sheet_row_size_fit            (Sheet *sheet, int row);
+
 void        sheet_col_set_selection       (Sheet *sheet,
 					   ColRowInfo *ci, int value);
 void        sheet_row_set_selection       (Sheet *sheet,

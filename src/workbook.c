@@ -26,6 +26,9 @@
 #include "ranges.h"
 #include "selection.h"
 #include "print.h"
+#include "widgets/gnumeric-toolbar.h"
+#include "global-gnome-font.h"
+#include "workbook-cmd-format.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/gnome-persist-file.h>
@@ -35,23 +38,11 @@
 
 #include <ctype.h>
 
-enum {
-	TOOLBAR_FILE_IDX,
-	TOOLBAR_PRINT_IDX,
-	TOOLBAR_EDIT_IDX,
-	TOOLBAR_OBJECT_IDX,
-	TOOLBAR_CHAR_FORMAT_IDX,
-	TOOLBAR_ALIGN_IDX,
-	TOOLBAR_NUMERIC_FORMAT_IDX,
-	TOOLBAR_DRAW_IDX,
-	LAST_TOOLBAR_IDX
-};
-
 struct _WorkbookPrivate {
-	struct {
-		GnomeUIInfo *uiinfo_copy;
-		GtkWidget   *gtk_toolbar;
-	} toolbars [LAST_TOOLBAR_IDX];
+	GtkWidget *standard_toolbar;
+	GtkWidget *format_toolbar;
+	GtkWidget *option_menu;
+	GtkWidget *size_widget;
 };
 
 /* The locations within the main table in the workbook */
@@ -127,6 +118,12 @@ plugins_cmd (GtkWidget *widget, Workbook *wb)
 {
 	GtkWidget *pm = plugin_manager_new (wb);
 	gtk_widget_show(pm);
+}
+
+void
+about_cmd (GtkWidget *widget, Workbook *wb)
+{
+	dialog_about (wb);
 }
 
 static void
@@ -215,6 +212,65 @@ static void
 italic_cmd (GtkToggleButton *t, Workbook *wb)
 {
 	change_selection_font (wb, -1, t->active);
+}
+
+static void
+change_font_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
+{
+	Sheet *sheet;
+	const char *font_name = gtk_object_get_user_data (GTK_OBJECT (item));
+	Style *selection_style;
+	CellList *cell_list;
+	GList *l;
+	
+	sheet = workbook_get_current_sheet (wb);
+
+	/*
+	 * First, create a new font with the defaults
+	 * and apply this to all the selections
+	 */
+	selection_style = style_new_empty ();
+	selection_style->valid_flags |= STYLE_FONT;
+	selection_style->font = style_font_new (
+		font_name,
+		12,
+		sheet->last_zoom_factor_used,
+		0, 0);
+
+	for (l = sheet->selections; l; l = l->next){
+		SheetSelection *ss = l->data;
+
+		sheet_style_attach (
+			sheet,
+			ss->user.start.col, ss->user.start.row,
+			ss->user.end.col, ss->user.end.row,
+			selection_style);
+	}
+
+	/*
+	 * Now, apply the font change to every cell on the
+	 * selection
+	 */
+	cell_list = sheet_selection_to_list (sheet);
+
+	for (l = cell_list; l; l = l->next){
+		StyleFont *new_font, *cell_font;
+		Cell *cell = l->data;
+		
+		cell_font = cell->style->font;
+
+		new_font = style_font_new (
+			font_name,
+			cell_font->size,
+			cell_font->scale,
+			cell_font->is_bold,
+			cell_font->is_italic);
+
+		if (new_font)
+			cell_set_font_from_style (cell, new_font);
+	}
+
+	sheet_cell_list_free (cell_list);
 }
 
 #ifdef ENABLE_BONOBO
@@ -306,18 +362,8 @@ dump_dep (gpointer key, gpointer value, gpointer closure)
 }
 
 static void
-workbook_do_destroy_toolbars (Workbook *wb)
-{
-	int i;
-
-	for (i = 0; i < LAST_TOOLBAR_IDX; i++)
-		g_free (wb->priv->toolbars [i].uiinfo_copy);
-}
-
-static void
 workbook_do_destroy_private (Workbook *wb)
 {
-	workbook_do_destroy_toolbars (wb);
 	g_free (wb->priv);
 }
 
@@ -900,7 +946,7 @@ print_setup_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	dialog_printer_setup (sheet);
+	dialog_printer_setup (wb, sheet);
 }
 
 static void
@@ -919,37 +965,6 @@ file_print_preview_cmd (GtkWidget *widget, Workbook *wb)
 
 	sheet = workbook_get_current_sheet (wb);
 	sheet_print (sheet, TRUE, PRINT_ACTIVE_SHEET);
-}
-
-static void
-about_cmd (GtkWidget *widget, Workbook *wb)
-{
-	dialog_about (wb);
-}
-
-static void
-format_as_money_cmd (GtkWidget *widget, Workbook *wb)
-{
-}
-
-static void
-format_as_percent_cmd (GtkWidget *widget, Workbook *wb)
-{
-}
-
-static void
-format_add_thousands_cmd (GtkWidget *widget, Workbook *wb)
-{
-}
-
-static void
-format_add_decimals_cmd (GtkWidget *widget, Workbook *wb)
-{
-}
-
-static void
-format_remove_decimals_cmd (GtkWidget *widget, Workbook *wb)
-{
 }
 
 #ifdef ENABLE_BONOBO
@@ -1099,34 +1114,36 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 /* Format menu */
 
-#if 0
 static GnomeUIInfo workbook_menu_format_column [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Autoadjust"),   NULL, format_column_autoadjust_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Width"),        NULL, format_column_width_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Auto fit selection"),
+	  NULL, workbook_cmd_format_column_auto_fit },
+	{ GNOME_APP_UI_ITEM, N_("_Width"),
+	  NULL, workbook_cmd_format_column_width },
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_format_row [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Autoadjust"),   NULL,  format_row_autoadjust_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Height"),        NULL, format_row_height_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Auto fit selection"),
+	  NULL,  workbook_cmd_format_row_auto_fit },
+	{ GNOME_APP_UI_ITEM, N_("_Height"),
+	  NULL, workbook_cmd_format_row_height },
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_format_sheet [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Change name"),   NULL,  format_sheet_change_name_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Change name"),   NULL,
+	  workbook_cmd_format_sheet_change_name },
 	GNOMEUIINFO_END
 };
-#endif
 
 static GnomeUIInfo workbook_menu_format [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Cells..."),
 	  N_("Modify the formatting of the selected cells"),
 	  format_cells_cmd, NULL, NULL, 0, 0, GDK_1, GDK_CONTROL_MASK },
-#if 0
 	{ GNOME_APP_UI_SUBTREE, N_("C_olumn"), NULL, workbook_menu_format_column },
 	{ GNOME_APP_UI_SUBTREE, N_("_Row"),    NULL, workbook_menu_format_row },
 	{ GNOME_APP_UI_SUBTREE, N_("_Sheet"),  NULL, workbook_menu_format_sheet },
-#endif
+
 	GNOMEUIINFO_END
 };
 
@@ -1163,15 +1180,7 @@ static GnomeUIInfo workbook_menu [] = {
 	GNOMEUIINFO_END
 };
 
-typedef struct {
-	GnomeUIInfo *toolbar;
-	int          toolbar_uiinfo_size;
-	char        *name;
-	int          band_num;
-	int          band_pos;
-} GnumericToolbar;
-
-static GnomeUIInfo workbook_file_toolbar [] = {
+static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("New"), N_("Creates a new sheet"),
 		new_cmd, GNOME_STOCK_PIXMAP_NEW),
@@ -1182,10 +1191,17 @@ static GnomeUIInfo workbook_file_toolbar [] = {
 		N_("Save"), N_("Saves the workbook"),
 		file_save_cmd, GNOME_STOCK_PIXMAP_SAVE),
 
-	GNOMEUIINFO_END
-};
+	GNOMEUIINFO_SEPARATOR,
 
-static GnomeUIInfo workbook_edit_toolbar [] = {
+	GNOMEUIINFO_ITEM_STOCK(
+		N_("Print"), N_("Prints the workbook"),
+		file_print_cmd, GNOME_STOCK_PIXMAP_PRINT),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Print pre_view"), N_("Print preview"),
+		file_print_preview_cmd, NULL, preview_xpm),
+	
+	GNOMEUIINFO_SEPARATOR,
+
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Cut"), N_("Cuts the selection to the clipboard"),
 		cut_cmd, GNOME_STOCK_PIXMAP_CUT),
@@ -1196,37 +1212,8 @@ static GnomeUIInfo workbook_edit_toolbar [] = {
 		N_("Paste"), N_("Pastes the clipboard"),
 		paste_cmd, GNOME_STOCK_PIXMAP_PASTE),
 
-	GNOMEUIINFO_END
-};
-
-static GnomeUIInfo workbook_align_toolbar [] = {
-	GNOMEUIINFO_ITEM_STOCK (
-		N_("Left align"), N_("Left justifies the cell contents"),
-		left_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_LEFT),
-	GNOMEUIINFO_ITEM_STOCK (
-		N_("Center"), N_("Centers the cell contents"),
-		center_cmd, GNOME_STOCK_PIXMAP_ALIGN_CENTER),
-	GNOMEUIINFO_ITEM_STOCK (
-		N_("Right align"), N_("Right justifies the cell contents"),
-		right_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_RIGHT),
-
-	GNOMEUIINFO_END
-};
-
-#define TOOLBAR_BOLD_BUTTON_INDEX 0
-#define TOOLBAR_ITALIC_BUTTON_INDEX 1
-
-static GnomeUIInfo workbook_char_format_toolbar [] = {
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Bold"), N_("Sets the bold font"),
-	  bold_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_BOLD },
-
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Italic"), N_("Makes the font italic"),
-	  italic_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_ITALIC },
-
-	GNOMEUIINFO_END
-};
-
-static GnomeUIInfo workbook_object_toolbar [] = {
+	GNOMEUIINFO_SEPARATOR,
+	
 #ifdef ENABLE_BONOBO
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Graphic"), N_("Creates a graphic in the spreadsheet"),
@@ -1240,10 +1227,9 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 		N_("Checkbox"), N_("Creates a checkbox"),
 		&create_checkbox_cmd, NULL, checkbox_xpm),
 #endif
-	GNOMEUIINFO_END
-};
 
-static GnomeUIInfo workbook_draw_toolbar [] = {
+	GNOMEUIINFO_SEPARATOR,
+
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Line"), N_("Creates a line object"),
 		create_line_cmd, NULL, line_xpm),
@@ -1260,47 +1246,50 @@ static GnomeUIInfo workbook_draw_toolbar [] = {
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo workbook_print_toolbar [] = {
-	GNOMEUIINFO_ITEM_STOCK(
-		N_("Print"), N_("Prints the workbook"),
-		file_print_cmd, GNOME_STOCK_PIXMAP_PRINT),
-	GNOMEUIINFO_ITEM_DATA (
-		N_("Print pre_view"), N_("Print preview"),
-		file_print_preview_cmd, NULL, preview_xpm),
-	GNOMEUIINFO_END
-};
+#define TOOLBAR_BOLD_BUTTON_INDEX 2
+#define TOOLBAR_ITALIC_BUTTON_INDEX 3
 
-static GnomeUIInfo workbook_numeric_format_toolbar [] = {
+static GnomeUIInfo workbook_format_toolbar [] = {
+	/* Placeholder: font selector */
+        /* Placeholder: size selector */
+	
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Bold"), N_("Sets the bold font"),
+	  bold_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_BOLD },
+
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Italic"), N_("Makes the font italic"),
+	  italic_cmd, NULL, NULL, GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_ITALIC },
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Left align"), N_("Left justifies the cell contents"),
+		left_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_LEFT),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Center"), N_("Centers the cell contents"),
+		center_cmd, GNOME_STOCK_PIXMAP_ALIGN_CENTER),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Right align"), N_("Right justifies the cell contents"),
+		right_align_cmd, GNOME_STOCK_PIXMAP_ALIGN_RIGHT),
+
+	GNOMEUIINFO_SEPARATOR,
+
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Money format"), N_("Sets the format of the selected cells to monetary"),
-		format_as_money_cmd, NULL, money_xpm),
+		workbook_cmd_format_as_money, NULL, money_xpm),
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Percent"), N_("Sets the format of the selected cells to percentage"),
-		format_as_percent_cmd, NULL, percent_xpm),
+		workbook_cmd_format_as_percent, NULL, percent_xpm),
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Thousand separator"), N_("Sets the format of the selected cells to percentage"),
-		format_add_thousands_cmd, NULL, thousands_xpm),
+		workbook_cmd_format_add_thousands, NULL, thousands_xpm),
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Add decimals"), N_("Increases the number of decimal numbers displayed"),
-		format_add_decimals_cmd, NULL, add_decimals_xpm),
+		workbook_cmd_format_add_decimals, NULL, add_decimals_xpm),
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Remove decimals"), N_("Decreases the number of decimal numbers displayed"),
-		format_remove_decimals_cmd, NULL, remove_decimals_xpm),
+		workbook_cmd_format_remove_decimals, NULL, remove_decimals_xpm),
+
 	GNOMEUIINFO_END
-};
-
-#define GTOOLBAR(toolbar,name,band,pos) \
-	{ toolbar, sizeof (toolbar), name, band, pos }
-
-static GnumericToolbar workbook_toolbars [LAST_TOOLBAR_IDX] = {
-	GTOOLBAR (workbook_file_toolbar, "FileToolbar", 1, 0),
-	GTOOLBAR (workbook_print_toolbar, "PrintToolbar", 1, 1),
-	GTOOLBAR (workbook_edit_toolbar, "EditToolbar", 1, 2),
-	GTOOLBAR (workbook_object_toolbar, "ObjectToolbar", 1, 3),
-	GTOOLBAR (workbook_char_format_toolbar, "CharFormatToolbar", 2, 1),
-	GTOOLBAR (workbook_align_toolbar,"AlignToolbar", 2, 2),
-	GTOOLBAR (workbook_numeric_format_toolbar, "NumericFormatIdx", 2, 3),
-	GTOOLBAR (workbook_draw_toolbar, "DrawToolbar", 2, 4)
 };
 
 static void
@@ -2075,8 +2064,6 @@ workbook_init (GtkObject *object)
 static void
 workbook_class_init (GtkObjectClass *object_class)
 {
-	WorkbookClass *workbook_class = (WorkbookClass *) object_class;
-	
 	workbook_parent_class = gtk_type_class (WORKBOOK_PARENT_CLASS_TYPE);
 	object_class->destroy = workbook_destroy;
 }
@@ -2108,41 +2095,93 @@ workbook_get_type (void)
 	return type;
 }
 
+/*
+ * These create toolbar routines are kept independent, as they
+ * will need some manual customization in the future (like adding
+ * special purposes widgets for fonts, size, zoom
+ */
+static void
+create_standard_toobar (Workbook *wb)
+{
+	const char *name = "StandardToolbar";
+	
+	wb->priv->standard_toolbar = gnumeric_toolbar_new (
+		workbook_standard_toolbar, wb);
+	gtk_widget_show (wb->priv->standard_toolbar);
+
+	gnome_app_add_toolbar (
+		GNOME_APP (wb->toplevel),
+		GTK_TOOLBAR (wb->priv->standard_toolbar),
+		name,
+		GNOME_DOCK_ITEM_BEH_NORMAL,
+		GNOME_DOCK_TOP, 1, 0, 0);
+
+}
+
+static void
+create_format_toolbar (Workbook *wb)
+{
+	GtkWidget *menu, *item;
+	const char *name = "FormatToolbar";
+	GList *l;
+	
+	wb->priv->format_toolbar = gnumeric_toolbar_new (
+		workbook_format_toolbar, wb);
+	gtk_widget_show (wb->priv->format_toolbar);
+
+	gnome_app_add_toolbar (
+		GNOME_APP (wb->toplevel),
+		GTK_TOOLBAR (wb->priv->format_toolbar),
+		name,
+		GNOME_DOCK_ITEM_BEH_NORMAL,
+		GNOME_DOCK_TOP, 2, 0, 0);
+
+	/*
+	 * Create a font name selector
+	 */
+	wb->priv->option_menu = gtk_option_menu_new ();
+	menu = gtk_menu_new ();
+
+	/* An empty item for the case of no font that applies */
+	item = gtk_menu_item_new_with_label ("");
+	gtk_widget_show (item);
+	gtk_menu_append (GTK_MENU (menu), item);
+	
+	for (l = gnumeric_font_family_list; l; l = l->next){
+		item = gtk_menu_item_new_with_label (l->data);
+		gtk_widget_show (item);
+		gtk_menu_append (GTK_MENU (menu), item);
+
+		gtk_signal_connect (
+			GTK_OBJECT (item), "activate",
+			change_font_in_selection_cmd, wb);
+		gtk_object_set_user_data (
+			GTK_OBJECT (item), l->data);
+	}
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (wb->priv->option_menu), menu);
+	gtk_widget_show (wb->priv->option_menu);
+
+	gtk_toolbar_insert_widget (
+		GTK_TOOLBAR (wb->priv->format_toolbar),
+		wb->priv->option_menu, _("Font selector"), NULL, 0);
+
+
+	/*
+	 * Create the font size control
+	 */
+	wb->priv->size_widget = gtk_entry_new ();
+	gtk_widget_show (wb->priv->size_widget);
+	
+	gtk_toolbar_insert_widget (
+		GTK_TOOLBAR (wb->priv->format_toolbar),
+		wb->priv->size_widget, _("Size"), NULL, 1);
+}
+
 static void
 workbook_create_toolbars (Workbook *wb)
 {
-	WorkbookPrivate *priv = wb->priv;
-	int i;
-
-	for (i = 0; i < LAST_TOOLBAR_IDX; i++){
-		GnumericToolbar *tb = &workbook_toolbars [i];
-		
-		/*
-		 * Create toolbar
-		 */
-		priv->toolbars [i].gtk_toolbar = gtk_toolbar_new (
-			GTK_ORIENTATION_HORIZONTAL, GTK_TOOLBAR_ICONS);
-		gtk_widget_show (priv->toolbars [i].gtk_toolbar);
-		priv->toolbars [i].uiinfo_copy = g_malloc (tb->toolbar_uiinfo_size);
-		memcpy (priv->toolbars [i].uiinfo_copy,
-			tb->toolbar, tb->toolbar_uiinfo_size);
-		gnome_app_fill_toolbar_with_data (
-			GTK_TOOLBAR (priv->toolbars [i].gtk_toolbar),
-			priv->toolbars [i].uiinfo_copy, NULL, wb);
-
-		/*
-		 * Add it to the toplevel window
-		 */
-		gnome_app_add_toolbar (
-			GNOME_APP (wb->toplevel),
-			GTK_TOOLBAR (priv->toolbars [i].gtk_toolbar),
-			tb->name,
-			GNOME_DOCK_ITEM_BEH_NORMAL,
-			GNOME_DOCK_TOP, tb->band_num, tb->band_pos, 0);
-
-		gtk_toolbar_set_style (GTK_TOOLBAR (priv->toolbars [i].gtk_toolbar),
-				       GTK_TOOLBAR_ICONS);
-	}
+	create_standard_toobar (wb);
+	create_format_toolbar (wb);
 }
 
 /**
@@ -2174,8 +2213,6 @@ workbook_new (void)
 	workbook_setup_sheets (wb);
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
 	
- 	workbook_create_toolbars (wb);
-
 #ifndef ENABLE_BONOBO
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
 	gnome_app_install_menu_hints (GNOME_APP (wb->toplevel), workbook_menu);
@@ -2191,6 +2228,8 @@ workbook_new (void)
 		gnome_ui_handler_menu_free_list (list);
 	}
 #endif
+
+ 	workbook_create_toolbars (wb);
 
 	/* Minimized pixmap */
 	workbook_configure_minimized_pixmap (wb);
@@ -2727,42 +2766,96 @@ workbook_realized (Workbook *workbook, GdkWindow *window)
 {
 }
 
+/*
+ * Updates the edit control state: bold, italic, font name and font size
+ */
 void
-workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data)
+workbook_feedback_set (Workbook *workbook, int feedback_flags,
+		       gboolean italic, gboolean bold,
+		       double size, GnomeFont *font)
+		       
 {
 	GtkToggleButton *t;
-	GnomeUIInfo *char_format_toolbar = workbook->priv->toolbars [TOOLBAR_CHAR_FORMAT_IDX].uiinfo_copy;
-	int set;
+	GnumericToolbar *toolbar = GNUMERIC_TOOLBAR (workbook->priv->format_toolbar);
 
 	g_return_if_fail (workbook != NULL);
+	g_return_if_fail (IS_WORKBOOK (workbook));
+	g_return_if_fail (GNOME_IS_FONT (font));
 
-	switch (type){
-	case WORKBOOK_FEEDBACK_BOLD:
+	if (feedback_flags & WORKBOOK_FEEDBACK_BOLD){
 		t = GTK_TOGGLE_BUTTON (
-			char_format_toolbar [TOOLBAR_BOLD_BUTTON_INDEX].widget);
-		set = data != NULL;
+			gnumeric_toolbar_get_widget (
+				toolbar,
+				TOOLBAR_BOLD_BUTTON_INDEX));
 
 		gtk_signal_handler_block_by_func (GTK_OBJECT (t),
 						  (GtkSignalFunc)&bold_cmd,
 						  workbook);
-		gtk_toggle_button_set_active (t, set);
+		gtk_toggle_button_set_active (t, bold);
 		gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
 						    (GtkSignalFunc)&bold_cmd,
 						    workbook);
-		break;
+	}
 
-	case WORKBOOK_FEEDBACK_ITALIC:
+	if (feedback_flags & WORKBOOK_FEEDBACK_ITALIC){
 		t = GTK_TOGGLE_BUTTON (
-			char_format_toolbar [TOOLBAR_ITALIC_BUTTON_INDEX].widget);
-		set = data != NULL;
+			gnumeric_toolbar_get_widget (
+				toolbar,
+				TOOLBAR_ITALIC_BUTTON_INDEX));
 
 		gtk_signal_handler_block_by_func (GTK_OBJECT (t),
 						  (GtkSignalFunc)&italic_cmd,
 						  workbook);
-		gtk_toggle_button_set_active (t, set);
+		gtk_toggle_button_set_active (t, italic);
 		gtk_signal_handler_unblock_by_func (GTK_OBJECT (t),
 						    (GtkSignalFunc)&italic_cmd,
 						    workbook);
+	}
+
+	if (feedback_flags & WORKBOOK_FEEDBACK_FONT_SIZE){
+		char size_str [40];
+
+		sprintf (size_str, "%g", size);
+		gtk_entry_set_text (
+			GTK_ENTRY (workbook->priv->size_widget), size_str);
+	}
+
+	/*
+	 * hack: we try to find the key "gnumeric-index" in the
+	 * GnomeFont object, this key represents the index of the
+	 * font name on the Optionmenu we have.
+	 *
+	 * If this is not set, then we compute it
+	 */
+	if (feedback_flags & WORKBOOK_FEEDBACK_FONT){
+		void *np;
+		
+		np = gtk_object_get_data ((GtkObject *)font, "gnumeric-idx");
+		if (np == NULL){
+			GList *l;
+			char *font_name = font->fontmap_entry->font_name;
+			int idx = 0;
+			
+			for (l = gnumeric_font_family_list; l; l = l->next, idx++){
+				if (strcmp (l->data, font_name) == 0){
+					gtk_object_set_data (
+						(GtkObject *) font,
+						"gnumeric-idx", GINT_TO_POINTER (idx));
+					break;
+				}
+			}
+		} else {
+			/*
+			 * +1 means, skip over the "undefined font" element
+			 */
+			gtk_option_menu_set_history (
+				GTK_OPTION_MENU (workbook->priv->option_menu),
+				GPOINTER_TO_INT (np)+1);
+		}
+	} else {
+		gtk_option_menu_set_history (
+			GTK_OPTION_MENU (workbook->priv->option_menu), 0);
+
 	}
 }
 

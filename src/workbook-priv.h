@@ -179,13 +179,16 @@ void	workbook_invalidate_references	(Workbook *wb, Sheet *sheet,
  * Feedback routines
  */
 typedef enum {
-	WORKBOOK_FEEDBACK_BOLD,
-	WORKBOOK_FEEDBACK_ITALIC
+	WORKBOOK_FEEDBACK_BOLD      = 1 << 0,
+	WORKBOOK_FEEDBACK_ITALIC    = 1 << 1,
+	WORKBOOK_FEEDBACK_FONT_SIZE = 1 << 2,
+	WORKBOOK_FEEDBACK_FONT      = 1 << 3,
 } WorkbookFeedbackType;
 
 void     workbook_feedback_set        (Workbook *,
-				       WorkbookFeedbackType type,
-				       void *data);
+				       int feedback_flags,
+				       gboolean italic, gboolean bold,
+				       double size, GnomeFont *font);
 
 extern   Workbook *current_workbook;
 

@@ -521,18 +521,18 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 
 	case GDK_2BUTTON_PRESS: {
+		Sheet *sheet;
 		int new_size;
 		
 		if (!resizing)
 			break;
 
-		/*
-		 * We only handle auto-resize on columns
-		 */
+		sheet = item_bar->sheet_view->sheet;
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
-			break;
+			new_size = sheet_row_size_fit (sheet, item_bar->resize_pos);
+		else
+			new_size = sheet_col_size_fit (sheet, item_bar->resize_pos);
 
-		new_size = sheet_col_size_fit (item_bar->sheet_view->sheet, item_bar->resize_pos);
 		if (new_size == 0)
 			break;
 		
