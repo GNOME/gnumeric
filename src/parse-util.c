@@ -119,8 +119,8 @@ col_parse (char const *str, int *res, unsigned char *relative)
 			*res = col;
 			return ptr;
 		} else
-			return str;
-	return str;
+			return NULL;
+	return NULL;
 }
 
 /***************************************************************************/
@@ -165,18 +165,21 @@ char const *
 row_parse (char const *str, int *res, unsigned char *relative)
 {
 	char const *end, *ptr = str;
-	int row;
+	long int row;
 
 	if (!(*relative = (*ptr != '$')))
 		ptr++;
 
-	errno = 0;
+	/* Initial '0' is not allowed.  */
+	if (*ptr <= '0' || *ptr > '9')
+		return NULL;
+
 	row = strtol (ptr, (char **)&end, 10);
-	if (ptr != end && 0 < row && row <= SHEET_MAX_ROWS && errno != ERANGE) {
+	if (ptr != end && 0 < row && row <= SHEET_MAX_ROWS) {
 		*res = row - 1;
 		return end;
 	} else
-		return str;
+		return NULL;
 }
 
 /***************************************************************************/
@@ -250,16 +253,8 @@ cellref_as_string (GString *target, const GnmExprConventions *conv,
 	col %= SHEET_MAX_COLS;
 	if (col < 0)
 		col += SHEET_MAX_COLS;
+	col_name_internal (target, col);
 
-	if (col <= 'Z'-'A') {
-		g_string_append_c (target, col + 'A');
-	} else {
-		int a = col / ('Z' - 'A' + 1);
-		int b = col % ('Z' - 'A' + 1);
-
-		g_string_append_c (target, a + 'A' - 1);
-		g_string_append_c (target, b + 'A');
-	}
 	if (cell_ref->row_relative)
 		row = pp->eval.row + cell_ref->row;
 	else {
@@ -271,8 +266,7 @@ cellref_as_string (GString *target, const GnmExprConventions *conv,
 	row %= SHEET_MAX_ROWS;
 	if (row < 0)
 		row += SHEET_MAX_ROWS;
-
-	g_string_append_printf (target, "%d", row + 1);
+	row_name_internal (target, row);
 }
 
 /**
@@ -351,57 +345,19 @@ rangeref_as_string (GString *target, const GnmExprConventions *conv,
 static char const *
 cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 {
-	int col = 0;
-	int row = 0;
-	char c;
+	int col;
+	int row;
 
 	g_return_val_if_fail (in != NULL, NULL);
 	g_return_val_if_fail (out != NULL, NULL);
 
-	/* Try to parse a column */
-	if (*in == '$') {
-		out->col_relative = FALSE;
-		in++;
-	} else
-		out->col_relative = TRUE;
-
-	c = *in;
-	if (c >= 'A' && c <= 'Z')
-		col = c - 'A';
-	else if (c >= 'a' && c <= 'z')
-		col = c - 'a';
-	else
-		return NULL;
-	in++;
-
-	c = *in;
-	if (c >= 'A' && c <= 'Z') {
-		col = (col + 1) * ('Z' - 'A' + 1) + (c - 'A');
-		in++;
-	} else if (c >= 'a' && c <= 'z') {
-		col = (col + 1) * ('Z' - 'A' + 1) + (c - 'a');
-		in++;
-	}
-	if (col >= SHEET_MAX_COLS)
+	in = col_parse (in, &col, &out->col_relative);
+	if (!in)
 		return NULL;
 
-	/* Try to parse a row */
-	if (*in == '$') {
-		out->row_relative = FALSE;
-		in++;
-	} else
-		out->row_relative = TRUE;
-
-	if (!(*in >= '1' && *in <= '9'))
+	in = row_parse (in, &row, &out->row_relative);
+	if (!in)
 		return NULL;
-
-	while (*in >= '0' && *in <= '9') {
-		row = row * 10 + (*in - '0');
-		if (row > SHEET_MAX_ROWS)
-			return NULL;
-		in++;
-	}
-	row--;
 
 	/* Setup the cell reference information */
 	if (out->row_relative)
@@ -554,47 +510,18 @@ gboolean
 cellpos_parse (char const *cell_str, CellPos *res, gboolean strict, int *chars_read)
 {
 	char const * const original = cell_str;
-	gboolean found_digits = FALSE;
+	unsigned char dummy_relative;
 
-	if (*cell_str == '$')
-		cell_str++;
-
-	/* Parse column name: one or two letters.  */
-	if (*cell_str >= 'A' && *cell_str <= 'Z')
-		res->col = *cell_str++ - 'A';
-	else if (*cell_str >= 'a' && *cell_str <= 'z')
-		res->col = *cell_str++ - 'a';
-	else
+	cell_str = col_parse (cell_str, &res->col, &dummy_relative);
+	if (!cell_str)
 		return FALSE;
 
-	if (*cell_str >= 'A' && *cell_str <= 'Z')
-		res->col = ((res->col + 1) * ('Z' - 'A' + 1)) + (*cell_str++ - 'A');
-	else if (*cell_str >= 'a' && *cell_str <= 'z')
-		res->col = ((res->col + 1) * ('Z' - 'A' + 1)) + (*cell_str++ - 'a');
-	if (res->col >= SHEET_MAX_COLS)
+	cell_str = row_parse (cell_str, &res->row, &dummy_relative);
+	if (!cell_str)
 		return FALSE;
 
-	if (*cell_str == '$')
-		cell_str++;
-
-	/* Parse row number: a sequence of digits.  */
-	for (res->row = 0; *cell_str; cell_str++) {
-		if (*cell_str < '0' || *cell_str > '9') {
-			if (found_digits && strict == FALSE) {
-				break;
-			} else
-				return FALSE;
-		}
-		found_digits = TRUE;
-		res->row = res->row * 10 + (*cell_str - '0');
-		if (res->row > SHEET_MAX_ROWS) /* Note: ">" is deliberate.  */
-			return FALSE;
-	}
-	if (res->row == 0)
+	if (*cell_str != 0 && !strict)
 		return FALSE;
-
-	/* Internal row numbers are one less than the displayed.  */
-	(res->row)--;
 
 	if (chars_read)
 		*chars_read = cell_str - original;
@@ -868,12 +795,12 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 		res->b.sheet = NULL;
 
 	tmp1 = col_parse (ptr, &res->a.col, &res->a.col_relative);
-	if (tmp1 == ptr) { /* check for row only ref 2:3 */ 
+	if (tmp1 == NULL) { /* check for row only ref 2:3 */ 
 		tmp1 = row_parse (ptr, &res->a.row, &res->a.row_relative);
-		if (*tmp1++ != ':') /* row only requires : even for singleton */
+		if (!tmp1 || *tmp1++ != ':') /* row only requires : even for singleton */
 			return start;
 		tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
-		if (tmp2 == tmp1)
+		if (!tmp2)
 			return start;
 		res->a.col_relative = res->b.col_relative = FALSE;
 		res->a.col = 0; res->b.col = SHEET_MAX_COLS-1;
@@ -885,11 +812,11 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 	}
 
 	tmp2 = row_parse (tmp1, &res->a.row, &res->a.row_relative);
-	if (tmp2 == tmp1) { /* check for col only ref B:C */ 
+	if (!tmp2) { /* check for col only ref B:C */ 
 		if (*tmp1++ != ':') /* col only requires : even for singleton */
 			return start;
 		tmp2 = col_parse (tmp1, &res->b.col, &res->b.col_relative);
-		if (tmp2 == tmp1)
+		if (!tmp2)
 			return start;
 		res->a.row_relative = res->b.row_relative = FALSE;
 		res->a.row = 0; res->b.row = SHEET_MAX_ROWS-1;
@@ -915,10 +842,10 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 
 	ptr = tmp2;
 	tmp1 = col_parse (ptr+1, &res->b.col, &res->b.col_relative);
-	if (tmp1 == (ptr+1))
+	if (!tmp1)
 		return ptr;	/* strange, but valid singleton */
 	tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
-	if (tmp2 == tmp1)
+	if (!tmp2)
 		return ptr;	/* strange, but valid singleton */
 
 	if (res->b.col_relative)
@@ -948,10 +875,10 @@ gnm_1_0_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 		return start; /* TODO error unknown sheet */
 	if (*ptr == '!') ptr++;
 	tmp1 = col_parse (ptr, &res->a.col, &res->a.col_relative);
-	if (tmp1 == ptr)
+	if (!tmp1)
 		return start;
 	tmp2 = row_parse (tmp1, &res->a.row, &res->a.row_relative);
-	if (tmp2 == tmp1)
+	if (!tmp2)
 		return start;
 	if (res->a.col_relative)
 		res->a.col -= pp->eval.col;
@@ -969,10 +896,10 @@ gnm_1_0_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 		return start; /* TODO error unknown sheet */
 	if (*ptr == '!') ptr++;
 	tmp1 = col_parse (ptr, &res->b.col, &res->b.col_relative);
-	if (tmp1 == ptr)
+	if (!tmp1)
 		return start;
 	tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
-	if (tmp2 == tmp1)
+	if (!tmp2)
 		return start;
 	if (res->b.col_relative)
 		res->b.col -= pp->eval.col;
@@ -1042,11 +969,95 @@ gnm_expr_conventions_free (GnmExprConventions *c)
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef TEST
+static void
+test_col_stuff (void)
+{
+	int col;
+	const char *end, *str;
+	unsigned char col_relative;
+
+	g_assert (strcmp ("A", col_name (0)) == 0);
+	g_assert (strcmp ("AA", col_name (26)) == 0);
+	g_assert (strcmp ("IV", col_name (255)) == 0);
+
+	g_assert (strcmp ("A", cols_name (0, 0)) == 0);
+	g_assert (strcmp ("A:IV", cols_name (0, 255)) == 0);
+
+	end = col_parse ((str = "A"), &col, &col_relative);
+	g_assert (end == str + strlen (str) && col == 0 && col_relative);
+	end = col_parse ((str = "$A"), &col, &col_relative);
+	g_assert (end == str + strlen (str) && col == 0 && !col_relative);
+	end = col_parse ((str = "AA"), &col, &col_relative);
+	g_assert (end == str + strlen (str) && col == 26 && col_relative);
+	end = col_parse ((str = "$AA"), &col, &col_relative);
+	g_assert (end == str + strlen (str) && col == 26 && !col_relative);
+	end = col_parse ((str = "IV"), &col, &col_relative);
+	g_assert (end == str + strlen (str) && col == 255 && col_relative);
+	end = col_parse ((str = "$IV"), &col, &col_relative);
+	g_assert (end == str + strlen (str) && col == 255 && !col_relative);
+	end = col_parse ((str = "IW"), &col, &col_relative);
+	g_assert (!end);
+	end = col_parse ((str = ":IW"), &col, &col_relative);
+	g_assert (!end);
+	end = col_parse ((str = "$IW"), &col, &col_relative);
+	g_assert (!end);
+}
+
+static void
+test_row_stuff (void)
+{
+	int row;
+	const char *end, *str;
+	unsigned char row_relative;
+
+	g_assert (strcmp ("1", row_name (0)) == 0);
+	g_assert (strcmp ("42", row_name (41)) == 0);
+	g_assert (strcmp ("65536", row_name (65535)) == 0);
+
+	g_assert (strcmp ("1", rows_name (0, 0)) == 0);
+	g_assert (strcmp ("1:65536", rows_name (0, 65535)) == 0);
+
+	end = row_parse ((str = "1"), &row, &row_relative);
+	g_assert (end == str + strlen (str) && row == 0 && row_relative);
+	end = row_parse ((str = "$1"), &row, &row_relative);
+	g_assert (end == str + strlen (str) && row == 0 && !row_relative);
+	end = row_parse ((str = "42"), &row, &row_relative);
+	g_assert (end == str + strlen (str) && row == 41 && row_relative);
+	end = row_parse ((str = "$42"), &row, &row_relative);
+	g_assert (end == str + strlen (str) && row == 41 && !row_relative);
+	end = row_parse ((str = "65536"), &row, &row_relative);
+	g_assert (end == str + strlen (str) && row == 65535 && row_relative);
+	end = row_parse ((str = "$65536"), &row, &row_relative);
+	g_assert (end == str + strlen (str) && row == 65535 && !row_relative);
+	end = row_parse ((str = "0"), &row, &row_relative);
+	g_assert (!end);
+	end = row_parse ((str = "01"), &row, &row_relative);
+	g_assert (!end);
+	end = row_parse ((str = "$01"), &row, &row_relative);
+	g_assert (!end);
+	end = row_parse ((str = "$+1"), &row, &row_relative);
+	g_assert (!end);
+	end = row_parse ((str = "-1"), &row, &row_relative);
+	g_assert (!end);
+	end = row_parse ((str = "65537"), &row, &row_relative);
+	g_assert (!end);
+	end = row_parse ((str = "$65537"), &row, &row_relative);
+	g_assert (!end);
+}
+
+#endif
+
 GnmExprConventions *gnm_expr_conventions_default;
 
 void
 parse_util_init (void)
 {
+#ifdef TEST
+	test_row_stuff ();
+	test_col_stuff ();
+#endif
+
 	gnm_expr_conventions_default = gnm_expr_conventions_new ();
 	gnm_expr_conventions_default->ref_parser = rangeref_parse;
 	gnm_expr_conventions_default->range_sep_colon = TRUE;

@@ -44,7 +44,7 @@ You need:
 	NOTE : gnome-xml is also known as libxml
 
 Optionally:
-	gda		>= 0.2.92  (GDA plugin, for accessing databases)
+	gda		>= 0.9          (GDA plugin, for accessing databases)
 
 Currently Disabled
 	gb		== 0.0.17

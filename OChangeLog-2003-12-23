@@ -1,3 +1,23 @@
+2002-12-23  Morten Welinder  <terra@diku.dk>
+
+	* src/parse-util.c (col_parse, row_parse): Change to return NULL
+	in the failure case.  All callers changed.
+	(test_col_stuff, test_row_stuff): New functions.
+	(parse_util_init) [TEST]: Call them.
+
+2002-12-23  Morten Welinder  <terra@diku.dk>
+
+	* src/parse-util.c (row_parse): Don't allow sign or initial
+	white-space.  Don't allow numbers starting with '0'.  Fix
+	potential overflow problem on machines wherer long>int.  No need
+	to fiddle with errno.
+	(cellref_as_string): Simplify using col_name_internal and
+	row_name_internal.  (Making it work for larger SHEET_MAX_COLS
+	also.)
+	(cellref_a1_get, cellpos_parse): Simplify greatly using col_parse
+	and row_parse.  (Thus making them work for larger SHEET_MAX_COLS
+	also.)
+
 2002-12-23  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Require libgda >= 0.9 for gda plugin.

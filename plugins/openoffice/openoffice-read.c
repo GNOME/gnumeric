@@ -317,10 +317,10 @@ oo_cellref_parse (CellRef *ref, char const *start, ParsePos const *pp)
 	}
 
 	tmp1 = col_parse (ptr, &ref->col, &ref->col_relative);
-	if (tmp1 == ptr)
+	if (!tmp1)
 		return start;
 	tmp2 = row_parse (tmp1, &ref->row, &ref->row_relative);
-	if (tmp2 == tmp1)
+	if (!tmp2)
 		return start;
 
 	if (ref->col_relative)

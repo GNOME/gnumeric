@@ -186,10 +186,10 @@ applix_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 		return start; /* TODO error unknown sheet */
 	if (*ptr == ':') ptr++;
 	tmp1 = col_parse (ptr, &res->a.col, &res->a.col_relative);
-	if (tmp1 == ptr)
+	if (!tmp1)
 		return start;
 	tmp2 = row_parse (tmp1, &res->a.row, &res->a.row_relative);
-	if (tmp2 == tmp1)
+	if (!tmp2)
 		return start;
 	if (res->a.col_relative)
 		res->a.col -= pp->eval.col;
@@ -206,10 +206,10 @@ applix_rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 		return start; /* TODO error unknown sheet */
 	if (*ptr == ':') ptr++;
 	tmp1 = col_parse (ptr, &res->b.col, &res->b.col_relative);
-	if (tmp1 == ptr)
+	if (!tmp1)
 		return start;
 	tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
-	if (tmp2 == tmp1)
+	if (!tmp2)
 		return start;
 	if (res->b.col_relative)
 		res->b.col -= pp->eval.col;
@@ -964,7 +964,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 
 			do {
 				ptr = col_parse (tmp = ptr + 1, &col, &dummy);
-				if (tmp == ptr || *ptr != ':')
+				if (!ptr || *ptr != ':')
 					return applix_parse_error (state, "Invalid column");
 				width = strtol (tmp = ptr + 1, (char **)&ptr, 10);
 				if (tmp == ptr || width <= 0)
