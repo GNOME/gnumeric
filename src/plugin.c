@@ -1556,3 +1556,17 @@ plugins_shutdown (void)
 	error_info_free (ignored_error);
 	gnome_config_sync ();
 }
+
+void
+plugin_message (gint level, const gchar *format, ...)
+{
+#ifdef PLUGIN_DEBUG
+	va_list args;
+
+	if (level <= PLUGIN_DEBUG) {
+		va_start (args, format);
+		vprintf (format, args);
+		va_end (args);
+	}
+#endif
+}

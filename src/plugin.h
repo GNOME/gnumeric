@@ -95,10 +95,6 @@ gboolean     plugin_info_is_loaded (PluginInfo *pinfo);
 struct _PluginServicesData *plugin_info_peek_services_data (PluginInfo *pinfo);
 struct _GnumericPluginLoader *plugin_info_get_loader (PluginInfo *pinfo);
 
-#ifdef PLUGIN_DEBUG
-#define PLUGIN_MESSAGE(format, args...) g_print (format, ##args)
-#else
-#define PLUGIN_MESSAGE(format, args...)
-#endif
+void plugin_message (gint level, const gchar *format, ...);
 
 #endif /* GNUMERIC_PLUGIN_H */

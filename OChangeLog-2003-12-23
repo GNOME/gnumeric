@@ -1,3 +1,12 @@
+2001-03-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/plugin.[ch]: Replaced PLUGIN_MESSAGE macro with plugin_message
+	function to avoid portability problems (some compilers don't support
+	vararg macros), added "level" argument.
+
+	* src/plugin-loader.c (gnumeric_plugin_loader_load,
+	gnumeric_plugin_loader_unload): Adjusted to plugin.h.
+
 2001-03-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (wbcg_sheet_remove_all) : clear the

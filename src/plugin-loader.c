@@ -205,7 +205,7 @@ gnumeric_plugin_loader_load (GnumericPluginLoader *loader, ErrorInfo **ret_error
 		if (error == NULL) {
 			loader->is_loaded = TRUE;
 			plugin_dependencies_inc_dependants (loader->plugin, DEPENDENCY_LOAD);
-			PLUGIN_MESSAGE ("Loaded plugin \"%s\".\n", plugin_info_peek_id (loader->plugin));
+			plugin_message (0, "Loaded plugin \"%s\".\n", plugin_info_peek_id (loader->plugin));
 		} else {
 			*ret_error = error;
 		}
@@ -235,7 +235,7 @@ gnumeric_plugin_loader_unload (GnumericPluginLoader *loader, ErrorInfo **ret_err
 		if (error == NULL) {
 			loader->is_loaded = FALSE;
 			plugin_dependencies_dec_dependants (loader->plugin, DEPENDENCY_LOAD);
-			PLUGIN_MESSAGE ("Unloaded plugin \"%s\".\n", plugin_info_peek_id (loader->plugin));
+			plugin_message (0, "Unloaded plugin \"%s\".\n", plugin_info_peek_id (loader->plugin));
 		} else {
 			*ret_error = error;
 		}
