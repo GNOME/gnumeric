@@ -2,12 +2,11 @@
 # Copyright (C) 1998,1999 Free Software Foundation, Inc.
 # Richard Hult <rhult@hem2.passagen.se>, 1999.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.27\n"
-"POT-Creation-Date: 1999-08-03 08:17-0500\n"
-"PO-Revision-Date: 1999-07-18 14:30+0200\n"
+"Project-Id-Version: gnumeric 0.31\n"
+"POT-Creation-Date: 1999-08-04 20:35+0200\n"
+"PO-Revision-Date: 1999-08-04 14:30+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -146,7 +145,7 @@ msgstr "Mark Probst, Guile-stöd."
 
 #: src/about.c:36
 msgid "Rasca, HTML, troff, LaTeX exporters."
-msgstr ""
+msgstr "Rasca, HTML, troff, LaTeX exporters."
 
 #: src/about.c:37
 msgid "Vincent Renardias, CSV support, French localisation."
@@ -174,7 +173,7 @@ msgstr "Gnumeric"
 
 #: src/about.c:56
 msgid "(C) 1998-1999 Miguel de Icaza"
-msgstr ""
+msgstr "(C) 1998-1999 Miguel de Icaza"
 
 #: src/about.c:63
 msgid "Gnumeric Home Page"
@@ -182,7 +181,7 @@ msgstr "Gnumeric hemsida"
 
 #: src/about.c:65
 msgid "Gnumeric Support page"
-msgstr "Gnumeric Supportsida"
+msgstr "Gnumeric supportsida"
 
 #: src/dates.c:14
 msgid "*Sun"
@@ -400,7 +399,7 @@ msgid "Left"
 msgstr "Vänster"
 
 #: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
-#: src/workbook.c:1054
+#: src/workbook.c:1081
 msgid "Center"
 msgstr "Centrera"
 
@@ -621,7 +620,7 @@ msgstr "Zoomfaktorn bör inte vara över 900%"
 #: src/dump.c:31
 #, c-format
 msgid "Can not create file %s\n"
-msgstr "Kan inte skapa fil %s\n"
+msgstr "Kan inte skapa filen %s\n"
 
 #: src/expr.c:216
 msgid "Syntax error"
@@ -644,9 +643,8 @@ msgid "Internal type error"
 msgstr "Internt typfel"
 
 #: src/expr.c:997
-#, fuzzy
 msgid "Unknown operator"
-msgstr "Okänt evalueringsfel"
+msgstr "Okänd operator"
 
 #: src/expr.c:1130
 msgid "Unknown evaluation error"
@@ -654,11 +652,11 @@ msgstr "Okänt evalueringsfel"
 
 #: src/expr.c:1524
 msgid "#Reference to deleted cell!"
-msgstr "#Referens till nyfödd cell!"
+msgstr "#Referens till borttagen cell!"
 
 #: src/expr.c:1553
 msgid "#Reference to deleted range!"
-msgstr "#Referens till nyfödd cell!"
+msgstr "#Referens till borttaget område!"
 
 #: src/file.c:178
 #, c-format
@@ -675,7 +673,7 @@ msgstr "Spara arbetsbok som"
 
 #: src/file.c:422
 msgid "Sorry, there are no file savers loaded, I cannot save"
-msgstr "Inga filsparare är laddade, kan inte spara"
+msgstr "Det finns inga filsparare, kan inte spara"
 
 #: src/file.c:476
 msgid "Load file"
@@ -692,11 +690,11 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 "@FUNCTION=DATE\n"
-"SYNTAX=DATE (år,månad,dag)\n"
-"@DESCRIPTION=Beräknar antalet dagar sedan 1 januari 1900 (datumserienumret) "
-"för angivna år, månad och dag.\n"
-"Dagen kan vara negativ (för att räkna baklänges) och den är relativt "
-"föregående månad. Året bör vara minst 1900.\n"
+"SYNTAX=DATE (year,month,day)\n"
+"@DESCRIPTION=Beräknar antalet dagar sedan 1 januari 1900 för angivet datum "
+"(datumets serienummer).\n"
+"Dagen kan vara negativ för att räkna baklänges i förhållande till föregående "
+"månad. Året skall vara minst 1900.\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/fn-date.c:98
@@ -718,9 +716,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
-"@DESCRIPTION=DATEVALUE returnerar datumets serienummer. @date_str är "
-"strängen som innehåller datumet. Till exempel, DATEVALUE(\"1/1/1999\") är "
-"lika med 36160. \n"
+"@DESCRIPTION=DATEVALUE returnerar datumets serienummer. @date_str är en "
+"sträng som innehåller datumet. Till exempel ger DATEVALUE(\"1/1/1999\") "
+"resulatet 36160. \n"
 "@SEEALSO=DATE"
 
 #: src/fn-date.c:138
@@ -737,10 +735,10 @@ msgstr ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(serial_number,months)\n"
 "@DESCRIPTION=EDATE returnerar serienumret för datumet som är det "
-"specifierade antalet månader före eller efter en givet datum.  @date är "
+"specifierade antalet månader före eller efter ett givet datum.  @date är "
 "serienumret för det ursprungliga datumet och @months är antalet månader före "
-"(negativt tal) eller efter (positivt tal) det ursprungliga datumet \n"
-"Om @months inte är ett heltal, avrundas det nedåt till närmsta heltal.\n"
+"(negativt tal) eller efter (positivt tal) det ursprungliga datumet.\n"
+"Om @months inte är ett heltal, avrundas det till närmsta lägre heltal.\n"
 "@SEEALSO=DATE"
 
 #: src/fn-date.c:182
@@ -777,8 +775,7 @@ msgstr ""
 "evalueras.\n"
 "Serienummer i Gnumeric representeras enligt följande: Heltalsdelen är det "
 "antal dagar som passerat sedan 1 januari 1900. Decimaldelen representerar "
-"hur stor del av dagen som passerat och motsvarar timmar, minuter och "
-"sekunder\n"
+"hur stor del av dagen som passerat.\n"
 "Till exempel: 0.0 representerar början av dagen, och 0.5 mitt på dagen\n"
 "@SEEALSO=TODAY, NOW"
 
@@ -790,9 +787,9 @@ msgid ""
 "@SEEALSO=HOUR"
 msgstr ""
 "@FUNCTION=TIME\n"
-"@SYNTAX=TIME (timmar,minuter,sekunder)\n"
-"@DESCRIPTION=Returnerar en bråkdel som representerar det nuvarande "
-"klockslaget.\n"
+"@SYNTAX=TIME (hours,minutes,seconds)\n"
+"@DESCRIPTION=Returnerar ett tal mellan 0 och 1, som representerar det "
+"angivna klockslaget.\n"
 "@SEEALSO=HOUR"
 
 #: src/fn-date.c:272
@@ -803,6 +800,11 @@ msgid ""
 "between 0 and 1.\n"
 "@SEEALSO=HOUR"
 msgstr ""
+"@FUNCTION=TIMEVALUE\n"
+"@SYNTAX=TIMEVALUE (timetext)\n"
+"@DESCRIPTION=Returnerar ett tal mellan 0 och 1, som representerar det "
+"angivna klockslaget.\n"
+"@SEEALSO=HOUR"
 
 #: src/fn-date.c:291
 msgid ""
@@ -814,6 +816,13 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
+"@FUNCTION=HOUR\n"
+"@SYNTAX=HOUR (serial_number)\n"
+"@DESCRIPTION=Konventerar från serienummer till timme. Resultatet ges i form "
+"av ett heltal i intervallet 0 (12:00 A.M.) till 23 (11:00 P.M.)\n"
+"Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
+"konverterar strängen till ett serienummer.\n"
+"@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
 #: src/fn-date.c:316
 msgid ""
@@ -825,6 +834,13 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
+"@FUNCTION=MINUTE\n"
+"@SYNTAX=MINUTE (serial_number)\n"
+"@DESCRIPTION=Konverterar från serienummer till minut. Resultatet ges i form  "
+"av ett heltal i intervallet 0 till 59\n"
+"Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
+"konverterar strängen till ett serienummer.\n"
+"@SEEALSO=HOUR, NOW, TIME, SECOND"
 
 #: src/fn-date.c:341
 msgid ""
@@ -836,6 +852,13 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
+"@FUNCTION=SECOND\n"
+"@SYNTAX=SECOND (serial_number)\n"
+"@DESCRIPTION=Konverterar från serienummer till sekund. Resultatet ges i form "
+" av ett heltal i intervallet 0 till 59\n"
+"Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
+"konverterar strängen till ett serienummer.\n"
+"@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
 #: src/fn-date.c:366
 msgid ""
@@ -846,6 +869,12 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
+"@FUNCTION=YEAR\n"
+"@SYNTAX=YEAR (serial_number)\n"
+"@DESCRIPTION=Konverterar från serienummer till år.\n"
+"Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
+"konverterar strängen till ett serienummer.\n"
+"@SEEALSO=DAY, MONTH, TIME, NOW"
 
 #: src/fn-date.c:393
 msgid ""
@@ -856,6 +885,12 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
+"@FUNCTION=MONTH\n"
+"@SYNTAX=MONTH (serial_number)\n"
+"@DESCRIPTION=Konverterar från serienummer till månad.\n"
+"Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
+"konverterar strängen till ett serienummer.\n"
+"@SEEALSO=DAY, TIME, NOW, YEAR"
 
 #: src/fn-date.c:420
 msgid ""
@@ -866,6 +901,12 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
+"@FUNCTION=DAY\n"
+"@SYNTAX=DAY (serial_number)\n"
+"@DESCRIPTION=Konverterar från serienummer till dag.\n"
+"Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
+"konverterar strängen till ett serienummer.\n"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/fn-date.c:447
 msgid ""
@@ -876,6 +917,12 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
+"@FUNCTION=WEEKDAY\n"
+"@SYNTAX=WEEKDAY (serial_number)\n"
+"@DESCRIPTION=Konverterar från serienummer till veckodag.\n"
+"Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
+"konverterar strängen till ett serienummer.\n"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/fn-date.c:474
 msgid ""
@@ -891,6 +938,17 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
+"@FUNCTION=DAYS360 \n"
+"@SYNTAX=DAYS360 (date1,date2,method)\n"
+"@DESCRIPTION=Returnerar antalet dagar mellan @date1 och @date2, enligt en "
+"360-dagars kalender där alla månader har 30 dagar.\n"
+"Om @method är true, används den europeiska metoden. Detta innebär att om det "
+"är den 31:a, räknas det som den 30:e.\n"
+"Om @method saknas eller är false, används US-metoden, vilken är en något "
+"komplicerad industristandard.\n"
+"Observera att datumet kan anges som en sträng, eftersom Gnumeric automatiskt "
+"konverterar strängen till ett serienummer.\n"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/fn-date.c:507
 msgid "Unsupported method"
@@ -905,6 +963,12 @@ msgid ""
 "Returns #NUM if start_date or months are invalid\n"
 "@SEEALSO=MONTH"
 msgstr ""
+"@FUNCTION=EOMONTH\n"
+"@SYNTAX=EOMONTH (start_date,months)\n"
+"@DESCRIPTION=Returnerar den sista dagen i måndaden som ligger @months "
+"månader efter datumet @start_date.\n"
+"Returnerar #NUM om @start_date eller @months är felaktiga\n"
+"@SEEALSO=MONTH"
 
 #: src/fn-date.c:610
 msgid ""
@@ -916,11 +980,16 @@ msgid ""
 "Returns #NUM if start_date or days are invalid\n"
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
+"@FUNCTION=WORKDAY\n"
+"@SYNTAX=WORKDAY (start_date,days,holidays)\n"
+"@DESCRIPTION=Returnerar dagen som är @days arbetsdagar efter datumet "
+"@start_date. Hänsyn tas till veckoslut och helgdagar som anges i @holidays.\n"
+"Returnerar #NUM om start_date eller days är felaktiga\n"
+"@SEEALSO=NETWORKDAYS"
 
 #: src/fn-date.c:639
-#, fuzzy
 msgid "Unimplemented"
-msgstr "#Oimplementerat!"
+msgstr "Oimplementerat"
 
 #: src/fn-date.c:674
 msgid ""
@@ -931,10 +1000,16 @@ msgid ""
 "Returns #NUM if start_date or end_date are invalid\n"
 "@SEEALSO=WORKDAY"
 msgstr ""
+"@FUNCTION=NETWORKDAYS\n"
+"@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
+"@DESCRIPTION=Returnerar antalet vardagar mellan @start_date och @end_date. "
+"Helger kan valfritt anges i @holidays.\n"
+"Returnerar #NUM om start_date eller end_date är felaktiga\n"
+"@SEEALSO=WORKDAY"
 
 #: src/fn-date.c:785
 msgid "Date / Time"
-msgstr ""
+msgstr "Datum / Tid"
 
 #: src/fn-math.c:19
 msgid ""
@@ -944,6 +1019,11 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=NAME\n"
+"@SYNTAX=(b1, b2, ...)\n"
+"@DESCRIPTION\n"
+"\n"
+"@SEEALSO="
 
 #: src/fn-math.c:156
 msgid ""
@@ -953,6 +1033,12 @@ msgid ""
 "If any of the arguments is less than zero, GCD returns #NUM! error. \n"
 "@SEEALSO=LCM"
 msgstr ""
+"@FUNCTION=GCD\n"
+"@SYNTAX=GCD(number1,number2,...)\n"
+"@DESCRIPTION=GCD returnerar den största gemensamma delaren för deangivna "
+"talen.\n"
+"Om något av argumenten är mindre än noll, returnerar GCD #NUM!.\n"
+"@SEEALSO=LCM"
 
 #: src/fn-math.c:197
 msgid ""
@@ -964,6 +1050,13 @@ msgid ""
 "If any of the arguments is less than one, LCM returns #NUM! error. \n"
 "@SEEALSO=GCD"
 msgstr ""
+"@FUNCTION=LCM\n"
+"@SYNTAX=LCM(number1,number2,...)\n"
+"@DESCRIPTION=LCM returnerar den minsta gemensamma multipeln för angivna "
+"heltalen. Den minsta gemensamma multipeln är det minsta positiva tal som är "
+"en multipel av alla de angivna talen.\n"
+"Om något av argumenten är mindre än 1, returneras felkoden #NUM!\n"
+"@SEEALSO=GCD"
 
 #: src/fn-math.c:248
 msgid ""
@@ -975,6 +1068,12 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
+"@FUNCTION=ABS\n"
+"@SYNTAX=ABS(b1)\n"
+"@DESCRIPTION=Ger absolutvärdet av argumentet, som kan vara heltal eller "
+"flyttal.\n"
+"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
+"@SEEALSO=CEIL, FLOOR"
 
 #: src/fn-math.c:267
 msgid ""
@@ -988,6 +1087,14 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 msgstr ""
+"@FUNCTION=ACOS\n"
+"@SYNTAX=ACOS(x)\n"
+"@DESCRIPTION=ACOS-funktionen beräknar arcus cosinus av x; det vill säga det "
+"värde vars cosinus är x. Om x ligger utanför intervallet -1 till 1, "
+"returnerar ACOS felet 'acos -domänfel'. Resultatet anges i radianer.\n"
+"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen har "
+"endast ett argument.\n"
+"@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
 #: src/fn-math.c:289
 msgid "acos - domain error"
@@ -1638,7 +1745,7 @@ msgstr ""
 
 #: src/fn-math.c:2403
 msgid "#3D MULT?"
-msgstr ""
+msgstr "#3D MULT?"
 
 #: src/fn-math.c:2474
 msgid ""
@@ -1654,7 +1761,7 @@ msgstr ""
 
 #: src/fn-math.c:2571
 msgid "Maths / Trig."
-msgstr ""
+msgstr "Matematik / Trig."
 
 #: src/fn-misc.c:23
 msgid "Argument mismatch"
@@ -1716,11 +1823,11 @@ msgstr ""
 #: src/fn-string.c:340 src/fn-string.c:375 src/fn-string.c:552
 #: src/fn-string.c:594 src/fn-string.c:686 src/fn-string.c:714
 msgid "Type mismatch"
-msgstr "Typerna stämmer inte överens"
+msgstr "Typfel"
 
 #: src/fn-misc.c:206
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diverse"
 
 #: src/fn-sheet.c:15
 msgid ""
@@ -1865,9 +1972,8 @@ msgid ""
 msgstr ""
 
 #: src/fn-string.c:457
-#, fuzzy
 msgid "Type Mismatch"
-msgstr "Typerna stämmer inte överens"
+msgstr "Typfel"
 
 #: src/fn-string.c:535
 msgid ""
@@ -1895,18 +2001,12 @@ msgid ""
 msgstr ""
 
 #: src/fn-string.c:645
-#, fuzzy
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
 "@DESCRIPTION=Returns @value as a string with the specified format.\n"
 "@SEEALSO=DOLLAR"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (timmar,minuter,sekunder)\n"
-"@DESCRIPTION=Returnerar en bråkdel som representerar det nuvarande "
-"klockslaget.\n"
-"@SEEALSO=HOUR"
 
 #: src/fn-string.c:698
 msgid ""
@@ -2005,9 +2105,8 @@ msgid "TRUE"
 msgstr ""
 
 #: src/format.c:1067
-#, fuzzy
 msgid "FALSE"
-msgstr "FIL"
+msgstr ""
 
 #: src/format.c:1076
 msgid "CELLRANGE"
@@ -2151,39 +2250,36 @@ msgid "m/d/yyyy h:mm"
 msgstr "m/d/åååå t:mm"
 
 #: src/formats.c:58
-#, fuzzy
 msgid "yyyy/mm/d"
-msgstr "mm/d"
+msgstr "åååå/mm/d"
 
 #: src/formats.c:59
-#, fuzzy
 msgid "yyyy/mmm/d"
-msgstr "mmm/d"
+msgstr "åååå/mmm/d"
 
 #: src/formats.c:60
 msgid "yyyy/mm/dd"
-msgstr ""
+msgstr "åååå/mm/dd"
 
 #: src/formats.c:61
-#, fuzzy
 msgid "yyyy/mmm/dd"
-msgstr "mmm/d"
+msgstr "åååå/mmm/dd"
 
 #: src/formats.c:62
 msgid "yyyy-mm-d"
-msgstr ""
+msgstr "åååå-mm-d"
 
 #: src/formats.c:63
 msgid "yyyy-mmm-d"
-msgstr ""
+msgstr "åååå-mmm-d"
 
 #: src/formats.c:64
 msgid "yyyy-mm-dd"
-msgstr ""
+msgstr "åååå-mm-dd"
 
 #: src/formats.c:65
 msgid "yyyy-mmm-dd"
-msgstr ""
+msgstr "åååå-mmm-dd"
 
 #: src/formats.c:70
 msgid "h:mm AM/PM"
@@ -2293,9 +2389,8 @@ msgid "Vertical Stripe"
 msgstr "Lodräta ränder"
 
 #: src/gnumeric-sheet.c:944
-#, fuzzy
 msgid "Reverse Diagonal Stripe"
-msgstr "Tunna omvända diagonala ränder"
+msgstr "Omvända diagonala ränder"
 
 #: src/gnumeric-sheet.c:947
 msgid "Diagonal Stripe"
@@ -2347,7 +2442,7 @@ msgstr ""
 "existerande cellerna i det området. Vill du ersätta\n"
 "innehållet i området?"
 
-#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1042
+#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1069
 msgid "Copy"
 msgstr "Kopiera"
 
@@ -2379,11 +2474,11 @@ msgstr "Flytta celler nedåt och flytta"
 msgid "Shift cells right and move"
 msgstr "Flytta celler åt höger och flytta"
 
-#: src/item-grid.c:599 src/workbook.c:1039
+#: src/item-grid.c:599 src/workbook.c:1066
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: src/item-grid.c:601 src/workbook.c:1045
+#: src/item-grid.c:601 src/workbook.c:1072
 msgid "Paste"
 msgstr "Klistra in"
 
@@ -2413,7 +2508,7 @@ msgstr "NIVÅ"
 
 #: src/main.c:49
 msgid "Enables debugging mesgs while reading excel workbooks"
-msgstr ""
+msgstr "Aktiverar felsökningsmeddelanden förläsning av excel-arbetsböcker"
 
 #: src/main.c:53
 msgid "Enables debugging mesgs while reading excel functions"
@@ -2479,500 +2574,499 @@ msgid "Column: %s"
 msgstr "Kolumn: %s"
 
 #: src/sheet.c:835
-#, fuzzy
 msgid "Internal ERROR"
-msgstr "Internt fel"
+msgstr "Internt FEL"
 
-#: src/sheet.c:2835
+#: src/sheet.c:2844
 msgid "The command `"
 msgstr "Kommandot `"
 
-#: src/sheet.c:2837
+#: src/sheet.c:2846
 msgid "' cannot be performed with multiple selections"
 msgstr "' kan inte utföras på flera markeringar"
 
-#: src/sheet.c:2852
+#: src/sheet.c:2861
 msgid "copy"
 msgstr "kopiera"
 
-#: src/sheet.c:2877
+#: src/sheet.c:2886
 msgid "cut"
 msgstr "klipp ut"
 
-#: src/sheet.c:2926
+#: src/sheet.c:2935
 msgid "paste"
 msgstr "klistra in"
 
-#: src/sheet.c:3939
+#: src/sheet.c:3948
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Kunde inte aktivera objekt %s"
 
-#: src/sheet.c:3951
+#: src/sheet.c:3960
 msgid "I was unable to the bind object"
 msgstr "Kunde inte binda objektet"
 
-#: src/workbook.c:389
+#: src/workbook.c:416
 msgid "Warning"
 msgstr "Varning"
 
-#: src/workbook.c:397
+#: src/workbook.c:424
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Arbetsboken %s har osparade ändringar, spara dem?"
 
-#: src/workbook.c:400
+#: src/workbook.c:427
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Arbetsboken har osparade ändringar, spara dem?"
 
-#: src/workbook.c:589
+#: src/workbook.c:616
 msgid "Insert cols"
 msgstr "Infoga kolumner"
 
-#: src/workbook.c:608
+#: src/workbook.c:635
 msgid "Insert rows"
 msgstr "Infoga rader"
 
-#: src/workbook.c:704
+#: src/workbook.c:731
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/åååå"
 
-#: src/workbook.c:723
+#: src/workbook.c:750
 msgid ">hh:mm"
 msgstr ">tt:mm"
 
-#: src/workbook.c:831
+#: src/workbook.c:858
 msgid "_New"
 msgstr "_Nytt"
 
-#: src/workbook.c:831
+#: src/workbook.c:858
 msgid "Create a new spreadsheet"
 msgstr "Skapa ett nytt kalkylark"
 
-#: src/workbook.c:835
+#: src/workbook.c:862
 msgid "_Import"
 msgstr "_Importera"
 
-#: src/workbook.c:835
+#: src/workbook.c:862
 msgid "Imports a file"
 msgstr "Importerar en fil"
 
-#: src/workbook.c:841
+#: src/workbook.c:868
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:841
+#: src/workbook.c:868
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:846
+#: src/workbook.c:873
 msgid "Plu_g-ins..."
 msgstr "Tillä_gg..."
 
-#: src/workbook.c:846
+#: src/workbook.c:873
 msgid "Gnumeric plugins"
 msgstr "Gnumeric-tillägg"
 
-#: src/workbook.c:867
+#: src/workbook.c:894
 msgid "_All"
 msgstr "_Allt"
 
-#: src/workbook.c:868
+#: src/workbook.c:895
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Ta bort markerade cellers formatering, kommentarer och innehåll"
 
-#: src/workbook.c:870
+#: src/workbook.c:897
 msgid "_Formats"
 msgstr "_Formatering"
 
-#: src/workbook.c:871
+#: src/workbook.c:898
 msgid "Clear the selected cells' formats"
 msgstr "Ta bort markerade cellers formatering"
 
-#: src/workbook.c:872
+#: src/workbook.c:899
 msgid "_Comments"
 msgstr "_Kommentarer"
 
-#: src/workbook.c:873
+#: src/workbook.c:900
 msgid "Clear the selected cells' comments"
 msgstr "Ta bort markerade cellers kommentarer"
 
-#: src/workbook.c:874
+#: src/workbook.c:901
 msgid "_Content"
 msgstr "_Innehåll"
 
-#: src/workbook.c:875
+#: src/workbook.c:902
 msgid "Clear the selected cells' contents"
 msgstr "Ta bort markerade cellers innehåll"
 
-#: src/workbook.c:883
+#: src/workbook.c:910
 msgid "P_aste special..."
 msgstr "Klistra in _special..."
 
-#: src/workbook.c:884
+#: src/workbook.c:911
 msgid "C_lear"
 msgstr "_Ta bort"
 
-#: src/workbook.c:885
+#: src/workbook.c:912
 msgid "Clear the selected cell(s)"
 msgstr "Ta bort markerade cell(er)"
 
-#: src/workbook.c:889
+#: src/workbook.c:916
 msgid "_Select All"
 msgstr "Markera _allt"
 
-#: src/workbook.c:890
+#: src/workbook.c:917
 msgid "Select all cells in the spreadsheet"
 msgstr "Markera alla celler på kalkylarket"
 
-#: src/workbook.c:892
+#: src/workbook.c:919
 msgid "_Goto cell..."
 msgstr "_Gå till cell.."
 
-#: src/workbook.c:893
+#: src/workbook.c:920
 msgid "Jump to a specified cell"
 msgstr "Gå till specifierad cell"
 
-#: src/workbook.c:899
+#: src/workbook.c:926
 msgid "Insert object..."
 msgstr "Infoga objekt..."
 
-#: src/workbook.c:900
+#: src/workbook.c:927
 msgid "Inserts a Bonobo object"
 msgstr "Infogar ett Bonobo-objekt"
 
-#: src/workbook.c:907
+#: src/workbook.c:934
 msgid "_Define cell names"
 msgstr "_Definera cellnamn"
 
-#: src/workbook.c:911
+#: src/workbook.c:938
 msgid "_Recalculate"
 msgstr "_Räkna om"
 
-#: src/workbook.c:912
+#: src/workbook.c:939
 msgid "Recalculate the spreadsheet"
 msgstr "Räkna om kalkylbladet"
 
-#: src/workbook.c:920
+#: src/workbook.c:947
 msgid "_Zoom..."
 msgstr "_Zooma..."
 
-#: src/workbook.c:921
+#: src/workbook.c:948
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zooma in eller ut i kalkylbladet"
 
-#: src/workbook.c:928
+#: src/workbook.c:955
 msgid "Current _date"
 msgstr "Dagens _datum"
 
-#: src/workbook.c:929
+#: src/workbook.c:956
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Infoga dagens datum i markerade cell(er)"
 
-#: src/workbook.c:932
+#: src/workbook.c:959
 msgid "Current _time"
 msgstr "Nuvarande _klockslag"
 
-#: src/workbook.c:933
+#: src/workbook.c:960
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Infoga nuvarande tid i markerade cell(er)"
 
-#: src/workbook.c:940 src/workbook.c:986
+#: src/workbook.c:967 src/workbook.c:1013
 msgid "_Sheet"
 msgstr "_Blad"
 
-#: src/workbook.c:940
+#: src/workbook.c:967
 msgid "Insert a new spreadsheet"
 msgstr "Infoga ett nytt kalkylblad"
 
-#: src/workbook.c:942 src/workbook.c:980
+#: src/workbook.c:969 src/workbook.c:1007
 msgid "_Cells..."
 msgstr "_Celler..."
 
-#: src/workbook.c:942
+#: src/workbook.c:969
 msgid "Insert new cells"
 msgstr "Infoga nya celler"
 
-#: src/workbook.c:944
+#: src/workbook.c:971
 msgid "_Rows"
 msgstr "_Rader"
 
-#: src/workbook.c:944
+#: src/workbook.c:971
 msgid "Insert new rows"
 msgstr "Infoga nya rader"
 
-#: src/workbook.c:946
+#: src/workbook.c:973
 msgid "C_olumns"
 msgstr "_Kolumner"
 
-#: src/workbook.c:946
+#: src/workbook.c:973
 msgid "Insert new columns"
 msgstr "Infoga nya kolumner"
 
-#: src/workbook.c:951
+#: src/workbook.c:978
 msgid "_Add/modify comment..."
 msgstr "_Lägg till/ändra kommentar..."
 
-#: src/workbook.c:952
+#: src/workbook.c:979
 msgid "Edit the selected cell's comment"
 msgstr "Ändra den markerade cellens kommentar"
 
-#: src/workbook.c:953
+#: src/workbook.c:980
 msgid "_Special"
 msgstr "_Special"
 
-#: src/workbook.c:962 src/workbook.c:968
+#: src/workbook.c:989 src/workbook.c:995
 msgid "_Autoadjust"
 msgstr "_Autojustera"
 
-#: src/workbook.c:963
+#: src/workbook.c:990
 msgid "_Width"
 msgstr "_Bredd"
 
-#: src/workbook.c:969
+#: src/workbook.c:996
 msgid "_Height"
 msgstr "_Höjd"
 
-#: src/workbook.c:974
+#: src/workbook.c:1001
 msgid "_Change name"
 msgstr "_Ändra namn"
 
-#: src/workbook.c:981
+#: src/workbook.c:1008
 msgid "Modify the formatting of the selected cells"
 msgstr "Ändra formateringen på markerade celler"
 
-#: src/workbook.c:984
+#: src/workbook.c:1011
 msgid "C_olumn"
 msgstr "_Kolumn"
 
-#: src/workbook.c:985
+#: src/workbook.c:1012
 msgid "_Row"
 msgstr "_Rad"
 
-#: src/workbook.c:993
+#: src/workbook.c:1020
 msgid "_Sort..."
 msgstr "_Sortera..."
 
-#: src/workbook.c:994
+#: src/workbook.c:1021
 msgid "Sort the selected cells"
 msgstr "Sortera merkerade cell(er)"
 
-#: src/workbook.c:995
+#: src/workbook.c:1022
 msgid "_Goal Seek..."
 msgstr "_Målsökning..."
 
-#: src/workbook.c:997
+#: src/workbook.c:1024
 msgid "_Solver..."
 msgstr "_Problemlösare..."
 
-#: src/workbook.c:999
+#: src/workbook.c:1026
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1013
+#: src/workbook.c:1040
 msgid "_Insert"
 msgstr "_Infoga"
 
-#: src/workbook.c:1014
+#: src/workbook.c:1041
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/workbook.c:1015
+#: src/workbook.c:1042
 msgid "_Tools"
 msgstr "Verk_tyg"
 
-#: src/workbook.c:1024
+#: src/workbook.c:1051
 msgid "New"
 msgstr "Nytt"
 
-#: src/workbook.c:1024
+#: src/workbook.c:1051
 msgid "Creates a new sheet"
 msgstr "Skapar ett nytt kalkylblad"
 
-#: src/workbook.c:1027
+#: src/workbook.c:1054
 msgid "Open"
 msgstr "Öppna"
 
-#: src/workbook.c:1027
+#: src/workbook.c:1054
 msgid "Opens an existing workbook"
 msgstr "Öppnar en existerande arbetsbok"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1057
 msgid "Save"
 msgstr "Spara"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1057
 msgid "Saves the workbook"
 msgstr "Sparar arbetsboken"
 
 #: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
-#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1033
+#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1060
 msgid "Print"
 msgstr "Skriv ut"
 
-#: src/workbook.c:1033
+#: src/workbook.c:1060
 msgid "Prints the workbook"
 msgstr "Skriver ut arbetsboken"
 
-#: src/workbook.c:1039
+#: src/workbook.c:1066
 msgid "Cuts the selection to the clipboard"
 msgstr "Klipper ut markeringen till urklipp"
 
-#: src/workbook.c:1042
+#: src/workbook.c:1069
 msgid "Copies the selection to the clipboard"
 msgstr "Kopierar markeringen till urklipp"
 
-#: src/workbook.c:1045
+#: src/workbook.c:1072
 msgid "Pastes the clipboard"
 msgstr "Klistrar in från urklipp"
 
-#: src/workbook.c:1051
+#: src/workbook.c:1078
 msgid "Left align"
 msgstr "Vänsterjusterat"
 
-#: src/workbook.c:1051
+#: src/workbook.c:1078
 msgid "Left justifies the cell contents"
 msgstr "Vänsterjusterar cellinnehållet"
 
-#: src/workbook.c:1054
+#: src/workbook.c:1081
 msgid "Centers the cell contents"
 msgstr "Centrerar cellinnehållet"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1084
 msgid "Right align"
 msgstr "Högerjustera"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1084
 msgid "Right justifies the cell contents"
 msgstr "Högerjusterar cellinnehållet"
 
-#: src/workbook.c:1062
+#: src/workbook.c:1089
 msgid "Bold"
 msgstr "Fetstil"
 
-#: src/workbook.c:1062
+#: src/workbook.c:1089
 msgid "Sets the bold font"
 msgstr "Sätter fetstil på typsnittet"
 
-#: src/workbook.c:1065
+#: src/workbook.c:1092
 msgid "Italic"
 msgstr "Kursiv"
 
-#: src/workbook.c:1065
+#: src/workbook.c:1092
 msgid "Makes the font italic"
 msgstr "Gör typsnittet kursivt"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1099
 msgid "Graphic"
 msgstr "Diagram"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1099
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Skapar ett diagram på kalkylbladet"
 
-#: src/workbook.c:1076
+#: src/workbook.c:1103
 msgid "Line"
 msgstr "Linje"
 
-#: src/workbook.c:1076
+#: src/workbook.c:1103
 msgid "Creates a line object"
 msgstr "Skapar ett linje-objekt"
 
-#: src/workbook.c:1079
+#: src/workbook.c:1106
 msgid "Arrow"
 msgstr "Pil"
 
-#: src/workbook.c:1079
+#: src/workbook.c:1106
 msgid "Creates an arrow object"
 msgstr "Skapar ett pil-objekt"
 
-#: src/workbook.c:1082
+#: src/workbook.c:1109
 msgid "Rectangle"
 msgstr "Rektangel"
 
-#: src/workbook.c:1082
+#: src/workbook.c:1109
 msgid "Creates a rectangle object"
 msgstr "Skapar ett rektangel-objekt"
 
-#: src/workbook.c:1085
+#: src/workbook.c:1112
 msgid "Ellipse"
 msgstr "Ellips"
 
-#: src/workbook.c:1085
+#: src/workbook.c:1112
 msgid "Creates an ellipse object"
 msgstr "Skapar ett ellips-objekt"
 
-#: src/workbook.c:1226
+#: src/workbook.c:1253
 msgid "You should introduce a valid cell name"
 msgstr "Du måste ange ett giltigt cellnamn"
 
-#: src/workbook.c:1235
+#: src/workbook.c:1262
 msgid "Column out of range"
 msgstr "Kolumn utanför giltigt område"
 
-#: src/workbook.c:1241
+#: src/workbook.c:1268
 msgid "Row number out of range"
 msgstr "Radnummer utanför giltigt område"
 
-#: src/workbook.c:1333
+#: src/workbook.c:1360
 msgid "Selection must be a single range"
 msgstr "Markeringen måste bestå av ett enkelt område"
 
-#: src/workbook.c:1441
+#: src/workbook.c:1468
 msgid "Sum"
 msgstr "Sum"
 
-#: src/workbook.c:1442
+#: src/workbook.c:1469
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:1443
+#: src/workbook.c:1470
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:1444
+#: src/workbook.c:1471
 msgid "Average"
 msgstr "Medelvärde"
 
-#: src/workbook.c:1445
+#: src/workbook.c:1472
 msgid "Count"
 msgstr "Räkna"
 
-#: src/workbook.c:1706
+#: src/workbook.c:1733
 msgid "Untitled.gnumeric"
 msgstr "Namnlös.gnumeric"
 
-#: src/workbook.c:1795
+#: src/workbook.c:1822
 msgid "Zoom out"
 msgstr "Zooma ut"
 
-#: src/workbook.c:1802
+#: src/workbook.c:1829
 msgid "Zoom in"
 msgstr "Zooma in"
 
-#: src/workbook.c:1897
+#: src/workbook.c:1924
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Är du säker på att du vill ta bort bladet med namn `%s' "
 
-#: src/workbook.c:1916
+#: src/workbook.c:1943
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr "Andra blad refererar till värden på detta blad; kan inte ta bort det"
 
-#: src/workbook.c:1936
+#: src/workbook.c:1963
 msgid "Add another sheet"
 msgstr "Lägg till ett nytt blad"
 
-#: src/workbook.c:1937
+#: src/workbook.c:1964
 msgid "Remove this sheet"
 msgstr "Ta bort detta blad"
 
-#: src/workbook.c:2194 src/workbook.c:2229
+#: src/workbook.c:2221 src/workbook.c:2256
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
 
-#: src/workbook.c:2302
+#: src/workbook.c:2329
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
@@ -3101,7 +3195,6 @@ msgid "Titles to print"
 msgstr "Utskriftsrubriker"
 
 #: src/print.glade.h:46
-#, fuzzy
 msgid "Rows to repeat on the left side:"
 msgstr "Rader till vänster:"
 
@@ -3134,7 +3227,6 @@ msgid "Down, then right"
 msgstr "Ned, sedan höger"
 
 #: src/print.glade.h:55
-#, fuzzy
 msgid "Right, then down"
 msgstr "Höger, sedan ned"
 
@@ -3145,11 +3237,11 @@ msgstr "Höger, sedan ned"
 #.
 #: src/import.glade.h:7
 msgid "Choose an import filter for loading the file:"
-msgstr ""
+msgstr "Välj ett importeringsfilter att ladda filen med:"
 
 #: src/import.glade.h:8
 msgid "label2"
-msgstr ""
+msgstr "label2"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3157,23 +3249,20 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/hf-config.glade.h:7
-#, fuzzy
 msgid "Left section:"
-msgstr "Vänsterjusterat"
+msgstr ""
 
 #: src/hf-config.glade.h:8
-#, fuzzy
 msgid "Center section:"
-msgstr "Centrera på sidan"
+msgstr ""
 
 #: src/hf-config.glade.h:9
-#, fuzzy
 msgid "Right section:"
-msgstr "Högerjustera"
+msgstr ""
 
 #: src/hf-config.glade.h:10
 msgid "Enter the format strings for each section:"
-msgstr ""
+msgstr "Ange formatsträngar för varje sektion:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3182,7 +3271,7 @@ msgstr ""
 #.
 #: src/font-sel.glade.h:7
 msgid "window1"
-msgstr ""
+msgstr "window1"
 
 #: src/font-sel.glade.h:8
 msgid "Font:"
@@ -3206,39 +3295,12 @@ msgstr "AaBbCcDdEe12345"
 
 #: src/font-sel.glade.h:13
 msgid "label7"
-msgstr ""
+msgstr "label7"
 
 #: src/font-sel.glade.h:14
 msgid "label8"
-msgstr ""
+msgstr "label8"
 
 #: src/font-sel.glade.h:15
 msgid "label9"
-msgstr ""
-
-#~ msgid "Reference to newborn cell"
-#~ msgstr "Referens till nyfödd cell"
-
-#~ msgid "Define names"
-#~ msgstr "Definiera namn"
-
-#~ msgid "Add"
-#~ msgstr "Lägg till"
-
-#~ msgid "Names in the workbook"
-#~ msgstr "Namn i arbetsboken"
-
-#~ msgid "Refers to"
-#~ msgstr "Refererar till"
-
-#~ msgid "Function does not exist"
-#~ msgstr "Funktionen existerar inte"
-
-#~ msgid "Calling non-function"
-#~ msgstr "Anropar icke-funktion"
-
-#~ msgid "Type error"
-#~ msgstr "Typfel"
-
-#~ msgid "sample goes jere"
-#~ msgstr "test här"
+msgstr "label9"
