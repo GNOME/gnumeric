@@ -1,3 +1,9 @@
+1999-09-23  Lauris Kaplinski <lauris@ariman.ee>
+
+	* configure.in: add et to ALL_LINGUAS
+
+	* gnumeric.desktop: added Estonian strings
+
 1999-09-25  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/dialogs/dialog-zoom.c (dialog_zoom): Correct glade name.
