@@ -1,4 +1,4 @@
-SUBDIRS = intl  . po macros idl src plugins doc icons templates tools omf-install
+SUBDIRS = m4   . po macros idl src plugins doc icons templates tools omf-install
 
 XML_I18N_XML_KIND = --pass-through
 
@@ -34,12 +34,13 @@ Mimedir = $(datadir)/mime-info
 Mime_DATA = gnumeric.keys gnumeric.mime
 
 @XML_I18N_MERGE_OAF_RULE@
+export GETTEXT_PACKAGE
 
 oafdir = $(datadir)/oaf
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 oaf_in_files = GNOME_Gnumeric.oaf.in
 
-EXTRA_DIST = \
+EXTRA_DIST = config.rpath mkinstalldirs  \
 	gnumeric.desktop.in gnumeric.spec.in gnumericConf.sh.in		\
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 			\
 	gnumeric.xsd							\

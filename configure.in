@@ -168,8 +168,10 @@ AM_GNOME_GETTEXT
 # AM_GNOME_GETTEXT above substs $DATADIRNAME
 # this is the directory where the *.{mo,gmo} files are installed
 gnomelocaledir='${prefix}/${DATADIRNAME}/locale'
+AC_SUBST(GETTEXT_PACKAGE, gnumeric)
 AC_SUBST(gnomelocaledir)
 AM_GNU_GETTEXT([external])
+AC_PROG_INTLTOOL
 
 #AC_PATH_PROG(TPUT_CMD,tput,no)
 TPUT_CMD=no
@@ -720,7 +722,7 @@ dnl = End tests for jw
 dnl ====================================
 
 
-AC_OUTPUT([
+AC_OUTPUT([ po/Makefile.in m4/Makefile 
 gnumeric.spec
 Makefile
 src/Makefile
@@ -768,13 +770,11 @@ plugins/applix/Makefile
 plugins/gda/Makefile
 plugins/psiconv/Makefile
 plugins/mps/Makefile
-po/Makefile.in
 templates/Makefile
 templates/english/Makefile
 templates/autoformat/Makefile
 tools/Makefile
 macros/Makefile
-m4/Makefile
 stamp.h
 ])
 

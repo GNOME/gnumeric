@@ -1,3 +1,15 @@
+2002-11-09  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: define GETTEXT_PACKAGE; added AC_PROG_INTLTOOL.
+	* Makefile.am: export GETTEXT_PACKAGE for po/Makefile.
+
+2002-11-09  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Remove intl.
+	* Makefile.am (SUBDIRS): Add m4.
+	(EXTRA_DIST): Add config.rpath mkinstalldirs.
+	* configure.in (AC_OUTPUT): Add po/Makefile.in,
+
 2002-11-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Make newer automake happy:
