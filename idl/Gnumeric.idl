@@ -7,6 +7,7 @@
  */
 
 #include <Bonobo.idl>
+#include <oaf-factory.idl>
 
 module GNOME {
 	module Gnumeric {
@@ -257,7 +258,7 @@ module GNOME {
 		//
 		// Interfaces for embedding Gnumeric with Bonobo
 		//
-		interface WorkbookFactory : Bonobo::GenericFactory {
+		interface WorkbookFactory : GNOME::ObjectFactory {
 			Workbook read (in string filename);
 		};
 		

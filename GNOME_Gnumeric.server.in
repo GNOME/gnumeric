@@ -1,12 +1,12 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:GOADID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9"
+<oaf_server iid="OAFIID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9"
             type="exe"
             location="gnumeric-bonobo">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Gnumeric/WorkbookFactory:1.0"/>
-		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
@@ -14,9 +14,9 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GOADID:GNOME:Gnumeric:Workbook:1.0:5c6847dc-4677-498d-9355-3acf5e2ba774"
+<oaf_server iid="OAFIID:GNOME:Gnumeric:Workbook:1.0:5c6847dc-4677-498d-9355-3acf5e2ba774"
             type="factory"
-            location="OAFIID:GOADID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9">
+            location="OAFIID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Gnumeric/Workbook:1.0"/>
@@ -28,7 +28,7 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GOADID:GNOME:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873"
+<oaf_server iid="OAFIID:GNOME:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873"
             type="exe"
             location="gnumeric-bonobo">
 
@@ -41,9 +41,9 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GOADID:GNOME:Gnumeric:Grid:1.0:872b76ec-a9c7-4848-aa9e-c0c60b27d446"
+<oaf_server iid="OAFIID:GNOME:Gnumeric:Grid:1.0:872b76ec-a9c7-4848-aa9e-c0c60b27d446"
             type="factory"
-            location="OAFIID:GOADID:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873">
+            location="OAFIID:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Gnumeric/Grid"/>

@@ -282,7 +282,7 @@ void
 EmbeddableGridFactory_init (void)
 {
 	bonobo_embeddable_grid_factory = bonobo_embeddable_factory_new (
-		"OAFIID:GOADID:GNOME:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873",
+		"OAFIID:GNOME:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873",
 		embeddable_grid_factory, NULL);
 }
 

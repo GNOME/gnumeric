@@ -35,8 +35,8 @@ static WorkbookFactoryServant workbook_factory_servant;
 static GNOME_Gnumeric_WorkbookFactory gnumeric_workbook_factory;
 
 static PortableServer_ServantBase__epv gnumeric_workbook_factory_base_epv;
-static POA_Bonobo_GenericFactory__epv gnumeric_workbook_generic_factory_epv;
-static POA_GNOME_Gnumeric_WorkbookFactory__epv gnumeric_workbook_factory_epv;
+static POA_GNOME_ObjectFactory__epv gnumeric_wb_object_factory;
+static POA_GNOME_Gnumeric_WorkbookFactory__epv gnumeric_wb_factory_epv;
 static POA_GNOME_Gnumeric_WorkbookFactory__vepv gnumeric_workbook_factory_vepv;
 
 static GNOME_Gnumeric_Workbook
@@ -75,20 +75,18 @@ WorkbookFactory_manufactures (PortableServer_Servant servant,
 }
 
 static CORBA_Object
-WorkbookFactory_create_object (PortableServer_Servant   servant,
-			       const CORBA_char        *goad_id,
-			       const Bonobo_stringlist *params,
-			       CORBA_Environment       *ev)
+WorkbookFactory_create_object (PortableServer_Servant  servant,
+			       const CORBA_char       *activation_id,
+			       const GNOME_stringlist *params,
+			       CORBA_Environment      *ev)
 {
 	Workbook *workbook;
 
-	if (strcmp (goad_id, "IDL:GNOME:Gnumeric:Workbook:1.0") != 0){
-		if (strcmp (goad_id, "GOADID:GNOME:Gnumeric:Workbook:1.0") != 0){
-			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-					     ex_Bonobo_GenericFactory_CannotActivate,
-					     NULL);
-			return CORBA_OBJECT_NIL;
-		}
+	if (strcmp (activation_id, "IDL:GNOME:Gnumeric:Workbook:1.0") != 0) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_ObjectFactory_CannotActivate,
+				     NULL);
+		return CORBA_OBJECT_NIL;
 	}
 
 	workbook = workbook_new ();
@@ -108,14 +106,14 @@ GNOME_Gnumeric_WorkbookFactory__create (PortableServer_POA poa, CORBA_Environmen
 	/*
 	 * Set up our tables
 	 */
-	gnumeric_workbook_factory_epv.read = WorkbookFactory_read;
-	gnumeric_workbook_generic_factory_epv.manufactures = WorkbookFactory_manufactures;
-	gnumeric_workbook_generic_factory_epv.create_object = WorkbookFactory_create_object;
+	gnumeric_wb_factory_epv.read = WorkbookFactory_read;
+	gnumeric_wb_object_factory.manufactures = WorkbookFactory_manufactures;
+	gnumeric_wb_object_factory.create_object = WorkbookFactory_create_object;
 		
 	gnumeric_workbook_factory_vepv.GNOME_Gnumeric_WorkbookFactory_epv =
-		&gnumeric_workbook_factory_epv;
-	gnumeric_workbook_factory_vepv.Bonobo_GenericFactory_epv =
-		&gnumeric_workbook_generic_factory_epv;
+		&gnumeric_wb_factory_epv;
+	gnumeric_workbook_factory_vepv.GNOME_ObjectFactory_epv =
+		&gnumeric_wb_object_factory;
 	gnumeric_workbook_factory_vepv._base_epv =
 		&gnumeric_workbook_factory_base_epv;
 
@@ -168,7 +166,7 @@ _WorkbookFactory_init (CORBA_Environment *ev)
 	 * Register the server and see if it was already there
 	 */
 	v = od_server_register (gnumeric_workbook_factory,
-				"OAFIID:GOADID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9");
+				"OAFIID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9");
 	if (v == 0)
 		return TRUE;
 

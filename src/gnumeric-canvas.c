@@ -861,7 +861,7 @@ gnumeric_sheet_drag_data_get (GtkWidget *widget,
 			      guint info,
 			      guint time)
 {
-#ifdef ENABLE_BONOBO
+#if 0
 	BonoboMoniker *moniker;
 	Sheet *sheet = GNUMERIC_SHEET (widget)->sheet_view->sheet;
 	Workbook *wb = sheet->workbook;
