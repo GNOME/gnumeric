@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.48\n"
-"POT-Creation-Date: 2000-05-09 14:39-0400\n"
+"POT-Creation-Date: 2000-05-09 21:12-0400\n"
 "PO-Revision-Date: 2000-02-01 16:18+09:00\n"
 "Last-Translator: Mitsuru Oka <mitsu-o@is.aist-nara.ac.jp>\n"
 "Language-Team: Japanese\n"

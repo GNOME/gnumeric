@@ -29,7 +29,8 @@ gnumericConf.sh: gnumericConf.sh.in Makefile
 	  && mv gnumericConf.tmp gnumericConf.sh
 
 EXTRA_DIST = \
-	gnumeric.desktop.in README HACKING gnumeric.spec.in 	\
+	gnumeric.desktop.in README HACKING			\
+	gnumeric.spec.in gnumericConf.sh.in 			\
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 		\
 	gnumeric.gnorba $(change_logs)
 

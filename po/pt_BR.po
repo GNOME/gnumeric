@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: GNUMeric\n"
-"POT-Creation-Date: 2000-05-09 14:39-0400\n"
+"POT-Creation-Date: 2000-05-09 21:12-0400\n"
 "PO-Revision-Date: 1999-04-09 16:14-0300\n"
 "Last-Translator: Elvis Pfützenreuter <epx@netville.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
