@@ -1,3 +1,11 @@
+2004-10-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=132876
+	* src/print.c (sheet_print): make the print dialog semi-modal.
+	(dialog_destroy): new
+	(dialog_response): new
+	(sheet_print_real): new
+
 2004-10-19  Morten Welinder  <terra@gnome.org>
 
 	* src/Makefile.am (GNOME_Gnumeric-gtk.xml): Create this using a

@@ -17,6 +17,7 @@
 #include "selection.h"
 #include "workbook.h"
 #include "workbook-control.h"
+#include "workbook-edit.h"
 #include "command-context.h"
 #include "dialogs.h"
 #include "gnumeric-gconf.h"
@@ -39,6 +40,8 @@
 #endif
 #include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
+
+#define PRINT_DIALOG_KEY "Gnumeric_Print_Dialog"
 
 /*
  * Margins
@@ -1250,153 +1253,210 @@ print_job_info_destroy (PrintJobInfo *pj)
 	g_free (pj);
 }
 
+typedef struct {
+	GtkWidget *dialog;
+	WorkbookControlGUI  *wbcg;
+	PrintJobInfo *pj;
+	Sheet *sheet;
+} PrintDialogState;
+
+
+/**
+ * dialog_destroy:
+ * @window:
+ * @state:
+ *
+ * Destroy the dialog and associated data structures.
+ *
+ **/
+static gboolean
+dialog_destroy (GtkObject *w, PrintDialogState  *state)
+{
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	wbcg_edit_detach_guru (state->wbcg);
+
+	wbcg_edit_finish (state->wbcg, WBC_EDIT_REJECT, NULL);
+
+	state->dialog = NULL;
+
+	print_job_info_destroy (state->pj);
+	g_free (state);
+
+	return FALSE;
+}
+
+static void
+sheet_print_real (WorkbookControlGUI *wbcg, Sheet *sheet,
+		  gboolean preview, PrintJobInfo *pj, 
+		  PrintRange default_range)
+{
+	GnomePrintJob *gpm = NULL;
+
+	gpm = gnome_print_job_new (pj->gp_config);
+	pj->print_context = gnome_print_job_get_context (gpm);
+	pj->range = default_range;
+	
+	/* perform actual printing */
+	switch (pj->range) {
+		
+	default:
+		g_error ("mis-enumerated print type");
+		/* Falling through */
+	case PRINT_ACTIVE_SHEET:
+		pj->render_info->pages = compute_pages (pj, NULL, sheet, NULL);
+		print_sheet (sheet, pj);
+		break;
+
+	case PRINT_ALL_SHEETS:
+	case PRINT_SHEET_RANGE:
+		workbook_print_all (pj, sheet->workbook);
+		break;
+		
+	case PRINT_SHEET_SELECTION:
+		sheet_print_selection (pj, sheet, WORKBOOK_CONTROL (wbcg));
+		break;
+	}
+	
+	gnome_print_job_close (gpm);
+	
+	if (preview) {
+		GtkWidget *w = gnome_print_job_preview_new (gpm, _("Print preview"));
+		GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
+		gtk_window_set_screen (GTK_WINDOW (gtk_widget_get_toplevel (w)), screen);
+		gtk_widget_show (w);
+	} else {
+		int result = gnome_print_job_print (gpm);
+		if (result == -1) {
+			/*
+			 * FIXME: not a great message, but at this point we don't
+			 * know *what* went wrong.
+			 */
+			gnumeric_notice (wbcg_toplevel (wbcg),
+					 GTK_MESSAGE_ERROR,
+					 _("Printing failed"));
+		}
+	}
+	
+	if (gpm)
+		g_object_unref (G_OBJECT (gpm));	
+}
+
+static void        
+dialog_response (GtkDialog *dialog,
+		 gint id,
+		 PrintDialogState *state)
+{
+	PrintRange default_range = PRINT_ACTIVE_SHEET;
+	int range = GNOME_PRINT_RANGE_CURRENT;
+ 	int first = 1;
+	int end = workbook_sheet_count (state->sheet->workbook);
+
+	switch (id) {
+	case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
+	case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
+		state->sheet = wbcg_cur_sheet (state->wbcg);
+		range = gnome_print_dialog_get_range_page (
+			GNOME_PRINT_DIALOG (state->dialog), &first, &end);
+		
+		switch (range) {
+		case GNOME_PRINT_RANGE_CURRENT:
+			default_range = PRINT_ACTIVE_SHEET;
+			break;
+		case GNOME_PRINT_RANGE_ALL:
+			default_range = PRINT_ALL_SHEETS;
+			break;
+		case GNOME_PRINT_RANGE_SELECTION:
+			default_range = PRINT_SHEET_SELECTION;
+			break;
+		case GNOME_PRINT_RANGE_RANGE:
+			default_range = PRINT_SHEET_RANGE;
+			break;
+		}
+
+		print_job_info_update_from_config (state->pj);
+
+		if (default_range == PRINT_SHEET_RANGE) {
+			state->pj->start_page = first-1;
+			state->pj->end_page = end-1;
+		}
+		
+		sheet_print_real (state->wbcg, state->sheet, 
+				  GNOME_PRINT_DIALOG_RESPONSE_PREVIEW == id, 
+				  state->pj, default_range);
+
+		if (id == GNOME_PRINT_DIALOG_RESPONSE_PRINT)
+			gtk_widget_destroy (state->dialog);
+		break;
+	case GNOME_PRINT_DIALOG_RESPONSE_CANCEL:
+		gtk_widget_destroy (state->dialog);
+		break;
+	case GTK_RESPONSE_DELETE_EVENT:
+		break;
+	default:
+		break;
+	}
+}
+
 void
 sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	     gboolean preview, PrintRange default_range)
 {
 	PrintJobInfo *pj = NULL;
 	GtkWidget *gnome_print_dialog = NULL;
-	GnomePrintJob *gpm = NULL;
- 	int first = 1;
-	int end;
-	int range;
-	GtkWindow *toplevel;
-	gboolean done = TRUE;
-	gboolean firsttime = TRUE;
+	PrintDialogState *state = NULL;
 
   	g_return_if_fail (IS_SHEET (sheet));
-
-	end  = workbook_sheet_count (sheet->workbook);
 
 	pj = print_job_info_get (sheet, default_range, preview);
 
 	pj->sorted_print = FALSE;
-
-  	if (!preview) {
-		gnome_print_dialog = g_object_new (GNOME_TYPE_PRINT_DIALOG,
-						   "print_config", pj->gp_config,
-						   NULL);
-
-		g_return_if_fail (gnome_print_dialog != NULL);
-
-		gnome_print_dialog_construct (GNOME_PRINT_DIALOG (gnome_print_dialog),
-					      _("Print Sheets"),
-					      GNOME_PRINT_DIALOG_RANGE |
-					      GNOME_PRINT_DIALOG_COPIES);
-
-		gnome_print_dialog_construct_range_page (
-			GNOME_PRINT_DIALOG (gnome_print_dialog),
-			GNOME_PRINT_RANGE_CURRENT | GNOME_PRINT_RANGE_ALL |
-			GNOME_PRINT_RANGE_SELECTION | GNOME_PRINT_RANGE_RANGE,
-			first, end, _("Act_ive sheet"), _("S_heets"));
-
-		toplevel = wbcg_toplevel (wbcg);
-		if (GTK_WINDOW (gnome_print_dialog)->transient_parent != toplevel)
-			gtk_window_set_transient_for (GTK_WINDOW (gnome_print_dialog), toplevel);
+	if (default_range == PRINT_SHEET_RANGE) {
+		pj->start_page = 0;
+		pj->end_page = workbook_sheet_count (sheet->workbook);
 	}
 
-	do {
-		if (firsttime)
-			firsttime = FALSE;
-		else
-			preview = FALSE;
-		done = TRUE;
+	if (preview) {
+		sheet_print_real (wbcg, sheet, TRUE, pj, default_range);
+		return;
+	}
 
-		if (!preview && gnome_print_dialog != NULL) {
-			switch (gnome_print_dialog_run 
-				(GNOME_PRINT_DIALOG (gnome_print_dialog))) {
-			case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
-				break;
-			case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-				preview = TRUE;
-				done = FALSE;
-				break;
-			case -1:
-				goto out;
-			default:
-				gtk_widget_destroy (gnome_print_dialog);
-				goto out;
-			}
-			range = gnome_print_dialog_get_range_page (
-				GNOME_PRINT_DIALOG (gnome_print_dialog), &first, &end);
-			
-			switch (range) {
-			case GNOME_PRINT_RANGE_CURRENT:
-				default_range = PRINT_ACTIVE_SHEET;
-				break;
-			case GNOME_PRINT_RANGE_ALL:
-				default_range = PRINT_ALL_SHEETS;
-				break;
-			case GNOME_PRINT_RANGE_SELECTION:
-				default_range = PRINT_SHEET_SELECTION;
-				break;
-			case GNOME_PRINT_RANGE_RANGE:
-				default_range = PRINT_SHEET_RANGE;
-				break;
-			}
-			
-			if (done)
-				gtk_widget_destroy (gnome_print_dialog);
-
-			print_job_info_update_from_config (pj);
-		}
-		
-		if (default_range == PRINT_SHEET_RANGE) {
-			pj->start_page = first-1;
-			pj->end_page = end-1;
-		}
-		
-		gpm = gnome_print_job_new (pj->gp_config);
-		pj->print_context = gnome_print_job_get_context (gpm);
-		pj->range = default_range;
-		
-		/* perform actual printing */
-		switch (pj->range) {
-			
-		case PRINT_ACTIVE_SHEET:
-			pj->render_info->pages = compute_pages (pj, NULL, sheet, NULL);
-			print_sheet (sheet, pj);
-			break;
-			
-		case PRINT_ALL_SHEETS:
-		case PRINT_SHEET_RANGE:
-			workbook_print_all (pj, sheet->workbook);
-			break;
-			
-		case PRINT_SHEET_SELECTION:
-			sheet_print_selection (pj, sheet, WORKBOOK_CONTROL (wbcg));
-			break;
-			
-		default:
-			g_error ("mis-enumerated print type");
-			done = TRUE;
-			break;
-		}
-		
-		gnome_print_job_close (gpm);
-		
-		if (preview) {
-			GtkWidget *w = gnome_print_job_preview_new (gpm, _("Print preview"));
-			GdkScreen *screen = gtk_window_get_screen (wbcg_toplevel (wbcg));
-			gtk_window_set_screen (GTK_WINDOW (gtk_widget_get_toplevel (w)), screen);
-			gtk_widget_show (w);
-		} else {
-			int result = gnome_print_job_print (gpm);
-			if (result == -1) {
-				/*
-				 * FIXME: not a great message, but at this point we don't
-				 * know *what* went wrong.
-				 */
-				gnumeric_notice (wbcg_toplevel (wbcg),
-						 GTK_MESSAGE_ERROR,
-						 _("Printing failed"));
-				done = TRUE;
-			}
-		}
-	} while (!done);
-
- out:
-	if (gpm)
-		g_object_unref (G_OBJECT (gpm));
-	print_job_info_destroy (pj);
+	if (gnumeric_dialog_raise_if_exists (wbcg, PRINT_DIALOG_KEY)) {
+		print_job_info_destroy (pj);
+		return;
+	}
+	
+	gnome_print_dialog = g_object_new (GNOME_TYPE_PRINT_DIALOG,
+					   "print_config", pj->gp_config,
+					   NULL);
+	
+	g_return_if_fail (gnome_print_dialog != NULL);
+	
+	state = g_new (PrintDialogState, 1);
+	state->pj = pj;
+	state->wbcg = wbcg;
+	state->dialog = GTK_WIDGET (gnome_print_dialog);
+	state->sheet = sheet;
+	
+	gnome_print_dialog_construct (GNOME_PRINT_DIALOG (gnome_print_dialog),
+				      _("Print Sheets"),
+				      GNOME_PRINT_DIALOG_RANGE |
+				      GNOME_PRINT_DIALOG_COPIES);
+	
+	gnome_print_dialog_construct_range_page (
+		GNOME_PRINT_DIALOG (gnome_print_dialog),
+		GNOME_PRINT_RANGE_CURRENT | GNOME_PRINT_RANGE_ALL |
+		GNOME_PRINT_RANGE_SELECTION | GNOME_PRINT_RANGE_RANGE,
+		1, workbook_sheet_count (sheet->workbook), 
+		_("Act_ive sheet"), _("S_heets"));
+	
+	g_signal_connect (G_OBJECT (gnome_print_dialog), "destroy",
+			  G_CALLBACK (dialog_destroy), state);
+	g_signal_connect (G_OBJECT (gnome_print_dialog), "response",
+			  G_CALLBACK (dialog_response), state);
+	
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (gnome_print_dialog), PRINT_DIALOG_KEY);
+	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (gnome_print_dialog));
+	gtk_widget_show (GTK_WIDGET (gnome_print_dialog));	
 }
