@@ -164,13 +164,15 @@ main_page_trim_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu,
 				DruidPageData_t *data)
 {
 	MainInfo_t *info = data->main_info;
+	int trimtype = gtk_option_menu_get_history (info->main_trim);
 
-	switch (gtk_option_menu_get_history (info->main_trim)) {
+	switch (trimtype) {
+	case -1:
 	case 0 : data->trim = (TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT); break;
 	case 1 : data->trim = TRIM_TYPE_NEVER; break;
 	case 2 : data->trim = TRIM_TYPE_LEFT; break;
 	case 3 : data->trim = TRIM_TYPE_RIGHT; break;
-	default : g_warning ("Unknown trim type selected");
+	default : g_warning ("Unknown trim type selected (%d)", trimtype);
 	}
 }
 

@@ -504,14 +504,13 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
 
 	g_return_if_fail (renderdata != NULL);
 	g_return_if_fail (renderdata->canvas != NULL);
-	g_return_if_fail (list != NULL);
 
 	if (renderdata->group != NULL) {
 		gtk_object_destroy (GTK_OBJECT (renderdata->group));
 		renderdata->group = NULL;
 	}
 
-	if (rowcount < 1)
+	if (rowcount < 1 || list == NULL)
 		goto done;
 
 	/*

@@ -1,5 +1,11 @@
 2003-03-05  Morten Welinder  <terra@diku.dk>
 
+	* dialog-stf-preview.c (stf_preview_render): Don't barf on lack of
+	data.
+
+	* dialog-stf-main-page.c (main_page_trim_menu_deactivate): Handle
+	unselected trim type.
+
 	* dialog-stf.glade: Fix path to icon.  This needs a better fix.
 	(And dialog-stf-export.glade does the same.)
 

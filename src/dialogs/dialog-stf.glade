@@ -1177,7 +1177,6 @@
 
 				  <child>
 				    <widget class="GtkLabel" id="label14">
-				      <property name="visible">True</property>
 				      <property name="label" translatable="yes">Column</property>
 				      <property name="use_underline">False</property>
 				      <property name="use_markup">False</property>
@@ -1573,7 +1572,6 @@
 
 			      <child>
 				<widget class="GtkLabel" id="label12">
-				  <property name="visible">True</property>
 				  <property name="label" translatable="yes">Column</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">False</property>
@@ -1677,7 +1675,6 @@
 
 				  <child>
 				    <widget class="GtkLabel" id="label8">
-				      <property name="visible">True</property>
 				      <property name="label" translatable="yes"></property>
 				      <property name="use_underline">False</property>
 				      <property name="use_markup">False</property>
