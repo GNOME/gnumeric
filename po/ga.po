@@ -19,11 +19,11 @@ msgstr ""
 
 #: graph/sample.c:206
 msgid "Chart type"
-msgstr ""
+msgstr "Saghas Cairt"
 
 #: graph/sample.c:207
 msgid "Plot mode"
-msgstr ""
+msgstr "mód Breac"
 
 #: graph/sample.c:208
 msgid "Col/bar mode"
@@ -31,12 +31,11 @@ msgstr ""
 
 #: graph/sample.c:209
 msgid "Direction mode"
-msgstr ""
+msgstr "mód Treoshuiomh"
 
 #: graph/sample.c:210
-#, fuzzy
 msgid "Line mode"
-msgstr "Líne"
+msgstr "mód Líne"
 
 #: graph/sample.c:211
 msgid "Scatter mode"
@@ -91,25 +90,25 @@ msgstr ""
 
 #: plugins/excel/boot.c:174
 msgid "Microsoft(R) Excel file format"
-msgstr ""
+msgstr "Formóid comhaid Microsoft(R) Excel"
 
 #: plugins/excel/boot.c:178
 msgid "Excel(R) 97 file format"
-msgstr ""
+msgstr "Formóid comhaid Excel(R) 97"
 
 #: plugins/excel/boot.c:182
 msgid "Excel(R) 95 file format"
-msgstr ""
+msgstr "Formóid comhaid Excel(R)"
 
 #: plugins/excel/ms-excel-read.c:423
 msgid "#UNKNOWN!"
-msgstr "#GAN AITHNE"
+msgstr "#GAN AITHNE!"
 
 #: plugins/excel/ms-excel-read.c:594 plugins/html/html.c:409
 #: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3315
 #, c-format
 msgid "Sheet%d"
-msgstr ""
+msgstr "Leathanach%d"
 
 #: plugins/excel/ms-excel-read.c:3671
 msgid "No book or workbook streams found."
@@ -142,7 +141,7 @@ msgstr ""
 
 #: plugins/excel/ms-formula-read.c:1464
 msgid " Unknown formula"
-msgstr ""
+msgstr " Foirmle gan aithmne"
 
 #: plugins/ff-csv/csv-io.c:52
 #, c-format
@@ -150,6 +149,8 @@ msgid ""
 "Invalid CSV file - \n"
 "unexpected end of line at line %d"
 msgstr ""
+"droch comhad CSV  - \n"
+"unexpected end of line at line %d"
 
 #: plugins/ff-csv/csv-io.c:113
 #, c-format
@@ -160,11 +161,11 @@ msgstr ""
 
 #: plugins/ff-csv/csv-io.c:120 plugins/plan-perfect/pln.c:808
 msgid "rows"
-msgstr "Saighead"
+msgstr "rónna"
 
 #: plugins/ff-csv/csv-io.c:134
 msgid "columns"
-msgstr ""
+msgstr "colúiní"
 
 #: plugins/ff-csv/csv-io.c:317
 msgid "Comma Separated Value (CSV) import"
@@ -179,14 +180,12 @@ msgid "Comma Separated Value (CSV) module"
 msgstr ""
 
 #: plugins/gb/plugin.c:220
-#, fuzzy
 msgid "Unknown GB error"
-msgstr "Leagan gan aithne"
+msgstr "Earraidh GB gan aithne"
 
 #: plugins/gb/plugin.c:369
-#, fuzzy
 msgid "Gnome Basic"
-msgstr "Gnumeric"
+msgstr "Gnome Basic"
 
 #: plugins/gb/plugin.c:370
 msgid "Enables Gnome Basic support"
@@ -228,7 +227,7 @@ msgstr ""
 
 #: plugins/guile/plugin.c:509
 msgid "Guile Plugin"
-msgstr ""
+msgstr "Plogáil Guile"
 
 #: plugins/guile/plugin.c:510
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
@@ -236,43 +235,43 @@ msgstr ""
 
 #: plugins/html/boot.c:74
 msgid "HTML 3.2 file format (*.html)"
-msgstr ""
+msgstr "formóid comhaid HTML 3.2 (*.html)"
 
 #: plugins/html/boot.c:78
 msgid "HTML 4.0 file format (*.html)"
-msgstr ""
+msgstr "formóid comhaid HTML 4.0 (*.html)"
 
 #: plugins/html/boot.c:82
 msgid "HTML file made by gnumeric"
-msgstr ""
+msgstr "comhad HTML deánamh le gnumeric"
 
 #: plugins/html/boot.c:86
 msgid "LaTeX file format (*.tex)"
-msgstr ""
+msgstr "formóid comhaid LaTeX (*.tex)"
 
 #: plugins/html/boot.c:90
 msgid "LaTeX2e file format (*.tex)"
-msgstr ""
+msgstr "formóid comhaid LaTeX2 (*.tex)"
 
 #: plugins/html/boot.c:94
 msgid "DVI TeX file format (via groff)"
-msgstr ""
+msgstr "formóid comhaid DVI TeX (via groff)"
 
 #: plugins/html/boot.c:98
 msgid "TROFF file format (*.me)"
-msgstr ""
+msgstr "formóid comhaid TROFF (*.me)"
 
 #: plugins/html/boot.c:102
 msgid "PDF file format (via groff/gs)"
-msgstr ""
+msgstr "formóid comhaid PDF (via groff/gs)"
 
 #: plugins/html/boot.c:107
 msgid "EPS file format (*.eps)"
-msgstr ""
+msgstr "formóid comhaid EPS (*.eps)"
 
 #: plugins/html/boot.c:125
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: plugins/html/boot.c:126
 msgid "Import/Export of HTML, TeX, DVI, roff and pdf"
@@ -280,11 +279,11 @@ msgstr ""
 
 #: plugins/lotus-123/boot.c:87
 msgid "Lotus file format (*.wk1)"
-msgstr ""
+msgstr "formóid comhaid Lotus (*.wk1)"
 
 #: plugins/lotus-123/boot.c:91
 msgid "Lotus 123"
-msgstr ""
+msgstr "Lotus 123"
 
 #: plugins/lotus-123/boot.c:92
 msgid "Imports Lotus 123 files"
@@ -353,9 +352,8 @@ msgid ""
 msgstr ""
 
 #: plugins/numtheory/numtheory.c:409 plugins/numtheory/numtheory.c:425
-#, fuzzy
 msgid "Number Theory"
-msgstr "Uimhir"
+msgstr "Teoiric Uimhirí"
 
 #: plugins/numtheory/numtheory.c:426
 msgid ""
@@ -365,11 +363,11 @@ msgstr ""
 
 #: plugins/oleo/boot.c:87
 msgid "GNU Oleo (*.oleo) file format"
-msgstr ""
+msgstr "Formóid comhaid GNU Oleo (*.oleo)"
 
 #: plugins/oleo/boot.c:91
 msgid "GNU Oleo"
-msgstr ""
+msgstr "GNU Oleo"
 
 #: plugins/oleo/boot.c:92
 msgid "Imports GNU Oleo documents"
@@ -377,7 +375,7 @@ msgstr ""
 
 #: plugins/perl/perl.c:54
 msgid "Perl"
-msgstr ""
+msgstr "Perl"
 
 #: plugins/perl/perl.c:55
 msgid "Enables the creation of functions in PERL"
@@ -392,7 +390,7 @@ msgstr ""
 
 #: plugins/plan-perfect/pln.c:732
 msgid "PLN : Not a PlanPerfect File"
-msgstr ""
+msgstr "PLN: Níl comhad PlanPerfect ann"
 
 #: plugins/plan-perfect/pln.c:738
 msgid "PLN : Spreadsheet is password encrypted"
@@ -404,7 +402,7 @@ msgstr ""
 
 #: plugins/plan-perfect/pln.c:958
 msgid "Plan Perfect"
-msgstr ""
+msgstr "Plan Perfect"
 
 #: plugins/plan-perfect/pln.c:959
 msgid "Imports Plan Perfect Formatted Documents"
@@ -412,11 +410,11 @@ msgstr ""
 
 #: plugins/python/python.c:45
 msgid "Python exception"
-msgstr ""
+msgstr "Eisceacht Python"
 
 #: plugins/python/python.c:570
 msgid "Unknown Python type"
-msgstr ""
+msgstr "Saghas Python gan aithne"
 
 #: plugins/python/python.c:609
 msgid "Unable to lookup Python code object."
@@ -428,11 +426,11 @@ msgstr ""
 
 #: plugins/sample/plugin-sample.c:50 plugins/sample/plugin-sample.c:55
 msgid "Sample Plugin"
-msgstr ""
+msgstr "Plogáil sampla"
 
 #: plugins/sample/plugin-sample.c:54
 msgid "PlusOne"
-msgstr ""
+msgstr "PlusOne"
 
 #: plugins/sc/sc.c:458
 msgid "SC/xspread file import"
@@ -440,7 +438,7 @@ msgstr ""
 
 #: plugins/sc/sc.c:462
 msgid "SC/XSpread "
-msgstr ""
+msgstr "SC/XSpread "
 
 #: plugins/sc/sc.c:463
 msgid "Imports SC/XSpread files"
@@ -460,7 +458,7 @@ msgstr ""
 
 #: plugins/sylk/sylk.c:511
 msgid "MultiPlan (SYLK)"
-msgstr ""
+msgstr "MultiPlan (SYLK)"
 
 #: plugins/sylk/sylk.c:512
 msgid "Imports MultiPlan (SYLK) files"
@@ -468,15 +466,15 @@ msgstr ""
 
 #: plugins/text/text-io.c:312
 msgid "Empty file"
-msgstr "COmhad folamh"
+msgstr "Comhad folamh"
 
 #: plugins/text/text-io.c:316
 msgid "File is too large"
-msgstr ""
+msgstr "Tá comhad ró-mhór"
 
 #: plugins/text/text-io.c:387
 msgid "Simple Text"
-msgstr ""
+msgstr "Teacs Simplí"
 
 #: plugins/text/text-io.c:418
 msgid "Basic Text I/O"
@@ -491,9 +489,8 @@ msgid "Xbase (*.dbf) file format"
 msgstr ""
 
 #: plugins/xbase/boot.c:211
-#, fuzzy
 msgid "XBase"
-msgstr "greamaigh"
+msgstr "XBase"
 
 #: plugins/xbase/boot.c:212
 msgid "Imports XBase files"
@@ -517,11 +514,11 @@ msgstr ""
 
 #: src/about.c:41
 msgid "Gergõ Érdi, Gnumeric hacker."
-msgstr ""
+msgstr "Gergõ Érdi, hacker Gnumeric."
 
 #: src/about.c:42
 msgid "Jody Goldberg, Gnumeric hacker."
-msgstr ""
+msgstr "Jody Goldberg, hacker Gnumeric."
 
 #: src/about.c:43
 msgid "Ross Ihaka, special functions."
@@ -533,7 +530,7 @@ msgstr ""
 
 #: src/about.c:45
 msgid "Jakub Jelinek, Gnumeric hacker."
-msgstr ""
+msgstr "Jakub Jelinek, hacker Gnumeric."
 
 #: src/about.c:46
 msgid "Jon K Hellan, Gnumeric hacker."
@@ -589,7 +586,7 @@ msgstr ""
 
 #: src/about.c:59
 msgid "Morten Welinder, Gnumeric hacker."
-msgstr ""
+msgstr "Morten Welinder, hacker Gnumeric."
 
 #: src/about.c:79
 msgid "Gnumeric"
@@ -605,12 +602,11 @@ msgstr "Leathanach Baile Gnumeric"
 
 #: src/about.c:89
 msgid "Gnumeric Support page"
-msgstr ""
+msgstr "Leathanach tacaíocht Gnumeric"
 
 #: src/analysis-tools.c:356
-#, fuzzy
 msgid "Correlations"
-msgstr "Treoshuíomh"
+msgstr ""
 
 #: src/analysis-tools.c:379 src/analysis-tools.c:536 src/analysis-tools.c:695
 #: src/analysis-tools.c:811 src/analysis-tools.c:833 src/analysis-tools.c:859
@@ -630,7 +626,7 @@ msgstr ""
 #: src/analysis-tools.c:771 src/analysis-tools.c:2133
 #: src/analysis-tools.c:2271 src/number-match.c:542
 msgid "#N/A"
-msgstr ""
+msgstr "#N/A"
 
 #: src/analysis-tools.c:510
 msgid "Covariances"
@@ -644,28 +640,24 @@ msgstr ""
 #: src/analysis-tools.c:1227 src/analysis-tools.c:1384
 #: src/analysis-tools.c:1520 src/analysis-tools.c:1657
 msgid "Mean"
-msgstr ""
+msgstr "Meánluach"
 
 #: src/analysis-tools.c:700 src/analysis-tools.c:1999
 #: src/analysis-tools.c:2021
-#, fuzzy
 msgid "Standard Error"
-msgstr "_Gnáth ietheid"
+msgstr "Earriadh caighdeánach"
 
 #: src/analysis-tools.c:701
-#, fuzzy
 msgid "Median"
-msgstr "Íosta"
+msgstr "Median"
 
 #: src/analysis-tools.c:702
-#, fuzzy
 msgid "Mode"
-msgstr "Bog"
+msgstr "Mód"
 
 #: src/analysis-tools.c:703
-#, fuzzy
 msgid "Standard Deviation"
-msgstr "_Gnáth Airde"
+msgstr "Diallas Caighdeánach"
 
 #: src/analysis-tools.c:704
 msgid "Sample Variance"
@@ -681,17 +673,15 @@ msgstr ""
 
 #: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:404
 msgid "Range"
-msgstr ""
+msgstr "Raon"
 
 #: src/analysis-tools.c:708
-#, fuzzy
 msgid "Minimum"
-msgstr "Íosta"
+msgstr "Íosluach"
 
 #: src/analysis-tools.c:709
-#, fuzzy
 msgid "Maximum"
-msgstr "Uasta"
+msgstr "Uasluach"
 
 #: src/analysis-tools.c:710 src/analysis-tools.c:2470
 #: src/analysis-tools.c:2660 src/workbook.c:1554 src/workbook.c:2026
@@ -725,7 +715,6 @@ msgid "Kth Smallest"
 msgstr ""
 
 #: src/analysis-tools.c:870
-#, c-format
 msgid "Smallest (%d)"
 msgstr ""
 
@@ -735,21 +724,20 @@ msgid "Sample"
 msgstr "Sampla"
 
 #: src/analysis-tools.c:1066
-#, fuzzy
 msgid "z-Test"
-msgstr "Teacs"
+msgstr "Tastála-z"
 
 #: src/analysis-tools.c:1093 src/analysis-tools.c:1223
 #: src/analysis-tools.c:1380 src/analysis-tools.c:1516
 #: src/analysis-tools.c:1650
 msgid "Variable 1"
-msgstr ""
+msgstr "Athróg 1"
 
 #: src/analysis-tools.c:1094 src/analysis-tools.c:1224
 #: src/analysis-tools.c:1381 src/analysis-tools.c:1517
 #: src/analysis-tools.c:1651
 msgid "Variable 2"
-msgstr ""
+msgstr "Athróg 2"
 
 #: src/analysis-tools.c:1098
 msgid "Known Variance"
@@ -758,9 +746,8 @@ msgstr ""
 #: src/analysis-tools.c:1099 src/analysis-tools.c:1229
 #: src/analysis-tools.c:1386 src/analysis-tools.c:1522
 #: src/analysis-tools.c:1659 src/analysis-tools.c:2000
-#, fuzzy
 msgid "Observations"
-msgstr "Treoshuíomh"
+msgstr ""
 
 #: src/analysis-tools.c:1100 src/analysis-tools.c:1231
 #: src/analysis-tools.c:1388 src/analysis-tools.c:1523
@@ -769,7 +756,7 @@ msgstr ""
 
 #: src/analysis-tools.c:1101
 msgid "z"
-msgstr ""
+msgstr "z"
 
 #: src/analysis-tools.c:1102
 msgid "P (Z<=z) one-tail"
@@ -789,9 +776,8 @@ msgstr ""
 
 #: src/analysis-tools.c:1199 src/analysis-tools.c:1353
 #: src/analysis-tools.c:1489
-#, fuzzy
 msgid "t-Test"
-msgstr "Teacs"
+msgstr "Tastáil-t"
 
 #: src/analysis-tools.c:1228 src/analysis-tools.c:1385
 #: src/analysis-tools.c:1521 src/analysis-tools.c:1658
@@ -808,13 +794,12 @@ msgstr ""
 #: src/analysis-tools.c:2014 src/analysis-tools.c:2554
 #: src/analysis-tools.c:2767
 msgid "df"
-msgstr ""
+msgstr "df"
 
 #: src/analysis-tools.c:1233 src/analysis-tools.c:1390
 #: src/analysis-tools.c:1525 src/analysis-tools.c:2022
-#, fuzzy
 msgid "t Stat"
-msgstr "*Sat"
+msgstr "Stat t"
 
 #: src/analysis-tools.c:1234 src/analysis-tools.c:1391
 #: src/analysis-tools.c:1526
@@ -841,14 +826,13 @@ msgid "Pooled Variance"
 msgstr ""
 
 #: src/analysis-tools.c:1626
-#, fuzzy
 msgid "F-Test"
-msgstr "Teacs"
+msgstr "Tastáil-F"
 
 #: src/analysis-tools.c:1661 src/analysis-tools.c:2017
 #: src/analysis-tools.c:2556 src/analysis-tools.c:2769
 msgid "F"
-msgstr ""
+msgstr "F"
 
 #: src/analysis-tools.c:1662
 msgid "P (F<=f) one-tail"
@@ -884,9 +868,8 @@ msgid "Regression Statistics"
 msgstr ""
 
 #: src/analysis-tools.c:1996
-#, fuzzy
 msgid "Multiple R"
-msgstr "Iolraigh"
+msgstr ""
 
 #: src/analysis-tools.c:1997
 msgid "R Square"
@@ -899,37 +882,35 @@ msgstr ""
 #: src/analysis-tools.c:2002 src/analysis-tools.c:2551
 #: src/analysis-tools.c:2764
 msgid "ANOVA"
-msgstr ""
+msgstr "ANOVA"
 
 #: src/analysis-tools.c:2004
 msgid "Residual"
-msgstr ""
+msgstr "Iarmharach"
 
 #: src/analysis-tools.c:2005 src/analysis-tools.c:2561
 #: src/analysis-tools.c:2775
-#, fuzzy
 msgid "Total"
-msgstr "Tideál"
+msgstr "Iomlán"
 
 #: src/analysis-tools.c:2007
-#, fuzzy
 msgid "Intercept"
-msgstr "_"
+msgstr ""
 
 #: src/analysis-tools.c:2010
 #, c-format
 msgid "X Variable %d"
-msgstr ""
+msgstr "Athróg X %d"
 
 #: src/analysis-tools.c:2015 src/analysis-tools.c:2553
 #: src/analysis-tools.c:2766
 msgid "SS"
-msgstr ""
+msgstr "SS"
 
 #: src/analysis-tools.c:2016 src/analysis-tools.c:2555
 #: src/analysis-tools.c:2768
 msgid "MS"
-msgstr ""
+msgstr "MS"
 
 #: src/analysis-tools.c:2018
 msgid "Significance F"
@@ -937,13 +918,12 @@ msgstr ""
 
 #: src/analysis-tools.c:2020
 msgid "Coefficients"
-msgstr ""
+msgstr "Comhéifeachtaí"
 
 #: src/analysis-tools.c:2023 src/analysis-tools.c:2557
 #: src/analysis-tools.c:2770
-#, fuzzy
 msgid "P-value"
-msgstr "Luachaí"
+msgstr "Luach-P"
 
 #: src/analysis-tools.c:2025
 #, c-format
@@ -956,18 +936,16 @@ msgid "Upper 95%"
 msgstr ""
 
 #: src/analysis-tools.c:2246
-#, fuzzy
 msgid "Moving Averages"
-msgstr "Méan"
+msgstr ""
 
 #: src/analysis-tools.c:2318
 msgid "Ranks"
 msgstr ""
 
 #: src/analysis-tools.c:2326 src/analysis-tools.c:2355
-#, fuzzy
 msgid "Point"
-msgstr "Priontáil"
+msgstr "Pointe"
 
 #: src/analysis-tools.c:2340 src/analysis-tools.c:2370
 msgid "Rank"
@@ -980,7 +958,7 @@ msgstr "Percent"
 
 #: src/analysis-tools.c:2461 src/analysis-tools.c:2652
 msgid "Anova"
-msgstr ""
+msgstr "Anova"
 
 #: src/analysis-tools.c:2466 src/dialogs/analysis-tools.glade.h:52
 #: src/dialogs/dialog-analysis-tools.c:76
@@ -989,12 +967,11 @@ msgstr ""
 
 #: src/analysis-tools.c:2467 src/analysis-tools.c:2658
 msgid "SUMMARY"
-msgstr ""
-
+msgstr "ACHROIMRE"
+	
 #: src/analysis-tools.c:2468
-#, fuzzy
 msgid "Groups"
-msgstr "Saighead"
+msgstr "Grupaí"
 
 #: src/analysis-tools.c:2471 src/analysis-tools.c:2661 src/workbook.c:2029
 msgid "Average"
@@ -1005,9 +982,8 @@ msgid "Source of Variation"
 msgstr ""
 
 #: src/analysis-tools.c:2558 src/analysis-tools.c:2771
-#, fuzzy
 msgid "F critical"
-msgstr "Ingearach"
+msgstr ""
 
 #: src/analysis-tools.c:2559
 msgid "Between Groups"
@@ -1024,17 +1000,16 @@ msgstr ""
 
 #: src/analysis-tools.c:2772 src/dialogs/dialog-analysis-tools.c:392
 msgid "Rows"
-msgstr ""
+msgstr "Rónna"
 
 #: src/analysis-tools.c:2773 src/dialogs/dialog-analysis-tools.c:391
 #: src/dialogs/dialog-stf.glade.h:50
 msgid "Columns"
-msgstr ""
+msgstr "Colúiní"
 
 #: src/analysis-tools.c:2774
-#, fuzzy
 msgid "Error"
-msgstr "Saighead"
+msgstr "Earraidh"
 
 #: src/clipboard.c:127
 #, c-format
@@ -1046,7 +1021,7 @@ msgstr ""
 
 #: src/clipboard.c:130 src/clipboard.c:141 src/clipboard.c:148
 msgid "Unable to paste"
-msgstr ""
+msgstr "Teip ar greamaigh"
 
 #: src/clipboard.c:138
 #, c-format
@@ -1093,9 +1068,8 @@ msgid "Would split an array."
 msgstr ""
 
 #: src/commands.c:409 src/commands.c:506
-#, fuzzy
 msgid "Set Text"
-msgstr "Teacs"
+msgstr ""
 
 #: src/commands.c:433
 #, c-format
@@ -1149,14 +1123,13 @@ msgid "Deleting row %d"
 msgstr ""
 
 #: src/commands.c:918
-#, fuzzy
 msgid "Undo Clear"
-msgstr "G_lan"
+msgstr "Scaoil Glan"
 
 #. TODO : Something more descriptive ? maybe the range name
 #: src/commands.c:989 src/sheet.c:2364
 msgid "Clear"
-msgstr "G_lan"
+msgstr "Glan"
 
 #: src/commands.c:1177
 msgid "Format cells"
@@ -1184,7 +1157,6 @@ msgid ">hh:mm"
 msgstr ">uu:nn"
 
 #: src/commands.c:1378
-#, fuzzy
 msgid "Set Date/Time"
 msgstr "Dáta / Am"
 
@@ -1242,9 +1214,8 @@ msgid "Autofill"
 msgstr ""
 
 #: src/corba-args.c:33
-#, fuzzy
 msgid "Oaf options"
-msgstr "_Roghnachais"
+msgstr "Roghanna Oaf"
 
 #: src/corba-args.c:54
 msgid "Could not initialize the Gnumeric Workbook factory"
@@ -1470,9 +1441,8 @@ msgstr ""
 #: src/dialogs/analysis-tools.glade.h:74 src/dialogs/analysis-tools.glade.h:84
 #: src/dialogs/analysis-tools.glade.h:95
 #: src/dialogs/analysis-tools.glade.h:106
-#, fuzzy
 msgid "Input"
-msgstr "Inchur:"
+msgstr "Inchur"
 
 #: src/dialogs/analysis-tools.glade.h:11 src/dialogs/analysis-tools.glade.h:25
 msgid "_Labels in First Row"
@@ -1482,17 +1452,17 @@ msgstr ""
 #: src/dialogs/analysis-tools.glade.h:33 src/dialogs/analysis-tools.glade.h:46
 #: src/dialogs/analysis-tools.glade.h:57 src/dialogs/analysis-tools.glade.h:67
 msgid "_Alpha:"
-msgstr ""
+msgstr "_Alpha:"
 
 #: src/dialogs/analysis-tools.glade.h:13 src/dialogs/analysis-tools.glade.h:22
 #: src/dialogs/analysis-tools.glade.h:35 src/dialogs/analysis-tools.glade.h:44
 msgid "Va_riable 2 Range:"
-msgstr ""
+msgstr "Raon _Athróg 2:"
 
 #: src/dialogs/analysis-tools.glade.h:14 src/dialogs/analysis-tools.glade.h:23
 #: src/dialogs/analysis-tools.glade.h:36 src/dialogs/analysis-tools.glade.h:43
 msgid "_Variable 1 Range:"
-msgstr ""
+msgstr "Raon A_thróg 1:"
 
 #: src/dialogs/analysis-tools.glade.h:15 src/dialogs/analysis-tools.glade.h:26
 #: src/dialogs/analysis-tools.glade.h:37 src/dialogs/analysis-tools.glade.h:48
@@ -1501,9 +1471,8 @@ msgstr ""
 #: src/dialogs/analysis-tools.glade.h:101
 #: src/dialogs/analysis-tools.glade.h:112
 #: src/dialogs/analysis-tools.glade.h:120
-#, fuzzy
 msgid "Output options"
-msgstr "_Roghnachais"
+msgstr "Roghanna aschur"
 
 #: src/dialogs/analysis-tools.glade.h:16 src/dialogs/analysis-tools.glade.h:27
 #: src/dialogs/analysis-tools.glade.h:38 src/dialogs/analysis-tools.glade.h:49
@@ -1512,7 +1481,7 @@ msgstr "_Roghnachais"
 #: src/dialogs/analysis-tools.glade.h:102
 #: src/dialogs/analysis-tools.glade.h:115
 msgid "_Output Range:"
-msgstr ""
+msgstr "Raon _Aschur:"
 
 #: src/dialogs/analysis-tools.glade.h:17 src/dialogs/analysis-tools.glade.h:28
 #: src/dialogs/analysis-tools.glade.h:39 src/dialogs/analysis-tools.glade.h:50
@@ -1520,9 +1489,8 @@ msgstr ""
 #: src/dialogs/analysis-tools.glade.h:91
 #: src/dialogs/analysis-tools.glade.h:104
 #: src/dialogs/analysis-tools.glade.h:113
-#, fuzzy
 msgid "_New Sheet"
-msgstr "_Leathanach"
+msgstr "Leathanach _Nua"
 
 #: src/dialogs/analysis-tools.glade.h:18 src/dialogs/analysis-tools.glade.h:29
 #: src/dialogs/analysis-tools.glade.h:40 src/dialogs/analysis-tools.glade.h:51
@@ -1530,9 +1498,8 @@ msgstr "_Leathanach"
 #: src/dialogs/analysis-tools.glade.h:81 src/dialogs/analysis-tools.glade.h:92
 #: src/dialogs/analysis-tools.glade.h:103
 #: src/dialogs/analysis-tools.glade.h:114
-#, fuzzy
 msgid "N_ew Workbook"
-msgstr "_Obairleabhar"
+msgstr "_Obairleabhar Nua"
 
 #: src/dialogs/analysis-tools.glade.h:19
 msgid "T-Test: Paired Two Sample for Means"
@@ -1590,20 +1557,19 @@ msgstr ""
 
 #: src/dialogs/analysis-tools.glade.h:61
 msgid "_Output Range: "
-msgstr ""
+msgstr "Raon _Aschur: "
 
 #: src/dialogs/analysis-tools.glade.h:62
 msgid "_New Sheet     "
-msgstr ""
+msgstr "Leathanach _Nua"
 
 #: src/dialogs/analysis-tools.glade.h:66
 msgid "_Labels      "
 msgstr ""
 
 #: src/dialogs/analysis-tools.glade.h:68 src/dialogs/analysis-tools.glade.h:77
-#, fuzzy
 msgid "_Input Range:"
-msgstr "Inchur:"
+msgstr "Raon _Inchur:"
 
 #: src/dialogs/analysis-tools.glade.h:73
 #: src/dialogs/dialog-analysis-tools.c:88
@@ -1615,9 +1581,8 @@ msgid "In_terval:"
 msgstr ""
 
 #: src/dialogs/analysis-tools.glade.h:78
-#, fuzzy
 msgid "_Standard Errors"
-msgstr "_Gnáth ietheid"
+msgstr "Earraidh _Caighdeánach"
 
 #: src/dialogs/analysis-tools.glade.h:83
 #: src/dialogs/dialog-analysis-tools.c:80
@@ -1652,18 +1617,16 @@ msgid "Numbe_r of samples:"
 msgstr ""
 
 #: src/dialogs/analysis-tools.glade.h:121
-#, fuzzy
 msgid "N_ew sheet"
-msgstr "_Leathanach"
+msgstr "Leathanach _Nua"
 
 #: src/dialogs/analysis-tools.glade.h:122
-#, fuzzy
 msgid "New _workbook"
-msgstr "_Obairleabhar"
+msgstr "_Obairleabhar Nua"
 
 #: src/dialogs/analysis-tools.glade.h:123
 msgid "_Output range:"
-msgstr ""
+msgstr "Raon _Aschur:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1767,7 +1730,7 @@ msgstr ""
 
 #: src/dialogs/autosave.glade.h:10
 msgid "_minutes"
-msgstr ""
+msgstr "_noimeáid"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1901,9 +1864,8 @@ msgid "Left _Indent"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:41
-#, fuzzy
 msgid "Vertical Alignment"
-msgstr "Ailíniú"
+msgstr ""
 
 #: src/dialogs/cell-format.glade.h:42
 msgid "_Top"
@@ -2062,24 +2024,23 @@ msgstr ""
 
 #: src/dialogs/cell-format.glade.h:86
 msgid "Background Color"
-msgstr ""
+msgstr "Dath Dúlra"
 
 #: src/dialogs/cell-format.glade.h:87
 msgid "_No Color"
 msgstr "_Gan Dath"
 
 #: src/dialogs/cell-format.glade.h:88
-#, fuzzy
 msgid "C_olor"
 msgstr "_Dath"
 
 #: src/dialogs/cell-format.glade.h:89
 msgid "Pick a Background color"
-msgstr ""
+msgstr "Tóg dath dúlra"
 
 #: src/dialogs/cell-format.glade.h:90
 msgid "Pattern"
-msgstr ""
+msgstr "Patrún"
 
 #: src/dialogs/cell-format.glade.h:93
 msgid "Pick a Pattern color"
@@ -2231,9 +2192,8 @@ msgid "Remove"
 msgstr "Scríos"
 
 #: src/dialogs/cell-sort.glade.h:10
-#, fuzzy
 msgid "Selection has"
-msgstr "Centre"
+msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:11
 msgid "A header"
@@ -2241,17 +2201,15 @@ msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:12
 msgid "Sort"
-msgstr ""
+msgstr "Sortáil"
 
 #: src/dialogs/cell-sort.glade.h:13
-#, fuzzy
 msgid "Right-Left"
-msgstr "Deis"
+msgstr "Deis-Clé"
 
 #: src/dialogs/cell-sort.glade.h:14
-#, fuzzy
 msgid "Top-Bottom"
-msgstr "Bun"
+msgstr "Barr-Bun"
 
 #: src/dialogs/cell-sort.glade.h:15
 msgid "Advanced Sort Options"
@@ -2259,10 +2217,9 @@ msgstr ""
 
 #: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:600
 msgid "Sort by"
-msgstr ""
+msgstr "Sortáil mar"
 
 #: src/dialogs/cell-sort.glade.h:17 src/solver-lp.c:1059 src/solver-lp.c:1111
-#, fuzzy
 msgid "Value"
 msgstr "Luachaí"
 
@@ -2377,45 +2334,41 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:114
 #: src/widgets/widget-font-selector.c:129
 msgid "Normal"
-msgstr ""
+msgstr "Gnáth"
 
 #: src/dialogs/dialog-analysis-tools.c:114
-#, fuzzy
 msgid "_Mean:"
-msgstr "_Uasta"
+msgstr "_Meán:"
 
 #: src/dialogs/dialog-analysis-tools.c:114
-#, fuzzy
 msgid "_Standard deviation:"
-msgstr "_Gnáth Airde"
+msgstr "Diallas _Caighdeánach:"
 
 #: src/dialogs/dialog-analysis-tools.c:116
 msgid "Poisson"
-msgstr ""
+msgstr "Poisson"
 
 #: src/dialogs/dialog-analysis-tools.c:116
 msgid "_Lambda:"
-msgstr ""
+msgstr "_Lambda:"
 
 #: src/dialogs/dialog-analysis-tools.c:118
 msgid "Exponential"
-msgstr ""
+msgstr "Exponential"
 
 #: src/dialogs/dialog-analysis-tools.c:118
-#, fuzzy
 msgid "_b value:"
 msgstr "Luach b"
 
 #: src/dialogs/dialog-analysis-tools.c:120
 msgid "Binomial"
-msgstr ""
+msgstr "Binomial"
 
 #: src/dialogs/dialog-analysis-tools.c:120
 #: src/dialogs/dialog-analysis-tools.c:122
 #: src/dialogs/dialog-analysis-tools.c:125
-#, fuzzy
 msgid "_p value:"
-msgstr "Luach p"
+msgstr "Luach _p:"
 
 #: src/dialogs/dialog-analysis-tools.c:120
 msgid "N_umber of trials"
@@ -2484,22 +2437,21 @@ msgid "You should introduce a valid cell range in 'Input Range:'"
 msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:516
-#, fuzzy
 msgid "Output options:"
-msgstr "_Roghnachais"
+msgstr "_Roghanna aschur:"
 
 #: src/dialogs/dialog-analysis-tools.c:518
 msgid "New Sheet"
-msgstr ""
+msgstr "Leathanach Nua"
 
 #. hbox = gtk_hbox_new (FALSE, 0);
 #: src/dialogs/dialog-analysis-tools.c:522
 msgid "New Workbook"
-msgstr ""
+msgstr "Obairleabhar Nua"
 
 #: src/dialogs/dialog-analysis-tools.c:527
 msgid "Output Range:"
-msgstr ""
+msgstr "Raon aschur:"
 
 #: src/dialogs/dialog-analysis-tools.c:551
 msgid "Grouped By:"
@@ -2539,7 +2491,7 @@ msgstr "Inchur:"
 #: src/dialogs/dialog-analysis-tools.c:800
 #: src/dialogs/dialog-analysis-tools.c:914
 msgid "Input Range:"
-msgstr ""
+msgstr "Raon Inchur:"
 
 #: src/dialogs/dialog-analysis-tools.c:802
 msgid "Sampling Method:"
@@ -2575,7 +2527,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1028
 msgid "Alpha:"
-msgstr ""
+msgstr "Alpha:"
 
 #: src/dialogs/dialog-analysis-tools.c:1060
 #: src/dialogs/dialog-analysis-tools.c:1184
@@ -2603,11 +2555,11 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1987
 msgid "Input Y Range:"
-msgstr ""
+msgstr "Raon Inchur Y:"
 
 #: src/dialogs/dialog-analysis-tools.c:1990
 msgid "Input X Range:"
-msgstr ""
+msgstr "Raon Inchur X:"
 
 #: src/dialogs/dialog-analysis-tools.c:1993
 msgid "Confidence Level:"
@@ -2641,11 +2593,11 @@ msgstr ""
 
 #: src/dialogs/dialog-cell-format.c:401
 msgid ";[Red]"
-msgstr ""
+msgstr ";[Red]"
 
 #: src/dialogs/dialog-cell-format.c:403
 msgid "_);("
-msgstr ""
+msgstr "_);("
 
 #: src/dialogs/dialog-cell-format.c:405
 msgid "_);[Red]("
@@ -2653,14 +2605,12 @@ msgstr "_);[Red]("
 
 #. There must be a better way than this
 #: src/dialogs/dialog-cell-format.c:1195 src/dialogs/dialog-cell-format.c:1262
-#, fuzzy
 msgid "Single"
-msgstr "Líne"
+msgstr ""
 
 #: src/dialogs/dialog-cell-format.c:1197 src/dialogs/dialog-cell-format.c:1263
-#, fuzzy
 msgid "Double"
-msgstr "gorm"
+msgstr ""
 
 #: src/dialogs/dialog-cell-format.c:2066
 msgid "Format Cells"
@@ -2719,9 +2669,8 @@ msgid "delete cells"
 msgstr ""
 
 #: src/dialogs/dialog-function-wizard.c:394
-#, fuzzy, c-format
 msgid "Value%d"
-msgstr "Luachaí"
+msgstr "Luach%d"
 
 #: src/dialogs/dialog-function-wizard.c:401 src/functions/fn-string.c:1337
 msgid "String"
@@ -2989,24 +2938,20 @@ msgid "Sheets to export"
 msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:12
-#, fuzzy
 msgid "Add ->"
-msgstr "Suim"
+msgstr "Suim ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:13
-#, fuzzy
 msgid "<- Remove"
-msgstr "Scríos"
+msgstr "<- Scríos"
 
 #: src/dialogs/dialog-stf-export.glade.h:14
-#, fuzzy
 msgid "Add all ->"
-msgstr "Suimigh "
+msgstr "Suimigh gach rud -> "
 
 #: src/dialogs/dialog-stf-export.glade.h:15
-#, fuzzy
 msgid "<- Remove all"
-msgstr "Scríos"
+msgstr "<- Scríos gach rud"
 
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid "Choose export formatting"
@@ -3076,7 +3021,6 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-format-page.c:169
 #: src/dialogs/dialog-stf-format-page.c:359
-#, fuzzy
 msgid "Custom"
 msgstr "_Féindheanamh"
 
@@ -3115,9 +3059,8 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:10
-#, fuzzy
 msgid "Formatting options"
-msgstr "_Roghnachais"
+msgstr "_Roghanna formóidáil"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "Trim :"
@@ -3161,7 +3104,6 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:24 src/dialogs/dialog-stf.glade.h:47
 #: src/dialogs/dialog-stf.glade.h:56 src/dialogs/dialog-stf.glade.h:63
-#, fuzzy
 msgid "Example"
 msgstr "Sampla"
 
@@ -3182,7 +3124,6 @@ msgid "Separators"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:28
-#, fuzzy
 msgid "C_ustom"
 msgstr "_Féindheanamh"
 
@@ -3191,9 +3132,8 @@ msgid "H_yphen (-)"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:30
-#, fuzzy
 msgid "S_pace"
-msgstr "leathanach"
+msgstr "_Spás"
 
 #: src/dialogs/dialog-stf.glade.h:31
 msgid "Ta_b"
@@ -3213,7 +3153,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:35
 msgid "P_ipe (|)"
-msgstr ""
+msgstr "_Píopa (|)"
 
 #: src/dialogs/dialog-stf.glade.h:36
 msgid "Semicolo_n (;)"
@@ -3225,7 +3165,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:38
 msgid "Misc"
-msgstr ""
+msgstr "Teibi."
 
 #: src/dialogs/dialog-stf.glade.h:39
 msgid "S_ee two separators as one"
@@ -3253,18 +3193,16 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:51 src/dialogs/dialog-stf.glade.h:60
 #: wizards/graphics/graphic-type.c:289
-#, fuzzy
 msgid "Column"
-msgstr "Áirigh"
+msgstr "Colúin"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "End"
-msgstr ""
+msgstr "Deireadh"
 
 #: src/dialogs/dialog-stf.glade.h:53
-#, fuzzy
 msgid "Co_lumn end : "
-msgstr "Áirigh"
+msgstr "Colúin deireanach : "
 
 #: src/dialogs/dialog-stf.glade.h:57
 msgid "Column formatting"
@@ -3282,14 +3220,12 @@ msgid "Per column formatting"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:61
-#, fuzzy
 msgid "Format"
-msgstr "Formóidí"
+msgstr "Formóid"
 
 #: src/dialogs/dialog-stf.glade.h:62
-#, fuzzy
 msgid "_Format :"
-msgstr "_Formóidí"
+msgstr "_Formóid : "
 
 #: src/dialogs/dialog-workbook-attr.c:165
 msgid "Workbook Attributes"
@@ -3329,7 +3265,6 @@ msgid "_50 %"
 msgstr "_50 %"
 
 #: src/dialogs/dialog-zoom.glade.h:18
-#, fuzzy, no-c-format
 msgid "_25 %"
 msgstr "_25 %"
 
@@ -3345,7 +3280,7 @@ msgstr "%"
 
 #: src/dialogs/dialog-zoom.glade.h:24
 msgid "Sheets"
-msgstr ""
+msgstr "Leathanaigh"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3378,9 +3313,8 @@ msgstr "AÁaáBbCcDdEÉeé12345"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/formula-guru.glade.h:7
-#, fuzzy
 msgid "Formula Guru"
-msgstr "Foirmlaí"
+msgstr "Guru Foirmlaí"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3498,14 +3432,12 @@ msgid "Installed Plugins"
 msgstr ""
 
 #: src/dialogs/plugin-manager.glade.h:11
-#, fuzzy
 msgid "_Description"
-msgstr "_Roghnachais"
+msgstr ""
 
 #: src/dialogs/plugin-manager.glade.h:12
-#, fuzzy
 msgid "Path:"
-msgstr "Greamhaigh"
+msgstr "Slí:"
 
 #: src/dialogs/plugin-manager.glade.h:15
 msgid "_File Details"
@@ -3578,9 +3510,8 @@ msgid "_Left:"
 msgstr "_Clé"
 
 #: src/dialogs/print.glade.h:24
-#, fuzzy
 msgid "_Right:"
-msgstr "_Deis"
+msgstr "_Deis:"
 
 #: src/dialogs/print.glade.h:25
 msgid "_Units:"
@@ -3603,9 +3534,8 @@ msgid "He_ader:"
 msgstr ""
 
 #: src/dialogs/print.glade.h:33
-#, fuzzy
 msgid "_Footer:"
-msgstr "Clófhoireann:"
+msgstr ""
 
 #: src/dialogs/print.glade.h:34
 msgid "_Bottom:"
@@ -3703,9 +3633,8 @@ msgid "Print preview"
 msgstr ""
 
 #: src/dialogs/print.glade.h:59
-#, fuzzy
 msgid "Options"
-msgstr "_Roghnachais"
+msgstr "Roghanna"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3713,9 +3642,8 @@ msgstr "_Roghnachais"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/row-height.glade.h:7
-#, fuzzy
 msgid "Row height"
-msgstr "Deis"
+msgstr ""
 
 #: src/dialogs/row-height.glade.h:8
 msgid "_Row height:"
@@ -3727,14 +3655,12 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/sheet-order.glade.h:7
-#, fuzzy
 msgid "Order Sheets"
-msgstr "_Leathanach"
+msgstr ""
 
 #: src/dialogs/sheet-order.glade.h:8
-#, fuzzy
 msgid "Sheet Name"
-msgstr "_Leathanach"
+msgstr "Ainm Leathanach"
 
 #: src/dialogs/sheet-order.glade.h:9
 msgid "Move the currently selected sheet up one position"
@@ -3889,9 +3815,8 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/summary.glade.h:7
-#, fuzzy
 msgid "Summary"
-msgstr "Domhnaigh"
+msgstr ""
 
 #: src/dialogs/summary.glade.h:8
 msgid "Title"
@@ -3935,14 +3860,12 @@ msgid "Scrollbars"
 msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:8
-#, fuzzy
 msgid "_Horizontal Scrollbar"
-msgstr "Cot_hrománach"
+msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:9
-#, fuzzy
 msgid "_Vertical Scrollbar"
-msgstr "_Ingearach"
+msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:10
 msgid "Notebook"
@@ -3953,9 +3876,8 @@ msgid "_Tabs"
 msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:12
-#, fuzzy
 msgid "View"
-msgstr "_Radharc"
+msgstr "Radharc"
 
 #: src/expr-name.c:180
 msgid "already defined"
@@ -3975,7 +3897,7 @@ msgstr ""
 
 #: src/expr-name.c:380 src/expr-name.c:391
 msgid "Error: no sheet"
-msgstr ""
+msgstr "Earráidh: gan leathanach"
 
 #: src/expr.c:198
 msgid "Syntax error"
@@ -4149,7 +4071,6 @@ msgid "#,##0_);(#,##0)"
 msgstr "#,##0_);(#,##0)"
 
 #: src/formats.c:29
-#, fuzzy
 msgid "#,##0_);[Red](#,##0)"
 msgstr "#,##0_);[Red](#,##0)"
 
@@ -4270,14 +4191,12 @@ msgid "mmm-yyyy"
 msgstr "mmm-bbbb"
 
 #: src/formats.c:75
-#, fuzzy
 msgid "mmmm-yy"
-msgstr "mmm-bb"
+msgstr "mmmm-bb"
 
 #: src/formats.c:76
-#, fuzzy
 msgid "mmmm-yyyy"
-msgstr "mmm-bbbb"
+msgstr "mmmm-bbbb"
 
 #: src/formats.c:77 src/formats.c:98
 msgid "m/d/yy h:mm"
@@ -4324,9 +4243,8 @@ msgid "yy"
 msgstr ""
 
 #: src/formats.c:88
-#, fuzzy
 msgid "yyyy"
-msgstr "m/l/bbbb"
+msgstr "bbbb"
 
 #: src/formats.c:94
 msgid "h:mm AM/PM"
@@ -10956,9 +10874,8 @@ msgid "File/Print preview"
 msgstr ""
 
 #: src/history.c:223
-#, fuzzy
 msgid "File/"
-msgstr "Tideál"
+msgstr "Comhad/"
 
 #: src/item-bar.c:482
 #, c-format
@@ -11293,7 +11210,7 @@ msgstr "am"
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:366
 msgid "&[PAGE]"
-msgstr ""
+msgstr "&[PAGE]"
 
 #: src/print.c:793 src/workbook.c:1922
 msgid "Selection must be a single range"
@@ -11308,9 +11225,8 @@ msgid "Act_ive sheet"
 msgstr ""
 
 #: src/print.c:909
-#, fuzzy
 msgid "S_heets"
-msgstr "_Leathanach"
+msgstr "_Leathanaigh"
 
 #: src/print.c:998
 msgid "Printing failed"
@@ -11362,29 +11278,24 @@ msgid "Internal ERROR"
 msgstr ""
 
 #: src/sheet.c:2845 src/sheet.c:2854
-#, fuzzy
 msgid "Insert Columns"
-msgstr "Insert cells"
+msgstr ""
 
 #: src/sheet.c:2924
-#, fuzzy
 msgid "Delete Columns"
-msgstr "Dealaigh cillí"
+msgstr "Scríos cillí"
 
 #: src/sheet.c:2993 src/sheet.c:3002
-#, fuzzy
 msgid "Insert Rows"
-msgstr "_"
+msgstr ""
 
 #: src/sheet.c:3072
-#, fuzzy
 msgid "Delete Rows"
-msgstr "Dealaigh _row(s)"
+msgstr ""
 
 #: src/solver-lp.c:889
-#, fuzzy
 msgid "Answer Report"
-msgstr "_Freagrar"
+msgstr ""
 
 #: src/solver-lp.c:890
 msgid "Gnumeric Solver Answer Report"
@@ -11400,47 +11311,40 @@ msgstr ""
 
 #: src/solver-lp.c:898 src/solver-lp.c:925 src/solver-lp.c:960
 #: src/solver-lp.c:1058 src/solver-lp.c:1110
-#, fuzzy
 msgid "Name"
-msgstr "GanAinm"
+msgstr "Ainm"
 
 #: src/solver-lp.c:899 src/solver-lp.c:926
 msgid "Original Value"
 msgstr ""
 
 #: src/solver-lp.c:900 src/solver-lp.c:927
-#, fuzzy
 msgid "Final Value"
-msgstr "Luach b"
+msgstr "Luach Deireanach"
 
 #: src/solver-lp.c:923 src/solver-lp.c:1051
 msgid "Adjustable Cells"
 msgstr ""
 
 #: src/solver-lp.c:958 src/solver-lp.c:1101
-#, fuzzy
 msgid "Constraints"
-msgstr "_Lucht"
+msgstr ""
 
 #: src/solver-lp.c:961
-#, fuzzy
 msgid "Cell Value"
-msgstr "Luach b"
+msgstr "Luach Cill"
 
 #: src/solver-lp.c:962
-#, fuzzy
 msgid "Formula"
-msgstr "Foirmlaí"
+msgstr "Foirmle"
 
 #: src/solver-lp.c:963
-#, fuzzy
 msgid "Status"
-msgstr "*Sat"
+msgstr ""
 
 #: src/solver-lp.c:964
-#, fuzzy
 msgid "Slack"
-msgstr "dubh"
+msgstr ""
 
 #: src/solver-lp.c:1012
 msgid "Binding"
@@ -11476,36 +11380,32 @@ msgid "Allowable"
 msgstr ""
 
 #: src/solver-lp.c:1060
-#, fuzzy
 msgid "Cost"
-msgstr "Áirigh"
+msgstr ""
 
 #: src/solver-lp.c:1061
 msgid "Coefficient"
-msgstr ""
+msgstr "Comhéifeacht"
 
 #: src/solver-lp.c:1062 src/solver-lp.c:1114
 msgid "Increase"
 msgstr ""
 
 #: src/solver-lp.c:1063 src/solver-lp.c:1115
-#, fuzzy
 msgid "Decrease"
-msgstr "Nollag"
+msgstr ""
 
 #: src/solver-lp.c:1104
 msgid "Shadow"
 msgstr ""
 
 #: src/solver-lp.c:1105
-#, fuzzy
 msgid "Constraint"
-msgstr "_Lucht"
+msgstr ""
 
 #: src/solver-lp.c:1112
-#, fuzzy
 msgid "Price"
-msgstr "Réamhthaispeántas"
+msgstr ""
 
 #: src/solver-lp.c:1113
 msgid "R.H. Side"
@@ -11757,9 +11657,8 @@ msgstr ""
 #. * that is handled automaticly.
 #.
 #: src/workbook-format-toolbar.c:51
-#, fuzzy
 msgid "_($ #,##0.00_);($ #,##0.00)"
-msgstr "$#,##0.00_);($#,##0.00)"
+msgstr "_($ #,##0.00_);($ #,##0.00)"
 
 #: src/workbook-format-toolbar.c:343
 msgid "Sets the bold font"
@@ -11882,9 +11781,8 @@ msgid "Size"
 msgstr "Méid"
 
 #: src/workbook-format-toolbar.c:663
-#, fuzzy
 msgid "Font Size"
-msgstr "Clófhoireann"
+msgstr "Meid Clófhoireann"
 
 #: src/workbook-format-toolbar.c:679 src/workbook-format-toolbar.c:682
 msgid "Borders"
@@ -11913,14 +11811,12 @@ msgstr ""
 
 #: src/workbook-view.c:81 src/workbook-view.c:85 src/workbook.c:1544
 #: src/workbook.c:2569 src/workbook.c:2580
-#, fuzzy
 msgid "Redo"
-msgstr "Scríos"
+msgstr "Athdheánamh"
 
 #: src/workbook-view.c:157
-#, fuzzy
 msgid " : Gnumeric"
-msgstr "Gnumeric"
+msgstr ": Gnumeric"
 
 #: src/workbook.c:529
 msgid "Warning"
@@ -12004,7 +11900,6 @@ msgid "Clear the selected cells' contents"
 msgstr ""
 
 #: src/workbook.c:1210
-#, fuzzy
 msgid "Select _All"
 msgstr "_Tóg Gach rud"
 
@@ -12013,28 +11908,24 @@ msgid "Select all cells in the spreadsheet"
 msgstr ""
 
 #: src/workbook.c:1215
-#, fuzzy
 msgid "Select _Row"
-msgstr "Dealaigh _row(s)"
+msgstr ""
 
 #: src/workbook.c:1216
-#, fuzzy
 msgid "Select an entire row"
-msgstr "Tóg Printéir"
+msgstr ""
 
 #: src/workbook.c:1220
-#, fuzzy
 msgid "Select _Column"
-msgstr "_Tóg Gach rud"
+msgstr ""
 
 #: src/workbook.c:1221 src/workbook.c:1226
 msgid "Select an entire column"
 msgstr ""
 
 #: src/workbook.c:1225
-#, fuzzy
 msgid "Select Arra_y"
-msgstr "_Tóg Gach rud"
+msgstr ""
 
 #: src/workbook.c:1230
 msgid "Select _Depends"
@@ -12045,9 +11936,8 @@ msgid "Select all the cells that depend on the current edit cell."
 msgstr ""
 
 #: src/workbook.c:1249
-#, fuzzy
 msgid "P_aste special..."
-msgstr "Greamaigh _Speisialta"
+msgstr "Greamaigh speisialta..."
 
 #: src/workbook.c:1250
 msgid "Paste with optional filters and transformations"
@@ -12063,16 +11953,15 @@ msgstr ""
 
 #: src/workbook.c:1258
 msgid "De_lete Sheet"
-msgstr ""
+msgstr "_Scríos Leathanach"
 
 #: src/workbook.c:1259
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
 #: src/workbook.c:1264
-#, fuzzy
 msgid "_Select..."
-msgstr "_Scríos"
+msgstr "_Tóg..."
 
 #. Default <Ctrl-I> to be goto
 #: src/workbook.c:1267
@@ -12232,9 +12121,8 @@ msgid "_Row"
 msgstr ""
 
 #: src/workbook.c:1430
-#, fuzzy
 msgid "_Workbook..."
-msgstr "_Obairleabhar"
+msgstr "_Obairleabhar..."
 
 #: src/workbook.c:1431
 msgid "Modify the workbook attributes"
@@ -12481,14 +12369,12 @@ msgid "Max"
 msgstr "Uasta"
 
 #: src/workbook.c:2650
-#, fuzzy, c-format
 msgid "Book%d.gnumeric"
-msgstr "Leabhar%d..gnumeric"
+msgstr "Leabhar%d.gnumeric"
 
 #: src/workbook.c:2847
-#, fuzzy
 msgid "Sheet name"
-msgstr "_Leathanach"
+msgstr "Leathanach"
 
 #: src/workbook.c:2848
 msgid "must have at least 1 letter"
@@ -12500,11 +12386,11 @@ msgstr ""
 
 #: src/workbook.c:3006
 msgid "Add another sheet"
-msgstr ""
+msgstr "Suim leathanach eile"
 
 #: src/workbook.c:3007
 msgid "Remove this sheet"
-msgstr ""
+msgstr "Scríos leathanach seo"
 
 #: src/workbook.c:3008
 msgid "Rename this sheet"
@@ -12616,9 +12502,8 @@ msgid "Bar"
 msgstr ""
 
 #: wizards/graphics/graphic-type.c:291
-#, fuzzy
 msgid "Lines"
-msgstr "Líne"
+msgstr "Línaí"
 
 #: wizards/graphics/graphic-type.c:292
 msgid "Scatter"
@@ -12638,9 +12523,8 @@ msgid "dialog3"
 msgstr ""
 
 #: wizards/graphics/graphics.glade.h:8
-#, fuzzy
 msgid "Cancel"
-msgstr "Cill"
+msgstr "Cealaigh"
 
 #: wizards/graphics/graphics.glade.h:9
 msgid "<< _Previous"
@@ -12660,7 +12544,7 @@ msgstr ""
 
 #: wizards/graphics/graphics.glade.h:13
 msgid "Graphic subtype:"
-msgstr ""
+msgstr "fósaghas Graphaice:"
 
 #: wizards/graphics/graphics.glade.h:14
 msgid "label15"
@@ -12675,29 +12559,24 @@ msgid "Plot description"
 msgstr ""
 
 #: wizards/graphics/graphics.glade.h:17
-#, fuzzy
 msgid "_Show sample"
-msgstr "Sampla"
+msgstr ""
 
 #: wizards/graphics/graphics.glade.h:18
-#, fuzzy
 msgid "Standard Types"
-msgstr "_Gnáth ietheid"
+msgstr "Saghasanna Caighdeánach"
 
 #: wizards/graphics/graphics.glade.h:19
-#, fuzzy
 msgid "Custom types"
-msgstr "_Féindheanamh"
+msgstr "Saghasanna_Féindheanamh"
 
 #: wizards/graphics/graphics.glade.h:20
-#, fuzzy
 msgid "Step1"
-msgstr "*MFó"
+msgstr ""
 
 #: wizards/graphics/graphics.glade.h:21
-#, fuzzy
 msgid "_Data Range:"
-msgstr "Inchur:"
+msgstr ""
 
 #: wizards/graphics/graphics.glade.h:24
 msgid "Series in:"
@@ -12708,42 +12587,36 @@ msgid "Data ranges"
 msgstr ""
 
 #: wizards/graphics/graphics.glade.h:26
-#, fuzzy
 msgid "Serie:"
-msgstr "Méid:"
+msgstr ""
 
 #: wizards/graphics/graphics.glade.h:27
 msgid "label27"
 msgstr ""
 
 #: wizards/graphics/graphics.glade.h:30
-#, fuzzy
 msgid "_Name:"
-msgstr "GanAinm"
+msgstr "Ainm:"
 
 #: wizards/graphics/graphics.glade.h:31
-#, fuzzy
 msgid "_Value:"
-msgstr "Luachaí"
+msgstr "_Luach:"
 
 #: wizards/graphics/graphics.glade.h:32
 msgid "Labels for the _X axis:"
 msgstr ""
 
 #: wizards/graphics/graphics.glade.h:33
-#, fuzzy
 msgid "Series"
-msgstr "_Leathanach"
+msgstr ""
 
 #: wizards/graphics/graphics.glade.h:34
-#, fuzzy
 msgid "Step2"
-msgstr "*MFó"
+msgstr ""
 
 #: wizards/graphics/graphics.glade.h:35
-#, fuzzy
 msgid "_Plot title:"
-msgstr "Stíl Clófhoireann:"
+msgstr ""
 
 #: wizards/graphics/graphics.glade.h:36
 msgid "_X axis label:"
@@ -12762,7 +12635,6 @@ msgid "S_econd Y axis values:"
 msgstr ""
 
 #: wizards/graphics/graphics.glade.h:40
-#, fuzzy
 msgid "Titles"
 msgstr "Tideál"
 
@@ -12775,12 +12647,10 @@ msgid "_X axis"
 msgstr ""
 
 #: wizards/graphics/graphics.glade.h:44
-#, fuzzy
 msgid "_Category"
-msgstr "_Sa Lar"
+msgstr ""
 
 #: wizards/graphics/graphics.glade.h:45
-#, fuzzy
 msgid "_Scale"
 msgstr "Sampla"
 
@@ -12830,29 +12700,27 @@ msgstr ""
 
 #: wizards/graphics/graphics.glade.h:57
 msgid " Location "
-msgstr ""
+msgstr " Áit "
 
 #: wizards/graphics/graphics.glade.h:58
 msgid "_Down"
-msgstr ""
+msgstr "S_íos"
 
 #: wizards/graphics/graphics.glade.h:59
-#, fuzzy
-msgid "_Corner"
-msgstr "_Sa Lar"
+msgid ""
+msgstr ""
 
 #: wizards/graphics/graphics.glade.h:60
 msgid "_Up"
-msgstr ""
+msgstr "_Suas"
 
 #: wizards/graphics/graphics.glade.h:63
 msgid "Legends"
 msgstr ""
 
 #: wizards/graphics/graphics.glade.h:64
-#, fuzzy
 msgid "Step3"
-msgstr "*MFó"
+msgstr ""
 
 #: wizards/graphics/main.c:86
 msgid "Step 1 of 3: Select graphic type"
@@ -12869,27 +12737,3 @@ msgstr ""
 #: wizards/graphics/main.c:175
 msgid "Unable to launch the graphics service"
 msgstr ""
-
-#~ msgid "window2"
-#~ msgstr "fuinneog2"
-
-#~ msgid "_Print"
-#~ msgstr "_Priontáil"
-
-#~ msgid "Special..."
-#~ msgstr "Spesialta..."
-
-#~ msgid "File size:"
-#~ msgstr "Méid chomad:"
-
-#~ msgid "Page: "
-#~ msgstr "Leathanach:"
-
-#~ msgid "_First page"
-#~ msgstr "_Cead l;eathanach"
-
-#~ msgid "Zoom in"
-#~ msgstr "Géarardú as"
-
-#~ msgid "Zoom out"
-#~ msgstr "Géarardú sna"
