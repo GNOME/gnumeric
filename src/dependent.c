@@ -671,8 +671,8 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
  *
  * An internal routine to remove all expressions associated with a given sheet
  * from the workbook wide expression list.  WARNING : This is a dangerous
- * internal function.  it leaves the cells in an invalid state.  It is intended
- * for use by sheet_destroy_contents.
+ * internal function.  it leaves the dependents in an invalid state.  It is
+ * intended for use by sheet_destroy_contents.
  */
 void
 dependent_unlink_sheet (Sheet *sheet)
@@ -687,6 +687,7 @@ dependent_unlink_sheet (Sheet *sheet)
 		 if (dep->sheet == sheet) {
 			 dep->flags &= ~DEPENDENT_IN_EXPR_LIST;
 			 UNLINK_DEP (wb, dep);
+			 dep->sheet = NULL;
 		 });
 }
 

@@ -1,5 +1,8 @@
 2001-08-28  Jody Goldberg <jgoldberg@home.com>
 
+	* src/eval.c (dependent_unlink_sheet) : Clear the sheet in case the
+	  dependent tries to clear itself later.
+
 	* src/xml-io.c (xml_write_attributes) : fix.
 
 2001-08-28  Jody Goldberg <jgoldberg@home.com>
