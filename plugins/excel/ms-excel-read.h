@@ -80,27 +80,27 @@ typedef struct _BiffFormatData {
 
 typedef struct _ExcelWorkbook
 {
-	GHashTable *boundsheet_data_by_stream;
-	GHashTable *boundsheet_data_by_index;
-	GPtrArray  *XF_cell_records;
-	GHashTable *font_data;
-	GHashTable *format_data; /* leave as a hash */
-	GPtrArray  *name_data;
-	int read_drawing_group;
-	GPtrArray *excel_sheets;
+	GPtrArray           *excel_sheets;
+	GHashTable          *boundsheet_data_by_stream;
+	GHashTable          *boundsheet_data_by_index;
+	GPtrArray           *XF_cell_records;
+	GHashTable          *font_data;
+	GHashTable          *format_data; /* leave as a hash */
+	GPtrArray           *name_data;
+	int                  read_drawing_group;
 	BiffExternSheetData *extern_sheets;
-	guint16 num_extern_sheets;
-	ExcelPalette *palette;
-	char **global_strings;
-	int global_string_max;
-	eBiff_version ver;
-
-	GPtrArray  *charts;
+	guint16              num_extern_sheets;
+	ExcelPalette        *palette;
+	char               **global_strings;
+	int                  global_string_max;
+	eBiff_version        ver;
+	GList               *eschers;
+	GPtrArray           *charts;
 
 	/**
 	 * Gnumeric parallel workbook
    	 **/
-	Workbook *gnum_wb;
+	Workbook            *gnum_wb;
 } ExcelWorkbook;
 
 extern Sheet* biff_get_externsheet_name (ExcelWorkbook *wb, guint16 idx, gboolean get_first);

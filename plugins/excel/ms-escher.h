@@ -9,6 +9,8 @@
  **/
 #include "ms-excel-read.h"
 
-extern void ms_escher_hack_get_drawing (BiffQuery *q, ExcelWorkbook *wb);
+extern void ms_escher_hack_get_drawing (BiffQuery     *q,
+					ExcelWorkbook *wb,
+					ExcelSheet    *sheet);
 
 #endif /* GNUMERIC_MS_OFFICE_ESCHER_H */

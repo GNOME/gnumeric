@@ -7,15 +7,6 @@ Jukka:
 	* Major clean up to the documentation of functions.
 	* Added tons of examples to functions.
 
---------------------------------------------------------------------------
-
-Gnumeric 0.33, 0.34, 0.35
-
-Jukka:
-	* Implemented ACCRINT, ACCRINTM, DISC, FVSCHEDULE, INTRATE,
-	  ISPMT, RECEIVED, PRICEDISC, PRICEMAT, TBILLEQ, TBILLPRICE,
-	  and TBILLYIELD functions
-
 Michael:
 	* Re-implemented sheet objects,
 	* Implemented drop filename -> Bonobo component conversion,
@@ -25,6 +16,15 @@ Michael:
 	* Print setups XML I/O & Excel importing
 	* Functions MATCH & INDEX started.
 	* Array input parser.
+
+--------------------------------------------------------------------------
+
+Gnumeric 0.33, 0.34, 0.35
+
+Jukka:
+	* Implemented ACCRINT, ACCRINTM, DISC, FVSCHEDULE, INTRATE,
+	  ISPMT, RECEIVED, PRICEDISC, PRICEMAT, TBILLEQ, TBILLPRICE,
+	  and TBILLYIELD functions
 
 Miguel:
 	* Implemented Print Preview

@@ -8,21 +8,32 @@
  * See S59FD6.HTM for an overview...
  **/
 
+#include <stdio.h>
+
+#include "config.h"
 #include "ms-escher.h"
 #include "escher-types.h"
 #include "biff-types.h"
 #include "ms-excel-read.h"
 #include "ms-obj.h"
 
-#include <stdio.h>
+#include "sheet-object.h"
+
+#ifdef ENABLE_BONOBO
+#	include <bonobo/gnome-stream.h>
+#	include <bonobo/gnome-stream-memory.h>
+
+#	include "sheet-object-container.h"
+#endif
 
 /* A storage accumulator for common state information */
 typedef struct
 {
-	ExcelWorkbook	*wb;
-	BiffQuery	*q;
+	ExcelWorkbook  *wb;
+	ExcelSheet     *sheet;
+	BiffQuery      *q;
 
-	int	depth;
+	int	        depth;
 } MSEscherState;
 
 typedef struct
@@ -40,6 +51,59 @@ typedef struct
 	int		SpContainer_count;
 } MSEscherCommonHeader;
 #define common_header_len 8
+
+#ifdef ENABLE_BONOBO
+
+typedef enum { ESCHER_BLIP } EscherType;
+typedef struct {
+	EscherType type;
+	union {
+		struct {
+			GnomeStream *stream;
+			const char  *reproid;
+		} blip;
+	} v;
+} EscherRecord;
+
+static EscherRecord *
+escher_record_new_blip (guint8 *data, guint32 len, const char *reproid)
+{
+	EscherRecord *er = g_new (EscherRecord, 1);
+	guint8       *mem;
+
+	g_return_val_if_fail (len > 0, NULL);
+	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (reproid != NULL, NULL);
+
+	mem                = g_malloc (len);
+	memcpy (mem, data, len);
+	er->type           = ESCHER_BLIP;
+	er->v.blip.stream  = gnome_stream_mem_create (mem, len, TRUE);
+	er->v.blip.reproid = reproid;
+
+	return er;
+}
+
+/* OK it probably leaks / doesn't get called for now :-) */
+static void
+escher_record_destroy (EscherRecord *er)
+{
+	if (!er)
+		return;
+
+	switch (er->type) {
+	case ESCHER_BLIP:
+		if (er->v.blip.stream)
+			gnome_object_destroy (GNOME_OBJECT (er->v.blip.stream));
+		er->v.blip.stream  = NULL;
+		er->v.blip.reproid = NULL;
+		break;
+	default:
+		g_warning ("Internal escher type error");
+		break;
+	}
+}
+#endif
 
 static gboolean
 ms_escher_next_record (MSEscherState * state,
@@ -238,6 +302,16 @@ ms_escher_read_Blip (MSEscherState * state,
 	case 0x542 : /* compressed PICT, with Metafile header */
 		break;
 	case 0x6e0 : /* PNG  data, with 1 byte header */
+#ifdef ENABLE_BONOBO
+	{
+		int const header = 17 + primary_uid_size + common_header_len;
+		EscherRecord *er = escher_record_new_blip (h->data + header,
+							   h->len - header,
+							   "bonobo-object:image-x-png");
+		state->wb->eschers = g_list_append (state->wb->eschers, er);
+		break;
+	}
+#endif
 	case 0x46a : /* JPEG data, with 1 byte header */
 	case 0x7a8 : /* DIB  data, with 1 byte header */
 	{
@@ -531,6 +605,31 @@ ms_escher_read_ClientAnchor (MSEscherState * state,
 #if 0
 	dump (h->data+common_header_len, h->len-common_header_len);
 #endif
+#ifdef ENABLE_BONOBO
+	{ /* In the anals of ugly hacks, this is well up there :-) */
+		GList        *l = state->wb->eschers;
+		EscherRecord *er;
+		SheetObject  *so;
+
+		g_return_if_fail (l != NULL);
+		er = l->data;
+		g_return_if_fail (er != NULL);
+		g_return_if_fail (state->sheet != NULL);
+		g_return_if_fail (er->type == ESCHER_BLIP);
+		g_return_if_fail (er->v.blip.stream != NULL);
+
+		/* And lo, objects appeared always in the TLC */
+		so = sheet_object_container_new (state->sheet->gnum_sheet,
+						 10.0, 10.0, 110.0, 110.0,
+						 er->v.blip.reproid);
+		if (!sheet_object_container_load (so, er->v.blip.stream, TRUE))
+			g_warning ("Failed to load '%s' from stream",
+				   er->v.blip.reproid);
+		
+		escher_record_destroy (er);
+		state->wb->eschers = g_list_remove (state->wb->eschers, l->data);
+	}
+#endif
 }
 static void
 ms_escher_read_ClientData (MSEscherState * state,
@@ -810,7 +909,6 @@ ms_escher_next_record (MSEscherState * state,
 	char const * fbt_name = NULL;
 	void (*handler)(MSEscherState * state,
 			MSEscherCommonHeader * containing_header) = NULL;
-	int required_space = 0;
 
 	/* Lets be really really anal */
 	g_return_val_if_fail (h->data_len >= h->len, FALSE);
@@ -996,8 +1094,19 @@ biff_to_flat_data (BiffQuery *q, guint32 *length, gboolean * needs_to_be_free)
 
 	return data;
 }
+
+/**
+ * ms_escher_hack_get_drawing:
+ * @q:     Biff context.
+ * @wb:    required workbook argument
+ * @sheet: optional sheet argument
+ * 
+ *   This function parses an escher stream, and stores relevant data in the
+ * workbook. 
+ *
+ **/
 void
-ms_escher_hack_get_drawing (BiffQuery *q, ExcelWorkbook *wb)
+ms_escher_hack_get_drawing (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 {
 	MSEscherState state;
 	MSEscherCommonHeader h, fake_container;
@@ -1019,8 +1128,9 @@ ms_escher_hack_get_drawing (BiffQuery *q, ExcelWorkbook *wb)
 	if (ms_excel_read_debug <= 0)
 		return;
 
-	state.wb = wb;
-	state.q = q;
+	state.wb    = wb;
+	state.sheet = sheet;
+	state.q     = q;
 	state.depth = 0;
 
 	fake_container.data = biff_to_flat_data (q, &fake_container.len, &needs_to_be_free);

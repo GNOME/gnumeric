@@ -1,5 +1,20 @@
 1999-09-16  Michael Meeks  <michael@nuclecu.unam.mx>
 
+	* src/func.c (functions_init): Remove misc_init.
+
+	* src/functions/fn-misc.c: Removed, empty & redundant.
+
+	* src/functions/Makefile.am: remove fn-misc.c
+
+	* src/func.h: ditto.
+	
+	* src/sheet-object-container.c (sheet_object_container_load): Implement
+	cleaner & simpler load method
+
+	* NEWS (Michael): doh, move it into the correct version.
+
+1999-09-16  Michael Meeks  <michael@nuclecu.unam.mx>
+
 	* src/print.c (sheet_print): Update to use gnumeric_porinter_dialog_run.
 	(print_job_info_get): Add range parameter.
 

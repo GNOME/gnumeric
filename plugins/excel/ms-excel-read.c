@@ -1744,6 +1744,7 @@ ms_excel_workbook_new (eBiff_version ver)
 						  (GCompareFunc)biff_guint16_equal);
 	ans->palette          = ms_excel_default_palette ();
 	ans->ver              = ver;
+	ans->eschers          = NULL;
 	ans->global_strings   = NULL;
 	ans->global_string_max  = 0;
 	ans->read_drawing_group = 0;
@@ -2433,7 +2434,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_escher_hack_get_drawing (q, wb);
+			ms_escher_hack_get_drawing (q, wb, sheet);
 			break;
 
 		case BIFF_NOTE: /* See: S59DAB.HTM */
@@ -3212,7 +3213,7 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_escher_hack_get_drawing (q, wb);
+			ms_escher_hack_get_drawing (q, wb, NULL);
 			break;
 
 		case BIFF_ADDMENU :

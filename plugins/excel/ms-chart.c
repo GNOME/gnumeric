@@ -858,7 +858,7 @@ static gboolean
 BC_R(gelframe)(ExcelChartHandler const *handle,
 	       ExcelChartState *s, BiffQuery *q)
 {
-	ms_escher_hack_get_drawing (q, s->wb);
+	ms_escher_hack_get_drawing (q, s->wb, NULL);
 	return FALSE;
 }
 static gboolean

@@ -1,3 +1,19 @@
+1999-09-16  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* ms-excel-read.c (ms_excel_read_sheet): add sheet param to _get_drawing
+	(ms_excel_read_workbook): ditto & init 'eschers' to NULL.
+
+	* ms-obj.c (ms_obj_read_text): add sheet param to _get_drawing
+
+	* ms-chart.c (BC_W): ditto.
+
+	* ms-escher.c (ms_escher_hack_get_drawing): Add Sheet param.
+	(escher_record_new_blip, escher_record_destroy, ms_escher_read_Blip),
+	(ms_escher_read_ClientAnchor): Hack up image loading.
+	include config.h
+
+	* ms-excel-read.h (_ExcelWorkbook): Add eschers list.
+
 1999-09-16  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-escher.c (ms_escher_read_CLSID, ms_escher_read_ColorMRU,

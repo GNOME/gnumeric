@@ -1,3 +1,7 @@
+1999-09-17  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* POTFILES.in: remove fn-misc.ccd ..
+
 1999-09-14  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Update.

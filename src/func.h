@@ -6,7 +6,6 @@
 
 extern void math_functions_init        (void);
 extern void sheet_functions_init       (void);
-extern void misc_functions_init        (void);
 extern void date_functions_init        (void);
 extern void string_functions_init      (void);
 extern void stat_functions_init        (void);

@@ -440,7 +440,6 @@ functions_init (void)
 {
 	math_functions_init();
 	sheet_functions_init();
-	misc_functions_init();
 	date_functions_init();
 	string_functions_init();
 	stat_functions_init();

@@ -46,6 +46,9 @@ SheetObject *sheet_object_container_new      (Sheet *sheet,
 gboolean     sheet_object_container_land     (SheetObject *so,
 					      const gchar *fname,
 					      gboolean     own_size);
+gboolean     sheet_object_container_load     (SheetObject *so,
+					      GnomeStream *stream,
+					      gboolean     own_size);
 /*
  * Graphics
  */

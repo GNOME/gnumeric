@@ -19,7 +19,6 @@ libfunctions_a_SOURCES =				\
 	fn-logical.c				\
 	fn-lookup.c				\
 	fn-math.c				\
-	fn-misc.c				\
 	fn-sheet.c				\
 	fn-stat.c				\
 	fn-string.c

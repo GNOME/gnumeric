@@ -148,7 +148,7 @@ ms_obj_read_text (BiffQuery *q, ExcelWorkbook * wb, int const id)
 {
 	/* next record must be a DRAWING, it will load the TXO records */
 	g_return_if_fail (ms_biff_query_next (q));
-	ms_escher_hack_get_drawing (q, wb);
+	ms_escher_hack_get_drawing (q, wb, NULL);
 }
 
 static void

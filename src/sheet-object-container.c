@@ -4,6 +4,7 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
+ *   Michael Meeks (mmeeks@gnu.org)
  */
 #include <config.h>
 #include <gnome.h>
@@ -156,6 +157,8 @@ get_file_name (void)
 	return filename;
 }
 
+
+
 /**
  * sheet_object_container_land:
  * @so: Sheet Object
@@ -298,6 +301,95 @@ sheet_object_container_land (SheetObject *so, const gchar *fname,
 		/*
 		 * 5. Ask the component how big it wants to be, if it is allowed.
 		 */
+		if (own_size) {
+			int dx = -1, dy = -1;
+			gnome_view_frame_size_request (view_frame, &dx, &dy);
+
+			if (dx > 0 && dy > 0) {
+				double tlx, tly, brx, bry;
+				
+				sheet_object_get_bounds (so, &tlx, &tly, &brx, &bry);
+				sheet_object_set_bounds (so,  tlx,  tly, tlx + dx, tly + dy);
+			}
+		}
+		
+		view_widget = gnome_view_frame_get_wrapper (view_frame);
+		item = make_container_item (so, sheet_view, view_widget);
+		so->realized_list = g_list_prepend (so->realized_list, item);
+	}
+
+	return TRUE;
+}
+
+
+gboolean
+sheet_object_container_load (SheetObject *so,
+			     GnomeStream *stream,
+			     gboolean     own_size)
+{
+	SheetObjectContainer *soc;
+	GList *l;
+	CORBA_Environment   ev;
+	GNOME_PersistStream ret;
+	
+	g_return_val_if_fail (so != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
+
+	soc = SHEET_OBJECT_CONTAINER (so);
+	g_return_val_if_fail (soc->client_site == NULL, FALSE);
+	
+	soc->client_site = gnome_client_site_new (so->sheet->workbook->gnome_container);
+	if (!soc->repoid)
+		return NULL;
+	soc->object_server = gnome_object_activate_with_goad_id (NULL, soc->repoid, 0, NULL);
+
+	if (!soc->object_server)
+		return FALSE;
+	if (!gnome_client_site_bind_embeddable (soc->client_site, soc->object_server))
+		return FALSE;
+
+	CORBA_exception_init (&ev);
+	
+	ret = GNOME_Unknown_query_interface (
+		gnome_object_corba_objref (GNOME_OBJECT (soc->object_server)),
+		"IDL:GNOME/PersistStream:1.0", &ev);
+	if (ev._major == CORBA_NO_EXCEPTION) {
+		if (ret != CORBA_OBJECT_NIL) {
+			if (stream) {
+				GNOME_PersistStream_load ( ret,
+							   (GNOME_Stream) gnome_object_corba_objref (
+								   GNOME_OBJECT (stream)), &ev);
+			}
+			GNOME_Unknown_unref ((GNOME_Unknown) ret, &ev);
+			CORBA_Object_release (ret, &ev);
+		}
+	} else {
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+	CORBA_exception_free (&ev);
+
+	/*
+	 * Instatiate the views of the object across the sheet views
+	 */
+	for (l = so->sheet->sheet_views; l; l = l->next) {
+		GnomeCanvasItem *item;
+		SheetView *sheet_view = l->data;
+		GnomeViewFrame *view_frame;
+		GtkWidget *view_widget;
+
+		view_frame = gnome_client_site_new_view (
+			soc->client_site);
+
+		gnome_view_frame_set_ui_handler (
+			view_frame,
+			so->sheet->workbook->uih);
+		
+		gtk_signal_connect (GTK_OBJECT (view_frame), "user_activate",
+				    GTK_SIGNAL_FUNC (user_activation_request_cb), so);
+		gtk_signal_connect (GTK_OBJECT (view_frame), "view_activated",
+				    GTK_SIGNAL_FUNC (view_activated_cb), so);
+
 		if (own_size) {
 			int dx = -1, dy = -1;
 			gnome_view_frame_size_request (view_frame, &dx, &dy);
