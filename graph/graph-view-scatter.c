@@ -26,6 +26,9 @@ plot_point (ViewDrawCtx *ctx, int xi, double x, int series, double y)
 
 	sym = symbol_setup (ctx, series);
 	symbol_draw (ctx, sym, MAP_X (ctx, x), MAP_Y (ctx, y));
+#ifdef DEBUG_SCATTER
+	printf ("%d: %g %g [%g %g]\n", xi, x, y, MAP_X (ctx, x), MAP_Y (ctx, y));
+#endif
 }
 
 /*
@@ -64,7 +67,7 @@ graph_view_line_plot (GraphView *graph_view, GdkDrawable *drawable,
 	for (vector = 1; vector < vector_count; vector ++){
 		double last_x, last_y;
 		int xi;
-		
+
 		last_y = graph_vector_get_double (vectors [vector], 0);
 		last_x = graph_vector_get_double (x_vector, 0);
 
@@ -103,7 +106,7 @@ graph_view_scatter_plot (GraphView *graph_view, GdkDrawable *drawable,
 	vector_count = graph_view->graph->layout->n_series;
 
 	setup_view_ctx (&ctx, graph_view, drawable, graph_view->fill_gc, x, y, width, height);
-	
+
 	/*
 	 * FIXME:
 	 *
@@ -116,16 +119,12 @@ graph_view_scatter_plot (GraphView *graph_view, GdkDrawable *drawable,
 	for (xi = 0; xi < x_vals; xi++){
 		double const xv = graph_vector_get_double (x_vector, xi);
 		int vector;
-		
+
 		for (vector = 1; vector < vector_count; vector++){
 			double y;
 
 			y = graph_vector_get_double (vectors [vector], xi);
-
-			printf ("%d: %g %g [%g %g]\n", xi, xv, y, ctx.graph->x_size, ctx.graph->y_size);
 			plot_point (&ctx, xi, xv, vector, y);
 		}
 	}
 }
-
-

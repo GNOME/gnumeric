@@ -1,3 +1,11 @@
+2000-07-04  Jody Goldberg <jgoldberg@home.com>
+
+	* graph-view-util.h (ADJUST_X) : new macro.
+	(MAP_X) : Use ADJUST_X.
+
+	* graph-view-scatter.c (graph_view_scatter_plot) : Remove the debug
+	  printout.
+
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.56
