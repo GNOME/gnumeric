@@ -1,5 +1,10 @@
 2001-03-29  Morten Welinder  <terra@diku.dk>
 
+	* configure.in (try_python): Fix redirections and don't use the
+	non-standard "grep -q".
+
+2001-03-29  Morten Welinder  <terra@diku.dk>
+
 	Responding to lots of bug reports from drk@sgi.com:
 
 	* src/application.c (application_display_dpi_get): Don't

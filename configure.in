@@ -204,9 +204,9 @@ int testpython (void)
 Py_Exit (0);
 }
 EOF
-		if /bin/sh ../libtool --mode=compile ${CC} $PY_CFLAGS -c testpython.c 2>&1 > /dev/null && \
-		   /bin/sh ../libtool --mode=link ${CC} -o testpython.la -rpath `pwd` -module -avoid-version $PY_LIB_LOC testpython.lo -l$PY_LIBS $PY_EXTRA_LIBS 2>&1 > /dev/null && \
-		   grep -q 'dlname.*testpython' testpython.la; then
+		if /bin/sh ../libtool --mode=compile ${CC} $PY_CFLAGS -c testpython.c >/dev/null 2>&1 && \
+		   /bin/sh ../libtool --mode=link ${CC} -o testpython.la -rpath `pwd` -module -avoid-version $PY_LIB_LOC testpython.lo -l$PY_LIBS $PY_EXTRA_LIBS >/dev/null 2>&1 && \
+		   grep 'dlname.*testpython' testpython.la >/dev/null 2>&1; then
 			AC_MSG_RESULT(yes)
 		else
 			AC_MSG_RESULT(no)
