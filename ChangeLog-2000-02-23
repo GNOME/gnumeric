@@ -1,5 +1,11 @@
 1999-07-25  Michael Meeks  <michael@edenproject.org>
 
+	* src/xml-io.c (xml_read_summary): Fix some massive cock-ups, how
+	did this ever work.
+	(xml_read_names): ditto.
+	(xml_workbook_read): Shifted read_names down to where we actualy
+	have the inter-sheet reference names in place.
+
 	* src/expr.c (expr_tree_invalidate_references): Debugging that
 	needs cleaning to new PP stuff #if-def'd out.
 	(expr_tree_fixup_references): ditto.

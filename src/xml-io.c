@@ -707,12 +707,12 @@ xml_read_names (parse_xml_context_t *ctxt, xmlNodePtr tree, Workbook *wb)
 
 	child = tree->childs;
 	while (child) {
+		char *name  = NULL;
 		if (child->name && !strcmp (child->name, "Name")) {
 			xmlNodePtr bits;
 
 			bits = child->childs;
 			while (bits) {
-				char *name  = NULL;
 				
 				if (!strcmp (bits->name, "name")) {
 					name = xmlNodeGetContent (bits);
@@ -730,6 +730,7 @@ xml_read_names (parse_xml_context_t *ctxt, xmlNodePtr tree, Workbook *wb)
 
 					g_free (txt);
 				}
+				bits = bits->next;
 			}
 		}
 		child = child->next;
@@ -795,13 +796,13 @@ xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *sin)
 
 	child = tree->childs;
 	while (child) {
+		char *name = NULL;
 		if (child->name && !strcmp (child->name, "Item")) {
 			xmlNodePtr bits;
 
 			bits = child->childs;
 			while (bits) {
 				SummaryItem *sit = NULL;
-				char *name = NULL;
 				
 				if (!strcmp (bits->name, "name")) {
 					name = xmlNodeGetContent (bits);
@@ -821,6 +822,7 @@ xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *sin)
 						summary_info_add (sin, sit);
 					g_free (txt);
 				}
+				bits = bits->next;
 			}
 		}
 		child = child->next;
@@ -1749,12 +1751,6 @@ xml_workbook_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	if (child)
 		xml_read_summary (ctxt, child, ret->sin);
 
-#if 0
-	child = xml_search_child (tree, "Names");
-	if (child)
-		xml_read_names (ctxt, child, ret);
-#endif
-
 	child = xml_search_child (tree, "Geometry");
 	if (child){
 		int width, height;
@@ -1782,7 +1778,16 @@ xml_workbook_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		xml_sheet_create (ctxt, c);
 		c = c->next;
 	}
-	
+
+	/*
+	 * Now read names which can have inter-sheet references
+	 * to these sheet titles
+	 */
+	child = xml_search_child (tree, "Names");
+	if (child)
+		xml_read_names (ctxt, child, ret);
+
+	child = xml_search_child (tree, "Sheets");
 	/*
 	 * Pass 2: read the contents
 	 */
