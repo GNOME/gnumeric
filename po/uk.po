@@ -134,10 +134,17 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=EXECSQL\n"
+"@SYNTAX=EXECSQL(i)\n"
+"@DESCRIPTION=Функц╕я EXECSQL викону╓ команду на сервер╕ баз\n"
+" даних ╕ показу╓ повернен╕ результати в поточн╕й таблиц╕\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO="
 
 #: plugins/gda/plugin-gda.c:134
 msgid "Format: execSQL(dsn,user,password,sql)"
-msgstr ""
+msgstr "Формат: execSQL(dsn,користувач,пароль,sql)"
 
 #: plugins/gda/plugin-gda.c:140
 msgid "Error: could not initialize connection pool"
@@ -882,9 +889,8 @@ msgid "X Variable %d"
 msgstr "X-зм╕нна %d"
 
 #: src/analysis-tools.c:1986
-#, fuzzy
 msgid "/df/SS/MS/F/Significance F"
-msgstr "Значення F"
+msgstr "/Степ╕нь свободи/Сума квадрат╕в/Квадрат середнього/F/Значим╕сть F"
 
 #: src/analysis-tools.c:1992
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower 95%/Upper 95%"
@@ -927,15 +933,15 @@ msgstr "ЗВЕДЕННЯ"
 
 #: src/analysis-tools.c:2393
 msgid "/Groups/Count/Sum/Average/Variance"
-msgstr ""
+msgstr "/Групи/К╕льк╕сть/Сума/Середн╓/Дисперс╕я"
 
 #: src/analysis-tools.c:2464
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
-msgstr ""
+msgstr "/Дисперсний анал╕з/Джерело дисперс╕╖/М╕ж групами/В групах/Всього"
 
 #: src/analysis-tools.c:2469 src/analysis-tools.c:2662
 msgid "/SS/df/MS/F/P-value/F critical"
-msgstr ""
+msgstr "/Сума квадрат╕в/Степ╕нь свободи/Квадрат середнього/F/P-значення/F критичне"
 
 #: src/analysis-tools.c:2559 src/dialogs/analysis-tools.glade.h:5
 #: src/dialogs/dialog-analysis-tools.c:87
@@ -1551,7 +1557,7 @@ msgstr "К╕льк╕сть зм╕нних:"
 
 #: src/dialogs/analysis-tools.glade.h:22
 msgid "Output options"
-msgstr "_Параметри виводу"
+msgstr "Параметри виводу"
 
 #: src/dialogs/analysis-tools.glade.h:23
 #: src/dialogs/dialog-analysis-tools.c:103
@@ -2683,11 +2689,11 @@ msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок в \"Дв╕йковий д╕апазон:\""
 #: src/dialogs/dialog-analysis-tools.c:2461
 #: src/dialogs/dialog-analysis-tools.c:2911
 msgid "Given input range contains non-numeric data."
-msgstr ""
+msgstr "Даний д╕апазон вводу м╕стить нечислов╕ дан╕."
 
 #: src/dialogs/dialog-analysis-tools.c:2466
 msgid "Given bin range contains non-numeric data."
-msgstr ""
+msgstr "Даний дв╕йковий д╕апазон м╕стить нечислов╕ дан╕."
 
 #: src/dialogs/dialog-analysis-tools.c:2906
 msgid "Each sample should contain the same number of rows (`Rows per sample:')"
@@ -2863,11 +2869,11 @@ msgstr "Рядок мусить бути у д╕апазон╕"
 
 #: src/dialogs/dialog-cell-sort.c:331
 msgid "First column must be valid"
-msgstr ""
+msgstr "Перший стовпчик ма╓ бути допустимим"
 
 #: src/dialogs/dialog-cell-sort.c:332
 msgid "First row must be valid"
-msgstr ""
+msgstr "Перший рядок ма╓ бути допустимим"
 
 #: src/dialogs/dialog-cell-sort.c:371
 msgid "At least one clause is required."
@@ -2875,7 +2881,7 @@ msgstr "Необх╕дний хоча б один пункт."
 
 #: src/dialogs/dialog-cell-sort.c:380
 msgid "Can't add more than the selection length."
-msgstr ""
+msgstr "Неможливо додати б╕льше довжини вибраного."
 
 #: src/dialogs/dialog-cell-sort.c:383
 msgid "Maximum number of clauses has been reached."
@@ -2963,7 +2969,7 @@ msgstr "Пошук ц╕л╕..."
 
 #: src/dialogs/dialog-goal-seek.c:299
 msgid "Set cell:"
-msgstr "Встановити ком╕рки:"
+msgstr "Встановити в ком╕рц╕:"
 
 #: src/dialogs/dialog-goal-seek.c:300
 msgid "To value:"
@@ -2971,7 +2977,7 @@ msgstr "Значення:"
 
 #: src/dialogs/dialog-goal-seek.c:301
 msgid "By changing cell:"
-msgstr "Зм╕ни ком╕рки:"
+msgstr "Зм╕ною ком╕рки:"
 
 #: src/dialogs/dialog-goal-seek.c:302
 msgid "To a value of at least [optional]:"
@@ -2983,19 +2989,19 @@ msgstr "Не б╕льше н╕ж [не обов'язково]:"
 
 #: src/dialogs/dialog-goal-seek.c:362
 msgid "You should introduce a valid cell name in 'Set cell'"
-msgstr ""
+msgstr "Потр╕бно ввести в╕рну назву встановлювано╖ ком╕рки"
 
 #: src/dialogs/dialog-goal-seek.c:370
 msgid "The cell named in 'Set cell' must contain a formula"
-msgstr ""
+msgstr "Встановлювана ком╕рка ма╓ м╕стити формулу"
 
 #: src/dialogs/dialog-goal-seek.c:383
 msgid "You should introduce a valid cell name in 'By changing cell'"
-msgstr ""
+msgstr "Потр╕бно ввести в╕рну назву зм╕нювано╖ ком╕рки"
 
 #: src/dialogs/dialog-goal-seek.c:392
 msgid "The cell named in 'By changing cell' must not contain a formula"
-msgstr ""
+msgstr "Зм╕нювана ком╕рка не ма╓ м╕стити формулу"
 
 #: src/dialogs/dialog-goal-seek.c:436
 msgid "Goal seek did not find a solution!"
@@ -3068,7 +3074,7 @@ msgstr "Перем╕стити"
 
 #: src/dialogs/dialog-paste-special.c:164
 msgid "Skip Blanks"
-msgstr ""
+msgstr "Пропустити порожн╕"
 
 #: src/dialogs/dialog-plugin-manager.c:93
 msgid "File name:"
@@ -3115,7 +3121,7 @@ msgstr "Власна конф╕гурац╕я нижнього колотитулу"
 
 #: src/dialogs/dialog-search-replace.c:137
 msgid "You must select some cell types to search."
-msgstr ""
+msgstr "Потр╕бно вибрати дек╕лька тип╕в ком╕рок для пошуку."
 
 #: src/dialogs/dialog-sheet-order.c:145 src/workbook-control-gui.c:345
 #, c-format
@@ -3159,11 +3165,11 @@ msgstr ""
 #: src/dialogs/dialog-solver.c:903
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
-msgstr ""
+msgstr "Обмеження \"%s\" для ком╕рки, що не ╓ вх╕дною."
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:356
 msgid "You need to select at least one sheet to export"
-msgstr ""
+msgstr "Потр╕бно вибрати хоча б один аркуш для експорту"
 
 #: src/dialogs/dialog-stf-export.c:49 src/dialogs/dialog-stf.c:103
 msgid "Are you sure you want to cancel?"
@@ -3684,24 +3690,20 @@ msgid "place holder no need to translate"
 msgstr ""
 
 #: src/dialogs/hf-config.glade.h:1
-#, fuzzy
 msgid "Center section:"
-msgstr "Сентрувати поперек вибраного"
+msgstr "Центральний розд╕л:"
 
 #: src/dialogs/hf-config.glade.h:2
-#, fuzzy
 msgid "Enter the format strings for each section:"
-msgstr "Центрувати текст у вибраному"
+msgstr "Введ╕ть формат рядка для кожного розд╕лу:"
 
 #: src/dialogs/hf-config.glade.h:3
-#, fuzzy
 msgid "Left section:"
-msgstr "Автозаповнення вибраного"
+msgstr "Л╕вий розд╕л:"
 
 #: src/dialogs/hf-config.glade.h:4
-#, fuzzy
 msgid "Right section:"
-msgstr "Вир╕вн╕ти праворуч"
+msgstr "Привий розд╕л:"
 
 #: src/dialogs/import.glade.h:1
 msgid "Choose an import filter for loading the file:"
@@ -3745,7 +3747,7 @@ msgstr "Назва: "
 
 #: src/dialogs/names.glade.h:4
 msgid "Scope :"
-msgstr ""
+msgstr "Розмах: "
 
 #: src/dialogs/names.glade.h:6 src/dialogs/solver.glade.h:16
 msgid "_Delete"
@@ -3959,7 +3961,7 @@ msgstr "мм"
 
 #: src/dialogs/print.glade.h:46
 msgid "page(s) wide by"
-msgstr ""
+msgstr "стор╕нки заповнюються за"
 
 #: src/dialogs/print.glade.h:47 src/print-info.c:440
 msgid "pts"
@@ -3967,12 +3969,11 @@ msgstr "п"
 
 #: src/dialogs/print.glade.h:48
 msgid "sample goes here"
-msgstr ""
+msgstr "це зразок"
 
 #: src/dialogs/print.glade.h:49
-#, fuzzy
 msgid "tall"
-msgstr "Загалом"
+msgstr "високий"
 
 #: src/dialogs/row-height.glade.h:1
 msgid "Row height"
@@ -3983,18 +3984,16 @@ msgid "_Row height (pts):"
 msgstr "Висота рядка (в пунктах):"
 
 #: src/dialogs/search-replace.glade.h:1
-#, fuzzy
 msgid "Advanced"
-msgstr "Додатково..."
+msgstr "Розширен╕"
 
 #: src/dialogs/search-replace.glade.h:2
 msgid "Ask before each change"
-msgstr ""
+msgstr "Питати перед кожною зам╕ною"
 
 #: src/dialogs/search-replace.glade.h:3
-#, fuzzy
 msgid "Change cells containing"
-msgstr "Зм╕нити обмеження"
+msgstr "Зм╕нити вм╕ст ком╕рок"
 
 #: src/dialogs/search-replace.glade.h:4 src/dialogs/summary.glade.h:3
 msgid "Comments"
@@ -4002,7 +4001,7 @@ msgstr "Коментар╕"
 
 #: src/dialogs/search-replace.glade.h:5
 msgid "Create =ERROR(\"...\")"
-msgstr ""
+msgstr "Створити =ERROR(\"...\")"
 
 #: src/dialogs/search-replace.glade.h:6
 msgid "Current sheet"
@@ -4038,55 +4037,51 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:14
 msgid "Make string value"
-msgstr ""
+msgstr "Зробити рядкове значення"
 
 #: src/dialogs/search-replace.glade.h:16
 msgid "Other values"
 msgstr "╤нш╕ значення"
 
 #: src/dialogs/search-replace.glade.h:17
-#, fuzzy
 msgid "Perform changes within cell comments"
-msgstr "Центру╓ вм╕ст ком╕рки"
+msgstr "Провести зм╕ни в коментарях ком╕рки"
 
 #: src/dialogs/search-replace.glade.h:18
 msgid "Perform changes within expressions"
-msgstr ""
+msgstr "Провести зм╕ни у виразах"
 
 #: src/dialogs/search-replace.glade.h:19
 msgid "Perform changes within non-string values"
-msgstr ""
+msgstr "Провести зм╕ни в нерядкових значеннях"
 
 #: src/dialogs/search-replace.glade.h:20
 msgid "Perform changes within string values"
-msgstr ""
+msgstr "Провести зм╕ни в рядкових значеннях"
 
 #: src/dialogs/search-replace.glade.h:21
-#, fuzzy
 msgid "Plain text"
-msgstr "Plan Perfect"
+msgstr "Простий текст"
 
 #: src/dialogs/search-replace.glade.h:22
 msgid "Query"
-msgstr ""
+msgstr "Запит"
 
 #: src/dialogs/search-replace.glade.h:23
 msgid "Query for replacement"
-msgstr ""
+msgstr "Запит на зам╕ну"
 
 #: src/dialogs/search-replace.glade.h:25
 msgid "Regular expression"
 msgstr "Ре╜улярний вираз"
 
 #: src/dialogs/search-replace.glade.h:26
-#, fuzzy
 msgid "Replace by"
-msgstr "Зам╕нити:"
+msgstr "Зам╕нити на"
 
 #: src/dialogs/search-replace.glade.h:27
-#, fuzzy
 msgid "Scope"
-msgstr "Пропуск"
+msgstr "Розмах"
 
 #: src/dialogs/search-replace.glade.h:28
 msgid "Search"
@@ -4110,7 +4105,7 @@ msgstr "Шукати на"
 
 #: src/dialogs/search-replace.glade.h:33
 msgid "Skip cells that that would result in errors"
-msgstr ""
+msgstr "Пропускати ком╕рки, що призводитимуть до помилок"
 
 #: src/dialogs/search-replace.glade.h:34
 msgid "Strings"
@@ -4122,11 +4117,11 @@ msgstr "Текст пошуку ╓ ре╜улярним виразом"
 
 #: src/dialogs/search-replace.glade.h:36
 msgid "The search text is taken literal"
-msgstr ""
+msgstr "Текст пошуку заданий буквально"
 
 #: src/dialogs/search-replace.glade.h:37
 msgid "Turn unparseable entries into string values"
-msgstr ""
+msgstr "Перетворювати записи, як╕ неможливо проанал╕зувати в рядков╕ значення"
 
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Close this dialog"
@@ -4340,7 +4335,7 @@ msgstr "Стиль:"
 
 #: src/dialogs/validate.glade.h:12
 msgid "Stop"
-msgstr ""
+msgstr "Стоп"
 
 #: src/dialogs/validate.glade.h:13
 msgid "Text length"
@@ -4351,9 +4346,8 @@ msgid "Time"
 msgstr "Час"
 
 #: src/dialogs/validate.glade.h:15
-#, fuzzy
 msgid "Validation criteria"
-msgstr "Ф╕льтр даних за вказаними критер╕ями"
+msgstr "Критер╕й перев╕рки"
 
 #: src/dialogs/validate.glade.h:16
 msgid "Warning"
@@ -4361,12 +4355,11 @@ msgstr "Попередження"
 
 #: src/dialogs/validate.glade.h:17
 msgid "Whole numbers"
-msgstr ""
+msgstr "Ц╕л╕ числа"
 
 #: src/dialogs/validate.glade.h:18
-#, fuzzy
 msgid "_Allow:"
-msgstr "Все"
+msgstr "Допустити:"
 
 #: src/dialogs/validate.glade.h:19
 msgid "_Clear All"
@@ -4382,7 +4375,7 @@ msgstr "Пов╕домлення про помилку:"
 
 #: src/dialogs/validate.glade.h:22
 msgid "_In-cell dropdown"
-msgstr ""
+msgstr "Меню ком╕рки"
 
 #: src/dialogs/validate.glade.h:23
 msgid "_Input Message"
@@ -4418,39 +4411,35 @@ msgstr "Позначка12"
 
 #: src/dialogs/validate.glade.h:31
 msgid "min <= val <= max         (between)"
-msgstr ""
+msgstr "min <= значення <= max    (входить)"
 
 #: src/dialogs/validate.glade.h:32
-#, fuzzy
 msgid "val != bound                 (not equal to)"
-msgstr "                         "
+msgstr "значення != обмеження        (не дор╕вню╓)"
 
 #: src/dialogs/validate.glade.h:33
-#, fuzzy
 msgid "val >  bound                 (greater than)"
-msgstr "                         "
+msgstr "значення > обмеження         (б╕льше)"
 
 #: src/dialogs/validate.glade.h:34
 msgid "val >=bound                 (greater than or equal to)"
-msgstr ""
+msgstr "значення >= обмеження       (б╕льше р╕вне)"
 
 #: src/dialogs/validate.glade.h:35
-#, fuzzy
 msgid "val <  bound                 (less than)"
-msgstr "                         "
+msgstr "значення < обмеження         (менше)"
 
 #: src/dialogs/validate.glade.h:36
 msgid "val <= min || max <= val (not between)"
-msgstr ""
+msgstr "значення <= min || max <= значення (не входить)"
 
 #: src/dialogs/validate.glade.h:37
 msgid "val <=bound                 (less than or equal to)"
-msgstr ""
+msgstr "значення <= обмеження       (менше р╕вне)"
 
 #: src/dialogs/validate.glade.h:38
-#, fuzzy
 msgid "val == bound                (equal to)"
-msgstr "                         "
+msgstr "значення == обмеження       (дор╕вню╓)"
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "Notebook"
@@ -5271,7 +5260,7 @@ msgstr "[$LBP]"
 
 #: src/formats.c:336
 msgid "Lebanese pound"
-msgstr ""
+msgstr "Л╕банезьк╕ фунти"
 
 #: src/formats.c:337
 msgid "[$LKR]"
@@ -5279,7 +5268,7 @@ msgstr "[$LKR]"
 
 #: src/formats.c:337
 msgid "Sri Lanka rupee"
-msgstr ""
+msgstr "Руп╕╖ Шр╕-Ланки"
 
 #: src/formats.c:338
 msgid "[$LRD]"
@@ -5295,7 +5284,7 @@ msgstr "[$LSL]"
 
 #: src/formats.c:339
 msgid "Lesotho loti"
-msgstr ""
+msgstr "Лот╕ Лесото"
 
 #: src/formats.c:340
 msgid "[$LUF]"
@@ -5383,7 +5372,7 @@ msgstr "[$MTL]"
 
 #: src/formats.c:350
 msgid "Maltese lira"
-msgstr "Мальт╕йська л╕ра"
+msgstr "Мальт╕йськ╕ л╕ри"
 
 #: src/formats.c:351
 msgid "[$MUR]"
@@ -5391,7 +5380,7 @@ msgstr "[$MUR]"
 
 #: src/formats.c:351
 msgid "Mauritius rupee"
-msgstr ""
+msgstr "Мавританськ╕ руп╕╖"
 
 #: src/formats.c:352
 msgid "[$MVR]"
@@ -5399,7 +5388,7 @@ msgstr "[$MVR]"
 
 #: src/formats.c:352
 msgid "Maldive rupee"
-msgstr "Мальдивська руп╕я"
+msgstr "Мальдивськ╕ руп╕╖"
 
 #: src/formats.c:353
 msgid "[$MWK]"
@@ -5407,7 +5396,7 @@ msgstr "[$MWK]"
 
 #: src/formats.c:353
 msgid "Malawi kwacha"
-msgstr "Малав╕йська квача"
+msgstr "Малав╕йськ╕ квач╕"
 
 #: src/formats.c:354
 msgid "[$MXP]"
@@ -5415,7 +5404,7 @@ msgstr "[$MXP]"
 
 #: src/formats.c:354
 msgid "Mexican peso"
-msgstr ""
+msgstr "Мексиканськ╕ песо"
 
 #: src/formats.c:355
 msgid "[$MYR]"
@@ -5471,7 +5460,7 @@ msgstr "[$NPR]"
 
 #: src/formats.c:361
 msgid "Nepalese rupee"
-msgstr "Непальстка руп╕я"
+msgstr "Непальськ╕ руп╕╖"
 
 #: src/formats.c:362
 msgid "[$NZD]"
@@ -5487,7 +5476,7 @@ msgstr "[$OMR]"
 
 #: src/formats.c:363
 msgid "Rial Omani"
-msgstr ""
+msgstr "Оманськ╕ риали"
 
 #: src/formats.c:364
 msgid "[$PAB]"
@@ -5495,7 +5484,7 @@ msgstr "[$PAB]"
 
 #: src/formats.c:364
 msgid "Panamanian balboa"
-msgstr ""
+msgstr "Панамськ╕ балбоа"
 
 #: src/formats.c:365
 msgid "[$PEI]"
@@ -5503,7 +5492,7 @@ msgstr "[$PEI]"
 
 #: src/formats.c:365
 msgid "Peruvian inti"
-msgstr ""
+msgstr "╤нт╕ Перу"
 
 #: src/formats.c:366
 msgid "[$PGK]"
@@ -5527,7 +5516,7 @@ msgstr "[$PKR]"
 
 #: src/formats.c:368
 msgid "Pakistan rupee"
-msgstr "Пик╕станська руп╕я"
+msgstr "Пак╕станськ╕ руп╕╖"
 
 #: src/formats.c:369
 msgid "[$PLZ]"
@@ -5551,7 +5540,7 @@ msgstr "[$PYG]"
 
 #: src/formats.c:371
 msgid "Paraguay guarani"
-msgstr ""
+msgstr "Пара╜вайськ╕ ╜уаран╕"
 
 #: src/formats.c:372
 msgid "[$QAR]"
@@ -5583,7 +5572,7 @@ msgstr "[$SAR]"
 
 #: src/formats.c:375
 msgid "Saudi Arabian riyal"
-msgstr ""
+msgstr "Р╕яли Сауд╕всько╖ Арав╕╖"
 
 #: src/formats.c:376
 msgid "[$SBD]"
@@ -5823,7 +5812,7 @@ msgstr "[$VUV]"
 
 #: src/formats.c:405
 msgid "Vanuatu vatu"
-msgstr ""
+msgstr "Вату Вануату"
 
 #: src/formats.c:406
 msgid "[$WST]"
@@ -11806,9 +11795,9 @@ msgid "Plugin \"%s\" doesn't contain init_plugin function."
 msgstr "Доповнення \"%s\" не м╕стить функц╕ю init_plugin."
 
 #: src/plugin.c:141
-#, fuzzy, c-format
+#, c-format
 msgid "Couldn't determine size or modification date for plugin \"%s\"."
-msgstr "Не вдалось визначити розм╕р чи дату зм╕ни"
+msgstr "Не вдалось визначити розм╕р чи дату модиф╕кац╕╖ доповнення \"%s\"."
 
 #: src/plugin.c:158
 #, c-format
@@ -11915,28 +11904,27 @@ msgstr "Зб╕й друку"
 
 #: src/search.c:115
 msgid "Search string must not be empty."
-msgstr ""
+msgstr "Рядок пошуку не може бути порожн╕м."
 
 #: src/search.c:118
 msgid "Replacement string must be set."
-msgstr ""
+msgstr "Рядок зам╕ни не може бути порожн╕м."
 
 #: src/search.c:122
-#, fuzzy
 msgid "Invalid search pattern."
-msgstr "Нев╕рний ар╜умент"
+msgstr "Нев╕рний шаблон пошуку."
 
 #: src/selection.c:107
 msgid "cannot be performed with multiple selections"
-msgstr ""
+msgstr "не може бути виконано з множинним вибором"
 
 #: src/selection.c:117
 msgid "can not operate on merged cells"
-msgstr ""
+msgstr "не працю╓ на об'╓днаних ком╕рках"
 
 #: src/selection.c:129
 msgid "can not operate on array formulae"
-msgstr ""
+msgstr "не працю╓ на формулах масиву"
 
 #. FIXME FIXME : disable copying part of an array
 #: src/gnumeric.xml.h:33 src/selection.c:682 src/workbook-control-gui.c:2168
@@ -12376,18 +12364,16 @@ msgid "Add decimals"
 msgstr "Зб╕льшити розряди"
 
 #: src/workbook-format-toolbar.c:443
-#, fuzzy
 msgid "Increases the number of decimals displayed"
-msgstr "Зб╕льшу╓ к╕льк╕сть десяткових знак╕в, що показуються"
+msgstr "Зб╕льшити к╕льк╕сть десяткових знак╕в, що показуються"
 
 #: src/workbook-format-toolbar.c:446
 msgid "Remove decimals"
 msgstr "Зменшити розряди"
 
 #: src/workbook-format-toolbar.c:446
-#, fuzzy
 msgid "Decreases the number of decimals displayed"
-msgstr "Зменшу╓ к╕льк╕сть десяткових знак╕в, що показуються"
+msgstr "Зменшити к╕льк╕сть десяткових знак╕в, що показуються"
 
 #: src/workbook-format-toolbar.c:567
 msgid "Clear Borders"
@@ -13440,9 +13426,8 @@ msgid "Manage available plugin modules"
 msgstr "Керування доступними доповненнями."
 
 #: src/gnumeric.xml.h:119
-#, fuzzy
 msgid "Mark the current selection for movement"
-msgstr "Використовувати поточний виб╕р для створення назв"
+msgstr "Позначити поточний виб╕р для перем╕щення"
 
 #: src/gnumeric.xml.h:124
 msgid "Money"
