@@ -310,10 +310,8 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 	 */
 
 	/* Print 'Objective function:' */
-	mps_set_cell (sh, VARIABLE_COL, VARIABLE_ROW - 2, _("Objective function:"));
-
-	/* Print 'Current values' */
-	mps_set_cell (sh, VARIABLE_COL - 1, VARIABLE_ROW, _("Current values"));
+	mps_set_cell (sh, VARIABLE_COL, VARIABLE_ROW - 2,
+		      _("Objective function:"));
 
 	/* Print the name of the objective function */
 	mps_set_cell (sh, VARIABLE_COL - 1, VARIABLE_ROW + 1,
