@@ -69,7 +69,10 @@ format_get_decimal (void)
 	if (lc == NULL)
 		lc = localeconv ();
 
-	res = lc->mon_decimal_point[0];
+	/* NOTE : Use decimal_point _not_ mon_decimal_point.  strtod uses this
+	 * and we get very confused when they are different (eg ru_RU)
+	 */
+	res = lc->decimal_point[0];
 	return (res != '\0') ? res : '.';
 }
 
