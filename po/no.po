@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.11\n"
-"POT-Creation-Date: 1999-03-08 22:13-0600\n"
+"POT-Creation-Date: 1999-03-13 01:24+0100\n"
 "PO-Revision-Date: 1998-02-14 23:03+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@fib.hl.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -15,50 +15,48 @@ msgstr ""
 
 #: plugins/excel/boot.c:67
 msgid "Microsoft(R) Excel file format"
-msgstr ""
+msgstr "Microsoft(R) Excel filformat"
 
 #: plugins/guile/plugin.c:220
 msgid "Argument must be a Guile expression"
-msgstr ""
+msgstr "Argumentet må være et Guile uttrykk"
 
-#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1158
+#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1177
 #: src/fn-sheet.c:38 src/fn-sheet.c:83
 msgid "Invalid number of arguments"
 msgstr "Ugyldig antall argumenter"
 
 #: plugins/guile/plugin.c:248 plugins/guile/plugin.c:254
 msgid "First argument to SCM must be a Guile expression"
-msgstr ""
+msgstr "Første argument til SCM må være et Guile uttrykk"
 
 #: plugins/guile/plugin.c:260
 msgid "Undefined scheme function"
-msgstr ""
+msgstr "Udefinert scheme funksjon"
 
 #: plugins/guile/plugin.c:278
 msgid "Could not evaluate argument"
-msgstr ""
+msgstr "Kunne ikke evaluere argumentet"
 
 #: plugins/guile/plugin.c:386
-#, fuzzy
 msgid "Unable to lookup Guile function."
-msgstr "kan ikke åpne modulfilen: "
+msgstr "Kan ikke finne Guile funksjonen."
 
 #: plugins/guile/plugin.c:454
-#, fuzzy
 msgid "Guile Plugin"
-msgstr "Gnumeric tillegg"
+msgstr "Guile tillegg"
 
 #: plugins/python/python.c:99
 msgid "Unable to lookup Python code object."
-msgstr ""
+msgstr "Kan ikke finne Python kodeobjektet."
 
 #: plugins/python/python.c:115
 msgid "Python exception."
-msgstr ""
+msgstr "Python unntak"
 
 #: plugins/python/python.c:137
 msgid "object must be callable"
-msgstr ""
+msgstr "objektet må kunne kalles"
 
 #: plugins/python/python.c:143
 msgid "could not alloc FuncDef"
@@ -66,11 +64,11 @@ msgstr ""
 
 #: plugins/python/python.c:177
 msgid "Gnumeric/Python module initialized\n"
-msgstr ""
+msgstr "Gnumeric/Python modul initialisert\n"
 
 #: plugins/python/python.c:190
 msgid "Python Plugin"
-msgstr ""
+msgstr "Python tillegg"
 
 #: plugins/stat/stat.c:12
 msgid ""
@@ -111,57 +109,65 @@ msgstr "varians - divisjon med 0"
 
 #: src/about.c:23
 msgid "Miguel de Icaza, main programmer."
-msgstr ""
+msgstr "Miguel de Icazam hovedprogrammerer."
 
 #: src/about.c:24
 msgid "Daniel Veillard, XML support."
-msgstr ""
+msgstr "Daniel Veillard, XML støtte."
 
 #: src/about.c:25
 msgid "Chris Lahey, Number format engine."
-msgstr ""
+msgstr "Chris Lahey, nummerformat motor."
 
 #: src/about.c:26
 msgid "Tom Dyas, Plugin support."
-msgstr ""
+msgstr "Tom Dyas, Tilleggstøtte."
 
 #: src/about.c:27
 msgid "Federico Mena, Canvas support."
-msgstr ""
+msgstr "Federico Mena, Kanvas støtte."
 
 #: src/about.c:28
 msgid "Adrian Likins, Documentation, debugging"
-msgstr ""
+msgstr "Adrian Likins, Dokumentasjon, feilsøking"
 
 #: src/about.c:29
 msgid "Jakub Jelinek, Gnumeric hacker"
-msgstr ""
+msgstr "Jakub Jelinek, Gnumeric hacker"
 
 #: src/about.c:30
 msgid "Michael Meeks, Excel and OLE2 importing"
-msgstr ""
+msgstr "Michael Meeks, Excel og OLE2 importering"
 
 #: src/about.c:31
 msgid "Sean Atkinson, Excel functions"
-msgstr ""
+msgstr "Sean Atkinson, Excel funksjoner"
 
 #: src/about.c:32
 msgid "Bruno Unna, Excel code"
-msgstr ""
+msgstr "Bruno Unna, Excel kode"
 
 #: src/about.c:33
 msgid "Mark Probst, Guile support"
-msgstr ""
+msgstr "Mark Probst, Guile støtte"
 
 #: src/about.c:34
 msgid "Vincent Renardias, CSV support"
-msgstr ""
+msgstr "Vincent Renardias, CSV støtte"
 
-#: src/about.c:49
+#: src/about.c:35
+msgid "Vladimir Vuksan, financial functions"
+msgstr "Vladimir Vuksan, finansielle funksjoner"
+
+#: src/about.c:36
+msgid "Takashi Matsuda, simple text plugin"
+msgstr "Takashi Matsuda, enkel tekst tillegg"
+
+#: src/about.c:51
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:52
+#: src/about.c:54
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -618,7 +624,7 @@ msgstr "Zoom-faktor bør ikke være over 900%"
 #: src/dump.c:29
 #, c-format
 msgid "Can not create file %s\n"
-msgstr ""
+msgstr "Kan ikke opprette fil %s\n"
 
 #: src/expr.c:59
 msgid "Syntax error"
@@ -628,7 +634,7 @@ msgstr "Syntaksfeil"
 msgid "Missing quote"
 msgstr "Manglende apostrof"
 
-#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:961
+#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:964
 #: src/fn-misc.c:35
 msgid "Type mismatch"
 msgstr "Feil med type"
@@ -641,7 +647,11 @@ msgstr "Typefeil"
 msgid "Division by zero"
 msgstr "Deling på null"
 
-#: src/expr.c:976
+#: src/expr.c:944
+msgid "Reference to newborn cell"
+msgstr "Referanse til nyfødt celle"
+
+#: src/expr.c:979
 msgid "Unknown evaluation error"
 msgstr "Ukjent evalueringsfeil"
 
@@ -854,7 +864,7 @@ msgid ""
 "@SEEALSO=OR, NOT"
 msgstr ""
 
-#: src/fn-math.c:189 src/fn-math.c:943
+#: src/fn-math.c:189 src/fn-math.c:962
 msgid "#VALUE"
 msgstr "#VERDI"
 
@@ -1049,6 +1059,15 @@ msgstr "log: domenefeil"
 
 #: src/fn-math.c:690
 msgid ""
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Returns the value of x raised to the power y\n"
+"Performing this function on a string or empty cell returns an error. \n"
+"@SEEALSO=EXP"
+msgstr ""
+
+#: src/fn-math.c:709
+msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
 "@DESCRIPTION=Computes the base-2 logarithm  of x. \n"
@@ -1056,11 +1075,11 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: src/fn-math.c:708
+#: src/fn-math.c:727
 msgid "log2: domain error"
 msgstr "log2: domenefeil"
 
-#: src/fn-math.c:715
+#: src/fn-math.c:734
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -1069,11 +1088,11 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: src/fn-math.c:734
+#: src/fn-math.c:753
 msgid "log10: domain error"
 msgstr "log10: domenefeil"
 
-#: src/fn-math.c:741
+#: src/fn-math.c:760
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -1084,7 +1103,7 @@ msgid ""
 "@SEEALSO=MAX,ABS"
 msgstr ""
 
-#: src/fn-math.c:755
+#: src/fn-math.c:774
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -1095,7 +1114,7 @@ msgid ""
 "@SEEALSO=MIN,ABS"
 msgstr ""
 
-#: src/fn-math.c:860
+#: src/fn-math.c:879
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -1105,7 +1124,7 @@ msgid ""
 "@SEEALSO=AND, OR"
 msgstr ""
 
-#: src/fn-math.c:881
+#: src/fn-math.c:900
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -1119,7 +1138,7 @@ msgid ""
 "@SEEALSO=AND, NOT"
 msgstr ""
 
-#: src/fn-math.c:950
+#: src/fn-math.c:969
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1128,7 +1147,7 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: src/fn-math.c:971
+#: src/fn-math.c:990
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1139,7 +1158,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/fn-math.c:991
+#: src/fn-math.c:1010
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1150,7 +1169,7 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: src/fn-math.c:1012
+#: src/fn-math.c:1031
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1159,7 +1178,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1079
+#: src/fn-math.c:1098
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1170,7 +1189,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1099
+#: src/fn-math.c:1118
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1181,7 +1200,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1119
+#: src/fn-math.c:1138
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1190,7 +1209,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1138
+#: src/fn-math.c:1157
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1219,9 +1238,8 @@ msgid ""
 msgstr ""
 
 #: src/fn-misc.c:73
-#, fuzzy
 msgid "Argument mismatch"
-msgstr "Feil med type"
+msgstr "Feil med argument"
 
 #: src/fn-sheet.c:17
 msgid ""
@@ -1606,6 +1624,9 @@ msgid ""
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
+"Cellene som dras hit vil overskrive innholdet til de\n"
+"eksisterende cellene i dette området. Vil du at jeg skal\n"
+"erstatte innholdet i denne regionen?"
 
 #: src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:839
 msgid "Copy"
@@ -1643,7 +1664,7 @@ msgstr "Flytt celler til høyre og flytt"
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: src/item-grid.c:528 src/sheet.c:2509 src/workbook.c:842
+#: src/item-grid.c:528 src/sheet.c:2535 src/workbook.c:842
 msgid "Paste"
 msgstr "Lim inn"
 
