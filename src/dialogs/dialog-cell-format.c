@@ -348,7 +348,6 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 
 
 	/* 3.2: Invoke the current style for the cell if possible */
-
 	if (format){
 		if (!format_find (format->format))
 		    gtk_entry_set_text (GTK_ENTRY (number_input), format->format);
@@ -451,7 +450,7 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 	if (cells){
 		ha = ((Cell *) (cells->data))->style->halign;
 		va = ((Cell *) (cells->data))->style->valign;
-		for (ok = 1, l = cells; l; l = l->data){
+		for (ok = 1, l = cells; l; l = l->next){
 			Cell *cell = l->data;
 			
 			if (cell->style->halign != ha || cell->style->valign != va){
@@ -463,7 +462,7 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 		/* If all the cells share the same alignment, select that on the radio boxes */
 		if (ok){
 			int n;
-			
+
 			for (n = 0; horizontal_aligns [n].name; n++)
 				if (horizontal_aligns [n].flag == ha){
 					gtk_radio_button_select (hradio_list, n);
