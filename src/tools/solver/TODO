@@ -18,9 +18,7 @@
 	  - Add options used (Max/min, non-neg, int, scaling, max it/t).
 	  - Clean up.
 	* MPS plugin:
-	  - Allow bigger models to be loaded.
 	  - Improve BOUNDS support.
-	  - Clean up.
 	* Reporting:
 	  - Add info whether assume discrete was on or off.
 	* Update user documentation.

@@ -1,3 +1,8 @@
+2002-03-24  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* mps.c: Major clean up.  Does not crach any more if a model
+	having more than 250 columns is loaded.
+
 2002-03-11  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* mps.c (mps_create_sheet): Removed a title to make the program
