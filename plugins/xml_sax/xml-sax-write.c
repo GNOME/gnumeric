@@ -22,6 +22,7 @@
 
 /*****************************************************************************/
 
+#include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <workbook-view.h>
 #include <file.h>

@@ -30,6 +30,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <gnumeric-config.h>
 #include "gnumeric-optionmenu.h"
 #include <gnumeric-i18n.h>
 #include <gnm-marshalers.h>
