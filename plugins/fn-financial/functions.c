@@ -1739,22 +1739,44 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 	Value           *result = NULL;
 	gnumeric_irr_t  p;
 	float_t         rate0;
-	int             n;
 
-	goal_seek_initialise (&data);
 	rate0 = argv[1] ? value_get_as_float (argv[1]) : 0.1;
 
 	p.values = collect_floats_value (argv[0], ei->pos,
 					 COLLECT_IGNORE_STRINGS |
 					 COLLECT_IGNORE_BLANKS,
-					 &n, &result);
+					 &p.n, &result);
 	if (result != NULL) {
 		g_free (p.values);
 	        return result;
 	}
 
-	p.n = n;
+	goal_seek_initialise (&data);
+
+	/* Respect the sign of the guess.  */
+	if (rate0 >= 0) {
+		data.xmin = 0;
+		data.xmax = MIN (data.xmax,
+				 pow (DBL_MAX / 1e10, 1.0 / (p.n + 1)) - 1);
+	} else {
+		data.xmin = MAX (data.xmin,
+				 -pow (DBL_MAX / 1e10, 1.0 / (p.n + 1)) + 1);
+		data.xmax = 0;
+	}
+
 	status = goal_seek_newton (&irr_npv, &irr_npv_df, &data, &p, rate0);
+	if (status != GOAL_SEEK_OK) {
+		int factor;
+		/* Lay a net of test points around the guess.  */
+		for (factor = 2; factor < 100; factor *= 2) {
+			goal_seek_point (&irr_npv, &data, &p, rate0 * factor);
+			goal_seek_point (&irr_npv, &data, &p, rate0 / factor);
+		}
+
+		/* Pray we got both sides of the root.  */
+		status = goal_seek_bisection (&irr_npv, &data, &p);
+	}
+
 	g_free (p.values);
 
 	if (status == GOAL_SEEK_OK)
