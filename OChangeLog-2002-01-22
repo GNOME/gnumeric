@@ -1,3 +1,13 @@
+2000-08-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/Makefile.am : Fix file names.
+
+	* src/number-match.c (format_match_simple) : New routine.
+
+	* src/parser.y (parse_string_as_value) : Use it here.
+	(build_array) : Do not use g_list_next it unnecessarily checks for
+	  NULL.
+
 2000-08-30  Jon K Hellan  <hellan@acm.org>
 
 	* src/print-cell.[ch] (print_show_iso8859_1): Wrapper around

@@ -241,7 +241,7 @@ build_array (GList *cols)
 	row = cols->data;
 	while (row) {
 		mx++;
-		row = g_list_next (row);
+		row = row->next;
 	}
 
 	array = value_new_array_empty (mx, g_list_length (cols));
@@ -259,7 +259,7 @@ build_array (GList *cols)
 			value_array_set (array, x, y, value_duplicate (v));
 
 			x++;
-			row = g_list_next (row);
+			row = row->next;
 		}
 		if (x < mx || row) {
 			parser_error = PARSE_ERR_SYNTAX;
@@ -267,7 +267,7 @@ build_array (GList *cols)
 			return NULL;
 		}
 		y++;
-		cols = g_list_next (cols);
+		cols = cols->next;
 	}
 
 	return register_expr_allocation (expr_tree_new_constant (array));
@@ -276,26 +276,18 @@ build_array (GList *cols)
 static gboolean
 parse_string_as_value (ExprTree *str)
 {
-	char const *txt = str->constant.value->v_str.val->str;
 	/*
-	 * Try to match the entered text against any of the known number
-	 * formating codes, if this succeeds, we store this as a Value +
-	 * format, otherwise, we return a string.  Be extra careful with empty
-	 * strings (""),  They may match some formats ....
+	 * Try to parse the entered text as a basic value (empty, bool, int,
+	 * float, err) if this succeeds, we store this as a Value otherwise, we
+	 * return a string.
 	 */
-	if (txt[0] != '\0') {
-		Value *v;
+	char const *txt = str->constant.value->v_str.val->str;
+	Value *v = format_match_simple (txt);
 
-		if (parser_desired_format && *parser_desired_format == NULL)
-			v = format_match (txt, parser_desired_format);
-		else
-			v = format_match (txt, NULL);
-
-		if (v != NULL) {
-			value_release (str->constant.value);
-			str->constant.value = v;
-			return TRUE;
-		}
+	if (v != NULL) {
+		value_release (str->constant.value);
+		str->constant.value = v;
+		return TRUE;
 	}
 	return FALSE;
 }

@@ -927,23 +927,16 @@ compute_value (const char *s, const regmatch_t *mp,
 	return TRUE;
 }
 
-#define NM 40
-
-Value *
-format_match (const char *text, StyleFormat **format)
+/**
+ * format_match_simple :
+ * @s : A String to match against.
+ *
+ * Attempt to match the the supplied string as a simple value.
+ */
+Value   *
+format_match_simple (const char *text)
 {
-	GList *l;
-	regmatch_t mp [NM+1];
-
-	if (format)
-		*format = NULL;
-
-	if (text[0] == '\0')
-		return value_new_empty ();
-
-	/* If it begins with a '\'' it is a string */
-	if (text[0] == '\'')
-		return value_new_string (text+1);
+	char *end;
 
 	/* Is it a boolean */
 	if (0 == g_strcasecmp (text, _("TRUE")))
@@ -958,13 +951,8 @@ format_match (const char *text, StyleFormat **format)
 			return err;
 	}
 
-	/* TODO : We should check the format associated with the region first,
-	 *        but we're not passing that information in yet
-	 */
-
 	/* Is it an integer */
 	{
-		char *end;
 		long l = strtol (text, &end, 10);
 		if (text != end && errno != ERANGE) {
 			/* ignore spaces at the end . */
@@ -987,6 +975,37 @@ format_match (const char *text, StyleFormat **format)
 				return value_new_float ((float_t)d);
 		}
 	}
+
+	return NULL;
+}
+
+#define NM 40
+
+Value *
+format_match (const char *text, StyleFormat **format)
+{
+	Value   *v;
+	GList *l;
+	regmatch_t mp [NM+1];
+
+	if (format)
+		*format = NULL;
+
+	if (text[0] == '\0')
+		return value_new_empty ();
+
+	/* If it begins with a '\'' it is a string */
+	if (text[0] == '\'')
+		return value_new_string (text+1);
+
+	/* TODO : We should check the format associated with the region first,
+	 *        but we're not passing that information in yet
+	 */
+
+	/* Check basic types */
+	v = format_match_simple (text);
+	if (v != NULL)
+		return v;
 
 	/* Fall back to checking the set of canned formats */
 	for (l = format_match_list; l; l = l->next){
