@@ -37,7 +37,7 @@ Please use another compiler, for example a gcc 2.95 series compiler.])
   fi
 fi
 
-PKG_CHECK_MODULES(GNUMERIC,[
+gnumeric_reqs="
 glib-2.0	>= 2.0.0
 gobject-2.0	>= 2.0.0
 gmodule-2.0	>= 2.0.0
@@ -51,9 +51,22 @@ libgnome-2.0	>= 1.105.0
 libgnomeui-2.0	>= 1.106.0
 libgnomeprint-2.0 >= 1.120.0
 libgnomeprintui-2.0 >= 1.120.0
-])
-dnl add this after release
-dnl libguppi-2	>= 0.50.0
+"
+try_guppi=false
+guppi_msg="disabled by default"
+AC_ARG_WITH(guppi,
+	[--{with,without}-guppi      ],
+	if test "x$withval" = xyes; then
+		try_guppi=true
+		guppi_msg=$marker_ok
+	fi
+)
+if test "$try_guppi" = "true"; then
+    gnumeric_reqs="$gnumeric_reqs libguppi-2 >= 0.50.0"
+fi
+
+PKG_CHECK_MODULES(GNUMERIC, $gnumeric_reqs)
+
 AC_SUBST(GNUMERIC_LIBS)
 AC_SUBST(GNUMERIC_CFLAGS)
 
@@ -516,6 +529,14 @@ if test "x$pygtk_msg" = "xyes"; then
 	AC_DEFINE(WITH_PYGTK)
 fi
 
+dnl *************
+dnl Corba support
+dnl *************
+AM_CONDITIONAL(WITH_CORBA, false)
+
+dnl **************
+dnl Bonobo support
+dnl **************
 try_bonobo=false
 bonobo_msg="disabled"
 AC_ARG_WITH(bonobo,
@@ -758,4 +779,5 @@ Configuration:
 	Bonobo Support:		${bonobo_msg}
 	GDA support:		${gda_msg}
 	Evolution Support:      ${evolution}
+	Guppi Support:          ${guppi_msg}
 "
