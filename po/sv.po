@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.31\n"
 "POT-Creation-Date: 1999-08-06 19:41-0500\n"
-"PO-Revision-Date: 1999-08-04 14:30+0200\n"
+"PO-Revision-Date: 1999-08-07 12:30+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1092,7 +1092,7 @@ msgstr ""
 "@DESCRIPTION=ACOS-funktionen beräknar arcus cosinus av x; det vill säga det "
 "värde vars cosinus är x. Om x ligger utanför intervallet -1 till 1, "
 "returnerar ACOS felet 'acos -domänfel'. Resultatet anges i radianer.\n"
-"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen har "
+"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
 "endast ett argument.\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
@@ -1111,6 +1111,14 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=ACOS, DEGREES, RADIANS "
 msgstr ""
+"@FUNCTION=ACOSH\n"
+"@SYNTAX=ACOSH(x)\n"
+"@DESCRIPTION=ACOSH beräknar inversen till cosinus hyperbolicus; det vill säga "
+"det värde vars COSH är x. Om x är mindre än 1.0, returnerar ACOSH felet "
+"'acosh - domänfel'\n"
+"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
+"endast ett argument.\n"
+"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/fn-math.c:317
 msgid "acosh - domain error"
@@ -1127,6 +1135,14 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 msgstr ""
+"@FUNCTION=ASIN\n"
+"@SYNTAX=ASIN(x)\n"
+"@DESCRIPTION=ASIN beräknar arcus sinus av x; det vill säga "
+"det värde vars sinus är x. Om x ligger utanför intervallet -1 till 1, "
+"returnerar ASIN felet 'asin - domänfel'\n"
+"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
+"endast ett argument.\n"
+"@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
 #: src/fn-math.c:344
 msgid "asin - domain error"
@@ -1142,6 +1158,14 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
+"@FUNCTION=ASINH\n"
+"@SYNTAX=ASINH(x)\n"
+"@DESCRIPTION=ASINH beräknar inversen till sinus hyperbolicus; det vill säga "
+"det värde vars SINH är x. Om x är mindre än 1.0, returnerar ASINH felet "
+"'acosh - domänfel'\n"
+"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
+"endast ett argument.\n"
+"@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 
 #: src/fn-math.c:371
 msgid ""
@@ -1153,6 +1177,13 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
+"@FUNCTION=ATAN\n"
+"@SYNTAX=ATAN(x)\n"
+"@DESCRIPTION=ATAN beräknar arctan av x; det vill säga "
+"det värde vars tangens är x. Resultatet ges i radianer.\n"
+"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
+"endast ett argument.\n"
+"@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: src/fn-math.c:394
 msgid ""
@@ -1166,6 +1197,15 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
+"@FUNCTION=ATANH\n"
+"@SYNTAX=ATANH(x)\n"
+
+"@DESCRIPTION=ATANH beräknar inversen till tangens hyperbolicus; det vill säga "
+"det värde vars tanh är x. Om absolutvärdet av x är större än 1.0, "
+"returnerar ATANH felet 'atanh: domänfel'\n"
+"Om argumentet är en sträng eller tom cell, händer ingenting. Funktionen tar "
+"endast ett argument.\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/fn-math.c:417
 msgid "atanh: domain error"
@@ -1182,6 +1222,13 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing. \n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
+"@FUNCTION=ATAN2\n"
+"@SYNTAX=ATAN2(b1,b2)\n"
+"@DESCRIPTION=ATAN2 är likvärdigt med att beräkna arctan av b1 / b2, med "
+"undantaget att de båda argumentens tecken används för att bestämma vilken "
+"kvadrant resultatet ska ligga i. Resultatet ges i radianer.\n"
+"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
+"@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
 #: src/fn-math.c:447
 msgid ""
@@ -1191,6 +1238,11 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 msgstr ""
+"@FUNCTION=CEIL\n"
+"@SYNTAX=CEIL(x)\n"
+"@DESCRIPTION=Funktionen CEIL avrundar x uppåt till närmsta heltal.\n"
+"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
+"@SEEALSO=ABS, FLOOR, INT"
 
 #: src/fn-math.c:466
 msgid ""
@@ -1200,6 +1252,11 @@ msgid ""
 "that meet the given criteria. \n"
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
+"@FUNCTION=COUNTIF\n"
+"@SYNTAX=COUNTIF(range,criteria)\n"
+"@DESCRIPTION=COUNTIF räknar antalet celler i det angivna området, som uppfyller "
+"det givna kriteriet.\n"
+"@SEEALSO=COUNT,SUMIF"
 
 #: src/fn-math.c:535
 msgid ""
@@ -1211,6 +1268,13 @@ msgid ""
 "criteria. \n"
 "@SEEALSO=COUNTIF,SUM"
 msgstr ""
+"@FUNCTION=SUMIF\n"
+"@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
+"@DESCRIPTION=SUMIF summerar de värden i det angivna området, som uppfyller "
+"det givna kriteriet. Om @actual_range är givet, summerar SUMIF värdena i "
+"@actual_range, vars motsvarande värden i @range uppfyller det givna "
+"kriteriet.\n"
+"@SEEALSO=COUNTIF,SUM"
 
 #: src/fn-math.c:679
 msgid ""
@@ -1222,6 +1286,13 @@ msgid ""
 "significance have different signs CEILING returns #NUM! error. \n"
 "@SEEALSO=CEIL"
 msgstr ""
+"@FUNCTION=CEILING\n"
+"@SYNTAX=CEILING(x,significance)\n"
+"@DESCRIPTION=CEILING avrundar x uppåt till den minsta multipeln av "
+"significance.\n"
+"Om x eller significance är icke-numerisk, returnerar CEILING felet #VALUE! "
+"Om x och significance har olika tecken, returneras felet #NUM!.\n"
+"@SEEALSO=CEIL"
 
 #: src/fn-math.c:712
 msgid ""
@@ -1233,6 +1304,12 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(x)\n"
+"@DESCRIPTION=COS returnerar cosinus av x, där x anges i radianer. \n"
+"Om argumentet är en sträng eller tom cell, händer ingenting."
+"Funktionen tar endast ett argument.\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/fn-math.c:732
 msgid ""
@@ -1244,6 +1321,13 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(x)\n"
+"@DESCRIPTION=COSH returnerar cosinus hyperbolicus för x, vilket "
+"definieras matematisk såsom (exp(x) + exp(-x)) / 2. x anges i radianer.\n"
+"Om argumentet är en sträng eller tom cell, händer ingenting."
+"Funktionen tar endast ett argument.\n"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
 #: src/fn-math.c:753
 msgid ""
@@ -1253,6 +1337,11 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing. \n"
 "@SEEALSO=RADIANS, PI"
 msgstr ""
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(x)\n"
+"@DESCRIPTION=Omvandlar x radianer till grader.\n"
+"Om argumentet är en sträng eller tom cell, händer ingenting.\n"
+"@SEEALSO=RADIANS, PI"
 
 #: src/fn-math.c:774
 msgid ""
@@ -1263,6 +1352,12 @@ msgid ""
 "Performing this function on a string or empty cell returns an error.\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
+"@FUNCTION=EXP\n"
+"@SYNTAX=EXP(x)\n"
+"@DESCRIPTION=Beräknar värdet av e upphöjt till x. e är basen för den naturliga "
+"logaritmen.\n"
+"Om argumentet är en sträng eller tom cell, returneras ett fel.\n"
+"@SEEALSO=LOG, LOG2, LOG10"
 
 #: src/fn-math.c:801
 msgid ""
@@ -1273,6 +1368,12 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=FACT\n"
+"@SYNTAX=FACT(x)\n"
+"@DESCRIPTION=Beräknar faktorialen av x, det vill säga x!\n"
+"Om argumentet är en sträng eller tom cell, returneras ett fel.\n"
+"\n"
+"@SEEALSO="
 
 #: src/fn-math.c:838
 msgid ""
@@ -1284,6 +1385,13 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=Beräknar antalet kombinationer.\n"
+"Om argumenten ej är positiva heltal returneras ett fel. Även om n är mindre än "
+"k returneras fel.\n"
+"\n"
+"@SEEALSO="
 
 #: src/fn-math.c:882
 msgid ""
@@ -1294,6 +1402,12 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
+"@FUNCTION=FLOOR\n"
+"@SYNTAX=FLOOR(x,significance)\n"
+"@DESCRIPTION=FLOOR avrundar x nedåt till närmsta multipel av @significance. "
+"@significance är 1 om inget anges.\n"
+"Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
+"@SEEALSO=CEIL, ABS, INT"
 
 #: src/fn-math.c:912
 msgid ""
@@ -1305,6 +1419,13 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(b1, b2, ...)\n"
+"@DESCRIPTION=INT avrundar b1 nedåt till närmsta heltal.\n "
+"'Närmsta' betyder här 'närmare noll'. Funktionen är likvärdigt med "
+"FLOOR(b1) för b1 >= 0, och CEIL(b1) för b1 < 0.\n"
+"Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
+"@SEEALSO=FLOOR, CEIL, ABS"
 
 #: src/fn-math.c:939
 msgid ""
@@ -1314,6 +1435,11 @@ msgid ""
 "given LOG returns the logarithm in base 10. \n"
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(x[,base])\n"
+"@DESCRIPTION=Beräknar logaritmen av x för den givna basen. Om ingen bas anges, "
+"används basen 10.\n"
+"@SEEALSO=LN, LOG2, LOG10"
 
 #: src/fn-math.c:968
 msgid ""
@@ -1322,6 +1448,10 @@ msgid ""
 "@DESCRIPTION=LN returns the natural logarithm of x. \n"
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
+"@FUNCTION=LN\n"
+"@SYNTAX=LN(x)\n"
+"@DESCRIPTION=LN returnerar den naturliga logaritmen av x.\n"
+"@SEEALSO=EXP, LOG2, LOG10"
 
 #: src/fn-math.c:991
 msgid ""
@@ -1331,6 +1461,11 @@ msgid ""
 "Performing this function on a string or empty cell returns an error.\n"
 "@SEEALSO=EXP"
 msgstr ""
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Returnerar värdet av x upphöjt till y.\n"
+"Om funktionen utförs på en sträng eller tom cell, returneras ett fel.\n"
+"@SEEALSO=EXP"
 
 #: src/fn-math.c:1018
 msgid ""
@@ -1340,6 +1475,11 @@ msgid ""
 "Performing this function on a string or empty cell returns an error. \n"
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
+"@FUNCTION=LOG2\n"
+"@SYNTAX=LOG2(x)\n"
+"@DESCRIPTION=Beräknas logaritmen av x i basen 2.\n"
+"Om funktionen utförs på en sträng eller tom cell, returneras ett fel.\n"
+"@SEEALSO=EXP, LOG10, LOG"
 
 #: src/fn-math.c:1036
 msgid "log2: domain error"
@@ -1353,6 +1493,11 @@ msgid ""
 "Performing this function on a string or empty cell returns an error. \n"
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
+"@FUNCTION=LOG10\n"
+"@SYNTAX=LOG10(x)\n"
+"@DESCRIPTION=Beräknas logaritmen av x i basen 10.\n"
+"Om funktionen utförs på en sträng eller tom cell, returneras ett fel.\n"
+"@SEEALSO=EXP, LOG2, LOG"
 
 #: src/fn-math.c:1061
 msgid "log10: domain error"
@@ -1366,6 +1511,11 @@ msgid ""
 "@divisor is divided into @number.\n"
 "Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(number,divisor)\n"
+"@DESCRIPTION=Beräknar modulu och returnerar resten när @number delas med @divisor.\n"
+"Returnerar #DIV/0! om @divisor är noll.\n"
+"\n@SEEALSO=INT,FLOOR,CEIL"
 
 #: src/fn-math.c:1104
 msgid ""
@@ -1375,6 +1525,11 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing. \n"
 "@SEEALSO=PI,DEGREES"
 msgstr ""
+"@FUNCTION=RADIANS\n"
+"@SYNTAX=RADIANS(x)\n"
+"@DESCRIPTION=Omvandlar x radianer till grader.\n"
+"Om funktionen utförs på en sträng eller tom cell, händer ingenting.\n"
+"@SEEALSO=PI,DEGREES"
 
 #: src/fn-math.c:1125
 msgid ""
@@ -1385,6 +1540,12 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Returnerar ett slumptal större än eller lika med 0 och mindre "
+"än 1.\n"
+"\n"
+"@SEEALSO="
 
 #: src/fn-math.c:1143
 msgid ""
@@ -1396,6 +1557,12 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
+"@FUNCTION=SIN\n"
+"@SYNTAX=SIN(x)\n"
+"@DESCRIPTION=SIN returnerar sinus av x, där x anges i radianer.\n"
+"Om funktionen utförs på en sträng eller tom cell, händer ingenting. "
+"Funktionen tar endast ett argument.\n"
+"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/fn-math.c:1163
 msgid ""
@@ -1407,6 +1574,13 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
+"@FUNCTION=SINH\n"
+"@SYNTAX=SINH(x)\n"
+"@DESCRIPTION=SINH beräknar sinus hyperbolicus av @x, vilket definieras "
+"matematiskt som (exp(x) - exp(-x)) / 2.\n"
+"Om funktionen utförs på en sträng eller tom cell, händer ingenting. "
+"Funktionen tar endast ett argument.\n"
+"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
 #: src/fn-math.c:1183
 msgid ""
@@ -1416,6 +1590,11 @@ msgid ""
 "If x is negative returns #NUM!.This function only takes one argument.\n"
 "@SEEALSO=POW"
 msgstr ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=Funktionen SQRT returnerar kvadratroten av @x.\n"
+"Om x är negativt, returnas #NUM!. Funktionen tar endast ett argument.\n"
+"@SEEALSO=POW"
 
 #: src/fn-math.c:1206
 msgid ""
@@ -1425,6 +1604,11 @@ msgid ""
 "argument list. \n"
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(value1, value2, ...)\n"
+"@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
+"argumentlistan. \n"
+"@SEEALSO=AVERAGE, COUNT"
 
 #: src/fn-math.c:1227
 msgid ""
@@ -1437,6 +1621,14 @@ msgid ""
 "it is counted as one (1). Note that empty cells are not counted.\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
+"@FUNCTION=SUMA\n"
+"@SYNTAX=SUMA(value1, value2, ...)\n"
+"@DESCRIPTION=Beräknar summan av alla värden och celler som referaras till i "
+"argumentlistan. Tal, text och logiska värden inkulderas även de i beräkningen. "
+"Om cellen innehåller text eller om argumenten evalueras till FALSE, räknas de "
+"som noll (0). Om ett argument evalueras till TRUE, räknas det som 1. Observera "
+" att tomma celler inte räknas.\n"
+"@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: src/fn-math.c:1252
 msgid ""
@@ -1446,6 +1638,11 @@ msgid ""
 "cells referenced in the argument list. \n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
+"@FUNCTION=SUMSQ\n"
+"@SYNTAX=SUMSQ(value1, value2, ...)\n"
+"@DESCRIPTION=SUMSQ beräknar summan av kvadraterna på alla värden och celler "
+"som referaras till i argumentlistan.\n"
+"@SEEALSO=SUM, COUNT"
 
 #: src/fn-math.c:1274
 msgid ""
@@ -1455,6 +1652,11 @@ msgid ""
 "values to the product of factorials. \n"
 "@SEEALSO=SUM"
 msgstr ""
+"@FUNCTION=MULTINOMIAL\n"
+"@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
+"@DESCRIPTION=MULTINOMIAL beräknar förhållandet (fakulteten av en summa av "
+"värden) / (produkten av fakulteterna av värdena).\n"
+"@SEEALSO=SUM"
 
 #: src/fn-math.c:1329
 msgid ""
@@ -1464,6 +1666,11 @@ msgid ""
 "referenced in the argument list. \n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
+"@FUNCTION=PRODUCT\n"
+"@SYNTAX=PRODUCT(value1, value2, ...)\n"
+"@DESCRIPTION=PRODUCT returnerar produkten av alla värden och celler "
+"som referas till i argumentlistan.\n"
+"@SEEALSO=SUM, COUNT"
 
 #: src/fn-math.c:1350
 msgid ""
@@ -1475,6 +1682,13 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
+"@FUNCTION=TAN\n"
+"@SYNTAX=TAN(x)\n"
+"@DESCRIPTION=Funktionen TAN returnerar tangens av @x, där @x anges "
+"i radianer.\n"
+"Om funktionen utförs på en sträng eller tom cell, händer ingenting. Funktionen "
+"tar endast ett argument.\n"
+"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
 #: src/fn-math.c:1370
 msgid ""
@@ -1486,6 +1700,13 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
+"@FUNCTION=TANH\n"
+"@SYNTAX=TANH(x)\n"
+"@DESCRIPTION= TANH returnerar tangens hyperbolicus av x,  vilket "
+"är definierat matematiskt som sinh(x) / cosh(x).\n"
+"Om funktionen utförs på en sträng eller tom cell, händer ingenting. Funktionen "
+"tar endast ett argument.\n"
+"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
 #: src/fn-math.c:1390
 msgid ""
@@ -1495,6 +1716,11 @@ msgid ""
 "This function is called with no arguments.\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=PI returnerar värdet av Pi, definierat av M_PI.\n"
+"Funktionen har inga argument.\n"
+"@SEEALSO="
 
 #: src/fn-math.c:1409
 msgid ""
@@ -1506,6 +1732,13 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=TRUNC\n"
+"@SYNTAX=TRUNC(number[,digits])\n"
+"@DESCRIPTION=TRUNC returnerar värdet av @number avhuggt "
+"till det givna antalet decimaler. Om @digits inte anges, "
+"huggs alla decimaler av.\n"
+"\n"
+"@SEEALSO="
 
 #: src/fn-math.c:1442
 msgid ""
@@ -1515,6 +1748,10 @@ msgid ""
 "integer. \n"
 "@SEEALSO=ODD"
 msgstr ""
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(number)\n"
+"@DESCRIPTION=EVEN returnerar argumentet avrundat uppåt till närmsta jämna heltal.\n"
+"@SEEALSO=ODD"
 
 #: src/fn-math.c:1473
 msgid ""
@@ -1524,6 +1761,10 @@ msgid ""
 "integer. \n"
 "@SEEALSO=EVEN"
 msgstr ""
+"@FUNCTION=ODD\n"
+"@SYNTAX=ODD(number)\n"
+"@DESCRIPTION=ODD returnerar argumentet avrundat uppåt till närmsta udda heltal.\n"
+"@SEEALSO=EVEN"
 
 #: src/fn-math.c:1504
 msgid ""
@@ -1534,6 +1775,12 @@ msgid ""
 "FACTDOUBLE returns #NUM! error. \n"
 "@SEEALSO=FACT"
 msgstr ""
+"@FUNCTION=FACTDOUBLE\n"
+"@SYNTAX=FACTDOUBLE(number)\n"
+"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @number.\n"
+"Om @number inte är ett heltal, trunkeras det. Om @number är negativt, "
+"returneras felet #NUM!\n"
+"@SEEALSO=FACT"
 
 #: src/fn-math.c:1535
 msgid ""
@@ -1543,6 +1790,11 @@ msgid ""
 "@num is the divided and @den is the divisor. \n"
 "@SEEALSO=MOD"
 msgstr ""
+"@FUNCTION=QUOTIENT\n"
+"@SYNTAX=QUOTIENT(num,den)\n"
+"@DESCRIPTION=QUOTIENT returnerar heltalsdelen av ett bråk. "
+"@num är täljare och @den är nämnare.\n"
+"@SEEALSO=MOD"
 
 #: src/fn-math.c:1556
 msgid ""
@@ -1552,6 +1804,11 @@ msgid ""
 "number is 0, and -1 if the number is negative. \n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=SIGN\n"
+"@SYNTAX=SIGN(num)\n"
+"@DESCRIPTION=Funktionen SIGN returnerar 1 om argumenten är positivt, 0 om det "
+"är 0, och -1 om argumentet är negativt.\n"
+"@SEEALSO="
 
 #: src/fn-math.c:1581
 msgid ""
@@ -1561,6 +1818,11 @@ msgid ""
 "by pi. \n"
 "@SEEALSO=PI"
 msgstr ""
+"@FUNCTION=SQRTPI\n"
+"@SYNTAX=SQRTPI(number)\n"
+"@DESCRIPTION=SQRTPI beräknar kvadratroten av ett tal multiplicarat "
+"med pi. \n"
+"@SEEALSO=PI"
 
 #: src/fn-math.c:1603
 msgid ""
@@ -1572,6 +1834,12 @@ msgid ""
 "RANDBETWEEN returns #NUM! error.\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDBETWEEN\n"
+"@SYNTAX=RANDBETWEEN(bottom,top)\n"
+"@DESCRIPTION=RANDBETWEEN returnerar ett slumpheltal mellan @bottom och @top.\n"
+"Om @bottom eller @top är icke-heltal, trunkeras de. Om @bottom > @top, "
+"returneras felet #NUM!\n"
+"@SEEALSO=RAND"
 
 #: src/fn-math.c:1629
 msgid ""
@@ -2565,93 +2833,84 @@ msgstr "Tillägget används fortfarande.\n"
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
 msgid "Page &[PAGE]"
-msgstr ""
+msgstr "Sida &[PAGE]"
 
 #: src/print-info.c:21 src/print-info.c:26
 msgid "Page &[PAGE] of &[PAGES]"
-msgstr ""
+msgstr "Sida &[PAGE] av &[PAGES]"
 
 #: src/print-info.c:22 src/print-info.c:23 src/print-info.c:24
 #: src/print-info.c:26
 msgid "&[TAB]"
-msgstr ""
+msgstr "&[TAB]"
 
 #: src/print-info.c:24 src/print-info.c:25 src/print-info.c:26
 msgid "&[DATE]"
-msgstr ""
+msgstr "&[DATE]"
 
 #: src/print-info.c:267
 msgid "Sheet &[NUM]"
-msgstr ""
+msgstr "Sheet &[NUM]"
 
 #: src/print-info.c:268
 msgid "Page &[NUM]"
-msgstr ""
+msgstr "Sida &[NUM]"
 
 #: src/print-info.c:418
-#, fuzzy
 msgid "pts"
-msgstr "Alternativ"
+msgstr "pkter"
 
 #: src/print-info.c:418
-#, fuzzy
 msgid "points"
-msgstr "Alternativ"
+msgstr "punkter"
 
 #: src/print-info.c:419
-#, fuzzy
 msgid "mm"
-msgstr "d-mm"
+msgstr "mm"
 
 #: src/print-info.c:419
 msgid "millimeter"
-msgstr ""
+msgstr "millimeter"
 
 #: src/print-info.c:420
 msgid "cm"
-msgstr ""
+msgstr "cm"
 
 #: src/print-info.c:420
-#, fuzzy
 msgid "centimeter"
-msgstr "Centrera"
+msgstr "centimeter"
 
 #: src/print-info.c:421
 msgid "In"
-msgstr ""
+msgstr "Tum"
 
 #: src/print-info.c:421
 msgid "inch"
-msgstr ""
+msgstr "tum"
 
 #: src/print-info.c:481
-#, fuzzy
 msgid "Sheet 1"
-msgstr "Blad"
+msgstr "Blad 1"
 
 #: src/print-info.c:539
 msgid "tab"
-msgstr ""
+msgstr "tab"
 
 #: src/print-info.c:540
-#, fuzzy
 msgid "page"
-msgstr "Sida"
+msgstr "sida"
 
 #: src/print-info.c:541
-#, fuzzy
 msgid "pages"
-msgstr "Sida"
+msgstr "sidor"
 
 #: src/print-info.c:542
-#, fuzzy
 msgid "date"
-msgstr "Datum"
+msgstr "datum"
 
 #: src/print-info.c:543
-#, fuzzy
 msgid "time"
-msgstr "Tid"
+msgstr "tid"
 
 #: src/sheet-view.c:337 src/sheet-view.c:411
 #, c-format
@@ -2939,7 +3198,7 @@ msgstr "_Sortera..."
 
 #: src/workbook.c:1039
 msgid "Sort the selected cells"
-msgstr "Sortera merkerade cell(er)"
+msgstr "Sortera merkerade celler"
 
 #: src/workbook.c:1040
 msgid "_Goal Seek..."
@@ -3171,7 +3430,7 @@ msgstr "Gammalt Gnumeric XML filformat"
 #.
 #: src/print.glade.h:7
 msgid "window2"
-msgstr ""
+msgstr "window2"
 
 #: src/print.glade.h:8
 msgid "Orientation"
@@ -3179,7 +3438,7 @@ msgstr "Orientering"
 
 #: src/print.glade.h:11
 msgid "Scale"
-msgstr "Skalning:"
+msgstr "Skala"
 
 #: src/print.glade.h:12 src/print.glade.h:13
 msgid "Adjust to"
@@ -3302,7 +3561,7 @@ msgstr "Svart och vit"
 
 #: src/print.glade.h:51
 msgid "Titles of rows and columns."
-msgstr ""
+msgstr "Titlar för rader och kolumner"
 
 #: src/print.glade.h:52
 msgid "Comments"
@@ -3314,19 +3573,19 @@ msgstr "Utskriftsordning"
 
 #: src/print.glade.h:54
 msgid "Down, then right"
-msgstr "Ned, sedan höger"
+msgstr "Nedåt, sedan höger"
 
 #: src/print.glade.h:55
 msgid "Right, then down"
-msgstr "Höger, sedan ned"
+msgstr "Höger, sedan nedåt"
 
 #: src/print.glade.h:60
 msgid "Customize header"
-msgstr ""
+msgstr "Anpassa sidhuvud"
 
 #: src/print.glade.h:61
 msgid "Customize footer"
-msgstr ""
+msgstr "Anpassa sidfot"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3348,15 +3607,15 @@ msgstr "label2"
 #.
 #: src/hf-config.glade.h:7
 msgid "Left section:"
-msgstr ""
+msgstr "Vänster:"
 
 #: src/hf-config.glade.h:8
 msgid "Center section:"
-msgstr ""
+msgstr "Mitten:"
 
 #: src/hf-config.glade.h:9
 msgid "Right section:"
-msgstr ""
+msgstr "Höger:"
 
 #: src/hf-config.glade.h:10
 msgid "Enter the format strings for each section:"
