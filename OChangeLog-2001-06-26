@@ -1,3 +1,8 @@
+2000-03-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell-draw.c (draw_text) : adjust placement of single vs double
+	  underlining.
+
 2000-03-01  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: Bump required ver. of gnome-print.

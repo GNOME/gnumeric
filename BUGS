@@ -4,6 +4,8 @@ and longer term bugs.
 
 Release Critical
 ----------------
+- gnumeric depends on unreleased gnome-print
+- gnumeric depends on unreleased bonobo
 
 Long term breakage
 ------------------

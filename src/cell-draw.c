@@ -17,18 +17,25 @@
 #include "cellspan.h"
 #include "cell-draw.h"
 
-static void
+static inline void
 draw_text (GdkDrawable *drawable, GdkFont *font, StyleUnderlineType const uline,
 	   GdkGC *gc, int x1, int text_base, char const * text, int n, int len_pixels)
 {
 	gdk_draw_text (drawable, font, gc, x1, text_base, text, n);
 
 	/* FIXME how to handle small fonts ?
-	 * the text_base should be at least 4 pixels above the bottom */
-	if (uline != UNDERLINE_NONE) {
+	 * the text_base should be at least 2 pixels above the bottom */
+	switch (uline) {
+	case UNDERLINE_SINGLE :
 		gdk_draw_line (drawable, gc, x1, text_base+1, x1+len_pixels, text_base+1);
-		if (uline == UNDERLINE_DOUBLE)
-			gdk_draw_line (drawable, gc, x1, text_base+3, x1+len_pixels, text_base+3);
+		break;
+
+	case UNDERLINE_DOUBLE :
+		gdk_draw_line (drawable, gc, x1, text_base, x1+len_pixels, text_base);
+		gdk_draw_line (drawable, gc, x1, text_base+2, x1+len_pixels, text_base+2);
+
+	default :
+		break;
 	}
 }
 
