@@ -2,23 +2,125 @@
 
 GNOME Spread Sheet task list
 
-* Implement recalculation
-* Implement functions
-* Implement Ranges.
-* Redo the Selection code
-* Routine for returning the bounding box of a cell.
+* EDITION
 
-* Edit
+** Paste special 
+
+  needs some little changes:
+  - When formulas are pasted with an operation,
+    the new ExprTree should be created with the operation.
+
+** Context menus:
+
+  We need context menus for the spreadsheet:
+     - Cut/Copy/Paste/Paste-Special
+     - Insert
+       Move cells to the right
+       Move cells to the bottom
+       Insert a complete row
+       Insert a complete col
+     - Delete
+       Move cells to the left
+       MOve cells to the top
+       Delete a row
+       Delete a col
+     - Cell formats
 
 ** Style
-*** Change
 
-** Copy
-** Paste
-** Move
+  The complete cell style dialog box needs  to be implemented
+  
+  Numbers:
+    Format engine is required.
+
+    Items:
+        Format categories
+	Format representation
+	Input line for typing a new format
+	Test display (from using the selected cell)
+
+  Alignment:
+    Horizontal:
+      General/Left/Right/Center/Justify/
+          Center with respect to selection.
+    Vertical
+      Up/Center/Fown/Justify
+
+    Automatic return check box
+      This automatically "wraps" text when it overflows the cell
+
+    Orientation
+      horizontal
+      vertical: 3 types of string display.
+
+  Fonts:
+
+  Borders:
+
+  Color/patterns
+
+  Protection:
+    Bloqued/Hidden
+
+** Visual move.
+
+   If drag happens with button 3, context menu does provide:
+     Copy
+     MOve
+     Copy formats
+     Copy values
+     move cells toward bottom and copy
+     move cells toward right and copy
+     move cells toward bottom and move
+     move clels toward right and move
+
+   Operation on the border:
+
+   Button-1: The default option is to just move and asks if
+             there are conflicts.
+
+   Shift-Button-1: moves the target cells and moves
+     (depending on which side is selected top/left)
+
+   Contorl-Button-1: copies the cells.
+          
+* File Load/Save
+
+  Support for popular formats.  
+
+    I have the specs for the XS3 format.  SC should be
+    trivial to support as well (from the guile sources)
 
 * Scrolling
 
-** Make current cell always visible
+** Fix the "make_cell_visible" routine, as the cell
+   should be entirely visible, not just partially.
+
 ** Nice page scrolling with tooltips
 ** Scrollbar scrolling
+
+* CORBA exporting
+
+* Perl bindings.
+
+* Display Engine
+
+** item-edit
+
+   This should be improved to use a cell rendering routine.
+   which should be shared between item-grid and item-edit, to
+   get life feedback on the result.
+
+* Style manager
+ 
+   Implement style regions.
+   Implement style resolution at cell creation time.
+
+* Workbooks:
+
+** Notebook:
+   Clicking on it chooses it
+   Double clicking changes the name
+   Right clicking gets:
+     insert
+     
