@@ -96,14 +96,7 @@ add2numbers (FunctionDefinition *fn_def, Value *argv [], char **error_string)
 		return NULL;
 	}
 
-	/* 
-	 * the line below is equivalent to:
-	 * result = (Value *) malloc (sizeof (Value));
-	 *
-	 */
-	result = g_new (Value, 1);
-	result->type = VALUE_FLOAT;
-	result->v.v_float = number_a + number_b;
+	result = value_float (number_a + number_b);
 
 	return result;
 }
@@ -112,6 +105,46 @@ Note that the typechecking is done in the routine itself, it is not
 done by the upper layers.  If there is an error during the function
 processing, *error_string should be set to the error message
 describing what went wrong and the NULL value should be returned.
+
+Return values and Strings.
+--------------------------
+
+There are a couple of utility functions provided by Gnumeric to create 
+Values: these are value_float and value_int, they take respectively 
+a double and an integer as their first parameter.
+
+Other value types have to be created manually (there is no utility
+function yet).  Sometimes you might want to do something more complex, 
+so you might want as well create the Value yourself even if the result
+is a float or an integer (for performance reasons, reuse reasons, or
+the way your procedure is used), you can use this code snippet to
+create a Value Float as well:
+
+	/* 
+	 * the line below is equivalent to:
+	 * result = (Value *) malloc (sizeof (Value));
+	 *
+	 */
+	result = g_new (Value, 1);
+	result->type = VALUE_FLOAT;
+	result->v.v_float = your_number
+
+Values of type string are created like this:
+
+	Value *value_string;
+
+	value_string = g_new (Value, 1);
+	v->v.str = string_get ("String");
+
+Notice that the field "v.str" is of type (String *) not of type char
+*.  Strings unlike char * are read-only structures, you should under
+no circustance modify the value returned by string_get.  They are
+designed to be shared between various Gnumeric components, so they
+keep a reference count.
+
+When you are done with a String, you should call the string_unref
+routine on the String. 
+
 
 Functions with a variable number of arguments
 ---------------------------------------------

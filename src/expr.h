@@ -160,6 +160,9 @@ void        value_dump           (Value *value);
 char       *value_string         (Value *value);
 Value      *value_duplicate      (Value *value);
 
+Value      *value_float          (float_t f);
+Value      *value_int            (int i);
+
 int         yyparse              (void);
 
 /* Setup of the symbol table */

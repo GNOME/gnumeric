@@ -7,11 +7,14 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "utils.h"
 #include "gnumeric-util.h"
 #include "eval.h"
+#include "number-match.h"
+#include "format.h"
 
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
@@ -620,6 +623,9 @@ sheet_set_text (Sheet *sheet, int col, int row, char *str)
 {
 	GList *l;
 	Cell *cell;
+	double v;
+	char *format, *text;
+	int  text_set = FALSE;
 	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -628,9 +634,39 @@ sheet_set_text (Sheet *sheet, int col, int row, char *str)
 	
 	if (!cell)
 		cell = sheet_cell_new (sheet, col, row);
-	
-	cell_set_text (cell, gtk_entry_get_text (GTK_ENTRY (sheet->workbook->ea_input)));
 
+	text = gtk_entry_get_text (GTK_ENTRY (sheet->workbook->ea_input));
+
+	/*
+	 * Figure out if a format matches, and for sanity compare that to
+	 * a rendered version of the text, if they compare equally, then
+	 * use that.
+	 */
+	if (*text != '=' && format_match (text, &v, &format)){
+		StyleFormat *sf;
+		char *new_text;
+		char buffer [50];
+		Value *vf = value_float (v);
+
+		/* Render it */
+		sf = style_format_new (format);
+		new_text = format_value (sf, vf, NULL);
+		value_release (vf);
+		style_format_unref (sf);
+
+		/* Compare it */
+		if (strcasecmp (new_text, text) == 0){
+			cell_set_format_simple (cell, format);
+			sprintf (buffer, "%g", v);
+			cell_set_text (cell, buffer);
+			text_set = TRUE;
+		}
+		g_free (new_text);
+	}
+
+	if (!text_set)
+		cell_set_text (cell, text);
+	
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 		

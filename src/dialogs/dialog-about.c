@@ -35,7 +35,7 @@ dialog_about (void)
 				 _("The GNOME spreadsheet.\n"
 				   "http://www.gnome.org/gnumeric"),
 				 NULL);
-	gnome_dialog_set_modal (GNOME_DIALOG (about));
+	gtk_window_set_modal (GTK_WINDOW (about), TRUE);
 	gnome_dialog_set_close (GNOME_DIALOG (about), TRUE);
         gtk_widget_show (about);
 }

@@ -21,21 +21,67 @@ static Value *gnumeric_count       (void *tsheet, GList *expr_node_list,
 				    int eval_col, int eval_row,
 				    char **error_string);
 
+#if 0
+/* help template */
+static char *help_ = {
+	N_("@FUNCTION=NAME\n"
+	   "@SYNTAX=(b1, b2, ...)\n"
+
+	   "@DESCRIPTION"
+	   ""
+	   "\n"
+
+	   ""
+	   ""
+	   "\n"
+	   
+	   ""
+	   ""
+	   ""
+	   ""
+	   "@SEEALSO=")
+};
+
+#endif
+
+static char *help_abs = {
+	N_("@FUNCTION=ABS\n"
+	   "@SYNTAX=ABS(b1)\n"
+
+	   "@DESCRIPTION=Implements the Absolute Value function:  the result is "
+	   "to drop the negative sign (if present).  This can be done for "
+	   "integers and floating point numbers."
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "\n"
+	   "@SEEALSO=CEIL, FLOOR")
+};
+
 static Value *
 gnumeric_abs (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = fabs (value_get_as_double (argv [0]));
-
-	return v;
+	return value_float (fabs (value_get_as_double (argv [0])));
 }
+
+static char *help_acos = {
+	N_("@FUNCTION=ACOS\n"
+	   "@SYNTAX=ACOS(b1)\n"
+
+	   "@DESCRIPTION="
+	   "The ACOS function calculates the arc cosine of b1; that "
+	   " is the value whose cosine is b1.  If b1  falls  outside  the "
+	   " range -1 to 1, ACOS fails and returns the error 'acos - domain error'. "
+	   " The value it returns is in radians. "
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=COS, SIN, DEGREES, RADIANS")
+};
 
 static Value *
 gnumeric_acos (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v;
 	float_t t;
 
 	t = value_get_as_double (argv [0]);
@@ -43,17 +89,28 @@ gnumeric_acos (struct FunctionDefinition *i, Value *argv [], char **error_string
 		*error_string = _("acos - domain error");
 		return NULL;
 	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = acos (t);
-
-	return v;
+	return value_float (acos (t));
 }
+
+static char *help_acosh = {
+	N_("@FUNCTION=ACOSH\n"
+	   "@SYNTAX=ACOSH(b1)\n"
+
+	   "@DESCRIPTION="
+	   "The ACOSH  function  calculates  the inverse hyperbolic "
+	   "cosine of b1; that is the value whose hyperbolic cosine  is "
+	   "b1.   If  b1  is less than 1.0, acosh() returns the error     "
+	   " 'acosh - domain error'"
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=ACOS, DEGREES, RADIANS ")
+};
 
 static Value *
 gnumeric_acosh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v;
 	float_t t;
 
 	t = value_get_as_double (argv [0]);
@@ -61,12 +118,27 @@ gnumeric_acosh (struct FunctionDefinition *i, Value *argv [], char **error_strin
 		*error_string = _("acosh - domain error");
 		return NULL;
 	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = acosh (t);
-
-	return v;
+	return value_float (acosh (t));
 }
+
+static char *help_and = {
+	N_("@FUNCTION=AND\n"
+	   "@SYNTAX=AND(b1, b2, ...)\n"
+
+	   "@DESCRIPTION=Implements the logical AND function: the result is TRUE "
+	   "if all of the expression evaluates to TRUE, otherwise it returns "
+	   "FALSE.\n"
+
+	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
+	   "If an integer or floating point value is provided zero is considered "
+	   "FALSE and anything else is TRUE.\n"
+	   
+	   "If the values contain strings or empty cells those values are "
+	   "ignored.  If no logical values are provided, then the error '#VALUE!' "
+	   "is returned. "
+	   "\n"
+	   "@SEEALSO=OR")
+};
 
 static int
 callback_function_and (Sheet *sheet, Value *value, char **error_string, void *closure)
@@ -96,520 +168,6 @@ callback_function_and (Sheet *sheet, Value *value, char **error_string, void *cl
 	return TRUE;
 }
 
-#if 0
-/* help template */
-static char *help_ = {
-	N_("@FUNCTION=NAME\n"
-	   "@SYNTAX=(b1, b2, ...)\n"
-
-	   "@DESCRIPTION"
-	   ""
-	   "\n"
-
-	   ""
-	   ""
-	   "\n"
-	   
-	   ""
-	   ""
-	   ""
-	   ""
-	   "@SEEALSO=")
-};
-
-#endif
-
-static char *help_atan2 = {
-	N_("@FUNCTION=ATAN2"
-	   "@SYNTAX=ATAN2(b1,b2)\n"
-
-	   "@DESCRIPTION="
-	   "The ATAN2 function calculates the arc tangent of the two "
-	   "variables b1 and b2.  It is similar to calculating  the  arc "
-	   "tangent  of b2 / b1, except that the signs of both arguments "
-	   "are used to determine the quadrant of the result. "
-	   "The result is in Radians."
-	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."  
-	   "\n"
-	   "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS")
-};
-
-
-static char *help_atanh = {
-	N_("@FUNCTION=ATANH\n"
-	   "@SYNTAX=ATANH(b1)\n"
-
-	   "@DESCRIPTION="
-	   "The  ATANH  function  calculates  the inverse hyperbolic "
-	   "tangent of b1; that is the value whose  hyperbolic  tangent "
-	   "is  b1.   If  the  absolute value of b1 is greater than 1.0, "
-	   " ATANH returns an error of 'atanh: domain error'      "
-	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
-	   "\n"
-	   "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS")
-};
-
-static char *help_atan = {
-	N_("@FUNCTION=ATAN\n"
-	   "@SYNTAX=ATAN(b1)\n"
-
-	   "@DESCRIPTION="
-	   "The ATAN function calculates the arc tangent of b1; that "
-	   " is the value whose tangent is b1."
-	   "Return value is in radians."
-	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
-	   "\n"
-
-	   "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS")
-};
-
-static char *help_asinh = {
-	N_("@FUNCTION=ASINH\n"
-	   "@SYNTAX=ASINH(b1)\n"
-
-	   "@DESCRIPTION="
-	   "The ASIN  function  calculates  the inverse hyperbolic "
-	   " sine of b1; that is the value whose hyperbolic sine is b1. "
-	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
-	   "\n"
-	   "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS")
-};
-
-
-static char *help_asin = {
-	N_("@FUNCTION=ASIN\n"
-	   "@SYNTAX=ASIN(b1)\n"
-
-	   "@DESCRIPTION="
-	   "The ASIN function calculates the arc sine of b1; that is "
-	   "the value whose sine is b1.  If b1 falls outside  the  range "
-	   "-1 to 1, ASIN fails and returns the error 'asin - domain error'   "
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
-	   "\n"
-	   "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS")
-};
-
-
-static char *help_acosh = {
-	N_("@FUNCTION=ACOSH\n"
-	   "@SYNTAX=ACOSH(b1)\n"
-
-	   "@DESCRIPTION="
-	   "The ACOSH  function  calculates  the inverse hyperbolic "
-	   "cosine of b1; that is the value whose hyperbolic cosine  is "
-	   "b1.   If  b1  is less than 1.0, acosh() returns the error     "
-	   " 'acosh - domain error'"
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
-	   "\n"
-	   "@SEEALSO=ACOS, DEGREES, RADIANS ")
-};
-
-static char *help_acos = {
-	N_("@FUNCTION=ACOS\n"
-	   "@SYNTAX=ACOS(b1)\n"
-
-	   "@DESCRIPTION="
-	   "The ACOS function calculates the arc cosine of b1; that "
-	   " is the value whose cosine is b1.  If b1  falls  outside  the "
-	   " range -1 to 1, ACOS fails and returns the error 'acos - domain error'. "
-	   " The value it returns is in radians. "
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
-	   "\n"
-	   "@SEEALSO=COS, SIN, DEGREES, RADIANS")
-};
-
-static char *help_average = {
-	N_("@FUNCTION=AVERAGE\n"
-	   "@SYNTAX=AVERAGE(value1, value2,...)"
-
-	   "@DESCRIPTION="
-	   "Computes the average of all the values and cells referenced in the "
-	   "argument list.  This is equivalent to the sum of the arguments divided "
-	   "by the count of the arguments."
-	   "\n"
-	   "@SEEALSO=SUM, COUNT")
-};
-
-static char *help_tanh = {
-	N_("@FUNCTION=TANH\n"
-	   "@SYNTAX=TANH(b1)\n"
-
-	   "@DESCRIPTION="
-	   " The TANH function returns the hyperbolic tangent of b1, "
-	   " which is defined mathematically as sinh(b1) / cosh(b1). "
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
-	   "\n"
-	   "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS")
-};
-
-static char *help_tan = {
-	N_("@FUNCTION=TAN\n"
-	   "@SYNTAX=TAN(b1)\n"
-
-	   "@DESCRIPTION="
-	   "The TAN function  returns the tangent of b1, where b1 is "
-	   "given in radians. "
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
-	   "\n"
-	   "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS")
-};
-
-
-static char *help_sinh = {
-	N_("@FUNCTION=SINH\n"
-	   "@SYNTAX=SINH(b1)\n"
-
-	   "@DESCRIPTION="
-	   "The SINH  function  returns  the  hyperbolic sine of b1, "
-	   "which is defined mathematically as (exp(b1) - exp(-b1)) / 2. "
-	   " b1 is in radians. "
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
-	   "\n"
-	   "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP")
-};
-
-static char *help_cosh = {
-	N_("@FUNCTION=COSH\n"
-	   "@SYNTAX=COSH(b1)\n"
-
-	   "@DESCRIPTION="
-	   "The COSH  function  returns the hyperbolic cosine of b1, "
-	   " which is defined mathematically as (exp(b1) + exp(-b1)) / 2.   "
-	   " b1 is in radians. "
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
-	   "\n"
-	   "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP")
-};
-
-
-static char *help_sin = {
-	N_("@FUNCTION=SIN\n"
-	   "@SYNTAX=SIN(b1)\n"
-
-	   "@DESCRIPTION="
-	   "The SIN function returns the sine of b1, where b1 is given "
-           " in radians. "
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
-	   "\n"
-	   "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES")
-};
-
-static char *help_cos = {
-	N_("@FUNCTION=COS\n"
-	   "@SYNTAX=COS(b1)\n"
-
-	   "@DESCRIPTION="
-	   "The  COS  function  returns  the cosine of b1, where b1 is "
-           "given in radians.  "
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "This function only takes one argument."
-	   "\n"
-	   "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES")
-};
-
-
-
-static char *help_int = {
-	N_("@FUNCTION=INT\n"
-	   "@SYNTAX=INT(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "The INT function round b1 now to the nearest int. "
-	   "Where 'nearest' implies being closer to zero. "
-	   "Eqilivent to FLOOR(b1) for b1 >0, amd CEIL(b1) "
-	   "for b1 < 0. " 
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
-	   ""
-	   "\n"
-	   "@SEEALSO=FLOOR, CEIL, ABS")
-};
-
-static char *help_count = {
-	N_("@FUNCTION=COUNT\n"
-	   "@SYNTAX=COUNT(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "Returns the total number of arguments passed."
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
-	   "@SEEALSO=AVERAGE")
-};
-
-
-static char *help_fact = {
-	N_("@FUNCTION=FACT\n"
-	   "@SYNTAX=FACT(b1)\n"
-
-	   "@DESCRIPTION="
-	   "Computes the factorial of b1. ie, b1!"
-	   "\n"
-	   "Performing this function on a string or empty cell returns an error"
-	   "\n"
-	   "\n"
-	   "@SEEALSO=")
-};
-
-
-static char *help_exp = {
-	N_("@FUNCTION=EXP\n"
-	   "@SYNTAX=EXP(b1)\n"
-
-	   "@DESCRIPTION="
-	   "Computes the value of e(the base of natural logarithmns) raised "
-	   "to the power of b1. "
-	   "\n"
-	   "Performing this function on a string or empty cell returns an error."
-	   "\n"
-	   "@SEEALSO=LOG, LOG2, LOG10")
-};
-
-static char *help_log = {
-	N_("@FUNCTION=LOG\n"
-	   "@SYNTAX=LOG(b1)\n"
-
-	   "@DESCRIPTION="
-	   "Computes the natural logarithm  of b1. "
-	   "\n"
-	   "Performing this function on a string or empty cell returns an error. "
-	   "\n"
-	   "@SEEALSO=EXP, LOG2, LOG10")
-};
-
-static char *help_log10 = {
-	N_("@FUNCTION=LOG10"
-	   "@SYNTAX=LOG10(b1)\n"
-
-	   "@DESCRIPTION="
-	   "Computes the base-10 logarithm  of b1. "
-	   "\n"
-
-	   "Performing this function on a string or empty cell returns an error. "
-	   "\n"
-	   "@SEEALSO=EXP, LOG2, LOG")
-};
-
-static char *help_log2 = {
-	N_("@FUNCTION=LOG2"
-	   "@SYNTAX=LOG2(b1)\n"
-
-	   "@DESCRIPTION="
-	   "Computes the base-2 logarithm  of b1. "
-	   "\n"
-	   "Performing this function on a string or empty cell returns an error. "
-	   "\n"
-	   "@SEEALSO=EXP, LOG10, LOG")
-};
-
-
-static char *help_min = {
-	N_("@FUNCTION=MIN\n"
-	   "@SYNTAX=MIN(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "MIN returns the value of the element of the values passed "
-	   "that has the smallest value. With negative numbers considered "
-	   "smaller than positive numbers."
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
-	   "@SEEALSO=MAX,ABS")
-};
-
-static char *help_max = {
-	N_("@FUNCTION=MAX\n"
-	   "@SYNTAX=MAX(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "MAX returns the value of the element of the values passed "
-	   "that has the largest value. With negative numbers considered "
-	   "smaller than positive numbers."
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
-	   "@SEEALSO=MIN,ABS")
-};
-
-
-static char *help_or = {
-	N_("@FUNCTION=OR\n"
-	   "@SYNTAX=OR(b1, b2, ...)"
-
-	   "@DESCRIPTION="
-	   "Implements the logical OR function: the result is TRUE if any of the"
-	   "values evaluated to TRUE.\n"
-	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
-	   "If an integer or floating point value is provided zero is considered"
-	   "FALSE and anything else is TRUE.\n"
-	   "If the values contain strings or empty cells those values are "
-	   "ignored.  If no logical values are provided, then the error '#VALUE!'"
-	   "is returned.\n"
-
-	   "@SEEALSO=AND")
-};
-
-
-static char *help_radians = {
-	N_("@FUNCTION=RADIANS\n"
-	   "@SYNTAX=RADIANS(b1)\n"
-
-	   "@DESCRIPTION="
-	   "Computes the number of radians equilivent to  "
-	   "b1 degrees. "
-	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "\n"
-	   
-	   "@SEEALSO=PI,DEGREES")
-};
-
-static char *help_degrees = {
-	N_("@FUNCTION=DEGREES\n"
-	   "@SYNTAX=DEGREES(b1)\n"
-
-	   "@DESCRIPTION="
-	   "Computes the number of degrees equilivent to "
-	   " b1 radians."
-	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing. "
-	   "\n"
-	   
-	   "@SEEALSO=RADIANS, PI")
-};
-
-static char *help_sum = {
-	N_("@FUNCTION=SUM\n"
-	   "@SYNTAX=SUM(value1, value2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "Computes the sum of all the values and cells referenced in the "
-	   "argument list. " 
-	   "\n"
-
-	   "@SEEALSO=AVERAGE, COUNT")
-};
-
-
-static char *help_bin2dec = {
-	N_("@FUNCTION=BIN2DEC("
-	   "@SYNTAX=BIN2DEC(b1)\n"
-
-	   "@DESCRIPTION="
-	   "The BIN2DEC function coverts a binary number "
-	   "in string or number to its decimal equilivent."
-	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
-	   "@SEEALSO=DEC2BIN")
-};
-
-
-static char *help_pi = {
-	N_("@FUNCTION=PI\n"
-	   "@SYNTAX=PI()\n"
-
-	   "@DESCRIPTION=The PI functions returns the value of Pi "
-	   "as defined by M_PI."
-	   "\n"
-
-	   "Performing this function on a string or empty cell"
-	   "returns an error. This function is called with no arguments."
-	   "\n"
-	   "@SEEALSO=")
-};
-
-
-static char *help_floor = {
-	N_("@FUNCTION=FLOOR\n"
-	   "@SYNTAX=FLOOR(b1)\n"
-
-	   "@DESCRIPTION=The FLOOR function rounds b1 down to the next nearest"
-	   "integer."
-	   "\n"
-
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
-	   "@SEEALSO=CEIL, ABS, INT")
-};
-
-static char *help_ceil = {
-	N_("@FUNCTION=CEIL\n"
-	   "@SYNTAX=CEIL(b1)\n"
-
-	   "@DESCRIPTION=The CEIL function rounds b1 up to the next nearest"
-	   "integer."
-
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
-	   
-	   "@SEEALSO=ABS, FLOOR, INT")
-};
-
-static char *help_abs = {
-	N_("@FUNCTION=ABS\n"
-	   "@SYNTAX=ABS(b1)\n"
-
-	   "@DESCRIPTION=Implements the Absolute Value function:  the result is "
-	   "to drop the negative sign (if present).  This can be done for "
-	   "integers and floating point numbers."
-	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
-	   "@SEEALSO=CEIL, FLOOR")
-};
-
-static char *help_and = {
-	N_("@FUNCTION=AND\n"
-	   "@SYNTAX=AND(b1, b2, ...)\n"
-
-	   "@DESCRIPTION=Implements the logical AND function: the result is TRUE "
-	   "if all of the expression evaluates to TRUE, otherwise it returns "
-	   "FALSE.\n"
-
-	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
-	   "If an integer or floating point value is provided zero is considered "
-	   "FALSE and anything else is TRUE.\n"
-	   
-	   "If the values contain strings or empty cells those values are "
-	   "ignored.  If no logical values are provided, then the error '#VALUE!' "
-	   "is returned. "
-	   "\n"
-	   "@SEEALSO=OR")
-};
-
 static Value *
 gnumeric_and (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
@@ -633,10 +191,24 @@ gnumeric_and (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 	return result;
 }
 
+static char *help_asin = {
+	N_("@FUNCTION=ASIN\n"
+	   "@SYNTAX=ASIN(b1)\n"
+
+	   "@DESCRIPTION="
+	   "The ASIN function calculates the arc sine of b1; that is "
+	   "the value whose sine is b1.  If b1 falls outside  the  range "
+	   "-1 to 1, ASIN fails and returns the error 'asin - domain error'   "
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS")
+};
+
 static Value *
 gnumeric_asin (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v;
 	float_t t;
 
 	t = value_get_as_double (argv [0]);
@@ -644,40 +216,73 @@ gnumeric_asin (struct FunctionDefinition *i, Value *argv [], char **error_string
 		*error_string = _("asin - domain error");
 		return NULL;
 	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = asin (t);
-
-	return v;
+	return value_float (asin (t));
 }
+
+static char *help_asinh = {
+	N_("@FUNCTION=ASINH\n"
+	   "@SYNTAX=ASINH(b1)\n"
+
+	   "@DESCRIPTION="
+	   "The ASIN  function  calculates  the inverse hyperbolic "
+	   " sine of b1; that is the value whose hyperbolic sine is b1. "
+	   "\n"
+
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS")
+};
 
 static Value *
 gnumeric_asinh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v;
-
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = asinh (value_get_as_double (argv [0]));
-
-	return v;
+	return value_float (asinh (value_get_as_double (argv [0])));
 }
+
+static char *help_atan = {
+	N_("@FUNCTION=ATAN\n"
+	   "@SYNTAX=ATAN(b1)\n"
+
+	   "@DESCRIPTION="
+	   "The ATAN function calculates the arc tangent of b1; that "
+	   " is the value whose tangent is b1."
+	   "Return value is in radians."
+	   "\n"
+
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."
+	   "\n"
+
+	   "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS")
+};
 
 static Value *
 gnumeric_atan (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = atan (value_get_as_double (argv [0]));
-	
-	return v;
+	return value_float (atan (value_get_as_double (argv [0])));
 }
+
+static char *help_atanh = {
+	N_("@FUNCTION=ATANH\n"
+	   "@SYNTAX=ATANH(b1)\n"
+
+	   "@DESCRIPTION="
+	   "The  ATANH  function  calculates  the inverse hyperbolic "
+	   "tangent of b1; that is the value whose  hyperbolic  tangent "
+	   "is  b1.   If  the  absolute value of b1 is greater than 1.0, "
+	   " ATANH returns an error of 'atanh: domain error'      "
+	   "\n"
+
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS")
+};
 
 static Value *
 gnumeric_atanh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
 	float_t t;
 
 	t = value_get_as_double (argv [0]);
@@ -685,23 +290,45 @@ gnumeric_atanh (struct FunctionDefinition *i, Value *argv [], char **error_strin
 		*error_string = _("atanh: domain error");
 		return NULL;
 	}
-	v->type = VALUE_FLOAT;
-	v->v.v_float = atanh (value_get_as_double (argv [0]));
-	
-	return v;
+	return value_float (atanh (value_get_as_double (argv [0])));
 }
+
+static char *help_atan2 = {
+	N_("@FUNCTION=ATAN2"
+	   "@SYNTAX=ATAN2(b1,b2)\n"
+
+	   "@DESCRIPTION="
+	   "The ATAN2 function calculates the arc tangent of the two "
+	   "variables b1 and b2.  It is similar to calculating  the  arc "
+	   "tangent  of b2 / b1, except that the signs of both arguments "
+	   "are used to determine the quadrant of the result. "
+	   "The result is in Radians."
+	   "\n"
+
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."  
+	   "\n"
+	   "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS")
+};
 
 static Value *
 gnumeric_atan2 (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = atan2 (value_get_as_double (argv [0]),
-			      value_get_as_double (argv [1]));
-	
-	return v;
+	return value_float (atan2 (value_get_as_double (argv [0]),
+				   value_get_as_double (argv [1])));
 }
+
+static char *help_average = {
+	N_("@FUNCTION=AVERAGE\n"
+	   "@SYNTAX=AVERAGE(value1, value2,...)"
+
+	   "@DESCRIPTION="
+	   "Computes the average of all the values and cells referenced in the "
+	   "argument list.  This is equivalent to the sum of the arguments divided "
+	   "by the count of the arguments."
+	   "\n"
+	   "@SEEALSO=SUM, COUNT")
+};
 
 static Value *
 gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
@@ -719,31 +346,50 @@ gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_ro
 		return NULL;
 	}
 
-	result = g_new (Value, 1);
-	result->type = VALUE_FLOAT;
-	result->v.v_float = sum->v.v_float / count->v.v_int;
-	
+	result = value_float (sum->v.v_float / count->v.v_int);
+
 	value_release (count);
 	value_release (sum);
 	
 	return result;
 }
 
+static char *help_ceil = {
+	N_("@FUNCTION=CEIL\n"
+	   "@SYNTAX=CEIL(b1)\n"
+
+	   "@DESCRIPTION=The CEIL function rounds b1 up to the next nearest"
+	   "integer."
+
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "\n"
+	   
+	   "@SEEALSO=ABS, FLOOR, INT")
+};
+
 static Value *
 gnumeric_ceil (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = ceil (value_get_as_double (argv [0]));
-
-	return v;
+	return value_float (ceil (value_get_as_double (argv [0])));
 }
+
+static char *help_bin2dec = {
+	N_("@FUNCTION=BIN2DEC("
+	   "@SYNTAX=BIN2DEC(b1)\n"
+
+	   "@DESCRIPTION="
+	   "The BIN2DEC function coverts a binary number "
+	   "in string or number to its decimal equilivent."
+	   "\n"
+
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "\n"
+	   "@SEEALSO=DEC2BIN")
+};
 
 static Value *
 gnumeric_bin2dec (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *value;
 	int  result, v, n, bit;
 	char *p;
 
@@ -774,33 +420,48 @@ gnumeric_bin2dec (struct FunctionDefinition *i, Value *argv [], char **error_str
 		*error_string = "#NUM!";
 		return NULL;
 	}
-	value = g_new (Value, 1);
-	value->type = VALUE_INTEGER;
-	value->v.v_int = result;
-	
-	return value;
+	return value_int (result);
 }
+
+static char *help_cos = {
+	N_("@FUNCTION=COS\n"
+	   "@SYNTAX=COS(b1)\n"
+
+	   "@DESCRIPTION="
+	   "The  COS  function  returns  the cosine of b1, where b1 is "
+           "given in radians.  "
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES")
+};
 
 static Value *
 gnumeric_cos (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = cos (value_get_as_double (argv [0]));
-
-	return v;
+	return value_float (cos (value_get_as_double (argv [0])));
 }
+
+static char *help_cosh = {
+	N_("@FUNCTION=COSH\n"
+	   "@SYNTAX=COSH(b1)\n"
+
+	   "@DESCRIPTION="
+	   "The COSH  function  returns the hyperbolic cosine of b1, "
+	   " which is defined mathematically as (exp(b1) + exp(-b1)) / 2.   "
+	   " b1 is in radians. "
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP")
+};
 
 static Value *
 gnumeric_cosh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = cos (value_get_as_double (argv [0]));
-
-	return v;
+	return value_float (cosh (value_get_as_double (argv [0])));
 }
 
 static int
@@ -823,6 +484,18 @@ callback_function_count (Sheet *sheet, Value *value, char **error_string, void *
 	return TRUE;
 }
 
+static char *help_count = {
+	N_("@FUNCTION=COUNT\n"
+	   "@SYNTAX=COUNT(b1, b2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "Returns the total number of arguments passed."
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "\n"
+	   "@SEEALSO=AVERAGE")
+};
+
 static Value *
 gnumeric_count (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
@@ -839,26 +512,44 @@ gnumeric_count (void *tsheet, GList *expr_node_list, int eval_col, int eval_row,
 	return result;
 }
 
+static char *help_degrees = {
+	N_("@FUNCTION=DEGREES\n"
+	   "@SYNTAX=DEGREES(b1)\n"
+
+	   "@DESCRIPTION="
+	   "Computes the number of degrees equilivent to "
+	   " b1 radians."
+	   "\n"
+
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "\n"
+	   
+	   "@SEEALSO=RADIANS, PI")
+};
+
 static Value *
 gnumeric_degrees (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = (value_get_as_double (argv [0]) * 180.0) / M_PI;
-
-	return v;
+	return value_float ((value_get_as_double (argv [0]) * 180.0) / M_PI);
 }
+
+static char *help_exp = {
+	N_("@FUNCTION=EXP\n"
+	   "@SYNTAX=EXP(b1)\n"
+
+	   "@DESCRIPTION="
+	   "Computes the value of e(the base of natural logarithmns) raised "
+	   "to the power of b1. "
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error."
+	   "\n"
+	   "@SEEALSO=LOG, LOG2, LOG10")
+};
 
 static Value *
 gnumeric_exp (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = exp (value_get_as_double (argv [0]));
-
-	return v;
+	return value_float (exp (value_get_as_double (argv [0])));
 }
 
 static float_t
@@ -869,11 +560,24 @@ fact (int n)
 	return (n * fact (n - 1));
 }
 
+static char *help_fact = {
+	N_("@FUNCTION=FACT\n"
+	   "@SYNTAX=FACT(b1)\n"
+
+	   "@DESCRIPTION="
+	   "Computes the factorial of b1. ie, b1!"
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error"
+	   "\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
 static Value *
 gnumeric_fact (struct FunctionDefinition *id, Value *argv [], char **error_string)
 {
 	Value *res;
-	int i;
+	float i;
 
 	switch (argv [0]->type){
 	case VALUE_FLOAT:
@@ -893,92 +597,164 @@ gnumeric_fact (struct FunctionDefinition *id, Value *argv [], char **error_strin
 	}
 	
 	res = g_new (Value, 1);
-	if (i > 69){
-		i = 69;
+	if (i > 12){
+		res->type = VALUE_FLOAT;
+		res->v.v_float = exp (lgamma (i + 1));
+	} else {
+		res->type = VALUE_INTEGER;
+		res->v.v_int = fact ((int)i);
 	}
-	res->type = VALUE_FLOAT;
-	res->v.v_float = fact (i);
 	return res;
 }
+
+static char *help_floor = {
+	N_("@FUNCTION=FLOOR\n"
+	   "@SYNTAX=FLOOR(b1)\n"
+
+	   "@DESCRIPTION=The FLOOR function rounds b1 down to the next nearest"
+	   "integer."
+	   "\n"
+
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "\n"
+	   "@SEEALSO=CEIL, ABS, INT")
+};
 
 static Value *
 gnumeric_floor (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = floor (value_get_as_double (argv [0]));
-
-	return v;
+	return value_float (floor (value_get_as_double (argv [0])));
 }
+
+static char *help_int = {
+	N_("@FUNCTION=INT\n"
+	   "@SYNTAX=INT(b1, b2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "The INT function round b1 now to the nearest int. "
+	   "Where 'nearest' implies being closer to zero. "
+	   "Eqilivent to FLOOR(b1) for b1 >0, amd CEIL(b1) "
+	   "for b1 < 0. " 
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing."
+	   ""
+	   "\n"
+	   "@SEEALSO=FLOOR, CEIL, ABS")
+};
 
 static Value *
 gnumeric_int (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
 	float_t t;
 
 	t = value_get_as_double (argv [0]);
 	
-	v->type = VALUE_FLOAT;
-	v->v.v_float = t > 0.0 ? floor (t) : ceil (t);
-
-	return v;
+	return value_float (t > 0.0 ? floor (t) : ceil (t));
 }
+
+static char *help_log = {
+	N_("@FUNCTION=LOG\n"
+	   "@SYNTAX=LOG(b1)\n"
+
+	   "@DESCRIPTION="
+	   "Computes the natural logarithm  of b1. "
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error. "
+	   "\n"
+	   "@SEEALSO=EXP, LOG2, LOG10")
+};
 
 static Value *
 gnumeric_log (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v;
 	float_t t;
 
 	t = value_get_as_double (argv [0]);
-	if (t < 0.0){
+	if (t <= 0.0){
 		*error_string = _("log: domain error");
 		return NULL;
 	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = log (t);
-
-	return v;
+	return value_float (log (t));
 }
+
+static char *help_log2 = {
+	N_("@FUNCTION=LOG2"
+	   "@SYNTAX=LOG2(b1)\n"
+
+	   "@DESCRIPTION="
+	   "Computes the base-2 logarithm  of b1. "
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error. "
+	   "\n"
+	   "@SEEALSO=EXP, LOG10, LOG")
+};
 
 static Value *
 gnumeric_log2 (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v;
 	float_t t;
 
 	t = value_get_as_double (argv [0]);
-	if (t < 0.0){
+	if (t <= 0.0){
 		*error_string = _("log2: domain error");
 		return NULL;
 	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = log (t) / M_LN2;
-
-	return v;
+	return value_float (log (t) / M_LN2);
 }
+
+static char *help_log10 = {
+	N_("@FUNCTION=LOG10"
+	   "@SYNTAX=LOG10(b1)\n"
+
+	   "@DESCRIPTION="
+	   "Computes the base-10 logarithm  of b1. "
+	   "\n"
+
+	   "Performing this function on a string or empty cell returns an error. "
+	   "\n"
+	   "@SEEALSO=EXP, LOG2, LOG")
+};
 
 static Value *
 gnumeric_log10 (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v;
 	float_t t;
 
 	t = value_get_as_double (argv [0]);
-	if (t < 0.0){
+	if (t <= 0.0){
 		*error_string = _("log10: domain error");
 		return NULL;
 	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = log10 (t);
-
-	return v;
+	return value_float (log10 (t));
 }
+
+static char *help_min = {
+	N_("@FUNCTION=MIN\n"
+	   "@SYNTAX=MIN(b1, b2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "MIN returns the value of the element of the values passed "
+	   "that has the smallest value. With negative numbers considered "
+	   "smaller than positive numbers."
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "\n"
+	   "@SEEALSO=MAX,ABS")
+};
+
+static char *help_max = {
+	N_("@FUNCTION=MAX\n"
+	   "@SYNTAX=MAX(b1, b2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "MAX returns the value of the element of the values passed "
+	   "that has the largest value. With negative numbers considered "
+	   "smaller than positive numbers."
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing."
+	   "\n"
+	   "@SEEALSO=MIN,ABS")
+};
 
 enum {
 	OP_MIN,
@@ -1070,6 +846,23 @@ gnumeric_max (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 	return 	closure.result;
 }
 
+static char *help_or = {
+	N_("@FUNCTION=OR\n"
+	   "@SYNTAX=OR(b1, b2, ...)"
+
+	   "@DESCRIPTION="
+	   "Implements the logical OR function: the result is TRUE if any of the"
+	   "values evaluated to TRUE.\n"
+	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
+	   "If an integer or floating point value is provided zero is considered"
+	   "FALSE and anything else is TRUE.\n"
+	   "If the values contain strings or empty cells those values are "
+	   "ignored.  If no logical values are provided, then the error '#VALUE!'"
+	   "is returned.\n"
+
+	   "@SEEALSO=AND")
+};
+
 static int
 callback_function_or (Sheet *sheet, Value *value, char **error_string, void *closure)
 {
@@ -1077,7 +870,7 @@ callback_function_or (Sheet *sheet, Value *value, char **error_string, void *clo
 	
 	switch (value->type){
 	case VALUE_INTEGER:
-		if (value->v.v_int == 1){
+		if (value->v.v_int != 0){
 			result->v.v_int = 1;
 			return FALSE;
 		} else
@@ -1085,7 +878,7 @@ callback_function_or (Sheet *sheet, Value *value, char **error_string, void *clo
 		break;
 
 	case VALUE_FLOAT:
-		if (value->v.v_float == 0.0){
+		if (value->v.v_float != 0.0){
 			result->v.v_int = 1;
 			return FALSE;
 		} else
@@ -1121,39 +914,79 @@ gnumeric_or (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, ch
 	return result;
 }
 
+static char *help_radians = {
+	N_("@FUNCTION=RADIANS\n"
+	   "@SYNTAX=RADIANS(b1)\n"
+
+	   "@DESCRIPTION="
+	   "Computes the number of radians equilivent to  "
+	   "b1 degrees. "
+	   "\n"
+
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "\n"
+	   
+	   "@SEEALSO=PI,DEGREES")
+};
 
 static Value *
 gnumeric_radians (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = (value_get_as_double (argv [0]) * M_PI) / 180;
-
-	return v;
+	return value_float ((value_get_as_double (argv [0]) * M_PI) / 180);
 }
+
+static char *help_sin = {
+	N_("@FUNCTION=SIN\n"
+	   "@SYNTAX=SIN(b1)\n"
+
+	   "@DESCRIPTION="
+	   "The SIN function returns the sine of b1, where b1 is given "
+           " in radians. "
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES")
+};
 
 static Value *
 gnumeric_sin (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-	
-	v->type = VALUE_FLOAT;
-	v->v.v_float = sin (value_get_as_double (argv [0]));
-	
-	return v;
+	return value_float (sin (value_get_as_double (argv [0])));
 }
+
+static char *help_sinh = {
+	N_("@FUNCTION=SINH\n"
+	   "@SYNTAX=SINH(b1)\n"
+
+	   "@DESCRIPTION="
+	   "The SINH  function  returns  the  hyperbolic sine of b1, "
+	   "which is defined mathematically as (exp(b1) - exp(-b1)) / 2. "
+	   " b1 is in radians. "
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP")
+};
 
 static Value *
 gnumeric_sinh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-	
-	v->type = VALUE_FLOAT;
-	v->v.v_float = sinh (value_get_as_double (argv [0]));
-	
-	return v;
+	return value_float (sinh (value_get_as_double (argv [0])));
 }
+
+static char *help_sum = {
+	N_("@FUNCTION=SUM\n"
+	   "@SYNTAX=SUM(value1, value2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "Computes the sum of all the values and cells referenced in the "
+	   "argument list. " 
+	   "\n"
+
+	   "@SEEALSO=AVERAGE, COUNT")
+};
 
 static int
 callback_function_sum (Sheet *sheet, Value *value, char **error_string, void *closure)
@@ -1196,37 +1029,64 @@ gnumeric_sum (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 	return result;
 }
 
+static char *help_tan = {
+	N_("@FUNCTION=TAN\n"
+	   "@SYNTAX=TAN(b1)\n"
+
+	   "@DESCRIPTION="
+	   "The TAN function  returns the tangent of b1, where b1 is "
+	   "given in radians. "
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS")
+};
+
 static Value *
 gnumeric_tan (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = tan (value_get_as_double (argv [0]));
-	
-	return v;
+	return value_float (tan (value_get_as_double (argv [0])));
 }
+
+static char *help_tanh = {
+	N_("@FUNCTION=TANH\n"
+	   "@SYNTAX=TANH(b1)\n"
+
+	   "@DESCRIPTION="
+	   " The TANH function returns the hyperbolic tangent of b1, "
+	   " which is defined mathematically as sinh(b1) / cosh(b1). "
+	   "\n"
+	   "Performing this function on a string or empty cell simply does nothing. "
+	   "This function only takes one argument."
+	   "\n"
+	   "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS")
+};
 
 static Value *
 gnumeric_tanh (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = tanh (value_get_as_double (argv [0]));
-	
-	return v;
+	return value_float (tanh (value_get_as_double (argv [0])));
 }
+
+static char *help_pi = {
+	N_("@FUNCTION=PI\n"
+	   "@SYNTAX=PI()\n"
+
+	   "@DESCRIPTION=The PI functions returns the value of Pi "
+	   "as defined by M_PI."
+	   "\n"
+
+	   "Performing this function on a string or empty cell"
+	   "returns an error. This function is called with no arguments."
+	   "\n"
+	   "@SEEALSO=")
+};
 
 static Value *
 gnumeric_pi (struct FunctionDefinition *i, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = M_PI;
-
-	return v;
+	return value_float (M_PI);
 }
 
 FunctionDefinition math_functions [] = {

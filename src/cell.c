@@ -236,15 +236,24 @@ cell_render_value (Cell *cell)
 	g_free (str);
 }
 
+/*
+ * Sets the text for a cell:
+ *
+ * This is kind of an internal function and should be only called by
+ * routines that know what they are doing.  These are the important
+ * differences from cell_set_text:
+ *
+ *    - It does not queue redraws (so you have to queue the redraw yourself
+ *      or queue a full redraw).
+ *
+ *    - It does not queue any recomputations.  You have to queue the recompute
+ *      yourself.
+ */
 void
-cell_set_text (Cell *cell, char *text)
+cell_set_text_simple (Cell *cell, char *text)
 {
-	GList   *deps;
-	
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
-
-	cell_queue_redraw (cell);
 
 	/* The value entered */
 	if (cell->entered_text)
@@ -262,7 +271,7 @@ cell_set_text (Cell *cell, char *text)
 		expr_tree_unref (cell->parsed_node);
 		cell->parsed_node = NULL;
 	}
-	
+
  	if (text [0] == '='){
 		cell_set_formula (cell, text); 
 	} else {
@@ -313,12 +322,48 @@ cell_set_text (Cell *cell, char *text)
 		cell_render_value (cell);
 	}
 
+	
+}
+
+/*
+ * cell_content_changed:
+ *
+ * Call this routine if you modify the contents of a cell
+ * to trigger a recompute on any dependencies
+ */
+void
+cell_content_changed (Cell *cell)
+{
+	GList   *deps;
+
+	g_return_if_fail (cell != NULL);
+
 	/* Queue all of the dependencies for this cell */
 	deps = cell_get_dependencies (cell->sheet,
 				      cell->col->pos,
 				      cell->row->pos);
 	if (deps)
 		cell_queue_recalc_list (deps);
+}
+
+/*
+ * cell_set_text
+ *
+ * Changes the content of a cell
+ */
+void
+cell_set_text (Cell *cell, char *text)
+{
+	GList   *deps;
+
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (text != NULL);
+	
+	cell_queue_redraw (cell);
+
+	cell_set_text_simple (cell, text);
+
+	cell_content_changed (cell);
 
 	cell_queue_redraw (cell);
 }
@@ -420,11 +465,34 @@ cell_queue_redraw (Cell *cell)
 				  cell->col->pos, cell->row->pos);
 }
 
+/*
+ * cell_set_format_simple:
+ *
+ * This routine is similar to cell_set_format, but it does not queue
+ * any redraws, nor expects the cell to have a value.
+ *
+ * Make sure you queue a draw in the future for this cell.
+ */
+void
+cell_set_format_simple (Cell *cell, char *format)
+{
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (format != NULL);
+	
+	if (strcmp (format, cell->style->format->format) == 0)
+		return;
+
+	/* Change the format */
+	style_format_unref (cell->style->format);
+	cell->style->format = style_format_new (format);
+}
+
 void
 cell_set_format (Cell *cell, char *format)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (format != NULL);
+	g_return_if_fail (cell->value);
 	
 	if (strcmp (format, cell->style->format->format) == 0)
 		return;

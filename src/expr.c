@@ -276,6 +276,28 @@ value_duplicate (Value *value)
 	return new_value;
 }
 
+Value *
+value_float (float_t f)
+{
+	Value *v = g_new (Value, 1);
+
+	v->type = VALUE_FLOAT;
+	v->v.v_float = f;
+
+	return v;
+}
+
+Value *
+value_int (int i)
+{
+	Value *v = g_new (Value, 1);
+
+	v->type = VALUE_INTEGER;
+	v->v.v_int = i;
+
+	return v;
+}
+
 /*
  * Casts a value to float if it is integer, and returns
  * a new Value * if required
@@ -289,7 +311,7 @@ value_cast_to_float (Value *v)
 
 	if (v->type == VALUE_FLOAT)
 		return v;
-	
+
 	newv = g_new (Value, 1);
 	newv->type = VALUE_FLOAT;
 	mpf_set_z (newv->v.v_float, v->v.v_int);

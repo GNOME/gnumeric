@@ -1,5 +1,40 @@
 1998-09-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/xml-io.c: Changed the formatting of it to be like the rest
+	of Gnumeric.
+
+	* src/fn-math.c, src/fn-date.c: Simplify routines to use
+	value_float and value_int.
+
+	* src/expr.c (value_float, value_int): New utility functions to
+	create values of type integer and float.
+
+	* src/sheet.c (sheet_set_text): Use the matching engine on entered text
+
+	* src/cell.c (cell_set_text_simple): New function.  Does not queue
+	cell computations nor queue any redraws
+	(cell_content_changed): New function: Queues recomputations for
+	cells that depend on the contents of the argument.
+	(cell_set_format_simple): New routine, like cell_set_format but
+	does not render the value nor queues a redraw.
+	
+	* src/xml-io.c: Use workbook_recalc_all instead of workbook_recalc
+
+	* src/fn-math.c (gnumeric_log10, gnumeric_log, gnumeric_log2):
+	Range check fix was wrong.  The valid range does not include
+	zero.  Thanks to Morten Welinder for noticing this. 
+	(gnumeric_cosh): Call cosh, not cos.
+	Reordered this file to have the help always before the function
+	that defines it.
+	(callback_function_or): Bug fix: any non-zero value is considered
+	to be TRUE.
+	(gnumeric_fact): Use exp (lgamma (n+1)) to compute large
+	factorials (this only applies to factorials over 40).
+
+	* src/about.c (dialog_about): Stop using gnome_dialog_set_modal.
+
+1998-09-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
 	* src/number-match.c (format_create_regexp): Small bug fix.  I was
 	making 'mm' be parsed as 'mmm'.  Support 'mmmm'.
 

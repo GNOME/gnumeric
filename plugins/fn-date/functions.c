@@ -34,7 +34,7 @@ static char *help_date = {
 static Value *
 gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
+	Value *v;
 	int year, month, day;
 
 	year  = value_get_as_double (argv [0]);
@@ -50,10 +50,9 @@ gnumeric_date (struct FunctionDefinition *fd, Value *argv [], char **error_strin
 		}
 		day = month_length [leap (year)][month] - day;
 	}
-	v->type = VALUE_INTEGER;
-	v->v.v_int =
+	v = value_int (
 		calc_days (year, month, day) -
-		calc_days (1900, 1, 1) + 1;
+		calc_days (1900, 1, 1) + 1);
 
 	return v;
 }
@@ -74,14 +73,13 @@ static char *help_today = {
 static Value *
 gnumeric_today (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
+	Value *v;
 	time_t t = time (NULL);
 	struct tm *tm = localtime (&t);
 
-	v->type = VALUE_INTEGER;
-	v->v.v_int =
+	v = value_int (
 		calc_days (tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday) -
-		calc_days (1900, 1, 1) + 1;
+		calc_days (1900, 1, 1) + 1);
 
 	return v;
 }
@@ -110,15 +108,14 @@ static char *help_now = {
 static Value *
 gnumeric_now (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
+	Value *v;
 	time_t t = time (NULL);
 	struct tm *tm = localtime (&t);
 
-	v->type = VALUE_FLOAT;
-	v->v.v_float =
+	v = value_float (
 		calc_days (tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday) +
 		((tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec)/(double)DAY_SECONDS) -
-		calc_days (1900, 1, 1) + 1;
+		calc_days (1900, 1, 1) + 1);
 
 	return v;
 }
@@ -138,15 +135,14 @@ static char *help_time = {
 static Value *
 gnumeric_time (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
-	Value *v = g_new (Value, 1);
+	Value *v;
 	float_t hours, minutes, seconds;
 
 	hours   = value_get_as_double (argv [0]);
 	minutes = value_get_as_double (argv [1]);
 	seconds = value_get_as_double (argv [2]);
-	
-	v->type = VALUE_FLOAT;
-	v->v.v_float = (hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS;
+
+	v = value_float ((hours * 3600 + minutes * 60 + seconds) / DAY_SECONDS);
 
 	return v;
 }
