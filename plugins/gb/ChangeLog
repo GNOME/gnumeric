@@ -1,3 +1,8 @@
+2000-03-22  Chema Celorio  <chema@celorio.com>
+
+	* .cvsignore: Created .cvsignore in /plugins/gb,
+	added Makefiles
+
 2000-03-02  Michael Meeks  <michael@helixcode.com>
 
 	* plugin.c (value_to_gb): fix from Dom, int->long.

@@ -1,3 +1,7 @@
+2000-03-22  Chema Celorio  <chema@celorio.com>
+
+	* idl/.cvsignore: Created .cvsignore added Makefiles
+
 2000-03-22  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_reposition_comments) : Merged from
