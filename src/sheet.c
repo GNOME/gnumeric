@@ -11,6 +11,9 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 
+static GMemChunk *cell_chunk;
+static int sheet_count;
+
 static void
 sheet_redraw_all (Sheet *sheet)
 {
@@ -154,7 +157,7 @@ sheet_row_size_changed (ItemBar *item_bar, int row, int height, Sheet *sheet)
 static guint
 cell_hash (gconstpointer key)
 {
-	CellRef *ca = (CellRef *) key;
+	CellPos *ca = (CellPos *) key;
 
 	return (ca->row << 8) | ca->col;
 }
@@ -162,10 +165,10 @@ cell_hash (gconstpointer key)
 static gint
 cell_compare (gconstpointer a, gconstpointer b)
 {
-	CellRef *ca, *cb;
+	CellPos *ca, *cb;
 
-	ca = (CellRef *) a;
-	cb = (CellRef *) b;
+	ca = (CellPos *) a;
+	cb = (CellPos *) b;
 
 	if (ca->row != cb->row)
 		return 0;
@@ -192,7 +195,13 @@ sheet_new (Workbook *wb, char *name)
 	sheet->max_row_used = rows_shown;
 
 	sheet->cell_hash = g_hash_table_new (cell_hash, cell_compare);
-	
+	if (!cell_chunk){
+		cell_chunk = g_mem_new ("CellPos",
+					sizeof (CellPos),
+					sizeof (CellPos) * 60,
+					G_ALLOC_AND_FREE);
+		sheet_count++;
+	}
 	sheet_init_default_styles (sheet);
 	
 	/* Dummy initialization */
@@ -272,7 +281,11 @@ sheet_destroy (Sheet *sheet)
 
 	g_hash_table_foreach (sheet->cell_hash, cell_hash_free_key, NULL);
 	gtk_widget_destroy (sheet->toplevel);
-	
+	sheet_count--;
+	if (sheet_count == 0){
+		g_mem_chunk_destroy (cell_chunk);
+		cell_chunk = NULL;
+	}
 	g_free (sheet);
 }
 
@@ -951,7 +964,7 @@ Cell *
 sheet_cell_get (Sheet *sheet, int col, int row)
 {
 	Cell *cell;
-	CellRef cellref;
+	CellPos cellref;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 
@@ -1059,7 +1072,7 @@ Cell *
 sheet_cell_new (Sheet *sheet, int col, int row)
 {
 	Cell *cell;
-	CellRef *cellref;
+	CellPos *cellref;
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 
@@ -1068,7 +1081,7 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	cell->row   = sheet_row_get (sheet, row);
 	cell->style = sheet_style_compute (sheet, col, row);
 
-	cellref = g_new0 (CellRef, 1);
+	cellref = g_new0 (CellPos, 1);
 	cellref->col = col;
 	cellref->row = row;
 	

@@ -12,6 +12,7 @@ typedef enum {
 	OP_FUNCALL,
 
         OP_CONSTANT,
+	OP_VAR,
 	OP_NEG
 } Operation;
 
@@ -29,15 +30,23 @@ typedef enum {
 typedef struct {
 	int col;
 	int row;
+} CellPos;
+
+typedef struct {
+	int col, int row;
+
+	unsigned int col_abs:1
+	unsigned int row_abs:1
 } CellRef;
 
 typedef struct {
 	ValueType type;
 	union {
+		CellRef cell;
 		struct {
-			CellRef a;
-			CellRef b;
-		} cell;
+			CellRef cell_a;
+			CellRef cell_b;
+		} cell_range;
 
 		Symbol *str;
 		float_t v_float;	/* floating point */

@@ -9,6 +9,7 @@
  */
 	
 #include <glib.h>
+#include <ctype.h>
 #include "numbers.h"
 #include "symbol.h"
 #include "expr.h"
@@ -59,7 +60,7 @@ static int  yyerror (char *s);
 }
 %type  <node>  exp
 %type  <list>  arg_list
-%token <node>  NUMBER STRING FUNCALL
+%token <node>  NUMBER STRING FUNCALL CELLREF
 %left '-' '+' '&'
 %left '*' '/'
 %left '!'
@@ -71,7 +72,7 @@ line:	  exp           { parser_result = $1; dump_node (parser_result); }
 	;
 
 exp:	  NUMBER 	{ $$ = $1 }
-	
+        | CELLREF       { $$ = $1 }
 	| exp '+' exp	{
 		$$ = p_new (EvalNode);
 		$$->oper = OP_ADD;
@@ -113,6 +114,8 @@ exp:	  NUMBER 	{ $$ = $1 }
 	}
 	;
 
+        | CELLREF ':' CELLREF {}
+
 	| FUNCALL '(' arg_list ')' {
 		$$ = p_new (EvalNode);
 		$$->oper = OP_FUNCALL;
@@ -126,6 +129,95 @@ arg_list: {}
 	;
 
 %%
+
+static int
+return_cellref (char *p)
+{
+	int col_absolute = FALSE;
+	int row_absolute = FALSE;
+	int col = 0;
+	int row = 0;
+	EvalNode *e;
+	Value    *v;
+
+	/* Try to parse a column */
+	if (*p == '$'){
+		col_absolute = TRUE;
+		p++;
+	}
+	if (!(toupper (*p) >= 'A' && toupper (*p) <= 'Z'))
+		return 0;
+
+	col = toupper (*p++) - 'A';
+	
+	if (toupper (*p) >= 'A' && toupper (*p) <= 'Z')
+		col = col * ('Z'-'A') + toupper (*p++) - 'A';
+
+	/* Try to parse a row */
+	if (*p == '$'){
+		row_absolute = TRUE;
+		p++;
+	}
+	
+	if (!(*p >= '1' && *p <= '9'))
+		return 0;
+
+	while (isdigit (*p))
+		row = row * 10 + *p - '0';
+	row++;
+	
+	e = p_new (EvalNode);
+	v = v_new ();
+
+	e->oper = OP_VAR;
+
+	ref = &e->u.value.v.cell;
+
+	ref->col = col;
+	ref->row = row;
+	ref->col_abs = col_absolute;
+	ref->row_abs = row_absolute;
+	
+	yylval.node = e;
+	return CELLREF;
+}
+
+static int
+return_symbol (char *string)
+{
+	EvalNode *e = p_new (EvalNode);
+	Value *v = v_new ();
+	Symbol *sym;
+
+	sym = symbol_lookup (string);
+	type = STRING;
+	if (!sym)
+		v->v.str = symbol_install (string, SYMBOL_STRING, NULL);
+	else {
+		symbol_ref (sym);
+		if (sym->type == SYMBOL_FUNCTION)
+			type = FUNCALL;
+		v->v.str = sym;
+	}
+	register_symbol (v->v.str);
+	
+	v->type = VALUE_STRING;
+	e->oper = OP_CONSTANT;
+	e->u.constant = v;
+	
+	yylval.node = e;
+	return STRING;
+}
+
+static int
+try_symbol (char *string)
+{
+	v = return_cellref (string);
+	if (v)
+		return v;
+
+	return_symbol (string);
+}
 
 int yylex (void)
 {
@@ -179,7 +271,9 @@ int yylex (void)
 		parser_expr = tmp;
 		return NUMBER;
 	}
-	case '"':
+	case '"': {
+		char *string;
+
                 p = parser_expr;
                 while(*parser_expr && *parser_expr != '"') {
                         if (*parser_expr == '\\' && parser_expr [1])
@@ -191,23 +285,24 @@ int yylex (void)
                         return ERROR;
                 }
 		
-		/* NOTE: This is non-functional */
+		string = (char *) alloca (1 + parser_expr - p);
+		while (p != parser_expr){
+			if (*p== '\\'){
+				p++;
+				*string++ = *p++;
+			} else
+				*string++ = *p++;
+			
+		}
+		*string = 0;
+		parser_expr++;
 
-	}
-	if (isalpha (c)){
-		EvalNode *e = p_new (EvalNode);
-		Value    *v = p_new (Value);
-		char buf [2] = { 0 , 0 };
-
-		buf [0] = c;
-		v->v.str = symbol_install (buf, SYMBOL_STRING, NULL);
-		register_symbol (v->v.str);
-		v->type = VALUE_STRING;
-		e->oper = OP_CONSTANT;
-		e->u.constant = v;
+		return return_plain_symbol (string);
 		
-		yylval.node = e;
-		return STRING;
+	}
+	
+	if (isalpha (c)){
+		while (islapha*parser_expr)
 	}
 	if (c == '$'){
 		EvalNode *e = p_new (EvalNode);
@@ -344,8 +439,18 @@ void
 dump_node (EvalNode *node)
 {
 	Symbol *s;
+	CellRef *cr;
 	
 	switch (node->oper){
+	case OP_VAR:
+		cr = &node->u.value.v.cell;
+		printf ("Cell: %s%c%s%d\n",
+			cr->col_abs ? "$" : "",
+			cr->col + 'A',
+			cr->row_abs ? "$" : "",
+			cr->row + '1');
+		return;
+		
 	case OP_CONSTANT:
 		dump_constant (node);
 		return;

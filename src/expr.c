@@ -9,13 +9,16 @@
 char *parser_expr;
 ParseErr parser_error;
 EvalNode *parser_result;
+int   parser_col, parser_row;
 
 EvalNode *
 eval_parse_string (char *expr, int col, int row, char **error_msg)
 {
 	parser_expr = expr;
 	parser_error = PARSE_OK;
-
+	parser_col = col;
+	parser_row = row;
+	
 	yyparse ();
 	switch (parser_error){
 	case PARSE_OK:
@@ -56,6 +59,9 @@ eval_release_node (EvalNode *node)
 	g_return_if_fail (node != NULL);
 	
 	switch (node->oper){
+	case OP_VAR:
+		break;
+		
 	case OP_CONSTANT:
 		eval_release_value (node->u.constant);
 		break;
@@ -81,5 +87,12 @@ eval_release_node (EvalNode *node)
 	default:
 		g_warning ("Unknown ExprNode type passed to eval_release_node\n");
 	}
+	g_free (node);
 }
 
+Value *
+eval_node (EvalNode *node)
+{
+	case (node->oper){
+	}
+}
