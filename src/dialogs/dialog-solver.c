@@ -860,27 +860,10 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 		(GTK_TOGGLE_BUTTON (glade_xml_get_widget
 				    (state->gui, "show_iter_button")));
 
-	if (entry_to_int (GTK_ENTRY(state->max_iter_entry), 
-			  &param->options.max_iter, TRUE)) {
-		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
-					  &(state->warning_dialog),
-					  GTK_MESSAGE_ERROR,
-					  _("The value given in 'Max "
-					    "Iterations' is not valid."));
-		focus_on_entry (GTK_ENTRY(state->max_iter_entry));
-		return;
-	}
-
-	if (entry_to_int (GTK_ENTRY(state->max_time_entry), 
-			  &param->options.max_time_sec, TRUE)) {
-		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
-					  &(state->warning_dialog),
-					  GTK_MESSAGE_ERROR,
-					  _("The value given in 'Max Time "
-					    "(sec.)' is not valid."));
-		focus_on_entry (GTK_ENTRY(state->max_time_entry));
-		return;
-	}
+	param->options.max_iter = gtk_spin_button_get_value
+		(GTK_SPIN_BUTTON (state->max_iter_entry));
+	param->options.max_time_sec = gtk_spin_button_get_value
+		(GTK_SPIN_BUTTON (state->max_time_entry));
 
 	answer = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 	        glade_xml_get_widget (state->gui, "answer")));

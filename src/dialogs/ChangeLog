@@ -1,3 +1,10 @@
+2002-08-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-solver.c (cb_dialog_solve_clicked): Use spin buttons
+	instead of entries.
+
+	* solver.glade: Related changes.  Some clean up.
+
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.7
