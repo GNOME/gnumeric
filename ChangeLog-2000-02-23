@@ -1,3 +1,15 @@
+1998-09-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/dialog-cell-format.c (create_align_page): Added support for
+	the "add returns automatically" formatting option. 
+
+	* src/cell.c (cell_draw): Finished implementing my new drawing
+	scheme.  It now supports all of the Excel 5.0 alignements.
+	
+	Added missing calls to cell_calc_dimensions in various spots. 
+
+	* src/workbook.c: Added a toolbar with some actions.
+
 1998-08-31  Tristan Tarrant  <ttarrant@etnoteam.it>
 
 	* TODO: some ideas for key shortcuts (from Excel :-)
