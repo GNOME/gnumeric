@@ -976,14 +976,14 @@ print_sheet (gpointer value, gpointer user_data)
 
 /* should this print a selection over any range of pages? */
 static void
-sheet_print_selection (Sheet *sheet, PrintJobInfo *pj)
+sheet_print_selection (WorkbookControlGUI *wbcg, Sheet *sheet, PrintJobInfo *pj)
 {
 	Range const *sel;
 	Range extent;
 
 	if ((sel = selection_first_range (sheet, FALSE)) == NULL) {
 		gnumeric_notice (
-			sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
+			wbcg, GNOME_MESSAGE_BOX_ERROR,
 			_("Selection must be a single range"));
 		return;
 	}
@@ -1081,7 +1081,8 @@ print_job_info_destroy (PrintJobInfo *pj)
 }
 
 void
-sheet_print (Sheet *sheet, gboolean preview, PrintRange default_range)
+sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
+	     gboolean preview, PrintRange default_range)
 {
 	GnomePrinter *printer = NULL;
 	PrintJobInfo *pj;
@@ -1108,8 +1109,7 @@ sheet_print (Sheet *sheet, gboolean preview, PrintRange default_range)
 			_("Act_ive sheet"), _("S_heets"));
 		gnome_dialog_set_default (GNOME_DIALOG (gpd),
 					  GNOME_PRINT_PRINT);
-		switch (gnumeric_dialog_run (sheet->workbook,
-					     GNOME_DIALOG(gpd))) {
+		switch (gnumeric_dialog_run (wbcg, GNOME_DIALOG(gpd))) {
 		case GNOME_PRINT_PRINT:
 			break;
 		case GNOME_PRINT_PREVIEW:
@@ -1170,7 +1170,7 @@ sheet_print (Sheet *sheet, gboolean preview, PrintRange default_range)
 		break;
 				
 	case PRINT_SHEET_SELECTION:
-		sheet_print_selection (sheet, pj);
+		sheet_print_selection (wbcg, sheet, pj);
 		break;
 		
 	default:
@@ -1192,9 +1192,8 @@ sheet_print (Sheet *sheet, gboolean preview, PrintRange default_range)
 			 * FIXME: not a great message, but at this point we don't
 			 * know *what* went wrong.
 			 */
-			gnumeric_notice (
-				sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
-				_("Printing failed"));
+			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+					 _("Printing failed"));
 		}
 	}
 	gtk_object_unref (GTK_OBJECT (gpm));

@@ -34,7 +34,7 @@ typedef struct {
 } ItemGrid;
 
 GtkType item_grid_get_type (void);
-void    item_grid_popup_menu (Sheet *sheet, GdkEventButton *event,
+void    item_grid_popup_menu (SheetView *sheet_view, GdkEventButton *event,
 			      gboolean is_col,
 			      gboolean is_row);
 

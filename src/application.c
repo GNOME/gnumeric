@@ -10,9 +10,10 @@
 #include "application.h"
 #include "clipboard.h"
 #include "selection.h"
-#include "sheet.h"
-#include "workbook.h"
+#include "workbook-control.h"
 #include "workbook-view.h"
+#include "workbook.h"
+#include "sheet.h"
 
 #include "pixmaps/print-preview.xpm"
 #include "pixmaps/sort-ascending.xpm"
@@ -143,6 +144,23 @@ application_init (void)
 	gnome_config_pop_prefix ();
 }
 
+static GList *workbook_list = NULL;
+void
+application_workbook_list_add (Workbook *wb)
+{
+	workbook_list = g_list_prepend (workbook_list, wb);
+}
+void
+application_workbook_list_remove (Workbook *wb)
+{
+	workbook_list = g_list_remove (workbook_list, wb);
+}
+GList *
+application_workbook_list (void)
+{
+	return workbook_list;
+}
+
 /**
  * application_clipboard_clear:
  *
@@ -160,7 +178,8 @@ application_clipboard_clear (gboolean drop_selection)
 		Sheet *sheet = app.clipboard_sheet;
 
 		sheet_selection_unant (sheet);
-		workbook_view_set_paste_special_state (sheet->workbook, FALSE);
+		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+			wb_control_paste_special_enable (control, FALSE););
 		app.clipboard_sheet = NULL;
 
 		/* Release the selection */
@@ -184,6 +203,7 @@ application_set_selected_sheet (Sheet *sheet)
 	g_return_val_if_fail (sheet != NULL, FALSE);
 
 	application_clipboard_clear (FALSE);
+#if 0
 
 	if (gtk_selection_owner_set (workbook_get_toplevel (sheet->workbook),
 				     GDK_SELECTION_PRIMARY,
@@ -193,6 +213,8 @@ application_set_selected_sheet (Sheet *sheet)
 	}
 
 	g_warning ("Unable to set selection ?");
+#endif
+#warning how to do this on a per display basis ?
 
 	return FALSE;
 }
@@ -217,7 +239,8 @@ application_clipboard_copy (Sheet *sheet, Range const *area)
 		app.clipboard_copied_contents = 
 			clipboard_copy_range (sheet, area);
 
-		workbook_view_set_paste_special_state (sheet->workbook, TRUE);
+		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+			wb_control_paste_special_enable (control, TRUE););
 
 		sheet_selection_ant (sheet);
 	}
@@ -243,7 +266,8 @@ application_clipboard_cut (Sheet *sheet, Range const *area)
 		app.clipboard_cut_range = *area;
 
 		/* No paste special for copies */
-		workbook_view_set_paste_special_state (sheet->workbook, FALSE);
+		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+			wb_control_paste_special_enable (control, FALSE););
 
 		sheet_selection_ant (sheet);
 	}
@@ -303,9 +327,23 @@ application_workbook_get_by_name (char const * const name)
 	struct wb_name_closure close;
 	close.wb = NULL;
 	close.name = name;
-	workbook_foreach (&cb_workbook_name, &close);
+	application_workbook_foreach (&cb_workbook_name, &close);
 
 	return close.wb;
+}
+
+gboolean
+application_workbook_foreach (WorkbookCallback cback, gpointer data)
+{
+	GList *l;
+
+	for (l = workbook_list; l; l = l->next){
+		Workbook *wb = l->data;
+
+		if (!(*cback)(wb, data))
+			return FALSE;
+	}
+	return TRUE;
 }
 
 struct wb_index_closure
@@ -326,7 +364,7 @@ application_workbook_get_by_index (int i)
 	struct wb_index_closure close;
 	close.wb = NULL;
 	close.index = i;
-	workbook_foreach (&cb_workbook_index, &close);
+	application_workbook_foreach (&cb_workbook_index, &close);
 
 	return close.wb;
 }

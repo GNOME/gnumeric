@@ -89,13 +89,18 @@ typedef struct {
 } data_analysis_output_t;
 
 
-void autofit_column (data_analysis_output_t *dao, int col);
-void set_cell (data_analysis_output_t *dao, int col, int row, const char *text);
-void set_cell_printf (data_analysis_output_t *dao, int col, int row, const char *fmt, ...)
-     G_GNUC_PRINTF (4, 5);
-void set_cell_float (data_analysis_output_t *dao, int col, int row, float_t v);
-void set_cell_int (data_analysis_output_t *dao, int col, int row, int v);
-void set_cell_na (data_analysis_output_t *dao, int col, int row);
-void prepare_output (Workbook *wb, data_analysis_output_t *dao, const char *name);
+void autofit_column  (data_analysis_output_t *dao, int col);
+void set_cell        (data_analysis_output_t *dao, int col, int row, const char *text);
+void set_cell_printf (data_analysis_output_t *dao,
+		      int col, int row, const char *fmt, ...)
+		      G_GNUC_PRINTF (4, 5);
+void set_cell_float  (data_analysis_output_t *dao,
+		      int col, int row, float_t v);
+void set_cell_int    (data_analysis_output_t *dao,
+		      int col, int row, int v);
+void set_cell_na     (data_analysis_output_t *dao,
+		      int col, int row);
+void prepare_output  (WorkbookControl *wbc,
+		      data_analysis_output_t *dao, const char *name);
 
 #endif

@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
+#include "workbook-control.h"
 #include "workbook.h"
 #include "sheet.h"
 
@@ -48,7 +49,7 @@ custom_selected (GtkWidget *widget, GdkEventFocus   *event,
 }
 
 static void
-dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
+dialog_zoom_impl (WorkbookControlGUI *wbcg, Sheet *cur_sheet, GladeXML  *gui)
 {
 	static struct {
 		char const * const name;
@@ -111,7 +112,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 	/* Get the list of sheets */
 	gtk_clist_freeze (list);
 
-	sheets = workbook_sheets (wb);
+	sheets = workbook_sheets (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
 	cur_row = 0;
 	for (l = sheets; l; l = l->next) {
 		Sheet *sheet = l->data;
@@ -139,7 +140,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 
 	gtk_widget_grab_focus (focus_target);
 	/* Bring up the dialog */
-	res = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	res = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (res == 0) {
 		float const new_zoom = gtk_spin_button_get_value_as_int(zoom) / 100.;
 		for (l = list->selection; l != NULL ; l = l->next) {
@@ -155,19 +156,18 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 
 /* Wrapper to ensure the libglade object gets removed on error */
 void
-dialog_zoom (Workbook *wb, Sheet *sheet)
+dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	GladeXML  *gui;
 
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (sheet != NULL);
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				GLADE_FILE);
+	gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
         if (gui == NULL)
                 return;
 
-	dialog_zoom_impl (wb, sheet, gui);
+	dialog_zoom_impl (wbcg, sheet, gui);
 
 	gtk_object_unref (GTK_OBJECT (gui));
 }

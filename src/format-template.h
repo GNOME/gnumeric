@@ -101,7 +101,7 @@ typedef struct {
 	/*
 	 * Command context for some error reporting
 	 */
-	CommandContext *context;
+	WorkbookControl *context;
 
 	/*
 	 * What to filter
@@ -155,10 +155,10 @@ void                  format_template_member_set_style     (TemplateMember *memb
 /*
  * Functions for FormatTemplate
  */
-FormatTemplate       *format_template_new                      (CommandContext *context);
+FormatTemplate       *format_template_new                      (WorkbookControl *context);
 FormatTemplate       *format_template_clone                    (FormatTemplate *ft);
 void                  format_template_free                     (FormatTemplate *ft);
-FormatTemplate       *format_template_new_from_file            (CommandContext *context, const char *filename);
+FormatTemplate       *format_template_new_from_file            (WorkbookControl *context, const char *filename);
 int                   format_template_save                     (FormatTemplate *ft);
 
 void                  format_template_attach_member            (FormatTemplate *ft, TemplateMember *member);

@@ -12,8 +12,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
 #include "gnumeric.h"
-#include "workbook.h"
-#include "workbook-private.h"
+#include "workbook-control-gui-priv.h"
 #include "gnumeric-util.h"
 #include "sheet-object-container.h"
 #include "sheet-object-widget.h"
@@ -129,7 +128,7 @@ sheet_object_container_new_view (SheetObject *so, SheetView *sheet_view)
 
 	view_frame = bonobo_client_site_new_view (
 		SHEET_OBJECT_BONOBO (so)->client_site,
-		bonobo_ui_component_get_container (sheet_view->sheet->workbook->priv->uic));
+		bonobo_ui_component_get_container (sheet_view->wbcg->uic));
 
 	if (!view_frame) {
 		g_warning ("Component died");

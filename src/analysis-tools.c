@@ -19,6 +19,7 @@
 #include "parse-util.h"
 #include "tools.h"
 #include "value.h"
+#include "cell.h"
 #include "style.h"
 #include "regression.h"
 #include "workbook.h"
@@ -282,22 +283,23 @@ free_data_set (data_set_t *data)
 }
 
 void
-prepare_output (Workbook *wb, data_analysis_output_t *dao, const char *name)
+prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao, const char *name)
 {
 	char *unique_name;
 
 	if (dao->type == NewSheetOutput) {
+		Workbook *wb = wb_control_workbook (wbc);
 		unique_name = workbook_sheet_get_free_name (wb, name, FALSE, FALSE);
 	        dao->sheet = sheet_new (wb, unique_name);
 		g_free (unique_name);
 		dao->start_col = dao->start_row = 0;
-		workbook_attach_sheet (wb, dao->sheet);
+		workbook_sheet_attach (wb, dao->sheet, NULL);
 	} else if (dao->type == NewWorkbookOutput) {
-		wb = workbook_new ();
+		Workbook *wb = workbook_new ();
 		dao->sheet = sheet_new (wb, name);
 		dao->start_col = dao->start_row = 0;
-		workbook_attach_sheet (wb, dao->sheet);
-		workbook_show (wb);
+		workbook_sheet_attach (wb, dao->sheet, NULL);
+		(void )wb_control_wrapper_new (wbc, NULL, wb);
 	}
 }
 
@@ -392,7 +394,7 @@ correl (data_set_t *set_one, data_set_t *set_two, int *error_flag)
  * otherwise by rows.
  */
 int
-correlation_tool (Workbook *wb, Sheet *sheet,
+correlation_tool (WorkbookControl *wbc, Sheet *sheet,
 		  Range *input_range, int columns_flag,
 		  data_analysis_output_t *dao)
 {
@@ -404,7 +406,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 	cols = input_range->end.col - input_range->start.col + 1;
 	rows = input_range->end.row - input_range->start.row + 1;
 
-	prepare_output (wb, dao, _("Correlations"));
+	prepare_output (wbc, dao, _("Correlations"));
 
 	set_cell (dao, 0, 0, " ");
 
@@ -543,7 +545,7 @@ covar (data_set_t *set_one, data_set_t *set_two, int *error_flag)
  * otherwise by rows.
  */
 int
-covariance_tool (Workbook *wb, Sheet *sheet,
+covariance_tool (WorkbookControl *wbc, Sheet *sheet,
 		 Range *input_range, int columns_flag,
 		 data_analysis_output_t *dao)
 {
@@ -552,7 +554,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 	int        vars, cols, rows, col, row, i;
 	int        error;
 
-	prepare_output (wb, dao, _("Covariances"));
+	prepare_output (wbc, dao, _("Covariances"));
 
 	cols = input_range->end.col - input_range->start.col + 1;
 	rows = input_range->end.row - input_range->start.row + 1;
@@ -722,13 +724,13 @@ skew (data_set_t *data, int *error_flag)
 }
 
 static void
-summary_statistics (Workbook *wb, data_set_t *data_set, int vars,
+summary_statistics (WorkbookControl *wbc, data_set_t *data_set, int vars,
 		    data_analysis_output_t *dao)
 {
 	float_t x;
 	int     col, error;
 
-	prepare_output (wb, dao, _("Summary Statistics"));
+	prepare_output (wbc, dao, _("Summary Statistics"));
 
         set_cell (dao, 0, 0, " ");
 	for (col = 0; col < vars; col++)
@@ -820,13 +822,13 @@ summary_statistics (Workbook *wb, data_set_t *data_set, int vars,
 }
 
 static void
-confidence_level (Workbook *wb, data_set_t *data_set, int vars, float_t c_level,
+confidence_level (WorkbookControl *wbc, data_set_t *data_set, int vars, float_t c_level,
 		  data_analysis_output_t *dao)
 {
         float_t x;
         int col;
 
-	prepare_output (wb, dao, _("Confidence Level"));
+	prepare_output (wbc, dao, _("Confidence Level"));
 
 	for (col = 0; col < vars; col++) {
 	        float_t stdev = sqrt ((data_set[col].sqrsum -
@@ -842,13 +844,13 @@ confidence_level (Workbook *wb, data_set_t *data_set, int vars, float_t c_level,
 }
 
 static void
-kth_largest (Workbook *wb, data_set_t *data_set, int vars, int k,
+kth_largest (WorkbookControl *wbc, data_set_t *data_set, int vars, int k,
 	     data_analysis_output_t *dao)
 {
         float_t x;
         int     col;
 
-	prepare_output (wb, dao, _("Kth Largest"));
+	prepare_output (wbc, dao, _("Kth Largest"));
 
 	for (col = 0; col < vars; col++) {
 		set_cell_printf (dao, col + 1, 0, _("Column %d"), col + 1);
@@ -864,13 +866,13 @@ kth_largest (Workbook *wb, data_set_t *data_set, int vars, int k,
 }
 
 static void
-kth_smallest (Workbook *wb, data_set_t *data_set, int vars, int k,
+kth_smallest (WorkbookControl *wbc, data_set_t *data_set, int vars, int k,
 	      data_analysis_output_t *dao)
 {
         float_t x;
         int     col;
 
-	prepare_output (wb, dao, _("Kth Smallest"));
+	prepare_output (wbc, dao, _("Kth Smallest"));
 
 	for (col = 0; col < vars; col++) {
 		set_cell_printf (dao, col + 1, 0, _("Column %d"), col + 1);
@@ -888,7 +890,7 @@ kth_smallest (Workbook *wb, data_set_t *data_set, int vars, int k,
 /* Descriptive Statistics
  */
 int
-descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
+descriptive_stat_tool (WorkbookControl *wbc, Sheet *current_sheet,
                        Range *input_range, int columns_flag,
 		       descriptive_stat_tool_t *ds,
 		       data_analysis_output_t *dao)
@@ -916,22 +918,22 @@ descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
 	}
 
         if (ds->summary_statistics) {
-                summary_statistics (wb, data_sets, vars, dao);
+                summary_statistics (wbc, data_sets, vars, dao);
 		if (dao->type == RangeOutput)
 		        dao->start_row += 15;
 	}
         if (ds->confidence_level) {
-                confidence_level (wb, data_sets, vars, ds->c_level, dao);
+                confidence_level (wbc, data_sets, vars, ds->c_level, dao);
 		if (dao->type == RangeOutput)
 		        dao->start_row += 4;
 	}
         if (ds->kth_largest) {
-                kth_largest (wb, data_sets, vars, ds->k_largest, dao);
+                kth_largest (wbc, data_sets, vars, ds->k_largest, dao);
 		if (dao->type == RangeOutput)
 		        dao->start_row += 4;
 	}
         if (ds->kth_smallest)
-                kth_smallest (wb, data_sets, vars, ds->k_smallest, dao);
+                kth_smallest (wbc, data_sets, vars, ds->k_smallest, dao);
 
 	for (i = 0; i < vars; i++)
 	        free_data_set (&data_sets[i]);
@@ -957,14 +959,14 @@ descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
 /* Returns 1 if error occured, for example random sample size is
  * larger than the data set.
  **/
-int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
+int sampling_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 		   gboolean periodic_flag, int size,
 		   data_analysis_output_t *dao)
 {
         data_set_t data_set;
 	float_t    x;
 
-	prepare_output (wb, dao, _("Sample"));
+	prepare_output (wbc, dao, _("Sample"));
 
 	get_data (sheet, input_range, &data_set);
 
@@ -1060,7 +1062,7 @@ int sampling_tool (Workbook *wb, Sheet *sheet, Range *input_range,
  **/
 
 
-int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
+int ztest_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 		Range *input_range2, float_t mean_diff, float_t known_var1,
 		float_t known_var2, float_t alpha,
 		data_analysis_output_t *dao)
@@ -1068,7 +1070,7 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
         data_set_t set_one, set_two;
 	float_t    mean1, mean2, var1, var2, z, p;
 
-	prepare_output (wb, dao, _("z-Test"));
+	prepare_output (wbc, dao, _("z-Test"));
 
 	get_data (sheet, input_range1, &set_one);
 	get_data (sheet, input_range2, &set_two);
@@ -1164,7 +1166,7 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 /* t-Test: Paired Two Sample for Means.
  */
 int
-ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
+ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 		   Range *input_range2, float_t mean_diff, float_t alpha,
 		   data_analysis_output_t *dao)
 {
@@ -1182,7 +1184,7 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	        return 1;
 	}
 
-	prepare_output (wb, dao, _("t-Test"));
+	prepare_output (wbc, dao, _("t-Test"));
 
         set_cell (dao, 0, 0, " ");
 
@@ -1310,14 +1312,14 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 /* t-Test: Two-Sample Assuming Equal Variances.
  */
 int
-ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
+ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 		   Range *input_range2, float_t mean_diff, float_t alpha,
 		   data_analysis_output_t *dao)
 {
         data_set_t set_one, set_two;
 	float_t    mean1, mean2, var, var1, var2, t, p, df;
 
-	prepare_output (wb, dao, _("t-Test"));
+	prepare_output (wbc, dao, _("t-Test"));
 
 	get_data (sheet, input_range1, &set_one);
 	get_data (sheet, input_range2, &set_two);
@@ -1427,14 +1429,14 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 /* t-Test: Two-Sample Assuming Unequal Variances.
  */
 int
-ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
+ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 		    Range *input_range2, float_t mean_diff, float_t alpha,
 		    data_analysis_output_t *dao)
 {
         data_set_t set_one, set_two;
 	float_t    mean1, mean2, var1, var2, t, p, df, c;
 
-	prepare_output (wb, dao, _("t-Test"));
+	prepare_output (wbc, dao, _("t-Test"));
 
 	get_data (sheet, input_range1, &set_one);
 	get_data (sheet, input_range2, &set_two);
@@ -1546,14 +1548,14 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 /* F-Test: Two-Sample for Variances
  */
 int
-ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
+ftest_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
 	    Range *input_range2, float_t alpha,
 	    data_analysis_output_t *dao)
 {
         data_set_t set_one, set_two;
 	float_t    mean1, mean2, var1, var2, f, p, df1, df2, c;
 
-	prepare_output (wb, dao, _("F-Test"));
+	prepare_output (wbc, dao, _("F-Test"));
 
         set_cell (dao, 0, 0, " ");
 
@@ -1650,7 +1652,7 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
  *
  **/
 
-int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
+int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 		 random_distribution_t distribution,
 		 random_tool_t *param, data_analysis_output_t *dao)
 {
@@ -1660,7 +1662,7 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
 	Value      **values, *v;
 	Cell       *cell;
 
-	prepare_output (wb, dao, _("Random"));
+	prepare_output (wbc, dao, _("Random"));
 
 	switch (distribution) {
 	case DiscreteDistribution:
@@ -1834,7 +1836,7 @@ int random_tool (Workbook *wb, Sheet *sheet, int vars, int count,
  *
  **/
 
-int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range_y,
+int regression_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range_y,
 		     Range *input_range_xs, float_t alpha,
 		     data_analysis_output_t *dao, int intercept, int xdim)
 {
@@ -1890,7 +1892,7 @@ int regression_tool (Workbook *wb, Sheet *sheet, Range *input_range_y,
 
 	if (err) return err;
 
-	prepare_output (wb, dao, _("Regression"));
+	prepare_output (wbc, dao, _("Regression"));
 
         set_cell (dao, 0, 0, _("SUMMARY OUTPUT"));
 
@@ -2096,7 +2098,7 @@ these values can be tiny.*/
  **/
 
 
-int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval,
+int average_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, int interval,
 		  int std_error_flag, data_analysis_output_t *dao)
 {
         data_set_t data_set;
@@ -2111,7 +2113,7 @@ int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval,
 	if ((cols != 1 && rows != 1) || interval < 1)
 	        return 1;
 
-	prepare_output (wb, dao, _("Moving Averages"));
+	prepare_output (wbc, dao, _("Moving Averages"));
 
 	prev = g_new (float_t, interval);
 
@@ -2173,14 +2175,14 @@ rank_compare (const rank_t *a, const rank_t *b)
                 return -1;
 }
 
-int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
+int ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 		  int columns_flag, data_analysis_output_t *dao)
 {
         data_set_t *data_sets;
 	GSList     *current, *inner;
 	int        vars, cols, rows, col, i, n;
 
-	prepare_output (wb, dao, _("Ranks"));
+	prepare_output (wbc, dao, _("Ranks"));
 
 	cols = input_range->end.col - input_range->start.col + 1;
 	rows = input_range->end.row - input_range->start.row + 1;
@@ -2301,7 +2303,7 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
  *
  **/
 
-int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
+int anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 			      int columns_flag, float_t alpha,
 			      data_analysis_output_t *dao)
 {
@@ -2311,7 +2313,7 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
 	float_t    ms_b, ms_w, f, p, f_c;
 	int        df_b, df_w, df_t;
 
-	prepare_output (wb, dao, _("Anova"));
+	prepare_output (wbc, dao, _("Anova"));
 
 	cols = range->end.col - range->start.col + 1;
 	rows = range->end.row - range->start.row + 1;
@@ -2467,7 +2469,7 @@ int anova_single_factor_tool (Workbook *wb, Sheet *sheet, Range *range,
  *
  **/
 
-int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
+int anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 				     float_t alpha,
 				     data_analysis_output_t *dao)
 {
@@ -2478,7 +2480,7 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 	float_t    ms_r, ms_c, ms_e, f1, f2, p1, p2, f1_c, f2_c;
 	int        df_r, df_c, df_e, df_t;
 
-	prepare_output (wb, dao, _("Anova"));
+	prepare_output (wbc, dao, _("Anova"));
 
 	cols = range->end.col - range->start.col + 1;
 	rows = range->end.row - range->start.row + 1;
@@ -2622,7 +2624,7 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
  *
  **/
 
-int anova_two_factor_with_r_tool (Workbook *wb, Sheet *sheet, Range *range,
+int anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 				  int rows_per_sample, float_t alpha,
 				  data_analysis_output_t *dao)
 {
@@ -2656,7 +2658,7 @@ int anova_two_factor_with_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 	       }
 	}
 
-	prepare_output (wb, dao, _("Anova"));
+	prepare_output (wbc, dao, _("Anova"));
 
 	set_cell (dao, 0, 0, _("Anova: Two-Factor With Replication"));
 	set_cell (dao, 0, 2, _("SUMMARY"));
@@ -2776,7 +2778,7 @@ int anova_two_factor_with_r_tool (Workbook *wb, Sheet *sheet, Range *range,
  *
  **/
 
-int histogram_tool (Workbook *wb, Sheet *sheet, Range *range, Range *bin_range,
+int histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin_range,
 		    gboolean labels, gboolean sorted, gboolean percentage,
 		    gboolean chart, data_analysis_output_t *dao)
 {
@@ -2803,7 +2805,7 @@ int histogram_tool (Workbook *wb, Sheet *sheet, Range *range, Range *bin_range,
 	bin_set.array = g_slist_sort (bin_set.array,
 				      (GCompareFunc) float_compare);
 
-	prepare_output (wb, dao, _("Histogram"));
+	prepare_output (wbc, dao, _("Histogram"));
 
 	i = 1;
 	set_cell (dao, 0, 0, _("Bin"));

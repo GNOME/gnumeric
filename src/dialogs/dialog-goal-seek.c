@@ -63,7 +63,7 @@ goal_seek_eval (float_t x, float_t *y, void *vevaldata)
 
 
 static GoalSeekStatus
-gnumeric_goal_seek (Workbook *wb, Sheet *sheet,
+gnumeric_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet,
 		    Cell *set_cell, float_t target_value,
 		    Cell *change_cell, float_t xmin, float_t xmax)
 {
@@ -190,7 +190,8 @@ gnumeric_goal_seek (Workbook *wb, Sheet *sheet,
 
 
 static gboolean
-dialog_found_solution (Cell *set_cell, Cell *change_cell, float_t target_value)
+dialog_found_solution (WorkbookControlGUI *wbcg,
+		       Cell *set_cell, Cell *change_cell, float_t target_value)
 {
         GtkWidget *dialog;
 	GtkWidget *label_box;
@@ -241,7 +242,7 @@ dialog_found_solution (Cell *set_cell, Cell *change_cell, float_t target_value)
 					      (dialog)->vbox), label_box);
 
 	gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
-        selection = gnumeric_dialog_run (set_cell->base.sheet->workbook, GNOME_DIALOG (dialog));
+        selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 
 	if (selection >= 0)
 		gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -255,7 +256,7 @@ dialog_found_solution (Cell *set_cell, Cell *change_cell, float_t target_value)
 }
 
 void
-dialog_goal_seek (Workbook *wb, Sheet *sheet)
+dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	static GtkWidget *dialog;
         static GtkWidget *set_entry;
@@ -340,7 +341,7 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
 	gtk_widget_grab_focus (set_entry);
 
 dialog_loop:
-        selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+        selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (selection == 0) {
 		Cell    *set_cell;
  	        int     set_cell_col, set_cell_row;
@@ -357,7 +358,7 @@ dialog_loop:
 		/* Check that a cell entered in 'set cell' entry */
 		text = gtk_entry_get_text (GTK_ENTRY (set_entry));
 		if (!parse_cell_name (text, &set_cell_col, &set_cell_row, TRUE, NULL)){
-	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+	                gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 _("You should introduce a valid cell name in 'Set cell'"));
 			focus_on_entry (set_entry);
 			goto dialog_loop;
@@ -365,7 +366,7 @@ dialog_loop:
 
 		set_cell = sheet_cell_get (sheet, set_cell_col, set_cell_row);
 		if (set_cell == NULL || !cell_has_expr (set_cell)) {
-	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+	                gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 _("The cell named in 'Set cell' must contain a formula"));
 			focus_on_entry (set_entry);
 			goto dialog_loop;
@@ -378,7 +379,7 @@ dialog_loop:
 		/* Check that a cell entered in 'by changing cell' entry */
 		text = gtk_entry_get_text (GTK_ENTRY (change_entry));
 		if (!parse_cell_name (text, &change_cell_col, &change_cell_row, TRUE, NULL)){
-	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+	                gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 _("You should introduce a valid cell "
 					   "name in 'By changing cell'"));
 			focus_on_entry (change_entry);
@@ -387,7 +388,7 @@ dialog_loop:
 
 		change_cell = sheet_cell_fetch (sheet, change_cell_col, change_cell_row);
 		if (cell_has_expr (change_cell)) {
-	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+	                gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 _("The cell named in 'By changing cell' "
 					   "must not contain a formula"));
 			focus_on_entry (change_entry);
@@ -413,13 +414,13 @@ dialog_loop:
 			? value_duplicate (change_cell->value)
 			: NULL;
 
-		status = gnumeric_goal_seek (wb, sheet,
+		status = gnumeric_goal_seek (wbcg, sheet,
 					     set_cell, target_value,
 					     change_cell, xmin, xmax);
 
 		if (status == GOAL_SEEK_OK) {
 		        gnome_dialog_close (GNOME_DIALOG (dialog));
-			if (dialog_found_solution (set_cell, change_cell, target_value)) {
+			if (dialog_found_solution (wbcg, set_cell, change_cell, target_value)) {
 			        /* Goal seek cancelled */
 				if (old_value) {
 					sheet_cell_set_value (change_cell, old_value, NULL);
@@ -431,7 +432,7 @@ dialog_loop:
 				value_release (old_value);
 			return;
 		} else {
-	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+	                gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 _("Goal seek did not find a solution!"));
 		}
 		if (old_value)

@@ -268,7 +268,7 @@ simplex_copy_table (float_t *table, int cols, int rows)
 }
 
 int
-solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_tbl,
+solver_simplex (WorkbookControl *wbc, Sheet *sheet, float_t **init_tbl,
 		float_t **final_tbl)
 {
         int i, n;
@@ -539,7 +539,7 @@ make_solver_arrays (Sheet *sheet, SolverParameters *param, int n_variables,
 }
 
 int
-solver_affine_scaling (Workbook *wb, Sheet *sheet,
+solver_affine_scaling (WorkbookControl *wbc, Sheet *sheet,
 		       float_t **x,    /* the optimal solution */
 		       float_t **sh_pr /* the shadow prizes */)
 {
@@ -708,7 +708,7 @@ make_int_array (SolverParameters *param, CellList *inputs, gboolean int_r[],
 }
 
 static gboolean
-solver_branch_and_bound (Workbook *wb, Sheet *sheet, float_t **opt_x)
+solver_branch_and_bound (WorkbookControl *wbc, Sheet *sheet, float_t **opt_x)
 {
 	SolverParameters *param = &sheet->solver_parameters;
 	GSList           *constraints;
@@ -813,8 +813,8 @@ solver_branch_and_bound (Workbook *wb, Sheet *sheet, float_t **opt_x)
 
 
 gboolean
-solver_lp (Workbook *wb, Sheet *sheet, float_t **opt_x, float_t **sh_pr,
-	   gboolean *ilp)
+solver_lp (WorkbookControl *wbc, Sheet *sheet,
+	   float_t **opt_x, float_t **sh_pr, gboolean *ilp)
 {
 	SolverParameters *param = &sheet->solver_parameters;
 	GSList           *constraints;
@@ -831,9 +831,9 @@ solver_lp (Workbook *wb, Sheet *sheet, float_t **opt_x, float_t **sh_pr,
 		constraints = constraints->next;
 	}
 	if (*ilp)
-	        return solver_branch_and_bound (wb, sheet, opt_x);
+	        return solver_branch_and_bound (wbc, sheet, opt_x);
 	else
-	        return solver_affine_scaling (wb, sheet, opt_x, sh_pr);
+	        return solver_affine_scaling (wbc, sheet, opt_x, sh_pr);
 }
 
 static char *
@@ -881,7 +881,7 @@ find_name (Sheet *sheet, int col, int row)
 }
 
 static void
-solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
+solver_answer_report (WorkbookControl *wbc, Sheet *sheet, GSList *ov,
 		      float_t ov_target)
 {
         data_analysis_output_t dao;
@@ -894,7 +894,7 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 	int  row, i;
 
 	dao.type = NewSheetOutput;
-        prepare_output (wb, &dao, _("Answer Report"));
+        prepare_output (wbc, &dao, _("Answer Report"));
 	set_cell (&dao, 0, 0, _("Gnumeric Solver Answer Report"));
 	set_bold (dao.sheet, 0, 0, 0, 0);
 
@@ -1039,7 +1039,7 @@ solver_answer_report (Workbook *wb, Sheet *sheet, GSList *ov,
 }
 
 static void
-solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
+solver_sensitivity_report (WorkbookControl *wbc, Sheet *sheet, float_t *x,
 			   float_t *shadow_prize)
 {
         data_analysis_output_t dao;
@@ -1052,7 +1052,7 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
 	int  row = 0, i;
 
 	dao.type = NewSheetOutput;
-        prepare_output (wb, &dao, _("Sensitivity Report"));
+        prepare_output (wbc, &dao, _("Sensitivity Report"));
 	set_cell (&dao, 0, row++, _("Gnumeric Solver Sensitivity Report"));
 	set_cell (&dao, 0, row++, _("Adjustable Cells"));
 	set_cell (&dao, 2, row, _("Final"));
@@ -1161,21 +1161,21 @@ solver_sensitivity_report (Workbook *wb, Sheet *sheet, float_t *x,
 }
 
 static void
-solver_limits_report (Workbook *wb)
+solver_limits_report (WorkbookControl *wbc)
 {
 }
 
 void
-solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov, float_t ov_target,
+solver_lp_reports (WorkbookControl *wbc, Sheet *sheet, GSList *ov, float_t ov_target,
 		   float_t *opt_x, float_t *shadow_prize,
 		   gboolean answer, gboolean sensitivity, gboolean limits)
 {
         if (answer)
-	        solver_answer_report (wb, sheet, ov, ov_target);
+	        solver_answer_report (wbc, sheet, ov, ov_target);
 	if (sensitivity)
-	        solver_sensitivity_report (wb, sheet, opt_x, shadow_prize);
+	        solver_sensitivity_report (wbc, sheet, opt_x, shadow_prize);
 	if (limits)
-	        solver_limits_report (wb);
+	        solver_limits_report (wbc);
 }
 
 

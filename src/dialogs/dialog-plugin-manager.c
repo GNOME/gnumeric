@@ -20,11 +20,13 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "plugin.h"
+#include "command-context.h"
+#include "workbook-control.h"
 #include "workbook.h"
 
 typedef struct
 {
-	Workbook  *workbook;
+	WorkbookControlGUI  *wbcg;
         GtkWidget *dialog;
         GtkWidget *clist;
 	GtkWidget *path_lbl;
@@ -126,13 +128,13 @@ refresh_right_frame (PluginData *pd, PluginManager *pm)
 static void
 add_cb (PluginManager *pm)
 {
-	char *modfile = dialog_query_load_file (pm->workbook);
+	char *modfile = dialog_query_load_file (pm->wbcg);
 	PluginData *pd = NULL;
 
 	if (!modfile)
 		return; /* user hit 'cancel' */
 
-	pd = plugin_load (workbook_command_context_gui (pm->workbook), modfile);
+	pd = plugin_load (COMMAND_CONTEXT (pm->wbcg), modfile);
 
 	if (pd)
 	        populate_clist (pm);
@@ -150,7 +152,7 @@ remove_cb (PluginManager *pm)
 	gint row = GPOINTER_TO_INT (g_list_nth_data (selection, 0));
 	PluginData *pd = gtk_clist_get_row_data (GTK_CLIST (pm->clist), row);
 
-	plugin_unload (workbook_command_context_gui (pm->workbook), pd);
+	plugin_unload (COMMAND_CONTEXT (pm->wbcg), pd);
 	populate_clist (pm);
 
 	if (GTK_CLIST (pm->clist)->rows > row)
@@ -184,12 +186,12 @@ row_cb (GtkWidget * clist, gint row, gint col,
  * Creates the plugin manager dialog
  */
 static void
-dialog_plugin_manager_impl (Workbook *wb, GladeXML *gui)
+dialog_plugin_manager_impl (WorkbookControlGUI *wbcg, GladeXML *gui)
 {
 	PluginManager pm;
 	int bval;
 
-	pm.workbook = wb;
+	pm.wbcg = wbcg;
 
 	/* load the dialog from our glade file */
 	pm.dialog        = glade_xml_get_widget (gui, "dialog");
@@ -230,7 +232,7 @@ dialog_plugin_manager_impl (Workbook *wb, GladeXML *gui)
 	gtk_widget_show_all (GNOME_DIALOG (pm.dialog)->vbox);
 
 	do {
-		bval = gnumeric_dialog_run (pm.workbook, GNOME_DIALOG (pm.dialog));
+		bval = gnumeric_dialog_run (pm.wbcg, GNOME_DIALOG (pm.dialog));
 
 		switch (bval) {
 
@@ -260,17 +262,16 @@ dialog_plugin_manager_impl (Workbook *wb, GladeXML *gui)
  * To libglade'ify it
  */
 void
-dialog_plugin_manager (Workbook *wb)
+dialog_plugin_manager (WorkbookControlGUI *wbcg)
 {
 	GladeXML *gui;
 
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wbcg != NULL);
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				      "plugin-manager.glade");
+	gui = gnumeric_glade_xml_new (wbcg, "plugin-manager.glade");
         if (gui == NULL)
                 return;
 
-	dialog_plugin_manager_impl (wb, gui);
+	dialog_plugin_manager_impl (wbcg, gui);
 	gtk_object_unref (GTK_OBJECT (gui));
 }

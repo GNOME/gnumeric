@@ -1,3 +1,172 @@
+2000-10-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-view.c (wb_view_auto_expr) : Set LC_MONETARY and
+	  LC_NUMERIC.
+	* src/xml-io.c (xml_workbook_write) : Ditto.
+	(xml_workbook_read) : Ditto.
+
+2000-10-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/*.[ch] : WorkbookControlGUI is now required for gui
+	  operations.  A WorkbookView is required to know which sheet is the
+	  current.
+
+	* src/xml-io.c : We now load/save WorkbookViews.
+
+	* src/xml-io-autoft.c : Adjust to signature changes.
+
+	* src/workbook.c : Split the View into WorkbookView.
+	  Abstract the Controler interface, and move the GUI specific
+	  implementation of the Controler into WorkbookControlGUI.
+
+	* src/workbook-view.c : Complete rewrite with correct semantics.
+
+	* src/workbook-private.h : Move all the GUI specific stuff into
+	  WorkbookControlGUI were it belongs.
+
+	* src/workbook-private.c (workbook_private_class_init) : Fix typo.
+
+	* src/workbook-edit.c : These are now WorkbookControlGUI specific.
+	  We should rename the functions eventually.
+	* src/workbook-format-toolbar.c : Ditto.
+	* src/workbook-object-toolbar.c : Ditto.
+
+	* src/workbook-cmd-format.c : Adjust to signature changes.
+	  and use WorkbookControlGUI were necessary.
+
+	* src/style.c (style_font_new_from) : Delete dead code.
+
+	* src/solver-lp.c : Adjust to signature changes.
+	* src/sort.c : Ditto.
+	* src/stf.c : Ditto. Make dialog conditional on gui-ness.
+
+	* src/sheet.c (sheet_new_sheet_view) : IS_SHEET checks for NULL.
+	(sheet_detach_sheet_view) : renamed from sheet_destroy_sheet_view
+	  and only take a SheetView as argument.
+	(sheet_new) : Do not create a view by default.
+	(sheet_update_zoom_controls) : foreach control.
+	(sheet_update_editpos) : ditto.
+	(sheet_update) : handle multiple views and controls.
+
+	* src/sheet-view.c : Commands take WorkbookControls rather than
+	  CommandContexts.
+
+	* src/sheet-object-widget.c : Most things take WorkbookControlGUI
+	  rather than Workbooks.
+
+	* src/sheet-object-container.c (sheet_object_container_new_view) :
+	  Use the uic from the WorkbookControlGUI.
+
+	* src/sheet-control.c : New file. Unused so far.
+	  cp sheet-view.c sheet-control.c
+	  s/SheetView/SheetControl/
+
+	* src/print.c : Make the GUI dependency explicit.
+	  At some point the setup dialog should be split out of here.
+
+	* src/main.c (gnumeric_main) : Explicitly create a WorkbookControlGUI
+	  only adding sheets if nothing was loaded.  Improve handing of exit
+	  request while loading.
+
+	* src/item-grid.c (item_grid_draw) : Filter the edit cell from here
+	  because we know which control to use.
+	(context_menu_hander) : Switch to WorkbookControlGUI.
+	(item_grid_popup_menu) : Ditto.
+
+	* src/item-edit.c : Everything takes a WorkbookControlGUI inplace of a
+	  Workbook now.
+
+	* src/item-cursor.c (item_cursor_target_region_ok) : dialog_run takes
+	  a WorkbookControlGUI.
+	(item_cursor_do_action) : All the commands take WorkbookControls.
+
+	* src/item-bar.c (item_bar_event) : item_grid_popup_menu takes a
+	  SheetView now.
+
+	* src/history.c : Take WorkbookControlGUI.
+	  Update all controls for each workbook.
+
+	* src/gui-clipboard.c : Use 'unsigned char'
+
+	* src/gnumeric.xml : More work to split commands from layout.
+
+	* src/gnumeric-util.c (gnumeric_no_modify_array_notice) : Delete.
+	(gnumeric_notice) : Take a WorkbookControlGUI.
+	(gnumeric_wb_dialog_run) : Ditto.
+	(gnumeric_dialog_run) : Ditto.
+	(gnumeric_dialog_show) : Ditto.
+	(gnumeric_set_transient) : Ditto.
+	(gnumeric_glade_xml_new) : Ditto.
+	(gnumeric_non_modal_dialog) : Ditto.
+	(gnumeric_inject_widget_into_bonoboui) : Ditto.
+
+	* src/gnumeric-sheet.c : SheetView now has a WorkbookControlGUI member
+	  to keep track of which control it is associated with. Use it.
+
+	* src/file.c : Adjust to lots of signature changes.
+	  We now load/save WorkbookView rather than Workbook.
+	  Add a placeholder struct IOContext so that we can consider doing
+	  smarter import/export and dealing with warnings and missing things
+	  smoothly.
+
+	* src/eval.c (workbook_recalc_all) : After a recalc update all views.
+
+	* src/commands.c (undo_redo_menu_labels) : foreach control.
+	(command_undo) : ditto.
+	(command_redo) : ditto.
+	(command_push_undo) : change signature.  The workbookcontrol
+	  now acts as the command context.
+
+	* src/cmd-edit.c : Adjust to signature changes.
+
+	* src/clipboard.c : split the gui specific X handlers out into a new
+	  file.
+	* src/gui-clipboard.c :  here.
+
+	* src/cell-draw.c (cell_draw) : Do not test the sheet for whether or
+	  not to we are editing.  That is at the control level.  Test it in
+	  the rendering loop.
+
+	* src/bonobo-io.c : FIXME. adjusted to signature changes.  Totatly
+	  broken for now.  This needs a View rather than a Model and should be
+	  associated with something.
+
+	* src/application.c (application_workbook_list_add) : New function.
+	(application_workbook_list_remove) : New function.
+	(application_workbook_list) : New function.
+	(application_clipboard_copy) : foreach control.
+	(application_clipboard_cut) : foreach control.
+	(application_clipboard_clear) : foreach control.
+	(application_workbook_foreach) : renamed from workbook_foreach.
+	(application_set_selected_sheet) : FIXME. Disabled for now.
+
+	* src/about.c (cb_closed) : Associated the flag with the control
+	  directly.
+	(dialog_about) : dialogs are associated with gui-controls.
+
+	* src/analysis-tools.c : change all dialog signatures to handle MVC
+	  split of workbook.
+
+2000-10-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/Makefile.am : Add new command-context,  io-context,
+	  workbook-view, workbook-control, workbook-control-gui files.
+	  Remove old command-context-gui, command-context-corba, and disable
+	  corba-* for now.
+
+2000-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* idl/gnumeric-graphs.idl : Remove studdly caps.  I wish people would
+	  make up their minds.
+
+	* idl/Gnumeric.idl : Remove Workbook::show.
+
+2000-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* BUGS : Update.
+	* NEWS : Update.
+	* TODO : Update.
+
 2000-10-30  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-math.c (gnumeric_sumproduct): Plug leak.
@@ -85,6 +254,12 @@
 	(workbook_create_format_toolbar): Hide font button.
 
 	* src/workbook-format-toolbar.h: Update all toolbar item indexes.
+
+2000-10-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (selection_to_list) : delete.
+	(selection_get_ranges) : implement  allow_intersection.
+	(selection_apply) : change the signature of the callback.
 
 2000-10-21  Michael Meeks  <michael@helixcode.com>
 

@@ -28,6 +28,7 @@
 #include "plugin.h"
 #include "plugin-util.h"
 #include "applix.h"
+#include "workbook-view.h"
 #include "workbook.h"
 
 #include <stdio.h>
@@ -66,18 +67,20 @@ applix_probe (const char *filename)
 }
 
 static int
-applix_load (CommandContext *context, Workbook *wb, const char *filename)
+applix_load (IOContext *context, WorkbookView *wb_view,
+	     const char *filename)
 {
 	int res;
 	FILE *file = gnumeric_fopen (context, filename, "r");
 	if (file == NULL)
 		return -1;
 
-	res = applix_read (context, wb, file);
+	res = applix_read (context, wb_view, file);
 	fclose (file);
 
 	if (res == 0)
-		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, NULL);
+		workbook_set_saveinfo (wb_view_workbook (wb_view),
+				       filename, FILE_FL_MANUAL, NULL);
 
 	return res;
 }

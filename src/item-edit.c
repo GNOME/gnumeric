@@ -187,7 +187,7 @@ item_edit_draw_text (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *style
 	}
 
 	if (text_length > 0){
-		if (workbook_auto_completing (item_edit->sheet_view->sheet->workbook)){
+		if (workbook_auto_completing (item_edit->sheet_view->wbcg)){
 			gdk_draw_rectangle (
 				drawable, style->black_gc, TRUE,
 				x, y - font->ascent,
@@ -231,7 +231,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		(int)(item->y2-item->y1));
 
 	/* Make a number of tests for auto-completion */
-	text = workbook_edit_get_display_text (item_edit->sheet_view->sheet->workbook);
+	text = workbook_edit_get_display_text (item_edit->sheet_view->wbcg);
 	
 	for (ptr = item_edit->text_offsets; ptr != NULL; ptr = ptr->next){
 		int const text_end = GPOINTER_TO_INT (ptr->data);
@@ -281,7 +281,7 @@ recalc_spans (GnomeCanvasItem *item)
 	ItemEdit *item_edit = ITEM_EDIT (item);
 	Sheet    *sheet     = item_edit->sheet_view->sheet;
 	GdkFont  *font      = item_edit->font;
-	const char *start = workbook_edit_get_display_text (sheet->workbook);
+	const char *start = workbook_edit_get_display_text (item_edit->sheet_view->wbcg);
 	const char *text  = start;
 
 	GSList	*text_offsets = NULL;
@@ -493,7 +493,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_edit->item_grid = GTK_VALUE_POINTER (*arg);
 	item_edit->sheet_view = item_edit->item_grid->sheet_view;
 	sheet = item_edit->sheet_view->sheet;
-	item_edit->entry = GTK_ENTRY (workbook_get_entry (sheet->workbook));
+	item_edit->entry = GTK_ENTRY (workbook_get_entry (item_edit->sheet_view->wbcg));
 	item_edit->col = sheet->cursor.edit_pos.col;
 	item_edit->row = sheet->cursor.edit_pos.row;
 

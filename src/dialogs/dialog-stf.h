@@ -146,7 +146,7 @@ typedef struct {
 } DialogStfResult_t;
 
 /* This is the main function which handles all the dialog import stuff */
-DialogStfResult_t *stf_dialog                           (CommandContext *context, const char *filename,
+DialogStfResult_t *stf_dialog                           (WorkbookControlGUI *wbcg, const char *filename,
 							 const char *data);
 void               stf_dialog_result_free               (DialogStfResult_t *dialogresult);
 

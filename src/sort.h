@@ -1,8 +1,7 @@
-#ifndef SORT_H
-#define SORT_H
+#ifndef GNUMERIC_SORT_H
+#define GNUMERIC_SORT_H
 
 #include "gnumeric.h"
-#include "command-context.h"
 
 typedef struct {
 	int offset;
@@ -22,11 +21,11 @@ typedef struct {
 void        sort_clause_destroy (SortClause *clause);
 void        sort_data_destroy (SortData *data);
 
-void        sort_position (CommandContext *context, SortData *data, int *perm);
+void        sort_position (WorkbookControl *wbc, SortData *data, int *perm);
 
-int         *sort_contents (CommandContext *context, SortData *data);
+int         *sort_contents (WorkbookControl *wbc, SortData *data);
 
 int         sort_data_length (const SortData *data);
 int         *sort_permute_invert (const int *perm, int length);
 
-#endif /* SORT_H */
+#endif /* GNUMERIC_SORT_H */

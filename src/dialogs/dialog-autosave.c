@@ -12,6 +12,7 @@
 #include <glade/glade.h>
 #include "gnumeric.h"
 #include "workbook.h"
+#include "workbook-control.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
 
@@ -38,14 +39,13 @@ prompt_on_off_toggled(GtkWidget *widget, gboolean *flag)
 }
 
 gboolean
-dialog_autosave_prompt (Workbook *wb)
+dialog_autosave_prompt (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *dia;
 	GladeXML *gui;
 	gint v;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				"autosave-prompt.glade");
+	gui = gnumeric_glade_xml_new (wbcg, "autosave-prompt.glade");
         if (gui == NULL)
                 return 0;
 
@@ -55,7 +55,7 @@ dialog_autosave_prompt (Workbook *wb)
 		return 0;
 	}
 
-	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
 	if (v != -1)
 		gtk_object_destroy (GTK_OBJECT (dia));
 	gtk_object_unref (GTK_OBJECT (gui));
@@ -67,7 +67,7 @@ dialog_autosave_prompt (Workbook *wb)
 }
 
 void
-dialog_autosave (Workbook *wb)
+dialog_autosave (WorkbookControlGUI *wbcg)
 {
 	GladeXML  *gui;
 	GtkWidget  *dia;
@@ -76,12 +76,13 @@ dialog_autosave (Workbook *wb)
 	gint       v;
 	gboolean   autosave_flag, prompt_flag;
 	autosave_t p;
+	Workbook  *wb;
 
+	wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	if (wb->autosave_timer != 0)
 		gtk_timeout_remove (wb->autosave_timer);
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				"autosave.glade");
+	gui = gnumeric_glade_xml_new (wbcg, "autosave.glade");
         if (gui == NULL)
                 return;
 
@@ -123,7 +124,7 @@ dialog_autosave (Workbook *wb)
 			    &prompt_flag);
 
 loop:
-	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
 
 	if (v == 0) {
 		gchar *txt;
@@ -132,7 +133,7 @@ loop:
 		txt = gtk_entry_get_text (GTK_ENTRY (p.minutes_entry));
 		tmp = atoi (txt);
 		if (tmp <= 0) {
-		        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+		        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 _("You should introduce a proper "
 					   "number of minutes in the entry."));
 			gtk_widget_grab_focus (p.minutes_entry);

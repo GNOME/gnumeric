@@ -479,14 +479,14 @@ format_template_member_set_style (TemplateMember *member, MStyle *mstyle)
  
 /**
  * format_template_new:
- * @context: a CommandContext
+ * @context: a WorkbookControl
  * 
  * Create a new 'empty' FormatTemplate
  * 
  * Return value: the new FormatTemplate
  **/
 FormatTemplate *
-format_template_new (CommandContext *context)
+format_template_new (WorkbookControl *context)
 {
 	FormatTemplate *ft;
 
@@ -605,7 +605,7 @@ format_template_clone (FormatTemplate *ft)
 
 /**
  * format_template_new_from_file:
- * @context: a CommandContext
+ * @context: a WorkbookControl
  * @filename: The filename to load from
  * 
  * Create a new FormatTemplate and load a template file
@@ -614,7 +614,7 @@ format_template_clone (FormatTemplate *ft)
  * Return value: a new FormatTemplate (or NULL on error)
  **/
 FormatTemplate *
-format_template_new_from_file (CommandContext *context, const char *filename)
+format_template_new_from_file (WorkbookControl *context, const char *filename)
 {
 	FormatTemplate *ft;
 

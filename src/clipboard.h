@@ -61,13 +61,12 @@ struct _PasteTarget {
 
 CellRegion *clipboard_copy_range   (Sheet *sheet, Range const *r);
 void        clipboard_release      (CellRegion *region);
-gboolean    clipboard_paste_region (CommandContext *context,
+gboolean    clipboard_paste_region (WorkbookControl *wbc,
 				    PasteTarget const *pt,
 				    CellRegion *content);
-void 	    clipboard_paste	   (CommandContext *context,
+void 	    clipboard_paste	   (WorkbookControl *wbc,
 				    PasteTarget const *pt, guint32 time);
 PasteTarget*paste_target_init      (PasteTarget *pt,
 				    Sheet *sheet, Range const *r, int flags);
-void        x_clipboard_bind_workbook    (Workbook *wb);
-	
+
 #endif /* GNUMERIC_CLIPBOARD_H */

@@ -18,18 +18,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
- 
+
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
-#include "gnome-xml/parser.h"
-#include "gnome-xml/parserInternals.h"
-#include "gnome-xml/xmlmemory.h"
 #include "command-context.h"
+#include "workbook-control.h"
 #include "str.h"
 #include "xml-io.h"
-
 #include "xml-io-autoft.h"
+
+#include <gnome-xml/parser.h>
+#include <gnome-xml/parserInternals.h>
+#include <gnome-xml/xmlmemory.h>
 
 /*
  * A parsing context.
@@ -68,7 +69,7 @@ static void
 xml_write_format_col_row_info (XmlParseContext *ctxt, FormatColRowInfo info, xmlNodePtr node)
 {
 	xmlNodePtr  child;
-	
+
 	/*
 	 * Write placement
 	 */
@@ -76,7 +77,7 @@ xml_write_format_col_row_info (XmlParseContext *ctxt, FormatColRowInfo info, xml
 	xml_set_value_int (child, "offset", info.offset);
 	xml_set_value_int (child, "offset_gravity", info.offset_gravity);
 	xmlAddChild (node, child);
-	
+
 	/*
 	 * Write dimensions
 	 */
@@ -111,7 +112,7 @@ xml_write_format_template_member (XmlParseContext *ctxt, TemplateMember *member)
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Col", NULL);
 	xml_write_format_col_row_info (ctxt, format_template_member_get_col_info (member), child);
 	xmlAddChild (cur, child);
-	
+
 	/*
 	 * Write frequency information
 	 */
@@ -121,7 +122,7 @@ xml_write_format_template_member (XmlParseContext *ctxt, TemplateMember *member)
 	xml_set_value_int (child, "skip", format_template_member_get_skip (member));
 	xml_set_value_int (child, "edge", format_template_member_get_edge (member));
 	xmlAddChild (cur, child);
-	
+
 	/*
 	 * Write style
 	 */
@@ -149,9 +150,9 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft)
 	 */
 
 	root = xmlNewDocNode (ctxt->doc, NULL, "FormatTemplate", NULL);
-	if (root == NULL) 
+	if (root == NULL)
 		return NULL;
-	
+
 	gmr = xmlNewNs (root, "http://www.gnome.org/gnumeric/format-template/v1", "gmr");
 	xmlSetNs(root, gmr);
 	ctxt->ns = gmr;
@@ -203,14 +204,14 @@ xml_write_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft)
 	return root;
 }
 
- 
+
 /*
  * Save a Template in an XML file
  * One build an in-memory XML tree and save it to a file.
  * returns 0 in case of success, -1 otherwise.
  */
 int
-gnumeric_xml_write_format_template (CommandContext *context, FormatTemplate *ft,
+gnumeric_xml_write_format_template (WorkbookControl *context, FormatTemplate *ft,
 				    const char *filename)
 {
 	XmlParseContext *ctxt;
@@ -224,14 +225,14 @@ gnumeric_xml_write_format_template (CommandContext *context, FormatTemplate *ft,
 	 * Create the tree
 	 */
 	xml = xmlNewDoc ("1.0");
-	if (xml == NULL){
-		gnumeric_error_save (context, "");
+	if (xml == NULL) {
+		gnumeric_error_save (COMMAND_CONTEXT (context), "");
 		return -1;
 	}
 	ctxt = xml_parse_ctx_new (xml, NULL);
 	xml->root = xml_write_format_template_members (ctxt, ft);
 	xml_parse_ctx_destroy (ctxt);
-	
+
 	/*
 	 * Dump it.
 	 */
@@ -239,7 +240,8 @@ gnumeric_xml_write_format_template (CommandContext *context, FormatTemplate *ft,
 	ret = xmlSaveFile (filename, xml);
 	xmlFreeDoc (xml);
 	if (ret < 0) {
-		gnumeric_error_save (context, "Error while trying to save autoformat template");
+		gnumeric_error_save (COMMAND_CONTEXT (context),
+			"Error while trying to save autoformat template");
 		return -1;
 	}
 	return 0;
@@ -256,7 +258,7 @@ xml_read_format_col_row_info (XmlParseContext *ctxt, FormatTemplate *ft, xmlNode
 {
 	FormatColRowInfo info;
 	xmlNodePtr child;
-	
+
 	/*
 	 * Read placement
 	 */
@@ -293,7 +295,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 	FormatColRowInfo row, col;
 	FreqDirection direction;
 	int repeat, skip, edge;
-	
+
 	if (strcmp (tree->name, "Member")){
 		fprintf (stderr,
 			 "xml_read_format_template_member: invalid element type %s, 'Member' expected\n",
@@ -330,7 +332,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 		fprintf (stderr, ERR_READ_FT_MEMBER, "Frequency");
 		return FALSE;
 	}
-	
+
 	/*
 	 * Read style information
 	 */
@@ -352,7 +354,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 	format_template_member_set_style (member, mstyle);
 
 	format_template_attach_member (ft, member);
-	
+
 	/*
 	 * We need to unref the mstyle here, the TemplateMember will
 	 * take care of freeing the mstyle.
@@ -384,7 +386,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 	child = xml_search_child (tree, "Information");
 	if (child){
 		String *author, *name, *description, *category;
-		
+
 		author      = xml_get_value_string (child, "author");
 		name        = xml_get_value_string (child, "name");
 		description = xml_get_value_string (child, "description");
@@ -394,7 +396,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 		format_template_set_name (ft, name->str);
 		format_template_set_description (ft, description->str);
 		format_template_set_category (ft, category->str);
-		
+
 		string_unref (author);
 		string_unref (name);
 		string_unref (description);
@@ -416,7 +418,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 	 * the FormatTemplate one by one
 	 */
 	c = child->childs;
-	
+
 	while (c != NULL) {
 		if (!xml_read_format_template_member (ctxt, ft, c))
 			return FALSE;
@@ -433,7 +435,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
  * the actual in-memory structure.
  */
 int
-gnumeric_xml_read_format_template (CommandContext *context, FormatTemplate *ft,
+gnumeric_xml_read_format_template (WorkbookControl *context, FormatTemplate *ft,
 				   const char *filename)
 {
 	xmlDocPtr res;
@@ -447,24 +449,25 @@ gnumeric_xml_read_format_template (CommandContext *context, FormatTemplate *ft,
 	 */
 	res = xmlParseFile (filename);
 	if (res == NULL) {
-		gnumeric_error_read (context, "Error while trying to load autoformat template");
+		gnumeric_error_read (COMMAND_CONTEXT (context),
+			_("Error while trying to load autoformat template"));
 		return -1;
 	}
 	if (res->root == NULL) {
 		xmlFreeDoc (res);
-		gnumeric_error_read
-			(context, _("Invalid xml file. Tree is empty ?"));
+		gnumeric_error_read (COMMAND_CONTEXT (context),
+			_("Invalid xml file. Tree is empty ?"));
 		return -1;
 	}
-	
+
 	/*
 	 * Do a bit of checking, get the namespaces, and check the top elem.
 	 */
 	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/format-template/v1");
 	if (strcmp (res->root->name, "FormatTemplate") || (gmr == NULL)) {
 		xmlFreeDoc (res);
-		gnumeric_error_read
-			(context, _("Is not an autoformat template file"));
+		gnumeric_error_read (COMMAND_CONTEXT (context),
+			_("Is not an autoformat template file"));
 		return -1;
 	}
 	ctxt = xml_parse_ctx_new (res, gmr);
@@ -473,12 +476,13 @@ gnumeric_xml_read_format_template (CommandContext *context, FormatTemplate *ft,
 	 * Read information and all members
 	 */
 	if (!xml_read_format_template_members (ctxt, ft, res->root)) {
-		gnumeric_error_read (context, "Error while trying to build tree from autoformat template file");
+		gnumeric_error_read (COMMAND_CONTEXT (context),
+			_("Error while trying to build tree from autoformat template file"));
 		return -1;
 	}
 
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (res);
-	
+
 	return 0;
 }

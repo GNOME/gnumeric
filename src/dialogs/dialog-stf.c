@@ -22,9 +22,10 @@
 #include <config.h>
 #include <gnome.h>
 
-#include "command-context.h"
 #include "dialog-stf.h"
 #include "format.h"
+#include "command-context.h"
+#include "workbook-control.h"
 
 #define GLADE_FILE "dialog-stf.glade"
 
@@ -503,7 +504,7 @@ stf_dialog_editables_enter (DruidPageData_t *pagedata)
 
 /**
  * stf_dialog
- * @context : a Commandcontext (can be NULL)
+ * @wbcg : a Commandcontext (can be NULL)
  * @filename : name of the file we are importing (or data)
  * @data : the data itself
  *
@@ -513,7 +514,7 @@ stf_dialog_editables_enter (DruidPageData_t *pagedata)
  * returns : A DialogStfResult_t struct on success, NULL otherwise. 
  **/
 DialogStfResult_t*
-stf_dialog (CommandContext *context, const char *filename, const char *data)
+stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 {
 	GladeXML *gui;
 	DialogStfResult_t *dialogresult;
@@ -530,8 +531,8 @@ stf_dialog (CommandContext *context, const char *filename, const char *data)
 	
 		message = g_strdup_printf (_("Missing %s file"), GLADE_FILE);
 		
-		if (context)
-			gnumeric_error_read (context, message);
+		if (wbcg)
+			gnumeric_error_read (COMMAND_CONTEXT (wbcg), message);
 		else
 			g_warning (message);
 			
@@ -568,7 +569,7 @@ stf_dialog (CommandContext *context, const char *filename, const char *data)
 	stf_dialog_set_initial_keyboard_focus (&pagedata);
 	gtk_widget_grab_default (pagedata.druid->next);
 	
-	gnumeric_set_transient (context, pagedata.window);
+	gnumeric_set_transient (wbcg, pagedata.window);
 	gtk_widget_show (GTK_WIDGET (pagedata.window));
 	gtk_main ();
 

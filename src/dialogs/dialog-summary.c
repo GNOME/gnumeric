@@ -78,7 +78,7 @@ summary_put (GladeXML *gui, SummaryInfo *sin)
 }
 
 void
-dialog_summary_update (Workbook *wb, SummaryInfo *sin)
+dialog_summary_update (WorkbookControlGUI *wbcg, SummaryInfo *sin)
 {
 	GladeXML  *gui;
 	GtkWidget *dia, *comments;
@@ -94,8 +94,7 @@ dialog_summary_update (Workbook *wb, SummaryInfo *sin)
 	    };
 	gint v;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				"summary.glade");
+	gui = gnumeric_glade_xml_new (wbcg, "summary.glade");
         if (gui == NULL)
                 return;
 
@@ -117,7 +116,7 @@ dialog_summary_update (Workbook *wb, SummaryInfo *sin)
 
 	summary_put (gui, sin);
 
-	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
 	if (v == 0)
 		summary_get (gui, sin);
 

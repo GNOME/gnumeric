@@ -42,8 +42,11 @@
 #include "style.h"
 #include "mstyle.h"
 #include "formats.h"
-#include "workbook.h"
+#include "io-context-priv.h"
 #include "command-context.h"
+#include "workbook-control.h"
+#include "workbook-view.h"
+#include "workbook.h"
 #include "xml-io.h"
 
 #include "stf.h"
@@ -108,9 +111,10 @@ stf_open_and_read (const char *filename)
  * returns : 0 on success or -1 otherwise
  **/
 static int
-stf_read_workbook (CommandContext *context, Workbook *book, char const *filename)
+stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 {
-	DialogStfResult_t *dialogresult;
+	Workbook *book;
+	DialogStfResult_t *dialogresult = NULL;
 	char *name;
 	char *data;
 	unsigned char *c;
@@ -119,7 +123,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 	data = stf_open_and_read (filename);
 	if (!data) {
 
-		gnumeric_error_read (context,
+		gnumeric_io_error_read (context,
 				     _("Error while trying to memory map file"));
 		return -1;
 	}
@@ -129,7 +133,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 		 * Note this buffer was allocated with malloc, not g_malloc
 		 */
 		free (data);
-		gnumeric_error_read (context,
+		gnumeric_io_error_read (context,
 				     _("Error while trying to pre-convert file"));
 		return -1;
 	}
@@ -142,7 +146,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 
 		message = g_strdup_printf (_("This file does not seem to be a valid text file.\nThe character '%c' (ASCII decimal %d) was encountered"),
 					   *c, (int) *c);
-		gnumeric_error_read (context, message);
+		gnumeric_io_error_read (context, message);
 		g_free (message);
 
 		free (data);
@@ -153,13 +157,16 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 	/*
 	 * Add Sheet
 	 */
+	book = wb_view_workbook (wbv);
 	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 	sheet = sheet_new (book, name);
 	g_free (name);
 
-	workbook_attach_sheet (book, sheet);
+	workbook_sheet_attach (book, sheet, NULL);
 
-	dialogresult = stf_dialog (context, filename, data);
+	/* FIXME : how to do this cleanly ? */
+	if (IS_WORKBOOK_CONTROL_GUI (context))
+		dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context), filename, data);
 
 	if (dialogresult != NULL) {
 		Range range;
@@ -168,12 +175,12 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 
 		if (!stf_parse_sheet (dialogresult->parseoptions, dialogresult->newstart, sheet)) {
 
-			workbook_detach_sheet (book, sheet, TRUE);
+			workbook_sheet_detach (book, sheet, TRUE);
 			/*
 			 * Note this buffer was allocated with malloc, not g_malloc
 			 */
 			free (data);
-			gnumeric_error_read (context,
+			gnumeric_error_read (COMMAND_CONTEXT (context),
 					     _("Parse error while trying to parse data into sheet"));
 			return -1;
 		}
@@ -204,9 +211,8 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
 		sheet_range_calc_spans (sheet, range, SPANCALC_RENDER);
 		workbook_set_saveinfo (book, filename, FILE_FL_MANUAL,
 				       gnumeric_xml_write_workbook);
-	} else {
-		workbook_detach_sheet (book, sheet, TRUE);
-	}
+	} else
+		workbook_sheet_detach (book, sheet, TRUE);
 
 	/*
 	 * Note the buffer was allocated with malloc, not with g_malloc
@@ -237,7 +243,7 @@ stf_read_workbook (CommandContext *context, Workbook *book, char const *filename
  * Return value: NULL on error or a pointer to a FILE struct on success.
  **/
 static FILE *
-stf_open_for_write (CommandContext *context, const char *filename)
+stf_open_for_write (IOContext *context, const char *filename)
 {
 	FILE *f = gnumeric_fopen (context, filename, "w");
 
@@ -280,16 +286,18 @@ stf_write_func (char *string, gpointer data)
  * returns : 0 on success or -1 otherwise
  **/
 static int
-stf_write_workbook (CommandContext *context, Workbook *wb,
+stf_write_workbook (IOContext *context, WorkbookView *wb_view,
 		    const char *filename)
 {
-	StfE_Result_t *result;
+	StfE_Result_t *result = NULL;
 
 	g_return_val_if_fail (context != NULL, -1);
-	g_return_val_if_fail (wb != NULL, -1);
+	g_return_val_if_fail (wb_view != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
-	result = stf_export_dialog (context, wb);
+	if (IS_WORKBOOK_CONTROL_GUI (context->impl))
+		result = stf_export_dialog (WORKBOOK_CONTROL_GUI (context->impl),
+					    wb_view_workbook (wb_view));
 
 	if (result != NULL) {
 		FILE *f = stf_open_for_write (context, filename);
@@ -302,7 +310,7 @@ stf_write_workbook (CommandContext *context, Workbook *wb,
 		
 		if (stf_export (result->export_options) == FALSE) {
 		
-			gnumeric_error_read (context,
+			gnumeric_error_read (COMMAND_CONTEXT (context),
 					     _("Error while trying to write csv file"));
 			stf_export_dialog_result_free (result);
 			return -1;

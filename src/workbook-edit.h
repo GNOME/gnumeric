@@ -1,26 +1,30 @@
 #ifndef GNUMERIC_WORKBOOK_EDIT_H
 #define GNUMERIC_WORKBOOK_EDIT_H
 
-void        workbook_start_editing_at_cursor (Workbook *wb,
+#include "gnumeric.h"
+#include "workbook-control-gui.h"
+
+void        workbook_start_editing_at_cursor (WorkbookControlGUI *wbcg,
 					      gboolean blankp, gboolean cursorp);
-void        workbook_finish_editing          (Workbook *wb, gboolean const accept);
+void        workbook_finish_editing          (WorkbookControlGUI *wbcg, gboolean const accept);
 
-gboolean    workbook_editing_expr            (Workbook const *wb);
-GtkEntry   *workbook_get_entry               (Workbook const *wb);
-GtkEntry   *workbook_get_entry_logical       (Workbook const *wb);
-void	    workbook_set_entry               (Workbook       *wb, GtkEntry *new_entry);
-void	    workbook_edit_attach_guru	     (Workbook       *wb, GtkWidget *guru);
-void	    workbook_edit_detach_guru	     (Workbook       *wb);
-gboolean    workbook_edit_has_guru	     (Workbook const *wb);
-gboolean    workbook_edit_entry_redirect_p   (Workbook const *wb);
-void	    workbook_edit_select_absolute    (Workbook       *wb);
+gboolean    workbook_editing_expr            (WorkbookControlGUI const  *wbcg);
+GtkEntry   *workbook_get_entry               (WorkbookControlGUI const  *wbcg);
+GtkEntry   *workbook_get_entry_logical       (WorkbookControlGUI const  *wbcg);
+void	    workbook_set_entry               (WorkbookControlGUI *wbc, GtkEntry *new_entry);
+void	    workbook_edit_attach_guru	     (WorkbookControlGUI *wbcg, GtkWidget *guru);
+void	    workbook_edit_detach_guru	     (WorkbookControlGUI *wbcg);
+gboolean    workbook_edit_has_guru	     (WorkbookControlGUI const  *wbcg);
+gboolean    workbook_edit_entry_redirect_p   (WorkbookControlGUI const  *wbcg);
+void	    workbook_edit_select_absolute    (WorkbookControlGUI        *wbcg);
 
-void        workbook_auto_complete_destroy   (Workbook *wb);
+void        workbook_auto_complete_destroy   (WorkbookControlGUI *wbcg);
 
-const char *workbook_edit_get_display_text   (Workbook *wb);
-gboolean    workbook_auto_completing         (Workbook *wb);
+const char *workbook_edit_get_display_text   (WorkbookControlGUI *wbcg);
+gboolean    workbook_auto_completing         (WorkbookControlGUI *wbcg);
 
-void        workbook_edit_load_value	     (Sheet const *sheet);
-void        workbook_edit_init               (Workbook *wb);
+void        workbook_edit_load_value	     (WorkbookControl *wbc,
+					      Sheet const *sheet);
+void        workbook_edit_init               (WorkbookControlGUI *wbcg);
 
 #endif /* GNUMERIC_WORKBOOK_EDIT_H */

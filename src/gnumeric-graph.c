@@ -1,7 +1,7 @@
 /* vim: set sw=8: */
 
 /*
- * graph-series.c: Support routines for graph series.
+ * graph-vector.c: Support routines for graph vector.
  *
  * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
  *
@@ -22,7 +22,7 @@
  */
 
 #include "config.h"
-#include "graph-series.h"
+#include "graph-vector.h"
 #include "idl/gnumeric-graphs.h"
 #include <bonobo.h>
 #include <gtk/gtkobject.h>
@@ -32,24 +32,24 @@
 #include "cell.h"
 #include "gnumeric-type-util.h"
 
-typedef enum { SERIES_SCALAR, SERIES_DATE, SERIES_STRING } GraphSeriesType;
-struct _GraphSeries {
+typedef enum { VECTOR_SCALAR, VECTOR_DATE, VECTOR_STRING } GraphVectorType;
+struct _GraphVector {
 	GtkObject 	obj;
 	Dependent 	dep;
 
-	GraphSeriesType  type;
+	GraphVectorType  type;
 	gboolean	 is_column;
 	Range		 range;	/* TODO : add support for discontinuous */
 	char		*name;
 
-	CORBA_Object    vector_ref;
+	CORBA_Object    vector_ref;	/* local CORBA object */
 	union {
 		POA_GNOME_Gnumeric_VectorScalar		scalar;
 		POA_GNOME_Gnumeric_VectorDate		date;
 		POA_GNOME_Gnumeric_VectorString		string;
 	} servant;
 
-	/* The remote server monitoring this series */
+	/* The remote server monitoring this vector */
 	union {
 		GNOME_Gnumeric_VectorScalarNotify	scalar;
 		GNOME_Gnumeric_VectorDateNotify		date;
@@ -59,31 +59,31 @@ struct _GraphSeries {
 
 typedef struct {
 	GtkObjectClass parent_class;
-} GraphSeriesClass;
+} GraphVectorClass;
 
-#define GRAPH_SERIES_TYPE        (graph_series_get_type ())
-#define GRAPH_SERIES(o)          (GTK_CHECK_CAST ((o), GRAPH_SERIES_TYPE, GraphSeries))
-#define GRAPH_SERIES_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GRAPH_SERIES_TYPE, GraphSeriesClass))
-#define IS_GRAPH_SERIES(o)       (GTK_CHECK_TYPE ((o), GRAPH_SERIES_TYPE))
-#define IS_GRAPH_SERIES_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GRAPH_SERIES_TYPE))
-#define DEP_TO_GRAPH_SERIES(ptr) (GraphSeries *)(((void *)ptr) - GTK_STRUCT_OFFSET(GraphSeries, dep))
-#define SERVANT_TO_GRAPH_SERIES(ptr) (GraphSeries *)(((void *)ptr) - GTK_STRUCT_OFFSET(GraphSeries, servant))
+#define GRAPH_VECTOR_TYPE        (graph_vector_get_type ())
+#define GRAPH_VECTOR(o)          (GTK_CHECK_CAST ((o), GRAPH_VECTOR_TYPE, GraphVector))
+#define GRAPH_VECTOR_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GRAPH_VECTOR_TYPE, GraphVectorClass))
+#define IS_GRAPH_VECTOR(o)       (GTK_CHECK_TYPE ((o), GRAPH_VECTOR_TYPE))
+#define IS_GRAPH_VECTOR_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GRAPH_VECTOR_TYPE))
+#define DEP_TO_GRAPH_VECTOR(ptr) (GraphVector *)(((void *)ptr) - GTK_STRUCT_OFFSET(GraphVector, dep))
+#define SERVANT_TO_GRAPH_VECTOR(ptr) (GraphVector *)(((void *)ptr) - GTK_STRUCT_OFFSET(GraphVector, servant))
 
-static GtkType graph_series_get_type (void);
+static GtkType graph_vector_get_type (void);
 
 /***************************************************************************/
 
 static GNOME_Gnumeric_SeqScalar *
-graph_series_seq_scalar (GraphSeries *series)
+graph_vector_seq_scalar (GraphVector *vector)
 {
 	int i, len;
 	Value *v;
 	EvalPos pos;
 	GNOME_Gnumeric_SeqScalar *values;
 
-	pos.sheet = series->dep.sheet;
+	pos.sheet = vector->dep.sheet;
 	pos.eval.row = pos.eval.col = 0;
-	v = eval_expr (&pos, series->dep.expression, EVAL_PERMIT_NON_SCALAR);
+	v = eval_expr (&pos, vector->dep.expression, EVAL_PERMIT_NON_SCALAR);
 
 	len = value_area_get_height  (&pos, v);
 	values = GNOME_Gnumeric_SeqScalar__alloc ();
@@ -93,7 +93,7 @@ graph_series_seq_scalar (GraphSeries *series)
 
 	/* FIXME : This is dog slow */
 	for (i = 0; i < len ; ++i) {
-		Value const *elem = series->is_column
+		Value const *elem = vector->is_column
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
 		values->_buffer [i] = value_get_as_float (elem);
@@ -104,16 +104,16 @@ graph_series_seq_scalar (GraphSeries *series)
 	return values;
 }
 static GNOME_Gnumeric_SeqDate *
-graph_series_seq_date (GraphSeries *series)
+graph_vector_seq_date (GraphVector *vector)
 {
 	int i, len;
 	Value *v;
 	EvalPos pos;
 	GNOME_Gnumeric_SeqDate *values;
 
-	pos.sheet = series->dep.sheet;
+	pos.sheet = vector->dep.sheet;
 	pos.eval.row = pos.eval.col = 0;
-	v = eval_expr (&pos, series->dep.expression, EVAL_PERMIT_NON_SCALAR);
+	v = eval_expr (&pos, vector->dep.expression, EVAL_PERMIT_NON_SCALAR);
 
 	len = value_area_get_height  (&pos, v);
 	values = GNOME_Gnumeric_SeqDate__alloc ();
@@ -123,7 +123,7 @@ graph_series_seq_date (GraphSeries *series)
 
 	/* FIXME : This is dog slow */
 	for (i = 0; i < len ; ++i) {
-		Value const *elem = series->is_column
+		Value const *elem = vector->is_column
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
 		values->_buffer [i] = value_get_as_int (elem);
@@ -132,16 +132,16 @@ graph_series_seq_date (GraphSeries *series)
 	return values;
 }
 static GNOME_Gnumeric_SeqString *
-graph_series_seq_string (GraphSeries *series)
+graph_vector_seq_string (GraphVector *vector)
 {
 	int i, len;
 	Value *v;
 	EvalPos pos;
 	GNOME_Gnumeric_SeqString *values;
 
-	pos.sheet = series->dep.sheet;
+	pos.sheet = vector->dep.sheet;
 	pos.eval.row = pos.eval.col = 0;
-	v = eval_expr (&pos, series->dep.expression, EVAL_PERMIT_NON_SCALAR);
+	v = eval_expr (&pos, vector->dep.expression, EVAL_PERMIT_NON_SCALAR);
 
 	len = value_area_get_height  (&pos, v);
 	values = GNOME_Gnumeric_SeqString__alloc ();
@@ -151,7 +151,7 @@ graph_series_seq_string (GraphSeries *series)
 
 	/* FIXME : This is dog slow */
 	for (i = 0; i < len ; ++i) {
-		Value const *elem = series->is_column
+		Value const *elem = vector->is_column
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
 		char * tmp = value_get_as_string (elem);
@@ -163,41 +163,41 @@ graph_series_seq_string (GraphSeries *series)
 }
 
 static void
-graph_series_eval (Dependent *dep)
+graph_vector_eval (Dependent *dep)
 {
 	CORBA_Environment ev;
-	GraphSeries *series;
+	GraphVector *vector;
 
-	series = DEP_TO_GRAPH_SERIES (dep);
-	series = GRAPH_SERIES (series);
+	vector = DEP_TO_GRAPH_VECTOR (dep);
+	vector = GRAPH_VECTOR (vector);
 
-	g_return_if_fail (series != NULL);
+	g_return_if_fail (vector != NULL);
 
 	CORBA_exception_init (&ev);
-	switch (series->type) {
-	case SERIES_SCALAR :
-		GNOME_Gnumeric_VectorScalarNotify_valueChanged (
-			series->subscriber.scalar,
-			0, graph_series_seq_scalar (series), &ev);
+	switch (vector->type) {
+	case VECTOR_SCALAR :
+		GNOME_Gnumeric_VectorScalarNotify_value_changed (
+			vector->subscriber.scalar,
+			0, graph_vector_seq_scalar (vector), &ev);
 		break;
 
-	case SERIES_DATE :
-		GNOME_Gnumeric_VectorDateNotify_valueChanged (
-			series->subscriber.date,
-			0, graph_series_seq_date (series), &ev);
+	case VECTOR_DATE :
+		GNOME_Gnumeric_VectorDateNotify_value_changed (
+			vector->subscriber.date,
+			0, graph_vector_seq_date (vector), &ev);
 		break;
 
-	case SERIES_STRING :
-		GNOME_Gnumeric_VectorStringNotify_valueChanged (
-			series->subscriber.string,
-			0, graph_series_seq_string (series), &ev);
+	case VECTOR_STRING :
+		GNOME_Gnumeric_VectorStringNotify_value_changed (
+			vector->subscriber.string,
+			0, graph_vector_seq_string (vector), &ev);
 		break;
 
 	default :
 		g_assert_not_reached ();
 	}
 	if (ev._major != CORBA_NO_EXCEPTION)
-		g_warning ("Problems notifying graph of change %p", series);
+		g_warning ("Problems notifying graph of change %p", vector);
 	CORBA_exception_free (&ev);
 }
 
@@ -209,13 +209,13 @@ impl_vector_scalar_value (PortableServer_Servant servant,
 			  CORBA_char **name,
 			  CORBA_Environment *ev)
 {
-	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
+	GraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
 
-	g_return_if_fail (GRAPH_SERIES (series) != NULL);
-	g_return_if_fail (series->type == SERIES_SCALAR);
+	g_return_if_fail (GRAPH_VECTOR (vector) != NULL);
+	g_return_if_fail (vector->type == VECTOR_SCALAR);
 
-	*name = CORBA_string_dup (series->name);
-	*values = graph_series_seq_scalar (series);
+	*name = CORBA_string_dup (vector->name);
+	*values = graph_vector_seq_scalar (vector);
 }
 
 static void
@@ -224,13 +224,13 @@ impl_vector_date_value (PortableServer_Servant servant,
 			CORBA_char **name,
 			CORBA_Environment *ev)
 {
-	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
+	GraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
 
-	g_return_if_fail (GRAPH_SERIES (series) != NULL);
-	g_return_if_fail (series->type == SERIES_DATE);
+	g_return_if_fail (GRAPH_VECTOR (vector) != NULL);
+	g_return_if_fail (vector->type == VECTOR_DATE);
 
-	*name = CORBA_string_dup (series->name);
-	*values = graph_series_seq_date (series);
+	*name = CORBA_string_dup (vector->name);
+	*values = graph_vector_seq_date (vector);
 }
 
 static void
@@ -239,13 +239,13 @@ impl_vector_string_value (PortableServer_Servant servant,
 			  CORBA_char **name,
 			  CORBA_Environment *ev)
 {
-	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
+	GraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
 
-	g_return_if_fail (GRAPH_SERIES (series) != NULL);
-	g_return_if_fail (series->type == SERIES_STRING);
+	g_return_if_fail (GRAPH_VECTOR (vector) != NULL);
+	g_return_if_fail (vector->type == VECTOR_STRING);
 
-	*name = CORBA_string_dup (series->name);
-	*values = graph_series_seq_string (series);
+	*name = CORBA_string_dup (vector->name);
+	*values = graph_vector_seq_string (vector);
 }
 
 /******************************************************************************/
@@ -256,12 +256,12 @@ impl_vector_scalar_changed (PortableServer_Servant servant,
 			    const GNOME_Gnumeric_SeqScalar *vals,
 			    CORBA_Environment *ev)
 {
-	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
+	GraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
 
-	g_return_if_fail (GRAPH_SERIES (series) != NULL);
-	g_return_if_fail (series->type == SERIES_STRING);
+	g_return_if_fail (GRAPH_VECTOR (vector) != NULL);
+	g_return_if_fail (vector->type == VECTOR_STRING);
 
-	g_warning ("Gnumeric : scalar series changed remotely (%p)", series);
+	g_warning ("Gnumeric : scalar vector changed remotely (%p)", vector);
 }
 
 static void
@@ -270,12 +270,12 @@ impl_vector_date_changed (PortableServer_Servant servant,
 			  const GNOME_Gnumeric_SeqDate *vals,
 			  CORBA_Environment *ev)
 {
-	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
+	GraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
 
-	g_return_if_fail (GRAPH_SERIES (series) != NULL);
-	g_return_if_fail (series->type == SERIES_DATE);
+	g_return_if_fail (GRAPH_VECTOR (vector) != NULL);
+	g_return_if_fail (vector->type == VECTOR_DATE);
 
-	g_warning ("Gnumeric : date series changed remotely (%p)", series);
+	g_warning ("Gnumeric : date vector changed remotely (%p)", vector);
 }
 
 static void
@@ -284,12 +284,12 @@ impl_vector_string_changed (PortableServer_Servant servant,
 			    const GNOME_Gnumeric_SeqString *vals,
 			    CORBA_Environment *ev)
 {
-	GraphSeries *series = SERVANT_TO_GRAPH_SERIES (servant);
+	GraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
 
-	g_return_if_fail (GRAPH_SERIES (series) != NULL);
-	g_return_if_fail (series->type == SERIES_STRING);
+	g_return_if_fail (GRAPH_VECTOR (vector) != NULL);
+	g_return_if_fail (vector->type == VECTOR_STRING);
 
-	g_warning ("Gnumeric : string series changed remotely (%p)", series);
+	g_warning ("Gnumeric : string vector changed remotely (%p)", vector);
 }
 
 /******************************************************************************/
@@ -314,21 +314,21 @@ corba_implementation_classes_init (void)
 	static POA_GNOME_Gnumeric_VectorString__epv
 		vector_string_epv;
 
-	vector_scalar_notify_epv.valueChanged = &impl_vector_scalar_changed;
+	vector_scalar_notify_epv.value_changed = &impl_vector_scalar_changed;
 	vector_scalar_epv.value = & impl_vector_scalar_value;
 	vector_scalar_vepv.GNOME_Gnumeric_VectorScalarNotify_epv =
 		&vector_scalar_notify_epv;
 	vector_scalar_vepv.GNOME_Gnumeric_VectorScalar_epv =
 		&vector_scalar_epv;
 
-	vector_date_notify_epv.valueChanged = & impl_vector_date_changed;
+	vector_date_notify_epv.value_changed = & impl_vector_date_changed;
 	vector_date_epv.value = & impl_vector_date_value;
 	vector_date_vepv.GNOME_Gnumeric_VectorDateNotify_epv =
 		&vector_date_notify_epv;
 	vector_date_vepv.GNOME_Gnumeric_VectorDate_epv =
 		&vector_date_epv;
 
-	vector_string_notify_epv.valueChanged = & impl_vector_string_changed;
+	vector_string_notify_epv.value_changed = & impl_vector_string_changed;
 	vector_string_epv.value = & impl_vector_string_value;
 	vector_string_vepv.GNOME_Gnumeric_VectorStringNotify_epv =
 		&vector_string_notify_epv;
@@ -337,52 +337,52 @@ corba_implementation_classes_init (void)
 }
 
 static void
-graph_series_destroy (GtkObject *object)
+graph_vector_destroy (GtkObject *object)
 {
-	GraphSeries *series = GRAPH_SERIES(object);
+	GraphVector *vector = GRAPH_VECTOR(object);
 
-	printf ("Destroying series %p\n", object);
-	dependent_unlink (&series->dep, NULL);
-	if (series->dep.expression != NULL) {
-		expr_tree_unref (series->dep.expression);
-		series->dep.expression = NULL;
+	printf ("Destroying vector %p\n", object);
+	dependent_unlink (&vector->dep, NULL);
+	if (vector->dep.expression != NULL) {
+		expr_tree_unref (vector->dep.expression);
+		vector->dep.expression = NULL;
 	}
-	if (series->name != NULL) {
-		g_free (series->name);
-		series->name = NULL;
+	if (vector->name != NULL) {
+		g_free (vector->name);
+		vector->name = NULL;
 	}
 }
 
 static void
-graph_series_class_init (GtkObjectClass *object_class)
+graph_vector_class_init (GtkObjectClass *object_class)
 {
-	static GtkObjectClass *graph_series_parent_class = NULL;
+	static GtkObjectClass *graph_vector_parent_class = NULL;
 
-	graph_series_parent_class = gtk_type_class (gtk_object_get_type ());
+	graph_vector_parent_class = gtk_type_class (gtk_object_get_type ());
 
-	object_class->destroy = & graph_series_destroy;
+	object_class->destroy = & graph_vector_destroy;
 	corba_implementation_classes_init ();
 }
 
 static void
-graph_series_init (GtkObject *object)
+graph_vector_init (GtkObject *object)
 {
-	GraphSeries *series = GRAPH_SERIES (object);
+	GraphVector *vector = GRAPH_VECTOR (object);
 
-	//series->type;
-	series->vector_ref = CORBA_OBJECT_NIL;
-	series->subscriber.scalar = CORBA_OBJECT_NIL;
-	series->subscriber.date = CORBA_OBJECT_NIL;
-	series->subscriber.string = CORBA_OBJECT_NIL;
+	/* vector->type; */
+	vector->vector_ref = CORBA_OBJECT_NIL;
+	vector->subscriber.scalar = CORBA_OBJECT_NIL;
+	vector->subscriber.date = CORBA_OBJECT_NIL;
+	vector->subscriber.string = CORBA_OBJECT_NIL;
 }
 
-static GNUMERIC_MAKE_TYPE (graph_series,"GraphSeries",GraphSeries,
-			   &graph_series_class_init, &graph_series_init,
+static GNUMERIC_MAKE_TYPE (graph_vector,"GraphVector",GraphVector,
+			   &graph_vector_class_init, &graph_vector_init,
 			   gtk_object_get_type ())
 
 
 static void
-graph_series_set_expr (Dependent *dep, ExprTree *expr)
+graph_vector_set_expr (Dependent *dep, ExprTree *expr)
 {
 	ParsePos pos;
 	char * new_str;
@@ -404,20 +404,20 @@ graph_series_set_expr (Dependent *dep, ExprTree *expr)
 }
 
 static void
-graph_series_debug_name (Dependent const *dep, FILE *out)
+graph_vector_debug_name (Dependent const *dep, FILE *out)
 {
-	fprintf (out, "GraphSeries%p", dep);
+	fprintf (out, "GraphVector%p", dep);
 }
 
 static guint
-graph_series_get_dep_type ()
+graph_vector_get_dep_type ()
 {
 	static guint32 type = 0;
 	if (type == 0) {
 		static DependentClass klass;
-		klass.eval = &graph_series_eval;
-		klass.set_expr = &graph_series_set_expr;
-		klass.debug_name = &graph_series_debug_name;
+		klass.eval = &graph_vector_eval;
+		klass.set_expr = &graph_vector_set_expr;
+		klass.debug_name = &graph_vector_debug_name;
 		type = dependent_type_register (&klass);
 	}
 	return type;
@@ -436,54 +436,54 @@ cb_check_range_for_pure_string (Sheet *sheet, int col, int row,
 	return NULL;
 }
 
-GraphSeries *
-graph_series_new (Sheet *sheet, Range const *r, char *name)
+GraphVector *
+graph_vector_new (Sheet *sheet, Range const *r, char *name)
 {
 	CORBA_Environment ev;
 	PortableServer_Servant serv = CORBA_OBJECT_NIL;
-	GraphSeries *series;
-	GraphSeriesType type;
+	GraphVector *vector;
+	GraphVectorType type;
 
-	series = gtk_type_new (graph_series_get_type ());
+	vector = gtk_type_new (graph_vector_get_type ());
 
 	if (sheet_cell_foreach_range (sheet, FALSE,
 				      r->start.col, r->start.row,
 				      r->end.col, r->end.row,
 				      &cb_check_range_for_pure_string,
 				      NULL))
-		type = SERIES_SCALAR;
+		type = VECTOR_SCALAR;
 	else
-		type = SERIES_STRING;
+		type = VECTOR_STRING;
 
-	printf ("series::new (%d) = 0x%p\n", type, series);
-	series->type = type;
-	series->is_column = (r->start.col == r->end.col);
-	series->range = *r;
-	series->name = name;
+	printf ("vector::new (%d) = 0x%p\n", type, vector);
+	vector->type = type;
+	vector->is_column = (r->start.col == r->end.col);
+	vector->range = *r;
+	vector->name = name;
 
-	series->dep.sheet = sheet;
-	series->dep.flags = graph_series_get_dep_type ();
-	series->dep.expression = expr_tree_new_constant (
+	vector->dep.sheet = sheet;
+	vector->dep.flags = graph_vector_get_dep_type ();
+	vector->dep.expression = expr_tree_new_constant (
 		value_new_cellrange_r (sheet, r));
-	dependent_changed (&series->dep, NULL, FALSE);
+	dependent_changed (&vector->dep, NULL, FALSE);
 
 	CORBA_exception_init (&ev);
 	switch (type) {
-	case SERIES_SCALAR :
-		serv = &series->servant.scalar;
-		series->servant.scalar.vepv = &vector_scalar_vepv;
+	case VECTOR_SCALAR :
+		serv = &vector->servant.scalar;
+		vector->servant.scalar.vepv = &vector_scalar_vepv;
 		POA_GNOME_Gnumeric_VectorScalar__init (serv, &ev);
 		break;
 
-	case SERIES_DATE :
-		serv = &series->servant.date;
-		series->servant.date.vepv = &vector_date_vepv;
+	case VECTOR_DATE :
+		serv = &vector->servant.date;
+		vector->servant.date.vepv = &vector_date_vepv;
 		POA_GNOME_Gnumeric_VectorDate__init (serv, &ev);
 		break;
 
-	case SERIES_STRING :
-		serv = &series->servant.string;
-		series->servant.string.vepv = &vector_string_vepv;
+	case VECTOR_STRING :
+		serv = &vector->servant.string;
+		vector->servant.string.vepv = &vector_string_vepv;
 		POA_GNOME_Gnumeric_VectorString__init (serv, &ev);
 		break;
 
@@ -497,47 +497,78 @@ graph_series_new (Sheet *sheet, Range const *r, char *name)
 
 		oid = PortableServer_POA_activate_object (poa, serv, &ev);
 		CORBA_free (oid);
-		series->vector_ref = PortableServer_POA_servant_to_reference (poa, serv, &ev);
+		vector->vector_ref = PortableServer_POA_servant_to_reference (poa, serv, &ev);
 	}
 	CORBA_exception_free (&ev);
 
-	return series;
+	return vector;
 }
 
 void
-graph_series_set_subscriber (GraphSeries *series, CORBA_Object graph_manager)
+graph_vector_set_subscriber (GraphVector *vector, CORBA_Object graph_manager)
 {
 	CORBA_Environment ev;
 	GNOME_Gnumeric_Graph_Manager manager = graph_manager;
 
-	g_return_if_fail (series->subscriber.scalar == CORBA_OBJECT_NIL);
+	g_return_if_fail (vector->subscriber.scalar == CORBA_OBJECT_NIL);
 
 	CORBA_exception_init (&ev);
 
-	switch (series->type) {
-	case SERIES_SCALAR :
-		series->subscriber.scalar =
-			GNOME_Gnumeric_Graph_Manager_addVectorScalar (manager,
-				series->vector_ref, &ev);
+	switch (vector->type) {
+	case VECTOR_SCALAR :
+		vector->subscriber.scalar =
+			GNOME_Gnumeric_Graph_Manager_add_vector_scalar (manager,
+				vector->vector_ref, &ev);
 		break;
 
-	case SERIES_DATE :
-		series->subscriber.scalar =
-			GNOME_Gnumeric_Graph_Manager_addVectorDate (manager,
-				series->vector_ref, &ev);
+	case VECTOR_DATE :
+		vector->subscriber.date =
+			GNOME_Gnumeric_Graph_Manager_add_vector_date (manager,
+				vector->vector_ref, &ev);
 		break;
 
-	case SERIES_STRING :
-		series->subscriber.scalar =
-			GNOME_Gnumeric_Graph_Manager_addVectorString (manager,
-				series->vector_ref, &ev);
+	case VECTOR_STRING :
+		vector->subscriber.string =
+			GNOME_Gnumeric_Graph_Manager_add_vector_string (manager,
+				vector->vector_ref, &ev);
 		break;
 	default :
 		g_assert_not_reached();
 	}
 
 	if (ev._major != CORBA_NO_EXCEPTION)
-		g_warning ("Problems registering series %p", series);
+		g_warning ("Problems registering vector %p", vector);
+
+	CORBA_exception_free (&ev);
+}
+
+void
+graph_vector_unsubscribe (GraphVector *vector)
+{
+	CORBA_Environment ev;
+
+	g_return_if_fail (vector->subscriber.scalar != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+
+	switch (vector->type) {
+	case VECTOR_SCALAR :
+		GNOME_Gnumeric_VectorScalar_remove (vector->subscriber.scalar, &ev);
+		break;
+
+	case VECTOR_DATE :
+		GNOME_Gnumeric_VectorDate_remove (vector->subscriber.date, &ev);
+		break;
+
+	case VECTOR_STRING :
+		GNOME_Gnumeric_VectorString_remove (vector->subscriber.string, &ev);
+		break;
+	default :
+		g_assert_not_reached();
+	}
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_warning ("Problems unregistering vector %p", vector);
 
 	CORBA_exception_free (&ev);
 }

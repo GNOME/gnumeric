@@ -98,7 +98,7 @@ struct _Sheet {
 };
 
 #define SHEET_SIGNATURE 0x12349876
-#define IS_SHEET(x) ((x)->signature == SHEET_SIGNATURE)
+#define IS_SHEET(x) (((x) != NULL) && ((x)->signature == SHEET_SIGNATURE))
 
 Sheet      *sheet_new                  	 (Workbook *wb, const char *name);
 Sheet      *sheet_duplicate		 (Sheet const *source_sheet);
@@ -269,14 +269,12 @@ void        sheet_flag_selection_change   (Sheet const *sheet);
 void        sheet_update                  (Sheet const *sheet);
 void        sheet_compute_visible_ranges  (Sheet const *sheet);
 
-void        sheet_update_auto_expr        (Sheet const *sheet);
-
 void        sheet_mark_clean              (Sheet *sheet);
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
 gboolean    sheet_is_pristine             (Sheet *sheet);
 
 /* Sheet information manipulation */
-void        sheet_move_range              (CommandContext *context,
+void        sheet_move_range              (WorkbookControl *context,
 					   ExprRelocateInfo const * rinfo,
 					   GSList **reloc_storage);
 
@@ -316,13 +314,13 @@ void sheet_corba_shutdown    (Sheet *);
  * These have undo/redo capabilities
  * and will route error messages to the caller appropriately.
  */
-gboolean  sheet_insert_cols (CommandContext *context, Sheet *sheet,
+gboolean  sheet_insert_cols (WorkbookControl *context, Sheet *sheet,
 			     int col, int count, GSList **reloc_storage);
-gboolean  sheet_delete_cols (CommandContext *context, Sheet *sheet,
+gboolean  sheet_delete_cols (WorkbookControl *context, Sheet *sheet,
 			     int col, int count, GSList **reloc_storage);
-gboolean  sheet_insert_rows (CommandContext *context, Sheet *sheet,
+gboolean  sheet_insert_rows (WorkbookControl *context, Sheet *sheet,
 			     int row, int count, GSList **reloc_storage);
-gboolean  sheet_delete_rows (CommandContext *context, Sheet *sheet,
+gboolean  sheet_delete_rows (WorkbookControl *context, Sheet *sheet,
 			     int row, int count, GSList **reloc_storage);
 
 void sheet_adjust_preferences (Sheet const *sheet);
@@ -335,7 +333,7 @@ typedef enum
 	CLEAR_NOCHECKARRAY = 0x8,
 } SheetClearFlags;
 
-void  sheet_clear_region (CommandContext *context,
+void  sheet_clear_region (WorkbookControl *context,
 			  Sheet *sheet,
 			  int start_col, int start_row,
 			  int end_col, int end_row,

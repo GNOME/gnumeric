@@ -21,7 +21,6 @@
 #include "ranges.h"
 #include "selection.h"
 #include "commands.h"
-#include "command-context-corba.h"
 #include "cell.h"
 #include "sheet.h"
 #include "colrow.h"

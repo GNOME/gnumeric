@@ -114,12 +114,12 @@ category_select_row (GtkCList *clist, gint row, gint col,
 }
 
 static FunctionDefinition *
-dialog_function_select_impl (Workbook *wb, GladeXML *gui)
+dialog_function_select_impl (WorkbookControlGUI *wbcg, GladeXML *gui)
 {
 	int res;
 	FunctionSelectState state;
 
-	g_return_val_if_fail (wb, NULL);
+	g_return_val_if_fail (wbcg, NULL);
 
 	state.dialog	  = glade_xml_get_widget (gui, "FunctionSelect");
 	state.categories  = GTK_CLIST (glade_xml_get_widget (gui, "category_list"));
@@ -150,7 +150,7 @@ dialog_function_select_impl (Workbook *wb, GladeXML *gui)
 
 	do 
 		/* Bring up the dialog */
-		res = gnumeric_dialog_run (wb, GNOME_DIALOG (state.dialog));
+		res = gnumeric_dialog_run (wbcg, GNOME_DIALOG (state.dialog));
 	while (res == HELP_BUTTON);
 
 	if (state.func_help != NULL)
@@ -171,19 +171,18 @@ dialog_function_select_impl (Workbook *wb, GladeXML *gui)
 
 /* Wrapper to ensure the libglade object gets removed on error */
 FunctionDefinition *
-dialog_function_select (Workbook *wb)
+dialog_function_select (WorkbookControlGUI *wbcg)
 {
 	GladeXML  *gui;
 	FunctionDefinition * fd;
 
-	g_return_val_if_fail (wb != NULL, NULL);
+	g_return_val_if_fail (wbcg != NULL, NULL);
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				      "function-select.glade");
+	gui = gnumeric_glade_xml_new (wbcg, "function-select.glade");
         if (gui == NULL)
                 return NULL;
 
-	fd = dialog_function_select_impl (wb, gui);
+	fd = dialog_function_select_impl (wbcg, gui);
 	
 	gtk_object_unref (GTK_OBJECT (gui));
 

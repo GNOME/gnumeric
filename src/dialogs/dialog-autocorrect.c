@@ -16,12 +16,14 @@
 #include "dialogs.h"
 #include "commands.h"
 #include "workbook.h"
+#include "workbook-control.h"
 #include "dialog-autocorrect.h"
 
 
 typedef struct {
-        Workbook  *wb;
-        GtkWidget *dia;
+        GtkWidget       *dia;
+        Workbook        *wb;
+        WorkbookControlGUI *wbcg;
 } autocorrect_t;
 
 typedef struct {
@@ -138,31 +140,31 @@ autocorrect_tool (const char *command)
 }
 
 static void
-init_caps_toggled(GtkWidget *widget, Workbook *wb)
+init_caps_toggled(GtkWidget *widget, gpointer ignored)
 {
         autocorrect_init_caps = GTK_TOGGLE_BUTTON (widget)->active;
 }
 
 static void
-first_letter_toggled(GtkWidget *widget, Workbook *wb)
+first_letter_toggled(GtkWidget *widget, gpointer ignored)
 {
         autocorrect_first_letter = GTK_TOGGLE_BUTTON (widget)->active;
 }
 
 static void
-names_of_days_toggled(GtkWidget *widget, Workbook *wb)
+names_of_days_toggled(GtkWidget *widget, gpointer ignored)
 {
         autocorrect_names_of_days = GTK_TOGGLE_BUTTON (widget)->active;
 }
 
 static void
-caps_lock_toggled(GtkWidget *widget, Workbook *wb)
+caps_lock_toggled(GtkWidget *widget, gpointer ignored)
 {
         autocorrect_caps_lock = GTK_TOGGLE_BUTTON (widget)->active;
 }
 
 static void
-replace_toggled(GtkWidget *widget, Workbook *wb)
+replace_toggled(GtkWidget *widget, gpointer ignored)
 {
         autocorrect_replace = GTK_TOGGLE_BUTTON (widget)->active;
 }
@@ -280,8 +282,7 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
 	exceptions_t e1, e2;
         GladeXML  *gui;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (p->wb),
-				      "autocorrect-exceptions.glade");
+	gui = gnumeric_glade_xml_new (p->wbcg, "autocorrect-exceptions.glade");
         if (gui == NULL)
                 return;
 
@@ -349,7 +350,7 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
 	gtk_signal_connect (GTK_OBJECT (remove), "clicked",
 			    GTK_SIGNAL_FUNC (remove_in_clicked), &e2);
 
-	v = gnumeric_dialog_run (p->wb, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (p->wbcg, GNOME_DIALOG (dia));
 	if (v != -1)
 	        gtk_object_destroy (GTK_OBJECT (dia));
 	gtk_object_unref (GTK_OBJECT (gui));
@@ -363,7 +364,7 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
  *
  */
 void
-dialog_autocorrect (Workbook *wb)
+dialog_autocorrect (WorkbookControlGUI *wbcg)
 {
 	GladeXML  *gui;
 	GtkWidget *dia;
@@ -386,8 +387,7 @@ dialog_autocorrect (Workbook *wb)
 	old_caps_lock = autocorrect_caps_lock;
 	old_replace = autocorrect_replace;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				      "autocorrect.glade");
+	gui = gnumeric_glade_xml_new (wbcg, "autocorrect.glade");
         if (gui == NULL)
                 return;
 
@@ -397,7 +397,8 @@ dialog_autocorrect (Workbook *wb)
 		return;
 	}
 
-	p.wb = wb;
+	p.wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	p.wbcg = wbcg;
 	p.dia = dia;
 
 	exceptions = glade_xml_get_widget (gui, "Exceptions");
@@ -410,7 +411,7 @@ dialog_autocorrect (Workbook *wb)
 					      init_caps,
 					      autocorrect_init_caps);
 	gtk_signal_connect (GTK_OBJECT (init_caps), "toggled",
-			    GTK_SIGNAL_FUNC (init_caps_toggled), wb);
+			    GTK_SIGNAL_FUNC (init_caps_toggled), NULL);
 
 
 	first_letter = glade_xml_get_widget (gui, "checkbutton2");
@@ -419,7 +420,7 @@ dialog_autocorrect (Workbook *wb)
 					      first_letter,
 					      autocorrect_first_letter);
 	gtk_signal_connect (GTK_OBJECT (first_letter), "toggled",
-			    GTK_SIGNAL_FUNC (first_letter_toggled), wb);
+			    GTK_SIGNAL_FUNC (first_letter_toggled), NULL);
 
 	names_of_days = glade_xml_get_widget (gui, "checkbutton3");
 	if (autocorrect_names_of_days)
@@ -427,7 +428,7 @@ dialog_autocorrect (Workbook *wb)
 					      names_of_days,
 					      autocorrect_names_of_days);
 	gtk_signal_connect (GTK_OBJECT (names_of_days), "toggled",
-			    GTK_SIGNAL_FUNC (names_of_days_toggled), wb);
+			    GTK_SIGNAL_FUNC (names_of_days_toggled), NULL);
 
 	caps_lock = glade_xml_get_widget (gui, "checkbutton4");
 	if (autocorrect_caps_lock)
@@ -435,7 +436,7 @@ dialog_autocorrect (Workbook *wb)
 					      caps_lock,
 					      autocorrect_caps_lock);
 	gtk_signal_connect (GTK_OBJECT (caps_lock), "toggled",
-			    GTK_SIGNAL_FUNC (caps_lock_toggled), wb);
+			    GTK_SIGNAL_FUNC (caps_lock_toggled), NULL);
 
 	replace = glade_xml_get_widget (gui, "checkbutton5");
 	gtk_widget_set_sensitive (replace, FALSE);
@@ -445,7 +446,7 @@ dialog_autocorrect (Workbook *wb)
 					      replace,
 					      autocorrect_replace);
 	gtk_signal_connect (GTK_OBJECT (replace), "toggled",
-			    GTK_SIGNAL_FUNC (replace_toggled), wb);
+			    GTK_SIGNAL_FUNC (replace_toggled), NULL);
 
 	/* Make <Ret> in entry fields invoke default */
 	entry = glade_xml_get_widget (gui, "entry1");
@@ -457,7 +458,7 @@ dialog_autocorrect (Workbook *wb)
 				      GTK_EDITABLE (entry));
 	gtk_widget_set_sensitive (entry, FALSE);
 
-	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
 
 	if (v != 0) {
 	        autocorrect_init_caps = old_init_caps;

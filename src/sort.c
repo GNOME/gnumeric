@@ -170,7 +170,7 @@ sort_permute_invert (const int *perm, int length)
 #undef DEBUG_SORT
 
 static void
-sort_permute (CommandContext *context, SortData *data, const int *perm, int length)
+sort_permute (WorkbookControl *context, SortData *data, const int *perm, int length)
 {
 	int i, *rperm;
 	PasteTarget pt;
@@ -241,7 +241,7 @@ sort_permute (CommandContext *context, SortData *data, const int *perm, int leng
 }
 
 void
-sort_position (CommandContext *context, SortData *data, int *perm)
+sort_position (WorkbookControl *context, SortData *data, int *perm)
 {
 	int length;
 
@@ -250,7 +250,7 @@ sort_position (CommandContext *context, SortData *data, int *perm)
 }
 
 int *
-sort_contents (CommandContext *context, SortData *data)
+sort_contents (WorkbookControl *context, SortData *data)
 {
 	ColRowInfo const *cra;
 	SortDataPerm *perm;

@@ -682,7 +682,7 @@ item_cursor_target_region_ok (ItemCursor *item_cursor)
 		GNOME_STOCK_BUTTON_YES,
 		GNOME_STOCK_BUTTON_NO,
 		NULL);
-	v = gnumeric_dialog_run (item_cursor->sheet_view->sheet->workbook,
+	v = gnumeric_dialog_run (item_cursor->sheet_view->wbcg,
 				 GNOME_DIALOG (message));
 
 	if (v == 0)
@@ -706,7 +706,6 @@ static void
 item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 {
 	Sheet *sheet;
-	Workbook *wb;
 	PasteTarget pt;
 
 	if (action == ACTION_NONE || !item_cursor_target_region_ok (item_cursor)) {
@@ -717,37 +716,36 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 	g_return_if_fail (item_cursor != NULL);
 
 	sheet = item_cursor->sheet_view->sheet;
-	wb = sheet->workbook;
 
 	switch (action) {
 	case ACTION_COPY_CELLS:
-		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
+		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet))
 			break;
-		cmd_paste (workbook_command_context_gui (wb),
+		cmd_paste (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg),
 			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_ALL_TYPES),
 			   time);
 		break;
 
 	case ACTION_MOVE_CELLS:
-		if (!sheet_selection_cut (workbook_command_context_gui (wb), sheet))
+		if (!sheet_selection_cut (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet))
 			break;
-		cmd_paste (workbook_command_context_gui (wb),
+		cmd_paste (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg),
 			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_ALL_TYPES),
 			   time);
 		break;
 
 	case ACTION_COPY_FORMATS:
-		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
+		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet))
 			break;
-		cmd_paste (workbook_command_context_gui (wb),
+		cmd_paste (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg),
 			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_FORMATS),
 			   time);
 		break;
 
 	case ACTION_COPY_VALUES:
-		if (!sheet_selection_copy (workbook_command_context_gui (wb), sheet))
+		if (!sheet_selection_copy (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet))
 			break;
-		cmd_paste (workbook_command_context_gui (wb),
+		cmd_paste (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg),
 			   paste_target_init (&pt, sheet, &item_cursor->pos, PASTE_VALUES),
 			   time);
 		break;
@@ -1071,8 +1069,8 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
-		workbook_finish_editing (sheet->workbook, TRUE);
-		cmd_autofill (workbook_command_context_gui (sheet->workbook), sheet,
+		workbook_finish_editing (item_cursor->sheet_view->wbcg, TRUE);
+		cmd_autofill (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet,
 			      item_cursor->base_col,    item_cursor->base_row,
 			      item_cursor->base_cols+1, item_cursor->base_rows+1,
 			      item_cursor->pos.end.col, item_cursor->pos.end.row);
@@ -1100,7 +1098,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
-		workbook_finish_editing (sheet->workbook, TRUE);
+		workbook_finish_editing (item_cursor->sheet_view->wbcg, TRUE);
 		
 		/* fill current column to boundary of column to left
 		 * OR current row to boundary of row above 
@@ -1117,7 +1115,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 				1, TRUE);
 
 		/* fill the row/column */
-		cmd_autofill (workbook_command_context_gui (sheet->workbook), sheet,
+		cmd_autofill (WORKBOOK_CONTROL (item_cursor->sheet_view->wbcg), sheet,
 			      item_cursor->base_col,    item_cursor->base_row,
 			      item_cursor->base_cols+1, item_cursor->base_rows+1,
 			      final_col, final_row);

@@ -119,27 +119,6 @@ style_font_new (const char *font_name, double size, double scale,
 	return font;
 }
 
-/*
- * Creates a new StyleFont from an existing StyleFont
- * at the scale @scale
- */
-StyleFont *
-style_font_new_from (StyleFont *sf, double scale)
-{
-	StyleFont *new_sf;
-	
-	g_return_val_if_fail (sf != NULL, NULL);
-	g_return_val_if_fail (scale != 0.0, NULL);
-
-	new_sf = style_font_new_simple (sf->font_name, sf->size, scale,
-					sf->is_bold, sf->is_italic);
-	if (!new_sf){
-	        new_sf = gnumeric_default_font;
-		style_font_ref (new_sf);
-	}
-	return new_sf;
-}
-
 GdkFont *
 style_font_gdk_font (StyleFont const * const sf)
 {

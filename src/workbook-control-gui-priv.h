@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 #include "workbook-control-gui.h"
+#include "workbook-control-priv.h"
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
 #endif

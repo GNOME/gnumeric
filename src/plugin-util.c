@@ -14,10 +14,11 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
-
-#include "command-context.h"
+#include <gnome.h>
 
 #include "plugin-util.h"
+#include "command-context.h"
+#include "io-context.h"
 
 /**
  * gnumeric_fopen:
@@ -32,7 +33,7 @@
  * Return value: a pointer to a FILE struct if successful or NULL if not
  **/
 FILE *
-gnumeric_fopen (CommandContext *context, const char *path, const char *mode)
+gnumeric_fopen (IOContext *context, const char *path, const char *mode)
 {
 	FILE *f;
 
@@ -46,7 +47,7 @@ gnumeric_fopen (CommandContext *context, const char *path, const char *mode)
 	
 		/* Always report as read error
 		 */
-	        gnumeric_error_read (context, g_strerror (errno));
+	        gnumeric_io_error_read (context, g_strerror (errno));
 		return NULL;
 	}
 
@@ -66,7 +67,7 @@ gnumeric_fopen (CommandContext *context, const char *path, const char *mode)
  * Return value: a file descriptor on success or -1 on error
  **/
 int
-gnumeric_open (CommandContext *context, const char *pathname, int flags)
+gnumeric_open (IOContext *context, const char *pathname, int flags)
 {
 	int fd;
 
@@ -81,9 +82,9 @@ gnumeric_open (CommandContext *context, const char *pathname, int flags)
 		 * has been set. if O_WRONLY report as write error
 		 */
 		if (flags & O_WRONLY)
-			gnumeric_error_save (context, g_strerror (errno));
+			gnumeric_io_error_save (context, g_strerror (errno));
 		else
-			gnumeric_error_read (context, g_strerror (errno));
+			gnumeric_io_error_read (context, g_strerror (errno));
 	  
 		return -1;
 	}
@@ -103,7 +104,7 @@ gnumeric_open (CommandContext *context, const char *pathname, int flags)
  * useful after a call to gnumeric_mmap_open.
  **/
 void
-gnumeric_mmap_close (CommandContext *context, const unsigned char *data, int fdesc, int file_size)
+gnumeric_mmap_close (IOContext *context, const unsigned char *data, int fdesc, int file_size)
 {
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (data != NULL);
@@ -112,7 +113,7 @@ gnumeric_mmap_close (CommandContext *context, const unsigned char *data, int fde
 	     char *message;
 
 	     message = g_strdup_printf (_("Unable to unmap the file, error : %s"), g_strerror (errno));
-	     gnumeric_error_read (context, message);
+	     gnumeric_io_error_read (context, message);
 
 	     g_free (message);
 	}
@@ -121,7 +122,7 @@ gnumeric_mmap_close (CommandContext *context, const unsigned char *data, int fde
 	     char *message;
 
 	     message = g_strdup_printf (_("Error while closing file, error : %s"), g_strerror (errno));
-	     gnumeric_error_read (context, message);
+	     gnumeric_io_error_read (context, message);
 
 	     g_free (message);
 	}
@@ -145,7 +146,7 @@ gnumeric_mmap_close (CommandContext *context, const unsigned char *data, int fde
  * Return value: a pointer to the mmaped data or NULL on failure.
  **/
 const unsigned char *
-gnumeric_mmap_open (CommandContext *context, const char *filename, int *fdesc, int *file_size)
+gnumeric_mmap_open (IOContext *context, const char *filename, int *fdesc, int *file_size)
 {
 	caddr_t m;
 	struct stat sbuf;
@@ -164,7 +165,7 @@ gnumeric_mmap_open (CommandContext *context, const char *filename, int *fdesc, i
 	if (fstat(fd, &sbuf) < 0) {
 	
 		close (fd);
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_io_error_read (context, g_strerror (errno));
 		return NULL;
 	}
 
@@ -176,7 +177,7 @@ gnumeric_mmap_open (CommandContext *context, const char *filename, int *fdesc, i
 
 		close (fd);
 		message = g_strdup_printf (_("Unable to mmap the file, error : %s"), g_strerror (errno));
-		gnumeric_error_read (context, message);
+		gnumeric_io_error_read (context, message);
 		
 		g_free (message);
 		return NULL;

@@ -26,9 +26,11 @@ typedef SheetObject *(*XmlSheetObjectReadFn)  (xmlNodePtr   tree,
 					       double       y2,
 					       gpointer     user_data);
 
-int        gnumeric_xml_read_workbook   (CommandContext *context, Workbook *wb,
+int        gnumeric_xml_read_workbook   (IOContext *context,
+					 WorkbookView *wb_view,
 					 const char *filename);
-int        gnumeric_xml_write_workbook  (CommandContext *context, Workbook *wb,
+int        gnumeric_xml_write_workbook  (IOContext *context,
+					 WorkbookView *wb_view,
 					 const char *filename);
 
 XmlParseContext *xml_parse_ctx_new      (xmlDocPtr             doc,
@@ -41,14 +43,15 @@ XmlParseContext *xml_parse_ctx_new_full (xmlDocPtr             doc,
 void             xml_parse_ctx_destroy  (XmlParseContext      *ctxt);
 					
 xmlNodePtr       xml_workbook_write     (XmlParseContext *ctx,
-					 Workbook        *wb);
-gboolean         xml_workbook_read      (Workbook        *wb,
+					 WorkbookView    *wb_view);
+gboolean         xml_workbook_read      (IOContext *context,
+					 WorkbookView	 *new_wb,
 					 XmlParseContext *ctx,
 					 xmlNodePtr       tree);
 
-int        gnumeric_xml_write_selection_clipboard (CommandContext *context, Sheet *sheet,
+int        gnumeric_xml_write_selection_clipboard (WorkbookControl *context, Sheet *sheet,
 						   xmlChar **buffer, int *size);
-int        gnumeric_xml_read_selection_clipboard  (CommandContext *context, CellRegion **cr,
+int        gnumeric_xml_read_selection_clipboard  (WorkbookControl *context, CellRegion **cr,
 						   xmlChar *buffer);
 /*
  * Exported support functions

@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 gboolean applix_read_header (FILE *file);
-int      applix_read (CommandContext *context, Workbook *wb, FILE *file);
+int      applix_read (IOContext *context, WorkbookView *wb_view,
+		      FILE *file);
 
 #endif /* PLUGIN_APPLIX_H */

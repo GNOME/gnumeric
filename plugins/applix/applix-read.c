@@ -26,8 +26,6 @@
 #include "config.h"
 #include "applix.h"
 #include "application.h"
-#include "command-context.h"
-#include "workbook.h"
 #include "expr.h"
 #include "value.h"
 #include "sheet.h"
@@ -38,6 +36,9 @@
 #include "selection.h"
 #include "position.h"
 #include "ranges.h"
+#include "io-context.h"
+#include "workbook-view.h"
+#include "workbook.h"
 
 #include <ctype.h>
 #include <string.h>
@@ -47,7 +48,8 @@ static int debug_applix_read = 1;
 
 typedef struct {
 	FILE		*file;
-	CommandContext	*context;
+	IOContext	*context;
+	WorkbookView	*wb_view;
 	Workbook	*wb;
 	GHashTable	*exprs, *styles;
 	GPtrArray	*colours;
@@ -67,7 +69,7 @@ static int
 applix_parse_error (ApplixReadState *state, char const *msg)
 {
 	gchar *tmp = g_strconcat ("APPLIX : ", msg, NULL);
-	gnumeric_error_read (state->context, msg);
+	gnumeric_io_error_read (state->context, msg);
 	g_free (tmp);
 	return -1;
 }
@@ -702,10 +704,10 @@ applix_get_sheet (ApplixReadState *state, char **buffer,
 	}
 
 	*tmp = '\0';
-	sheet = workbook_sheet_lookup (state->wb, *buffer);
+	sheet = workbook_sheet_by_name (state->wb, *buffer);
 	if (sheet == NULL) {
 		sheet = sheet_new (state->wb, *buffer);
-		workbook_attach_sheet (state->wb, sheet);
+		workbook_sheet_attach (state->wb, sheet, NULL);
 		sheet_set_zoom_factor (sheet, (double )(state->zoom) / 100., FALSE, FALSE);
 	}
 
@@ -1289,7 +1291,7 @@ applix_read_impl (ApplixReadState *state)
 
 	/* We only need the sheet, the visible cell, and edit pos are already set */
 	if (applix_parse_cellref (state, cur_cell_addr, &sheet, &col, &row, ':'))
-		workbook_focus_sheet (sheet);
+		wb_view_sheet_focus (state->wb_view, sheet);
 
 	return 0;
 }
@@ -1310,7 +1312,8 @@ cb_remove_style (gpointer key, gpointer value, gpointer user_data)
 }
 
 int
-applix_read (CommandContext *context, Workbook *wb, FILE *file)
+applix_read (IOContext *context, WorkbookView *wb_view,
+	     FILE *file)
 {
 	int i;
 	int res;
@@ -1319,7 +1322,8 @@ applix_read (CommandContext *context, Workbook *wb, FILE *file)
 	ApplixReadState	state;
 	state.file	= file;
 	state.context	= context;
-	state.wb	= wb;
+	state.wb_view	= wb_view;
+	state.wb	= wb_view_workbook (wb_view);
 	state.exprs	= g_hash_table_new (&g_int_hash, &g_int_equal);
 	state.styles	= g_hash_table_new (&g_str_hash, &g_str_equal);
 	state.colours	= g_ptr_array_new ();

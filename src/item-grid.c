@@ -21,10 +21,12 @@
 #include "application.h"
 #include "workbook-cmd-format.h"
 #include "workbook-edit.h"
+#include "workbook-control-gui-priv.h"
 #include "sheet-object.h"
 #include "pattern.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "cell.h"
 #include "cell-draw.h"
 #include "cellspan.h"
 #include "commands.h"
@@ -211,7 +213,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	GnomeCanvas *canvas = item->canvas;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 	Sheet *sheet = gsheet->sheet_view->sheet;
-	Cell const * const edit_cell = sheet->workbook->editing_cell;
+	Cell const * const edit_cell = gsheet->sheet_view->wbcg->editing_cell;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	GdkGC *grid_gc = item_grid->grid_gc;
 	int col, row;
@@ -296,7 +298,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					drawable, item_grid, ci, ri,
 					col, row, x_paint, y_paint, FALSE);
 
-				if (!cell_is_blank(cell))
+				if (!cell_is_blank (cell) && cell != edit_cell)
 					cell_draw (cell, mstyle, NULL,
 						   item_grid->gc, drawable, 
 						   x_paint, y_paint);
@@ -343,7 +345,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 									   col, cell->pos.col);
 				}
 
-				if (is_visible)
+				if (is_visible && cell != edit_cell)
 					cell_draw (cell, real_style, span,
 						   item_grid->gc, drawable, real_x, y_paint);
 				mstyle_unref (real_style);
@@ -389,61 +391,59 @@ static gboolean
 context_menu_hander (GnumericPopupMenuElement const *element,
 		     gpointer user_data)
 {
-	Workbook *wb;
-	CommandContext *cc;
-	Sheet *sheet = user_data;
+	SheetView *sheet_view = user_data;
+	Sheet *sheet = sheet_view->sheet;
+	WorkbookControlGUI *wbcg = sheet_view->wbcg;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 
 	g_return_val_if_fail (element != NULL, TRUE);
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
-	wb = sheet->workbook;
-	cc = workbook_command_context_gui (wb);
-
 	switch (element->index) {
 	case CONTEXT_CUT :
-		sheet_selection_cut (cc, sheet);
+		sheet_selection_cut (wbc, sheet);
 		break;
 	case CONTEXT_COPY :
-		sheet_selection_copy (cc, sheet);
+		sheet_selection_copy (wbc, sheet);
 		break;
 	case CONTEXT_PASTE :
-		cmd_paste_to_selection (cc, sheet, PASTE_DEFAULT);
+		cmd_paste_to_selection (wbc, sheet, PASTE_DEFAULT);
 		break;
 	case CONTEXT_PASTE_SPECIAL : {
-		int flags = dialog_paste_special (wb);
+		int flags = dialog_paste_special (wbcg);
 		if (flags != 0)
-			cmd_paste_to_selection (cc, sheet, flags);
+			cmd_paste_to_selection (wbc, sheet, flags);
 		break;
 	}
 	case CONTEXT_INSERT :
-		dialog_insert_cells (wb, sheet);
+		dialog_insert_cells (wbcg, sheet);
 		break;
 	case CONTEXT_DELETE :
-		dialog_delete_cells (wb, sheet);
+		dialog_delete_cells (wbcg, sheet);
 		break;
 	case CONTEXT_CLEAR_CONTENT :
-		cmd_clear_selection (cc, sheet, CLEAR_VALUES);
+		cmd_clear_selection (wbc, sheet, CLEAR_VALUES);
 		break;
 	case CONTEXT_FORMAT_CELL :
-		dialog_cell_format (wb, sheet, FD_CURRENT);
+		dialog_cell_format (wbcg, sheet, FD_CURRENT);
 		break;
 	case CONTEXT_COL_WIDTH :
-		sheet_dialog_set_column_width (NULL, wb);
+		sheet_dialog_set_column_width (NULL, wbcg);
 		break;
 	case CONTEXT_COL_HIDE :
-		cmd_hide_selection_rows_cols (cc, sheet, TRUE, FALSE);
+		cmd_hide_selection_rows_cols (wbc, sheet, TRUE, FALSE);
 		break;
 	case CONTEXT_COL_UNHIDE :
-		cmd_hide_selection_rows_cols (cc, sheet, TRUE, TRUE);
+		cmd_hide_selection_rows_cols (wbc, sheet, TRUE, TRUE);
 		break;
 	case CONTEXT_ROW_HEIGHT :
-		sheet_dialog_set_row_height (NULL, wb);
+		sheet_dialog_set_row_height (NULL, wbcg);
 		break;
 	case CONTEXT_ROW_HIDE :
-		cmd_hide_selection_rows_cols (cc, sheet, FALSE, FALSE);
+		cmd_hide_selection_rows_cols (wbc, sheet, FALSE, FALSE);
 		break;
 	case CONTEXT_ROW_UNHIDE :
-		cmd_hide_selection_rows_cols (cc, sheet, FALSE, TRUE);
+		cmd_hide_selection_rows_cols (wbc, sheet, FALSE, TRUE);
 		break;
 	default :
 		break;
@@ -452,7 +452,7 @@ context_menu_hander (GnumericPopupMenuElement const *element,
 }
 
 void
-item_grid_popup_menu (Sheet *sheet, GdkEventButton *event,
+item_grid_popup_menu (SheetView *sheet_view, GdkEventButton *event,
 		      gboolean is_col, gboolean is_row)
 {
 	enum {
@@ -521,8 +521,9 @@ item_grid_popup_menu (Sheet *sheet, GdkEventButton *event,
 	    (application_clipboard_contents_get () != NULL))
 	? CONTEXT_ENABLE_PASTE_SPECIAL : 0;
 
-	gnumeric_create_popup_menu (popup_elements, &context_menu_hander, sheet,
-				    display_filter, sensitivity_filter, event);
+	gnumeric_create_popup_menu (popup_elements, &context_menu_hander,
+				    sheet_view, display_filter,
+				    sensitivity_filter, event);
 }
 
 /***************************************************************************/
@@ -548,8 +549,11 @@ item_grid_button_1 (Sheet *sheet, GdkEventButton *event,
 	/* If we are not configuring an object then clicking on the sheet
 	 * ends the edit.
 	 */
-	if (sheet->current_object != NULL && !workbook_edit_has_guru (sheet->workbook))
-		sheet_mode_edit	(sheet);
+	if (sheet->current_object != NULL) {
+		if (!workbook_edit_has_guru (gsheet->sheet_view->wbcg))
+			sheet_mode_edit	(sheet);
+	} else
+		wb_control_gui_focus_cur_sheet (gsheet->sheet_view->wbcg);
 
 	/*
 	 * If we were already selecting a range of cells for a formula,
@@ -574,11 +578,11 @@ item_grid_button_1 (Sheet *sheet, GdkEventButton *event,
 	}
 
 	/* While a guru is up ignore clicks */
-	if (workbook_edit_has_guru (sheet->workbook))
+	if (workbook_edit_has_guru (gsheet->sheet_view->wbcg))
 		return 1;
 
 	/* This was a regular click on a cell on the spreadsheet.  Select it. */
-	workbook_finish_editing (sheet->workbook, TRUE);
+	workbook_finish_editing (gsheet->sheet_view->wbcg, TRUE);
 
 	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 		sheet_selection_reset_only (sheet);
@@ -671,8 +675,11 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 				sheet_make_cell_visible (sheet, sheet->cursor.edit_pos.col,
 							 sheet->cursor.edit_pos.row);
 
-			workbook_set_region_status (sheet->workbook,
-						    cell_pos_name (&sheet->cursor.edit_pos));
+			/* FIXME : when selection moves into the view we will need to do
+			 * this for all the sibling controls */
+			wb_control_selection_descr_set (
+				WORKBOOK_CONTROL (gsheet->sheet_view->wbcg),
+				cell_pos_name (&sheet->cursor.edit_pos));
 
 			item_grid->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);
@@ -767,7 +774,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		row = gnumeric_sheet_find_row (gsheet, y, NULL);
 
 		/* While a guru is up ignore clicks */
-		if (workbook_edit_has_guru (sheet->workbook) && event->button.button != 1)
+		if (workbook_edit_has_guru (gsheet->sheet_view->wbcg) && event->button.button != 1)
 			return TRUE;
 
 		switch (event->button.button){
@@ -781,8 +788,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			return TRUE;
 
 		case 3:
-			item_grid_popup_menu (sheet, &event->button,
-					      FALSE, FALSE);
+			item_grid_popup_menu (item_grid->sheet_view,
+					      &event->button, FALSE, FALSE);
 			return TRUE;
 
 		default :

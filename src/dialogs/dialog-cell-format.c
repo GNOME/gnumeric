@@ -87,6 +87,7 @@ typedef struct
 typedef struct _FormatState
 {
 	GladeXML	*gui;
+	WorkbookControlGUI	*wbcg;
 	GnomePropertyBox*dialog;
 
 	Sheet		*sheet;
@@ -1924,7 +1925,7 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
 		borders [i] = border_get_mstyle (state, i);
 
-	cmd_format (workbook_command_context_gui (state->sheet->workbook),
+	cmd_format (WORKBOOK_CONTROL (state->wbcg),
 		    state->sheet, state->result, borders);
 
 	mstyle_unref (state->result);
@@ -2242,10 +2243,8 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders,
 	/* Make it modal */
 	gtk_window_set_modal (GTK_WINDOW(dialog), TRUE);
 
-
 	/* Bring up the dialog */
-	gnumeric_dialog_show (state->sheet->workbook->toplevel,
-			      GNOME_DIALOG (dialog), FALSE, TRUE);
+	gnumeric_dialog_show (state->wbcg, GNOME_DIALOG (dialog), FALSE, TRUE);
 }
 
 static gboolean
@@ -2262,7 +2261,7 @@ fmt_dialog_selection_type (Sheet *sheet,
 }
 
 void
-dialog_cell_format (Workbook *wb, Sheet *sheet, FormatDialogPosition_t pageno)
+dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition_t pageno)
 {
 	GladeXML     *gui;
 	MStyle       *mstyle;
@@ -2271,12 +2270,11 @@ dialog_cell_format (Workbook *wb, Sheet *sheet, FormatDialogPosition_t pageno)
 	MStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
 	FormatState  *state;
 
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				      "cell-format.glade");
+	gui = gnumeric_glade_xml_new (wbcg, "cell-format.glade");
         if (gui == NULL)
                 return;
 
@@ -2289,6 +2287,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet, FormatDialogPosition_t pageno)
 
 	/* Initialize */
 	state = g_new (FormatState, 1);
+	state->wbcg		= wbcg;
 	state->gui		= gui;
 	state->sheet		= sheet;
 	state->value		= sample_val;

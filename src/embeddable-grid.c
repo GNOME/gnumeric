@@ -166,24 +166,6 @@ embeddable_grid_init_anon (EmbeddableGrid *eg)
 
 	eg->workbook = workbook_new_with_sheets (1);
 	sheets = workbook_sheets (eg->workbook);
-
-	g_return_if_fail (sheets != NULL &&
-			  sheets->data != NULL);
-	eg->sheet = sheets->data;
-	g_list_free (sheets);
-
-	/*
-	 * Workaround code.  Sheets are born with a sheet_view,
-	 * but we do not need it at all.  So manually get rid of it.
-	 *
-	 * When sheet_new semantics change (see TODO), the code below
-	 * will warn about this condition to remove this piece of code
-	 */
-	if (eg->sheet->sheet_views)
-		sheet_destroy_sheet_view (eg->sheet,
-					  SHEET_VIEW (eg->sheet->sheet_views->data));
-	else
-		g_error ("Remove workaround code here");
 }
 
 EmbeddableGrid *

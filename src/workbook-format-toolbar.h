@@ -1,14 +1,10 @@
 #ifndef GNUMERIC_WORKBOOK_FORMAT_TOOLBAR_H
 #define GNUMERIC_WORKBOOK_FORMAT_TOOLBAR_H
 
-#define TOOLBAR_FONT_BUTTON_INDEX		2
-#define TOOLBAR_BOLD_BUTTON_INDEX		3
-#define TOOLBAR_ITALIC_BUTTON_INDEX		4
-#define TOOLBAR_UNDERLINE_BUTTON_INDEX		5
-#define TOOLBAR_ALIGN_LEFT_BUTTON_INDEX		6
-#define TOOLBAR_ALIGN_CENTER_BUTTON_INDEX	7
-#define TOOLBAR_ALIGN_RIGHT_BUTTON_INDEX	8
+#include "gnumeric.h"
+#include "workbook-control-gui.h"
 
-GtkWidget *workbook_create_format_toolbar (Workbook *wb);
+void workbook_create_format_toolbar (WorkbookControlGUI *wbcg);
+void workbook_feedback_set (WorkbookControlGUI *wbc, MStyle *style);
 
-#endif
+#endif /* GNUMERIC_WORKBOOK_FORMAT_TOOLBAR_H */

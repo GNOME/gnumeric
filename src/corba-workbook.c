@@ -47,14 +47,14 @@ Workbook_sheet_new (PortableServer_Servant servant, const CORBA_char *name, CORB
         Workbook *workbook = workbook_from_servant (servant);
 	Sheet *sheet;
 
-	if (workbook_sheet_lookup (workbook, name)){
+	if (workbook_sheet_by_name (workbook, name)){
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Workbook_NameExists, NULL);
 		return CORBA_OBJECT_NIL;
 	}
 	
 	sheet = sheet_new (workbook, name);
 
-	workbook_attach_sheet (workbook, sheet);
+	workbook_sheet_attach (workbook, sheet, NULL);
 	
 	return corba_sheet (sheet, ev);
 }
@@ -65,7 +65,7 @@ Workbook_sheet_lookup (PortableServer_Servant servant, const CORBA_char *name, C
         Workbook *workbook = workbook_from_servant (servant);
 	Sheet *sheet;
 
-	sheet = workbook_sheet_lookup (workbook, name);
+	sheet = workbook_sheet_by_name (workbook, name);
 	if (sheet == NULL)
 		return CORBA_OBJECT_NIL;
 
@@ -171,17 +171,6 @@ Workbook_parse (PortableServer_Servant servant,
 }
 
 static void
-Workbook_show (PortableServer_Servant servant, CORBA_boolean show_toplevel, CORBA_Environment *ev)
-{
-	Workbook *workbook = workbook_from_servant (servant);
-
-	if (show_toplevel)
-		workbook_show (workbook);
-	else
-		workbook_hide (workbook);
-}
-
-static void
 Workbook_corba_class_init (void)
 {
 	static int inited;
@@ -256,7 +245,7 @@ workbook_corba_shutdown (Workbook *wb)
 	CORBA_exception_free (&ev);
 }
 
-CommandContext *
+WorkbookControl *
 command_context_corba (Workbook *wb)
 {
 	/* When we are operating before a workbook is created

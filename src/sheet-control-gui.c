@@ -14,6 +14,7 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "workbook.h"
+#include "workbook-view.h"
 #include "workbook-cmd-format.h"
 #include "cell.h"
 #include "selection.h"
@@ -382,10 +383,11 @@ sheet_view_col_size_changed (ItemBar *item_bar, int col, int new_size_pixels,
 	 */
  	if (!sheet_selection_full_cols (sheet)) {
 		ColRowIndexList *sel = col_row_get_index_list (col, col, NULL);
-		cmd_resize_row_col (workbook_command_context_gui (sheet->workbook),
+		cmd_resize_row_col (WORKBOOK_CONTROL (sheet_view->wbcg),
 				    sheet, TRUE, sel, new_size_pixels);
 	} else
-		workbook_cmd_format_column_width (sheet, new_size_pixels);
+		workbook_cmd_format_column_width (WORKBOOK_CONTROL (sheet_view->wbcg),
+						  sheet, new_size_pixels);
 }
 
 static void
@@ -435,10 +437,11 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int new_size_pixels,
 	 */
  	if (!sheet_selection_full_rows (sheet)) {
 		ColRowIndexList *sel = col_row_get_index_list (row, row, NULL);
-		cmd_resize_row_col (workbook_command_context_gui (sheet->workbook),
+		cmd_resize_row_col (WORKBOOK_CONTROL (sheet_view->wbcg),
 				    sheet, FALSE, sel, new_size_pixels);
 	} else
-		workbook_cmd_format_row_height (sheet, new_size_pixels);
+		workbook_cmd_format_row_height (WORKBOOK_CONTROL (sheet_view->wbcg),
+						sheet, new_size_pixels);
 }
 
 /***************************************************************************/
@@ -533,6 +536,7 @@ sheet_view_init (SheetView *sheet_view)
 {
 	GtkTable *table = GTK_TABLE (sheet_view);
 
+	sheet_view->sheet = NULL;
 	sheet_view->slide_handler = NULL;
 	sheet_view->slide_data = NULL;
 	sheet_view->sliding = -1;
@@ -575,7 +579,6 @@ sheet_view_construct (SheetView *sheet_view)
 	gtk_signal_connect (GTK_OBJECT (sheet_view->row_item), "size_changed",
 			    GTK_SIGNAL_FUNC (sheet_view_row_size_changed),
 			    sheet_view);
-
 
 	/* Create the gnumeric sheet canvas */
 	sheet_view->sheet_view = gnumeric_sheet_new (
@@ -706,6 +709,9 @@ sheet_view_destroy (GtkObject *object)
 	/* Add shutdown code here */
 	if (sheet_view->tip)
 		gtk_object_unref (GTK_OBJECT (sheet_view->tip));
+
+	if (sheet_view->sheet)
+		sheet_detach_sheet_view (sheet_view);
 
 	/* FIXME : Should we be pedantic and
 	 * 1) clear the control points
@@ -891,7 +897,7 @@ void
 sheet_view_adjust_preferences (SheetView *sheet_view)
 {
 	Sheet *sheet = sheet_view->sheet;
-	Workbook *wb = sheet->workbook;
+	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (sheet_view->wbcg));
 
 	if (sheet->show_col_header)
 		gtk_widget_show (GTK_WIDGET (sheet_view->col_canvas));
@@ -908,12 +914,12 @@ sheet_view_adjust_preferences (SheetView *sheet_view)
 	else
 		gtk_widget_hide (sheet_view->select_all_btn);
 
-	if (wb->show_horizontal_scrollbar)
+	if (wbv->show_horizontal_scrollbar)
 		gtk_widget_show (sheet_view->hs);
 	else
 		gtk_widget_hide (sheet_view->hs);
 
-	if (wb->show_vertical_scrollbar)
+	if (wbv->show_vertical_scrollbar)
 		gtk_widget_show (sheet_view->vs);
 	else
 		gtk_widget_hide (sheet_view->vs);

@@ -12,8 +12,12 @@
 #include "dialogs.h"
 #include "xml-io.h"
 #include "file.h"
-#include "workbook.h"
+#include "application.h"
+#include "io-context-priv.h"
 #include "command-context.h"
+#include "workbook-control.h"
+#include "workbook-view.h"
+#include "workbook.h"
 #include <locale.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -107,7 +111,7 @@ file_format_unregister_open (FileFormatProbe probe, FileFormatOpen open)
  * file_format_register_save:
  * @extension: An extension that is usually used by this format
  * @format_description: A description of this format
- * @level: The file format level 
+ * @level: The file format level
  * @save_fn: A function that should be used to save
  *
  * This routine registers a file format save routine with Gnumeric
@@ -156,8 +160,8 @@ file_format_unregister_save (FileFormatSave save)
 {
 	GList *l;
 
-	workbook_foreach ((WorkbookCallback) cb_unregister_save, save);
-	
+	application_workbook_foreach ((WorkbookCallback) cb_unregister_save, save);
+
 	for (l = gnumeric_file_savers; l; l = l->next){
 		FileSaver *fs = l->data;
 
@@ -176,7 +180,7 @@ file_format_unregister_save (FileFormatSave save)
 }
 
 static int
-do_load_from (CommandContext *context, Workbook *wb,
+do_load_from (WorkbookControl *wbc, WorkbookView *wbv,
 	      const char *filename)
 {
 	GList *l;
@@ -185,9 +189,15 @@ do_load_from (CommandContext *context, Workbook *wb,
 		FileOpener const * const fo = l->data;
 
 		if (fo->probe != NULL && (*fo->probe) (filename)) {
-			int result = (*fo->open) (context, wb, filename);
+			int result;
+
+			/* FIXME : This is a placeholder */
+			IOContext io_context;
+			io_context.impl = wbc;
+
+			result = (*fo->open) (&io_context, wbv, filename);
 			if (result == 0)
-				workbook_set_dirty (wb, FALSE);
+				workbook_set_dirty (wb_view_workbook (wbv), FALSE);
 			return result;
 		}
 	}
@@ -196,91 +206,106 @@ do_load_from (CommandContext *context, Workbook *wb,
 
 /**
  * workbook_load_from:
- * @workbook: A blank workbook to load into.
+ * @wbc:  The calling context.
+ * @wbv:  A workbook view to load into.
  * @filename: gives the URI of the file.
- * 
+ *
  * This function attempts to read the file into the supplied
  * workbook.
- * 
+ *
  * Return value: success : 0
  *               failure : -1
  **/
 int
-workbook_load_from (CommandContext *context, Workbook *wb,
+workbook_load_from (WorkbookControl *wbc, WorkbookView *wbv,
 		    const char *filename)
 {
-	int ret;
-
-	ret = workbook_load_from (context, wb, filename);
-	
+	int ret = do_load_from (wbc, wbv, filename);
 	if (ret == -1)
-		gnumeric_error_read (context, NULL);
-
+		gnumeric_error_read (COMMAND_CONTEXT (wbc), NULL);
 	return ret;
 }
 
 /**
  * workbook_try_read:
  * @filename: gives the URI of the file.
- * 
+ *
  * This function attempts to read the file
- * 
- * Return value: a loaded workbook on success or
- *               NULL on failure.
+ *
+ * Return value: a fresh workbook and view loaded workbook on success
+ *		or NULL on failure.
  **/
-Workbook *
-workbook_try_read (CommandContext *context, const char *filename)
+WorkbookView *
+workbook_try_read (WorkbookControl *wbc, const char *filename)
 {
-	Workbook *wb;
+	WorkbookView *new_view;
 	int result;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	wb = workbook_new ();
-	result = do_load_from (context, wb, filename);
+	new_view = workbook_view_new (NULL);
+	result = do_load_from (wbc, new_view, filename);
 	if (result != 0) {
+		Workbook *wb = wb_view_workbook (new_view);
 		gtk_object_destroy (GTK_OBJECT (wb));
-		wb = NULL;
+		return NULL;
 	}
 
-	return wb;
+	return new_view;
 }
 
-static Workbook *
-file_finish_load (Workbook *wb)
+static WorkbookView *
+file_finish_load (WorkbookControl *wbc, WorkbookView *new_wbv)
 {
-	if (wb != NULL) {
-		workbook_recalc (wb);
+	if (new_wbv != NULL) {
+		WorkbookControl *new_wbc;
+		Workbook *old_wb = wb_control_workbook (wbc);
 
 		/*
-		 * render and calc size of unrendered cells,
-		 * then calc spans for everything
+		 * If the current workbook is empty and untouched use its
+		 * control to wrap the new book.
 		 */
-		workbook_calc_spans (wb, SPANCALC_RENDER|SPANCALC_RESIZE);
+		if (workbook_is_pristine (old_wb)) {
+			gtk_object_ref (GTK_OBJECT (wbc));
+			workbook_unref (old_wb);
+			workbook_control_set_view (wbc, new_wbv, NULL);
+			workbook_control_sheets_init (wbc);
+			new_wbc = wbc;
+		} else
+			new_wbc = wb_control_wrapper_new (wbc, new_wbv, NULL);
+
+		workbook_recalc (wb_view_workbook (new_wbv));
+
+		/*
+		 * render and calc size of unrendered cells, then calc spans
+		 * for everything
+		 */
+		workbook_calc_spans (wb_view_workbook (new_wbv),
+				     SPANCALC_RENDER|SPANCALC_RESIZE);
 
 		/* FIXME : This should not be needed */
-		workbook_set_dirty (wb, FALSE);
+		workbook_set_dirty (wb_view_workbook (new_wbv), FALSE);
 
-		sheet_update (wb->current_sheet);
+		sheet_update (wb_view_cur_sheet (new_wbv));
 	}
 
-	return wb;
+	return new_wbv;
 }
 
 /**
  * workbook_read:
  * @filename: the file's URI
- * 
+ *
  * This attempts to read a workbook, if the file doesn't
  * exist it will create a blank 1 sheet workbook, otherwise
  * it will flag a user error message.
- * 
+ *
  * Return value: a pointer to a Workbook or NULL.
  **/
-Workbook *
-workbook_read (CommandContext *context, const char *filename)
+WorkbookView *
+workbook_read (WorkbookControl *wbc, const char *filename)
 {
-	Workbook *wb = NULL;
+	WorkbookView *new_view = NULL;
 	char *template;
 
 	g_return_val_if_fail (filename != NULL, NULL);
@@ -288,17 +313,19 @@ workbook_read (CommandContext *context, const char *filename)
 	if (g_file_exists (filename)) {
 		template = g_strdup_printf (_("Could not read file %s\n%%s"),
 					    filename);
-		command_context_push_template (context, template);
-		wb = workbook_try_read (context, filename);
-		command_context_pop_template (context);
+		command_context_push_err_template (COMMAND_CONTEXT (wbc), template);
+		new_view = workbook_try_read (wbc, filename);
+		command_context_pop_err_template (COMMAND_CONTEXT (wbc));
 		g_free (template);
 	} else {
-		wb = workbook_new_with_sheets (1);
-		workbook_set_saveinfo (wb, filename, FILE_FL_NEW,
+		Workbook *new_wb = workbook_new_with_sheets (1);
+
+		workbook_set_saveinfo (new_wb, filename, FILE_FL_NEW,
 				       gnumeric_xml_write_workbook);
+		new_view = workbook_view_new (new_wb);
 	}
 
-	return file_finish_load (wb);
+	return file_finish_load (wbc, new_view);
 }
 
 static void
@@ -315,19 +342,21 @@ cb_select (GtkWidget *clist, gint row, gint column,
  * Lets the user choose an import filter for @filename, and
  * uses that to load the file
  */
-Workbook *
-workbook_import (CommandContext *context, Workbook *parent,
-		 const char *filename)
+WorkbookView *
+workbook_import (WorkbookControlGUI *wbcg, const char *filename)
 {
-	Workbook *wb = NULL;
+	WorkbookView *new_view = NULL;
+	Workbook *new_wb;
+	char *template;
+
 	GladeXML *gui;
 	GtkWidget *dialog;
 	GtkCList *clist;
 	FileOpener *fo = NULL;
 	int ret, row;
 	GList *l;
-	
-	gui = gnumeric_glade_xml_new (context, "import.glade");
+
+	gui = gnumeric_glade_xml_new (wbcg, "import.glade");
 	if (gui == NULL)
 		return NULL;
 
@@ -337,11 +366,11 @@ workbook_import (CommandContext *context, Workbook *parent,
 
 	clist = GTK_CLIST (glade_xml_get_widget (gui, "import-clist"));
 	gtk_clist_set_selection_mode (clist, GTK_SELECTION_SINGLE);
-	
+
 	for (row = 0, l = gnumeric_file_openers; l; l = l->next){
 		FileOpener *fo = l->data;
 		char *text [1];
-		
+
 		if (fo->probe != NULL)
 			continue;
 
@@ -355,41 +384,47 @@ workbook_import (CommandContext *context, Workbook *parent,
 	}
 	gtk_signal_connect (GTK_OBJECT(clist), "select_row",
 			    GTK_SIGNAL_FUNC(cb_select), (gpointer) dialog);
-		
+
 	gtk_widget_grab_focus (GTK_WIDGET (clist));
 
-	ret = gnumeric_dialog_run (parent, GNOME_DIALOG (dialog));
+	ret = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 
 	if (ret == 0 && clist->selection) {
 		int sel_row;
-		
+
 		sel_row = GPOINTER_TO_INT (clist->selection->data);
 		fo = gtk_clist_get_row_data (clist, sel_row);
 	}
-	
+
 	if (ret != -1)
 		gnome_dialog_close (GNOME_DIALOG (dialog));
-		
-	if (fo) {
-		char *template;
-
-		wb = workbook_new ();
-		template = g_strdup_printf (_("Could not import file %s\n%%s"),
-					    filename);
-		command_context_push_template (context, template);
-		ret = fo->open (context, wb, filename);
-		command_context_pop_template (context);
-		g_free (template);
-		if (ret != 0) {
-			gtk_object_destroy   (GTK_OBJECT (wb));
-			wb = NULL;
-		} else
-			workbook_set_dirty (wb, FALSE);
-	}
-
 	gtk_object_unref (GTK_OBJECT (gui));
 
-	return file_finish_load (wb);
+	if (fo == NULL)
+		return NULL;
+
+	new_view = workbook_view_new (NULL);
+	new_wb = wb_view_workbook (new_view);
+
+	template = g_strdup_printf (_("Could not import file %s\n%%s"),
+				    filename);
+	command_context_push_err_template (COMMAND_CONTEXT (wbcg), template);
+	{
+		/* FIXME : This is a placeholder */
+		IOContext io_context;
+		io_context.impl = WORKBOOK_CONTROL (wbcg);
+		ret = fo->open (&io_context, new_view, filename);
+	}
+	command_context_pop_err_template (COMMAND_CONTEXT (wbcg));
+	g_free (template);
+
+	if (ret != 0) {
+		gtk_object_destroy (GTK_OBJECT (new_wb));
+		new_view = NULL;
+	} else
+		workbook_set_dirty (new_wb, FALSE);
+
+	return file_finish_load (WORKBOOK_CONTROL (wbcg), new_view);
 }
 
 static void
@@ -427,7 +462,7 @@ file_saver_is_default_format (FileSaver *saver)
 {
 	if (current_saver == saver)
 		return TRUE;
-	
+
 	if (current_saver == NULL)
 		if (strcmp (saver->extension, ".gnumeric") == 0) {
 			current_saver = saver;
@@ -543,13 +578,13 @@ fs_set_filename (GtkFileSelection *fsel, Workbook *wb)
  * not the workbook.
  */
 static gboolean
-wants_to_overwrite (Workbook *wb, const char *name)
+wants_to_overwrite (WorkbookControlGUI *wbcg, const char *name)
 {
 	GtkWidget *d, *button_no;
 	char *message = g_strdup_printf
 		(_("Workbook %s already exists.\nDo you want to save over it?"),
 		 name);
-	
+
 	d = gnome_message_box_new (
 		message, GNOME_MESSAGE_BOX_QUESTION,
 		GNOME_STOCK_BUTTON_YES,
@@ -558,8 +593,8 @@ wants_to_overwrite (Workbook *wb, const char *name)
 	g_free (message);
 	button_no = g_list_last (GNOME_DIALOG (d)->buttons)->data;
 	gtk_widget_grab_focus (button_no);
-	
-	return (gnumeric_dialog_run (wb, GNOME_DIALOG (d)) == 0);
+
+	return (gnumeric_dialog_run (wbcg, GNOME_DIALOG (d)) == 0);
 }
 
 /*
@@ -572,7 +607,7 @@ wants_to_overwrite (Workbook *wb, const char *name)
  * not the workbook.
  */
 static gboolean
-can_try_save_to (Workbook *wb, const char *name)
+can_try_save_to (WorkbookControlGUI *wbcg, const char *name)
 {
 	struct stat sb;
 	char *err_str;
@@ -591,17 +626,17 @@ can_try_save_to (Workbook *wb, const char *name)
 	}
 	if (dir_entered) {
 		err_str = g_strdup_printf (_("%s\nis a directory name"), name);
-		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, err_str);
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, err_str);
 		g_free (err_str);
 		return FALSE;
 	}
 	if (file_exists) {
 		if (access (name, W_OK) == 0)
-			return wants_to_overwrite (wb, name);
+			return wants_to_overwrite (wbcg, name);
 		else {
 			err_str = g_strdup_printf (_("You do not have permission to save to\n%s"),
 						   name);
-			gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, err_str);
+			gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, err_str);
 			g_free (err_str);
 			return FALSE;
 		}
@@ -616,15 +651,20 @@ can_try_save_to (Workbook *wb, const char *name)
  * not the workbook.
  */
 static gboolean
-do_save_as (CommandContext *context, Workbook *wb, const char *name)
+do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view, const char *name)
 {
 	char *template, *filename;
 	const char *base;
 	gboolean success = FALSE;
+	Workbook *wb = wb_view_workbook (wb_view);
+
+	/* FIXME : This is a placeholder */
+	IOContext io_context;
+	io_context.impl = WORKBOOK_CONTROL (wbcg);
 
 #ifndef ENABLE_BONOBO
 	if (*name == 0 || name [strlen (name) - 1] == '/') {
-		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Please enter a file name,\nnot a directory"));
 		return FALSE;
 	}
@@ -632,7 +672,7 @@ do_save_as (CommandContext *context, Workbook *wb, const char *name)
 
 	current_saver = insure_saver (current_saver);
 	if (!current_saver) {
-		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Sorry, there are no file savers loaded,\nI cannot save"));
 		return FALSE;
 	}
@@ -643,23 +683,23 @@ do_save_as (CommandContext *context, Workbook *wb, const char *name)
 		filename = g_strconcat (name, current_saver->extension, NULL);
 	else
 		filename = g_strdup (name);
-		
-	if (!can_try_save_to (wb, filename)) {
+
+	if (!can_try_save_to (wbcg, filename)) {
 		g_free (filename);
 		return FALSE;
 	}
 
 	template = g_strdup_printf (_("Could not save to file %s\n%%s"), name);
-	command_context_push_template (context, template);
+	command_context_push_err_template (COMMAND_CONTEXT (wbcg), template);
 	/* Files are expected to be in standard C format.  */
-	if (current_saver->save (context, wb, filename) == 0) {
+	if (current_saver->save (&io_context, wb_view, filename) == 0) {
 		workbook_set_saveinfo (wb, name, current_saver->level,
 				       current_saver->save);
 		workbook_set_dirty (wb, FALSE);
 		success = TRUE;
 	}
 
-	command_context_pop_template (context);
+	command_context_pop_err_template (COMMAND_CONTEXT (wbcg));
 	g_free (template);
 	g_free (filename);
 
@@ -667,21 +707,21 @@ do_save_as (CommandContext *context, Workbook *wb, const char *name)
 }
 
 gboolean
-workbook_save_as (CommandContext *context, Workbook *wb)
+workbook_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
 	GtkFileSelection *fsel;
 	gboolean accepted = FALSE;
 	GtkWidget *format_selector;
 	gboolean success  = FALSE;
+	Workbook *wb = wb_view_workbook (wb_view);
 
-	g_return_val_if_fail (wb != NULL, FALSE);
+	g_return_val_if_fail (wbcg != NULL, FALSE);
 
 	fsel = GTK_FILE_SELECTION
 		(gtk_file_selection_new (_("Save workbook as")));
 
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
-	gtk_window_set_transient_for (GTK_WINDOW (fsel), 
-				      GTK_WINDOW (workbook_get_toplevel (wb)));
+	gnumeric_set_transient (wbcg, GTK_WINDOW (fsel));
 	if (wb->filename)
 		fs_set_filename (fsel, wb);
 
@@ -697,15 +737,15 @@ workbook_save_as (CommandContext *context, Workbook *wb)
 			    GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
 	gtk_signal_connect (GTK_OBJECT (fsel), "key_press_event",
 			    GTK_SIGNAL_FUNC (fs_key_event), NULL);
-	
+
 	gtk_window_set_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
 
 	/*
-	 * Make sure that we quit the main loop if the window is destroyed 
+	 * Make sure that we quit the main loop if the window is destroyed
 	 */
 	gtk_signal_connect (GTK_OBJECT (fsel), "delete_event",
 			    GTK_SIGNAL_FUNC (file_dialog_delete_event), NULL);
-									   
+
 	/* Run the dialog */
 
 	gtk_widget_show (GTK_WIDGET (fsel));
@@ -713,7 +753,7 @@ workbook_save_as (CommandContext *context, Workbook *wb)
 	gtk_main ();
 
 	if (accepted)
-		success = do_save_as (context, wb,
+		success = do_save_as (wbcg, wb_view,
 				      gtk_file_selection_get_filename (fsel));
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 
@@ -721,35 +761,40 @@ workbook_save_as (CommandContext *context, Workbook *wb)
 }
 
 gboolean
-workbook_save (CommandContext *context, Workbook *wb)
+workbook_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
 	char *template;
 	gboolean ret;
 	FileFormatSave save_fn;
-	
-	g_return_val_if_fail (wb != NULL, FALSE);
+	Workbook *wb = wb_view_workbook (wb_view);
+
+	/* FIXME : This is a placeholder */
+	IOContext io_context;
+	io_context.impl = WORKBOOK_CONTROL (wbcg);
+
+	g_return_val_if_fail (wb_view != NULL, FALSE);
 
 	if (wb->file_format_level < FILE_FL_AUTO)
-		return workbook_save_as (context, wb);
+		return workbook_save_as (wbcg, wb_view);
 
 	template = g_strdup_printf (_("Could not save to file %s\n%%s"),
 				    wb->filename);
-	command_context_push_template (context, template);
+	command_context_push_err_template (COMMAND_CONTEXT (wbcg), template);
 	save_fn = wb->file_save_fn;
 	if (!save_fn)
 		save_fn = gnumeric_xml_write_workbook;
-	ret = ((save_fn) (context, wb, wb->filename) == 0);
-	if (ret) 
+	ret = ((save_fn) (&io_context, wb_view, wb->filename) == 0);
+	if (ret)
 		workbook_set_dirty (wb, FALSE);
 
-	command_context_pop_template (context);
+	command_context_pop_err_template (COMMAND_CONTEXT (wbcg));
 	g_free (template);
 
 	return ret;
 }
 
 char *
-dialog_query_load_file (Workbook *wb)
+dialog_query_load_file (WorkbookControlGUI *wbcg)
 {
 	GtkFileSelection *fsel;
 	gboolean accepted = FALSE;
@@ -758,8 +803,7 @@ dialog_query_load_file (Workbook *wb)
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 
-	gtk_window_set_transient_for (GTK_WINDOW (fsel),
-				      GTK_WINDOW (workbook_get_toplevel (wb)));
+	gnumeric_set_transient (wbcg, GTK_WINDOW (fsel));
 
 	/* Connect the signals for Ok and Cancel */
 	gtk_signal_connect (GTK_OBJECT (fsel->ok_button), "clicked",
@@ -771,7 +815,7 @@ dialog_query_load_file (Workbook *wb)
 	gtk_window_set_position (GTK_WINDOW (fsel), GTK_WIN_POS_MOUSE);
 
 	/*
-	 * Make sure that we quit the main loop if the window is destroyed 
+	 * Make sure that we quit the main loop if the window is destroyed
 	 */
 	gtk_signal_connect (GTK_OBJECT (fsel), "delete_event",
 			    GTK_SIGNAL_FUNC (file_dialog_delete_event), NULL);

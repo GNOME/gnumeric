@@ -18,6 +18,8 @@
 #include "value.h"
 #include "rendered-value.h"
 #include "main.h"
+#include "workbook-control.h"
+#include "workbook-view.h"
 #include "workbook.h"
 
 typedef enum {
@@ -946,10 +948,12 @@ workbook_recalc (Workbook *wb)
  * Recomputes all of the formulas.
  */
 void
-workbook_recalc_all (Workbook *workbook)
+workbook_recalc_all (Workbook *wb)
 {
-	dependent_queue_recalc_list (workbook->dependents, FALSE);
-	workbook_recalc (workbook);
+	dependent_queue_recalc_list (wb->dependents, FALSE);
+	workbook_recalc (wb);
+	WORKBOOK_FOREACH_VIEW (wb, view,
+		sheet_update (wb_view_cur_sheet (view)););
 }
 
 typedef struct {

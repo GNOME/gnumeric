@@ -16,6 +16,7 @@
 #include "expr-name.h"
 #include "sheet.h"
 #include "workbook.h"
+#include "workbook-control.h"
 #include "workbook-edit.h"
 #include "gnumeric-util.h"
 
@@ -36,8 +37,9 @@ typedef struct {
 	GtkWidget *close_button;
 	GtkWidget *delete_button;
 
-	Workbook  *wb;
 	Sheet	  *sheet;
+	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
 } NameGuruState;
 
 static void
@@ -185,7 +187,7 @@ cb_name_guru_add (NameGuruState *state)
 
 	/* If the expression is invalid */
 	if (expr == NULL) {
-		gnumeric_notice (state->wb, GNOME_MESSAGE_BOX_ERROR, error);
+		gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR, error);
 		return FALSE;
 
 	/* If name already exists replace the its content */
@@ -194,7 +196,7 @@ cb_name_guru_add (NameGuruState *state)
 			expr_tree_unref (expr_name->t.expr_tree);
 			expr_name->t.expr_tree = expr;
 		} else
-			gnumeric_notice (state->wb, GNOME_MESSAGE_BOX_ERROR,
+			gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 _("You cannot redefine a builtin name."));
 	} else
 		expr_name = expr_name_add (state->wb, NULL, name, expr, &error);
@@ -212,10 +214,10 @@ cb_name_guru_value_focus (GtkWidget *w, GdkEventFocus *ev, NameGuruState *state)
 {
 	GtkEntry *entry = GTK_ENTRY (w);
 	if (entry == state->value) {
-		workbook_set_entry (state->wb, state->value);
-		workbook_edit_select_absolute (state->wb);
+		workbook_set_entry (state->wbcg, state->value);
+		workbook_edit_select_absolute (state->wbcg);
 	} else
-		workbook_set_entry (state->wb, NULL);
+		workbook_set_entry (state->wbcg, NULL);
 }
 
 static void
@@ -224,7 +226,7 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 	if (state->dialog == NULL)
 		return;
 
-	workbook_set_entry (state->wb, NULL);
+	workbook_set_entry (state->wbcg, NULL);
 
 	if (button == state->delete_button) {
 		cb_name_guru_remove (NULL, state);
@@ -256,7 +258,7 @@ cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
-	workbook_edit_detach_guru (state->wb);
+	workbook_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
 		gtk_object_unref (GTK_OBJECT (state->gui));
@@ -266,7 +268,7 @@ cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
 	/* Handle window manger closing the dialog.
 	 * This will be ignored if we are being destroyed differently.
 	 */
-	workbook_finish_editing (state->wb, FALSE);
+	workbook_finish_editing (state->wbcg, FALSE);
 
 	state->dialog = NULL;
 
@@ -275,12 +277,14 @@ cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
 }
 
 static gboolean
-name_guru_init (NameGuruState *state, Workbook *wb)
+name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 {
-	state->wb  = wb;
-	state->sheet = wb->current_sheet;
-	state->gui = gnumeric_glade_xml_new (workbook_command_context_gui (state->wb),
-					     "names.glade");
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+
+	state->wbcg  = wbcg;
+	state->wb   = wb;
+	state->sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	state->gui = gnumeric_glade_xml_new (state->wbcg, "names.glade");
         if (state->gui == NULL)
                 return TRUE;
 
@@ -317,22 +321,22 @@ name_guru_init (NameGuruState *state, Workbook *wb)
 				  GTK_EDITABLE (state->value));
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog),
 			       state->scope);
-	gnumeric_non_modal_dialog (state->wb, GTK_WINDOW (state->dialog));
+	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
 
-	workbook_edit_attach_guru (state->wb, state->dialog);
+	workbook_edit_attach_guru (state->wbcg, state->dialog);
 
 	return FALSE;
 }
 
 void
-dialog_define_names (Workbook *wb)
+dialog_define_names (WorkbookControlGUI *wbcg)
 {
 	NameGuruState *state;
 
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wbcg != NULL);
 
 	state = g_new (NameGuruState, 1);
-	if (name_guru_init (state, wb)) {
+	if (name_guru_init (state, wbcg)) {
 		g_free (state);
 		return;
 	}

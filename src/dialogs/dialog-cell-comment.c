@@ -11,16 +11,17 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "sheet.h"
+#include "cell.h"
 #include "cell-comment.h"
 
 void
-dialog_cell_comment (Workbook *wb, Cell *cell)
+dialog_cell_comment (WorkbookControlGUI *wbcg, Cell *cell)
 {
 	GtkWidget *dialog;
 	GtkWidget *text;
 	int v;
 	
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (cell != NULL);
 
 	dialog = gnome_dialog_new (
@@ -47,7 +48,7 @@ dialog_cell_comment (Workbook *wb, Cell *cell)
 	gtk_widget_show (text);
 	gtk_widget_grab_focus (text);
 
-	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (v == -1)
 		return;
 	

@@ -2,7 +2,8 @@
 #define GNUMERIC_WORKBOOK_OBJECT_TOOLBAR_H
 
 #include "gnumeric.h"
+#include "workbook-control-gui.h"
 
-GtkWidget *workbook_create_object_toolbar (Workbook *wb);
+void workbook_create_object_toolbar (WorkbookControlGUI *wb);
 
 #endif /* GNUMERIC_WORKBOOK_OBJECT_TOOLBAR_H */

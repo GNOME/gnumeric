@@ -23,6 +23,8 @@
 #include <config.h>
 #include "cmd-edit.h"
 #include "application.h"
+#include "command-context.h"
+#include "workbook-control.h"
 #include "workbook.h"
 #include "sheet.h"
 #include "cell.h"
@@ -31,7 +33,6 @@
 #include "selection.h"
 #include "parse-util.h"
 #include "ranges.h"
-#include "command-context.h"
 #include "commands.h"
 #include "clipboard.h"
 
@@ -280,7 +281,7 @@ cmd_select_cur_inputs (Sheet *sheet)
  * Full undo support.
  */
 void
-cmd_paste (CommandContext *context, PasteTarget const *pt, guint32 time)
+cmd_paste (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
 {
 	CellRegion  *content;
 	Range const *src_range;
@@ -314,7 +315,8 @@ cmd_paste (CommandContext *context, PasteTarget const *pt, guint32 time)
 				(dst.end.row - dst.start.row)+1,
 				(dst.end.col - dst.start.col)+1,
 				rows+1, cols+1);
-			gnumeric_error_invalid (context, _("Unable to paste into selection"), msg);
+			gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
+				_("Unable to paste into selection"), msg);
 			g_free (msg);
 			return;
 		}
@@ -325,7 +327,7 @@ cmd_paste (CommandContext *context, PasteTarget const *pt, guint32 time)
 		rinfo.origin_sheet = src_sheet;
 		rinfo.target_sheet = pt->sheet;
 
-		cmd_paste_cut (context, &rinfo);
+		cmd_paste_cut (wbc, &rinfo);
 		application_clipboard_clear (TRUE);
 	} else
 		/*
@@ -334,7 +336,7 @@ cmd_paste (CommandContext *context, PasteTarget const *pt, guint32 time)
 		 * be an X selection whose size is not known until later.
 		 * Check it then.
 		 */
-		clipboard_paste (context, pt, time);
+		clipboard_paste (wbc, pt, time);
 }
 
 /**
@@ -346,12 +348,12 @@ cmd_paste (CommandContext *context, PasteTarget const *pt, guint32 time)
  * Full undo support.
  */
 void
-cmd_paste_to_selection (CommandContext *context, Sheet *dest_sheet, int paste_flags)
+cmd_paste_to_selection (WorkbookControl *wbc, Sheet *dest_sheet, int paste_flags)
 {
 	Range const *dest_range;
 	PasteTarget pt;
 
-	if (!selection_is_simple (context, dest_sheet, _("Paste")))
+	if (!selection_is_simple (wbc, dest_sheet, _("Paste")))
 		return;
 
 	dest_range = selection_first_range (dest_sheet, FALSE);
@@ -360,12 +362,12 @@ cmd_paste_to_selection (CommandContext *context, Sheet *dest_sheet, int paste_fl
 	pt.sheet = dest_sheet;
 	pt.range = *dest_range;
 	pt.paste_flags = paste_flags;
-	cmd_paste (context, &pt, GDK_CURRENT_TIME);
+	cmd_paste (wbc, &pt, GDK_CURRENT_TIME);
 }
 
 /**
  * cmd_shift_rows:
- * @context	The error context.
+ * @wbc : 	The error context.
  * @sheet	the sheet
  * @col		column marking the start of the shift
  * @start_row	first row
@@ -379,7 +381,7 @@ cmd_paste_to_selection (CommandContext *context, Sheet *dest_sheet, int paste_fl
  */
 
 void
-cmd_shift_rows (CommandContext *context, Sheet *sheet,
+cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 		int col, int start_row, int end_row, int count)
 {
 	ExprRelocateInfo rinfo;
@@ -392,17 +394,17 @@ cmd_shift_rows (CommandContext *context, Sheet *sheet,
 	rinfo.origin.end.row = end_row;
 	rinfo.origin.end.col = SHEET_MAX_COLS-1;
 
-	cmd_paste_cut (context, &rinfo);
+	cmd_paste_cut (wbc, &rinfo);
 }
 
 /**
  * cmd_shift_cols:
- * @context	The error context.
- * @sheet	the sheet
- * @start_col	first column
- * @end_col	end column
- * @row		row marking the start of the shift
- * @count	numbers of rows to shift.  a negative numbers will
+ * @wbc: 	The error context.
+ * @sheet:	the sheet
+ * @start_col:	first column
+ * @end_col:	end column
+ * @row:	row marking the start of the shift
+ * @count:	numbers of rows to shift.  a negative numbers will
  *		delete count rows, positive number will insert
  *		count rows.
  *
@@ -410,7 +412,7 @@ cmd_shift_rows (CommandContext *context, Sheet *sheet,
  * and copies them @count units (possibly negative) downwards.
  */
 void
-cmd_shift_cols (CommandContext *context, Sheet *sheet,
+cmd_shift_cols (WorkbookControl *wbc, Sheet *sheet,
 		int start_col, int end_col, int row, int count)
 {
 	ExprRelocateInfo rinfo;
@@ -423,6 +425,6 @@ cmd_shift_cols (CommandContext *context, Sheet *sheet,
 	rinfo.origin.end.col = end_col;
 	rinfo.origin.end.row = SHEET_MAX_ROWS-1;
 
-	cmd_paste_cut (context, &rinfo);
+	cmd_paste_cut (wbc, &rinfo);
 }
 

@@ -1,283 +1,370 @@
 /*
  * workbook-view.c: View functions for the workbook
  *
- * This is actually broken, as there is no such separation right now
- *
  * Authors:
  *   Jody Goldberg
- *   Miguel de Icaza
  */
 #include <config.h>
+#include "workbook-control-priv.h"
+#include "workbook-control.h"
 #include "workbook-view.h"
-#include "command-context.h"
-#include "command-context-gui.h"
 #include "workbook.h"
 #include "history.h"
 #include "workbook-private.h"
 #include "gnumeric-util.h"
 #include "application.h"
 #include "sheet.h"
+#include "str.h"
+#include "format.h"
+#include "expr.h"
+#include "value.h"
+#include "position.h"
+#include "parse-util.h"
+#include "gnumeric-type-util.h"
+
 #include <gal/widgets/gtk-combo-stack.h>
+#include <locale.h>
 
-void
-workbook_view_set_paste_special_state (Workbook *wb, gboolean enable)
+/* Persistent attribute ids */
+enum {
+	ARG_VIEW_HSCROLLBAR = 1,
+	ARG_VIEW_VSCROLLBAR,
+	ARG_VIEW_TABS
+};
+
+/* WorkbookView signals */
+enum {
+	SHEET_ENTERED,
+	LAST_SIGNAL
+};
+
+static gint workbook_view_signals [LAST_SIGNAL] = {
+	0, /* SHEET_ENTERED */
+};
+
+Workbook *
+wb_view_workbook (WorkbookView *wbv)
 {
-	g_return_if_fail (wb != NULL);
-#ifndef ENABLE_BONOBO
-	gtk_widget_set_sensitive (
-		wb->priv->menu_item_paste_special, enable);
-#else
-	bonobo_ui_component_set_prop (wb->priv->uic,
-				      "/commands/EditPasteSpecial",
-				      "sensitive", enable ? "1" : "0", NULL);
-#endif
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
+	g_return_val_if_fail (IS_WORKBOOK (wbv->wb), NULL);
+
+	return wbv->wb;
 }
 
-static void
-change_menu_label (
-#ifndef ENABLE_BONOBO
-		   GtkWidget *menu_item,
-#else
-		   Workbook const * const wb,
-		   char const * const verb_path,
-		   char const * const menu_path, /* FIXME we need verb level labels. */
-#endif
-		   char const * const prefix,
-		   char const * suffix)
+Sheet *
+wb_view_cur_sheet (WorkbookView *wbv)
 {
-	gboolean  sensitive = TRUE;
-	gchar    *text;
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
 
-#ifndef ENABLE_BONOBO
-	GtkBin   *bin = GTK_BIN(menu_item);
-	GtkLabel *label = GTK_LABEL(bin->child);
+	return wbv->current_sheet;
+}
 
-	g_return_if_fail (label != NULL);
-#else
-	CORBA_Environment  ev;
+void
+wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
+{
+	if (wbv->current_sheet != sheet) {
+		Workbook *wb = wb_view_workbook (wbv);
 
-	g_return_if_fail (wb != NULL);
-#endif
+		/* Make sure the sheet has been attached */
+		g_return_if_fail (workbook_sheet_index_get (wb, sheet) >= 0);
 
-	if (suffix == NULL) {
-		suffix = _("Nothing");
-		sensitive = FALSE;
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
+			wb_control_sheet_focus (control, sheet););
+
+		wbv->current_sheet = sheet;
 	}
-
-	text = g_strdup_printf ("%s : %s", prefix, suffix);
-
-#ifndef ENABLE_BONOBO
-	gtk_label_set_text (label, text);
-	gtk_widget_set_sensitive (menu_item, sensitive);
-#else
-	CORBA_exception_init (&ev);
-
-	bonobo_ui_component_set_prop (wb->priv->uic,
-				      verb_path,
-				      "sensitive", sensitive ? "1" : "0", &ev);
-	bonobo_ui_component_set_prop (wb->priv->uic,
-				      menu_path, "label", text, &ev);
-	CORBA_exception_free (&ev);
-#endif
-	g_free (text);
 }
 
 void
-workbook_view_set_undo_redo_state (Workbook const * const wb,
-				   char const * const undo_suffix,
-				   char const * const redo_suffix)
+wb_view_set_attributev (WorkbookView *wbv, GList *list)
 {
-	g_return_if_fail (wb != NULL);
+	gint length, i;
 
-#ifndef ENABLE_BONOBO
-	change_menu_label (wb->priv->menu_item_undo, _("Undo"), undo_suffix);
-	change_menu_label (wb->priv->menu_item_redo, _("Redo"), redo_suffix);
-#else
-	change_menu_label (wb, "/commands/EditUndo", "/menu/Edit/Undo",
-			   _("Undo"), undo_suffix);
-	change_menu_label (wb, "/commands/EditRedo", "/menu/Edit/Redo",
-			   _("Redo"), redo_suffix);
-#endif
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+
+	length = g_list_length(list);
+
+	for (i = 0; i < length; i++){
+		GtkArg *arg = g_list_nth_data (list, i);
+
+		gtk_object_arg_set (GTK_OBJECT (wbv), arg, NULL);
+	}
+}
+
+GtkArg *
+wb_view_get_attributev (WorkbookView *wbv, guint *n_args)
+{
+	GtkArg *args;
+	guint num;
+
+	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), NULL);
+
+	args = gtk_object_query_args (WORKBOOK_VIEW_TYPE, NULL, &num);
+	gtk_object_getv (GTK_OBJECT (wbv), num, args);
+
+	*n_args = num;
+
+	return args;
 }
 
 void
-workbook_view_push_undo (Workbook const * const wb,
-			char const * const cmd_text)
+wb_view_preferred_size (WorkbookView *wbv, int w, int h)
 {
-	gtk_combo_stack_push_item (GTK_COMBO_STACK (wb->priv->undo_combo),
-				   cmd_text);
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+
+	/* FIXME : should we notify the controls ? */
+	wbv->preferred_width = w;
+	wbv->preferred_height = h;
 }
 
 void
-workbook_view_pop_undo (Workbook const * const wb)
+wb_view_prefs_update (WorkbookView *view)
 {
-	gtk_combo_stack_remove_top (GTK_COMBO_STACK (wb->priv->undo_combo), 1);
+	WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
+		wb_control_prefs_update	(control););
 }
 
 void
-workbook_view_clear_undo (Workbook const * const wb)
+wb_view_auto_expr (WorkbookView *wbv, char const *name, char const *expression)
 {
-	gtk_combo_stack_clear (GTK_COMBO_STACK (wb->priv->undo_combo));
-}
+	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
+	ExprTree *new_auto_expr;
+	ParsePos pp;
+	ParseErr res;
+	String *new_descr;
 
-void
-workbook_view_push_redo (Workbook const * const wb,
-			char const * const cmd_text)
-{
-	gtk_combo_stack_push_item (GTK_COMBO_STACK (wb->priv->redo_combo),
-				   cmd_text);
-}
+	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
+	gnumeric_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (gnumeric_setlocale (LC_MONETARY, NULL));
+	gnumeric_setlocale (LC_MONETARY, "C");
+	/* FIXME : Get rid of this */
+	old_msg_locale = g_strdup (textdomain (NULL));
+	textdomain ("C");
 
-void
-workbook_view_pop_redo (Workbook const * const wb)
-{
-	gtk_combo_stack_remove_top (GTK_COMBO_STACK (wb->priv->redo_combo), 1);
-}
+	parse_pos_init (&pp, wb_view_workbook (wbv), NULL, 0, 0);
+	res = gnumeric_expr_parser (expression, &pp, TRUE, FALSE, NULL,
+				    &new_auto_expr);
 
-void
-workbook_view_clear_redo (Workbook const * const wb)
-{
-	gtk_combo_stack_clear (GTK_COMBO_STACK (wb->priv->redo_combo));
-}
+	g_return_if_fail (res == PARSE_OK);
+	g_return_if_fail (new_auto_expr != NULL);
 
-void
-workbook_view_set_size (Workbook const * const wb,
-			int width_pixels,
-			int height_pixels)
-{
-	int const screen_width = gdk_screen_width ();
-	int const screen_height = gdk_screen_height ();
+	textdomain (old_msg_locale);
+	g_free (old_msg_locale);
+	gnumeric_setlocale (LC_MONETARY, old_monetary_locale);
+	g_free (old_monetary_locale);
+	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 
-	/* FIXME : This should really be sizing the notebook */
-	gtk_window_set_default_size (GTK_WINDOW (workbook_get_toplevel
-						 ((Workbook *) wb)),
-				     MIN (screen_width - 64, width_pixels),
-				     MIN (screen_height - 64, height_pixels));
-}
+	new_descr = string_get (name);
 
-/**
- * workbook_view_set_title:
- * @wb: the workbook to modify
- * @title: the title for the toplevel window
- *
- * Sets the toplevel window title of @wb to be @title
- */
-void
-workbook_view_set_title (Workbook const * const wb,
-			 char const * const title)
-{
-	char *full_title;
+	if (wbv->auto_expr_desc)
+		string_unref (wbv->auto_expr_desc);
+	if (wbv->auto_expr)
+		expr_tree_unref (wbv->auto_expr);
 
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (title != NULL);
-
-	full_title = g_strconcat (title, _(" : Gnumeric"), NULL);
-
- 	gtk_window_set_title (GTK_WINDOW (
-		workbook_get_toplevel ((Workbook *) wb)), full_title);
-	g_free (full_title);
+	wbv->auto_expr_desc = new_descr;
+	wbv->auto_expr = new_auto_expr;
 }
 
 static void
-cb_update_sheet_view_prefs (gpointer key, gpointer value, gpointer user_data)
+wb_view_auto_expr_value_set (WorkbookView *wbv, char const *str)
 {
-	Sheet *sheet = value;
-	sheet_adjust_preferences (sheet);
+	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
+		wb_control_auto_expr_value (control, str););
 }
 
 void
-workbook_view_pref_visibility (Workbook const * const wb)
+wb_view_auto_expr_recalc (WorkbookView *wbv)
 {
-	g_hash_table_foreach (wb->sheet_hash_private,
-			      &cb_update_sheet_view_prefs, NULL);
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (wb->notebook),
-				    wb->show_notebook_tabs);
-}
+	static CellPos const cp = {0, 0};
+	EvalPos	  ep;
+	Value    *v;
 
-void
-workbook_view_history_setup (Workbook *wb)
-{
-	GList *hl;
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+	g_return_if_fail (wbv->auto_expr != NULL);
 
-	hl = application_history_get_list ();
-
-	if (hl)
-		history_menu_setup (wb, hl);
-}
-
-/* 
- * We introduced numbers in front of the the history file names for two
- * reasons:  
- * 1. Bonobo won't let you make 2 entries with the same label in the same
- *    menu. But that's what happens if you e.g. access worksheets with the
- *    same name from 2 different directories.
- * 2. The numbers are useful accelerators.
- * 3. Excel does it this way.
- *
- * Because numbers are reassigned with each insertion, we have to remove all
- * the old entries and insert new ones.
- */
-void
-workbook_view_history_update (GList *wl, gchar *filename)
-{
-	gchar   *del_name;
-	gchar   *canonical_name;
-	gboolean add_sep;
-	GList   *hl;
-	gchar *cwd;
-
-	/* Rudimentary filename canonicalization. */
-	if (!g_path_is_absolute (filename)) {
-		cwd = g_get_current_dir ();
-		canonical_name = g_strconcat (cwd, "/", filename, NULL);
-		g_free (cwd);
+	v = eval_expr (eval_pos_init (&ep, wbv->current_sheet, &cp),
+		       wbv->auto_expr, EVAL_STRICT);
+	if (v) {
+		char *s = value_get_as_string (v);
+		wb_view_auto_expr_value_set (wbv, s);
+		g_free (s);
+		value_release (v);
 	} else
-		canonical_name = g_strdup (filename);
-
-	/* Get the history list */
-	hl = application_history_get_list ();
-
-	/* If List is empty, a separator will be needed too. */
-	add_sep = (hl == NULL);
-
-	/* Do nothing if filename already at head of list */
-	if (hl && strcmp ((gchar *)hl->data, canonical_name) != 0) {
-		history_menu_flush (wl, hl); /* Remove the old entries */
-		
-		/* Update the history list */
-		del_name = application_history_update_list (canonical_name);
-		g_free (del_name);
-
-		/* Fill the menus */
-		hl = application_history_get_list ();
-		history_menu_fill (wl, hl, add_sep);
-	}
-	g_free (canonical_name);
+		wb_view_auto_expr_value_set (wbv, _("Internal ERROR"));
 }
 
-/*
- * This function will be used by the options dialog when the list size is
- * reduced by the user.
- */
-void
-workbook_view_history_shrink (GList *wl, gint new_max)
+static void
+wb_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
-	GList *hl;
-	gint   length;
-	gchar *del_name;
+	WorkbookView *wbv = WORKBOOK_VIEW (object);
 
-	/* Check if the list needs to be shrunk. */
-	hl = application_history_get_list ();
-	length = g_list_length (hl);
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 
-	if (length <= new_max)
-		return;
-
-	history_menu_flush (wl, hl); /* Remove the old entries */
-	for (; length > new_max; length--) {
-		del_name = application_history_list_shrink ();
-		g_free (del_name);
+	switch (arg_id) {
+	case ARG_VIEW_HSCROLLBAR:
+		wbv->show_horizontal_scrollbar = GTK_VALUE_BOOL (*arg);
+		break;
+	case ARG_VIEW_VSCROLLBAR:
+		wbv->show_vertical_scrollbar = GTK_VALUE_BOOL (*arg);
+		break;
+	case ARG_VIEW_TABS:
+		wbv->show_notebook_tabs = GTK_VALUE_BOOL (*arg);
+		break;
 	}
-	hl = application_history_get_list ();
-	history_menu_fill (wl, hl, FALSE);	
+	wb_view_prefs_update (wbv);
+}
+
+static void
+wb_view_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	WorkbookView *wbv = WORKBOOK_VIEW (object);
+
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+
+	switch (arg_id) {
+	case ARG_VIEW_HSCROLLBAR:
+		GTK_VALUE_BOOL (*arg) = wbv->show_horizontal_scrollbar;
+		break;
+
+	case ARG_VIEW_VSCROLLBAR:
+		GTK_VALUE_BOOL (*arg) = wbv->show_vertical_scrollbar;
+		break;
+
+	case ARG_VIEW_TABS:
+		GTK_VALUE_BOOL (*arg) = wbv->show_notebook_tabs;
+		break;
+	}
+}
+
+void
+wb_view_attach_control (WorkbookControl *wbc)
+{
+	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbc->wb_view));
+
+	if (wbc->wb_view->wb_controls == NULL)
+		wbc->wb_view->wb_controls = g_ptr_array_new ();
+	g_ptr_array_add (wbc->wb_view->wb_controls, wbc);
+}
+
+void
+wb_view_detach_control (WorkbookControl *wbc)
+{
+	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbc->wb_view));
+
+	g_ptr_array_remove (wbc->wb_view->wb_controls, wbc);
+	if (wbc->wb_view->wb_controls->len == 0) {
+		g_ptr_array_free (wbc->wb_view->wb_controls, TRUE);
+		wbc->wb_view->wb_controls = NULL;
+	}
+	wbc->wb_view = NULL;
+}
+
+static GtkObjectClass *parent_class;
+static void
+wb_view_destroy (GtkObject *object)
+{
+	WorkbookView *wbv = WORKBOOK_VIEW (object);
+
+	if (wbv->auto_expr_desc) {
+		string_unref (wbv->auto_expr_desc);
+		wbv->auto_expr_desc = NULL;
+	}
+	if (wbv->auto_expr) {
+		expr_tree_unref (wbv->auto_expr);
+		wbv->auto_expr = NULL;
+	}
+	if (wbv->wb != NULL)
+		workbook_detach_view (wbv);
+
+	if (wbv->wb_controls != NULL) {
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
+	        {
+			wb_view_detach_control (control);
+			gtk_object_unref (GTK_OBJECT (control));
+		});
+		if (wbv->wb_controls != NULL)
+			g_warning ("Unexpected left over controls");
+	}
+
+	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+}
+
+void
+workbook_view_init (WorkbookView *wbv, Workbook *optional_workbook)
+{
+	wbv->wb = optional_workbook ? optional_workbook : workbook_new ();
+	workbook_attach_view (wbv);
+
+	wbv->show_horizontal_scrollbar = TRUE;
+	wbv->show_vertical_scrollbar = TRUE;
+	wbv->show_notebook_tabs = TRUE;
+
+	/* Set the default operation to be performed over selections */
+	wbv->auto_expr      = NULL;
+	wbv->auto_expr_desc = NULL;
+	wb_view_auto_expr (wbv, _("Sum"), "sum(selection(0))");
+
+	/* Guess at the current sheet */
+	wbv->current_sheet = NULL;
+	if (optional_workbook != NULL) {
+		GList *sheets = workbook_sheets (optional_workbook);
+		if (sheets != NULL) {
+			wb_view_sheet_focus (wbv, sheets->data);
+			g_list_free (sheets);
+		}
+	}
+}
+
+static void
+workbook_view_ctor_class (GtkObjectClass *object_class)
+{
+	WorkbookViewClass *wbc_class = WORKBOOK_VIEW_CLASS (object_class);
+
+	g_return_if_fail (wbc_class != NULL);
+
+	parent_class = gtk_type_class (gtk_object_get_type ());
+
+	object_class->set_arg = wb_view_set_arg;
+	object_class->get_arg = wb_view_get_arg;
+	object_class->destroy = wb_view_destroy;
+	gtk_object_add_arg_type ("WorkbookView::show_horizontal_scrollbar",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_VIEW_HSCROLLBAR);
+	gtk_object_add_arg_type ("WorkbookView::show_vertical_scrollbar",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_VIEW_VSCROLLBAR);
+	gtk_object_add_arg_type ("WorkbookView::show_notebook_tabs",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
+				 ARG_VIEW_TABS);
+
+	workbook_view_signals [SHEET_ENTERED] =
+		gtk_signal_new (
+			"sheet_entered",
+			GTK_RUN_LAST,
+			object_class->type,
+			GTK_SIGNAL_OFFSET (WorkbookViewClass,
+					   sheet_entered),
+			gtk_marshal_NONE__POINTER,
+			GTK_TYPE_NONE,
+			1,
+			GTK_TYPE_POINTER);
+}
+
+GNUMERIC_MAKE_TYPE(workbook_view,
+		   "WorkbookView",
+		   WorkbookView,
+		   workbook_view_ctor_class, NULL,
+		   gtk_object_get_type ());
+
+WorkbookView *
+workbook_view_new (Workbook *optional_wb)
+{
+	WorkbookView *view;
+	
+	view = gtk_type_new (workbook_view_get_type ());
+	workbook_view_init (view, optional_wb);
+	return view;
 }

@@ -672,7 +672,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						 item_bar_signals [SELECTION_CHANGED],
 						 element, e->button.state | GDK_BUTTON1_MASK);
 
-			item_grid_popup_menu (sheet, &e->button,
+			item_grid_popup_menu (item_bar->sheet_view, &e->button,
 					      !is_vertical, is_vertical);
 		} else if (cri) {
 			/*

@@ -1,153 +1,128 @@
 <Root>
+    <commands>
+	<cmd name="FileNew" _label="_New"
+	 _tip="Create a new spreadsheet"
+	 pixtype="stock" pixname="New"/>
+	<cmd name="FileOpen" _label="_Open"
+	 _tip="Open a spreadsheet"
+	 pixtype="stock" pixname="Open"
+	 accel="F3"/>
+	<cmd name="FileImport"  _label="Import..."
+	 _tip="Imports a file"
+	 pixtype="stock" pixname="Open"/>
+	<cmd name="FileSave" _label="Save"
+	 _tip="Save the current file"
+	 pixtype="stock" pixname="Save"
+	 accel="*Control*s"/>
+	<cmd name="FileSaveAs" _label="Save As"
+	 _tip="Save the current file with a different name"
+	 pixtype="stock" pixname="Save As"/>
 
-	<commands>
+	<cmd name="FilePrintSetup" _label="Print S_etup"
+	 _tip="Setup the page settings for your current printer"
+	 pixtype="stock" pixname="Print"/>
+	<cmd name="FilePrint" _label="_Print"
+	 _tip="Print the current file"
+	 pixtype="stock" pixname="Print"/>
+	<cmd name="FilePrintPreview" _label="Print Pre_view"
+	 _tip="Print preview"
+	 pixtype="stock" pixname="Gnumeric_PrintPreview"/>
 
-	        <cmd name="FileNew" _label="New" sensitive="0"
-		_tip="Create a new spreadsheet" pixtype="stock" pixname="New"/>
-        
-		<cmd name="FileOpen" _label="Open"
-		_tip="Open a spreadsheet" pixtype="stock" pixname="Open" accel="F3"/>
+	 <cnd name="FileSummary" _label="Su_mmary..."
+	  _tip="Summary information"/>
+
+	<cmd name="FileClose" _label="Close"
+	 _tip="Close the current file"
+	 pixtype="stock" pixname="Close"
+	 accel="*Control*w"/>
+	<cmd name="FileExit" _label="E_xit"
+	 _tip="Exit the program"
+	 pixtype="stock" pixname="Exit"
+	 accel="*Control*q"/>
+
+	<cmd name="EditUndo" _label="_Undo"
+	 _tip="Undo the last action"
+	 pixtype="stock" pixname="Undo"
+	 accel="*Control*z"/>
+	<cmd name="EditRedo" _label="_Redo"
+	 _tip="Redo the undone action"
+	 pixtype="stock" pixname="Redo"
+	 accel="*Control*r"/>
+	    
+	<cmd name="EditCut" _label="Cu_t"
+	 _tip="Cut the selection"
+	 pixtype="stock" pixname="Cut"
+	 accel="*Control*x"/>
+	<cmd name="EditCopy" _label="_Copy"
+	 _tip="Copy the selection"
+	 pixtype="stock" pixname="Copy"
+	 accel="*Control*c"/>
+	<cmd name="EditPaste" _label="_Paste"
+	 _tip="Paste the clipboard"
+	 pixtype="stock" pixname="Paste"
+	 accel="*Control*v"/>
+	<cmd name="EditPasteSpecial" _label="Paste _Special..."
+	 _tip="Paste with optional filters and transformations"
+	 pixtype="stock" pixname="Paste"/>
+
+	<cmd name="EditClearAll" _label="_All"
+	 _tip="Clear the selected cells' formats, comments, and contents"/>
+	<cmd name="EditClearFormats" _label="_Formats"
+	 _tip="Clear the selected cells' formats"/>
+	<cmd name="EditClearComments" _label="Co_mments"
+	 _tip="Clear the selected cells' comments"/>
+	<cmd name="EditClearContent" _label="_Content"
+	 _tip="Clear the selected cells' contents"/>
+
+	<cmd name="HelpAbout" _label="About..." _tip="About this application"
+	 pixtype="stock" pixname="About"/>
+    </commands>
+
+    <menu>
+	<submenu name="File" _label="_File">
+	    <menuitem name="FileNew" verb=""/>
+	    <menuitem name="FileOpen" verb=""/>
+	    <menuitem name="FileImport" verb=""/>
+	    <menuitem name="FileSave" verb=""/>
+	    <menuitem name="FileSaveAs" verb=""/>
+
+	    <separator/>
+
+	    <menuitem name="FilePrintSetup" verb=""/>
+	    <menuitem name="FilePrint" verb=""/>
+	    <menuitem name="FilePrintPreview" verb=""/>
+
+	    <separator/>
+
+	    <menuitem name="FileSummary" verb=""/>
+	    <placeholder name="FileHistory" delimit="top"/>
+
+	    <separator/>
+
+	    <menuitem name="FileClose" verb=""/>
+	    <menuitem name="FileExit" verb=""/>
+	</submenu>
+	<submenu name="Edit" _label="_Edit">
+	    <menuitem name="Undo" verb="EditUndo"/>
+	    <menuitem name="Redo" verb="EditRedo"/>
+
+	    <separator/>
 	
-		<cmd name="FileImport"  _label="Import..." _tip="Imports a file"
-		pixtype="stock" pixname="Open"/>
+	    <menuitem name="EditCut" verb=""/>
+	    <menuitem name="EditCopy" verb=""/>
+	    <menuitem name="EditPaste" verb=""/>
+	    <menuitem name="EditPasteSpecial" verb=""/>
 
-		<cmd name="FileSave" _label="Save" hidden="1"
-		_tip="Save the current file" pixtype="stock" pixname="Save"
-		accel="*Control*s"/>
+	    <separator/>
 	
-		<cmd name="FileSaveAs" _label="Save As"
-		_tip="Save the current file with a different name"
-		pixtype="stock" pixname="Save As"/>
+	    <submenu name="Clear" _label="C_lear...">
+		<menuitem name="EditClearAll" verb=""/>
+		<menuitem name="EditClearFormats" verb=""/>
+		<menuitem name="EditClearComments" verb=""/>
+		<menuitem name="EditClearContent" verb=""/>
+	    </submenu>
 
-		<cmd name="FileDelete" _label="Delete"
-		_tip="Delete the current file"
-		pixtype="stock" pixname="Trash"/>
-	
-		<cmd name="FilePrint" _label="Print"
-		_tip="Print the current file" pixtype="stock" pixname="Print"/>
-	
-		<cmd name="FilePrintSetup" _label="Print Setup"
-		_tip="Setup the page settings for your current printer"
-		pixtype="stock" pixname="Print"/>
-
-		<cmd name="FilePrintPreview" _label="Print Preview"
-		_tip="Print preview" pixtype="stock" pixname="Gnumeric_PrintPreview"/>
-	
-		<cmd name="FileClose" _label="Close"
-		_tip="Close the current file" pixtype="stock" pixname="Close"
-		accel="*Control*w"/>
-	
-		<cmd name="FileExit" _label="Exit" _tip="Exit the program"
-		pixtype="stock" pixname="Exit" accel="*Control*q"/>
-
-		<cmd name="EditCut" _label="Cut" _tip="Cut the selection"
-		pixtype="stock" pixname="Cut" accel="*Control*x"/>
-	
-		<cmd name="EditCopy" _label="Copy"
-		_tip="Copy the selection" pixtype="stock" pixname="Copy"
-		accel="*Control*c"/>
-	
-		<cmd name="EditPaste" _label="Paste"
-		_tip="Paste the clipboard" pixtype="stock" pixname="Paste"
-		accel="*Control*v"/>
-	
-		<cmd name="EditPasteSpecial" _label="Paste special..."
-		_tip="Paste with optional filters and transformations"
-		pixtype="stock" pixname="Paste"/>
-
-		<cmd name="EditUndo" _label="Undo" _tip="Undo the last action"
-		pixtype="stock" pixname="Undo" accel="*Control*z"/>
-	
-		<cmd name="EditRedo" _label="Redo" _tip="Redo the undone action"
-		pixtype="stock" pixname="Redo" accel="*Control*r"/>
-		
-		<cmd name="HelpAbout" _label="About..." _tip="About this application"
-		pixtype="stock" pixname="About"/>
-
-	</commands>
-
-	<menu>
-
-		<submenu name="File" _label="_File">
-        
-			<menuitem name="FileNew" verb="" _label="_New"/>
-        
-			<menuitem name="FileOpen" verb="" _label="_Open..."/>
-	
-			<menuitem name="FileImport" verb="" _label="_Import..."/>
-
-			<menuitem name="FileSave" verb="" _label="_Save"/>
-	
-			<menuitem name="FileSaveAs" verb="" _label="Save _As..."/>
-
-			<placeholder name="Print" delimit="top">
-
-				<menuitem name="FilePrintSetup" verb="" _label="Print S_etup..."/>
-	
-				<menuitem name="FilePrint" verb="" _label="_Print"/>
-	
-				<menuitem name="FilePrintPreview" verb="" _label="Print Pre_view"/>
-
-			</placeholder>
-
-			<separator/>
-
-			<menuitem name="FileSummary" verb="" _label="Su_mmary..."
-			_tip="Summary information"/>
-	
-			<placeholder name="FileHistory" delimit="top"/>
-
-                        <separator/>
-
-			<menuitem name="FileClose" verb="" _label="_Close"/>
-	
-			<menuitem name="FileExit" verb="" _label="E_xit"/>
-
-		</submenu>
-
-		<submenu name="Edit" _label="_Edit">
-
-			<menuitem name="Undo" verb="EditUndo" _label="_Undo"/>
-	
-			<menuitem name="Redo" verb="EditRedo" _label="_Redo"/>
-
-			<separator/>
-	
-			<menuitem name="EditCut" verb="" _label="C_ut"/>
-	
-			<menuitem name="EditCopy" verb="" _label="_Copy"/>
-	
-			<menuitem name="EditPaste" verb="" _label="_Paste"/>
-	
-			<menuitem name="EditPasteSpecial" verb=""
-			_label="_Paste special..."/>
-
-			<separator/>
-	
-			<submenu name="Clear" _label="C_lear...">
-
-				<menuitem name="EditClearAll" verb=""
-				_label="_All"
-				_tip="Clear the selected cells' formats, comments, and contents"/>
-				
-				<menuitem name="EditClearFormats" verb=""
-				_label="_Formats"
-				_tip="Clear the selected cells' formats"/>
-
-				<menuitem name="EditClearComments" verb=""
-				_label="Co_mments"
-				_tip="Clear the selected cells' comments"/>
-
-				<menuitem name="EditClearContent" verb=""
-				_label="_Content"
-				_tip="Clear the selected cells' contents"/>
-
-			</submenu>
-
-			<menuitem name="EditClear" verb="" _label="C_lear"
-			_tip="Clear the selection"/>
-
-			<menuitem name="EditDelete" verb="" _label="_Delete..."
+	    <menuitem name="EditDelete" verb="" _label="_Delete..."
 			_tip="Remove selected cells, shifting others into their place"/>
 
 			<menuitem name="EditDeleteSheet" verb=""

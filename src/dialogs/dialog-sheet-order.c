@@ -6,7 +6,6 @@
  * Author:
  *   Dom Lachowicz (dominicl@seas.upenn.edu)
  */
-
 #include <config.h>
 #include <glib.h>
 #include <gnome.h>
@@ -14,15 +13,16 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
+#include "workbook-control-gui.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "sheet.h"
 #include "application.h"
 #include "expr.h"
 
-#define GLADE_FILE "sheet-order.glade"
-
 typedef struct {
 	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
 	GtkWidget *dialog;
 	GtkWidget *clist;
 	GtkWidget *up_btn;
@@ -52,18 +52,20 @@ add_to_sheet_clist (Sheet *sheet, GtkWidget *clist)
 static void
 populate_sheet_clist (SheetManager *sm)
 {
+	Sheet *cur_sheet= wb_control_cur_sheet (WORKBOOK_CONTROL (sm->wbcg));
         GtkCList *clist = GTK_CLIST (sm->clist);
-	GList *sheets   = workbook_sheets (sm->wb);
-	GtkNotebook *nb = GTK_NOTEBOOK (sm->wb->notebook);
-	gint row;
+	GList *sheets   = workbook_sheets (sm->wb), *ptr;
+	gint row = 0;
 
 	gtk_clist_freeze (clist);
 	gtk_clist_clear  (clist);
 	g_list_foreach   (sheets, (GFunc) add_to_sheet_clist, clist);
-	gtk_clist_thaw   (clist);
 
-	if ((row = gtk_notebook_get_current_page (nb)) >= 0)
-		gtk_clist_select_row (clist, row, 0);
+	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next, row++)
+		if (ptr->data == cur_sheet)
+			gtk_clist_select_row (clist, row, 0);
+
+	gtk_clist_thaw (clist);
 }
 
 /*
@@ -95,6 +97,8 @@ row_cb (GtkWidget *w, gint row, gint col,
 	gboolean can_go = FALSE;
 
 	if (numrows) {
+		Sheet *sheet = gtk_clist_get_row_data (GTK_CLIST (clist), row);
+
 		sm->current_row = row;
 
 		can_go = (row != 0); /* top row test */
@@ -108,8 +112,7 @@ row_cb (GtkWidget *w, gint row, gint col,
 		gtk_widget_set_sensitive (sm->delete_btn, can_go);
 
 		/* Display/focus on the selected sheet underneath us */
-		gtk_notebook_set_page (GTK_NOTEBOOK (sm->wb->notebook), row);
-
+		wb_control_sheet_focus (WORKBOOK_CONTROL (sm->wbcg), sheet);
 	} else {
 		sm->current_row = -1;
 		gtk_widget_set_sensitive (sm->up_btn, FALSE);
@@ -149,11 +152,11 @@ delete_clicked_cb (GtkWidget *button, SheetManager *sm)
 		NULL);
 	g_free (message);
 
-	response = gnumeric_dialog_run (sheet->workbook, GNOME_DIALOG (popup));
+	response = gnumeric_dialog_run (sm->wbcg, GNOME_DIALOG (popup));
 	if (response != 0)
 		return;
 
-	workbook_delete_sheet (sheet);
+	workbook_sheet_delete (sheet);
 	populate_sheet_clist (sm);
 }
 
@@ -171,13 +174,15 @@ move_cb (SheetManager *sm, gint direction)
 		Sheet *sheet = gtk_clist_get_row_data (GTK_CLIST (sm->clist), sm->current_row);
 		gint source = GPOINTER_TO_INT (g_list_nth_data (selection, 0));
 		gint dest = source + direction;
+		WorkbookView *view = wb_control_view (
+			WORKBOOK_CONTROL (sm->wbcg));
 
 		gtk_clist_freeze (GTK_CLIST (sm->clist));
 		gtk_clist_row_move (GTK_CLIST (sm->clist), source, dest);
 		gtk_clist_thaw (GTK_CLIST (sm->clist));
 
-		workbook_move_sheet (sheet, direction);
-		workbook_focus_sheet (sheet);
+		workbook_sheet_move (sheet, direction);
+		wb_view_sheet_focus (view, sheet);
 
 		/* this is a little hack-ish, but we need to refresh the buttons */
 		row_cb (sm->clist, dest, 0, NULL, sm);
@@ -212,12 +217,13 @@ close_clicked_cb (GtkWidget *button, SheetManager *sm)
  * Actual implementation of the sheet order dialog
  */
 static void
-dialog_sheet_order_impl (Workbook *wb, GladeXML *gui)
+dialog_sheet_order_impl (WorkbookControlGUI *wbcg, GladeXML *gui)
 {
 	SheetManager sm;
 	int bval;
 
-	sm.wb = wb;
+	sm.wbcg = wbcg;
+	sm.wb  = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	sm.dialog     = glade_xml_get_widget (gui, "dialog");
 	sm.clist      = glade_xml_get_widget (gui, "sheet_clist");
 	sm.up_btn     = glade_xml_get_widget (gui, "up_btn");
@@ -269,7 +275,7 @@ dialog_sheet_order_impl (Workbook *wb, GladeXML *gui)
 
 	gtk_widget_show_all (GNOME_DIALOG (sm.dialog)->vbox);
 
-	bval = gnumeric_dialog_run (sm.wb, GNOME_DIALOG (sm.dialog));
+	bval = gnumeric_dialog_run (sm.wbcg, GNOME_DIALOG (sm.dialog));
 
   	/* If the user canceled we have already returned */
 	if (bval != -1)
@@ -280,17 +286,16 @@ dialog_sheet_order_impl (Workbook *wb, GladeXML *gui)
  * Dialog
  */
 void
-dialog_sheet_order (Workbook *wb)
+dialog_sheet_order (WorkbookControlGUI *wbcg)
 {
 	GladeXML *gui;
 
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wbcg != NULL);
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				GLADE_FILE);
+	gui = gnumeric_glade_xml_new (wbcg, "sheet-order.glade");
         if (gui == NULL)
                 return;
 
-	dialog_sheet_order_impl (wb, gui);
+	dialog_sheet_order_impl (wbcg, gui);
 	gtk_object_unref (GTK_OBJECT (gui));
 }

@@ -87,7 +87,7 @@ paste_link_set_sensitive (GtkWidget *widget, PasteSpecialState *state)
 }
 
 int
-dialog_paste_special (Workbook *wb)
+dialog_paste_special (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *hbox, *vbox;
 	GtkWidget *f1, *f1v, *f2, *f2v, *first_button = NULL;
@@ -96,15 +96,15 @@ dialog_paste_special (Workbook *wb)
 	gboolean do_transpose = FALSE;
 	gboolean do_skip_blanks = FALSE;
 	PasteSpecialState *state;
+	GtkWidget *tmp;
 
 	state = g_new (PasteSpecialState, 1);
 	
-	state->dialog =
-	  GNOME_DIALOG (gnome_dialog_new (_("Paste special"),
-					  _("Paste Link"),
-					  GNOME_STOCK_BUTTON_OK,
-					  GNOME_STOCK_BUTTON_CANCEL,
-					  NULL));
+	tmp = gnome_dialog_new (_("Paste special"), _("Paste Link"),
+				GNOME_STOCK_BUTTON_OK,
+				GNOME_STOCK_BUTTON_CANCEL,
+				NULL);
+	state->dialog = GNOME_DIALOG (tmp);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (dialog_destroy), state);
 	gnome_dialog_set_default (state->dialog, BUTTON_CANCEL);
@@ -181,7 +181,7 @@ dialog_paste_special (Workbook *wb)
 
 	/* Run the dialog */
 	gtk_window_set_modal (GTK_WINDOW (state->dialog), TRUE);
-	v = gnumeric_dialog_run (wb, state->dialog);
+	v = gnumeric_dialog_run (wbcg, state->dialog);
 
 	/* If closed with the window manager, cancel */
 	if (v == -1)

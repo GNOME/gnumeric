@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_SHEET_VIEW_H
 #define GNUMERIC_SHEET_VIEW_H
 
-#include "sheet.h"
+#include "workbook-control-gui.h"
 #include <gtk/gtktable.h>
 #include <gnome.h>
 
@@ -20,6 +20,7 @@ struct _SheetView {
 	GtkTable  table;
 
 	Sheet            *sheet;
+	WorkbookControlGUI     *wbcg;	/* FIXME : How does sheet-view relate to workbook-control */
 	GtkWidget        *sheet_view;
 	GtkWidget	 *select_all_btn;
 	GnomeCanvas      *col_canvas, *row_canvas;
@@ -106,7 +107,7 @@ typedef struct {
  * These actually belong in sheet.h, but the structure dependency
  * forces me to put them here
  */
-SheetView *sheet_new_sheet_view     (Sheet *sheet);
-void       sheet_destroy_sheet_view (Sheet *sheet, SheetView *sheet_view);
+SheetView *sheet_new_sheet_view    (Sheet *sheet);
+void       sheet_detach_sheet_view (SheetView *sheet_view);
 
 #endif /* GNUMERIC_SHEET_VIEW_H */

@@ -42,10 +42,10 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 	DialogStfResult_t *dialogresult;
 	CellRegion *cr = NULL;
 	CellRegion *crerr;
-	char *data;
-	char *c;
+	unsigned char *data;
+	unsigned char *c;
 
-	data = g_new (char, len + 1);
+	data = g_new (unsigned char, len + 1);
 	memcpy (data, src, len);
 	data[len] = 0;
 

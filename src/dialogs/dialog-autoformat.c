@@ -42,7 +42,7 @@
 #include "format-template.h"
 #include "file-autoft.h"
 
-#include "command-context.h"
+#include "workbook-control.h"
 #include "workbook.h"
 #include "commands.h"
 #include "selection.h"
@@ -70,7 +70,8 @@ static char* demotable[PREVIEW_ROWS][PREVIEW_COLS] = {
 };
 
 typedef struct {
-	Workbook       *wb;                               /* Workbook we are working on */
+	Workbook        *wb;                              /* Workbook we are working on */
+	WorkbookControlGUI *wbcg;                             
 	PreviewGridController *controller[NUM_PREVIEWS];  /* Controller for each canvas */
 	GSList         *templates;                        /* List of FormatTemplate's */
 	FormatTemplate *selected_template;                /* The currently selected template */
@@ -284,8 +285,8 @@ templates_load (AutoFormatInfo *info)
 		if (strcmp (info->current_category, category) == 0) {
 			FormatTemplate *ft;
 
-			ft = format_template_new_from_file (workbook_command_context_gui (info->wb),
-							    filename);
+			ft = format_template_new_from_file (
+				WORKBOOK_CONTROL (info->wbcg), filename);
 								    
 			format_template_set_size (ft, 0, 0, PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
 				
@@ -845,7 +846,7 @@ setup_apply_item (GladeXML *gui, AutoFormatInfo *info, char *name)
  * sheet of the workbook if the user desires.
  **/
 void
-dialog_autoformat (Workbook *wb)
+dialog_autoformat (WorkbookControlGUI *wbcg)
 {
 	GladeXML *gui;
 	AutoFormatInfo *info;
@@ -872,7 +873,8 @@ dialog_autoformat (Workbook *wb)
 	 */
 	info = g_new0 (AutoFormatInfo, 1);
 
-	info->wb         = wb;
+	info->wb         = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	info->wbcg        = wbcg;
 	info->templates  = NULL;
 	info->categories = NULL;
 	for (i = 0; i < NUM_PREVIEWS; i++) {
@@ -1020,20 +1022,22 @@ dialog_autoformat (Workbook *wb)
 	 */
 	info->canceled = FALSE;
 
-	gnumeric_dialog_run (wb, info->dialog);	
+	gnumeric_dialog_run (wbcg, info->dialog);	
 
 	/*
 	 * If the user didn't cancel, record undo information and apply the autoformat
 	 * template to the current selection.
 	 * Observe that we pass a copy of the selected template to the undo function.
 	 */
-	if (!info->canceled && info->selected_template){
+	if (!info->canceled && info->selected_template) {
+		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+		Sheet *sheet = wb_control_cur_sheet (wbc);
 
-		cmd_autoformat (workbook_command_context_gui (wb),
-				wb->current_sheet, format_template_clone (info->selected_template));
+		cmd_autoformat (wbc, sheet,
+			format_template_clone (info->selected_template));
 
-		format_template_apply_to_sheet_regions (info->selected_template, wb->current_sheet,
-							selection_get_ranges (wb->current_sheet, FALSE));
+		format_template_apply_to_sheet_regions (info->selected_template,
+			sheet, selection_get_ranges (sheet, FALSE));
 	}
 
 	/*

@@ -11,6 +11,7 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "workbook.h"
+#include "workbook-control.h"
 #include "utils-dialog.h"
 
 static void
@@ -29,7 +30,7 @@ cb_row_selected (GtkCList *clist, int row, int col, GdkEvent *event, GtkEntry *e
 }
 
 void
-dialog_goto_cell (Workbook *wb)
+dialog_goto_cell (WorkbookControlGUI *wbcg)
 {
 	static GtkWidget *dialog;
 	static GtkWidget *clist;
@@ -37,14 +38,14 @@ dialog_goto_cell (Workbook *wb)
 	static GtkWidget *entry;
 	char   *text;
 	int    res;
-	
+
 	if (!dialog){
 		GtkWidget *box;
 		gchar *titles [2];
 
 		titles [0] = _("Cell");
 		titles [1] = NULL;
-		
+
 		dialog = gnome_dialog_new (_("Go to..."),
 					   GNOME_STOCK_BUTTON_OK,
 					   GNOME_STOCK_BUTTON_CANCEL,
@@ -79,19 +80,17 @@ dialog_goto_cell (Workbook *wb)
 		gtk_widget_show (dialog);
 
 	gtk_widget_grab_focus (entry);
-	
+
 	/* Run the dialog */
-	res = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	res = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (res == GNOME_OK) {
 
 		text = gtk_entry_get_text (GTK_ENTRY (entry));
 
 		if (*text){
-			if (workbook_parse_and_jump (wb, text)){
+			if (workbook_parse_and_jump (WORKBOOK_CONTROL (wbcg), text)) {
 				gchar *texts [1];
-				
 				texts [0] = text;
-				
 				gtk_clist_append (GTK_CLIST (clist), texts);
 			}
 		}

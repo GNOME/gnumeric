@@ -84,7 +84,6 @@ void	       style_shutdown         (void);
 StyleFont     *style_font_new         (const char *font_name,
 				       double size, double scale,
 				       gboolean bold, gboolean italic);
-StyleFont     *style_font_new_from    (StyleFont *sf, double scale);
 StyleFont     *style_font_new_simple  (const char *font_name,
 				       double size, double scale,
 				       gboolean bold, gboolean italic);

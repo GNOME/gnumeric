@@ -6,7 +6,6 @@ typedef struct _PluginData PluginData;
 
 #include "gnumeric.h"
 #include <gmodule.h>
-
 #include <sys/types.h>
 
 typedef enum {
@@ -22,7 +21,7 @@ typedef int              (*PluginCanUnloadFn) (PluginData *);
 extern GList *plugin_list;
 
 /* Each plugin must have this one function */
-extern PluginInitResult init_plugin (CommandContext *cmd, PluginData *pd);
+extern PluginInitResult init_plugin (CommandContext *context, PluginData *pd);
 
 void           plugins_init          (CommandContext *context);
 PluginData    *plugin_load           (CommandContext *context,

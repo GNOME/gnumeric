@@ -22,7 +22,8 @@
 #include "gnome-xml/xmlIO.h"
 #include "sheet-object-bonobo.h"
 #include "sheet-object-container.h"
-#include "command-context.h"
+#include "io-context.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "file.h"
 #include "xml-io.h"
@@ -176,6 +177,7 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 			  gpointer     user_data)
 {
 	CORBA_Environment    ev;
+	SheetObject         *so;
 	SheetObjectBonobo   *sob;
 	Bonobo_Storage       storage;
 	char                *object_id, *sname;
@@ -192,8 +194,8 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 		return NULL;
 	}
 
-	sob = SHEET_OBJECT_BONOBO (sheet_object_container_new_object
-				   (sheet, object_id));
+	so = sheet_object_container_new_object (sheet, object_id);
+	sob = SHEET_OBJECT_BONOBO (so);
 	if (!sob) {
 		g_warning ("Error activating '%s'", object_id);
 		return NULL;
@@ -226,7 +228,7 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 }
 
 static int
-gnumeric_bonobo_write_workbook (CommandContext *context, Workbook *wb,
+gnumeric_bonobo_write_workbook (IOContext *context, WorkbookView *wb_view,
 				const char *filename)
 {
 	int              size, ret;
@@ -236,7 +238,7 @@ gnumeric_bonobo_write_workbook (CommandContext *context, Workbook *wb,
 	BonoboStorage   *storage;
 	int              flags;
 
-	g_return_val_if_fail (wb != NULL, -1);
+	g_return_val_if_fail (wb_view != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
 	flags = Bonobo_Storage_CREATE | Bonobo_Storage_READ |
@@ -247,7 +249,7 @@ gnumeric_bonobo_write_workbook (CommandContext *context, Workbook *wb,
 
 	if (!storage) {
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
-		gnumeric_error_save (context, msg);
+		gnumeric_io_error_save (context, msg);
 		g_free (msg);
 		return -1;
 	}
@@ -257,13 +259,13 @@ gnumeric_bonobo_write_workbook (CommandContext *context, Workbook *wb,
 	 */
 	xml = xmlNewDoc ("1.0");
 	if (!xml) {
-		gnumeric_error_save (context, "");
+		gnumeric_io_error_save (context, "");
 		bonobo_object_unref (BONOBO_OBJECT (storage));
 		return -1;
 	}
 	ctxt = xml_parse_ctx_new_full (xml, NULL, NULL, gnumeric_bonobo_obj_write,
 				       storage);
-	xml->root = xml_workbook_write (ctxt, wb);
+	xml->root = xml_workbook_write (ctxt, wb_view);
 	xml_parse_ctx_destroy (ctxt);
 
 	/* 
@@ -295,8 +297,7 @@ gnumeric_bonobo_write_workbook (CommandContext *context, Workbook *wb,
 							    size, &ev);
 		
 			if (BONOBO_EX (&ev)) {
-				gnumeric_error_save (
-					context,
+				gnumeric_io_error_save (context,
 					"Error storing workbook stream");
 				ret = -1;
 			}
@@ -415,7 +416,7 @@ hack_xmlSAXParseFile (Bonobo_Stream stream)
 }
 
 static int
-gnumeric_bonobo_read_workbook (CommandContext *context, Workbook *wb,
+gnumeric_bonobo_read_workbook (IOContext *context, WorkbookView *wb_view,
 			       const char *filename)
 {
 	CORBA_Environment ev;
@@ -431,7 +432,7 @@ gnumeric_bonobo_read_workbook (CommandContext *context, Workbook *wb,
 				       filename, Bonobo_Storage_READ, 0);
 	if (!storage) {
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
-		gnumeric_error_save (context, msg);
+		gnumeric_io_error_save (context, msg);
 		g_free (msg);
 		return -1;
 	}
@@ -442,7 +443,7 @@ gnumeric_bonobo_read_workbook (CommandContext *context, Workbook *wb,
 		"Workbook", Bonobo_Storage_READ, &ev);
 
 	if (BONOBO_EX (&ev) || stream == CORBA_OBJECT_NIL) {
-		gnumeric_error_save (context, "Error opening workbook stream");
+		gnumeric_io_error_save (context, "Error opening workbook stream");
 		goto storage_err;
 	}
 
@@ -451,13 +452,13 @@ gnumeric_bonobo_read_workbook (CommandContext *context, Workbook *wb,
 	 */
 	res = hack_xmlSAXParseFile (stream);
 	if (!res) {
-		gnumeric_error_read (context, "Failed to parse file");
+		gnumeric_io_error_read (context, "Failed to parse file");
 		goto storage_err;
 	}
 	if (!res->root) {
 		xmlFreeDoc (res);
-		gnumeric_error_read
-			(context, _("Invalid xml file. Tree is empty ?"));
+		gnumeric_io_error_read (context,
+				     _("Invalid xml file. Tree is empty ?"));
 		goto storage_err;
 	}
 
@@ -471,16 +472,17 @@ gnumeric_bonobo_read_workbook (CommandContext *context, Workbook *wb,
 		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
 	if (strcmp (res->root->name, "Workbook") || (gmr == NULL)) {
 		xmlFreeDoc (res);
-		gnumeric_error_read
-			(context, _("Is not an Workbook file"));
+		gnumeric_io_error_read (context,
+				     _("Is not an Workbook file"));
 		goto storage_err;
 	}
 
 	ctxt = xml_parse_ctx_new_full (res, gmr, gnumeric_bonobo_obj_read, NULL,
 				       storage);
 
-	xml_workbook_read (wb, ctxt, res->root);
-	workbook_set_saveinfo (wb, (char *) filename, FILE_FL_AUTO,
+	xml_workbook_read (context, wb_view, ctxt, res->root);
+	workbook_set_saveinfo (wb_view_workbook (wb_view),
+			       (char *) filename, FILE_FL_AUTO,
 			       gnumeric_bonobo_write_workbook);
 
 	xml_parse_ctx_destroy (ctxt);

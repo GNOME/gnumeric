@@ -6,7 +6,13 @@
 #define SHEET_MAX_ROWS		(64 * 1024)	/* 0 - 65535 inclusive */
 #define SHEET_MAX_COLS		256		/* 0 - 255 inclusive */
 
+typedef struct _CommandContext	CommandContext;
+typedef struct _IOContext	IOContext; /*for future use */
+
 typedef struct _Workbook	Workbook;
+typedef struct _WorkbookView	WorkbookView;
+typedef struct _WorkbookControl	WorkbookControl;
+
 typedef struct _Sheet		Sheet;
 typedef struct _SheetObject	SheetObject;
 typedef struct _Dependent	Dependent;
@@ -64,8 +70,6 @@ typedef struct _EvalPos		   EvalPos;
 typedef struct _ParsePos	   ParsePos;
 typedef struct _FunctionEvalInfo   FunctionEvalInfo;
 typedef struct _FunctionDefinition FunctionDefinition;
-
-typedef struct _CommandContext	   CommandContext;
 
 typedef struct _PrintInformation PrintInformation;
 typedef struct _String	 	 String;

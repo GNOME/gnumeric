@@ -70,16 +70,16 @@ GNUMERIC_BASE_SOURCES =				\
 	colrow.h				\
 	commands.h				\
 	commands.c				\
-	command-context.h			\
-	command-context.c			\
-	command-context-corba.c			\
-	command-context-corba.h			\
-	command-context-gui.c			\
-	command-context-gui.h			\
 	complete.c				\
 	complete.h				\
 	complete-sheet.c			\
 	complete-sheet.h			\
+	command-context.c			\
+	command-context.h			\
+	command-context-priv.h			\
+	io-context.c				\
+	io-context.h				\
+	io-context-priv.h			\
 	complex.h				\
 	complex.c				\
 	corba.h					\
@@ -118,6 +118,8 @@ GNUMERIC_BASE_SOURCES =				\
 	gnumeric-util.h				\
 	gnumeric-type-util.h			\
 	gnumeric.h				\
+	gui-clipboard.c				\
+	gui-clipboard.h				\
 	gutils.c				\
 	gutils.h				\
 	history.c				\
@@ -221,8 +223,13 @@ GNUMERIC_BASE_SOURCES =				\
 	workbook-object-toolbar.h		\
 	workbook-private.h			\
 	workbook-private.c			\
-	workbook-view.h				\
 	workbook-view.c				\
+	workbook-view.h				\
+	workbook-control.c 			\
+	workbook-control-priv.h 		\
+	workbook-control-gui.c 			\
+	workbook-control-gui.h 			\
+	workbook-control-gui-priv.h 		\
 	xml-io.c				\
 	xml-io.h				\
 	xml-io-autoft.c				\
@@ -233,8 +240,8 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	bonobo-io.h				\
 	embeddable-grid.c			\
 	embeddable-grid.h			\
-	graph-series.c				\
-	graph-series.h				\
+	graph-vector.c				\
+	graph-vector.h				\
 	sheet-object-bonobo.c			\
 	sheet-object-bonobo.h			\
 	sheet-object-container.c		\
@@ -242,44 +249,41 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	sheet-object-item.c			\
 	sheet-object-item.h
 
-gnumeric_SOURCES =					\
-	main.c						\
-	normal-args.c					\
+gnumeric_SOURCES =				\
+	main.c					\
+	normal-args.c				\
 	$(GNUMERIC_BASE_SOURCES)
 
-gnumeric_bonobo_SOURCES =				\
-	main.c						\
-	corba-args.c					\
-	corba-sheet.c					\
-	corba-workbook.c				\
-	corba-workbook-factory.c			\
-	$(GNUMERIC_BASE_SOURCES)			\
+gnumeric_bonobo_SOURCES =			\
+	main.c					\
+	corba-args.c				\
+	$(GNUMERIC_BASE_SOURCES)		\
 	$(GNUMERIC_BONOBO_SOURCES)
 
 gnumeric_LDFLAGS = -export-dynamic
 
-gnumeric_libs =						\
-	../plugins/excel/libexcel.a			\
-	dialogs/libdialogs.a				\
-	widgets/libwidgets.a				\
+gnumeric_libs =					\
+	../plugins/excel/libexcel.a		\
+	dialogs/libdialogs.a			\
+	widgets/libwidgets.a			\
 	functions/libfunctions.a
 
-gnumeric_LDADD = 					\
-	$(gnumeric_libs)				\
-	$(EXTRA_GNOME_LIBS)				\
-	$(GNOME_XML_LIB) 				\
-	$(GUILE_LIBS)					\
+gnumeric_LDADD = 				\
+	$(gnumeric_libs)			\
+	$(EXTRA_GNOME_LIBS)			\
+	$(GNOME_XML_LIB) 			\
+	$(GUILE_LIBS)				\
 	$(INTLLIBS)
 #	$(PSPELL_LIBS)
 
-gnumeric_bonobo_LDADD =					\
-	$(gnumeric_libs)				\
-	-lbonobo-print					\
-	../idl/libGnumericIDL.a				\
-	$(EXTRA_GNOME_LIBS)				\
-	$(GNOME_XML_LIB) 				\
-	$(GUILE_LIBS)					\
-	$(PSPELL_LIBS)					\
+gnumeric_bonobo_LDADD =				\
+	$(gnumeric_libs)			\
+	-lbonobo-print				\
+	../idl/libGnumericIDL.a			\
+	$(EXTRA_GNOME_LIBS)			\
+	$(GNOME_XML_LIB) 			\
+	$(GUILE_LIBS)				\
+	$(PSPELL_LIBS)				\
 	$(INTLLIBS)
 
 dist-hook:

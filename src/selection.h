@@ -22,12 +22,11 @@ void        sheet_selection_add_range    (Sheet *sheet,
 
 void        sheet_selection_reset_only   (Sheet *sheet);
 void        sheet_selection_free         (Sheet *sheet);
-void        sheet_cell_list_free         (CellList *cell_list);
 char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
 
 /* Cut/Copy/Paste on the workbook selection */
-gboolean    sheet_selection_copy              (CommandContext *context, Sheet *sheet);
-gboolean    sheet_selection_cut               (CommandContext *context, Sheet *sheet);
+gboolean    sheet_selection_copy              (WorkbookControl *context, Sheet *sheet);
+gboolean    sheet_selection_cut               (WorkbookControl *context, Sheet *sheet);
 
 void        sheet_selection_walk_step         (Sheet *sheet,
 					       gboolean const forward,
@@ -41,24 +40,20 @@ void        sheet_selection_unant             (Sheet *sheet);
 void        sheet_selection_redraw            (Sheet const *sheet);
 
 /* Utilities for operating on a selection */
-typedef void (*SelectionApplyFunc) (Sheet *sheet, 
-				    int start_col, int start_row,
-				    int end_col,   int end_row,
-				    void *closure);
+typedef void (*SelectionApplyFunc) (Sheet *sheet, Range const *, gpointer closure);
 
 void selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 		      gboolean allow_intersection,
 		      void *closure);
-GSList * selection_get_ranges (Sheet * sheet, gboolean const allow_intersection);
+GSList  *selection_get_ranges (Sheet * sheet, gboolean const allow_intersection);
 gboolean selection_check_for_array (Sheet const * sheet, GSList const *selection);
 
 /* export the selection */
-CellList   *selection_to_list      (Sheet *sheet, gboolean allow_intersection);
 char       *selection_to_string    (Sheet *sheet,
 				    gboolean include_sheet_name_prefix);
 
 /* Information about the selection */
-gboolean      selection_is_simple   (CommandContext *context, Sheet const *sheet,
+gboolean      selection_is_simple   (WorkbookControl *context, Sheet const *sheet,
 				     char const *command_name);
 Range const * selection_first_range (Sheet const *sheet, gboolean const permit_complex);
 gboolean    selection_foreach_range (Sheet *sheet, gboolean from_start,

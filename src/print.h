@@ -1,6 +1,9 @@
 #ifndef GNUMERIC_PRINT_H
 #define GNUMERIC_PRINT_H
 
+#include "gnumeric.h"
+#include "workbook-control-gui.h"
+
 typedef enum {
 	PRINT_ACTIVE_SHEET,
 	PRINT_ALL_SHEETS,
@@ -8,7 +11,7 @@ typedef enum {
 	PRINT_SHEET_SELECTION
 } PrintRange;
 
-void sheet_print (Sheet *sheet, gboolean preview,
-		  PrintRange default_range);
+void sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
+		  gboolean preview, PrintRange default_range);
 
 #endif /* GNUMERIC_PRINT_H */

@@ -6,7 +6,6 @@
  *   Miguel de Icaza <miguel@gnu.org>
  *   Jody Goldberg <jgoldberg@home.com>
  */
-
 #include <config.h>
 #include <gnome.h>
 #include <locale.h>
@@ -31,11 +30,13 @@
 #include "expr-name.h"
 #include "cell.h"
 #include "cell-comment.h"
-#include "workbook.h"
+#include "io-context.h"
+#include "command-context.h"
+#include "workbook-control.h"
 #include "workbook-view.h"
+#include "workbook.h"
 #include "selection.h"
 #include "clipboard.h"
-#include "command-context.h"
 #include "format.h"
 
 /*
@@ -2846,7 +2847,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	 */
 	val = xml_value_get (tree, "Name");
 	if (val != NULL){
-		ret = workbook_sheet_lookup (ctxt->wb, (const char *) val);
+		ret = workbook_sheet_by_name (ctxt->wb, (const char *) val);
 		if (ret == NULL)
 			ret = sheet_new (ctxt->wb, (const char *) val);
 		g_free (val);
@@ -2973,7 +2974,7 @@ xml_read_selection_clipboard (XmlParseContext *ctxt, xmlNodePtr tree)
  * Create an XML subtree of doc equivalent to the given Workbook.
  */
 xmlNodePtr
-xml_workbook_write (XmlParseContext *ctxt, Workbook *wb)
+xml_workbook_write (XmlParseContext *ctxt, WorkbookView *wb_view)
 {
 	xmlNodePtr cur;
 	xmlNsPtr gmr;
@@ -2981,8 +2982,8 @@ xml_workbook_write (XmlParseContext *ctxt, Workbook *wb)
 	GtkArg *args;
 	guint n_args;
 	GList *sheets, *sheets0;
-	char *old_num_locale, *old_msg_locale;
-	GtkWidget *toplevel;
+	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
+	Workbook *wb = wb_view_workbook (wb_view);
 
 	/*
 	 * General informations about the Sheet.
@@ -2998,10 +2999,12 @@ xml_workbook_write (XmlParseContext *ctxt, Workbook *wb)
 
 	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
 	gnumeric_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (gnumeric_setlocale (LC_MONETARY, NULL));
+	gnumeric_setlocale (LC_MONETARY, "C");
 	old_msg_locale = g_strdup (textdomain (NULL));
 	textdomain ("C");
 
-	args = workbook_get_attributev (wb, &n_args);
+	args = wb_view_get_attributev (wb_view, &n_args);
 	child = xml_write_attributes (ctxt, n_args, args);
 	if (child)
 		xmlAddChild (cur, child);
@@ -3020,9 +3023,8 @@ xml_workbook_write (XmlParseContext *ctxt, Workbook *wb)
 	xmlAddChild (cur, child);*/
 
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Geometry", NULL);
-	toplevel = workbook_get_toplevel (wb);
-	xml_set_value_int (child, "Width", toplevel->allocation.width);
-	xml_set_value_int (child, "Height", toplevel->allocation.height);
+	xml_set_value_int (child, "Width", wb_view->preferred_width);
+	xml_set_value_int (child, "Height", wb_view->preferred_height);
 	xmlAddChild (cur, child);
 
 	/*
@@ -3046,12 +3048,13 @@ xml_workbook_write (XmlParseContext *ctxt, Workbook *wb)
 	g_list_free (sheets0);
 
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "UIData", NULL);
-	xml_set_value_int (child, "SelectedTab",
-			   gtk_notebook_get_current_page
-			   (GTK_NOTEBOOK (wb->notebook)));
+	xml_set_value_int (child, "SelectedTab", workbook_sheet_index_get (wb,
+		wb_view_cur_sheet (wb_view)));
 	xmlAddChild (cur, child);
 
 	textdomain (old_msg_locale);
+	gnumeric_setlocale (LC_MONETARY, old_monetary_locale);
+	g_free (old_monetary_locale);
 	g_free (old_msg_locale);
 	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
@@ -3077,7 +3080,7 @@ xml_sheet_create (XmlParseContext *ctxt, xmlNodePtr tree)
 		Sheet *sheet;
 
 		sheet = sheet_new (ctxt->wb, (const char *) val);
-		workbook_attach_sheet (ctxt->wb, sheet);
+		workbook_sheet_attach (ctxt->wb, sheet, NULL);
 		g_free (val);
 	}
 	return;
@@ -3087,12 +3090,14 @@ xml_sheet_create (XmlParseContext *ctxt, xmlNodePtr tree)
  * Create a Workbook equivalent to the XML subtree of doc.
  */
 gboolean
-xml_workbook_read (Workbook *wb, XmlParseContext *ctxt, xmlNodePtr tree)
+xml_workbook_read (IOContext *context, WorkbookView *wb_view,
+		   XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	Sheet *sheet;
 	xmlNodePtr child, c;
-	char *old_num_locale, *old_msg_locale;
+	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
 	GList *list = NULL;
+	Workbook *wb = wb_view_workbook (wb_view);
 
 	if (strcmp (tree->name, "Workbook")){
 		fprintf (stderr,
@@ -3104,6 +3109,8 @@ xml_workbook_read (Workbook *wb, XmlParseContext *ctxt, xmlNodePtr tree)
 
 	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
 	gnumeric_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (gnumeric_setlocale (LC_MONETARY, NULL));
+	gnumeric_setlocale (LC_MONETARY, "C");
 	old_msg_locale = g_strdup (textdomain (NULL));
 	textdomain ("C");
 
@@ -3112,12 +3119,12 @@ xml_workbook_read (Workbook *wb, XmlParseContext *ctxt, xmlNodePtr tree)
 		xml_read_summary (ctxt, child, wb->summary_info);
 
 	child = xml_search_child (tree, "Geometry");
-	if (child){
+	if (child) {
 		int width, height;
 
 		xml_get_value_int (child, "Width", &width);
 		xml_get_value_int (child, "Height", &height);
-		workbook_view_set_size (wb, width, height);
+		wb_view_preferred_size	  (wb_view, width, height);
 	}
 
 /*	child = xml_search_child (tree, "Style");
@@ -3160,19 +3167,22 @@ xml_workbook_read (Workbook *wb, XmlParseContext *ctxt, xmlNodePtr tree)
 	child = xml_search_child (tree, "Attributes");
 	if (child) {
 		xml_read_attributes (ctxt, child, &list);
-		workbook_set_attributev (ctxt->wb, list);
+		wb_view_set_attributev (wb_view, list);
 		xml_free_arg_list (list);
 		g_list_free (list);
 	}
 
 	child = xml_search_child (tree, "UIData");
 	if (child) {
-		int tmp = 0;
-		if (xml_get_value_int (child, "SelectedTab", &tmp))
-			gtk_notebook_set_page (GTK_NOTEBOOK (wb->notebook), tmp);
+		int sheet_index = 0;
+		if (xml_get_value_int (child, "SelectedTab", &sheet_index))
+			wb_view_sheet_focus (wb_view, 
+				workbook_sheet_by_index (ctxt->wb, sheet_index));
 	}
 
 	textdomain (old_msg_locale);
+	gnumeric_setlocale (LC_MONETARY, old_monetary_locale);
+	g_free (old_monetary_locale);
 	g_free (old_msg_locale);
 	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
@@ -3272,7 +3282,7 @@ xml_probe (const char *filename)
  * returns 0 in case of success, -1 otherwise.
  */
 int
-gnumeric_xml_write_selection_clipboard (CommandContext *context, Sheet *sheet,
+gnumeric_xml_write_selection_clipboard (WorkbookControl *wbc, Sheet *sheet,
 					xmlChar **buffer, int *size)
 {
 	xmlDocPtr xml;
@@ -3284,8 +3294,8 @@ gnumeric_xml_write_selection_clipboard (CommandContext *context, Sheet *sheet,
 	 * Create the tree
 	 */
 	xml = xmlNewDoc ("1.0");
-	if (xml == NULL){
-		gnumeric_error_save (context, "");
+	if (xml == NULL) {
+		gnumeric_error_save (COMMAND_CONTEXT (wbc), "");
 		return -1;
 	}
 	ctxt.doc = xml;
@@ -3313,7 +3323,7 @@ gnumeric_xml_write_selection_clipboard (CommandContext *context, Sheet *sheet,
  * returns 0 on success and -1 otherwise.
  */
 int
-gnumeric_xml_read_selection_clipboard (CommandContext *context, CellRegion **cr,
+gnumeric_xml_read_selection_clipboard (WorkbookControl *wbc, CellRegion **cr,
 				       xmlChar *buffer)
 {
 	xmlDocPtr res;
@@ -3327,13 +3337,13 @@ gnumeric_xml_read_selection_clipboard (CommandContext *context, CellRegion **cr,
 	 */
 	res = xmlParseDoc (buffer);
 	if (res == NULL) {
-		gnumeric_error_read (context, "");
+		gnumeric_error_read (COMMAND_CONTEXT (wbc), "");
 		return -1;
 	}
 	if (res->root == NULL) {
 		xmlFreeDoc (res);
-		gnumeric_error_read
-			(context, _("Invalid xml clipboard data. Tree is empty ?"));
+		gnumeric_error_read (COMMAND_CONTEXT (wbc),
+			_("Invalid xml clipboard data. Tree is empty ?"));
 		return -1;
 	}
 
@@ -3354,7 +3364,8 @@ gnumeric_xml_read_selection_clipboard (CommandContext *context, CellRegion **cr,
  * the actual in-memory structure.
  */
 int
-gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
+gnumeric_xml_read_workbook (IOContext *context,
+			    WorkbookView *wbv,
 			    const char *filename)
 {
 	xmlDocPtr res;
@@ -3369,13 +3380,13 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 	 */
 	res = xmlParseFile (filename);
 	if (res == NULL) {
-		gnumeric_error_read (context, "");
+		gnumeric_io_error_read (context, "");
 		return -1;
 	}
 	if (res->root == NULL) {
 		xmlFreeDoc (res);
-		gnumeric_error_read
-			(context, _("Invalid xml file. Tree is empty ?"));
+		gnumeric_io_error_read (context,
+			_("Invalid xml file. Tree is empty ?"));
 		return -1;
 	}
 
@@ -3383,15 +3394,16 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 	gmr = xml_check_version (res, &version);
 	if (gmr == NULL) {
 		xmlFreeDoc (res);
-		gnumeric_error_read (context, _("Is not an Gnumeric Workbook file"));
+		gnumeric_io_error_read (context,
+			_("Is not an Gnumeric Workbook file"));
 		return -1;
 	}
 
 	/* Parse the file */
 	ctxt = xml_parse_ctx_new (res, gmr);
 	ctxt->version = version;
-	xml_workbook_read (wb, ctxt, res->root);
-	workbook_set_saveinfo (wb, filename, FILE_FL_AUTO,
+	xml_workbook_read (context, wbv, ctxt, res->root);
+	workbook_set_saveinfo (wb_view_workbook (wbv), filename, FILE_FL_AUTO,
 			       &gnumeric_xml_write_workbook);
 	xml_parse_ctx_destroy (ctxt);
 	xmlFreeDoc (res);
@@ -3404,26 +3416,26 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
  * returns 0 in case of success, -1 otherwise.
  */
 int
-gnumeric_xml_write_workbook (CommandContext *context, Workbook *wb,
+gnumeric_xml_write_workbook (IOContext *context, WorkbookView *wb_view,
 			     const char *filename)
 {
 	xmlDocPtr xml;
 	XmlParseContext *ctxt;
 	int ret;
 
-	g_return_val_if_fail (wb != NULL, -1);
+	g_return_val_if_fail (wb_view != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
 	/*
 	 * Create the tree
 	 */
 	xml = xmlNewDoc ("1.0");
-	if (xml == NULL){
-		gnumeric_error_save (context, "");
+	if (xml == NULL) {
+		gnumeric_io_error_save (context, "");
 		return -1;
 	}
 	ctxt = xml_parse_ctx_new (xml, NULL);
-	xml->root = xml_workbook_write (ctxt, wb);
+	xml->root = xml_workbook_write (ctxt, wb_view);
 	xml_parse_ctx_destroy (ctxt);
 
 	/*
@@ -3433,7 +3445,7 @@ gnumeric_xml_write_workbook (CommandContext *context, Workbook *wb,
 	ret = xmlSaveFile (filename, xml);
 	xmlFreeDoc (xml);
 	if (ret < 0) {
-		gnumeric_error_save (context, "");
+		gnumeric_io_error_save (context, "");
 		return -1;
 	}
 	return 0;

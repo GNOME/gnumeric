@@ -10,6 +10,9 @@
 #include <gnome.h>
 #include <string.h>
 #include "gnumeric.h"
+#include "command-context.h"
+#include "workbook-control.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "workbook-edit.h"
 #include "gnumeric-sheet.h"
@@ -24,7 +27,6 @@
 #include "print-info.h"
 #include "mstyle.h"
 #include "application.h"
-#include "command-context.h"
 #include "commands.h"
 #include "cellspan.h"
 #include "dependent.h"
@@ -40,7 +42,6 @@
 
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);
 
-static void sheet_update_zoom_controls (Sheet *sheet);
 static void sheet_redraw_partial_row (Sheet const *sheet, int const row,
 				      int const start_col, int const end_col);
 
@@ -114,7 +115,6 @@ sheet_new_sheet_view (Sheet *sheet)
 {
 	GtkWidget *sheet_view;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	sheet_view = sheet_view_new (sheet);
@@ -126,15 +126,13 @@ sheet_new_sheet_view (Sheet *sheet)
 }
 
 void
-sheet_destroy_sheet_view (Sheet *sheet, SheetView *sheet_view)
+sheet_detach_sheet_view (SheetView *sheet_view)
 {
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (sheet_view != NULL);
 	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
+	g_return_if_fail (IS_SHEET (sheet_view->sheet));
 
-	sheet->sheet_views = g_list_remove (sheet->sheet_views, sheet_view);
-	gtk_object_unref (GTK_OBJECT (sheet_view));
+	sheet_view->sheet->sheet_views = g_list_remove (sheet_view->sheet->sheet_views, sheet_view);
+	sheet_view->sheet = NULL;
 }
 
 static void
@@ -153,7 +151,6 @@ sheet_init_default_styles (Sheet *sheet)
 Sheet *
 sheet_new (Workbook *wb, const char *name)
 {
-	GtkWidget *sheet_view;
 	Sheet  *sheet;
 	MStyle *mstyle;
 
@@ -211,16 +208,14 @@ sheet_new (Workbook *wb, const char *name)
 
 	sheet_init_default_styles (sheet);
 
-	sheet_view = GTK_WIDGET (sheet_new_sheet_view (sheet));
-
 	sheet_selection_add (sheet, 0, 0);
-
-	gtk_widget_show (sheet_view);
 
 	/* Force the zoom change inorder to initialize things */
 	sheet_set_zoom_factor (sheet, 1.0, TRUE, TRUE);
 
+#if 0
 	sheet_corba_setup (sheet);
+#endif
 
 	sheet->pristine = TRUE;
 	sheet->modified = FALSE;
@@ -402,6 +397,28 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 }
 
 /****************************************************************************/
+
+/**
+ * sheet_update_zoom_controls:
+ *
+ * This routine is run every time the zoom has changed.  It checks
+ * what the status of various toolbar feedback controls should be
+ *
+ * FIXME: This will at some point become a sheet view function.
+ */
+static void
+sheet_update_zoom_controls (Sheet *sheet)
+{
+	g_return_if_fail (sheet != NULL);
+
+	WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
+	{
+		if (wb_view_cur_sheet (view) == sheet) {
+			WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
+				wb_control_zoom_feedback (control););
+		}
+	});
+}
 
 /**
  * sheet_set_zoom_factor : Change the zoom factor.
@@ -666,24 +683,23 @@ sheet_flag_selection_change (Sheet const *sheet)
 }
 
 /**
- * sheet_update_controls:
+ * sheet_update_editpos:
  *
  * This routine is run every time the selection has changed.  It checks
  * what the status of various toolbar feedback controls should be
  */
 static void
-sheet_update_controls (Sheet const *sheet)
+sheet_update_editpos (WorkbookControl *wbc, Sheet const *sheet, MStyle *mstyle)
 {
-	MStyle *mstyle;
-
-	g_return_if_fail (sheet != NULL);
-
-	mstyle = sheet_style_compute (sheet,
-				      sheet->cursor.edit_pos.col,
-				      sheet->cursor.edit_pos.row);
-
-	workbook_feedback_set (sheet->workbook, mstyle);
-	mstyle_unref (mstyle);
+#warning disable during editing
+#if 0
+	if (sheet->workbook->editing)
+		return;
+#endif
+	wb_control_format_feedback (wbc, mstyle);
+	wb_control_selection_descr_set (wbc,
+					cell_pos_name (&sheet->cursor.edit_pos));
+	workbook_edit_load_value (wbc, sheet);
 }
 
 /*
@@ -749,21 +765,32 @@ sheet_update (Sheet const *sheet)
 		p->resize_scrollbar = FALSE;
 	}
 
-	/* Only manipulate the status line if we are not selecting a region */
-	if (sheet->workbook->editing)
-		return;
-
 	if (sheet->priv->edit_pos_changed) {
+		MStyle *mstyle;
+
 		sheet->priv->edit_pos_changed = FALSE;
-		workbook_edit_load_value (sheet);
-		sheet_update_controls (sheet);
-		workbook_set_region_status (sheet->workbook,
-					    cell_pos_name (&sheet->cursor.edit_pos));
+		mstyle = sheet_style_compute (sheet,
+					      sheet->cursor.edit_pos.col,
+					      sheet->cursor.edit_pos.row);
+
+		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
+		{
+			if (wb_view_cur_sheet (view) == sheet) {
+				WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
+					sheet_update_editpos (control, sheet, mstyle););
+			}
+		});
+
+		mstyle_unref (mstyle);
 	}
 
 	if (sheet->priv->selection_content_changed) {
 		sheet->priv->selection_content_changed = FALSE;
-		sheet_update_auto_expr (sheet);
+		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
+		{
+			if (wb_view_cur_sheet (view) == sheet)
+				wb_view_auto_expr_recalc (view);
+		});
 	}
 }
 
@@ -1081,35 +1108,6 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 			 &cb_recalc_spans_in_col, &closure);
 }
 
-void
-sheet_update_auto_expr (Sheet const *sheet)
-{
-	Value *v;
-	Workbook *wb = sheet->workbook;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	/* defaults */
-	v = NULL;
-
-	if (wb->auto_expr) {
-		static CellPos const cp = {0,0};
-		EvalPos ep;
-		v = eval_expr (eval_pos_init (&ep, (Sheet *)sheet, &cp),
-			       wb->auto_expr, EVAL_STRICT);
-		if (v) {
-			char *s;
-
-			s = value_get_as_string (v);
-			workbook_auto_expr_label_set (wb, s);
-			g_free (s);
-			value_release (v);
-		} else
-			workbook_auto_expr_label_set (wb, _("Internal ERROR"));
-	}
-}
-
 /****************************************************************************/
 
 /*
@@ -1245,24 +1243,6 @@ sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 	sheet_cell_calc_span (cell, SPANCALC_RESIZE);
 	cell_content_changed (cell);
 	sheet_flag_status_update_cell (cell);
-}
-
-/**
- * sheet_update_zoom_controls:
- *
- * This routine is run every time the zoom has changed.  It checks
- * what the status of various toolbar feedback controls should be
- *
- * FIXME: This will at some point become a sheet view function.
- */
-static void
-sheet_update_zoom_controls (Sheet *sheet)
-{
-	g_return_if_fail (sheet != NULL);
-
-	if (sheet == sheet->workbook->current_sheet)
-		workbook_zoom_feedback_set (sheet->workbook,
-					    sheet->last_zoom_factor_used);
 }
 
 /****************************************************************************/
@@ -2251,7 +2231,7 @@ cb_clear_cell_comments (Sheet *sheet, int col, int row, Cell *cell,
  * to the structure being manipulated by the sheet_cell_foreach_range routine
  */
 void
-sheet_clear_region (CommandContext *context, Sheet *sheet,
+sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 		    int start_col, int start_row,
 		    int end_col, int end_row,
 		    int clear_flags)
@@ -2271,7 +2251,8 @@ sheet_clear_region (CommandContext *context, Sheet *sheet,
 
 	if (clear_flags & CLEAR_VALUES && !(clear_flags & CLEAR_NOCHECKARRAY) &&
 	    sheet_range_splits_array (sheet, &r)) {
-		gnumeric_error_splits_array (context, _("Clear"));
+		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
+					     _("Clear"));
 		return;
 	}
 
@@ -2426,8 +2407,10 @@ sheet_cursor_set (Sheet *sheet,
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	/* FIXME : this should not be here */
+#warning	FIXME : this should not be here
+#if 0
 	workbook_finish_editing (sheet->workbook, TRUE);
+#endif
 
 #if 0
 	fprintf (stderr, "extend to %s%d\n", col_name(col), row+1);
@@ -2620,7 +2603,7 @@ sheet_lookup_by_name (Workbook *wb, const char *name)
 	 * inside the workbook, we need to lookup external files as
 	 * well.
 	 */
-	sheet = workbook_sheet_lookup (wb, name);
+	sheet = workbook_sheet_by_name (wb, name);
 
 	if (sheet)
 		return sheet;
@@ -2740,7 +2723,7 @@ colrow_move (Sheet *sheet,
  * @count   The number of columns to be inserted
  */
 gboolean
-sheet_insert_cols (CommandContext *context, Sheet *sheet,
+sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 		   int col, int count, GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
@@ -2760,7 +2743,8 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 					      col, SHEET_MAX_ROWS-1,
 					      &avoid_dividing_array_horizontal,
 					      NULL) != NULL){
-			gnumeric_error_splits_array (context, _("Insert Columns"));
+			gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
+						     _("Insert Columns"));
 			return TRUE;
 		}
 
@@ -2769,7 +2753,8 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 				      SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
 				      &avoid_dividing_array_horizontal,
 				      NULL) != NULL){
-		gnumeric_error_splits_array (context, _("Insert Columns"));
+		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
+					     _("Insert Columns"));
 		return TRUE;
 	}
 
@@ -2815,7 +2800,7 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
  * @count   The number of columns to be deleted
  */
 gboolean
-sheet_delete_cols (CommandContext *context, Sheet *sheet,
+sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 		   int col, int count, GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
@@ -2839,7 +2824,8 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
 	if (sheet_range_splits_array (sheet, &reloc_info.origin)) {
-		gnumeric_error_splits_array (context, _("Delete Columns"));
+		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
+					     _("Delete Columns"));
 		return TRUE;
 	}
 
@@ -2887,7 +2873,7 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
  * @count   The number of rows to be inserted
  */
 gboolean
-sheet_insert_rows (CommandContext *context, Sheet *sheet,
+sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 		   int row, int count, GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
@@ -2908,7 +2894,8 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 					      SHEET_MAX_COLS-1, row,
 					      &avoid_dividing_array_vertical,
 					      NULL) != NULL) {
-			gnumeric_error_splits_array (context, _("Insert Rows"));
+			gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
+						     _("Insert Rows"));
 			return TRUE;
 		}
 
@@ -2917,7 +2904,8 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 				      SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1,
 				      &avoid_dividing_array_vertical,
 				      NULL) != NULL){
-		gnumeric_error_splits_array (context, _("Insert Rows"));
+		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
+					     _("Insert Rows"));
 		return TRUE;
 	}
 
@@ -2963,7 +2951,7 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
  * @count   The number of rows to be deleted
  */
 gboolean
-sheet_delete_rows (CommandContext *context, Sheet *sheet,
+sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 		   int row, int count, GSList **reloc_storage)
 {
 	ExprRelocateInfo reloc_info;
@@ -2987,7 +2975,8 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
 	if (sheet_range_splits_array (sheet, &reloc_info.origin)) {
-		gnumeric_error_splits_array (context, _("Delete Rows"));
+		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
+					     _("Delete Rows"));
 		return TRUE;
 	}
 
@@ -3029,7 +3018,7 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 }
 
 void
-sheet_move_range (CommandContext *context,
+sheet_move_range (WorkbookControl *wbc,
 		  ExprRelocateInfo const *rinfo,
 		  GSList **reloc_storage)
 {
@@ -3122,7 +3111,7 @@ sheet_move_range (CommandContext *context,
 		 * region without worrying if it overlaps with the source,
 		 * because we have already extracted the content.
 		 */
-		sheet_clear_region (context, rinfo->target_sheet,
+		sheet_clear_region (wbc, rinfo->target_sheet,
 				    dst.start.col, dst.start.row,
 				    dst.end.col, dst.end.row,
 				    CLEAR_VALUES|CLEAR_COMMENTS); /* Do not to clear styles */

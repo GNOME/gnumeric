@@ -47,10 +47,9 @@ Release Critical
   and remove decimals.
 - While we're playing with those functions, lets add simple ones like inc/dec
   font size and things like that.
-- Copy sheet, and insert new sheet both append to the end of the sheet list
-  rather than inserting before the current sheet.
 
-- Model View Controller
+- New xml importer does not support the run length encoding of rows/cols
+
 - Fix Borders
 
 Long term breakage

@@ -18,6 +18,7 @@
 #include "func.h"
 #include "tools.h"
 #include "value.h"
+#include "cell.h"
 #include "workbook.h"
 #include "parse-util.h"
 #include "utils-dialog.h"
@@ -39,7 +40,7 @@ typedef struct {
         GSList    *constraints;
         GtkCList  *clist;
         Sheet     *sheet;
-        Workbook  *wb;
+        WorkbookControlGUI  *wbcg;
 } constraint_dialog_t;
 
 
@@ -58,8 +59,7 @@ nonnegative_toggled (GtkWidget *widget, Sheet *sheet)
 }
 
 static void
-dialog_solver_options (Workbook *wb, Sheet *sheet)
-
+dialog_solver_options (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	GladeXML  *gui;
 	GtkWidget *dia;
@@ -67,8 +67,7 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 	GtkWidget *nonnegative;
 	gint      v, old_lm, old_nn;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				"solver-options.glade");
+	gui = gnumeric_glade_xml_new (wbcg, "solver-options.glade");
         if (gui == NULL)
                 return;
 
@@ -99,7 +98,7 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 
 	/* Run the dialog */
 	gtk_window_set_modal (GTK_WINDOW (dia), TRUE);
-	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
 
 	if (v != 0) {
 	        sheet->solver_parameters.options.assume_linear_model = old_lm;
@@ -163,8 +162,7 @@ constr_add_click (GtkWidget *widget, constraint_dialog_t *constraint_dialog)
 	int          rhs_cols, rhs_rows;
 	char         *type_str;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (constraint_dialog->wb),
-				"solver.glade");
+	gui = gnumeric_glade_xml_new (constraint_dialog->wbcg, "solver.glade");
         if (gui == NULL)
                 return;
 
@@ -201,7 +199,7 @@ add_dialog:
 	/* Run the dialog */
 	gtk_widget_grab_focus (lhs_entry);
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	selection = gnumeric_dialog_run (constraint_dialog->wb,
+	selection = gnumeric_dialog_run (constraint_dialog->wbcg,
 					 GNOME_DIALOG (dialog));
 
 	if (selection == -1 || selection == GNOME_CANCEL) {
@@ -241,7 +239,7 @@ add_dialog:
 	     strcmp (type_str, "Bool") != 0)) {
 
 	        if (lhs_cols != rhs_cols || lhs_rows != rhs_rows) {
-		        gnumeric_notice (constraint_dialog->wb,
+		        gnumeric_notice (constraint_dialog->wbcg,
 					 GNOME_MESSAGE_BOX_ERROR,
 					 _("The constraints having cell "
 					   "ranges in LHS and RHS should have "
@@ -251,7 +249,7 @@ add_dialog:
 		}
 
 		if (lhs_cols != 1 && lhs_rows != 1) {
-		        gnumeric_notice (constraint_dialog->wb,
+		        gnumeric_notice (constraint_dialog->wbcg,
 					 GNOME_MESSAGE_BOX_ERROR,
 					 _("The cell range in LHS or RHS "
 					   "should have only one column or "
@@ -299,8 +297,7 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 	int       lhs_cols, lhs_rows;
 	int       rhs_cols, rhs_rows;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (data->wb),
-				"solver.glade");
+	gui = gnumeric_glade_xml_new (data->wbcg, "solver.glade");
         if (gui == NULL)
                 return;
 
@@ -386,7 +383,7 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 	gtk_widget_grab_focus (lhs_entry);
 	gtk_window_set_modal (GTK_WINDOW (dia), TRUE);
 loop:
-	v = gnumeric_dialog_run (data->wb, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (data->wbcg, GNOME_DIALOG (dia));
 
 	if (v == 0) {
 	        gchar *constraint_str[2] = { NULL, NULL };
@@ -434,7 +431,7 @@ loop:
 		}
 
 		if (lhs_cols != rhs_cols || lhs_rows != rhs_rows) {
-		        gnumeric_notice (data->wb,
+		        gnumeric_notice (data->wbcg,
 					 GNOME_MESSAGE_BOX_ERROR,
 					 _("The constraints having cell ranges"
 					   " in LHS and RHS should have the "
@@ -444,7 +441,7 @@ loop:
 		}
 
 		if (lhs_cols != 1 && lhs_rows != 1) {
-		        gnumeric_notice (data->wb,
+		        gnumeric_notice (data->wbcg,
 					 GNOME_MESSAGE_BOX_ERROR,
 					 _("The cell range in LHS or RHS "
 					   "should have only one column or "
@@ -545,7 +542,7 @@ report_button_toggled(GtkWidget *widget, gboolean *data)
 }
 
 static gboolean
-dialog_results (Workbook *wb, int res, gboolean ilp,
+dialog_results (WorkbookControlGUI *wbcg, int res, gboolean ilp,
 		gboolean *answer, gboolean *sensitivity, gboolean *limits)
 {
 	GladeXML  *gui;
@@ -561,8 +558,7 @@ dialog_results (Workbook *wb, int res, gboolean ilp,
 	gboolean  keep_solver_solution = TRUE;
 	int       selection;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				"solver.glade");
+	gui = gnumeric_glade_xml_new (wbcg, "solver.glade");
         if (gui == NULL)
                 return FALSE;
 
@@ -616,7 +612,7 @@ dialog_results (Workbook *wb, int res, gboolean ilp,
 	gtk_widget_set_sensitive (checkbutton3, limits_s);
 
 	/* Run the dialog */
-	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 
 	if (selection != -1)
 		gtk_object_destroy (GTK_OBJECT (dialog));
@@ -696,7 +692,7 @@ check_int_constraints (CellList *input_cells, GSList *constraints, char **s)
 }
 
 void
-dialog_solver (Workbook *wb, Sheet *sheet)
+dialog_solver (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	GladeXML  *gui;
 	GtkWidget *dialog;
@@ -722,7 +718,7 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 	int        error_flag, row;
 	gboolean   answer, sensitivity, limits;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+	gui = gnumeric_glade_xml_new (wbcg,
 				"solver.glade");
         if (gui == NULL)
                 return;
@@ -764,9 +760,9 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 				    param->input_entry_str);
 
 	constraint_dialog->dialog = dialog;
-	constraint_dialog->clist = GTK_CLIST (constraint_list);
-	constraint_dialog->sheet = sheet;
-	constraint_dialog->wb = wb;
+	constraint_dialog->clist  = GTK_CLIST (constraint_list);
+	constraint_dialog->sheet  = sheet;
+	constraint_dialog->wbcg    = wbcg;
 
 	gtk_entry_set_text (GTK_ENTRY (target_entry),
 			    target_entry_str);
@@ -826,7 +822,7 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 main_dialog:
 
 	/* Run the dialog */
-	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 
 	/* Save the changes in the constraints list anyway */
 	sheet->solver_parameters.constraints = constraint_dialog->constraints;
@@ -850,7 +846,7 @@ main_dialog:
 	        return;
 	case 2:
 	        gtk_widget_hide (dialog);
-	        dialog_solver_options (wb, sheet);
+	        dialog_solver_options (wbcg, sheet);
 		goto main_dialog;
 
 
@@ -861,7 +857,7 @@ main_dialog:
 	/* Parse target cell entry */
 	text = gtk_entry_get_text (GTK_ENTRY (target_entry));
 	if (!parse_cell_name (text, &target_cell_col, &target_cell_row, TRUE, NULL)) {
- 	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+ 	        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce a valid cell name "
 				   "for 'Target cell'"));
 		gtk_widget_grab_focus (target_entry);
@@ -879,7 +875,7 @@ main_dialog:
 	input_cells = (CellList *)
 	        parse_cell_name_list (sheet, text, &error_flag, TRUE);
 	if (error_flag) {
- 	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+ 	        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce a valid cell names "
 				   "in 'By changing cells'"));
 		gtk_widget_grab_focus (input_entry);
@@ -906,21 +902,23 @@ main_dialog:
 			str = g_strdup_printf
 				(_("Constraint `%s' is for a cell that "
 				   "is not an input cell."), s);
-		        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, str);
+		        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, str);
 			g_free (str);
 			goto main_dialog;
 		}
 	        ov = save_original_values (input_cells);
 	        if (sheet->solver_parameters.options.assume_linear_model) {
-		        res = solver_lp (wb, sheet, &opt_x, &sh_pr, &ilp);
+		        res = solver_lp (WORKBOOK_CONTROL (wbcg),
+					 sheet, &opt_x, &sh_pr, &ilp);
 
 			answer = sensitivity = limits = FALSE;
 			gtk_widget_hide (dialog);
-			solver_solution = dialog_results (wb, res, ilp,
+			solver_solution = dialog_results (wbcg, res, ilp,
 							  &answer,
 							  &sensitivity,
 							  &limits);
-			solver_lp_reports (wb, sheet, ov, ov_target,
+			solver_lp_reports (WORKBOOK_CONTROL (wbcg),
+					   sheet, ov, ov_target,
 					   opt_x, sh_pr,
 					   answer, sensitivity, limits);
 

@@ -476,7 +476,7 @@ typedef struct {
 	GtkWidget *dialog;
 	GtkWidget *entry;
 
-	Workbook  *wb;
+	WorkbookControlGUI *wbcg;
 	SheetWidgetCheckbox *swc;
 } CheckboxConfigState;
 
@@ -486,12 +486,12 @@ cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
-	workbook_edit_detach_guru (state->wb);
+	workbook_edit_detach_guru (state->wbcg);
 
 	/* Handle window manger closing the dialog.
 	 * This will be ignored if we are being destroyed differently.
 	 */
-	workbook_finish_editing (state->wb, FALSE);
+	workbook_finish_editing (state->wbcg, FALSE);
 
 	state->dialog = NULL;
 
@@ -502,8 +502,8 @@ cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
 static void
 cb_checkbox_config_focus (GtkWidget *w, GdkEventFocus *ev, CheckboxConfigState *state)
 {
-	workbook_set_entry (state->wb, GTK_ENTRY (state->entry));
-	workbook_edit_select_absolute (state->wb);
+	workbook_set_entry (state->wbcg, GTK_ENTRY (state->entry));
+	workbook_edit_select_absolute (state->wbcg);
 }
 
 static void
@@ -527,7 +527,7 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 		} else
 			checkbox_set_expr (&state->swc->dep, NULL);
 	}
-	workbook_finish_editing (state->wb, FALSE);
+	workbook_finish_editing (state->wbcg, FALSE);
 }
 
 static void
@@ -540,7 +540,7 @@ sheet_widget_checkbox_user_config (SheetObject *so)
 
 	state = g_new (CheckboxConfigState, 1);
 	state->swc = swc;
-	state->wb = so->sheet->workbook;
+	state->wbcg = /* FIXME */ NULL;
 	state->dialog = gnome_dialog_new (_("Checkbox Configure"),
 					  GNOME_STOCK_BUTTON_OK, 
 					  GNOME_STOCK_BUTTON_CANCEL, 
@@ -566,8 +566,8 @@ sheet_widget_checkbox_user_config (SheetObject *so)
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE(state->entry));
 
-	gnumeric_non_modal_dialog (state->wb, GTK_WINDOW (state->dialog));
-	workbook_edit_attach_guru (state->wb, state->dialog);
+	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	workbook_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
 	gtk_window_set_focus (GTK_WINDOW (state->dialog),
 			      GTK_WIDGET (state->entry));

@@ -1,5 +1,8 @@
 Gnumeric 0.58
 
+Almer:
+	* Undo for autoformat.
+
 Jody:
 	* Fix popup context menus.
 	* Fix embeddable grid.

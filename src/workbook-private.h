@@ -32,81 +32,9 @@ struct _WorkbookPrivate {
 	
 	/* A list of EmbeddableGrids exported to the world */
 	GList      *workbook_views;
-
-	BonoboUIComponent *uic;
 #endif
 
 	gboolean during_destruction;
-
-	GtkWidget  *table;
-	GnomeCanvasItem  *auto_expr_label;
-
-	/*
-	 * Toolbars
-	 */
-	GtkWidget *standard_toolbar;
-	GtkWidget *format_toolbar;
-	GtkWidget *object_toolbar;
-
-	GtkWidget *font_name_selector;
-	GtkWidget *font_size_selector;
-
-	/*
-	 * GtkCombo for the zoomer
-	 */
-	GtkWidget *zoom_entry;
-
-	/*
-	 * GtkComboStacks for Undo/Redo
-	 */
-	GtkWidget *undo_combo, *redo_combo;
-
-	const char *current_font_name;
-
-	/* Edit area */
-	GtkWidget *selection_descriptor;	/* A GtkEntry */
-	struct {
-		GtkEntry *entry;		/* The real edit line */
-		GtkEntry *temp_entry;		/* A tmp overlay eg from a guru */
-		GtkWidget*guru;
-		int       signal_changed;
-	} edit_line;
-	
-	/* While editing these should be visible */
-	GtkWidget *ok_button, *cancel_button;
-
-	/* While not editing these should be visible */
-	GtkWidget *func_button;
-
-#ifdef ENABLE_BONOBO
-	GtkWidget *progress_bar;
-#else
-        /* The status bar */
-        GnomeAppBar *appbar;
-#endif
-
-	/*
-	 * GUI command context
-	 */
-	CommandContext *gui_context, *corba_context;
-
-	/*
-	 * Auto completion
-	 */
-	void            *auto_complete;         /* GtkType is (Complete *) */
-	gboolean         auto_completing;
-	char            *auto_complete_text;
-
-	/* Used to detect if the user has backspaced, so we turn off auto-complete */
-	int              auto_max_size;
-	 
-#ifndef ENABLE_BONOBO
-	/* Menu items that get toggled */
-	GtkWidget  *menu_item_undo;
-	GtkWidget  *menu_item_redo;
-	GtkWidget  *menu_item_paste_special;
-#endif
-	gboolean    updating_toolbar;
 };
 
 WorkbookPrivate *workbook_private_new (void);

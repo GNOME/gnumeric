@@ -44,13 +44,13 @@ typedef struct {
 	gboolean   cs;
 	gboolean   val;
 	GtkWidget *adv_button;
-	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
 } OrderBox;
 
 typedef struct {
 	Range     *sel;
 	Sheet     *sheet;
-	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
 	int        num_clause;
 	int        max_col_clause;
 	int        max_row_clause;
@@ -171,8 +171,7 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 	gint btn;
 
 	/* Get the dialog and check for errors */
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (orderbox->wb),
-				GLADE_FILE);
+	gui = gnumeric_glade_xml_new (orderbox->wbcg, GLADE_FILE);
         if (gui == NULL)
                 return;
 
@@ -195,7 +194,7 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 				      !(orderbox->val));
 
 	/* Run the dialog and save the state if necessary */
-	btn = gnumeric_dialog_run (orderbox->wb, GNOME_DIALOG (dialog));
+	btn = gnumeric_dialog_run (orderbox->wbcg, GNOME_DIALOG (dialog));
 	if (btn == 0) {
 		orderbox->cs  = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
 		orderbox->val = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (rb1));	
@@ -209,7 +208,7 @@ dialog_cell_sort_adv (GtkWidget *widget, OrderBox *orderbox)
 /* Order boxes */
 static OrderBox *
 order_box_new (GtkWidget * parent, const gchar *frame_text,
-	       GList *names, gboolean empty, Workbook *wb)
+	       GList *names, gboolean empty, WorkbookControlGUI *wbcg)
 {
 	OrderBox *orderbox;
 	GtkWidget *hbox = gtk_hbox_new (FALSE, 2);
@@ -219,7 +218,7 @@ order_box_new (GtkWidget * parent, const gchar *frame_text,
 	orderbox  = g_new (OrderBox, 1);
 	orderbox->parent = parent;
 	orderbox->main_frame = gtk_frame_new (frame_text);
-	orderbox->wb = wb;
+	orderbox->wbcg = wbcg;
 
 	/* Set up the column names combo boxes */
 	orderbox->rangetext = gtk_combo_new ();
@@ -343,18 +342,19 @@ dialog_cell_sort_ok (SortFlow *sf)
 				}
 			}
 			if (division < divstart || division > divend) {
-				gnumeric_notice (sf->wb,
+				gnumeric_notice (sf->wbcg,
 						 GNOME_MESSAGE_BOX_ERROR,
-						 sf->top ?
-						 _("Column must be within range") :						_("Row must be within range"));
+						 sf->top
+						 ? _("Column must be within range")
+						 : _("Row must be within range"));
 				return TRUE;
 			}
 			array [lp].offset = division - divstart;
 		} else if (lp <= 0) {
-			gnumeric_notice (sf->wb, GNOME_MESSAGE_BOX_ERROR,
-					 sf->top ?
-					 _("First column must be valid") :
-					 _("First row must be valid"));
+			gnumeric_notice (sf->wbcg, GNOME_MESSAGE_BOX_ERROR,
+					 sf->top
+					 ? _("First column must be valid")
+					 : _("First row must be valid"));
 			return TRUE;
 		} else	/* Just duplicate the last condition: slow but sure */
 			array [lp].offset = array [lp - 1].offset;
@@ -392,27 +392,27 @@ dialog_cell_sort_del_clause (SortFlow *sf)
 		gtk_widget_show_all (sf->dialog);
 		sf->clauses [sf->num_clause] = NULL;
 	} else
-		gnumeric_notice (sf->wb, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (sf->wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("At least one clause is required."));
 }
 
 static void
-dialog_cell_sort_add_clause(SortFlow *sf, Workbook *wb)
+dialog_cell_sort_add_clause(SortFlow *sf, WorkbookControlGUI *wbcg)
 {
 	if ((sf->num_clause >= sf->max_col_clause && sf->top)
 	    || (sf->num_clause >= sf->max_row_clause && !(sf->top)))
-		gnumeric_notice (sf->wb, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (sf->wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Can't add more than the selection length."));
 	else if (sf->num_clause >= MAX_CLAUSE)
-		gnumeric_notice (sf->wb, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (sf->wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("Maximum number of clauses has been reached."));
 	else {
 		if (sf->header)
 			sf->clauses [sf->num_clause] = order_box_new (sf->clause_box, "then by",
-								      sf->colnames_header, TRUE, wb);
+								      sf->colnames_header, TRUE, wbcg);
 		else
 			sf->clauses [sf->num_clause] = order_box_new (sf->clause_box, "then by",
-								      sf->colnames_plain, TRUE, wb);
+								      sf->colnames_plain, TRUE, wbcg);
 		
 		gtk_widget_show_all (sf->dialog);
 		sf->num_clause++;
@@ -511,7 +511,7 @@ dialog_cell_sort_cols_toggled (GtkWidget *widget, SortFlow *sf)
  * Main entry point for the Cell Sort dialog box
  */
 void
-dialog_cell_sort (Workbook *inwb, Sheet *sheet)
+dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	GladeXML  *gui;
 	GtkWidget *table, *check, *rb1, *rb2;
@@ -519,18 +519,17 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 	gboolean cont;
 	int lp, btn;
 
-	g_return_if_fail (inwb != NULL);
+	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* Initialize some important stuff */
 	sort_flow.sel = range_copy (selection_first_range (sheet, TRUE));
 	sort_flow.sheet = sheet;
-	sort_flow.wb = inwb;
+	sort_flow.wbcg = wbcg;
 
 	/* We can't sort complex ranges */
-	if (!selection_is_simple (workbook_command_context_gui (inwb),
-				  sheet, _("sort")))
+	if (!selection_is_simple (WORKBOOK_CONTROL (wbcg), sheet, _("sort")))
 		return;	
 
 	/* Correct selection if necessary */
@@ -561,8 +560,7 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 						   TRUE);
 
 	/* Get the dialog and check for errors */
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (inwb),
-				GLADE_FILE);
+	gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
         if (gui == NULL)
                 return;
 
@@ -599,7 +597,7 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 							? _("then by") 
 							: _("Sort by"),
 							sort_flow.colnames_plain,
-							lp ? TRUE : FALSE, inwb);
+							lp ? TRUE : FALSE, wbcg);
 	}
 	order_box_set_default (sort_flow.clauses [0]);
 	
@@ -624,11 +622,11 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 	/* Run the dialog */
 	cont = TRUE;
 	while (cont) {
-		btn = gnumeric_dialog_run (inwb, GNOME_DIALOG (sort_flow.dialog));
+		btn = gnumeric_dialog_run (wbcg, GNOME_DIALOG (sort_flow.dialog));
 		if (btn == BUTTON_OK)
 			cont = dialog_cell_sort_ok (&sort_flow);
 		else if (btn == BUTTON_ADD)
-			dialog_cell_sort_add_clause (&sort_flow, inwb);
+			dialog_cell_sort_add_clause (&sort_flow, wbcg);
 		else if (btn == BUTTON_REMOVE)
 			dialog_cell_sort_del_clause (&sort_flow);
 		else
@@ -649,7 +647,3 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 	
 	gtk_object_unref (GTK_OBJECT (gui));
 }
-
-
-
-

@@ -7,13 +7,16 @@
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
-#include <workbook.h>
-#include <workbook-private.h>
-#include <workbook-edit.h>
+#include "workbook-control-gui-priv.h"
+#include "workbook-view.h"
+#include "workbook.h"
+#include "workbook-private.h"
+#include "workbook-edit.h"
 #include "complete-sheet.h"
 #include "application.h"
 #include "commands.h"
 #include "sheet-view.h"
+#include "sheet.h"
 #include "cell.h"
 #include "expr.h"
 #include "rendered-value.h"
@@ -26,84 +29,81 @@
  * Shuts down the auto completion engine
  */
 void
-workbook_auto_complete_destroy (Workbook *wb)
+workbook_auto_complete_destroy (WorkbookControlGUI *wbcg)
 {
-	WorkbookPrivate *wb_priv = wb->priv;
-
-	if (wb_priv->auto_complete_text){
-		g_free (wb_priv->auto_complete_text);
-		wb_priv->auto_complete_text = NULL;
+	if (wbcg->auto_complete_text){
+		g_free (wbcg->auto_complete_text);
+		wbcg->auto_complete_text = NULL;
 	}
 
-	if (wb_priv->edit_line.signal_changed >= 0) {
-		gtk_signal_disconnect (GTK_OBJECT (workbook_get_entry (wb)),
-				       wb_priv->edit_line.signal_changed);
-		wb_priv->edit_line.signal_changed = -1;
+	if (wbcg->edit_line.signal_changed >= 0) {
+		gtk_signal_disconnect (GTK_OBJECT (workbook_get_entry (wbcg)),
+				       wbcg->edit_line.signal_changed);
+		wbcg->edit_line.signal_changed = -1;
 	}
 
-	if (wb_priv->auto_complete){
-		gtk_object_unref (GTK_OBJECT (wb_priv->auto_complete));
-		wb_priv->auto_complete = NULL;
+	if (wbcg->auto_complete){
+		gtk_object_unref (GTK_OBJECT (wbcg->auto_complete));
+		wbcg->auto_complete = NULL;
 	} else
-		g_assert (wb_priv->auto_complete == NULL);
+		g_assert (wbcg->auto_complete == NULL);
 
-	wb_priv->auto_completing = FALSE;
+	wbcg->auto_completing = FALSE;
 
 }
 
-static void
-workbook_edit_set_sensitive (Workbook const *wb, gboolean flag1, gboolean flag2)
+void
+workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean flag2)
 {
 	/* These are only sensitive while editing */
-	gtk_widget_set_sensitive (wb->priv->ok_button, flag1);
-	gtk_widget_set_sensitive (wb->priv->cancel_button, flag1);
+	gtk_widget_set_sensitive (wbcg->ok_button, flag1);
+	gtk_widget_set_sensitive (wbcg->cancel_button, flag1);
 
 	/* Toolbars are insensitive while editing */
-	gtk_widget_set_sensitive (wb->priv->func_button, flag2);
+	gtk_widget_set_sensitive (wbcg->func_button, flag2);
 #ifdef ENABLE_BONOBO
 #warning FIXME : how to quickly sensitize and desensitize a toolbar
 #else
-	gtk_widget_set_sensitive (wb->priv->standard_toolbar, flag2);
-	gtk_widget_set_sensitive (wb->priv->format_toolbar, flag2);
-	gtk_widget_set_sensitive (wb->priv->object_toolbar, flag2);
+	gtk_widget_set_sensitive (wbcg->standard_toolbar, flag2);
+	gtk_widget_set_sensitive (wbcg->format_toolbar, flag2);
+	gtk_widget_set_sensitive (wbcg->object_toolbar, flag2);
 #endif
 }
 
 void
-workbook_finish_editing (Workbook *wb, gboolean const accept)
+workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 {
 	Sheet *sheet;
 
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wbcg != NULL);
 
 	/* We may have a guru up even if if re not editing */
-	if (wb->priv->edit_line.guru != NULL)
-		gtk_widget_destroy (wb->priv->edit_line.guru);
+	if (wbcg->edit_line.guru != NULL)
+		gtk_widget_destroy (wbcg->edit_line.guru);
 
-	if (!wb->editing)
+	if (!wbcg->editing)
 		return;
 
-	g_return_if_fail (wb->editing_sheet != NULL);
+	g_return_if_fail (wbcg->editing_sheet != NULL);
 
 	/* Stop editing */
-	sheet = wb->editing_sheet;
-	wb->editing = FALSE;
-	wb->editing_sheet = NULL;
-	wb->editing_cell = NULL;
+	sheet = wbcg->editing_sheet;
+	wbcg->editing = FALSE;
+	wbcg->editing_sheet = NULL;
+	wbcg->editing_cell = NULL;
 
-	workbook_edit_set_sensitive (wb, FALSE, TRUE);
+	workbook_edit_set_sensitive (wbcg, FALSE, TRUE);
 
 	/* Save the results before changing focus */
 	if (accept) {
-		/* TODO: Get a context */
-		const char *txt = workbook_edit_get_display_text (sheet->workbook);
+		const char *txt = workbook_edit_get_display_text (wbcg);
 
 		/* Store the old value for undo */
 		/*
 		 * TODO: What should we do in case of failure ?
 		 * maybe another parameter that will force an end ?
 		 */
-		cmd_set_text (workbook_command_context_gui (wb),
+		cmd_set_text (WORKBOOK_CONTROL (wbcg),
 			      sheet, &sheet->cursor.edit_pos, txt);
 	} else {
 		/* Redraw the cell contents in case there was a span */
@@ -112,75 +112,65 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 		sheet_redraw_cell_region (sheet, c, r, c, r);
 
 		/* Reload the entry widget with the original contents */
-		workbook_edit_load_value (sheet);
+		workbook_edit_load_value (WORKBOOK_CONTROL (wbcg), sheet);
 	}
 
 	/*
 	 * restore focus to original sheet in case things were being selected
 	 * on a different page
 	 */
-	workbook_focus_sheet (sheet);
-
-	/*
-	 * FIXME :
-	 * If user was editing on the input line, get the focus back
-	 * This code was taken from workbook_focus_current_sheet which also needs
-	 * fixing.  There can be multiple views.  We have no business at all
-	 * assigning focus to the first.
-	 */
-	gtk_window_set_focus (GTK_WINDOW (workbook_get_toplevel (wb)),
-			      SHEET_VIEW (sheet->sheet_views->data)->sheet_view);
+	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
 
 	/* Only the edit sheet has an edit cursor */
 	sheet_stop_editing (sheet);
 
-	workbook_auto_complete_destroy (wb);
+	workbook_auto_complete_destroy (wbcg);
 
 	if (accept)
-		workbook_recalc (wb);
+		workbook_recalc (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
 }
 
 static void
 workbook_edit_complete_notify (const char *text, void *closure)
 {
-	Workbook *wb = closure;
+	WorkbookControlGUI *wbcg = closure;
 
-	if (wb->priv->auto_complete_text)
-		g_free (wb->priv->auto_complete_text);
+	if (wbcg->auto_complete_text)
+		g_free (wbcg->auto_complete_text);
 
-	wb->priv->auto_complete_text = g_strdup (text);
+	wbcg->auto_complete_text = g_strdup (text);
 }
 
 static void
 entry_changed (GtkEntry *entry, void *data)
 {
-	Workbook *wb = data;
+	WorkbookControlGUI *wbcg = data;
 	char *text;
 	int text_len;
 
 
-	text = gtk_entry_get_text (workbook_get_entry (wb));
+	text = gtk_entry_get_text (workbook_get_entry (wbcg));
 	text_len = strlen (text);
 
-	if (text_len > wb->priv->auto_max_size)
-		wb->priv->auto_max_size = text_len;
+	if (text_len > wbcg->auto_max_size)
+		wbcg->auto_max_size = text_len;
 
 	/*
 	 * Turn off auto-completion if the user has edited or the text
 	 * does not begin with an alphabetic character.
 	 */
-	if (text_len < wb->priv->auto_max_size ||
+	if (text_len < wbcg->auto_max_size ||
 	    !isalpha((unsigned char)*text))
-		wb->priv->auto_completing = FALSE;
+		wbcg->auto_completing = FALSE;
 
-	if (application_use_auto_complete_get () && wb->priv->auto_completing)
-		complete_start (wb->priv->auto_complete, text);
+	if (application_use_auto_complete_get () && wbcg->auto_completing)
+		complete_start (wbcg->auto_complete, text);
 }
 
 /**
  * workbook_start_editing_at_cursor:
  *
- * @wb:       The workbook to be edited.
+ * @wbcg:       The workbook to be edited.
  * @blankp:   If true, erase current cell contents first.  If false, leave the
  *            contents alone.
  * @cursorp:  If true, create an editing cursor in the current sheet.  (If
@@ -193,8 +183,8 @@ entry_changed (GtkEntry *entry, void *data)
  *  2) above sheet editing when you hit F2.
  */
 void
-workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
-				  gboolean cursorp)
+workbook_start_editing_at_cursor (WorkbookControlGUI *wbcg,
+				  gboolean blankp, gboolean cursorp)
 {
 	static gboolean inside_editing = FALSE;
 	Sheet *sheet;
@@ -202,25 +192,25 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 	char *text = NULL;
 	int col, row;
 
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wbcg != NULL);
 
-	if (wb->editing)
+	if (wbcg->editing)
 		return;
 
 	/* Avoid recursion, and do not begin editing if a guru is up */
-	if (inside_editing || workbook_edit_has_guru (wb))
+	if (inside_editing || workbook_edit_has_guru (wbcg))
 		return;
 
 	inside_editing = TRUE;
 
-	sheet = wb->current_sheet;
+	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	g_return_if_fail (sheet != NULL);
 
 	col = sheet->cursor.edit_pos.col;
 	row = sheet->cursor.edit_pos.row;
 
 	application_clipboard_unant ();
-	workbook_edit_set_sensitive (wb, TRUE, FALSE);
+	workbook_edit_set_sensitive (wbcg, TRUE, FALSE);
 
 	cell = sheet_cell_get (sheet, col, row);
 
@@ -234,9 +224,9 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 		 * That is not actually part of the parsable expression.
 		 */
 		if (NULL != cell_is_array (cell))
-			gtk_entry_set_text (workbook_get_entry (wb), text);
+			gtk_entry_set_text (workbook_get_entry (wbcg), text);
 	} else
-		gtk_entry_set_text (workbook_get_entry (wb), "");
+		gtk_entry_set_text (workbook_get_entry (wbcg), "");
 
 	sheet_create_edit_cursor (sheet);
 
@@ -246,35 +236,35 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 	/* Activate auto-completion if this is not an expression */
 	if (application_use_auto_complete_get () &&
 	    (text == NULL || isalpha((unsigned char)*text))) {
-		wb->priv->auto_complete = complete_sheet_new (
+		wbcg->auto_complete = complete_sheet_new (
 			sheet, col, row,
-			workbook_edit_complete_notify, wb);
-		wb->priv->auto_completing = TRUE;
-		wb->priv->auto_max_size = 0;
+			workbook_edit_complete_notify, wbcg);
+		wbcg->auto_completing = TRUE;
+		wbcg->auto_max_size = 0;
 	} else
-		wb->priv->auto_complete = NULL;
+		wbcg->auto_complete = NULL;
 
 	/* Give the focus to the edit line */
 	if (!cursorp)
-		gtk_window_set_focus (GTK_WINDOW (workbook_get_toplevel (wb)),
-				      GTK_WIDGET (workbook_get_entry (wb)));
+		gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
+				      GTK_WIDGET (workbook_get_entry (wbcg)));
 
 
 	/* TODO : Should we reset like this ? probably */
-	wb->select_abs_col = wb->select_abs_row = FALSE;
+	wbcg->select_abs_col = wbcg->select_abs_row = FALSE;
 
-	wb->editing = TRUE;
-	wb->editing_sheet = sheet;
-	wb->editing_cell = cell;
+	wbcg->editing = TRUE;
+	wbcg->editing_sheet = sheet;
+	wbcg->editing_cell = cell;
 
 	/*
 	 * If this assert fails, it means editing was not shut down
 	 * properly before
 	 */
-	g_assert (wb->priv->edit_line.signal_changed == -1);
-	wb->priv->edit_line.signal_changed = gtk_signal_connect (
-		GTK_OBJECT (workbook_get_entry (wb)), "changed",
-		GTK_SIGNAL_FUNC (entry_changed), wb);
+	g_assert (wbcg->edit_line.signal_changed == -1);
+	wbcg->edit_line.signal_changed = gtk_signal_connect (
+		GTK_OBJECT (workbook_get_entry (wbcg)), "changed",
+		GTK_SIGNAL_FUNC (entry_changed), wbcg);
 
 	if (text)
 		g_free (text);
@@ -283,101 +273,98 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 }
 
 GtkEntry *
-workbook_get_entry (Workbook const *wb)
+workbook_get_entry (WorkbookControlGUI const *wbcg)
 {
-	g_return_val_if_fail (wb != NULL, NULL);
-	g_return_val_if_fail (wb->priv != NULL, NULL);
+	g_return_val_if_fail (wbcg != NULL, NULL);
 
-	return wb->priv->edit_line.entry;
+	return wbcg->edit_line.entry;
 }
 
 GtkEntry *
-workbook_get_entry_logical (Workbook const *wb)
+workbook_get_entry_logical (WorkbookControlGUI const *wbcg)
 {
-	g_return_val_if_fail (wb != NULL, NULL);
-	g_return_val_if_fail (wb->priv != NULL, NULL);
+	g_return_val_if_fail (wbcg != NULL, NULL);
 
-	if (wb->priv->edit_line.temp_entry != NULL)
-		return wb->priv->edit_line.temp_entry;
+	if (wbcg->edit_line.temp_entry != NULL)
+		return wbcg->edit_line.temp_entry;
 
-	return wb->priv->edit_line.entry;
+	return wbcg->edit_line.entry;
 }
 
 void
-workbook_set_entry (Workbook *wb, GtkEntry *entry)
+workbook_set_entry (WorkbookControlGUI *wbcg, GtkEntry *entry)
 {
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (wb->priv != NULL);
+	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 
-	if (wb->priv->edit_line.temp_entry != entry) {
-		wb->priv->edit_line.temp_entry = entry;
-		sheet_destroy_cell_select_cursor (wb->current_sheet, FALSE);
+	g_return_if_fail (wbcg != NULL);
+
+	if (wbcg->edit_line.temp_entry != entry) {
+		wbcg->edit_line.temp_entry = entry;
+		sheet_destroy_cell_select_cursor (sheet, FALSE);
 	}
 }
 
 void
-workbook_edit_attach_guru (Workbook *wb, GtkWidget *guru)
+workbook_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 {
 	g_return_if_fail (guru != NULL);
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (wb->priv != NULL);
-	g_return_if_fail (wb->priv->edit_line.guru == NULL);
+	g_return_if_fail (wbcg != NULL);
+	g_return_if_fail (wbcg->edit_line.guru == NULL);
 
-	wb->priv->edit_line.guru = guru;
-	gtk_entry_set_editable (wb->priv->edit_line.entry, FALSE);
-	workbook_edit_set_sensitive (wb, FALSE, FALSE);
+	wbcg->edit_line.guru = guru;
+	gtk_entry_set_editable (wbcg->edit_line.entry, FALSE);
+	workbook_edit_set_sensitive (wbcg, FALSE, FALSE);
 }
 
 void
-workbook_edit_detach_guru (Workbook *wb)
+workbook_edit_detach_guru (WorkbookControlGUI *wbcg)
 {
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (wb->priv != NULL);
+	g_return_if_fail (wbcg != NULL);
 
-	if (wb->priv->edit_line.guru == NULL)
+	if (wbcg->edit_line.guru == NULL)
 		return;
 
-	workbook_set_entry (wb, NULL);
-	wb->priv->edit_line.guru = NULL;
-	gtk_entry_set_editable (wb->priv->edit_line.entry, TRUE);
-	workbook_edit_set_sensitive (wb, FALSE, TRUE);
+	workbook_set_entry (wbcg, NULL);
+	wbcg->edit_line.guru = NULL;
+	gtk_entry_set_editable (wbcg->edit_line.entry, TRUE);
+	workbook_edit_set_sensitive (wbcg, FALSE, TRUE);
 }
 
 gboolean
-workbook_edit_has_guru (Workbook const *wb)
+workbook_edit_has_guru (WorkbookControlGUI const *wbcg)
 {
-	return (wb->priv->edit_line.guru != NULL);
+	return (wbcg->edit_line.guru != NULL);
 }
 
 gboolean
-workbook_edit_entry_redirect_p (Workbook const *wb)
+workbook_edit_entry_redirect_p (WorkbookControlGUI const *wbcg)
 {
-	return (wb->priv->edit_line.temp_entry != NULL);
+	return (wbcg->edit_line.temp_entry != NULL);
 }
 
 void
-workbook_edit_select_absolute (Workbook *wb)
+workbook_edit_select_absolute (WorkbookControlGUI *wbcg)
 {
-	wb->select_abs_col = wb->select_abs_row = TRUE;
+	wbcg->select_abs_col = wbcg->select_abs_row = TRUE;
 }
 
 gboolean
-workbook_editing_expr (Workbook const *wb)
+workbook_editing_expr (WorkbookControlGUI const *wbcg)
 {
-	return (wb->priv->edit_line.guru != NULL) ||
-	    gnumeric_entry_at_subexpr_boundary_p (workbook_get_entry (wb));
+	return (wbcg->edit_line.guru != NULL) ||
+	    gnumeric_entry_at_subexpr_boundary_p (workbook_get_entry (wbcg));
 }
 
 gboolean
-workbook_auto_completing (Workbook *wb)
+workbook_auto_completing (WorkbookControlGUI *wbcg)
 {
-	return wb->priv->auto_completing;
+	return wbcg->auto_completing;
 }
 
 static gboolean
-auto_complete_matches (Workbook *wb)
+auto_complete_matches (WorkbookControlGUI *wbcg)
 {
-	GtkEntry *entry = workbook_get_entry (wb);
+	GtkEntry *entry = workbook_get_entry (wbcg);
 	int cursor_pos = GTK_EDITABLE (entry)->current_pos;
 	char *text = gtk_entry_get_text (entry);
 	gboolean equal;
@@ -402,17 +389,17 @@ auto_complete_matches (Workbook *wb)
 
 		if (perform_test)
 			if (cursor_pos != strlen (text))
-				wb->priv->auto_completing = FALSE;
+				wbcg->auto_completing = FALSE;
 
 	}
 
-	if (!wb->priv->auto_completing)
+	if (!wbcg->auto_completing)
 		return FALSE;
 
-	if (!wb->priv->auto_complete_text)
+	if (!wbcg->auto_complete_text)
 		return FALSE;
 
-	equal = (strncmp (text, wb->priv->auto_complete_text, strlen (text)) == 0);
+	equal = (strncmp (text, wbcg->auto_complete_text, strlen (text)) == 0);
 
 	return equal;
 }
@@ -422,12 +409,12 @@ auto_complete_matches (Workbook *wb)
  * into account the auto-completion text.
  */
 const char *
-workbook_edit_get_display_text (Workbook *wb)
+workbook_edit_get_display_text (WorkbookControlGUI *wbcg)
 {
-	if (auto_complete_matches (wb))
-		return wb->priv->auto_complete_text;
+	if (auto_complete_matches (wbcg))
+		return wbcg->auto_complete_text;
 	else
-		return gtk_entry_get_text (workbook_get_entry (wb));
+		return gtk_entry_get_text (workbook_get_entry (wbcg));
 }
 
 /**
@@ -436,9 +423,8 @@ workbook_edit_get_display_text (Workbook *wb)
  * FIXME : when ready move to workbook-view
  */
 void
-workbook_edit_load_value (Sheet const *sheet)
+workbook_edit_load_value (WorkbookControl *wbc, Sheet const *sheet)
 {
-	GtkEntry *entry;
 	Cell     *cell;
 	char     *text;
 	ExprArray const* ar;
@@ -446,57 +432,52 @@ workbook_edit_load_value (Sheet const *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	entry = GTK_ENTRY (workbook_get_entry (sheet->workbook));
 	cell = sheet_cell_get (sheet,
 			       sheet->cursor.edit_pos.col,
 			       sheet->cursor.edit_pos.row);
 
-	if (cell)
+	if (cell) {
 		text = cell_get_entered_text (cell);
-	else
+		/*
+		 * If this is part of an array we add '{' '}' and size
+		 * information to the display.  That is not actually part of
+		 * the parsable expression, but it is a useful extension to the
+		 * simple '{' '}' that MS excel(tm) uses.
+		 */
+		if (NULL != (ar = cell_is_array(cell))) {
+			/* No need to worry about locale for the comma this
+			 * syntax is not parsed
+			 */
+			char *tmp = g_strdup_printf ("{%s}(%d,%d)[%d][%d]", text,
+						     ar->rows, ar->cols,
+						     ar->y, ar->x);
+			g_free (text);
+			text = tmp;
+		}
+	} else
 		text = g_strdup ("");
 
+	/* FIXME : This does not belong here.  */
 	/* This is intended for screen reading software etc. */
 	gtk_signal_emit_by_name (GTK_OBJECT (sheet->workbook), "cell_changed",
 				 sheet, text,
 				 sheet->cursor.edit_pos.col,
 				 sheet->cursor.edit_pos.row);
 
-	gtk_entry_set_text (entry, text);
-
-	/*
-	 * If this is part of an array we add '{' '}' and size information
-	 * to the display.  That is not actually part of the parsable
-	 * expression, but it is a useful extension to the simple '{' '}' that
-	 * MS excel(tm) uses.
-	 */
-	if (NULL != (ar = cell_is_array(cell))) {
-		/* No need to worry about locale for the comma
-		 * this syntax is not parsed
-		 */
-		char *tmp = g_strdup_printf ("}(%d,%d)[%d][%d]",
-					     ar->rows, ar->cols,
-					     ar->y, ar->x);
-		gtk_entry_prepend_text  (entry, "{");
-		gtk_entry_append_text (entry, tmp);
-		g_free (tmp);
-	}
-
+	wb_control_edit_line_set (wbc, text);
 	g_free (text);
 }
 
-/*
- * Initializes the Workbook entry
- */
+/* Initializes the Workbook entry */
 void
-workbook_edit_init (Workbook *wb)
+workbook_edit_init (WorkbookControlGUI *wbcg)
 {
-	g_assert (wb != NULL);
-	g_assert (IS_WORKBOOK (wb));
-	g_assert (wb->priv->edit_line.entry == NULL);
+	g_assert (wbcg != NULL);
+	g_assert (IS_WORKBOOK_CONTROL_GUI (wbcg));
+	g_assert (wbcg->edit_line.entry == NULL);
 
-	wb->priv->edit_line.entry = GTK_ENTRY (gtk_entry_new ());
-	wb->priv->edit_line.temp_entry = NULL;
-	wb->priv->edit_line.guru = NULL;
-	wb->priv->edit_line.signal_changed = -1;
+	wbcg->edit_line.entry = GTK_ENTRY (gtk_entry_new ());
+	wbcg->edit_line.temp_entry = NULL;
+	wbcg->edit_line.guru = NULL;
+	wbcg->edit_line.signal_changed = -1;
 }

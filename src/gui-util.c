@@ -6,15 +6,13 @@
  *
  */
 #include <config.h>
-#include <gnome.h>
-#include <string.h>
-#include "gnumeric.h"
+#include "workbook-control-gui-priv.h"
 #include "gnumeric-util.h"
 #include "gutils.h"
 #include "parse-util.h"
-#include "command-context-gui.h"
 #include "style.h"
-#include "workbook.h"
+
+#include <string.h>
 #include <gal/widgets/e-colors.h>
 
 #ifdef ENABLE_BONOBO
@@ -22,26 +20,19 @@
 #	include "workbook-private.h"
 #endif
 
-void
-gnumeric_no_modify_array_notice (Workbook *wb)
-{
-	gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-			 _("You cannot change part of an array."));
-}
-
 /*
  * TODO:
  * Get rid of trailing newlines /whitespace.
  * Wrap overlong lines.
  */
 void
-gnumeric_notice (Workbook *wb, const char *type, const char *str)
+gnumeric_notice (WorkbookControlGUI *wbcg, const char *type, const char *str)
 {
 	GtkWidget *dialog;
 
 	dialog = gnome_message_box_new (str, type, GNOME_STOCK_BUTTON_OK, NULL);
 
-	gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 }
 
 /**
@@ -50,21 +41,19 @@ gnumeric_notice (Workbook *wb, const char *type, const char *str)
  * is being displayed.
  */
 static gint
-gnumeric_wb_dialog_run (Workbook *wb, GnomeDialog *dialog)
+gnumeric_wb_dialog_run (WorkbookControlGUI *wbcg, GnomeDialog *dialog)
 {
+	GtkWindow *toplevel = wb_control_gui_toplevel (wbcg);
 	gint res;
-	GtkObject * const app = GTK_OBJECT (workbook_get_toplevel (wb));
 
-	if (GTK_WINDOW (dialog)->transient_parent !=
-	    GTK_WINDOW (workbook_get_toplevel (wb)))
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-					 GTK_WINDOW (workbook_get_toplevel (wb)));
+	if (GTK_WINDOW (dialog)->transient_parent != toplevel)
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), toplevel);
 
-	gtk_object_ref (app);
+	gtk_object_ref (GTK_OBJECT (toplevel));
 	res = gnome_dialog_run (dialog);
 
 	/* If the application was closed close the dialog too */
-	if (res < 0 && GTK_OBJECT_DESTROYED (app))
+	if (res < 0 && GTK_OBJECT_DESTROYED (GTK_OBJECT (toplevel)))
 		gnome_dialog_close (dialog);
 
 	/* TODO :
@@ -72,7 +61,7 @@ gnumeric_wb_dialog_run (Workbook *wb, GnomeDialog *dialog)
 	 * 3) Handle the more interesting case of exiting of the
 	 *    main window.
 	 */
-	gtk_object_unref (app);
+	gtk_object_unref (GTK_OBJECT (toplevel));
 	return res;
 }
 
@@ -82,10 +71,10 @@ gnumeric_wb_dialog_run (Workbook *wb, GnomeDialog *dialog)
  * Pop up a dialog as child of a workbook.
  */
 gint
-gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog)
+gnumeric_dialog_run (WorkbookControlGUI *wbcg, GnomeDialog *dialog)
 {
-	if (wb)
-		return gnumeric_wb_dialog_run (wb, dialog);
+	if (wbcg)
+		return gnumeric_wb_dialog_run (wbcg, dialog);
 	else
 		return gnome_dialog_run (dialog);
 }
@@ -161,13 +150,14 @@ connect_to_parent_close (GnomeDialog *dialog, DialogRunInfo *run_info)
  * up here.
  */
 void
-gnumeric_dialog_show (GtkObject *parent, GnomeDialog *dialog,
+gnumeric_dialog_show (WorkbookControlGUI *wbcg, GnomeDialog *dialog,
 		      gboolean click_closes, gboolean close_with_parent)
 {
+	GtkWindow *parent = wb_control_gui_toplevel (wbcg);
 	DialogRunInfo *run_info = NULL;
 
 	g_return_if_fail(GNOME_IS_DIALOG(dialog));
-	if (parent) {
+	if (parent != NULL) {
 		run_info = g_new0 (DialogRunInfo, 1);
 		run_info->parent_toplevel =
 			gtk_widget_get_toplevel (GTK_WIDGET (parent));
@@ -187,19 +177,15 @@ gnumeric_dialog_show (GtkObject *parent, GnomeDialog *dialog,
 
 /**
  * gnumeric_set_transient
- * @context            command_context
- * @window             the transient window
+ * @wbcg	: The calling window
+ * @window      : the transient window
  *
  * Make the window a child of the workbook in the command context, if there is
  * one. */
 void
-gnumeric_set_transient (CommandContext *context, GtkWindow *window)
+gnumeric_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
 {
-	if (IS_COMMAND_CONTEXT_GUI (context)) {
-		CommandContextGui *ccg = COMMAND_CONTEXT_GUI(context);
-		gtk_window_set_transient_for
-			(window, GTK_WINDOW (workbook_get_toplevel (ccg->wb)));
-	}
+	gtk_window_set_transient_for (window, wb_control_gui_toplevel (wbcg));
 }
 
 /**
@@ -641,7 +627,7 @@ gnumeric_entry_at_subexpr_boundary_p (GtkEntry *entry)
 }
 
 GladeXML *
-gnumeric_glade_xml_new (CommandContext *context, char const * gladefile)
+gnumeric_glade_xml_new (WorkbookControlGUI *wbcg, char const * gladefile)
 {
 	GladeXML *gui;
 	char *d = gnumeric_sys_glade_dir ();
@@ -649,9 +635,9 @@ gnumeric_glade_xml_new (CommandContext *context, char const * gladefile)
 	gui = glade_xml_new (f, NULL);
 
 	/* Onlt report errors if the context is non-null */
-	if (gui == NULL && context != NULL) {
+	if (gui == NULL && wbcg != NULL) {
 		char *msg = g_strdup_printf (_("Unable to open file '%s'"), f);
-		gnumeric_error_sys_err (context, msg);
+		gnumeric_error_system (COMMAND_CONTEXT (wbcg), msg);
 		g_free (msg);
 	}
 	g_free (f);
@@ -672,10 +658,9 @@ cb_non_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
 }
 
 void
-gnumeric_non_modal_dialog (Workbook *wb, GtkWindow *dialog)
+gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog)
 {
-	gtk_window_set_transient_for (dialog,
-				      GTK_WINDOW (workbook_get_toplevel (wb)));
+	gtk_window_set_transient_for (dialog, wb_control_gui_toplevel (wbcg));
 	gtk_signal_connect (GTK_OBJECT (dialog), "key-press-event",
 			    (GtkSignalFunc) cb_non_modal_dialog_keypress, NULL);
 }
@@ -687,14 +672,14 @@ gnumeric_non_modal_dialog (Workbook *wb, GtkWindow *dialog)
  * A quick utility routine to inject a widget into a menu/toolbar.
  */
 void
-gnumeric_inject_widget_into_bonoboui (Workbook *wb, GtkWidget *widget, char const *path)
+gnumeric_inject_widget_into_bonoboui (WorkbookControlGUI *wbcg, GtkWidget *widget, char const *path)
 {
 	BonoboControl *control;
 
 	gtk_widget_show_all (widget);
 	control = bonobo_control_new (widget);
 	bonobo_ui_component_object_set (
-		wb->priv->uic, path,
+		wbcg->uic, path,
 		bonobo_object_corba_objref (BONOBO_OBJECT (control)),
 		NULL);
 }

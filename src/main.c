@@ -23,6 +23,7 @@
 #include "plugin.h"
 #include "format.h"
 #include "formats.h"
+#include "command-context.h"
 #include "workbook.h"
 #include "number-match.h"
 #include "main.h"
@@ -58,7 +59,7 @@ int style_debugging = 0;
 int dependency_debugging = 0;
 int immediate_exit_flag = 0;
 int print_debugging = 0;
-gboolean initial_worbook_open_complete = FALSE;
+gboolean initial_workbook_open_complete = FALSE;
 extern int ms_excel_read_debug;
 extern int ms_excel_formula_debug;
 extern int ms_excel_color_debug;
@@ -143,8 +144,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 {
 	gboolean opened_workbook = FALSE;
 	int i;
-	Workbook *new_book;
-	CommandContext *context; 
+	WorkbookControl *context;
 
 	/* Make stdout line buffered - we only use it for debug info */
 	setvbuf (stdout, NULL, _IOLBF, 0);
@@ -162,8 +162,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 #ifdef USE_WM_ICONS
 	gnome_window_icon_set_default_from_file (GNOME_ICONDIR"/gnome-gnumeric.png");
 #endif
-	/* For reporting errors before we have an application window */
-	context = workbook_command_context_gui (NULL);
 
 	application_init ();
 	string_init ();
@@ -176,7 +174,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	functions_init ();
 	expr_name_init ();
 	print_init ();
-	plugins_init (context);
 
 	/* The statically linked in file formats */
 	xml_init ();
@@ -204,9 +201,11 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	}
 
 #ifdef ENABLE_BONOBO
+#if 0
 	/* Activate object factories and init connections to POA */
 	if (!WorkbookFactory_init ())
 		g_warning (_("Could not initialize Workbook factory"));
+#endif
 
 	if (!EmbeddableGridFactory_init ())
 		g_warning (_("Could not initialize EmbeddableGrid factory"));
@@ -218,38 +217,33 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	else
 		startup_files = NULL;
 
+	context = workbook_control_gui_new (NULL, NULL);
+	plugins_init (COMMAND_CONTEXT (context));
 	if (startup_files)
-		for (i = 0; startup_files [i]; i++) {
-			Workbook *new_book = workbook_read (context,
-							    startup_files [i]);
-
-			if (new_book) {
+		for (i = 0; startup_files [i]  && !initial_workbook_open_complete ; i++) {
+			if (workbook_read (context, startup_files [i]) != NULL)
 				opened_workbook = TRUE;
-				workbook_show (new_book);
-			}
 
 			/* FIXME: we need to mask input events correctly here */
-			while (gtk_events_pending ()) /* Show something coherent */
+			/* Show something coherent */
+			while (gtk_events_pending () &&
+			       !initial_workbook_open_complete)
 				gtk_main_iteration ();
 		}
 	if (ctx)
 		poptFreeContext (ctx);
 
-	if (!opened_workbook) {
-		new_book = workbook_new_with_sheets (1);
-#if 0
-		workbook_style_test (new_book);
-#endif
-		workbook_show (new_book);
-	}
-	initial_worbook_open_complete = TRUE;
-
+	/* If we were intentionally short circuited exit now */
+	if (!initial_workbook_open_complete && !immediate_exit_flag) {
+		initial_workbook_open_complete = TRUE;
+		if (!opened_workbook)
+			workbook_sheet_add (wb_control_workbook (context),
+					    NULL, FALSE);
 #ifdef ENABLE_BONOBO
-	bonobo_activate ();
+		bonobo_activate ();
 #endif
-
-	if (!immediate_exit_flag)
 		gtk_main ();
+	}
 
 	excel_shutdown ();
 	print_shutdown ();

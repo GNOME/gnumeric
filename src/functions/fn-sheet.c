@@ -39,10 +39,7 @@ typedef struct
 } selection_accumulator;
 
 static void
-accumulate_regions (Sheet *sheet, 
-		    int start_col, int start_row,
-		    int end_col,   int end_row,
-		    void *closure)
+accumulate_regions (Sheet *sheet,  Range const *r, gpointer closure)
 {
 	selection_accumulator *accum = closure;
 	CellRef a, b;
@@ -52,15 +49,15 @@ accumulate_regions (Sheet *sheet,
 	a.sheet = sheet;
 	a.col_relative = 0;
 	a.row_relative = 0;
-	a.col = start_col;
-	a.row = start_row;
+	a.col = r->start.col;
+	a.row = r->start.row;
 
 	/* end */
 	b.sheet = sheet;
 	b.col_relative = 0;
 	b.row_relative = 0;
-	b.col = end_col;
-	b.row = end_row;
+	b.col = r->end.col;
+	b.row = r->end.row;
 
 	/* Dummy up the eval pos it does not matter */
 	accum->res = g_slist_prepend (accum->res,

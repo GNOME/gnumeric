@@ -2,48 +2,68 @@
 #define GNUMERIC_WORKBOOK_VIEW_H
 
 #include "gnumeric.h"
+#include <gtk/gtkobject.h>
 
-/*
- * Actions on the workbooks UI
- * 
- * These are the embryonic form of signals that will change the
- * workbook-view.  I amsure that this is the wrong place and interface
- * but it is a starting point of the list.
- *
- */
-void workbook_view_set_paste_special_state (Workbook *wb, gboolean enable);
+struct _WorkbookView {
+	GtkObject  gtk_object;
 
-void workbook_view_set_undo_redo_state (Workbook const * const wb,
-					char const * const undo_suffix,
-					char const * const redo_suffix);
+	Workbook *wb;
+	GPtrArray *wb_controls;
 
-void workbook_view_push_undo (Workbook const * const wb,
-			      char const * const cmd_text);
-void workbook_view_pop_undo (Workbook const * const wb);
-void workbook_view_clear_undo (Workbook const * const wb);
+	/* The auto-expression */
+	ExprTree   *auto_expr;
+	String     *auto_expr_desc;
 
-void workbook_view_push_redo (Workbook const * const wb,
-			      char const * const cmd_text);
-void workbook_view_pop_redo (Workbook const * const wb);
-void workbook_view_clear_redo (Workbook const * const wb);
+	Sheet	  *current_sheet;
+	gboolean   show_horizontal_scrollbar;
+	gboolean   show_vertical_scrollbar;
+	gboolean   show_notebook_tabs;
 
-void workbook_view_set_size (Workbook const * const wb,
-			     int width_pixels,
-			     int height_pixels);
+	/* Non-normative size information */
+	int preferred_width, preferred_height;
+};
 
-void workbook_view_set_title (Workbook const * const wb,
-			      char const * const title);
+typedef struct {
+	GtkObjectClass   gtk_object_class;
+	void (*sheet_entered) (Sheet *sheet);
+} WorkbookViewClass;
 
-void workbook_view_pref_visibility (Workbook const * const wb);
+#define WORKBOOK_VIEW_TYPE     (workbook_view_get_type ())
+#define WORKBOOK_VIEW(obj)     (GTK_CHECK_CAST ((obj), WORKBOOK_VIEW_TYPE, WorkbookView))
+#define WORKBOOK_VIEW_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), WORKBOOK_VIEW_TYPE, WorkbookViewClass))
+#define IS_WORKBOOK_VIEW(o)    (GTK_CHECK_TYPE ((o), WORKBOOK_VIEW_TYPE))
 
-void workbook_view_history_setup  (Workbook *wb);
+/* Lifecycle */
+GtkType		 workbook_view_get_type	  (void);
+WorkbookView	*workbook_view_new	  (Workbook *optional_workbook);
+void		 wb_view_attach_control	  (WorkbookControl *wbc);
+void		 wb_view_detach_control	  (WorkbookControl *wbc);
 
-void workbook_view_history_update (GList *wl, gchar *filename);
+/* Information */
+Workbook	*wb_view_workbook	  (WorkbookView *wbv);
+Sheet		*wb_view_cur_sheet	  (WorkbookView *wbv);
+void		 wb_view_sheet_focus	  (WorkbookView *wbv, Sheet *sheet);
 
-void workbook_view_history_shrink (GList *wl, gint new_max);
+/* Manipulation */
+GtkArg		*wb_view_get_attributev	  (WorkbookView *wbv, guint *n_args);
+void		 wb_view_set_attributev	  (WorkbookView *wbv, GList *list);
+void		 wb_view_preferred_size	  (WorkbookView *wbv,
+					   int w_pixels, int h_pixels);
+void		 wb_view_prefs_update	  (WorkbookView *wbv);
+void		 wb_view_auto_expr_recalc (WorkbookView *wbv);
+void		 wb_view_auto_expr	  (WorkbookView *wbv,
+					   char const *name, char const *expr);
+
+#define WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control, code)			\
+do {										\
+	int j;									\
+	GPtrArray *wb_controls = wbv->wb_controls;				\
+	if (wb_controls != NULL) /* Reverse is important during destruction */	\
+		for (j = wb_controls->len; j-- > 0 ;) {				\
+			WorkbookControl *control =				\
+				g_ptr_array_index (wb_controls, j);		\
+			code							\
+		}								\
+} while (0)
 
 #endif /* GNUMERIC_WORKBOOK_VIEW_H */
-
-
-
-

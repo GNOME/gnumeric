@@ -16,37 +16,37 @@
 #define CCG_CLASS(o) CMD_CONTEXT_CORBA_CLASS (GTK_OBJECT (o)->klass)
 
 static void
-ccc_error_plugin (CommandContext *context, char const * message)
+ccc_error_plugin (WorkbookControl *context, char const * message)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_error_read (CommandContext *context, char const * message)
+ccc_error_read (WorkbookControl *context, char const * message)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_error_save (CommandContext *context, char const * message)
+ccc_error_save (WorkbookControl *context, char const * message)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_error_sys_err (CommandContext *context, char const * message)
+ccc_error_sys_err (WorkbookControl *context, char const * message)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_error_invalid (CommandContext *context, char const * message, char const *value)
+ccc_error_invalid (WorkbookControl *context, char const * message, char const *value)
 {
 	/* FIXME set exception */
 }
 
 static void
-ccc_set_progress (CommandContext *context, gfloat f)
+ccc_set_progress (WorkbookControl *context, gfloat f)
 {
     /* Ignore */
 }
@@ -54,7 +54,7 @@ ccc_set_progress (CommandContext *context, gfloat f)
 static void
 ccc_init_class (GtkObjectClass *object_class)
 {
-	CommandContextClass *cc_class = (CommandContextClass *) object_class;
+	WorkbookControlClass *cc_class = (WorkbookControlClass *) object_class;
 
 	cc_class->error_plugin		= &ccc_error_plugin;
 	cc_class->error_read		= &ccc_error_read;
@@ -64,12 +64,12 @@ ccc_init_class (GtkObjectClass *object_class)
 	cc_class->set_progress		= &ccc_set_progress;
 }
 
-GNUMERIC_MAKE_TYPE(command_context_corba, "CommandContextCorba", CommandContextCorba, ccc_init_class, NULL, PARENT_TYPE)
+GNUMERIC_MAKE_TYPE(command_context_corba, "WorkbookControlCorba", WorkbookControlCorba, ccc_init_class, NULL, PARENT_TYPE)
 
-CommandContext *
+WorkbookControl *
 command_context_corba_new (void)
 {
-	CommandContextCorba *ccg;
+	WorkbookControlCorba *ccg;
 
 	ccg = gtk_type_new (command_context_corba_get_type ());
 	

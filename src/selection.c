@@ -13,6 +13,8 @@
 #include "clipboard.h"
 #include "ranges.h"
 #include "application.h"
+#include "command-context.h"
+#include "workbook-view.h"
 #include "workbook.h"
 #include "commands.h"
 #include "sheet-view.h"
@@ -129,7 +131,7 @@ selection_first_range (Sheet const *sheet, gboolean const permit_complex)
 
 /*
  * selection_is_simple
- * @context      : The calling context to report errors to (GUI or corba)
+ * @wbc          : The calling context to report errors to (GUI or corba)
  * @sheet        : The sheet whose selection we are testing.
  * @command_name : A string naming the operation requiring a single range.
  *
@@ -137,7 +139,7 @@ selection_first_range (Sheet const *sheet, gboolean const permit_complex)
  * produces a warning.
  */
 gboolean
-selection_is_simple (CommandContext *context, Sheet const *sheet,
+selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
 		     char const *command_name)
 {
 	g_return_val_if_fail (sheet != NULL, FALSE);
@@ -146,8 +148,8 @@ selection_is_simple (CommandContext *context, Sheet const *sheet,
 	if (g_list_length (sheet->selections) == 1)
 		return TRUE;
 
-	gnumeric_error_invalid	(context, command_name,
-				 _("cannot be performed with multiple selections"));
+	gnumeric_error_invalid (COMMAND_CONTEXT (wbc), command_name,
+			      _("cannot be performed with multiple selections"));
 
 	return FALSE;
 }
@@ -171,6 +173,8 @@ sheet_selection_add (Sheet *sheet, int col, int row)
 void
 sheet_selection_extend_to (Sheet *sheet, int col, int row)
 {
+	char const *sel_descr;
+
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -185,9 +189,6 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 			     sheet->cursor.base_corner.row,
 			     col, row);
 
-	workbook_set_region_status (sheet->workbook,
-				    sheet_get_selection_name (sheet));
-
 	/*
 	 * FIXME : Does this belong here ?
 	 * This is a convenient place to put is so that move movements
@@ -195,6 +196,14 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 	 * but this is somewhat lower level that I want to do this.
 	 */
 	sheet_update (sheet);
+	sel_descr = sheet_get_selection_name (sheet);
+	WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
+	{
+		if (wb_view_cur_sheet (view) == sheet) {
+			WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
+				wb_control_selection_descr_set (control, sel_descr););
+		}
+	});
 }
 
 /*
@@ -474,40 +483,6 @@ sheet_selection_reset_only (Sheet *sheet)
 	g_list_free (list);
 }
 
-/*
- * assemble_cell_list: A callback for sheet_cell_foreach_range
- * intented to assemble a list of cells in a region.
- *
- * The closure parameter should be a pointer to a GList.
- */
-static Value *
-assemble_cell_list (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
-{
-	GList **l = (GList **) user_data;
-
-	*l = g_list_prepend (*l, cell);
-	return NULL;
-}
-
-static void
-assemble_selection_list (Sheet *sheet,
-			 int start_col, int start_row,
-			 int end_col,   int end_row,
-			 void *closure)
-{
-	sheet_cell_foreach_range (
-		sheet, TRUE,
-		start_col, start_row,
-		end_col, end_row,
-		&assemble_cell_list, closure);
-}
-
-void
-sheet_cell_list_free (CellList *cell_list)
-{
-	g_list_free (cell_list);
-}
-
 static void
 reference_append (GString *result_str, CellPos const *pos)
 {
@@ -588,7 +563,7 @@ sheet_selection_unant (Sheet *sheet)
 }
 
 gboolean
-sheet_selection_copy (CommandContext *context, Sheet *sheet)
+sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
 {
 	SheetSelection *ss;
 	g_return_val_if_fail (sheet != NULL, FALSE);
@@ -597,7 +572,7 @@ sheet_selection_copy (CommandContext *context, Sheet *sheet)
 
 	/* FIXME FIXME : disable copying part of an array */
 
-	if (!selection_is_simple (context, sheet, _("copy")))
+	if (!selection_is_simple (wbc, sheet, _("copy")))
 		return FALSE;
 
 	ss = sheet->selections->data;
@@ -608,7 +583,7 @@ sheet_selection_copy (CommandContext *context, Sheet *sheet)
 }
 
 gboolean
-sheet_selection_cut (CommandContext *context, Sheet *sheet)
+sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
 {
 	SheetSelection *ss;
 
@@ -628,12 +603,12 @@ sheet_selection_cut (CommandContext *context, Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
 
-	if (!selection_is_simple (context, sheet, _("cut")))
+	if (!selection_is_simple (wbc, sheet, _("cut")))
 		return FALSE;
 
 	ss = sheet->selections->data;
 	if (sheet_range_splits_array (sheet, &ss->user)) {
-		gnumeric_no_modify_array_notice (sheet->workbook);
+		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc), ("cut"));
 		return FALSE;
 	}
 
@@ -670,6 +645,11 @@ selection_get_ranges (Sheet *sheet, gboolean const allow_intersection)
 		 * its predecessors */
 		GSList *clear = NULL;
 		Range *tmp, *b = range_copy (&ss->user);
+
+		if (allow_intersection) {
+			proposed = g_slist_prepend (proposed, b);
+			continue;
+		}
 
 		/* run through the proposed regions and handle any that
 		 * overlap with the current selection region
@@ -973,10 +953,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 		for (l = sheet->selections; l != NULL; l = l->next) {
 			SheetSelection const *ss = l->data;
 
-			(*func) (sheet,
-				 ss->user.start.col, ss->user.start.row,
-				 ss->user.end.col, ss->user.end.row,
-				 closure);
+			(*func) (sheet, &ss->user, closure);
 		}
 	} else {
 		proposed = selection_get_ranges (sheet, allow_intersection);
@@ -990,10 +967,7 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 			fprintf (stderr, "\n");
 #endif
 
-			(*func) (sheet,
-				 r->start.col, r->start.row,
-				 r->end.col, r->end.row,
-				 closure);
+			(*func) (sheet, r, closure);
 			g_free (r);
 		}
 	}
@@ -1006,10 +980,7 @@ typedef struct
 } selection_to_string_closure;
 
 static void
-range_to_string (Sheet *sheet,
-		 int start_col, int start_row,
-		 int end_col,   int end_row,
-		 void *closure)
+cb_range_to_string (Sheet *sheet, Range const *r, void *closure)
 {
 	selection_to_string_closure * res = closure;
 
@@ -1020,10 +991,10 @@ range_to_string (Sheet *sheet,
 		g_string_sprintfa (res->str, "%s!", sheet->name_quoted);
 
 	g_string_sprintfa (res->str, "$%s$%d",
-			   col_name (start_col), start_row+1);
-	if ((start_col != end_col) || (start_row != end_row))
+			   col_name (r->start.col), r->start.row+1);
+	if ((r->start.col != r->end.col) || (r->start.row != r->end.row))
 		g_string_sprintfa (res->str, ":$%s$%d",
-				   col_name (end_col), end_row+1);
+				   col_name (r->end.col), r->end.row+1);
 }
 
 char *
@@ -1036,28 +1007,11 @@ selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 	res.include_sheet_name_prefix = include_sheet_name_prefix;
 
 	/* selection_apply will check all necessary invariants. */
-	selection_apply (sheet, &range_to_string, TRUE, &res);
+	selection_apply (sheet, &cb_range_to_string, TRUE, &res);
 
 	output = res.str->str;
 	g_string_free (res.str, FALSE);
 	return output;
-}
-
-/*
- * selection_to_list :
- * @sheet : The whose selection we are interested in.
- *
- * Assembles a unique CellList of all the existing cells in the selection.
- * Overlapping selection regions are handled.
- */
-CellList *
-selection_to_list (Sheet *sheet, gboolean allow_intersection)
-{
-	/* selection_apply will check all necessary invariants. */
-	CellList *list = NULL;
-	selection_apply (sheet, &assemble_selection_list,
-			 allow_intersection, &list);
-	return list;
 }
 
 /*

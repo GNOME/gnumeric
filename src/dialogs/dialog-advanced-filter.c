@@ -15,6 +15,7 @@
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "workbook.h"
+#include "workbook-control.h"
 #include "func.h"
 #include "ranges.h"
 #include "analysis-tools.h"
@@ -26,7 +27,7 @@
 static gboolean unique_only_flag;
 
 static void
-unique_only_toggled(GtkWidget *widget, Workbook *wb)
+unique_only_toggled(GtkWidget *widget, gpointer ignored)
 {
         unique_only_flag = GTK_TOGGLE_BUTTON (widget)->active;
 }
@@ -68,7 +69,7 @@ filter (data_analysis_output_t *dao,
 /* Filter tool.
  */
 static gint
-advanced_filter (Workbook *wb,
+advanced_filter (WorkbookControl *wbc,
 		 data_analysis_output_t   *dao,
 		 gint     input_col_b,    gint input_row_b,
 		 gint     input_col_e,    gint input_row_e,
@@ -84,7 +85,7 @@ advanced_filter (Workbook *wb,
 	if (cols != criteria_col_e - criteria_col_b)
 	        return N_COLUMNS_ERROR;
 
-	sheet = wb->current_sheet;
+	sheet = wb_control_cur_sheet (wbc);
 	criteria = parse_criteria_range (sheet, criteria_col_b,
 					 criteria_row_b, criteria_col_e,
 					 criteria_row_e, NULL);
@@ -149,7 +150,7 @@ new_workbook_toggled(GtkWidget *widget, filter_t *filter)
 
 
 void
-dialog_advanced_filter (Workbook *wb)
+dialog_advanced_filter (WorkbookControlGUI *wbcg)
 {
         data_analysis_output_t dao;
 	filter_t               f;
@@ -169,7 +170,7 @@ dialog_advanced_filter (Workbook *wb)
 
 	f.type = InPlace;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),  "advanced-filter.glade");
+	gui = gnumeric_glade_xml_new (wbcg,  "advanced-filter.glade");
 	if (gui == NULL )
 		return;
 
@@ -206,7 +207,7 @@ dialog_advanced_filter (Workbook *wb)
 					      unique_only, unique_only_flag);
 
 	gtk_signal_connect (GTK_OBJECT (unique_only), "toggled",
-			    GTK_SIGNAL_FUNC (unique_only_toggled), wb);
+			    GTK_SIGNAL_FUNC (unique_only_toggled), NULL);
 
 	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
 				      GTK_EDITABLE (list_range));
@@ -217,9 +218,9 @@ dialog_advanced_filter (Workbook *wb)
 	gtk_widget_grab_focus (list_range);
 	gtk_widget_set_sensitive (copy_to, FALSE);
 loop:
-	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
+	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
 
-	sheet = wb->current_sheet;
+	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 
 	if (v == -1 || v == 1){
 	        /* Canceled */
@@ -233,7 +234,7 @@ loop:
 	error_flag = parse_range (text, &list_col_b, &list_row_b,
 				  &list_col_e, &list_row_e);
 	if (! error_flag) {
- 	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+ 	        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce a valid cell names "
 				   "in 'List Range:'"));
 		gtk_widget_grab_focus (list_range);
@@ -247,7 +248,7 @@ loop:
 	error_flag = parse_range (text, &crit_col_b, &crit_row_b,
 				  &crit_col_e, &crit_row_e);
 	if (! error_flag) {
- 	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+ 	        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce a valid cell names "
 				   "in 'Criteria Range:'"));
 		gtk_widget_grab_focus (criteria_range);
@@ -266,7 +267,7 @@ loop:
 		dao.cols = x - dao.start_col + 1;
 		dao.rows = y - dao.start_row + 1;
 		if (! error_flag) {
-		        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+		        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 _("You should introduce a valid "
 					   "cell range in 'Copy To:'"));
 			gtk_widget_grab_focus (copy_to);
@@ -300,8 +301,9 @@ loop:
 	        dao.type = NewWorkbookOutput;
 	        break;
 	}
-	prepare_output (wb, &dao, "Filtered");
-	error_flag = advanced_filter (wb, &dao, list_col_b, list_row_b,
+	prepare_output (WORKBOOK_CONTROL (wbcg), &dao, "Filtered");
+	error_flag = advanced_filter (WORKBOOK_CONTROL (wbcg),
+				      &dao, list_col_b, list_row_b,
 				      list_col_e, list_row_e,
 				      crit_col_b, crit_row_b,
 				      crit_col_e, crit_row_e,
@@ -311,7 +313,7 @@ loop:
 	        gtk_object_unref (GTK_OBJECT (gui));
 		break;
 	case N_COLUMNS_ERROR:
- 	        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+ 	        gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
 				 _("You should introduce the same number of "
 				   "columns in the `List Range' and in "
 				   "`Criteria Range:'"));

@@ -167,10 +167,8 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	 * a long cells contents extending past the edge of the edit box.
 	 * Don't print zeros if they should be ignored.
 	 */
-	if (sheet && (cell == sheet->workbook->editing_cell ||
-		      (!sheet->display_formulas &&
-		       !sheet->display_zero &&
-		       cell_is_zero (cell))))
+	if (sheet &&
+	    (!sheet->display_formulas && !sheet->display_zero && cell_is_zero (cell)))
 		return;
 
 	g_return_if_fail (cell->rendered_value);

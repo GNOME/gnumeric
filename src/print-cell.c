@@ -5,7 +5,6 @@
  *    Miguel de Icaza 1999 (miguel@kernel.org)
  *
  * g_unichar_to_utf8: Copyright Red Hat, Inc
- *
  */
 #include <config.h>
 #include <gnome.h>

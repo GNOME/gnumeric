@@ -1,6 +1,7 @@
 #ifndef GNUMERIC_SOLVER_H
 #define GNUMERIC_SOLVER_H 1
 
+#include "gnumeric.h"
 #include "numbers.h"
 
 #define SOLVER_LP_RUNNING        0
@@ -50,17 +51,17 @@ struct _SolverParameters {
         SolverOptions      options;
 };
 
-int  solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_table,
+int  solver_simplex (WorkbookControl *wbc, Sheet *sheet, float_t **init_table,
 		     float_t **final_table);
 
-int solver_affine_scaling (Workbook *wb, Sheet *sheet,
+int solver_affine_scaling (WorkbookControl *wbc, Sheet *sheet,
 			   float_t **x,    /* the optimal solution */
 			   float_t **sh_pr /* the shadow prizes */);
 
-gboolean solver_lp (Workbook *wb, Sheet *sheet, float_t **opt_x,
+gboolean solver_lp (WorkbookControl *wbc, Sheet *sheet, float_t **opt_x,
 		    float_t **sh_pr, gboolean *ilp);
 
-void solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov,
+void solver_lp_reports (WorkbookControl *wbc, Sheet *sheet, GSList *ov,
 			float_t ov_target, float_t *init_tbl,
 			float_t *final_tbl,
 			gboolean answer, gboolean sensitivity,

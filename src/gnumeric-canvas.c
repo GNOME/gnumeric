@@ -20,6 +20,7 @@
 #include "application.h"
 #include "workbook-view.h"
 #include "workbook-edit.h"
+#include "workbook-control-gui-priv.h"
 #include "workbook.h"
 #include "commands.h"
 
@@ -193,30 +194,30 @@ move_vertical_selection (GnumericSheet *gsheet,
 gboolean
 gnumeric_sheet_can_select_expr_range (GnumericSheet *gsheet)
 {
-	Workbook const *wb;
+	WorkbookControlGUI const *wbcg;
 
 	g_return_val_if_fail (gsheet != NULL, FALSE);
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), FALSE);
 
-	wb = gsheet->sheet_view->sheet->workbook;
-	if (workbook_edit_entry_redirect_p (wb))
+	wbcg = gsheet->sheet_view->wbcg;
+	if (workbook_edit_entry_redirect_p (wbcg))
 		return TRUE;
 
-	if (!wb->editing)
+	if (!wbcg->editing)
 		return FALSE;
 
 	if (gsheet->selecting_cell)
 		return TRUE;
 
-	return workbook_editing_expr (wb);
+	return workbook_editing_expr (wbcg);
 }
 
 static void
 selection_remove_selection_string (GnumericSheet *gsheet)
 {
-	Workbook const *wb = gsheet->sheet_view->sheet->workbook;
+	WorkbookControlGUI const *wbcg = gsheet->sheet_view->wbcg;
 
-	gtk_editable_delete_text (GTK_EDITABLE (workbook_get_entry_logical (wb)),
+	gtk_editable_delete_text (GTK_EDITABLE (workbook_get_entry_logical (wbcg)),
 				  gsheet->sel_cursor_pos,
 				  gsheet->sel_cursor_pos+gsheet->sel_text_len);
 }
@@ -226,25 +227,25 @@ selection_insert_selection_string (GnumericSheet *gsheet)
 {
 	ItemCursor *sel = gsheet->sel_cursor;
 	Sheet const *sheet = gsheet->sheet_view->sheet;
-	Workbook const *wb = sheet->workbook;
-	GtkEditable *editable = GTK_EDITABLE (workbook_get_entry_logical (wb));
-	gboolean const inter_sheet = (sheet != wb->editing_sheet);
+	WorkbookControlGUI const *wbcg = gsheet->sheet_view->wbcg;
+	GtkEditable *editable = GTK_EDITABLE (workbook_get_entry_logical (wbcg));
+	gboolean const inter_sheet = (sheet != wbcg->editing_sheet);
 	char *buffer;
 	int pos;
 
 	/* Get the new selection string */
 	buffer = g_strdup_printf ("%s%s%s%d",
-				  wb->select_abs_col ? "$" : "",
+				  wbcg->select_abs_col ? "$" : "",
 				  col_name (sel->pos.start.col),
-				  wb->select_abs_row ? "$" : "",
+				  wbcg->select_abs_row ? "$" : "",
 				  sel->pos.start.row+1);
 
 	if (!range_is_singleton (&sel->pos)) {
 		char *tmp = g_strdup_printf ("%s:%s%s%s%d",
 					      buffer,
-					      wb->select_abs_col ? "$": "",
+					      wbcg->select_abs_col ? "$": "",
 					      col_name (sel->pos.end.col),
-					      wb->select_abs_row ? "$": "",
+					      wbcg->select_abs_row ? "$": "",
 					      sel->pos.end.row+1);
 		g_free (buffer);
 		buffer = tmp;
@@ -276,14 +277,14 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
 	Sheet *sheet = gsheet->sheet_view->sheet;
-	Workbook *wb = sheet->workbook;
+	WorkbookControlGUI *wbcg = gsheet->sheet_view->wbcg;
 
 	g_return_if_fail (gsheet->selecting_cell == FALSE);
 
 	/* Hide the primary cursor while the range selection cursor is visible 
 	 * and we are selecting on a different sheet than the expr being edited
 	 */
-	if (sheet != sheet->workbook->editing_sheet)
+	if (sheet != wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)))
 		item_cursor_set_visibility (gsheet->item_cursor, FALSE);
 
 	gsheet->selecting_cell = TRUE;
@@ -300,7 +301,7 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 	if (gsheet->item_editor)
 		item_edit_disable_highlight (ITEM_EDIT (gsheet->item_editor));
 
-	gsheet->sel_cursor_pos = GTK_EDITABLE (workbook_get_entry_logical (wb))->current_pos;
+	gsheet->sel_cursor_pos = GTK_EDITABLE (workbook_get_entry_logical (wbcg))->current_pos;
 	gsheet->sel_text_len = 0;
 }
 
@@ -501,7 +502,7 @@ selection_expand_horizontal (GnumericSheet *gsheet, int n, gboolean jump_to_boun
 
 	g_return_if_fail (n == -1 || n == 1);
 
-	if (!gsheet->selecting_cell){
+	if (!gsheet->selecting_cell) {
 		selection_cursor_move_horizontal (gsheet, n, jump_to_boundaries);
 		return;
 	}
@@ -552,7 +553,7 @@ selection_expand_vertical (GnumericSheet *gsheet, int n, gboolean jump_to_bounda
 
 	g_return_if_fail (n == -1 || n == 1);
 
-	if (!gsheet->selecting_cell){
+	if (!gsheet->selecting_cell) {
 		selection_cursor_move_vertical (gsheet, n, jump_to_boundaries);
 		return;
 	}
@@ -602,14 +603,14 @@ static gint
 gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 {
 	Sheet *sheet = gsheet->sheet_view->sheet;
-	Workbook *wb = sheet->workbook;
+	WorkbookControlGUI *wbcg = gsheet->sheet_view->wbcg;
 	void (*movefn_horizontal) (GnumericSheet *, int, gboolean);
 	void (*movefn_vertical)   (GnumericSheet *, int, gboolean);
 	gboolean const select_expr_range = gnumeric_sheet_can_select_expr_range (gsheet);
 	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
 
 	if (event->state & GDK_SHIFT_MASK) {
-		if (select_expr_range){
+		if (select_expr_range) {
 			movefn_horizontal = selection_expand_horizontal;
 			movefn_vertical = selection_expand_vertical;
 		} else {
@@ -617,7 +618,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			movefn_vertical   = move_vertical_selection;
 		}
 	} else {
-		if (select_expr_range){
+		if (select_expr_range) {
 			movefn_horizontal = selection_cursor_move_horizontal;
 			movefn_vertical   = selection_cursor_move_vertical;
 		} else {
@@ -629,8 +630,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	/* Ignore a few keys (to avoid the selection cursor to be killed
 	 * in some cases
 	 */
-	if (select_expr_range){
-		switch (event->keyval){
+	if (select_expr_range) {
+		switch (event->keyval) {
 		case GDK_Shift_L:   case GDK_Shift_R:
 		case GDK_Alt_L:     case GDK_Alt_R:
 		case GDK_Control_L: case GDK_Control_R:
@@ -642,11 +643,11 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	 * Magic : Some of these are accelerators,
 	 * we need to catch them before entering because they appear to be printable
 	 */
-	if (!wb->editing && event->keyval == GDK_space &&
+	if (!wbcg->editing && event->keyval == GDK_space &&
 	    (event->state & (GDK_SHIFT_MASK|GDK_CONTROL_MASK)))
 		return FALSE;
 
-	switch (event->keyval){
+	switch (event->keyval) {
 	case GDK_KP_Left:
 	case GDK_Left:
 		(*movefn_horizontal)(gsheet, -1, jump_to_bounds);
@@ -670,7 +671,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_KP_Page_Up:
 	case GDK_Page_Up:
 		if ((event->state & GDK_CONTROL_MASK) != 0)
-			gtk_notebook_prev_page (GTK_NOTEBOOK (wb->notebook));
+			gtk_notebook_prev_page (GTK_NOTEBOOK (wbcg->notebook));
 		else if ((event->state & GDK_MOD1_MASK) == 0)
 			(*movefn_vertical)(gsheet, -(gsheet->row.last_visible-gsheet->row.first), FALSE);
 		else
@@ -680,7 +681,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_KP_Page_Down:
 	case GDK_Page_Down:
 		if ((event->state & GDK_CONTROL_MASK) != 0)
-			gtk_notebook_next_page (GTK_NOTEBOOK (wb->notebook));
+			gtk_notebook_next_page (GTK_NOTEBOOK (wbcg->notebook));
 		else if ((event->state & GDK_MOD1_MASK) == 0)
 			(*movefn_vertical)(gsheet, gsheet->row.last_visible-gsheet->row.first, FALSE);
 		else
@@ -689,7 +690,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_KP_Home:
 	case GDK_Home:
-		if ((event->state & GDK_CONTROL_MASK) != 0){
+		if ((event->state & GDK_CONTROL_MASK) != 0) {
 			/* Set the cursor BEFORE making it visible to decrease flicker */
 			sheet_cursor_set (sheet, 0, 0, 0, 0, 0, 0);
 			sheet_make_cell_visible (sheet, 0, 0);
@@ -700,7 +701,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_KP_Delete:
 	case GDK_Delete:
-		cmd_clear_selection (workbook_command_context_gui (wb), sheet, CLEAR_VALUES);
+		cmd_clear_selection (WORKBOOK_CONTROL (wbcg), sheet, CLEAR_VALUES);
 		break;
 
 	/*
@@ -709,13 +710,13 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	 */
 	case GDK_KP_Enter:
 	case GDK_Return:
-		if (wb->editing &&
+		if (wbcg->editing &&
 		    (event->state == GDK_CONTROL_MASK ||
 		     event->state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
 		     event->state == GDK_MOD1_MASK))
 			/* Forward the keystroke to the input line */
 			return gtk_widget_event (
-				GTK_WIDGET (workbook_get_entry_logical (wb)),
+				GTK_WIDGET (workbook_get_entry_logical (wbcg)),
 				(GdkEvent *) event);
 		/* fall down */
 
@@ -729,33 +730,33 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 					     event->keyval == GDK_Return) ? FALSE : TRUE;
 
 		/* Be careful to restore the editing sheet if we are editing */
-		if (wb->editing)
-			sheet = wb->editing_sheet;
-		workbook_finish_editing (wb, TRUE);
+		if (wbcg->editing)
+			sheet = wbcg->editing_sheet;
+		workbook_finish_editing (wbcg, TRUE);
 		sheet_selection_walk_step (sheet, direction, horizontal);
 		break;
 	}
 
 	case GDK_Escape:
-		workbook_finish_editing (wb, FALSE);
+		workbook_finish_editing (wbcg, FALSE);
 		application_clipboard_unant ();
 		break;
 
 	case GDK_F4:
-		if (wb->editing && gsheet->sel_cursor) {
+		if (wbcg->editing && gsheet->sel_cursor) {
 			selection_remove_selection_string (gsheet);
-			wb->select_abs_row = (wb->select_abs_row == wb->select_abs_col);
-			wb->select_abs_col = !wb->select_abs_col;
+			wbcg->select_abs_row = (wbcg->select_abs_row == wbcg->select_abs_col);
+			wbcg->select_abs_col = !wbcg->select_abs_col;
 			selection_insert_selection_string (gsheet);
 		}
 		break;
 
 	case GDK_F2:
-		workbook_start_editing_at_cursor (wb, FALSE, FALSE);
+		workbook_start_editing_at_cursor (wbcg, FALSE, FALSE);
 		/* fall down */
 
 	default:
-		if (!wb->editing){
+		if (!wbcg->editing) {
 			if ((event->state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
 				return 0;
 
@@ -763,12 +764,12 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			if (event->length == 0)
 				return 0;
 
-			workbook_start_editing_at_cursor (wb, TRUE, TRUE);
+			workbook_start_editing_at_cursor (wbcg, TRUE, TRUE);
 		}
 		gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
 
 		/* Forward the keystroke to the input line */
-		return gtk_widget_event (GTK_WIDGET (workbook_get_entry_logical (wb)),
+		return gtk_widget_event (GTK_WIDGET (workbook_get_entry_logical (wbcg)),
 					 (GdkEvent *) event);
 	}
 	sheet_update (sheet);
@@ -781,7 +782,7 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 {
 	Sheet *sheet = gsheet->sheet_view->sheet;
 
-	switch (event->keyval){
+	switch (event->keyval) {
 	case GDK_Escape:
 		sheet_mode_edit	(sheet);
 		application_clipboard_unant ();
@@ -826,8 +827,9 @@ gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 	 */
 	if (sheet->current_object == NULL &&
 	    (event->keyval == GDK_Shift_L || event->keyval == GDK_Shift_R))
-		workbook_set_region_status (sheet->workbook,
-					    cell_pos_name (&sheet->cursor.edit_pos));
+		wb_control_selection_descr_set (
+			WORKBOOK_CONTROL (gsheet->sheet_view->wbcg),
+			cell_pos_name (&sheet->cursor.edit_pos));
 
 	return FALSE;
 }
@@ -862,11 +864,10 @@ gnumeric_sheet_drag_data_get (GtkWidget *widget,
 	Sheet *sheet = GNUMERIC_SHEET (widget)->sheet_view->sheet;
 	Workbook *wb = sheet->workbook;
 	char *s;
-	CommandContext *command_context =
-	    workbook_command_context_gui (sheet->workbook);
+	WorkbookControl *wbc = WORKBOOK_CONTROL (gsheet->sheet_view->wbcg);
 
 	if (wb->filename == NULL)
-		workbook_save (command_context, wb);
+		workbook_save (wbc, wb);
 	if (wb->filename == NULL)
 		return;
 
@@ -899,15 +900,12 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 				  GnumericSheet    *gsheet)
 {
 	GList *names, *tmp_list;
-	CommandContext *command_context;
-	Sheet *sheet = gsheet->sheet_view->sheet;
+	WorkbookControl *wbc = WORKBOOK_CONTROL (gsheet->sheet_view->wbcg);
 
-	command_context = workbook_command_context_gui (sheet->workbook);
 	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
 
 	for (tmp_list = names; tmp_list != NULL ; tmp_list = tmp_list->next) {
-		Workbook *new_wb =
-			workbook_try_read (command_context, tmp_list->data);
+		WorkbookView *new_wb = workbook_try_read (wbc, tmp_list->data);
 
 		if (new_wb == NULL) {
 #ifdef ENABLE_BONOBO
@@ -917,8 +915,7 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 			if (so != NULL)
 				sheet_mode_create_object (so);
 #endif
-		} else
-			workbook_show (new_wb);
+		}
 	}
 }
 
@@ -1103,12 +1100,12 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet,
 		if (ci->visible) {
 			int const bound = pixels + ci->size_pixels;
 
-			if (bound == width){
+			if (bound == width) {
 				gsheet->col.last_visible = col;
 				gsheet->col.last_full = col;
 				break;
 			}
-			if (bound > width){
+			if (bound > width) {
 				gsheet->col.last_visible = col;
 				if (col == gsheet->col.first)
 					gsheet->col.last_full = gsheet->col.first;
@@ -1135,12 +1132,12 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet,
 		if (ri->visible) {
 			int const bound = pixels + ri->size_pixels;
 
-			if (bound == height){
+			if (bound == height) {
 				gsheet->row.last_visible = row;
 				gsheet->row.last_full = row;
 				break;
 			}
-			if (bound > height){
+			if (bound > height) {
 				gsheet->row.last_visible = row;
 				if (row == gsheet->row.first)
 					gsheet->row.last_full = gsheet->row.first;
@@ -1293,13 +1290,13 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 	canvas = GNOME_CANVAS (gsheet);
 
 	/* Find the new gsheet->col.first */
-	if (col < gsheet->col.first){
+	if (col < gsheet->col.first) {
 		new_first_col = col;
-	} else if (col > gsheet->col.last_full){
+	} else if (col > gsheet->col.last_full) {
 		int width = GTK_WIDGET (canvas)->allocation.width;
 		int first_col;
 
-		for (first_col = col; first_col > 0; --first_col){
+		for (first_col = col; first_col > 0; --first_col) {
 			ColRowInfo const * const ci = sheet_col_get_info (sheet, first_col);
 			if (ci->visible) {
 				width -= ci->size_pixels;
@@ -1312,13 +1309,13 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 		new_first_col = gsheet->col.first;
 
 	/* Find the new gsheet->row.first */
-	if (row < gsheet->row.first){
+	if (row < gsheet->row.first) {
 		new_first_row = row;
-	} else if (row > gsheet->row.last_full){
+	} else if (row > gsheet->row.last_full) {
 		int height = GTK_WIDGET (canvas)->allocation.height;
 		int first_row;
 
-		for (first_row = row; first_row > 0; --first_row){
+		for (first_row = row; first_row > 0; --first_row) {
 			ColRowInfo const * const ri = sheet_row_get_info (sheet, first_row);
 			if (ri->visible) {
 				height -= ri->size_pixels;
@@ -1411,7 +1408,7 @@ gnumeric_sheet_get_type (void)
 {
 	static GtkType gnumeric_sheet_type = 0;
 
-	if (!gnumeric_sheet_type){
+	if (!gnumeric_sheet_type) {
 		GtkTypeInfo gnumeric_sheet_info = {
 			"GnumericSheet",
 			sizeof (GnumericSheet),

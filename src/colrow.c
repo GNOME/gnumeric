@@ -392,9 +392,7 @@ struct row_col_visiblity
 };
 
 static void
-cb_row_col_visibility (Sheet *sheet,
-		       int start_col, int start_row,
-		       int end_col,   int end_row,
+cb_row_col_visibility (Sheet *sheet, Range const *r,
 		       void *closure)
 {
 	struct row_col_visiblity * const dat = closure;
@@ -403,12 +401,12 @@ cb_row_col_visibility (Sheet *sheet,
 	int i, j, end;
 
 	if (dat->is_cols) {
-		i = start_col;
-		end = end_col;
+		i = r->start.col;
+		end = r->end.col;
 		fetch = &sheet_col_fetch;
 	} else {
-		i = start_row;
-		end = end_row;
+		i = r->start.row;
+		end = r->end.row;
 		fetch = &sheet_row_fetch;
 	}
 

@@ -338,4 +338,3 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			    GTK_SIGNAL_FUNC (csv_page_scroll_value_changed),
 			    pagedata);
 }
-

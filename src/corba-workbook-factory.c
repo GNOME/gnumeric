@@ -19,7 +19,6 @@
 #include "workbook.h"
 #include "idl/Gnumeric.h"
 #include "corba.h"
-#include "command-context-corba.h"
 
 PortableServer_POA gnumeric_poa;
 
@@ -42,12 +41,11 @@ static POA_GNOME_Gnumeric_WorkbookFactory__vepv gnumeric_workbook_factory_vepv;
 static GNOME_Gnumeric_Workbook
 WorkbookFactory_read (PortableServer_Servant servant, const CORBA_char *filename, CORBA_Environment *ev)
 {
-	CommandContext *context;
+	WorkbookControl *context;
 	Workbook *workbook;
 	
 	context = command_context_corba (NULL);
 	workbook = workbook_read (context, filename);
-	workbook_show (workbook);
 	gtk_object_unref (GTK_OBJECT (context));
 	
 	if (workbook)

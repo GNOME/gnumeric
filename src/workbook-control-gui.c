@@ -472,9 +472,11 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	gtk_widget_show (sheet_label);
 	gtk_widget_show_all (GTK_WIDGET (sheet_view));
 
+	wbcg->updating_ui = TRUE;
 	gtk_notebook_insert_page (wbcg->notebook,
 		GTK_WIDGET (sheet_view), sheet_label,
 		workbook_sheet_index_get (wb_control_workbook (wbc), sheet));
+	wbcg->updating_ui = FALSE;
 
 	/* Only be scrollable if there are more than 3 tabs */
 	if (g_list_length (wbcg->notebook->children) > 3)
@@ -707,31 +709,31 @@ wbcg_paste_from_selection (WorkbookControl *wbc, PasteTarget const *pt, guint32 
 }
 
 static void
-wbcg_error_system (WorkbookControl *wbc, char const *msg)
+wbcg_error_system (CommandContext *cc, char const *msg)
 {
-	gnumeric_notice ((WorkbookControlGUI *)wbc, GNOME_MESSAGE_BOX_ERROR, msg);
+	gnumeric_notice ((WorkbookControlGUI *)cc, GNOME_MESSAGE_BOX_ERROR, msg);
 }
 static void
-wbcg_error_plugin (WorkbookControl *wbc, char const *msg)
+wbcg_error_plugin (CommandContext *cc, char const *msg)
 {
-	gnumeric_notice ((WorkbookControlGUI *)wbc, GNOME_MESSAGE_BOX_ERROR, msg);
+	gnumeric_notice ((WorkbookControlGUI *)cc, GNOME_MESSAGE_BOX_ERROR, msg);
 }
 static void
-wbcg_error_read (WorkbookControl *wbc, char const *msg)
+wbcg_error_read (CommandContext *cc, char const *msg)
 {
-	gnumeric_notice ((WorkbookControlGUI *)wbc, GNOME_MESSAGE_BOX_ERROR, msg);
+	gnumeric_notice ((WorkbookControlGUI *)cc, GNOME_MESSAGE_BOX_ERROR, msg);
 }
 
 static void
-wbcg_error_save (WorkbookControl *wbc, char const *msg)
+wbcg_error_save (CommandContext *cc, char const *msg)
 {
-	gnumeric_notice ((WorkbookControlGUI *)wbc, GNOME_MESSAGE_BOX_ERROR, msg);
+	gnumeric_notice ((WorkbookControlGUI *)cc, GNOME_MESSAGE_BOX_ERROR, msg);
 }
 static void
-wbcg_error_invalid (WorkbookControl *wbc, char const *msg, char const * value)
+wbcg_error_invalid (CommandContext *cc, char const *msg, char const * value)
 {
 	char *buf = g_strconcat (msg, " : ", value, NULL);
-	gnumeric_notice ((WorkbookControlGUI *)wbc, GNOME_MESSAGE_BOX_ERROR, buf);
+	gnumeric_notice ((WorkbookControlGUI *)cc, GNOME_MESSAGE_BOX_ERROR, buf);
 	g_free (buf);
 }
 
@@ -2558,13 +2560,14 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	Sheet *sheet;
 	gboolean accept = TRUE;
 
+	sheet = wb_control_gui_focus_cur_sheet (wbcg);
+
 	/* While initializing adding the sheets will trigger page changes, but
 	 * we do not actually want to change the focus sheet for the view
 	 */
 	if (wbcg->updating_ui)
 		return;
 
-	sheet = wb_control_gui_focus_cur_sheet (wbcg);
 	/* Remove the cell seletion cursor if it exists */
 	if (old_sheet != NULL)
 		sheet_destroy_cell_select_cursor (old_sheet, TRUE);
@@ -2985,11 +2988,11 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->paste.special_enable = wbcg_paste_special_enable;
 	wbc_class->paste.from_selection = wbcg_paste_from_selection;
 
-	wbc_class->error.system	 = wbcg_error_system;
-	wbc_class->error.plugin	 = wbcg_error_plugin;
-	wbc_class->error.read	 = wbcg_error_read;
-	wbc_class->error.save	 = wbcg_error_save;
-	wbc_class->error.invalid = wbcg_error_invalid;
+	wbc_class->context_class.error.system	 = wbcg_error_system;
+	wbc_class->context_class.error.plugin	 = wbcg_error_plugin;
+	wbc_class->context_class.error.read	 = wbcg_error_read;
+	wbc_class->context_class.error.save	 = wbcg_error_save;
+	wbc_class->context_class.error.invalid   = wbcg_error_invalid;
 }
 
 GNUMERIC_MAKE_TYPE(workbook_control_gui,
@@ -3003,7 +3006,6 @@ workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)
 {
 	WorkbookControlGUI *wbcg;
 	WorkbookControl    *wbc;
-	Sheet		   *cur_sheet;
 
 	wbcg = gtk_type_new (workbook_control_gui_get_type ());
 	workbook_control_gui_init (wbcg, optional_view, wb);
@@ -3014,10 +3016,6 @@ workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)
 	wbcg->updating_ui = TRUE;
 	workbook_control_sheets_init (wbc);
 	wbcg->updating_ui = FALSE;
-
-	cur_sheet = wb_control_cur_sheet (wbc);
-	if (cur_sheet != NULL)
-		wbcg_sheet_focus (wbc, wb_control_cur_sheet (wbc));
 
 	return wbc;
 }

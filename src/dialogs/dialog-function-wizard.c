@@ -29,6 +29,7 @@
 #include "dialogs.h"
 #include "workbook.h"
 #include "workbook-edit.h"
+#include "workbook-control.h"
 #include "cell.h"
 #include "expr.h"
 #include "func.h"
@@ -76,7 +77,7 @@ struct _FormulaGuruState
 	gboolean	    var_args;
 	ArgumentState	   *cur_arg;
 	int		    max_arg; /* max arg # with a value */
-	Workbook	   *wb;
+	WorkbookControlGUI	   *wbcg;
 	FunctionDefinition *fd;
 	TokenizedHelp	   *help_tokens;
 	GPtrArray	   *args;
@@ -123,7 +124,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 	}
 	g_string_append_c (str, ')'); /* FIXME use suffix string */
 
-	entry = workbook_get_entry (state->wb);
+	entry = workbook_get_entry (state->wbcg);
 	if (set_text)
 		gtk_entry_set_text (entry, str->str);
 
@@ -221,7 +222,7 @@ formula_guru_set_rolled_state (FormulaGuruState *state, gboolean is_rolled)
 		gtk_widget_show (state->rollup_button);
 	}
 	gtk_widget_grab_focus (GTK_WIDGET (new_entry));
-	workbook_set_entry (state->wb, new_entry);
+	workbook_set_entry (state->wbcg, new_entry);
 }
 
 static gboolean
@@ -294,7 +295,7 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 		gtk_adjustment_value_changed (va);
 
 	state->cur_arg = as;
-	workbook_set_entry (state->wb, as->entry);
+	workbook_set_entry (state->wbcg, as->entry);
 	formula_guru_set_expr (state, as->index, TRUE);
 
 	return FALSE;
@@ -306,7 +307,7 @@ cb_formula_guru_destroy (GtkObject *w, FormulaGuruState *state)
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
-	workbook_edit_detach_guru (state->wb);
+	workbook_edit_detach_guru (state->wbcg);
 
 	if (state->args != NULL) {
 		int i;
@@ -330,7 +331,7 @@ cb_formula_guru_destroy (GtkObject *w, FormulaGuruState *state)
 	/* Handle window manger closing the dialog.
 	 * This will be ignored if we are being destroyed differently.
 	 */
-	workbook_finish_editing (state->wb, FALSE);
+	workbook_finish_editing (state->wbcg, FALSE);
 
 	state->dialog = NULL;
 
@@ -343,7 +344,7 @@ cb_formula_guru_key_press (GtkWidget *widget, GdkEventKey *event,
 			   FormulaGuruState *state)
 {
 	if (event->keyval == GDK_Escape) {
-		workbook_finish_editing (state->wb, FALSE);
+		workbook_finish_editing (state->wbcg, FALSE);
 		return TRUE;
 	} else
 		return FALSE;
@@ -368,8 +369,8 @@ cb_formula_guru_clicked (GtkWidget *button, FormulaGuruState *state)
 	}
 
 	/* Detach BEFORE we finish editing */
-	workbook_edit_detach_guru (state->wb);
-	workbook_finish_editing (state->wb, button == state->ok_button);
+	workbook_edit_detach_guru (state->wbcg);
+	workbook_finish_editing (state->wbcg, button == state->ok_button);
 
 	gtk_widget_destroy (state->dialog);
 }
@@ -563,8 +564,7 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 {
 	TokenizedHelp *help_tokens;
 
-	state->gui = gnumeric_glade_xml_new (workbook_command_context_gui (state->wb),
-					     "formula-guru.glade");
+	state->gui = gnumeric_glade_xml_new (state->wbcg, "formula-guru.glade");
         if (state->gui == NULL)
                 return TRUE;
 
@@ -623,7 +623,7 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	}
 
 	/* Lifecyle management */
-	workbook_edit_attach_guru (state->wb, state->dialog);
+	workbook_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_formula_guru_destroy),
 			    state);
@@ -639,8 +639,7 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	tokenized_help_destroy (help_tokens);
 	
 	formula_guru_set_scrollwin_size (state);
-	gtk_window_set_transient_for (GTK_WINDOW (state->dialog),
-				      GTK_WINDOW (state->wb->toplevel));
+	gnumeric_set_transient (state->wbcg, GTK_WINDOW (state->dialog));
 
 	formula_guru_set_expr (state, 0, TRUE);
 	formula_guru_set_rolled_state (state, FALSE);
@@ -650,22 +649,22 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 
 /**
  * dialog_formula_guru
- * @wb : The workbook to use as a parent window.
+ * @wbcg : The workbook to use as a parent window.
  *
  * Pop up a function selector then a formula guru.
  */
 void
-dialog_formula_guru (Workbook *wb)
+dialog_formula_guru (WorkbookControlGUI *wbcg)
 {
 	FormulaGuruState *state;
 	FunctionDefinition *fd;
-	Sheet *sheet;
-	Cell *cell;
 	ExprTree const *expr = NULL;
+	Sheet	 *sheet;
+	Cell	 *cell;
 
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wbcg != NULL);
 
-	sheet = wb->current_sheet;
+	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	cell = sheet_cell_get (sheet,
 			       sheet->cursor.edit_pos.col,
 			       sheet->cursor.edit_pos.row);
@@ -677,21 +676,21 @@ dialog_formula_guru (Workbook *wb)
 	 * expression
 	 */
 	if (expr == NULL) {
-		workbook_start_editing_at_cursor (wb, TRUE, TRUE);
-		gtk_entry_set_text (workbook_get_entry (wb), "=");
+		workbook_start_editing_at_cursor (wbcg, TRUE, TRUE);
+		gtk_entry_set_text (workbook_get_entry (wbcg), "=");
 
-		fd = dialog_function_select (wb);
+		fd = dialog_function_select (wbcg);
 		if (fd == NULL) {
-			workbook_finish_editing (wb, FALSE);
+			workbook_finish_editing (wbcg, FALSE);
 			return;
 		}
 	} else {
-		workbook_start_editing_at_cursor (wb, FALSE, TRUE);
+		workbook_start_editing_at_cursor (wbcg, FALSE, TRUE);
 		fd = expr_tree_get_func_def (expr);
 	}
 
 	state = g_new(FormulaGuruState, 1);
-	state->wb	= wb;
+	state->wbcg	= wbcg;
 	state->fd	= fd;
 	state->valid	= FALSE;
 	if (formula_guru_init (state, expr, cell)) {

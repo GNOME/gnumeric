@@ -15,15 +15,15 @@
 #include "workbook.h"
 
 gboolean
-dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return)
+dialog_get_number (WorkbookControlGUI *wbcg,
+		   const char *glade_file, double *init_and_return)
 {
 	GladeXML *gui;
 	GnomeDialog *dialog;
 	GtkWidget *entry;
 	gboolean res = FALSE;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				glade_file);
+	gui = gnumeric_glade_xml_new (wbcg, glade_file);
         if (gui == NULL)
                 return FALSE;
 
@@ -44,7 +44,7 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 	}
 	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));
 
-	switch (gnumeric_dialog_run (wb, dialog)){
+	switch (gnumeric_dialog_run (wbcg, dialog)){
 	case 1:			/* cancel */
 		res = FALSE;
 		break;
@@ -64,15 +64,14 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 }
 
 char *
-dialog_get_sheet_name (Workbook *wb, const char *current)
+dialog_get_sheet_name (WorkbookControlGUI *wbcg, const char *current)
 {
 	GladeXML *gui;
 	GnomeDialog *dialog;
 	GtkWidget *entry;
 	char *str = NULL;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				"sheet-rename.glade");
+	gui = gnumeric_glade_xml_new (wbcg, "sheet-rename.glade");
         if (gui == NULL)
                 return NULL;
 
@@ -89,7 +88,7 @@ dialog_get_sheet_name (Workbook *wb, const char *current)
 
 	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));
 
-	switch (gnumeric_dialog_run (wb, dialog)){
+	switch (gnumeric_dialog_run (wbcg, dialog)){
 	case 1:			/* cancel */
 		break;
 	case -1:		/* window manager close */

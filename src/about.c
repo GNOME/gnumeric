@@ -17,12 +17,11 @@
 /* Object data is to make sure we don't pop up more than one copy. When
    closing, we remove the data */
 static void
-cb_closed (GtkWidget *button, GtkObject *toplevel)
+cb_closed (GtkWidget *button, WorkbookControlGUI *wbcg)
 {
-	g_return_if_fail (GTK_IS_WINDOW (toplevel));
-	g_return_if_fail (gtk_object_get_data (toplevel, ABOUT_KEY) != NULL);
+	g_return_if_fail (gtk_object_get_data (GTK_OBJECT (wbcg), ABOUT_KEY) != NULL);
 	
-	gtk_object_remove_data (toplevel, ABOUT_KEY);
+	gtk_object_remove_data (GTK_OBJECT (wbcg), ABOUT_KEY);
 }
 
 /*
@@ -31,7 +30,7 @@ cb_closed (GtkWidget *button, GtkObject *toplevel)
  * nice
  */
 void
-dialog_about (Workbook *wb)
+dialog_about (WorkbookControlGUI *wbcg)
 {
         GtkWidget *about, *l, *href, *hbox;
 	
@@ -73,7 +72,7 @@ dialog_about (Workbook *wb)
 	}
 #endif
 	/* Ensure we only pop up one copy per workbook */
-	about = gtk_object_get_data (GTK_OBJECT (workbook_get_toplevel (wb)), ABOUT_KEY);
+	about = gtk_object_get_data (GTK_OBJECT (wbcg), ABOUT_KEY);
 	if (about && GNOME_IS_ABOUT (about)) {
 		gdk_window_raise (about->window);
 		return;
@@ -96,13 +95,12 @@ dialog_about (Workbook *wb)
 			    hbox, TRUE, FALSE, 0);
 	gtk_widget_show_all (hbox);
 
-	gtk_object_set_data (GTK_OBJECT (workbook_get_toplevel (wb)), ABOUT_KEY, about);
+	gtk_object_set_data (GTK_OBJECT (wbcg), ABOUT_KEY, about);
 
 	gtk_signal_connect (
 		GTK_OBJECT (about), "close",
-		GTK_SIGNAL_FUNC (cb_closed), (gpointer) workbook_get_toplevel (wb));
+		GTK_SIGNAL_FUNC (cb_closed), wbcg);
 
 	/* Close on click, close with parent */
-	gnumeric_dialog_show (GTK_OBJECT (workbook_get_toplevel (wb)),
-			      GNOME_DIALOG (about), TRUE, TRUE);
+	gnumeric_dialog_show (wbcg, GNOME_DIALOG (about), TRUE, TRUE);
 }

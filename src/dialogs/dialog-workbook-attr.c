@@ -23,21 +23,21 @@
 #include "pattern.h"
 #include "mstyle.h"
 #include "application.h"
-#include "workbook.h"
+#include "workbook-control.h"
 #include "workbook-view.h"
+#include "workbook.h"
 #include "commands.h"
-
-#define GLADE_FILE "workbook-attr.glade"
 
 typedef struct _AttrState
 {
-	GladeXML	*gui;
-	GnomePropertyBox*dialog;
-	gint		 page_signal;
+	GladeXML	 *gui;
+	GnomePropertyBox *dialog;
+	gint		  page_signal;
 
-	Workbook         *wb;
+	WorkbookView     *wbv;
+	WorkbookControlGUI	 *wbcg;
 
-	gboolean	 enable_edit;
+	gboolean	  enable_edit;
 
 	struct {
 		GtkToggleButton	*show_hsb;
@@ -82,11 +82,14 @@ cb_page_select (GtkNotebook *notebook, GtkNotebookPage *page,
 static void
 cb_attr_dialog_dialog_apply (GtkObject *w, int page, AttrState *state)
 {
-	state->wb->show_horizontal_scrollbar = gtk_toggle_button_get_active (state->view.show_hsb);
-	state->wb->show_vertical_scrollbar = gtk_toggle_button_get_active (state->view.show_vsb);
-	state->wb->show_notebook_tabs = gtk_toggle_button_get_active (state->view.show_tabs);
+	state->wbv->show_horizontal_scrollbar =
+		gtk_toggle_button_get_active (state->view.show_hsb);
+	state->wbv->show_vertical_scrollbar =
+		gtk_toggle_button_get_active (state->view.show_vsb);
+	state->wbv->show_notebook_tabs =
+		gtk_toggle_button_get_active (state->view.show_tabs);
 
-	workbook_view_pref_visibility (state->wb);
+	wb_view_prefs_update (state->wbv);
 }
 
 /* Handler for destroy */
@@ -130,9 +133,9 @@ attr_dialog_init_view_page (AttrState *state)
 	state->view.show_vsb = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "Workbook::show_vertical_scrollbar"));
 	state->view.show_tabs = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "Workbook::show_notebook_tabs"));
 
-	gtk_toggle_button_set_active (state->view.show_hsb, state->wb->show_horizontal_scrollbar);
-	gtk_toggle_button_set_active (state->view.show_vsb, state->wb->show_vertical_scrollbar);
-	gtk_toggle_button_set_active (state->view.show_tabs, state->wb->show_notebook_tabs);
+	gtk_toggle_button_set_active (state->view.show_hsb, state->wbv->show_horizontal_scrollbar);
+	gtk_toggle_button_set_active (state->view.show_vsb, state->wbv->show_vertical_scrollbar);
+	gtk_toggle_button_set_active (state->view.show_tabs, state->wbv->show_notebook_tabs);
 
 	/* Setup special handlers for : Numbers */
 	gtk_signal_connect (GTK_OBJECT (state->view.show_hsb),
@@ -201,28 +204,26 @@ attr_dialog_impl (AttrState *state)
 	gtk_window_set_modal (GTK_WINDOW(dialog), TRUE);
 
 	/* Bring up the dialog */
-	gnumeric_dialog_show (state->wb->toplevel,
-			      GNOME_DIALOG (dialog), FALSE, TRUE);
+	gnumeric_dialog_show (state->wbcg, GNOME_DIALOG (dialog), FALSE, TRUE);
 }
 
 void
-dialog_workbook_attr (Workbook *wb)
+dialog_workbook_attr (WorkbookControlGUI *wbcg)
 {
 	GladeXML     *gui;
-	AttrState    *state = g_new (AttrState, 1);
+	AttrState    *state;
 
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wbcg != NULL);
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				GLADE_FILE);
+	gui = gnumeric_glade_xml_new (wbcg, "workbook-attr.glade");
         if (gui == NULL)
                 return;
 
 	/* Initialize */
-	state->gui		= gui;
-	state->wb		= wb;
+	state = g_new (AttrState, 1);
+	state->gui = gui;
+	state->wbcg = wbcg;
+	state->wbv  = wb_control_view (WORKBOOK_CONTROL (wbcg));
 
 	attr_dialog_impl (state);
 }
-
-

@@ -45,14 +45,12 @@ workbook_private_init (GtkObject *object)
 {
 	WorkbookPrivate *wbp;
 	wbp = WORKBOOK_PRIVATE (object);
-
-	wbp->updating_toolbar = FALSE;
 }
 
 static void
 workbook_private_class_init (GtkObjectClass *object_class)
 {
-	workbook_private_parent_class = gtk_type_class (gtk_object_get_type ());
+	workbook_private_parent_class = gtk_type_class (bonobo_object_get_type ());
 
 	/* object_class->destroy = workbook_destroy; */
 }

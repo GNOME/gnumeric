@@ -5,8 +5,16 @@
 
 void         application_init			(void);
 
+void         application_workbook_list_add (Workbook *wb);
+void         application_workbook_list_remove (Workbook *wb);
+GList *      application_workbook_list (void);
+
 Workbook *   application_workbook_get_by_name   (char const * const name);
 Workbook *   application_workbook_get_by_index  (int i);
+typedef gboolean (*WorkbookCallback)(Workbook *, gpointer data);
+gboolean     application_workbook_foreach  (WorkbookCallback cback,
+					    gpointer data);
+
 
 void         application_clipboard_clear	(gboolean drop_selection);
 void         application_clipboard_copy		(Sheet *sheet, Range const *area);

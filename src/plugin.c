@@ -17,7 +17,6 @@
 #include "gnumeric-util.h"
 #include "gutils.h"
 #include "plugin.h"
-#include "workbook-view.h"
 #include "command-context.h"
 
 /*
@@ -130,13 +129,13 @@ plugin_load (CommandContext *context, const gchar *modfile)
 	
 	if (!g_module_symbol (data->handle, "init_plugin", (gpointer *) &data->init_plugin)){
 		gnumeric_error_plugin (context, 
-				       _("Plugin must contain init_plugin function."));
+			_("Plugin must contain init_plugin function."));
 		goto error;
 	}
 
 	if (stat (data->file_name, &sbuf) < 0) {
 	        gnumeric_error_plugin (context,
-				       _("Couldn't determine size or modification date"));
+			_("Couldn't determine size or modification date"));
 		goto error;
 	} else {
 	        data->size = sbuf.st_size;
@@ -148,7 +147,7 @@ plugin_load (CommandContext *context, const gchar *modfile)
 		/* Avoid displaying 2 error boxes */
 		if (res == PLUGIN_ERROR)
 			gnumeric_error_plugin (context,
-					       _("init_plugin returned error"));
+					     _("init_plugin returned error"));
 		goto error;
 	}
 

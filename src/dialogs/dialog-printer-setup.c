@@ -64,6 +64,7 @@ typedef struct {
 } UnitInfo;
 
 typedef struct {
+	WorkbookControlGUI  *wbcg;
 	Sheet            *sheet;
 	GladeXML         *gui;
 	PrintInformation *pi;
@@ -896,7 +897,7 @@ text_get (GtkText *text_widget)
 }
 
 static PrintHF *
-do_hf_config (const char *title, PrintHF **config, Workbook *wb)
+do_hf_config (const char *title, PrintHF **config, WorkbookControlGUI *wbcg)
 {
 	GladeXML *gui;
 	GtkText *left, *middle, *right;
@@ -904,8 +905,7 @@ do_hf_config (const char *title, PrintHF **config, Workbook *wb)
 	PrintHF *ret = NULL;
 	int v;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				"hf-config.glade");
+	gui = gnumeric_glade_xml_new (wbcg, "hf-config.glade");
         if (gui == NULL)
                 return NULL;
 
@@ -918,7 +918,7 @@ do_hf_config (const char *title, PrintHF **config, Workbook *wb)
 	text_insert (middle, (*config)->middle_format);
 	text_insert (right, (*config)->right_format);
 
-	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 
 	if (v == 0) {
 		char *left_format, *right_format, *middle_format;
@@ -963,7 +963,7 @@ do_header_config (GtkWidget *button, dialog_print_info_t *dpi)
 	PrintHF *hf;
 
 	hf = do_hf_config (_("Custom header configuration"),
-			   &dpi->header, dpi->sheet->workbook);
+			   &dpi->header, dpi->wbcg);
 
 	if (hf)
 		do_setup_hf_menus (dpi, hf, NULL);
@@ -975,7 +975,7 @@ do_footer_config (GtkWidget *button, dialog_print_info_t *dpi)
 	PrintHF *hf;
 
 	hf = do_hf_config (_("Custom footer configuration"),
-			   &dpi->footer, dpi->sheet->workbook);
+			   &dpi->footer, dpi->wbcg);
 
 	if (hf)
 		do_setup_hf_menus (dpi, NULL, hf);
@@ -1211,14 +1211,14 @@ static void
 do_print_cb (GtkWidget *w, dialog_print_info_t *dpi)
 {
 	fetch_settings (dpi);
-	sheet_print (dpi->sheet, FALSE, PRINT_ACTIVE_SHEET);
+	sheet_print (dpi->wbcg, dpi->sheet, FALSE, PRINT_ACTIVE_SHEET);
 }
 
 static void
 do_print_preview_cb (GtkWidget *w, dialog_print_info_t *dpi)
 {
 	fetch_settings (dpi);
-	sheet_print (dpi->sheet, TRUE, PRINT_ACTIVE_SHEET);
+	sheet_print (dpi->wbcg, dpi->sheet, TRUE, PRINT_ACTIVE_SHEET);
 
 	/*
 	 * We close the dialog here, because the dialog box
@@ -1243,7 +1243,7 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 
 	g_return_if_fail (dpi != NULL);
 	g_return_if_fail (dpi->sheet != NULL);
-	g_return_if_fail (dpi->sheet->workbook != NULL);
+	g_return_if_fail (dpi->wbcg != NULL);
 
 	dpi->dialog = glade_xml_get_widget (dpi->gui, "print-setup");
 
@@ -1299,17 +1299,17 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 }
 
 static dialog_print_info_t *
-dialog_print_info_new (Sheet *sheet)
+dialog_print_info_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	dialog_print_info_t *dpi;
 	GladeXML *gui;
 
-	gui = gnumeric_glade_xml_new (workbook_command_context_gui (sheet->workbook),
-				"print.glade");
+	gui = gnumeric_glade_xml_new (wbcg, "print.glade");
         if (gui == NULL)
                 return NULL;
 
 	dpi = g_new0 (dialog_print_info_t, 1);
+	dpi->wbcg   = wbcg;
 	dpi->sheet = sheet;
 	dpi->gui   = gui;
 	dpi->pi    = sheet->print_info;
@@ -1470,16 +1470,16 @@ dialog_print_info_destroy (dialog_print_info_t *dpi)
 }
 
 void
-dialog_printer_setup (Workbook *wb, Sheet *sheet)
+dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	dialog_print_info_t *dpi;
 	int v;
 
-	dpi = dialog_print_info_new (sheet);
+	dpi = dialog_print_info_new (wbcg, sheet);
 	if (!dpi)
 		return;
 
-	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dpi->dialog));
+	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dpi->dialog));
 
 	if (v == 0) {
 		fetch_settings (dpi);

@@ -25,6 +25,7 @@
 #include "gnumeric.h"
 #include "dialogs.h"
 #include "gnumeric-util.h"
+#include "workbook-control-gui-priv.h"
 #include "workbook.h"
 #include "workbook-edit.h"
 #include "workbook-private.h" /* FIXME Ick */
@@ -33,7 +34,7 @@
 #include "selection.h"
 #include "ranges.h"
 #include "value.h"
-#include "graph-series.h"
+#include "graph-vector.h"
 #include "idl/gnumeric-graphs.h"
 #include <liboaf/liboaf.h>
 
@@ -72,33 +73,54 @@ typedef struct
 	gboolean valid;
 
 	gboolean is_columns;
-	GPtrArray *series;
+	GPtrArray *vectors;
+	GSList	  *ranges;
 
 	/* external state */
+	WorkbookControlGUI *wbcg;
 	Workbook *wb;
+	Sheet	 *sheet;
 } GraphGuruState;
+
+static void
+graph_guru_clear_vectors (GraphGuruState *state, gboolean explicit_remove)
+{
+	/* Release the vectors objects */
+	if (state->vectors != NULL) {
+		int i = state->vectors->len;
+		while (i-- > 0) {
+			GraphVector *vectors = g_ptr_array_index (state->vectors, i);
+
+			if (explicit_remove)
+				graph_vector_unsubscribe (vectors);
+			gtk_object_unref (GTK_OBJECT (vectors));
+		}
+		g_ptr_array_free (state->vectors, TRUE);
+		state->vectors = NULL;
+	}
+}
 
 static void
 graph_guru_state_destroy (GraphGuruState *state)
 {
 	g_return_if_fail (state != NULL);
 
-	workbook_edit_detach_guru (state->wb);
+	workbook_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
 		gtk_object_unref (GTK_OBJECT (state->gui));
 		state->gui = NULL;
 	}
 
-	/* Release the series objects */
-	if (state->series != NULL) {
-		int i = state->series->len;
-		while (i-- > 0) {
-			gpointer *elem = g_ptr_array_index (state->series, i);
-			gtk_object_unref (GTK_OBJECT (elem));
-		}
-		g_ptr_array_free (state->series, TRUE);
-		state->series = NULL;
+	graph_guru_clear_vectors (state, FALSE);
+
+	if (state->ranges != NULL) {
+		GSList *ptr = state->ranges;
+		
+		for (; ptr != NULL; ptr = ptr->next)
+			g_free (ptr->data);
+		g_slist_free (state->ranges);
+		state->ranges = NULL;
 	}
 
 	if (state->control != CORBA_OBJECT_NIL) {
@@ -121,7 +143,7 @@ graph_guru_state_destroy (GraphGuruState *state)
 	/* Handle window manger closing the dialog.
 	 * This will be ignored if we are being destroyed differently.
 	 */
-	workbook_finish_editing (state->wb, FALSE);
+	workbook_finish_editing (state->wbcg, FALSE);
 
 	state->dialog = NULL;
 
@@ -140,7 +162,7 @@ cb_graph_guru_key_press (GtkWidget *widget, GdkEventKey *event,
 			 GraphGuruState *state)
 {
 	if (event->keyval == GDK_Escape) {
-		workbook_finish_editing (state->wb, FALSE);
+		workbook_finish_editing (state->wbcg, FALSE);
 		return TRUE;
 	} else
 		return FALSE;
@@ -181,9 +203,9 @@ graph_guru_set_page (GraphGuruState *state, int page)
 }
 
 static gboolean
-cb_graph_series_destroy (GtkObject *w, gpointer series)
+cb_graph_vector_destroy (GtkObject *w, gpointer vector)
 {
-	printf ("series destroy %p\n", series);
+	printf ("vector destroy %p\n", vector);
 	return FALSE;
 }
 
@@ -193,7 +215,7 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 	if (state->dialog == NULL)
 		return;
 
-	workbook_set_entry (state->wb, NULL);
+	workbook_set_entry (state->wbcg, NULL);
 
 	if (button == state->button_prev) {
 		graph_guru_set_page (state, state->current_page - 1);
@@ -213,21 +235,21 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 
 		if (bonobo_client_site_bind_embeddable (client_site, state->manager_client)) {
 			SheetObject *so = sheet_object_container_new_bonobo (
-				state->wb->current_sheet, client_site);
+				state->sheet, client_site);
 			sheet_mode_create_object (so);
 		}
 
-		/* Add a reference to the series so that they continue to exist
+		/* Add a reference to the vector so that they continue to exist
 		 * when the dialog goes away.  Then tie them to the destruction of
 		 * the client_site.
 		 */
-		if (state->series != NULL) {
-			int i = state->series->len;
+		if (state->vectors != NULL) {
+			int i = state->vectors->len;
 			while (i-- > 0) {
-				gpointer *elem = g_ptr_array_index (state->series, i);
+				gpointer *elem = g_ptr_array_index (state->vectors, i);
 				gtk_object_ref (GTK_OBJECT (elem));
 				gtk_signal_connect (GTK_OBJECT (client_site), "destroy",
-						    GTK_SIGNAL_FUNC (cb_graph_series_destroy),
+						    GTK_SIGNAL_FUNC (cb_graph_vector_destroy),
 						    elem);
 			}
 		}
@@ -255,12 +277,12 @@ get_selector_control (GraphGuruState *state)
 	GtkWidget *res = NULL;
 
 	CORBA_exception_init (&ev);
-	state->control = GNOME_Gnumeric_Graph_Manager_getTypeSelectControl (state->manager, &ev);
+	state->control = GNOME_Gnumeric_Graph_Manager_get_type_select_control (state->manager, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		return NULL;
 	CORBA_exception_free (&ev);
 
-	corba_uih = bonobo_ui_component_get_container (state->wb->priv->uic);
+	corba_uih = bonobo_ui_component_get_container (state->wbcg->uic);
 	res =  bonobo_widget_new_control_from_objref (state->control, corba_uih);
 
 	return res;
@@ -271,8 +293,7 @@ graph_guru_init (GraphGuruState *state)
 {
 	GtkWidget *control;
 
-	state->gui = gnumeric_glade_xml_new (workbook_command_context_gui (state->wb),
-					     "graph-guru.glade");
+	state->gui = gnumeric_glade_xml_new (state->wbcg, "graph-guru.glade");
         if (state->gui == NULL)
                 return TRUE;
 
@@ -286,7 +307,7 @@ graph_guru_init (GraphGuruState *state)
 	state->button_finish = graph_guru_init_button (state, "button_finish");
 
 	/* Lifecyle management */
-	workbook_edit_attach_guru (state->wb, state->dialog);
+	workbook_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_graph_guru_destroy),
 			    state);
@@ -324,8 +345,6 @@ graph_guru_init_manager (GraphGuruState *state)
 	o = (Bonobo_Unknown)oaf_activate ("repo_ids.has('IDL:Gnome/Gnumeric/Graph/Manager:1.0')",
 					  NULL, 0, NULL, &ev);
 
-	state->manager = CORBA_OBJECT_NIL;
-	state->control = CORBA_OBJECT_NIL;
 	if (o != CORBA_OBJECT_NIL) {
 		state->manager_client = bonobo_object_client_from_corba (o);
 
@@ -346,16 +365,14 @@ graph_guru_init_manager (GraphGuruState *state)
 	return (state->manager == CORBA_OBJECT_NIL);
 }
 
-
-static gboolean
-cb_create_series_from_range (Sheet *sheet, Range const *src, gpointer user_data)
+static void
+graph_guru_create_vectors_from_range (GraphGuruState *state, Range const *src)
 {
-	GraphGuruState *state = user_data;
-	GraphSeries *series;
+	GraphVector *g_vector;
 	Range vector;
 	int i, count;
-	gboolean const has_col_header = range_has_header (sheet, src, TRUE);
-	gboolean const has_row_header = range_has_header (sheet, src, FALSE);
+	gboolean has_col_header = range_has_header (state->sheet, src, TRUE);
+	gboolean has_row_header = range_has_header (state->sheet, src, FALSE);
 
 	vector = *src;
 	if (has_col_header)
@@ -376,14 +393,14 @@ cb_create_series_from_range (Sheet *sheet, Range const *src, gpointer user_data)
 		char *name = NULL;
 		if (state->is_columns) {
 			if (has_col_header) {
-				Cell const *cell = sheet_cell_get (sheet,
+				Cell const *cell = sheet_cell_get (state->sheet,
 								   vector.start.col,
 								   vector.start.row-1);
 				name = value_get_as_string (cell->value);
 			}
 		} else {
 			if (has_row_header) {
-				Cell const *cell = sheet_cell_get (sheet,
+				Cell const *cell = sheet_cell_get (state->sheet,
 								   vector.start.col-1,
 								   vector.start.row);
 				name = value_get_as_string (cell->value);
@@ -392,47 +409,76 @@ cb_create_series_from_range (Sheet *sheet, Range const *src, gpointer user_data)
 
 		/* Create a default name if need be */
 		if (name == NULL)
-			name = g_strdup_printf (_("series%d"), state->series->len+1);
+			name = g_strdup_printf (_("series%d"), state->vectors->len+1);
 
-		series = graph_series_new (sheet, &vector, name);
-		graph_series_set_subscriber (series, state->manager);
-		g_ptr_array_add (state->series, series);
+		g_vector = graph_vector_new (state->sheet, &vector, name);
+		graph_vector_set_subscriber (g_vector, state->manager);
+		g_ptr_array_add (state->vectors, g_vector);
 
 		if (state->is_columns)
 			vector.end.col = ++vector.start.col;
 		else
 			vector.end.row = ++vector.start.row;
 	}
-
-	return TRUE;
 }
 
-static gboolean
-graph_guru_init_series (GraphGuruState *state)
+static void
+cb_data_simple_page (GtkNotebook *notebook, GtkNotebookPage *page,
+		     gint page_num, gpointer user_data)
 {
-	Sheet *sheet;
+	puts ("data selector");
+}
+
+static void
+cb_data_simple_col_row_toggle (GtkToggleButton *button, GraphGuruState *state)
+{
+	GSList	*ptr;
+	state->is_columns = gtk_toggle_button_get_active (button);
+
+	graph_guru_clear_vectors (state, TRUE);
+
+	state->vectors = g_ptr_array_new ();
+	for (ptr = state->ranges; ptr != NULL ; ptr = ptr->next)
+		graph_guru_create_vectors_from_range (state, ptr->data);
+}
+
+/**
+ * graph_guru_init_vectors :
+ *
+ * Guess at what to plot based on the current selection.
+ * Then initialize the data page of the guru
+ */
+static gboolean
+graph_guru_init_vectors (GraphGuruState *state)
+{
+	GSList	*ptr;
 	Range const * r;
 	int num_rows, num_cols;
 
-	sheet = state->wb->current_sheet;
-	r = selection_first_range (sheet, TRUE);
+	r = selection_first_range (state->sheet, TRUE);
 	num_rows = r->end.row - r->start.row;
 	num_cols = r->end.col - r->start.col;
 
 	/* Excel docs claim that rows == cols uses rows */
 	state->is_columns = num_cols < num_rows;
-	state->series = g_ptr_array_new ();
-	(void) selection_foreach_range (sheet, FALSE,
-					&cb_create_series_from_range, state);
+	state->ranges = selection_get_ranges (state->sheet, TRUE);
 
-
-	/* Data widgets */
-	state->data_notebook = glade_xml_get_widget (state->gui, "data_notebook");
+	state->vectors = g_ptr_array_new ();
+	for (ptr = state->ranges; ptr != NULL ; ptr = ptr->next)
+		graph_guru_create_vectors_from_range (state, ptr->data);
 
 	/* simple selection */
 	state->data_is_cols_radio = glade_xml_get_widget (state->gui, "data_is_cols");
 	state->data_is_rows_radio = glade_xml_get_widget (state->gui, "data_is_rows");
 	state->data_range = glade_xml_get_widget (state->gui, "data_range");
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->data_is_cols_radio),
+				      state->is_columns);
+
+	/* Only need to set it for is_cols due to the radio ness */
+	gtk_signal_connect (GTK_OBJECT (state->data_is_cols_radio),
+			    "toggled", GTK_SIGNAL_FUNC (cb_data_simple_col_row_toggle),
+			    state);
 
 	/* complex selection */
 	state->data_series_list = glade_xml_get_widget (state->gui, "data_series_list");
@@ -441,6 +487,14 @@ graph_guru_init_series (GraphGuruState *state)
 	state->data_add_series = glade_xml_get_widget (state->gui, "data_add_series");
 	state->data_remove_series = glade_xml_get_widget (state->gui, "data_remove_series");
 
+	/* Data widgets */
+	state->data_notebook = glade_xml_get_widget (state->gui, "data_notebook");
+	gtk_notebook_set_page (GTK_NOTEBOOK (state->data_notebook),
+			       (state->ranges->next != NULL) ? 1 : 0);
+	gtk_signal_connect (GTK_OBJECT (state->data_notebook),
+			    "switch_page", GTK_SIGNAL_FUNC (cb_data_simple_page),
+			    state);
+
 	return FALSE;
 }
 
@@ -448,22 +502,29 @@ graph_guru_init_series (GraphGuruState *state)
  * dialog_graph_guru
  * @wb : The workbook to use as a parent window.
  *
- * Pop up a function selector then a graph guru.
+ * Pop up a graph guru.
  */
 void
-dialog_graph_guru (Workbook *wb)
+dialog_graph_guru (WorkbookControlGUI *wbcg)
 {
 	GraphGuruState *state;
 
-	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wbcg != NULL);
 
-	state = g_new(GraphGuruState, 1);
-	state->wb	= wb;
+	state = g_new0(GraphGuruState, 1);
+	state->wbcg	= wbcg;
+	state->wb	= wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet	= wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	state->valid	= FALSE;
-	state->series   = NULL;
+	state->vectors  = NULL;
+	state->ranges   = NULL;
 	state->gui	= NULL;
+	state->control = CORBA_OBJECT_NIL;
+	state->manager = CORBA_OBJECT_NIL;
+	state->manager_client = NULL;
+
 	if (graph_guru_init_manager (state) || graph_guru_init (state) ||
-	    graph_guru_init_series (state)) {
+	    graph_guru_init_vectors (state)) {
 		graph_guru_state_destroy (state);
 		return;
 	}

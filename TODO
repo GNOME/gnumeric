@@ -2,21 +2,9 @@
 
 Gnumeric Spread Sheet task list
 
-* Workbook
-   Have a new "manager" file that will take over the details of open
-   workbooks and active servers, instead of the current approach we
-   use to have this management in the workbook.c file
-   This belongs in application.c.
-
 * Component
    Remove the hard-coded workbook hooks from the sheet.
    Initialize the hooks on the workbook_new routine.
-
-   The model is somewhat broken.  sheet_new creates a sheet_view by
-   default. 
-
-   I think we need something like: workbook_new and workbook_view_new
-   to split this sort of thing.
 
 * Cell editing
    * Support for entering multi-line cells, and <Alt-Enter> adding an
@@ -162,7 +150,6 @@ Gnumeric Spread Sheet task list
 
 ** Notebook:
   - Copy sheet dialog.
-  - Improve exit so that we do not redraw each sheet in sequence as we close.
   - Decrease flicker when paging between sheets.
   - Enable capability to select multiple sheets.
 
@@ -220,32 +207,7 @@ Gnumeric Spread Sheet task list
   * Export style information for blank cells.
 
 * Graph component
-  - Scatter plots are not being scaled to the dimensions of the allocated
-    size for the graph inside the layout.
-  - Stacked, and Stacked 100% are not working for line plots.
-  - Need to support labels for categories (series)
-  - Need to support list of series plotted (little box on the right)
-  - Need to support all kinds of captions
-  - Need to support axis drawing with all their features
-  - Need to support pie-charts
-  - Need to add 3D support
-  - Need to add editing-facilities to each data plot type.
-  - Need to provide menu/toolbar merging facilities with the graph component with 
-    Gnumeric
-  - Add printing support (not fun)
 
 * Graph Druid
-  - Need to high-light current graph type on the first page
-  - Need to finish the druid: manual data entry, better druiding,
-  - Need to split the druid from the Gnumeric linking stage
 
 * Gnumeric-side graph support
-  - Need to save the settings for the plots.  Perhaps the druid?
-  - Need to restore the setting from the plots. 
-  - Add component printing support.
-
-* Sheet Object and Graphics support
-  - Handle ownership of objects: from the druid to the "finish"
-    creation routine in the sheet-object.c code
-  - Remove the sheet_object_set_type_full thing, and simplify the API
-    everywhere by requiting the mode_data argument.

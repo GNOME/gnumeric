@@ -3,17 +3,16 @@
 
 #include <gnome.h>
 #include <glade/glade-xml.h>
-#include "gnumeric.h"
+#include "workbook-control-gui.h"
 
-void       gnumeric_notice (Workbook *wb, const char *type, const char *str);
-void       gnumeric_no_modify_array_notice (Workbook *wb);
+void       gnumeric_notice (WorkbookControlGUI *wbcg, const char *type, const char *str);
 
-void       gnumeric_non_modal_dialog (Workbook *wb, GtkWindow *dialog);
-gint       gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog);
-void       gnumeric_dialog_show (GtkObject *parent, GnomeDialog *dialog,
+void       gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog);
+gint       gnumeric_dialog_run  (WorkbookControlGUI *wbcg, GnomeDialog *dialog);
+void       gnumeric_dialog_show (WorkbookControlGUI *wbcg, GnomeDialog *dialog,
 				 gboolean click_closes,
 				 gboolean close_with_parent);
-void       gnumeric_set_transient (CommandContext *context, GtkWindow *window);
+void       gnumeric_set_transient (WorkbookControlGUI *context, GtkWindow *window);
 void       gnumeric_editable_enters (GtkWindow *window,
 				     GtkEditable *editable);
 void       gnumeric_combo_enters (GtkWindow *window,
@@ -62,9 +61,9 @@ GtkWidget  *gnumeric_create_tooltip (void);
 /* Is this GtkEntry editing at a subexpression boundary */
 gboolean    gnumeric_entry_at_subexpr_boundary_p (GtkEntry *entry);
 
-GladeXML   *gnumeric_glade_xml_new (CommandContext *context, char const * gladefile);
+GladeXML   *gnumeric_glade_xml_new (WorkbookControlGUI *context, char const * gladefile);
 
-void 	    gnumeric_inject_widget_into_bonoboui (Workbook *wb,
+void 	    gnumeric_inject_widget_into_bonoboui (WorkbookControlGUI *wbcg,
 						  GtkWidget *widget,
 						  char const *path);
 
