@@ -940,12 +940,12 @@ fmt_dialog_init_format_page (FormatState *state)
 	/* setup the red elements of the negative list box */
 	cl = GTK_CLIST (state->format.widget[F_NEGATIVE]);
 	if (cl != NULL) {
-		gchar *dummy[1] = { "321" };
+		const char *dummy[1] = { "321" };
 		GtkStyle *style;
 
 		/* stick in some place holders */
 		for (j = 4; --j >= 0 ;)
-		    gtk_clist_append  (cl, dummy);
+		    gtk_clist_append  (cl, (char **)dummy);
 
 		/* Make the 2nd and 4th elements red */
 		gtk_widget_ensure_style (GTK_WIDGET (cl));
@@ -2092,7 +2092,8 @@ static void
 cb_validation_sensitivity (GtkMenuShell *ignored, FormatState *state)
 {
 	gboolean has_operators = FALSE;
-	char *msg0 = "", *msg1 = "";
+	const char *msg0 = "";
+	const char *msg1 = "";
 	ValidationType const type = gnumeric_option_menu_get_selected_index (
 		state->validation.constraint_type);
 
@@ -2132,12 +2133,12 @@ cb_validation_sensitivity (GtkMenuShell *ignored, FormatState *state)
 	}
 
 	gtk_label_set_text (state->validation.expr0.name, msg0);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr0.name),  msg0 != '\0');
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr0.entry), msg0 != '\0');
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr0.name),  *msg0 != '\0');
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr0.entry), *msg0 != '\0');
 
 	gtk_label_set_text (state->validation.expr1.name, msg1);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr1.name),  msg1 != '\0');
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr1.entry), msg1 != '\0');
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr1.name),  *msg1 != '\0');
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr1.entry), *msg1 != '\0');
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.op),
 		has_operators);

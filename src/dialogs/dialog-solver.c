@@ -811,7 +811,7 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 						   "constraints and optimality conditions "
 						   "are satisfied.\n"));
 			} else {
-				char *str = "";
+				char *str;
 				if (res == SOLVER_LP_UNBOUNDED) {
 					str = g_strdup_printf
 						(_("The Target Cell value does "

@@ -145,7 +145,7 @@ typedef enum {
 	GtkWidget *cancel_button;\
 	GtkWidget *apply_button;\
 	GtkWidget *help_button;\
-	char *help_link;\
+	const char *help_link;\
 	char *input_var1_str;\
 	char *input_var2_str;\
 	GtkWidget *new_sheet;\

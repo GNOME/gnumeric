@@ -81,7 +81,7 @@ dialog_summary_update (WorkbookControlGUI *wbcg, SummaryInfo *sin)
 	GtkWidget *dia, *comments;
 	gint v;
 	int i;
-	static char *names[] = {
+	static const char *names[] = {
 	     "glade_title",
 	     "glade_author",
 	     "glade_category",

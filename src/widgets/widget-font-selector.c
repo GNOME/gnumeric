@@ -110,7 +110,7 @@ fs_fill_font_name_list (FontSelector *fs)
 		 GTK_SIGNAL_FUNC (list_mapped), NULL);
 }
 
-static char *styles[] = {
+static const char *styles[] = {
 	 N_("Normal"),
 	 N_("Bold"),
 	 N_("Bold italic"),

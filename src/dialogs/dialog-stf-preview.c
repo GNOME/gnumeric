@@ -203,7 +203,7 @@ stf_preview_draw_grid (RenderData_t *renderdata, int rowcount, int colcount)
 	double tablewidth  = stf_preview_get_table_pixel_width (renderdata);
 	double xpos        = 0;
 	double ypos        = 0;
-	char *tempcolor;
+	const char *tempcolor;
 	int i;
 
 	if (renderdata->gridgroup != NULL)

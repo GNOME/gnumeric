@@ -19,7 +19,7 @@
 #define BUTTON_PASTE_LINK 0
 
 static const struct {
-	char *name;
+	const char *name;
 	int  disables_second_group;
 } paste_types[] = {
 	{ N_("All"),      0 },

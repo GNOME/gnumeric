@@ -76,9 +76,9 @@ typedef struct {
 static Consolidate *
 construct_consolidate (ConsolidateState *state)
 {
-	Consolidate     *cs   = consolidate_new ();
+	Consolidate      *cs   = consolidate_new ();
 	ConsolidateMode  mode = 0;
-	char            *func;
+	const char       *func;
 	Value            *range_value;
 	int              i;
 

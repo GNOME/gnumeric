@@ -1,3 +1,18 @@
+2002-02-21  Morten Welinder  <terra@diku.dk>
+
+	* dialog-summary.c (dialog_summary_update): Constify.
+
+	* dialog-stf-preview.c (stf_preview_draw_grid): Constify.
+
+	* dialog-solver.c (cb_dialog_solve_clicked): Remove unneeded
+	initialisation.
+
+	* dialog-cell-format.c (fmt_dialog_init_format_page): Constify.
+	(cb_validation_sensitivity): Constify.  Fix broken sensitivity
+	code.
+
+	* dialog-consolidate.c (construct_consolidate): Constify.
+
 2002-02-20  Morten Welinder  <terra@diku.dk>
 
 	* dialog-printer-setup.c (do_setup_page): Constify.
