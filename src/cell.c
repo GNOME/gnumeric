@@ -381,6 +381,9 @@ cell_render_value (Cell *cell)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->value != NULL);
 
+	if (cell->render_color == 0xdeadbeef){
+		g_error ("This cell is dead!");
+	}
 	if (cell->render_color) {
 		style_color_unref (cell->render_color);
 		cell->render_color = NULL;

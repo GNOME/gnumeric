@@ -338,7 +338,6 @@ sheet_row_new (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	*ri = sheet->rows.default_style;
-	row_init_span (ri);
 
 	return ri;
 }

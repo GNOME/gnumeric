@@ -90,6 +90,9 @@ cell_register_span (Cell *cell, int left, int right)
 	ri = cell->row;
 	col = cell->col->pos;
 
+	if (ri->spans == NULL)
+		row_init_span (ri);
+	
 	for (i = left; i <= right; i++){
 		int *key;
 

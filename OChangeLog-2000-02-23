@@ -1,6 +1,12 @@
 1999-10-24  Miguel de Icaza  <miguel@gnu.org>
 
+	* src/cellspan.c (cell_register_span): Create the span if required.
+
+	* src/sheet.c (sheet_destroy_contents): Remove debugging messages.
+	(sheet_row_new): Row spans are now created on demand. 
+
 	* src/xml-io.c (xml_get_print_hf): Plug memory leak.
+	(xml_get_print_hf): More leak fixes.
 
 	* src/mstyle.c (mstyle_verify): Fixed.
 

@@ -925,6 +925,7 @@ xml_get_print_hf (xmlNodePtr node, PrintHF *const hf)
 			g_free (hf->left_format);
 		
 		hf->left_format = g_strdup (txt);
+		free (txt);
 	}
 	
 	txt = xml_value_get (node, "Middle");
@@ -933,6 +934,7 @@ xml_get_print_hf (xmlNodePtr node, PrintHF *const hf)
 			g_free (hf->middle_format);
 		
 		hf->middle_format = g_strdup (txt);
+		free (txt);
 	}
 
 	txt = xml_value_get (node, "Right");
@@ -941,6 +943,7 @@ xml_get_print_hf (xmlNodePtr node, PrintHF *const hf)
 			g_free (hf->right_format);
 		
 		hf->right_format = g_strdup (txt);
+		free (txt);
 	}
 }
 
