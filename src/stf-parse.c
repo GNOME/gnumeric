@@ -38,6 +38,7 @@
 #include "mstyle.h"
 #include "number-match.h"
 #include "gutils.h"
+#include "parse-util.h"
 
 #include <ctype.h>
 #ifdef HAVE_WCTYPE_H
@@ -1238,7 +1239,6 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet
 
 	lines = stf_parse_general (parseoptions, data);
 	for (row = start_row, lrow = 0; lrow < lines->len ; row++, lrow++) {
-		int col;
 		unsigned int lcol;
 		GPtrArray *line = g_ptr_array_index (lines, lrow);
 		StyleFormat *fmt;
@@ -1246,7 +1246,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet
 		/* format is the same for the entire column */
 		fmt = mstyle_get_format (sheet_style_get (sheet, start_col, row));
 
-		for (col = start_col, lcol = 0; lcol < line->len; col++, lcol++) {
+		for (lcol = 0; lcol < line->len; lcol++) {
 			char *text = g_ptr_array_index (line, lcol);
 
 			if (text) {
@@ -1255,7 +1255,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet
 					v = value_new_string_nocopy (text);
 					g_ptr_array_index (line, lcol) = NULL;
 				}
-				cell_set_value (sheet_cell_fetch (sheet, col, row), v);
+				cell_set_value (sheet_cell_fetch (sheet, start_col + lcol, row), v);
 			}
 		}
 	}
@@ -1297,14 +1297,8 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data)
 				 * See stf_parse_sheet
 				 **/
 
-				/* The '@' character appears to be somewhat magic, so
-				 * if the line starts with an '@' character we have to prepend an '=' char and quotes
-				 */
-				if (text[0] == '@') {
-					char *tmp;
-
-					tmp = g_strdup_printf ("=\"%s\"", text);
-
+				if (gnm_expr_char_start_p (text)) {
+					char *tmp = g_strconcat ("\'", text, NULL);
 					g_free (text);
 					text = tmp;
 				}
