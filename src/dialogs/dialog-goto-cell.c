@@ -55,7 +55,7 @@ dialog_goto_cell (Workbook *wb)
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (swin),
 						GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-		entry = ut_dia_entry_new (GNOME_DIALOG (dialog));
+		entry = gnumeric_dialog_entry_new (GNOME_DIALOG (dialog));
 
 		gtk_signal_connect (GTK_OBJECT (clist), "select_row",
 				    GTK_SIGNAL_FUNC (cb_row_selected), entry);

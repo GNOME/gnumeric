@@ -75,27 +75,119 @@
 	</child>
 
 	<widget>
-	  <class>GtkHBox</class>
-	  <name>hbox2</name>
-	  <homogeneous>False</homogeneous>
+	  <class>GtkVBox</class>
+	  <name>vbox1</name>
+	  <border_width>4</border_width>
+	  <homogeneous>True</homogeneous>
 	  <spacing>0</spacing>
 
 	  <widget>
-	    <class>GtkVBox</class>
-	    <name>vbox1</name>
-	    <homogeneous>True</homogeneous>
+	    <class>GtkRadioButton</class>
+	    <name>radio_200</name>
+	    <can_focus>True</can_focus>
+	    <label>20_0 %</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>zooms</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radio_100</name>
+	    <can_focus>True</can_focus>
+	    <label>_100 %</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>zooms</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radio_75</name>
+	    <can_focus>True</can_focus>
+	    <label>_75 %</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>zooms</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radio_50</name>
+	    <can_focus>True</can_focus>
+	    <label>_50 %</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>zooms</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radio_25</name>
+	    <can_focus>True</can_focus>
+	    <label>_25%</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>zooms</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radio_fit_selection</name>
+	    <sensitive>False</sensitive>
+	    <can_focus>True</can_focus>
+	    <label>_Fit Selection %</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>zooms</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkHBox</class>
+	    <name>hbox3</name>
+	    <homogeneous>False</homogeneous>
 	    <spacing>0</spacing>
 	    <child>
 	      <padding>0</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
+	      <expand>False</expand>
+	      <fill>False</fill>
 	    </child>
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>radio_200</name>
+	      <name>radio_custom</name>
 	      <can_focus>True</can_focus>
-	      <label>20_0 %</label>
+	      <label>_Custom</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>zooms</group>
@@ -107,28 +199,15 @@
 	    </widget>
 
 	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>radio_100</name>
-	      <can_focus>True</can_focus>
-	      <label>_100 %</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>zooms</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>True</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>radio_75</name>
-	      <can_focus>True</can_focus>
-	      <label>_75 %</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>zooms</group>
+	      <class>GtkLabel</class>
+	      <name>label1</name>
+	      <label>%</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>0.5</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
@@ -137,87 +216,22 @@
 	    </widget>
 
 	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>radio_50</name>
-	      <can_focus>True</can_focus>
-	      <label>_50 %</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>zooms</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>radio_25</name>
-	      <can_focus>True</can_focus>
-	      <label>_25%</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>zooms</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>radio_fit_selection</name>
-	      <sensitive>False</sensitive>
-	      <can_focus>True</can_focus>
-	      <label>_Fit Selection %</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>zooms</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkHBox</class>
-	      <name>hbox3</name>
+	      <class>GtkVBox</class>
+	      <name>vbox2</name>
 	      <homogeneous>False</homogeneous>
 	      <spacing>0</spacing>
 	      <child>
 		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
+		<expand>True</expand>
+		<fill>True</fill>
 	      </child>
 
 	      <widget>
-		<class>GtkRadioButton</class>
-		<name>radio_custom</name>
-		<can_focus>True</can_focus>
-		<label>_Custom</label>
-		<active>False</active>
-		<draw_indicator>True</draw_indicator>
-		<group>zooms</group>
-		<child>
-		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
-		</child>
-	      </widget>
-
-	      <widget>
-		<class>GtkLabel</class>
-		<name>label1</name>
-		<label>%</label>
-		<justify>GTK_JUSTIFY_CENTER</justify>
-		<wrap>False</wrap>
-		<xalign>0.5</xalign>
-		<yalign>0.5</yalign>
-		<xpad>0</xpad>
-		<ypad>0</ypad>
+		<class>GtkDrawingArea</class>
+		<name>drawingarea1</name>
+		<width>60</width>
+		<height>0</height>
+		<sensitive>False</sensitive>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
@@ -243,8 +257,8 @@
 		<page_size>25</page_size>
 		<child>
 		  <padding>0</padding>
-		  <expand>True</expand>
-		  <fill>True</fill>
+		  <expand>False</expand>
+		  <fill>False</fill>
 		</child>
 	      </widget>
 	    </widget>
@@ -253,39 +267,49 @@
       </widget>
 
       <widget>
-	<class>GtkScrolledWindow</class>
-	<name>scrolledwindow1</name>
-	<hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
-	<vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
-	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	<class>GtkFrame</class>
+	<name>frame1</name>
+	<label>Sheets</label>
+	<label_xalign>0</label_xalign>
+	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	<child>
-	  <padding>0</padding>
+	  <padding>4</padding>
 	  <expand>True</expand>
 	  <fill>True</fill>
 	</child>
 
 	<widget>
-	  <class>GtkCList</class>
-	  <name>sheet_list</name>
-	  <can_focus>True</can_focus>
-	  <columns>1</columns>
-	  <column_widths>80</column_widths>
-	  <selection_mode>GTK_SELECTION_EXTENDED</selection_mode>
-	  <show_titles>True</show_titles>
-	  <shadow_type>GTK_SHADOW_IN</shadow_type>
+	  <class>GtkScrolledWindow</class>
+	  <name>scrolledwindow1</name>
+	  <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	  <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
 
 	  <widget>
-	    <class>GtkLabel</class>
-	    <child_name>CList:title</child_name>
-	    <name>label2</name>
-	    <label>Sheets</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
+	    <class>GtkCList</class>
+	    <name>sheet_list</name>
+	    <border_width>4</border_width>
+	    <can_focus>True</can_focus>
+	    <columns>1</columns>
+	    <column_widths>80</column_widths>
+	    <selection_mode>GTK_SELECTION_EXTENDED</selection_mode>
+	    <show_titles>False</show_titles>
+	    <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	    <widget>
+	      <class>GtkLabel</class>
+	      <child_name>CList:title</child_name>
+	      <name>label2</name>
+	      <sensitive>False</sensitive>
+	      <label>Sheets</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>0.5</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	    </widget>
 	  </widget>
 	</widget>
       </widget>

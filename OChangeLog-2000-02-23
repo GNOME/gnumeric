@@ -1,3 +1,15 @@
+1999-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_find_row,
+	item_grid_find_col) : Return a value in the overflow case.
+
+	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
+
+	* src/dialogs/dialog-zoom.glade: Place sheet list inside frame. 
+	  Use frame label, not list column label.
+	  Add padding.
+	  Use 0 height drawing area to set minimum width of spin button.
+
 1999-10-06  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/workbook-format-toolbar.c (change_selection_font): Remove

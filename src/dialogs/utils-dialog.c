@@ -10,7 +10,7 @@
 #include "utils-dialog.h"
 
 /*
- * ut_dia_entry_new
+ * gnumeric_dialog_entry_new
  *
  * @dialog: parent dialog window
  *
@@ -18,7 +18,7 @@
  * activate the default button.
  */
 GtkWidget *
-ut_dia_entry_new (GnomeDialog *dialog)
+gnumeric_dialog_entry_new (GnomeDialog *dialog)
 {
 	GtkWidget *entry;
 	
@@ -29,7 +29,7 @@ ut_dia_entry_new (GnomeDialog *dialog)
 }
 
 /*
- * ut_dia_entry_new_with_max_length
+ * gnumeric_dialog_entry_new_with_max_length
  *
  * @dialog: parent dialog window
  * @max:    max text length
@@ -38,7 +38,7 @@ ut_dia_entry_new (GnomeDialog *dialog)
  * makes <Enter> activate the default button. 
  */
 GtkWidget *
-ut_dia_entry_new_with_max_length (GnomeDialog *dialog, guint16 max)
+gnumeric_dialog_entry_new_with_max_length (GnomeDialog *dialog, guint16 max)
 {
 	GtkWidget *entry;
 	
@@ -57,7 +57,7 @@ hbox_pack_label_and_entry(char *str, char *default_str,
 
         box = gtk_hbox_new (FALSE, 0);
 	dialog = GNOME_DIALOG (gtk_widget_get_toplevel (GTK_WIDGET (vbox)));
-	entry = ut_dia_entry_new_with_max_length (dialog, entry_len);
+	entry = gnumeric_dialog_entry_new_with_max_length (dialog, entry_len);
 	label = gtk_label_new (str);
 	gtk_entry_set_text (GTK_ENTRY (entry), default_str);
 

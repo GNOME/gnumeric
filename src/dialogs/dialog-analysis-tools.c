@@ -267,7 +267,7 @@ add_check_buttons (GtkWidget *box, check_button_t *cbs)
 	        button = gtk_check_button_new_with_label (cbs[i].name);
 		gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
 		if (cbs[i].entry_flag) {
-		        entry = ut_dia_entry_new_with_max_length (dialog, 20);
+		        entry = gnumeric_dialog_entry_new_with_max_length (dialog, 20);
 			gtk_entry_set_text (GTK_ENTRY (entry),
 					    cbs[i].default_entry);
 			gtk_box_pack_start (GTK_BOX (hbox), entry, 
@@ -339,7 +339,7 @@ add_output_frame(GtkWidget *box, GSList **output_ops)
 					    _("Output Range:"));
 	*output_ops = GTK_RADIO_BUTTON (r)->group;
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), r);
-	output_range_entry = ut_dia_entry_new_with_max_length 
+	output_range_entry = gnumeric_dialog_entry_new_with_max_length 
 		(GNOME_DIALOG (gtk_widget_get_toplevel (box)), 20);
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), 
 				     output_range_entry);
@@ -577,7 +577,7 @@ dialog_sampling_tool(Workbook *wb, Sheet *sheet)
 			else
 			        label =
 				  gtk_label_new (_("Number of Samples:"));
-			sampling_entry[i] =  ut_dia_entry_new_with_max_length 
+			sampling_entry[i] =  gnumeric_dialog_entry_new_with_max_length 
 				(GNOME_DIALOG (dialog), 20);
 			r = gtk_radio_button_new_with_label
 			  (sampling_ops, _(sample_method_ops[i]));
