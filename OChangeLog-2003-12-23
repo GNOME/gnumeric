@@ -1,3 +1,7 @@
+2003-10-12  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* configure.in: bumped requirements for libgda and libgnomedb.
+
 2003-10-10  Jody Goldberg <jody@gnome.org>
 
 	* src/stf.c (stf_write_csv) : new to write csv files without
