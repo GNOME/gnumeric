@@ -378,8 +378,10 @@ dif_write_workbook (CommandContext *context,
 	FILE *f = fopen (filename, "w");
 	char *workstring;
 
-	if (!f)
-		return -1;
+	if (!f) {
+		rc = -1;
+		goto out;
+	}
 
 	/*
 	 * Since DIF files know nothing about paged spreadsheets,
@@ -428,6 +430,9 @@ dif_write_workbook (CommandContext *context,
 out:
 	if (f)
 		fclose (f);
+	if (rc < 0)
+		gnumeric_error_save (context, "");
+	
 	return rc;	/* Q: what do we have to return here?? */
 }
 

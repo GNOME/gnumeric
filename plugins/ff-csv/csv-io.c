@@ -253,8 +253,10 @@ csv_write_workbook (CommandContext *context, Workbook *wb,
 	int row, col, rc=0;
 	FILE *f = fopen (filename, "w");
 
-	if (!f)
-		return -1;
+	if (!f) {
+		rc = -1;
+		goto out;
+	}
 
 	setvbuf (f, NULL, _IOFBF, PAGE_SIZE);
 
@@ -282,6 +284,9 @@ csv_write_workbook (CommandContext *context, Workbook *wb,
 out:
 	if (f)
 		fclose (f);
+	if (rc < 0)
+		gnumeric_error_save (context, "");
+
 	return rc;	/* Q: what do we have to return here?? */
 }
 
