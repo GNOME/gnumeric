@@ -10,10 +10,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2000-05-22 00:55+0200\n"
+"POT-Creation-Date: 2000-05-22 01:36+0200\n"
 "PO-Revision-Date: 2000-05-16 14:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
-"Language-Team: Dansk/Danish <dansk@klid.dk>\n"
+"Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,23 +28,23 @@ msgstr "Grafik type"
 
 #: graph/sample.c:207
 msgid "Plot mode"
-msgstr "Plottemodus"
+msgstr "Plottetilstand"
 
 #: graph/sample.c:208
 msgid "Col/bar mode"
-msgstr "Kol/bjælke modus"
+msgstr "Kol/bjælke-tilstand"
 
 #: graph/sample.c:209
 msgid "Direction mode"
-msgstr "Retningsmodus"
+msgstr "Retningstilstand"
 
 #: graph/sample.c:210
 msgid "Line mode"
-msgstr "Linie modus"
+msgstr "Linjetilstand"
 
 #: graph/sample.c:211
 msgid "Scatter mode"
-msgstr "Sprednings modus"
+msgstr "Spredningstilstand"
 
 #: graph/sample.c:212
 msgid "Scatter connection"
@@ -272,11 +272,11 @@ msgstr "EPS-filformat (*.eps)"
 
 #: plugins/html/boot.c:125
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: plugins/html/boot.c:126
 msgid "Import/Export of HTML, TeX, DVI, roff and pdf"
-msgstr ""
+msgstr "Import/Eksport af HTML, TeX, DVI, roff og pdf"
 
 #: plugins/html/html.c:409 plugins/lotus-123/lotus.c:224
 #: plugins/oleo/oleo.c:44 src/workbook.c:3210
@@ -290,7 +290,7 @@ msgstr "Lotus-filformat (*.wk1)"
 
 #: plugins/lotus-123/boot.c:91
 msgid "Lotus 123"
-msgstr ""
+msgstr "Lotus 123"
 
 #: plugins/lotus-123/boot.c:92
 msgid "Imports Lotus 123 files"
@@ -404,6 +404,8 @@ msgid ""
 "Adds several basic number theory functions, including utilities for prime "
 "numbers, pi, phi and sigma."
 msgstr ""
+"Tilføjer adskellige basale talteori-funktioner, inkl. værktøj for primtal "
+"pi, phi og sigma."
 
 #: plugins/oleo/boot.c:87
 msgid "GNU Oleo (*.oleo) file format"
@@ -496,7 +498,7 @@ msgstr "Ikke en SYLK-fil"
 
 #: plugins/sylk/sylk.c:414
 msgid "error parsing line\n"
-msgstr "fejl ved tolkning af linie\n"
+msgstr "fejl ved tolkning af linje\n"
 
 #: plugins/sylk/sylk.c:507
 msgid "MultiPlan (SYLK) import"
@@ -1206,7 +1208,7 @@ msgstr "Flytter celler"
 #: src/commands.c:1874
 #, c-format
 msgid "Pasting into %s"
-msgstr ""
+msgstr "Indsætter i %%"
 
 #: src/corba-args.c:33
 msgid "Oaf options"
@@ -2979,13 +2981,13 @@ msgid ""
 "used for terminating a line in the text file. Wether the quote character is "
 "placed around cells depends on the value choosen for quoting."
 msgstr ""
-"Tilpas eksportformatet. Linieafslutningen er den tegnfølge der bruges til at "
-"afslutte en linie i tekstfilen. Om anføretsestegnet pladseres omkring celler "
+"Tilpas eksportformatet. Linjeafslutningen er den tegnfølge der bruges til at "
+"afslutte en linje i tekstfilen. Om anføretsestegnet pladseres omkring celler "
 "afhænger af værdien valgt til anførelse."
 
 #: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Line termination :"
-msgstr "Linieafslutning :"
+msgstr "Linjeafslutning :"
 
 #: src/dialogs/dialog-stf-export.glade.h:21
 msgid ""
@@ -2993,9 +2995,9 @@ msgid ""
 "Macintosh (carriage return)\n"
 "Windows (carriage return + linefeed)\n"
 msgstr ""
-"Unix (linieskift)\n"
+"Unix (linjeskift)\n"
 "Macintosh (vognretur)\n"
-"Windows (vognretur + linieskift)\n"
+"Windows (vognretur + linjeskift)\n"
 
 #: src/dialogs/dialog-stf-export.glade.h:25
 msgid "Separator :"
@@ -3077,7 +3079,7 @@ msgstr "Gnumeric : Importerer struktureret tekst"
 
 #: src/dialogs/dialog-stf.glade.h:8
 msgid "Data type and number of lines"
-msgstr "Datatype og antal linier"
+msgstr "Datatype og antal linjer"
 
 #: src/dialogs/dialog-stf.glade.h:9
 msgid ""
@@ -3090,7 +3092,7 @@ msgstr ""
 "Vælg den tekststruktur som nærmest passer data. Adskilt betyder at hver "
 "kolonne er adskilt af et 'adskillelses' tegn, og fast bredde betyder at du "
 "selv kan definere bredden på hver kolonne. Du bør også vælge hvilken part af "
-"data du ønsker at importere ved at tilpasse fra- og til-linierne."
+"data du ønsker at importere ved at tilpasse fra- og til-linjerne."
 
 #: src/dialogs/dialog-stf.glade.h:10
 msgid "Original data type"
@@ -3106,7 +3108,7 @@ msgstr "Fast _bredde"
 
 #: src/dialogs/dialog-stf.glade.h:13
 msgid "Fr_om line :"
-msgstr "Fr_a linie:"
+msgstr "Fr_a linje:"
 
 #: src/dialogs/dialog-stf.glade.h:14
 msgid "_To line : "
@@ -3114,7 +3116,7 @@ msgstr "_Til værdi:"
 
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Number of lines to import"
-msgstr "%d linier at importere"
+msgstr "%d linjer at importere"
 
 #: src/dialogs/dialog-stf.glade.h:16 src/dialogs/dialog-stf.glade.h:39
 #: src/dialogs/dialog-stf.glade.h:48 src/dialogs/dialog-stf.glade.h:56
@@ -3260,7 +3262,7 @@ msgstr "etiket8"
 #: src/dialogs/dialog-stf-main-page.c:196
 #, c-format
 msgid "%d lines to import"
-msgstr "%d linier at eksportere"
+msgstr "%d linjer at eksportere"
 
 #: src/dialogs/dialog-stf-main-page.c:200
 #, c-format
@@ -3638,7 +3640,7 @@ msgstr "Ko_mmentarer"
 
 #: src/dialogs/print.glade.h:54
 msgid "_Grid lines"
-msgstr "_Gitterlinier"
+msgstr "_Gitterlinjer"
 
 #: src/dialogs/print.glade.h:55
 msgid "_Black and white"
@@ -13608,19 +13610,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(kendte_y-er[,kendte_x-er[,konst[,stat]]])\n"
-"@DESCRIPTION=LINEST-funktionen beregner den 'mindste kvadraters' linie som "
+"@DESCRIPTION=LINEST-funktionen beregner den 'mindste kvadraters' linje som "
 "bedst passer til dine data i @kendte_y-er. @kendte_x-er indeholder de "
 "tilsvarende x-er hvor y=m*x+b.\n"
 "Hvis @kendte_x-er er udeladt, bruges en vektor med {1, 2, 3, ...}. LINEST "
 "returnerer en vektor med to kolonner og en række.  Hældningen (m) på "
-"regressionslinien y=m*x+b er givet i den første kolonne og y-skæringspunktet "
+"regressionslinjen y=m*x+b er givet i den første kolonne og y-skæringspunktet "
 "(b) i den anden.\n"
 "Hvis @kendte_x-er og @kendte_y-er har forskelligt antal dataelementer, "
 "returnerer LINEST en #NUM! fejl.\n"
-"Hvis @konst er FALSK, vil linien blive tvunget til at gå gennem origo. dvs. "
+"Hvis @konst er FALSK, vil linjen blive tvunget til at gå gennem origo. dvs. "
 "b vil være nul. Det normale er SAND.\n"
 "Hvis @stat er SAND, vil ekstra statistisk information blive returneret. "
-"Ekstra statistisk information skrives under regressionsliniens koefficienter "
+"Ekstra statistisk information skrives under regressionslinjens koefficienter "
 "i resultatvektoren.  Ekstra statistisk information består af fire rækker af "
 "data.  I den første række er standardfejlværdierne for the koefficienterne "
 "m1, (m2, ...), og b repræsenteret.  Den anden række indeholder kvadratet på "
@@ -13655,7 +13657,7 @@ msgstr ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(kendte_y-er[,kendte_x-er],nye_x-er])\n"
 "@DESCRIPTION=TREND-funktionen estimerer fremtidige værdier for et givet "
-"datasæt ved brug af den 'mindste kvadrater' linie som bedst passer til dine "
+"datasæt ved brug af den 'mindste kvadrater' linje som bedst passer til dine "
 "data. @kendte_y-er er y-værdierne hvor y=m*x+b og @kendte_x-er indeholder de "
 "tilsvarende x-værdier. @nye_x-er indeholder x-værdierne for hvilke du ønsker "
 "at estimere y-værdierene. \n"
@@ -13706,10 +13708,10 @@ msgstr ""
 "returnerer en vektor { m{n},m{n-1}, ...,m{1},b }.\n"
 "Hvis @kendte_x-er og @kendte_y-er har forskelligt antal dataelementer, "
 "returnerer LOGEST en #NUM! fejl.\n"
-"Hvis @konst er FALSK, vil linien blive tvunget til at gå gennem origo. dvs. "
+"Hvis @konst er FALSK, vil linjen blive tvunget til at gå gennem origo. dvs. "
 "b vil være én. Det normale er SAND.\n"
 "Hvis @stat er SAND, vil ekstra statistisk information blive returneret. "
-"Ekstra statistisk information skrives under regressionsliniens koefficienter "
+"Ekstra statistisk information skrives under regressionslinjens koefficienter "
 "i resultatvektoren.  Ekstra statistisk information består af fire rækker af "
 "data.  I den første række er standardfejlværdierne for the koefficienterne "
 "m1, (m2, ...), og b repræsenteret.  Den anden række indeholder kvadratet på "
@@ -13752,7 +13754,7 @@ msgstr ""
 "i @nye_x-er.\n"
 "Hvis @kendte_y-er og @kendte_x-er har forskelligt antal dataelementer, "
 "returnerer GROWTH en #NUM! fejl. \n"
-"Hvis @konst er FALSK, vil linien blive tvunget til at gå gennem origo. dvs. "
+"Hvis @konst er FALSK, vil linjen blive tvunget til at gå gennem origo. dvs. "
 "b vil være nul. Det normale er SAND.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -14603,7 +14605,7 @@ msgstr ""
 
 #: src/plugin.c:185
 msgid "Plugin is still in use.\n"
-msgstr "Indplug er stadig i brug.\n"
+msgstr "Indstik er stadig i brug.\n"
 
 #: src/plugin-util.c:114
 #, c-format
@@ -15395,7 +15397,7 @@ msgstr "Skjul _nuller"
 
 #: src/workbook.c:1336
 msgid "Hide _Gridlines"
-msgstr "Skjul _gitterlinier"
+msgstr "Skjul _gitterlinjer"
 
 #: src/workbook.c:1342
 msgid "Hide _Column Header"
@@ -15432,7 +15434,7 @@ msgstr "Ændr arbejdsbogens tilhørender"
 
 #: src/workbook.c:1374
 msgid "_Plug-ins..."
-msgstr "Ind_plug..."
+msgstr "Indstik..."
 
 #: src/workbook.c:1375
 msgid "Manage available plugin modules."
@@ -15650,7 +15652,7 @@ msgstr "Opretter en afkrydsningsboks"
 
 #: src/workbook.c:1522
 msgid "Creates a line object"
-msgstr "Opretter et linieobjekt"
+msgstr "Opretter et linjeobjekt"
 
 #: src/workbook.c:1525
 msgid "Arrow"
@@ -16059,11 +16061,11 @@ msgstr "X akse"
 
 #: wizards/graphics/graphics.glade.h:50
 msgid "_Main line divisions"
-msgstr "_Hoved liniedelinger"
+msgstr "_Hoved linjedelinger"
 
 #: wizards/graphics/graphics.glade.h:51
 msgid "_Secondary line divisions"
-msgstr "_Underordnet liniedelinger"
+msgstr "_Underordnet linjedelinger"
 
 #: wizards/graphics/graphics.glade.h:52
 msgid " Y axis "
@@ -16071,15 +16073,15 @@ msgstr "Y akse"
 
 #: wizards/graphics/graphics.glade.h:53
 msgid "M_ain line divisions"
-msgstr "H_oved liniedelinger"
+msgstr "H_oved linjedelinger"
 
 #: wizards/graphics/graphics.glade.h:54
 msgid "S_econdary line divisions"
-msgstr "U_nderordnet liniedelinger"
+msgstr "U_nderordnet linjedelinger"
 
 #: wizards/graphics/graphics.glade.h:55
 msgid "Division lines"
-msgstr "Delingslinier"
+msgstr "Delingslinjer"
 
 #: wizards/graphics/graphics.glade.h:56
 msgid "_Show legend"
@@ -16142,27 +16144,27 @@ msgstr ""
 
 #: wizards/graphics/graphic-type.c:107
 msgid "Lines.  FIXME: Add nice explanation"
-msgstr "Linier. FIXME: Tilføj pæn forklaring"
+msgstr "Linjer. FIKSMIG: Tilføj pæn forklaring"
 
 #: wizards/graphics/graphic-type.c:120
 msgid "Stacked Lines.  FIXME: Add nice explanation"
-msgstr "Stakkede linier. FIXME: Tilføj pæn forklaring"
+msgstr "Stakkede linjer. FIKSMIG: Tilføj pæn forklaring"
 
 #: wizards/graphics/graphic-type.c:134
 msgid "Stacked lines, 100%.  FIXME: Add nice explanation"
-msgstr "Stakkede linier, 100%. FIXME: Tilføj pæn forklaring"
+msgstr "Stakkede linjer, 100%. FIKSMIG: Tilføj pæn forklaring"
 
 #: wizards/graphics/graphic-type.c:147
 msgid "Lines with markers.  FIXME: Add nice explanation"
-msgstr "Linier med markeringer. FIXME: Tilføj pæn forklaring"
+msgstr "Linjer med markeringer. FIKSMIG: Tilføj pæn forklaring"
 
 #: wizards/graphics/graphic-type.c:160
 msgid "Stacked lines with markers.  FIXME: Add nice explanation"
-msgstr "Stakkede linier med markeringer. FIXME: Tilføj pæn forklaring"
+msgstr "Stakkede linjer med markeringer. FIKSMIG: Tilføj pæn forklaring"
 
 #: wizards/graphics/graphic-type.c:173
 msgid "Stacked lines with markers, 100%.  FIXME: Add nice explanation"
-msgstr "Stakkede linier med markeringer, 100%. FIXME: Tilføj pæn forklaring"
+msgstr "Stakkede linjer med markeringer, 100%. FIKSMIG: Tilføj pæn forklaring"
 
 #: wizards/graphics/graphic-type.c:190
 msgid "Scatter points"
@@ -16170,23 +16172,23 @@ msgstr "Spredte punkter"
 
 #: wizards/graphics/graphic-type.c:207
 msgid "Scatter points connected with lines"
-msgstr "Spredte punkter forbundet med linier"
+msgstr "Spredte punkter forbundet med linjer"
 
 #: wizards/graphics/graphic-type.c:224
 msgid "Scatter data connected with lines"
-msgstr "Spredte data forbundet med linier"
+msgstr "Spredte data forbundet med linjer"
 
 #: wizards/graphics/graphic-type.c:245
 msgid "Area 1: FIXME add nice description"
-msgstr "Areal 1: FIXME: Tilføj pæn forklaring"
+msgstr "Areal 1: FIKSMIG: Tilføj pæn forklaring"
 
 #: wizards/graphics/graphic-type.c:257
 msgid "Stacked area.  FIXME: add nic description"
-msgstr "Stakket areal. FIXME: Tilføj pæn forklaring"
+msgstr "Stakket areal. FIKSMIG: Tilføj pæn forklaring"
 
 #: wizards/graphics/graphic-type.c:270
 msgid "Stacked Area, 100%.  FIXME: add nice description"
-msgstr "Stakket areal, 100%. FIXME: Tilføj pæn forklaring"
+msgstr "Stakket areal, 100%. FIKSMIG: Tilføj pæn forklaring"
 
 #: wizards/graphics/graphic-type.c:290
 msgid "Bar"
@@ -16194,7 +16196,7 @@ msgstr "Bjælke"
 
 #: wizards/graphics/graphic-type.c:291
 msgid "Lines"
-msgstr "Linier"
+msgstr "Linjer"
 
 #: wizards/graphics/graphic-type.c:292
 msgid "Scatter"
@@ -16219,12 +16221,3 @@ msgstr "Trin 3 af 3: Tilpas grafik"
 #: wizards/graphics/main.c:175
 msgid "Unable to launch the graphics service"
 msgstr "Kan ikke opstarte grafiktjenesten"
-
-#~ msgid "PS file format (via groff)"
-#~ msgstr "PS-filformat (via groff)"
-
-#~ msgid "Plugin Title"
-#~ msgstr "Indstikstitel"
-
-#~ msgid "Advanced"
-#~ msgstr "Avanceret"
