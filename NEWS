@@ -7,7 +7,7 @@ Andreas:
 	  even if the user did not want it cleared. 
 	* Create ui to set protection of indiviual sheets.
 	* Make various edit actions check for locks first.
-	* Fix 85383, 84396.
+	* Fix 85383, 84396, 88164.
 
 Jody:
 	* Have the stf dialog use the default font.

@@ -59,6 +59,7 @@
 
 #include <errno.h>
 #include <stdio.h>
+#include <locale.h>
 
 typedef enum {
 	LATEX_NO_BORDER = 0,
@@ -639,9 +640,13 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 			g = textColor->green;
 			b = textColor->blue;
 		}
-		if (r != 0 || g != 0 || b != 0)
+		if (r != 0 || g != 0 || b != 0) {
+			char *locale;
+			locale = setlocale (LC_NUMERIC, "C");
 			fprintf (fp, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
 				 (double)r/65535, (double)g/65535, (double)b/65535);
+			locale = setlocale (LC_NUMERIC, locale);
+		}
 
 		/* Establish the font's style for the styles that can be addressed by LaTeX.
 		 * More complicated efforts (like changing fonts) are left to the user.

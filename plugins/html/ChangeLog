@@ -1,3 +1,9 @@
+2002-07-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=88164
+	* latex.c (latex2e_write_multicolumn_cell) : set locale to C before
+	writing decimals (LaTeX assumes C locale).
+
 2002-06-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=84396
