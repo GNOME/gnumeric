@@ -1,3 +1,8 @@
+2000-11-11  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/dependent.c (dependent_list_filter): Correct "for" loop
+	condition.
+
 2000-11-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-object.c (sheet_object_new_view) : Store the SheetObject

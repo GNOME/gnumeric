@@ -377,7 +377,7 @@ dependent_list_filter (GList *input, DependentFlags type)
 {
 	GList *ptr, *res = NULL;
 
-	for (ptr = input; input != NULL ; ptr = ptr->next) {
+	for (ptr = input; ptr != NULL ; ptr = ptr->next) {
 		Dependent *dep = ptr->data;
 		if ((dep->flags & DEPENDENT_TYPE_MASK) == type)
 			res = g_list_prepend (res, dep);
