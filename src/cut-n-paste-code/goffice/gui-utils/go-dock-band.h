@@ -148,7 +148,7 @@ void           go_dock_band_layout_add       (GoDockBand *band,
                                                  GoDockPlacement placement,
                                                  guint band_num);
 
-#ifdef GO_UI_INTERNAL
+#if 1 /* defined(GO_UI_INTERNAL) */
 gint go_dock_band_handle_key_nav (GoDockBand *band,
 				      GoDockItem *item,
 				      GdkEventKey    *event);

@@ -133,7 +133,7 @@ GoDockItemBehavior
                go_dock_item_get_behavior    (GoDockItem *dock_item);
 
 /* Private methods.  */
-#ifdef GO_UI_INTERNAL
+#if 1 /* defined(GO_UI_INTERNAL) */
 void           go_dock_item_set_locked      (GoDockItem *dock_item,
 						 gboolean        locked);
 gboolean       go_dock_item_detach          (GoDockItem *item,

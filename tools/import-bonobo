@@ -70,6 +70,8 @@ foreach my $file (@files) {
 	    }
 	}
 
+	s|^\s*\#ifdef (BONOBO_UI_INTERNAL)\s*$|\#if 1 /* defined($1) */|;
+
 	s/\bbonobo_/go_/g;
 	s/\bbonobo-/go-/g;
 	s/\bBONOBO_/GO_/g;
