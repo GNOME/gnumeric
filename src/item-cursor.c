@@ -659,7 +659,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		gnome_canvas_item_ungrab (item, event->button.time);
 		item_cursor_do_drop (item_cursor, (GdkEventButton *) event);
-		gtk_object_unref (GTK_OBJECT (item));
+		gtk_object_destroy (GTK_OBJECT (item));
 		return TRUE;
 
 	case GDK_BUTTON_PRESS:

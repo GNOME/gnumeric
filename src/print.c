@@ -3,6 +3,9 @@
  *
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)
+ *
+ * Handles printing of Workbooks.
+ *
  */
 #include <config.h>
 #include <gnome.h>
@@ -339,7 +342,7 @@ compute_groups (Sheet *sheet, int start, int end, int usable, ColRowInfo *(get_i
 		
 		info = (*get_info) (sheet, idx);
 
-		units += info->units;
+		units += info->units + info->margin_a_pt + info->margin_b_pt;
 		
 		if (units > usable){
 			if (count == 0){
@@ -583,11 +586,13 @@ workbook_print (Workbook *wb, gboolean preview)
 		pj->n_copies = 1;
 		loop = 1;
 		pj->preview = print_preview_new (wb);
-		pj->print_context = print_preview_get_print_context (pj->preview);
-	} else 
+		pj->print_context = print_preview_context (pj->preview);
+	} else {
+		pj->preview = NULL;
 		pj->print_context = gnome_print_context_new_with_paper_size (
 			printer, gnome_paper_name (pj->pi->paper));
-	
+	}
+
 	if (pj->pi->orientation == PRINT_ORIENT_HORIZONTAL){
 		setup_rotation (pj);
 	}
@@ -607,6 +612,8 @@ workbook_print (Workbook *wb, gboolean preview)
 		}
 	}
 
+	gnome_print_context_close (pj->print_context);
+	
 	if (preview)
 		print_preview_print_done (pj->preview);
 	else {

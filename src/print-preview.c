@@ -3,12 +3,18 @@
  *
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)
+ *
+ * Given the large memory usage of an entire workbook on
+ * a canvas, we have now taken a new approach: we keep in
+ * a GNOME Print Metafile each page.  And we render this
+ * metafile into the printing context on page switch.
  */
 #include <config.h>
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeprint/gnome-printer.h>
 #include <libgnomeprint/gnome-print.h>
+#include <libgnomeprint/gnome-print-meta.h>
 #include <libgnomeprint/gnome-print-preview.h>
 
 #include "gnumeric.h"
@@ -25,11 +31,27 @@ struct _PrintPreview {
 	GnomeApp *toplevel;
 
 	Workbook             *workbook;
-	GnomePrintPreviewJob *preview_control;
-	GnomePrintContext    *context;
+
+	/*
+	 * printing contexts:
+	 */
+	GnomePrintContext    *preview;
+	GnomePrintContext    *metafile;
+	
+	/*
+	 * Preview canvas
+	 */
 	GtkWidget            *scrolled_window;
 	GnomeCanvas          *canvas;
-	int                   pages;
+
+	/*
+	 * status display
+	 */
+	GtkWidget            *page_entry;
+	GtkWidget            *last;
+
+	int                  current_page;
+	int                  pages;
 };
 
 /*
@@ -38,9 +60,75 @@ struct _PrintPreview {
 #define PAGE_PAD 4
 
 static void
+render_page (PrintPreview *pp, int page)
+{
+	const GnomePaper *paper;
+	const char *paper_name;
+
+	gtk_object_unref (GTK_OBJECT (pp->preview));
+	pp->preview = NULL;
+
+	/*
+	 * Create the preview printing context
+	 */
+	paper = pp->workbook->print_info->paper;
+	paper_name = gnome_paper_name (paper);
+	pp->preview = gnome_print_preview_new (pp->canvas, paper_name);
+
+	/*
+	 * Reset scrolling region
+	 */
+	gnome_canvas_set_scroll_region (
+		pp->canvas,
+		0 - PAGE_PAD,
+		0 - PAGE_PAD,
+		gnome_paper_pswidth (paper) + PAGE_PAD,
+		gnome_paper_psheight (paper) + PAGE_PAD);
+
+	gnome_print_meta_render_from_object_page (pp->preview, GNOME_PRINT_META (pp->metafile), page);
+}
+
+static void
+goto_page (PrintPreview *pp, int page)
+{
+	char *text;
+
+	if (page == pp->current_page)
+		return;
+
+	pp->current_page = page;
+	
+	text = g_strdup_printf ("%d", page+1);
+	gtk_entry_set_text (GTK_ENTRY (pp->page_entry), text);
+	g_free (text);
+
+	render_page (pp, page);
+}
+
+static void
+change_page_cmd (GtkEntry *entry, PrintPreview *pp)
+{
+	char *text = gtk_entry_get_text (entry);
+	int p;
+	
+	p = atoi (text);
+	p--;
+	if (p < 0){
+		goto_page (pp, 0);
+		return;
+	}
+	if (p > pp->pages){
+		goto_page (pp, pp->pages-1);
+		return;
+	}
+	goto_page (pp, p);
+}
+
+static void
 create_preview_canvas (PrintPreview *pp)
 {
 	GnomeCanvasItem *i;
+	GtkWidget *box, *status;
 	const GnomePaper *paper;
 	const char *paper_name;
 	
@@ -57,7 +145,7 @@ create_preview_canvas (PrintPreview *pp)
 	 */
 	paper = pp->workbook->print_info->paper;
 	paper_name = gnome_paper_name (paper);
-	pp->context = gnome_print_preview_new (pp->canvas, paper_name);
+	pp->preview = gnome_print_preview_new (pp->canvas, paper_name);
 
 	/*
 	 * Now add some padding above and below and put a simulated
@@ -91,18 +179,34 @@ create_preview_canvas (PrintPreview *pp)
 		0 - PAGE_PAD,
 		gnome_paper_pswidth (paper) + PAGE_PAD,
 		gnome_paper_psheight (paper) + PAGE_PAD);
-		
-	gtk_widget_show_all (pp->scrolled_window);
-	gnome_app_set_contents (pp->toplevel, pp->scrolled_window);
+
+	box = gtk_vbox_new (FALSE, 0);
+	status = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (status), gtk_label_new (_("Page: ")), FALSE, FALSE, 0);
+	pp->page_entry = gtk_entry_new ();
+	gtk_widget_set_usize (pp->page_entry, 40, 0);
+	gtk_signal_connect (GTK_OBJECT (pp->page_entry), "activate", change_page_cmd, pp);
+	gtk_box_pack_start (GTK_BOX (status), pp->page_entry, FALSE, FALSE, 0);
+	pp->last = gtk_label_new ("");
+	gtk_box_pack_start (GTK_BOX (status), pp->last, FALSE, FALSE, 0);
+	
+	gtk_box_pack_start (GTK_BOX (box), status, FALSE, FALSE, 3);
+	gtk_box_pack_start (GTK_BOX (box), pp->scrolled_window, TRUE, TRUE, 0);
+	gnome_app_set_contents (pp->toplevel, box);
+	gtk_widget_show_all (box);
 	
 	return;
 }
 
+/*
+ * Invoked when the toplevel is destroyed, free our resources
+ */
 static void
 preview_destroyed (void *unused, PrintPreview *pp)
 {
-	gtk_object_unref (GTK_OBJECT (pp->context));
-	gtk_object_unref (GTK_OBJECT (pp->preview_control));
+	gtk_object_unref (GTK_OBJECT (pp->preview));
+	gtk_object_unref (GTK_OBJECT (pp->metafile));
+	g_free (pp);
 }
 
 static void
@@ -120,33 +224,33 @@ preview_file_print_cmd (void *unused, PrintPreview *pp)
 static void
 preview_first_page_cmd (void *unused, PrintPreview *pp)
 {
-	gnome_print_preview_job_page_show (pp->preview_control, 0);
+	goto_page (pp, 0);
 }
 
 static void
 preview_next_page_cmd (void *unused, PrintPreview *pp)
 {
-	int n = gnome_print_preview_job_current_page (pp->preview_control);
+	int current_page = pp->current_page;
 
-	if (n+2 > pp->pages)
+	if (current_page+2 > pp->pages)
 		return;
-	gnome_print_preview_job_page_show (pp->preview_control, n+1);
+	goto_page (pp, current_page+1);
 }
 
 static void
 preview_prev_page_cmd (void *unused, PrintPreview *pp)
 {
-	int n = gnome_print_preview_job_current_page (pp->preview_control);
+	int current_page = pp->current_page;
 
-	if (n < 1)
+	if (current_page < 1)
 		return;
-	gnome_print_preview_job_page_show (pp->preview_control, n-1);
+	goto_page (pp, current_page-1);
 }
 
 static void
 preview_last_page_cmd (void *unused, PrintPreview *pp)
 {
-	gnome_print_preview_job_page_show (pp->preview_control, pp->pages-1);
+	goto_page (pp, pp->pages-1);
 }
 
 static void
@@ -155,6 +259,7 @@ preview_zoom_in_cmd (void *unused, PrintPreview *pp)
 	gnome_canvas_set_pixels_per_unit (
 		pp->canvas,
 		pp->canvas->pixels_per_unit + 0.25);
+	render_page (pp, pp->current_page);
 }
 
 static void
@@ -163,6 +268,7 @@ preview_zoom_out_cmd (void *unused, PrintPreview *pp)
 	gnome_canvas_set_pixels_per_unit (
 		pp->canvas,
 		pp->canvas->pixels_per_unit - 0.25);
+	render_page (pp, pp->current_page);
 }
 
 static GnomeUIInfo preview_file_menu [] = {
@@ -171,7 +277,7 @@ static GnomeUIInfo preview_file_menu [] = {
 	GNOMEUIINFO_END
 };
 
-static GnomeUIInfo preview_edit_menu [] = {
+static GnomeUIInfo preview_view_menu [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("_First page"), N_("Shows the first page"),
 		preview_first_page_cmd, GNOME_STOCK_PIXMAP_FIRST),
@@ -195,7 +301,27 @@ static GnomeUIInfo preview_edit_menu [] = {
 
 static GnomeUIInfo top_menu [] = {
 	GNOMEUIINFO_MENU_FILE_TREE (preview_file_menu),
-	GNOMEUIINFO_MENU_EDIT_TREE (preview_edit_menu),
+	{ GNOME_APP_UI_SUBTREE, N_("_View"), NULL, preview_view_menu },
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo toolbar [] = {
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("First"), N_("Shows the first page"),
+		preview_first_page_cmd, GNOME_STOCK_PIXMAP_FIRST),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Back"), N_("Shows the previous page"),
+		preview_prev_page_cmd, GNOME_STOCK_PIXMAP_BACK),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Next"), N_("Shows the next page"),
+		preview_next_page_cmd, GNOME_STOCK_PIXMAP_FORWARD),
+	GNOMEUIINFO_ITEM_STOCK (
+		N_("Last"), N_("Shows the last page"),
+		preview_last_page_cmd, GNOME_STOCK_PIXMAP_LAST),
+
+	{ GNOME_APP_UI_ITEM, N_("Zoom in"), N_("Zooms in"), preview_zoom_in_cmd },
+	{ GNOME_APP_UI_ITEM, N_("Zoom out"), N_("Zooms out"), preview_zoom_out_cmd },
+
 	GNOMEUIINFO_END
 };
 
@@ -230,18 +356,25 @@ create_toplevel (PrintPreview *pp)
 	pp->toplevel = GNOME_APP (toplevel);
 
 	gnome_app_create_menus_with_data (pp->toplevel, top_menu, pp);
-
+	gnome_app_create_toolbar_with_data (pp->toplevel, toolbar, pp);
+	
 	gtk_signal_connect (
 		GTK_OBJECT (pp->toplevel), "destroy",
 		GTK_SIGNAL_FUNC (preview_destroyed), pp);
 }
 
 GnomePrintContext *
-print_preview_get_print_context (PrintPreview *pp)
+print_preview_context (PrintPreview *pp)
 {
-	g_return_val_if_fail (pp != NULL, NULL);
+	GnomePrintMeta *meta;
 	
-	return pp->context;
+	g_return_val_if_fail (pp != NULL, NULL);
+
+	meta = gnome_print_meta_new ();
+
+	pp->metafile = GNOME_PRINT_CONTEXT (meta);
+
+	return pp->metafile;
 }
 
 static void
@@ -261,6 +394,7 @@ print_preview_new (Workbook *wb)
 	pp = g_new0 (PrintPreview, 1);
 
 	pp->workbook = wb;
+	
 	create_toplevel (pp);
 	create_preview_canvas (pp);
 
@@ -289,13 +423,19 @@ print_preview_new (Workbook *wb)
 void
 print_preview_print_done (PrintPreview *pp)
 {
+	char *text;
+	
 	g_return_if_fail (pp != NULL);
 
-	pp->preview_control = gnome_print_preview_get_job (
-		GNOME_PRINT_PREVIEW (pp->context));
-
-	pp->pages = gnome_print_preview_job_num_pages (pp->preview_control);
-	
 	gtk_widget_show (GTK_WIDGET (pp->toplevel));
+
+	pp->current_page = -1;
+	pp->pages = gnome_print_meta_pages (GNOME_PRINT_META (pp->metafile));
+	
+	goto_page (pp, 0);
+
+	text = g_strdup_printf ("/%d", pp->pages);
+	gtk_label_set_text (GTK_LABEL (pp->last), text);
+	g_free (text);
 }
 

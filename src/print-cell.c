@@ -378,7 +378,7 @@ print_cell_range (GnomePrintContext *context,
 
 	y = 0;
 	ci = NULL;
-	for (row = 0; row <= end_row; row++){
+	for (row = start_row; row <= end_row; row++){
 		ri = sheet_row_get_info (sheet, row);
 
 		x = 0;

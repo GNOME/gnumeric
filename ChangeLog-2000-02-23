@@ -1,3 +1,25 @@
+1999-09-02  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print-preview.c (create_toplevel): Add a toolbar.
+
+	* src/print.c (compute_groups): Include the margins in the
+	size computation.
+
+	* src/print-cell.c (print_cell_range): Start printing from the
+	start_row, not from zero.
+
+	* src/print-preview.c: Change of plans.  We now use a metafile, we
+	render all the code there.  And then we use the new metafile
+	operations for rendering a specific page.
+
+	* src/item-cursor.c (item_cursor_autofill_event): Change this to
+	destroy again.
+
+1999-09-01  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print-preview.c (print_preview_print_done): Show the first
+	page here.
+
 1999-09-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/clipboard.c (clipboard_paste_region) : Check that another

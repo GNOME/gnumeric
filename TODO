@@ -91,6 +91,10 @@ Gnumeric Spread Sheet task list
    double click on the magic little copy box fills the current
    column to the depth of the column to the left ??
 
+** Cell drawing
+
+   We should compute the style for non-existing cells and draw these. 
+
 ** Headers for Columns and Rows
 
    The captions should be customizable, ie instaed of "A1", it should
@@ -107,6 +111,14 @@ Gnumeric Spread Sheet task list
    contain information as "min_points", "max_points".  
 
    Interesting side effect: min_points == max_points means "fixed". 
+
+** Queueing redraws as we are doing it now is broken.
+
+   Currently I queue the entire changed region for redraw, I should
+   only queue the differnce and possibly the borders (after a cell 
+   border has changed).
+
+   This causes the slowdown when selecting large sheets.
 
 * Auditing
    Write the sheet auditing code.
