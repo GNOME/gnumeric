@@ -1,0 +1,3 @@
+int libole2_major_version = @LIBOLE2_MAJOR_VERSION@;
+int libole2_minor_version = @LIBOLE2_MINOR_VERSION@;
+int libole2_micro_version = @LIBOLE2_MICRO_VERSION@;

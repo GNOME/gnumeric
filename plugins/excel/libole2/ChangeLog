@@ -1,5 +1,11 @@
 1999-10-08  Arturo Tena <arturo@directmail.org>
 
+	* version.c.in: Added.
+	* version.c: Added, this should allow gnumeric compile.
+	* Makefile.am: added version.c.
+
+1999-10-08  Arturo Tena <arturo@directmail.org>
+
 	* Makefile.am: clean up.
 
 1999-10-07  Jody Goldberg <jgoldberg@home.com>

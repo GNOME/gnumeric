@@ -10,7 +10,8 @@ libole2_sources = 		\
 	ms-ole.c		\
 	ms-ole.h		\
 	ms-ole-summary.c	\
-	ms-ole-summary.h
+	ms-ole-summary.h	\
+	version.c
 
 if LIBOLE2_PUBLIC_LIBRARY
 lib_LTLIBRARIES = libole2.la
