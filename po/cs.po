@@ -1,5 +1,6 @@
 # Gnumeric Czech translation
 # Copyright (c) 1999,2000,2001,2002 The Free Software Foundation
+# Copyright (C) 2003 Miloslav Trmac <mitr@volny.cz>
 # Petr Vyhnalek <petr.vyhnalek@email.cz>, 1999.
 # David Sauer <davids@penguin.cz>, 1999.
 # Partially based on Slovak translation by Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>, 2002.
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-23 16:12-0500\n"
-"PO-Revision-Date: 2003-11-12 11:25+0100\n"
+"POT-Creation-Date: 2003-12-26 20:31+0100\n"
+"PO-Revision-Date: 2003-12-27 01:04+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17020,7 +17021,7 @@ msgstr "Omezení:"
 #: src/dialogs/dialog-function-select.c:445
 #: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
 #: src/dialogs/dialog-simulation.c:226 src/dialogs/dialog-zoom.c:198
-#: src/format-template.c:247 src/tools/solver/reports-write.c:81
+#: src/format-template.c:248 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
 #: src/tools/solver/reports-write.c:395 src/tools/solver/reports-write.c:402
@@ -17111,7 +17112,6 @@ msgstr ""
 
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -17136,7 +17136,7 @@ msgstr ""
 "  -1 pokud má @n lichý počet různých prvočinitelů.\n"
 "   1 pokud má @n sudý počet různých prvočinitelů.\n"
 "\n"
-"* Pokud @n=1, pak funkce vrací 1.\n"
+"* Pokud @n = 1, pak funkce vrací 1.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
@@ -19371,7 +19371,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Statistická ana_lýza"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4033
-#: src/workbook-control-gui.c:4853 src/workbook-view.c:540
+#: src/workbook-control-gui.c:4849 src/workbook-view.c:540
 msgid "Sum"
 msgstr "Součet"
 
@@ -22455,32 +22455,62 @@ msgid "<span weight=\"bold\">Sort Specification</span>"
 msgstr "<span weight=\"bold\">Specifikace třídění</span>"
 
 #: src/dialogs/cell-sort.glade.h:3
+msgid ""
+"Adds any fields in the range box to the left to the sort criteria or allows "
+"selection of fields from a menu."
+msgstr "Přidává pole ze seznamu rozsahů vlevo do kritérií třídění nebo umožňuje výběr polí z měnu."
+
+#: src/dialogs/cell-sort.glade.h:4
+msgid "Clear all fields from the sort specification"
+msgstr "Vymazat všechna pole ze specifikace třídění"
+
+#: src/dialogs/cell-sort.glade.h:5
 msgid "Direction:"
 msgstr "Směr:"
 
-#: src/dialogs/cell-sort.glade.h:4
+#: src/dialogs/cell-sort.glade.h:6
+msgid "Move selected field up in the sort order"
+msgstr "Posunout vybrané pole výš v pořadí třídění"
+
+#: src/dialogs/cell-sort.glade.h:7
+msgid "Move the selected field down in the sort order"
+msgstr "Posunout vybrané pole níž v pořadí třídění"
+
+#: src/dialogs/cell-sort.glade.h:8
 msgid "Range:"
 msgstr "Interval:"
 
-#: src/dialogs/cell-sort.glade.h:5
+#: src/dialogs/cell-sort.glade.h:9
+msgid "Remove the selected field from the sort specification"
+msgstr "Odstranit vybrané pole ze specifikace třídění"
+
+#: src/dialogs/cell-sort.glade.h:10
+msgid "Sort columns by the specified rows"
+msgstr "Třídit sloupce podle určených řádků"
+
+#: src/dialogs/cell-sort.glade.h:11
 msgid "Sort range has a _header"
 msgstr "Tříděný interval má _hlavičku"
 
-#: src/dialogs/cell-sort.glade.h:6
+#: src/dialogs/cell-sort.glade.h:12
+msgid "Sort rows by the specified columns"
+msgstr "Třídit řádky podle určených sloupců"
+
+#: src/dialogs/cell-sort.glade.h:13
 msgid "Sort..."
 msgstr "Setřídit..."
 
-#: src/dialogs/cell-sort.glade.h:7 src/dialogs/dialog-stf-export.glade.h:39
-msgid "_Preserves Formats"
-msgstr "Zachovat _formáty"
+#: src/dialogs/cell-sort.glade.h:14
+msgid "Sorting _preserves formats"
+msgstr "Třídění _zachovává formát"
 
-#: src/dialogs/cell-sort.glade.h:8
-msgid "_Right-Left"
-msgstr "Zp_rava doleva"
+#: src/dialogs/cell-sort.glade.h:15
+msgid "_Left-Right"
+msgstr "Z_leva doprava"
 
-#: src/dialogs/cell-sort.glade.h:9
+#: src/dialogs/cell-sort.glade.h:16
 msgid "_Top-Bottom"
-msgstr "S_hora dolu"
+msgstr "S_hora dolů"
 
 #: src/dialogs/col-width.glade.h:1
 msgid "Column Width"
@@ -23187,19 +23217,41 @@ msgstr "Sloupec %s"
 msgid "Row %s"
 msgstr "Řádek %s"
 
-#: src/dialogs/dialog-cell-sort.c:1039
+#: src/dialogs/dialog-cell-sort.c:154 src/tools/solver/reports-write.c:688
+#, c-format
+msgid "%s (%s)"
+msgstr "%s (%s)"
+
+#: src/dialogs/dialog-cell-sort.c:319
+#, c-format
+msgid "%s to %s"
+msgstr "%s do %s"
+
+#: src/dialogs/dialog-cell-sort.c:787
+msgid "no available row"
+msgstr "řádek není k dispozici"
+
+#: src/dialogs/dialog-cell-sort.c:787
+msgid "no available column"
+msgstr "sloupec není k dispozici"
+
+#: src/dialogs/dialog-cell-sort.c:1030
+msgid "Header"
+msgstr "Záhlaví"
+
+#: src/dialogs/dialog-cell-sort.c:1035
 msgid "Row/Column"
 msgstr "Řádek/Sloupec"
 
-#: src/dialogs/dialog-cell-sort.c:1059
+#: src/dialogs/dialog-cell-sort.c:1055
 msgid "Case Sensitive"
 msgstr "Rozlišovat malá a velká písmena"
 
-#: src/dialogs/dialog-cell-sort.c:1079
+#: src/dialogs/dialog-cell-sort.c:1075
 msgid "By Value"
 msgstr "Podle hodnoty"
 
-#: src/dialogs/dialog-cell-sort.c:1214
+#: src/dialogs/dialog-cell-sort.c:1210
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Nelze vytvořit dialog pro třídění buněk."
 
@@ -24016,16 +24068,16 @@ msgid "Variable"
 msgstr "Proměnná"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:4854
+#: src/workbook-control-gui.c:4850
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4856
+#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4852
 msgid "Average"
 msgstr "Průměr"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:4855
+#: src/workbook-control-gui.c:4851
 msgid "Max"
 msgstr "Max"
 
@@ -24052,9 +24104,8 @@ msgid "Could not create the Simulation dialog."
 msgstr "Nelze vytvořit dialog pro Simulaci."
 
 #: src/dialogs/dialog-solver.c:100
-#, fuzzy
 msgid "Revised Simplex (GLPK 4.2)"
-msgstr "Revidovaný Simplex (GLPK 3.2)"
+msgstr "Revidovaný Simplex (GLPK 4.2)"
 
 #: src/dialogs/dialog-solver.c:101
 msgid "Simplex (LP Solve 3.2)"
@@ -24305,6 +24356,10 @@ msgstr "Neznámé znaky:"
 #: src/dialogs/dialog-stf-export.glade.h:38
 msgid "Windows (carriage return + linefeed)"
 msgstr "Windows (carriage return + linefeed)"
+
+#: src/dialogs/dialog-stf-export.glade.h:39
+msgid "_Preserves Formats"
+msgstr "Zachovat _formáty"
 
 #: src/dialogs/dialog-stf-export.glade.h:40 src/dialogs/dialog-stf.glade.h:64
 msgid "`"
@@ -26484,35 +26539,35 @@ msgstr ""
 "Tuto bezpečnostní funkci lze vypnout úpravou odpovídajícího souboru plugin."
 "xml."
 
-#: src/format-template.c:467
+#: src/format-template.c:468
 msgid "Error while trying to load autoformat template"
 msgstr "Chyba při načítání šablony automatického formátu."
 
-#: src/format-template.c:484
+#: src/format-template.c:485
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Chyba při vytváření stromu z šablony automatického formátu"
 
-#: src/format-template.c:490
+#: src/format-template.c:491
 msgid "Is not an autoformat template file"
 msgstr "Není šablona automatického formátu"
 
-#: src/format-template.c:493
+#: src/format-template.c:494
 msgid "Invalid xml file. Tree is empty?"
 msgstr "Neplatný soubor xml. Strom je prázdný?"
 
-#: src/format-template.c:826
+#: src/format-template.c:827
 #, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 "Cílová oblast je příliš malá, měla by být velká alespoň %d řádků a %d sloupců"
 
-#: src/format-template.c:830
+#: src/format-template.c:831
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr "Cílová oblast je příliš malá, měla by být široká alespoň %d sloupců"
 
-#: src/format-template.c:834
+#: src/format-template.c:835
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Cílová oblast je příliš malá, měla by být vysoká alespoň %d řádků"
@@ -27577,15 +27632,15 @@ msgstr "Posunout buňky dopra_va a přesunout"
 msgid "C_ancel"
 msgstr "_Zrušit"
 
-#: src/main-application.c:55
+#: src/main-application.c:55 src/ssconvert.c:38
 msgid "Display Gnumeric's version"
 msgstr "Zobrazit verzi aplikace Gnumeric"
 
-#: src/main-application.c:57
+#: src/main-application.c:57 src/ssconvert.c:41
 msgid "Set the root library directory"
 msgstr "Nastavit kořenový adresář knihoven"
 
-#: src/main-application.c:59
+#: src/main-application.c:59 src/ssconvert.c:43
 msgid "Adjust the root data directory"
 msgstr "Upravit kořenový adresář dat"
 
@@ -29001,7 +29056,7 @@ msgstr "Strmost"
 msgid "Range"
 msgstr "Interval"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:4857
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4853
 msgid "Count"
 msgstr "Počet"
 
@@ -29293,11 +29348,6 @@ msgstr "OS"
 #: src/tools/solver/reports-write.c:683
 msgid "Unknown"
 msgstr "Neznámý"
-
-#: src/tools/solver/reports-write.c:688
-#, c-format
-msgid "%s (%s)"
-msgstr "%s (%s)"
 
 #: src/tools/solver/reports-write.c:703 src/tools/solver/reports-write.c:711
 msgid "Model Assumptions:"
@@ -31026,28 +31076,28 @@ msgstr "Vrátí poslední operaci"
 msgid "Redo the operation"
 msgstr "Opakuje vrácenou operaci"
 
-#: src/workbook-control-gui.c:5150
+#: src/workbook-control-gui.c:5140
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Soubor \"%s\" má neznámý formát."
 
-#: src/workbook-control-gui.c:5196
+#: src/workbook-control-gui.c:5186
 msgid "Send"
 msgstr "Poslat"
 
-#: src/workbook-control-gui.c:5196
+#: src/workbook-control-gui.c:5186
 msgid "Send the current file in email"
 msgstr "Pošle aktuální soubor elektronickou poštou"
 
-#: src/workbook-control-gui.c:5436 src/workbook-control-gui.c:5451
+#: src/workbook-control-gui.c:5426 src/workbook-control-gui.c:5441
 msgid "_Re-Edit"
 msgstr "Znovu _upravit"
 
-#: src/workbook-control-gui.c:5437 src/workbook-control-gui.c:5442
+#: src/workbook-control-gui.c:5427 src/workbook-control-gui.c:5432
 msgid "_Discard"
 msgstr "Za_hodit"
 
-#: src/workbook-control-gui.c:5441 src/workbook-control-gui.c:5452
+#: src/workbook-control-gui.c:5431 src/workbook-control-gui.c:5442
 msgid "_Accept"
 msgstr "_Přijmout"
 
@@ -31267,11 +31317,32 @@ msgstr "Chyba při ukládání souboru."
 msgid "Gnumeric XML file format"
 msgstr "Souborový formát Gnumeric XML"
 
-#~ msgid "Failure parsing AutoFilter."
-#~ msgstr "Chyba při zpracování AutoFiltru."
+#: src/ssconvert.c:46
+msgid "Optionally specify an encoding for imported content"
+msgstr "Nepovinné určení kódování importovaného obsahu"
 
-#~ msgid "Imported %s"
-#~ msgstr "Importovaný %s"
+#: src/ssconvert.c:46
+msgid "ENCODING"
+msgstr "KÓDOVÁNÍ"
+
+#: src/ssconvert.c:48
+msgid "Optionally specify which exporter to use"
+msgstr "Nepovinné určení, který exportér používat"
+
+#: src/ssconvert.c:50 src/ssconvert.c:52
+msgid "List the available exporters"
+msgstr "Seznam dostupných exportérů"
+
+#: src/ssconvert.c:81
+#, c-format
+msgid ""
+"ssconvert version '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
+msgstr ""
+"ssconvert verze '%s'\n"
+"datadir := '%s'\n"
+"libdir := '%s'\n"
 
 #~ msgid ""
 #~ "Interpolate between multi-dimensional points,with markers at each point."
@@ -31304,9 +31375,6 @@ msgstr "Souborový formát Gnumeric XML"
 #~ msgid "Summary Report:"
 #~ msgstr "Souhrnný výkaz:"
 
-#~ msgid "A_utofit columns"
-#~ msgstr "A_utomatická úprava šířky sloupců"
-
 #~ msgid "Max Time:       "
 #~ msgstr "Max čas:       "
 
@@ -31331,9 +31399,6 @@ msgstr "Souborový formát Gnumeric XML"
 #~ msgid "_Summary"
 #~ msgstr "_Souhrn"
 
-#~ msgid "Sans Regular"
-#~ msgstr "Sans Regular"
-
 #~ msgid "Sheet 1"
 #~ msgstr "List 1"
 
@@ -31342,9 +31407,6 @@ msgstr "Souborový formát Gnumeric XML"
 
 #~ msgid "_Style:"
 #~ msgstr "_Styl:"
-
-#~ msgid "Fill _Color:"
-#~ msgstr "_Barva vyplnění:"
 
 #~ msgid "Gradient:"
 #~ msgstr "Přechod:"
@@ -31859,9 +31921,6 @@ msgstr "Souborový formát Gnumeric XML"
 #~ msgid "Stock Icon"
 #~ msgstr "Standardní ikona"
 
-#~ msgid "The stock icon displayed in widgets representing this action."
-#~ msgstr "Standardní ikona zobrazená v prvcích představujících tuto akci."
-
 #~ msgid "Sensitive"
 #~ msgstr "Citlivá"
 
@@ -31940,12 +31999,6 @@ msgstr "Souborový formát Gnumeric XML"
 
 #~ msgid "Icon set to use to draw the item's icon."
 #~ msgstr "Sada ikon použitá při kreslení ikony položky."
-
-#~ msgid "Icon widget"
-#~ msgstr "Prvek ikony"
-
-#~ msgid "Icon widget to display in the item."
-#~ msgstr "Prvek ikony zobrazený v položce."
 
 #~ msgid "Visible when horizontal"
 #~ msgstr "Viditelná když horizontální"
