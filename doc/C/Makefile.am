@@ -20,7 +20,6 @@ entities =  about-authors.xml \
      configuration-plugins.xml \
      configuration-preferences.xml \
      configuration-toolbars.xml \
-     datasource.xml \
      data-commentNlink.xml \
      data-delete.xml \
      data-insert.xml \
