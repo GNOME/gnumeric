@@ -18,6 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
@@ -35,6 +36,10 @@
 #define ZOOM_DIALOG_KEY "zoom-dialog"
 #define ZOOM_DIALOG_FACTOR_KEY "zoom-dialog-factor"
 
+enum {
+	COL_SHEET_NAME,
+	COL_SHEET_PTR
+};
 
 typedef struct {
 	WorkbookControlGUI *wbcg;
@@ -46,7 +51,9 @@ typedef struct {
 	GladeXML           *gui;
 
 	GtkSpinButton  *zoom;
-	GtkCList       *list;
+	GtkTreeView        *sheet_list;
+	GtkListStore	   *sheet_list_model;
+	GtkTreeSelection   *sheet_list_selection;
 } ZoomState;
 
 static struct {
@@ -115,20 +122,35 @@ custom_selected (G_GNUC_UNUSED GtkWidget *widget,
 static void
 cb_zoom_ok_clicked (G_GNUC_UNUSED GtkWidget *button, ZoomState *state)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	GSList *sheets = NULL;
-	GList  *l;
-	float const new_zoom =  gtk_spin_button_get_value (state->zoom) / 100;
+	GList  *l, *tmp;
 
-	for (l = state->list->selection; l != NULL ; l = l->next) {
-		Sheet * s = gtk_clist_get_row_data (state->list, GPOINTER_TO_INT (l->data));
-		sheets = g_slist_prepend (sheets, s);
+	l = gtk_tree_selection_get_selected_rows (state->sheet_list_selection, NULL);
+	for (tmp = l; tmp; tmp = tmp->next) {
+		GtkTreePath *path = tmp->data;
+		GtkTreeIter iter;
+
+		if (gtk_tree_model_get_iter (GTK_TREE_MODEL (state->sheet_list_model), &iter, path)) {
+			Sheet *this_sheet;
+			gtk_tree_model_get (GTK_TREE_MODEL (state->sheet_list_model),
+					    &iter,
+					    COL_SHEET_PTR, &this_sheet,
+					    -1);
+			sheets = g_slist_prepend (sheets, this_sheet);
+			gtk_tree_iter_free (&iter);
+		}
+		gtk_tree_path_free (path);
 	}
-	sheets = g_slist_reverse (sheets);
+	g_list_free (l);
 
-	cmd_zoom (wbc, sheets, new_zoom);
+	if (sheets) {
+		WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
+		float const new_zoom =  gtk_spin_button_get_value (state->zoom) / 100;
+		sheets = g_slist_reverse (sheets);
+		cmd_zoom (wbc, sheets, new_zoom);
+	}
+
 	gtk_widget_destroy (state->dialog);
-	return;
 }
 
 void
@@ -136,11 +158,12 @@ dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
 	ZoomState *state;
 	GList *l, *sheets;
-	int i, cur_row;
+	int i, row, cur_row;
 	gboolean is_custom = TRUE;
 	GtkRadioButton *radio;
 	GtkWidget *focus_target;
 	GladeXML     *gui;
+	GtkTreeViewColumn *column;
 
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (sheet != NULL);
@@ -159,23 +182,44 @@ dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
 	g_return_if_fail (state->dialog != NULL);
 
 	/* Get the list of sheets */
-	state->list = GTK_CLIST (glade_xml_get_widget (state->gui, "sheet_list"));
-	gtk_clist_freeze (state->list);
+	state->sheet_list_model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+	state->sheet_list = GTK_TREE_VIEW (glade_xml_get_widget (state->gui, "sheet_list"));
+	gtk_tree_view_set_headers_visible (state->sheet_list, FALSE);
+	gtk_tree_view_set_model (state->sheet_list, GTK_TREE_MODEL (state->sheet_list_model));
+	state->sheet_list_selection = gtk_tree_view_get_selection (state->sheet_list);
+	gtk_tree_selection_set_mode (state->sheet_list_selection, GTK_SELECTION_MULTIPLE);
+
+	column = gtk_tree_view_column_new_with_attributes (_("Name"),
+			gtk_cell_renderer_text_new (),
+			"text", 0,
+			NULL);
+	gtk_tree_view_column_set_sort_column_id (column, COL_SHEET_NAME);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (state->sheet_list), column);
 
 	sheets = workbook_sheets (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
-	cur_row = 0;
+	cur_row = row = 0;
 	for (l = sheets; l; l = l->next) {
+		GtkTreeIter iter;
 		Sheet *this_sheet = l->data;
-		int const row = gtk_clist_append (state->list, &this_sheet->name_unquoted);
+
+		gtk_list_store_append (state->sheet_list_model, &iter);
+		gtk_list_store_set (state->sheet_list_model,
+				    &iter,
+				    COL_SHEET_NAME, this_sheet->name_unquoted,
+				    COL_SHEET_PTR, this_sheet,
+				    -1);
 
 		if (this_sheet == sheet)
 			cur_row = row;
-		gtk_clist_set_row_data (state->list, row, this_sheet);
+		row++;
 	}
 	g_list_free (sheets);
-	gtk_clist_select_row (state->list, cur_row, 0);
-	gtk_clist_thaw (state->list);
-	gnumeric_clist_moveto (state->list, cur_row);
+
+	{
+		GtkTreePath *path = gtk_tree_path_new_from_indices (cur_row, -1);
+		gtk_tree_view_set_cursor (state->sheet_list, path, NULL, FALSE);
+		gtk_tree_path_free (path);
+	}
 
 	state->zoom  = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, "zoom"));
 	g_return_if_fail (state->zoom != NULL);

@@ -1,3 +1,7 @@
+2003-05-19  Morten Welinder  <terra@gnome.org>
+
+	* dialog-zoom.c: port from clist to treeview.
+
 2003-05-18  Morten Welinder  <terra@gnome.org>
 
 	* *.c: Eliminate obvious deprecated stuff.

@@ -1,5 +1,7 @@
 2003-05-19  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-format-toolbar.c: Avoid GNOME deprecated pixmaps.
+
 	* src/libgnumeric.c (gnm_common_init): Use glade_init, not
 	glade_gnome_init.
 
