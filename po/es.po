@@ -647,14 +647,12 @@ msgid "$"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:27
-#, fuzzy
 msgid "Negat_ive number:"
-msgstr "_Primer página:"
+msgstr "Número _negativo:"
 
 #: src/dialogs/cell-format.glade.h:28
-#, fuzzy
 msgid "De_lete format"
-msgstr "Formato de celda"
+msgstr "_Borrar formato"
 
 #: src/dialogs/cell-format.glade.h:29
 msgid "_Type"
@@ -2602,6 +2600,10 @@ msgid ""
 "@DESCRIPTION=DAVERAGE function returns the average of the values in a list "
 "or database that match conditions specified. \n"
 msgstr ""
+"@FUNCTION=DAVERAGE\n"
+"@SYNTAX=DAVERAGE(base_de_datos,campo,criterio)\n"
+"@DESCRIPTION=La función DAVERAGE devuelve la media de los valores en una "
+"lista o base de datos que corresponde a las condiciones especificadas. \n"
 
 #: src/functions/fn-database.c:461
 msgid ""
@@ -2646,6 +2648,10 @@ msgid ""
 "@DESCRIPTION=DMAX function returns the largest number in a column that match "
 "conditions specified. \n"
 msgstr ""
+"@FUNCTION=DMAX\n"
+"@SYNTAX=DMAX(base_de_datos,campo,criterio)\n"
+"@DESCRIPTION=La función DMAX devuelve el número más grande de una columna "
+"que corresponde a las condiciones especificadas. \n"
 
 #: src/functions/fn-database.c:709
 msgid ""
@@ -2654,6 +2660,10 @@ msgid ""
 "@DESCRIPTION=DMIN function returns the smallest number in a column that "
 "match conditions specified. \n"
 msgstr ""
+"@FUNCTION=DMIN\n"
+"@SYNTAX=DMIN(base_de_datos,campo,criterio)\n"
+"@DESCRIPTION=La función DMIN devuelve el número más pequeño de una columna "
+"que corresponde a las condiciones especificadas. \n"
 
 #: src/functions/fn-database.c:776
 msgid ""
@@ -6228,7 +6238,6 @@ msgstr ""
 "@SEEALSO=INT,FLOOR,CEIL"
 
 #: src/functions/fn-math.c:1224
-#, fuzzy
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -6242,13 +6251,14 @@ msgstr ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
 "@DESCRIPTION=Calcula el número en radianes equivalente al ángulo de @x "
-"grados.\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada.\n"
+"grados. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"RADIANS(180) es igual a 3.14159.\n"
+"\n"
 "@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-math.c:1246
-#, fuzzy
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -6261,11 +6271,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
-"@DESCRIPTION=Devuelve un número aleatorio mayor o igual a 0 e inferior a 1.\n"
+"@DESCRIPTION=Devuelve un número aleatorio mayor o igual a 0 e inferior a 1. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"RAND() devuelve un número aleatorio entre 0 y 1.\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-math.c:1269
-#, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -6278,13 +6291,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
-"@DESCRIPTION=La función SIN devuelve el seno de @x, con @x en radianes. \n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada. Esta función solo admite un argumento.\n"
+"@DESCRIPTION=La función SIN devuelve el seno de @x, con @x en radianes. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"SIN(0.5) es igual a 0.479426.\n"
+"\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/functions/fn-math.c:1292
-#, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -6299,13 +6313,14 @@ msgstr ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
 "@DESCRIPTION=La función SINH devuelve el seno hiperbólico de @x, el cual es "
-"definido matemáticamente como (exp(@x) - exp(-@x)) / 2.   @x en radianes. \n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada. Esta función solo admite un argumento.\n"
+"definido matemáticamente como (exp(@x) - exp(-@x)) / 2.   @x en radianes. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"SINH(0.5) equals 0.521095.\n"
+"\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
 #: src/functions/fn-math.c:1315
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -6319,12 +6334,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=La función SQRT devuelve la raíz cuadrada de @x,\n"
-"Si @x es negativo devuelve #NUM!. Esta función accepta un solo argumento.\n"
+"@DESCRIPTION=La función SQRT devuelve la raíz cuadrada de @x. "
+"Esta función es compatible con Excel. \n"
+"Si @x es negativo devuelve #NUM!. "
+"@EXAMPLES=\n"
+"SQRT(2) devuelve 1.4142136.\n"
+"\n"
 "@SEEALSO=POW"
 
 #: src/functions/fn-math.c:1343
-#, fuzzy
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -6340,11 +6358,16 @@ msgstr ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(valor1, valor2, ...)\n"
 "@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. \n"
+"la lista de argumentos. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"Suponiendo que las celdas A1, A2, ..., A5 contienen los números 11, 15, 17, "
+"21, y 43.  Entonces\n"
+"SUM(A1:A5) es igual a 107.\n"
+"\n"
 "@SEEALSO=AVERAGE, COUNT"
 
 #: src/functions/fn-math.c:1372
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -6368,10 +6391,14 @@ msgstr ""
 "lógica FALSO, se contará como un cero (0). Si contiene un valór lógico "
 "VERDAD, se contará como un uno (1). Note que las celdas vacías no son "
 "contadas.\n"
+"@EXAMPLES=\n"
+"Suponiendo que las celdas A1, A2, ..., A5 contienen los números 11, 15, 17, "
+"21, y 43.  Entonces\n"
+"SUMA(A1:A5) es igual a 107.\n"
+"\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: src/functions/fn-math.c:1403
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -6387,11 +6414,16 @@ msgstr ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(valor1, valor2, ...)\n"
 "@DESCRIPTION=Calcula la suma de los cuadrados de todos los valores y celdas "
-"referenciados en la lista de argumentos. \n"
+"referenciados en la lista de argumentos. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"Suponiendo que las celdas A1, A2, ..., A5 contienen los números 11, 15, 17, "
+"21, y 43.  Entonces\n"
+"SUMSQ(A1:A5) es igual a 2925.\n"
+"\n"
 "@SEEALSO=SUM, COUNT"
 
 #: src/functions/fn-math.c:1433
-#, fuzzy
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -6405,11 +6437,14 @@ msgstr ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(valor1, valor2, ...)\n"
 "@DESCRIPTION=La función MULTINOMIAL devuelve el resultado de la división de "
-"la factorial de la suma de los valores, por el producto de los factoriales.\n"
+"la factorial de la suma de los valores, por el producto de los factoriales. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"MULTINOMIAL(2,3,4) es igual a 1260.\n"
+"\n"
 "@SEEALSO=SUM"
 
 #: src/functions/fn-math.c:1493
-#, fuzzy
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -6423,11 +6458,14 @@ msgstr ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(valor1, valor2, ...)\n"
 "@DESCRIPTION=Calcula el producto de todos los valores y celdas referenciados "
-"en la lista de argumentos. \n"
+"en la lista de argumentos. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"PRODUCT(2,5,9) es igual a 90.\n"
+"\n"
 "@SEEALSO=SUM, COUNT"
 
 #: src/functions/fn-math.c:1520
-#, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -6441,13 +6479,13 @@ msgstr ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
 "@DESCRIPTION=La función TAN devuelve la tangente de @x, con @x en radianes. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"TAN(3) devuelve -0.1425465.\n"
 "\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1543
-#, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -6462,13 +6500,14 @@ msgstr ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
 "@DESCRIPTION=La función TANH devuelve la tangente hiperbólica de @x, la cual "
-"es definida matemáticamente como sinh(@x) / cosh(@x). \n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"simplemente no hace nada. Esta función solo admite un argumento.\n"
+"es definida matemáticamente como sinh(@x) / cosh(@x). "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"TANH(2) devuelve 0.96402758.\n"
+"\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1566
-#, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -6482,12 +6521,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=La función PI devuelve el valor de Pi como definido en M_PI.\n"
-"Esta función no accepta argumentos.\n"
+"@DESCRIPTION=La función PI devuelve el valor de Pi. "
+" Esta función no accepta argumentos.\n"
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"PI() es igual a 3.141593.\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-math.c:1590
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -6504,12 +6546,15 @@ msgstr ""
 "@SYNTAX=TRUNC(número[,cifras])\n"
 "@DESCRIPTION=La función TRUNC devuelve el valor de @número troncado a la "
 "cantidad de cifras especificada. Si @cifras no se especifica es cero por "
-"omisión.\n"
+"omisión. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"TRUNC(3.12) es igual a 3.\n"
+"TRUNC(4.15,1) es igual a 4.1.\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-math.c:1628
-#, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -6523,11 +6568,14 @@ msgstr ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(número)\n"
 "@DESCRIPTION=La función EVEN devuelve el número redondeado al entero par más "
-"próximo.\n"
+"próximo. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"EVEN(5.4) es igual a 6.\n"
+"\n"
 "@SEEALSO=ODD"
 
 #: src/functions/fn-math.c:1666
-#, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -6541,7 +6589,11 @@ msgstr ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(número)\n"
 "@DESCRIPTION=La función ODD devuelve el @número redondeado al entero impar "
-"más próximo.\n"
+"más próximo. "
+"Esta función es compatible con Excel. \n"
+"@EXAMPLES=\n"
+"ODD(4.4) es igual a 5.\n"
+"\n"
 "@SEEALSO=EVEN"
 
 #: src/functions/fn-math.c:1704
@@ -10119,12 +10171,6 @@ msgstr "Cambiar el nombre de esta hoja"
 #~ msgid "Zoom factor should be at least 25%"
 #~ msgstr "El factor de amplificación debe de ser al menos del 25%"
 
-#~ msgid "Page &[NUM]"
-#~ msgstr "Página &[NUM]"
-
-#~ msgid "Sheet &[NUM]"
-#~ msgstr "Hoja &[NUM]"
-
 #~ msgid "Object server"
 #~ msgstr "Servidor de objetos"
 
@@ -10186,9 +10232,6 @@ msgstr "Cambiar el nombre de esta hoja"
 #~ msgid "Format codes"
 #~ msgstr "Códigos de formato"
 
-#~ msgid "Categories"
-#~ msgstr "Categorías"
-
 #~ msgid "Guile Plugin"
 #~ msgstr "Extensión Guile"
 
@@ -10227,7 +10270,4 @@ msgstr "Cambiar el nombre de esta hoja"
 
 #~ msgid "could not alloc FuncDef"
 #~ msgstr "no se pudo alocar FuncDef"
-
-#~ msgid "Gnumeric/Python module initialized\n"
-#~ msgstr "Extensión Gnumeric/Python inicializada\n"
 
