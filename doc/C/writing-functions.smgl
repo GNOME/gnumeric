@@ -35,7 +35,8 @@ Now, to register the function we just do:
 
 register_add2numbers ()
 {
-	symbol_install (add_two_numbers.name, SYMBOL_FUNCTION, &add_two_numbers);
+	symbol_install (global_symbol_table, add_two_numbers.name, 
+			SYMBOL_FUNCTION, &add_two_numbers);
 }
 
 When the user calls the function "ADD2NUMBERS" in a Gnumeric
