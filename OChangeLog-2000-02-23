@@ -1,7 +1,8 @@
 1999-08-15  Jody Goldberg <jgoldberg@home.com>
 
-	* src/format.c (split_time) : Use a float to avoid problems with
-	  rounding when compiling with optimization.
+	* src/format.c (split_time) : Use a integer to avoid problems with
+	  rounding when compiling with optimization.  Be extra careful to
+	  round the result of the initial scaling.
 
 	* src/sheet-view.c (vertical_scroll_event, horizontal_scroll_event) :
 	  Only move and append to the selection if the cursor actually moves.

@@ -656,18 +656,28 @@ static struct tm *
 split_time (gdouble number)
 {
 	static struct tm tm;
-	float secs;
+	guint secs;
 
 	GDate* date = g_date_new_serial (number);
 
 	g_date_to_struct_tm (date, &tm);
 
-	secs = (number - floor (number)) * 86400.0;
-	tm.tm_hour = secs / 3600.;
-	secs -= tm.tm_hour * 3600.;
-	tm.tm_min  = secs / 60.;
-	secs -= tm.tm_min * 60.;
-	tm.tm_sec  = floor (secs);
+	/*
+	 * WARNING : Be very careful about rounding here
+	 *   86400 is not a great number to multiply by and one can easily
+	 *   loose a second, and hence an entire minute.
+	 *   We first round the seconds, then do integer calculations
+	 *   for the rest.
+	 */
+	secs = ((number * 86400. + .5)) - (((int)number) * 86400);
+
+	tm.tm_hour = secs / 3600;
+	secs -= tm.tm_hour * 3600;
+
+	tm.tm_min  = secs / 60;
+	secs -= tm.tm_min * 60;
+
+	tm.tm_sec  = secs;
 
 	g_date_free (date);
 
