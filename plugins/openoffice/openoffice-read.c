@@ -815,7 +815,7 @@ GSF_XML_SAX_NODE (START, OFFICE, "office:document-settings", FALSE, NULL, NULL, 
 
 /****************************************************************************/
 
-void
+static void
 openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
 		      WorkbookView *wb_view, GsfInput *input)
 {

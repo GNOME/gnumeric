@@ -368,7 +368,7 @@ typedef struct {
         gboolean    scaling;
 } glpk_simplex_t;
 
-SolverProgram
+static SolverProgram
 w_glpk_init (const SolverParameters *param)
 {
         glpk_simplex_t *lp;
@@ -398,7 +398,7 @@ w_glpk_init (const SolverParameters *param)
 	return lp;
 }
 
-void
+static void
 w_glpk_delete_lp (SolverProgram program)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
@@ -410,7 +410,7 @@ w_glpk_delete_lp (SolverProgram program)
 	g_free (lp);
 }
 
-void
+static void
 w_glpk_set_maxim (SolverProgram program)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
@@ -418,7 +418,7 @@ w_glpk_set_maxim (SolverProgram program)
         lpx_set_obj_dir (lp->p, LPX_MAX);
 }
 
-void
+static void
 w_glpk_set_minim (SolverProgram program)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
@@ -426,7 +426,7 @@ w_glpk_set_minim (SolverProgram program)
         lpx_set_obj_dir (lp->p, LPX_MIN);
 }
 
-void
+static void
 w_glpk_set_obj_fn (SolverProgram program, int col, gnum_float value)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
@@ -434,7 +434,7 @@ w_glpk_set_obj_fn (SolverProgram program, int col, gnum_float value)
 	lpx_set_col_coef (lp->p, col + 1, value);
 }
 
-void
+static void
 w_glpk_set_constr_mat (SolverProgram program, int col, int row,
 		       gnum_float value)
 {
@@ -446,7 +446,7 @@ w_glpk_set_constr_mat (SolverProgram program, int col, int row,
 	(lp->n)++;
 }
 
-void
+static void
 w_glpk_set_constr (SolverProgram program, int row, SolverConstraintType type,
 		   gnum_float value)
 {
@@ -460,7 +460,7 @@ w_glpk_set_constr (SolverProgram program, int row, SolverConstraintType type,
 	        printf ("Error\n");
 }
 
-void
+static void
 w_glpk_set_int (SolverProgram program, int col)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
@@ -469,7 +469,7 @@ w_glpk_set_int (SolverProgram program, int col)
 	lpx_set_col_kind (lp->p, col + 1, LPX_IV);
 }
 
-void
+static void
 w_glpk_set_bool (SolverProgram program, int col)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
@@ -479,7 +479,7 @@ w_glpk_set_bool (SolverProgram program, int col)
 	lpx_set_col_bnds (lp->p, col + 1, LPX_DB, 0, 1);
 }
 
-void
+static void
 w_glpk_print_lp (SolverProgram program)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
@@ -558,7 +558,7 @@ w_glpk_print_lp (SolverProgram program)
 	printf ("\n");
 }
 
-SolverStatus
+static SolverStatus
 w_glpk_simplex_solve (SolverProgram program)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
@@ -614,7 +614,7 @@ w_glpk_simplex_solve (SolverProgram program)
 	}
 }
 
-gnum_float
+static gnum_float
 w_glpk_get_solution (SolverProgram program, int col)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
@@ -628,7 +628,7 @@ w_glpk_get_solution (SolverProgram program, int col)
 	return x;
 }
 
-gnum_float
+static gnum_float
 w_glpk_get_value_of_obj_fn (SolverProgram program)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
@@ -639,7 +639,7 @@ w_glpk_get_value_of_obj_fn (SolverProgram program)
 		return lpx_get_mip_obj (lp->p);
 }
 
-gnum_float
+static gnum_float
 w_glpk_get_dual (SolverProgram program, int row)
 {
         glpk_simplex_t *lp = (glpk_simplex_t *) program;
@@ -655,7 +655,7 @@ w_glpk_get_iterations (SolverProgram program)
         return -1;
 }
 
-gboolean
+static gboolean
 w_glpk_set_option (SolverProgram program, SolverOptionType option,
 		   const gboolean *b_value,
 		   const gnum_float *f_value, const int *i_value)
