@@ -9,6 +9,8 @@ Jody:
 	* Add motion compression for high speed scrolling
 	* Fix elapsed hour format
 	* Make the edit item smarter at the right edge
+	* Handle saving too many merged cells for 1 xls record
+	* Fix internal hashing bug with styles containing auto colors
 
 Jukka:
 	* Added shuffling tool.

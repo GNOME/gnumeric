@@ -1,3 +1,13 @@
+2003-04-21  Jody Goldberg <jody@gnome.org>
+
+	* src/mstyle.c (mstyle_hash) : adjust to allow styles from different
+	  sheets to hash the same despite auto colours that have different
+	  instances.
+	(mstyle_element_equal) : ditto.
+
+	* src/sheet.c (sheet_destroy) : free the names last to make debugging
+	  easier.
+
 2003-04-19  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* src/commands.c: Implemented Undo/Redo for data shuffling.

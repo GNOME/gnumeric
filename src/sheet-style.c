@@ -2139,6 +2139,32 @@ sheet_style_region_contains_link (Sheet const *sheet, Range const *r)
 	return res;
 }
 
+#if 0
+static void
+cb_validate (MStyle *style,
+	     int corner_col, int corner_row, int width, int height,
+	     Range const *apply_to, Sheet const *sheet)
+{
+	if (g_hash_table_lookup (sheet->style_data->style_hash, style) == NULL) {
+		Range r;
+		range_init (&r,
+			   corner_col, corner_row,
+			   corner_col+width -1, corner_row+height-1);
+		g_warning ("%s!%s", sheet->name_unquoted,
+			   range_name (&r));
+	}
+}
+
+/* Verify that every style in the sheet is in the style_hash */
+static void
+debug_very_style_hash (Sheet *sheet)
+{
+	foreach_tile (sheet->style_data->styles,
+		      TILE_TOP_LEVEL, 0, 0, NULL,
+		      cb_validate, sheet);
+}
+#endif
+
 void
 sheet_style_foreach (Sheet const *sheet, GHFunc	func, gpointer user_data)
 {

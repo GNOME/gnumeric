@@ -74,12 +74,6 @@ void style_font_ref          (StyleFont *sf);
 void style_font_unref        (StyleFont *sf);
 int  style_font_string_width (StyleFont const *font, char const *str);
 
-/*
- * For hashing Styles
- */
-guint          style_hash    (gconstpointer a);
-gint           style_compare (gconstpointer a, gconstpointer b);
-
 guint          style_font_hash_func (gconstpointer v);
 gint           style_font_equal (gconstpointer v, gconstpointer v2);
 

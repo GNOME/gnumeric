@@ -2705,10 +2705,6 @@ sheet_destroy (Sheet *sheet)
 			g_warning ("There is a problem with sheet objects");
 	}
 
-	g_free (sheet->name_quoted);
-	g_free (sheet->name_unquoted);
-	g_free (sheet->name_unquoted_collate_key);
-	g_free (sheet->name_case_insensitive);
 	solver_param_destroy (sheet->solver_parameters);
 	scenario_free_all (sheet->scenarios);
 
@@ -2738,6 +2734,10 @@ sheet_destroy (Sheet *sheet)
 
 	(void) g_idle_remove_by_data (sheet);
 
+	g_free (sheet->name_quoted);
+	g_free (sheet->name_unquoted);
+	g_free (sheet->name_unquoted_collate_key);
+	g_free (sheet->name_case_insensitive);
 	g_free (sheet->priv);
 	g_free (sheet);
 }

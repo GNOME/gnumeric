@@ -175,7 +175,9 @@ mstyle_hash (gconstpointer st)
 		hash = (hash << 7) ^ (hash >> (sizeof (hash) * 8 - 7));
 		switch (i) {
 		case MSTYLE_ANY_COLOR:
-			hash = hash ^ GPOINTER_TO_UINT (e->u.color.any);
+			/* auto colours break things */
+			if (!e->u.color.any->is_auto)
+				hash = hash ^ GPOINTER_TO_UINT (e->u.color.any);
 			break;
 		case MSTYLE_ANY_BORDER:
 			hash = hash ^ GPOINTER_TO_UINT (e->u.border.any);
@@ -371,7 +373,8 @@ mstyle_element_equal (MStyleElement const *a,
 
 	switch (a->type) {
 	case MSTYLE_ANY_COLOR:
-		return (a->u.color.fore == b->u.color.fore);
+		return (a->u.color.any == b->u.color.any ||
+			(a->u.color.any->is_auto && b->u.color.any->is_auto));
 	case MSTYLE_ANY_BORDER:
 		return (a->u.border.any == b->u.border.any);
 	case MSTYLE_PATTERN:
@@ -458,7 +461,7 @@ mstyle_element_unref (MStyleElement e)
 {
 	switch (e.type) {
 	case MSTYLE_ANY_COLOR:
-		style_color_unref (e.u.color.fore);
+		style_color_unref (e.u.color.any);
 		break;
 	case MSTYLE_ANY_BORDER:
 		style_border_unref (e.u.border.any);
