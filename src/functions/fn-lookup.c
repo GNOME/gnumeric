@@ -4,6 +4,7 @@
  * Authors:
  *  Michael Meeks <michael@imaginator.com>
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *  JP Rosevear <jpr@arcavia.com>
  */
 
 #include <config.h>
@@ -13,6 +14,295 @@
 #include "func.h"
 #include "eval.h"
 #include "cell.h"
+
+/* Useful routines for multiple functions */
+
+static gboolean
+find_type_valid (const Value *find) 
+{
+	/* Excel does not lookup errors or blanks */
+	if (VALUE_IS_NUMBER (find) || find->type == VALUE_STRING) {
+		return TRUE;
+	}
+	
+	return FALSE;
+}
+
+static gboolean
+find_compare_type_valid (const Value *find, const Value *val) 
+{
+	if (!val) {
+		return FALSE;
+	}
+	
+	if ((VALUE_IS_NUMBER (find) && VALUE_IS_NUMBER (val)) || 
+	    (find->type == val->type)) {
+		return TRUE;
+	}
+	
+	return FALSE;
+}
+
+/**
+ * find_bound_walk:
+ * @l: lower bound
+ * @h: upper bound
+ * @start: starting point
+ * @up: is first step incrementing
+ * @reset: reset static values
+ * 
+ * This function takes and upper and lower integer bound
+ * and then walks that range starting with the given
+ * starting point.  The walk is done by incrementing or
+ * decrementing the starting point (based on the up value)
+ * until the upper or lower bound is reached.  At this
+ * point the step is reversed and the values move to the
+ * opposite boundary (not repeating any values of course)
+ * 
+ * Return value: the next value in the range
+ **/
+static int
+find_bound_walk (int l, int h, int start, gboolean up, gboolean reset) 
+{
+	static int low, high, current, orig;
+	static gboolean sup, started;
+
+	g_return_val_if_fail (l >= 0, -1);
+	g_return_val_if_fail (h >= 0, -1);
+	g_return_val_if_fail (h >= l, -1);
+	g_return_val_if_fail (start >= l, -1);
+	g_return_val_if_fail (start <= h, -1);
+	
+	if (reset) {
+		low = l;
+		high = h;
+		current = start;
+		orig = start;
+		sup = up;
+		started = FALSE;
+		return current;
+	}
+	
+	if (sup) {
+		current++;
+		if (current > high && orig > low) {
+			current = orig - 1;
+			sup = FALSE;
+		} else if (current > high && orig <= low) {
+			return -1;
+		}
+	} else {
+		current--;
+		if (current < low && orig < high) {
+			current = orig + 1;
+			sup = TRUE;
+		} else if (current < low && orig >= high) {
+			return -1;
+		}
+	}
+	return current;
+}
+
+static int
+find_index_linear (FunctionEvalInfo *ei, Value *find, Value *data, 
+		   gint type, gboolean height) 
+{
+	const Value *index_val = NULL;
+	ValueCompare comp;
+	int length, lp, index = -1;
+	
+	if (height) {
+		length = value_area_get_height (ei->pos, data);
+	} else {
+		length = value_area_get_width (ei->pos, data);
+	}
+	
+	for (lp = 0; lp < length; lp++){
+		const Value *v;
+
+		if (height) {
+			v = value_area_fetch_x_y (ei->pos, data, 0, lp);
+		} else {
+			v = value_area_fetch_x_y (ei->pos, data, lp, 0);
+		}
+
+		g_return_val_if_fail (v != NULL, -1);
+
+		if (!find_compare_type_valid (find, v)) {
+			continue;
+		}
+		
+		comp = value_compare (find, v, FALSE);
+		
+		if (type >= 1 && comp == IS_GREATER) {
+			ValueCompare comp;
+
+			if (index >= 0) {				
+				comp = value_compare (v, index_val, FALSE);
+			}
+			
+			if (index < 0 || 
+			    (index >= 0 && comp == IS_GREATER)) {
+				index = lp;
+				index_val = v;
+			}
+		} else if (type <= -1 && comp == IS_LESS) {
+			ValueCompare comp;
+
+			if (index >= 0) {				
+				comp = value_compare (v, index_val, FALSE);
+			}
+			
+			if (index < 0 || 
+			    (index >= 0 && comp == IS_LESS)) {
+				index = lp;
+				index_val = v;
+			}
+		} else if (comp == IS_EQUAL) {
+			return lp;
+		}		
+	}
+
+	return index;
+}
+
+static int
+find_index_bisection (FunctionEvalInfo *ei, Value *find, Value *data, 
+		      gint type, gboolean height) 
+{
+	ValueCompare comp = TYPE_MISMATCH;
+	int high, low = 0, prev = -1, mid = -1;
+
+	if (height) {
+		high = value_area_get_height (ei->pos, data);
+	} else {
+		high = value_area_get_width (ei->pos, data);
+	}
+	high--;
+	
+	if (high < low) {
+		return -1;
+	}
+	
+	while (low <= high) {
+		const Value *v = NULL;
+		int start;
+
+		if ((type >= 1) != (comp == IS_LESS)) {
+			prev = mid;
+		}
+		
+		mid = ((low + high) / 2);	
+		mid = find_bound_walk (low, high, mid, TRUE,
+				       type >= 0 ? TRUE : FALSE);
+		
+		start = mid;
+
+		/*
+		 * Excel handles type mismatches by skipping first one
+		 * way then the other (if necessary) to find a valid
+		 * value.  The initial direction depends on the search
+		 * type.
+		 */
+		while (!find_compare_type_valid (find, v) && mid != -1) {
+			gboolean rev = FALSE;
+			
+			if (height) {
+				v = value_area_fetch_x_y (ei->pos, 
+							  data, 0, mid);
+			} else {
+				v = value_area_fetch_x_y (ei->pos, 
+							  data, mid, 0);
+			}
+
+			g_return_val_if_fail (v != NULL, -1);
+			
+			if (find_compare_type_valid (find, v)) {
+				break;
+			}
+			
+			mid = find_bound_walk (0, 0, 0, FALSE, FALSE);
+
+			if (!rev && type >= 0 && mid < start) {
+				high = mid;
+				rev = TRUE;
+			} else if (!rev && type < 0 && mid > start) {
+				low = mid;
+				rev = TRUE;
+			}
+		}
+		
+		/* 
+		 * If we couldn't find another entry in the range
+		 * with an appropriate type, return the best previous
+		 * value
+		 */
+		if (mid == -1 && ((type >= 1) != (comp == IS_LESS))) {
+			return prev;
+		} else if (mid == -1) {
+			return -1;
+		}
+		
+		comp = value_compare (find, v, FALSE);
+
+		if (type >= 1 && comp == IS_GREATER) {
+			low = mid + 1;
+		} else if (type >= 1 && comp == IS_LESS) {
+			high = mid - 1;
+		} else if (type <= -1 && comp == IS_GREATER) {
+			high = mid - 1;
+		} else if (type <= -1 && comp == IS_LESS) {
+			low = mid + 1;
+		} else if (comp == IS_EQUAL) {
+			/* This is due to excel, it does a
+			 * linear search after the bisection search
+			 * to find either the first or last value
+			 * that is equal.
+			 */
+			while ((type <= -1 && mid > low) ||
+			       (type >= 0 && mid < high)) {	
+				int adj = 0;
+
+				if (type >= 0) {
+					adj = mid + 1;
+				} else {
+					adj = mid - 1;
+				}
+			
+				if (height) {
+					v = value_area_fetch_x_y (ei->pos, 
+								  data, 
+								  0, adj);
+				} else {
+					v = value_area_fetch_x_y (ei->pos, 
+								  data, 
+								  adj, 0);
+				}
+
+				g_return_val_if_fail (v != NULL, -1);
+
+				if (!find_compare_type_valid (find, v)) {
+					break;
+				}
+
+				comp = value_compare (find, v, FALSE);
+				if (comp != IS_EQUAL) {
+					break;
+				} 
+				
+				mid = adj;
+			}
+			return mid;
+		}		
+	}
+
+	/* Try and return a reasonable value */
+	if ((type >= 1) != (comp == IS_LESS)) {
+		return mid;
+	}
+
+	return prev;
+}
 
 /***************************************************************************/
 
@@ -205,137 +495,45 @@ static char *help_vlookup = {
 	   "@SEEALSO=HLOOKUP")
 };
 
-static int
-lookup_similar (const Value *data, const Value *templ,
-		const Value *next_largest, int approx)
-{
-	int ans;
-
-	g_return_val_if_fail (data != NULL, 0);
-	g_return_val_if_fail (templ != NULL, 0);
-
-	switch (templ->type){
-	case VALUE_EMPTY:
-	case VALUE_BOOLEAN:
-	case VALUE_INTEGER:
-	case VALUE_FLOAT:
-	{
-		float_t a, b;
-		
-		a = value_get_as_float (data);
-		b = value_get_as_float (templ);
-		
-		if (a == b)
-			return 1;
-		
-		else if (approx && a < b){
-			if (!next_largest)
-				return -1;
-			else if (value_get_as_float (next_largest) <= a)
-				return -1;
-		}
-		return 0;
-		break;
-	}
-	case VALUE_STRING:
-	case VALUE_ERROR:
-	default:
-	{
-		char *a, *b;
-
-		a = value_get_as_string (data);
-		b = value_get_as_string (templ);
-
-		if (approx){
-			ans = g_strcasecmp (a,b);
-			if (approx && ans < 0){
-				if (next_largest){
-					char *c = value_get_as_string
-					        (next_largest);
-					int cmp = g_strcasecmp (a,c);
-					g_free (c);
-					if (cmp >= 0) {
-						g_free (a);
-						g_free (b);
-						return -1;
-					}
-				} else {
-					g_free (a);
-					g_free (b);
-					return -1;
-				}
-			}
-		}
-		else
-			ans = strcmp (a, b);
-		g_free (a);
-		g_free (b);
-		return (ans == 0);
-		break;
-	}
-	}
-	return 0;
-}
-
 static Value *
 gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 {
-	const Value *next_largest = NULL;
-	int height, lp, approx, col_idx, next_largest_row = 0;
+	int col_idx, index = -1;
+	gboolean approx;
 	
-	height = value_area_get_height (ei->pos, args[1]);
 	col_idx = value_get_as_int (args[2]);
 
-	if (col_idx <= 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	if (col_idx > value_area_get_width (ei->pos, args [1]))
-		return value_new_error (ei->pos, gnumeric_err_REF);
-
-	if (args [3]){
-		gboolean err;
-		approx = value_get_as_bool (args [3], &err);
-		if (err)
-			return value_new_error (ei->pos, gnumeric_err_VALUE);
-	} else
-		approx = 1;
-
-	for (lp = 0; lp < height; lp++){
-		int compare;
-		const Value *v;
-
-		v = value_area_fetch_x_y (ei->pos, args[1], 0, lp);
-
-		g_return_val_if_fail (v != NULL, NULL);
-
-		compare = lookup_similar (v, args[0], next_largest, approx);
-
-		if (compare == 1){
-			const Value *v;
-
-			v = value_area_fetch_x_y (ei->pos, args [1],
-						  col_idx-1, lp);
-			g_return_val_if_fail (v != NULL, NULL);
-
-			return value_duplicate (v);
-		}
-		if (compare < 0){
-			next_largest = v;
-			next_largest_row = lp;
-		}
+	if (!find_type_valid (args[0])) {
+		return value_new_error (ei->pos, gnumeric_err_NA);
 	}
-	if (approx && next_largest){
+	
+	if (col_idx <= 0) {
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	} else if (col_idx > value_area_get_width (ei->pos, args [1])) {
+		return value_new_error (ei->pos, gnumeric_err_REF);
+	}
+
+	if (!args[3]) {
+		approx = TRUE;
+	} else {
+		approx = value_get_as_checked_bool (args [3]);
+	}
+	
+	if (approx) {
+		index = find_index_bisection (ei, args[0], args[1], 1, TRUE);
+	} else {
+		index = find_index_linear (ei, args[0], args[1], 0, TRUE);
+	}
+	
+	if (index >= 0) {
 	        const Value *v;
 
-		v = value_area_fetch_x_y (ei->pos, args [1], col_idx-1,
-					   next_largest_row);
+		v = value_area_fetch_x_y (ei->pos, args [1], col_idx-1, index);
 		g_return_val_if_fail (v != NULL, NULL);
 		return value_duplicate (v);
 	}
-	else
-		return value_new_error (ei->pos, gnumeric_err_NA);
 
-	return NULL;
+	return value_new_error (ei->pos, gnumeric_err_NA);
 }
 
 /***************************************************************************/
@@ -364,64 +562,42 @@ static char *help_hlookup = {
 static Value *
 gnumeric_hlookup (FunctionEvalInfo *ei, Value **args) 
 {
-	const Value *next_largest = NULL;
-	int height, lp, approx, row_idx, next_largest_col = 0;
+	int row_idx, index = -1;
+	gboolean approx;
 	
-	row_idx = value_get_as_int (args [2]);
-	height  = value_area_get_width (ei->pos, args [1]);
+	row_idx = value_get_as_int (args[2]);
 
-	if (row_idx <= 0)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	if (row_idx > value_area_get_height (ei->pos, args [1]))
-		return value_new_error (ei->pos, gnumeric_err_REF);
-
-	if (args [3]){
-		gboolean err;
-		approx = value_get_as_bool (args [3], &err);
-		if (err)
-			return value_new_error (ei->pos, gnumeric_err_VALUE);
-	} else
-		approx = 1;
-
-	for (lp = 0; lp < height; lp++){
-		int compare;
-		const Value *v;
-
-		v = value_area_fetch_x_y (ei->pos, args[1],lp, 0);
-
-		g_return_val_if_fail (v != NULL, NULL);
-
-		compare = lookup_similar (v, args[0], next_largest, approx);
-
-		if (compare == 1){
-			const Value *v;
-
-			v = value_area_fetch_x_y (ei->pos, args [1],
-						  lp, row_idx-1);
-			g_return_val_if_fail (v != NULL, NULL);
-
-			return value_duplicate (v);
-		}
-
-		if (compare < 0){
-			next_largest = v;
-			next_largest_col = lp;
-		}
+	if (!find_type_valid (args[0])) {
+		return value_new_error (ei->pos, gnumeric_err_NA);
 	}
-	if (approx && next_largest){
-		const Value *v;
+	
+	if (row_idx <= 0) {
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	} else if (row_idx > value_area_get_width (ei->pos, args [1])) {
+		return value_new_error (ei->pos, gnumeric_err_REF);
+	}
 
-		v = value_area_fetch_x_y (ei->pos, args [1],
-					   next_largest_col, row_idx-1);
+	if (!args[3]) {
+		approx = TRUE;
+	} else {
+		approx = value_get_as_checked_bool (args [3]);
+	}
+
+	if (approx) {
+		index = find_index_bisection (ei, args[0], args[1], 1, FALSE);
+	} else {
+		index = find_index_linear (ei, args[0], args[1], 0, FALSE);
+	}
+	
+	if (index >= 0) {
+	        const Value *v;
+
+		v = value_area_fetch_x_y (ei->pos, args[1], index, row_idx-1);
 		g_return_val_if_fail (v != NULL, NULL);
-
 		return value_duplicate (v);
 	}
-	else
-		return value_new_error (ei->pos, gnumeric_err_NA);
 
-	return NULL;
+	return value_new_error (ei->pos, gnumeric_err_NA);
 }
 
 /***************************************************************************/
@@ -447,85 +623,51 @@ static char *help_lookup = {
 	   "@SEEALSO=VLOOKUP,HLOOKUP")
 };
 
-/* Not very efficient ! */
 static Value *
 gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 {
-	int height, width;
-	const Value *next_largest = NULL;
-	int next_largest_x = 0;
-	int next_largest_y = 0;
+	int index = -1;
+	Value *result = args[2];
+	int width = value_area_get_width (ei->pos, args[1]);
+	int height = value_area_get_height (ei->pos, args[1]);
 	
-	height  = value_area_get_height (ei->pos, args[1]);
-	width   = value_area_get_width  (ei->pos, args[1]);
-
-	if ((args[1]->type == VALUE_ARRAY)) {
-		if (args[2])
-			return value_new_error (ei->pos, _("Type Mismatch"));
-
-	} else if (args[1]->type == VALUE_CELLRANGE) {
-		if (!args[2])
-			return value_new_error (ei->pos,
-			  _("Invalid number of arguments"));
-
-	} else
-		return value_new_error (ei->pos, _("Type Mismatch"));
-	
-	{
-		Value *src, *dest;
-		int    x_offset=0, y_offset=0, lpx, lpy, maxx, maxy;
-		int    tmp, compare, touched;
-
-		if (args[1]->type == VALUE_ARRAY) {
-			src = dest = args[1];
-			if (width>height)
-				y_offset = 1;
-			else
-				x_offset = 1;
-		} else {
-			src = args[1];
-			dest = args[2];
-		}
-		maxy  = value_area_get_height (ei->pos, src);
-		maxx  = value_area_get_width  (ei->pos, src);
-		if ((tmp=value_area_get_height (ei->pos, dest))<maxy)
-			maxy=tmp;
-		if ((tmp=value_area_get_width (ei->pos, dest))<maxx)
-			maxx=tmp;
-
-		touched = 0;
-		for (lpx=0,lpy=0;lpx<maxx && lpy<maxy;) {
-			const Value *v = value_area_fetch_x_y
-			  (ei->pos, src, lpx, lpy);
-			compare = lookup_similar (v, args[0], next_largest, 1);
-			if (compare == 1)
-				return value_duplicate
-				  (value_duplicate(value_area_fetch_x_y
-						   (ei->pos, dest,
-						    lpx + x_offset,
-						    lpy + y_offset)));
-			if (compare < 0) {
-				next_largest = v;
-				next_largest_x = lpx;
-				next_largest_y = lpy;
-			} else
-				break;
-
-			if (width>height)
-				lpx++;
-			else
-				lpy++;
-		}
-
-		if (!next_largest)
-			return value_new_error (ei->pos, gnumeric_err_NA);
-
-		return value_duplicate (value_area_fetch_x_y
-					(ei->pos, dest,
-					 next_largest_x+x_offset,
-					 next_largest_y+y_offset));
+	if (!find_type_valid (args[0])) {
+		return value_new_error (ei->pos, gnumeric_err_NA);
 	}
+
+	if (result) {
+		int width = value_area_get_width (ei->pos, result);
+		int height = value_area_get_height (ei->pos, result);
+		
+		if (width > 1 && height > 1) {
+			return value_new_error (ei->pos, gnumeric_err_NA);
+		}
+	} else {
+		result = args[1];
+	}
+
+	index = find_index_bisection (ei, args[0], args[1], 1, 
+				      width > height ? FALSE : TRUE);
+	
+	if (index >= 0) {
+	        const Value *v = NULL;
+		int width = value_area_get_width (ei->pos, result);
+		int height = value_area_get_height (ei->pos, result);
+
+		if (width > height) {
+			v = value_area_fetch_x_y (ei->pos, result, 
+						  index, height - 1);
+		} else {
+			v = value_area_fetch_x_y (ei->pos, result, 
+						  width - 1, index);
+		}
+		return value_duplicate (v);
+	}
+
+	return value_new_error (ei->pos, gnumeric_err_NA);
 }
+
+/***************************************************************************/
 
 static char *help_match = {
 	N_("@FUNCTION=MATCH\n"
@@ -553,115 +695,35 @@ static char *help_match = {
 	   "@SEEALSO=LOOKUP")
 };
 
-static int
-match_value_class (const Value *v)
-{
-	switch (v->type) {
-	case VALUE_INTEGER:
-	case VALUE_FLOAT: 
-		return 0;
-
-	case VALUE_STRING:
-		return 1;
-
-	case VALUE_BOOLEAN:
-		return 2;
-
-	default:
-		g_warning ("Fishy stuff in match_value_class");
-		return 3;
-	}
-}
-
-/* Returns <0, 0, >0 if v1<v2, v1==v2, v1>v2.  */
-static int
-match_compare (const Value *v1, const Value *v2)
-{
-	int c1, c2;
-
-	c1 = match_value_class (v1);
-	c2 = match_value_class (v2);
-	if (c1 != c2)
-		return c1 - c2;
-
-	switch (v1->type) {
-	case VALUE_BOOLEAN:
-	case VALUE_INTEGER:
-		return value_get_as_int (v1) - value_get_as_int (v2);
-
-	case VALUE_FLOAT: {
-		float_t diff;
-		diff = value_get_as_float (v1) - value_get_as_float (v2);
-		return (diff > 0 ? 1 : (diff < 0 ? -1 : 0));
-	}
-
-	case VALUE_STRING:
-		return g_strcasecmp (v1->v_str.val->str, v2->v_str.val->str);
-
-	default:
-		return 0;
-	}
-}
-
 static Value *
 gnumeric_match (FunctionEvalInfo *ei, Value **args)
 {
-	int height, width, elements;
-	int horizontal;
-	Value *needle, *haystack;
-	int type;
-
-	needle = args[0];
-	haystack = args[1];
-	type = args[2] ? value_get_as_int (args[2]) : 1;
-
-	height  = value_area_get_height (ei->pos, haystack);
-	width   = value_area_get_width  (ei->pos, haystack);
-	horizontal = (width > height);
-	elements = horizontal ? width : height;
-
-	if (height != 1 && width != 1)
+	int type, index = -1;
+	int width = value_area_get_width (ei->pos, args[1]);
+	int height = value_area_get_height (ei->pos, args[1]);
+	
+	if (!find_type_valid (args[0])) {
 		return value_new_error (ei->pos, gnumeric_err_NA);
+	}
 
-	if (elements == 0)
+	if (width > 1 && height > 1) {
 		return value_new_error (ei->pos, gnumeric_err_NA);
+	}
+	
+	type = value_get_as_int (args[2]);
 
 	if (type == 0) {
-		/* Linear search.  */
-		int lpx = 0, lpy = 0, i;
-		const Value *v;
-
-		for (i = 0; i < elements; i++) {
-			v = value_area_fetch_x_y (ei->pos, args[1], lpx, lpy);
-			if (lookup_similar (v, needle, NULL, 1) == 1)
-				return value_new_int (i + 1);
-			if (horizontal) lpx++; else lpy++;
-		}
+		index = find_index_linear (ei, args[0], args[1], type, 
+					   width > 1 ? FALSE : TRUE);
 	} else {
-		/* Bisection search.  */
-		int l = 0, h = elements - 1, m, order;
-		const Value *v;
-
-		while (l <= h) {
-			m = (l + h) / 2;
-			v = value_area_fetch_x_y (ei->pos, args[1],
-						  horizontal ? m : 0,
-						  horizontal ? 0 : m);
-			order = match_compare (v, needle);
-
-			if (order == 0)
-				return value_new_int (m + 1);
-			else if ((order < 0) != (type == -1))
-				l = m + 1;
-			else
-				h = m - 1;
-		}
-
-		if (type == -1 && l)
-			return value_new_int (elements);
-		else if (type == +1 && l == 0)
-			return value_new_int (1);
+		index = find_index_bisection (ei, args[0], args[1], type,
+					      width > 1 ? FALSE : TRUE);
 	}
+	
+	if (index >= 0) {
+	        return value_new_int (index+1);
+	}
+
 	return value_new_error (ei->pos, gnumeric_err_NA);
 }
 

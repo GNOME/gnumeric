@@ -365,6 +365,21 @@ value_get_as_bool (Value const *v, gboolean *err)
 }
 
 /*
+ * use only if you are sure the value is ok
+ */
+gboolean
+value_get_as_checked_bool (Value const *v)
+{
+	gboolean result, err;
+	
+	result = value_get_as_bool (v, &err);
+	
+	g_assert (!err);
+	
+	return result;
+}
+
+/*
  * simplistic value rendering
  */
 char *

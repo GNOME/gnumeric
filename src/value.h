@@ -98,10 +98,11 @@ Value       *value_duplicate       (Value const *value);
 ValueCompare value_compare         (const Value *a, const Value *b,
 				    gboolean cs);
 
-gboolean     value_get_as_bool     (Value const *v, gboolean *err);
-char        *value_get_as_string   (const Value *value);
-int          value_get_as_int      (const Value *v);
-float_t      value_get_as_float    (const Value *v);
+gboolean     value_get_as_bool         (Value const *v, gboolean *err);
+gboolean     value_get_as_checked_bool (Value const *v);
+char        *value_get_as_string       (const Value *value);
+int          value_get_as_int          (const Value *v);
+float_t      value_get_as_float        (const Value *v);
 char        *value_cellrange_get_as_string (const Value *value,
 					    gboolean use_relative_syntax);
 

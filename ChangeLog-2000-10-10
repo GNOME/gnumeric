@@ -1,3 +1,27 @@
+2000-06-26  JP Rosevear  <jpr@arcavia.com>
+
+	* src/value.c (value_get_as_checked_bool): New function that
+	doesn't require an error variable - use only if confident that
+	the value does actually exist.
+
+	* src/value.h: Add new prototype.
+
+	* src/functions/fn-lookup.c: Clean up cruft
+	(find_type_valid): See if the value is a string or is gnumeric.
+	(find_compare_type_valid): See if the types are comparable.
+	(find_bound_walk): Walk an integer range first in one direction
+	and then in the other direction.
+	(find_index_linear): Do a linear search on a range or array.
+	(find_index_bisection): Do a bisection search on a range or array
+	that also follows excel rules for for handling type mismatches 
+	during the search and finding the first and last item matching
+	the search.
+	(gnumeric_vlookup): Use new functions and implement undocumented
+	excel behaviour.
+	(gnumeric_hlookup): ditto
+	(gnumeric_lookup): ditto
+	(gnumeric_match): ditto
+
 2000-06-26  Morten Welinder  <terra@diku.dk>
 
 	* src/format.c (lookup_color): Don't double translate.  Compare
