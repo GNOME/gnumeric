@@ -677,11 +677,24 @@ cell_set_text_simple (Cell *cell, const char *text)
 	} else {
 		char *end;
 		long l;
+		int  set=0;
 
 		l = strtol (text, &end, 10);
-		if (text != end && *end == 0 && l == (int)l) {
-			cell->value = value_new_int (l);
-		} else {
+		if (text != end && (l == (int)l)) {
+			if (*end == 0) {
+				cell->value = value_new_int (l);
+				set = 1;
+			} else { /* chomp whitespace to end on integers */
+				while (*end == ' ')
+					end++;
+				if (*end == 0) {
+					cell->value = value_new_int (l);
+					set = 1;
+				}
+			}
+		}
+		
+		if (!set) {
 			double d;
 			d = strtod (text, &end);
 			if (text != end && *end == 0){

@@ -9,12 +9,10 @@ Michael
 	* New style support so we can do
 		* Colours
 		* Fonts etc.
+		* Cell borders...
 	* Summary:
 		* implement & test summary write,
 		* beef up the number of recognised tokens
-	* Cell borders...
-	* write biff_peek_next_record_type for Jody.
-	* Rationalise Missing Argument stuff ... a new value ?
 	* Remove silly name record in writing ( after debugging is done )
 	* Split panes.
 	* Use same XML as Office 2000 for elegance (?)
@@ -33,25 +31,4 @@ Jody
 
    BIFF_OBJ: Embedded objects. S59DAD.HTM
 
-   Re-engineer to use PtrArrays in several places instead
-   of hashing on an integer: speedup.
-
-   Fix odd integer formatting hiding some numbers,
-
-   work out what is happening in biff record collation,
-   and SST tables....
-
-   * Formulae
-   
-      Sort out PtgRefN family, convert to correct posn.
-
    Get Nested OLE object streams working nicely.
-
-* OLE
-
-   Integrate into libvfs.
-   Update to better understanding of file, see wine.
-   Add Bonobo::Storage interface...
-   Split to a separate library.
-
-

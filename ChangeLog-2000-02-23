@@ -1,3 +1,8 @@
+1999-07-29  Michael Meeks  <michael@edenproject.org>
+
+	* src/cell.c (cell_set_text_simple): Chomp whitespace off the
+	end of integers ( other spreadsheets do this ).
+
 1999-07-28  Michael Meeks  <michael@edenproject.org>
 
 	* src/summary.c: Update, was out of step with the header.
