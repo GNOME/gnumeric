@@ -40,7 +40,8 @@
  *  it returns the length of the string.
  **/
 int
-biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver, gboolean write_len)
+biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver,
+	       gboolean write_len, PutType how)
 {
 #define BLK_LEN 16
 
@@ -52,24 +53,34 @@ biff_put_text (BIFF_PUT *bp, char *txt, eBiff_version ver, gboolean write_len)
 
 	len = strlen (txt);
 /*	printf ("Write '%s' len = %d\n", txt, len); */
-	if (ver >= eBiffV8) { /* Write header & word length*/
-		data[0] = 0;
-		if (write_len) {
-			BIFF_SET_GUINT16(data+1, len);
-			ms_biff_put_var_write (bp, data, 3);
-			ans = len + 3;
-		} else {
-			ms_biff_put_var_write (bp, data, 1);
-			ans = len;
+	if (how == AS_PER_VER) {
+		if (ver >= eBiffV8) { /* Write header & word length*/
+			data[0] = 0;
+			if (write_len) {
+				BIFF_SET_GUINT16(data+1, len);
+				ms_biff_put_var_write (bp, data, 3);
+				ans = len + 3;
+			} else {
+				ms_biff_put_var_write (bp, data, 1);
+				ans = len;
+			}
+		} else { /* Byte length */
+			if (write_len) {
+				g_return_val_if_fail (len<256, 0);
+				BIFF_SET_GUINT8(data, len);
+				ms_biff_put_var_write (bp, data, 1);
+				ans = len + 1;
+			} else
+				ans = len;
 		}
-	} else { /* Byte length */
-		if (write_len) {
-			g_return_val_if_fail (len<256, 0);
-			BIFF_SET_GUINT8(data, len);
-			ms_biff_put_var_write (bp, data, 1);
-			ans = len + 1;
-		} else
-			ans = len;
+	} else if (how == EIGHT_BIT) {
+		BIFF_SET_GUINT8(data, len);
+		ms_biff_put_var_write (bp, data, 1);
+		ans = len + 1;
+	} else if (how == SIXTEEN_BIT) {
+		BIFF_SET_GUINT16(data, len);
+		ms_biff_put_var_write (bp, data, 2);
+		ans = len + 2;
 	}
 
 	/* An attempt at efficiency */
@@ -225,7 +236,7 @@ write_constants (BIFF_PUT *bp, eBiff_version ver)
 	/* See: S59E1A.HTM */
 	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
 /*	biff_put_text (bp, "the free software foundation   ", ver, TRUE); */
-	biff_put_text (bp, "Michael Meeks", ver, TRUE); /* For testing */
+	biff_put_text (bp, "Michael Meeks", ver, TRUE, AS_PER_VER); /* For testing */
 	ms_biff_put_var_write (bp, "                  "
 			       "                "
 			       "                "
@@ -282,7 +293,7 @@ write_externsheets (BIFF_PUT *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 		BIFF_SET_GUINT8(data, len);
 		BIFF_SET_GUINT8(data+1, 3); /* Magic */
 		ms_biff_put_var_write (bp, data, 2);
-		biff_put_text (bp, sheet->gnum_sheet->name, wb->ver, FALSE);
+		biff_put_text (bp, sheet->gnum_sheet->name, wb->ver, FALSE, AS_PER_VER);
 		ms_biff_put_commit (bp);
 	}
 }
@@ -399,7 +410,7 @@ biff_boundsheet_write_first (BIFF_PUT *bp, eBiff_filetype type,
 	BIFF_SET_GUINT8 (data+5, 0); /* Visible */
 	ms_biff_put_var_write (bp, data, 6);
 
-	biff_put_text (bp, name, ver, TRUE);
+	biff_put_text (bp, name, ver, TRUE, AS_PER_VER);
 
 	ms_biff_put_commit (bp);
 	return pos;
@@ -504,7 +515,7 @@ write_fonts (BIFF_PUT *bp, ExcelWorkbook *wb)
 		BIFF_SET_GUINT8 (data +13, 0);
 		ms_biff_put_var_write (bp, data, 14);
 		
-		biff_put_text (bp, "Arial", eBiffV7, TRUE);
+		biff_put_text (bp, "Arial", eBiffV7, TRUE, AS_PER_VER);
 		
 		ms_biff_put_commit (bp);
 	}
@@ -567,9 +578,9 @@ write_formats (BIFF_PUT *bp, ExcelWorkbook *wb)
 		ms_biff_put_var_write (bp, data, 2);
 
 		if (fmt)
-			biff_put_text (bp, fmt, eBiffV7, TRUE);
+			biff_put_text (bp, fmt, eBiffV7, TRUE, AS_PER_VER);
 		else
-			biff_put_text (bp, "", eBiffV7, TRUE);
+			biff_put_text (bp, "", eBiffV7, TRUE, AS_PER_VER);
 		
 		ms_biff_put_commit (bp);
 	}
@@ -771,7 +782,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
 		EX_SETROW(data, row);
 		EX_SETSTRLEN (data, strlen(v->v.str->str));
 		ms_biff_put_var_write  (bp, data, 8);
-		biff_put_text (bp, v->v.str->str, eBiffV7, FALSE);
+		biff_put_text (bp, v->v.str->str, eBiffV7, FALSE, AS_PER_VER);
 		ms_biff_put_commit (bp);
 		break;
 	}

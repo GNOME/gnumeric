@@ -1150,7 +1150,7 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		len_left-= (ptg_length+1) ;
 	}
 	if (error) {
-		if (FORMULA_DEBUG>0) {
+		if (FORMULA_DEBUG > 0) {
 			printf ("Unknown Formula/Array at [%d, %d]\n", fn_col, fn_row) ;
 			printf ("formula data : \n") ;
 			dump (mem, length) ;

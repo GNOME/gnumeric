@@ -1,5 +1,14 @@
 1999-07-01  Michael Meeks  <michael@edenproject.org>
 
+	* ms-excel-write.c (biff_put_text): Expanded to allow
+	more flexible string writing.
+
+	* ms-excel-write.h: Added type to specify string write.
+
+	* ms-formula-write.c: All bif_put_text's write length
+	correctly.
+	Implemented Area PTGs
+
 	* ms-excel-read.c (ms_excel_read_formula): Fix silly
 	bug with broken formuale.
 

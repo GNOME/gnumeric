@@ -26,7 +26,7 @@
 
 typedef struct {
 	const FormulaFuncData *fd;
-	guint32 idx;
+	guint16 idx;
 } FormulaCacheEntry;
 
 /* Lookup Name -> integer */
@@ -96,12 +96,9 @@ push_guint32 (PolishData *pd, guint32 b)
 }
 
 static void
-write_cellref (PolishData *pd, const CellRef *ref)
+write_cellref_v7 (PolishData *pd, const CellRef *ref, guint8 *out_col, guint16 *out_row)
 {
-	guint8  data[6];
 	guint    row, col;
-
-	g_assert (pd->ver <= eBiffV7);
 
 	if (ref->col_relative)
 		col = ref->col + pd->col;
@@ -117,10 +114,8 @@ write_cellref (PolishData *pd, const CellRef *ref)
 	if (ref->row_relative)
 		row|=0x4000;
 
-	BIFF_SET_GUINT16 (data,   row);
-	BIFF_SET_GUINT8  (data+2, col);
-
-	ms_biff_put_var_write (pd->bp, data, 3);
+	BIFF_SET_GUINT16 (out_row, row);
+	BIFF_SET_GUINT8  (out_col, col);
 }
 
 /**
@@ -209,11 +204,12 @@ write_node (PolishData *pd, ExprTree *tree)
 				num_args++;
 			}
 
-			printf ("Writing function '%s' as idx %d\n",
-				tree->u.function.symbol->str, fce->idx);
+			printf ("Writing function '%s' as idx %d, args %d\n",
+				tree->u.function.symbol->str, fce->idx,
+				fce->fd->num_args);
 
 			g_assert (num_args < 128);
-			if (fce->fd->num_args == -1) {
+			if (fce->fd->num_args < 0) {
 				push_guint8  (pd, FORMULA_PTG_FUNC_VAR);
 				push_guint8  (pd, num_args | (prompt&0x80));
 				push_guint16 (pd, fce->idx | (cmdequiv&0x8000));
@@ -224,7 +220,7 @@ write_node (PolishData *pd, ExprTree *tree)
 		} else {
 			printf ("Untranslatable function '%s'\n", tree->u.function.symbol->str);
 			push_guint8 (pd, FORMULA_PTG_STR);
-			biff_put_text (pd->bp, "Untranslatable", eBiffV8, FALSE);
+			biff_put_text (pd->bp, "Untranslatable", eBiffV8, TRUE, SIXTEEN_BIT);
 		}
 		break;
 	}
@@ -244,12 +240,21 @@ write_node (PolishData *pd, ExprTree *tree)
 		case VALUE_STRING:
 		{
 			push_guint8 (pd, FORMULA_PTG_STR);
-			biff_put_text (pd->bp, v->v.str->str, eBiffV8, FALSE);
+			biff_put_text (pd->bp, v->v.str->str, eBiffV8, TRUE, SIXTEEN_BIT);
+			break;
+		}
+		case VALUE_CELLRANGE:
+		{ /* FIXME: Could be 3D ! */
+			guint8 data[6];
+			push_guint8 (pd, FORMULA_PTG_AREA);
+			write_cellref_v7 (pd, &v->v.cell_range.cell_a, &data[4], (guint16 *)&data[0]);
+			write_cellref_v7 (pd, &v->v.cell_range.cell_b, &data[5], (guint16 *)&data[2]);
+			ms_biff_put_var_write (pd->bp, data, 6);
 			break;
 		}
 		default:
 			push_guint8 (pd, FORMULA_PTG_STR);
-			biff_put_text (pd->bp, "Unknown type", eBiffV8, FALSE);
+			biff_put_text (pd->bp, "Unknown type", eBiffV8, TRUE, SIXTEEN_BIT);
 			printf ("Unhandled type %d\n", v->type);
 			break;
 		}
@@ -261,14 +266,16 @@ write_node (PolishData *pd, ExprTree *tree)
 		break;
 	case OPER_VAR:
 	{
+		guint8 data[3];
 		push_guint8 (pd, FORMULA_PTG_REF);
-		write_cellref (pd, &tree->u.ref);
+		write_cellref_v7 (pd, &tree->u.ref, &data[2], (guint16 *)&data[0]);
+		ms_biff_put_var_write (pd->bp, data, 3);
 		break;
 	}
 	case OPER_ARRAY:
 	default:
 		push_guint8 (pd, FORMULA_PTG_STR);
-		biff_put_text (pd->bp, "Unknown", eBiffV8, FALSE);
+		biff_put_text (pd->bp, "Unknown", eBiffV8, TRUE, SIXTEEN_BIT);
 		printf ("Unhandled node type %d\n", tree->oper);
 		break;
 	}
