@@ -492,17 +492,6 @@ cb_name_guru_add (NameGuruState *state)
 }
 
 static void
-cb_name_guru_value_focus (GtkWidget *w, GdkEventFocus *ev, NameGuruState *state)
-{
-
-	if (w == GTK_WIDGET (state->expr_text)) {
-		workbook_set_entry (state->wbcg, state->expr_text);
-		gnumeric_expr_entry_set_absolute (state->expr_text);
-	} else
-		workbook_set_entry (state->wbcg, NULL);
-}
-
-static void
 cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 {
 	if (state->dialog == NULL)
@@ -624,8 +613,6 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 			    GTK_SIGNAL_FUNC (cb_name_guru_select_name), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
 			    GTK_SIGNAL_FUNC (cb_name_guru_set_focus), state);
-/*  	gtk_signal_connect (GTK_OBJECT (state->expr_text), "focus-in-event", */
-/*  			    GTK_SIGNAL_FUNC (cb_name_guru_value_focus), state); */
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_name_guru_destroy), state);
 	gtk_signal_connect (GTK_OBJECT (state->name), "changed",

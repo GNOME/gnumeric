@@ -1,3 +1,8 @@
+2001-04-18  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-define-names.c (name_guru_init): Remove commented out stuff.
+	(cb_name_guru_value_focus): Remove to eliminate warning.
+	
 2001-04-18  Morten Welinder  <terra@diku.dk>
 
 	* dialog-define-names.c (cb_name_guru_destroy): Leak fix from Jon
