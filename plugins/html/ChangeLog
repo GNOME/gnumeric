@@ -1,3 +1,7 @@
+2002-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* latex.c don't let strings run over more than one line
+
 2002-01-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* html.c (html_get_text_color) : make sure text is in fact rendered
