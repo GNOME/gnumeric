@@ -26,200 +26,139 @@
 #include "plugin.h"
 #include "expr.h"
 
-char* help_execSQL = "execSQL: Execute SQL statement and display values";
+static Gda_ConnectionPool* connection_pool = NULL;
 
-static gchar*
-display_recordset (Gda_Recordset* rs, Sheet* sheet, gint col, gint row)
+static Value *
+display_recordset (Gda_Recordset *recset)
 {
-	gint i;
-	Cell*   cell;
-	gchar*  retval;
-	Gda_Field* field;
+	gint       position;
+	Value*     array = NULL;
+	Value*     tmp;
+	gint       col;
+	gint       cnt;
+	gint       fieldcount = 0;
+	GPtrArray* data_loaded = NULL; // array for rows
 
-	sheet = current_workbook->current_sheet;
-	field = gda_recordset_field_idx(rs, 0);
-	retval = gda_field_name(field);
+	g_return_val_if_fail(IS_GDA_RECORDSET(recset), NULL);
 
-	for ( i = 1; i < gda_recordset_rowsize(rs); i++) {
-		gchar*  field_name;
+	data_loaded = g_ptr_array_new();
+	
+	/* traverse recordset */
+	position = gda_recordset_move(recset, 1, 0);
+	while (position != GDA_RECORDSET_INVALID_POSITION && !gda_recordset_eof(recset)) {
+		GPtrArray* row = NULL;
 
-		field = gda_recordset_field_idx(rs, i);
-		field_name = gda_field_name(field);
-		cell = sheet_cell_fetch(sheet, col+i, row);
-		cell_set_text(cell, field_name);
+		fieldcount = gda_recordset_rowsize(recset);
+		for (col = 0; col < fieldcount; col++) {
+			Gda_Field* field = gda_recordset_field_idx(recset, col);
+			if (field) {
+				gchar* value;
+				
+				value = gda_stringify_value(0, 0, field);
+				g_warning("adding %s", value);
+				if (!row) row = g_ptr_array_new();
+				g_ptr_array_add(row, (gpointer) value);
+			}
+		}
+		if (row) g_ptr_array_add(data_loaded, (gpointer) row);
+		position = gda_recordset_move(recset, 1, 0);
 	}
-
-	while(1) {
-		row++;
-		gda_recordset_move(rs, 1, 0);
-		if (gda_recordset_eof(rs))
-			break;
-		for (i = 0; i < gda_recordset_rowsize(rs); i++) {
-			gchar value_bfr[128];
-
-			field = gda_recordset_field_idx(rs, i);
-			if (!gda_field_isnull(field)) {
-				gda_stringify_value(value_bfr, sizeof(value_bfr), field);
-				cell = sheet_cell_fetch(sheet, col+i, row);
-				g_print("Setting cell (%d/%d) to '%s'\n", col+i, row, value_bfr);
-				cell_set_text(cell, value_bfr);
+	
+	/* if there's data, convert to an Array */
+	if (data_loaded->len > 0) {
+		array = value_new_array_empty(fieldcount, data_loaded->len);
+		for (cnt = 0; cnt < data_loaded->len; cnt++) {
+			GPtrArray* row = (GPtrArray *) g_ptr_array_index(data_loaded, cnt);
+			if (row) {
+				for (col = 0; col < fieldcount; col++) {
+					value_array_set(array,
+					                col,
+					                cnt,
+					                value_new_string(g_ptr_array_index(row, col)));
+				}
 			}
 		}
 	}
-	return retval;
+	else array = value_new_array_empty(1, 1);
+
+	/* free all data */
+	for (cnt = 0; cnt < data_loaded->len; cnt++) {
+		GPtrArray* tmp = (GPtrArray *) g_ptr_array_index(data_loaded, cnt);
+		if (tmp) {
+			/* free each row */
+			//for (col = 0; col < tmp->len; col++) {
+			//	gchar* str = (gchar *) g_ptr_array_index(data_loaded, col);
+			//	if (str) g_free((gpointer) str);
+			//}
+			g_ptr_array_free(tmp, FALSE);
+		}
+	}
+	g_ptr_array_free(data_loaded, FALSE);
+
+	return array;
 }
 
-static Value*
-execSQL (void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **error_string)
-{
-	Value* result;
-	Gda_Connection* cnc;
-	Gda_Command*    cmd;
-	Gda_Recordset*  rs;
-	gulong          reccount;
-	ExprTree*       node;
-	gint            parm_idx;
-	gchar*          db_name;
-	gchar*          dsn;
-	gchar*          user;
-	gchar*          password;
-	GString*        stmt;
-	gint            rc;
-	gchar           bfr[128];
-	gchar*          provider;
-	Gda_Dsn*        gda_dsn;
-
-
-	if (g_list_length(expr_node_list) < 4) {
-		*error_string = "Format: Databasource, Username, Password, Statement with cell references";
-		return NULL;
-	}
-	stmt = g_string_new("");
-
-	node = expr_node_list->data;
-	g_print("1. node->oper = %d\n", node->oper);
-	db_name = expr_tree_as_string(node, sheet, eval_col, eval_row);
-	db_name[strlen(db_name)-1] = '\0';
-	g_print("1. node: value = '%s'\n", &db_name[1]);
-
-	expr_node_list = g_list_next(expr_node_list);
-	node = expr_node_list->data;
-	g_print("2. node->oper = %d\n", node->oper);
-	user = expr_tree_as_string(node, sheet, eval_col, eval_row);
-	user[strlen(user)-1] = '\0';
-	g_print("2. node: value = '%s'\n", &user[1]);
-
-	expr_node_list = g_list_next(expr_node_list);
-	node = expr_node_list->data;
-	g_print("3.node->oper = %d\n", node->oper);
-	password = expr_tree_as_string(node, sheet, eval_col, eval_row);
-	password[strlen(password)-1] = '\0';
-	g_print("3. node: value = '%s'\n", &password[1]);
-
-	expr_node_list = g_list_next(expr_node_list);
-	parm_idx = 0;
-	cmd = gda_command_new();
-	while (expr_node_list) {
-		node = expr_node_list->data;
-
-		g_print("parameter_node %d: oper = %d\n", parm_idx, node->oper);
-
-		if (node->oper == OPER_CONSTANT) {
-			if (node->constant.value->type != VALUE_STRING) {
-				g_free(user);
-				g_free(password);
-				g_free(db_name);
-				g_string_free(stmt, 1);
-				*error_string = "Statement is no string\n";
-				return NULL;
-			}
-			g_string_append(stmt, node->constant.value->v.str->str);
-		}
-		if (node->oper == OPER_VAR) {
-			GDA_Value* gda_value;
-			Cell*      parameter_cell;
-			gint       cell_row;
-			gint       cell_col;
-
-			g_string_append(stmt, " ? ");
-			g_print("cellref->row = %d, relative = %d\n",
-				node->u.ref.row, node->u.ref.row_relative);
-			g_print("cellreg->col = %d, relative = %d\n",
-				node->u.ref.col, node->u.ref.col_relative);
-			if (node->u.ref.row_relative)
-				cell_row = eval_row + node->u.ref.row;
-			else
-				cell_row = node->u.ref.row;
-			if (node->u.ref.col_relative)
-				cell_col = eval_col + node->u.ref.col;
-			else
-				cell_col = node->u.ref.col;
-
-			parameter_cell = sheet_cell_get(sheet, cell_col, cell_row);
-
-			gda_value = GDA_Value__alloc();
-			gda_value->_d = GDA_TypeVarchar;
-			gda_value->_u.lvc = parameter_cell->text->str;
-			gda_command_create_parameter(cmd, "param from gnumeric",
-						     GDA_PARAM_IN, gda_value);
-		}
-		expr_node_list = g_list_next(expr_node_list);
-	}
-
-	gda_dsn = gda_dsn_find_by_name(&db_name[1]);
-	cnc = gda_connection_new(gda_corba_get_orb());
-	gda_connection_set_provider(cnc, GDA_DSN_PROVIDER(gda_dsn));
-
-	rc = gda_connection_open(cnc, GDA_DSN_DSN(gda_dsn), &user[1], &password[1]);
-	gda_dsn_free(gda_dsn);
-	if (rc != 0) {
-		Gda_Error* e;
-		GList* errors;
-		GList* ptr;
-
-		errors = gda_connection_get_errors(cnc);
-		ptr = errors;
-		while(ptr)
-		{
-			e = ptr->data;
-			g_print("Connection::open Error: '%s'/'%s'\n", e->description, e->native);
-			ptr = g_list_next(ptr);
-		}
-	}
-	gda_command_set_connection(cmd, cnc);
-	g_print("statemnt is '%s'\n", stmt->str);
-	gda_command_set_text(cmd, stmt->str);
-	rs = gda_command_execute(cmd, &reccount, 0);
-	if (!rs) {
-		Gda_Error* e;
-		GList* errors;
-		GList* ptr;
-
-		errors = gda_connection_get_errors(cnc);
-		ptr = errors;
-		while(ptr) {
-			e = ptr->data;
-			g_print("Connection::open Error: '%s'/'%s'\n", e->description, e->native);
-			ptr = g_list_next(ptr);
-		}
-		*error_string = "GDA Error";
-		result = NULL;
-	} else {
-		result = value_new_string (display_recordset(rs, sheet, eval_col, eval_row));
-		gda_recordset_free(rs);
-	}
-	gda_command_free(cmd);
-	gda_connection_close(cnc);
-	gda_connection_free(cnc);
-
-	return result;
-}
-
-static FunctionDefinition plugin_functionp[] ={
-	{ "execSQL",   "", "", &help_execSQL, execSQL, NULL},
-	{ NULL, NULL}
+/*
+ * execSQL function
+ */
+static char *help_execSQL = {
+	N_("@FUNCTION=EXECSQL\n"
+	   "@SYNTAX=EXECSQL(i)\n"
+	   "@DESCRIPTION="
+	   "The EXECSQL function lets you execute a command in a\n"
+	   " database server, and show the results returned in\n"
+	   " current sheet\n"
+	   ""
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "@SEEALSO=")
 };
 
+static Value *
+gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
+{
+	Value*          ret;
+	gchar*          dsn_name;
+	gchar*          user_name;
+	gchar*          password;
+	gchar*          sql;
+	Gda_Connection* cnc;
+	Gda_Recordset*  recset;
+	glong           reccount;
+	
+	dsn_name = value_get_as_string(args[0]);
+	user_name = value_get_as_string(args[1]);
+	password = value_get_as_string(args[2]);
+	sql = value_get_as_string(args[3]);
+	if (!dsn_name || !sql)
+		return value_new_error(&ei->pos, _("Format: execSQL(dsn,user,password,sql)"));
+
+	/* initialize connection pool if first time */
+	if (!IS_GDA_CONNECTION_POOL(connection_pool)) {
+		connection_pool = gda_connection_pool_new();
+		if (!connection_pool) {
+			return value_new_error(&ei->pos, _("Error: could not initialize connection pool"));
+		}
+	}
+	cnc = gda_connection_pool_open_connection(connection_pool, dsn_name, user_name, password);
+	if (!IS_GDA_CONNECTION(cnc)) {
+		return value_new_error(&ei->pos, _("Error: could not open connection to %s"));
+	}
+	
+	/* execute command */
+	recset = gda_connection_execute(cnc, sql, &reccount, 0);
+	if (IS_GDA_RECORDSET(recset)) {
+		ret = display_recordset(recset);
+		gda_recordset_free(recset);
+	}
+	else ret = value_new_empty();
+
+	return ret;
+}
+
+/*
+ + Plugin initialization
+ */
 static int
 can_unload (PluginData *pd)
 {
@@ -237,20 +176,32 @@ cleanup_plugin (PluginData *pd)
 	func = func_lookup_by_name ("execSQL", NULL);
 	if (func)
 		func_unref (func);
+
+	/* close the connection pool */
+	if (IS_GDA_CONNECTION_POOL(connection_pool)) {
+		gda_connection_pool_close_all(connection_pool);
+		gda_connection_pool_free(connection_pool);
+		connection_pool = NULL;
+	}
 }
 
 PluginInitResult
-init_plugin (CommandContext *context, PluginData* pd)
+init_plugin (CommandContext *context, PluginData *pd)
 {
+	FunctionCategory *cat;
+
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
-
-	install_symbols(plugin_functionp, "GDA Plugin");
-
+	
+	/* register functions */
+	cat = function_get_category(_("Database"));
+	
+	function_add_args(cat, "execSQL", "ssss", "dsn,username,password,sql", &help_execSQL, gnumeric_execSQL);
+	
 	if (plugin_data_init (pd, can_unload, cleanup_plugin,
-			      _("Database Access"),
-			      _("Enables database access")))
-		return PLUGIN_OK;
+			      _("Database"),
+			      _("Database functions for allowing the retrieval of data from a database")))
+	        return PLUGIN_OK;
 	else
-		return PLUGIN_ERROR;
+	        return PLUGIN_ERROR;
 }
