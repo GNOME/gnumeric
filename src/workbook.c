@@ -619,12 +619,12 @@ workbook_parse_and_jump (Workbook *wb, char *text)
 	} else {
 		Sheet *sheet = workbook_get_current_sheet (wb);
 
-		if (col > SHEET_MAX_COLS-2){
+		if (col > SHEET_MAX_COLS-1){
 			gnumeric_notice (_("Column out of range"));
 			return FALSE;
 		}
 
-		if (row > SHEET_MAX_ROWS-2){
+		if (row > SHEET_MAX_ROWS-1){
 			gnumeric_notice (_("Row number out of range"));
 			return FALSE;
 		}

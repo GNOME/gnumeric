@@ -232,8 +232,13 @@ void        sheet_clear_region_content    (Sheet *sheet,
 /* Sets the width/height of a column row in terms of pixels */
 void        sheet_col_set_width           (Sheet *sheet,
 				           int col, int width);
+void        sheet_col_info_set_width      (Sheet *sheet,
+				           ColRowInfo *ci, int width);
 void        sheet_row_set_height          (Sheet *sheet,
 				           int row, int width,
+				           gboolean height_set_by_user);
+void        sheet_row_info_set_height     (Sheet *sheet,
+				           ColRowInfo *ri, int width,
 				           gboolean height_set_by_user);
 void        sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, int height);
 void        sheet_col_set_selection       (Sheet *sheet,

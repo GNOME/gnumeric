@@ -253,7 +253,7 @@ return_cellref (char *p)
 	col = toupper (*p++) - 'A';
 	
 	if (toupper (*p) >= 'A' && toupper (*p) <= 'Z')
-		col = col * ('Z'-'A') + toupper (*p++) - 'A';
+		col = (col+1) * ('Z'-'A'+1) + toupper (*p++) - 'A';
 
 	/* Try to parse a row */
 	if (*p == '$'){

@@ -23,6 +23,8 @@ typedef struct {
 	int             resize_guide_offset;
 	
 	int             dragging : 1;
+
+	/* Where the selection started */
 	int             start_selection;
 } ItemBar;
 

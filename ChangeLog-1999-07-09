@@ -1,3 +1,24 @@
+1998-09-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_selection_row_extend_to,
+	sheet_selection_col_extend_to): New version that makes sure the
+	column information has been allocated.
+
+	* src/workbook.c (workbook_parse_and_jump): Maximum ranges were a
+	little bit off.
+
+	* src/parser.y (return_cellref): Fixed the same bug we had in
+	parse_cell_name:  The parsing of the column name to a column index
+	was wrong here too.
+
+	* src/sheet.c (sheet_row_info_set_height,
+	sheet_col_info_set_width): New functions based on the older
+	non-ColRowInfo versions.
+
+	* src/sheet-view.c (sheet_view_row_size_changed,
+	sheet_view_col_size_changed): Apply changes globaly if the whole
+	sheet is selected.
+
 1998-09-25 Adrian Likins <adrian@gimp.org>
 
 	* docs/dndselection.sgml, selection.sml: more docs, some

@@ -437,11 +437,14 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		}
 		else if (ITEM_BAR_IS_SELECTING (item_bar))
 		{
+			
 			element = get_col_from_pos (item_bar, pos);
 
-			gtk_signal_emit (GTK_OBJECT (item),
-					 item_bar_signals [SELECTION_CHANGED],
-					 element, FALSE);
+			gtk_signal_emit (
+				GTK_OBJECT (item),
+				item_bar_signals [SELECTION_CHANGED],
+				element, FALSE);
+
 			set_cursor (item_bar, pos);
 		}
 		else

@@ -341,6 +341,23 @@ colrow_set_units (Sheet *sheet, ColRowInfo *info)
 			(info->margin_a + info->margin_b + 1)) / pix;
 }
 
+void
+sheet_row_info_set_height (Sheet *sheet, ColRowInfo *ri, int height, gboolean height_set_by_user)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (ri != NULL);
+	
+	if (height_set_by_user)
+		ri->hard_size = 1;
+
+	ri->pixels = height;
+	colrow_set_units (sheet, ri);
+	
+	sheet_compute_visible_ranges (sheet);
+	sheet_redraw_all (sheet);
+}
+
 /*
  * sheet_row_set_height
  * @sheet:         	The sheet
@@ -358,6 +375,9 @@ sheet_row_set_height (Sheet *sheet, int row, int height, gboolean height_set_by_
 	ColRowInfo *ri;
 	int add = 0;
 	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	
 	ri = sheet_row_get_info (sheet, row);
 	if (ri == &sheet->default_row_style){
 		ri = sheet_duplicate_colrow (ri);
@@ -365,15 +385,10 @@ sheet_row_set_height (Sheet *sheet, int row, int height, gboolean height_set_by_
 		add = 1;
 	}
 
-	if (height_set_by_user)
-		ri->hard_size = 1;
+	sheet_row_info_set_height (sheet, ri, height, height_set_by_user);
 	
-	ri->pixels = height;
-	colrow_set_units (sheet, ri);
 	if (add)
 		sheet_row_add (sheet, ri);
-	sheet_compute_visible_ranges (sheet);
-	sheet_redraw_all (sheet);
 }
 
 /*
@@ -451,28 +466,43 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 }
 
 void
+sheet_col_info_set_width (Sheet *sheet, ColRowInfo *ci, int width)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (ci != NULL);
+
+	
+	ci->pixels = width;
+	colrow_set_units (sheet, ci);
+	
+	sheet_compute_visible_ranges (sheet);
+	sheet_redraw_all (sheet);
+}
+
+void
 sheet_col_set_width (Sheet *sheet, int col, int width)
 {
 	ColRowInfo *ci;
 	int add = 0;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 	
 	ci = sheet_col_get_info (sheet, col);
 	if (ci == &sheet->default_col_style){
+		ci->pos = col;
 		ci = sheet_duplicate_colrow (ci);
 		add = 1;
 	}
 
-	ci->pixels = width;
-	ci->pos = col;
-	colrow_set_units (sheet, ci);
+	sheet_col_info_set_width (sheet, ci, width);
+	
 	if (add)
 		sheet_col_add (sheet, ci);
 
 	/* Compute the spans */
 	sheet_recompute_spans_for_col (sheet, col);
-	
-	sheet_compute_visible_ranges (sheet);
-	sheet_redraw_all (sheet);
 }
 
 static inline int
@@ -912,8 +942,7 @@ void
 sheet_selection_col_extend_to (Sheet *sheet, int col)
 {
 	SheetSelection *ss, old_selection;
-	GList *cols;
-	int max_col, min_col, state;
+	int max_col, min_col, state, i;
 		
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -927,15 +956,10 @@ sheet_selection_col_extend_to (Sheet *sheet, int col)
 
 	min_col = MIN (old_selection.start_col, ss->start_col);
 	max_col = MAX (old_selection.end_col, ss->end_col);
-	
-	for (cols = sheet->cols_info; cols; cols = cols->next){
-		ColRowInfo *ci = cols->data;
 
-		if (ci->pos < min_col)
-			continue;
-		if (ci->pos > max_col)
-			break;
-
+	for (i = min_col; i <= max_col; i++){
+		ColRowInfo *ci = sheet_col_get (sheet, i);
+		
 		if ((ci->pos < ss->start_col) || 
 		    (ci->pos > ss->end_col))
 			state = 0;
@@ -959,8 +983,7 @@ void
 sheet_selection_row_extend_to (Sheet *sheet, int row)
 {
 	SheetSelection *ss, old_selection;
-	GList *rows;
-	int min_row, max_row, state;
+	int min_row, max_row, state, i;
 	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -975,16 +998,11 @@ sheet_selection_row_extend_to (Sheet *sheet, int row)
 	min_row = MIN (old_selection.start_row, ss->start_row);
 	max_row = MAX (old_selection.end_row, ss->end_row);
 	
-	for (rows = sheet->rows_info; rows; rows = rows->next){
-		ColRowInfo *ri = rows->data;
+	for (i = min_row; i <= max_row; i++){
+		ColRowInfo *ri = sheet_row_get (sheet, i);
 
-		if (ri->pos < min_row)
-			continue;
-		if (ri->pos > max_row)
-			break;
-
-		if ((ri->pos < ss->start_col) ||
-		    (ri->pos > ss->end_col))
+		if ((ri->pos < ss->start_row) ||
+		    (ri->pos > ss->end_row))
 			state = 0;
 		else
 			state = 1;

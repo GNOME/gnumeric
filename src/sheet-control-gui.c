@@ -13,6 +13,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
+#include "item-cursor.h"
 
 static GtkTableClass *sheet_view_parent_class;
 
@@ -223,8 +224,6 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int column, int reset, Shee
 	ColRowInfo *ci;
 	Sheet *sheet = sheet_view->sheet;
 	
-	ci = sheet_col_get (sheet, column);
-	
 	if (reset){
 		sheet_cursor_set (sheet, column, 0, column, SHEET_MAX_ROWS - 1);
 		sheet_selection_reset_only (sheet);
@@ -232,6 +231,7 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int column, int reset, Shee
 					      column, 0,
 					      column, 0,
 					      column, SHEET_MAX_ROWS-1);
+		ci = sheet_col_get (sheet, column);
 		sheet_col_set_selection (sheet, ci, 1);
 	} else
 		sheet_selection_col_extend_to (sheet, column);
@@ -242,7 +242,10 @@ sheet_view_col_size_changed (ItemBar *item_bar, int col, int width, SheetView *s
 {
 	Sheet *sheet = sheet_view->sheet;
 	GList *l;
-	
+
+	if (sheet_is_all_selected (sheet))
+		sheet_col_info_set_width (sheet, &sheet->default_col_style, width);
+		
 	for (l = sheet->cols_info; l; l = l->next){
 		ColRowInfo *ci = l->data;
 
@@ -259,8 +262,6 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int reset, SheetVi
 	ColRowInfo *ri;
 	Sheet *sheet = sheet_view->sheet;
 	
-	ri = sheet_row_get (sheet, row);
-
 	if (reset){
 		sheet_cursor_set (sheet, 0, row, SHEET_MAX_COLS-1, row);
 		sheet_selection_reset_only (sheet);
@@ -268,6 +269,7 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int reset, SheetVi
 					      0, row,
 					      0, row,
 					      SHEET_MAX_COLS-1, row);
+		ri = sheet_row_get (sheet, row);
 		sheet_row_set_selection (sheet, ri, 1);
 	} else
 		sheet_selection_row_extend_to (sheet, row);
@@ -279,6 +281,9 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *
 	Sheet *sheet = sheet_view->sheet;
 	GList *l;
 	
+	if (sheet_is_all_selected (sheet))
+		sheet_row_info_set_height (sheet, &sheet->default_row_style, height, TRUE);
+		
 	for (l = sheet->rows_info; l; l = l->next){
 		ColRowInfo *ri = l->data;
 

@@ -50,9 +50,12 @@ typedef struct {
 	GnomeCanvasItemClass parent_class;
 } ItemCursorClass;
 
-void item_cursor_set_bounds (ItemCursor *item_cursor,
-			     int start_col, int start_row,
-			     int end_col, int end_row);
+void item_cursor_set_bounds     (ItemCursor *item_cursor,
+				 int start_col, int start_row,
+				 int end_col, int end_row);
+
+void item_cursor_set_visibility (ItemCursor *item_cursor,
+				 int visible);
 
 #endif
 
