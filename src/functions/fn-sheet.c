@@ -120,6 +120,17 @@ gnumeric_version (FunctionEvalInfo *ei, Value *argv [])
 
 /***************************************************************************/
 
+/*
+ * WARNING * WARNING * WARNING
+ *
+ * The case of the function names being registered must be consistent
+ * with the auto expressions in src/workbook.c
+ *
+ * There are some locales (notably tr_TR) do NOT had 'i' as the lower case of 'I'.  Note that we should
+ * also not use TRUE/FALSE or any other translatable string.
+ *
+ * WARNING * WARNING * WARNING
+ */
 void
 sheet_functions_init (void)
 {

@@ -315,6 +315,14 @@ parse_string_as_value_or_name (ExprTree *str)
 	return register_expr_allocation (expr_tree_new_name (expr_name));
 }
 
+static int
+gnumeric_parse_error()
+{
+	/* TODO : Get rid of ParseErr and replace it with something richer. */
+	parser_error = PARSE_ERR_SYNTAX;
+	return ERROR;
+}
+
 /* Make byacc happier */
 int yyparse(void);
 
@@ -391,11 +399,8 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		unregister_allocation ($3);
 		unregister_allocation ($1); expr_tree_unref ($1);
 
-		if (f == NULL) {
-			/* TODO : Get rid of ParseErr and replace it with something richer. */
-			parser_error = PARSE_ERR_SYNTAX;
-			return ERROR;
-		}
+		if (f == NULL)
+			return gnumeric_parse_error();
 
 		$$ = register_expr_allocation (expr_tree_new_funcall (f, $3));
 	}
@@ -407,11 +412,8 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		pos.sheet = $1;
 		expr_name = expr_name_lookup (&pos, name);
 		unregister_allocation ($2); expr_tree_unref ($2);
-		if (expr_name == NULL) {
-			/* TODO : Get rid of ParseErr and replace it with something richer. */
-			parser_error = PARSE_ERR_SYNTAX;
-                        return ERROR;
-		}
+		if (expr_name == NULL)
+			return gnumeric_parse_error();
 	        $$ = register_expr_allocation (expr_tree_new_name (expr_name));
 	}
 	;
@@ -423,11 +425,8 @@ string_opt_quote : STRING
 sheetref: string_opt_quote SHEET_SEP {
 		Sheet *sheet = sheet_lookup_by_name (parser_pos->wb, $1->constant.value->v_str.val->str);
 		unregister_allocation ($1); expr_tree_unref ($1);
-		if (sheet == NULL) {
-			/* TODO : Get rid of ParseErr and replace it with something richer. */
-			parser_error = PARSE_ERR_SYNTAX;
-                        return ERROR;
-		}
+		if (sheet == NULL)
+			return gnumeric_parse_error();
 	        $$ = sheet;
 	}
 
@@ -449,11 +448,8 @@ sheetref: string_opt_quote SHEET_SEP {
 
 		unregister_allocation ($4); expr_tree_unref ($4);
 		unregister_allocation ($2); expr_tree_unref ($2);
-		if (sheet == NULL) {
-			/* TODO : Do we need to free things here too ? */
-			parser_error = PARSE_ERR_SYNTAX;
-                        return ERROR;
-		}
+		if (sheet == NULL)
+			return gnumeric_parse_error();
 	        $$ = sheet;
         }
 	;
@@ -537,7 +533,7 @@ array_row: array_exp {
 			$$ = g_list_prepend ($3, $1);
 			register_expr_list_allocation ($$);
 		} else
-			parser_error = PARSE_ERR_SYNTAX;
+			return gnumeric_parse_error();
 	}
 	| array_exp '\\' array_row {
 		if (parser_array_col_separator == '\\') {
@@ -546,7 +542,7 @@ array_row: array_exp {
 			$$ = g_list_prepend ($3, $1);
 			register_expr_list_allocation ($$);
 		} else
-			parser_error = PARSE_ERR_SYNTAX;
+			return gnumeric_parse_error();
 	}
         | { $$ = NULL; }
 	;
@@ -685,10 +681,8 @@ yylex (void)
                                 parser_expr++;
                         parser_expr++;
                 }
-                if(!*parser_expr){
-                        parser_error = PARSE_ERR_NO_QUOTE;
-                        return ERROR;
-                }
+                if (!*parser_expr)
+			return gnumeric_parse_error();
 
 		s = string = (char *) alloca (1 + parser_expr - p);
 		while (p != parser_expr){

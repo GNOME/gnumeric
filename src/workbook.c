@@ -9,6 +9,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <locale.h>
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
 #include "application.h"
@@ -2025,15 +2026,29 @@ workbook_setup_edit_area (Workbook *wb)
 			    wb);
 }
 
+/*
+ * WARNING * WARNING * WARNING
+ *
+ * Keep the functions in lower case.
+ * We currently register the functions in lower case and some locales
+ * (notably tr_TR) do not have the same encoding for tolower that
+ * locale C does.
+ *
+ * eg tolower ('I') != 'i'
+ * Which would break function lookup when looking up for funtion 'selectIon'
+ * when it wa sregistered as 'selection'
+ *
+ * WARNING * WARNING * WARNING
+ */
 static struct {
 	char *displayed_name;
 	char *function;
 } quick_compute_routines [] = {
-	{ N_("Sum"),   	       "SUM(SELECTION(FALSE))" },
-	{ N_("Min"),   	       "MIN(SELECTION(FALSE))" },
-	{ N_("Max"),   	       "MAX(SELECTION(FALSE))" },
-	{ N_("Average"),       "AVERAGE(SELECTION(FALSE))" },
-	{ N_("Count"),         "COUNT(SELECTION(FALSE))" },
+	{ N_("Sum"),   	       "sum(selection(0))" },
+	{ N_("Min"),   	       "min(selection(0))" },
+	{ N_("Max"),   	       "max(selection(0))" },
+	{ N_("Average"),       "average(selection(0))" },
+	{ N_("Count"),         "count(selection(0))" },
 	{ NULL, NULL }
 };
 
@@ -2045,11 +2060,16 @@ static void
 workbook_set_auto_expr (Workbook *wb,
 			const char *description, const char *expression)
 {
+	char *old_num_locale, *old_msg_locale;
 	ParsePos pp;
 	ParseErr res;
 
 	if (wb->auto_expr)
 		expr_tree_unref (wb->auto_expr);
+
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	setlocale (LC_NUMERIC, "C");
+	old_msg_locale = g_strdup (textdomain (NULL));
 
 	res = gnumeric_expr_parser (expression,
 				    parse_pos_init (&pp, wb, NULL, 0, 0),
@@ -2061,6 +2081,11 @@ workbook_set_auto_expr (Workbook *wb,
 		string_unref (wb->auto_expr_desc);
 
 	wb->auto_expr_desc = string_get (description);
+
+	textdomain (old_msg_locale);
+	g_free (old_msg_locale);
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 }
 
 static void

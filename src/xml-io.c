@@ -7,7 +7,6 @@
  */
 
 #include <config.h>
-#include <stdio.h>
 #include <gnome.h>
 #include <locale.h>
 #include <math.h>

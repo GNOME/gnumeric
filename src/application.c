@@ -268,7 +268,7 @@ application_display_dpi_set (gboolean const horizontal, float const val)
 		app.vertical_dpi = val;
 }
 
-float
+double
 application_dpi_to_pixels ()
 {
 	return MIN (application_display_dpi_get (FALSE),

@@ -1,5 +1,18 @@
 2000-07-09  Jody Goldberg <jgoldberg@home.com>
 
+	* src/application.c (application_dpi_to_pixels) : return a double.
+	  returning a float caused just enough loss of precision to break
+	  my putrid use of 9pt fonts.
+
+	* src/workbook.c (workbook_set_auto_expr) : autoexpr are always parsed
+	  in the 'C' locale.
+
+	* src/parser.y (gnumeric_parse_error) : New function.  Makes code
+	  cleaner, and offers a handy dandy place for a break point.
+
+	* src/workbook.c (workbook_setup_edit_area) : Pass '0' rather than
+	  'FALSE' to avoid translation problems.
+
 	* src/print.c (print_headers) : Adapt to changes in gnome-print.
 
 2000-07-09  Jody Goldberg <jgoldberg@home.com>
