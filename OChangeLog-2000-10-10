@@ -1,5 +1,9 @@
 2000-04-08  Jon K Hellan  <hellan@acm.org>
 
+	* src/sheet.c (cellref_name): Remove unused variable.
+
+2000-04-08  Jon K Hellan  <hellan@acm.org>
+
         * src/sheet.h (struct _Sheet): Replace member name with
 	name_quoted and name_unquoted. In name_quoted, names with spaces
 	or quote characters are protected with quotes.

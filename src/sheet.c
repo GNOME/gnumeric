@@ -2278,10 +2278,9 @@ cellref_name (CellRef *cell_ref, ParsePosition const *pp)
 
 	/* If it is a non-local reference, add the path to the external sheet */
 	if (sheet != NULL) {
-		char *s, *name;
+		char *s;
 	        
 		s = g_strconcat (sheet->name_quoted, "!", buffer, NULL);
-		g_free (name);
 
 		if (sheet->workbook != pp->wb) {
 			char * n = g_strconcat ("[", sheet->workbook->filename, "]", s, NULL);
