@@ -1216,7 +1216,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 					 _("Printing failed"));
 		}
 	}
-	gtk_object_unref (GTK_OBJECT (gpm));
+	g_object_unref (G_OBJECT (gpm));
   	print_job_info_destroy (pj);
 	gnome_print_config_unref (print_config);
 
