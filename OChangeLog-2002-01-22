@@ -1,8 +1,12 @@
 2000-12-19  Miguel de Icaza  <miguel@helixcode.com>
 
+	* src/complete.h (CompleteClass): new method: start_over. 
+
+	* src/complete.c (complete_start): invoke start_over.
+	
 	* src/complete.c, src/complete-sheet.c: Use E_MAKE_TYPE instead of
 	GNUMERIC_MAKE_TYPE.
-	
+
 2000-12-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (walk_boundaries) : Make smart walking of merged

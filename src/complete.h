@@ -26,6 +26,7 @@ typedef struct {
 typedef struct {
 	GtkObjectClass parent_class;
 
+	void     (*start_over)       (Complete *complete);
 	gboolean (*search_iteration) (Complete *complete);
 } CompleteClass;
 

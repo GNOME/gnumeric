@@ -86,6 +86,9 @@ complete_start (Complete *complete, const char *text)
 
 	if (complete->idle_tag == 0)
 		complete->idle_tag = gtk_idle_add (complete_idle, complete);
+
+	if (ACC(complete)->start_over)
+		ACC(complete)->start_over (complete);
 }
 
 static gboolean
