@@ -923,6 +923,7 @@ src/cut-n-paste-code/goffice/libpresent/Makefile
 src/cut-n-paste-code/goffice/test/Makefile
 src/cut-n-paste-code/goffice/cut-n-paste/Makefile
 src/cut-n-paste-code/goffice/cut-n-paste/pcre/Makefile
+src/cut-n-paste-code/goffice/cut-n-paste/egg-recent-files/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile
