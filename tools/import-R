@@ -140,6 +140,26 @@ sub import_file {
 		$_ = "#ifndef MATHLIB_STANDALONE\n$_\n#endif";
 	    }
 
+	    if ($filename =~ m|/qgamma\.c$| && /return 0\.5\*scale\*ch;/) {
+		$_ = ("    /* Special Gnumeric patch to improve precision.  */\n" .
+		      "    {\n" .
+		      "\tgnum_float x0 = 0.5*scale*ch;\n" .
+		      "\tgnum_float e0 = pgamma (x0, alpha, scale, lower_tail, log_p) - p;\n" .
+		      "\n" .
+		      "\tif (e0 != 0 && lower_tail && !log_p) {\n" .
+		      "\t    gnum_float d0 = dgamma (x0, alpha, scale, log_p);\n" .
+		      "\t    if (d0) {\n" .
+		      "\t\tgnum_float x1 = x0 - e0 / d0;\n" .
+		      "\t\tgnum_float e1 = pgamma (x1, alpha, scale, lower_tail, log_p) - p;\n" .
+		      "\t\tif (gnumabs (e1) < gnumabs (e0))\n" .
+		      "\t\t    x0 = x1;\n" .
+		      "\t    }\n" .
+		      "\t}\n" .
+		      "\n" .
+		      "\treturn x0;\n" .
+		      "    }");
+	    }
+
 	    $incomment = 1 if m|/\*$|;
 	}
 

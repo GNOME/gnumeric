@@ -1626,7 +1626,23 @@ gnum_float qgamma(gnum_float p, gnum_float alpha, gnum_float scale, gboolean low
     }
     ML_ERROR(ME_PRECISION);/* no convergence in MAXIT iterations */
  END:
-    return 0.5*scale*ch;
+    /* Special Gnumeric patch to improve precision.  */
+    {
+	gnum_float x0 = 0.5*scale*ch;
+	gnum_float e0 = pgamma (x0, alpha, scale, lower_tail, log_p) - p;
+
+	if (e0 != 0 && lower_tail && !log_p) {
+	    gnum_float d0 = dgamma (x0, alpha, scale, log_p);
+	    if (d0) {
+		gnum_float x1 = x0 - e0 / d0;
+		gnum_float e1 = pgamma (x1, alpha, scale, lower_tail, log_p) - p;
+		if (gnumabs (e1) < gnumabs (e0))
+		    x0 = x1;
+	    }
+	}
+
+	return x0;
+    }
 }
 /* Cleaning up done by tools/import-R:  */
 #undef C7

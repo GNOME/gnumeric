@@ -74,6 +74,7 @@ Morten:
 	* Fix double replacement problem for search-and-replace with a
           regular expression matching an empty string.
 	* Fix GAMMAINV.
+	* Improve precision for qgamma (and thus GAMMAINV).
 
 Nicolas Peninguy:
 	* Use regexps to classify currency and accounting formats
