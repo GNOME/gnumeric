@@ -1,5 +1,8 @@
 2002-04-19  Morten Welinder  <terra@diku.dk>
 
+	* src/expr.c (gnm_expr_new_error): Use error constant for all the
+	regular errors.  (Thus, don't refer to the NA function.)
+
 	* src/func-builtin.c (gnumeric_selection, gnumeric_version): Moved
 	from fn-sheet.
 
