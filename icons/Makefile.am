@@ -6,6 +6,7 @@ appicon_DATA = gnome-gnumeric.png \
                gnome-application-x-xls.png
 
 icons_DATA = \
+	$(appicon_DATA)		\
 	orient-horizontal.png	\
 	orient-vertical.png	\
 	right-down.png		\

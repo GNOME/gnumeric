@@ -2780,6 +2780,8 @@ xml_cellregion_write (WorkbookControl *wbc, CellRegion *cr, int *size)
 	}
 
 	ctxt->doc->xmlRootNode = clipboard;
+	xmlIndentTreeOutput = TRUE;
+	xmlDocDumpFormatMemoryEnc(ctxt->doc, &buffer, size, "UTF-8", TRUE);
 	xmlDocDumpMemory (ctxt->doc, &buffer, size);
 	xmlFreeDoc (ctxt->doc);
 	xml_parse_ctx_destroy (ctxt);
@@ -3308,7 +3310,8 @@ gnumeric_xml_write_workbook (GnumFileSaver const *fs,
 		? 0 : -1;
 
 	gnumeric_xml_set_compression (xml, compression);
-	if (xmlSaveFile (filename, xml) < 0)
+	xmlIndentTreeOutput = TRUE;
+	if (xmlSaveFormatFileEnc (filename, xml, "UTF-8", TRUE) < 0)
 		gnumeric_io_error_save (context, g_strerror (errno));
 
 	xmlFreeDoc (xml);

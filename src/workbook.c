@@ -438,7 +438,7 @@ workbook_new (void)
  * @number: returns the number stripped off in *number
  *
  * Gets a name in the form of "Sheet (10)", "Stuff" or "Dummy ((((,"
- * and returns the real name of the sheet "Sheet","Stuff","Dymmy ((((,"
+ * and returns the real name of the sheet "Sheet","Stuff","Dummy ((((,"
  * without the copy number.
  **/
 static void

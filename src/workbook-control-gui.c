@@ -3824,9 +3824,9 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 		item = gtk_menu_item_new_with_label (
 			_(quick_compute_routines [i].displayed_name));
 		gtk_object_set_data (GTK_OBJECT (item), "expr",
-			quick_compute_routines [i].function);
+			(char *)quick_compute_routines [i].function);
 		gtk_object_set_data (GTK_OBJECT (item), "name",
-			_(quick_compute_routines [i].displayed_name));
+			(char *)_(quick_compute_routines [i].displayed_name));
 		g_signal_connect (G_OBJECT (item),
 			"activate",
 			G_CALLBACK (cb_auto_expr_changed), wbcg);
@@ -4234,20 +4234,20 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 #else
 	bonobo_window_set_contents (BONOBO_WINDOW (wbcg->toplevel), wbcg->table);
 
-	ui_container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (ui_container, BONOBO_WINDOW (wbcg->toplevel));
+	ui_container = bonobo_window_get_ui_container (BONOBO_WINDOW (wbcg->toplevel));
 	bonobo_ui_engine_config_set_path (
 		bonobo_window_get_ui_engine (BONOBO_WINDOW (wbcg->toplevel)),
 		"/Gnumeric/UIConf/kvps");
 	wbcg->uic = bonobo_ui_component_new_default ();
-	bonobo_ui_component_set_container (wbcg->uic, BONOBO_OBJREF (ui_container));
+	bonobo_ui_component_set_container (wbcg->uic,
+		BONOBO_OBJREF (ui_container), NULL);
 
 	bonobo_ui_component_add_verb_list_with_data (wbcg->uic, verbs, wbcg);
 
 	{
 		char *dir = gnumeric_sys_data_dir (NULL);
 		bonobo_ui_util_set_ui (wbcg->uic, dir,
-				       "GNOME_Gnumeric.xml", "gnumeric");
+			"GNOME_Gnumeric.xml", "gnumeric", NULL);
 		g_free (dir);
 	}
 #ifdef ENABLE_EVOLUTION

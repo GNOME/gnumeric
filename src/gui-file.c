@@ -315,11 +315,11 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	/* Select current directory if we have one */
 	wb = wb_control_workbook (wbc);
 	wb_file_name = wb != NULL ? workbook_get_filename (wb) : NULL;
-	if (wb_file_name != NULL && strchr (wb_file_name, '/') != NULL) {
+	if (wb_file_name != NULL && strchr (wb_file_name, G_DIR_SEPARATOR) != NULL) {
 		gchar *tmp, *dir_name;
 
 		tmp = g_dirname (wb_file_name);
-		dir_name = g_strconcat (tmp, "/", NULL);
+		dir_name = g_strconcat (tmp, G_DIR_SEPARATOR_S, NULL);
 		gtk_file_selection_set_filename (fsel, dir_name);
 		g_free (dir_name);
 		g_free (tmp);

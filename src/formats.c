@@ -170,13 +170,13 @@ currency_date_format_init (void)
 	char *pre, *post, *pre_rep, *post_rep;
 
 	if (precedes) {
-		post_rep = post = "";
-		pre_rep = "* ";
+		post_rep = post = (char *)"";
+		pre_rep = (char *)"* ";
 		pre = g_strconcat ("\"", curr,
 				   (space_sep) ? "\" " : "\"", NULL);
 	} else {
-		pre_rep = pre = "";
-		post_rep = "* ";
+		pre_rep = pre = (char *)"";
+		post_rep = (char *)"* ";
 		post = g_strconcat ((space_sep) ? " \"" : "\"",
 				    curr, "\"", NULL);
 	}

@@ -85,13 +85,14 @@ static void
 history_menu_item_create (WorkbookControlGUI *wbcg, gchar *name, gint accel_number,
 			  GtkWidget *menu, gint pos)
 {
+	char *label;
 	GnomeUIInfo info[] = {
 		{ GNOME_APP_UI_ITEM, NULL, NULL, file_history_cmd, NULL },
 		GNOMEUIINFO_END
 	};
 
 	info [0].hint = name;
-	info [0].label = history_item_label (name, accel_number);
+	info [0].label = label = history_item_label (name, accel_number);
 	info [0].user_data = wbcg;
 
 	gnome_app_fill_menu (GTK_MENU_SHELL (menu), info,
@@ -100,7 +101,7 @@ history_menu_item_create (WorkbookControlGUI *wbcg, gchar *name, gint accel_numb
 	gtk_object_set_data (GTK_OBJECT (info [0].widget), UGLY_GNOME_UI_KEY, name);
 	gnome_app_install_menu_hints (GNOME_APP (wbcg->toplevel), info);
 
-	g_free (info[0].label);
+	g_free (label);
 }
 #endif
 
