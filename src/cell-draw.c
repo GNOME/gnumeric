@@ -18,21 +18,19 @@
 static void
 draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font, int x1, int y1, int text_base, int width, int height)
 {
+	int const len = gdk_string_width (font, "#");
+	int count = (len != 0) ? (width / len) : 0;
+
 	GdkRectangle rect;
-	int len = gdk_string_width (font, "#");
-	int total, offset;
-	
 	rect.x = x1;
 	rect.y = y1;
 	rect.width = width;
 	rect.height = height;
 	gdk_gc_set_clip_rectangle (gc, &rect);
 	
-	offset = x1 + width - len;
-	for (total = len;  offset > len; total += len){
-		gdk_draw_text (drawable, font, gc, x1 + offset, text_base, "#", 1);
-		offset -= len;
-	} 
+	/* Center */
+	for (x1 += (width - count*len) / 2; --count >= 0 ; x1 += len )
+		gdk_draw_text (drawable, font, gc, x1, text_base, "#", 1);
 }
 
 /*
@@ -171,8 +169,8 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc,
 	if (cell && cell->text && cell->text->str)
 		text = cell->text->str;
 	else {
-		printf ("Serious cell error at '%s'\n", cell_name (cell->col->pos,
-								   cell->row->pos));
+		g_warning ("Serious cell error at '%s'\n",
+			   cell_name (cell->col->pos, cell->row->pos));
 		text = "FATAL ERROR";
 	} 
 	

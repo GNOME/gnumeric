@@ -470,10 +470,10 @@ sheet_compute_visible_ranges (Sheet const *sheet)
 static void
 colrow_set_units (Sheet *sheet, ColRowInfo *info)
 {
-	double pix = sheet->last_zoom_factor_used;
+	double const pix = sheet->last_zoom_factor_used;
 
-	info->units  = (info->pixels -
-			(info->margin_a + info->margin_b + 1)) / pix;
+	info->units = (info->pixels -
+		       (info->margin_a + info->margin_b - 1)) / pix;
 }
 
 static void
@@ -709,7 +709,11 @@ sheet_col_size_fit (Sheet *sheet, int col)
 	/* Reset to the default width if the column was empty */
 	if (max < 0)
 		max = sheet->cols.default_style.pixels;
-	return max + ci->margin_a + ci->margin_b;
+	else
+		/* No need to scale width by zoom factor, that was already done */
+		max += ci->margin_a + ci->margin_b;
+
+	return max;
 }
 
 /*
@@ -762,8 +766,11 @@ sheet_row_size_fit (Sheet *sheet, int row)
 	/* Reset to the default width if the column was empty */
 	if (max < 0)
 		max = sheet->rows.default_style.pixels;
+	else
+		/* No need to scale height by zoom factor, that was already done */
+		max += ri->margin_a + ri->margin_b;
 
-	return max + ri->margin_a + ri->margin_b;
+	return max;
 }
 
 typedef struct {

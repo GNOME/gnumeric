@@ -1,5 +1,16 @@
 1999-11-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (colrow_set_units) : Fix as per Bug 3472.
+	(sheet_col_size_fit, sheet_row_size_fit) : Include the margins for
+	  non-default sized cells.
+
+	* src/cell-draw.c (draw_overflow) : Center display.
+
+	* src/cell.c (cell_calc_dimensions) : Behave better when zoomed.
+
+1999-11-15  Jody Goldberg <jgoldberg@home.com>
+
+
 	* src/sheet-view.c (sheet_view_set_zoom_factor) : We are already
 	  manually scaling everything.  Don't do it again by scrolling the
 	  canvas.
