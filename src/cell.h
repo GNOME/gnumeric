@@ -57,6 +57,8 @@ typedef struct {
 void        cell_set_text             (Cell *cell, char *text);
 void        cell_set_formula          (Cell *cell, char *text);
 void        cell_calc_dimensions      (Cell *cell);
+Cell       *cell_copy                 (Cell *cell);
+void        cell_destroy              (Cell *cell);
 
 #endif /* GNUMERIC_CELL_H */
 

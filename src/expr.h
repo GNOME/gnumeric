@@ -156,7 +156,8 @@ void        value_copy_to        (Value *dest, Value *source);
 				 
 void        value_dump           (Value *value);
 char       *value_string         (Value *value);
-				 
+Value      *value_duplicate      (Value *value);
+
 int         yyparse              (void);
 
 /* Setup of the symbol table */

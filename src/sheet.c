@@ -1335,4 +1335,41 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	return cell;
 }
 
+void
+sheet_cell_remove (Sheet *sheet, Cell *cell)
+{
+	CellPos cellref;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
+	cellref.col = cell->col->pos;
+	cellref.row = cell->row->pos;
+	
+	g_hash_table_remove (sheet->cell_hash, &cellref);
+	cell->col->data = g_list_remove (cell->col->data, cell);
+}
+
+static int
+clear_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	sheet_cell_remove (sheet, cell);
+	cell_destroy (cell);
+	
+	return TRUE;
+}
+
+void
+sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (start_row <= end_row);
+	
+	sheet_cell_foreach_range (
+		sheet, TRUE,
+		start_col, start_row,end_col, end_row,
+		clear_cell, NULL);
+}

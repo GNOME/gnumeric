@@ -125,7 +125,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	int xd, yd, dx, dy;
 	int cursor_width, cursor_height;
 	GdkPoint points [40];
-	int draw_external, draw_internal, draw_handle, draw_center;
+	int draw_external, draw_internal, draw_handle, draw_center, draw_thick;
 	int premove;
 	GdkColor *fore = NULL, *back = NULL;
 	
@@ -135,26 +135,32 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	dx = xd - x;
 	dy = yd - y;
 
-	draw_external = draw_internal = draw_handle = draw_center = 0;
+	draw_external = 0;
+	draw_internal = 0;
+	draw_handle   = 0;
+	draw_center   = 0;
+	draw_thick    = 0;
+	
 	switch (item_cursor->style){
+	case ITEM_CURSOR_AUTOFILL:
+	case ITEM_CURSOR_DRAG:
+		draw_center   = 1;
+		draw_thick    = 1;
+		fore          = &gs_black;
+		back          = &gs_white;
+		break;
+		
 	case ITEM_CURSOR_SELECTION:
 		draw_internal = 1;
 		draw_external = 1;
-		draw_center   = 0;
 		draw_handle   = 1;
 		break;
 
 	case ITEM_CURSOR_EDITING:
-		draw_internal = 0;
-		draw_handle   = 0;
-		draw_center   = 0;
 		draw_external = 1;
 
 	case ITEM_CURSOR_ANTED:
-		draw_internal = 0;
-		draw_handle   = 0;
 		draw_center   = 1;
-		draw_external = 0;
 		if (item_cursor->state){
 			fore = &gs_light_gray;
 			back = &gs_dark_gray;
@@ -221,7 +227,7 @@ item_cursor_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, in
 	if (draw_center){
 		gdk_gc_set_foreground (item_cursor->gc, fore);
 		gdk_gc_set_background (item_cursor->gc, back);
-		gdk_gc_set_line_attributes (item_cursor->gc, 1,
+		gdk_gc_set_line_attributes (item_cursor->gc, draw_thick ? 3 : 1,
 					    GDK_LINE_DOUBLE_DASH, -1, -1);
 		gdk_draw_rectangle (drawable, item_cursor->gc, FALSE,
 				    dx, dy,
@@ -311,10 +317,109 @@ item_cursor_translate (GnomeCanvasItem *item, double dx, double dy)
 	printf ("item_cursor_translate %g, %g\n", dx, dy);
 }
 
+#define convert(c,sx,sy,x,y) gnome_canvas_w2c (c,sx,sy,x,y)
+
+static gint
+item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
+{
+	GnomeCanvas *canvas = item->canvas;
+	GnomeCanvasItem *new_item;
+	ItemCursor *item_cursor = ITEM_CURSOR (item);
+	int x, y;
+
+	switch (event->type){
+	case GDK_BUTTON_PRESS: {
+		GnomeCanvasGroup *group;
+		int style;
+
+		printf ("cursor: got event\n");
+		convert (canvas, event->button.x, event->button.y, &x, &y);
+		
+		group = GNOME_CANVAS_GROUP (canvas->root);
+		if ((x > item->x2 - 6) && (y > item->y2 - 6))
+			style = ITEM_CURSOR_AUTOFILL;
+		else
+			style = ITEM_CURSOR_DRAG;
+		
+		new_item = gnome_canvas_item_new (
+			group,
+			item_cursor_get_type (),
+			"ItemCursor::Sheet", item_cursor->sheet,
+			"ItemCursor::Grid",  item_cursor->item_grid,
+			"ItemCursor::Style", style,
+			NULL);
+		item_cursor_set_bounds (
+			ITEM_CURSOR (new_item),
+			item_cursor->start_col, item_cursor->start_row,
+			item_cursor->end_col,   item_cursor->end_row);
+		
+		printf ("Creating new cursor!\n");
+		
+		gnome_canvas_update_now (canvas);
+		gnome_canvas_item_grab (
+			new_item,
+			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+			NULL,
+			event->button.time);
+		
+		return TRUE;
+	}
+	default:
+		return FALSE;
+	}
+	
+}
+
+static void
+item_cursor_do_drop (ItemCursor *item_cursor)
+{
+	printf ("DROP!\n");
+}
+
+static gint
+item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
+{
+	ItemCursor *item_cursor = ITEM_CURSOR (item);
+
+	switch (event->type){
+	case GDK_BUTTON_RELEASE:
+		gnome_canvas_item_ungrab (item, event->button.time);
+		item_cursor_do_drop (item_cursor);
+		gtk_object_destroy (GTK_OBJECT (item));
+		return TRUE;
+
+	case GDK_BUTTON_PRESS:
+		printf ("Strange.  I got a button press\n");
+		return TRUE;
+
+	case GDK_MOTION_NOTIFY:
+		printf ("Moving!\n");
+		return TRUE;
+
+	default:
+		return FALSE;
+	}
+}
+
 static gint
 item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	return 0;
+	ItemCursor *item_cursor = ITEM_CURSOR (item);
+	
+	printf ("getting events!\n");
+	switch (item_cursor->style){
+	case ITEM_CURSOR_SELECTION:
+		return item_cursor_selection_event (item, event);
+		
+	case ITEM_CURSOR_DRAG:
+		return item_cursor_drag_event (item, event);
+		
+	case ITEM_CURSOR_AUTOFILL:
+		return FALSE;
+		
+	default:
+		return FALSE;
+	}
 }
 
 /*

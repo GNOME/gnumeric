@@ -85,12 +85,19 @@ typedef  void (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *ci,
 typedef  int (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
 					    Cell *cell, void *user_data);
 
-Sheet      *sheet_new                 (Workbook *wb, char *name);
-void        sheet_destroy             (Sheet *sheet);
-void        sheet_foreach_col         (Sheet *sheet, sheet_col_row_callback, void *user_data);
-void        sheet_foreach_row         (Sheet *sheet, sheet_col_row_callback, void *user_data);
-void        sheet_set_zoom_factor     (Sheet *sheet, double factor);
-void        sheet_get_cell_bounds     (Sheet *sheet, ColType col, RowType row, int *x, int *y, int *w, int *h);
+Sheet      *sheet_new                  	 (Workbook *wb, char *name);
+void        sheet_destroy              	 (Sheet *sheet);
+void        sheet_foreach_col          	 (Sheet *sheet,
+					  sheet_col_row_callback callback,
+					  void *user_data);
+void        sheet_foreach_row          	 (Sheet *sheet,
+					  sheet_col_row_callback,
+					  void *user_data);
+void        sheet_set_zoom_factor      	 (Sheet *sheet, double factor);
+void        sheet_get_cell_bounds      	 (Sheet *sheet,
+					  ColType col, RowType row, 
+				       	  int *x, int *y,
+				       	  int *w, int *h);
 
 /* Selection management */
 void        sheet_select_all             (Sheet *sheet);
@@ -99,7 +106,8 @@ void        sheet_selection_extend_to    (Sheet *sheet, int col, int row);
 void        sheet_selection_clear        (Sheet *sheet);
 void        sheet_selection_clear_only   (Sheet *sheet);
 int         sheet_selection_equal        (SheetSelection *a, SheetSelection *b);
-void        sheet_selection_append_range (Sheet *sheet, int base_col,  int base_row,
+void        sheet_selection_append_range (Sheet *sheet,
+					  int base_col,  int base_row,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
 
@@ -107,11 +115,9 @@ void        sheet_selection_extend_horizontal (Sheet *sheet, int count);
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 
-/* Computation */
-void        sheet_compute_cell        (Sheet *sheet, Cell *cell);
-
 /* Cell management */
 Cell       *sheet_cell_new            (Sheet *sheet, int col, int row);
+void        sheet_cell_remove         (Sheet *sheet, Cell *cell);
 int         sheet_cell_foreach_range  (Sheet *sheet, int only_existing,
 				       int start_col, int start_row,
 				       int end_col, int end_row,
@@ -143,18 +149,27 @@ void        sheet_row_add             (Sheet *sheet, ColRowInfo *cp);
 /* Measure distances in pixels from one col/row to another */
 int         sheet_col_get_distance    (Sheet *sheet, int from_col, int to_col);
 int         sheet_row_get_distance    (Sheet *sheet, int from_row, int to_row);
+ 
+void        sheet_clear_region        (Sheet *sheet,
+				       int start_col, int start_row,
+				       int end_col,   int end_row);
 
 /* Sets the width/height of a column row in terms of pixels */
-void        sheet_col_set_width       (Sheet *sheet, int col, int width);
-void        sheet_row_set_height      (Sheet *sheet, int row, int width);
-void        sheet_col_set_selection   (Sheet *sheet, ColRowInfo *ci, int value);
-void        sheet_row_set_selection   (Sheet *sheet, ColRowInfo *ri, int value);
+void        sheet_col_set_width       (Sheet *sheet,
+				       int col, int width);
+void        sheet_row_set_height      (Sheet *sheet,
+				       int row, int width);
+void        sheet_col_set_selection   (Sheet *sheet,
+				       ColRowInfo *ci, int value);
+void        sheet_row_set_selection   (Sheet *sheet,
+				       ColRowInfo *ri, int value);
 
 Style      *sheet_style_compute       (Sheet *sheet, int col, int row);
 
 /* Redraw */
-void        sheet_redraw_cell_region  (Sheet *sheet, int start_col, int start_row,
-				       int end_col, int end_row);
+void        sheet_redraw_cell_region  (Sheet *sheet,
+				       int start_col, int start_row,
+				       int end_col,   int end_row);
 void        sheet_redraw_selection    (Sheet *sheet, SheetSelection *ss);
 void        sheet_redraw_all          (Sheet *sheet);
 

@@ -138,3 +138,45 @@ cell_set_text (Cell *cell, char *text)
 	/* Finish setting the values for this cell */
 	cell->flags = 0;
 }
+
+/*
+ * Makes a copy of a Cell
+ */
+Cell *
+cell_copy (Cell *cell)
+{
+	Cell *new_cell;
+
+	g_return_val_if_fail (cell != NULL, NULL);
+
+	new_cell = g_new (Cell, 1);
+
+	/* bitmap copy first */
+	*new_cell = *cell;
+
+	/* now copy propertly the rest */
+	string_ref      (new_cell->entered_text);
+	expr_tree_ref   (new_cell->parsed_node);
+	string_ref      (new_cell->text);
+	
+	new_cell->style = style_duplicate (new_cell->style);
+	new_cell->value = value_duplicate (new_cell->value);
+
+	return new_cell;
+}
+
+void
+cell_destroy (Cell *cell)
+{
+	g_return_if_fail (cell != NULL);
+
+	if (cell->parsed_node){
+		cell_formula_unlink (cell);
+		expr_tree_unref (cell->parsed_node);
+	}
+
+	string_unref    (cell->entered_text);
+	string_unref    (cell->text);
+	style_destroy   (cell->style);
+	value_release   (cell->value);
+}

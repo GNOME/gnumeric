@@ -1,5 +1,25 @@
 1998-08-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/item-cursor.c (item_cursor_event): Event handler for the
+	item_cursors. 
+
+	* src/item-cursor.h: More cursor types: ITEM_CURSOR_AUTOFILL (for
+	the case where the small drag box is used) and ITEM_CURSOR_DRAG
+	(for when the item is being dragged).
+
+	* src/clipboard.c (clipboard_paste_region,
+	clipboard_copy_cell_range): New functions for cut and paste
+	support. 
+
+	* src/cell.c (cell_destroy, cell_copy): New functions.  Preparing
+	for cut and paste support.
+
+	* src/expr.c (value_copy_to): Finish implementing all cases.
+	(value_duplicate): New function.  Duplicates a value.
+
+	* src/sheet.c (sheet_cell_remove): Implement a way to remove
+	cells. 
+
 	* src/eval.c (workbook_recalc): New recomputation strategy:  We
 	now keep a generation flag for determining whenever a cell value
 	has been recomputed for this generation.  The generation variable

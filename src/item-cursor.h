@@ -9,6 +9,8 @@ typedef enum {
 	ITEM_CURSOR_SELECTION,
 	ITEM_CURSOR_EDITING,
 	ITEM_CURSOR_ANTED,
+	ITEM_CURSOR_AUTOFILL,
+	ITEM_CURSOR_DRAG,
 } ItemCursorStyle;
 
 typedef struct {

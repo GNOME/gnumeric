@@ -4,6 +4,7 @@
 #include <string.h>
 #include "gnumeric.h"
 #include "expr.h"
+#include "eval.h"
 
 char *parser_expr;
 ParseErr parser_error;
@@ -161,9 +162,38 @@ value_copy_to (Value *dest, Value *source)
 		dest->v.v_float = source->v.v_float;
 		break;
 
-	default:
-		g_warning ("value_copy_to: VALUE type not yet supported\n");
+	case VALUE_ARRAY: {
+		GList *l, *new = NULL;
+
+		for (l = source->v.array; l; l = l->next){
+			Value *copy;
+
+			copy = value_duplicate (l->data);
+			
+			new = g_list_append (new, copy);
+		}
+		dest->v.array = new;
+		break;
 	}
+	case VALUE_CELLRANGE:
+		dest->v.cell_range = source->v.cell_range;
+		break;
+	}
+}
+
+/*
+ * Makes a copy of a Value
+ */
+Value *
+value_duplicate (Value *value)
+{
+	Value *new_value;
+
+	g_return_val_if_fail (value != NULL, NULL);
+	new_value = g_new (Value, 1);
+	value_copy_to (new_value, value);
+	
+	return new_value;
 }
 
 /*
