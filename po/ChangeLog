@@ -1,3 +1,8 @@
+2002-12-10  Christophe Merlet  <redfox@redfoxcenter.org>
+
+	* fr.po: Updated French translation from work of
+	Olivier Jousselin <oj@marylou.fr>.
+
 2002-11-09  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* et.po: Have a proper Project-Id-Version value.
