@@ -67,14 +67,16 @@ html_fprintf (FILE *fp, const char *s)
 			case '&':
 				fprintf (fp, "&amp;");
 				break;
+#if 0
 			case '\'':
 				fprintf (fp, "&apos;");
 				break;
+#endif
 			case '\"':
 				fprintf (fp, "&quot;");
 				break;
 			default:
-				fprintf (fp, "%c", *p);
+				fputc (*p, fp);
 				break;
 		}
 		p++;
@@ -175,12 +177,12 @@ html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
 	if (cell) {
 		switch (style_default_halign (style, cell)) {
 		case HALIGN_RIGHT :
-			fprintf (fp, " halign=right");
+			fprintf (fp, " align=right");
 			break;
 
 		case HALIGN_CENTER :
 		case HALIGN_CENTER_ACROSS_SELECTION :
-			fprintf (fp, " halign=center");
+			fprintf (fp, " align=center");
 			break;
 		default :
 			break;
@@ -238,7 +240,7 @@ html32_file_save (GnumFileSaver const *fs, IOContext *io_context,
 "<HTML>\n"
 "<HEAD>\n\t<TITLE>Tables</TITLE>\n"
 "\t<!-- "G_PLUGIN_FOR_HTML" -->\n"
-"<STYLE><!--\n"
+"<STYLE type=\"text/css\"><!--\n"
 "TT {\n"
 "\tfont-family: courier;\n"
 "}\n"

@@ -1,3 +1,10 @@
+2001-08-17  Morten Welinder <terra@diku.dk>
+
+	* html.c (html_fprintf): Use fputc.  Don't do anything special for
+ 	single quote.
+	(html32_file_save): Add type to STYLE element.
+	(html_write_cell32): Use align, not halign.
+
 2001-08-11  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.69
