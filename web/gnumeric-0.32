@@ -1,0 +1,60 @@
+Gnumeric 0.32
+
+Jukka:
+	* More work done on documenting the analysis tools.
+	* Implemented MDETERM and MINVERSE matrix functions.
+	* Finished the ROMAN function completing the mathematical
+          functions.
+	* Implemented DB, DDB, FREQUENCY, QUARTILE, and XNPV functions.
+	* Started the implementation of LINEST and TREND functions.
+	* Fixed DOLLAR, DOLLARDE, DOLLARFR, and PROB functions.
+
+Michael:
+	* Added GUI for Summary Info.
+	* Enabled function wizard.
+	* Initial stab at Lotus 123: 'wk1', 'wks' import.
+	* Added GUI for Names.
+	* Better Excel string importing.
+	* Fix for padded number insertion ( fixes CSV import )
+	* Implemented ISREF, INDIRECT improved CELL
+	* Fixed several database functions.
+	* Non-relative R1C1 style references.
+
+Jody:
+	* Enable Array formulas.
+	* Add VALUE_BOOLEAN, VALUE_ERROR, and  OPER_PERCENT
+	* Added EOMONTH, WORKDAY, NETWORKDAYS.
+	* Work on functions : ROW, COLUMN, ISLOGICAL, ISERR, ISBLANK,
+          DATEVALUE
+	* Support implict intersection 'feature' of XL for functions,
+	  NOT operators.
+	* Support Ctrl-Arrow movement & selection.  Make moving corner of
+	  selection visible.
+	* Support F4 switching between absolute and relative addressing
+	  modes
+	* Reworked internal handling of absolute/relative addressing.
+	* Fixed cut/copy/paste to relocate relative references to only
+	  when copying not cuting.
+
+Jay:
+
+	* Implemented BESSELI, BESSELK completing the engineering functions.
+
+Miguel:
+	* Bonobo support is working again.
+	* Added Moniker support for the Workbooks
+	* Made the Workbook a GtkObject;
+	* Made Workbook a GnomeContainer object
+	* EmbeddableGrids now can be returned from get_object to provide linking support.
+	* Added a signal for cell_content_changed for the speech support.
+	* Removed function wizard.
+	* Fixed locale setting and switching for file IO.
+	* Updated the CORBA interface for setting cell attributes.
+	* Killed some dead code.
+	* All IO code now takes an existing workbook to load information into, 
+	  rather than creating a new workbook and returning it.
+	* Scrolling sheet tabs.
+
+
+Many translations updated, thanks to our translators, and innumerable minor bugs
+fixed.
