@@ -318,7 +318,7 @@ sheet_object_realize (SheetObject *so)
 	g_return_if_fail (so != NULL);
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 	
-	for (l = so->sheet->sheet_views; l; l = l->next){
+	for (l = so->sheet->sheet_views; l; l = l->next) {
 		SheetView *sheet_view = l->data;
 		GnomeCanvasItem *item;
 		
@@ -341,7 +341,7 @@ sheet_object_unrealize (SheetObject *so)
 	g_return_if_fail (so != NULL);
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
-	for (l = so->sheet->sheet_views; l; l = l->next){
+	for (l = so->sheet->sheet_views; l; l = l->next) {
 		SheetView *sheet_view = l->data;
 		
 		sheet_view_object_unrealize (sheet_view, so);

@@ -1,3 +1,11 @@
+1999-09-25  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/dialogs/dialog-zoom.c (dialog_zoom): Correct glade name.
+	(dialog_zoom_impl): use moveto after we know the final list size.
+	(custom_selected): simplify. (radio_toggled): ditto.
+	(select_sheet_cb): create. (dialog_zoom_impl): use update_zoom_but
+	& complicate significantly :-) (update_zoom_buttons): create.
+
 1999-09-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/plugin.c (plugin_load) : Enable the error box when
