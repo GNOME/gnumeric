@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<plugin id="Gnumeric_QPro">
+	<information>
+		<_name>Quatro Pro(tm)</_name>
+		<_description>Imports Quatro Pro (tm) files</_description>
+	</information>
+	<loader type="g_module">
+		<attribute name="module_file" value="qpro.la"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="qpro" priority="100" probe="TRUE"
+			open="TRUE" import="TRUE">
+			<information>
+				<_description>Quatro Pro</_description>
+			</information>
+			<file_patterns>
+				<file_pattern type="shell_pattern" value="*.wb[123]"/>
+			</file_patterns>
+		</service>
+	</services>
+</plugin>

@@ -1,138 +1,15 @@
-2002-05-29  Jody Goldberg <jody@gnome.org>
+2002-07-12  Jody Goldberg <jody@gnome.org>
 
-	* Release 1.1.4
+	* qpro-read.c : Ok we do a few things now.
+	  Sheet name, tab colour, zoom.
+	  blank, int, float, string cells.
+	  TODO : formulas, attributes
 
-2002-04-29  Jody Goldberg <jody@gnome.org>
+2002-07-10  Jody Goldberg <jody@gnome.org>
 
-	* Release 1.1.3
-
-2002-03-25  Jody Goldberg <jody@gnome.org>
-
-	* Release 1.1.2
-
-2002-03-10  Jody Goldberg <jody@gnome.org>
-
-	* Release 1.1.1
-
-2002-02-18  Jody Goldberg <jody@gnome.org>
-
-	* Release 1.1.0
-
-2002-01-21  Jody Goldberg <jody@gnome.org>
-
-	* Release 1.0.3
-
-2002-01-15  Jody Goldberg <jody@gnome.org>
-
-	* Release 1.0.2
-
-2002-01-06  Jody Goldberg <jody@gnome.org>
-
-	* Release 1.0.1
-
-2001-12-31  Jody Goldberg <jody@gnome.org>
-
-	* Release 1.0.0
-
-2001-12-24  Jody Goldberg <jody@gnome.org>
-
-	* Release 0.99.1
-
-2001-12-15  Jody Goldberg <jody@gnome.org>
-
-	* Release 0.99.0
-
-2001-11-05  Jody Goldberg <jgoldberg@home,com>
-
-	* Release 0.75
-
-2001-10-29  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.74
-
-2001-10-29  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.73
-
-2001-10-18  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.72
-
-2001-10-07  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.71
-
-2001-08-20  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.70
-
-2001-08-11  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.69
-
-2001-07-17  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.68
-
-2001-06-28  Jody Goldberg <jgoldberg@home>
-
-	* Release 0.67
-
-2001-06-27  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.66
-
-2001-05-20  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.65
-
-2001-03-17  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.64
-
-2001-02-23  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.63
-
-2001-02-16  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.62
-
-2000-12-17 Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.61
-
-2000-12-7  Jody Goldberg <jgoldberg@home.com>
-
-        * Release 0.60
-
-2000-11-18  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.59
-
-2000-11-13  Jody Goldberg <jgoldberg@home.com>
-
-        * Release 0.58
-
-2000-10-10  Jody Goldberg <jgoldberg@home.com>
-
-        * Release 0.57
-
-2000-06-18  Jody Goldberg <jgoldberg@home.com>
-
-        * Release 0.56
-
-2000-06-18  Jody Goldberg <jgoldberg@home.com>
-
-        * Release 0.55
-
-2000-05-20  Jody Goldberg <jgoldberg@home.com>
-
-        * Release 0.54
-
-2000-05-09  Jody Goldberg <jgoldberg@home.com>
-
-	* Release 0.53
+	* qpro-read.c : some initial work to make this a functional plugin and
+	  to support ole based versions.  None of the records are parsed yet,
+	  but we do appear to be able to read the stream smoothly now.
 
 1999-11-17  Jeff Garzik  <jgarzik@mandrakesoft.com>
 
