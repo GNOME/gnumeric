@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-06-12 22:47+0200\n"
-"PO-Revision-Date: 2003-06-12 22:53+0200\n"
+"POT-Creation-Date: 2003-06-13 14:22+0200\n"
+"PO-Revision-Date: 2003-06-13 14:25+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3830,7 +3830,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:526
 msgid ""
 "@FUNCTION=HOUR\n"
-"@SYNTAX=HOUR (serial_number)\n"
+"@SYNTAX=HOUR (date)\n"
 "@DESCRIPTION=HOUR converts a serial number to an hour.  The hour is returned "
 "as an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.).\n"
 "\n"
@@ -3844,7 +3844,7 @@ msgid ""
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 "@FUNCTION=HOUR\n"
-"@SYNTAX=HOUR (serienummer)\n"
+"@SYNTAX=HOUR (datum)\n"
 "@DESCRIPTION=HOUR konventerar från serienummer till timme. Resultatet ges i "
 "form av ett heltal i området 0 (12:00 AM) till 23 (11:00 PM).\n"
 "\n"
@@ -3860,7 +3860,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:555
 msgid ""
 "@FUNCTION=MINUTE\n"
-"@SYNTAX=MINUTE (serial_number)\n"
+"@SYNTAX=MINUTE (date)\n"
 "@DESCRIPTION=MINUTE converts a serial number to a minute.  The minute is "
 "returned as an integer in the range 0 to 59.\n"
 "\n"
@@ -3874,7 +3874,7 @@ msgid ""
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 "@FUNCTION=MINUTE\n"
-"@SYNTAX=MINUTE (serienummer)\n"
+"@SYNTAX=MINUTE (datum)\n"
 "@DESCRIPTION=MINUTE konverterar från serienummer till minut. Resultatet ges "
 "i form av ett heltal i området 0 till 59.\n"
 "\n"
@@ -3890,7 +3890,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:585
 msgid ""
 "@FUNCTION=SECOND\n"
-"@SYNTAX=SECOND (serial_number)\n"
+"@SYNTAX=SECOND (date)\n"
 "@DESCRIPTION=SECOND converts a serial number to a second.  The second is "
 "returned as an integer in the range 0 to 59.\n"
 "\n"
@@ -3904,7 +3904,7 @@ msgid ""
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 "@FUNCTION=SECOND\n"
-"@SYNTAX=SECOND (serienummer)\n"
+"@SYNTAX=SECOND (datum)\n"
 "@DESCRIPTION=SECOND konverterar från serienummer till sekund. Resultatet ges "
 "i form av ett heltal i området 0 till 59.\n"
 "\n"
@@ -3920,7 +3920,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:615
 msgid ""
 "@FUNCTION=YEAR\n"
-"@SYNTAX=YEAR (serial_number)\n"
+"@SYNTAX=YEAR (date)\n"
 "@DESCRIPTION=YEAR converts a serial number to a year.\n"
 "\n"
 "* Note that Gnumeric will perform regular string to serial number conversion "
@@ -3933,7 +3933,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 "@FUNCTION=YEAR\n"
-"@SYNTAX=YEAR (serienummer)\n"
+"@SYNTAX=YEAR (datum)\n"
 "@DESCRIPTION=Konverterar från serienummer till år.\n"
 "\n"
 "* Observera att datumet kan anges som en sträng, eftersom Gnumeric "
@@ -3948,7 +3948,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:646
 msgid ""
 "@FUNCTION=MONTH\n"
-"@SYNTAX=MONTH (serial_number)\n"
+"@SYNTAX=MONTH (date)\n"
 "@DESCRIPTION=MONTH converts a serial number to a month.\n"
 "\n"
 "* Note that Gnumeric will perform regular string to serial number conversion "
@@ -3961,7 +3961,7 @@ msgid ""
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=MONTH\n"
-"@SYNTAX=MONTH (serienummer)\n"
+"@SYNTAX=MONTH (datum)\n"
 "@DESCRIPTION=MONTH konverterar från serienummer till månad.\n"
 "\n"
 "* Observera att datumet kan anges som en sträng, eftersom Gnumeric "
@@ -3976,7 +3976,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:677
 msgid ""
 "@FUNCTION=DAY\n"
-"@SYNTAX=DAY (serial_number)\n"
+"@SYNTAX=DAY (date)\n"
 "@DESCRIPTION=DAY converts a serial number to a day of month.\n"
 "\n"
 "* Note that Gnumeric will perform regular string to serial number conversion "
@@ -3989,7 +3989,7 @@ msgid ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=DAY\n"
-"@SYNTAX=DAY (serienummer)\n"
+"@SYNTAX=DAY (datum)\n"
 "@DESCRIPTION=DAY konverterar från serienummer till dag i månaden.\n"
 "\n"
 "* Observera att Gnumeric automatiskt konverterar strängen till ett "
@@ -4004,7 +4004,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:708
 msgid ""
 "@FUNCTION=WEEKDAY\n"
-"@SYNTAX=WEEKDAY (serial_number[, method])\n"
+"@SYNTAX=WEEKDAY (date[, method])\n"
 "@DESCRIPTION=WEEKDAY converts a serial number to a weekday.\n"
 "\n"
 "This function returns an integer indicating the day of week.\n"
@@ -4024,7 +4024,7 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=WEEKDAY\n"
-"@SYNTAX=WEEKDAY (serienummer[; metod])\n"
+"@SYNTAX=WEEKDAY (datum[; metod])\n"
 "@DESCRIPTION=WEEKDAY konverterar ett serienummer till en veckodag.\n"
 "\n"
 "Denna funktion returnerar ett heltal som anger veckodagen.\n"
@@ -4164,7 +4164,7 @@ msgid ""
 "between @start_date and @end_date including these dates. Holidays are "
 "optionally supplied in @holidays.\n"
 "\n"
-"* NETWORKDAYS returns #NUM! if start_date or end_date are invalid.\n"
+"* NETWORKDAYS returns #NUM! if @start_date or @end_date are invalid.\n"
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -4195,8 +4195,7 @@ msgid ""
 "including days from two different years is assigned to the year which "
 "includes the most days. This means that Dec 31 could be in week 1 of the "
 "following year, and Jan 1 could be in week 52 or 53 of the previous year. "
-"ISOWEEKNUM returns the week number, while ISOYEAR returns the year the week "
-"is assigned to.\n"
+"ISOWEEKNUM returns the week number.\n"
 "\n"
 "* ISOWEEKNUM returns #NUM! if date is invalid.\n"
 "\n"
@@ -4221,7 +4220,7 @@ msgstr ""
 "Om A1 innehåller 00-12-21 är ISOWEEKNUM(A1)=51\n"
 "@SEEALSO=WEEKNUM, ISOYEAR"
 
-#: plugins/fn-date/functions.c:1134
+#: plugins/fn-date/functions.c:1133
 msgid ""
 "@FUNCTION=ISOYEAR\n"
 "@SYNTAX=ISOYEAR (date)\n"
@@ -4231,8 +4230,7 @@ msgid ""
 "including days from two different years is assigned to the year which "
 "includes the most days. This means that Dec 31 could be in week 1 of the "
 "following year, and Jan 1 could be in week 52 or 53 of the previous year. "
-"ISOYEAR returns the year the week is assigned to, while ISOWEEKNUM returns "
-"the week number.\n"
+"ISOYEAR returns the year the week is assigned to.\n"
 "\n"
 "* ISOYEAR returns #NUM! if date is invalid.\n"
 "@EXAMPLES=\n"
@@ -4254,7 +4252,7 @@ msgstr ""
 "Om A1 innehåller 00-12-31 är ISOYEAR(A1)=2002\n"
 "@SEEALSO=ISOWEEKNUM"
 
-#: plugins/fn-date/functions.c:1181
+#: plugins/fn-date/functions.c:1180
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -4263,13 +4261,13 @@ msgid ""
 "\n"
 "@method defaults to 1.\n"
 "\n"
-"  For method=1, week starts on Sunday, and days before first Sunday are in "
+"  For @method=1, week starts on Sunday, and days before first Sunday are in "
 "week 0.\n"
-"  For method=2, week starts on Monday, and days before first Monday are in "
+"  For @method=2, week starts on Monday, and days before first Monday are in "
 "week 0.\n"
-"  For method=150, the ISO 8601 week number is returned.\n"
+"  For @method=150, the ISO 8601 week number is returned.\n"
 "\n"
-"* WEEKNUM returns #NUM! if date or method is invalid.\n"
+"* WEEKNUM returns #NUM! if @date or @method is invalid.\n"
 "* This function is Excel compatible, except that Excel does not support ISO "
 "8601 week numbers.\n"
 "\n"
@@ -4298,10 +4296,10 @@ msgstr ""
 "Om A1 innehåller 00-12-21 är WEEKNUM(A1;2)=51\n"
 "@SEEALSO=ISOWEEKNUM"
 
-#: plugins/fn-date/functions.c:1226
+#: plugins/fn-date/functions.c:1225
 msgid ""
 "@FUNCTION=YEARFRAC\n"
-"@SYNTAX=WEEKNUM (start_date, end_date, basis)\n"
+"@SYNTAX=YEARFRAC (start_date, end_date, basis)\n"
 "@DESCRIPTION=YEARFRAC returns the number of full days between @start_date "
 "and @end_date according to the @basis.\n"
 "\n"
@@ -4318,65 +4316,65 @@ msgstr ""
 "\n"
 "@SEEALSO=DATEDIF"
 
-#: plugins/fn-date/functions.c:1247
+#: plugins/fn-date/functions.c:1246
 msgid "year,month,day"
 msgstr "år;månad;dag"
 
-#: plugins/fn-date/functions.c:1251
+#: plugins/fn-date/functions.c:1250
 msgid "date_str"
 msgstr "datum_str"
 
-#: plugins/fn-date/functions.c:1255
-msgid "date1,date2,Interval"
+#: plugins/fn-date/functions.c:1254
+msgid "date1,date2,interval"
 msgstr "datum1;datum2;intervall"
 
 #. TODO UNIMPLEMENTED and UNTESTED seems new to XL 2k
-#: plugins/fn-date/functions.c:1259 plugins/fn-date/functions.c:1283
-#: plugins/fn-date/functions.c:1311 plugins/fn-date/functions.c:1315
-#: plugins/fn-date/functions.c:1323 plugins/fn-date/functions.c:1329
-#: plugins/fn-date/functions.c:1341 plugins/fn-date/functions.c:1345
+#: plugins/fn-date/functions.c:1258 plugins/fn-date/functions.c:1282
+#: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
+#: plugins/fn-date/functions.c:1322 plugins/fn-date/functions.c:1328
+#: plugins/fn-date/functions.c:1340 plugins/fn-date/functions.c:1344
 #: src/print-info.c:514
 msgid "date"
 msgstr "datum"
 
-#: plugins/fn-date/functions.c:1263
+#: plugins/fn-date/functions.c:1262
 msgid "date1,date2,method"
 msgstr "datum1;datum2;metod"
 
-#: plugins/fn-date/functions.c:1267
-msgid "serial_number,months"
-msgstr "serienummer;månader"
+#: plugins/fn-date/functions.c:1266
+msgid "date,months"
+msgstr "datum;månader"
 
-#: plugins/fn-date/functions.c:1271
+#: plugins/fn-date/functions.c:1270
 msgid "start_date,months"
 msgstr "startdatum;månader"
 
-#: plugins/fn-date/functions.c:1275 plugins/fn-date/functions.c:1279
-#: plugins/fn-date/functions.c:1295 src/print-info.c:515
+#: plugins/fn-date/functions.c:1274 plugins/fn-date/functions.c:1278
+#: plugins/fn-date/functions.c:1294 src/print-info.c:515
 msgid "time"
 msgstr "tid"
 
-#: plugins/fn-date/functions.c:1287
+#: plugins/fn-date/functions.c:1286
 msgid "start_date,end_date,holidays"
 msgstr "startdatum;slutdatum;helger"
 
-#: plugins/fn-date/functions.c:1299
+#: plugins/fn-date/functions.c:1298
 msgid "hours,minutes,seconds"
 msgstr "timmar;minuter;sekunder"
 
-#: plugins/fn-date/functions.c:1303
+#: plugins/fn-date/functions.c:1302
 msgid "timetext"
 msgstr "tidstext"
 
-#: plugins/fn-date/functions.c:1319
+#: plugins/fn-date/functions.c:1318
 msgid "date,days,holidays"
 msgstr "datum;dagar;helger"
 
-#: plugins/fn-date/functions.c:1333
+#: plugins/fn-date/functions.c:1332
 msgid "unixtime"
 msgstr "unix-tid"
 
-#: plugins/fn-date/functions.c:1337
+#: plugins/fn-date/functions.c:1336
 msgid "serial"
 msgstr "seriell"
 
@@ -8884,7 +8882,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "AREAS((A1;B2;C3)) är lika med ^C.\n"
 "\n"
-"@SEEALSO=CODE"
+"@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
 
 #: plugins/fn-lookup/functions.c:505
 msgid ""
@@ -8939,8 +8937,9 @@ msgstr ""
 "en exakt likhet. Om @uppskatta är sant måste värdena vara sorterade med "
 "minsta värdet först för att funktionen ska fungera korrekt; i detta fall "
 "söker den raden med värde mindre än @värde. Den returnerar värdet på raden "
-"som hittas på ett 1-baserat avstånd i @kolumn kolumner in i @område.\n"
-"@som_index returnerar avståndet som matchade istället för värdet.\n"
+"som hittas på ett 1-baserat avstånd i @kolumn kolumner in i @område. "
+"@som_index returnerar 0-baserade avståndet som matchade istället för "
+"värdet.\n"
 "\n"
 "* Returnerar #NUM! om @kolumn < 0.\n"
 "* Returnerar #REF! om @kolumn är utanför @område.\n"
@@ -8975,8 +8974,8 @@ msgstr ""
 "en exakt likhet. Om @uppskatta är sant måste värdena vara sorterade med "
 "minsta värdet först för att funktionen ska fungera korrekt; i detta fall "
 "söker den kolumnen med värde mindre än @värde. Den returnerar värdet på "
-"kolumnen som hittas på ett 1-baserat avstånd i @rad rader in i @område.\n"
-"@som_index returnerar avståndet som matchade istället för värdet\n"
+"kolumnen som hittas på ett 1-baserat avstånd i @rad rader in i @område. "
+"@som_index returnerar 0-baserade avståndet som matchade istället för värdet\n"
 "\n"
 "* Returnerar #NUM! om @rad < 0.\n"
 "* Returnerar #REF! om @rad är utanför @område.\n"
@@ -9092,7 +9091,7 @@ msgstr ""
 "Om A1 innehåller 3,14 och A2 innehåller A1 är\n"
 "INDIRECT(A2) lika med 3,14.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=AREAS,INDEX"
 
 #: plugins/fn-lookup/functions.c:836
 msgid ""
@@ -9234,7 +9233,7 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=COLUMN,COLUMNS,ROWS"
+"@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS"
 
 #: plugins/fn-lookup/functions.c:1070
 msgid ""
@@ -9387,7 +9386,7 @@ msgstr "fält"
 
 #: plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
-msgstr "FUnktioner för uppslagning av värden i områden"
+msgstr "Funktioner för uppslagning av värden i områden"
 
 #: plugins/fn-lookup/plugin.xml.in.h:2
 msgid "Lookup"
@@ -9660,7 +9659,7 @@ msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=Funktionen ATANH beräknar inversen till tangens hyperbolicus; "
-"det vill säga det värde vars tanh är @x.\n"
+"det vill säga det värde vars TANH är @x.\n"
 "\n"
 "* Om absolutvärdet av @x är större än 1,0 returnerar ATANH felvärdet #NUM!\n"
 "* Denna funktion är kompatibel med Excel.\n"
@@ -9692,7 +9691,7 @@ msgstr ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1;b2)\n"
 "@DESCRIPTION=Funktionen ATAN2 beräknar arcus tangens av variablerna @b1 och "
-"@b2. Det är likvärdigt med att beräkna arcus tangens av @b2 / @b2, med "
+"@b2. Det är likvärdigt med att beräkna arcus tangens av @b2 / @b1, med "
 "undantaget att de båda argumentens tecken används för att bestämma vilken "
 "kvadrant resultatet ska ligga i.\n"
 "\n"
@@ -10408,8 +10407,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(värde1; värde2; ...)\n"
-"@DESCRIPTION=Beräknar summan av alla värden och celler som refereras till i "
-"argumentlistan. Tal, text och logiska värden inkluderas även de i "
+"@DESCRIPTION=SUMA Beräknar summan av alla värden och celler som refereras "
+"till i argumentlistan. Tal, text och logiska värden inkluderas även de i "
 "beräkningen. Om cellen innehåller text eller om argumenten evalueras till "
 "FALSKT, räknas de som noll (0). Om ett argument evalueras till SANT, räknas "
 "det som 1.\n"
@@ -10493,7 +10492,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(värde1; värde2; ...)\n"
-"@DESCRIPTION=PRODUCT returnerar produkten av alla värden och celler som "
+"@DESCRIPTION=G_PRODUCT returnerar produkten av alla värden och celler som "
 "refereras till i argumentlistan.\n"
 "\n"
 "* Tomma celler ignoreras och produkten av tomma celler är 1.\n"
@@ -10583,7 +10582,7 @@ msgstr ""
 "bättre precision.\n"
 "\n"
 "@EXAMPLES=\n"
-"PI() är lika med 3,141593.\n"
+"PI() är ungefär lika med 3,141593.\n"
 "\n"
 "@SEEALSO=SQRTPI"
 
@@ -10713,19 +10712,17 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(tal)\n"
-"@DESCRIPTION=Funktionen FACTDOUBLE beräknar semifakulteten för @tal, dvs "
-"x!!.\n"
+"@FUNCTION=FIB\n"
+"@SYNTAX=FIB(tal)\n"
+"@DESCRIPTION=Funktionen FIB beräknar Fibonacci-tal\n"
 "\n"
 "* Om @tal inte är ett heltal, trunkeras det.\n"
-"* Om @tal är negativt, returneras felvärdet #NUM!.\n"
-"* Denna funktion är kompatibel med Excel.\n"
+"* Om @tal är negativt eller noll, returneras felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
-"FACTDOUBLE(5) är lika med 15.\n"
+"FIB(12) är lika med 144.\n"
 "\n"
-"@SEEALSO=FACT"
+"@SEEALSO="
 
 #: plugins/fn-math/functions.c:1754
 msgid ""
@@ -11014,8 +11011,8 @@ msgstr ""
 "av romerskt tal du vill omvandla till.\n"
 "\n"
 "* Om @typ är 0 eller inte är angiven, returneras klassiska romerska tal.\n"
-"* Typ 1 är mer precis är den klassiska stilen, typ 2 är mer precis än typ 1 "
-"och typ 3 är mer precis än typ 2. Typ 4 är en förenklad stil. \n"
+"* Typ 1 är mer concis är den klassiska stilen, typ 2 är mer concis än typ 1 "
+"och typ 3 är mer concis än typ 2. Typ 4 är en förenklad stil. \n"
 "* Om @tal är negativt eller större än 3999, returnerar ROMAN felvärdet "
 "#VÄRDE!.\n"
 "* Denna funktion är kompatibel med Excel.\n"
@@ -11102,7 +11099,7 @@ msgstr ""
 "@SYNTAX=SUMX2PY2(fält1;fält2)\n"
 "@DESCRIPTION=Funktionen SUMX2PY2 returnerar summan av summorna av "
 "kvadraterna av de motsvarande talen i de två fälten @fält1 och @fält2. "
-"Ekvationen för SUMX2MY2 är SUM (x²+y²).\n"
+"Ekvationen för SUMX2PY2 är SUM (x²+y²).\n"
 "\n"
 "* Strängar och tomma celler ignoreras.\n"
 "* Om @fält1 och @fält2 har olika antal värden returneras felvärdet #-.\n"
@@ -11212,8 +11209,8 @@ msgstr ""
 "@DESCRIPTION=Funktionen MINVERSE returnerar inversen av den givna matrisen "
 "@matris.\n"
 "\n"
-"* Om matrisen inte kan inverteras, returneras felvärdet #NUM!.\n"
-"* Om matrisen inte har lika antal rader som kolumner, returneras felvärdet "
+"* Om @matris inte kan inverteras, returneras felvärdet #NUM!.\n"
+"* Om @matris inte har lika antal rader som kolumner, returneras felvärdet "
 "#VÄRDE!.\n"
 "* Denna funktion är kompatibel med Excel.\n"
 "\n"
@@ -11270,7 +11267,7 @@ msgstr ""
 "@DESCRIPTION=Funktionen MDETERM returnerar determinanten av en given "
 "@matris.\n"
 "\n"
-"* Om matrisen inte innehåller samma antal rader och kolumner returnerar "
+"* Om @matris inte innehåller samma antal rader och kolumner returnerar "
 "MDETERM felvärdet #VÄRDE!.\n"
 "* Denna funktion är kompatibel med Excel.\n"
 "\n"
@@ -11431,7 +11428,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "RAND() returnerar ett slumptal större än noll men mindre än ett.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:72
 msgid ""
@@ -11521,7 +11518,7 @@ msgstr ""
 "@DESCRIPTION=RANDEXP returnerar ett exponentialfördelat slumptal.\n"
 "\n"
 "@EXAMPLES=\n"
-"RandExp(0,5).\n"
+"RANDEXP(0,5).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
@@ -11624,9 +11621,8 @@ msgstr ""
 "@DESCRIPTION=RANDNEGBINOM returnerar ett negativt binomialfördelat "
 "slumptal.\n"
 "\n"
-"* Om @p < 0 eller @p > 1 returnerar RANDNEGBI\n"
-"* NOM felvärdet #NUM!. Om @misslyckanden returnerar RANDNEGBINOM felvärdet "
-"#NUM!.\n"
+"* Om @p < 0 eller @p > 1 returnerar RANDNEGBINOM felvärdet #NUM!.\n"
+"* Om @misslyckanden returnerar RANDNEGBINOM felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDNEGBINOM(0,5;2).\n"
@@ -11817,6 +11813,7 @@ msgstr ""
 "Fördelningen är\n"
 "\n"
 "\tp(x) dx = {x over sigma²} exp ((a² - x²) /(2 sigma²)) dx, \n"
+"\n"
 "för x > a. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -11886,7 +11883,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "RANDFDIST(1;2).\n"
 "\n"
-"@SEEALSO=RAND"
+"@SEEALSO=RAND,RANDGAMMA"
 
 #: plugins/fn-random/functions.c:669
 msgid ""
@@ -11991,6 +11988,7 @@ msgstr ""
 "\tp(k) =  C(n_1,k) C(n_2, t-k) / C(n_1 + n_2,k),\n"
 "\n"
 "där C(a,b) = a!/(b!(a-b)!). \n"
+"\n"
 "Domänen för k är max(0,t-n_2), ..., max(t,n_1).\n"
 "@EXAMPLES=\n"
 "RANDHYPERG(21;1;9).\n"
@@ -12057,7 +12055,7 @@ msgstr ""
 "@DESCRIPTION=RANDTDIST returnerar ett T-fördelat slumptal.\n"
 "\n"
 "@EXAMPLES=\n"
-"RandExp(0,5).\n"
+"RANDTDIST(0,5).\n"
 "\n"
 "@SEEALSO=RAND"
 
@@ -12116,6 +12114,7 @@ msgstr ""
 "\n"
 "* Med alfa = 1, beta=0, får vi Lorentz-fördelningen.\n"
 "* Med alfa = 2, beta=0, får vi gaussfördelningen. \n"
+"\n"
 "* Om @alfa <= 0 eller @alfa > 2 returnerar RANDLEVY felvärdet #NUM!.\n"
 "* Om @beta < -1 eller @beta > 1 returnerar RANDLEVY felvärdet #NUM!. \n"
 "\n"
@@ -12145,8 +12144,8 @@ msgstr ""
 "@FUNCTION=RANDEXPPOW\n"
 "@SYNTAX=RANDEXPPOW(a;b)\n"
 "@DESCRIPTION=RANDEXPPOW returnerar ett slumpvariat för "
-"exponentialfördelningen med skalparametrar @a och exponenten @b. "
-"Fördelningen är\n"
+"exponentialfördelningen med skalparameter @a och exponenten @b. Fördelningen "
+"är\n"
 "\n"
 "\tp(x) dx = {1 över 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, för x >= 0.\n"
 "\n"
@@ -12182,7 +12181,7 @@ msgstr ""
 "@FUNCTION=RANDLANDAU\n"
 "@SYNTAX=RANDLANDAU()\n"
 "@DESCRIPTION=RANDLANDAU returnerar ett slumptal från Landaufördelningen. "
-"Sannolikhetsfördelningen för Landauslmptal är analytiskt definierat av den "
+"Sannolikhetsfördelningen för Landauslumptal är analytiskt definierat av den "
 "komplexa integralen\n"
 "\n"
 "\tp(x) = (1/(2 pi i)) int_{c-i oändl}^{c+i oändl} ds exp(s log(s) + x s).\n"
@@ -12290,7 +12289,7 @@ msgstr ""
 "() funktion. För varje runda itererar simulationsverktyget ett givet antal "
 "gånger över alla indatavariabler för att evaluera dem. Under varje iteration "
 "sparas värdena på utdatavariablerna, och när rundan är klar skapas "
-"deskriptiv statistisk information beroende p ådessa värden.\n"
+"deskriptiv statistisk information beroende på dessa värden.\n"
 "\n"
 "@EXAMPLES=\n"
 "SIMTABLE(SANT,FALSKT) returnerar SANT den första simulationsrundan och "
@@ -28515,188 +28514,188 @@ msgid "#RECALC!"
 msgstr "#OMKALK!"
 
 #. This is the default custom color
-#: src/widgets/color-palette.c:391
+#: src/widgets/color-palette.c:369
 msgid "custom"
 msgstr "anpassad"
 
 #. "Custom" color - we'll pop up a GnomeColorPicker
-#: src/widgets/color-palette.c:433
+#: src/widgets/color-palette.c:411
 msgid "Custom Color:"
 msgstr "Egen färg:"
 
-#: src/widgets/color-palette.c:441
+#: src/widgets/color-palette.c:419
 msgid "Choose Custom Color"
 msgstr "Välj egen färg"
 
-#: src/widgets/color-palette.c:574
+#: src/widgets/color-palette.c:552
 msgid "black"
 msgstr "svart"
 
-#: src/widgets/color-palette.c:575
+#: src/widgets/color-palette.c:553
 msgid "light brown"
 msgstr "ljusbrun"
 
-#: src/widgets/color-palette.c:576
+#: src/widgets/color-palette.c:554
 msgid "brown gold"
 msgstr "guldbrun"
 
-#: src/widgets/color-palette.c:577
+#: src/widgets/color-palette.c:555
 msgid "dark green #2"
 msgstr "mörkgrön #2"
 
-#: src/widgets/color-palette.c:578
+#: src/widgets/color-palette.c:556
 msgid "navy"
 msgstr "marinblå"
 
-#: src/widgets/color-palette.c:579 src/widgets/color-palette.c:635
+#: src/widgets/color-palette.c:557 src/widgets/color-palette.c:613
 msgid "dark blue"
 msgstr "börkblå"
 
-#: src/widgets/color-palette.c:580
+#: src/widgets/color-palette.c:558
 msgid "purple #2"
 msgstr "lila #2"
 
-#: src/widgets/color-palette.c:581
+#: src/widgets/color-palette.c:559
 msgid "very dark gray"
 msgstr "mycket mörk grå"
 
-#: src/widgets/color-palette.c:584 src/widgets/color-palette.c:640
+#: src/widgets/color-palette.c:562 src/widgets/color-palette.c:618
 msgid "dark red"
 msgstr "mörkröd"
 
-#: src/widgets/color-palette.c:585
+#: src/widgets/color-palette.c:563
 msgid "red-orange"
 msgstr "röd-orange"
 
-#: src/widgets/color-palette.c:586
+#: src/widgets/color-palette.c:564
 msgid "gold"
 msgstr "guld"
 
-#: src/widgets/color-palette.c:587
+#: src/widgets/color-palette.c:565
 msgid "dark green"
 msgstr "mörkgrön"
 
-#: src/widgets/color-palette.c:588 src/widgets/color-palette.c:641
+#: src/widgets/color-palette.c:566 src/widgets/color-palette.c:619
 msgid "dull blue"
 msgstr "blek blå"
 
-#: src/widgets/color-palette.c:589 src/widgets/color-palette.c:642
+#: src/widgets/color-palette.c:567 src/widgets/color-palette.c:620
 msgid "blue"
 msgstr "blå"
 
-#: src/widgets/color-palette.c:590
+#: src/widgets/color-palette.c:568
 msgid "dull purple"
 msgstr "blek lila"
 
-#: src/widgets/color-palette.c:591
+#: src/widgets/color-palette.c:569
 msgid "dark grey"
 msgstr "mörkgrön"
 
-#: src/widgets/color-palette.c:594
+#: src/widgets/color-palette.c:572
 msgid "red"
 msgstr "röd"
 
-#: src/widgets/color-palette.c:595
+#: src/widgets/color-palette.c:573
 msgid "orange"
 msgstr "orange"
 
-#: src/widgets/color-palette.c:596
+#: src/widgets/color-palette.c:574
 msgid "lime"
 msgstr "lime"
 
-#: src/widgets/color-palette.c:597
+#: src/widgets/color-palette.c:575
 msgid "dull green"
 msgstr "blek grön"
 
-#: src/widgets/color-palette.c:598
+#: src/widgets/color-palette.c:576
 msgid "dull blue #2"
 msgstr "blek blå #2"
 
-#: src/widgets/color-palette.c:599
+#: src/widgets/color-palette.c:577
 msgid "sky blue #2"
 msgstr "himmelsblå #2"
 
-#: src/widgets/color-palette.c:600 src/widgets/color-palette.c:639
+#: src/widgets/color-palette.c:578 src/widgets/color-palette.c:617
 msgid "purple"
 msgstr "lila"
 
-#: src/widgets/color-palette.c:601
+#: src/widgets/color-palette.c:579
 msgid "gray"
 msgstr "grå"
 
-#: src/widgets/color-palette.c:604 src/widgets/color-palette.c:636
+#: src/widgets/color-palette.c:582 src/widgets/color-palette.c:614
 msgid "magenta"
 msgstr "magenta"
 
-#: src/widgets/color-palette.c:605
+#: src/widgets/color-palette.c:583
 msgid "bright orange"
 msgstr "ljusorange"
 
-#: src/widgets/color-palette.c:606 src/widgets/color-palette.c:637
+#: src/widgets/color-palette.c:584 src/widgets/color-palette.c:615
 msgid "yellow"
 msgstr "gul"
 
-#: src/widgets/color-palette.c:607
+#: src/widgets/color-palette.c:585
 msgid "green"
 msgstr "grön"
 
-#: src/widgets/color-palette.c:608 src/widgets/color-palette.c:638
+#: src/widgets/color-palette.c:586 src/widgets/color-palette.c:616
 msgid "cyan"
 msgstr "cyan"
 
-#: src/widgets/color-palette.c:609
+#: src/widgets/color-palette.c:587
 msgid "bright blue"
 msgstr "ljusblå"
 
-#: src/widgets/color-palette.c:610 src/widgets/color-palette.c:627
+#: src/widgets/color-palette.c:588 src/widgets/color-palette.c:605
 msgid "red purple"
 msgstr "rödlila"
 
-#: src/widgets/color-palette.c:611
+#: src/widgets/color-palette.c:589
 msgid "light grey"
 msgstr "ljusgrå"
 
-#: src/widgets/color-palette.c:614 src/widgets/color-palette.c:631
+#: src/widgets/color-palette.c:592 src/widgets/color-palette.c:609
 msgid "pink"
 msgstr "rosa"
 
-#: src/widgets/color-palette.c:615
+#: src/widgets/color-palette.c:593
 msgid "light orange"
 msgstr "ljusorange"
 
-#: src/widgets/color-palette.c:616 src/widgets/color-palette.c:628
+#: src/widgets/color-palette.c:594 src/widgets/color-palette.c:606
 msgid "light yellow"
 msgstr "ljusgul"
 
-#: src/widgets/color-palette.c:617
+#: src/widgets/color-palette.c:595
 msgid "light green"
 msgstr "ljusgrön"
 
-#: src/widgets/color-palette.c:618
+#: src/widgets/color-palette.c:596
 msgid "light cyan"
 msgstr "ljuscyan"
 
-#: src/widgets/color-palette.c:619 src/widgets/color-palette.c:629
+#: src/widgets/color-palette.c:597 src/widgets/color-palette.c:607
 msgid "light blue"
 msgstr "ljusblå"
 
-#: src/widgets/color-palette.c:620 src/widgets/color-palette.c:633
+#: src/widgets/color-palette.c:598 src/widgets/color-palette.c:611
 msgid "light purple"
 msgstr "ljuslila"
 
-#: src/widgets/color-palette.c:621
+#: src/widgets/color-palette.c:599
 msgid "white"
 msgstr "vit"
 
-#: src/widgets/color-palette.c:626
+#: src/widgets/color-palette.c:604
 msgid "purplish blue"
 msgstr "lilaaktig blå"
 
-#: src/widgets/color-palette.c:630
+#: src/widgets/color-palette.c:608
 msgid "dark purple"
 msgstr "mörklila"
 
-#: src/widgets/color-palette.c:632
+#: src/widgets/color-palette.c:610
 msgid "sky blue"
 msgstr "himmelsblå"
 
@@ -29589,6 +29588,9 @@ msgstr "Fel vid sparande av fil"
 #: src/xml-io.c:3951
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "serial_number,months"
+#~ msgstr "serienummer;månader"
 
 #~ msgid ""
 #~ "Comparing two population means from pop. with known variances or using a "
