@@ -1,3 +1,17 @@
+2000-11-12  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* html.c 
+	(html_write_wb_html32): Use sheet_get_extent instead
+	of sheet->rows and sheet->cols.
+	(html_write_wb_html40): Idem.
+
+	* latex.c
+	(html_write_wb_latex): Idem.
+	(html_write_wb_latex2e): Idem.
+
+	* roff.c
+	(write_wb_roff): Idem.
+	
 2000-11-11  Michael Meeks  <michael@helixcode.com>
 
 	* html.c (html_write_cell40): cell_default_halign not value~

@@ -87,7 +87,6 @@ html_write_wb_latex (IOContext *context, WorkbookView *wb_view,
 {
 	FILE *fp;
 	GList *sheet_list;
-	Sheet *sheet;
 	Cell *cell;
 	int row, col;
 	Workbook *wb = wb_view_workbook (wb_view);
@@ -107,7 +106,9 @@ html_write_wb_latex (IOContext *context, WorkbookView *wb_view,
 	fprintf (fp, "\\begin{document}\n\n");
 	sheet_list = workbook_sheets (wb);
 	while (sheet_list) {
-		sheet = sheet_list->data;
+		Sheet *sheet = sheet_list->data;
+		Range r = sheet_get_extent (sheet);
+		
 		latex_fputs (sheet->name_unquoted, fp);
 		fprintf (fp, "\n\n");
 		fprintf (fp, "\\begin{tabular}{|");
@@ -116,8 +117,8 @@ html_write_wb_latex (IOContext *context, WorkbookView *wb_view,
 		}
 		fprintf (fp, "}\\hline\n");
 
-		for (row = 0; row <= sheet->rows.max_used; row++) {
-			for (col = 0; col <= sheet->cols.max_used; col++) {
+		for (row = r.start.row; row <= r.end.row; row++) {
+			for (col = r.start.col; col <= r.end.col; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				if (!cell) {
 					if (col)
@@ -184,7 +185,6 @@ html_write_wb_latex2e (IOContext *context, WorkbookView *wb_view,
 {
 	FILE *fp;
 	GList *sheet_list;
-	Sheet *sheet;
 	Cell *cell;
 	int row, col;
 	unsigned char r,g,b;
@@ -207,7 +207,9 @@ html_write_wb_latex2e (IOContext *context, WorkbookView *wb_view,
 	fprintf (fp, "\\begin{document}\n\n");
 	sheet_list = workbook_sheets (wb);
 	while (sheet_list) {
-		sheet = sheet_list->data;
+		Sheet *sheet = sheet_list->data;
+		Range range = sheet_get_extent (sheet);
+		
 		latex_fputs (sheet->name_unquoted, fp);
 		fprintf (fp, "\n\n");
 		fprintf (fp, "\\begin{tabular}{|");
@@ -216,8 +218,8 @@ html_write_wb_latex2e (IOContext *context, WorkbookView *wb_view,
 		}
 		fprintf (fp, "}\\hline\n");
 
-		for (row = 0; row <= sheet->rows.max_used; row++) {
-			for (col = 0; col <= sheet->cols.max_used; col++) {
+		for (row = range.start.row; row <= range.end.row; row++) {
+			for (col = range.start.col; col <= range.end.col; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				if (!cell) {
 					if (col)

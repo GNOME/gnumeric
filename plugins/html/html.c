@@ -24,7 +24,7 @@
 
 #include <gnome.h>
 #include <errno.h>
-#include "config.h"
+#include <config.h>
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
@@ -203,7 +203,6 @@ html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
 {
 	FILE *fp;
 	GList *sheet_list;
-	Sheet *sheet;
 	Cell *cell;
 	MStyle *style;
 	int row, col;
@@ -237,13 +236,15 @@ html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
 	fprintf (fp, "</HEAD>\n<BODY>\n");
 	sheet_list = workbook_sheets (wb);
 	while (sheet_list) {
-		sheet = sheet_list->data;
+		Sheet *sheet = sheet_list->data;
+		Range r = sheet_get_extent (sheet);
+		
 		fprintf (fp, "<TABLE border=1>\n");
 		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name_unquoted);
 
-		for (row = 0; row <= sheet->rows.max_used; row++) {
+		for (row = r.start.row; row <= r.end.row; row++) {
 			fprintf (fp, "<TR>\n");
-			for (col = 0; col <= sheet->cols.max_used; col++) {
+			for (col = r.start.col; col <= r.end.col; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				style = sheet_style_compute (sheet, col, row);
 				
@@ -270,7 +271,6 @@ html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
 {
 	FILE *fp;
 	GList *sheet_list;
-	Sheet *sheet;
 	Cell *cell;
 	MStyle *style;
 	int row, col;
@@ -305,13 +305,15 @@ html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
 	fprintf (fp, "</HEAD>\n<BODY>\n");
 	sheet_list = workbook_sheets (wb);
 	while (sheet_list) {
-		sheet = sheet_list->data;
+		Sheet *sheet = sheet_list->data;
+		Range r = sheet_get_extent (sheet);
+		
 		fprintf (fp, "<TABLE border=1>\n");
 		fprintf (fp, "<CAPTION>%s</CAPTION>\n", sheet->name_unquoted);
 
-		for (row = 0; row <= sheet->rows.max_used; row++) {
+		for (row = r.start.row; row <= r.end.row; row++) {
 			fprintf (fp, "<TR>\n");
-			for (col = 0; col <= sheet->cols.max_used; col++) {
+			for (col = r.start.col; col <= r.end.col; col++) {
 				cell  = sheet_cell_get (sheet, col, row);
 				style = sheet_style_compute (sheet, col, row);
 				

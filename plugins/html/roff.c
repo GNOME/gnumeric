@@ -78,7 +78,6 @@ static int
 write_wb_roff (IOContext *context, WorkbookView *wb_view, FILE *fp)
 {
 	GList *sheet_list;
-	Sheet *sheet;
 	Cell *cell;
 	int row, col, fontsize, v_size;
 	Workbook *wb = wb_view_workbook (wb_view);
@@ -89,17 +88,19 @@ write_wb_roff (IOContext *context, WorkbookView *wb_view, FILE *fp)
 	fprintf (fp, ".fo ''%%''\n");
 	sheet_list = workbook_sheets (wb);
 	while (sheet_list) {
-		sheet = sheet_list->data;
+		Sheet *sheet = sheet_list->data;
+		Range r = sheet_get_extent (sheet);
+		
 		fprintf (fp, "%s\n\n", sheet->name_unquoted);
 		fprintf (fp, ".TS H\n");
 		fprintf (fp, "allbox;\n");
 
-		for (row = 0; row <= sheet->rows.max_used; row++) {
+		for (row = r.start.row; row <= r.end.row; row++) {
 			if (row)
 				fprintf (fp, ".T&\n");
 			/* define alignments, bold etc. per cell */
 			v_size = DEFSIZE;
-			for (col = 0; col <= sheet->cols.max_used; col++) {
+			for (col = r.start.col; col <= r.end.col; col++) {
 				cell = sheet_cell_get (sheet, col, row);
 				if (col)
 					fprintf (fp, " ");
