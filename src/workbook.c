@@ -381,8 +381,8 @@ workbook_do_destroy (Workbook *wb)
 
 	expr_name_clean_workbook (wb);
 
-	gtk_object_destroy (GTK_OBJECT (wb->priv->gui_context));
-	
+	gtk_object_unref (GTK_OBJECT (wb->priv->gui_context));
+
 	workbook_do_destroy_private (wb);
 
 	if (!GTK_OBJECT_DESTROYED (wb->toplevel))

@@ -1,3 +1,8 @@
+2000-04-05  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook.c (workbook_do_destroy): Unref, not destroy, the
+ 	wb->priv->gui_context member.  (Plugs leak.)
+
 2000-04-05  Jody Goldberg <jgoldberg@home.com>
 
 	* (*.[ch]) : merge eval_expr, eval_expr_nonempty, eval_expr_empty.
