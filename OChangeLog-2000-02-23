@@ -26,6 +26,8 @@
 
 1999-09-18  Morten Welinder  <terra@diku.dk>
 
+	* gnumeric.spec.in (Requires): Update libglade version.
+
 	* src/dialogs/dialog-printer-setup.c (do_hf_config): Plug leaks.
 
 	* src/sheet.c (zoom_cell_style): Plug leak.
